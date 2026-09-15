@@ -1,227 +1,701 @@
-## Get user audit logs
+---
+title: Get user audit logs
+---
 
-**get** `/user/audit_logs`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[User](https://developers.cloudflare.com/api/resources/user)
+
+[Audit Logs](https://developers.cloudflare.com/api/resources/user/subresources/audit_logs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get user audit logs
+
+GET/user/audit\_logs
 
 Gets a list of audit logs for a user account. Can be filtered by who made the change, on which zone, and the timeframe of the change.
 
-### Query Parameters
+##### Security
 
-- `id: optional string`
+<details>
 
-  Finds a specific log by its ID.
+<summary>API Token</summary>
 
-- `action: optional object { type }`
 
-  - `type: optional string`
 
-    Filters by the action type.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `actor: optional object { email, ip }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `email: optional string`
+</details>
 
-    Filters by the email address of the actor that made the change.
+<details>
 
-  - `ip: optional string`
+<summary>API Email + API Key</summary>
 
-    Filters by the IP address of the request that made the change by specific IP address or valid CIDR Range.
 
-- `before: optional string or string`
 
-  Limits the returned results to logs older than the specified date. A `full-date` that conforms to RFC3339.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `FullDate = string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Limits the returned results to logs older than the specified date. A `full-date` that conforms to RFC3339.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `DateTime = string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Limits the returned results to logs older than the specified date. A `date-time` that conforms to RFC3339.
+</details>
 
-- `direction: optional "desc" or "asc"`
+##### Accepted Permissions (at least one required)
 
-  Changes the direction of the chronological sorting.
+`Account Settings Write``Account Settings Read`
 
-  - `"desc"`
+##### Q uery ParametersExpand Collapse
 
-  - `"asc"`
+id: optional string
 
-- `export: optional boolean`
+Finds a specific log by its ID.
 
-  Indicates that this request is an export of logs in CSV format.
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-- `hide_user_logs: optional boolean`
+<details>
 
-  Indicates whether or not to hide user level audit logs.
+<summary>
 
-- `page: optional number`
+action: optional object {type }
 
-  Defines which page of results to return.
+</summary>
 
-- `per_page: optional number`
+type: optional string
 
-  Sets the number of results to return per page.
+Filters by the action type.
 
-- `since: optional string or string`
+<a href="#">Link to this property</a>
 
-  Limits the returned results to logs newer than the specified date. A `full-date` that conforms to RFC3339.
+</details>
 
-  - `FullDate = string`
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20action%20%3E%20(schema)>)
 
-    Limits the returned results to logs newer than the specified date. A `full-date` that conforms to RFC3339.
+<details>
 
-  - `DateTime = string`
+<summary>
 
-    Limits the returned results to logs newer than the specified date. A `date-time` that conforms to RFC3339.
+actor: optional object {email, ip }
 
-- `zone: optional object { name }`
+</summary>
 
-  - `name: optional string`
+email: optional string
 
-    Filters by the name of the zone associated to the change.
+Filters by the email address of the actor that made the change.
 
-### Returns
+formatemail
 
-- `object { errors, messages, result, success }`
+<a href="#">Link to this property</a>
 
-  - `errors: optional array of ResponseInfo`
+ip: optional string
 
-    - `code: number`
+Filters by the IP address of the request that made the change by specific IP address or valid CIDR Range.
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+</details>
 
-    - `source: optional object { pointer }`
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20actor%20%3E%20(schema)>)
 
-      - `pointer: optional string`
+<details>
 
-  - `messages: optional array of ResponseInfo`
+<summary>
 
-    - `code: number`
+before: optional stringor string
 
-    - `message: string`
+Limits the returned results to logs older than the specified date. A <code>full-date</code> that conforms to RFC3339.
 
-    - `documentation_url: optional string`
+</summary>
 
-    - `source: optional object { pointer }`
+One of the following:
 
-  - `result: optional array of AuditLog`
+FullDate = string
 
-    - `id: optional string`
+Limits the returned results to logs older than the specified date. A <code>full-date</code> that conforms to RFC3339.
 
-      A string that uniquely identifies the audit log.
+<a href="#">Link to this property</a>
 
-    - `action: optional object { result, type }`
+DateTime = string
 
-      - `result: optional boolean`
+Limits the returned results to logs older than the specified date. A <code>date-time</code> that conforms to RFC3339.
 
-        A boolean that indicates if the action attempted was successful.
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+</details>
 
-        A short string that describes the action that was performed.
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20before%20%3E%20(schema)>)
 
-    - `actor: optional object { id, email, ip, type }`
+<details>
 
-      - `id: optional string`
+<summary>
 
-        The ID of the actor that performed the action. If a user performed the action, this will be their User ID.
+direction: optional "desc"or "asc"
 
-      - `email: optional string`
+Changes the direction of the chronological sorting.
 
-        The email of the user that performed the action.
+</summary>
 
-      - `ip: optional string`
+One of the following:
 
-        The IP address of the request that performed the action.
+"desc"
 
-      - `type: optional "user" or "admin" or "Cloudflare"`
+<a href="#">Link to this property</a>
 
-        The type of actor, whether a User, Cloudflare Admin, or an Automated System.
+"asc"
 
-        - `"user"`
+<a href="#">Link to this property</a>
 
-        - `"admin"`
+</details>
 
-        - `"Cloudflare"`
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-    - `interface: optional string`
+export: optional boolean
 
-      The source of the event.
+Indicates that this request is an export of logs in CSV format.
 
-    - `metadata: optional unknown`
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20export%20%3E%20(schema)>)
 
-      An object which can lend more context to the action being logged. This is a flexible value and varies between different actions.
+hide\_user\_logs: optional boolean
 
-    - `newValue: optional string`
+Indicates whether or not to hide user level audit logs.
 
-      The new value of the resource that was modified.
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20hide_user_logs%20%3E%20(schema)>)
 
-    - `oldValue: optional string`
+page: optional number
 
-      The value of the resource before it was modified.
+Defines which page of results to return.
 
-    - `owner: optional object { id }`
+minimum1
 
-      - `id: optional string`
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-        Identifier
+per\_page: optional number
 
-    - `resource: optional object { id, type }`
+Sets the number of results to return per page.
 
-      - `id: optional string`
+maximum1000
 
-        An identifier for the resource that was affected by the action.
+minimum1
 
-      - `type: optional string`
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-        A short string that describes the resource that was affected by the action.
+<details>
 
-    - `when: optional string`
+<summary>
 
-      A UTC RFC3339 timestamp that specifies when the action being logged occured.
+since: optional stringor string
 
-  - `success: optional boolean`
+Limits the returned results to logs newer than the specified date. A <code>full-date</code> that conforms to RFC3339.
 
-- `AaaAPIResponseCommon object { errors, messages, success }`
+</summary>
 
-  - `errors: array of ResponseInfo`
+One of the following:
 
-    - `code: number`
+FullDate = string
 
-    - `message: string`
+Limits the returned results to logs newer than the specified date. A <code>full-date</code> that conforms to RFC3339.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+DateTime = string
 
-  - `messages: array of ResponseInfo`
+Limits the returned results to logs newer than the specified date. A <code>date-time</code> that conforms to RFC3339.
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+</details>
 
-    - `documentation_url: optional string`
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20since%20%3E%20(schema)>)
 
-    - `source: optional object { pointer }`
+<details>
 
-  - `success: true`
+<summary>
 
-    Whether the API call was successful
+zone: optional object {name }
 
-    - `true`
+</summary>
 
-### Example
+name: optional string
 
-```http
+Filters by the name of the zone associated to the change.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+object {errors, messages, result, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+messages: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20audit_log%20%3E%20(schema)">AuditLog</a> { id, action, actor, 7 more }
+
+</summary>
+
+id: optional string
+
+A string that uniquely identifies the audit log.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+action: optional object {result, type }
+
+</summary>
+
+result: optional boolean
+
+A boolean that indicates if the action attempted was successful.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+A short string that describes the action that was performed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actor: optional object {id, email, ip, type }
+
+</summary>
+
+id: optional string
+
+The ID of the actor that performed the action. If a user performed the action, this will be their User ID.
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+The email of the user that performed the action.
+
+formatemail
+
+<a href="#">Link to this property</a>
+
+ip: optional string
+
+The IP address of the request that performed the action.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "user"or "admin"or "Cloudflare"
+
+The type of actor, whether a User, Cloudflare Admin, or an Automated System.
+
+</summary>
+
+One of the following:
+
+"user"
+
+<a href="#">Link to this property</a>
+
+"admin"
+
+<a href="#">Link to this property</a>
+
+"Cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+interface: optional string
+
+The source of the event.
+
+<a href="#">Link to this property</a>
+
+metadata: optional unknown
+
+An object which can lend more context to the action being logged. This is a flexible value and varies between different actions.
+
+<a href="#">Link to this property</a>
+
+newValue: optional string
+
+The new value of the resource that was modified.
+
+<a href="#">Link to this property</a>
+
+oldValue: optional string
+
+The value of the resource before it was modified.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+owner: optional object {id }
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource: optional object {id, type }
+
+</summary>
+
+id: optional string
+
+An identifier for the resource that was affected by the action.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+A short string that describes the resource that was affected by the action.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+when: optional string
+
+A UTC RFC3339 timestamp that specifies when the action being logged occured.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(variant)%200>)
+
+<details>
+
+<summary>
+
+AaaAPIResponseCommon object {errors, messages, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: true
+
+Whether the API call was successful
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.audit_logs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(variant)%201>)
+
+### Get user audit logs
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/user/audit_logs \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "d5b0f326-1232-4452-8858-1089bd7168ef",
+      "action": {
+        "result": true,
+        "type": "change_setting"
+      },
+      "actor": {
+        "id": "f6b5de0326bb5182b8a4840ee01ec774",
+        "email": "michelle@example.com",
+        "ip": "198.41.129.166",
+        "type": "user"
+      },
+      "interface": "API",
+      "metadata": {
+        "name": "security_level",
+        "type": "firewall",
+        "value": "high",
+        "zone_name": "example.com"
+      },
+      "newValue": "low",
+      "oldValue": "high",
+      "owner": {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353"
+      },
+      "resource": {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "type": "zone"
+      },
+      "when": "2017-04-26T17:31:07Z"
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,118 +1,382 @@
-## List tenant entitlements
+---
+title: List tenant entitlements
+---
 
-**get** `/tenants/{tenant_id}/entitlements`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Tenants](https://developers.cloudflare.com/api/resources/tenants)
+
+[Entitlements](https://developers.cloudflare.com/api/resources/tenants/subresources/entitlements)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List tenant entitlements
+
+GET/tenants/{tenant\_id}/entitlements
 
 List of innate entitlements available for the Tenant.
 
-### Path Parameters
+##### Security
 
-- `tenant_id: string`
+API Email + API Key
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of unknown`
+**Example:**`X-Auth-Email: user@example.com`
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+tenant\_id: string
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20tenants.entitlements%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20tenant_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### ReturnsExpand Collapse
 
-- `result: TenantEntitlements`
+errors: array of unknown
 
-  - `allow_add_subdomain: object { type, value }`
+[Link to this property](#)%20tenants.entitlements%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `type: "bool"`
+<details>
 
-      - `"bool"`
+<summary>
 
-    - `value: boolean`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `allow_auto_accept_invites: object { type, value }`
+</summary>
 
-    - `type: "bool"`
+code: number
 
-      - `"bool"`
+minimum1000
 
-    - `value: boolean`
+<a href="#">Link to this property</a>
 
-  - `cname_setup_allowed: object { type, value }`
+message: string
 
-    - `type: "bool"`
+<a href="#">Link to this property</a>
 
-      - `"bool"`
+documentation\_url: optional string
 
-    - `value: boolean`
+<a href="#">Link to this property</a>
 
-  - `custom_entitlements: array of object { allocation, feature }`
+<details>
 
-    - `allocation: object { type, value }  or object { type, value }  or object { type, value }`
+<summary>
 
-      - `OrganizationsAPIMaxCountAllocation object { type, value }`
+source: optional object {pointer }
 
-        - `type: "max_count"`
+</summary>
 
-          - `"max_count"`
+pointer: optional string
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-      - `OrganizationsAPIBoolAllocation object { type, value }`
+</details>
 
-        - `type: "bool"`
+<a href="#">Link to this property</a>
 
-          - `"bool"`
+</details>
 
-        - `value: boolean`
+[Link to this property](#)%20tenants.entitlements%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-      - `OrganizationsAPINullAllocation object { type, value }`
+<details>
 
-        - `type: ""`
+<summary>
 
-          - `""`
+result: <a href="https://developers.cloudflare.com/api/resources/tenants#(resource)%20tenants.entitlements%20%3E%20(model)%20tenant_entitlements%20%3E%20(schema)">TenantEntitlements</a> { allow\_add\_subdomain, allow\_auto\_accept\_invites, cname\_setup\_allowed, 3 more }
 
-        - `value: optional unknown`
+</summary>
 
-    - `feature: object { key }`
+<details>
 
-      - `key: string`
+<summary>
 
-  - `mhs_certificate_count: object { type, value }`
+allow\_add\_subdomain: object {type, value }
 
-    - `type: "max_count"`
+</summary>
 
-      - `"max_count"`
+type: "bool"
 
-    - `value: number`
+<a href="#">Link to this property</a>
 
-  - `partial_setup_allowed: object { type, value }`
+value: boolean
 
-    - `type: "bool"`
+<a href="#">Link to this property</a>
 
-      - `"bool"`
+</details>
 
-    - `value: boolean`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  - `true`
+<summary>
 
-### Example
+allow\_auto\_accept\_invites: object {type, value }
 
-```http
+</summary>
+
+type: "bool"
+
+<a href="#">Link to this property</a>
+
+value: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cname\_setup\_allowed: object {type, value }
+
+</summary>
+
+type: "bool"
+
+<a href="#">Link to this property</a>
+
+value: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+custom\_entitlements: array of object {allocation, feature }
+
+</summary>
+
+<details>
+
+<summary>
+
+allocation: object {type, value } or object {type, value } or object {type, value }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+OrganizationsAPIMaxCountAllocation object {type, value }
+
+</summary>
+
+type: "max\_count"
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+OrganizationsAPIBoolAllocation object {type, value }
+
+</summary>
+
+type: "bool"
+
+<a href="#">Link to this property</a>
+
+value: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+OrganizationsAPINullAllocation object {type, value }
+
+</summary>
+
+type: ""
+
+<a href="#">Link to this property</a>
+
+value: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+feature: object {key }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mhs\_certificate\_count: object {type, value }
+
+</summary>
+
+type: "max\_count"
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+partial\_setup\_allowed: object {type, value }
+
+</summary>
+
+type: "bool"
+
+<a href="#">Link to this property</a>
+
+value: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20tenants.entitlements%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20tenants.entitlements%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List tenant entitlements
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID/entitlements \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "allow_add_subdomain": {
+      "type": "bool",
+      "value": true
+    },
+    "allow_auto_accept_invites": {
+      "type": "bool",
+      "value": true
+    },
+    "cname_setup_allowed": {
+      "type": "bool",
+      "value": true
+    },
+    "custom_entitlements": [
+      {
+        "allocation": {
+          "type": "max_count",
+          "value": 0
+        },
+        "feature": {
+          "key": "key"
+        }
+      }
+    ],
+    "mhs_certificate_count": {
+      "type": "max_count",
+      "value": 0
+    },
+    "partial_setup_allowed": {
+      "type": "bool",
+      "value": true
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [],
   "messages": [

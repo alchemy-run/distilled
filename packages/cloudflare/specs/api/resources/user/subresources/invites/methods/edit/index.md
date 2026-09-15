@@ -1,112 +1,298 @@
-## Respond to Invitation
+---
+title: Respond to Invitation
+---
 
-**patch** `/user/invites/{invite_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[User](https://developers.cloudflare.com/api/resources/user)
+
+[Invites](https://developers.cloudflare.com/api/resources/user/subresources/invites)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Respond to Invitation
+
+PATCH/user/invites/{invite\_id}
 
 Responds to an invitation.
 
-### Path Parameters
+##### Security
 
-- `invite_id: string`
+API Email + API Key
 
-  Invite identifier tag.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Body Parameters
+**Example:**`X-Auth-Email: user@example.com`
 
-- `status: "accepted" or "rejected"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Status of your response to the invitation (rejected or accepted).
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `"accepted"`
+##### Accepted Permissions (at least one required)
 
-  - `"rejected"`
+`Memberships Write`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+invite\_id: string
 
-  - `code: number`
+Invite identifier tag.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20user.invites%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20invite_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Body ParametersJSONExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+status: "accepted"or "rejected"
 
-  - `message: string`
+Status of your response to the invitation (rejected or accepted).
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"accepted"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"rejected"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Invite`
+</details>
 
-  - `invited_member_id: string`
+[Link to this property](#)%20user.invites%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-    ID of the user to add to the organization.
+##### ReturnsExpand Collapse
 
-  - `organization_id: string`
+<details>
 
-    ID of the organization the user will be added to.
+<summary>
 
-  - `id: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-    Invite identifier tag.
+</summary>
 
-  - `expires_on: optional string`
+code: number
 
-    When the invite is no longer active.
+minimum1000
 
-  - `invited_by: optional string`
+<a href="#">Link to this property</a>
 
-    The email address of the user who created the invite.
+message: string
 
-  - `invited_member_email: optional string`
+<a href="#">Link to this property</a>
 
-    Email address of the user to add to the organization.
+documentation\_url: optional string
 
-  - `invited_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the invite was sent.
+<details>
 
-  - `organization_is_enforcing_twofactor: optional boolean`
+<summary>
 
-  - `organization_name: optional string`
+source: optional object {pointer }
 
-    Organization name.
+</summary>
 
-  - `roles: optional array of string`
+pointer: optional string
 
-    List of role names the membership has for this account.
+<a href="#">Link to this property</a>
 
-  - `status: optional "pending" or "accepted" or "rejected" or "expired"`
+</details>
 
-    Current status of the invitation.
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+</details>
 
-    - `"accepted"`
+[Link to this property](#)%20user.invites%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"rejected"`
+<details>
 
-    - `"expired"`
+<summary>
 
-### Example
+messages: array of object {code, message, documentation\_url, source }
 
-```http
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.invites%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20user.invites%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/user#(resource)%20user.invites%20%3E%20(model)%20invite%20%3E%20(schema)">Invite</a> { invited\_member\_id, organization\_id, id, 8 more }
+
+</summary>
+
+invited\_member\_id: string
+
+ID of the user to add to the organization.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+organization\_id: string
+
+ID of the organization the user will be added to.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Invite identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+When the invite is no longer active.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+invited\_by: optional string
+
+The email address of the user who created the invite.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+invited\_member\_email: optional string
+
+Email address of the user to add to the organization.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+invited\_on: optional string
+
+When the invite was sent.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+organization\_is\_enforcing\_twofactor: optional boolean
+
+<a href="#">Link to this property</a>
+
+organization\_name: optional string
+
+Organization name.
+
+maxLength100
+
+<a href="#">Link to this property</a>
+
+roles: optional array of string
+
+List of role names the membership has for this account.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "pending"or "accepted"or "rejected"or "expired"
+
+Current status of the invitation.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"accepted"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+"expired"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.invites%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Respond to Invitation
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/user/invites/$INVITE_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -117,9 +303,54 @@ curl https://api.cloudflare.com/client/v4/user/invites/$INVITE_ID \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "invited_member_id": "5a7805061c76ada191ed06f989cc3dac",
+    "organization_id": "5a7805061c76ada191ed06f989cc3dac",
+    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
+    "expires_on": "2014-01-01T05:20:00Z",
+    "invited_by": "user@example.com",
+    "invited_member_email": "user@example.com",
+    "invited_on": "2014-01-01T05:20:00Z",
+    "organization_is_enforcing_twofactor": true,
+    "organization_name": "Cloudflare, Inc.",
+    "roles": [
+      "Account Administrator"
+    ],
+    "status": "accepted"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

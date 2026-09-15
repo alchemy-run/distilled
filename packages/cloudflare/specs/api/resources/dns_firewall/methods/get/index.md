@@ -1,143 +1,386 @@
-## DNS Firewall Cluster Details
+---
+title: DNS Firewall Cluster Details
+---
 
-**get** `/accounts/{account_id}/dns_firewall/{dns_firewall_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS Firewall](https://developers.cloudflare.com/api/resources/dns_firewall)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# DNS Firewall Cluster Details
+
+GET/accounts/{account\_id}/dns\_firewall/{dns\_firewall\_id}
 
 Show a single DNS Firewall cluster for an account
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `dns_firewall_id: string`
 
-  Identifier.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `success: true`
+`DNS Firewall Write``DNS Firewall Read`
 
-  Whether the API call was successful.
+##### P ath ParametersExpand Collapse
 
-  - `true`
+account\_id: string
 
-- `result: optional object { id, deprecate_any_requests, dns_firewall_ips, 10 more }`
+Identifier.
 
-  - `id: string`
+maxLength32
 
-    Identifier.
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `deprecate_any_requests: boolean`
+dns\_firewall\_id: string
 
-    Whether to refuse to answer queries for the ANY type
+Identifier.
 
-  - `dns_firewall_ips: array of FirewallIPs`
+maxLength32
 
-  - `ecs_fallback: boolean`
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20dns_firewall_id%20%3E%20(schema)>)
 
-    Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent
+##### ReturnsExpand Collapse
 
-  - `maximum_cache_ttl: number`
+<details>
 
-    By default, Cloudflare attempts to cache responses for as long as
-    indicated by the TTL received from upstream nameservers. This setting
-    sets an upper bound on this duration. For caching purposes, higher TTLs
-    will be decreased to the maximum value defined by this setting.
+<summary>
 
-    This setting does not affect the TTL value in the DNS response
-    Cloudflare returns to clients. Cloudflare will always forward the TTL
-    value received from upstream nameservers.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `minimum_cache_ttl: number`
+</summary>
 
-    By default, Cloudflare attempts to cache responses for as long as
-    indicated by the TTL received from upstream nameservers. This setting
-    sets a lower bound on this duration. For caching purposes, lower TTLs
-    will be increased to the minimum value defined by this setting.
+code: number
 
-    This setting does not affect the TTL value in the DNS response
-    Cloudflare returns to clients. Cloudflare will always forward the TTL
-    value received from upstream nameservers.
+minimum1000
 
-    Note that, even with this setting, there is no guarantee that a
-    response will be cached for at least the specified duration. Cached
-    responses may be removed earlier for capacity or other operational
-    reasons.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+message: string
 
-    Last modification of DNS Firewall cluster
+<a href="#">Link to this property</a>
 
-  - `name: string`
+documentation\_url: optional string
 
-    DNS Firewall cluster name
+<a href="#">Link to this property</a>
 
-  - `negative_cache_ttl: number`
+<details>
 
-    This setting controls how long DNS Firewall should cache negative
-    responses (e.g., NXDOMAIN) from the upstream servers.
+<summary>
 
-    This setting does not affect the TTL value in the DNS response
-    Cloudflare returns to clients. Cloudflare will always forward the TTL
-    value received from upstream nameservers.
+source: optional object {pointer }
 
-  - `ratelimit: number`
+</summary>
 
-    Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting.
+pointer: optional string
 
-  - `retries: number`
+<a href="#">Link to this property</a>
 
-    Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt)
+</details>
 
-  - `upstream_ips: array of UpstreamIPs`
+<a href="#">Link to this property</a>
 
-  - `attack_mitigation: optional AttackMitigation`
+</details>
 
-    Attack mitigation settings
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `enabled: optional boolean`
+<details>
 
-      When enabled, automatically mitigate random-prefix attacks to protect upstream DNS servers
+<summary>
 
-    - `only_when_upstream_unhealthy: optional boolean`
+messages: array of object {code, message, documentation\_url, source }
 
-      Only mitigate attacks when upstream servers seem unhealthy
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, deprecate\_any\_requests, dns\_firewall\_ips, 10 more }
+
+</summary>
+
+id: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+deprecate\_any\_requests: boolean
+
+Whether to refuse to answer queries for the ANY type
+
+<a href="#">Link to this property</a>
+
+dns\_firewall\_ips: array of <a href="https://developers.cloudflare.com/api/resources/dns_firewall#(resource)%20dns_firewall%20%3E%20(model)%20firewall_ips%20%3E%20(schema)">FirewallIPs</a>
+
+<a href="#">Link to this property</a>
+
+ecs\_fallback: boolean
+
+Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent
+
+<a href="#">Link to this property</a>
+
+maximum\_cache\_ttl: number
+
+By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting.
+
+This setting does not affect the TTL value in the DNS response Cloudflare returns to clients. Cloudflare will always forward the TTL value received from upstream nameservers.
+
+maximum36000
+
+minimum30
+
+<a href="#">Link to this property</a>
+
+minimum\_cache\_ttl: number
+
+By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting.
+
+This setting does not affect the TTL value in the DNS response Cloudflare returns to clients. Cloudflare will always forward the TTL value received from upstream nameservers.
+
+Note that, even with this setting, there is no guarantee that a response will be cached for at least the specified duration. Cached responses may be removed earlier for capacity or other operational reasons.
+
+maximum36000
+
+minimum30
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+Last modification of DNS Firewall cluster
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+DNS Firewall cluster name
+
+maxLength160
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+negative\_cache\_ttl: number
+
+This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.
+
+This setting does not affect the TTL value in the DNS response Cloudflare returns to clients. Cloudflare will always forward the TTL value received from upstream nameservers.
+
+maximum36000
+
+minimum30
+
+<a href="#">Link to this property</a>
+
+ratelimit: number
+
+Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting.
+
+maximum1000000000
+
+minimum100
+
+<a href="#">Link to this property</a>
+
+retries: number
+
+Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt)
+
+maximum2
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+upstream\_ips: array of <a href="https://developers.cloudflare.com/api/resources/dns_firewall#(resource)%20dns_firewall%20%3E%20(model)%20upstream_ips%20%3E%20(schema)">UpstreamIPs</a>
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+attack\_mitigation: optional <a href="https://developers.cloudflare.com/api/resources/dns_firewall#(resource)%20dns_firewall%20%3E%20(model)%20attack_mitigation%20%3E%20(schema)">AttackMitigation</a> { enabled, only\_when\_upstream\_unhealthy }
+
+Attack mitigation settings
+
+</summary>
+
+enabled: optional boolean
+
+When enabled, automatically mitigate random-prefix attacks to protect upstream DNS servers
+
+<a href="#">Link to this property</a>
+
+only\_when\_upstream\_unhealthy: optional boolean
+
+Only mitigate attacks when upstream servers seem unhealthy
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### DNS Firewall Cluster Details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_firewall/$DNS_FIREWALL_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "deprecate_any_requests": true,
+    "dns_firewall_ips": [
+      "203.0.113.1",
+      "203.0.113.254",
+      "2001:DB8:AB::CF",
+      "2001:DB8:CD::CF"
+    ],
+    "ecs_fallback": false,
+    "maximum_cache_ttl": 900,
+    "minimum_cache_ttl": 60,
+    "modified_on": "2014-01-01T05:20:00.12345Z",
+    "name": "My Awesome DNS Firewall cluster",
+    "negative_cache_ttl": 900,
+    "ratelimit": 600,
+    "retries": 2,
+    "upstream_ips": [
+      "192.0.2.1",
+      "198.51.100.1",
+      "2001:DB8:100::CF"
+    ],
+    "attack_mitigation": {
+      "enabled": true,
+      "only_when_upstream_unhealthy": false
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

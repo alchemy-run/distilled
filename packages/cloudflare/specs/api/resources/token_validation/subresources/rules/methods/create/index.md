@@ -1,150 +1,430 @@
-## Create a token validation rule
+---
+title: Create a token validation rule
+---
 
-**post** `/zones/{zone_id}/token_validation/rules`
+[Skip to content](#_top)
 
-Create a token validation rule.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Token Validation](https://developers.cloudflare.com/api/resources/token_validation)
 
-- `zone_id: string`
+[Rules](https://developers.cloudflare.com/api/resources/token_validation/subresources/rules)
 
-  Identifier.
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `action: "log" or "block"`
+---
 
-  Action to take on requests that match operations included in `selector` and fail `expression`.
+**Copy Markdown****View as Markdown**
 
-  - `"log"`
+# Create a token validation rule
 
-  - `"block"`
+POST/zones/{zone\_id}/token\_validation/rules
 
-- `description: string`
+Creates a token validation rule for the zone.
 
-  A human-readable description that gives more details than `title`.
+##### Security
 
-- `enabled: boolean`
+<details>
 
-  Toggle rule on or off.
+<summary>API Token</summary>
 
-- `expression: string`
 
-  Rule expression. Requests that fail to match this expression will be subject to `action`.
 
-  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `selector: object { exclude, include }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Select operations covered by this rule.
+</details>
 
-  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
+<details>
 
-  - `exclude: optional array of object { operation_ids }`
+<summary>API Email + API Key</summary>
 
-    Ignore operations that were otherwise included by `include`.
 
-    - `operation_ids: optional array of string`
 
-      Excluded operation IDs.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `include: optional array of object { host }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Select all matching operations.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `host: optional array of string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      Included hostnames.
+</details>
 
-- `title: string`
+##### Accepted Permissions (at least one required)
 
-  A human-readable name for the rule.
+`Account API Gateway``Domain API Gateway`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `errors: Message`
+zone\_id: string
 
-  - `code: number`
+Identifier.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Body ParametersJSONExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: Message`
+<summary>
 
-- `result: TokenValidationRule`
+action: "log"or "block"
 
-  A Token Validation rule that can enforce security policies using JWT Tokens.
+Action to take on requests that match operations included in <code>selector</code> and fail <code>expression</code>.
 
-  - `action: "log" or "block"`
+</summary>
 
-    Action to take on requests that match operations included in `selector` and fail `expression`.
+One of the following:
 
-    - `"log"`
+"log"
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+"block"
 
-    A human-readable description that gives more details than `title`.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-    Toggle rule on or off.
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20action%20%3E%20(schema)>)
 
-  - `expression: string`
+description: string
 
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
+A human-readable description that gives more details than `title`.
 
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
+maxLength500
 
-  - `selector: object { exclude, include }`
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    Select operations covered by this rule.
+enabled: boolean
 
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
+Toggle rule on or off.
 
-    - `exclude: optional array of object { operation_ids }`
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-      Ignore operations that were otherwise included by `include`.
+expression: string
 
-      - `operation_ids: optional array of string`
+Rule expression. Requests that fail to match this expression will be subject to `action`.
 
-        Excluded operation IDs.
+For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
 
-    - `include: optional array of object { host }`
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20expression%20%3E%20(schema)>)
 
-      Select all matching operations.
+<details>
 
-      - `host: optional array of string`
+<summary>
 
-        Included hostnames.
+selector: object {exclude, include }
 
-  - `title: string`
+Select operations covered by this rule.
 
-    A human-readable name for the rule.
+For details on selectors, see the <a href="https://developers.cloudflare.com/api-shield/security/jwt-validation/">Cloudflare Docs</a>.
 
-  - `id: optional string`
+</summary>
 
-    UUID.
+<details>
 
-  - `created_at: optional string`
+<summary>
 
-  - `last_updated: optional string`
+exclude: optional array of object {operation\_ids }
 
-- `success: true`
+Ignore operations that were otherwise included by <code>include</code>.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+operation\_ids: optional array of string
 
-### Example
+Excluded operation IDs.
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+include: optional array of object {host }
+
+Select all matching operations.
+
+</summary>
+
+host: optional array of string
+
+Included hostnames.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20selector%20%3E%20(schema)>)
+
+title: string
+
+A human-readable name for the rule.
+
+maxLength50
+
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20title%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/token_validation#(resource)%20token_validation.rules%20%3E%20(model)%20token_validation_rule%20%3E%20(schema)">TokenValidationRule</a> { action, description, enabled, 6 more }
+
+A Token Validation rule that can enforce security policies using JWT Tokens.
+
+</summary>
+
+<details>
+
+<summary>
+
+action: "log"or "block"
+
+Action to take on requests that match operations included in <code>selector</code> and fail <code>expression</code>.
+
+</summary>
+
+One of the following:
+
+"log"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: string
+
+A human-readable description that gives more details than <code>title</code>.
+
+maxLength500
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Toggle rule on or off.
+
+<a href="#">Link to this property</a>
+
+expression: string
+
+Rule expression. Requests that fail to match this expression will be subject to <code>action</code>.
+
+For details on expressions, see the <a href="https://developers.cloudflare.com/api-shield/security/jwt-validation/">Cloudflare Docs</a>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+selector: object {exclude, include }
+
+Select operations covered by this rule.
+
+For details on selectors, see the <a href="https://developers.cloudflare.com/api-shield/security/jwt-validation/">Cloudflare Docs</a>.
+
+</summary>
+
+<details>
+
+<summary>
+
+exclude: optional array of object {operation\_ids }
+
+Ignore operations that were otherwise included by <code>include</code>.
+
+</summary>
+
+operation\_ids: optional array of string
+
+Excluded operation IDs.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+include: optional array of object {host }
+
+Select all matching operations.
+
+</summary>
+
+host: optional array of string
+
+Included hostnames.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+title: string
+
+A human-readable name for the rule.
+
+maxLength50
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+minLength36
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_updated: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20token_validation.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a token validation rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -158,9 +438,67 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules 
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "action": "log",
+    "description": "Long description for Token Validation Rule",
+    "enabled": true,
+    "expression": "is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")",
+    "selector": {
+      "exclude": [
+        {
+          "operation_ids": [
+            "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
+            "56828eae-035a-4396-ba07-51c66d680a04"
+          ]
+        }
+      ],
+      "include": [
+        {
+          "host": [
+            "v1.example.com",
+            "v2.example.com"
+          ]
+        }
+      ]
+    },
+    "title": "Example Token Validation Rule",
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "last_updated": "2014-01-01T05:20:00.12345Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

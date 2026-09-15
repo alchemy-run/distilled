@@ -1,294 +1,151 @@
+---
+title: Origin Post Quantum Encryption
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Origin Post Quantum Encryption
 
-## Get Origin Post-Quantum Encryption setting
+##### [Get Origin Post-Quantum Encryption setting](https://developers.cloudflare.com/api/resources/origin_post_quantum_encryption/methods/get)
 
-**get** `/zones/{zone_id}/cache/origin_post_quantum_encryption`
+Deprecated
 
-Instructs Cloudflare to use Post-Quantum (PQ) key agreement algorithms when connecting to your origin. Preferred instructs Cloudflare to opportunistically send a Post-Quantum keyshare in the first message to the origin (for fastest connections when the origin supports and prefers PQ), supported means that PQ algorithms are advertised but only used when requested by the origin, and off means that PQ algorithms are not advertised.
+GET/zones/{zone\_id}/cache/origin\_post\_quantum\_encryption
 
-### Path Parameters
+##### [Change Origin Post-Quantum Encryption setting](https://developers.cloudflare.com/api/resources/origin_post_quantum_encryption/methods/update)
 
-- `zone_id: string`
+Deprecated
 
-  Identifier.
+PUT/zones/{zone\_id}/cache/origin\_post\_quantum\_encryption
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+OriginPostQuantumEncryptionGetResponse object {id, editable, value, modified\_on }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: "origin\_pqe"
 
-    - `pointer: optional string`
+The identifier of the caching setting.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+editable: boolean
 
-  - `message: string`
+Whether the setting is editable.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+value: "preferred"or "supported"or "off"
 
-  - `true`
+Value of the Origin Post Quantum Encryption Setting.
 
-- `result: optional object { id, editable, value, modified_on }`
+</summary>
 
-  - `id: "origin_pqe"`
+One of the following:
 
-    The identifier of the caching setting.
+"preferred"
 
-    - `"origin_pqe"`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+"supported"
 
-    Whether the setting is editable.
+<a href="#">Link to this property</a>
 
-  - `value: "preferred" or "supported" or "off"`
+"off"
 
-    Value of the Origin Post Quantum Encryption Setting.
+<a href="#">Link to this property</a>
 
-    - `"preferred"`
+</details>
 
-    - `"supported"`
+<a href="#">Link to this property</a>
 
-    - `"off"`
+modified\_on: optional string
 
-  - `modified_on: optional string`
+Last time this setting was modified.
 
-    Last time this setting was modified.
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_post_quantum_encryption \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20origin_post_quantum_encryption%20%3E%20(model)%20origin_post_quantum_encryption_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "origin_pqe",
-    "editable": true,
-    "value": "preferred",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<details>
 
-## Change Origin Post-Quantum Encryption setting
+<summary>
 
-**put** `/zones/{zone_id}/cache/origin_post_quantum_encryption`
+OriginPostQuantumEncryptionUpdateResponse object {id, editable, value, modified\_on }
 
-Instructs Cloudflare to use Post-Quantum (PQ) key agreement algorithms when connecting to your origin. Preferred instructs Cloudflare to opportunistically send a Post-Quantum keyshare in the first message to the origin (for fastest connections when the origin supports and prefers PQ), supported means that PQ algorithms are advertised but only used when requested by the origin, and off means that PQ algorithms are not advertised.
+</summary>
 
-### Path Parameters
+id: "origin\_pqe"
 
-- `zone_id: string`
+The identifier of the caching setting.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+editable: boolean
 
-- `value: "preferred" or "supported" or "off"`
+Whether the setting is editable.
 
-  Value of the Origin Post Quantum Encryption Setting.
+<a href="#">Link to this property</a>
 
-  - `"preferred"`
+<details>
 
-  - `"supported"`
+<summary>
 
-  - `"off"`
+value: "preferred"or "supported"or "off"
 
-### Returns
+Value of the Origin Post Quantum Encryption Setting.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"preferred"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"supported"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"off"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_on: optional string
 
-- `success: true`
+Last time this setting was modified.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, editable, value, modified_on }`
+</details>
 
-  - `id: "origin_pqe"`
-
-    The identifier of the caching setting.
-
-    - `"origin_pqe"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "preferred" or "supported" or "off"`
-
-    Value of the Origin Post Quantum Encryption Setting.
-
-    - `"preferred"`
-
-    - `"supported"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_post_quantum_encryption \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "preferred"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "origin_pqe",
-    "editable": true,
-    "value": "preferred",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Origin Post Quantum Encryption Get Response
-
-- `OriginPostQuantumEncryptionGetResponse object { id, editable, value, modified_on }`
-
-  - `id: "origin_pqe"`
-
-    The identifier of the caching setting.
-
-    - `"origin_pqe"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "preferred" or "supported" or "off"`
-
-    Value of the Origin Post Quantum Encryption Setting.
-
-    - `"preferred"`
-
-    - `"supported"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Origin Post Quantum Encryption Update Response
-
-- `OriginPostQuantumEncryptionUpdateResponse object { id, editable, value, modified_on }`
-
-  - `id: "origin_pqe"`
-
-    The identifier of the caching setting.
-
-    - `"origin_pqe"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "preferred" or "supported" or "off"`
-
-    Value of the Origin Post Quantum Encryption Setting.
-
-    - `"preferred"`
-
-    - `"supported"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20origin_post_quantum_encryption%20%3E%20(model)%20origin_post_quantum_encryption_update_response%20%3E%20(schema)>)

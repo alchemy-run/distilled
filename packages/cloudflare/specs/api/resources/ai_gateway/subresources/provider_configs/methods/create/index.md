@@ -1,64 +1,182 @@
-## Create a new Provider Configs
+---
+title: Create a new Provider Configs
+---
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Provider Configs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/provider_configs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a new Provider Configs
+
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/provider\_configs
 
 Creates a new AI Gateway.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `gateway_id: string`
+<summary>API Token</summary>
 
-  gateway id
 
-### Body Parameters
 
-- `alias: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `default_config: boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `provider_slug: string`
+</details>
 
-- `rate_limit: optional number`
+<details>
 
-- `rate_limit_period: optional number`
+<summary>API Email + API Key</summary>
 
-- `secret: optional string`
 
-- `secret_id: optional string`
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `result: object { id, alias, default_config, 7 more }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `id: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `alias: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `default_config: boolean`
+</details>
 
-  - `gateway_id: string`
+##### Accepted Permissions (at least one required)
 
-    gateway id
+`Secrets Store Write`
 
-  - `modified_at: string`
+##### P ath ParametersExpand Collapse
 
-  - `provider_slug: string`
+account\_id: string
 
-  - `secret_id: string`
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `secret_preview: string`
+gateway\_id: string
 
-  - `rate_limit: optional number`
+gateway id
 
-  - `rate_limit_period: optional number`
+maxLength64
 
-- `success: boolean`
+minLength1
 
-### Example
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20gateway_id%20%3E%20(schema)>)
 
-```http
+##### Body ParametersJSONExpand Collapse
+
+alias: string
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20alias%20%3E%20(schema)>)
+
+default\_config: boolean
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20default_config%20%3E%20(schema)>)
+
+provider\_slug: string
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20provider_slug%20%3E%20(schema)>)
+
+rate\_limit: optional number
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20rate_limit%20%3E%20(schema)>)
+
+rate\_limit\_period: optional number
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20rate_limit_period%20%3E%20(schema)>)
+
+secret: optional string
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20secret%20%3E%20(schema)>)
+
+secret\_id: optional string
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20secret_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {id, alias, default\_config, 7 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+alias: string
+
+<a href="#">Link to this property</a>
+
+default\_config: boolean
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+gateway id
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+provider\_slug: string
+
+<a href="#">Link to this property</a>
+
+secret\_id: string
+
+<a href="#">Link to this property</a>
+
+secret\_preview: string
+
+<a href="#">Link to this property</a>
+
+rate\_limit: optional number
+
+<a href="#">Link to this property</a>
+
+rate\_limit\_period: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a new Provider Configs
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/provider_configs \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -69,9 +187,31 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gatewa
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "id",
+    "alias": "alias",
+    "default_config": true,
+    "gateway_id": "my-gateway",
+    "modified_at": "2019-12-27T18:11:19.117Z",
+    "provider_slug": "provider_slug",
+    "secret_id": "secret_id",
+    "secret_preview": "secret_preview",
+    "rate_limit": 0,
+    "rate_limit_period": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "id",

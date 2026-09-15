@@ -1,88 +1,224 @@
-## Update a custom asset
+---
+title: Update a custom asset
+---
 
-**put** `/{accounts_or_zones}/{account_or_zone_id}/custom_pages/assets/{asset_name}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Custom Pages](https://developers.cloudflare.com/api/resources/custom_pages)
+
+[Assets](https://developers.cloudflare.com/api/resources/custom_pages/subresources/assets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a custom asset
+
+PUT/{accounts\_or\_zones}/{account\_or\_zone\_id}/custom\_pages/assets/{asset\_name}
 
 Updates the configuration of an existing custom asset.
 
-### Path Parameters
+##### Security
 
-- `asset_name: string`
+API Email + API Key
 
-  The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_).
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `account_id: optional string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `zone_id: optional string`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+##### P ath ParametersExpand Collapse
 
-### Body Parameters
+asset\_name: string
 
-- `description: string`
+The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (\_).
 
-  A short description of the custom asset.
+minLength1
 
-- `url: string`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20asset_name%20%3E%20(schema)>)
 
-  The URL where the asset content is fetched from.
+account\_id: optional string
 
-### Returns
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+zone\_id: optional string
 
-  - `message: string`
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Body ParametersJSONExpand Collapse
 
-    - `pointer: optional string`
+description: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+A short description of the custom asset.
 
-  - `code: number`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-  - `message: string`
+url: string
 
-  - `documentation_url: optional string`
+The URL where the asset content is fetched from.
 
-  - `source: optional object { pointer }`
+formaturi
 
-    - `pointer: optional string`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20url%20%3E%20(schema)>)
 
-- `success: true`
+##### ReturnsExpand Collapse
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { description, last_updated, name, 2 more }`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `description: optional string`
+</summary>
 
-    A short description of the custom asset.
+code: number
 
-  - `last_updated: optional string`
+minimum1000
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_).
+message: string
 
-  - `size_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    The size of the asset content in bytes.
+documentation\_url: optional string
 
-  - `url: optional string`
+<a href="#">Link to this property</a>
 
-    The URL where the asset content is fetched from.
+<details>
 
-### Example
+<summary>
 
-```http
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {description, last\_updated, name, 2 more }
+
+</summary>
+
+description: optional string
+
+A short description of the custom asset.
+
+<a href="#">Link to this property</a>
+
+last\_updated: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (\_).
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+size\_bytes: optional number
+
+The size of the asset content in bytes.
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The URL where the asset content is fetched from.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a custom asset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/custom_pages/assets/$ASSET_NAME \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -94,9 +230,46 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "description": "Custom 500 error page",
+    "last_updated": "2014-01-01T05:20:00.12345Z",
+    "name": "my_custom_error_page",
+    "size_bytes": 1024,
+    "url": "https://example.com/error.html"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

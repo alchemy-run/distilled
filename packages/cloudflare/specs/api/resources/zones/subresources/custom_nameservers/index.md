@@ -1,324 +1,199 @@
+---
+title: Custom Nameservers
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zones](https://developers.cloudflare.com/api/resources/zones)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Custom Nameservers
 
-## Get Account Custom Nameserver Related Zone Metadata
+##### [Get Account Custom Nameserver Related Zone Metadata](https://developers.cloudflare.com/api/resources/zones/subresources/custom_nameservers/methods/get)
 
-**get** `/zones/{zone_id}/custom_ns`
+Deprecated
 
-Get metadata for account-level custom nameservers on a zone.
+GET/zones/{zone\_id}/custom\_ns
 
-Deprecated in favor of [Show DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-a-zone-list-dns-settings).
+##### [Set Account Custom Nameserver Related Zone Metadata](https://developers.cloudflare.com/api/resources/zones/subresources/custom_nameservers/methods/update)
 
-### Path Parameters
+Deprecated
 
-- `zone_id: string`
+PUT/zones/{zone\_id}/custom\_ns
 
-  Identifier.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+CustomNameserverGetResponse object {errors, messages, success, 3 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+code: number
 
-  - `message: string`
+minimum1000
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+message: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+documentation\_url: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `enabled: optional boolean`
+<summary>
 
-  Whether zone uses account-level custom nameservers.
+source: optional object {pointer }
 
-- `ns_set: optional number`
+</summary>
 
-  The number of the name server set to assign to the zone.
+pointer: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+messages: array of object {code, message, documentation\_url, source }
 
-    Total results available without any search parameters.
+</summary>
 
-  - `total_pages: optional number`
+code: number
 
-    The number of total pages in the entire result set.
+minimum1000
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_ns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+message: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "enabled": true,
-  "ns_set": 1,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+documentation\_url: optional string
 
-## Set Account Custom Nameserver Related Zone Metadata
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/custom_ns`
+<details>
 
-Set metadata for account-level custom nameservers on a zone.
+<summary>
 
-If you would like new zones in the account to use account custom nameservers by default, use PUT /accounts/:identifier to set the account setting use_account_custom_ns_by_default to true.
+source: optional object {pointer }
 
-Deprecated in favor of [Update DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-a-zone-update-dns-settings).
+</summary>
 
-### Path Parameters
+pointer: optional string
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `enabled: optional boolean`
+</details>
 
-  Whether zone uses account-level custom nameservers.
+<a href="#">Link to this property</a>
 
-- `ns_set: optional number`
+success: true
 
-  The number of the name server set to assign to the zone.
+Whether the API call was successful.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+enabled: optional boolean
 
-  - `code: number`
+Whether zone uses account-level custom nameservers.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+ns\_set: optional number
 
-  - `source: optional object { pointer }`
+The number of the name server set to assign to the zone.
 
-    - `pointer: optional string`
+maximum5
 
-- `messages: array of object { code, message, documentation_url, source }`
+minimum1
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+result\_info: optional object {count, page, per\_page, 2 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+count: optional number
 
-  Whether the API call was successful.
+Total number of results for the requested service.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of string`
+page: optional number
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+Current page within paginated list of results.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+per\_page: optional number
 
-  - `page: optional number`
+Number of results per page of results.
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+total\_count: optional number
 
-    Number of results per page of results.
+Total results available without any search parameters.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+total\_pages: optional number
 
-  - `total_pages: optional number`
+The number of total pages in the entire result set.
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_ns \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "ns_set": 1
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+[Link to this property](#)%20zones.custom_nameservers%20%3E%20(model)%20custom_nameserver_get_response%20%3E%20(schema)>)
 
-## Domain Types
+CustomNameserverUpdateResponse = string
 
-### Custom Nameserver Get Response
+Unused
 
-- `CustomNameserverGetResponse object { errors, messages, success, 3 more }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-  - `enabled: optional boolean`
-
-    Whether zone uses account-level custom nameservers.
-
-  - `ns_set: optional number`
-
-    The number of the name server set to assign to the zone.
-
-  - `result_info: optional object { count, page, per_page, 2 more }`
-
-    - `count: optional number`
-
-      Total number of results for the requested service.
-
-    - `page: optional number`
-
-      Current page within paginated list of results.
-
-    - `per_page: optional number`
-
-      Number of results per page of results.
-
-    - `total_count: optional number`
-
-      Total results available without any search parameters.
-
-    - `total_pages: optional number`
-
-      The number of total pages in the entire result set.
-
-### Custom Nameserver Update Response
-
-- `CustomNameserverUpdateResponse = string`
-
-  Unused
+[Link to this property](#)%20zones.custom_nameservers%20%3E%20(model)%20custom_nameserver_update_response%20%3E%20(schema)>)

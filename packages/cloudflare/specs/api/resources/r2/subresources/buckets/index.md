@@ -1,5289 +1,2263 @@
+---
+title: Buckets
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Buckets
 
-## List Buckets
+##### [List Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/methods/list)
 
-**get** `/accounts/{account_id}/r2/buckets`
+GET/accounts/{account\_id}/r2/buckets
 
-Lists all R2 buckets on your account.
+##### [Get Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}
 
-- `account_id: string`
+##### [Create Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/methods/create)
 
-  Account ID.
+POST/accounts/{account\_id}/r2/buckets
 
-### Query Parameters
+##### [Patch Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/methods/edit)
 
-- `cursor: optional string`
+PATCH/accounts/{account\_id}/r2/buckets/{bucket\_name}
 
-  Pagination cursor received during the last List Buckets call. R2 buckets are paginated using cursors instead of page numbers.
+##### [Delete Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/methods/delete)
 
-- `direction: optional "asc" or "desc"`
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}
 
-  Direction to order buckets.
+##### ModelsExpand Collapse
 
-  - `"asc"`
+<details>
 
-  - `"desc"`
+<summary>
 
-- `name_contains: optional string`
+Bucket object {creation\_date, jurisdiction, location, 2 more }
 
-  Bucket names to filter by. Only buckets with this phrase in their name will be returned.
+A single R2 bucket.
 
-- `order: optional "name"`
+</summary>
 
-  Field to order buckets by.
+creation\_date: optional string
 
-  - `"name"`
+Creation timestamp.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Maximum number of buckets to return in a single call.
+<details>
 
-- `start_after: optional string`
+<summary>
 
-  Bucket name to start searching after. Buckets are ordered lexicographically.
+jurisdiction: optional "default"or "eu"or "us"or 2 more
 
-### Header Parameters
+Jurisdiction where objects in this bucket are guaranteed to be stored.
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+</summary>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+One of the following:
 
-  - `"default"`
+"default"
 
-  - `"eu"`
+<a href="#">Link to this property</a>
 
-  - `"fedramp"`
+"eu"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"us"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"fedramp"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"fedramp-high"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+</details>
 
-- `result: object { buckets }`
+<a href="#">Link to this property</a>
 
-  - `buckets: optional array of Bucket`
+<details>
 
-    - `creation_date: optional string`
+<summary>
 
-      Creation timestamp.
+location: optional "apac"or "eeur"or "enam"or 3 more
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+Location of the bucket.
 
-      Jurisdiction where objects in this bucket are guaranteed to be stored.
+</summary>
 
-      - `"default"`
+One of the following:
 
-      - `"eu"`
+"apac"
 
-      - `"fedramp"`
+<a href="#">Link to this property</a>
 
-    - `location: optional "apac" or "eeur" or "enam" or 3 more`
+"eeur"
 
-      Location of the bucket.
+<a href="#">Link to this property</a>
 
-      - `"apac"`
+"enam"
 
-      - `"eeur"`
+<a href="#">Link to this property</a>
 
-      - `"enam"`
+"weur"
 
-      - `"weur"`
+<a href="#">Link to this property</a>
 
-      - `"wnam"`
+"wnam"
 
-      - `"oc"`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"oc"
 
-      Name of the bucket.
+<a href="#">Link to this property</a>
 
-    - `storage_class: optional "Standard" or "InfrequentAccess"`
+</details>
 
-      Storage class for newly uploaded objects, unless specified otherwise.
+<a href="#">Link to this property</a>
 
-      - `"Standard"`
+name: optional string
 
-      - `"InfrequentAccess"`
+Name of the bucket.
 
-- `success: true`
+maxLength64
 
-  Whether the API call was successful.
+minLength3
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { cursor, per_page }`
+<details>
 
-  - `cursor: optional string`
+<summary>
 
-    A continuation token that should be used to fetch the next page of results.
+storage\_class: optional "Standard"or "InfrequentAccess"
 
-  - `per_page: optional number`
+Storage class for newly uploaded objects, unless specified otherwise.
 
-    Maximum number of results on this page.
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"Standard"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "buckets": [
-      {
-        "creation_date": "creation_date",
-        "jurisdiction": "default",
-        "location": "apac",
-        "name": "example-bucket",
-        "storage_class": "Standard"
-      }
-    ]
-  },
-  "success": true,
-  "result_info": {
-    "cursor": "1-JTdCJTIydiUyMiUzQTElMkMlMjJzdGFydEFmdGVyJTIyJTNBJTIyZGF2aWRwdWJsaWMlMjIlN0Q=",
-    "per_page": 20
-  }
-}
-```
+"InfrequentAccess"
 
-## Get Bucket
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}`
+</details>
 
-Gets properties of an existing R2 bucket.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20r2.buckets%20%3E%20(model)%20bucket%20%3E%20(schema)>)
 
-  Account ID.
+<details>
 
-- `bucket_name: string`
+<summary>
 
-  Name of the bucket.
+BucketListResponse object {buckets }
 
-### Header Parameters
+</summary>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<summary>
 
-  - `"default"`
+buckets: optional array of <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets%20%3E%20(model)%20bucket%20%3E%20(schema)">Bucket</a> { creation\_date, jurisdiction, location, 2 more }
 
-  - `"eu"`
+</summary>
 
-  - `"fedramp"`
+creation\_date: optional string
 
-### Returns
+Creation timestamp.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+jurisdiction: optional "default"or "eu"or "us"or 2 more
 
-  - `source: optional object { pointer }`
+Jurisdiction where objects in this bucket are guaranteed to be stored.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of string`
+One of the following:
 
-- `result: Bucket`
+"default"
 
-  A single R2 bucket.
+<a href="#">Link to this property</a>
 
-  - `creation_date: optional string`
+"eu"
 
-    Creation timestamp.
+<a href="#">Link to this property</a>
 
-  - `jurisdiction: optional "default" or "eu" or "fedramp"`
+"us"
 
-    Jurisdiction where objects in this bucket are guaranteed to be stored.
+<a href="#">Link to this property</a>
 
-    - `"default"`
+"fedramp"
 
-    - `"eu"`
+<a href="#">Link to this property</a>
 
-    - `"fedramp"`
+"fedramp-high"
 
-  - `location: optional "apac" or "eeur" or "enam" or 3 more`
+<a href="#">Link to this property</a>
 
-    Location of the bucket.
+</details>
 
-    - `"apac"`
+<a href="#">Link to this property</a>
 
-    - `"eeur"`
+<details>
 
-    - `"enam"`
+<summary>
 
-    - `"weur"`
+location: optional "apac"or "eeur"or "enam"or 3 more
 
-    - `"wnam"`
+Location of the bucket.
 
-    - `"oc"`
+</summary>
 
-  - `name: optional string`
+One of the following:
 
-    Name of the bucket.
+"apac"
 
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
+<a href="#">Link to this property</a>
 
-    Storage class for newly uploaded objects, unless specified otherwise.
+"eeur"
 
-    - `"Standard"`
+<a href="#">Link to this property</a>
 
-    - `"InfrequentAccess"`
+"enam"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"weur"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"wnam"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"oc"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "creation_date": "creation_date",
-    "jurisdiction": "default",
-    "location": "apac",
-    "name": "example-bucket",
-    "storage_class": "Standard"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Bucket
+</details>
 
-**post** `/accounts/{account_id}/r2/buckets`
+<a href="#">Link to this property</a>
 
-Creates a new R2 bucket.
+name: optional string
 
-### Path Parameters
+Name of the bucket.
 
-- `account_id: string`
+maxLength64
 
-  Account ID.
+minLength3
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<summary>
 
-  - `"default"`
+storage\_class: optional "Standard"or "InfrequentAccess"
 
-  - `"eu"`
+Storage class for newly uploaded objects, unless specified otherwise.
 
-  - `"fedramp"`
+</summary>
 
-### Body Parameters
+One of the following:
 
-- `name: string`
+"Standard"
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-- `locationHint: optional "apac" or "eeur" or "enam" or 3 more`
+"InfrequentAccess"
 
-  Location of the bucket.
+<a href="#">Link to this property</a>
 
-  - `"apac"`
+</details>
 
-  - `"eeur"`
+<a href="#">Link to this property</a>
 
-  - `"enam"`
+</details>
 
-  - `"weur"`
+<a href="#">Link to this property</a>
 
-  - `"wnam"`
+</details>
 
-  - `"oc"`
+[Link to this property](#)%20r2.buckets%20%3E%20(model)%20bucket_list_response%20%3E%20(schema)>)
 
-- `storageClass: optional "Standard" or "InfrequentAccess"`
+BucketDeleteResponse = unknown
 
-  Storage class for newly uploaded objects, unless specified otherwise.
+[Link to this property](#)%20r2.buckets%20%3E%20(model)%20bucket_delete_response%20%3E%20(schema)>)
 
-  - `"Standard"`
+#### BucketsLifecycle
 
-  - `"InfrequentAccess"`
+##### [Get Object Lifecycle Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/lifecycle/methods/get)
 
-### Returns
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/lifecycle
 
-- `errors: array of ResponseInfo`
+##### [Put Object Lifecycle Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/lifecycle/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/lifecycle
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+LifecycleGetResponse object {rules }
 
-- `messages: array of string`
+</summary>
 
-- `result: Bucket`
+<details>
 
-  A single R2 bucket.
+<summary>
 
-  - `creation_date: optional string`
+rules: optional array of object {id, conditions, enabled, 3 more }
 
-    Creation timestamp.
+</summary>
 
-  - `jurisdiction: optional "default" or "eu" or "fedramp"`
+id: string
 
-    Jurisdiction where objects in this bucket are guaranteed to be stored.
+Unique identifier for this rule.
 
-    - `"default"`
+<a href="#">Link to this property</a>
 
-    - `"eu"`
+<details>
 
-    - `"fedramp"`
+<summary>
 
-  - `location: optional "apac" or "eeur" or "enam" or 3 more`
+conditions: object {prefix }
 
-    Location of the bucket.
+Conditions that apply to all transitions of this rule.
 
-    - `"apac"`
+</summary>
 
-    - `"eeur"`
+prefix: string
 
-    - `"enam"`
+Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
 
-    - `"weur"`
+<a href="#">Link to this property</a>
 
-    - `"wnam"`
+</details>
 
-    - `"oc"`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+enabled: boolean
 
-    Name of the bucket.
+Whether or not this rule is in effect.
 
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
+<a href="#">Link to this property</a>
 
-    Storage class for newly uploaded objects, unless specified otherwise.
+<details>
 
-    - `"Standard"`
+<summary>
 
-    - `"InfrequentAccess"`
+abortMultipartUploadsTransition: optional object {condition }
 
-- `success: true`
+Transition to abort ongoing multipart uploads.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "example-bucket"
-        }'
-```
+condition: optional object {maxAge, type }
 
-#### Response
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "creation_date": "creation_date",
-    "jurisdiction": "default",
-    "location": "apac",
-    "name": "example-bucket",
-    "storage_class": "Standard"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Patch Bucket
+maxAge: number
 
-**patch** `/accounts/{account_id}/r2/buckets/{bucket_name}`
+<a href="#">Link to this property</a>
 
-Updates properties of an existing R2 bucket.
+type: "Age"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+</details>
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+<details>
 
-- `"cf-r2-storage-class": "Standard" or "InfrequentAccess"`
+<summary>
 
-  Storage class for newly uploaded objects, unless specified otherwise.
+deleteObjectsTransition: optional object {condition }
 
-  - `"Standard"`
+Transition to delete objects.
 
-  - `"InfrequentAccess"`
+</summary>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<summary>
 
-  - `"default"`
+condition: optional object {maxAge, type } or object {date, type }
 
-  - `"eu"`
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-  - `"fedramp"`
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+R2LifecycleAgeCondition object {maxAge, type }
 
-  - `documentation_url: optional string`
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+maxAge: number
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: Bucket`
+type: "Age"
 
-  A single R2 bucket.
+<a href="#">Link to this property</a>
 
-  - `creation_date: optional string`
+</details>
 
-    Creation timestamp.
+<a href="#">Link to this property</a>
 
-  - `jurisdiction: optional "default" or "eu" or "fedramp"`
+<details>
 
-    Jurisdiction where objects in this bucket are guaranteed to be stored.
+<summary>
 
-    - `"default"`
+R2LifecycleDateCondition object {date, type }
 
-    - `"eu"`
+Condition for lifecycle transitions to apply on a specific date.
 
-    - `"fedramp"`
+</summary>
 
-  - `location: optional "apac" or "eeur" or "enam" or 3 more`
+date: string
 
-    Location of the bucket.
+formatdate-time
 
-    - `"apac"`
+<a href="#">Link to this property</a>
 
-    - `"eeur"`
+type: "Date"
 
-    - `"enam"`
+<a href="#">Link to this property</a>
 
-    - `"weur"`
+</details>
 
-    - `"wnam"`
+<a href="#">Link to this property</a>
 
-    - `"oc"`
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the bucket.
+</details>
 
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
+<a href="#">Link to this property</a>
 
-    Storage class for newly uploaded objects, unless specified otherwise.
+<details>
 
-    - `"Standard"`
+<summary>
 
-    - `"InfrequentAccess"`
+storageClassTransitions: optional array of object {condition, storageClass }
 
-- `success: true`
+Transitions to change the storage class of objects.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+condition: object {maxAge, type } or object {date, type }
 
-#### Response
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "creation_date": "creation_date",
-    "jurisdiction": "default",
-    "location": "apac",
-    "name": "example-bucket",
-    "storage_class": "Standard"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Delete Bucket
+One of the following:
 
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}`
+<details>
 
-Deletes an existing R2 bucket.
+<summary>
 
-### Path Parameters
+R2LifecycleAgeCondition object {maxAge, type }
 
-- `account_id: string`
+Condition for lifecycle transitions to apply after an object reaches an age in seconds.
 
-  Account ID.
+</summary>
 
-- `bucket_name: string`
+maxAge: number
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+type: "Age"
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+</details>
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"eu"`
+<details>
 
-  - `"fedramp"`
+<summary>
 
-### Returns
+R2LifecycleDateCondition object {date, type }
 
-- `errors: array of ResponseInfo`
+Condition for lifecycle transitions to apply on a specific date.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+date: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+type: "Date"
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: unknown`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+storageClass: "InfrequentAccess"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Bucket
+<a href="#">Link to this property</a>
 
-- `Bucket object { creation_date, jurisdiction, location, 2 more }`
+</details>
 
-  A single R2 bucket.
+[Link to this property](#)%20r2.buckets.lifecycle%20%3E%20(model)%20lifecycle_get_response%20%3E%20(schema)>)
 
-  - `creation_date: optional string`
+LifecycleUpdateResponse = unknown
 
-    Creation timestamp.
+[Link to this property](#)%20r2.buckets.lifecycle%20%3E%20(model)%20lifecycle_update_response%20%3E%20(schema)>)
 
-  - `jurisdiction: optional "default" or "eu" or "fedramp"`
+#### BucketsCORS
 
-    Jurisdiction where objects in this bucket are guaranteed to be stored.
+##### [Get Bucket CORS Policy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/cors/methods/get)
 
-    - `"default"`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/cors
 
-    - `"eu"`
+##### [Put Bucket CORS Policy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/cors/methods/update)
 
-    - `"fedramp"`
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/cors
 
-  - `location: optional "apac" or "eeur" or "enam" or 3 more`
+##### [Delete Bucket CORS Policy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/cors/methods/delete)
 
-    Location of the bucket.
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/cors
 
-    - `"apac"`
+##### ModelsExpand Collapse
 
-    - `"eeur"`
+<details>
 
-    - `"enam"`
+<summary>
 
-    - `"weur"`
+CORSGetResponse object {rules }
 
-    - `"wnam"`
+</summary>
 
-    - `"oc"`
+<details>
 
-  - `name: optional string`
+<summary>
 
-    Name of the bucket.
+rules: optional array of object {allowed, id, exposeHeaders, maxAgeSeconds }
 
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
+</summary>
 
-    Storage class for newly uploaded objects, unless specified otherwise.
+<details>
 
-    - `"Standard"`
+<summary>
 
-    - `"InfrequentAccess"`
+allowed: object {methods, origins, headers }
 
-### Bucket List Response
+Object specifying allowed origins, methods and headers for this CORS rule.
 
-- `BucketListResponse object { buckets }`
+</summary>
 
-  - `buckets: optional array of Bucket`
+<details>
 
-    - `creation_date: optional string`
+<summary>
 
-      Creation timestamp.
+methods: array of "GET"or "PUT"or "POST"or 2 more
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+Specifies the value for the Access-Control-Allow-Methods header R2 sets when requesting objects in a bucket from a browser.
 
-      Jurisdiction where objects in this bucket are guaranteed to be stored.
+</summary>
 
-      - `"default"`
+One of the following:
 
-      - `"eu"`
+"GET"
 
-      - `"fedramp"`
+<a href="#">Link to this property</a>
 
-    - `location: optional "apac" or "eeur" or "enam" or 3 more`
+"PUT"
 
-      Location of the bucket.
+<a href="#">Link to this property</a>
 
-      - `"apac"`
+"POST"
 
-      - `"eeur"`
+<a href="#">Link to this property</a>
 
-      - `"enam"`
+"DELETE"
 
-      - `"weur"`
+<a href="#">Link to this property</a>
 
-      - `"wnam"`
+"HEAD"
 
-      - `"oc"`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      Name of the bucket.
+<a href="#">Link to this property</a>
 
-    - `storage_class: optional "Standard" or "InfrequentAccess"`
+origins: array of string
 
-      Storage class for newly uploaded objects, unless specified otherwise.
+Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser.
 
-      - `"Standard"`
+<a href="#">Link to this property</a>
 
-      - `"InfrequentAccess"`
+headers: optional array of string
 
-### Bucket Delete Response
+Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders.
 
-- `BucketDeleteResponse = unknown`
+<a href="#">Link to this property</a>
 
-# Lifecycle
+</details>
 
-## Get Object Lifecycle Rules
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/lifecycle`
+id: optional string
 
-Get object lifecycle rules for a bucket.
+Identifier for this rule.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+exposeHeaders: optional array of string
 
-  Account ID.
+Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here.
 
-- `bucket_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the bucket.
+maxAgeSeconds: optional number
 
-### Header Parameters
+Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified.
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+</details>
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"eu"`
+</details>
 
-  - `"fedramp"`
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(model)%20cors_get_response%20%3E%20(schema)>)
 
-### Returns
+CORSUpdateResponse = unknown
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(model)%20cors_update_response%20%3E%20(schema)>)
 
-  - `code: number`
+CORSDeleteResponse = unknown
 
-  - `message: string`
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(model)%20cors_delete_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+#### BucketsDomains
 
-  - `source: optional object { pointer }`
+#### BucketsDomainsCustom
 
-    - `pointer: optional string`
+##### [List Custom Domains of Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/list)
 
-- `messages: array of string`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom
 
-- `result: object { rules }`
+##### [Get Custom Domain Settings](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/get)
 
-  - `rules: optional array of object { id, conditions, enabled, 3 more }`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom/{domain}
 
-    - `id: string`
+##### [Attach Custom Domain To Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/create)
 
-      Unique identifier for this rule.
+POST/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom
 
-    - `conditions: object { prefix }`
+##### [Configure Custom Domain Settings](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/update)
 
-      Conditions that apply to all transitions of this rule.
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom/{domain}
 
-      - `prefix: string`
+##### [Remove Custom Domain From Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/delete)
 
-        Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom/{domain}
 
-    - `enabled: boolean`
+##### ModelsExpand Collapse
 
-      Whether or not this rule is in effect.
+<details>
 
-    - `abortMultipartUploadsTransition: optional object { condition }`
+<summary>
 
-      Transition to abort ongoing multipart uploads.
+CustomListResponse object {domains }
 
-      - `condition: optional object { maxAge, type }`
+</summary>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<details>
 
-        - `maxAge: number`
+<summary>
 
-        - `type: "Age"`
+domains: array of object {domain, enabled, status, 4 more }
 
-          - `"Age"`
+</summary>
 
-    - `deleteObjectsTransition: optional object { condition }`
+domain: string
 
-      Transition to delete objects.
+Domain name of the custom domain to be added.
 
-      - `condition: optional object { maxAge, type }  or object { date, type }`
+<a href="#">Link to this property</a>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+enabled: boolean
 
-        - `R2LifecycleAgeCondition object { maxAge, type }`
+Whether this bucket is publicly accessible at the specified custom domain.
 
-          Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-          - `maxAge: number`
+<details>
 
-          - `type: "Age"`
+<summary>
 
-            - `"Age"`
+status: object {ownership, ssl }
 
-        - `R2LifecycleDateCondition object { date, type }`
+</summary>
 
-          Condition for lifecycle transitions to apply on a specific date.
+<details>
 
-          - `date: string`
+<summary>
 
-          - `type: "Date"`
+ownership: "pending"or "active"or "deactivated"or 3 more
 
-            - `"Date"`
+Ownership status of the domain.
 
-    - `storageClassTransitions: optional array of object { condition, storageClass }`
+</summary>
 
-      Transitions to change the storage class of objects.
+One of the following:
 
-      - `condition: object { maxAge, type }  or object { date, type }`
+"pending"
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-        - `R2LifecycleAgeCondition object { maxAge, type }`
+"active"
 
-          Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-          - `maxAge: number`
+"deactivated"
 
-          - `type: "Age"`
+<a href="#">Link to this property</a>
 
-            - `"Age"`
+"blocked"
 
-        - `R2LifecycleDateCondition object { date, type }`
+<a href="#">Link to this property</a>
 
-          Condition for lifecycle transitions to apply on a specific date.
+"error"
 
-          - `date: string`
+<a href="#">Link to this property</a>
 
-          - `type: "Date"`
+"unknown"
 
-            - `"Date"`
+<a href="#">Link to this property</a>
 
-      - `storageClass: "InfrequentAccess"`
+</details>
 
-        - `"InfrequentAccess"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+ssl: "initializing"or "pending"or "active"or 3 more
 
-### Example
+SSL certificate status.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/lifecycle \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "rules": [
-      {
-        "id": "Expire all objects older than 24 hours",
-        "conditions": {
-          "prefix": "prefix"
-        },
-        "enabled": true,
-        "abortMultipartUploadsTransition": {
-          "condition": {
-            "maxAge": 0,
-            "type": "Age"
-          }
-        },
-        "deleteObjectsTransition": {
-          "condition": {
-            "maxAge": 0,
-            "type": "Age"
-          }
-        },
-        "storageClassTransitions": [
-          {
-            "condition": {
-              "maxAge": 0,
-              "type": "Age"
-            },
-            "storageClass": "InfrequentAccess"
-          }
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
+"initializing"
 
-## Put Object Lifecycle Rules
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/lifecycle`
+"pending"
 
-Set the object lifecycle rules for a bucket.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"active"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+"deactivated"
 
-- `bucket_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the bucket.
+"error"
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+"unknown"
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<a href="#">Link to this property</a>
 
-  - `"default"`
+</details>
 
-  - `"eu"`
+<a href="#">Link to this property</a>
 
-  - `"fedramp"`
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `rules: optional array of object { id, conditions, enabled, 3 more }`
+ciphers: optional array of string
 
-  - `id: string`
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-    Unique identifier for this rule.
+<a href="#">Link to this property</a>
 
-  - `conditions: object { prefix }`
+<details>
 
-    Conditions that apply to all transitions of this rule.
+<summary>
 
-    - `prefix: string`
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
 
-      Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
 
-  - `enabled: boolean`
+</summary>
 
-    Whether or not this rule is in effect.
+One of the following:
 
-  - `abortMultipartUploadsTransition: optional object { condition }`
+"1.0"
 
-    Transition to abort ongoing multipart uploads.
+<a href="#">Link to this property</a>
 
-    - `condition: optional object { maxAge, type }`
+"1.1"
 
-      Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-      - `maxAge: number`
+"1.2"
 
-      - `type: "Age"`
+<a href="#">Link to this property</a>
 
-        - `"Age"`
+"1.3"
 
-  - `deleteObjectsTransition: optional object { condition }`
+<a href="#">Link to this property</a>
 
-    Transition to delete objects.
+</details>
 
-    - `condition: optional object { maxAge, type }  or object { date, type }`
+<a href="#">Link to this property</a>
 
-      Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+zoneId: optional string
 
-      - `R2LifecycleAgeCondition object { maxAge, type }`
+Zone ID of the custom domain resides in.
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-        - `maxAge: number`
+zoneName: optional string
 
-        - `type: "Age"`
+Zone that the custom domain resides in.
 
-          - `"Age"`
+<a href="#">Link to this property</a>
 
-      - `R2LifecycleDateCondition object { date, type }`
+</details>
 
-        Condition for lifecycle transitions to apply on a specific date.
+<a href="#">Link to this property</a>
 
-        - `date: string`
+</details>
 
-        - `type: "Date"`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_list_response%20%3E%20(schema)>)
 
-          - `"Date"`
+<details>
 
-  - `storageClassTransitions: optional array of object { condition, storageClass }`
+<summary>
 
-    Transitions to change the storage class of objects.
+CustomGetResponse object {domain, enabled, status, 4 more }
 
-    - `condition: object { maxAge, type }  or object { date, type }`
+</summary>
 
-      Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+domain: string
 
-      - `R2LifecycleAgeCondition object { maxAge, type }`
+Domain name of the custom domain to be added.
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-        - `maxAge: number`
+enabled: boolean
 
-        - `type: "Age"`
+Whether this bucket is publicly accessible at the specified custom domain.
 
-          - `"Age"`
+<a href="#">Link to this property</a>
 
-      - `R2LifecycleDateCondition object { date, type }`
+<details>
 
-        Condition for lifecycle transitions to apply on a specific date.
+<summary>
 
-        - `date: string`
+status: object {ownership, ssl }
 
-        - `type: "Date"`
+</summary>
 
-          - `"Date"`
+<details>
 
-    - `storageClass: "InfrequentAccess"`
+<summary>
 
-      - `"InfrequentAccess"`
+ownership: "pending"or "active"or "deactivated"or 3 more
 
-### Returns
+Ownership status of the domain.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"pending"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"active"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+"deactivated"
 
-- `result: unknown`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"blocked"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"error"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/lifecycle \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+"unknown"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Lifecycle Get Response
+<details>
 
-- `LifecycleGetResponse object { rules }`
+<summary>
 
-  - `rules: optional array of object { id, conditions, enabled, 3 more }`
+ssl: "initializing"or "pending"or "active"or 3 more
 
-    - `id: string`
+SSL certificate status.
 
-      Unique identifier for this rule.
+</summary>
 
-    - `conditions: object { prefix }`
+One of the following:
 
-      Conditions that apply to all transitions of this rule.
+"initializing"
 
-      - `prefix: string`
+<a href="#">Link to this property</a>
 
-        Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
+"pending"
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Whether or not this rule is in effect.
+"active"
 
-    - `abortMultipartUploadsTransition: optional object { condition }`
+<a href="#">Link to this property</a>
 
-      Transition to abort ongoing multipart uploads.
+"deactivated"
 
-      - `condition: optional object { maxAge, type }`
+<a href="#">Link to this property</a>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+"error"
 
-        - `maxAge: number`
+<a href="#">Link to this property</a>
 
-        - `type: "Age"`
+"unknown"
 
-          - `"Age"`
+<a href="#">Link to this property</a>
 
-    - `deleteObjectsTransition: optional object { condition }`
+</details>
 
-      Transition to delete objects.
+<a href="#">Link to this property</a>
 
-      - `condition: optional object { maxAge, type }  or object { date, type }`
+</details>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+<a href="#">Link to this property</a>
 
-        - `R2LifecycleAgeCondition object { maxAge, type }`
+ciphers: optional array of string
 
-          Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-          - `maxAge: number`
+<a href="#">Link to this property</a>
 
-          - `type: "Age"`
+<details>
 
-            - `"Age"`
+<summary>
 
-        - `R2LifecycleDateCondition object { date, type }`
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
 
-          Condition for lifecycle transitions to apply on a specific date.
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
 
-          - `date: string`
+</summary>
 
-          - `type: "Date"`
+One of the following:
 
-            - `"Date"`
+"1.0"
 
-    - `storageClassTransitions: optional array of object { condition, storageClass }`
+<a href="#">Link to this property</a>
 
-      Transitions to change the storage class of objects.
+"1.1"
 
-      - `condition: object { maxAge, type }  or object { date, type }`
+<a href="#">Link to this property</a>
 
-        Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+"1.2"
 
-        - `R2LifecycleAgeCondition object { maxAge, type }`
+<a href="#">Link to this property</a>
 
-          Condition for lifecycle transitions to apply after an object reaches an age in seconds.
+"1.3"
 
-          - `maxAge: number`
+<a href="#">Link to this property</a>
 
-          - `type: "Age"`
+</details>
 
-            - `"Age"`
+<a href="#">Link to this property</a>
 
-        - `R2LifecycleDateCondition object { date, type }`
+zoneId: optional string
 
-          Condition for lifecycle transitions to apply on a specific date.
+Zone ID of the custom domain resides in.
 
-          - `date: string`
+<a href="#">Link to this property</a>
 
-          - `type: "Date"`
+zoneName: optional string
 
-            - `"Date"`
+Zone that the custom domain resides in.
 
-      - `storageClass: "InfrequentAccess"`
+<a href="#">Link to this property</a>
 
-        - `"InfrequentAccess"`
+</details>
 
-### Lifecycle Update Response
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_get_response%20%3E%20(schema)>)
 
-- `LifecycleUpdateResponse = unknown`
+<details>
 
-# CORS
+<summary>
 
-## Get Bucket CORS Policy
+CustomCreateResponse object {domain, enabled, zoneId, 2 more }
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/cors`
+</summary>
 
-Get the CORS policy for a bucket.
+domain: string
 
-### Path Parameters
+Domain name of the affected custom domain.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+enabled: boolean
 
-- `bucket_name: string`
+Whether this bucket is publicly accessible at the specified custom domain.
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+zoneId: string
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+Zone ID of the custom domain.
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<a href="#">Link to this property</a>
 
-  - `"default"`
+ciphers: optional array of string
 
-  - `"eu"`
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-  - `"fedramp"`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
 
-  - `message: string`
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"1.0"
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: object { rules }`
+"1.1"
 
-  - `rules: optional array of object { allowed, id, exposeHeaders, maxAgeSeconds }`
+<a href="#">Link to this property</a>
 
-    - `allowed: object { methods, origins, headers }`
+"1.2"
 
-      Object specifying allowed origins, methods and headers for this CORS rule.
+<a href="#">Link to this property</a>
 
-      - `methods: array of "GET" or "PUT" or "POST" or 2 more`
+"1.3"
 
-        Specifies the value for the Access-Control-Allow-Methods header R2 sets when requesting objects in a bucket from a browser.
+<a href="#">Link to this property</a>
 
-        - `"GET"`
+</details>
 
-        - `"PUT"`
+<a href="#">Link to this property</a>
 
-        - `"POST"`
+</details>
 
-        - `"DELETE"`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_create_response%20%3E%20(schema)>)
 
-        - `"HEAD"`
+<details>
 
-      - `origins: array of string`
+<summary>
 
-        Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser.
+CustomUpdateResponse object {domain, ciphers, enabled, minTLS }
 
-      - `headers: optional array of string`
+</summary>
 
-        Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders.
+domain: string
 
-    - `id: optional string`
+Domain name of the affected custom domain.
 
-      Identifier for this rule.
+<a href="#">Link to this property</a>
 
-    - `exposeHeaders: optional array of string`
+ciphers: optional array of string
 
-      Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here.
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-    - `maxAgeSeconds: optional number`
+<a href="#">Link to this property</a>
 
-      Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified.
+enabled: optional boolean
 
-- `success: true`
+Whether this bucket is publicly accessible at the specified custom domain.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/cors \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
 
-#### Response
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "rules": [
-      {
-        "allowed": {
-          "methods": [
-            "GET"
-          ],
-          "origins": [
-            "http://localhost:3000"
-          ],
-          "headers": [
-            "x-requested-by"
-          ]
-        },
-        "id": "Allow Local Development",
-        "exposeHeaders": [
-          "Content-Encoding"
-        ],
-        "maxAgeSeconds": 3600
-      }
-    ]
-  },
-  "success": true
-}
-```
+</summary>
 
-## Put Bucket CORS Policy
+One of the following:
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/cors`
+"1.0"
 
-Set the CORS policy for a bucket.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"1.1"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+"1.2"
 
-- `bucket_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the bucket.
+"1.3"
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+</details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<a href="#">Link to this property</a>
 
-  - `"default"`
+</details>
 
-  - `"eu"`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_update_response%20%3E%20(schema)>)
 
-  - `"fedramp"`
+<details>
 
-### Body Parameters
+<summary>
 
-- `rules: optional array of object { allowed, id, exposeHeaders, maxAgeSeconds }`
+CustomDeleteResponse object {domain }
 
-  - `allowed: object { methods, origins, headers }`
+</summary>
 
-    Object specifying allowed origins, methods and headers for this CORS rule.
+domain: string
 
-    - `methods: array of "GET" or "PUT" or "POST" or 2 more`
+Name of the removed custom domain.
 
-      Specifies the value for the Access-Control-Allow-Methods header R2 sets when requesting objects in a bucket from a browser.
+<a href="#">Link to this property</a>
 
-      - `"GET"`
+</details>
 
-      - `"PUT"`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_delete_response%20%3E%20(schema)>)
 
-      - `"POST"`
+#### BucketsDomainsManaged
 
-      - `"DELETE"`
+##### [Get r2.dev Domain of Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/managed/methods/list)
 
-      - `"HEAD"`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/managed
 
-    - `origins: array of string`
+##### [Update r2.dev Domain of Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/managed/methods/update)
 
-      Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser.
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/managed
 
-    - `headers: optional array of string`
+##### ModelsExpand Collapse
 
-      Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders.
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Identifier for this rule.
+ManagedListResponse object {bucketId, domain, enabled }
 
-  - `exposeHeaders: optional array of string`
+</summary>
 
-    Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here.
+bucketId: string
 
-  - `maxAgeSeconds: optional number`
+Bucket ID.
 
-    Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified.
+maxLength32
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+domain: string
 
-  - `code: number`
+Domain name of the bucket’s r2.dev domain.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+enabled: boolean
 
-  - `source: optional object { pointer }`
+Whether this bucket is publicly accessible at the r2.dev domain.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+</details>
 
-- `result: unknown`
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(model)%20managed_list_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+ManagedUpdateResponse object {bucketId, domain, enabled }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/cors \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+bucketId: string
 
-#### Response
+Bucket ID.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
+maxLength32
 
-## Delete Bucket CORS Policy
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/cors`
+domain: string
 
-Delete the CORS policy for a bucket.
+Domain name of the bucket’s r2.dev domain.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+enabled: boolean
 
-  Account ID.
+Whether this bucket is publicly accessible at the r2.dev domain.
 
-- `bucket_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the bucket.
+</details>
 
-### Header Parameters
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(model)%20managed_update_response%20%3E%20(schema)>)
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+#### BucketsEvent Notifications
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+##### [List Event Notification Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications/methods/list)
 
-  - `"default"`
+GET/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration
 
-  - `"eu"`
+##### [Get Event Notification Rule](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications/methods/get)
 
-  - `"fedramp"`
+GET/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration/queues/{queue\_id}
 
-### Returns
+##### [Create Event Notification Rule](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications/methods/update)
 
-- `errors: array of ResponseInfo`
+PUT/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration/queues/{queue\_id}
 
-  - `code: number`
+##### [Delete Event Notification Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration/queues/{queue\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of string`
+EventNotificationListResponse object {bucketName, queues }
 
-- `result: unknown`
+</summary>
 
-- `success: true`
+bucketName: optional string
 
-  Whether the API call was successful.
+Name of the bucket.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/cors \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+queues: optional array of object {queueId, queueName, rules }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
+List of queues associated with the bucket.
 
-## Domain Types
+</summary>
 
-### CORS Get Response
+queueId: optional string
 
-- `CORSGetResponse object { rules }`
+Queue ID.
 
-  - `rules: optional array of object { allowed, id, exposeHeaders, maxAgeSeconds }`
+<a href="#">Link to this property</a>
 
-    - `allowed: object { methods, origins, headers }`
+queueName: optional string
 
-      Object specifying allowed origins, methods and headers for this CORS rule.
+Name of the queue.
 
-      - `methods: array of "GET" or "PUT" or "POST" or 2 more`
+<a href="#">Link to this property</a>
 
-        Specifies the value for the Access-Control-Allow-Methods header R2 sets when requesting objects in a bucket from a browser.
+<details>
 
-        - `"GET"`
+<summary>
 
-        - `"PUT"`
+rules: optional array of object {actions, createdAt, description, 3 more }
 
-        - `"POST"`
+</summary>
 
-        - `"DELETE"`
+<details>
 
-        - `"HEAD"`
+<summary>
 
-      - `origins: array of string`
+actions: array of "PutObject"or "CopyObject"or "DeleteObject"or 2 more
 
-        Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser.
+Array of R2 object actions that will trigger notifications.
 
-      - `headers: optional array of string`
+</summary>
 
-        Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders.
+One of the following:
 
-    - `id: optional string`
+"PutObject"
 
-      Identifier for this rule.
+<a href="#">Link to this property</a>
 
-    - `exposeHeaders: optional array of string`
+"CopyObject"
 
-      Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here.
+<a href="#">Link to this property</a>
 
-    - `maxAgeSeconds: optional number`
+"DeleteObject"
 
-      Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified.
+<a href="#">Link to this property</a>
 
-### CORS Update Response
+"CompleteMultipartUpload"
 
-- `CORSUpdateResponse = unknown`
+<a href="#">Link to this property</a>
 
-### CORS Delete Response
+"LifecycleDeletion"
 
-- `CORSDeleteResponse = unknown`
+<a href="#">Link to this property</a>
 
-# Domains
+</details>
 
-# Custom
+<a href="#">Link to this property</a>
 
-## List Custom Domains of Bucket
+createdAt: optional string
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom`
+Timestamp when the rule was created.
 
-Gets a list of all custom domains registered with an existing R2 bucket.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+description: optional string
 
-- `account_id: string`
+A description that can be used to identify the event notification rule after creation.
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+prefix: optional string
 
-  Name of the bucket.
+Notifications will be sent only for objects with this prefix.
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+ruleId: optional string
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+Rule ID.
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"eu"`
+suffix: optional string
 
-  - `"fedramp"`
+Notifications will be sent only for objects with this suffix.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(model)%20event_notification_list_response%20%3E%20(schema)>)
 
-- `messages: array of string`
+<details>
 
-- `result: object { domains }`
+<summary>
 
-  - `domains: array of object { domain, enabled, status, 4 more }`
+EventNotificationGetResponse object {queueId, queueName, rules }
 
-    - `domain: string`
+</summary>
 
-      Domain name of the custom domain to be added.
+queueId: optional string
 
-    - `enabled: boolean`
+Queue ID.
 
-      Whether this bucket is publicly accessible at the specified custom domain.
+<a href="#">Link to this property</a>
 
-    - `status: object { ownership, ssl }`
+queueName: optional string
 
-      - `ownership: "pending" or "active" or "deactivated" or 3 more`
+Name of the queue.
 
-        Ownership status of the domain.
+<a href="#">Link to this property</a>
 
-        - `"pending"`
+<details>
 
-        - `"active"`
+<summary>
 
-        - `"deactivated"`
+rules: optional array of object {actions, createdAt, description, 3 more }
 
-        - `"blocked"`
+</summary>
 
-        - `"error"`
+<details>
 
-        - `"unknown"`
+<summary>
 
-      - `ssl: "initializing" or "pending" or "active" or 3 more`
+actions: array of "PutObject"or "CopyObject"or "DeleteObject"or 2 more
 
-        SSL certificate status.
+Array of R2 object actions that will trigger notifications.
 
-        - `"initializing"`
+</summary>
 
-        - `"pending"`
+One of the following:
 
-        - `"active"`
+"PutObject"
 
-        - `"deactivated"`
+<a href="#">Link to this property</a>
 
-        - `"error"`
+"CopyObject"
 
-        - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `ciphers: optional array of string`
+"DeleteObject"
 
-      An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+<a href="#">Link to this property</a>
 
-    - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+"CompleteMultipartUpload"
 
-      Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+<a href="#">Link to this property</a>
 
-      - `"1.0"`
+"LifecycleDeletion"
 
-      - `"1.1"`
+<a href="#">Link to this property</a>
 
-      - `"1.2"`
+</details>
 
-      - `"1.3"`
+<a href="#">Link to this property</a>
 
-    - `zoneId: optional string`
+createdAt: optional string
 
-      Zone ID of the custom domain resides in.
+Timestamp when the rule was created.
 
-    - `zoneName: optional string`
+<a href="#">Link to this property</a>
 
-      Zone that the custom domain resides in.
+description: optional string
 
-- `success: true`
+A description that can be used to identify the event notification rule after creation.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+prefix: optional string
 
-### Example
+Notifications will be sent only for objects with this prefix.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+ruleId: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domains": [
-      {
-        "domain": "prefix.example-domain.one.com",
-        "enabled": false,
-        "status": {
-          "ownership": "deactivated",
-          "ssl": "pending"
-        },
-        "ciphers": [
-          "string"
-        ],
-        "minTLS": "1.0",
-        "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd",
-        "zoneName": "example-domain.one.com"
-      },
-      {
-        "domain": "prefix.example-domain.two.com",
-        "enabled": true,
-        "status": {
-          "ownership": "active",
-          "ssl": "active"
-        },
-        "ciphers": [
-          "string"
-        ],
-        "minTLS": "1.0",
-        "zoneId": "d9d28585d5f8f5b0f857b055bf574f19",
-        "zoneName": "zoneName"
-      }
-    ]
-  },
-  "success": true
-}
-```
+Rule ID.
 
-## Get Custom Domain Settings
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}`
+suffix: optional string
 
-Get the configuration for a custom domain on an existing R2 bucket.
+Notifications will be sent only for objects with this suffix.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+</details>
 
-  Name of the bucket.
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(model)%20event_notification_get_response%20%3E%20(schema)>)
 
-- `domain: string`
+EventNotificationUpdateResponse = unknown
 
-  Name of the custom domain.
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(model)%20event_notification_update_response%20%3E%20(schema)>)
 
-### Header Parameters
+EventNotificationDeleteResponse = unknown
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(model)%20event_notification_delete_response%20%3E%20(schema)>)
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+#### BucketsLocks
 
-  - `"default"`
+##### [Get Bucket Lock Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/locks/methods/get)
 
-  - `"eu"`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/lock
 
-  - `"fedramp"`
+##### [Put Bucket Lock Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/locks/methods/update)
 
-### Returns
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/lock
 
-- `errors: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+LockGetResponse object {rules }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of string`
+<summary>
 
-- `result: object { domain, enabled, status, 4 more }`
+rules: optional array of object {id, condition, enabled, prefix }
 
-  - `domain: string`
+</summary>
 
-    Domain name of the custom domain to be added.
+id: string
 
-  - `enabled: boolean`
+Unique identifier for this rule.
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+<a href="#">Link to this property</a>
 
-  - `status: object { ownership, ssl }`
+<details>
 
-    - `ownership: "pending" or "active" or "deactivated" or 3 more`
+<summary>
 
-      Ownership status of the domain.
+condition: object {maxAgeSeconds, type } or object {date, type } or object {type }
 
-      - `"pending"`
+Condition to apply a lock rule to an object for how long in seconds.
 
-      - `"active"`
+</summary>
 
-      - `"deactivated"`
+One of the following:
 
-      - `"blocked"`
+<details>
 
-      - `"error"`
+<summary>
 
-      - `"unknown"`
+R2LockRuleAgeCondition object {maxAgeSeconds, type }
 
-    - `ssl: "initializing" or "pending" or "active" or 3 more`
+Condition to apply a lock rule to an object for how long in seconds.
 
-      SSL certificate status.
+</summary>
 
-      - `"initializing"`
+maxAgeSeconds: number
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"active"`
+type: "Age"
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+</details>
 
-      - `"unknown"`
+<a href="#">Link to this property</a>
 
-  - `ciphers: optional array of string`
+<details>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+<summary>
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+R2LockRuleDateCondition object {date, type }
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+Condition to apply a lock rule to an object until a specific date.
 
-    - `"1.0"`
+</summary>
 
-    - `"1.1"`
+date: string
 
-    - `"1.2"`
+formatdate-time
 
-    - `"1.3"`
+<a href="#">Link to this property</a>
 
-  - `zoneId: optional string`
+type: "Date"
 
-    Zone ID of the custom domain resides in.
+<a href="#">Link to this property</a>
 
-  - `zoneName: optional string`
+</details>
 
-    Zone that the custom domain resides in.
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+R2LockRuleIndefiniteCondition object {type }
 
-### Example
+Condition to apply a lock rule indefinitely.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom/$DOMAIN \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+type: "Indefinite"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domain": "prefix.example-domain.one.com",
-    "enabled": false,
-    "status": {
-      "ownership": "deactivated",
-      "ssl": "pending"
-    },
-    "ciphers": [
-      "string"
-    ],
-    "minTLS": "1.0",
-    "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd",
-    "zoneName": "example-domain.one.com"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Attach Custom Domain To Bucket
+</details>
 
-**post** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom`
+<a href="#">Link to this property</a>
 
-Register a new custom domain for an existing R2 bucket.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+enabled: boolean
 
-  Account ID.
+Whether or not this rule is in effect.
 
-- `bucket_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the bucket.
+prefix: optional string
 
-### Header Parameters
+Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+</details>
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"eu"`
+</details>
 
-  - `"fedramp"`
+[Link to this property](#)%20r2.buckets.locks%20%3E%20(model)%20lock_get_response%20%3E%20(schema)>)
 
-### Body Parameters
+LockUpdateResponse = unknown
 
-- `domain: string`
+[Link to this property](#)%20r2.buckets.locks%20%3E%20(model)%20lock_update_response%20%3E%20(schema)>)
 
-  Name of the custom domain to be added.
+#### BucketsMetrics
 
-- `enabled: boolean`
+##### [Get Account-Level Metrics](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/metrics/methods/list)
 
-  Whether to enable public bucket access at the custom domain. If undefined, the domain will be enabled.
+GET/accounts/{account\_id}/r2/metrics
 
-- `zoneId: string`
+##### ModelsExpand Collapse
 
-  Zone ID of the custom domain.
+<details>
 
-- `ciphers: optional array of string`
+<summary>
 
-  An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+MetricListResponse object {infrequentAccess, standard }
 
-- `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+Metrics based on the class they belong to.
 
-  Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+</summary>
 
-  - `"1.0"`
+<details>
 
-  - `"1.1"`
+<summary>
 
-  - `"1.2"`
+infrequentAccess: optional object {published, uploaded }
 
-  - `"1.3"`
+Metrics based on what state they are in(uploaded or published).
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+published: optional object {metadataSize, objects, payloadSize }
 
-  - `documentation_url: optional string`
+Metrics on number of objects/amount of storage used.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+metadataSize: optional number
 
-- `messages: array of string`
+Amount of.
 
-- `result: object { domain, enabled, zoneId, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+objects: optional number
 
-    Domain name of the affected custom domain.
+Number of objects stored.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+payloadSize: optional number
 
-  - `zoneId: string`
+Amount of storage used by object data.
 
-    Zone ID of the custom domain.
+<a href="#">Link to this property</a>
 
-  - `ciphers: optional array of string`
+</details>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+<a href="#">Link to this property</a>
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+<details>
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+<summary>
 
-    - `"1.0"`
+uploaded: optional object {metadataSize, objects, payloadSize }
 
-    - `"1.1"`
+Metrics on number of objects/amount of storage used.
 
-    - `"1.2"`
+</summary>
 
-    - `"1.3"`
+metadataSize: optional number
 
-- `success: true`
+Amount of.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+objects: optional number
 
-### Example
+Number of objects stored.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "domain": "prefix.example-domain.com",
-          "enabled": true,
-          "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+payloadSize: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domain": "example-domain.com",
-    "enabled": true,
-    "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd",
-    "ciphers": [
-      "string"
-    ],
-    "minTLS": "1.0"
-  },
-  "success": true
-}
-```
+Amount of storage used by object data.
 
-## Configure Custom Domain Settings
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}`
+</details>
 
-Edit the configuration for a custom domain on an existing R2 bucket.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+<details>
 
-- `bucket_name: string`
+<summary>
 
-  Name of the bucket.
+standard: optional object {published, uploaded }
 
-- `domain: string`
+Metrics based on what state they are in(uploaded or published).
 
-  Name of the custom domain.
+</summary>
 
-### Header Parameters
+<details>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<summary>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+published: optional object {metadataSize, objects, payloadSize }
 
-  - `"default"`
+Metrics on number of objects/amount of storage used.
 
-  - `"eu"`
+</summary>
 
-  - `"fedramp"`
+metadataSize: optional number
 
-### Body Parameters
+Amount of.
 
-- `ciphers: optional array of string`
+<a href="#">Link to this property</a>
 
-  An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+objects: optional number
 
-- `enabled: optional boolean`
+Number of objects stored.
 
-  Whether to enable public bucket access at the specified custom domain.
+<a href="#">Link to this property</a>
 
-- `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+payloadSize: optional number
 
-  Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to previous value.
+Amount of storage used by object data.
 
-  - `"1.0"`
+<a href="#">Link to this property</a>
 
-  - `"1.1"`
+</details>
 
-  - `"1.2"`
+<a href="#">Link to this property</a>
 
-  - `"1.3"`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+uploaded: optional object {metadataSize, objects, payloadSize }
 
-  - `code: number`
+Metrics on number of objects/amount of storage used.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+metadataSize: optional number
 
-  - `source: optional object { pointer }`
+Amount of.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+objects: optional number
 
-- `result: object { domain, ciphers, enabled, minTLS }`
+Number of objects stored.
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-    Domain name of the affected custom domain.
+payloadSize: optional number
 
-  - `ciphers: optional array of string`
+Amount of storage used by object data.
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+</details>
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+<a href="#">Link to this property</a>
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+</details>
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+<a href="#">Link to this property</a>
 
-    - `"1.0"`
+</details>
 
-    - `"1.1"`
+[Link to this property](#)%20r2.buckets.metrics%20%3E%20(model)%20metric_list_response%20%3E%20(schema)>)
 
-    - `"1.2"`
+#### BucketsSippy
 
-    - `"1.3"`
+##### [Get Sippy Configuration](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/sippy/methods/get)
 
-- `success: true`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/sippy
 
-  Whether the API call was successful.
+##### [Enable Sippy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/sippy/methods/update)
 
-  - `true`
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/sippy
 
-### Example
+##### [Disable Sippy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/sippy/methods/delete)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom/$DOMAIN \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/sippy
 
-#### Response
+##### ModelsExpand Collapse
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domain": "example-domain.com",
-    "ciphers": [
-      "string"
-    ],
-    "enabled": true,
-    "minTLS": "1.0"
-  },
-  "success": true
-}
-```
+Provider = "r2"
 
-## Remove Custom Domain From Bucket
+[Link to this property](#)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)>)
 
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}`
+<details>
 
-Remove custom domain registration from an existing R2 bucket.
+<summary>
 
-### Path Parameters
+Sippy object {destination, enabled, source }
 
-- `account_id: string`
+</summary>
 
-  Account ID.
+<details>
 
-- `bucket_name: string`
+<summary>
 
-  Name of the bucket.
+destination: optional object {accessKeyId, account, bucket, provider }
 
-- `domain: string`
+Details about the configured destination bucket.
 
-  Name of the custom domain.
+</summary>
 
-### Header Parameters
+accessKeyId: optional string
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+ID of the Cloudflare API token used when writing objects to this bucket.
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<a href="#">Link to this property</a>
 
-  - `"default"`
+account: optional string
 
-  - `"eu"`
+<a href="#">Link to this property</a>
 
-  - `"fedramp"`
+bucket: optional string
 
-### Returns
+Name of the bucket on the provider.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+provider: optional <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)">Provider</a>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+enabled: optional boolean
 
-- `messages: array of string`
+State of Sippy for this bucket.
 
-- `result: object { domain }`
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+<details>
 
-    Name of the removed custom domain.
+<summary>
 
-- `success: true`
+source: optional object {bucket, bucketUrl, container, 2 more }
 
-  Whether the API call was successful.
+Details about the configured source bucket.
 
-  - `true`
+</summary>
 
-### Example
+bucket: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom/$DOMAIN \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Name of the bucket on the provider (AWS, GCS only).
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domain": "example-domain/custom-domain.com"
-  },
-  "success": true
-}
-```
+bucketUrl: optional string
 
-## Domain Types
+S3-compatible URL (Generic S3-compatible providers only).
 
-### Custom List Response
+<a href="#">Link to this property</a>
 
-- `CustomListResponse object { domains }`
+container: optional string
 
-  - `domains: array of object { domain, enabled, status, 4 more }`
+Name of the Azure Blob Storage container (Azure only).
 
-    - `domain: string`
+<a href="#">Link to this property</a>
 
-      Domain name of the custom domain to be added.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Whether this bucket is publicly accessible at the specified custom domain.
+provider: optional "aws"or "gcs"or "s3"or "azure"
 
-    - `status: object { ownership, ssl }`
+</summary>
 
-      - `ownership: "pending" or "active" or "deactivated" or 3 more`
+One of the following:
 
-        Ownership status of the domain.
+"aws"
 
-        - `"pending"`
+<a href="#">Link to this property</a>
 
-        - `"active"`
+"gcs"
 
-        - `"deactivated"`
+<a href="#">Link to this property</a>
 
-        - `"blocked"`
+"s3"
 
-        - `"error"`
+<a href="#">Link to this property</a>
 
-        - `"unknown"`
+"azure"
 
-      - `ssl: "initializing" or "pending" or "active" or 3 more`
+<a href="#">Link to this property</a>
 
-        SSL certificate status.
+</details>
 
-        - `"initializing"`
+<a href="#">Link to this property</a>
 
-        - `"pending"`
+region: optional string
 
-        - `"active"`
+Region where the bucket resides (AWS only).
 
-        - `"deactivated"`
+<a href="#">Link to this property</a>
 
-        - `"error"`
+</details>
 
-        - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `ciphers: optional array of string`
+</details>
 
-      An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+[Link to this property](#)%20r2.buckets.sippy%20%3E%20(model)%20sippy%20%3E%20(schema)>)
 
-    - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+<details>
 
-      Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+<summary>
 
-      - `"1.0"`
+SippyDeleteResponse object {enabled }
 
-      - `"1.1"`
+</summary>
 
-      - `"1.2"`
+enabled: optional false
 
-      - `"1.3"`
+<a href="#">Link to this property</a>
 
-    - `zoneId: optional string`
+</details>
 
-      Zone ID of the custom domain resides in.
+[Link to this property](#)%20r2.buckets.sippy%20%3E%20(model)%20sippy_delete_response%20%3E%20(schema)>)
 
-    - `zoneName: optional string`
+#### BucketsObjects
 
-      Zone that the custom domain resides in.
+##### [List Objects](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects/methods/list)
 
-### Custom Get Response
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects
 
-- `CustomGetResponse object { domain, enabled, status, 4 more }`
+##### [Get Object](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects/methods/get)
 
-  - `domain: string`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects/{object\_key}
 
-    Domain name of the custom domain to be added.
+##### [Upload Object](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects/methods/upload)
 
-  - `enabled: boolean`
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects/{object\_key}
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+##### [Delete Object](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects/methods/delete)
 
-  - `status: object { ownership, ssl }`
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects/{object\_key}
 
-    - `ownership: "pending" or "active" or "deactivated" or 3 more`
+##### ModelsExpand Collapse
 
-      Ownership status of the domain.
+<details>
 
-      - `"pending"`
+<summary>
 
-      - `"active"`
+ObjectListResponse object {custom\_metadata, etag, http\_metadata, 5 more }
 
-      - `"deactivated"`
+Metadata for an R2 object.
 
-      - `"blocked"`
+</summary>
 
-      - `"error"`
+custom\_metadata: optional map\[string]
 
-      - `"unknown"`
+Custom metadata key-value pairs associated with the object.
 
-    - `ssl: "initializing" or "pending" or "active" or 3 more`
+<a href="#">Link to this property</a>
 
-      SSL certificate status.
+etag: optional string
 
-      - `"initializing"`
+The entity tag for the object. In JSON list/get responses this is the raw hex digest (without surrounding quotes). The HTTP <code>ETag</code> response header on Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes.
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"active"`
+<details>
 
-      - `"deactivated"`
+<summary>
 
-      - `"error"`
+http\_metadata: optional object {cacheControl, cacheExpiry, contentDisposition, 3 more }
 
-      - `"unknown"`
+HTTP metadata associated with an R2 object.
 
-  - `ciphers: optional array of string`
+</summary>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+cacheControl: optional string
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+Specifies caching behavior for the object.
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+<a href="#">Link to this property</a>
 
-    - `"1.0"`
+cacheExpiry: optional string
 
-    - `"1.1"`
+The date and time at which the object’s cache entry expires.
 
-    - `"1.2"`
+formatdate-time
 
-    - `"1.3"`
+<a href="#">Link to this property</a>
 
-  - `zoneId: optional string`
+contentDisposition: optional string
 
-    Zone ID of the custom domain resides in.
+Specifies presentational information for the object.
 
-  - `zoneName: optional string`
+<a href="#">Link to this property</a>
 
-    Zone that the custom domain resides in.
+contentEncoding: optional string
 
-### Custom Create Response
+Specifies the content encoding applied to the object.
 
-- `CustomCreateResponse object { domain, enabled, zoneId, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+contentLanguage: optional string
 
-    Domain name of the affected custom domain.
+The language of the object content.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+contentType: optional string
 
-  - `zoneId: string`
+The MIME type of the object.
 
-    Zone ID of the custom domain.
+<a href="#">Link to this property</a>
 
-  - `ciphers: optional array of string`
+</details>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+<a href="#">Link to this property</a>
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+key: optional string
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+The object key (name).
 
-    - `"1.0"`
+<a href="#">Link to this property</a>
 
-    - `"1.1"`
+last\_modified: optional string
 
-    - `"1.2"`
+The date and time the object was last modified.
 
-    - `"1.3"`
+formatdate-time
 
-### Custom Update Response
+<a href="#">Link to this property</a>
 
-- `CustomUpdateResponse object { domain, ciphers, enabled, minTLS }`
+size: optional number
 
-  - `domain: string`
+The size of the object in bytes.
 
-    Domain name of the affected custom domain.
+<a href="#">Link to this property</a>
 
-  - `ciphers: optional array of string`
+ssec: optional boolean
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+Whether the object is encrypted with a customer-supplied encryption key.
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+<details>
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+<summary>
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+storage\_class: optional "Standard"or "InfrequentAccess"
 
-    - `"1.0"`
+Storage class for newly uploaded objects, unless specified otherwise.
 
-    - `"1.1"`
+</summary>
 
-    - `"1.2"`
+One of the following:
 
-    - `"1.3"`
+"Standard"
 
-### Custom Delete Response
+<a href="#">Link to this property</a>
 
-- `CustomDeleteResponse object { domain }`
+"InfrequentAccess"
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-    Name of the removed custom domain.
+</details>
 
-# Managed
+<a href="#">Link to this property</a>
 
-## Get r2.dev Domain of Bucket
+</details>
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed`
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(model)%20object_list_response%20%3E%20(schema)>)
 
-Gets state of public access over the bucket's R2-managed (r2.dev) domain.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+ObjectUploadResponse object {etag, key, size, 3 more }
 
-  Account ID.
+Result of a successful object upload.
 
-- `bucket_name: string`
+</summary>
 
-  Name of the bucket.
+etag: optional string
 
-### Header Parameters
+The entity tag for the uploaded object.
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+key: optional string
 
-  - `"default"`
+The key (name) of the uploaded object.
 
-  - `"eu"`
+<a href="#">Link to this property</a>
 
-  - `"fedramp"`
+size: optional string
 
-### Returns
+The size of the uploaded object in bytes (as a string).
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+storage\_class: optional "Standard"or "InfrequentAccess"
 
-  - `source: optional object { pointer }`
+Storage class for newly uploaded objects, unless specified otherwise.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of string`
+One of the following:
 
-- `result: object { bucketId, domain, enabled }`
+"Standard"
 
-  - `bucketId: string`
+<a href="#">Link to this property</a>
 
-    Bucket ID.
+"InfrequentAccess"
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-    Domain name of the bucket's r2.dev domain.
+</details>
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether this bucket is publicly accessible at the r2.dev domain.
+uploaded: optional string
 
-- `success: true`
+The date and time the object was uploaded.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+version: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/managed \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The version UUID of the uploaded object.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "bucketId": "0113a9e4549cf9b1ff1bf56e04da0cef",
-    "domain": "pub-0113a9e4549cf9b1ff1bf56e04da0cef.r2.dev",
-    "enabled": true
-  },
-  "success": true
-}
-```
+</details>
 
-## Update r2.dev Domain of Bucket
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(model)%20object_upload_response%20%3E%20(schema)>)
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed`
+<details>
 
-Updates state of public access over the bucket's R2-managed (r2.dev) domain.
+<summary>
 
-### Path Parameters
+ObjectDeleteResponse object {key }
 
-- `account_id: string`
+Result of a successful object deletion.
 
-  Account ID.
+</summary>
 
-- `bucket_name: string`
+key: optional string
 
-  Name of the bucket.
+The key (name) of the deleted object.
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+</details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  Whether to enable public bucket access at the r2.dev domain.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { bucketId, domain, enabled }`
-
-  - `bucketId: string`
-
-    Bucket ID.
-
-  - `domain: string`
-
-    Domain name of the bucket's r2.dev domain.
-
-  - `enabled: boolean`
-
-    Whether this bucket is publicly accessible at the r2.dev domain.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/managed \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "bucketId": "0113a9e4549cf9b1ff1bf56e04da0cef",
-    "domain": "pub-0113a9e4549cf9b1ff1bf56e04da0cef.r2.dev",
-    "enabled": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Managed List Response
-
-- `ManagedListResponse object { bucketId, domain, enabled }`
-
-  - `bucketId: string`
-
-    Bucket ID.
-
-  - `domain: string`
-
-    Domain name of the bucket's r2.dev domain.
-
-  - `enabled: boolean`
-
-    Whether this bucket is publicly accessible at the r2.dev domain.
-
-### Managed Update Response
-
-- `ManagedUpdateResponse object { bucketId, domain, enabled }`
-
-  - `bucketId: string`
-
-    Bucket ID.
-
-  - `domain: string`
-
-    Domain name of the bucket's r2.dev domain.
-
-  - `enabled: boolean`
-
-    Whether this bucket is publicly accessible at the r2.dev domain.
-
-# Event Notifications
-
-## List Event Notification Rules
-
-**get** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration`
-
-List all event notification rules for a bucket.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { bucketName, queues }`
-
-  - `bucketName: optional string`
-
-    Name of the bucket.
-
-  - `queues: optional array of object { queueId, queueName, rules }`
-
-    List of queues associated with the bucket.
-
-    - `queueId: optional string`
-
-      Queue ID.
-
-    - `queueName: optional string`
-
-      Name of the queue.
-
-    - `rules: optional array of object { actions, createdAt, description, 3 more }`
-
-      - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
-
-        Array of R2 object actions that will trigger notifications.
-
-        - `"PutObject"`
-
-        - `"CopyObject"`
-
-        - `"DeleteObject"`
-
-        - `"CompleteMultipartUpload"`
-
-        - `"LifecycleDeletion"`
-
-      - `createdAt: optional string`
-
-        Timestamp when the rule was created.
-
-      - `description: optional string`
-
-        A description that can be used to identify the event notification rule after creation.
-
-      - `prefix: optional string`
-
-        Notifications will be sent only for objects with this prefix.
-
-      - `ruleId: optional string`
-
-        Rule ID.
-
-      - `suffix: optional string`
-
-        Notifications will be sent only for objects with this suffix.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "bucketName": "bucketName",
-    "queues": [
-      {
-        "queueId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
-        "queueName": "first-queue",
-        "rules": [
-          {
-            "actions": [
-              "PutObject",
-              "CopyObject"
-            ],
-            "createdAt": "2024-09-19T21:54:48.405Z",
-            "description": "Notifications from source bucket to queue",
-            "prefix": "img/",
-            "ruleId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
-            "suffix": ".jpeg"
-          }
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Get Event Notification Rule
-
-**get** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}`
-
-Get a single event notification rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-- `queue_id: string`
-
-  Queue ID.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  The bucket jurisdiction.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { queueId, queueName, rules }`
-
-  - `queueId: optional string`
-
-    Queue ID.
-
-  - `queueName: optional string`
-
-    Name of the queue.
-
-  - `rules: optional array of object { actions, createdAt, description, 3 more }`
-
-    - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
-
-      Array of R2 object actions that will trigger notifications.
-
-      - `"PutObject"`
-
-      - `"CopyObject"`
-
-      - `"DeleteObject"`
-
-      - `"CompleteMultipartUpload"`
-
-      - `"LifecycleDeletion"`
-
-    - `createdAt: optional string`
-
-      Timestamp when the rule was created.
-
-    - `description: optional string`
-
-      A description that can be used to identify the event notification rule after creation.
-
-    - `prefix: optional string`
-
-      Notifications will be sent only for objects with this prefix.
-
-    - `ruleId: optional string`
-
-      Rule ID.
-
-    - `suffix: optional string`
-
-      Notifications will be sent only for objects with this suffix.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration/queues/$QUEUE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "queueId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
-    "queueName": "first-queue",
-    "rules": [
-      {
-        "actions": [
-          "PutObject",
-          "CopyObject"
-        ],
-        "createdAt": "2024-09-19T21:54:48.405Z",
-        "description": "Notifications from source bucket to queue",
-        "prefix": "img/",
-        "ruleId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
-        "suffix": ".jpeg"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Create Event Notification Rule
-
-**put** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}`
-
-Create event notification rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-- `queue_id: string`
-
-  Queue ID.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Body Parameters
-
-- `rules: array of object { actions, description, prefix, suffix }`
-
-  Array of rules to drive notifications.
-
-  - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
-
-    Array of R2 object actions that will trigger notifications.
-
-    - `"PutObject"`
-
-    - `"CopyObject"`
-
-    - `"DeleteObject"`
-
-    - `"CompleteMultipartUpload"`
-
-    - `"LifecycleDeletion"`
-
-  - `description: optional string`
-
-    A description that can be used to identify the event notification rule after creation.
-
-  - `prefix: optional string`
-
-    Notifications will be sent only for objects with this prefix.
-
-  - `suffix: optional string`
-
-    Notifications will be sent only for objects with this suffix.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration/queues/$QUEUE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "rules": [
-            {
-              "actions": [
-                "PutObject",
-                "CopyObject"
-              ]
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Delete Event Notification Rules
-
-**delete** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}`
-
-Delete an event notification rule. **If no body is provided, all rules for specified queue will be deleted**.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-- `queue_id: string`
-
-  Queue ID.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration/queues/$QUEUE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Event Notification List Response
-
-- `EventNotificationListResponse object { bucketName, queues }`
-
-  - `bucketName: optional string`
-
-    Name of the bucket.
-
-  - `queues: optional array of object { queueId, queueName, rules }`
-
-    List of queues associated with the bucket.
-
-    - `queueId: optional string`
-
-      Queue ID.
-
-    - `queueName: optional string`
-
-      Name of the queue.
-
-    - `rules: optional array of object { actions, createdAt, description, 3 more }`
-
-      - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
-
-        Array of R2 object actions that will trigger notifications.
-
-        - `"PutObject"`
-
-        - `"CopyObject"`
-
-        - `"DeleteObject"`
-
-        - `"CompleteMultipartUpload"`
-
-        - `"LifecycleDeletion"`
-
-      - `createdAt: optional string`
-
-        Timestamp when the rule was created.
-
-      - `description: optional string`
-
-        A description that can be used to identify the event notification rule after creation.
-
-      - `prefix: optional string`
-
-        Notifications will be sent only for objects with this prefix.
-
-      - `ruleId: optional string`
-
-        Rule ID.
-
-      - `suffix: optional string`
-
-        Notifications will be sent only for objects with this suffix.
-
-### Event Notification Get Response
-
-- `EventNotificationGetResponse object { queueId, queueName, rules }`
-
-  - `queueId: optional string`
-
-    Queue ID.
-
-  - `queueName: optional string`
-
-    Name of the queue.
-
-  - `rules: optional array of object { actions, createdAt, description, 3 more }`
-
-    - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
-
-      Array of R2 object actions that will trigger notifications.
-
-      - `"PutObject"`
-
-      - `"CopyObject"`
-
-      - `"DeleteObject"`
-
-      - `"CompleteMultipartUpload"`
-
-      - `"LifecycleDeletion"`
-
-    - `createdAt: optional string`
-
-      Timestamp when the rule was created.
-
-    - `description: optional string`
-
-      A description that can be used to identify the event notification rule after creation.
-
-    - `prefix: optional string`
-
-      Notifications will be sent only for objects with this prefix.
-
-    - `ruleId: optional string`
-
-      Rule ID.
-
-    - `suffix: optional string`
-
-      Notifications will be sent only for objects with this suffix.
-
-### Event Notification Update Response
-
-- `EventNotificationUpdateResponse = unknown`
-
-### Event Notification Delete Response
-
-- `EventNotificationDeleteResponse = unknown`
-
-# Locks
-
-## Get Bucket Lock Rules
-
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/lock`
-
-Get lock rules for a bucket.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { rules }`
-
-  - `rules: optional array of object { id, condition, enabled, prefix }`
-
-    - `id: string`
-
-      Unique identifier for this rule.
-
-    - `condition: object { maxAgeSeconds, type }  or object { date, type }  or object { type }`
-
-      Condition to apply a lock rule to an object for how long in seconds.
-
-      - `R2LockRuleAgeCondition object { maxAgeSeconds, type }`
-
-        Condition to apply a lock rule to an object for how long in seconds.
-
-        - `maxAgeSeconds: number`
-
-        - `type: "Age"`
-
-          - `"Age"`
-
-      - `R2LockRuleDateCondition object { date, type }`
-
-        Condition to apply a lock rule to an object until a specific date.
-
-        - `date: string`
-
-        - `type: "Date"`
-
-          - `"Date"`
-
-      - `R2LockRuleIndefiniteCondition object { type }`
-
-        Condition to apply a lock rule indefinitely.
-
-        - `type: "Indefinite"`
-
-          - `"Indefinite"`
-
-    - `enabled: boolean`
-
-      Whether or not this rule is in effect.
-
-    - `prefix: optional string`
-
-      Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/lock \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "rules": [
-      {
-        "id": "Lock all objects for 24 hours",
-        "condition": {
-          "maxAgeSeconds": 100,
-          "type": "Age"
-        },
-        "enabled": true,
-        "prefix": "prefix"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Put Bucket Lock Rules
-
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/lock`
-
-Set lock rules for a bucket.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Body Parameters
-
-- `rules: optional array of object { id, condition, enabled, prefix }`
-
-  - `id: string`
-
-    Unique identifier for this rule.
-
-  - `condition: object { maxAgeSeconds, type }  or object { date, type }  or object { type }`
-
-    Condition to apply a lock rule to an object for how long in seconds.
-
-    - `R2LockRuleAgeCondition object { maxAgeSeconds, type }`
-
-      Condition to apply a lock rule to an object for how long in seconds.
-
-      - `maxAgeSeconds: number`
-
-      - `type: "Age"`
-
-        - `"Age"`
-
-    - `R2LockRuleDateCondition object { date, type }`
-
-      Condition to apply a lock rule to an object until a specific date.
-
-      - `date: string`
-
-      - `type: "Date"`
-
-        - `"Date"`
-
-    - `R2LockRuleIndefiniteCondition object { type }`
-
-      Condition to apply a lock rule indefinitely.
-
-      - `type: "Indefinite"`
-
-        - `"Indefinite"`
-
-  - `enabled: boolean`
-
-    Whether or not this rule is in effect.
-
-  - `prefix: optional string`
-
-    Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/lock \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Lock Get Response
-
-- `LockGetResponse object { rules }`
-
-  - `rules: optional array of object { id, condition, enabled, prefix }`
-
-    - `id: string`
-
-      Unique identifier for this rule.
-
-    - `condition: object { maxAgeSeconds, type }  or object { date, type }  or object { type }`
-
-      Condition to apply a lock rule to an object for how long in seconds.
-
-      - `R2LockRuleAgeCondition object { maxAgeSeconds, type }`
-
-        Condition to apply a lock rule to an object for how long in seconds.
-
-        - `maxAgeSeconds: number`
-
-        - `type: "Age"`
-
-          - `"Age"`
-
-      - `R2LockRuleDateCondition object { date, type }`
-
-        Condition to apply a lock rule to an object until a specific date.
-
-        - `date: string`
-
-        - `type: "Date"`
-
-          - `"Date"`
-
-      - `R2LockRuleIndefiniteCondition object { type }`
-
-        Condition to apply a lock rule indefinitely.
-
-        - `type: "Indefinite"`
-
-          - `"Indefinite"`
-
-    - `enabled: boolean`
-
-      Whether or not this rule is in effect.
-
-    - `prefix: optional string`
-
-      Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
-
-### Lock Update Response
-
-- `LockUpdateResponse = unknown`
-
-# Metrics
-
-## Get Account-Level Metrics
-
-**get** `/accounts/{account_id}/r2/metrics`
-
-Get Storage/Object Count Metrics across all buckets in your account. Note that Account-Level Metrics may not immediately reflect the latest data.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { infrequentAccess, standard }`
-
-  Metrics based on the class they belong to.
-
-  - `infrequentAccess: optional object { published, uploaded }`
-
-    Metrics based on what state they are in(uploaded or published).
-
-    - `published: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-    - `uploaded: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-  - `standard: optional object { published, uploaded }`
-
-    Metrics based on what state they are in(uploaded or published).
-
-    - `published: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-    - `uploaded: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/metrics \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "infrequentAccess": {
-      "published": {
-        "metadataSize": 0,
-        "objects": 0,
-        "payloadSize": 0
-      },
-      "uploaded": {
-        "metadataSize": 0,
-        "objects": 0,
-        "payloadSize": 0
-      }
-    },
-    "standard": {
-      "published": {
-        "metadataSize": 0,
-        "objects": 0,
-        "payloadSize": 0
-      },
-      "uploaded": {
-        "metadataSize": 0,
-        "objects": 0,
-        "payloadSize": 0
-      }
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Metric List Response
-
-- `MetricListResponse object { infrequentAccess, standard }`
-
-  Metrics based on the class they belong to.
-
-  - `infrequentAccess: optional object { published, uploaded }`
-
-    Metrics based on what state they are in(uploaded or published).
-
-    - `published: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-    - `uploaded: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-  - `standard: optional object { published, uploaded }`
-
-    Metrics based on what state they are in(uploaded or published).
-
-    - `published: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-    - `uploaded: optional object { metadataSize, objects, payloadSize }`
-
-      Metrics on number of objects/amount of storage used.
-
-      - `metadataSize: optional number`
-
-        Amount of.
-
-      - `objects: optional number`
-
-        Number of objects stored.
-
-      - `payloadSize: optional number`
-
-        Amount of storage used by object data.
-
-# Sippy
-
-## Get Sippy Configuration
-
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/sippy`
-
-Gets configuration for Sippy for an existing R2 bucket.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: Sippy`
-
-  - `destination: optional object { accessKeyId, account, bucket, provider }`
-
-    Details about the configured destination bucket.
-
-    - `accessKeyId: optional string`
-
-      ID of the Cloudflare API token used when writing objects to this
-      bucket.
-
-    - `account: optional string`
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider.
-
-    - `provider: optional Provider`
-
-      - `"r2"`
-
-  - `enabled: optional boolean`
-
-    State of Sippy for this bucket.
-
-  - `source: optional object { bucket, bucketUrl, provider, region }`
-
-    Details about the configured source bucket.
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider (AWS, GCS only).
-
-    - `bucketUrl: optional string`
-
-      S3-compatible URL (Generic S3-compatible providers only).
-
-    - `provider: optional "aws" or "gcs" or "s3"`
-
-      - `"aws"`
-
-      - `"gcs"`
-
-      - `"s3"`
-
-    - `region: optional string`
-
-      Region where the bucket resides (AWS only).
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/sippy \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "destination": {
-      "accessKeyId": "accessKeyId",
-      "account": "account",
-      "bucket": "bucket",
-      "provider": "r2"
-    },
-    "enabled": true,
-    "source": {
-      "bucket": "bucket",
-      "bucketUrl": "bucketUrl",
-      "provider": "aws",
-      "region": "region"
-    }
-  },
-  "success": true
-}
-```
-
-## Enable Sippy
-
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/sippy`
-
-Sets configuration for Sippy for an existing R2 bucket.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Body Parameters
-
-- `body: object { destination, source }  or object { destination, source }  or object { destination, source }`
-
-  - `R2EnableSippyAws object { destination, source }`
-
-    - `destination: optional object { accessKeyId, provider, secretAccessKey }`
-
-      R2 bucket to copy objects to.
-
-      - `accessKeyId: optional string`
-
-        ID of a Cloudflare API token.
-        This is the value labelled "Access Key ID" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-      - `provider: optional Provider`
-
-        - `"r2"`
-
-      - `secretAccessKey: optional string`
-
-        Value of a Cloudflare API token.
-        This is the value labelled "Secret Access Key" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-    - `source: optional object { accessKeyId, bucket, provider, 2 more }`
-
-      AWS S3 bucket to copy objects from.
-
-      - `accessKeyId: optional string`
-
-        Access Key ID of an IAM credential (ideally scoped to a single S3 bucket).
-
-      - `bucket: optional string`
-
-        Name of the AWS S3 bucket.
-
-      - `provider: optional "aws"`
-
-        - `"aws"`
-
-      - `region: optional string`
-
-        Name of the AWS availability zone.
-
-      - `secretAccessKey: optional string`
-
-        Secret Access Key of an IAM credential (ideally scoped to a single S3 bucket).
-
-  - `R2EnableSippyGcs object { destination, source }`
-
-    - `destination: optional object { accessKeyId, provider, secretAccessKey }`
-
-      R2 bucket to copy objects to.
-
-      - `accessKeyId: optional string`
-
-        ID of a Cloudflare API token.
-        This is the value labelled "Access Key ID" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-      - `provider: optional Provider`
-
-      - `secretAccessKey: optional string`
-
-        Value of a Cloudflare API token.
-        This is the value labelled "Secret Access Key" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-    - `source: optional object { bucket, clientEmail, privateKey, provider }`
-
-      GCS bucket to copy objects from.
-
-      - `bucket: optional string`
-
-        Name of the GCS bucket.
-
-      - `clientEmail: optional string`
-
-        Client email of an IAM credential (ideally scoped to a single GCS bucket).
-
-      - `privateKey: optional string`
-
-        Private Key of an IAM credential (ideally scoped to a single GCS bucket).
-
-      - `provider: optional "gcs"`
-
-        - `"gcs"`
-
-  - `R2EnableSippyS3 object { destination, source }`
-
-    - `destination: optional object { accessKeyId, provider, secretAccessKey }`
-
-      R2 bucket to copy objects to.
-
-      - `accessKeyId: optional string`
-
-        ID of a Cloudflare API token.
-        This is the value labelled "Access Key ID" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-      - `provider: optional Provider`
-
-      - `secretAccessKey: optional string`
-
-        Value of a Cloudflare API token.
-        This is the value labelled "Secret Access Key" when creating an API.
-        token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).
-
-        Sippy will use this token when writing objects to R2, so it is
-        best to scope this token to the bucket you're enabling Sippy for.
-
-    - `source: optional object { accessKeyId, bucketUrl, provider, secretAccessKey }`
-
-      General S3-compatible provider to copy objects from.
-
-      - `accessKeyId: optional string`
-
-        Access Key ID of an IAM credential (ideally scoped to a single S3 bucket).
-
-      - `bucketUrl: optional string`
-
-        URL to the S3-compatible API of the bucket.
-
-      - `provider: optional "s3"`
-
-        - `"s3"`
-
-      - `secretAccessKey: optional string`
-
-        Secret Access Key of an IAM credential (ideally scoped to a single S3 bucket).
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: Sippy`
-
-  - `destination: optional object { accessKeyId, account, bucket, provider }`
-
-    Details about the configured destination bucket.
-
-    - `accessKeyId: optional string`
-
-      ID of the Cloudflare API token used when writing objects to this
-      bucket.
-
-    - `account: optional string`
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider.
-
-    - `provider: optional Provider`
-
-      - `"r2"`
-
-  - `enabled: optional boolean`
-
-    State of Sippy for this bucket.
-
-  - `source: optional object { bucket, bucketUrl, provider, region }`
-
-    Details about the configured source bucket.
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider (AWS, GCS only).
-
-    - `bucketUrl: optional string`
-
-      S3-compatible URL (Generic S3-compatible providers only).
-
-    - `provider: optional "aws" or "gcs" or "s3"`
-
-      - `"aws"`
-
-      - `"gcs"`
-
-      - `"s3"`
-
-    - `region: optional string`
-
-      Region where the bucket resides (AWS only).
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/sippy \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "destination": {
-      "accessKeyId": "accessKeyId",
-      "account": "account",
-      "bucket": "bucket",
-      "provider": "r2"
-    },
-    "enabled": true,
-    "source": {
-      "bucket": "bucket",
-      "bucketUrl": "bucketUrl",
-      "provider": "aws",
-      "region": "region"
-    }
-  },
-  "success": true
-}
-```
-
-## Disable Sippy
-
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/sippy`
-
-Disables Sippy on this bucket.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { enabled }`
-
-  - `enabled: optional false`
-
-    - `false`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/sippy \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "enabled": false
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Provider
-
-- `Provider = "r2"`
-
-  - `"r2"`
-
-### Sippy
-
-- `Sippy object { destination, enabled, source }`
-
-  - `destination: optional object { accessKeyId, account, bucket, provider }`
-
-    Details about the configured destination bucket.
-
-    - `accessKeyId: optional string`
-
-      ID of the Cloudflare API token used when writing objects to this
-      bucket.
-
-    - `account: optional string`
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider.
-
-    - `provider: optional Provider`
-
-      - `"r2"`
-
-  - `enabled: optional boolean`
-
-    State of Sippy for this bucket.
-
-  - `source: optional object { bucket, bucketUrl, provider, region }`
-
-    Details about the configured source bucket.
-
-    - `bucket: optional string`
-
-      Name of the bucket on the provider (AWS, GCS only).
-
-    - `bucketUrl: optional string`
-
-      S3-compatible URL (Generic S3-compatible providers only).
-
-    - `provider: optional "aws" or "gcs" or "s3"`
-
-      - `"aws"`
-
-      - `"gcs"`
-
-      - `"s3"`
-
-    - `region: optional string`
-
-      Region where the bucket resides (AWS only).
-
-### Sippy Delete Response
-
-- `SippyDeleteResponse object { enabled }`
-
-  - `enabled: optional false`
-
-    - `false`
-
-# Objects
-
-## List Objects
-
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects`
-
-Lists objects in an R2 bucket. Returns object metadata including key, size, etag, last modified date, HTTP metadata, and custom metadata.
-
-For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Query Parameters
-
-- `cursor: optional string`
-
-  Pagination cursor received from a previous List Objects call. Used to retrieve the next page of results.
-
-- `delimiter: optional string`
-
-  A single character used to group keys. All keys that contain the delimiter between the prefix and the first occurrence of the delimiter after the prefix are grouped under a single result element.
-
-- `per_page: optional number`
-
-  Maximum number of objects to return per page.
-
-- `prefix: optional string`
-
-  Restricts results to only those objects whose keys begin with the specified prefix.
-
-- `start_after: optional string`
-
-  Returns objects with keys that come after the specified key in lexicographic order.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: array of object { custom_metadata, etag, http_metadata, 5 more }`
-
-  - `custom_metadata: optional map[string]`
-
-    Custom metadata key-value pairs associated with the object.
-
-  - `etag: optional string`
-
-    The entity tag for the object. In JSON list/get responses this is the raw
-    hex digest (without surrounding quotes). The HTTP `ETag` response header on
-    Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes.
-
-  - `http_metadata: optional object { cacheControl, cacheExpiry, contentDisposition, 3 more }`
-
-    HTTP metadata associated with an R2 object.
-
-    - `cacheControl: optional string`
-
-      Specifies caching behavior for the object.
-
-    - `cacheExpiry: optional string`
-
-      The date and time at which the object's cache entry expires.
-
-    - `contentDisposition: optional string`
-
-      Specifies presentational information for the object.
-
-    - `contentEncoding: optional string`
-
-      Specifies the content encoding applied to the object.
-
-    - `contentLanguage: optional string`
-
-      The language of the object content.
-
-    - `contentType: optional string`
-
-      The MIME type of the object.
-
-  - `key: optional string`
-
-    The object key (name).
-
-  - `last_modified: optional string`
-
-    The date and time the object was last modified.
-
-  - `size: optional number`
-
-    The size of the object in bytes.
-
-  - `ssec: optional boolean`
-
-    Whether the object is encrypted with a customer-supplied encryption key.
-
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
-
-    Storage class for newly uploaded objects, unless specified otherwise.
-
-    - `"Standard"`
-
-    - `"InfrequentAccess"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { cursor, delimited, is_truncated, per_page }`
-
-  Pagination information for list objects responses.
-
-  - `cursor: optional string`
-
-    Pagination cursor to use in the next List Objects call to retrieve the next page of results.
-
-  - `delimited: optional array of string`
-
-    Common prefixes found when a delimiter is specified. Each entry represents a group
-    of keys sharing a common prefix up to the delimiter. Equivalent to S3's `CommonPrefixes`
-    in `ListObjectsV2`; the field name differs because of the existing R2 API wire format.
-
-  - `is_truncated: optional boolean`
-
-    Whether the result was truncated. If true, use the cursor to retrieve the next page.
-
-  - `per_page: optional number`
-
-    The maximum number of objects returned per page.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "custom_metadata": {},
-      "etag": "d41d8cd98f00b204e9800998ecf8427e",
-      "http_metadata": {
-        "cacheControl": "max-age=3600",
-        "cacheExpiry": "2024-12-31T23:59:59Z",
-        "contentDisposition": "attachment; filename=\"example.jpg\"",
-        "contentEncoding": "gzip",
-        "contentLanguage": "en-US",
-        "contentType": "image/jpeg"
-      },
-      "key": "path/to/my-object.txt",
-      "last_modified": "2024-01-15T10:30:00Z",
-      "size": 1048576,
-      "ssec": false,
-      "storage_class": "Standard"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "cursor": "eyJrZXkiOiJwYXRoL3RvL215LW9iamVjdC50eHQifQ==",
-    "delimited": [
-      "path/to/",
-      "another/path/"
-    ],
-    "is_truncated": true,
-    "per_page": 20
-  }
-}
-```
-
-## Get Object
-
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_key}`
-
-Retrieves an object from an R2 bucket. Returns the object body along with metadata headers.
-
-For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-- `object_key: string`
-
-  The key (name) of the object to retrieve. May contain slashes for path-like keys.
-  Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded
-  (i.e. `%2F`); other reserved characters should be percent-encoded as usual.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-- `"If-Modified-Since": optional string`
-
-  Returns the object only if it has been modified since the specified time.
-  Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`.
-
-- `"If-None-Match": optional string`
-
-  Returns the object only if its ETag does not match the given value.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects/$OBJECT_KEY \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Upload Object
-
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_key}`
-
-Uploads an object to an R2 bucket. The object body is provided as the request body. Returns metadata about the uploaded object.
-
-The maximum upload size for this endpoint is 300 MB. For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-- `object_key: string`
-
-  The key (name) to assign to the object. May contain slashes for path-like keys.
-  Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded
-  (i.e. `%2F`); other reserved characters should be percent-encoded as usual.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-- `"cf-r2-storage-class": optional "Standard" or "InfrequentAccess"`
-
-  Storage class for newly uploaded objects, unless specified otherwise.
-
-  - `"Standard"`
-
-  - `"InfrequentAccess"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { etag, key, size, 3 more }`
-
-  Result of a successful object upload.
-
-  - `etag: optional string`
-
-    The entity tag for the uploaded object.
-
-  - `key: optional string`
-
-    The key (name) of the uploaded object.
-
-  - `size: optional string`
-
-    The size of the uploaded object in bytes (as a string).
-
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
-
-    Storage class for newly uploaded objects, unless specified otherwise.
-
-    - `"Standard"`
-
-    - `"InfrequentAccess"`
-
-  - `uploaded: optional string`
-
-    The date and time the object was uploaded.
-
-  - `version: optional string`
-
-    The version UUID of the uploaded object.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects/$OBJECT_KEY \
-    -X PUT \
-    -H 'Content-Type: application/octet-stream' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'body=@/path/to/body'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "etag": "d41d8cd98f00b204e9800998ecf8427e",
-    "key": "path/to/my-object.txt",
-    "size": "1048576",
-    "storage_class": "Standard",
-    "uploaded": "2024-01-15T10:30:00Z",
-    "version": "3fd5b4a8-1234-5678-abcd-ef0123456789"
-  },
-  "success": true
-}
-```
-
-## Delete Object
-
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_key}`
-
-Deletes an object from an R2 bucket.
-
-For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-- `object_key: string`
-
-  The key (name) of the object to delete. May contain slashes for path-like keys.
-  Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded
-  (i.e. `%2F`); other reserved characters should be percent-encoded as usual.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { key }`
-
-  Result of a successful object deletion.
-
-  - `key: optional string`
-
-    The key (name) of the deleted object.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects/$OBJECT_KEY \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "key": "path/to/my-object.txt"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Object List Response
-
-- `ObjectListResponse object { custom_metadata, etag, http_metadata, 5 more }`
-
-  Metadata for an R2 object.
-
-  - `custom_metadata: optional map[string]`
-
-    Custom metadata key-value pairs associated with the object.
-
-  - `etag: optional string`
-
-    The entity tag for the object. In JSON list/get responses this is the raw
-    hex digest (without surrounding quotes). The HTTP `ETag` response header on
-    Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes.
-
-  - `http_metadata: optional object { cacheControl, cacheExpiry, contentDisposition, 3 more }`
-
-    HTTP metadata associated with an R2 object.
-
-    - `cacheControl: optional string`
-
-      Specifies caching behavior for the object.
-
-    - `cacheExpiry: optional string`
-
-      The date and time at which the object's cache entry expires.
-
-    - `contentDisposition: optional string`
-
-      Specifies presentational information for the object.
-
-    - `contentEncoding: optional string`
-
-      Specifies the content encoding applied to the object.
-
-    - `contentLanguage: optional string`
-
-      The language of the object content.
-
-    - `contentType: optional string`
-
-      The MIME type of the object.
-
-  - `key: optional string`
-
-    The object key (name).
-
-  - `last_modified: optional string`
-
-    The date and time the object was last modified.
-
-  - `size: optional number`
-
-    The size of the object in bytes.
-
-  - `ssec: optional boolean`
-
-    Whether the object is encrypted with a customer-supplied encryption key.
-
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
-
-    Storage class for newly uploaded objects, unless specified otherwise.
-
-    - `"Standard"`
-
-    - `"InfrequentAccess"`
-
-### Object Upload Response
-
-- `ObjectUploadResponse object { etag, key, size, 3 more }`
-
-  Result of a successful object upload.
-
-  - `etag: optional string`
-
-    The entity tag for the uploaded object.
-
-  - `key: optional string`
-
-    The key (name) of the uploaded object.
-
-  - `size: optional string`
-
-    The size of the uploaded object in bytes (as a string).
-
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
-
-    Storage class for newly uploaded objects, unless specified otherwise.
-
-    - `"Standard"`
-
-    - `"InfrequentAccess"`
-
-  - `uploaded: optional string`
-
-    The date and time the object was uploaded.
-
-  - `version: optional string`
-
-    The version UUID of the uploaded object.
-
-### Object Delete Response
-
-- `ObjectDeleteResponse object { key }`
-
-  Result of a successful object deletion.
-
-  - `key: optional string`
-
-    The key (name) of the deleted object.
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(model)%20object_delete_response%20%3E%20(schema)>)

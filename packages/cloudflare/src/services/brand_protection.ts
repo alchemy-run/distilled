@@ -92,6 +92,7 @@ export interface CreateLogoRequest {
   matchType?: string;
   tag?: string;
   threshold?: number;
+  image?: unknown;
 }
 export const CreateLogoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -99,6 +100,7 @@ export const CreateLogoRequest = /*@__PURE__*/ S.suspend(() =>
     matchType: S.optional(S.String.pipe(T.Query("match_type"))),
     tag: S.optional(S.String.pipe(T.Query())),
     threshold: S.optional(S.Number.pipe(T.Query())),
+    image: S.optional(S.Unknown),
   })
     .pipe(
       T.Http({
@@ -172,7 +174,7 @@ export const CreateQueryResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateV2LogoRequest {
   accountId: string;
-  /** Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. */
+  /** Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,…') or just the base64 string. */
   imageData: string;
   /** Minimum similarity score (0-1) required for visual matches */
   similarityThreshold: number;
@@ -371,6 +373,7 @@ export const DownloadLogoMatchResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DownloadMatchRequest {
   accountId: string;
   id?: string;
+  includeDismissed?: boolean;
   includeDomainId?: boolean;
   limit?: number;
   offset?: number;
@@ -379,6 +382,7 @@ export const DownloadMatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     id: S.optional(S.String.pipe(T.Query())),
+    includeDismissed: S.optional(S.Boolean.pipe(T.Query("include_dismissed"))),
     includeDomainId: S.optional(S.Boolean.pipe(T.Query("include_domain_id"))),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
@@ -486,6 +490,7 @@ export const GetLogoMatchResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetMatchRequest {
   accountId: string;
   id?: string;
+  includeDismissed?: boolean;
   includeDomainId?: boolean;
   limit?: number;
   offset?: number;
@@ -494,6 +499,7 @@ export const GetMatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     id: S.optional(S.String.pipe(T.Query())),
+    includeDismissed: S.optional(S.Boolean.pipe(T.Query("include_dismissed"))),
     includeDomainId: S.optional(S.Boolean.pipe(T.Query("include_domain_id"))),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
@@ -826,11 +832,17 @@ export const GetV2MatchResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetV2QueryRequest {
   accountId: string;
   id?: string;
+  /** Optional page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to preserve the legacy full-list response. */
+  page?: number;
+  /** Optional number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to preserve the legacy full-list response. */
+  perPage?: number;
 }
 export const GetV2QueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     id: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
     .pipe(
       T.Http({
@@ -844,60 +856,136 @@ export const GetV2QueryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetV2QueryRequest",
 }) as any as S.Schema<GetV2QueryRequest>;
 
-export interface V2QueriesGetResponseParametersStringMatchesItem {
+export interface V2QueriesGetResultCase0ItemParametersStringMatchesItem {
   pattern: string;
 }
-export const V2QueriesGetResponseParametersStringMatchesItem =
+export const V2QueriesGetResultCase0ItemParametersStringMatchesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pattern: S.String,
     }),
   ).annotate({
-    identifier: "V2QueriesGetResponseParametersStringMatchesItem",
-  }) as any as S.Schema<V2QueriesGetResponseParametersStringMatchesItem>;
+    identifier: "V2QueriesGetResultCase0ItemParametersStringMatchesItem",
+  }) as any as S.Schema<V2QueriesGetResultCase0ItemParametersStringMatchesItem>;
 
-export type V2QueriesGetResponseParametersStringMatchesList =
-  Array<V2QueriesGetResponseParametersStringMatchesItem>;
-export const V2QueriesGetResponseParametersStringMatchesList =
+export type V2QueriesGetResultCase0ItemParametersStringMatchesList =
+  Array<V2QueriesGetResultCase0ItemParametersStringMatchesItem>;
+export const V2QueriesGetResultCase0ItemParametersStringMatchesList =
   /*@__PURE__*/ S.Array(
-    V2QueriesGetResponseParametersStringMatchesItem,
-  ) as any as S.Schema<V2QueriesGetResponseParametersStringMatchesList>;
+    V2QueriesGetResultCase0ItemParametersStringMatchesItem,
+  ) as any as S.Schema<V2QueriesGetResultCase0ItemParametersStringMatchesList>;
 
-export interface V2QueriesGetResponseParameters {
-  stringMatches: V2QueriesGetResponseParametersStringMatchesList;
+export interface V2QueriesGetResultCase0ItemParameters {
+  stringMatches: V2QueriesGetResultCase0ItemParametersStringMatchesList;
   maxTime?: string | null;
   minTime?: string | null;
 }
-export const V2QueriesGetResponseParameters = /*@__PURE__*/ S.suspend(() =>
+export const V2QueriesGetResultCase0ItemParameters = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      stringMatches:
+        V2QueriesGetResultCase0ItemParametersStringMatchesList.pipe(
+          T.Body("string_matches"),
+        ),
+      maxTime: S.optional(S.NullOr(S.String).pipe(T.Body("max_time"))),
+      minTime: S.optional(S.NullOr(S.String).pipe(T.Body("min_time"))),
+    }),
+).annotate({
+  identifier: "V2QueriesGetResultCase0ItemParameters",
+}) as any as S.Schema<V2QueriesGetResultCase0ItemParameters>;
+
+export interface V2QueriesGetResultCase0Item {
+  created: string;
+  parameters: V2QueriesGetResultCase0ItemParameters;
+  queryId: number;
+  queryTag: string;
+  scan: boolean;
+  updated: string;
+}
+export const V2QueriesGetResultCase0Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stringMatches: V2QueriesGetResponseParametersStringMatchesList.pipe(
+    created: S.String,
+    parameters: V2QueriesGetResultCase0ItemParameters,
+    queryId: S.Number.pipe(T.Body("query_id")),
+    queryTag: S.String.pipe(T.Body("query_tag")),
+    scan: S.Boolean,
+    updated: S.String,
+  }),
+).annotate({
+  identifier: "V2QueriesGetResultCase0Item",
+}) as any as S.Schema<V2QueriesGetResultCase0Item>;
+
+export type V2QueriesGetResultCase0List = Array<V2QueriesGetResultCase0Item>;
+export const V2QueriesGetResultCase0List = /*@__PURE__*/ S.Array(
+  V2QueriesGetResultCase0Item,
+) as any as S.Schema<V2QueriesGetResultCase0List>;
+
+export type V2QueriesGetResultCase1ParametersStringMatchesItem =
+  V2QueriesGetResultCase0ItemParametersStringMatchesItem;
+export const V2QueriesGetResultCase1ParametersStringMatchesItem =
+  V2QueriesGetResultCase0ItemParametersStringMatchesItem;
+
+export type V2QueriesGetResultCase1ParametersStringMatchesList =
+  Array<V2QueriesGetResultCase0ItemParametersStringMatchesItem>;
+export const V2QueriesGetResultCase1ParametersStringMatchesList =
+  /*@__PURE__*/ S.Array(
+    V2QueriesGetResultCase0ItemParametersStringMatchesItem,
+  ) as any as S.Schema<V2QueriesGetResultCase1ParametersStringMatchesList>;
+
+export interface V2QueriesGetResultCase1Parameters {
+  stringMatches: V2QueriesGetResultCase1ParametersStringMatchesList;
+  maxTime?: string | null;
+  minTime?: string | null;
+}
+export const V2QueriesGetResultCase1Parameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    stringMatches: V2QueriesGetResultCase1ParametersStringMatchesList.pipe(
       T.Body("string_matches"),
     ),
     maxTime: S.optional(S.NullOr(S.String).pipe(T.Body("max_time"))),
     minTime: S.optional(S.NullOr(S.String).pipe(T.Body("min_time"))),
   }),
 ).annotate({
-  identifier: "V2QueriesGetResponseParameters",
-}) as any as S.Schema<V2QueriesGetResponseParameters>;
+  identifier: "V2QueriesGetResultCase1Parameters",
+}) as any as S.Schema<V2QueriesGetResultCase1Parameters>;
 
-/** Raw response payload (operation does not use the standard v4 result envelope). */
-export interface GetV2QueryResponse {
+export interface V2QueriesGetResultCase1 {
   created: string;
-  parameters: V2QueriesGetResponseParameters;
+  parameters: V2QueriesGetResultCase1Parameters;
   queryId: number;
   queryTag: string;
   scan: boolean;
   updated: string;
 }
-export const GetV2QueryResponse = /*@__PURE__*/ S.suspend(() =>
+export const V2QueriesGetResultCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created: S.String,
-    parameters: V2QueriesGetResponseParameters,
+    parameters: V2QueriesGetResultCase1Parameters,
     queryId: S.Number.pipe(T.Body("query_id")),
     queryTag: S.String.pipe(T.Body("query_tag")),
     scan: S.Boolean,
     updated: S.String,
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  }),
+).annotate({
+  identifier: "V2QueriesGetResultCase1",
+}) as any as S.Schema<V2QueriesGetResultCase1>;
+
+export type V2QueriesGetResult =
+  | V2QueriesGetResultCase0List
+  | V2QueriesGetResultCase1;
+export const V2QueriesGetResult = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    [],
+    ["created", "parameters", "queryId", "queryTag", "scan", "updated"],
+  ]),
+);
+
+export type GetV2QueryResponse = V2QueriesGetResult;
+export const GetV2QueryResponse = /*@__PURE__*/ S.suspend(() =>
+  V2QueriesGetResult.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
 ).annotate({
   identifier: "GetV2QueryResponse",
 }) as any as S.Schema<GetV2QueryResponse>;

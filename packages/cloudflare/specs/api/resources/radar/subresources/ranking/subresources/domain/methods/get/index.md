@@ -1,103 +1,335 @@
-## Get domain rank details
+---
+title: Get domain rank details
+---
 
-**get** `/radar/ranking/domain/{domain}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Ranking](https://developers.cloudflare.com/api/resources/radar/subresources/ranking)
+
+[Domain](https://developers.cloudflare.com/api/resources/radar/subresources/ranking/subresources/domain)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get domain rank details
+
+GET/radar/ranking/domain/{domain}
 
 Retrieves domain rank details. Cloudflare provides an ordered rank for the top 100 domains, but for the remainder it only provides ranking buckets like top 200 thousand, top one million, etc.. These are available through Radar datasets endpoints.
 
-### Path Parameters
+##### Security
 
-- `domain: string`
+<details>
 
-  Domain name.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `date: optional array of string`
 
-  Filters results by the specified array of dates.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `format: optional "JSON" or "CSV"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Format in which results will be returned.
+</details>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>API Email + API Key</summary>
 
-- `includeTopLocations: optional boolean`
 
-  Includes top locations in the response.
 
-- `limit: optional number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Limits the number of objects returned in the response.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `name: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Array of names used to label the series in the response.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `rankingType: optional "POPULAR" or "TRENDING_RISE" or "TRENDING_STEADY"`
+</details>
 
-  The ranking type.
+##### Accepted Permissions (at least one required)
 
-  - `"POPULAR"`
+`User Details Write``User Details Read`
 
-  - `"TRENDING_RISE"`
+##### P ath ParametersExpand Collapse
 
-  - `"TRENDING_STEADY"`
+domain: string
 
-### Returns
+Domain name.
 
-- `result: object { details_0, meta }`
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20domain%20%3E%20(schema)>)
 
-  - `details_0: object { categories, bucket, rank, top_locations }`
+##### Q uery ParametersExpand Collapse
 
-    - `categories: array of object { id, name, superCategoryId }`
+date: optional array of string
 
-      - `id: number`
+Filters results by the specified array of dates.
 
-      - `name: string`
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20date%20%3E%20(schema)>)
 
-      - `superCategoryId: number`
+<details>
 
-    - `bucket: optional string`
+<summary>
 
-      Only available in POPULAR ranking for the most recent ranking.
+format: optional "JSON"or "CSV"
 
-    - `rank: optional number`
+Format in which results will be returned.
 
-    - `top_locations: optional array of object { locationCode, locationName, rank }`
+</summary>
 
-      - `locationCode: string`
+One of the following:
 
-      - `locationName: string`
+"JSON"
 
-      - `rank: number`
+<a href="#">Link to this property</a>
 
-  - `meta: object { dateRange }`
+"CSV"
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+</details>
 
-        Adjusted end of date range.
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-      - `startTime: string`
+includeTopLocations: optional boolean
 
-        Adjusted start of date range.
+Includes top locations in the response.
 
-- `success: boolean`
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20includeTopLocations%20%3E%20(schema)>)
 
-### Example
+limit: optional number
 
-```http
+Limits the number of objects returned in the response.
+
+exclusiveMinimum
+
+minimum0
+
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+name: optional array of string
+
+Array of names used to label the series in the response.
+
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+rankingType: optional "POPULAR"or "TRENDING\_RISE"or "TRENDING\_STEADY"
+
+The ranking type.
+
+</summary>
+
+One of the following:
+
+"POPULAR"
+
+<a href="#">Link to this property</a>
+
+"TRENDING\_RISE"
+
+<a href="#">Link to this property</a>
+
+"TRENDING\_STEADY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20rankingType%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {details\_0, meta }
+
+</summary>
+
+<details>
+
+<summary>
+
+details\_0: object {categories, bucket, rank, top\_locations }
+
+</summary>
+
+<details>
+
+<summary>
+
+categories: array of object {id, name, superCategoryId }
+
+</summary>
+
+id: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+superCategoryId: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Only available in POPULAR ranking for the most recent ranking.
+
+<a href="#">Link to this property</a>
+
+rank: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+top\_locations: optional array of object {locationCode, locationName, rank }
+
+</summary>
+
+locationCode: string
+
+<a href="#">Link to this property</a>
+
+locationName: string
+
+<a href="#">Link to this property</a>
+
+rank: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: object {dateRange }
+
+</summary>
+
+<details>
+
+<summary>
+
+dateRange: array of object {endTime, startTime }
+
+</summary>
+
+endTime: string
+
+Adjusted end of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+startTime: string
+
+Adjusted start of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get domain rank details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/ranking/domain/$DOMAIN \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "details_0": {
+      "categories": [
+        {
+          "id": 81,
+          "name": "Content Servers",
+          "superCategoryId": 26
+        }
+      ],
+      "bucket": "2000",
+      "rank": 3,
+      "top_locations": [
+        {
+          "locationCode": "US",
+          "locationName": "United States",
+          "rank": 1
+        }
+      ]
+    },
+    "meta": {
+      "dateRange": [
+        {
+          "endTime": "2022-09-17T10:22:57.555Z",
+          "startTime": "2022-09-16T10:22:57.555Z"
+        }
+      ]
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "details_0": {

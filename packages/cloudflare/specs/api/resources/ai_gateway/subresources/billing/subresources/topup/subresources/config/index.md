@@ -1,290 +1,93 @@
+---
+title: Config
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Billing](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing)
+
+[Topup](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Config
 
-## Get auto top-up configuration
+##### [Get auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/get)
 
-**get** `/accounts/{account_id}/ai-gateway/billing/topup/config`
+GET/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-Retrieve the current auto top-up threshold, amount, and any error state.
+##### [Set auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-- `account_id: string`
+##### [Delete auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/delete)
 
-### Returns
+DELETE/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-- `errors: array of object { code, message }`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-- `messages: array of object { code, message }`
+ConfigGetResponse object {amount, threshold, disabledReason, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+amount: number
 
-- `result: object { amount, disabledReason, error, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `amount: number`
+threshold: number
 
-  - `disabledReason: string`
+<a href="#">Link to this property</a>
 
-  - `error: string`
+disabledReason: optional string
 
-  - `lastFailedAt: number`
+<a href="#">Link to this property</a>
 
-  - `threshold: number`
+error: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+lastFailedAt: optional number
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `has_more: boolean`
+</details>
 
-  - `page: number`
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_get_response%20%3E%20(schema)>)
 
-  - `per_page: number`
+<details>
 
-  - `total_count: number`
+<summary>
 
-### Example
+ConfigCreateResponse object {amount, threshold }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+amount: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "amount": 0,
-    "disabledReason": "disabledReason",
-    "error": "error",
-    "lastFailedAt": 0,
-    "threshold": 0
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Set auto top-up configuration
+threshold: number
 
-**post** `/accounts/{account_id}/ai-gateway/billing/topup/config`
+<a href="#">Link to this property</a>
 
-Configure auto top-up with a balance threshold and top-up amount.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_create_response%20%3E%20(schema)>)
 
-- `account_id: string`
+ConfigDeleteResponse = unknown
 
-### Body Parameters
-
-- `amount: number`
-
-  Auto top-up amount in cents (min 1000).
-
-- `threshold: number`
-
-  Balance threshold in cents that triggers auto top-up (min 500).
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: object { amount, threshold }`
-
-  - `amount: number`
-
-  - `threshold: number`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 5000,
-          "threshold": 500
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "amount": 0,
-    "threshold": 0
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Delete auto top-up configuration
-
-**delete** `/accounts/{account_id}/ai-gateway/billing/topup/config`
-
-Remove the auto top-up configuration for the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Domain Types
-
-### Config Get Response
-
-- `ConfigGetResponse object { amount, disabledReason, error, 2 more }`
-
-  - `amount: number`
-
-  - `disabledReason: string`
-
-  - `error: string`
-
-  - `lastFailedAt: number`
-
-  - `threshold: number`
-
-### Config Create Response
-
-- `ConfigCreateResponse object { amount, threshold }`
-
-  - `amount: number`
-
-  - `threshold: number`
-
-### Config Delete Response
-
-- `ConfigDeleteResponse = unknown`
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_delete_response%20%3E%20(schema)>)

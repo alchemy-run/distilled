@@ -1,652 +1,261 @@
+---
+title: Logs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logs
 
-# Access Requests
+#### LogsAccess Requests
 
-## Get Access authentication logs
+##### [Get Access authentication logs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/logs/subresources/access_requests/methods/list)
 
-**get** `/accounts/{account_id}/access/logs/access_requests`
+GET/accounts/{account\_id}/access/logs/access\_requests
 
-Gets a list of Access authentication audit logs for an account.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+AccessRequestListResponse = array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.access.logs.scim%20%3E%20(model)%20access_request%20%3E%20(schema)">AccessRequest</a> { action, allowed, app\_domain, 6 more }
 
-### Query Parameters
+</summary>
 
-- `allowedOp: optional "eq" or "neq"`
+action: optional string
 
-  Operator for the `allowed` filter.
+The event that occurred, such as a login attempt.
 
-  - `"eq"`
+<a href="#">Link to this property</a>
 
-  - `"neq"`
+allowed: optional boolean
 
-- `app_typeOp: optional "eq" or "neq"`
+The result of the authentication event.
 
-  Operator for the `app_type` filter.
+<a href="#">Link to this property</a>
 
-  - `"eq"`
+app\_domain: optional string
 
-  - `"neq"`
+The URL of the Access application.
 
-- `app_uidOp: optional "eq" or "neq"`
+<a href="#">Link to this property</a>
 
-  Operator for the `app_uid` filter.
+app\_uid: optional string
 
-  - `"eq"`
+The unique identifier for the Access application.
 
-  - `"neq"`
+<a href="#">Link to this property</a>
 
-- `country_codeOp: optional "eq" or "neq"`
+connection: optional string
 
-  Operator for the `country_code` filter.
+The IdP used to authenticate.
 
-  - `"eq"`
+<a href="#">Link to this property</a>
 
-  - `"neq"`
+created\_at: optional string
 
-- `direction: optional "desc" or "asc"`
+formatdate-time
 
-  The chronological sorting order for the logs.
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+ip\_address: optional string
 
-  - `"asc"`
+The IP address of the authenticating user.
 
-- `email: optional string`
+<a href="#">Link to this property</a>
 
-  Filter by user email. Match mode is controlled by `emailOp` (preferred) or the legacy `email_exact` flag.
+ray\_id: optional string
 
-  - Default (no `emailOp`, `email_exact=false` or unset): substring match — `email=@example.com` returns all events with that domain.
-  - Exact match: set `emailOp=eq` (preferred) or `email_exact=true` — e.g. `email=user@example.com&email_exact=true` returns only that user.
-  - Explicit substring match: set `emailOp=contains` (without `email_exact=true`). When both are set, `email_exact=true` takes precedence and the match is exact.
-  - Exclusion: set `emailOp=neq`. With `email_exact=true` this is an exact-value exclusion; without it, a fuzzy substring exclusion.
+The unique identifier for the request to Cloudflare.
 
-- `email_exact: optional boolean`
+maxLength16
 
-  When true, `email` is matched exactly instead of substring matching.
+<a href="#">Link to this property</a>
 
-- `emailOp: optional "eq" or "neq" or "contains"`
+user\_email: optional string
 
-  Operator for the `email` filter.
-  `contains` performs a substring (case-sensitive) match. When `email_exact=true`
-  is also set, `email_exact` takes precedence and `contains` is ignored.
+The email address of the authenticating user.
 
-  - `"eq"`
+formatemail
 
-  - `"neq"`
+<a href="#">Link to this property</a>
 
-  - `"contains"`
+</details>
 
-- `fields: optional string`
+[Link to this property](#)%20zero_trust.access.logs.access_requests%20%3E%20(model)%20access_request_list_response%20%3E%20(schema)>)
 
-  Comma-separated list of fields to include in the response.
-  When omitted, all fields are returned.
+#### LogsSCIM
 
-- `idpOp: optional "eq" or "neq"`
+##### ModelsExpand Collapse
 
-  Operator for the `idp` filter.
+<details>
 
-  - `"eq"`
+<summary>
 
-  - `"neq"`
+AccessRequest object {action, allowed, app\_domain, 6 more }
 
-- `limit: optional number`
+</summary>
 
-  The maximum number of log entries to retrieve.
+action: optional string
 
-- `non_identityOp: optional "eq" or "neq"`
+The event that occurred, such as a login attempt.
 
-  Operator for the `non_identity` filter.
+<a href="#">Link to this property</a>
 
-  - `"eq"`
+allowed: optional boolean
 
-  - `"neq"`
+The result of the authentication event.
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Page number of results.
+app\_domain: optional string
 
-- `per_page: optional number`
+The URL of the Access application.
 
-  Number of results per page.
+<a href="#">Link to this property</a>
 
-- `ray_idOp: optional "eq" or "neq"`
+app\_uid: optional string
 
-  Operator for the `ray_id` filter.
+The unique identifier for the Access application.
 
-  - `"eq"`
+<a href="#">Link to this property</a>
 
-  - `"neq"`
+connection: optional string
 
-- `since: optional string`
+The IdP used to authenticate.
 
-  The earliest event timestamp to query.
+<a href="#">Link to this property</a>
 
-- `until: optional string`
+created\_at: optional string
 
-  The latest event timestamp to query.
+formatdate-time
 
-- `user_id: optional string`
+<a href="#">Link to this property</a>
 
-  Deprecated. Accepted for backward compatibility but no longer applied
-  as a filter. Use `email` instead.
+ip\_address: optional string
 
-- `user_idOp: optional "eq" or "neq"`
+The IP address of the authenticating user.
 
-  Deprecated. Accepted for backward compatibility but no longer applied
-  as a filter (the `user_id` parameter is itself deprecated).
+<a href="#">Link to this property</a>
 
-  - `"eq"`
+ray\_id: optional string
 
-  - `"neq"`
+The unique identifier for the request to Cloudflare.
 
-### Returns
+maxLength16
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+user\_email: optional string
 
-  - `message: string`
+The email address of the authenticating user.
 
-  - `documentation_url: optional string`
+formatemail
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.access.logs.scim%20%3E%20(model)%20access_request%20%3E%20(schema)>)
 
-  - `code: number`
+#### LogsSCIMUpdates
 
-  - `message: string`
+##### [List Access SCIM update logs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/logs/subresources/scim/subresources/updates/methods/list)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/access/logs/scim/updates
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+UpdateListResponse object {cf\_resource\_id, error\_description, idp\_id, 8 more }
 
-  - `true`
+</summary>
 
-- `result: optional array of AccessRequest`
+cf\_resource\_id: optional string
 
-  - `action: optional string`
+The unique Cloudflare-generated Id of the SCIM resource.
 
-    The event that occurred, such as a login attempt.
+<a href="#">Link to this property</a>
 
-  - `allowed: optional boolean`
+error\_description: optional string
 
-    The result of the authentication event.
+The error message which is generated when the status of the SCIM request is ‘FAILURE’.
 
-  - `app_domain: optional string`
+<a href="#">Link to this property</a>
 
-    The URL of the Access application.
+idp\_id: optional string
 
-  - `app_uid: optional string`
+The unique Id of the IdP that has SCIM enabled.
 
-    The unique identifier for the Access application.
+<a href="#">Link to this property</a>
 
-  - `connection: optional string`
+idp\_resource\_id: optional string
 
-    The IdP used to authenticate.
+The IdP-generated Id of the SCIM resource.
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `ip_address: optional string`
+logged\_at: optional string
 
-    The IP address of the authenticating user.
+formatdate-time
 
-  - `ray_id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier for the request to Cloudflare.
+request\_body: optional string
 
-  - `user_email: optional string`
+The JSON-encoded string body of the SCIM request.
 
-    The email address of the authenticating user.
+<a href="#">Link to this property</a>
 
-### Example
+request\_method: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/logs/access_requests \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+The request method of the SCIM request.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "action": "login",
-      "allowed": true,
-      "app_domain": "test.example.com/admin",
-      "app_uid": "df7e2w5f-02b7-4d9d-af26-8d1988fca630",
-      "connection": "saml",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "ip_address": "198.41.129.166",
-      "ray_id": "187d944c61940c77",
-      "user_email": "user@example.com"
-    }
-  ]
-}
-```
+resource\_group\_name: optional string
 
-## Domain Types
+The display name of the SCIM Group resource if it exists.
 
-### Access Request List Response
+<a href="#">Link to this property</a>
 
-- `AccessRequestListResponse = array of AccessRequest`
+resource\_type: optional string
 
-  - `action: optional string`
+The resource type of the SCIM request.
 
-    The event that occurred, such as a login attempt.
+<a href="#">Link to this property</a>
 
-  - `allowed: optional boolean`
+resource\_user\_email: optional string
 
-    The result of the authentication event.
+The email address of the SCIM User resource if it exists.
 
-  - `app_domain: optional string`
+formatemail
 
-    The URL of the Access application.
+<a href="#">Link to this property</a>
 
-  - `app_uid: optional string`
+status: optional string
 
-    The unique identifier for the Access application.
+The status of the SCIM request.
 
-  - `connection: optional string`
+<a href="#">Link to this property</a>
 
-    The IdP used to authenticate.
+</details>
 
-  - `created_at: optional string`
-
-  - `ip_address: optional string`
-
-    The IP address of the authenticating user.
-
-  - `ray_id: optional string`
-
-    The unique identifier for the request to Cloudflare.
-
-  - `user_email: optional string`
-
-    The email address of the authenticating user.
-
-# SCIM
-
-## Domain Types
-
-### Access Request
-
-- `AccessRequest object { action, allowed, app_domain, 6 more }`
-
-  - `action: optional string`
-
-    The event that occurred, such as a login attempt.
-
-  - `allowed: optional boolean`
-
-    The result of the authentication event.
-
-  - `app_domain: optional string`
-
-    The URL of the Access application.
-
-  - `app_uid: optional string`
-
-    The unique identifier for the Access application.
-
-  - `connection: optional string`
-
-    The IdP used to authenticate.
-
-  - `created_at: optional string`
-
-  - `ip_address: optional string`
-
-    The IP address of the authenticating user.
-
-  - `ray_id: optional string`
-
-    The unique identifier for the request to Cloudflare.
-
-  - `user_email: optional string`
-
-    The email address of the authenticating user.
-
-# Updates
-
-## List Access SCIM update logs
-
-**get** `/accounts/{account_id}/access/logs/scim/updates`
-
-Lists Access SCIM update logs that maintain a record of updates made to User and Group resources synced to Cloudflare via the System for Cross-domain Identity Management (SCIM).
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `idp_id: array of string`
-
-  The unique Id of the IdP that has SCIM enabled.
-
-- `cf_resource_id: optional array of string`
-
-  The unique Cloudflare-generated Id of the SCIM resource. Pass once for
-  a single lookup (`?cf_resource_id=A`) or repeat the parameter
-  (`?cf_resource_id=A&cf_resource_id=B`) to filter by multiple resources
-  in one request.
-
-- `direction: optional "desc" or "asc"`
-
-  The chronological order used to sort the logs.
-
-  - `"desc"`
-
-  - `"asc"`
-
-- `idp_resource_id: optional array of string`
-
-  The IdP-generated Id of the SCIM resource. Pass once for a single
-  lookup (`?idp_resource_id=A`) or repeat the parameter
-  (`?idp_resource_id=A&idp_resource_id=B`) to filter by multiple
-  resources in one request.
-
-- `limit: optional number`
-
-  The maximum number of update logs to retrieve.
-
-- `page: optional number`
-
-  Page number of results.
-
-- `per_page: optional number`
-
-  Number of results per page.
-
-- `request_method: optional array of "DELETE" or "PATCH" or "POST" or "PUT"`
-
-  The request method of the SCIM request.
-
-  - `"DELETE"`
-
-  - `"PATCH"`
-
-  - `"POST"`
-
-  - `"PUT"`
-
-- `resource_group_name: optional array of string`
-
-  The display name of the SCIM Group resource. Pass once for a single
-  lookup (`?resource_group_name=A`) or repeat the parameter
-  (`?resource_group_name=A&resource_group_name=B`) to filter by multiple
-  group names in one request.
-
-- `resource_type: optional array of "USER" or "GROUP"`
-
-  The resource type of the SCIM request.
-
-  - `"USER"`
-
-  - `"GROUP"`
-
-- `resource_user_email: optional array of string`
-
-  The email address of the SCIM User resource. Pass once for a single
-  lookup (`?resource_user_email=A`) or repeat the parameter
-  (`?resource_user_email=A&resource_user_email=B`) to filter by multiple
-  emails in one request.
-
-- `since: optional string`
-
-  the timestamp of the earliest update log.
-
-- `status: optional array of "FAILURE" or "SUCCESS"`
-
-  The status of the SCIM request.
-
-  - `"FAILURE"`
-
-  - `"SUCCESS"`
-
-- `until: optional string`
-
-  the timestamp of the most-recent update log.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { cf_resource_id, error_description, idp_id, 8 more }`
-
-  - `cf_resource_id: optional string`
-
-    The unique Cloudflare-generated Id of the SCIM resource.
-
-  - `error_description: optional string`
-
-    The error message which is generated when the status of the SCIM request is 'FAILURE'.
-
-  - `idp_id: optional string`
-
-    The unique Id of the IdP that has SCIM enabled.
-
-  - `idp_resource_id: optional string`
-
-    The IdP-generated Id of the SCIM resource.
-
-  - `logged_at: optional string`
-
-  - `request_body: optional string`
-
-    The JSON-encoded string body of the SCIM request.
-
-  - `request_method: optional string`
-
-    The request method of the SCIM request.
-
-  - `resource_group_name: optional string`
-
-    The display name of the SCIM Group resource if it exists.
-
-  - `resource_type: optional string`
-
-    The resource type of the SCIM request.
-
-  - `resource_user_email: optional string`
-
-    The email address of the SCIM User resource if it exists.
-
-  - `status: optional string`
-
-    The status of the SCIM request.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/logs/scim/updates \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "cf_resource_id": "bd97ef8d-7986-43e3-9ee0-c25dda33e4b0",
-      "error_description": "Invalid JSON body",
-      "idp_id": "df7e2w5f-02b7-4d9d-af26-8d1988fca630",
-      "idp_resource_id": "all_employees",
-      "logged_at": "2014-01-01T05:20:00.12345Z",
-      "request_body": "{}}",
-      "request_method": "DELETE",
-      "resource_group_name": "ALL_EMPLOYEES",
-      "resource_type": "GROUP",
-      "resource_user_email": "john.smith@example.com",
-      "status": "FAILURE"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Update List Response
-
-- `UpdateListResponse object { cf_resource_id, error_description, idp_id, 8 more }`
-
-  - `cf_resource_id: optional string`
-
-    The unique Cloudflare-generated Id of the SCIM resource.
-
-  - `error_description: optional string`
-
-    The error message which is generated when the status of the SCIM request is 'FAILURE'.
-
-  - `idp_id: optional string`
-
-    The unique Id of the IdP that has SCIM enabled.
-
-  - `idp_resource_id: optional string`
-
-    The IdP-generated Id of the SCIM resource.
-
-  - `logged_at: optional string`
-
-  - `request_body: optional string`
-
-    The JSON-encoded string body of the SCIM request.
-
-  - `request_method: optional string`
-
-    The request method of the SCIM request.
-
-  - `resource_group_name: optional string`
-
-    The display name of the SCIM Group resource if it exists.
-
-  - `resource_type: optional string`
-
-    The resource type of the SCIM request.
-
-  - `resource_user_email: optional string`
-
-    The email address of the SCIM User resource if it exists.
-
-  - `status: optional string`
-
-    The status of the SCIM request.
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(model)%20update_list_response%20%3E%20(schema)>)

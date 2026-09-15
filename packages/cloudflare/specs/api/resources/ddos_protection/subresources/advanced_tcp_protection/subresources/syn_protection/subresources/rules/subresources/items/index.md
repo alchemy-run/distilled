@@ -1,486 +1,281 @@
+---
+title: Items
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[SYN Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection)
+
+[Rules](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Items
 
-## Get SYN Protection rule.
+##### [Get SYN Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/subresources/items/methods/get)
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules/{rule\_id}
 
-Get a SYN Protection rule specified by the given UUID.
+##### [Update SYN Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/subresources/items/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules/{rule\_id}
 
-- `account_id: string`
+##### [Delete SYN Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/subresources/items/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules/{rule\_id}
 
-- `rule_id: string`
+##### ModelsExpand Collapse
 
-  UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ItemGetResponse object {id, burst\_sensitivity, created\_on, 6 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique ID of the SYN Protection rule.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+burst\_sensitivity: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+The creation timestamp of the SYN Protection rule.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+mitigation\_type: string
 
-  Whether the API call was successful.
+The type of mitigation for SYN Protection. Must be one of ‘challenge’ or ‘retransmit’.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, burst_sensitivity, created_on, 6 more }`
+mode: string
 
-  - `id: string`
+The mode for SYN Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-    The unique ID of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `burst_sensitivity: string`
+modified\_on: string
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+The last modification timestamp of the SYN Protection rule.
 
-  - `created_on: string`
+formatdate-time
 
-    The creation timestamp of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `mitigation_type: string`
+name: string
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+The name of the SYN Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+rate\_sensitivity: string
 
-  - `modified_on: string`
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-    The last modification timestamp of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+scope: string
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+The scope for the SYN Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-  - `rate_sensitivity: string`
+<a href="#">Link to this property</a>
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+</details>
 
-  - `scope: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+ItemEditResponse object {id, burst\_sensitivity, created\_on, 6 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mitigation_type": "mitigation_type",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
+id: string
 
-## Update SYN Protection rule.
+The unique ID of the SYN Protection rule.
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}`
+<a href="#">Link to this property</a>
 
-Update a SYN Protection rule specified by the given UUID.
+burst\_sensitivity: string
 
-### Path Parameters
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+created\_on: string
 
-- `rule_id: string`
+The creation timestamp of the SYN Protection rule.
 
-  UUID.
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `burst_sensitivity: optional string`
+mitigation\_type: string
 
-  The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'.
+The type of mitigation for SYN Protection. Must be one of ‘challenge’ or ‘retransmit’.
 
-- `mitigation_type: optional string`
+<a href="#">Link to this property</a>
 
-  The new mitigation type. Optional. Must be one of 'challenge' or 'retransmit'.
+mode: string
 
-- `mode: optional string`
+The mode for SYN Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  The new mode for SYN Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.
+<a href="#">Link to this property</a>
 
-- `rate_sensitivity: optional string`
+modified\_on: string
 
-  The new rate sensitivity. Optional. Must be one of 'low', 'medium', 'high'.
+The last modification timestamp of the SYN Protection rule.
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+The name of the SYN Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+rate\_sensitivity: string
 
-    - `pointer: optional string`
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+scope: string
 
-  - `message: string`
+The scope for the SYN Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+ItemDeleteResponse object {errors, messages, success }
 
-- `result: optional object { id, burst_sensitivity, created_on, 6 more }`
+</summary>
 
-  - `id: string`
+<details>
 
-    The unique ID of the SYN Protection rule.
+<summary>
 
-  - `burst_sensitivity: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+</summary>
 
-  - `created_on: string`
+code: number
 
-    The creation timestamp of the SYN Protection rule.
+minimum1000
 
-  - `mitigation_type: string`
+<a href="#">Link to this property</a>
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+message: string
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+documentation\_url: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the SYN Protection rule.
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+source: optional object {pointer }
 
-  - `rate_sensitivity: string`
+</summary>
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+pointer: optional string
 
-  - `scope: string`
+<a href="#">Link to this property</a>
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mitigation_type": "mitigation_type",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
+<details>
 
-## Delete SYN Protection rule.
+<summary>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}`
+messages: array of object {code, message, documentation\_url, source }
 
-Delete a SYN Protection rule specified by the given UUID.
+</summary>
 
-### Path Parameters
+code: number
 
-- `account_id: string`
+minimum1000
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+message: string
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+documentation\_url: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+source: optional object {pointer }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+pointer: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+success: true
 
-- `success: true`
+Whether the API call was successful.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Item Get Response
-
-- `ItemGetResponse object { id, burst_sensitivity, created_on, 6 more }`
-
-  - `id: string`
-
-    The unique ID of the SYN Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the SYN Protection rule.
-
-  - `mitigation_type: string`
-
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
-
-  - `mode: string`
-
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the SYN Protection rule.
-
-  - `name: string`
-
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, burst_sensitivity, created_on, 6 more }`
-
-  - `id: string`
-
-    The unique ID of the SYN Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the SYN Protection rule.
-
-  - `mitigation_type: string`
-
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
-
-  - `mode: string`
-
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the SYN Protection rule.
-
-  - `name: string`
-
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)

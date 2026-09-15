@@ -1,80 +1,254 @@
-## Patch Argo Smart Routing setting
+---
+title: Patch Argo Smart Routing setting
+---
 
-**patch** `/zones/{zone_id}/argo/smart_routing`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Argo](https://developers.cloudflare.com/api/resources/argo)
+
+[Smart Routing](https://developers.cloudflare.com/api/resources/argo/subresources/smart_routing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Patch Argo Smart Routing setting
+
+PATCH/zones/{zone\_id}/argo/smart\_routing
 
 Configures the value of the Argo Smart Routing enablement setting.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Specifies the zone associated with the API call.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `value: "on" or "off"`
 
-  Specifies the enablement value of Argo Smart Routing.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"on"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"off"`
+</details>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>API Email + API Key</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `messages: array of ResponseInfo`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Zone Settings Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-- `result: object { id, editable, value, modified_on }`
+zone\_id: string
 
-  - `id: string`
+Specifies the zone associated with the API call.
 
-    Specifies the identifier of the Argo Smart Routing setting.
+maxLength32
 
-  - `editable: boolean`
+[Link to this property](#)%20argo.smart_routing%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    Specifies if the setting is editable.
+##### Body ParametersJSONExpand Collapse
 
-  - `value: "on" or "off"`
+<details>
 
-    Specifies the enablement value of Argo Smart Routing.
+<summary>
 
-    - `"on"`
+value: "on"or "off"
 
-    - `"off"`
+Specifies the enablement value of Argo Smart Routing.
 
-  - `modified_on: optional string`
+</summary>
 
-    Specifies the time when the setting was last modified.
+One of the following:
 
-- `success: true`
+"on"
 
-  Describes a successful API response.
+<a href="#">Link to this property</a>
 
-  - `true`
+"off"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+[Link to this property](#)%20argo.smart_routing%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20value%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20argo.smart_routing%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20argo.smart_routing%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, editable, value, modified\_on }
+
+</summary>
+
+id: string
+
+Specifies the identifier of the Argo Smart Routing setting.
+
+<a href="#">Link to this property</a>
+
+editable: boolean
+
+Specifies if the setting is editable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: "on"or "off"
+
+Specifies the enablement value of Argo Smart Routing.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Specifies the time when the setting was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20argo.smart_routing%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Describes a successful API response.
+
+[Link to this property](#)%20argo.smart_routing%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Patch Argo Smart Routing setting
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/argo/smart_routing \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -84,9 +258,45 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/argo/smart_routing \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "id",
+    "editable": true,
+    "value": "on",
+    "modified_on": "2019-12-27T18:11:19.117Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

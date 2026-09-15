@@ -1,188 +1,113 @@
+---
+title: Datasets
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Datasets
 
-## List datasets
+##### [List datasets](https://developers.cloudflare.com/api/resources/radar/subresources/datasets/methods/list)
 
-**get** `/radar/datasets`
+GET/radar/datasets
 
-Retrieves a list of datasets.
+##### [Get dataset CSV stream](https://developers.cloudflare.com/api/resources/radar/subresources/datasets/methods/get)
 
-### Query Parameters
+GET/radar/datasets/{alias}
 
-- `datasetType: optional "RANKING_BUCKET" or "REPORT"`
+##### [Get dataset download URL](https://developers.cloudflare.com/api/resources/radar/subresources/datasets/methods/download)
 
-  Filters results by dataset type.
+POST/radar/datasets/download
 
-  - `"RANKING_BUCKET"`
+##### ModelsExpand Collapse
 
-  - `"REPORT"`
+<details>
 
-- `date: optional string`
+<summary>
 
-  Filters results by the specified date.
+DatasetListResponse object {datasets }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+<details>
 
-  - `"JSON"`
+<summary>
 
-  - `"CSV"`
+datasets: array of object {id, description, meta, 3 more }
 
-- `limit: optional number`
+</summary>
 
-  Limits the number of objects returned in the response.
+id: number
 
-- `offset: optional number`
+<a href="#">Link to this property</a>
 
-  Skips the specified number of objects before fetching the results.
+description: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { datasets }`
+meta: unknown
 
-  - `datasets: array of object { id, description, meta, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `id: number`
+tags: array of string
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-    - `meta: unknown`
+title: string
 
-    - `tags: array of string`
+<a href="#">Link to this property</a>
 
-    - `title: string`
+type: string
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/datasets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20radar.datasets%20%3E%20(model)%20dataset_list_response%20%3E%20(schema)>)
 
-```json
-{
-  "result": {
-    "datasets": [
-      {
-        "id": 3,
-        "description": "This dataset contains a list of the op 20000 domains globally",
-        "meta": {},
-        "tags": [
-          "global"
-        ],
-        "title": "Top bucket 20000 domains",
-        "type": "RANKING_BUCKET"
-      }
-    ]
-  },
-  "success": true
-}
-```
+DatasetGetResponse = string
 
-## Get dataset CSV stream
+[Link to this property](#)%20radar.datasets%20%3E%20(model)%20dataset_get_response%20%3E%20(schema)>)
 
-**get** `/radar/datasets/{alias}`
+<details>
 
-Retrieves the CSV content of a given dataset by alias or ID. When getting the content by alias the latest dataset is returned, optionally filtered by the latest available at a given date.
+<summary>
 
-### Path Parameters
+DatasetDownloadResponse object {dataset }
 
-- `alias: string`
+</summary>
 
-  Dataset alias or ID.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/datasets/$ALIAS \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+dataset: object {url }
 
-## Get dataset download URL
+</summary>
 
-**post** `/radar/datasets/download`
+url: string
 
-Retrieves an URL to download a single dataset.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+</details>
 
-  - `"JSON"`
-
-  - `"CSV"`
-
-### Body Parameters
-
-- `datasetId: number`
-
-### Returns
-
-- `result: object { dataset }`
-
-  - `dataset: object { url }`
-
-    - `url: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/datasets/download \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "datasetId": 3
-        }'
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "dataset": {
-      "url": "https://example.com/download"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Dataset List Response
-
-- `DatasetListResponse object { datasets }`
-
-  - `datasets: array of object { id, description, meta, 3 more }`
-
-    - `id: number`
-
-    - `description: string`
-
-    - `meta: unknown`
-
-    - `tags: array of string`
-
-    - `title: string`
-
-    - `type: string`
-
-### Dataset Get Response
-
-- `DatasetGetResponse = string`
-
-### Dataset Download Response
-
-- `DatasetDownloadResponse object { dataset }`
-
-  - `dataset: object { url }`
-
-    - `url: string`
+[Link to this property](#)%20radar.datasets%20%3E%20(model)%20dataset_download_response%20%3E%20(schema)>)

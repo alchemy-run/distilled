@@ -1,32 +1,31 @@
+---
+title: Responses
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[URL Scanner](https://developers.cloudflare.com/api/resources/url_scanner)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Responses
 
-## Get raw response
+##### [Get raw response](https://developers.cloudflare.com/api/resources/url_scanner/subresources/responses/methods/get)
 
-**get** `/accounts/{account_id}/urlscanner/v2/responses/{response_id}`
+GET/accounts/{account\_id}/urlscanner/v2/responses/{response\_id}
 
-Returns the raw response of the network request. Find the `response_id` in the `data.requests.response.hash`.
+##### ModelsExpand Collapse
 
-### Path Parameters
+ResponseGetResponse = string
 
-- `account_id: string`
+Web resource or image.
 
-  Account ID.
-
-- `response_id: string`
-
-  Response hash.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/urlscanner/v2/responses/$RESPONSE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### Response Get Response
-
-- `ResponseGetResponse = string`
-
-  Web resource or image.
+[Link to this property](#)%20url_scanner.responses%20%3E%20(model)%20response_get_response%20%3E%20(schema)>)

@@ -1,46 +1,146 @@
-## Create a new Finetune
+---
+title: Create a new Finetune
+---
 
-**post** `/accounts/{account_id}/ai/finetunes`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+[Finetunes](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a new Finetune
+
+POST/accounts/{account\_id}/ai/finetunes
 
 Creates a new fine-tuning job for a Workers AI model using custom training data.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `model: string`
 
-- `name: string`
 
-- `description: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `public: optional boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `result: object { id, created_at, model, 4 more }`
+<details>
 
-  - `id: string`
+<summary>API Email + API Key</summary>
 
-  - `created_at: string`
 
-  - `model: string`
 
-  - `modified_at: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `name: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `public: boolean`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `description: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `success: boolean`
+</details>
 
-### Example
+##### Accepted Permissions (at least one required)
 
-```http
+`Workers AI Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+[Link to this property](#)%20ai.finetunes%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+model: string
+
+[Link to this property](#)%20ai.finetunes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20model%20%3E%20(schema)>)
+
+name: string
+
+[Link to this property](#)%20ai.finetunes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+description: optional string
+
+[Link to this property](#)%20ai.finetunes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+public: optional boolean
+
+[Link to this property](#)%20ai.finetunes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20public%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {id, created\_at, model, 4 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+model: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+public: boolean
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai.finetunes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai.finetunes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a new Finetune
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -50,9 +150,28 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "model": "model",
+    "modified_at": "2019-12-27T18:11:19.117Z",
+    "name": "name",
+    "public": true,
+    "description": "description"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

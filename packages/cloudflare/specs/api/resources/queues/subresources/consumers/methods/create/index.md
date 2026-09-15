@@ -1,194 +1,466 @@
-## Create a Queue Consumer
+---
+title: Create a Queue Consumer
+---
 
-**post** `/accounts/{account_id}/queues/{queue_id}/consumers`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Queues](https://developers.cloudflare.com/api/resources/queues)
+
+[Consumers](https://developers.cloudflare.com/api/resources/queues/subresources/consumers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a Queue Consumer
+
+POST/accounts/{account\_id}/queues/{queue\_id}/consumers
 
 Creates a new consumer for a Queue
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  A Resource identifier.
+<summary>API Token</summary>
 
-- `queue_id: string`
 
-  A Resource identifier.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `body: object { script_name, type, dead_letter_queue, settings }  or object { type, dead_letter_queue, settings }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Request body for creating or updating a consumer
+</details>
 
-  - `Worker object { script_name, type, dead_letter_queue, settings }`
+<details>
 
-    - `script_name: string`
+<summary>API Email + API Key</summary>
 
-      Name of a Worker
 
-    - `type: "worker"`
 
-      - `"worker"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `dead_letter_queue: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `batch_size: optional number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-        The maximum number of messages to include in a batch.
+</details>
 
-      - `max_concurrency: optional number`
+##### Accepted Permissions (at least one required)
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+`Queues Write``Workers Scripts Write`
 
-      - `max_retries: optional number`
+##### P ath ParametersExpand Collapse
 
-        The maximum number of retries
+account\_id: string
 
-      - `max_wait_time_ms: optional number`
+A Resource identifier.
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+maxLength32
 
-      - `retry_delay: optional number`
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        The number of seconds to delay before making the message available for another attempt.
+queue\_id: string
 
-  - `HTTPPull object { type, dead_letter_queue, settings }`
+A Resource identifier.
 
-    - `type: "http_pull"`
+maxLength32
 
-      - `"http_pull"`
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20queue_id%20%3E%20(schema)>)
 
-    - `dead_letter_queue: optional string`
+##### Body ParametersJSONExpand Collapse
 
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<details>
 
-      - `batch_size: optional number`
+<summary>
 
-        The maximum number of messages to include in a batch.
+body: object {script\_name, type, dead\_letter\_queue, settings } or object {type, dead\_letter\_queue, settings }
 
-      - `max_retries: optional number`
+Request body for creating or updating a consumer
 
-        The maximum number of retries
+</summary>
 
-      - `retry_delay: optional number`
+One of the following:
 
-        The number of seconds to delay before making the message available for another attempt.
+<details>
 
-      - `visibility_timeout_ms: optional number`
+<summary>
 
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+Worker object {script\_name, type, dead\_letter\_queue, settings }
 
-### Returns
+</summary>
 
-- `errors: optional array of ResponseInfo`
+script\_name: string
 
-  - `code: number`
+Name of a Worker
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+type: "worker"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+dead\_letter\_queue: optional string
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional Consumer`
+<details>
 
-  Response body representing a consumer
+<summary>
 
-  - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+settings: optional object {batch\_size, max\_concurrency, max\_retries, 2 more }
 
-    - `consumer_id: optional string`
+</summary>
 
-      A Resource identifier.
+batch\_size: optional number
 
-    - `created_on: optional string`
+The maximum number of messages to include in a batch.
 
-    - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the dead letter queue, or empty string if not configured
+max\_concurrency: optional number
 
-    - `queue_name: optional string`
+Maximum number of concurrent consumers that may consume from this Queue. Set to <code>null</code> to automatically opt in to the platform’s maximum (recommended).
 
-    - `script_name: optional string`
+<a href="#">Link to this property</a>
 
-      Name of a Worker
+max\_retries: optional number
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+The maximum number of retries
 
-      - `batch_size: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of messages to include in a batch.
+max\_wait\_time\_ms: optional number
 
-      - `max_concurrency: optional number`
+The number of milliseconds to wait for a batch to fill up before attempting to deliver it
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+<a href="#">Link to this property</a>
 
-      - `max_retries: optional number`
+retry\_delay: optional number
 
-        The maximum number of retries
+The number of seconds to delay before making the message available for another attempt.
 
-      - `max_wait_time_ms: optional number`
+<a href="#">Link to this property</a>
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+</details>
 
-      - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-        The number of seconds to delay before making the message available for another attempt.
+</details>
 
-    - `type: optional "worker"`
+<a href="#">Link to this property</a>
 
-      - `"worker"`
+<details>
 
-  - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+<summary>
 
-    - `consumer_id: optional string`
+HTTPPull object {type, dead\_letter\_queue, settings }
 
-      A Resource identifier.
+</summary>
 
-    - `created_on: optional string`
+type: "http\_pull"
 
-    - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the dead letter queue, or empty string if not configured
+dead\_letter\_queue: optional string
 
-    - `queue_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<details>
 
-      - `batch_size: optional number`
+<summary>
 
-        The maximum number of messages to include in a batch.
+settings: optional object {batch\_size, max\_retries, retry\_delay, visibility\_timeout\_ms }
 
-      - `max_retries: optional number`
+</summary>
 
-        The maximum number of retries
+batch\_size: optional number
 
-      - `retry_delay: optional number`
+The maximum number of messages to include in a batch.
 
-        The number of seconds to delay before making the message available for another attempt.
+<a href="#">Link to this property</a>
 
-      - `visibility_timeout_ms: optional number`
+max\_retries: optional number
 
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+The maximum number of retries
 
-    - `type: optional "http_pull"`
+<a href="#">Link to this property</a>
 
-      - `"http_pull"`
+retry\_delay: optional number
 
-- `success: optional true`
+The number of seconds to delay before making the message available for another attempt.
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+visibility\_timeout\_ms: optional number
 
-### Example
+The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+minLength1
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: optional array of string
+
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/queues#(resource)%20queues.consumers%20%3E%20(model)%20consumer%20%3E%20(schema)">Consumer</a>
+
+Response body representing a consumer
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Worker object {consumer\_id, created\_on, dead\_letter\_queue, 4 more }
+
+</summary>
+
+consumer\_id: optional string
+
+A Resource identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+dead\_letter\_queue: optional string
+
+Name of the dead letter queue, or empty string if not configured
+
+<a href="#">Link to this property</a>
+
+queue\_name: optional string
+
+<a href="#">Link to this property</a>
+
+script\_name: optional string
+
+Name of a Worker
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: optional object {batch\_size, max\_concurrency, max\_retries, 2 more }
+
+</summary>
+
+batch\_size: optional number
+
+The maximum number of messages to include in a batch.
+
+<a href="#">Link to this property</a>
+
+max\_concurrency: optional number
+
+Maximum number of concurrent consumers that may consume from this Queue. Set to <code>null</code> to automatically opt in to the platform’s maximum (recommended).
+
+<a href="#">Link to this property</a>
+
+max\_retries: optional number
+
+The maximum number of retries
+
+<a href="#">Link to this property</a>
+
+max\_wait\_time\_ms: optional number
+
+The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+
+<a href="#">Link to this property</a>
+
+retry\_delay: optional number
+
+The number of seconds to delay before making the message available for another attempt.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: optional "worker"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+HTTPPull object {consumer\_id, created\_on, dead\_letter\_queue, 3 more }
+
+</summary>
+
+consumer\_id: optional string
+
+A Resource identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+dead\_letter\_queue: optional string
+
+Name of the dead letter queue, or empty string if not configured
+
+<a href="#">Link to this property</a>
+
+queue\_name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: optional object {batch\_size, max\_retries, retry\_delay, visibility\_timeout\_ms }
+
+</summary>
+
+batch\_size: optional number
+
+The maximum number of messages to include in a batch.
+
+<a href="#">Link to this property</a>
+
+max\_retries: optional number
+
+The maximum number of retries
+
+<a href="#">Link to this property</a>
+
+retry\_delay: optional number
+
+The number of seconds to delay before making the message available for another attempt.
+
+<a href="#">Link to this property</a>
+
+visibility\_timeout\_ms: optional number
+
+The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: optional "http\_pull"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: optional true
+
+Indicates if the API call was successful or not.
+
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a Queue Consumer
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/consumers \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -199,9 +471,47 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 7003,
+      "message": "No route for the URI",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "created_on": "2019-12-27T18:11:19.117Z",
+    "dead_letter_queue": "dead_letter_queue",
+    "queue_name": "example-queue",
+    "script_name": "my-consumer-worker",
+    "settings": {
+      "batch_size": 50,
+      "max_concurrency": 10,
+      "max_retries": 3,
+      "max_wait_time_ms": 5000,
+      "retry_delay": 10
+    },
+    "type": "worker"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

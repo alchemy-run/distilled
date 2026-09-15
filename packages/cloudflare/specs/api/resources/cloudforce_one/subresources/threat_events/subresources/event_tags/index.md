@@ -1,110 +1,63 @@
+---
+title: Event Tags
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Event Tags
 
-## Adds a tag to an event
+##### [Adds a tag to an event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/event_tags/methods/create)
 
-**post** `/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}/create`
+POST/accounts/{account\_id}/cloudforce-one/events/event\_tag/{event\_id}/create
 
-Adds a tag to an event
+##### [Removes a tag from an event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/event_tags/methods/delete)
 
-### Path Parameters
+DELETE/accounts/{account\_id}/cloudforce-one/events/event\_tag/{event\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account ID.
+<details>
 
-- `event_id: string`
+<summary>
 
-  Event UUID.
+EventTagCreateResponse object {success }
 
-### Body Parameters
+</summary>
 
-- `tags: array of string`
+success: boolean
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { success }`
+</details>
 
-  - `success: boolean`
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(model)%20event_tag_create_response%20%3E%20(schema)>)
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/event_tag/$EVENT_ID/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "tags": [
-            "botnet"
-          ]
-        }'
-```
+EventTagDeleteResponse object {success }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": {
-    "success": true
-  },
-  "success": true
-}
-```
+success: boolean
 
-## Removes a tag from an event
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}`
+</details>
 
-Removes a tag from an event
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `event_id: string`
-
-  Event UUID.
-
-### Returns
-
-- `result: object { success }`
-
-  - `success: boolean`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/event_tag/$EVENT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "success": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Event Tag Create Response
-
-- `EventTagCreateResponse object { success }`
-
-  - `success: boolean`
-
-### Event Tag Delete Response
-
-- `EventTagDeleteResponse object { success }`
-
-  - `success: boolean`
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(model)%20event_tag_delete_response%20%3E%20(schema)>)

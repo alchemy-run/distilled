@@ -1,366 +1,1154 @@
-## Create Registration
+---
+title: Create Registration
+---
 
-**post** `/accounts/{account_id}/registrar/registrations`
+[Skip to content](#_top)
 
-Starts a domain registration workflow. This is a billable operation — successful
-registration charges the account's default payment method. All successful
-domain registrations are non-refundable — once the workflow completes with
-`state: succeeded`, the charge cannot be reversed.
+[API Reference](https://developers.cloudflare.com/api)
+
+[Registrar](https://developers.cloudflare.com/api/resources/registrar)
+
+[Registrations](https://developers.cloudflare.com/api/resources/registrar/subresources/registrations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create Registration
+
+POST/accounts/{account\_id}/registrar/registrations
+
+Starts a domain registration workflow. This is a billable operation — successful registration charges the account’s default payment method. All successful domain registrations are non-refundable — once the workflow completes with `state: succeeded`, the charge cannot be reversed.
 
 ### Prerequisites
 
-- The account must have a billing profile with a valid default payment method.
-  Set this up at `https://dash.cloudflare.com/{account_id}/billing/payment-info`.
-- The account must not already be at the maximum supported domain limit.
-  A single account may own up to 100 domains in total across registrations
-  created through either the dashboard or this API.
+- The account must have a billing profile with a valid default payment method. Set this up at `https://dash.cloudflare.com/{account_id}/billing/payment-info`.
+- The account must not already be at the maximum supported domain limit. A single account may own up to 500 domains in total across registrations created through either the dashboard or this API.
 - The domain must be on a supported extension for programmatic registration.
-- Use `POST /domain-check` immediately before calling this endpoint to confirm
-  real-time availability and pricing.
+- Use `POST /domain-check` immediately before calling this endpoint to confirm real-time availability and pricing.
 
 ### Supported extensions
 
-In this API, "extension" means the full registrable suffix after the domain
-label. For example, in `example.co.uk`, the extension is `co.uk`.
+This API supports programmatic registration for all extensions supported by the dashboard experience, with the following exceptions:
 
-Programmatic registration is currently supported for:
+`giving`, `mom`, `inc`, `lol`, `sh`, `link`, `cc`, `new`
 
-`com`, `org`, `net`, `app`, `dev`, `cc`, `xyz`, `info`, `cloud`, `studio`,
-`live`, `link`, `pro`, `tech`, `fyi`, `shop`, `online`, `tools`, `run`,
-`games`, `build`, `systems`, `world`, `news`, `site`, `network`, `chat`,
-`space`, `family`, `page`, `life`, `group`, `email`, `solutions`, `day`,
-`blog`, `ing`, `icu`, `academy`, `today`
-
-Cloudflare Registrar supports 400+ extensions in the dashboard. Extensions
-not listed above can still be registered at
-`https://dash.cloudflare.com/{account_id}/domains/registrations`.
+Cloudflare Registrar supports 400+ extensions in the dashboard. Extensions listed above can be registered at `https://dash.cloudflare.com/{account_id}/domains/registrations`.
 
 ### Express mode
 
-The only required field is `domain_name`. If `contacts` is omitted, the system
-uses the account's default address book entry as the registrant. If no default
-exists and no contact is provided, the request fails. Set up a default address
-book entry and accept the required agreement at
-`https://dash.cloudflare.com/{account_id}/domains/registrations`.
+The only required field is `domain_name`. If `contacts` is omitted, the system uses the account’s default address book entry as the registrant. If no default exists and no contact is provided, the request fails. Set up a default address book entry and accept the required agreement at `https://dash.cloudflare.com/{account_id}/domains/registrations`.
 
 ### Defaults
 
-- `years`: defaults to the extension's minimum registration period (1 year for
-  most extensions, but varies — for example, `.ai` (if supported) requires a minimum of 2 years).
-- `auto_renew`: defaults to `false`. Setting it to `true` is an explicit
-  opt-in authorizing Cloudflare to charge the account's default payment
-  method up to 30 days before domain expiry to renew the registration.
-  Renewal pricing may change over time based on registry pricing.
+- `years`: defaults to the extension’s minimum registration period (1 year for most extensions, but varies — for example, `.ai` (if supported) requires a minimum of 2 years).
+- `auto_renew`: defaults to `false`. Setting it to `true` is an explicit opt-in authorizing Cloudflare to charge the account’s default payment method up to 30 days before domain expiry to renew the registration. Renewal pricing may change over time based on registry pricing.
 - `privacy_mode`: defaults to `redaction`.
 
 ### Premium domains
 
-Premium domain registration is not currently supported by this API.
-If `POST /domain-check` returns `tier: premium`, do not call this
-endpoint for that domain.
+Premium domain registration is not currently supported by this API. If `POST /domain-check` returns `tier: premium`, do not call this endpoint for that domain.
 
 ### Response behavior
 
-By default, the server holds the connection for a bounded, server-defined
-amount of time while the registration completes. Most registrations finish
-within this window and return `201 Created` with a completed workflow status.
+By default, the server holds the connection for a bounded, server-defined amount of time while the registration completes. Most registrations finish within this window and return `201 Created` with a completed workflow status.
 
-If the registration is still processing after this synchronous wait window,
-the server returns `202 Accepted`. Poll the URL in `links.self` to track progress.
+If the registration is still processing after this synchronous wait window, the server returns `202 Accepted`. Poll the URL in `links.self` to track progress.
 
 To skip the wait and receive an immediate `202`, send `Prefer: respond-async`.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-### Header Parameters
 
-- `Prefer: optional string`
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `domain_name: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Fully qualified domain name (FQDN) including the extension
-  (e.g., `example.com`, `mybrand.app`). The domain name uniquely
-  identifies a registration — the same domain cannot be registered
-  twice, making it a natural idempotency key for registration requests.
+</details>
 
-- `auto_renew: optional boolean`
+<details>
 
-  Enable or disable automatic renewal. Defaults to `false` if omitted.
-  Setting this field to `true` is an explicit opt-in authorizing
-  Cloudflare to charge the account's default payment method up to 30
-  days before domain expiry to renew the domain automatically.
-  Renewal pricing may change over time based on registry pricing.
+<summary>API Email + API Key</summary>
 
-- `contacts: optional object { registrant }`
 
-  Contact data for the registration request.
 
-  If the `contacts` object is omitted entirely from the request, or if
-  `contacts.registrant` is not provided, the system will use the account's
-  default address book entry as the registrant contact. This default must be
-  pre-configured by the account owner at
-  `https://dash.cloudflare.com/{account_id}/domains/registrations`, where
-  they can create or update the address book entry and accept the required
-  agreement. No API exists for managing address book entries at this time.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  If no default address book entry exists and no registrant contact is
-  provided, the registration request will fail with a validation error.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `registrant: optional object { email, phone, postal_info, fax }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Registrant contact data for the domain registration. This information
-    is submitted to the domain registry and, depending on extension and
-    privacy settings, may appear in public WHOIS records.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `email: string`
+</details>
 
-      Email address for the registrant. Used for domain-related
-      communications from the registry, including ownership verification
-      and renewal notices.
+##### P ath ParametersExpand Collapse
 
-    - `phone: string`
+account\_id: string
 
-      Phone number in E.164 format: `+{country_code}.{number}` with no
-      spaces or dashes. Examples: `+1.5555555555` (US), `+44.2071234567`
-      (UK), `+81.312345678` (Japan).
+Identifier.
 
-    - `postal_info: object { address, name, organization }`
+maxLength32
 
-      Postal/mailing information for the registrant contact.
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `address: object { city, country_code, postal_code, 2 more }`
+##### H eader ParametersExpand Collapse
 
-        Physical mailing address for the registrant contact.
+Prefer: optional string
 
-        - `city: string`
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20Prefer%20%3E%20(schema)>)
 
-          City or locality name.
+##### Body ParametersJSONExpand Collapse
 
-        - `country_code: string`
+domain\_name: string
 
-          Two-letter country code per ISO 3166-1 alpha-2 (e.g., `US`, `GB`, `CA`, `DE`).
+Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.
 
-        - `postal_code: string`
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20domain_name%20%3E%20(schema)>)
 
-          Postal or ZIP code.
+acknowledgements: optional map\[unknown]
 
-        - `state: string`
+Provides user acknowledgements for a specific extension or premium registration flow. The extension registration schema from the extension discovery endpoint identifies the required keys.
 
-          State, province, or region. Use the standard abbreviation where applicable (e.g., `TX` for Texas, `ON` for Ontario).
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20acknowledgements%20%3E%20(schema)>)
 
-        - `street: string`
+auto\_renew: optional boolean
 
-          Street address including building/suite number.
+Enable or disable automatic renewal. Defaults to `false` if omitted. Setting this field to `true` is an explicit opt-in authorizing Cloudflare to charge the account’s default payment method up to 30 days before domain expiry to renew the domain automatically. Renewal pricing may change over time based on registry pricing.
 
-      - `name: string`
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20auto_renew%20%3E%20(schema)>)
 
-        Full legal name of the registrant (individual or authorized representative).
+contact\_extensions: optional map\[unknown]
 
-      - `organization: optional string`
+Provides registry-specific contact extension values for the registrant. `GET /accounts/{account_id}/registrar/extensions/{extension}` identifies the required keys and allowed values for each extension in the `registration_schema.properties.contact_extensions` object.
 
-        Organization or company name. Optional for individual registrants.
+Examples include `.us` nexus fields, `.uk` registrant type fields, and `.ca` legal type fields. Omit this object when the extension’s registration schema excludes `contact_extensions`.
 
-    - `fax: optional string`
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20contact_extensions%20%3E%20(schema)>)
 
-      Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-      Most registrations do not require a fax number.
+<details>
 
-- `privacy_mode: optional "redaction"`
+<summary>
 
-  WHOIS privacy mode for the registration. Defaults to `redaction`.
+contacts: optional object {administrator, billing, registrant, technical }
 
-  - `off`: Do not request WHOIS privacy.
-  - `redaction`: Request WHOIS redaction where supported by the extension.
-    Some extensions do not support privacy/redaction.
+Provides contact data for the registration request.
 
-  - `"redaction"`
+The per-extension schema from <code>GET /accounts/{account_id}/registrar/extensions/{extension}</code> defines the accepted contact roles. Every currently supported extension requires only <code>contacts.registrant</code> from API callers. Callers may provide additional roles such as <code>technical</code>, <code>administrator</code>, and <code>billing</code> when the extension schema includes them. When a registry requires an omitted role, Cloudflare may derive that contact from <code>contacts.registrant</code>.
 
-- `years: optional number`
+When the request omits either the entire <code>contacts</code> object or <code>contacts.registrant</code>, the system uses the account’s default address book entry as the registrant contact. The account owner must configure this default at <code>https://dash.cloudflare.com/{account_id}/domains/registrations</code>, where they can create or update the address book entry and accept the required agreement. Dashboard settings currently provide the only way to manage address book entries.
 
-  Number of years to register (1–10). If omitted, defaults to the
-  minimum registration period required by the registry for this
-  extension. For most extensions this is 1 year, but some extensions
-  require longer minimum terms (e.g., `.ai` requires a minimum of
-  2 years).
+Without either a default address book entry or a registrant contact, the registration request fails validation.
 
-  The registry for each extension may also enforce its own maximum
-  registration term. If the requested value exceeds the registry's
-  maximum, the registration will be rejected. When in doubt, use the
-  default by omitting this field.
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+administrator: optional object {email, phone, postal\_info, fax }
 
-  - `message: string`
+Optional administrator contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from <code>contacts.registrant</code>.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+email: string
 
-    - `pointer: optional string`
+Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices.
 
-- `messages: array of ResponseInfo`
+formatemail
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+phone: string
 
-  - `documentation_url: optional string`
+Phone number in E.164 format: <code>+{country_code}.{number}</code> without spaces or dashes. Examples: <code>+1.5555555555</code> (US), <code>+44.2071234567</code> (UK), <code>+81.312345678</code> (Japan).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: WorkflowStatus`
+<details>
 
-  Status of an async registration workflow.
+<summary>
 
-  - `completed: boolean`
+postal\_info: object {address, name, organization }
 
-    Whether the workflow has reached a terminal state. `true` when
-    `state` is `succeeded` or `failed`. `false` for `pending`,
-    `in_progress`, `action_required`, and `blocked`.
+Postal/mailing information for the contact. The <code>name</code> field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts.
 
-  - `created_at: string`
+</summary>
 
-  - `links: object { self, resource }`
+<details>
 
-    - `self: string`
+<summary>
 
-      URL to this status resource.
+address: object {city, country\_code, postal\_code, 2 more }
 
-    - `resource: optional string`
+Physical mailing address for the registrant contact.
 
-      URL to the domain resource.
+</summary>
 
-  - `state: "pending" or "in_progress" or "action_required" or 3 more`
+city: string
 
-    Workflow lifecycle state.
+City or locality name.
 
-    - `pending`: Workflow has been created but not yet started processing.
-    - `in_progress`: Actively processing. Continue polling `links.self`.
-      The workflow has an internal deadline and will not remain in this
-      state indefinitely.
-    - `action_required`: Paused — requires action by the user (not the
-      system). See `context.action` for what is needed. An automated
-      polling loop must break on this state; it will not resolve on its
-      own without user intervention.
-    - `blocked`: The workflow cannot make progress due to a third party
-      such as the domain extension's registry or a losing registrar.
-      No user action will help. Continue polling — the block may resolve
-      when the third party responds.
-    - `succeeded`: Terminal. The operation completed successfully.
-      `completed` will be `true`. For registrations, `context.registration`
-      contains the resulting registration resource.
-    - `failed`: Terminal. The operation failed. `completed` will be `true`.
-      See `error.code` and `error.message` for the reason. Do not
-      auto-retry without user review.
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+country\_code: string
 
-    - `"in_progress"`
+Two-letter country code per ISO 3166-1 alpha-2 (e.g., <code>US</code>, <code>GB</code>, <code>CA</code>, <code>DE</code>).
 
-    - `"action_required"`
+<a href="#">Link to this property</a>
 
-    - `"blocked"`
+postal\_code: string
 
-    - `"succeeded"`
+Postal or ZIP code.
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+state: string
 
-  - `context: optional map[unknown]`
+State, province, or region. Use the standard abbreviation where applicable (e.g., <code>TX</code> for Texas, <code>ON</code> for Ontario).
 
-    Workflow-specific data for this workflow.
+<a href="#">Link to this property</a>
 
-    The workflow subject is identified by `context.domain_name` for
-    domain-centric workflows.
+street: string
 
-  - `error: optional object { code, message }`
+Street address including building/suite number.
 
-    Error details when a workflow reaches the `failed` state. The specific
-    error codes and messages depend on the workflow type (registration,
-    update, etc.) and the underlying registry response. These workflow
-    error codes are separate from immediate HTTP error `errors[].code`
-    values returned by non-2xx responses. Surface
-    `error.message` to the user for context.
+<a href="#">Link to this property</a>
 
-    - `code: string`
+</details>
 
-      Machine-readable error code identifying the failure reason.
+<a href="#">Link to this property</a>
 
-    - `message: string`
+name: string
 
-      Human-readable explanation of the failure. May include registry-specific details.
+Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example <code>Ada Lovelace</code>; do not send separate first-name or last-name fields.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+organization: optional string
 
-  - `true`
+Organization or company name. Optional for individual registrants.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+fax: optional string
+
+Fax number in E.164 format (e.g., <code>+1.5555555555</code>). Optional. Most registrations do not require a fax number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+billing: optional object {email, phone, postal\_info, fax }
+
+Optional billing contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from <code>contacts.registrant</code>.
+
+</summary>
+
+email: string
+
+Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices.
+
+formatemail
+
+<a href="#">Link to this property</a>
+
+phone: string
+
+Phone number in E.164 format: <code>+{country_code}.{number}</code> without spaces or dashes. Examples: <code>+1.5555555555</code> (US), <code>+44.2071234567</code> (UK), <code>+81.312345678</code> (Japan).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+postal\_info: object {address, name, organization }
+
+Postal/mailing information for the contact. The <code>name</code> field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts.
+
+</summary>
+
+<details>
+
+<summary>
+
+address: object {city, country\_code, postal\_code, 2 more }
+
+Physical mailing address for the registrant contact.
+
+</summary>
+
+city: string
+
+City or locality name.
+
+<a href="#">Link to this property</a>
+
+country\_code: string
+
+Two-letter country code per ISO 3166-1 alpha-2 (e.g., <code>US</code>, <code>GB</code>, <code>CA</code>, <code>DE</code>).
+
+<a href="#">Link to this property</a>
+
+postal\_code: string
+
+Postal or ZIP code.
+
+<a href="#">Link to this property</a>
+
+state: string
+
+State, province, or region. Use the standard abbreviation where applicable (e.g., <code>TX</code> for Texas, <code>ON</code> for Ontario).
+
+<a href="#">Link to this property</a>
+
+street: string
+
+Street address including building/suite number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example <code>Ada Lovelace</code>; do not send separate first-name or last-name fields.
+
+<a href="#">Link to this property</a>
+
+organization: optional string
+
+Organization or company name. Optional for individual registrants.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+fax: optional string
+
+Fax number in E.164 format (e.g., <code>+1.5555555555</code>). Optional. Most registrations do not require a fax number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+registrant: optional object {email, phone, postal\_info, fax }
+
+Optional registrant contact. If omitted, the account’s default address book entry is used instead.
+
+</summary>
+
+email: string
+
+Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices.
+
+formatemail
+
+<a href="#">Link to this property</a>
+
+phone: string
+
+Phone number in E.164 format: <code>+{country_code}.{number}</code> without spaces or dashes. Examples: <code>+1.5555555555</code> (US), <code>+44.2071234567</code> (UK), <code>+81.312345678</code> (Japan).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+postal\_info: object {address, name, organization }
+
+Postal/mailing information for the contact. The <code>name</code> field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts.
+
+</summary>
+
+<details>
+
+<summary>
+
+address: object {city, country\_code, postal\_code, 2 more }
+
+Physical mailing address for the registrant contact.
+
+</summary>
+
+city: string
+
+City or locality name.
+
+<a href="#">Link to this property</a>
+
+country\_code: string
+
+Two-letter country code per ISO 3166-1 alpha-2 (e.g., <code>US</code>, <code>GB</code>, <code>CA</code>, <code>DE</code>).
+
+<a href="#">Link to this property</a>
+
+postal\_code: string
+
+Postal or ZIP code.
+
+<a href="#">Link to this property</a>
+
+state: string
+
+State, province, or region. Use the standard abbreviation where applicable (e.g., <code>TX</code> for Texas, <code>ON</code> for Ontario).
+
+<a href="#">Link to this property</a>
+
+street: string
+
+Street address including building/suite number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example <code>Ada Lovelace</code>; do not send separate first-name or last-name fields.
+
+<a href="#">Link to this property</a>
+
+organization: optional string
+
+Organization or company name. Optional for individual registrants.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+fax: optional string
+
+Fax number in E.164 format (e.g., <code>+1.5555555555</code>). Optional. Most registrations do not require a fax number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+technical: optional object {email, phone, postal\_info, fax }
+
+Optional technical contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from <code>contacts.registrant</code>.
+
+</summary>
+
+email: string
+
+Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices.
+
+formatemail
+
+<a href="#">Link to this property</a>
+
+phone: string
+
+Phone number in E.164 format: <code>+{country_code}.{number}</code> without spaces or dashes. Examples: <code>+1.5555555555</code> (US), <code>+44.2071234567</code> (UK), <code>+81.312345678</code> (Japan).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+postal\_info: object {address, name, organization }
+
+Postal/mailing information for the contact. The <code>name</code> field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts.
+
+</summary>
+
+<details>
+
+<summary>
+
+address: object {city, country\_code, postal\_code, 2 more }
+
+Physical mailing address for the registrant contact.
+
+</summary>
+
+city: string
+
+City or locality name.
+
+<a href="#">Link to this property</a>
+
+country\_code: string
+
+Two-letter country code per ISO 3166-1 alpha-2 (e.g., <code>US</code>, <code>GB</code>, <code>CA</code>, <code>DE</code>).
+
+<a href="#">Link to this property</a>
+
+postal\_code: string
+
+Postal or ZIP code.
+
+<a href="#">Link to this property</a>
+
+state: string
+
+State, province, or region. Use the standard abbreviation where applicable (e.g., <code>TX</code> for Texas, <code>ON</code> for Ontario).
+
+<a href="#">Link to this property</a>
+
+street: string
+
+Street address including building/suite number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example <code>Ada Lovelace</code>; do not send separate first-name or last-name fields.
+
+<a href="#">Link to this property</a>
+
+organization: optional string
+
+Organization or company name. Optional for individual registrants.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+fax: optional string
+
+Fax number in E.164 format (e.g., <code>+1.5555555555</code>). Optional. Most registrations do not require a fax number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20contacts%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+privacy\_mode: optional "off"or "redaction"
+
+Sets the WHOIS privacy mode for the registration. Defaults to <code>redaction</code>.
+
+- <code>off</code>: Disables WHOIS privacy.
+- <code>redaction</code>: Requests WHOIS redaction where the extension supports it. Some extensions exclude privacy and redaction.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"redaction"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20privacy_mode%20%3E%20(schema)>)
+
+years: optional number
+
+Sets the registration term from 1 to 10 years. When omitted, this field defaults to the registry’s minimum registration period for the extension. Most extensions require 1 year, while some require longer minimum terms (e.g., `.ai` requires 2 years).
+
+Each registry may also enforce its own maximum registration term. A request above that maximum fails. When uncertain, omit this field to use the default.
+
+maximum10
+
+minimum1
+
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20years%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+Location of the invalid value that caused the error.
+
+</summary>
+
+pointer: string
+
+JSON Pointer to the invalid or missing request value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+Location of the invalid value that caused the error.
+
+</summary>
+
+pointer: string
+
+JSON Pointer to the invalid or missing request value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/registrar#(resource)%20registrar%20%3E%20(model)%20workflow_status%20%3E%20(schema)">WorkflowStatus</a> { completed, created\_at, links, 4 more }
+
+Status of an async registration workflow.
+
+</summary>
+
+completed: boolean
+
+Indicates whether the workflow reached a terminal state. A <code>succeeded</code> or <code>failed</code> state returns <code>true</code>; <code>pending</code>, <code>in_progress</code>, <code>action_required</code>, and <code>blocked</code> return <code>false</code>.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+links: object {self, resource }
+
+</summary>
+
+self: string
+
+URL to this status resource.
+
+<a href="#">Link to this property</a>
+
+resource: optional string
+
+URL to the domain resource.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: "pending"or "in\_progress"or "action\_required"or 3 more
+
+Describes the workflow lifecycle state.
+
+- <code>pending</code>: The workflow awaits processing.
+- <code>in_progress</code>: Processing started. Continue polling <code>links.self</code>. An internal deadline limits the duration of this state.
+- <code>action_required</code>: The workflow pauses for user action. See <code>context.action</code> for details. Stop automated polling until the user completes the required action.
+- <code>blocked</code>: A third party, such as the domain extension’s registry or a losing registrar, prevents progress. Continue polling because the block may resolve when the third party responds.
+- <code>succeeded</code>: Terminal state. The operation completed successfully. <code>completed</code> equals <code>true</code>. For registrations, <code>context.registration</code> contains the resulting registration resource.
+- <code>failed</code>: Terminal state. The operation failed. <code>completed</code> equals <code>true</code>. See <code>error.code</code> and <code>error.message</code> for the reason. Require user review before retrying.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"in\_progress"
+
+<a href="#">Link to this property</a>
+
+"action\_required"
+
+<a href="#">Link to this property</a>
+
+"blocked"
+
+<a href="#">Link to this property</a>
+
+"succeeded"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+context: optional map\[unknown]
+
+Provides workflow-specific data.
+
+For domain-centric workflows, <code>context.domain_name</code> identifies the workflow subject.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+error: optional object {code, message }
+
+Provides error details when a workflow reaches the <code>failed</code> state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error <code>errors[].code</code> values in non-2xx responses. Surface <code>error.message</code> to the user for context.
+
+</summary>
+
+code: string
+
+Machine-readable error code identifying the failure reason.
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Human-readable explanation of the failure. May include registry-specific details.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20registrar.registrations%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create Registration
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/registrar/registrations \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{
-          "domain_name": "my-new-startup.com",
+          "domain_name": "my-brand-example.io",
+          "acknowledgements": {
+            "fees": "bar"
+          },
+          "contact_extensions": {
+            "application_purpose": "bar",
+            "nexus_category": "bar"
+          },
           "privacy_mode": "redaction",
           "years": 1
         }'
 ```
 
-#### Response
+201 example
 
-```json
+202 example
+
+4XX example
+
+4XX example
+
+4XX example
+
+4XX example
+
+4XX example
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "completed": true,
+    "context": {
+      "domain_name": "example.com",
+      "registration": {
+        "auto_renew": true,
+        "created_at": "2025-10-27T10:00:00Z",
+        "domain_name": "example.com",
+        "expires_at": "2026-10-27T10:00:00Z",
+        "locked": true,
+        "privacy_mode": "redaction",
+        "status": "active"
+      }
+    },
+    "created_at": "2025-10-27T10:00:00Z",
+    "links": {
+      "resource": "/accounts/abc/registrar/registrations/example.com",
+      "self": "/accounts/abc/registrar/registrations/example.com/registration-status"
+    },
+    "state": "succeeded",
+    "updated_at": "2025-10-27T10:00:03Z"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "completed": false,
+    "context": {
+      "domain_name": "example.com"
+    },
+    "created_at": "2025-10-27T10:00:00Z",
+    "links": {
+      "resource": "/accounts/abc/registrar/registrations/example.com",
+      "self": "/accounts/abc/registrar/registrations/example.com/registration-status"
+    },
+    "state": "in_progress",
+    "updated_at": "2025-10-27T10:00:10Z"
+  },
+  "success": true
+}
+```
+
+```
 {
   "errors": [
     {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
+      "code": 10000,
+      "message": "Domain limit reached: you cannot register more than 500 domains.",
       "source": {
-        "pointer": "pointer"
+        "pointer": "/domain_name"
       }
     }
   ],
-  "messages": [
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
     {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
+      "code": 10000,
+      "message": "domain_name is required",
       "source": {
-        "pointer": "pointer"
+        "pointer": "/domain_name"
       }
     }
   ],
-  "result": {
-    "completed": false,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "links": {
-      "self": "/accounts/{account_id}/registrar/registrations/example.com/registration-status",
-      "resource": "/accounts/{account_id}/registrar/registrations/example.com"
-    },
-    "state": "in_progress",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "context": {
-      "foo": "bar"
-    },
-    "error": {
-      "code": "registry_rejected",
-      "message": "Registry rejected the request."
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 10000,
+      "message": "Must be a boolean",
+      "source": {
+        "pointer": "/auto_renew"
+      }
     }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 10000,
+      "message": "No registrant contact provided and no default address book entry found for this account."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 10000,
+      "message": "Registration is not supported for this extension"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+201 example
+
+202 example
+
+4XX example
+
+4XX example
+
+4XX example
+
+4XX example
+
+4XX example
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "completed": true,
+    "context": {
+      "domain_name": "example.com",
+      "registration": {
+        "auto_renew": true,
+        "created_at": "2025-10-27T10:00:00Z",
+        "domain_name": "example.com",
+        "expires_at": "2026-10-27T10:00:00Z",
+        "locked": true,
+        "privacy_mode": "redaction",
+        "status": "active"
+      }
+    },
+    "created_at": "2025-10-27T10:00:00Z",
+    "links": {
+      "resource": "/accounts/abc/registrar/registrations/example.com",
+      "self": "/accounts/abc/registrar/registrations/example.com/registration-status"
+    },
+    "state": "succeeded",
+    "updated_at": "2025-10-27T10:00:03Z"
   },
   "success": true
+}
+```
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "completed": false,
+    "context": {
+      "domain_name": "example.com"
+    },
+    "created_at": "2025-10-27T10:00:00Z",
+    "links": {
+      "resource": "/accounts/abc/registrar/registrations/example.com",
+      "self": "/accounts/abc/registrar/registrations/example.com/registration-status"
+    },
+    "state": "in_progress",
+    "updated_at": "2025-10-27T10:00:10Z"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 10000,
+      "message": "Domain limit reached: you cannot register more than 500 domains.",
+      "source": {
+        "pointer": "/domain_name"
+      }
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 10000,
+      "message": "domain_name is required",
+      "source": {
+        "pointer": "/domain_name"
+      }
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 10000,
+      "message": "Must be a boolean",
+      "source": {
+        "pointer": "/auto_renew"
+      }
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 10000,
+      "message": "No registrant contact provided and no default address book entry found for this account."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 10000,
+      "message": "Registration is not supported for this extension"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

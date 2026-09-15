@@ -1,66 +1,212 @@
-## Set Global WARP override state
+---
+title: Set Global WARP override state
+---
 
-**post** `/accounts/{account_id}/devices/resilience/disconnect`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[Resilience](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/resilience)
+
+[Global WARP Override](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/resilience/subresources/global_warp_override)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Set Global WARP override state
+
+POST/accounts/{account\_id}/devices/resilience/disconnect
 
 Sets the Global WARP override state.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `disconnect: boolean`
 
-  Disconnects all devices on the account using Global WARP override.
 
-- `justification: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Reasoning for setting the Global WARP override state. This will be surfaced in the audit log.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### Accepted Permissions (at least one required)
 
-  - `source: optional object { pointer }`
+`Zero Trust Resilience Write`
 
-- `result: object { disconnect, timestamp }`
+##### P ath ParametersExpand Collapse
 
-  - `disconnect: optional boolean`
+account\_id: string
 
-    Disconnects all devices on the account using Global WARP override.
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `timestamp: optional string`
+##### Body ParametersJSONExpand Collapse
 
-    When the Global WARP override state was updated.
+disconnect: boolean
 
-- `success: true`
+Disconnects all devices on the account using Global WARP override.
 
-  Whether the API call was successful.
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20disconnect%20%3E%20(schema)>)
 
-  - `true`
+justification: optional string
 
-### Example
+Reasoning for setting the Global WARP override state. This will be surfaced in the audit log.
 
-```http
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20justification%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {disconnect, timestamp }
+
+</summary>
+
+disconnect: optional boolean
+
+Disconnects all devices on the account using Global WARP override.
+
+<a href="#">Link to this property</a>
+
+timestamp: optional string
+
+When the Global WARP override state was updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Set Global WARP override state
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/resilience/disconnect \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -70,9 +216,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/resilienc
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -96,7 +242,41 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/resilienc
   ],
   "result": {
     "disconnect": false,
-    "timestamp": "1970-01-01T00:00:00.000Z"
+    "timestamp": "1970-01-01T00:00:00Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "disconnect": false,
+    "timestamp": "1970-01-01T00:00:00Z"
   },
   "success": true
 }

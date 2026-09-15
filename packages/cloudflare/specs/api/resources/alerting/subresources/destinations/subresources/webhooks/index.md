@@ -1,578 +1,255 @@
+---
+title: Webhooks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+[Destinations](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Webhooks
 
-## List webhooks
+##### [List webhooks](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/list)
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/webhooks`
+GET/accounts/{account\_id}/alerting/v3/destinations/webhooks
 
-Gets a list of all configured webhook destinations.
+##### [Get a webhook](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/alerting/v3/destinations/webhooks/{webhook\_id}
 
-- `account_id: string`
+##### [Create a webhook](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/create)
 
-  The account id
+POST/accounts/{account\_id}/alerting/v3/destinations/webhooks
 
-### Returns
+##### [Update a webhook](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/update)
 
-- `errors: array of object { message, code }`
+PUT/accounts/{account\_id}/alerting/v3/destinations/webhooks/{webhook\_id}
 
-  - `message: string`
+##### [Delete a webhook](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/delete)
 
-  - `code: optional number`
+DELETE/accounts/{account\_id}/alerting/v3/destinations/webhooks/{webhook\_id}
 
-- `messages: array of object { message, code }`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `code: optional number`
+<summary>
 
-- `success: true`
+Webhooks object {id, created\_at, last\_failure, 5 more }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+id: optional string
 
-- `result: optional array of Webhooks`
+The unique identifier of a webhook
 
-  - `id: optional string`
+maxLength32
 
-    The unique identifier of a webhook
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+created\_at: optional string
 
-    Timestamp of when the webhook destination was created.
+Timestamp of when the webhook destination was created.
 
-  - `last_failure: optional string`
+formatdate-time
 
-    Timestamp of the last time an attempt to dispatch a notification to this webhook failed.
+<a href="#">Link to this property</a>
 
-  - `last_success: optional string`
+last\_failure: optional string
 
-    Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook.
+Timestamp of the last time an attempt to dispatch a notification to this webhook failed.
 
-  - `name: optional string`
+formatdate-time
 
-    The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
+<a href="#">Link to this property</a>
 
-  - `secret: optional string`
+last\_success: optional string
 
-    Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
+Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook.
 
-  - `type: optional "datadog" or "discord" or "feishu" or 5 more`
+formatdate-time
 
-    Type of webhook endpoint.
+<a href="#">Link to this property</a>
 
-    - `"datadog"`
+name: optional string
 
-    - `"discord"`
+The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
 
-    - `"feishu"`
+<a href="#">Link to this property</a>
 
-    - `"gchat"`
+secret: optional string
 
-    - `"generic"`
+Optional secret that will be passed in the <code>cf-webhook-auth</code> header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
 
-    - `"opsgenie"`
+<a href="#">Link to this property</a>
 
-    - `"slack"`
+<details>
 
-    - `"splunk"`
+<summary>
 
-  - `url: optional string`
+type: optional "datadog"or "discord"or "feishu"or 5 more
 
-    The POST endpoint to call when dispatching a notification.
+Type of webhook endpoint.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"datadog"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "b115d5ec15c641ee8b7692c449b5227b",
-      "created_at": "2020-10-26T18:25:04.532316Z",
-      "last_failure": "2020-10-26T18:25:04.532316Z",
-      "last_success": "2020-10-26T18:25:04.532316Z",
-      "name": "Slack Webhook",
-      "type": "slack",
-      "url": "https://hooks.slack.com/services/Ds3fdBFbV/456464Gdd"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Get a webhook
+"discord"
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}`
+<a href="#">Link to this property</a>
 
-Get details for a single webhooks destination.
+"feishu"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"gchat"
 
-  The account id
+<a href="#">Link to this property</a>
 
-- `webhook_id: string`
+"generic"
 
-  The unique identifier of a webhook
+<a href="#">Link to this property</a>
 
-### Returns
+"opsgenie"
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"slack"
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+"splunk"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+url: optional string
 
-  - `true`
+The POST endpoint to call when dispatching a notification.
 
-- `result: optional Webhooks`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    The unique identifier of a webhook
+[Link to this property](#)%20alerting.destinations.webhooks%20%3E%20(model)%20webhooks%20%3E%20(schema)>)
 
-  - `created_at: optional string`
+<details>
 
-    Timestamp of when the webhook destination was created.
+<summary>
 
-  - `last_failure: optional string`
+WebhookCreateResponse object {id }
 
-    Timestamp of the last time an attempt to dispatch a notification to this webhook failed.
+</summary>
 
-  - `last_success: optional string`
+id: optional string
 
-    Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook.
+UUID
 
-  - `name: optional string`
+maxLength32
 
-    The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
+<a href="#">Link to this property</a>
 
-  - `secret: optional string`
+</details>
 
-    Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
+[Link to this property](#)%20alerting.destinations.webhooks%20%3E%20(model)%20webhook_create_response%20%3E%20(schema)>)
 
-  - `type: optional "datadog" or "discord" or "feishu" or 5 more`
+<details>
 
-    Type of webhook endpoint.
+<summary>
 
-    - `"datadog"`
+WebhookUpdateResponse object {id }
 
-    - `"discord"`
+</summary>
 
-    - `"feishu"`
+id: optional string
 
-    - `"gchat"`
+UUID
 
-    - `"generic"`
+maxLength32
 
-    - `"opsgenie"`
+<a href="#">Link to this property</a>
 
-    - `"slack"`
+</details>
 
-    - `"splunk"`
+[Link to this property](#)%20alerting.destinations.webhooks%20%3E%20(model)%20webhook_update_response%20%3E%20(schema)>)
 
-  - `url: optional string`
+<details>
 
-    The POST endpoint to call when dispatching a notification.
+<summary>
 
-### Example
+WebhookDeleteResponse object {errors, messages, success }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks/$WEBHOOK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "b115d5ec15c641ee8b7692c449b5227b",
-    "created_at": "2020-10-26T18:25:04.532316Z",
-    "last_failure": "2020-10-26T18:25:04.532316Z",
-    "last_success": "2020-10-26T18:25:04.532316Z",
-    "name": "Slack Webhook",
-    "type": "slack",
-    "url": "https://hooks.slack.com/services/Ds3fdBFbV/456464Gdd"
-  }
-}
-```
+<summary>
 
-## Create a webhook
+errors: array of object {message, code }
 
-**post** `/accounts/{account_id}/alerting/v3/destinations/webhooks`
+</summary>
 
-Creates a new webhook destination.
+message: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+code: optional number
 
-  The account id
+minimum1000
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: string`
+</details>
 
-  The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
+<a href="#">Link to this property</a>
 
-- `url: string`
+<details>
 
-  The POST endpoint to call when dispatching a notification.
+<summary>
 
-- `secret: optional string`
+messages: array of object {message, code }
 
-  Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
+</summary>
 
-### Returns
+message: string
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+code: optional number
 
-  - `code: optional number`
+minimum1000
 
-- `messages: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+success: true
 
-  Whether the API call was successful
+Whether the API call was successful
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id }`
+</details>
 
-  - `id: optional string`
-
-    UUID
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Slack Webhook",
-          "url": "https://hooks.slack.com/services/Ds3fdBFbV/456464Gdd"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90afafe4643bbbc4a0ed4fc8415"
-  }
-}
-```
-
-## Update a webhook
-
-**put** `/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}`
-
-Update a webhook destination.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account id
-
-- `webhook_id: string`
-
-  The unique identifier of a webhook
-
-### Body Parameters
-
-- `name: string`
-
-  The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
-
-- `url: string`
-
-  The POST endpoint to call when dispatching a notification.
-
-- `secret: optional string`
-
-  Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `messages: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    UUID
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks/$WEBHOOK_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Slack Webhook",
-          "url": "https://hooks.slack.com/services/Ds3fdBFbV/456464Gdd"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90afafe4643bbbc4a0ed4fc8415"
-  }
-}
-```
-
-## Delete a webhook
-
-**delete** `/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}`
-
-Delete a configured webhook destination.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account id
-
-- `webhook_id: string`
-
-  The unique identifier of a webhook
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `messages: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks/$WEBHOOK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Webhooks
-
-- `Webhooks object { id, created_at, last_failure, 5 more }`
-
-  - `id: optional string`
-
-    The unique identifier of a webhook
-
-  - `created_at: optional string`
-
-    Timestamp of when the webhook destination was created.
-
-  - `last_failure: optional string`
-
-    Timestamp of the last time an attempt to dispatch a notification to this webhook failed.
-
-  - `last_success: optional string`
-
-    Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook.
-
-  - `name: optional string`
-
-    The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
-
-  - `secret: optional string`
-
-    Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
-
-  - `type: optional "datadog" or "discord" or "feishu" or 5 more`
-
-    Type of webhook endpoint.
-
-    - `"datadog"`
-
-    - `"discord"`
-
-    - `"feishu"`
-
-    - `"gchat"`
-
-    - `"generic"`
-
-    - `"opsgenie"`
-
-    - `"slack"`
-
-    - `"splunk"`
-
-  - `url: optional string`
-
-    The POST endpoint to call when dispatching a notification.
-
-### Webhook Create Response
-
-- `WebhookCreateResponse object { id }`
-
-  - `id: optional string`
-
-    UUID
-
-### Webhook Update Response
-
-- `WebhookUpdateResponse object { id }`
-
-  - `id: optional string`
-
-    UUID
-
-### Webhook Delete Response
-
-- `WebhookDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `messages: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `success: true`
-
-    Whether the API call was successful
-
-    - `true`
+[Link to this property](#)%20alerting.destinations.webhooks%20%3E%20(model)%20webhook_delete_response%20%3E%20(schema)>)

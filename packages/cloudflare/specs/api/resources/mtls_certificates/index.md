@@ -1,889 +1,275 @@
+---
+title: MTLS Certificates
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # MTLS Certificates
 
-## List mTLS certificates
+##### [List mTLS certificates](https://developers.cloudflare.com/api/resources/mtls_certificates/methods/list)
 
-**get** `/accounts/{account_id}/mtls_certificates`
+GET/accounts/{account\_id}/mtls\_certificates
 
-Lists all mTLS certificates uploaded to your account, such as Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the Cloudflare managed CA, use the [List Client Certificates endpoint](/api/resources/client_certificates/methods/list/).
+##### [Get mTLS certificate](https://developers.cloudflare.com/api/resources/mtls_certificates/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/mtls\_certificates/{mtls\_certificate\_id}
 
-- `account_id: string`
+##### [Upload mTLS certificate](https://developers.cloudflare.com/api/resources/mtls_certificates/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/mtls\_certificates
 
-### Query Parameters
+##### [Delete mTLS certificate](https://developers.cloudflare.com/api/resources/mtls_certificates/methods/delete)
 
-- `type: optional array of "custom" or "gateway_managed" or "access_managed"`
+DELETE/accounts/{account\_id}/mtls\_certificates/{mtls\_certificate\_id}
 
-  Filters results by certificate type. Multiple types can be comma-separated.
+##### ModelsExpand Collapse
 
-  - `"custom"`
+<details>
 
-  - `"gateway_managed"`
+<summary>
 
-  - `"access_managed"`
+MTLSCertificate object {id, ca, certificates, 7 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+Identifier.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+ca: optional boolean
 
-    - `pointer: optional string`
+Indicates whether the certificate is a CA or leaf certificate.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+certificates: optional string
 
-  - `message: string`
+The uploaded root CA certificate.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+expires\_on: optional string
 
-    - `pointer: optional string`
+When the certificate expires.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+issuer: optional string
 
-- `result: optional array of MTLSCertificate`
+The certificate authority that issued the certificate.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+name: optional string
 
-  - `ca: optional boolean`
+Optional unique name for the certificate. Only used for human readability.
 
-    Indicates whether the certificate is a CA or leaf certificate.
+<a href="#">Link to this property</a>
 
-  - `certificates: optional string`
+serial\_number: optional string
 
-    The uploaded root CA certificate.
+The certificate serial number.
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the certificate expires.
+signature: optional string
 
-  - `issuer: optional string`
+The type of hash used for the certificate.
 
-    The certificate authority that issued the certificate.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+<details>
 
-    Optional unique name for the certificate. Only used for human readability.
+<summary>
 
-  - `serial_number: optional string`
+type: optional "custom"or "gateway\_managed"or "access\_managed"
 
-    The certificate serial number.
+The type of the certificate, indicating how it was created and who manages it.
 
-  - `signature: optional string`
+</summary>
 
-    The type of hash used for the certificate.
+One of the following:
 
-  - `type: optional "custom" or "gateway_managed" or "access_managed"`
+"custom"
 
-    The type of the certificate, indicating how it was created and who manages it.
+<a href="#">Link to this property</a>
 
-    - `"custom"`
+"gateway\_managed"
 
-    - `"gateway_managed"`
+<a href="#">Link to this property</a>
 
-    - `"access_managed"`
+"access\_managed"
 
-  - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-    This is the time the certificate was uploaded.
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+uploaded\_on: optional string
 
-    Total number of results for the requested service.
+This is the time the certificate was uploaded.
 
-  - `page: optional number`
+formatdate-time
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+[Link to this property](#)%20mtls_certificates%20%3E%20(model)%20mtls_certificate%20%3E%20(schema)>)
 
-  - `total_count: optional number`
+<details>
 
-    Total results available without any search parameters.
+<summary>
 
-  - `total_pages: optional number`
+MTLSCertificateCreateResponse object {id, ca, certificates, 8 more }
 
-    Total pages available of results.
+</summary>
 
-### Example
+id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mtls_certificates \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Identifier.
 
-#### Response
+maxLength32
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "ca": true,
-      "certificates": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQEL\nBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNV\nBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIx\nNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgM\nDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4\nYW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwg\nJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kC\nM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZ\nCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9\nK3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1Mx\nuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcL\nypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7\nz2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7\nNDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ711\n1Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTi\ni7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG\n+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomo\nShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4\nJhqeoTewsxndhDDE\n-----END CERTIFICATE-----",
-      "expires_on": "2122-10-29T16:59:47Z",
-      "issuer": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-      "name": "example_ca_cert",
-      "serial_number": "235217144297995885180570755458463043449861756659",
-      "signature": "SHA256WithRSA",
-      "type": "custom",
-      "uploaded_on": "2022-11-22T17:32:30.467938Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 1,
-    "total_pages": 1
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get mTLS certificate
+ca: optional boolean
 
-**get** `/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}`
+Indicates whether the certificate is a CA or leaf certificate.
 
-Fetches a single mTLS certificate uploaded to your account. To get a certificate issued by the Cloudflare managed CA, use the [Client Certificate Details endpoint](/api/resources/client_certificates/methods/get/).
+<a href="#">Link to this property</a>
 
-### Path Parameters
+certificates: optional string
 
-- `account_id: string`
+The uploaded root CA certificate.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `mtls_certificate_id: string`
+expires\_on: optional string
 
-  Identifier.
+When the certificate expires.
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+issuer: optional string
 
-  - `message: string`
+The certificate authority that issued the certificate.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+Optional unique name for the certificate. Only used for human readability.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+serial\_number: optional string
 
-  - `message: string`
+The certificate serial number.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+signature: optional string
 
-    - `pointer: optional string`
+The type of hash used for the certificate.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional MTLSCertificate`
+type: optional "custom"or "gateway\_managed"or "access\_managed"
 
-  - `id: optional string`
+The type of the certificate, indicating how it was created and who manages it.
 
-    Identifier.
+</summary>
 
-  - `ca: optional boolean`
+One of the following:
 
-    Indicates whether the certificate is a CA or leaf certificate.
+"custom"
 
-  - `certificates: optional string`
+<a href="#">Link to this property</a>
 
-    The uploaded root CA certificate.
+"gateway\_managed"
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the certificate expires.
+"access\_managed"
 
-  - `issuer: optional string`
+<a href="#">Link to this property</a>
 
-    The certificate authority that issued the certificate.
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Optional unique name for the certificate. Only used for human readability.
+updated\_at: optional string
 
-  - `serial_number: optional string`
+This is the time the certificate was updated.
 
-    The certificate serial number.
+formatdate-time
 
-  - `signature: optional string`
+<a href="#">Link to this property</a>
 
-    The type of hash used for the certificate.
+uploaded\_on: optional string
 
-  - `type: optional "custom" or "gateway_managed" or "access_managed"`
+This is the time the certificate was uploaded.
 
-    The type of the certificate, indicating how it was created and who manages it.
+formatdate-time
 
-    - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `"gateway_managed"`
+</details>
 
-    - `"access_managed"`
+[Link to this property](#)%20mtls_certificates%20%3E%20(model)%20mtls_certificate_create_response%20%3E%20(schema)>)
 
-  - `uploaded_on: optional string`
+#### MTLS CertificatesAssociations
 
-    This is the time the certificate was uploaded.
+##### [List mTLS certificate associations](https://developers.cloudflare.com/api/resources/mtls_certificates/subresources/associations/methods/get)
 
-### Example
+GET/accounts/{account\_id}/mtls\_certificates/{mtls\_certificate\_id}/associations
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mtls_certificates/$MTLS_CERTIFICATE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### ModelsExpand Collapse
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "ca": true,
-    "certificates": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQEL\nBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNV\nBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIx\nNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgM\nDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4\nYW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwg\nJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kC\nM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZ\nCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9\nK3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1Mx\nuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcL\nypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7\nz2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7\nNDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ711\n1Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTi\ni7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG\n+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomo\nShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4\nJhqeoTewsxndhDDE\n-----END CERTIFICATE-----",
-    "expires_on": "2122-10-29T16:59:47Z",
-    "issuer": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "name": "example_ca_cert",
-    "serial_number": "235217144297995885180570755458463043449861756659",
-    "signature": "SHA256WithRSA",
-    "type": "custom",
-    "uploaded_on": "2022-11-22T17:32:30.467938Z"
-  }
-}
-```
+<summary>
 
-## Upload mTLS certificate
+CertificateAsssociation object {service, status }
 
-**post** `/accounts/{account_id}/mtls_certificates`
+</summary>
 
-Upload a certificate that you want to use with mTLS-enabled Cloudflare services, such as Bring Your Own CA (BYO-CA) for mTLS. To create certificates issued by the Cloudflare managed CA, use the [Create Client Certificate endpoint](/api/resources/client_certificates/methods/create/).
+service: optional string
 
-### Path Parameters
+The service using the certificate.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+status: optional string
 
-### Body Parameters
+Certificate deployment status for the given service.
 
-- `ca: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the certificate is a CA or leaf certificate.
+</details>
 
-- `certificates: string`
-
-  The uploaded root CA certificate.
-
-- `name: optional string`
-
-  Optional unique name for the certificate. Only used for human readability.
-
-- `private_key: optional string`
-
-  The private key for the certificate. This field is only needed for specific use cases such as using a custom certificate with Zero Trust's block page.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, ca, certificates, 8 more }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `ca: optional boolean`
-
-    Indicates whether the certificate is a CA or leaf certificate.
-
-  - `certificates: optional string`
-
-    The uploaded root CA certificate.
-
-  - `expires_on: optional string`
-
-    When the certificate expires.
-
-  - `issuer: optional string`
-
-    The certificate authority that issued the certificate.
-
-  - `name: optional string`
-
-    Optional unique name for the certificate. Only used for human readability.
-
-  - `serial_number: optional string`
-
-    The certificate serial number.
-
-  - `signature: optional string`
-
-    The type of hash used for the certificate.
-
-  - `type: optional "custom" or "gateway_managed" or "access_managed"`
-
-    The type of the certificate, indicating how it was created and who manages it.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-    - `"access_managed"`
-
-  - `updated_at: optional string`
-
-    This is the time the certificate was updated.
-
-  - `uploaded_on: optional string`
-
-    This is the time the certificate was uploaded.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mtls_certificates \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ca": true,
-          "certificates": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQEL\\nBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNV\\nBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIx\\nNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgM\\nDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4\\nYW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwg\\nJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kC\\nM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZ\\nCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9\\nK3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1Mx\\nuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcL\\nypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7\\nz2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQE\\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7\\nNDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ711\\n1Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTi\\ni7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG\\n+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomo\\nShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4\\nJhqeoTewsxndhDDE\\n-----END CERTIFICATE-----",
-          "name": "example_ca_cert",
-          "private_key": "-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDEXDkcICRU3XBv\\n9hiiPnBWIjgTQyowmVFxDr11mONgZB/cMYjE/OvQjvnpwNcOaSK16MOpAjNbELKR\\nx2lZiVJaLRDCccqCxXwP/CrdRChcqGzo7mbNksMlcidrErb0LlEBKLFC2QjRmRKq\\nB+YOs4TD8WsZu2S667A2fZmjRlaqOxFi1h62ee0P+TLU628UC/nl41JifSt5Evt7\\nhMDHakemdwZblNYr2p6T3NQjdhjYXTtP4UmOGJBhJ7i7Kicg3d3CIgdTMbggSeGW\\nqjndr4ldVnD96FN3cVT5uDFsn2CJXTFgdeBWoUnMS4VnUZzPWGf4vSBXC8qV7Ls+\\nw46yT7T1AgMBAAECggEAQZnp/oqCeNPOR6l5S2L+1tfx0gWjZ78hJVteUpZ0iHSK\\n7F6kKeOxyOird7vUXV0kmo+cJq+0hp0Ke4eam640FCpwKfYoSQ4/R3vgujGWJnai\\nhCN5tv5sMet0XeJPuz5qE7ALoKCvwI6aXLHs20aAeZIDTQJ9QbGSGnJVzOWn+JDT\\nidIgZpN57RpXfSAwnJPTQK/PN8i5z108hsaDOdEgGmxYZ7kYqMqzX20KXmth58LD\\nfPixs5JGtS60iiKC/wOcGzkB2/AdTSojR76oEU77cANP/3zO25NG//whUdYlW0t0\\nd7PgXxIeJe+xgYnamDQJx3qonVyt4H77ha0ObRAj9QKBgQDicZr+VTwFMnELP3a+\\nFXGnjehRiuS1i7MXGKxNweCD+dFlML0FplSQS8Ro2n+d8lu8BBXGx0qm6VXu8Rhn\\n7TAUL6q+PCgfarzxfIhacb/TZCqfieIHsMlVBfhV5HCXnk+kis0tuC/PRArcWTwD\\nHJUJXkBhvkUsNswvQzavDPI7KwKBgQDd/WgLkj7A3X5fgIHZH/GbDSBiXwzKb+rF\\n4ZCT2XFgG/OAW7vapfcX/w+v+5lBLyrocmOAS3PGGAhM5T3HLnUCQfnK4qgps1Lq\\nibkc9Tmnsn60LanUjuUMsYv/zSw70tozbzhJ0pioEpWfRxRZBztO2Rr8Ntm7h6Fk\\n701EXGNAXwKBgQCD1xsjy2J3sCerIdcz0u5qXLAPkeuZW+34m4/ucdwTWwc0gEz9\\nlhsULFj9p4G351zLuiEnq+7mAWLcDJlmIO3mQt6JhiLiL9Y0T4pgBmxmWqKKYtAs\\nJB0EmMY+1BNN44mBRqMxZFTJu1cLdhT/xstrOeoIPqytknYNanfTMZlzIwKBgHrL\\nXe5oq0XMP8dcMneEcAUwsaU4pr6kQd3L9EmUkl5zl7J9C+DaxWAEuwzBw/iGutlx\\nzRB+rD/7szu14wJ29EqXbDGKRzMp+se5/yfBjm7xEZ1hVPw7PwBShfqt57X/4Ktq\\n7lwHnmH6RcGhc+P7WBc5iO/S94YAdIp8xOT3pf9JAoGAE0QkqJUY+5Mgr+fBO0VN\\nV72ZoPveGpW+De59uhKAOnu1zljQCUtk59m6+DXfm0tNYKtawa5n8iN71Zh+s62x\\nXSt3pYi1Y5CCCmv8Y4BhwIcPwXKk3zEvLgSHVTpC0bayA9aSO4bbZgVXa5w+Z0w/\\nvvfp9DWo1IS3EnQRrz6WMYA=\\n-----END PRIVATE KEY-----"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "ca": true,
-    "certificates": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQEL\nBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNV\nBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIx\nNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgM\nDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4\nYW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwg\nJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kC\nM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZ\nCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9\nK3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1Mx\nuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcL\nypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7\nz2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7\nNDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ711\n1Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTi\ni7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG\n+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomo\nShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4\nJhqeoTewsxndhDDE\n-----END CERTIFICATE-----",
-    "expires_on": "2122-10-29T16:59:47Z",
-    "issuer": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "name": "example_ca_cert",
-    "serial_number": "235217144297995885180570755458463043449861756659",
-    "signature": "SHA256WithRSA",
-    "type": "custom",
-    "updated_at": "2022-11-22T17:32:30.467938Z",
-    "uploaded_on": "2022-11-22T17:32:30.467938Z"
-  }
-}
-```
-
-## Delete mTLS certificate
-
-**delete** `/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}`
-
-Deletes the mTLS certificate unless the certificate is in use by one or more Cloudflare services.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `mtls_certificate_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional MTLSCertificate`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `ca: optional boolean`
-
-    Indicates whether the certificate is a CA or leaf certificate.
-
-  - `certificates: optional string`
-
-    The uploaded root CA certificate.
-
-  - `expires_on: optional string`
-
-    When the certificate expires.
-
-  - `issuer: optional string`
-
-    The certificate authority that issued the certificate.
-
-  - `name: optional string`
-
-    Optional unique name for the certificate. Only used for human readability.
-
-  - `serial_number: optional string`
-
-    The certificate serial number.
-
-  - `signature: optional string`
-
-    The type of hash used for the certificate.
-
-  - `type: optional "custom" or "gateway_managed" or "access_managed"`
-
-    The type of the certificate, indicating how it was created and who manages it.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-    - `"access_managed"`
-
-  - `uploaded_on: optional string`
-
-    This is the time the certificate was uploaded.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mtls_certificates/$MTLS_CERTIFICATE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "ca": true,
-    "certificates": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQEL\nBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNV\nBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIx\nNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgM\nDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4\nYW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwg\nJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kC\nM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZ\nCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9\nK3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1Mx\nuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcL\nypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7\nz2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7\nNDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ711\n1Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTi\ni7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG\n+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomo\nShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4\nJhqeoTewsxndhDDE\n-----END CERTIFICATE-----",
-    "expires_on": "2122-10-29T16:59:47Z",
-    "issuer": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "name": "example_ca_cert",
-    "serial_number": "235217144297995885180570755458463043449861756659",
-    "signature": "SHA256WithRSA",
-    "type": "custom",
-    "uploaded_on": "2022-11-22T17:32:30.467938Z"
-  }
-}
-```
-
-## Domain Types
-
-### MTLS Certificate
-
-- `MTLSCertificate object { id, ca, certificates, 7 more }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `ca: optional boolean`
-
-    Indicates whether the certificate is a CA or leaf certificate.
-
-  - `certificates: optional string`
-
-    The uploaded root CA certificate.
-
-  - `expires_on: optional string`
-
-    When the certificate expires.
-
-  - `issuer: optional string`
-
-    The certificate authority that issued the certificate.
-
-  - `name: optional string`
-
-    Optional unique name for the certificate. Only used for human readability.
-
-  - `serial_number: optional string`
-
-    The certificate serial number.
-
-  - `signature: optional string`
-
-    The type of hash used for the certificate.
-
-  - `type: optional "custom" or "gateway_managed" or "access_managed"`
-
-    The type of the certificate, indicating how it was created and who manages it.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-    - `"access_managed"`
-
-  - `uploaded_on: optional string`
-
-    This is the time the certificate was uploaded.
-
-### MTLS Certificate Create Response
-
-- `MTLSCertificateCreateResponse object { id, ca, certificates, 8 more }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `ca: optional boolean`
-
-    Indicates whether the certificate is a CA or leaf certificate.
-
-  - `certificates: optional string`
-
-    The uploaded root CA certificate.
-
-  - `expires_on: optional string`
-
-    When the certificate expires.
-
-  - `issuer: optional string`
-
-    The certificate authority that issued the certificate.
-
-  - `name: optional string`
-
-    Optional unique name for the certificate. Only used for human readability.
-
-  - `serial_number: optional string`
-
-    The certificate serial number.
-
-  - `signature: optional string`
-
-    The type of hash used for the certificate.
-
-  - `type: optional "custom" or "gateway_managed" or "access_managed"`
-
-    The type of the certificate, indicating how it was created and who manages it.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-    - `"access_managed"`
-
-  - `updated_at: optional string`
-
-    This is the time the certificate was updated.
-
-  - `uploaded_on: optional string`
-
-    This is the time the certificate was uploaded.
-
-# Associations
-
-## List mTLS certificate associations
-
-**get** `/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}/associations`
-
-Lists all active associations between the certificate and Cloudflare services.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `mtls_certificate_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of CertificateAsssociation`
-
-  - `service: optional string`
-
-    The service using the certificate.
-
-  - `status: optional string`
-
-    Certificate deployment status for the given service.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mtls_certificates/$MTLS_CERTIFICATE_ID/associations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "service": "gateway",
-      "status": "pending_deployment"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Certificate Asssociation
-
-- `CertificateAsssociation object { service, status }`
-
-  - `service: optional string`
-
-    The service using the certificate.
-
-  - `status: optional string`
-
-    Certificate deployment status for the given service.
+[Link to this property](#)%20mtls_certificates.associations%20%3E%20(model)%20certificate_asssociation%20%3E%20(schema)>)

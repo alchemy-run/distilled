@@ -1,1886 +1,1567 @@
+---
+title: Network Interconnects
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Network Interconnects
 
-# CNIs
+#### Network InterconnectsCNIs
 
-## List existing CNI objects
+##### [List existing CNI objects](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/list)
 
-**get** `/accounts/{account_id}/cni/cnis`
+GET/accounts/{account\_id}/cni/cnis
 
-List existing CNI objects
+##### [Get information about a CNI object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/cni/cnis/{cni}
 
-- `account_id: string`
+##### [Create a new CNI object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/create)
 
-  Customer account tag
+POST/accounts/{account\_id}/cni/cnis
 
-### Query Parameters
+##### [Modify stored information about a CNI object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/update)
 
-- `cursor: optional number`
+PUT/accounts/{account\_id}/cni/cnis/{cni}
 
-- `limit: optional number`
+##### [Delete a specified CNI object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/delete)
 
-- `slot: optional string`
+DELETE/accounts/{account\_id}/cni/cnis/{cni}
 
-  If specified, only show CNIs associated with the specified slot
+##### ModelsExpand Collapse
 
-- `tunnel_id: optional string`
+<details>
 
-  If specified, only show cnis associated with the specified tunnel id
+<summary>
 
-### Returns
+CNIListResponse object {items, next }
 
-- `items: array of object { id, account, cust_ip, 4 more }`
+</summary>
 
-  - `id: string`
+<details>
 
-  - `account: string`
+<summary>
 
-    Customer account tag
+items: array of object {id, account, cust\_ip, 5 more }
 
-  - `cust_ip: string`
+</summary>
 
-    Customer end of the point-to-point link
+id: string
 
-    This should always be inside the same prefix as `p2p_ip`.
+formatuuid
 
-  - `interconnect: string`
+<a href="#">Link to this property</a>
 
-    Interconnect identifier hosting this CNI
+account: string
 
-  - `magic: object { conduit_name, description, mtu }`
+Customer account tag
 
-    - `conduit_name: string`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+cust\_ip: string
 
-    - `mtu: number`
+Customer end of the point-to-point link
 
-  - `p2p_ip: string`
+This should always be inside the same prefix as <code>p2p_ip</code>.
 
-    Cloudflare end of the point-to-point link
+formatA.B.C.D/N
 
-  - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<a href="#">Link to this property</a>
 
-    - `customer_asn: number`
+interconnect: string
 
-      ASN used on the customer end of the BGP session
+Interconnect identifier hosting this CNI
 
-    - `extra_prefixes: array of string`
+<a href="#">Link to this property</a>
 
-      Extra set of static prefixes to advertise to the customer's end of the session
+<details>
 
-    - `md5_key: optional string`
+<summary>
 
-      MD5 key to use for session authentication.
+magic: object {conduit\_name, description, mtu }
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+</summary>
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+conduit\_name: string
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+description: string
 
-- `next: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+mtu: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatint32
 
-#### Response
+minimum0
 
-```json
-{
-  "items": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "account": "account",
-      "cust_ip": "192.168.3.4/31",
-      "interconnect": "interconnect",
-      "magic": {
-        "conduit_name": "conduit_name",
-        "description": "description",
-        "mtu": 0
-      },
-      "p2p_ip": "192.168.3.4/31",
-      "bgp": {
-        "customer_asn": 0,
-        "extra_prefixes": [
-          "string"
-        ],
-        "md5_key": "md5_key"
-      }
-    }
-  ],
-  "next": 0
-}
-```
+<a href="#">Link to this property</a>
 
-## Get information about a CNI object
+</details>
 
-**get** `/accounts/{account_id}/cni/cnis/{cni}`
+<a href="#">Link to this property</a>
 
-Get information about a CNI object
+p2p\_ip: string
 
-### Path Parameters
+Cloudflare end of the point-to-point link
 
-- `account_id: string`
+formatA.B.C.D/N
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `cni: string`
+<details>
 
-### Returns
+<summary>
 
-- `id: string`
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
 
-- `account: string`
+</summary>
 
-  Customer account tag
+customer\_asn: number
 
-- `cust_ip: string`
+ASN used on the customer end of the BGP session
 
-  Customer end of the point-to-point link
+formatint32
 
-  This should always be inside the same prefix as `p2p_ip`.
+minimum0
 
-- `interconnect: string`
+<a href="#">Link to this property</a>
 
-  Interconnect identifier hosting this CNI
+extra\_prefixes: array of string
 
-- `magic: object { conduit_name, description, mtu }`
+Extra set of static prefixes to advertise to the customer’s end of the session
 
-  - `conduit_name: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+md5\_key: optional string
 
-  - `mtu: number`
+MD5 key to use for session authentication.
 
-- `p2p_ip: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-  Cloudflare end of the point-to-point link
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-  - `customer_asn: number`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-    ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-  - `extra_prefixes: array of string`
+</details>
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+<a href="#">Link to this property</a>
 
-  - `md5_key: optional string`
+<details>
 
-    MD5 key to use for session authentication.
+<summary>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+The BGP mode for a CNI.
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+Controls the customer-facing data path:
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis/$CNI \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"dynamic\_route\_exchange"
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "account": "account",
-  "cust_ip": "192.168.3.4/31",
-  "interconnect": "interconnect",
-  "magic": {
-    "conduit_name": "conduit_name",
-    "description": "description",
-    "mtu": 0
-  },
-  "p2p_ip": "192.168.3.4/31",
-  "bgp": {
-    "customer_asn": 0,
-    "extra_prefixes": [
-      "string"
-    ],
-    "md5_key": "md5_key"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new CNI object
+"advertise\_only"
 
-**post** `/accounts/{account_id}/cni/cnis`
+<a href="#">Link to this property</a>
 
-Create a new CNI object
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-### Body Parameters
+next: optional number
 
-- `account: string`
+formatint32
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `interconnect: string`
+</details>
 
-- `magic: object { conduit_name, description, mtu }`
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_list_response%20%3E%20(schema)>)
 
-  - `conduit_name: string`
+<details>
 
-  - `description: string`
+<summary>
 
-  - `mtu: number`
+CNIGetResponse object {id, account, cust\_ip, 5 more }
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+</summary>
 
-  - `customer_asn: number`
+id: string
 
-    ASN used on the customer end of the BGP session
+formatuuid
 
-  - `extra_prefixes: array of string`
+<a href="#">Link to this property</a>
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+account: string
 
-  - `md5_key: optional string`
+Customer account tag
 
-    MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+cust\_ip: string
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+Customer end of the point-to-point link
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+This should always be inside the same prefix as <code>p2p_ip</code>.
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+formatA.B.C.D/N
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+interconnect: string
 
-- `account: string`
+Interconnect identifier hosting this CNI
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `cust_ip: string`
+<details>
 
-  Customer end of the point-to-point link
+<summary>
 
-  This should always be inside the same prefix as `p2p_ip`.
+magic: object {conduit\_name, description, mtu }
 
-- `interconnect: string`
+</summary>
 
-  Interconnect identifier hosting this CNI
+conduit\_name: string
 
-- `magic: object { conduit_name, description, mtu }`
+<a href="#">Link to this property</a>
 
-  - `conduit_name: string`
+description: string
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-  - `mtu: number`
+mtu: number
 
-- `p2p_ip: string`
+formatint32
 
-  Cloudflare end of the point-to-point link
+minimum0
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<a href="#">Link to this property</a>
 
-  - `customer_asn: number`
+</details>
 
-    ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-  - `extra_prefixes: array of string`
+p2p\_ip: string
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+Cloudflare end of the point-to-point link
 
-  - `md5_key: optional string`
+formatA.B.C.D/N
 
-    MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+<details>
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+<summary>
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+</summary>
 
-### Example
+customer\_asn: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account": "account",
-          "interconnect": "interconnect",
-          "magic": {
-            "conduit_name": "conduit_name",
-            "description": "description",
-            "mtu": 0
-          }
-        }'
-```
+ASN used on the customer end of the BGP session
 
-#### Response
+formatint32
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "account": "account",
-  "cust_ip": "192.168.3.4/31",
-  "interconnect": "interconnect",
-  "magic": {
-    "conduit_name": "conduit_name",
-    "description": "description",
-    "mtu": 0
-  },
-  "p2p_ip": "192.168.3.4/31",
-  "bgp": {
-    "customer_asn": 0,
-    "extra_prefixes": [
-      "string"
-    ],
-    "md5_key": "md5_key"
-  }
-}
-```
+minimum0
 
-## Modify stored information about a CNI object
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/cni/cnis/{cni}`
+extra\_prefixes: array of string
 
-Modify stored information about a CNI object
+Extra set of static prefixes to advertise to the customer’s end of the session
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+md5\_key: optional string
 
-  Customer account tag
+MD5 key to use for session authentication.
 
-- `cni: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-### Body Parameters
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-- `id: string`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-- `account: string`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `cust_ip: string`
+</details>
 
-  Customer end of the point-to-point link
+<a href="#">Link to this property</a>
 
-  This should always be inside the same prefix as `p2p_ip`.
+<details>
 
-- `interconnect: string`
+<summary>
 
-  Interconnect identifier hosting this CNI
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
 
-- `magic: object { conduit_name, description, mtu }`
+The BGP mode for a CNI.
 
-  - `conduit_name: string`
+Controls the customer-facing data path:
 
-  - `description: string`
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
 
-  - `mtu: number`
+</summary>
 
-- `p2p_ip: string`
+One of the following:
 
-  Cloudflare end of the point-to-point link
+"dynamic\_route\_exchange"
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<a href="#">Link to this property</a>
 
-  - `customer_asn: number`
+"advertise\_only"
 
-    ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-  - `extra_prefixes: array of string`
+</details>
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+<a href="#">Link to this property</a>
 
-  - `md5_key: optional string`
+</details>
 
-    MD5 key to use for session authentication.
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)>)
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+<details>
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+<summary>
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+CNICreateResponse object {id, account, cust\_ip, 5 more }
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+</summary>
 
-### Returns
+id: string
 
-- `id: string`
+formatuuid
 
-- `account: string`
+<a href="#">Link to this property</a>
 
-  Customer account tag
+account: string
 
-- `cust_ip: string`
+Customer account tag
 
-  Customer end of the point-to-point link
+<a href="#">Link to this property</a>
 
-  This should always be inside the same prefix as `p2p_ip`.
+cust\_ip: string
 
-- `interconnect: string`
+Customer end of the point-to-point link
 
-  Interconnect identifier hosting this CNI
+This should always be inside the same prefix as <code>p2p_ip</code>.
 
-- `magic: object { conduit_name, description, mtu }`
+formatA.B.C.D/N
 
-  - `conduit_name: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+interconnect: string
 
-  - `mtu: number`
+Interconnect identifier hosting this CNI
 
-- `p2p_ip: string`
+<a href="#">Link to this property</a>
 
-  Cloudflare end of the point-to-point link
+<details>
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<summary>
 
-  - `customer_asn: number`
+magic: object {conduit\_name, description, mtu }
 
-    ASN used on the customer end of the BGP session
+</summary>
 
-  - `extra_prefixes: array of string`
+conduit\_name: string
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+<a href="#">Link to this property</a>
 
-  - `md5_key: optional string`
+description: string
 
-    MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+mtu: number
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+formatint32
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+minimum0
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis/$CNI \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "account": "account",
-          "cust_ip": "192.168.3.4/31",
-          "interconnect": "interconnect",
-          "magic": {
-            "conduit_name": "conduit_name",
-            "description": "description",
-            "mtu": 0
-          },
-          "p2p_ip": "192.168.3.4/31"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+p2p\_ip: string
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "account": "account",
-  "cust_ip": "192.168.3.4/31",
-  "interconnect": "interconnect",
-  "magic": {
-    "conduit_name": "conduit_name",
-    "description": "description",
-    "mtu": 0
-  },
-  "p2p_ip": "192.168.3.4/31",
-  "bgp": {
-    "customer_asn": 0,
-    "extra_prefixes": [
-      "string"
-    ],
-    "md5_key": "md5_key"
-  }
-}
-```
+Cloudflare end of the point-to-point link
 
-## Delete a specified CNI object
+formatA.B.C.D/N
 
-**delete** `/accounts/{account_id}/cni/cnis/{cni}`
+<a href="#">Link to this property</a>
 
-Delete a specified CNI object
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
 
-  Customer account tag
+</summary>
 
-- `cni: string`
+customer\_asn: number
 
-### Example
+ASN used on the customer end of the BGP session
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis/$CNI \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatint32
 
-## Domain Types
+minimum0
 
-### CNI List Response
+<a href="#">Link to this property</a>
 
-- `CNIListResponse object { items, next }`
+extra\_prefixes: array of string
 
-  - `items: array of object { id, account, cust_ip, 4 more }`
+Extra set of static prefixes to advertise to the customer’s end of the session
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+md5\_key: optional string
 
-      Customer account tag
+MD5 key to use for session authentication.
 
-    - `cust_ip: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-      Customer end of the point-to-point link
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-      This should always be inside the same prefix as `p2p_ip`.
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-    - `interconnect: string`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-      Interconnect identifier hosting this CNI
+<a href="#">Link to this property</a>
 
-    - `magic: object { conduit_name, description, mtu }`
+</details>
 
-      - `conduit_name: string`
+<a href="#">Link to this property</a>
 
-      - `description: string`
+<details>
 
-      - `mtu: number`
+<summary>
 
-    - `p2p_ip: string`
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
 
-      Cloudflare end of the point-to-point link
+The BGP mode for a CNI.
 
-    - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+Controls the customer-facing data path:
 
-      - `customer_asn: number`
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
 
-        ASN used on the customer end of the BGP session
+</summary>
 
-      - `extra_prefixes: array of string`
+One of the following:
 
-        Extra set of static prefixes to advertise to the customer's end of the session
+"dynamic\_route\_exchange"
 
-      - `md5_key: optional string`
+<a href="#">Link to this property</a>
 
-        MD5 key to use for session authentication.
+"advertise\_only"
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+</details>
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+</details>
 
-  - `next: optional number`
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_create_response%20%3E%20(schema)>)
 
-### CNI Get Response
+<details>
 
-- `CNIGetResponse object { id, account, cust_ip, 4 more }`
+<summary>
 
-  - `id: string`
+CNIUpdateResponse object {id, account, cust\_ip, 5 more }
 
-  - `account: string`
+</summary>
 
-    Customer account tag
+id: string
 
-  - `cust_ip: string`
+formatuuid
 
-    Customer end of the point-to-point link
+<a href="#">Link to this property</a>
 
-    This should always be inside the same prefix as `p2p_ip`.
+account: string
 
-  - `interconnect: string`
+Customer account tag
 
-    Interconnect identifier hosting this CNI
+<a href="#">Link to this property</a>
 
-  - `magic: object { conduit_name, description, mtu }`
+cust\_ip: string
 
-    - `conduit_name: string`
+Customer end of the point-to-point link
 
-    - `description: string`
+This should always be inside the same prefix as <code>p2p_ip</code>.
 
-    - `mtu: number`
+formatA.B.C.D/N
 
-  - `p2p_ip: string`
+<a href="#">Link to this property</a>
 
-    Cloudflare end of the point-to-point link
+interconnect: string
 
-  - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+Interconnect identifier hosting this CNI
 
-    - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-      ASN used on the customer end of the BGP session
+<details>
 
-    - `extra_prefixes: array of string`
+<summary>
 
-      Extra set of static prefixes to advertise to the customer's end of the session
+magic: object {conduit\_name, description, mtu }
 
-    - `md5_key: optional string`
+</summary>
 
-      MD5 key to use for session authentication.
+conduit\_name: string
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+description: string
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+mtu: number
 
-### CNI Create Response
+formatint32
 
-- `CNICreateResponse object { id, account, cust_ip, 4 more }`
+minimum0
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `account: string`
+</details>
 
-    Customer account tag
+<a href="#">Link to this property</a>
 
-  - `cust_ip: string`
+p2p\_ip: string
 
-    Customer end of the point-to-point link
+Cloudflare end of the point-to-point link
 
-    This should always be inside the same prefix as `p2p_ip`.
+formatA.B.C.D/N
 
-  - `interconnect: string`
+<a href="#">Link to this property</a>
 
-    Interconnect identifier hosting this CNI
+<details>
 
-  - `magic: object { conduit_name, description, mtu }`
+<summary>
 
-    - `conduit_name: string`
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
 
-    - `description: string`
+</summary>
 
-    - `mtu: number`
+customer\_asn: number
 
-  - `p2p_ip: string`
+ASN used on the customer end of the BGP session
 
-    Cloudflare end of the point-to-point link
+formatint32
 
-  - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+minimum0
 
-    - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-      ASN used on the customer end of the BGP session
+extra\_prefixes: array of string
 
-    - `extra_prefixes: array of string`
+Extra set of static prefixes to advertise to the customer’s end of the session
 
-      Extra set of static prefixes to advertise to the customer's end of the session
+<a href="#">Link to this property</a>
 
-    - `md5_key: optional string`
+md5\_key: optional string
 
-      MD5 key to use for session authentication.
+MD5 key to use for session authentication.
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-### CNI Update Response
+<a href="#">Link to this property</a>
 
-- `CNIUpdateResponse object { id, account, cust_ip, 4 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `account: string`
+<details>
 
-    Customer account tag
+<summary>
 
-  - `cust_ip: string`
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
 
-    Customer end of the point-to-point link
+The BGP mode for a CNI.
 
-    This should always be inside the same prefix as `p2p_ip`.
+Controls the customer-facing data path:
 
-  - `interconnect: string`
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
 
-    Interconnect identifier hosting this CNI
+</summary>
 
-  - `magic: object { conduit_name, description, mtu }`
+One of the following:
 
-    - `conduit_name: string`
+"dynamic\_route\_exchange"
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-    - `mtu: number`
+"advertise\_only"
 
-  - `p2p_ip: string`
+<a href="#">Link to this property</a>
 
-    Cloudflare end of the point-to-point link
+</details>
 
-  - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<a href="#">Link to this property</a>
 
-    - `customer_asn: number`
+</details>
 
-      ASN used on the customer end of the BGP session
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_update_response%20%3E%20(schema)>)
 
-    - `extra_prefixes: array of string`
+#### Network InterconnectsInterconnects
 
-      Extra set of static prefixes to advertise to the customer's end of the session
+##### [List existing interconnects](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/list)
 
-    - `md5_key: optional string`
+GET/accounts/{account\_id}/cni/interconnects
 
-      MD5 key to use for session authentication.
+##### [Get information about an interconnect object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/get)
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+GET/accounts/{account\_id}/cni/interconnects/{icon}
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+##### [Create a new interconnect](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/create)
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+POST/accounts/{account\_id}/cni/interconnects
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+##### [Delete an interconnect object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/delete)
 
-# Interconnects
+DELETE/accounts/{account\_id}/cni/interconnects/{icon}
 
-## List existing interconnects
+##### [Generate the Letter of Authorization (LOA) for a given interconnect](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/loa)
 
-**get** `/accounts/{account_id}/cni/interconnects`
+GET/accounts/{account\_id}/cni/interconnects/{icon}/loa
 
-List existing interconnects
+##### [Get the current status of an interconnect object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/status)
 
-### Path Parameters
+GET/accounts/{account\_id}/cni/interconnects/{icon}/status
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Customer account tag
+<details>
 
-### Query Parameters
+<summary>
 
-- `cursor: optional number`
+InterconnectListResponse object {items, next }
 
-- `limit: optional number`
+</summary>
 
-- `site: optional string`
+<details>
 
-  If specified, only show interconnects located at the given site
+<summary>
 
-- `type: optional string`
+items: array of object {account, facility, name, 7 more } or object {account, name, region, 4 more }
 
-  If specified, only show interconnects of the given type
+</summary>
 
-### Returns
+One of the following:
 
-- `items: array of object { account, facility, name, 5 more }  or object { account, name, region, 3 more }`
+<details>
 
-  - `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+<summary>
 
-    - `account: string`
+NscInterconnectPhysicalBody object {account, facility, name, 7 more }
 
-    - `facility: object { address, name }`
+</summary>
 
-      - `address: array of string`
+account: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-    - `site: string`
+<summary>
 
-      A Cloudflare site name.
+facility: object {address, name }
 
-    - `slot_id: string`
+</summary>
 
-    - `speed: string`
+address: array of string
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-    - `owner: optional string`
+name: string
 
-  - `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `region: string`
+name: string
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-    - `owner: optional string`
+site: string
 
-    - `speed: optional "50M" or "100M" or "200M" or 9 more`
+A Cloudflare site name.
 
-      Bandwidth structure as visible through the customer-facing API.
+<a href="#">Link to this property</a>
 
-      - `"50M"`
+slot\_id: string
 
-      - `"100M"`
+formatuuid
 
-      - `"200M"`
+<a href="#">Link to this property</a>
 
-      - `"300M"`
+speed: string
 
-      - `"400M"`
+<a href="#">Link to this property</a>
 
-      - `"500M"`
+type: string
 
-      - `"1G"`
+<a href="#">Link to this property</a>
 
-      - `"2G"`
+virtual\_port\_reservation\_id: string
 
-      - `"5G"`
+formatuuid
 
-      - `"10G"`
+<a href="#">Link to this property</a>
 
-      - `"20G"`
+ccr\_device\_name: optional string
 
-      - `"50G"`
+<a href="#">Link to this property</a>
 
-- `next: optional number`
+owner: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "items": [
-    {
-      "account": "account",
-      "facility": {
-        "address": [
-          "string"
-        ],
-        "name": "name"
-      },
-      "name": "name",
-      "site": "site",
-      "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "speed": "speed",
-      "type": "type",
-      "owner": "owner"
-    }
-  ],
-  "next": 0
-}
-```
+<details>
 
-## Get information about an interconnect object
+<summary>
 
-**get** `/accounts/{account_id}/cni/interconnects/{icon}`
+NscInterconnectGcpPartnerBody object {account, name, region, 4 more }
 
-Get information about an interconnect object
+</summary>
 
-### Path Parameters
+account: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Customer account tag
+name: string
 
-- `icon: string`
+<a href="#">Link to this property</a>
 
-### Returns
+region: string
 
-- `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `account: string`
+type: string
 
-  - `facility: object { address, name }`
+<a href="#">Link to this property</a>
 
-    - `address: array of string`
+virtual\_port\_reservation\_id: string
 
-    - `name: string`
+formatuuid
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `site: string`
+owner: optional string
 
-    A Cloudflare site name.
+<a href="#">Link to this property</a>
 
-  - `slot_id: string`
+<details>
 
-  - `speed: string`
+<summary>
 
-  - `type: string`
+speed: optional "50M"or "100M"or "200M"or 9 more
 
-  - `owner: optional string`
+Bandwidth structure as visible through the customer-facing API.
 
-- `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+</summary>
 
-  - `account: string`
+One of the following:
 
-  - `name: string`
+"50M"
 
-  - `region: string`
+<a href="#">Link to this property</a>
 
-  - `type: string`
+"100M"
 
-  - `owner: optional string`
+<a href="#">Link to this property</a>
 
-  - `speed: optional "50M" or "100M" or "200M" or 9 more`
+"200M"
 
-    Bandwidth structure as visible through the customer-facing API.
+<a href="#">Link to this property</a>
 
-    - `"50M"`
+"300M"
 
-    - `"100M"`
+<a href="#">Link to this property</a>
 
-    - `"200M"`
+"400M"
 
-    - `"300M"`
+<a href="#">Link to this property</a>
 
-    - `"400M"`
+"500M"
 
-    - `"500M"`
+<a href="#">Link to this property</a>
 
-    - `"1G"`
+"1G"
 
-    - `"2G"`
+<a href="#">Link to this property</a>
 
-    - `"5G"`
+"2G"
 
-    - `"10G"`
+<a href="#">Link to this property</a>
 
-    - `"20G"`
+"5G"
 
-    - `"50G"`
+<a href="#">Link to this property</a>
 
-### Example
+"10G"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"20G"
 
-```json
-{
-  "account": "account",
-  "facility": {
-    "address": [
-      "string"
-    ],
-    "name": "name"
-  },
-  "name": "name",
-  "site": "site",
-  "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "speed": "speed",
-  "type": "type",
-  "owner": "owner"
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new interconnect
+"50G"
 
-**post** `/accounts/{account_id}/cni/interconnects`
+<a href="#">Link to this property</a>
 
-Create a new interconnect
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `body: object { account, slot_id, type, speed }  or object { account, bandwidth, pairing_key, type }`
+<a href="#">Link to this property</a>
 
-  - `NscInterconnectCreatePhysicalBody object { account, slot_id, type, speed }`
+next: optional number
 
-    - `account: string`
+formatint32
 
-    - `slot_id: string`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+</details>
 
-    - `speed: optional string`
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_list_response%20%3E%20(schema)>)
 
-  - `NscInterconnectCreateGcpPartnerBody object { account, bandwidth, pairing_key, type }`
+<details>
 
-    - `account: string`
+<summary>
 
-    - `bandwidth: "50M" or "100M" or "200M" or 9 more`
+InterconnectGetResponse = object {account, facility, name, 7 more } or object {account, name, region, 4 more }
 
-      Bandwidth structure as visible through the customer-facing API.
+</summary>
 
-      - `"50M"`
+One of the following:
 
-      - `"100M"`
+<details>
 
-      - `"200M"`
+<summary>
 
-      - `"300M"`
+NscInterconnectPhysicalBody object {account, facility, name, 7 more }
 
-      - `"400M"`
+</summary>
 
-      - `"500M"`
+account: string
 
-      - `"1G"`
+<a href="#">Link to this property</a>
 
-      - `"2G"`
+<details>
 
-      - `"5G"`
+<summary>
 
-      - `"10G"`
+facility: object {address, name }
 
-      - `"20G"`
+</summary>
 
-      - `"50G"`
+address: array of string
 
-    - `pairing_key: string`
+<a href="#">Link to this property</a>
 
-      Pairing key provided by GCP
+name: string
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `account: string`
+name: string
 
-  - `facility: object { address, name }`
+<a href="#">Link to this property</a>
 
-    - `address: array of string`
+site: string
 
-    - `name: string`
+A Cloudflare site name.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `site: string`
+slot\_id: string
 
-    A Cloudflare site name.
+formatuuid
 
-  - `slot_id: string`
+<a href="#">Link to this property</a>
 
-  - `speed: string`
+speed: string
 
-  - `type: string`
+<a href="#">Link to this property</a>
 
-  - `owner: optional string`
+type: string
 
-- `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `account: string`
+virtual\_port\_reservation\_id: string
 
-  - `name: string`
+formatuuid
 
-  - `region: string`
+<a href="#">Link to this property</a>
 
-  - `type: string`
+ccr\_device\_name: optional string
 
-  - `owner: optional string`
+<a href="#">Link to this property</a>
 
-  - `speed: optional "50M" or "100M" or "200M" or 9 more`
+owner: optional string
 
-    Bandwidth structure as visible through the customer-facing API.
+<a href="#">Link to this property</a>
 
-    - `"50M"`
+</details>
 
-    - `"100M"`
+<a href="#">Link to this property</a>
 
-    - `"200M"`
+<details>
 
-    - `"300M"`
+<summary>
 
-    - `"400M"`
+NscInterconnectGcpPartnerBody object {account, name, region, 4 more }
 
-    - `"500M"`
+</summary>
 
-    - `"1G"`
+account: string
 
-    - `"2G"`
+<a href="#">Link to this property</a>
 
-    - `"5G"`
+name: string
 
-    - `"10G"`
+<a href="#">Link to this property</a>
 
-    - `"20G"`
+region: string
 
-    - `"50G"`
+<a href="#">Link to this property</a>
 
-### Example
+type: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account": "account",
-          "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "type": "type"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+virtual\_port\_reservation\_id: string
 
-```json
-{
-  "account": "account",
-  "facility": {
-    "address": [
-      "string"
-    ],
-    "name": "name"
-  },
-  "name": "name",
-  "site": "site",
-  "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "speed": "speed",
-  "type": "type",
-  "owner": "owner"
-}
-```
+formatuuid
 
-## Delete an interconnect object
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/cni/interconnects/{icon}`
+owner: optional string
 
-Delete an interconnect object
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Customer account tag
+speed: optional "50M"or "100M"or "200M"or 9 more
 
-- `icon: string`
+Bandwidth structure as visible through the customer-facing API.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-## Generate the Letter of Authorization (LOA) for a given interconnect
+"50M"
 
-**get** `/accounts/{account_id}/cni/interconnects/{icon}/loa`
+<a href="#">Link to this property</a>
 
-Generate the Letter of Authorization (LOA) for a given interconnect
+"100M"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"200M"
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `icon: string`
+"300M"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON/loa \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"400M"
 
-## Get the current status of an interconnect object
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cni/interconnects/{icon}/status`
+"500M"
 
-Get the current status of an interconnect object
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"1G"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Customer account tag
+"2G"
 
-- `icon: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"5G"
 
-- `Pending object { state }`
+<a href="#">Link to this property</a>
 
-  - `state: "Pending"`
+"10G"
 
-    - `"Pending"`
+<a href="#">Link to this property</a>
 
-- `Down object { state, reason }`
+"20G"
 
-  - `state: "Down"`
+<a href="#">Link to this property</a>
 
-    - `"Down"`
+"50G"
 
-  - `reason: optional string`
+<a href="#">Link to this property</a>
 
-    Diagnostic information, if available
+</details>
 
-- `Unhealthy object { state, reason }`
+<a href="#">Link to this property</a>
 
-  - `state: "Unhealthy"`
+</details>
 
-    - `"Unhealthy"`
+<a href="#">Link to this property</a>
 
-  - `reason: optional string`
+</details>
 
-    Diagnostic information, if available
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_get_response%20%3E%20(schema)>)
 
-- `Healthy object { state }`
+<details>
 
-  - `state: "Healthy"`
+<summary>
 
-    - `"Healthy"`
+InterconnectCreateResponse = object {account, facility, name, 7 more } or object {account, name, region, 4 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON/status \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+<details>
 
-```json
-{
-  "state": "Pending"
-}
-```
+<summary>
 
-## Domain Types
+NscInterconnectPhysicalBody object {account, facility, name, 7 more }
 
-### Interconnect List Response
+</summary>
 
-- `InterconnectListResponse object { items, next }`
+account: string
 
-  - `items: array of object { account, facility, name, 5 more }  or object { account, name, region, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+<details>
 
-      - `account: string`
+<summary>
 
-      - `facility: object { address, name }`
+facility: object {address, name }
 
-        - `address: array of string`
+</summary>
 
-        - `name: string`
+address: array of string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `site: string`
+name: string
 
-        A Cloudflare site name.
+<a href="#">Link to this property</a>
 
-      - `slot_id: string`
+</details>
 
-      - `speed: string`
+<a href="#">Link to this property</a>
 
-      - `type: string`
+name: string
 
-      - `owner: optional string`
+<a href="#">Link to this property</a>
 
-    - `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+site: string
 
-      - `account: string`
+A Cloudflare site name.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `region: string`
+slot\_id: string
 
-      - `type: string`
+formatuuid
 
-      - `owner: optional string`
+<a href="#">Link to this property</a>
 
-      - `speed: optional "50M" or "100M" or "200M" or 9 more`
+speed: string
 
-        Bandwidth structure as visible through the customer-facing API.
+<a href="#">Link to this property</a>
 
-        - `"50M"`
+type: string
 
-        - `"100M"`
+<a href="#">Link to this property</a>
 
-        - `"200M"`
+virtual\_port\_reservation\_id: string
 
-        - `"300M"`
+formatuuid
 
-        - `"400M"`
+<a href="#">Link to this property</a>
 
-        - `"500M"`
+ccr\_device\_name: optional string
 
-        - `"1G"`
+<a href="#">Link to this property</a>
 
-        - `"2G"`
+owner: optional string
 
-        - `"5G"`
+<a href="#">Link to this property</a>
 
-        - `"10G"`
+</details>
 
-        - `"20G"`
+<a href="#">Link to this property</a>
 
-        - `"50G"`
+<details>
 
-  - `next: optional number`
+<summary>
 
-### Interconnect Get Response
+NscInterconnectGcpPartnerBody object {account, name, region, 4 more }
 
-- `InterconnectGetResponse = object { account, facility, name, 5 more }  or object { account, name, region, 3 more }`
+</summary>
 
-  - `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+account: string
 
-    - `account: string`
+<a href="#">Link to this property</a>
 
-    - `facility: object { address, name }`
+name: string
 
-      - `address: array of string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+region: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `site: string`
+type: string
 
-      A Cloudflare site name.
+<a href="#">Link to this property</a>
 
-    - `slot_id: string`
+virtual\_port\_reservation\_id: string
 
-    - `speed: string`
+formatuuid
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-    - `owner: optional string`
+owner: optional string
 
-  - `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `region: string`
+speed: optional "50M"or "100M"or "200M"or 9 more
 
-    - `type: string`
+Bandwidth structure as visible through the customer-facing API.
 
-    - `owner: optional string`
+</summary>
 
-    - `speed: optional "50M" or "100M" or "200M" or 9 more`
+One of the following:
 
-      Bandwidth structure as visible through the customer-facing API.
+"50M"
 
-      - `"50M"`
+<a href="#">Link to this property</a>
 
-      - `"100M"`
+"100M"
 
-      - `"200M"`
+<a href="#">Link to this property</a>
 
-      - `"300M"`
+"200M"
 
-      - `"400M"`
+<a href="#">Link to this property</a>
 
-      - `"500M"`
+"300M"
 
-      - `"1G"`
+<a href="#">Link to this property</a>
 
-      - `"2G"`
+"400M"
 
-      - `"5G"`
+<a href="#">Link to this property</a>
 
-      - `"10G"`
+"500M"
 
-      - `"20G"`
+<a href="#">Link to this property</a>
 
-      - `"50G"`
+"1G"
 
-### Interconnect Create Response
+<a href="#">Link to this property</a>
 
-- `InterconnectCreateResponse = object { account, facility, name, 5 more }  or object { account, name, region, 3 more }`
+"2G"
 
-  - `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+"5G"
 
-    - `facility: object { address, name }`
+<a href="#">Link to this property</a>
 
-      - `address: array of string`
+"10G"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"20G"
 
-    - `site: string`
+<a href="#">Link to this property</a>
 
-      A Cloudflare site name.
+"50G"
 
-    - `slot_id: string`
+<a href="#">Link to this property</a>
 
-    - `speed: string`
+</details>
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-    - `owner: optional string`
+</details>
 
-  - `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+</details>
 
-    - `name: string`
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_create_response%20%3E%20(schema)>)
 
-    - `region: string`
+<details>
 
-    - `type: string`
+<summary>
 
-    - `owner: optional string`
+InterconnectStatusResponse = object {state } or object {state, reason } or object {state, reason } or object {state }
 
-    - `speed: optional "50M" or "100M" or "200M" or 9 more`
+</summary>
 
-      Bandwidth structure as visible through the customer-facing API.
+One of the following:
 
-      - `"50M"`
+<details>
 
-      - `"100M"`
+<summary>
 
-      - `"200M"`
+Pending object {state }
 
-      - `"300M"`
+</summary>
 
-      - `"400M"`
+state: "Pending"
 
-      - `"500M"`
+<a href="#">Link to this property</a>
 
-      - `"1G"`
+</details>
 
-      - `"2G"`
+<a href="#">Link to this property</a>
 
-      - `"5G"`
+<details>
 
-      - `"10G"`
+<summary>
 
-      - `"20G"`
+Down object {state, reason }
 
-      - `"50G"`
+</summary>
 
-### Interconnect Status Response
+state: "Down"
 
-- `InterconnectStatusResponse = object { state }  or object { state, reason }  or object { state, reason }  or object { state }`
+<a href="#">Link to this property</a>
 
-  - `Pending object { state }`
+reason: optional string
 
-    - `state: "Pending"`
+Diagnostic information, if available
 
-      - `"Pending"`
+<a href="#">Link to this property</a>
 
-  - `Down object { state, reason }`
+</details>
 
-    - `state: "Down"`
+<a href="#">Link to this property</a>
 
-      - `"Down"`
+<details>
 
-    - `reason: optional string`
+<summary>
 
-      Diagnostic information, if available
+Unhealthy object {state, reason }
 
-  - `Unhealthy object { state, reason }`
+</summary>
 
-    - `state: "Unhealthy"`
+state: "Unhealthy"
 
-      - `"Unhealthy"`
+<a href="#">Link to this property</a>
 
-    - `reason: optional string`
+reason: optional string
 
-      Diagnostic information, if available
+Diagnostic information, if available
 
-  - `Healthy object { state }`
+<a href="#">Link to this property</a>
 
-    - `state: "Healthy"`
+</details>
 
-      - `"Healthy"`
+<a href="#">Link to this property</a>
 
-# Settings
+<details>
 
-## Get the current settings for the active account
+<summary>
 
-**get** `/accounts/{account_id}/cni/settings`
+Healthy object {state }
 
-Get the current settings for the active account
+</summary>
 
-### Path Parameters
+state: "Healthy"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `default_asn: number`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_status_response%20%3E%20(schema)>)
 
-#### Response
+#### Network InterconnectsSettings
 
-```json
-{
-  "default_asn": 0
-}
-```
+##### [Get the current settings for the active account](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/settings/methods/get)
 
-## Update the current settings for the active account
+GET/accounts/{account\_id}/cni/settings
 
-**put** `/accounts/{account_id}/cni/settings`
+##### [Update the current settings for the active account](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/settings/methods/update)
 
-Update the current settings for the active account
+PUT/accounts/{account\_id}/cni/settings
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `default_asn: optional number`
+SettingGetResponse object {default\_asn }
 
-### Returns
+</summary>
 
-- `default_asn: number`
+default\_asn: number
 
-### Example
+formatint32
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+minimum0
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "default_asn": 0
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)%20network_interconnects.settings%20%3E%20(model)%20setting_get_response%20%3E%20(schema)>)
 
-### Setting Get Response
+<details>
 
-- `SettingGetResponse object { default_asn }`
+<summary>
 
-  - `default_asn: number`
+SettingUpdateResponse object {default\_asn }
 
-### Setting Update Response
+</summary>
 
-- `SettingUpdateResponse object { default_asn }`
+default\_asn: number
 
-  - `default_asn: number`
+formatint32
 
-# Slots
+minimum0
 
-## Retrieve a list of all slots matching the specified parameters
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cni/slots`
+</details>
 
-Retrieve a list of all slots matching the specified parameters
+[Link to this property](#)%20network_interconnects.settings%20%3E%20(model)%20setting_update_response%20%3E%20(schema)>)
 
-### Path Parameters
+#### Network InterconnectsSlots
 
-- `account_id: string`
+##### [Retrieve a list of all slots matching the specified parameters](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/slots/methods/list)
 
-  Customer account tag
+GET/accounts/{account\_id}/cni/slots
 
-### Query Parameters
+##### [Get information about the specified slot](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/slots/methods/get)
 
-- `address_contains: optional string`
+GET/accounts/{account\_id}/cni/slots/{slot}
 
-  If specified, only show slots with the given text in their address field
+##### ModelsExpand Collapse
 
-- `cursor: optional number`
+<details>
 
-- `limit: optional number`
+<summary>
 
-- `occupied: optional boolean`
+SlotListResponse object {items, next }
 
-  If specified, only show slots with a specific occupied/unoccupied state
+</summary>
 
-- `site: optional string`
+<details>
 
-  If specified, only show slots located at the given site
+<summary>
 
-- `speed: optional string`
+items: array of object {id, facility, occupied, 4 more }
 
-  If specified, only show slots that support the given speed
+</summary>
 
-### Returns
+id: string
 
-- `items: array of object { id, facility, occupied, 3 more }`
+Slot ID
 
-  - `id: string`
+formatuuid
 
-    Slot ID
+<a href="#">Link to this property</a>
 
-  - `facility: object { address, name }`
+<details>
 
-    - `address: array of string`
+<summary>
 
-    - `name: string`
+facility: object {address, name }
 
-  - `occupied: boolean`
+</summary>
 
-    Whether the slot is occupied or not
+address: array of string
 
-  - `site: string`
+<a href="#">Link to this property</a>
 
-  - `speed: string`
+name: string
 
-  - `account: optional string`
+<a href="#">Link to this property</a>
 
-    Customer account tag
+</details>
 
-- `next: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+occupied: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/slots \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Whether the slot is occupied or not
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "items": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "facility": {
-        "address": [
-          "string"
-        ],
-        "name": "name"
-      },
-      "occupied": true,
-      "site": "site",
-      "speed": "speed",
-      "account": "account"
-    }
-  ],
-  "next": 0
-}
-```
+site: string
 
-## Get information about the specified slot
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cni/slots/{slot}`
+speed: string
 
-Get information about the specified slot
+<a href="#">Link to this property</a>
 
-### Path Parameters
+account: optional string
 
-- `account_id: string`
+Customer account tag
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `slot: string`
+ccr\_device\_name: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+</details>
 
-  Slot ID
+<a href="#">Link to this property</a>
 
-- `facility: object { address, name }`
+next: optional number
 
-  - `address: array of string`
+formatint32
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-- `occupied: boolean`
+</details>
 
-  Whether the slot is occupied or not
+[Link to this property](#)%20network_interconnects.slots%20%3E%20(model)%20slot_list_response%20%3E%20(schema)>)
 
-- `site: string`
+<details>
 
-- `speed: string`
+<summary>
 
-- `account: optional string`
+SlotGetResponse object {id, facility, occupied, 4 more }
 
-  Customer account tag
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/slots/$SLOT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Slot ID
 
-#### Response
+formatuuid
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "facility": {
-    "address": [
-      "string"
-    ],
-    "name": "name"
-  },
-  "occupied": true,
-  "site": "site",
-  "speed": "speed",
-  "account": "account"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Slot List Response
+<summary>
 
-- `SlotListResponse object { items, next }`
+facility: object {address, name }
 
-  - `items: array of object { id, facility, occupied, 3 more }`
+</summary>
 
-    - `id: string`
+address: array of string
 
-      Slot ID
+<a href="#">Link to this property</a>
 
-    - `facility: object { address, name }`
+name: string
 
-      - `address: array of string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-    - `occupied: boolean`
+<a href="#">Link to this property</a>
 
-      Whether the slot is occupied or not
+occupied: boolean
 
-    - `site: string`
+Whether the slot is occupied or not
 
-    - `speed: string`
+<a href="#">Link to this property</a>
 
-    - `account: optional string`
+site: string
 
-      Customer account tag
+<a href="#">Link to this property</a>
 
-  - `next: optional number`
+speed: string
 
-### Slot Get Response
+<a href="#">Link to this property</a>
 
-- `SlotGetResponse object { id, facility, occupied, 3 more }`
+account: optional string
 
-  - `id: string`
+Customer account tag
 
-    Slot ID
+<a href="#">Link to this property</a>
 
-  - `facility: object { address, name }`
+ccr\_device\_name: optional string
 
-    - `address: array of string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-  - `occupied: boolean`
-
-    Whether the slot is occupied or not
-
-  - `site: string`
-
-  - `speed: string`
-
-  - `account: optional string`
-
-    Customer account tag
+[Link to this property](#)%20network_interconnects.slots%20%3E%20(model)%20slot_get_response%20%3E%20(schema)>)

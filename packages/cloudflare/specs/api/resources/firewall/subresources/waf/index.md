@@ -1,3225 +1,1495 @@
+---
+title: WAF
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # WAF
 
-# Overrides
+#### WAFOverrides
 
-## List WAF overrides
+##### [List WAF overrides](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/list)
 
-**get** `/zones/{zone_id}/firewall/waf/overrides`
+Deprecated
 
-Fetches the URI-based WAF overrides in a zone.
+GET/zones/{zone\_id}/firewall/waf/overrides
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+##### [Get a WAF override](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/get)
 
-### Path Parameters
+Deprecated
 
-- `zone_id: string`
+GET/zones/{zone\_id}/firewall/waf/overrides/{overrides\_id}
 
-  Defines an identifier.
+##### [Create a WAF override](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/create)
 
-### Query Parameters
+Deprecated
 
-- `page: optional number`
+POST/zones/{zone\_id}/firewall/waf/overrides
 
-  The page number of paginated results.
+##### [Update WAF override](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/update)
 
-- `per_page: optional number`
+Deprecated
 
-  The number of WAF overrides per page.
+PUT/zones/{zone\_id}/firewall/waf/overrides/{overrides\_id}
 
-### Returns
+##### [Delete a WAF override](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/delete)
 
-- `errors: array of ResponseInfo`
+Deprecated
 
-  - `code: number`
+DELETE/zones/{zone\_id}/firewall/waf/overrides/{overrides\_id}
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+Override object {id, description, groups, 5 more }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+The unique identifier of the WAF override.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of Override`
+description: optional string
 
-  - `id: optional string`
+An informative summary of the current URI-based WAF override.
 
-    The unique identifier of the WAF override.
+maxLength1024
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the current URI-based WAF override.
+groups: optional map\[unknown]
 
-  - `groups: optional map[unknown]`
+An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually <code>default</code> or <code>disable</code>). When creating a new URI-based WAF override, you must provide a <code>groups</code> object or a <code>rules</code> object.
 
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+<a href="#">Link to this property</a>
 
-  - `paused: optional boolean`
+paused: optional boolean
 
-    When true, indicates that the rule is currently paused.
+When true, indicates that the rule is currently paused.
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
+priority: optional number
 
-  - `rewrite_action: optional RewriteAction`
+The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
 
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+maximum1000000000
 
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
+minimum-1000000000
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+rewrite\_action: optional <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20rewrite_action%20%3E%20(schema)">RewriteAction</a> { block, challenge, default, 2 more }
 
-      - `"block"`
+Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
 
-      - `"simulate"`
+<a href="#">Link to this property</a>
 
-      - `"disable"`
+rules: optional <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20waf_rule%20%3E%20(schema)">WAFRule</a> { , , , 2 more }
 
-      - `"default"`
+An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a <code>groups</code> object or a <code>rules</code> object.
 
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
+<a href="#">Link to this property</a>
 
-      The WAF rule action to apply.
+urls: optional array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20override_url%20%3E%20(schema)">OverrideURL</a>
 
-      - `"challenge"`
+The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+</details>
 
-      - `"disable"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20override%20%3E%20(schema)>)
 
-      - `"default"`
+OverrideURL = string
 
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20override_url%20%3E%20(schema)>)
 
-      The WAF rule action to apply.
+<details>
 
-      - `"challenge"`
+<summary>
 
-      - `"block"`
+RewriteAction object {block, challenge, default, 2 more }
 
-      - `"simulate"`
+Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
 
-      - `"disable"`
+</summary>
 
-      - `"default"`
+<details>
 
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
+<summary>
 
-      The WAF rule action to apply.
+block: optional "challenge"or "block"or "simulate"or 2 more
 
-      - `"challenge"`
+The WAF rule action to apply.
 
-      - `"block"`
+</summary>
 
-      - `"simulate"`
+One of the following:
 
-      - `"disable"`
+"challenge"
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
+"block"
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+"simulate"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+"disable"
 
-      - `"disable"`
+<a href="#">Link to this property</a>
 
-      - `"default"`
+"default"
 
-  - `rules: optional WAFRule`
+<a href="#">Link to this property</a>
 
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+</details>
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+<details>
 
-    - `"simulate"`
+<summary>
 
-    - `"disable"`
+challenge: optional "challenge"or "block"or "simulate"or 2 more
 
-    - `"default"`
+The WAF rule action to apply.
 
-  - `urls: optional array of OverrideURL`
+</summary>
 
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+One of the following:
 
-- `success: true`
+"challenge"
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"block"
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+"simulate"
 
-    Defines the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"disable"
 
-    Defines the current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"default"
 
-    Defines the number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Defines the total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+default: optional "challenge"or "block"or "simulate"or 2 more
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "de677e5818985db1285d0e80225f06e5",
-      "description": "Enable Cloudflare Magento ruleset for shop.example.com",
-      "groups": {
-        "ea8687e59929c1fd05ba97574ad43f77": "bar"
-      },
-      "paused": true,
-      "priority": 1,
-      "rewrite_action": {
-        "block": "challenge",
-        "challenge": "challenge",
-        "default": "challenge",
-        "disable": "challenge",
-        "simulate": "challenge"
-      },
-      "rules": {
-        "100015": "disable"
-      },
-      "urls": [
-        "shop.example.com/*"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+The WAF rule action to apply.
 
-## Get a WAF override
+</summary>
 
-**get** `/zones/{zone_id}/firewall/waf/overrides/{overrides_id}`
+One of the following:
 
-Fetches the details of a URI-based WAF override.
+"challenge"
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"block"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Defines an identifier.
+"simulate"
 
-- `overrides_id: string`
+<a href="#">Link to this property</a>
 
-  The unique identifier of the WAF override.
+"disable"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"default"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+disable: optional "challenge"or "block"or "simulate"or 2 more
 
-  - `code: number`
+The WAF rule action to apply.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"challenge"
 
-- `result: Override`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"block"
 
-    The unique identifier of the WAF override.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"simulate"
 
-    An informative summary of the current URI-based WAF override.
+<a href="#">Link to this property</a>
 
-  - `groups: optional map[unknown]`
+"disable"
 
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+<a href="#">Link to this property</a>
 
-  - `paused: optional boolean`
+"default"
 
-    When true, indicates that the rule is currently paused.
+<a href="#">Link to this property</a>
 
-  - `priority: optional number`
+</details>
 
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
+<a href="#">Link to this property</a>
 
-  - `rewrite_action: optional RewriteAction`
+<details>
 
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+<summary>
 
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
+simulate: optional "challenge"or "block"or "simulate"or 2 more
 
-      The WAF rule action to apply.
+The WAF rule action to apply.
 
-      - `"challenge"`
+</summary>
 
-      - `"block"`
+One of the following:
 
-      - `"simulate"`
+"challenge"
 
-      - `"disable"`
+<a href="#">Link to this property</a>
 
-      - `"default"`
+"block"
 
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
+<a href="#">Link to this property</a>
 
-      The WAF rule action to apply.
+"simulate"
 
-      - `"challenge"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+"disable"
 
-      - `"simulate"`
+<a href="#">Link to this property</a>
 
-      - `"disable"`
+"default"
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
+</details>
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+</details>
 
-      - `"block"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20rewrite_action%20%3E%20(schema)>)
 
-      - `"simulate"`
+<details>
 
-      - `"disable"`
+<summary>
 
-      - `"default"`
+WAFRule = map\["challenge"or "block"or "simulate"or 2 more]
 
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
+An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a <code>groups</code> object or a <code>rules</code> object.
 
-      The WAF rule action to apply.
+</summary>
 
-      - `"challenge"`
+One of the following:
 
-      - `"block"`
+"challenge"
 
-      - `"simulate"`
+<a href="#">Link to this property</a>
 
-      - `"disable"`
+"block"
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
+"simulate"
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+"disable"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+"default"
 
-      - `"disable"`
+<a href="#">Link to this property</a>
 
-      - `"default"`
+</details>
 
-  - `rules: optional WAFRule`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20waf_rule%20%3E%20(schema)>)
 
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+<details>
 
-    - `"challenge"`
+<summary>
 
-    - `"block"`
+OverrideDeleteResponse object {id }
 
-    - `"simulate"`
+</summary>
 
-    - `"disable"`
+id: optional string
 
-    - `"default"`
+The unique identifier of the WAF override.
 
-  - `urls: optional array of OverrideURL`
+maxLength32
 
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Defines whether the API call was successful.
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20override_delete_response%20%3E%20(schema)>)
 
-  - `true`
+#### WAFPackages
 
-### Example
+##### [List WAF packages](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/methods/list)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides/$OVERRIDES_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Deprecated
 
-#### Response
+GET/zones/{zone\_id}/firewall/waf/packages
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "de677e5818985db1285d0e80225f06e5",
-    "description": "Enable Cloudflare Magento ruleset for shop.example.com",
-    "groups": {
-      "ea8687e59929c1fd05ba97574ad43f77": "bar"
-    },
-    "paused": true,
-    "priority": 1,
-    "rewrite_action": {
-      "block": "challenge",
-      "challenge": "challenge",
-      "default": "challenge",
-      "disable": "challenge",
-      "simulate": "challenge"
-    },
-    "rules": {
-      "100015": "disable"
-    },
-    "urls": [
-      "shop.example.com/*"
-    ]
-  },
-  "success": true
-}
-```
+##### [Get a WAF package](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/methods/get)
 
-## Create a WAF override
+Deprecated
 
-**post** `/zones/{zone_id}/firewall/waf/overrides`
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}
 
-Creates a URI-based WAF override for a zone.
+##### ModelsExpand Collapse
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+PackageListResponse = unknown
 
-### Path Parameters
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(model)%20package_list_response%20%3E%20(schema)>)
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>
 
-### Body Parameters
+PackageGetResponse = object {errors, messages, result, success } or object {result }
 
-- `urls: array of OverrideURL`
+</summary>
 
-  The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+One of the following:
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+FirewallAPIResponseSingle object {errors, messages, result, success }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+code: number
 
-  - `message: string`
+minimum1000
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+message: string
 
-- `result: Override`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+documentation\_url: optional string
 
-    The unique identifier of the WAF override.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-    An informative summary of the current URI-based WAF override.
+<summary>
 
-  - `groups: optional map[unknown]`
+source: optional object {pointer }
 
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+</summary>
 
-  - `paused: optional boolean`
+pointer: optional string
 
-    When true, indicates that the rule is currently paused.
+<a href="#">Link to this property</a>
 
-  - `priority: optional number`
+</details>
 
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
+<a href="#">Link to this property</a>
 
-  - `rewrite_action: optional RewriteAction`
+</details>
 
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+<a href="#">Link to this property</a>
 
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
+<details>
 
-      The WAF rule action to apply.
+<summary>
 
-      - `"challenge"`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `"block"`
+</summary>
 
-      - `"simulate"`
+code: number
 
-      - `"disable"`
+minimum1000
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
+message: string
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+documentation\_url: optional string
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+<details>
 
-      - `"disable"`
+<summary>
 
-      - `"default"`
+source: optional object {pointer }
 
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
+</summary>
 
-      The WAF rule action to apply.
+pointer: optional string
 
-      - `"challenge"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"simulate"`
+<a href="#">Link to this property</a>
 
-      - `"disable"`
+</details>
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
+<details>
 
-      The WAF rule action to apply.
+<summary>
 
-      - `"challenge"`
+result: unknownor string
 
-      - `"block"`
+</summary>
 
-      - `"simulate"`
+One of the following:
 
-      - `"disable"`
+unknown
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
+string
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+</details>
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+success: true
 
-      - `"disable"`
+Defines whether the API call was successful.
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-  - `rules: optional WAFRule`
+</details>
 
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+<details>
 
-    - `"block"`
+<summary>
 
-    - `"simulate"`
+Result object {result }
 
-    - `"disable"`
+</summary>
 
-    - `"default"`
+result: optional unknown
 
-  - `urls: optional array of OverrideURL`
+<a href="#">Link to this property</a>
 
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(model)%20package_get_response%20%3E%20(schema)>)
 
-### Example
+#### WAFPackagesGroups
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "urls": [
-            "shop.example.com/*"
-          ]
-        }'
-```
+##### [List WAF rule groups](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/list)
 
-#### Response
+Deprecated
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "de677e5818985db1285d0e80225f06e5",
-    "description": "Enable Cloudflare Magento ruleset for shop.example.com",
-    "groups": {
-      "ea8687e59929c1fd05ba97574ad43f77": "bar"
-    },
-    "paused": true,
-    "priority": 1,
-    "rewrite_action": {
-      "block": "challenge",
-      "challenge": "challenge",
-      "default": "challenge",
-      "disable": "challenge",
-      "simulate": "challenge"
-    },
-    "rules": {
-      "100015": "disable"
-    },
-    "urls": [
-      "shop.example.com/*"
-    ]
-  },
-  "success": true
-}
-```
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups
 
-## Update WAF override
+##### [Get a WAF rule group](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/get)
 
-**put** `/zones/{zone_id}/firewall/waf/overrides/{overrides_id}`
+Deprecated
 
-Updates an existing URI-based WAF override.
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups/{group\_id}
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+##### [Update a WAF rule group](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/edit)
 
-### Path Parameters
+Deprecated
 
-- `zone_id: string`
+PATCH/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups/{group\_id}
 
-  Defines an identifier.
+##### ModelsExpand Collapse
 
-- `overrides_id: string`
+<details>
 
-  The unique identifier of the WAF override.
+<summary>
 
-### Body Parameters
+Group object {id, description, mode, 5 more }
 
-- `id: string`
+</summary>
 
-  Defines an identifier.
+id: string
 
-- `rewrite_action: RewriteAction`
+Defines the unique identifier of the rule group.
 
-  Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+maxLength32
 
-  - `block: optional "challenge" or "block" or "simulate" or 2 more`
+<a href="#">Link to this property</a>
 
-    The WAF rule action to apply.
+description: string
 
-    - `"challenge"`
+Defines an informative summary of what the rule group does.
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"simulate"`
+<details>
 
-    - `"disable"`
+<summary>
 
-    - `"default"`
+mode: "on"or "off"
 
-  - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
+Defines the state of the rules contained in the rule group. When <code>on</code>, the rules in the group are configurable/usable.
 
-    The WAF rule action to apply.
+</summary>
 
-    - `"challenge"`
+One of the following:
 
-    - `"block"`
+"on"
 
-    - `"simulate"`
+<a href="#">Link to this property</a>
 
-    - `"disable"`
+"off"
 
-    - `"default"`
+<a href="#">Link to this property</a>
 
-  - `default: optional "challenge" or "block" or "simulate" or 2 more`
+</details>
 
-    The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+name: string
 
-    - `"block"`
+Defines the name of the rule group.
 
-    - `"simulate"`
+<a href="#">Link to this property</a>
 
-    - `"disable"`
+rules\_count: number
 
-    - `"default"`
+Defines the number of rules in the current rule group.
 
-  - `disable: optional "challenge" or "block" or "simulate" or 2 more`
+<a href="#">Link to this property</a>
 
-    The WAF rule action to apply.
+<details>
 
-    - `"challenge"`
+<summary>
 
-    - `"block"`
+allowed\_modes: optional array of "on"or "off"
 
-    - `"simulate"`
+Defines the available states for the rule group.
 
-    - `"disable"`
+</summary>
 
-    - `"default"`
+One of the following:
 
-  - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
+"on"
 
-    The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+"off"
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"simulate"`
+</details>
 
-    - `"disable"`
+<a href="#">Link to this property</a>
 
-    - `"default"`
+modified\_rules\_count: optional number
 
-- `rules: WAFRule`
+Defines the number of rules within the group that have been modified from their default configuration.
 
-  An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+<a href="#">Link to this property</a>
 
-  - `"challenge"`
+package\_id: optional string
 
-  - `"block"`
+Defines the unique identifier of a WAF package.
 
-  - `"simulate"`
+maxLength32
 
-  - `"disable"`
+<a href="#">Link to this property</a>
 
-  - `"default"`
+</details>
 
-- `urls: array of OverrideURL`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group%20%3E%20(schema)>)
 
-  The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+GroupGetResponse = unknownor string
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+unknown
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+string
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group_get_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `result: Override`
+GroupEditResponse = unknownor string
 
-  - `id: optional string`
+</summary>
 
-    The unique identifier of the WAF override.
+One of the following:
 
-  - `description: optional string`
+unknown
 
-    An informative summary of the current URI-based WAF override.
+<a href="#">Link to this property</a>
 
-  - `groups: optional map[unknown]`
+string
 
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+<a href="#">Link to this property</a>
 
-  - `paused: optional boolean`
+</details>
 
-    When true, indicates that the rule is currently paused.
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group_edit_response%20%3E%20(schema)>)
 
-  - `priority: optional number`
+#### WAFPackagesRules
 
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
+##### [List WAF rules](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/rules/methods/list)
 
-  - `rewrite_action: optional RewriteAction`
+Deprecated
 
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/rules
 
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
+##### [Get a WAF rule](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/rules/methods/get)
 
-      The WAF rule action to apply.
+Deprecated
 
-      - `"challenge"`
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/rules/{rule\_id}
 
-      - `"block"`
+##### [Update a WAF rule](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/rules/methods/edit)
 
-      - `"simulate"`
+Deprecated
 
-      - `"disable"`
+PATCH/zones/{zone\_id}/firewall/waf/packages/{package\_id}/rules/{rule\_id}
 
-      - `"default"`
+##### ModelsExpand Collapse
 
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
+<details>
 
-      The WAF rule action to apply.
+<summary>
 
-      - `"challenge"`
+AllowedModesAnomaly = "on"or "off"
 
-      - `"block"`
+Defines the mode anomaly. When set to <code>on</code>, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
 
-      - `"simulate"`
+</summary>
 
-      - `"disable"`
+One of the following:
 
-      - `"default"`
+"on"
 
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
+<a href="#">Link to this property</a>
 
-      The WAF rule action to apply.
+"off"
 
-      - `"challenge"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"simulate"`
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)>)
 
-      - `"disable"`
+<details>
 
-      - `"default"`
+<summary>
 
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
+WAFRuleGroup object {id, name }
 
-      The WAF rule action to apply.
+Defines the rule group to which the current WAF rule belongs.
 
-      - `"challenge"`
+</summary>
 
-      - `"block"`
+id: optional string
 
-      - `"simulate"`
+Defines the unique identifier of the rule group.
 
-      - `"disable"`
+maxLength32
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
+name: optional string
 
-      The WAF rule action to apply.
+Defines the name of the rule group.
 
-      - `"challenge"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"simulate"`
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)>)
 
-      - `"disable"`
+<details>
 
-      - `"default"`
+<summary>
 
-  - `rules: optional WAFRule`
+RuleListResponse = object {id, allowed\_modes, description, 4 more } or object {id, allowed\_modes, default\_mode, 5 more } or object {id, allowed\_modes, description, 4 more }
 
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the ‘sensitivity’ property of the WAF package.
 
-    - `"challenge"`
+</summary>
 
-    - `"block"`
+One of the following:
 
-    - `"simulate"`
+<details>
 
-    - `"disable"`
+<summary>
 
-    - `"default"`
+WAFManagedRulesAnomalyRule object {id, allowed\_modes, description, 4 more }
 
-  - `urls: optional array of OverrideURL`
+When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the ‘sensitivity’ property of the WAF package.
 
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+</summary>
 
-- `success: true`
+id: string
 
-  Defines whether the API call was successful.
+Defines the unique identifier of the WAF rule.
 
-  - `true`
+maxLength32
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides/$OVERRIDES_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "rewrite_action": {},
-          "rules": {
-            "100015": "disable"
-          },
-          "urls": [
-            "shop.example.com/*"
-          ]
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "de677e5818985db1285d0e80225f06e5",
-    "description": "Enable Cloudflare Magento ruleset for shop.example.com",
-    "groups": {
-      "ea8687e59929c1fd05ba97574ad43f77": "bar"
-    },
-    "paused": true,
-    "priority": 1,
-    "rewrite_action": {
-      "block": "challenge",
-      "challenge": "challenge",
-      "default": "challenge",
-      "disable": "challenge",
-      "simulate": "challenge"
-    },
-    "rules": {
-      "100015": "disable"
-    },
-    "urls": [
-      "shop.example.com/*"
-    ]
-  },
-  "success": true
-}
-```
+allowed\_modes: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)">AllowedModesAnomaly</a>
 
-## Delete a WAF override
+Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
 
-**delete** `/zones/{zone_id}/firewall/waf/overrides/{overrides_id}`
+</summary>
 
-Deletes an existing URI-based WAF override.
+One of the following:
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+"on"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"off"
 
-  Defines an identifier.
+<a href="#">Link to this property</a>
 
-- `overrides_id: string`
+</details>
 
-  The unique identifier of the WAF override.
+<a href="#">Link to this property</a>
 
-### Returns
+description: string
 
-- `result: optional object { id }`
+Defines the public description of the WAF rule.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the WAF override.
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-### Example
+Defines the rule group to which the current WAF rule belongs.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides/$OVERRIDES_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+mode: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)">AllowedModesAnomaly</a>
 
-```json
-{
-  "result": {
-    "id": "de677e5818985db1285d0e80225f06e5"
-  }
-}
-```
+Defines the mode anomaly. When set to <code>on</code>, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Override
+package\_id: string
 
-- `Override object { id, description, groups, 5 more }`
+Defines the unique identifier of a WAF package.
 
-  - `id: optional string`
+maxLength32
 
-    The unique identifier of the WAF override.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+priority: string
 
-    An informative summary of the current URI-based WAF override.
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-  - `groups: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+</details>
 
-  - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the rule is currently paused.
+<details>
 
-  - `priority: optional number`
+<summary>
 
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
+WAFManagedRulesTraditionalDenyRule object {id, allowed\_modes, default\_mode, 5 more }
 
-  - `rewrite_action: optional RewriteAction`
+When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A ‘deny’ rule will immediately respond to the request based on the configured rule action/mode (for example, ‘block’) and no other rules will be processed.
 
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+</summary>
 
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
+id: string
 
-      The WAF rule action to apply.
+Defines the unique identifier of the WAF rule.
 
-      - `"challenge"`
+maxLength32
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+<details>
 
-      - `"disable"`
+<summary>
 
-      - `"default"`
+allowed\_modes: array of "default"or "disable"or "simulate"or 2 more
 
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
+Defines the list of possible actions of the WAF rule when it is triggered.
 
-      The WAF rule action to apply.
+</summary>
 
-      - `"challenge"`
+One of the following:
 
-      - `"block"`
+"default"
 
-      - `"simulate"`
+<a href="#">Link to this property</a>
 
-      - `"disable"`
+"disable"
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
+"simulate"
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+"block"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+"challenge"
 
-      - `"disable"`
+<a href="#">Link to this property</a>
 
-      - `"default"`
+</details>
 
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
+<a href="#">Link to this property</a>
 
-      The WAF rule action to apply.
+<details>
 
-      - `"challenge"`
+<summary>
 
-      - `"block"`
+default\_mode: "disable"or "simulate"or "block"or "challenge"
 
-      - `"simulate"`
+Defines the default action/mode of a rule.
 
-      - `"disable"`
+</summary>
 
-      - `"default"`
+One of the following:
 
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
+"disable"
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+"simulate"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+"block"
 
-      - `"disable"`
+<a href="#">Link to this property</a>
 
-      - `"default"`
+"challenge"
 
-  - `rules: optional WAFRule`
+<a href="#">Link to this property</a>
 
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+</details>
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+description: string
 
-    - `"simulate"`
+Defines the public description of the WAF rule.
 
-    - `"disable"`
+<a href="#">Link to this property</a>
 
-    - `"default"`
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-  - `urls: optional array of OverrideURL`
+Defines the rule group to which the current WAF rule belongs.
 
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+<a href="#">Link to this property</a>
 
-### Override URL
+<details>
 
-- `OverrideURL = string`
+<summary>
 
-### Rewrite Action
+mode: "default"or "disable"or "simulate"or 2 more
 
-- `RewriteAction object { block, challenge, default, 2 more }`
+Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
 
-  Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+</summary>
 
-  - `block: optional "challenge" or "block" or "simulate" or 2 more`
+One of the following:
 
-    The WAF rule action to apply.
+"default"
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+"disable"
 
-    - `"simulate"`
+<a href="#">Link to this property</a>
 
-    - `"disable"`
+"simulate"
 
-    - `"default"`
+<a href="#">Link to this property</a>
 
-  - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
+"block"
 
-    The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+"challenge"
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"simulate"`
+</details>
 
-    - `"disable"`
+<a href="#">Link to this property</a>
 
-    - `"default"`
+package\_id: string
 
-  - `default: optional "challenge" or "block" or "simulate" or 2 more`
+Defines the unique identifier of a WAF package.
 
-    The WAF rule action to apply.
+maxLength32
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+priority: string
 
-    - `"simulate"`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-    - `"disable"`
+<a href="#">Link to this property</a>
 
-    - `"default"`
+</details>
 
-  - `disable: optional "challenge" or "block" or "simulate" or 2 more`
+<a href="#">Link to this property</a>
 
-    The WAF rule action to apply.
+<details>
 
-    - `"challenge"`
+<summary>
 
-    - `"block"`
+WAFManagedRulesTraditionalAllowRule object {id, allowed\_modes, description, 4 more }
 
-    - `"simulate"`
+When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An ‘allow’ rule will immediately allow the request and no other rules will be processed.
 
-    - `"disable"`
+</summary>
 
-    - `"default"`
+id: string
 
-  - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
+Defines the unique identifier of the WAF rule.
 
-    The WAF rule action to apply.
+maxLength32
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+<details>
 
-    - `"simulate"`
+<summary>
 
-    - `"disable"`
+allowed\_modes: array of "on"or "off"
 
-    - `"default"`
+Defines the available modes for the current WAF rule.
 
-### WAF Rule
+</summary>
 
-- `WAFRule = map["challenge" or "block" or "simulate" or 2 more]`
+One of the following:
 
-  An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+"on"
 
-  - `"challenge"`
+<a href="#">Link to this property</a>
 
-  - `"block"`
+"off"
 
-  - `"simulate"`
+<a href="#">Link to this property</a>
 
-  - `"disable"`
+</details>
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-### Override Delete Response
+description: string
 
-- `OverrideDeleteResponse object { id }`
+Defines the public description of the WAF rule.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the WAF override.
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-# Packages
+Defines the rule group to which the current WAF rule belongs.
 
-## List WAF packages
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/firewall/waf/packages`
+<details>
 
-Fetches WAF packages for a zone.
+<summary>
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+mode: "on"or "off"
 
-### Path Parameters
+When set to <code>on</code>, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
 
-- `zone_id: string`
+</summary>
 
-  Defines an identifier.
+One of the following:
 
-### Query Parameters
+"on"
 
-- `direction: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  The direction used to sort returned packages.
+"off"
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+</details>
 
-- `match: optional "any" or "all"`
+<a href="#">Link to this property</a>
 
-  When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
+package\_id: string
 
-  - `"any"`
+Defines the unique identifier of a WAF package.
 
-  - `"all"`
+maxLength32
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  The name of the WAF package.
+priority: string
 
-- `order: optional "name"`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-  The field used to sort returned packages.
+<a href="#">Link to this property</a>
 
-  - `"name"`
+</details>
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  The page number of paginated results.
+</details>
 
-- `per_page: optional number`
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-  The number of packages per page.
+<details>
 
-### Returns
+<summary>
 
-- `FirewallAPIResponseCollection object { errors, messages, result, 2 more }`
+RuleGetResponse = unknownor string
 
-  - `errors: array of ResponseInfo`
+</summary>
 
-    - `code: number`
+One of the following:
 
-    - `message: string`
+unknown
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+string
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of ResponseInfo`
+</details>
 
-    - `code: number`
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20rule_get_response%20%3E%20(schema)>)
 
-    - `message: string`
+<details>
 
-    - `documentation_url: optional string`
+<summary>
 
-    - `source: optional object { pointer }`
+RuleEditResponse = object {id, allowed\_modes, description, 4 more } or object {id, allowed\_modes, default\_mode, 5 more } or object {id, allowed\_modes, description, 4 more }
 
-  - `result: array of unknown`
+When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the ‘sensitivity’ property of the WAF package.
 
-  - `success: true`
+</summary>
 
-    Defines whether the API call was successful.
+One of the following:
 
-    - `true`
+<details>
 
-  - `result_info: optional object { count, page, per_page, total_count }`
+<summary>
 
-    - `count: optional number`
+WAFManagedRulesAnomalyRule object {id, allowed\_modes, description, 4 more }
 
-      Defines the total number of results for the requested service.
+When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the ‘sensitivity’ property of the WAF package.
 
-    - `page: optional number`
+</summary>
 
-      Defines the current page within paginated list of results.
+id: string
 
-    - `per_page: optional number`
+Defines the unique identifier of the WAF rule.
 
-      Defines the number of results per page of results.
+maxLength32
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-      Defines the total results available without any search parameters.
+<details>
 
-- `Result object { result }`
+<summary>
 
-  - `result: optional array of object { id, description, detection_mode, 3 more }  or object { id, description, detection_mode, 5 more }`
+allowed\_modes: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)">AllowedModesAnomaly</a>
 
-    - `FirewallPackageDefinition object { id, description, detection_mode, 3 more }`
+Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
 
-      - `id: string`
+</summary>
 
-        Defines an identifier.
+One of the following:
 
-      - `description: string`
+"on"
 
-        A summary of the purpose/function of the WAF package.
+<a href="#">Link to this property</a>
 
-      - `detection_mode: "anomaly" or "traditional"`
+"off"
 
-        The mode that defines how rules within the package are evaluated during the course of a request. When a package uses anomaly detection mode (`anomaly` value), each rule is given a score when triggered. If the total score of all triggered rules exceeds the sensitivity defined in the WAF package, the action configured in the package will be performed. Traditional detection mode (`traditional` value) will decide the action to take when it is triggered by the request. If multiple rules are triggered, the action providing the highest protection will be applied (for example, a 'block' action will win over a 'challenge' action).
+<a href="#">Link to this property</a>
 
-        - `"anomaly"`
+</details>
 
-        - `"traditional"`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+description: string
 
-        The name of the WAF package.
+Defines the public description of the WAF rule.
 
-      - `zone_id: string`
+<a href="#">Link to this property</a>
 
-        Defines an identifier.
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-      - `status: optional "active"`
+Defines the rule group to which the current WAF rule belongs.
 
-        When set to `active`, indicates that the WAF package will be applied to the zone.
+<a href="#">Link to this property</a>
 
-        - `"active"`
+mode: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)">AllowedModesAnomaly</a>
 
-    - `FirewallAnomalyPackage object { id, description, detection_mode, 5 more }`
+Defines the mode anomaly. When set to <code>on</code>, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Defines an identifier.
+package\_id: string
 
-      - `description: string`
+Defines the unique identifier of a WAF package.
 
-        A summary of the purpose/function of the WAF package.
+maxLength32
 
-      - `detection_mode: "anomaly" or "traditional"`
+<a href="#">Link to this property</a>
 
-        When a WAF package uses anomaly detection, each rule is given a score when triggered. If the total score of all triggered rules exceeds the sensitivity defined on the WAF package, the action defined on the package will be taken.
+priority: string
 
-        - `"anomaly"`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-        - `"traditional"`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        The name of the WAF package.
+<a href="#">Link to this property</a>
 
-      - `zone_id: string`
+<details>
 
-        Defines an identifier.
+<summary>
 
-      - `action_mode: optional "simulate" or "block" or "challenge"`
+WAFManagedRulesTraditionalDenyRule object {id, allowed\_modes, default\_mode, 5 more }
 
-        The default action performed by the rules in the WAF package.
+When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A ‘deny’ rule will immediately respond to the request based on the configured rule action/mode (for example, ‘block’) and no other rules will be processed.
 
-        - `"simulate"`
+</summary>
 
-        - `"block"`
+id: string
 
-        - `"challenge"`
+Defines the unique identifier of the WAF rule.
 
-      - `sensitivity: optional "high" or "medium" or "low" or "off"`
+maxLength32
 
-        The sensitivity of the WAF package.
+<a href="#">Link to this property</a>
 
-        - `"high"`
+<details>
 
-        - `"medium"`
+<summary>
 
-        - `"low"`
+allowed\_modes: array of "default"or "disable"or "simulate"or 2 more
 
-        - `"off"`
+Defines the list of possible actions of the WAF rule when it is triggered.
 
-      - `status: optional "active"`
+</summary>
 
-        When set to `active`, indicates that the WAF package will be applied to the zone.
+One of the following:
 
-        - `"active"`
+"default"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"disable"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {}
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+"simulate"
 
-## Get a WAF package
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}`
+"block"
 
-Fetches the details of a WAF package.
+<a href="#">Link to this property</a>
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+"challenge"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Defines an identifier.
+<a href="#">Link to this property</a>
 
-- `package_id: string`
+<details>
 
-  Defines a package identifier.
+<summary>
 
-### Returns
+default\_mode: "disable"or "simulate"or "block"or "challenge"
 
-- `FirewallAPIResponseSingle object { errors, messages, result, success }`
+Defines the default action/mode of a rule.
 
-  - `errors: array of ResponseInfo`
+</summary>
 
-    - `code: number`
+One of the following:
 
-    - `message: string`
+"disable"
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+"simulate"
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of ResponseInfo`
+"block"
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+"challenge"
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-  - `result: unknown or string`
+<a href="#">Link to this property</a>
 
-    - `unknown`
+description: string
 
-    - `string`
+Defines the public description of the WAF rule.
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Defines whether the API call was successful.
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-    - `true`
+Defines the rule group to which the current WAF rule belongs.
 
-- `Result object { result }`
+<a href="#">Link to this property</a>
 
-  - `result: optional unknown`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+mode: "default"or "disable"or "simulate"or 2 more
 
-#### Response
+Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+One of the following:
 
-### Package List Response
+"default"
 
-- `PackageListResponse = unknown`
+<a href="#">Link to this property</a>
 
-### Package Get Response
+"disable"
 
-- `PackageGetResponse = object { errors, messages, result, success }  or object { result }`
+<a href="#">Link to this property</a>
 
-  - `FirewallAPIResponseSingle object { errors, messages, result, success }`
+"simulate"
 
-    - `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-      - `code: number`
+"block"
 
-      - `message: string`
+<a href="#">Link to this property</a>
 
-      - `documentation_url: optional string`
+"challenge"
 
-      - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-        - `pointer: optional string`
+</details>
 
-    - `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-      - `code: number`
+package\_id: string
 
-      - `message: string`
+Defines the unique identifier of a WAF package.
 
-      - `documentation_url: optional string`
+maxLength32
 
-      - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `result: unknown or string`
+priority: string
 
-      - `unknown`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-      - `string`
+<a href="#">Link to this property</a>
 
-    - `success: true`
+</details>
 
-      Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-      - `true`
+<details>
 
-  - `Result object { result }`
+<summary>
 
-    - `result: optional unknown`
+WAFManagedRulesTraditionalAllowRule object {id, allowed\_modes, description, 4 more }
 
-# Groups
+When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An ‘allow’ rule will immediately allow the request and no other rules will be processed.
 
-## List WAF rule groups
+</summary>
 
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups`
+id: string
 
-Fetches the WAF rule groups in a WAF package.
+Defines the unique identifier of the WAF rule.
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+maxLength32
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier of a schema.
+<summary>
 
-- `package_id: string`
+allowed\_modes: array of "on"or "off"
 
-  Defines the unique identifier of a WAF package.
+Defines the available modes for the current WAF rule.
 
-### Query Parameters
+</summary>
 
-- `direction: optional "asc" or "desc"`
+One of the following:
 
-  Defines the direction used to sort returned rule groups.
+"on"
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+"off"
 
-- `match: optional "any" or "all"`
+<a href="#">Link to this property</a>
 
-  Defines the condition for search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
+</details>
 
-  - `"any"`
+<a href="#">Link to this property</a>
 
-  - `"all"`
+description: string
 
-- `mode: optional "on" or "off"`
+Defines the public description of the WAF rule.
 
-  Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
+<a href="#">Link to this property</a>
 
-  - `"on"`
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-  - `"off"`
+Defines the rule group to which the current WAF rule belongs.
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  Defines the name of the rule group.
+<details>
 
-- `order: optional "mode" or "rules_count"`
+<summary>
 
-  Defines the field used to sort returned rule groups.
+mode: "on"or "off"
 
-  - `"mode"`
+When set to <code>on</code>, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
 
-  - `"rules_count"`
+</summary>
 
-- `page: optional number`
+One of the following:
 
-  Defines the page number of paginated results.
+"on"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Defines the number of rule groups per page.
+"off"
 
-- `rules_count: optional number`
+<a href="#">Link to this property</a>
 
-  Defines the number of rules in the current rule group.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+package\_id: string
 
-  - `code: number`
+Defines the unique identifier of a WAF package.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+priority: string
 
-    - `pointer: optional string`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
-
-- `result: array of Group`
-
-  - `id: string`
-
-    Defines the unique identifier of the rule group.
-
-  - `description: string`
-
-    Defines an informative summary of what the rule group does.
-
-  - `mode: "on" or "off"`
-
-    Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `name: string`
-
-    Defines the name of the rule group.
-
-  - `rules_count: number`
-
-    Defines the number of rules in the current rule group.
-
-  - `allowed_modes: optional array of "on" or "off"`
-
-    Defines the available states for the rule group.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_rules_count: optional number`
-
-    Defines the number of rules within the group that have been modified from their default configuration.
-
-  - `package_id: optional string`
-
-    Defines the unique identifier of a WAF package.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "de677e5818985db1285d0e80225f06e5",
-      "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks",
-      "mode": "on",
-      "name": "Project Honey Pot",
-      "rules_count": 10,
-      "allowed_modes": [
-        "on",
-        "off"
-      ],
-      "modified_rules_count": 2,
-      "package_id": "a25a9a7e9c00afc1fb2e0245519d725b"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a WAF rule group
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups/{group_id}`
-
-Fetches the details of a WAF rule group.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `group_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups/$GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Update a WAF rule group
-
-**patch** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups/{group_id}`
-
-Updates a WAF rule group. You can update the state (`mode` parameter) of a rule group.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `group_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Body Parameters
-
-- `mode: optional "on" or "off"`
-
-  Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-  - `"on"`
-
-  - `"off"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups/$GROUP_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Group
-
-- `Group object { id, description, mode, 5 more }`
-
-  - `id: string`
-
-    Defines the unique identifier of the rule group.
-
-  - `description: string`
-
-    Defines an informative summary of what the rule group does.
-
-  - `mode: "on" or "off"`
-
-    Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `name: string`
-
-    Defines the name of the rule group.
-
-  - `rules_count: number`
-
-    Defines the number of rules in the current rule group.
-
-  - `allowed_modes: optional array of "on" or "off"`
-
-    Defines the available states for the rule group.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_rules_count: optional number`
-
-    Defines the number of rules within the group that have been modified from their default configuration.
-
-  - `package_id: optional string`
-
-    Defines the unique identifier of a WAF package.
-
-### Group Get Response
-
-- `GroupGetResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-### Group Edit Response
-
-- `GroupEditResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-# Rules
-
-## List WAF rules
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/rules`
-
-Fetches WAF rules in a WAF package.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Query Parameters
-
-- `description: optional string`
-
-  Defines the public description of the WAF rule.
-
-- `direction: optional "asc" or "desc"`
-
-  Defines the direction used to sort returned rules.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `group_id: optional string`
-
-  Defines the unique identifier of the rule group.
-
-- `match: optional "any" or "all"`
-
-  Defines the search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
-
-  - `"any"`
-
-  - `"all"`
-
-- `mode: optional "DIS" or "CHL" or "BLK" or "SIM"`
-
-  Defines the action/mode a rule has been overridden to perform.
-
-  - `"DIS"`
-
-  - `"CHL"`
-
-  - `"BLK"`
-
-  - `"SIM"`
-
-- `order: optional "priority" or "group_id" or "description"`
-
-  Defines the field used to sort returned rules.
-
-  - `"priority"`
-
-  - `"group_id"`
-
-  - `"description"`
-
-- `page: optional number`
-
-  Defines the page number of paginated results.
-
-- `per_page: optional number`
-
-  Defines the number of rules per page.
-
-- `priority: optional string`
-
-  Defines the order in which the individual WAF rule is executed within its rule group.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id, allowed_modes, description, 4 more }  or object { id, allowed_modes, default_mode, 5 more }  or object { id, allowed_modes, description, 4 more }`
-
-  - `WAFManagedRulesAnomalyRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of AllowedModesAnomaly`
-
-      Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-      - `id: optional string`
-
-        Defines the unique identifier of the rule group.
-
-      - `name: optional string`
-
-        Defines the name of the rule group.
-
-    - `mode: AllowedModesAnomaly`
-
-      Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalDenyRule object { id, allowed_modes, default_mode, 5 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A 'deny' rule will immediately respond to the request based on the configured rule action/mode (for example, 'block') and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "default" or "disable" or "simulate" or 2 more`
-
-      Defines the list of possible actions of the WAF rule when it is triggered.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `default_mode: "disable" or "simulate" or "block" or "challenge"`
-
-      Defines the default action/mode of a rule.
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "default" or "disable" or "simulate" or 2 more`
-
-      Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalAllowRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An 'allow' rule will immediately allow the request and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "on" or "off"`
-
-      Defines the available modes for the current WAF rule.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "on" or "off"`
-
-      When set to `on`, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f939de3be84e66e757adcdcb87908023",
-      "allowed_modes": [
-        "on",
-        "off"
-      ],
-      "description": "SQL injection prevention for SELECT statements",
-      "group": {
-        "id": "de677e5818985db1285d0e80225f06e5",
-        "name": "Project Honey Pot"
-      },
-      "mode": "on",
-      "package_id": "a25a9a7e9c00afc1fb2e0245519d725b",
-      "priority": "priority"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a WAF rule
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/rules/{rule_id}`
-
-Fetches the details of a WAF rule in a WAF package.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `rule_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Update a WAF rule
-
-**patch** `/zones/{zone_id}/firewall/waf/packages/{package_id}/rules/{rule_id}`
-
-Updates a WAF rule. You can only update the mode/action of the rule.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `rule_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Body Parameters
-
-- `mode: optional "default" or "disable" or "simulate" or 4 more`
-
-  Defines the mode/action of the rule when triggered. You must use a value from the `allowed_modes` array of the current rule.
-
-  - `"default"`
-
-  - `"disable"`
-
-  - `"simulate"`
-
-  - `"block"`
-
-  - `"challenge"`
-
-  - `"on"`
-
-  - `"off"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, allowed_modes, description, 4 more }  or object { id, allowed_modes, default_mode, 5 more }  or object { id, allowed_modes, description, 4 more }`
-
-  When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-  - `WAFManagedRulesAnomalyRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of AllowedModesAnomaly`
-
-      Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-      - `id: optional string`
-
-        Defines the unique identifier of the rule group.
-
-      - `name: optional string`
-
-        Defines the name of the rule group.
-
-    - `mode: AllowedModesAnomaly`
-
-      Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalDenyRule object { id, allowed_modes, default_mode, 5 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A 'deny' rule will immediately respond to the request based on the configured rule action/mode (for example, 'block') and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "default" or "disable" or "simulate" or 2 more`
-
-      Defines the list of possible actions of the WAF rule when it is triggered.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `default_mode: "disable" or "simulate" or "block" or "challenge"`
-
-      Defines the default action/mode of a rule.
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "default" or "disable" or "simulate" or 2 more`
-
-      Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalAllowRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An 'allow' rule will immediately allow the request and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "on" or "off"`
-
-      Defines the available modes for the current WAF rule.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "on" or "off"`
-
-      When set to `on`, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "mode": "on"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f939de3be84e66e757adcdcb87908023",
-    "allowed_modes": [
-      "on",
-      "off"
-    ],
-    "description": "SQL injection prevention for SELECT statements",
-    "group": {
-      "id": "de677e5818985db1285d0e80225f06e5",
-      "name": "Project Honey Pot"
-    },
-    "mode": "on",
-    "package_id": "a25a9a7e9c00afc1fb2e0245519d725b",
-    "priority": "priority"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Allowed Modes Anomaly
-
-- `AllowedModesAnomaly = "on" or "off"`
-
-  Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-  - `"on"`
-
-  - `"off"`
-
-### WAF Rule Group
-
-- `WAFRuleGroup object { id, name }`
-
-  Defines the rule group to which the current WAF rule belongs.
-
-  - `id: optional string`
-
-    Defines the unique identifier of the rule group.
-
-  - `name: optional string`
-
-    Defines the name of the rule group.
-
-### Rule List Response
-
-- `RuleListResponse = object { id, allowed_modes, description, 4 more }  or object { id, allowed_modes, default_mode, 5 more }  or object { id, allowed_modes, description, 4 more }`
-
-  When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-  - `WAFManagedRulesAnomalyRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of AllowedModesAnomaly`
-
-      Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-      - `id: optional string`
-
-        Defines the unique identifier of the rule group.
-
-      - `name: optional string`
-
-        Defines the name of the rule group.
-
-    - `mode: AllowedModesAnomaly`
-
-      Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalDenyRule object { id, allowed_modes, default_mode, 5 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A 'deny' rule will immediately respond to the request based on the configured rule action/mode (for example, 'block') and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "default" or "disable" or "simulate" or 2 more`
-
-      Defines the list of possible actions of the WAF rule when it is triggered.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `default_mode: "disable" or "simulate" or "block" or "challenge"`
-
-      Defines the default action/mode of a rule.
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "default" or "disable" or "simulate" or 2 more`
-
-      Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalAllowRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An 'allow' rule will immediately allow the request and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "on" or "off"`
-
-      Defines the available modes for the current WAF rule.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "on" or "off"`
-
-      When set to `on`, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-### Rule Get Response
-
-- `RuleGetResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-### Rule Edit Response
-
-- `RuleEditResponse = object { id, allowed_modes, description, 4 more }  or object { id, allowed_modes, default_mode, 5 more }  or object { id, allowed_modes, description, 4 more }`
-
-  When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-  - `WAFManagedRulesAnomalyRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of AllowedModesAnomaly`
-
-      Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-      - `id: optional string`
-
-        Defines the unique identifier of the rule group.
-
-      - `name: optional string`
-
-        Defines the name of the rule group.
-
-    - `mode: AllowedModesAnomaly`
-
-      Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalDenyRule object { id, allowed_modes, default_mode, 5 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A 'deny' rule will immediately respond to the request based on the configured rule action/mode (for example, 'block') and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "default" or "disable" or "simulate" or 2 more`
-
-      Defines the list of possible actions of the WAF rule when it is triggered.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `default_mode: "disable" or "simulate" or "block" or "challenge"`
-
-      Defines the default action/mode of a rule.
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "default" or "disable" or "simulate" or 2 more`
-
-      Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalAllowRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An 'allow' rule will immediately allow the request and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "on" or "off"`
-
-      Defines the available modes for the current WAF rule.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "on" or "off"`
-
-      When set to `on`, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20rule_edit_response%20%3E%20(schema)>)

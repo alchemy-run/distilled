@@ -1,310 +1,169 @@
+---
+title: Versions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Versions
 
-## Sets the column information for a multi-column upload
+##### [Sets the column information for a multi-column upload](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions/methods/create)
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/versions/{version}`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/versions/{version}
 
-This is used for multi-column EDMv2 datasets. The EDMv2 format can only be
-created in the Cloudflare dashboard. The columns in the response appear in
-the same order as in the request.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `dataset_id: string`
+VersionCreateResponse object {entry\_id, header\_name, num\_cells, upload\_status }
 
-- `version: number`
+</summary>
 
-### Body Parameters
+entry\_id: string
 
-- `body: array of object { entry_id, header_name, num_cells }  or object { entry_name, header_name, num_cells }`
+formatuuid
 
-  - `ExistingColumn object { entry_id, header_name, num_cells }`
+<a href="#">Link to this property</a>
 
-    - `entry_id: string`
+header\_name: string
 
-    - `header_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `num_cells: optional number`
+num\_cells: number
 
-  - `NewColumn object { entry_name, header_name, num_cells }`
+formatint64
 
-    - `entry_name: string`
+<a href="#">Link to this property</a>
 
-    - `header_name: optional string`
+<details>
 
-    - `num_cells: optional number`
+<summary>
 
-### Returns
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"empty"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"uploading"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"pending"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"processing"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"failed"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"complete"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional array of object { entry_id, header_name, num_cells, upload_status }`
+<a href="#">Link to this property</a>
 
-  - `entry_id: string`
+</details>
 
-  - `header_name: string`
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(model)%20version_create_response%20%3E%20(schema)>)
 
-  - `num_cells: number`
+#### VersionsEntries
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+##### [Upload a new version of a multi-column dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions/subresources/entries/methods/create)
 
-    - `"empty"`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/versions/{version}/entries/{entry\_id}
 
-    - `"uploading"`
+##### ModelsExpand Collapse
 
-    - `"pending"`
+<details>
 
-    - `"processing"`
+<summary>
 
-    - `"failed"`
+EntryCreateResponse object {entry\_id, header\_name, num\_cells, upload\_status }
 
-    - `"complete"`
+</summary>
 
-### Example
+entry\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/versions/$VERSION \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            "header_name": "header_name",
-            "num_cells": 0
-          }
-        ]'
-```
+formatuuid
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "header_name": "header_name",
-      "num_cells": 0,
-      "upload_status": "empty"
-    }
-  ]
-}
-```
+header\_name: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Version Create Response
+num\_cells: number
 
-- `VersionCreateResponse object { entry_id, header_name, num_cells, upload_status }`
+formatint64
 
-  - `entry_id: string`
+<a href="#">Link to this property</a>
 
-  - `header_name: string`
+<details>
 
-  - `num_cells: number`
+<summary>
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-    - `"empty"`
+</summary>
 
-    - `"uploading"`
+One of the following:
 
-    - `"pending"`
+"empty"
 
-    - `"processing"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+"uploading"
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-# Entries
+"pending"
 
-## Upload a new version of a multi-column dataset
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/versions/{version}/entries/{entry_id}`
+"processing"
 
-This is used for multi-column EDMv2 datasets. The EDMv2 format can only be
-created in the Cloudflare dashboard.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"failed"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `dataset_id: string`
+"complete"
 
-- `version: number`
+<a href="#">Link to this property</a>
 
-- `entry_id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { entry_id, header_name, num_cells, upload_status }`
-
-  - `entry_id: string`
-
-  - `header_name: string`
-
-  - `num_cells: number`
-
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
-
-    - `"empty"`
-
-    - `"uploading"`
-
-    - `"pending"`
-
-    - `"processing"`
-
-    - `"failed"`
-
-    - `"complete"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/versions/$VERSION/entries/$ENTRY_ID \
-    -H 'Content-Type: application/octet-stream' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'dataset_version_entry=@/path/to/dataset_version_entry'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "header_name": "header_name",
-    "num_cells": 0,
-    "upload_status": "empty"
-  }
-}
-```
-
-## Domain Types
-
-### Entry Create Response
-
-- `EntryCreateResponse object { entry_id, header_name, num_cells, upload_status }`
-
-  - `entry_id: string`
-
-  - `header_name: string`
-
-  - `num_cells: number`
-
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
-
-    - `"empty"`
-
-    - `"uploading"`
-
-    - `"pending"`
-
-    - `"processing"`
-
-    - `"failed"`
-
-    - `"complete"`
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(model)%20entry_create_response%20%3E%20(schema)>)

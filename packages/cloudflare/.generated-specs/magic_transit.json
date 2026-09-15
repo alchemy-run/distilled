@@ -608,6 +608,678 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.magic_transit#CreateBgpFilterProfileRequestMatchAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CreateBgpFilterProfileRequestTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#CreateBgpFilterProfileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "match_action": {
+          "target": "com.cloudflare.magic_transit#CreateBgpFilterProfileRequestMatchAction",
+          "traits": {
+            "smithy.api#documentation": "Action to take when a route matches one of the targets in this profile",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name for the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "targets": {
+          "target": "com.cloudflare.magic_transit#CreateBgpFilterProfileRequestTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N <= X <= Y <= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the filter profile"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.magic_transit#CreateBgpFilterProfileResponseMatchAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CreateBgpFilterProfileResponseTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#CreateBgpFilterProfileResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "match_action": {
+          "target": "com.cloudflare.magic_transit#CreateBgpFilterProfileResponseMatchAction",
+          "traits": {
+            "smithy.api#documentation": "Action to take when a route matches one of the targets in this profile",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name for the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "targets": {
+          "target": "com.cloudflare.magic_transit#CreateBgpFilterProfileResponseTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "modified_on": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.magic_transit#CreateBgpFilterProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.magic_transit#CreateBgpFilterProfileRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.magic_transit#CreateBgpFilterProfileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/magic/bgp/filter_profiles",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates a new BGP filter profile for an account."
+      }
+    },
+    "com.cloudflare.magic_transit#DeleteBgpFilterProfileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "profile_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.magic_transit#DeleteBgpFilterProfileResponseMatchAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#DeleteBgpFilterProfileResponseTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#DeleteBgpFilterProfileResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "match_action": {
+          "target": "com.cloudflare.magic_transit#DeleteBgpFilterProfileResponseMatchAction",
+          "traits": {
+            "smithy.api#documentation": "Action to take when a route matches one of the targets in this profile",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name for the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "targets": {
+          "target": "com.cloudflare.magic_transit#DeleteBgpFilterProfileResponseTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "modified_on": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.magic_transit#DeleteBgpFilterProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.magic_transit#DeleteBgpFilterProfileRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.magic_transit#DeleteBgpFilterProfileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/magic/bgp/filter_profiles/{profile_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes a BGP filter profile.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.magic_transit#GetBgpFilterProfileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "profile_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.magic_transit#GetBgpFilterProfileResponseMatchAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#GetBgpFilterProfileResponseTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#GetBgpFilterProfileResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "match_action": {
+          "target": "com.cloudflare.magic_transit#GetBgpFilterProfileResponseMatchAction",
+          "traits": {
+            "smithy.api#documentation": "Action to take when a route matches one of the targets in this profile",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name for the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "targets": {
+          "target": "com.cloudflare.magic_transit#GetBgpFilterProfileResponseTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "modified_on": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.magic_transit#GetBgpFilterProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.magic_transit#GetBgpFilterProfileRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.magic_transit#GetBgpFilterProfileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/magic/bgp/filter_profiles/{profile_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets a specific BGP filter profile for an account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.magic_transit#ListBgpFilterProfilesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.magic_transit#ListBgpFilterProfilesResultItemMatchAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#ListBgpFilterProfilesResultItemTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#ListBgpFilterProfilesResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "match_action": {
+          "target": "com.cloudflare.magic_transit#ListBgpFilterProfilesResultItemMatchAction",
+          "traits": {
+            "smithy.api#documentation": "Action to take when a route matches one of the targets in this profile",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name for the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "targets": {
+          "target": "com.cloudflare.magic_transit#ListBgpFilterProfilesResultItemTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "modified_on": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#ListBgpFilterProfilesResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.magic_transit#ListBgpFilterProfilesResultItem"
+      }
+    },
+    "com.cloudflare.magic_transit#ListBgpFilterProfilesResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.magic_transit#ListBgpFilterProfilesResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.magic_transit#ListBgpFilterProfiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.magic_transit#ListBgpFilterProfilesRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.magic_transit#ListBgpFilterProfilesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/magic/bgp/filter_profiles",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists all BGP filter profiles for an account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.magic_transit#UpdateBgpFilterProfileRequestMatchAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#UpdateBgpFilterProfileRequestTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#UpdateBgpFilterProfileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "profile_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the filter profile"
+          }
+        },
+        "match_action": {
+          "target": "com.cloudflare.magic_transit#UpdateBgpFilterProfileRequestMatchAction",
+          "traits": {
+            "smithy.api#documentation": "Action to take when a route matches one of the targets in this profile"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name for the filter profile"
+          }
+        },
+        "targets": {
+          "target": "com.cloudflare.magic_transit#UpdateBgpFilterProfileRequestTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N <= X <= Y <= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.magic_transit#UpdateBgpFilterProfileResponseMatchAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#UpdateBgpFilterProfileResponseTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#UpdateBgpFilterProfileResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "match_action": {
+          "target": "com.cloudflare.magic_transit#UpdateBgpFilterProfileResponseMatchAction",
+          "traits": {
+            "smithy.api#documentation": "Action to take when a route matches one of the targets in this profile",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name for the filter profile",
+            "smithy.api#required": {}
+          }
+        },
+        "targets": {
+          "target": "com.cloudflare.magic_transit#UpdateBgpFilterProfileResponseTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "modified_on": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.magic_transit#UpdateBgpFilterProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.magic_transit#UpdateBgpFilterProfileRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.magic_transit#UpdateBgpFilterProfileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/accounts/{account_id}/magic/bgp/filter_profiles/{profile_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Updates a BGP filter profile. Omitted properties are left unchanged. To clear an existing description send `description: \"\"`.",
+        "smithy.api#idempotent": {}
+      }
+    },
     "com.cloudflare.magic_transit#Cf1SitesCreateRequestBodyItemLocation": {
       "type": "structure",
       "members": {
@@ -1436,6 +2108,65 @@
         "target": "com.cloudflare.magic_transit#Cf1SitesRampsListResultItem"
       }
     },
+    "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgpExtraPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgp": {
+      "type": "structure",
+      "members": {
+        "as_no": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Use customer_asn."
+          }
+        },
+        "cloudflare_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "customer_asn": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ASN used on the customer end of the BGP session."
+          }
+        },
+        "customer_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "export_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes advertised to the customer."
+          }
+        },
+        "extra_prefixes": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgpExtraPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+          }
+        },
+        "import_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes received from the customer."
+          }
+        },
+        "md5_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MD5 key to use for session authentication."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre": {
       "type": "structure",
       "members": {
@@ -1443,6 +2174,23 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The IP address assigned to the Cloudflare side of the GRE tunnel created as part of the Interconnect."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckDirection": {
+      "type": "enum",
+      "members": {
+        "UNIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unidirectional"
+          }
+        },
+        "BIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bidirectional"
           }
         }
       }
@@ -1518,6 +2266,12 @@
     "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheck": {
       "type": "structure",
       "members": {
+        "direction": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckDirection",
+          "traits": {
+            "smithy.api#documentation": "The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect."
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1528,6 +2282,12 @@
           "target": "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckRate",
           "traits": {
             "smithy.api#documentation": "How frequent the health check is run. The default value is `mid`."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27."
           }
         },
         "target": {
@@ -1559,6 +2319,9 @@
             "smithy.api#documentation": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected."
           }
         },
+        "bgp": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgp"
+        },
         "colo_name": {
           "target": "smithy.api#String",
           "traits": {
@@ -1580,7 +2343,7 @@
         "gre": {
           "target": "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre",
           "traits": {
-            "smithy.api#documentation": "The configuration specific to GRE interconnects."
+            "smithy.api#documentation": "Omitted in responses for version 1.5 interconnects."
           }
         },
         "health_check": {
@@ -1589,7 +2352,7 @@
         "interface_address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+            "smithy.api#documentation": "The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges."
           }
         },
         "interface_address6": {
@@ -1616,6 +2379,12 @@
             "smithy.api#documentation": "The name of the interconnect. The name cannot share a name with other tunnels."
           }
         },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable interconnect version configured at creation time. One of:"
+          }
+        },
         "virtual_port_reservation_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -1630,6 +2399,65 @@
         "target": "com.cloudflare.magic_transit#CfInterconnectsBulkUpdateResponseModifiedInterconnectsItem"
       }
     },
+    "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectBgpExtraPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectBgp": {
+      "type": "structure",
+      "members": {
+        "as_no": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Use customer_asn."
+          }
+        },
+        "cloudflare_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "customer_asn": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ASN used on the customer end of the BGP session."
+          }
+        },
+        "customer_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "export_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes advertised to the customer."
+          }
+        },
+        "extra_prefixes": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectBgpExtraPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+          }
+        },
+        "import_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes received from the customer."
+          }
+        },
+        "md5_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MD5 key to use for session authentication."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectGre": {
       "type": "structure",
       "members": {
@@ -1637,6 +2465,23 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The IP address assigned to the Cloudflare side of the GRE tunnel created as part of the Interconnect."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectHealthCheckDirection": {
+      "type": "enum",
+      "members": {
+        "UNIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unidirectional"
+          }
+        },
+        "BIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bidirectional"
           }
         }
       }
@@ -1712,6 +2557,12 @@
     "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectHealthCheck": {
       "type": "structure",
       "members": {
+        "direction": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectHealthCheckDirection",
+          "traits": {
+            "smithy.api#documentation": "The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect."
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1722,6 +2573,12 @@
           "target": "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectHealthCheckRate",
           "traits": {
             "smithy.api#documentation": "How frequent the health check is run. The default value is `mid`."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27."
           }
         },
         "target": {
@@ -1753,6 +2610,9 @@
             "smithy.api#documentation": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected."
           }
         },
+        "bgp": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectBgp"
+        },
         "colo_name": {
           "target": "smithy.api#String",
           "traits": {
@@ -1774,7 +2634,7 @@
         "gre": {
           "target": "com.cloudflare.magic_transit#CfInterconnectsGetResponseInterconnectGre",
           "traits": {
-            "smithy.api#documentation": "The configuration specific to GRE interconnects."
+            "smithy.api#documentation": "Omitted in responses for version 1.5 interconnects."
           }
         },
         "health_check": {
@@ -1783,7 +2643,7 @@
         "interface_address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+            "smithy.api#documentation": "The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges."
           }
         },
         "interface_address6": {
@@ -1810,10 +2670,75 @@
             "smithy.api#documentation": "The name of the interconnect. The name cannot share a name with other tunnels."
           }
         },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable interconnect version configured at creation time. One of:"
+          }
+        },
         "virtual_port_reservation_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "An identifier that correlates this interconnect with the corresponding V2 CNI interconnect resource."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemBgpExtraPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemBgp": {
+      "type": "structure",
+      "members": {
+        "as_no": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Use customer_asn."
+          }
+        },
+        "cloudflare_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "customer_asn": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ASN used on the customer end of the BGP session."
+          }
+        },
+        "customer_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "export_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes advertised to the customer."
+          }
+        },
+        "extra_prefixes": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemBgpExtraPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+          }
+        },
+        "import_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes received from the customer."
+          }
+        },
+        "md5_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MD5 key to use for session authentication."
           }
         }
       }
@@ -1825,6 +2750,23 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The IP address assigned to the Cloudflare side of the GRE tunnel created as part of the Interconnect."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemHealthCheckDirection": {
+      "type": "enum",
+      "members": {
+        "UNIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unidirectional"
+          }
+        },
+        "BIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bidirectional"
           }
         }
       }
@@ -1900,6 +2842,12 @@
     "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemHealthCheck": {
       "type": "structure",
       "members": {
+        "direction": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemHealthCheckDirection",
+          "traits": {
+            "smithy.api#documentation": "The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect."
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1910,6 +2858,12 @@
           "target": "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemHealthCheckRate",
           "traits": {
             "smithy.api#documentation": "How frequent the health check is run. The default value is `mid`."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27."
           }
         },
         "target": {
@@ -1941,6 +2895,9 @@
             "smithy.api#documentation": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected."
           }
         },
+        "bgp": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemBgp"
+        },
         "colo_name": {
           "target": "smithy.api#String",
           "traits": {
@@ -1962,7 +2919,7 @@
         "gre": {
           "target": "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItemGre",
           "traits": {
-            "smithy.api#documentation": "The configuration specific to GRE interconnects."
+            "smithy.api#documentation": "Omitted in responses for version 1.5 interconnects."
           }
         },
         "health_check": {
@@ -1971,7 +2928,7 @@
         "interface_address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+            "smithy.api#documentation": "The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges."
           }
         },
         "interface_address6": {
@@ -1998,6 +2955,12 @@
             "smithy.api#documentation": "The name of the interconnect. The name cannot share a name with other tunnels."
           }
         },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable interconnect version configured at creation time. One of:"
+          }
+        },
         "virtual_port_reservation_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -2012,6 +2975,65 @@
         "target": "com.cloudflare.magic_transit#CfInterconnectsListResponseInterconnectsItem"
       }
     },
+    "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestBgpExtraPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestBgp": {
+      "type": "structure",
+      "members": {
+        "as_no": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Use customer_asn."
+          }
+        },
+        "cloudflare_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "customer_asn": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ASN used on the customer end of the BGP session."
+          }
+        },
+        "customer_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "export_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes advertised to the customer."
+          }
+        },
+        "extra_prefixes": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestBgpExtraPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+          }
+        },
+        "import_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes received from the customer."
+          }
+        },
+        "md5_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MD5 key to use for session authentication."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestGre": {
       "type": "structure",
       "members": {
@@ -2019,6 +3041,23 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The IP address assigned to the Cloudflare side of the GRE tunnel created as part of the Interconnect."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestHealthCheckDirection": {
+      "type": "enum",
+      "members": {
+        "UNIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unidirectional"
+          }
+        },
+        "BIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bidirectional"
           }
         }
       }
@@ -2094,6 +3133,12 @@
     "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestHealthCheck": {
       "type": "structure",
       "members": {
+        "direction": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestHealthCheckDirection",
+          "traits": {
+            "smithy.api#documentation": "The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect."
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -2104,6 +3149,12 @@
           "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestHealthCheckRate",
           "traits": {
             "smithy.api#documentation": "How frequent the health check is run. The default value is `mid`."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27."
           }
         },
         "target": {
@@ -2120,6 +3171,65 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectBgpExtraPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectBgp": {
+      "type": "structure",
+      "members": {
+        "as_no": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Use customer_asn."
+          }
+        },
+        "cloudflare_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "customer_asn": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ASN used on the customer end of the BGP session."
+          }
+        },
+        "customer_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only for v1.5; derived from interface_address."
+          }
+        },
+        "export_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes advertised to the customer."
+          }
+        },
+        "extra_prefixes": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectBgpExtraPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+          }
+        },
+        "import_filter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the BGP filter profile applied to routes received from the customer."
+          }
+        },
+        "md5_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MD5 key to use for session authentication."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectGre": {
       "type": "structure",
       "members": {
@@ -2127,6 +3237,23 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The IP address assigned to the Cloudflare side of the GRE tunnel created as part of the Interconnect."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckDirection": {
+      "type": "enum",
+      "members": {
+        "UNIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unidirectional"
+          }
+        },
+        "BIDIRECTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bidirectional"
           }
         }
       }
@@ -2202,6 +3329,12 @@
     "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectHealthCheck": {
       "type": "structure",
       "members": {
+        "direction": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckDirection",
+          "traits": {
+            "smithy.api#documentation": "The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect."
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -2212,6 +3345,12 @@
           "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckRate",
           "traits": {
             "smithy.api#documentation": "How frequent the health check is run. The default value is `mid`."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27."
           }
         },
         "target": {
@@ -2243,6 +3382,9 @@
             "smithy.api#documentation": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected."
           }
         },
+        "bgp": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectBgp"
+        },
         "colo_name": {
           "target": "smithy.api#String",
           "traits": {
@@ -2264,7 +3406,7 @@
         "gre": {
           "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateResponseModifiedInterconnectGre",
           "traits": {
-            "smithy.api#documentation": "The configuration specific to GRE interconnects."
+            "smithy.api#documentation": "Omitted in responses for version 1.5 interconnects."
           }
         },
         "health_check": {
@@ -2273,7 +3415,7 @@
         "interface_address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+            "smithy.api#documentation": "The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges."
           }
         },
         "interface_address6": {
@@ -2298,6 +3440,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The name of the interconnect. The name cannot share a name with other tunnels."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable interconnect version configured at creation time. One of:"
           }
         },
         "virtual_port_reservation_id": {
@@ -3165,7 +4313,7 @@
         }
       }
     },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEInitK": {
+    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEK": {
       "type": "enum",
       "members": {
         "INIT": {
@@ -3173,588 +4321,186 @@
           "traits": {
             "smithy.api#enumValue": "Init"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEInit": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEInitK",
-          "traits": {
-            "smithy.api#documentation": "Initialized process",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseELeaveK": {
-      "type": "enum",
-      "members": {
+        },
         "LEAVE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "Leave"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseELeave": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseELeaveK",
-          "traits": {
-            "smithy.api#documentation": "Stopped process",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartAttestationK": {
-      "type": "enum",
-      "members": {
+        },
         "STARTATTESTATION": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "StartAttestation"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartAttestation": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartAttestationK",
-          "traits": {
-            "smithy.api#documentation": "Started attestation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishAttestationSuccessK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHATTESTATIONSUCCESS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishAttestationSuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishAttestationSuccess": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishAttestationSuccessK",
-          "traits": {
-            "smithy.api#documentation": "Finished attestation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishAttestationFailureK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHATTESTATIONFAILURE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishAttestationFailure"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishAttestationFailure": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishAttestationFailureK",
-          "traits": {
-            "smithy.api#documentation": "Failed attestation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartRotateCryptKeyK": {
-      "type": "enum",
-      "members": {
+        },
         "STARTROTATECRYPTKEY": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "StartRotateCryptKey"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartRotateCryptKey": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartRotateCryptKeyK",
-          "traits": {
-            "smithy.api#documentation": "Started crypt key rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotateCryptKeySuccessK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHROTATECRYPTKEYSUCCESS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishRotateCryptKeySuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotateCryptKeySuccess": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotateCryptKeySuccessK",
-          "traits": {
-            "smithy.api#documentation": "Finished crypt key rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotateCryptKeyFailureK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHROTATECRYPTKEYFAILURE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishRotateCryptKeyFailure"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotateCryptKeyFailure": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotateCryptKeyFailureK",
-          "traits": {
-            "smithy.api#documentation": "Failed crypt key rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartRotatePkiK": {
-      "type": "enum",
-      "members": {
+        },
         "STARTROTATEPKI": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "StartRotatePki"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartRotatePki": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartRotatePkiK",
-          "traits": {
-            "smithy.api#documentation": "Started PKI rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotatePkiSuccessK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHROTATEPKISUCCESS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishRotatePkiSuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotatePkiSuccess": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotatePkiSuccessK",
-          "traits": {
-            "smithy.api#documentation": "Finished PKI rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotatePkiFailureK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHROTATEPKIFAILURE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishRotatePkiFailure"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotatePkiFailure": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotatePkiFailureK",
-          "traits": {
-            "smithy.api#documentation": "Failed PKI rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartUpgradeK": {
-      "type": "enum",
-      "members": {
+        },
         "STARTUPGRADE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "StartUpgrade"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartUpgrade": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartUpgradeK",
-          "traits": {
-            "smithy.api#documentation": "Started upgrade",
-            "smithy.api#required": {}
-          }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Location of upgrade bundle",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishUpgradeSuccessK": {
-      "type": "enum",
-      "members": {
         "FINISHUPGRADESUCCESS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishUpgradeSuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishUpgradeSuccess": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishUpgradeSuccessK",
-          "traits": {
-            "smithy.api#documentation": "Finished upgrade",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishUpgradeFailureK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHUPGRADEFAILURE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishUpgradeFailure"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishUpgradeFailure": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishUpgradeFailureK",
+        },
+        "BLESSSLOTSUCCESS": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Failed upgrade",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "BlessSlotSuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEReconcileK": {
-      "type": "enum",
-      "members": {
+        },
+        "BLESSSLOTPENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BlessSlotPending"
+          }
+        },
+        "BLESSSLOTFAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BlessSlotFailure"
+          }
+        },
         "RECONCILE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "Reconcile"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEReconcile": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEReconcileK",
-          "traits": {
-            "smithy.api#documentation": "Reconciled",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEConfigureCloudflaredTunnelK": {
-      "type": "enum",
-      "members": {
+        },
         "CONFIGURECLOUDFLAREDTUNNEL": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ConfigureCloudflaredTunnel"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEConfigureCloudflaredTunnel": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEConfigureCloudflaredTunnelK",
-          "traits": {
-            "smithy.api#documentation": "Configured Cloudflared tunnel",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyInstallBothK": {
-      "type": "enum",
-      "members": {
+        },
         "REKEYINSTALLBOTH": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyInstallBoth"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyInstallBoth": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyInstallBothK",
-          "traits": {
-            "smithy.api#documentation": "Installed initial inbound and outbound keys",
-            "smithy.api#required": {}
-          }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyStartK": {
-      "type": "enum",
-      "members": {
         "REKEYSTART": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyStart"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyStart": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyStartK",
+        },
+        "REKEYRESTART": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Installed new inbound key, kept old outbound",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "RekeyRestart"
           }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyAdvanceK": {
-      "type": "enum",
-      "members": {
         "REKEYADVANCE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyAdvance"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyAdvance": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyAdvanceK",
-          "traits": {
-            "smithy.api#documentation": "Confirmed traffic on new inbound key, swapped outbound to new",
-            "smithy.api#required": {}
-          }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyCompleteK": {
-      "type": "enum",
-      "members": {
         "REKEYCOMPLETE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyComplete"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyComplete": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyCompleteK",
-          "traits": {
-            "smithy.api#documentation": "Deleted old keys",
-            "smithy.api#required": {}
-          }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyResetK": {
-      "type": "enum",
-      "members": {
         "REKEYRESET": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyReset"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyReset": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyResetK",
+        },
+        "HATRANSITION": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Deleted all keys after receiving an unexpected key",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "HaTransition"
           }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
+        "HAERROR": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "HaError"
+          }
+        },
+        "HAINIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HaInit"
+          }
+        },
+        "HALEAVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HaLeave"
           }
         }
       }
     },
     "com.cloudflare.magic_transit#ConnectorsEventsGetResponseE": {
-      "type": "union",
+      "type": "structure",
       "members": {
-        "Init": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEInit"
-        },
-        "Leave": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseELeave"
-        },
-        "StartAttestation": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartAttestation"
-        },
-        "FinishAttestationSuccess": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishAttestationSuccess"
-        },
-        "FinishAttestationFailure": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishAttestationFailure"
-        },
-        "StartRotateCryptKey": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartRotateCryptKey"
-        },
-        "FinishRotateCryptKeySuccess": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotateCryptKeySuccess"
-        },
-        "FinishRotateCryptKeyFailure": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotateCryptKeyFailure"
-        },
-        "StartRotatePki": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartRotatePki"
-        },
-        "FinishRotatePkiSuccess": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotatePkiSuccess"
-        },
-        "FinishRotatePkiFailure": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishRotatePkiFailure"
-        },
-        "StartUpgrade": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEStartUpgrade"
-        },
-        "FinishUpgradeSuccess": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishUpgradeSuccess"
-        },
-        "FinishUpgradeFailure": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEFinishUpgradeFailure"
-        },
-        "Reconcile": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEReconcile"
-        },
-        "ConfigureCloudflaredTunnel": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEConfigureCloudflaredTunnel"
-        },
-        "RekeyInstallBoth": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyInstallBoth"
-        },
-        "RekeyStart": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyStart"
-        },
-        "RekeyAdvance": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyAdvance"
-        },
-        "RekeyComplete": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyComplete"
-        },
-        "RekeyReset": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseERekeyReset"
+        "k": {
+          "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseEK",
+          "traits": {
+            "smithy.api#documentation": "Event kind",
+            "smithy.api#required": {}
+          }
         }
       }
     },
@@ -3797,7 +4543,7 @@
         "target": "com.cloudflare.magic_transit#ConnectorsEventsListResponseItemsItem"
       }
     },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEInitK": {
+    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEK": {
       "type": "enum",
       "members": {
         "INIT": {
@@ -3805,588 +4551,186 @@
           "traits": {
             "smithy.api#enumValue": "Init"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEInit": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEInitK",
-          "traits": {
-            "smithy.api#documentation": "Initialized process",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemELeaveK": {
-      "type": "enum",
-      "members": {
+        },
         "LEAVE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "Leave"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemELeave": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemELeaveK",
-          "traits": {
-            "smithy.api#documentation": "Stopped process",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartAttestationK": {
-      "type": "enum",
-      "members": {
+        },
         "STARTATTESTATION": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "StartAttestation"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartAttestation": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartAttestationK",
-          "traits": {
-            "smithy.api#documentation": "Started attestation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishAttestationSuccessK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHATTESTATIONSUCCESS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishAttestationSuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishAttestationSuccess": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishAttestationSuccessK",
-          "traits": {
-            "smithy.api#documentation": "Finished attestation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishAttestationFailureK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHATTESTATIONFAILURE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishAttestationFailure"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishAttestationFailure": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishAttestationFailureK",
-          "traits": {
-            "smithy.api#documentation": "Failed attestation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartRotateCryptKeyK": {
-      "type": "enum",
-      "members": {
+        },
         "STARTROTATECRYPTKEY": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "StartRotateCryptKey"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartRotateCryptKey": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartRotateCryptKeyK",
-          "traits": {
-            "smithy.api#documentation": "Started crypt key rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotateCryptKeySuccessK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHROTATECRYPTKEYSUCCESS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishRotateCryptKeySuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotateCryptKeySuccess": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotateCryptKeySuccessK",
-          "traits": {
-            "smithy.api#documentation": "Finished crypt key rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotateCryptKeyFailureK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHROTATECRYPTKEYFAILURE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishRotateCryptKeyFailure"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotateCryptKeyFailure": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotateCryptKeyFailureK",
-          "traits": {
-            "smithy.api#documentation": "Failed crypt key rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartRotatePkiK": {
-      "type": "enum",
-      "members": {
+        },
         "STARTROTATEPKI": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "StartRotatePki"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartRotatePki": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartRotatePkiK",
-          "traits": {
-            "smithy.api#documentation": "Started PKI rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotatePkiSuccessK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHROTATEPKISUCCESS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishRotatePkiSuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotatePkiSuccess": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotatePkiSuccessK",
-          "traits": {
-            "smithy.api#documentation": "Finished PKI rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotatePkiFailureK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHROTATEPKIFAILURE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishRotatePkiFailure"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotatePkiFailure": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotatePkiFailureK",
-          "traits": {
-            "smithy.api#documentation": "Failed PKI rotation",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartUpgradeK": {
-      "type": "enum",
-      "members": {
+        },
         "STARTUPGRADE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "StartUpgrade"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartUpgrade": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartUpgradeK",
-          "traits": {
-            "smithy.api#documentation": "Started upgrade",
-            "smithy.api#required": {}
-          }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Location of upgrade bundle",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishUpgradeSuccessK": {
-      "type": "enum",
-      "members": {
         "FINISHUPGRADESUCCESS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishUpgradeSuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishUpgradeSuccess": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishUpgradeSuccessK",
-          "traits": {
-            "smithy.api#documentation": "Finished upgrade",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishUpgradeFailureK": {
-      "type": "enum",
-      "members": {
+        },
         "FINISHUPGRADEFAILURE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "FinishUpgradeFailure"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishUpgradeFailure": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishUpgradeFailureK",
+        },
+        "BLESSSLOTSUCCESS": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Failed upgrade",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "BlessSlotSuccess"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEReconcileK": {
-      "type": "enum",
-      "members": {
+        },
+        "BLESSSLOTPENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BlessSlotPending"
+          }
+        },
+        "BLESSSLOTFAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BlessSlotFailure"
+          }
+        },
         "RECONCILE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "Reconcile"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEReconcile": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEReconcileK",
-          "traits": {
-            "smithy.api#documentation": "Reconciled",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEConfigureCloudflaredTunnelK": {
-      "type": "enum",
-      "members": {
+        },
         "CONFIGURECLOUDFLAREDTUNNEL": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ConfigureCloudflaredTunnel"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEConfigureCloudflaredTunnel": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEConfigureCloudflaredTunnelK",
-          "traits": {
-            "smithy.api#documentation": "Configured Cloudflared tunnel",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyInstallBothK": {
-      "type": "enum",
-      "members": {
+        },
         "REKEYINSTALLBOTH": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyInstallBoth"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyInstallBoth": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyInstallBothK",
-          "traits": {
-            "smithy.api#documentation": "Installed initial inbound and outbound keys",
-            "smithy.api#required": {}
-          }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyStartK": {
-      "type": "enum",
-      "members": {
         "REKEYSTART": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyStart"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyStart": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyStartK",
+        },
+        "REKEYRESTART": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Installed new inbound key, kept old outbound",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "RekeyRestart"
           }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyAdvanceK": {
-      "type": "enum",
-      "members": {
         "REKEYADVANCE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyAdvance"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyAdvance": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyAdvanceK",
-          "traits": {
-            "smithy.api#documentation": "Confirmed traffic on new inbound key, swapped outbound to new",
-            "smithy.api#required": {}
-          }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyCompleteK": {
-      "type": "enum",
-      "members": {
         "REKEYCOMPLETE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyComplete"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyComplete": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyCompleteK",
-          "traits": {
-            "smithy.api#documentation": "Deleted old keys",
-            "smithy.api#required": {}
-          }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyResetK": {
-      "type": "enum",
-      "members": {
         "REKEYRESET": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RekeyReset"
           }
-        }
-      }
-    },
-    "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyReset": {
-      "type": "structure",
-      "members": {
-        "k": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyResetK",
+        },
+        "HATRANSITION": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Deleted all keys after receiving an unexpected key",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "HaTransition"
           }
         },
-        "tunnel_id": {
-          "target": "smithy.api#String",
+        "HAERROR": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Tunnel identifier",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "HaError"
+          }
+        },
+        "HAINIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HaInit"
+          }
+        },
+        "HALEAVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HaLeave"
           }
         }
       }
     },
     "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemE": {
-      "type": "union",
+      "type": "structure",
       "members": {
-        "Init": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEInit"
-        },
-        "Leave": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemELeave"
-        },
-        "StartAttestation": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartAttestation"
-        },
-        "FinishAttestationSuccess": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishAttestationSuccess"
-        },
-        "FinishAttestationFailure": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishAttestationFailure"
-        },
-        "StartRotateCryptKey": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartRotateCryptKey"
-        },
-        "FinishRotateCryptKeySuccess": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotateCryptKeySuccess"
-        },
-        "FinishRotateCryptKeyFailure": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotateCryptKeyFailure"
-        },
-        "StartRotatePki": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartRotatePki"
-        },
-        "FinishRotatePkiSuccess": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotatePkiSuccess"
-        },
-        "FinishRotatePkiFailure": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishRotatePkiFailure"
-        },
-        "StartUpgrade": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEStartUpgrade"
-        },
-        "FinishUpgradeSuccess": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishUpgradeSuccess"
-        },
-        "FinishUpgradeFailure": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEFinishUpgradeFailure"
-        },
-        "Reconcile": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEReconcile"
-        },
-        "ConfigureCloudflaredTunnel": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEConfigureCloudflaredTunnel"
-        },
-        "RekeyInstallBoth": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyInstallBoth"
-        },
-        "RekeyStart": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyStart"
-        },
-        "RekeyAdvance": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyAdvance"
-        },
-        "RekeyComplete": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyComplete"
-        },
-        "RekeyReset": {
-          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemERekeyReset"
+        "k": {
+          "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemEK",
+          "traits": {
+            "smithy.api#documentation": "Event kind",
+            "smithy.api#required": {}
+          }
         }
       }
     },
@@ -4396,6 +4740,7 @@
         "e": {
           "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItemE",
           "traits": {
+            "smithy.api#documentation": "Event kind plus event-specific payload fields.",
             "smithy.api#required": {}
           }
         },
@@ -4425,6 +4770,264 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.magic_transit#ConnectorsEventsLatestListResponseItemsItem"
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterruptRequestReboot": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterruptRequestRestart": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterruptRequestShutdown": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterruptRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "connector_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "reboot": {
+          "target": "com.cloudflare.magic_transit#CreateConnectorsInterruptRequestReboot"
+        },
+        "restart": {
+          "target": "com.cloudflare.magic_transit#CreateConnectorsInterruptRequestRestart"
+        },
+        "shutdown": {
+          "target": "com.cloudflare.magic_transit#CreateConnectorsInterruptRequestShutdown"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterruptResponseReboot": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterruptResponseRestart": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterruptResponseShutdown": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterruptResponse": {
+      "type": "structure",
+      "members": {
+        "submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reboot": {
+          "target": "com.cloudflare.magic_transit#CreateConnectorsInterruptResponseReboot"
+        },
+        "restart": {
+          "target": "com.cloudflare.magic_transit#CreateConnectorsInterruptResponseRestart"
+        },
+        "shutdown": {
+          "target": "com.cloudflare.magic_transit#CreateConnectorsInterruptResponseShutdown"
+        },
+        "triggered_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.magic_transit#CreateConnectorsInterrupt": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.magic_transit#CreateConnectorsInterruptRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.magic_transit#CreateConnectorsInterruptResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/magic/connectors/{connector_id}/interrupts",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates an interrupt for a Magic WAN Connector."
+      }
+    },
+    "com.cloudflare.magic_transit#ListConnectorsInterruptsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "connector_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.magic_transit#ListConnectorsInterruptsResultItemReboot": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#ListConnectorsInterruptsResultItemRestart": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#ListConnectorsInterruptsResultItemShutdown": {
+      "type": "structure",
+      "members": {
+        "purge": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Purge connector state."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#ListConnectorsInterruptsResultItem": {
+      "type": "structure",
+      "members": {
+        "submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reboot": {
+          "target": "com.cloudflare.magic_transit#ListConnectorsInterruptsResultItemReboot"
+        },
+        "restart": {
+          "target": "com.cloudflare.magic_transit#ListConnectorsInterruptsResultItemRestart"
+        },
+        "shutdown": {
+          "target": "com.cloudflare.magic_transit#ListConnectorsInterruptsResultItemShutdown"
+        },
+        "triggered_at": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#ListConnectorsInterruptsResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.magic_transit#ListConnectorsInterruptsResultItem"
+      }
+    },
+    "com.cloudflare.magic_transit#ListConnectorsInterruptsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.magic_transit#ListConnectorsInterruptsResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.magic_transit#ListConnectorsInterrupts": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.magic_transit#ListConnectorsInterruptsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.magic_transit#ListConnectorsInterruptsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/magic/connectors/{connector_id}/interrupts",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists interrupts for a Magic WAN Connector.",
+        "smithy.api#readonly": {}
       }
     },
     "com.cloudflare.magic_transit#ConnectorsSnapshotsGetResponseBondsItem": {
@@ -4914,6 +5517,57 @@
         "target": "com.cloudflare.magic_transit#ConnectorsSnapshotsGetResponseNetdevsItem"
       }
     },
+    "com.cloudflare.magic_transit#ConnectorsSnapshotsGetResponseRoutesItem": {
+      "type": "structure",
+      "members": {
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Route destination as default or an IPv4 CIDR",
+            "smithy.api#required": {}
+          }
+        },
+        "interface_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interface used by the next hop",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Routing decision type: tunnel, breakout, or lan",
+            "smithy.api#required": {}
+          }
+        },
+        "metric": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Route metric; lower metrics are preferred",
+            "smithy.api#required": {}
+          }
+        },
+        "gateway": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway address for the next hop"
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Relative weight within an equal-cost route"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#ConnectorsSnapshotsGetResponseRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.magic_transit#ConnectorsSnapshotsGetResponseRoutesItem"
+      }
+    },
     "com.cloudflare.magic_transit#ConnectorsSnapshotsGetResponseThermalsItem": {
       "type": "structure",
       "members": {
@@ -4979,6 +5633,18 @@
           "traits": {
             "smithy.api#documentation": "Tunnel identifier",
             "smithy.api#required": {}
+          }
+        },
+        "jitter_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Tunnel round-trip latency variation in milliseconds"
+          }
+        },
+        "latency_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "50th percentile tunnel round-trip latency in milliseconds"
           }
         },
         "natd_result": {
@@ -5537,6 +6203,57 @@
         "target": "com.cloudflare.magic_transit#ConnectorsSnapshotsLatestListResponseItemsItemNetdevsItem"
       }
     },
+    "com.cloudflare.magic_transit#ConnectorsSnapshotsLatestListResponseItemsItemRoutesItem": {
+      "type": "structure",
+      "members": {
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Route destination as default or an IPv4 CIDR",
+            "smithy.api#required": {}
+          }
+        },
+        "interface_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interface used by the next hop",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Routing decision type: tunnel, breakout, or lan",
+            "smithy.api#required": {}
+          }
+        },
+        "metric": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Route metric; lower metrics are preferred",
+            "smithy.api#required": {}
+          }
+        },
+        "gateway": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway address for the next hop"
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Relative weight within an equal-cost route"
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#ConnectorsSnapshotsLatestListResponseItemsItemRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.magic_transit#ConnectorsSnapshotsLatestListResponseItemsItemRoutesItem"
+      }
+    },
     "com.cloudflare.magic_transit#ConnectorsSnapshotsLatestListResponseItemsItemThermalsItem": {
       "type": "structure",
       "members": {
@@ -5602,6 +6319,18 @@
           "traits": {
             "smithy.api#documentation": "Tunnel identifier",
             "smithy.api#required": {}
+          }
+        },
+        "jitter_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Tunnel round-trip latency variation in milliseconds"
+          }
+        },
+        "latency_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "50th percentile tunnel round-trip latency in milliseconds"
           }
         },
         "natd_result": {
@@ -6261,6 +6990,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Platform identifier"
+          }
+        },
+        "routes": {
+          "target": "com.cloudflare.magic_transit#ConnectorsSnapshotsLatestListResponseItemsItemRoutesList"
+        },
+        "site_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site identifier"
           }
         },
         "snmp_icmp_in_addr_mask_reps": {
@@ -8875,7 +9613,7 @@
         "fqdn_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The"
+            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified."
           }
         }
       }
@@ -9164,7 +9902,7 @@
         "fqdn_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The"
+            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified."
           }
         }
       }
@@ -9398,7 +10136,7 @@
         "fqdn_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The"
+            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified."
           }
         }
       }
@@ -9643,7 +10381,7 @@
         "fqdn_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The"
+            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified."
           }
         }
       }
@@ -9987,7 +10725,7 @@
         "fqdn_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The"
+            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified."
           }
         }
       }
@@ -10331,7 +11069,7 @@
         "fqdn_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The"
+            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified."
           }
         }
       }
@@ -10718,7 +11456,7 @@
         "fqdn_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The"
+            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified."
           }
         }
       }
@@ -10952,7 +11690,7 @@
         "fqdn_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The"
+            "smithy.api#documentation": "A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified."
           }
         }
       }
@@ -11215,7 +11953,7 @@
         }
       }
     },
-    "com.cloudflare.magic_transit#PcapsCreateRequestFilterV1MagicVisibilityPCAPsPCAPsRequestSimple": {
+    "com.cloudflare.magic_transit#PcapsCreateRequestFilterV1": {
       "type": "structure",
       "members": {
         "destination_address": {
@@ -11419,6 +12157,41 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullFilterV1": {
+      "type": "structure",
+      "members": {
+        "destination_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The destination IP address of the packet."
+          }
+        },
+        "destination_port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The destination port of the packet."
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The protocol number of the packet."
+          }
+        },
+        "source_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source IP address of the packet."
+          }
+        },
+        "source_port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The source port of the packet."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullStatus": {
       "type": "enum",
       "members": {
@@ -11534,7 +12307,7 @@
           }
         },
         "filter_v1": {
-          "target": "com.cloudflare.magic_transit#PcapsCreateResultPCAPFilterV1",
+          "target": "com.cloudflare.magic_transit#PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullFilterV1",
           "traits": {
             "smithy.api#documentation": "The packet capture filter. When this field is empty, all packets are captured."
           }
@@ -11763,6 +12536,41 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullFilterV1": {
+      "type": "structure",
+      "members": {
+        "destination_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The destination IP address of the packet."
+          }
+        },
+        "destination_port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The destination port of the packet."
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The protocol number of the packet."
+          }
+        },
+        "source_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source IP address of the packet."
+          }
+        },
+        "source_port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The source port of the packet."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullStatus": {
       "type": "enum",
       "members": {
@@ -11878,7 +12686,7 @@
           }
         },
         "filter_v1": {
-          "target": "com.cloudflare.magic_transit#PcapsGetResultPCAPFilterV1",
+          "target": "com.cloudflare.magic_transit#PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullFilterV1",
           "traits": {
             "smithy.api#documentation": "The packet capture filter. When this field is empty, all packets are captured."
           }
@@ -12107,6 +12915,41 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullFilterV1": {
+      "type": "structure",
+      "members": {
+        "destination_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The destination IP address of the packet."
+          }
+        },
+        "destination_port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The destination port of the packet."
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The protocol number of the packet."
+          }
+        },
+        "source_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source IP address of the packet."
+          }
+        },
+        "source_port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The source port of the packet."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullStatus": {
       "type": "enum",
       "members": {
@@ -12222,7 +13065,7 @@
           }
         },
         "filter_v1": {
-          "target": "com.cloudflare.magic_transit#PcapsListResultItemPCAPFilterV1",
+          "target": "com.cloudflare.magic_transit#PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullFilterV1",
           "traits": {
             "smithy.api#documentation": "The packet capture filter. When this field is empty, all packets are captured."
           }
@@ -13409,6 +14252,60 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesAclsCreateRequestLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsCreateRequestLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsCreateRequestLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsCreateRequestLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsCreateRequestLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsCreateRequestLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsCreateRequestLan2SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesAclsCreateRequestProtocolsItem": {
       "type": "enum",
       "members": {
@@ -13486,6 +14383,60 @@
         },
         "subnets": {
           "target": "com.cloudflare.magic_transit#SitesAclsCreateResponseLan1SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsCreateResponseLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsCreateResponseLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsCreateResponseLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsCreateResponseLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsCreateResponseLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsCreateResponseLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsCreateResponseLan2SubnetsList",
           "traits": {
             "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
           }
@@ -13575,6 +14526,60 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan2SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesAclsDeleteResponseProtocolsItem": {
       "type": "enum",
       "members": {
@@ -13652,6 +14657,60 @@
         },
         "subnets": {
           "target": "com.cloudflare.magic_transit#SitesAclsEditRequestLan1SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsEditRequestLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsEditRequestLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsEditRequestLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsEditRequestLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsEditRequestLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsEditRequestLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsEditRequestLan2SubnetsList",
           "traits": {
             "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
           }
@@ -13741,6 +14800,60 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesAclsEditResponseLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsEditResponseLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsEditResponseLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsEditResponseLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsEditResponseLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsEditResponseLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsEditResponseLan2SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesAclsEditResponseProtocolsItem": {
       "type": "enum",
       "members": {
@@ -13818,6 +14931,60 @@
         },
         "subnets": {
           "target": "com.cloudflare.magic_transit#SitesAclsGetResponseLan1SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsGetResponseLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsGetResponseLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsGetResponseLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsGetResponseLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsGetResponseLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsGetResponseLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsGetResponseLan2SubnetsList",
           "traits": {
             "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
           }
@@ -13907,6 +15074,60 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesAclsListResultItemLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsListResultItemLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsListResultItemLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsListResultItemLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsListResultItemLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsListResultItemLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsListResultItemLan2SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesAclsListResultItemProtocolsItem": {
       "type": "enum",
       "members": {
@@ -13961,7 +15182,7 @@
           "target": "com.cloudflare.magic_transit#SitesAclsListResultItemLan1"
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsListResultItemLan1"
+          "target": "com.cloudflare.magic_transit#SitesAclsListResultItemLan2"
         },
         "name": {
           "target": "smithy.api#String",
@@ -14034,6 +15255,60 @@
         },
         "subnets": {
           "target": "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan1SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan2SubnetsList",
           "traits": {
             "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
           }
@@ -14117,6 +15392,60 @@
         },
         "subnets": {
           "target": "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan1SubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan2PortRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan2PortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan2SubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan2": {
+      "type": "structure",
+      "members": {
+        "lan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the LAN you want to create an ACL policy with.",
+            "smithy.api#required": {}
+          }
+        },
+        "lan_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the LAN based on the provided lan_id."
+          }
+        },
+        "port_ranges": {
+          "target": "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan2PortRangesList",
+          "traits": {
+            "smithy.api#documentation": "Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan2PortsList",
+          "traits": {
+            "smithy.api#documentation": "Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed."
+          }
+        },
+        "subnets": {
+          "target": "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan2SubnetsList",
           "traits": {
             "smithy.api#documentation": "Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed."
           }
@@ -15119,6 +16448,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansCreateRequestRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansCreateRequestRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -15137,7 +16477,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansCreateRequestNat"
+          "target": "com.cloudflare.magic_transit#SitesLansCreateRequestRoutedSubnetsItemNat"
         }
       }
     },
@@ -15331,6 +16671,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansCreateResultItemRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansCreateResultItemRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -15349,7 +16700,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansCreateResultItemNat"
+          "target": "com.cloudflare.magic_transit#SitesLansCreateResultItemRoutedSubnetsItemNat"
         }
       }
     },
@@ -15611,6 +16962,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansDeleteResponseRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansDeleteResponseRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -15629,7 +16991,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansDeleteResponseNat"
+          "target": "com.cloudflare.magic_transit#SitesLansDeleteResponseRoutedSubnetsItemNat"
         }
       }
     },
@@ -15823,6 +17185,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansEditRequestRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansEditRequestRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -15841,7 +17214,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansEditRequestNat"
+          "target": "com.cloudflare.magic_transit#SitesLansEditRequestRoutedSubnetsItemNat"
         }
       }
     },
@@ -16035,6 +17408,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansEditResponseRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansEditResponseRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -16053,7 +17437,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansEditResponseNat"
+          "target": "com.cloudflare.magic_transit#SitesLansEditResponseRoutedSubnetsItemNat"
         }
       }
     },
@@ -16247,6 +17631,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansGetResponseRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansGetResponseRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -16265,7 +17660,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansGetResponseNat"
+          "target": "com.cloudflare.magic_transit#SitesLansGetResponseRoutedSubnetsItemNat"
         }
       }
     },
@@ -16459,6 +17854,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansListResultItemRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansListResultItemRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -16477,7 +17883,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansListResultItemNat"
+          "target": "com.cloudflare.magic_transit#SitesLansListResultItemRoutedSubnetsItemNat"
         }
       }
     },
@@ -16739,6 +18145,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansUpdateRequestRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansUpdateRequestRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -16757,7 +18174,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansUpdateRequestNat"
+          "target": "com.cloudflare.magic_transit#SitesLansUpdateRequestRoutedSubnetsItemNat"
         }
       }
     },
@@ -16951,6 +18368,17 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesLansUpdateResponseRoutedSubnetsItemNat": {
+      "type": "structure",
+      "members": {
+        "static_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesLansUpdateResponseRoutedSubnetsItem": {
       "type": "structure",
       "members": {
@@ -16969,7 +18397,7 @@
           }
         },
         "nat": {
-          "target": "com.cloudflare.magic_transit#SitesLansUpdateResponseNat"
+          "target": "com.cloudflare.magic_transit#SitesLansUpdateResponseRoutedSubnetsItemNat"
         }
       }
     },
@@ -17625,6 +19053,27 @@
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.magic_transit#CreateBgpFilterProfile"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#DeleteBgpFilterProfile"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#GetBgpFilterProfile"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#ListBgpFilterProfiles"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#UpdateBgpFilterProfile"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#CreateConnectorsInterrupt"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#ListConnectorsInterrupts"
+        },
         {
           "target": "com.cloudflare.magic_transit#CreateSitesAppConfiguration"
         },
@@ -18587,7 +20036,7 @@
           "uri": "/accounts/{account_id}/magic/connectors",
           "code": 200
         },
-        "smithy.api#documentation": "Add a connector to your account"
+        "smithy.api#documentation": "Creates a Magic WAN Connector."
       }
     },
     "com.cloudflare.magic_transit#CreateConnectorRequest": {
@@ -18596,7 +20045,6 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account identifier",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19210,7 +20658,7 @@
           }
         },
         "filter_v1": {
-          "target": "com.cloudflare.magic_transit#PcapsCreateRequestFilterV1MagicVisibilityPCAPsPCAPsRequestSimple",
+          "target": "com.cloudflare.magic_transit#PcapsCreateRequestFilterV1",
           "traits": {
             "smithy.api#documentation": "The packet capture filter. When this field is empty, all packets are captured."
           }
@@ -19670,7 +21118,7 @@
           }
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsCreateRequestLan1",
+          "target": "com.cloudflare.magic_transit#SitesAclsCreateRequestLan2",
           "traits": {
             "smithy.api#required": {}
           }
@@ -19733,7 +21181,7 @@
           "target": "com.cloudflare.magic_transit#SitesAclsCreateResponseLan1"
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsCreateResponseLan1"
+          "target": "com.cloudflare.magic_transit#SitesAclsCreateResponseLan2"
         },
         "name": {
           "target": "smithy.api#String",
@@ -20266,7 +21714,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Remove a connector from your account",
+        "smithy.api#documentation": "Deletes a Magic WAN Connector.",
         "smithy.api#idempotent": {}
       }
     },
@@ -20276,7 +21724,6 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account identifier",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20824,7 +22271,7 @@
           "target": "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan1"
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan1"
+          "target": "com.cloudflare.magic_transit#SitesAclsDeleteResponseLan2"
         },
         "name": {
           "target": "smithy.api#String",
@@ -21401,7 +22848,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetch Connector",
+        "smithy.api#documentation": "Gets a Magic WAN Connector.",
         "smithy.api#readonly": {}
       }
     },
@@ -21411,7 +22858,6 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account identifier",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21528,7 +22974,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events/{event_t}.{event_n}",
           "code": 200
         },
-        "smithy.api#documentation": "Get Event",
+        "smithy.api#documentation": "Gets Magic WAN Connector Telemetry Event",
         "smithy.api#readonly": {}
       }
     },
@@ -21575,6 +23021,7 @@
         "e": {
           "target": "com.cloudflare.magic_transit#ConnectorsEventsGetResponseE",
           "traits": {
+            "smithy.api#documentation": "Event kind plus event-specific payload fields.",
             "smithy.api#required": {}
           }
         },
@@ -21618,7 +23065,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/snapshots/{snapshot_t}",
           "code": 200
         },
-        "smithy.api#documentation": "Get Snapshot",
+        "smithy.api#documentation": "Gets Magic WAN Connector Telemetry Snapshot",
         "smithy.api#readonly": {}
       }
     },
@@ -22265,6 +23712,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Platform identifier"
+          }
+        },
+        "routes": {
+          "target": "com.cloudflare.magic_transit#ConnectorsSnapshotsGetResponseRoutesList"
+        },
+        "site_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site identifier"
           }
         },
         "snmp_icmp_in_addr_mask_reps": {
@@ -23233,7 +24689,7 @@
           "target": "com.cloudflare.magic_transit#SitesAclsGetResponseLan1"
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsGetResponseLan1"
+          "target": "com.cloudflare.magic_transit#SitesAclsGetResponseLan2"
         },
         "name": {
           "target": "smithy.api#String",
@@ -23736,7 +25192,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events/latest",
           "code": 200
         },
-        "smithy.api#documentation": "Get latest Events",
+        "smithy.api#documentation": "Gets latest Magic WAN Connector Telemetry Events",
         "smithy.api#readonly": {}
       }
     },
@@ -23798,7 +25254,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events",
           "code": 200
         },
-        "smithy.api#documentation": "List Events",
+        "smithy.api#documentation": "Lists Magic WAN Connector Telemetry Events",
         "smithy.api#readonly": {}
       }
     },
@@ -23896,7 +25352,7 @@
           "uri": "/accounts/{account_id}/magic/connectors",
           "code": 200
         },
-        "smithy.api#documentation": "List Connectors",
+        "smithy.api#documentation": "Lists Magic WAN Connectors.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -23910,7 +25366,6 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account identifier",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -23956,7 +25411,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/snapshots/latest",
           "code": 200
         },
-        "smithy.api#documentation": "Get latest Snapshots",
+        "smithy.api#documentation": "Gets latest Magic WAN Connector Telemetry Snapshots",
         "smithy.api#readonly": {}
       }
     },
@@ -24018,7 +25473,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/snapshots",
           "code": 200
         },
-        "smithy.api#documentation": "List Snapshots",
+        "smithy.api#documentation": "Lists Magic WAN Connector Telemetry Snapshots",
         "smithy.api#readonly": {}
       }
     },
@@ -24832,7 +26287,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Edit Connector to update specific properties or Re-provision License Key"
+        "smithy.api#documentation": "Edits properties of a Magic WAN Connector. May be used to re-provision a license key."
       }
     },
     "com.cloudflare.magic_transit#PatchConnectorRequest": {
@@ -24841,7 +26296,6 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account identifier",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -25181,7 +26635,7 @@
           "target": "com.cloudflare.magic_transit#SitesAclsEditRequestLan1"
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsEditRequestLan1"
+          "target": "com.cloudflare.magic_transit#SitesAclsEditRequestLan2"
         },
         "name": {
           "target": "smithy.api#String",
@@ -25228,7 +26682,7 @@
           "target": "com.cloudflare.magic_transit#SitesAclsEditResponseLan1"
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsEditResponseLan1"
+          "target": "com.cloudflare.magic_transit#SitesAclsEditResponseLan2"
         },
         "name": {
           "target": "smithy.api#String",
@@ -25727,6 +27181,9 @@
             "smithy.api#documentation": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected."
           }
         },
+        "bgp": {
+          "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestBgp"
+        },
         "description": {
           "target": "smithy.api#String",
           "traits": {
@@ -25736,7 +27193,7 @@
         "gre": {
           "target": "com.cloudflare.magic_transit#CfInterconnectsUpdateRequestGre",
           "traits": {
-            "smithy.api#documentation": "The configuration specific to GRE interconnects."
+            "smithy.api#documentation": "Not configurable for version 1.5 interconnects; supplying it returns an error."
           }
         },
         "health_check": {
@@ -25745,7 +27202,7 @@
         "interface_address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+            "smithy.api#documentation": "The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges."
           }
         },
         "interface_address6": {
@@ -25977,7 +27434,7 @@
           "uri": "/accounts/{account_id}/magic/connectors/{connector_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Replace Connector or Re-provision License Key",
+        "smithy.api#documentation": "Updates properties of a Magic WAN Connector. May be used to re-provision a license key.",
         "smithy.api#idempotent": {}
       }
     },
@@ -25987,7 +27444,6 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account identifier",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -26711,7 +28167,7 @@
           "target": "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan1"
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan1"
+          "target": "com.cloudflare.magic_transit#SitesAclsUpdateRequestLan2"
         },
         "name": {
           "target": "smithy.api#String",
@@ -26758,7 +28214,7 @@
           "target": "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan1"
         },
         "lan_2": {
-          "target": "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan1"
+          "target": "com.cloudflare.magic_transit#SitesAclsUpdateResponseLan2"
         },
         "name": {
           "target": "smithy.api#String",

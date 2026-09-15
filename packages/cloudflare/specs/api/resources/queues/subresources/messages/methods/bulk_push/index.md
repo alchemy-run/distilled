@@ -1,104 +1,314 @@
-## Push Message Batch
+---
+title: Push Message Batch
+---
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages/batch`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Queues](https://developers.cloudflare.com/api/resources/queues)
+
+[Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Push Message Batch
+
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/batch
 
 Push a batch of message to a Queue
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  A Resource identifier.
+<summary>API Token</summary>
 
-- `queue_id: string`
 
-  A Resource identifier.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `delay_seconds: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The number of seconds to wait for attempting to deliver this batch to consumers
+</details>
 
-- `messages: optional array of object { body, content_type, delay_seconds }  or object { body, content_type, delay_seconds }`
+<details>
 
-  - `MqQueueMessageText object { body, content_type, delay_seconds }`
+<summary>API Email + API Key</summary>
 
-    - `body: optional string`
 
-    - `content_type: optional "text"`
 
-      - `"text"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `delay_seconds: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `MqQueueMessageJson object { body, content_type, delay_seconds }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `body: optional unknown`
+</details>
 
-    - `content_type: optional "json"`
+##### Accepted Permissions (at least one required)
 
-      - `"json"`
+`Queues Write``Workers Scripts Write`
 
-    - `delay_seconds: optional number`
+##### P ath ParametersExpand Collapse
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+account\_id: string
 
-### Returns
+A Resource identifier.
 
-- `errors: optional array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20queues.messages%20%3E%20(method)%20bulk_push%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `message: string`
+queue\_id: string
 
-  - `documentation_url: optional string`
+A Resource identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20queues.messages%20%3E%20(method)%20bulk_push%20%3E%20(params)%20default%20%3E%20(param)%20queue_id%20%3E%20(schema)>)
 
-- `messages: optional array of string`
+##### Body ParametersJSONExpand Collapse
 
-- `result: optional object { metadata }`
+delay\_seconds: optional number
 
-  - `metadata: optional object { metrics }`
+The number of seconds to wait for attempting to deliver this batch to consumers
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+[Link to this property](#)%20queues.messages%20%3E%20(method)%20bulk_push%20%3E%20(params)%200%20%3E%20(param)%20delay_seconds%20%3E%20(schema)>)
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+<details>
 
-      - `backlog_bytes: number`
+<summary>
 
-        The size in bytes of unacknowledged messages in the queue.
+messages: optional array of object {body, content\_type, delay\_seconds } or object {body, content\_type, delay\_seconds }
 
-      - `backlog_count: number`
+</summary>
 
-        The number of unacknowledged messages in the queue.
+One of the following:
 
-      - `oldest_message_timestamp_ms: number`
+<details>
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+<summary>
 
-- `success: optional true`
+MqQueueMessageText object {body, content\_type, delay\_seconds }
 
-  Indicates if the API call was successful or not.
+</summary>
 
-  - `true`
+body: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+content\_type: optional "text"
+
+<a href="#">Link to this property</a>
+
+delay\_seconds: optional number
+
+The number of seconds to wait for attempting to deliver this message to consumers
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqQueueMessageJson object {body, content\_type, delay\_seconds }
+
+</summary>
+
+body: optional unknown
+
+<a href="#">Link to this property</a>
+
+content\_type: optional "json"
+
+<a href="#">Link to this property</a>
+
+delay\_seconds: optional number
+
+The number of seconds to wait for attempting to deliver this message to consumers
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.messages%20%3E%20(method)%20bulk_push%20%3E%20(params)%200%20%3E%20(param)%20messages%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+minLength1
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.messages%20%3E%20(method)%20bulk_push%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: optional array of string
+
+[Link to this property](#)%20queues.messages%20%3E%20(method)%20bulk_push%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: optional object {metadata }
+
+</summary>
+
+<details>
+
+<summary>
+
+metadata: optional object {metrics }
+
+</summary>
+
+<details>
+
+<summary>
+
+metrics: optional object {backlog\_bytes, backlog\_count, oldest\_message\_timestamp\_ms }
+
+Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+
+</summary>
+
+backlog\_bytes: number
+
+The size in bytes of unacknowledged messages in the queue.
+
+<a href="#">Link to this property</a>
+
+backlog\_count: number
+
+The number of unacknowledged messages in the queue.
+
+<a href="#">Link to this property</a>
+
+oldest\_message\_timestamp\_ms: number
+
+Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.messages%20%3E%20(method)%20bulk_push%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: optional true
+
+Indicates if the API call was successful or not.
+
+[Link to this property](#)%20queues.messages%20%3E%20(method)%20bulk_push%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Push Message Batch
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages/batch \
     -X POST \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 7003,
+      "message": "No route for the URI",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "metadata": {
+      "metrics": {
+        "backlog_bytes": 1024,
+        "backlog_count": 5,
+        "oldest_message_timestamp_ms": 1710950954154
+      }
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,93 +1,33 @@
+---
+title: VPC Flows
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Network Monitoring](https://developers.cloudflare.com/api/resources/magic_network_monitoring)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # VPC Flows
 
-# Tokens
+#### VPC FlowsTokens
 
-## Generate authentication token for VPC flow logs export.
+##### [Generate authentication token for VPC flow logs export.](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/vpc_flows/subresources/tokens/methods/create)
 
-**post** `/accounts/{account_id}/mnm/vpc-flows/token`
+POST/accounts/{account\_id}/mnm/vpc-flows/token
 
-Generate authentication token for VPC flow logs export.
+##### ModelsExpand Collapse
 
-### Path Parameters
+TokenCreateResponse = string
 
-- `account_id: string`
+Authentication token to be used for VPC Flows export authentication.
 
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: string`
-
-  Authentication token to be used for VPC Flows export authentication.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/vpc-flows/token \
-    -X POST \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": "JWE/JWT auth token",
-  "success": true
-}
-```
-
-## Domain Types
-
-### Token Create Response
-
-- `TokenCreateResponse = string`
-
-  Authentication token to be used for VPC Flows export authentication.
+[Link to this property](#)%20magic_network_monitoring.vpc_flows.tokens%20%3E%20(model)%20token_create_response%20%3E%20(schema)>)

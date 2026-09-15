@@ -1,373 +1,241 @@
+---
+title: Jobs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
+
+[Instances](https://developers.cloudflare.com/api/resources/ai_search/subresources/instances)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Jobs
 
-## List Jobs
+##### [List Jobs](https://developers.cloudflare.com/api/resources/ai_search/subresources/instances/subresources/jobs/methods/list)
 
-**get** `/accounts/{account_id}/ai-search/instances/{id}/jobs`
+GET/accounts/{account\_id}/ai-search/instances/{id}/jobs
 
-Lists indexing jobs for an AI Search instance.
+##### [Create new job](https://developers.cloudflare.com/api/resources/ai_search/subresources/instances/subresources/jobs/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/ai-search/instances/{id}/jobs
 
-- `account_id: string`
+##### [Get a Job Details](https://developers.cloudflare.com/api/resources/ai_search/subresources/instances/subresources/jobs/methods/get)
 
-- `id: string`
+GET/accounts/{account\_id}/ai-search/instances/{id}/jobs/{job\_id}
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+##### [List Job Logs](https://developers.cloudflare.com/api/resources/ai_search/subresources/instances/subresources/jobs/methods/logs)
 
-### Query Parameters
+GET/accounts/{account\_id}/ai-search/instances/{id}/jobs/{job\_id}/logs
 
-- `page: optional number`
+##### ModelsExpand Collapse
 
-- `per_page: optional number`
+<details>
 
-### Returns
+<summary>
 
-- `result: array of object { id, source, description, 4 more }`
+JobListResponse object {id, source, description, 4 more }
 
-  - `id: string`
+</summary>
 
-  - `source: "user" or "schedule"`
+id: string
 
-    - `"user"`
+<a href="#">Link to this property</a>
 
-    - `"schedule"`
+<details>
 
-  - `description: optional string`
+<summary>
 
-  - `end_reason: optional string`
+source: "user"or "schedule"
 
-  - `ended_at: optional string`
+</summary>
 
-  - `last_seen_at: optional string`
+One of the following:
 
-  - `started_at: optional string`
+"user"
 
-- `result_info: object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+"schedule"
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+</details>
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+description: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instances/$ID/jobs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+end\_reason: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "source": "user",
-      "description": "description",
-      "end_reason": "end_reason",
-      "ended_at": "ended_at",
-      "last_seen_at": "last_seen_at",
-      "started_at": "started_at"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+ended\_at: optional string
 
-## Create new job
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/ai-search/instances/{id}/jobs`
+last\_seen\_at: optional string
 
-Creates a new indexing job for an AI Search instance.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+started\_at: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+</details>
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+[Link to this property](#)%20ai_search.instances.jobs%20%3E%20(model)%20job_list_response%20%3E%20(schema)>)
 
-### Body Parameters
+<details>
 
-- `description: optional string`
+<summary>
 
-### Returns
+JobCreateResponse object {id, source, description, 4 more }
 
-- `result: object { id, source, description, 4 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-  - `source: "user" or "schedule"`
+<a href="#">Link to this property</a>
 
-    - `"user"`
+<details>
 
-    - `"schedule"`
+<summary>
 
-  - `description: optional string`
+source: "user"or "schedule"
 
-  - `end_reason: optional string`
+</summary>
 
-  - `ended_at: optional string`
+One of the following:
 
-  - `last_seen_at: optional string`
+"user"
 
-  - `started_at: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"schedule"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instances/$ID/jobs \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "source": "user",
-    "description": "description",
-    "end_reason": "end_reason",
-    "ended_at": "ended_at",
-    "last_seen_at": "last_seen_at",
-    "started_at": "started_at"
-  },
-  "success": true
-}
-```
+description: optional string
 
-## Get a Job Details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-search/instances/{id}/jobs/{job_id}`
+end\_reason: optional string
 
-Retrieves details for a specific AI Search indexing job.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+ended\_at: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+last\_seen\_at: optional string
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+<a href="#">Link to this property</a>
 
-- `job_id: string`
+started\_at: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, source, description, 4 more }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20ai_search.instances.jobs%20%3E%20(model)%20job_create_response%20%3E%20(schema)>)
 
-  - `source: "user" or "schedule"`
+<details>
 
-    - `"user"`
+<summary>
 
-    - `"schedule"`
+JobGetResponse object {id, source, description, 4 more }
 
-  - `description: optional string`
+</summary>
 
-  - `end_reason: optional string`
+id: string
 
-  - `ended_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: optional string`
+<details>
 
-  - `started_at: optional string`
+<summary>
 
-- `success: boolean`
+source: "user"or "schedule"
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instances/$ID/jobs/$JOB_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"user"
 
-```json
-{
-  "result": {
-    "id": "id",
-    "source": "user",
-    "description": "description",
-    "end_reason": "end_reason",
-    "ended_at": "ended_at",
-    "last_seen_at": "last_seen_at",
-    "started_at": "started_at"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## List Job Logs
+"schedule"
 
-**get** `/accounts/{account_id}/ai-search/instances/{id}/jobs/{job_id}/logs`
+<a href="#">Link to this property</a>
 
-Lists log entries for an AI Search indexing job.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+end\_reason: optional string
 
-- `job_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+ended\_at: optional string
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+last\_seen\_at: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, created_at, message, message_type }`
+started\_at: optional string
 
-  - `id: number`
+<a href="#">Link to this property</a>
 
-  - `created_at: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20ai_search.instances.jobs%20%3E%20(model)%20job_get_response%20%3E%20(schema)>)
 
-  - `message_type: number`
+<details>
 
-- `result_info: object { count, page, per_page, total_count }`
+<summary>
 
-  - `count: number`
+JobLogsResponse = array of object {id, created\_at, message, message\_type }
 
-  - `page: number`
+</summary>
 
-  - `per_page: number`
+id: number
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+created\_at: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instances/$ID/jobs/$JOB_ID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+message: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": 0,
-      "created_at": 0,
-      "message": "message",
-      "message_type": 0
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+message\_type: number
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Job List Response
+</details>
 
-- `JobListResponse object { id, source, description, 4 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `description: optional string`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-### Job Create Response
-
-- `JobCreateResponse object { id, source, description, 4 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `description: optional string`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-### Job Get Response
-
-- `JobGetResponse object { id, source, description, 4 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `description: optional string`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-### Job Logs Response
-
-- `JobLogsResponse = array of object { id, created_at, message, message_type }`
-
-  - `id: number`
-
-  - `created_at: number`
-
-  - `message: string`
-
-  - `message_type: number`
+[Link to this property](#)%20ai_search.instances.jobs%20%3E%20(model)%20job_logs_response%20%3E%20(schema)>)

@@ -1,305 +1,51 @@
+---
+title: Tags
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers For Platforms](https://developers.cloudflare.com/api/resources/workers_for_platforms)
+
+[Dispatch](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tags
 
-## Get Script Tags
+##### [Get Script Tags](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts/subresources/tags/methods/list)
 
-**get** `/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags`
+GET/accounts/{account\_id}/workers/dispatch/namespaces/{dispatch\_namespace}/scripts/{script\_name}/tags
 
-Fetch tags from a script uploaded to a Workers for Platforms namespace.
+##### [Put Script Tags](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts/subresources/tags/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/workers/dispatch/namespaces/{dispatch\_namespace}/scripts/{script\_name}/tags
 
-- `account_id: string`
+##### [Delete Script Tag](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts/subresources/tags/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/workers/dispatch/namespaces/{dispatch\_namespace}/scripts/{script\_name}/tags/{tag}
 
-- `dispatch_namespace: string`
+##### ModelsExpand Collapse
 
-  Name of the Workers for Platforms dispatch namespace.
+TagListResponse = string
 
-- `script_name: string`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.tags%20%3E%20(model)%20tag_list_response%20%3E%20(schema)>)
 
-  Name of the script, used in URLs and route configuration.
+TagUpdateResponse = string
 
-### Returns
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.tags%20%3E%20(model)%20tag_update_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+TagDeleteResponse = unknown
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/namespaces/$DISPATCH_NAMESPACE/scripts/$SCRIPT_NAME/tags \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    "free",
-    "customer"
-  ]
-}
-```
-
-## Put Script Tags
-
-**put** `/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags`
-
-Put script tags for a script uploaded to a Workers for Platforms namespace.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `dispatch_namespace: string`
-
-  Name of the Workers for Platforms dispatch namespace.
-
-- `script_name: string`
-
-  Name of the script, used in URLs and route configuration.
-
-### Body Parameters
-
-- `body: array of string`
-
-  Tags associated with the Worker.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: array of string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/namespaces/$DISPATCH_NAMESPACE/scripts/$SCRIPT_NAME/tags \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          "my-team",
-          "my-public-api"
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    "my-tag"
-  ],
-  "success": true
-}
-```
-
-## Delete Script Tag
-
-**delete** `/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}`
-
-Delete script tag for a script uploaded to a Workers for Platforms namespace.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `dispatch_namespace: string`
-
-  Name of the Workers for Platforms dispatch namespace.
-
-- `script_name: string`
-
-  Name of the script, used in URLs and route configuration.
-
-- `tag: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/namespaces/$DISPATCH_NAMESPACE/scripts/$SCRIPT_NAME/tags/$TAG \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Tag List Response
-
-- `TagListResponse = string`
-
-### Tag Update Response
-
-- `TagUpdateResponse = string`
-
-### Tag Delete Response
-
-- `TagDeleteResponse = unknown`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.tags%20%3E%20(model)%20tag_delete_response%20%3E%20(schema)>)

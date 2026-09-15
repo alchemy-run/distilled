@@ -1,213 +1,657 @@
-## Retrieves Security Center Insights
+---
+title: Retrieves Security Center Insights
+---
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Security Center](https://developers.cloudflare.com/api/resources/security_center)
+
+[Insights](https://developers.cloudflare.com/api/resources/security_center/subresources/insights)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Retrieves Security Center Insights
+
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights
 
 Lists all Security Center insights for the account or zone, showing security findings and recommendations.
 
-### Path Parameters
+##### Security
 
-- `account_id: optional string`
+<details>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<summary>API Token</summary>
 
-- `zone_id: optional string`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `dismissed: optional boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `issue_class: optional array of string`
+</details>
 
-- `"issue_class~neq": optional array of string`
+<details>
 
-- `issue_type: optional array of IssueType`
+<summary>API Email + API Key</summary>
 
-  - `"compliance_violation"`
 
-  - `"email_security"`
 
-  - `"exposed_infrastructure"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"insecure_configuration"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"weak_authentication"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"configuration_suggestion"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `"issue_type~neq": optional array of IssueType`
+</details>
 
-  - `"compliance_violation"`
+##### P ath ParametersExpand Collapse
 
-  - `"email_security"`
+account\_id: optional string
 
-  - `"exposed_infrastructure"`
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-  - `"insecure_configuration"`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"weak_authentication"`
+zone\_id: optional string
 
-  - `"configuration_suggestion"`
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-- `page: optional number`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  Specifies the current page within paginated list of results.
+##### Q uery ParametersExpand Collapse
 
-- `per_page: optional number`
+dismissed: optional boolean
 
-  Sets the number of results per page of results.
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20dismissed%20%3E%20(schema)>)
 
-- `product: optional array of string`
+issue\_class: optional array of string
 
-- `"product~neq": optional array of string`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20issue_class%20%3E%20(schema)>)
 
-- `severity: optional array of SeverityQueryParam`
+"issue\_class\~neq": optional array of string
 
-  - `"low"`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20issue_class~neq%20%3E%20(schema)>)
 
-  - `"moderate"`
+<details>
 
-  - `"critical"`
+<summary>
 
-- `"severity~neq": optional array of SeverityQueryParam`
+issue\_type: optional array of <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type%20%3E%20(schema)">IssueType</a>
 
-  - `"low"`
+</summary>
 
-  - `"moderate"`
+One of the following:
 
-  - `"critical"`
+"compliance\_violation"
 
-- `subject: optional array of string`
+<a href="#">Link to this property</a>
 
-- `"subject~neq": optional array of string`
+"email\_security"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"exposed\_infrastructure"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"insecure\_configuration"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"weak\_authentication"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"configuration\_suggestion"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20issue_type%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+"issue\_type\~neq": optional array of <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type%20%3E%20(schema)">IssueType</a>
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional object { count, issues, page, per_page }`
+"compliance\_violation"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Indicates the total number of results.
+"email\_security"
 
-  - `issues: optional array of object { id, dismissed, has_extended_context, 11 more }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"exposed\_infrastructure"
 
-    - `dismissed: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `has_extended_context: optional boolean`
+"insecure\_configuration"
 
-      Indicates whether the insight has a large payload that requires fetching via the context endpoint.
+<a href="#">Link to this property</a>
 
-    - `issue_class: optional string`
+"weak\_authentication"
 
-    - `issue_type: optional IssueType`
+<a href="#">Link to this property</a>
 
-      - `"compliance_violation"`
+"configuration\_suggestion"
 
-      - `"email_security"`
+<a href="#">Link to this property</a>
 
-      - `"exposed_infrastructure"`
+</details>
 
-      - `"insecure_configuration"`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20issue_type~neq%20%3E%20(schema)>)
 
-      - `"weak_authentication"`
+page: optional number
 
-      - `"configuration_suggestion"`
+Specifies the current page within paginated list of results.
 
-    - `payload: optional object { detection_method, zone_tag }`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-      - `detection_method: optional string`
+per\_page: optional number
 
-        Describes the method used to detect insight.
+Sets the number of results per page of results.
 
-      - `zone_tag: optional string`
+maximum1000
 
-    - `resolve_link: optional string`
+minimum1
 
-    - `resolve_text: optional string`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `severity: optional "Low" or "Moderate" or "Critical"`
+product: optional array of string
 
-      - `"Low"`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20product%20%3E%20(schema)>)
 
-      - `"Moderate"`
+"product\~neq": optional array of string
 
-      - `"Critical"`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20product~neq%20%3E%20(schema)>)
 
-    - `since: optional string`
+<details>
 
-    - `status: optional "active" or "resolved"`
+<summary>
 
-      The current status of the insight.
+severity: optional array of <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.attack_surface_report.issues%20%3E%20(model)%20severity_query_param%20%3E%20(schema)">SeverityQueryParam</a>
 
-      - `"active"`
+</summary>
 
-      - `"resolved"`
+One of the following:
 
-    - `subject: optional string`
+"low"
 
-    - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-    - `user_classification: optional "false_positive" or "accept_risk" or "other"`
+"moderate"
 
-      User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
+<a href="#">Link to this property</a>
 
-      - `"false_positive"`
+"critical"
 
-      - `"accept_risk"`
+<a href="#">Link to this property</a>
 
-      - `"other"`
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20severity%20%3E%20(schema)>)
 
-    Specifies the current page within paginated list of results.
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    Sets the number of results per page of results.
+"severity\~neq": optional array of <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.attack_surface_report.issues%20%3E%20(model)%20severity_query_param%20%3E%20(schema)">SeverityQueryParam</a>
 
-### Example
+</summary>
 
-```http
+One of the following:
+
+"low"
+
+<a href="#">Link to this property</a>
+
+"moderate"
+
+<a href="#">Link to this property</a>
+
+"critical"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20severity~neq%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+source: optional array of "cloudflare"or "riskrecon"
+
+</summary>
+
+One of the following:
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+"riskrecon"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20source%20%3E%20(schema)>)
+
+subject: optional array of string
+
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20subject%20%3E%20(schema)>)
+
+"subject\~neq": optional array of string
+
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20subject~neq%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {count, issues, page, per\_page }
+
+</summary>
+
+count: optional number
+
+Indicates the total number of results.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+issues: optional array of object {id, dismissed, has\_extended\_context, 11 more }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+dismissed: optional boolean
+
+<a href="#">Link to this property</a>
+
+has\_extended\_context: optional boolean
+
+Indicates whether the insight has a large payload that requires fetching via the context endpoint.
+
+<a href="#">Link to this property</a>
+
+issue\_class: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+issue\_type: optional <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type%20%3E%20(schema)">IssueType</a>
+
+</summary>
+
+One of the following:
+
+"compliance\_violation"
+
+<a href="#">Link to this property</a>
+
+"email\_security"
+
+<a href="#">Link to this property</a>
+
+"exposed\_infrastructure"
+
+<a href="#">Link to this property</a>
+
+"insecure\_configuration"
+
+<a href="#">Link to this property</a>
+
+"weak\_authentication"
+
+<a href="#">Link to this property</a>
+
+"configuration\_suggestion"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+payload: optional object {detection\_method, zone\_tag }
+
+</summary>
+
+detection\_method: optional string
+
+Describes the method used to detect insight.
+
+<a href="#">Link to this property</a>
+
+zone\_tag: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+resolve\_link: optional string
+
+<a href="#">Link to this property</a>
+
+resolve\_text: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: optional "Low"or "Moderate"or "Critical"
+
+</summary>
+
+One of the following:
+
+"Low"
+
+<a href="#">Link to this property</a>
+
+"Moderate"
+
+<a href="#">Link to this property</a>
+
+"Critical"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+since: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "active"or "resolved"
+
+The current status of the insight.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"resolved"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+subject: optional string
+
+<a href="#">Link to this property</a>
+
+timestamp: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+user\_classification: optional "false\_positive"or "accept\_risk"or "other"
+
+User-defined classification for the insight. Can be ‘false\_positive’, ‘accept\_risk’, ‘other’, or null.
+
+</summary>
+
+One of the following:
+
+"false\_positive"
+
+<a href="#">Link to this property</a>
+
+"accept\_risk"
+
+<a href="#">Link to this property</a>
+
+"other"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Specifies the current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Sets the number of results per page of results.
+
+maximum1000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Retrieves Security Center Insights
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "count": 1,
+    "issues": [
+      {
+        "id": "id",
+        "dismissed": false,
+        "has_extended_context": false,
+        "issue_class": "always_use_https_not_enabled",
+        "issue_type": "compliance_violation",
+        "payload": {
+          "detection_method": "We detected security rules referencing multiple IP addresses directly in the rules.",
+          "zone_tag": "zone_tag"
+        },
+        "resolve_link": "resolve_link",
+        "resolve_text": "resolve_text",
+        "severity": "Low",
+        "since": "2019-12-27T18:11:19.117Z",
+        "status": "active",
+        "subject": "example.com",
+        "timestamp": "2019-12-27T18:11:19.117Z",
+        "user_classification": "false_positive"
+      }
+    ],
+    "page": 1,
+    "per_page": 25
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,143 +1,55 @@
+---
+title: Asset Upload
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers For Platforms](https://developers.cloudflare.com/api/resources/workers_for_platforms)
+
+[Dispatch](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Asset Upload
 
-## Create Assets Upload Session
+##### [Create Assets Upload Session](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts/subresources/asset_upload/methods/create)
 
-**post** `/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/assets-upload-session`
+POST/accounts/{account\_id}/workers/dispatch/namespaces/{dispatch\_namespace}/scripts/{script\_name}/assets-upload-session
 
-Start uploading a collection of assets for use in a Worker version. To learn more about the direct uploads of assets, see https://developers.cloudflare.com/workers/static-assets/direct-upload/.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+AssetUploadCreateResponse object {buckets, jwt }
 
-- `dispatch_namespace: string`
+</summary>
 
-  Name of the Workers for Platforms dispatch namespace.
+buckets: optional array of array of string
 
-- `script_name: string`
+The requests to make to upload assets.
 
-  Name of the script, used in URLs and route configuration.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+jwt: optional string
 
-- `manifest: map[object { hash, size } ]`
+A JWT to use as authentication for uploading assets.
 
-  A manifest ([path]: {hash, size}) map of files to upload. As an example, `/blog/hello-world.html` would be a valid path key.
+<a href="#">Link to this property</a>
 
-  - `hash: string`
+</details>
 
-    The hash of the file.
-
-  - `size: number`
-
-    The size of the file in bytes.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { buckets, jwt }`
-
-  - `buckets: optional array of array of string`
-
-    The requests to make to upload assets.
-
-  - `jwt: optional string`
-
-    A JWT to use as authentication for uploading assets.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/namespaces/$DISPATCH_NAMESPACE/scripts/$SCRIPT_NAME/assets-upload-session \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "manifest": {
-            "foo": {
-              "hash": "hash",
-              "size": 0
-            }
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "buckets": [
-      [
-        "string"
-      ]
-    ],
-    "jwt": "jwt"
-  }
-}
-```
-
-## Domain Types
-
-### Asset Upload Create Response
-
-- `AssetUploadCreateResponse object { buckets, jwt }`
-
-  - `buckets: optional array of array of string`
-
-    The requests to make to upload assets.
-
-  - `jwt: optional string`
-
-    A JWT to use as authentication for uploading assets.
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.asset_upload%20%3E%20(model)%20asset_upload_create_response%20%3E%20(schema)>)

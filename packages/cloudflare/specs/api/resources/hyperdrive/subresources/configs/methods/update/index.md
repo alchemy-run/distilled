@@ -1,364 +1,894 @@
-## Update Hyperdrive
+---
+title: Replace Hyperdrive
+---
 
-**put** `/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}`
+[Skip to content](#_top)
 
-Updates and returns the specified Hyperdrive configuration.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Hyperdrive](https://developers.cloudflare.com/api/resources/hyperdrive)
 
-- `account_id: string`
+[Configs](https://developers.cloudflare.com/api/resources/hyperdrive/subresources/configs)
 
-  Define configurations using a unique string identifier.
+Copy Markdown
 
-- `hyperdrive_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Define configurations using a unique string identifier.
+---
 
-### Body Parameters
+**Copy Markdown****View as Markdown**
 
-- `name: string`
+# Replace Hyperdrive
 
-  The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API.
+PUT/accounts/{account\_id}/hyperdrive/configs/{hyperdrive\_id}
 
-- `origin: object { database, host, password, 3 more }  or object { access_client_id, access_client_secret, database, 4 more }  or object { database, password, scheme, 2 more }`
+Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. Use the update operation to modify only selected fields.
 
-  - `PublicDatabase object { database, host, password, 3 more }`
+##### Security
 
-    - `database: string`
+<details>
 
-      Set the name of your origin database.
+<summary>API Token</summary>
 
-    - `host: string`
 
-      Defines the host (hostname or IP) of your origin database.
 
-    - `password: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-      Set the password needed to access your origin database. The API never returns this write-only value.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `port: number`
+</details>
 
-      Defines the port of your origin database. Defaults to 5432 for PostgreSQL or 3306 for MySQL if not specified.
+<details>
 
-    - `scheme: "postgres" or "postgresql" or "mysql"`
+<summary>API Email + API Key</summary>
 
-      Specifies the URL scheme used to connect to your origin database.
 
-      - `"postgres"`
 
-      - `"postgresql"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      - `"mysql"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `user: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      Set the user of your origin database.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `AccessProtectedDatabaseBehindCloudflareTunnel object { access_client_id, access_client_secret, database, 4 more }`
+</details>
 
-    - `access_client_id: string`
+##### Accepted Permissions (at least one required)
 
-      Defines the Client ID of the Access token to use when connecting to the origin database.
+`Hyperdrive Write`
 
-    - `access_client_secret: string`
+##### P ath ParametersExpand Collapse
 
-      Defines the Client Secret of the Access Token to use when connecting to the origin database. The API never returns this write-only value.
+account\_id: string
 
-    - `database: string`
+Define configurations using a unique string identifier.
 
-      Set the name of your origin database.
+maxLength32
 
-    - `host: string`
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      Defines the host (hostname or IP) of your origin database.
+hyperdrive\_id: string
 
-    - `password: string`
+Define configurations using a unique string identifier.
 
-      Set the password needed to access your origin database. The API never returns this write-only value.
+maxLength32
 
-    - `scheme: "postgres" or "postgresql" or "mysql"`
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20hyperdrive_id%20%3E%20(schema)>)
 
-      Specifies the URL scheme used to connect to your origin database.
+##### Body ParametersJSONExpand Collapse
 
-      - `"postgres"`
+name: string
 
-      - `"postgresql"`
+The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API.
 
-      - `"mysql"`
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `user: string`
+<details>
 
-      Set the user of your origin database.
+<summary>
 
-  - `DatabaseReachableThroughAWorkersVPC object { database, password, scheme, 2 more }`
+origin: object {database, host, password, 3 more } or object {access\_client\_id, access\_client\_secret, database, 4 more } or object {database, password, scheme, 2 more }
 
-    - `database: string`
+</summary>
 
-      Set the name of your origin database.
+One of the following:
 
-    - `password: string`
+<details>
 
-      Set the password needed to access your origin database. The API never returns this write-only value.
+<summary>
 
-    - `scheme: "postgres" or "postgresql" or "mysql"`
+PublicDatabase object {database, host, password, 3 more }
 
-      Specifies the URL scheme used to connect to your origin database.
+</summary>
 
-      - `"postgres"`
+database: string
 
-      - `"postgresql"`
+Set the name of your origin database.
 
-      - `"mysql"`
+<a href="#">Link to this property</a>
 
-    - `service_id: string`
+host: string
 
-      The identifier of the Workers VPC Service to connect through. Hyperdrive will egress through the specified VPC Service to reach the origin database.
+Defines the host (hostname or IP) of your origin database.
 
-    - `user: string`
+<a href="#">Link to this property</a>
 
-      Set the user of your origin database.
+password: string
 
-- `caching: optional object { disabled }  or object { disabled, max_age, stale_while_revalidate }`
+Set the password needed to access your origin database. The API never returns this write-only value.
 
-  - `HyperdriveHyperdriveCachingCommon object { disabled }`
+<a href="#">Link to this property</a>
 
-    - `disabled: optional boolean`
+port: number
 
-      Set to true to disable caching of SQL responses. Default is false.
+Defines the port of your origin database. Defaults to 5432 for PostgreSQL or 3306 for MySQL if not specified.
 
-  - `HyperdriveHyperdriveCachingEnabled object { disabled, max_age, stale_while_revalidate }`
+<a href="#">Link to this property</a>
 
-    - `disabled: optional boolean`
+<details>
 
-      Set to true to disable caching of SQL responses. Default is false.
+<summary>
 
-    - `max_age: optional number`
+scheme: "postgres"or "postgresql"or "mysql"
 
-      Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified.
+Specifies the URL scheme used to connect to your origin database.
 
-    - `stale_while_revalidate: optional number`
+</summary>
 
-      Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified.
+One of the following:
 
-- `mtls: optional object { ca_certificate_id, mtls_certificate_id, sslmode }`
+"postgres"
 
-  mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service.
+<a href="#">Link to this property</a>
 
-  - `ca_certificate_id: optional string`
+"postgresql"
 
-    Define CA certificate ID obtained after uploading CA cert.
+<a href="#">Link to this property</a>
 
-  - `mtls_certificate_id: optional string`
+"mysql"
 
-    Define mTLS certificate ID obtained after uploading client cert.
+<a href="#">Link to this property</a>
 
-  - `sslmode: optional string`
+</details>
 
-    Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA.
+<a href="#">Link to this property</a>
 
-- `origin_connection_limit: optional number`
+user: string
 
-  The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.
+Set the user of your origin database.
 
-  Maximum allowed: 20 for free tier accounts, 100 for paid tier accounts.
-  If not specified, defaults to 20 for free tier and 60 for paid tier.
-  Contact Cloudflare if you need a higher limit.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+AccessProtectedDatabaseBehindCloudflareTunnel object {access\_client\_id, access\_client\_secret, database, 4 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+access\_client\_id: string
 
-- `messages: array of ResponseInfo`
+Defines the Client ID of the Access token to use when connecting to the origin database.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+access\_client\_secret: string
 
-  - `documentation_url: optional string`
+Defines the Client Secret of the Access Token to use when connecting to the origin database. The API never returns this write-only value.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: Hyperdrive`
+database: string
 
-  - `id: string`
+Set the name of your origin database.
 
-    Define configurations using a unique string identifier.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+host: string
 
-    The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API.
+Defines the host (hostname or IP) of your origin database.
 
-  - `origin: object { database, host, password, 3 more }  or object { access_client_id, access_client_secret, database, 4 more }  or object { database, password, scheme, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `PublicDatabase object { database, host, password, 3 more }`
+password: string
 
-      - `database: string`
+Set the password needed to access your origin database. The API never returns this write-only value.
 
-        Set the name of your origin database.
+<a href="#">Link to this property</a>
 
-      - `host: string`
+<details>
 
-        Defines the host (hostname or IP) of your origin database.
+<summary>
 
-      - `password: string`
+scheme: "postgres"or "postgresql"or "mysql"
 
-        Set the password needed to access your origin database. The API never returns this write-only value.
+Specifies the URL scheme used to connect to your origin database.
 
-      - `port: number`
+</summary>
 
-        Defines the port of your origin database. Defaults to 5432 for PostgreSQL or 3306 for MySQL if not specified.
+One of the following:
 
-      - `scheme: "postgres" or "postgresql" or "mysql"`
+"postgres"
 
-        Specifies the URL scheme used to connect to your origin database.
+<a href="#">Link to this property</a>
 
-        - `"postgres"`
+"postgresql"
 
-        - `"postgresql"`
+<a href="#">Link to this property</a>
 
-        - `"mysql"`
+"mysql"
 
-      - `user: string`
+<a href="#">Link to this property</a>
 
-        Set the user of your origin database.
+</details>
 
-    - `AccessProtectedDatabaseBehindCloudflareTunnel object { access_client_id, access_client_secret, database, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `access_client_id: string`
+user: string
 
-        Defines the Client ID of the Access token to use when connecting to the origin database.
+Set the user of your origin database.
 
-      - `access_client_secret: string`
+<a href="#">Link to this property</a>
 
-        Defines the Client Secret of the Access Token to use when connecting to the origin database. The API never returns this write-only value.
+</details>
 
-      - `database: string`
+<a href="#">Link to this property</a>
 
-        Set the name of your origin database.
+<details>
 
-      - `host: string`
+<summary>
 
-        Defines the host (hostname or IP) of your origin database.
+DatabaseReachableThroughAWorkersVPC object {database, password, scheme, 2 more }
 
-      - `password: string`
+</summary>
 
-        Set the password needed to access your origin database. The API never returns this write-only value.
+database: string
 
-      - `scheme: "postgres" or "postgresql" or "mysql"`
+Set the name of your origin database.
 
-        Specifies the URL scheme used to connect to your origin database.
+<a href="#">Link to this property</a>
 
-        - `"postgres"`
+password: string
 
-        - `"postgresql"`
+Set the password needed to access your origin database. The API never returns this write-only value.
 
-        - `"mysql"`
+<a href="#">Link to this property</a>
 
-      - `user: string`
+<details>
 
-        Set the user of your origin database.
+<summary>
 
-    - `DatabaseReachableThroughAWorkersVPC object { database, password, scheme, 2 more }`
+scheme: "postgres"or "postgresql"or "mysql"
 
-      - `database: string`
+Specifies the URL scheme used to connect to your origin database.
 
-        Set the name of your origin database.
+</summary>
 
-      - `password: string`
+One of the following:
 
-        Set the password needed to access your origin database. The API never returns this write-only value.
+"postgres"
 
-      - `scheme: "postgres" or "postgresql" or "mysql"`
+<a href="#">Link to this property</a>
 
-        Specifies the URL scheme used to connect to your origin database.
+"postgresql"
 
-        - `"postgres"`
+<a href="#">Link to this property</a>
 
-        - `"postgresql"`
+"mysql"
 
-        - `"mysql"`
+<a href="#">Link to this property</a>
 
-      - `service_id: string`
+</details>
 
-        The identifier of the Workers VPC Service to connect through. Hyperdrive will egress through the specified VPC Service to reach the origin database.
+<a href="#">Link to this property</a>
 
-      - `user: string`
+service\_id: string
 
-        Set the user of your origin database.
+The identifier of the Workers VPC Service to connect through. Hyperdrive will egress through the specified VPC Service to reach the origin database.
 
-  - `caching: optional object { disabled }  or object { disabled, max_age, stale_while_revalidate }`
+<a href="#">Link to this property</a>
 
-    - `HyperdriveHyperdriveCachingCommon object { disabled }`
+user: string
 
-      - `disabled: optional boolean`
+Set the user of your origin database.
 
-        Set to true to disable caching of SQL responses. Default is false.
+<a href="#">Link to this property</a>
 
-    - `HyperdriveHyperdriveCachingEnabled object { disabled, max_age, stale_while_revalidate }`
+</details>
 
-      - `disabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Set to true to disable caching of SQL responses. Default is false.
+</details>
 
-      - `max_age: optional number`
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20origin%20%3E%20(schema)>)
 
-        Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified.
+<details>
 
-      - `stale_while_revalidate: optional number`
+<summary>
 
-        Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified.
+caching: optional object {disabled } or object {disabled, max\_age, stale\_while\_revalidate }
 
-  - `created_on: optional string`
+</summary>
 
-    Defines the creation time of the Hyperdrive configuration.
+One of the following:
 
-  - `modified_on: optional string`
+<details>
 
-    Defines the last modified time of the Hyperdrive configuration.
+<summary>
 
-  - `mtls: optional object { ca_certificate_id, mtls_certificate_id, sslmode }`
+HyperdriveHyperdriveCachingCommon object {disabled }
 
-    mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service.
+</summary>
 
-    - `ca_certificate_id: optional string`
+disabled: optional boolean
 
-      Define CA certificate ID obtained after uploading CA cert.
+Set to true to disable caching of SQL responses. Default is false.
 
-    - `mtls_certificate_id: optional string`
+<a href="#">Link to this property</a>
 
-      Define mTLS certificate ID obtained after uploading client cert.
+</details>
 
-    - `sslmode: optional string`
+<a href="#">Link to this property</a>
 
-      Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA.
+<details>
 
-  - `origin_connection_limit: optional number`
+<summary>
 
-    The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.
+HyperdriveHyperdriveCachingEnabled object {disabled, max\_age, stale\_while\_revalidate }
 
-    Maximum allowed: 20 for free tier accounts, 100 for paid tier accounts.
-    If not specified, defaults to 20 for free tier and 60 for paid tier.
-    Contact Cloudflare if you need a higher limit.
+</summary>
 
-- `success: true`
+disabled: optional boolean
 
-  Return the status of the API call success.
+Set to true to disable caching of SQL responses. Default is false.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+max\_age: optional number
 
-```http
+Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified.
+
+<a href="#">Link to this property</a>
+
+stale\_while\_revalidate: optional number
+
+Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20caching%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+mtls: optional object {ca\_certificate\_id, mtls\_certificate\_id, sslmode }
+
+mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service.
+
+</summary>
+
+ca\_certificate\_id: optional string
+
+Define CA certificate ID obtained after uploading CA cert.
+
+<a href="#">Link to this property</a>
+
+mtls\_certificate\_id: optional string
+
+Define mTLS certificate ID obtained after uploading client cert.
+
+<a href="#">Link to this property</a>
+
+sslmode: optional string
+
+Set SSL mode to ‘require’, ‘verify-ca’, or ‘verify-full’ to verify the CA.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20mtls%20%3E%20(schema)>)
+
+origin\_connection\_limit: optional number
+
+The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.
+
+Maximum allowed: 20 for free tier accounts, 100 for paid tier accounts. If not specified, defaults to 20 for free tier and 60 for paid tier. Certain Cloudflare-managed origins may be permitted a higher limit. Contact Cloudflare if you need a higher limit.
+
+minimum5
+
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20origin_connection_limit%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/hyperdrive#(resource)%20hyperdrive%20%3E%20(model)%20hyperdrive%20%3E%20(schema)">Hyperdrive</a> { id, name, origin, 6 more }
+
+</summary>
+
+id: string
+
+Define configurations using a unique string identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+origin: object {database, host, password, 3 more } or object {access\_client\_id, access\_client\_secret, database, 4 more } or object {database, password, scheme, 2 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+PublicDatabase object {database, host, password, 3 more }
+
+</summary>
+
+database: string
+
+Set the name of your origin database.
+
+<a href="#">Link to this property</a>
+
+host: string
+
+Defines the host (hostname or IP) of your origin database.
+
+<a href="#">Link to this property</a>
+
+password: string
+
+Set the password needed to access your origin database. The API never returns this write-only value.
+
+<a href="#">Link to this property</a>
+
+port: number
+
+Defines the port of your origin database. Defaults to 5432 for PostgreSQL or 3306 for MySQL if not specified.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scheme: "postgres"or "postgresql"or "mysql"
+
+Specifies the URL scheme used to connect to your origin database.
+
+</summary>
+
+One of the following:
+
+"postgres"
+
+<a href="#">Link to this property</a>
+
+"postgresql"
+
+<a href="#">Link to this property</a>
+
+"mysql"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user: string
+
+Set the user of your origin database.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessProtectedDatabaseBehindCloudflareTunnel object {access\_client\_id, access\_client\_secret, database, 4 more }
+
+</summary>
+
+access\_client\_id: string
+
+Defines the Client ID of the Access token to use when connecting to the origin database.
+
+<a href="#">Link to this property</a>
+
+access\_client\_secret: string
+
+Defines the Client Secret of the Access Token to use when connecting to the origin database. The API never returns this write-only value.
+
+<a href="#">Link to this property</a>
+
+database: string
+
+Set the name of your origin database.
+
+<a href="#">Link to this property</a>
+
+host: string
+
+Defines the host (hostname or IP) of your origin database.
+
+<a href="#">Link to this property</a>
+
+password: string
+
+Set the password needed to access your origin database. The API never returns this write-only value.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scheme: "postgres"or "postgresql"or "mysql"
+
+Specifies the URL scheme used to connect to your origin database.
+
+</summary>
+
+One of the following:
+
+"postgres"
+
+<a href="#">Link to this property</a>
+
+"postgresql"
+
+<a href="#">Link to this property</a>
+
+"mysql"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user: string
+
+Set the user of your origin database.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DatabaseReachableThroughAWorkersVPC object {database, password, scheme, 2 more }
+
+</summary>
+
+database: string
+
+Set the name of your origin database.
+
+<a href="#">Link to this property</a>
+
+password: string
+
+Set the password needed to access your origin database. The API never returns this write-only value.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scheme: "postgres"or "postgresql"or "mysql"
+
+Specifies the URL scheme used to connect to your origin database.
+
+</summary>
+
+One of the following:
+
+"postgres"
+
+<a href="#">Link to this property</a>
+
+"postgresql"
+
+<a href="#">Link to this property</a>
+
+"mysql"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+service\_id: string
+
+The identifier of the Workers VPC Service to connect through. Hyperdrive will egress through the specified VPC Service to reach the origin database.
+
+<a href="#">Link to this property</a>
+
+user: string
+
+Set the user of your origin database.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+caching: optional object {disabled } or object {disabled, max\_age, stale\_while\_revalidate }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+HyperdriveHyperdriveCachingCommon object {disabled }
+
+</summary>
+
+disabled: optional boolean
+
+Set to true to disable caching of SQL responses. Default is false.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+HyperdriveHyperdriveCachingEnabled object {disabled, max\_age, stale\_while\_revalidate }
+
+</summary>
+
+disabled: optional boolean
+
+Set to true to disable caching of SQL responses. Default is false.
+
+<a href="#">Link to this property</a>
+
+max\_age: optional number
+
+Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified.
+
+<a href="#">Link to this property</a>
+
+stale\_while\_revalidate: optional number
+
+Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+Defines the creation time of the Hyperdrive configuration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Defines the last modified time of the Hyperdrive configuration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mtls: optional object {ca\_certificate\_id, mtls\_certificate\_id, sslmode }
+
+mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service.
+
+</summary>
+
+ca\_certificate\_id: optional string
+
+Define CA certificate ID obtained after uploading CA cert.
+
+<a href="#">Link to this property</a>
+
+mtls\_certificate\_id: optional string
+
+Define mTLS certificate ID obtained after uploading client cert.
+
+<a href="#">Link to this property</a>
+
+sslmode: optional string
+
+Set SSL mode to ‘require’, ‘verify-ca’, or ‘verify-full’ to verify the CA.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+origin\_connection\_limit: optional number
+
+The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.
+
+Maximum allowed: 20 for free tier accounts, 100 for paid tier accounts. If not specified, defaults to 20 for free tier and 60 for paid tier. Certain Cloudflare-managed origins may be permitted a higher limit. Contact Cloudflare if you need a higher limit.
+
+minimum5
+
+<a href="#">Link to this property</a>
+
+restarted\_on: optional string
+
+Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Return the status of the API call success.
+
+[Link to this property](#)%20hyperdrive.configs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Replace Hyperdrive
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/hyperdrive/configs/$HYPERDRIVE_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -377,9 +907,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/hyperdrive/config
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -421,7 +951,61 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/hyperdrive/config
       "mtls_certificate_id": "00000000-0000-0000-0000-0000000000",
       "sslmode": "verify-full"
     },
-    "origin_connection_limit": 60
+    "origin_connection_limit": 60,
+    "restarted_on": "2017-01-01T00:00:00Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "name": "example-hyperdrive",
+    "origin": {
+      "database": "postgres",
+      "host": "database.example.com",
+      "port": 5432,
+      "scheme": "postgres",
+      "user": "postgres"
+    },
+    "caching": {
+      "disabled": true
+    },
+    "created_on": "2017-01-01T00:00:00Z",
+    "modified_on": "2017-01-01T00:00:00Z",
+    "mtls": {
+      "ca_certificate_id": "00000000-0000-0000-0000-0000000000",
+      "mtls_certificate_id": "00000000-0000-0000-0000-0000000000",
+      "sslmode": "verify-full"
+    },
+    "origin_connection_limit": 60,
+    "restarted_on": "2017-01-01T00:00:00Z"
   },
   "success": true
 }

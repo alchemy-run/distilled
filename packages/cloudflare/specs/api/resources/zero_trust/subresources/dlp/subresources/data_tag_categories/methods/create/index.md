@@ -1,90 +1,290 @@
-## Creates a new data tag category.
+---
+title: Creates a new data tag category.
+---
 
-**post** `/accounts/{account_id}/dlp/data_tag_categories`
+[Skip to content](#_top)
 
-Creates a new data tag category.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-### Body Parameters
+[Data Tag Categories](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories)
 
-- `name: string`
+Copy Markdown
 
-- `description: optional string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `tags: optional array of object { name, description }`
+---
 
-  Tags to create with the category. Mutually exclusive with `template_id`.
+**Copy Markdown****View as Markdown**
 
-  - `name: string`
+# Creates a new data tag category.
 
-  - `description: optional string`
+POST/accounts/{account\_id}/dlp/data\_tag\_categories
 
-- `template_id: optional string`
+Creates a data tag category, optionally from a template.
 
-### Returns
+##### Security
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `pointer: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Email + API Key</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `success: true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result: optional object { id, created_at, name, 4 more }`
+</details>
 
-  - `id: string`
+##### Accepted Permissions (at least one required)
 
-  - `created_at: string`
+`Zero Trust Write`
 
-  - `name: string`
+##### P ath ParametersExpand Collapse
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+account\_id: string
 
-    - `id: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `created_at: string`
+##### Body ParametersJSONExpand Collapse
 
-    - `name: string`
+name: string
 
-    - `updated_at: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `description: optional string`
+description: optional string
 
-  - `updated_at: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-  - `description: optional string`
+<details>
 
-  - `template_id: optional string`
+<summary>
 
-### Example
+tags: optional array of object {name, description }
 
-```http
+Tags to create with the category. Mutually exclusive with <code>template_id</code>.
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20tags%20%3E%20(schema)>)
+
+template\_id: optional string
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20template_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, name, 4 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tags: array of object {id, created\_at, name, 2 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+template\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Creates a new data tag category.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -93,9 +293,56 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_cate
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "name": "name",
+    "tags": [
+      {
+        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "created_at": "2019-12-27T18:11:19.117Z",
+        "name": "name",
+        "updated_at": "2019-12-27T18:11:19.117Z",
+        "description": "description"
+      }
+    ],
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "description": "description",
+    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

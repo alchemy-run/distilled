@@ -1,267 +1,695 @@
-## Get announced IP address space time series
+---
+title: Get announced IP address space time series
+---
 
-**get** `/radar/bgp/ips/timeseries`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[IPs](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/ips)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get announced IP address space time series
+
+GET/radar/bgp/ips/timeseries
 
 Retrieves time series data for the announced IP space count, represented as the number of IPv4 /24s and IPv6 /48s, for a given ASN.
 
-### Query Parameters
+##### Security
 
-- `asn: optional array of string`
+<details>
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+<summary>API Token</summary>
 
-- `dateEnd: optional array of string`
 
-  End of the date range (inclusive).
 
-- `dateRange: optional array of string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `dateStart: optional array of string`
+</details>
 
-  Start of the date range.
+<details>
 
-- `format: optional "JSON" or "CSV"`
+<summary>API Email + API Key</summary>
 
-  Format in which results will be returned.
 
-  - `"JSON"`
 
-  - `"CSV"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `includeDelay: optional boolean`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Includes data delay meta information.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `ipVersion: optional array of "IPv4" or "IPv6"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Filters results by IP version (Ipv4 vs. IPv6).
+</details>
 
-  - `"IPv4"`
+##### Accepted Permissions (at least one required)
 
-  - `"IPv6"`
+`User Details Write``User Details Read`
 
-- `location: optional array of string`
+##### Q uery ParametersExpand Collapse
 
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
+asn: optional array of string
 
-- `name: optional array of string`
+Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
 
-  Array of names used to label the series in the response.
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20asn%20%3E%20(schema)>)
 
-### Returns
+dateEnd: optional array of string
 
-- `result: object { meta, serie_0 }`
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, 4 more }`
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-    Metadata for the results.
+dateRange: optional array of string
 
-    - `aggInterval: "FIFTEEN_MINUTES" or "ONE_HOUR" or "ONE_DAY" or 2 more`
+Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
 
-      Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
 
-      - `"FIFTEEN_MINUTES"`
+dateStart: optional array of string
 
-      - `"ONE_HOUR"`
+Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-      - `"ONE_DAY"`
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
 
-      - `"ONE_WEEK"`
+<details>
 
-      - `"ONE_MONTH"`
+<summary>
 
-    - `confidenceInfo: object { annotations, level }`
+format: optional "JSON"or "CSV"
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+Format in which results will be returned.
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</summary>
 
-          Data source for annotations.
+One of the following:
 
-          - `"ALL"`
+"JSON"
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+"CSV"
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+</details>
 
-          - `"CONNECTION_ANOMALY"`
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-          - `"CT"`
+includeDelay: optional boolean
 
-          - `"DNS"`
+Includes data delay meta information.
 
-          - `"DNS_MAGNITUDE"`
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20includeDelay%20%3E%20(schema)>)
 
-          - `"DNS_AS112"`
+<details>
 
-          - `"DOS"`
+<summary>
 
-          - `"EMAIL_ROUTING"`
+ipVersion: optional array of "IPv4"or "IPv6"
 
-          - `"EMAIL_SECURITY"`
+Filters results by IP version (Ipv4 vs. IPv6).
 
-          - `"FW"`
+</summary>
 
-          - `"FW_PG"`
+One of the following:
 
-          - `"HTTP"`
+"IPv4"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"IPv6"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+</details>
 
-          - `"LEAKED_CREDENTIALS"`
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20ipVersion%20%3E%20(schema)>)
 
-          - `"NET"`
+location: optional array of string
 
-          - `"ROBOTS_TXT"`
+Filters results by location. Specify a comma-separated list of alpha-2 location codes.
 
-          - `"SPEED"`
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20location%20%3E%20(schema)>)
 
-          - `"WORKERS_AI"`
+name: optional array of string
 
-        - `description: string`
+Array of names used to label the series in the response.
 
-        - `endDate: string`
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+##### ReturnsExpand Collapse
 
-          Event type for annotations.
+<details>
 
-          - `"EVENT"`
+<summary>
 
-          - `"GENERAL"`
+result: object {meta, serie\_0 }
 
-          - `"OUTAGE"`
+</summary>
 
-          - `"PARTIAL_PROJECTION"`
+<details>
 
-          - `"PIPELINE"`
+<summary>
 
-          - `"TRAFFIC_ANOMALY"`
+meta: object {aggInterval, confidenceInfo, dateRange, 4 more }
 
-        - `isInstantaneous: boolean`
+Metadata for the results.
 
-          Whether event is a single point in time or a time range.
+</summary>
 
-        - `linkedUrl: string`
+<details>
 
-        - `startDate: string`
+<summary>
 
-        - `tags: optional array of string`
+aggInterval: "FIFTEEN\_MINUTES"or "ONE\_HOUR"or "ONE\_DAY"or 2 more
 
-      - `level: number`
+Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to <a href="https://developers.cloudflare.com/radar/concepts/aggregation-intervals/">Aggregation intervals</a>.
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+</summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+One of the following:
 
-      - `endTime: string`
+"FIFTEEN\_MINUTES"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"ONE\_HOUR"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"ONE\_DAY"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"ONE\_WEEK"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"ONE\_MONTH"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+</details>
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+<details>
 
-      - `"ROLLING_AVERAGE"`
+<summary>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+confidenceInfo: object {annotations, level }
 
-      - `"RATIO"`
+</summary>
 
-    - `units: array of object { name, value }`
+<details>
 
-      Measurement units for the results.
+<summary>
 
-      - `name: string`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-      - `value: string`
+</summary>
 
-    - `delay: optional object { asn_data, country_data, healthy, nowTs }`
+<details>
 
-      - `asn_data: object { delaySecs, delayStr, healthy, latest }`
+<summary>
 
-        - `delaySecs: number`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-        - `delayStr: string`
+Data source for annotations.
 
-        - `healthy: boolean`
+</summary>
 
-        - `latest: object { entries_count, path, timestamp }`
+One of the following:
 
-          - `entries_count: number`
+"ALL"
 
-          - `path: string`
+<a href="#">Link to this property</a>
 
-          - `timestamp: number`
+"AI\_BOTS"
 
-      - `country_data: object { delaySecs, delayStr, healthy, latest }`
+<a href="#">Link to this property</a>
 
-        - `delaySecs: number`
+"AI\_GATEWAY"
 
-        - `delayStr: string`
+<a href="#">Link to this property</a>
 
-        - `healthy: boolean`
+"BGP"
 
-        - `latest: object { count, timestamp }`
+<a href="#">Link to this property</a>
 
-          - `count: number`
+"BOTS"
 
-          - `timestamp: number`
+<a href="#">Link to this property</a>
 
-      - `healthy: boolean`
+"CONNECTION\_ANOMALY"
 
-      - `nowTs: number`
+<a href="#">Link to this property</a>
 
-  - `serie_0: object { ipv4, ipv6, timestamps }`
+"CT"
 
-    - `ipv4: array of string`
+<a href="#">Link to this property</a>
 
-    - `ipv6: array of string`
+"DNS"
 
-    - `timestamps: array of string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"DNS\_MAGNITUDE"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"DNS\_AS112"
+
+<a href="#">Link to this property</a>
+
+"DOS"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_ROUTING"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_SECURITY"
+
+<a href="#">Link to this property</a>
+
+"FW"
+
+<a href="#">Link to this property</a>
+
+"FW\_PG"
+
+<a href="#">Link to this property</a>
+
+"HTTP"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CONTROL"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CRAWLER\_REFERER"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"IQI"
+
+<a href="#">Link to this property</a>
+
+"LEAKED\_CREDENTIALS"
+
+<a href="#">Link to this property</a>
+
+"NET"
+
+<a href="#">Link to this property</a>
+
+"ROBOTS\_TXT"
+
+<a href="#">Link to this property</a>
+
+"SPEED"
+
+<a href="#">Link to this property</a>
+
+"WORKERS\_AI"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+endDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
+
+Event type for annotations.
+
+</summary>
+
+One of the following:
+
+"GENERAL"
+
+<a href="#">Link to this property</a>
+
+"OUTAGE"
+
+<a href="#">Link to this property</a>
+
+"PARTIAL\_PROJECTION"
+
+<a href="#">Link to this property</a>
+
+"PIPELINE"
+
+<a href="#">Link to this property</a>
+
+"TRAFFIC\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isInstantaneous: boolean
+
+Whether event is a single point in time or a time range.
+
+<a href="#">Link to this property</a>
+
+linkedUrl: string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+startDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+level: number
+
+Provides an indication of how much confidence Cloudflare has in the data.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dateRange: array of object {endTime, startTime }
+
+</summary>
+
+endTime: string
+
+Adjusted end of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+startTime: string
+
+Adjusted start of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastUpdated: string
+
+Timestamp of the last dataset update.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
+
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
+
+</summary>
+
+One of the following:
+
+"PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"MIN0\_MAX"
+
+<a href="#">Link to this property</a>
+
+"MIN\_MAX"
+
+<a href="#">Link to this property</a>
+
+"RAW\_VALUES"
+
+<a href="#">Link to this property</a>
+
+"PERCENTAGE\_CHANGE"
+
+<a href="#">Link to this property</a>
+
+"ROLLING\_AVERAGE"
+
+<a href="#">Link to this property</a>
+
+"OVERLAPPED\_PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"RATIO"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+units: array of object {name, value }
+
+Measurement units for the results.
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+delay: optional object {asn\_data, country\_data, healthy, nowTs }
+
+</summary>
+
+<details>
+
+<summary>
+
+asn\_data: object {delaySecs, delayStr, healthy, latest }
+
+</summary>
+
+delaySecs: number
+
+<a href="#">Link to this property</a>
+
+delayStr: string
+
+<a href="#">Link to this property</a>
+
+healthy: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+latest: object {entries\_count, path, timestamp }
+
+</summary>
+
+entries\_count: number
+
+<a href="#">Link to this property</a>
+
+path: string
+
+<a href="#">Link to this property</a>
+
+timestamp: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+country\_data: object {delaySecs, delayStr, healthy, latest }
+
+</summary>
+
+delaySecs: number
+
+<a href="#">Link to this property</a>
+
+delayStr: string
+
+<a href="#">Link to this property</a>
+
+healthy: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+latest: object {count, timestamp }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+timestamp: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+healthy: boolean
+
+<a href="#">Link to this property</a>
+
+nowTs: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+serie\_0: object {ipv4, ipv6, timestamps }
+
+</summary>
+
+ipv4: array of string
+
+<a href="#">Link to this property</a>
+
+ipv6: array of string
+
+<a href="#">Link to this property</a>
+
+timestamps: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(method)%20timeseries%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get announced IP address space time series
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/bgp/ips/timeseries \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "meta": {
@@ -272,7 +700,87 @@ curl https://api.cloudflare.com/client/v4/radar/bgp/ips/timeseries \
             "dataSource": "ALL",
             "description": "Cable cut in Tonga",
             "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
+            "eventType": "GENERAL",
+            "isInstantaneous": true,
+            "linkedUrl": "https://example.com",
+            "startDate": "2019-12-27T18:11:19.117Z",
+            "tags": [
+              "BOT_CLASS"
+            ]
+          }
+        ],
+        "level": 0
+      },
+      "dateRange": [
+        {
+          "endTime": "2022-09-17T10:22:57.555Z",
+          "startTime": "2022-09-16T10:22:57.555Z"
+        }
+      ],
+      "lastUpdated": "2019-12-27T18:11:19.117Z",
+      "normalization": "PERCENTAGE",
+      "units": [
+        {
+          "name": "*",
+          "value": "requests"
+        }
+      ],
+      "delay": {
+        "asn_data": {
+          "delaySecs": 0,
+          "delayStr": "delayStr",
+          "healthy": true,
+          "latest": {
+            "entries_count": 0,
+            "path": "path",
+            "timestamp": 0
+          }
+        },
+        "country_data": {
+          "delaySecs": 0,
+          "delayStr": "delayStr",
+          "healthy": true,
+          "latest": {
+            "count": 0,
+            "timestamp": 0
+          }
+        },
+        "healthy": true,
+        "nowTs": 0
+      }
+    },
+    "serie_0": {
+      "ipv4": [
+        "10"
+      ],
+      "ipv6": [
+        "10"
+      ],
+      "timestamps": [
+        "2019-12-27T18:11:19.117Z"
+      ]
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "meta": {
+      "aggInterval": "FIFTEEN_MINUTES",
+      "confidenceInfo": {
+        "annotations": [
+          {
+            "dataSource": "ALL",
+            "description": "Cable cut in Tonga",
+            "endDate": "2019-12-27T18:11:19.117Z",
+            "eventType": "GENERAL",
             "isInstantaneous": true,
             "linkedUrl": "https://example.com",
             "startDate": "2019-12-27T18:11:19.117Z",

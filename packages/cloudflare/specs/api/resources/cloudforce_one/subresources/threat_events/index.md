@@ -1,2873 +1,7045 @@
+---
+title: Threat Events
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Threat Events
 
-## Filter and list events
+##### [Filter and list events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/methods/list)
 
-**get** `/accounts/{account_id}/cloudforce-one/events`
+GET/accounts/{account\_id}/cloudforce-one/events
 
-Use `datasetId=all` or `datasetId=*` to query all event datasets for the account (limited to 10). When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
+##### [Reads an event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/methods/get)
 
-### Path Parameters
+Deprecated
 
-- `account_id: string`
+GET/accounts/{account\_id}/cloudforce-one/events/{event\_id}
 
-  Account ID.
+##### [Creates a new event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/cloudforce-one/events/create
 
-- `cursor: optional string`
+##### [Updates an event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/methods/edit)
 
-  Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize. Returned in the previous response's result_info.cursor field. Use cursor-based pagination for deep pagination (beyond 100,000 records) or for optimal performance.
+PATCH/accounts/{account\_id}/cloudforce-one/events/{event\_id}
 
-- `datasetId: optional array of string`
+##### [Creates bulk events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/methods/bulk_create)
 
-  Dataset IDs to query events from (array of UUIDs), or special value 'all' or '*' to query all event datasets for the account. If not provided, uses the default dataset.
+POST/accounts/{account\_id}/cloudforce-one/events/create/bulk
 
-- `forceRefresh: optional boolean`
+##### [Creates bulk DOS event with relationships and indicators](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/methods/bulk_create_relationships)
 
-- `format: optional "json" or "stix2" or "taxii"`
+Deprecated
 
-  - `"json"`
+POST/accounts/{account\_id}/cloudforce-one/events/create/bulk/relationships
 
-  - `"stix2"`
+##### ModelsExpand Collapse
 
-  - `"taxii"`
+<details>
 
-- `order: optional "asc" or "desc"`
+<summary>
 
-  - `"asc"`
+ThreatEventListResponse = array of object {attacker, attackerCountry, attackerCountryAlpha3, 26 more }
 
-  - `"desc"`
+</summary>
 
-- `orderBy: optional string`
+attacker: string
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Page number (1-indexed) for offset-based pagination. Limited to offset of 100,000 records. For deep pagination, use cursor-based pagination instead.
+attackerCountry: string
 
-- `pageSize: optional number`
+<a href="#">Link to this property</a>
 
-  Number of results per page. Maximum 25,000.
+attackerCountryAlpha3: string
 
-- `search: optional array of object { field, op, value }`
+<a href="#">Link to this property</a>
 
-  - `field: optional string`
+category: string
 
-    Event field to search on. Allowed: attacker, attackerCountry, category, createdAt, date, event, indicator, indicatorType, killChain, mitreAttack, tags, targetCountry, targetIndustry, tlp, uuid.
+<a href="#">Link to this property</a>
 
-  - `op: optional "equals" or "not" or "gt" or 9 more`
+datasetId: string
 
-    Search operator. Use 'in' for bulk lookup of up to 100 values at once, e.g. {field:'tags', op:'in', value:['malware','apt']}.
+<a href="#">Link to this property</a>
 
-    - `"equals"`
+date: string
 
-    - `"not"`
+<a href="#">Link to this property</a>
 
-    - `"gt"`
+event: string
 
-    - `"gte"`
+<a href="#">Link to this property</a>
 
-    - `"lt"`
+hasChildren: boolean
 
-    - `"lte"`
+<a href="#">Link to this property</a>
 
-    - `"like"`
+indicator: string
 
-    - `"contains"`
+<a href="#">Link to this property</a>
 
-    - `"startsWith"`
+indicatorType: string
 
-    - `"endsWith"`
+<a href="#">Link to this property</a>
 
-    - `"in"`
+indicatorTypeId: number
 
-    - `"find"`
+<a href="#">Link to this property</a>
 
-  - `value: optional string or number or array of string or number`
+killChain: number
 
-    Search value. String or number for most operators. Array for 'in' operator (max 100 items).
+<a href="#">Link to this property</a>
 
-    - `string`
+mitreAttack: array of string
 
-    - `number`
+<a href="#">Link to this property</a>
 
-    - `array of string or number`
+mitreCapec: array of string
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+numReferenced: number
 
-- `source: optional "do" or "r2catalog"`
+<a href="#">Link to this property</a>
 
-  Read backend. 'do' (default) reads Durable Object storage. 'r2catalog' reads R2 Data Catalog (admin-only, experimental; supports a subset of search fields — no 'tags').
+numReferences: number
 
-  - `"do"`
+<a href="#">Link to this property</a>
 
-  - `"r2catalog"`
+rawId: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `attacker: string`
+referenced: array of string
 
-- `attackerCountry: string`
+<a href="#">Link to this property</a>
 
-- `attackerCountryAlpha3: string`
+referencedIds: array of number
 
-- `category: string`
+<a href="#">Link to this property</a>
 
-- `datasetId: string`
+references: array of string
 
-- `date: string`
+<a href="#">Link to this property</a>
 
-- `event: string`
+referencesIds: array of number
 
-- `hasChildren: boolean`
+<a href="#">Link to this property</a>
 
-- `indicator: string`
+tags: array of string
 
-- `indicatorType: string`
+<a href="#">Link to this property</a>
 
-- `indicatorTypeId: number`
+targetCountry: string
 
-- `killChain: number`
+<a href="#">Link to this property</a>
 
-- `mitreAttack: array of string`
+targetCountryAlpha3: string
 
-- `mitreCapec: array of string`
+<a href="#">Link to this property</a>
 
-- `numReferenced: number`
+targetIndustry: string
 
-- `numReferences: number`
+<a href="#">Link to this property</a>
 
-- `rawId: string`
+tlp: string
 
-- `referenced: array of string`
+<a href="#">Link to this property</a>
 
-- `referencedIds: array of number`
+uuid: string
 
-- `references: array of string`
+<a href="#">Link to this property</a>
 
-- `referencesIds: array of number`
+insight: optional string
 
-- `tags: array of string`
+<a href="#">Link to this property</a>
 
-- `targetCountry: string`
+releasabilityId: optional string
 
-- `targetCountryAlpha3: string`
+<a href="#">Link to this property</a>
 
-- `targetIndustry: string`
+</details>
 
-- `tlp: string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)>)
 
-- `uuid: string`
+<details>
 
-- `insight: optional string`
+<summary>
 
-- `releasabilityId: optional string`
+ThreatEventGetResponse object {attacker, attackerCountry, attackerCountryAlpha3, 26 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+attacker: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-[
-  {
-    "attacker": "Flying Yeti",
-    "attackerCountry": "CN",
-    "attackerCountryAlpha3": "CHN",
-    "category": "Domain Resolution",
-    "datasetId": "dataset-example-id",
-    "date": "2022-04-01T00:00:00Z",
-    "event": "An attacker registered the domain domain.com",
-    "hasChildren": true,
-    "indicator": "domain.com",
-    "indicatorType": "domain",
-    "indicatorTypeId": 5,
-    "killChain": 0,
-    "mitreAttack": [
-      " "
-    ],
-    "mitreCapec": [
-      " "
-    ],
-    "numReferenced": 0,
-    "numReferences": 0,
-    "rawId": "453gw34w3",
-    "referenced": [
-      " "
-    ],
-    "referencedIds": [
-      0
-    ],
-    "references": [
-      " "
-    ],
-    "referencesIds": [
-      0
-    ],
-    "tags": [
-      "malware"
-    ],
-    "targetCountry": "US",
-    "targetCountryAlpha3": "USA",
-    "targetIndustry": "Agriculture",
-    "tlp": "amber",
-    "uuid": "12345678-1234-1234-1234-1234567890ab",
-    "insight": "insight",
-    "releasabilityId": "releasabilityId"
-  }
-]
-```
+attackerCountry: string
 
-## Reads an event
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/{event_id}`
+attackerCountryAlpha3: string
 
-This Method is deprecated. Please use /events/dataset/:dataset_id/events/:event_id instead.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+category: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+datasetId: string
 
-- `event_id: string`
+<a href="#">Link to this property</a>
 
-  Event UUID.
+date: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `attacker: string`
+event: string
 
-- `attackerCountry: string`
+<a href="#">Link to this property</a>
 
-- `attackerCountryAlpha3: string`
+hasChildren: boolean
 
-- `category: string`
+<a href="#">Link to this property</a>
 
-- `datasetId: string`
+indicator: string
 
-- `date: string`
+<a href="#">Link to this property</a>
 
-- `event: string`
+indicatorType: string
 
-- `hasChildren: boolean`
+<a href="#">Link to this property</a>
 
-- `indicator: string`
+indicatorTypeId: number
 
-- `indicatorType: string`
+<a href="#">Link to this property</a>
 
-- `indicatorTypeId: number`
+killChain: number
 
-- `killChain: number`
+<a href="#">Link to this property</a>
 
-- `mitreAttack: array of string`
+mitreAttack: array of string
 
-- `mitreCapec: array of string`
+<a href="#">Link to this property</a>
 
-- `numReferenced: number`
+mitreCapec: array of string
 
-- `numReferences: number`
+<a href="#">Link to this property</a>
 
-- `rawId: string`
+numReferenced: number
 
-- `referenced: array of string`
+<a href="#">Link to this property</a>
 
-- `referencedIds: array of number`
+numReferences: number
 
-- `references: array of string`
+<a href="#">Link to this property</a>
 
-- `referencesIds: array of number`
+rawId: string
 
-- `tags: array of string`
+<a href="#">Link to this property</a>
 
-- `targetCountry: string`
+referenced: array of string
 
-- `targetCountryAlpha3: string`
+<a href="#">Link to this property</a>
 
-- `targetIndustry: string`
+referencedIds: array of number
 
-- `tlp: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+references: array of string
 
-- `insight: optional string`
+<a href="#">Link to this property</a>
 
-- `releasabilityId: optional string`
+referencesIds: array of number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/$EVENT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+tags: array of string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "attacker": "Flying Yeti",
-  "attackerCountry": "CN",
-  "attackerCountryAlpha3": "CHN",
-  "category": "Domain Resolution",
-  "datasetId": "dataset-example-id",
-  "date": "2022-04-01T00:00:00Z",
-  "event": "An attacker registered the domain domain.com",
-  "hasChildren": true,
-  "indicator": "domain.com",
-  "indicatorType": "domain",
-  "indicatorTypeId": 5,
-  "killChain": 0,
-  "mitreAttack": [
-    " "
-  ],
-  "mitreCapec": [
-    " "
-  ],
-  "numReferenced": 0,
-  "numReferences": 0,
-  "rawId": "453gw34w3",
-  "referenced": [
-    " "
-  ],
-  "referencedIds": [
-    0
-  ],
-  "references": [
-    " "
-  ],
-  "referencesIds": [
-    0
-  ],
-  "tags": [
-    "malware"
-  ],
-  "targetCountry": "US",
-  "targetCountryAlpha3": "USA",
-  "targetIndustry": "Agriculture",
-  "tlp": "amber",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "insight": "insight",
-  "releasabilityId": "releasabilityId"
-}
-```
+targetCountry: string
 
-## Creates a new event
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/cloudforce-one/events/create`
+targetCountryAlpha3: string
 
-To create a dataset, see the [`Create Dataset`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/create/) endpoint. When `datasetId` parameter is unspecified, it will be created in a default dataset named `Cloudforce One Threat Events`.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+targetIndustry: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+tlp: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `category: string`
+uuid: string
 
-- `date: string`
+<a href="#">Link to this property</a>
 
-- `event: string`
+insight: optional string
 
-- `raw: object { data, source, tlp }`
+<a href="#">Link to this property</a>
 
-  - `data: map[unknown]`
+releasabilityId: optional string
 
-  - `source: optional string`
+<a href="#">Link to this property</a>
 
-  - `tlp: optional string`
+</details>
 
-- `tlp: string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_get_response%20%3E%20(schema)>)
 
-- `accountId: optional number`
+<details>
 
-- `attacker: optional string`
+<summary>
 
-- `attackerCountry: optional string`
+ThreatEventCreateResponse object {attacker, attackerCountry, attackerCountryAlpha3, 26 more }
 
-- `datasetId: optional string`
+</summary>
 
-- `indicator: optional string`
+attacker: string
 
-- `indicators: optional array of object { indicatorType, value }`
+<a href="#">Link to this property</a>
 
-  Array of indicators for this event. Supports multiple indicators per event for complex scenarios.
+attackerCountry: string
 
-  - `indicatorType: string`
+<a href="#">Link to this property</a>
 
-    The type of indicator (e.g., DOMAIN, IP, JA3, HASH)
+attackerCountryAlpha3: string
 
-  - `value: string`
+<a href="#">Link to this property</a>
 
-    The indicator value (e.g., domain name, IP address, hash)
+category: string
 
-- `indicatorType: optional string`
+<a href="#">Link to this property</a>
 
-- `insight: optional string`
+datasetId: string
 
-- `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-- `targetCountry: optional string`
+date: string
 
-- `targetIndustry: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+event: string
 
-- `attacker: string`
+<a href="#">Link to this property</a>
 
-- `attackerCountry: string`
+hasChildren: boolean
 
-- `attackerCountryAlpha3: string`
+<a href="#">Link to this property</a>
 
-- `category: string`
+indicator: string
 
-- `datasetId: string`
+<a href="#">Link to this property</a>
 
-- `date: string`
+indicatorType: string
 
-- `event: string`
+<a href="#">Link to this property</a>
 
-- `hasChildren: boolean`
+indicatorTypeId: number
 
-- `indicator: string`
+<a href="#">Link to this property</a>
 
-- `indicatorType: string`
+killChain: number
 
-- `indicatorTypeId: number`
+<a href="#">Link to this property</a>
 
-- `killChain: number`
+mitreAttack: array of string
 
-- `mitreAttack: array of string`
+<a href="#">Link to this property</a>
 
-- `mitreCapec: array of string`
+mitreCapec: array of string
 
-- `numReferenced: number`
+<a href="#">Link to this property</a>
 
-- `numReferences: number`
+numReferenced: number
 
-- `rawId: string`
+<a href="#">Link to this property</a>
 
-- `referenced: array of string`
+numReferences: number
 
-- `referencedIds: array of number`
+<a href="#">Link to this property</a>
 
-- `references: array of string`
+rawId: string
 
-- `referencesIds: array of number`
+<a href="#">Link to this property</a>
 
-- `tags: array of string`
+referenced: array of string
 
-- `targetCountry: string`
+<a href="#">Link to this property</a>
 
-- `targetCountryAlpha3: string`
+referencedIds: array of number
 
-- `targetIndustry: string`
+<a href="#">Link to this property</a>
 
-- `tlp: string`
+references: array of string
 
-- `uuid: string`
+<a href="#">Link to this property</a>
 
-- `insight: optional string`
+referencesIds: array of number
 
-- `releasabilityId: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+tags: array of string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "category": "Domain Resolution",
-          "date": "2022-04-01T00:00:00Z",
-          "event": "An attacker registered the domain domain.com",
-          "raw": {
-            "data": {
-              "foo": "bar"
-            }
-          },
-          "tlp": "amber",
-          "accountId": 123456,
-          "attacker": "Flying Yeti",
-          "attackerCountry": "CN",
-          "datasetId": "durableObjectName",
-          "indicator": "domain.com",
-          "indicatorType": "domain",
-          "insight": "This domain was likely registered for phishing purposes",
-          "targetCountry": "US",
-          "targetIndustry": "Agriculture"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+targetCountry: string
 
-```json
-{
-  "attacker": "Flying Yeti",
-  "attackerCountry": "CN",
-  "attackerCountryAlpha3": "CHN",
-  "category": "Domain Resolution",
-  "datasetId": "dataset-example-id",
-  "date": "2022-04-01T00:00:00Z",
-  "event": "An attacker registered the domain domain.com",
-  "hasChildren": true,
-  "indicator": "domain.com",
-  "indicatorType": "domain",
-  "indicatorTypeId": 5,
-  "killChain": 0,
-  "mitreAttack": [
-    " "
-  ],
-  "mitreCapec": [
-    " "
-  ],
-  "numReferenced": 0,
-  "numReferences": 0,
-  "rawId": "453gw34w3",
-  "referenced": [
-    " "
-  ],
-  "referencedIds": [
-    0
-  ],
-  "references": [
-    " "
-  ],
-  "referencesIds": [
-    0
-  ],
-  "tags": [
-    "malware"
-  ],
-  "targetCountry": "US",
-  "targetCountryAlpha3": "USA",
-  "targetIndustry": "Agriculture",
-  "tlp": "amber",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "insight": "insight",
-  "releasabilityId": "releasabilityId"
-}
-```
+<a href="#">Link to this property</a>
 
-## Updates an event
+targetCountryAlpha3: string
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/{event_id}`
+<a href="#">Link to this property</a>
 
-Updates an event
+targetIndustry: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+tlp: string
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `event_id: string`
+uuid: string
 
-  Event UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+insight: optional string
 
-- `datasetId: string`
+<a href="#">Link to this property</a>
 
-  Dataset ID containing the event to update.
+releasabilityId: optional string
 
-- `attacker: optional string`
+<a href="#">Link to this property</a>
 
-- `attackerCountry: optional string`
+</details>
 
-- `category: optional string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_create_response%20%3E%20(schema)>)
 
-- `createdAt: optional string`
+<details>
 
-- `date: optional string`
+<summary>
 
-- `event: optional string`
+ThreatEventEditResponse object {attacker, attackerCountry, attackerCountryAlpha3, 26 more }
 
-- `indicator: optional string`
+</summary>
 
-- `indicatorType: optional string`
+attacker: string
 
-- `insight: optional string`
+<a href="#">Link to this property</a>
 
-- `raw: optional object { data, source, tlp }`
+attackerCountry: string
 
-  - `data: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-  - `source: optional string`
+attackerCountryAlpha3: string
 
-  - `tlp: optional string`
+<a href="#">Link to this property</a>
 
-- `targetCountry: optional string`
+category: string
 
-- `targetIndustry: optional string`
+<a href="#">Link to this property</a>
 
-- `tlp: optional string`
+datasetId: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `attacker: string`
+date: string
 
-- `attackerCountry: string`
+<a href="#">Link to this property</a>
 
-- `attackerCountryAlpha3: string`
+event: string
 
-- `category: string`
+<a href="#">Link to this property</a>
 
-- `datasetId: string`
+hasChildren: boolean
 
-- `date: string`
+<a href="#">Link to this property</a>
 
-- `event: string`
+indicator: string
 
-- `hasChildren: boolean`
+<a href="#">Link to this property</a>
 
-- `indicator: string`
+indicatorType: string
 
-- `indicatorType: string`
+<a href="#">Link to this property</a>
 
-- `indicatorTypeId: number`
+indicatorTypeId: number
 
-- `killChain: number`
+<a href="#">Link to this property</a>
 
-- `mitreAttack: array of string`
+killChain: number
 
-- `mitreCapec: array of string`
+<a href="#">Link to this property</a>
 
-- `numReferenced: number`
+mitreAttack: array of string
 
-- `numReferences: number`
+<a href="#">Link to this property</a>
 
-- `rawId: string`
+mitreCapec: array of string
 
-- `referenced: array of string`
+<a href="#">Link to this property</a>
 
-- `referencedIds: array of number`
+numReferenced: number
 
-- `references: array of string`
+<a href="#">Link to this property</a>
 
-- `referencesIds: array of number`
+numReferences: number
 
-- `tags: array of string`
+<a href="#">Link to this property</a>
 
-- `targetCountry: string`
+rawId: string
 
-- `targetCountryAlpha3: string`
+<a href="#">Link to this property</a>
 
-- `targetIndustry: string`
+referenced: array of string
 
-- `tlp: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+referencedIds: array of number
 
-- `insight: optional string`
+<a href="#">Link to this property</a>
 
-- `releasabilityId: optional string`
+references: array of string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/$EVENT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "datasetId": "9b769969-a211-466c-8ac3-cb91266a066a",
-          "attacker": "Flying Yeti",
-          "attackerCountry": "CN",
-          "category": "Domain Resolution",
-          "createdAt": "2025-12-19T00:00:00Z",
-          "date": "2022-04-01T00:00:00Z",
-          "event": "An attacker registered the domain domain.com",
-          "indicator": "domain2.com",
-          "indicatorType": "domain",
-          "insight": "new insight",
-          "targetCountry": "US",
-          "targetIndustry": "Insurance",
-          "tlp": "amber"
-        }'
-```
+referencesIds: array of number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "attacker": "Flying Yeti",
-  "attackerCountry": "CN",
-  "attackerCountryAlpha3": "CHN",
-  "category": "Domain Resolution",
-  "datasetId": "dataset-example-id",
-  "date": "2022-04-01T00:00:00Z",
-  "event": "An attacker registered the domain domain.com",
-  "hasChildren": true,
-  "indicator": "domain.com",
-  "indicatorType": "domain",
-  "indicatorTypeId": 5,
-  "killChain": 0,
-  "mitreAttack": [
-    " "
-  ],
-  "mitreCapec": [
-    " "
-  ],
-  "numReferenced": 0,
-  "numReferences": 0,
-  "rawId": "453gw34w3",
-  "referenced": [
-    " "
-  ],
-  "referencedIds": [
-    0
-  ],
-  "references": [
-    " "
-  ],
-  "referencesIds": [
-    0
-  ],
-  "tags": [
-    "malware"
-  ],
-  "targetCountry": "US",
-  "targetCountryAlpha3": "USA",
-  "targetIndustry": "Agriculture",
-  "tlp": "amber",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "insight": "insight",
-  "releasabilityId": "releasabilityId"
-}
-```
+tags: array of string
 
-## Creates bulk events
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/cloudforce-one/events/create/bulk`
+targetCountry: string
 
-The `datasetId` parameter must be defined. To list existing datasets (and their IDs) in your account, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+targetCountryAlpha3: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+targetIndustry: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `data: array of object { category, date, event, 13 more }`
+tlp: string
 
-  - `category: string`
+<a href="#">Link to this property</a>
 
-  - `date: string`
+uuid: string
 
-  - `event: string`
+<a href="#">Link to this property</a>
 
-  - `raw: object { data, source, tlp }`
+insight: optional string
 
-    - `data: map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `source: optional string`
+releasabilityId: optional string
 
-    - `tlp: optional string`
+<a href="#">Link to this property</a>
 
-  - `tlp: string`
+</details>
 
-  - `accountId: optional number`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_edit_response%20%3E%20(schema)>)
 
-  - `attacker: optional string`
+<details>
 
-  - `attackerCountry: optional string`
+<summary>
 
-  - `datasetId: optional string`
+ThreatEventBulkCreateResponse object {createdEventsCount, createdTagsCount, errorCount, 4 more }
 
-  - `indicator: optional string`
+Detailed result of bulk event creation with auto-tag management
 
-  - `indicators: optional array of object { indicatorType, value }`
+</summary>
 
-    Array of indicators for this event. Supports multiple indicators per event for complex scenarios.
+createdEventsCount: number
 
-    - `indicatorType: string`
+Number of events created
 
-      The type of indicator (e.g., DOMAIN, IP, JA3, HASH)
+<a href="#">Link to this property</a>
 
-    - `value: string`
+createdTagsCount: number
 
-      The indicator value (e.g., domain name, IP address, hash)
+Number of new tags created in SoT
 
-  - `indicatorType: optional string`
+<a href="#">Link to this property</a>
 
-  - `insight: optional string`
+errorCount: number
 
-  - `tags: optional array of string`
+Number of errors encountered
 
-  - `targetCountry: optional string`
+<a href="#">Link to this property</a>
 
-  - `targetIndustry: optional string`
+queuedIndicatorsCount: number
 
-- `datasetId: string`
+Number of indicators queued for async processing
 
-- `includeCreatedEvents: optional boolean`
+<a href="#">Link to this property</a>
 
-  When true, response includes array of created event UUIDs and shard IDs. Useful for tracking which events were created and where.
+createBulkEventsRequestId: optional string
 
-### Returns
+Correlation ID for async indicator processing
 
-- `createdEventsCount: number`
+formatuuid
 
-  Number of events created
+<a href="#">Link to this property</a>
 
-- `createdTagsCount: number`
+<details>
 
-  Number of new tags created in SoT
+<summary>
 
-- `errorCount: number`
+createdEvents: optional array of object {eventIndex, shardId, uuid }
 
-  Number of errors encountered
+Array of created events with UUIDs and shard locations. Only present when includeCreatedEvents=true
 
-- `queuedIndicatorsCount: number`
+</summary>
 
-  Number of indicators queued for async processing
+eventIndex: number
 
-- `createBulkEventsRequestId: optional string`
+Original index in the input data array
 
-  Correlation ID for async indicator processing
+<a href="#">Link to this property</a>
 
-- `createdEvents: optional array of object { eventIndex, shardId, uuid }`
+shardId: string
 
-  Array of created events with UUIDs and shard locations. Only present when includeCreatedEvents=true
+Dataset ID of the shard where the event was created
 
-  - `eventIndex: number`
+<a href="#">Link to this property</a>
 
-    Original index in the input data array
+uuid: string
 
-  - `shardId: string`
+UUID of the created event
 
-    Dataset ID of the shard where the event was created
+formatuuid
 
-  - `uuid: string`
+<a href="#">Link to this property</a>
 
-    UUID of the created event
+</details>
 
-- `errors: optional array of object { error, eventIndex }`
+<a href="#">Link to this property</a>
 
-  Array of error details
+<details>
 
-  - `error: string`
+<summary>
 
-    Error message
+errors: optional array of object {error, eventIndex }
 
-  - `eventIndex: number`
+Array of error details
 
-    Index of the event that caused the error
+</summary>
 
-### Example
+error: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/create/bulk \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "data": [
-            {
-              "category": "Domain Resolution",
-              "date": "2022-04-01T00:00:00Z",
-              "event": "An attacker registered the domain domain.com",
-              "raw": {
-                "data": {
-                  "foo": "bar"
-                }
-              },
-              "tlp": "amber"
-            }
-          ],
-          "datasetId": "durableObjectName"
-        }'
-```
+Error message
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "createdEventsCount": 0,
-  "createdTagsCount": 0,
-  "errorCount": 0,
-  "queuedIndicatorsCount": 0,
-  "createBulkEventsRequestId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "createdEvents": [
-    {
-      "eventIndex": 0,
-      "shardId": "shardId",
-      "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    }
-  ],
-  "errors": [
-    {
-      "error": "error",
-      "eventIndex": 0
-    }
-  ]
-}
-```
+eventIndex: number
 
-## Domain Types
+Index of the event that caused the error
 
-### Threat Event List Response
+<a href="#">Link to this property</a>
 
-- `ThreatEventListResponse = array of object { attacker, attackerCountry, attackerCountryAlpha3, 26 more }`
+</details>
 
-  - `attacker: string`
+<a href="#">Link to this property</a>
 
-  - `attackerCountry: string`
+</details>
 
-  - `attackerCountryAlpha3: string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_response%20%3E%20(schema)>)
 
-  - `category: string`
+<details>
 
-  - `datasetId: string`
+<summary>
 
-  - `date: string`
+ThreatEventBulkCreateRelationshipsResponse object {createdEventsCount, createdIndicatorsCount, createdRelationshipsCount, 2 more }
 
-  - `event: string`
+Result of bulk relationship creation operation
 
-  - `hasChildren: boolean`
+</summary>
 
-  - `indicator: string`
+createdEventsCount: number
 
-  - `indicatorType: string`
+Number of events created
 
-  - `indicatorTypeId: number`
+<a href="#">Link to this property</a>
 
-  - `killChain: number`
+createdIndicatorsCount: number
 
-  - `mitreAttack: array of string`
+Number of indicators created
 
-  - `mitreCapec: array of string`
+<a href="#">Link to this property</a>
 
-  - `numReferenced: number`
+createdRelationshipsCount: number
 
-  - `numReferences: number`
+Number of relationships created
 
-  - `rawId: string`
+<a href="#">Link to this property</a>
 
-  - `referenced: array of string`
+errorCount: number
 
-  - `referencedIds: array of number`
+Number of errors encountered
 
-  - `references: array of string`
+<a href="#">Link to this property</a>
 
-  - `referencesIds: array of number`
+<details>
 
-  - `tags: array of string`
+<summary>
 
-  - `targetCountry: string`
+errors: optional array of object {error, eventIndex }
 
-  - `targetCountryAlpha3: string`
+Array of error details
 
-  - `targetIndustry: string`
+</summary>
 
-  - `tlp: string`
+error: string
 
-  - `uuid: string`
+Error message
 
-  - `insight: optional string`
+<a href="#">Link to this property</a>
 
-  - `releasabilityId: optional string`
+eventIndex: number
 
-### Threat Event Get Response
+Index of the event that caused the error
 
-- `ThreatEventGetResponse object { attacker, attackerCountry, attackerCountryAlpha3, 26 more }`
+<a href="#">Link to this property</a>
 
-  - `attacker: string`
+</details>
 
-  - `attackerCountry: string`
+<a href="#">Link to this property</a>
 
-  - `attackerCountryAlpha3: string`
+</details>
 
-  - `category: string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_relationships_response%20%3E%20(schema)>)
 
-  - `datasetId: string`
+#### Threat EventsAggregate
 
-  - `date: string`
+##### [Aggregate events by single or multiple columns with optional date filtering](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/aggregate/methods/list)
 
-  - `event: string`
+GET/accounts/{account\_id}/cloudforce-one/events/aggregate
 
-  - `hasChildren: boolean`
+##### ModelsExpand Collapse
 
-  - `indicator: string`
+<details>
 
-  - `indicatorType: string`
+<summary>
 
-  - `indicatorTypeId: number`
+AggregateListResponse object {aggregateBy, aggregations, total, dateRange }
 
-  - `killChain: number`
+</summary>
 
-  - `mitreAttack: array of string`
+aggregateBy: string
 
-  - `mitreCapec: array of string`
+Column(s) that were aggregated by
 
-  - `numReferenced: number`
+<a href="#">Link to this property</a>
 
-  - `numReferences: number`
+<details>
 
-  - `rawId: string`
+<summary>
 
-  - `referenced: array of string`
+aggregations: array of object {count, date }
 
-  - `referencedIds: array of number`
+Array of aggregation results with dynamic fields based on aggregateBy columns
 
-  - `references: array of string`
+</summary>
 
-  - `referencesIds: array of number`
+count: number
 
-  - `tags: array of string`
+Number of events for this aggregation
 
-  - `targetCountry: string`
+<a href="#">Link to this property</a>
 
-  - `targetCountryAlpha3: string`
+date: optional string
 
-  - `targetIndustry: string`
+Date (if groupByDate is true)
 
-  - `tlp: string`
+<a href="#">Link to this property</a>
 
-  - `uuid: string`
+</details>
 
-  - `insight: optional string`
+<a href="#">Link to this property</a>
 
-  - `releasabilityId: optional string`
+total: number
 
-### Threat Event Create Response
+Total number of events in the aggregation
 
-- `ThreatEventCreateResponse object { attacker, attackerCountry, attackerCountryAlpha3, 26 more }`
+<a href="#">Link to this property</a>
 
-  - `attacker: string`
+<details>
 
-  - `attackerCountry: string`
+<summary>
 
-  - `attackerCountryAlpha3: string`
+dateRange: optional object {endDate, startDate }
 
-  - `category: string`
+Date range used for filtering
 
-  - `datasetId: string`
+</summary>
 
-  - `date: string`
+endDate: optional string
 
-  - `event: string`
+<a href="#">Link to this property</a>
 
-  - `hasChildren: boolean`
+startDate: optional string
 
-  - `indicator: string`
+<a href="#">Link to this property</a>
 
-  - `indicatorType: string`
+</details>
 
-  - `indicatorTypeId: number`
+<a href="#">Link to this property</a>
 
-  - `killChain: number`
+</details>
 
-  - `mitreAttack: array of string`
+[Link to this property](#)%20cloudforce_one.threat_events.aggregate%20%3E%20(model)%20aggregate_list_response%20%3E%20(schema)>)
 
-  - `mitreCapec: array of string`
+#### Threat EventsGraphql
 
-  - `numReferenced: number`
+##### [GraphQL endpoint for event aggregation](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/graphql/methods/create)
 
-  - `numReferences: number`
+POST/accounts/{account\_id}/cloudforce-one/events/graphql
 
-  - `rawId: string`
+##### ModelsExpand Collapse
 
-  - `referenced: array of string`
+<details>
 
-  - `referencedIds: array of number`
+<summary>
 
-  - `references: array of string`
+GraphqlCreateResponse object {data, errors }
 
-  - `referencesIds: array of number`
+</summary>
 
-  - `tags: array of string`
+data: optional unknown
 
-  - `targetCountry: string`
+<a href="#">Link to this property</a>
 
-  - `targetCountryAlpha3: string`
+errors: optional array of unknown
 
-  - `targetIndustry: string`
+<a href="#">Link to this property</a>
 
-  - `tlp: string`
+</details>
 
-  - `uuid: string`
+[Link to this property](#)%20cloudforce_one.threat_events.graphql%20%3E%20(model)%20graphql_create_response%20%3E%20(schema)>)
 
-  - `insight: optional string`
+#### Threat EventsGraph
 
-  - `releasabilityId: optional string`
+##### [Query graph neighborhood from R2 Data Catalog](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/graph/methods/list)
 
-### Threat Event Edit Response
+GET/accounts/{account\_id}/cloudforce-one/events/graph
 
-- `ThreatEventEditResponse object { attacker, attackerCountry, attackerCountryAlpha3, 26 more }`
+##### ModelsExpand Collapse
 
-  - `attacker: string`
+<details>
 
-  - `attackerCountry: string`
+<summary>
 
-  - `attackerCountryAlpha3: string`
+GraphListResponse object {edges, node, nodes }
 
-  - `category: string`
+</summary>
 
-  - `datasetId: string`
+<details>
 
-  - `date: string`
+<summary>
 
-  - `event: string`
+edges: array of object {id, relationshipType, source, 5 more }
 
-  - `hasChildren: boolean`
+</summary>
 
-  - `indicator: string`
+id: string
 
-  - `indicatorType: string`
+Deterministic composite edge id (source→target:relationshipType)
 
-  - `indicatorTypeId: number`
+<a href="#">Link to this property</a>
 
-  - `killChain: number`
+relationshipType: string
 
-  - `mitreAttack: array of string`
+<a href="#">Link to this property</a>
 
-  - `mitreCapec: array of string`
+source: string
 
-  - `numReferenced: number`
+Compact id of the source node (type:uuid)
 
-  - `numReferences: number`
+<a href="#">Link to this property</a>
 
-  - `rawId: string`
+sourceId: string
 
-  - `referenced: array of string`
+<a href="#">Link to this property</a>
 
-  - `referencedIds: array of number`
+sourceType: string
 
-  - `references: array of string`
+<a href="#">Link to this property</a>
 
-  - `referencesIds: array of number`
+target: string
 
-  - `tags: array of string`
+Compact id of the target node (type:uuid)
 
-  - `targetCountry: string`
+<a href="#">Link to this property</a>
 
-  - `targetCountryAlpha3: string`
+targetId: string
 
-  - `targetIndustry: string`
+<a href="#">Link to this property</a>
 
-  - `tlp: string`
+targetType: string
 
-  - `uuid: string`
+<a href="#">Link to this property</a>
 
-  - `insight: optional string`
+</details>
 
-  - `releasabilityId: optional string`
+<a href="#">Link to this property</a>
 
-### Threat Event Bulk Create Response
+node: map\[unknown]
 
-- `ThreatEventBulkCreateResponse object { createdEventsCount, createdTagsCount, errorCount, 4 more }`
+Focal node object (legacy single-seed). Null when unavailable.
 
-  Detailed result of bulk event creation with auto-tag management
+<a href="#">Link to this property</a>
 
-  - `createdEventsCount: number`
+nodes: array of map\[unknown]
 
-    Number of events created
+<a href="#">Link to this property</a>
 
-  - `createdTagsCount: number`
+</details>
 
-    Number of new tags created in SoT
+[Link to this property](#)%20cloudforce_one.threat_events.graph%20%3E%20(model)%20graph_list_response%20%3E%20(schema)>)
 
-  - `errorCount: number`
+#### Threat EventsQueries
 
-    Number of errors encountered
+##### [List all saved event queries](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/queries/methods/list)
 
-  - `queuedIndicatorsCount: number`
+GET/accounts/{account\_id}/cloudforce-one/events/queries
 
-    Number of indicators queued for async processing
+##### [Create a saved event query](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/queries/methods/create)
 
-  - `createBulkEventsRequestId: optional string`
+POST/accounts/{account\_id}/cloudforce-one/events/queries/create
 
-    Correlation ID for async indicator processing
+##### [Read a saved event query](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/queries/methods/get)
 
-  - `createdEvents: optional array of object { eventIndex, shardId, uuid }`
+GET/accounts/{account\_id}/cloudforce-one/events/queries/{query\_id}
 
-    Array of created events with UUIDs and shard locations. Only present when includeCreatedEvents=true
+##### [Update a saved event query](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/queries/methods/edit)
 
-    - `eventIndex: number`
+PATCH/accounts/{account\_id}/cloudforce-one/events/queries/{query\_id}
 
-      Original index in the input data array
+##### [Delete a saved event query](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/queries/methods/delete)
 
-    - `shardId: string`
+DELETE/accounts/{account\_id}/cloudforce-one/events/queries/{query\_id}
 
-      Dataset ID of the shard where the event was created
+##### ModelsExpand Collapse
 
-    - `uuid: string`
+<details>
 
-      UUID of the created event
+<summary>
 
-  - `errors: optional array of object { error, eventIndex }`
+QueryListResponse = array of object {id, account\_id, alert\_enabled, 10 more }
 
-    Array of error details
+</summary>
 
-    - `error: string`
+id: number
 
-      Error message
+Unique identifier for the saved query
 
-    - `eventIndex: number`
+<a href="#">Link to this property</a>
 
-      Index of the event that caused the error
+account\_id: number
 
-# Attackers
+Account ID
 
-## Lists attackers across multiple datasets
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/attackers`
+alert\_enabled: boolean
 
-Lists attackers across multiple datasets
+Whether alerts are enabled
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+alert\_rollup\_enabled: boolean
 
-  Account ID.
+Whether alert rollup is enabled
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `datasetIds: optional array of string`
+created\_at: string
 
-  Array of dataset IDs to query attackers from. If not provided, uses the default dataset.
+Creation timestamp
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `items: object { type }`
+name: string
 
-  - `type: string`
+Name of the saved query
 
-- `type: string`
+<a href="#">Link to this property</a>
 
-### Example
+query\_json: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/attackers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+JSON string containing the query parameters
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "items": {
-    "type": "string"
-  },
-  "type": "array"
-}
-```
+rule\_enabled: boolean
 
-## Domain Types
+Whether rule is enabled
 
-### Attacker List Response
+<a href="#">Link to this property</a>
 
-- `AttackerListResponse object { items, type }`
+updated\_at: string
 
-  - `items: object { type }`
+Last update timestamp
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-  - `type: string`
+user\_email: string
 
-# Categories
+Email of the user who created the query
 
-## Lists categories across multiple datasets
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/categories`
+custom\_threat\_feed\_id: optional number
 
-Lists categories across multiple datasets
+Intel Indicator Feed ID (numeric)
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+rule\_list\_id: optional string
 
-  Account ID.
+WAF rules list ID for blocking
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `datasetIds: optional array of string`
+rule\_scope: optional string
 
-  Array of dataset IDs to query categories from. If not provided, uses the default dataset.
+Scope for the rule
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `killChain: number`
+</details>
 
-- `name: string`
+[Link to this property](#)%20cloudforce_one.threat_events.queries%20%3E%20(model)%20query_list_response%20%3E%20(schema)>)
 
-- `uuid: string`
+<details>
 
-- `mitreAttack: optional array of string`
+<summary>
 
-- `mitreCapec: optional array of string`
+QueryCreateResponse object {id, account\_id, alert\_enabled, 10 more }
 
-- `shortname: optional string`
+</summary>
 
-### Example
+id: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Unique identifier for the saved query
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-[
-  {
-    "killChain": 0,
-    "name": "name",
-    "uuid": "12345678-1234-1234-1234-1234567890ab",
-    "mitreAttack": [
-      "T1234"
-    ],
-    "mitreCapec": [
-      "123"
-    ],
-    "shortname": "shortname"
-  }
-]
-```
+account\_id: number
 
-## Reads a category
+Account ID
 
-**get** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+<a href="#">Link to this property</a>
 
-Reads a category
+alert\_enabled: boolean
 
-### Path Parameters
+Whether alerts are enabled
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+alert\_rollup\_enabled: boolean
 
-- `category_id: string`
+Whether alert rollup is enabled
 
-  Category UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+created\_at: string
 
-- `killChain: number`
+Creation timestamp
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+name: string
 
-- `mitreAttack: optional array of string`
+Name of the saved query
 
-- `mitreCapec: optional array of string`
+<a href="#">Link to this property</a>
 
-- `shortname: optional string`
+query\_json: string
 
-### Example
+JSON string containing the query parameters
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+rule\_enabled: boolean
 
-```json
-{
-  "killChain": 0,
-  "name": "name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "mitreAttack": [
-    "T1234"
-  ],
-  "mitreCapec": [
-    "123"
-  ],
-  "shortname": "shortname"
-}
-```
+Whether rule is enabled
 
-## Creates a new category
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/cloudforce-one/events/categories/create`
+updated\_at: string
 
-Creates a new category
+Last update timestamp
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+user\_email: string
 
-  Account ID.
+Email of the user who created the query
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `killChain: number`
+custom\_threat\_feed\_id: optional number
 
-- `name: string`
+Intel Indicator Feed ID (numeric)
 
-- `mitreAttack: optional array of string`
+<a href="#">Link to this property</a>
 
-- `mitreCapec: optional array of string`
+rule\_list\_id: optional string
 
-- `shortname: optional string`
+WAF rules list ID for blocking
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `killChain: number`
+rule\_scope: optional string
 
-- `name: string`
+Scope for the rule
 
-- `uuid: string`
+<a href="#">Link to this property</a>
 
-- `mitreAttack: optional array of string`
+</details>
 
-- `mitreCapec: optional array of string`
+[Link to this property](#)%20cloudforce_one.threat_events.queries%20%3E%20(model)%20query_create_response%20%3E%20(schema)>)
 
-- `shortname: optional string`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "killChain": 0,
-          "name": "name",
-          "shortname": "shortname"
-        }'
-```
+QueryGetResponse object {id, account\_id, alert\_enabled, 10 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "killChain": 0,
-  "name": "name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "mitreAttack": [
-    "T1234"
-  ],
-  "mitreCapec": [
-    "123"
-  ],
-  "shortname": "shortname"
-}
-```
+id: number
 
-## Updates a category
+Unique identifier for the saved query
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+<a href="#">Link to this property</a>
 
-Updates a category
+account\_id: number
 
-### Path Parameters
+Account ID
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+alert\_enabled: boolean
 
-- `category_id: string`
+Whether alerts are enabled
 
-  Category UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+alert\_rollup\_enabled: boolean
 
-- `killChain: optional number`
+Whether alert rollup is enabled
 
-- `mitreAttack: optional array of string`
+<a href="#">Link to this property</a>
 
-- `mitreCapec: optional array of string`
+created\_at: string
 
-- `name: optional string`
+Creation timestamp
 
-- `shortname: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+name: string
 
-- `killChain: number`
+Name of the saved query
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+query\_json: string
 
-- `mitreAttack: optional array of string`
+JSON string containing the query parameters
 
-- `mitreCapec: optional array of string`
+<a href="#">Link to this property</a>
 
-- `shortname: optional string`
+rule\_enabled: boolean
 
-### Example
+Whether rule is enabled
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+updated\_at: string
 
-```json
-{
-  "killChain": 0,
-  "name": "name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "mitreAttack": [
-    "T1234"
-  ],
-  "mitreCapec": [
-    "123"
-  ],
-  "shortname": "shortname"
-}
-```
+Last update timestamp
 
-## Deletes a category
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+user\_email: string
 
-Deletes a category
+Email of the user who created the query
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+custom\_threat\_feed\_id: optional number
 
-  Account ID.
+Intel Indicator Feed ID (numeric)
 
-- `category_id: string`
+<a href="#">Link to this property</a>
 
-  Category UUID.
+rule\_list\_id: optional string
 
-### Returns
+WAF rules list ID for blocking
 
-- `uuid: string`
+<a href="#">Link to this property</a>
 
-### Example
+rule\_scope: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Scope for the rule
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "uuid": "12345678-1234-1234-1234-1234567890ab"
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)%20cloudforce_one.threat_events.queries%20%3E%20(model)%20query_get_response%20%3E%20(schema)>)
 
-### Category List Response
+<details>
 
-- `CategoryListResponse = array of object { killChain, name, uuid, 3 more }`
+<summary>
 
-  - `killChain: number`
+QueryEditResponse object {id, account\_id, alert\_enabled, 10 more }
 
-  - `name: string`
+</summary>
 
-  - `uuid: string`
+id: number
 
-  - `mitreAttack: optional array of string`
+Unique identifier for the saved query
 
-  - `mitreCapec: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `shortname: optional string`
+account\_id: number
 
-### Category Get Response
+Account ID
 
-- `CategoryGetResponse object { killChain, name, uuid, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `killChain: number`
+alert\_enabled: boolean
 
-  - `name: string`
+Whether alerts are enabled
 
-  - `uuid: string`
+<a href="#">Link to this property</a>
 
-  - `mitreAttack: optional array of string`
+alert\_rollup\_enabled: boolean
 
-  - `mitreCapec: optional array of string`
+Whether alert rollup is enabled
 
-  - `shortname: optional string`
+<a href="#">Link to this property</a>
 
-### Category Create Response
+created\_at: string
 
-- `CategoryCreateResponse object { killChain, name, uuid, 3 more }`
+Creation timestamp
 
-  - `killChain: number`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-  - `uuid: string`
+Name of the saved query
 
-  - `mitreAttack: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `mitreCapec: optional array of string`
+query\_json: string
 
-  - `shortname: optional string`
+JSON string containing the query parameters
 
-### Category Edit Response
+<a href="#">Link to this property</a>
 
-- `CategoryEditResponse object { killChain, name, uuid, 3 more }`
+rule\_enabled: boolean
 
-  - `killChain: number`
+Whether rule is enabled
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `uuid: string`
+updated\_at: string
 
-  - `mitreAttack: optional array of string`
+Last update timestamp
 
-  - `mitreCapec: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `shortname: optional string`
+user\_email: string
 
-### Category Delete Response
+Email of the user who created the query
 
-- `CategoryDeleteResponse object { uuid }`
+<a href="#">Link to this property</a>
 
-  - `uuid: string`
+custom\_threat\_feed\_id: optional number
 
-# Countries
+Intel Indicator Feed ID (numeric)
 
-## Retrieves countries information for all countries
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/countries`
+rule\_list\_id: optional string
 
-Retrieves countries information for all countries
+WAF rules list ID for blocking
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+rule\_scope: optional string
 
-  Account ID.
+Scope for the rule
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: array of object { alpha2, alpha3, name }`
+</details>
 
-  - `alpha2: string`
+[Link to this property](#)%20cloudforce_one.threat_events.queries%20%3E%20(model)%20query_edit_response%20%3E%20(schema)>)
 
-  - `alpha3: string`
+#### Threat EventsRelationships
 
-  - `name: string`
+##### [Filter and list events related to specific event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/relationships/methods/list)
 
-- `success: string`
+GET/accounts/{account\_id}/cloudforce-one/events/{event\_id}/relationships
 
-### Example
+##### ModelsExpand Collapse
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/countries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-[
-  {
-    "result": [
-      {
-        "alpha2": "AF",
-        "alpha3": "AF",
-        "name": "Afghanistan"
-      }
-    ],
-    "success": "true"
-  }
-]
-```
+RelationshipListResponse = array of object {attacker, attackerCountry, attackerCountryAlpha3, 26 more }
 
-## Domain Types
+</summary>
 
-### Country List Response
+attacker: string
 
-- `CountryListResponse = array of object { result, success }`
+<a href="#">Link to this property</a>
 
-  - `result: array of object { alpha2, alpha3, name }`
+attackerCountry: string
 
-    - `alpha2: string`
+<a href="#">Link to this property</a>
 
-    - `alpha3: string`
+attackerCountryAlpha3: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `success: string`
+category: string
 
-# Crons
+<a href="#">Link to this property</a>
 
-# Datasets
+datasetId: string
 
-## Lists all datasets in an account
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/dataset`
+date: string
 
-Lists all datasets in an account
+<a href="#">Link to this property</a>
 
-### Path Parameters
+event: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+hasChildren: boolean
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `includeDeleted: optional boolean`
+indicator: string
 
-  When true, include soft-deleted datasets in the response. Each item includes a `deletedAt` field (ISO 8601 or null). Default: false.
+<a href="#">Link to this property</a>
 
-### Returns
+indicatorType: string
 
-- `isPublic: boolean`
+<a href="#">Link to this property</a>
 
-- `name: string`
+indicatorTypeId: number
 
-- `uuid: string`
+<a href="#">Link to this property</a>
 
-- `deletedAt: optional string`
+killChain: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+mitreAttack: array of string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-[
-  {
-    "isPublic": true,
-    "name": "friendly dataset name",
-    "uuid": "12345678-1234-1234-1234-1234567890ab",
-    "deletedAt": "deletedAt"
-  }
-]
-```
+mitreCapec: array of string
 
-## Reads a dataset
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}`
+numReferenced: number
 
-Reads a dataset
+<a href="#">Link to this property</a>
 
-### Path Parameters
+numReferences: number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+rawId: string
 
-- `dataset_id: string`
+<a href="#">Link to this property</a>
 
-  Dataset ID.
+referenced: array of string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `isPublic: boolean`
+referencedIds: array of number
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+references: array of string
 
-- `deletedAt: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+referencesIds: array of number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset/$DATASET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+tags: array of string
 
-```json
-{
-  "isPublic": true,
-  "name": "friendly dataset name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "deletedAt": "deletedAt"
-}
-```
+<a href="#">Link to this property</a>
 
-## Creates a dataset
+targetCountry: string
 
-**post** `/accounts/{account_id}/cloudforce-one/events/dataset/create`
+<a href="#">Link to this property</a>
 
-Creates a dataset
+targetCountryAlpha3: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+targetIndustry: string
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+tlp: string
 
-- `isPublic: boolean`
+<a href="#">Link to this property</a>
 
-  If true, then anyone can search the dataset. If false, then its limited to the account.
+uuid: string
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Used to describe the dataset within the account context.
+insight: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `isPublic: boolean`
+releasabilityId: optional string
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+</details>
 
-- `deletedAt: optional string`
+[Link to this property](#)%20cloudforce_one.threat_events.relationships%20%3E%20(model)%20relationship_list_response%20%3E%20(schema)>)
 
-### Example
+#### Threat EventsIndicators
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "isPublic": true,
-          "name": "x"
-        }'
-```
+##### [Lists indicators across multiple datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/indicators/methods/list)
 
-#### Response
+GET/accounts/{account\_id}/cloudforce-one/events/indicators
 
-```json
-{
-  "isPublic": true,
-  "name": "friendly dataset name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "deletedAt": "deletedAt"
-}
-```
+##### ModelsExpand Collapse
 
-## Updates an existing dataset
+<details>
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}`
+<summary>
 
-Updates an existing dataset
+IndicatorListResponse object {properties, type }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>
 
-- `dataset_id: string`
+properties: object {completeness, indicators, pagination }
 
-  Dataset ID.
+</summary>
 
-### Body Parameters
+<details>
 
-- `isPublic: boolean`
+<summary>
 
-  If true, then anyone can search the dataset. If false, then its limited to the account.
+completeness: object {properties, type }
 
-- `name: string`
+</summary>
 
-  Used to describe the dataset within the account context.
+<details>
 
-### Returns
+<summary>
 
-- `isPublic: boolean`
+properties: object {complete, failedDatasets, failedShards, warnings }
 
-- `name: string`
+</summary>
 
-- `uuid: string`
+<details>
 
-- `deletedAt: optional string`
+<summary>
 
-### Example
+complete: object {type }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset/$DATASET_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "isPublic": true,
-          "name": "x"
-        }'
-```
+</summary>
 
-#### Response
+type: string
 
-```json
-{
-  "isPublic": true,
-  "name": "friendly dataset name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "deletedAt": "deletedAt"
-}
-```
+<a href="#">Link to this property</a>
 
-## Reads raw data for an event by UUID
+</details>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/raw/{dataset_id}/{event_id}`
+<a href="#">Link to this property</a>
 
-Retrieves the raw data associated with an event. Searches across all shards in the dataset.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+failedDatasets: object {items, type }
 
-  Account ID.
+</summary>
 
-- `dataset_id: string`
+<details>
 
-  Dataset ID.
+<summary>
 
-- `event_id: string`
+items: object {type }
 
-  Event ID.
+</summary>
 
-### Returns
+type: string
 
-- `id: number`
+<a href="#">Link to this property</a>
 
-- `accountId: number`
+</details>
 
-- `created: string`
+<a href="#">Link to this property</a>
 
-- `data: string`
+type: string
 
-- `source: string`
+<a href="#">Link to this property</a>
 
-- `tlp: string`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/raw/$DATASET_ID/$EVENT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "id": 1,
-  "accountId": 1234,
-  "created": "1970-01-01T00:00:00.000Z",
-  "data": "{\"foo\": \"bar\"}",
-  "source": "https://example.com",
-  "tlp": "amber"
-}
-```
+failedShards: object {items, type }
 
-## Domain Types
+</summary>
 
-### Dataset List Response
+<details>
 
-- `DatasetListResponse = array of object { isPublic, name, uuid, deletedAt }`
+<summary>
 
-  - `isPublic: boolean`
+items: object {properties, type }
 
-  - `name: string`
+</summary>
 
-  - `uuid: string`
+<details>
 
-  - `deletedAt: optional string`
+<summary>
 
-### Dataset Get Response
+properties: object {datasetId, shardId }
 
-- `DatasetGetResponse object { isPublic, name, uuid, deletedAt }`
+</summary>
 
-  - `isPublic: boolean`
+<details>
 
-  - `name: string`
+<summary>
 
-  - `uuid: string`
+datasetId: object {type }
 
-  - `deletedAt: optional string`
+</summary>
 
-### Dataset Create Response
+type: string
 
-- `DatasetCreateResponse object { isPublic, name, uuid, deletedAt }`
+<a href="#">Link to this property</a>
 
-  - `isPublic: boolean`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `uuid: string`
+<details>
 
-  - `deletedAt: optional string`
+<summary>
 
-### Dataset Edit Response
+shardId: object {type }
 
-- `DatasetEditResponse object { isPublic, name, uuid, deletedAt }`
+</summary>
 
-  - `isPublic: boolean`
+type: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `uuid: string`
+</details>
 
-  - `deletedAt: optional string`
+<a href="#">Link to this property</a>
 
-### Dataset Raw Response
+</details>
 
-- `DatasetRawResponse object { id, accountId, created, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: number`
+type: string
 
-  - `accountId: number`
+<a href="#">Link to this property</a>
 
-  - `created: string`
+</details>
 
-  - `data: string`
+<a href="#">Link to this property</a>
 
-  - `source: string`
+type: string
 
-  - `tlp: string`
+<a href="#">Link to this property</a>
 
-# Health
+</details>
 
-# Indicator Types
+<a href="#">Link to this property</a>
 
-## Lists all indicator types
+<details>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/indicatorTypes`
+<summary>
 
-This Method is deprecated. Please use /events/dataset/:dataset_id/indicatorTypes instead.
+warnings: object {items, type }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>
 
-### Returns
+items: object {type }
 
-- `items: object { type }`
+</summary>
 
-  - `type: string`
+type: string
 
-- `type: string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/indicatorTypes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+type: string
 
-```json
-{
-  "items": {
-    "type": "string"
-  },
-  "type": "array"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Indicator Type List Response
+<a href="#">Link to this property</a>
 
-- `IndicatorTypeListResponse object { items, type }`
+</details>
 
-  - `items: object { type }`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+type: string
 
-  - `type: string`
+<a href="#">Link to this property</a>
 
-# Raw
+</details>
 
-## Reads data for a raw event
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}`
+<details>
 
-Reads data for a raw event
+<summary>
 
-### Path Parameters
+indicators: object {items, type }
 
-- `account_id: string`
+</summary>
 
-  Account ID.
+<details>
 
-- `event_id: string`
+<summary>
 
-  Event UUID.
+items: object {createdAt, indicatorType, sources, 7 more }
 
-- `raw_id: string`
+</summary>
 
-  Raw Event UUID.
+createdAt: string
 
-### Returns
+formatdate-time
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-- `accountId: number`
+indicatorType: string
 
-- `created: string`
+<a href="#">Link to this property</a>
 
-- `data: unknown`
+<details>
 
-- `source: string`
+<summary>
 
-- `tlp: string`
+sources: array of object {resourceId, resourceType, system }
 
-### Example
+RSS article sources from which this indicator was extracted.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/$EVENT_ID/raw/$RAW_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+resourceId: string
 
-```json
-{
-  "id": "1234",
-  "accountId": 1234,
-  "created": "1970-01-01",
-  "data": {},
-  "source": "https://example.com",
-  "tlp": "amber"
-}
-```
+formatuuid
 
-## Updates a raw event
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}`
+resourceType: "article"
 
-Updates a raw event
+<a href="#">Link to this property</a>
 
-### Path Parameters
+system: "threat-signals"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+</details>
 
-- `event_id: string`
+<a href="#">Link to this property</a>
 
-  Event UUID.
+updatedAt: string
 
-- `raw_id: string`
+formatdate-time
 
-  Raw Event UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+uuid: string
 
-- `data: optional unknown`
+<a href="#">Link to this property</a>
 
-- `source: optional string`
+value: string
 
-- `tlp: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+datasetId: optional string
 
-- `id: string`
+The dataset ID this indicator belongs to. Included in list responses.
 
-- `data: unknown`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/$EVENT_ID/raw/$RAW_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+relatedEvents: optional array of object {datasetId, eventId, eventDate }
 
-```json
-{
-  "id": "1234",
-  "data": {}
-}
-```
+</summary>
 
-## Domain Types
+datasetId: string
 
-### Raw Get Response
+<a href="#">Link to this property</a>
 
-- `RawGetResponse object { id, accountId, created, 3 more }`
+eventId: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `accountId: number`
+eventDate: optional string
 
-  - `created: string`
+ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
 
-  - `data: unknown`
+<a href="#">Link to this property</a>
 
-  - `source: string`
+</details>
 
-  - `tlp: string`
+<a href="#">Link to this property</a>
 
-### Raw Edit Response
+<details>
 
-- `RawEditResponse object { id, data }`
+<summary>
 
-  - `id: string`
+tags: optional array of object {categoryId, categoryName, uuid, value }
 
-  - `data: unknown`
+</summary>
 
-# Relate
+categoryId: optional string
 
-## Removes an event reference
+The UUID of the tag category, or null when the tag is uncategorized.
 
-**delete** `/accounts/{account_id}/cloudforce-one/events/relate/{event_id}`
+<a href="#">Link to this property</a>
 
-Removes an event reference
+categoryName: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+uuid: optional string
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `event_id: string`
+value: optional string
 
-  Event UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { success }`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+tlp: optional string
 
-- `success: boolean`
+Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/relate/$EVENT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "success": true
-  },
-  "success": true
-}
-```
+type: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Relate Delete Response
+</details>
 
-- `RelateDeleteResponse object { success }`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+<details>
 
-# Tags
+<summary>
 
-## Creates a new tag
+pagination: object {properties, type }
 
-**post** `/accounts/{account_id}/cloudforce-one/events/tags/create`
+</summary>
 
-Creates a new tag to be used accross threat events.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+properties: object {count, cursor, has\_more, 4 more }
 
-  Account ID.
+</summary>
 
-### Body Parameters
+<details>
 
-- `value: string`
+<summary>
 
-- `activeDuration: optional string`
+count: object {type }
 
-- `actorCategory: optional string`
+</summary>
 
-  Actor variety. Allowed values: Activist, Competitor, Customer, Crime Syndicate, Former Employee, Nation State, Organized Crime, Nation State Affiliated, Terrorist, Unaffiliated.
+type: string
 
-- `actorCategoryConfidence: optional number`
+<a href="#">Link to this property</a>
 
-  Confidence (1-10) in the actor variety (actorCategory). CFONE-only: stripped from responses to non-CFONE accounts.
+</details>
 
-- `aliases: optional array of object { value, confidence, tlp }`
+<a href="#">Link to this property</a>
 
-  Structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: stripped from responses to non-CFONE accounts.
+<details>
 
-  - `value: string`
+<summary>
 
-  - `confidence: optional number`
+cursor: object {description, nullable, type }
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+</summary>
 
-    - `"red"`
+description: string
 
-    - `"amber"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+nullable: boolean
 
-    - `"white"`
+<a href="#">Link to this property</a>
 
-- `aliasGroupNames: optional array of string`
+type: string
 
-- `aliasGroupNamesInternal: optional array of string`
+<a href="#">Link to this property</a>
 
-- `analyticPriority: optional number`
+</details>
 
-- `attributionConfidence: optional string`
+<a href="#">Link to this property</a>
 
-- `attributionConfidenceScore: optional number`
+<details>
 
-- `attributionOrganization: optional string`
+<summary>
 
-- `categoryUuid: optional string`
+has\_more: object {description, type }
 
-- `dateOfDiscovery: optional string`
+</summary>
 
-  Date the actor was discovered (ISO YYYY-MM-DD).
+description: string
 
-- `externalReferenceLinks: optional array of string`
+<a href="#">Link to this property</a>
 
-- `externalReferences: optional array of object { url, description }`
+type: string
 
-  Structured external references ({ url, description }). Public: returned to all accounts.
+<a href="#">Link to this property</a>
 
-  - `url: string`
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-- `internalAliases: optional array of object { value, confidence, tlp }`
+<details>
 
-  Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+<summary>
 
-  - `value: string`
+page: object {type }
 
-  - `confidence: optional number`
+</summary>
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+type: string
 
-    - `"red"`
+<a href="#">Link to this property</a>
 
-    - `"amber"`
+</details>
 
-    - `"green"`
+<a href="#">Link to this property</a>
 
-    - `"white"`
+<details>
 
-- `internalDescription: optional string`
+<summary>
 
-- `motive: optional string`
+per\_page: object {type }
 
-  Actor motive. Allowed values: Convenience, Fear, Fun, Financial, Grudge, Ideology, Espionage.
+</summary>
 
-- `motiveConfidence: optional number`
+type: string
 
-  Confidence (1-10) in the actor motive. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-- `opsecLevel: optional string`
+</details>
 
-- `originCountryConfidence: optional number`
+<a href="#">Link to this property</a>
 
-  Confidence (1-10) in the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+<details>
 
-- `originCountryISO: optional string`
+<summary>
 
-- `originCountryTlp: optional "red" or "amber" or "green" or "white"`
+total\_count: object {description, nullable, type }
 
-  TLP marking for the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+</summary>
 
-  - `"red"`
+description: string
 
-  - `"amber"`
+<a href="#">Link to this property</a>
 
-  - `"green"`
+nullable: boolean
 
-  - `"white"`
+<a href="#">Link to this property</a>
 
-- `priority: optional number`
+type: string
 
-- `sophisticationLevel: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `uuid: string`
+<a href="#">Link to this property</a>
 
-- `value: string`
+<details>
 
-- `activeDuration: optional string`
+<summary>
 
-- `actorCategory: optional string`
+total\_count\_is\_exact: object {description, type }
 
-- `actorCategoryConfidence: optional number`
+</summary>
 
-  Confidence (1-10) in the actor variety (actorCategory). CFONE-only: stripped from responses to non-CFONE accounts.
+description: string
 
-- `aliases: optional array of object { value, confidence, tlp }`
+<a href="#">Link to this property</a>
 
-  Structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: stripped from responses to non-CFONE accounts.
+type: string
 
-  - `value: string`
+<a href="#">Link to this property</a>
 
-  - `confidence: optional number`
+</details>
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+<a href="#">Link to this property</a>
 
-    - `"red"`
+</details>
 
-    - `"amber"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+type: string
 
-    - `"white"`
+<a href="#">Link to this property</a>
 
-- `aliasGroupNames: optional array of string`
+</details>
 
-- `aliasGroupNamesInternal: optional array of string`
+<a href="#">Link to this property</a>
 
-- `analyticPriority: optional number`
+</details>
 
-- `attributionConfidence: optional string`
+<a href="#">Link to this property</a>
 
-- `attributionConfidenceScore: optional number`
+type: string
 
-- `attributionOrganization: optional string`
+<a href="#">Link to this property</a>
 
-- `categoryName: optional string`
+</details>
 
-- `categoryUuid: optional string`
+[Link to this property](#)%20cloudforce_one.threat_events.indicators%20%3E%20(model)%20indicator_list_response%20%3E%20(schema)>)
 
-- `dateOfDiscovery: optional string`
+#### Threat EventsIndicatorsAggregate
 
-- `externalReferenceLinks: optional array of string`
+##### [Aggregate indicators by column(s)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/indicators/subresources/aggregate/methods/list)
 
-- `externalReferences: optional array of object { url, description }`
+GET/accounts/{account\_id}/cloudforce-one/events/indicators/aggregate
 
-  Structured external references ({ url, description }). Public: returned to all accounts.
+##### ModelsExpand Collapse
 
-  - `url: string`
+<details>
 
-  - `description: optional string`
+<summary>
 
-- `internalAliases: optional array of object { value, confidence, tlp }`
+AggregateListResponse object {aggregateBy, aggregations, failedDatasets, total }
 
-  Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+</summary>
 
-  - `value: string`
+aggregateBy: string
 
-  - `confidence: optional number`
+Column(s) that were aggregated by
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+<a href="#">Link to this property</a>
 
-    - `"red"`
+<details>
 
-    - `"amber"`
+<summary>
 
-    - `"green"`
+aggregations: array of object {count }
 
-    - `"white"`
+Array of aggregation results with dynamic fields based on aggregateBy columns
 
-- `internalDescription: optional string`
+</summary>
 
-- `motive: optional string`
+count: number
 
-- `motiveConfidence: optional number`
+Number of indicators for this aggregation
 
-  Confidence (1-10) in the actor motive. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-- `opsecLevel: optional string`
+</details>
 
-- `originCountryConfidence: optional number`
+<a href="#">Link to this property</a>
 
-  Confidence (1-10) in the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+failedDatasets: number
 
-- `originCountryISO: optional string`
+Number of datasets whose aggregation failed and were excluded from the result
 
-- `originCountryISOAlpha3: optional string`
+<a href="#">Link to this property</a>
 
-- `originCountryTlp: optional "red" or "amber" or "green" or "white"`
+total: number
 
-  TLP marking for the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+Total count in the aggregation: indicator rows when measure=indicators, or linked-event rows when measure=relationships
 
-  - `"red"`
+<a href="#">Link to this property</a>
 
-  - `"amber"`
+</details>
 
-  - `"green"`
+[Link to this property](#)%20cloudforce_one.threat_events.indicators.aggregate%20%3E%20(model)%20aggregate_list_response%20%3E%20(schema)>)
 
-  - `"white"`
+#### Threat EventsIndicatorsTypes
 
-- `priority: optional number`
+##### [Lists indicator types across multiple datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/indicators/subresources/types/methods/list)
 
-- `sophisticationLevel: optional string`
+GET/accounts/{account\_id}/cloudforce-one/events/indicator-types
 
-### Example
+##### ModelsExpand Collapse
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/tags/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "APT28",
-          "actorCategory": "Nation State",
-          "actorCategoryConfidence": 7,
-          "attributionConfidenceScore": 7,
-          "categoryUuid": "12345678-1234-1234-1234-1234567890ab",
-          "dateOfDiscovery": "2024-01-15",
-          "motive": "Espionage",
-          "motiveConfidence": 7,
-          "originCountryConfidence": 7,
-          "originCountryTlp": "amber"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "value": "APT28",
-  "activeDuration": "activeDuration",
-  "actorCategory": "actorCategory",
-  "actorCategoryConfidence": 7,
-  "aliases": [
-    {
-      "value": "Fancy Bear",
-      "confidence": 8,
-      "tlp": "amber"
-    }
-  ],
-  "aliasGroupNames": [
-    "string"
-  ],
-  "aliasGroupNamesInternal": [
-    "string"
-  ],
-  "analyticPriority": 0,
-  "attributionConfidence": "attributionConfidence",
-  "attributionConfidenceScore": 7,
-  "attributionOrganization": "attributionOrganization",
-  "categoryName": "Nation State",
-  "categoryUuid": "12345678-1234-1234-1234-1234567890ab",
-  "dateOfDiscovery": "2024-01-15",
-  "externalReferenceLinks": [
-    "string"
-  ],
-  "externalReferences": [
-    {
-      "url": "https://example.com/report",
-      "description": "Vendor threat report"
-    }
-  ],
-  "internalAliases": [
-    {
-      "value": "Fancy Bear",
-      "confidence": 8,
-      "tlp": "amber"
-    }
-  ],
-  "internalDescription": "internalDescription",
-  "motive": "motive",
-  "motiveConfidence": 7,
-  "opsecLevel": "opsecLevel",
-  "originCountryConfidence": 7,
-  "originCountryISO": "originCountryISO",
-  "originCountryISOAlpha3": "IRN",
-  "originCountryTlp": "amber",
-  "priority": 0,
-  "sophisticationLevel": "sophisticationLevel"
-}
-```
+TypeListResponse object {items, type }
 
-## Domain Types
+</summary>
 
-### Tag Create Response
+<details>
 
-- `TagCreateResponse object { uuid, value, activeDuration, 25 more }`
+<summary>
 
-  - `uuid: string`
+items: object {type }
 
-  - `value: string`
+</summary>
 
-  - `activeDuration: optional string`
+type: string
 
-  - `actorCategory: optional string`
+<a href="#">Link to this property</a>
 
-  - `actorCategoryConfidence: optional number`
+</details>
 
-    Confidence (1-10) in the actor variety (actorCategory). CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-  - `aliases: optional array of object { value, confidence, tlp }`
+type: string
 
-    Structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-    - `value: string`
+</details>
 
-    - `confidence: optional number`
+[Link to this property](#)%20cloudforce_one.threat_events.indicators.types%20%3E%20(model)%20type_list_response%20%3E%20(schema)>)
 
-    - `tlp: optional "red" or "amber" or "green" or "white"`
+#### Threat EventsIndicatorsBy Dataset
 
-      - `"red"`
+##### [Lists indicators](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/indicators/subresources/by_dataset/methods/list)
 
-      - `"amber"`
+Deprecated
 
-      - `"green"`
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/indicators
 
-      - `"white"`
+##### [Reads an indicator](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/indicators/subresources/by_dataset/methods/get)
 
-  - `aliasGroupNames: optional array of string`
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/indicators/{indicator\_id}
 
-  - `aliasGroupNamesInternal: optional array of string`
+##### ModelsExpand Collapse
 
-  - `analyticPriority: optional number`
+<details>
 
-  - `attributionConfidence: optional string`
+<summary>
 
-  - `attributionConfidenceScore: optional number`
+ByDatasetListResponse object {indicators, pagination }
 
-  - `attributionOrganization: optional string`
+</summary>
 
-  - `categoryName: optional string`
+<details>
 
-  - `categoryUuid: optional string`
+<summary>
 
-  - `dateOfDiscovery: optional string`
+indicators: array of object {createdAt, indicatorType, sources, 7 more }
 
-  - `externalReferenceLinks: optional array of string`
+</summary>
 
-  - `externalReferences: optional array of object { url, description }`
+createdAt: string
 
-    Structured external references ({ url, description }). Public: returned to all accounts.
+formatdate-time
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+indicatorType: string
 
-  - `internalAliases: optional array of object { value, confidence, tlp }`
+<a href="#">Link to this property</a>
 
-    Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+<details>
 
-    - `value: string`
+<summary>
 
-    - `confidence: optional number`
+sources: array of object {resourceId, resourceType, system }
 
-    - `tlp: optional "red" or "amber" or "green" or "white"`
+RSS article sources from which this indicator was extracted.
 
-      - `"red"`
+</summary>
 
-      - `"amber"`
+resourceId: string
 
-      - `"green"`
+formatuuid
 
-      - `"white"`
+<a href="#">Link to this property</a>
 
-  - `internalDescription: optional string`
+resourceType: "article"
 
-  - `motive: optional string`
+<a href="#">Link to this property</a>
 
-  - `motiveConfidence: optional number`
+system: "threat-signals"
 
-    Confidence (1-10) in the actor motive. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-  - `opsecLevel: optional string`
+</details>
 
-  - `originCountryConfidence: optional number`
+<a href="#">Link to this property</a>
 
-    Confidence (1-10) in the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+updatedAt: string
 
-  - `originCountryISO: optional string`
+formatdate-time
 
-  - `originCountryISOAlpha3: optional string`
+<a href="#">Link to this property</a>
 
-  - `originCountryTlp: optional "red" or "amber" or "green" or "white"`
+uuid: string
 
-    TLP marking for the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-    - `"red"`
+value: string
 
-    - `"amber"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+datasetId: optional string
 
-    - `"white"`
+The dataset ID this indicator belongs to. Included in list responses.
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-  - `sophisticationLevel: optional string`
+<details>
 
-# Event Tags
+<summary>
 
-## Adds a tag to an event
+relatedEvents: optional array of object {datasetId, eventId, eventDate }
 
-**post** `/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}/create`
+</summary>
 
-Adds a tag to an event
+datasetId: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+eventId: string
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `event_id: string`
+eventDate: optional string
 
-  Event UUID.
+ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `tags: array of string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { success }`
+<details>
 
-  - `success: boolean`
+<summary>
 
-- `success: boolean`
+tags: optional array of object {categoryId, categoryName, uuid, value }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/event_tag/$EVENT_ID/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "tags": [
-            "botnet"
-          ]
-        }'
-```
+categoryId: optional string
 
-#### Response
+The UUID of the tag category, or null when the tag is uncategorized.
 
-```json
-{
-  "result": {
-    "success": true
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Removes a tag from an event
+categoryName: optional string
 
-**delete** `/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}`
+<a href="#">Link to this property</a>
 
-Removes a tag from an event
+uuid: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+value: optional string
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `event_id: string`
+</details>
 
-  Event UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+tlp: optional string
 
-- `result: object { success }`
+Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/event_tag/$EVENT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "result": {
-    "success": true
-  },
-  "success": true
-}
-```
+pagination: object {page, pageSize, totalCount, totalPages }
 
-## Domain Types
+</summary>
 
-### Event Tag Create Response
+page: number
 
-- `EventTagCreateResponse object { success }`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+pageSize: number
 
-### Event Tag Delete Response
+<a href="#">Link to this property</a>
 
-- `EventTagDeleteResponse object { success }`
+totalCount: number
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-# Target Industries
+totalPages: number
 
-## Lists target industries across multiple datasets
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/targetIndustries`
+</details>
 
-Lists target industries across multiple datasets
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20cloudforce_one.threat_events.indicators.by_dataset%20%3E%20(model)%20by_dataset_list_response%20%3E%20(schema)>)
 
-  Account ID.
+<details>
 
-### Query Parameters
+<summary>
 
-- `datasetIds: optional array of string`
+ByDatasetGetResponse object {createdAt, indicatorType, updatedAt, 6 more }
 
-  Array of dataset IDs to query target industries from. If not provided, uses the default dataset.
+</summary>
 
-### Returns
+createdAt: string
 
-- `items: object { type }`
+formatdate-time
 
-  - `type: string`
+<a href="#">Link to this property</a>
 
-- `type: string`
+indicatorType: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/targetIndustries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+updatedAt: string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "items": {
-    "type": "string"
-  },
-  "type": "array"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+uuid: string
 
-### Target Industry List Response
+<a href="#">Link to this property</a>
 
-- `TargetIndustryListResponse object { items, type }`
+value: string
 
-  - `items: object { type }`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+datasetId: optional string
 
-  - `type: string`
+The dataset ID this indicator belongs to. Included in list responses.
 
-# Insights
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+relatedEvents: optional array of object {datasetId, eventId, eventDate }
+
+</summary>
+
+datasetId: string
+
+<a href="#">Link to this property</a>
+
+eventId: string
+
+<a href="#">Link to this property</a>
+
+eventDate: optional string
+
+ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tags: optional array of object {categoryId, categoryName, uuid, value }
+
+</summary>
+
+categoryId: optional string
+
+The UUID of the tag category, or null when the tag is uncategorized.
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+uuid: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tlp: optional string
+
+Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.indicators.by_dataset%20%3E%20(model)%20by_dataset_get_response%20%3E%20(schema)>)
+
+#### Threat EventsIndicatorsBy DatasetTags
+
+##### [List mirrored tags for an indicator dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/indicators/subresources/by_dataset/subresources/tags/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/indicators/tags
+
+##### ModelsExpand Collapse
+
+TagListResponse = array of unknown
+
+Array of mirror tag rows
+
+[Link to this property](#)%20cloudforce_one.threat_events.indicators.by_dataset.tags%20%3E%20(model)%20tag_list_response%20%3E%20(schema)>)
+
+#### Threat EventsAttackers
+
+##### [Lists attackers across multiple datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/attackers/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/attackers
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+AttackerListResponse object {items, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+items: object {type }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.attackers%20%3E%20(model)%20attacker_list_response%20%3E%20(schema)>)
+
+#### Threat EventsCategories
+
+##### [Lists categories across multiple datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/categories
+
+##### [Reads a category](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/get)
+
+GET/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
+
+##### [Creates a new category](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/create)
+
+POST/accounts/{account\_id}/cloudforce-one/events/categories/create
+
+##### [Updates a category](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/edit)
+
+PATCH/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
+
+##### [Deletes a category](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/delete)
+
+DELETE/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+CategoryListResponse = array of object {killChain, name, uuid, 3 more }
+
+</summary>
+
+killChain: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+mitreAttack: optional array of string
+
+<a href="#">Link to this property</a>
+
+mitreCapec: optional array of string
+
+<a href="#">Link to this property</a>
+
+shortname: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryGetResponse object {killChain, name, uuid, 3 more }
+
+</summary>
+
+killChain: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+mitreAttack: optional array of string
+
+<a href="#">Link to this property</a>
+
+mitreCapec: optional array of string
+
+<a href="#">Link to this property</a>
+
+shortname: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryCreateResponse object {killChain, name, uuid, 3 more }
+
+</summary>
+
+killChain: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+mitreAttack: optional array of string
+
+<a href="#">Link to this property</a>
+
+mitreCapec: optional array of string
+
+<a href="#">Link to this property</a>
+
+shortname: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryEditResponse object {killChain, name, uuid, 3 more }
+
+</summary>
+
+killChain: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+mitreAttack: optional array of string
+
+<a href="#">Link to this property</a>
+
+mitreCapec: optional array of string
+
+<a href="#">Link to this property</a>
+
+shortname: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryDeleteResponse object {uuid }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_delete_response%20%3E%20(schema)>)
+
+#### Threat EventsCategoriesCatalog
+
+##### [Lists categories](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/subresources/catalog/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/categories/catalog
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+CatalogListResponse = array of object {killChain, name, uuid, 3 more }
+
+</summary>
+
+killChain: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+mitreAttack: optional array of string
+
+<a href="#">Link to this property</a>
+
+mitreCapec: optional array of string
+
+<a href="#">Link to this property</a>
+
+shortname: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories.catalog%20%3E%20(model)%20catalog_list_response%20%3E%20(schema)>)
+
+#### Threat EventsCountries
+
+##### [Retrieves countries information for all countries](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/countries/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/countries
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+CountryListResponse = array of object {result, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+result: array of object {alpha2, alpha3, name }
+
+</summary>
+
+alpha2: string
+
+<a href="#">Link to this property</a>
+
+alpha3: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.countries%20%3E%20(model)%20country_list_response%20%3E%20(schema)>)
+
+#### Threat EventsCrons
+
+#### Threat EventsDatasets
+
+##### [Lists all datasets in an account](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/dataset
+
+##### [Reads a dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/get)
+
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}
+
+##### [Creates a dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/create)
+
+POST/accounts/{account\_id}/cloudforce-one/events/dataset/create
+
+##### [Updates an existing dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/edit)
+
+PATCH/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}
+
+##### [Delete a dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/delete)
+
+DELETE/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}
+
+##### [Reads raw data for an event by UUID](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/raw)
+
+GET/accounts/{account\_id}/cloudforce-one/events/raw/{dataset\_id}/{event\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+DatasetListResponse = array of object {indicatorWriteMode, isAnalytics, isPublic, 3 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+indicatorWriteMode: "read\_only"or "create\_only"or "full"
+
+Effective indicator mutation capability after account/dataset authorization and dataset storage capability are applied. API Gateway method permissions are separate and must also allow the requested operation.
+
+</summary>
+
+One of the following:
+
+"read\_only"
+
+<a href="#">Link to this property</a>
+
+"create\_only"
+
+<a href="#">Link to this property</a>
+
+"full"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isAnalytics: boolean
+
+<a href="#">Link to this property</a>
+
+isPublic: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+deletedAt: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DatasetGetResponse object {isAnalytics, isPublic, name, uuid }
+
+</summary>
+
+isAnalytics: boolean
+
+<a href="#">Link to this property</a>
+
+isPublic: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DatasetCreateResponse object {isAnalytics, isPublic, name, uuid }
+
+</summary>
+
+isAnalytics: boolean
+
+<a href="#">Link to this property</a>
+
+isPublic: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DatasetEditResponse object {isAnalytics, isPublic, name, uuid }
+
+</summary>
+
+isAnalytics: boolean
+
+<a href="#">Link to this property</a>
+
+isPublic: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DatasetDeleteResponse object {name, uuid }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_delete_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DatasetRawResponse object {id, accountId, created, 3 more }
+
+</summary>
+
+id: number
+
+<a href="#">Link to this property</a>
+
+accountId: number
+
+<a href="#">Link to this property</a>
+
+created: string
+
+<a href="#">Link to this property</a>
+
+data: string
+
+<a href="#">Link to this property</a>
+
+source: string
+
+<a href="#">Link to this property</a>
+
+tlp: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_raw_response%20%3E%20(schema)>)
+
+#### Threat EventsDatasetsHealth
+
+#### Threat EventsDatasetsEvents
+
+##### [Reads an event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/subresources/events/methods/get)
+
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/events/{event\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+EventGetResponse object {attacker, attackerCountry, attackerCountryAlpha3, 26 more }
+
+</summary>
+
+attacker: string
+
+<a href="#">Link to this property</a>
+
+attackerCountry: string
+
+<a href="#">Link to this property</a>
+
+attackerCountryAlpha3: string
+
+<a href="#">Link to this property</a>
+
+category: string
+
+<a href="#">Link to this property</a>
+
+datasetId: string
+
+<a href="#">Link to this property</a>
+
+date: string
+
+<a href="#">Link to this property</a>
+
+event: string
+
+<a href="#">Link to this property</a>
+
+hasChildren: boolean
+
+<a href="#">Link to this property</a>
+
+indicator: string
+
+<a href="#">Link to this property</a>
+
+indicatorType: string
+
+<a href="#">Link to this property</a>
+
+indicatorTypeId: number
+
+<a href="#">Link to this property</a>
+
+killChain: number
+
+<a href="#">Link to this property</a>
+
+mitreAttack: array of string
+
+<a href="#">Link to this property</a>
+
+mitreCapec: array of string
+
+<a href="#">Link to this property</a>
+
+numReferenced: number
+
+<a href="#">Link to this property</a>
+
+numReferences: number
+
+<a href="#">Link to this property</a>
+
+rawId: string
+
+<a href="#">Link to this property</a>
+
+referenced: array of string
+
+<a href="#">Link to this property</a>
+
+referencedIds: array of number
+
+<a href="#">Link to this property</a>
+
+references: array of string
+
+<a href="#">Link to this property</a>
+
+referencesIds: array of number
+
+<a href="#">Link to this property</a>
+
+tags: array of string
+
+<a href="#">Link to this property</a>
+
+targetCountry: string
+
+<a href="#">Link to this property</a>
+
+targetCountryAlpha3: string
+
+<a href="#">Link to this property</a>
+
+targetIndustry: string
+
+<a href="#">Link to this property</a>
+
+tlp: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+insight: optional string
+
+<a href="#">Link to this property</a>
+
+releasabilityId: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets.events%20%3E%20(model)%20event_get_response%20%3E%20(schema)>)
+
+#### Threat EventsRaw
+
+##### [Reads data for a raw event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/raw/methods/get)
+
+GET/accounts/{account\_id}/cloudforce-one/events/{event\_id}/raw/{raw\_id}
+
+##### [Updates a raw event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/raw/methods/edit)
+
+PATCH/accounts/{account\_id}/cloudforce-one/events/{event\_id}/raw/{raw\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+RawGetResponse object {id, accountId, created, 3 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+accountId: number
+
+<a href="#">Link to this property</a>
+
+created: string
+
+<a href="#">Link to this property</a>
+
+data: unknown
+
+<a href="#">Link to this property</a>
+
+source: string
+
+<a href="#">Link to this property</a>
+
+tlp: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.raw%20%3E%20(model)%20raw_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+RawEditResponse object {id, data }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+data: unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.raw%20%3E%20(model)%20raw_edit_response%20%3E%20(schema)>)
+
+#### Threat EventsRelate
+
+##### [Removes an event reference](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/relate/methods/delete)
+
+DELETE/accounts/{account\_id}/cloudforce-one/events/relate/{event\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+RelateDeleteResponse object {success }
+
+</summary>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.relate%20%3E%20(model)%20relate_delete_response%20%3E%20(schema)>)
+
+#### Threat EventsTags
+
+##### [Lists all tags (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/tags
+
+##### [Creates a new tag](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/methods/create)
+
+POST/accounts/{account\_id}/cloudforce-one/events/tags/create
+
+##### [Updates a tag (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/methods/edit)
+
+PATCH/accounts/{account\_id}/cloudforce-one/events/tags/{tag\_uuid}
+
+##### [Deletes a tag (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/methods/delete)
+
+DELETE/accounts/{account\_id}/cloudforce-one/events/tags/{tag\_uuid}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+TagListResponse object {pagination, tags }
+
+</summary>
+
+<details>
+
+<summary>
+
+pagination: object {page, pageSize, totalCount, totalPages }
+
+</summary>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+pageSize: number
+
+<a href="#">Link to this property</a>
+
+totalCount: number
+
+<a href="#">Link to this property</a>
+
+totalPages: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tags: array of object {uuid, value, activeDuration, 34 more }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+activeDuration: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+activeDuration\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+actorCategory: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actorCategory\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+aliases: optional array of object {value, confidence, tlp }
+
+Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts).
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+aliasGroupNames: optional array of string
+
+<a href="#">Link to this property</a>
+
+aliasGroupNamesInternal: optional array of string
+
+<a href="#">Link to this property</a>
+
+attributionOrganization: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+attributionOrganization\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+categoryUuid: optional string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+Overall tag confidence (1-10).
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+dateOfDiscovery: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+externalReferenceLinks: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences: optional array of object {url, description }
+
+Structured external references ({ url, description }). Public: returned to all accounts.
+
+</summary>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences\_annotated: optional array of object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+internalAliases: optional array of object {value, confidence, tlp }
+
+Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+internalDescription: optional string
+
+<a href="#">Link to this property</a>
+
+lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+motive: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+motive\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+opsecLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+opsecLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+originCountryISO: optional string
+
+ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+originCountryISO\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+priority\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Parsed custom field values. Null when the tag has no custom fields.
+
+<a href="#">Link to this property</a>
+
+sophisticationLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sophisticationLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+Tag-level TLP handling marking.
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TagCreateResponse object {uuid, value, activeDuration, 34 more }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+activeDuration: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+activeDuration\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+actorCategory: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actorCategory\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+aliases: optional array of object {value, confidence, tlp }
+
+Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts).
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+aliasGroupNames: optional array of string
+
+<a href="#">Link to this property</a>
+
+aliasGroupNamesInternal: optional array of string
+
+<a href="#">Link to this property</a>
+
+attributionOrganization: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+attributionOrganization\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+categoryUuid: optional string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+Overall tag confidence (1-10).
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+dateOfDiscovery: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+externalReferenceLinks: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences: optional array of object {url, description }
+
+Structured external references ({ url, description }). Public: returned to all accounts.
+
+</summary>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences\_annotated: optional array of object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+internalAliases: optional array of object {value, confidence, tlp }
+
+Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+internalDescription: optional string
+
+<a href="#">Link to this property</a>
+
+lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+motive: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+motive\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+opsecLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+opsecLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+originCountryISO: optional string
+
+ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+originCountryISO\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+priority\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Parsed custom field values. Null when the tag has no custom fields.
+
+<a href="#">Link to this property</a>
+
+sophisticationLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sophisticationLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+Tag-level TLP handling marking.
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TagEditResponse object {uuid, value, activeDuration, 34 more }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+activeDuration: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+activeDuration\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+actorCategory: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actorCategory\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+aliases: optional array of object {value, confidence, tlp }
+
+Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts).
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+aliasGroupNames: optional array of string
+
+<a href="#">Link to this property</a>
+
+aliasGroupNamesInternal: optional array of string
+
+<a href="#">Link to this property</a>
+
+attributionOrganization: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+attributionOrganization\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+categoryUuid: optional string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+Overall tag confidence (1-10).
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+dateOfDiscovery: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+externalReferenceLinks: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences: optional array of object {url, description }
+
+Structured external references ({ url, description }). Public: returned to all accounts.
+
+</summary>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences\_annotated: optional array of object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+internalAliases: optional array of object {value, confidence, tlp }
+
+Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+internalDescription: optional string
+
+<a href="#">Link to this property</a>
+
+lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+motive: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+motive\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+opsecLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+opsecLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+originCountryISO: optional string
+
+ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+originCountryISO\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+priority\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Parsed custom field values. Null when the tag has no custom fields.
+
+<a href="#">Link to this property</a>
+
+sophisticationLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sophisticationLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+Tag-level TLP handling marking.
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TagDeleteResponse object {uuid }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_delete_response%20%3E%20(schema)>)
+
+#### Threat EventsTagsCategories
+
+##### [Lists all tag categories (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/categories/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/tags/categories
+
+##### [Creates a new tag category (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/categories/methods/create)
+
+POST/accounts/{account\_id}/cloudforce-one/events/tags/categories/create
+
+##### [Updates a tag category (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/categories/methods/edit)
+
+PATCH/accounts/{account\_id}/cloudforce-one/events/tags/categories/{category\_uuid}
+
+##### [Deletes a tag category (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/categories/methods/delete)
+
+DELETE/accounts/{account\_id}/cloudforce-one/events/tags/categories/{category\_uuid}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+CategoryListResponse object {categories }
+
+</summary>
+
+<details>
+
+<summary>
+
+categories: array of object {name, uuid, createdAt, 3 more }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: optional array of object {key, kind, allowedValues, 11 more }
+
+Parsed FieldDefinition\[] defining custom fields for this category, or null if none.
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: "string"or "number"or "enum"or 3 more
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"enum"
+
+<a href="#">Link to this property</a>
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"array"
+
+<a href="#">Link to this property</a>
+
+"object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+allowedValues: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+annotations: optional object {confidence, tlp }
+
+</summary>
+
+confidence: optional boolean
+
+<a href="#">Link to this property</a>
+
+tlp: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+deprecated: optional boolean
+
+Marks a field as unavailable for new values while retaining its definition for historical values.
+
+<a href="#">Link to this property</a>
+
+deprecatedValues: optional array of string
+
+Enum values unavailable for new writes but retained in allowedValues for historical display.
+
+<a href="#">Link to this property</a>
+
+element: optional unknown
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enforcement: optional "error"or "warn"or "off"
+
+</summary>
+
+One of the following:
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"warn"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+format: optional "date"or "url"or "duration"or "country"
+
+</summary>
+
+One of the following:
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"url"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"country"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+label: optional string
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+maxLength: optional number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+numberConstraint: optional object {integer, max, min }
+
+</summary>
+
+integer: optional boolean
+
+<a href="#">Link to this property</a>
+
+max: optional number
+
+<a href="#">Link to this property</a>
+
+min: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Map of property key to FieldDefinition for object fields. Required when kind is ‘object’. See FieldDefinition (recursive).
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryCreateResponse object {name, uuid, createdAt, 3 more }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: optional array of object {key, kind, allowedValues, 11 more }
+
+Parsed FieldDefinition\[] defining custom fields for this category, or null if none.
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: "string"or "number"or "enum"or 3 more
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"enum"
+
+<a href="#">Link to this property</a>
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"array"
+
+<a href="#">Link to this property</a>
+
+"object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+allowedValues: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+annotations: optional object {confidence, tlp }
+
+</summary>
+
+confidence: optional boolean
+
+<a href="#">Link to this property</a>
+
+tlp: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+deprecated: optional boolean
+
+Marks a field as unavailable for new values while retaining its definition for historical values.
+
+<a href="#">Link to this property</a>
+
+deprecatedValues: optional array of string
+
+Enum values unavailable for new writes but retained in allowedValues for historical display.
+
+<a href="#">Link to this property</a>
+
+element: optional unknown
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enforcement: optional "error"or "warn"or "off"
+
+</summary>
+
+One of the following:
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"warn"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+format: optional "date"or "url"or "duration"or "country"
+
+</summary>
+
+One of the following:
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"url"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"country"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+label: optional string
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+maxLength: optional number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+numberConstraint: optional object {integer, max, min }
+
+</summary>
+
+integer: optional boolean
+
+<a href="#">Link to this property</a>
+
+max: optional number
+
+<a href="#">Link to this property</a>
+
+min: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Map of property key to FieldDefinition for object fields. Required when kind is ‘object’. See FieldDefinition (recursive).
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.categories%20%3E%20(model)%20category_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryEditResponse object {name, uuid, createdAt, 3 more }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: optional array of object {key, kind, allowedValues, 11 more }
+
+Parsed FieldDefinition\[] defining custom fields for this category, or null if none.
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: "string"or "number"or "enum"or 3 more
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"enum"
+
+<a href="#">Link to this property</a>
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"array"
+
+<a href="#">Link to this property</a>
+
+"object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+allowedValues: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+annotations: optional object {confidence, tlp }
+
+</summary>
+
+confidence: optional boolean
+
+<a href="#">Link to this property</a>
+
+tlp: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+deprecated: optional boolean
+
+Marks a field as unavailable for new values while retaining its definition for historical values.
+
+<a href="#">Link to this property</a>
+
+deprecatedValues: optional array of string
+
+Enum values unavailable for new writes but retained in allowedValues for historical display.
+
+<a href="#">Link to this property</a>
+
+element: optional unknown
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enforcement: optional "error"or "warn"or "off"
+
+</summary>
+
+One of the following:
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"warn"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+format: optional "date"or "url"or "duration"or "country"
+
+</summary>
+
+One of the following:
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"url"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"country"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+label: optional string
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+maxLength: optional number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+numberConstraint: optional object {integer, max, min }
+
+</summary>
+
+integer: optional boolean
+
+<a href="#">Link to this property</a>
+
+max: optional number
+
+<a href="#">Link to this property</a>
+
+min: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Map of property key to FieldDefinition for object fields. Required when kind is ‘object’. See FieldDefinition (recursive).
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryDeleteResponse object {uuid }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.categories%20%3E%20(model)%20category_delete_response%20%3E%20(schema)>)
+
+#### Threat EventsTagsIndicators
+
+##### [List indicators related to a tag](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/indicators/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/tags/{tag\_uuid}/indicators
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+IndicatorListResponse object {indicators, pagination }
+
+</summary>
+
+<details>
+
+<summary>
+
+indicators: array of object {createdAt, indicatorType, updatedAt, 6 more }
+
+</summary>
+
+createdAt: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+indicatorType: string
+
+<a href="#">Link to this property</a>
+
+updatedAt: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+datasetId: optional string
+
+The dataset ID this indicator belongs to. Included in list responses.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+relatedEvents: optional array of object {datasetId, eventId, eventDate }
+
+</summary>
+
+datasetId: string
+
+<a href="#">Link to this property</a>
+
+eventId: string
+
+<a href="#">Link to this property</a>
+
+eventDate: optional string
+
+ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tags: optional array of object {categoryId, categoryName, uuid, value }
+
+</summary>
+
+categoryId: optional string
+
+The UUID of the tag category, or null when the tag is uncategorized.
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+uuid: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tlp: optional string
+
+Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pagination: object {page, pageSize, totalCount, totalPages }
+
+</summary>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+pageSize: number
+
+<a href="#">Link to this property</a>
+
+totalCount: number
+
+<a href="#">Link to this property</a>
+
+totalPages: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.indicators%20%3E%20(model)%20indicator_list_response%20%3E%20(schema)>)
+
+#### Threat EventsTagsIndicatorsBy Dataset
+
+##### [List indicators related to a tag within a dataset (deprecated)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/indicators/subresources/by_dataset/methods/list)
+
+Deprecated
+
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/tags/{tag\_uuid}/indicators
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ByDatasetListResponse object {indicators, pagination }
+
+</summary>
+
+<details>
+
+<summary>
+
+indicators: array of object {createdAt, indicatorType, updatedAt, 6 more }
+
+</summary>
+
+createdAt: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+indicatorType: string
+
+<a href="#">Link to this property</a>
+
+updatedAt: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+datasetId: optional string
+
+The dataset ID this indicator belongs to. Included in list responses.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+relatedEvents: optional array of object {datasetId, eventId, eventDate }
+
+</summary>
+
+datasetId: string
+
+<a href="#">Link to this property</a>
+
+eventId: string
+
+<a href="#">Link to this property</a>
+
+eventDate: optional string
+
+ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tags: optional array of object {categoryId, categoryName, uuid, value }
+
+</summary>
+
+categoryId: optional string
+
+The UUID of the tag category, or null when the tag is uncategorized.
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+uuid: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tlp: optional string
+
+Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pagination: object {page, pageSize, totalCount, totalPages }
+
+</summary>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+pageSize: number
+
+<a href="#">Link to this property</a>
+
+totalCount: number
+
+<a href="#">Link to this property</a>
+
+totalPages: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.indicators.by_dataset%20%3E%20(model)%20by_dataset_list_response%20%3E%20(schema)>)
+
+#### Threat EventsEvent Tags
+
+##### [Adds a tag to an event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/event_tags/methods/create)
+
+POST/accounts/{account\_id}/cloudforce-one/events/event\_tag/{event\_id}/create
+
+##### [Removes a tag from an event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/event_tags/methods/delete)
+
+DELETE/accounts/{account\_id}/cloudforce-one/events/event\_tag/{event\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+EventTagCreateResponse object {success }
+
+</summary>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(model)%20event_tag_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+EventTagDeleteResponse object {success }
+
+</summary>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(model)%20event_tag_delete_response%20%3E%20(schema)>)
+
+#### Threat EventsTarget Industries
+
+##### [Lists target industries across multiple datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/target_industries/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/targetIndustries
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+TargetIndustryListResponse object {items, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+items: object {type }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries%20%3E%20(model)%20target_industry_list_response%20%3E%20(schema)>)
+
+#### Threat EventsTarget IndustriesBy Dataset
+
+##### [Lists all target industries for a specific dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/target_industries/subresources/by_dataset/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/targetIndustries
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ByDatasetListResponse object {items, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+items: object {type }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries.by_dataset%20%3E%20(model)%20by_dataset_list_response%20%3E%20(schema)>)
+
+#### Threat EventsTarget IndustriesCatalog
+
+##### [Lists all target industries from industry map catalog](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/target_industries/subresources/catalog/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/targetIndustries/catalog
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+CatalogListResponse object {items, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+items: object {type }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries.catalog%20%3E%20(model)%20catalog_list_response%20%3E%20(schema)>)
+
+#### Threat EventsInsights

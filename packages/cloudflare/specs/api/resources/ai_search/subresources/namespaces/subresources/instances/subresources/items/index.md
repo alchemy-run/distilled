@@ -1,1091 +1,989 @@
+---
+title: Items
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces)
+
+[Instances](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Items
 
-## Items List.
+##### [Items List.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/list)
 
-**get** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items`
+GET/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items
 
-Lists indexed items in an AI Search instance.
+##### [Upload Item.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/upload)
 
-### Path Parameters
+POST/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items
 
-- `account_id: string`
+##### [Create or Update Item.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/create_or_update)
 
-- `name: string`
+PUT/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items
 
-- `id: string`
+##### [Get Item.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/get)
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+GET/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items/{item\_id}
 
-### Query Parameters
+##### [Sync Item.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/sync)
 
-- `item_id: optional string`
+PATCH/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items/{item\_id}
 
-  Filter items by their unique ID. Returns at most one item.
+##### [Delete Item.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/delete)
 
-- `metadata_filter: optional string`
+DELETE/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items/{item\_id}
 
-  JSON-encoded metadata filter using Vectorize filter syntax. Examples: {"folder":"reports/"}, {"timestamp":{"$gte":1700000000000}}, {"folder":{"$in":["docs/","reports/"]}}
+##### [Download Item Content.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/download)
 
-- `page: optional number`
+GET/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items/{item\_id}/download
 
-- `per_page: optional number`
+##### [Item Logs.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/logs)
 
-- `search: optional string`
+GET/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items/{item\_id}/logs
 
-- `sort_by: optional "status" or "modified_at"`
+##### [List Item Chunks.](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items/methods/chunks)
 
-  Sort order for items. "status" (default) sorts by status priority then last_seen_at. "modified_at" sorts by file modification time (most recent first), falling back to created_at.
+GET/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items/{item\_id}/chunks
 
-  - `"status"`
+##### ModelsExpand Collapse
 
-  - `"modified_at"`
+<details>
 
-- `source: optional string`
+<summary>
 
-  Filter items by source_id. Use "builtin" for uploaded files, or a source identifier like "web-crawler:https://example.com".
+ItemListResponse object {id, checksum, chunks\_count, 10 more }
 
-- `status: optional "queued" or "running" or "completed" or 3 more`
+</summary>
 
-  - `"queued"`
+id: string
 
-  - `"running"`
+<a href="#">Link to this property</a>
 
-  - `"completed"`
+checksum: string
 
-  - `"error"`
+<a href="#">Link to this property</a>
 
-  - `"skipped"`
+chunks\_count: number
 
-  - `"outdated"`
+<a href="#">Link to this property</a>
 
-### Returns
+created\_at: string
 
-- `result: array of object { id, checksum, chunks_count, 9 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `checksum: string`
+file\_size: number
 
-  - `chunks_count: number`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+key: string
 
-  - `file_size: number`
+<a href="#">Link to this property</a>
 
-  - `key: string`
+last\_seen\_at: string
 
-  - `last_seen_at: string`
+formatdate-time
 
-  - `namespace: string`
+<a href="#">Link to this property</a>
 
-  - `next_action: "INDEX" or "DELETE"`
+<details>
 
-    - `"INDEX"`
+<summary>
 
-    - `"DELETE"`
+metadata: map\[stringor numberor boolean]
 
-  - `source_id: string`
+Built-in, configured filterable, and retained source metadata for the item.
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+</summary>
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+One of the following:
 
-    - `"queued"`
+string
 
-    - `"running"`
+<a href="#">Link to this property</a>
 
-    - `"completed"`
+number
 
-    - `"error"`
+<a href="#">Link to this property</a>
 
-    - `"skipped"`
+boolean
 
-    - `"outdated"`
+<a href="#">Link to this property</a>
 
-  - `error: optional string`
+</details>
 
-- `result_info: object { count, page, total_count, per_page }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+namespace: string
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-- `success: boolean`
+next\_action: "INDEX"or "DELETE"
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"INDEX"
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "checksum": "checksum",
-      "chunks_count": 0,
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "file_size": 0,
-      "key": "key",
-      "last_seen_at": "2019-12-27T18:11:19.117Z",
-      "namespace": "namespace",
-      "next_action": "INDEX",
-      "source_id": "source_id",
-      "status": "queued",
-      "error": "error"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "total_count": 0,
-    "per_page": 5
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Upload Item.
+"DELETE"
 
-**post** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items`
+<a href="#">Link to this property</a>
 
-Uploads a file to a managed AI Search instance via multipart/form-data (max 4MB).
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+source\_id: string
 
-- `name: string`
+Identifies which data source this item belongs to. “builtin” for uploaded files, “{type}:{source}” for external sources, null for legacy items.
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+<details>
 
-### Returns
+<summary>
 
-- `result: object { id, checksum, chunks_count, 9 more }`
+status: "queued"or "running"or "completed"or 3 more
 
-  - `id: string`
+</summary>
 
-  - `checksum: string`
+One of the following:
 
-  - `chunks_count: number`
+"queued"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `file_size: number`
+"running"
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+"completed"
 
-  - `namespace: string`
+<a href="#">Link to this property</a>
 
-  - `next_action: "INDEX" or "DELETE"`
+"error"
 
-    - `"INDEX"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+"skipped"
 
-  - `source_id: string`
+<a href="#">Link to this property</a>
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+"outdated"
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+<a href="#">Link to this property</a>
 
-    - `"queued"`
+</details>
 
-    - `"running"`
+<a href="#">Link to this property</a>
 
-    - `"completed"`
+error: optional string
 
-    - `"error"`
+<a href="#">Link to this property</a>
 
-    - `"skipped"`
+</details>
 
-    - `"outdated"`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(model)%20item_list_response%20%3E%20(schema)>)
 
-  - `error: optional string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+ItemUploadResponse object {id, checksum, chunks\_count, 11 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F file='{"file":"Example data"}'
-```
+</summary>
 
-#### Response
+id: string
 
-```json
-{
-  "result": {
-    "id": "id",
-    "checksum": "checksum",
-    "chunks_count": 0,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "file_size": 0,
-    "key": "key",
-    "last_seen_at": "2019-12-27T18:11:19.117Z",
-    "namespace": "namespace",
-    "next_action": "INDEX",
-    "source_id": "source_id",
-    "status": "queued",
-    "error": "error"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create or Update Item.
+checksum: string
 
-**put** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items`
+<a href="#">Link to this property</a>
 
-Creates or updates an indexed item in an AI Search instance.
+chunks\_count: number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created\_at: string
 
-- `name: string`
+formatdate-time
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+file\_size: number
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `key: string`
+key: string
 
-  Item key / filename. Must not exceed 128 characters.
+<a href="#">Link to this property</a>
 
-- `next_action: "INDEX"`
+last\_seen\_at: string
 
-  - `"INDEX"`
+formatdate-time
 
-- `wait_for_completion: optional boolean`
+<a href="#">Link to this property</a>
 
-  Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion confirmation (up to 40s) so the returned item reflects a queryable state. On timeout the item is returned in `running` state and the background alarm continues polling. Defaults to false.
+<details>
 
-### Returns
+<summary>
 
-- `result: object { id, checksum, chunks_count, 9 more }`
+metadata: map\[stringor numberor boolean]
 
-  - `id: string`
+Built-in, configured filterable, and retained source metadata for the item.
 
-  - `checksum: string`
+</summary>
 
-  - `chunks_count: number`
+One of the following:
 
-  - `created_at: string`
+string
 
-  - `file_size: number`
+<a href="#">Link to this property</a>
 
-  - `key: string`
+number
 
-  - `last_seen_at: string`
+<a href="#">Link to this property</a>
 
-  - `namespace: string`
+boolean
 
-  - `next_action: "INDEX" or "DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"INDEX"`
+</details>
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-  - `source_id: string`
+namespace: string
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+<a href="#">Link to this property</a>
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+<details>
 
-    - `"queued"`
+<summary>
 
-    - `"running"`
+next\_action: "INDEX"or "DELETE"
 
-    - `"completed"`
+</summary>
 
-    - `"error"`
+One of the following:
 
-    - `"skipped"`
+"INDEX"
 
-    - `"outdated"`
+<a href="#">Link to this property</a>
 
-  - `error: optional string`
+"DELETE"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "key": "key",
-          "next_action": "INDEX"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+source\_id: string
 
-```json
-{
-  "result": {
-    "id": "id",
-    "checksum": "checksum",
-    "chunks_count": 0,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "file_size": 0,
-    "key": "key",
-    "last_seen_at": "2019-12-27T18:11:19.117Z",
-    "namespace": "namespace",
-    "next_action": "INDEX",
-    "source_id": "source_id",
-    "status": "queued",
-    "error": "error"
-  },
-  "success": true
-}
-```
+Identifies which data source this item belongs to. “builtin” for uploaded files, “{type}:{source}” for external sources, null for legacy items.
 
-## Get Item.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}`
+<details>
 
-Retrieves a specific indexed item from an AI Search instance.
+<summary>
 
-### Path Parameters
+status: "queued"or "running"or "completed"or 3 more
 
-- `account_id: string`
+</summary>
 
-- `name: string`
+One of the following:
 
-- `id: string`
+"queued"
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+<a href="#">Link to this property</a>
 
-- `item_id: string`
+"running"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, checksum, chunks_count, 9 more }`
+"completed"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `checksum: string`
+"error"
 
-  - `chunks_count: number`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"skipped"
 
-  - `file_size: number`
+<a href="#">Link to this property</a>
 
-  - `key: string`
+"outdated"
 
-  - `last_seen_at: string`
+<a href="#">Link to this property</a>
 
-  - `namespace: string`
+</details>
 
-  - `next_action: "INDEX" or "DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"INDEX"`
+error: optional string
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-  - `source_id: string`
+<details>
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+<summary>
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+warnings: optional array of object {code, expected\_type, field } or object {code, field }
 
-    - `"queued"`
+</summary>
 
-    - `"running"`
+One of the following:
 
-    - `"completed"`
+<details>
 
-    - `"error"`
+<summary>
 
-    - `"skipped"`
+object {code, expected\_type, field }
 
-    - `"outdated"`
+</summary>
 
-  - `error: optional string`
+code: "custom\_metadata\_value\_not\_indexed"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items/$ITEM_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+expected\_type: "text"or "number"or "boolean"or "datetime"
 
-```json
-{
-  "result": {
-    "id": "id",
-    "checksum": "checksum",
-    "chunks_count": 0,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "file_size": 0,
-    "key": "key",
-    "last_seen_at": "2019-12-27T18:11:19.117Z",
-    "namespace": "namespace",
-    "next_action": "INDEX",
-    "source_id": "source_id",
-    "status": "queued",
-    "error": "error"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Sync Item.
+One of the following:
 
-**patch** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}`
+"text"
 
-Syncs an item to an AI Search instance index.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"number"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `name: string`
+"boolean"
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+"datetime"
 
-- `item_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `next_action: "INDEX"`
+<a href="#">Link to this property</a>
 
-  - `"INDEX"`
+field: string
 
-- `wait_for_completion: optional boolean`
+maxLength512
 
-  Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion confirmation (up to 40s) so the returned item reflects a queryable state. On timeout the item is returned in `running` state and the background alarm continues polling. Defaults to false.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { id, checksum, chunks_count, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `checksum: string`
+<summary>
 
-  - `chunks_count: number`
+object {code, field }
 
-  - `created_at: string`
+</summary>
 
-  - `file_size: number`
+code: "custom\_metadata\_field\_not\_filterable"
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+field: string
 
-  - `namespace: string`
+maxLength512
 
-  - `next_action: "INDEX" or "DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"INDEX"`
+</details>
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-  - `source_id: string`
+</details>
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+<a href="#">Link to this property</a>
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+</details>
 
-    - `"queued"`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(model)%20item_upload_response%20%3E%20(schema)>)
 
-    - `"running"`
+<details>
 
-    - `"completed"`
+<summary>
 
-    - `"error"`
+ItemCreateOrUpdateResponse object {id, checksum, chunks\_count, 10 more }
 
-    - `"skipped"`
+</summary>
 
-    - `"outdated"`
+id: string
 
-  - `error: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+checksum: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items/$ITEM_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "next_action": "INDEX"
-        }'
-```
+chunks\_count: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "checksum": "checksum",
-    "chunks_count": 0,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "file_size": 0,
-    "key": "key",
-    "last_seen_at": "2019-12-27T18:11:19.117Z",
-    "namespace": "namespace",
-    "next_action": "INDEX",
-    "source_id": "source_id",
-    "status": "queued",
-    "error": "error"
-  },
-  "success": true
-}
-```
+created\_at: string
 
-## Delete Item.
+formatdate-time
 
-**delete** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}`
+<a href="#">Link to this property</a>
 
-Deletes a file from a managed AI Search instance and triggers a reindex.
+file\_size: number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+key: string
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+last\_seen\_at: string
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+formatdate-time
 
-- `item_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `result: object { key }`
+<summary>
 
-  - `key: string`
+metadata: map\[stringor numberor boolean]
 
-- `success: boolean`
+Built-in, configured filterable, and retained source metadata for the item.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items/$ITEM_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+string
 
-```json
-{
-  "result": {
-    "key": "key"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Download Item Content.
+number
 
-**get** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/download`
+<a href="#">Link to this property</a>
 
-Downloads the raw file content for a specific item from the managed AI Search instance storage.
+boolean
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+namespace: string
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+<a href="#">Link to this property</a>
 
-- `item_id: string`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items/$ITEM_ID/download \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+next\_action: "INDEX"or "DELETE"
 
-## Item Logs.
+</summary>
 
-**get** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/logs`
+One of the following:
 
-Lists processing logs for a specific item in an AI Search instance.
+"INDEX"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"DELETE"
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+</details>
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+<a href="#">Link to this property</a>
 
-- `item_id: string`
+source\_id: string
 
-### Query Parameters
+Identifies which data source this item belongs to. “builtin” for uploaded files, “{type}:{source}” for external sources, null for legacy items.
 
-- `cursor: optional string`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+<details>
 
-### Returns
+<summary>
 
-- `result: array of object { action, chunkCount, errorType, 4 more }`
+status: "queued"or "running"or "completed"or 3 more
 
-  - `action: string`
+</summary>
 
-  - `chunkCount: number`
+One of the following:
 
-  - `errorType: string`
+"queued"
 
-  - `fileKey: string`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"running"
 
-  - `processingTimeMs: number`
+<a href="#">Link to this property</a>
 
-  - `timestamp: string`
+"completed"
 
-- `result_info: object { count, cursor, per_page, truncated }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+"error"
 
-  - `cursor: string`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+"skipped"
 
-  - `truncated: boolean`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"outdated"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items/$ITEM_ID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "action": "action",
-      "chunkCount": 0,
-      "errorType": "errorType",
-      "fileKey": "fileKey",
-      "message": "message",
-      "processingTimeMs": 0,
-      "timestamp": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "cursor": "cursor",
-    "per_page": 0,
-    "truncated": true
-  },
-  "success": true
-}
-```
+error: optional string
 
-## List Item Chunks.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/chunks`
+</details>
 
-Lists chunks for a specific item in an AI Search instance, including their text content.
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(model)%20item_create_or_update_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `name: string`
+ItemGetResponse object {id, checksum, chunks\_count, 10 more }
 
-- `id: string`
+</summary>
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+id: string
 
-- `item_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+checksum: string
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-- `offset: optional number`
+chunks\_count: number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, item, text, 2 more }`
+created\_at: string
 
-  - `id: string`
+formatdate-time
 
-  - `item: object { key, metadata, timestamp }`
+<a href="#">Link to this property</a>
 
-    - `key: string`
+file\_size: number
 
-    - `metadata: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `timestamp: optional number`
+key: string
 
-  - `text: string`
+<a href="#">Link to this property</a>
 
-  - `end_byte: optional number`
+last\_seen\_at: string
 
-  - `start_byte: optional number`
+formatdate-time
 
-- `result_info: object { count, limit, offset, total }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+<details>
 
-  - `limit: number`
+<summary>
 
-  - `offset: number`
+metadata: map\[stringor numberor boolean]
 
-  - `total: number`
+Built-in, configured filterable, and retained source metadata for the item.
 
-- `success: boolean`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items/$ITEM_ID/chunks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "item": {
-        "key": "key",
-        "metadata": {
-          "foo": "bar"
-        },
-        "timestamp": 0
-      },
-      "text": "text",
-      "end_byte": 0,
-      "start_byte": 0
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "limit": 0,
-    "offset": 0,
-    "total": 0
-  },
-  "success": true
-}
-```
+number
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Item List Response
+boolean
 
-- `ItemListResponse object { id, checksum, chunks_count, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-  - `checksum: string`
+<a href="#">Link to this property</a>
 
-  - `chunks_count: number`
+namespace: string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `file_size: number`
+<details>
 
-  - `key: string`
+<summary>
 
-  - `last_seen_at: string`
+next\_action: "INDEX"or "DELETE"
 
-  - `namespace: string`
+</summary>
 
-  - `next_action: "INDEX" or "DELETE"`
+One of the following:
 
-    - `"INDEX"`
+"INDEX"
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-  - `source_id: string`
+"DELETE"
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+<a href="#">Link to this property</a>
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+</details>
 
-    - `"queued"`
+<a href="#">Link to this property</a>
 
-    - `"running"`
+source\_id: string
 
-    - `"completed"`
+Identifies which data source this item belongs to. “builtin” for uploaded files, “{type}:{source}” for external sources, null for legacy items.
 
-    - `"error"`
+<a href="#">Link to this property</a>
 
-    - `"skipped"`
+<details>
 
-    - `"outdated"`
+<summary>
 
-  - `error: optional string`
+status: "queued"or "running"or "completed"or 3 more
 
-### Item Upload Response
+</summary>
 
-- `ItemUploadResponse object { id, checksum, chunks_count, 9 more }`
+One of the following:
 
-  - `id: string`
+"queued"
 
-  - `checksum: string`
+<a href="#">Link to this property</a>
 
-  - `chunks_count: number`
+"running"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `file_size: number`
+"completed"
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+"error"
 
-  - `namespace: string`
+<a href="#">Link to this property</a>
 
-  - `next_action: "INDEX" or "DELETE"`
+"skipped"
 
-    - `"INDEX"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+"outdated"
 
-  - `source_id: string`
+<a href="#">Link to this property</a>
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+</details>
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+<a href="#">Link to this property</a>
 
-    - `"queued"`
+error: optional string
 
-    - `"running"`
+<a href="#">Link to this property</a>
 
-    - `"completed"`
+</details>
 
-    - `"error"`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-    - `"skipped"`
+<details>
 
-    - `"outdated"`
+<summary>
 
-  - `error: optional string`
+ItemSyncResponse object {id, checksum, chunks\_count, 10 more }
 
-### Item Create Or Update Response
+</summary>
 
-- `ItemCreateOrUpdateResponse object { id, checksum, chunks_count, 9 more }`
+id: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `checksum: string`
+checksum: string
 
-  - `chunks_count: number`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+chunks\_count: number
 
-  - `file_size: number`
+<a href="#">Link to this property</a>
 
-  - `key: string`
+created\_at: string
 
-  - `last_seen_at: string`
+formatdate-time
 
-  - `namespace: string`
+<a href="#">Link to this property</a>
 
-  - `next_action: "INDEX" or "DELETE"`
+file\_size: number
 
-    - `"INDEX"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+key: string
 
-  - `source_id: string`
+<a href="#">Link to this property</a>
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+last\_seen\_at: string
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+formatdate-time
 
-    - `"queued"`
+<a href="#">Link to this property</a>
 
-    - `"running"`
+<details>
 
-    - `"completed"`
+<summary>
 
-    - `"error"`
+metadata: map\[stringor numberor boolean]
 
-    - `"skipped"`
+Built-in, configured filterable, and retained source metadata for the item.
 
-    - `"outdated"`
+</summary>
 
-  - `error: optional string`
+One of the following:
 
-### Item Get Response
+string
 
-- `ItemGetResponse object { id, checksum, chunks_count, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+number
 
-  - `checksum: string`
+<a href="#">Link to this property</a>
 
-  - `chunks_count: number`
+boolean
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `file_size: number`
+</details>
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+namespace: string
 
-  - `namespace: string`
+<a href="#">Link to this property</a>
 
-  - `next_action: "INDEX" or "DELETE"`
+<details>
 
-    - `"INDEX"`
+<summary>
 
-    - `"DELETE"`
+next\_action: "INDEX"or "DELETE"
 
-  - `source_id: string`
+</summary>
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+One of the following:
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+"INDEX"
 
-    - `"queued"`
+<a href="#">Link to this property</a>
 
-    - `"running"`
+"DELETE"
 
-    - `"completed"`
+<a href="#">Link to this property</a>
 
-    - `"error"`
+</details>
 
-    - `"skipped"`
+<a href="#">Link to this property</a>
 
-    - `"outdated"`
+source\_id: string
 
-  - `error: optional string`
+Identifies which data source this item belongs to. “builtin” for uploaded files, “{type}:{source}” for external sources, null for legacy items.
 
-### Item Sync Response
+<a href="#">Link to this property</a>
 
-- `ItemSyncResponse object { id, checksum, chunks_count, 9 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `checksum: string`
+status: "queued"or "running"or "completed"or 3 more
 
-  - `chunks_count: number`
+</summary>
 
-  - `created_at: string`
+One of the following:
 
-  - `file_size: number`
+"queued"
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+"running"
 
-  - `namespace: string`
+<a href="#">Link to this property</a>
 
-  - `next_action: "INDEX" or "DELETE"`
+"completed"
 
-    - `"INDEX"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+"error"
 
-  - `source_id: string`
+<a href="#">Link to this property</a>
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+"skipped"
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+<a href="#">Link to this property</a>
 
-    - `"queued"`
+"outdated"
 
-    - `"running"`
+<a href="#">Link to this property</a>
 
-    - `"completed"`
+</details>
 
-    - `"error"`
+<a href="#">Link to this property</a>
 
-    - `"skipped"`
+error: optional string
 
-    - `"outdated"`
+<a href="#">Link to this property</a>
 
-  - `error: optional string`
+</details>
 
-### Item Delete Response
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(model)%20item_sync_response%20%3E%20(schema)>)
 
-- `ItemDeleteResponse object { key }`
+<details>
 
-  - `key: string`
+<summary>
 
-### Item Logs Response
+ItemDeleteResponse object {key }
 
-- `ItemLogsResponse = array of object { action, chunkCount, errorType, 4 more }`
+</summary>
 
-  - `action: string`
+key: string
 
-  - `chunkCount: number`
+<a href="#">Link to this property</a>
 
-  - `errorType: string`
+</details>
 
-  - `fileKey: string`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `processingTimeMs: number`
+<summary>
 
-  - `timestamp: string`
+ItemLogsResponse = array of object {action, chunkCount, errorType, 4 more }
 
-### Item Chunks Response
+</summary>
 
-- `ItemChunksResponse = array of object { id, item, text, 2 more }`
+action: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `item: object { key, metadata, timestamp }`
+chunkCount: number
 
-    - `key: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: optional map[unknown]`
+errorType: string
 
-    - `timestamp: optional number`
+<a href="#">Link to this property</a>
 
-  - `text: string`
+fileKey: string
 
-  - `end_byte: optional number`
+<a href="#">Link to this property</a>
 
-  - `start_byte: optional number`
+message: string
+
+<a href="#">Link to this property</a>
+
+processingTimeMs: number
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(model)%20item_logs_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ItemChunksResponse = array of object {id, item, text, 2 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+item: object {key, metadata, timestamp }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+metadata: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+timestamp: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+text: string
+
+<a href="#">Link to this property</a>
+
+end\_byte: optional number
+
+<a href="#">Link to this property</a>
+
+start\_byte: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(model)%20item_chunks_response%20%3E%20(schema)>)

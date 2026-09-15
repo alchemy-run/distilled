@@ -1,43 +1,43 @@
+---
+title: Assets
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+[Finetunes](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Assets
 
-## Upload a Finetune Asset
+##### [Upload a Finetune Asset](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes/subresources/assets/methods/create)
 
-**post** `/accounts/{account_id}/ai/finetunes/{finetune_id}/finetune-assets`
+POST/accounts/{account\_id}/ai/finetunes/{finetune\_id}/finetune-assets
 
-Uploads training data assets for a Workers AI fine-tuning job.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `finetune_id: string`
+AssetCreateResponse object {success }
 
-### Returns
+</summary>
 
-- `success: boolean`
+success: boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes/$FINETUNE_ID/finetune-assets \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'file=@/path/to/file' \
-    -F file_name=file_name
-```
+</details>
 
-#### Response
-
-```json
-{
-  "success": true
-}
-```
-
-## Domain Types
-
-### Asset Create Response
-
-- `AssetCreateResponse object { success }`
-
-  - `success: boolean`
+[Link to this property](#)%20ai.finetunes.assets%20%3E%20(model)%20asset_create_response%20%3E%20(schema)>)

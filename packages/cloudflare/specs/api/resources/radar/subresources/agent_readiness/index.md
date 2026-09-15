@@ -1,209 +1,175 @@
+---
+title: Agent Readiness
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Agent Readiness
 
-## Get agent readiness summary
+##### [Get agent readiness summary](https://developers.cloudflare.com/api/resources/radar/subresources/agent_readiness/methods/summary)
 
-**get** `/radar/agent_readiness/summary/{dimension}`
+GET/radar/agent\_readiness/summary/{dimension}
 
-Returns a summary of AI agent readiness scores across scanned domains, grouped by the specified dimension. Data is sourced from weekly bulk scans. All values are raw domain counts.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `dimension: "CHECK"`
+<summary>
 
-  Specifies the agent readiness data dimension by which to group the results.
+AgentReadinessSummaryResponse object {meta, summary\_0 }
 
-  - `"CHECK"`
+</summary>
 
-### Query Parameters
+<details>
 
-- `date: optional string`
+<summary>
 
-  Filters results by the specified date.
+meta: object {date, domainCategories, lastUpdated, 4 more }
 
-- `domainCategory: optional array of string`
+</summary>
 
-  Filters results by domain category.
+date: string
 
-- `format: optional "JSON" or "CSV"`
+Date of the returned scan (YYYY-MM-DD). May differ from the requested date if no scan exists for that exact date.
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `name: optional array of string`
+domainCategories: array of object {name, value }
 
-  Array of names used to label the series in the response.
+Available domain sub-categories with their scan counts. Use as filter options for the domainCategory parameter.
 
-### Returns
+</summary>
 
-- `result: object { meta, summary_0 }`
+name: string
 
-  - `meta: object { date, domainCategories, lastUpdated, 4 more }`
+Sub-category name.
 
-    - `date: string`
+<a href="#">Link to this property</a>
 
-      Date of the returned scan (YYYY-MM-DD). May differ from the requested date if no scan exists for that exact date.
+value: number
 
-    - `domainCategories: array of object { name, value }`
+Number of successfully scanned domains in this sub-category.
 
-      Available domain sub-categories with their scan counts. Use as filter options for the domainCategory parameter.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        Sub-category name.
+<a href="#">Link to this property</a>
 
-      - `value: number`
+lastUpdated: string
 
-        Number of successfully scanned domains in this sub-category.
+Timestamp of the last dataset update.
 
-    - `lastUpdated: string`
+formatdate-time
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<details>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<summary>
 
-      - `"PERCENTAGE"`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-      - `"MIN0_MAX"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-      - `"MIN_MAX"`
+</summary>
 
-      - `"RAW_VALUES"`
+One of the following:
 
-      - `"PERCENTAGE_CHANGE"`
+"PERCENTAGE"
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+"MIN0\_MAX"
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `successfulDomains: number`
+"MIN\_MAX"
 
-      Domains successfully scanned (excludes errors).
+<a href="#">Link to this property</a>
 
-    - `totalDomains: number`
+"RAW\_VALUES"
 
-      Total domains attempted in the scan.
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+"PERCENTAGE\_CHANGE"
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"ROLLING\_AVERAGE"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: map[string]`
+"OVERLAPPED\_PERCENTAGE"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"RATIO"
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/agent_readiness/summary/$DIMENSION \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "meta": {
-      "date": "2026-03-24",
-      "domainCategories": [
-        {
-          "name": "News & Media",
-          "value": 0
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "successfulDomains": 0,
-      "totalDomains": 0,
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "markdownNegotiation": "45000",
-      "robotsTxt": "280000"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+successfulDomains: number
 
-### Agent Readiness Summary Response
+Domains successfully scanned (excludes errors).
 
-- `AgentReadinessSummaryResponse object { meta, summary_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { date, domainCategories, lastUpdated, 4 more }`
+totalDomains: number
 
-    - `date: string`
+Total domains attempted in the scan.
 
-      Date of the returned scan (YYYY-MM-DD). May differ from the requested date if no scan exists for that exact date.
+<a href="#">Link to this property</a>
 
-    - `domainCategories: array of object { name, value }`
+<details>
 
-      Available domain sub-categories with their scan counts. Use as filter options for the domainCategory parameter.
+<summary>
 
-      - `name: string`
+units: array of object {name, value }
 
-        Sub-category name.
+Measurement units for the results.
 
-      - `value: number`
+</summary>
 
-        Number of successfully scanned domains in this sub-category.
+name: string
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+value: string
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+</details>
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+</details>
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+summary\_0: map\[string]
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+</details>
 
-      - `"OVERLAPPED_PERCENTAGE"`
-
-      - `"RATIO"`
-
-    - `successfulDomains: number`
-
-      Domains successfully scanned (excludes errors).
-
-    - `totalDomains: number`
-
-      Total domains attempted in the scan.
-
-    - `units: array of object { name, value }`
-
-      Measurement units for the results.
-
-      - `name: string`
-
-      - `value: string`
-
-  - `summary_0: map[string]`
+[Link to this property](#)%20radar.agent_readiness%20%3E%20(model)%20agent_readiness_summary_response%20%3E%20(schema)>)

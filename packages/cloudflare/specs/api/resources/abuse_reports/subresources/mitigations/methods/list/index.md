@@ -1,233 +1,399 @@
-## List abuse report mitigations
+---
+title: List abuse report mitigations
+---
 
-**get** `/accounts/{account_id}/abuse-reports/{report_id}/mitigations`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Abuse Reports](https://developers.cloudflare.com/api/resources/abuse_reports)
+
+[Mitigations](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/mitigations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List abuse report mitigations
+
+GET/accounts/{account\_id}/abuse-reports/{report\_id}/mitigations
 
 List mitigations done to remediate the abuse report.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-- `report_id: string`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Query Parameters
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `effective_after: optional string`
+##### Accepted Permissions (at least one required)
 
-  Returns mitigation that were dispatched after the given date
+`Trust and Safety Write``Trust and Safety Read`
 
-- `effective_before: optional string`
+##### P ath ParametersExpand Collapse
 
-  Returns mitigations that were dispatched before the given date
+account\_id: string
 
-- `entity_type: optional "url_pattern" or "account" or "zone"`
+maxLength32
 
-  Filter by the type of entity the mitigation impacts.
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"url_pattern"`
+report\_id: string
 
-  - `"account"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20report_id%20%3E%20(schema)>)
 
-  - `"zone"`
+##### Q uery ParametersExpand Collapse
 
-- `page: optional number`
+effective\_after: optional string
 
-  Where in pagination to start listing abuse reports
+Returns mitigation that were dispatched after the given date
 
-- `per_page: optional number`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20effective_after%20%3E%20(schema)>)
 
-  How many abuse reports per page to list
+effective\_before: optional string
 
-- `sort: optional "type,asc" or "type,desc" or "effective_date,asc" or 5 more`
+Returns mitigations that were dispatched before the given date
 
-  A property to sort by, followed by the order
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20effective_before%20%3E%20(schema)>)
 
-  - `"type,asc"`
+<details>
 
-  - `"type,desc"`
+<summary>
 
-  - `"effective_date,asc"`
+entity\_type: optional "url\_pattern"or "account"or "zone"or "custom\_expression"
 
-  - `"effective_date,desc"`
+Filter by the type of entity the mitigation impacts.
 
-  - `"status,asc"`
+</summary>
 
-  - `"status,desc"`
+One of the following:
 
-  - `"entity_type,asc"`
+"url\_pattern"
 
-  - `"entity_type,desc"`
+<a href="#">Link to this property</a>
 
-- `status: optional "pending" or "active" or "in_review" or 2 more`
+"account"
 
-  Filter by the status of the mitigation.
+<a href="#">Link to this property</a>
 
-  - `"pending"`
+"zone"
 
-  - `"active"`
+<a href="#">Link to this property</a>
 
-  - `"in_review"`
+"custom\_expression"
 
-  - `"cancelled"`
+<a href="#">Link to this property</a>
 
-  - `"removed"`
+</details>
 
-- `type: optional "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20entity_type%20%3E%20(schema)>)
 
-  Filter by the type of mitigation. This filter parameter can be specified multiple times to include multiple types of mitigations in the result set, e.g. ?type=rate_limit_cache&type=legal_block.
+page: optional number
 
-  - `"account_suspend"`
+Where in pagination to start listing abuse reports
 
-  - `"copyright_interstitial"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `"geo_block"`
+per\_page: optional number
 
-  - `"legal_block"`
+How many abuse reports per page to list
 
-  - `"malware_interstitial"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `"misleading_interstitial"`
+<details>
 
-  - `"network_block"`
+<summary>
 
-  - `"phishing_interstitial"`
+sort: optional "type,asc"or "type,desc"or "effective\_date,asc"or 5 more
 
-  - `"playfairite_enforce"`
+A property to sort by, followed by the order
 
-  - `"r2_takedown_account"`
+</summary>
 
-  - `"r2_takedown_bucket"`
+One of the following:
 
-  - `"r2_takedown_object"`
+"type,asc"
 
-  - `"rate_limit_cache"`
+<a href="#">Link to this property</a>
 
-  - `"redirect_video_stream"`
+"type,desc"
 
-  - `"registrar_freeze"`
+<a href="#">Link to this property</a>
 
-  - `"registrar_parking"`
+"effective\_date,asc"
 
-  - `"stream_block_account"`
+<a href="#">Link to this property</a>
 
-  - `"user_suspend"`
+"effective\_date,desc"
 
-  - `"workers_takedown_by_zone_id"`
+<a href="#">Link to this property</a>
 
-### Returns
+"status,asc"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { message }`
+"status,desc"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of object { message }`
+"entity\_type,asc"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: optional object { mitigations }`
+"entity\_type,desc"
 
-  - `mitigations: array of object { id, effective_date, entity_id, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      ID of remediation.
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sort%20%3E%20(schema)>)
 
-    - `effective_date: string`
+<details>
 
-      Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+<summary>
 
-    - `entity_id: string`
+status: optional "pending"or "active"or "in\_review"or 2 more
 
-    - `entity_type: "url_pattern" or "account" or "zone"`
+Filter by the status of the mitigation.
 
-      The type of entity targeted by a mitigation.
+</summary>
 
-      - `"url_pattern"`
+One of the following:
 
-      - `"account"`
+"pending"
 
-      - `"zone"`
+<a href="#">Link to this property</a>
 
-    - `status: "pending" or "active" or "in_review" or 2 more`
+"active"
 
-      The status of a mitigation
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+"in\_review"
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"in_review"`
+"cancelled"
 
-      - `"cancelled"`
+<a href="#">Link to this property</a>
 
-      - `"removed"`
+"removed"
 
-    - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
+<a href="#">Link to this property</a>
 
-      The type of mitigation applied to a reported entity.
+</details>
 
-      - `"account_suspend"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-      - `"copyright_interstitial"`
+type: optional string
 
-      - `"geo_block"`
+Filter by the type of mitigation. This filter parameter can be specified multiple times to include multiple types of mitigations in the result set.
 
-      - `"legal_block"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-      - `"malware_interstitial"`
+##### ReturnsExpand Collapse
 
-      - `"misleading_interstitial"`
+success: boolean
 
-      - `"network_block"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      - `"phishing_interstitial"`
+<details>
 
-      - `"playfairite_enforce"`
+<summary>
 
-      - `"r2_takedown_account"`
+errors: optional array of object {message }
 
-      - `"r2_takedown_bucket"`
+</summary>
 
-      - `"r2_takedown_object"`
+message: string
 
-      - `"rate_limit_cache"`
+<a href="#">Link to this property</a>
 
-      - `"redirect_video_stream"`
+</details>
 
-      - `"registrar_freeze"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `"registrar_parking"`
+<details>
 
-      - `"stream_block_account"`
+<summary>
 
-      - `"user_suspend"`
+messages: optional array of object {message }
 
-      - `"workers_takedown_by_zone_id"`
+</summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+message: string
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+</details>
 
-  - `per_page: number`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  - `total_count: number`
+<details>
 
-  - `total_pages: number`
+<summary>
 
-### Example
+result: optional object {mitigations }
 
-```http
+</summary>
+
+<details>
+
+<summary>
+
+mitigations: array of object {id, effective\_date, entity\_id, 3 more }
+
+</summary>
+
+id: string
+
+ID of remediation.
+
+<a href="#">Link to this property</a>
+
+effective\_date: string
+
+Date when the mitigation will become active. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
+
+<a href="#">Link to this property</a>
+
+entity\_id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+entity\_type: "url\_pattern"or "account"or "zone"or "custom\_expression"
+
+The type of entity targeted by a mitigation.
+
+</summary>
+
+One of the following:
+
+"url\_pattern"
+
+<a href="#">Link to this property</a>
+
+"account"
+
+<a href="#">Link to this property</a>
+
+"zone"
+
+<a href="#">Link to this property</a>
+
+"custom\_expression"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "active"or "in\_review"or 2 more
+
+The status of a mitigation
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"in\_review"
+
+<a href="#">Link to this property</a>
+
+"cancelled"
+
+<a href="#">Link to this property</a>
+
+"removed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: string
+
+The type of mitigation applied to a reported entity.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+total\_pages: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List abuse report mitigations
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_ID/mitigations \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "success": true,
   "errors": [
@@ -248,7 +414,46 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$RE
         "entity_id": "entity_id",
         "entity_type": "url_pattern",
         "status": "pending",
-        "type": "account_suspend"
+        "type": "type"
+      }
+    ]
+  },
+  "result_info": {
+    "count": 0,
+    "page": 0,
+    "per_page": 0,
+    "total_count": 0,
+    "total_pages": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "success": true,
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "message"
+    }
+  ],
+  "result": {
+    "mitigations": [
+      {
+        "id": "id",
+        "effective_date": "2009-11-10T23:00:00Z",
+        "entity_id": "entity_id",
+        "entity_type": "url_pattern",
+        "status": "pending",
+        "type": "type"
       }
     ]
   },

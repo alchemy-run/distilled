@@ -1,6 +1,24 @@
-## Update Fraud Detection Settings
+---
+title: Update Fraud Detection Settings
+---
 
-**put** `/zones/{zone_id}/fraud_detection/settings`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Fraud](https://developers.cloudflare.com/api/resources/fraud)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Fraud Detection Settings
+
+PUT/zones/{zone\_id}/fraud\_detection/settings
 
 Update Fraud Detection settings for a zone.
 
@@ -9,185 +27,397 @@ Notes on `username_expressions` behavior:
 - If omitted or set to null, expressions are not modified.
 - If provided as an empty array `[]`, all expressions will be cleared.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `authentication_settings: optional object { failure_criteria, success_criteria }`
 
-  Configuration for classifying login authentication outcomes based on the origin response.
-  Requires `user_profiles` to be enabled.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - Success and failure criteria are independently updatable — sending only `success_criteria`
-    leaves failure codes untouched, and vice versa.
-  - Omit `authentication_settings` entirely to leave both unchanged.
-  - Status codes must not overlap between success and failure criteria.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `failure_criteria: optional object { kind, status_codes }`
+</details>
 
-    Criterion for identifying failed login responses.
+<details>
 
-    - `kind: "status_code"`
+<summary>API Email + API Key</summary>
 
-      The type of criterion. Currently only `status_code` is supported.
 
-      - `"status_code"`
 
-    - `status_codes: optional array of number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      HTTP status codes to match against the origin response.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      - Maximum of 10 codes per criterion.
-      - Each code must be a valid HTTP status code (100-599).
-      - Codes are deduplicated and sorted on save.
-      - Omit to leave unchanged on update.
-      - Provide an empty array `[]` to clear codes on update.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `success_criteria: optional object { kind, status_codes }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Criterion for identifying successful login responses.
+</details>
 
-    - `kind: "status_code"`
+##### Accepted Permissions (at least one required)
 
-      The type of criterion. Currently only `status_code` is supported.
+`Fraud Detection Write`
 
-      - `"status_code"`
+##### P ath ParametersExpand Collapse
 
-    - `status_codes: optional array of number`
+zone\_id: string
 
-      HTTP status codes to match against the origin response.
+Identifier.
 
-      - Maximum of 10 codes per criterion.
-      - Each code must be a valid HTTP status code (100-599).
-      - Codes are deduplicated and sorted on save.
-      - Omit to leave unchanged on update.
-      - Provide an empty array `[]` to clear codes on update.
+maxLength32
 
-- `user_profiles: optional "enabled" or "disabled"`
+[Link to this property](#)%20fraud%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  Whether Fraud User Profiles is enabled for the zone.
+##### Body ParametersJSONExpand Collapse
 
-  - `"enabled"`
+<details>
 
-  - `"disabled"`
+<summary>
 
-- `username_expressions: optional array of string`
+authentication\_settings: optional object {failure\_criteria, success\_criteria }
 
-  List of expressions to detect usernames in write HTTP requests.
+Configuration for classifying login authentication outcomes based on the origin response. Requires <code>user_profiles</code> to be enabled.
 
-  - Maximum of 10 expressions.
-  - Omit or set to null to leave unchanged on update.
-  - Provide an empty array `[]` to clear all expressions on update.
-  - Invalid expressions will result in a 10400 Bad Request with details in the `messages` array.
+- Success and failure criteria are independently updatable — sending only <code>success_criteria</code> leaves failure codes untouched, and vice versa.
+- Omit <code>authentication_settings</code> entirely to leave both unchanged.
+- Status codes must not overlap between success and failure criteria.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+failure\_criteria: optional object {kind, status\_codes }
 
-  - `documentation_url: optional string`
+Criterion for identifying failed login responses.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+kind: "status\_code"
 
-- `messages: array of object { code, message, documentation_url, source }`
+The type of criterion. Currently only <code>status_code</code> is supported.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+status\_codes: optional array of number
 
-  - `documentation_url: optional string`
+HTTP status codes to match against the origin response.
 
-  - `source: optional object { pointer }`
+- Maximum of 10 codes per criterion.
+- Each code must be a valid HTTP status code (100-599).
+- Codes are deduplicated and sorted on save.
+- Omit to leave unchanged on update.
+- Provide an empty array <code>[]</code> to clear codes on update.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional FraudSettings`
+<summary>
 
-  - `authentication_settings: optional object { failure_criteria, success_criteria }`
+success\_criteria: optional object {kind, status\_codes }
 
-    Configuration for classifying login authentication outcomes based on the origin response.
-    Requires `user_profiles` to be enabled.
+Criterion for identifying successful login responses.
 
-    - Success and failure criteria are independently updatable — sending only `success_criteria`
-      leaves failure codes untouched, and vice versa.
-    - Omit `authentication_settings` entirely to leave both unchanged.
-    - Status codes must not overlap between success and failure criteria.
+</summary>
 
-    - `failure_criteria: optional object { kind, status_codes }`
+kind: "status\_code"
 
-      Criterion for identifying failed login responses.
+The type of criterion. Currently only <code>status_code</code> is supported.
 
-      - `kind: "status_code"`
+<a href="#">Link to this property</a>
 
-        The type of criterion. Currently only `status_code` is supported.
+status\_codes: optional array of number
 
-        - `"status_code"`
+HTTP status codes to match against the origin response.
 
-      - `status_codes: optional array of number`
+- Maximum of 10 codes per criterion.
+- Each code must be a valid HTTP status code (100-599).
+- Codes are deduplicated and sorted on save.
+- Omit to leave unchanged on update.
+- Provide an empty array <code>[]</code> to clear codes on update.
 
-        HTTP status codes to match against the origin response.
+<a href="#">Link to this property</a>
 
-        - Maximum of 10 codes per criterion.
-        - Each code must be a valid HTTP status code (100-599).
-        - Codes are deduplicated and sorted on save.
-        - Omit to leave unchanged on update.
-        - Provide an empty array `[]` to clear codes on update.
+</details>
 
-    - `success_criteria: optional object { kind, status_codes }`
+<a href="#">Link to this property</a>
 
-      Criterion for identifying successful login responses.
+</details>
 
-      - `kind: "status_code"`
+[Link to this property](#)%20fraud%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20authentication_settings%20%3E%20(schema)>)
 
-        The type of criterion. Currently only `status_code` is supported.
+<details>
 
-        - `"status_code"`
+<summary>
 
-      - `status_codes: optional array of number`
+user\_profiles: optional "enabled"or "disabled"
 
-        HTTP status codes to match against the origin response.
+Whether Fraud User Profiles is enabled for the zone.
 
-        - Maximum of 10 codes per criterion.
-        - Each code must be a valid HTTP status code (100-599).
-        - Codes are deduplicated and sorted on save.
-        - Omit to leave unchanged on update.
-        - Provide an empty array `[]` to clear codes on update.
+</summary>
 
-  - `user_profiles: optional "enabled" or "disabled"`
+One of the following:
 
-    Whether Fraud User Profiles is enabled for the zone.
+"enabled"
 
-    - `"enabled"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+"disabled"
 
-  - `username_expressions: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of expressions to detect usernames in write HTTP requests.
+</details>
 
-    - Maximum of 10 expressions.
-    - Omit or set to null to leave unchanged on update.
-    - Provide an empty array `[]` to clear all expressions on update.
-    - Invalid expressions will result in a 10400 Bad Request with details in the `messages` array.
+[Link to this property](#)%20fraud%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20user_profiles%20%3E%20(schema)>)
 
-### Example
+username\_expressions: optional array of string
 
-```http
+List of expressions to detect usernames in write HTTP requests.
+
+- Maximum of 10 expressions.
+- Omit or set to null to leave unchanged on update.
+- Provide an empty array `[]` to clear all expressions on update.
+- Invalid expressions will result in a 10400 Bad Request with details in the `messages` array.
+
+[Link to this property](#)%20fraud%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20username_expressions%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20fraud%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20fraud%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20fraud%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/fraud#(resource)%20fraud%20%3E%20(model)%20fraud_settings%20%3E%20(schema)">FraudSettings</a> { authentication\_settings, user\_profiles, username\_expressions }
+
+</summary>
+
+<details>
+
+<summary>
+
+authentication\_settings: optional object {failure\_criteria, success\_criteria }
+
+Configuration for classifying login authentication outcomes based on the origin response. Requires <code>user_profiles</code> to be enabled.
+
+- Success and failure criteria are independently updatable — sending only <code>success_criteria</code> leaves failure codes untouched, and vice versa.
+- Omit <code>authentication_settings</code> entirely to leave both unchanged.
+- Status codes must not overlap between success and failure criteria.
+
+</summary>
+
+<details>
+
+<summary>
+
+failure\_criteria: optional object {kind, status\_codes }
+
+Criterion for identifying failed login responses.
+
+</summary>
+
+kind: "status\_code"
+
+The type of criterion. Currently only <code>status_code</code> is supported.
+
+<a href="#">Link to this property</a>
+
+status\_codes: optional array of number
+
+HTTP status codes to match against the origin response.
+
+- Maximum of 10 codes per criterion.
+- Each code must be a valid HTTP status code (100-599).
+- Codes are deduplicated and sorted on save.
+- Omit to leave unchanged on update.
+- Provide an empty array <code>[]</code> to clear codes on update.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success\_criteria: optional object {kind, status\_codes }
+
+Criterion for identifying successful login responses.
+
+</summary>
+
+kind: "status\_code"
+
+The type of criterion. Currently only <code>status_code</code> is supported.
+
+<a href="#">Link to this property</a>
+
+status\_codes: optional array of number
+
+HTTP status codes to match against the origin response.
+
+- Maximum of 10 codes per criterion.
+- Each code must be a valid HTTP status code (100-599).
+- Codes are deduplicated and sorted on save.
+- Omit to leave unchanged on update.
+- Provide an empty array <code>[]</code> to clear codes on update.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+user\_profiles: optional "enabled"or "disabled"
+
+Whether Fraud User Profiles is enabled for the zone.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username\_expressions: optional array of string
+
+List of expressions to detect usernames in write HTTP requests.
+
+- Maximum of 10 expressions.
+- Omit or set to null to leave unchanged on update.
+- Provide an empty array <code>[]</code> to clear all expressions on update.
+- Invalid expressions will result in a 10400 Bad Request with details in the <code>messages</code> array.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20fraud%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update Fraud Detection Settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/fraud_detection/settings \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -200,9 +430,62 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/fraud_detection/setting
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "authentication_settings": {
+      "failure_criteria": {
+        "kind": "status_code",
+        "status_codes": [
+          200,
+          201
+        ]
+      },
+      "success_criteria": {
+        "kind": "status_code",
+        "status_codes": [
+          200,
+          201
+        ]
+      }
+    },
+    "user_profiles": "disabled",
+    "username_expressions": [
+      "http.request.body.form[\"username\"][0]",
+      "lookup_json_string(http.request.body.raw, \"username\")"
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

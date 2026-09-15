@@ -1,162 +1,430 @@
-## Create email allow policy
+---
+title: Create email allow policy
+---
 
-**post** `/accounts/{account_id}/email-security/settings/allow_policies`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+[Allow Policies](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/allow_policies)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create email allow policy
+
+POST/accounts/{account\_id}/email-security/settings/allow\_policies
 
 Creates a new allow policy that exempts matching emails from security detections. Use with caution as this bypasses email security scanning. Policies can match on sender patterns and apply to specific detections or all detections.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `is_acceptable_sender: boolean`
 
-  Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `is_exempt_recipient: boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Messages to this recipient will bypass all detections
+</details>
 
-- `is_regex: boolean`
+<details>
 
-- `is_trusted_sender: boolean`
+<summary>API Email + API Key</summary>
 
-  Messages from this sender will bypass all detections and link following
 
-- `pattern: string`
 
-- `pattern_type: "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"EMAIL"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"DOMAIN"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"IP"`
+</details>
 
-  - `"UNKNOWN"`
+##### Accepted Permissions (at least one required)
 
-- `verify_sender: boolean`
+`Cloud Email Security: Write`
 
-  Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+##### P ath ParametersExpand Collapse
 
-- `comments: optional string`
+account\_id: string
 
-- `is_recipient: optional boolean`
+Identifier.
 
-  Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+maxLength32
 
-- `is_sender: optional boolean`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+##### Body ParametersJSONExpand Collapse
 
-- `is_spoof: optional boolean`
+is\_acceptable\_sender: boolean
 
-  Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
 
-### Returns
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_acceptable_sender%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+is\_exempt\_recipient: boolean
 
-  - `code: number`
+Bypasses all detections for messages to this recipient.
 
-  - `message: string`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_exempt_recipient%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+is\_regex: boolean
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_regex%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+is\_trusted\_sender: boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Bypasses all detections and link following for messages from this sender.
 
-  - `code: number`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_trusted_sender%20%3E%20(schema)>)
 
-  - `message: string`
+pattern: string
 
-  - `documentation_url: optional string`
+The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `source: optional object { pointer }`
+maxLength1024
 
-    - `pointer: optional string`
+minLength1
 
-- `success: true`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20pattern%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id, created_at, last_modified, 12 more }`
+pattern\_type: "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  An email allow policy
+Type of pattern matching.
 
-  - `id: string`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-    Allow policy identifier
+</summary>
 
-  - `created_at: string`
+One of the following:
 
-  - `last_modified: string`
+"EMAIL"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+"DOMAIN"
 
-  - `is_acceptable_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+"IP"
 
-  - `is_exempt_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages to this recipient will bypass all detections
+"UNKNOWN"
 
-  - `is_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+</details>
 
-  - `is_regex: optional boolean`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20pattern_type%20%3E%20(schema)>)
 
-  - `is_sender: optional boolean`
+verify\_sender: boolean
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
 
-  - `is_spoof: optional boolean`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20verify_sender%20%3E%20(schema)>)
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+comments: optional string
 
-  - `is_trusted_sender: optional boolean`
+maxLength1024
 
-    Messages from this sender will bypass all detections and link following
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20comments%20%3E%20(schema)>)
 
-  - `modified_at: optional string`
+Deprecatedis\_recipient: optional boolean
 
-  - `pattern: optional string`
+Use `is_exempt_recipient` instead.
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_recipient%20%3E%20(schema)>)
 
-    - `"EMAIL"`
+Deprecatedis\_sender: optional boolean
 
-    - `"DOMAIN"`
+Use `is_trusted_sender` instead.
 
-    - `"IP"`
+Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
 
-    - `"UNKNOWN"`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_sender%20%3E%20(schema)>)
 
-  - `verify_sender: optional boolean`
+Deprecatedis\_spoof: optional boolean
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+Use `is_acceptable_sender` instead.
 
-### Example
+Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
 
-```http
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_spoof%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, last\_modified, 12 more }
+
+An email allow policy.
+
+</summary>
+
+id: string
+
+Allow policy identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+is\_acceptable\_sender: optional boolean
+
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
+
+<a href="#">Link to this property</a>
+
+is\_exempt\_recipient: optional boolean
+
+Bypasses all detections for messages to this recipient.
+
+<a href="#">Link to this property</a>
+
+Deprecatedis\_recipient: optional boolean
+
+Use <code>is_exempt_recipient</code> instead.
+
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+Deprecatedis\_sender: optional boolean
+
+Use <code>is_trusted_sender</code> instead.
+
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
+
+<a href="#">Link to this property</a>
+
+Deprecatedis\_spoof: optional boolean
+
+Use <code>is_acceptable_sender</code> instead.
+
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
+
+<a href="#">Link to this property</a>
+
+is\_trusted\_sender: optional boolean
+
+Bypasses all detections and link following for messages from this sender.
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
+
+Type of pattern matching.
+
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
+
+</summary>
+
+One of the following:
+
+"EMAIL"
+
+<a href="#">Link to this property</a>
+
+"DOMAIN"
+
+<a href="#">Link to this property</a>
+
+"IP"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+verify\_sender: optional boolean
+
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create email allow policy
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/allow_policies \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -173,9 +441,56 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/se
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "last_modified": "2014-01-01T05:20:00.12345Z",
+    "comments": "Trust all messages send from test@example.com",
+    "is_acceptable_sender": false,
+    "is_exempt_recipient": false,
+    "is_recipient": false,
+    "is_regex": false,
+    "is_sender": true,
+    "is_spoof": false,
+    "is_trusted_sender": true,
+    "modified_at": "2014-01-01T05:20:00.12345Z",
+    "pattern": "test@example.com",
+    "pattern_type": "EMAIL",
+    "verify_sender": true
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

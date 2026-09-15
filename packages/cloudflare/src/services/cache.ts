@@ -2514,7 +2514,7 @@ export const deleteOriginCloudRegion: API.OperationMethod<
 }));
 
 export type DeleteSmartTieredCacheError = CloudflareOpError;
-/** Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin. */
+/** Smart Tiered Cache dynamically selects the single closest upper tier for each of your website's origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin. */
 export const deleteSmartTieredCache: API.OperationMethod<
   DeleteSmartTieredCacheRequest,
   DeleteSmartTieredCacheResponse,
@@ -2623,7 +2623,7 @@ export const getRegionalTieredCache: API.OperationMethod<
 }));
 
 export type GetSmartTieredCacheError = Forbidden | CloudflareOpError;
-/** Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin. */
+/** Smart Tiered Cache dynamically selects the single closest upper tier for each of your website's origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin. */
 export const getSmartTieredCache: API.OperationMethod<
   GetSmartTieredCacheRequest,
   GetSmartTieredCacheResponse,
@@ -2853,7 +2853,7 @@ export const patchRegionalTieredCache: API.OperationMethod<
 }));
 
 export type PatchSmartTieredCacheError = Forbidden | CloudflareOpError;
-/** Smart Tiered Cache dynamically selects the single closest upper tier for each of your website’s origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin. */
+/** Smart Tiered Cache dynamically selects the single closest upper tier for each of your website's origins with no configuration required, using our in-house performance and routing data. Cloudflare collects latency data for each request to an origin, and uses the latency data to determine how well any upper-tier data center is connected with an origin. As a result, Cloudflare can select the data center with the lowest latency to be the upper-tier for an origin. */
 export const patchSmartTieredCache: API.OperationMethod<
   PatchSmartTieredCacheRequest,
   PatchSmartTieredCacheResponse,

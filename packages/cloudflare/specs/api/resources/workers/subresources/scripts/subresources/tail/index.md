@@ -1,369 +1,225 @@
+---
+title: Tail
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers/subresources/scripts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tail
 
-## List Tails
+##### [List Tails](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/tail/methods/get)
 
-**get** `/accounts/{account_id}/workers/scripts/{script_name}/tails`
+GET/accounts/{account\_id}/workers/scripts/{script\_name}/tails
 
-Get list of tails currently deployed on a Worker.
+##### [Start Tail](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/tail/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/workers/scripts/{script\_name}/tails
 
-- `account_id: string`
+##### [Delete Tail](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/tail/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/workers/scripts/{script\_name}/tails/{id}
 
-- `script_name: string`
+##### ModelsExpand Collapse
 
-  Name of the script, used in URLs and route configuration.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ConsumerScript object {service, environment, namespace }
 
-  - `code: number`
+A reference to a script that will consume logs from the attached Worker.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+service: string
 
-  - `source: optional object { pointer }`
+Name of Worker that is to be the consumer.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+environment: optional string
 
-  - `code: number`
+Optional environment if the Worker utilizes one.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+namespace: optional string
 
-  - `source: optional object { pointer }`
+Optional dispatch namespace the script belongs to.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, expires_at, url }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20workers.scripts.tail%20%3E%20(model)%20consumer_script%20%3E%20(schema)>)
 
-    Identifier.
+<details>
 
-  - `expires_at: string`
+<summary>
 
-  - `url: string`
+TailGetResponse object {id, expires\_at, url }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: string
 
-  - `true`
+Identifier.
 
-### Example
+maxLength32
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/tails \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+expires\_at: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "expires_at": "expires_at",
-    "url": "url"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Start Tail
+url: string
 
-**post** `/accounts/{account_id}/workers/scripts/{script_name}/tails`
+<a href="#">Link to this property</a>
 
-Starts a tail that receives logs and exception from a Worker.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20workers.scripts.tail%20%3E%20(model)%20tail_get_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `script_name: string`
+TailCreateResponse object {id, expires\_at, url }
 
-  Name of the script, used in URLs and route configuration.
+</summary>
 
-### Body Parameters
+id: string
 
-- `body: unknown`
+Identifier.
 
-### Returns
+maxLength32
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+expires\_at: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+url: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20workers.scripts.tail%20%3E%20(model)%20tail_create_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+TailDeleteResponse object {errors, messages, success }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `result: object { id, expires_at, url }`
+<summary>
 
-  - `id: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    Identifier.
+</summary>
 
-  - `expires_at: string`
+code: number
 
-  - `url: string`
+minimum1000
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+message: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+documentation\_url: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/tails \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "expires_at": "expires_at",
-    "url": "url"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Delete Tail
+source: optional object {pointer }
 
-**delete** `/accounts/{account_id}/workers/scripts/{script_name}/tails/{id}`
+</summary>
 
-Deletes a tail from a Worker.
+pointer: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `script_name: string`
+</details>
 
-  Name of the script, used in URLs and route configuration.
+<a href="#">Link to this property</a>
 
-- `id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Returns
+messages: array of object {code, message, documentation\_url, source }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+code: number
 
-  - `message: string`
+minimum1000
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+message: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+documentation\_url: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+source: optional object {pointer }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+pointer: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/tails/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+success: true
 
-## Domain Types
+Whether the API call was successful.
 
-### Consumer Script
+<a href="#">Link to this property</a>
 
-- `ConsumerScript object { service, environment, namespace }`
+</details>
 
-  A reference to a script that will consume logs from the attached Worker.
-
-  - `service: string`
-
-    Name of Worker that is to be the consumer.
-
-  - `environment: optional string`
-
-    Optional environment if the Worker utilizes one.
-
-  - `namespace: optional string`
-
-    Optional dispatch namespace the script belongs to.
-
-### Tail Get Response
-
-- `TailGetResponse object { id, expires_at, url }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `expires_at: string`
-
-  - `url: string`
-
-### Tail Create Response
-
-- `TailCreateResponse object { id, expires_at, url }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `expires_at: string`
-
-  - `url: string`
-
-### Tail Delete Response
-
-- `TailDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20workers.scripts.tail%20%3E%20(model)%20tail_delete_response%20%3E%20(schema)>)

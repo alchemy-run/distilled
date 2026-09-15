@@ -1,554 +1,1482 @@
-## Create a sharable link to a query result
+---
+title: Create a sharable link to a query result
+---
 
-**post** `/accounts/{account_id}/workers/observability/shared/query`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Observability](https://developers.cloudflare.com/api/resources/workers/subresources/observability)
+
+[Shared Queries](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/shared_queries)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a sharable link to a query result
+
+POST/accounts/{account\_id}/workers/observability/shared/query
 
 Shared queries store the results of a previously run query, allowing you to share the results with others.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Email + API Key</summary>
 
-- `queryId: string`
 
-  Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID).
 
-- `timeframe: object { from, to }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Timeframe for the query using Unix timestamps in milliseconds. Narrower timeframes produce faster responses and more specific results.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `from: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Start timestamp for the query timeframe (Unix timestamp in milliseconds)
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `to: number`
+</details>
 
-    End timestamp for the query timeframe (Unix timestamp in milliseconds)
+<details>
 
-- `chart: optional boolean`
+<summary>API Token</summary>
 
-  When true, includes time-series data in the response.
 
-- `compare: optional boolean`
 
-  When true, includes a comparison dataset from the previous time period of equal length.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `dry: optional boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  When true, executes the query without persisting the results. Useful for validation or previewing.
+</details>
 
-- `granularity: optional number`
+<details>
 
-  Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity.
+<summary>User Service Key</summary>
 
-- `ignoreSeries: optional boolean`
 
-  When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed.
 
-- `limit: optional number`
+Used when interacting with the Origin CA certificates API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/ca-keys/#viewchange-your-origin-ca-keys">View/change your key</a>.
 
-  Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'.
+**Example:**<code>X-Auth-User-Service-Key: v1.0-144c9defac04969c7bfad8ef-631a41d003a32d25fe878081ef365c49503f7fada600da935e2851a1c7326084b85cbf6429c4b859de8475731dc92a9c329631e6d59e6c73da7b198497172b4cefe071d90d0f5d2719</code>
 
-- `offset: optional string`
+</details>
 
-  Cursor for pagination in event, trace, and invocation views. Pass the $metadata.id of the last returned item to fetch the next page.
+##### Accepted Permissions (at least one required)
 
-- `offsetBy: optional number`
+`Workers Observability Write`
 
-  Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination.
+##### P ath ParametersExpand Collapse
 
-- `offsetDirection: optional string`
+account\_id: string
 
-  Pagination direction: 'next' for forward, 'prev' for backward.
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `parameters: optional object { calculations, datasets, filterCombination, 6 more }`
+##### Body ParametersJSONExpand Collapse
 
-  Query parameters defining what data to retrieve — filters, calculations, group-bys, and ordering. In practice this should always be provided for ad-hoc queries. Only omit when executing a previously saved query by queryId. Use the keys and values endpoints to discover available fields before building filters.
+queryId: string
 
-  - `calculations: optional array of object { operator, alias, key, keyType }`
+Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query’s parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID).
 
-    Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data.
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20queryId%20%3E%20(schema)>)
 
-    - `operator: "uniq" or "count" or "max" or 35 more`
+<details>
 
-      Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance.
+<summary>
 
-      - `"uniq"`
+timeframe: object {from, to }
 
-      - `"count"`
+Timeframe for the query using Unix timestamps in milliseconds. ‘from’ must be earlier than ‘to’. Narrower timeframes produce faster responses and more specific results.
 
-      - `"max"`
+</summary>
 
-      - `"min"`
+from: number
 
-      - `"sum"`
+Start timestamp for the query timeframe. Unix timestamp in milliseconds
 
-      - `"avg"`
+maximum253402300799999
 
-      - `"median"`
+minimum0
 
-      - `"p001"`
+<a href="#">Link to this property</a>
 
-      - `"p01"`
+to: number
 
-      - `"p05"`
+End timestamp for the query timeframe. Unix timestamp in milliseconds
 
-      - `"p10"`
+maximum253402300799999
 
-      - `"p25"`
+minimum0
 
-      - `"p75"`
+<a href="#">Link to this property</a>
 
-      - `"p90"`
+</details>
 
-      - `"p95"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20timeframe%20%3E%20(schema)>)
 
-      - `"p99"`
+chart: optional boolean
 
-      - `"p999"`
+When true, includes time-series data in the response.
 
-      - `"stddev"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20chart%20%3E%20(schema)>)
 
-      - `"variance"`
+<details>
 
-      - `"COUNT_DISTINCT"`
+<summary>
 
-      - `"COUNT"`
+chartType: optional "timeseries\_and\_aggregate"or "timeseries"or "aggregate"or "distribution"
 
-      - `"MAX"`
+Controls the SQL shape and response payload for the ‘calculations’ view. Omitted or ‘timeseries\_and\_aggregate’: current behaviour — both the time-series and aggregate queries. ‘timeseries’: time-series only. ‘aggregate’: aggregate only. ‘distribution’: a bucketed 2D histogram (time × value buckets) returned in ‘distribution’ instead of ‘calculations’. ‘distribution’ is not compatible with ‘compare’ — combining them returns a 400.
 
-      - `"MIN"`
+</summary>
 
-      - `"SUM"`
+One of the following:
 
-      - `"AVG"`
+"timeseries\_and\_aggregate"
 
-      - `"MEDIAN"`
+<a href="#">Link to this property</a>
 
-      - `"P001"`
+"timeseries"
 
-      - `"P01"`
+<a href="#">Link to this property</a>
 
-      - `"P05"`
+"aggregate"
 
-      - `"P10"`
+<a href="#">Link to this property</a>
 
-      - `"P25"`
+"distribution"
 
-      - `"P75"`
+<a href="#">Link to this property</a>
 
-      - `"P90"`
+</details>
 
-      - `"P95"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20chartType%20%3E%20(schema)>)
 
-      - `"P99"`
+compare: optional boolean
 
-      - `"P999"`
+When true, includes a comparison dataset from the previous time period of equal length.
 
-      - `"STDDEV"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20compare%20%3E%20(schema)>)
 
-      - `"VARIANCE"`
+<details>
 
-    - `alias: optional string`
+<summary>
 
-      Custom label for this calculation in the results. Useful for distinguishing multiple calculations.
+distributionScale: optional "log"or "linear"
 
-    - `key: optional string`
+Value-axis bucketing for chartType ‘distribution’. Omitted or ‘log’: geometric buckets, best for heavy-tailed latency. ‘linear’: fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode.
 
-      Field name to calculate over. Must exist in the data — verify with the keys endpoint. Omit for operators that don't require a key (e.g. count).
+</summary>
 
-    - `keyType: optional "string" or "number" or "boolean"`
+One of the following:
 
-      Data type of the key. Required when key is provided to ensure correct aggregation.
+"log"
 
-      - `"string"`
+<a href="#">Link to this property</a>
 
-      - `"number"`
+"linear"
 
-      - `"boolean"`
+<a href="#">Link to this property</a>
 
-  - `datasets: optional array of string`
+</details>
 
-    Datasets to query. Leave empty to query all available datasets.
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20distributionScale%20%3E%20(schema)>)
 
-  - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+dry: optional boolean
 
-    Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'.
+When true, executes the query without persisting the results. Useful for validation or previewing.
 
-    - `"and"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20dry%20%3E%20(schema)>)
 
-    - `"or"`
+granularity: optional number
 
-    - `"AND"`
+Number of time-series buckets. Only used when view is ‘calculations’. Omit to let the system auto-detect an appropriate granularity.
 
-    - `"OR"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20granularity%20%3E%20(schema)>)
 
-  - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+ignoreSeries: optional boolean
 
-    Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4.
+When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed.
 
-    - `object { filterCombination, filters, kind }`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20ignoreSeries%20%3E%20(schema)>)
 
-      - `filterCombination: "and" or "or" or "AND" or "OR"`
+limit: optional number
 
-        - `"and"`
+Maximum number of events to return when view is ‘events’. Also controls the number of group-by rows when view is ‘calculations’.
 
-        - `"or"`
+maximum2000
 
-        - `"AND"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-        - `"OR"`
+offset: optional string
 
-      - `filters: array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page.
 
-        - `object { filterCombination, filters, kind }`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-          - `filterCombination: "and" or "or" or "AND" or "OR"`
+offsetBy: optional number
 
-            - `"and"`
+Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination.
 
-            - `"or"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20offsetBy%20%3E%20(schema)>)
 
-            - `"AND"`
+offsetDirection: optional string
 
-            - `"OR"`
+Pagination direction: ‘next’ for forward, ‘prev’ for backward.
 
-          - `filters: array of unknown`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20offsetDirection%20%3E%20(schema)>)
 
-          - `kind: "group"`
+<details>
 
-            - `"group"`
+<summary>
 
-        - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+parameters: optional object {calculations, datasets, filterCombination, 6 more }
 
-          A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+Query parameters defining what data to retrieve — filters, calculations, group-bys, and ordering. In practice this should always be provided for ad-hoc queries. Only omit when executing a previously saved query by queryId. Use the keys and values endpoints to discover available fields before building filters.
 
-          - `key: string`
+</summary>
 
-            Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<details>
 
-          - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<summary>
 
-            Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+calculations: optional array of object {operator, alias, key, keyType } or object {key, operator, alias, keyType }
 
-            - `"includes"`
+Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data.
 
-            - `"not_includes"`
+</summary>
 
-            - `"starts_with"`
+One of the following:
 
-            - `"ends_with"`
+<details>
 
-            - `"regex"`
+<summary>
 
-            - `"exists"`
+object {operator, alias, key, keyType }
 
-            - `"is_null"`
+</summary>
 
-            - `"in"`
+<details>
 
-            - `"not_in"`
+<summary>
 
-            - `"eq"`
+operator: "count"or "COUNT"
 
-            - `"neq"`
+Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance.
 
-            - `"gt"`
+</summary>
 
-            - `"gte"`
+One of the following:
 
-            - `"lt"`
+"count"
 
-            - `"lte"`
+<a href="#">Link to this property</a>
 
-            - `"="`
+"COUNT"
 
-            - `"!="`
+<a href="#">Link to this property</a>
 
-            - `">"`
+</details>
 
-            - `">="`
+<a href="#">Link to this property</a>
 
-            - `"<"`
+alias: optional string
 
-            - `"<="`
+Custom label for this calculation in the results. Useful for distinguishing multiple calculations.
 
-            - `"INCLUDES"`
+<a href="#">Link to this property</a>
 
-            - `"DOES_NOT_INCLUDE"`
+key: optional string
 
-            - `"MATCH_REGEX"`
+Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except <code>count</code>, which aggregates whole rows and may omit it.
 
-            - `"EXISTS"`
+<a href="#">Link to this property</a>
 
-            - `"DOES_NOT_EXIST"`
+<details>
 
-            - `"IN"`
+<summary>
 
-            - `"NOT_IN"`
+keyType: optional "string"or "number"or "boolean"
 
-            - `"STARTS_WITH"`
+Data type of the key. Required when key is provided to ensure correct aggregation.
 
-            - `"ENDS_WITH"`
+</summary>
 
-          - `type: "string" or "number" or "boolean"`
+One of the following:
 
-            Data type of the filter field. Must match the actual type of the key being filtered.
+"string"
 
-            - `"string"`
+<a href="#">Link to this property</a>
 
-            - `"number"`
+"number"
 
-            - `"boolean"`
+<a href="#">Link to this property</a>
 
-          - `kind: optional "filter"`
+"boolean"
 
-            Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+<a href="#">Link to this property</a>
 
-            - `"filter"`
+</details>
 
-          - `value: optional string or number or boolean`
+<a href="#">Link to this property</a>
 
-            Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+</details>
 
-            - `string`
+<a href="#">Link to this property</a>
 
-            - `number`
+<details>
 
-            - `boolean`
+<summary>
 
-      - `kind: "group"`
+object {key, operator, alias, keyType }
 
-        - `"group"`
+</summary>
 
-    - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+key: string
 
-      A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except <code>count</code>, which aggregates whole rows and may omit it.
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<details>
 
-      - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<summary>
 
-        Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+operator: "uniq"or "max"or "min"or 33 more
 
-        - `"includes"`
+Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance.
 
-        - `"not_includes"`
+</summary>
 
-        - `"starts_with"`
+One of the following:
 
-        - `"ends_with"`
+"uniq"
 
-        - `"regex"`
+<a href="#">Link to this property</a>
 
-        - `"exists"`
+"max"
 
-        - `"is_null"`
+<a href="#">Link to this property</a>
 
-        - `"in"`
+"min"
 
-        - `"not_in"`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+"sum"
 
-        - `"neq"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+"avg"
 
-        - `"gte"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+"median"
 
-        - `"lte"`
+<a href="#">Link to this property</a>
 
-        - `"="`
+"p001"
 
-        - `"!="`
+<a href="#">Link to this property</a>
 
-        - `">"`
+"p01"
 
-        - `">="`
+<a href="#">Link to this property</a>
 
-        - `"<"`
+"p05"
 
-        - `"<="`
+<a href="#">Link to this property</a>
 
-        - `"INCLUDES"`
+"p10"
 
-        - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-        - `"MATCH_REGEX"`
+"p25"
 
-        - `"EXISTS"`
+<a href="#">Link to this property</a>
 
-        - `"DOES_NOT_EXIST"`
+"p75"
 
-        - `"IN"`
+<a href="#">Link to this property</a>
 
-        - `"NOT_IN"`
+"p90"
 
-        - `"STARTS_WITH"`
+<a href="#">Link to this property</a>
 
-        - `"ENDS_WITH"`
+"p95"
 
-      - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-        Data type of the filter field. Must match the actual type of the key being filtered.
+"p99"
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+"p999"
 
-        - `"boolean"`
+<a href="#">Link to this property</a>
 
-      - `kind: optional "filter"`
+"stddev"
 
-        Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+<a href="#">Link to this property</a>
 
-        - `"filter"`
+"variance"
 
-      - `value: optional string or number or boolean`
+<a href="#">Link to this property</a>
 
-        Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+"COUNT\_DISTINCT"
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+"MAX"
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-  - `groupBys: optional array of object { type, value }`
+"MIN"
 
-    Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values.
+<a href="#">Link to this property</a>
 
-    - `type: "string" or "number" or "boolean"`
+"SUM"
 
-      Data type of the group-by field.
+<a href="#">Link to this property</a>
 
-      - `"string"`
+"AVG"
 
-      - `"number"`
+<a href="#">Link to this property</a>
 
-      - `"boolean"`
+"MEDIAN"
 
-    - `value: string`
+<a href="#">Link to this property</a>
 
-      Field name to group results by (e.g. $metadata.service, $metadata.statusCode).
+"P001"
 
-  - `havings: optional array of object { key, operation, value }`
+<a href="#">Link to this property</a>
 
-    Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100).
+"P01"
 
-    - `key: string`
+<a href="#">Link to this property</a>
 
-      Calculation alias or operator to filter on after aggregation.
+"P05"
 
-    - `operation: "eq" or "neq" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-      Numeric comparison operator: eq, neq, gt, gte, lt, lte.
+"P10"
 
-      - `"eq"`
+<a href="#">Link to this property</a>
 
-      - `"neq"`
+"P25"
 
-      - `"gt"`
+<a href="#">Link to this property</a>
 
-      - `"gte"`
+"P75"
 
-      - `"lt"`
+<a href="#">Link to this property</a>
 
-      - `"lte"`
+"P90"
 
-    - `value: number`
+<a href="#">Link to this property</a>
 
-      Threshold value to compare the calculation result against.
+"P95"
 
-  - `limit: optional number`
+<a href="#">Link to this property</a>
 
-    Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases.
+"P99"
 
-  - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-    Full-text search expression applied across all event fields. Matches events containing the specified text.
+"P999"
 
-    - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-      The text or pattern to search for.
+"STDDEV"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+"VARIANCE"
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-    - `isRegex: optional boolean`
+</details>
 
-      When true, treats the value as a regular expression (RE2 syntax).
+<a href="#">Link to this property</a>
 
-    - `matchCase: optional boolean`
+alias: optional string
 
-      When true, performs a case-sensitive search. Defaults to case-insensitive.
+Custom label for this calculation in the results. Useful for distinguishing multiple calculations.
 
-  - `orderBy: optional object { value, order }`
+<a href="#">Link to this property</a>
 
-    Ordering for grouped calculation results. Only effective when a group-by is present.
+<details>
 
-    - `value: string`
+<summary>
 
-      Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query.
+keyType: optional "string"or "number"or "boolean"
 
-    - `order: optional "asc" or "desc"`
+Data type of the key. Required when key is provided to ensure correct aggregation.
 
-      Sort direction: 'asc' for ascending, 'desc' for descending.
+</summary>
 
-      - `"asc"`
+One of the following:
 
-      - `"desc"`
+"string"
 
-- `view: optional "traces" or "events" or "calculations" or 3 more`
+<a href="#">Link to this property</a>
 
-  Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': Durable Object agent summaries.
+"number"
 
-  - `"traces"`
+<a href="#">Link to this property</a>
 
-  - `"events"`
+"boolean"
 
-  - `"calculations"`
+<a href="#">Link to this property</a>
 
-  - `"invocations"`
+</details>
 
-  - `"requests"`
+<a href="#">Link to this property</a>
 
-  - `"agents"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+datasets: optional array of string
 
-  - `message: "Successful request"`
+Datasets to query. Leave empty to query all available datasets.
 
-    - `"Successful request"`
+<a href="#">Link to this property</a>
 
-- `result: object { id }`
+<details>
 
-  - `id: string`
+<summary>
 
-    Specify the ID of the shared query.
+filterCombination: optional "and"or "or"or "AND"or "OR"
 
-- `success: true`
+Logical operator for combining top-level filters: ‘and’ (all must match) or ‘or’ (any must match). Defaults to ‘and’.
 
-  - `true`
+</summary>
 
-### Example
+One of the following:
 
-```http
+"and"
+
+<a href="#">Link to this property</a>
+
+"or"
+
+<a href="#">Link to this property</a>
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
+
+Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: ‘group’. Maximum nesting depth is 4.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {filterCombination, filters, kind }
+
+</summary>
+
+<details>
+
+<summary>
+
+filterCombination: "and"or "or"or "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"and"
+
+<a href="#">Link to this property</a>
+
+"or"
+
+<a href="#">Link to this property</a>
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+filters: array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {filterCombination, filters, kind }
+
+</summary>
+
+<details>
+
+<summary>
+
+filterCombination: "and"or "or"or "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"and"
+
+<a href="#">Link to this property</a>
+
+"or"
+
+<a href="#">Link to this property</a>
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+filters: array of unknown
+
+<a href="#">Link to this property</a>
+
+kind: "group"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
+
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+
+</summary>
+
+key: string
+
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
+
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+
+</summary>
+
+One of the following:
+
+"includes"
+
+<a href="#">Link to this property</a>
+
+"not\_includes"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"regex"
+
+<a href="#">Link to this property</a>
+
+"exists"
+
+<a href="#">Link to this property</a>
+
+"is\_null"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+"="
+
+<a href="#">Link to this property</a>
+
+"!="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"INCLUDES"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_INCLUDE"
+
+<a href="#">Link to this property</a>
+
+"MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"EXISTS"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_EXIST"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"NOT\_IN"
+
+<a href="#">Link to this property</a>
+
+"STARTS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"ENDS\_WITH"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "string"or "number"or "boolean"
+
+Data type of the filter field. Must match the actual type of the key being filtered.
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+kind: optional "filter"
+
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional stringor numberor boolean
+
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+kind: "group"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
+
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+
+</summary>
+
+key: string
+
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
+
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+
+</summary>
+
+One of the following:
+
+"includes"
+
+<a href="#">Link to this property</a>
+
+"not\_includes"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"regex"
+
+<a href="#">Link to this property</a>
+
+"exists"
+
+<a href="#">Link to this property</a>
+
+"is\_null"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+"="
+
+<a href="#">Link to this property</a>
+
+"!="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"INCLUDES"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_INCLUDE"
+
+<a href="#">Link to this property</a>
+
+"MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"EXISTS"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_EXIST"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"NOT\_IN"
+
+<a href="#">Link to this property</a>
+
+"STARTS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"ENDS\_WITH"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "string"or "number"or "boolean"
+
+Data type of the filter field. Must match the actual type of the key being filtered.
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+kind: optional "filter"
+
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional stringor numberor boolean
+
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+groupBys: optional array of object {type, value }
+
+Fields to group calculation results by. Only applicable when the query view is ‘calculations’. Produces per-group aggregate values.
+
+</summary>
+
+<details>
+
+<summary>
+
+type: "string"or "number"or "boolean"
+
+Data type of the group-by field.
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Field name to group results by (e.g. $metadata.service, $metadata.statusCode).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+havings: optional array of object {key, operation, value }
+
+Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count &gt; 100).
+
+</summary>
+
+key: string
+
+Calculation alias or operator to filter on after aggregation.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operation: "eq"or "neq"or "gt"or 3 more
+
+Numeric comparison operator: eq, neq, gt, gte, lt, lte.
+
+</summary>
+
+One of the following:
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: number
+
+Threshold value to compare the calculation result against.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+limit: optional number
+
+Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases.
+
+maximum2000
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+needle: optional object {value, isRegex, matchCase }
+
+Full-text search expression applied across all event fields. Matches events containing the specified text.
+
+</summary>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+The text or pattern to search for.
+
+maxLength1000
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isRegex: optional boolean
+
+When true, treats the value as a regular expression (RE2 syntax).
+
+<a href="#">Link to this property</a>
+
+matchCase: optional boolean
+
+When true, performs a case-sensitive search. Defaults to case-insensitive.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+orderBy: optional object {value, order }
+
+Ordering for grouped calculation results. Only effective when a group-by is present.
+
+</summary>
+
+value: string
+
+Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+order: optional "asc"or "desc"
+
+Sort direction: ‘asc’ for ascending, ‘desc’ for descending.
+
+</summary>
+
+One of the following:
+
+"asc"
+
+<a href="#">Link to this property</a>
+
+"desc"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20parameters%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+view: optional "traces"or "events"or "calculations"or 3 more
+
+Controls the shape of the response. ‘events’: individual log lines matching the query. ‘calculations’: aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. ‘invocations’: events grouped by request ID. ‘traces’: distributed trace summaries. ‘agents’: agent-specific trace summaries.
+
+</summary>
+
+One of the following:
+
+"traces"
+
+<a href="#">Link to this property</a>
+
+"events"
+
+<a href="#">Link to this property</a>
+
+"calculations"
+
+<a href="#">Link to this property</a>
+
+"invocations"
+
+<a href="#">Link to this property</a>
+
+"requests"
+
+<a href="#">Link to this property</a>
+
+"agents"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20view%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message }
+
+</summary>
+
+message: "Successful request"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id }
+
+</summary>
+
+id: string
+
+Specify the ID of the shared query.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a sharable link to a query result
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/shared/query \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -562,9 +1490,32 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "Successful request"
+    }
+  ],
+  "result": {
+    "id": "id"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

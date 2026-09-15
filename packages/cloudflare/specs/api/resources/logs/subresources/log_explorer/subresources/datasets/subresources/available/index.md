@@ -1,203 +1,241 @@
+---
+title: Available
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Logs](https://developers.cloudflare.com/api/resources/logs)
+
+[Log Explorer](https://developers.cloudflare.com/api/resources/logs/subresources/log_explorer)
+
+[Datasets](https://developers.cloudflare.com/api/resources/logs/subresources/log_explorer/subresources/datasets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Available
 
-## List available account or zone datasets
+##### [List available account or zone datasets](https://developers.cloudflare.com/api/resources/logs/subresources/log_explorer/subresources/datasets/subresources/available/methods/list)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/logs/explorer/datasets/available`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/logs/explorer/datasets/available
 
-Returns all dataset types that this account or zone can create. Each entry
-includes the dataset schema and timestamp field.
+##### ModelsExpand Collapse
 
-The schema shows all possible fields for a dataset. However, not all
-fields may be available for your account or zone. When creating or updating a
-dataset, only fields available to your account or zone can be enabled. If you
-request a field that is not available, you will receive an error.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: optional string`
+AvailableDataset object {dataset, object\_type, schema, timestamp\_field }
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+A dataset type that the account or zone can create.
 
-- `zone_id: optional string`
+</summary>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+dataset: string
 
-### Returns
+Dataset type name (e.g. <code>http_requests</code>).
 
-- `AvailableList object { errors, messages, success, result }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of ResponseInfo`
+<details>
 
-    - `code: number`
+<summary>
 
-    - `message: string`
+object\_type: "account"or "zone"
 
-    - `documentation_url: optional string`
+Whether this dataset type is account-scoped or zone-scoped.
 
-    - `source: optional object { pointer }`
+</summary>
 
-      - `pointer: optional string`
+One of the following:
 
-  - `messages: array of string`
+"account"
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-  - `result: optional array of AvailableDataset`
+"zone"
 
-    - `dataset: string`
+<a href="#">Link to this property</a>
 
-      Dataset type name (e.g. `http_requests`).
+</details>
 
-    - `object_type: "account" or "zone"`
+<a href="#">Link to this property</a>
 
-      Whether this dataset type is account-scoped or zone-scoped.
+<details>
 
-      - `"account"`
+<summary>
 
-      - `"zone"`
+schema: object {properties, required, type }
 
-    - `schema: object { properties, required, type }`
+JSON Schema that describes the fields this dataset exposes.
 
-      JSON Schema that describes the fields this dataset exposes.
+</summary>
 
-      - `properties: optional map[unknown]`
+properties: optional map\[unknown]
 
-      - `required: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "object"`
+required: optional array of string
 
-        - `"object"`
+<a href="#">Link to this property</a>
 
-    - `timestamp_field: string`
+type: optional "object"
 
-      The primary timestamp field name for this dataset.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logs/explorer/datasets/available \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+timestamp\_field: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "success": true,
-  "result": [
-    {
-      "dataset": "dataset",
-      "object_type": "account",
-      "schema": {
-        "properties": {
-          "foo": "bar"
-        },
-        "required": [
-          "string"
-        ],
-        "type": "object"
-      },
-      "timestamp_field": "timestamp_field"
-    }
-  ]
-}
-```
+The primary timestamp field name for this dataset.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Available Dataset
+</details>
 
-- `AvailableDataset object { dataset, object_type, schema, timestamp_field }`
+[Link to this property](#)%20logs.log_explorer.datasets.available%20%3E%20(model)%20available_dataset%20%3E%20(schema)>)
 
-  A dataset type that the account or zone can create.
+<details>
 
-  - `dataset: string`
+<summary>
 
-    Dataset type name (e.g. `http_requests`).
+AvailableList object {errors, messages, success, result }
 
-  - `object_type: "account" or "zone"`
+</summary>
 
-    Whether this dataset type is account-scoped or zone-scoped.
+<details>
 
-    - `"account"`
+<summary>
 
-    - `"zone"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `schema: object { properties, required, type }`
+</summary>
 
-    JSON Schema that describes the fields this dataset exposes.
+code: number
 
-    - `properties: optional map[unknown]`
+minimum1000
 
-    - `required: optional array of string`
+<a href="#">Link to this property</a>
 
-    - `type: optional "object"`
+message: string
 
-      - `"object"`
+<a href="#">Link to this property</a>
 
-  - `timestamp_field: string`
+documentation\_url: optional string
 
-    The primary timestamp field name for this dataset.
+<a href="#">Link to this property</a>
 
-### Available List
+<details>
 
-- `AvailableList object { errors, messages, success, result }`
+<summary>
 
-  - `errors: array of ResponseInfo`
+source: optional object {pointer }
 
-    - `code: number`
+</summary>
 
-    - `message: string`
+pointer: optional string
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of string`
+</details>
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-  - `result: optional array of AvailableDataset`
+messages: array of string
 
-    - `dataset: string`
+<a href="#">Link to this property</a>
 
-      Dataset type name (e.g. `http_requests`).
+success: boolean
 
-    - `object_type: "account" or "zone"`
+<a href="#">Link to this property</a>
 
-      Whether this dataset type is account-scoped or zone-scoped.
+<details>
 
-      - `"account"`
+<summary>
 
-      - `"zone"`
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/logs#(resource)%20logs.log_explorer.datasets.available%20%3E%20(model)%20available_dataset%20%3E%20(schema)">AvailableDataset</a> { dataset, object\_type, schema, timestamp\_field }
 
-    - `schema: object { properties, required, type }`
+</summary>
 
-      JSON Schema that describes the fields this dataset exposes.
+dataset: string
 
-      - `properties: optional map[unknown]`
+Dataset type name (e.g. <code>http_requests</code>).
 
-      - `required: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "object"`
+<details>
 
-        - `"object"`
+<summary>
 
-    - `timestamp_field: string`
+object\_type: "account"or "zone"
 
-      The primary timestamp field name for this dataset.
+Whether this dataset type is account-scoped or zone-scoped.
+
+</summary>
+
+One of the following:
+
+"account"
+
+<a href="#">Link to this property</a>
+
+"zone"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: object {properties, required, type }
+
+JSON Schema that describes the fields this dataset exposes.
+
+</summary>
+
+properties: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+required: optional array of string
+
+<a href="#">Link to this property</a>
+
+type: optional "object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+timestamp\_field: string
+
+The primary timestamp field name for this dataset.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20logs.log_explorer.datasets.available%20%3E%20(model)%20available_list%20%3E%20(schema)>)

@@ -1,355 +1,171 @@
+---
+title: Connections
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels)
+
+[Cloudflared](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Connections
 
-## List Cloudflare Tunnel connections
+##### [List Cloudflare Tunnel connections](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/connections/methods/get)
 
-**get** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/connections`
+GET/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/connections
 
-Fetches connection details for a Cloudflare Tunnel.
+##### [Clean up Cloudflare Tunnel connections](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/connections/methods/delete)
 
-### Path Parameters
+DELETE/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/connections
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Cloudflare account ID
+<details>
 
-- `tunnel_id: string`
+<summary>
 
-  UUID of the tunnel.
+Client object {id, arch, config\_version, 4 more }
 
-### Returns
+A client (typically cloudflared) that maintains connections to a Cloudflare data center.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+UUID of the Cloudflare Tunnel connection.
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+maxLength36
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+arch: optional string
 
-  - `code: number`
+The cloudflared OS architecture used to establish this connection.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+config\_version: optional number
 
-  - `source: optional object { pointer }`
+The version of the remote tunnel configuration. Used internally to sync cloudflared with the Zero Trust dashboard.
 
-- `result: array of Client`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    UUID of the Cloudflare Tunnel connection.
+<summary>
 
-  - `arch: optional string`
+conns: optional array of object {id, client\_id, client\_version, 5 more }
 
-    The cloudflared OS architecture used to establish this connection.
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-  - `config_version: optional number`
+</summary>
 
-    The version of the remote tunnel configuration. Used internally to sync cloudflared with the Zero Trust dashboard.
+id: optional string
 
-  - `conns: optional array of object { id, client_id, client_version, 5 more }`
+UUID of the Cloudflare Tunnel connection.
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+formatuuid
 
-    - `id: optional string`
+maxLength36
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-    - `client_id: optional string`
+client\_id: optional string
 
-      UUID of the Cloudflare Tunnel connector.
+UUID of the Cloudflare Tunnel connector.
 
-    - `client_version: optional string`
+formatuuid
 
-      The cloudflared version used to establish this connection.
+maxLength36
 
-    - `colo_name: optional string`
+<a href="#">Link to this property</a>
 
-      The Cloudflare data center used for this connection.
+client\_version: optional string
 
-    - `is_pending_reconnect: optional boolean`
+The cloudflared version used to establish this connection.
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+<a href="#">Link to this property</a>
 
-    - `opened_at: optional string`
+colo\_name: optional string
 
-      Timestamp of when the connection was established.
+The Cloudflare data center used for this connection.
 
-    - `origin_ip: optional string`
+<a href="#">Link to this property</a>
 
-      The public IP address of the host running cloudflared.
+Deprecatedis\_pending\_reconnect: optional boolean
 
-    - `uuid: optional string`
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-      UUID of the Cloudflare Tunnel connection.
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-  - `features: optional array of string`
+<a href="#">Link to this property</a>
 
-    Features enabled for the Cloudflare Tunnel.
+opened\_at: optional string
 
-  - `run_at: optional string`
+Timestamp of when the connection was established.
 
-    Timestamp of when the tunnel connection was started.
+formatdate-time
 
-  - `version: optional string`
+<a href="#">Link to this property</a>
 
-    The cloudflared version used to establish this connection.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
+origin\_ip: optional string
 
-    Current page within paginated list of results
+The public IP address of the host running cloudflared.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+uuid: optional string
 
-  - `total_count: optional number`
+UUID of the Cloudflare Tunnel connection.
 
-    Total results available without any search parameters
+formatuuid
 
-### Example
+maxLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/connections \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-      "arch": "linux_amd64",
-      "config_version": 0,
-      "conns": [
-        {
-          "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_version": "2022.7.1",
-          "colo_name": "DFW",
-          "is_pending_reconnect": false,
-          "opened_at": "2021-01-25T18:22:34.317854Z",
-          "origin_ip": "10.1.0.137",
-          "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-        }
-      ],
-      "features": [
-        "ha-origin"
-      ],
-      "run_at": "2009-11-10T23:00:00Z",
-      "version": "2022.7.1"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Clean up Cloudflare Tunnel connections
+features: optional array of string
 
-**delete** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/connections`
+Features enabled for the Cloudflare Tunnel.
 
-Removes a connection (aka Cloudflare Tunnel Connector) from a Cloudflare Tunnel independently of its current state. If no connector id (client_id) is provided all connectors will be removed. We recommend running this command after rotating tokens.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+run\_at: optional string
 
-- `account_id: string`
+Timestamp of when the tunnel connection was started.
 
-  Cloudflare account ID
+formatdate-time
 
-- `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-  UUID of the tunnel.
+version: optional string
 
-### Query Parameters
+The cloudflared version used to establish this connection.
 
-- `client_id: optional string`
+<a href="#">Link to this property</a>
 
-  UUID of the Cloudflare Tunnel connector.
+</details>
 
-### Returns
+[Link to this property](#)%20zero_trust.tunnels.cloudflared.connections%20%3E%20(model)%20client%20%3E%20(schema)>)
 
-- `errors: array of ResponseInfo`
+ConnectionDeleteResponse = unknown
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/connections \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Client
-
-- `Client object { id, arch, config_version, 4 more }`
-
-  A client (typically cloudflared) that maintains connections to a Cloudflare data center.
-
-  - `id: optional string`
-
-    UUID of the Cloudflare Tunnel connection.
-
-  - `arch: optional string`
-
-    The cloudflared OS architecture used to establish this connection.
-
-  - `config_version: optional number`
-
-    The version of the remote tunnel configuration. Used internally to sync cloudflared with the Zero Trust dashboard.
-
-  - `conns: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `features: optional array of string`
-
-    Features enabled for the Cloudflare Tunnel.
-
-  - `run_at: optional string`
-
-    Timestamp of when the tunnel connection was started.
-
-  - `version: optional string`
-
-    The cloudflared version used to establish this connection.
-
-### Connection Delete Response
-
-- `ConnectionDeleteResponse = unknown`
+[Link to this property](#)%20zero_trust.tunnels.cloudflared.connections%20%3E%20(model)%20connection_delete_response%20%3E%20(schema)>)

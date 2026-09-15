@@ -1,1097 +1,953 @@
+---
+title: Devices
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Fleet Status](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Devices
 
-## List details of devices using WARP.
+##### [List details of devices using WARP.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list)
 
-**get** `/accounts/{account_id}/dex/fleet-status/devices`
+GET/accounts/{account\_id}/dex/fleet-status/devices
 
-List details of devices using WARP.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+DeviceListResponse object {colo, deviceId, mode, 40 more }
 
-### Query Parameters
+</summary>
 
-- `from: string`
+colo: string
 
-  Start of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
+Cloudflare colo airport code.
 
-- `page: number`
+<a href="#">Link to this property</a>
 
-  Page number of paginated results.
+deviceId: string
 
-- `per_page: number`
+Device identifier (UUID v4)
 
-  Number of results per page.
+<a href="#">Link to this property</a>
 
-- `to: string`
+mode: string
 
-  End of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
+The mode under which the WARP client is run.
 
-- `colo: optional string`
+<a href="#">Link to this property</a>
 
-  Cloudflare colo airport code.
+platform: string
 
-- `device_id: optional string`
+Operating system.
 
-  Device-specific ID, given as UUID.
+<a href="#">Link to this property</a>
 
-- `mode: optional string`
+status: string
 
-  The mode under which the WARP client is run.
+Network status.
 
-- `platform: optional string`
+<a href="#">Link to this property</a>
 
-  Operating system.
+timestamp: string
 
-- `sort_by: optional "colo" or "device_id" or "mode" or 4 more`
+<a href="#">Link to this property</a>
 
-  Dimension to sort results by.
+version: string
 
-  - `"colo"`
+WARP client version.
 
-  - `"device_id"`
+<a href="#">Link to this property</a>
 
-  - `"mode"`
+alwaysOn: optional boolean
 
-  - `"platform"`
+<a href="#">Link to this property</a>
 
-  - `"status"`
+batteryCharging: optional boolean
 
-  - `"timestamp"`
+<a href="#">Link to this property</a>
 
-  - `"version"`
+batteryCycles: optional number
 
-- `source: optional "last_seen" or "hourly" or "raw"`
+formatint64
 
-  Source:
+<a href="#">Link to this property</a>
 
-  * `hourly` - device details aggregated hourly, up to 7 days prior
-  * `last_seen` - device details, up to 60 minutes prior. Time windows exceeding 60 minutes will be rejected from June 1st, 2026. Please use 'hourly' or 'raw' instead for longer time ranges.
-  * `raw` - device details, up to 7 days prior
+batteryPct: optional number
 
-  - `"last_seen"`
+formatfloat
 
-  - `"hourly"`
+<a href="#">Link to this property</a>
 
-  - `"raw"`
+connectionType: optional string
 
-- `status: optional string`
+<a href="#">Link to this property</a>
 
-  Network status.
+cpuPct: optional number
 
-- `version: optional string`
+formatfloat
 
-  WARP client version.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+cpuPctByApp: optional array of object {cpu\_pct, name }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+cpu\_pct: optional number
 
-  - `source: optional object { pointer }`
+CPU usage percentage, on a scale of 0 to 100.
 
-    - `pointer: optional string`
+formatfloat
 
-- `messages: array of object { code, message, documentation_url, source }`
+maximum100
 
-  - `code: number`
+minimum0
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: optional string
 
-  - `source: optional object { pointer }`
+Application name.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional array of object { colo, deviceId, mode, 40 more }`
+<summary>
 
-  - `colo: string`
+deviceIpv4: optional object {address, asn, aso, 4 more }
 
-    Cloudflare colo airport code.
+</summary>
 
-  - `deviceId: string`
+address: optional string
 
-    Device identifier (UUID v4)
+<a href="#">Link to this property</a>
 
-  - `mode: string`
+asn: optional number
 
-    The mode under which the WARP client is run.
+<a href="#">Link to this property</a>
 
-  - `platform: string`
+aso: optional string
 
-    Operating system.
+<a href="#">Link to this property</a>
 
-  - `status: string`
+<details>
 
-    Network status.
+<summary>
 
-  - `timestamp: string`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-  - `version: string`
+</summary>
 
-    WARP client version.
+city: optional string
 
-  - `alwaysOn: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `batteryCharging: optional boolean`
+country\_iso: optional string
 
-  - `batteryCycles: optional number`
+<a href="#">Link to this property</a>
 
-  - `batteryPct: optional number`
+state\_iso: optional string
 
-  - `connectionType: optional string`
+<a href="#">Link to this property</a>
 
-  - `cpuPct: optional number`
+zip: optional string
 
-  - `cpuPctByApp: optional array of object { cpu_pct, name }`
+<a href="#">Link to this property</a>
 
-    - `cpu_pct: optional number`
+</details>
 
-      CPU usage percentage, on a scale of 0 to 100.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+name: optional string
 
-      Application name.
+<a href="#">Link to this property</a>
 
-  - `deviceIpv4: optional object { address, asn, aso, 4 more }`
+netmask: optional string
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+version: optional number
 
-    - `aso: optional string`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+</details>
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+<details>
 
-      - `zip: optional string`
+<summary>
 
-    - `name: optional string`
+deviceIpv6: optional object {address, asn, aso, 4 more }
 
-    - `netmask: optional string`
+</summary>
 
-    - `version: optional number`
+address: optional string
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<a href="#">Link to this property</a>
 
-  - `deviceIpv6: optional object { address, asn, aso, 4 more }`
+asn: optional number
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+aso: optional string
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<details>
 
-      - `city: optional string`
+<summary>
 
-      - `country_iso: optional string`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-      - `state_iso: optional string`
+</summary>
 
-      - `zip: optional string`
+city: optional string
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+country\_iso: optional string
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+state\_iso: optional string
 
-  - `deviceName: optional string`
+<a href="#">Link to this property</a>
 
-    Device identifier (human readable).
+zip: optional string
 
-  - `deviceRegistration: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated: use registrationId. Device registration identifier (UUID).
+</details>
 
-  - `diskReadBps: optional number`
+<a href="#">Link to this property</a>
 
-  - `diskUsagePct: optional number`
+name: optional string
 
-  - `diskWriteBps: optional number`
+<a href="#">Link to this property</a>
 
-  - `dohSubdomain: optional string`
+netmask: optional string
 
-  - `estimatedLossPct: optional number`
+<a href="#">Link to this property</a>
 
-  - `firewallEnabled: optional boolean`
+version: optional number
 
-  - `gatewayIpv4: optional object { address, asn, aso, 4 more }`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+</details>
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+deviceName: optional string
 
-      - `city: optional string`
+Device identifier (human readable).
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+DeprecateddeviceRegistration: optional string
 
-      - `zip: optional string`
+Use <code>registrationId</code> instead.
 
-    - `name: optional string`
+Deprecated: use registrationId. Device registration identifier (UUID).
 
-    - `netmask: optional string`
+<a href="#">Link to this property</a>
 
-    - `version: optional number`
+diskReadBps: optional number
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+formatint64
 
-  - `gatewayIpv6: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+diskUsagePct: optional number
 
-    - `asn: optional number`
+formatfloat
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+diskWriteBps: optional number
 
-      - `city: optional string`
+formatint64
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+dohSubdomain: optional string
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+estimatedLossPct: optional number
 
-    - `netmask: optional string`
+formatfloat
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+firewallEnabled: optional boolean
 
-  - `handshakeLatencyMs: optional number`
+<a href="#">Link to this property</a>
 
-  - `ispIpv4: optional object { address, asn, aso, 4 more }`
+<details>
 
-    - `address: optional string`
+<summary>
 
-    - `asn: optional number`
+gatewayIpv4: optional object {address, asn, aso, 4 more }
 
-    - `aso: optional string`
+</summary>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+address: optional string
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-      - `country_iso: optional string`
+asn: optional number
 
-      - `state_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `zip: optional string`
+aso: optional string
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+<details>
 
-    - `version: optional number`
+<summary>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+location: optional object {city, country\_iso, state\_iso, zip }
 
-  - `ispIpv6: optional object { address, asn, aso, 4 more }`
+</summary>
 
-    - `address: optional string`
+city: optional string
 
-    - `asn: optional number`
+<a href="#">Link to this property</a>
 
-    - `aso: optional string`
+country\_iso: optional string
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+state\_iso: optional string
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+zip: optional string
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-    - `netmask: optional string`
+<a href="#">Link to this property</a>
 
-    - `version: optional number`
+name: optional string
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<a href="#">Link to this property</a>
 
-  - `metal: optional string`
+netmask: optional string
 
-  - `networkRcvdBps: optional number`
+<a href="#">Link to this property</a>
 
-  - `networkSentBps: optional number`
+version: optional number
 
-  - `networkSsid: optional string`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-  - `personEmail: optional string`
+<a href="#">Link to this property</a>
 
-    User contact email address
+</details>
 
-  - `ramAvailableKb: optional number`
+<a href="#">Link to this property</a>
 
-  - `ramUsedPct: optional number`
+<details>
 
-  - `ramUsedPctByApp: optional array of object { name, ram_used_pct }`
+<summary>
 
-    - `name: optional string`
+gatewayIpv6: optional object {address, asn, aso, 4 more }
 
-      Application name.
+</summary>
 
-    - `ram_used_pct: optional number`
+address: optional string
 
-      RAM usage percentage, on a scale of 0 to 100.
+<a href="#">Link to this property</a>
 
-  - `registrationId: optional string`
+asn: optional number
 
-    Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
+<a href="#">Link to this property</a>
 
-  - `rtt: optional object { minRttUs, rttUs, rttVarUs }`
+aso: optional string
 
-    Round-trip time statistics for the WARP tunnel.
+<a href="#">Link to this property</a>
 
-    - `minRttUs: optional object { downstream, upstream }`
+<details>
 
-      Minimum round-trip time in microseconds.
+<summary>
 
-      - `downstream: optional number`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-      - `upstream: optional number`
+</summary>
 
-    - `rttUs: optional object { downstream, upstream }`
+city: optional string
 
-      Round-trip time in microseconds.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+country\_iso: optional string
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `rttVarUs: optional object { downstream, upstream }`
+state\_iso: optional string
 
-      Round-trip time variance in microseconds.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+zip: optional string
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-  - `switchLocked: optional boolean`
+</details>
 
-  - `tunnelStats: optional object { bytesLost, bytesReceived, bytesRetransmitted, 6 more }`
+<a href="#">Link to this property</a>
 
-    WARP tunnel packet and byte counters.
+name: optional string
 
-    - `bytesLost: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of bytes lost, split by direction.
+netmask: optional string
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+version: optional number
 
-    - `bytesReceived: optional object { downstream, upstream }`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-      Number of bytes received, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+</details>
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `bytesRetransmitted: optional object { downstream, upstream }`
+handshakeLatencyMs: optional number
 
-      Number of bytes retransmitted, split by direction.
+formatint64
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+<details>
 
-    - `bytesSent: optional object { downstream, upstream }`
+<summary>
 
-      Number of bytes sent, split by direction.
+ispIpv4: optional object {address, asn, aso, 4 more }
 
-      - `downstream: optional number`
+</summary>
 
-      - `upstream: optional number`
+address: optional string
 
-    - `packetsLost: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of packets lost, split by direction.
+asn: optional number
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+aso: optional string
 
-    - `packetsReceived: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of packets received, split by direction.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-    - `packetsRetransmitted: optional object { downstream, upstream }`
+</summary>
 
-      Number of packets retransmitted, split by direction.
+city: optional string
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+country\_iso: optional string
 
-    - `packetsSent: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of packets sent, split by direction.
+state\_iso: optional string
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+zip: optional string
 
-    - `statsWindowMs: optional number`
+<a href="#">Link to this property</a>
 
-      The measurement window duration in milliseconds.
+</details>
 
-  - `tunnelType: optional string`
+<a href="#">Link to this property</a>
 
-  - `wifiStrengthDbm: optional number`
+name: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+netmask: optional string
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+version: optional number
 
-    Current page within paginated list of results.
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+ispIpv6: optional object {address, asn, aso, 4 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/fleet-status/devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+address: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "colo": "SJC",
-      "deviceId": "deviceId",
-      "mode": "proxy",
-      "platform": "windows",
-      "status": "connected",
-      "timestamp": "2023-10-11 00:00:00+00",
-      "version": "1.0.0",
-      "alwaysOn": true,
-      "batteryCharging": true,
-      "batteryCycles": 0,
-      "batteryPct": 0,
-      "connectionType": "connectionType",
-      "cpuPct": 0,
-      "cpuPctByApp": [
-        {
-          "cpu_pct": 0,
-          "name": "name"
-        }
-      ],
-      "deviceIpv4": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "deviceIpv6": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "deviceName": "deviceName",
-      "deviceRegistration": "deviceRegistration",
-      "diskReadBps": 0,
-      "diskUsagePct": 0,
-      "diskWriteBps": 0,
-      "dohSubdomain": "dohSubdomain",
-      "estimatedLossPct": 0,
-      "firewallEnabled": true,
-      "gatewayIpv4": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "gatewayIpv6": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "handshakeLatencyMs": 0,
-      "ispIpv4": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "ispIpv6": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "metal": "metal",
-      "networkRcvdBps": 0,
-      "networkSentBps": 0,
-      "networkSsid": "networkSsid",
-      "personEmail": "personEmail",
-      "ramAvailableKb": 0,
-      "ramUsedPct": 0,
-      "ramUsedPctByApp": [
-        {
-          "name": "name",
-          "ram_used_pct": 0
-        }
-      ],
-      "registrationId": "registrationId",
-      "rtt": {
-        "minRttUs": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "rttUs": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "rttVarUs": {
-          "downstream": 0,
-          "upstream": 0
-        }
-      },
-      "switchLocked": true,
-      "tunnelStats": {
-        "bytesLost": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "bytesReceived": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "bytesRetransmitted": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "bytesSent": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "packetsLost": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "packetsReceived": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "packetsRetransmitted": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "packetsSent": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "statsWindowMs": 0
-      },
-      "tunnelType": "tunnelType",
-      "wifiStrengthDbm": 0
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+asn: optional number
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Device List Response
+aso: optional string
 
-- `DeviceListResponse object { colo, deviceId, mode, 40 more }`
+<a href="#">Link to this property</a>
 
-  - `colo: string`
+<details>
 
-    Cloudflare colo airport code.
+<summary>
 
-  - `deviceId: string`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-    Device identifier (UUID v4)
+</summary>
 
-  - `mode: string`
+city: optional string
 
-    The mode under which the WARP client is run.
+<a href="#">Link to this property</a>
 
-  - `platform: string`
+country\_iso: optional string
 
-    Operating system.
+<a href="#">Link to this property</a>
 
-  - `status: string`
+state\_iso: optional string
 
-    Network status.
+<a href="#">Link to this property</a>
 
-  - `timestamp: string`
+zip: optional string
 
-  - `version: string`
+<a href="#">Link to this property</a>
 
-    WARP client version.
+</details>
 
-  - `alwaysOn: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `batteryCharging: optional boolean`
+name: optional string
 
-  - `batteryCycles: optional number`
+<a href="#">Link to this property</a>
 
-  - `batteryPct: optional number`
+netmask: optional string
 
-  - `connectionType: optional string`
+<a href="#">Link to this property</a>
 
-  - `cpuPct: optional number`
+version: optional number
 
-  - `cpuPctByApp: optional array of object { cpu_pct, name }`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-    - `cpu_pct: optional number`
+<a href="#">Link to this property</a>
 
-      CPU usage percentage, on a scale of 0 to 100.
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Application name.
+metal: optional string
 
-  - `deviceIpv4: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+networkRcvdBps: optional number
 
-    - `asn: optional number`
+formatint64
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+networkSentBps: optional number
 
-      - `city: optional string`
+formatint64
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+networkSsid: optional string
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+personEmail: optional string
 
-    - `netmask: optional string`
+User contact email address
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+ramAvailableKb: optional number
 
-  - `deviceIpv6: optional object { address, asn, aso, 4 more }`
+formatint64
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+ramUsedPct: optional number
 
-    - `aso: optional string`
+formatfloat
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+<details>
 
-      - `country_iso: optional string`
+<summary>
 
-      - `state_iso: optional string`
+ramUsedPctByApp: optional array of object {name, ram\_used\_pct }
 
-      - `zip: optional string`
+</summary>
 
-    - `name: optional string`
+name: optional string
 
-    - `netmask: optional string`
+Application name.
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+ram\_used\_pct: optional number
 
-  - `deviceName: optional string`
+RAM usage percentage, on a scale of 0 to 100.
 
-    Device identifier (human readable).
+formatfloat
 
-  - `deviceRegistration: optional string`
+maximum100
 
-    Deprecated: use registrationId. Device registration identifier (UUID).
+minimum0
 
-  - `diskReadBps: optional number`
+<a href="#">Link to this property</a>
 
-  - `diskUsagePct: optional number`
+</details>
 
-  - `diskWriteBps: optional number`
+<a href="#">Link to this property</a>
 
-  - `dohSubdomain: optional string`
+registrationId: optional string
 
-  - `estimatedLossPct: optional number`
+Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user’s registration on the device.
 
-  - `firewallEnabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `gatewayIpv4: optional object { address, asn, aso, 4 more }`
+<details>
 
-    - `address: optional string`
+<summary>
 
-    - `asn: optional number`
+rtt: optional object {minRttUs, rttUs, rttVarUs }
 
-    - `aso: optional string`
+Round-trip time statistics for the WARP tunnel.
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+</summary>
 
-      - `city: optional string`
+<details>
 
-      - `country_iso: optional string`
+<summary>
 
-      - `state_iso: optional string`
+minRttUs: optional object {downstream, upstream }
 
-      - `zip: optional string`
+Minimum round-trip time in microseconds.
 
-    - `name: optional string`
+</summary>
 
-    - `netmask: optional string`
+downstream: optional number
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+upstream: optional number
 
-  - `gatewayIpv6: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+</details>
 
-    - `asn: optional number`
+<a href="#">Link to this property</a>
 
-    - `aso: optional string`
+<details>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<summary>
 
-      - `city: optional string`
+rttUs: optional object {downstream, upstream }
 
-      - `country_iso: optional string`
+Round-trip time in microseconds.
 
-      - `state_iso: optional string`
+</summary>
 
-      - `zip: optional string`
+downstream: optional number
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+upstream: optional number
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+</details>
 
-  - `handshakeLatencyMs: optional number`
+<a href="#">Link to this property</a>
 
-  - `ispIpv4: optional object { address, asn, aso, 4 more }`
+<details>
 
-    - `address: optional string`
+<summary>
 
-    - `asn: optional number`
+rttVarUs: optional object {downstream, upstream }
 
-    - `aso: optional string`
+Round-trip time variance in microseconds.
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+</summary>
 
-      - `city: optional string`
+downstream: optional number
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+upstream: optional number
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-    - `netmask: optional string`
+<a href="#">Link to this property</a>
 
-    - `version: optional number`
+</details>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<a href="#">Link to this property</a>
 
-  - `ispIpv6: optional object { address, asn, aso, 4 more }`
+switchLocked: optional boolean
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+<details>
 
-    - `aso: optional string`
+<summary>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+tunnelStats: optional object {bytesLost, bytesReceived, bytesRetransmitted, 6 more }
 
-      - `city: optional string`
+WARP tunnel packet and byte counters.
 
-      - `country_iso: optional string`
+</summary>
 
-      - `state_iso: optional string`
+<details>
 
-      - `zip: optional string`
+<summary>
 
-    - `name: optional string`
+bytesLost: optional object {downstream, upstream }
 
-    - `netmask: optional string`
+Number of bytes lost, split by direction.
 
-    - `version: optional number`
+</summary>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+downstream: optional number
 
-  - `metal: optional string`
+<a href="#">Link to this property</a>
 
-  - `networkRcvdBps: optional number`
+upstream: optional number
 
-  - `networkSentBps: optional number`
+<a href="#">Link to this property</a>
 
-  - `networkSsid: optional string`
+</details>
 
-  - `personEmail: optional string`
+<a href="#">Link to this property</a>
 
-    User contact email address
+<details>
 
-  - `ramAvailableKb: optional number`
+<summary>
 
-  - `ramUsedPct: optional number`
+bytesReceived: optional object {downstream, upstream }
 
-  - `ramUsedPctByApp: optional array of object { name, ram_used_pct }`
+Number of bytes received, split by direction.
 
-    - `name: optional string`
+</summary>
 
-      Application name.
+downstream: optional number
 
-    - `ram_used_pct: optional number`
+<a href="#">Link to this property</a>
 
-      RAM usage percentage, on a scale of 0 to 100.
+upstream: optional number
 
-  - `registrationId: optional string`
+<a href="#">Link to this property</a>
 
-    Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
+</details>
 
-  - `rtt: optional object { minRttUs, rttUs, rttVarUs }`
+<a href="#">Link to this property</a>
 
-    Round-trip time statistics for the WARP tunnel.
+<details>
 
-    - `minRttUs: optional object { downstream, upstream }`
+<summary>
 
-      Minimum round-trip time in microseconds.
+bytesRetransmitted: optional object {downstream, upstream }
 
-      - `downstream: optional number`
+Number of bytes retransmitted, split by direction.
 
-      - `upstream: optional number`
+</summary>
 
-    - `rttUs: optional object { downstream, upstream }`
+downstream: optional number
 
-      Round-trip time in microseconds.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+upstream: optional number
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `rttVarUs: optional object { downstream, upstream }`
+</details>
 
-      Round-trip time variance in microseconds.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+<details>
 
-      - `upstream: optional number`
+<summary>
 
-  - `switchLocked: optional boolean`
+bytesSent: optional object {downstream, upstream }
 
-  - `tunnelStats: optional object { bytesLost, bytesReceived, bytesRetransmitted, 6 more }`
+Number of bytes sent, split by direction.
 
-    WARP tunnel packet and byte counters.
+</summary>
 
-    - `bytesLost: optional object { downstream, upstream }`
+downstream: optional number
 
-      Number of bytes lost, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+upstream: optional number
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `bytesReceived: optional object { downstream, upstream }`
+</details>
 
-      Number of bytes received, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+<details>
 
-      - `upstream: optional number`
+<summary>
 
-    - `bytesRetransmitted: optional object { downstream, upstream }`
+packetsLost: optional object {downstream, upstream }
 
-      Number of bytes retransmitted, split by direction.
+Number of packets lost, split by direction.
 
-      - `downstream: optional number`
+</summary>
 
-      - `upstream: optional number`
+downstream: optional number
 
-    - `bytesSent: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of bytes sent, split by direction.
+upstream: optional number
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+</details>
 
-    - `packetsLost: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of packets lost, split by direction.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+packetsReceived: optional object {downstream, upstream }
 
-    - `packetsReceived: optional object { downstream, upstream }`
+Number of packets received, split by direction.
 
-      Number of packets received, split by direction.
+</summary>
 
-      - `downstream: optional number`
+downstream: optional number
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `packetsRetransmitted: optional object { downstream, upstream }`
+upstream: optional number
 
-      Number of packets retransmitted, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+</details>
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `packetsSent: optional object { downstream, upstream }`
+<details>
 
-      Number of packets sent, split by direction.
+<summary>
 
-      - `downstream: optional number`
+packetsRetransmitted: optional object {downstream, upstream }
 
-      - `upstream: optional number`
+Number of packets retransmitted, split by direction.
 
-    - `statsWindowMs: optional number`
+</summary>
 
-      The measurement window duration in milliseconds.
+downstream: optional number
 
-  - `tunnelType: optional string`
+<a href="#">Link to this property</a>
 
-  - `wifiStrengthDbm: optional number`
+upstream: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+packetsSent: optional object {downstream, upstream }
+
+Number of packets sent, split by direction.
+
+</summary>
+
+downstream: optional number
+
+<a href="#">Link to this property</a>
+
+upstream: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+statsWindowMs: optional number
+
+The measurement window duration in milliseconds.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tunnelType: optional string
+
+<a href="#">Link to this property</a>
+
+wifiStrengthDbm: optional number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.fleet_status.devices%20%3E%20(model)%20device_list_response%20%3E%20(schema)>)

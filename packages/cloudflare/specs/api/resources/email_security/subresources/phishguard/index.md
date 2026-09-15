@@ -1,251 +1,191 @@
+---
+title: Phishguard
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Phishguard
 
-# Reports
+#### PhishguardReports
 
-## Get PhishGuard reports
+##### [Get PhishGuard reports](https://developers.cloudflare.com/api/resources/email_security/subresources/phishguard/subresources/reports/methods/list)
 
-**get** `/accounts/{account_id}/email-security/phishguard/reports`
+GET/accounts/{account\_id}/email-security/phishguard/reports
 
-Retrieves PhishGuard security alert reports for a specified date range. Reports include detected threats, dispositions, and contextual information. Use for security monitoring and threat analysis.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+ReportListResponse object {id, content, disposition, 7 more }
 
-### Query Parameters
+</summary>
 
-- `end: optional string`
+id: number
 
-  End of the time range (RFC3339). Takes precedence over to_date.
+<a href="#">Link to this property</a>
 
-- `from_date: optional string`
+content: string
 
-  Deprecated, use `start` instead. Start date in YYYY-MM-DD format.
+<a href="#">Link to this property</a>
 
-- `start: optional string`
+<details>
 
-  Start of the time range (RFC3339). Takes precedence over from_date.
+<summary>
 
-- `to_date: optional string`
+disposition: "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  Deprecated, use `end` instead. End date in YYYY-MM-DD format.
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { code, message, documentation_url, source }`
+"MALICIOUS"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"MALICIOUS-BEC"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"SUSPICIOUS"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"SPOOF"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"SPAM"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"BULK"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, content, disposition, 7 more }`
+"ENCRYPTED"
 
-  - `id: number`
+<a href="#">Link to this property</a>
 
-  - `content: string`
+"EXTERNAL"
 
-  - `disposition: "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS"`
+"UNKNOWN"
 
-    - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+"NONE"
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+</details>
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+<details>
 
-    - `"EXTERNAL"`
+<summary>
 
-    - `"UNKNOWN"`
+fields: object {to, from, occurred\_at, 2 more }
 
-    - `"NONE"`
+</summary>
 
-  - `fields: object { to, from, occurred_at, 2 more }`
+to: array of string
 
-    - `to: array of string`
+<a href="#">Link to this property</a>
 
-    - `from: optional string`
+from: optional string
 
-    - `occurred_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `postfix_id: optional string`
+occurred\_at: optional string
 
-    - `ts: optional string`
+formatdate-time
 
-      Deprecated, use `occurred_at` instead
+<a href="#">Link to this property</a>
 
-  - `priority: string`
-
-  - `title: string`
-
-  - `created_at: optional string`
-
-  - `tags: optional array of object { category, value }`
-
-    - `category: string`
-
-    - `value: string`
+postfix\_id: optional string
 
-  - `ts: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `created_at` instead
+Deprecatedts: optional string
 
-  - `updated_at: optional string`
+Use <code>occurred_at</code> instead.
 
-- `success: true`
+Deprecated, use <code>occurred_at</code> instead.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/phishguard/reports \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+priority: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": 0,
-      "content": "content",
-      "disposition": "MALICIOUS",
-      "fields": {
-        "to": [
-          "string"
-        ],
-        "from": "from",
-        "occurred_at": "2019-12-27T18:11:19.117Z",
-        "postfix_id": "postfix_id",
-        "ts": "2019-12-27T18:11:19.117Z"
-      },
-      "priority": "priority",
-      "title": "title",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "tags": [
-        {
-          "category": "category",
-          "value": "value"
-        }
-      ],
-      "ts": "2019-12-27T18:11:19.117Z",
-      "updated_at": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+title: string
 
-### Report List Response
+<a href="#">Link to this property</a>
 
-- `ReportListResponse object { id, content, disposition, 7 more }`
+created\_at: optional string
 
-  - `id: number`
+formatdate-time
 
-  - `content: string`
+<a href="#">Link to this property</a>
 
-  - `disposition: "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<details>
 
-    - `"MALICIOUS"`
+<summary>
 
-    - `"MALICIOUS-BEC"`
+tags: optional array of object {category, value }
 
-    - `"SUSPICIOUS"`
+</summary>
 
-    - `"SPOOF"`
+category: string
 
-    - `"SPAM"`
+<a href="#">Link to this property</a>
 
-    - `"BULK"`
+value: string
 
-    - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-    - `"EXTERNAL"`
+</details>
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-    - `"NONE"`
+Deprecatedts: optional string
 
-  - `fields: object { to, from, occurred_at, 2 more }`
+Use <code>created_at</code> instead.
 
-    - `to: array of string`
+Deprecated, use <code>created_at</code> instead.
 
-    - `from: optional string`
+formatdate-time
 
-    - `occurred_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `postfix_id: optional string`
+updated\_at: optional string
 
-    - `ts: optional string`
+formatdate-time
 
-      Deprecated, use `occurred_at` instead
+<a href="#">Link to this property</a>
 
-  - `priority: string`
+</details>
 
-  - `title: string`
-
-  - `created_at: optional string`
-
-  - `tags: optional array of object { category, value }`
-
-    - `category: string`
-
-    - `value: string`
-
-  - `ts: optional string`
-
-    Deprecated, use `created_at` instead
-
-  - `updated_at: optional string`
+[Link to this property](#)%20email_security.phishguard.reports%20%3E%20(model)%20report_list_response%20%3E%20(schema)>)

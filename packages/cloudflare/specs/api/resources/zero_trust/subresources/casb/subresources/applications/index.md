@@ -1,1117 +1,736 @@
+---
+title: Applications
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Casb](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Applications
 
-## List applications
+##### [List applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/applications/methods/list)
 
-**get** `/accounts/{account_id}/one/applications`
+GET/accounts/{account\_id}/one/applications
 
-Returns a list of available applications with use cases and permissions.
+##### [Get application details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/applications/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/one/applications/{application\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `environment: optional string`
+<summary>
 
-  Filter by supported environment (standard, fedramp).
+ApplicationListResponse object {id, auth\_methods, category, 7 more }
 
-### Returns
+Application item in list response.
 
-- `auth_methods: array of object { display_name, slug }`
+</summary>
 
-  Available auth methods.
+<details>
 
-  - `display_name: string`
+<summary>
 
-    Human-readable auth method name.
+id: "ANTHROPIC"or "AWS"or "BITBUCKET"or 12 more
 
-  - `slug: string`
+Vendor identifier (e.g. microsoft\_internal, google\_workspace).
 
-    Auth method identifier.
+- <code>ANTHROPIC</code> - ANTHROPIC
+- <code>AWS</code> - AWS
+- <code>BITBUCKET</code> - BITBUCKET
+- <code>BOX</code> - BOX
+- <code>CONFLUENCE</code> - CONFLUENCE
+- <code>DROPBOX</code> - DROPBOX
+- <code>GITHUB</code> - GITHUB
+- <code>GOOGLE_CLOUD_PLATFORM</code> - GOOGLE\_CLOUD\_PLATFORM
+- <code>GOOGLE_WORKSPACE</code> - GOOGLE\_WORKSPACE
+- <code>JIRA</code> - JIRA
+- <code>MICROSOFT_INTERNAL</code> - MICROSOFT\_INTERNAL
+- <code>OPENAI</code> - OPENAI
+- <code>SALESFORCE</code> - SALESFORCE
+- <code>SERVICENOW</code> - SERVICENOW
+- <code>SLACK</code> - SLACK
 
-- `category: string`
+</summary>
 
-  Vendor category (e.g. Productivity, AI).
+One of the following:
 
-- `description: string`
+"ANTHROPIC"
 
-  Brief description of the integration.
+<a href="#">Link to this property</a>
 
-- `display_name: string`
+"AWS"
 
-  Human-readable vendor name.
+<a href="#">Link to this property</a>
 
-- `dlp_enabled: boolean`
+"BITBUCKET"
 
-  Whether DLP scanning is supported.
+<a href="#">Link to this property</a>
 
-- `logo: string`
+"BOX"
 
-  Logo path.
+<a href="#">Link to this property</a>
 
-- `permissions: array of object { display_name, scope, severity }`
+"CONFLUENCE"
 
-  All permissions with severity.
+<a href="#">Link to this property</a>
 
-  - `display_name: string`
+"DROPBOX"
 
-    Human-readable permission name.
+<a href="#">Link to this property</a>
 
-  - `scope: string`
+"GITHUB"
 
-    Vendor-native scope identifier.
+<a href="#">Link to this property</a>
 
-  - `severity: "low" or "medium" or "high" or "critical"`
+"GOOGLE\_CLOUD\_PLATFORM"
 
-    Permission sensitivity level.
+<a href="#">Link to this property</a>
 
-    * `low` - low
-    * `medium` - medium
-    * `high` - high
-    * `critical` - critical
+"GOOGLE\_WORKSPACE"
 
-    - `"low"`
+<a href="#">Link to this property</a>
 
-    - `"medium"`
+"JIRA"
 
-    - `"high"`
+<a href="#">Link to this property</a>
 
-    - `"critical"`
+"MICROSOFT\_INTERNAL"
 
-- `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+<a href="#">Link to this property</a>
 
-  Vendor identifier (e.g. microsoft_internal, google_workspace).
+"OPENAI"
 
-  * `GITHUB` - GITHUB
-  * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-  * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-  * `SALESFORCE` - SALESFORCE
-  * `SLACK` - SLACK
+<a href="#">Link to this property</a>
 
-  - `"GITHUB"`
+"SALESFORCE"
 
-  - `"GOOGLE_WORKSPACE"`
+<a href="#">Link to this property</a>
 
-  - `"MICROSOFT_INTERNAL"`
+"SERVICENOW"
 
-  - `"SALESFORCE"`
+<a href="#">Link to this property</a>
 
-  - `"SLACK"`
+"SLACK"
 
-- `supported_environments: array of string`
+<a href="#">Link to this property</a>
 
-  Environments this vendor supports (standard, fedramp).
+</details>
 
-- `use_cases: array of object { display_name, slug }`
+<a href="#">Link to this property</a>
 
-  Supported use cases.
+<details>
 
-  - `display_name: string`
+<summary>
 
-    Human-readable use case name.
+auth\_methods: array of object {id, display\_name }
 
-  - `slug: string`
+Available auth methods.
 
-    Use case identifier (e.g. casb, ces).
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/applications \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Auth method identifier.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-[
-  {
-    "auth_methods": [
-      {
-        "display_name": "OAuth 2.0 Admin Consent",
-        "slug": "oauth2_standard"
-      }
-    ],
-    "category": "Productivity",
-    "description": "Monitor OneDrive, SharePoint, Teams, and Outlook.",
-    "display_name": "Microsoft",
-    "dlp_enabled": true,
-    "logo": "/api/v4/accounts/12345678/casb/static/microsoft_internal.svg",
-    "permissions": [
-      {
-        "display_name": "Read all users' full profiles",
-        "scope": "User.Read.All",
-        "severity": "high"
-      },
-      {
-        "display_name": "Read all files",
-        "scope": "Files.Read.All",
-        "severity": "high"
-      },
-      {
-        "display_name": "Read and write mail",
-        "scope": "Mail.ReadWrite",
-        "severity": "critical"
-      }
-    ],
-    "slug": "MICROSOFT_INTERNAL",
-    "supported_environments": [
-      "standard",
-      "fedramp"
-    ],
-    "use_cases": [
-      {
-        "display_name": "Cloud Access Security Broker",
-        "slug": "casb"
-      },
-      {
-        "display_name": "Cloud Email Security",
-        "slug": "ces"
-      }
-    ]
-  }
-]
-```
+display\_name: string
 
-## Get application details
+Human-readable auth method name.
 
-**get** `/accounts/{account_id}/one/applications/{slug}`
+<a href="#">Link to this property</a>
 
-Returns full application details including auth methods, use cases, and permissions.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+category: string
 
-- `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+Vendor category (e.g. Productivity, AI).
 
-  - `"GITHUB"`
+<a href="#">Link to this property</a>
 
-  - `"GOOGLE_WORKSPACE"`
+description: string
 
-  - `"MICROSOFT_INTERNAL"`
+Brief description of the integration.
 
-  - `"SALESFORCE"`
+<a href="#">Link to this property</a>
 
-  - `"SLACK"`
+display\_name: string
 
-### Returns
+Human-readable vendor name.
 
-- `auth_methods: array of object { display_name, is_default, slug, supported_environments }`
+<a href="#">Link to this property</a>
 
-  Available authentication methods.
+dlp\_enabled: boolean
 
-  - `display_name: string`
+Whether DLP scanning is supported.
 
-    Human-readable auth method name.
+<a href="#">Link to this property</a>
 
-  - `is_default: boolean`
+logo: string
 
-    Whether this is the default auth method.
+Logo path.
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-    Auth method identifier.
+<details>
 
-  - `supported_environments: array of string`
+<summary>
 
-    Environments this auth method supports.
+permissions: array of object {display\_name, scope, severity }
 
-- `category: string`
+All permissions with severity.
 
-  Vendor category.
+</summary>
 
-- `description: string`
+display\_name: string
 
-  Brief description.
+Human-readable permission name.
 
-- `display_name: string`
+<a href="#">Link to this property</a>
 
-  Human-readable vendor name.
+scope: string
 
-- `dlp_enabled: boolean`
+Vendor-native scope identifier.
 
-  Whether DLP scanning is supported.
+<a href="#">Link to this property</a>
 
-- `instructions: string`
+<details>
 
-  Setup instructions for the user.
+<summary>
 
-- `logo: string`
+severity: "low"or "medium"or "high"or "critical"
 
-  Logo path.
+Permission sensitivity level.
 
-- `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+- <code>low</code> - low
+- <code>medium</code> - medium
+- <code>high</code> - high
+- <code>critical</code> - critical
 
-  Vendor identifier.
+</summary>
 
-  * `GITHUB` - GITHUB
-  * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-  * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-  * `SALESFORCE` - SALESFORCE
-  * `SLACK` - SLACK
+One of the following:
 
-  - `"GITHUB"`
+"low"
 
-  - `"GOOGLE_WORKSPACE"`
+<a href="#">Link to this property</a>
 
-  - `"MICROSOFT_INTERNAL"`
+"medium"
 
-  - `"SALESFORCE"`
+<a href="#">Link to this property</a>
 
-  - `"SLACK"`
+"high"
 
-- `use_cases: array of object { base_scopes, description, display_name, 2 more }`
+<a href="#">Link to this property</a>
 
-  Use cases with full scope details.
+"critical"
 
-  - `base_scopes: array of object { display_name, scope, severity }`
+<a href="#">Link to this property</a>
 
-    Scopes always required for this use case.
+</details>
 
-    - `display_name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable permission name.
+</details>
 
-    - `scope: string`
+<a href="#">Link to this property</a>
 
-      Vendor-native scope identifier.
+supported\_environments: array of string
 
-    - `severity: "low" or "medium" or "high" or "critical"`
+Environments this vendor supports (standard, fedramp).
 
-      Permission sensitivity level.
+<a href="#">Link to this property</a>
 
-      * `low` - low
-      * `medium` - medium
-      * `high` - high
-      * `critical` - critical
+<details>
 
-      - `"low"`
+<summary>
 
-      - `"medium"`
+use\_cases: array of object {id, display\_name }
 
-      - `"high"`
+Supported use cases.
 
-      - `"critical"`
+</summary>
 
-  - `description: string`
+id: string
 
-    Use case description.
+Use case identifier (e.g. casb, ces).
 
-  - `display_name: string`
+<a href="#">Link to this property</a>
 
-    Human-readable use case name.
+display\_name: string
 
-  - `features: array of object { description, display_name, scopes, slug }`
+Human-readable use case name.
 
-    Optional features with extra scopes.
+<a href="#">Link to this property</a>
 
-    - `description: string`
+</details>
 
-      Feature description.
+<a href="#">Link to this property</a>
 
-    - `display_name: string`
+</details>
 
-      Human-readable feature name.
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(model)%20application_list_response%20%3E%20(schema)>)
 
-    - `scopes: array of object { display_name, scope, severity }`
+<details>
 
-      Additional scopes when feature is enabled.
+<summary>
 
-      - `display_name: string`
+ApplicationGetResponse object {id, auth\_methods, category, 6 more }
 
-        Human-readable permission name.
+The requested item.
 
-      - `scope: string`
+</summary>
 
-        Vendor-native scope identifier.
+<details>
 
-      - `severity: "low" or "medium" or "high" or "critical"`
+<summary>
 
-        Permission sensitivity level.
+id: "ANTHROPIC"or "AWS"or "BITBUCKET"or 12 more
 
-        * `low` - low
-        * `medium` - medium
-        * `high` - high
-        * `critical` - critical
+Vendor identifier.
 
-        - `"low"`
+- <code>ANTHROPIC</code> - ANTHROPIC
+- <code>AWS</code> - AWS
+- <code>BITBUCKET</code> - BITBUCKET
+- <code>BOX</code> - BOX
+- <code>CONFLUENCE</code> - CONFLUENCE
+- <code>DROPBOX</code> - DROPBOX
+- <code>GITHUB</code> - GITHUB
+- <code>GOOGLE_CLOUD_PLATFORM</code> - GOOGLE\_CLOUD\_PLATFORM
+- <code>GOOGLE_WORKSPACE</code> - GOOGLE\_WORKSPACE
+- <code>JIRA</code> - JIRA
+- <code>MICROSOFT_INTERNAL</code> - MICROSOFT\_INTERNAL
+- <code>OPENAI</code> - OPENAI
+- <code>SALESFORCE</code> - SALESFORCE
+- <code>SERVICENOW</code> - SERVICENOW
+- <code>SLACK</code> - SLACK
 
-        - `"medium"`
+</summary>
 
-        - `"high"`
+One of the following:
 
-        - `"critical"`
+"ANTHROPIC"
 
-    - `slug: string`
+<a href="#">Link to this property</a>
 
-      Feature identifier.
+"AWS"
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-    Use case identifier.
+"BITBUCKET"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/applications/$SLUG \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"BOX"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "auth_methods": [
-    {
-      "display_name": "OAuth 2.0 Admin Consent",
-      "is_default": true,
-      "slug": "oauth2",
-      "supported_environments": [
-        "standard",
-        "fedramp"
-      ]
-    }
-  ],
-  "category": "Productivity",
-  "description": "Monitor OneDrive, SharePoint, Teams, and Outlook.",
-  "display_name": "Microsoft",
-  "dlp_enabled": true,
-  "instructions": "You'll need a Microsoft 365 admin account with Global Admin or Application Admin role.",
-  "logo": "/api/v4/accounts/12345678/casb/static/microsoft_internal.svg",
-  "slug": "MICROSOFT_INTERNAL",
-  "use_cases": [
-    {
-      "base_scopes": [
-        {
-          "display_name": "Read all users' full profiles",
-          "scope": "User.Read.All",
-          "severity": "high"
-        },
-        {
-          "display_name": "Read all files",
-          "scope": "Files.Read.All",
-          "severity": "high"
-        }
-      ],
-      "description": "Discover and secure SaaS applications",
-      "display_name": "Cloud Access Security Broker",
-      "features": [
-        {
-          "description": "Automatically remediate security issues",
-          "display_name": "Auto Remediation",
-          "scopes": [
-            {
-              "display_name": "Read and write all files",
-              "scope": "Files.ReadWrite.All",
-              "severity": "critical"
-            }
-          ],
-          "slug": "auto_remediation"
-        }
-      ],
-      "slug": "casb"
-    }
-  ]
-}
-```
+"CONFLUENCE"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Application List Response
+"DROPBOX"
 
-- `ApplicationListResponse = array of object { auth_methods, category, description, 7 more }`
+<a href="#">Link to this property</a>
 
-  - `auth_methods: array of object { display_name, slug }`
+"GITHUB"
 
-    Available auth methods.
+<a href="#">Link to this property</a>
 
-    - `display_name: string`
+"GOOGLE\_CLOUD\_PLATFORM"
 
-      Human-readable auth method name.
+<a href="#">Link to this property</a>
 
-    - `slug: string`
+"GOOGLE\_WORKSPACE"
 
-      Auth method identifier.
+<a href="#">Link to this property</a>
 
-  - `category: string`
+"JIRA"
 
-    Vendor category (e.g. Productivity, AI).
+<a href="#">Link to this property</a>
 
-  - `description: string`
+"MICROSOFT\_INTERNAL"
 
-    Brief description of the integration.
+<a href="#">Link to this property</a>
 
-  - `display_name: string`
+"OPENAI"
 
-    Human-readable vendor name.
+<a href="#">Link to this property</a>
 
-  - `dlp_enabled: boolean`
+"SALESFORCE"
 
-    Whether DLP scanning is supported.
+<a href="#">Link to this property</a>
 
-  - `logo: string`
+"SERVICENOW"
 
-    Logo path.
+<a href="#">Link to this property</a>
 
-  - `permissions: array of object { display_name, scope, severity }`
+"SLACK"
 
-    All permissions with severity.
+<a href="#">Link to this property</a>
 
-    - `display_name: string`
+</details>
 
-      Human-readable permission name.
+<a href="#">Link to this property</a>
 
-    - `scope: string`
+<details>
 
-      Vendor-native scope identifier.
+<summary>
 
-    - `severity: "low" or "medium" or "high" or "critical"`
+auth\_methods: array of object {id, display\_name, is\_default, supported\_environments }
 
-      Permission sensitivity level.
+Available authentication methods.
 
-      * `low` - low
-      * `medium` - medium
-      * `high` - high
-      * `critical` - critical
+</summary>
 
-      - `"low"`
+id: string
 
-      - `"medium"`
+Auth method identifier.
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-      - `"critical"`
+display\_name: string
 
-  - `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+Human-readable auth method name.
 
-    Vendor identifier (e.g. microsoft_internal, google_workspace).
+<a href="#">Link to this property</a>
 
-    * `GITHUB` - GITHUB
-    * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-    * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-    * `SALESFORCE` - SALESFORCE
-    * `SLACK` - SLACK
+is\_default: boolean
 
-    - `"GITHUB"`
+Whether this is the default auth method.
 
-    - `"GOOGLE_WORKSPACE"`
+<a href="#">Link to this property</a>
 
-    - `"MICROSOFT_INTERNAL"`
+supported\_environments: array of string
 
-    - `"SALESFORCE"`
+Environments this auth method supports.
 
-    - `"SLACK"`
+<a href="#">Link to this property</a>
 
-  - `supported_environments: array of string`
+</details>
 
-    Environments this vendor supports (standard, fedramp).
+<a href="#">Link to this property</a>
 
-  - `use_cases: array of object { display_name, slug }`
+category: string
 
-    Supported use cases.
+Vendor category.
 
-    - `display_name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable use case name.
+description: string
 
-    - `slug: string`
+Brief description.
 
-      Use case identifier (e.g. casb, ces).
+<a href="#">Link to this property</a>
 
-### Application Get Response
+display\_name: string
 
-- `ApplicationGetResponse object { auth_methods, category, description, 6 more }`
+Human-readable vendor name.
 
-  Full application detail for onboarding UI.
+<a href="#">Link to this property</a>
 
-  - `auth_methods: array of object { display_name, is_default, slug, supported_environments }`
+dlp\_enabled: boolean
 
-    Available authentication methods.
+Whether DLP scanning is supported.
 
-    - `display_name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable auth method name.
+instructions: string
 
-    - `is_default: boolean`
+Setup instructions for the user.
 
-      Whether this is the default auth method.
+<a href="#">Link to this property</a>
 
-    - `slug: string`
+logo: string
 
-      Auth method identifier.
+Logo path.
 
-    - `supported_environments: array of string`
+<a href="#">Link to this property</a>
 
-      Environments this auth method supports.
+<details>
 
-  - `category: string`
+<summary>
 
-    Vendor category.
+use\_cases: array of object {id, base\_scopes, description, 2 more }
 
-  - `description: string`
+Use cases with full scope details.
 
-    Brief description.
+</summary>
 
-  - `display_name: string`
+id: string
 
-    Human-readable vendor name.
+Use case identifier.
 
-  - `dlp_enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether DLP scanning is supported.
+<details>
 
-  - `instructions: string`
+<summary>
 
-    Setup instructions for the user.
+base\_scopes: array of object {display\_name, scope, severity }
 
-  - `logo: string`
+Scopes always required for this use case.
 
-    Logo path.
+</summary>
 
-  - `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+display\_name: string
 
-    Vendor identifier.
+Human-readable permission name.
 
-    * `GITHUB` - GITHUB
-    * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-    * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-    * `SALESFORCE` - SALESFORCE
-    * `SLACK` - SLACK
+<a href="#">Link to this property</a>
 
-    - `"GITHUB"`
+scope: string
 
-    - `"GOOGLE_WORKSPACE"`
+Vendor-native scope identifier.
 
-    - `"MICROSOFT_INTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"SALESFORCE"`
+<details>
 
-    - `"SLACK"`
+<summary>
 
-  - `use_cases: array of object { base_scopes, description, display_name, 2 more }`
+severity: "low"or "medium"or "high"or "critical"
 
-    Use cases with full scope details.
+Permission sensitivity level.
 
-    - `base_scopes: array of object { display_name, scope, severity }`
+- <code>low</code> - low
+- <code>medium</code> - medium
+- <code>high</code> - high
+- <code>critical</code> - critical
 
-      Scopes always required for this use case.
+</summary>
 
-      - `display_name: string`
+One of the following:
 
-        Human-readable permission name.
+"low"
 
-      - `scope: string`
+<a href="#">Link to this property</a>
 
-        Vendor-native scope identifier.
+"medium"
 
-      - `severity: "low" or "medium" or "high" or "critical"`
+<a href="#">Link to this property</a>
 
-        Permission sensitivity level.
+"high"
 
-        * `low` - low
-        * `medium` - medium
-        * `high` - high
-        * `critical` - critical
+<a href="#">Link to this property</a>
 
-        - `"low"`
+"critical"
 
-        - `"medium"`
+<a href="#">Link to this property</a>
 
-        - `"high"`
+</details>
 
-        - `"critical"`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+</details>
 
-      Use case description.
+<a href="#">Link to this property</a>
 
-    - `display_name: string`
+description: string
 
-      Human-readable use case name.
+Use case description.
 
-    - `features: array of object { description, display_name, scopes, slug }`
+<a href="#">Link to this property</a>
 
-      Optional features with extra scopes.
+display\_name: string
 
-      - `description: string`
+Human-readable use case name.
 
-        Feature description.
+<a href="#">Link to this property</a>
 
-      - `display_name: string`
+<details>
 
-        Human-readable feature name.
+<summary>
 
-      - `scopes: array of object { display_name, scope, severity }`
+features: array of object {id, description, display\_name, scopes }
 
-        Additional scopes when feature is enabled.
+Optional features with extra scopes.
 
-        - `display_name: string`
+</summary>
 
-          Human-readable permission name.
+id: string
 
-        - `scope: string`
+Feature identifier.
 
-          Vendor-native scope identifier.
+<a href="#">Link to this property</a>
 
-        - `severity: "low" or "medium" or "high" or "critical"`
+description: string
 
-          Permission sensitivity level.
+Feature description.
 
-          * `low` - low
-          * `medium` - medium
-          * `high` - high
-          * `critical` - critical
+<a href="#">Link to this property</a>
 
-          - `"low"`
+display\_name: string
 
-          - `"medium"`
+Human-readable feature name.
 
-          - `"high"`
+<a href="#">Link to this property</a>
 
-          - `"critical"`
+<details>
 
-      - `slug: string`
+<summary>
 
-        Feature identifier.
+scopes: array of object {display\_name, scope, severity }
 
-    - `slug: string`
+Additional scopes when feature is enabled.
 
-      Use case identifier.
+</summary>
 
-# Setup Flows
+display\_name: string
 
-## Get application setup flows
+Human-readable permission name.
 
-**get** `/accounts/{account_id}/one/applications/{slug}/setup-flows`
+<a href="#">Link to this property</a>
 
-Returns all available setup flows for the application, one per auth method.
+scope: string
 
-### Path Parameters
+Vendor-native scope identifier.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `slug: string`
+<details>
 
-### Query Parameters
+<summary>
 
-- `auth_method: optional string`
+severity: "low"or "medium"or "high"or "critical"
 
-  Filter by auth method slug. Get available slugs from GET /v2/applications.
+Permission sensitivity level.
 
-- `environment: optional "fedramp" or "standard"`
+- <code>low</code> - low
+- <code>medium</code> - medium
+- <code>high</code> - high
+- <code>critical</code> - critical
 
-  Filter by environment.
+</summary>
 
-  - `"fedramp"`
+One of the following:
 
-  - `"standard"`
+"low"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+"medium"
 
-  Setup flow identifier.
+<a href="#">Link to this property</a>
 
-- `default: boolean`
+"high"
 
-  Whether this is the default auth method.
+<a href="#">Link to this property</a>
 
-- `description: string`
+"critical"
 
-  Flow description.
+<a href="#">Link to this property</a>
 
-- `name: string`
+</details>
 
-  Human-readable flow name.
+<a href="#">Link to this property</a>
 
-- `steps: array of object { type, component_id, description, 5 more }`
+</details>
 
-  Ordered list of setup steps.
+<a href="#">Link to this property</a>
 
-  - `type: "component" or "instruction" or "form_input" or "oauth_redirect"`
+</details>
 
-    Step type.
+<a href="#">Link to this property</a>
 
-    * `component` - component
-    * `instruction` - instruction
-    * `form_input` - form_input
-    * `oauth_redirect` - oauth_redirect
+</details>
 
-    - `"component"`
+<a href="#">Link to this property</a>
 
-    - `"instruction"`
+</details>
 
-    - `"form_input"`
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(model)%20application_get_response%20%3E%20(schema)>)
 
-    - `"oauth_redirect"`
+#### ApplicationsAuth Methods
 
-  - `component_id: optional string`
+##### [Get auth methods](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/applications/subresources/auth_methods/methods/list)
 
-    Component identifier (for component type).
+GET/accounts/{account\_id}/one/applications/{application\_id}/auth-methods
 
-  - `description: optional string`
+##### ModelsExpand Collapse
 
-    Step description with markdown support.
+<details>
 
-  - `dynamic_content: optional array of object { label, type, url_template, value_from }`
+<summary>
 
-    Dynamic content blocks (for instruction/form_input).
+AuthMethodListResponse object {id, display\_name, human\_interaction\_required, 4 more }
 
-    - `label: string`
+Detailed auth method info including credentials schema and instructions.
 
-      Display label.
+</summary>
 
-    - `type: "copy_block" or "external_link"`
+id: string
 
-      Content type.
+Auth method identifier.
 
-      * `copy_block` - copy_block
-      * `external_link` - external_link
+<a href="#">Link to this property</a>
 
-      - `"copy_block"`
+display\_name: string
 
-      - `"external_link"`
+Human-readable auth method name.
 
-    - `url_template: optional string`
+<a href="#">Link to this property</a>
 
-      URL template with {{ variable }} interpolation (for external_link).
+human\_interaction\_required: boolean
 
-    - `value_from: optional string`
+Whether setup requires human interaction or integration can be created purely using API (e.g., For OAuth can not be created without user interaction).
 
-      Field path to get value from (for copy_block).
+<a href="#">Link to this property</a>
 
-  - `form_fields: optional array of object { label, name, placeholder, 3 more }`
+<details>
 
-    Form fields (for form_input).
+<summary>
 
-    - `label: string`
+instructions: object {markdown }
 
-      Human-readable field label.
+Step-by-step instructions for obtaining credentials.
 
-    - `name: string`
+</summary>
 
-      Field identifier (maps to credentials key).
+markdown: string
 
-    - `placeholder: string`
+Detailed instructions in markdown format.
 
-      Placeholder text.
+<a href="#">Link to this property</a>
 
-    - `required: boolean`
+</details>
 
-      Whether field is required.
+<a href="#">Link to this property</a>
 
-    - `supported_file_types: array of string`
+payload\_example: map\[unknown]
 
-      Allowed file extensions for file_upload type.
+Example credentials payload with placeholder values.
 
-    - `type: "text" or "password" or "email" or "file_upload"`
+<a href="#">Link to this property</a>
 
-      Field input type.
+payload\_schema: map\[unknown]
 
-      * `text` - text
-      * `password` - password
-      * `email` - email
-      * `file_upload` - file_upload
+JSON Schema for the credentials object in POST /v2/integrations request.
 
-      - `"text"`
+<a href="#">Link to this property</a>
 
-      - `"password"`
+redirect\_url: string
 
-      - `"email"`
+OAuth redirect URL for vendors requiring human interaction.
 
-      - `"file_upload"`
+<a href="#">Link to this property</a>
 
-  - `is_required: optional boolean`
+</details>
 
-    Whether step is required (for form_input).
-
-  - `parameters: optional map[string]`
-
-    Component parameters (for component type).
-
-  - `title: optional string`
-
-    Step title (for instruction/form_input/oauth_redirect).
-
-- `supported_environments: array of string`
-
-  Environments this auth method supports (standard, fedramp).
-
-- `auth_config: optional object { authorization_url, client_id, requires_pkce, 2 more }`
-
-  OAuth configuration (present for OAuth-based flows).
-
-  - `authorization_url: string`
-
-    Authorization URL for the requested environment.
-
-  - `client_id: string`
-
-    OAuth client ID.
-
-  - `requires_pkce: boolean`
-
-    Whether PKCE is required.
-
-  - `scopes: array of string`
-
-    OAuth scopes to request.
-
-  - `url_placeholders: array of string`
-
-    Placeholders in authorization URL that frontend must fill.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/applications/$SLUG/setup-flows \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-[
-  {
-    "default": true,
-    "description": "Connect via a Google Cloud Service Account with Domain-Wide Delegation.",
-    "id": "google_workspace_service_account",
-    "name": "Google Workspace (Service Account)",
-    "steps": [
-      {
-        "component_id": "common/name_integration",
-        "parameters": null,
-        "type": "component"
-      },
-      {
-        "description": "In the Google Cloud Console, create a service account...",
-        "dynamic_content": null,
-        "title": "Create a Service Account",
-        "type": "instruction"
-      },
-      {
-        "description": "Upload the JSON service account key file.",
-        "dynamic_content": null,
-        "form_fields": [
-          {
-            "label": "Service Account JSON File",
-            "name": "service_account_credentials",
-            "placeholder": null,
-            "required": true,
-            "supported_file_types": [
-              ".json"
-            ],
-            "type": "file_upload"
-          }
-        ],
-        "is_required": true,
-        "title": "Upload JSON Key",
-        "type": "form_input"
-      },
-      {
-        "description": "Navigate to your Google admin console and add the client ID.",
-        "dynamic_content": [
-          {
-            "label": "Client ID",
-            "type": "copy_block",
-            "value_from": "credentials.client_id"
-          },
-          {
-            "label": "OAuth Scopes",
-            "type": "copy_block",
-            "value_from": "required_scopes"
-          },
-          {
-            "label": "Open Domain-Wide Delegation Settings",
-            "type": "external_link",
-            "url_template": "https://admin.google.com/ac/owl/domainwidedelegation"
-          }
-        ],
-        "title": "Delegate Domain-Wide Authority",
-        "type": "instruction"
-      },
-      {
-        "description": "Provide the email of a Google Workspace Super Administrator.",
-        "dynamic_content": null,
-        "form_fields": [
-          {
-            "label": "Super Administrator Email",
-            "name": "administrator_email",
-            "placeholder": "admin@your-domain.com",
-            "required": true,
-            "supported_file_types": null,
-            "type": "email"
-          }
-        ],
-        "is_required": true,
-        "title": "Confirm Administrator Email",
-        "type": "form_input"
-      }
-    ],
-    "supported_environments": [
-      "standard"
-    ]
-  }
-]
-```
-
-## Domain Types
-
-### Setup Flow List Response
-
-- `SetupFlowListResponse = array of object { id, default, description, 4 more }`
-
-  - `id: string`
-
-    Setup flow identifier.
-
-  - `default: boolean`
-
-    Whether this is the default auth method.
-
-  - `description: string`
-
-    Flow description.
-
-  - `name: string`
-
-    Human-readable flow name.
-
-  - `steps: array of object { type, component_id, description, 5 more }`
-
-    Ordered list of setup steps.
-
-    - `type: "component" or "instruction" or "form_input" or "oauth_redirect"`
-
-      Step type.
-
-      * `component` - component
-      * `instruction` - instruction
-      * `form_input` - form_input
-      * `oauth_redirect` - oauth_redirect
-
-      - `"component"`
-
-      - `"instruction"`
-
-      - `"form_input"`
-
-      - `"oauth_redirect"`
-
-    - `component_id: optional string`
-
-      Component identifier (for component type).
-
-    - `description: optional string`
-
-      Step description with markdown support.
-
-    - `dynamic_content: optional array of object { label, type, url_template, value_from }`
-
-      Dynamic content blocks (for instruction/form_input).
-
-      - `label: string`
-
-        Display label.
-
-      - `type: "copy_block" or "external_link"`
-
-        Content type.
-
-        * `copy_block` - copy_block
-        * `external_link` - external_link
-
-        - `"copy_block"`
-
-        - `"external_link"`
-
-      - `url_template: optional string`
-
-        URL template with {{ variable }} interpolation (for external_link).
-
-      - `value_from: optional string`
-
-        Field path to get value from (for copy_block).
-
-    - `form_fields: optional array of object { label, name, placeholder, 3 more }`
-
-      Form fields (for form_input).
-
-      - `label: string`
-
-        Human-readable field label.
-
-      - `name: string`
-
-        Field identifier (maps to credentials key).
-
-      - `placeholder: string`
-
-        Placeholder text.
-
-      - `required: boolean`
-
-        Whether field is required.
-
-      - `supported_file_types: array of string`
-
-        Allowed file extensions for file_upload type.
-
-      - `type: "text" or "password" or "email" or "file_upload"`
-
-        Field input type.
-
-        * `text` - text
-        * `password` - password
-        * `email` - email
-        * `file_upload` - file_upload
-
-        - `"text"`
-
-        - `"password"`
-
-        - `"email"`
-
-        - `"file_upload"`
-
-    - `is_required: optional boolean`
-
-      Whether step is required (for form_input).
-
-    - `parameters: optional map[string]`
-
-      Component parameters (for component type).
-
-    - `title: optional string`
-
-      Step title (for instruction/form_input/oauth_redirect).
-
-  - `supported_environments: array of string`
-
-    Environments this auth method supports (standard, fedramp).
-
-  - `auth_config: optional object { authorization_url, client_id, requires_pkce, 2 more }`
-
-    OAuth configuration (present for OAuth-based flows).
-
-    - `authorization_url: string`
-
-      Authorization URL for the requested environment.
-
-    - `client_id: string`
-
-      OAuth client ID.
-
-    - `requires_pkce: boolean`
-
-      Whether PKCE is required.
-
-    - `scopes: array of string`
-
-      OAuth scopes to request.
-
-    - `url_placeholders: array of string`
-
-      Placeholders in authorization URL that frontend must fill.
+[Link to this property](#)%20zero_trust.casb.applications.auth_methods%20%3E%20(model)%20auth_method_list_response%20%3E%20(schema)>)

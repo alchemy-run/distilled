@@ -1,308 +1,153 @@
+---
+title: Payload Logs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Payload Logs
 
-## Get payload log settings
+##### [Get payload log settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/payload_logs/methods/get)
 
-**get** `/accounts/{account_id}/dlp/payload_log`
+GET/accounts/{account\_id}/dlp/payload\_log
 
-Gets the current payload logging configuration for DLP, showing whether matched content is being logged.
+##### [Set payload log settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/payload_logs/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/dlp/payload\_log
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+PayloadLogGetResponse object {updated\_at, masking\_level, public\_key }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+updated\_at: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+masking\_level: optional "full"or "partial"or "clear"or "default"
 
-  - `documentation_url: optional string`
+Masking level for payload logs.
 
-  - `source: optional object { pointer }`
+- <code>full</code>: The entire payload is masked.
+- <code>partial</code>: Only partial payload content is masked.
+- <code>clear</code>: No masking is applied to the payload content.
+- <code>default</code>: DLP uses its default masking behavior.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"full"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { updated_at, masking_level, public_key }`
+"partial"
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
+"clear"
 
-    Masking level for payload logs.
+<a href="#">Link to this property</a>
 
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
+"default"
 
-    - `"full"`
+<a href="#">Link to this property</a>
 
-    - `"partial"`
+</details>
 
-    - `"clear"`
+<a href="#">Link to this property</a>
 
-    - `"default"`
+public\_key: optional string
 
-  - `public_key: optional string`
+Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
 
-    Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/payload_log \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20zero_trust.dlp.payload_logs%20%3E%20(model)%20payload_log_get_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "masking_level": "full",
-    "public_key": "public_key"
-  }
-}
-```
+<summary>
 
-## Set payload log settings
+PayloadLogUpdateResponse object {updated\_at, masking\_level, public\_key }
 
-**put** `/accounts/{account_id}/dlp/payload_log`
+</summary>
 
-Enables or disables payload logging for DLP matches. When enabled, matched content is stored for review.
+updated\_at: string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `masking_level: optional "full" or "partial" or "clear" or "default"`
+<summary>
 
-  Masking level for payload logs.
+masking\_level: optional "full"or "partial"or "clear"or "default"
 
-  - `full`: The entire payload is masked.
-  - `partial`: Only partial payload content is masked.
-  - `clear`: No masking is applied to the payload content.
-  - `default`: DLP uses its default masking behavior.
+Masking level for payload logs.
 
-  - `"full"`
+- <code>full</code>: The entire payload is masked.
+- <code>partial</code>: Only partial payload content is masked.
+- <code>clear</code>: No masking is applied to the payload content.
+- <code>default</code>: DLP uses its default masking behavior.
 
-  - `"partial"`
+</summary>
 
-  - `"clear"`
+One of the following:
 
-  - `"default"`
+"full"
 
-- `public_key: optional string`
+<a href="#">Link to this property</a>
 
-  Base64-encoded public key for encrypting payload logs.
+"partial"
 
-  - Set to null or empty string to disable payload logging.
-  - Set to a non-empty base64 string to enable payload logging with the given key.
+<a href="#">Link to this property</a>
 
-  For customers with configurable payload masking feature rolled out:
+"clear"
 
-  - If the field is missing, the existing setting will be kept. Note that this is different from setting to null or empty string.
+<a href="#">Link to this property</a>
 
-  For all other customers:
+"default"
 
-  - If the field is missing, the existing setting will be cleared.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+public\_key: optional string
 
-  - `message: string`
+Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { updated_at, masking_level, public_key }`
-
-  - `updated_at: string`
-
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-    Masking level for payload logs.
-
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
-
-    - `"full"`
-
-    - `"partial"`
-
-    - `"clear"`
-
-    - `"default"`
-
-  - `public_key: optional string`
-
-    Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/payload_log \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "masking_level": "full",
-    "public_key": "public_key"
-  }
-}
-```
-
-## Domain Types
-
-### Payload Log Get Response
-
-- `PayloadLogGetResponse object { updated_at, masking_level, public_key }`
-
-  - `updated_at: string`
-
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-    Masking level for payload logs.
-
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
-
-    - `"full"`
-
-    - `"partial"`
-
-    - `"clear"`
-
-    - `"default"`
-
-  - `public_key: optional string`
-
-    Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
-
-### Payload Log Update Response
-
-- `PayloadLogUpdateResponse object { updated_at, masking_level, public_key }`
-
-  - `updated_at: string`
-
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-    Masking level for payload logs.
-
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
-
-    - `"full"`
-
-    - `"partial"`
-
-    - `"clear"`
-
-    - `"default"`
-
-  - `public_key: optional string`
-
-    Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+[Link to this property](#)%20zero_trust.dlp.payload_logs%20%3E%20(model)%20payload_log_update_response%20%3E%20(schema)>)

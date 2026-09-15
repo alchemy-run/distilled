@@ -1,137 +1,61 @@
+---
+title: Search
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Search
 
-## Search for locations, ASes, reports, and more
+##### [Search for locations, ASes, reports, and more](https://developers.cloudflare.com/api/resources/radar/subresources/search/methods/global)
 
-**get** `/radar/search/global`
+GET/radar/search/global
 
-Searches for locations, autonomous systems, reports, bots, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`).
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `query: string`
+<summary>
 
-  String used to perform the search operation.
+SearchGlobalResponse object {search }
 
-- `exclude: optional array of "ADM1S" or "ASNS" or "BOTS" or 9 more`
+</summary>
 
-  Search types excluded from results.
+<details>
 
-  - `"ADM1S"`
+<summary>
 
-  - `"ASNS"`
+search: array of object {code, name, type }
 
-  - `"BOTS"`
+</summary>
 
-  - `"CERTIFICATE_AUTHORITIES"`
+code: string
 
-  - `"CERTIFICATE_LOGS"`
+<a href="#">Link to this property</a>
 
-  - `"ORIGINS"`
+name: string
 
-  - `"ORIGIN_REGIONS"`
+<a href="#">Link to this property</a>
 
-  - `"INDUSTRIES"`
+type: string
 
-  - `"LOCATIONS"`
+<a href="#">Link to this property</a>
 
-  - `"NOTEBOOKS"`
+</details>
 
-  - `"TLDS"`
+<a href="#">Link to this property</a>
 
-  - `"VERTICALS"`
+</details>
 
-- `format: optional "JSON" or "CSV"`
-
-  Format in which results will be returned.
-
-  - `"JSON"`
-
-  - `"CSV"`
-
-- `include: optional array of "ADM1S" or "ASNS" or "BOTS" or 9 more`
-
-  Search types included in results.
-
-  - `"ADM1S"`
-
-  - `"ASNS"`
-
-  - `"BOTS"`
-
-  - `"CERTIFICATE_AUTHORITIES"`
-
-  - `"CERTIFICATE_LOGS"`
-
-  - `"ORIGINS"`
-
-  - `"ORIGIN_REGIONS"`
-
-  - `"INDUSTRIES"`
-
-  - `"LOCATIONS"`
-
-  - `"NOTEBOOKS"`
-
-  - `"TLDS"`
-
-  - `"VERTICALS"`
-
-- `limit: optional number`
-
-  Limits the number of objects returned in the response.
-
-- `limitPerGroup: optional number`
-
-  Limits the number of objects per search category.
-
-### Returns
-
-- `result: object { search }`
-
-  - `search: array of object { code, name, type }`
-
-    - `code: string`
-
-    - `name: string`
-
-    - `type: string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/search/global \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "search": [
-      {
-        "code": "13335",
-        "name": "Cloudflare",
-        "type": "asn"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Search Global Response
-
-- `SearchGlobalResponse object { search }`
-
-  - `search: array of object { code, name, type }`
-
-    - `code: string`
-
-    - `name: string`
-
-    - `type: string`
+[Link to this property](#)%20radar.search%20%3E%20(model)%20search_global_response%20%3E%20(schema)>)

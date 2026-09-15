@@ -1,113 +1,51 @@
+---
+title: Services
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Services
 
-## List Services
+##### [List Services](https://developers.cloudflare.com/api/resources/addressing/subresources/services/methods/list)
 
-**get** `/accounts/{account_id}/addressing/services`
+GET/accounts/{account\_id}/addressing/services
 
-Bring-Your-Own IP (BYOIP) prefixes onboarded to Cloudflare must be bound to a service running on the Cloudflare network to enable a Cloudflare product on the IP addresses. This endpoint can be used as a reference of available services on the Cloudflare network, and their service IDs.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier of a Cloudflare account.
+ServiceListResponse object {id, name }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+Name of a service running on the Cloudflare network
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, name }`
-
-  - `id: optional string`
-
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
-
-  - `name: optional string`
-
-    Name of a service running on the Cloudflare network
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/services \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "2db684ee7ca04e159946fd05b99e1bcd",
-      "name": "Magic Transit"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Service List Response
-
-- `ServiceListResponse object { id, name }`
-
-  - `id: optional string`
-
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
-
-  - `name: optional string`
-
-    Name of a service running on the Cloudflare network
+[Link to this property](#)%20addressing.services%20%3E%20(model)%20service_list_response%20%3E%20(schema)>)

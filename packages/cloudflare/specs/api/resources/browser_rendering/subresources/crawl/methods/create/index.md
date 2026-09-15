@@ -1,526 +1,1314 @@
-## Crawl websites.
+---
+title: Crawl websites.
+---
 
-**post** `/accounts/{account_id}/browser-rendering/crawl`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+[Crawl](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/crawl)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Crawl websites.
+
+POST/accounts/{account\_id}/browser-rendering/crawl
 
 Starts a crawl job for the provided URL and its children. Check available options like `gotoOptions` and `waitFor*` to control page load behaviour.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `cacheTTL: optional number`
 
-  Cache TTL default is 5s. Set to 0 to disable.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Body Parameters
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `body: object { url, actionTimeout, addScriptTag, 25 more }  or object { render, url, crawlPurposes, 8 more }`
+</details>
 
-  - `object { url, actionTimeout, addScriptTag, 25 more }`
+<details>
 
-    - `url: string`
+<summary>API Email + API Key</summary>
 
-      URL to navigate to, eg. `https://example.com`.
 
-    - `actionTimeout: optional number`
 
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `addScriptTag: optional array of object { id, content, type, url }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      Adds a `<script>` tag into the page with the desired URL or content.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `id: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `content: optional string`
+</details>
 
-      - `type: optional string`
+##### Accepted Permissions (at least one required)
 
-      - `url: optional string`
+`Browser Rendering Write`
 
-    - `addStyleTag: optional array of object { content, url }`
+##### P ath ParametersExpand Collapse
 
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
+account\_id: string
 
-      - `content: optional string`
+Account ID.
 
-      - `url: optional string`
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `allowRequestPattern: optional array of string`
+##### Q uery ParametersExpand Collapse
 
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
+cacheTTL: optional number
 
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+Cache TTL default is 5s. Set to 0 to disable.
 
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
+maximum86400
 
-      - `"document"`
+minimum0
 
-      - `"stylesheet"`
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20cacheTTL%20%3E%20(schema)>)
 
-      - `"image"`
+##### Body ParametersJSONExpand Collapse
 
-      - `"media"`
+<details>
 
-      - `"font"`
+<summary>
 
-      - `"script"`
+body: object {url, actionTimeout, addScriptTag, 26 more } or object {render, url, contentUse, 9 more }
 
-      - `"texttrack"`
+</summary>
 
-      - `"xhr"`
+One of the following:
 
-      - `"fetch"`
+<details>
 
-      - `"prefetch"`
+<summary>
 
-      - `"eventsource"`
+object {url, actionTimeout, addScriptTag, 26 more }
 
-      - `"websocket"`
+</summary>
 
-      - `"manifest"`
+url: string
 
-      - `"signedexchange"`
+URL to navigate to, eg. <code>https://example.com</code>.
 
-      - `"ping"`
+formaturi
 
-      - `"cspviolationreport"`
+<a href="#">Link to this property</a>
 
-      - `"preflight"`
+actionTimeout: optional number
 
-      - `"other"`
+The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
 
-    - `authenticate: optional object { password, username }`
+maximum120000
 
-      Provide credentials for HTTP authentication.
+<a href="#">Link to this property</a>
 
-      - `password: string`
+<details>
 
-      - `username: string`
+<summary>
 
-    - `bestAttempt: optional boolean`
+addScriptTag: optional array of object {id, content, type, url }
 
-      Attempt to proceed when 'awaited' events fail or timeout.
+Adds a <code>&lt;script&gt;</code> tag into the page with the desired URL or content.
 
-    - `cookies: optional array of object { name, value, domain, 11 more }`
+</summary>
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
+id: optional string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        Cookie name.
+content: optional string
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-      - `domain: optional string`
+type: optional string
 
-      - `expires: optional number`
+<a href="#">Link to this property</a>
 
-      - `httpOnly: optional boolean`
+url: optional string
 
-      - `partitionKey: optional string`
+formaturi
 
-      - `path: optional string`
+<a href="#">Link to this property</a>
 
-      - `priority: optional "Low" or "Medium" or "High"`
+</details>
 
-        - `"Low"`
+<a href="#">Link to this property</a>
 
-        - `"Medium"`
+<details>
 
-        - `"High"`
+<summary>
 
-      - `sameParty: optional boolean`
+addStyleTag: optional array of object {content, url }
 
-      - `sameSite: optional "Strict" or "Lax" or "None"`
+Adds a <code>&lt;link rel="stylesheet"&gt;</code> tag into the page with the desired URL or a <code>&lt;style type="text/css"&gt;</code> tag with the content.
 
-        - `"Strict"`
+</summary>
 
-        - `"Lax"`
+content: optional string
 
-        - `"None"`
+<a href="#">Link to this property</a>
 
-      - `secure: optional boolean`
+url: optional string
 
-      - `sourcePort: optional number`
+formaturi
 
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
+<a href="#">Link to this property</a>
 
-        - `"Unset"`
+</details>
 
-        - `"NonSecure"`
+<a href="#">Link to this property</a>
 
-        - `"Secure"`
+allowRequestPattern: optional array of string
 
-      - `url: optional string`
+Only allow requests that match the provided regex patterns, eg. ’/^.\*.(css)’. Reject rules are applied first.
 
-    - `crawlPurposes: optional array of "search" or "ai-input" or "ai-train"`
+<a href="#">Link to this property</a>
 
-      List of crawl purposes to respect Content-Signal directives in robots.txt. Allowed values: 'search', 'ai-input', 'ai-train'. Learn more: https://contentsignals.org/. Default: ['search', 'ai-input', 'ai-train'].
+<details>
 
-      - `"search"`
+<summary>
 
-      - `"ai-input"`
+allowResourceTypes: optional array of "document"or "stylesheet"or "image"or 15 more
 
-      - `"ai-train"`
+Only allow requests that match the provided resource types, eg. ‘image’ or ‘script’. Reject rules are applied first.
 
-    - `depth: optional number`
+</summary>
 
-      Maximum number of levels deep the crawler will traverse from the starting URL.
+One of the following:
 
-    - `emulateMediaType: optional string`
+"document"
 
-    - `formats: optional array of "html" or "markdown" or "json"`
+<a href="#">Link to this property</a>
 
-      Formats to return. Default is `html`.
+"stylesheet"
 
-      - `"html"`
+<a href="#">Link to this property</a>
 
-      - `"markdown"`
+"image"
 
-      - `"json"`
+<a href="#">Link to this property</a>
 
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
+"media"
 
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
+<a href="#">Link to this property</a>
 
-      - `referer: optional string`
+"font"
 
-      - `referrerPolicy: optional string`
+<a href="#">Link to this property</a>
 
-      - `timeout: optional number`
+"script"
 
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+<a href="#">Link to this property</a>
 
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+"texttrack"
 
-          - `"load"`
+<a href="#">Link to this property</a>
 
-          - `"domcontentloaded"`
+"xhr"
 
-          - `"networkidle0"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle2"`
+"fetch"
 
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+<a href="#">Link to this property</a>
 
-          - `"load"`
+"prefetch"
 
-          - `"domcontentloaded"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle0"`
+"eventsource"
 
-          - `"networkidle2"`
+<a href="#">Link to this property</a>
 
-    - `jsonOptions: optional object { custom_ai, prompt, response_format }`
+"websocket"
 
-      Options for JSON extraction.
+<a href="#">Link to this property</a>
 
-      - `custom_ai: optional array of object { model, authorization }`
+"manifest"
 
-        Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback.
+<a href="#">Link to this property</a>
 
-        - `model: string`
+"signedexchange"
 
-          AI model to use for the request. Must be formed as `<provider>/<model_name>`, e.g. `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`.
+<a href="#">Link to this property</a>
 
-        - `authorization: optional string`
+"ping"
 
-          Authorization token for the AI model: `Bearer <token>`. Not needed for workers-ai models.
+<a href="#">Link to this property</a>
 
-      - `prompt: optional string`
+"cspviolationreport"
 
-      - `response_format: optional object { type, json_schema }`
+<a href="#">Link to this property</a>
 
-        - `type: string`
+"preflight"
 
-        - `json_schema: optional map[string or number or boolean or 2 more]`
+<a href="#">Link to this property</a>
 
-          Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/
+"other"
 
-          - `string`
+<a href="#">Link to this property</a>
 
-          - `number`
+</details>
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-          - `unknown`
+<details>
 
-          - `array of string`
+<summary>
 
-    - `limit: optional number`
+authenticate: optional object {password, username }
 
-      Maximum number of URLs to crawl.
+Provide credentials for HTTP authentication.
 
-    - `maxAge: optional number`
+</summary>
 
-      Maximum age of a resource that can be returned from cache in seconds. Default is 1 day.
+password: string
 
-    - `modifiedSince: optional number`
+minLength1
 
-      Unix timestamp (seconds since epoch) indicating to only crawl pages that were modified since this time. For sitemap URLs with a lastmod field, this is compared directly. For other URLs, the crawler will use If-Modified-Since header when fetching. URLs without modification information (no lastmod in sitemap and no Last-Modified header support) will be crawled. Note: This works in conjunction with maxAge - both filters must pass for a cached resource to be used. Must be within the last year and not in the future.
+<a href="#">Link to this property</a>
 
-    - `options: optional object { excludePatterns, includeExternalLinks, includePatterns, includeSubdomains }`
+username: string
 
-      Additional options for the crawler.
+minLength1
 
-      - `excludePatterns: optional array of string`
+<a href="#">Link to this property</a>
 
-        Exclude links matching the provided wildcard patterns in the crawl job. Example: 'https://example.com/privacy/**'.
+</details>
 
-      - `includeExternalLinks: optional boolean`
+<a href="#">Link to this property</a>
 
-        Include external links in the crawl job. If set to true, includeSubdomains is ignored.
+bestAttempt: optional boolean
 
-      - `includePatterns: optional array of string`
+Attempt to proceed when ‘awaited’ events fail or timeout.
 
-        Include only links matching the provided wildcard patterns in the crawl job. Include patterns are evaluated before exclude patterns. URLs that match any of the specified include patterns will be included in the crawl job. Example: 'https://example.com/blog/**'.
+<a href="#">Link to this property</a>
 
-      - `includeSubdomains: optional boolean`
+<details>
 
-        Include links to subdomains in the crawl job. This option is ignored if includeExternalLinks is true.
+<summary>
 
-    - `rejectRequestPattern: optional array of string`
+contentUse: optional "reference"or "full"
 
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
+Intended content use level to respect the <code>use</code> Content-Signal directive in robots.txt. Levels (least to most permissive): ‘reference’, ‘full’. A URL is disallowed when the publisher’s declared <code>use</code> level is lower than this intent. Learn more: <a href="https://contentsignals.org/">https://contentsignals.org/</a>. Default: ‘full’.
 
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+</summary>
 
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
+One of the following:
 
-      - `"document"`
+"reference"
 
-      - `"stylesheet"`
+<a href="#">Link to this property</a>
 
-      - `"image"`
+"full"
 
-      - `"media"`
+<a href="#">Link to this property</a>
 
-      - `"font"`
+</details>
 
-      - `"script"`
+<a href="#">Link to this property</a>
 
-      - `"texttrack"`
+<details>
 
-      - `"xhr"`
+<summary>
 
-      - `"fetch"`
+cookies: optional array of object {name, value, domain, 11 more }
 
-      - `"prefetch"`
+Check <a href="https://pptr.dev/api/puppeteer.page.setcookie">options</a>.
 
-      - `"eventsource"`
+</summary>
 
-      - `"websocket"`
+name: string
 
-      - `"manifest"`
+Cookie name.
 
-      - `"signedexchange"`
+<a href="#">Link to this property</a>
 
-      - `"ping"`
+value: string
 
-      - `"cspviolationreport"`
+<a href="#">Link to this property</a>
 
-      - `"preflight"`
+domain: optional string
 
-      - `"other"`
+<a href="#">Link to this property</a>
 
-    - `render: optional true`
+expires: optional number
 
-      Whether to render the page or fetch static content. True by default.
+<a href="#">Link to this property</a>
 
-      - `true`
+httpOnly: optional boolean
 
-    - `setExtraHTTPHeaders: optional map[string]`
+<a href="#">Link to this property</a>
 
-    - `setJavaScriptEnabled: optional boolean`
+partitionKey: optional string
 
-    - `source: optional "sitemaps" or "links" or "all"`
+<a href="#">Link to this property</a>
 
-      Source of links to crawl. 'sitemaps' - only crawl URLs from sitemaps, 'links' - only crawl URLs scraped from pages, 'all' - crawl both sitemap and scraped links (default).
+path: optional string
 
-      - `"sitemaps"`
+<a href="#">Link to this property</a>
 
-      - `"links"`
+<details>
 
-      - `"all"`
+<summary>
 
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
+priority: optional "Low"or "Medium"or "High"
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
+</summary>
 
-      - `height: number`
+One of the following:
 
-      - `width: number`
+"Low"
 
-      - `deviceScaleFactor: optional number`
+<a href="#">Link to this property</a>
 
-      - `hasTouch: optional boolean`
+"Medium"
 
-      - `isLandscape: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `isMobile: optional boolean`
+"High"
 
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
+<a href="#">Link to this property</a>
 
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
+</details>
 
-      - `selector: string`
+<a href="#">Link to this property</a>
 
-      - `hidden: optional true`
+sameParty: optional boolean
 
-        - `true`
+<a href="#">Link to this property</a>
 
-      - `timeout: optional number`
+<details>
 
-      - `visible: optional true`
+<summary>
 
-        - `true`
+sameSite: optional "Strict"or "Lax"or "None"
 
-    - `waitForTimeout: optional number`
+</summary>
 
-      Waits for a specified timeout before continuing.
+One of the following:
 
-  - `object { render, url, crawlPurposes, 8 more }`
+"Strict"
 
-    - `render: false`
+<a href="#">Link to this property</a>
 
-      Whether to render the page or fetch static content. True by default.
+"Lax"
 
-      - `false`
+<a href="#">Link to this property</a>
 
-    - `url: string`
+"None"
 
-      URL to navigate to, eg. `https://example.com`.
+<a href="#">Link to this property</a>
 
-    - `crawlPurposes: optional array of "search" or "ai-input" or "ai-train"`
+</details>
 
-      List of crawl purposes to respect Content-Signal directives in robots.txt. Allowed values: 'search', 'ai-input', 'ai-train'. Learn more: https://contentsignals.org/. Default: ['search', 'ai-input', 'ai-train'].
+<a href="#">Link to this property</a>
 
-      - `"search"`
+secure: optional boolean
 
-      - `"ai-input"`
+<a href="#">Link to this property</a>
 
-      - `"ai-train"`
+sourcePort: optional number
 
-    - `depth: optional number`
+<a href="#">Link to this property</a>
 
-      Maximum number of levels deep the crawler will traverse from the starting URL.
+<details>
 
-    - `formats: optional array of "html" or "markdown" or "json"`
+<summary>
 
-      Formats to return. Default is `html`.
+sourceScheme: optional "Unset"or "NonSecure"or "Secure"
 
-      - `"html"`
+</summary>
 
-      - `"markdown"`
+One of the following:
 
-      - `"json"`
+"Unset"
 
-    - `jsonOptions: optional object { custom_ai, prompt, response_format }`
+<a href="#">Link to this property</a>
 
-      Options for JSON extraction.
+"NonSecure"
 
-      - `custom_ai: optional array of object { model, authorization }`
+<a href="#">Link to this property</a>
 
-        Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback.
+"Secure"
 
-        - `model: string`
+<a href="#">Link to this property</a>
 
-          AI model to use for the request. Must be formed as `<provider>/<model_name>`, e.g. `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`.
+</details>
 
-        - `authorization: optional string`
+<a href="#">Link to this property</a>
 
-          Authorization token for the AI model: `Bearer <token>`. Not needed for workers-ai models.
+url: optional string
 
-      - `prompt: optional string`
+<a href="#">Link to this property</a>
 
-      - `response_format: optional object { type, json_schema }`
+</details>
 
-        - `type: string`
+<a href="#">Link to this property</a>
 
-        - `json_schema: optional map[string or number or boolean or 2 more]`
+<details>
 
-          Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/
+<summary>
 
-          - `string`
+crawlPurposes: optional array of "search"or "ai-input"or "ai-train"
 
-          - `number`
+List of crawl purposes to respect Content-Signal directives in robots.txt. Allowed values: ‘search’, ‘ai-input’, ‘ai-train’. Learn more: <a href="https://contentsignals.org/">https://contentsignals.org/</a>. Default: \[‘search’, ‘ai-input’, ‘ai-train’].
 
-          - `boolean`
+</summary>
 
-          - `unknown`
+One of the following:
 
-          - `array of string`
+"search"
 
-    - `limit: optional number`
+<a href="#">Link to this property</a>
 
-      Maximum number of URLs to crawl.
+"ai-input"
 
-    - `maxAge: optional number`
+<a href="#">Link to this property</a>
 
-      Maximum age of a resource that can be returned from cache in seconds. Default is 1 day.
+"ai-train"
 
-    - `modifiedSince: optional number`
+<a href="#">Link to this property</a>
 
-      Unix timestamp (seconds since epoch) indicating to only crawl pages that were modified since this time. For sitemap URLs with a lastmod field, this is compared directly. For other URLs, the crawler will use If-Modified-Since header when fetching. URLs without modification information (no lastmod in sitemap and no Last-Modified header support) will be crawled. Note: This works in conjunction with maxAge - both filters must pass for a cached resource to be used. Must be within the last year and not in the future.
+</details>
 
-    - `options: optional object { excludePatterns, includeExternalLinks, includePatterns, includeSubdomains }`
+<a href="#">Link to this property</a>
 
-      Additional options for the crawler.
+depth: optional number
 
-      - `excludePatterns: optional array of string`
+Maximum number of levels deep the crawler will traverse from the starting URL.
 
-        Exclude links matching the provided wildcard patterns in the crawl job. Example: 'https://example.com/privacy/**'.
+maximum100000
 
-      - `includeExternalLinks: optional boolean`
+minimum1
 
-        Include external links in the crawl job. If set to true, includeSubdomains is ignored.
+<a href="#">Link to this property</a>
 
-      - `includePatterns: optional array of string`
+emulateMediaType: optional string
 
-        Include only links matching the provided wildcard patterns in the crawl job. Include patterns are evaluated before exclude patterns. URLs that match any of the specified include patterns will be included in the crawl job. Example: 'https://example.com/blog/**'.
+<a href="#">Link to this property</a>
 
-      - `includeSubdomains: optional boolean`
+<details>
 
-        Include links to subdomains in the crawl job. This option is ignored if includeExternalLinks is true.
+<summary>
 
-    - `source: optional "sitemaps" or "links" or "all"`
+formats: optional array of "html"or "markdown"or "json"
 
-      Source of links to crawl. 'sitemaps' - only crawl URLs from sitemaps, 'links' - only crawl URLs scraped from pages, 'all' - crawl both sitemap and scraped links (default).
+Formats to return. Default is <code>html</code>.
 
-      - `"sitemaps"`
+</summary>
 
-      - `"links"`
+One of the following:
 
-      - `"all"`
+"html"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: string`
+"markdown"
 
-  Crawl job ID.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"json"
 
-  Response status.
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { code, message }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-    Error code.
+<details>
 
-  - `message: string`
+<summary>
 
-    Error message.
+gotoOptions: optional object {referer, referrerPolicy, timeout, waitUntil }
 
-### Example
+Check <a href="https://pptr.dev/api/puppeteer.gotooptions">options</a>.
 
-```http
+</summary>
+
+referer: optional string
+
+<a href="#">Link to this property</a>
+
+referrerPolicy: optional string
+
+<a href="#">Link to this property</a>
+
+timeout: optional number
+
+maximum60000
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+waitUntil: optional "load"or "domcontentloaded"or "networkidle0"or "networkidle2"or array of "load"or "domcontentloaded"or "networkidle0"or "networkidle2"
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+"load"or "domcontentloaded"or "networkidle0"or "networkidle2"
+
+</summary>
+
+One of the following:
+
+"load"
+
+<a href="#">Link to this property</a>
+
+"domcontentloaded"
+
+<a href="#">Link to this property</a>
+
+"networkidle0"
+
+<a href="#">Link to this property</a>
+
+"networkidle2"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+array of "load"or "domcontentloaded"or "networkidle0"or "networkidle2"
+
+</summary>
+
+One of the following:
+
+"load"
+
+<a href="#">Link to this property</a>
+
+"domcontentloaded"
+
+<a href="#">Link to this property</a>
+
+"networkidle0"
+
+<a href="#">Link to this property</a>
+
+"networkidle2"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+jsonOptions: optional object {custom\_ai, prompt, response\_format }
+
+Options for JSON extraction.
+
+</summary>
+
+<details>
+
+<summary>
+
+custom\_ai: optional array of object {model, authorization }
+
+Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback.
+
+</summary>
+
+model: string
+
+AI model to use for the request. Must be formed as <code>&lt;provider&gt;/&lt;model_name&gt;</code>, e.g. <code>workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast</code>.
+
+<a href="#">Link to this property</a>
+
+authorization: optional string
+
+Authorization token for the AI model: <code>Bearer &lt;token&gt;</code>. Not needed for workers-ai models.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+prompt: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response\_format: optional object {type, json\_schema }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+json\_schema: optional map\[unknown]
+
+Schema for the response format. More information here: <a href="https://developers.cloudflare.com/workers-ai/json-mode/">https://developers.cloudflare.com/workers-ai/json-mode/</a>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+limit: optional number
+
+Maximum number of URLs to crawl.
+
+maximum100000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+maxAge: optional number
+
+Maximum age of a resource that can be returned from cache in seconds. Default is 1 day.
+
+maximum604800
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+modifiedSince: optional number
+
+Unix timestamp (seconds since epoch) indicating to only crawl pages that were modified since this time. For sitemap URLs with a lastmod field, this is compared directly. For other URLs, the crawler will use If-Modified-Since header when fetching. URLs without modification information (no lastmod in sitemap and no Last-Modified header support) will be crawled. Note: This works in conjunction with maxAge - both filters must pass for a cached resource to be used. Must be within the last year and not in the future.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+options: optional object {excludePatterns, includeExternalLinks, includePatterns, includeSubdomains }
+
+Additional options for the crawler.
+
+</summary>
+
+excludePatterns: optional array of string
+
+Exclude links matching the provided wildcard patterns in the crawl job. Example: ‘<a href="https://example.com/privacy/">https://example.com/privacy/</a>\*\*’.
+
+<a href="#">Link to this property</a>
+
+includeExternalLinks: optional boolean
+
+Include external links in the crawl job. If set to true, includeSubdomains is ignored.
+
+<a href="#">Link to this property</a>
+
+includePatterns: optional array of string
+
+Include only links matching the provided wildcard patterns in the crawl job. Include patterns are evaluated before exclude patterns. URLs that match any of the specified include patterns will be included in the crawl job. Example: ‘<a href="https://example.com/blog/">https://example.com/blog/</a>\*\*’.
+
+<a href="#">Link to this property</a>
+
+includeSubdomains: optional boolean
+
+Include links to subdomains in the crawl job. This option is ignored if includeExternalLinks is true.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+rejectRequestPattern: optional array of string
+
+Block undesired requests that match the provided regex patterns, eg. ’/^.\*.(css)’.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rejectResourceTypes: optional array of "document"or "stylesheet"or "image"or 15 more
+
+Block undesired requests that match the provided resource types, eg. ‘image’ or ‘script’.
+
+</summary>
+
+One of the following:
+
+"document"
+
+<a href="#">Link to this property</a>
+
+"stylesheet"
+
+<a href="#">Link to this property</a>
+
+"image"
+
+<a href="#">Link to this property</a>
+
+"media"
+
+<a href="#">Link to this property</a>
+
+"font"
+
+<a href="#">Link to this property</a>
+
+"script"
+
+<a href="#">Link to this property</a>
+
+"texttrack"
+
+<a href="#">Link to this property</a>
+
+"xhr"
+
+<a href="#">Link to this property</a>
+
+"fetch"
+
+<a href="#">Link to this property</a>
+
+"prefetch"
+
+<a href="#">Link to this property</a>
+
+"eventsource"
+
+<a href="#">Link to this property</a>
+
+"websocket"
+
+<a href="#">Link to this property</a>
+
+"manifest"
+
+<a href="#">Link to this property</a>
+
+"signedexchange"
+
+<a href="#">Link to this property</a>
+
+"ping"
+
+<a href="#">Link to this property</a>
+
+"cspviolationreport"
+
+<a href="#">Link to this property</a>
+
+"preflight"
+
+<a href="#">Link to this property</a>
+
+"other"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+render: optional true
+
+Whether to render the page or fetch static content. True by default.
+
+<a href="#">Link to this property</a>
+
+setExtraHTTPHeaders: optional map\[string]
+
+<a href="#">Link to this property</a>
+
+setJavaScriptEnabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional "sitemaps"or "links"or "all"
+
+Source of links to crawl. ‘sitemaps’ - only crawl URLs from sitemaps, ‘links’ - only crawl URLs scraped from pages, ‘all’ - crawl both sitemap and scraped links (default).
+
+</summary>
+
+One of the following:
+
+"sitemaps"
+
+<a href="#">Link to this property</a>
+
+"links"
+
+<a href="#">Link to this property</a>
+
+"all"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+viewport: optional object {height, width, deviceScaleFactor, 3 more }
+
+Check <a href="https://pptr.dev/api/puppeteer.page.setviewport">options</a>.
+
+</summary>
+
+height: number
+
+<a href="#">Link to this property</a>
+
+width: number
+
+<a href="#">Link to this property</a>
+
+deviceScaleFactor: optional number
+
+<a href="#">Link to this property</a>
+
+hasTouch: optional boolean
+
+<a href="#">Link to this property</a>
+
+isLandscape: optional boolean
+
+<a href="#">Link to this property</a>
+
+isMobile: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+waitForSelector: optional object {selector, hidden, timeout, visible }
+
+Wait for the selector to appear in page. Check <a href="https://pptr.dev/api/puppeteer.page.waitforselector">options</a>.
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+hidden: optional true
+
+<a href="#">Link to this property</a>
+
+timeout: optional number
+
+maximum120000
+
+<a href="#">Link to this property</a>
+
+visible: optional true
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+waitForTimeout: optional number
+
+Waits for a specified timeout before continuing.
+
+maximum120000
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {render, url, contentUse, 9 more }
+
+</summary>
+
+render: false
+
+Whether to render the page or fetch static content. True by default.
+
+<a href="#">Link to this property</a>
+
+url: string
+
+URL to navigate to, eg. <code>https://example.com</code>.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+contentUse: optional "reference"or "full"
+
+Intended content use level to respect the <code>use</code> Content-Signal directive in robots.txt. Levels (least to most permissive): ‘reference’, ‘full’. A URL is disallowed when the publisher’s declared <code>use</code> level is lower than this intent. Learn more: <a href="https://contentsignals.org/">https://contentsignals.org/</a>. Default: ‘full’.
+
+</summary>
+
+One of the following:
+
+"reference"
+
+<a href="#">Link to this property</a>
+
+"full"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+crawlPurposes: optional array of "search"or "ai-input"or "ai-train"
+
+List of crawl purposes to respect Content-Signal directives in robots.txt. Allowed values: ‘search’, ‘ai-input’, ‘ai-train’. Learn more: <a href="https://contentsignals.org/">https://contentsignals.org/</a>. Default: \[‘search’, ‘ai-input’, ‘ai-train’].
+
+</summary>
+
+One of the following:
+
+"search"
+
+<a href="#">Link to this property</a>
+
+"ai-input"
+
+<a href="#">Link to this property</a>
+
+"ai-train"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+depth: optional number
+
+Maximum number of levels deep the crawler will traverse from the starting URL.
+
+maximum100000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+formats: optional array of "html"or "markdown"or "json"
+
+Formats to return. Default is <code>html</code>.
+
+</summary>
+
+One of the following:
+
+"html"
+
+<a href="#">Link to this property</a>
+
+"markdown"
+
+<a href="#">Link to this property</a>
+
+"json"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+jsonOptions: optional object {custom\_ai, prompt, response\_format }
+
+Options for JSON extraction.
+
+</summary>
+
+<details>
+
+<summary>
+
+custom\_ai: optional array of object {model, authorization }
+
+Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback.
+
+</summary>
+
+model: string
+
+AI model to use for the request. Must be formed as <code>&lt;provider&gt;/&lt;model_name&gt;</code>, e.g. <code>workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast</code>.
+
+<a href="#">Link to this property</a>
+
+authorization: optional string
+
+Authorization token for the AI model: <code>Bearer &lt;token&gt;</code>. Not needed for workers-ai models.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+prompt: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response\_format: optional object {type, json\_schema }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+json\_schema: optional map\[unknown]
+
+Schema for the response format. More information here: <a href="https://developers.cloudflare.com/workers-ai/json-mode/">https://developers.cloudflare.com/workers-ai/json-mode/</a>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+limit: optional number
+
+Maximum number of URLs to crawl.
+
+maximum100000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+maxAge: optional number
+
+Maximum age of a resource that can be returned from cache in seconds. Default is 1 day.
+
+maximum604800
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+modifiedSince: optional number
+
+Unix timestamp (seconds since epoch) indicating to only crawl pages that were modified since this time. For sitemap URLs with a lastmod field, this is compared directly. For other URLs, the crawler will use If-Modified-Since header when fetching. URLs without modification information (no lastmod in sitemap and no Last-Modified header support) will be crawled. Note: This works in conjunction with maxAge - both filters must pass for a cached resource to be used. Must be within the last year and not in the future.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+options: optional object {excludePatterns, includeExternalLinks, includePatterns, includeSubdomains }
+
+Additional options for the crawler.
+
+</summary>
+
+excludePatterns: optional array of string
+
+Exclude links matching the provided wildcard patterns in the crawl job. Example: ‘<a href="https://example.com/privacy/">https://example.com/privacy/</a>\*\*’.
+
+<a href="#">Link to this property</a>
+
+includeExternalLinks: optional boolean
+
+Include external links in the crawl job. If set to true, includeSubdomains is ignored.
+
+<a href="#">Link to this property</a>
+
+includePatterns: optional array of string
+
+Include only links matching the provided wildcard patterns in the crawl job. Include patterns are evaluated before exclude patterns. URLs that match any of the specified include patterns will be included in the crawl job. Example: ‘<a href="https://example.com/blog/">https://example.com/blog/</a>\*\*’.
+
+<a href="#">Link to this property</a>
+
+includeSubdomains: optional boolean
+
+Include links to subdomains in the crawl job. This option is ignored if includeExternalLinks is true.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional "sitemaps"or "links"or "all"
+
+Source of links to crawl. ‘sitemaps’ - only crawl URLs from sitemaps, ‘links’ - only crawl URLs scraped from pages, ‘all’ - crawl both sitemap and scraped links (default).
+
+</summary>
+
+One of the following:
+
+"sitemaps"
+
+<a href="#">Link to this property</a>
+
+"links"
+
+<a href="#">Link to this property</a>
+
+"all"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+result: string
+
+Crawl job ID.
+
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Response status.
+
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+Error code.
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Error message.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+### Crawl websites.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/crawl \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -529,9 +1317,11 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering
         }'
 ```
 
-#### Response
+200 example
 
-```json
+429 example
+
+```
 {
   "result": "result",
   "success": true,
@@ -541,5 +1331,48 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering
       "message": "message"
     }
   ]
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 2001,
+      "message": "Rate limit exceeded"
+    }
+  ],
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+429 example
+
+```
+{
+  "result": "result",
+  "success": true,
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ]
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 2001,
+      "message": "Rate limit exceeded"
+    }
+  ],
+  "success": false
 }
 ```

@@ -1,3039 +1,2531 @@
+---
+title: CT
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # CT
 
-## Get certificate distribution by dimension
+##### [Get certificate distribution by dimension](https://developers.cloudflare.com/api/resources/radar/subresources/ct/methods/summary)
 
-**get** `/radar/ct/summary/{dimension}`
+GET/radar/ct/summary/{dimension}
 
-Retrieves an aggregated summary of certificates grouped by the specified dimension.
+##### [Get certificates time series](https://developers.cloudflare.com/api/resources/radar/subresources/ct/methods/timeseries)
 
-### Path Parameters
+GET/radar/ct/timeseries
 
-- `dimension: "CA" or "CA_OWNER" or "DURATION" or 11 more`
+##### [Get time series of certificate distribution by dimension](https://developers.cloudflare.com/api/resources/radar/subresources/ct/methods/timeseries_groups)
 
-  Specifies the certificate attribute by which to group the results.
+GET/radar/ct/timeseries\_groups/{dimension}
 
-  - `"CA"`
+##### ModelsExpand Collapse
 
-  - `"CA_OWNER"`
+<details>
 
-  - `"DURATION"`
+<summary>
 
-  - `"ENTRY_TYPE"`
+CTSummaryResponse object {meta, summary\_0 }
 
-  - `"EXPIRATION_STATUS"`
+</summary>
 
-  - `"HAS_IPS"`
+<details>
 
-  - `"HAS_WILDCARDS"`
+<summary>
 
-  - `"LOG"`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-  - `"LOG_API"`
+Metadata for the results.
 
-  - `"LOG_OPERATOR"`
+</summary>
 
-  - `"PUBLIC_KEY_ALGORITHM"`
+<details>
 
-  - `"SIGNATURE_ALGORITHM"`
+<summary>
 
-  - `"TLD"`
+confidenceInfo: object {annotations, level }
 
-  - `"VALIDATION_LEVEL"`
+</summary>
 
-### Query Parameters
+<details>
 
-- `ca: optional array of string`
+<summary>
 
-  Filters results by certificate authority.
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-- `caOwner: optional array of string`
+</summary>
 
-  Filters results by certificate authority owner.
+<details>
 
-- `dateEnd: optional array of string`
+<summary>
 
-  End of the date range (inclusive).
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-- `dateRange: optional array of string`
+Data source for annotations.
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+</summary>
 
-- `dateStart: optional array of string`
+One of the following:
 
-  Start of the date range.
+"ALL"
 
-- `duration: optional array of "LTE_3D" or "GT_3D_LTE_7D" or "GT_7D_LTE_10D" or 4 more`
+<a href="#">Link to this property</a>
 
-  Filters results by certificate duration.
+"AI\_BOTS"
 
-  - `"LTE_3D"`
+<a href="#">Link to this property</a>
 
-  - `"GT_3D_LTE_7D"`
+"AI\_GATEWAY"
 
-  - `"GT_7D_LTE_10D"`
+<a href="#">Link to this property</a>
 
-  - `"GT_10D_LTE_47D"`
+"BGP"
 
-  - `"GT_47D_LTE_100D"`
+<a href="#">Link to this property</a>
 
-  - `"GT_100D_LTE_200D"`
+"BOTS"
 
-  - `"GT_200D"`
+<a href="#">Link to this property</a>
 
-- `entryType: optional array of "PRECERTIFICATE" or "CERTIFICATE"`
+"CONNECTION\_ANOMALY"
 
-  Filters results by entry type (certificate vs. pre-certificate).
+<a href="#">Link to this property</a>
 
-  - `"PRECERTIFICATE"`
+"CT"
 
-  - `"CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-- `expirationStatus: optional array of "EXPIRED" or "VALID"`
+"DNS"
 
-  Filters results by expiration status (expired vs. valid).
+<a href="#">Link to this property</a>
 
-  - `"EXPIRED"`
+"DNS\_MAGNITUDE"
 
-  - `"VALID"`
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+"DNS\_AS112"
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+"DOS"
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `hasIps: optional array of boolean`
+"EMAIL\_ROUTING"
 
-  Filters results based on whether the certificates are bound to specific IP addresses.
+<a href="#">Link to this property</a>
 
-- `hasWildcards: optional array of boolean`
+"EMAIL\_SECURITY"
 
-  Filters results based on whether the certificates contain wildcard domains.
+<a href="#">Link to this property</a>
 
-- `limitPerGroup: optional number`
+"FW"
 
-  Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category.
+<a href="#">Link to this property</a>
 
-- `log: optional array of string`
+"FW\_PG"
 
-  Filters results by certificate log.
+<a href="#">Link to this property</a>
 
-- `logApi: optional array of "RFC6962" or "STATIC"`
+"HTTP"
 
-  Filters results by certificate log API (RFC6962 vs. static).
+<a href="#">Link to this property</a>
 
-  - `"RFC6962"`
+"HTTP\_CONTROL"
 
-  - `"STATIC"`
+<a href="#">Link to this property</a>
 
-- `logOperator: optional array of string`
+"HTTP\_CRAWLER\_REFERER"
 
-  Filters results by certificate log operator.
+<a href="#">Link to this property</a>
 
-- `name: optional array of string`
+"HTTP\_ORIGINS"
 
-  Array of names used to label the series in the response.
+<a href="#">Link to this property</a>
 
-- `normalization: optional "RAW_VALUES" or "PERCENTAGE"`
+"IQI"
 
-  Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-  - `"RAW_VALUES"`
+"LEAKED\_CREDENTIALS"
 
-  - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-- `publicKeyAlgorithm: optional array of "DSA" or "ECDSA" or "RSA"`
+"NET"
 
-  Filters results by public key algorithm.
+<a href="#">Link to this property</a>
 
-  - `"DSA"`
+"ROBOTS\_TXT"
 
-  - `"ECDSA"`
+<a href="#">Link to this property</a>
 
-  - `"RSA"`
+"SPEED"
 
-- `signatureAlgorithm: optional array of "DSA_SHA_1" or "DSA_SHA_256" or "ECDSA_SHA_1" or 12 more`
+<a href="#">Link to this property</a>
 
-  Filters results by signature algorithm.
+"WORKERS\_AI"
 
-  - `"DSA_SHA_1"`
+<a href="#">Link to this property</a>
 
-  - `"DSA_SHA_256"`
+</details>
 
-  - `"ECDSA_SHA_1"`
+<a href="#">Link to this property</a>
 
-  - `"ECDSA_SHA_256"`
+description: string
 
-  - `"ECDSA_SHA_384"`
+<a href="#">Link to this property</a>
 
-  - `"ECDSA_SHA_512"`
+endDate: string
 
-  - `"PSS_SHA_256"`
+formatdate-time
 
-  - `"PSS_SHA_384"`
+<a href="#">Link to this property</a>
 
-  - `"PSS_SHA_512"`
+<details>
 
-  - `"RSA_MD2"`
+<summary>
 
-  - `"RSA_MD5"`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-  - `"RSA_SHA_1"`
+Event type for annotations.
 
-  - `"RSA_SHA_256"`
+</summary>
 
-  - `"RSA_SHA_384"`
+One of the following:
 
-  - `"RSA_SHA_512"`
+"GENERAL"
 
-- `tld: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by top-level domain.
+"OUTAGE"
 
-- `uniqueEntries: optional array of "true" or "false"`
+<a href="#">Link to this property</a>
 
-  Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.
+"PARTIAL\_PROJECTION"
 
-  - `"true"`
+<a href="#">Link to this property</a>
 
-  - `"false"`
+"PIPELINE"
 
-- `validationLevel: optional array of "DOMAIN" or "ORGANIZATION" or "EXTENDED"`
+<a href="#">Link to this property</a>
 
-  Filters results by validation level.
+"TRAFFIC\_ANOMALY"
 
-  - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-  - `"ORGANIZATION"`
+</details>
 
-  - `"EXTENDED"`
+<a href="#">Link to this property</a>
 
-### Returns
+isInstantaneous: boolean
 
-- `result: object { meta, summary_0 }`
+Whether event is a single point in time or a time range.
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+linkedUrl: string
 
-    - `confidenceInfo: object { annotations, level }`
+formaturi
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+startDate: string
 
-          Data source for annotations.
+formatdate-time
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+tags: optional array of string
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+</details>
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+level: number
 
-          - `"CT"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+</details>
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+<details>
 
-          - `"EMAIL_ROUTING"`
+<summary>
 
-          - `"EMAIL_SECURITY"`
+dateRange: array of object {endTime, startTime }
 
-          - `"FW"`
+</summary>
 
-          - `"FW_PG"`
+endTime: string
 
-          - `"HTTP"`
+Adjusted end of date range.
 
-          - `"HTTP_CONTROL"`
+formatdate-time
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+startTime: string
 
-          - `"IQI"`
+Adjusted start of date range.
 
-          - `"LEAKED_CREDENTIALS"`
+formatdate-time
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+</details>
 
-          - `"SPEED"`
+<a href="#">Link to this property</a>
 
-          - `"WORKERS_AI"`
+lastUpdated: string
 
-        - `description: string`
+Timestamp of the last dataset update.
 
-        - `endDate: string`
+formatdate-time
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+<details>
 
-          - `"EVENT"`
+<summary>
 
-          - `"GENERAL"`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-          - `"OUTAGE"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-          - `"PARTIAL_PROJECTION"`
+</summary>
 
-          - `"PIPELINE"`
+One of the following:
 
-          - `"TRAFFIC_ANOMALY"`
+"PERCENTAGE"
 
-        - `isInstantaneous: boolean`
+<a href="#">Link to this property</a>
 
-          Whether event is a single point in time or a time range.
+"MIN0\_MAX"
 
-        - `linkedUrl: string`
+<a href="#">Link to this property</a>
 
-        - `startDate: string`
+"MIN\_MAX"
 
-        - `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `level: number`
+"RAW\_VALUES"
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+"PERCENTAGE\_CHANGE"
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+"ROLLING\_AVERAGE"
 
-      - `startTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted start of date range.
+"OVERLAPPED\_PERCENTAGE"
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+"RATIO"
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+</details>
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+<details>
 
-      - `"MIN_MAX"`
+<summary>
 
-      - `"RAW_VALUES"`
+units: array of object {name, value }
 
-      - `"PERCENTAGE_CHANGE"`
+Measurement units for the results.
 
-      - `"ROLLING_AVERAGE"`
+</summary>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+name: string
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+value: string
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: map[string] or object { rfc6962, static }  or object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }  or 5 more`
+</details>
 
-    - `map[string]`
+<a href="#">Link to this property</a>
 
-    - `object { rfc6962, static }`
+<details>
 
-      - `rfc6962: string`
+<summary>
 
-      - `static: string`
+summary\_0: map\[string]or object {rfc6962, static } or object {gt\_121d, gt\_16d\_lte\_31d, gt\_31d\_lte\_91d, 3 more } or 5 more
 
-    - `object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }`
+</summary>
 
-      - `gt_121d: string`
+One of the following:
 
-      - `gt_16d_lte_31d: string`
+map\[string]
 
-      - `gt_31d_lte_91d: string`
+<a href="#">Link to this property</a>
 
-      - `gt_3d_lte_16d: string`
+<details>
 
-      - `gt_91d_lte_121d: string`
+<summary>
 
-      - `lte_3d: string`
+object {rfc6962, static }
 
-    - `object { CERTIFICATE, PRECERTIFICATE }`
+</summary>
 
-      - `CERTIFICATE: string`
+rfc6962: string
 
-      - `PRECERTIFICATE: string`
+<a href="#">Link to this property</a>
 
-    - `object { EXPIRED, VALID }`
+static: string
 
-      - `EXPIRED: string`
+<a href="#">Link to this property</a>
 
-      - `VALID: string`
+</details>
 
-    - `object { NEGATIVE, POSITIVE }`
+<a href="#">Link to this property</a>
 
-      - `NEGATIVE: string`
+<details>
 
-      - `POSITIVE: string`
+<summary>
 
-    - `object { DSA, ECDSA, RSA }`
+object {gt\_121d, gt\_16d\_lte\_31d, gt\_31d\_lte\_91d, 3 more }
 
-      - `DSA: string`
+</summary>
 
-      - `ECDSA: string`
+gt\_121d: string
 
-      - `RSA: string`
+<a href="#">Link to this property</a>
 
-    - `object { domain, extended, organization, unknown }`
+gt\_16d\_lte\_31d: string
 
-      - `domain: string`
+<a href="#">Link to this property</a>
 
-      - `extended: string`
+gt\_31d\_lte\_91d: string
 
-      - `organization: string`
+<a href="#">Link to this property</a>
 
-      - `unknown: string`
+gt\_3d\_lte\_16d: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+gt\_91d\_lte\_121d: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/summary/$DIMENSION \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+lte\_3d: string
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "DigiCert": "10.274394",
-      "GoDaddy": "8.381743",
-      "Internet Security Research Group": "63.40249"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get certificates time series
+</details>
 
-**get** `/radar/ct/timeseries`
+<a href="#">Link to this property</a>
 
-Retrieves certificate volume over time.
+<details>
 
-### Query Parameters
+<summary>
 
-- `aggInterval: optional "15m" or "1h" or "1d" or "1w"`
+object {CERTIFICATE, PRECERTIFICATE }
 
-  Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+</summary>
 
-  - `"15m"`
+CERTIFICATE: string
 
-  - `"1h"`
+<a href="#">Link to this property</a>
 
-  - `"1d"`
+PRECERTIFICATE: string
 
-  - `"1w"`
+<a href="#">Link to this property</a>
 
-- `ca: optional array of string`
+</details>
 
-  Filters results by certificate authority.
+<a href="#">Link to this property</a>
 
-- `caOwner: optional array of string`
+<details>
 
-  Filters results by certificate authority owner.
+<summary>
 
-- `dateEnd: optional array of string`
+object {EXPIRED, VALID }
 
-  End of the date range (inclusive).
+</summary>
 
-- `dateRange: optional array of string`
+EXPIRED: string
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+<a href="#">Link to this property</a>
 
-- `dateStart: optional array of string`
+VALID: string
 
-  Start of the date range.
+<a href="#">Link to this property</a>
 
-- `duration: optional array of "LTE_3D" or "GT_3D_LTE_7D" or "GT_7D_LTE_10D" or 4 more`
+</details>
 
-  Filters results by certificate duration.
+<a href="#">Link to this property</a>
 
-  - `"LTE_3D"`
+<details>
 
-  - `"GT_3D_LTE_7D"`
+<summary>
 
-  - `"GT_7D_LTE_10D"`
+object {NEGATIVE, POSITIVE }
 
-  - `"GT_10D_LTE_47D"`
+</summary>
 
-  - `"GT_47D_LTE_100D"`
+NEGATIVE: string
 
-  - `"GT_100D_LTE_200D"`
+<a href="#">Link to this property</a>
 
-  - `"GT_200D"`
+POSITIVE: string
 
-- `entryType: optional array of "PRECERTIFICATE" or "CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-  Filters results by entry type (certificate vs. pre-certificate).
+</details>
 
-  - `"PRECERTIFICATE"`
+<a href="#">Link to this property</a>
 
-  - `"CERTIFICATE"`
+<details>
 
-- `expirationStatus: optional array of "EXPIRED" or "VALID"`
+<summary>
 
-  Filters results by expiration status (expired vs. valid).
+object {DSA, ECDSA, RSA }
 
-  - `"EXPIRED"`
+</summary>
 
-  - `"VALID"`
+DSA: string
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+ECDSA: string
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+RSA: string
 
-- `hasIps: optional array of boolean`
+<a href="#">Link to this property</a>
 
-  Filters results based on whether the certificates are bound to specific IP addresses.
+</details>
 
-- `hasWildcards: optional array of boolean`
+<a href="#">Link to this property</a>
 
-  Filters results based on whether the certificates contain wildcard domains.
+<details>
 
-- `log: optional array of string`
+<summary>
 
-  Filters results by certificate log.
+object {domain, extended, organization, unknown }
 
-- `logApi: optional array of "RFC6962" or "STATIC"`
+</summary>
 
-  Filters results by certificate log API (RFC6962 vs. static).
+domain: string
 
-  - `"RFC6962"`
+<a href="#">Link to this property</a>
 
-  - `"STATIC"`
+extended: string
 
-- `logOperator: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by certificate log operator.
+organization: string
 
-- `name: optional array of string`
+<a href="#">Link to this property</a>
 
-  Array of names used to label the series in the response.
+unknown: string
 
-- `publicKeyAlgorithm: optional array of "DSA" or "ECDSA" or "RSA"`
+<a href="#">Link to this property</a>
 
-  Filters results by public key algorithm.
+</details>
 
-  - `"DSA"`
+<a href="#">Link to this property</a>
 
-  - `"ECDSA"`
+</details>
 
-  - `"RSA"`
+<a href="#">Link to this property</a>
 
-- `signatureAlgorithm: optional array of "DSA_SHA_1" or "DSA_SHA_256" or "ECDSA_SHA_1" or 12 more`
+</details>
 
-  Filters results by signature algorithm.
+[Link to this property](#)%20radar.ct%20%3E%20(model)%20ct_summary_response%20%3E%20(schema)>)
 
-  - `"DSA_SHA_1"`
+<details>
 
-  - `"DSA_SHA_256"`
+<summary>
 
-  - `"ECDSA_SHA_1"`
+CTTimeseriesResponse object {meta }
 
-  - `"ECDSA_SHA_256"`
+</summary>
 
-  - `"ECDSA_SHA_384"`
+<details>
 
-  - `"ECDSA_SHA_512"`
+<summary>
 
-  - `"PSS_SHA_256"`
+meta: object {aggInterval, confidenceInfo, dateRange, 3 more }
 
-  - `"PSS_SHA_384"`
+Metadata for the results.
 
-  - `"PSS_SHA_512"`
+</summary>
 
-  - `"RSA_MD2"`
+<details>
 
-  - `"RSA_MD5"`
+<summary>
 
-  - `"RSA_SHA_1"`
+aggInterval: "FIFTEEN\_MINUTES"or "ONE\_HOUR"or "ONE\_DAY"or 2 more
 
-  - `"RSA_SHA_256"`
+Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to <a href="https://developers.cloudflare.com/radar/concepts/aggregation-intervals/">Aggregation intervals</a>.
 
-  - `"RSA_SHA_384"`
+</summary>
 
-  - `"RSA_SHA_512"`
+One of the following:
 
-- `tld: optional array of string`
+"FIFTEEN\_MINUTES"
 
-  Filters results by top-level domain.
+<a href="#">Link to this property</a>
 
-- `uniqueEntries: optional array of "true" or "false"`
+"ONE\_HOUR"
 
-  Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.
+<a href="#">Link to this property</a>
 
-  - `"true"`
+"ONE\_DAY"
 
-  - `"false"`
+<a href="#">Link to this property</a>
 
-- `validationLevel: optional array of "DOMAIN" or "ORGANIZATION" or "EXTENDED"`
+"ONE\_WEEK"
 
-  Filters results by validation level.
+<a href="#">Link to this property</a>
 
-  - `"DOMAIN"`
+"ONE\_MONTH"
 
-  - `"ORGANIZATION"`
+<a href="#">Link to this property</a>
 
-  - `"EXTENDED"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta }`
+<details>
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, 3 more }`
+<summary>
 
-    Metadata for the results.
+confidenceInfo: object {annotations, level }
 
-    - `aggInterval: "FIFTEEN_MINUTES" or "ONE_HOUR" or "ONE_DAY" or 2 more`
+</summary>
 
-      Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+<details>
 
-      - `"FIFTEEN_MINUTES"`
+<summary>
 
-      - `"ONE_HOUR"`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-      - `"ONE_DAY"`
+</summary>
 
-      - `"ONE_WEEK"`
+<details>
 
-      - `"ONE_MONTH"`
+<summary>
 
-    - `confidenceInfo: object { annotations, level }`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+Data source for annotations.
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</summary>
 
-          Data source for annotations.
+One of the following:
 
-          - `"ALL"`
+"ALL"
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+"AI\_BOTS"
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+"AI\_GATEWAY"
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+"BGP"
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+"BOTS"
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+"CONNECTION\_ANOMALY"
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+"CT"
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+"DNS"
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+"DNS\_MAGNITUDE"
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+"DNS\_AS112"
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+"DOS"
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+"EMAIL\_ROUTING"
 
-          - `"SPEED"`
+<a href="#">Link to this property</a>
 
-          - `"WORKERS_AI"`
+"EMAIL\_SECURITY"
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `endDate: string`
+"FW"
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+"FW\_PG"
 
-          - `"EVENT"`
+<a href="#">Link to this property</a>
 
-          - `"GENERAL"`
+"HTTP"
 
-          - `"OUTAGE"`
+<a href="#">Link to this property</a>
 
-          - `"PARTIAL_PROJECTION"`
+"HTTP\_CONTROL"
 
-          - `"PIPELINE"`
+<a href="#">Link to this property</a>
 
-          - `"TRAFFIC_ANOMALY"`
+"HTTP\_CRAWLER\_REFERER"
 
-        - `isInstantaneous: boolean`
+<a href="#">Link to this property</a>
 
-          Whether event is a single point in time or a time range.
+"HTTP\_ORIGINS"
 
-        - `linkedUrl: string`
+<a href="#">Link to this property</a>
 
-        - `startDate: string`
+"IQI"
 
-        - `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `level: number`
+"LEAKED\_CREDENTIALS"
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+"NET"
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+"ROBOTS\_TXT"
 
-      - `startTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted start of date range.
+"SPEED"
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+"WORKERS\_AI"
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+</details>
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+description: string
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+endDate: string
 
-      - `"PERCENTAGE_CHANGE"`
+formatdate-time
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<details>
 
-      - `"RATIO"`
+<summary>
 
-    - `units: array of object { name, value }`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-      Measurement units for the results.
+Event type for annotations.
 
-      - `name: string`
+</summary>
 
-      - `value: string`
+One of the following:
 
-- `success: boolean`
+"GENERAL"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/timeseries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"OUTAGE"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "aggInterval": "FIFTEEN_MINUTES",
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
+"PARTIAL\_PROJECTION"
 
-## Get time series of certificate distribution by dimension
+<a href="#">Link to this property</a>
 
-**get** `/radar/ct/timeseries_groups/{dimension}`
+"PIPELINE"
 
-Retrieves the distribution of certificates grouped by the specified dimension over time.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"TRAFFIC\_ANOMALY"
 
-- `dimension: "CA" or "CA_OWNER" or "DURATION" or 11 more`
+<a href="#">Link to this property</a>
 
-  Specifies the certificate attribute by which to group the results.
+</details>
 
-  - `"CA"`
+<a href="#">Link to this property</a>
 
-  - `"CA_OWNER"`
+isInstantaneous: boolean
 
-  - `"DURATION"`
+Whether event is a single point in time or a time range.
 
-  - `"ENTRY_TYPE"`
+<a href="#">Link to this property</a>
 
-  - `"EXPIRATION_STATUS"`
+linkedUrl: string
 
-  - `"HAS_IPS"`
+formaturi
 
-  - `"HAS_WILDCARDS"`
+<a href="#">Link to this property</a>
 
-  - `"LOG"`
+startDate: string
 
-  - `"LOG_API"`
+formatdate-time
 
-  - `"LOG_OPERATOR"`
+<a href="#">Link to this property</a>
 
-  - `"PUBLIC_KEY_ALGORITHM"`
+tags: optional array of string
 
-  - `"SIGNATURE_ALGORITHM"`
+<a href="#">Link to this property</a>
 
-  - `"TLD"`
+</details>
 
-  - `"VALIDATION_LEVEL"`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+level: number
 
-- `aggInterval: optional "15m" or "1h" or "1d" or "1w"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-  Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+<a href="#">Link to this property</a>
 
-  - `"15m"`
+</details>
 
-  - `"1h"`
+<a href="#">Link to this property</a>
 
-  - `"1d"`
+<details>
 
-  - `"1w"`
+<summary>
 
-- `ca: optional array of string`
+dateRange: array of object {endTime, startTime }
 
-  Filters results by certificate authority.
+</summary>
 
-- `caOwner: optional array of string`
+endTime: string
 
-  Filters results by certificate authority owner.
+Adjusted end of date range.
 
-- `dateEnd: optional array of string`
+formatdate-time
 
-  End of the date range (inclusive).
+<a href="#">Link to this property</a>
 
-- `dateRange: optional array of string`
+startTime: string
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+Adjusted start of date range.
 
-- `dateStart: optional array of string`
+formatdate-time
 
-  Start of the date range.
+<a href="#">Link to this property</a>
 
-- `duration: optional array of "LTE_3D" or "GT_3D_LTE_7D" or "GT_7D_LTE_10D" or 4 more`
+</details>
 
-  Filters results by certificate duration.
+<a href="#">Link to this property</a>
 
-  - `"LTE_3D"`
+lastUpdated: string
 
-  - `"GT_3D_LTE_7D"`
+Timestamp of the last dataset update.
 
-  - `"GT_7D_LTE_10D"`
+formatdate-time
 
-  - `"GT_10D_LTE_47D"`
+<a href="#">Link to this property</a>
 
-  - `"GT_47D_LTE_100D"`
+<details>
 
-  - `"GT_100D_LTE_200D"`
+<summary>
 
-  - `"GT_200D"`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-- `entryType: optional array of "PRECERTIFICATE" or "CERTIFICATE"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-  Filters results by entry type (certificate vs. pre-certificate).
+</summary>
 
-  - `"PRECERTIFICATE"`
+One of the following:
 
-  - `"CERTIFICATE"`
+"PERCENTAGE"
 
-- `expirationStatus: optional array of "EXPIRED" or "VALID"`
+<a href="#">Link to this property</a>
 
-  Filters results by expiration status (expired vs. valid).
+"MIN0\_MAX"
 
-  - `"EXPIRED"`
+<a href="#">Link to this property</a>
 
-  - `"VALID"`
+"MIN\_MAX"
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+"RAW\_VALUES"
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+"PERCENTAGE\_CHANGE"
 
-- `hasIps: optional array of boolean`
+<a href="#">Link to this property</a>
 
-  Filters results based on whether the certificates are bound to specific IP addresses.
+"ROLLING\_AVERAGE"
 
-- `hasWildcards: optional array of boolean`
+<a href="#">Link to this property</a>
 
-  Filters results based on whether the certificates contain wildcard domains.
+"OVERLAPPED\_PERCENTAGE"
 
-- `limitPerGroup: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category.
+"RATIO"
 
-- `log: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by certificate log.
+</details>
 
-- `logApi: optional array of "RFC6962" or "STATIC"`
+<a href="#">Link to this property</a>
 
-  Filters results by certificate log API (RFC6962 vs. static).
+<details>
 
-  - `"RFC6962"`
+<summary>
 
-  - `"STATIC"`
+units: array of object {name, value }
 
-- `logOperator: optional array of string`
+Measurement units for the results.
 
-  Filters results by certificate log operator.
+</summary>
 
-- `name: optional array of string`
+name: string
 
-  Array of names used to label the series in the response.
+<a href="#">Link to this property</a>
 
-- `normalization: optional "RAW_VALUES" or "PERCENTAGE"`
+value: string
 
-  Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-  - `"RAW_VALUES"`
+</details>
 
-  - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-- `publicKeyAlgorithm: optional array of "DSA" or "ECDSA" or "RSA"`
+</details>
 
-  Filters results by public key algorithm.
+<a href="#">Link to this property</a>
 
-  - `"DSA"`
+</details>
 
-  - `"ECDSA"`
+[Link to this property](#)%20radar.ct%20%3E%20(model)%20ct_timeseries_response%20%3E%20(schema)>)
 
-  - `"RSA"`
+<details>
 
-- `signatureAlgorithm: optional array of "DSA_SHA_1" or "DSA_SHA_256" or "ECDSA_SHA_1" or 12 more`
+<summary>
 
-  Filters results by signature algorithm.
+CTTimeseriesGroupsResponse object {meta, serie\_0 }
 
-  - `"DSA_SHA_1"`
+</summary>
 
-  - `"DSA_SHA_256"`
+<details>
 
-  - `"ECDSA_SHA_1"`
+<summary>
 
-  - `"ECDSA_SHA_256"`
+meta: object {aggInterval, confidenceInfo, dateRange, 3 more }
 
-  - `"ECDSA_SHA_384"`
+Metadata for the results.
 
-  - `"ECDSA_SHA_512"`
+</summary>
 
-  - `"PSS_SHA_256"`
+<details>
 
-  - `"PSS_SHA_384"`
+<summary>
 
-  - `"PSS_SHA_512"`
+aggInterval: "FIFTEEN\_MINUTES"or "ONE\_HOUR"or "ONE\_DAY"or 2 more
 
-  - `"RSA_MD2"`
+Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to <a href="https://developers.cloudflare.com/radar/concepts/aggregation-intervals/">Aggregation intervals</a>.
 
-  - `"RSA_MD5"`
+</summary>
 
-  - `"RSA_SHA_1"`
+One of the following:
 
-  - `"RSA_SHA_256"`
+"FIFTEEN\_MINUTES"
 
-  - `"RSA_SHA_384"`
+<a href="#">Link to this property</a>
 
-  - `"RSA_SHA_512"`
+"ONE\_HOUR"
 
-- `tld: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by top-level domain.
+"ONE\_DAY"
 
-- `uniqueEntries: optional array of "true" or "false"`
+<a href="#">Link to this property</a>
 
-  Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.
+"ONE\_WEEK"
 
-  - `"true"`
+<a href="#">Link to this property</a>
 
-  - `"false"`
+"ONE\_MONTH"
 
-- `validationLevel: optional array of "DOMAIN" or "ORGANIZATION" or "EXTENDED"`
+<a href="#">Link to this property</a>
 
-  Filters results by validation level.
+</details>
 
-  - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-  - `"ORGANIZATION"`
+<details>
 
-  - `"EXTENDED"`
+<summary>
 
-### Returns
+confidenceInfo: object {annotations, level }
 
-- `result: object { meta, serie_0 }`
+</summary>
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, 3 more }`
+<details>
 
-    Metadata for the results.
+<summary>
 
-    - `aggInterval: "FIFTEEN_MINUTES" or "ONE_HOUR" or "ONE_DAY" or 2 more`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-      Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+</summary>
 
-      - `"FIFTEEN_MINUTES"`
+<details>
 
-      - `"ONE_HOUR"`
+<summary>
 
-      - `"ONE_DAY"`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-      - `"ONE_WEEK"`
+Data source for annotations.
 
-      - `"ONE_MONTH"`
+</summary>
 
-    - `confidenceInfo: object { annotations, level }`
+One of the following:
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"ALL"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+"AI\_BOTS"
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+"AI\_GATEWAY"
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+"BGP"
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+"BOTS"
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+"CONNECTION\_ANOMALY"
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+"CT"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+"DNS"
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+"DNS\_MAGNITUDE"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"DNS\_AS112"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"DOS"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"EMAIL\_ROUTING"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"EMAIL\_SECURITY"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+"FW"
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+"FW\_PG"
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+"HTTP"
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+"HTTP\_CONTROL"
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+"HTTP\_CRAWLER\_REFERER"
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+"HTTP\_ORIGINS"
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+"IQI"
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+"LEAKED\_CREDENTIALS"
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+"NET"
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+"ROBOTS\_TXT"
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+"SPEED"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"WORKERS\_AI"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+</details>
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+description: string
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+endDate: string
 
-      - `"MIN0_MAX"`
+formatdate-time
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+<details>
 
-      - `"PERCENTAGE_CHANGE"`
+<summary>
 
-      - `"ROLLING_AVERAGE"`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-      - `"OVERLAPPED_PERCENTAGE"`
+Event type for annotations.
 
-      - `"RATIO"`
+</summary>
 
-    - `units: array of object { name, value }`
+One of the following:
 
-      Measurement units for the results.
+"GENERAL"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"OUTAGE"
 
-  - `serie_0: object { timestamps }  or object { rfc6962, static }  or object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }  or 5 more`
+<a href="#">Link to this property</a>
 
-    - `UnnamedSchemaRef7826220e105d84352ba1108d9ed88e55 object { timestamps }`
+"PARTIAL\_PROJECTION"
 
-      - `timestamps: array of string`
+<a href="#">Link to this property</a>
 
-    - `object { rfc6962, static }`
+"PIPELINE"
 
-      - `rfc6962: array of string`
+<a href="#">Link to this property</a>
 
-      - `static: array of string`
+"TRAFFIC\_ANOMALY"
 
-    - `object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }`
+<a href="#">Link to this property</a>
 
-      - `gt_121d: array of string`
+</details>
 
-      - `gt_16d_lte_31d: array of string`
+<a href="#">Link to this property</a>
 
-      - `gt_31d_lte_91d: array of string`
+isInstantaneous: boolean
 
-      - `gt_3d_lte_16d: array of string`
+Whether event is a single point in time or a time range.
 
-      - `gt_91d_lte_121d: array of string`
+<a href="#">Link to this property</a>
 
-      - `lte_3d: array of string`
+linkedUrl: string
 
-    - `object { CERTIFICATE, PRECERTIFICATE }`
+formaturi
 
-      - `CERTIFICATE: array of string`
+<a href="#">Link to this property</a>
 
-      - `PRECERTIFICATE: array of string`
+startDate: string
 
-    - `object { EXPIRED, VALID }`
+formatdate-time
 
-      - `EXPIRED: array of string`
+<a href="#">Link to this property</a>
 
-      - `VALID: array of string`
+tags: optional array of string
 
-    - `object { NEGATIVE, POSITIVE }`
+<a href="#">Link to this property</a>
 
-      - `NEGATIVE: array of string`
+</details>
 
-      - `POSITIVE: array of string`
+<a href="#">Link to this property</a>
 
-    - `object { DSA, ECDSA, RSA }`
+level: number
 
-      - `DSA: array of string`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-      - `ECDSA: array of string`
+<a href="#">Link to this property</a>
 
-      - `RSA: array of string`
+</details>
 
-    - `object { domain, extended, organization, unknown }`
+<a href="#">Link to this property</a>
 
-      - `domain: array of string`
+<details>
 
-      - `extended: array of string`
+<summary>
 
-      - `organization: array of string`
+dateRange: array of object {endTime, startTime }
 
-      - `unknown: array of string`
+</summary>
 
-- `success: boolean`
+endTime: string
 
-### Example
+Adjusted end of date range.
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/timeseries_groups/$DIMENSION \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "aggInterval": "FIFTEEN_MINUTES",
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "serie_0": {
-      "timestamps": [
-        "2023-08-08T10:15:00Z"
-      ]
-    }
-  },
-  "success": true
-}
-```
+startTime: string
 
-## Domain Types
+Adjusted start of date range.
 
-### CT Summary Response
+formatdate-time
 
-- `CTSummaryResponse object { meta, summary_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+</details>
 
-    Metadata for the results.
+<a href="#">Link to this property</a>
 
-    - `confidenceInfo: object { annotations, level }`
+lastUpdated: string
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+Timestamp of the last dataset update.
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+formatdate-time
 
-          Data source for annotations.
+<a href="#">Link to this property</a>
 
-          - `"ALL"`
+<details>
 
-          - `"AI_BOTS"`
+<summary>
 
-          - `"AI_GATEWAY"`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-          - `"BGP"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-          - `"BOTS"`
+</summary>
 
-          - `"CONNECTION_ANOMALY"`
+One of the following:
 
-          - `"CT"`
+"PERCENTAGE"
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+"MIN0\_MAX"
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+"MIN\_MAX"
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+"RAW\_VALUES"
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+"PERCENTAGE\_CHANGE"
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+"ROLLING\_AVERAGE"
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+"OVERLAPPED\_PERCENTAGE"
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+"RATIO"
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+</details>
 
-          - `"SPEED"`
+<a href="#">Link to this property</a>
 
-          - `"WORKERS_AI"`
+<details>
 
-        - `description: string`
+<summary>
 
-        - `endDate: string`
+units: array of object {name, value }
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+Measurement units for the results.
 
-          Event type for annotations.
+</summary>
 
-          - `"EVENT"`
+name: string
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+value: string
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+</details>
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+</details>
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+<details>
 
-        - `startDate: string`
+<summary>
 
-        - `tags: optional array of string`
+serie\_0: object {timestamps } or object {rfc6962, static } or object {gt\_121d, gt\_16d\_lte\_31d, gt\_31d\_lte\_91d, 3 more } or 5 more
 
-      - `level: number`
+</summary>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+One of the following:
 
-    - `dateRange: array of object { endTime, startTime }`
+<details>
 
-      - `endTime: string`
+<summary>
 
-        Adjusted end of date range.
+UnnamedSchemaRef7826220e105d84352ba1108d9ed88e55 object {timestamps }
 
-      - `startTime: string`
+</summary>
 
-        Adjusted start of date range.
+timestamps: array of string
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+</details>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<details>
 
-      - `"PERCENTAGE"`
+<summary>
 
-      - `"MIN0_MAX"`
+object {rfc6962, static }
 
-      - `"MIN_MAX"`
+</summary>
 
-      - `"RAW_VALUES"`
+rfc6962: array of string
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+static: array of string
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+</details>
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+<details>
 
-      - `name: string`
+<summary>
 
-      - `value: string`
+object {gt\_121d, gt\_16d\_lte\_31d, gt\_31d\_lte\_91d, 3 more }
 
-  - `summary_0: map[string] or object { rfc6962, static }  or object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }  or 5 more`
+</summary>
 
-    - `map[string]`
+gt\_121d: array of string
 
-    - `object { rfc6962, static }`
+<a href="#">Link to this property</a>
 
-      - `rfc6962: string`
+gt\_16d\_lte\_31d: array of string
 
-      - `static: string`
+<a href="#">Link to this property</a>
 
-    - `object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }`
+gt\_31d\_lte\_91d: array of string
 
-      - `gt_121d: string`
+<a href="#">Link to this property</a>
 
-      - `gt_16d_lte_31d: string`
+gt\_3d\_lte\_16d: array of string
 
-      - `gt_31d_lte_91d: string`
+<a href="#">Link to this property</a>
 
-      - `gt_3d_lte_16d: string`
+gt\_91d\_lte\_121d: array of string
 
-      - `gt_91d_lte_121d: string`
+<a href="#">Link to this property</a>
 
-      - `lte_3d: string`
+lte\_3d: array of string
 
-    - `object { CERTIFICATE, PRECERTIFICATE }`
+<a href="#">Link to this property</a>
 
-      - `CERTIFICATE: string`
+</details>
 
-      - `PRECERTIFICATE: string`
+<a href="#">Link to this property</a>
 
-    - `object { EXPIRED, VALID }`
+<details>
 
-      - `EXPIRED: string`
+<summary>
 
-      - `VALID: string`
+object {CERTIFICATE, PRECERTIFICATE }
 
-    - `object { NEGATIVE, POSITIVE }`
+</summary>
 
-      - `NEGATIVE: string`
+CERTIFICATE: array of string
 
-      - `POSITIVE: string`
+<a href="#">Link to this property</a>
 
-    - `object { DSA, ECDSA, RSA }`
+PRECERTIFICATE: array of string
 
-      - `DSA: string`
+<a href="#">Link to this property</a>
 
-      - `ECDSA: string`
+</details>
 
-      - `RSA: string`
+<a href="#">Link to this property</a>
 
-    - `object { domain, extended, organization, unknown }`
+<details>
 
-      - `domain: string`
+<summary>
 
-      - `extended: string`
+object {EXPIRED, VALID }
 
-      - `organization: string`
+</summary>
 
-      - `unknown: string`
+EXPIRED: array of string
 
-### CT Timeseries Response
+<a href="#">Link to this property</a>
 
-- `CTTimeseriesResponse object { meta }`
+VALID: array of string
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, 3 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+</details>
 
-    - `aggInterval: "FIFTEEN_MINUTES" or "ONE_HOUR" or "ONE_DAY" or 2 more`
+<a href="#">Link to this property</a>
 
-      Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+<details>
 
-      - `"FIFTEEN_MINUTES"`
+<summary>
 
-      - `"ONE_HOUR"`
+object {NEGATIVE, POSITIVE }
 
-      - `"ONE_DAY"`
+</summary>
 
-      - `"ONE_WEEK"`
+NEGATIVE: array of string
 
-      - `"ONE_MONTH"`
+<a href="#">Link to this property</a>
 
-    - `confidenceInfo: object { annotations, level }`
+POSITIVE: array of string
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</details>
 
-          Data source for annotations.
+<a href="#">Link to this property</a>
 
-          - `"ALL"`
+<details>
 
-          - `"AI_BOTS"`
+<summary>
 
-          - `"AI_GATEWAY"`
+object {DSA, ECDSA, RSA }
 
-          - `"BGP"`
+</summary>
 
-          - `"BOTS"`
+DSA: array of string
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+ECDSA: array of string
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+RSA: array of string
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+</details>
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+<details>
 
-          - `"FW"`
+<summary>
 
-          - `"FW_PG"`
+object {domain, extended, organization, unknown }
 
-          - `"HTTP"`
+</summary>
 
-          - `"HTTP_CONTROL"`
+domain: array of string
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+extended: array of string
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+organization: array of string
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+unknown: array of string
 
-          - `"SPEED"`
+<a href="#">Link to this property</a>
 
-          - `"WORKERS_AI"`
+</details>
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `endDate: string`
+</details>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+</details>
 
-          - `"EVENT"`
+[Link to this property](#)%20radar.ct%20%3E%20(model)%20ct_timeseries_groups_response%20%3E%20(schema)>)
 
-          - `"GENERAL"`
+#### CTAuthorities
 
-          - `"OUTAGE"`
+##### [Get certificate authority details](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/authorities/methods/get)
 
-          - `"PARTIAL_PROJECTION"`
+GET/radar/ct/authorities/{ca\_slug}
 
-          - `"PIPELINE"`
+##### [List certificate authorities](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/authorities/methods/list)
 
-          - `"TRAFFIC_ANOMALY"`
+GET/radar/ct/authorities
 
-        - `isInstantaneous: boolean`
+##### ModelsExpand Collapse
 
-          Whether event is a single point in time or a time range.
+<details>
 
-        - `linkedUrl: string`
+<summary>
 
-        - `startDate: string`
+AuthorityGetResponse object {certificateAuthority }
 
-        - `tags: optional array of string`
+</summary>
 
-      - `level: number`
+<details>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+certificateAuthority: object {appleStatus, authorityKeyIdentifier, certificateRecordType, 15 more }
 
-      - `endTime: string`
+</summary>
 
-        Adjusted end of date range.
+<details>
 
-      - `startTime: string`
+<summary>
 
-        Adjusted start of date range.
+appleStatus: "INCLUDED"or "NOT\_YET\_INCLUDED"or "NOT\_INCLUDED"or 4 more
 
-    - `lastUpdated: string`
+The inclusion status of a Certificate Authority (CA) in the trust store.
 
-      Timestamp of the last dataset update.
+</summary>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+One of the following:
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+"INCLUDED"
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+"NOT\_YET\_INCLUDED"
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+"NOT\_INCLUDED"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+"NOT\_BEFORE"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+"REMOVED"
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+"DISABLED"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"BLOCKED"
 
-### CT Timeseries Groups Response
+<a href="#">Link to this property</a>
 
-- `CTTimeseriesGroupsResponse object { meta, serie_0 }`
+</details>
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, 3 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+authorityKeyIdentifier: string
 
-    - `aggInterval: "FIFTEEN_MINUTES" or "ONE_HOUR" or "ONE_DAY" or 2 more`
+The authorityKeyIdentifier value extracted from the certificate PEM.
 
-      Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+<a href="#">Link to this property</a>
 
-      - `"FIFTEEN_MINUTES"`
+<details>
 
-      - `"ONE_HOUR"`
+<summary>
 
-      - `"ONE_DAY"`
+certificateRecordType: "ROOT\_CERTIFICATE"or "INTERMEDIATE\_CERTIFICATE"
 
-      - `"ONE_WEEK"`
+Specifies the type of certificate in the trust chain.
 
-      - `"ONE_MONTH"`
+</summary>
 
-    - `confidenceInfo: object { annotations, level }`
+One of the following:
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"ROOT\_CERTIFICATE"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+"INTERMEDIATE\_CERTIFICATE"
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+</details>
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+<details>
 
-          - `"BOTS"`
+<summary>
 
-          - `"CONNECTION_ANOMALY"`
+chromeStatus: "INCLUDED"or "NOT\_YET\_INCLUDED"or "NOT\_INCLUDED"or 4 more
 
-          - `"CT"`
+The inclusion status of a Certificate Authority (CA) in the trust store.
 
-          - `"DNS"`
+</summary>
 
-          - `"DNS_MAGNITUDE"`
+One of the following:
 
-          - `"DNS_AS112"`
+"INCLUDED"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+"NOT\_YET\_INCLUDED"
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+"NOT\_INCLUDED"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"NOT\_BEFORE"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"REMOVED"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"DISABLED"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"BLOCKED"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+</details>
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+country: string
 
-        - `endDate: string`
+The two-letter ISO country code where the CA organization is based.
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+countryName: string
 
-          - `"EVENT"`
+The full country name corresponding to the country code.
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+<details>
 
-          - `"PARTIAL_PROJECTION"`
+<summary>
 
-          - `"PIPELINE"`
+microsoftStatus: "INCLUDED"or "NOT\_YET\_INCLUDED"or "NOT\_INCLUDED"or 4 more
 
-          - `"TRAFFIC_ANOMALY"`
+The inclusion status of a Certificate Authority (CA) in the trust store.
 
-        - `isInstantaneous: boolean`
+</summary>
 
-          Whether event is a single point in time or a time range.
+One of the following:
 
-        - `linkedUrl: string`
+"INCLUDED"
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+"NOT\_YET\_INCLUDED"
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+"NOT\_INCLUDED"
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+"NOT\_BEFORE"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"REMOVED"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"DISABLED"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"BLOCKED"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+</details>
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+<details>
 
-      - `"RAW_VALUES"`
+<summary>
 
-      - `"PERCENTAGE_CHANGE"`
+mozillaStatus: "INCLUDED"or "NOT\_YET\_INCLUDED"or "NOT\_INCLUDED"or 4 more
 
-      - `"ROLLING_AVERAGE"`
+The inclusion status of a Certificate Authority (CA) in the trust store.
 
-      - `"OVERLAPPED_PERCENTAGE"`
+</summary>
 
-      - `"RATIO"`
+One of the following:
 
-    - `units: array of object { name, value }`
+"INCLUDED"
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"NOT\_YET\_INCLUDED"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `serie_0: object { timestamps }  or object { rfc6962, static }  or object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }  or 5 more`
+"NOT\_INCLUDED"
 
-    - `UnnamedSchemaRef7826220e105d84352ba1108d9ed88e55 object { timestamps }`
+<a href="#">Link to this property</a>
 
-      - `timestamps: array of string`
+"NOT\_BEFORE"
 
-    - `object { rfc6962, static }`
+<a href="#">Link to this property</a>
 
-      - `rfc6962: array of string`
+"REMOVED"
 
-      - `static: array of string`
+<a href="#">Link to this property</a>
 
-    - `object { gt_121d, gt_16d_lte_31d, gt_31d_lte_91d, 3 more }`
+"DISABLED"
 
-      - `gt_121d: array of string`
+<a href="#">Link to this property</a>
 
-      - `gt_16d_lte_31d: array of string`
+"BLOCKED"
 
-      - `gt_31d_lte_91d: array of string`
+<a href="#">Link to this property</a>
 
-      - `gt_3d_lte_16d: array of string`
+</details>
 
-      - `gt_91d_lte_121d: array of string`
+<a href="#">Link to this property</a>
 
-      - `lte_3d: array of string`
+name: string
 
-    - `object { CERTIFICATE, PRECERTIFICATE }`
+The full name of the certificate authority (CA).
 
-      - `CERTIFICATE: array of string`
+<a href="#">Link to this property</a>
 
-      - `PRECERTIFICATE: array of string`
+owner: string
 
-    - `object { EXPIRED, VALID }`
+The organization that owns and operates the CA.
 
-      - `EXPIRED: array of string`
+<a href="#">Link to this property</a>
 
-      - `VALID: array of string`
+parentName: string
 
-    - `object { NEGATIVE, POSITIVE }`
+The name of the parent/root certificate authority that issued this intermediate certificate.
 
-      - `NEGATIVE: array of string`
+<a href="#">Link to this property</a>
 
-      - `POSITIVE: array of string`
+parentSha256Fingerprint: string
 
-    - `object { DSA, ECDSA, RSA }`
+The SHA-256 fingerprint of the parent certificate.
 
-      - `DSA: array of string`
+<a href="#">Link to this property</a>
 
-      - `ECDSA: array of string`
+<details>
 
-      - `RSA: array of string`
+<summary>
 
-    - `object { domain, extended, organization, unknown }`
+related: array of object {certificateRecordType, name, revocationStatus, sha256Fingerprint }
 
-      - `domain: array of string`
+CAs from the same owner.
 
-      - `extended: array of string`
+</summary>
 
-      - `organization: array of string`
+<details>
 
-      - `unknown: array of string`
+<summary>
 
-# Authorities
+certificateRecordType: "ROOT\_CERTIFICATE"or "INTERMEDIATE\_CERTIFICATE"
 
-## Get certificate authority details
+Specifies the type of certificate in the trust chain.
 
-**get** `/radar/ct/authorities/{ca_slug}`
+</summary>
 
-Retrieves the requested CA information.
+One of the following:
 
-### Path Parameters
+"ROOT\_CERTIFICATE"
 
-- `ca_slug: string`
+<a href="#">Link to this property</a>
 
-  Certificate authority SHA256 fingerprint.
+"INTERMEDIATE\_CERTIFICATE"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+</details>
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+name: string
 
-  - `"CSV"`
+The full name of the certificate authority (CA).
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { certificateAuthority }`
+<details>
 
-  - `certificateAuthority: object { appleStatus, authorityKeyIdentifier, certificateRecordType, 15 more }`
+<summary>
 
-    - `appleStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+revocationStatus: "NOT\_REVOKED"or "REVOKED"or "PARENT\_CERT\_REVOKED"
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+The current revocation status of a Certificate Authority (CA) certificate.
 
-      - `"INCLUDED"`
+</summary>
 
-      - `"NOT_YET_INCLUDED"`
+One of the following:
 
-      - `"NOT_INCLUDED"`
+"NOT\_REVOKED"
 
-      - `"NOT_BEFORE"`
+<a href="#">Link to this property</a>
 
-      - `"REMOVED"`
+"REVOKED"
 
-      - `"DISABLED"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCKED"`
+"PARENT\_CERT\_REVOKED"
 
-    - `authorityKeyIdentifier: string`
+<a href="#">Link to this property</a>
 
-      The authorityKeyIdentifier value extracted from the certificate PEM.
+</details>
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-      Specifies the type of certificate in the trust chain.
+sha256Fingerprint: string
 
-      - `"ROOT_CERTIFICATE"`
+The SHA-256 fingerprint of the intermediate certificate.
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-    - `chromeStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+</details>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+<a href="#">Link to this property</a>
 
-      - `"INCLUDED"`
+<details>
 
-      - `"NOT_YET_INCLUDED"`
+<summary>
 
-      - `"NOT_INCLUDED"`
+revocationStatus: "NOT\_REVOKED"or "REVOKED"or "PARENT\_CERT\_REVOKED"
 
-      - `"NOT_BEFORE"`
+The current revocation status of a Certificate Authority (CA) certificate.
 
-      - `"REMOVED"`
+</summary>
 
-      - `"DISABLED"`
+One of the following:
 
-      - `"BLOCKED"`
+"NOT\_REVOKED"
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-      The two-letter ISO country code where the CA organization is based.
+"REVOKED"
 
-    - `countryName: string`
+<a href="#">Link to this property</a>
 
-      The full country name corresponding to the country code.
+"PARENT\_CERT\_REVOKED"
 
-    - `microsoftStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+<a href="#">Link to this property</a>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+</details>
 
-      - `"INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_YET_INCLUDED"`
+sha256Fingerprint: string
 
-      - `"NOT_INCLUDED"`
+The SHA-256 fingerprint of the intermediate certificate.
 
-      - `"NOT_BEFORE"`
+<a href="#">Link to this property</a>
 
-      - `"REMOVED"`
+subjectKeyIdentifier: string
 
-      - `"DISABLED"`
+The subjectKeyIdentifier value extracted from the certificate PEM.
 
-      - `"BLOCKED"`
+<a href="#">Link to this property</a>
 
-    - `mozillaStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+validFrom: string
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+The start date of the certificate’s validity period (ISO format).
 
-      - `"INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_YET_INCLUDED"`
+validTo: string
 
-      - `"NOT_INCLUDED"`
+The end date of the certificate’s validity period (ISO format).
 
-      - `"NOT_BEFORE"`
+<a href="#">Link to this property</a>
 
-      - `"REMOVED"`
+</details>
 
-      - `"DISABLED"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCKED"`
+</details>
 
-    - `name: string`
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(model)%20authority_get_response%20%3E%20(schema)>)
 
-      The full name of the certificate authority (CA).
+<details>
 
-    - `owner: string`
+<summary>
 
-      The organization that owns and operates the CA.
+AuthorityListResponse object {certificateAuthorities }
 
-    - `parentName: string`
+</summary>
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+<details>
 
-    - `parentSha256Fingerprint: string`
+<summary>
 
-      The SHA-256 fingerprint of the parent certificate.
+certificateAuthorities: array of object {certificateRecordType, country, countryName, 6 more }
 
-    - `related: array of object { certificateRecordType, name, revocationStatus, sha256Fingerprint }`
+</summary>
 
-      CAs from the same owner.
+<details>
 
-      - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+<summary>
 
-        Specifies the type of certificate in the trust chain.
+certificateRecordType: "ROOT\_CERTIFICATE"or "INTERMEDIATE\_CERTIFICATE"
 
-        - `"ROOT_CERTIFICATE"`
+Specifies the type of certificate in the trust chain.
 
-        - `"INTERMEDIATE_CERTIFICATE"`
+</summary>
 
-      - `name: string`
+One of the following:
 
-        The full name of the certificate authority (CA).
+"ROOT\_CERTIFICATE"
 
-      - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+<a href="#">Link to this property</a>
 
-        The current revocation status of a Certificate Authority (CA) certificate.
+"INTERMEDIATE\_CERTIFICATE"
 
-        - `"NOT_REVOKED"`
+<a href="#">Link to this property</a>
 
-        - `"REVOKED"`
+</details>
 
-        - `"PARENT_CERT_REVOKED"`
+<a href="#">Link to this property</a>
 
-      - `sha256Fingerprint: string`
+country: string
 
-        The SHA-256 fingerprint of the intermediate certificate.
+The two-letter ISO country code where the CA organization is based.
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+<a href="#">Link to this property</a>
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+countryName: string
 
-      - `"NOT_REVOKED"`
+The full country name corresponding to the country code.
 
-      - `"REVOKED"`
+<a href="#">Link to this property</a>
 
-      - `"PARENT_CERT_REVOKED"`
+name: string
 
-    - `sha256Fingerprint: string`
+The full name of the certificate authority (CA).
 
-      The SHA-256 fingerprint of the intermediate certificate.
+<a href="#">Link to this property</a>
 
-    - `subjectKeyIdentifier: string`
+owner: string
 
-      The subjectKeyIdentifier value extracted from the certificate PEM.
+The organization that owns and operates the CA.
 
-    - `validFrom: string`
+<a href="#">Link to this property</a>
 
-      The start date of the certificate’s validity period (ISO format).
+parentName: string
 
-    - `validTo: string`
+The name of the parent/root certificate authority that issued this intermediate certificate.
 
-      The end date of the certificate’s validity period (ISO format).
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+parentSha256Fingerprint: string
 
-### Example
+The SHA-256 fingerprint of the parent certificate.
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/authorities/$CA_SLUG \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "result": {
-    "certificateAuthority": {
-      "appleStatus": "INCLUDED",
-      "authorityKeyIdentifier": "1TkcnFtvBKqilUzvIN0pdKTFRXE",
-      "certificateRecordType": "ROOT_CERTIFICATE",
-      "chromeStatus": "INCLUDED",
-      "country": "PT",
-      "countryName": "Portugal",
-      "microsoftStatus": "INCLUDED",
-      "mozillaStatus": "INCLUDED",
-      "name": "MULTICERT Advanced Certification Authority 005",
-      "owner": "MULTICERT",
-      "parentName": "MULTICERT Root Certification Authority 01",
-      "parentSha256Fingerprint": "604D32D036895AED3BFEFAEB727C009EC0F2B3CDFA42A1C71730E6A72C3BE9D4",
-      "related": [
-        {
-          "certificateRecordType": "ROOT_CERTIFICATE",
-          "name": "MULTICERT Advanced Certification Authority 005",
-          "revocationStatus": "NOT_REVOKED",
-          "sha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3"
-        }
-      ],
-      "revocationStatus": "NOT_REVOKED",
-      "sha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3",
-      "subjectKeyIdentifier": "VbqXmCURhMmiMtD7nFY6iCr4z",
-      "validFrom": "2019-12-09",
-      "validTo": "2032-06-08"
-    }
-  },
-  "success": true
-}
-```
+<summary>
 
-## List certificate authorities
+revocationStatus: "NOT\_REVOKED"or "REVOKED"or "PARENT\_CERT\_REVOKED"
 
-**get** `/radar/ct/authorities`
+The current revocation status of a Certificate Authority (CA) certificate.
 
-Retrieves a list of certificate authorities.
+</summary>
 
-### Query Parameters
+One of the following:
 
-- `format: optional "JSON" or "CSV"`
+"NOT\_REVOKED"
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+"REVOKED"
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+"PARENT\_CERT\_REVOKED"
 
-  Limits the number of objects returned in the response.
+<a href="#">Link to this property</a>
 
-- `offset: optional number`
+</details>
 
-  Skips the specified number of objects before fetching the results.
+<a href="#">Link to this property</a>
 
-### Returns
+sha256Fingerprint: string
 
-- `result: object { certificateAuthorities }`
+The SHA-256 fingerprint of the intermediate certificate.
 
-  - `certificateAuthorities: array of object { certificateRecordType, country, countryName, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+</details>
 
-      Specifies the type of certificate in the trust chain.
+<a href="#">Link to this property</a>
 
-      - `"ROOT_CERTIFICATE"`
+</details>
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(model)%20authority_list_response%20%3E%20(schema)>)
 
-    - `country: string`
+#### CTLogs
 
-      The two-letter ISO country code where the CA organization is based.
+##### [Get certificate log details](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/logs/methods/get)
 
-    - `countryName: string`
+GET/radar/ct/logs/{log\_slug}
 
-      The full country name corresponding to the country code.
+##### [List certificate logs](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/logs/methods/list)
 
-    - `name: string`
+GET/radar/ct/logs
 
-      The full name of the certificate authority (CA).
+##### ModelsExpand Collapse
 
-    - `owner: string`
+<details>
 
-      The organization that owns and operates the CA.
+<summary>
 
-    - `parentName: string`
+LogGetResponse object {certificateLog }
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+</summary>
 
-    - `parentSha256Fingerprint: string`
+<details>
 
-      The SHA-256 fingerprint of the parent certificate.
+<summary>
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+certificateLog: object {api, avgThroughput, description, 12 more }
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+</summary>
 
-      - `"NOT_REVOKED"`
+<details>
 
-      - `"REVOKED"`
+<summary>
 
-      - `"PARENT_CERT_REVOKED"`
+api: "RFC6962"or "STATIC"
 
-    - `sha256Fingerprint: string`
+The API standard that the certificate log follows.
 
-      The SHA-256 fingerprint of the intermediate certificate.
+</summary>
 
-- `success: boolean`
+One of the following:
 
-### Example
+"RFC6962"
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/authorities \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"STATIC"
 
-```json
-{
-  "result": {
-    "certificateAuthorities": [
-      {
-        "certificateRecordType": "ROOT_CERTIFICATE",
-        "country": "PT",
-        "countryName": "Portugal",
-        "name": "MULTICERT Advanced Certification Authority 005",
-        "owner": "MULTICERT",
-        "parentName": "MULTICERT Root Certification Authority 01",
-        "parentSha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3",
-        "revocationStatus": "NOT_REVOKED",
-        "sha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Authority Get Response
+<a href="#">Link to this property</a>
 
-- `AuthorityGetResponse object { certificateAuthority }`
+avgThroughput: number
 
-  - `certificateAuthority: object { appleStatus, authorityKeyIdentifier, certificateRecordType, 15 more }`
+The average throughput of the CT log, measured in certificates per hour (certs/hour).
 
-    - `appleStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+<a href="#">Link to this property</a>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+description: string
 
-      - `"INCLUDED"`
+A brief description of the certificate log.
 
-      - `"NOT_YET_INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_INCLUDED"`
+endExclusive: string
 
-      - `"NOT_BEFORE"`
+The end date and time for when the log will stop accepting certificates.
 
-      - `"REMOVED"`
+formatdate-time
 
-      - `"DISABLED"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCKED"`
+lastUpdate: string
 
-    - `authorityKeyIdentifier: string`
+Timestamp of the most recent update to the CT log.
 
-      The authorityKeyIdentifier value extracted from the certificate PEM.
+formatdate-time
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-      Specifies the type of certificate in the trust chain.
+operator: string
 
-      - `"ROOT_CERTIFICATE"`
+The organization responsible for operating the certificate log.
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-    - `chromeStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+<details>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+<summary>
 
-      - `"INCLUDED"`
+performance: object {endpoints, responseTime, uptime }
 
-      - `"NOT_YET_INCLUDED"`
+Log performance metrics, including averages and per-endpoint details.
 
-      - `"NOT_INCLUDED"`
+</summary>
 
-      - `"NOT_BEFORE"`
+<details>
 
-      - `"REMOVED"`
+<summary>
 
-      - `"DISABLED"`
+endpoints: array of object {endpoint, responseTime, uptime }
 
-      - `"BLOCKED"`
+</summary>
 
-    - `country: string`
+<details>
 
-      The two-letter ISO country code where the CA organization is based.
+<summary>
 
-    - `countryName: string`
+endpoint: "add-chain (new)"or "add-chain (old)"or "add-pre-chain (new)"or 4 more
 
-      The full country name corresponding to the country code.
+The certificate log endpoint names used in performance metrics.
 
-    - `microsoftStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+</summary>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+One of the following:
 
-      - `"INCLUDED"`
+"add-chain (new)"
 
-      - `"NOT_YET_INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_INCLUDED"`
+"add-chain (old)"
 
-      - `"NOT_BEFORE"`
+<a href="#">Link to this property</a>
 
-      - `"REMOVED"`
+"add-pre-chain (new)"
 
-      - `"DISABLED"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCKED"`
+"add-pre-chain (old)"
 
-    - `mozillaStatus: "INCLUDED" or "NOT_YET_INCLUDED" or "NOT_INCLUDED" or 4 more`
+<a href="#">Link to this property</a>
 
-      The inclusion status of a Certificate Authority (CA) in the trust store.
+"get-entries"
 
-      - `"INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_YET_INCLUDED"`
+"get-roots"
 
-      - `"NOT_INCLUDED"`
+<a href="#">Link to this property</a>
 
-      - `"NOT_BEFORE"`
+"get-sth"
 
-      - `"REMOVED"`
+<a href="#">Link to this property</a>
 
-      - `"DISABLED"`
+</details>
 
-      - `"BLOCKED"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+responseTime: number
 
-      The full name of the certificate authority (CA).
+<a href="#">Link to this property</a>
 
-    - `owner: string`
+uptime: number
 
-      The organization that owns and operates the CA.
+<a href="#">Link to this property</a>
 
-    - `parentName: string`
+</details>
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+<a href="#">Link to this property</a>
 
-    - `parentSha256Fingerprint: string`
+responseTime: number
 
-      The SHA-256 fingerprint of the parent certificate.
+<a href="#">Link to this property</a>
 
-    - `related: array of object { certificateRecordType, name, revocationStatus, sha256Fingerprint }`
+uptime: number
 
-      CAs from the same owner.
+<a href="#">Link to this property</a>
 
-      - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+</details>
 
-        Specifies the type of certificate in the trust chain.
+<a href="#">Link to this property</a>
 
-        - `"ROOT_CERTIFICATE"`
+<details>
 
-        - `"INTERMEDIATE_CERTIFICATE"`
+<summary>
 
-      - `name: string`
+related: array of object {description, endExclusive, slug, 2 more }
 
-        The full name of the certificate authority (CA).
+Logs from the same operator.
 
-      - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+</summary>
 
-        The current revocation status of a Certificate Authority (CA) certificate.
+description: string
 
-        - `"NOT_REVOKED"`
+A brief description of the certificate log.
 
-        - `"REVOKED"`
+<a href="#">Link to this property</a>
 
-        - `"PARENT_CERT_REVOKED"`
+endExclusive: string
 
-      - `sha256Fingerprint: string`
+The end date and time for when the log will stop accepting certificates.
 
-        The SHA-256 fingerprint of the intermediate certificate.
+formatdate-time
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+<a href="#">Link to this property</a>
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+slug: string
 
-      - `"NOT_REVOKED"`
+A URL-friendly, kebab-case identifier for the certificate log.
 
-      - `"REVOKED"`
+<a href="#">Link to this property</a>
 
-      - `"PARENT_CERT_REVOKED"`
+startInclusive: string
 
-    - `sha256Fingerprint: string`
+The start date and time for when the log starts accepting certificates.
 
-      The SHA-256 fingerprint of the intermediate certificate.
+formatdate-time
 
-    - `subjectKeyIdentifier: string`
+<a href="#">Link to this property</a>
 
-      The subjectKeyIdentifier value extracted from the certificate PEM.
+<details>
 
-    - `validFrom: string`
+<summary>
 
-      The start date of the certificate’s validity period (ISO format).
+state: "USABLE"or "PENDING"or "QUALIFIED"or 3 more
 
-    - `validTo: string`
+The current state of the certificate log. More details about log states can be found here: <a href="https://googlechrome.github.io/CertificateTransparency/log_states.html">https://googlechrome.github.io/CertificateTransparency/log\_states.html</a>
 
-      The end date of the certificate’s validity period (ISO format).
+</summary>
 
-### Authority List Response
+One of the following:
 
-- `AuthorityListResponse object { certificateAuthorities }`
+"USABLE"
 
-  - `certificateAuthorities: array of object { certificateRecordType, country, countryName, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+"PENDING"
 
-      Specifies the type of certificate in the trust chain.
+<a href="#">Link to this property</a>
 
-      - `"ROOT_CERTIFICATE"`
+"QUALIFIED"
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+<a href="#">Link to this property</a>
 
-    - `country: string`
+"READ\_ONLY"
 
-      The two-letter ISO country code where the CA organization is based.
+<a href="#">Link to this property</a>
 
-    - `countryName: string`
+"RETIRED"
 
-      The full country name corresponding to the country code.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"REJECTED"
 
-      The full name of the certificate authority (CA).
+<a href="#">Link to this property</a>
 
-    - `owner: string`
+</details>
 
-      The organization that owns and operates the CA.
+<a href="#">Link to this property</a>
 
-    - `parentName: string`
+</details>
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+<a href="#">Link to this property</a>
 
-    - `parentSha256Fingerprint: string`
+slug: string
 
-      The SHA-256 fingerprint of the parent certificate.
+A URL-friendly, kebab-case identifier for the certificate log.
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+<a href="#">Link to this property</a>
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+startInclusive: string
 
-      - `"NOT_REVOKED"`
+The start date and time for when the log starts accepting certificates.
 
-      - `"REVOKED"`
+formatdate-time
 
-      - `"PARENT_CERT_REVOKED"`
+<a href="#">Link to this property</a>
 
-    - `sha256Fingerprint: string`
+<details>
 
-      The SHA-256 fingerprint of the intermediate certificate.
+<summary>
 
-# Logs
+state: "USABLE"or "PENDING"or "QUALIFIED"or 3 more
 
-## Get certificate log details
+The current state of the certificate log. More details about log states can be found here: <a href="https://googlechrome.github.io/CertificateTransparency/log_states.html">https://googlechrome.github.io/CertificateTransparency/log\_states.html</a>
 
-**get** `/radar/ct/logs/{log_slug}`
+</summary>
 
-Retrieves the requested certificate log information.
+One of the following:
 
-### Path Parameters
+"USABLE"
 
-- `log_slug: string`
+<a href="#">Link to this property</a>
 
-  Certificate log slug.
+"PENDING"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+"QUALIFIED"
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+"READ\_ONLY"
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-### Returns
+"RETIRED"
 
-- `result: object { certificateLog }`
+<a href="#">Link to this property</a>
 
-  - `certificateLog: object { api, avgThroughput, description, 12 more }`
+"REJECTED"
 
-    - `api: "RFC6962" or "STATIC"`
+<a href="#">Link to this property</a>
 
-      The API standard that the certificate log follows.
+</details>
 
-      - `"RFC6962"`
+<a href="#">Link to this property</a>
 
-      - `"STATIC"`
+stateTimestamp: string
 
-    - `avgThroughput: number`
+Timestamp of when the log state was last updated.
 
-      The average throughput of the CT log, measured in certificates per hour (certs/hour).
+formatdate-time
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      A brief description of the certificate log.
+submittableCertCount: string
 
-    - `endExclusive: string`
+Number of certificates that are eligible for inclusion to this log but have not been included yet. Based on certificates signed by trusted root CAs within the log’s accepted date range.
 
-      The end date and time for when the log will stop accepting certificates.
+<a href="#">Link to this property</a>
 
-    - `lastUpdate: string`
+submittedCertCount: string
 
-      Timestamp of the most recent update to the CT log.
+Number of certificates already included in this CT log.
 
-    - `operator: string`
+<a href="#">Link to this property</a>
 
-      The organization responsible for operating the certificate log.
+url: string
 
-    - `performance: object { endpoints, responseTime, uptime }`
+The URL for the certificate log.
 
-      Log performance metrics, including averages and per-endpoint details.
+<a href="#">Link to this property</a>
 
-      - `endpoints: array of object { endpoint, responseTime, uptime }`
+</details>
 
-        - `endpoint: "add-chain (new)" or "add-chain (old)" or "add-pre-chain (new)" or 4 more`
+<a href="#">Link to this property</a>
 
-          The certificate log endpoint names used in performance metrics.
+</details>
 
-          - `"add-chain (new)"`
+[Link to this property](#)%20radar.ct.logs%20%3E%20(model)%20log_get_response%20%3E%20(schema)>)
 
-          - `"add-chain (old)"`
+<details>
 
-          - `"add-pre-chain (new)"`
+<summary>
 
-          - `"add-pre-chain (old)"`
+LogListResponse object {certificateLogs }
 
-          - `"get-entries"`
+</summary>
 
-          - `"get-roots"`
+<details>
 
-          - `"get-sth"`
+<summary>
 
-        - `responseTime: number`
+certificateLogs: array of object {api, description, endExclusive, 6 more }
 
-        - `uptime: number`
+</summary>
 
-      - `responseTime: number`
+<details>
 
-      - `uptime: number`
+<summary>
 
-    - `related: array of object { description, endExclusive, slug, 2 more }`
+api: "RFC6962"or "STATIC"
 
-      Logs from the same operator.
+The API standard that the certificate log follows.
 
-      - `description: string`
+</summary>
 
-        A brief description of the certificate log.
+One of the following:
 
-      - `endExclusive: string`
+"RFC6962"
 
-        The end date and time for when the log will stop accepting certificates.
+<a href="#">Link to this property</a>
 
-      - `slug: string`
+"STATIC"
 
-        A URL-friendly, kebab-case identifier for the certificate log.
+<a href="#">Link to this property</a>
 
-      - `startInclusive: string`
+</details>
 
-        The start date and time for when the log starts accepting certificates.
+<a href="#">Link to this property</a>
 
-      - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
+description: string
 
-        The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
+A brief description of the certificate log.
 
-        - `"USABLE"`
+<a href="#">Link to this property</a>
 
-        - `"PENDING"`
+endExclusive: string
 
-        - `"QUALIFIED"`
+The end date and time for when the log will stop accepting certificates.
 
-        - `"READ_ONLY"`
+formatdate-time
 
-        - `"RETIRED"`
+<a href="#">Link to this property</a>
 
-        - `"REJECTED"`
+operator: string
 
-    - `slug: string`
+The organization responsible for operating the certificate log.
 
-      A URL-friendly, kebab-case identifier for the certificate log.
+<a href="#">Link to this property</a>
 
-    - `startInclusive: string`
+slug: string
 
-      The start date and time for when the log starts accepting certificates.
+A URL-friendly, kebab-case identifier for the certificate log.
 
-    - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
+<a href="#">Link to this property</a>
 
-      The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
+startInclusive: string
 
-      - `"USABLE"`
+The start date and time for when the log starts accepting certificates.
 
-      - `"PENDING"`
+formatdate-time
 
-      - `"QUALIFIED"`
+<a href="#">Link to this property</a>
 
-      - `"READ_ONLY"`
+<details>
 
-      - `"RETIRED"`
+<summary>
 
-      - `"REJECTED"`
+state: "USABLE"or "PENDING"or "QUALIFIED"or 3 more
 
-    - `stateTimestamp: string`
+The current state of the certificate log. More details about log states can be found here: <a href="https://googlechrome.github.io/CertificateTransparency/log_states.html">https://googlechrome.github.io/CertificateTransparency/log\_states.html</a>
 
-      Timestamp of when the log state was last updated.
+</summary>
 
-    - `submittableCertCount: string`
+One of the following:
 
-      Number of certificates that are eligible for inclusion to this log but have not been included yet. Based on certificates signed by trusted root CAs within the log's accepted date range.
+"USABLE"
 
-    - `submittedCertCount: string`
+<a href="#">Link to this property</a>
 
-      Number of certificates already included in this CT log.
+"PENDING"
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-      The URL for the certificate log.
+"QUALIFIED"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"READ\_ONLY"
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/logs/$LOG_SLUG \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"RETIRED"
 
-```json
-{
-  "result": {
-    "certificateLog": {
-      "api": "RFC6962",
-      "avgThroughput": 0,
-      "description": "Google 'Argon2024' log",
-      "endExclusive": "2025-01-01T00:00:00Z",
-      "lastUpdate": "2025-01-01T00:00:00Z",
-      "operator": "Google",
-      "performance": {
-        "endpoints": [
-          {
-            "endpoint": "add-chain (new)",
-            "responseTime": 0,
-            "uptime": 0
-          }
-        ],
-        "responseTime": 0,
-        "uptime": 0
-      },
-      "related": [
-        {
-          "description": "Google 'Argon2024' log",
-          "endExclusive": "2025-01-01T00:00:00Z",
-          "slug": "argon2024",
-          "startInclusive": "2024-01-01T00:00:00Z",
-          "state": "USABLE"
-        }
-      ],
-      "slug": "argon2024",
-      "startInclusive": "2024-01-01T00:00:00Z",
-      "state": "USABLE",
-      "stateTimestamp": "2025-02-01T08:53:20Z",
-      "submittableCertCount": "10",
-      "submittedCertCount": "10",
-      "url": "https://ct.googleapis.com/logs/us1/argon2024/"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## List certificate logs
+"REJECTED"
 
-**get** `/radar/ct/logs`
+<a href="#">Link to this property</a>
 
-Retrieves a list of certificate logs.
+</details>
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+stateTimestamp: string
 
-  Format in which results will be returned.
+Timestamp of when the log state was last updated.
 
-  - `"JSON"`
+formatdate-time
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+url: string
 
-  Limits the number of objects returned in the response.
+The URL for the certificate log.
 
-- `offset: optional number`
+<a href="#">Link to this property</a>
 
-  Skips the specified number of objects before fetching the results.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { certificateLogs }`
+</details>
 
-  - `certificateLogs: array of object { api, description, endExclusive, 6 more }`
-
-    - `api: "RFC6962" or "STATIC"`
-
-      The API standard that the certificate log follows.
-
-      - `"RFC6962"`
-
-      - `"STATIC"`
-
-    - `description: string`
-
-      A brief description of the certificate log.
-
-    - `endExclusive: string`
-
-      The end date and time for when the log will stop accepting certificates.
-
-    - `operator: string`
-
-      The organization responsible for operating the certificate log.
-
-    - `slug: string`
-
-      A URL-friendly, kebab-case identifier for the certificate log.
-
-    - `startInclusive: string`
-
-      The start date and time for when the log starts accepting certificates.
-
-    - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
-
-      The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
-
-      - `"USABLE"`
-
-      - `"PENDING"`
-
-      - `"QUALIFIED"`
-
-      - `"READ_ONLY"`
-
-      - `"RETIRED"`
-
-      - `"REJECTED"`
-
-    - `stateTimestamp: string`
-
-      Timestamp of when the log state was last updated.
-
-    - `url: string`
-
-      The URL for the certificate log.
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "certificateLogs": [
-      {
-        "api": "RFC6962",
-        "description": "Google 'Argon2024' log",
-        "endExclusive": "2025-01-01T00:00:00Z",
-        "operator": "Google",
-        "slug": "argon2024",
-        "startInclusive": "2024-01-01T00:00:00Z",
-        "state": "USABLE",
-        "stateTimestamp": "2025-02-01T08:53:20Z",
-        "url": "https://ct.googleapis.com/logs/us1/argon2024/"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Log Get Response
-
-- `LogGetResponse object { certificateLog }`
-
-  - `certificateLog: object { api, avgThroughput, description, 12 more }`
-
-    - `api: "RFC6962" or "STATIC"`
-
-      The API standard that the certificate log follows.
-
-      - `"RFC6962"`
-
-      - `"STATIC"`
-
-    - `avgThroughput: number`
-
-      The average throughput of the CT log, measured in certificates per hour (certs/hour).
-
-    - `description: string`
-
-      A brief description of the certificate log.
-
-    - `endExclusive: string`
-
-      The end date and time for when the log will stop accepting certificates.
-
-    - `lastUpdate: string`
-
-      Timestamp of the most recent update to the CT log.
-
-    - `operator: string`
-
-      The organization responsible for operating the certificate log.
-
-    - `performance: object { endpoints, responseTime, uptime }`
-
-      Log performance metrics, including averages and per-endpoint details.
-
-      - `endpoints: array of object { endpoint, responseTime, uptime }`
-
-        - `endpoint: "add-chain (new)" or "add-chain (old)" or "add-pre-chain (new)" or 4 more`
-
-          The certificate log endpoint names used in performance metrics.
-
-          - `"add-chain (new)"`
-
-          - `"add-chain (old)"`
-
-          - `"add-pre-chain (new)"`
-
-          - `"add-pre-chain (old)"`
-
-          - `"get-entries"`
-
-          - `"get-roots"`
-
-          - `"get-sth"`
-
-        - `responseTime: number`
-
-        - `uptime: number`
-
-      - `responseTime: number`
-
-      - `uptime: number`
-
-    - `related: array of object { description, endExclusive, slug, 2 more }`
-
-      Logs from the same operator.
-
-      - `description: string`
-
-        A brief description of the certificate log.
-
-      - `endExclusive: string`
-
-        The end date and time for when the log will stop accepting certificates.
-
-      - `slug: string`
-
-        A URL-friendly, kebab-case identifier for the certificate log.
-
-      - `startInclusive: string`
-
-        The start date and time for when the log starts accepting certificates.
-
-      - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
-
-        The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
-
-        - `"USABLE"`
-
-        - `"PENDING"`
-
-        - `"QUALIFIED"`
-
-        - `"READ_ONLY"`
-
-        - `"RETIRED"`
-
-        - `"REJECTED"`
-
-    - `slug: string`
-
-      A URL-friendly, kebab-case identifier for the certificate log.
-
-    - `startInclusive: string`
-
-      The start date and time for when the log starts accepting certificates.
-
-    - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
-
-      The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
-
-      - `"USABLE"`
-
-      - `"PENDING"`
-
-      - `"QUALIFIED"`
-
-      - `"READ_ONLY"`
-
-      - `"RETIRED"`
-
-      - `"REJECTED"`
-
-    - `stateTimestamp: string`
-
-      Timestamp of when the log state was last updated.
-
-    - `submittableCertCount: string`
-
-      Number of certificates that are eligible for inclusion to this log but have not been included yet. Based on certificates signed by trusted root CAs within the log's accepted date range.
-
-    - `submittedCertCount: string`
-
-      Number of certificates already included in this CT log.
-
-    - `url: string`
-
-      The URL for the certificate log.
-
-### Log List Response
-
-- `LogListResponse object { certificateLogs }`
-
-  - `certificateLogs: array of object { api, description, endExclusive, 6 more }`
-
-    - `api: "RFC6962" or "STATIC"`
-
-      The API standard that the certificate log follows.
-
-      - `"RFC6962"`
-
-      - `"STATIC"`
-
-    - `description: string`
-
-      A brief description of the certificate log.
-
-    - `endExclusive: string`
-
-      The end date and time for when the log will stop accepting certificates.
-
-    - `operator: string`
-
-      The organization responsible for operating the certificate log.
-
-    - `slug: string`
-
-      A URL-friendly, kebab-case identifier for the certificate log.
-
-    - `startInclusive: string`
-
-      The start date and time for when the log starts accepting certificates.
-
-    - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
-
-      The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
-
-      - `"USABLE"`
-
-      - `"PENDING"`
-
-      - `"QUALIFIED"`
-
-      - `"READ_ONLY"`
-
-      - `"RETIRED"`
-
-      - `"REJECTED"`
-
-    - `stateTimestamp: string`
-
-      Timestamp of when the log state was last updated.
-
-    - `url: string`
-
-      The URL for the certificate log.
+[Link to this property](#)%20radar.ct.logs%20%3E%20(model)%20log_list_response%20%3E%20(schema)>)

@@ -1,591 +1,481 @@
+---
+title: V2
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # V2
 
-# Queries
+#### V2Queries
 
-## Get queries
+##### [Get queries](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/queries/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/queries`
+GET/accounts/{account\_id}/cloudforce-one/v2/brand-protection/domain/queries
 
-Get all saved brand protection queries for an account
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+QueryGetResponse = array of object {created, parameters, query\_id, 3 more } or object {created, parameters, query\_id, 3 more }
 
-- `id: optional string`
+</summary>
 
-### Returns
+One of the following:
 
-- `created: string`
+<details>
 
-- `parameters: object { string_matches, max_time, min_time }`
+<summary>
 
-  - `string_matches: array of object { pattern }`
+array of object {created, parameters, query\_id, 3 more }
 
-    - `pattern: string`
+</summary>
 
-  - `max_time: optional string`
+created: string
 
-  - `min_time: optional string`
+<a href="#">Link to this property</a>
 
-- `query_id: number`
+<details>
 
-- `query_tag: string`
+<summary>
 
-- `scan: boolean`
+parameters: object {string\_matches, max\_time, min\_time }
 
-- `updated: string`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/domain/queries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+string\_matches: array of object {pattern }
 
-```json
-[
-  {
-    "created": "created",
-    "parameters": {
-      "string_matches": [
-        {
-          "pattern": "x"
-        }
-      ],
-      "max_time": "max_time",
-      "min_time": "min_time"
-    },
-    "query_id": 0,
-    "query_tag": "query_tag",
-    "scan": true,
-    "updated": "updated"
-  }
-]
-```
+</summary>
 
-## Domain Types
+pattern: string
 
-### Query Get Response
+maxLength200
 
-- `QueryGetResponse = array of object { created, parameters, query_id, 3 more }`
+minLength1
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-  - `parameters: object { string_matches, max_time, min_time }`
+</details>
 
-    - `string_matches: array of object { pattern }`
+<a href="#">Link to this property</a>
 
-      - `pattern: string`
+max\_time: optional string
 
-    - `max_time: optional string`
+<a href="#">Link to this property</a>
 
-    - `min_time: optional string`
+min\_time: optional string
 
-  - `query_id: number`
+<a href="#">Link to this property</a>
 
-  - `query_tag: string`
+</details>
 
-  - `scan: boolean`
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+query\_id: number
 
-# Matches
+<a href="#">Link to this property</a>
 
-## List saved query matches
+query\_tag: string
 
-**get** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/matches`
+<a href="#">Link to this property</a>
 
-Get paginated list of domain matches for one or more brand protection queries. When multiple query_ids are provided (comma-separated), matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and individual dismissed state.
+scan: boolean
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+updated: string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `query_id: array of string`
+</details>
 
-  Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and dismissed state.
+<a href="#">Link to this property</a>
 
-- `domain_search: optional string`
+<details>
 
-  Filter matches by domain name (substring match)
+<summary>
 
-- `include_dismissed: optional string`
+object {created, parameters, query\_id, 3 more }
 
-- `include_domain_id: optional string`
+</summary>
 
-- `limit: optional string`
+created: string
 
-- `offset: optional string`
+<a href="#">Link to this property</a>
 
-- `order: optional "asc" or "desc"`
+<details>
 
-  Sort order. Options: 'asc' (ascending) or 'desc' (descending)
+<summary>
 
-  - `"asc"`
+parameters: object {string\_matches, max\_time, min\_time }
 
-  - `"desc"`
+</summary>
 
-- `orderBy: optional "domain" or "first_seen" or "registrar"`
+<details>
 
-  Column to sort by. Options: 'domain', 'first_seen', or 'registrar'
+<summary>
 
-  - `"domain"`
+string\_matches: array of object {pattern }
 
-  - `"first_seen"`
+</summary>
 
-  - `"registrar"`
+pattern: string
 
-### Returns
+maxLength200
 
-- `matches: array of object { domain, first_seen, public_scans, 6 more }`
+minLength1
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-  - `first_seen: string`
+</details>
 
-  - `public_scans: object { submission_id }`
+<a href="#">Link to this property</a>
 
-    - `submission_id: string`
+max\_time: optional string
 
-  - `registrar: string`
+<a href="#">Link to this property</a>
 
-  - `scan_status: string`
+min\_time: optional string
 
-  - `scan_submission_id: number`
+<a href="#">Link to this property</a>
 
-  - `source: string`
+</details>
 
-  - `dismissed: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match_details entry.
+query\_id: number
 
-  - `match_details: optional array of object { dismissed, match_id, query_id, query_tag }`
+<a href="#">Link to this property</a>
 
-    Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query_ids are requested.
+query\_tag: string
 
-    - `dismissed: boolean`
+<a href="#">Link to this property</a>
 
-      Individual dismissed state for this specific match.
+scan: boolean
 
-    - `match_id: number`
+<a href="#">Link to this property</a>
 
-    - `query_id: number`
+updated: string
 
-    - `query_tag: string`
+<a href="#">Link to this property</a>
 
-      Tag associated with the query, if one exists.
+</details>
 
-- `total: number`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/domain/matches \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20brand_protection.v2.queries%20%3E%20(model)%20query_get_response%20%3E%20(schema)>)
 
-#### Response
+#### V2Matches
 
-```json
-{
-  "matches": [
-    {
-      "domain": "domain",
-      "first_seen": "first_seen",
-      "public_scans": {
-        "submission_id": "submission_id"
-      },
-      "registrar": "registrar",
-      "scan_status": "scan_status",
-      "scan_submission_id": 0,
-      "source": "source",
-      "dismissed": true,
-      "match_details": [
-        {
-          "dismissed": true,
-          "match_id": 0,
-          "query_id": 0,
-          "query_tag": "query_tag"
-        }
-      ]
-    }
-  ],
-  "total": 0
-}
-```
+##### [List saved query matches](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/matches/methods/get)
 
-## Domain Types
+GET/accounts/{account\_id}/cloudforce-one/v2/brand-protection/domain/matches
 
-### Match Get Response
+##### ModelsExpand Collapse
 
-- `MatchGetResponse object { matches, total }`
+<details>
 
-  - `matches: array of object { domain, first_seen, public_scans, 6 more }`
+<summary>
 
-    - `domain: string`
+MatchGetResponse object {matches, total }
 
-    - `first_seen: string`
+</summary>
 
-    - `public_scans: object { submission_id }`
+<details>
 
-      - `submission_id: string`
+<summary>
 
-    - `registrar: string`
+matches: array of object {domain, first\_seen, public\_scans, 6 more }
 
-    - `scan_status: string`
+</summary>
 
-    - `scan_submission_id: number`
+domain: string
 
-    - `source: string`
+<a href="#">Link to this property</a>
 
-    - `dismissed: optional boolean`
+first\_seen: string
 
-      Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match_details entry.
+<a href="#">Link to this property</a>
 
-    - `match_details: optional array of object { dismissed, match_id, query_id, query_tag }`
+<details>
 
-      Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query_ids are requested.
+<summary>
 
-      - `dismissed: boolean`
+public\_scans: object {submission\_id }
 
-        Individual dismissed state for this specific match.
+</summary>
 
-      - `match_id: number`
+submission\_id: string
 
-      - `query_id: number`
+<a href="#">Link to this property</a>
 
-      - `query_tag: string`
+</details>
 
-        Tag associated with the query, if one exists.
+<a href="#">Link to this property</a>
 
-  - `total: number`
+registrar: string
 
-# Logos
+<a href="#">Link to this property</a>
 
-## Insert logo query
+scan\_status: string
 
-**post** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries`
+<a href="#">Link to this property</a>
 
-Create a new saved brand protection logo query for visual similarity matching
+scan\_submission\_id: number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+source: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `image_data: string`
+dismissed: optional boolean
 
-  Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string.
+Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match\_details entry.
 
-- `similarity_threshold: number`
+<a href="#">Link to this property</a>
 
-  Minimum similarity score (0-1) required for visual matches
+<details>
 
-- `tag: string`
+<summary>
 
-  Unique identifier for the logo query
+match\_details: optional array of object {dismissed, match\_id, query\_id, query\_tag }
 
-- `search_lookback: optional boolean`
+Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query\_ids are requested.
 
-  If true, search historic scanned images for matches above the similarity threshold
+</summary>
 
-### Returns
+dismissed: boolean
 
-- `message: string`
+Individual dismissed state for this specific match.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `query_id: optional number`
+match\_id: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/logo/queries \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "image_data": "x",
-          "similarity_threshold": 0,
-          "tag": "x"
-        }'
-```
+query\_id: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "message": "message",
-  "success": true,
-  "query_id": 0
-}
-```
+query\_tag: string
 
-## Delete logo query
+Tag associated with the query, if one exists.
 
-**delete** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries/{query_id}`
+<a href="#">Link to this property</a>
 
-Delete a saved brand protection logo query. Returns 404 if the query ID doesn't exist.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-- `query_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+total: number
 
-- `message: string`
+minimum0
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/logo/queries/$QUERY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(model)%20match_get_response%20%3E%20(schema)>)
 
-#### Response
+#### V2Logos
 
-```json
-{
-  "message": "message",
-  "success": true
-}
-```
+##### [Insert logo query](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/logos/methods/create)
 
-## Get logo queries
+POST/accounts/{account\_id}/cloudforce-one/v2/brand-protection/logo/queries
 
-**get** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries`
+##### [Delete logo query](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/logos/methods/delete)
 
-Get all saved brand protection logo queries for an account. Optionally specify id to get a single query. Set download=true to include base64-encoded image data.
+DELETE/accounts/{account\_id}/cloudforce-one/v2/brand-protection/logo/queries/{query\_id}
 
-### Path Parameters
+##### [Get logo queries](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/logos/methods/get)
 
-- `account_id: string`
+GET/accounts/{account\_id}/cloudforce-one/v2/brand-protection/logo/queries
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `id: optional string`
+<details>
 
-  Optional query ID to retrieve a specific logo query
+<summary>
 
-- `download: optional string`
+LogoCreateResponse object {message, success, query\_id }
 
-  If true, include base64-encoded image data in the response
+</summary>
 
-### Returns
+message: string
 
-- `id: number`
+<a href="#">Link to this property</a>
 
-- `r2_path: string`
+success: boolean
 
-- `similarity_threshold: number`
+<a href="#">Link to this property</a>
 
-- `tag: string`
+query\_id: optional number
 
-- `uploaded_at: string`
+<a href="#">Link to this property</a>
 
-- `content_type: optional string`
+</details>
 
-  MIME type of the image (only present when download=true)
+[Link to this property](#)%20brand_protection.v2.logos%20%3E%20(model)%20logo_create_response%20%3E%20(schema)>)
 
-- `image_data: optional string`
+<details>
 
-  Base64-encoded image data (only present when download=true)
+<summary>
 
-### Example
+LogoDeleteResponse object {message, success }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/logo/queries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+message: string
 
-```json
-[
-  {
-    "id": 0,
-    "r2_path": "r2_path",
-    "similarity_threshold": 0,
-    "tag": "tag",
-    "uploaded_at": "uploaded_at",
-    "content_type": "content_type",
-    "image_data": "image_data"
-  }
-]
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+success: boolean
 
-### Logo Create Response
+<a href="#">Link to this property</a>
 
-- `LogoCreateResponse object { message, success, query_id }`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20brand_protection.v2.logos%20%3E%20(model)%20logo_delete_response%20%3E%20(schema)>)
 
-  - `success: boolean`
+<details>
 
-  - `query_id: optional number`
+<summary>
 
-### Logo Delete Response
+LogoGetResponse = array of object {id, r2\_path, similarity\_threshold, 4 more }
 
-- `LogoDeleteResponse object { message, success }`
+</summary>
 
-  - `message: string`
+id: number
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-### Logo Get Response
+r2\_path: string
 
-- `LogoGetResponse = array of object { id, r2_path, similarity_threshold, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: number`
+similarity\_threshold: number
 
-  - `r2_path: string`
+<a href="#">Link to this property</a>
 
-  - `similarity_threshold: number`
+tag: string
 
-  - `tag: string`
+<a href="#">Link to this property</a>
 
-  - `uploaded_at: string`
+uploaded\_at: string
 
-  - `content_type: optional string`
+<a href="#">Link to this property</a>
 
-    MIME type of the image (only present when download=true)
+content\_type: optional string
 
-  - `image_data: optional string`
+MIME type of the image (only present when download=true)
 
-    Base64-encoded image data (only present when download=true)
+<a href="#">Link to this property</a>
 
-# Logo Matches
+image\_data: optional string
 
-## List logo matches
+Base64-encoded image data (only present when download=true)
 
-**get** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/matches`
+<a href="#">Link to this property</a>
 
-Get paginated list of logo matches for a specific brand protection logo query
+</details>
 
-### Path Parameters
+[Link to this property](#)%20brand_protection.v2.logos%20%3E%20(model)%20logo_get_response%20%3E%20(schema)>)
 
-- `account_id: string`
+#### V2Logo Matches
 
-### Query Parameters
+##### [List logo matches](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/logo_matches/methods/get)
 
-- `query_id: string`
+GET/accounts/{account\_id}/cloudforce-one/v2/brand-protection/logo/matches
 
-- `download: optional string`
+##### ModelsExpand Collapse
 
-- `limit: optional string`
+<details>
 
-- `offset: optional string`
+<summary>
 
-- `order: optional "asc" or "desc"`
+LogoMatchGetResponse object {matches, total }
 
-  Sort order. Options: 'asc' (ascending) or 'desc' (descending)
+</summary>
 
-  - `"asc"`
+<details>
 
-  - `"desc"`
+<summary>
 
-- `orderBy: optional "matchedAt" or "domain" or "similarityScore" or "registrar"`
+matches: array of object {id, domain, matched\_at, 6 more }
 
-  Column to sort by. Options: 'matchedAt', 'domain', 'similarityScore', or 'registrar'
+</summary>
 
-  - `"matchedAt"`
+id: number
 
-  - `"domain"`
+<a href="#">Link to this property</a>
 
-  - `"similarityScore"`
+domain: string
 
-  - `"registrar"`
+<a href="#">Link to this property</a>
 
-### Returns
+matched\_at: string
 
-- `matches: array of object { id, domain, matched_at, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: number`
+query\_id: number
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-  - `matched_at: string`
+registrar: string
 
-  - `query_id: number`
+<a href="#">Link to this property</a>
 
-  - `registrar: string`
+similarity\_score: number
 
-  - `similarity_score: number`
+<a href="#">Link to this property</a>
 
-  - `url_scan_id: string`
+url\_scan\_id: string
 
-  - `content_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `image_data: optional string`
+content\_type: optional string
 
-- `total: number`
+<a href="#">Link to this property</a>
 
-### Example
+image\_data: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/logo/matches \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "matches": [
-    {
-      "id": 0,
-      "domain": "domain",
-      "matched_at": "matched_at",
-      "query_id": 0,
-      "registrar": "registrar",
-      "similarity_score": 0,
-      "url_scan_id": "url_scan_id",
-      "content_type": "content_type",
-      "image_data": "image_data"
-    }
-  ],
-  "total": 0
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+total: number
 
-### Logo Match Get Response
+minimum0
 
-- `LogoMatchGetResponse object { matches, total }`
+<a href="#">Link to this property</a>
 
-  - `matches: array of object { id, domain, matched_at, 6 more }`
+</details>
 
-    - `id: number`
-
-    - `domain: string`
-
-    - `matched_at: string`
-
-    - `query_id: number`
-
-    - `registrar: string`
-
-    - `similarity_score: number`
-
-    - `url_scan_id: string`
-
-    - `content_type: optional string`
-
-    - `image_data: optional string`
-
-  - `total: number`
+[Link to this property](#)%20brand_protection.v2.logo_matches%20%3E%20(model)%20logo_match_get_response%20%3E%20(schema)>)

@@ -1,106 +1,310 @@
-## Rotate SAML certificate
+---
+title: Rotate SAML certificate
+---
 
-**post** `/accounts/{account_id}/access/saml_certificates/{saml_cert_set_id}/rotate`
+[Skip to content](#_top)
 
-Rotates the SAML encryption certificates within the specified certificate set. This generates a new
-certificate and moves the current certificate to the previous slot. If a previous certificate exists,
-it will be deactivated and removed.
+[API Reference](https://developers.cloudflare.com/api)
 
-This endpoint ensures zero-downtime rotation by maintaining both current and previous certificates
-during the transition period, allowing IdPs time to update their configurations. Automated rotation
-happens 30 days before a current certificate's expiration.
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-### Path Parameters
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
 
-- `account_id: string`
+[SAML Certificates](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/saml_certificates)
 
-  Identifier.
+Copy Markdown
 
-- `saml_cert_set_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  UUID.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `errors: array of object { code, message, documentation_url, source }`
+# Rotate SAML certificate
 
-  - `code: number`
+POST/accounts/{account\_id}/access/saml\_certificates/{saml\_cert\_set\_id}/rotate
 
-  - `message: string`
+Rotates the SAML encryption certificates within the specified certificate set. This generates a new certificate and moves the current certificate to the previous slot. If a previous certificate exists, it will be deactivated and removed.
 
-  - `documentation_url: optional string`
+This endpoint ensures zero-downtime rotation by maintaining both current and previous certificates during the transition period, allowing IdPs time to update their configurations. Automated rotation happens 30 days before a current certificate’s expiration.
 
-  - `source: optional object { pointer }`
+##### Security
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>API Token</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `source: optional object { pointer }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>API Email + API Key</summary>
 
-  - `true`
 
-- `result: optional object { created_at, uid, updated_at, 2 more }`
 
-  - `created_at: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    When the certificate set was created
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `uid: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Unique identifier for the certificate set
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `updated_at: string`
+</details>
 
-    When the certificate set was last updated
+##### P ath ParametersExpand Collapse
 
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+account\_id: string
 
-    The current active certificate
+Identifier.
 
-    - `is_current: boolean`
+maxLength32
 
-      Indicates whether the certificate can be used for IdP configuration.
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(method)%20rotate%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `not_after: string`
+saml\_cert\_set\_id: string
 
-      Certificate expiration date
+UUID.
 
-    - `public_certificate: string`
+maxLength36
 
-      The public certificate in PEM format
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(method)%20rotate%20%3E%20(params)%20default%20%3E%20(param)%20saml_cert_set_id%20%3E%20(schema)>)
 
-    - `uid: string`
+##### ReturnsExpand Collapse
 
-      Unique identifier for the certificate
+<details>
 
-  - `previous_certificate: optional unknown`
+<summary>
 
-    The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of `saml_certificate`.
+errors: array of object {code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(method)%20rotate%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(method)%20rotate%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(method)%20rotate%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {created\_at, uid, updated\_at, 2 more }
+
+</summary>
+
+created\_at: string
+
+When the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+When the certificate set was last updated
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The current active certificate
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether the certificate can be used for IdP configuration.
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+The public certificate in PEM format
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(method)%20rotate%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Rotate SAML certificate
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/saml_certificates/$SAML_CERT_SET_ID/rotate \
     -X POST \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "created_at": "2024-03-21T10:30:00Z",
+    "uid": "a5bb4b3f-c2d1-4e6a-8f9b-1d3e4f5a6b7c",
+    "updated_at": "2024-03-21T10:30:00Z",
+    "current_certificate": {
+      "is_current": true,
+      "not_after": "2027-03-21T12:00:00Z",
+      "public_certificate": "-----BEGIN CERTIFICATE-----\nMIIGAjCCA+qgAwIBAgIJAI7kymlF7CWT...\n...certificate content...\n-----END CERTIFICATE-----\n",
+      "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+    },
+    "previous_certificate": {}
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,168 +1,73 @@
+---
+title: ASN
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # ASN
 
-## Get ASN Overview.
+##### [Get ASN Overview.](https://developers.cloudflare.com/api/resources/intel/subresources/asn/methods/get)
 
-**get** `/accounts/{account_id}/intel/asn/{asn}`
+GET/accounts/{account\_id}/intel/asn/{asn}
 
-Gets an overview of the Autonomous System Number (ASN) and a list of subnets for it.
+#### ASNSubnets
 
-### Path Parameters
+##### [Get ASN Subnets](https://developers.cloudflare.com/api/resources/intel/subresources/asn/subresources/subnets/methods/get)
 
-- `account_id: string`
+GET/accounts/{account\_id}/intel/asn/{asn}/subnets
 
-  Identifier.
+##### ModelsExpand Collapse
 
-- `asn: ASN`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+SubnetGetResponse object {asn, count, ip\_count\_total, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+asn: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20asn%20%3E%20(schema)">ASN</a>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+count: optional number
 
-    - `pointer: optional string`
+Total results returned based on your search parameters.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+ip\_count\_total: optional number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+page: optional number
 
-  - `source: optional object { pointer }`
+Current page within paginated list of results.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+per\_page: optional number
 
-  Whether the API call was successful.
+Number of results per page of results.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional ASN`
+subnets: optional array of string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/asn/$ASN \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": 0
-}
-```
-
-# Subnets
-
-## Get ASN Subnets
-
-**get** `/accounts/{account_id}/intel/asn/{asn}/subnets`
-
-Get ASN Subnets.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `asn: ASN`
-
-### Returns
-
-- `asn: optional ASN`
-
-- `count: optional number`
-
-  Total results returned based on your search parameters.
-
-- `ip_count_total: optional number`
-
-- `page: optional number`
-
-  Current page within paginated list of results.
-
-- `per_page: optional number`
-
-  Number of results per page of results.
-
-- `subnets: optional array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/asn/$ASN/subnets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "asn": 0,
-  "count": 1,
-  "ip_count_total": 0,
-  "page": 1,
-  "per_page": 20,
-  "subnets": [
-    "192.0.2.0/24",
-    "2001:DB8::/32"
-  ]
-}
-```
-
-## Domain Types
-
-### Subnet Get Response
-
-- `SubnetGetResponse object { asn, count, ip_count_total, 3 more }`
-
-  - `asn: optional ASN`
-
-  - `count: optional number`
-
-    Total results returned based on your search parameters.
-
-  - `ip_count_total: optional number`
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `subnets: optional array of string`
+[Link to this property](#)%20intel.asn.subnets%20%3E%20(model)%20subnet_get_response%20%3E%20(schema)>)

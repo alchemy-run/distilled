@@ -1,197 +1,558 @@
-## List email allow policies
+---
+title: List email allow policies
+---
 
-**get** `/accounts/{account_id}/email-security/settings/allow_policies`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+[Allow Policies](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/allow_policies)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List email allow policies
+
+GET/accounts/{account\_id}/email-security/settings/allow\_policies
 
 Returns a paginated list of email allow policies. These policies exempt matching emails from security detection, allowing them to bypass disposition actions. Supports filtering by pattern type and policy attributes.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `direction: optional "asc" or "desc"`
 
-  The sorting direction.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"asc"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"desc"`
+</details>
 
-- `is_acceptable_sender: optional boolean`
+<details>
 
-  Filter to show only policies where messages from the sender are exempted from Spam, Spoof, and Bulk dispositions (not Malicious or Suspicious).
+<summary>API Email + API Key</summary>
 
-- `is_exempt_recipient: optional boolean`
 
-  Filter to show only policies where messages to the recipient bypass all detections.
 
-- `is_trusted_sender: optional boolean`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Filter to show only policies where messages from the sender bypass all detections and link following.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `order: optional "pattern" or "created_at"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Field to sort by.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"pattern"`
+</details>
 
-  - `"created_at"`
+##### Accepted Permissions (at least one required)
 
-- `page: optional number`
+`Cloud Email Security: Write``Cloud Email Security: Read`
 
-  Current page within paginated list of results.
+##### P ath ParametersExpand Collapse
 
-- `pattern: optional string`
+account\_id: string
 
-- `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+Identifier.
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+maxLength32
 
-  - `"EMAIL"`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"DOMAIN"`
+##### Q uery ParametersExpand Collapse
 
-  - `"IP"`
+<details>
 
-  - `"UNKNOWN"`
+<summary>
 
-- `per_page: optional number`
+direction: optional "asc"or "desc"
 
-  The number of results per page. Maximum value is 1000.
+The sorting direction.
 
-- `search: optional string`
+</summary>
 
-  Search term for filtering records. Behavior may change.
+One of the following:
 
-- `verify_sender: optional boolean`
+"asc"
 
-  Filter to show only policies that enforce DMARC, SPF, or DKIM authentication.
+<a href="#">Link to this property</a>
 
-### Returns
+"desc"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+is\_acceptable\_sender: optional boolean
 
-  - `source: optional object { pointer }`
+Filter to show only policies where messages from the sender are exempted from Spam, Spoof, and Bulk dispositions (not Malicious or Suspicious).
 
-    - `pointer: optional string`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20is_acceptable_sender%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+is\_exempt\_recipient: optional boolean
 
-  - `code: number`
+Filter to show only policies where messages to the recipient bypass all detections.
 
-  - `message: string`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20is_exempt_recipient%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+is\_trusted\_sender: optional boolean
 
-  - `source: optional object { pointer }`
+Filter to show only policies where messages from the sender bypass all detections and link following.
 
-    - `pointer: optional string`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20is_trusted_sender%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+order: optional "pattern"or "created\_at"
 
-- `result: optional array of object { id, created_at, last_modified, 12 more }`
+Field to sort by.
 
-  - `id: string`
+</summary>
 
-    Allow policy identifier
+One of the following:
 
-  - `created_at: string`
+"pattern"
 
-  - `last_modified: string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"created\_at"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_acceptable_sender: optional boolean`
+</details>
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-  - `is_exempt_recipient: optional boolean`
+page: optional number
 
-    Messages to this recipient will bypass all detections
+Current page within paginated list of results.
 
-  - `is_recipient: optional boolean`
+minimum1
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `is_regex: optional boolean`
+pattern: optional string
 
-  - `is_sender: optional boolean`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20pattern%20%3E%20(schema)>)
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+<details>
 
-  - `is_spoof: optional boolean`
+<summary>
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `is_trusted_sender: optional boolean`
+Type of pattern matching.
 
-    Messages from this sender will bypass all detections and link following
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `modified_at: optional string`
+</summary>
 
-  - `pattern: optional string`
+One of the following:
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+"EMAIL"
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+"DOMAIN"
 
-    - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+"IP"
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  - `verify_sender: optional boolean`
+"UNKNOWN"
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20pattern_type%20%3E%20(schema)>)
 
-    Total number of results for the requested service.
+per\_page: optional number
 
-  - `page: optional number`
+The number of results per page. Maximum value is 1000.
 
-    Current page within paginated list of results.
+maximum1000
 
-  - `per_page: optional number`
+minimum1
 
-    Number of results per page of results.
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `total_count: optional number`
+search: optional string
 
-    Total results available without any search parameters.
+Search term for filtering records. Behavior may change.
 
-### Example
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
 
-```http
+verify\_sender: optional boolean
+
+Filter to show only policies that enforce DMARC, SPF, or DKIM authentication.
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20verify_sender%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_at, last\_modified, 12 more }
+
+</summary>
+
+id: string
+
+Allow policy identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+is\_acceptable\_sender: optional boolean
+
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
+
+<a href="#">Link to this property</a>
+
+is\_exempt\_recipient: optional boolean
+
+Bypasses all detections for messages to this recipient.
+
+<a href="#">Link to this property</a>
+
+Deprecatedis\_recipient: optional boolean
+
+Use <code>is_exempt_recipient</code> instead.
+
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+Deprecatedis\_sender: optional boolean
+
+Use <code>is_trusted_sender</code> instead.
+
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
+
+<a href="#">Link to this property</a>
+
+Deprecatedis\_spoof: optional boolean
+
+Use <code>is_acceptable_sender</code> instead.
+
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
+
+<a href="#">Link to this property</a>
+
+is\_trusted\_sender: optional boolean
+
+Bypasses all detections and link following for messages from this sender.
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
+
+Type of pattern matching.
+
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
+
+</summary>
+
+One of the following:
+
+"EMAIL"
+
+<a href="#">Link to this property</a>
+
+"DOMAIN"
+
+<a href="#">Link to this property</a>
+
+"IP"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+verify\_sender: optional boolean
+
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List email allow policies
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/allow_policies \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "created_at": "2014-01-01T05:20:00.12345Z",
+      "last_modified": "2014-01-01T05:20:00.12345Z",
+      "comments": "Trust all messages send from test@example.com",
+      "is_acceptable_sender": false,
+      "is_exempt_recipient": false,
+      "is_recipient": false,
+      "is_regex": false,
+      "is_sender": true,
+      "is_spoof": false,
+      "is_trusted_sender": true,
+      "modified_at": "2014-01-01T05:20:00.12345Z",
+      "pattern": "test@example.com",
+      "pattern_type": "EMAIL",
+      "verify_sender": true
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

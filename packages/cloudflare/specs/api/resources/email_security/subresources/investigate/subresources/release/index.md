@@ -1,139 +1,65 @@
+---
+title: Release
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Release
 
-## Release messages from quarantine
+##### [Release messages from quarantine](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/release/methods/bulk)
 
-**post** `/accounts/{account_id}/email-security/investigate/release`
+POST/accounts/{account\_id}/email-security/investigate/release
 
-Releases one or more quarantined messages, delivering them to the intended recipients. Use when a message was incorrectly quarantined. Returns delivery status for each recipient.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+ReleaseBulkResponse object {id, delivered, failed, 2 more }
 
-### Body Parameters
+</summary>
 
-- `body: array of string`
+id: string
 
-### Returns
+Unique identifier for a message retrieved from investigation.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+delivered: optional array of string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+failed: optional array of string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+Deprecatedpostfix\_id: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Use <code>id</code> instead.
 
-  - `code: number`
+Deprecated, use <code>id</code> instead. End of life: November 1, 2026.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+undelivered: optional array of string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `result: array of object { id, delivered, failed, 2 more }`
-
-  - `id: string`
-
-    Unique identifier for a message retrieved from investigation
-
-  - `delivered: optional array of string`
-
-  - `failed: optional array of string`
-
-  - `postfix_id: optional string`
-
-    Deprecated, use `id` instead. End of life: November 1, 2026.
-
-  - `undelivered: optional array of string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/release \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          "4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678"
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678",
-      "delivered": [
-        "string"
-      ],
-      "failed": [
-        "string"
-      ],
-      "postfix_id": "4Njp3P0STMz2c02Q",
-      "undelivered": [
-        "string"
-      ]
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Release Bulk Response
-
-- `ReleaseBulkResponse object { id, delivered, failed, 2 more }`
-
-  - `id: string`
-
-    Unique identifier for a message retrieved from investigation
-
-  - `delivered: optional array of string`
-
-  - `failed: optional array of string`
-
-  - `postfix_id: optional string`
-
-    Deprecated, use `id` instead. End of life: November 1, 2026.
-
-  - `undelivered: optional array of string`
+[Link to this property](#)%20email_security.investigate.release%20%3E%20(model)%20release_bulk_response%20%3E%20(schema)>)

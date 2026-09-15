@@ -1,6666 +1,3369 @@
+---
+title: Tunnels
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tunnels
 
-## List All Tunnels
+##### [List All Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/methods/list)
 
-**get** `/accounts/{account_id}/tunnels`
+GET/accounts/{account\_id}/tunnels
 
-Lists and filters all types of Tunnels in an account.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Cloudflare account ID
+Connection object {colo\_name, is\_pending\_reconnect, uuid }
 
-### Query Parameters
+</summary>
 
-- `exclude_prefix: optional string`
+colo\_name: optional string
 
-- `existed_at: optional string`
+The Cloudflare data center used for this connection.
 
-  If provided, include only resources that were created (and not deleted) before this time. URL encoded.
+<a href="#">Link to this property</a>
 
-- `include_prefix: optional string`
+Deprecatedis\_pending\_reconnect: optional boolean
 
-- `is_deleted: optional boolean`
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-  If `true`, only include deleted tunnels. If `false`, exclude deleted tunnels. If empty, all tunnels will be included.
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  A user-friendly name for the tunnel.
+uuid: optional string
 
-- `page: optional number`
+UUID of the Cloudflare Tunnel connection.
 
-  Page number of paginated results.
+formatuuid
 
-- `per_page: optional number`
+maxLength36
 
-  Number of results to display.
+<a href="#">Link to this property</a>
 
-- `status: optional "inactive" or "degraded" or "healthy" or "down"`
+</details>
 
-  The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+[Link to this property](#)%20zero_trust.tunnels%20%3E%20(model)%20connection%20%3E%20(schema)>)
 
-  - `"inactive"`
+<details>
 
-  - `"degraded"`
+<summary>
 
-  - `"healthy"`
+TunnelListResponse = <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20cloudflare_tunnel%20%3E%20(schema)">CloudflareTunnel</a> { id, account\_tag, config\_src, 10 more } or object {id, account\_tag, connections, 8 more }
 
-  - `"down"`
+A Cloudflare Tunnel that connects your origin to Cloudflare’s edge.
 
-- `tun_types: optional array of "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+</summary>
 
-  The types of tunnels to filter by, separated by commas.
+One of the following:
 
-  - `"cfd_tunnel"`
+<details>
 
-  - `"warp_connector"`
+<summary>
 
-  - `"warp"`
+CloudflareTunnel object {id, account\_tag, config\_src, 10 more }
 
-  - `"magic"`
+A Cloudflare Tunnel that connects your origin to Cloudflare’s edge.
 
-  - `"ip_sec"`
+</summary>
 
-  - `"gre"`
+id: optional string
 
-  - `"cni"`
+UUID of the tunnel.
 
-- `uuid: optional string`
+formatuuid
 
-  UUID of the tunnel.
+maxLength36
 
-- `was_active_at: optional string`
+<a href="#">Link to this property</a>
 
-- `was_inactive_at: optional string`
+account\_tag: optional string
 
-### Returns
+Cloudflare account ID
 
-- `errors: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+config\_src: optional "local"or "cloudflare"
 
-    - `pointer: optional string`
+Indicates if this is a locally or remotely configured tunnel. If <code>local</code>, manage the tunnel using a YAML file on the origin machine. If <code>cloudflare</code>, manage the tunnel on the Zero Trust dashboard.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"local"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"cloudflare"
 
-- `result: array of CloudflareTunnel or object { id, account_tag, connections, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `CloudflareTunnel object { id, account_tag, config_src, 10 more }`
+</details>
 
-    A Cloudflare Tunnel that connects your origin to Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+<details>
 
-      UUID of the tunnel.
+<summary>
 
-    - `account_tag: optional string`
+Deprecatedconnections: optional array of object {id, client\_id, client\_version, 5 more }
 
-      Cloudflare account ID
+This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint <code>/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections</code>
 
-    - `config_src: optional "local" or "cloudflare"`
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-      Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+</summary>
 
-      - `"local"`
+id: optional string
 
-      - `"cloudflare"`
+UUID of the Cloudflare Tunnel connection.
 
-    - `connections: optional array of object { id, client_id, client_version, 5 more }`
+formatuuid
 
-      The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+maxLength36
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        UUID of the Cloudflare Tunnel connection.
+client\_id: optional string
 
-      - `client_id: optional string`
+UUID of the Cloudflare Tunnel connector.
 
-        UUID of the Cloudflare Tunnel connector.
+formatuuid
 
-      - `client_version: optional string`
+maxLength36
 
-        The cloudflared version used to establish this connection.
+<a href="#">Link to this property</a>
 
-      - `colo_name: optional string`
+client\_version: optional string
 
-        The Cloudflare data center used for this connection.
+The cloudflared version used to establish this connection.
 
-      - `is_pending_reconnect: optional boolean`
+<a href="#">Link to this property</a>
 
-        Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+colo\_name: optional string
 
-      - `opened_at: optional string`
+The Cloudflare data center used for this connection.
 
-        Timestamp of when the connection was established.
+<a href="#">Link to this property</a>
 
-      - `origin_ip: optional string`
+Deprecatedis\_pending\_reconnect: optional boolean
 
-        The public IP address of the host running cloudflared.
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-      - `uuid: optional string`
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-        UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-    - `conns_active_at: optional string`
+opened\_at: optional string
 
-      Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+Timestamp of when the connection was established.
 
-    - `conns_inactive_at: optional string`
+formatdate-time
 
-      Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+<a href="#">Link to this property</a>
 
-    - `created_at: optional string`
+origin\_ip: optional string
 
-      Timestamp of when the resource was created.
+The public IP address of the host running cloudflared.
 
-    - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+uuid: optional string
 
-    - `metadata: optional unknown`
+UUID of the Cloudflare Tunnel connection.
 
-      Metadata associated with the tunnel.
+formatuuid
 
-    - `name: optional string`
+maxLength36
 
-      A user-friendly name for a tunnel.
+<a href="#">Link to this property</a>
 
-    - `remote_config: optional boolean`
+</details>
 
-      If `true`, the tunnel can be configured remotely from the Zero Trust dashboard. If `false`, the tunnel must be configured locally on the origin machine.
+<a href="#">Link to this property</a>
 
-    - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+conns\_active\_at: optional string
 
-      The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+Timestamp of when the tunnel established at least one connection to Cloudflare’s edge. If <code>null</code>, the tunnel is inactive.
 
-      - `"inactive"`
+formatdate-time
 
-      - `"degraded"`
+<a href="#">Link to this property</a>
 
-      - `"healthy"`
+conns\_inactive\_at: optional string
 
-      - `"down"`
+Timestamp of when the tunnel became inactive (no connections to Cloudflare’s edge). If <code>null</code>, the tunnel is active.
 
-    - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+formatdate-time
 
-      The type of tunnel.
+<a href="#">Link to this property</a>
 
-      - `"cfd_tunnel"`
+created\_at: optional string
 
-      - `"warp_connector"`
+Timestamp of when the resource was created.
 
-      - `"warp"`
+formatdate-time
 
-      - `"magic"`
+<a href="#">Link to this property</a>
 
-      - `"ip_sec"`
+deleted\_at: optional string
 
-      - `"gre"`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-      - `"cni"`
+formatdate-time
 
-  - `TunnelWARPConnectorTunnel object { id, account_tag, connections, 8 more }`
+<a href="#">Link to this property</a>
 
-    A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
+metadata: optional unknown
 
-    - `id: optional string`
+Metadata associated with the tunnel.
 
-      UUID of the tunnel.
+<a href="#">Link to this property</a>
 
-    - `account_tag: optional string`
+name: optional string
 
-      Cloudflare account ID
+A user-friendly name for a tunnel.
 
-    - `connections: optional array of object { id, client_id, client_version, 5 more }`
+<a href="#">Link to this property</a>
 
-      The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+Deprecatedremote\_config: optional boolean
 
-      - `id: optional string`
+Use the config\_src field instead.
 
-        UUID of the Cloudflare Tunnel connection.
+If <code>true</code>, the tunnel can be configured remotely from the Zero Trust dashboard. If <code>false</code>, the tunnel must be configured locally on the origin machine.
 
-      - `client_id: optional string`
+<a href="#">Link to this property</a>
 
-        UUID of the Cloudflare Tunnel connector.
+<details>
 
-      - `client_version: optional string`
+<summary>
 
-        The cloudflared version used to establish this connection.
+status: optional "inactive"or "degraded"or "healthy"or "down"
 
-      - `colo_name: optional string`
+The status of the tunnel. Valid values are <code>inactive</code> (tunnel has never been run), <code>degraded</code> (tunnel is active and able to serve traffic but in an unhealthy state), <code>healthy</code> (tunnel is active and able to serve traffic), or <code>down</code> (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
 
-        The Cloudflare data center used for this connection.
+</summary>
 
-      - `is_pending_reconnect: optional boolean`
+One of the following:
 
-        Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+"inactive"
 
-      - `opened_at: optional string`
+<a href="#">Link to this property</a>
 
-        Timestamp of when the connection was established.
+"degraded"
 
-      - `origin_ip: optional string`
+<a href="#">Link to this property</a>
 
-        The public IP address of the host running cloudflared.
+"healthy"
 
-      - `uuid: optional string`
+<a href="#">Link to this property</a>
 
-        UUID of the Cloudflare Tunnel connection.
+"down"
 
-    - `conns_active_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+</details>
 
-    - `conns_inactive_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+<details>
 
-    - `created_at: optional string`
+<summary>
 
-      Timestamp of when the resource was created.
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-    - `deleted_at: optional string`
+The type of tunnel.
 
-      Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+</summary>
 
-    - `metadata: optional unknown`
+One of the following:
 
-      Metadata associated with the tunnel.
+"cfd\_tunnel"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      A user-friendly name for a tunnel.
+"warp\_connector"
 
-    - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+<a href="#">Link to this property</a>
 
-      The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+"warp"
 
-      - `"inactive"`
+<a href="#">Link to this property</a>
 
-      - `"degraded"`
+"magic"
 
-      - `"healthy"`
+<a href="#">Link to this property</a>
 
-      - `"down"`
+"ip\_sec"
 
-    - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+<a href="#">Link to this property</a>
 
-      The type of tunnel.
+"gre"
 
-      - `"cfd_tunnel"`
+<a href="#">Link to this property</a>
 
-      - `"warp_connector"`
+"cni"
 
-      - `"warp"`
+<a href="#">Link to this property</a>
 
-      - `"magic"`
+</details>
 
-      - `"ip_sec"`
+<a href="#">Link to this property</a>
 
-      - `"gre"`
+</details>
 
-      - `"cni"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+TunnelWARPConnectorTunnel object {id, account\_tag, connections, 8 more }
 
-- `result_info: optional object { count, page, per_page, total_count }`
+A Warp Connector Tunnel that connects your origin to Cloudflare’s edge.
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service
+id: optional string
 
-  - `page: optional number`
+UUID of the tunnel.
 
-    Current page within paginated list of results
+formatuuid
 
-  - `per_page: optional number`
+maxLength36
 
-    Number of results per page of results
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+account\_tag: optional string
 
-    Total results available without any search parameters
+Cloudflare account ID
 
-### Example
+maxLength32
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tunnels \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "account_tag": "699d98642c564d2e855e9661899b7252",
-      "config_src": "cloudflare",
-      "connections": [
-        {
-          "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_version": "2022.7.1",
-          "colo_name": "DFW",
-          "is_pending_reconnect": false,
-          "opened_at": "2021-01-25T18:22:34.317854Z",
-          "origin_ip": "10.1.0.137",
-          "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-        }
-      ],
-      "conns_active_at": "2009-11-10T23:00:00Z",
-      "conns_inactive_at": "2009-11-10T23:00:00Z",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "deleted_at": "2009-11-10T23:00:00.000000Z",
-      "metadata": {},
-      "name": "blog",
-      "remote_config": true,
-      "status": "healthy",
-      "tun_type": "cfd_tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<summary>
 
-## Domain Types
+Deprecatedconnections: optional array of object {id, client\_id, client\_version, 5 more }
 
-### Connection
+This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint <code>/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections</code>
 
-- `Connection object { colo_name, is_pending_reconnect, uuid }`
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-  - `colo_name: optional string`
+</summary>
 
-    The Cloudflare data center used for this connection.
+id: optional string
 
-  - `is_pending_reconnect: optional boolean`
+UUID of the Cloudflare Tunnel connection.
 
-    Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+formatuuid
 
-  - `uuid: optional string`
+maxLength36
 
-    UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-### Tunnel List Response
+client\_id: optional string
 
-- `TunnelListResponse = CloudflareTunnel or object { id, account_tag, connections, 8 more }`
+UUID of the Cloudflare Tunnel connector.
 
-  A Cloudflare Tunnel that connects your origin to Cloudflare's edge.
+formatuuid
 
-  - `CloudflareTunnel object { id, account_tag, config_src, 10 more }`
+maxLength36
 
-    A Cloudflare Tunnel that connects your origin to Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+client\_version: optional string
 
-      UUID of the tunnel.
+The cloudflared version used to establish this connection.
 
-    - `account_tag: optional string`
+<a href="#">Link to this property</a>
 
-      Cloudflare account ID
+colo\_name: optional string
 
-    - `config_src: optional "local" or "cloudflare"`
+The Cloudflare data center used for this connection.
 
-      Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+<a href="#">Link to this property</a>
 
-      - `"local"`
+Deprecatedis\_pending\_reconnect: optional boolean
 
-      - `"cloudflare"`
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-    - `connections: optional array of object { id, client_id, client_version, 5 more }`
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-      The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+opened\_at: optional string
 
-        UUID of the Cloudflare Tunnel connection.
+Timestamp of when the connection was established.
 
-      - `client_id: optional string`
+formatdate-time
 
-        UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-      - `client_version: optional string`
+origin\_ip: optional string
 
-        The cloudflared version used to establish this connection.
+The public IP address of the host running cloudflared.
 
-      - `colo_name: optional string`
+<a href="#">Link to this property</a>
 
-        The Cloudflare data center used for this connection.
+uuid: optional string
 
-      - `is_pending_reconnect: optional boolean`
+UUID of the Cloudflare Tunnel connection.
 
-        Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+formatuuid
 
-      - `opened_at: optional string`
+maxLength36
 
-        Timestamp of when the connection was established.
+<a href="#">Link to this property</a>
 
-      - `origin_ip: optional string`
+</details>
 
-        The public IP address of the host running cloudflared.
+<a href="#">Link to this property</a>
 
-      - `uuid: optional string`
+conns\_active\_at: optional string
 
-        UUID of the Cloudflare Tunnel connection.
+Timestamp of when the tunnel established at least one connection to Cloudflare’s edge. If <code>null</code>, the tunnel is inactive.
 
-    - `conns_active_at: optional string`
+formatdate-time
 
-      Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+<a href="#">Link to this property</a>
 
-    - `conns_inactive_at: optional string`
+conns\_inactive\_at: optional string
 
-      Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+Timestamp of when the tunnel became inactive (no connections to Cloudflare’s edge). If <code>null</code>, the tunnel is active.
 
-    - `created_at: optional string`
+formatdate-time
 
-      Timestamp of when the resource was created.
+<a href="#">Link to this property</a>
 
-    - `deleted_at: optional string`
+created\_at: optional string
 
-      Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+Timestamp of when the resource was created.
 
-    - `metadata: optional unknown`
+formatdate-time
 
-      Metadata associated with the tunnel.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+deleted\_at: optional string
 
-      A user-friendly name for a tunnel.
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-    - `remote_config: optional boolean`
+formatdate-time
 
-      If `true`, the tunnel can be configured remotely from the Zero Trust dashboard. If `false`, the tunnel must be configured locally on the origin machine.
+<a href="#">Link to this property</a>
 
-    - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+metadata: optional unknown
 
-      The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+Metadata associated with the tunnel.
 
-      - `"inactive"`
+<a href="#">Link to this property</a>
 
-      - `"degraded"`
+name: optional string
 
-      - `"healthy"`
+A user-friendly name for a tunnel.
 
-      - `"down"`
+<a href="#">Link to this property</a>
 
-    - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+<details>
 
-      The type of tunnel.
+<summary>
 
-      - `"cfd_tunnel"`
+status: optional "inactive"or "degraded"or "healthy"or "down"
 
-      - `"warp_connector"`
+The status of the tunnel. Valid values are <code>inactive</code> (tunnel has never been run), <code>degraded</code> (tunnel is active and able to serve traffic but in an unhealthy state), <code>healthy</code> (tunnel is active and able to serve traffic), or <code>down</code> (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
 
-      - `"warp"`
+</summary>
 
-      - `"magic"`
+One of the following:
 
-      - `"ip_sec"`
+"inactive"
 
-      - `"gre"`
+<a href="#">Link to this property</a>
 
-      - `"cni"`
+"degraded"
 
-  - `TunnelWARPConnectorTunnel object { id, account_tag, connections, 8 more }`
+<a href="#">Link to this property</a>
 
-    A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
+"healthy"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID of the tunnel.
+"down"
 
-    - `account_tag: optional string`
+<a href="#">Link to this property</a>
 
-      Cloudflare account ID
+</details>
 
-    - `connections: optional array of object { id, client_id, client_version, 5 more }`
+<a href="#">Link to this property</a>
 
-      The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        UUID of the Cloudflare Tunnel connection.
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-      - `client_id: optional string`
+The type of tunnel.
 
-        UUID of the Cloudflare Tunnel connector.
+</summary>
 
-      - `client_version: optional string`
+One of the following:
 
-        The cloudflared version used to establish this connection.
+"cfd\_tunnel"
 
-      - `colo_name: optional string`
+<a href="#">Link to this property</a>
 
-        The Cloudflare data center used for this connection.
+"warp\_connector"
 
-      - `is_pending_reconnect: optional boolean`
+<a href="#">Link to this property</a>
 
-        Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+"warp"
 
-      - `opened_at: optional string`
+<a href="#">Link to this property</a>
 
-        Timestamp of when the connection was established.
+"magic"
 
-      - `origin_ip: optional string`
+<a href="#">Link to this property</a>
 
-        The public IP address of the host running cloudflared.
+"ip\_sec"
 
-      - `uuid: optional string`
+<a href="#">Link to this property</a>
 
-        UUID of the Cloudflare Tunnel connection.
+"gre"
 
-    - `conns_active_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+"cni"
 
-    - `conns_inactive_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+</details>
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the resource was created.
+</details>
 
-    - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+</details>
 
-    - `metadata: optional unknown`
+[Link to this property](#)%20zero_trust.tunnels%20%3E%20(model)%20tunnel_list_response%20%3E%20(schema)>)
 
-      Metadata associated with the tunnel.
+#### TunnelsCloudflared
 
-    - `name: optional string`
+##### [List Cloudflare Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/methods/list)
 
-      A user-friendly name for a tunnel.
+GET/accounts/{account\_id}/cfd\_tunnel
 
-    - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+##### [Get a Cloudflare Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/methods/get)
 
-      The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+GET/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}
 
-      - `"inactive"`
+##### [Create a Cloudflare Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/methods/create)
 
-      - `"degraded"`
+POST/accounts/{account\_id}/cfd\_tunnel
 
-      - `"healthy"`
+##### [Update a Cloudflare Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/methods/edit)
 
-      - `"down"`
+PATCH/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}
 
-    - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+##### [Delete a Cloudflare Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/methods/delete)
 
-      The type of tunnel.
+DELETE/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}
 
-      - `"cfd_tunnel"`
+#### TunnelsCloudflaredConfigurations
 
-      - `"warp_connector"`
+##### [Get Tunnel configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/configurations/methods/get)
 
-      - `"warp"`
+GET/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/configurations
 
-      - `"magic"`
+##### [Update Tunnel configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/configurations/methods/update)
 
-      - `"ip_sec"`
+PUT/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/configurations
 
-      - `"gre"`
+##### ModelsExpand Collapse
 
-      - `"cni"`
+<details>
 
-# Cloudflared
+<summary>
 
-## List Cloudflare Tunnels
+ConfigurationGetResponse object {account\_id, config, created\_at, 3 more }
 
-**get** `/accounts/{account_id}/cfd_tunnel`
+Cloudflare Tunnel configuration
 
-Lists and filters Cloudflare Tunnels in an account.
+</summary>
 
-### Path Parameters
+account\_id: optional string
 
-- `account_id: string`
+Identifier.
 
-  Cloudflare account ID
+maxLength32
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `exclude_prefix: optional string`
+<details>
 
-- `existed_at: optional string`
+<summary>
 
-  If provided, include only resources that were created (and not deleted) before this time. URL encoded.
+config: optional object {ingress, originRequest }
 
-- `include_prefix: optional string`
+The tunnel configuration and ingress rules.
 
-- `is_deleted: optional boolean`
+</summary>
 
-  If `true`, only include deleted tunnels. If `false`, exclude deleted tunnels. If empty, all tunnels will be included.
+<details>
 
-- `name: optional string`
+<summary>
 
-  A user-friendly name for a tunnel.
+ingress: optional array of object {hostname, service, originRequest, path }
 
-- `page: optional number`
+List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel.
 
-  Page number of paginated results.
+</summary>
 
-- `per_page: optional number`
+hostname: string
 
-  Number of results to display.
+Public hostname for this service.
 
-- `status: optional "inactive" or "degraded" or "healthy" or "down"`
+<a href="#">Link to this property</a>
 
-  The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+service: string
 
-  - `"inactive"`
+Protocol and address of destination server. Supported protocols: http://, https://, unix://, tcp://, ssh://, rdp://, unix+tls://, smb://. Alternatively can return a HTTP status code http\_status:\[code] e.g. ‘http\_status:404’.
 
-  - `"degraded"`
+<a href="#">Link to this property</a>
 
-  - `"healthy"`
+<details>
 
-  - `"down"`
+<summary>
 
-- `uuid: optional string`
+originRequest: optional object {access, caPool, connectTimeout, 12 more }
 
-  UUID of the tunnel.
+Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
 
-- `was_active_at: optional string`
+</summary>
 
-- `was_inactive_at: optional string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+access: optional object {audTag, teamName, required }
 
-  - `code: number`
+For all L7 requests to this hostname, cloudflared will validate each request’s Cf-Access-Jwt-Assertion request header.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+audTag: array of string
 
-  - `source: optional object { pointer }`
+Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+teamName: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+required: optional boolean
 
-  - `documentation_url: optional string`
+Deny traffic that has not fulfilled Access authorization.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of CloudflareTunnel`
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID of the tunnel.
+caPool: optional string
 
-  - `account_tag: optional string`
+Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
 
-    Cloudflare account ID
+<a href="#">Link to this property</a>
 
-  - `config_src: optional "local" or "cloudflare"`
+connectTimeout: optional number
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
 
-    - `"local"`
+<a href="#">Link to this property</a>
 
-    - `"cloudflare"`
+disableChunkedEncoding: optional boolean
 
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
+Disables chunked transfer encoding. Useful if you are running a WSGI server.
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+http2Origin: optional boolean
 
-      UUID of the Cloudflare Tunnel connection.
+Attempt to connect to origin using HTTP2. Origin must be configured as https.
 
-    - `client_id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID of the Cloudflare Tunnel connector.
+httpHostHeader: optional string
 
-    - `client_version: optional string`
+Sets the HTTP Host header on requests sent to the local service.
 
-      The cloudflared version used to establish this connection.
+<a href="#">Link to this property</a>
 
-    - `colo_name: optional string`
+keepAliveConnections: optional number
 
-      The Cloudflare data center used for this connection.
+Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
 
-    - `is_pending_reconnect: optional boolean`
+<a href="#">Link to this property</a>
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+keepAliveTimeout: optional number
 
-    - `opened_at: optional string`
+Timeout after which an idle keepalive connection can be discarded.
 
-      Timestamp of when the connection was established.
+<a href="#">Link to this property</a>
 
-    - `origin_ip: optional string`
+matchSNItoHost: optional boolean
 
-      The public IP address of the host running cloudflared.
+Auto configure the Hostname on the origin server certificate.
 
-    - `uuid: optional string`
+<a href="#">Link to this property</a>
 
-      UUID of the Cloudflare Tunnel connection.
+noHappyEyeballs: optional boolean
 
-  - `conns_active_at: optional string`
+Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
 
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+<a href="#">Link to this property</a>
 
-  - `conns_inactive_at: optional string`
+noTLSVerify: optional boolean
 
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was created.
+originServerName: optional string
 
-  - `deleted_at: optional string`
+Hostname that cloudflared should expect from your origin server certificate.
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+<a href="#">Link to this property</a>
 
-  - `metadata: optional unknown`
+proxyType: optional string
 
-    Metadata associated with the tunnel.
+cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and “socks” for a SOCKS5 proxy.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for a tunnel.
+tcpKeepAlive: optional number
 
-  - `remote_config: optional boolean`
+The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
 
-    If `true`, the tunnel can be configured remotely from the Zero Trust dashboard. If `false`, the tunnel must be configured locally on the origin machine.
+<a href="#">Link to this property</a>
 
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+tlsTimeout: optional number
 
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
 
-    - `"inactive"`
+<a href="#">Link to this property</a>
 
-    - `"degraded"`
+</details>
 
-    - `"healthy"`
+<a href="#">Link to this property</a>
 
-    - `"down"`
+path: optional string
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+Requests with this path route to this public hostname.
 
-    The type of tunnel.
+<a href="#">Link to this property</a>
 
-    - `"cfd_tunnel"`
+</details>
 
-    - `"warp_connector"`
+<a href="#">Link to this property</a>
 
-    - `"warp"`
+<details>
 
-    - `"magic"`
+<summary>
 
-    - `"ip_sec"`
+originRequest: optional object {access, caPool, connectTimeout, 12 more }
 
-    - `"gre"`
+Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
 
-    - `"cni"`
+</summary>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+access: optional object {audTag, teamName, required }
 
-- `result_info: optional object { count, page, per_page, total_count }`
+For all L7 requests to this hostname, cloudflared will validate each request’s Cf-Access-Jwt-Assertion request header.
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service
+audTag: array of string
 
-  - `page: optional number`
+Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+teamName: string
 
-    Number of results per page of results
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+required: optional boolean
 
-    Total results available without any search parameters
+Deny traffic that has not fulfilled Access authorization.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "account_tag": "699d98642c564d2e855e9661899b7252",
-      "config_src": "cloudflare",
-      "connections": [
-        {
-          "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_version": "2022.7.1",
-          "colo_name": "DFW",
-          "is_pending_reconnect": false,
-          "opened_at": "2021-01-25T18:22:34.317854Z",
-          "origin_ip": "10.1.0.137",
-          "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-        }
-      ],
-      "conns_active_at": "2009-11-10T23:00:00Z",
-      "conns_inactive_at": "2009-11-10T23:00:00Z",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "deleted_at": "2009-11-10T23:00:00.000000Z",
-      "metadata": {},
-      "name": "blog",
-      "remote_config": true,
-      "status": "healthy",
-      "tun_type": "cfd_tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+caPool: optional string
 
-## Get a Cloudflare Tunnel
+Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
 
-**get** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}`
+<a href="#">Link to this property</a>
 
-Fetches a single Cloudflare Tunnel.
+connectTimeout: optional number
 
-### Path Parameters
+Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Cloudflare account ID
+disableChunkedEncoding: optional boolean
 
-- `tunnel_id: string`
+Disables chunked transfer encoding. Useful if you are running a WSGI server.
 
-  UUID of the tunnel.
+<a href="#">Link to this property</a>
 
-### Returns
+http2Origin: optional boolean
 
-- `errors: array of ResponseInfo`
+Attempt to connect to origin using HTTP2. Origin must be configured as https.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+httpHostHeader: optional string
 
-  - `documentation_url: optional string`
+Sets the HTTP Host header on requests sent to the local service.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+keepAliveConnections: optional number
 
-- `messages: array of ResponseInfo`
+Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+keepAliveTimeout: optional number
 
-  - `documentation_url: optional string`
+Timeout after which an idle keepalive connection can be discarded.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: CloudflareTunnel`
+matchSNItoHost: optional boolean
 
-  A Cloudflare Tunnel that connects your origin to Cloudflare's edge.
+Auto configure the Hostname on the origin server certificate.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID of the tunnel.
+noHappyEyeballs: optional boolean
 
-  - `account_tag: optional string`
+Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
 
-    Cloudflare account ID
+<a href="#">Link to this property</a>
 
-  - `config_src: optional "local" or "cloudflare"`
+noTLSVerify: optional boolean
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
 
-    - `"local"`
+<a href="#">Link to this property</a>
 
-    - `"cloudflare"`
+originServerName: optional string
 
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
+Hostname that cloudflared should expect from your origin server certificate.
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+proxyType: optional string
 
-      UUID of the Cloudflare Tunnel connection.
+cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and “socks” for a SOCKS5 proxy.
 
-    - `client_id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID of the Cloudflare Tunnel connector.
+tcpKeepAlive: optional number
 
-    - `client_version: optional string`
+The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
 
-      The cloudflared version used to establish this connection.
+<a href="#">Link to this property</a>
 
-    - `colo_name: optional string`
+tlsTimeout: optional number
 
-      The Cloudflare data center used for this connection.
+Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
 
-    - `is_pending_reconnect: optional boolean`
+<a href="#">Link to this property</a>
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+</details>
 
-    - `opened_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the connection was established.
+</details>
 
-    - `origin_ip: optional string`
+<a href="#">Link to this property</a>
 
-      The public IP address of the host running cloudflared.
+created\_at: optional string
 
-    - `uuid: optional string`
+formatdate-time
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-  - `conns_active_at: optional string`
+<details>
 
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+<summary>
 
-  - `conns_inactive_at: optional string`
+source: optional "local"or "cloudflare"
 
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+Indicates if this is a locally or remotely configured tunnel. If <code>local</code>, manage the tunnel using a YAML file on the origin machine. If <code>cloudflare</code>, manage the tunnel’s configuration on the Zero Trust dashboard.
 
-  - `created_at: optional string`
+</summary>
 
-    Timestamp of when the resource was created.
+One of the following:
 
-  - `deleted_at: optional string`
+"local"
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+<a href="#">Link to this property</a>
 
-  - `metadata: optional unknown`
+"cloudflare"
 
-    Metadata associated with the tunnel.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    A user-friendly name for a tunnel.
+<a href="#">Link to this property</a>
 
-  - `remote_config: optional boolean`
+tunnel\_id: optional string
 
-    If `true`, the tunnel can be configured remotely from the Zero Trust dashboard. If `false`, the tunnel must be configured locally on the origin machine.
+UUID of the tunnel.
 
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+formatuuid
 
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+maxLength36
 
-    - `"inactive"`
+<a href="#">Link to this property</a>
 
-    - `"degraded"`
+version: optional number
 
-    - `"healthy"`
+The version of the Tunnel Configuration.
 
-    - `"down"`
+<a href="#">Link to this property</a>
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+</details>
 
-    The type of tunnel.
+[Link to this property](#)%20zero_trust.tunnels.cloudflared.configurations%20%3E%20(model)%20configuration_get_response%20%3E%20(schema)>)
 
-    - `"cfd_tunnel"`
+<details>
 
-    - `"warp_connector"`
+<summary>
 
-    - `"warp"`
+ConfigurationUpdateResponse object {account\_id, config, created\_at, 3 more }
 
-    - `"magic"`
+Cloudflare Tunnel configuration
 
-    - `"ip_sec"`
+</summary>
 
-    - `"gre"`
+account\_id: optional string
 
-    - `"cni"`
+Identifier.
 
-- `success: true`
+maxLength32
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+config: optional object {ingress, originRequest }
 
-#### Response
+The tunnel configuration and ingress rules.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "account_tag": "699d98642c564d2e855e9661899b7252",
-    "config_src": "cloudflare",
-    "connections": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "conns_active_at": "2009-11-10T23:00:00Z",
-    "conns_inactive_at": "2009-11-10T23:00:00Z",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "metadata": {},
-    "name": "blog",
-    "remote_config": true,
-    "status": "healthy",
-    "tun_type": "cfd_tunnel"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Create a Cloudflare Tunnel
+<details>
 
-**post** `/accounts/{account_id}/cfd_tunnel`
+<summary>
 
-Creates a new Cloudflare Tunnel in an account.
+ingress: optional array of object {hostname, service, originRequest, path }
 
-### Path Parameters
+List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel.
 
-- `account_id: string`
+</summary>
 
-  Cloudflare account ID
+hostname: string
 
-### Body Parameters
+Public hostname for this service.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  A user-friendly name for a tunnel.
+service: string
 
-- `config_src: optional "local" or "cloudflare"`
+Protocol and address of destination server. Supported protocols: http://, https://, unix://, tcp://, ssh://, rdp://, unix+tls://, smb://. Alternatively can return a HTTP status code http\_status:\[code] e.g. ‘http\_status:404’.
 
-  Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+<a href="#">Link to this property</a>
 
-  - `"local"`
+<details>
 
-  - `"cloudflare"`
+<summary>
 
-- `tunnel_secret: optional string`
+originRequest: optional object {access, caPool, connectTimeout, 12 more }
 
-  Sets the password required to run a locally-managed tunnel. Must be at least 32 bytes and encoded as a base64 string.
+Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+access: optional object {audTag, teamName, required }
 
-  - `documentation_url: optional string`
+For all L7 requests to this hostname, cloudflared will validate each request’s Cf-Access-Jwt-Assertion request header.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+audTag: array of string
 
-- `messages: array of ResponseInfo`
+Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+teamName: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+required: optional boolean
 
-- `result: CloudflareTunnel`
+Deny traffic that has not fulfilled Access authorization.
 
-  A Cloudflare Tunnel that connects your origin to Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    UUID of the tunnel.
+<a href="#">Link to this property</a>
 
-  - `account_tag: optional string`
+caPool: optional string
 
-    Cloudflare account ID
+Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
 
-  - `config_src: optional "local" or "cloudflare"`
+<a href="#">Link to this property</a>
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+connectTimeout: optional number
 
-    - `"local"`
+Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
 
-    - `"cloudflare"`
+<a href="#">Link to this property</a>
 
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
+disableChunkedEncoding: optional boolean
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+Disables chunked transfer encoding. Useful if you are running a WSGI server.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID of the Cloudflare Tunnel connection.
+http2Origin: optional boolean
 
-    - `client_id: optional string`
+Attempt to connect to origin using HTTP2. Origin must be configured as https.
 
-      UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-    - `client_version: optional string`
+httpHostHeader: optional string
 
-      The cloudflared version used to establish this connection.
+Sets the HTTP Host header on requests sent to the local service.
 
-    - `colo_name: optional string`
+<a href="#">Link to this property</a>
 
-      The Cloudflare data center used for this connection.
+keepAliveConnections: optional number
 
-    - `is_pending_reconnect: optional boolean`
+Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+<a href="#">Link to this property</a>
 
-    - `opened_at: optional string`
+keepAliveTimeout: optional number
 
-      Timestamp of when the connection was established.
+Timeout after which an idle keepalive connection can be discarded.
 
-    - `origin_ip: optional string`
+<a href="#">Link to this property</a>
 
-      The public IP address of the host running cloudflared.
+matchSNItoHost: optional boolean
 
-    - `uuid: optional string`
+Auto configure the Hostname on the origin server certificate.
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-  - `conns_active_at: optional string`
+noHappyEyeballs: optional boolean
 
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
 
-  - `conns_inactive_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+noTLSVerify: optional boolean
 
-  - `created_at: optional string`
+Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
 
-    Timestamp of when the resource was created.
+<a href="#">Link to this property</a>
 
-  - `deleted_at: optional string`
+originServerName: optional string
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+Hostname that cloudflared should expect from your origin server certificate.
 
-  - `metadata: optional unknown`
+<a href="#">Link to this property</a>
 
-    Metadata associated with the tunnel.
+proxyType: optional string
 
-  - `name: optional string`
+cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and “socks” for a SOCKS5 proxy.
 
-    A user-friendly name for a tunnel.
+<a href="#">Link to this property</a>
 
-  - `remote_config: optional boolean`
+tcpKeepAlive: optional number
 
-    If `true`, the tunnel can be configured remotely from the Zero Trust dashboard. If `false`, the tunnel must be configured locally on the origin machine.
+The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
 
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+<a href="#">Link to this property</a>
 
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+tlsTimeout: optional number
 
-    - `"inactive"`
+Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
 
-    - `"degraded"`
+<a href="#">Link to this property</a>
 
-    - `"healthy"`
+</details>
 
-    - `"down"`
+<a href="#">Link to this property</a>
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+path: optional string
 
-    The type of tunnel.
+Requests with this path route to this public hostname.
 
-    - `"cfd_tunnel"`
+<a href="#">Link to this property</a>
 
-    - `"warp_connector"`
+</details>
 
-    - `"warp"`
+<a href="#">Link to this property</a>
 
-    - `"magic"`
+<details>
 
-    - `"ip_sec"`
+<summary>
 
-    - `"gre"`
+originRequest: optional object {access, caPool, connectTimeout, 12 more }
 
-    - `"cni"`
+Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+<details>
 
-  - `true`
+<summary>
 
-### Example
+access: optional object {audTag, teamName, required }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "blog",
-          "config_src": "cloudflare",
-          "tunnel_secret": "AQIDBAUGBwgBAgMEBQYHCAECAwQFBgcIAQIDBAUGBwg="
-        }'
-```
+For all L7 requests to this hostname, cloudflared will validate each request’s Cf-Access-Jwt-Assertion request header.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "account_tag": "699d98642c564d2e855e9661899b7252",
-    "config_src": "cloudflare",
-    "connections": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "conns_active_at": "2009-11-10T23:00:00Z",
-    "conns_inactive_at": "2009-11-10T23:00:00Z",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "metadata": {},
-    "name": "blog",
-    "remote_config": true,
-    "status": "healthy",
-    "tun_type": "cfd_tunnel"
-  },
-  "success": true
-}
-```
+audTag: array of string
 
-## Update a Cloudflare Tunnel
+Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
 
-**patch** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}`
+<a href="#">Link to this property</a>
 
-Updates an existing Cloudflare Tunnel.
+teamName: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+required: optional boolean
 
-  Cloudflare account ID
+Deny traffic that has not fulfilled Access authorization.
 
-- `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-  UUID of the tunnel.
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+caPool: optional string
 
-  A user-friendly name for a tunnel.
+Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
 
-- `tunnel_secret: optional string`
+<a href="#">Link to this property</a>
 
-  Sets the password required to run a locally-managed tunnel. Must be at least 32 bytes and encoded as a base64 string.
+connectTimeout: optional number
 
-### Returns
+Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+disableChunkedEncoding: optional boolean
 
-  - `message: string`
+Disables chunked transfer encoding. Useful if you are running a WSGI server.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+http2Origin: optional boolean
 
-    - `pointer: optional string`
+Attempt to connect to origin using HTTP2. Origin must be configured as https.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+httpHostHeader: optional string
 
-  - `message: string`
+Sets the HTTP Host header on requests sent to the local service.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+keepAliveConnections: optional number
 
-- `result: CloudflareTunnel`
+Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
 
-  A Cloudflare Tunnel that connects your origin to Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+keepAliveTimeout: optional number
 
-    UUID of the tunnel.
+Timeout after which an idle keepalive connection can be discarded.
 
-  - `account_tag: optional string`
+<a href="#">Link to this property</a>
 
-    Cloudflare account ID
+matchSNItoHost: optional boolean
 
-  - `config_src: optional "local" or "cloudflare"`
+Auto configure the Hostname on the origin server certificate.
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+<a href="#">Link to this property</a>
 
-    - `"local"`
+noHappyEyeballs: optional boolean
 
-    - `"cloudflare"`
+Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
 
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
+<a href="#">Link to this property</a>
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+noTLSVerify: optional boolean
 
-    - `id: optional string`
+Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-    - `client_id: optional string`
+originServerName: optional string
 
-      UUID of the Cloudflare Tunnel connector.
+Hostname that cloudflared should expect from your origin server certificate.
 
-    - `client_version: optional string`
+<a href="#">Link to this property</a>
 
-      The cloudflared version used to establish this connection.
+proxyType: optional string
 
-    - `colo_name: optional string`
+cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and “socks” for a SOCKS5 proxy.
 
-      The Cloudflare data center used for this connection.
+<a href="#">Link to this property</a>
 
-    - `is_pending_reconnect: optional boolean`
+tcpKeepAlive: optional number
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
 
-    - `opened_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the connection was established.
+tlsTimeout: optional number
 
-    - `origin_ip: optional string`
+Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
 
-      The public IP address of the host running cloudflared.
+<a href="#">Link to this property</a>
 
-    - `uuid: optional string`
+</details>
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-  - `conns_active_at: optional string`
+</details>
 
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+<a href="#">Link to this property</a>
 
-  - `conns_inactive_at: optional string`
+created\_at: optional string
 
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+formatdate-time
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was created.
+<details>
 
-  - `deleted_at: optional string`
+<summary>
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+source: optional "local"or "cloudflare"
 
-  - `metadata: optional unknown`
+Indicates if this is a locally or remotely configured tunnel. If <code>local</code>, manage the tunnel using a YAML file on the origin machine. If <code>cloudflare</code>, manage the tunnel’s configuration on the Zero Trust dashboard.
 
-    Metadata associated with the tunnel.
+</summary>
 
-  - `name: optional string`
+One of the following:
 
-    A user-friendly name for a tunnel.
+"local"
 
-  - `remote_config: optional boolean`
+<a href="#">Link to this property</a>
 
-    If `true`, the tunnel can be configured remotely from the Zero Trust dashboard. If `false`, the tunnel must be configured locally on the origin machine.
+"cloudflare"
 
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+<a href="#">Link to this property</a>
 
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+</details>
 
-    - `"inactive"`
+<a href="#">Link to this property</a>
 
-    - `"degraded"`
+tunnel\_id: optional string
 
-    - `"healthy"`
+UUID of the tunnel.
 
-    - `"down"`
+formatuuid
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+maxLength36
 
-    The type of tunnel.
+<a href="#">Link to this property</a>
 
-    - `"cfd_tunnel"`
+version: optional number
 
-    - `"warp_connector"`
+The version of the Tunnel Configuration.
 
-    - `"warp"`
+<a href="#">Link to this property</a>
 
-    - `"magic"`
+</details>
 
-    - `"ip_sec"`
+[Link to this property](#)%20zero_trust.tunnels.cloudflared.configurations%20%3E%20(model)%20configuration_update_response%20%3E%20(schema)>)
 
-    - `"gre"`
+#### TunnelsCloudflaredConnections
 
-    - `"cni"`
+##### [List Cloudflare Tunnel connections](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/connections/methods/get)
 
-- `success: true`
+GET/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/connections
 
-  Whether the API call was successful
+##### [Clean up Cloudflare Tunnel connections](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/connections/methods/delete)
 
-  - `true`
+DELETE/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/connections
 
-### Example
+##### ModelsExpand Collapse
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "blog",
-          "tunnel_secret": "AQIDBAUGBwgBAgMEBQYHCAECAwQFBgcIAQIDBAUGBwg="
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "account_tag": "699d98642c564d2e855e9661899b7252",
-    "config_src": "cloudflare",
-    "connections": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "conns_active_at": "2009-11-10T23:00:00Z",
-    "conns_inactive_at": "2009-11-10T23:00:00Z",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "metadata": {},
-    "name": "blog",
-    "remote_config": true,
-    "status": "healthy",
-    "tun_type": "cfd_tunnel"
-  },
-  "success": true
-}
-```
+Client object {id, arch, config\_version, 4 more }
 
-## Delete a Cloudflare Tunnel
+A client (typically cloudflared) that maintains connections to a Cloudflare data center.
 
-**delete** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}`
+</summary>
 
-Deletes a Cloudflare Tunnel from an account.
+id: optional string
 
-### Path Parameters
+UUID of the Cloudflare Tunnel connection.
 
-- `account_id: string`
+formatuuid
 
-  Cloudflare account ID
+maxLength36
 
-- `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-  UUID of the tunnel.
+arch: optional string
 
-### Returns
+The cloudflared OS architecture used to establish this connection.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+config\_version: optional number
 
-  - `message: string`
+The version of the remote tunnel configuration. Used internally to sync cloudflared with the Zero Trust dashboard.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+conns: optional array of object {id, client\_id, client\_version, 5 more }
 
-  - `code: number`
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+UUID of the Cloudflare Tunnel connection.
 
-- `result: CloudflareTunnel`
+formatuuid
 
-  A Cloudflare Tunnel that connects your origin to Cloudflare's edge.
+maxLength36
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID of the tunnel.
+client\_id: optional string
 
-  - `account_tag: optional string`
+UUID of the Cloudflare Tunnel connector.
 
-    Cloudflare account ID
+formatuuid
 
-  - `config_src: optional "local" or "cloudflare"`
+maxLength36
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+<a href="#">Link to this property</a>
 
-    - `"local"`
+client\_version: optional string
 
-    - `"cloudflare"`
+The cloudflared version used to establish this connection.
 
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
+<a href="#">Link to this property</a>
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+colo\_name: optional string
 
-    - `id: optional string`
+The Cloudflare data center used for this connection.
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-    - `client_id: optional string`
+Deprecatedis\_pending\_reconnect: optional boolean
 
-      UUID of the Cloudflare Tunnel connector.
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-    - `client_version: optional string`
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-      The cloudflared version used to establish this connection.
+<a href="#">Link to this property</a>
 
-    - `colo_name: optional string`
+opened\_at: optional string
 
-      The Cloudflare data center used for this connection.
+Timestamp of when the connection was established.
 
-    - `is_pending_reconnect: optional boolean`
+formatdate-time
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+<a href="#">Link to this property</a>
 
-    - `opened_at: optional string`
+origin\_ip: optional string
 
-      Timestamp of when the connection was established.
+The public IP address of the host running cloudflared.
 
-    - `origin_ip: optional string`
+<a href="#">Link to this property</a>
 
-      The public IP address of the host running cloudflared.
+uuid: optional string
 
-    - `uuid: optional string`
+UUID of the Cloudflare Tunnel connection.
 
-      UUID of the Cloudflare Tunnel connection.
+formatuuid
 
-  - `conns_active_at: optional string`
+maxLength36
 
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+<a href="#">Link to this property</a>
 
-  - `conns_inactive_at: optional string`
+</details>
 
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+features: optional array of string
 
-    Timestamp of when the resource was created.
+Features enabled for the Cloudflare Tunnel.
 
-  - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+run\_at: optional string
 
-  - `metadata: optional unknown`
+Timestamp of when the tunnel connection was started.
 
-    Metadata associated with the tunnel.
+formatdate-time
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for a tunnel.
+version: optional string
 
-  - `remote_config: optional boolean`
+The cloudflared version used to establish this connection.
 
-    If `true`, the tunnel can be configured remotely from the Zero Trust dashboard. If `false`, the tunnel must be configured locally on the origin machine.
+<a href="#">Link to this property</a>
 
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+</details>
 
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+[Link to this property](#)%20zero_trust.tunnels.cloudflared.connections%20%3E%20(model)%20client%20%3E%20(schema)>)
 
-    - `"inactive"`
+ConnectionDeleteResponse = unknown
 
-    - `"degraded"`
+[Link to this property](#)%20zero_trust.tunnels.cloudflared.connections%20%3E%20(model)%20connection_delete_response%20%3E%20(schema)>)
 
-    - `"healthy"`
+#### TunnelsCloudflaredToken
 
-    - `"down"`
+##### [Get a Cloudflare Tunnel token](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/token/methods/get)
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+GET/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/token
 
-    The type of tunnel.
+##### ModelsExpand Collapse
 
-    - `"cfd_tunnel"`
+TokenGetResponse = string
 
-    - `"warp_connector"`
+The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
 
-    - `"warp"`
+[Link to this property](#)%20zero_trust.tunnels.cloudflared.token%20%3E%20(model)%20token_get_response%20%3E%20(schema)>)
 
-    - `"magic"`
+#### TunnelsCloudflaredConnectors
 
-    - `"ip_sec"`
+##### [Get Cloudflare Tunnel connector](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/connectors/methods/get)
 
-    - `"gre"`
+GET/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/connectors/{connector\_id}
 
-    - `"cni"`
+#### TunnelsCloudflaredManagement
 
-- `success: true`
+##### [Get a Cloudflare Tunnel management token](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/management/methods/create)
 
-  Whether the API call was successful
+POST/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}/management
 
-  - `true`
+##### ModelsExpand Collapse
 
-### Example
+ManagementCreateResponse = string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
 
-#### Response
+[Link to this property](#)%20zero_trust.tunnels.cloudflared.management%20%3E%20(model)%20management_create_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "account_tag": "699d98642c564d2e855e9661899b7252",
-    "config_src": "cloudflare",
-    "connections": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "conns_active_at": "2009-11-10T23:00:00Z",
-    "conns_inactive_at": "2009-11-10T23:00:00Z",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "metadata": {},
-    "name": "blog",
-    "remote_config": true,
-    "status": "healthy",
-    "tun_type": "cfd_tunnel"
-  },
-  "success": true
-}
-```
+#### TunnelsWARP Connector
 
-# Configurations
+##### [List Warp Connector Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/methods/list)
 
-## Get configuration
+GET/accounts/{account\_id}/warp\_connector
 
-**get** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations`
+##### [Get a Warp Connector Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/methods/get)
 
-Gets the configuration for a remotely-managed tunnel
+GET/accounts/{account\_id}/warp\_connector/{tunnel\_id}
 
-### Path Parameters
+##### [Create a Warp Connector Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/methods/create)
 
-- `account_id: string`
+POST/accounts/{account\_id}/warp\_connector
 
-  Identifier.
+##### [Update a Warp Connector Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/methods/edit)
 
-- `tunnel_id: string`
+PATCH/accounts/{account\_id}/warp\_connector/{tunnel\_id}
 
-  UUID of the tunnel.
+##### [Delete a Warp Connector Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/methods/delete)
 
-### Returns
+DELETE/accounts/{account\_id}/warp\_connector/{tunnel\_id}
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+WARPConnectorListResponse object {id, account\_tag, connections, 8 more }
 
-  - `source: optional object { pointer }`
+A Warp Connector Tunnel that connects your origin to Cloudflare’s edge.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+UUID of the tunnel.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+maxLength36
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+account\_tag: optional string
 
-- `success: true`
+Cloudflare account ID
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { account_id, config, created_at, 3 more }`
+<details>
 
-  Cloudflare Tunnel configuration
+<summary>
 
-  - `account_id: optional string`
+Deprecatedconnections: optional array of object {id, client\_id, client\_version, 5 more }
 
-    Identifier.
+This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint <code>/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections</code>
 
-  - `config: optional object { ingress, originRequest }`
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-    The tunnel configuration and ingress rules.
+</summary>
 
-    - `ingress: optional array of object { hostname, service, originRequest, path }`
+id: optional string
 
-      List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel.
+UUID of the Cloudflare Tunnel connection.
 
-      - `hostname: string`
+formatuuid
 
-        Public hostname for this service.
+maxLength36
 
-      - `service: string`
+<a href="#">Link to this property</a>
 
-        Protocol and address of destination server. Supported protocols: http://, https://, unix://, tcp://, ssh://, rdp://, unix+tls://, smb://. Alternatively can return a HTTP status code http_status:[code] e.g. 'http_status:404'.
+client\_id: optional string
 
-      - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+UUID of the Cloudflare Tunnel connector.
 
-        Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+formatuuid
 
-        - `access: optional object { audTag, teamName, required }`
+maxLength36
 
-          For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+<a href="#">Link to this property</a>
 
-          - `audTag: array of string`
+client\_version: optional string
 
-            Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+The cloudflared version used to establish this connection.
 
-          - `teamName: string`
+<a href="#">Link to this property</a>
 
-          - `required: optional boolean`
+colo\_name: optional string
 
-            Deny traffic that has not fulfilled Access authorization.
+The Cloudflare data center used for this connection.
 
-        - `caPool: optional string`
+<a href="#">Link to this property</a>
 
-          Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+Deprecatedis\_pending\_reconnect: optional boolean
 
-        - `connectTimeout: optional number`
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-          Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-        - `disableChunkedEncoding: optional boolean`
+<a href="#">Link to this property</a>
 
-          Disables chunked transfer encoding. Useful if you are running a WSGI server.
+opened\_at: optional string
 
-        - `http2Origin: optional boolean`
+Timestamp of when the connection was established.
 
-          Attempt to connect to origin using HTTP2. Origin must be configured as https.
+formatdate-time
 
-        - `httpHostHeader: optional string`
+<a href="#">Link to this property</a>
 
-          Sets the HTTP Host header on requests sent to the local service.
+origin\_ip: optional string
 
-        - `keepAliveConnections: optional number`
+The public IP address of the host running cloudflared.
 
-          Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+<a href="#">Link to this property</a>
 
-        - `keepAliveTimeout: optional number`
+uuid: optional string
 
-          Timeout after which an idle keepalive connection can be discarded.
+UUID of the Cloudflare Tunnel connection.
 
-        - `matchSNItoHost: optional boolean`
+formatuuid
 
-          Auto configure the Hostname on the origin server certificate.
+maxLength36
 
-        - `noHappyEyeballs: optional boolean`
+<a href="#">Link to this property</a>
 
-          Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+</details>
 
-        - `noTLSVerify: optional boolean`
+<a href="#">Link to this property</a>
 
-          Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+conns\_active\_at: optional string
 
-        - `originServerName: optional string`
+Timestamp of when the tunnel established at least one connection to Cloudflare’s edge. If <code>null</code>, the tunnel is inactive.
 
-          Hostname that cloudflared should expect from your origin server certificate.
+formatdate-time
 
-        - `proxyType: optional string`
+<a href="#">Link to this property</a>
 
-          cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+conns\_inactive\_at: optional string
 
-        - `tcpKeepAlive: optional number`
+Timestamp of when the tunnel became inactive (no connections to Cloudflare’s edge). If <code>null</code>, the tunnel is active.
 
-          The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+formatdate-time
 
-        - `tlsTimeout: optional number`
+<a href="#">Link to this property</a>
 
-          Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+created\_at: optional string
 
-      - `path: optional string`
+Timestamp of when the resource was created.
 
-        Requests with this path route to this public hostname.
+formatdate-time
 
-    - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+<a href="#">Link to this property</a>
 
-      Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+deleted\_at: optional string
 
-      - `access: optional object { audTag, teamName, required }`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-        For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+formatdate-time
 
-        - `audTag: array of string`
+<a href="#">Link to this property</a>
 
-          Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+metadata: optional unknown
 
-        - `teamName: string`
+Metadata associated with the tunnel.
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-          Deny traffic that has not fulfilled Access authorization.
+name: optional string
 
-      - `caPool: optional string`
+A user-friendly name for a tunnel.
 
-        Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+<a href="#">Link to this property</a>
 
-      - `connectTimeout: optional number`
+<details>
 
-        Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+<summary>
 
-      - `disableChunkedEncoding: optional boolean`
+status: optional "inactive"or "degraded"or "healthy"or "down"
 
-        Disables chunked transfer encoding. Useful if you are running a WSGI server.
+The status of the tunnel. Valid values are <code>inactive</code> (tunnel has never been run), <code>degraded</code> (tunnel is active and able to serve traffic but in an unhealthy state), <code>healthy</code> (tunnel is active and able to serve traffic), or <code>down</code> (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
 
-      - `http2Origin: optional boolean`
+</summary>
 
-        Attempt to connect to origin using HTTP2. Origin must be configured as https.
+One of the following:
 
-      - `httpHostHeader: optional string`
+"inactive"
 
-        Sets the HTTP Host header on requests sent to the local service.
+<a href="#">Link to this property</a>
 
-      - `keepAliveConnections: optional number`
+"degraded"
 
-        Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+<a href="#">Link to this property</a>
 
-      - `keepAliveTimeout: optional number`
+"healthy"
 
-        Timeout after which an idle keepalive connection can be discarded.
+<a href="#">Link to this property</a>
 
-      - `matchSNItoHost: optional boolean`
+"down"
 
-        Auto configure the Hostname on the origin server certificate.
+<a href="#">Link to this property</a>
 
-      - `noHappyEyeballs: optional boolean`
+</details>
 
-        Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+<a href="#">Link to this property</a>
 
-      - `noTLSVerify: optional boolean`
+<details>
 
-        Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+<summary>
 
-      - `originServerName: optional string`
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-        Hostname that cloudflared should expect from your origin server certificate.
+The type of tunnel.
 
-      - `proxyType: optional string`
+</summary>
 
-        cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+One of the following:
 
-      - `tcpKeepAlive: optional number`
+"cfd\_tunnel"
 
-        The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+<a href="#">Link to this property</a>
 
-      - `tlsTimeout: optional number`
+"warp\_connector"
 
-        Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"warp"
 
-  - `source: optional "local" or "cloudflare"`
+<a href="#">Link to this property</a>
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel's configuration on the Zero Trust dashboard.
+"magic"
 
-    - `"local"`
+<a href="#">Link to this property</a>
 
-    - `"cloudflare"`
+"ip\_sec"
 
-  - `tunnel_id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID of the tunnel.
+"gre"
 
-  - `version: optional number`
+<a href="#">Link to this property</a>
 
-    The version of the Tunnel Configuration.
+"cni"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/configurations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "config": {
-      "ingress": [
-        {
-          "hostname": "tunnel.example.com",
-          "service": "https://localhost:8001",
-          "originRequest": {
-            "access": {
-              "audTag": [
-                "string"
-              ],
-              "teamName": "zero-trust-organization-name",
-              "required": false
-            },
-            "caPool": "caPool",
-            "connectTimeout": 10,
-            "disableChunkedEncoding": true,
-            "http2Origin": true,
-            "httpHostHeader": "httpHostHeader",
-            "keepAliveConnections": 100,
-            "keepAliveTimeout": 90,
-            "matchSNItoHost": false,
-            "noHappyEyeballs": false,
-            "noTLSVerify": false,
-            "originServerName": "originServerName",
-            "proxyType": "proxyType",
-            "tcpKeepAlive": 30,
-            "tlsTimeout": 10
-          },
-          "path": "subpath"
-        }
-      ],
-      "originRequest": {
-        "access": {
-          "audTag": [
-            "string"
-          ],
-          "teamName": "zero-trust-organization-name",
-          "required": false
-        },
-        "caPool": "caPool",
-        "connectTimeout": 10,
-        "disableChunkedEncoding": true,
-        "http2Origin": true,
-        "httpHostHeader": "httpHostHeader",
-        "keepAliveConnections": 100,
-        "keepAliveTimeout": 90,
-        "matchSNItoHost": false,
-        "noHappyEyeballs": false,
-        "noTLSVerify": false,
-        "originServerName": "originServerName",
-        "proxyType": "proxyType",
-        "tcpKeepAlive": 30,
-        "tlsTimeout": 10
-      },
-      "warp-routing": {
-        "enabled": true
-      }
-    },
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "source": "cloudflare",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "version": 0
-  }
-}
-```
+</details>
 
-## Put configuration
+[Link to this property](#)%20zero_trust.tunnels.warp_connector%20%3E%20(model)%20warp_connector_list_response%20%3E%20(schema)>)
 
-**put** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations`
+<details>
 
-Adds or updates the configuration for a remotely-managed tunnel.
+<summary>
 
-### Path Parameters
+WARPConnectorGetResponse object {id, account\_tag, connections, 8 more }
 
-- `account_id: string`
+A Warp Connector Tunnel that connects your origin to Cloudflare’s edge.
 
-  Identifier.
+</summary>
 
-- `tunnel_id: string`
+id: optional string
 
-  UUID of the tunnel.
+UUID of the tunnel.
 
-### Body Parameters
+formatuuid
 
-- `config: optional object { ingress, originRequest }`
+maxLength36
 
-  The tunnel configuration and ingress rules.
+<a href="#">Link to this property</a>
 
-  - `ingress: optional array of object { hostname, service, originRequest, path }`
+account\_tag: optional string
 
-    List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel.
+Cloudflare account ID
 
-    - `hostname: string`
+maxLength32
 
-      Public hostname for this service.
+<a href="#">Link to this property</a>
 
-    - `service: string`
+<details>
 
-      Protocol and address of destination server. Supported protocols: http://, https://, unix://, tcp://, ssh://, rdp://, unix+tls://, smb://. Alternatively can return a HTTP status code http_status:[code] e.g. 'http_status:404'.
+<summary>
 
-    - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+Deprecatedconnections: optional array of object {id, client\_id, client\_version, 5 more }
 
-      Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint <code>/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections</code>
 
-      - `access: optional object { audTag, teamName, required }`
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-        For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+</summary>
 
-        - `audTag: array of string`
+id: optional string
 
-          Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+UUID of the Cloudflare Tunnel connection.
 
-        - `teamName: string`
+formatuuid
 
-        - `required: optional boolean`
+maxLength36
 
-          Deny traffic that has not fulfilled Access authorization.
+<a href="#">Link to this property</a>
 
-      - `caPool: optional string`
+client\_id: optional string
 
-        Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+UUID of the Cloudflare Tunnel connector.
 
-      - `connectTimeout: optional number`
+formatuuid
 
-        Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+maxLength36
 
-      - `disableChunkedEncoding: optional boolean`
+<a href="#">Link to this property</a>
 
-        Disables chunked transfer encoding. Useful if you are running a WSGI server.
+client\_version: optional string
 
-      - `http2Origin: optional boolean`
+The cloudflared version used to establish this connection.
 
-        Attempt to connect to origin using HTTP2. Origin must be configured as https.
+<a href="#">Link to this property</a>
 
-      - `httpHostHeader: optional string`
+colo\_name: optional string
 
-        Sets the HTTP Host header on requests sent to the local service.
+The Cloudflare data center used for this connection.
 
-      - `keepAliveConnections: optional number`
+<a href="#">Link to this property</a>
 
-        Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+Deprecatedis\_pending\_reconnect: optional boolean
 
-      - `keepAliveTimeout: optional number`
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-        Timeout after which an idle keepalive connection can be discarded.
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-      - `matchSNItoHost: optional boolean`
+<a href="#">Link to this property</a>
 
-        Auto configure the Hostname on the origin server certificate.
+opened\_at: optional string
 
-      - `noHappyEyeballs: optional boolean`
+Timestamp of when the connection was established.
 
-        Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+formatdate-time
 
-      - `noTLSVerify: optional boolean`
+<a href="#">Link to this property</a>
 
-        Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+origin\_ip: optional string
 
-      - `originServerName: optional string`
+The public IP address of the host running cloudflared.
 
-        Hostname that cloudflared should expect from your origin server certificate.
+<a href="#">Link to this property</a>
 
-      - `proxyType: optional string`
+uuid: optional string
 
-        cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+UUID of the Cloudflare Tunnel connection.
 
-      - `tcpKeepAlive: optional number`
+formatuuid
 
-        The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+maxLength36
 
-      - `tlsTimeout: optional number`
+<a href="#">Link to this property</a>
 
-        Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+</details>
 
-    - `path: optional string`
+<a href="#">Link to this property</a>
 
-      Requests with this path route to this public hostname.
+conns\_active\_at: optional string
 
-  - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+Timestamp of when the tunnel established at least one connection to Cloudflare’s edge. If <code>null</code>, the tunnel is inactive.
 
-    Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+formatdate-time
 
-    - `access: optional object { audTag, teamName, required }`
+<a href="#">Link to this property</a>
 
-      For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+conns\_inactive\_at: optional string
 
-      - `audTag: array of string`
+Timestamp of when the tunnel became inactive (no connections to Cloudflare’s edge). If <code>null</code>, the tunnel is active.
 
-        Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+formatdate-time
 
-      - `teamName: string`
+<a href="#">Link to this property</a>
 
-      - `required: optional boolean`
+created\_at: optional string
 
-        Deny traffic that has not fulfilled Access authorization.
+Timestamp of when the resource was created.
 
-    - `caPool: optional string`
+formatdate-time
 
-      Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+<a href="#">Link to this property</a>
 
-    - `connectTimeout: optional number`
+deleted\_at: optional string
 
-      Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-    - `disableChunkedEncoding: optional boolean`
+formatdate-time
 
-      Disables chunked transfer encoding. Useful if you are running a WSGI server.
+<a href="#">Link to this property</a>
 
-    - `http2Origin: optional boolean`
+metadata: optional unknown
 
-      Attempt to connect to origin using HTTP2. Origin must be configured as https.
+Metadata associated with the tunnel.
 
-    - `httpHostHeader: optional string`
+<a href="#">Link to this property</a>
 
-      Sets the HTTP Host header on requests sent to the local service.
+name: optional string
 
-    - `keepAliveConnections: optional number`
+A user-friendly name for a tunnel.
 
-      Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+<a href="#">Link to this property</a>
 
-    - `keepAliveTimeout: optional number`
+<details>
 
-      Timeout after which an idle keepalive connection can be discarded.
+<summary>
 
-    - `matchSNItoHost: optional boolean`
+status: optional "inactive"or "degraded"or "healthy"or "down"
 
-      Auto configure the Hostname on the origin server certificate.
+The status of the tunnel. Valid values are <code>inactive</code> (tunnel has never been run), <code>degraded</code> (tunnel is active and able to serve traffic but in an unhealthy state), <code>healthy</code> (tunnel is active and able to serve traffic), or <code>down</code> (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
 
-    - `noHappyEyeballs: optional boolean`
+</summary>
 
-      Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+One of the following:
 
-    - `noTLSVerify: optional boolean`
+"inactive"
 
-      Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+<a href="#">Link to this property</a>
 
-    - `originServerName: optional string`
+"degraded"
 
-      Hostname that cloudflared should expect from your origin server certificate.
+<a href="#">Link to this property</a>
 
-    - `proxyType: optional string`
+"healthy"
 
-      cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+<a href="#">Link to this property</a>
 
-    - `tcpKeepAlive: optional number`
+"down"
 
-      The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+<a href="#">Link to this property</a>
 
-    - `tlsTimeout: optional number`
+</details>
 
-      Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-  - `message: string`
+The type of tunnel.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"cfd\_tunnel"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"warp\_connector"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"warp"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"magic"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"ip\_sec"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { account_id, config, created_at, 3 more }`
+"gre"
 
-  Cloudflare Tunnel configuration
+<a href="#">Link to this property</a>
 
-  - `account_id: optional string`
+"cni"
 
-    Identifier.
+<a href="#">Link to this property</a>
 
-  - `config: optional object { ingress, originRequest }`
+</details>
 
-    The tunnel configuration and ingress rules.
+<a href="#">Link to this property</a>
 
-    - `ingress: optional array of object { hostname, service, originRequest, path }`
+</details>
 
-      List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel.
+[Link to this property](#)%20zero_trust.tunnels.warp_connector%20%3E%20(model)%20warp_connector_get_response%20%3E%20(schema)>)
 
-      - `hostname: string`
+<details>
 
-        Public hostname for this service.
+<summary>
 
-      - `service: string`
+WARPConnectorCreateResponse object {id, account\_tag, connections, 8 more }
 
-        Protocol and address of destination server. Supported protocols: http://, https://, unix://, tcp://, ssh://, rdp://, unix+tls://, smb://. Alternatively can return a HTTP status code http_status:[code] e.g. 'http_status:404'.
+A Warp Connector Tunnel that connects your origin to Cloudflare’s edge.
 
-      - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+</summary>
 
-        Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+id: optional string
 
-        - `access: optional object { audTag, teamName, required }`
+UUID of the tunnel.
 
-          For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+formatuuid
 
-          - `audTag: array of string`
+maxLength36
 
-            Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+<a href="#">Link to this property</a>
 
-          - `teamName: string`
+account\_tag: optional string
 
-          - `required: optional boolean`
+Cloudflare account ID
 
-            Deny traffic that has not fulfilled Access authorization.
+maxLength32
 
-        - `caPool: optional string`
+<a href="#">Link to this property</a>
 
-          Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+<details>
 
-        - `connectTimeout: optional number`
+<summary>
 
-          Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+Deprecatedconnections: optional array of object {id, client\_id, client\_version, 5 more }
 
-        - `disableChunkedEncoding: optional boolean`
+This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint <code>/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections</code>
 
-          Disables chunked transfer encoding. Useful if you are running a WSGI server.
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-        - `http2Origin: optional boolean`
+</summary>
 
-          Attempt to connect to origin using HTTP2. Origin must be configured as https.
+id: optional string
 
-        - `httpHostHeader: optional string`
+UUID of the Cloudflare Tunnel connection.
 
-          Sets the HTTP Host header on requests sent to the local service.
+formatuuid
 
-        - `keepAliveConnections: optional number`
+maxLength36
 
-          Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+<a href="#">Link to this property</a>
 
-        - `keepAliveTimeout: optional number`
+client\_id: optional string
 
-          Timeout after which an idle keepalive connection can be discarded.
+UUID of the Cloudflare Tunnel connector.
 
-        - `matchSNItoHost: optional boolean`
+formatuuid
 
-          Auto configure the Hostname on the origin server certificate.
+maxLength36
 
-        - `noHappyEyeballs: optional boolean`
+<a href="#">Link to this property</a>
 
-          Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+client\_version: optional string
 
-        - `noTLSVerify: optional boolean`
+The cloudflared version used to establish this connection.
 
-          Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+<a href="#">Link to this property</a>
 
-        - `originServerName: optional string`
+colo\_name: optional string
 
-          Hostname that cloudflared should expect from your origin server certificate.
+The Cloudflare data center used for this connection.
 
-        - `proxyType: optional string`
+<a href="#">Link to this property</a>
 
-          cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+Deprecatedis\_pending\_reconnect: optional boolean
 
-        - `tcpKeepAlive: optional number`
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-          The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-        - `tlsTimeout: optional number`
+<a href="#">Link to this property</a>
 
-          Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+opened\_at: optional string
 
-      - `path: optional string`
+Timestamp of when the connection was established.
 
-        Requests with this path route to this public hostname.
+formatdate-time
 
-    - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+<a href="#">Link to this property</a>
 
-      Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+origin\_ip: optional string
 
-      - `access: optional object { audTag, teamName, required }`
+The public IP address of the host running cloudflared.
 
-        For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+<a href="#">Link to this property</a>
 
-        - `audTag: array of string`
+uuid: optional string
 
-          Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+UUID of the Cloudflare Tunnel connection.
 
-        - `teamName: string`
+formatuuid
 
-        - `required: optional boolean`
+maxLength36
 
-          Deny traffic that has not fulfilled Access authorization.
+<a href="#">Link to this property</a>
 
-      - `caPool: optional string`
+</details>
 
-        Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+<a href="#">Link to this property</a>
 
-      - `connectTimeout: optional number`
+conns\_active\_at: optional string
 
-        Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+Timestamp of when the tunnel established at least one connection to Cloudflare’s edge. If <code>null</code>, the tunnel is inactive.
 
-      - `disableChunkedEncoding: optional boolean`
+formatdate-time
 
-        Disables chunked transfer encoding. Useful if you are running a WSGI server.
+<a href="#">Link to this property</a>
 
-      - `http2Origin: optional boolean`
+conns\_inactive\_at: optional string
 
-        Attempt to connect to origin using HTTP2. Origin must be configured as https.
+Timestamp of when the tunnel became inactive (no connections to Cloudflare’s edge). If <code>null</code>, the tunnel is active.
 
-      - `httpHostHeader: optional string`
+formatdate-time
 
-        Sets the HTTP Host header on requests sent to the local service.
+<a href="#">Link to this property</a>
 
-      - `keepAliveConnections: optional number`
+created\_at: optional string
 
-        Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+Timestamp of when the resource was created.
 
-      - `keepAliveTimeout: optional number`
+formatdate-time
 
-        Timeout after which an idle keepalive connection can be discarded.
+<a href="#">Link to this property</a>
 
-      - `matchSNItoHost: optional boolean`
+deleted\_at: optional string
 
-        Auto configure the Hostname on the origin server certificate.
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-      - `noHappyEyeballs: optional boolean`
+formatdate-time
 
-        Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+<a href="#">Link to this property</a>
 
-      - `noTLSVerify: optional boolean`
+metadata: optional unknown
 
-        Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+Metadata associated with the tunnel.
 
-      - `originServerName: optional string`
+<a href="#">Link to this property</a>
 
-        Hostname that cloudflared should expect from your origin server certificate.
+name: optional string
 
-      - `proxyType: optional string`
+A user-friendly name for a tunnel.
 
-        cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+<a href="#">Link to this property</a>
 
-      - `tcpKeepAlive: optional number`
+<details>
 
-        The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+<summary>
 
-      - `tlsTimeout: optional number`
+status: optional "inactive"or "degraded"or "healthy"or "down"
 
-        Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+The status of the tunnel. Valid values are <code>inactive</code> (tunnel has never been run), <code>degraded</code> (tunnel is active and able to serve traffic but in an unhealthy state), <code>healthy</code> (tunnel is active and able to serve traffic), or <code>down</code> (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
 
-  - `created_at: optional string`
+</summary>
 
-  - `source: optional "local" or "cloudflare"`
+One of the following:
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel's configuration on the Zero Trust dashboard.
+"inactive"
 
-    - `"local"`
+<a href="#">Link to this property</a>
 
-    - `"cloudflare"`
+"degraded"
 
-  - `tunnel_id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID of the tunnel.
+"healthy"
 
-  - `version: optional number`
+<a href="#">Link to this property</a>
 
-    The version of the Tunnel Configuration.
+"down"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/configurations \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "account_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "config": {
-      "ingress": [
-        {
-          "hostname": "tunnel.example.com",
-          "service": "https://localhost:8001",
-          "originRequest": {
-            "access": {
-              "audTag": [
-                "string"
-              ],
-              "teamName": "zero-trust-organization-name",
-              "required": false
-            },
-            "caPool": "caPool",
-            "connectTimeout": 10,
-            "disableChunkedEncoding": true,
-            "http2Origin": true,
-            "httpHostHeader": "httpHostHeader",
-            "keepAliveConnections": 100,
-            "keepAliveTimeout": 90,
-            "matchSNItoHost": false,
-            "noHappyEyeballs": false,
-            "noTLSVerify": false,
-            "originServerName": "originServerName",
-            "proxyType": "proxyType",
-            "tcpKeepAlive": 30,
-            "tlsTimeout": 10
-          },
-          "path": "subpath"
-        }
-      ],
-      "originRequest": {
-        "access": {
-          "audTag": [
-            "string"
-          ],
-          "teamName": "zero-trust-organization-name",
-          "required": false
-        },
-        "caPool": "caPool",
-        "connectTimeout": 10,
-        "disableChunkedEncoding": true,
-        "http2Origin": true,
-        "httpHostHeader": "httpHostHeader",
-        "keepAliveConnections": 100,
-        "keepAliveTimeout": 90,
-        "matchSNItoHost": false,
-        "noHappyEyeballs": false,
-        "noTLSVerify": false,
-        "originServerName": "originServerName",
-        "proxyType": "proxyType",
-        "tcpKeepAlive": 30,
-        "tlsTimeout": 10
-      },
-      "warp-routing": {
-        "enabled": true
-      }
-    },
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "source": "cloudflare",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "version": 0
-  }
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Configuration Get Response
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-- `ConfigurationGetResponse object { account_id, config, created_at, 3 more }`
+The type of tunnel.
 
-  Cloudflare Tunnel configuration
+</summary>
 
-  - `account_id: optional string`
+One of the following:
 
-    Identifier.
+"cfd\_tunnel"
 
-  - `config: optional object { ingress, originRequest }`
+<a href="#">Link to this property</a>
 
-    The tunnel configuration and ingress rules.
+"warp\_connector"
 
-    - `ingress: optional array of object { hostname, service, originRequest, path }`
+<a href="#">Link to this property</a>
 
-      List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel.
+"warp"
 
-      - `hostname: string`
+<a href="#">Link to this property</a>
 
-        Public hostname for this service.
+"magic"
 
-      - `service: string`
+<a href="#">Link to this property</a>
 
-        Protocol and address of destination server. Supported protocols: http://, https://, unix://, tcp://, ssh://, rdp://, unix+tls://, smb://. Alternatively can return a HTTP status code http_status:[code] e.g. 'http_status:404'.
+"ip\_sec"
 
-      - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+<a href="#">Link to this property</a>
 
-        Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+"gre"
 
-        - `access: optional object { audTag, teamName, required }`
+<a href="#">Link to this property</a>
 
-          For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+"cni"
 
-          - `audTag: array of string`
+<a href="#">Link to this property</a>
 
-            Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+</details>
 
-          - `teamName: string`
+<a href="#">Link to this property</a>
 
-          - `required: optional boolean`
+</details>
 
-            Deny traffic that has not fulfilled Access authorization.
+[Link to this property](#)%20zero_trust.tunnels.warp_connector%20%3E%20(model)%20warp_connector_create_response%20%3E%20(schema)>)
 
-        - `caPool: optional string`
+<details>
 
-          Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+<summary>
 
-        - `connectTimeout: optional number`
+WARPConnectorEditResponse object {id, account\_tag, connections, 8 more }
 
-          Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+A Warp Connector Tunnel that connects your origin to Cloudflare’s edge.
 
-        - `disableChunkedEncoding: optional boolean`
+</summary>
 
-          Disables chunked transfer encoding. Useful if you are running a WSGI server.
+id: optional string
 
-        - `http2Origin: optional boolean`
+UUID of the tunnel.
 
-          Attempt to connect to origin using HTTP2. Origin must be configured as https.
+formatuuid
 
-        - `httpHostHeader: optional string`
+maxLength36
 
-          Sets the HTTP Host header on requests sent to the local service.
+<a href="#">Link to this property</a>
 
-        - `keepAliveConnections: optional number`
+account\_tag: optional string
 
-          Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+Cloudflare account ID
 
-        - `keepAliveTimeout: optional number`
+maxLength32
 
-          Timeout after which an idle keepalive connection can be discarded.
+<a href="#">Link to this property</a>
 
-        - `matchSNItoHost: optional boolean`
+<details>
 
-          Auto configure the Hostname on the origin server certificate.
+<summary>
 
-        - `noHappyEyeballs: optional boolean`
+Deprecatedconnections: optional array of object {id, client\_id, client\_version, 5 more }
 
-          Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint <code>/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections</code>
 
-        - `noTLSVerify: optional boolean`
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-          Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+</summary>
 
-        - `originServerName: optional string`
+id: optional string
 
-          Hostname that cloudflared should expect from your origin server certificate.
+UUID of the Cloudflare Tunnel connection.
 
-        - `proxyType: optional string`
+formatuuid
 
-          cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+maxLength36
 
-        - `tcpKeepAlive: optional number`
+<a href="#">Link to this property</a>
 
-          The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+client\_id: optional string
 
-        - `tlsTimeout: optional number`
+UUID of the Cloudflare Tunnel connector.
 
-          Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+formatuuid
 
-      - `path: optional string`
+maxLength36
 
-        Requests with this path route to this public hostname.
+<a href="#">Link to this property</a>
 
-    - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+client\_version: optional string
 
-      Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+The cloudflared version used to establish this connection.
 
-      - `access: optional object { audTag, teamName, required }`
+<a href="#">Link to this property</a>
 
-        For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+colo\_name: optional string
 
-        - `audTag: array of string`
+The Cloudflare data center used for this connection.
 
-          Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+<a href="#">Link to this property</a>
 
-        - `teamName: string`
+Deprecatedis\_pending\_reconnect: optional boolean
 
-        - `required: optional boolean`
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-          Deny traffic that has not fulfilled Access authorization.
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-      - `caPool: optional string`
+<a href="#">Link to this property</a>
 
-        Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+opened\_at: optional string
 
-      - `connectTimeout: optional number`
+Timestamp of when the connection was established.
 
-        Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+formatdate-time
 
-      - `disableChunkedEncoding: optional boolean`
+<a href="#">Link to this property</a>
 
-        Disables chunked transfer encoding. Useful if you are running a WSGI server.
+origin\_ip: optional string
 
-      - `http2Origin: optional boolean`
+The public IP address of the host running cloudflared.
 
-        Attempt to connect to origin using HTTP2. Origin must be configured as https.
+<a href="#">Link to this property</a>
 
-      - `httpHostHeader: optional string`
+uuid: optional string
 
-        Sets the HTTP Host header on requests sent to the local service.
+UUID of the Cloudflare Tunnel connection.
 
-      - `keepAliveConnections: optional number`
+formatuuid
 
-        Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+maxLength36
 
-      - `keepAliveTimeout: optional number`
+<a href="#">Link to this property</a>
 
-        Timeout after which an idle keepalive connection can be discarded.
+</details>
 
-      - `matchSNItoHost: optional boolean`
+<a href="#">Link to this property</a>
 
-        Auto configure the Hostname on the origin server certificate.
+conns\_active\_at: optional string
 
-      - `noHappyEyeballs: optional boolean`
+Timestamp of when the tunnel established at least one connection to Cloudflare’s edge. If <code>null</code>, the tunnel is inactive.
 
-        Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+formatdate-time
 
-      - `noTLSVerify: optional boolean`
+<a href="#">Link to this property</a>
 
-        Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+conns\_inactive\_at: optional string
 
-      - `originServerName: optional string`
+Timestamp of when the tunnel became inactive (no connections to Cloudflare’s edge). If <code>null</code>, the tunnel is active.
 
-        Hostname that cloudflared should expect from your origin server certificate.
+formatdate-time
 
-      - `proxyType: optional string`
+<a href="#">Link to this property</a>
 
-        cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+created\_at: optional string
 
-      - `tcpKeepAlive: optional number`
+Timestamp of when the resource was created.
 
-        The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+formatdate-time
 
-      - `tlsTimeout: optional number`
+<a href="#">Link to this property</a>
 
-        Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+deleted\_at: optional string
 
-  - `created_at: optional string`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-  - `source: optional "local" or "cloudflare"`
+formatdate-time
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel's configuration on the Zero Trust dashboard.
+<a href="#">Link to this property</a>
 
-    - `"local"`
+metadata: optional unknown
 
-    - `"cloudflare"`
+Metadata associated with the tunnel.
 
-  - `tunnel_id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID of the tunnel.
+name: optional string
 
-  - `version: optional number`
+A user-friendly name for a tunnel.
 
-    The version of the Tunnel Configuration.
+<a href="#">Link to this property</a>
 
-### Configuration Update Response
+<details>
 
-- `ConfigurationUpdateResponse object { account_id, config, created_at, 3 more }`
+<summary>
 
-  Cloudflare Tunnel configuration
+status: optional "inactive"or "degraded"or "healthy"or "down"
 
-  - `account_id: optional string`
+The status of the tunnel. Valid values are <code>inactive</code> (tunnel has never been run), <code>degraded</code> (tunnel is active and able to serve traffic but in an unhealthy state), <code>healthy</code> (tunnel is active and able to serve traffic), or <code>down</code> (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
 
-    Identifier.
+</summary>
 
-  - `config: optional object { ingress, originRequest }`
+One of the following:
 
-    The tunnel configuration and ingress rules.
+"inactive"
 
-    - `ingress: optional array of object { hostname, service, originRequest, path }`
+<a href="#">Link to this property</a>
 
-      List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel.
+"degraded"
 
-      - `hostname: string`
+<a href="#">Link to this property</a>
 
-        Public hostname for this service.
+"healthy"
 
-      - `service: string`
+<a href="#">Link to this property</a>
 
-        Protocol and address of destination server. Supported protocols: http://, https://, unix://, tcp://, ssh://, rdp://, unix+tls://, smb://. Alternatively can return a HTTP status code http_status:[code] e.g. 'http_status:404'.
+"down"
 
-      - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+<a href="#">Link to this property</a>
 
-        Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+</details>
 
-        - `access: optional object { audTag, teamName, required }`
+<a href="#">Link to this property</a>
 
-          For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+<details>
 
-          - `audTag: array of string`
+<summary>
 
-            Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-          - `teamName: string`
+The type of tunnel.
 
-          - `required: optional boolean`
+</summary>
 
-            Deny traffic that has not fulfilled Access authorization.
+One of the following:
 
-        - `caPool: optional string`
+"cfd\_tunnel"
 
-          Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+<a href="#">Link to this property</a>
 
-        - `connectTimeout: optional number`
+"warp\_connector"
 
-          Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+<a href="#">Link to this property</a>
 
-        - `disableChunkedEncoding: optional boolean`
+"warp"
 
-          Disables chunked transfer encoding. Useful if you are running a WSGI server.
+<a href="#">Link to this property</a>
 
-        - `http2Origin: optional boolean`
+"magic"
 
-          Attempt to connect to origin using HTTP2. Origin must be configured as https.
+<a href="#">Link to this property</a>
 
-        - `httpHostHeader: optional string`
+"ip\_sec"
 
-          Sets the HTTP Host header on requests sent to the local service.
+<a href="#">Link to this property</a>
 
-        - `keepAliveConnections: optional number`
+"gre"
 
-          Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+<a href="#">Link to this property</a>
 
-        - `keepAliveTimeout: optional number`
+"cni"
 
-          Timeout after which an idle keepalive connection can be discarded.
+<a href="#">Link to this property</a>
 
-        - `matchSNItoHost: optional boolean`
+</details>
 
-          Auto configure the Hostname on the origin server certificate.
+<a href="#">Link to this property</a>
 
-        - `noHappyEyeballs: optional boolean`
+</details>
 
-          Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+[Link to this property](#)%20zero_trust.tunnels.warp_connector%20%3E%20(model)%20warp_connector_edit_response%20%3E%20(schema)>)
 
-        - `noTLSVerify: optional boolean`
+<details>
 
-          Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+<summary>
 
-        - `originServerName: optional string`
+WARPConnectorDeleteResponse object {id, account\_tag, connections, 8 more }
 
-          Hostname that cloudflared should expect from your origin server certificate.
+A Warp Connector Tunnel that connects your origin to Cloudflare’s edge.
 
-        - `proxyType: optional string`
+</summary>
 
-          cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+id: optional string
 
-        - `tcpKeepAlive: optional number`
+UUID of the tunnel.
 
-          The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+formatuuid
 
-        - `tlsTimeout: optional number`
+maxLength36
 
-          Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+<a href="#">Link to this property</a>
 
-      - `path: optional string`
+account\_tag: optional string
 
-        Requests with this path route to this public hostname.
+Cloudflare account ID
 
-    - `originRequest: optional object { access, caPool, connectTimeout, 12 more }`
+maxLength32
 
-      Configuration parameters for the public hostname specific connection settings between cloudflared and origin server.
+<a href="#">Link to this property</a>
 
-      - `access: optional object { audTag, teamName, required }`
+<details>
 
-        For all L7 requests to this hostname, cloudflared will validate each request's Cf-Access-Jwt-Assertion request header.
+<summary>
 
-        - `audTag: array of string`
+Deprecatedconnections: optional array of object {id, client\_id, client\_version, 5 more }
 
-          Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.
+This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint <code>/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections</code>
 
-        - `teamName: string`
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
 
-        - `required: optional boolean`
+</summary>
 
-          Deny traffic that has not fulfilled Access authorization.
+id: optional string
 
-      - `caPool: optional string`
+UUID of the Cloudflare Tunnel connection.
 
-        Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.
+formatuuid
 
-      - `connectTimeout: optional number`
+maxLength36
 
-        Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.
+<a href="#">Link to this property</a>
 
-      - `disableChunkedEncoding: optional boolean`
+client\_id: optional string
 
-        Disables chunked transfer encoding. Useful if you are running a WSGI server.
+UUID of the Cloudflare Tunnel connector.
 
-      - `http2Origin: optional boolean`
+formatuuid
 
-        Attempt to connect to origin using HTTP2. Origin must be configured as https.
+maxLength36
 
-      - `httpHostHeader: optional string`
+<a href="#">Link to this property</a>
 
-        Sets the HTTP Host header on requests sent to the local service.
+client\_version: optional string
 
-      - `keepAliveConnections: optional number`
+The cloudflared version used to establish this connection.
 
-        Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.
+<a href="#">Link to this property</a>
 
-      - `keepAliveTimeout: optional number`
+colo\_name: optional string
 
-        Timeout after which an idle keepalive connection can be discarded.
+The Cloudflare data center used for this connection.
 
-      - `matchSNItoHost: optional boolean`
+<a href="#">Link to this property</a>
 
-        Auto configure the Hostname on the origin server certificate.
+Deprecatedis\_pending\_reconnect: optional boolean
 
-      - `noHappyEyeballs: optional boolean`
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
 
-        Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
 
-      - `noTLSVerify: optional boolean`
+<a href="#">Link to this property</a>
 
-        Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.
+opened\_at: optional string
 
-      - `originServerName: optional string`
+Timestamp of when the connection was established.
 
-        Hostname that cloudflared should expect from your origin server certificate.
+formatdate-time
 
-      - `proxyType: optional string`
+<a href="#">Link to this property</a>
 
-        cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.
+origin\_ip: optional string
 
-      - `tcpKeepAlive: optional number`
+The public IP address of the host running cloudflared.
 
-        The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.
+<a href="#">Link to this property</a>
 
-      - `tlsTimeout: optional number`
+uuid: optional string
 
-        Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.
+UUID of the Cloudflare Tunnel connection.
 
-  - `created_at: optional string`
+formatuuid
 
-  - `source: optional "local" or "cloudflare"`
+maxLength36
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel's configuration on the Zero Trust dashboard.
+<a href="#">Link to this property</a>
 
-    - `"local"`
+</details>
 
-    - `"cloudflare"`
+<a href="#">Link to this property</a>
 
-  - `tunnel_id: optional string`
+conns\_active\_at: optional string
 
-    UUID of the tunnel.
+Timestamp of when the tunnel established at least one connection to Cloudflare’s edge. If <code>null</code>, the tunnel is inactive.
 
-  - `version: optional number`
+formatdate-time
 
-    The version of the Tunnel Configuration.
+<a href="#">Link to this property</a>
 
-# Connections
+conns\_inactive\_at: optional string
 
-## List Cloudflare Tunnel connections
+Timestamp of when the tunnel became inactive (no connections to Cloudflare’s edge). If <code>null</code>, the tunnel is active.
 
-**get** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/connections`
+formatdate-time
 
-Fetches connection details for a Cloudflare Tunnel.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+created\_at: optional string
 
-- `account_id: string`
+Timestamp of when the resource was created.
 
-  Cloudflare account ID
+formatdate-time
 
-- `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-  UUID of the tunnel.
+deleted\_at: optional string
 
-### Returns
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+metadata: optional unknown
 
-  - `documentation_url: optional string`
+Metadata associated with the tunnel.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: optional string
 
-- `messages: array of ResponseInfo`
+A user-friendly name for a tunnel.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+status: optional "inactive"or "degraded"or "healthy"or "down"
 
-- `result: array of Client`
+The status of the tunnel. Valid values are <code>inactive</code> (tunnel has never been run), <code>degraded</code> (tunnel is active and able to serve traffic but in an unhealthy state), <code>healthy</code> (tunnel is active and able to serve traffic), or <code>down</code> (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
 
-  - `id: optional string`
+</summary>
 
-    UUID of the Cloudflare Tunnel connection.
+One of the following:
 
-  - `arch: optional string`
+"inactive"
 
-    The cloudflared OS architecture used to establish this connection.
+<a href="#">Link to this property</a>
 
-  - `config_version: optional number`
+"degraded"
 
-    The version of the remote tunnel configuration. Used internally to sync cloudflared with the Zero Trust dashboard.
+<a href="#">Link to this property</a>
 
-  - `conns: optional array of object { id, client_id, client_version, 5 more }`
+"healthy"
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"down"
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-    - `client_id: optional string`
+</details>
 
-      UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-    - `client_version: optional string`
+<details>
 
-      The cloudflared version used to establish this connection.
+<summary>
 
-    - `colo_name: optional string`
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-      The Cloudflare data center used for this connection.
+The type of tunnel.
 
-    - `is_pending_reconnect: optional boolean`
+</summary>
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+One of the following:
 
-    - `opened_at: optional string`
+"cfd\_tunnel"
 
-      Timestamp of when the connection was established.
+<a href="#">Link to this property</a>
 
-    - `origin_ip: optional string`
+"warp\_connector"
 
-      The public IP address of the host running cloudflared.
+<a href="#">Link to this property</a>
 
-    - `uuid: optional string`
+"warp"
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-  - `features: optional array of string`
+"magic"
 
-    Features enabled for the Cloudflare Tunnel.
+<a href="#">Link to this property</a>
 
-  - `run_at: optional string`
+"ip\_sec"
 
-    Timestamp of when the tunnel connection was started.
+<a href="#">Link to this property</a>
 
-  - `version: optional string`
+"gre"
 
-    The cloudflared version used to establish this connection.
+<a href="#">Link to this property</a>
 
-- `success: true`
+"cni"
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service
+[Link to this property](#)%20zero_trust.tunnels.warp_connector%20%3E%20(model)%20warp_connector_delete_response%20%3E%20(schema)>)
 
-  - `page: optional number`
+#### TunnelsWARP ConnectorToken
 
-    Current page within paginated list of results
+##### [Get a Warp Connector Tunnel token](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/token/methods/get)
 
-  - `per_page: optional number`
+GET/accounts/{account\_id}/warp\_connector/{tunnel\_id}/token
 
-    Number of results per page of results
+##### ModelsExpand Collapse
 
-  - `total_count: optional number`
+TokenGetResponse = string
 
-    Total results available without any search parameters
+The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
 
-### Example
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.token%20%3E%20(model)%20token_get_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/connections \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+#### TunnelsWARP ConnectorConnections
 
-#### Response
+##### [List WARP Connector Tunnel connections](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/connections/methods/get)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-      "arch": "linux_amd64",
-      "config_version": 0,
-      "conns": [
-        {
-          "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_version": "2022.7.1",
-          "colo_name": "DFW",
-          "is_pending_reconnect": false,
-          "opened_at": "2021-01-25T18:22:34.317854Z",
-          "origin_ip": "10.1.0.137",
-          "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-        }
-      ],
-      "features": [
-        "ha-origin"
-      ],
-      "run_at": "2009-11-10T23:00:00Z",
-      "version": "2022.7.1"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+GET/accounts/{account\_id}/warp\_connector/{tunnel\_id}/connections
 
-## Clean up Cloudflare Tunnel connections
+##### ModelsExpand Collapse
 
-**delete** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/connections`
+<details>
 
-Removes a connection (aka Cloudflare Tunnel Connector) from a Cloudflare Tunnel independently of its current state. If no connector id (client_id) is provided all connectors will be removed. We recommend running this command after rotating tokens.
+<summary>
 
-### Path Parameters
+ConnectionGetResponse object {id, arch, conns, 4 more }
 
-- `account_id: string`
+A WARP Connector client that maintains a connection to a Cloudflare data center.
 
-  Cloudflare account ID
+</summary>
 
-- `tunnel_id: string`
+id: optional string
 
-  UUID of the tunnel.
+UUID of the Cloudflare Tunnel connector.
 
-### Query Parameters
+formatuuid
 
-- `client_id: optional string`
+maxLength36
 
-  UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-### Returns
+arch: optional string
 
-- `errors: array of ResponseInfo`
+The cloudflared OS architecture used to establish this connection.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+conns: optional array of object {id, client\_id, client\_version, 3 more }
 
-    - `pointer: optional string`
+The WARP Connector Tunnel connections between your origin and Cloudflare’s edge.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+UUID of the Cloudflare Tunnel connection.
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+maxLength36
 
-- `result: unknown`
+<a href="#">Link to this property</a>
 
-- `success: true`
+client\_id: optional string
 
-  Whether the API call was successful
+UUID of the Cloudflare Tunnel connector.
 
-  - `true`
+formatuuid
 
-### Example
+maxLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/connections \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+client\_version: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+The cloudflared version used to establish this connection.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Client
+colo\_name: optional string
 
-- `Client object { id, arch, config_version, 4 more }`
+The Cloudflare data center used for this connection.
 
-  A client (typically cloudflared) that maintains connections to a Cloudflare data center.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+opened\_at: optional string
 
-    UUID of the Cloudflare Tunnel connection.
+Timestamp of when the connection was established.
 
-  - `arch: optional string`
+formatdate-time
 
-    The cloudflared OS architecture used to establish this connection.
+<a href="#">Link to this property</a>
 
-  - `config_version: optional number`
+origin\_ip: optional string
 
-    The version of the remote tunnel configuration. Used internally to sync cloudflared with the Zero Trust dashboard.
+The public IP address of the host running WARP Connector.
 
-  - `conns: optional array of object { id, client_id, client_version, 5 more }`
+<a href="#">Link to this property</a>
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+</details>
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID of the Cloudflare Tunnel connection.
+features: optional array of string
 
-    - `client_id: optional string`
+Features enabled for the Cloudflare Tunnel.
 
-      UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-    - `client_version: optional string`
+<details>
 
-      The cloudflared version used to establish this connection.
+<summary>
 
-    - `colo_name: optional string`
+ha\_status: optional "offline"or "passive"or "active"
 
-      The Cloudflare data center used for this connection.
+The HA status of a WARP Connector client.
 
-    - `is_pending_reconnect: optional boolean`
+</summary>
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+One of the following:
 
-    - `opened_at: optional string`
+"offline"
 
-      Timestamp of when the connection was established.
+<a href="#">Link to this property</a>
 
-    - `origin_ip: optional string`
+"passive"
 
-      The public IP address of the host running cloudflared.
+<a href="#">Link to this property</a>
 
-    - `uuid: optional string`
+"active"
 
-      UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-  - `features: optional array of string`
+</details>
 
-    Features enabled for the Cloudflare Tunnel.
+<a href="#">Link to this property</a>
 
-  - `run_at: optional string`
+run\_at: optional string
 
-    Timestamp of when the tunnel connection was started.
+Timestamp of when the tunnel connection was started.
 
-  - `version: optional string`
+formatdate-time
 
-    The cloudflared version used to establish this connection.
+<a href="#">Link to this property</a>
 
-### Connection Delete Response
+version: optional string
 
-- `ConnectionDeleteResponse = unknown`
+The cloudflared version used to establish this connection.
 
-# Token
+<a href="#">Link to this property</a>
 
-## Get a Cloudflare Tunnel token
+</details>
 
-**get** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/token`
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.connections%20%3E%20(model)%20connection_get_response%20%3E%20(schema)>)
 
-Gets the token used to associate cloudflared with a specific tunnel.
+#### TunnelsWARP ConnectorConnectors
 
-### Path Parameters
+##### [Get WARP Connector Tunnel connector](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/connectors/methods/get)
 
-- `account_id: string`
+GET/accounts/{account\_id}/warp\_connector/{tunnel\_id}/connectors/{connector\_id}
 
-  Cloudflare account ID
+##### ModelsExpand Collapse
 
-- `tunnel_id: string`
+<details>
 
-  UUID of the tunnel.
+<summary>
 
-### Returns
+ConnectorGetResponse object {id, arch, conns, 4 more }
 
-- `errors: array of ResponseInfo`
+A WARP Connector client that maintains a connection to a Cloudflare data center.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+UUID of the Cloudflare Tunnel connector.
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+maxLength36
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+arch: optional string
 
-  - `message: string`
+The cloudflared OS architecture used to establish this connection.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: string`
+<summary>
 
-  The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
+conns: optional array of object {id, client\_id, client\_version, 3 more }
 
-- `success: true`
+The WARP Connector Tunnel connections between your origin and Cloudflare’s edge.
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+id: optional string
 
-### Example
+UUID of the Cloudflare Tunnel connection.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/token \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatuuid
 
-#### Response
+maxLength36
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": "eyJhIjoiNWFiNGU5Z...",
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+client\_id: optional string
 
-### Token Get Response
+UUID of the Cloudflare Tunnel connector.
 
-- `TokenGetResponse = string`
+formatuuid
 
-  The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
+maxLength36
 
-# Connectors
+<a href="#">Link to this property</a>
 
-## Get Cloudflare Tunnel connector
+client\_version: optional string
 
-**get** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/connectors/{connector_id}`
+The cloudflared version used to establish this connection.
 
-Fetches connector and connection details for a Cloudflare Tunnel.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+colo\_name: optional string
 
-- `account_id: string`
+The Cloudflare data center used for this connection.
 
-  Cloudflare account ID
+<a href="#">Link to this property</a>
 
-- `tunnel_id: string`
+opened\_at: optional string
 
-  UUID of the tunnel.
+Timestamp of when the connection was established.
 
-- `connector_id: string`
+formatdate-time
 
-  UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-### Returns
+origin\_ip: optional string
 
-- `errors: array of ResponseInfo`
+The public IP address of the host running WARP Connector.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+features: optional array of string
 
-    - `pointer: optional string`
+Features enabled for the Cloudflare Tunnel.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ha\_status: optional "offline"or "passive"or "active"
 
-  - `source: optional object { pointer }`
+The HA status of a WARP Connector client.
 
-- `result: Client`
+</summary>
 
-  A client (typically cloudflared) that maintains connections to a Cloudflare data center.
+One of the following:
 
-  - `id: optional string`
+"offline"
 
-    UUID of the Cloudflare Tunnel connection.
+<a href="#">Link to this property</a>
 
-  - `arch: optional string`
+"passive"
 
-    The cloudflared OS architecture used to establish this connection.
+<a href="#">Link to this property</a>
 
-  - `config_version: optional number`
+"active"
 
-    The version of the remote tunnel configuration. Used internally to sync cloudflared with the Zero Trust dashboard.
+<a href="#">Link to this property</a>
 
-  - `conns: optional array of object { id, client_id, client_version, 5 more }`
+</details>
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+run\_at: optional string
 
-      UUID of the Cloudflare Tunnel connection.
+Timestamp of when the tunnel connection was started.
 
-    - `client_id: optional string`
+formatdate-time
 
-      UUID of the Cloudflare Tunnel connector.
+<a href="#">Link to this property</a>
 
-    - `client_version: optional string`
+version: optional string
 
-      The cloudflared version used to establish this connection.
+The cloudflared version used to establish this connection.
 
-    - `colo_name: optional string`
+<a href="#">Link to this property</a>
 
-      The Cloudflare data center used for this connection.
+</details>
 
-    - `is_pending_reconnect: optional boolean`
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.connectors%20%3E%20(model)%20connector_get_response%20%3E%20(schema)>)
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+#### TunnelsWARP ConnectorFailover
 
-    - `opened_at: optional string`
+##### [Trigger a manual failover for a WARP Connector Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/failover/methods/update)
 
-      Timestamp of when the connection was established.
+PUT/accounts/{account\_id}/warp\_connector/{tunnel\_id}/failover
 
-    - `origin_ip: optional string`
+##### ModelsExpand Collapse
 
-      The public IP address of the host running cloudflared.
+FailoverUpdateResponse = unknown
 
-    - `uuid: optional string`
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(model)%20failover_update_response%20%3E%20(schema)>)
 
-      UUID of the Cloudflare Tunnel connection.
+#### TunnelsWARP ConnectorConfigurations
 
-  - `features: optional array of string`
+##### [Get WARP Connector HA configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/configurations/methods/get)
 
-    Features enabled for the Cloudflare Tunnel.
+GET/accounts/{account\_id}/warp\_connector/{tunnel\_id}/configurations
 
-  - `run_at: optional string`
+##### [Update WARP Connector HA configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/configurations/methods/update)
 
-    Timestamp of when the tunnel connection was started.
+PUT/accounts/{account\_id}/warp\_connector/{tunnel\_id}/configurations
 
-  - `version: optional string`
+##### ModelsExpand Collapse
 
-    The cloudflared version used to establish this connection.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+ConfigurationGetResponse object {configuration\_version, created\_at, ha\_mode, 3 more }
 
-  - `true`
+</summary>
 
-### Example
+configuration\_version: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/connectors/$CONNECTOR_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Monotonically increasing configuration version, incremented on each PUT.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-    "arch": "linux_amd64",
-    "config_version": 0,
-    "conns": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "features": [
-      "ha-origin"
-    ],
-    "run_at": "2009-11-10T23:00:00Z",
-    "version": "2022.7.1"
-  },
-  "success": true
-}
-```
+created\_at: string
 
-# Management
+Timestamp of when the resource was created.
 
-## Get a Cloudflare Tunnel management token
+formatdate-time
 
-**post** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}/management`
+<a href="#">Link to this property</a>
 
-Gets a management token used to access the management resources (i.e. Streaming Logs) of a tunnel.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+ha\_mode: "none"or "disabled"or "aws"or "local"
 
-  Cloudflare account ID
+High-availability mode for the WARP Connector tunnel. <code>none</code> means HA is enabled but no provider is configured yet (newly created tunnels default to this). <code>disabled</code> means HA is explicitly turned off. <code>aws</code> uses AWS ENI move for failover. <code>local</code> uses virtual IPs (VIPs) on the local interface.
 
-- `tunnel_id: string`
+</summary>
 
-  UUID of the tunnel.
+One of the following:
 
-### Body Parameters
+"none"
 
-- `resources: array of "logs"`
+<a href="#">Link to this property</a>
 
-  - `"logs"`
+"disabled"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"aws"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"local"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+tunnel\_id: string
 
-  - `code: number`
+UUID of the tunnel.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+maxLength36
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: string`
+<details>
 
-  The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
+<summary>
 
-- `success: true`
+config: optional object {fnr\_id } or object {vips, vips\_previous }
 
-  Whether the API call was successful
+Provider-specific configuration. Present for <code>aws</code> and <code>local</code> modes.
 
-  - `true`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/management \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "resources": [
-            "logs"
-          ]
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": "eyJhIjoiNWFiNGU5Z...",
-  "success": true
-}
-```
+TunnelMeshAwsConfig object {fnr\_id }
 
-## Domain Types
+</summary>
 
-### Management Create Response
+fnr\_id: string
 
-- `ManagementCreateResponse = string`
+Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
 
-  The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
+<a href="#">Link to this property</a>
 
-# WARP Connector
+</details>
 
-## List Warp Connector Tunnels
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/warp_connector`
+<details>
 
-Lists and filters Warp Connector Tunnels in an account.
+<summary>
 
-### Path Parameters
+TunnelMeshLocalConfig object {vips, vips\_previous }
 
-- `account_id: string`
+</summary>
 
-  Cloudflare account ID
+<details>
 
-### Query Parameters
+<summary>
 
-- `exclude_prefix: optional string`
+vips: array of object {address }
 
-- `existed_at: optional string`
+VIPs to assign on the CloudflareWARP interface.
 
-  If provided, include only resources that were created (and not deleted) before this time. URL encoded.
+</summary>
 
-- `include_prefix: optional string`
+address: string
 
-- `is_deleted: optional boolean`
+Virtual IP address (IPv4 or IPv6).
 
-  If `true`, only include deleted tunnels. If `false`, exclude deleted tunnels. If empty, all tunnels will be included.
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+</details>
 
-  A user-friendly name for the tunnel.
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+<details>
 
-  Page number of paginated results.
+<summary>
 
-- `per_page: optional number`
+vips\_previous: optional array of object {address }
 
-  Number of results to display.
+VIPs to clean up on demotion or version drift.
 
-- `status: optional "inactive" or "degraded" or "healthy" or "down"`
+</summary>
 
-  The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+address: string
 
-  - `"inactive"`
+Virtual IP address (IPv4 or IPv6).
 
-  - `"degraded"`
+<a href="#">Link to this property</a>
 
-  - `"healthy"`
+</details>
 
-  - `"down"`
+<a href="#">Link to this property</a>
 
-- `uuid: optional string`
+</details>
 
-  UUID of the tunnel.
+<a href="#">Link to this property</a>
 
-- `was_active_at: optional string`
+</details>
 
-- `was_inactive_at: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+updated\_at: optional string
 
-- `errors: array of ResponseInfo`
+Timestamp of the last update. Null if never updated.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.configurations%20%3E%20(model)%20configuration_get_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+ConfigurationUpdateResponse object {configuration\_version, created\_at, ha\_mode, 3 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+configuration\_version: number
 
-  - `source: optional object { pointer }`
+Monotonically increasing configuration version, incremented on each PUT.
 
-- `result: array of object { id, account_tag, connections, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+created\_at: string
 
-    UUID of the tunnel.
+Timestamp of when the resource was created.
 
-  - `account_tag: optional string`
+formatdate-time
 
-    Cloudflare account ID
+<a href="#">Link to this property</a>
 
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
+<details>
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+<summary>
 
-    - `id: optional string`
+ha\_mode: "none"or "disabled"or "aws"or "local"
 
-      UUID of the Cloudflare Tunnel connection.
+High-availability mode for the WARP Connector tunnel. <code>none</code> means HA is enabled but no provider is configured yet (newly created tunnels default to this). <code>disabled</code> means HA is explicitly turned off. <code>aws</code> uses AWS ENI move for failover. <code>local</code> uses virtual IPs (VIPs) on the local interface.
 
-    - `client_id: optional string`
+</summary>
 
-      UUID of the Cloudflare Tunnel connector.
+One of the following:
 
-    - `client_version: optional string`
+"none"
 
-      The cloudflared version used to establish this connection.
+<a href="#">Link to this property</a>
 
-    - `colo_name: optional string`
+"disabled"
 
-      The Cloudflare data center used for this connection.
+<a href="#">Link to this property</a>
 
-    - `is_pending_reconnect: optional boolean`
+"aws"
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+<a href="#">Link to this property</a>
 
-    - `opened_at: optional string`
+"local"
 
-      Timestamp of when the connection was established.
+<a href="#">Link to this property</a>
 
-    - `origin_ip: optional string`
+</details>
 
-      The public IP address of the host running cloudflared.
+<a href="#">Link to this property</a>
 
-    - `uuid: optional string`
+tunnel\_id: string
 
-      UUID of the Cloudflare Tunnel connection.
+UUID of the tunnel.
 
-  - `conns_active_at: optional string`
+formatuuid
 
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+maxLength36
 
-  - `conns_inactive_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+<details>
 
-  - `created_at: optional string`
+<summary>
 
-    Timestamp of when the resource was created.
+config: optional object {fnr\_id } or object {vips, vips\_previous }
 
-  - `deleted_at: optional string`
+Provider-specific configuration. Present for <code>aws</code> and <code>local</code> modes.
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+</summary>
 
-  - `metadata: optional unknown`
+One of the following:
 
-    Metadata associated with the tunnel.
+<details>
 
-  - `name: optional string`
+<summary>
 
-    A user-friendly name for a tunnel.
+TunnelMeshAwsConfig object {fnr\_id }
 
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+</summary>
 
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+fnr\_id: string
 
-    - `"inactive"`
+Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
 
-    - `"degraded"`
+<a href="#">Link to this property</a>
 
-    - `"healthy"`
+</details>
 
-    - `"down"`
+<a href="#">Link to this property</a>
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+<details>
 
-    The type of tunnel.
+<summary>
 
-    - `"cfd_tunnel"`
+TunnelMeshLocalConfig object {vips, vips\_previous }
 
-    - `"warp_connector"`
+</summary>
 
-    - `"warp"`
+<details>
 
-    - `"magic"`
+<summary>
 
-    - `"ip_sec"`
+vips: array of object {address }
 
-    - `"gre"`
+VIPs to assign on the CloudflareWARP interface.
 
-    - `"cni"`
+</summary>
 
-- `success: true`
+address: string
 
-  Whether the API call was successful
+Virtual IP address (IPv4 or IPv6).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results
+vips\_previous: optional array of object {address }
 
-  - `per_page: optional number`
+VIPs to clean up on demotion or version drift.
 
-    Number of results per page of results
+</summary>
 
-  - `total_count: optional number`
+address: string
 
-    Total results available without any search parameters
+Virtual IP address (IPv4 or IPv6).
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "account_tag": "699d98642c564d2e855e9661899b7252",
-      "connections": [
-        {
-          "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_version": "2022.7.1",
-          "colo_name": "DFW",
-          "is_pending_reconnect": false,
-          "opened_at": "2021-01-25T18:22:34.317854Z",
-          "origin_ip": "10.1.0.137",
-          "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-        }
-      ],
-      "conns_active_at": "2009-11-10T23:00:00Z",
-      "conns_inactive_at": "2009-11-10T23:00:00Z",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "deleted_at": "2009-11-10T23:00:00.000000Z",
-      "metadata": {},
-      "name": "blog",
-      "status": "healthy",
-      "tun_type": "cfd_tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+</details>
 
-## Get a Warp Connector Tunnel
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/warp_connector/{tunnel_id}`
+</details>
 
-Fetches a single Warp Connector Tunnel.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+updated\_at: optional string
 
-- `account_id: string`
+Timestamp of the last update. Null if never updated.
 
-  Cloudflare account ID
+formatdate-time
 
-- `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-  UUID of the tunnel.
+</details>
 
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "account_tag": "699d98642c564d2e855e9661899b7252",
-    "connections": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "conns_active_at": "2009-11-10T23:00:00Z",
-    "conns_inactive_at": "2009-11-10T23:00:00Z",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "metadata": {},
-    "name": "blog",
-    "status": "healthy",
-    "tun_type": "cfd_tunnel"
-  },
-  "success": true
-}
-```
-
-## Create a Warp Connector Tunnel
-
-**post** `/accounts/{account_id}/warp_connector`
-
-Creates a new Warp Connector Tunnel in an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Body Parameters
-
-- `name: string`
-
-  A user-friendly name for a tunnel.
-
-- `ha: optional boolean`
-
-  Indicates that the tunnel will be created to be highly available. If omitted, defaults to false.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "blog"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "account_tag": "699d98642c564d2e855e9661899b7252",
-    "connections": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "conns_active_at": "2009-11-10T23:00:00Z",
-    "conns_inactive_at": "2009-11-10T23:00:00Z",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "metadata": {},
-    "name": "blog",
-    "status": "healthy",
-    "tun_type": "cfd_tunnel"
-  },
-  "success": true
-}
-```
-
-## Update a Warp Connector Tunnel
-
-**patch** `/accounts/{account_id}/warp_connector/{tunnel_id}`
-
-Updates an existing Warp Connector Tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-### Body Parameters
-
-- `name: optional string`
-
-  A user-friendly name for a tunnel.
-
-- `tunnel_secret: optional string`
-
-  Sets the password required to run a locally-managed tunnel. Must be at least 32 bytes and encoded as a base64 string.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "blog",
-          "tunnel_secret": "AQIDBAUGBwgBAgMEBQYHCAECAwQFBgcIAQIDBAUGBwg="
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "account_tag": "699d98642c564d2e855e9661899b7252",
-    "connections": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "conns_active_at": "2009-11-10T23:00:00Z",
-    "conns_inactive_at": "2009-11-10T23:00:00Z",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "metadata": {},
-    "name": "blog",
-    "status": "healthy",
-    "tun_type": "cfd_tunnel"
-  },
-  "success": true
-}
-```
-
-## Delete a Warp Connector Tunnel
-
-**delete** `/accounts/{account_id}/warp_connector/{tunnel_id}`
-
-Deletes a Warp Connector Tunnel from an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "account_tag": "699d98642c564d2e855e9661899b7252",
-    "connections": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "is_pending_reconnect": false,
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137",
-        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-      }
-    ],
-    "conns_active_at": "2009-11-10T23:00:00Z",
-    "conns_inactive_at": "2009-11-10T23:00:00Z",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "metadata": {},
-    "name": "blog",
-    "status": "healthy",
-    "tun_type": "cfd_tunnel"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### WARP Connector List Response
-
-- `WARPConnectorListResponse object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-### WARP Connector Get Response
-
-- `WARPConnectorGetResponse object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-### WARP Connector Create Response
-
-- `WARPConnectorCreateResponse object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-### WARP Connector Edit Response
-
-- `WARPConnectorEditResponse object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-### WARP Connector Delete Response
-
-- `WARPConnectorDeleteResponse object { id, account_tag, connections, 8 more }`
-
-  A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
-
-  - `id: optional string`
-
-    UUID of the tunnel.
-
-  - `account_tag: optional string`
-
-    Cloudflare account ID
-
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
-
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `is_pending_reconnect: optional boolean`
-
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running cloudflared.
-
-    - `uuid: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-  - `conns_active_at: optional string`
-
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
-
-  - `conns_inactive_at: optional string`
-
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `metadata: optional unknown`
-
-    Metadata associated with the tunnel.
-
-  - `name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
-
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
-
-    - `"inactive"`
-
-    - `"degraded"`
-
-    - `"healthy"`
-
-    - `"down"`
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-# Token
-
-## Get a Warp Connector Tunnel token
-
-**get** `/accounts/{account_id}/warp_connector/{tunnel_id}/token`
-
-Gets the token used to associate warp device with a specific Warp Connector tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: string`
-
-  The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/token \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": "eyJhIjoiNWFiNGU5Z...",
-  "success": true
-}
-```
-
-## Domain Types
-
-### Token Get Response
-
-- `TokenGetResponse = string`
-
-  The Tunnel Token is used as a mechanism to authenticate the operation of a tunnel.
-
-# Connections
-
-## List WARP Connector Tunnel connections
-
-**get** `/accounts/{account_id}/warp_connector/{tunnel_id}/connections`
-
-Fetches connection details for a WARP Connector Tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id, arch, conns, 4 more }`
-
-  - `id: optional string`
-
-    UUID of the Cloudflare Tunnel connector.
-
-  - `arch: optional string`
-
-    The cloudflared OS architecture used to establish this connection.
-
-  - `conns: optional array of object { id, client_id, client_version, 3 more }`
-
-    The WARP Connector Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running WARP Connector.
-
-  - `features: optional array of string`
-
-    Features enabled for the Cloudflare Tunnel.
-
-  - `ha_status: optional "offline" or "passive" or "active"`
-
-    The HA status of a WARP Connector client.
-
-    - `"offline"`
-
-    - `"passive"`
-
-    - `"active"`
-
-  - `run_at: optional string`
-
-    Timestamp of when the tunnel connection was started.
-
-  - `version: optional string`
-
-    The cloudflared version used to establish this connection.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/connections \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-      "arch": "linux_amd64",
-      "conns": [
-        {
-          "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-          "client_version": "2022.7.1",
-          "colo_name": "DFW",
-          "opened_at": "2021-01-25T18:22:34.317854Z",
-          "origin_ip": "10.1.0.137"
-        }
-      ],
-      "features": [
-        "ha-origin"
-      ],
-      "ha_status": "offline",
-      "run_at": "2009-11-10T23:00:00Z",
-      "version": "2022.7.1"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### Connection Get Response
-
-- `ConnectionGetResponse object { id, arch, conns, 4 more }`
-
-  A WARP Connector client that maintains a connection to a Cloudflare data center.
-
-  - `id: optional string`
-
-    UUID of the Cloudflare Tunnel connector.
-
-  - `arch: optional string`
-
-    The cloudflared OS architecture used to establish this connection.
-
-  - `conns: optional array of object { id, client_id, client_version, 3 more }`
-
-    The WARP Connector Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running WARP Connector.
-
-  - `features: optional array of string`
-
-    Features enabled for the Cloudflare Tunnel.
-
-  - `ha_status: optional "offline" or "passive" or "active"`
-
-    The HA status of a WARP Connector client.
-
-    - `"offline"`
-
-    - `"passive"`
-
-    - `"active"`
-
-  - `run_at: optional string`
-
-    Timestamp of when the tunnel connection was started.
-
-  - `version: optional string`
-
-    The cloudflared version used to establish this connection.
-
-# Connectors
-
-## Get WARP Connector Tunnel connector
-
-**get** `/accounts/{account_id}/warp_connector/{tunnel_id}/connectors/{connector_id}`
-
-Fetches connector and connection details for a WARP Connector Tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-- `connector_id: string`
-
-  UUID of the Cloudflare Tunnel connector.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, arch, conns, 4 more }`
-
-  A WARP Connector client that maintains a connection to a Cloudflare data center.
-
-  - `id: optional string`
-
-    UUID of the Cloudflare Tunnel connector.
-
-  - `arch: optional string`
-
-    The cloudflared OS architecture used to establish this connection.
-
-  - `conns: optional array of object { id, client_id, client_version, 3 more }`
-
-    The WARP Connector Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running WARP Connector.
-
-  - `features: optional array of string`
-
-    Features enabled for the Cloudflare Tunnel.
-
-  - `ha_status: optional "offline" or "passive" or "active"`
-
-    The HA status of a WARP Connector client.
-
-    - `"offline"`
-
-    - `"passive"`
-
-    - `"active"`
-
-  - `run_at: optional string`
-
-    Timestamp of when the tunnel connection was started.
-
-  - `version: optional string`
-
-    The cloudflared version used to establish this connection.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/connectors/$CONNECTOR_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-    "arch": "linux_amd64",
-    "conns": [
-      {
-        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
-        "client_version": "2022.7.1",
-        "colo_name": "DFW",
-        "opened_at": "2021-01-25T18:22:34.317854Z",
-        "origin_ip": "10.1.0.137"
-      }
-    ],
-    "features": [
-      "ha-origin"
-    ],
-    "ha_status": "offline",
-    "run_at": "2009-11-10T23:00:00Z",
-    "version": "2022.7.1"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Connector Get Response
-
-- `ConnectorGetResponse object { id, arch, conns, 4 more }`
-
-  A WARP Connector client that maintains a connection to a Cloudflare data center.
-
-  - `id: optional string`
-
-    UUID of the Cloudflare Tunnel connector.
-
-  - `arch: optional string`
-
-    The cloudflared OS architecture used to establish this connection.
-
-  - `conns: optional array of object { id, client_id, client_version, 3 more }`
-
-    The WARP Connector Tunnel connections between your origin and Cloudflare's edge.
-
-    - `id: optional string`
-
-      UUID of the Cloudflare Tunnel connection.
-
-    - `client_id: optional string`
-
-      UUID of the Cloudflare Tunnel connector.
-
-    - `client_version: optional string`
-
-      The cloudflared version used to establish this connection.
-
-    - `colo_name: optional string`
-
-      The Cloudflare data center used for this connection.
-
-    - `opened_at: optional string`
-
-      Timestamp of when the connection was established.
-
-    - `origin_ip: optional string`
-
-      The public IP address of the host running WARP Connector.
-
-  - `features: optional array of string`
-
-    Features enabled for the Cloudflare Tunnel.
-
-  - `ha_status: optional "offline" or "passive" or "active"`
-
-    The HA status of a WARP Connector client.
-
-    - `"offline"`
-
-    - `"passive"`
-
-    - `"active"`
-
-  - `run_at: optional string`
-
-    Timestamp of when the tunnel connection was started.
-
-  - `version: optional string`
-
-    The cloudflared version used to establish this connection.
-
-# Failover
-
-## Trigger a manual failover for a WARP Connector Tunnel
-
-**put** `/accounts/{account_id}/warp_connector/{tunnel_id}/failover`
-
-Triggers a manual failover for a specific WARP Connector Tunnel, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-### Body Parameters
-
-- `client_id: string`
-
-  UUID of the Cloudflare Tunnel connector.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/failover \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Failover Update Response
-
-- `FailoverUpdateResponse = unknown`
-
-# Configurations
-
-## Get WARP Connector HA configuration
-
-**get** `/accounts/{account_id}/warp_connector/{tunnel_id}/configurations`
-
-Gets the high-availability configuration for a WARP Connector tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { configuration_version, created_at, ha_mode, 3 more }`
-
-  - `configuration_version: number`
-
-    Monotonically increasing configuration version, incremented on each PUT.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `ha_mode: "none" or "disabled" or "aws" or "local"`
-
-    High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
-
-    - `"none"`
-
-    - `"disabled"`
-
-    - `"aws"`
-
-    - `"local"`
-
-  - `tunnel_id: string`
-
-    UUID of the tunnel.
-
-  - `config: optional object { fnr_id }  or object { vips, vips_previous }`
-
-    Provider-specific configuration. Present for `aws` and `local` modes.
-
-    - `TunnelMeshAwsConfig object { fnr_id }`
-
-      - `fnr_id: string`
-
-        Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
-
-    - `TunnelMeshLocalConfig object { vips, vips_previous }`
-
-      - `vips: array of object { address }`
-
-        VIPs to assign on the CloudflareWARP interface.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-      - `vips_previous: optional array of object { address }`
-
-        VIPs to clean up on demotion or version drift.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-  - `updated_at: optional string`
-
-    Timestamp of the last update. Null if never updated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/configurations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "configuration_version": 0,
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "ha_mode": "aws",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "fnr_id": "eni-0123456789abcdef0"
-    },
-    "updated_at": "2021-01-25T18:22:34.317854Z"
-  }
-}
-```
-
-## Update WARP Connector HA configuration
-
-**put** `/accounts/{account_id}/warp_connector/{tunnel_id}/configurations`
-
-Adds or updates the high-availability configuration for a WARP Connector tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-### Body Parameters
-
-- `ha_mode: "none" or "disabled" or "aws" or "local"`
-
-  High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
-
-  - `"none"`
-
-  - `"disabled"`
-
-  - `"aws"`
-
-  - `"local"`
-
-- `config: optional object { fnr_id }  or object { vips, vips_previous }  or unknown`
-
-  Provider-specific configuration. Required shape depends on ha_mode. For `aws`, must contain `fnr_id`. For `local`, must contain `vips`. For `none` and `disabled`, must be empty or omitted.
-
-  - `TunnelMeshAwsConfig object { fnr_id }`
-
-    - `fnr_id: string`
-
-      Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
-
-  - `TunnelMeshLocalConfig object { vips, vips_previous }`
-
-    - `vips: array of object { address }`
-
-      VIPs to assign on the CloudflareWARP interface.
-
-      - `address: string`
-
-        Virtual IP address (IPv4 or IPv6).
-
-    - `vips_previous: optional array of object { address }`
-
-      VIPs to clean up on demotion or version drift.
-
-      - `address: string`
-
-        Virtual IP address (IPv4 or IPv6).
-
-  - `unknown`
-
-    Empty object for none/disabled modes.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { configuration_version, created_at, ha_mode, 3 more }`
-
-  - `configuration_version: number`
-
-    Monotonically increasing configuration version, incremented on each PUT.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `ha_mode: "none" or "disabled" or "aws" or "local"`
-
-    High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
-
-    - `"none"`
-
-    - `"disabled"`
-
-    - `"aws"`
-
-    - `"local"`
-
-  - `tunnel_id: string`
-
-    UUID of the tunnel.
-
-  - `config: optional object { fnr_id }  or object { vips, vips_previous }`
-
-    Provider-specific configuration. Present for `aws` and `local` modes.
-
-    - `TunnelMeshAwsConfig object { fnr_id }`
-
-      - `fnr_id: string`
-
-        Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
-
-    - `TunnelMeshLocalConfig object { vips, vips_previous }`
-
-      - `vips: array of object { address }`
-
-        VIPs to assign on the CloudflareWARP interface.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-      - `vips_previous: optional array of object { address }`
-
-        VIPs to clean up on demotion or version drift.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-  - `updated_at: optional string`
-
-    Timestamp of the last update. Null if never updated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/configurations \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ha_mode": "aws"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "configuration_version": 0,
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "ha_mode": "aws",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "fnr_id": "eni-0123456789abcdef0"
-    },
-    "updated_at": "2021-01-25T18:22:34.317854Z"
-  }
-}
-```
-
-## Domain Types
-
-### Configuration Get Response
-
-- `ConfigurationGetResponse object { configuration_version, created_at, ha_mode, 3 more }`
-
-  - `configuration_version: number`
-
-    Monotonically increasing configuration version, incremented on each PUT.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `ha_mode: "none" or "disabled" or "aws" or "local"`
-
-    High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
-
-    - `"none"`
-
-    - `"disabled"`
-
-    - `"aws"`
-
-    - `"local"`
-
-  - `tunnel_id: string`
-
-    UUID of the tunnel.
-
-  - `config: optional object { fnr_id }  or object { vips, vips_previous }`
-
-    Provider-specific configuration. Present for `aws` and `local` modes.
-
-    - `TunnelMeshAwsConfig object { fnr_id }`
-
-      - `fnr_id: string`
-
-        Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
-
-    - `TunnelMeshLocalConfig object { vips, vips_previous }`
-
-      - `vips: array of object { address }`
-
-        VIPs to assign on the CloudflareWARP interface.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-      - `vips_previous: optional array of object { address }`
-
-        VIPs to clean up on demotion or version drift.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-  - `updated_at: optional string`
-
-    Timestamp of the last update. Null if never updated.
-
-### Configuration Update Response
-
-- `ConfigurationUpdateResponse object { configuration_version, created_at, ha_mode, 3 more }`
-
-  - `configuration_version: number`
-
-    Monotonically increasing configuration version, incremented on each PUT.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `ha_mode: "none" or "disabled" or "aws" or "local"`
-
-    High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
-
-    - `"none"`
-
-    - `"disabled"`
-
-    - `"aws"`
-
-    - `"local"`
-
-  - `tunnel_id: string`
-
-    UUID of the tunnel.
-
-  - `config: optional object { fnr_id }  or object { vips, vips_previous }`
-
-    Provider-specific configuration. Present for `aws` and `local` modes.
-
-    - `TunnelMeshAwsConfig object { fnr_id }`
-
-      - `fnr_id: string`
-
-        Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
-
-    - `TunnelMeshLocalConfig object { vips, vips_previous }`
-
-      - `vips: array of object { address }`
-
-        VIPs to assign on the CloudflareWARP interface.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-      - `vips_previous: optional array of object { address }`
-
-        VIPs to clean up on demotion or version drift.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-  - `updated_at: optional string`
-
-    Timestamp of the last update. Null if never updated.
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.configurations%20%3E%20(model)%20configuration_update_response%20%3E%20(schema)>)

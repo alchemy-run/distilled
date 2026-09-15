@@ -1,112 +1,320 @@
-## Update Resource Group
+---
+title: Update Resource Group
+---
 
-**put** `/accounts/{account_id}/iam/resource_groups/{resource_group_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+[Resource Groups](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Resource Group
+
+PUT/accounts/{account\_id}/iam/resource\_groups/{resource\_group\_id}
 
 Modify an existing resource group.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>API Token</summary>
 
-- `resource_group_id: string`
 
-  Resource Group identifier tag.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `name: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Name of the resource group
+</details>
 
-- `scope: optional object { key, objects }`
+<details>
 
-  A scope is a combination of scope objects which provides additional context.
+<summary>API Email + API Key</summary>
 
-  - `key: string`
 
-    This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-  - `objects: array of object { key }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    A list of scope objects for additional context. The number of Scope objects should not be zero.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `key: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`SCIM Provisioning``Account Settings Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Account identifier tag.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+minLength32
 
-  - `code: number`
+[Link to this property](#)%20iam.resource_groups%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `message: string`
+resource\_group\_id: string
 
-  - `documentation_url: optional string`
+Resource Group identifier tag.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+minLength32
 
-- `success: true`
+[Link to this property](#)%20iam.resource_groups%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20resource_group_id%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+##### Body ParametersJSONExpand Collapse
 
-  - `true`
+name: optional string
 
-- `result: optional object { id, scope, meta, name }`
+Name of the resource group
 
-  A group of scoped resources.
+[Link to this property](#)%20iam.resource_groups%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `id: string`
+<details>
 
-    Identifier of the resource group.
+<summary>
 
-  - `scope: array of object { key, objects }`
+scope: optional object {key, objects }
 
-    The scope associated to the resource group
+A scope is a combination of scope objects which provides additional context.
 
-    - `key: string`
+</summary>
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+key: string
 
-    - `objects: array of object { key }`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-      A list of scope objects for additional context.
+<a href="#">Link to this property</a>
 
-      - `key: string`
+<details>
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<summary>
 
-  - `meta: optional object { key, value }`
+objects: array of object {key }
 
-    Attributes associated to the resource group.
+A list of scope objects for additional context. The number of Scope objects should not be zero.
 
-    - `key: optional string`
+</summary>
 
-    - `value: optional string`
+key: string
 
-  - `name: optional string`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-    Name of the resource group.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.resource_groups%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20scope%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.resource_groups%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.resource_groups%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20iam.resource_groups%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, scope, meta, name }
+
+A group of scoped resources.
+
+</summary>
+
+id: string
+
+Identifier of the resource group.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scope: object {key, objects }
+
+A scope is a combination of scope objects which provides additional context.
+
+</summary>
+
+key: string
+
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+objects: array of object {key }
+
+A list of scope objects for additional context.
+
+</summary>
+
+key: string
+
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {key, value }
+
+Attributes associated to the resource group.
+
+</summary>
+
+key: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the resource group.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.resource_groups%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update Resource Group
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups/$RESOURCE_GROUP_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -116,9 +324,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_grou
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -143,16 +351,60 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_grou
   "success": true,
   "result": {
     "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "scope": [
-      {
-        "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-        "objects": [
-          {
-            "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-          }
-        ]
+    "scope": {
+      "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
+      "objects": [
+        {
+          "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
+        }
+      ]
+    },
+    "meta": {
+      "key": "key",
+      "value": "value"
+    },
+    "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
       }
-    ],
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
+    "scope": {
+      "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
+      "objects": [
+        {
+          "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
+        }
+      ]
+    },
     "meta": {
       "key": "key",
       "value": "value"

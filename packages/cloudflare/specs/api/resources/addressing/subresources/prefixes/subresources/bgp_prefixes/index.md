@@ -1,727 +1,269 @@
+---
+title: BGP Prefixes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # BGP Prefixes
 
-## List BGP Prefixes
+##### [List BGP Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/list)
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes
 
-List all BGP Prefixes within the specified IP Prefix. BGP Prefixes are used to control which specific subnets are advertised to the Internet. It is possible to advertise subnets more specific than an IP Prefix by creating more specific BGP Prefixes.
+##### [Fetch BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-- `account_id: string`
+##### [Create BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/create)
 
-  Identifier of a Cloudflare account.
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes
 
-- `prefix_id: string`
+##### [Update BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/edit)
 
-  Identifier of an IP Prefix.
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-### Returns
+##### [Delete BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+BGPPrefix object {id, asn, asn\_prepend\_count, 6 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+Identifier of BGP Prefix.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+asn: optional number
 
-    - `pointer: optional string`
+Autonomous System Number (ASN) the prefix will be advertised under.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+asn\_prepend\_count: optional number
 
-  - `true`
+Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
 
-- `result: optional array of BGPPrefix`
+maximum3
 
-  - `id: optional string`
+minimum0
 
-    Identifier of BGP Prefix.
+<a href="#">Link to this property</a>
 
-  - `asn: optional number`
+auto\_advertise\_withdraw: optional boolean
 
-    Autonomous System Number (ASN) the prefix will be advertised under.
+Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
 
-  - `asn_prepend_count: optional number`
+<a href="#">Link to this property</a>
 
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
+<details>
 
-  - `auto_advertise_withdraw: optional boolean`
+<summary>
 
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
+bgp\_signal\_opts: optional object {enabled, modified\_at }
 
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
+</summary>
 
-    - `enabled: optional boolean`
+enabled: optional boolean
 
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
+Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
 
-    - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
+modified\_at: optional string
 
-  - `cidr: optional string`
+Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
 
-    IP Prefix in Classless Inter-Domain Routing format.
+formatdate-time
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+</details>
 
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
+<a href="#">Link to this property</a>
 
-    - `advertised: optional boolean`
+cidr: optional string
 
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
+IP Prefix in Classless Inter-Domain Routing format.
 
-    - `advertised_modified_at: optional string`
+<a href="#">Link to this property</a>
 
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+created\_at: optional string
 
-    - `on_demand_enabled: optional boolean`
+formatdate-time
 
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+<a href="#">Link to this property</a>
 
-    - `on_demand_locked: optional boolean`
+modified\_at: optional string
 
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7009ba364c7a5760798ceb430e603b74",
-      "asn": 13335,
-      "asn_prepend_count": 2,
-      "auto_advertise_withdraw": true,
-      "bgp_signal_opts": {
-        "enabled": false,
-        "modified_at": "2014-01-01T05:20:00.12345Z"
-      },
-      "cidr": "192.0.2.0/24",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand": {
-        "advertised": true,
-        "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-        "on_demand_enabled": true,
-        "on_demand_locked": false
-      }
-    }
-  ]
-}
-```
+on\_demand: optional object {advertised, advertised\_modified\_at, on\_demand\_enabled, on\_demand\_locked }
 
-## Fetch BGP Prefix
+</summary>
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}`
+advertised: optional boolean
 
-Retrieve a single BGP Prefix according to its identifier
+Prefix advertisement status to the Internet. This field is only not ‘null’ if on demand is enabled.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+advertised\_modified\_at: optional string
 
-  Identifier of a Cloudflare account.
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-- `prefix_id: string`
+formatdate-time
 
-  Identifier of an IP Prefix.
+<a href="#">Link to this property</a>
 
-- `bgp_prefix_id: string`
+on\_demand\_enabled: optional boolean
 
-  Identifier of BGP Prefix.
+Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+on\_demand\_locked: optional boolean
 
-  - `code: number`
+Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(model)%20bgp_prefix%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+BGPPrefixDeleteResponse object {errors, messages, success }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-- `result: optional BGPPrefix`
+code: number
 
-  - `id: optional string`
+minimum1000
 
-    Identifier of BGP Prefix.
+<a href="#">Link to this property</a>
 
-  - `asn: optional number`
+message: string
 
-    Autonomous System Number (ASN) the prefix will be advertised under.
+<a href="#">Link to this property</a>
 
-  - `asn_prepend_count: optional number`
+documentation\_url: optional string
 
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
+<a href="#">Link to this property</a>
 
-  - `auto_advertise_withdraw: optional boolean`
+<details>
 
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
+<summary>
 
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
+source: optional object {pointer }
 
-    - `enabled: optional boolean`
+</summary>
 
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
+pointer: optional string
 
-    - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
+</details>
 
-  - `cidr: optional string`
+<a href="#">Link to this property</a>
 
-    IP Prefix in Classless Inter-Domain Routing format.
+</details>
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+<details>
 
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
+<summary>
 
-    - `advertised: optional boolean`
+messages: array of object {code, message, documentation\_url, source }
 
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
+</summary>
 
-    - `advertised_modified_at: optional string`
+code: number
 
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+minimum1000
 
-    - `on_demand_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+message: string
 
-    - `on_demand_locked: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
+documentation\_url: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes/$BGP_PREFIX_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
+source: optional object {pointer }
 
-## Create BGP Prefix
+</summary>
 
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes`
+pointer: optional string
 
-Create a BGP prefix, controlling the BGP advertisement status of a specific subnet. When created, BGP prefixes are initially withdrawn, and can be advertised with the Update BGP Prefix API.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+</details>
 
-- `prefix_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of an IP Prefix.
+success: true
 
-### Body Parameters
+Whether the API call was successful.
 
-- `cidr: string`
+<a href="#">Link to this property</a>
 
-  IP Prefix in Classless Inter-Domain Routing format.
+</details>
 
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "cidr": "192.0.2.0/24"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
-
-## Update BGP Prefix
-
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}`
-
-Update the properties of a BGP Prefix, such as the on demand advertisement status (advertised or withdrawn).
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `bgp_prefix_id: string`
-
-  Identifier of BGP Prefix.
-
-### Body Parameters
-
-- `asn_prepend_count: optional number`
-
-  Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-- `auto_advertise_withdraw: optional boolean`
-
-  Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-- `on_demand: optional object { advertised }`
-
-  - `advertised: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes/$BGP_PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "asn_prepend_count": 2,
-          "auto_advertise_withdraw": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
-
-## Domain Types
-
-### BGP Prefix
-
-- `BGPPrefix object { id, asn, asn_prepend_count, 6 more }`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(model)%20bgp_prefix_delete_response%20%3E%20(schema)>)

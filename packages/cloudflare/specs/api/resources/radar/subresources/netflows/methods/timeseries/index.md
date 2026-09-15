@@ -1,253 +1,639 @@
-## Get network traffic time series
+---
+title: Get network traffic time series
+---
 
-**get** `/radar/netflows/timeseries`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[NetFlows](https://developers.cloudflare.com/api/resources/radar/subresources/netflows)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get network traffic time series
+
+GET/radar/netflows/timeseries
 
 Retrieves network traffic (NetFlows) over time.
 
-### Query Parameters
+##### Security
 
-- `aggInterval: optional "15m" or "1h" or "1d" or "1w"`
+<details>
 
-  Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+<summary>API Token</summary>
 
-  - `"15m"`
 
-  - `"1h"`
 
-  - `"1d"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"1w"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `asn: optional array of string`
+</details>
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+<details>
 
-- `continent: optional array of string`
+<summary>API Email + API Key</summary>
 
-  Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
 
-- `dateEnd: optional array of string`
 
-  End of the date range (inclusive).
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `dateRange: optional array of string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `dateStart: optional array of string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Start of the date range.
+</details>
 
-- `format: optional "JSON" or "CSV"`
+##### Accepted Permissions (at least one required)
 
-  Format in which results will be returned.
+`User Details Write``User Details Read`
 
-  - `"JSON"`
+##### Q uery ParametersExpand Collapse
 
-  - `"CSV"`
+<details>
 
-- `geoId: optional array of string`
+<summary>
 
-  Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York).
+aggInterval: optional "15m"or "1h"or "1d"or "1w"
 
-- `location: optional array of string`
+Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to <a href="https://developers.cloudflare.com/radar/concepts/aggregation-intervals/">Aggregation intervals</a>. When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected.
 
-  Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
+</summary>
 
-- `name: optional array of string`
+One of the following:
 
-  Array of names used to label the series in the response.
+"15m"
 
-- `normalization: optional "PERCENTAGE_CHANGE" or "MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-  Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+"1h"
 
-  - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-  - `"MIN0_MAX"`
+"1d"
 
-- `product: optional array of "HTTP" or "ALL"`
+<a href="#">Link to this property</a>
 
-  Filters the results by network traffic product types.
+"1w"
 
-  - `"HTTP"`
+<a href="#">Link to this property</a>
 
-  - `"ALL"`
+</details>
 
-### Returns
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20aggInterval%20%3E%20(schema)>)
 
-- `result: object { meta, serie_0 }`
+asn: optional array of string
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, 3 more }`
+Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
 
-    Metadata for the results.
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20asn%20%3E%20(schema)>)
 
-    - `aggInterval: "FIFTEEN_MINUTES" or "ONE_HOUR" or "ONE_DAY" or 2 more`
+continent: optional array of string
 
-      Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
 
-      - `"FIFTEEN_MINUTES"`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20continent%20%3E%20(schema)>)
 
-      - `"ONE_HOUR"`
+dateEnd: optional array of string
 
-      - `"ONE_DAY"`
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-      - `"ONE_WEEK"`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-      - `"ONE_MONTH"`
+dateRange: optional array of string
 
-    - `confidenceInfo: object { annotations, level }`
+Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+dateStart: optional array of string
 
-          Data source for annotations.
+Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-          - `"ALL"`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
 
-          - `"AI_BOTS"`
+<details>
 
-          - `"AI_GATEWAY"`
+<summary>
 
-          - `"BGP"`
+format: optional "JSON"or "CSV"
 
-          - `"BOTS"`
+Format in which results will be returned.
 
-          - `"CONNECTION_ANOMALY"`
+</summary>
 
-          - `"CT"`
+One of the following:
 
-          - `"DNS"`
+"JSON"
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+"CSV"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+</details>
 
-          - `"EMAIL_SECURITY"`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-          - `"FW"`
+geoId: optional array of string
 
-          - `"FW_PG"`
+Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York).
 
-          - `"HTTP"`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20geoId%20%3E%20(schema)>)
 
-          - `"HTTP_CONTROL"`
+location: optional array of string
 
-          - `"HTTP_CRAWLER_REFERER"`
+Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
 
-          - `"HTTP_ORIGINS"`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20location%20%3E%20(schema)>)
 
-          - `"IQI"`
+name: optional array of string
 
-          - `"LEAKED_CREDENTIALS"`
+Array of names used to label the series in the response.
 
-          - `"NET"`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-          - `"ROBOTS_TXT"`
+<details>
 
-          - `"SPEED"`
+<summary>
 
-          - `"WORKERS_AI"`
+normalization: optional "PERCENTAGE\_CHANGE"or "MIN0\_MAX"
 
-        - `description: string`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>. <code>PERCENTAGE_CHANGE</code> requires exactly one comparison series (e.g. a <code>control</code> date range).
 
-        - `endDate: string`
+</summary>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+One of the following:
 
-          Event type for annotations.
+"PERCENTAGE\_CHANGE"
 
-          - `"EVENT"`
+<a href="#">Link to this property</a>
 
-          - `"GENERAL"`
+"MIN0\_MAX"
 
-          - `"OUTAGE"`
+<a href="#">Link to this property</a>
 
-          - `"PARTIAL_PROJECTION"`
+</details>
 
-          - `"PIPELINE"`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20normalization%20%3E%20(schema)>)
 
-          - `"TRAFFIC_ANOMALY"`
+<details>
 
-        - `isInstantaneous: boolean`
+<summary>
 
-          Whether event is a single point in time or a time range.
+product: optional array of "HTTP"or "ALL"
 
-        - `linkedUrl: string`
+Filters the results by network traffic product types.
 
-        - `startDate: string`
+</summary>
 
-        - `tags: optional array of string`
+One of the following:
 
-      - `level: number`
+"HTTP"
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+"ALL"
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+</details>
 
-      - `startTime: string`
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(params)%20default%20%3E%20(param)%20product%20%3E%20(schema)>)
 
-        Adjusted start of date range.
+##### ReturnsExpand Collapse
 
-    - `lastUpdated: string`
+<details>
 
-      Timestamp of the last dataset update.
+<summary>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+result: object {meta, serie\_0 }
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+</summary>
 
-      - `"PERCENTAGE"`
+<details>
 
-      - `"MIN0_MAX"`
+<summary>
 
-      - `"MIN_MAX"`
+meta: object {aggInterval, confidenceInfo, dateRange, 3 more }
 
-      - `"RAW_VALUES"`
+Metadata for the results.
 
-      - `"PERCENTAGE_CHANGE"`
+</summary>
 
-      - `"ROLLING_AVERAGE"`
+<details>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<summary>
 
-      - `"RATIO"`
+aggInterval: "FIFTEEN\_MINUTES"or "ONE\_HOUR"or "ONE\_DAY"or 2 more
 
-    - `units: array of object { name, value }`
+Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to <a href="https://developers.cloudflare.com/radar/concepts/aggregation-intervals/">Aggregation intervals</a>.
 
-      Measurement units for the results.
+</summary>
 
-      - `name: string`
+One of the following:
 
-      - `value: string`
+"FIFTEEN\_MINUTES"
 
-  - `serie_0: object { timestamps, values }`
+<a href="#">Link to this property</a>
 
-    - `timestamps: array of string`
+"ONE\_HOUR"
 
-    - `values: array of string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"ONE\_DAY"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"ONE\_WEEK"
+
+<a href="#">Link to this property</a>
+
+"ONE\_MONTH"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+confidenceInfo: object {annotations, level }
+
+</summary>
+
+<details>
+
+<summary>
+
+annotations: array of object {dataSource, description, endDate, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
+
+Data source for annotations.
+
+</summary>
+
+One of the following:
+
+"ALL"
+
+<a href="#">Link to this property</a>
+
+"AI\_BOTS"
+
+<a href="#">Link to this property</a>
+
+"AI\_GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"BGP"
+
+<a href="#">Link to this property</a>
+
+"BOTS"
+
+<a href="#">Link to this property</a>
+
+"CONNECTION\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+"CT"
+
+<a href="#">Link to this property</a>
+
+"DNS"
+
+<a href="#">Link to this property</a>
+
+"DNS\_MAGNITUDE"
+
+<a href="#">Link to this property</a>
+
+"DNS\_AS112"
+
+<a href="#">Link to this property</a>
+
+"DOS"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_ROUTING"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_SECURITY"
+
+<a href="#">Link to this property</a>
+
+"FW"
+
+<a href="#">Link to this property</a>
+
+"FW\_PG"
+
+<a href="#">Link to this property</a>
+
+"HTTP"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CONTROL"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CRAWLER\_REFERER"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"IQI"
+
+<a href="#">Link to this property</a>
+
+"LEAKED\_CREDENTIALS"
+
+<a href="#">Link to this property</a>
+
+"NET"
+
+<a href="#">Link to this property</a>
+
+"ROBOTS\_TXT"
+
+<a href="#">Link to this property</a>
+
+"SPEED"
+
+<a href="#">Link to this property</a>
+
+"WORKERS\_AI"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+endDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
+
+Event type for annotations.
+
+</summary>
+
+One of the following:
+
+"GENERAL"
+
+<a href="#">Link to this property</a>
+
+"OUTAGE"
+
+<a href="#">Link to this property</a>
+
+"PARTIAL\_PROJECTION"
+
+<a href="#">Link to this property</a>
+
+"PIPELINE"
+
+<a href="#">Link to this property</a>
+
+"TRAFFIC\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isInstantaneous: boolean
+
+Whether event is a single point in time or a time range.
+
+<a href="#">Link to this property</a>
+
+linkedUrl: string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+startDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+level: number
+
+Provides an indication of how much confidence Cloudflare has in the data.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dateRange: array of object {endTime, startTime }
+
+</summary>
+
+endTime: string
+
+Adjusted end of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+startTime: string
+
+Adjusted start of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastUpdated: string
+
+Timestamp of the last dataset update.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
+
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
+
+</summary>
+
+One of the following:
+
+"PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"MIN0\_MAX"
+
+<a href="#">Link to this property</a>
+
+"MIN\_MAX"
+
+<a href="#">Link to this property</a>
+
+"RAW\_VALUES"
+
+<a href="#">Link to this property</a>
+
+"PERCENTAGE\_CHANGE"
+
+<a href="#">Link to this property</a>
+
+"ROLLING\_AVERAGE"
+
+<a href="#">Link to this property</a>
+
+"OVERLAPPED\_PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"RATIO"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+units: array of object {name, value }
+
+Measurement units for the results.
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+serie\_0: object {timestamps, values }
+
+</summary>
+
+timestamps: array of string
+
+<a href="#">Link to this property</a>
+
+values: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.netflows%20%3E%20(method)%20timeseries%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get network traffic time series
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/netflows/timeseries \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "meta": {
@@ -258,7 +644,61 @@ curl https://api.cloudflare.com/client/v4/radar/netflows/timeseries \
             "dataSource": "ALL",
             "description": "Cable cut in Tonga",
             "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
+            "eventType": "GENERAL",
+            "isInstantaneous": true,
+            "linkedUrl": "https://example.com",
+            "startDate": "2019-12-27T18:11:19.117Z",
+            "tags": [
+              "BOT_CLASS"
+            ]
+          }
+        ],
+        "level": 0
+      },
+      "dateRange": [
+        {
+          "endTime": "2022-09-17T10:22:57.555Z",
+          "startTime": "2022-09-16T10:22:57.555Z"
+        }
+      ],
+      "lastUpdated": "2019-12-27T18:11:19.117Z",
+      "normalization": "PERCENTAGE",
+      "units": [
+        {
+          "name": "*",
+          "value": "requests"
+        }
+      ]
+    },
+    "serie_0": {
+      "timestamps": [
+        "2019-12-27T18:11:19.117Z"
+      ],
+      "values": [
+        "10"
+      ]
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "meta": {
+      "aggInterval": "FIFTEEN_MINUTES",
+      "confidenceInfo": {
+        "annotations": [
+          {
+            "dataSource": "ALL",
+            "description": "Cable cut in Tonga",
+            "endDate": "2019-12-27T18:11:19.117Z",
+            "eventType": "GENERAL",
             "isInstantaneous": true,
             "linkedUrl": "https://example.com",
             "startDate": "2019-12-27T18:11:19.117Z",

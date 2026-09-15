@@ -1,568 +1,193 @@
+---
+title: Message
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Requests](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Message
 
-## List Request Messages
+##### [List Request Messages](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/message/methods/get)
 
-**post** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/message`
+POST/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/message
 
-Lists messages in a Cloudforce One intelligence request conversation.
+##### [Create a New Request Message](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/message/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/message/new
 
-- `account_id: string`
+##### [Update a Request Message](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/message/methods/update)
 
-  Identifier.
+PUT/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/message/{message\_id}
 
-- `request_id: string`
+##### [Delete a Request Message](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/message/methods/delete)
 
-  UUID.
+DELETE/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/message/{message\_id}
 
-### Body Parameters
+##### ModelsExpand Collapse
 
-- `page: number`
+<details>
 
-  Page number of results.
+<summary>
 
-- `per_page: number`
+Message object {id, author, content, 3 more }
 
-  Number of results per page.
+</summary>
 
-- `after: optional string`
+id: number
 
-  Retrieve mes  ges created after this time.
+Message ID.
 
-- `before: optional string`
+<a href="#">Link to this property</a>
 
-  Retrieve messages created before this time.
+author: string
 
-- `sort_by: optional string`
+Author of message.
 
-  Field to sort results by.
+<a href="#">Link to this property</a>
 
-- `sort_order: optional "asc" or "desc"`
+content: string
 
-  Sort order (asc or desc).
+Content of message.
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+is\_follow\_on\_request: boolean
 
-### Returns
+Whether the message is a follow-on request.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+updated: string
 
-  - `message: string`
+Defines the message last updated time.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Defines the message creation time.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(model)%20message%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+MessageDeleteResponse object {errors, messages, success }
 
-  - `true`
+</summary>
 
-- `result: optional array of Message`
+<details>
 
-  - `id: number`
+<summary>
 
-    Message ID.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `author: string`
+</summary>
 
-    Author of message.
+code: number
 
-  - `content: string`
+minimum1000
 
-    Content of message.
+<a href="#">Link to this property</a>
 
-  - `is_follow_on_request: boolean`
+message: string
 
-    Whether the message is a follow-on request.
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+documentation\_url: optional string
 
-    Defines the message last updated time.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+<details>
 
-    Defines the message creation time.
+<summary>
 
-### Example
+source: optional object {pointer }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/message \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "page": 0,
-          "per_page": 10,
-          "before": "2024-01-01T00:00:00Z",
-          "sort_by": "created"
-        }'
-```
+</summary>
 
-#### Response
+pointer: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 0,
-      "author": "user@domain.com",
-      "content": "Can you elaborate on the type of DoS that occurred?",
-      "is_follow_on_request": true,
-      "updated": "2022-01-01T00:00:00Z",
-      "created": "2022-01-01T00:00:00Z"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a New Request Message
+</details>
 
-**post** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/new`
+<a href="#">Link to this property</a>
 
-Adds a message to a Cloudforce One intelligence request conversation.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `request_id: string`
+messages: array of object {code, message, documentation\_url, source }
 
-  UUID.
+</summary>
 
-### Body Parameters
+code: number
 
-- `content: optional string`
+minimum1000
 
-  Content of message.
+<a href="#">Link to this property</a>
 
-### Returns
+message: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+documentation\_url: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+source: optional object {pointer }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+pointer: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+success: true
 
-  - `true`
+Whether the API call was successful.
 
-- `result: optional Message`
+<a href="#">Link to this property</a>
 
-  - `id: number`
+</details>
 
-    Message ID.
-
-  - `author: string`
-
-    Author of message.
-
-  - `content: string`
-
-    Content of message.
-
-  - `is_follow_on_request: boolean`
-
-    Whether the message is a follow-on request.
-
-  - `updated: string`
-
-    Defines the message last updated time.
-
-  - `created: optional string`
-
-    Defines the message creation time.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/message/new \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "content": "Can you elaborate on the type of DoS that occurred?"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 0,
-    "author": "user@domain.com",
-    "content": "Can you elaborate on the type of DoS that occurred?",
-    "is_follow_on_request": true,
-    "updated": "2022-01-01T00:00:00Z",
-    "created": "2022-01-01T00:00:00Z"
-  }
-}
-```
-
-## Update a Request Message
-
-**put** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}`
-
-Updates a message in a Cloudforce One intelligence request thread.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `request_id: string`
-
-  UUID.
-
-- `message_id: number`
-
-### Body Parameters
-
-- `content: optional string`
-
-  Content of message.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Message`
-
-  - `id: number`
-
-    Message ID.
-
-  - `author: string`
-
-    Author of message.
-
-  - `content: string`
-
-    Content of message.
-
-  - `is_follow_on_request: boolean`
-
-    Whether the message is a follow-on request.
-
-  - `updated: string`
-
-    Defines the message last updated time.
-
-  - `created: optional string`
-
-    Defines the message creation time.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/message/$MESSAGE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "content": "Can you elaborate on the type of DoS that occurred?"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 0,
-    "author": "user@domain.com",
-    "content": "Can you elaborate on the type of DoS that occurred?",
-    "is_follow_on_request": true,
-    "updated": "2022-01-01T00:00:00Z",
-    "created": "2022-01-01T00:00:00Z"
-  }
-}
-```
-
-## Delete a Request Message
-
-**delete** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}`
-
-Removes a message from a Cloudforce One intelligence request thread.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `request_id: string`
-
-  UUID.
-
-- `message_id: number`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/message/$MESSAGE_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Message
-
-- `Message object { id, author, content, 3 more }`
-
-  - `id: number`
-
-    Message ID.
-
-  - `author: string`
-
-    Author of message.
-
-  - `content: string`
-
-    Content of message.
-
-  - `is_follow_on_request: boolean`
-
-    Whether the message is a follow-on request.
-
-  - `updated: string`
-
-    Defines the message last updated time.
-
-  - `created: optional string`
-
-    Defines the message creation time.
-
-### Message Delete Response
-
-- `MessageDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20cloudforce_one.requests.message%20%3E%20(model)%20message_delete_response%20%3E%20(schema)>)

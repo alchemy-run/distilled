@@ -1,105 +1,51 @@
+---
+title: Revoke
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Revoke
 
-## Revoke devices (deprecated)
+##### [Revoke devices (deprecated)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/revoke/methods/create)
 
-**post** `/accounts/{account_id}/devices/revoke`
+Deprecated
 
-Revokes a list of devices. Not supported when [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/) is enabled.
+POST/accounts/{account\_id}/devices/revoke
 
-**Deprecated**: please use POST /accounts/{account_id}/devices/registrations/revoke instead.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+RevokeCreateResponse = unknownor string
 
-- `body: array of string`
+</summary>
 
-  A list of Registration IDs to revoke.
+One of the following:
 
-### Returns
+unknown
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/revoke \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Revoke Create Response
-
-- `RevokeCreateResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
+[Link to this property](#)%20zero_trust.devices.revoke%20%3E%20(model)%20revoke_create_response%20%3E%20(schema)>)

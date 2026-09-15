@@ -1,469 +1,171 @@
+---
+title: AI Security
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # AI Security
 
-## Get AI Security for Apps Status
+##### [Get the AI Security for Apps status for a zone.](https://developers.cloudflare.com/api/resources/ai_security/methods/get)
 
-**get** `/zones/{zone_id}/ai-security/settings`
+GET/zones/{zone\_id}/ai-security/settings
 
-Get whether AI Security for Apps is enabled or disabled for a zone.
+##### [Update the AI Security for Apps status for a zone.](https://developers.cloudflare.com/api/resources/ai_security/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/ai-security/settings
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Defines the zone.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+AISecurityGetResponse object {enabled }
 
-  - `code: number`
+AI Security for Apps enablement status for a zone.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+enabled: optional boolean
 
-  - `source: optional object { pointer }`
+Whether AI Security for Apps is enabled on the zone.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20ai_security%20%3E%20(model)%20ai_security_get_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+AISecurityUpdateResponse object {enabled }
 
-- `result: object { enabled }`
+AI Security for Apps enablement status for a zone.
 
-  AI Security for Apps enablement status for a zone.
+</summary>
 
-  - `enabled: optional boolean`
+enabled: optional boolean
 
-    Whether AI Security for Apps is enabled on the zone.
+Whether AI Security for Apps is enabled on the zone.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20ai_security%20%3E%20(model)%20ai_security_update_response%20%3E%20(schema)>)
 
-### Example
+#### AI SecurityCustom Topics
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ai-security/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Get the AI Security for Apps custom topics of a zone.](https://developers.cloudflare.com/api/resources/ai_security/subresources/custom_topics/methods/get)
 
-#### Response
+GET/zones/{zone\_id}/ai-security/custom-topics
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true
-  },
-  "success": true
-}
-```
+##### [Update the AI Security for Apps custom topics of a zone.](https://developers.cloudflare.com/api/resources/ai_security/subresources/custom_topics/methods/update)
 
-## Set AI Security for Apps Status
+PUT/zones/{zone\_id}/ai-security/custom-topics
 
-**put** `/zones/{zone_id}/ai-security/settings`
+##### ModelsExpand Collapse
 
-Enable or disable AI Security for Apps for a zone.
+<details>
 
-Changes can take up to a minute to propagate to the zone.
+<summary>
 
-### Path Parameters
+CustomTopicGetResponse object {topics }
 
-- `zone_id: string`
+</summary>
 
-  Defines the zone.
+<details>
 
-### Body Parameters
+<summary>
 
-- `enabled: optional boolean`
+topics: optional array of object {label, topic }
 
-  Whether AI Security for Apps is enabled on the zone.
+Custom topic categories for AI Security for Apps content detection.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+label: string
 
-  - `code: number`
+Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens.
 
-  - `message: string`
+maxLength20
 
-  - `documentation_url: optional string`
+minLength2
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+topic: string
 
-- `messages: array of ResponseInfo`
+Description of the topic category. Must contain only printable ASCII characters.
 
-  - `code: number`
+maxLength50
 
-  - `message: string`
+minLength2
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { enabled }`
+<a href="#">Link to this property</a>
 
-  AI Security for Apps enablement status for a zone.
+</details>
 
-  - `enabled: optional boolean`
+[Link to this property](#)%20ai_security.custom_topics%20%3E%20(model)%20custom_topic_get_response%20%3E%20(schema)>)
 
-    Whether AI Security for Apps is enabled on the zone.
+<details>
 
-- `success: true`
+<summary>
 
-  Defines whether the API call was successful.
+CustomTopicUpdateResponse object {topics }
 
-  - `true`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ai-security/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
+<summary>
 
-#### Response
+topics: optional array of object {label, topic }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true
-  },
-  "success": true
-}
-```
+Custom topic categories for AI Security for Apps content detection.
 
-## Domain Types
+</summary>
 
-### AI Security Get Response
+label: string
 
-- `AISecurityGetResponse object { enabled }`
+Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens.
 
-  AI Security for Apps enablement status for a zone.
+maxLength20
 
-  - `enabled: optional boolean`
+minLength2
 
-    Whether AI Security for Apps is enabled on the zone.
+<a href="#">Link to this property</a>
 
-### AI Security Update Response
+topic: string
 
-- `AISecurityUpdateResponse object { enabled }`
+Description of the topic category. Must contain only printable ASCII characters.
 
-  AI Security for Apps enablement status for a zone.
+maxLength50
 
-  - `enabled: optional boolean`
+minLength2
 
-    Whether AI Security for Apps is enabled on the zone.
+<a href="#">Link to this property</a>
 
-# Custom Topics
+</details>
 
-## Get AI Security for Apps Custom Topics
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/ai-security/custom-topics`
+</details>
 
-Get the AI Security for Apps custom topic categories for a zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines the zone.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { topics }`
-
-  - `topics: optional array of object { label, topic }`
-
-    Custom topic categories for AI Security for Apps content detection.
-
-    - `label: string`
-
-      Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens.
-
-    - `topic: string`
-
-      Description of the topic category. Must contain only printable ASCII characters.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ai-security/custom-topics \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "topics": [
-      {
-        "label": "credit-cards",
-        "topic": "credit card numbers"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Set AI Security for Apps Custom Topics
-
-**put** `/zones/{zone_id}/ai-security/custom-topics`
-
-Set the AI Security for Apps custom topic categories for a zone.
-
-A maximum of 20 custom topics can be configured per zone.
-Each topic label must be 2–20 characters using only lowercase letters (a–z), digits (0–9), and hyphens.
-Each topic description must be 2–50 printable ASCII characters.
-
-Changes can take up to a minute to propagate to the zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines the zone.
-
-### Body Parameters
-
-- `topics: optional array of object { label, topic }`
-
-  Custom topic categories for AI Security for Apps content detection.
-
-  - `label: string`
-
-    Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens.
-
-  - `topic: string`
-
-    Description of the topic category. Must contain only printable ASCII characters.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { topics }`
-
-  - `topics: optional array of object { label, topic }`
-
-    Custom topic categories for AI Security for Apps content detection.
-
-    - `label: string`
-
-      Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens.
-
-    - `topic: string`
-
-      Description of the topic category. Must contain only printable ASCII characters.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ai-security/custom-topics \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "topics": [
-      {
-        "label": "credit-cards",
-        "topic": "credit card numbers"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Custom Topic Get Response
-
-- `CustomTopicGetResponse object { topics }`
-
-  - `topics: optional array of object { label, topic }`
-
-    Custom topic categories for AI Security for Apps content detection.
-
-    - `label: string`
-
-      Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens.
-
-    - `topic: string`
-
-      Description of the topic category. Must contain only printable ASCII characters.
-
-### Custom Topic Update Response
-
-- `CustomTopicUpdateResponse object { topics }`
-
-  - `topics: optional array of object { label, topic }`
-
-    Custom topic categories for AI Security for Apps content detection.
-
-    - `label: string`
-
-      Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens.
-
-    - `topic: string`
-
-      Description of the topic category. Must contain only printable ASCII characters.
+[Link to this property](#)%20ai_security.custom_topics%20%3E%20(model)%20custom_topic_update_response%20%3E%20(schema)>)

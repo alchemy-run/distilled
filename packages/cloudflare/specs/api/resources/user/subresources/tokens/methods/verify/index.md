@@ -1,75 +1,243 @@
-## Verify Token
+---
+title: Verify Token
+---
 
-**get** `/user/tokens/verify`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[User](https://developers.cloudflare.com/api/resources/user)
+
+[Tokens](https://developers.cloudflare.com/api/resources/user/subresources/tokens)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Verify Token
+
+GET/user/tokens/verify
 
 Test whether a token works.
 
-### Returns
+##### Security
 
-- `errors: array of object { code, message, documentation_url, source }`
+API Token
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-  - `message: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  - `documentation_url: optional string`
+##### ReturnsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+code: number
 
-  - `documentation_url: optional string`
+minimum1000
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+message: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+documentation\_url: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, status, expires_on, not_before }`
+<details>
 
-  - `id: string`
+<summary>
 
-    Token identifier tag.
+source: optional object {pointer }
 
-  - `status: "active" or "disabled" or "expired"`
+</summary>
 
-    Status of the token.
+pointer: optional string
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+</details>
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+</details>
 
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20verify%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `not_before: optional string`
+<details>
 
-    The time before which the token MUST NOT be accepted for processing.
+<summary>
 
-### Example
+messages: array of object {code, message, documentation\_url, source }
 
-```http
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20verify%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20verify%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, status, expires\_on, not\_before }
+
+</summary>
+
+id: string
+
+Token identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "active"or "disabled"or "expired"
+
+Status of the token.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"expired"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+not\_before: optional string
+
+The time before which the token MUST NOT be accepted for processing.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.tokens%20%3E%20(method)%20verify%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Verify Token
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/user/tokens/verify \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "ed17574386854bf78a67040be0a770b0",
+    "status": "active",
+    "expires_on": "2020-01-01T00:00:00Z",
+    "not_before": "2018-07-01T05:20:00Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

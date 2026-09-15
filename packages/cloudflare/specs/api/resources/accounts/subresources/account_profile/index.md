@@ -1,132 +1,61 @@
+---
+title: Account Profile
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Account Profile
 
-## Get account profile
+##### [Get account profile](https://developers.cloudflare.com/api/resources/accounts/subresources/account_profile/methods/get)
 
-**get** `/accounts/{account_id}/profile`
+GET/accounts/{account\_id}/profile
 
-Retrieves the profile information for a specific Cloudflare account, including organization details, settings, and metadata. This endpoint is commonly used to verify account access and retrieve account-level configuration.
+##### [Modify account profile](https://developers.cloudflare.com/api/resources/accounts/subresources/account_profile/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/profile
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of unknown`
+<summary>
 
-- `messages: array of ResponseInfo`
+AccountProfile object {business\_address, business\_email, business\_name, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+business\_address: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+business\_email: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: AccountProfile`
+business\_name: string
 
-  - `business_address: string`
+<a href="#">Link to this property</a>
 
-  - `business_email: string`
+business\_phone: string
 
-  - `business_name: string`
+<a href="#">Link to this property</a>
 
-  - `business_phone: string`
+external\_metadata: string
 
-  - `external_metadata: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/profile \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "business_address": "business_address",
-    "business_email": "business_email",
-    "business_name": "business_name",
-    "business_phone": "business_phone",
-    "external_metadata": "external_metadata"
-  },
-  "success": true
-}
-```
-
-## Modify account profile
-
-**put** `/accounts/{account_id}/profile`
-
-Updates the profile information for a Cloudflare account. Allows modification of account-level settings and organizational details. Requires Account Settings Write permission.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `business_address: string`
-
-- `business_email: string`
-
-- `business_name: string`
-
-- `business_phone: string`
-
-- `external_metadata: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/profile \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "business_address": "business_address",
-          "business_email": "business_email",
-          "business_name": "business_name",
-          "business_phone": "business_phone",
-          "external_metadata": "external_metadata"
-        }'
-```
-
-## Domain Types
-
-### Account Profile
-
-- `AccountProfile object { business_address, business_email, business_name, 2 more }`
-
-  - `business_address: string`
-
-  - `business_email: string`
-
-  - `business_name: string`
-
-  - `business_phone: string`
-
-  - `external_metadata: string`
+[Link to this property](#)%20accounts.account_profile%20%3E%20(model)%20account_profile%20%3E%20(schema)>)

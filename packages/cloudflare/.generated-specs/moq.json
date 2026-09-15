@@ -25,27 +25,14 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.cloudflare.moq#RelaysCreateResponseConfigLingeringSubscribe": {
-      "type": "structure",
-      "members": {
-        "enabled": {
-          "target": "smithy.api#Boolean"
-        },
-        "max_timeout_ms": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Relay-level ceiling on lingering subscribe timeout (ms). Default 30000."
-          }
-        }
-      }
-    },
     "com.cloudflare.moq#RelaysCreateResponseConfigUpstreamsUpstreamsItem": {
       "type": "structure",
       "members": {
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Upstream MOQT server publisher URL."
+            "smithy.api#documentation": "Upstream MOQT server publisher URL. Must be an absolute URL with a host and a scheme the relay can dial: moqt:// (raw QUIC) or https:// (WebTransport). Validated on update (PUT); rejected with 21013.",
+            "smithy.api#required": {}
           }
         }
       }
@@ -65,7 +52,7 @@
         "upstreams": {
           "target": "com.cloudflare.moq#RelaysCreateResponseConfigUpstreamsUpstreamsList",
           "traits": {
-            "smithy.api#documentation": "Ordered list of upstream MOQT server publishers. Each entry is an"
+            "smithy.api#documentation": "Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change."
           }
         }
       }
@@ -73,29 +60,137 @@
     "com.cloudflare.moq#RelaysCreateResponseConfig": {
       "type": "structure",
       "members": {
-        "lingering_subscribe": {
-          "target": "com.cloudflare.moq#RelaysCreateResponseConfigLingeringSubscribe"
-        },
         "upstreams": {
           "target": "com.cloudflare.moq#RelaysCreateResponseConfigUpstreams",
           "traits": {
-            "smithy.api#documentation": "Upstreams are external MOQT server publishers that a relay falls back"
+            "smithy.api#documentation": "Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track."
           }
         }
       }
     },
-    "com.cloudflare.moq#RelaysGetResponseConfigLingeringSubscribe": {
-      "type": "structure",
+    "com.cloudflare.moq#RelaysCreateResponseIssuersItemCloudflareTokensItemOperationsItem": {
+      "type": "enum",
       "members": {
-        "enabled": {
-          "target": "smithy.api#Boolean"
-        },
-        "max_timeout_ms": {
-          "target": "smithy.api#Double",
+        "PUBLISH": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Relay-level ceiling on lingering subscribe timeout (ms). Default 30000."
+            "smithy.api#enumValue": "publish"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
           }
         }
+      }
+    },
+    "com.cloudflare.moq#RelaysCreateResponseIssuersItemCloudflareTokensItemOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#RelaysCreateResponseIssuersItemCloudflareTokensItemOperationsItem"
+      }
+    },
+    "com.cloudflare.moq#RelaysCreateResponseIssuersItemCloudflareTokensItem": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mandatory; no more than 1 year after `created`.",
+            "smithy.api#required": {}
+          }
+        },
+        "jti": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token identity and registry key (32 hex chars).",
+            "smithy.api#required": {}
+          }
+        },
+        "operations": {
+          "target": "com.cloudflare.moq#RelaysCreateResponseIssuersItemCloudflareTokensItemOperationsList",
+          "traits": {
+            "smithy.api#documentation": "Signed allowlist of what the token may do. V1 coarse roles; the array form extends to fine-grained MoQT message names later without a breaking change.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional, customer-set."
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed JWT. Present ONLY in create / auto-create responses (shown once); never returned by list, never stored."
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#RelaysCreateResponseIssuersItemCloudflareTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#RelaysCreateResponseIssuersItemCloudflareTokensItem"
+      }
+    },
+    "com.cloudflare.moq#RelaysCreateResponseIssuersItemIssuer": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#RelaysCreateResponseIssuersItemType": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE_JWT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare_jwt"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#RelaysCreateResponseIssuersItem": {
+      "type": "structure",
+      "members": {
+        "cloudflare_tokens": {
+          "target": "com.cloudflare.moq#RelaysCreateResponseIssuersItemCloudflareTokensList",
+          "traits": {
+            "smithy.api#documentation": "Always present ([] when empty).",
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "com.cloudflare.moq#RelaysCreateResponseIssuersItemIssuer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.moq#RelaysCreateResponseIssuersItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#RelaysCreateResponseIssuersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#RelaysCreateResponseIssuersItem"
       }
     },
     "com.cloudflare.moq#RelaysGetResponseConfigUpstreamsUpstreamsItem": {
@@ -104,7 +199,8 @@
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Upstream MOQT server publisher URL."
+            "smithy.api#documentation": "Upstream MOQT server publisher URL. Must be an absolute URL with a host and a scheme the relay can dial: moqt:// (raw QUIC) or https:// (WebTransport). Validated on update (PUT); rejected with 21013.",
+            "smithy.api#required": {}
           }
         }
       }
@@ -124,7 +220,7 @@
         "upstreams": {
           "target": "com.cloudflare.moq#RelaysGetResponseConfigUpstreamsUpstreamsList",
           "traits": {
-            "smithy.api#documentation": "Ordered list of upstream MOQT server publishers. Each entry is an"
+            "smithy.api#documentation": "Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change."
           }
         }
       }
@@ -132,13 +228,10 @@
     "com.cloudflare.moq#RelaysGetResponseConfig": {
       "type": "structure",
       "members": {
-        "lingering_subscribe": {
-          "target": "com.cloudflare.moq#RelaysGetResponseConfigLingeringSubscribe"
-        },
         "upstreams": {
           "target": "com.cloudflare.moq#RelaysGetResponseConfigUpstreams",
           "traits": {
-            "smithy.api#documentation": "Upstreams are external MOQT server publishers that a relay falls back"
+            "smithy.api#documentation": "Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track."
           }
         }
       }
@@ -189,27 +282,14 @@
         "target": "com.cloudflare.moq#RelaysListResultItem"
       }
     },
-    "com.cloudflare.moq#RelaysUpdateRequestConfigLingeringSubscribe": {
-      "type": "structure",
-      "members": {
-        "enabled": {
-          "target": "smithy.api#Boolean"
-        },
-        "max_timeout_ms": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Relay-level ceiling on lingering subscribe timeout (ms). Default 30000."
-          }
-        }
-      }
-    },
     "com.cloudflare.moq#RelaysUpdateRequestConfigUpstreamsUpstreamsItem": {
       "type": "structure",
       "members": {
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Upstream MOQT server publisher URL."
+            "smithy.api#documentation": "Upstream MOQT server publisher URL. Must be an absolute URL with a host and a scheme the relay can dial: moqt:// (raw QUIC) or https:// (WebTransport). Validated on update (PUT); rejected with 21013.",
+            "smithy.api#required": {}
           }
         }
       }
@@ -229,7 +309,7 @@
         "upstreams": {
           "target": "com.cloudflare.moq#RelaysUpdateRequestConfigUpstreamsUpstreamsList",
           "traits": {
-            "smithy.api#documentation": "Ordered list of upstream MOQT server publishers. Each entry is an"
+            "smithy.api#documentation": "Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change."
           }
         }
       }
@@ -237,27 +317,10 @@
     "com.cloudflare.moq#RelaysUpdateRequestConfig": {
       "type": "structure",
       "members": {
-        "lingering_subscribe": {
-          "target": "com.cloudflare.moq#RelaysUpdateRequestConfigLingeringSubscribe"
-        },
         "upstreams": {
           "target": "com.cloudflare.moq#RelaysUpdateRequestConfigUpstreams",
           "traits": {
-            "smithy.api#documentation": "Upstreams are external MOQT server publishers that a relay falls back"
-          }
-        }
-      }
-    },
-    "com.cloudflare.moq#RelaysUpdateResponseConfigLingeringSubscribe": {
-      "type": "structure",
-      "members": {
-        "enabled": {
-          "target": "smithy.api#Boolean"
-        },
-        "max_timeout_ms": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Relay-level ceiling on lingering subscribe timeout (ms). Default 30000."
+            "smithy.api#documentation": "Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track."
           }
         }
       }
@@ -268,7 +331,8 @@
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Upstream MOQT server publisher URL."
+            "smithy.api#documentation": "Upstream MOQT server publisher URL. Must be an absolute URL with a host and a scheme the relay can dial: moqt:// (raw QUIC) or https:// (WebTransport). Validated on update (PUT); rejected with 21013.",
+            "smithy.api#required": {}
           }
         }
       }
@@ -288,7 +352,7 @@
         "upstreams": {
           "target": "com.cloudflare.moq#RelaysUpdateResponseConfigUpstreamsUpstreamsList",
           "traits": {
-            "smithy.api#documentation": "Ordered list of upstream MOQT server publishers. Each entry is an"
+            "smithy.api#documentation": "Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change."
           }
         }
       }
@@ -296,13 +360,10 @@
     "com.cloudflare.moq#RelaysUpdateResponseConfig": {
       "type": "structure",
       "members": {
-        "lingering_subscribe": {
-          "target": "com.cloudflare.moq#RelaysUpdateResponseConfigLingeringSubscribe"
-        },
         "upstreams": {
           "target": "com.cloudflare.moq#RelaysUpdateResponseConfigUpstreams",
           "traits": {
-            "smithy.api#documentation": "Upstreams are external MOQT server publishers that a relay falls back"
+            "smithy.api#documentation": "Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track."
           }
         }
       }
@@ -316,6 +377,457 @@
             "smithy.api#enumValue": "connected"
           }
         }
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenRequestOperationsItem": {
+      "type": "enum",
+      "members": {
+        "PUBLISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publish"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenRequestOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#CreateRelaysTokenRequestOperationsItem"
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "relay_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "operations": {
+          "target": "com.cloudflare.moq#CreateRelaysTokenRequestOperationsList",
+          "traits": {
+            "smithy.api#documentation": "Non-empty subset of the V1 roles the token is allowed to perform. Signed into the token.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional expiry (RFC 3339). Defaults to 1 year from creation; rejected if more than 1 year in the future."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional, customer-set label."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemCloudflareTokensItemOperationsItem": {
+      "type": "enum",
+      "members": {
+        "PUBLISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publish"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemCloudflareTokensItemOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemCloudflareTokensItemOperationsItem"
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemCloudflareTokensItem": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mandatory; no more than 1 year after `created`.",
+            "smithy.api#required": {}
+          }
+        },
+        "jti": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token identity and registry key (32 hex chars).",
+            "smithy.api#required": {}
+          }
+        },
+        "operations": {
+          "target": "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemCloudflareTokensItemOperationsList",
+          "traits": {
+            "smithy.api#documentation": "Signed allowlist of what the token may do. V1 coarse roles; the array form extends to fine-grained MoQT message names later without a breaking change.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional, customer-set."
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed JWT. Present ONLY in create / auto-create responses (shown once); never returned by list, never stored."
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemCloudflareTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemCloudflareTokensItem"
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemIssuer": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemType": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE_JWT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare_jwt"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItem": {
+      "type": "structure",
+      "members": {
+        "cloudflare_tokens": {
+          "target": "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemCloudflareTokensList",
+          "traits": {
+            "smithy.api#documentation": "Always present ([] when empty).",
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemIssuer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponseIssuersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#CreateRelaysTokenResponseIssuersItem"
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysTokenResponse": {
+      "type": "structure",
+      "members": {
+        "issuers": {
+          "target": "com.cloudflare.moq#CreateRelaysTokenResponseIssuersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.moq#CreateRelaysToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.moq#CreateRelaysTokenRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.moq#CreateRelaysTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/moq/relays/{relay_id}/tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mints a new relay-scoped token and adds it to the relay's accepted-auth registry. The token value (secret) is shown once in the response. A relay may hold up to 10 tokens; creating an 11th is rejected."
+      }
+    },
+    "com.cloudflare.moq#DeleteRelaysTokenRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "relay_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "jti": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.moq#DeleteRelaysToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.moq#DeleteRelaysTokenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/moq/relays/{relay_id}/tokens/{jti}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revokes a token by removing it from the set the relay accepts. Relays cache that set, so revocation takes effect within seconds rather than instantly, and connections already established with the token are not closed. Revoking an unknown token succeeds, so the call is idempotent.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "relay_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemCloudflareTokensItemOperationsItem": {
+      "type": "enum",
+      "members": {
+        "PUBLISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publish"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemCloudflareTokensItemOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemCloudflareTokensItemOperationsItem"
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemCloudflareTokensItem": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mandatory; no more than 1 year after `created`.",
+            "smithy.api#required": {}
+          }
+        },
+        "jti": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token identity and registry key (32 hex chars).",
+            "smithy.api#required": {}
+          }
+        },
+        "operations": {
+          "target": "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemCloudflareTokensItemOperationsList",
+          "traits": {
+            "smithy.api#documentation": "Signed allowlist of what the token may do. V1 coarse roles; the array form extends to fine-grained MoQT message names later without a breaking change.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional, customer-set."
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed JWT. Present ONLY in create / auto-create responses (shown once); never returned by list, never stored."
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemCloudflareTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemCloudflareTokensItem"
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemIssuer": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemType": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE_JWT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare_jwt"
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponseIssuersItem": {
+      "type": "structure",
+      "members": {
+        "cloudflare_tokens": {
+          "target": "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemCloudflareTokensList",
+          "traits": {
+            "smithy.api#documentation": "Always present ([] when empty).",
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemIssuer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.moq#ListRelaysTokensResponseIssuersItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponseIssuersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.moq#ListRelaysTokensResponseIssuersItem"
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokensResponse": {
+      "type": "structure",
+      "members": {
+        "issuers": {
+          "target": "com.cloudflare.moq#ListRelaysTokensResponseIssuersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.moq#ListRelaysTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.moq#ListRelaysTokensRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.moq#ListRelaysTokensResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/moq/relays/{relay_id}/tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns metadata for every token the relay accepts. Secrets are never returned, so a token that has been lost cannot be recovered here. There is no expiry filter: compare each token's `expires` to the current time to tell which ones have lapsed.",
+        "smithy.api#readonly": {}
       }
     },
     "com.cloudflare.moq#RelaysTokensRotateRequestType": {
@@ -357,6 +869,15 @@
       "version": "4.0",
       "operations": [
         {
+          "target": "com.cloudflare.moq#CreateRelaysToken"
+        },
+        {
+          "target": "com.cloudflare.moq#DeleteRelaysToken"
+        },
+        {
+          "target": "com.cloudflare.moq#ListRelaysTokens"
+        },
+        {
           "target": "com.cloudflare.moq#CreateRelay"
         },
         {
@@ -395,7 +916,7 @@
           "uri": "/accounts/{account_id}/moq/relays",
           "code": 200
         },
-        "smithy.api#documentation": "Provisions a new MoQ relay instance. Auto-creates a publish+subscribe token and a subscribe-only token. Token values are included in the response (shown once). Config is set to defaults (lingering subscribe enabled, 30s ceiling, upstreams off). Use PUT to modify."
+        "smithy.api#documentation": "Provisions a new MoQ relay instance. Auto-creates a publish+subscribe token and a subscribe-only token. Token values are included in the response (shown once). Config is always set to defaults (upstreams off) and cannot be supplied here — sending a non-empty `config` is rejected (21014); `null` or `{}` is accepted as absent. Use PUT to configure the relay after it exists."
       }
     },
     "com.cloudflare.moq#CreateRelayRequest": {
@@ -427,13 +948,19 @@
         "config": {
           "target": "com.cloudflare.moq#RelaysCreateResponseConfig",
           "traits": {
-            "smithy.api#documentation": "upstreams and lingering_subscribe are mutually exclusive.",
             "smithy.api#required": {}
           }
         },
         "created": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issuers": {
+          "target": "com.cloudflare.moq#RelaysCreateResponseIssuersList",
+          "traits": {
+            "smithy.api#documentation": "Token collection (discriminated union on `type`). On create this holds the auto-created default pair, each including its one-time secret.",
             "smithy.api#required": {}
           }
         },
@@ -446,20 +973,6 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "token_publish_subscribe": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Full access token (publish + subscribe). Treat as sensitive.",
-            "smithy.api#required": {}
-          }
-        },
-        "token_subscribe": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Subscribe-only token. Treat as sensitive.",
             "smithy.api#required": {}
           }
         },
@@ -490,7 +1003,7 @@
           "uri": "/accounts/{account_id}/moq/relays/{relay_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Soft-deletes a MoQ relay.",
+        "smithy.api#documentation": "Soft-deletes a MoQ relay. The relay ID goes in the URL path — `DELETE /accounts/{account_id}/moq/relays/{relay_id}` — not the request body; there is no collection-level delete endpoint.",
         "smithy.api#idempotent": {}
       }
     },
@@ -579,7 +1092,6 @@
         "config": {
           "target": "com.cloudflare.moq#RelaysGetResponseConfig",
           "traits": {
-            "smithy.api#documentation": "upstreams and lingering_subscribe are mutually exclusive.",
             "smithy.api#required": {}
           }
         },
@@ -655,28 +1167,28 @@
         "asc": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Sort order by `created`. When true, results are returned oldest-first",
+            "smithy.api#documentation": "Sort order by `created`. When true, results are returned oldest-first (ascending); otherwise newest-first (descending, the default).",
             "smithy.api#httpQuery": "asc"
           }
         },
         "created_after": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cursor for pagination. Returns relays created strictly after this",
+            "smithy.api#documentation": "Cursor for pagination. Returns relays created strictly after this RFC 3339 timestamp (typically the `created` value of the last item on the current page, to fetch the next page).",
             "smithy.api#httpQuery": "created_after"
           }
         },
         "created_before": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cursor for pagination. Returns relays created strictly before this",
+            "smithy.api#documentation": "Cursor for pagination. Returns relays created strictly before this RFC 3339 timestamp (typically the `created` value of the first item on the current page, to fetch the previous page).",
             "smithy.api#httpQuery": "created_before"
           }
         },
         "per_page": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Maximum number of relays to return per page.",
+            "smithy.api#documentation": "Maximum number of relays to return per page. Values above the maximum are clamped to it rather than rejected.",
             "smithy.api#httpQuery": "per_page"
           }
         }
@@ -783,7 +1295,7 @@
           "uri": "/accounts/{account_id}/moq/relays/{relay_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates a relay's name and/or configuration. Partial updates: omitted fields are preserved. Config sub-objects replace as whole objects when present. upstreams and lingering_subscribe are mutually exclusive.",
+        "smithy.api#documentation": "Updates a relay's name and/or configuration. The relay ID goes in the URL path — `PUT /accounts/{account_id}/moq/relays/{relay_id}` — not the request body; there is no collection-level update endpoint. This is also the only way to set a relay's config (config cannot be set at create time). Partial updates: omitted fields are preserved; config sub-objects replace as whole objects when present.",
         "smithy.api#idempotent": {}
       }
     },
@@ -806,10 +1318,7 @@
           }
         },
         "config": {
-          "target": "com.cloudflare.moq#RelaysUpdateRequestConfig",
-          "traits": {
-            "smithy.api#documentation": "upstreams and lingering_subscribe are mutually exclusive."
-          }
+          "target": "com.cloudflare.moq#RelaysUpdateRequestConfig"
         },
         "name": {
           "target": "smithy.api#String"
@@ -825,7 +1334,6 @@
         "config": {
           "target": "com.cloudflare.moq#RelaysUpdateResponseConfig",
           "traits": {
-            "smithy.api#documentation": "upstreams and lingering_subscribe are mutually exclusive.",
             "smithy.api#required": {}
           }
         },

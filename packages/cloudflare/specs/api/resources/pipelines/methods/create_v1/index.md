@@ -1,56 +1,150 @@
-## Create Pipeline
+---
+title: Create Pipeline
+---
 
-**post** `/accounts/{account_id}/pipelines/v1/pipelines`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Pipelines](https://developers.cloudflare.com/api/resources/pipelines)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create Pipeline
+
+POST/accounts/{account\_id}/pipelines/v1/pipelines
 
 Create a new Pipeline.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Specifies the public ID of the account.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `name: string`
 
-  Specifies the name of the Pipeline.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `sql: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Specifies SQL for the Pipeline processing flow.
+</details>
 
-### Returns
+<details>
 
-- `result: object { id, created_at, modified_at, 3 more }`
+<summary>API Email + API Key</summary>
 
-  - `id: string`
 
-    Indicates a unique identifier for this pipeline.
 
-  - `created_at: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `modified_at: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `name: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Indicates the name of the Pipeline.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `sql: string`
+</details>
 
-    Specifies SQL for the Pipeline processing flow.
+##### Accepted Permissions (at least one required)
 
-  - `status: string`
+`Pipelines Write`
 
-    Indicates the current status of the Pipeline.
+##### P ath ParametersExpand Collapse
 
-- `success: boolean`
+account\_id: string
 
-  Indicates whether the API call was successful.
+Specifies the public ID of the account.
 
-### Example
+[Link to this property](#)%20pipelines%20%3E%20(method)%20create_v1%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-```http
+##### Body ParametersJSONExpand Collapse
+
+name: string
+
+Specifies the name of the Pipeline.
+
+maxLength128
+
+minLength1
+
+[Link to this property](#)%20pipelines%20%3E%20(method)%20create_v1%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+sql: string
+
+Specifies SQL for the Pipeline processing flow.
+
+[Link to this property](#)%20pipelines%20%3E%20(method)%20create_v1%20%3E%20(params)%200%20%3E%20(param)%20sql%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {id, created\_at, modified\_at, 3 more }
+
+</summary>
+
+id: string
+
+Indicates a unique identifier for this pipeline.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Indicates the name of the Pipeline.
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+sql: string
+
+Specifies SQL for the Pipeline processing flow.
+
+<a href="#">Link to this property</a>
+
+status: string
+
+Indicates the current status of the Pipeline.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pipelines%20%3E%20(method)%20create_v1%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20pipelines%20%3E%20(method)%20create_v1%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create Pipeline
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/pipelines \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -60,9 +154,27 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/pipe
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "01234567890123457689012345678901",
+    "created_at": "created_at",
+    "modified_at": "modified_at",
+    "name": "my_pipeline",
+    "sql": "insert into sink select * from source;",
+    "status": "status"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "01234567890123457689012345678901",

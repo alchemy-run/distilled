@@ -1,4857 +1,2723 @@
+---
+title: Intel
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Intel
 
-# ASN
+#### IntelASN
 
-## Get ASN Overview.
+##### [Get ASN Overview.](https://developers.cloudflare.com/api/resources/intel/subresources/asn/methods/get)
 
-**get** `/accounts/{account_id}/intel/asn/{asn}`
+GET/accounts/{account\_id}/intel/asn/{asn}
 
-Gets an overview of the Autonomous System Number (ASN) and a list of subnets for it.
+#### IntelASNSubnets
 
-### Path Parameters
+##### [Get ASN Subnets](https://developers.cloudflare.com/api/resources/intel/subresources/asn/subresources/subnets/methods/get)
 
-- `account_id: string`
+GET/accounts/{account\_id}/intel/asn/{asn}/subnets
 
-  Identifier.
+##### ModelsExpand Collapse
 
-- `asn: ASN`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+SubnetGetResponse object {asn, count, ip\_count\_total, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+asn: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20asn%20%3E%20(schema)">ASN</a>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+count: optional number
 
-    - `pointer: optional string`
+Total results returned based on your search parameters.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+ip\_count\_total: optional number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+page: optional number
 
-  - `source: optional object { pointer }`
+Current page within paginated list of results.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+per\_page: optional number
 
-  Whether the API call was successful.
+Number of results per page of results.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional ASN`
+subnets: optional array of string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/asn/$ASN \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20intel.asn.subnets%20%3E%20(model)%20subnet_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": 0
-}
-```
+#### IntelDNS
 
-# Subnets
+##### [Get Passive DNS by IP](https://developers.cloudflare.com/api/resources/intel/subresources/dns/methods/list)
 
-## Get ASN Subnets
+GET/accounts/{account\_id}/intel/dns
 
-**get** `/accounts/{account_id}/intel/asn/{asn}/subnets`
+##### ModelsExpand Collapse
 
-Get ASN Subnets.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+DNS object {count, page, per\_page, reverse\_records }
 
-  Identifier.
+</summary>
 
-- `asn: ASN`
+count: optional number
 
-### Returns
+Total results returned based on your search parameters.
 
-- `asn: optional ASN`
+<a href="#">Link to this property</a>
 
-- `count: optional number`
+page: optional number
 
-  Total results returned based on your search parameters.
+Current page within paginated list of results.
 
-- `ip_count_total: optional number`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+per\_page: optional number
 
-  Current page within paginated list of results.
+Number of results per page of results.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of results per page of results.
+<details>
 
-- `subnets: optional array of string`
+<summary>
 
-### Example
+reverse\_records: optional array of object {first\_seen, hostname, last\_seen }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/asn/$ASN/subnets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Reverse DNS look-ups observed during the time period.
 
-#### Response
+</summary>
 
-```json
-{
-  "asn": 0,
-  "count": 1,
-  "ip_count_total": 0,
-  "page": 1,
-  "per_page": 20,
-  "subnets": [
-    "192.0.2.0/24",
-    "2001:DB8::/32"
-  ]
-}
-```
+first\_seen: optional string
 
-## Domain Types
+First seen date of the DNS record during the time period.
 
-### Subnet Get Response
+formatdate
 
-- `SubnetGetResponse object { asn, count, ip_count_total, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `asn: optional ASN`
+hostname: optional string
 
-  - `count: optional number`
+Hostname that the IP was observed resolving to.
 
-    Total results returned based on your search parameters.
+<a href="#">Link to this property</a>
 
-  - `ip_count_total: optional number`
+last\_seen: optional string
 
-  - `page: optional number`
+Last seen date of the DNS record during the time period.
 
-    Current page within paginated list of results.
+formatdate
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `subnets: optional array of string`
+<a href="#">Link to this property</a>
 
-# DNS
+</details>
 
-## Get Passive DNS by IP
+[Link to this property](#)%20intel.dns%20%3E%20(model)%20dns%20%3E%20(schema)>)
 
-**get** `/accounts/{account_id}/intel/dns`
+#### IntelDomains
 
-Gets a list of all the domains that have resolved to a specific IP address.
+##### [Get Domain Details](https://developers.cloudflare.com/api/resources/intel/subresources/domains/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/intel/domain
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Query Parameters
+<summary>
 
-- `ipv4: optional string`
+Domain object {additional\_information, application, content\_categories, 8 more }
 
-- `page: optional number`
+</summary>
 
-  Requested page within paginated list of results.
+<details>
 
-- `per_page: optional number`
+<summary>
 
-  Maximum number of results requested.
+additional\_information: optional object {suspected\_malware\_family }
 
-- `start_end_params: optional object { end, start }`
+Additional information related to the host name.
 
-  - `end: optional string`
+</summary>
 
-    Defaults to the current date.
+suspected\_malware\_family: optional string
 
-  - `start: optional string`
+Suspected DGA malware family.
 
-    Defaults to 30 days before the end parameter value.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+application: optional object {id, name }
 
-  - `source: optional object { pointer }`
+Application that the hostname belongs to.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: optional number
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+content\_categories: optional array of object {id, name, super\_category\_id }
 
-- `result: optional DNS`
+</summary>
 
-  - `count: optional number`
+id: optional number
 
-    Total results returned based on your search parameters.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+name: optional string
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+super\_category\_id: optional number
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `reverse_records: optional array of object { first_seen, hostname, last_seen }`
+</details>
 
-    Reverse DNS look-ups observed during the time period.
+<a href="#">Link to this property</a>
 
-    - `first_seen: optional string`
+domain: optional string
 
-      First seen date of the DNS record during the time period.
+<a href="#">Link to this property</a>
 
-    - `hostname: optional string`
+<details>
 
-      Hostname that the IP was observed resolving to.
+<summary>
 
-    - `last_seen: optional string`
+inherited\_content\_categories: optional array of object {id, name, super\_category\_id }
 
-      Last seen date of the DNS record during the time period.
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+id: optional number
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+name: optional string
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+super\_category\_id: optional number
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+inherited\_from: optional string
 
-### Example
+Domain from which <code>inherited_content_categories</code> and <code>inherited_risk_types</code> are inherited, if applicable.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/dns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "reverse_records": [
-      {
-        "first_seen": "2021-04-01",
-        "hostname": "hostname",
-        "last_seen": "2021-04-30"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<summary>
 
-## Domain Types
+inherited\_risk\_types: optional array of object {id, name, super\_category\_id }
 
-### DNS
+</summary>
 
-- `DNS object { count, page, per_page, reverse_records }`
+id: optional number
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results returned based on your search parameters.
+name: optional string
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+super\_category\_id: optional number
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `reverse_records: optional array of object { first_seen, hostname, last_seen }`
+<a href="#">Link to this property</a>
 
-    Reverse DNS look-ups observed during the time period.
+popularity\_rank: optional number
 
-    - `first_seen: optional string`
+Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
 
-      First seen date of the DNS record during the time period.
+<a href="#">Link to this property</a>
 
-    - `hostname: optional string`
+<details>
 
-      Hostname that the IP was observed resolving to.
+<summary>
 
-    - `last_seen: optional string`
+resolves\_to\_refs: optional array of object {id, value }
 
-      Last seen date of the DNS record during the time period.
+Specifies a list of references to one or more IP addresses or domain names that the domain name currently resolves to.
 
-# Domains
+</summary>
 
-## Get Domain Details
+id: optional string
 
-**get** `/accounts/{account_id}/intel/domain`
+STIX 2.1 identifier: <a href="https://docs.oasis-open.org/cti/stix/v2.1/cs02/stix-v2.1-cs02.html#_64yvzeku5a5c">https://docs.oasis-open.org/cti/stix/v2.1/cs02/stix-v2.1-cs02.html#\_64yvzeku5a5c</a>.
 
-Gets security details and statistics about a domain.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+value: optional string
 
-- `account_id: string`
+IP address or domain name.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `domain: optional string`
+<a href="#">Link to this property</a>
 
-- `skip_dns: optional boolean`
+risk\_score: optional number
 
-  Skip DNS resolution lookups for faster response.
+Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
 
-- `skip_ranking: optional boolean`
+<a href="#">Link to this property</a>
 
-  Skip the domain ranking lookup for faster responses. Defaults to
-  `false` (ranking is included). Set to `true` to opt out — primarily
-  used by callers like Cloudflare Radar that need to avoid a
-  circular dependency when building the domain details page.
-  Note: the bulk endpoint (`/intel/domain/bulk`) uses opposite
-  defaults — see `include_ranking` there.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+risk\_types: optional array of object {id, name, super\_category\_id }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional number
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+super\_category\_id: optional number
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20intel.domains%20%3E%20(model)%20domain%20%3E%20(schema)>)
 
-- `success: true`
+#### IntelDomainsBulks
 
-  Whether the API call was successful.
+##### [Get Multiple Domain Details](https://developers.cloudflare.com/api/resources/intel/subresources/domains/subresources/bulks/methods/get)
 
-  - `true`
+GET/accounts/{account\_id}/intel/domain/bulk
 
-- `result: optional Domain`
+##### ModelsExpand Collapse
 
-  - `additional_information: optional object { suspected_malware_family }`
+<details>
 
-    Additional information related to the host name.
+<summary>
 
-    - `suspected_malware_family: optional string`
+BulkGetResponse = array of object {additional\_information, application, content\_categories, 7 more }
 
-      Suspected DGA malware family.
+</summary>
 
-  - `application: optional object { id, name }`
+<details>
 
-    Application that the hostname belongs to.
+<summary>
 
-    - `id: optional number`
+additional\_information: optional object {suspected\_malware\_family }
 
-    - `name: optional string`
+Additional information related to the host name.
 
-  - `content_categories: optional array of object { id, name, super_category_id }`
+</summary>
 
-    - `id: optional number`
+suspected\_malware\_family: optional string
 
-    - `name: optional string`
+Suspected DGA malware family.
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+</details>
 
-  - `inherited_content_categories: optional array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+<details>
 
-    - `name: optional string`
+<summary>
 
-    - `super_category_id: optional number`
+application: optional object {id, name }
 
-  - `inherited_from: optional string`
+Application that the hostname belongs to.
 
-    Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable.
+</summary>
 
-  - `inherited_risk_types: optional array of object { id, name, super_category_id }`
+id: optional number
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+name: optional string
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `popularity_rank: optional number`
+</details>
 
-    Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
+<a href="#">Link to this property</a>
 
-  - `resolves_to_refs: optional array of object { id, value }`
+<details>
 
-    Specifies a list of references to one or more IP addresses or domain names that the domain name currently resolves to.
+<summary>
 
-    - `id: optional string`
+content\_categories: optional array of object {id, name, super\_category\_id }
 
-      STIX 2.1 identifier: https://docs.oasis-open.org/cti/stix/v2.1/cs02/stix-v2.1-cs02.html#_64yvzeku5a5c.
+</summary>
 
-    - `value: optional string`
+id: optional number
 
-      IP address or domain name.
+<a href="#">Link to this property</a>
 
-  - `risk_score: optional number`
+name: optional string
 
-    Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
+<a href="#">Link to this property</a>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+super\_category\_id: optional number
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+domain: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/domain \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "additional_information": {
-      "suspected_malware_family": ""
-    },
-    "application": {
-      "id": 0,
-      "name": "CLOUDFLARE"
-    },
-    "content_categories": [
-      {
-        "id": 155,
-        "name": "Technology",
-        "super_category_id": 26
-      }
-    ],
-    "domain": "cloudflare.com",
-    "inherited_content_categories": [
-      {
-        "id": 0,
-        "name": "name",
-        "super_category_id": 0
-      }
-    ],
-    "inherited_from": "inherited_from",
-    "inherited_risk_types": [
-      {
-        "id": 0,
-        "name": "name",
-        "super_category_id": 0
-      }
-    ],
-    "popularity_rank": 0,
-    "resolves_to_refs": [
-      {
-        "id": "ipv4-addr--baa568ec-6efe-5902-be55-0663833db537",
-        "value": "192.0.2.0"
-      }
-    ],
-    "risk_score": 0,
-    "risk_types": [
-      {
-        "id": 0,
-        "name": "name",
-        "super_category_id": 0
-      }
-    ]
-  }
-}
-```
+<summary>
 
-## Domain Types
+inherited\_content\_categories: optional array of object {id, name, super\_category\_id }
 
-### Domain
+</summary>
 
-- `Domain object { additional_information, application, content_categories, 8 more }`
+id: optional number
 
-  - `additional_information: optional object { suspected_malware_family }`
+<a href="#">Link to this property</a>
 
-    Additional information related to the host name.
+name: optional string
 
-    - `suspected_malware_family: optional string`
+<a href="#">Link to this property</a>
 
-      Suspected DGA malware family.
+super\_category\_id: optional number
 
-  - `application: optional object { id, name }`
+<a href="#">Link to this property</a>
 
-    Application that the hostname belongs to.
+</details>
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+inherited\_from: optional string
 
-  - `content_categories: optional array of object { id, name, super_category_id }`
+Domain from which <code>inherited_content_categories</code> and <code>inherited_risk_types</code> are inherited, if applicable.
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-    - `super_category_id: optional number`
+<summary>
 
-  - `domain: optional string`
+inherited\_risk\_types: optional array of object {id, name, super\_category\_id }
 
-  - `inherited_content_categories: optional array of object { id, name, super_category_id }`
+</summary>
 
-    - `id: optional number`
+id: optional number
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `super_category_id: optional number`
+name: optional string
 
-  - `inherited_from: optional string`
+<a href="#">Link to this property</a>
 
-    Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable.
+super\_category\_id: optional number
 
-  - `inherited_risk_types: optional array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `super_category_id: optional number`
+popularity\_rank: optional number
 
-  - `popularity_rank: optional number`
+Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
 
-    Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
+<a href="#">Link to this property</a>
 
-  - `resolves_to_refs: optional array of object { id, value }`
+risk\_score: optional number
 
-    Specifies a list of references to one or more IP addresses or domain names that the domain name currently resolves to.
+Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      STIX 2.1 identifier: https://docs.oasis-open.org/cti/stix/v2.1/cs02/stix-v2.1-cs02.html#_64yvzeku5a5c.
+<details>
 
-    - `value: optional string`
+<summary>
 
-      IP address or domain name.
+risk\_types: optional array of object {id, name, super\_category\_id }
 
-  - `risk_score: optional number`
+</summary>
 
-    Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
+id: optional number
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+name: optional string
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `super_category_id: optional number`
+super\_category\_id: optional number
 
-# Bulks
+<a href="#">Link to this property</a>
 
-## Get Multiple Domain Details
+</details>
 
-**get** `/accounts/{account_id}/intel/domain/bulk`
+<a href="#">Link to this property</a>
 
-Returns security details and statistics about multiple domains in a
-single request.
+</details>
 
-**Behavior change — domain ranking is becoming opt-in.** This endpoint
-previously included domain ranking data in every response and accepted
-a `skip_ranking=true` query parameter to opt out. That parameter is
-being deprecated and ranking will no longer be returned by default.
-Callers that want ranking data must pass `include_ranking=true`. The
-`skip_ranking` parameter will be silently ignored once the change ships.
+[Link to this property](#)%20intel.domains.bulks%20%3E%20(model)%20bulk_get_response%20%3E%20(schema)>)
 
-### Path Parameters
+#### IntelDomain History
 
-- `account_id: string`
+##### [Get Domain History](https://developers.cloudflare.com/api/resources/intel/subresources/domain_history/methods/get)
 
-  Identifier.
+GET/accounts/{account\_id}/intel/domain-history
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `domain: optional array of string`
+<details>
 
-  Accepts multiple values like `?domain=cloudflare.com&domain=example.com`.
+<summary>
 
-- `include_ranking: optional boolean`
+DomainHistory object {categorizations, domain }
 
-  Whether to include domain ranking data in the response. Defaults to
-  `false` — ranking lookups are expensive at bulk scale and most
-  callers do not need them. Set to `true` to opt in. This parameter
-  replaces the deprecated `skip_ranking` (see below).
+</summary>
 
-- `skip_ranking: optional boolean`
+<details>
 
-  **Deprecated.** Previously controlled whether the ranking lookup
-  was skipped (defaulted to `false`, meaning ranking ran). The
-  endpoint's default behavior is being flipped — ranking is now
-  opt-in via `include_ranking=true` — and this parameter will be
-  silently ignored. Remove it from your callers and use
-  `include_ranking` instead.
+<summary>
 
-### Returns
+categorizations: optional array of object {categories, end, start }
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+categories: optional array of object {id, name }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: optional number
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of object { additional_information, application, content_categories, 7 more }`
+end: optional string
 
-  - `additional_information: optional object { suspected_malware_family }`
+formatdate
 
-    Additional information related to the host name.
+<a href="#">Link to this property</a>
 
-    - `suspected_malware_family: optional string`
+start: optional string
 
-      Suspected DGA malware family.
+formatdate
 
-  - `application: optional object { id, name }`
+<a href="#">Link to this property</a>
 
-    Application that the hostname belongs to.
+</details>
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+domain: optional string
 
-  - `content_categories: optional array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+</details>
 
-    - `name: optional string`
+[Link to this property](#)%20intel.domain_history%20%3E%20(model)%20domain_history%20%3E%20(schema)>)
 
-    - `super_category_id: optional number`
+<details>
 
-  - `domain: optional string`
+<summary>
 
-  - `inherited_content_categories: optional array of object { id, name, super_category_id }`
+DomainHistoryGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.domain_history%20%3E%20(model)%20domain_history%20%3E%20(schema)">DomainHistory</a> { categorizations, domain }
 
-    - `id: optional number`
+</summary>
 
-    - `name: optional string`
+<details>
 
-    - `super_category_id: optional number`
+<summary>
 
-  - `inherited_from: optional string`
+categorizations: optional array of object {categories, end, start }
 
-    Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable.
+</summary>
 
-  - `inherited_risk_types: optional array of object { id, name, super_category_id }`
+<details>
 
-    - `id: optional number`
+<summary>
 
-    - `name: optional string`
+categories: optional array of object {id, name }
 
-    - `super_category_id: optional number`
+</summary>
 
-  - `popularity_rank: optional number`
+id: optional number
 
-    Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
+<a href="#">Link to this property</a>
 
-  - `risk_score: optional number`
+name: optional string
 
-    Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
+<a href="#">Link to this property</a>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+</details>
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+end: optional string
 
-    - `super_category_id: optional number`
+formatdate
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+start: optional string
 
-  - `true`
+formatdate
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+domain: optional string
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+[Link to this property](#)%20intel.domain_history%20%3E%20(model)%20domain_history_get_response%20%3E%20(schema)>)
 
-  - `total_count: optional number`
+#### IntelIPs
 
-    Total results available without any search parameters.
+##### [Get IP Overview](https://developers.cloudflare.com/api/resources/intel/subresources/ips/methods/get)
 
-### Example
+GET/accounts/{account\_id}/intel/ip
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/domain/bulk \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### ModelsExpand Collapse
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "additional_information": {
-        "suspected_malware_family": ""
-      },
-      "application": {
-        "id": 0,
-        "name": "CLOUDFLARE"
-      },
-      "content_categories": [
-        {
-          "id": 155,
-          "name": "Technology",
-          "super_category_id": 26
-        }
-      ],
-      "domain": "cloudflare.com",
-      "inherited_content_categories": [
-        {
-          "id": 0,
-          "name": "name",
-          "super_category_id": 0
-        }
-      ],
-      "inherited_from": "inherited_from",
-      "inherited_risk_types": [
-        {
-          "id": 0,
-          "name": "name",
-          "super_category_id": 0
-        }
-      ],
-      "popularity_rank": 0,
-      "risk_score": 0,
-      "risk_types": [
-        {
-          "id": 0,
-          "name": "name",
-          "super_category_id": 0
-        }
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<summary>
 
-## Domain Types
+IP object {belongs\_to\_ref, ip, risk\_types }
 
-### Bulk Get Response
+</summary>
 
-- `BulkGetResponse = array of object { additional_information, application, content_categories, 7 more }`
+<details>
 
-  - `additional_information: optional object { suspected_malware_family }`
+<summary>
 
-    Additional information related to the host name.
+belongs\_to\_ref: optional object {id, country, description, 2 more }
 
-    - `suspected_malware_family: optional string`
+Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
 
-      Suspected DGA malware family.
+</summary>
 
-  - `application: optional object { id, name }`
+id: optional string
 
-    Application that the hostname belongs to.
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+country: optional string
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-  - `content_categories: optional array of object { id, name, super_category_id }`
+description: optional string
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-    - `super_category_id: optional number`
+<summary>
 
-  - `domain: optional string`
+type: optional "hosting\_provider"or "isp"or "organization"
 
-  - `inherited_content_categories: optional array of object { id, name, super_category_id }`
+Infrastructure type of this ASN.
 
-    - `id: optional number`
+</summary>
 
-    - `name: optional string`
+One of the following:
 
-    - `super_category_id: optional number`
+"hosting\_provider"
 
-  - `inherited_from: optional string`
+<a href="#">Link to this property</a>
 
-    Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable.
+"isp"
 
-  - `inherited_risk_types: optional array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+"organization"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `super_category_id: optional number`
+</details>
 
-  - `popularity_rank: optional number`
+<a href="#">Link to this property</a>
 
-    Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
+value: optional string
 
-  - `risk_score: optional number`
+<a href="#">Link to this property</a>
 
-    Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
+</details>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+ip: optional string
 
-    - `name: optional string`
+formatipv4
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-# Domain History
+<details>
 
-## Get Domain History
+<summary>
 
-**get** `/accounts/{account_id}/intel/domain-history`
+risk\_types: optional array of object {id, name, super\_category\_id }
 
-Gets historical security threat and content categories currently and previously assigned to a domain.
+</summary>
 
-### Path Parameters
+id: optional number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+name: optional string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `domain: optional string`
+super\_category\_id: optional number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20intel.ips%20%3E%20(model)%20ip%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+IPGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.ips%20%3E%20(model)%20ip%20%3E%20(schema)">IP</a> { belongs\_to\_ref, ip, risk\_types }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+belongs\_to\_ref: optional object {id, country, description, 2 more }
 
-- `result: array of DomainHistory`
+Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
 
-  - `categorizations: optional array of object { categories, end, start }`
+</summary>
 
-    - `categories: optional array of object { id, name }`
+id: optional string
 
-      - `id: optional number`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+country: optional string
 
-    - `end: optional string`
+<a href="#">Link to this property</a>
 
-    - `start: optional string`
+description: optional string
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+type: optional "hosting\_provider"or "isp"or "organization"
 
-- `result_info: optional object { count, page, per_page, total_count }`
+Infrastructure type of this ASN.
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service.
+One of the following:
 
-  - `page: optional number`
+"hosting\_provider"
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"isp"
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+"organization"
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/domain-history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+value: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "categorizations": [
-        {
-          "categories": [
-            {
-              "id": 155,
-              "name": "Technology"
-            }
-          ],
-          "end": "2021-04-30",
-          "start": "2021-04-01"
-        }
-      ],
-      "domain": "cloudflare.com"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Domain History
+<a href="#">Link to this property</a>
 
-- `DomainHistory object { categorizations, domain }`
+ip: optional string
 
-  - `categorizations: optional array of object { categories, end, start }`
+formatipv4
 
-    - `categories: optional array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      - `id: optional number`
+<details>
 
-      - `name: optional string`
+<summary>
 
-    - `end: optional string`
+risk\_types: optional array of object {id, name, super\_category\_id }
 
-    - `start: optional string`
+</summary>
 
-  - `domain: optional string`
+id: optional number
 
-### Domain History Get Response
+<a href="#">Link to this property</a>
 
-- `DomainHistoryGetResponse = array of DomainHistory`
+name: optional string
 
-  - `categorizations: optional array of object { categories, end, start }`
+<a href="#">Link to this property</a>
 
-    - `categories: optional array of object { id, name }`
+super\_category\_id: optional number
 
-      - `id: optional number`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-    - `end: optional string`
+<a href="#">Link to this property</a>
 
-    - `start: optional string`
+</details>
 
-  - `domain: optional string`
+[Link to this property](#)%20intel.ips%20%3E%20(model)%20ip_get_response%20%3E%20(schema)>)
 
-# IPs
+#### IntelIP Lists
 
-## Get IP Overview
+##### ModelsExpand Collapse
 
-**get** `/accounts/{account_id}/intel/ip`
+<details>
 
-Gets the geolocation, ASN, infrastructure type of the ASN, and any security threat categories of an IP address. **Must provide ip query parameters.** For example, `/intel/ip?ipv4=1.1.1.1` or `/intel/ip?ipv6=2001:db8::1`.
+<summary>
 
-### Path Parameters
+IPList object {id, description, name }
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+id: optional number
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `ipv4: optional string`
+description: optional string
 
-- `ipv6: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+name: optional string
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20intel.ip_lists%20%3E%20(model)%20ip_list%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+#### IntelMiscategorizations
 
-  - `source: optional object { pointer }`
+##### [Create Miscategorization](https://developers.cloudflare.com/api/resources/intel/subresources/miscategorizations/methods/create)
 
-    - `pointer: optional string`
+POST/accounts/{account\_id}/intel/miscategorization
 
-- `messages: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+MiscategorizationCreateResponse object {errors, messages, success }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: array of IP`
+<details>
 
-  - `belongs_to_ref: optional object { id, country, description, 2 more }`
+<summary>
 
-    Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
+errors: array of object {code, message, documentation\_url, source }
 
-    - `id: optional string`
+</summary>
 
-    - `country: optional string`
+code: number
 
-    - `description: optional string`
+minimum1000
 
-    - `type: optional "hosting_provider" or "isp" or "organization"`
+<a href="#">Link to this property</a>
 
-      Infrastructure type of this ASN.
+message: string
 
-      - `"hosting_provider"`
+<a href="#">Link to this property</a>
 
-      - `"isp"`
+documentation\_url: optional string
 
-      - `"organization"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+<details>
 
-  - `ip: optional string`
+<summary>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+source: optional object {pointer }
 
-    - `id: optional number`
+</summary>
 
-    - `name: optional string`
+pointer: optional string
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+messages: array of object {code, message, documentation\_url, source }
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+code: number
 
-    Number of results per page of results.
+minimum1000
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/ip \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+documentation\_url: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "belongs_to_ref": {
-        "id": "autonomous-system--2fa28d71-3549-5a38-af05-770b79ad6ea8",
-        "country": "US",
-        "description": "CLOUDFLARENET",
-        "type": "hosting_provider",
-        "value": "value"
-      },
-      "ip": "192.0.2.0",
-      "risk_types": [
-        {
-          "id": 131,
-          "name": "Phishing",
-          "super_category_id": 21
-        }
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### IP
+source: optional object {pointer }
 
-- `IP object { belongs_to_ref, ip, risk_types }`
+</summary>
 
-  - `belongs_to_ref: optional object { id, country, description, 2 more }`
+pointer: optional string
 
-    Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-    - `country: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-    - `type: optional "hosting_provider" or "isp" or "organization"`
+<a href="#">Link to this property</a>
 
-      Infrastructure type of this ASN.
+success: true
 
-      - `"hosting_provider"`
+Whether the API call was successful.
 
-      - `"isp"`
+<a href="#">Link to this property</a>
 
-      - `"organization"`
+</details>
 
-    - `value: optional string`
+[Link to this property](#)%20intel.miscategorizations%20%3E%20(model)%20miscategorization_create_response%20%3E%20(schema)>)
 
-  - `ip: optional string`
+#### IntelWhois
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+##### [Get WHOIS Record](https://developers.cloudflare.com/api/resources/intel/subresources/whois/methods/get)
 
-    - `id: optional number`
+GET/accounts/{account\_id}/intel/whois
 
-    - `name: optional string`
+##### ModelsExpand Collapse
 
-    - `super_category_id: optional number`
+<details>
 
-### IP Get Response
+<summary>
 
-- `IPGetResponse = array of IP`
+Whois object {created\_date, domain, nameservers, 6 more }
 
-  - `belongs_to_ref: optional object { id, country, description, 2 more }`
+</summary>
 
-    Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
+created\_date: optional string
 
-    - `id: optional string`
+formatdate
 
-    - `country: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+domain: optional string
 
-    - `type: optional "hosting_provider" or "isp" or "organization"`
+<a href="#">Link to this property</a>
 
-      Infrastructure type of this ASN.
+nameservers: optional array of string
 
-      - `"hosting_provider"`
+<a href="#">Link to this property</a>
 
-      - `"isp"`
+registrant: optional string
 
-      - `"organization"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+registrant\_country: optional string
 
-  - `ip: optional string`
+<a href="#">Link to this property</a>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+registrant\_email: optional string
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+registrant\_org: optional string
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-# IP Lists
+registrar: optional string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### IP List
+updated\_date: optional string
 
-- `IPList object { id, description, name }`
+formatdate
 
-  - `id: optional number`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `name: optional string`
+[Link to this property](#)%20intel.whois%20%3E%20(model)%20whois%20%3E%20(schema)>)
 
-# Miscategorizations
+<details>
 
-## Create Miscategorization
+<summary>
 
-**post** `/accounts/{account_id}/intel/miscategorization`
+WhoisGetResponse object {dnssec, domain, extension, 84 more }
 
-Allows you to submit requests to change a domain’s category.
+</summary>
 
-Requests that include category `169` (New Domains) or category `177` (Newly Seen)
-in any of `content_adds`, `content_removes`, `security_adds`, or `security_removes`
-will be rejected with a `400 Bad Request`. These categories are automatically
-managed and fall off 30 days after they are applied.
+dnssec: boolean
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+domain: string
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+extension: string
 
-- `content_adds: optional array of number`
+<a href="#">Link to this property</a>
 
-  Content category IDs to add.
+found: boolean
 
-- `content_removes: optional array of number`
+<a href="#">Link to this property</a>
 
-  Content category IDs to remove.
+nameservers: array of string
 
-- `indicator_type: optional "domain" or "ipv4" or "ipv6" or "url"`
+<a href="#">Link to this property</a>
 
-  - `"domain"`
+punycode: string
 
-  - `"ipv4"`
+<a href="#">Link to this property</a>
 
-  - `"ipv6"`
+registrant: string
 
-  - `"url"`
+<a href="#">Link to this property</a>
 
-- `ip: optional string`
+registrar: string
 
-  Provide only if indicator_type is `ipv4` or `ipv6`.
+<a href="#">Link to this property</a>
 
-- `security_adds: optional array of number`
+id: optional string
 
-  Security category IDs to add.
+<a href="#">Link to this property</a>
 
-- `security_removes: optional array of number`
+administrative\_city: optional string
 
-  Security category IDs to remove.
+<a href="#">Link to this property</a>
 
-- `url: optional string`
+administrative\_country: optional string
 
-  Provide only if indicator_type is `domain` or `url`. Example if indicator_type is `domain`: `example.com`. Example if indicator_type is `url`: `https://example.com/news/`.
+<a href="#">Link to this property</a>
 
-### Returns
+administrative\_email: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+administrative\_fax: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+administrative\_fax\_ext: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+administrative\_id: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+administrative\_name: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+administrative\_org: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+administrative\_phone: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+administrative\_phone\_ext: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+administrative\_postal\_code: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/miscategorization \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "content_adds": [
-            82
-          ],
-          "content_removes": [
-            155
-          ],
-          "indicator_type": "domain",
-          "security_adds": [
-            117,
-            131
-          ],
-          "security_removes": [
-            83
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+administrative\_province: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+administrative\_referral\_url: optional string
 
-### Miscategorization Create Response
+<a href="#">Link to this property</a>
 
-- `MiscategorizationCreateResponse object { errors, messages, success }`
+administrative\_street: optional string
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+billing\_city: optional string
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+billing\_country: optional string
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+billing\_email: optional string
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+billing\_fax: optional string
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+billing\_fax\_ext: optional string
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+billing\_id: optional string
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+billing\_name: optional string
 
-    - `true`
+<a href="#">Link to this property</a>
 
-# Whois
+billing\_org: optional string
 
-## Get WHOIS Record
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/intel/whois`
+billing\_phone: optional string
 
-Retrieves WHOIS registration data for a domain, including registrant and nameserver information.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+billing\_phone\_ext: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Use to uniquely identify or reference the resource.
+billing\_postal\_code: optional string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `domain: optional string`
+billing\_province: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+billing\_referral\_url: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+billing\_street: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_date: optional string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_date\_raw: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+expiration\_date: optional string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+expiration\_date\_raw: optional string
 
-  Returns a boolean for the success/failure of the API call.
+<a href="#">Link to this property</a>
 
-  - `true`
+registrant\_city: optional string
 
-- `result: optional object { dnssec, domain, extension, 84 more }`
+<a href="#">Link to this property</a>
 
-  - `dnssec: boolean`
+registrant\_country: optional string
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-  - `extension: string`
+registrant\_email: optional string
 
-  - `found: boolean`
+<a href="#">Link to this property</a>
 
-  - `nameservers: array of string`
+registrant\_fax: optional string
 
-  - `punycode: string`
+<a href="#">Link to this property</a>
 
-  - `registrant: string`
+registrant\_fax\_ext: optional string
 
-  - `registrar: string`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+registrant\_id: optional string
 
-  - `administrative_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_country: optional string`
+registrant\_name: optional string
 
-  - `administrative_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_fax: optional string`
+registrant\_org: optional string
 
-  - `administrative_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_id: optional string`
+registrant\_phone: optional string
 
-  - `administrative_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_org: optional string`
+registrant\_phone\_ext: optional string
 
-  - `administrative_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_phone_ext: optional string`
+registrant\_postal\_code: optional string
 
-  - `administrative_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_province: optional string`
+registrant\_province: optional string
 
-  - `administrative_referral_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_street: optional string`
+registrant\_referral\_url: optional string
 
-  - `billing_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_country: optional string`
+registrant\_street: optional string
 
-  - `billing_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_fax: optional string`
+registrar\_city: optional string
 
-  - `billing_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_id: optional string`
+registrar\_country: optional string
 
-  - `billing_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_org: optional string`
+registrar\_email: optional string
 
-  - `billing_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_phone_ext: optional string`
+registrar\_fax: optional string
 
-  - `billing_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_province: optional string`
+registrar\_fax\_ext: optional string
 
-  - `billing_referral_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_street: optional string`
+registrar\_id: optional string
 
-  - `created_date: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_date_raw: optional string`
+registrar\_name: optional string
 
-  - `expiration_date: optional string`
+<a href="#">Link to this property</a>
 
-  - `expiration_date_raw: optional string`
+registrar\_org: optional string
 
-  - `registrant_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_country: optional string`
+registrar\_phone: optional string
 
-  - `registrant_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_fax: optional string`
+registrar\_phone\_ext: optional string
 
-  - `registrant_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_id: optional string`
+registrar\_postal\_code: optional string
 
-  - `registrant_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_org: optional string`
+registrar\_province: optional string
 
-  - `registrant_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_phone_ext: optional string`
+registrar\_referral\_url: optional string
 
-  - `registrant_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_province: optional string`
+registrar\_street: optional string
 
-  - `registrant_referral_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_street: optional string`
+status: optional array of string
 
-  - `registrar_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_country: optional string`
+technical\_city: optional string
 
-  - `registrar_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_fax: optional string`
+technical\_country: optional string
 
-  - `registrar_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_id: optional string`
+technical\_email: optional string
 
-  - `registrar_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_org: optional string`
+technical\_fax: optional string
 
-  - `registrar_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_phone_ext: optional string`
+technical\_fax\_ext: optional string
 
-  - `registrar_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_province: optional string`
+technical\_id: optional string
 
-  - `registrar_referral_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_street: optional string`
+technical\_name: optional string
 
-  - `status: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `technical_city: optional string`
+technical\_org: optional string
 
-  - `technical_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_email: optional string`
+technical\_phone: optional string
 
-  - `technical_fax: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_fax_ext: optional string`
+technical\_phone\_ext: optional string
 
-  - `technical_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_name: optional string`
+technical\_postal\_code: optional string
 
-  - `technical_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_phone: optional string`
+technical\_province: optional string
 
-  - `technical_phone_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_postal_code: optional string`
+technical\_referral\_url: optional string
 
-  - `technical_province: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_referral_url: optional string`
+technical\_street: optional string
 
-  - `technical_street: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_date: optional string`
+updated\_date: optional string
 
-  - `updated_date_raw: optional string`
+formatdate-time
 
-  - `whois_server: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+updated\_date\_raw: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/whois \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+whois\_server: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dnssec": true,
-    "domain": "cloudflare.com",
-    "extension": "com",
-    "found": true,
-    "nameservers": [
-      "ns3.cloudflare.com",
-      "ns4.cloudflare.com",
-      "ns5.cloudflare.com",
-      "ns6.cloudflare.com",
-      "ns7.cloudflare.com"
-    ],
-    "punycode": "cloudflare.com",
-    "registrant": "registrant",
-    "registrar": "Cloudflare, Inc.",
-    "id": "1542998887_DOMAIN_COM-VRSN",
-    "administrative_city": "administrative_city",
-    "administrative_country": "administrative_country",
-    "administrative_email": "administrative_email",
-    "administrative_fax": "administrative_fax",
-    "administrative_fax_ext": "administrative_fax_ext",
-    "administrative_id": "administrative_id",
-    "administrative_name": "administrative_name",
-    "administrative_org": "administrative_org",
-    "administrative_phone": "administrative_phone",
-    "administrative_phone_ext": "administrative_phone_ext",
-    "administrative_postal_code": "administrative_postal_code",
-    "administrative_province": "administrative_province",
-    "administrative_referral_url": "administrative_referral_url",
-    "administrative_street": "administrative_street",
-    "billing_city": "billing_city",
-    "billing_country": "billing_country",
-    "billing_email": "billing_email",
-    "billing_fax": "billing_fax",
-    "billing_fax_ext": "billing_fax_ext",
-    "billing_id": "billing_id",
-    "billing_name": "billing_name",
-    "billing_org": "billing_org",
-    "billing_phone": "billing_phone",
-    "billing_phone_ext": "billing_phone_ext",
-    "billing_postal_code": "billing_postal_code",
-    "billing_province": "billing_province",
-    "billing_referral_url": "billing_referral_url",
-    "billing_street": "billing_street",
-    "created_date": "2009-02-17T22:07:54.000Z",
-    "created_date_raw": "2009-02-17T22:07:54Z",
-    "expiration_date": "2033-02-17T22:07:54.000Z",
-    "expiration_date_raw": "2033-02-17T22:07:54Z",
-    "registrant_city": "registrant_city",
-    "registrant_country": "registrant_country",
-    "registrant_email": "registrant_email",
-    "registrant_fax": "registrant_fax",
-    "registrant_fax_ext": "registrant_fax_ext",
-    "registrant_id": "registrant_id",
-    "registrant_name": "registrant_name",
-    "registrant_org": "registrant_org",
-    "registrant_phone": "registrant_phone",
-    "registrant_phone_ext": "registrant_phone_ext",
-    "registrant_postal_code": "registrant_postal_code",
-    "registrant_province": "registrant_province",
-    "registrant_referral_url": "registrant_referral_url",
-    "registrant_street": "registrant_street",
-    "registrar_city": "registrar_city",
-    "registrar_country": "registrar_country",
-    "registrar_email": "registrar_email",
-    "registrar_fax": "registrar_fax",
-    "registrar_fax_ext": "registrar_fax_ext",
-    "registrar_id": "registrar_id",
-    "registrar_name": "registrar_name",
-    "registrar_org": "registrar_org",
-    "registrar_phone": "registrar_phone",
-    "registrar_phone_ext": "registrar_phone_ext",
-    "registrar_postal_code": "registrar_postal_code",
-    "registrar_province": "registrar_province",
-    "registrar_referral_url": "registrar_referral_url",
-    "registrar_street": "registrar_street",
-    "status": [
-      "clientdeleteprohibited",
-      "clienttransferprohibited",
-      "clientupdateprohibited",
-      "serverdeleteprohibited",
-      "servertransferprohibited",
-      "serverupdateprohibited"
-    ],
-    "technical_city": "technical_city",
-    "technical_country": "technical_country",
-    "technical_email": "technical_email",
-    "technical_fax": "technical_fax",
-    "technical_fax_ext": "technical_fax_ext",
-    "technical_id": "technical_id",
-    "technical_name": "technical_name",
-    "technical_org": "technical_org",
-    "technical_phone": "technical_phone",
-    "technical_phone_ext": "technical_phone_ext",
-    "technical_postal_code": "technical_postal_code",
-    "technical_province": "technical_province",
-    "technical_referral_url": "technical_referral_url",
-    "technical_street": "technical_street",
-    "updated_date": "2024-01-09T16:45:28.000Z",
-    "updated_date_raw": "2024-01-09T16:45:28Z",
-    "whois_server": "whois.cloudflare.com"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Whois
+[Link to this property](#)%20intel.whois%20%3E%20(model)%20whois_get_response%20%3E%20(schema)>)
 
-- `Whois object { created_date, domain, nameservers, 6 more }`
+#### IntelURLs
 
-  - `created_date: optional string`
+##### [Get URL Intelligence](https://developers.cloudflare.com/api/resources/intel/subresources/urls/methods/get)
 
-  - `domain: optional string`
+GET/accounts/{account\_id}/intel/url
 
-  - `nameservers: optional array of string`
+##### ModelsExpand Collapse
 
-  - `registrant: optional string`
+<details>
 
-  - `registrant_country: optional string`
+<summary>
 
-  - `registrant_email: optional string`
+URL object {content\_categories, full\_url, hostname, 2 more }
 
-  - `registrant_org: optional string`
+</summary>
 
-  - `registrar: optional string`
+<details>
 
-  - `updated_date: optional string`
+<summary>
 
-### Whois Get Response
+content\_categories: array of object {id, name, source\_id, super\_category\_id }
 
-- `WhoisGetResponse object { dnssec, domain, extension, 84 more }`
+Content categories associated with this URL.
 
-  - `dnssec: boolean`
+</summary>
 
-  - `domain: string`
+id: optional number
 
-  - `extension: string`
+<a href="#">Link to this property</a>
 
-  - `found: boolean`
+name: optional string
 
-  - `nameservers: array of string`
+<a href="#">Link to this property</a>
 
-  - `punycode: string`
+source\_id: optional number
 
-  - `registrant: string`
+<a href="#">Link to this property</a>
 
-  - `registrar: string`
+super\_category\_id: optional number
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_city: optional string`
+</details>
 
-  - `administrative_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_email: optional string`
+full\_url: string
 
-  - `administrative_fax: optional string`
+The full URL that was looked up.
 
-  - `administrative_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_id: optional string`
+hostname: string
 
-  - `administrative_name: optional string`
+The hostname of the URL.
 
-  - `administrative_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_phone: optional string`
+<details>
 
-  - `administrative_phone_ext: optional string`
+<summary>
 
-  - `administrative_postal_code: optional string`
+risk\_type: array of object {id, name, source\_id, super\_category\_id }
 
-  - `administrative_province: optional string`
+Security risk types associated with this URL.
 
-  - `administrative_referral_url: optional string`
+</summary>
 
-  - `administrative_street: optional string`
+id: optional number
 
-  - `billing_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_country: optional string`
+name: optional string
 
-  - `billing_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_fax: optional string`
+source\_id: optional number
 
-  - `billing_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_id: optional string`
+super\_category\_id: optional number
 
-  - `billing_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_org: optional string`
+</details>
 
-  - `billing_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_phone_ext: optional string`
+url\_path: string
 
-  - `billing_postal_code: optional string`
+The path component of the URL.
 
-  - `billing_province: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_referral_url: optional string`
+</details>
 
-  - `billing_street: optional string`
+[Link to this property](#)%20intel.urls%20%3E%20(model)%20url%20%3E%20(schema)>)
 
-  - `created_date: optional string`
+#### IntelIndicator Feeds
 
-  - `created_date_raw: optional string`
+##### [Get indicator feeds owned by this account](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/list)
 
-  - `expiration_date: optional string`
+GET/accounts/{account\_id}/intel/indicator-feeds
 
-  - `expiration_date_raw: optional string`
+##### [Get indicator feed metadata](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/get)
 
-  - `registrant_city: optional string`
+GET/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}
 
-  - `registrant_country: optional string`
+##### [Create new indicator feed](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/create)
 
-  - `registrant_email: optional string`
+POST/accounts/{account\_id}/intel/indicator-feeds
 
-  - `registrant_fax: optional string`
+##### [Update indicator feed metadata](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/update)
 
-  - `registrant_fax_ext: optional string`
+PUT/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}
 
-  - `registrant_id: optional string`
+##### [Get indicator feed data](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/data)
 
-  - `registrant_name: optional string`
+GET/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}/data
 
-  - `registrant_org: optional string`
+##### ModelsExpand Collapse
 
-  - `registrant_phone: optional string`
+<details>
 
-  - `registrant_phone_ext: optional string`
+<summary>
 
-  - `registrant_postal_code: optional string`
+IndicatorFeedListResponse object {id, created\_on, description, 5 more }
 
-  - `registrant_province: optional string`
+</summary>
 
-  - `registrant_referral_url: optional string`
+id: optional number
 
-  - `registrant_street: optional string`
+The unique identifier for the indicator feed
 
-  - `registrar_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_country: optional string`
+created\_on: optional string
 
-  - `registrar_email: optional string`
+The date and time when the data entry was created
 
-  - `registrar_fax: optional string`
+formatdate-time
 
-  - `registrar_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_id: optional string`
+description: optional string
 
-  - `registrar_name: optional string`
+The description of the example test
 
-  - `registrar_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_phone: optional string`
+is\_attributable: optional boolean
 
-  - `registrar_phone_ext: optional string`
+Whether the indicator feed can be attributed to a provider
 
-  - `registrar_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_province: optional string`
+is\_downloadable: optional boolean
 
-  - `registrar_referral_url: optional string`
+Whether the indicator feed can be downloaded
 
-  - `registrar_street: optional string`
+<a href="#">Link to this property</a>
 
-  - `status: optional array of string`
+is\_public: optional boolean
 
-  - `technical_city: optional string`
+Whether the indicator feed is exposed to customers
 
-  - `technical_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_email: optional string`
+modified\_on: optional string
 
-  - `technical_fax: optional string`
+The date and time when the data entry was last modified
 
-  - `technical_fax_ext: optional string`
+formatdate-time
 
-  - `technical_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_name: optional string`
+name: optional string
 
-  - `technical_org: optional string`
+The name of the indicator feed
 
-  - `technical_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_phone_ext: optional string`
+</details>
 
-  - `technical_postal_code: optional string`
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_list_response%20%3E%20(schema)>)
 
-  - `technical_province: optional string`
+<details>
 
-  - `technical_referral_url: optional string`
+<summary>
 
-  - `technical_street: optional string`
+IndicatorFeedGetResponse object {id, created\_on, description, 10 more }
 
-  - `updated_date: optional string`
+</summary>
 
-  - `updated_date_raw: optional string`
+id: optional number
 
-  - `whois_server: optional string`
+The unique identifier for the indicator feed
 
-# Indicator Feeds
+<a href="#">Link to this property</a>
 
-## Get indicator feeds owned by this account
+created\_on: optional string
 
-**get** `/accounts/{account_id}/intel/indicator-feeds`
+The date and time when the data entry was created
 
-Retrieves details for all accessible custom threat indicator feeds.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-  Identifier
+The description of the example test
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+is\_attributable: optional boolean
 
-  - `code: number`
+Whether the indicator feed can be attributed to a provider
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+is\_downloadable: optional boolean
 
-  - `source: optional object { pointer }`
+Whether the indicator feed can be downloaded
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+is\_public: optional boolean
 
-  - `code: number`
+Whether the indicator feed is exposed to customers
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+last\_upload\_summary: optional object {persisted, skipped, uploaded }
 
-- `success: true`
+Summary of indicator counts from the last successful upload to this feed. Populated by the custom-threat-feeds loader at the end of each successful load. Absent (omitted) when no upload has completed successfully or the upload errored before the summary write. Surfaces silent-failure paths so operators can see when their indicators were dropped (popularity allowlist, expired valid\_until, etc.) without reading loader logs.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+<details>
 
-- `result: optional array of object { id, created_on, description, 5 more }`
+<summary>
 
-  - `id: optional number`
+persisted: optional object {domains\_added, domains\_removed, ips\_added, 3 more }
 
-    The unique identifier for the indicator feed
+Net delta applied to feed indicators by this upload. Snapshot uploads emit both \*\_added and \*\_removed; delta-add emits only \*\_added; delta-remove emits only \*\_removed.
 
-  - `created_on: optional string`
+</summary>
 
-    The date and time when the data entry was created
+domains\_added: optional number
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    The description of the example test
+domains\_removed: optional number
 
-  - `is_attributable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be attributed to a provider
+ips\_added: optional number
 
-  - `is_downloadable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be downloaded
+ips\_removed: optional number
 
-  - `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed is exposed to customers
+urls\_added: optional number
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was last modified
+urls\_removed: optional number
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the indicator feed
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 1,
-      "created_on": "2023-05-12T12:21:56.777653Z",
-      "description": "user specified description 1",
-      "is_attributable": false,
-      "is_downloadable": false,
-      "is_public": false,
-      "modified_on": "2023-06-18T03:13:34.123321Z",
-      "name": "user_specified_name_1"
-    },
-    {
-      "id": 2,
-      "created_on": "2023-05-21T21:43:52.867525Z",
-      "description": "User specified description 2",
-      "is_attributable": false,
-      "is_downloadable": false,
-      "is_public": false,
-      "modified_on": "2023-06-28T18:46:18.764425Z",
-      "name": "user_specified_name_2"
-    }
-  ]
-}
-```
+skipped: optional object {allowlisted\_domains, expired\_indicators, invalid\_indicators }
 
-## Get indicator feed metadata
+Counts of indicators that were uploaded but did not reach QuickSilver, broken down by reason.
 
-**get** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}`
+</summary>
 
-Retrieves details for a specific custom threat indicator feed.
+allowlisted\_domains: optional number
 
-### Path Parameters
+Domains filtered by the global popularity allowlist at QS provisioning time. Popular domains (bing.com, naver.com, etc.) are protected from custom-threat-feed enforcement.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+expired\_indicators: optional number
 
-- `feed_id: number`
+Indicators in the upload whose valid\_until is already in the past. These are not added to QS; the expiration cron handles cleanup.
 
-  Indicator feed ID
+<a href="#">Link to this property</a>
 
-### Returns
+invalid\_indicators: optional number
 
-- `errors: array of object { code, message, documentation_url, source }`
+Reserved for future use. Currently always 0 — the unifier aborts the entire upload on a single bad indicator.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+uploaded: optional object {domains, ips, urls }
 
-  - `code: number`
+Indicator counts from the unified file the loader received
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+domains: optional number
 
-  - `source: optional object { pointer }`
+Number of domain indicators in the upload
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+ips: optional number
 
-  Whether the API call was successful.
+Number of IP indicators in the upload
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, description, 10 more }`
+urls: optional number
 
-  - `id: optional number`
+Number of URL indicators in the upload
 
-    The unique identifier for the indicator feed
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+</details>
 
-    The date and time when the data entry was created
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    The description of the example test
+<a href="#">Link to this property</a>
 
-  - `is_attributable: optional boolean`
+latest\_upload\_error: optional string
 
-    Whether the indicator feed can be attributed to a provider
+Human-readable error message describing why the latest upload failed. Populated only when <code>latest_upload_status</code> is <code>Error</code>. Returns one of a small fixed set of category-level messages (invalid domain / IP / URL entries, malformed row or header, invalid valid\_until timestamp, etc.) or the generic <code>Upload failed</code> for unknown or infrastructure-level errors. Never echoes raw error text from the underlying loader. Intel accounts receive the verbatim loader/API error text (including specific offending values) instead of these category-level messages.
 
-  - `is_downloadable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be downloaded
+<details>
 
-  - `is_public: optional boolean`
+<summary>
 
-    Whether the indicator feed is exposed to customers
+latest\_upload\_status: optional "Mirroring"or "Unifying"or "Loading"or 3 more
 
-  - `last_upload_summary: optional object { persisted, skipped, uploaded }`
+Status of the latest snapshot uploaded
 
-    Summary of indicator counts from the last successful upload to this
-    feed. Populated by the custom-threat-feeds loader at the end of each
-    successful load. Absent (omitted) when no upload has completed
-    successfully or the upload errored before the summary write.
-    Surfaces silent-failure paths so operators can see when their
-    indicators were dropped (popularity allowlist, expired valid_until,
-    etc.) without reading loader logs.
+</summary>
 
-    - `persisted: optional object { domains_added, domains_removed, ips_added, 3 more }`
+One of the following:
 
-      Net delta applied to feed indicators by this upload. Snapshot
-      uploads emit both *_added and *_removed; delta-add emits only
-      \*_added; delta-remove emits only *_removed.
+"Mirroring"
 
-      - `domains_added: optional number`
+<a href="#">Link to this property</a>
 
-      - `domains_removed: optional number`
+"Unifying"
 
-      - `ips_added: optional number`
+<a href="#">Link to this property</a>
 
-      - `ips_removed: optional number`
+"Loading"
 
-      - `urls_added: optional number`
+<a href="#">Link to this property</a>
 
-      - `urls_removed: optional number`
+"Provisioning"
 
-    - `skipped: optional object { allowlisted_domains, expired_indicators, invalid_indicators }`
+<a href="#">Link to this property</a>
 
-      Counts of indicators that were uploaded but did not reach
-      QuickSilver, broken down by reason.
+"Complete"
 
-      - `allowlisted_domains: optional number`
+<a href="#">Link to this property</a>
 
-        Domains filtered by the global popularity allowlist at QS
-        provisioning time. Popular domains (bing.com, naver.com,
-        etc.) are protected from custom-threat-feed enforcement.
+"Error"
 
-      - `expired_indicators: optional number`
+<a href="#">Link to this property</a>
 
-        Indicators in the upload whose valid_until is already in
-        the past. These are not added to QS; the expiration cron
-        handles cleanup.
+</details>
 
-      - `invalid_indicators: optional number`
+<a href="#">Link to this property</a>
 
-        Reserved for future use. Currently always 0 — the unifier
-        aborts the entire upload on a single bad indicator.
+modified\_on: optional string
 
-    - `uploaded: optional object { domains, ips, urls }`
+The date and time when the data entry was last modified
 
-      Indicator counts from the unified file the loader received
+formatdate-time
 
-      - `domains: optional number`
+<a href="#">Link to this property</a>
 
-        Number of domain indicators in the upload
+name: optional string
 
-      - `ips: optional number`
+The name of the indicator feed
 
-        Number of IP indicators in the upload
+<a href="#">Link to this property</a>
 
-      - `urls: optional number`
+provider\_id: optional number
 
-        Number of URL indicators in the upload
+The unique identifier for the provider
 
-  - `latest_upload_error: optional string`
+<a href="#">Link to this property</a>
 
-    Human-readable error message describing why the latest upload
-    failed. Populated only when `latest_upload_status` is `Error`.
-    Returns one of a small fixed set of category-level messages
-    (invalid domain / IP / URL entries, malformed row or header,
-    invalid valid_until timestamp, etc.) or the generic
-    `Upload failed` for unknown or infrastructure-level errors.
-    Never echoes raw error text from the underlying loader.
-    Intel accounts receive the verbatim loader/API error text
-    (including specific offending values) instead of these
-    category-level messages.
+provider\_name: optional string
 
-  - `latest_upload_status: optional "Mirroring" or "Unifying" or "Loading" or 3 more`
+The provider of the indicator feed
 
-    Status of the latest snapshot uploaded
+<a href="#">Link to this property</a>
 
-    - `"Mirroring"`
+</details>
 
-    - `"Unifying"`
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_get_response%20%3E%20(schema)>)
 
-    - `"Loading"`
+<details>
 
-    - `"Provisioning"`
+<summary>
 
-    - `"Complete"`
+IndicatorFeedCreateResponse object {id, created\_on, description, 5 more }
 
-    - `"Error"`
+</summary>
 
-  - `modified_on: optional string`
+id: optional number
 
-    The date and time when the data entry was last modified
+The unique identifier for the indicator feed
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the indicator feed
+created\_on: optional string
 
-  - `provider_id: optional number`
+The date and time when the data entry was created
 
-    The unique identifier for the provider
+formatdate-time
 
-  - `provider_name: optional string`
+<a href="#">Link to this property</a>
 
-    The provider of the indicator feed
+description: optional string
 
-### Example
+The description of the example test
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+is\_attributable: optional boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 1,
-    "created_on": "2023-05-12T12:21:56.777653Z",
-    "description": "example feed description",
-    "is_attributable": false,
-    "is_downloadable": false,
-    "is_public": false,
-    "last_upload_summary": {
-      "persisted": {
-        "domains_added": 2,
-        "domains_removed": 1,
-        "ips_added": 0,
-        "ips_removed": 0,
-        "urls_added": 0,
-        "urls_removed": 0
-      },
-      "skipped": {
-        "allowlisted_domains": 1,
-        "expired_indicators": 0,
-        "invalid_indicators": 0
-      },
-      "uploaded": {
-        "domains": 3,
-        "ips": 0,
-        "urls": 0
-      }
-    },
-    "latest_upload_error": "Feed contains one or more invalid domain entries. Check your feed for wildcards or other values that are not valid DNS names.",
-    "latest_upload_status": "Complete",
-    "modified_on": "2023-06-18T03:13:34.123321Z",
-    "name": "example_feed_1",
-    "provider_id": 1,
-    "provider_name": "provider_name"
-  }
-}
-```
+Whether the indicator feed can be attributed to a provider
 
-## Create new indicator feed
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/intel/indicator-feeds`
+is\_downloadable: optional boolean
 
-Creates a new custom threat indicator feed for sharing threat intelligence data.
+Whether the indicator feed can be downloaded
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+is\_public: optional boolean
 
-  Identifier
+Whether the indicator feed is exposed to customers
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+modified\_on: optional string
 
-  The description of the example test
+The date and time when the data entry was last modified
 
-- `name: optional string`
+formatdate-time
 
-  The name of the indicator feed
+<a href="#">Link to this property</a>
 
-### Returns
+name: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The name of the indicator feed
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_create_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+IndicatorFeedUpdateResponse object {id, created\_on, description, 5 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional number
 
-  - `documentation_url: optional string`
+The unique identifier for the indicator feed
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: optional string
 
-- `success: true`
+The date and time when the data entry was created
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, description, 5 more }`
+description: optional string
 
-  - `id: optional number`
+The description of the example test
 
-    The unique identifier for the indicator feed
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+is\_attributable: optional boolean
 
-    The date and time when the data entry was created
+Whether the indicator feed can be attributed to a provider
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    The description of the example test
+is\_downloadable: optional boolean
 
-  - `is_attributable: optional boolean`
+Whether the indicator feed can be downloaded
 
-    Whether the indicator feed can be attributed to a provider
+<a href="#">Link to this property</a>
 
-  - `is_downloadable: optional boolean`
+is\_public: optional boolean
 
-    Whether the indicator feed can be downloaded
+Whether the indicator feed is exposed to customers
 
-  - `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed is exposed to customers
+modified\_on: optional string
 
-  - `modified_on: optional string`
+The date and time when the data entry was last modified
 
-    The date and time when the data entry was last modified
+formatdate-time
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the indicator feed
+name: optional string
 
-### Example
+The name of the indicator feed
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 1,
-    "created_on": "2023-05-12T12:21:56.777653Z",
-    "description": "example feed description",
-    "is_attributable": false,
-    "is_downloadable": false,
-    "is_public": false,
-    "modified_on": "2023-06-18T03:13:34.123321Z",
-    "name": "example_feed_1"
-  }
-}
-```
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_update_response%20%3E%20(schema)>)
 
-## Update indicator feed metadata
+IndicatorFeedDataResponse = string
 
-**put** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}`
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_data_response%20%3E%20(schema)>)
 
-Revises details for a specific custom threat indicator feed.
+#### IntelIndicator FeedsSnapshots
 
-### Path Parameters
+##### [Update indicator feed data](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/snapshots/methods/update)
 
-- `account_id: string`
+PUT/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}/snapshot
 
-  Identifier
+##### ModelsExpand Collapse
 
-- `feed_id: number`
+<details>
 
-  Indicator feed ID
+<summary>
 
-### Body Parameters
+SnapshotUpdateResponse object {file\_id, filename, poll\_url, 2 more }
 
-- `description: optional string`
+</summary>
 
-  The new description of the feed
+file\_id: optional number
 
-- `is_attributable: optional boolean`
+Feed id
 
-  The new is_attributable value of the feed
+<a href="#">Link to this property</a>
 
-- `is_downloadable: optional boolean`
+filename: optional string
 
-  The new is_downloadable value of the feed
+Name of the file unified in our system
 
-- `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-  The new is_public value of the feed
+poll\_url: optional string
 
-- `name: optional string`
+Account-relative polling path. Prepend <code>/accounts/{account_id}</code> using the same account identifier and API host as the upload request. The path omits the account segment because the service does not have your account identifier in this context.
 
-  The new name of the feed
+<a href="#">Link to this property</a>
 
-### Returns
+status: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Current status of the upload at the moment the request returned. This is NOT a terminal state: the file is unified inline, but the durable loader has only accepted it, so the upload is still <code>Unifying</code>. Poll <code>poll_url</code> until the status reaches a terminal value (<code>Unified</code> or <code>Error</code>).
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+upload\_id: optional number
 
-  - `documentation_url: optional string`
+Identifier of the upload row, for polling this upload to a terminal state via <code>poll_url</code>.
 
-  - `source: optional object { pointer }`
+formatint64
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20intel.indicator_feeds.snapshots%20%3E%20(model)%20snapshot_update_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### IntelIndicator FeedsPermissions
 
-  - `documentation_url: optional string`
+##### [List indicator feed permissions](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/list)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/intel/indicator-feeds/permissions/view
 
-    - `pointer: optional string`
+##### [Grant permission to indicator feed](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/create)
 
-- `success: true`
+PUT/accounts/{account\_id}/intel/indicator-feeds/permissions/add
 
-  Whether the API call was successful.
+##### [Revoke permission to indicator feed](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/delete)
 
-  - `true`
+PUT/accounts/{account\_id}/intel/indicator-feeds/permissions/remove
 
-- `result: optional object { id, created_on, description, 5 more }`
+##### ModelsExpand Collapse
 
-  - `id: optional number`
+<details>
 
-    The unique identifier for the indicator feed
+<summary>
 
-  - `created_on: optional string`
+PermissionListResponse = array of object {id, description, is\_attributable, 3 more }
 
-    The date and time when the data entry was created
+</summary>
 
-  - `description: optional string`
+id: optional number
 
-    The description of the example test
+The unique identifier for the indicator feed
 
-  - `is_attributable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be attributed to a provider
+description: optional string
 
-  - `is_downloadable: optional boolean`
+The description of the example test
 
-    Whether the indicator feed can be downloaded
+<a href="#">Link to this property</a>
 
-  - `is_public: optional boolean`
+is\_attributable: optional boolean
 
-    Whether the indicator feed is exposed to customers
+Whether the indicator feed can be attributed to a provider
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was last modified
+is\_downloadable: optional boolean
 
-  - `name: optional string`
+Whether the indicator feed can be downloaded
 
-    The name of the indicator feed
+<a href="#">Link to this property</a>
 
-### Example
+is\_public: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "description": "This is an example description",
-          "is_attributable": true,
-          "is_downloadable": true,
-          "is_public": true,
-          "name": "indicator_list"
-        }'
-```
+Whether the indicator feed is exposed to customers
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 1,
-    "created_on": "2023-05-12T12:21:56.777653Z",
-    "description": "example feed description",
-    "is_attributable": false,
-    "is_downloadable": false,
-    "is_public": false,
-    "modified_on": "2023-06-18T03:13:34.123321Z",
-    "name": "example_feed_1"
-  }
-}
-```
+name: optional string
 
-## Get indicator feed data
+The name of the indicator feed
 
-**get** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}/data`
+<a href="#">Link to this property</a>
 
-Retrieves the raw data entries in a custom threat indicator feed.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_list_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>
 
-- `feed_id: number`
+PermissionCreateResponse object {success }
 
-  Indicator feed ID
+</summary>
 
-### Example
+success: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID/data \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Whether the update succeeded or not
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Indicator Feed List Response
+</details>
 
-- `IndicatorFeedListResponse object { id, created_on, description, 5 more }`
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_create_response%20%3E%20(schema)>)
 
-  - `id: optional number`
+<details>
 
-    The unique identifier for the indicator feed
+<summary>
 
-  - `created_on: optional string`
+PermissionDeleteResponse object {success }
 
-    The date and time when the data entry was created
+</summary>
 
-  - `description: optional string`
+success: optional boolean
 
-    The description of the example test
+Whether the update succeeded or not
 
-  - `is_attributable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be attributed to a provider
+</details>
 
-  - `is_downloadable: optional boolean`
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_delete_response%20%3E%20(schema)>)
 
-    Whether the indicator feed can be downloaded
+#### IntelIndicator FeedsDownloads
 
-  - `is_public: optional boolean`
+#### IntelSinkholes
 
-    Whether the indicator feed is exposed to customers
+##### [List sinkholes owned by this account](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/list)
 
-  - `modified_on: optional string`
+GET/accounts/{account\_id}/intel/sinkholes
 
-    The date and time when the data entry was last modified
+##### [Get a sinkhole](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/get)
 
-  - `name: optional string`
+GET/accounts/{account\_id}/intel/sinkholes/{sinkhole\_id}
 
-    The name of the indicator feed
+##### [Create a new sinkhole for your account](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/create)
 
-### Indicator Feed Get Response
+POST/accounts/{account\_id}/intel/sinkholes
 
-- `IndicatorFeedGetResponse object { id, created_on, description, 10 more }`
+##### [Update a sinkhole](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/update)
 
-  - `id: optional number`
+PUT/accounts/{account\_id}/intel/sinkholes/{sinkhole\_id}
 
-    The unique identifier for the indicator feed
+##### [Delete a sinkhole](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/delete)
 
-  - `created_on: optional string`
+DELETE/accounts/{account\_id}/intel/sinkholes/{sinkhole\_id}
 
-    The date and time when the data entry was created
+##### ModelsExpand Collapse
 
-  - `description: optional string`
+<details>
 
-    The description of the example test
+<summary>
 
-  - `is_attributable: optional boolean`
+Sinkhole object {id, account\_tag, created\_on, 4 more }
 
-    Whether the indicator feed can be attributed to a provider
+</summary>
 
-  - `is_downloadable: optional boolean`
+id: optional string
 
-    Whether the indicator feed can be downloaded
+The unique identifier for the sinkhole.
 
-  - `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed is exposed to customers
+account\_tag: optional string
 
-  - `last_upload_summary: optional object { persisted, skipped, uploaded }`
+The account tag that owns this sinkhole.
 
-    Summary of indicator counts from the last successful upload to this
-    feed. Populated by the custom-threat-feeds loader at the end of each
-    successful load. Absent (omitted) when no upload has completed
-    successfully or the upload errored before the summary write.
-    Surfaces silent-failure paths so operators can see when their
-    indicators were dropped (popularity allowlist, expired valid_until,
-    etc.) without reading loader logs.
+<a href="#">Link to this property</a>
 
-    - `persisted: optional object { domains_added, domains_removed, ips_added, 3 more }`
+created\_on: optional string
 
-      Net delta applied to feed indicators by this upload. Snapshot
-      uploads emit both *_added and *_removed; delta-add emits only
-      \*_added; delta-remove emits only *_removed.
+The date and time when the sinkhole was created.
 
-      - `domains_added: optional number`
+formatdate-time
 
-      - `domains_removed: optional number`
+<a href="#">Link to this property</a>
 
-      - `ips_added: optional number`
+modified\_on: optional string
 
-      - `ips_removed: optional number`
+The date and time when the sinkhole was last modified.
 
-      - `urls_added: optional number`
+formatdate-time
 
-      - `urls_removed: optional number`
+<a href="#">Link to this property</a>
 
-    - `skipped: optional object { allowlisted_domains, expired_indicators, invalid_indicators }`
+name: optional string
 
-      Counts of indicators that were uploaded but did not reach
-      QuickSilver, broken down by reason.
+The name of the sinkhole.
 
-      - `allowlisted_domains: optional number`
+<a href="#">Link to this property</a>
 
-        Domains filtered by the global popularity allowlist at QS
-        provisioning time. Popular domains (bing.com, naver.com,
-        etc.) are protected from custom-threat-feed enforcement.
+r2\_bucket: optional string
 
-      - `expired_indicators: optional number`
+The name of the R2 bucket to store results.
 
-        Indicators in the upload whose valid_until is already in
-        the past. These are not added to QS; the expiration cron
-        handles cleanup.
+<a href="#">Link to this property</a>
 
-      - `invalid_indicators: optional number`
+r2\_id: optional string
 
-        Reserved for future use. Currently always 0 — the unifier
-        aborts the entire upload on a single bad indicator.
+The id of the R2 instance.
 
-    - `uploaded: optional object { domains, ips, urls }`
+<a href="#">Link to this property</a>
 
-      Indicator counts from the unified file the loader received
+</details>
 
-      - `domains: optional number`
+[Link to this property](#)%20intel.sinkholes%20%3E%20(model)%20sinkhole%20%3E%20(schema)>)
 
-        Number of domain indicators in the upload
+SinkholeUpdateResponse = unknown
 
-      - `ips: optional number`
+[Link to this property](#)%20intel.sinkholes%20%3E%20(model)%20sinkhole_update_response%20%3E%20(schema)>)
 
-        Number of IP indicators in the upload
+SinkholeDeleteResponse = unknown
 
-      - `urls: optional number`
+[Link to this property](#)%20intel.sinkholes%20%3E%20(model)%20sinkhole_delete_response%20%3E%20(schema)>)
 
-        Number of URL indicators in the upload
+#### IntelSinkholesIngresses
 
-  - `latest_upload_error: optional string`
+##### [Create an ingress rule](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/subresources/ingresses/methods/create)
 
-    Human-readable error message describing why the latest upload
-    failed. Populated only when `latest_upload_status` is `Error`.
-    Returns one of a small fixed set of category-level messages
-    (invalid domain / IP / URL entries, malformed row or header,
-    invalid valid_until timestamp, etc.) or the generic
-    `Upload failed` for unknown or infrastructure-level errors.
-    Never echoes raw error text from the underlying loader.
-    Intel accounts receive the verbatim loader/API error text
-    (including specific offending values) instead of these
-    category-level messages.
+POST/zones/{zone\_id}/intel/sinkholes/{sinkhole\_id}/ingresses
 
-  - `latest_upload_status: optional "Mirroring" or "Unifying" or "Loading" or 3 more`
+##### [Get an ingress rule](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/subresources/ingresses/methods/get)
 
-    Status of the latest snapshot uploaded
+GET/zones/{zone\_id}/intel/sinkholes/{sinkhole\_id}/ingresses/{ingress\_id}
 
-    - `"Mirroring"`
+##### [Update an ingress rule](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/subresources/ingresses/methods/update)
 
-    - `"Unifying"`
+PUT/zones/{zone\_id}/intel/sinkholes/{sinkhole\_id}/ingresses/{ingress\_id}
 
-    - `"Loading"`
+##### [Delete an ingress rule](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/subresources/ingresses/methods/delete)
 
-    - `"Provisioning"`
+DELETE/zones/{zone\_id}/intel/sinkholes/{sinkhole\_id}/ingresses/{ingress\_id}
 
-    - `"Complete"`
+##### ModelsExpand Collapse
 
-    - `"Error"`
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-    The date and time when the data entry was last modified
+IngressCreateResponse object {id, cidr, created\_on, 3 more }
 
-  - `name: optional string`
+</summary>
 
-    The name of the indicator feed
+id: optional string
 
-  - `provider_id: optional number`
+The unique identifier for the ingress rule.
 
-    The unique identifier for the provider
+<a href="#">Link to this property</a>
 
-  - `provider_name: optional string`
+cidr: optional string
 
-    The provider of the indicator feed
+The CIDR block for the ingress rule.
 
-### Indicator Feed Create Response
+<a href="#">Link to this property</a>
 
-- `IndicatorFeedCreateResponse object { id, created_on, description, 5 more }`
+created\_on: optional string
 
-  - `id: optional number`
+The date and time when the ingress rule was created.
 
-    The unique identifier for the indicator feed
+formatdate-time
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was created
+modified\_on: optional string
 
-  - `description: optional string`
+The date and time when the ingress rule was last modified.
 
-    The description of the example test
+formatdate-time
 
-  - `is_attributable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be attributed to a provider
+sinkhole\_id: optional string
 
-  - `is_downloadable: optional boolean`
+The sinkhole this ingress rule belongs to.
 
-    Whether the indicator feed can be downloaded
+<a href="#">Link to this property</a>
 
-  - `is_public: optional boolean`
+zone\_tag: optional string
 
-    Whether the indicator feed is exposed to customers
+The zone tag associated with this ingress rule.
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was last modified
+</details>
 
-  - `name: optional string`
+[Link to this property](#)%20intel.sinkholes.ingresses%20%3E%20(model)%20ingress_create_response%20%3E%20(schema)>)
 
-    The name of the indicator feed
+<details>
 
-### Indicator Feed Update Response
+<summary>
 
-- `IndicatorFeedUpdateResponse object { id, created_on, description, 5 more }`
+IngressGetResponse object {id, cidr, created\_on, 3 more }
 
-  - `id: optional number`
+</summary>
 
-    The unique identifier for the indicator feed
+id: optional string
 
-  - `created_on: optional string`
+The unique identifier for the ingress rule.
 
-    The date and time when the data entry was created
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+cidr: optional string
 
-    The description of the example test
+The CIDR block for the ingress rule.
 
-  - `is_attributable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be attributed to a provider
+created\_on: optional string
 
-  - `is_downloadable: optional boolean`
+The date and time when the ingress rule was created.
 
-    Whether the indicator feed can be downloaded
+formatdate-time
 
-  - `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed is exposed to customers
+modified\_on: optional string
 
-  - `modified_on: optional string`
+The date and time when the ingress rule was last modified.
 
-    The date and time when the data entry was last modified
+formatdate-time
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the indicator feed
+sinkhole\_id: optional string
 
-### Indicator Feed Data Response
+The sinkhole this ingress rule belongs to.
 
-- `IndicatorFeedDataResponse = string`
+<a href="#">Link to this property</a>
 
-# Snapshots
+zone\_tag: optional string
 
-## Update indicator feed data
+The zone tag associated with this ingress rule.
 
-**put** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}/snapshot`
+<a href="#">Link to this property</a>
 
-Revises the raw data entries in a custom threat indicator feed.
+</details>
 
-Accepts both plain and gzipped STIX2/CRDF bodies. Gzip is
-detected by RFC 1952 magic bytes (`0x1f 0x8b`) and/or a `.gz`
-filename suffix (case-insensitive) — either signal alone is
-sufficient to trigger the gzip path; if the body is not valid
-gzip, the upload fails fast. Customers are encouraged to gzip
-larger uploads — the api-gateway 500 MB body cap applies to
-the on-the-wire (compressed) size, so gzip lets a single
-upload carry several GiB of decompressed STIX.
+[Link to this property](#)%20intel.sinkholes.ingresses%20%3E%20(model)%20ingress_get_response%20%3E%20(schema)>)
 
-### Path Parameters
+IngressUpdateResponse = unknown
 
-- `account_id: string`
+[Link to this property](#)%20intel.sinkholes.ingresses%20%3E%20(model)%20ingress_update_response%20%3E%20(schema)>)
 
-  Identifier
+IngressDeleteResponse = unknown
 
-- `feed_id: number`
+[Link to this property](#)%20intel.sinkholes.ingresses%20%3E%20(model)%20ingress_delete_response%20%3E%20(schema)>)
 
-  Indicator feed ID
+#### IntelAttack Surface Report
 
-### Returns
+#### IntelAttack Surface ReportIssue Types
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Retrieves Security Center Issues Types](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issue_types/methods/get)
 
-  - `code: number`
+GET/accounts/{account\_id}/intel/attack-surface-report/issue-types
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+IssueTypeGetResponse = string
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20intel.attack_surface_report.issue_types%20%3E%20(model)%20issue_type_get_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+#### IntelAttack Surface ReportIssues
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### [Retrieves Security Center Issues](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issues/methods/list)
 
-  - `code: number`
+Deprecated
 
-  - `message: string`
+GET/accounts/{account\_id}/intel/attack-surface-report/issues
 
-  - `documentation_url: optional string`
+##### [Retrieves Security Center Issue Counts by Class](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issues/methods/class)
 
-  - `source: optional object { pointer }`
+Deprecated
 
-    - `pointer: optional string`
+GET/accounts/{account\_id}/intel/attack-surface-report/issues/class
 
-- `success: true`
+##### [Retrieves Security Center Issue Counts by Severity](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issues/methods/severity)
 
-  Whether the API call was successful.
+Deprecated
 
-  - `true`
+GET/accounts/{account\_id}/intel/attack-surface-report/issues/severity
 
-- `result: optional object { file_id, filename, status }`
+##### [Retrieves Security Center Issue Counts by Type](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issues/methods/type)
 
-  - `file_id: optional number`
+Deprecated
 
-    Feed id
+GET/accounts/{account\_id}/intel/attack-surface-report/issues/type
 
-  - `filename: optional string`
+##### ModelsExpand Collapse
 
-    Name of the file unified in our system
+<details>
 
-  - `status: optional string`
+<summary>
 
-    Current status of upload, should be unified
+IssueType = "compliance\_violation"or "email\_security"or "exposed\_infrastructure"or 3 more
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID/snapshot \
-    -X PUT \
-    -H 'Content-Type: multipart/form-data' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -F source=@/Users/me/test.stix2.gz
-```
+One of the following:
 
-#### Response
+"compliance\_violation"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "file_id": 1,
-    "filename": "snapshot_file.unified",
-    "status": "unified"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"email\_security"
 
-### Snapshot Update Response
+<a href="#">Link to this property</a>
 
-- `SnapshotUpdateResponse object { file_id, filename, status }`
+"exposed\_infrastructure"
 
-  - `file_id: optional number`
+<a href="#">Link to this property</a>
 
-    Feed id
+"insecure\_configuration"
 
-  - `filename: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the file unified in our system
+"weak\_authentication"
 
-  - `status: optional string`
+<a href="#">Link to this property</a>
 
-    Current status of upload, should be unified
+"configuration\_suggestion"
 
-# Permissions
+<a href="#">Link to this property</a>
 
-## List indicator feed permissions
+</details>
 
-**get** `/accounts/{account_id}/intel/indicator-feeds/permissions/view`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type%20%3E%20(schema)>)
 
-Lists current access permissions for custom threat indicator feeds.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+SeverityQueryParam = "low"or "moderate"or "critical"
 
-  Identifier
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { code, message, documentation_url, source }`
+"low"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"moderate"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"critical"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20severity_query_param%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+IssueListResponse object {count, issues, page, per\_page }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+count: optional number
 
-  Whether the API call was successful.
+Indicates the total number of results.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, description, is_attributable, 3 more }`
+<details>
 
-  - `id: optional number`
+<summary>
 
-    The unique identifier for the indicator feed
+issues: optional array of object {id, dismissed, has\_extended\_context, 11 more }
 
-  - `description: optional string`
+</summary>
 
-    The description of the example test
+id: optional string
 
-  - `is_attributable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be attributed to a provider
+dismissed: optional boolean
 
-  - `is_downloadable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be downloaded
+has\_extended\_context: optional boolean
 
-  - `is_public: optional boolean`
+Indicates whether the insight has a large payload that requires fetching via the context endpoint.
 
-    Whether the indicator feed is exposed to customers
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+issue\_class: optional string
 
-    The name of the indicator feed
+<a href="#">Link to this property</a>
 
-### Example
+issue\_type: optional <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type%20%3E%20(schema)">IssueType</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/view \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 1,
-      "description": "An important indicator list",
-      "is_attributable": false,
-      "is_downloadable": false,
-      "is_public": false,
-      "name": "indicator_list_1"
-    },
-    {
-      "id": 2,
-      "description": "An even more important indicator list",
-      "is_attributable": true,
-      "is_downloadable": false,
-      "is_public": true,
-      "name": "indicator_list_2"
-    }
-  ]
-}
-```
+<summary>
 
-## Grant permission to indicator feed
+payload: optional object {detection\_method, zone\_tag }
 
-**put** `/accounts/{account_id}/intel/indicator-feeds/permissions/add`
+</summary>
 
-Grants access permissions for a custom threat indicator feed to other accounts.
+detection\_method: optional string
 
-### Path Parameters
+Describes the method used to detect insight.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+zone\_tag: optional string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `account_tag: optional string`
+</details>
 
-  The Cloudflare account tag of the account to change permissions on
+<a href="#">Link to this property</a>
 
-- `feed_id: optional number`
+resolve\_link: optional string
 
-  The ID of the feed to add/remove permissions on
+<a href="#">Link to this property</a>
 
-### Returns
+resolve\_text: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+severity: optional "Low"or "Moderate"or "Critical"
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"Low"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"Moderate"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"Critical"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+since: optional string
 
-- `result: optional object { success }`
+formatdate-time
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the update succeeded or not
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/add \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "account_tag": "823f45f16fd2f7e21e1e054aga4d2859",
-          "feed_id": 1
-        }'
-```
+status: optional "active"or "resolved"
 
-#### Response
+The current status of the insight.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "success": true
-  }
-}
-```
+</summary>
 
-## Revoke permission to indicator feed
+One of the following:
 
-**put** `/accounts/{account_id}/intel/indicator-feeds/permissions/remove`
+"active"
 
-Revokes access permissions for a custom threat indicator feed.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"resolved"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `account_tag: optional string`
+subject: optional string
 
-  The Cloudflare account tag of the account to change permissions on
+<a href="#">Link to this property</a>
 
-- `feed_id: optional number`
+timestamp: optional string
 
-  The ID of the feed to add/remove permissions on
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+user\_classification: optional "false\_positive"or "accept\_risk"or "other"
 
-  - `documentation_url: optional string`
+User-defined classification for the insight. Can be ‘false\_positive’, ‘accept\_risk’, ‘other’, or null.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"false\_positive"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"accept\_risk"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"other"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { success }`
+<a href="#">Link to this property</a>
 
-  - `success: optional boolean`
+page: optional number
 
-    Whether the update succeeded or not
+Specifies the current page within paginated list of results.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/remove \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "account_tag": "823f45f16fd2f7e21e1e054aga4d2859",
-          "feed_id": 1
-        }'
-```
+per\_page: optional number
 
-#### Response
+Sets the number of results per page of results.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "success": true
-  }
-}
-```
+maximum1000
 
-## Domain Types
+minimum1
 
-### Permission List Response
+<a href="#">Link to this property</a>
 
-- `PermissionListResponse = array of object { id, description, is_attributable, 3 more }`
+</details>
 
-  - `id: optional number`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_list_response%20%3E%20(schema)>)
 
-    The unique identifier for the indicator feed
+<details>
 
-  - `description: optional string`
+<summary>
 
-    The description of the example test
+IssueClassResponse = array of object {count, value }
 
-  - `is_attributable: optional boolean`
+</summary>
 
-    Whether the indicator feed can be attributed to a provider
+count: optional number
 
-  - `is_downloadable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be downloaded
+value: optional string
 
-  - `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed is exposed to customers
+</details>
 
-  - `name: optional string`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_class_response%20%3E%20(schema)>)
 
-    The name of the indicator feed
+<details>
 
-### Permission Create Response
+<summary>
 
-- `PermissionCreateResponse object { success }`
+IssueSeverityResponse = array of object {count, value }
 
-  - `success: optional boolean`
+</summary>
 
-    Whether the update succeeded or not
+count: optional number
 
-### Permission Delete Response
+<a href="#">Link to this property</a>
 
-- `PermissionDeleteResponse object { success }`
+value: optional string
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the update succeeded or not
+</details>
 
-# Downloads
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_severity_response%20%3E%20(schema)>)
 
-# Sinkholes
+<details>
 
-## List sinkholes owned by this account
+<summary>
 
-**get** `/accounts/{account_id}/intel/sinkholes`
+IssueTypeResponse = array of object {count, value }
 
-Lists sinkholes owned by the account for redirecting malicious traffic.
+</summary>
 
-### Path Parameters
+count: optional number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+value: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Sinkhole`
-
-  - `id: optional string`
-
-    The unique identifier for the sinkhole.
-
-  - `account_tag: optional string`
-
-    The account tag that owns this sinkhole.
-
-  - `created_on: optional string`
-
-    The date and time when the sinkhole was created.
-
-  - `modified_on: optional string`
-
-    The date and time when the sinkhole was last modified.
-
-  - `name: optional string`
-
-    The name of the sinkhole.
-
-  - `r2_bucket: optional string`
-
-    The name of the R2 bucket to store results.
-
-  - `r2_id: optional string`
-
-    The id of the R2 instance.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/sinkholes \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "93defa6e909e464e8c89a85859f36d3c",
-      "account_tag": "233f45e61fd1f7e21e1e154ede4q2859",
-      "created_on": "2023-05-12T12:21:56.777653Z",
-      "modified_on": "2023-06-18T03:13:34.123321Z",
-      "name": "my_sinkhole",
-      "r2_bucket": "my_bucket",
-      "r2_id": "example_r2_id"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Sinkhole
-
-- `Sinkhole object { id, account_tag, created_on, 4 more }`
-
-  - `id: optional string`
-
-    The unique identifier for the sinkhole.
-
-  - `account_tag: optional string`
-
-    The account tag that owns this sinkhole.
-
-  - `created_on: optional string`
-
-    The date and time when the sinkhole was created.
-
-  - `modified_on: optional string`
-
-    The date and time when the sinkhole was last modified.
-
-  - `name: optional string`
-
-    The name of the sinkhole.
-
-  - `r2_bucket: optional string`
-
-    The name of the R2 bucket to store results.
-
-  - `r2_id: optional string`
-
-    The id of the R2 instance.
-
-# Attack Surface Report
-
-# Issue Types
-
-## Retrieves Security Center Issues Types
-
-**get** `/accounts/{account_id}/intel/attack-surface-report/issue-types`
-
-Lists all available issue types in Security Center, describing categories of security issues.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issue-types \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    "string"
-  ]
-}
-```
-
-## Domain Types
-
-### Issue Type Get Response
-
-- `IssueTypeGetResponse = string`
-
-# Issues
-
-## Retrieves Security Center Issues
-
-**get** `/accounts/{account_id}/intel/attack-surface-report/issues`
-
-Lists all Security Center issues for the account, showing active security problems requiring attention.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `dismissed: optional boolean`
-
-- `issue_class: optional array of string`
-
-- `"issue_class~neq": optional array of string`
-
-- `issue_type: optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `"issue_type~neq": optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `page: optional number`
-
-  Specifies the current page within paginated list of results.
-
-- `per_page: optional number`
-
-  Sets the number of results per page of results.
-
-- `product: optional array of string`
-
-- `"product~neq": optional array of string`
-
-- `severity: optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `"severity~neq": optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `subject: optional array of string`
-
-- `"subject~neq": optional array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { count, issues, page, per_page }`
-
-  - `count: optional number`
-
-    Indicates the total number of results.
-
-  - `issues: optional array of object { id, dismissed, has_extended_context, 11 more }`
-
-    - `id: optional string`
-
-    - `dismissed: optional boolean`
-
-    - `has_extended_context: optional boolean`
-
-      Indicates whether the insight has a large payload that requires fetching via the context endpoint.
-
-    - `issue_class: optional string`
-
-    - `issue_type: optional IssueType`
-
-      - `"compliance_violation"`
-
-      - `"email_security"`
-
-      - `"exposed_infrastructure"`
-
-      - `"insecure_configuration"`
-
-      - `"weak_authentication"`
-
-      - `"configuration_suggestion"`
-
-    - `payload: optional object { detection_method, zone_tag }`
-
-      - `detection_method: optional string`
-
-        Describes the method used to detect insight.
-
-      - `zone_tag: optional string`
-
-    - `resolve_link: optional string`
-
-    - `resolve_text: optional string`
-
-    - `severity: optional "Low" or "Moderate" or "Critical"`
-
-      - `"Low"`
-
-      - `"Moderate"`
-
-      - `"Critical"`
-
-    - `since: optional string`
-
-    - `status: optional "active" or "resolved"`
-
-      The current status of the insight.
-
-      - `"active"`
-
-      - `"resolved"`
-
-    - `subject: optional string`
-
-    - `timestamp: optional string`
-
-    - `user_classification: optional "false_positive" or "accept_risk" or "other"`
-
-      User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
-
-      - `"false_positive"`
-
-      - `"accept_risk"`
-
-      - `"other"`
-
-  - `page: optional number`
-
-    Specifies the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Sets the number of results per page of results.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issues \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "count": 1,
-    "issues": [
-      {
-        "id": "id",
-        "dismissed": false,
-        "has_extended_context": false,
-        "issue_class": "always_use_https_not_enabled",
-        "issue_type": "compliance_violation",
-        "payload": {
-          "detection_method": "We detected security rules referencing multiple IP addresses directly in the rules.",
-          "zone_tag": "zone_tag"
-        },
-        "resolve_link": "resolve_link",
-        "resolve_text": "resolve_text",
-        "severity": "Low",
-        "since": "2019-12-27T18:11:19.117Z",
-        "status": "active",
-        "subject": "example.com",
-        "timestamp": "2019-12-27T18:11:19.117Z",
-        "user_classification": "false_positive"
-      }
-    ],
-    "page": 1,
-    "per_page": 25
-  }
-}
-```
-
-## Retrieves Security Center Issue Counts by Class
-
-**get** `/accounts/{account_id}/intel/attack-surface-report/issues/class`
-
-Retrieves Security Center issue counts aggregated by classification class.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `dismissed: optional boolean`
-
-- `issue_class: optional array of string`
-
-- `"issue_class~neq": optional array of string`
-
-- `issue_type: optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `"issue_type~neq": optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `product: optional array of string`
-
-- `"product~neq": optional array of string`
-
-- `severity: optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `"severity~neq": optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `subject: optional array of string`
-
-- `"subject~neq": optional array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issues/class \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
-
-## Retrieves Security Center Issue Counts by Severity
-
-**get** `/accounts/{account_id}/intel/attack-surface-report/issues/severity`
-
-Retrieves Security Center issue counts aggregated by severity level.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `dismissed: optional boolean`
-
-- `issue_class: optional array of string`
-
-- `"issue_class~neq": optional array of string`
-
-- `issue_type: optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `"issue_type~neq": optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `product: optional array of string`
-
-- `"product~neq": optional array of string`
-
-- `severity: optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `"severity~neq": optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `subject: optional array of string`
-
-- `"subject~neq": optional array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issues/severity \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
-
-## Retrieves Security Center Issue Counts by Type
-
-**get** `/accounts/{account_id}/intel/attack-surface-report/issues/type`
-
-Retrieves Security Center issue counts aggregated by issue type.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `dismissed: optional boolean`
-
-- `issue_class: optional array of string`
-
-- `"issue_class~neq": optional array of string`
-
-- `issue_type: optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `"issue_type~neq": optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `product: optional array of string`
-
-- `"product~neq": optional array of string`
-
-- `severity: optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `"severity~neq": optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `subject: optional array of string`
-
-- `"subject~neq": optional array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issues/type \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
-
-## Archives Security Center Insight
-
-**put** `/accounts/{account_id}/intel/attack-surface-report/{issue_id}/dismiss`
-
-Deprecated endpoint for archiving Security Center insights. Use the newer archive-security-center-insight endpoint instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `issue_id: string`
-
-### Body Parameters
-
-- `dismiss: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/$ISSUE_ID/dismiss \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Issue Type
-
-- `IssueType = "compliance_violation" or "email_security" or "exposed_infrastructure" or 3 more`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-### Severity Query Param
-
-- `SeverityQueryParam = "low" or "moderate" or "critical"`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-### Issue List Response
-
-- `IssueListResponse object { count, issues, page, per_page }`
-
-  - `count: optional number`
-
-    Indicates the total number of results.
-
-  - `issues: optional array of object { id, dismissed, has_extended_context, 11 more }`
-
-    - `id: optional string`
-
-    - `dismissed: optional boolean`
-
-    - `has_extended_context: optional boolean`
-
-      Indicates whether the insight has a large payload that requires fetching via the context endpoint.
-
-    - `issue_class: optional string`
-
-    - `issue_type: optional IssueType`
-
-      - `"compliance_violation"`
-
-      - `"email_security"`
-
-      - `"exposed_infrastructure"`
-
-      - `"insecure_configuration"`
-
-      - `"weak_authentication"`
-
-      - `"configuration_suggestion"`
-
-    - `payload: optional object { detection_method, zone_tag }`
-
-      - `detection_method: optional string`
-
-        Describes the method used to detect insight.
-
-      - `zone_tag: optional string`
-
-    - `resolve_link: optional string`
-
-    - `resolve_text: optional string`
-
-    - `severity: optional "Low" or "Moderate" or "Critical"`
-
-      - `"Low"`
-
-      - `"Moderate"`
-
-      - `"Critical"`
-
-    - `since: optional string`
-
-    - `status: optional "active" or "resolved"`
-
-      The current status of the insight.
-
-      - `"active"`
-
-      - `"resolved"`
-
-    - `subject: optional string`
-
-    - `timestamp: optional string`
-
-    - `user_classification: optional "false_positive" or "accept_risk" or "other"`
-
-      User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
-
-      - `"false_positive"`
-
-      - `"accept_risk"`
-
-      - `"other"`
-
-  - `page: optional number`
-
-    Specifies the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Sets the number of results per page of results.
-
-### Issue Class Response
-
-- `IssueClassResponse = array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Issue Severity Response
-
-- `IssueSeverityResponse = array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Issue Type Response
-
-- `IssueTypeResponse = array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Issue Dismiss Response
-
-- `IssueDismissResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type_response%20%3E%20(schema)>)

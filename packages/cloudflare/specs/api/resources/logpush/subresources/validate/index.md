@@ -1,331 +1,89 @@
+---
+title: Validate
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Logpush](https://developers.cloudflare.com/api/resources/logpush)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Validate
 
-## Validate destination
+##### [Validate destination](https://developers.cloudflare.com/api/resources/logpush/subresources/validate/methods/destination)
 
-**post** `/{accounts_or_zones}/{account_or_zone_id}/logpush/validate/destination`
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/validate/destination
 
-Validates destination.
+##### [Check destination exists](https://developers.cloudflare.com/api/resources/logpush/subresources/validate/methods/destination_exists)
 
-### Path Parameters
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/validate/destination/exists
 
-- `account_id: optional string`
+##### [Validate origin](https://developers.cloudflare.com/api/resources/logpush/subresources/validate/methods/origin)
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/validate/origin
 
-- `zone_id: optional string`
+##### ModelsExpand Collapse
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+<details>
 
-### Body Parameters
+<summary>
 
-- `destination_conf: string`
+ValidateDestinationResponse object {message, valid }
 
-  Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
+</summary>
 
-### Returns
+message: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+valid: optional boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20logpush.validate%20%3E%20(model)%20validate_destination_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+ValidateDestinationExistsResponse object {exists }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+exists: optional boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20logpush.validate%20%3E%20(model)%20validate_destination_exists_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { message, valid }`
+ValidateOriginResponse object {message, valid }
 
-  - `message: optional string`
+</summary>
 
-  - `valid: optional boolean`
+message: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/validate/destination \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "destination_conf": "s3://mybucket/logs?region=us-west-2"
-        }'
-```
+valid: optional boolean
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "message": "",
-    "valid": true
-  }
-}
-```
+</details>
 
-## Check destination exists
-
-**post** `/{accounts_or_zones}/{account_or_zone_id}/logpush/validate/destination/exists`
-
-Checks if there is an existing job with a destination.
-
-### Path Parameters
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Body Parameters
-
-- `destination_conf: string`
-
-  Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { exists }`
-
-  - `exists: optional boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/validate/destination/exists \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "destination_conf": "s3://mybucket/logs?region=us-west-2"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "exists": false
-  }
-}
-```
-
-## Validate origin
-
-**post** `/{accounts_or_zones}/{account_or_zone_id}/logpush/validate/origin`
-
-Validates logpull origin with logpull_options.
-
-### Path Parameters
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Body Parameters
-
-- `logpull_options: string`
-
-  This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { message, valid }`
-
-  - `message: optional string`
-
-  - `valid: optional boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/validate/origin \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "logpull_options": "fields=RayID,ClientIP,EdgeStartTimestamp&timestamps=rfc3339"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "message": "",
-    "valid": true
-  }
-}
-```
-
-## Domain Types
-
-### Validate Destination Response
-
-- `ValidateDestinationResponse object { message, valid }`
-
-  - `message: optional string`
-
-  - `valid: optional boolean`
-
-### Validate Destination Exists Response
-
-- `ValidateDestinationExistsResponse object { exists }`
-
-  - `exists: optional boolean`
-
-### Validate Origin Response
-
-- `ValidateOriginResponse object { message, valid }`
-
-  - `message: optional string`
-
-  - `valid: optional boolean`
+[Link to this property](#)%20logpush.validate%20%3E%20(model)%20validate_origin_response%20%3E%20(schema)>)

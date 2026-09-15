@@ -162,6 +162,70 @@ export class ProjectNotFound
     [{ code: 8000007 }],
   ) {}
 
+export type AssetsCheckMissingRequestHashesList = Array<string>;
+export const AssetsCheckMissingRequestHashesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AssetsCheckMissingRequestHashesList>;
+
+export interface AssetsCheckMissingRequest {
+  /** List of file content hashes to check for existence in the asset store. */
+  hashes: AssetsCheckMissingRequestHashesList;
+}
+export const AssetsCheckMissingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hashes: AssetsCheckMissingRequestHashesList,
+  })
+    .pipe(
+      T.Http({ method: "POST", uri: "/pages/assets/check-missing", code: 200 }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "AssetsCheckMissingRequest",
+}) as any as S.Schema<AssetsCheckMissingRequest>;
+
+export type AssetsCheckMissingResultList = Array<string>;
+export const AssetsCheckMissingResultList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AssetsCheckMissingResultList>;
+
+export type AssetsCheckMissingResponse = AssetsCheckMissingResultList;
+export const AssetsCheckMissingResponse = /*@__PURE__*/ S.suspend(() =>
+  AssetsCheckMissingResultList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "AssetsCheckMissingResponse",
+}) as any as S.Schema<AssetsCheckMissingResponse>;
+
+export type AssetsUpsertHashesRequestHashesList = Array<string>;
+export const AssetsUpsertHashesRequestHashesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AssetsUpsertHashesRequestHashesList>;
+
+export interface AssetsUpsertHashesRequest {
+  /** List of file content hashes to register in the asset store. */
+  hashes: AssetsUpsertHashesRequestHashesList;
+}
+export const AssetsUpsertHashesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hashes: AssetsUpsertHashesRequestHashesList,
+  })
+    .pipe(
+      T.Http({ method: "POST", uri: "/pages/assets/upsert-hashes", code: 200 }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "AssetsUpsertHashesRequest",
+}) as any as S.Schema<AssetsUpsertHashesRequest>;
+
+export interface AssetsUpsertHashesResponse {}
+export const AssetsUpsertHashesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "AssetsUpsertHashesResponse",
+}) as any as S.Schema<AssetsUpsertHashesResponse>;
+
 export interface ProjectsCreateRequestBuildConfig {
   /** Enable build caching for the project. */
   buildCaching?: boolean;
@@ -513,7 +577,7 @@ export interface ProjectsCreateRequestDeploymentConfigsPreview {
   r2Buckets?: ProjectsCreateRequestDeploymentConfigsPreviewR2BucketsMap;
   /** Services used for Pages Functions. */
   services?: ProjectsCreateRequestDeploymentConfigsPreviewServicesMap;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel?:
     | ProjectsCreateRequestDeploymentConfigsPreviewUsageModel
     | (string & {});
@@ -847,7 +911,7 @@ export interface ProjectsCreateRequestDeploymentConfigsProduction {
   r2Buckets?: ProjectsCreateRequestDeploymentConfigsProductionR2BucketsMap;
   /** Services used for Pages Functions. */
   services?: ProjectsCreateRequestDeploymentConfigsProductionServicesMap;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel?:
     | ProjectsCreateRequestDeploymentConfigsProductionUsageModel
     | (string & {});
@@ -998,7 +1062,7 @@ export const ProjectsCreateRequestSourceConfigPreviewDeploymentSetting =
   S.String;
 
 export interface ProjectsCreateRequestSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled?: boolean;
   /** The owner of the repository. */
   owner?: string;
@@ -1298,7 +1362,7 @@ export const ProjectsCreateResponseCanonicalDeploymentSourceConfigPreviewDeploym
   S.String;
 
 export interface ProjectsCreateResponseCanonicalDeploymentSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -1383,23 +1447,40 @@ export const ProjectsCreateResponseCanonicalDeploymentSource =
     identifier: "ProjectsCreateResponseCanonicalDeploymentSource",
   }) as any as S.Schema<ProjectsCreateResponseCanonicalDeploymentSource>;
 
+export type ProjectsCreateResponseCanonicalDeploymentStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsCreateResponseCanonicalDeploymentStagesItemName = S.String;
+
+export type ProjectsCreateResponseCanonicalDeploymentStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsCreateResponseCanonicalDeploymentStagesItemStatus =
+  S.String;
+
 export interface ProjectsCreateResponseCanonicalDeploymentStagesItem {
   /** When the stage ended. */
   endedOn: string;
   /** The current build stage. */
-  name: string;
+  name: ProjectsCreateResponseCanonicalDeploymentStagesItemName;
   /** When the stage started. */
   startedOn: string;
   /** State of the current stage. */
-  status: string;
+  status: ProjectsCreateResponseCanonicalDeploymentStagesItemStatus;
 }
 export const ProjectsCreateResponseCanonicalDeploymentStagesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       endedOn: S.String.pipe(T.Body("ended_on")),
-      name: S.String,
+      name: ProjectsCreateResponseCanonicalDeploymentStagesItemName,
       startedOn: S.String.pipe(T.Body("started_on")),
-      status: S.String,
+      status: ProjectsCreateResponseCanonicalDeploymentStagesItemStatus,
     }),
   ).annotate({
     identifier: "ProjectsCreateResponseCanonicalDeploymentStagesItem",
@@ -1411,6 +1492,15 @@ export const ProjectsCreateResponseCanonicalDeploymentStagesList =
   /*@__PURE__*/ S.Array(
     ProjectsCreateResponseCanonicalDeploymentStagesItem,
   ) as any as S.Schema<ProjectsCreateResponseCanonicalDeploymentStagesList>;
+
+export type ProjectsCreateResponseCanonicalDeploymentSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsCreateResponseCanonicalDeploymentSkipReason = S.String;
 
 export interface ProjectsCreateResponseCanonicalDeployment {
   /** Id of the deployment. */
@@ -1445,6 +1535,8 @@ export interface ProjectsCreateResponseCanonicalDeployment {
   stages: ProjectsCreateResponseCanonicalDeploymentStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsCreateResponseCanonicalDeploymentSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -1474,6 +1566,11 @@ export const ProjectsCreateResponseCanonicalDeployment =
       source: ProjectsCreateResponseCanonicalDeploymentSource,
       stages: ProjectsCreateResponseCanonicalDeploymentStagesList,
       url: S.String,
+      skipReason: S.optional(
+        S.NullOr(ProjectsCreateResponseCanonicalDeploymentSkipReason).pipe(
+          T.Body("skip_reason"),
+        ),
+      ),
       usesFunctions: S.optional(
         S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
       ),
@@ -1702,7 +1799,7 @@ export interface ProjectsCreateResponseDeploymentConfigsPreview {
   envVars: UntypedBindingMap;
   /** Whether to fail open when the deployment config cannot be applied. */
   failOpen: boolean;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel: ProjectsCreateResponseDeploymentConfigsPreviewUsageModel;
   /** Constellation bindings used for Pages Functions. */
   aiBindings?: ProjectsCreateResponseDeploymentConfigsPreviewAiBindingsMap | null;
@@ -2031,7 +2128,7 @@ export interface ProjectsCreateResponseDeploymentConfigsProduction {
   envVars: UntypedBindingMap;
   /** Whether to fail open when the deployment config cannot be applied. */
   failOpen: boolean;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel: ProjectsCreateResponseDeploymentConfigsProductionUsageModel;
   /** Constellation bindings used for Pages Functions. */
   aiBindings?: ProjectsCreateResponseDeploymentConfigsProductionAiBindingsMap | null;
@@ -2170,6 +2267,394 @@ export const ProjectsCreateResponseDeploymentConfigs = /*@__PURE__*/ S.suspend(
   identifier: "ProjectsCreateResponseDeploymentConfigs",
 }) as any as S.Schema<ProjectsCreateResponseDeploymentConfigs>;
 
+export type ProjectsCreateResponseLatestDeploymentAliasesList = Array<string>;
+export const ProjectsCreateResponseLatestDeploymentAliasesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsCreateResponseLatestDeploymentAliasesList>;
+
+export type ProjectsCreateResponseLatestDeploymentBuildConfig =
+  ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+export const ProjectsCreateResponseLatestDeploymentBuildConfig =
+  ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+
+export type ProjectsCreateResponseLatestDeploymentDeploymentTriggerMetadata =
+  ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+export const ProjectsCreateResponseLatestDeploymentDeploymentTriggerMetadata =
+  ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+
+export type ProjectsCreateResponseLatestDeploymentDeploymentTriggerType =
+  | "github:push"
+  | "ad_hoc"
+  | "deploy_hook";
+export const ProjectsCreateResponseLatestDeploymentDeploymentTriggerType =
+  S.String;
+
+export interface ProjectsCreateResponseLatestDeploymentDeploymentTrigger {
+  /** Additional info about the trigger. */
+  metadata: ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+  /** What caused the deployment. */
+  type: ProjectsCreateResponseLatestDeploymentDeploymentTriggerType;
+}
+export const ProjectsCreateResponseLatestDeploymentDeploymentTrigger =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      metadata:
+        ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata,
+      type: ProjectsCreateResponseLatestDeploymentDeploymentTriggerType,
+    }),
+  ).annotate({
+    identifier: "ProjectsCreateResponseLatestDeploymentDeploymentTrigger",
+  }) as any as S.Schema<ProjectsCreateResponseLatestDeploymentDeploymentTrigger>;
+
+export type ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType =
+  "plain_text";
+export const ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType =
+  S.String;
+
+export interface ProjectsCreateResponseLatestDeploymentEnvVarsPlainText {
+  type: ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType;
+  /** Environment variable value. */
+  value: string;
+}
+export const ProjectsCreateResponseLatestDeploymentEnvVarsPlainText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType,
+      value: S.String,
+    }),
+  ).annotate({
+    identifier: "ProjectsCreateResponseLatestDeploymentEnvVarsPlainText",
+  }) as any as S.Schema<ProjectsCreateResponseLatestDeploymentEnvVarsPlainText>;
+
+export type ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType =
+  "secret_text";
+export const ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType =
+  S.String;
+
+export interface ProjectsCreateResponseLatestDeploymentEnvVarsSecretText {
+  type: ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType;
+  /** Secret value. */
+  value: string;
+}
+export const ProjectsCreateResponseLatestDeploymentEnvVarsSecretText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType,
+      value: S.String,
+    }),
+  ).annotate({
+    identifier: "ProjectsCreateResponseLatestDeploymentEnvVarsSecretText",
+  }) as any as S.Schema<ProjectsCreateResponseLatestDeploymentEnvVarsSecretText>;
+
+export type ProjectsCreateResponseLatestDeploymentEnvVars =
+  | ProjectsCreateResponseLatestDeploymentEnvVarsPlainText
+  | ProjectsCreateResponseLatestDeploymentEnvVarsSecretText;
+export const ProjectsCreateResponseLatestDeploymentEnvVars =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "value"],
+      ["type", "value"],
+    ]),
+  );
+
+export type ProjectsCreateResponseLatestDeploymentEnvironment =
+  | "preview"
+  | "production";
+export const ProjectsCreateResponseLatestDeploymentEnvironment = S.String;
+
+export type ProjectsCreateResponseLatestDeploymentLatestStageName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsCreateResponseLatestDeploymentLatestStageName = S.String;
+
+export type ProjectsCreateResponseLatestDeploymentLatestStageStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsCreateResponseLatestDeploymentLatestStageStatus = S.String;
+
+export interface ProjectsCreateResponseLatestDeploymentLatestStage {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsCreateResponseLatestDeploymentLatestStageName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsCreateResponseLatestDeploymentLatestStageStatus;
+}
+export const ProjectsCreateResponseLatestDeploymentLatestStage =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsCreateResponseLatestDeploymentLatestStageName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsCreateResponseLatestDeploymentLatestStageStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsCreateResponseLatestDeploymentLatestStage",
+  }) as any as S.Schema<ProjectsCreateResponseLatestDeploymentLatestStage>;
+
+export type ProjectsCreateResponseLatestDeploymentSourceConfigPathExcludesList =
+  Array<string>;
+export const ProjectsCreateResponseLatestDeploymentSourceConfigPathExcludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsCreateResponseLatestDeploymentSourceConfigPathExcludesList>;
+
+export type ProjectsCreateResponseLatestDeploymentSourceConfigPathIncludesList =
+  Array<string>;
+export const ProjectsCreateResponseLatestDeploymentSourceConfigPathIncludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsCreateResponseLatestDeploymentSourceConfigPathIncludesList>;
+
+export type ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchExcludesList =
+  Array<string>;
+export const ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchExcludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchExcludesList>;
+
+export type ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchIncludesList =
+  Array<string>;
+export const ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchIncludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchIncludesList>;
+
+export type ProjectsCreateResponseLatestDeploymentSourceConfigPreviewDeploymentSetting =
+  | "all"
+  | "none"
+  | "custom";
+export const ProjectsCreateResponseLatestDeploymentSourceConfigPreviewDeploymentSetting =
+  S.String;
+
+export interface ProjectsCreateResponseLatestDeploymentSourceConfig {
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
+  deploymentsEnabled: boolean;
+  /** The owner of the repository. */
+  owner: string;
+  /** The owner ID of the repository. */
+  ownerId: string;
+  /** A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported. */
+  pathExcludes: ProjectsCreateResponseLatestDeploymentSourceConfigPathExcludesList;
+  /** A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported. */
+  pathIncludes: ProjectsCreateResponseLatestDeploymentSourceConfigPathIncludesList;
+  /** Whether to enable PR comments. */
+  prCommentsEnabled: boolean;
+  /** A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
+  previewBranchExcludes: ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchExcludesList;
+  /** A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
+  previewBranchIncludes: ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchIncludesList;
+  /** Controls whether commits to preview branches trigger a preview deployment. */
+  previewDeploymentSetting: ProjectsCreateResponseLatestDeploymentSourceConfigPreviewDeploymentSetting;
+  /** The production branch of the repository. */
+  productionBranch: string;
+  /** Whether to trigger a production deployment on commits to the production branch. */
+  productionDeploymentsEnabled: boolean;
+  /** The ID of the repository. */
+  repoId: string;
+  /** The name of the repository. */
+  repoName: string;
+}
+export const ProjectsCreateResponseLatestDeploymentSourceConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      deploymentsEnabled: S.Boolean.pipe(T.Body("deployments_enabled")),
+      owner: S.String,
+      ownerId: S.String.pipe(T.Body("owner_id")),
+      pathExcludes:
+        ProjectsCreateResponseLatestDeploymentSourceConfigPathExcludesList.pipe(
+          T.Body("path_excludes"),
+        ),
+      pathIncludes:
+        ProjectsCreateResponseLatestDeploymentSourceConfigPathIncludesList.pipe(
+          T.Body("path_includes"),
+        ),
+      prCommentsEnabled: S.Boolean.pipe(T.Body("pr_comments_enabled")),
+      previewBranchExcludes:
+        ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchExcludesList.pipe(
+          T.Body("preview_branch_excludes"),
+        ),
+      previewBranchIncludes:
+        ProjectsCreateResponseLatestDeploymentSourceConfigPreviewBranchIncludesList.pipe(
+          T.Body("preview_branch_includes"),
+        ),
+      previewDeploymentSetting:
+        ProjectsCreateResponseLatestDeploymentSourceConfigPreviewDeploymentSetting.pipe(
+          T.Body("preview_deployment_setting"),
+        ),
+      productionBranch: S.String.pipe(T.Body("production_branch")),
+      productionDeploymentsEnabled: S.Boolean.pipe(
+        T.Body("production_deployments_enabled"),
+      ),
+      repoId: S.String.pipe(T.Body("repo_id")),
+      repoName: S.String.pipe(T.Body("repo_name")),
+    }),
+  ).annotate({
+    identifier: "ProjectsCreateResponseLatestDeploymentSourceConfig",
+  }) as any as S.Schema<ProjectsCreateResponseLatestDeploymentSourceConfig>;
+
+export type ProjectsCreateResponseLatestDeploymentSourceType =
+  | "github"
+  | "gitlab";
+export const ProjectsCreateResponseLatestDeploymentSourceType = S.String;
+
+export interface ProjectsCreateResponseLatestDeploymentSource {
+  config: ProjectsCreateResponseLatestDeploymentSourceConfig;
+  /** The source control management provider. */
+  type: ProjectsCreateResponseLatestDeploymentSourceType;
+}
+export const ProjectsCreateResponseLatestDeploymentSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      config: ProjectsCreateResponseLatestDeploymentSourceConfig,
+      type: ProjectsCreateResponseLatestDeploymentSourceType,
+    }),
+  ).annotate({
+    identifier: "ProjectsCreateResponseLatestDeploymentSource",
+  }) as any as S.Schema<ProjectsCreateResponseLatestDeploymentSource>;
+
+export type ProjectsCreateResponseLatestDeploymentStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsCreateResponseLatestDeploymentStagesItemName = S.String;
+
+export type ProjectsCreateResponseLatestDeploymentStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsCreateResponseLatestDeploymentStagesItemStatus = S.String;
+
+export interface ProjectsCreateResponseLatestDeploymentStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsCreateResponseLatestDeploymentStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsCreateResponseLatestDeploymentStagesItemStatus;
+}
+export const ProjectsCreateResponseLatestDeploymentStagesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsCreateResponseLatestDeploymentStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsCreateResponseLatestDeploymentStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsCreateResponseLatestDeploymentStagesItem",
+  }) as any as S.Schema<ProjectsCreateResponseLatestDeploymentStagesItem>;
+
+export type ProjectsCreateResponseLatestDeploymentStagesList =
+  Array<ProjectsCreateResponseLatestDeploymentStagesItem>;
+export const ProjectsCreateResponseLatestDeploymentStagesList =
+  /*@__PURE__*/ S.Array(
+    ProjectsCreateResponseLatestDeploymentStagesItem,
+  ) as any as S.Schema<ProjectsCreateResponseLatestDeploymentStagesList>;
+
+export type ProjectsCreateResponseLatestDeploymentSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsCreateResponseLatestDeploymentSkipReason = S.String;
+
+export interface ProjectsCreateResponseLatestDeployment {
+  /** Id of the deployment. */
+  id: string;
+  /** A list of alias URLs pointing to this deployment. */
+  aliases: ProjectsCreateResponseLatestDeploymentAliasesList;
+  /** Configs for the project build process. */
+  buildConfig: ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+  /** When the deployment was created. */
+  createdOn: string;
+  /** Info about what caused the deployment. */
+  deploymentTrigger: ProjectsCreateResponseLatestDeploymentDeploymentTrigger;
+  /** Environment variables used for builds and Pages Functions. */
+  envVars: ProjectsCreateResponseLatestDeploymentEnvVars;
+  /** Type of deploy. */
+  environment: ProjectsCreateResponseLatestDeploymentEnvironment;
+  /** If the deployment has been skipped. */
+  isSkipped: boolean;
+  /** The status of the deployment. */
+  latestStage: ProjectsCreateResponseLatestDeploymentLatestStage;
+  /** When the deployment was last modified. */
+  modifiedOn: string;
+  /** Id of the project. */
+  projectId: string;
+  /** Name of the project. */
+  projectName: string;
+  /** Short Id (8 character) of the deployment. */
+  shortId: string;
+  /** Configs for the project source control. */
+  source: ProjectsCreateResponseLatestDeploymentSource;
+  /** List of past stages. */
+  stages: ProjectsCreateResponseLatestDeploymentStagesList;
+  /** The live URL to view this deployment. */
+  url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsCreateResponseLatestDeploymentSkipReason | null;
+  /** Whether the deployment uses functions. */
+  usesFunctions?: boolean | null;
+}
+export const ProjectsCreateResponseLatestDeployment = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      aliases: ProjectsCreateResponseLatestDeploymentAliasesList,
+      buildConfig: ProjectsCreateResponseCanonicalDeploymentBuildConfig.pipe(
+        T.Body("build_config"),
+      ),
+      createdOn: S.String.pipe(T.Body("created_on")),
+      deploymentTrigger:
+        ProjectsCreateResponseLatestDeploymentDeploymentTrigger.pipe(
+          T.Body("deployment_trigger"),
+        ),
+      envVars: ProjectsCreateResponseLatestDeploymentEnvVars.pipe(
+        T.Body("env_vars"),
+      ),
+      environment: ProjectsCreateResponseLatestDeploymentEnvironment,
+      isSkipped: S.Boolean.pipe(T.Body("is_skipped")),
+      latestStage: ProjectsCreateResponseLatestDeploymentLatestStage.pipe(
+        T.Body("latest_stage"),
+      ),
+      modifiedOn: S.String.pipe(T.Body("modified_on")),
+      projectId: S.String.pipe(T.Body("project_id")),
+      projectName: S.String.pipe(T.Body("project_name")),
+      shortId: S.String.pipe(T.Body("short_id")),
+      source: ProjectsCreateResponseLatestDeploymentSource,
+      stages: ProjectsCreateResponseLatestDeploymentStagesList,
+      url: S.String,
+      skipReason: S.optional(
+        S.NullOr(ProjectsCreateResponseLatestDeploymentSkipReason).pipe(
+          T.Body("skip_reason"),
+        ),
+      ),
+      usesFunctions: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
+      ),
+    }),
+).annotate({
+  identifier: "ProjectsCreateResponseLatestDeployment",
+}) as any as S.Schema<ProjectsCreateResponseLatestDeployment>;
+
 export type ProjectsCreateResponseBuildConfig =
   ProjectsCreateResponseCanonicalDeploymentBuildConfig;
 export const ProjectsCreateResponseBuildConfig =
@@ -2214,7 +2699,7 @@ export const ProjectsCreateResponseSourceConfigPreviewDeploymentSetting =
   S.String;
 
 export interface ProjectsCreateResponseSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -2308,7 +2793,7 @@ export interface CreateProjectResponse {
   /** Version of the framework the project is using. */
   frameworkVersion: string;
   /** Most recent deployment of the project. */
-  latestDeployment: ProjectsCreateResponseCanonicalDeployment;
+  latestDeployment: ProjectsCreateResponseLatestDeployment;
   /** Name of the project. */
   name: string;
   /** Name of the preview script. */
@@ -2340,7 +2825,7 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     framework: S.String,
     frameworkVersion: S.String.pipe(T.Body("framework_version")),
-    latestDeployment: ProjectsCreateResponseCanonicalDeployment.pipe(
+    latestDeployment: ProjectsCreateResponseLatestDeployment.pipe(
       T.Body("latest_deployment"),
     ),
     name: S.String,
@@ -2366,30 +2851,48 @@ export interface CreateProjectDeploymentRequest {
   accountId: string;
   /** Name of the project. */
   projectName: string;
+  /** Headers configuration file for the deployment. */
+  headers?: unknown;
+  /** Redirects configuration file for the deployment. */
+  redirects?: unknown;
+  /** Routes configuration file defining routing rules. */
+  routesJson?: unknown;
+  /** Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`. Cannot specify both `_worker.js` and `_worker.bundle` in the same request. Maximum size: 25 MiB. */
+  workerBundle?: unknown;
+  /** Worker JavaScript file. Mutually exclusive with `_worker.bundle`. Cannot specify both `_worker.js` and `_worker.bundle` in the same request. */
+  workerJs?: unknown;
   /** The branch to build the new deployment from. */
   branch?: string;
   commitDirty?: boolean;
   commitHash?: string;
   commitMessage?: string;
+  functionsFilepathRoutingConfigJson?: unknown;
   /** JSON string mapping file paths to their content hashes. */
   manifest?: string;
   pagesBuildOutputDir?: string;
   wranglerConfigHash?: string;
-  headers?: unknown;
-  redirects?: unknown;
-  routesJson?: unknown;
-  workerBundle?: unknown;
-  workerJs?: unknown;
-  functionsFilepathRoutingConfigJson?: unknown;
+  headers2?: unknown;
+  redirects2?: unknown;
+  routes_json?: unknown;
+  worker_bundle?: unknown;
+  worker_js?: unknown;
 }
 export const CreateProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     projectName: S.String.pipe(T.Label("project_name")),
+    headers: S.optional(S.Unknown.pipe(T.Body("_headers"))),
+    redirects: S.optional(S.Unknown.pipe(T.Body("_redirects"))),
+    routesJson: S.optional(S.Unknown.pipe(T.Body("_routes.json"))),
+    workerBundle: S.optional(S.Unknown.pipe(T.Body("_worker.bundle"))),
+    workerJs: S.optional(S.Unknown.pipe(T.Body("_worker.js"))),
     branch: S.optional(S.String),
     commitDirty: S.optional(S.Boolean.pipe(T.Body("commit_dirty"))),
     commitHash: S.optional(S.String.pipe(T.Body("commit_hash"))),
     commitMessage: S.optional(S.String.pipe(T.Body("commit_message"))),
+    functionsFilepathRoutingConfigJson: S.optional(
+      S.Unknown.pipe(T.Body("functions-filepath-routing-config.json")),
+    ),
     manifest: S.optional(S.String),
     pagesBuildOutputDir: S.optional(
       S.String.pipe(T.Body("pages_build_output_dir")),
@@ -2397,14 +2900,11 @@ export const CreateProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     wranglerConfigHash: S.optional(
       S.String.pipe(T.Body("wrangler_config_hash")),
     ),
-    headers: S.optional(S.Unknown.pipe(T.Body("_headers"))),
-    redirects: S.optional(S.Unknown.pipe(T.Body("_redirects"))),
-    routesJson: S.optional(S.Unknown.pipe(T.Body("_routes.json"))),
-    workerBundle: S.optional(S.Unknown.pipe(T.Body("_worker.bundle"))),
-    workerJs: S.optional(S.Unknown.pipe(T.Body("_worker.js"))),
-    functionsFilepathRoutingConfigJson: S.optional(
-      S.Unknown.pipe(T.Body("functions-filepath-routing-config.json")),
-    ),
+    headers2: S.optional(S.Unknown.pipe(T.Body("_headers"))),
+    redirects2: S.optional(S.Unknown.pipe(T.Body("_redirects"))),
+    routes_json: S.optional(S.Unknown.pipe(T.Body("_routes.json"))),
+    worker_bundle: S.optional(S.Unknown.pipe(T.Body("_worker.bundle"))),
+    worker_js: S.optional(S.Unknown.pipe(T.Body("_worker.js"))),
   })
     .pipe(
       T.Http({
@@ -2537,7 +3037,7 @@ export const ProjectsDeploymentsCreateResponseSourceConfigPreviewDeploymentSetti
   S.String;
 
 export interface ProjectsDeploymentsCreateResponseSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -2620,17 +3120,59 @@ export const ProjectsDeploymentsCreateResponseSource = /*@__PURE__*/ S.suspend(
   identifier: "ProjectsDeploymentsCreateResponseSource",
 }) as any as S.Schema<ProjectsDeploymentsCreateResponseSource>;
 
-export type ProjectsDeploymentsCreateResponseStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+export type ProjectsDeploymentsCreateResponseStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsDeploymentsCreateResponseStagesItemName = S.String;
+
+export type ProjectsDeploymentsCreateResponseStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsDeploymentsCreateResponseStagesItemStatus = S.String;
+
+export interface ProjectsDeploymentsCreateResponseStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsDeploymentsCreateResponseStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsDeploymentsCreateResponseStagesItemStatus;
+}
 export const ProjectsDeploymentsCreateResponseStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsDeploymentsCreateResponseStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsDeploymentsCreateResponseStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsDeploymentsCreateResponseStagesItem",
+  }) as any as S.Schema<ProjectsDeploymentsCreateResponseStagesItem>;
 
 export type ProjectsDeploymentsCreateResponseStagesList =
-  Array<ProjectsCreateResponseCanonicalDeploymentStagesItem>;
+  Array<ProjectsDeploymentsCreateResponseStagesItem>;
 export const ProjectsDeploymentsCreateResponseStagesList =
   /*@__PURE__*/ S.Array(
-    ProjectsCreateResponseCanonicalDeploymentStagesItem,
+    ProjectsDeploymentsCreateResponseStagesItem,
   ) as any as S.Schema<ProjectsDeploymentsCreateResponseStagesList>;
+
+export type ProjectsDeploymentsCreateResponseSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsDeploymentsCreateResponseSkipReason = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProjectDeploymentResponse {
@@ -2666,6 +3208,8 @@ export interface CreateProjectDeploymentResponse {
   stages: ProjectsDeploymentsCreateResponseStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsDeploymentsCreateResponseSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -2693,6 +3237,11 @@ export const CreateProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     source: ProjectsDeploymentsCreateResponseSource,
     stages: ProjectsDeploymentsCreateResponseStagesList,
     url: S.String,
+    skipReason: S.optional(
+      S.NullOr(ProjectsDeploymentsCreateResponseSkipReason).pipe(
+        T.Body("skip_reason"),
+      ),
+    ),
     usesFunctions: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
     ),
@@ -2834,6 +3383,69 @@ export const CreateProjectDomainResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateProjectDomainResponse",
 }) as any as S.Schema<CreateProjectDomainResponse>;
 
+export type CreateProjectsDeploymentsTailRequestFiltersItemMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateProjectsDeploymentsTailRequestFiltersItemMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<CreateProjectsDeploymentsTailRequestFiltersItemMap>;
+
+export type CreateProjectsDeploymentsTailRequestFiltersList =
+  Array<CreateProjectsDeploymentsTailRequestFiltersItemMap>;
+export const CreateProjectsDeploymentsTailRequestFiltersList =
+  /*@__PURE__*/ S.Array(
+    CreateProjectsDeploymentsTailRequestFiltersItemMap,
+  ) as any as S.Schema<CreateProjectsDeploymentsTailRequestFiltersList>;
+
+export interface CreateProjectsDeploymentsTailRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Name of the project. */
+  projectName: string;
+  /** Identifier. */
+  deploymentId: string;
+  /** Filters to apply to the tail session. */
+  filters?: CreateProjectsDeploymentsTailRequestFiltersList;
+}
+export const CreateProjectsDeploymentsTailRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      accountId: S.String.pipe(T.Label("account_id")),
+      projectName: S.String.pipe(T.Label("project_name")),
+      deploymentId: S.String.pipe(T.Label("deployment_id")),
+      filters: S.optional(CreateProjectsDeploymentsTailRequestFiltersList),
+    })
+      .pipe(
+        T.Http({
+          method: "POST",
+          uri: "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/tails",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateProjectsDeploymentsTailRequest",
+}) as any as S.Schema<CreateProjectsDeploymentsTailRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreateProjectsDeploymentsTailResponse {
+  /** Identifier of the tail session. */
+  id: string;
+  /** Optional WebSocket URL to connect to for receiving tail events, when returned by the tail service. */
+  url?: string | null;
+}
+export const CreateProjectsDeploymentsTailResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      url: S.optional(S.NullOr(S.String)),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateProjectsDeploymentsTailResponse",
+}) as any as S.Schema<CreateProjectsDeploymentsTailResponse>;
+
 export interface DeleteProjectRequest {
   /** Identifier. */
   accountId: string;
@@ -2932,6 +3544,44 @@ export const DeleteProjectDomainResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteProjectDomainResponse",
 }) as any as S.Schema<DeleteProjectDomainResponse>;
+
+export interface DeleteProjectsDeploymentsTailRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Name of the project. */
+  projectName: string;
+  /** Identifier. */
+  deploymentId: string;
+  /** Identifier. */
+  tailId: string;
+}
+export const DeleteProjectsDeploymentsTailRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      accountId: S.String.pipe(T.Label("account_id")),
+      projectName: S.String.pipe(T.Label("project_name")),
+      deploymentId: S.String.pipe(T.Label("deployment_id")),
+      tailId: S.String.pipe(T.Label("tail_id")),
+    })
+      .pipe(
+        T.Http({
+          method: "DELETE",
+          uri: "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/tails/{tail_id}",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteProjectsDeploymentsTailRequest",
+}) as any as S.Schema<DeleteProjectsDeploymentsTailRequest>;
+
+export type DeleteProjectsDeploymentsTailResponse = unknown;
+export const DeleteProjectsDeploymentsTailResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteProjectsDeploymentsTailResponse",
+}) as any as S.Schema<DeleteProjectsDeploymentsTailResponse>;
 
 export interface GetProjectRequest {
   /** Identifier. */
@@ -3075,7 +3725,7 @@ export const ProjectsGetResponseCanonicalDeploymentSourceConfigPreviewDeployment
   S.String;
 
 export interface ProjectsGetResponseCanonicalDeploymentSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -3160,17 +3810,59 @@ export const ProjectsGetResponseCanonicalDeploymentSource =
     identifier: "ProjectsGetResponseCanonicalDeploymentSource",
   }) as any as S.Schema<ProjectsGetResponseCanonicalDeploymentSource>;
 
-export type ProjectsGetResponseCanonicalDeploymentStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+export type ProjectsGetResponseCanonicalDeploymentStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsGetResponseCanonicalDeploymentStagesItemName = S.String;
+
+export type ProjectsGetResponseCanonicalDeploymentStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsGetResponseCanonicalDeploymentStagesItemStatus = S.String;
+
+export interface ProjectsGetResponseCanonicalDeploymentStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsGetResponseCanonicalDeploymentStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsGetResponseCanonicalDeploymentStagesItemStatus;
+}
 export const ProjectsGetResponseCanonicalDeploymentStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsGetResponseCanonicalDeploymentStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsGetResponseCanonicalDeploymentStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsGetResponseCanonicalDeploymentStagesItem",
+  }) as any as S.Schema<ProjectsGetResponseCanonicalDeploymentStagesItem>;
 
 export type ProjectsGetResponseCanonicalDeploymentStagesList =
-  Array<ProjectsCreateResponseCanonicalDeploymentStagesItem>;
+  Array<ProjectsGetResponseCanonicalDeploymentStagesItem>;
 export const ProjectsGetResponseCanonicalDeploymentStagesList =
   /*@__PURE__*/ S.Array(
-    ProjectsCreateResponseCanonicalDeploymentStagesItem,
+    ProjectsGetResponseCanonicalDeploymentStagesItem,
   ) as any as S.Schema<ProjectsGetResponseCanonicalDeploymentStagesList>;
+
+export type ProjectsGetResponseCanonicalDeploymentSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsGetResponseCanonicalDeploymentSkipReason = S.String;
 
 export interface ProjectsGetResponseCanonicalDeployment {
   /** Id of the deployment. */
@@ -3205,6 +3897,8 @@ export interface ProjectsGetResponseCanonicalDeployment {
   stages: ProjectsGetResponseCanonicalDeploymentStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsGetResponseCanonicalDeploymentSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -3234,6 +3928,11 @@ export const ProjectsGetResponseCanonicalDeployment = /*@__PURE__*/ S.suspend(
       source: ProjectsGetResponseCanonicalDeploymentSource,
       stages: ProjectsGetResponseCanonicalDeploymentStagesList,
       url: S.String,
+      skipReason: S.optional(
+        S.NullOr(ProjectsGetResponseCanonicalDeploymentSkipReason).pipe(
+          T.Body("skip_reason"),
+        ),
+      ),
       usesFunctions: S.optional(
         S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
       ),
@@ -3444,7 +4143,7 @@ export interface ProjectsGetResponseDeploymentConfigsPreview {
   envVars: UntypedBindingMap;
   /** Whether to fail open when the deployment config cannot be applied. */
   failOpen: boolean;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel: ProjectsGetResponseDeploymentConfigsPreviewUsageModel;
   /** Constellation bindings used for Pages Functions. */
   aiBindings?: ProjectsGetResponseDeploymentConfigsPreviewAiBindingsMap | null;
@@ -3772,7 +4471,7 @@ export interface ProjectsGetResponseDeploymentConfigsProduction {
   envVars: UntypedBindingMap;
   /** Whether to fail open when the deployment config cannot be applied. */
   failOpen: boolean;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel: ProjectsGetResponseDeploymentConfigsProductionUsageModel;
   /** Constellation bindings used for Pages Functions. */
   aiBindings?: ProjectsGetResponseDeploymentConfigsProductionAiBindingsMap | null;
@@ -3910,6 +4609,390 @@ export const ProjectsGetResponseDeploymentConfigs = /*@__PURE__*/ S.suspend(
   identifier: "ProjectsGetResponseDeploymentConfigs",
 }) as any as S.Schema<ProjectsGetResponseDeploymentConfigs>;
 
+export type ProjectsGetResponseLatestDeploymentAliasesList = Array<string>;
+export const ProjectsGetResponseLatestDeploymentAliasesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsGetResponseLatestDeploymentAliasesList>;
+
+export type ProjectsGetResponseLatestDeploymentBuildConfig =
+  ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+export const ProjectsGetResponseLatestDeploymentBuildConfig =
+  ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+
+export type ProjectsGetResponseLatestDeploymentDeploymentTriggerMetadata =
+  ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+export const ProjectsGetResponseLatestDeploymentDeploymentTriggerMetadata =
+  ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+
+export type ProjectsGetResponseLatestDeploymentDeploymentTriggerType =
+  | "github:push"
+  | "ad_hoc"
+  | "deploy_hook";
+export const ProjectsGetResponseLatestDeploymentDeploymentTriggerType =
+  S.String;
+
+export interface ProjectsGetResponseLatestDeploymentDeploymentTrigger {
+  /** Additional info about the trigger. */
+  metadata: ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+  /** What caused the deployment. */
+  type: ProjectsGetResponseLatestDeploymentDeploymentTriggerType;
+}
+export const ProjectsGetResponseLatestDeploymentDeploymentTrigger =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      metadata:
+        ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata,
+      type: ProjectsGetResponseLatestDeploymentDeploymentTriggerType,
+    }),
+  ).annotate({
+    identifier: "ProjectsGetResponseLatestDeploymentDeploymentTrigger",
+  }) as any as S.Schema<ProjectsGetResponseLatestDeploymentDeploymentTrigger>;
+
+export type ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType =
+  "plain_text";
+export const ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType = S.String;
+
+export interface ProjectsGetResponseLatestDeploymentEnvVarsPlainText {
+  type: ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType;
+  /** Environment variable value. */
+  value: string;
+}
+export const ProjectsGetResponseLatestDeploymentEnvVarsPlainText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType,
+      value: S.String,
+    }),
+  ).annotate({
+    identifier: "ProjectsGetResponseLatestDeploymentEnvVarsPlainText",
+  }) as any as S.Schema<ProjectsGetResponseLatestDeploymentEnvVarsPlainText>;
+
+export type ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType =
+  "secret_text";
+export const ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType =
+  S.String;
+
+export interface ProjectsGetResponseLatestDeploymentEnvVarsSecretText {
+  type: ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType;
+  /** Secret value. */
+  value: string;
+}
+export const ProjectsGetResponseLatestDeploymentEnvVarsSecretText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType,
+      value: S.String,
+    }),
+  ).annotate({
+    identifier: "ProjectsGetResponseLatestDeploymentEnvVarsSecretText",
+  }) as any as S.Schema<ProjectsGetResponseLatestDeploymentEnvVarsSecretText>;
+
+export type ProjectsGetResponseLatestDeploymentEnvVars =
+  | ProjectsGetResponseLatestDeploymentEnvVarsPlainText
+  | ProjectsGetResponseLatestDeploymentEnvVarsSecretText;
+export const ProjectsGetResponseLatestDeploymentEnvVars =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "value"],
+      ["type", "value"],
+    ]),
+  );
+
+export type ProjectsGetResponseLatestDeploymentEnvironment =
+  | "preview"
+  | "production";
+export const ProjectsGetResponseLatestDeploymentEnvironment = S.String;
+
+export type ProjectsGetResponseLatestDeploymentLatestStageName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsGetResponseLatestDeploymentLatestStageName = S.String;
+
+export type ProjectsGetResponseLatestDeploymentLatestStageStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsGetResponseLatestDeploymentLatestStageStatus = S.String;
+
+export interface ProjectsGetResponseLatestDeploymentLatestStage {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsGetResponseLatestDeploymentLatestStageName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsGetResponseLatestDeploymentLatestStageStatus;
+}
+export const ProjectsGetResponseLatestDeploymentLatestStage =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsGetResponseLatestDeploymentLatestStageName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsGetResponseLatestDeploymentLatestStageStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsGetResponseLatestDeploymentLatestStage",
+  }) as any as S.Schema<ProjectsGetResponseLatestDeploymentLatestStage>;
+
+export type ProjectsGetResponseLatestDeploymentSourceConfigPathExcludesList =
+  Array<string>;
+export const ProjectsGetResponseLatestDeploymentSourceConfigPathExcludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsGetResponseLatestDeploymentSourceConfigPathExcludesList>;
+
+export type ProjectsGetResponseLatestDeploymentSourceConfigPathIncludesList =
+  Array<string>;
+export const ProjectsGetResponseLatestDeploymentSourceConfigPathIncludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsGetResponseLatestDeploymentSourceConfigPathIncludesList>;
+
+export type ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchExcludesList =
+  Array<string>;
+export const ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchExcludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchExcludesList>;
+
+export type ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchIncludesList =
+  Array<string>;
+export const ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchIncludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchIncludesList>;
+
+export type ProjectsGetResponseLatestDeploymentSourceConfigPreviewDeploymentSetting =
+  | "all"
+  | "none"
+  | "custom";
+export const ProjectsGetResponseLatestDeploymentSourceConfigPreviewDeploymentSetting =
+  S.String;
+
+export interface ProjectsGetResponseLatestDeploymentSourceConfig {
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
+  deploymentsEnabled: boolean;
+  /** The owner of the repository. */
+  owner: string;
+  /** The owner ID of the repository. */
+  ownerId: string;
+  /** A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported. */
+  pathExcludes: ProjectsGetResponseLatestDeploymentSourceConfigPathExcludesList;
+  /** A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported. */
+  pathIncludes: ProjectsGetResponseLatestDeploymentSourceConfigPathIncludesList;
+  /** Whether to enable PR comments. */
+  prCommentsEnabled: boolean;
+  /** A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
+  previewBranchExcludes: ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchExcludesList;
+  /** A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
+  previewBranchIncludes: ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchIncludesList;
+  /** Controls whether commits to preview branches trigger a preview deployment. */
+  previewDeploymentSetting: ProjectsGetResponseLatestDeploymentSourceConfigPreviewDeploymentSetting;
+  /** The production branch of the repository. */
+  productionBranch: string;
+  /** Whether to trigger a production deployment on commits to the production branch. */
+  productionDeploymentsEnabled: boolean;
+  /** The ID of the repository. */
+  repoId: string;
+  /** The name of the repository. */
+  repoName: string;
+}
+export const ProjectsGetResponseLatestDeploymentSourceConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      deploymentsEnabled: S.Boolean.pipe(T.Body("deployments_enabled")),
+      owner: S.String,
+      ownerId: S.String.pipe(T.Body("owner_id")),
+      pathExcludes:
+        ProjectsGetResponseLatestDeploymentSourceConfigPathExcludesList.pipe(
+          T.Body("path_excludes"),
+        ),
+      pathIncludes:
+        ProjectsGetResponseLatestDeploymentSourceConfigPathIncludesList.pipe(
+          T.Body("path_includes"),
+        ),
+      prCommentsEnabled: S.Boolean.pipe(T.Body("pr_comments_enabled")),
+      previewBranchExcludes:
+        ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchExcludesList.pipe(
+          T.Body("preview_branch_excludes"),
+        ),
+      previewBranchIncludes:
+        ProjectsGetResponseLatestDeploymentSourceConfigPreviewBranchIncludesList.pipe(
+          T.Body("preview_branch_includes"),
+        ),
+      previewDeploymentSetting:
+        ProjectsGetResponseLatestDeploymentSourceConfigPreviewDeploymentSetting.pipe(
+          T.Body("preview_deployment_setting"),
+        ),
+      productionBranch: S.String.pipe(T.Body("production_branch")),
+      productionDeploymentsEnabled: S.Boolean.pipe(
+        T.Body("production_deployments_enabled"),
+      ),
+      repoId: S.String.pipe(T.Body("repo_id")),
+      repoName: S.String.pipe(T.Body("repo_name")),
+    }),
+  ).annotate({
+    identifier: "ProjectsGetResponseLatestDeploymentSourceConfig",
+  }) as any as S.Schema<ProjectsGetResponseLatestDeploymentSourceConfig>;
+
+export type ProjectsGetResponseLatestDeploymentSourceType = "github" | "gitlab";
+export const ProjectsGetResponseLatestDeploymentSourceType = S.String;
+
+export interface ProjectsGetResponseLatestDeploymentSource {
+  config: ProjectsGetResponseLatestDeploymentSourceConfig;
+  /** The source control management provider. */
+  type: ProjectsGetResponseLatestDeploymentSourceType;
+}
+export const ProjectsGetResponseLatestDeploymentSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      config: ProjectsGetResponseLatestDeploymentSourceConfig,
+      type: ProjectsGetResponseLatestDeploymentSourceType,
+    }),
+  ).annotate({
+    identifier: "ProjectsGetResponseLatestDeploymentSource",
+  }) as any as S.Schema<ProjectsGetResponseLatestDeploymentSource>;
+
+export type ProjectsGetResponseLatestDeploymentStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsGetResponseLatestDeploymentStagesItemName = S.String;
+
+export type ProjectsGetResponseLatestDeploymentStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsGetResponseLatestDeploymentStagesItemStatus = S.String;
+
+export interface ProjectsGetResponseLatestDeploymentStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsGetResponseLatestDeploymentStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsGetResponseLatestDeploymentStagesItemStatus;
+}
+export const ProjectsGetResponseLatestDeploymentStagesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsGetResponseLatestDeploymentStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsGetResponseLatestDeploymentStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsGetResponseLatestDeploymentStagesItem",
+  }) as any as S.Schema<ProjectsGetResponseLatestDeploymentStagesItem>;
+
+export type ProjectsGetResponseLatestDeploymentStagesList =
+  Array<ProjectsGetResponseLatestDeploymentStagesItem>;
+export const ProjectsGetResponseLatestDeploymentStagesList =
+  /*@__PURE__*/ S.Array(
+    ProjectsGetResponseLatestDeploymentStagesItem,
+  ) as any as S.Schema<ProjectsGetResponseLatestDeploymentStagesList>;
+
+export type ProjectsGetResponseLatestDeploymentSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsGetResponseLatestDeploymentSkipReason = S.String;
+
+export interface ProjectsGetResponseLatestDeployment {
+  /** Id of the deployment. */
+  id: string;
+  /** A list of alias URLs pointing to this deployment. */
+  aliases: ProjectsGetResponseLatestDeploymentAliasesList;
+  /** Configs for the project build process. */
+  buildConfig: ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+  /** When the deployment was created. */
+  createdOn: string;
+  /** Info about what caused the deployment. */
+  deploymentTrigger: ProjectsGetResponseLatestDeploymentDeploymentTrigger;
+  /** Environment variables used for builds and Pages Functions. */
+  envVars: ProjectsGetResponseLatestDeploymentEnvVars;
+  /** Type of deploy. */
+  environment: ProjectsGetResponseLatestDeploymentEnvironment;
+  /** If the deployment has been skipped. */
+  isSkipped: boolean;
+  /** The status of the deployment. */
+  latestStage: ProjectsGetResponseLatestDeploymentLatestStage;
+  /** When the deployment was last modified. */
+  modifiedOn: string;
+  /** Id of the project. */
+  projectId: string;
+  /** Name of the project. */
+  projectName: string;
+  /** Short Id (8 character) of the deployment. */
+  shortId: string;
+  /** Configs for the project source control. */
+  source: ProjectsGetResponseLatestDeploymentSource;
+  /** List of past stages. */
+  stages: ProjectsGetResponseLatestDeploymentStagesList;
+  /** The live URL to view this deployment. */
+  url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsGetResponseLatestDeploymentSkipReason | null;
+  /** Whether the deployment uses functions. */
+  usesFunctions?: boolean | null;
+}
+export const ProjectsGetResponseLatestDeployment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    aliases: ProjectsGetResponseLatestDeploymentAliasesList,
+    buildConfig: ProjectsCreateResponseCanonicalDeploymentBuildConfig.pipe(
+      T.Body("build_config"),
+    ),
+    createdOn: S.String.pipe(T.Body("created_on")),
+    deploymentTrigger:
+      ProjectsGetResponseLatestDeploymentDeploymentTrigger.pipe(
+        T.Body("deployment_trigger"),
+      ),
+    envVars: ProjectsGetResponseLatestDeploymentEnvVars.pipe(
+      T.Body("env_vars"),
+    ),
+    environment: ProjectsGetResponseLatestDeploymentEnvironment,
+    isSkipped: S.Boolean.pipe(T.Body("is_skipped")),
+    latestStage: ProjectsGetResponseLatestDeploymentLatestStage.pipe(
+      T.Body("latest_stage"),
+    ),
+    modifiedOn: S.String.pipe(T.Body("modified_on")),
+    projectId: S.String.pipe(T.Body("project_id")),
+    projectName: S.String.pipe(T.Body("project_name")),
+    shortId: S.String.pipe(T.Body("short_id")),
+    source: ProjectsGetResponseLatestDeploymentSource,
+    stages: ProjectsGetResponseLatestDeploymentStagesList,
+    url: S.String,
+    skipReason: S.optional(
+      S.NullOr(ProjectsGetResponseLatestDeploymentSkipReason).pipe(
+        T.Body("skip_reason"),
+      ),
+    ),
+    usesFunctions: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
+    ),
+  }),
+).annotate({
+  identifier: "ProjectsGetResponseLatestDeployment",
+}) as any as S.Schema<ProjectsGetResponseLatestDeployment>;
+
 export type ProjectsGetResponseBuildConfig =
   ProjectsCreateResponseCanonicalDeploymentBuildConfig;
 export const ProjectsGetResponseBuildConfig =
@@ -3953,7 +5036,7 @@ export type ProjectsGetResponseSourceConfigPreviewDeploymentSetting =
 export const ProjectsGetResponseSourceConfigPreviewDeploymentSetting = S.String;
 
 export interface ProjectsGetResponseSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -4047,7 +5130,7 @@ export interface GetProjectResponse {
   /** Version of the framework the project is using. */
   frameworkVersion: string;
   /** Most recent deployment of the project. */
-  latestDeployment: ProjectsGetResponseCanonicalDeployment;
+  latestDeployment: ProjectsGetResponseLatestDeployment;
   /** Name of the project. */
   name: string;
   /** Name of the preview script. */
@@ -4079,7 +5162,7 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     framework: S.String,
     frameworkVersion: S.String.pipe(T.Body("framework_version")),
-    latestDeployment: ProjectsGetResponseCanonicalDeployment.pipe(
+    latestDeployment: ProjectsGetResponseLatestDeployment.pipe(
       T.Body("latest_deployment"),
     ),
     name: S.String,
@@ -4243,7 +5326,7 @@ export const ProjectsDeploymentsGetResponseSourceConfigPreviewDeploymentSetting 
   S.String;
 
 export interface ProjectsDeploymentsGetResponseSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -4326,16 +5409,58 @@ export const ProjectsDeploymentsGetResponseSource = /*@__PURE__*/ S.suspend(
   identifier: "ProjectsDeploymentsGetResponseSource",
 }) as any as S.Schema<ProjectsDeploymentsGetResponseSource>;
 
-export type ProjectsDeploymentsGetResponseStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
-export const ProjectsDeploymentsGetResponseStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+export type ProjectsDeploymentsGetResponseStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsDeploymentsGetResponseStagesItemName = S.String;
+
+export type ProjectsDeploymentsGetResponseStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsDeploymentsGetResponseStagesItemStatus = S.String;
+
+export interface ProjectsDeploymentsGetResponseStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsDeploymentsGetResponseStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsDeploymentsGetResponseStagesItemStatus;
+}
+export const ProjectsDeploymentsGetResponseStagesItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsDeploymentsGetResponseStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsDeploymentsGetResponseStagesItemStatus,
+    }),
+).annotate({
+  identifier: "ProjectsDeploymentsGetResponseStagesItem",
+}) as any as S.Schema<ProjectsDeploymentsGetResponseStagesItem>;
 
 export type ProjectsDeploymentsGetResponseStagesList =
-  Array<ProjectsCreateResponseCanonicalDeploymentStagesItem>;
+  Array<ProjectsDeploymentsGetResponseStagesItem>;
 export const ProjectsDeploymentsGetResponseStagesList = /*@__PURE__*/ S.Array(
-  ProjectsCreateResponseCanonicalDeploymentStagesItem,
+  ProjectsDeploymentsGetResponseStagesItem,
 ) as any as S.Schema<ProjectsDeploymentsGetResponseStagesList>;
+
+export type ProjectsDeploymentsGetResponseSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsDeploymentsGetResponseSkipReason = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetProjectDeploymentResponse {
@@ -4371,6 +5496,8 @@ export interface GetProjectDeploymentResponse {
   stages: ProjectsDeploymentsGetResponseStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsDeploymentsGetResponseSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -4398,6 +5525,11 @@ export const GetProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     source: ProjectsDeploymentsGetResponseSource,
     stages: ProjectsDeploymentsGetResponseStagesList,
     url: S.String,
+    skipReason: S.optional(
+      S.NullOr(ProjectsDeploymentsGetResponseSkipReason).pipe(
+        T.Body("skip_reason"),
+      ),
+    ),
     usesFunctions: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
     ),
@@ -4756,7 +5888,7 @@ export const ProjectsDeploymentsListResultItemSourceConfigPreviewDeploymentSetti
   S.String;
 
 export interface ProjectsDeploymentsListResultItemSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -4839,17 +5971,59 @@ export const ProjectsDeploymentsListResultItemSource = /*@__PURE__*/ S.suspend(
   identifier: "ProjectsDeploymentsListResultItemSource",
 }) as any as S.Schema<ProjectsDeploymentsListResultItemSource>;
 
-export type ProjectsDeploymentsListResultItemStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+export type ProjectsDeploymentsListResultItemStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsDeploymentsListResultItemStagesItemName = S.String;
+
+export type ProjectsDeploymentsListResultItemStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsDeploymentsListResultItemStagesItemStatus = S.String;
+
+export interface ProjectsDeploymentsListResultItemStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsDeploymentsListResultItemStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsDeploymentsListResultItemStagesItemStatus;
+}
 export const ProjectsDeploymentsListResultItemStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsDeploymentsListResultItemStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsDeploymentsListResultItemStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsDeploymentsListResultItemStagesItem",
+  }) as any as S.Schema<ProjectsDeploymentsListResultItemStagesItem>;
 
 export type ProjectsDeploymentsListResultItemStagesList =
-  Array<ProjectsCreateResponseCanonicalDeploymentStagesItem>;
+  Array<ProjectsDeploymentsListResultItemStagesItem>;
 export const ProjectsDeploymentsListResultItemStagesList =
   /*@__PURE__*/ S.Array(
-    ProjectsCreateResponseCanonicalDeploymentStagesItem,
+    ProjectsDeploymentsListResultItemStagesItem,
   ) as any as S.Schema<ProjectsDeploymentsListResultItemStagesList>;
+
+export type ProjectsDeploymentsListResultItemSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsDeploymentsListResultItemSkipReason = S.String;
 
 export interface ProjectsDeploymentsListResultItem {
   /** Id of the deployment. */
@@ -4884,6 +6058,8 @@ export interface ProjectsDeploymentsListResultItem {
   stages: ProjectsDeploymentsListResultItemStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsDeploymentsListResultItemSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -4911,6 +6087,11 @@ export const ProjectsDeploymentsListResultItem = /*@__PURE__*/ S.suspend(() =>
     source: ProjectsDeploymentsListResultItemSource,
     stages: ProjectsDeploymentsListResultItemStagesList,
     url: S.String,
+    skipReason: S.optional(
+      S.NullOr(ProjectsDeploymentsListResultItemSkipReason).pipe(
+        T.Body("skip_reason"),
+      ),
+    ),
     usesFunctions: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
     ),
@@ -5238,7 +6419,7 @@ export const ProjectsListResultItemCanonicalDeploymentSourceConfigPreviewDeploym
   S.String;
 
 export interface ProjectsListResultItemCanonicalDeploymentSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -5323,17 +6504,60 @@ export const ProjectsListResultItemCanonicalDeploymentSource =
     identifier: "ProjectsListResultItemCanonicalDeploymentSource",
   }) as any as S.Schema<ProjectsListResultItemCanonicalDeploymentSource>;
 
-export type ProjectsListResultItemCanonicalDeploymentStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+export type ProjectsListResultItemCanonicalDeploymentStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsListResultItemCanonicalDeploymentStagesItemName = S.String;
+
+export type ProjectsListResultItemCanonicalDeploymentStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsListResultItemCanonicalDeploymentStagesItemStatus =
+  S.String;
+
+export interface ProjectsListResultItemCanonicalDeploymentStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsListResultItemCanonicalDeploymentStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsListResultItemCanonicalDeploymentStagesItemStatus;
+}
 export const ProjectsListResultItemCanonicalDeploymentStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsListResultItemCanonicalDeploymentStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsListResultItemCanonicalDeploymentStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsListResultItemCanonicalDeploymentStagesItem",
+  }) as any as S.Schema<ProjectsListResultItemCanonicalDeploymentStagesItem>;
 
 export type ProjectsListResultItemCanonicalDeploymentStagesList =
-  Array<ProjectsCreateResponseCanonicalDeploymentStagesItem>;
+  Array<ProjectsListResultItemCanonicalDeploymentStagesItem>;
 export const ProjectsListResultItemCanonicalDeploymentStagesList =
   /*@__PURE__*/ S.Array(
-    ProjectsCreateResponseCanonicalDeploymentStagesItem,
+    ProjectsListResultItemCanonicalDeploymentStagesItem,
   ) as any as S.Schema<ProjectsListResultItemCanonicalDeploymentStagesList>;
+
+export type ProjectsListResultItemCanonicalDeploymentSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsListResultItemCanonicalDeploymentSkipReason = S.String;
 
 export interface ProjectsListResultItemCanonicalDeployment {
   /** Id of the deployment. */
@@ -5368,6 +6592,8 @@ export interface ProjectsListResultItemCanonicalDeployment {
   stages: ProjectsListResultItemCanonicalDeploymentStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsListResultItemCanonicalDeploymentSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -5397,6 +6623,11 @@ export const ProjectsListResultItemCanonicalDeployment =
       source: ProjectsListResultItemCanonicalDeploymentSource,
       stages: ProjectsListResultItemCanonicalDeploymentStagesList,
       url: S.String,
+      skipReason: S.optional(
+        S.NullOr(ProjectsListResultItemCanonicalDeploymentSkipReason).pipe(
+          T.Body("skip_reason"),
+        ),
+      ),
       usesFunctions: S.optional(
         S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
       ),
@@ -5611,7 +6842,7 @@ export interface ProjectsListResultItemDeploymentConfigsPreview {
   envVars: UntypedBindingMap;
   /** Whether to fail open when the deployment config cannot be applied. */
   failOpen: boolean;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel: ProjectsListResultItemDeploymentConfigsPreviewUsageModel;
   /** Constellation bindings used for Pages Functions. */
   aiBindings?: ProjectsListResultItemDeploymentConfigsPreviewAiBindingsMap | null;
@@ -5940,7 +7171,7 @@ export interface ProjectsListResultItemDeploymentConfigsProduction {
   envVars: UntypedBindingMap;
   /** Whether to fail open when the deployment config cannot be applied. */
   failOpen: boolean;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel: ProjectsListResultItemDeploymentConfigsProductionUsageModel;
   /** Constellation bindings used for Pages Functions. */
   aiBindings?: ProjectsListResultItemDeploymentConfigsProductionAiBindingsMap | null;
@@ -6079,6 +7310,394 @@ export const ProjectsListResultItemDeploymentConfigs = /*@__PURE__*/ S.suspend(
   identifier: "ProjectsListResultItemDeploymentConfigs",
 }) as any as S.Schema<ProjectsListResultItemDeploymentConfigs>;
 
+export type ProjectsListResultItemLatestDeploymentAliasesList = Array<string>;
+export const ProjectsListResultItemLatestDeploymentAliasesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsListResultItemLatestDeploymentAliasesList>;
+
+export type ProjectsListResultItemLatestDeploymentBuildConfig =
+  ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+export const ProjectsListResultItemLatestDeploymentBuildConfig =
+  ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+
+export type ProjectsListResultItemLatestDeploymentDeploymentTriggerMetadata =
+  ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+export const ProjectsListResultItemLatestDeploymentDeploymentTriggerMetadata =
+  ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+
+export type ProjectsListResultItemLatestDeploymentDeploymentTriggerType =
+  | "github:push"
+  | "ad_hoc"
+  | "deploy_hook";
+export const ProjectsListResultItemLatestDeploymentDeploymentTriggerType =
+  S.String;
+
+export interface ProjectsListResultItemLatestDeploymentDeploymentTrigger {
+  /** Additional info about the trigger. */
+  metadata: ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+  /** What caused the deployment. */
+  type: ProjectsListResultItemLatestDeploymentDeploymentTriggerType;
+}
+export const ProjectsListResultItemLatestDeploymentDeploymentTrigger =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      metadata:
+        ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata,
+      type: ProjectsListResultItemLatestDeploymentDeploymentTriggerType,
+    }),
+  ).annotate({
+    identifier: "ProjectsListResultItemLatestDeploymentDeploymentTrigger",
+  }) as any as S.Schema<ProjectsListResultItemLatestDeploymentDeploymentTrigger>;
+
+export type ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType =
+  "plain_text";
+export const ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType =
+  S.String;
+
+export interface ProjectsListResultItemLatestDeploymentEnvVarsPlainText {
+  type: ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType;
+  /** Environment variable value. */
+  value: string;
+}
+export const ProjectsListResultItemLatestDeploymentEnvVarsPlainText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType,
+      value: S.String,
+    }),
+  ).annotate({
+    identifier: "ProjectsListResultItemLatestDeploymentEnvVarsPlainText",
+  }) as any as S.Schema<ProjectsListResultItemLatestDeploymentEnvVarsPlainText>;
+
+export type ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType =
+  "secret_text";
+export const ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType =
+  S.String;
+
+export interface ProjectsListResultItemLatestDeploymentEnvVarsSecretText {
+  type: ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType;
+  /** Secret value. */
+  value: string;
+}
+export const ProjectsListResultItemLatestDeploymentEnvVarsSecretText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType,
+      value: S.String,
+    }),
+  ).annotate({
+    identifier: "ProjectsListResultItemLatestDeploymentEnvVarsSecretText",
+  }) as any as S.Schema<ProjectsListResultItemLatestDeploymentEnvVarsSecretText>;
+
+export type ProjectsListResultItemLatestDeploymentEnvVars =
+  | ProjectsListResultItemLatestDeploymentEnvVarsPlainText
+  | ProjectsListResultItemLatestDeploymentEnvVarsSecretText;
+export const ProjectsListResultItemLatestDeploymentEnvVars =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "value"],
+      ["type", "value"],
+    ]),
+  );
+
+export type ProjectsListResultItemLatestDeploymentEnvironment =
+  | "preview"
+  | "production";
+export const ProjectsListResultItemLatestDeploymentEnvironment = S.String;
+
+export type ProjectsListResultItemLatestDeploymentLatestStageName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsListResultItemLatestDeploymentLatestStageName = S.String;
+
+export type ProjectsListResultItemLatestDeploymentLatestStageStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsListResultItemLatestDeploymentLatestStageStatus = S.String;
+
+export interface ProjectsListResultItemLatestDeploymentLatestStage {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsListResultItemLatestDeploymentLatestStageName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsListResultItemLatestDeploymentLatestStageStatus;
+}
+export const ProjectsListResultItemLatestDeploymentLatestStage =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsListResultItemLatestDeploymentLatestStageName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsListResultItemLatestDeploymentLatestStageStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsListResultItemLatestDeploymentLatestStage",
+  }) as any as S.Schema<ProjectsListResultItemLatestDeploymentLatestStage>;
+
+export type ProjectsListResultItemLatestDeploymentSourceConfigPathExcludesList =
+  Array<string>;
+export const ProjectsListResultItemLatestDeploymentSourceConfigPathExcludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsListResultItemLatestDeploymentSourceConfigPathExcludesList>;
+
+export type ProjectsListResultItemLatestDeploymentSourceConfigPathIncludesList =
+  Array<string>;
+export const ProjectsListResultItemLatestDeploymentSourceConfigPathIncludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsListResultItemLatestDeploymentSourceConfigPathIncludesList>;
+
+export type ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchExcludesList =
+  Array<string>;
+export const ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchExcludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchExcludesList>;
+
+export type ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchIncludesList =
+  Array<string>;
+export const ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchIncludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchIncludesList>;
+
+export type ProjectsListResultItemLatestDeploymentSourceConfigPreviewDeploymentSetting =
+  | "all"
+  | "none"
+  | "custom";
+export const ProjectsListResultItemLatestDeploymentSourceConfigPreviewDeploymentSetting =
+  S.String;
+
+export interface ProjectsListResultItemLatestDeploymentSourceConfig {
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
+  deploymentsEnabled: boolean;
+  /** The owner of the repository. */
+  owner: string;
+  /** The owner ID of the repository. */
+  ownerId: string;
+  /** A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported. */
+  pathExcludes: ProjectsListResultItemLatestDeploymentSourceConfigPathExcludesList;
+  /** A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported. */
+  pathIncludes: ProjectsListResultItemLatestDeploymentSourceConfigPathIncludesList;
+  /** Whether to enable PR comments. */
+  prCommentsEnabled: boolean;
+  /** A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
+  previewBranchExcludes: ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchExcludesList;
+  /** A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
+  previewBranchIncludes: ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchIncludesList;
+  /** Controls whether commits to preview branches trigger a preview deployment. */
+  previewDeploymentSetting: ProjectsListResultItemLatestDeploymentSourceConfigPreviewDeploymentSetting;
+  /** The production branch of the repository. */
+  productionBranch: string;
+  /** Whether to trigger a production deployment on commits to the production branch. */
+  productionDeploymentsEnabled: boolean;
+  /** The ID of the repository. */
+  repoId: string;
+  /** The name of the repository. */
+  repoName: string;
+}
+export const ProjectsListResultItemLatestDeploymentSourceConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      deploymentsEnabled: S.Boolean.pipe(T.Body("deployments_enabled")),
+      owner: S.String,
+      ownerId: S.String.pipe(T.Body("owner_id")),
+      pathExcludes:
+        ProjectsListResultItemLatestDeploymentSourceConfigPathExcludesList.pipe(
+          T.Body("path_excludes"),
+        ),
+      pathIncludes:
+        ProjectsListResultItemLatestDeploymentSourceConfigPathIncludesList.pipe(
+          T.Body("path_includes"),
+        ),
+      prCommentsEnabled: S.Boolean.pipe(T.Body("pr_comments_enabled")),
+      previewBranchExcludes:
+        ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchExcludesList.pipe(
+          T.Body("preview_branch_excludes"),
+        ),
+      previewBranchIncludes:
+        ProjectsListResultItemLatestDeploymentSourceConfigPreviewBranchIncludesList.pipe(
+          T.Body("preview_branch_includes"),
+        ),
+      previewDeploymentSetting:
+        ProjectsListResultItemLatestDeploymentSourceConfigPreviewDeploymentSetting.pipe(
+          T.Body("preview_deployment_setting"),
+        ),
+      productionBranch: S.String.pipe(T.Body("production_branch")),
+      productionDeploymentsEnabled: S.Boolean.pipe(
+        T.Body("production_deployments_enabled"),
+      ),
+      repoId: S.String.pipe(T.Body("repo_id")),
+      repoName: S.String.pipe(T.Body("repo_name")),
+    }),
+  ).annotate({
+    identifier: "ProjectsListResultItemLatestDeploymentSourceConfig",
+  }) as any as S.Schema<ProjectsListResultItemLatestDeploymentSourceConfig>;
+
+export type ProjectsListResultItemLatestDeploymentSourceType =
+  | "github"
+  | "gitlab";
+export const ProjectsListResultItemLatestDeploymentSourceType = S.String;
+
+export interface ProjectsListResultItemLatestDeploymentSource {
+  config: ProjectsListResultItemLatestDeploymentSourceConfig;
+  /** The source control management provider. */
+  type: ProjectsListResultItemLatestDeploymentSourceType;
+}
+export const ProjectsListResultItemLatestDeploymentSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      config: ProjectsListResultItemLatestDeploymentSourceConfig,
+      type: ProjectsListResultItemLatestDeploymentSourceType,
+    }),
+  ).annotate({
+    identifier: "ProjectsListResultItemLatestDeploymentSource",
+  }) as any as S.Schema<ProjectsListResultItemLatestDeploymentSource>;
+
+export type ProjectsListResultItemLatestDeploymentStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsListResultItemLatestDeploymentStagesItemName = S.String;
+
+export type ProjectsListResultItemLatestDeploymentStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsListResultItemLatestDeploymentStagesItemStatus = S.String;
+
+export interface ProjectsListResultItemLatestDeploymentStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsListResultItemLatestDeploymentStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsListResultItemLatestDeploymentStagesItemStatus;
+}
+export const ProjectsListResultItemLatestDeploymentStagesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsListResultItemLatestDeploymentStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsListResultItemLatestDeploymentStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsListResultItemLatestDeploymentStagesItem",
+  }) as any as S.Schema<ProjectsListResultItemLatestDeploymentStagesItem>;
+
+export type ProjectsListResultItemLatestDeploymentStagesList =
+  Array<ProjectsListResultItemLatestDeploymentStagesItem>;
+export const ProjectsListResultItemLatestDeploymentStagesList =
+  /*@__PURE__*/ S.Array(
+    ProjectsListResultItemLatestDeploymentStagesItem,
+  ) as any as S.Schema<ProjectsListResultItemLatestDeploymentStagesList>;
+
+export type ProjectsListResultItemLatestDeploymentSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsListResultItemLatestDeploymentSkipReason = S.String;
+
+export interface ProjectsListResultItemLatestDeployment {
+  /** Id of the deployment. */
+  id: string;
+  /** A list of alias URLs pointing to this deployment. */
+  aliases: ProjectsListResultItemLatestDeploymentAliasesList;
+  /** Configs for the project build process. */
+  buildConfig: ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+  /** When the deployment was created. */
+  createdOn: string;
+  /** Info about what caused the deployment. */
+  deploymentTrigger: ProjectsListResultItemLatestDeploymentDeploymentTrigger;
+  /** Environment variables used for builds and Pages Functions. */
+  envVars: ProjectsListResultItemLatestDeploymentEnvVars;
+  /** Type of deploy. */
+  environment: ProjectsListResultItemLatestDeploymentEnvironment;
+  /** If the deployment has been skipped. */
+  isSkipped: boolean;
+  /** The status of the deployment. */
+  latestStage: ProjectsListResultItemLatestDeploymentLatestStage;
+  /** When the deployment was last modified. */
+  modifiedOn: string;
+  /** Id of the project. */
+  projectId: string;
+  /** Name of the project. */
+  projectName: string;
+  /** Short Id (8 character) of the deployment. */
+  shortId: string;
+  /** Configs for the project source control. */
+  source: ProjectsListResultItemLatestDeploymentSource;
+  /** List of past stages. */
+  stages: ProjectsListResultItemLatestDeploymentStagesList;
+  /** The live URL to view this deployment. */
+  url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsListResultItemLatestDeploymentSkipReason | null;
+  /** Whether the deployment uses functions. */
+  usesFunctions?: boolean | null;
+}
+export const ProjectsListResultItemLatestDeployment = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      aliases: ProjectsListResultItemLatestDeploymentAliasesList,
+      buildConfig: ProjectsCreateResponseCanonicalDeploymentBuildConfig.pipe(
+        T.Body("build_config"),
+      ),
+      createdOn: S.String.pipe(T.Body("created_on")),
+      deploymentTrigger:
+        ProjectsListResultItemLatestDeploymentDeploymentTrigger.pipe(
+          T.Body("deployment_trigger"),
+        ),
+      envVars: ProjectsListResultItemLatestDeploymentEnvVars.pipe(
+        T.Body("env_vars"),
+      ),
+      environment: ProjectsListResultItemLatestDeploymentEnvironment,
+      isSkipped: S.Boolean.pipe(T.Body("is_skipped")),
+      latestStage: ProjectsListResultItemLatestDeploymentLatestStage.pipe(
+        T.Body("latest_stage"),
+      ),
+      modifiedOn: S.String.pipe(T.Body("modified_on")),
+      projectId: S.String.pipe(T.Body("project_id")),
+      projectName: S.String.pipe(T.Body("project_name")),
+      shortId: S.String.pipe(T.Body("short_id")),
+      source: ProjectsListResultItemLatestDeploymentSource,
+      stages: ProjectsListResultItemLatestDeploymentStagesList,
+      url: S.String,
+      skipReason: S.optional(
+        S.NullOr(ProjectsListResultItemLatestDeploymentSkipReason).pipe(
+          T.Body("skip_reason"),
+        ),
+      ),
+      usesFunctions: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
+      ),
+    }),
+).annotate({
+  identifier: "ProjectsListResultItemLatestDeployment",
+}) as any as S.Schema<ProjectsListResultItemLatestDeployment>;
+
 export type ProjectsListResultItemBuildConfig =
   ProjectsCreateResponseCanonicalDeploymentBuildConfig;
 export const ProjectsListResultItemBuildConfig =
@@ -6123,7 +7742,7 @@ export const ProjectsListResultItemSourceConfigPreviewDeploymentSetting =
   S.String;
 
 export interface ProjectsListResultItemSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -6216,7 +7835,7 @@ export interface ProjectsListResultItem {
   /** Version of the framework the project is using. */
   frameworkVersion: string;
   /** Most recent deployment of the project. */
-  latestDeployment: ProjectsListResultItemCanonicalDeployment;
+  latestDeployment: ProjectsListResultItemLatestDeployment;
   /** Name of the project. */
   name: string;
   /** Name of the preview script. */
@@ -6248,7 +7867,7 @@ export const ProjectsListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     framework: S.String,
     frameworkVersion: S.String.pipe(T.Body("framework_version")),
-    latestDeployment: ProjectsListResultItemCanonicalDeployment.pipe(
+    latestDeployment: ProjectsListResultItemLatestDeployment.pipe(
       T.Body("latest_deployment"),
     ),
     name: S.String,
@@ -6520,7 +8139,7 @@ export interface ProjectsEditRequestDeploymentConfigsPreview {
   r2Buckets?: ProjectsEditRequestDeploymentConfigsPreviewR2BucketsMap;
   /** Services used for Pages Functions. */
   services?: ProjectsEditRequestDeploymentConfigsPreviewServicesMap;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel?:
     | ProjectsEditRequestDeploymentConfigsPreviewUsageModel
     | (string & {});
@@ -6853,7 +8472,7 @@ export interface ProjectsEditRequestDeploymentConfigsProduction {
   r2Buckets?: ProjectsEditRequestDeploymentConfigsProductionR2BucketsMap;
   /** Services used for Pages Functions. */
   services?: ProjectsEditRequestDeploymentConfigsProductionServicesMap;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel?:
     | ProjectsEditRequestDeploymentConfigsProductionUsageModel
     | (string & {});
@@ -7003,7 +8622,7 @@ export type ProjectsEditRequestSourceConfigPreviewDeploymentSetting =
 export const ProjectsEditRequestSourceConfigPreviewDeploymentSetting = S.String;
 
 export interface ProjectsEditRequestSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled?: boolean;
   /** The owner of the repository. */
   owner?: string;
@@ -7257,7 +8876,7 @@ export const ProjectsEditResponseCanonicalDeploymentSourceConfigPreviewDeploymen
   S.String;
 
 export interface ProjectsEditResponseCanonicalDeploymentSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -7342,17 +8961,59 @@ export const ProjectsEditResponseCanonicalDeploymentSource =
     identifier: "ProjectsEditResponseCanonicalDeploymentSource",
   }) as any as S.Schema<ProjectsEditResponseCanonicalDeploymentSource>;
 
-export type ProjectsEditResponseCanonicalDeploymentStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+export type ProjectsEditResponseCanonicalDeploymentStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsEditResponseCanonicalDeploymentStagesItemName = S.String;
+
+export type ProjectsEditResponseCanonicalDeploymentStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsEditResponseCanonicalDeploymentStagesItemStatus = S.String;
+
+export interface ProjectsEditResponseCanonicalDeploymentStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsEditResponseCanonicalDeploymentStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsEditResponseCanonicalDeploymentStagesItemStatus;
+}
 export const ProjectsEditResponseCanonicalDeploymentStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsEditResponseCanonicalDeploymentStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsEditResponseCanonicalDeploymentStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsEditResponseCanonicalDeploymentStagesItem",
+  }) as any as S.Schema<ProjectsEditResponseCanonicalDeploymentStagesItem>;
 
 export type ProjectsEditResponseCanonicalDeploymentStagesList =
-  Array<ProjectsCreateResponseCanonicalDeploymentStagesItem>;
+  Array<ProjectsEditResponseCanonicalDeploymentStagesItem>;
 export const ProjectsEditResponseCanonicalDeploymentStagesList =
   /*@__PURE__*/ S.Array(
-    ProjectsCreateResponseCanonicalDeploymentStagesItem,
+    ProjectsEditResponseCanonicalDeploymentStagesItem,
   ) as any as S.Schema<ProjectsEditResponseCanonicalDeploymentStagesList>;
+
+export type ProjectsEditResponseCanonicalDeploymentSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsEditResponseCanonicalDeploymentSkipReason = S.String;
 
 export interface ProjectsEditResponseCanonicalDeployment {
   /** Id of the deployment. */
@@ -7387,6 +9048,8 @@ export interface ProjectsEditResponseCanonicalDeployment {
   stages: ProjectsEditResponseCanonicalDeploymentStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsEditResponseCanonicalDeploymentSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -7416,6 +9079,11 @@ export const ProjectsEditResponseCanonicalDeployment = /*@__PURE__*/ S.suspend(
       source: ProjectsEditResponseCanonicalDeploymentSource,
       stages: ProjectsEditResponseCanonicalDeploymentStagesList,
       url: S.String,
+      skipReason: S.optional(
+        S.NullOr(ProjectsEditResponseCanonicalDeploymentSkipReason).pipe(
+          T.Body("skip_reason"),
+        ),
+      ),
       usesFunctions: S.optional(
         S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
       ),
@@ -7627,7 +9295,7 @@ export interface ProjectsEditResponseDeploymentConfigsPreview {
   envVars: UntypedBindingMap;
   /** Whether to fail open when the deployment config cannot be applied. */
   failOpen: boolean;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel: ProjectsEditResponseDeploymentConfigsPreviewUsageModel;
   /** Constellation bindings used for Pages Functions. */
   aiBindings?: ProjectsEditResponseDeploymentConfigsPreviewAiBindingsMap | null;
@@ -7955,7 +9623,7 @@ export interface ProjectsEditResponseDeploymentConfigsProduction {
   envVars: UntypedBindingMap;
   /** Whether to fail open when the deployment config cannot be applied. */
   failOpen: boolean;
-  /** The usage model for Pages Functions. */
+  /** All new projects now use the Standard usage model. */
   usageModel: ProjectsEditResponseDeploymentConfigsProductionUsageModel;
   /** Constellation bindings used for Pages Functions. */
   aiBindings?: ProjectsEditResponseDeploymentConfigsProductionAiBindingsMap | null;
@@ -8094,6 +9762,394 @@ export const ProjectsEditResponseDeploymentConfigs = /*@__PURE__*/ S.suspend(
   identifier: "ProjectsEditResponseDeploymentConfigs",
 }) as any as S.Schema<ProjectsEditResponseDeploymentConfigs>;
 
+export type ProjectsEditResponseLatestDeploymentAliasesList = Array<string>;
+export const ProjectsEditResponseLatestDeploymentAliasesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsEditResponseLatestDeploymentAliasesList>;
+
+export type ProjectsEditResponseLatestDeploymentBuildConfig =
+  ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+export const ProjectsEditResponseLatestDeploymentBuildConfig =
+  ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+
+export type ProjectsEditResponseLatestDeploymentDeploymentTriggerMetadata =
+  ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+export const ProjectsEditResponseLatestDeploymentDeploymentTriggerMetadata =
+  ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+
+export type ProjectsEditResponseLatestDeploymentDeploymentTriggerType =
+  | "github:push"
+  | "ad_hoc"
+  | "deploy_hook";
+export const ProjectsEditResponseLatestDeploymentDeploymentTriggerType =
+  S.String;
+
+export interface ProjectsEditResponseLatestDeploymentDeploymentTrigger {
+  /** Additional info about the trigger. */
+  metadata: ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata;
+  /** What caused the deployment. */
+  type: ProjectsEditResponseLatestDeploymentDeploymentTriggerType;
+}
+export const ProjectsEditResponseLatestDeploymentDeploymentTrigger =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      metadata:
+        ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata,
+      type: ProjectsEditResponseLatestDeploymentDeploymentTriggerType,
+    }),
+  ).annotate({
+    identifier: "ProjectsEditResponseLatestDeploymentDeploymentTrigger",
+  }) as any as S.Schema<ProjectsEditResponseLatestDeploymentDeploymentTrigger>;
+
+export type ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType =
+  "plain_text";
+export const ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType =
+  S.String;
+
+export interface ProjectsEditResponseLatestDeploymentEnvVarsPlainText {
+  type: ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType;
+  /** Environment variable value. */
+  value: string;
+}
+export const ProjectsEditResponseLatestDeploymentEnvVarsPlainText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType,
+      value: S.String,
+    }),
+  ).annotate({
+    identifier: "ProjectsEditResponseLatestDeploymentEnvVarsPlainText",
+  }) as any as S.Schema<ProjectsEditResponseLatestDeploymentEnvVarsPlainText>;
+
+export type ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType =
+  "secret_text";
+export const ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType =
+  S.String;
+
+export interface ProjectsEditResponseLatestDeploymentEnvVarsSecretText {
+  type: ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType;
+  /** Secret value. */
+  value: string;
+}
+export const ProjectsEditResponseLatestDeploymentEnvVarsSecretText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType,
+      value: S.String,
+    }),
+  ).annotate({
+    identifier: "ProjectsEditResponseLatestDeploymentEnvVarsSecretText",
+  }) as any as S.Schema<ProjectsEditResponseLatestDeploymentEnvVarsSecretText>;
+
+export type ProjectsEditResponseLatestDeploymentEnvVars =
+  | ProjectsEditResponseLatestDeploymentEnvVarsPlainText
+  | ProjectsEditResponseLatestDeploymentEnvVarsSecretText;
+export const ProjectsEditResponseLatestDeploymentEnvVars =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "value"],
+      ["type", "value"],
+    ]),
+  );
+
+export type ProjectsEditResponseLatestDeploymentEnvironment =
+  | "preview"
+  | "production";
+export const ProjectsEditResponseLatestDeploymentEnvironment = S.String;
+
+export type ProjectsEditResponseLatestDeploymentLatestStageName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsEditResponseLatestDeploymentLatestStageName = S.String;
+
+export type ProjectsEditResponseLatestDeploymentLatestStageStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsEditResponseLatestDeploymentLatestStageStatus = S.String;
+
+export interface ProjectsEditResponseLatestDeploymentLatestStage {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsEditResponseLatestDeploymentLatestStageName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsEditResponseLatestDeploymentLatestStageStatus;
+}
+export const ProjectsEditResponseLatestDeploymentLatestStage =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsEditResponseLatestDeploymentLatestStageName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsEditResponseLatestDeploymentLatestStageStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsEditResponseLatestDeploymentLatestStage",
+  }) as any as S.Schema<ProjectsEditResponseLatestDeploymentLatestStage>;
+
+export type ProjectsEditResponseLatestDeploymentSourceConfigPathExcludesList =
+  Array<string>;
+export const ProjectsEditResponseLatestDeploymentSourceConfigPathExcludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsEditResponseLatestDeploymentSourceConfigPathExcludesList>;
+
+export type ProjectsEditResponseLatestDeploymentSourceConfigPathIncludesList =
+  Array<string>;
+export const ProjectsEditResponseLatestDeploymentSourceConfigPathIncludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsEditResponseLatestDeploymentSourceConfigPathIncludesList>;
+
+export type ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchExcludesList =
+  Array<string>;
+export const ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchExcludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchExcludesList>;
+
+export type ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchIncludesList =
+  Array<string>;
+export const ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchIncludesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchIncludesList>;
+
+export type ProjectsEditResponseLatestDeploymentSourceConfigPreviewDeploymentSetting =
+  | "all"
+  | "none"
+  | "custom";
+export const ProjectsEditResponseLatestDeploymentSourceConfigPreviewDeploymentSetting =
+  S.String;
+
+export interface ProjectsEditResponseLatestDeploymentSourceConfig {
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
+  deploymentsEnabled: boolean;
+  /** The owner of the repository. */
+  owner: string;
+  /** The owner ID of the repository. */
+  ownerId: string;
+  /** A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported. */
+  pathExcludes: ProjectsEditResponseLatestDeploymentSourceConfigPathExcludesList;
+  /** A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported. */
+  pathIncludes: ProjectsEditResponseLatestDeploymentSourceConfigPathIncludesList;
+  /** Whether to enable PR comments. */
+  prCommentsEnabled: boolean;
+  /** A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
+  previewBranchExcludes: ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchExcludesList;
+  /** A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
+  previewBranchIncludes: ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchIncludesList;
+  /** Controls whether commits to preview branches trigger a preview deployment. */
+  previewDeploymentSetting: ProjectsEditResponseLatestDeploymentSourceConfigPreviewDeploymentSetting;
+  /** The production branch of the repository. */
+  productionBranch: string;
+  /** Whether to trigger a production deployment on commits to the production branch. */
+  productionDeploymentsEnabled: boolean;
+  /** The ID of the repository. */
+  repoId: string;
+  /** The name of the repository. */
+  repoName: string;
+}
+export const ProjectsEditResponseLatestDeploymentSourceConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      deploymentsEnabled: S.Boolean.pipe(T.Body("deployments_enabled")),
+      owner: S.String,
+      ownerId: S.String.pipe(T.Body("owner_id")),
+      pathExcludes:
+        ProjectsEditResponseLatestDeploymentSourceConfigPathExcludesList.pipe(
+          T.Body("path_excludes"),
+        ),
+      pathIncludes:
+        ProjectsEditResponseLatestDeploymentSourceConfigPathIncludesList.pipe(
+          T.Body("path_includes"),
+        ),
+      prCommentsEnabled: S.Boolean.pipe(T.Body("pr_comments_enabled")),
+      previewBranchExcludes:
+        ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchExcludesList.pipe(
+          T.Body("preview_branch_excludes"),
+        ),
+      previewBranchIncludes:
+        ProjectsEditResponseLatestDeploymentSourceConfigPreviewBranchIncludesList.pipe(
+          T.Body("preview_branch_includes"),
+        ),
+      previewDeploymentSetting:
+        ProjectsEditResponseLatestDeploymentSourceConfigPreviewDeploymentSetting.pipe(
+          T.Body("preview_deployment_setting"),
+        ),
+      productionBranch: S.String.pipe(T.Body("production_branch")),
+      productionDeploymentsEnabled: S.Boolean.pipe(
+        T.Body("production_deployments_enabled"),
+      ),
+      repoId: S.String.pipe(T.Body("repo_id")),
+      repoName: S.String.pipe(T.Body("repo_name")),
+    }),
+  ).annotate({
+    identifier: "ProjectsEditResponseLatestDeploymentSourceConfig",
+  }) as any as S.Schema<ProjectsEditResponseLatestDeploymentSourceConfig>;
+
+export type ProjectsEditResponseLatestDeploymentSourceType =
+  | "github"
+  | "gitlab";
+export const ProjectsEditResponseLatestDeploymentSourceType = S.String;
+
+export interface ProjectsEditResponseLatestDeploymentSource {
+  config: ProjectsEditResponseLatestDeploymentSourceConfig;
+  /** The source control management provider. */
+  type: ProjectsEditResponseLatestDeploymentSourceType;
+}
+export const ProjectsEditResponseLatestDeploymentSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      config: ProjectsEditResponseLatestDeploymentSourceConfig,
+      type: ProjectsEditResponseLatestDeploymentSourceType,
+    }),
+  ).annotate({
+    identifier: "ProjectsEditResponseLatestDeploymentSource",
+  }) as any as S.Schema<ProjectsEditResponseLatestDeploymentSource>;
+
+export type ProjectsEditResponseLatestDeploymentStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsEditResponseLatestDeploymentStagesItemName = S.String;
+
+export type ProjectsEditResponseLatestDeploymentStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsEditResponseLatestDeploymentStagesItemStatus = S.String;
+
+export interface ProjectsEditResponseLatestDeploymentStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsEditResponseLatestDeploymentStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsEditResponseLatestDeploymentStagesItemStatus;
+}
+export const ProjectsEditResponseLatestDeploymentStagesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsEditResponseLatestDeploymentStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsEditResponseLatestDeploymentStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsEditResponseLatestDeploymentStagesItem",
+  }) as any as S.Schema<ProjectsEditResponseLatestDeploymentStagesItem>;
+
+export type ProjectsEditResponseLatestDeploymentStagesList =
+  Array<ProjectsEditResponseLatestDeploymentStagesItem>;
+export const ProjectsEditResponseLatestDeploymentStagesList =
+  /*@__PURE__*/ S.Array(
+    ProjectsEditResponseLatestDeploymentStagesItem,
+  ) as any as S.Schema<ProjectsEditResponseLatestDeploymentStagesList>;
+
+export type ProjectsEditResponseLatestDeploymentSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsEditResponseLatestDeploymentSkipReason = S.String;
+
+export interface ProjectsEditResponseLatestDeployment {
+  /** Id of the deployment. */
+  id: string;
+  /** A list of alias URLs pointing to this deployment. */
+  aliases: ProjectsEditResponseLatestDeploymentAliasesList;
+  /** Configs for the project build process. */
+  buildConfig: ProjectsCreateResponseCanonicalDeploymentBuildConfig;
+  /** When the deployment was created. */
+  createdOn: string;
+  /** Info about what caused the deployment. */
+  deploymentTrigger: ProjectsEditResponseLatestDeploymentDeploymentTrigger;
+  /** Environment variables used for builds and Pages Functions. */
+  envVars: ProjectsEditResponseLatestDeploymentEnvVars;
+  /** Type of deploy. */
+  environment: ProjectsEditResponseLatestDeploymentEnvironment;
+  /** If the deployment has been skipped. */
+  isSkipped: boolean;
+  /** The status of the deployment. */
+  latestStage: ProjectsEditResponseLatestDeploymentLatestStage;
+  /** When the deployment was last modified. */
+  modifiedOn: string;
+  /** Id of the project. */
+  projectId: string;
+  /** Name of the project. */
+  projectName: string;
+  /** Short Id (8 character) of the deployment. */
+  shortId: string;
+  /** Configs for the project source control. */
+  source: ProjectsEditResponseLatestDeploymentSource;
+  /** List of past stages. */
+  stages: ProjectsEditResponseLatestDeploymentStagesList;
+  /** The live URL to view this deployment. */
+  url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsEditResponseLatestDeploymentSkipReason | null;
+  /** Whether the deployment uses functions. */
+  usesFunctions?: boolean | null;
+}
+export const ProjectsEditResponseLatestDeployment = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      aliases: ProjectsEditResponseLatestDeploymentAliasesList,
+      buildConfig: ProjectsCreateResponseCanonicalDeploymentBuildConfig.pipe(
+        T.Body("build_config"),
+      ),
+      createdOn: S.String.pipe(T.Body("created_on")),
+      deploymentTrigger:
+        ProjectsEditResponseLatestDeploymentDeploymentTrigger.pipe(
+          T.Body("deployment_trigger"),
+        ),
+      envVars: ProjectsEditResponseLatestDeploymentEnvVars.pipe(
+        T.Body("env_vars"),
+      ),
+      environment: ProjectsEditResponseLatestDeploymentEnvironment,
+      isSkipped: S.Boolean.pipe(T.Body("is_skipped")),
+      latestStage: ProjectsEditResponseLatestDeploymentLatestStage.pipe(
+        T.Body("latest_stage"),
+      ),
+      modifiedOn: S.String.pipe(T.Body("modified_on")),
+      projectId: S.String.pipe(T.Body("project_id")),
+      projectName: S.String.pipe(T.Body("project_name")),
+      shortId: S.String.pipe(T.Body("short_id")),
+      source: ProjectsEditResponseLatestDeploymentSource,
+      stages: ProjectsEditResponseLatestDeploymentStagesList,
+      url: S.String,
+      skipReason: S.optional(
+        S.NullOr(ProjectsEditResponseLatestDeploymentSkipReason).pipe(
+          T.Body("skip_reason"),
+        ),
+      ),
+      usesFunctions: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
+      ),
+    }),
+).annotate({
+  identifier: "ProjectsEditResponseLatestDeployment",
+}) as any as S.Schema<ProjectsEditResponseLatestDeployment>;
+
 export type ProjectsEditResponseBuildConfig =
   ProjectsCreateResponseCanonicalDeploymentBuildConfig;
 export const ProjectsEditResponseBuildConfig =
@@ -8138,7 +10194,7 @@ export const ProjectsEditResponseSourceConfigPreviewDeploymentSetting =
   S.String;
 
 export interface ProjectsEditResponseSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -8232,7 +10288,7 @@ export interface PatchProjectResponse {
   /** Version of the framework the project is using. */
   frameworkVersion: string;
   /** Most recent deployment of the project. */
-  latestDeployment: ProjectsEditResponseCanonicalDeployment;
+  latestDeployment: ProjectsEditResponseLatestDeployment;
   /** Name of the project. */
   name: string;
   /** Name of the preview script. */
@@ -8264,7 +10320,7 @@ export const PatchProjectResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     framework: S.String,
     frameworkVersion: S.String.pipe(T.Body("framework_version")),
-    latestDeployment: ProjectsEditResponseCanonicalDeployment.pipe(
+    latestDeployment: ProjectsEditResponseLatestDeployment.pipe(
       T.Body("latest_deployment"),
     ),
     name: S.String,
@@ -8416,6 +10472,42 @@ export const PatchProjectDomainResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PatchProjectDomainResponse",
 }) as any as S.Schema<PatchProjectDomainResponse>;
+
+export interface ProjectsGetUploadTokenRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Name of the project. */
+  projectName: string;
+}
+export const ProjectsGetUploadTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    projectName: S.String.pipe(T.Label("project_name")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/pages/projects/{project_name}/upload-token",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ProjectsGetUploadTokenRequest",
+}) as any as S.Schema<ProjectsGetUploadTokenRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ProjectsGetUploadTokenResponse {
+  /** Short-lived JWT used to authenticate Pages Direct Upload asset operations. */
+  jwt: string;
+}
+export const ProjectsGetUploadTokenResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jwt: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ProjectsGetUploadTokenResponse",
+}) as any as S.Schema<ProjectsGetUploadTokenResponse>;
 
 export interface PurgeBuildCacheProjectRequest {
   /** Identifier. */
@@ -8591,7 +10683,7 @@ export const ProjectsDeploymentsRetryResponseSourceConfigPreviewDeploymentSettin
   S.String;
 
 export interface ProjectsDeploymentsRetryResponseSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -8674,16 +10766,58 @@ export const ProjectsDeploymentsRetryResponseSource = /*@__PURE__*/ S.suspend(
   identifier: "ProjectsDeploymentsRetryResponseSource",
 }) as any as S.Schema<ProjectsDeploymentsRetryResponseSource>;
 
-export type ProjectsDeploymentsRetryResponseStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+export type ProjectsDeploymentsRetryResponseStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsDeploymentsRetryResponseStagesItemName = S.String;
+
+export type ProjectsDeploymentsRetryResponseStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsDeploymentsRetryResponseStagesItemStatus = S.String;
+
+export interface ProjectsDeploymentsRetryResponseStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsDeploymentsRetryResponseStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsDeploymentsRetryResponseStagesItemStatus;
+}
 export const ProjectsDeploymentsRetryResponseStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsDeploymentsRetryResponseStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsDeploymentsRetryResponseStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsDeploymentsRetryResponseStagesItem",
+  }) as any as S.Schema<ProjectsDeploymentsRetryResponseStagesItem>;
 
 export type ProjectsDeploymentsRetryResponseStagesList =
-  Array<ProjectsCreateResponseCanonicalDeploymentStagesItem>;
+  Array<ProjectsDeploymentsRetryResponseStagesItem>;
 export const ProjectsDeploymentsRetryResponseStagesList = /*@__PURE__*/ S.Array(
-  ProjectsCreateResponseCanonicalDeploymentStagesItem,
+  ProjectsDeploymentsRetryResponseStagesItem,
 ) as any as S.Schema<ProjectsDeploymentsRetryResponseStagesList>;
+
+export type ProjectsDeploymentsRetryResponseSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsDeploymentsRetryResponseSkipReason = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface RetryProjectDeploymentResponse {
@@ -8719,6 +10853,8 @@ export interface RetryProjectDeploymentResponse {
   stages: ProjectsDeploymentsRetryResponseStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsDeploymentsRetryResponseSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -8746,6 +10882,11 @@ export const RetryProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     source: ProjectsDeploymentsRetryResponseSource,
     stages: ProjectsDeploymentsRetryResponseStagesList,
     url: S.String,
+    skipReason: S.optional(
+      S.NullOr(ProjectsDeploymentsRetryResponseSkipReason).pipe(
+        T.Body("skip_reason"),
+      ),
+    ),
     usesFunctions: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
     ),
@@ -8899,7 +11040,7 @@ export const ProjectsDeploymentsRollbackResponseSourceConfigPreviewDeploymentSet
   S.String;
 
 export interface ProjectsDeploymentsRollbackResponseSourceConfig {
-  /** Whether to enable automatic deployments when pushing to the source repository. */
+  /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
   deploymentsEnabled: boolean;
   /** The owner of the repository. */
   owner: string;
@@ -8982,17 +11123,59 @@ export const ProjectsDeploymentsRollbackResponseSource =
     identifier: "ProjectsDeploymentsRollbackResponseSource",
   }) as any as S.Schema<ProjectsDeploymentsRollbackResponseSource>;
 
-export type ProjectsDeploymentsRollbackResponseStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+export type ProjectsDeploymentsRollbackResponseStagesItemName =
+  | "queued"
+  | "initialize"
+  | "clone_repo"
+  | "build"
+  | "deploy";
+export const ProjectsDeploymentsRollbackResponseStagesItemName = S.String;
+
+export type ProjectsDeploymentsRollbackResponseStagesItemStatus =
+  | "success"
+  | "idle"
+  | "active"
+  | "failure"
+  | "canceled";
+export const ProjectsDeploymentsRollbackResponseStagesItemStatus = S.String;
+
+export interface ProjectsDeploymentsRollbackResponseStagesItem {
+  /** When the stage ended. */
+  endedOn: string;
+  /** The current build stage. */
+  name: ProjectsDeploymentsRollbackResponseStagesItemName;
+  /** When the stage started. */
+  startedOn: string;
+  /** State of the current stage. */
+  status: ProjectsDeploymentsRollbackResponseStagesItemStatus;
+}
 export const ProjectsDeploymentsRollbackResponseStagesItem =
-  ProjectsCreateResponseCanonicalDeploymentStagesItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endedOn: S.String.pipe(T.Body("ended_on")),
+      name: ProjectsDeploymentsRollbackResponseStagesItemName,
+      startedOn: S.String.pipe(T.Body("started_on")),
+      status: ProjectsDeploymentsRollbackResponseStagesItemStatus,
+    }),
+  ).annotate({
+    identifier: "ProjectsDeploymentsRollbackResponseStagesItem",
+  }) as any as S.Schema<ProjectsDeploymentsRollbackResponseStagesItem>;
 
 export type ProjectsDeploymentsRollbackResponseStagesList =
-  Array<ProjectsCreateResponseCanonicalDeploymentStagesItem>;
+  Array<ProjectsDeploymentsRollbackResponseStagesItem>;
 export const ProjectsDeploymentsRollbackResponseStagesList =
   /*@__PURE__*/ S.Array(
-    ProjectsCreateResponseCanonicalDeploymentStagesItem,
+    ProjectsDeploymentsRollbackResponseStagesItem,
   ) as any as S.Schema<ProjectsDeploymentsRollbackResponseStagesList>;
+
+export type ProjectsDeploymentsRollbackResponseSkipReason =
+  | "commit_message"
+  | "preview_deployments_disabled"
+  | "production_deployments_disabled"
+  | "path_config"
+  | "branch_config"
+  | "pages_to_workers_conversion";
+export const ProjectsDeploymentsRollbackResponseSkipReason = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface RollbackProjectDeploymentResponse {
@@ -9028,6 +11211,8 @@ export interface RollbackProjectDeploymentResponse {
   stages: ProjectsDeploymentsRollbackResponseStagesList;
   /** The live URL to view this deployment. */
   url: string;
+  /** Why the deployment was skipped. */
+  skipReason?: ProjectsDeploymentsRollbackResponseSkipReason | null;
   /** Whether the deployment uses functions. */
   usesFunctions?: boolean | null;
 }
@@ -9056,6 +11241,11 @@ export const RollbackProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     source: ProjectsDeploymentsRollbackResponseSource,
     stages: ProjectsDeploymentsRollbackResponseStagesList,
     url: S.String,
+    skipReason: S.optional(
+      S.NullOr(ProjectsDeploymentsRollbackResponseSkipReason).pipe(
+        T.Body("skip_reason"),
+      ),
+    ),
     usesFunctions: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("uses_functions")),
     ),
@@ -9063,6 +11253,93 @@ export const RollbackProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RollbackProjectDeploymentResponse",
 }) as any as S.Schema<RollbackProjectDeploymentResponse>;
+
+export interface UploadAssetRequestBodyItemMetadata {
+  /** MIME type for the uploaded file. */
+  contentType: string;
+}
+export const UploadAssetRequestBodyItemMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contentType: S.String,
+  }),
+).annotate({
+  identifier: "UploadAssetRequestBodyItemMetadata",
+}) as any as S.Schema<UploadAssetRequestBodyItemMetadata>;
+
+export interface UploadAssetRequestBodyItem {
+  /** Whether value is base64 encoded. */
+  base64: boolean;
+  /** File content hash used as the object key in the Pages asset store. */
+  key: string;
+  metadata: UploadAssetRequestBodyItemMetadata;
+  /** File content. When base64 is true, this value is base64 encoded. */
+  value: string;
+}
+export const UploadAssetRequestBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    base64: S.Boolean,
+    key: S.String,
+    metadata: UploadAssetRequestBodyItemMetadata,
+    value: S.String,
+  }),
+).annotate({
+  identifier: "UploadAssetRequestBodyItem",
+}) as any as S.Schema<UploadAssetRequestBodyItem>;
+
+export type UploadAssetRequestBodyList = Array<UploadAssetRequestBodyItem>;
+export const UploadAssetRequestBodyList = /*@__PURE__*/ S.Array(
+  UploadAssetRequestBodyItem,
+) as any as S.Schema<UploadAssetRequestBodyList>;
+
+export interface UploadAssetRequest {
+  body: UploadAssetRequestBodyList;
+}
+export const UploadAssetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    body: UploadAssetRequestBodyList.pipe(T.HttpBody()),
+  })
+    .pipe(T.Http({ method: "POST", uri: "/pages/assets/upload", code: 200 }))
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UploadAssetRequest",
+}) as any as S.Schema<UploadAssetRequest>;
+
+export interface UploadAssetResponse {}
+export const UploadAssetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UploadAssetResponse",
+}) as any as S.Schema<UploadAssetResponse>;
+
+export type AssetsCheckMissingError = CloudflareOpError;
+/** Check which of the provided file hashes are missing from the Pages asset store. Returns a list of missing hashes that need to be uploaded. Used as part of the Pages Direct Upload workflow. Authenticate with the JWT obtained from the upload-token endpoint: GET /accounts/{account_id}/pages/projects/{project_name}/upload-token */
+export const assetsCheckMissing: API.OperationMethod<
+  AssetsCheckMissingRequest,
+  AssetsCheckMissingResponse,
+  AssetsCheckMissingError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AssetsCheckMissingRequest,
+  output: AssetsCheckMissingResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AssetsUpsertHashesError = CloudflareOpError;
+/** Register the provided file hashes as recently uploaded to the Pages asset store. Used as part of the Pages Direct Upload workflow so future deployments can avoid re-uploading files that are already present. Authenticate with the JWT obtained from the upload-token endpoint: GET /accounts/{account_id}/pages/projects/{project_name}/upload-token */
+export const assetsUpsertHashes: API.OperationMethod<
+  AssetsUpsertHashesRequest,
+  AssetsUpsertHashesResponse,
+  AssetsUpsertHashesError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AssetsUpsertHashesRequest,
+  output: AssetsUpsertHashesResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
 
 export type CreateProjectError =
   | ProjectAlreadyExists
@@ -9126,6 +11403,21 @@ export const createProjectDomain: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateProjectsDeploymentsTailError = CloudflareOpError;
+/** Start a tail that receives logs and exception data. */
+export const createProjectsDeploymentsTail: API.OperationMethod<
+  CreateProjectsDeploymentsTailRequest,
+  CreateProjectsDeploymentsTailResponse,
+  CreateProjectsDeploymentsTailError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateProjectsDeploymentsTailRequest,
+  output: CreateProjectsDeploymentsTailResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -9196,6 +11488,21 @@ export const deleteProjectDomain: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteProjectsDeploymentsTailError = CloudflareOpError;
+/** Deletes a tail from a Pages deployment. */
+export const deleteProjectsDeploymentsTail: API.OperationMethod<
+  DeleteProjectsDeploymentsTailRequest,
+  DeleteProjectsDeploymentsTailResponse,
+  DeleteProjectsDeploymentsTailError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectsDeploymentsTailRequest,
+  output: DeleteProjectsDeploymentsTailResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -9400,6 +11707,21 @@ export const patchProjectDomain: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ProjectsGetUploadTokenError = CloudflareOpError;
+/** Get a short-lived JWT for Pages Direct Upload asset operations. */
+export const projectsGetUploadToken: API.OperationMethod<
+  ProjectsGetUploadTokenRequest,
+  ProjectsGetUploadTokenResponse,
+  ProjectsGetUploadTokenError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ProjectsGetUploadTokenRequest,
+  output: ProjectsGetUploadTokenResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PurgeBuildCacheProjectError = CloudflareOpError;
 /** Purge all cached build artifacts for a Pages project */
 export const purgeBuildCacheProject: API.OperationMethod<
@@ -9440,6 +11762,21 @@ export const rollbackProjectDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RollbackProjectDeploymentRequest,
   output: RollbackProjectDeploymentResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UploadAssetError = CloudflareOpError;
+/** Upload one or more files to the Pages asset store. Each file is identified by its content hash and is uploaded using the same JSON shape as the Cloudflare KV bulk write API. Used as part of the Pages Direct Upload workflow. Authenticate with the JWT obtained from the upload-token endpoint: GET /accounts/{account_id}/pages/projects/{project_name}/upload-token */
+export const uploadAsset: API.OperationMethod<
+  UploadAssetRequest,
+  UploadAssetResponse,
+  UploadAssetError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UploadAssetRequest,
+  output: UploadAssetResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,

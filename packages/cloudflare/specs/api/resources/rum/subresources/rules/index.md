@@ -1,825 +1,311 @@
+---
+title: Rules
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[RUM](https://developers.cloudflare.com/api/resources/rum)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Rules
 
-## List rules in Web Analytics ruleset
+##### [List rules in Web Analytics ruleset](https://developers.cloudflare.com/api/resources/rum/subresources/rules/methods/list)
 
-**get** `/accounts/{account_id}/rum/v2/{ruleset_id}/rules`
+GET/accounts/{account\_id}/rum/v2/{ruleset\_id}/rules
 
-Lists all the rules in a Web Analytics ruleset.
+##### [Create a Web Analytics rule](https://developers.cloudflare.com/api/resources/rum/subresources/rules/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/rum/v2/{ruleset\_id}/rule
 
-- `account_id: string`
+##### [Update a Web Analytics rule](https://developers.cloudflare.com/api/resources/rum/subresources/rules/methods/update)
 
-  Identifier.
+PUT/accounts/{account\_id}/rum/v2/{ruleset\_id}/rule/{rule\_id}
 
-- `ruleset_id: string`
+##### [Delete a Web Analytics rule](https://developers.cloudflare.com/api/resources/rum/subresources/rules/methods/delete)
 
-  The Web Analytics ruleset identifier.
+DELETE/accounts/{account\_id}/rum/v2/{ruleset\_id}/rule/{rule\_id}
 
-### Returns
+##### [Update Web Analytics rules](https://developers.cloudflare.com/api/resources/rum/subresources/rules/methods/bulk_create)
 
-- `errors: array of ResponseInfo`
+POST/accounts/{account\_id}/rum/v2/{ruleset\_id}/rules
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+RUMRule object {id, created, host, 4 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: optional string
 
-  - `code: number`
+The Web Analytics rule identifier.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created: optional string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+host: optional string
 
-- `result: optional object { rules, ruleset }`
+The hostname the rule will be applied to.
 
-  - `rules: optional array of RUMRule`
+<a href="#">Link to this property</a>
 
-    A list of rules.
+inclusive: optional boolean
 
-    - `id: optional string`
+Whether the rule includes or excludes traffic from being measured.
 
-      The Web Analytics rule identifier.
+<a href="#">Link to this property</a>
 
-    - `created: optional string`
+is\_paused: optional boolean
 
-    - `host: optional string`
+Whether the rule is paused or not.
 
-      The hostname the rule will be applied to.
+<a href="#">Link to this property</a>
 
-    - `inclusive: optional boolean`
+paths: optional array of string
 
-      Whether the rule includes or excludes traffic from being measured.
+The paths the rule will be applied to.
 
-    - `is_paused: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the rule is paused or not.
+priority: optional number
 
-    - `paths: optional array of string`
+<a href="#">Link to this property</a>
 
-      The paths the rule will be applied to.
+</details>
 
-    - `priority: optional number`
+[Link to this property](#)%20rum.rules%20%3E%20(model)%20rum_rule%20%3E%20(schema)>)
 
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
+<details>
 
-    - `id: optional string`
+<summary>
 
-      The Web Analytics ruleset identifier.
+RuleListResponse object {rules, ruleset }
 
-    - `enabled: optional boolean`
+</summary>
 
-      Whether the ruleset is enabled.
+<details>
 
-    - `zone_name: optional string`
+<summary>
 
-    - `zone_tag: optional string`
+rules: optional array of <a href="https://developers.cloudflare.com/api/resources/rum#(resource)%20rum.rules%20%3E%20(model)%20rum_rule%20%3E%20(schema)">RUMRule</a> { id, created, host, 4 more }
 
-      The zone identifier.
+A list of rules.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/v2/$RULESET_ID/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: optional string
 
-#### Response
+The Web Analytics rule identifier.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "rules": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created": "2014-01-01T05:20:00.12345Z",
-        "host": "example.com",
-        "inclusive": true,
-        "is_paused": false,
-        "paths": [
-          "*"
-        ],
-        "priority": 1000
-      }
-    ],
-    "ruleset": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "enabled": true,
-      "zone_name": "example.com",
-      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a Web Analytics rule
+created: optional string
 
-**post** `/accounts/{account_id}/rum/v2/{ruleset_id}/rule`
+formatdate-time
 
-Creates a new rule in a Web Analytics ruleset.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+host: optional string
 
-- `account_id: string`
+The hostname the rule will be applied to.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `ruleset_id: string`
+inclusive: optional boolean
 
-  The Web Analytics ruleset identifier.
+Whether the rule includes or excludes traffic from being measured.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `host: optional string`
+is\_paused: optional boolean
 
-- `inclusive: optional boolean`
+Whether the rule is paused or not.
 
-  Whether the rule includes or excludes traffic from being measured.
+<a href="#">Link to this property</a>
 
-- `is_paused: optional boolean`
+paths: optional array of string
 
-  Whether the rule is paused or not.
+The paths the rule will be applied to.
 
-- `paths: optional array of string`
+<a href="#">Link to this property</a>
 
-### Returns
+priority: optional number
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+ruleset: optional object {id, enabled, zone\_name, zone\_tag }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+The Web Analytics ruleset identifier.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+enabled: optional boolean
 
-- `success: boolean`
+Whether the ruleset is enabled.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result: optional RUMRule`
+zone\_name: optional string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The Web Analytics rule identifier.
+zone\_tag: optional string
 
-  - `created: optional string`
+The zone identifier.
 
-  - `host: optional string`
+<a href="#">Link to this property</a>
 
-    The hostname the rule will be applied to.
+</details>
 
-  - `inclusive: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the rule includes or excludes traffic from being measured.
+</details>
 
-  - `is_paused: optional boolean`
+[Link to this property](#)%20rum.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-    Whether the rule is paused or not.
+<details>
 
-  - `paths: optional array of string`
+<summary>
 
-    The paths the rule will be applied to.
+RuleDeleteResponse object {id }
 
-  - `priority: optional number`
+</summary>
 
-### Example
+id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/v2/$RULESET_ID/rule \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "host": "example.com",
-          "inclusive": true,
-          "paths": [
-            "*"
-          ]
-        }'
-```
+The Web Analytics rule identifier.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created": "2014-01-01T05:20:00.12345Z",
-    "host": "example.com",
-    "inclusive": true,
-    "is_paused": false,
-    "paths": [
-      "*"
-    ],
-    "priority": 1000
-  }
-}
-```
+</details>
 
-## Update a Web Analytics rule
+[Link to this property](#)%20rum.rules%20%3E%20(model)%20rule_delete_response%20%3E%20(schema)>)
 
-**put** `/accounts/{account_id}/rum/v2/{ruleset_id}/rule/{rule_id}`
+<details>
 
-Updates a rule in a Web Analytics ruleset.
+<summary>
 
-### Path Parameters
+RuleBulkCreateResponse object {rules, ruleset }
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+<details>
 
-- `ruleset_id: string`
+<summary>
 
-  The Web Analytics ruleset identifier.
+rules: optional array of <a href="https://developers.cloudflare.com/api/resources/rum#(resource)%20rum.rules%20%3E%20(model)%20rum_rule%20%3E%20(schema)">RUMRule</a> { id, created, host, 4 more }
 
-- `rule_id: string`
+A list of rules.
 
-  The Web Analytics rule identifier.
+</summary>
 
-### Body Parameters
+id: optional string
 
-- `host: optional string`
+The Web Analytics rule identifier.
 
-- `inclusive: optional boolean`
+<a href="#">Link to this property</a>
 
-  Whether the rule includes or excludes traffic from being measured.
+created: optional string
 
-- `is_paused: optional boolean`
+formatdate-time
 
-  Whether the rule is paused or not.
+<a href="#">Link to this property</a>
 
-- `paths: optional array of string`
+host: optional string
 
-### Returns
+The hostname the rule will be applied to.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+inclusive: optional boolean
 
-  - `message: string`
+Whether the rule includes or excludes traffic from being measured.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_paused: optional boolean
 
-    - `pointer: optional string`
+Whether the rule is paused or not.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+paths: optional array of string
 
-  - `message: string`
+The paths the rule will be applied to.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+priority: optional number
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-- `result: optional RUMRule`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    The Web Analytics rule identifier.
+<summary>
 
-  - `created: optional string`
+ruleset: optional object {id, enabled, zone\_name, zone\_tag }
 
-  - `host: optional string`
+</summary>
 
-    The hostname the rule will be applied to.
+id: optional string
 
-  - `inclusive: optional boolean`
+The Web Analytics ruleset identifier.
 
-    Whether the rule includes or excludes traffic from being measured.
+<a href="#">Link to this property</a>
 
-  - `is_paused: optional boolean`
+enabled: optional boolean
 
-    Whether the rule is paused or not.
+Whether the ruleset is enabled.
 
-  - `paths: optional array of string`
+<a href="#">Link to this property</a>
 
-    The paths the rule will be applied to.
+zone\_name: optional string
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+zone\_tag: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/v2/$RULESET_ID/rule/$RULE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "host": "example.com",
-          "inclusive": true,
-          "paths": [
-            "*"
-          ]
-        }'
-```
+The zone identifier.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created": "2014-01-01T05:20:00.12345Z",
-    "host": "example.com",
-    "inclusive": true,
-    "is_paused": false,
-    "paths": [
-      "*"
-    ],
-    "priority": 1000
-  }
-}
-```
+</details>
 
-## Delete a Web Analytics rule
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/rum/v2/{ruleset_id}/rule/{rule_id}`
+</details>
 
-Deletes an existing rule from a Web Analytics ruleset.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `ruleset_id: string`
-
-  The Web Analytics ruleset identifier.
-
-- `rule_id: string`
-
-  The Web Analytics rule identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    The Web Analytics rule identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/v2/$RULESET_ID/rule/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
-
-## Update Web Analytics rules
-
-**post** `/accounts/{account_id}/rum/v2/{ruleset_id}/rules`
-
-Modifies one or more rules in a Web Analytics ruleset with a single request.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `ruleset_id: string`
-
-  The Web Analytics ruleset identifier.
-
-### Body Parameters
-
-- `delete_rules: optional array of string`
-
-  A list of rule identifiers to delete.
-
-- `rules: optional array of object { id, host, inclusive, 2 more }`
-
-  A list of rules to create or update.
-
-  - `id: optional string`
-
-    The Web Analytics rule identifier.
-
-  - `host: optional string`
-
-  - `inclusive: optional boolean`
-
-  - `is_paused: optional boolean`
-
-  - `paths: optional array of string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional object { rules, ruleset }`
-
-  - `rules: optional array of RUMRule`
-
-    A list of rules.
-
-    - `id: optional string`
-
-      The Web Analytics rule identifier.
-
-    - `created: optional string`
-
-    - `host: optional string`
-
-      The hostname the rule will be applied to.
-
-    - `inclusive: optional boolean`
-
-      Whether the rule includes or excludes traffic from being measured.
-
-    - `is_paused: optional boolean`
-
-      Whether the rule is paused or not.
-
-    - `paths: optional array of string`
-
-      The paths the rule will be applied to.
-
-    - `priority: optional number`
-
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
-
-    - `id: optional string`
-
-      The Web Analytics ruleset identifier.
-
-    - `enabled: optional boolean`
-
-      Whether the ruleset is enabled.
-
-    - `zone_name: optional string`
-
-    - `zone_tag: optional string`
-
-      The zone identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/v2/$RULESET_ID/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "rules": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created": "2014-01-01T05:20:00.12345Z",
-        "host": "example.com",
-        "inclusive": true,
-        "is_paused": false,
-        "paths": [
-          "*"
-        ],
-        "priority": 1000
-      }
-    ],
-    "ruleset": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "enabled": true,
-      "zone_name": "example.com",
-      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### RUM Rule
-
-- `RUMRule object { id, created, host, 4 more }`
-
-  - `id: optional string`
-
-    The Web Analytics rule identifier.
-
-  - `created: optional string`
-
-  - `host: optional string`
-
-    The hostname the rule will be applied to.
-
-  - `inclusive: optional boolean`
-
-    Whether the rule includes or excludes traffic from being measured.
-
-  - `is_paused: optional boolean`
-
-    Whether the rule is paused or not.
-
-  - `paths: optional array of string`
-
-    The paths the rule will be applied to.
-
-  - `priority: optional number`
-
-### Rule List Response
-
-- `RuleListResponse object { rules, ruleset }`
-
-  - `rules: optional array of RUMRule`
-
-    A list of rules.
-
-    - `id: optional string`
-
-      The Web Analytics rule identifier.
-
-    - `created: optional string`
-
-    - `host: optional string`
-
-      The hostname the rule will be applied to.
-
-    - `inclusive: optional boolean`
-
-      Whether the rule includes or excludes traffic from being measured.
-
-    - `is_paused: optional boolean`
-
-      Whether the rule is paused or not.
-
-    - `paths: optional array of string`
-
-      The paths the rule will be applied to.
-
-    - `priority: optional number`
-
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
-
-    - `id: optional string`
-
-      The Web Analytics ruleset identifier.
-
-    - `enabled: optional boolean`
-
-      Whether the ruleset is enabled.
-
-    - `zone_name: optional string`
-
-    - `zone_tag: optional string`
-
-      The zone identifier.
-
-### Rule Delete Response
-
-- `RuleDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    The Web Analytics rule identifier.
-
-### Rule Bulk Create Response
-
-- `RuleBulkCreateResponse object { rules, ruleset }`
-
-  - `rules: optional array of RUMRule`
-
-    A list of rules.
-
-    - `id: optional string`
-
-      The Web Analytics rule identifier.
-
-    - `created: optional string`
-
-    - `host: optional string`
-
-      The hostname the rule will be applied to.
-
-    - `inclusive: optional boolean`
-
-      Whether the rule includes or excludes traffic from being measured.
-
-    - `is_paused: optional boolean`
-
-      Whether the rule is paused or not.
-
-    - `paths: optional array of string`
-
-      The paths the rule will be applied to.
-
-    - `priority: optional number`
-
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
-
-    - `id: optional string`
-
-      The Web Analytics ruleset identifier.
-
-    - `enabled: optional boolean`
-
-      Whether the ruleset is enabled.
-
-    - `zone_name: optional string`
-
-    - `zone_tag: optional string`
-
-      The zone identifier.
+[Link to this property](#)%20rum.rules%20%3E%20(model)%20rule_bulk_create_response%20%3E%20(schema)>)

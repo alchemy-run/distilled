@@ -1,430 +1,129 @@
+---
+title: Members
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Organizations](https://developers.cloudflare.com/api/resources/organizations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Members
 
-## List organization members
+##### [List organization members](https://developers.cloudflare.com/api/resources/organizations/subresources/members/methods/list)
 
-**get** `/organizations/{organization_id}/members`
+GET/organizations/{organization\_id}/members
 
-List memberships for an Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+##### [Get organization member](https://developers.cloudflare.com/api/resources/organizations/subresources/members/methods/get)
 
-### Path Parameters
+GET/organizations/{organization\_id}/members/{member\_id}
 
-- `organization_id: string`
+##### [Create organization member](https://developers.cloudflare.com/api/resources/organizations/subresources/members/methods/create)
 
-### Query Parameters
+POST/organizations/{organization\_id}/members
 
-- `page_size: optional number`
+##### [Delete organization member](https://developers.cloudflare.com/api/resources/organizations/subresources/members/methods/delete)
 
-  The amount of items to return. Defaults to 10.
+DELETE/organizations/{organization\_id}/members/{member\_id}
 
-- `page_token: optional string`
+##### ModelsExpand Collapse
 
-  An opaque token returned from the last list response that when
-  provided will retrieve the next page.
+<details>
 
-  Parameters used to filter the retrieved list must remain in subsequent
-  requests with a page token.
+<summary>
 
-- `status: optional array of "active" or "canceled"`
+OrganizationMember object {id, create\_time, meta, 3 more }
 
-  Filter the list of memberships by membership status.
+</summary>
 
-  - `"active"`
+id: string
 
-  - `"canceled"`
+Organization Member ID
 
-- `user: optional object { email }`
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+create\_time: string
 
-    Filter the list of memberships for a specific email that ends with a substring.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of unknown`
+meta: map\[unknown]
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+status: "active"or "pending"or "rejected"or "canceled"
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `result: array of OrganizationMember`
+"active"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Organization Member ID
+"pending"
 
-  - `create_time: string`
+<a href="#">Link to this property</a>
 
-  - `meta: map[unknown]`
+"rejected"
 
-  - `status: "active" or "canceled"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"canceled"
 
-    - `"canceled"`
+<a href="#">Link to this property</a>
 
-  - `update_time: string`
+</details>
 
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+update\_time: string
 
-    - `email: string`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `two_factor_authentication_enabled: boolean`
+<details>
 
-- `result_info: object { next_page_token, total_size }`
+<summary>
 
-  - `next_page_token: optional string`
+user: object {id, email, name, two\_factor\_authentication\_enabled }
 
-    Use this opaque token in the next request to retrieve the
-    next page.
+</summary>
 
-    Parameters used to filter the retrieved list must remain in subsequent
-    requests with a page token.
+id: string
 
-  - `total_size: optional number`
+<a href="#">Link to this property</a>
 
-    Counts the total amount of items in a list with the applied filters. The API omits next_page_token to indicate no more items in a particular list.
+email: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+name: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+two\_factor\_authentication\_enabled: boolean
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-      "create_time": "2019-12-27T18:11:19.117Z",
-      "meta": {
-        "foo": {}
-      },
-      "status": "active",
-      "update_time": "2019-12-27T18:11:19.117Z",
-      "user": {
-        "id": "id",
-        "email": "email",
-        "name": "name",
-        "two_factor_authentication_enabled": true
-      }
-    }
-  ],
-  "result_info": {
-    "next_page_token": "next_page_token",
-    "total_size": 0
-  },
-  "success": true
-}
-```
+</details>
 
-## Get organization member
+<a href="#">Link to this property</a>
 
-**get** `/organizations/{organization_id}/members/{member_id}`
+</details>
 
-Retrieve a single membership from an Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
-
-### Path Parameters
-
-- `organization_id: string`
-
-- `member_id: string`
-
-  Organization Member ID
-
-### Returns
-
-- `errors: array of unknown`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: OrganizationMember`
-
-  - `id: string`
-
-    Organization Member ID
-
-  - `create_time: string`
-
-  - `meta: map[unknown]`
-
-  - `status: "active" or "canceled"`
-
-    - `"active"`
-
-    - `"canceled"`
-
-  - `update_time: string`
-
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
-
-    - `id: string`
-
-    - `email: string`
-
-    - `name: string`
-
-    - `two_factor_authentication_enabled: boolean`
-
-- `success: true`
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members/$MEMBER_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-    "create_time": "2019-12-27T18:11:19.117Z",
-    "meta": {
-      "foo": {}
-    },
-    "status": "active",
-    "update_time": "2019-12-27T18:11:19.117Z",
-    "user": {
-      "id": "id",
-      "email": "email",
-      "name": "name",
-      "two_factor_authentication_enabled": true
-    }
-  },
-  "success": true
-}
-```
-
-## Create organization member
-
-**post** `/organizations/{organization_id}/members`
-
-Create a membership that grants access to a specific Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
-
-### Path Parameters
-
-- `organization_id: string`
-
-### Body Parameters
-
-- `member: object { user, status }`
-
-  - `user: object { email }`
-
-    - `email: string`
-
-  - `status: optional "active" or "canceled"`
-
-    - `"active"`
-
-    - `"canceled"`
-
-### Returns
-
-- `errors: array of unknown`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: OrganizationMember`
-
-  - `id: string`
-
-    Organization Member ID
-
-  - `create_time: string`
-
-  - `meta: map[unknown]`
-
-  - `status: "active" or "canceled"`
-
-    - `"active"`
-
-    - `"canceled"`
-
-  - `update_time: string`
-
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
-
-    - `id: string`
-
-    - `email: string`
-
-    - `name: string`
-
-    - `two_factor_authentication_enabled: boolean`
-
-- `success: true`
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "member": {
-            "user": {
-              "email": "email"
-            }
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-    "create_time": "2019-12-27T18:11:19.117Z",
-    "meta": {
-      "foo": {}
-    },
-    "status": "active",
-    "update_time": "2019-12-27T18:11:19.117Z",
-    "user": {
-      "id": "id",
-      "email": "email",
-      "name": "name",
-      "two_factor_authentication_enabled": true
-    }
-  },
-  "success": true
-}
-```
-
-## Delete organization member
-
-**delete** `/organizations/{organization_id}/members/{member_id}`
-
-Delete a membership to a particular Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
-
-### Path Parameters
-
-- `organization_id: string`
-
-- `member_id: string`
-
-  Organization Member ID
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members/$MEMBER_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-## Domain Types
-
-### Organization Member
-
-- `OrganizationMember object { id, create_time, meta, 3 more }`
-
-  - `id: string`
-
-    Organization Member ID
-
-  - `create_time: string`
-
-  - `meta: map[unknown]`
-
-  - `status: "active" or "canceled"`
-
-    - `"active"`
-
-    - `"canceled"`
-
-  - `update_time: string`
-
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
-
-    - `id: string`
-
-    - `email: string`
-
-    - `name: string`
-
-    - `two_factor_authentication_enabled: boolean`
+[Link to this property](#)%20organizations.members%20%3E%20(model)%20organization_member%20%3E%20(schema)>)

@@ -1,75 +1,254 @@
-## Get Route
+---
+title: Get Route
+---
 
-**get** `/zones/{zone_id}/workers/routes/{route_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Routes](https://developers.cloudflare.com/api/resources/workers/subresources/routes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Route
+
+GET/zones/{zone\_id}/workers/routes/{route\_id}
 
 Returns information about a route, including URL pattern and Worker.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `route_id: string`
 
-  Identifier.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `result: object { id, pattern, script }`
+`Workers Routes Write``Workers Routes Read`
 
-  - `id: string`
+##### P ath ParametersExpand Collapse
 
-    Identifier.
+zone\_id: string
 
-  - `pattern: string`
+Identifier.
 
-    Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior).
+maxLength32
 
-  - `script: optional string`
+[Link to this property](#)%20workers.routes%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    Name of the script to run if the route matches.
+route\_id: string
 
-- `success: true`
+Identifier.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20workers.routes%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20route_id%20%3E%20(schema)>)
 
-### Example
+##### ReturnsExpand Collapse
 
-```http
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.routes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.routes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, pattern, script }
+
+</summary>
+
+id: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+pattern: string
+
+Pattern to match incoming requests against. <a href="https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior">Learn more</a>.
+
+<a href="#">Link to this property</a>
+
+script: optional string
+
+Name of the script to run if the route matches.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.routes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers.routes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get Route
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/workers/routes/$ROUTE_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "pattern": "example.com/*",
+    "script": "my-workers-script"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

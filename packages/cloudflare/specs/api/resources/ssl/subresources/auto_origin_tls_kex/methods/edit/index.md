@@ -1,62 +1,204 @@
-## Patch Auto-Origin TLS KEX enrollment status for the given zone
+---
+title: Patch Auto-Origin TLS KEX enrollment status for the given zone
+---
 
-**patch** `/zones/{zone_id}/settings/auto_origin_tls_kex`
+[Skip to content](#_top)
 
-Enable or disable Auto-Origin TLS KEX selection for the zone by sending `{"enabled": true}` or `{"enabled": false}`. When enabled, Cloudflare runs a periodic scan of the zone's origins to determine the preferred key-exchange algorithm and writes that preference to the edge so it is sent first in the TLS ClientHello to the origin.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[SSL](https://developers.cloudflare.com/api/resources/ssl)
 
-- `zone_id: string`
+[Auto Origin TLS Kex](https://developers.cloudflare.com/api/resources/ssl/subresources/auto_origin_tls_kex)
 
-### Body Parameters
+Copy Markdown
 
-- `enabled: boolean`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Controls enablement of Auto-Origin TLS KEX selection for the zone.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `errors: array of ResponseInfo`
+# Patch Auto-Origin TLS KEX enrollment status for the given zone
 
-  - `code: number`
+PATCH/zones/{zone\_id}/settings/auto\_origin\_tls\_kex
 
-  - `message: string`
+Enable or disable Auto-Origin TLS KEX selection for the zone by sending `{"enabled": true}` or `{"enabled": false}`. When enabled, Cloudflare runs a periodic scan of the zone’s origins to determine the preferred key-exchange algorithm and writes that preference to the edge so it is sent first in the TLS ClientHello to the origin.
 
-  - `documentation_url: optional string`
+##### Security
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Token</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `documentation_url: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { id, enabled, modified_on }`
+<details>
 
-  - `id: string`
+<summary>API Email + API Key</summary>
 
-  - `enabled: boolean`
 
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
 
-  - `modified_on: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    Last time this setting was modified.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `success: boolean`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Indicates the API call's success or failure.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Example
+</details>
 
-```http
+##### P ath ParametersExpand Collapse
+
+zone\_id: string
+
+maxLength32
+
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+enabled: boolean
+
+Controls enablement of Auto-Origin TLS KEX selection for the zone.
+
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, enabled, modified\_on }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether Auto-Origin TLS KEX selection is enabled for the zone.
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+Last time this setting was modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Indicates the API call’s success or failure.
+
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Patch Auto-Origin TLS KEX enrollment status for the given zone
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/auto_origin_tls_kex \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -66,9 +208,13 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/auto_origin_tl
         }'
 ```
 
-#### Response
+200 example
 
-```json
+200 example
+
+4XX example
+
+```
 {
   "errors": [],
   "messages": [],
@@ -78,5 +224,88 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/auto_origin_tl
     "modified_on": "2014-01-01T05:20:00.12345Z"
   },
   "success": true
+}
+```
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "enabled": true,
+    "id": "auto_origin_tls_kex",
+    "modified_on": "2014-01-01T05:20:00.12345Z"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1009,
+      "message": "Missing field 'enabled' in JSON body"
+    }
+  ],
+  "messages": [],
+  "result": {
+    "enabled": false,
+    "id": "auto_origin_tls_kex",
+    "modified_on": "2014-01-01T05:20:00.12345Z"
+  },
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+200 example
+
+4XX example
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "enabled": false,
+    "id": "auto_origin_tls_kex",
+    "modified_on": "2014-01-01T05:20:00.12345Z"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "enabled": true,
+    "id": "auto_origin_tls_kex",
+    "modified_on": "2014-01-01T05:20:00.12345Z"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1009,
+      "message": "Missing field 'enabled' in JSON body"
+    }
+  ],
+  "messages": [],
+  "result": {
+    "enabled": false,
+    "id": "auto_origin_tls_kex",
+    "modified_on": "2014-01-01T05:20:00.12345Z"
+  },
+  "success": false
 }
 ```

@@ -1,74 +1,220 @@
-## Cancel build
+---
+title: Cancel a Workers build
+---
 
-**put** `/accounts/{account_id}/builds/builds/{build_uuid}/cancel`
+[Skip to content](#_top)
 
-Cancel a running or queued build
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
 
-- `account_id: string`
+[Builds](https://developers.cloudflare.com/api/resources/workers_builds/subresources/builds)
 
-  Account identifier.
+Copy Markdown
 
-- `build_uuid: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Build UUID.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `errors: array of object { code, message }`
+# Cancel a Workers build
 
-  - `code: optional number`
+PUT/accounts/{account\_id}/builds/builds/{build\_uuid}/cancel
 
-  - `message: optional string`
+Cancel a queued or running build.
 
-- `messages: array of string`
+##### Security
 
-- `result: object { build_outcome, build_uuid, stopped_on }`
+<details>
 
-  - `build_outcome: optional "success" or "fail" or "skipped" or 2 more`
+<summary>API Token</summary>
 
-    - `"success"`
 
-    - `"fail"`
 
-    - `"skipped"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `"cancelled"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `"terminated"`
+</details>
 
-  - `build_uuid: optional string`
+<details>
 
-    Build UUID.
+<summary>API Email + API Key</summary>
 
-  - `stopped_on: optional string`
 
-- `success: boolean`
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `count: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `page: optional number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `per_page: optional number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `total_count: optional number`
+</details>
 
-  - `total_pages: optional number`
+##### Accepted Permissions (at least one required)
 
-### Example
+`Workers CI Write`
 
-```http
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account identifier.
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20cancel%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+build\_uuid: string
+
+Build UUID.
+
+formatuuid
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20cancel%20%3E%20(params)%20default%20%3E%20(param)%20build_uuid%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20cancel%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20cancel%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {build\_outcome, build\_uuid, stopped\_on }
+
+</summary>
+
+<details>
+
+<summary>
+
+build\_outcome: optional "success"or "fail"or "skipped"or 2 more
+
+</summary>
+
+One of the following:
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"fail"
+
+<a href="#">Link to this property</a>
+
+"skipped"
+
+<a href="#">Link to this property</a>
+
+"cancelled"
+
+<a href="#">Link to this property</a>
+
+"terminated"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+build\_uuid: optional string
+
+Build UUID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+stopped\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20cancel%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20cancel%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20cancel%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Cancel a Workers build
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/builds/$BUILD_UUID/cancel \
     -X PUT \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+401 example
+
+404 example
+
+```
 {
   "errors": [
     {
@@ -92,5 +238,96 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/builds/$BU
     "total_count": 150,
     "total_pages": 3
   }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12005,
+      "message": "Missing token from authorization header"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+401 example
+
+404 example
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "build_outcome": "success",
+    "build_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "stopped_on": "2019-12-27T18:11:19.117Z"
+  },
+  "success": true,
+  "result_info": {
+    "count": 25,
+    "page": 1,
+    "per_page": 50,
+    "total_count": 150,
+    "total_pages": 3
+  }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12005,
+      "message": "Missing token from authorization header"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

@@ -1,6 +1,28 @@
-## Update all list items
+---
+title: Update all list items
+---
 
-**put** `/accounts/{account_id}/rules/lists/{list_id}/items`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Rules Lists](https://developers.cloudflare.com/api/resources/rules)
+
+[Lists](https://developers.cloudflare.com/api/resources/rules/subresources/lists)
+
+[Items](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/items)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update all list items
+
+PUT/accounts/{account\_id}/rules/lists/{list\_id}/items
 
 Removes all existing items from the list and adds the provided items to the list.
 
@@ -8,127 +30,371 @@ This operation is asynchronous. To get current the operation status, invoke the 
 
 There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  The Account ID for this resource.
+<summary>API Token</summary>
 
-- `list_id: string`
 
-  The unique ID of the list.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `body: array of object { ip, comment }  or object { redirect, comment }  or object { hostname, comment }  or object { asn, comment }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `ListsListItemIPComment object { ip, comment }`
+</details>
 
-    - `ip: string`
+<details>
 
-      An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
+<summary>API Email + API Key</summary>
 
-    - `comment: optional string`
 
-      Defines an informative summary of the list item.
 
-  - `ListsListItemRedirectComment object { redirect, comment }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `redirect: Redirect`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      The definition of the redirect.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `source_url: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `target_url: string`
+</details>
 
-      - `include_subdomains: optional boolean`
+##### Accepted Permissions (at least one required)
 
-      - `preserve_path_suffix: optional boolean`
+`Account Filter Lists Edit`
 
-      - `preserve_query_string: optional boolean`
+##### P ath ParametersExpand Collapse
 
-      - `status_code: optional 301 or 302 or 307 or 308`
+account\_id: string
 
-        - `301`
+The Account ID for this resource.
 
-        - `302`
+maxLength32
 
-        - `307`
+minLength32
 
-        - `308`
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `subpath_matching: optional boolean`
+list\_id: string
 
-    - `comment: optional string`
+The unique ID of the list.
 
-      Defines an informative summary of the list item.
+maxLength32
 
-  - `ListsListItemHostnameComment object { hostname, comment }`
+minLength32
 
-    - `hostname: Hostname`
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20list_id%20%3E%20(schema)>)
 
-      Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
+##### Body ParametersJSONExpand Collapse
 
-      - `url_hostname: string`
+<details>
 
-      - `exclude_exact_hostname: optional boolean`
+<summary>
 
-        Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
+body: array of object {ip, comment } or object {redirect, comment } or object {hostname, comment } or object {asn, comment }
 
-    - `comment: optional string`
+</summary>
 
-      Defines an informative summary of the list item.
+One of the following:
 
-  - `ListsListItemASNComment object { asn, comment }`
+<details>
 
-    - `asn: number`
+<summary>
 
-      Defines a non-negative 32 bit integer.
+ListsListItemIPComment object {ip, comment }
 
-    - `comment: optional string`
+</summary>
 
-      Defines an informative summary of the list item.
+ip: string
 
-### Returns
+An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+comment: optional string
 
-  - `message: string`
+Defines an informative summary of the list item.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+ListsListItemRedirectComment object {redirect, comment }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: object { operation_id }`
+<summary>
 
-  - `operation_id: string`
+redirect: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists%20%3E%20(model)%20redirect%20%3E%20(schema)">Redirect</a> { source\_url, target\_url, include\_subdomains, 4 more }
 
-    The unique operation ID of the asynchronous action.
+The definition of the redirect.
 
-- `success: true`
+</summary>
 
-  Defines whether the API call was successful.
+source\_url: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+target\_url: string
 
-```http
+<a href="#">Link to this property</a>
+
+include\_subdomains: optional boolean
+
+<a href="#">Link to this property</a>
+
+preserve\_path\_suffix: optional boolean
+
+<a href="#">Link to this property</a>
+
+preserve\_query\_string: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status\_code: optional 301or 302or 307or 308
+
+</summary>
+
+One of the following:
+
+301
+
+<a href="#">Link to this property</a>
+
+302
+
+<a href="#">Link to this property</a>
+
+307
+
+<a href="#">Link to this property</a>
+
+308
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+subpath\_matching: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Defines an informative summary of the list item.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ListsListItemHostnameComment object {hostname, comment }
+
+</summary>
+
+<details>
+
+<summary>
+
+hostname: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists%20%3E%20(model)%20hostname%20%3E%20(schema)">Hostname</a> { url\_hostname, exclude\_exact\_hostname }
+
+Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (\*), and the hyphen (-).
+
+</summary>
+
+url\_hostname: string
+
+<a href="#">Link to this property</a>
+
+exclude\_exact\_hostname: optional boolean
+
+Only applies to wildcard hostnames (e.g., \*.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Defines an informative summary of the list item.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ListsListItemASNComment object {asn, comment }
+
+</summary>
+
+asn: number
+
+Defines a non-negative 32 bit integer.
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Defines an informative summary of the list item.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {operation\_id }
+
+</summary>
+
+operation\_id: string
+
+The unique operation ID of the asynchronous action.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update all list items
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID/items \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -141,9 +407,42 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST
         ]'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "operation_id": "4da8780eeb215e6cb7f48dd981c4ea02"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,350 +1,197 @@
+---
+title: Cloud Connector
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Cloud Connector
 
-# Rules
+#### Cloud ConnectorRules
 
-## Rules
+##### [Rules](https://developers.cloudflare.com/api/resources/cloud_connector/subresources/rules/methods/list)
 
-**get** `/zones/{zone_id}/cloud_connector/rules`
+GET/zones/{zone\_id}/cloud\_connector/rules
 
-Retrieves the Cloud Connector rules configured for a zone. Rules define how traffic is routed to cloud services.
+##### [Put Rules](https://developers.cloudflare.com/api/resources/cloud_connector/subresources/rules/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/cloud\_connector/rules
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+RuleListResponse object {id, description, enabled, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+description: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+enabled: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+expression: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+parameters: optional object {host }
 
-  Whether the API call was successful.
+Parameters of Cloud Connector Rule
 
-  - `true`
+</summary>
 
-- `result: optional array of object { id, description, enabled, 3 more }`
+host: optional string
 
-  List of Cloud Connector rules
+Host to perform Cloud Connection to
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `expression: optional string`
+<details>
 
-  - `parameters: optional object { host }`
+<summary>
 
-    Parameters of Cloud Connector Rule
+provider: optional "aws\_s3"or "cloudflare\_r2"or "gcp\_storage"or 2 more
 
-    - `host: optional string`
+Cloud Provider type
 
-      Host to perform Cloud Connection to
+</summary>
 
-  - `provider: optional "aws_s3" or "cloudflare_r2" or "gcp_storage" or "azure_storage"`
+One of the following:
 
-    Cloud Provider type
+"aws\_s3"
 
-    - `"aws_s3"`
+<a href="#">Link to this property</a>
 
-    - `"cloudflare_r2"`
+"cloudflare\_r2"
 
-    - `"gcp_storage"`
+<a href="#">Link to this property</a>
 
-    - `"azure_storage"`
+"gcp\_storage"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cloud_connector/rules \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+"azure\_storage"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "95c365e17e1b46599cd99e5b231fac4e",
-      "description": "Rule description",
-      "enabled": true,
-      "expression": "http.cookie eq \"a=b\"",
-      "parameters": {
-        "host": "examplebucket.s3.eu-north-1.amazonaws.com"
-      },
-      "provider": "aws_s3"
-    }
-  ]
-}
-```
+"oci\_storage"
 
-## Put Rules
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/cloud_connector/rules`
+</details>
 
-Updates Cloud Connector rules for a zone, replacing the existing rule configuration.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+[Link to this property](#)%20cloud_connector.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-  Identifier.
+<details>
 
-### Body Parameters
+<summary>
 
-- `rules: optional array of object { id, description, enabled, 3 more }`
+RuleUpdateResponse object {id, description, enabled, 3 more }
 
-  - `id: optional string`
+</summary>
 
-  - `description: optional string`
+id: optional string
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `expression: optional string`
+description: optional string
 
-  - `parameters: optional object { host }`
+<a href="#">Link to this property</a>
 
-    Parameters of Cloud Connector Rule
+enabled: optional boolean
 
-    - `host: optional string`
+<a href="#">Link to this property</a>
 
-      Host to perform Cloud Connection to
+expression: optional string
 
-  - `provider: optional "aws_s3" or "cloudflare_r2" or "gcp_storage" or "azure_storage"`
+<a href="#">Link to this property</a>
 
-    Cloud Provider type
+<details>
 
-    - `"aws_s3"`
+<summary>
 
-    - `"cloudflare_r2"`
+parameters: optional object {host }
 
-    - `"gcp_storage"`
+Parameters of Cloud Connector Rule
 
-    - `"azure_storage"`
+</summary>
 
-### Returns
+host: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Host to perform Cloud Connection to
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+provider: optional "aws\_s3"or "cloudflare\_r2"or "gcp\_storage"or 2 more
 
-  - `code: number`
+Cloud Provider type
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"aws\_s3"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"cloudflare\_r2"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"gcp\_storage"
 
-- `result: optional array of object { id, description, enabled, 3 more }`
+<a href="#">Link to this property</a>
 
-  List of Cloud Connector rules
+"azure\_storage"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"oci\_storage"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `expression: optional string`
+</details>
 
-  - `parameters: optional object { host }`
+<a href="#">Link to this property</a>
 
-    Parameters of Cloud Connector Rule
+</details>
 
-    - `host: optional string`
-
-      Host to perform Cloud Connection to
-
-  - `provider: optional "aws_s3" or "cloudflare_r2" or "gcp_storage" or "azure_storage"`
-
-    Cloud Provider type
-
-    - `"aws_s3"`
-
-    - `"cloudflare_r2"`
-
-    - `"gcp_storage"`
-
-    - `"azure_storage"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cloud_connector/rules \
-    -X PUT \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "95c365e17e1b46599cd99e5b231fac4e",
-      "description": "Rule description",
-      "enabled": true,
-      "expression": "http.cookie eq \"a=b\"",
-      "parameters": {
-        "host": "examplebucket.s3.eu-north-1.amazonaws.com"
-      },
-      "provider": "aws_s3"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Rule List Response
-
-- `RuleListResponse object { id, description, enabled, 3 more }`
-
-  - `id: optional string`
-
-  - `description: optional string`
-
-  - `enabled: optional boolean`
-
-  - `expression: optional string`
-
-  - `parameters: optional object { host }`
-
-    Parameters of Cloud Connector Rule
-
-    - `host: optional string`
-
-      Host to perform Cloud Connection to
-
-  - `provider: optional "aws_s3" or "cloudflare_r2" or "gcp_storage" or "azure_storage"`
-
-    Cloud Provider type
-
-    - `"aws_s3"`
-
-    - `"cloudflare_r2"`
-
-    - `"gcp_storage"`
-
-    - `"azure_storage"`
-
-### Rule Update Response
-
-- `RuleUpdateResponse object { id, description, enabled, 3 more }`
-
-  - `id: optional string`
-
-  - `description: optional string`
-
-  - `enabled: optional boolean`
-
-  - `expression: optional string`
-
-  - `parameters: optional object { host }`
-
-    Parameters of Cloud Connector Rule
-
-    - `host: optional string`
-
-      Host to perform Cloud Connection to
-
-  - `provider: optional "aws_s3" or "cloudflare_r2" or "gcp_storage" or "azure_storage"`
-
-    Cloud Provider type
-
-    - `"aws_s3"`
-
-    - `"cloudflare_r2"`
-
-    - `"gcp_storage"`
-
-    - `"azure_storage"`
+[Link to this property](#)%20cloud_connector.rules%20%3E%20(model)%20rule_update_response%20%3E%20(schema)>)

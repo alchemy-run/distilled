@@ -1,2450 +1,1085 @@
+---
+title: Apps
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Spectrum](https://developers.cloudflare.com/api/resources/spectrum)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Apps
 
-## List Spectrum applications
+##### [List Spectrum applications](https://developers.cloudflare.com/api/resources/spectrum/subresources/apps/methods/list)
 
-**get** `/zones/{zone_id}/spectrum/apps`
+GET/zones/{zone\_id}/spectrum/apps
 
-Retrieves a list of currently existing Spectrum applications inside a zone.
+##### [Get Spectrum application configuration](https://developers.cloudflare.com/api/resources/spectrum/subresources/apps/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/spectrum/apps/{app\_id}
 
-- `zone_id: string`
+##### [Create Spectrum application using a name for the origin](https://developers.cloudflare.com/api/resources/spectrum/subresources/apps/methods/create)
 
-  Zone identifier.
+POST/zones/{zone\_id}/spectrum/apps
 
-### Query Parameters
+##### [Update Spectrum application configuration using a name for the origin](https://developers.cloudflare.com/api/resources/spectrum/subresources/apps/methods/update)
 
-- `direction: optional "asc" or "desc"`
+PUT/zones/{zone\_id}/spectrum/apps/{app\_id}
 
-  Sets the direction by which results are ordered.
+##### [Delete Spectrum application](https://developers.cloudflare.com/api/resources/spectrum/subresources/apps/methods/delete)
 
-  - `"asc"`
+DELETE/zones/{zone\_id}/spectrum/apps/{app\_id}
 
-  - `"desc"`
+##### ModelsExpand Collapse
 
-- `order: optional "protocol" or "app_id" or "created_on" or 2 more`
+<details>
 
-  Application field by which results are ordered.
+<summary>
 
-  - `"protocol"`
+AppListResponse = object {id, created\_on, dns, 12 more } or object {id, created\_on, dns, 3 more }
 
-  - `"app_id"`
+</summary>
 
-  - `"created_on"`
+One of the following:
 
-  - `"modified_on"`
+<details>
 
-  - `"dns"`
+<summary>
 
-- `page: optional number`
+SpectrumConfigAppConfig object {id, created\_on, dns, 12 more }
 
-  Page number of paginated results. This parameter is required in order to use other pagination parameters. If included in the query, `result_info` will be present in the response.
+</summary>
 
-- `per_page: optional number`
+id: string
 
-  Sets the maximum number of results per page.
+App identifier.
 
-### Returns
+maxLength32
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: string
 
-  - `message: string`
+When the Application was created.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+dns: <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20dns%20%3E%20(schema)">DNS</a> { name, type }
 
-- `messages: array of object { code, message, documentation_url, source }`
+The name and type of DNS record for the Spectrum application.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: string
 
-  - `documentation_url: optional string`
+When the Application was last modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+protocol: string
 
-  Whether the API call was successful.
+The port configuration at Cloudflare’s edge. May specify a single port, for example <code>"tcp/1000"</code>, or a range of ports, for example <code>"tcp/1000-2000"</code>.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_on, dns, 12 more }  or array of object { id, created_on, dns, 3 more }`
+<details>
 
-  - `array of object { id, created_on, dns, 12 more }`
+<summary>
 
-    - `id: string`
+traffic\_type: "direct"or "http"or "https"
 
-      App identifier.
+Determines how data travels from the edge to your origin. When set to “direct”, Spectrum will send traffic directly to your origin, and the application’s type is derived from the <code>protocol</code>. When set to “http” or “https”, Spectrum will apply Cloudflare’s HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
 
-    - `created_on: string`
+</summary>
 
-      When the Application was created.
+One of the following:
 
-    - `dns: DNS`
+"direct"
 
-      The name and type of DNS record for the Spectrum application.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+"http"
 
-        The name of the DNS record associated with the application.
+<a href="#">Link to this property</a>
 
-      - `type: optional "CNAME" or "ADDRESS"`
+"https"
 
-        The type of DNS record associated with the application.
+<a href="#">Link to this property</a>
 
-        - `"CNAME"`
+</details>
 
-        - `"ADDRESS"`
+<a href="#">Link to this property</a>
 
-    - `modified_on: string`
+argo\_smart\_routing: optional boolean
 
-      When the Application was last modified.
+Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic\_type set to “direct”.
 
-    - `protocol: string`
+<a href="#">Link to this property</a>
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+edge\_ips: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20edge_ips%20%3E%20(schema)">EdgeIPs</a>
 
-    - `traffic_type: "direct" or "http" or "https"`
+The anycast edge IP configuration for the hostname of this application.
 
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
+<a href="#">Link to this property</a>
 
-      - `"direct"`
+ip\_firewall: optional boolean
 
-      - `"http"`
+Enables IP Access Rules for this application. Notes: Only available for TCP applications.
 
-      - `"https"`
+<a href="#">Link to this property</a>
 
-    - `argo_smart_routing: optional boolean`
+origin\_direct: optional array of string
 
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
+List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
 
-    - `edge_ips: optional EdgeIPs`
+<a href="#">Link to this property</a>
 
-      The anycast edge IP configuration for the hostname of this application.
+origin\_dns: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20origin_dns%20%3E%20(schema)">OriginDNS</a> { name, ttl, type }
 
-      - `Dynamic object { connectivity, type }`
+The name and type of DNS record for the Spectrum application.
 
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
+<a href="#">Link to this property</a>
 
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
+origin\_port: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20origin_port%20%3E%20(schema)">OriginPort</a>
 
-          - `"all"`
+The destination port at the origin. Only specified in conjunction with origin\_dns. May use an integer to specify a single origin port, for example <code>1000</code>, or a string to specify a range of origin ports, for example <code>"1000-2000"</code>. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the “protocol” field.
 
-          - `"ipv4"`
+maximum65535
 
-          - `"ipv6"`
+minimum1
 
-        - `type: optional "dynamic"`
+<a href="#">Link to this property</a>
 
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
+<details>
 
-          - `"dynamic"`
+<summary>
 
-      - `Static object { ips, type }`
+proxy\_protocol: optional "off"or "v1"or "v2"or "simple"
 
-        - `ips: optional array of string`
+Enables Proxy Protocol to the origin. Refer to <a href="https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/">Enable Proxy protocol</a> for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
 
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
+</summary>
 
-        - `type: optional "static"`
+One of the following:
 
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
+"off"
 
-          - `"static"`
+<a href="#">Link to this property</a>
 
-    - `ip_firewall: optional boolean`
+"v1"
 
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
+<a href="#">Link to this property</a>
 
-    - `origin_direct: optional array of string`
+"v2"
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+<a href="#">Link to this property</a>
 
-    - `origin_dns: optional OriginDNS`
+"simple"
 
-      The name and type of DNS record for the Spectrum application.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        The name of the DNS record associated with the origin.
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+<details>
 
-        The TTL of our resolution of your DNS record in seconds.
+<summary>
 
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
+tls: optional "off"or "flexible"or "full"or "strict"
 
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
+The type of TLS termination associated with the application.
 
-        - `""`
+</summary>
 
-        - `"A"`
+One of the following:
 
-        - `"AAAA"`
+"off"
 
-        - `"SRV"`
+<a href="#">Link to this property</a>
 
-    - `origin_port: optional OriginPort`
+"flexible"
 
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
+<a href="#">Link to this property</a>
 
-      - `number`
+"full"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
+"strict"
 
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
+<a href="#">Link to this property</a>
 
-      - `"off"`
+</details>
 
-      - `"v1"`
+<a href="#">Link to this property</a>
 
-      - `"v2"`
+virtual\_network\_id: optional string
 
-      - `"simple"`
+Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
 
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
+formatuuid
 
-      The type of TLS termination associated with the application.
+<a href="#">Link to this property</a>
 
-      - `"off"`
+</details>
 
-      - `"flexible"`
+<a href="#">Link to this property</a>
 
-      - `"full"`
+<details>
 
-      - `"strict"`
+<summary>
 
-    - `virtual_network_id: optional string`
+SpectrumConfigPaygoAppConfig object {id, created\_on, dns, 3 more }
 
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
+</summary>
 
-  - `array of object { id, created_on, dns, 3 more }`
+id: string
 
-    - `id: string`
+App identifier.
 
-      App identifier.
+maxLength32
 
-    - `created_on: string`
+<a href="#">Link to this property</a>
 
-      When the Application was created.
+created\_on: string
 
-    - `dns: DNS`
+When the Application was created.
 
-      The name and type of DNS record for the Spectrum application.
+formatdate-time
 
-    - `modified_on: string`
+<a href="#">Link to this property</a>
 
-      When the Application was last modified.
+dns: <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20dns%20%3E%20(schema)">DNS</a> { name, type }
 
-    - `protocol: string`
+The name and type of DNS record for the Spectrum application.
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+<a href="#">Link to this property</a>
 
-    - `origin_direct: optional array of string`
+modified\_on: string
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+When the Application was last modified.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+formatdate-time
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+protocol: string
 
-  - `page: optional number`
+The port configuration at Cloudflare’s edge. May specify a single port, for example <code>"tcp/1000"</code>, or a range of ports, for example <code>"tcp/1000-2000"</code>.
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+origin\_direct: optional array of string
 
-    Number of results per page of results.
+List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+</details>
 
-### Example
+[Link to this property](#)%20spectrum.apps%20%3E%20(model)%20app_list_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/apps \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "dns": {
-        "name": "ssh.example.com",
-        "type": "CNAME"
-      },
-      "modified_on": "2014-01-01T05:20:00.12345Z",
-      "protocol": "tcp/22",
-      "traffic_type": "direct",
-      "argo_smart_routing": true,
-      "edge_ips": {
-        "connectivity": "all",
-        "type": "dynamic"
-      },
-      "ip_firewall": false,
-      "origin_direct": [
-        "tcp://127.0.0.1:8080"
-      ],
-      "origin_dns": {
-        "name": "origin.example.com",
-        "ttl": 600,
-        "type": ""
-      },
-      "origin_port": 22,
-      "proxy_protocol": "off",
-      "tls": "off",
-      "virtual_network_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+AppGetResponse = object {id, created\_on, dns, 12 more } or object {id, created\_on, dns, 3 more }
 
-## Get Spectrum application configuration
+</summary>
 
-**get** `/zones/{zone_id}/spectrum/apps/{app_id}`
+One of the following:
 
-Gets the application configuration of a specific application inside a zone.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+SpectrumConfigAppConfig object {id, created\_on, dns, 12 more }
 
-  Zone identifier.
+</summary>
 
-- `app_id: string`
+id: string
 
-  App identifier.
+App identifier.
 
-### Returns
+maxLength32
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: string
 
-  - `message: string`
+When the Application was created.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+dns: <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20dns%20%3E%20(schema)">DNS</a> { name, type }
 
-- `messages: array of object { code, message, documentation_url, source }`
+The name and type of DNS record for the Spectrum application.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: string
 
-  - `documentation_url: optional string`
+When the Application was last modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+protocol: string
 
-  Whether the API call was successful.
+The port configuration at Cloudflare’s edge. May specify a single port, for example <code>"tcp/1000"</code>, or a range of ports, for example <code>"tcp/1000-2000"</code>.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
+<details>
 
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
+<summary>
 
-    - `id: string`
+traffic\_type: "direct"or "http"or "https"
 
-      App identifier.
+Determines how data travels from the edge to your origin. When set to “direct”, Spectrum will send traffic directly to your origin, and the application’s type is derived from the <code>protocol</code>. When set to “http” or “https”, Spectrum will apply Cloudflare’s HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
 
-    - `created_on: string`
+</summary>
 
-      When the Application was created.
+One of the following:
 
-    - `dns: DNS`
+"direct"
 
-      The name and type of DNS record for the Spectrum application.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+"http"
 
-        The name of the DNS record associated with the application.
+<a href="#">Link to this property</a>
 
-      - `type: optional "CNAME" or "ADDRESS"`
+"https"
 
-        The type of DNS record associated with the application.
+<a href="#">Link to this property</a>
 
-        - `"CNAME"`
+</details>
 
-        - `"ADDRESS"`
+<a href="#">Link to this property</a>
 
-    - `modified_on: string`
+argo\_smart\_routing: optional boolean
 
-      When the Application was last modified.
+Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic\_type set to “direct”.
 
-    - `protocol: string`
+<a href="#">Link to this property</a>
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+edge\_ips: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20edge_ips%20%3E%20(schema)">EdgeIPs</a>
 
-    - `traffic_type: "direct" or "http" or "https"`
+The anycast edge IP configuration for the hostname of this application.
 
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
+<a href="#">Link to this property</a>
 
-      - `"direct"`
+ip\_firewall: optional boolean
 
-      - `"http"`
+Enables IP Access Rules for this application. Notes: Only available for TCP applications.
 
-      - `"https"`
+<a href="#">Link to this property</a>
 
-    - `argo_smart_routing: optional boolean`
+origin\_direct: optional array of string
 
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
+List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
 
-    - `edge_ips: optional EdgeIPs`
+<a href="#">Link to this property</a>
 
-      The anycast edge IP configuration for the hostname of this application.
+origin\_dns: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20origin_dns%20%3E%20(schema)">OriginDNS</a> { name, ttl, type }
 
-      - `Dynamic object { connectivity, type }`
+The name and type of DNS record for the Spectrum application.
 
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
+<a href="#">Link to this property</a>
 
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
+origin\_port: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20origin_port%20%3E%20(schema)">OriginPort</a>
 
-          - `"all"`
+The destination port at the origin. Only specified in conjunction with origin\_dns. May use an integer to specify a single origin port, for example <code>1000</code>, or a string to specify a range of origin ports, for example <code>"1000-2000"</code>. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the “protocol” field.
 
-          - `"ipv4"`
+maximum65535
 
-          - `"ipv6"`
+minimum1
 
-        - `type: optional "dynamic"`
+<a href="#">Link to this property</a>
 
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
+<details>
 
-          - `"dynamic"`
+<summary>
 
-      - `Static object { ips, type }`
+proxy\_protocol: optional "off"or "v1"or "v2"or "simple"
 
-        - `ips: optional array of string`
+Enables Proxy Protocol to the origin. Refer to <a href="https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/">Enable Proxy protocol</a> for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
 
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
+</summary>
 
-        - `type: optional "static"`
+One of the following:
 
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
+"off"
 
-          - `"static"`
+<a href="#">Link to this property</a>
 
-    - `ip_firewall: optional boolean`
+"v1"
 
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
+<a href="#">Link to this property</a>
 
-    - `origin_direct: optional array of string`
+"v2"
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+<a href="#">Link to this property</a>
 
-    - `origin_dns: optional OriginDNS`
+"simple"
 
-      The name and type of DNS record for the Spectrum application.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        The name of the DNS record associated with the origin.
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+<details>
 
-        The TTL of our resolution of your DNS record in seconds.
+<summary>
 
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
+tls: optional "off"or "flexible"or "full"or "strict"
 
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
+The type of TLS termination associated with the application.
 
-        - `""`
+</summary>
 
-        - `"A"`
+One of the following:
 
-        - `"AAAA"`
+"off"
 
-        - `"SRV"`
+<a href="#">Link to this property</a>
 
-    - `origin_port: optional OriginPort`
+"flexible"
 
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
+<a href="#">Link to this property</a>
 
-      - `number`
+"full"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
+"strict"
 
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
+<a href="#">Link to this property</a>
 
-      - `"off"`
+</details>
 
-      - `"v1"`
+<a href="#">Link to this property</a>
 
-      - `"v2"`
+virtual\_network\_id: optional string
 
-      - `"simple"`
+Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
 
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
+formatuuid
 
-      The type of TLS termination associated with the application.
+<a href="#">Link to this property</a>
 
-      - `"off"`
+</details>
 
-      - `"flexible"`
+<a href="#">Link to this property</a>
 
-      - `"full"`
+<details>
 
-      - `"strict"`
+<summary>
 
-    - `virtual_network_id: optional string`
+SpectrumConfigPaygoAppConfig object {id, created\_on, dns, 3 more }
 
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
+</summary>
 
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
+id: string
 
-    - `id: string`
+App identifier.
 
-      App identifier.
+maxLength32
 
-    - `created_on: string`
+<a href="#">Link to this property</a>
 
-      When the Application was created.
+created\_on: string
 
-    - `dns: DNS`
+When the Application was created.
 
-      The name and type of DNS record for the Spectrum application.
+formatdate-time
 
-    - `modified_on: string`
+<a href="#">Link to this property</a>
 
-      When the Application was last modified.
+dns: <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20dns%20%3E%20(schema)">DNS</a> { name, type }
 
-    - `protocol: string`
+The name and type of DNS record for the Spectrum application.
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+<a href="#">Link to this property</a>
 
-    - `origin_direct: optional array of string`
+modified\_on: string
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+When the Application was last modified.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/apps/$APP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+protocol: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "dns": {
-      "name": "ssh.example.com",
-      "type": "CNAME"
-    },
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "protocol": "tcp/22",
-    "traffic_type": "direct",
-    "argo_smart_routing": true,
-    "edge_ips": {
-      "connectivity": "all",
-      "type": "dynamic"
-    },
-    "ip_firewall": false,
-    "origin_direct": [
-      "tcp://127.0.0.1:8080"
-    ],
-    "origin_dns": {
-      "name": "origin.example.com",
-      "ttl": 600,
-      "type": ""
-    },
-    "origin_port": 22,
-    "proxy_protocol": "off",
-    "tls": "off",
-    "virtual_network_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+The port configuration at Cloudflare’s edge. May specify a single port, for example <code>"tcp/1000"</code>, or a range of ports, for example <code>"tcp/1000-2000"</code>.
 
-## Create Spectrum application using a name for the origin
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/spectrum/apps`
+origin\_direct: optional array of string
 
-Creates a new Spectrum application from a configuration using a name for the origin.
+List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Zone identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `body: object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
+[Link to this property](#)%20spectrum.apps%20%3E%20(model)%20app_get_response%20%3E%20(schema)>)
 
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-      App identifier.
+AppCreateResponse = object {id, created\_on, dns, 12 more } or object {id, created\_on, dns, 3 more }
 
-    - `created_on: string`
+</summary>
 
-      When the Application was created.
+One of the following:
 
-    - `dns: DNS`
+<details>
 
-      The name and type of DNS record for the Spectrum application.
+<summary>
 
-      - `name: optional string`
+SpectrumConfigAppConfig object {id, created\_on, dns, 12 more }
 
-        The name of the DNS record associated with the application.
+</summary>
 
-      - `type: optional "CNAME" or "ADDRESS"`
+id: string
 
-        The type of DNS record associated with the application.
+App identifier.
 
-        - `"CNAME"`
+maxLength32
 
-        - `"ADDRESS"`
+<a href="#">Link to this property</a>
 
-    - `modified_on: string`
+created\_on: string
 
-      When the Application was last modified.
+When the Application was created.
 
-    - `protocol: string`
+formatdate-time
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+<a href="#">Link to this property</a>
 
-    - `traffic_type: "direct" or "http" or "https"`
+dns: <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20dns%20%3E%20(schema)">DNS</a> { name, type }
 
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
+The name and type of DNS record for the Spectrum application.
 
-      - `"direct"`
+<a href="#">Link to this property</a>
 
-      - `"http"`
+modified\_on: string
 
-      - `"https"`
+When the Application was last modified.
 
-    - `argo_smart_routing: optional boolean`
+formatdate-time
 
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
+<a href="#">Link to this property</a>
 
-    - `edge_ips: optional EdgeIPs`
+protocol: string
 
-      The anycast edge IP configuration for the hostname of this application.
+The port configuration at Cloudflare’s edge. May specify a single port, for example <code>"tcp/1000"</code>, or a range of ports, for example <code>"tcp/1000-2000"</code>.
 
-      - `Dynamic object { connectivity, type }`
+<a href="#">Link to this property</a>
 
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
+<details>
 
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
+<summary>
 
-          - `"all"`
+traffic\_type: "direct"or "http"or "https"
 
-          - `"ipv4"`
+Determines how data travels from the edge to your origin. When set to “direct”, Spectrum will send traffic directly to your origin, and the application’s type is derived from the <code>protocol</code>. When set to “http” or “https”, Spectrum will apply Cloudflare’s HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
 
-          - `"ipv6"`
+</summary>
 
-        - `type: optional "dynamic"`
+One of the following:
 
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
+"direct"
 
-          - `"dynamic"`
+<a href="#">Link to this property</a>
 
-      - `Static object { ips, type }`
+"http"
 
-        - `ips: optional array of string`
+<a href="#">Link to this property</a>
 
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
+"https"
 
-        - `type: optional "static"`
+<a href="#">Link to this property</a>
 
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
+</details>
 
-          - `"static"`
+<a href="#">Link to this property</a>
 
-    - `ip_firewall: optional boolean`
+argo\_smart\_routing: optional boolean
 
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
+Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic\_type set to “direct”.
 
-    - `origin_direct: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+edge\_ips: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20edge_ips%20%3E%20(schema)">EdgeIPs</a>
 
-    - `origin_dns: optional OriginDNS`
+The anycast edge IP configuration for the hostname of this application.
 
-      The name and type of DNS record for the Spectrum application.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+ip\_firewall: optional boolean
 
-        The name of the DNS record associated with the origin.
+Enables IP Access Rules for this application. Notes: Only available for TCP applications.
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        The TTL of our resolution of your DNS record in seconds.
+origin\_direct: optional array of string
 
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
+List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
 
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
+<a href="#">Link to this property</a>
 
-        - `""`
+origin\_dns: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20origin_dns%20%3E%20(schema)">OriginDNS</a> { name, ttl, type }
 
-        - `"A"`
+The name and type of DNS record for the Spectrum application.
 
-        - `"AAAA"`
+<a href="#">Link to this property</a>
 
-        - `"SRV"`
+origin\_port: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20origin_port%20%3E%20(schema)">OriginPort</a>
 
-    - `origin_port: optional OriginPort`
+The destination port at the origin. Only specified in conjunction with origin\_dns. May use an integer to specify a single origin port, for example <code>1000</code>, or a string to specify a range of origin ports, for example <code>"1000-2000"</code>. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the “protocol” field.
 
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
+maximum65535
 
-      - `number`
+minimum1
 
-      - `string`
+<a href="#">Link to this property</a>
 
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
+<details>
 
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
+<summary>
 
-      - `"off"`
+proxy\_protocol: optional "off"or "v1"or "v2"or "simple"
 
-      - `"v1"`
+Enables Proxy Protocol to the origin. Refer to <a href="https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/">Enable Proxy protocol</a> for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
 
-      - `"v2"`
+</summary>
 
-      - `"simple"`
+One of the following:
 
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
+"off"
 
-      The type of TLS termination associated with the application.
+<a href="#">Link to this property</a>
 
-      - `"off"`
+"v1"
 
-      - `"flexible"`
+<a href="#">Link to this property</a>
 
-      - `"full"`
+"v2"
 
-      - `"strict"`
+<a href="#">Link to this property</a>
 
-    - `virtual_network_id: optional string`
+"simple"
 
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
+<a href="#">Link to this property</a>
 
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      App identifier.
+<details>
 
-    - `created_on: string`
+<summary>
 
-      When the Application was created.
+tls: optional "off"or "flexible"or "full"or "strict"
 
-    - `dns: DNS`
+The type of TLS termination associated with the application.
 
-      The name and type of DNS record for the Spectrum application.
+</summary>
 
-    - `modified_on: string`
+One of the following:
 
-      When the Application was last modified.
+"off"
 
-    - `protocol: string`
+<a href="#">Link to this property</a>
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+"flexible"
 
-    - `origin_direct: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+"full"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"strict"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+virtual\_network\_id: optional string
 
-    - `pointer: optional string`
+Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatuuid
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+SpectrumConfigPaygoAppConfig object {id, created\_on, dns, 3 more }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+id: string
 
-- `result: optional object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
+App identifier.
 
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
+maxLength32
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      App identifier.
+created\_on: string
 
-    - `created_on: string`
+When the Application was created.
 
-      When the Application was created.
+formatdate-time
 
-    - `dns: DNS`
+<a href="#">Link to this property</a>
 
-      The name and type of DNS record for the Spectrum application.
+dns: <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20dns%20%3E%20(schema)">DNS</a> { name, type }
 
-      - `name: optional string`
+The name and type of DNS record for the Spectrum application.
 
-        The name of the DNS record associated with the application.
+<a href="#">Link to this property</a>
 
-      - `type: optional "CNAME" or "ADDRESS"`
+modified\_on: string
 
-        The type of DNS record associated with the application.
+When the Application was last modified.
 
-        - `"CNAME"`
+formatdate-time
 
-        - `"ADDRESS"`
+<a href="#">Link to this property</a>
 
-    - `modified_on: string`
+protocol: string
 
-      When the Application was last modified.
+The port configuration at Cloudflare’s edge. May specify a single port, for example <code>"tcp/1000"</code>, or a range of ports, for example <code>"tcp/1000-2000"</code>.
 
-    - `protocol: string`
+<a href="#">Link to this property</a>
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+origin\_direct: optional array of string
 
-    - `traffic_type: "direct" or "http" or "https"`
+List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
 
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
+<a href="#">Link to this property</a>
 
-      - `"direct"`
+</details>
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"https"`
+</details>
 
-    - `argo_smart_routing: optional boolean`
+[Link to this property](#)%20spectrum.apps%20%3E%20(model)%20app_create_response%20%3E%20(schema)>)
 
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
+<details>
 
-    - `edge_ips: optional EdgeIPs`
+<summary>
 
-      The anycast edge IP configuration for the hostname of this application.
+AppUpdateResponse = object {id, created\_on, dns, 12 more } or object {id, created\_on, dns, 3 more }
 
-      - `Dynamic object { connectivity, type }`
+</summary>
 
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
+One of the following:
 
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
+<details>
 
-          - `"all"`
+<summary>
 
-          - `"ipv4"`
+SpectrumConfigAppConfig object {id, created\_on, dns, 12 more }
 
-          - `"ipv6"`
+</summary>
 
-        - `type: optional "dynamic"`
+id: string
 
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
+App identifier.
 
-          - `"dynamic"`
+maxLength32
 
-      - `Static object { ips, type }`
+<a href="#">Link to this property</a>
 
-        - `ips: optional array of string`
+created\_on: string
 
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
+When the Application was created.
 
-        - `type: optional "static"`
+formatdate-time
 
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
+<a href="#">Link to this property</a>
 
-          - `"static"`
+dns: <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20dns%20%3E%20(schema)">DNS</a> { name, type }
 
-    - `ip_firewall: optional boolean`
+The name and type of DNS record for the Spectrum application.
 
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
+<a href="#">Link to this property</a>
 
-    - `origin_direct: optional array of string`
+modified\_on: string
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+When the Application was last modified.
 
-    - `origin_dns: optional OriginDNS`
+formatdate-time
 
-      The name and type of DNS record for the Spectrum application.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+protocol: string
 
-        The name of the DNS record associated with the origin.
+The port configuration at Cloudflare’s edge. May specify a single port, for example <code>"tcp/1000"</code>, or a range of ports, for example <code>"tcp/1000-2000"</code>.
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        The TTL of our resolution of your DNS record in seconds.
+<details>
 
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
+<summary>
 
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
+traffic\_type: "direct"or "http"or "https"
 
-        - `""`
+Determines how data travels from the edge to your origin. When set to “direct”, Spectrum will send traffic directly to your origin, and the application’s type is derived from the <code>protocol</code>. When set to “http” or “https”, Spectrum will apply Cloudflare’s HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
 
-        - `"A"`
+</summary>
 
-        - `"AAAA"`
+One of the following:
 
-        - `"SRV"`
+"direct"
 
-    - `origin_port: optional OriginPort`
+<a href="#">Link to this property</a>
 
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
+"http"
 
-      - `number`
+<a href="#">Link to this property</a>
 
-      - `string`
+"https"
 
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
+<a href="#">Link to this property</a>
 
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
+</details>
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"v1"`
+argo\_smart\_routing: optional boolean
 
-      - `"v2"`
+Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic\_type set to “direct”.
 
-      - `"simple"`
+<a href="#">Link to this property</a>
 
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
+edge\_ips: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20edge_ips%20%3E%20(schema)">EdgeIPs</a>
 
-      The type of TLS termination associated with the application.
+The anycast edge IP configuration for the hostname of this application.
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"flexible"`
+ip\_firewall: optional boolean
 
-      - `"full"`
+Enables IP Access Rules for this application. Notes: Only available for TCP applications.
 
-      - `"strict"`
+<a href="#">Link to this property</a>
 
-    - `virtual_network_id: optional string`
+origin\_direct: optional array of string
 
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
+List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
 
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+origin\_dns: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20origin_dns%20%3E%20(schema)">OriginDNS</a> { name, ttl, type }
 
-      App identifier.
+The name and type of DNS record for the Spectrum application.
 
-    - `created_on: string`
+<a href="#">Link to this property</a>
 
-      When the Application was created.
+origin\_port: optional <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20origin_port%20%3E%20(schema)">OriginPort</a>
 
-    - `dns: DNS`
+The destination port at the origin. Only specified in conjunction with origin\_dns. May use an integer to specify a single origin port, for example <code>1000</code>, or a string to specify a range of origin ports, for example <code>"1000-2000"</code>. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the “protocol” field.
 
-      The name and type of DNS record for the Spectrum application.
+maximum65535
 
-    - `modified_on: string`
+minimum1
 
-      When the Application was last modified.
+<a href="#">Link to this property</a>
 
-    - `protocol: string`
+<details>
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+<summary>
 
-    - `origin_direct: optional array of string`
+proxy\_protocol: optional "off"or "v1"or "v2"or "simple"
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+Enables Proxy Protocol to the origin. Refer to <a href="https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/">Enable Proxy protocol</a> for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/apps \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "dns": {},
-          "protocol": "tcp/22",
-          "traffic_type": "direct",
-          "argo_smart_routing": true,
-          "origin_port": 22,
-          "proxy_protocol": "off",
-          "tls": "off"
-        }'
-```
+One of the following:
 
-#### Response
+"off"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "dns": {
-      "name": "ssh.example.com",
-      "type": "CNAME"
-    },
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "protocol": "tcp/22",
-    "traffic_type": "direct",
-    "argo_smart_routing": true,
-    "edge_ips": {
-      "connectivity": "all",
-      "type": "dynamic"
-    },
-    "ip_firewall": false,
-    "origin_direct": [
-      "tcp://127.0.0.1:8080"
-    ],
-    "origin_dns": {
-      "name": "origin.example.com",
-      "ttl": 600,
-      "type": ""
-    },
-    "origin_port": 22,
-    "proxy_protocol": "off",
-    "tls": "off",
-    "virtual_network_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Spectrum application configuration using a name for the origin
+"v1"
 
-**put** `/zones/{zone_id}/spectrum/apps/{app_id}`
+<a href="#">Link to this property</a>
 
-Updates a previously existing application's configuration that uses a name for the origin.
+"v2"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"simple"
 
-  Zone identifier.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+</details>
 
-  App identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `body: object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
+<summary>
 
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
+tls: optional "off"or "flexible"or "full"or "strict"
 
-    - `id: string`
+The type of TLS termination associated with the application.
 
-      App identifier.
+</summary>
 
-    - `created_on: string`
+One of the following:
 
-      When the Application was created.
+"off"
 
-    - `dns: DNS`
+<a href="#">Link to this property</a>
 
-      The name and type of DNS record for the Spectrum application.
+"flexible"
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        The name of the DNS record associated with the application.
+"full"
 
-      - `type: optional "CNAME" or "ADDRESS"`
+<a href="#">Link to this property</a>
 
-        The type of DNS record associated with the application.
+"strict"
 
-        - `"CNAME"`
+<a href="#">Link to this property</a>
 
-        - `"ADDRESS"`
+</details>
 
-    - `modified_on: string`
+<a href="#">Link to this property</a>
 
-      When the Application was last modified.
+virtual\_network\_id: optional string
 
-    - `protocol: string`
+Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
 
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
+formatuuid
 
-    - `traffic_type: "direct" or "http" or "https"`
+<a href="#">Link to this property</a>
 
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
+</details>
 
-      - `"direct"`
+<a href="#">Link to this property</a>
 
-      - `"http"`
+<details>
 
-      - `"https"`
+<summary>
 
-    - `argo_smart_routing: optional boolean`
+SpectrumConfigPaygoAppConfig object {id, created\_on, dns, 3 more }
 
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
+</summary>
 
-    - `edge_ips: optional EdgeIPs`
+id: string
 
-      The anycast edge IP configuration for the hostname of this application.
+App identifier.
 
-      - `Dynamic object { connectivity, type }`
+maxLength32
 
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
+<a href="#">Link to this property</a>
 
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
+created\_on: string
 
-          - `"all"`
+When the Application was created.
 
-          - `"ipv4"`
+formatdate-time
 
-          - `"ipv6"`
+<a href="#">Link to this property</a>
 
-        - `type: optional "dynamic"`
+dns: <a href="https://developers.cloudflare.com/api/resources/spectrum#(resource)%20spectrum%20%3E%20(model)%20dns%20%3E%20(schema)">DNS</a> { name, type }
 
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
+The name and type of DNS record for the Spectrum application.
 
-          - `"dynamic"`
+<a href="#">Link to this property</a>
 
-      - `Static object { ips, type }`
+modified\_on: string
 
-        - `ips: optional array of string`
+When the Application was last modified.
 
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
+formatdate-time
 
-        - `type: optional "static"`
+<a href="#">Link to this property</a>
 
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
+protocol: string
 
-          - `"static"`
+The port configuration at Cloudflare’s edge. May specify a single port, for example <code>"tcp/1000"</code>, or a range of ports, for example <code>"tcp/1000-2000"</code>.
 
-    - `ip_firewall: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
+origin\_direct: optional array of string
 
-    - `origin_direct: optional array of string`
+List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
 
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
+<a href="#">Link to this property</a>
 
-    - `origin_dns: optional OriginDNS`
+</details>
 
-      The name and type of DNS record for the Spectrum application.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        The name of the DNS record associated with the origin.
+[Link to this property](#)%20spectrum.apps%20%3E%20(model)%20app_update_response%20%3E%20(schema)>)
 
-      - `ttl: optional number`
+<details>
 
-        The TTL of our resolution of your DNS record in seconds.
+<summary>
 
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
+AppDeleteResponse object {id }
 
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
+</summary>
 
-        - `""`
+id: string
 
-        - `"A"`
+Identifier.
 
-        - `"AAAA"`
+maxLength32
 
-        - `"SRV"`
+<a href="#">Link to this property</a>
 
-    - `origin_port: optional OriginPort`
+</details>
 
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
-
-      - `number`
-
-      - `string`
-
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
-
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
-
-      - `"off"`
-
-      - `"v1"`
-
-      - `"v2"`
-
-      - `"simple"`
-
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
-
-      The type of TLS termination associated with the application.
-
-      - `"off"`
-
-      - `"flexible"`
-
-      - `"full"`
-
-      - `"strict"`
-
-    - `virtual_network_id: optional string`
-
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
-
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
-
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the application.
-
-      - `type: optional "CNAME" or "ADDRESS"`
-
-        The type of DNS record associated with the application.
-
-        - `"CNAME"`
-
-        - `"ADDRESS"`
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `traffic_type: "direct" or "http" or "https"`
-
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
-
-      - `"direct"`
-
-      - `"http"`
-
-      - `"https"`
-
-    - `argo_smart_routing: optional boolean`
-
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
-
-    - `edge_ips: optional EdgeIPs`
-
-      The anycast edge IP configuration for the hostname of this application.
-
-      - `Dynamic object { connectivity, type }`
-
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
-
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
-
-          - `"all"`
-
-          - `"ipv4"`
-
-          - `"ipv6"`
-
-        - `type: optional "dynamic"`
-
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
-
-          - `"dynamic"`
-
-      - `Static object { ips, type }`
-
-        - `ips: optional array of string`
-
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
-
-        - `type: optional "static"`
-
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
-
-          - `"static"`
-
-    - `ip_firewall: optional boolean`
-
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-    - `origin_dns: optional OriginDNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the origin.
-
-      - `ttl: optional number`
-
-        The TTL of our resolution of your DNS record in seconds.
-
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
-
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
-
-        - `""`
-
-        - `"A"`
-
-        - `"AAAA"`
-
-        - `"SRV"`
-
-    - `origin_port: optional OriginPort`
-
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
-
-      - `number`
-
-      - `string`
-
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
-
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
-
-      - `"off"`
-
-      - `"v1"`
-
-      - `"v2"`
-
-      - `"simple"`
-
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
-
-      The type of TLS termination associated with the application.
-
-      - `"off"`
-
-      - `"flexible"`
-
-      - `"full"`
-
-      - `"strict"`
-
-    - `virtual_network_id: optional string`
-
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
-
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/apps/$APP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "dns": {},
-          "protocol": "tcp/22",
-          "traffic_type": "direct",
-          "argo_smart_routing": true,
-          "origin_port": 22,
-          "proxy_protocol": "off",
-          "tls": "off"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "dns": {
-      "name": "ssh.example.com",
-      "type": "CNAME"
-    },
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "protocol": "tcp/22",
-    "traffic_type": "direct",
-    "argo_smart_routing": true,
-    "edge_ips": {
-      "connectivity": "all",
-      "type": "dynamic"
-    },
-    "ip_firewall": false,
-    "origin_direct": [
-      "tcp://127.0.0.1:8080"
-    ],
-    "origin_dns": {
-      "name": "origin.example.com",
-      "ttl": 600,
-      "type": ""
-    },
-    "origin_port": 22,
-    "proxy_protocol": "off",
-    "tls": "off",
-    "virtual_network_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Delete Spectrum application
-
-**delete** `/zones/{zone_id}/spectrum/apps/{app_id}`
-
-Deletes a previously existing application.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Zone identifier.
-
-- `app_id: string`
-
-  App identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/apps/$APP_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### App List Response
-
-- `AppListResponse = object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
-
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the application.
-
-      - `type: optional "CNAME" or "ADDRESS"`
-
-        The type of DNS record associated with the application.
-
-        - `"CNAME"`
-
-        - `"ADDRESS"`
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `traffic_type: "direct" or "http" or "https"`
-
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
-
-      - `"direct"`
-
-      - `"http"`
-
-      - `"https"`
-
-    - `argo_smart_routing: optional boolean`
-
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
-
-    - `edge_ips: optional EdgeIPs`
-
-      The anycast edge IP configuration for the hostname of this application.
-
-      - `Dynamic object { connectivity, type }`
-
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
-
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
-
-          - `"all"`
-
-          - `"ipv4"`
-
-          - `"ipv6"`
-
-        - `type: optional "dynamic"`
-
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
-
-          - `"dynamic"`
-
-      - `Static object { ips, type }`
-
-        - `ips: optional array of string`
-
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
-
-        - `type: optional "static"`
-
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
-
-          - `"static"`
-
-    - `ip_firewall: optional boolean`
-
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-    - `origin_dns: optional OriginDNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the origin.
-
-      - `ttl: optional number`
-
-        The TTL of our resolution of your DNS record in seconds.
-
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
-
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
-
-        - `""`
-
-        - `"A"`
-
-        - `"AAAA"`
-
-        - `"SRV"`
-
-    - `origin_port: optional OriginPort`
-
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
-
-      - `number`
-
-      - `string`
-
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
-
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
-
-      - `"off"`
-
-      - `"v1"`
-
-      - `"v2"`
-
-      - `"simple"`
-
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
-
-      The type of TLS termination associated with the application.
-
-      - `"off"`
-
-      - `"flexible"`
-
-      - `"full"`
-
-      - `"strict"`
-
-    - `virtual_network_id: optional string`
-
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
-
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-### App Get Response
-
-- `AppGetResponse = object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
-
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the application.
-
-      - `type: optional "CNAME" or "ADDRESS"`
-
-        The type of DNS record associated with the application.
-
-        - `"CNAME"`
-
-        - `"ADDRESS"`
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `traffic_type: "direct" or "http" or "https"`
-
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
-
-      - `"direct"`
-
-      - `"http"`
-
-      - `"https"`
-
-    - `argo_smart_routing: optional boolean`
-
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
-
-    - `edge_ips: optional EdgeIPs`
-
-      The anycast edge IP configuration for the hostname of this application.
-
-      - `Dynamic object { connectivity, type }`
-
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
-
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
-
-          - `"all"`
-
-          - `"ipv4"`
-
-          - `"ipv6"`
-
-        - `type: optional "dynamic"`
-
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
-
-          - `"dynamic"`
-
-      - `Static object { ips, type }`
-
-        - `ips: optional array of string`
-
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
-
-        - `type: optional "static"`
-
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
-
-          - `"static"`
-
-    - `ip_firewall: optional boolean`
-
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-    - `origin_dns: optional OriginDNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the origin.
-
-      - `ttl: optional number`
-
-        The TTL of our resolution of your DNS record in seconds.
-
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
-
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
-
-        - `""`
-
-        - `"A"`
-
-        - `"AAAA"`
-
-        - `"SRV"`
-
-    - `origin_port: optional OriginPort`
-
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
-
-      - `number`
-
-      - `string`
-
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
-
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
-
-      - `"off"`
-
-      - `"v1"`
-
-      - `"v2"`
-
-      - `"simple"`
-
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
-
-      The type of TLS termination associated with the application.
-
-      - `"off"`
-
-      - `"flexible"`
-
-      - `"full"`
-
-      - `"strict"`
-
-    - `virtual_network_id: optional string`
-
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
-
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-### App Create Response
-
-- `AppCreateResponse = object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
-
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the application.
-
-      - `type: optional "CNAME" or "ADDRESS"`
-
-        The type of DNS record associated with the application.
-
-        - `"CNAME"`
-
-        - `"ADDRESS"`
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `traffic_type: "direct" or "http" or "https"`
-
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
-
-      - `"direct"`
-
-      - `"http"`
-
-      - `"https"`
-
-    - `argo_smart_routing: optional boolean`
-
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
-
-    - `edge_ips: optional EdgeIPs`
-
-      The anycast edge IP configuration for the hostname of this application.
-
-      - `Dynamic object { connectivity, type }`
-
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
-
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
-
-          - `"all"`
-
-          - `"ipv4"`
-
-          - `"ipv6"`
-
-        - `type: optional "dynamic"`
-
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
-
-          - `"dynamic"`
-
-      - `Static object { ips, type }`
-
-        - `ips: optional array of string`
-
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
-
-        - `type: optional "static"`
-
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
-
-          - `"static"`
-
-    - `ip_firewall: optional boolean`
-
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-    - `origin_dns: optional OriginDNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the origin.
-
-      - `ttl: optional number`
-
-        The TTL of our resolution of your DNS record in seconds.
-
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
-
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
-
-        - `""`
-
-        - `"A"`
-
-        - `"AAAA"`
-
-        - `"SRV"`
-
-    - `origin_port: optional OriginPort`
-
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
-
-      - `number`
-
-      - `string`
-
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
-
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
-
-      - `"off"`
-
-      - `"v1"`
-
-      - `"v2"`
-
-      - `"simple"`
-
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
-
-      The type of TLS termination associated with the application.
-
-      - `"off"`
-
-      - `"flexible"`
-
-      - `"full"`
-
-      - `"strict"`
-
-    - `virtual_network_id: optional string`
-
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
-
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-### App Update Response
-
-- `AppUpdateResponse = object { id, created_on, dns, 12 more }  or object { id, created_on, dns, 3 more }`
-
-  - `SpectrumConfigAppConfig object { id, created_on, dns, 12 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the application.
-
-      - `type: optional "CNAME" or "ADDRESS"`
-
-        The type of DNS record associated with the application.
-
-        - `"CNAME"`
-
-        - `"ADDRESS"`
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `traffic_type: "direct" or "http" or "https"`
-
-      Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.
-
-      - `"direct"`
-
-      - `"http"`
-
-      - `"https"`
-
-    - `argo_smart_routing: optional boolean`
-
-      Enables Argo Smart Routing for this application.
-      Notes: Only available for TCP applications with traffic_type set to "direct".
-
-    - `edge_ips: optional EdgeIPs`
-
-      The anycast edge IP configuration for the hostname of this application.
-
-      - `Dynamic object { connectivity, type }`
-
-        - `connectivity: optional "all" or "ipv4" or "ipv6"`
-
-          The IP versions supported for inbound connections on Spectrum anycast IPs.
-
-          - `"all"`
-
-          - `"ipv4"`
-
-          - `"ipv6"`
-
-        - `type: optional "dynamic"`
-
-          The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.
-
-          - `"dynamic"`
-
-      - `Static object { ips, type }`
-
-        - `ips: optional array of string`
-
-          The array of customer owned IPs we broadcast via anycast for this hostname and application.
-
-        - `type: optional "static"`
-
-          The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.
-
-          - `"static"`
-
-    - `ip_firewall: optional boolean`
-
-      Enables IP Access Rules for this application.
-      Notes: Only available for TCP applications.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-    - `origin_dns: optional OriginDNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-      - `name: optional string`
-
-        The name of the DNS record associated with the origin.
-
-      - `ttl: optional number`
-
-        The TTL of our resolution of your DNS record in seconds.
-
-      - `type: optional "" or "A" or "AAAA" or "SRV"`
-
-        The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.
-
-        - `""`
-
-        - `"A"`
-
-        - `"AAAA"`
-
-        - `"SRV"`
-
-    - `origin_port: optional OriginPort`
-
-      The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.
-      Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field.
-
-      - `number`
-
-      - `string`
-
-    - `proxy_protocol: optional "off" or "v1" or "v2" or "simple"`
-
-      Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.
-
-      - `"off"`
-
-      - `"v1"`
-
-      - `"v2"`
-
-      - `"simple"`
-
-    - `tls: optional "off" or "flexible" or "full" or "strict"`
-
-      The type of TLS termination associated with the application.
-
-      - `"off"`
-
-      - `"flexible"`
-
-      - `"full"`
-
-      - `"strict"`
-
-    - `virtual_network_id: optional string`
-
-      Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.
-
-  - `SpectrumConfigPaygoAppConfig object { id, created_on, dns, 3 more }`
-
-    - `id: string`
-
-      App identifier.
-
-    - `created_on: string`
-
-      When the Application was created.
-
-    - `dns: DNS`
-
-      The name and type of DNS record for the Spectrum application.
-
-    - `modified_on: string`
-
-      When the Application was last modified.
-
-    - `protocol: string`
-
-      The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.
-
-    - `origin_direct: optional array of string`
-
-      List of origin IP addresses. Array may contain multiple IP addresses for load balancing.
-
-### App Delete Response
-
-- `AppDeleteResponse object { id }`
-
-  - `id: string`
-
-    Identifier.
+[Link to this property](#)%20spectrum.apps%20%3E%20(model)%20app_delete_response%20%3E%20(schema)>)

@@ -1,279 +1,99 @@
+---
+title: Connectivity Precheck
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Super Slurper](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Connectivity Precheck
 
-## Check source connectivity
+##### [Check source connectivity](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/connectivity_precheck/methods/source)
 
-**put** `/accounts/{account_id}/slurper/source/connectivity-precheck`
+PUT/accounts/{account\_id}/slurper/source/connectivity-precheck
 
-Check whether tokens are valid against the source bucket
+##### [Check target connectivity](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/connectivity_precheck/methods/target)
 
-### Path Parameters
+PUT/accounts/{account\_id}/slurper/target/connectivity-precheck
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Body Parameters
+<details>
 
-- `body: object { bucket, secret, vendor, 4 more }  or object { bucket, secret, vendor, 2 more }  or object { bucket, secret, vendor, 3 more }`
+<summary>
 
-  - `R2SlurperS3SourceSchema object { bucket, secret, vendor, 4 more }`
+ConnectivityPrecheckSourceResponse object {connectivityStatus }
 
-    - `bucket: string`
+</summary>
 
-    - `secret: object { accessKeyId, secretAccessKey }`
+<details>
 
-      - `accessKeyId: string`
+<summary>
 
-      - `secretAccessKey: string`
+connectivityStatus: optional "success"or "error"
 
-    - `vendor: "s3"`
+</summary>
 
-      - `"s3"`
+One of the following:
 
-    - `endpoint: optional string`
+"success"
 
-      Custom S3-compatible endpoint that must use https://.
+<a href="#">Link to this property</a>
 
-    - `keys: optional array of string`
+"error"
 
-    - `pathPrefix: optional string`
+<a href="#">Link to this property</a>
 
-    - `region: optional string`
+</details>
 
-  - `R2SlurperGcsSourceSchema object { bucket, secret, vendor, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `bucket: string`
+</details>
 
-    - `secret: object { clientEmail, privateKey }`
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(model)%20connectivity_precheck_source_response%20%3E%20(schema)>)
 
-      - `clientEmail: string`
+<details>
 
-      - `privateKey: string`
+<summary>
 
-    - `vendor: "gcs"`
+ConnectivityPrecheckTargetResponse object {connectivityStatus }
 
-      - `"gcs"`
+</summary>
 
-    - `keys: optional array of string`
+<details>
 
-    - `pathPrefix: optional string`
+<summary>
 
-  - `R2SlurperR2SourceSchema object { bucket, secret, vendor, 3 more }`
+connectivityStatus: optional "success"or "error"
 
-    - `bucket: string`
+</summary>
 
-    - `secret: object { accessKeyId, secretAccessKey }`
+One of the following:
 
-      - `accessKeyId: string`
+"success"
 
-      - `secretAccessKey: string`
+<a href="#">Link to this property</a>
 
-    - `vendor: Provider`
+"error"
 
-      - `"r2"`
+<a href="#">Link to this property</a>
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+</details>
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-      - `"eu"`
+</details>
 
-      - `"fedramp"`
-
-    - `keys: optional array of string`
-
-    - `pathPrefix: optional string`
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional object { connectivityStatus }`
-
-  - `connectivityStatus: optional "success" or "error"`
-
-    - `"success"`
-
-    - `"error"`
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/source/connectivity-precheck \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bucket": "bucket",
-          "secret": {
-            "accessKeyId": "accessKeyId",
-            "secretAccessKey": "secretAccessKey"
-          },
-          "vendor": "s3"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "connectivityStatus": "success"
-  },
-  "success": true
-}
-```
-
-## Check target connectivity
-
-**put** `/accounts/{account_id}/slurper/target/connectivity-precheck`
-
-Check whether tokens are valid against the target bucket
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `bucket: string`
-
-- `secret: object { accessKeyId, secretAccessKey }`
-
-  - `accessKeyId: string`
-
-  - `secretAccessKey: string`
-
-- `vendor: Provider`
-
-  - `"r2"`
-
-- `jurisdiction: optional "default" or "eu" or "fedramp"`
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional object { connectivityStatus }`
-
-  - `connectivityStatus: optional "success" or "error"`
-
-    - `"success"`
-
-    - `"error"`
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/target/connectivity-precheck \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bucket": "bucket",
-          "secret": {
-            "accessKeyId": "accessKeyId",
-            "secretAccessKey": "secretAccessKey"
-          },
-          "vendor": "r2"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "connectivityStatus": "success"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Connectivity Precheck Source Response
-
-- `ConnectivityPrecheckSourceResponse object { connectivityStatus }`
-
-  - `connectivityStatus: optional "success" or "error"`
-
-    - `"success"`
-
-    - `"error"`
-
-### Connectivity Precheck Target Response
-
-- `ConnectivityPrecheckTargetResponse object { connectivityStatus }`
-
-  - `connectivityStatus: optional "success" or "error"`
-
-    - `"success"`
-
-    - `"error"`
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(model)%20connectivity_precheck_target_response%20%3E%20(schema)>)

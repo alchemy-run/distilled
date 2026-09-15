@@ -1,1518 +1,657 @@
+---
+title: Billing
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Billing
 
-## Get credit balance
+##### [Get credit balance](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/methods/credit_balance)
 
-**get** `/accounts/{account_id}/ai-gateway/billing/credit-balance`
+GET/accounts/{account\_id}/ai-gateway/billing/credit-balance
 
-Retrieve the current credit balance, payment method info, and top-up configuration.
+##### [Get usage history](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/methods/usage_history)
 
-### Path Parameters
+GET/accounts/{account\_id}/ai-gateway/billing/usage-history
 
-- `account_id: string`
+##### [Get invoice history](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/methods/invoice_history)
 
-### Returns
+GET/accounts/{account\_id}/ai-gateway/billing/invoice-history
 
-- `errors: array of object { code, message }`
+##### [Get invoice preview](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/methods/invoice_preview)
 
-  - `code: number`
+GET/accounts/{account\_id}/ai-gateway/billing/invoice-preview
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-- `messages: array of object { code, message }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+BillingCreditBalanceResponse object {balance, has\_default\_payment\_method, payment\_method, 2 more }
 
-- `result: object { balance, has_default_payment_method, payment_method, 2 more }`
+</summary>
 
-  - `balance: number`
+balance: number
 
-  - `has_default_payment_method: boolean`
+<a href="#">Link to this property</a>
 
-  - `payment_method: object { brand, last4 }`
+has\_default\_payment\_method: boolean
 
-    - `brand: optional string`
+<a href="#">Link to this property</a>
 
-    - `last4: optional string`
+<details>
 
-  - `topup_config: object { amount, disabledReason, error, 2 more }`
+<summary>
 
-    - `amount: number`
+payment\_method: object {brand, last4 }
 
-    - `disabledReason: string`
+</summary>
 
-    - `error: string`
+brand: optional string
 
-    - `lastFailedAt: number`
+<a href="#">Link to this property</a>
 
-    - `threshold: number`
+last4: optional string
 
-  - `first_topup_success: optional boolean`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<details>
 
-  - `has_more: boolean`
+<summary>
 
-  - `page: number`
+topup\_config: object {amount, threshold, disabledReason, 2 more }
 
-  - `per_page: number`
+</summary>
 
-  - `total_count: number`
+amount: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/credit-balance \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+threshold: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "balance": 0,
-    "has_default_payment_method": true,
-    "payment_method": {
-      "brand": "brand",
-      "last4": "last4"
-    },
-    "topup_config": {
-      "amount": 0,
-      "disabledReason": "disabledReason",
-      "error": "error",
-      "lastFailedAt": 0,
-      "threshold": 0
-    },
-    "first_topup_success": true
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+disabledReason: optional string
 
-## Get usage history
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-gateway/billing/usage-history`
+error: optional string
 
-Retrieve aggregated usage meter event summaries for the given time range.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+lastFailedAt: optional number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `value_grouping_window: "day" or "hour"`
+<a href="#">Link to this property</a>
 
-  Grouping window for usage data.
+first\_topup\_success: optional boolean
 
-  - `"day"`
+<a href="#">Link to this property</a>
 
-  - `"hour"`
+</details>
 
-- `end_time: optional number`
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(model)%20billing_credit_balance_response%20%3E%20(schema)>)
 
-  End time as Unix timestamp in milliseconds.
+<details>
 
-- `start_time: optional number`
+<summary>
 
-  Start time as Unix timestamp in milliseconds.
+BillingUsageHistoryResponse object {history }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+history: array of object {id, aggregated\_value, end\_time, start\_time }
 
-- `messages: array of object { code, message }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { history }`
+aggregated\_value: number
 
-  - `history: array of object { id, aggregated_value, end_time, start_time }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+end\_time: number
 
-    - `aggregated_value: number`
+<a href="#">Link to this property</a>
 
-    - `end_time: number`
+start\_time: number
 
-    - `start_time: number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+</details>
 
-  - `has_more: boolean`
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(model)%20billing_usage_history_response%20%3E%20(schema)>)
 
-  - `page: number`
+<details>
 
-  - `per_page: number`
+<summary>
 
-  - `total_count: number`
+BillingInvoiceHistoryResponse object {invoices, pagination }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/usage-history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "history": [
-      {
-        "id": "id",
-        "aggregated_value": 0,
-        "end_time": 0,
-        "start_time": 0
-      }
-    ]
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+invoices: array of object {amount\_due, amount\_paid, amount\_remaining, 11 more }
 
-## Get invoice history
+</summary>
 
-**get** `/accounts/{account_id}/ai-gateway/billing/invoice-history`
+amount\_due: number
 
-Retrieve a list of past invoices with pagination, optionally filtered by type.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+amount\_paid: number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+amount\_remaining: number
 
-- `type: optional "auto" or "all" or "manual"`
+<a href="#">Link to this property</a>
 
-  Filter invoice type: auto, manual, or all.
+currency: string
 
-  - `"auto"`
+<a href="#">Link to this property</a>
 
-  - `"all"`
+id: optional string
 
-  - `"manual"`
+<a href="#">Link to this property</a>
 
-### Returns
+attempt\_count: optional number
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+attempted: optional boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+auto\_advance: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created: optional number
 
-- `result: object { invoices, pagination }`
+<a href="#">Link to this property</a>
 
-  - `invoices: array of object { amount_due, amount_paid, amount_remaining, 11 more }`
+created\_by: optional string
 
-    - `amount_due: number`
+<a href="#">Link to this property</a>
 
-    - `amount_paid: number`
+description: optional string
 
-    - `amount_remaining: number`
+<a href="#">Link to this property</a>
 
-    - `currency: string`
+invoice\_origin: optional string
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `attempt_count: optional number`
+invoice\_pdf: optional string
 
-    - `attempted: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `auto_advance: optional boolean`
+status: optional string
 
-    - `created: optional number`
+<a href="#">Link to this property</a>
 
-    - `created_by: optional string`
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-    - `invoice_origin: optional string`
+<details>
 
-    - `invoice_pdf: optional string`
+<summary>
 
-    - `status: optional string`
+pagination: object {has\_more, page, per\_page, total\_count }
 
-  - `pagination: object { has_more, page, per_page, total_count }`
+</summary>
 
-    - `has_more: boolean`
+has\_more: boolean
 
-    - `page: number`
+<a href="#">Link to this property</a>
 
-    - `per_page: number`
+page: number
 
-    - `total_count: number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+per\_page: number
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+total\_count: number
 
-  - `has_more: boolean`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+</details>
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+</details>
 
-### Example
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(model)%20billing_invoice_history_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/invoice-history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "invoices": [
-      {
-        "amount_due": 0,
-        "amount_paid": 0,
-        "amount_remaining": 0,
-        "currency": "currency",
-        "id": "id",
-        "attempt_count": 0,
-        "attempted": true,
-        "auto_advance": true,
-        "created": 0,
-        "created_by": "created_by",
-        "description": "description",
-        "invoice_origin": "invoice_origin",
-        "invoice_pdf": "invoice_pdf",
-        "status": "status"
-      }
-    ],
-    "pagination": {
-      "has_more": true,
-      "page": 0,
-      "per_page": 0,
-      "total_count": 0
-    }
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+BillingInvoicePreviewResponse object {id, amount\_due, amount\_paid, 6 more }
 
-## Get invoice preview
+</summary>
 
-**get** `/accounts/{account_id}/ai-gateway/billing/invoice-preview`
+id: string
 
-Retrieve a preview of the upcoming invoice including line items and tax.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+amount\_due: number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+amount\_paid: number
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+amount\_remaining: number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+currency: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `result: object { id, amount_due, amount_paid, 6 more }`
+<summary>
 
-  - `id: string`
+invoice\_lines: array of object {amount, currency, description, 4 more }
 
-  - `amount_due: number`
+</summary>
 
-  - `amount_paid: number`
+amount: number
 
-  - `amount_remaining: number`
+<a href="#">Link to this property</a>
 
-  - `currency: string`
+currency: string
 
-  - `invoice_lines: array of object { amount, currency, description, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `amount: number`
+description: string
 
-    - `currency: string`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+<details>
 
-    - `period: object { end, start }`
+<summary>
 
-      - `end: number`
+period: object {end, start }
 
-      - `start: number`
+</summary>
 
-    - `pricing: object { unit_amount_decimal }`
+end: number
 
-      - `unit_amount_decimal: string`
+<a href="#">Link to this property</a>
 
-    - `quantity: number`
+start: number
 
-    - `pretax_credit_amounts: optional array of object { amount, type, credit_balance_transaction, discount }`
+<a href="#">Link to this property</a>
 
-      - `amount: number`
+</details>
 
-      - `type: string`
+<a href="#">Link to this property</a>
 
-      - `credit_balance_transaction: optional string`
+<details>
 
-      - `discount: optional string`
+<summary>
 
-  - `period_end: number`
+pricing: object {unit\_amount\_decimal }
 
-  - `period_start: number`
+</summary>
 
-  - `status: "draft" or "open" or "paid" or 2 more`
+unit\_amount\_decimal: string
 
-    - `"draft"`
+<a href="#">Link to this property</a>
 
-    - `"open"`
+</details>
 
-    - `"paid"`
+<a href="#">Link to this property</a>
 
-    - `"uncollectible"`
+quantity: number
 
-    - `"void"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+pretax\_credit\_amounts: optional array of object {amount, type, credit\_balance\_transaction, discount }
 
-  - `has_more: boolean`
+</summary>
 
-  - `page: number`
+amount: number
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+type: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/invoice-preview \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+credit\_balance\_transaction: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "id",
-    "amount_due": 0,
-    "amount_paid": 0,
-    "amount_remaining": 0,
-    "currency": "currency",
-    "invoice_lines": [
-      {
-        "amount": 0,
-        "currency": "currency",
-        "description": "description",
-        "period": {
-          "end": 0,
-          "start": 0
-        },
-        "pricing": {
-          "unit_amount_decimal": "unit_amount_decimal"
-        },
-        "quantity": 0,
-        "pretax_credit_amounts": [
-          {
-            "amount": 0,
-            "type": "type",
-            "credit_balance_transaction": "credit_balance_transaction",
-            "discount": "discount"
-          }
-        ]
-      }
-    ],
-    "period_end": 0,
-    "period_start": 0,
-    "status": "draft"
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+discount: optional string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Billing Credit Balance Response
+</details>
 
-- `BillingCreditBalanceResponse object { balance, has_default_payment_method, payment_method, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `balance: number`
+</details>
 
-  - `has_default_payment_method: boolean`
+<a href="#">Link to this property</a>
 
-  - `payment_method: object { brand, last4 }`
+period\_end: number
 
-    - `brand: optional string`
+<a href="#">Link to this property</a>
 
-    - `last4: optional string`
+period\_start: number
 
-  - `topup_config: object { amount, disabledReason, error, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `amount: number`
+<details>
 
-    - `disabledReason: string`
+<summary>
 
-    - `error: string`
+status: "draft"or "open"or "paid"or 2 more
 
-    - `lastFailedAt: number`
+</summary>
 
-    - `threshold: number`
+One of the following:
 
-  - `first_topup_success: optional boolean`
+"draft"
 
-### Billing Usage History Response
+<a href="#">Link to this property</a>
 
-- `BillingUsageHistoryResponse object { history }`
+"open"
 
-  - `history: array of object { id, aggregated_value, end_time, start_time }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"paid"
 
-    - `aggregated_value: number`
+<a href="#">Link to this property</a>
 
-    - `end_time: number`
+"uncollectible"
 
-    - `start_time: number`
+<a href="#">Link to this property</a>
 
-### Billing Invoice History Response
+"void"
 
-- `BillingInvoiceHistoryResponse object { invoices, pagination }`
+<a href="#">Link to this property</a>
 
-  - `invoices: array of object { amount_due, amount_paid, amount_remaining, 11 more }`
+</details>
 
-    - `amount_due: number`
+<a href="#">Link to this property</a>
 
-    - `amount_paid: number`
+</details>
 
-    - `amount_remaining: number`
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(model)%20billing_invoice_preview_response%20%3E%20(schema)>)
 
-    - `currency: string`
+#### BillingTopup
 
-    - `id: optional string`
+##### [Create a top-up](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/methods/create)
 
-    - `attempt_count: optional number`
+POST/accounts/{account\_id}/ai-gateway/billing/topup
 
-    - `attempted: optional boolean`
+##### [Check top-up status](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/methods/status)
 
-    - `auto_advance: optional boolean`
+POST/accounts/{account\_id}/ai-gateway/billing/topup/status
 
-    - `created: optional number`
+##### ModelsExpand Collapse
 
-    - `created_by: optional string`
+<details>
 
-    - `description: optional string`
+<summary>
 
-    - `invoice_origin: optional string`
+TopupCreateResponse object {client\_secret, onboarding, payment\_intent\_id, 2 more }
 
-    - `invoice_pdf: optional string`
+</summary>
 
-    - `status: optional string`
+client\_secret: string
 
-  - `pagination: object { has_more, page, per_page, total_count }`
+Stripe PaymentIntent client secret.
 
-    - `has_more: boolean`
+<a href="#">Link to this property</a>
 
-    - `page: number`
+onboarding: boolean
 
-    - `per_page: number`
+Whether the user was already onboarded.
 
-    - `total_count: number`
+<a href="#">Link to this property</a>
 
-### Billing Invoice Preview Response
+payment\_intent\_id: string
 
-- `BillingInvoicePreviewResponse object { id, amount_due, amount_paid, 6 more }`
+Stripe invoice ID.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `amount_due: number`
+brand: optional string
 
-  - `amount_paid: number`
+Card brand (visa, mastercard, etc.).
 
-  - `amount_remaining: number`
+<a href="#">Link to this property</a>
 
-  - `currency: string`
+last4: optional string
 
-  - `invoice_lines: array of object { amount, currency, description, 4 more }`
+Last 4 digits of card.
 
-    - `amount: number`
+<a href="#">Link to this property</a>
 
-    - `currency: string`
+</details>
 
-    - `description: string`
+[Link to this property](#)%20ai_gateway.billing.topup%20%3E%20(model)%20topup_create_response%20%3E%20(schema)>)
 
-    - `period: object { end, start }`
+<details>
 
-      - `end: number`
+<summary>
 
-      - `start: number`
+TopupStatusResponse object {payment\_intent\_id, status }
 
-    - `pricing: object { unit_amount_decimal }`
+</summary>
 
-      - `unit_amount_decimal: string`
+payment\_intent\_id: string
 
-    - `quantity: number`
+<a href="#">Link to this property</a>
 
-    - `pretax_credit_amounts: optional array of object { amount, type, credit_balance_transaction, discount }`
+<details>
 
-      - `amount: number`
+<summary>
 
-      - `type: string`
+status: "completed"or "pending"
 
-      - `credit_balance_transaction: optional string`
+</summary>
 
-      - `discount: optional string`
+One of the following:
 
-  - `period_end: number`
+"completed"
 
-  - `period_start: number`
+<a href="#">Link to this property</a>
 
-  - `status: "draft" or "open" or "paid" or 2 more`
+"pending"
 
-    - `"draft"`
+<a href="#">Link to this property</a>
 
-    - `"open"`
+</details>
 
-    - `"paid"`
+<a href="#">Link to this property</a>
 
-    - `"uncollectible"`
+</details>
 
-    - `"void"`
+[Link to this property](#)%20ai_gateway.billing.topup%20%3E%20(model)%20topup_status_response%20%3E%20(schema)>)
 
-# Topup
+#### BillingTopupConfig
 
-## Create a top-up
+##### [Get auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/get)
 
-**post** `/accounts/{account_id}/ai-gateway/billing/topup`
+GET/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-Create a credit top-up via Stripe PaymentIntent for the given account.
+##### [Set auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-- `account_id: string`
+##### [Delete auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/delete)
 
-### Body Parameters
+DELETE/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-- `amount: number`
+##### ModelsExpand Collapse
 
-  Top-up amount in cents (min 1000).
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message }`
+ConfigGetResponse object {amount, threshold, disabledReason, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+amount: number
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+threshold: number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { client_secret, onboarding, payment_intent_id, 2 more }`
+disabledReason: optional string
 
-  - `client_secret: string`
+<a href="#">Link to this property</a>
 
-    Stripe PaymentIntent client secret.
+error: optional string
 
-  - `onboarding: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the user was already onboarded.
+lastFailedAt: optional number
 
-  - `payment_intent_id: string`
+<a href="#">Link to this property</a>
 
-    Stripe invoice ID.
+</details>
 
-  - `brand: optional string`
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_get_response%20%3E%20(schema)>)
 
-    Card brand (visa, mastercard, etc.).
+<details>
 
-  - `last4: optional string`
+<summary>
 
-    Last 4 digits of card.
+ConfigCreateResponse object {amount, threshold }
 
-- `success: true`
+</summary>
 
-  - `true`
+amount: number
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `has_more: boolean`
+threshold: number
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+</details>
 
-  - `total_count: number`
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_create_response%20%3E%20(schema)>)
 
-### Example
+ConfigDeleteResponse = unknown
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 5000
-        }'
-```
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_delete_response%20%3E%20(schema)>)
 
-#### Response
+#### BillingSpending Limit
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "client_secret": "client_secret",
-    "onboarding": true,
-    "payment_intent_id": "payment_intent_id",
-    "brand": "brand",
-    "last4": "last4"
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+##### [Get spending limit](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/get)
 
-## Check top-up status
+GET/accounts/{account\_id}/ai-gateway/billing/spending-limit
 
-**post** `/accounts/{account_id}/ai-gateway/billing/topup/status`
+##### [Set spending limit (deprecated)](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/create)
 
-Get the payment processing status of a top-up by its invoice ID.
+Deprecated
 
-### Path Parameters
+POST/accounts/{account\_id}/ai-gateway/billing/spending-limit
 
-- `account_id: string`
+##### [Delete spending limit](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/delete)
 
-### Body Parameters
+DELETE/accounts/{account\_id}/ai-gateway/billing/spending-limit
 
-- `payment_intent_id: string`
+##### ModelsExpand Collapse
 
-  Stripe invoice ID to check status for.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message }`
+SpendingLimitGetResponse object {config, enabled }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-- `messages: array of object { code, message }`
+<summary>
 
-  - `code: number`
+config: object {amount, duration, strategy }
 
-  - `message: string`
+</summary>
 
-- `result: object { payment_intent_id, status }`
+amount: number
 
-  - `payment_intent_id: string`
+<a href="#">Link to this property</a>
 
-  - `status: "completed" or "pending"`
+duration: string
 
-    - `"completed"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+strategy: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `has_more: boolean`
+enabled: boolean
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+</details>
 
-  - `total_count: number`
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_get_response%20%3E%20(schema)>)
 
-### Example
+SpendingLimitCreateResponse = unknown
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/status \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "payment_intent_id": "in_1abc"
-        }'
-```
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_create_response%20%3E%20(schema)>)
 
-#### Response
+SpendingLimitDeleteResponse = unknown
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "payment_intent_id": "payment_intent_id",
-    "status": "completed"
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Domain Types
-
-### Topup Create Response
-
-- `TopupCreateResponse object { client_secret, onboarding, payment_intent_id, 2 more }`
-
-  - `client_secret: string`
-
-    Stripe PaymentIntent client secret.
-
-  - `onboarding: boolean`
-
-    Whether the user was already onboarded.
-
-  - `payment_intent_id: string`
-
-    Stripe invoice ID.
-
-  - `brand: optional string`
-
-    Card brand (visa, mastercard, etc.).
-
-  - `last4: optional string`
-
-    Last 4 digits of card.
-
-### Topup Status Response
-
-- `TopupStatusResponse object { payment_intent_id, status }`
-
-  - `payment_intent_id: string`
-
-  - `status: "completed" or "pending"`
-
-    - `"completed"`
-
-    - `"pending"`
-
-# Config
-
-## Get auto top-up configuration
-
-**get** `/accounts/{account_id}/ai-gateway/billing/topup/config`
-
-Retrieve the current auto top-up threshold, amount, and any error state.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: object { amount, disabledReason, error, 2 more }`
-
-  - `amount: number`
-
-  - `disabledReason: string`
-
-  - `error: string`
-
-  - `lastFailedAt: number`
-
-  - `threshold: number`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "amount": 0,
-    "disabledReason": "disabledReason",
-    "error": "error",
-    "lastFailedAt": 0,
-    "threshold": 0
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Set auto top-up configuration
-
-**post** `/accounts/{account_id}/ai-gateway/billing/topup/config`
-
-Configure auto top-up with a balance threshold and top-up amount.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `amount: number`
-
-  Auto top-up amount in cents (min 1000).
-
-- `threshold: number`
-
-  Balance threshold in cents that triggers auto top-up (min 500).
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: object { amount, threshold }`
-
-  - `amount: number`
-
-  - `threshold: number`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 5000,
-          "threshold": 500
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "amount": 0,
-    "threshold": 0
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Delete auto top-up configuration
-
-**delete** `/accounts/{account_id}/ai-gateway/billing/topup/config`
-
-Remove the auto top-up configuration for the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Domain Types
-
-### Config Get Response
-
-- `ConfigGetResponse object { amount, disabledReason, error, 2 more }`
-
-  - `amount: number`
-
-  - `disabledReason: string`
-
-  - `error: string`
-
-  - `lastFailedAt: number`
-
-  - `threshold: number`
-
-### Config Create Response
-
-- `ConfigCreateResponse object { amount, threshold }`
-
-  - `amount: number`
-
-  - `threshold: number`
-
-### Config Delete Response
-
-- `ConfigDeleteResponse = unknown`
-
-# Spending Limit
-
-## Get spending limit
-
-**get** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
-
-Retrieve the current spending limit configuration for the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: object { config, enabled }`
-
-  - `config: object { amount, duration, strategy }`
-
-    - `amount: number`
-
-    - `duration: string`
-
-    - `strategy: string`
-
-  - `enabled: boolean`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "config": {
-      "amount": 0,
-      "duration": "duration",
-      "strategy": "strategy"
-    },
-    "enabled": true
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Set spending limit (deprecated)
-
-**post** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
-
-Deprecated: spending limits can no longer be created, enabled, or modified and this endpoint always responds 403. Use the new AI Gateway spend limits instead: https://developers.cloudflare.com/ai-gateway/features/spend-limits/. Existing limits can be removed via DELETE /spending-limit.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `amount: number`
-
-  Spending limit amount in cents (min 100).
-
-- `duration: "daily" or "weekly" or "monthly"`
-
-  Spending limit duration.
-
-  - `"daily"`
-
-  - `"weekly"`
-
-  - `"monthly"`
-
-- `strategy: "fixed" or "sliding"`
-
-  Spending limit strategy.
-
-  - `"fixed"`
-
-  - `"sliding"`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 10000,
-          "duration": "monthly",
-          "strategy": "fixed"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Delete spending limit
-
-**delete** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
-
-Remove the spending limit for the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Domain Types
-
-### Spending Limit Get Response
-
-- `SpendingLimitGetResponse object { config, enabled }`
-
-  - `config: object { amount, duration, strategy }`
-
-    - `amount: number`
-
-    - `duration: string`
-
-    - `strategy: string`
-
-  - `enabled: boolean`
-
-### Spending Limit Create Response
-
-- `SpendingLimitCreateResponse = unknown`
-
-### Spending Limit Delete Response
-
-- `SpendingLimitDeleteResponse = unknown`
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_delete_response%20%3E%20(schema)>)

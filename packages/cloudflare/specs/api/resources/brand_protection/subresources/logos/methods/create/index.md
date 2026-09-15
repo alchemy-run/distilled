@@ -1,40 +1,110 @@
-## Create new saved logo queries from image files
+---
+title: Create new saved logo queries from image files
+---
 
-**post** `/accounts/{account_id}/brand-protection/logos`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+[Logos](https://developers.cloudflare.com/api/resources/brand_protection/subresources/logos)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create new saved logo queries from image files
+
+POST/accounts/{account\_id}/brand-protection/logos
 
 Return new saved logo queries created from image files
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `match_type: optional string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `tag: optional string`
+##### Accepted Permissions (at least one required)
 
-- `threshold: optional number`
+`Intel Write`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `id: optional number`
+account\_id: string
 
-- `tag: optional string`
+minLength1
 
-- `upload_path: optional string`
+[Link to this property](#)%20brand_protection.logos%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-### Example
+##### Q uery ParametersExpand Collapse
 
-```http
+match\_type: optional string
+
+[Link to this property](#)%20brand_protection.logos%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20match_type%20%3E%20(schema)>)
+
+tag: optional string
+
+[Link to this property](#)%20brand_protection.logos%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20tag%20%3E%20(schema)>)
+
+threshold: optional number
+
+[Link to this property](#)%20brand_protection.logos%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20threshold%20%3E%20(schema)>)
+
+##### Body ParametersExpand Collapse
+
+image: optional file
+
+[Link to this property](#)%20brand_protection.logos%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20image%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+id: optional number
+
+[Link to this property](#)%20brand_protection.logos%20%3E%20(model)%20logo_create_response%20%3E%20(schema)%20%3E%20(property)%20id>)
+
+tag: optional string
+
+[Link to this property](#)%20brand_protection.logos%20%3E%20(model)%20logo_create_response%20%3E%20(schema)%20%3E%20(property)%20tag>)
+
+upload\_path: optional string
+
+[Link to this property](#)%20brand_protection.logos%20%3E%20(model)%20logo_create_response%20%3E%20(schema)%20%3E%20(property)%20upload_path>)
+
+### Create new saved logo queries from image files
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/logos \
     -H 'Content-Type: application/x-www-form-urlencoded' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "id": 0,
+  "tag": "tag",
+  "upload_path": "upload_path"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "id": 0,
   "tag": "tag",

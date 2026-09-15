@@ -1,257 +1,387 @@
-## Get Event
+---
+title: Get Event
+---
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events/{event_t}.{event_n}`
+[Skip to content](#_top)
 
-Get Event
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
 
-- `account_id: string`
+[Connectors](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors)
 
-  Account identifier
+[Events](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/events)
 
-- `connector_id: string`
+Copy Markdown
 
-- `event_t: number`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `event_n: number`
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `result: object { e, n, t, v }`
+# Get Event
 
-  Recorded Event
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/events/{event\_t}.{event\_n}
 
-  - `e: object { k }  or object { k }  or object { k }  or 18 more`
+Gets Magic WAN Connector Telemetry Event
 
-    - `Init object { k }`
+##### Security
 
-      - `k: "Init"`
+<details>
 
-        Initialized process
+<summary>API Token</summary>
 
-        - `"Init"`
 
-    - `Leave object { k }`
 
-      - `k: "Leave"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-        Stopped process
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-        - `"Leave"`
+</details>
 
-    - `StartAttestation object { k }`
+<details>
 
-      - `k: "StartAttestation"`
+<summary>API Email + API Key</summary>
 
-        Started attestation
 
-        - `"StartAttestation"`
 
-    - `FinishAttestationSuccess object { k }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      - `k: "FinishAttestationSuccess"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-        Finished attestation
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-        - `"FinishAttestationSuccess"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `FinishAttestationFailure object { k }`
+</details>
 
-      - `k: "FinishAttestationFailure"`
+##### Accepted Permissions (at least one required)
 
-        Failed attestation
+`Magic WAN Write``Magic WAN Read`
 
-        - `"FinishAttestationFailure"`
+##### P ath ParametersExpand Collapse
 
-    - `StartRotateCryptKey object { k }`
+account\_id: string
 
-      - `k: "StartRotateCryptKey"`
+Account identifier
 
-        Started crypt key rotation
+maxLength32
 
-        - `"StartRotateCryptKey"`
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `FinishRotateCryptKeySuccess object { k }`
+connector\_id: string
 
-      - `k: "FinishRotateCryptKeySuccess"`
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20connector_id%20%3E%20(schema)>)
 
-        Finished crypt key rotation
+event\_t: number
 
-        - `"FinishRotateCryptKeySuccess"`
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20event_t%20%3E%20(schema)>)
 
-    - `FinishRotateCryptKeyFailure object { k }`
+event\_n: number
 
-      - `k: "FinishRotateCryptKeyFailure"`
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20event_n%20%3E%20(schema)>)
 
-        Failed crypt key rotation
+##### ReturnsExpand Collapse
 
-        - `"FinishRotateCryptKeyFailure"`
+<details>
 
-    - `StartRotatePki object { k }`
+<summary>
 
-      - `k: "StartRotatePki"`
+result: object {e, n, t, v }
 
-        Started PKI rotation
+Recorded Event
 
-        - `"StartRotatePki"`
+</summary>
 
-    - `FinishRotatePkiSuccess object { k }`
+<details>
 
-      - `k: "FinishRotatePkiSuccess"`
+<summary>
 
-        Finished PKI rotation
+e: object {k }
 
-        - `"FinishRotatePkiSuccess"`
+Event kind plus event-specific payload fields.
 
-    - `FinishRotatePkiFailure object { k }`
+Event kinds:
 
-      - `k: "FinishRotatePkiFailure"`
+- <code>Init</code>: Initialized process
+- <code>Leave</code>: Stopped process
+- <code>StartAttestation</code>: Started attestation
+- <code>FinishAttestationSuccess</code>: Finished attestation
+- <code>FinishAttestationFailure</code>: Failed attestation
+- <code>StartRotateCryptKey</code>: Started crypt key rotation
+- <code>FinishRotateCryptKeySuccess</code>: Finished crypt key rotation
+- <code>FinishRotateCryptKeyFailure</code>: Failed crypt key rotation
+- <code>StartRotatePki</code>: Started PKI rotation
+- <code>FinishRotatePkiSuccess</code>: Finished PKI rotation
+- <code>FinishRotatePkiFailure</code>: Failed PKI rotation
+- <code>StartUpgrade</code>: Started upgrade
+- <code>FinishUpgradeSuccess</code>: Finished upgrade
+- <code>FinishUpgradeFailure</code>: Failed upgrade
+- <code>BlessSlotSuccess</code>: Blessed boot entry slot
+- <code>BlessSlotPending</code>: Boot entry slot is not yet blessed
+- <code>BlessSlotFailure</code>: Failed to bless boot entry slot
+- <code>Reconcile</code>: Reconciled
+- <code>ConfigureCloudflaredTunnel</code>: Configured Cloudflared tunnel
+- <code>RekeyInstallBoth</code>: Installed initial inbound and outbound keys
+- <code>RekeyStart</code>: Installed new inbound key, kept old outbound
+- <code>RekeyRestart</code>: Restarted in-progress rekey with newer key material
+- <code>RekeyAdvance</code>: Confirmed traffic on new inbound key, swapped outbound to new
+- <code>RekeyComplete</code>: Deleted old keys
+- <code>RekeyReset</code>: Deleted all keys after receiving an unexpected key
+- <code>HaTransition</code>: Completed HA state transition
+- <code>HaError</code>: Received unexpected HA error
+- <code>HaInit</code>: Initialized HA subsystem
+- <code>HaLeave</code>: Stopped HA subsystem
 
-        Failed PKI rotation
+</summary>
 
-        - `"FinishRotatePkiFailure"`
+<details>
 
-    - `StartUpgrade object { k, url }`
+<summary>
 
-      - `k: "StartUpgrade"`
+k: "Init"or "Leave"or "StartAttestation"or 26 more
 
-        Started upgrade
+Event kind
 
-        - `"StartUpgrade"`
+</summary>
 
-      - `url: string`
+One of the following:
 
-        Location of upgrade bundle
+"Init"
 
-    - `FinishUpgradeSuccess object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "FinishUpgradeSuccess"`
+"Leave"
 
-        Finished upgrade
+<a href="#">Link to this property</a>
 
-        - `"FinishUpgradeSuccess"`
+"StartAttestation"
 
-    - `FinishUpgradeFailure object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "FinishUpgradeFailure"`
+"FinishAttestationSuccess"
 
-        Failed upgrade
+<a href="#">Link to this property</a>
 
-        - `"FinishUpgradeFailure"`
+"FinishAttestationFailure"
 
-    - `Reconcile object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "Reconcile"`
+"StartRotateCryptKey"
 
-        Reconciled
+<a href="#">Link to this property</a>
 
-        - `"Reconcile"`
+"FinishRotateCryptKeySuccess"
 
-    - `ConfigureCloudflaredTunnel object { k }`
+<a href="#">Link to this property</a>
 
-      - `k: "ConfigureCloudflaredTunnel"`
+"FinishRotateCryptKeyFailure"
 
-        Configured Cloudflared tunnel
+<a href="#">Link to this property</a>
 
-        - `"ConfigureCloudflaredTunnel"`
+"StartRotatePki"
 
-    - `RekeyInstallBoth object { k, tunnel_id }`
+<a href="#">Link to this property</a>
 
-      - `k: "RekeyInstallBoth"`
+"FinishRotatePkiSuccess"
 
-        Installed initial inbound and outbound keys
+<a href="#">Link to this property</a>
 
-        - `"RekeyInstallBoth"`
+"FinishRotatePkiFailure"
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+"StartUpgrade"
 
-    - `RekeyStart object { k, tunnel_id }`
+<a href="#">Link to this property</a>
 
-      - `k: "RekeyStart"`
+"FinishUpgradeSuccess"
 
-        Installed new inbound key, kept old outbound
+<a href="#">Link to this property</a>
 
-        - `"RekeyStart"`
+"FinishUpgradeFailure"
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+"BlessSlotSuccess"
 
-    - `RekeyAdvance object { k, tunnel_id }`
+<a href="#">Link to this property</a>
 
-      - `k: "RekeyAdvance"`
+"BlessSlotPending"
 
-        Confirmed traffic on new inbound key, swapped outbound to new
+<a href="#">Link to this property</a>
 
-        - `"RekeyAdvance"`
+"BlessSlotFailure"
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+"Reconcile"
 
-    - `RekeyComplete object { k, tunnel_id }`
+<a href="#">Link to this property</a>
 
-      - `k: "RekeyComplete"`
+"ConfigureCloudflaredTunnel"
 
-        Deleted old keys
+<a href="#">Link to this property</a>
 
-        - `"RekeyComplete"`
+"RekeyInstallBoth"
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+"RekeyStart"
 
-    - `RekeyReset object { k, tunnel_id }`
+<a href="#">Link to this property</a>
 
-      - `k: "RekeyReset"`
+"RekeyRestart"
 
-        Deleted all keys after receiving an unexpected key
+<a href="#">Link to this property</a>
 
-        - `"RekeyReset"`
+"RekeyAdvance"
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+"RekeyComplete"
 
-  - `n: number`
+<a href="#">Link to this property</a>
 
-    Sequence number, used to order events with the same timestamp
+"RekeyReset"
 
-  - `t: number`
+<a href="#">Link to this property</a>
 
-    Time the Event was recorded (seconds since the Unix epoch)
+"HaTransition"
 
-  - `v: optional string`
+<a href="#">Link to this property</a>
 
-    Version
+"HaError"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { code, message }`
+"HaInit"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"HaLeave"
 
-- `messages: optional array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+n: number
+
+Sequence number, used to order events with the same timestamp
+
+<a href="#">Link to this property</a>
+
+t: number
+
+Time the Event was recorded (seconds since the Unix epoch)
+
+<a href="#">Link to this property</a>
+
+v: optional string
+
+Version
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+### Get Event
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/events/$EVENT_T.$EVENT_N \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "e": {
+      "k": "Init"
+    },
+    "n": 0,
+    "t": 0,
+    "v": "v"
+  },
+  "success": true,
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "e": {

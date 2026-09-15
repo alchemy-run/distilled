@@ -1,101 +1,219 @@
-## Fetch details of an active session
+---
+title: Fetch details of an active session
+---
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+[Active Session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/active-session)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Fetch details of an active session
+
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/active-session
 
 Returns details of an ongoing active session for the given meeting ID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  The account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `app_id: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  The app identifier tag.
+##### Accepted Permissions (at least one required)
 
-- `meeting_id: string`
+`Realtime Admin``Realtime`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `data: optional object { id, associated_id, created_at, 11 more }`
+account\_id: string
 
-  - `id: string`
+The account identifier tag.
 
-    ID of the session
+maxLength32
 
-  - `associated_id: string`
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(method)%20get_active_session%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+app\_id: string
 
-  - `created_at: string`
+The app identifier tag.
 
-    timestamp when session created
+maxLength32
 
-  - `live_participants: number`
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(method)%20get_active_session%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
 
-    number of participants currently in the session
+meeting\_id: string
 
-  - `max_concurrent_participants: number`
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(method)%20get_active_session%20%3E%20(params)%20default%20%3E%20(param)%20meeting_id%20%3E%20(schema)>)
 
-    number of maximum participants that were in the session
+##### ReturnsExpand Collapse
 
-  - `meeting_display_name: string`
+<details>
 
-    Title of the meeting this session belongs to
+<summary>
 
-  - `minutes_consumed: number`
+data: optional object {id, associated\_id, created\_at, 11 more }
 
-    number of minutes consumed since the session started
+</summary>
 
-  - `organization_id: string`
+id: string
 
-    App id that hosted this session
+ID of the session
 
-  - `started_at: string`
+<a href="#">Link to this property</a>
 
-    timestamp when session started
+associated\_id: string
 
-  - `status: "LIVE" or "ENDED"`
+ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form <code>abcdef-ghijkl</code>
 
-    current status of session
+<a href="#">Link to this property</a>
 
-    - `"LIVE"`
+created\_at: string
 
-    - `"ENDED"`
+timestamp when session created
 
-  - `type: "meeting" or "livestream" or "participant"`
+<a href="#">Link to this property</a>
 
-    type of session
+live\_participants: number
 
-    - `"meeting"`
+number of participants currently in the session
 
-    - `"livestream"`
+<a href="#">Link to this property</a>
 
-    - `"participant"`
+max\_concurrent\_participants: number
 
-  - `updated_at: string`
+number of maximum participants that were in the session
 
-    timestamp when session was last updated
+<a href="#">Link to this property</a>
 
-  - `breakout_rooms: optional array of unknown`
+meeting\_display\_name: string
 
-  - `ended_at: optional string`
+Title of the meeting this session belongs to
 
-    timestamp when session ended
+<a href="#">Link to this property</a>
 
-- `success: optional boolean`
+minutes\_consumed: number
 
-### Example
+number of minutes consumed since the session started
 
-```http
+<a href="#">Link to this property</a>
+
+organization\_id: string
+
+App id that hosted this session
+
+<a href="#">Link to this property</a>
+
+started\_at: string
+
+timestamp when session started
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "LIVE"or "ENDED"
+
+current status of session
+
+</summary>
+
+One of the following:
+
+"LIVE"
+
+<a href="#">Link to this property</a>
+
+"ENDED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "meeting"or "livestream"or "participant"
+
+type of session
+
+</summary>
+
+One of the following:
+
+"meeting"
+
+<a href="#">Link to this property</a>
+
+"livestream"
+
+<a href="#">Link to this property</a>
+
+"participant"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+timestamp when session was last updated
+
+<a href="#">Link to this property</a>
+
+breakout\_rooms: optional array of unknown
+
+<a href="#">Link to this property</a>
+
+ended\_at: optional string
+
+timestamp when session ended
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(model)%20active_session_get_active_session_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+success: optional boolean
+
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(model)%20active_session_get_active_session_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Fetch details of an active session
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+404 example
+
+```
 {
   "data": {
     "id": "id",
@@ -116,5 +234,55 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP
     "ended_at": "ended_at"
   },
   "success": true
+}
+```
+
+```
+{
+  "error": {
+    "code": 404,
+    "message": "No active session found for meeting_id 6bf2b8be-04dd-4191-b602-1128921a306b"
+  },
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+404 example
+
+```
+{
+  "data": {
+    "id": "id",
+    "associated_id": "associated_id",
+    "created_at": "created_at",
+    "live_participants": 0,
+    "max_concurrent_participants": 0,
+    "meeting_display_name": "meeting_display_name",
+    "minutes_consumed": 0,
+    "organization_id": "organization_id",
+    "started_at": "started_at",
+    "status": "LIVE",
+    "type": "meeting",
+    "updated_at": "updated_at",
+    "breakout_rooms": [
+      {}
+    ],
+    "ended_at": "ended_at"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "error": {
+    "code": 404,
+    "message": "No active session found for meeting_id 6bf2b8be-04dd-4191-b602-1128921a306b"
+  },
+  "success": false
 }
 ```

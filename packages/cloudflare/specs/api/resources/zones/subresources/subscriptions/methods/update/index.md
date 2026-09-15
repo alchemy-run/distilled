@@ -1,220 +1,546 @@
-## Update Zone Subscription
+---
+title: Update Zone Subscription
+---
 
-**put** `/zones/{zone_id}/subscription`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zones](https://developers.cloudflare.com/api/resources/zones)
+
+[Subscriptions](https://developers.cloudflare.com/api/resources/zones/subresources/subscriptions)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Zone Subscription
+
+PUT/zones/{zone\_id}/subscription
 
 Updates zone subscriptions, either plan or add-ons.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
 
-  How often the subscription is renewed automatically.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"weekly"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"monthly"`
+</details>
 
-  - `"quarterly"`
+<details>
 
-  - `"yearly"`
+<summary>API Email + API Key</summary>
 
-- `rate_plan: optional RatePlan`
 
-  The rate plan applied to the subscription.
 
-  - `id: optional "free" or "lite" or "pro" or 7 more`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    The ID of the rate plan.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `"free"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"lite"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"pro"`
+</details>
 
-    - `"pro_plus"`
+##### Accepted Permissions (at least one required)
 
-    - `"business"`
+`Billing Write`
 
-    - `"enterprise"`
+##### P ath ParametersExpand Collapse
 
-    - `"partners_free"`
+zone\_id: string
 
-    - `"partners_pro"`
+Identifier
 
-    - `"partners_business"`
+maxLength32
 
-    - `"partners_enterprise"`
+[Link to this property](#)%20zones.subscriptions%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `currency: optional string`
+##### Body ParametersJSONExpand Collapse
 
-    The currency applied to the rate plan subscription.
+<details>
 
-  - `externally_managed: optional boolean`
+<summary>
 
-    Whether this rate plan is managed externally from Cloudflare.
+frequency: optional "weekly"or "monthly"or "quarterly"or "yearly"
 
-  - `is_contract: optional boolean`
+How often the subscription is renewed automatically.
 
-    Whether a rate plan is enterprise-based (or newly adopted term contract).
+</summary>
 
-  - `public_name: optional string`
+One of the following:
 
-    The full name of the rate plan.
+"weekly"
 
-  - `scope: optional string`
+<a href="#">Link to this property</a>
 
-    The scope that this rate plan applies to.
+"monthly"
 
-  - `sets: optional array of string`
+<a href="#">Link to this property</a>
 
-    The list of sets this rate plan applies to. Returns array of strings.
+"quarterly"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"yearly"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zones.subscriptions%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20frequency%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+rate\_plan: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20rate_plan%20%3E%20(schema)">RatePlan</a> { id, currency, externally\_managed, 4 more }
 
-  - `code: number`
+The rate plan applied to the subscription.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `result: object { id, currency, current_period_end, 5 more }`
+id: optional "free"or "lite"or "pro"or 7 more
 
-  - `id: optional string`
+The ID of the rate plan.
 
-    Subscription identifier tag.
+</summary>
 
-  - `currency: optional string`
+One of the following:
 
-    The monetary unit in which pricing information is displayed.
+"free"
 
-  - `current_period_end: optional string`
+<a href="#">Link to this property</a>
 
-    The end of the current period and also when the next billing is due.
+"lite"
 
-  - `current_period_start: optional string`
+<a href="#">Link to this property</a>
 
-    When the current billing period started. May match initial_period_start if this is the first period.
+"pro"
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or 2 more`
+<a href="#">Link to this property</a>
 
-    How often the subscription is renewed automatically.
+"pro\_plus"
 
-    - `"weekly"`
+<a href="#">Link to this property</a>
 
-    - `"monthly"`
+"business"
 
-    - `"quarterly"`
+<a href="#">Link to this property</a>
 
-    - `"yearly"`
+"enterprise"
 
-    - `"not-applicable"`
+<a href="#">Link to this property</a>
 
-  - `price: optional number`
+"partners\_free"
 
-    The price of the subscription that will be billed, in US dollars.
+<a href="#">Link to this property</a>
 
-  - `rate_plan: optional RatePlan`
+"partners\_pro"
 
-    The rate plan applied to the subscription.
+<a href="#">Link to this property</a>
 
-    - `id: optional "free" or "lite" or "pro" or 7 more`
+"partners\_business"
 
-      The ID of the rate plan.
+<a href="#">Link to this property</a>
 
-      - `"free"`
+"partners\_enterprise"
 
-      - `"lite"`
+<a href="#">Link to this property</a>
 
-      - `"pro"`
+</details>
 
-      - `"pro_plus"`
+<a href="#">Link to this property</a>
 
-      - `"business"`
+currency: optional string
 
-      - `"enterprise"`
+The currency applied to the rate plan subscription.
 
-      - `"partners_free"`
+<a href="#">Link to this property</a>
 
-      - `"partners_pro"`
+externally\_managed: optional boolean
 
-      - `"partners_business"`
+Whether this rate plan is managed externally from Cloudflare.
 
-      - `"partners_enterprise"`
+<a href="#">Link to this property</a>
 
-    - `currency: optional string`
+is\_contract: optional boolean
 
-      The currency applied to the rate plan subscription.
+Whether a rate plan is enterprise-based (or newly adopted term contract).
 
-    - `externally_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether this rate plan is managed externally from Cloudflare.
+public\_name: optional string
 
-    - `is_contract: optional boolean`
+The full name of the rate plan.
 
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
+<a href="#">Link to this property</a>
 
-    - `public_name: optional string`
+scope: optional string
 
-      The full name of the rate plan.
+The scope that this rate plan applies to.
 
-    - `scope: optional string`
+<a href="#">Link to this property</a>
 
-      The scope that this rate plan applies to.
+sets: optional array of string
 
-    - `sets: optional array of string`
+The list of sets this rate plan applies to. Returns array of strings.
 
-      The list of sets this rate plan applies to. Returns array of strings.
+<a href="#">Link to this property</a>
 
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
+</details>
 
-    The state that the subscription is in.
+[Link to this property](#)%20zones.subscriptions%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20rate_plan%20%3E%20(schema)>)
 
-    - `"Trial"`
+##### ReturnsExpand Collapse
 
-    - `"Provisioned"`
+<details>
 
-    - `"Paid"`
+<summary>
 
-    - `"AwaitingPayment"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"Cancelled"`
+</summary>
 
-    - `"Failed"`
+code: number
 
-    - `"Expired"`
+minimum1000
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+message: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+documentation\_url: optional string
 
-```http
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.subscriptions%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.subscriptions%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, currency, current\_period\_end, 5 more }
+
+</summary>
+
+id: optional string
+
+Subscription identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The monetary unit in which pricing information is displayed.
+
+<a href="#">Link to this property</a>
+
+current\_period\_end: optional string
+
+The end of the current period and also when the next billing is due.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+current\_period\_start: optional string
+
+When the current billing period started. May match initial\_period\_start if this is the first period.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+frequency: optional "weekly"or "monthly"or "quarterly"or 2 more
+
+How often the subscription is renewed automatically.
+
+</summary>
+
+One of the following:
+
+"weekly"
+
+<a href="#">Link to this property</a>
+
+"monthly"
+
+<a href="#">Link to this property</a>
+
+"quarterly"
+
+<a href="#">Link to this property</a>
+
+"yearly"
+
+<a href="#">Link to this property</a>
+
+"not-applicable"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+price: optional number
+
+The price of the subscription that will be billed, in US dollars.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rate\_plan: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20rate_plan%20%3E%20(schema)">RatePlan</a> { id, currency, externally\_managed, 4 more }
+
+The rate plan applied to the subscription.
+
+</summary>
+
+<details>
+
+<summary>
+
+id: optional "free"or "lite"or "pro"or 7 more
+
+The ID of the rate plan.
+
+</summary>
+
+One of the following:
+
+"free"
+
+<a href="#">Link to this property</a>
+
+"lite"
+
+<a href="#">Link to this property</a>
+
+"pro"
+
+<a href="#">Link to this property</a>
+
+"pro\_plus"
+
+<a href="#">Link to this property</a>
+
+"business"
+
+<a href="#">Link to this property</a>
+
+"enterprise"
+
+<a href="#">Link to this property</a>
+
+"partners\_free"
+
+<a href="#">Link to this property</a>
+
+"partners\_pro"
+
+<a href="#">Link to this property</a>
+
+"partners\_business"
+
+<a href="#">Link to this property</a>
+
+"partners\_enterprise"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The currency applied to the rate plan subscription.
+
+<a href="#">Link to this property</a>
+
+externally\_managed: optional boolean
+
+Whether this rate plan is managed externally from Cloudflare.
+
+<a href="#">Link to this property</a>
+
+is\_contract: optional boolean
+
+Whether a rate plan is enterprise-based (or newly adopted term contract).
+
+<a href="#">Link to this property</a>
+
+public\_name: optional string
+
+The full name of the rate plan.
+
+<a href="#">Link to this property</a>
+
+scope: optional string
+
+The scope that this rate plan applies to.
+
+<a href="#">Link to this property</a>
+
+sets: optional array of string
+
+The list of sets this rate plan applies to. Returns array of strings.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: optional "Trial"or "Provisioned"or "Paid"or 4 more
+
+The state that the subscription is in.
+
+</summary>
+
+One of the following:
+
+"Trial"
+
+<a href="#">Link to this property</a>
+
+"Provisioned"
+
+<a href="#">Link to this property</a>
+
+"Paid"
+
+<a href="#">Link to this property</a>
+
+"AwaitingPayment"
+
+<a href="#">Link to this property</a>
+
+"Cancelled"
+
+<a href="#">Link to this property</a>
+
+"Failed"
+
+<a href="#">Link to this property</a>
+
+"Expired"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.subscriptions%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zones.subscriptions%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update Zone Subscription
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/subscription \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -224,9 +550,59 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/subscription \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "506e3185e9c882d175a2d0cb0093d9f2",
+    "currency": "USD",
+    "current_period_end": "2014-03-31T12:20:00Z",
+    "current_period_start": "2014-05-11T12:20:00Z",
+    "frequency": "monthly",
+    "price": 20,
+    "rate_plan": {
+      "id": "free",
+      "currency": "USD",
+      "externally_managed": false,
+      "is_contract": false,
+      "public_name": "Business Plan",
+      "scope": "zone",
+      "sets": [
+        "string"
+      ]
+    },
+    "state": "Paid"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,150 +1,374 @@
-## Patch Waiting Room Rule
+---
+title: Patch Waiting Room Rule
+---
 
-**patch** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/rules/{rule_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Waiting Rooms](https://developers.cloudflare.com/api/resources/waiting_rooms)
+
+[Rules](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Patch Waiting Room Rule
+
+PATCH/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/rules/{rule\_id}
 
 Patches a rule for a waiting room.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `waiting_room_id: string`
 
-- `rule_id: string`
 
-  The ID of the rule.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Body Parameters
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `action: "bypass_waiting_room"`
+</details>
 
-  The action to take when the expression matches.
+<details>
 
-  - `"bypass_waiting_room"`
+<summary>API Email + API Key</summary>
 
-- `expression: string`
 
-  Criteria defining when there is a match for the current rule.
 
-- `description: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  The description of the rule.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `enabled: optional boolean`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  When set to true, the rule is enabled.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `position: optional object { index }  or object { before }  or object { after }`
+</details>
 
-  Reorder the position of a rule
+##### Accepted Permissions (at least one required)
 
-  - `Index object { index }`
+`Waiting Rooms Write`
 
-    - `index: optional number`
+##### P ath ParametersExpand Collapse
 
-      Places the rule in the exact position specified by the integer number <POSITION_NUMBER>. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten).
+zone\_id: string
 
-  - `Before object { before }`
+Identifier.
 
-    - `before: optional string`
+maxLength32
 
-      Places the rule before rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the first rule in the ruleset.
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `After object { after }`
+waiting\_room\_id: string
 
-    - `after: optional string`
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20waiting_room_id%20%3E%20(schema)>)
 
-      Places the rule after rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the last rule in the ruleset.
+rule\_id: string
 
-### Returns
+The ID of the rule.
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20rule_id%20%3E%20(schema)>)
 
-  - `code: number`
+##### Body ParametersJSONExpand Collapse
 
-  - `message: string`
+action: "bypass\_waiting\_room"
 
-  - `documentation_url: optional string`
+The action to take when the expression matches.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20action%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+expression: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Criteria defining when there is a match for the current rule.
 
-  - `code: number`
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20expression%20%3E%20(schema)>)
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+The description of the rule.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+enabled: optional boolean
 
-- `success: true`
+When set to true, the rule is enabled.
 
-  Whether the API call was successful.
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-- `result: optional array of WaitingRoomRule`
+<summary>
 
-  - `id: optional string`
+position: optional object {index } or object {before } or object {after }
 
-    The ID of the rule.
+Reorder the position of a rule
 
-  - `action: optional "bypass_waiting_room"`
+</summary>
 
-    The action to take when the expression matches.
+One of the following:
 
-    - `"bypass_waiting_room"`
+<details>
 
-  - `description: optional string`
+<summary>
 
-    The description of the rule.
+Index object {index }
 
-  - `enabled: optional boolean`
+</summary>
 
-    When set to true, the rule is enabled.
+index: optional number
 
-  - `expression: optional string`
+Places the rule in the exact position specified by the integer number &lt;POSITION\_NUMBER&gt;. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten).
 
-    Criteria defining when there is a match for the current rule.
+<a href="#">Link to this property</a>
 
-  - `last_updated: optional string`
+</details>
 
-  - `version: optional string`
+<a href="#">Link to this property</a>
 
-    The version of the rule.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+Before object {before }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+before: optional string
 
-    Current page within paginated list of results.
+Places the rule before rule &lt;RULE\_ID&gt;. Use this argument with an empty rule ID value ("") to set the rule as the first rule in the ruleset.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+After object {after }
 
-### Example
+</summary>
 
-```http
+after: optional string
+
+Places the rule after rule &lt;RULE\_ID&gt;. Use this argument with an empty rule ID value ("") to set the rule as the last rule in the ruleset.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20position%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/waiting_rooms#(resource)%20waiting_rooms.rules%20%3E%20(model)%20waiting_room_rule%20%3E%20(schema)">WaitingRoomRule</a> { id, action, description, 4 more }
+
+</summary>
+
+id: optional string
+
+The ID of the rule.
+
+<a href="#">Link to this property</a>
+
+action: optional "bypass\_waiting\_room"
+
+The action to take when the expression matches.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The description of the rule.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+When set to true, the rule is enabled.
+
+<a href="#">Link to this property</a>
+
+expression: optional string
+
+Criteria defining when there is a match for the current rule.
+
+<a href="#">Link to this property</a>
+
+last\_updated: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+version: optional string
+
+The version of the rule.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20waiting_rooms.rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Patch Waiting Room Rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/rules/$RULE_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -157,9 +381,57 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "25756b2dfe6e378a06b033b670413757",
+      "action": "bypass_waiting_room",
+      "description": "allow all traffic from 10.20.30.40",
+      "enabled": true,
+      "expression": "ip.src in {10.20.30.40}",
+      "last_updated": "2014-01-01T05:20:00.12345Z",
+      "version": "1"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,975 +1,339 @@
+---
+title: Rules
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Rules
 
-## Get DEX Rule
+##### [Get DEX Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/get)
 
-**get** `/accounts/{account_id}/dex/rules/{rule_id}`
+GET/accounts/{account\_id}/dex/rules/{rule\_id}
 
-Get details for a DEX Rule.
+##### [Delete a DEX Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/delete)
 
-### Path Parameters
+DELETE/accounts/{account\_id}/dex/rules/{rule\_id}
 
-- `account_id: string`
+##### [Update a DEX Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/update)
 
-  Unique identifier linked to an account.
+PATCH/accounts/{account\_id}/dex/rules/{rule\_id}
 
-- `rule_id: string`
+##### [Create a DEX Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/create)
 
-  API Resource UUID tag.
+POST/accounts/{account\_id}/dex/rules
 
-### Returns
+##### [List DEX Rules](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/list)
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/dex/rules
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+RuleGetResponse object {id, created\_at, match, 4 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+API Resource UUID tag.
 
-  - `message: string`
+maxLength36
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+match: string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+name: string
 
-- `result: optional object { id, created_at, match, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+description: optional string
 
-    API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `match: string`
+<summary>
 
-  - `name: string`
+targeted\_tests: optional array of object {data, enabled, name, test\_id }
 
-  - `description: optional string`
+</summary>
 
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-    - `data: object { host, kind, method }`
+The configuration object which contains the details for the WARP client to conduct the test.
 
-      The configuration object which contains the details for the WARP client to conduct the test.
+<a href="#">Link to this property</a>
 
-      - `host: string`
+enabled: boolean
 
-        The desired endpoint to test.
+<a href="#">Link to this property</a>
 
-      - `kind: "http" or "traceroute"`
+name: string
 
-        The type of test.
+<a href="#">Link to this property</a>
 
-        - `"http"`
+test\_id: string
 
-        - `"traceroute"`
+<a href="#">Link to this property</a>
 
-      - `method: optional "GET"`
+</details>
 
-        The HTTP request method type.
+<a href="#">Link to this property</a>
 
-        - `"GET"`
+updated\_at: optional string
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `test_id: string`
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_get_response%20%3E%20(schema)>)
 
-  - `updated_at: optional string`
+RuleDeleteResponse = boolean
 
-### Example
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_delete_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2023-07-16 15:00:00+00",
-    "match": "match",
-    "name": "name",
-    "description": "description",
-    "targeted_tests": [
-      {
-        "data": {
-          "host": "https://dash.cloudflare.com",
-          "kind": "http",
-          "method": "GET"
-        },
-        "enabled": true,
-        "name": "name",
-        "test_id": "test_id"
-      }
-    ],
-    "updated_at": "2023-07-16 15:00:00+00"
-  }
-}
-```
+RuleUpdateResponse object {id, created\_at, match, 4 more }
 
-## Delete a DEX Rule
+</summary>
 
-**delete** `/accounts/{account_id}/dex/rules/{rule_id}`
+id: string
 
-Delete a DEX Rule.
+API Resource UUID tag.
 
-### Path Parameters
+maxLength36
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+created\_at: string
 
-- `rule_id: string`
+<a href="#">Link to this property</a>
 
-  API Resource UUID tag.
+match: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+name: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+targeted\_tests: optional array of object {data, enabled, name, test\_id }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-  - `documentation_url: optional string`
+The configuration object which contains the details for the WARP client to conduct the test.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+enabled: boolean
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+name: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional boolean`
+test\_id: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": true
-}
-```
+updated\_at: optional string
 
-## Update a DEX Rule
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/dex/rules/{rule_id}`
+</details>
 
-Update a DEX Rule.
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_update_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+RuleCreateResponse object {id, created\_at, match, 4 more }
 
-- `rule_id: string`
+</summary>
 
-  API Resource UUID tag.
+id: string
 
-### Body Parameters
+API Resource UUID tag.
 
-- `description: optional string`
+maxLength36
 
-- `match: optional string`
+<a href="#">Link to this property</a>
 
-  The wirefilter expression to match.
+created\_at: string
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  The name of the Rule.
+match: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+name: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+targeted\_tests: optional array of object {data, enabled, name, test\_id }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-  - `documentation_url: optional string`
+The configuration object which contains the details for the WARP client to conduct the test.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+enabled: boolean
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+name: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, match, 4 more }`
+test\_id: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    API Resource UUID tag.
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `match: string`
+updated\_at: optional string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_create_response%20%3E%20(schema)>)
 
-    - `data: object { host, kind, method }`
+<details>
 
-      The configuration object which contains the details for the WARP client to conduct the test.
+<summary>
 
-      - `host: string`
+RuleListResponse object {rules }
 
-        The desired endpoint to test.
+</summary>
 
-      - `kind: "http" or "traceroute"`
+<details>
 
-        The type of test.
+<summary>
 
-        - `"http"`
+rules: optional array of object {id, created\_at, match, 4 more }
 
-        - `"traceroute"`
+</summary>
 
-      - `method: optional "GET"`
+id: string
 
-        The HTTP request method type.
+API Resource UUID tag.
 
-        - `"GET"`
+maxLength36
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+created\_at: string
 
-    - `test_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+match: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+name: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2023-07-16 15:00:00+00",
-    "match": "match",
-    "name": "name",
-    "description": "description",
-    "targeted_tests": [
-      {
-        "data": {
-          "host": "https://dash.cloudflare.com",
-          "kind": "http",
-          "method": "GET"
-        },
-        "enabled": true,
-        "name": "name",
-        "test_id": "test_id"
-      }
-    ],
-    "updated_at": "2023-07-16 15:00:00+00"
-  }
-}
-```
+description: optional string
 
-## Create a DEX Rule
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dex/rules`
+<details>
 
-Create a DEX Rule.
+<summary>
 
-### Path Parameters
+targeted\_tests: optional array of object {data, enabled, name, test\_id }
 
-- `account_id: string`
+</summary>
 
-  Unique identifier linked to an account.
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-### Body Parameters
+The configuration object which contains the details for the WARP client to conduct the test.
 
-- `match: string`
+<a href="#">Link to this property</a>
 
-  The wirefilter expression to match.
+enabled: boolean
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  The name of the Rule.
+name: string
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+test\_id: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+updated\_at: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "match": "match",
-          "name": "name"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2023-07-16 15:00:00+00",
-    "match": "match",
-    "name": "name",
-    "description": "description",
-    "targeted_tests": [
-      {
-        "data": {
-          "host": "https://dash.cloudflare.com",
-          "kind": "http",
-          "method": "GET"
-        },
-        "enabled": true,
-        "name": "name",
-        "test_id": "test_id"
-      }
-    ],
-    "updated_at": "2023-07-16 15:00:00+00"
-  }
-}
-```
-
-## List DEX Rules
-
-**get** `/accounts/{account_id}/dex/rules`
-
-List DEX Rules.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-### Query Parameters
-
-- `page: number`
-
-  Page number of paginated results.
-
-- `per_page: number`
-
-  Number of results per page.
-
-- `name: optional string`
-
-  Filter results by rule name.
-
-- `sort_by: optional "name" or "created_at" or "updated_at"`
-
-  Which property to sort results by.
-
-  - `"name"`
-
-  - `"created_at"`
-
-  - `"updated_at"`
-
-- `sort_order: optional "ASC" or "DESC"`
-
-  Sort direction for sort_by property.
-
-  - `"ASC"`
-
-  - `"DESC"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { rules }`
-
-  - `rules: optional array of object { id, created_at, match, 4 more }`
-
-    - `id: string`
-
-      API Resource UUID tag.
-
-    - `created_at: string`
-
-    - `match: string`
-
-    - `name: string`
-
-    - `description: optional string`
-
-    - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-      - `data: object { host, kind, method }`
-
-        The configuration object which contains the details for the WARP client to conduct the test.
-
-        - `host: string`
-
-          The desired endpoint to test.
-
-        - `kind: "http" or "traceroute"`
-
-          The type of test.
-
-          - `"http"`
-
-          - `"traceroute"`
-
-        - `method: optional "GET"`
-
-          The HTTP request method type.
-
-          - `"GET"`
-
-      - `enabled: boolean`
-
-      - `name: string`
-
-      - `test_id: string`
-
-    - `updated_at: optional string`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "rules": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created_at": "2023-07-16 15:00:00+00",
-        "match": "match",
-        "name": "name",
-        "description": "description",
-        "targeted_tests": [
-          {
-            "data": {
-              "host": "https://dash.cloudflare.com",
-              "kind": "http",
-              "method": "GET"
-            },
-            "enabled": true,
-            "name": "name",
-            "test_id": "test_id"
-          }
-        ],
-        "updated_at": "2023-07-16 15:00:00+00"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Rule Get Response
-
-- `RuleGetResponse object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Rule Delete Response
-
-- `RuleDeleteResponse = boolean`
-
-### Rule Update Response
-
-- `RuleUpdateResponse object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Rule Create Response
-
-- `RuleCreateResponse object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Rule List Response
-
-- `RuleListResponse object { rules }`
-
-  - `rules: optional array of object { id, created_at, match, 4 more }`
-
-    - `id: string`
-
-      API Resource UUID tag.
-
-    - `created_at: string`
-
-    - `match: string`
-
-    - `name: string`
-
-    - `description: optional string`
-
-    - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-      - `data: object { host, kind, method }`
-
-        The configuration object which contains the details for the WARP client to conduct the test.
-
-        - `host: string`
-
-          The desired endpoint to test.
-
-        - `kind: "http" or "traceroute"`
-
-          The type of test.
-
-          - `"http"`
-
-          - `"traceroute"`
-
-        - `method: optional "GET"`
-
-          The HTTP request method type.
-
-          - `"GET"`
-
-      - `enabled: boolean`
-
-      - `name: string`
-
-      - `test_id: string`
-
-    - `updated_at: optional string`
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)

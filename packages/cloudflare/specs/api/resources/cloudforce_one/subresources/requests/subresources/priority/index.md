@@ -1,845 +1,305 @@
+---
+title: Priority
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Requests](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Priority
 
-## Get a Priority Intelligence Requirement
+##### [Get a Priority Intelligence Requirement](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/priority/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}`
+GET/accounts/{account\_id}/cloudforce-one/requests/priority/{priority\_id}
 
-Retrieves a specific priority intelligence request from Cloudforce One.
+##### [Create a New Priority Intelligence Requirement](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/priority/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/cloudforce-one/requests/priority/new
 
-- `account_id: string`
+##### [Update a Priority Intelligence Requirement](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/priority/methods/update)
 
-  Identifier.
+PUT/accounts/{account\_id}/cloudforce-one/requests/priority/{priority\_id}
 
-- `priority_id: string`
+##### [Delete a Priority Intelligence Requirement](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/priority/methods/delete)
 
-  UUID.
+DELETE/accounts/{account\_id}/cloudforce-one/requests/priority/{priority\_id}
 
-### Returns
+##### [Get Priority Intelligence Requirement Quota](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/priority/methods/quota)
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/cloudforce-one/requests/priority/quota
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+Label = string
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20cloudforce_one.requests.priority%20%3E%20(model)%20label%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+Priority object {id, created, labels, 4 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+UUID.
 
-  - `source: optional object { pointer }`
+maxLength36
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created: string
 
-  Whether the API call was successful.
+Priority creation time.
 
-  - `true`
+formatdate-time
 
-- `result: optional Item`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+labels: array of <a href="https://developers.cloudflare.com/api/resources/cloudforce_one#(resource)%20cloudforce_one.requests.priority%20%3E%20(model)%20label%20%3E%20(schema)">Label</a>
 
-    UUID.
+List of labels.
 
-  - `content: string`
+<a href="#">Link to this property</a>
 
-    Request content.
+priority: number
 
-  - `created: string`
+Priority.
 
-  - `priority: string`
+<a href="#">Link to this property</a>
 
-  - `request: string`
+requirement: string
 
-    Requested information from request.
+Requirement.
 
-  - `summary: string`
+<a href="#">Link to this property</a>
 
-    Brief description of the request.
+<details>
 
-  - `tlp: "clear" or "amber" or "amber-strict" or 2 more`
+<summary>
 
-    The CISA defined Traffic Light Protocol (TLP).
+tlp: "clear"or "amber"or "amber-strict"or 2 more
 
-    - `"clear"`
+The CISA defined Traffic Light Protocol (TLP).
 
-    - `"amber"`
+</summary>
 
-    - `"amber-strict"`
+One of the following:
 
-    - `"green"`
+"clear"
 
-    - `"red"`
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+"amber"
 
-  - `completed: optional string`
+<a href="#">Link to this property</a>
 
-  - `message_tokens: optional number`
+"amber-strict"
 
-    Tokens for the request messages.
+<a href="#">Link to this property</a>
 
-  - `readable_id: optional string`
+"green"
 
-    Readable Request ID.
+<a href="#">Link to this property</a>
 
-  - `status: optional "open" or "accepted" or "reported" or 3 more`
+"red"
 
-    Request Status.
+<a href="#">Link to this property</a>
 
-    - `"open"`
+</details>
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"reported"`
+updated: string
 
-    - `"approved"`
+Priority last updated time.
 
-    - `"completed"`
+formatdate-time
 
-    - `"declined"`
+<a href="#">Link to this property</a>
 
-  - `tokens: optional number`
+</details>
 
-    Tokens for the request.
+[Link to this property](#)%20cloudforce_one.requests.priority%20%3E%20(model)%20priority%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/priority/$PRIORITY_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<summary>
 
-#### Response
+PriorityEdit object {labels, priority, requirement, tlp }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "content": "What regions were most effected by the recent DoS?",
-    "created": "2022-04-01T05:20:00Z",
-    "priority": "2022-04-01T05:20:00Z",
-    "request": "Victomology",
-    "summary": "DoS attack",
-    "tlp": "clear",
-    "updated": "2022-04-01T05:20:00Z",
-    "completed": "2022-04-01T05:20:00Z",
-    "message_tokens": 1,
-    "readable_id": "RFI-2022-000001",
-    "status": "open",
-    "tokens": 16
-  }
-}
-```
+</summary>
 
-## Create a New Priority Intelligence Requirement
+labels: array of <a href="https://developers.cloudflare.com/api/resources/cloudforce_one#(resource)%20cloudforce_one.requests.priority%20%3E%20(model)%20label%20%3E%20(schema)">Label</a>
 
-**post** `/accounts/{account_id}/cloudforce-one/requests/priority/new`
+List of labels.
 
-Creates a new priority intelligence request in Cloudforce One.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+priority: number
 
-- `account_id: string`
+Priority.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+requirement: string
 
-- `labels: array of Label`
+Requirement.
 
-  List of labels.
+<a href="#">Link to this property</a>
 
-- `priority: number`
+<details>
 
-  Priority.
+<summary>
 
-- `requirement: string`
+tlp: "clear"or "amber"or "amber-strict"or 2 more
 
-  Requirement.
+The CISA defined Traffic Light Protocol (TLP).
 
-- `tlp: "clear" or "amber" or "amber-strict" or 2 more`
+</summary>
 
-  The CISA defined Traffic Light Protocol (TLP).
+One of the following:
 
-  - `"clear"`
+"clear"
 
-  - `"amber"`
+<a href="#">Link to this property</a>
 
-  - `"amber-strict"`
+"amber"
 
-  - `"green"`
+<a href="#">Link to this property</a>
 
-  - `"red"`
+"amber-strict"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"green"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"red"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20cloudforce_one.requests.priority%20%3E%20(model)%20priority_edit%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+PriorityDeleteResponse object {errors, messages, success }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+errors: array of object {code, message, documentation\_url, source }
 
-- `result: optional Priority`
+</summary>
 
-  - `id: string`
+code: number
 
-    UUID.
+minimum1000
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-    Priority creation time.
+message: string
 
-  - `labels: array of Label`
+<a href="#">Link to this property</a>
 
-    List of labels.
+documentation\_url: optional string
 
-  - `priority: number`
+<a href="#">Link to this property</a>
 
-    Priority.
+<details>
 
-  - `requirement: string`
+<summary>
 
-    Requirement.
+source: optional object {pointer }
 
-  - `tlp: "clear" or "amber" or "amber-strict" or 2 more`
+</summary>
 
-    The CISA defined Traffic Light Protocol (TLP).
+pointer: optional string
 
-    - `"clear"`
+<a href="#">Link to this property</a>
 
-    - `"amber"`
+</details>
 
-    - `"amber-strict"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+</details>
 
-    - `"red"`
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+<details>
 
-    Priority last updated time.
+<summary>
 
-### Example
+messages: array of object {code, message, documentation\_url, source }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/priority/new \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "labels": [
-            "DoS",
-            "CVE"
-          ],
-          "priority": 1,
-          "requirement": "DoS attacks carried out by CVEs",
-          "tlp": "clear"
-        }'
-```
+</summary>
 
-#### Response
+code: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created": "2022-04-01T05:20:00Z",
-    "labels": [
-      "DoS",
-      "CVE"
-    ],
-    "priority": 1,
-    "requirement": "DoS attacks carried out by CVEs",
-    "tlp": "clear",
-    "updated": "2022-04-01T05:20:00Z"
-  }
-}
-```
+minimum1000
 
-## Update a Priority Intelligence Requirement
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}`
+message: string
 
-Updates a priority intelligence request in Cloudforce One.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+documentation\_url: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `priority_id: string`
+<summary>
 
-  UUID.
+source: optional object {pointer }
 
-### Body Parameters
+</summary>
 
-- `labels: array of Label`
+pointer: optional string
 
-  List of labels.
+<a href="#">Link to this property</a>
 
-- `priority: number`
+</details>
 
-  Priority.
+<a href="#">Link to this property</a>
 
-- `requirement: string`
+</details>
 
-  Requirement.
+<a href="#">Link to this property</a>
 
-- `tlp: "clear" or "amber" or "amber-strict" or 2 more`
+success: true
 
-  The CISA defined Traffic Light Protocol (TLP).
+Whether the API call was successful.
 
-  - `"clear"`
+<a href="#">Link to this property</a>
 
-  - `"amber"`
+</details>
 
-  - `"amber-strict"`
-
-  - `"green"`
-
-  - `"red"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Item`
-
-  - `id: string`
-
-    UUID.
-
-  - `content: string`
-
-    Request content.
-
-  - `created: string`
-
-  - `priority: string`
-
-  - `request: string`
-
-    Requested information from request.
-
-  - `summary: string`
-
-    Brief description of the request.
-
-  - `tlp: "clear" or "amber" or "amber-strict" or 2 more`
-
-    The CISA defined Traffic Light Protocol (TLP).
-
-    - `"clear"`
-
-    - `"amber"`
-
-    - `"amber-strict"`
-
-    - `"green"`
-
-    - `"red"`
-
-  - `updated: string`
-
-  - `completed: optional string`
-
-  - `message_tokens: optional number`
-
-    Tokens for the request messages.
-
-  - `readable_id: optional string`
-
-    Readable Request ID.
-
-  - `status: optional "open" or "accepted" or "reported" or 3 more`
-
-    Request Status.
-
-    - `"open"`
-
-    - `"accepted"`
-
-    - `"reported"`
-
-    - `"approved"`
-
-    - `"completed"`
-
-    - `"declined"`
-
-  - `tokens: optional number`
-
-    Tokens for the request.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/priority/$PRIORITY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "labels": [
-            "DoS",
-            "CVE"
-          ],
-          "priority": 1,
-          "requirement": "DoS attacks carried out by CVEs",
-          "tlp": "clear"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "content": "What regions were most effected by the recent DoS?",
-    "created": "2022-04-01T05:20:00Z",
-    "priority": "2022-04-01T05:20:00Z",
-    "request": "Victomology",
-    "summary": "DoS attack",
-    "tlp": "clear",
-    "updated": "2022-04-01T05:20:00Z",
-    "completed": "2022-04-01T05:20:00Z",
-    "message_tokens": 1,
-    "readable_id": "RFI-2022-000001",
-    "status": "open",
-    "tokens": 16
-  }
-}
-```
-
-## Delete a Priority Intelligence Requirement
-
-**delete** `/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}`
-
-Deletes a priority intelligence request from Cloudforce One.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `priority_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/priority/$PRIORITY_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Get Priority Intelligence Requirement Quota
-
-**get** `/accounts/{account_id}/cloudforce-one/requests/priority/quota`
-
-Retrieves quota usage for Cloudforce One priority requests.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Quota`
-
-  - `anniversary_date: optional string`
-
-    Anniversary date is when annual quota limit is refreshed.
-
-  - `quarter_anniversary_date: optional string`
-
-    Quarter anniversary date is when quota limit is refreshed each quarter.
-
-  - `quota: optional number`
-
-    Tokens for the quarter.
-
-  - `remaining: optional number`
-
-    Tokens remaining for the quarter.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/priority/quota \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "anniversary_date": "2022-04-01T00:00:00Z",
-    "quarter_anniversary_date": "2022-04-01T00:00:00Z",
-    "quota": 120,
-    "remaining": 64
-  }
-}
-```
-
-## Domain Types
-
-### Label
-
-- `Label = string`
-
-### Priority
-
-- `Priority object { id, created, labels, 4 more }`
-
-  - `id: string`
-
-    UUID.
-
-  - `created: string`
-
-    Priority creation time.
-
-  - `labels: array of Label`
-
-    List of labels.
-
-  - `priority: number`
-
-    Priority.
-
-  - `requirement: string`
-
-    Requirement.
-
-  - `tlp: "clear" or "amber" or "amber-strict" or 2 more`
-
-    The CISA defined Traffic Light Protocol (TLP).
-
-    - `"clear"`
-
-    - `"amber"`
-
-    - `"amber-strict"`
-
-    - `"green"`
-
-    - `"red"`
-
-  - `updated: string`
-
-    Priority last updated time.
-
-### Priority Edit
-
-- `PriorityEdit object { labels, priority, requirement, tlp }`
-
-  - `labels: array of Label`
-
-    List of labels.
-
-  - `priority: number`
-
-    Priority.
-
-  - `requirement: string`
-
-    Requirement.
-
-  - `tlp: "clear" or "amber" or "amber-strict" or 2 more`
-
-    The CISA defined Traffic Light Protocol (TLP).
-
-    - `"clear"`
-
-    - `"amber"`
-
-    - `"amber-strict"`
-
-    - `"green"`
-
-    - `"red"`
-
-### Priority Delete Response
-
-- `PriorityDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20cloudforce_one.requests.priority%20%3E%20(model)%20priority_delete_response%20%3E%20(schema)>)

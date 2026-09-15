@@ -115,7 +115,7 @@ export interface CreateCustomCertificateRequest {
   deploy?: CreateRequestDeploy | (string & {});
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
   geoRestrictions?: CreateRequestGeoRestrictions;
-  /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected. */
+  /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected. Note: The API accepts this field as either "policy" or "policy_restrictions" in requests. Responses return this field as "policy_restrictions". */
   policy?: string;
   /** The zone's private key. Not required if custom_csr_id is provided, in which case the private key is retrieved from the CSR record held by Cloudflare. */
   privateKey?: string;
@@ -265,7 +265,7 @@ export interface CreateCustomCertificateResponse {
   keylessServer?: CreateResponseKeylessServer | null;
   /** When the certificate was last modified. */
   modifiedOn?: string | null;
-  /** The policy restrictions returned by the API. This field is returned in responses */
+  /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
   policyRestrictions?: string | null;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
   priority?: number | null;
@@ -465,7 +465,7 @@ export interface GetCustomCertificateResponse {
   keylessServer?: GetResponseKeylessServer | null;
   /** When the certificate was last modified. */
   modifiedOn?: string | null;
-  /** The policy restrictions returned by the API. This field is returned in responses */
+  /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
   policyRestrictions?: string | null;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
   priority?: number | null;
@@ -653,7 +653,7 @@ export interface ListResultItem {
   keylessServer?: ListResultItemKeylessServer | null;
   /** When the certificate was last modified. */
   modifiedOn?: string | null;
-  /** The policy restrictions returned by the API. This field is returned in responses */
+  /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
   policyRestrictions?: string | null;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
   priority?: number | null;
@@ -747,7 +747,7 @@ export interface PatchCustomCertificateRequest {
   deploy?: EditRequestDeploy | (string & {});
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
   geoRestrictions?: EditRequestGeoRestrictions;
-  /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected. */
+  /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected. Note: The API accepts this field as either "policy" or "policy_restrictions" in requests. Responses return this field as "policy_restrictions". */
   policy?: string;
   /** The zone's private key. Not required if custom_csr_id is provided, in which case the private key is retrieved from the CSR record held by Cloudflare. */
   privateKey?: string;
@@ -881,7 +881,7 @@ export interface PatchCustomCertificateResponse {
   keylessServer?: EditResponseKeylessServer | null;
   /** When the certificate was last modified. */
   modifiedOn?: string | null;
-  /** The policy restrictions returned by the API. This field is returned in responses */
+  /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
   policyRestrictions?: string | null;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
   priority?: number | null;
@@ -1082,7 +1082,7 @@ export interface PrioritizeUpdateResultItem {
   keylessServer?: PrioritizeUpdateResultItemKeylessServer | null;
   /** When the certificate was last modified. */
   modifiedOn?: string | null;
-  /** The policy restrictions returned by the API. This field is returned in responses */
+  /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
   policyRestrictions?: string | null;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
   priority?: number | null;

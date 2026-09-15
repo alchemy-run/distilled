@@ -1,122 +1,359 @@
-## List Invitations
+---
+title: List Invitations
+---
 
-**get** `/user/invites`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[User](https://developers.cloudflare.com/api/resources/user)
+
+[Invites](https://developers.cloudflare.com/api/resources/user/subresources/invites)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Invitations
+
+GET/user/invites
 
 Lists all invitations associated with my user.
 
-### Returns
+##### Security
 
-- `errors: array of object { code, message, documentation_url, source }`
+API Email + API Key
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`Memberships Write``Memberships Read`
 
-  - `code: number`
+##### ReturnsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+code: number
 
-  Whether the API call was successful.
+minimum1000
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of Invite`
+message: string
 
-  - `invited_member_id: string`
+<a href="#">Link to this property</a>
 
-    ID of the user to add to the organization.
+documentation\_url: optional string
 
-  - `organization_id: string`
+<a href="#">Link to this property</a>
 
-    ID of the organization the user will be added to.
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Invite identifier tag.
+source: optional object {pointer }
 
-  - `expires_on: optional string`
+</summary>
 
-    When the invite is no longer active.
+pointer: optional string
 
-  - `invited_by: optional string`
+<a href="#">Link to this property</a>
 
-    The email address of the user who created the invite.
+</details>
 
-  - `invited_member_email: optional string`
+<a href="#">Link to this property</a>
 
-    Email address of the user to add to the organization.
+</details>
 
-  - `invited_on: optional string`
+[Link to this property](#)%20user.invites%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    When the invite was sent.
+<details>
 
-  - `organization_is_enforcing_twofactor: optional boolean`
+<summary>
 
-  - `organization_name: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-    Organization name.
+</summary>
 
-  - `roles: optional array of string`
+code: number
 
-    List of role names the membership has for this account.
+minimum1000
 
-  - `status: optional "pending" or "accepted" or "rejected" or "expired"`
+<a href="#">Link to this property</a>
 
-    Current status of the invitation.
+message: string
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"accepted"`
+documentation\_url: optional string
 
-    - `"rejected"`
+<a href="#">Link to this property</a>
 
-    - `"expired"`
+<details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<summary>
 
-  - `count: optional number`
+source: optional object {pointer }
 
-    Total number of results for the requested service
+</summary>
 
-  - `page: optional number`
+pointer: optional string
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters
+[Link to this property](#)%20user.invites%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-### Example
+success: true
 
-```http
+Whether the API call was successful.
+
+[Link to this property](#)%20user.invites%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/user#(resource)%20user.invites%20%3E%20(model)%20invite%20%3E%20(schema)">Invite</a> { invited\_member\_id, organization\_id, id, 8 more }
+
+</summary>
+
+invited\_member\_id: string
+
+ID of the user to add to the organization.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+organization\_id: string
+
+ID of the organization the user will be added to.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Invite identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+When the invite is no longer active.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+invited\_by: optional string
+
+The email address of the user who created the invite.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+invited\_member\_email: optional string
+
+Email address of the user to add to the organization.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+invited\_on: optional string
+
+When the invite was sent.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+organization\_is\_enforcing\_twofactor: optional boolean
+
+<a href="#">Link to this property</a>
+
+organization\_name: optional string
+
+Organization name.
+
+maxLength100
+
+<a href="#">Link to this property</a>
+
+roles: optional array of string
+
+List of role names the membership has for this account.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "pending"or "accepted"or "rejected"or "expired"
+
+Current status of the invitation.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"accepted"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+"expired"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.invites%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.invites%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Invitations
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/user/invites \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "invited_member_id": "5a7805061c76ada191ed06f989cc3dac",
+      "organization_id": "5a7805061c76ada191ed06f989cc3dac",
+      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
+      "expires_on": "2014-01-01T05:20:00Z",
+      "invited_by": "user@example.com",
+      "invited_member_email": "user@example.com",
+      "invited_on": "2014-01-01T05:20:00Z",
+      "organization_is_enforcing_twofactor": true,
+      "organization_name": "Cloudflare, Inc.",
+      "roles": [
+        "Account Administrator"
+      ],
+      "status": "accepted"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

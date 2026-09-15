@@ -1,111 +1,398 @@
-## Get live aggregate device details by dimension
+---
+title: Get live aggregate device details by dimension
+---
 
-**get** `/accounts/{account_id}/dex/fleet-status/live`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Fleet Status](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get live aggregate device details by dimension
+
+GET/accounts/{account\_id}/dex/fleet-status/live
 
 Get details for live (up to 60 minutes) devices using WARP.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Unique identifier linked to an account.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `since_minutes: number`
 
-  Number of minutes before current time.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Returns
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Email + API Key</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `messages: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Cloudflare DEX Write``Cloudflare DEX Read``Zero Trust Report``Zero Trust Read`
 
-- `success: true`
+##### P ath ParametersExpand Collapse
 
-  Whether the API call was successful.
+account\_id: string
 
-  - `true`
+Unique identifier linked to an account.
 
-- `result: optional object { deviceStats }`
+maxLength32
 
-  - `deviceStats: optional object { byColo, byMode, byPlatform, 3 more }`
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20live%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `byColo: optional array of LiveStat`
+##### Q uery ParametersExpand Collapse
 
-      - `uniqueDevicesTotal: optional number`
+since\_minutes: number
 
-        Number of unique devices
+Number of minutes before current time.
 
-      - `value: optional string`
+maximum60
 
-    - `byMode: optional array of LiveStat`
+minimum1
 
-      - `uniqueDevicesTotal: optional number`
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20live%20%3E%20(params)%20default%20%3E%20(param)%20since_minutes%20%3E%20(schema)>)
 
-        Number of unique devices
+##### ReturnsExpand Collapse
 
-      - `value: optional string`
+<details>
 
-    - `byPlatform: optional array of LiveStat`
+<summary>
 
-      - `uniqueDevicesTotal: optional number`
+errors: array of object {code, message, documentation\_url, source }
 
-        Number of unique devices
+</summary>
 
-      - `value: optional string`
+code: number
 
-    - `byStatus: optional array of LiveStat`
+minimum1000
 
-      - `uniqueDevicesTotal: optional number`
+<a href="#">Link to this property</a>
 
-        Number of unique devices
+message: string
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-    - `byVersion: optional array of LiveStat`
+documentation\_url: optional string
 
-      - `uniqueDevicesTotal: optional number`
+<a href="#">Link to this property</a>
 
-        Number of unique devices
+<details>
 
-      - `value: optional string`
+<summary>
 
-    - `uniqueDevicesTotal: optional number`
+source: optional object {pointer }
 
-      Number of unique devices
+</summary>
 
-### Example
+pointer: optional string
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20live%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20live%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20live%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {deviceStats }
+
+</summary>
+
+<details>
+
+<summary>
+
+deviceStats: optional object {byColo, byMode, byPlatform, 3 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+byColo: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
+
+</summary>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+byMode: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
+
+</summary>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+byPlatform: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
+
+</summary>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+byStatus: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
+
+</summary>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+byVersion: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
+
+</summary>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20live%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get live aggregate device details by dimension
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/fleet-status/live \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "deviceStats": {
+      "byColo": [
+        {
+          "uniqueDevicesTotal": 0,
+          "value": "value"
+        }
+      ],
+      "byMode": [
+        {
+          "uniqueDevicesTotal": 0,
+          "value": "value"
+        }
+      ],
+      "byPlatform": [
+        {
+          "uniqueDevicesTotal": 0,
+          "value": "value"
+        }
+      ],
+      "byStatus": [
+        {
+          "uniqueDevicesTotal": 0,
+          "value": "value"
+        }
+      ],
+      "byVersion": [
+        {
+          "uniqueDevicesTotal": 0,
+          "value": "value"
+        }
+      ],
+      "uniqueDevicesTotal": 0
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

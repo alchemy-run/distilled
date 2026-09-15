@@ -1,72 +1,215 @@
-## Upload Assets
+---
+title: Upload Assets
+---
 
-**post** `/accounts/{account_id}/workers/assets/upload`
+[Skip to content](#_top)
 
-Upload assets ahead of creating a Worker version.  To learn more about the direct uploads of assets, see https://developers.cloudflare.com/workers/static-assets/direct-upload/.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Workers](https://developers.cloudflare.com/api/resources/workers)
 
-- `account_id: string`
+[Assets](https://developers.cloudflare.com/api/resources/workers/subresources/assets)
 
-  Identifier.
+[Upload](https://developers.cloudflare.com/api/resources/workers/subresources/assets/subresources/upload)
 
-### Query Parameters
+Copy Markdown
 
-- `base64: true`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Whether the file contents are base64-encoded. Must be `true`.
+---
 
-  - `true`
+**Copy Markdown****View as Markdown**
 
-### Returns
+# Upload Assets
 
-- `errors: array of object { code, message, documentation_url, source }`
+POST/accounts/{account\_id}/workers/assets/upload
 
-  - `code: number`
+Upload assets ahead of creating a Worker version. To learn more about the direct uploads of assets, see https://developers.cloudflare.com/workers/static-assets/direct-upload/.
 
-  - `message: string`
+##### Security
 
-  - `documentation_url: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+account\_id: string
 
-    - `pointer: optional string`
+Identifier.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20workers.assets.upload%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### Q uery ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+base64: true
 
-  - `source: optional object { pointer }`
+Whether the file contents are base64-encoded. Must be `true`.
 
-    - `pointer: optional string`
+[Link to this property](#)%20workers.assets.upload%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20base64%20%3E%20(schema)>)
 
-- `success: true`
+##### Body ParametersForm DataExpand Collapse
 
-  Whether the API call was successful.
+body: map\[string]
 
-  - `true`
+[Link to this property](#)%20workers.assets.upload%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
 
-- `result: optional object { jwt }`
+##### ReturnsExpand Collapse
 
-  - `jwt: optional string`
+<details>
 
-    A "completion" JWT which can be redeemed when creating a Worker version.
+<summary>
 
-### Example
+errors: array of object {code, message, documentation\_url, source }
 
-```http
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.assets.upload%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.assets.upload%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers.assets.upload%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {jwt }
+
+</summary>
+
+jwt: optional string
+
+A “completion” JWT which can be redeemed when creating a Worker version.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.assets.upload%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Upload Assets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/assets/upload \
     -H 'Content-Type: multipart/form-data' \
     -F body='{"foo":"string"}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "jwt": "jwt"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

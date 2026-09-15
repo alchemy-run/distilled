@@ -1,319 +1,273 @@
+---
+title: Outages
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Annotations](https://developers.cloudflare.com/api/resources/radar/subresources/annotations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Outages
 
-## Get latest Internet outages and anomalies
+##### [Get latest Internet outages and anomalies](https://developers.cloudflare.com/api/resources/radar/subresources/annotations/subresources/outages/methods/get)
 
-**get** `/radar/annotations/outages`
+GET/radar/annotations/outages
 
-Retrieves the latest Internet outages and anomalies.
+##### [Get the number of outages by location](https://developers.cloudflare.com/api/resources/radar/subresources/annotations/subresources/outages/methods/locations)
 
-### Query Parameters
+GET/radar/annotations/outages/locations
 
-- `asn: optional number`
+##### ModelsExpand Collapse
 
-  Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer.
+<details>
 
-- `dateEnd: optional string`
+<summary>
 
-  End of the date range (inclusive).
+OutageGetResponse object {annotations }
 
-- `dateRange: optional string`
+</summary>
 
-  Filters results by date range.
+<details>
 
-- `dateStart: optional string`
+<summary>
 
-  Start of the date range (inclusive).
+annotations: array of object {id, asns, asnsDetails, 15 more }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+id: string
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+asns: array of number
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects returned in the response.
+<details>
 
-- `location: optional string`
+<summary>
 
-  Filters results by location. Specify an alpha-2 location code.
+asnsDetails: array of object {asn, location, name }
 
-- `offset: optional number`
+</summary>
 
-  Skips the specified number of objects before fetching the results.
+asn: string
 
-- `origin: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by origin.
+<details>
 
-### Returns
+<summary>
 
-- `result: object { annotations }`
+location: object {code, name }
 
-  - `annotations: array of object { id, asns, asnsDetails, 12 more }`
+</summary>
 
-    - `id: string`
+code: string
 
-    - `asns: array of number`
+<a href="#">Link to this property</a>
 
-    - `asnsDetails: array of object { asn, name, locations }`
+name: string
 
-      - `asn: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-      - `locations: optional object { code, name }`
+<a href="#">Link to this property</a>
 
-        - `code: string`
+name: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-    - `dataSource: string`
+</details>
 
-    - `eventType: string`
+<a href="#">Link to this property</a>
 
-    - `locations: array of string`
+dataSource: string
 
-    - `locationsDetails: array of object { code, name }`
+<a href="#">Link to this property</a>
 
-      - `code: string`
+description: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `origins: array of string`
+endDate: string
 
-    - `originsDetails: array of object { name, origin }`
+formatdate-time
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `origin: string`
+<details>
 
-    - `outage: object { outageCause, outageType }`
+<summary>
 
-      - `outageCause: string`
+entities: array of object {entityName, entityType, entityValue }
 
-      - `outageType: string`
+</summary>
 
-    - `startDate: string`
+entityName: string
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-    - `endDate: optional string`
-
-    - `linkedUrl: optional string`
-
-    - `scope: optional string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/annotations/outages \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+entityType: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "annotations": [
-      {
-        "id": "550",
-        "asns": [
-          189
-        ],
-        "asnsDetails": [
-          {
-            "asn": "189",
-            "name": "LUMEN-LEGACY-L3-PARTITION",
-            "locations": {
-              "code": "US",
-              "name": "United States"
-            }
-          }
-        ],
-        "dataSource": "ALL",
-        "eventType": "OUTAGE",
-        "locations": [
-          "US"
-        ],
-        "locationsDetails": [
-          {
-            "code": "US",
-            "name": "United States"
-          }
-        ],
-        "origins": [
-          "amazon-us-east-1"
-        ],
-        "originsDetails": [
-          {
-            "name": "us-east-1 Amazon Web Services",
-            "origin": "amazon-us-east-1"
-          }
-        ],
-        "outage": {
-          "outageCause": "CABLE_CUT",
-          "outageType": "NATIONWIDE"
-        },
-        "startDate": "2019-12-27T18:11:19.117Z",
-        "description": "example",
-        "endDate": "2019-12-27T18:11:19.117Z",
-        "linkedUrl": "http://example.com",
-        "scope": "Colima, Michoacán, México"
-      }
-    ]
-  },
-  "success": true
-}
-```
+entityValue: string
 
-## Get the number of outages by location
+<a href="#">Link to this property</a>
 
-**get** `/radar/annotations/outages/locations`
+</details>
 
-Retrieves the number of outages by location.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+eventType: string
 
-- `dateEnd: optional string`
+<a href="#">Link to this property</a>
 
-  End of the date range (inclusive).
+geoIds: array of string
 
-- `dateRange: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by date range.
+linkedUrl: string
 
-- `dateStart: optional string`
+<a href="#">Link to this property</a>
 
-  Start of the date range (inclusive).
+locations: array of string
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+<details>
 
-  - `"JSON"`
+<summary>
 
-  - `"CSV"`
+locationsDetails: array of object {code, name }
 
-- `limit: optional number`
+</summary>
 
-  Limits the number of objects returned in the response.
+code: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { annotations }`
+name: string
 
-  - `annotations: array of object { clientCountryAlpha2, clientCountryName, value }`
+<a href="#">Link to this property</a>
 
-    - `clientCountryAlpha2: string`
+</details>
 
-    - `clientCountryName: string`
+<a href="#">Link to this property</a>
 
-    - `value: string`
+origins: array of string
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/annotations/outages/locations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+originsDetails: array of object {name, origin }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": {
-    "annotations": [
-      {
-        "clientCountryAlpha2": "PT",
-        "clientCountryName": "Portugal",
-        "value": "10"
-      }
-    ]
-  },
-  "success": true
-}
-```
+name: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Outage Get Response
+origin: string
 
-- `OutageGetResponse object { annotations }`
+<a href="#">Link to this property</a>
 
-  - `annotations: array of object { id, asns, asnsDetails, 12 more }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `asns: array of number`
+<details>
 
-    - `asnsDetails: array of object { asn, name, locations }`
+<summary>
 
-      - `asn: string`
+outage: object {outageCause, outageType }
 
-      - `name: string`
+</summary>
 
-      - `locations: optional object { code, name }`
+outageCause: string
 
-        - `code: string`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+outageType: string
 
-    - `dataSource: string`
+<a href="#">Link to this property</a>
 
-    - `eventType: string`
+</details>
 
-    - `locations: array of string`
+<a href="#">Link to this property</a>
 
-    - `locationsDetails: array of object { code, name }`
+scope: string
 
-      - `code: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+startDate: string
 
-    - `origins: array of string`
+formatdate-time
 
-    - `originsDetails: array of object { name, origin }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+tags: array of string
 
-      - `origin: string`
+<a href="#">Link to this property</a>
 
-    - `outage: object { outageCause, outageType }`
+</details>
 
-      - `outageCause: string`
+<a href="#">Link to this property</a>
 
-      - `outageType: string`
+</details>
 
-    - `startDate: string`
+[Link to this property](#)%20radar.annotations.outages%20%3E%20(model)%20outage_get_response%20%3E%20(schema)>)
 
-    - `description: optional string`
+<details>
 
-    - `endDate: optional string`
+<summary>
 
-    - `linkedUrl: optional string`
+OutageLocationsResponse object {annotations }
 
-    - `scope: optional string`
+</summary>
 
-### Outage Locations Response
+<details>
 
-- `OutageLocationsResponse object { annotations }`
+<summary>
 
-  - `annotations: array of object { clientCountryAlpha2, clientCountryName, value }`
+annotations: array of object {clientCountryAlpha2, clientCountryName, value }
 
-    - `clientCountryAlpha2: string`
+</summary>
 
-    - `clientCountryName: string`
+clientCountryAlpha2: string
 
-    - `value: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+clientCountryName: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+A numeric string.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.annotations.outages%20%3E%20(model)%20outage_locations_response%20%3E%20(schema)>)

@@ -1,1551 +1,667 @@
+---
+title: Routes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Routes
 
-## List Routes
+##### [List Routes](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes/methods/list)
 
-**get** `/accounts/{account_id}/magic/routes`
+GET/accounts/{account\_id}/magic/routes
 
-List all Magic static routes.
+##### [Route Details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/routes/{route\_id}
 
-- `account_id: string`
+##### [Create a Route](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/magic/routes
 
-### Returns
+##### [Update Route](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes/methods/update)
 
-- `errors: array of ResponseInfo`
+PUT/accounts/{account\_id}/magic/routes/{route\_id}
 
-  - `code: number`
+##### [Delete Route](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/magic/routes/{route\_id}
 
-  - `documentation_url: optional string`
+##### [Update Many Routes](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes/methods/bulk_update)
 
-  - `source: optional object { pointer }`
+PUT/accounts/{account\_id}/magic/routes
 
-    - `pointer: optional string`
+##### [Delete Many Routes](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes/methods/empty)
 
-- `messages: array of ResponseInfo`
+DELETE/accounts/{account\_id}/magic/routes
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+Scope object {colo\_names, colo\_regions }
 
-- `result: object { routes }`
+Used only for ECMP routes.
 
-  - `routes: optional array of object { id, nexthop, prefix, 6 more }`
+</summary>
 
-    - `id: string`
+colo\_names: optional array of string
 
-      Identifier
+List of colo names for the ECMP scope.
 
-    - `nexthop: string`
+<a href="#">Link to this property</a>
 
-      The next-hop IP Address for the static route.
+colo\_regions: optional array of string
 
-    - `prefix: string`
+List of colo regions for the ECMP scope.
 
-      IP Prefix in Classless Inter-Domain Routing format.
+<a href="#">Link to this property</a>
 
-    - `priority: number`
+</details>
 
-      Priority of the static route.
+[Link to this property](#)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)>)
 
-    - `created_on: optional string`
+<details>
 
-      When the route was created.
+<summary>
 
-    - `description: optional string`
+RouteListResponse object {routes }
 
-      An optional human provided description of the static route.
+</summary>
 
-    - `modified_on: optional string`
+<details>
 
-      When the route was last modified.
+<summary>
 
-    - `scope: optional Scope`
+routes: optional array of object {id, nexthop, prefix, 6 more }
 
-      Used only for ECMP routes.
+</summary>
 
-      - `colo_names: optional array of string`
+id: string
 
-        List of colo names for the ECMP scope.
+Identifier
 
-      - `colo_regions: optional array of string`
+maxLength32
 
-        List of colo regions for the ECMP scope.
+<a href="#">Link to this property</a>
 
-    - `weight: optional number`
+nexthop: string
 
-      Optional weight of the ECMP scope - if provided.
+The next-hop IP Address for the static route.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+prefix: string
 
-  - `true`
+IP Prefix in Classless Inter-Domain Routing format.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+priority: number
 
-#### Response
+Priority of the static route.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "routes": [
-      {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "nexthop": "203.0.113.1",
-        "prefix": "192.0.2.0/24",
-        "priority": 0,
-        "created_on": "2017-06-14T00:00:00Z",
-        "description": "New route for new prefix 203.0.113.1",
-        "modified_on": "2017-06-14T05:20:00Z",
-        "scope": {
-          "colo_names": [
-            "den01"
-          ],
-          "colo_regions": [
-            "APAC"
-          ]
-        },
-        "weight": 0
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Route Details
+created\_on: optional string
 
-**get** `/accounts/{account_id}/magic/routes/{route_id}`
+When the route was created.
 
-Get a specific Magic static route.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-  Identifier
+An optional human provided description of the static route.
 
-- `route_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+modified\_on: optional string
 
-### Returns
+When the route was last modified.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
 
-  - `documentation_url: optional string`
+Used only for ECMP routes.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+weight: optional number
 
-- `messages: array of ResponseInfo`
+Optional weight of the ECMP scope - if provided.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { route }`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(model)%20route_list_response%20%3E%20(schema)>)
 
-  - `route: optional object { id, nexthop, prefix, 6 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-      Identifier
+RouteGetResponse object {route }
 
-    - `nexthop: string`
+</summary>
 
-      The next-hop IP Address for the static route.
+<details>
 
-    - `prefix: string`
+<summary>
 
-      IP Prefix in Classless Inter-Domain Routing format.
+route: optional object {id, nexthop, prefix, 6 more }
 
-    - `priority: number`
+</summary>
 
-      Priority of the static route.
+id: string
 
-    - `created_on: optional string`
+Identifier
 
-      When the route was created.
+maxLength32
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      An optional human provided description of the static route.
+nexthop: string
 
-    - `modified_on: optional string`
+The next-hop IP Address for the static route.
 
-      When the route was last modified.
+<a href="#">Link to this property</a>
 
-    - `scope: optional Scope`
+prefix: string
 
-      Used only for ECMP routes.
+IP Prefix in Classless Inter-Domain Routing format.
 
-      - `colo_names: optional array of string`
+<a href="#">Link to this property</a>
 
-        List of colo names for the ECMP scope.
+priority: number
 
-      - `colo_regions: optional array of string`
+Priority of the static route.
 
-        List of colo regions for the ECMP scope.
+<a href="#">Link to this property</a>
 
-    - `weight: optional number`
+created\_on: optional string
 
-      Optional weight of the ECMP scope - if provided.
+When the route was created.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+description: optional string
 
-### Example
+An optional human provided description of the static route.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes/$ROUTE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+modified\_on: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "route": {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "nexthop": "203.0.113.1",
-      "prefix": "192.0.2.0/24",
-      "priority": 0,
-      "created_on": "2017-06-14T00:00:00Z",
-      "description": "New route for new prefix 203.0.113.1",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "scope": {
-        "colo_names": [
-          "den01"
-        ],
-        "colo_regions": [
-          "APAC"
-        ]
-      },
-      "weight": 0
-    }
-  },
-  "success": true
-}
-```
+When the route was last modified.
 
-## Create a Route
+formatdate-time
 
-**post** `/accounts/{account_id}/magic/routes`
+<a href="#">Link to this property</a>
 
-Creates a new Magic static route. Use `?validate_only=true` as an optional query parameter to run validation only without persisting changes.
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
 
-### Path Parameters
+Used only for ECMP routes.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+weight: optional number
 
-### Body Parameters
+Optional weight of the ECMP scope - if provided.
 
-- `nexthop: string`
+<a href="#">Link to this property</a>
 
-  The next-hop IP Address for the static route.
+</details>
 
-- `prefix: string`
+<a href="#">Link to this property</a>
 
-  IP Prefix in Classless Inter-Domain Routing format.
+</details>
 
-- `priority: number`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(model)%20route_get_response%20%3E%20(schema)>)
 
-  Priority of the static route.
+<details>
 
-- `description: optional string`
+<summary>
 
-  An optional human provided description of the static route.
+RouteCreateResponse object {id, nexthop, prefix, 6 more }
 
-- `scope: optional Scope`
+</summary>
 
-  Used only for ECMP routes.
+id: string
 
-  - `colo_names: optional array of string`
+Identifier
 
-    List of colo names for the ECMP scope.
+maxLength32
 
-  - `colo_regions: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of colo regions for the ECMP scope.
+nexthop: string
 
-- `weight: optional number`
+The next-hop IP Address for the static route.
 
-  Optional weight of the ECMP scope - if provided.
+<a href="#">Link to this property</a>
 
-### Returns
+prefix: string
 
-- `errors: array of ResponseInfo`
+IP Prefix in Classless Inter-Domain Routing format.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+priority: number
 
-  - `documentation_url: optional string`
+Priority of the static route.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: optional string
 
-- `messages: array of ResponseInfo`
+When the route was created.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+description: optional string
 
-  - `source: optional object { pointer }`
+An optional human provided description of the static route.
 
-- `result: object { id, nexthop, prefix, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+modified\_on: optional string
 
-    Identifier
+When the route was last modified.
 
-  - `nexthop: string`
+formatdate-time
 
-    The next-hop IP Address for the static route.
+<a href="#">Link to this property</a>
 
-  - `prefix: string`
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
 
-    IP Prefix in Classless Inter-Domain Routing format.
+Used only for ECMP routes.
 
-  - `priority: number`
+<a href="#">Link to this property</a>
 
-    Priority of the static route.
+weight: optional number
 
-  - `created_on: optional string`
+Optional weight of the ECMP scope - if provided.
 
-    When the route was created.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    An optional human provided description of the static route.
+[Link to this property](#)%20magic_transit.routes%20%3E%20(model)%20route_create_response%20%3E%20(schema)>)
 
-  - `modified_on: optional string`
+<details>
 
-    When the route was last modified.
+<summary>
 
-  - `scope: optional Scope`
+RouteUpdateResponse object {modified, modified\_route }
 
-    Used only for ECMP routes.
+</summary>
 
-    - `colo_names: optional array of string`
+modified: optional boolean
 
-      List of colo names for the ECMP scope.
+<a href="#">Link to this property</a>
 
-    - `colo_regions: optional array of string`
+<details>
 
-      List of colo regions for the ECMP scope.
+<summary>
 
-  - `weight: optional number`
+modified\_route: optional object {id, nexthop, prefix, 6 more }
 
-    Optional weight of the ECMP scope - if provided.
+</summary>
 
-- `success: true`
+id: string
 
-  Whether the API call was successful
+Identifier
 
-  - `true`
+maxLength32
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "nexthop": "203.0.113.1",
-          "prefix": "192.0.2.0/24",
-          "priority": 0,
-          "description": "New route for new prefix 203.0.113.1"
-        }'
-```
+nexthop: string
 
-#### Response
+The next-hop IP Address for the static route.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "nexthop": "203.0.113.1",
-    "prefix": "192.0.2.0/24",
-    "priority": 0,
-    "created_on": "2017-06-14T00:00:00Z",
-    "description": "New route for new prefix 203.0.113.1",
-    "modified_on": "2017-06-14T05:20:00Z",
-    "scope": {
-      "colo_names": [
-        "den01"
-      ],
-      "colo_regions": [
-        "APAC"
-      ]
-    },
-    "weight": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Route
+prefix: string
 
-**put** `/accounts/{account_id}/magic/routes/{route_id}`
+IP Prefix in Classless Inter-Domain Routing format.
 
-Update a specific Magic static route. Use `?validate_only=true` as an optional query parameter to run validation only without persisting changes.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+priority: number
 
-- `account_id: string`
+Priority of the static route.
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `route_id: string`
+created\_on: optional string
 
-  Identifier
+When the route was created.
 
-### Body Parameters
+formatdate-time
 
-- `nexthop: string`
+<a href="#">Link to this property</a>
 
-  The next-hop IP Address for the static route.
+description: optional string
 
-- `prefix: string`
+An optional human provided description of the static route.
 
-  IP Prefix in Classless Inter-Domain Routing format.
+<a href="#">Link to this property</a>
 
-- `priority: number`
+modified\_on: optional string
 
-  Priority of the static route.
+When the route was last modified.
 
-- `description: optional string`
+formatdate-time
 
-  An optional human provided description of the static route.
+<a href="#">Link to this property</a>
 
-- `scope: optional Scope`
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
 
-  Used only for ECMP routes.
+Used only for ECMP routes.
 
-  - `colo_names: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of colo names for the ECMP scope.
+weight: optional number
 
-  - `colo_regions: optional array of string`
+Optional weight of the ECMP scope - if provided.
 
-    List of colo regions for the ECMP scope.
+<a href="#">Link to this property</a>
 
-- `weight: optional number`
+</details>
 
-  Optional weight of the ECMP scope - if provided.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(model)%20route_update_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+RouteDeleteResponse object {deleted, deleted\_route }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+deleted: optional boolean
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+deleted\_route: optional object {id, nexthop, prefix, 6 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: object { modified, modified_route }`
+id: string
 
-  - `modified: optional boolean`
+Identifier
 
-  - `modified_route: optional object { id, nexthop, prefix, 6 more }`
+maxLength32
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifier
+nexthop: string
 
-    - `nexthop: string`
+The next-hop IP Address for the static route.
 
-      The next-hop IP Address for the static route.
+<a href="#">Link to this property</a>
 
-    - `prefix: string`
+prefix: string
 
-      IP Prefix in Classless Inter-Domain Routing format.
+IP Prefix in Classless Inter-Domain Routing format.
 
-    - `priority: number`
+<a href="#">Link to this property</a>
 
-      Priority of the static route.
+priority: number
 
-    - `created_on: optional string`
+Priority of the static route.
 
-      When the route was created.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+created\_on: optional string
 
-      An optional human provided description of the static route.
+When the route was created.
 
-    - `modified_on: optional string`
+formatdate-time
 
-      When the route was last modified.
+<a href="#">Link to this property</a>
 
-    - `scope: optional Scope`
+description: optional string
 
-      Used only for ECMP routes.
+An optional human provided description of the static route.
 
-      - `colo_names: optional array of string`
+<a href="#">Link to this property</a>
 
-        List of colo names for the ECMP scope.
+modified\_on: optional string
 
-      - `colo_regions: optional array of string`
+When the route was last modified.
 
-        List of colo regions for the ECMP scope.
+formatdate-time
 
-    - `weight: optional number`
+<a href="#">Link to this property</a>
 
-      Optional weight of the ECMP scope - if provided.
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
 
-- `success: true`
+Used only for ECMP routes.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+weight: optional number
 
-### Example
+Optional weight of the ECMP scope - if provided.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes/$ROUTE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "nexthop": "203.0.113.1",
-          "prefix": "192.0.2.0/24",
-          "priority": 0,
-          "description": "New route for new prefix 203.0.113.1"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": true,
-    "modified_route": {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "nexthop": "203.0.113.1",
-      "prefix": "192.0.2.0/24",
-      "priority": 0,
-      "created_on": "2017-06-14T00:00:00Z",
-      "description": "New route for new prefix 203.0.113.1",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "scope": {
-        "colo_names": [
-          "den01"
-        ],
-        "colo_regions": [
-          "APAC"
-        ]
-      },
-      "weight": 0
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete Route
+</details>
 
-**delete** `/accounts/{account_id}/magic/routes/{route_id}`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(model)%20route_delete_response%20%3E%20(schema)>)
 
-Disable and remove a specific Magic static route.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+RouteBulkUpdateResponse object {modified, modified\_routes }
 
-  Identifier
+</summary>
 
-- `route_id: string`
+modified: optional boolean
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+modified\_routes: optional array of object {id, nexthop, prefix, 6 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Identifier
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+nexthop: string
 
-  - `message: string`
+The next-hop IP Address for the static route.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+prefix: string
 
-- `result: object { deleted, deleted_route }`
+IP Prefix in Classless Inter-Domain Routing format.
 
-  - `deleted: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `deleted_route: optional object { id, nexthop, prefix, 6 more }`
+priority: number
 
-    - `id: string`
+Priority of the static route.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `nexthop: string`
+created\_on: optional string
 
-      The next-hop IP Address for the static route.
+When the route was created.
 
-    - `prefix: string`
+formatdate-time
 
-      IP Prefix in Classless Inter-Domain Routing format.
+<a href="#">Link to this property</a>
 
-    - `priority: number`
+description: optional string
 
-      Priority of the static route.
+An optional human provided description of the static route.
 
-    - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-      When the route was created.
+modified\_on: optional string
 
-    - `description: optional string`
+When the route was last modified.
 
-      An optional human provided description of the static route.
+formatdate-time
 
-    - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-      When the route was last modified.
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
 
-    - `scope: optional Scope`
+Used only for ECMP routes.
 
-      Used only for ECMP routes.
+<a href="#">Link to this property</a>
 
-      - `colo_names: optional array of string`
+weight: optional number
 
-        List of colo names for the ECMP scope.
+Optional weight of the ECMP scope - if provided.
 
-      - `colo_regions: optional array of string`
+<a href="#">Link to this property</a>
 
-        List of colo regions for the ECMP scope.
+</details>
 
-    - `weight: optional number`
+<a href="#">Link to this property</a>
 
-      Optional weight of the ECMP scope - if provided.
+</details>
 
-- `success: true`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(model)%20route_bulk_update_response%20%3E%20(schema)>)
 
-  Whether the API call was successful
+<details>
 
-  - `true`
+<summary>
 
-### Example
+RouteEmptyResponse object {deleted, deleted\_routes }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes/$ROUTE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+deleted: optional boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "deleted": true,
-    "deleted_route": {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "nexthop": "203.0.113.1",
-      "prefix": "192.0.2.0/24",
-      "priority": 0,
-      "created_on": "2017-06-14T00:00:00Z",
-      "description": "New route for new prefix 203.0.113.1",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "scope": {
-        "colo_names": [
-          "den01"
-        ],
-        "colo_regions": [
-          "APAC"
-        ]
-      },
-      "weight": 0
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Many Routes
+<details>
 
-**put** `/accounts/{account_id}/magic/routes`
+<summary>
 
-Update multiple Magic static routes. Use `?validate_only=true` as an optional query parameter to run validation only without persisting changes. Only fields for a route that need to be changed need be provided.
+deleted\_routes: optional array of object {id, nexthop, prefix, 6 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: string
 
-  Identifier
+Identifier
 
-### Body Parameters
+maxLength32
 
-- `routes: array of object { id, nexthop, prefix, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+nexthop: string
 
-    Identifier
+The next-hop IP Address for the static route.
 
-  - `nexthop: string`
+<a href="#">Link to this property</a>
 
-    The next-hop IP Address for the static route.
+prefix: string
 
-  - `prefix: string`
+IP Prefix in Classless Inter-Domain Routing format.
 
-    IP Prefix in Classless Inter-Domain Routing format.
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+priority: number
 
-    Priority of the static route.
+Priority of the static route.
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An optional human provided description of the static route.
+created\_on: optional string
 
-  - `scope: optional Scope`
+When the route was created.
 
-    Used only for ECMP routes.
+formatdate-time
 
-    - `colo_names: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of colo names for the ECMP scope.
+description: optional string
 
-    - `colo_regions: optional array of string`
+An optional human provided description of the static route.
 
-      List of colo regions for the ECMP scope.
+<a href="#">Link to this property</a>
 
-  - `weight: optional number`
+modified\_on: optional string
 
-    Optional weight of the ECMP scope - if provided.
+When the route was last modified.
 
-### Returns
+formatdate-time
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
 
-  - `message: string`
+Used only for ECMP routes.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+weight: optional number
 
-    - `pointer: optional string`
+Optional weight of the ECMP scope - if provided.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
-
-- `result: object { modified, modified_routes }`
-
-  - `modified: optional boolean`
-
-  - `modified_routes: optional array of object { id, nexthop, prefix, 6 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `nexthop: string`
-
-      The next-hop IP Address for the static route.
-
-    - `prefix: string`
-
-      IP Prefix in Classless Inter-Domain Routing format.
-
-    - `priority: number`
-
-      Priority of the static route.
-
-    - `created_on: optional string`
-
-      When the route was created.
-
-    - `description: optional string`
-
-      An optional human provided description of the static route.
-
-    - `modified_on: optional string`
-
-      When the route was last modified.
-
-    - `scope: optional Scope`
-
-      Used only for ECMP routes.
-
-      - `colo_names: optional array of string`
-
-        List of colo names for the ECMP scope.
-
-      - `colo_regions: optional array of string`
-
-        List of colo regions for the ECMP scope.
-
-    - `weight: optional number`
-
-      Optional weight of the ECMP scope - if provided.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "routes": [
-            {
-              "id": "023e105f4ecef8ad9ca31a8372d0c353",
-              "nexthop": "203.0.113.1",
-              "prefix": "192.0.2.0/24",
-              "priority": 0
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": true,
-    "modified_routes": [
-      {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "nexthop": "203.0.113.1",
-        "prefix": "192.0.2.0/24",
-        "priority": 0,
-        "created_on": "2017-06-14T00:00:00Z",
-        "description": "New route for new prefix 203.0.113.1",
-        "modified_on": "2017-06-14T05:20:00Z",
-        "scope": {
-          "colo_names": [
-            "den01"
-          ],
-          "colo_regions": [
-            "APAC"
-          ]
-        },
-        "weight": 0
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Delete Many Routes
-
-**delete** `/accounts/{account_id}/magic/routes`
-
-Delete multiple Magic static routes.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { deleted, deleted_routes }`
-
-  - `deleted: optional boolean`
-
-  - `deleted_routes: optional array of object { id, nexthop, prefix, 6 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `nexthop: string`
-
-      The next-hop IP Address for the static route.
-
-    - `prefix: string`
-
-      IP Prefix in Classless Inter-Domain Routing format.
-
-    - `priority: number`
-
-      Priority of the static route.
-
-    - `created_on: optional string`
-
-      When the route was created.
-
-    - `description: optional string`
-
-      An optional human provided description of the static route.
-
-    - `modified_on: optional string`
-
-      When the route was last modified.
-
-    - `scope: optional Scope`
-
-      Used only for ECMP routes.
-
-      - `colo_names: optional array of string`
-
-        List of colo names for the ECMP scope.
-
-      - `colo_regions: optional array of string`
-
-        List of colo regions for the ECMP scope.
-
-    - `weight: optional number`
-
-      Optional weight of the ECMP scope - if provided.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "deleted": true,
-    "deleted_routes": [
-      {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "nexthop": "203.0.113.1",
-        "prefix": "192.0.2.0/24",
-        "priority": 0,
-        "created_on": "2017-06-14T00:00:00Z",
-        "description": "New route for new prefix 203.0.113.1",
-        "modified_on": "2017-06-14T05:20:00Z",
-        "scope": {
-          "colo_names": [
-            "den01"
-          ],
-          "colo_regions": [
-            "APAC"
-          ]
-        },
-        "weight": 0
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Scope
-
-- `Scope object { colo_names, colo_regions }`
-
-  Used only for ECMP routes.
-
-  - `colo_names: optional array of string`
-
-    List of colo names for the ECMP scope.
-
-  - `colo_regions: optional array of string`
-
-    List of colo regions for the ECMP scope.
-
-### Route List Response
-
-- `RouteListResponse object { routes }`
-
-  - `routes: optional array of object { id, nexthop, prefix, 6 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `nexthop: string`
-
-      The next-hop IP Address for the static route.
-
-    - `prefix: string`
-
-      IP Prefix in Classless Inter-Domain Routing format.
-
-    - `priority: number`
-
-      Priority of the static route.
-
-    - `created_on: optional string`
-
-      When the route was created.
-
-    - `description: optional string`
-
-      An optional human provided description of the static route.
-
-    - `modified_on: optional string`
-
-      When the route was last modified.
-
-    - `scope: optional Scope`
-
-      Used only for ECMP routes.
-
-      - `colo_names: optional array of string`
-
-        List of colo names for the ECMP scope.
-
-      - `colo_regions: optional array of string`
-
-        List of colo regions for the ECMP scope.
-
-    - `weight: optional number`
-
-      Optional weight of the ECMP scope - if provided.
-
-### Route Get Response
-
-- `RouteGetResponse object { route }`
-
-  - `route: optional object { id, nexthop, prefix, 6 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `nexthop: string`
-
-      The next-hop IP Address for the static route.
-
-    - `prefix: string`
-
-      IP Prefix in Classless Inter-Domain Routing format.
-
-    - `priority: number`
-
-      Priority of the static route.
-
-    - `created_on: optional string`
-
-      When the route was created.
-
-    - `description: optional string`
-
-      An optional human provided description of the static route.
-
-    - `modified_on: optional string`
-
-      When the route was last modified.
-
-    - `scope: optional Scope`
-
-      Used only for ECMP routes.
-
-      - `colo_names: optional array of string`
-
-        List of colo names for the ECMP scope.
-
-      - `colo_regions: optional array of string`
-
-        List of colo regions for the ECMP scope.
-
-    - `weight: optional number`
-
-      Optional weight of the ECMP scope - if provided.
-
-### Route Create Response
-
-- `RouteCreateResponse object { id, nexthop, prefix, 6 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `nexthop: string`
-
-    The next-hop IP Address for the static route.
-
-  - `prefix: string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `priority: number`
-
-    Priority of the static route.
-
-  - `created_on: optional string`
-
-    When the route was created.
-
-  - `description: optional string`
-
-    An optional human provided description of the static route.
-
-  - `modified_on: optional string`
-
-    When the route was last modified.
-
-  - `scope: optional Scope`
-
-    Used only for ECMP routes.
-
-    - `colo_names: optional array of string`
-
-      List of colo names for the ECMP scope.
-
-    - `colo_regions: optional array of string`
-
-      List of colo regions for the ECMP scope.
-
-  - `weight: optional number`
-
-    Optional weight of the ECMP scope - if provided.
-
-### Route Update Response
-
-- `RouteUpdateResponse object { modified, modified_route }`
-
-  - `modified: optional boolean`
-
-  - `modified_route: optional object { id, nexthop, prefix, 6 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `nexthop: string`
-
-      The next-hop IP Address for the static route.
-
-    - `prefix: string`
-
-      IP Prefix in Classless Inter-Domain Routing format.
-
-    - `priority: number`
-
-      Priority of the static route.
-
-    - `created_on: optional string`
-
-      When the route was created.
-
-    - `description: optional string`
-
-      An optional human provided description of the static route.
-
-    - `modified_on: optional string`
-
-      When the route was last modified.
-
-    - `scope: optional Scope`
-
-      Used only for ECMP routes.
-
-      - `colo_names: optional array of string`
-
-        List of colo names for the ECMP scope.
-
-      - `colo_regions: optional array of string`
-
-        List of colo regions for the ECMP scope.
-
-    - `weight: optional number`
-
-      Optional weight of the ECMP scope - if provided.
-
-### Route Delete Response
-
-- `RouteDeleteResponse object { deleted, deleted_route }`
-
-  - `deleted: optional boolean`
-
-  - `deleted_route: optional object { id, nexthop, prefix, 6 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `nexthop: string`
-
-      The next-hop IP Address for the static route.
-
-    - `prefix: string`
-
-      IP Prefix in Classless Inter-Domain Routing format.
-
-    - `priority: number`
-
-      Priority of the static route.
-
-    - `created_on: optional string`
-
-      When the route was created.
-
-    - `description: optional string`
-
-      An optional human provided description of the static route.
-
-    - `modified_on: optional string`
-
-      When the route was last modified.
-
-    - `scope: optional Scope`
-
-      Used only for ECMP routes.
-
-      - `colo_names: optional array of string`
-
-        List of colo names for the ECMP scope.
-
-      - `colo_regions: optional array of string`
-
-        List of colo regions for the ECMP scope.
-
-    - `weight: optional number`
-
-      Optional weight of the ECMP scope - if provided.
-
-### Route Bulk Update Response
-
-- `RouteBulkUpdateResponse object { modified, modified_routes }`
-
-  - `modified: optional boolean`
-
-  - `modified_routes: optional array of object { id, nexthop, prefix, 6 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `nexthop: string`
-
-      The next-hop IP Address for the static route.
-
-    - `prefix: string`
-
-      IP Prefix in Classless Inter-Domain Routing format.
-
-    - `priority: number`
-
-      Priority of the static route.
-
-    - `created_on: optional string`
-
-      When the route was created.
-
-    - `description: optional string`
-
-      An optional human provided description of the static route.
-
-    - `modified_on: optional string`
-
-      When the route was last modified.
-
-    - `scope: optional Scope`
-
-      Used only for ECMP routes.
-
-      - `colo_names: optional array of string`
-
-        List of colo names for the ECMP scope.
-
-      - `colo_regions: optional array of string`
-
-        List of colo regions for the ECMP scope.
-
-    - `weight: optional number`
-
-      Optional weight of the ECMP scope - if provided.
-
-### Route Empty Response
-
-- `RouteEmptyResponse object { deleted, deleted_routes }`
-
-  - `deleted: optional boolean`
-
-  - `deleted_routes: optional array of object { id, nexthop, prefix, 6 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `nexthop: string`
-
-      The next-hop IP Address for the static route.
-
-    - `prefix: string`
-
-      IP Prefix in Classless Inter-Domain Routing format.
-
-    - `priority: number`
-
-      Priority of the static route.
-
-    - `created_on: optional string`
-
-      When the route was created.
-
-    - `description: optional string`
-
-      An optional human provided description of the static route.
-
-    - `modified_on: optional string`
-
-      When the route was last modified.
-
-    - `scope: optional Scope`
-
-      Used only for ECMP routes.
-
-      - `colo_names: optional array of string`
-
-        List of colo names for the ECMP scope.
-
-      - `colo_regions: optional array of string`
-
-        List of colo regions for the ECMP scope.
-
-    - `weight: optional number`
-
-      Optional weight of the ECMP scope - if provided.
+[Link to this property](#)%20magic_transit.routes%20%3E%20(model)%20route_empty_response%20%3E%20(schema)>)

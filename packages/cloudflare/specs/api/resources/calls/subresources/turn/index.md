@@ -1,663 +1,271 @@
+---
+title: TURN
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Calls](https://developers.cloudflare.com/api/resources/calls)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # TURN
 
-## List TURN Keys
+##### [List TURN Keys](https://developers.cloudflare.com/api/resources/calls/subresources/turn/methods/list)
 
-**get** `/accounts/{account_id}/calls/turn_keys`
+GET/accounts/{account\_id}/calls/turn\_keys
 
-Lists all TURN keys in the Cloudflare account
+##### [Retrieve TURN key details](https://developers.cloudflare.com/api/resources/calls/subresources/turn/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/calls/turn\_keys/{key\_id}
 
-- `account_id: string`
+##### [Create a new TURN key](https://developers.cloudflare.com/api/resources/calls/subresources/turn/methods/create)
 
-  The account identifier tag.
+POST/accounts/{account\_id}/calls/turn\_keys
 
-### Returns
+##### [Edit TURN key details](https://developers.cloudflare.com/api/resources/calls/subresources/turn/methods/update)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PUT/accounts/{account\_id}/calls/turn\_keys/{key\_id}
 
-  - `code: number`
+##### [Delete TURN key](https://developers.cloudflare.com/api/resources/calls/subresources/turn/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/calls/turn\_keys/{key\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+TURNListResponse object {created, modified, name, uid }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+created: string
 
-  - `documentation_url: optional string`
+The date and time the item was created.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+modified: string
 
-  Whether the API call was successful.
+The date and time the item was last modified.
 
-  - `true`
+formatdate-time
 
-- `result: optional array of object { created, modified, name, uid }`
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+name: string
 
-    The date and time the item was created.
+A short description of Calls app, not shown to end users.
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the item was last modified.
+uid: string
 
-  - `name: optional string`
+A Cloudflare-generated unique identifier for a item.
 
-    A short description of Calls app, not shown to end users.
+maxLength32
 
-  - `uid: optional string`
+minLength32
 
-    A Cloudflare-generated unique identifier for a item.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/calls/turn_keys \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20calls.turn%20%3E%20(model)%20turn_list_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created": "2014-01-02T02:20:00Z",
-      "modified": "2014-01-02T02:20:00Z",
-      "name": "production-realtime-app",
-      "uid": "2a95132c15732412d22c1476fa83f27a"
-    }
-  ]
-}
-```
+<summary>
 
-## Retrieve TURN key details
+TURNGetResponse object {created, modified, name, uid }
 
-**get** `/accounts/{account_id}/calls/turn_keys/{key_id}`
+</summary>
 
-Fetches details for a single TURN key.
+created: string
 
-### Path Parameters
+The date and time the item was created.
 
-- `account_id: string`
+formatdate-time
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-- `key_id: string`
+modified: string
 
-  A Cloudflare-generated unique identifier for a item.
+The date and time the item was last modified.
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+A short description of Calls app, not shown to end users.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+uid: string
 
-    - `pointer: optional string`
+A Cloudflare-generated unique identifier for a item.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+minLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20calls.turn%20%3E%20(model)%20turn_get_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+TURNCreateResponse object {created, key, modified, 2 more }
 
-  - `true`
+</summary>
 
-- `result: optional object { created, modified, name, uid }`
+created: string
 
-  - `created: optional string`
+The date and time the item was created.
 
-    The date and time the item was created.
+formatdate-time
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the item was last modified.
+key: string
 
-  - `name: optional string`
+Bearer token
 
-    A short description of Calls app, not shown to end users.
+maxLength64
 
-  - `uid: optional string`
+minLength64
 
-    A Cloudflare-generated unique identifier for a item.
+<a href="#">Link to this property</a>
 
-### Example
+modified: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/calls/turn_keys/$KEY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The date and time the item was last modified.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "name": "production-realtime-app",
-    "uid": "2a95132c15732412d22c1476fa83f27a"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new TURN key
+name: string
 
-**post** `/accounts/{account_id}/calls/turn_keys`
+A short description of a TURN key, not shown to end users.
 
-Creates a new Cloudflare Calls TURN key.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+uid: string
 
-- `account_id: string`
+A Cloudflare-generated unique identifier for a item.
 
-  The account identifier tag.
+maxLength32
 
-### Body Parameters
+minLength32
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  A short description of a TURN key, not shown to end users.
+</details>
 
-### Returns
+[Link to this property](#)%20calls.turn%20%3E%20(model)%20turn_create_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+TURNUpdateResponse object {created, modified, name, uid }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+created: string
 
-    - `pointer: optional string`
+The date and time the item was created.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified: string
 
-  - `documentation_url: optional string`
+The date and time the item was last modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+name: string
 
-  Whether the API call was successful.
+A short description of Calls app, not shown to end users.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created, key, modified, 2 more }`
+uid: string
 
-  - `created: optional string`
+A Cloudflare-generated unique identifier for a item.
 
-    The date and time the item was created.
+maxLength32
 
-  - `key: optional string`
+minLength32
 
-    Bearer token
+<a href="#">Link to this property</a>
 
-  - `modified: optional string`
+</details>
 
-    The date and time the item was last modified.
+[Link to this property](#)%20calls.turn%20%3E%20(model)%20turn_update_response%20%3E%20(schema)>)
 
-  - `name: optional string`
+<details>
 
-    A short description of a TURN key, not shown to end users.
+<summary>
 
-  - `uid: optional string`
+TURNDeleteResponse object {created, modified, name, uid }
 
-    A Cloudflare-generated unique identifier for a item.
+</summary>
 
-### Example
+created: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/calls/turn_keys \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my-turn-key"
-        }'
-```
+The date and time the item was created.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "key": "66bcf64aa8907b9f9d90ac17746a77ce394c393b92b3916633dc02846e608ad4",
-    "modified": "2014-01-02T02:20:00Z",
-    "name": "my-turn-key",
-    "uid": "2a95132c15732412d22c1476fa83f27a"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Edit TURN key details
+modified: string
 
-**put** `/accounts/{account_id}/calls/turn_keys/{key_id}`
+The date and time the item was last modified.
 
-Edit details for a single TURN key.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: string
 
-  The account identifier tag.
+A short description of Calls app, not shown to end users.
 
-- `key_id: string`
+<a href="#">Link to this property</a>
 
-  A Cloudflare-generated unique identifier for a item.
+uid: string
 
-### Body Parameters
+A Cloudflare-generated unique identifier for a item.
 
-- `name: optional string`
+maxLength32
 
-  A short description of a TURN key, not shown to end users.
+minLength32
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { created, modified, name, uid }`
-
-  - `created: optional string`
-
-    The date and time the item was created.
-
-  - `modified: optional string`
-
-    The date and time the item was last modified.
-
-  - `name: optional string`
-
-    A short description of Calls app, not shown to end users.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a item.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/calls/turn_keys/$KEY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my-turn-key"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "name": "production-realtime-app",
-    "uid": "2a95132c15732412d22c1476fa83f27a"
-  }
-}
-```
-
-## Delete TURN key
-
-**delete** `/accounts/{account_id}/calls/turn_keys/{key_id}`
-
-Deletes a TURN key from Cloudflare Calls
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-- `key_id: string`
-
-  A Cloudflare-generated unique identifier for a item.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { created, modified, name, uid }`
-
-  - `created: optional string`
-
-    The date and time the item was created.
-
-  - `modified: optional string`
-
-    The date and time the item was last modified.
-
-  - `name: optional string`
-
-    A short description of Calls app, not shown to end users.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a item.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/calls/turn_keys/$KEY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "name": "production-realtime-app",
-    "uid": "2a95132c15732412d22c1476fa83f27a"
-  }
-}
-```
-
-## Domain Types
-
-### TURN List Response
-
-- `TURNListResponse object { created, modified, name, uid }`
-
-  - `created: optional string`
-
-    The date and time the item was created.
-
-  - `modified: optional string`
-
-    The date and time the item was last modified.
-
-  - `name: optional string`
-
-    A short description of Calls app, not shown to end users.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a item.
-
-### TURN Get Response
-
-- `TURNGetResponse object { created, modified, name, uid }`
-
-  - `created: optional string`
-
-    The date and time the item was created.
-
-  - `modified: optional string`
-
-    The date and time the item was last modified.
-
-  - `name: optional string`
-
-    A short description of Calls app, not shown to end users.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a item.
-
-### TURN Create Response
-
-- `TURNCreateResponse object { created, key, modified, 2 more }`
-
-  - `created: optional string`
-
-    The date and time the item was created.
-
-  - `key: optional string`
-
-    Bearer token
-
-  - `modified: optional string`
-
-    The date and time the item was last modified.
-
-  - `name: optional string`
-
-    A short description of a TURN key, not shown to end users.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a item.
-
-### TURN Update Response
-
-- `TURNUpdateResponse object { created, modified, name, uid }`
-
-  - `created: optional string`
-
-    The date and time the item was created.
-
-  - `modified: optional string`
-
-    The date and time the item was last modified.
-
-  - `name: optional string`
-
-    A short description of Calls app, not shown to end users.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a item.
-
-### TURN Delete Response
-
-- `TURNDeleteResponse object { created, modified, name, uid }`
-
-  - `created: optional string`
-
-    The date and time the item was created.
-
-  - `modified: optional string`
-
-    The date and time the item was last modified.
-
-  - `name: optional string`
-
-    A short description of Calls app, not shown to end users.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a item.
+[Link to this property](#)%20calls.turn%20%3E%20(model)%20turn_delete_response%20%3E%20(schema)>)

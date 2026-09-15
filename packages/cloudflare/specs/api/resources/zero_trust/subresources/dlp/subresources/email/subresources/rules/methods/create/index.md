@@ -1,144 +1,460 @@
-## Create email scanner rule
+---
+title: Create email scanner rule
+---
 
-**post** `/accounts/{account_id}/dlp/email/rules`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Email](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email)
+
+[Rules](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create email scanner rule
+
+POST/accounts/{account\_id}/dlp/email/rules
 
 Creates a new DLP email scanning rule that defines what content patterns to detect in email messages and what actions to take.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `action: object { action, message }`
 
-  - `action: "Block"`
 
-    - `"Block"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `conditions: array of object { operator, selector, value }`
+</details>
 
-  Triggered if all conditions match.
+<details>
 
-  - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<summary>API Email + API Key</summary>
 
-    - `"InList"`
 
-    - `"NotInList"`
 
-    - `"MatchRegex"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `"NotMatchRegex"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"Recipients"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"Sender"`
+</details>
 
-    - `"DLPProfiles"`
+##### Accepted Permissions (at least one required)
 
-  - `value: array of string or string`
+`Zero Trust Write`
 
-    - `array of string`
+##### P ath ParametersExpand Collapse
 
-    - `string`
+account\_id: string
 
-- `enabled: boolean`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `name: string`
+##### Body ParametersJSONExpand Collapse
 
-- `description: optional string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+action: object {action, message }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+action: "Block"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+message: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20action%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+conditions: array of object {operator, selector, value }
 
-    - `pointer: optional string`
+Triggered if all conditions match.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-  - `action: object { action, message }`
+</summary>
 
-    - `action: "Block"`
+One of the following:
 
-      - `"Block"`
+"InList"
 
-    - `message: optional string`
+<a href="#">Link to this property</a>
 
-  - `conditions: array of object { operator, selector, value }`
+"NotInList"
 
-    Triggered if all conditions match.
+<a href="#">Link to this property</a>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+"MatchRegex"
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+"NotMatchRegex"
 
-      - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"NotMatchRegex"`
+</details>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<a href="#">Link to this property</a>
 
-      - `"Recipients"`
+<details>
 
-      - `"Sender"`
+<summary>
 
-      - `"DLPProfiles"`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-    - `value: array of string or string`
+</summary>
 
-      - `array of string`
+One of the following:
 
-      - `string`
+"Recipients"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"Sender"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+"DLPProfiles"
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+value: array of stringor string
+
+</summary>
+
+One of the following:
+
+array of string
+
+<a href="#">Link to this property</a>
+
+string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20conditions%20%3E%20(schema)>)
+
+enabled: boolean
+
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
+
+name: string
+
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+description: optional string
+
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {action, conditions, created\_at, 6 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+action: object {action, message }
+
+</summary>
+
+action: "Block"
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+conditions: array of object {operator, selector, value }
+
+Triggered if all conditions match.
+
+</summary>
+
+<details>
+
+<summary>
+
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
+
+</summary>
+
+One of the following:
+
+"InList"
+
+<a href="#">Link to this property</a>
+
+"NotInList"
+
+<a href="#">Link to this property</a>
+
+"MatchRegex"
+
+<a href="#">Link to this property</a>
+
+"NotMatchRegex"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+selector: "Recipients"or "Sender"or "DLPProfiles"
+
+</summary>
+
+One of the following:
+
+"Recipients"
+
+<a href="#">Link to this property</a>
+
+"Sender"
+
+<a href="#">Link to this property</a>
+
+"DLPProfiles"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: array of stringor string
+
+</summary>
+
+One of the following:
+
+array of string
+
+<a href="#">Link to this property</a>
+
+string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+priority: number
+
+formatint32
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+rule\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create email scanner rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -160,9 +476,61 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "action": {
+      "action": "Block",
+      "message": "message"
+    },
+    "conditions": [
+      {
+        "operator": "InList",
+        "selector": "Recipients",
+        "value": [
+          "string"
+        ]
+      }
+    ],
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "enabled": true,
+    "name": "name",
+    "priority": 0,
+    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "description": "description"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

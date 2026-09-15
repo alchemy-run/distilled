@@ -1,206 +1,69 @@
+---
+title: Account Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Account Settings
 
-## Fetch Worker Account Settings
+##### [Fetch Worker Account Settings](https://developers.cloudflare.com/api/resources/workers/subresources/account_settings/methods/get)
 
-**get** `/accounts/{account_id}/workers/account-settings`
+GET/accounts/{account\_id}/workers/account-settings
 
-Fetches Worker account settings for an account.
+##### [Create Worker Account Settings](https://developers.cloudflare.com/api/resources/workers/subresources/account_settings/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/workers/account-settings
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+AccountSettingGetResponse object {default\_usage\_model, green\_compute }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+default\_usage\_model: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+green\_compute: optional boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20workers.account_settings%20%3E%20(model)%20account_setting_get_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+AccountSettingUpdateResponse object {default\_usage\_model, green\_compute }
 
-    - `pointer: optional string`
+</summary>
 
-- `result: object { default_usage_model, green_compute }`
+default\_usage\_model: optional string
 
-  - `default_usage_model: optional string`
+<a href="#">Link to this property</a>
 
-  - `green_compute: optional boolean`
+green\_compute: optional boolean
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/account-settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_usage_model": "default_usage_model",
-    "green_compute": true
-  },
-  "success": true
-}
-```
-
-## Create Worker Account Settings
-
-**put** `/accounts/{account_id}/workers/account-settings`
-
-Creates Worker account settings for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `default_usage_model: optional string`
-
-- `green_compute: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { default_usage_model, green_compute }`
-
-  - `default_usage_model: optional string`
-
-  - `green_compute: optional boolean`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/account-settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_usage_model": "default_usage_model",
-    "green_compute": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Account Setting Get Response
-
-- `AccountSettingGetResponse object { default_usage_model, green_compute }`
-
-  - `default_usage_model: optional string`
-
-  - `green_compute: optional boolean`
-
-### Account Setting Update Response
-
-- `AccountSettingUpdateResponse object { default_usage_model, green_compute }`
-
-  - `default_usage_model: optional string`
-
-  - `green_compute: optional boolean`
+[Link to this property](#)%20workers.account_settings%20%3E%20(model)%20account_setting_update_response%20%3E%20(schema)>)

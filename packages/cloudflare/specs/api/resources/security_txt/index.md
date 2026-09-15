@@ -1,426 +1,285 @@
+---
+title: Security TXT
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Security TXT
 
-## Retrieves security.txt
+##### [Retrieves security.txt](https://developers.cloudflare.com/api/resources/security_txt/methods/get)
 
-**get** `/zones/{zone_id}/security-center/securitytxt`
+GET/zones/{zone\_id}/security-center/securitytxt
 
-Retrieves the current security.txt file configuration for a zone, used for security vulnerability reporting.
+##### [Updates security.txt](https://developers.cloudflare.com/api/resources/security_txt/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/security-center/securitytxt
 
-- `zone_id: string`
+##### [Deletes security.txt](https://developers.cloudflare.com/api/resources/security_txt/methods/delete)
 
-  Identifier.
+DELETE/zones/{zone\_id}/security-center/securitytxt
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+SecurityTXTGetResponse object {acknowledgments, canonical, contact, 6 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+acknowledgments: optional array of string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+canonical: optional array of string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+contact: optional array of string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+enabled: optional boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+encryption: optional array of string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+expires: optional string
 
-- `result: optional object { acknowledgments, canonical, contact, 6 more }`
+formatdate-time
 
-  - `acknowledgments: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `canonical: optional array of string`
+hiring: optional array of string
 
-  - `contact: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+policy: optional array of string
 
-  - `encryption: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `expires: optional string`
+preferred\_languages: optional string
 
-  - `hiring: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `policy: optional array of string`
+</details>
 
-  - `preferred_languages: optional string`
+[Link to this property](#)%20security_txt%20%3E%20(model)%20security_txt_get_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/security-center/securitytxt \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+SecurityTXTUpdateResponse object {errors, messages, success }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "acknowledgments": [
-      "https://example.com/hall-of-fame.html"
-    ],
-    "canonical": [
-      "https://www.example.com/.well-known/security.txt"
-    ],
-    "contact": [
-      "mailto:security@example.com",
-      "tel:+1-201-555-0123",
-      "https://example.com/security-contact.html"
-    ],
-    "enabled": true,
-    "encryption": [
-      "https://example.com/pgp-key.txt",
-      "dns:5d2d37ab76d47d36._openpgpkey.example.com?type=OPENPGPKEY",
-      "openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f"
-    ],
-    "expires": "2019-12-27T18:11:19.117Z",
-    "hiring": [
-      "https://example.com/jobs.html"
-    ],
-    "policy": [
-      "https://example.com/disclosure-policy.html"
-    ],
-    "preferred_languages": "en, es, fr"
-  }
-}
-```
+</summary>
 
-## Updates security.txt
+<details>
 
-**put** `/zones/{zone_id}/security-center/securitytxt`
+<summary>
 
-Updates the security.txt file configuration for a zone, which provides security researchers with vulnerability reporting information.
+errors: array of object {code, message, documentation\_url, source }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+code: number
 
-  Identifier.
+minimum1000
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `acknowledgments: optional array of string`
+message: string
 
-- `canonical: optional array of string`
+<a href="#">Link to this property</a>
 
-- `contact: optional array of string`
-
-- `enabled: optional boolean`
-
-- `encryption: optional array of string`
-
-- `expires: optional string`
-
-- `hiring: optional array of string`
-
-- `policy: optional array of string`
-
-- `preferred_languages: optional string`
-
-### Returns
+documentation\_url: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+source: optional object {pointer }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+pointer: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-### Example
+code: number
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/security-center/securitytxt \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "acknowledgments": [
-            "https://example.com/hall-of-fame.html"
-          ],
-          "canonical": [
-            "https://www.example.com/.well-known/security.txt"
-          ],
-          "contact": [
-            "mailto:security@example.com",
-            "tel:+1-201-555-0123",
-            "https://example.com/security-contact.html"
-          ],
-          "enabled": true,
-          "encryption": [
-            "https://example.com/pgp-key.txt",
-            "dns:5d2d37ab76d47d36._openpgpkey.example.com?type=OPENPGPKEY",
-            "openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f"
-          ],
-          "hiring": [
-            "https://example.com/jobs.html"
-          ],
-          "policy": [
-            "https://example.com/disclosure-policy.html"
-          ],
-          "preferred_languages": "en, es, fr"
-        }'
-```
+minimum1000
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+message: string
 
-## Deletes security.txt
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/security-center/securitytxt`
+documentation\_url: optional string
 
-Removes the security.txt file configuration for a zone. The /.well-known/security.txt endpoint will no longer be served.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+source: optional object {pointer }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+pointer: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+success: true
 
-  - `code: number`
+Whether the API call was successful.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20security_txt%20%3E%20(model)%20security_txt_update_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+SecurityTXTDeleteResponse object {errors, messages, success }
 
-  - `true`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/security-center/securitytxt \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+errors: array of object {code, message, documentation\_url, source }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+code: number
 
-### Security TXT Get Response
+minimum1000
 
-- `SecurityTXTGetResponse object { acknowledgments, canonical, contact, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `acknowledgments: optional array of string`
+message: string
 
-  - `canonical: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `contact: optional array of string`
+documentation\_url: optional string
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `encryption: optional array of string`
+<details>
 
-  - `expires: optional string`
+<summary>
 
-  - `hiring: optional array of string`
+source: optional object {pointer }
 
-  - `policy: optional array of string`
+</summary>
 
-  - `preferred_languages: optional string`
+pointer: optional string
 
-### Security TXT Update Response
+<a href="#">Link to this property</a>
 
-- `SecurityTXTUpdateResponse object { errors, messages, success }`
+</details>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+</details>
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+<details>
 
-    - `source: optional object { pointer }`
+<summary>
 
-      - `pointer: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-    - `code: number`
+code: number
 
-    - `message: string`
+minimum1000
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+message: string
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+documentation\_url: optional string
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+<details>
 
-### Security TXT Delete Response
+<summary>
 
-- `SecurityTXTDeleteResponse object { errors, messages, success }`
+source: optional object {pointer }
 
-  - `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-    - `code: number`
+pointer: optional string
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+</details>
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+</details>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+success: true
 
-    - `message: string`
+Whether the API call was successful.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20security_txt%20%3E%20(model)%20security_txt_delete_response%20%3E%20(schema)>)

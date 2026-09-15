@@ -1,13607 +1,14149 @@
+---
+title: AI Gateway
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # AI Gateway
 
-## List Gateways
+##### [List Gateways](https://developers.cloudflare.com/api/resources/ai_gateway/methods/list)
 
-**get** `/accounts/{account_id}/ai-gateway/gateways`
+GET/accounts/{account\_id}/ai-gateway/gateways
 
-Lists all AI Gateway evaluator types configured for the account.
+##### [Fetch a Gateway](https://developers.cloudflare.com/api/resources/ai_gateway/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/ai-gateway/gateways/{id}
 
-- `account_id: string`
+##### [Create a new Gateway](https://developers.cloudflare.com/api/resources/ai_gateway/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/ai-gateway/gateways
 
-- `page: optional number`
+##### [Update a Gateway](https://developers.cloudflare.com/api/resources/ai_gateway/methods/update)
 
-- `per_page: optional number`
+PUT/accounts/{account\_id}/ai-gateway/gateways/{id}
 
-- `search: optional string`
+##### [Delete a Gateway](https://developers.cloudflare.com/api/resources/ai_gateway/methods/delete)
 
-  Search by id
+DELETE/accounts/{account\_id}/ai-gateway/gateways/{id}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `result: array of object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-    gateway id
+AIGatewayListResponse object {id, cache\_invalidate\_on\_update, cache\_ttl, 25 more }
 
-  - `cache_invalidate_on_update: boolean`
+</summary>
 
-  - `cache_ttl: number`
+id: string
 
-  - `collect_logs: boolean`
+gateway id
 
-  - `created_at: string`
+maxLength64
 
-  - `modified_at: string`
+minLength1
 
-  - `rate_limiting_interval: number`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_limit: number`
+cache\_invalidate\_on\_update: boolean
 
-  - `authentication: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+cache\_ttl: number
 
-    - `object { action, enabled, profiles }`
+minimum0
 
-      - `action: "BLOCK" or "FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+collect\_logs: boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+created\_at: string
 
-      - `profiles: array of string`
+formatdate-time
 
-    - `object { enabled, policies }`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+modified\_at: string
 
-      - `policies: array of object { id, action, check, 2 more }`
+formatdate-time
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `action: "FLAG" or "BLOCK"`
+rate\_limiting\_interval: number
 
-          - `"FLAG"`
+minimum0
 
-          - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+rate\_limiting\_limit: number
 
-          - `"REQUEST"`
+minimum0
 
-          - `"RESPONSE"`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+authentication: optional boolean
 
-        - `profiles: array of string`
+<a href="#">Link to this property</a>
 
-  - `guardrails: optional object { prompt, response }`
+byok\_only: optional boolean
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+Requires customer-provided provider credentials and prevents fallback to Unified Billing.
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+dlp: optional object {action, enabled, profiles } or object {enabled, policies }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+object {action, enabled, profiles }
 
-      - `S11: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+action: "BLOCK"or "FLAG"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S13: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S2: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+enabled: boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+profiles: array of string
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+object {enabled, policies }
 
-      - `S6: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+enabled: boolean
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+policies: array of object {id, action, check, 2 more }
 
-      - `S8: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+id: string
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+action: "FLAG"or "BLOCK"
 
-    - `response: object { P1, S1, S10, 11 more }`
+</summary>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+check: array of "REQUEST"or "RESPONSE"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S12: optional "FLAG" or "BLOCK"`
+"REQUEST"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"RESPONSE"
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+enabled: boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+profiles: array of string
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+guardrails: optional object {prompt, response }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+<details>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+prompt: object {P1, S1, S10, 11 more }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+P1: optional "FLAG"or "BLOCK"
 
-      - `S9: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-  - `is_default: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `log_management: optional number`
+"BLOCK"
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-    - `"STOP_INSERTING"`
+</details>
 
-    - `"DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-  - `logpush: optional boolean`
+<details>
 
-  - `logpush_public_key: optional string`
+<summary>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+S1: optional "FLAG"or "BLOCK"
 
-    - `headers: map[string]`
+</summary>
 
-    - `url: string`
+One of the following:
 
-    - `authorization: optional string`
+"FLAG"
 
-    - `content_type: optional "json" or "protobuf"`
+<a href="#">Link to this property</a>
 
-      - `"json"`
+"BLOCK"
 
-      - `"protobuf"`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+</details>
 
-    - `"fixed"`
+<a href="#">Link to this property</a>
 
-    - `"sliding"`
+<details>
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<summary>
 
-    Backoff strategy for retry delays
+S10: optional "FLAG"or "BLOCK"
 
-    - `"constant"`
+</summary>
 
-    - `"linear"`
+One of the following:
 
-    - `"exponential"`
+"FLAG"
 
-  - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-    Delay between retry attempts in milliseconds (0-5000)
+"BLOCK"
 
-  - `retry_max_attempts: optional number`
+<a href="#">Link to this property</a>
 
-    Maximum number of retry attempts for failed requests (1-5)
+</details>
 
-  - `spend_limits: optional object { enabled, rules }`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+<details>
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+<summary>
 
-      - `limit: number`
+S11: optional "FLAG"or "BLOCK"
 
-      - `limitType: "cost"`
+</summary>
 
-        - `"cost"`
+One of the following:
 
-      - `window: number`
+"FLAG"
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+"BLOCK"
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+<a href="#">Link to this property</a>
 
-        - `Mode object { mode }`
+</details>
 
-          - `mode: "partition"`
+<a href="#">Link to this property</a>
 
-            - `"partition"`
+<details>
 
-        - `object { mode, values }`
+<summary>
 
-          - `mode: "filter"`
+S12: optional "FLAG"or "BLOCK"
 
-            - `"filter"`
+</summary>
 
-          - `values: array of string`
+One of the following:
 
-      - `model: optional object { mode, values }`
+"FLAG"
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+"BLOCK"
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `provider: optional object { mode, values }`
+</details>
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+<details>
 
-        - `values: array of string`
+<summary>
 
-      - `technique: optional "fixed" or "sliding"`
+S13: optional "FLAG"or "BLOCK"
 
-        - `"fixed"`
+</summary>
 
-        - `"sliding"`
+One of the following:
 
-  - `store_id: optional string`
+"FLAG"
 
-  - `stripe: optional object { authorization, usage_events }`
+<a href="#">Link to this property</a>
 
-    - `authorization: string`
+"BLOCK"
 
-    - `usage_events: array of object { payload }`
+<a href="#">Link to this property</a>
 
-      - `payload: string`
+</details>
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+<a href="#">Link to this property</a>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<details>
 
-    - `"postpaid"`
+<summary>
 
-  - `zdr: optional boolean`
+S2: optional "FLAG"or "BLOCK"
 
-- `success: boolean`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"FLAG"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "my-gateway",
-      "cache_invalidate_on_update": true,
-      "cache_ttl": 0,
-      "collect_logs": true,
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "rate_limiting_interval": 0,
-      "rate_limiting_limit": 0,
-      "authentication": true,
-      "dlp": {
-        "action": "BLOCK",
-        "enabled": true,
-        "profiles": [
-          "string"
-        ]
-      },
-      "guardrails": {
-        "prompt": {
-          "P1": "FLAG",
-          "S1": "FLAG",
-          "S10": "FLAG",
-          "S11": "FLAG",
-          "S12": "FLAG",
-          "S13": "FLAG",
-          "S2": "FLAG",
-          "S3": "FLAG",
-          "S4": "FLAG",
-          "S5": "FLAG",
-          "S6": "FLAG",
-          "S7": "FLAG",
-          "S8": "FLAG",
-          "S9": "FLAG"
-        },
-        "response": {
-          "P1": "FLAG",
-          "S1": "FLAG",
-          "S10": "FLAG",
-          "S11": "FLAG",
-          "S12": "FLAG",
-          "S13": "FLAG",
-          "S2": "FLAG",
-          "S3": "FLAG",
-          "S4": "FLAG",
-          "S5": "FLAG",
-          "S6": "FLAG",
-          "S7": "FLAG",
-          "S8": "FLAG",
-          "S9": "FLAG"
-        }
-      },
-      "is_default": true,
-      "log_management": 10000,
-      "log_management_strategy": "STOP_INSERTING",
-      "logpush": true,
-      "logpush_public_key": "xxxxxxxxxxxxxxxx",
-      "otel": [
-        {
-          "headers": {
-            "foo": "string"
-          },
-          "url": "https://example.com",
-          "authorization": "authorization",
-          "content_type": "json"
-        }
-      ],
-      "rate_limiting_technique": "fixed",
-      "retry_backoff": "constant",
-      "retry_delay": 0,
-      "retry_max_attempts": 1,
-      "spend_limits": {
-        "enabled": true,
-        "rules": [
-          {
-            "limit": 1,
-            "limitType": "cost",
-            "window": 1,
-            "id": "x",
-            "enabled": true,
-            "metadata": {
-              "foo": {
-                "mode": "partition"
-              }
-            },
-            "model": {
-              "mode": "filter",
-              "values": [
-                "string"
-              ]
-            },
-            "provider": {
-              "mode": "filter",
-              "values": [
-                "string"
-              ]
-            },
-            "technique": "fixed"
-          }
-        ]
-      },
-      "store_id": "store_id",
-      "stripe": {
-        "authorization": "authorization",
-        "usage_events": [
-          {
-            "payload": "payload"
-          }
-        ]
-      },
-      "workers_ai_billing_mode": "postpaid",
-      "zdr": true
-    }
-  ],
-  "success": true
-}
-```
+"BLOCK"
 
-## Fetch a Gateway
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{id}`
+</details>
 
-Retrieves details for a specific AI Gateway dataset.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `id: string`
+S3: optional "FLAG"or "BLOCK"
 
-  gateway id
+</summary>
 
-### Returns
+One of the following:
 
-- `result: object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+"FLAG"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+"BLOCK"
 
-  - `cache_invalidate_on_update: boolean`
+<a href="#">Link to this property</a>
 
-  - `cache_ttl: number`
+</details>
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `modified_at: string`
+<summary>
 
-  - `rate_limiting_interval: number`
+S4: optional "FLAG"or "BLOCK"
 
-  - `rate_limiting_limit: number`
+</summary>
 
-  - `authentication: optional boolean`
+One of the following:
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+"FLAG"
 
-    - `object { action, enabled, profiles }`
+<a href="#">Link to this property</a>
 
-      - `action: "BLOCK" or "FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `profiles: array of string`
+<details>
 
-    - `object { enabled, policies }`
+<summary>
 
-      - `enabled: boolean`
+S5: optional "FLAG"or "BLOCK"
 
-      - `policies: array of object { id, action, check, 2 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `action: "FLAG" or "BLOCK"`
+"FLAG"
 
-          - `"FLAG"`
+<a href="#">Link to this property</a>
 
-          - `"BLOCK"`
+"BLOCK"
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+<a href="#">Link to this property</a>
 
-          - `"REQUEST"`
+</details>
 
-          - `"RESPONSE"`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `profiles: array of string`
+<summary>
 
-  - `guardrails: optional object { prompt, response }`
+S6: optional "FLAG"or "BLOCK"
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+</summary>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+S7: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S12: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S8: optional "FLAG"or "BLOCK"
 
-      - `S3: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S9: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `response: object { P1, S1, S10, 11 more }`
+<details>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+response: object {P1, S1, S10, 11 more }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+P1: optional "FLAG"or "BLOCK"
 
-      - `S10: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S1: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+S10: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S6: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S11: optional "FLAG"or "BLOCK"
 
-      - `S9: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-  - `is_default: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `log_management: optional number`
+"BLOCK"
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-    - `"STOP_INSERTING"`
+</details>
 
-    - `"DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-  - `logpush: optional boolean`
+<details>
 
-  - `logpush_public_key: optional string`
+<summary>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+S12: optional "FLAG"or "BLOCK"
 
-    - `headers: map[string]`
+</summary>
 
-    - `url: string`
+One of the following:
 
-    - `authorization: optional string`
+"FLAG"
 
-    - `content_type: optional "json" or "protobuf"`
+<a href="#">Link to this property</a>
 
-      - `"json"`
+"BLOCK"
 
-      - `"protobuf"`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+</details>
 
-    - `"fixed"`
+<a href="#">Link to this property</a>
 
-    - `"sliding"`
+<details>
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<summary>
 
-    Backoff strategy for retry delays
+S13: optional "FLAG"or "BLOCK"
 
-    - `"constant"`
+</summary>
 
-    - `"linear"`
+One of the following:
 
-    - `"exponential"`
+"FLAG"
 
-  - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-    Delay between retry attempts in milliseconds (0-5000)
+"BLOCK"
 
-  - `retry_max_attempts: optional number`
+<a href="#">Link to this property</a>
 
-    Maximum number of retry attempts for failed requests (1-5)
+</details>
 
-  - `spend_limits: optional object { enabled, rules }`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+<details>
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+<summary>
 
-      - `limit: number`
+S2: optional "FLAG"or "BLOCK"
 
-      - `limitType: "cost"`
+</summary>
 
-        - `"cost"`
+One of the following:
 
-      - `window: number`
+"FLAG"
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+"BLOCK"
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+<a href="#">Link to this property</a>
 
-        - `Mode object { mode }`
+</details>
 
-          - `mode: "partition"`
+<a href="#">Link to this property</a>
 
-            - `"partition"`
+<details>
 
-        - `object { mode, values }`
+<summary>
 
-          - `mode: "filter"`
+S3: optional "FLAG"or "BLOCK"
 
-            - `"filter"`
+</summary>
 
-          - `values: array of string`
+One of the following:
 
-      - `model: optional object { mode, values }`
+"FLAG"
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+"BLOCK"
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `provider: optional object { mode, values }`
+</details>
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+<details>
 
-        - `values: array of string`
+<summary>
 
-      - `technique: optional "fixed" or "sliding"`
+S4: optional "FLAG"or "BLOCK"
 
-        - `"fixed"`
+</summary>
 
-        - `"sliding"`
+One of the following:
 
-  - `store_id: optional string`
+"FLAG"
 
-  - `stripe: optional object { authorization, usage_events }`
+<a href="#">Link to this property</a>
 
-    - `authorization: string`
+"BLOCK"
 
-    - `usage_events: array of object { payload }`
+<a href="#">Link to this property</a>
 
-      - `payload: string`
+</details>
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+<a href="#">Link to this property</a>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<details>
 
-    - `"postpaid"`
+<summary>
 
-  - `zdr: optional boolean`
+S5: optional "FLAG"or "BLOCK"
 
-- `success: boolean`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"FLAG"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "my-gateway",
-    "cache_invalidate_on_update": true,
-    "cache_ttl": 0,
-    "collect_logs": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "rate_limiting_interval": 0,
-    "rate_limiting_limit": 0,
-    "authentication": true,
-    "dlp": {
-      "action": "BLOCK",
-      "enabled": true,
-      "profiles": [
-        "string"
-      ]
-    },
-    "guardrails": {
-      "prompt": {
-        "P1": "FLAG",
-        "S1": "FLAG",
-        "S10": "FLAG",
-        "S11": "FLAG",
-        "S12": "FLAG",
-        "S13": "FLAG",
-        "S2": "FLAG",
-        "S3": "FLAG",
-        "S4": "FLAG",
-        "S5": "FLAG",
-        "S6": "FLAG",
-        "S7": "FLAG",
-        "S8": "FLAG",
-        "S9": "FLAG"
-      },
-      "response": {
-        "P1": "FLAG",
-        "S1": "FLAG",
-        "S10": "FLAG",
-        "S11": "FLAG",
-        "S12": "FLAG",
-        "S13": "FLAG",
-        "S2": "FLAG",
-        "S3": "FLAG",
-        "S4": "FLAG",
-        "S5": "FLAG",
-        "S6": "FLAG",
-        "S7": "FLAG",
-        "S8": "FLAG",
-        "S9": "FLAG"
-      }
-    },
-    "is_default": true,
-    "log_management": 10000,
-    "log_management_strategy": "STOP_INSERTING",
-    "logpush": true,
-    "logpush_public_key": "xxxxxxxxxxxxxxxx",
-    "otel": [
-      {
-        "headers": {
-          "foo": "string"
-        },
-        "url": "https://example.com",
-        "authorization": "authorization",
-        "content_type": "json"
-      }
-    ],
-    "rate_limiting_technique": "fixed",
-    "retry_backoff": "constant",
-    "retry_delay": 0,
-    "retry_max_attempts": 1,
-    "spend_limits": {
-      "enabled": true,
-      "rules": [
-        {
-          "limit": 1,
-          "limitType": "cost",
-          "window": 1,
-          "id": "x",
-          "enabled": true,
-          "metadata": {
-            "foo": {
-              "mode": "partition"
-            }
-          },
-          "model": {
-            "mode": "filter",
-            "values": [
-              "string"
-            ]
-          },
-          "provider": {
-            "mode": "filter",
-            "values": [
-              "string"
-            ]
-          },
-          "technique": "fixed"
-        }
-      ]
-    },
-    "store_id": "store_id",
-    "stripe": {
-      "authorization": "authorization",
-      "usage_events": [
-        {
-          "payload": "payload"
-        }
-      ]
-    },
-    "workers_ai_billing_mode": "postpaid",
-    "zdr": true
-  },
-  "success": true
-}
-```
+"BLOCK"
 
-## Create a new Gateway
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/ai-gateway/gateways`
+</details>
 
-Creates a new AI Gateway.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+S6: optional "FLAG"or "BLOCK"
 
-- `id: string`
+</summary>
 
-  gateway id
+One of the following:
 
-- `cache_invalidate_on_update: boolean`
+"FLAG"
 
-- `cache_ttl: number`
+<a href="#">Link to this property</a>
 
-- `collect_logs: boolean`
+"BLOCK"
 
-- `rate_limiting_interval: number`
+<a href="#">Link to this property</a>
 
-- `rate_limiting_limit: number`
+</details>
 
-- `authentication: optional boolean`
+<a href="#">Link to this property</a>
 
-- `log_management: optional number`
+<details>
 
-- `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+<summary>
 
-  - `"STOP_INSERTING"`
+S7: optional "FLAG"or "BLOCK"
 
-  - `"DELETE_OLDEST"`
+</summary>
 
-- `logpush: optional boolean`
+One of the following:
 
-- `logpush_public_key: optional string`
+"FLAG"
 
-- `rate_limiting_technique: optional "fixed" or "sliding"`
+<a href="#">Link to this property</a>
 
-  - `"fixed"`
+"BLOCK"
 
-  - `"sliding"`
+<a href="#">Link to this property</a>
 
-- `retry_backoff: optional "constant" or "linear" or "exponential"`
+</details>
 
-  Backoff strategy for retry delays
+<a href="#">Link to this property</a>
 
-  - `"constant"`
+<details>
 
-  - `"linear"`
+<summary>
 
-  - `"exponential"`
+S8: optional "FLAG"or "BLOCK"
 
-- `retry_delay: optional number`
+</summary>
 
-  Delay between retry attempts in milliseconds (0-5000)
+One of the following:
 
-- `retry_max_attempts: optional number`
+"FLAG"
 
-  Maximum number of retry attempts for failed requests (1-5)
+<a href="#">Link to this property</a>
 
-- `workers_ai_billing_mode: optional "postpaid"`
+"BLOCK"
 
-  Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<a href="#">Link to this property</a>
 
-  - `"postpaid"`
+</details>
 
-- `zdr: optional boolean`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `result: object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+<summary>
 
-  - `id: string`
+S9: optional "FLAG"or "BLOCK"
 
-    gateway id
+</summary>
 
-  - `cache_invalidate_on_update: boolean`
+One of the following:
 
-  - `cache_ttl: number`
+"FLAG"
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"BLOCK"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_interval: number`
+</details>
 
-  - `rate_limiting_limit: number`
+<a href="#">Link to this property</a>
 
-  - `authentication: optional boolean`
+</details>
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+<a href="#">Link to this property</a>
 
-    - `object { action, enabled, profiles }`
+</details>
 
-      - `action: "BLOCK" or "FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+is\_default: optional boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+log\_classification: optional boolean
 
-      - `profiles: array of string`
+<a href="#">Link to this property</a>
 
-    - `object { enabled, policies }`
+log\_management: optional number
 
-      - `enabled: boolean`
+maximum10000000
 
-      - `policies: array of object { id, action, check, 2 more }`
+minimum10000
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `action: "FLAG" or "BLOCK"`
+<details>
 
-          - `"FLAG"`
+<summary>
 
-          - `"BLOCK"`
+log\_management\_strategy: optional "STOP\_INSERTING"or "DELETE\_OLDEST"
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+</summary>
 
-          - `"REQUEST"`
+One of the following:
 
-          - `"RESPONSE"`
+"STOP\_INSERTING"
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `profiles: array of string`
+"DELETE\_OLDEST"
 
-  - `guardrails: optional object { prompt, response }`
+<a href="#">Link to this property</a>
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+</details>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+logpush: optional boolean
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+logpush\_public\_key: optional string
 
-        - `"FLAG"`
+maxLength1024
 
-        - `"BLOCK"`
+minLength16
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+otel: optional array of object {headers, url, authorization, content\_type }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+headers: map\[string]
 
-      - `S12: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+url: string
 
-        - `"BLOCK"`
+formaturi
 
-      - `S13: optional "FLAG" or "BLOCK"`
+maxLength2048
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+authorization: optional string
 
-      - `S2: optional "FLAG" or "BLOCK"`
+maxLength256
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+content\_type: optional "json"or "protobuf"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"json"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+"protobuf"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+rate\_limiting\_technique: optional "fixed"or "sliding"
 
-      - `S8: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"fixed"
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"sliding"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `response: object { P1, S1, S10, 11 more }`
+</details>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+retry\_backoff: optional "constant"or "linear"or "exponential"
 
-        - `"FLAG"`
+Backoff strategy for retry delays
 
-        - `"BLOCK"`
+</summary>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"constant"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+"linear"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"exponential"
 
-      - `S12: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+retry\_delay: optional number
 
-        - `"FLAG"`
+Delay between retry attempts in milliseconds (0-60000)
 
-        - `"BLOCK"`
+maximum60000
 
-      - `S2: optional "FLAG" or "BLOCK"`
+minimum0
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+retry\_max\_attempts: optional number
 
-      - `S3: optional "FLAG" or "BLOCK"`
+Maximum number of retry attempts for failed requests (1-5)
 
-        - `"FLAG"`
+maximum5
 
-        - `"BLOCK"`
+minimum1
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+spend\_limits: optional object {enabled, rules }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+enabled: optional boolean
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+rules: optional array of object {limit, limitType, window, 6 more }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+limit: number
 
-      - `S8: optional "FLAG" or "BLOCK"`
+exclusiveMinimum
 
-        - `"FLAG"`
+minimum0
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+limitType: "cost"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+window: number
 
-  - `is_default: optional boolean`
+exclusiveMinimum
 
-  - `log_management: optional number`
+minimum0
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-    - `"STOP_INSERTING"`
+id: optional string
 
-    - `"DELETE_OLDEST"`
+minLength1
 
-  - `logpush: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `logpush_public_key: optional string`
+enabled: optional boolean
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+<a href="#">Link to this property</a>
 
-    - `headers: map[string]`
+<details>
 
-    - `url: string`
+<summary>
 
-    - `authorization: optional string`
+metadata: optional map\[object {mode } or object {mode, values } ]
 
-    - `content_type: optional "json" or "protobuf"`
+</summary>
 
-      - `"json"`
+One of the following:
 
-      - `"protobuf"`
+<details>
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+<summary>
 
-    - `"fixed"`
+Mode object {mode }
 
-    - `"sliding"`
+</summary>
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+mode: "partition"
 
-    Backoff strategy for retry delays
+<a href="#">Link to this property</a>
 
-    - `"constant"`
+</details>
 
-    - `"linear"`
+<a href="#">Link to this property</a>
 
-    - `"exponential"`
+<details>
 
-  - `retry_delay: optional number`
+<summary>
 
-    Delay between retry attempts in milliseconds (0-5000)
+object {mode, values }
 
-  - `retry_max_attempts: optional number`
+</summary>
 
-    Maximum number of retry attempts for failed requests (1-5)
+mode: "filter"
 
-  - `spend_limits: optional object { enabled, rules }`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+values: array of string
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `limit: number`
+</details>
 
-      - `limitType: "cost"`
+<a href="#">Link to this property</a>
 
-        - `"cost"`
+</details>
 
-      - `window: number`
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+<details>
 
-      - `enabled: optional boolean`
+<summary>
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+model: optional object {mode, values }
 
-        - `Mode object { mode }`
+</summary>
 
-          - `mode: "partition"`
+mode: "filter"
 
-            - `"partition"`
+<a href="#">Link to this property</a>
 
-        - `object { mode, values }`
+values: array of string
 
-          - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-            - `"filter"`
+</details>
 
-          - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `model: optional object { mode, values }`
+<details>
 
-        - `mode: "filter"`
+<summary>
 
-          - `"filter"`
+provider: optional object {mode, values }
 
-        - `values: array of string`
+</summary>
 
-      - `provider: optional object { mode, values }`
+mode: "filter"
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+values: array of string
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `technique: optional "fixed" or "sliding"`
+</details>
 
-        - `"fixed"`
+<a href="#">Link to this property</a>
 
-        - `"sliding"`
+<details>
 
-  - `store_id: optional string`
+<summary>
 
-  - `stripe: optional object { authorization, usage_events }`
+technique: optional "fixed"or "sliding"
 
-    - `authorization: string`
+</summary>
 
-    - `usage_events: array of object { payload }`
+One of the following:
 
-      - `payload: string`
+"fixed"
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+<a href="#">Link to this property</a>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+"sliding"
 
-    - `"postpaid"`
+<a href="#">Link to this property</a>
 
-  - `zdr: optional boolean`
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "my-gateway",
-          "cache_invalidate_on_update": true,
-          "cache_ttl": 0,
-          "collect_logs": true,
-          "rate_limiting_interval": 0,
-          "rate_limiting_limit": 0
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "id": "my-gateway",
-    "cache_invalidate_on_update": true,
-    "cache_ttl": 0,
-    "collect_logs": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "rate_limiting_interval": 0,
-    "rate_limiting_limit": 0,
-    "authentication": true,
-    "dlp": {
-      "action": "BLOCK",
-      "enabled": true,
-      "profiles": [
-        "string"
-      ]
-    },
-    "guardrails": {
-      "prompt": {
-        "P1": "FLAG",
-        "S1": "FLAG",
-        "S10": "FLAG",
-        "S11": "FLAG",
-        "S12": "FLAG",
-        "S13": "FLAG",
-        "S2": "FLAG",
-        "S3": "FLAG",
-        "S4": "FLAG",
-        "S5": "FLAG",
-        "S6": "FLAG",
-        "S7": "FLAG",
-        "S8": "FLAG",
-        "S9": "FLAG"
-      },
-      "response": {
-        "P1": "FLAG",
-        "S1": "FLAG",
-        "S10": "FLAG",
-        "S11": "FLAG",
-        "S12": "FLAG",
-        "S13": "FLAG",
-        "S2": "FLAG",
-        "S3": "FLAG",
-        "S4": "FLAG",
-        "S5": "FLAG",
-        "S6": "FLAG",
-        "S7": "FLAG",
-        "S8": "FLAG",
-        "S9": "FLAG"
-      }
-    },
-    "is_default": true,
-    "log_management": 10000,
-    "log_management_strategy": "STOP_INSERTING",
-    "logpush": true,
-    "logpush_public_key": "xxxxxxxxxxxxxxxx",
-    "otel": [
-      {
-        "headers": {
-          "foo": "string"
-        },
-        "url": "https://example.com",
-        "authorization": "authorization",
-        "content_type": "json"
-      }
-    ],
-    "rate_limiting_technique": "fixed",
-    "retry_backoff": "constant",
-    "retry_delay": 0,
-    "retry_max_attempts": 1,
-    "spend_limits": {
-      "enabled": true,
-      "rules": [
-        {
-          "limit": 1,
-          "limitType": "cost",
-          "window": 1,
-          "id": "x",
-          "enabled": true,
-          "metadata": {
-            "foo": {
-              "mode": "partition"
-            }
-          },
-          "model": {
-            "mode": "filter",
-            "values": [
-              "string"
-            ]
-          },
-          "provider": {
-            "mode": "filter",
-            "values": [
-              "string"
-            ]
-          },
-          "technique": "fixed"
-        }
-      ]
-    },
-    "store_id": "store_id",
-    "stripe": {
-      "authorization": "authorization",
-      "usage_events": [
-        {
-          "payload": "payload"
-        }
-      ]
-    },
-    "workers_ai_billing_mode": "postpaid",
-    "zdr": true
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update a Gateway
+store\_id: optional string
 
-**put** `/accounts/{account_id}/ai-gateway/gateways/{id}`
+<a href="#">Link to this property</a>
 
-Updates an existing AI Gateway dataset.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+stripe: optional object {authorization, usage\_events }
 
-- `id: string`
+</summary>
 
-  gateway id
+authorization: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `cache_invalidate_on_update: boolean`
+<details>
 
-- `cache_ttl: number`
+<summary>
 
-- `collect_logs: boolean`
+usage\_events: array of object {payload }
 
-- `rate_limiting_interval: number`
+</summary>
 
-- `rate_limiting_limit: number`
+payload: string
 
-- `authentication: optional boolean`
+<a href="#">Link to this property</a>
 
-- `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+</details>
 
-  - `object { action, enabled, profiles }`
+<a href="#">Link to this property</a>
 
-    - `action: "BLOCK" or "FLAG"`
+</details>
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-    - `profiles: array of string`
+workers\_ai\_billing\_mode: optional "postpaid"or "unified"
 
-  - `object { enabled, policies }`
+Controls how Workers AI inference calls routed through this gateway are billed. ‘postpaid’ bills the account directly through Workers AI; ‘unified’ deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.
 
-    - `enabled: boolean`
+</summary>
 
-    - `policies: array of object { id, action, check, 2 more }`
+One of the following:
 
-      - `id: string`
+"postpaid"
 
-      - `action: "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"unified"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `check: array of "REQUEST" or "RESPONSE"`
+</details>
 
-        - `"REQUEST"`
+<a href="#">Link to this property</a>
 
-        - `"RESPONSE"`
+zdr: optional boolean
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `profiles: array of string`
+</details>
 
-- `guardrails: optional object { prompt, response }`
+[Link to this property](#)%20ai_gateway%20%3E%20(model)%20ai_gateway_list_response%20%3E%20(schema)>)
 
-  - `prompt: object { P1, S1, S10, 11 more }`
+<details>
 
-    - `P1: optional "FLAG" or "BLOCK"`
+<summary>
 
-      - `"FLAG"`
+AIGatewayGetResponse object {id, cache\_invalidate\_on\_update, cache\_ttl, 25 more }
 
-      - `"BLOCK"`
+</summary>
 
-    - `S1: optional "FLAG" or "BLOCK"`
+id: string
 
-      - `"FLAG"`
+gateway id
 
-      - `"BLOCK"`
+maxLength64
 
-    - `S10: optional "FLAG" or "BLOCK"`
+minLength1
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+cache\_invalidate\_on\_update: boolean
 
-    - `S11: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+cache\_ttl: number
 
-      - `"BLOCK"`
+minimum0
 
-    - `S12: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+collect\_logs: boolean
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S13: optional "FLAG" or "BLOCK"`
+created\_at: string
 
-      - `"FLAG"`
+formatdate-time
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S2: optional "FLAG" or "BLOCK"`
+modified\_at: string
 
-      - `"FLAG"`
+formatdate-time
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S3: optional "FLAG" or "BLOCK"`
+rate\_limiting\_interval: number
 
-      - `"FLAG"`
+minimum0
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S4: optional "FLAG" or "BLOCK"`
+rate\_limiting\_limit: number
 
-      - `"FLAG"`
+minimum0
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S5: optional "FLAG" or "BLOCK"`
+authentication: optional boolean
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+byok\_only: optional boolean
 
-    - `S6: optional "FLAG" or "BLOCK"`
+Requires customer-provided provider credentials and prevents fallback to Unified Billing.
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+<details>
 
-    - `S7: optional "FLAG" or "BLOCK"`
+<summary>
 
-      - `"FLAG"`
+dlp: optional object {action, enabled, profiles } or object {enabled, policies }
 
-      - `"BLOCK"`
+</summary>
 
-    - `S8: optional "FLAG" or "BLOCK"`
+One of the following:
 
-      - `"FLAG"`
+<details>
 
-      - `"BLOCK"`
+<summary>
 
-    - `S9: optional "FLAG" or "BLOCK"`
+object {action, enabled, profiles }
 
-      - `"FLAG"`
+</summary>
 
-      - `"BLOCK"`
+<details>
 
-  - `response: object { P1, S1, S10, 11 more }`
+<summary>
 
-    - `P1: optional "FLAG" or "BLOCK"`
+action: "BLOCK"or "FLAG"
 
-      - `"FLAG"`
+</summary>
 
-      - `"BLOCK"`
+One of the following:
 
-    - `S1: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+"FLAG"
 
-    - `S10: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+</details>
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S11: optional "FLAG" or "BLOCK"`
+enabled: boolean
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+profiles: array of string
 
-    - `S12: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+</details>
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S13: optional "FLAG" or "BLOCK"`
+<details>
 
-      - `"FLAG"`
+<summary>
 
-      - `"BLOCK"`
+object {enabled, policies }
 
-    - `S2: optional "FLAG" or "BLOCK"`
+</summary>
 
-      - `"FLAG"`
+enabled: boolean
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S3: optional "FLAG" or "BLOCK"`
+<details>
 
-      - `"FLAG"`
+<summary>
 
-      - `"BLOCK"`
+policies: array of object {id, action, check, 2 more }
 
-    - `S4: optional "FLAG" or "BLOCK"`
+</summary>
 
-      - `"FLAG"`
+id: string
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S5: optional "FLAG" or "BLOCK"`
+<details>
 
-      - `"FLAG"`
+<summary>
 
-      - `"BLOCK"`
+action: "FLAG"or "BLOCK"
 
-    - `S6: optional "FLAG" or "BLOCK"`
+</summary>
 
-      - `"FLAG"`
+One of the following:
 
-      - `"BLOCK"`
+"FLAG"
 
-    - `S7: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+"BLOCK"
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S8: optional "FLAG" or "BLOCK"`
+</details>
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+<details>
 
-    - `S9: optional "FLAG" or "BLOCK"`
+<summary>
 
-      - `"FLAG"`
+check: array of "REQUEST"or "RESPONSE"
 
-      - `"BLOCK"`
+</summary>
 
-- `log_management: optional number`
+One of the following:
 
-- `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+"REQUEST"
 
-  - `"STOP_INSERTING"`
+<a href="#">Link to this property</a>
 
-  - `"DELETE_OLDEST"`
+"RESPONSE"
 
-- `logpush: optional boolean`
+<a href="#">Link to this property</a>
 
-- `logpush_public_key: optional string`
+</details>
 
-- `otel: optional array of object { headers, url, authorization, content_type }`
+<a href="#">Link to this property</a>
 
-  - `headers: map[string]`
+enabled: boolean
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-  - `authorization: optional string`
+profiles: array of string
 
-  - `content_type: optional "json" or "protobuf"`
+<a href="#">Link to this property</a>
 
-    - `"json"`
+</details>
 
-    - `"protobuf"`
+<a href="#">Link to this property</a>
 
-- `rate_limiting_technique: optional "fixed" or "sliding"`
+</details>
 
-  - `"fixed"`
+<a href="#">Link to this property</a>
 
-  - `"sliding"`
+</details>
 
-- `retry_backoff: optional "constant" or "linear" or "exponential"`
+<a href="#">Link to this property</a>
 
-  Backoff strategy for retry delays
+<details>
 
-  - `"constant"`
+<summary>
 
-  - `"linear"`
+guardrails: optional object {prompt, response }
 
-  - `"exponential"`
+</summary>
 
-- `retry_delay: optional number`
+<details>
 
-  Delay between retry attempts in milliseconds (0-5000)
+<summary>
 
-- `retry_max_attempts: optional number`
+prompt: object {P1, S1, S10, 11 more }
 
-  Maximum number of retry attempts for failed requests (1-5)
+</summary>
 
-- `spend_limits: optional object { enabled, rules }`
+<details>
 
-  - `enabled: optional boolean`
+<summary>
 
-  - `rules: optional array of object { limit, limitType, window, 6 more }`
+P1: optional "FLAG"or "BLOCK"
 
-    - `limit: number`
+</summary>
 
-    - `limitType: "cost"`
+One of the following:
 
-      - `"cost"`
+"FLAG"
 
-    - `window: number`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"BLOCK"
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `metadata: optional map[object { mode }  or object { mode, values } ]`
+</details>
 
-      - `Mode object { mode }`
+<a href="#">Link to this property</a>
 
-        - `mode: "partition"`
+<details>
 
-          - `"partition"`
+<summary>
 
-      - `object { mode, values }`
+S1: optional "FLAG"or "BLOCK"
 
-        - `mode: "filter"`
+</summary>
 
-          - `"filter"`
+One of the following:
 
-        - `values: array of string`
+"FLAG"
 
-    - `model: optional object { mode, values }`
+<a href="#">Link to this property</a>
 
-      - `mode: "filter"`
+"BLOCK"
 
-        - `"filter"`
+<a href="#">Link to this property</a>
 
-      - `values: array of string`
+</details>
 
-    - `provider: optional object { mode, values }`
+<a href="#">Link to this property</a>
 
-      - `mode: "filter"`
+<details>
 
-        - `"filter"`
+<summary>
 
-      - `values: array of string`
+S10: optional "FLAG"or "BLOCK"
 
-    - `technique: optional "fixed" or "sliding"`
+</summary>
 
-      - `"fixed"`
+One of the following:
 
-      - `"sliding"`
+"FLAG"
 
-- `store_id: optional string`
+<a href="#">Link to this property</a>
 
-- `stripe: optional object { authorization, usage_events }`
+"BLOCK"
 
-  - `authorization: string`
+<a href="#">Link to this property</a>
 
-  - `usage_events: array of object { payload }`
+</details>
 
-    - `payload: string`
+<a href="#">Link to this property</a>
 
-- `workers_ai_billing_mode: optional "postpaid"`
+<details>
 
-  Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<summary>
 
-  - `"postpaid"`
+S11: optional "FLAG"or "BLOCK"
 
-- `zdr: optional boolean`
+</summary>
 
-### Returns
+One of the following:
 
-- `result: object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+"FLAG"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+"BLOCK"
 
-  - `cache_invalidate_on_update: boolean`
+<a href="#">Link to this property</a>
 
-  - `cache_ttl: number`
+</details>
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `modified_at: string`
+<summary>
 
-  - `rate_limiting_interval: number`
+S12: optional "FLAG"or "BLOCK"
 
-  - `rate_limiting_limit: number`
+</summary>
 
-  - `authentication: optional boolean`
+One of the following:
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+"FLAG"
 
-    - `object { action, enabled, profiles }`
+<a href="#">Link to this property</a>
 
-      - `action: "BLOCK" or "FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `profiles: array of string`
+<details>
 
-    - `object { enabled, policies }`
+<summary>
 
-      - `enabled: boolean`
+S13: optional "FLAG"or "BLOCK"
 
-      - `policies: array of object { id, action, check, 2 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `action: "FLAG" or "BLOCK"`
+"FLAG"
 
-          - `"FLAG"`
+<a href="#">Link to this property</a>
 
-          - `"BLOCK"`
+"BLOCK"
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+<a href="#">Link to this property</a>
 
-          - `"REQUEST"`
+</details>
 
-          - `"RESPONSE"`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `profiles: array of string`
+<summary>
 
-  - `guardrails: optional object { prompt, response }`
+S2: optional "FLAG"or "BLOCK"
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+</summary>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+S3: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S12: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S4: optional "FLAG"or "BLOCK"
 
-      - `S3: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S5: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-    - `response: object { P1, S1, S10, 11 more }`
+S6: optional "FLAG"or "BLOCK"
 
-      - `P1: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S7: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+S8: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S4: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S5: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S9: optional "FLAG"or "BLOCK"
 
-      - `S7: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-  - `is_default: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `log_management: optional number`
+<details>
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+<summary>
 
-    - `"STOP_INSERTING"`
+response: object {P1, S1, S10, 11 more }
 
-    - `"DELETE_OLDEST"`
+</summary>
 
-  - `logpush: optional boolean`
+<details>
 
-  - `logpush_public_key: optional string`
+<summary>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+P1: optional "FLAG"or "BLOCK"
 
-    - `headers: map[string]`
+</summary>
 
-    - `url: string`
+One of the following:
 
-    - `authorization: optional string`
+"FLAG"
 
-    - `content_type: optional "json" or "protobuf"`
+<a href="#">Link to this property</a>
 
-      - `"json"`
+"BLOCK"
 
-      - `"protobuf"`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+</details>
 
-    - `"fixed"`
+<a href="#">Link to this property</a>
 
-    - `"sliding"`
+<details>
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<summary>
 
-    Backoff strategy for retry delays
+S1: optional "FLAG"or "BLOCK"
 
-    - `"constant"`
+</summary>
 
-    - `"linear"`
+One of the following:
 
-    - `"exponential"`
+"FLAG"
 
-  - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-    Delay between retry attempts in milliseconds (0-5000)
+"BLOCK"
 
-  - `retry_max_attempts: optional number`
+<a href="#">Link to this property</a>
 
-    Maximum number of retry attempts for failed requests (1-5)
+</details>
 
-  - `spend_limits: optional object { enabled, rules }`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+<details>
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+<summary>
 
-      - `limit: number`
+S10: optional "FLAG"or "BLOCK"
 
-      - `limitType: "cost"`
+</summary>
 
-        - `"cost"`
+One of the following:
 
-      - `window: number`
+"FLAG"
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+"BLOCK"
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+<a href="#">Link to this property</a>
 
-        - `Mode object { mode }`
+</details>
 
-          - `mode: "partition"`
+<a href="#">Link to this property</a>
 
-            - `"partition"`
+<details>
 
-        - `object { mode, values }`
+<summary>
 
-          - `mode: "filter"`
+S11: optional "FLAG"or "BLOCK"
 
-            - `"filter"`
+</summary>
 
-          - `values: array of string`
+One of the following:
 
-      - `model: optional object { mode, values }`
+"FLAG"
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+"BLOCK"
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `provider: optional object { mode, values }`
+</details>
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+<details>
 
-        - `values: array of string`
+<summary>
 
-      - `technique: optional "fixed" or "sliding"`
+S12: optional "FLAG"or "BLOCK"
 
-        - `"fixed"`
+</summary>
 
-        - `"sliding"`
+One of the following:
 
-  - `store_id: optional string`
+"FLAG"
 
-  - `stripe: optional object { authorization, usage_events }`
+<a href="#">Link to this property</a>
 
-    - `authorization: string`
+"BLOCK"
 
-    - `usage_events: array of object { payload }`
+<a href="#">Link to this property</a>
 
-      - `payload: string`
+</details>
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+<a href="#">Link to this property</a>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<details>
 
-    - `"postpaid"`
+<summary>
 
-  - `zdr: optional boolean`
+S13: optional "FLAG"or "BLOCK"
 
-- `success: boolean`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cache_invalidate_on_update": true,
-          "cache_ttl": 0,
-          "collect_logs": true,
-          "rate_limiting_interval": 0,
-          "rate_limiting_limit": 0
-        }'
-```
+"FLAG"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "my-gateway",
-    "cache_invalidate_on_update": true,
-    "cache_ttl": 0,
-    "collect_logs": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "rate_limiting_interval": 0,
-    "rate_limiting_limit": 0,
-    "authentication": true,
-    "dlp": {
-      "action": "BLOCK",
-      "enabled": true,
-      "profiles": [
-        "string"
-      ]
-    },
-    "guardrails": {
-      "prompt": {
-        "P1": "FLAG",
-        "S1": "FLAG",
-        "S10": "FLAG",
-        "S11": "FLAG",
-        "S12": "FLAG",
-        "S13": "FLAG",
-        "S2": "FLAG",
-        "S3": "FLAG",
-        "S4": "FLAG",
-        "S5": "FLAG",
-        "S6": "FLAG",
-        "S7": "FLAG",
-        "S8": "FLAG",
-        "S9": "FLAG"
-      },
-      "response": {
-        "P1": "FLAG",
-        "S1": "FLAG",
-        "S10": "FLAG",
-        "S11": "FLAG",
-        "S12": "FLAG",
-        "S13": "FLAG",
-        "S2": "FLAG",
-        "S3": "FLAG",
-        "S4": "FLAG",
-        "S5": "FLAG",
-        "S6": "FLAG",
-        "S7": "FLAG",
-        "S8": "FLAG",
-        "S9": "FLAG"
-      }
-    },
-    "is_default": true,
-    "log_management": 10000,
-    "log_management_strategy": "STOP_INSERTING",
-    "logpush": true,
-    "logpush_public_key": "xxxxxxxxxxxxxxxx",
-    "otel": [
-      {
-        "headers": {
-          "foo": "string"
-        },
-        "url": "https://example.com",
-        "authorization": "authorization",
-        "content_type": "json"
-      }
-    ],
-    "rate_limiting_technique": "fixed",
-    "retry_backoff": "constant",
-    "retry_delay": 0,
-    "retry_max_attempts": 1,
-    "spend_limits": {
-      "enabled": true,
-      "rules": [
-        {
-          "limit": 1,
-          "limitType": "cost",
-          "window": 1,
-          "id": "x",
-          "enabled": true,
-          "metadata": {
-            "foo": {
-              "mode": "partition"
-            }
-          },
-          "model": {
-            "mode": "filter",
-            "values": [
-              "string"
-            ]
-          },
-          "provider": {
-            "mode": "filter",
-            "values": [
-              "string"
-            ]
-          },
-          "technique": "fixed"
-        }
-      ]
-    },
-    "store_id": "store_id",
-    "stripe": {
-      "authorization": "authorization",
-      "usage_events": [
-        {
-          "payload": "payload"
-        }
-      ]
-    },
-    "workers_ai_billing_mode": "postpaid",
-    "zdr": true
-  },
-  "success": true
-}
-```
+"BLOCK"
 
-## Delete a Gateway
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/ai-gateway/gateways/{id}`
+</details>
 
-Deletes an AI Gateway dataset.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `id: string`
+S2: optional "FLAG"or "BLOCK"
 
-  gateway id
+</summary>
 
-### Returns
+One of the following:
 
-- `result: object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+"FLAG"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+"BLOCK"
 
-  - `cache_invalidate_on_update: boolean`
+<a href="#">Link to this property</a>
 
-  - `cache_ttl: number`
+</details>
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `modified_at: string`
+<summary>
 
-  - `rate_limiting_interval: number`
+S3: optional "FLAG"or "BLOCK"
 
-  - `rate_limiting_limit: number`
+</summary>
 
-  - `authentication: optional boolean`
+One of the following:
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+"FLAG"
 
-    - `object { action, enabled, profiles }`
+<a href="#">Link to this property</a>
 
-      - `action: "BLOCK" or "FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `profiles: array of string`
+<details>
 
-    - `object { enabled, policies }`
+<summary>
 
-      - `enabled: boolean`
+S4: optional "FLAG"or "BLOCK"
 
-      - `policies: array of object { id, action, check, 2 more }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `action: "FLAG" or "BLOCK"`
+"FLAG"
 
-          - `"FLAG"`
+<a href="#">Link to this property</a>
 
-          - `"BLOCK"`
+"BLOCK"
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+<a href="#">Link to this property</a>
 
-          - `"REQUEST"`
+</details>
 
-          - `"RESPONSE"`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+<details>
 
-        - `profiles: array of string`
+<summary>
 
-  - `guardrails: optional object { prompt, response }`
+S5: optional "FLAG"or "BLOCK"
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+</summary>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+S6: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S12: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S7: optional "FLAG"or "BLOCK"
 
-      - `S3: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S8: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-    - `response: object { P1, S1, S10, 11 more }`
+S9: optional "FLAG"or "BLOCK"
 
-      - `P1: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+is\_default: optional boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+log\_classification: optional boolean
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+log\_management: optional number
 
-        - `"BLOCK"`
+maximum10000000
 
-      - `S2: optional "FLAG" or "BLOCK"`
+minimum10000
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+log\_management\_strategy: optional "STOP\_INSERTING"or "DELETE\_OLDEST"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"STOP\_INSERTING"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+"DELETE\_OLDEST"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+logpush: optional boolean
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+logpush\_public\_key: optional string
 
-        - `"FLAG"`
+maxLength1024
 
-        - `"BLOCK"`
+minLength16
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+otel: optional array of object {headers, url, authorization, content\_type }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+headers: map\[string]
 
-  - `is_default: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `log_management: optional number`
+url: string
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+formaturi
 
-    - `"STOP_INSERTING"`
+maxLength2048
 
-    - `"DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-  - `logpush: optional boolean`
+authorization: optional string
 
-  - `logpush_public_key: optional string`
+maxLength256
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+<a href="#">Link to this property</a>
 
-    - `headers: map[string]`
+<details>
 
-    - `url: string`
+<summary>
 
-    - `authorization: optional string`
+content\_type: optional "json"or "protobuf"
 
-    - `content_type: optional "json" or "protobuf"`
+</summary>
 
-      - `"json"`
+One of the following:
 
-      - `"protobuf"`
+"json"
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+<a href="#">Link to this property</a>
 
-    - `"fixed"`
+"protobuf"
 
-    - `"sliding"`
+<a href="#">Link to this property</a>
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+</details>
 
-    Backoff strategy for retry delays
+<a href="#">Link to this property</a>
 
-    - `"constant"`
+</details>
 
-    - `"linear"`
+<a href="#">Link to this property</a>
 
-    - `"exponential"`
+<details>
 
-  - `retry_delay: optional number`
+<summary>
 
-    Delay between retry attempts in milliseconds (0-5000)
+rate\_limiting\_technique: optional "fixed"or "sliding"
 
-  - `retry_max_attempts: optional number`
+</summary>
 
-    Maximum number of retry attempts for failed requests (1-5)
+One of the following:
 
-  - `spend_limits: optional object { enabled, rules }`
+"fixed"
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+"sliding"
 
-      - `limit: number`
+<a href="#">Link to this property</a>
 
-      - `limitType: "cost"`
+</details>
 
-        - `"cost"`
+<a href="#">Link to this property</a>
 
-      - `window: number`
+<details>
 
-      - `id: optional string`
+<summary>
 
-      - `enabled: optional boolean`
+retry\_backoff: optional "constant"or "linear"or "exponential"
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+Backoff strategy for retry delays
 
-        - `Mode object { mode }`
+</summary>
 
-          - `mode: "partition"`
+One of the following:
 
-            - `"partition"`
+"constant"
 
-        - `object { mode, values }`
+<a href="#">Link to this property</a>
 
-          - `mode: "filter"`
+"linear"
 
-            - `"filter"`
+<a href="#">Link to this property</a>
 
-          - `values: array of string`
+"exponential"
 
-      - `model: optional object { mode, values }`
+<a href="#">Link to this property</a>
 
-        - `mode: "filter"`
+</details>
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `values: array of string`
+retry\_delay: optional number
 
-      - `provider: optional object { mode, values }`
+Delay between retry attempts in milliseconds (0-60000)
 
-        - `mode: "filter"`
+maximum60000
 
-          - `"filter"`
+minimum0
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `technique: optional "fixed" or "sliding"`
+retry\_max\_attempts: optional number
 
-        - `"fixed"`
+Maximum number of retry attempts for failed requests (1-5)
 
-        - `"sliding"`
+maximum5
 
-  - `store_id: optional string`
+minimum1
 
-  - `stripe: optional object { authorization, usage_events }`
+<a href="#">Link to this property</a>
 
-    - `authorization: string`
+<details>
 
-    - `usage_events: array of object { payload }`
+<summary>
 
-      - `payload: string`
+spend\_limits: optional object {enabled, rules }
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+</summary>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+enabled: optional boolean
 
-    - `"postpaid"`
+<a href="#">Link to this property</a>
 
-  - `zdr: optional boolean`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+rules: optional array of object {limit, limitType, window, 6 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+limit: number
 
-```json
-{
-  "result": {
-    "id": "my-gateway",
-    "cache_invalidate_on_update": true,
-    "cache_ttl": 0,
-    "collect_logs": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "rate_limiting_interval": 0,
-    "rate_limiting_limit": 0,
-    "authentication": true,
-    "dlp": {
-      "action": "BLOCK",
-      "enabled": true,
-      "profiles": [
-        "string"
-      ]
-    },
-    "guardrails": {
-      "prompt": {
-        "P1": "FLAG",
-        "S1": "FLAG",
-        "S10": "FLAG",
-        "S11": "FLAG",
-        "S12": "FLAG",
-        "S13": "FLAG",
-        "S2": "FLAG",
-        "S3": "FLAG",
-        "S4": "FLAG",
-        "S5": "FLAG",
-        "S6": "FLAG",
-        "S7": "FLAG",
-        "S8": "FLAG",
-        "S9": "FLAG"
-      },
-      "response": {
-        "P1": "FLAG",
-        "S1": "FLAG",
-        "S10": "FLAG",
-        "S11": "FLAG",
-        "S12": "FLAG",
-        "S13": "FLAG",
-        "S2": "FLAG",
-        "S3": "FLAG",
-        "S4": "FLAG",
-        "S5": "FLAG",
-        "S6": "FLAG",
-        "S7": "FLAG",
-        "S8": "FLAG",
-        "S9": "FLAG"
-      }
-    },
-    "is_default": true,
-    "log_management": 10000,
-    "log_management_strategy": "STOP_INSERTING",
-    "logpush": true,
-    "logpush_public_key": "xxxxxxxxxxxxxxxx",
-    "otel": [
-      {
-        "headers": {
-          "foo": "string"
-        },
-        "url": "https://example.com",
-        "authorization": "authorization",
-        "content_type": "json"
-      }
-    ],
-    "rate_limiting_technique": "fixed",
-    "retry_backoff": "constant",
-    "retry_delay": 0,
-    "retry_max_attempts": 1,
-    "spend_limits": {
-      "enabled": true,
-      "rules": [
-        {
-          "limit": 1,
-          "limitType": "cost",
-          "window": 1,
-          "id": "x",
-          "enabled": true,
-          "metadata": {
-            "foo": {
-              "mode": "partition"
-            }
-          },
-          "model": {
-            "mode": "filter",
-            "values": [
-              "string"
-            ]
-          },
-          "provider": {
-            "mode": "filter",
-            "values": [
-              "string"
-            ]
-          },
-          "technique": "fixed"
-        }
-      ]
-    },
-    "store_id": "store_id",
-    "stripe": {
-      "authorization": "authorization",
-      "usage_events": [
-        {
-          "payload": "payload"
-        }
-      ]
-    },
-    "workers_ai_billing_mode": "postpaid",
-    "zdr": true
-  },
-  "success": true
-}
-```
+exclusiveMinimum
 
-## Domain Types
+minimum0
 
-### AI Gateway List Response
+<a href="#">Link to this property</a>
 
-- `AIGatewayListResponse object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+limitType: "cost"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+window: number
 
-  - `cache_invalidate_on_update: boolean`
+exclusiveMinimum
 
-  - `cache_ttl: number`
+minimum0
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+id: optional string
 
-  - `modified_at: string`
+minLength1
 
-  - `rate_limiting_interval: number`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_limit: number`
+enabled: optional boolean
 
-  - `authentication: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+<details>
 
-    - `object { action, enabled, profiles }`
+<summary>
 
-      - `action: "BLOCK" or "FLAG"`
+metadata: optional map\[object {mode } or object {mode, values } ]
 
-        - `"BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-      - `enabled: boolean`
+<details>
 
-      - `profiles: array of string`
+<summary>
 
-    - `object { enabled, policies }`
+Mode object {mode }
 
-      - `enabled: boolean`
+</summary>
 
-      - `policies: array of object { id, action, check, 2 more }`
+mode: "partition"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `action: "FLAG" or "BLOCK"`
+</details>
 
-          - `"FLAG"`
+<a href="#">Link to this property</a>
 
-          - `"BLOCK"`
+<details>
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+<summary>
 
-          - `"REQUEST"`
+object {mode, values }
 
-          - `"RESPONSE"`
+</summary>
 
-        - `enabled: boolean`
+mode: "filter"
 
-        - `profiles: array of string`
+<a href="#">Link to this property</a>
 
-  - `guardrails: optional object { prompt, response }`
+values: array of string
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+<a href="#">Link to this property</a>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+model: optional object {mode, values }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+mode: "filter"
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+values: array of string
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+provider: optional object {mode, values }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+mode: "filter"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+values: array of string
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+technique: optional "fixed"or "sliding"
 
-      - `S5: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"fixed"
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"sliding"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+store\_id: optional string
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-    - `response: object { P1, S1, S10, 11 more }`
+<summary>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+stripe: optional object {authorization, usage\_events }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+authorization: string
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+usage\_events: array of object {payload }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+payload: string
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+workers\_ai\_billing\_mode: optional "postpaid"or "unified"
 
-        - `"BLOCK"`
+Controls how Workers AI inference calls routed through this gateway are billed. ‘postpaid’ bills the account directly through Workers AI; ‘unified’ deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.
 
-      - `S2: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"postpaid"
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"unified"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+zdr: optional boolean
 
-      - `S5: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+[Link to this property](#)%20ai_gateway%20%3E%20(model)%20ai_gateway_get_response%20%3E%20(schema)>)
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+AIGatewayCreateResponse object {id, cache\_invalidate\_on\_update, cache\_ttl, 25 more }
 
-      - `S7: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+id: string
 
-        - `"BLOCK"`
+gateway id
 
-      - `S8: optional "FLAG" or "BLOCK"`
+maxLength64
 
-        - `"FLAG"`
+minLength1
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+cache\_invalidate\_on\_update: boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+cache\_ttl: number
 
-  - `is_default: optional boolean`
+minimum0
 
-  - `log_management: optional number`
+<a href="#">Link to this property</a>
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+collect\_logs: boolean
 
-    - `"STOP_INSERTING"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE_OLDEST"`
+created\_at: string
 
-  - `logpush: optional boolean`
+formatdate-time
 
-  - `logpush_public_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+modified\_at: string
 
-    - `headers: map[string]`
+formatdate-time
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-    - `authorization: optional string`
+rate\_limiting\_interval: number
 
-    - `content_type: optional "json" or "protobuf"`
+minimum0
 
-      - `"json"`
+<a href="#">Link to this property</a>
 
-      - `"protobuf"`
+rate\_limiting\_limit: number
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+minimum0
 
-    - `"fixed"`
+<a href="#">Link to this property</a>
 
-    - `"sliding"`
+authentication: optional boolean
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<a href="#">Link to this property</a>
 
-    Backoff strategy for retry delays
+byok\_only: optional boolean
 
-    - `"constant"`
+Requires customer-provided provider credentials and prevents fallback to Unified Billing.
 
-    - `"linear"`
+<a href="#">Link to this property</a>
 
-    - `"exponential"`
+<details>
 
-  - `retry_delay: optional number`
+<summary>
 
-    Delay between retry attempts in milliseconds (0-5000)
+dlp: optional object {action, enabled, profiles } or object {enabled, policies }
 
-  - `retry_max_attempts: optional number`
+</summary>
 
-    Maximum number of retry attempts for failed requests (1-5)
+One of the following:
 
-  - `spend_limits: optional object { enabled, rules }`
+<details>
 
-    - `enabled: optional boolean`
+<summary>
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+object {action, enabled, profiles }
 
-      - `limit: number`
+</summary>
 
-      - `limitType: "cost"`
+<details>
 
-        - `"cost"`
+<summary>
 
-      - `window: number`
+action: "BLOCK"or "FLAG"
 
-      - `id: optional string`
+</summary>
 
-      - `enabled: optional boolean`
+One of the following:
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+"BLOCK"
 
-        - `Mode object { mode }`
+<a href="#">Link to this property</a>
 
-          - `mode: "partition"`
+"FLAG"
 
-            - `"partition"`
+<a href="#">Link to this property</a>
 
-        - `object { mode, values }`
+</details>
 
-          - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-            - `"filter"`
+enabled: boolean
 
-          - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `model: optional object { mode, values }`
+profiles: array of string
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+</details>
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `provider: optional object { mode, values }`
+<details>
 
-        - `mode: "filter"`
+<summary>
 
-          - `"filter"`
+object {enabled, policies }
 
-        - `values: array of string`
+</summary>
 
-      - `technique: optional "fixed" or "sliding"`
+enabled: boolean
 
-        - `"fixed"`
+<a href="#">Link to this property</a>
 
-        - `"sliding"`
+<details>
 
-  - `store_id: optional string`
+<summary>
 
-  - `stripe: optional object { authorization, usage_events }`
+policies: array of object {id, action, check, 2 more }
 
-    - `authorization: string`
+</summary>
 
-    - `usage_events: array of object { payload }`
+id: string
 
-      - `payload: string`
+<a href="#">Link to this property</a>
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+<details>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<summary>
 
-    - `"postpaid"`
+action: "FLAG"or "BLOCK"
 
-  - `zdr: optional boolean`
+</summary>
 
-### AI Gateway Get Response
+One of the following:
 
-- `AIGatewayGetResponse object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+"FLAG"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+"BLOCK"
 
-  - `cache_invalidate_on_update: boolean`
+<a href="#">Link to this property</a>
 
-  - `cache_ttl: number`
+</details>
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `modified_at: string`
+<summary>
 
-  - `rate_limiting_interval: number`
+check: array of "REQUEST"or "RESPONSE"
 
-  - `rate_limiting_limit: number`
+</summary>
 
-  - `authentication: optional boolean`
+One of the following:
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+"REQUEST"
 
-    - `object { action, enabled, profiles }`
+<a href="#">Link to this property</a>
 
-      - `action: "BLOCK" or "FLAG"`
+"RESPONSE"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `profiles: array of string`
+enabled: boolean
 
-    - `object { enabled, policies }`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+profiles: array of string
 
-      - `policies: array of object { id, action, check, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `action: "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-          - `"FLAG"`
+</details>
 
-          - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+</details>
 
-          - `"REQUEST"`
+<a href="#">Link to this property</a>
 
-          - `"RESPONSE"`
+<details>
 
-        - `enabled: boolean`
+<summary>
 
-        - `profiles: array of string`
+guardrails: optional object {prompt, response }
 
-  - `guardrails: optional object { prompt, response }`
+</summary>
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+<details>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+prompt: object {P1, S1, S10, 11 more }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+P1: optional "FLAG"or "BLOCK"
 
-      - `S10: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S1: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+S10: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S6: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S11: optional "FLAG"or "BLOCK"
 
-      - `S9: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-    - `response: object { P1, S1, S10, 11 more }`
+<a href="#">Link to this property</a>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+S12: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S11: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S12: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S13: optional "FLAG"or "BLOCK"
 
-      - `S2: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S2: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+S3: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-  - `is_default: optional boolean`
+"FLAG"
 
-  - `log_management: optional number`
+<a href="#">Link to this property</a>
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+"BLOCK"
 
-    - `"STOP_INSERTING"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE_OLDEST"`
+</details>
 
-  - `logpush: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `logpush_public_key: optional string`
+<details>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+<summary>
 
-    - `headers: map[string]`
+S4: optional "FLAG"or "BLOCK"
 
-    - `url: string`
+</summary>
 
-    - `authorization: optional string`
+One of the following:
 
-    - `content_type: optional "json" or "protobuf"`
+"FLAG"
 
-      - `"json"`
+<a href="#">Link to this property</a>
 
-      - `"protobuf"`
+"BLOCK"
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+<a href="#">Link to this property</a>
 
-    - `"fixed"`
+</details>
 
-    - `"sliding"`
+<a href="#">Link to this property</a>
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<details>
 
-    Backoff strategy for retry delays
+<summary>
 
-    - `"constant"`
+S5: optional "FLAG"or "BLOCK"
 
-    - `"linear"`
+</summary>
 
-    - `"exponential"`
+One of the following:
 
-  - `retry_delay: optional number`
+"FLAG"
 
-    Delay between retry attempts in milliseconds (0-5000)
+<a href="#">Link to this property</a>
 
-  - `retry_max_attempts: optional number`
+"BLOCK"
 
-    Maximum number of retry attempts for failed requests (1-5)
+<a href="#">Link to this property</a>
 
-  - `spend_limits: optional object { enabled, rules }`
+</details>
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+<details>
 
-      - `limit: number`
+<summary>
 
-      - `limitType: "cost"`
+S6: optional "FLAG"or "BLOCK"
 
-        - `"cost"`
+</summary>
 
-      - `window: number`
+One of the following:
 
-      - `id: optional string`
+"FLAG"
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+"BLOCK"
 
-        - `Mode object { mode }`
+<a href="#">Link to this property</a>
 
-          - `mode: "partition"`
+</details>
 
-            - `"partition"`
+<a href="#">Link to this property</a>
 
-        - `object { mode, values }`
+<details>
 
-          - `mode: "filter"`
+<summary>
 
-            - `"filter"`
+S7: optional "FLAG"or "BLOCK"
 
-          - `values: array of string`
+</summary>
 
-      - `model: optional object { mode, values }`
+One of the following:
 
-        - `mode: "filter"`
+"FLAG"
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `values: array of string`
+"BLOCK"
 
-      - `provider: optional object { mode, values }`
+<a href="#">Link to this property</a>
 
-        - `mode: "filter"`
+</details>
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `values: array of string`
+<details>
 
-      - `technique: optional "fixed" or "sliding"`
+<summary>
 
-        - `"fixed"`
+S8: optional "FLAG"or "BLOCK"
 
-        - `"sliding"`
+</summary>
 
-  - `store_id: optional string`
+One of the following:
 
-  - `stripe: optional object { authorization, usage_events }`
+"FLAG"
 
-    - `authorization: string`
+<a href="#">Link to this property</a>
 
-    - `usage_events: array of object { payload }`
+"BLOCK"
 
-      - `payload: string`
+<a href="#">Link to this property</a>
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+</details>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<a href="#">Link to this property</a>
 
-    - `"postpaid"`
+<details>
 
-  - `zdr: optional boolean`
+<summary>
 
-### AI Gateway Create Response
+S9: optional "FLAG"or "BLOCK"
 
-- `AIGatewayCreateResponse object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-    gateway id
+"FLAG"
 
-  - `cache_invalidate_on_update: boolean`
+<a href="#">Link to this property</a>
 
-  - `cache_ttl: number`
+"BLOCK"
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_interval: number`
+</details>
 
-  - `rate_limiting_limit: number`
+<a href="#">Link to this property</a>
 
-  - `authentication: optional boolean`
+<details>
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+<summary>
 
-    - `object { action, enabled, profiles }`
+response: object {P1, S1, S10, 11 more }
 
-      - `action: "BLOCK" or "FLAG"`
+</summary>
 
-        - `"BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-      - `enabled: boolean`
+P1: optional "FLAG"or "BLOCK"
 
-      - `profiles: array of string`
+</summary>
 
-    - `object { enabled, policies }`
+One of the following:
 
-      - `enabled: boolean`
+"FLAG"
 
-      - `policies: array of object { id, action, check, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"BLOCK"
 
-        - `action: "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-          - `"FLAG"`
+</details>
 
-          - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+<details>
 
-          - `"REQUEST"`
+<summary>
 
-          - `"RESPONSE"`
+S1: optional "FLAG"or "BLOCK"
 
-        - `enabled: boolean`
+</summary>
 
-        - `profiles: array of string`
+One of the following:
 
-  - `guardrails: optional object { prompt, response }`
+"FLAG"
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+<a href="#">Link to this property</a>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+S10: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S11: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S12: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S11: optional "FLAG"or "BLOCK"
 
-      - `S2: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S12: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+S13: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-    - `response: object { P1, S1, S10, 11 more }`
+"FLAG"
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S2: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+S3: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S3: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S4: optional "FLAG"or "BLOCK"
 
-      - `S6: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S5: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-  - `is_default: optional boolean`
+One of the following:
 
-  - `log_management: optional number`
+"FLAG"
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-    - `"STOP_INSERTING"`
+"BLOCK"
 
-    - `"DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-  - `logpush: optional boolean`
+</details>
 
-  - `logpush_public_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+<details>
 
-    - `headers: map[string]`
+<summary>
 
-    - `url: string`
+S6: optional "FLAG"or "BLOCK"
 
-    - `authorization: optional string`
+</summary>
 
-    - `content_type: optional "json" or "protobuf"`
+One of the following:
 
-      - `"json"`
+"FLAG"
 
-      - `"protobuf"`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+"BLOCK"
 
-    - `"fixed"`
+<a href="#">Link to this property</a>
 
-    - `"sliding"`
+</details>
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<a href="#">Link to this property</a>
 
-    Backoff strategy for retry delays
+<details>
 
-    - `"constant"`
+<summary>
 
-    - `"linear"`
+S7: optional "FLAG"or "BLOCK"
 
-    - `"exponential"`
+</summary>
 
-  - `retry_delay: optional number`
+One of the following:
 
-    Delay between retry attempts in milliseconds (0-5000)
+"FLAG"
 
-  - `retry_max_attempts: optional number`
+<a href="#">Link to this property</a>
 
-    Maximum number of retry attempts for failed requests (1-5)
+"BLOCK"
 
-  - `spend_limits: optional object { enabled, rules }`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+</details>
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `limit: number`
+<details>
 
-      - `limitType: "cost"`
+<summary>
 
-        - `"cost"`
+S8: optional "FLAG"or "BLOCK"
 
-      - `window: number`
+</summary>
 
-      - `id: optional string`
+One of the following:
 
-      - `enabled: optional boolean`
+"FLAG"
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+<a href="#">Link to this property</a>
 
-        - `Mode object { mode }`
+"BLOCK"
 
-          - `mode: "partition"`
+<a href="#">Link to this property</a>
 
-            - `"partition"`
+</details>
 
-        - `object { mode, values }`
+<a href="#">Link to this property</a>
 
-          - `mode: "filter"`
+<details>
 
-            - `"filter"`
+<summary>
 
-          - `values: array of string`
+S9: optional "FLAG"or "BLOCK"
 
-      - `model: optional object { mode, values }`
+</summary>
 
-        - `mode: "filter"`
+One of the following:
 
-          - `"filter"`
+"FLAG"
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `provider: optional object { mode, values }`
+"BLOCK"
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+</details>
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `technique: optional "fixed" or "sliding"`
+</details>
 
-        - `"fixed"`
+<a href="#">Link to this property</a>
 
-        - `"sliding"`
+</details>
 
-  - `store_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `stripe: optional object { authorization, usage_events }`
+is\_default: optional boolean
 
-    - `authorization: string`
+<a href="#">Link to this property</a>
 
-    - `usage_events: array of object { payload }`
+log\_classification: optional boolean
 
-      - `payload: string`
+<a href="#">Link to this property</a>
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+log\_management: optional number
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+maximum10000000
 
-    - `"postpaid"`
+minimum10000
 
-  - `zdr: optional boolean`
+<a href="#">Link to this property</a>
 
-### AI Gateway Update Response
+<details>
 
-- `AIGatewayUpdateResponse object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+<summary>
 
-  - `id: string`
+log\_management\_strategy: optional "STOP\_INSERTING"or "DELETE\_OLDEST"
 
-    gateway id
+</summary>
 
-  - `cache_invalidate_on_update: boolean`
+One of the following:
 
-  - `cache_ttl: number`
+"STOP\_INSERTING"
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"DELETE\_OLDEST"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_interval: number`
+</details>
 
-  - `rate_limiting_limit: number`
+<a href="#">Link to this property</a>
 
-  - `authentication: optional boolean`
+logpush: optional boolean
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+<a href="#">Link to this property</a>
 
-    - `object { action, enabled, profiles }`
+logpush\_public\_key: optional string
 
-      - `action: "BLOCK" or "FLAG"`
+maxLength1024
 
-        - `"BLOCK"`
+minLength16
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+<details>
 
-      - `profiles: array of string`
+<summary>
 
-    - `object { enabled, policies }`
+otel: optional array of object {headers, url, authorization, content\_type }
 
-      - `enabled: boolean`
+</summary>
 
-      - `policies: array of object { id, action, check, 2 more }`
+headers: map\[string]
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `action: "FLAG" or "BLOCK"`
+url: string
 
-          - `"FLAG"`
+formaturi
 
-          - `"BLOCK"`
+maxLength2048
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+<a href="#">Link to this property</a>
 
-          - `"REQUEST"`
+authorization: optional string
 
-          - `"RESPONSE"`
+maxLength256
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `profiles: array of string`
+<details>
 
-  - `guardrails: optional object { prompt, response }`
+<summary>
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+content\_type: optional "json"or "protobuf"
 
-      - `P1: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"json"
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"protobuf"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+rate\_limiting\_technique: optional "fixed"or "sliding"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S13: optional "FLAG" or "BLOCK"`
+"fixed"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"sliding"
 
-      - `S2: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+retry\_backoff: optional "constant"or "linear"or "exponential"
 
-      - `S4: optional "FLAG" or "BLOCK"`
+Backoff strategy for retry delays
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S5: optional "FLAG" or "BLOCK"`
+"constant"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"linear"
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"exponential"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+retry\_delay: optional number
 
-      - `S8: optional "FLAG" or "BLOCK"`
+Delay between retry attempts in milliseconds (0-60000)
 
-        - `"FLAG"`
+maximum60000
 
-        - `"BLOCK"`
+minimum0
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+retry\_max\_attempts: optional number
 
-        - `"BLOCK"`
+Maximum number of retry attempts for failed requests (1-5)
 
-    - `response: object { P1, S1, S10, 11 more }`
+maximum5
 
-      - `P1: optional "FLAG" or "BLOCK"`
+minimum1
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+spend\_limits: optional object {enabled, rules }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+enabled: optional boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+rules: optional array of object {limit, limitType, window, 6 more }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+limit: number
 
-        - `"FLAG"`
+exclusiveMinimum
 
-        - `"BLOCK"`
+minimum0
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+limitType: "cost"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+window: number
 
-        - `"FLAG"`
+exclusiveMinimum
 
-        - `"BLOCK"`
+minimum0
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+id: optional string
 
-        - `"BLOCK"`
+minLength1
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+enabled: optional boolean
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+metadata: optional map\[object {mode } or object {mode, values } ]
 
-      - `S6: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+<details>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+Mode object {mode }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+mode: "partition"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-  - `is_default: optional boolean`
+object {mode, values }
 
-  - `log_management: optional number`
+</summary>
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+mode: "filter"
 
-    - `"STOP_INSERTING"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE_OLDEST"`
+values: array of string
 
-  - `logpush: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `logpush_public_key: optional string`
+</details>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+<a href="#">Link to this property</a>
 
-    - `headers: map[string]`
+</details>
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-    - `authorization: optional string`
+<details>
 
-    - `content_type: optional "json" or "protobuf"`
+<summary>
 
-      - `"json"`
+model: optional object {mode, values }
 
-      - `"protobuf"`
+</summary>
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+mode: "filter"
 
-    - `"fixed"`
+<a href="#">Link to this property</a>
 
-    - `"sliding"`
+values: array of string
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<a href="#">Link to this property</a>
 
-    Backoff strategy for retry delays
+</details>
 
-    - `"constant"`
+<a href="#">Link to this property</a>
 
-    - `"linear"`
+<details>
 
-    - `"exponential"`
+<summary>
 
-  - `retry_delay: optional number`
+provider: optional object {mode, values }
 
-    Delay between retry attempts in milliseconds (0-5000)
+</summary>
 
-  - `retry_max_attempts: optional number`
+mode: "filter"
 
-    Maximum number of retry attempts for failed requests (1-5)
+<a href="#">Link to this property</a>
 
-  - `spend_limits: optional object { enabled, rules }`
+values: array of string
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+</details>
 
-      - `limit: number`
+<a href="#">Link to this property</a>
 
-      - `limitType: "cost"`
+<details>
 
-        - `"cost"`
+<summary>
 
-      - `window: number`
+technique: optional "fixed"or "sliding"
 
-      - `id: optional string`
+</summary>
 
-      - `enabled: optional boolean`
+One of the following:
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+"fixed"
 
-        - `Mode object { mode }`
+<a href="#">Link to this property</a>
 
-          - `mode: "partition"`
+"sliding"
 
-            - `"partition"`
+<a href="#">Link to this property</a>
 
-        - `object { mode, values }`
+</details>
 
-          - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-            - `"filter"`
+</details>
 
-          - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `model: optional object { mode, values }`
+</details>
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+store\_id: optional string
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `provider: optional object { mode, values }`
+<details>
 
-        - `mode: "filter"`
+<summary>
 
-          - `"filter"`
+stripe: optional object {authorization, usage\_events }
 
-        - `values: array of string`
+</summary>
 
-      - `technique: optional "fixed" or "sliding"`
+authorization: string
 
-        - `"fixed"`
+<a href="#">Link to this property</a>
 
-        - `"sliding"`
+<details>
 
-  - `store_id: optional string`
+<summary>
 
-  - `stripe: optional object { authorization, usage_events }`
+usage\_events: array of object {payload }
 
-    - `authorization: string`
+</summary>
 
-    - `usage_events: array of object { payload }`
+payload: string
 
-      - `payload: string`
+<a href="#">Link to this property</a>
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+</details>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<a href="#">Link to this property</a>
 
-    - `"postpaid"`
+</details>
 
-  - `zdr: optional boolean`
+<a href="#">Link to this property</a>
 
-### AI Gateway Delete Response
+<details>
 
-- `AIGatewayDeleteResponse object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+<summary>
 
-  - `id: string`
+workers\_ai\_billing\_mode: optional "postpaid"or "unified"
 
-    gateway id
+Controls how Workers AI inference calls routed through this gateway are billed. ‘postpaid’ bills the account directly through Workers AI; ‘unified’ deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.
 
-  - `cache_invalidate_on_update: boolean`
+</summary>
 
-  - `cache_ttl: number`
+One of the following:
 
-  - `collect_logs: boolean`
+"postpaid"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+"unified"
 
-  - `rate_limiting_interval: number`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_limit: number`
+</details>
 
-  - `authentication: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+zdr: optional boolean
 
-    - `object { action, enabled, profiles }`
+<a href="#">Link to this property</a>
 
-      - `action: "BLOCK" or "FLAG"`
+</details>
 
-        - `"BLOCK"`
+[Link to this property](#)%20ai_gateway%20%3E%20(model)%20ai_gateway_create_response%20%3E%20(schema)>)
 
-        - `"FLAG"`
+<details>
 
-      - `enabled: boolean`
+<summary>
 
-      - `profiles: array of string`
+AIGatewayUpdateResponse object {id, cache\_invalidate\_on\_update, cache\_ttl, 25 more }
 
-    - `object { enabled, policies }`
+</summary>
 
-      - `enabled: boolean`
+id: string
 
-      - `policies: array of object { id, action, check, 2 more }`
+gateway id
 
-        - `id: string`
+maxLength64
 
-        - `action: "FLAG" or "BLOCK"`
+minLength1
 
-          - `"FLAG"`
+<a href="#">Link to this property</a>
 
-          - `"BLOCK"`
+cache\_invalidate\_on\_update: boolean
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+<a href="#">Link to this property</a>
 
-          - `"REQUEST"`
+cache\_ttl: number
 
-          - `"RESPONSE"`
+minimum0
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        - `profiles: array of string`
+collect\_logs: boolean
 
-  - `guardrails: optional object { prompt, response }`
+<a href="#">Link to this property</a>
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+created\_at: string
 
-      - `P1: optional "FLAG" or "BLOCK"`
+formatdate-time
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+modified\_at: string
 
-      - `S1: optional "FLAG" or "BLOCK"`
+formatdate-time
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+rate\_limiting\_interval: number
 
-      - `S10: optional "FLAG" or "BLOCK"`
+minimum0
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+rate\_limiting\_limit: number
 
-      - `S11: optional "FLAG" or "BLOCK"`
+minimum0
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+authentication: optional boolean
 
-      - `S12: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+byok\_only: optional boolean
 
-        - `"BLOCK"`
+Requires customer-provided provider credentials and prevents fallback to Unified Billing.
 
-      - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+dlp: optional object {action, enabled, profiles } or object {enabled, policies }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+object {action, enabled, profiles }
 
-      - `S4: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+action: "BLOCK"or "FLAG"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S6: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+enabled: boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+profiles: array of string
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `response: object { P1, S1, S10, 11 more }`
+<details>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+object {enabled, policies }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+enabled: boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+policies: array of object {id, action, check, 2 more }
 
-        - `"BLOCK"`
+</summary>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+id: string
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+action: "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+check: array of "REQUEST"or "RESPONSE"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S5: optional "FLAG" or "BLOCK"`
+"REQUEST"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"RESPONSE"
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+enabled: boolean
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+profiles: array of string
 
-      - `S8: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-  - `is_default: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `log_management: optional number`
+<details>
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+<summary>
 
-    - `"STOP_INSERTING"`
+guardrails: optional object {prompt, response }
 
-    - `"DELETE_OLDEST"`
+</summary>
 
-  - `logpush: optional boolean`
+<details>
 
-  - `logpush_public_key: optional string`
+<summary>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+prompt: object {P1, S1, S10, 11 more }
 
-    - `headers: map[string]`
+</summary>
 
-    - `url: string`
+<details>
 
-    - `authorization: optional string`
+<summary>
 
-    - `content_type: optional "json" or "protobuf"`
+P1: optional "FLAG"or "BLOCK"
 
-      - `"json"`
+</summary>
 
-      - `"protobuf"`
+One of the following:
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+"FLAG"
 
-    - `"fixed"`
+<a href="#">Link to this property</a>
 
-    - `"sliding"`
+"BLOCK"
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<a href="#">Link to this property</a>
 
-    Backoff strategy for retry delays
+</details>
 
-    - `"constant"`
+<a href="#">Link to this property</a>
 
-    - `"linear"`
+<details>
 
-    - `"exponential"`
+<summary>
 
-  - `retry_delay: optional number`
+S1: optional "FLAG"or "BLOCK"
 
-    Delay between retry attempts in milliseconds (0-5000)
+</summary>
 
-  - `retry_max_attempts: optional number`
+One of the following:
 
-    Maximum number of retry attempts for failed requests (1-5)
+"FLAG"
 
-  - `spend_limits: optional object { enabled, rules }`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+"BLOCK"
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `limit: number`
+</details>
 
-      - `limitType: "cost"`
+<a href="#">Link to this property</a>
 
-        - `"cost"`
+<details>
 
-      - `window: number`
+<summary>
 
-      - `id: optional string`
+S10: optional "FLAG"or "BLOCK"
 
-      - `enabled: optional boolean`
+</summary>
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+One of the following:
 
-        - `Mode object { mode }`
+"FLAG"
 
-          - `mode: "partition"`
+<a href="#">Link to this property</a>
 
-            - `"partition"`
+"BLOCK"
 
-        - `object { mode, values }`
+<a href="#">Link to this property</a>
 
-          - `mode: "filter"`
+</details>
 
-            - `"filter"`
+<a href="#">Link to this property</a>
 
-          - `values: array of string`
+<details>
 
-      - `model: optional object { mode, values }`
+<summary>
 
-        - `mode: "filter"`
+S11: optional "FLAG"or "BLOCK"
 
-          - `"filter"`
+</summary>
 
-        - `values: array of string`
+One of the following:
 
-      - `provider: optional object { mode, values }`
+"FLAG"
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+"BLOCK"
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `technique: optional "fixed" or "sliding"`
+</details>
 
-        - `"fixed"`
+<a href="#">Link to this property</a>
 
-        - `"sliding"`
+<details>
 
-  - `store_id: optional string`
+<summary>
 
-  - `stripe: optional object { authorization, usage_events }`
+S12: optional "FLAG"or "BLOCK"
 
-    - `authorization: string`
+</summary>
 
-    - `usage_events: array of object { payload }`
+One of the following:
 
-      - `payload: string`
+"FLAG"
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+<a href="#">Link to this property</a>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+"BLOCK"
 
-    - `"postpaid"`
+<a href="#">Link to this property</a>
 
-  - `zdr: optional boolean`
+</details>
 
-# Evaluation Types
+<a href="#">Link to this property</a>
 
-## List Evaluators
+<details>
 
-**get** `/accounts/{account_id}/ai-gateway/evaluation-types`
+<summary>
 
-List Evaluators
+S13: optional "FLAG"or "BLOCK"
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-### Query Parameters
+"FLAG"
 
-- `order_by: optional string`
+<a href="#">Link to this property</a>
 
-- `order_by_direction: optional "asc" or "desc"`
+"BLOCK"
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+</details>
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+<details>
 
-### Returns
+<summary>
 
-- `result: array of object { id, created_at, description, 5 more }`
+S2: optional "FLAG"or "BLOCK"
 
-  - `id: string`
+</summary>
 
-  - `created_at: string`
+One of the following:
 
-  - `description: string`
+"FLAG"
 
-  - `enable: boolean`
+<a href="#">Link to this property</a>
 
-  - `mandatory: boolean`
+"BLOCK"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `type: string`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, total_count }`
+<details>
 
-  - `count: number`
+<summary>
 
-  - `page: number`
+S3: optional "FLAG"or "BLOCK"
 
-  - `per_page: number`
+</summary>
 
-  - `total_count: number`
+One of the following:
 
-- `success: boolean`
+"FLAG"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/evaluation-types \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"BLOCK"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "enable": true,
-      "mandatory": true,
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "type": "type"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Evaluation Type List Response
+<details>
 
-- `EvaluationTypeListResponse object { id, created_at, description, 5 more }`
+<summary>
 
-  - `id: string`
+S4: optional "FLAG"or "BLOCK"
 
-  - `created_at: string`
+</summary>
 
-  - `description: string`
+One of the following:
 
-  - `enable: boolean`
+"FLAG"
 
-  - `mandatory: boolean`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+"BLOCK"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `type: string`
+</details>
 
-# Custom Providers
+<a href="#">Link to this property</a>
 
-## List Account Providers
+<details>
 
-**get** `/accounts/{account_id}/ai-gateway/custom-providers`
+<summary>
 
-Lists all AI Gateway evaluator types configured for the account.
+S5: optional "FLAG"or "BLOCK"
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-### Query Parameters
+"FLAG"
 
-- `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-- `enable: optional boolean`
+"BLOCK"
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+</details>
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-  Search by id, name, slug
+<details>
 
-### Returns
+<summary>
 
-- `result: array of object { id, base_url, created_at, 12 more }`
+S6: optional "FLAG"or "BLOCK"
 
-  - `id: string`
+</summary>
 
-  - `base_url: string`
+One of the following:
 
-  - `created_at: string`
+"FLAG"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"BLOCK"
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-  - `beta: optional boolean`
+</details>
 
-  - `curl_example: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-  - `enable: optional boolean`
+<summary>
 
-  - `headers: optional string`
+S7: optional "FLAG"or "BLOCK"
 
-  - `js_example: optional string`
+</summary>
 
-  - `link: optional string`
+One of the following:
 
-  - `logo: optional string`
+"FLAG"
 
-  - `position: optional number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"BLOCK"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "base_url": "https://example.com",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "slug": "slug",
-      "beta": true,
-      "curl_example": "curl_example",
-      "description": "description",
-      "enable": true,
-      "headers": "headers",
-      "js_example": "js_example",
-      "link": "link",
-      "logo": "logo",
-      "position": 0
-    }
-  ],
-  "success": true
-}
-```
+<details>
 
-## Fetch a Account Provider
+<summary>
 
-**get** `/accounts/{account_id}/ai-gateway/custom-providers/{id}`
+S8: optional "FLAG"or "BLOCK"
 
-Retrieves details for a specific AI Gateway dataset.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"FLAG"
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"BLOCK"
 
-- `result: object { id, base_url, created_at, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-  - `base_url: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `modified_at: string`
+<summary>
 
-  - `name: string`
+S9: optional "FLAG"or "BLOCK"
 
-  - `slug: string`
+</summary>
 
-  - `beta: optional boolean`
+One of the following:
 
-  - `curl_example: optional string`
+"FLAG"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `enable: optional boolean`
+"BLOCK"
 
-  - `headers: optional string`
+<a href="#">Link to this property</a>
 
-  - `js_example: optional string`
+</details>
 
-  - `link: optional string`
+<a href="#">Link to this property</a>
 
-  - `logo: optional string`
+</details>
 
-  - `position: optional number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+response: object {P1, S1, S10, 11 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "base_url": "https://example.com",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "slug": "slug",
-    "beta": true,
-    "curl_example": "curl_example",
-    "description": "description",
-    "enable": true,
-    "headers": "headers",
-    "js_example": "js_example",
-    "link": "link",
-    "logo": "logo",
-    "position": 0
-  },
-  "success": true
-}
-```
+<details>
 
-## Create a new Account Provider
+<summary>
 
-**post** `/accounts/{account_id}/ai-gateway/custom-providers`
+P1: optional "FLAG"or "BLOCK"
 
-Creates a new AI Gateway.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"FLAG"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `base_url: string`
+"BLOCK"
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `slug: string`
+</details>
 
-- `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-- `curl_example: optional string`
+<details>
 
-- `description: optional string`
+<summary>
 
-- `enable: optional boolean`
+S1: optional "FLAG"or "BLOCK"
 
-- `headers: optional string`
+</summary>
 
-- `js_example: optional string`
+One of the following:
 
-- `link: optional string`
+"FLAG"
 
-- `position: optional number`
+<a href="#">Link to this property</a>
 
-### Returns
+"BLOCK"
 
-- `result: object { id, base_url, created_at, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-  - `base_url: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `modified_at: string`
+<summary>
 
-  - `name: string`
+S10: optional "FLAG"or "BLOCK"
 
-  - `slug: string`
+</summary>
 
-  - `beta: optional boolean`
+One of the following:
 
-  - `curl_example: optional string`
+"FLAG"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `enable: optional boolean`
+"BLOCK"
 
-  - `headers: optional string`
+<a href="#">Link to this property</a>
 
-  - `js_example: optional string`
+</details>
 
-  - `link: optional string`
+<a href="#">Link to this property</a>
 
-  - `logo: optional string`
+<details>
 
-  - `position: optional number`
+<summary>
 
-- `success: boolean`
+S11: optional "FLAG"or "BLOCK"
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "base_url": "https://example.com",
-          "name": "name",
-          "slug": "slug"
-        }'
-```
+One of the following:
 
-#### Response
+"FLAG"
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "base_url": "https://example.com",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "slug": "slug",
-    "beta": true,
-    "curl_example": "curl_example",
-    "description": "description",
-    "enable": true,
-    "headers": "headers",
-    "js_example": "js_example",
-    "link": "link",
-    "logo": "logo",
-    "position": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a Account Provider
+"BLOCK"
 
-**delete** `/accounts/{account_id}/ai-gateway/custom-providers/{id}`
+<a href="#">Link to this property</a>
 
-Deletes an AI Gateway dataset.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-- `id: string`
+<summary>
 
-### Returns
+S12: optional "FLAG"or "BLOCK"
 
-- `result: object { id, base_url, created_at, 12 more }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-  - `base_url: string`
+"FLAG"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+"BLOCK"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+</details>
 
-  - `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `curl_example: optional string`
+<details>
 
-  - `description: optional string`
+<summary>
 
-  - `enable: optional boolean`
+S13: optional "FLAG"or "BLOCK"
 
-  - `headers: optional string`
+</summary>
 
-  - `js_example: optional string`
+One of the following:
 
-  - `link: optional string`
+"FLAG"
 
-  - `logo: optional string`
+<a href="#">Link to this property</a>
 
-  - `position: optional number`
+"BLOCK"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "base_url": "https://example.com",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "slug": "slug",
-    "beta": true,
-    "curl_example": "curl_example",
-    "description": "description",
-    "enable": true,
-    "headers": "headers",
-    "js_example": "js_example",
-    "link": "link",
-    "logo": "logo",
-    "position": 0
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+S2: optional "FLAG"or "BLOCK"
 
-### Custom Provider List Response
+</summary>
 
-- `CustomProviderListResponse object { id, base_url, created_at, 12 more }`
+One of the following:
 
-  - `id: string`
+"FLAG"
 
-  - `base_url: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"BLOCK"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-  - `beta: optional boolean`
+<details>
 
-  - `curl_example: optional string`
+<summary>
 
-  - `description: optional string`
+S3: optional "FLAG"or "BLOCK"
 
-  - `enable: optional boolean`
+</summary>
 
-  - `headers: optional string`
+One of the following:
 
-  - `js_example: optional string`
+"FLAG"
 
-  - `link: optional string`
+<a href="#">Link to this property</a>
 
-  - `logo: optional string`
+"BLOCK"
 
-  - `position: optional number`
+<a href="#">Link to this property</a>
 
-### Custom Provider Get Response
+</details>
 
-- `CustomProviderGetResponse object { id, base_url, created_at, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `base_url: string`
+<summary>
 
-  - `created_at: string`
+S4: optional "FLAG"or "BLOCK"
 
-  - `modified_at: string`
+</summary>
 
-  - `name: string`
+One of the following:
 
-  - `slug: string`
+"FLAG"
 
-  - `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `curl_example: optional string`
+"BLOCK"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `enable: optional boolean`
+</details>
 
-  - `headers: optional string`
+<a href="#">Link to this property</a>
 
-  - `js_example: optional string`
+<details>
 
-  - `link: optional string`
+<summary>
 
-  - `logo: optional string`
+S5: optional "FLAG"or "BLOCK"
 
-  - `position: optional number`
+</summary>
 
-### Custom Provider Create Response
+One of the following:
 
-- `CustomProviderCreateResponse object { id, base_url, created_at, 12 more }`
+"FLAG"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `base_url: string`
+"BLOCK"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+<details>
 
-  - `beta: optional boolean`
+<summary>
 
-  - `curl_example: optional string`
+S6: optional "FLAG"or "BLOCK"
 
-  - `description: optional string`
+</summary>
 
-  - `enable: optional boolean`
+One of the following:
 
-  - `headers: optional string`
+"FLAG"
 
-  - `js_example: optional string`
+<a href="#">Link to this property</a>
 
-  - `link: optional string`
+"BLOCK"
 
-  - `logo: optional string`
+<a href="#">Link to this property</a>
 
-  - `position: optional number`
+</details>
 
-### Custom Provider Delete Response
+<a href="#">Link to this property</a>
 
-- `CustomProviderDeleteResponse object { id, base_url, created_at, 12 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `base_url: string`
+S7: optional "FLAG"or "BLOCK"
 
-  - `created_at: string`
+</summary>
 
-  - `modified_at: string`
+One of the following:
 
-  - `name: string`
+"FLAG"
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-  - `beta: optional boolean`
+"BLOCK"
 
-  - `curl_example: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `enable: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `headers: optional string`
+<details>
 
-  - `js_example: optional string`
+<summary>
 
-  - `link: optional string`
+S8: optional "FLAG"or "BLOCK"
 
-  - `logo: optional string`
+</summary>
 
-  - `position: optional number`
+One of the following:
 
-# Logs
+"FLAG"
 
-## List Gateway Logs
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs`
+"BLOCK"
 
-List Gateway Logs
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+<details>
 
-  gateway id
+<summary>
 
-### Query Parameters
+S9: optional "FLAG"or "BLOCK"
 
-- `cached: optional boolean`
+</summary>
 
-- `direction: optional "asc" or "desc"`
+One of the following:
 
-  - `"asc"`
+"FLAG"
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-- `end_date: optional string`
+"BLOCK"
 
-- `feedback: optional 0 or 1`
+<a href="#">Link to this property</a>
 
-  - `0`
+</details>
 
-  - `1`
+<a href="#">Link to this property</a>
 
-- `filters: optional array of object { key, operator, value }`
+</details>
 
-  - `key: "id" or "created_at" or "request_content_type" or 21 more`
+<a href="#">Link to this property</a>
 
-    - `"id"`
+</details>
 
-    - `"created_at"`
+<a href="#">Link to this property</a>
 
-    - `"request_content_type"`
+is\_default: optional boolean
 
-    - `"response_content_type"`
+<a href="#">Link to this property</a>
 
-    - `"request_type"`
+log\_classification: optional boolean
 
-    - `"success"`
+<a href="#">Link to this property</a>
 
-    - `"cached"`
+log\_management: optional number
 
-    - `"provider"`
+maximum10000000
 
-    - `"model"`
+minimum10000
 
-    - `"model_type"`
+<a href="#">Link to this property</a>
 
-    - `"cost"`
+<details>
 
-    - `"tokens"`
+<summary>
 
-    - `"tokens_in"`
+log\_management\_strategy: optional "STOP\_INSERTING"or "DELETE\_OLDEST"
 
-    - `"tokens_out"`
+</summary>
 
-    - `"duration"`
+One of the following:
 
-    - `"feedback"`
+"STOP\_INSERTING"
 
-    - `"event_id"`
+<a href="#">Link to this property</a>
 
-    - `"metadata.key"`
+"DELETE\_OLDEST"
 
-    - `"metadata.value"`
+<a href="#">Link to this property</a>
 
-    - `"authentication"`
+</details>
 
-    - `"wholesale"`
+<a href="#">Link to this property</a>
 
-    - `"compatibilityMode"`
+logpush: optional boolean
 
-    - `"dlp_action"`
+<a href="#">Link to this property</a>
 
-    - `"user_agent"`
+logpush\_public\_key: optional string
 
-  - `operator: "eq" or "neq" or "contains" or 2 more`
+maxLength1024
 
-    - `"eq"`
+minLength16
 
-    - `"neq"`
+<a href="#">Link to this property</a>
 
-    - `"contains"`
+<details>
 
-    - `"lt"`
+<summary>
 
-    - `"gt"`
+otel: optional array of object {headers, url, authorization, content\_type }
 
-  - `value: array of string or number or boolean`
+</summary>
 
-    - `string`
+headers: map\[string]
 
-    - `number`
+<a href="#">Link to this property</a>
 
-    - `boolean`
+url: string
 
-- `max_cost: optional number`
+formaturi
 
-- `max_duration: optional number`
+maxLength2048
 
-- `max_tokens_in: optional number`
+<a href="#">Link to this property</a>
 
-- `max_tokens_out: optional number`
+authorization: optional string
 
-- `max_total_tokens: optional number`
+maxLength256
 
-- `meta_info: optional boolean`
+<a href="#">Link to this property</a>
 
-- `min_cost: optional number`
+<details>
 
-- `min_duration: optional number`
+<summary>
 
-- `min_tokens_in: optional number`
+content\_type: optional "json"or "protobuf"
 
-- `min_tokens_out: optional number`
+</summary>
 
-- `min_total_tokens: optional number`
+One of the following:
 
-- `model: optional string`
+"json"
 
-- `model_type: optional string`
+<a href="#">Link to this property</a>
 
-- `order_by: optional "created_at" or "provider" or "model" or 3 more`
+"protobuf"
 
-  - `"created_at"`
+<a href="#">Link to this property</a>
 
-  - `"provider"`
+</details>
 
-  - `"model"`
+<a href="#">Link to this property</a>
 
-  - `"model_type"`
+</details>
 
-  - `"success"`
+<a href="#">Link to this property</a>
 
-  - `"cached"`
+<details>
 
-- `order_by_direction: optional "asc" or "desc"`
+<summary>
 
-  - `"asc"`
+rate\_limiting\_technique: optional "fixed"or "sliding"
 
-  - `"desc"`
+</summary>
 
-- `page: optional number`
+One of the following:
 
-- `per_page: optional number`
+"fixed"
 
-- `provider: optional string`
+<a href="#">Link to this property</a>
 
-- `request_content_type: optional string`
+"sliding"
 
-- `response_content_type: optional string`
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+</details>
 
-- `start_date: optional string`
+<a href="#">Link to this property</a>
 
-- `success: optional boolean`
+<details>
 
-### Returns
+<summary>
 
-- `result: array of object { id, cached, created_at, 16 more }`
+retry\_backoff: optional "constant"or "linear"or "exponential"
 
-  - `id: string`
+Backoff strategy for retry delays
 
-  - `cached: boolean`
+</summary>
 
-  - `created_at: string`
+One of the following:
 
-  - `duration: number`
+"constant"
 
-  - `model: string`
+<a href="#">Link to this property</a>
 
-  - `path: string`
+"linear"
 
-  - `provider: string`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+"exponential"
 
-  - `tokens_in: number`
+<a href="#">Link to this property</a>
 
-  - `tokens_out: number`
+</details>
 
-  - `cost: optional number`
+<a href="#">Link to this property</a>
 
-  - `custom_cost: optional boolean`
+retry\_delay: optional number
 
-  - `metadata: optional string`
+Delay between retry attempts in milliseconds (0-60000)
 
-  - `model_type: optional string`
+maximum60000
 
-  - `request_content_type: optional string`
+minimum0
 
-  - `request_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `response_content_type: optional string`
+retry\_max\_attempts: optional number
 
-  - `status_code: optional number`
+Maximum number of retry attempts for failed requests (1-5)
 
-  - `step: optional number`
+maximum5
 
-- `result_info: object { count, max_cost, max_duration, 11 more }`
+minimum1
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-  - `max_cost: optional number`
+<details>
 
-  - `max_duration: optional number`
+<summary>
 
-  - `max_tokens_in: optional number`
+spend\_limits: optional object {enabled, rules }
 
-  - `max_tokens_out: optional number`
+</summary>
 
-  - `max_total_tokens: optional number`
+enabled: optional boolean
 
-  - `min_cost: optional number`
+<a href="#">Link to this property</a>
 
-  - `min_duration: optional number`
+<details>
 
-  - `min_tokens_in: optional number`
+<summary>
 
-  - `min_tokens_out: optional number`
+rules: optional array of object {limit, limitType, window, 6 more }
 
-  - `min_total_tokens: optional number`
+</summary>
 
-  - `page: optional number`
+limit: number
 
-  - `per_page: optional number`
+exclusiveMinimum
 
-  - `total_count: optional number`
+minimum0
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+limitType: "cost"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+window: number
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "cached": true,
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "duration": 0,
-      "model": "model",
-      "path": "path",
-      "provider": "provider",
-      "success": true,
-      "tokens_in": 0,
-      "tokens_out": 0,
-      "cost": 0,
-      "custom_cost": true,
-      "metadata": "metadata",
-      "model_type": "model_type",
-      "request_content_type": "request_content_type",
-      "request_type": "request_type",
-      "response_content_type": "response_content_type",
-      "status_code": 0,
-      "step": 0
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "max_cost": 0,
-    "max_duration": 0,
-    "max_tokens_in": 0,
-    "max_tokens_out": 0,
-    "max_total_tokens": 0,
-    "min_cost": 0,
-    "min_duration": 0,
-    "min_tokens_in": 0,
-    "min_tokens_out": 0,
-    "min_total_tokens": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+exclusiveMinimum
 
-## Get Gateway Log Detail
+minimum0
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}`
+<a href="#">Link to this property</a>
 
-Retrieves detailed information for a specific AI Gateway log entry.
+id: optional string
 
-### Path Parameters
+minLength1
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+enabled: optional boolean
 
-  gateway id
+<a href="#">Link to this property</a>
 
-- `id: string`
+<details>
 
-### Returns
+<summary>
 
-- `result: object { id, cached, created_at, 22 more }`
+metadata: optional map\[object {mode } or object {mode, values } ]
 
-  - `id: string`
+</summary>
 
-  - `cached: boolean`
+One of the following:
 
-  - `created_at: string`
+<details>
 
-  - `duration: number`
+<summary>
 
-  - `model: string`
+Mode object {mode }
 
-  - `path: string`
+</summary>
 
-  - `provider: string`
+mode: "partition"
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-  - `tokens_in: number`
+</details>
 
-  - `tokens_out: number`
+<a href="#">Link to this property</a>
 
-  - `cost: optional number`
+<details>
 
-  - `custom_cost: optional boolean`
+<summary>
 
-  - `metadata: optional string`
+object {mode, values }
 
-  - `model_type: optional string`
+</summary>
 
-  - `request_content_type: optional string`
+mode: "filter"
 
-  - `request_head: optional string`
+<a href="#">Link to this property</a>
 
-  - `request_head_complete: optional boolean`
+values: array of string
 
-  - `request_size: optional number`
+<a href="#">Link to this property</a>
 
-  - `request_type: optional string`
+</details>
 
-  - `response_content_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `response_head: optional string`
+</details>
 
-  - `response_head_complete: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `response_size: optional number`
+<details>
 
-  - `status_code: optional number`
+<summary>
 
-  - `step: optional number`
+model: optional object {mode, values }
 
-- `success: boolean`
+</summary>
 
-### Example
+mode: "filter"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+values: array of string
 
-```json
-{
-  "result": {
-    "id": "id",
-    "cached": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "duration": 0,
-    "model": "model",
-    "path": "path",
-    "provider": "provider",
-    "success": true,
-    "tokens_in": 0,
-    "tokens_out": 0,
-    "cost": 0,
-    "custom_cost": true,
-    "metadata": "metadata",
-    "model_type": "model_type",
-    "request_content_type": "request_content_type",
-    "request_head": "request_head",
-    "request_head_complete": true,
-    "request_size": 0,
-    "request_type": "request_type",
-    "response_content_type": "response_content_type",
-    "response_head": "response_head",
-    "response_head_complete": true,
-    "response_size": 0,
-    "status_code": 0,
-    "step": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Patch Gateway Log
+</details>
 
-**patch** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}`
+<a href="#">Link to this property</a>
 
-Updates metadata for an AI Gateway log entry.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+provider: optional object {mode, values }
 
-- `gateway_id: string`
+</summary>
 
-  gateway id
+mode: "filter"
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+values: array of string
 
-- `feedback: optional number`
+<a href="#">Link to this property</a>
 
-- `metadata: optional map[string or number or boolean]`
+</details>
 
-  - `string`
+<a href="#">Link to this property</a>
 
-  - `number`
+<details>
 
-  - `boolean`
+<summary>
 
-- `score: optional number`
+technique: optional "fixed"or "sliding"
 
-### Returns
+</summary>
 
-- `result: unknown`
+One of the following:
 
-- `success: boolean`
+"fixed"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs/$ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"sliding"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {},
-  "success": true
-}
-```
+</details>
 
-## Delete Gateway Logs
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs`
+</details>
 
-Delete Gateway Logs
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+store\_id: optional string
 
-  gateway id
+<a href="#">Link to this property</a>
 
-### Query Parameters
+<details>
 
-- `filters: optional array of object { key, operator, value }`
+<summary>
 
-  - `key: "id" or "created_at" or "request_content_type" or 21 more`
+stripe: optional object {authorization, usage\_events }
 
-    - `"id"`
+</summary>
 
-    - `"created_at"`
+authorization: string
 
-    - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-    - `"response_content_type"`
+<details>
 
-    - `"request_type"`
+<summary>
 
-    - `"success"`
+usage\_events: array of object {payload }
 
-    - `"cached"`
+</summary>
 
-    - `"provider"`
+payload: string
 
-    - `"model"`
+<a href="#">Link to this property</a>
 
-    - `"model_type"`
+</details>
 
-    - `"cost"`
+<a href="#">Link to this property</a>
 
-    - `"tokens"`
+</details>
 
-    - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-    - `"tokens_out"`
+<details>
 
-    - `"duration"`
+<summary>
 
-    - `"feedback"`
+workers\_ai\_billing\_mode: optional "postpaid"or "unified"
 
-    - `"event_id"`
+Controls how Workers AI inference calls routed through this gateway are billed. ‘postpaid’ bills the account directly through Workers AI; ‘unified’ deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.
 
-    - `"metadata.key"`
+</summary>
 
-    - `"metadata.value"`
+One of the following:
 
-    - `"authentication"`
+"postpaid"
 
-    - `"wholesale"`
+<a href="#">Link to this property</a>
 
-    - `"compatibilityMode"`
+"unified"
 
-    - `"dlp_action"`
+<a href="#">Link to this property</a>
 
-    - `"user_agent"`
+</details>
 
-  - `operator: "eq" or "neq" or "contains" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"eq"`
+zdr: optional boolean
 
-    - `"neq"`
+<a href="#">Link to this property</a>
 
-    - `"contains"`
+</details>
 
-    - `"lt"`
+[Link to this property](#)%20ai_gateway%20%3E%20(model)%20ai_gateway_update_response%20%3E%20(schema)>)
 
-    - `"gt"`
+<details>
 
-  - `value: array of string or number or boolean`
+<summary>
 
-    - `string`
+AIGatewayDeleteResponse object {id, cache\_invalidate\_on\_update, cache\_ttl, 25 more }
 
-    - `number`
+</summary>
 
-    - `boolean`
+id: string
 
-- `limit: optional number`
+gateway id
 
-- `order_by: optional "created_at" or "provider" or "model" or 8 more`
+maxLength64
 
-  - `"created_at"`
+minLength1
 
-  - `"provider"`
+<a href="#">Link to this property</a>
 
-  - `"model"`
+cache\_invalidate\_on\_update: boolean
 
-  - `"model_type"`
+<a href="#">Link to this property</a>
 
-  - `"success"`
+cache\_ttl: number
 
-  - `"cached"`
+minimum0
 
-  - `"cost"`
+<a href="#">Link to this property</a>
 
-  - `"tokens_in"`
+collect\_logs: boolean
 
-  - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-  - `"duration"`
+created\_at: string
 
-  - `"feedback"`
+formatdate-time
 
-- `order_by_direction: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+modified\_at: string
 
-  - `"desc"`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+rate\_limiting\_interval: number
 
-### Example
+minimum0
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+rate\_limiting\_limit: number
 
-```json
-{
-  "success": true
-}
-```
+minimum0
 
-## Get Gateway Log Request
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}/request`
+authentication: optional boolean
 
-Retrieves the original request payload for an AI Gateway log entry.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+byok\_only: optional boolean
 
-- `account_id: string`
+Requires customer-provided provider credentials and prevents fallback to Unified Billing.
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  gateway id
+<details>
 
-- `id: string`
+<summary>
 
-### Example
+dlp: optional object {action, enabled, profiles } or object {enabled, policies }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs/$ID/request \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{}
-```
+<details>
 
-## Get Gateway Log Response
+<summary>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}/response`
+object {action, enabled, profiles }
 
-Retrieves the response payload for an AI Gateway log entry.
+</summary>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `gateway_id: string`
+action: "BLOCK"or "FLAG"
 
-  gateway id
+</summary>
 
-- `id: string`
+One of the following:
 
-### Example
+"BLOCK"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs/$ID/response \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"FLAG"
 
-```json
-{}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Log List Response
+<a href="#">Link to this property</a>
 
-- `LogListResponse object { id, cached, created_at, 16 more }`
+enabled: boolean
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `cached: boolean`
+profiles: array of string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `duration: number`
+</details>
 
-  - `model: string`
+<a href="#">Link to this property</a>
 
-  - `path: string`
+<details>
 
-  - `provider: string`
+<summary>
 
-  - `success: boolean`
+object {enabled, policies }
 
-  - `tokens_in: number`
+</summary>
 
-  - `tokens_out: number`
+enabled: boolean
 
-  - `cost: optional number`
+<a href="#">Link to this property</a>
 
-  - `custom_cost: optional boolean`
+<details>
 
-  - `metadata: optional string`
+<summary>
 
-  - `model_type: optional string`
+policies: array of object {id, action, check, 2 more }
 
-  - `request_content_type: optional string`
+</summary>
 
-  - `request_type: optional string`
+id: string
 
-  - `response_content_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `status_code: optional number`
+<details>
 
-  - `step: optional number`
+<summary>
 
-### Log Get Response
+action: "FLAG"or "BLOCK"
 
-- `LogGetResponse object { id, cached, created_at, 22 more }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-  - `cached: boolean`
+"FLAG"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `duration: number`
+"BLOCK"
 
-  - `model: string`
+<a href="#">Link to this property</a>
 
-  - `path: string`
+</details>
 
-  - `provider: string`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+<details>
 
-  - `tokens_in: number`
+<summary>
 
-  - `tokens_out: number`
+check: array of "REQUEST"or "RESPONSE"
 
-  - `cost: optional number`
+</summary>
 
-  - `custom_cost: optional boolean`
+One of the following:
 
-  - `metadata: optional string`
+"REQUEST"
 
-  - `model_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `request_content_type: optional string`
+"RESPONSE"
 
-  - `request_head: optional string`
+<a href="#">Link to this property</a>
 
-  - `request_head_complete: optional boolean`
+</details>
 
-  - `request_size: optional number`
+<a href="#">Link to this property</a>
 
-  - `request_type: optional string`
+enabled: boolean
 
-  - `response_content_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `response_head: optional string`
+profiles: array of string
 
-  - `response_head_complete: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `response_size: optional number`
+</details>
 
-  - `status_code: optional number`
+<a href="#">Link to this property</a>
 
-  - `step: optional number`
+</details>
 
-### Log Edit Response
+<a href="#">Link to this property</a>
 
-- `LogEditResponse = unknown`
+</details>
 
-### Log Delete Response
+<a href="#">Link to this property</a>
 
-- `LogDeleteResponse object { success }`
+<details>
 
-  - `success: boolean`
+<summary>
 
-### Log Request Response
+guardrails: optional object {prompt, response }
 
-- `LogRequestResponse = unknown`
+</summary>
 
-### Log Response Response
+<details>
 
-- `LogResponseResponse = unknown`
+<summary>
 
-# Datasets
+prompt: object {P1, S1, S10, 11 more }
 
-## List Datasets
+</summary>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets`
+<details>
 
-Lists all AI Gateway evaluator types configured for the account.
+<summary>
 
-### Path Parameters
+P1: optional "FLAG"or "BLOCK"
 
-- `account_id: string`
+</summary>
 
-- `gateway_id: string`
+One of the following:
 
-  gateway id
+"FLAG"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `enable: optional boolean`
+"BLOCK"
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+</details>
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+<details>
 
-  Search by id, name, filters
+<summary>
 
-### Returns
+S1: optional "FLAG"or "BLOCK"
 
-- `result: array of object { id, created_at, enable, 4 more }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-  - `created_at: string`
+"FLAG"
 
-  - `enable: boolean`
+<a href="#">Link to this property</a>
 
-  - `filters: array of object { key, operator, value }`
+"BLOCK"
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-      - `"created_at"`
+</details>
 
-      - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-      - `"response_content_type"`
+<details>
 
-      - `"success"`
+<summary>
 
-      - `"cached"`
+S10: optional "FLAG"or "BLOCK"
 
-      - `"provider"`
+</summary>
 
-      - `"model"`
+One of the following:
 
-      - `"cost"`
+"FLAG"
 
-      - `"tokens"`
+<a href="#">Link to this property</a>
 
-      - `"tokens_in"`
+"BLOCK"
 
-      - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-      - `"duration"`
+</details>
 
-      - `"feedback"`
+<a href="#">Link to this property</a>
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+<details>
 
-      - `"eq"`
+<summary>
 
-      - `"contains"`
+S11: optional "FLAG"or "BLOCK"
 
-      - `"lt"`
+</summary>
 
-      - `"gt"`
+One of the following:
 
-    - `value: array of string or number or boolean`
+"FLAG"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+"BLOCK"
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+</details>
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+<details>
 
-  - `name: string`
+<summary>
 
-- `success: boolean`
+S12: optional "FLAG"or "BLOCK"
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/datasets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"FLAG"
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enable": true,
-      "filters": [
-        {
-          "key": "created_at",
-          "operator": "eq",
-          "value": [
-            "string"
-          ]
-        }
-      ],
-      "gateway_id": "my-gateway",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name"
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Fetch a Dataset
+"BLOCK"
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}`
+<a href="#">Link to this property</a>
 
-Retrieves details for a specific AI Gateway dataset.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-- `gateway_id: string`
+<summary>
 
-  gateway id
+S13: optional "FLAG"or "BLOCK"
 
-- `id: string`
+</summary>
 
-### Returns
+One of the following:
 
-- `result: object { id, created_at, enable, 4 more }`
+"FLAG"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"BLOCK"
 
-  - `enable: boolean`
+<a href="#">Link to this property</a>
 
-  - `filters: array of object { key, operator, value }`
+</details>
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-      - `"created_at"`
+<details>
 
-      - `"request_content_type"`
+<summary>
 
-      - `"response_content_type"`
+S2: optional "FLAG"or "BLOCK"
 
-      - `"success"`
+</summary>
 
-      - `"cached"`
+One of the following:
 
-      - `"provider"`
+"FLAG"
 
-      - `"model"`
+<a href="#">Link to this property</a>
 
-      - `"cost"`
+"BLOCK"
 
-      - `"tokens"`
+<a href="#">Link to this property</a>
 
-      - `"tokens_in"`
+</details>
 
-      - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-      - `"duration"`
+<details>
 
-      - `"feedback"`
+<summary>
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+S3: optional "FLAG"or "BLOCK"
 
-      - `"eq"`
+</summary>
 
-      - `"contains"`
+One of the following:
 
-      - `"lt"`
+"FLAG"
 
-      - `"gt"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or number or boolean`
+"BLOCK"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+</details>
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+<details>
 
-    gateway id
+<summary>
 
-  - `modified_at: string`
+S4: optional "FLAG"or "BLOCK"
 
-  - `name: string`
+</summary>
 
-- `success: boolean`
+One of the following:
 
-### Example
+"FLAG"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/datasets/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"BLOCK"
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enable": true,
-    "filters": [
-      {
-        "key": "created_at",
-        "operator": "eq",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new Dataset
+</details>
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets`
+<a href="#">Link to this property</a>
 
-Creates a new AI Gateway.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+S5: optional "FLAG"or "BLOCK"
 
-- `gateway_id: string`
+</summary>
 
-  gateway id
+One of the following:
 
-### Body Parameters
+"FLAG"
 
-- `enable: boolean`
+<a href="#">Link to this property</a>
 
-- `filters: array of object { key, operator, value }`
+"BLOCK"
 
-  - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-    - `"created_at"`
+</details>
 
-    - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-    - `"response_content_type"`
+<details>
 
-    - `"success"`
+<summary>
 
-    - `"cached"`
+S6: optional "FLAG"or "BLOCK"
 
-    - `"provider"`
+</summary>
 
-    - `"model"`
+One of the following:
 
-    - `"cost"`
+"FLAG"
 
-    - `"tokens"`
+<a href="#">Link to this property</a>
 
-    - `"tokens_in"`
+"BLOCK"
 
-    - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-    - `"duration"`
+</details>
 
-    - `"feedback"`
+<a href="#">Link to this property</a>
 
-  - `operator: "eq" or "contains" or "lt" or "gt"`
+<details>
 
-    - `"eq"`
+<summary>
 
-    - `"contains"`
+S7: optional "FLAG"or "BLOCK"
 
-    - `"lt"`
+</summary>
 
-    - `"gt"`
+One of the following:
 
-  - `value: array of string or number or boolean`
+"FLAG"
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+"BLOCK"
 
-    - `boolean`
+<a href="#">Link to this property</a>
 
-- `name: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, created_at, enable, 4 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `created_at: string`
+S8: optional "FLAG"or "BLOCK"
 
-  - `enable: boolean`
+</summary>
 
-  - `filters: array of object { key, operator, value }`
+One of the following:
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+"FLAG"
 
-      - `"created_at"`
+<a href="#">Link to this property</a>
 
-      - `"request_content_type"`
+"BLOCK"
 
-      - `"response_content_type"`
+<a href="#">Link to this property</a>
 
-      - `"success"`
+</details>
 
-      - `"cached"`
+<a href="#">Link to this property</a>
 
-      - `"provider"`
+<details>
 
-      - `"model"`
+<summary>
 
-      - `"cost"`
+S9: optional "FLAG"or "BLOCK"
 
-      - `"tokens"`
+</summary>
 
-      - `"tokens_in"`
+One of the following:
 
-      - `"tokens_out"`
+"FLAG"
 
-      - `"duration"`
+<a href="#">Link to this property</a>
 
-      - `"feedback"`
+"BLOCK"
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+</details>
 
-      - `"contains"`
+<a href="#">Link to this property</a>
 
-      - `"lt"`
+</details>
 
-      - `"gt"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or number or boolean`
+<details>
 
-      - `string`
+<summary>
 
-      - `number`
+response: object {P1, S1, S10, 11 more }
 
-      - `boolean`
+</summary>
 
-  - `gateway_id: string`
+<details>
 
-    gateway id
+<summary>
 
-  - `modified_at: string`
+P1: optional "FLAG"or "BLOCK"
 
-  - `name: string`
+</summary>
 
-- `success: boolean`
+One of the following:
 
-### Example
+"FLAG"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/datasets \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enable": true,
-          "filters": [
-            {
-              "key": "created_at",
-              "operator": "eq",
-              "value": [
-                "string"
-              ]
-            }
-          ],
-          "name": "name"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"BLOCK"
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enable": true,
-    "filters": [
-      {
-        "key": "created_at",
-        "operator": "eq",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update a Dataset
+</details>
 
-**put** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}`
+<a href="#">Link to this property</a>
 
-Updates an existing AI Gateway dataset.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+S1: optional "FLAG"or "BLOCK"
 
-- `gateway_id: string`
+</summary>
 
-  gateway id
+One of the following:
 
-- `id: string`
+"FLAG"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `enable: boolean`
+"BLOCK"
 
-- `filters: array of object { key, operator, value }`
+<a href="#">Link to this property</a>
 
-  - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+</details>
 
-    - `"created_at"`
+<a href="#">Link to this property</a>
 
-    - `"request_content_type"`
+<details>
 
-    - `"response_content_type"`
+<summary>
 
-    - `"success"`
+S10: optional "FLAG"or "BLOCK"
 
-    - `"cached"`
+</summary>
 
-    - `"provider"`
+One of the following:
 
-    - `"model"`
+"FLAG"
 
-    - `"cost"`
+<a href="#">Link to this property</a>
 
-    - `"tokens"`
+"BLOCK"
 
-    - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-    - `"tokens_out"`
+</details>
 
-    - `"duration"`
+<a href="#">Link to this property</a>
 
-    - `"feedback"`
+<details>
 
-  - `operator: "eq" or "contains" or "lt" or "gt"`
+<summary>
 
-    - `"eq"`
+S11: optional "FLAG"or "BLOCK"
 
-    - `"contains"`
+</summary>
 
-    - `"lt"`
+One of the following:
 
-    - `"gt"`
+"FLAG"
 
-  - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-    - `string`
+"BLOCK"
 
-    - `number`
+<a href="#">Link to this property</a>
 
-    - `boolean`
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `result: object { id, created_at, enable, 4 more }`
+<summary>
 
-  - `id: string`
+S12: optional "FLAG"or "BLOCK"
 
-  - `created_at: string`
+</summary>
 
-  - `enable: boolean`
+One of the following:
 
-  - `filters: array of object { key, operator, value }`
+"FLAG"
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-      - `"created_at"`
+"BLOCK"
 
-      - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-      - `"response_content_type"`
+</details>
 
-      - `"success"`
+<a href="#">Link to this property</a>
 
-      - `"cached"`
+<details>
 
-      - `"provider"`
+<summary>
 
-      - `"model"`
+S13: optional "FLAG"or "BLOCK"
 
-      - `"cost"`
+</summary>
 
-      - `"tokens"`
+One of the following:
 
-      - `"tokens_in"`
+"FLAG"
 
-      - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-      - `"duration"`
+"BLOCK"
 
-      - `"feedback"`
+<a href="#">Link to this property</a>
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+</details>
 
-      - `"eq"`
+<a href="#">Link to this property</a>
 
-      - `"contains"`
+<details>
 
-      - `"lt"`
+<summary>
 
-      - `"gt"`
+S2: optional "FLAG"or "BLOCK"
 
-    - `value: array of string or number or boolean`
+</summary>
 
-      - `string`
+One of the following:
 
-      - `number`
+"FLAG"
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+"BLOCK"
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/datasets/$ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enable": true,
-          "filters": [
-            {
-              "key": "created_at",
-              "operator": "eq",
-              "value": [
-                "string"
-              ]
-            }
-          ],
-          "name": "name"
-        }'
-```
+S3: optional "FLAG"or "BLOCK"
 
-#### Response
+</summary>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enable": true,
-    "filters": [
-      {
-        "key": "created_at",
-        "operator": "eq",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name"
-  },
-  "success": true
-}
-```
+One of the following:
 
-## Delete a Dataset
+"FLAG"
 
-**delete** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}`
+<a href="#">Link to this property</a>
 
-Deletes an AI Gateway dataset.
+"BLOCK"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  gateway id
+<details>
 
-- `id: string`
+<summary>
 
-### Returns
+S4: optional "FLAG"or "BLOCK"
 
-- `result: object { id, created_at, enable, 4 more }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-  - `created_at: string`
+"FLAG"
 
-  - `enable: boolean`
+<a href="#">Link to this property</a>
 
-  - `filters: array of object { key, operator, value }`
+"BLOCK"
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-      - `"created_at"`
+</details>
 
-      - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-      - `"response_content_type"`
+<details>
 
-      - `"success"`
+<summary>
 
-      - `"cached"`
+S5: optional "FLAG"or "BLOCK"
 
-      - `"provider"`
+</summary>
 
-      - `"model"`
+One of the following:
 
-      - `"cost"`
+"FLAG"
 
-      - `"tokens"`
+<a href="#">Link to this property</a>
 
-      - `"tokens_in"`
+"BLOCK"
 
-      - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-      - `"duration"`
+</details>
 
-      - `"feedback"`
+<a href="#">Link to this property</a>
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+<details>
 
-      - `"eq"`
+<summary>
 
-      - `"contains"`
+S6: optional "FLAG"or "BLOCK"
 
-      - `"lt"`
+</summary>
 
-      - `"gt"`
+One of the following:
 
-    - `value: array of string or number or boolean`
+"FLAG"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+"BLOCK"
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+</details>
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+<details>
 
-  - `name: string`
+<summary>
 
-- `success: boolean`
+S7: optional "FLAG"or "BLOCK"
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/datasets/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"FLAG"
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enable": true,
-    "filters": [
-      {
-        "key": "created_at",
-        "operator": "eq",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"BLOCK"
 
-### Dataset List Response
+<a href="#">Link to this property</a>
 
-- `DatasetListResponse object { id, created_at, enable, 4 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `enable: boolean`
+<summary>
 
-  - `filters: array of object { key, operator, value }`
+S8: optional "FLAG"or "BLOCK"
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+</summary>
 
-      - `"created_at"`
+One of the following:
 
-      - `"request_content_type"`
+"FLAG"
 
-      - `"response_content_type"`
+<a href="#">Link to this property</a>
 
-      - `"success"`
+"BLOCK"
 
-      - `"cached"`
+<a href="#">Link to this property</a>
 
-      - `"provider"`
+</details>
 
-      - `"model"`
+<a href="#">Link to this property</a>
 
-      - `"cost"`
+<details>
 
-      - `"tokens"`
+<summary>
 
-      - `"tokens_in"`
+S9: optional "FLAG"or "BLOCK"
 
-      - `"tokens_out"`
+</summary>
 
-      - `"duration"`
+One of the following:
 
-      - `"feedback"`
+"FLAG"
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+"BLOCK"
 
-      - `"contains"`
+<a href="#">Link to this property</a>
 
-      - `"lt"`
+</details>
 
-      - `"gt"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or number or boolean`
+</details>
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+</details>
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+is\_default: optional boolean
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+log\_classification: optional boolean
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-### Dataset Get Response
+log\_management: optional number
 
-- `DatasetGetResponse object { id, created_at, enable, 4 more }`
+maximum10000000
 
-  - `id: string`
+minimum10000
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `enable: boolean`
+<details>
 
-  - `filters: array of object { key, operator, value }`
+<summary>
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+log\_management\_strategy: optional "STOP\_INSERTING"or "DELETE\_OLDEST"
 
-      - `"created_at"`
+</summary>
 
-      - `"request_content_type"`
+One of the following:
 
-      - `"response_content_type"`
+"STOP\_INSERTING"
 
-      - `"success"`
+<a href="#">Link to this property</a>
 
-      - `"cached"`
+"DELETE\_OLDEST"
 
-      - `"provider"`
+<a href="#">Link to this property</a>
 
-      - `"model"`
+</details>
 
-      - `"cost"`
+<a href="#">Link to this property</a>
 
-      - `"tokens"`
+logpush: optional boolean
 
-      - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-      - `"tokens_out"`
+logpush\_public\_key: optional string
 
-      - `"duration"`
+maxLength1024
 
-      - `"feedback"`
+minLength16
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+<details>
 
-      - `"contains"`
+<summary>
 
-      - `"lt"`
+otel: optional array of object {headers, url, authorization, content\_type }
 
-      - `"gt"`
+</summary>
 
-    - `value: array of string or number or boolean`
+headers: map\[string]
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+url: string
 
-      - `boolean`
+formaturi
 
-  - `gateway_id: string`
+maxLength2048
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+authorization: optional string
 
-  - `name: string`
+maxLength256
 
-### Dataset Create Response
+<a href="#">Link to this property</a>
 
-- `DatasetCreateResponse object { id, created_at, enable, 4 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `created_at: string`
+content\_type: optional "json"or "protobuf"
 
-  - `enable: boolean`
+</summary>
 
-  - `filters: array of object { key, operator, value }`
+One of the following:
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+"json"
 
-      - `"created_at"`
+<a href="#">Link to this property</a>
 
-      - `"request_content_type"`
+"protobuf"
 
-      - `"response_content_type"`
+<a href="#">Link to this property</a>
 
-      - `"success"`
+</details>
 
-      - `"cached"`
+<a href="#">Link to this property</a>
 
-      - `"provider"`
+</details>
 
-      - `"model"`
+<a href="#">Link to this property</a>
 
-      - `"cost"`
+<details>
 
-      - `"tokens"`
+<summary>
 
-      - `"tokens_in"`
+rate\_limiting\_technique: optional "fixed"or "sliding"
 
-      - `"tokens_out"`
+</summary>
 
-      - `"duration"`
+One of the following:
 
-      - `"feedback"`
+"fixed"
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+"sliding"
 
-      - `"contains"`
+<a href="#">Link to this property</a>
 
-      - `"lt"`
+</details>
 
-      - `"gt"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or number or boolean`
+<details>
 
-      - `string`
+<summary>
 
-      - `number`
+retry\_backoff: optional "constant"or "linear"or "exponential"
 
-      - `boolean`
+Backoff strategy for retry delays
 
-  - `gateway_id: string`
+</summary>
 
-    gateway id
+One of the following:
 
-  - `modified_at: string`
+"constant"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-### Dataset Update Response
+"linear"
 
-- `DatasetUpdateResponse object { id, created_at, enable, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"exponential"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `enable: boolean`
+</details>
 
-  - `filters: array of object { key, operator, value }`
+<a href="#">Link to this property</a>
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+retry\_delay: optional number
 
-      - `"created_at"`
+Delay between retry attempts in milliseconds (0-60000)
 
-      - `"request_content_type"`
+maximum60000
 
-      - `"response_content_type"`
+minimum0
 
-      - `"success"`
+<a href="#">Link to this property</a>
 
-      - `"cached"`
+retry\_max\_attempts: optional number
 
-      - `"provider"`
+Maximum number of retry attempts for failed requests (1-5)
 
-      - `"model"`
+maximum5
 
-      - `"cost"`
+minimum1
 
-      - `"tokens"`
+<a href="#">Link to this property</a>
 
-      - `"tokens_in"`
+<details>
 
-      - `"tokens_out"`
+<summary>
 
-      - `"duration"`
+spend\_limits: optional object {enabled, rules }
 
-      - `"feedback"`
+</summary>
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+enabled: optional boolean
 
-      - `"eq"`
+<a href="#">Link to this property</a>
 
-      - `"contains"`
+<details>
 
-      - `"lt"`
+<summary>
 
-      - `"gt"`
+rules: optional array of object {limit, limitType, window, 6 more }
 
-    - `value: array of string or number or boolean`
+</summary>
 
-      - `string`
+limit: number
 
-      - `number`
+exclusiveMinimum
 
-      - `boolean`
+minimum0
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+limitType: "cost"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+window: number
 
-### Dataset Delete Response
+exclusiveMinimum
 
-- `DatasetDeleteResponse object { id, created_at, enable, 4 more }`
+minimum0
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+id: optional string
 
-  - `enable: boolean`
+minLength1
 
-  - `filters: array of object { key, operator, value }`
+<a href="#">Link to this property</a>
 
-    - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+enabled: optional boolean
 
-      - `"created_at"`
+<a href="#">Link to this property</a>
 
-      - `"request_content_type"`
+<details>
 
-      - `"response_content_type"`
+<summary>
 
-      - `"success"`
+metadata: optional map\[object {mode } or object {mode, values } ]
 
-      - `"cached"`
+</summary>
 
-      - `"provider"`
+One of the following:
 
-      - `"model"`
+<details>
 
-      - `"cost"`
+<summary>
 
-      - `"tokens"`
+Mode object {mode }
 
-      - `"tokens_in"`
+</summary>
 
-      - `"tokens_out"`
+mode: "partition"
 
-      - `"duration"`
+<a href="#">Link to this property</a>
 
-      - `"feedback"`
+</details>
 
-    - `operator: "eq" or "contains" or "lt" or "gt"`
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+<details>
 
-      - `"contains"`
+<summary>
 
-      - `"lt"`
+object {mode, values }
 
-      - `"gt"`
+</summary>
 
-    - `value: array of string or number or boolean`
+mode: "filter"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+values: array of string
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+</details>
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-# Evaluations
+<details>
 
-## List Evaluations
+<summary>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations`
+model: optional object {mode, values }
 
-Lists all AI Gateway evaluator types configured for the account.
+</summary>
 
-### Path Parameters
+mode: "filter"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+values: array of string
 
-  gateway id
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+<details>
 
-- `per_page: optional number`
+<summary>
 
-- `processed: optional boolean`
+provider: optional object {mode, values }
 
-- `search: optional string`
+</summary>
 
-  Search by id, name
+mode: "filter"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, created_at, datasets, 6 more }`
+values: array of string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+<details>
 
-    - `account_id: string`
+<summary>
 
-    - `account_tag: string`
+technique: optional "fixed"or "sliding"
 
-    - `created_at: string`
+</summary>
 
-    - `enable: boolean`
+One of the following:
 
-    - `filters: array of object { key, operator, value }`
+"fixed"
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+"sliding"
 
-        - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"response_content_type"`
+</details>
 
-        - `"success"`
+<a href="#">Link to this property</a>
 
-        - `"cached"`
+</details>
 
-        - `"provider"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+</details>
 
-        - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `"tokens"`
+store\_id: optional string
 
-        - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_out"`
+<details>
 
-        - `"duration"`
+<summary>
 
-        - `"feedback"`
+stripe: optional object {authorization, usage\_events }
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+</summary>
 
-        - `"eq"`
+authorization: string
 
-        - `"contains"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+<details>
 
-        - `"gt"`
+<summary>
 
-      - `value: array of string or number or boolean`
+usage\_events: array of object {payload }
 
-        - `string`
+</summary>
 
-        - `number`
+payload: string
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-    - `gateway_id: string`
+</details>
 
-      gateway id
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+<details>
 
-    gateway id
+<summary>
 
-  - `modified_at: string`
+workers\_ai\_billing\_mode: optional "postpaid"or "unified"
 
-  - `name: string`
+Controls how Workers AI inference calls routed through this gateway are billed. ‘postpaid’ bills the account directly through Workers AI; ‘unified’ deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.
 
-  - `processed: boolean`
+</summary>
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+One of the following:
 
-    - `id: string`
+"postpaid"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_id: string`
+"unified"
 
-    - `evaluation_type_id: string`
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+</details>
 
-    - `result: string`
+<a href="#">Link to this property</a>
 
-    - `status: number`
+zdr: optional boolean
 
-    - `status_description: string`
+<a href="#">Link to this property</a>
 
-    - `total_logs: number`
+</details>
 
-  - `total_logs: number`
+[Link to this property](#)%20ai_gateway%20%3E%20(model)%20ai_gateway_delete_response%20%3E%20(schema)>)
 
-- `success: boolean`
+#### AI GatewayEvaluation Types
 
-### Example
+##### [List Evaluators](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluation_types/methods/list)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/evaluations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+GET/accounts/{account\_id}/ai-gateway/evaluation-types
 
-#### Response
+##### ModelsExpand Collapse
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "datasets": [
-        {
-          "id": "id",
-          "account_id": "account_id",
-          "account_tag": "account_tag",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "enable": true,
-          "filters": [
-            {
-              "key": "created_at",
-              "operator": "eq",
-              "value": [
-                "string"
-              ]
-            }
-          ],
-          "gateway_id": "my-gateway",
-          "modified_at": "2019-12-27T18:11:19.117Z",
-          "name": "name"
-        }
-      ],
-      "gateway_id": "my-gateway",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "processed": true,
-      "results": [
-        {
-          "id": "id",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "evaluation_id": "evaluation_id",
-          "evaluation_type_id": "evaluation_type_id",
-          "modified_at": "2019-12-27T18:11:19.117Z",
-          "result": "result",
-          "status": 0,
-          "status_description": "status_description",
-          "total_logs": 0
-        }
-      ],
-      "total_logs": 0
-    }
-  ],
-  "success": true
-}
-```
+<details>
 
-## Fetch a Evaluation
+<summary>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations/{id}`
+EvaluationTypeListResponse object {id, created\_at, description, 5 more }
 
-Retrieves details for a specific AI Gateway dataset.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+created\_at: string
 
-  gateway id
+formatdate-time
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+description: string
 
-- `result: object { id, created_at, datasets, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+enable: boolean
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+mandatory: boolean
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `account_id: string`
+modified\_at: string
 
-    - `account_tag: string`
+formatdate-time
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enable: boolean`
+name: string
 
-    - `filters: array of object { key, operator, value }`
+<a href="#">Link to this property</a>
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+type: string
 
-        - `"created_at"`
+<a href="#">Link to this property</a>
 
-        - `"request_content_type"`
+</details>
 
-        - `"response_content_type"`
+[Link to this property](#)%20ai_gateway.evaluation_types%20%3E%20(model)%20evaluation_type_list_response%20%3E%20(schema)>)
 
-        - `"success"`
+#### AI GatewayCustom Providers
 
-        - `"cached"`
+##### [List Account Providers](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers/methods/list)
 
-        - `"provider"`
+GET/accounts/{account\_id}/ai-gateway/custom-providers
 
-        - `"model"`
+##### [Fetch a Account Provider](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers/methods/get)
 
-        - `"cost"`
+GET/accounts/{account\_id}/ai-gateway/custom-providers/{id}
 
-        - `"tokens"`
+##### [Create a new Account Provider](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers/methods/create)
 
-        - `"tokens_in"`
+POST/accounts/{account\_id}/ai-gateway/custom-providers
 
-        - `"tokens_out"`
+##### [Delete a Account Provider](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers/methods/delete)
 
-        - `"duration"`
+DELETE/accounts/{account\_id}/ai-gateway/custom-providers/{id}
 
-        - `"feedback"`
+##### ModelsExpand Collapse
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+<details>
 
-        - `"eq"`
+<summary>
 
-        - `"contains"`
+CustomProviderListResponse object {id, base\_url, created\_at, 12 more }
 
-        - `"lt"`
+</summary>
 
-        - `"gt"`
+id: string
 
-      - `value: array of string or number or boolean`
+formatuuid
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+base\_url: string
 
-        - `boolean`
+formaturi
 
-    - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-      gateway id
+created\_at: string
 
-    - `modified_at: string`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+modified\_at: string
 
-    gateway id
+formatdate-time
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-  - `processed: boolean`
+<a href="#">Link to this property</a>
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+slug: string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+beta: optional boolean
 
-    - `evaluation_id: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_type_id: string`
+curl\_example: optional string
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `result: string`
+description: optional string
 
-    - `status: number`
+<a href="#">Link to this property</a>
 
-    - `status_description: string`
+enable: optional boolean
 
-    - `total_logs: number`
+<a href="#">Link to this property</a>
 
-  - `total_logs: number`
+headers: optional string
 
-- `success: boolean`
+maxLength8192
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/evaluations/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+js\_example: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "datasets": [
-      {
-        "id": "id",
-        "account_id": "account_id",
-        "account_tag": "account_tag",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enable": true,
-        "filters": [
-          {
-            "key": "created_at",
-            "operator": "eq",
-            "value": [
-              "string"
-            ]
-          }
-        ],
-        "gateway_id": "my-gateway",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "name": "name"
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "processed": true,
-    "results": [
-      {
-        "id": "id",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "evaluation_id": "evaluation_id",
-        "evaluation_type_id": "evaluation_type_id",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "result": "result",
-        "status": 0,
-        "status_description": "status_description",
-        "total_logs": 0
-      }
-    ],
-    "total_logs": 0
-  },
-  "success": true
-}
-```
+link: optional string
 
-## Create a new Evaluation
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations`
+logo: optional string
 
-Creates a new AI Gateway.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+position: optional number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+</details>
 
-  gateway id
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(model)%20custom_provider_list_response%20%3E%20(schema)>)
 
-### Body Parameters
+<details>
 
-- `dataset_ids: array of string`
+<summary>
 
-- `evaluation_type_ids: array of string`
+CustomProviderGetResponse object {id, base\_url, created\_at, 12 more }
 
-- `name: string`
+</summary>
 
-### Returns
+id: string
 
-- `result: object { id, created_at, datasets, 6 more }`
+formatuuid
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+base\_url: string
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+formaturi
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `account_id: string`
+created\_at: string
 
-    - `account_tag: string`
+formatdate-time
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enable: boolean`
+modified\_at: string
 
-    - `filters: array of object { key, operator, value }`
+formatdate-time
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+name: string
 
-        - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"response_content_type"`
+slug: string
 
-        - `"success"`
+<a href="#">Link to this property</a>
 
-        - `"cached"`
+beta: optional boolean
 
-        - `"provider"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+curl\_example: optional string
 
-        - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `"tokens"`
+description: optional string
 
-        - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_out"`
+enable: optional boolean
 
-        - `"duration"`
+<a href="#">Link to this property</a>
 
-        - `"feedback"`
+headers: optional string
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+maxLength8192
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"contains"`
+js\_example: optional string
 
-        - `"lt"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+link: optional string
 
-      - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+logo: optional string
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+position: optional number
 
-    - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-      gateway id
+</details>
 
-    - `modified_at: string`
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(model)%20custom_provider_get_response%20%3E%20(schema)>)
 
-    - `name: string`
+<details>
 
-  - `gateway_id: string`
+<summary>
 
-    gateway id
+CustomProviderCreateResponse object {id, base\_url, created\_at, 12 more }
 
-  - `modified_at: string`
+</summary>
 
-  - `name: string`
+id: string
 
-  - `processed: boolean`
+formatuuid
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+base\_url: string
 
-    - `created_at: string`
+formaturi
 
-    - `evaluation_id: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_type_id: string`
+created\_at: string
 
-    - `modified_at: string`
+formatdate-time
 
-    - `result: string`
+<a href="#">Link to this property</a>
 
-    - `status: number`
+modified\_at: string
 
-    - `status_description: string`
+formatdate-time
 
-    - `total_logs: number`
+<a href="#">Link to this property</a>
 
-  - `total_logs: number`
+name: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+slug: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/evaluations \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "dataset_ids": [
-            "string"
-          ],
-          "evaluation_type_ids": [
-            "string"
-          ],
-          "name": "name"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+beta: optional boolean
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "datasets": [
-      {
-        "id": "id",
-        "account_id": "account_id",
-        "account_tag": "account_tag",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enable": true,
-        "filters": [
-          {
-            "key": "created_at",
-            "operator": "eq",
-            "value": [
-              "string"
-            ]
-          }
-        ],
-        "gateway_id": "my-gateway",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "name": "name"
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "processed": true,
-    "results": [
-      {
-        "id": "id",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "evaluation_id": "evaluation_id",
-        "evaluation_type_id": "evaluation_type_id",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "result": "result",
-        "status": 0,
-        "status_description": "status_description",
-        "total_logs": 0
-      }
-    ],
-    "total_logs": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a Evaluation
+curl\_example: optional string
 
-**delete** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations/{id}`
+<a href="#">Link to this property</a>
 
-Deletes an AI Gateway dataset.
+description: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+enable: optional boolean
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  gateway id
+headers: optional string
 
-- `id: string`
+maxLength8192
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, created_at, datasets, 6 more }`
+js\_example: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+link: optional string
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+logo: optional string
 
-    - `account_id: string`
+<a href="#">Link to this property</a>
 
-    - `account_tag: string`
+position: optional number
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enable: boolean`
+</details>
 
-    - `filters: array of object { key, operator, value }`
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(model)%20custom_provider_create_response%20%3E%20(schema)>)
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<details>
 
-        - `"created_at"`
+<summary>
 
-        - `"request_content_type"`
+CustomProviderDeleteResponse object {id, base\_url, created\_at, 12 more }
 
-        - `"response_content_type"`
+</summary>
 
-        - `"success"`
+id: string
 
-        - `"cached"`
+formatuuid
 
-        - `"provider"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+base\_url: string
 
-        - `"cost"`
+formaturi
 
-        - `"tokens"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_in"`
+created\_at: string
 
-        - `"tokens_out"`
+formatdate-time
 
-        - `"duration"`
+<a href="#">Link to this property</a>
 
-        - `"feedback"`
+modified\_at: string
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+formatdate-time
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"contains"`
+name: string
 
-        - `"lt"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+slug: string
 
-      - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+beta: optional boolean
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+curl\_example: optional string
 
-    - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-      gateway id
+description: optional string
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+enable: optional boolean
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+headers: optional string
 
-  - `modified_at: string`
+maxLength8192
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `processed: boolean`
+js\_example: optional string
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+link: optional string
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_id: string`
+logo: optional string
 
-    - `evaluation_type_id: string`
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+position: optional number
 
-    - `result: string`
+<a href="#">Link to this property</a>
 
-    - `status: number`
+</details>
 
-    - `status_description: string`
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(model)%20custom_provider_delete_response%20%3E%20(schema)>)
 
-    - `total_logs: number`
+#### AI GatewayLogs
 
-  - `total_logs: number`
+##### [List Gateway Logs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/list)
 
-- `success: boolean`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs
 
-### Example
+##### [Get Gateway Log Detail](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/get)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/evaluations/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs/{id}
 
-#### Response
+##### [Patch Gateway Log](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/edit)
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "datasets": [
-      {
-        "id": "id",
-        "account_id": "account_id",
-        "account_tag": "account_tag",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enable": true,
-        "filters": [
-          {
-            "key": "created_at",
-            "operator": "eq",
-            "value": [
-              "string"
-            ]
-          }
-        ],
-        "gateway_id": "my-gateway",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "name": "name"
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "processed": true,
-    "results": [
-      {
-        "id": "id",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "evaluation_id": "evaluation_id",
-        "evaluation_type_id": "evaluation_type_id",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "result": "result",
-        "status": 0,
-        "status_description": "status_description",
-        "total_logs": 0
-      }
-    ],
-    "total_logs": 0
-  },
-  "success": true
-}
-```
+PATCH/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs/{id}
 
-## Domain Types
+##### [Delete Gateway Logs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/delete)
 
-### Evaluation List Response
+DELETE/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs
 
-- `EvaluationListResponse object { id, created_at, datasets, 6 more }`
+##### [Get Gateway Log Request](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/request)
 
-  - `id: string`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs/{id}/request
 
-  - `created_at: string`
+##### [Get Gateway Log Response](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/response)
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs/{id}/response
 
-    - `id: string`
+##### ModelsExpand Collapse
 
-    - `account_id: string`
+<details>
 
-    - `account_tag: string`
+<summary>
 
-    - `created_at: string`
+LogListResponse object {id, cached, created\_at, 16 more }
 
-    - `enable: boolean`
+</summary>
 
-    - `filters: array of object { key, operator, value }`
+id: string
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+cached: boolean
 
-        - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"response_content_type"`
+created\_at: string
 
-        - `"success"`
+formatdate-time
 
-        - `"cached"`
+<a href="#">Link to this property</a>
 
-        - `"provider"`
+duration: number
 
-        - `"model"`
+<a href="#">Link to this property</a>
 
-        - `"cost"`
+model: string
 
-        - `"tokens"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_in"`
+path: string
 
-        - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-        - `"duration"`
+provider: string
 
-        - `"feedback"`
+<a href="#">Link to this property</a>
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+success: boolean
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"contains"`
+tokens\_in: number
 
-        - `"lt"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+tokens\_out: number
 
-      - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+cost: optional number
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+custom\_cost: optional boolean
 
-    - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-      gateway id
+metadata: optional string
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+model\_type: optional string
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+request\_content\_type: optional string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+request\_type: optional string
 
-  - `processed: boolean`
+<a href="#">Link to this property</a>
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+response\_content\_type: optional string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+status\_code: optional number
 
-    - `evaluation_id: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_type_id: string`
+step: optional number
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `result: string`
+</details>
 
-    - `status: number`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_list_response%20%3E%20(schema)>)
 
-    - `status_description: string`
+<details>
 
-    - `total_logs: number`
+<summary>
 
-  - `total_logs: number`
+LogGetResponse object {id, cached, created\_at, 22 more }
 
-### Evaluation Get Response
+</summary>
 
-- `EvaluationGetResponse object { id, created_at, datasets, 6 more }`
+id: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+cached: boolean
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+created\_at: string
 
-    - `account_id: string`
+formatdate-time
 
-    - `account_tag: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+duration: number
 
-    - `enable: boolean`
+<a href="#">Link to this property</a>
 
-    - `filters: array of object { key, operator, value }`
+model: string
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+path: string
 
-        - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"response_content_type"`
+provider: string
 
-        - `"success"`
+<a href="#">Link to this property</a>
 
-        - `"cached"`
+success: boolean
 
-        - `"provider"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+tokens\_in: number
 
-        - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `"tokens"`
+tokens\_out: number
 
-        - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_out"`
+cost: optional number
 
-        - `"duration"`
+<a href="#">Link to this property</a>
 
-        - `"feedback"`
+custom\_cost: optional boolean
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+metadata: optional string
 
-        - `"contains"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+model\_type: optional string
 
-        - `"gt"`
+<a href="#">Link to this property</a>
 
-      - `value: array of string or number or boolean`
+request\_content\_type: optional string
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+request\_head: optional string
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-    - `gateway_id: string`
+request\_head\_complete: optional boolean
 
-      gateway id
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+request\_size: optional number
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+request\_type: optional string
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+response\_content\_type: optional string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `processed: boolean`
+response\_head: optional string
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+response\_head\_complete: optional boolean
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_id: string`
+response\_size: optional number
 
-    - `evaluation_type_id: string`
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+status\_code: optional number
 
-    - `result: string`
+<a href="#">Link to this property</a>
 
-    - `status: number`
+step: optional number
 
-    - `status_description: string`
+<a href="#">Link to this property</a>
 
-    - `total_logs: number`
+</details>
 
-  - `total_logs: number`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_get_response%20%3E%20(schema)>)
 
-### Evaluation Create Response
+LogEditResponse = unknown
 
-- `EvaluationCreateResponse object { id, created_at, datasets, 6 more }`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_edit_response%20%3E%20(schema)>)
 
-  - `id: string`
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+LogDeleteResponse object {success }
 
-    - `id: string`
+</summary>
 
-    - `account_id: string`
+success: boolean
 
-    - `account_tag: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-    - `enable: boolean`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_delete_response%20%3E%20(schema)>)
 
-    - `filters: array of object { key, operator, value }`
+LogRequestResponse = unknown
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_request_response%20%3E%20(schema)>)
 
-        - `"created_at"`
+LogResponseResponse = unknown
 
-        - `"request_content_type"`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_response_response%20%3E%20(schema)>)
 
-        - `"response_content_type"`
+#### AI GatewayDatasets
 
-        - `"success"`
+##### [List Datasets](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/datasets/methods/list)
 
-        - `"cached"`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/datasets
 
-        - `"provider"`
+##### [Fetch a Dataset](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/datasets/methods/get)
 
-        - `"model"`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/datasets/{id}
 
-        - `"cost"`
+##### [Create a new Dataset](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/datasets/methods/create)
 
-        - `"tokens"`
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/datasets
 
-        - `"tokens_in"`
+##### [Update a Dataset](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/datasets/methods/update)
 
-        - `"tokens_out"`
+PUT/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/datasets/{id}
 
-        - `"duration"`
+##### [Delete a Dataset](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/datasets/methods/delete)
 
-        - `"feedback"`
+DELETE/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/datasets/{id}
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+##### ModelsExpand Collapse
 
-        - `"eq"`
+<details>
 
-        - `"contains"`
+<summary>
 
-        - `"lt"`
+DatasetListResponse object {id, created\_at, enable, 4 more }
 
-        - `"gt"`
+</summary>
 
-      - `value: array of string or number or boolean`
+id: string
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+created\_at: string
 
-        - `boolean`
+formatdate-time
 
-    - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-      gateway id
+enable: boolean
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-  - `gateway_id: string`
+<summary>
 
-    gateway id
+filters: array of object {key, operator, value }
 
-  - `modified_at: string`
+</summary>
 
-  - `name: string`
+<details>
 
-  - `processed: boolean`
+<summary>
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-    - `id: string`
+</summary>
 
-    - `created_at: string`
+One of the following:
 
-    - `evaluation_id: string`
+"created\_at"
 
-    - `evaluation_type_id: string`
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+"request\_content\_type"
 
-    - `result: string`
+<a href="#">Link to this property</a>
 
-    - `status: number`
+"response\_content\_type"
 
-    - `status_description: string`
+<a href="#">Link to this property</a>
 
-    - `total_logs: number`
+"success"
 
-  - `total_logs: number`
+<a href="#">Link to this property</a>
 
-### Evaluation Delete Response
+"cached"
 
-- `EvaluationDeleteResponse object { id, created_at, datasets, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"provider"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+"model"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `account_id: string`
+"cost"
 
-    - `account_tag: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"tokens"
 
-    - `enable: boolean`
+<a href="#">Link to this property</a>
 
-    - `filters: array of object { key, operator, value }`
+"tokens\_in"
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+"tokens\_out"
 
-        - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"response_content_type"`
+"duration"
 
-        - `"success"`
+<a href="#">Link to this property</a>
 
-        - `"cached"`
+"feedback"
 
-        - `"provider"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+</details>
 
-        - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `"tokens"`
+<details>
 
-        - `"tokens_in"`
+<summary>
 
-        - `"tokens_out"`
+operator: "eq"or "contains"or "lt"or "gt"
 
-        - `"duration"`
+</summary>
 
-        - `"feedback"`
+One of the following:
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+"eq"
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"contains"`
+"contains"
 
-        - `"lt"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+"lt"
 
-      - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+"gt"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+</details>
 
-    - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-      gateway id
+<details>
 
-    - `modified_at: string`
+<summary>
 
-    - `name: string`
+value: array of stringor numberor boolean
 
-  - `gateway_id: string`
+</summary>
 
-    gateway id
+One of the following:
 
-  - `modified_at: string`
+string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `processed: boolean`
+number
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+boolean
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_id: string`
+</details>
 
-    - `evaluation_type_id: string`
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+</details>
 
-    - `result: string`
+<a href="#">Link to this property</a>
 
-    - `status: number`
+gateway\_id: string
 
-    - `status_description: string`
+gateway id
 
-    - `total_logs: number`
+maxLength64
 
-  - `total_logs: number`
+minLength1
 
-# Dynamic Routing
+<a href="#">Link to this property</a>
 
-## List all AI Gateway Dynamic Routes.
+modified\_at: string
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes`
+formatdate-time
 
-List all AI Gateway Dynamic Routes.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+name: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+</details>
 
-### Query Parameters
+[Link to this property](#)%20ai_gateway.datasets%20%3E%20(model)%20dataset_list_response%20%3E%20(schema)>)
 
-- `page: optional number`
+<details>
 
-  Page number
+<summary>
 
-- `per_page: optional number`
+DatasetGetResponse object {id, created\_at, enable, 4 more }
 
-  Number of routes per page
+</summary>
 
-### Returns
+id: string
 
-- `data: object { order_by, order_by_direction, page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `order_by: string`
+created\_at: string
 
-  - `order_by_direction: string`
+formatdate-time
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+enable: boolean
 
-  - `routes: array of object { id, account_tag, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+<details>
 
-    - `account_tag: string`
+<summary>
 
-    - `created_at: string`
+filters: array of object {key, operator, value }
 
-    - `deployment: object { created_at, deployment_id, version_id }`
+</summary>
 
-      - `created_at: string`
+<details>
 
-      - `deployment_id: string`
+<summary>
 
-      - `version_id: string`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-    - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+</summary>
 
-      - `object { id, outputs, type }`
+One of the following:
 
-        - `id: string`
+"created\_at"
 
-        - `outputs: object { next }`
+<a href="#">Link to this property</a>
 
-          - `next: object { elementId }`
+"request\_content\_type"
 
-            - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `type: "start"`
+"response\_content\_type"
 
-          - `"start"`
+<a href="#">Link to this property</a>
 
-      - `object { id, outputs, properties, type }`
+"success"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `outputs: object { false, true }`
+"cached"
 
-          - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-            - `elementId: string`
+"provider"
 
-          - `true: object { elementId }`
+<a href="#">Link to this property</a>
 
-            - `elementId: string`
+"model"
 
-        - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-          - `conditions: optional unknown`
+"cost"
 
-        - `type: "conditional"`
+<a href="#">Link to this property</a>
 
-          - `"conditional"`
+"tokens"
 
-      - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"tokens\_in"
 
-        - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+"tokens\_out"
 
-        - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-          - `"percentage"`
+"duration"
 
-      - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+"feedback"
 
-        - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-          - `fallback: object { elementId }`
+</details>
 
-            - `elementId: string`
+<a href="#">Link to this property</a>
 
-          - `success: object { elementId }`
+<details>
 
-            - `elementId: string`
+<summary>
 
-        - `properties: object { key, limit, limitType, window }`
+operator: "eq"or "contains"or "lt"or "gt"
 
-          - `key: string`
+</summary>
 
-          - `limit: number`
+One of the following:
 
-          - `limitType: "count" or "cost"`
+"eq"
 
-            - `"count"`
+<a href="#">Link to this property</a>
 
-            - `"cost"`
+"contains"
 
-          - `window: number`
+<a href="#">Link to this property</a>
 
-        - `type: "rate"`
+"lt"
 
-          - `"rate"`
+<a href="#">Link to this property</a>
 
-      - `object { id, outputs, properties, type }`
+"gt"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `outputs: object { fallback, success }`
+</details>
 
-          - `fallback: object { elementId }`
+<a href="#">Link to this property</a>
 
-            - `elementId: string`
+<details>
 
-          - `success: object { elementId }`
+<summary>
 
-            - `elementId: string`
+value: array of stringor numberor boolean
 
-        - `properties: object { model, provider, retries, timeout }`
+</summary>
 
-          - `model: string`
+One of the following:
 
-          - `provider: string`
+string
 
-          - `retries: number`
+<a href="#">Link to this property</a>
 
-          - `timeout: number`
+number
 
-        - `type: "model"`
+<a href="#">Link to this property</a>
 
-          - `"model"`
+boolean
 
-      - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+</details>
 
-        - `type: "end"`
+<a href="#">Link to this property</a>
 
-          - `"end"`
+gateway\_id: string
 
-    - `gateway_id: string`
+gateway id
 
-    - `modified_at: string`
+maxLength64
 
-    - `name: string`
+minLength1
 
-    - `version: object { active, created_at, data, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `active: "true" or "false"`
+modified\_at: string
 
-        - `"true"`
+formatdate-time
 
-        - `"false"`
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+name: string
 
-      - `data: string`
+<a href="#">Link to this property</a>
 
-      - `version_id: string`
+</details>
 
-      - `is_valid: optional boolean`
+[Link to this property](#)%20ai_gateway.datasets%20%3E%20(model)%20dataset_get_response%20%3E%20(schema)>)
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+DatasetCreateResponse object {id, created\_at, enable, 4 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "data": {
-    "order_by": "order_by",
-    "order_by_direction": "order_by_direction",
-    "page": 0,
-    "per_page": 0,
-    "routes": [
-      {
-        "id": "id",
-        "account_tag": "account_tag",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "deployment": {
-          "created_at": "created_at",
-          "deployment_id": "deployment_id",
-          "version_id": "version_id"
-        },
-        "elements": [
-          {
-            "id": "id",
-            "outputs": {
-              "next": {
-                "elementId": "elementId"
-              }
-            },
-            "type": "start"
-          }
-        ],
-        "gateway_id": "gateway_id",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "version": {
-          "active": "true",
-          "created_at": "created_at",
-          "data": "data",
-          "version_id": "version_id",
-          "is_valid": true
-        }
-      }
-    ]
-  },
-  "success": true
-}
-```
+id: string
 
-## Get an AI Gateway Dynamic Route.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}`
+created\_at: string
 
-Get an AI Gateway Dynamic Route.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+enable: boolean
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+<details>
 
-### Returns
+<summary>
 
-- `result: object { id, created_at, deployment, 5 more }`
+filters: array of object {key, operator, value }
 
-  - `id: string`
+</summary>
 
-  - `created_at: string`
+<details>
 
-  - `deployment: object { created_at, deployment_id, version_id }`
+<summary>
 
-    - `created_at: string`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-    - `deployment_id: string`
+</summary>
 
-    - `version_id: string`
+One of the following:
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+"created\_at"
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"request\_content\_type"
 
-      - `outputs: object { next }`
+<a href="#">Link to this property</a>
 
-        - `next: object { elementId }`
+"response\_content\_type"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `type: "start"`
+"success"
 
-        - `"start"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+"cached"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { false, true }`
+"provider"
 
-        - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+"model"
 
-        - `true: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+"cost"
 
-      - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-        - `conditions: optional unknown`
+"tokens"
 
-      - `type: "conditional"`
+<a href="#">Link to this property</a>
 
-        - `"conditional"`
+"tokens\_in"
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"tokens\_out"
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+"duration"
 
-      - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-        - `"percentage"`
+"feedback"
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-        - `success: object { elementId }`
+operator: "eq"or "contains"or "lt"or "gt"
 
-          - `elementId: string`
+</summary>
 
-      - `properties: object { key, limit, limitType, window }`
+One of the following:
 
-        - `key: string`
+"eq"
 
-        - `limit: number`
+<a href="#">Link to this property</a>
 
-        - `limitType: "count" or "cost"`
+"contains"
 
-          - `"count"`
+<a href="#">Link to this property</a>
 
-          - `"cost"`
+"lt"
 
-        - `window: number`
+<a href="#">Link to this property</a>
 
-      - `type: "rate"`
+"gt"
 
-        - `"rate"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { fallback, success }`
+<details>
 
-        - `fallback: object { elementId }`
+<summary>
 
-          - `elementId: string`
+value: array of stringor numberor boolean
 
-        - `success: object { elementId }`
+</summary>
 
-          - `elementId: string`
+One of the following:
 
-      - `properties: object { model, provider, retries, timeout }`
+string
 
-        - `model: string`
+<a href="#">Link to this property</a>
 
-        - `provider: string`
+number
 
-        - `retries: number`
+<a href="#">Link to this property</a>
 
-        - `timeout: number`
+boolean
 
-      - `type: "model"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+</details>
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+gateway\_id: string
 
-      - `type: "end"`
+gateway id
 
-        - `"end"`
+maxLength64
 
-  - `gateway_id: string`
+minLength1
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+modified\_at: string
 
-  - `version: object { active, created_at, data, 2 more }`
+formatdate-time
 
-    - `active: "true" or "false"`
+<a href="#">Link to this property</a>
 
-      - `"true"`
+name: string
 
-      - `"false"`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-    - `data: string`
+[Link to this property](#)%20ai_gateway.datasets%20%3E%20(model)%20dataset_create_response%20%3E%20(schema)>)
 
-    - `version_id: string`
+<details>
 
-    - `is_valid: optional boolean`
+<summary>
 
-- `success: boolean`
+DatasetUpdateResponse object {id, created\_at, enable, 4 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "deployment": {
-      "created_at": "created_at",
-      "deployment_id": "deployment_id",
-      "version_id": "version_id"
-    },
-    "elements": [
-      {
-        "id": "id",
-        "outputs": {
-          "next": {
-            "elementId": "elementId"
-          }
-        },
-        "type": "start"
-      }
-    ],
-    "gateway_id": "gateway_id",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "version": {
-      "active": "true",
-      "created_at": "created_at",
-      "data": "data",
-      "version_id": "version_id",
-      "is_valid": true
-    }
-  },
-  "success": true
-}
-```
+created\_at: string
 
-## Create a new AI Gateway Dynamic Route.
+formatdate-time
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes`
+<a href="#">Link to this property</a>
 
-Create a new AI Gateway Dynamic Route.
+enable: boolean
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-- `gateway_id: string`
+<summary>
 
-### Body Parameters
+filters: array of object {key, operator, value }
 
-- `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+</summary>
 
-  - `object { id, outputs, type }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `outputs: object { next }`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-      - `next: object { elementId }`
+</summary>
 
-        - `elementId: string`
+One of the following:
 
-    - `type: "start"`
+"created\_at"
 
-      - `"start"`
+<a href="#">Link to this property</a>
 
-  - `object { id, outputs, properties, type }`
+"request\_content\_type"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `outputs: object { false, true }`
+"response\_content\_type"
 
-      - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+"success"
 
-      - `true: object { elementId }`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+"cached"
 
-    - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-      - `conditions: optional unknown`
+"provider"
 
-    - `type: "conditional"`
+<a href="#">Link to this property</a>
 
-      - `"conditional"`
+"model"
 
-  - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"cost"
 
-    - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-      - `elementId: string`
+"tokens"
 
-    - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-      - `"percentage"`
+"tokens\_in"
 
-  - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"tokens\_out"
 
-    - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-      - `fallback: object { elementId }`
+"duration"
 
-        - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `success: object { elementId }`
+"feedback"
 
-        - `elementId: string`
+<a href="#">Link to this property</a>
 
-    - `properties: object { key, limit, limitType, window }`
+</details>
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-      - `limit: number`
+<details>
 
-      - `limitType: "count" or "cost"`
+<summary>
 
-        - `"count"`
+operator: "eq"or "contains"or "lt"or "gt"
 
-        - `"cost"`
+</summary>
 
-      - `window: number`
+One of the following:
 
-    - `type: "rate"`
+"eq"
 
-      - `"rate"`
+<a href="#">Link to this property</a>
 
-  - `object { id, outputs, properties, type }`
+"contains"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `outputs: object { fallback, success }`
+"lt"
 
-      - `fallback: object { elementId }`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+"gt"
 
-      - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+</details>
 
-    - `properties: object { model, provider, retries, timeout }`
+<a href="#">Link to this property</a>
 
-      - `model: string`
+<details>
 
-      - `provider: string`
+<summary>
 
-      - `retries: number`
+value: array of stringor numberor boolean
 
-      - `timeout: number`
+</summary>
 
-    - `type: "model"`
+One of the following:
 
-      - `"model"`
+string
 
-  - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+number
 
-    - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-      - `elementId: string`
+boolean
 
-    - `type: "end"`
+<a href="#">Link to this property</a>
 
-      - `"end"`
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { id, created_at, deployment, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+gateway\_id: string
 
-  - `created_at: string`
+gateway id
 
-  - `deployment: object { created_at, deployment_id, version_id }`
+maxLength64
 
-    - `created_at: string`
+minLength1
 
-    - `deployment_id: string`
+<a href="#">Link to this property</a>
 
-    - `version_id: string`
+modified\_at: string
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+formatdate-time
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+name: string
 
-      - `outputs: object { next }`
+<a href="#">Link to this property</a>
 
-        - `next: object { elementId }`
+</details>
 
-          - `elementId: string`
+[Link to this property](#)%20ai_gateway.datasets%20%3E%20(model)%20dataset_update_response%20%3E%20(schema)>)
 
-      - `type: "start"`
+<details>
 
-        - `"start"`
+<summary>
 
-    - `object { id, outputs, properties, type }`
+DatasetDeleteResponse object {id, created\_at, enable, 4 more }
 
-      - `id: string`
+</summary>
 
-      - `outputs: object { false, true }`
+id: string
 
-        - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+created\_at: string
 
-        - `true: object { elementId }`
+formatdate-time
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { conditions }`
+enable: boolean
 
-        - `conditions: optional unknown`
+<a href="#">Link to this property</a>
 
-      - `type: "conditional"`
+<details>
 
-        - `"conditional"`
+<summary>
 
-    - `object { id, outputs, type }`
+filters: array of object {key, operator, value }
 
-      - `id: string`
+</summary>
 
-      - `outputs: map[object { elementId } ]`
+<details>
 
-        - `elementId: string`
+<summary>
 
-      - `type: "percentage"`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-        - `"percentage"`
+</summary>
 
-    - `object { id, outputs, properties, type }`
+One of the following:
 
-      - `id: string`
+"created\_at"
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+"request\_content\_type"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+"response\_content\_type"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { key, limit, limitType, window }`
+"success"
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `limit: number`
+"cached"
 
-        - `limitType: "count" or "cost"`
+<a href="#">Link to this property</a>
 
-          - `"count"`
+"provider"
 
-          - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `window: number`
+"model"
 
-      - `type: "rate"`
+<a href="#">Link to this property</a>
 
-        - `"rate"`
+"cost"
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"tokens"
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+"tokens\_in"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+"tokens\_out"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { model, provider, retries, timeout }`
+"duration"
 
-        - `model: string`
+<a href="#">Link to this property</a>
 
-        - `provider: string`
+"feedback"
 
-        - `retries: number`
+<a href="#">Link to this property</a>
 
-        - `timeout: number`
+</details>
 
-      - `type: "model"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+<details>
 
-    - `object { id, outputs, type }`
+<summary>
 
-      - `id: string`
+operator: "eq"or "contains"or "lt"or "gt"
 
-      - `outputs: map[object { elementId } ]`
+</summary>
 
-        - `elementId: string`
+One of the following:
 
-      - `type: "end"`
+"eq"
 
-        - `"end"`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+"contains"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"lt"
 
-  - `version: object { active, created_at, data, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `active: "true" or "false"`
+"gt"
 
-      - `"true"`
+<a href="#">Link to this property</a>
 
-      - `"false"`
+</details>
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `data: string`
+<details>
 
-    - `version_id: string`
+<summary>
 
-    - `is_valid: optional boolean`
+value: array of stringor numberor boolean
 
-- `success: boolean`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "elements": [
-            {
-              "id": "id",
-              "outputs": {
-                "next": {
-                  "elementId": "elementId"
-                }
-              },
-              "type": "start"
-            }
-          ],
-          "name": "name"
-        }'
-```
+string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "deployment": {
-      "created_at": "created_at",
-      "deployment_id": "deployment_id",
-      "version_id": "version_id"
-    },
-    "elements": [
-      {
-        "id": "id",
-        "outputs": {
-          "next": {
-            "elementId": "elementId"
-          }
-        },
-        "type": "start"
-      }
-    ],
-    "gateway_id": "gateway_id",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "version": {
-      "active": "true",
-      "created_at": "created_at",
-      "data": "data",
-      "version_id": "version_id",
-      "is_valid": true
-    }
-  },
-  "success": true
-}
-```
+number
 
-## Update an AI Gateway Dynamic Route.
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}`
+boolean
 
-Update an AI Gateway Dynamic Route.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+</details>
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+gateway\_id: string
 
-- `name: string`
+gateway id
 
-### Returns
+maxLength64
 
-- `route: object { id, account_tag, created_at, 6 more }`
+minLength1
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `account_tag: string`
+modified\_at: string
 
-  - `created_at: string`
+formatdate-time
 
-  - `deployment: object { created_at, deployment_id, version_id }`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+name: string
 
-    - `deployment_id: string`
+<a href="#">Link to this property</a>
 
-    - `version_id: string`
+</details>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+[Link to this property](#)%20ai_gateway.datasets%20%3E%20(model)%20dataset_delete_response%20%3E%20(schema)>)
 
-    - `object { id, outputs, type }`
+#### AI GatewayEvaluations
 
-      - `id: string`
+##### [List Evaluations](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluations/methods/list)
 
-      - `outputs: object { next }`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/evaluations
 
-        - `next: object { elementId }`
+##### [Fetch a Evaluation](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluations/methods/get)
 
-          - `elementId: string`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/evaluations/{id}
 
-      - `type: "start"`
+##### [Create a new Evaluation](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluations/methods/create)
 
-        - `"start"`
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/evaluations
 
-    - `object { id, outputs, properties, type }`
+##### [Delete a Evaluation](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluations/methods/delete)
 
-      - `id: string`
+DELETE/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/evaluations/{id}
 
-      - `outputs: object { false, true }`
+##### ModelsExpand Collapse
 
-        - `false: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-        - `true: object { elementId }`
+EvaluationListResponse object {id, created\_at, datasets, 6 more }
 
-          - `elementId: string`
+</summary>
 
-      - `properties: object { conditions }`
+id: string
 
-        - `conditions: optional unknown`
+<a href="#">Link to this property</a>
 
-      - `type: "conditional"`
+created\_at: string
 
-        - `"conditional"`
+formatdate-time
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-      - `outputs: map[object { elementId } ]`
+<summary>
 
-        - `elementId: string`
+datasets: array of object {id, account\_id, account\_tag, 6 more }
 
-      - `type: "percentage"`
+</summary>
 
-        - `"percentage"`
+id: string
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+account\_id: string
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+account\_tag: string
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+created\_at: string
 
-          - `elementId: string`
+formatdate-time
 
-      - `properties: object { key, limit, limitType, window }`
+<a href="#">Link to this property</a>
 
-        - `key: string`
+enable: boolean
 
-        - `limit: number`
+<a href="#">Link to this property</a>
 
-        - `limitType: "count" or "cost"`
+<details>
 
-          - `"count"`
+<summary>
 
-          - `"cost"`
+filters: array of object {key, operator, value }
 
-        - `window: number`
+</summary>
 
-      - `type: "rate"`
+<details>
 
-        - `"rate"`
+<summary>
 
-    - `object { id, outputs, properties, type }`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-      - `id: string`
+</summary>
 
-      - `outputs: object { fallback, success }`
+One of the following:
 
-        - `fallback: object { elementId }`
+"created\_at"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+"request\_content\_type"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { model, provider, retries, timeout }`
+"response\_content\_type"
 
-        - `model: string`
+<a href="#">Link to this property</a>
 
-        - `provider: string`
+"success"
 
-        - `retries: number`
+<a href="#">Link to this property</a>
 
-        - `timeout: number`
+"cached"
 
-      - `type: "model"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+"provider"
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"model"
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+"cost"
 
-      - `type: "end"`
+<a href="#">Link to this property</a>
 
-        - `"end"`
+"tokens"
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+"tokens\_in"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `version: object { active, created_at, data, 2 more }`
+"tokens\_out"
 
-    - `active: "true" or "false"`
+<a href="#">Link to this property</a>
 
-      - `"true"`
+"duration"
 
-      - `"false"`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"feedback"
 
-    - `data: string`
+<a href="#">Link to this property</a>
 
-    - `version_id: string`
+</details>
 
-    - `is_valid: optional boolean`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Route Name"
-        }'
-```
+operator: "eq"or "contains"or "lt"or "gt"
 
-#### Response
+</summary>
 
-```json
-{
-  "route": {
-    "id": "id",
-    "account_tag": "account_tag",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "deployment": {
-      "created_at": "created_at",
-      "deployment_id": "deployment_id",
-      "version_id": "version_id"
-    },
-    "elements": [
-      {
-        "id": "id",
-        "outputs": {
-          "next": {
-            "elementId": "elementId"
-          }
-        },
-        "type": "start"
-      }
-    ],
-    "gateway_id": "gateway_id",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "version": {
-      "active": "true",
-      "created_at": "created_at",
-      "data": "data",
-      "version_id": "version_id",
-      "is_valid": true
-    }
-  },
-  "success": true
-}
-```
+One of the following:
 
-## Delete an AI Gateway Dynamic Route.
+"eq"
 
-**delete** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}`
+<a href="#">Link to this property</a>
 
-Delete an AI Gateway Dynamic Route.
+"contains"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"lt"
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+"gt"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, created_at, elements, 3 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+<summary>
 
-    - `object { id, outputs, type }`
+value: array of stringor numberor boolean
 
-      - `id: string`
+</summary>
 
-      - `outputs: object { next }`
+One of the following:
 
-        - `next: object { elementId }`
+string
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `type: "start"`
+number
 
-        - `"start"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+boolean
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { false, true }`
+</details>
 
-        - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+</details>
 
-        - `true: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+gateway\_id: string
 
-      - `properties: object { conditions }`
+gateway id
 
-        - `conditions: optional unknown`
+maxLength64
 
-      - `type: "conditional"`
+minLength1
 
-        - `"conditional"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, type }`
+modified\_at: string
 
-      - `id: string`
+formatdate-time
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+name: string
 
-      - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-        - `"percentage"`
+</details>
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+gateway\_id: string
 
-      - `outputs: object { fallback, success }`
+gateway id
 
-        - `fallback: object { elementId }`
+maxLength64
 
-          - `elementId: string`
+minLength1
 
-        - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+modified\_at: string
 
-      - `properties: object { key, limit, limitType, window }`
+formatdate-time
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `limit: number`
+name: string
 
-        - `limitType: "count" or "cost"`
+<a href="#">Link to this property</a>
 
-          - `"count"`
+processed: boolean
 
-          - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `window: number`
+<details>
 
-      - `type: "rate"`
+<summary>
 
-        - `"rate"`
+results: array of object {id, created\_at, evaluation\_id, 6 more }
 
-    - `object { id, outputs, properties, type }`
+</summary>
 
-      - `id: string`
+id: string
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+created\_at: string
 
-          - `elementId: string`
+formatdate-time
 
-        - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+evaluation\_id: string
 
-      - `properties: object { model, provider, retries, timeout }`
+<a href="#">Link to this property</a>
 
-        - `model: string`
+evaluation\_type\_id: string
 
-        - `provider: string`
+<a href="#">Link to this property</a>
 
-        - `retries: number`
+modified\_at: string
 
-        - `timeout: number`
+formatdate-time
 
-      - `type: "model"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+result: string
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+status: number
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+status\_description: string
 
-      - `type: "end"`
+<a href="#">Link to this property</a>
 
-        - `"end"`
+total\_logs: number
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+total\_logs: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20ai_gateway.evaluations%20%3E%20(model)%20evaluation_list_response%20%3E%20(schema)>)
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "elements": [
-      {
-        "id": "id",
-        "outputs": {
-          "next": {
-            "elementId": "elementId"
-          }
-        },
-        "type": "start"
-      }
-    ],
-    "gateway_id": "gateway_id",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name"
-  },
-  "success": true
-}
-```
+<details>
 
-## List all AI Gateway Dynamic Route Deployments.
+<summary>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/deployments`
+EvaluationGetResponse object {id, created\_at, datasets, 6 more }
 
-List all AI Gateway Dynamic Route Deployments.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+created\_at: string
 
-- `id: string`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: object { deployments, order_by, order_by_direction, 2 more }`
+<details>
 
-  - `deployments: array of object { created_at, deployment_id, version_id }`
+<summary>
 
-    - `created_at: string`
+datasets: array of object {id, account\_id, account\_tag, 6 more }
 
-    - `deployment_id: string`
+</summary>
 
-    - `version_id: string`
+id: string
 
-  - `order_by: string`
+<a href="#">Link to this property</a>
 
-  - `order_by_direction: string`
+account\_id: string
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+account\_tag: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+created\_at: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID/deployments \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "data": {
-    "deployments": [
-      {
-        "created_at": "created_at",
-        "deployment_id": "deployment_id",
-        "version_id": "version_id"
-      }
-    ],
-    "order_by": "order_by",
-    "order_by_direction": "order_by_direction",
-    "page": 0,
-    "per_page": 0
-  },
-  "success": true
-}
-```
+enable: boolean
 
-## Create a new AI Gateway Dynamic Route Deployment.
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/deployments`
+<details>
 
-Create a new AI Gateway Dynamic Route Deployment.
+<summary>
 
-### Path Parameters
+filters: array of object {key, operator, value }
 
-- `account_id: string`
+</summary>
 
-- `gateway_id: string`
+<details>
 
-- `id: string`
+<summary>
 
-### Body Parameters
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-- `version_id: string`
+</summary>
 
-### Returns
+One of the following:
 
-- `result: object { id, created_at, elements, 3 more }`
+"created\_at"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"request\_content\_type"
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, type }`
+"response\_content\_type"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { next }`
+"success"
 
-        - `next: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+"cached"
 
-      - `type: "start"`
+<a href="#">Link to this property</a>
 
-        - `"start"`
+"provider"
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"model"
 
-      - `outputs: object { false, true }`
+<a href="#">Link to this property</a>
 
-        - `false: object { elementId }`
+"cost"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `true: object { elementId }`
+"tokens"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { conditions }`
+"tokens\_in"
 
-        - `conditions: optional unknown`
+<a href="#">Link to this property</a>
 
-      - `type: "conditional"`
+"tokens\_out"
 
-        - `"conditional"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, type }`
+"duration"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: map[object { elementId } ]`
+"feedback"
 
-        - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `type: "percentage"`
+</details>
 
-        - `"percentage"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+<details>
 
-      - `id: string`
+<summary>
 
-      - `outputs: object { fallback, success }`
+operator: "eq"or "contains"or "lt"or "gt"
 
-        - `fallback: object { elementId }`
+</summary>
 
-          - `elementId: string`
+One of the following:
 
-        - `success: object { elementId }`
+"eq"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { key, limit, limitType, window }`
+"contains"
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `limit: number`
+"lt"
 
-        - `limitType: "count" or "cost"`
+<a href="#">Link to this property</a>
 
-          - `"count"`
+"gt"
 
-          - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `window: number`
+</details>
 
-      - `type: "rate"`
+<a href="#">Link to this property</a>
 
-        - `"rate"`
+<details>
 
-    - `object { id, outputs, properties, type }`
+<summary>
 
-      - `id: string`
+value: array of stringor numberor boolean
 
-      - `outputs: object { fallback, success }`
+</summary>
 
-        - `fallback: object { elementId }`
+One of the following:
 
-          - `elementId: string`
+string
 
-        - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+number
 
-      - `properties: object { model, provider, retries, timeout }`
+<a href="#">Link to this property</a>
 
-        - `model: string`
+boolean
 
-        - `provider: string`
+<a href="#">Link to this property</a>
 
-        - `retries: number`
+</details>
 
-        - `timeout: number`
+<a href="#">Link to this property</a>
 
-      - `type: "model"`
+</details>
 
-        - `"model"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, type }`
+gateway\_id: string
 
-      - `id: string`
+gateway id
 
-      - `outputs: map[object { elementId } ]`
+maxLength64
 
-        - `elementId: string`
+minLength1
 
-      - `type: "end"`
+<a href="#">Link to this property</a>
 
-        - `"end"`
+modified\_at: string
 
-  - `gateway_id: string`
+formatdate-time
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID/deployments \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "version_id": "54442216"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+gateway\_id: string
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "elements": [
-      {
-        "id": "id",
-        "outputs": {
-          "next": {
-            "elementId": "elementId"
-          }
-        },
-        "type": "start"
-      }
-    ],
-    "gateway_id": "gateway_id",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name"
-  },
-  "success": true
-}
-```
+gateway id
 
-## List all AI Gateway Dynamic Route Versions.
+maxLength64
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions`
+minLength1
 
-List all AI Gateway Dynamic Route Versions.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+modified\_at: string
 
-- `account_id: string`
+formatdate-time
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+name: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: object { order_by, order_by_direction, page, 2 more }`
+processed: boolean
 
-  - `order_by: string`
+<a href="#">Link to this property</a>
 
-  - `order_by_direction: string`
+<details>
 
-  - `page: number`
+<summary>
 
-  - `per_page: number`
+results: array of object {id, created\_at, evaluation\_id, 6 more }
 
-  - `versions: array of object { active, created_at, data, 2 more }`
+</summary>
 
-    - `active: "true" or "false"`
+id: string
 
-      - `"true"`
+<a href="#">Link to this property</a>
 
-      - `"false"`
+created\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `data: string`
+<a href="#">Link to this property</a>
 
-    - `version_id: string`
+evaluation\_id: string
 
-    - `is_valid: optional boolean`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+evaluation\_type\_id: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID/versions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+modified\_at: string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "data": {
-    "order_by": "order_by",
-    "order_by_direction": "order_by_direction",
-    "page": 0,
-    "per_page": 0,
-    "versions": [
-      {
-        "active": "true",
-        "created_at": "created_at",
-        "data": "data",
-        "version_id": "version_id",
-        "is_valid": true
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new AI Gateway Dynamic Route Version.
+result: string
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions`
+<a href="#">Link to this property</a>
 
-Create a new AI Gateway Dynamic Route Version.
+status: number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+status\_description: string
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+total\_logs: number
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+</details>
 
-  - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+total\_logs: number
 
-    - `outputs: object { next }`
+<a href="#">Link to this property</a>
 
-      - `next: object { elementId }`
+</details>
 
-        - `elementId: string`
+[Link to this property](#)%20ai_gateway.evaluations%20%3E%20(model)%20evaluation_get_response%20%3E%20(schema)>)
 
-    - `type: "start"`
+<details>
 
-      - `"start"`
+<summary>
 
-  - `object { id, outputs, properties, type }`
+EvaluationCreateResponse object {id, created\_at, datasets, 6 more }
 
-    - `id: string`
+</summary>
 
-    - `outputs: object { false, true }`
+id: string
 
-      - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+created\_at: string
 
-      - `true: object { elementId }`
+formatdate-time
 
-        - `elementId: string`
+<a href="#">Link to this property</a>
 
-    - `properties: object { conditions }`
+<details>
 
-      - `conditions: optional unknown`
+<summary>
 
-    - `type: "conditional"`
+datasets: array of object {id, account\_id, account\_tag, 6 more }
 
-      - `"conditional"`
+</summary>
 
-  - `object { id, outputs, type }`
+id: string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `outputs: map[object { elementId } ]`
+account\_id: string
 
-      - `elementId: string`
+<a href="#">Link to this property</a>
 
-    - `type: "percentage"`
+account\_tag: string
 
-      - `"percentage"`
+<a href="#">Link to this property</a>
 
-  - `object { id, outputs, properties, type }`
+created\_at: string
 
-    - `id: string`
+formatdate-time
 
-    - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-      - `fallback: object { elementId }`
+enable: boolean
 
-        - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `success: object { elementId }`
+<details>
 
-        - `elementId: string`
+<summary>
 
-    - `properties: object { key, limit, limitType, window }`
+filters: array of object {key, operator, value }
 
-      - `key: string`
+</summary>
 
-      - `limit: number`
+<details>
 
-      - `limitType: "count" or "cost"`
+<summary>
 
-        - `"count"`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-        - `"cost"`
+</summary>
 
-      - `window: number`
+One of the following:
 
-    - `type: "rate"`
+"created\_at"
 
-      - `"rate"`
+<a href="#">Link to this property</a>
 
-  - `object { id, outputs, properties, type }`
+"request\_content\_type"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `outputs: object { fallback, success }`
+"response\_content\_type"
 
-      - `fallback: object { elementId }`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+"success"
 
-      - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+"cached"
 
-    - `properties: object { model, provider, retries, timeout }`
+<a href="#">Link to this property</a>
 
-      - `model: string`
+"provider"
 
-      - `provider: string`
+<a href="#">Link to this property</a>
 
-      - `retries: number`
+"model"
 
-      - `timeout: number`
+<a href="#">Link to this property</a>
 
-    - `type: "model"`
+"cost"
 
-      - `"model"`
+<a href="#">Link to this property</a>
 
-  - `object { id, outputs, type }`
+"tokens"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `outputs: map[object { elementId } ]`
+"tokens\_in"
 
-      - `elementId: string`
+<a href="#">Link to this property</a>
 
-    - `type: "end"`
+"tokens\_out"
 
-      - `"end"`
+<a href="#">Link to this property</a>
 
-### Returns
+"duration"
 
-- `result: object { id, created_at, elements, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"feedback"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+</details>
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-      - `outputs: object { next }`
+<summary>
 
-        - `next: object { elementId }`
+operator: "eq"or "contains"or "lt"or "gt"
 
-          - `elementId: string`
+</summary>
 
-      - `type: "start"`
+One of the following:
 
-        - `"start"`
+"eq"
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"contains"
 
-      - `outputs: object { false, true }`
+<a href="#">Link to this property</a>
 
-        - `false: object { elementId }`
+"lt"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `true: object { elementId }`
+"gt"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { conditions }`
+</details>
 
-        - `conditions: optional unknown`
+<a href="#">Link to this property</a>
 
-      - `type: "conditional"`
+<details>
 
-        - `"conditional"`
+<summary>
 
-    - `object { id, outputs, type }`
+value: array of stringor numberor boolean
 
-      - `id: string`
+</summary>
 
-      - `outputs: map[object { elementId } ]`
+One of the following:
 
-        - `elementId: string`
+string
 
-      - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-        - `"percentage"`
+number
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+boolean
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+</details>
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+</details>
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { key, limit, limitType, window }`
+gateway\_id: string
 
-        - `key: string`
+gateway id
 
-        - `limit: number`
+maxLength64
 
-        - `limitType: "count" or "cost"`
+minLength1
 
-          - `"count"`
+<a href="#">Link to this property</a>
 
-          - `"cost"`
+modified\_at: string
 
-        - `window: number`
+formatdate-time
 
-      - `type: "rate"`
+<a href="#">Link to this property</a>
 
-        - `"rate"`
+name: string
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+gateway\_id: string
 
-          - `elementId: string`
+gateway id
 
-        - `success: object { elementId }`
+maxLength64
 
-          - `elementId: string`
+minLength1
 
-      - `properties: object { model, provider, retries, timeout }`
+<a href="#">Link to this property</a>
 
-        - `model: string`
+modified\_at: string
 
-        - `provider: string`
+formatdate-time
 
-        - `retries: number`
+<a href="#">Link to this property</a>
 
-        - `timeout: number`
+name: string
 
-      - `type: "model"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+processed: boolean
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-      - `outputs: map[object { elementId } ]`
+<summary>
 
-        - `elementId: string`
+results: array of object {id, created\_at, evaluation\_id, 6 more }
 
-      - `type: "end"`
+</summary>
 
-        - `"end"`
+id: string
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+created\_at: string
 
-  - `name: string`
+formatdate-time
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+evaluation\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID/versions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "elements": [
-            {
-              "id": "id",
-              "outputs": {
-                "next": {
-                  "elementId": "elementId"
-                }
-              },
-              "type": "start"
-            }
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+evaluation\_type\_id: string
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "elements": [
-      {
-        "id": "id",
-        "outputs": {
-          "next": {
-            "elementId": "elementId"
-          }
-        },
-        "type": "start"
-      }
-    ],
-    "gateway_id": "gateway_id",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get an AI Gateway Dynamic Route Version.
+modified\_at: string
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions/{version_id}`
+formatdate-time
 
-Get an AI Gateway Dynamic Route Version.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+result: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+status: number
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-- `version_id: string`
+status\_description: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, active, created_at, 7 more }`
+total\_logs: number
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `active: "true" or "false"`
+</details>
 
-    - `"true"`
+<a href="#">Link to this property</a>
 
-    - `"false"`
+total\_logs: number
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `data: string`
+</details>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+[Link to this property](#)%20ai_gateway.evaluations%20%3E%20(model)%20evaluation_create_response%20%3E%20(schema)>)
 
-    - `object { id, outputs, type }`
+<details>
 
-      - `id: string`
+<summary>
 
-      - `outputs: object { next }`
+EvaluationDeleteResponse object {id, created\_at, datasets, 6 more }
 
-        - `next: object { elementId }`
+</summary>
 
-          - `elementId: string`
+id: string
 
-      - `type: "start"`
+<a href="#">Link to this property</a>
 
-        - `"start"`
+created\_at: string
 
-    - `object { id, outputs, properties, type }`
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { false, true }`
+<details>
 
-        - `false: object { elementId }`
+<summary>
 
-          - `elementId: string`
+datasets: array of object {id, account\_id, account\_tag, 6 more }
 
-        - `true: object { elementId }`
+</summary>
 
-          - `elementId: string`
+id: string
 
-      - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-        - `conditions: optional unknown`
+account\_id: string
 
-      - `type: "conditional"`
+<a href="#">Link to this property</a>
 
-        - `"conditional"`
+account\_tag: string
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+created\_at: string
 
-      - `outputs: map[object { elementId } ]`
+formatdate-time
 
-        - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `type: "percentage"`
+enable: boolean
 
-        - `"percentage"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+<details>
 
-      - `id: string`
+<summary>
 
-      - `outputs: object { fallback, success }`
+filters: array of object {key, operator, value }
 
-        - `fallback: object { elementId }`
+</summary>
 
-          - `elementId: string`
+<details>
 
-        - `success: object { elementId }`
+<summary>
 
-          - `elementId: string`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-      - `properties: object { key, limit, limitType, window }`
+</summary>
 
-        - `key: string`
+One of the following:
 
-        - `limit: number`
+"created\_at"
 
-        - `limitType: "count" or "cost"`
+<a href="#">Link to this property</a>
 
-          - `"count"`
+"request\_content\_type"
 
-          - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `window: number`
+"response\_content\_type"
 
-      - `type: "rate"`
+<a href="#">Link to this property</a>
 
-        - `"rate"`
+"success"
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"cached"
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+"provider"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+"model"
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { model, provider, retries, timeout }`
+"cost"
 
-        - `model: string`
+<a href="#">Link to this property</a>
 
-        - `provider: string`
+"tokens"
 
-        - `retries: number`
+<a href="#">Link to this property</a>
 
-        - `timeout: number`
+"tokens\_in"
 
-      - `type: "model"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+"tokens\_out"
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"duration"
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+"feedback"
 
-      - `type: "end"`
+<a href="#">Link to this property</a>
 
-        - `"end"`
+</details>
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+<details>
 
-  - `name: string`
+<summary>
 
-  - `version_id: string`
+operator: "eq"or "contains"or "lt"or "gt"
 
-  - `is_valid: optional boolean`
+</summary>
 
-- `success: boolean`
+One of the following:
 
-### Example
+"eq"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID/versions/$VERSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"contains"
 
-```json
-{
-  "result": {
-    "id": "id",
-    "active": "true",
-    "created_at": "created_at",
-    "data": "data",
-    "elements": [
-      {
-        "id": "id",
-        "outputs": {
-          "next": {
-            "elementId": "elementId"
-          }
-        },
-        "type": "start"
-      }
-    ],
-    "gateway_id": "gateway_id",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "version_id": "version_id",
-    "is_valid": true
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"lt"
 
-### Dynamic Routing List Response
+<a href="#">Link to this property</a>
 
-- `DynamicRoutingListResponse object { data, success }`
+"gt"
 
-  - `data: object { order_by, order_by_direction, page, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `order_by: string`
+</details>
 
-    - `order_by_direction: string`
+<a href="#">Link to this property</a>
 
-    - `page: number`
+<details>
 
-    - `per_page: number`
+<summary>
 
-    - `routes: array of object { id, account_tag, created_at, 6 more }`
+value: array of stringor numberor boolean
 
-      - `id: string`
+</summary>
 
-      - `account_tag: string`
+One of the following:
 
-      - `created_at: string`
+string
 
-      - `deployment: object { created_at, deployment_id, version_id }`
+<a href="#">Link to this property</a>
 
-        - `created_at: string`
+number
 
-        - `deployment_id: string`
+<a href="#">Link to this property</a>
 
-        - `version_id: string`
+boolean
 
-      - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+<a href="#">Link to this property</a>
 
-        - `object { id, outputs, type }`
+</details>
 
-          - `id: string`
+<a href="#">Link to this property</a>
 
-          - `outputs: object { next }`
+</details>
 
-            - `next: object { elementId }`
+<a href="#">Link to this property</a>
 
-              - `elementId: string`
+gateway\_id: string
 
-          - `type: "start"`
+gateway id
 
-            - `"start"`
+maxLength64
 
-        - `object { id, outputs, properties, type }`
+minLength1
 
-          - `id: string`
+<a href="#">Link to this property</a>
 
-          - `outputs: object { false, true }`
+modified\_at: string
 
-            - `false: object { elementId }`
+formatdate-time
 
-              - `elementId: string`
+<a href="#">Link to this property</a>
 
-            - `true: object { elementId }`
+name: string
 
-              - `elementId: string`
+<a href="#">Link to this property</a>
 
-          - `properties: object { conditions }`
+</details>
 
-            - `conditions: optional unknown`
+<a href="#">Link to this property</a>
 
-          - `type: "conditional"`
+gateway\_id: string
 
-            - `"conditional"`
+gateway id
 
-        - `object { id, outputs, type }`
+maxLength64
 
-          - `id: string`
+minLength1
 
-          - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-            - `elementId: string`
+modified\_at: string
 
-          - `type: "percentage"`
+formatdate-time
 
-            - `"percentage"`
+<a href="#">Link to this property</a>
 
-        - `object { id, outputs, properties, type }`
+name: string
 
-          - `id: string`
+<a href="#">Link to this property</a>
 
-          - `outputs: object { fallback, success }`
+processed: boolean
 
-            - `fallback: object { elementId }`
+<a href="#">Link to this property</a>
 
-              - `elementId: string`
+<details>
 
-            - `success: object { elementId }`
+<summary>
 
-              - `elementId: string`
+results: array of object {id, created\_at, evaluation\_id, 6 more }
 
-          - `properties: object { key, limit, limitType, window }`
+</summary>
 
-            - `key: string`
+id: string
 
-            - `limit: number`
+<a href="#">Link to this property</a>
 
-            - `limitType: "count" or "cost"`
+created\_at: string
 
-              - `"count"`
+formatdate-time
 
-              - `"cost"`
+<a href="#">Link to this property</a>
 
-            - `window: number`
+evaluation\_id: string
 
-          - `type: "rate"`
+<a href="#">Link to this property</a>
 
-            - `"rate"`
+evaluation\_type\_id: string
 
-        - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-          - `id: string`
+modified\_at: string
 
-          - `outputs: object { fallback, success }`
+formatdate-time
 
-            - `fallback: object { elementId }`
+<a href="#">Link to this property</a>
 
-              - `elementId: string`
+result: string
 
-            - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-              - `elementId: string`
+status: number
 
-          - `properties: object { model, provider, retries, timeout }`
+<a href="#">Link to this property</a>
 
-            - `model: string`
+status\_description: string
 
-            - `provider: string`
+<a href="#">Link to this property</a>
 
-            - `retries: number`
+total\_logs: number
 
-            - `timeout: number`
+<a href="#">Link to this property</a>
 
-          - `type: "model"`
+</details>
 
-            - `"model"`
+<a href="#">Link to this property</a>
 
-        - `object { id, outputs, type }`
+total\_logs: number
 
-          - `id: string`
+<a href="#">Link to this property</a>
 
-          - `outputs: map[object { elementId } ]`
+</details>
 
-            - `elementId: string`
+[Link to this property](#)%20ai_gateway.evaluations%20%3E%20(model)%20evaluation_delete_response%20%3E%20(schema)>)
 
-          - `type: "end"`
+#### AI GatewayDynamic Routing
 
-            - `"end"`
+##### [List all AI Gateway Dynamic Routes.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/list)
 
-      - `gateway_id: string`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes
 
-      - `modified_at: string`
+##### [Get an AI Gateway Dynamic Route.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/get)
 
-      - `name: string`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}
 
-      - `version: object { active, created_at, data, 2 more }`
+##### [Create a new AI Gateway Dynamic Route.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/create)
 
-        - `active: "true" or "false"`
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes
 
-          - `"true"`
+##### [Update an AI Gateway Dynamic Route.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/update)
 
-          - `"false"`
+PATCH/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}
 
-        - `created_at: string`
+##### [Delete an AI Gateway Dynamic Route.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/delete)
 
-        - `data: string`
+DELETE/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}
 
-        - `version_id: string`
+##### [List all AI Gateway Dynamic Route Deployments.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/list_deployments)
 
-        - `is_valid: optional boolean`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}/deployments
 
-  - `success: boolean`
+##### [Create a new AI Gateway Dynamic Route Deployment.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/create_deployment)
 
-### Dynamic Routing Get Response
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}/deployments
 
-- `DynamicRoutingGetResponse object { id, created_at, deployment, 5 more }`
+##### [List all AI Gateway Dynamic Route Versions.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/list_versions)
 
-  - `id: string`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}/versions
 
-  - `created_at: string`
+##### [Create a new AI Gateway Dynamic Route Version.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/create_version)
 
-  - `deployment: object { created_at, deployment_id, version_id }`
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}/versions
 
-    - `created_at: string`
+##### [Get an AI Gateway Dynamic Route Version.](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing/methods/get_version)
 
-    - `deployment_id: string`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}/versions/{version\_id}
 
-    - `version_id: string`
+##### ModelsExpand Collapse
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+<details>
 
-    - `object { id, outputs, type }`
+<summary>
 
-      - `id: string`
+DynamicRoutingListResponse object {data, success }
 
-      - `outputs: object { next }`
+</summary>
 
-        - `next: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-      - `type: "start"`
+data: object {order\_by, order\_by\_direction, page, 2 more }
 
-        - `"start"`
+</summary>
 
-    - `object { id, outputs, properties, type }`
+order\_by: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { false, true }`
+order\_by\_direction: string
 
-        - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+page: number
 
-        - `true: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+per\_page: number
 
-      - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-        - `conditions: optional unknown`
+<details>
 
-      - `type: "conditional"`
+<summary>
 
-        - `"conditional"`
+routes: array of object {id, account\_tag, created\_at, 6 more }
 
-    - `object { id, outputs, type }`
+</summary>
 
-      - `id: string`
+id: string
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+account\_tag: string
 
-      - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-        - `"percentage"`
+created\_at: string
 
-    - `object { id, outputs, properties, type }`
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { fallback, success }`
+<details>
 
-        - `fallback: object { elementId }`
+<summary>
 
-          - `elementId: string`
+deployment: object {created\_at, deployment\_id, version\_id }
 
-        - `success: object { elementId }`
+</summary>
 
-          - `elementId: string`
+created\_at: string
 
-      - `properties: object { key, limit, limitType, window }`
+<a href="#">Link to this property</a>
 
-        - `key: string`
+deployment\_id: string
 
-        - `limit: number`
+<a href="#">Link to this property</a>
 
-        - `limitType: "count" or "cost"`
+version\_id: string
 
-          - `"count"`
+<a href="#">Link to this property</a>
 
-          - `"cost"`
+</details>
 
-        - `window: number`
+<a href="#">Link to this property</a>
 
-      - `type: "rate"`
+<details>
 
-        - `"rate"`
+<summary>
 
-    - `object { id, outputs, properties, type }`
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
 
-      - `id: string`
+</summary>
 
-      - `outputs: object { fallback, success }`
+One of the following:
 
-        - `fallback: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-        - `success: object { elementId }`
+object {id, outputs, type }
 
-          - `elementId: string`
+</summary>
 
-      - `properties: object { model, provider, retries, timeout }`
+id: string
 
-        - `model: string`
+<a href="#">Link to this property</a>
 
-        - `provider: string`
+<details>
 
-        - `retries: number`
+<summary>
 
-        - `timeout: number`
+outputs: object {next }
 
-      - `type: "model"`
+</summary>
 
-        - `"model"`
+<details>
 
-    - `object { id, outputs, type }`
+<summary>
 
-      - `id: string`
+next: object {elementId }
 
-      - `outputs: map[object { elementId } ]`
+</summary>
 
-        - `elementId: string`
+elementId: string
 
-      - `type: "end"`
+<a href="#">Link to this property</a>
 
-        - `"end"`
+</details>
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `version: object { active, created_at, data, 2 more }`
+type: "start"
 
-    - `active: "true" or "false"`
+<a href="#">Link to this property</a>
 
-      - `"true"`
+</details>
 
-      - `"false"`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+<details>
 
-    - `data: string`
+<summary>
 
-    - `version_id: string`
+object {id, outputs, properties, type }
 
-    - `is_valid: optional boolean`
+</summary>
 
-### Dynamic Routing Create Response
+id: string
 
-- `DynamicRoutingCreateResponse object { id, created_at, deployment, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `deployment: object { created_at, deployment_id, version_id }`
+outputs: object {false, true }
 
-    - `created_at: string`
+</summary>
 
-    - `deployment_id: string`
+<details>
 
-    - `version_id: string`
+<summary>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+false: object {elementId }
 
-    - `object { id, outputs, type }`
+</summary>
 
-      - `id: string`
+elementId: string
 
-      - `outputs: object { next }`
+<a href="#">Link to this property</a>
 
-        - `next: object { elementId }`
+</details>
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `type: "start"`
+<details>
 
-        - `"start"`
+<summary>
 
-    - `object { id, outputs, properties, type }`
+true: object {elementId }
 
-      - `id: string`
+</summary>
 
-      - `outputs: object { false, true }`
+elementId: string
 
-        - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+</details>
 
-        - `true: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+</details>
 
-      - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-        - `conditions: optional unknown`
+<details>
 
-      - `type: "conditional"`
+<summary>
 
-        - `"conditional"`
+properties: object {conditions }
 
-    - `object { id, outputs, type }`
+</summary>
 
-      - `id: string`
+conditions: optional unknown
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+</details>
 
-      - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-        - `"percentage"`
+type: "conditional"
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-        - `success: object { elementId }`
+object {id, outputs, type }
 
-          - `elementId: string`
+</summary>
 
-      - `properties: object { key, limit, limitType, window }`
+id: string
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `limit: number`
+<details>
 
-        - `limitType: "count" or "cost"`
+<summary>
 
-          - `"count"`
+outputs: map\[object {elementId } ]
 
-          - `"cost"`
+</summary>
 
-        - `window: number`
+elementId: string
 
-      - `type: "rate"`
+<a href="#">Link to this property</a>
 
-        - `"rate"`
+</details>
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+type: "percentage"
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+</details>
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-      - `properties: object { model, provider, retries, timeout }`
+object {id, outputs, properties, type }
 
-        - `model: string`
+</summary>
 
-        - `provider: string`
+id: string
 
-        - `retries: number`
+<a href="#">Link to this property</a>
 
-        - `timeout: number`
+<details>
 
-      - `type: "model"`
+<summary>
 
-        - `"model"`
+outputs: object {fallback, success }
 
-    - `object { id, outputs, type }`
+</summary>
 
-      - `id: string`
+<details>
 
-      - `outputs: map[object { elementId } ]`
+<summary>
 
-        - `elementId: string`
+fallback: object {elementId }
 
-      - `type: "end"`
+</summary>
 
-        - `"end"`
+elementId: string
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `version: object { active, created_at, data, 2 more }`
+<details>
 
-    - `active: "true" or "false"`
+<summary>
 
-      - `"true"`
+success: object {elementId }
 
-      - `"false"`
+</summary>
 
-    - `created_at: string`
+elementId: string
 
-    - `data: string`
+<a href="#">Link to this property</a>
 
-    - `version_id: string`
+</details>
 
-    - `is_valid: optional boolean`
+<a href="#">Link to this property</a>
 
-### Dynamic Routing Update Response
+</details>
 
-- `DynamicRoutingUpdateResponse object { route, success }`
+<a href="#">Link to this property</a>
 
-  - `route: object { id, account_tag, created_at, 6 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `account_tag: string`
+properties: object {key, limit, limitType, window }
 
-    - `created_at: string`
+</summary>
 
-    - `deployment: object { created_at, deployment_id, version_id }`
+key: string
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `deployment_id: string`
+limit: number
 
-      - `version_id: string`
+<a href="#">Link to this property</a>
 
-    - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+<details>
 
-      - `object { id, outputs, type }`
+<summary>
 
-        - `id: string`
+limitType: "count"or "cost"
 
-        - `outputs: object { next }`
+</summary>
 
-          - `next: object { elementId }`
+One of the following:
 
-            - `elementId: string`
+"count"
 
-        - `type: "start"`
+<a href="#">Link to this property</a>
 
-          - `"start"`
+"cost"
 
-      - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+</details>
 
-        - `outputs: object { false, true }`
+<a href="#">Link to this property</a>
 
-          - `false: object { elementId }`
+window: number
 
-            - `elementId: string`
+<a href="#">Link to this property</a>
 
-          - `true: object { elementId }`
+</details>
 
-            - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `properties: object { conditions }`
+type: "rate"
 
-          - `conditions: optional unknown`
+<a href="#">Link to this property</a>
 
-        - `type: "conditional"`
+</details>
 
-          - `"conditional"`
+<a href="#">Link to this property</a>
 
-      - `object { id, outputs, type }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `outputs: map[object { elementId } ]`
+object {id, outputs, properties, type }
 
-          - `elementId: string`
+</summary>
 
-        - `type: "percentage"`
+id: string
 
-          - `"percentage"`
+<a href="#">Link to this property</a>
 
-      - `object { id, outputs, properties, type }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `outputs: object { fallback, success }`
+outputs: object {fallback, success }
 
-          - `fallback: object { elementId }`
+</summary>
 
-            - `elementId: string`
+<details>
 
-          - `success: object { elementId }`
+<summary>
 
-            - `elementId: string`
+fallback: object {elementId }
 
-        - `properties: object { key, limit, limitType, window }`
+</summary>
 
-          - `key: string`
+elementId: string
 
-          - `limit: number`
+<a href="#">Link to this property</a>
 
-          - `limitType: "count" or "cost"`
+</details>
 
-            - `"count"`
+<a href="#">Link to this property</a>
 
-            - `"cost"`
+<details>
 
-          - `window: number`
+<summary>
 
-        - `type: "rate"`
+success: object {elementId }
 
-          - `"rate"`
+</summary>
 
-      - `object { id, outputs, properties, type }`
+elementId: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `outputs: object { fallback, success }`
+</details>
 
-          - `fallback: object { elementId }`
+<a href="#">Link to this property</a>
 
-            - `elementId: string`
+</details>
 
-          - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-            - `elementId: string`
+<details>
 
-        - `properties: object { model, provider, retries, timeout }`
+<summary>
 
-          - `model: string`
+properties: object {model, provider, retries, timeout }
 
-          - `provider: string`
+</summary>
 
-          - `retries: number`
+model: string
 
-          - `timeout: number`
+<a href="#">Link to this property</a>
 
-        - `type: "model"`
+provider: string
 
-          - `"model"`
+<a href="#">Link to this property</a>
 
-      - `object { id, outputs, type }`
+retries: number
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `outputs: map[object { elementId } ]`
+timeout: number
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `type: "end"`
+</details>
 
-          - `"end"`
+<a href="#">Link to this property</a>
 
-    - `gateway_id: string`
+type: "model"
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `version: object { active, created_at, data, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `active: "true" or "false"`
+<details>
 
-        - `"true"`
+<summary>
 
-        - `"false"`
+object {id, outputs, type }
 
-      - `created_at: string`
+</summary>
 
-      - `data: string`
+id: string
 
-      - `version_id: string`
+<a href="#">Link to this property</a>
 
-      - `is_valid: optional boolean`
+<details>
 
-  - `success: boolean`
+<summary>
 
-### Dynamic Routing Delete Response
+outputs: map\[object {elementId } ]
 
-- `DynamicRoutingDeleteResponse object { id, created_at, elements, 3 more }`
+</summary>
 
-  - `id: string`
+elementId: string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+</details>
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+type: "end"
 
-      - `outputs: object { next }`
+<a href="#">Link to this property</a>
 
-        - `next: object { elementId }`
+</details>
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `type: "start"`
+</details>
 
-        - `"start"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+gateway\_id: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { false, true }`
+modified\_at: string
 
-        - `false: object { elementId }`
+formatdate-time
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `true: object { elementId }`
+name: string
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { conditions }`
+<details>
 
-        - `conditions: optional unknown`
+<summary>
 
-      - `type: "conditional"`
+version: object {active, created\_at, data, 2 more }
 
-        - `"conditional"`
+</summary>
 
-    - `object { id, outputs, type }`
+<details>
 
-      - `id: string`
+<summary>
 
-      - `outputs: map[object { elementId } ]`
+active: "true"or "false"
 
-        - `elementId: string`
+</summary>
 
-      - `type: "percentage"`
+One of the following:
 
-        - `"percentage"`
+"true"
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"false"
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+</details>
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+created\_at: string
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { key, limit, limitType, window }`
+data: string
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `limit: number`
+version\_id: string
 
-        - `limitType: "count" or "cost"`
+<a href="#">Link to this property</a>
 
-          - `"count"`
+is\_valid: optional boolean
 
-          - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `window: number`
+</details>
 
-      - `type: "rate"`
+<a href="#">Link to this property</a>
 
-        - `"rate"`
+</details>
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+success: boolean
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+</details>
 
-          - `elementId: string`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_list_response%20%3E%20(schema)>)
 
-      - `properties: object { model, provider, retries, timeout }`
+<details>
 
-        - `model: string`
+<summary>
 
-        - `provider: string`
+DynamicRoutingGetResponse object {id, created\_at, deployment, 5 more }
 
-        - `retries: number`
+</summary>
 
-        - `timeout: number`
+id: string
 
-      - `type: "model"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+created\_at: string
 
-    - `object { id, outputs, type }`
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: map[object { elementId } ]`
+<details>
 
-        - `elementId: string`
+<summary>
 
-      - `type: "end"`
+deployment: object {created\_at, deployment\_id, version\_id }
 
-        - `"end"`
+</summary>
 
-  - `gateway_id: string`
+created\_at: string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+deployment\_id: string
 
-### Dynamic Routing List Deployments Response
+<a href="#">Link to this property</a>
 
-- `DynamicRoutingListDeploymentsResponse object { data, success }`
+version\_id: string
 
-  - `data: object { deployments, order_by, order_by_direction, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `deployments: array of object { created_at, deployment_id, version_id }`
+</details>
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `deployment_id: string`
+<details>
 
-      - `version_id: string`
+<summary>
 
-    - `order_by: string`
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
 
-    - `order_by_direction: string`
+</summary>
 
-    - `page: number`
+One of the following:
 
-    - `per_page: number`
+<details>
 
-  - `success: boolean`
+<summary>
 
-### Dynamic Routing Create Deployment Response
+object {id, outputs, type }
 
-- `DynamicRoutingCreateDeploymentResponse object { id, created_at, elements, 3 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+<details>
 
-    - `object { id, outputs, type }`
+<summary>
 
-      - `id: string`
+outputs: object {next }
 
-      - `outputs: object { next }`
+</summary>
 
-        - `next: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-      - `type: "start"`
+next: object {elementId }
 
-        - `"start"`
+</summary>
 
-    - `object { id, outputs, properties, type }`
+elementId: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { false, true }`
+</details>
 
-        - `false: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+</details>
 
-        - `true: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+type: "start"
 
-      - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-        - `conditions: optional unknown`
+</details>
 
-      - `type: "conditional"`
+<a href="#">Link to this property</a>
 
-        - `"conditional"`
+<details>
 
-    - `object { id, outputs, type }`
+<summary>
 
-      - `id: string`
+object {id, outputs, properties, type }
 
-      - `outputs: map[object { elementId } ]`
+</summary>
 
-        - `elementId: string`
+id: string
 
-      - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-        - `"percentage"`
+<details>
 
-    - `object { id, outputs, properties, type }`
+<summary>
 
-      - `id: string`
+outputs: object {false, true }
 
-      - `outputs: object { fallback, success }`
+</summary>
 
-        - `fallback: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-        - `success: object { elementId }`
+false: object {elementId }
 
-          - `elementId: string`
+</summary>
 
-      - `properties: object { key, limit, limitType, window }`
+elementId: string
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `limit: number`
+</details>
 
-        - `limitType: "count" or "cost"`
+<a href="#">Link to this property</a>
 
-          - `"count"`
+<details>
 
-          - `"cost"`
+<summary>
 
-        - `window: number`
+true: object {elementId }
 
-      - `type: "rate"`
+</summary>
 
-        - `"rate"`
+elementId: string
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+</details>
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-      - `properties: object { model, provider, retries, timeout }`
+properties: object {conditions }
 
-        - `model: string`
+</summary>
 
-        - `provider: string`
+conditions: optional unknown
 
-        - `retries: number`
+<a href="#">Link to this property</a>
 
-        - `timeout: number`
+</details>
 
-      - `type: "model"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+type: "conditional"
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-      - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-        - `elementId: string`
+<details>
 
-      - `type: "end"`
+<summary>
 
-        - `"end"`
+object {id, outputs, type }
 
-  - `gateway_id: string`
+</summary>
 
-  - `modified_at: string`
+id: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-### Dynamic Routing List Versions Response
+<details>
 
-- `DynamicRoutingListVersionsResponse object { data, success }`
+<summary>
 
-  - `data: object { order_by, order_by_direction, page, 2 more }`
+outputs: map\[object {elementId } ]
 
-    - `order_by: string`
+</summary>
 
-    - `order_by_direction: string`
+elementId: string
 
-    - `page: number`
+<a href="#">Link to this property</a>
 
-    - `per_page: number`
+</details>
 
-    - `versions: array of object { active, created_at, data, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `active: "true" or "false"`
+type: "percentage"
 
-        - `"true"`
+<a href="#">Link to this property</a>
 
-        - `"false"`
+</details>
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `data: string`
+<details>
 
-      - `version_id: string`
+<summary>
 
-      - `is_valid: optional boolean`
+object {id, outputs, properties, type }
 
-  - `success: boolean`
+</summary>
 
-### Dynamic Routing Create Version Response
+id: string
 
-- `DynamicRoutingCreateVersionResponse object { id, created_at, elements, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+outputs: object {fallback, success }
 
-    - `object { id, outputs, type }`
+</summary>
 
-      - `id: string`
+<details>
 
-      - `outputs: object { next }`
+<summary>
 
-        - `next: object { elementId }`
+fallback: object {elementId }
 
-          - `elementId: string`
+</summary>
 
-      - `type: "start"`
+elementId: string
 
-        - `"start"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { false, true }`
+<details>
 
-        - `false: object { elementId }`
+<summary>
 
-          - `elementId: string`
+success: object {elementId }
 
-        - `true: object { elementId }`
+</summary>
 
-          - `elementId: string`
+elementId: string
 
-      - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-        - `conditions: optional unknown`
+</details>
 
-      - `type: "conditional"`
+<a href="#">Link to this property</a>
 
-        - `"conditional"`
+</details>
 
-    - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-      - `outputs: map[object { elementId } ]`
+<summary>
 
-        - `elementId: string`
+properties: object {key, limit, limitType, window }
 
-      - `type: "percentage"`
+</summary>
 
-        - `"percentage"`
+key: string
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+limit: number
 
-      - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-        - `fallback: object { elementId }`
+<details>
 
-          - `elementId: string`
+<summary>
 
-        - `success: object { elementId }`
+limitType: "count"or "cost"
 
-          - `elementId: string`
+</summary>
 
-      - `properties: object { key, limit, limitType, window }`
+One of the following:
 
-        - `key: string`
+"count"
 
-        - `limit: number`
+<a href="#">Link to this property</a>
 
-        - `limitType: "count" or "cost"`
+"cost"
 
-          - `"count"`
+<a href="#">Link to this property</a>
 
-          - `"cost"`
+</details>
 
-        - `window: number`
+<a href="#">Link to this property</a>
 
-      - `type: "rate"`
+window: number
 
-        - `"rate"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { fallback, success }`
+type: "rate"
 
-        - `fallback: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+</details>
 
-        - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+<details>
 
-      - `properties: object { model, provider, retries, timeout }`
+<summary>
 
-        - `model: string`
+object {id, outputs, properties, type }
 
-        - `provider: string`
+</summary>
 
-        - `retries: number`
+id: string
 
-        - `timeout: number`
+<a href="#">Link to this property</a>
 
-      - `type: "model"`
+<details>
 
-        - `"model"`
+<summary>
 
-    - `object { id, outputs, type }`
+outputs: object {fallback, success }
 
-      - `id: string`
+</summary>
 
-      - `outputs: map[object { elementId } ]`
+<details>
 
-        - `elementId: string`
+<summary>
 
-      - `type: "end"`
+fallback: object {elementId }
 
-        - `"end"`
+</summary>
 
-  - `gateway_id: string`
+elementId: string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-### Dynamic Routing Get Version Response
+<a href="#">Link to this property</a>
 
-- `DynamicRoutingGetVersionResponse object { id, active, created_at, 7 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `active: "true" or "false"`
+success: object {elementId }
 
-    - `"true"`
+</summary>
 
-    - `"false"`
+elementId: string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `data: string`
+</details>
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, type }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { next }`
+<details>
 
-        - `next: object { elementId }`
+<summary>
 
-          - `elementId: string`
+properties: object {model, provider, retries, timeout }
 
-      - `type: "start"`
+</summary>
 
-        - `"start"`
+model: string
 
-    - `object { id, outputs, properties, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+provider: string
 
-      - `outputs: object { false, true }`
+<a href="#">Link to this property</a>
 
-        - `false: object { elementId }`
+retries: number
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `true: object { elementId }`
+timeout: number
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { conditions }`
+</details>
 
-        - `conditions: optional unknown`
+<a href="#">Link to this property</a>
 
-      - `type: "conditional"`
+type: "model"
 
-        - `"conditional"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, type }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: map[object { elementId } ]`
+<details>
 
-        - `elementId: string`
+<summary>
 
-      - `type: "percentage"`
+object {id, outputs, type }
 
-        - `"percentage"`
+</summary>
 
-    - `object { id, outputs, properties, type }`
+id: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { fallback, success }`
+<details>
 
-        - `fallback: object { elementId }`
+<summary>
 
-          - `elementId: string`
+outputs: map\[object {elementId } ]
 
-        - `success: object { elementId }`
+</summary>
 
-          - `elementId: string`
+elementId: string
 
-      - `properties: object { key, limit, limitType, window }`
+<a href="#">Link to this property</a>
 
-        - `key: string`
+</details>
 
-        - `limit: number`
+<a href="#">Link to this property</a>
 
-        - `limitType: "count" or "cost"`
+type: "end"
 
-          - `"count"`
+<a href="#">Link to this property</a>
 
-          - `"cost"`
+</details>
 
-        - `window: number`
+<a href="#">Link to this property</a>
 
-      - `type: "rate"`
+</details>
 
-        - `"rate"`
+<a href="#">Link to this property</a>
 
-    - `object { id, outputs, properties, type }`
+gateway\_id: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: object { fallback, success }`
+modified\_at: string
 
-        - `fallback: object { elementId }`
+formatdate-time
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+name: string
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { model, provider, retries, timeout }`
+<details>
 
-        - `model: string`
+<summary>
 
-        - `provider: string`
+version: object {active, created\_at, data, 2 more }
 
-        - `retries: number`
+</summary>
 
-        - `timeout: number`
+<details>
 
-      - `type: "model"`
+<summary>
 
-        - `"model"`
+active: "true"or "false"
 
-    - `object { id, outputs, type }`
+</summary>
 
-      - `id: string`
+One of the following:
 
-      - `outputs: map[object { elementId } ]`
+"true"
 
-        - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `type: "end"`
+"false"
 
-        - `"end"`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+</details>
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+created\_at: string
 
-  - `version_id: string`
+<a href="#">Link to this property</a>
 
-  - `is_valid: optional boolean`
+data: string
 
-# Provider Configs
+<a href="#">Link to this property</a>
 
-## List Provider Configs
+version\_id: string
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs`
+<a href="#">Link to this property</a>
 
-Lists all AI Gateway evaluator types configured for the account.
+is\_valid: optional boolean
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  gateway id
+</details>
 
-### Query Parameters
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_get_response%20%3E%20(schema)>)
 
-- `page: optional number`
+<details>
 
-- `per_page: optional number`
+<summary>
 
-### Returns
+DynamicRoutingCreateResponse object {id, created\_at, deployment, 5 more }
 
-- `result: array of object { id, alias, default_config, 7 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-  - `alias: string`
+<a href="#">Link to this property</a>
 
-  - `default_config: boolean`
+created\_at: string
 
-  - `gateway_id: string`
+formatdate-time
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+<details>
 
-  - `provider_slug: string`
+<summary>
 
-  - `secret_id: string`
+deployment: object {created\_at, deployment\_id, version\_id }
 
-  - `secret_preview: string`
+</summary>
 
-  - `rate_limit: optional number`
+created\_at: string
 
-  - `rate_limit_period: optional number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+deployment\_id: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/provider_configs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+version\_id: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "alias": "alias",
-      "default_config": true,
-      "gateway_id": "my-gateway",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "provider_slug": "provider_slug",
-      "secret_id": "secret_id",
-      "secret_preview": "secret_preview",
-      "rate_limit": 0,
-      "rate_limit_period": 0
-    }
-  ],
-  "success": true
-}
-```
+</details>
 
-## Create a new Provider Configs
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs`
+<details>
 
-Creates a new AI Gateway.
+<summary>
 
-### Path Parameters
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
 
-- `account_id: string`
+</summary>
 
-- `gateway_id: string`
+One of the following:
 
-  gateway id
+<details>
 
-### Body Parameters
+<summary>
 
-- `alias: string`
+object {id, outputs, type }
 
-- `default_config: boolean`
+</summary>
 
-- `provider_slug: string`
+id: string
 
-- `rate_limit: optional number`
+<a href="#">Link to this property</a>
 
-- `rate_limit_period: optional number`
+<details>
 
-- `secret: optional string`
+<summary>
 
-- `secret_id: optional string`
+outputs: object {next }
 
-### Returns
+</summary>
 
-- `result: object { id, alias, default_config, 7 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `alias: string`
+next: object {elementId }
 
-  - `default_config: boolean`
+</summary>
 
-  - `gateway_id: string`
+elementId: string
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `provider_slug: string`
+<a href="#">Link to this property</a>
 
-  - `secret_id: string`
+</details>
 
-  - `secret_preview: string`
+<a href="#">Link to this property</a>
 
-  - `rate_limit: optional number`
+type: "start"
 
-  - `rate_limit_period: optional number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/provider_configs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "alias": "alias",
-          "default_config": true,
-          "provider_slug": "provider_slug"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "alias": "alias",
-    "default_config": true,
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "provider_slug": "provider_slug",
-    "secret_id": "secret_id",
-    "secret_preview": "secret_preview",
-    "rate_limit": 0,
-    "rate_limit_period": 0
-  },
-  "success": true
-}
-```
+object {id, outputs, properties, type }
 
-## Domain Types
+</summary>
 
-### Provider Config List Response
+id: string
 
-- `ProviderConfigListResponse object { id, alias, default_config, 7 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `alias: string`
+<summary>
 
-  - `default_config: boolean`
+outputs: object {false, true }
 
-  - `gateway_id: string`
+</summary>
 
-    gateway id
+<details>
 
-  - `modified_at: string`
+<summary>
 
-  - `provider_slug: string`
+false: object {elementId }
 
-  - `secret_id: string`
+</summary>
 
-  - `secret_preview: string`
+elementId: string
 
-  - `rate_limit: optional number`
+<a href="#">Link to this property</a>
 
-  - `rate_limit_period: optional number`
+</details>
 
-### Provider Config Create Response
+<a href="#">Link to this property</a>
 
-- `ProviderConfigCreateResponse object { id, alias, default_config, 7 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `alias: string`
+true: object {elementId }
 
-  - `default_config: boolean`
+</summary>
 
-  - `gateway_id: string`
+elementId: string
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `provider_slug: string`
+<a href="#">Link to this property</a>
 
-  - `secret_id: string`
+</details>
 
-  - `secret_preview: string`
+<a href="#">Link to this property</a>
 
-  - `rate_limit: optional number`
+<details>
 
-  - `rate_limit_period: optional number`
+<summary>
 
-# URLs
+properties: object {conditions }
 
-## Get Gateway URL
+</summary>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/url/{provider}`
+conditions: optional unknown
 
-Retrieves the endpoint URL for an AI Gateway.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+type: "conditional"
 
-  gateway id
+<a href="#">Link to this property</a>
 
-- `provider: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+object {id, outputs, type }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/url/$PROVIDER \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: string
 
-```json
-{
-  "result": "result",
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### URL Get Response
+<summary>
 
-- `URLGetResponse = string`
+outputs: map\[object {elementId } ]
 
-# Billing
+</summary>
 
-## Get credit balance
+elementId: string
 
-**get** `/accounts/{account_id}/ai-gateway/billing/credit-balance`
+<a href="#">Link to this property</a>
 
-Retrieve the current credit balance, payment method info, and top-up configuration.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+type: "percentage"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `messages: array of object { code, message }`
+<summary>
 
-  - `code: number`
+object {id, outputs, properties, type }
 
-  - `message: string`
+</summary>
 
-- `result: object { balance, has_default_payment_method, payment_method, 2 more }`
+id: string
 
-  - `balance: number`
+<a href="#">Link to this property</a>
 
-  - `has_default_payment_method: boolean`
+<details>
 
-  - `payment_method: object { brand, last4 }`
+<summary>
 
-    - `brand: optional string`
+outputs: object {fallback, success }
 
-    - `last4: optional string`
+</summary>
 
-  - `topup_config: object { amount, disabledReason, error, 2 more }`
+<details>
 
-    - `amount: number`
+<summary>
 
-    - `disabledReason: string`
+fallback: object {elementId }
 
-    - `error: string`
+</summary>
 
-    - `lastFailedAt: number`
+elementId: string
 
-    - `threshold: number`
+<a href="#">Link to this property</a>
 
-  - `first_topup_success: optional boolean`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<summary>
 
-  - `has_more: boolean`
+success: object {elementId }
 
-  - `page: number`
+</summary>
 
-  - `per_page: number`
+elementId: string
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/credit-balance \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "balance": 0,
-    "has_default_payment_method": true,
-    "payment_method": {
-      "brand": "brand",
-      "last4": "last4"
-    },
-    "topup_config": {
-      "amount": 0,
-      "disabledReason": "disabledReason",
-      "error": "error",
-      "lastFailedAt": 0,
-      "threshold": 0
-    },
-    "first_topup_success": true
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get usage history
+<details>
 
-**get** `/accounts/{account_id}/ai-gateway/billing/usage-history`
+<summary>
 
-Retrieve aggregated usage meter event summaries for the given time range.
+properties: object {key, limit, limitType, window }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+key: string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `value_grouping_window: "day" or "hour"`
+limit: number
 
-  Grouping window for usage data.
+<a href="#">Link to this property</a>
 
-  - `"day"`
+<details>
 
-  - `"hour"`
+<summary>
 
-- `end_time: optional number`
+limitType: "count"or "cost"
 
-  End time as Unix timestamp in milliseconds.
+</summary>
 
-- `start_time: optional number`
+One of the following:
 
-  Start time as Unix timestamp in milliseconds.
+"count"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+"cost"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+window: number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { history }`
+</details>
 
-  - `history: array of object { id, aggregated_value, end_time, start_time }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+type: "rate"
 
-    - `aggregated_value: number`
+<a href="#">Link to this property</a>
 
-    - `end_time: number`
+</details>
 
-    - `start_time: number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+object {id, outputs, properties, type }
 
-  - `has_more: boolean`
+</summary>
 
-  - `page: number`
+id: string
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/usage-history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+outputs: object {fallback, success }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "history": [
-      {
-        "id": "id",
-        "aggregated_value": 0,
-        "end_time": 0,
-        "start_time": 0
-      }
-    ]
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+<details>
 
-## Get invoice history
+<summary>
 
-**get** `/accounts/{account_id}/ai-gateway/billing/invoice-history`
+fallback: object {elementId }
 
-Retrieve a list of past invoices with pagination, optionally filtered by type.
+</summary>
 
-### Path Parameters
+elementId: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `type: optional "auto" or "all" or "manual"`
+<a href="#">Link to this property</a>
 
-  Filter invoice type: auto, manual, or all.
+<details>
 
-  - `"auto"`
+<summary>
 
-  - `"all"`
+success: object {elementId }
 
-  - `"manual"`
+</summary>
 
-### Returns
+elementId: string
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `result: object { invoices, pagination }`
+<summary>
 
-  - `invoices: array of object { amount_due, amount_paid, amount_remaining, 11 more }`
+properties: object {model, provider, retries, timeout }
 
-    - `amount_due: number`
+</summary>
 
-    - `amount_paid: number`
+model: string
 
-    - `amount_remaining: number`
+<a href="#">Link to this property</a>
 
-    - `currency: string`
+provider: string
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `attempt_count: optional number`
+retries: number
 
-    - `attempted: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `auto_advance: optional boolean`
+timeout: number
 
-    - `created: optional number`
+<a href="#">Link to this property</a>
 
-    - `created_by: optional string`
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-    - `invoice_origin: optional string`
+type: "model"
 
-    - `invoice_pdf: optional string`
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+</details>
 
-  - `pagination: object { has_more, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-    - `has_more: boolean`
+<details>
 
-    - `page: number`
+<summary>
 
-    - `per_page: number`
+object {id, outputs, type }
 
-    - `total_count: number`
+</summary>
 
-- `success: true`
+id: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<details>
 
-  - `has_more: boolean`
+<summary>
 
-  - `page: number`
+outputs: map\[object {elementId } ]
 
-  - `per_page: number`
+</summary>
 
-  - `total_count: number`
+elementId: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/invoice-history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "invoices": [
-      {
-        "amount_due": 0,
-        "amount_paid": 0,
-        "amount_remaining": 0,
-        "currency": "currency",
-        "id": "id",
-        "attempt_count": 0,
-        "attempted": true,
-        "auto_advance": true,
-        "created": 0,
-        "created_by": "created_by",
-        "description": "description",
-        "invoice_origin": "invoice_origin",
-        "invoice_pdf": "invoice_pdf",
-        "status": "status"
-      }
-    ],
-    "pagination": {
-      "has_more": true,
-      "page": 0,
-      "per_page": 0,
-      "total_count": 0
-    }
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+type: "end"
 
-## Get invoice preview
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-gateway/billing/invoice-preview`
+</details>
 
-Retrieve a preview of the upcoming invoice including line items and tax.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+gateway\_id: string
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_at: string
 
-  - `message: string`
+formatdate-time
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, amount_due, amount_paid, 6 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `amount_due: number`
+version: object {active, created\_at, data, 2 more }
 
-  - `amount_paid: number`
+</summary>
 
-  - `amount_remaining: number`
+<details>
 
-  - `currency: string`
+<summary>
 
-  - `invoice_lines: array of object { amount, currency, description, 4 more }`
+active: "true"or "false"
 
-    - `amount: number`
+</summary>
 
-    - `currency: string`
+One of the following:
 
-    - `description: string`
+"true"
 
-    - `period: object { end, start }`
+<a href="#">Link to this property</a>
 
-      - `end: number`
+"false"
 
-      - `start: number`
+<a href="#">Link to this property</a>
 
-    - `pricing: object { unit_amount_decimal }`
+</details>
 
-      - `unit_amount_decimal: string`
+<a href="#">Link to this property</a>
 
-    - `quantity: number`
+created\_at: string
 
-    - `pretax_credit_amounts: optional array of object { amount, type, credit_balance_transaction, discount }`
+<a href="#">Link to this property</a>
 
-      - `amount: number`
+data: string
 
-      - `type: string`
+<a href="#">Link to this property</a>
 
-      - `credit_balance_transaction: optional string`
+version\_id: string
 
-      - `discount: optional string`
+<a href="#">Link to this property</a>
 
-  - `period_end: number`
+is\_valid: optional boolean
 
-  - `period_start: number`
+<a href="#">Link to this property</a>
 
-  - `status: "draft" or "open" or "paid" or 2 more`
+</details>
 
-    - `"draft"`
+<a href="#">Link to this property</a>
 
-    - `"open"`
+</details>
 
-    - `"paid"`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_create_response%20%3E%20(schema)>)
 
-    - `"uncollectible"`
+<details>
 
-    - `"void"`
+<summary>
 
-- `success: true`
+DynamicRoutingUpdateResponse object {route, success }
 
-  - `true`
+</summary>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<details>
 
-  - `has_more: boolean`
+<summary>
 
-  - `page: number`
+route: object {id, account\_tag, created\_at, 6 more }
 
-  - `per_page: number`
+</summary>
 
-  - `total_count: number`
+id: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/invoice-preview \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+account\_tag: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "id",
-    "amount_due": 0,
-    "amount_paid": 0,
-    "amount_remaining": 0,
-    "currency": "currency",
-    "invoice_lines": [
-      {
-        "amount": 0,
-        "currency": "currency",
-        "description": "description",
-        "period": {
-          "end": 0,
-          "start": 0
-        },
-        "pricing": {
-          "unit_amount_decimal": "unit_amount_decimal"
-        },
-        "quantity": 0,
-        "pretax_credit_amounts": [
-          {
-            "amount": 0,
-            "type": "type",
-            "credit_balance_transaction": "credit_balance_transaction",
-            "discount": "discount"
-          }
-        ]
-      }
-    ],
-    "period_end": 0,
-    "period_start": 0,
-    "status": "draft"
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+created\_at: string
 
-## Domain Types
+formatdate-time
 
-### Billing Credit Balance Response
+<a href="#">Link to this property</a>
 
-- `BillingCreditBalanceResponse object { balance, has_default_payment_method, payment_method, 2 more }`
+<details>
 
-  - `balance: number`
+<summary>
 
-  - `has_default_payment_method: boolean`
+deployment: object {created\_at, deployment\_id, version\_id }
 
-  - `payment_method: object { brand, last4 }`
+</summary>
 
-    - `brand: optional string`
+created\_at: string
 
-    - `last4: optional string`
+<a href="#">Link to this property</a>
 
-  - `topup_config: object { amount, disabledReason, error, 2 more }`
+deployment\_id: string
 
-    - `amount: number`
+<a href="#">Link to this property</a>
 
-    - `disabledReason: string`
+version\_id: string
 
-    - `error: string`
+<a href="#">Link to this property</a>
 
-    - `lastFailedAt: number`
+</details>
 
-    - `threshold: number`
+<a href="#">Link to this property</a>
 
-  - `first_topup_success: optional boolean`
+<details>
 
-### Billing Usage History Response
+<summary>
 
-- `BillingUsageHistoryResponse object { history }`
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
 
-  - `history: array of object { id, aggregated_value, end_time, start_time }`
+</summary>
 
-    - `id: string`
+One of the following:
 
-    - `aggregated_value: number`
+<details>
 
-    - `end_time: number`
+<summary>
 
-    - `start_time: number`
+object {id, outputs, type }
 
-### Billing Invoice History Response
+</summary>
 
-- `BillingInvoiceHistoryResponse object { invoices, pagination }`
+id: string
 
-  - `invoices: array of object { amount_due, amount_paid, amount_remaining, 11 more }`
+<a href="#">Link to this property</a>
 
-    - `amount_due: number`
+<details>
 
-    - `amount_paid: number`
+<summary>
 
-    - `amount_remaining: number`
+outputs: object {next }
 
-    - `currency: string`
+</summary>
 
-    - `id: optional string`
+<details>
 
-    - `attempt_count: optional number`
+<summary>
 
-    - `attempted: optional boolean`
+next: object {elementId }
 
-    - `auto_advance: optional boolean`
+</summary>
 
-    - `created: optional number`
+elementId: string
 
-    - `created_by: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-    - `invoice_origin: optional string`
+<a href="#">Link to this property</a>
 
-    - `invoice_pdf: optional string`
+</details>
 
-    - `status: optional string`
+<a href="#">Link to this property</a>
 
-  - `pagination: object { has_more, page, per_page, total_count }`
+type: "start"
 
-    - `has_more: boolean`
+<a href="#">Link to this property</a>
 
-    - `page: number`
+</details>
 
-    - `per_page: number`
+<a href="#">Link to this property</a>
 
-    - `total_count: number`
+<details>
 
-### Billing Invoice Preview Response
+<summary>
 
-- `BillingInvoicePreviewResponse object { id, amount_due, amount_paid, 6 more }`
+object {id, outputs, properties, type }
 
-  - `id: string`
+</summary>
 
-  - `amount_due: number`
+id: string
 
-  - `amount_paid: number`
+<a href="#">Link to this property</a>
 
-  - `amount_remaining: number`
+<details>
 
-  - `currency: string`
+<summary>
 
-  - `invoice_lines: array of object { amount, currency, description, 4 more }`
+outputs: object {false, true }
 
-    - `amount: number`
+</summary>
 
-    - `currency: string`
+<details>
 
-    - `description: string`
+<summary>
 
-    - `period: object { end, start }`
+false: object {elementId }
 
-      - `end: number`
+</summary>
 
-      - `start: number`
+elementId: string
 
-    - `pricing: object { unit_amount_decimal }`
+<a href="#">Link to this property</a>
 
-      - `unit_amount_decimal: string`
+</details>
 
-    - `quantity: number`
+<a href="#">Link to this property</a>
 
-    - `pretax_credit_amounts: optional array of object { amount, type, credit_balance_transaction, discount }`
+<details>
 
-      - `amount: number`
+<summary>
 
-      - `type: string`
+true: object {elementId }
 
-      - `credit_balance_transaction: optional string`
+</summary>
 
-      - `discount: optional string`
+elementId: string
 
-  - `period_end: number`
+<a href="#">Link to this property</a>
 
-  - `period_start: number`
+</details>
 
-  - `status: "draft" or "open" or "paid" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"draft"`
+</details>
 
-    - `"open"`
+<a href="#">Link to this property</a>
 
-    - `"paid"`
+<details>
 
-    - `"uncollectible"`
+<summary>
 
-    - `"void"`
+properties: object {conditions }
 
-# Topup
+</summary>
 
-## Create a top-up
+conditions: optional unknown
 
-**post** `/accounts/{account_id}/ai-gateway/billing/topup`
+<a href="#">Link to this property</a>
 
-Create a credit top-up via Stripe PaymentIntent for the given account.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+type: "conditional"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `amount: number`
+</details>
 
-  Top-up amount in cents (min 1000).
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message }`
+<summary>
 
-  - `code: number`
+object {id, outputs, type }
 
-  - `message: string`
+</summary>
 
-- `messages: array of object { code, message }`
+id: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `result: object { client_secret, onboarding, payment_intent_id, 2 more }`
+<summary>
 
-  - `client_secret: string`
+outputs: map\[object {elementId } ]
 
-    Stripe PaymentIntent client secret.
+</summary>
 
-  - `onboarding: boolean`
+elementId: string
 
-    Whether the user was already onboarded.
+<a href="#">Link to this property</a>
 
-  - `payment_intent_id: string`
+</details>
 
-    Stripe invoice ID.
+<a href="#">Link to this property</a>
 
-  - `brand: optional string`
+type: "percentage"
 
-    Card brand (visa, mastercard, etc.).
+<a href="#">Link to this property</a>
 
-  - `last4: optional string`
+</details>
 
-    Last 4 digits of card.
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+object {id, outputs, properties, type }
 
-  - `has_more: boolean`
+</summary>
 
-  - `page: number`
+id: string
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 5000
-        }'
-```
+outputs: object {fallback, success }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "client_secret": "client_secret",
-    "onboarding": true,
-    "payment_intent_id": "payment_intent_id",
-    "brand": "brand",
-    "last4": "last4"
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+<details>
 
-## Check top-up status
+<summary>
 
-**post** `/accounts/{account_id}/ai-gateway/billing/topup/status`
+fallback: object {elementId }
 
-Get the payment processing status of a top-up by its invoice ID.
+</summary>
 
-### Path Parameters
+elementId: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `payment_intent_id: string`
+<a href="#">Link to this property</a>
 
-  Stripe invoice ID to check status for.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message }`
+success: object {elementId }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+elementId: string
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { payment_intent_id, status }`
+</details>
 
-  - `payment_intent_id: string`
+<a href="#">Link to this property</a>
 
-  - `status: "completed" or "pending"`
+<details>
 
-    - `"completed"`
+<summary>
 
-    - `"pending"`
+properties: object {key, limit, limitType, window }
 
-- `success: true`
+</summary>
 
-  - `true`
+key: string
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `has_more: boolean`
+limit: number
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+<details>
 
-  - `total_count: number`
+<summary>
 
-### Example
+limitType: "count"or "cost"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/status \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "payment_intent_id": "in_1abc"
-        }'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "payment_intent_id": "payment_intent_id",
-    "status": "completed"
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+"count"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Topup Create Response
+"cost"
 
-- `TopupCreateResponse object { client_secret, onboarding, payment_intent_id, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `client_secret: string`
+</details>
 
-    Stripe PaymentIntent client secret.
+<a href="#">Link to this property</a>
 
-  - `onboarding: boolean`
+window: number
 
-    Whether the user was already onboarded.
+<a href="#">Link to this property</a>
 
-  - `payment_intent_id: string`
+</details>
 
-    Stripe invoice ID.
+<a href="#">Link to this property</a>
 
-  - `brand: optional string`
+type: "rate"
 
-    Card brand (visa, mastercard, etc.).
+<a href="#">Link to this property</a>
 
-  - `last4: optional string`
+</details>
 
-    Last 4 digits of card.
+<a href="#">Link to this property</a>
 
-### Topup Status Response
+<details>
 
-- `TopupStatusResponse object { payment_intent_id, status }`
+<summary>
 
-  - `payment_intent_id: string`
+object {id, outputs, properties, type }
 
-  - `status: "completed" or "pending"`
+</summary>
 
-    - `"completed"`
+id: string
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-# Config
+<details>
 
-## Get auto top-up configuration
+<summary>
 
-**get** `/accounts/{account_id}/ai-gateway/billing/topup/config`
+outputs: object {fallback, success }
 
-Retrieve the current auto top-up threshold, amount, and any error state.
+</summary>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Returns
+fallback: object {elementId }
 
-- `errors: array of object { code, message }`
+</summary>
 
-  - `code: number`
+elementId: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `result: object { amount, disabledReason, error, 2 more }`
+<summary>
 
-  - `amount: number`
+success: object {elementId }
 
-  - `disabledReason: string`
+</summary>
 
-  - `error: string`
+elementId: string
 
-  - `lastFailedAt: number`
+<a href="#">Link to this property</a>
 
-  - `threshold: number`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `has_more: boolean`
+<details>
 
-  - `page: number`
+<summary>
 
-  - `per_page: number`
+properties: object {model, provider, retries, timeout }
 
-  - `total_count: number`
+</summary>
 
-### Example
+model: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+provider: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "amount": 0,
-    "disabledReason": "disabledReason",
-    "error": "error",
-    "lastFailedAt": 0,
-    "threshold": 0
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Set auto top-up configuration
+retries: number
 
-**post** `/accounts/{account_id}/ai-gateway/billing/topup/config`
+<a href="#">Link to this property</a>
 
-Configure auto top-up with a balance threshold and top-up amount.
+timeout: number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `amount: number`
+type: "model"
 
-  Auto top-up amount in cents (min 1000).
+<a href="#">Link to this property</a>
 
-- `threshold: number`
+</details>
 
-  Balance threshold in cents that triggers auto top-up (min 500).
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message }`
+<summary>
 
-  - `code: number`
+object {id, outputs, type }
 
-  - `message: string`
+</summary>
 
-- `messages: array of object { code, message }`
+id: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `result: object { amount, threshold }`
+<summary>
 
-  - `amount: number`
+outputs: map\[object {elementId } ]
 
-  - `threshold: number`
+</summary>
 
-- `success: true`
+elementId: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+</details>
 
-  - `has_more: boolean`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+type: "end"
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 5000,
-          "threshold": 500
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "amount": 0,
-    "threshold": 0
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+gateway\_id: string
 
-## Delete auto top-up configuration
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/ai-gateway/billing/topup/config`
+modified\_at: string
 
-Remove the auto top-up configuration for the account.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+version: object {active, created\_at, data, 2 more }
 
-- `messages: array of object { code, message }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-- `result: unknown`
+active: "true"or "false"
 
-- `success: true`
+</summary>
 
-  - `true`
+One of the following:
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+"true"
 
-  - `has_more: boolean`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+"false"
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+created\_at: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+data: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Config Get Response
+version\_id: string
 
-- `ConfigGetResponse object { amount, disabledReason, error, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `amount: number`
+is\_valid: optional boolean
 
-  - `disabledReason: string`
+<a href="#">Link to this property</a>
 
-  - `error: string`
+</details>
 
-  - `lastFailedAt: number`
+<a href="#">Link to this property</a>
 
-  - `threshold: number`
+</details>
 
-### Config Create Response
+<a href="#">Link to this property</a>
 
-- `ConfigCreateResponse object { amount, threshold }`
+success: boolean
 
-  - `amount: number`
+<a href="#">Link to this property</a>
 
-  - `threshold: number`
+</details>
 
-### Config Delete Response
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_update_response%20%3E%20(schema)>)
 
-- `ConfigDeleteResponse = unknown`
+<details>
 
-# Spending Limit
+<summary>
 
-## Get spending limit
+DynamicRoutingDeleteResponse object {id, created\_at, elements, 3 more }
 
-**get** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
+</summary>
 
-Retrieve the current spending limit configuration for the account.
+id: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created\_at: string
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-- `messages: array of object { code, message }`
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-- `result: object { config, enabled }`
+<details>
 
-  - `config: object { amount, duration, strategy }`
+<summary>
 
-    - `amount: number`
+object {id, outputs, type }
 
-    - `duration: string`
+</summary>
 
-    - `strategy: string`
+id: string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+outputs: object {next }
 
-  - `has_more: boolean`
+</summary>
 
-  - `page: number`
+<details>
 
-  - `per_page: number`
+<summary>
 
-  - `total_count: number`
+next: object {elementId }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+elementId: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "config": {
-      "amount": 0,
-      "duration": "duration",
-      "strategy": "strategy"
-    },
-    "enabled": true
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+</details>
 
-## Set spending limit (deprecated)
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
+</details>
 
-Deprecated: spending limits can no longer be created, enabled, or modified and this endpoint always responds 403. Use the new AI Gateway spend limits instead: https://developers.cloudflare.com/ai-gateway/features/spend-limits/. Existing limits can be removed via DELETE /spending-limit.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+type: "start"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `amount: number`
+<a href="#">Link to this property</a>
 
-  Spending limit amount in cents (min 100).
+<details>
 
-- `duration: "daily" or "weekly" or "monthly"`
+<summary>
 
-  Spending limit duration.
+object {id, outputs, properties, type }
 
-  - `"daily"`
+</summary>
 
-  - `"weekly"`
+id: string
 
-  - `"monthly"`
+<a href="#">Link to this property</a>
 
-- `strategy: "fixed" or "sliding"`
+<details>
 
-  Spending limit strategy.
+<summary>
 
-  - `"fixed"`
+outputs: object {false, true }
 
-  - `"sliding"`
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message }`
+<summary>
 
-  - `code: number`
+false: object {elementId }
 
-  - `message: string`
+</summary>
 
-- `messages: array of object { code, message }`
+elementId: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `result: unknown`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+true: object {elementId }
 
-  - `has_more: boolean`
+</summary>
 
-  - `page: number`
+elementId: string
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 10000,
-          "duration": "monthly",
-          "strategy": "fixed"
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+<details>
 
-## Delete spending limit
+<summary>
 
-**delete** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
+properties: object {conditions }
 
-Remove the spending limit for the account.
+</summary>
 
-### Path Parameters
+conditions: optional unknown
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+type: "conditional"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `result: unknown`
+<summary>
 
-- `success: true`
+object {id, outputs, type }
 
-  - `true`
+</summary>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+id: string
 
-  - `has_more: boolean`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+<details>
 
-  - `per_page: number`
+<summary>
 
-  - `total_count: number`
+outputs: map\[object {elementId } ]
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+elementId: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Spending Limit Get Response
+type: "percentage"
 
-- `SpendingLimitGetResponse object { config, enabled }`
+<a href="#">Link to this property</a>
 
-  - `config: object { amount, duration, strategy }`
+</details>
 
-    - `amount: number`
+<a href="#">Link to this property</a>
 
-    - `duration: string`
+<details>
 
-    - `strategy: string`
+<summary>
 
-  - `enabled: boolean`
+object {id, outputs, properties, type }
 
-### Spending Limit Create Response
+</summary>
 
-- `SpendingLimitCreateResponse = unknown`
+id: string
 
-### Spending Limit Delete Response
+<a href="#">Link to this property</a>
 
-- `SpendingLimitDeleteResponse = unknown`
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {key, limit, limitType, window }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+limitType: "count"or "cost"
+
+</summary>
+
+One of the following:
+
+"count"
+
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+window: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "rate"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {model, provider, retries, timeout }
+
+</summary>
+
+model: string
+
+<a href="#">Link to this property</a>
+
+provider: string
+
+<a href="#">Link to this property</a>
+
+retries: number
+
+<a href="#">Link to this property</a>
+
+timeout: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "model"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "end"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_delete_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DynamicRoutingListDeploymentsResponse object {data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object {deployments, order\_by, order\_by\_direction, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+deployments: array of object {created\_at, deployment\_id, version\_id }
+
+</summary>
+
+created\_at: string
+
+<a href="#">Link to this property</a>
+
+deployment\_id: string
+
+<a href="#">Link to this property</a>
+
+version\_id: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+order\_by: string
+
+<a href="#">Link to this property</a>
+
+order\_by\_direction: string
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_list_deployments_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DynamicRoutingCreateDeploymentResponse object {id, created\_at, elements, 3 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {next }
+
+</summary>
+
+<details>
+
+<summary>
+
+next: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "start"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {false, true }
+
+</summary>
+
+<details>
+
+<summary>
+
+false: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+true: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {conditions }
+
+</summary>
+
+conditions: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "conditional"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "percentage"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {key, limit, limitType, window }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+limitType: "count"or "cost"
+
+</summary>
+
+One of the following:
+
+"count"
+
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+window: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "rate"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {model, provider, retries, timeout }
+
+</summary>
+
+model: string
+
+<a href="#">Link to this property</a>
+
+provider: string
+
+<a href="#">Link to this property</a>
+
+retries: number
+
+<a href="#">Link to this property</a>
+
+timeout: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "model"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "end"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_create_deployment_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DynamicRoutingListVersionsResponse object {data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object {order\_by, order\_by\_direction, page, 2 more }
+
+</summary>
+
+order\_by: string
+
+<a href="#">Link to this property</a>
+
+order\_by\_direction: string
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+versions: array of object {active, created\_at, data, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+active: "true"or "false"
+
+</summary>
+
+One of the following:
+
+"true"
+
+<a href="#">Link to this property</a>
+
+"false"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+<a href="#">Link to this property</a>
+
+data: string
+
+<a href="#">Link to this property</a>
+
+version\_id: string
+
+<a href="#">Link to this property</a>
+
+is\_valid: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_list_versions_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DynamicRoutingCreateVersionResponse object {id, created\_at, elements, 3 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {next }
+
+</summary>
+
+<details>
+
+<summary>
+
+next: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "start"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {false, true }
+
+</summary>
+
+<details>
+
+<summary>
+
+false: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+true: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {conditions }
+
+</summary>
+
+conditions: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "conditional"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "percentage"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {key, limit, limitType, window }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+limitType: "count"or "cost"
+
+</summary>
+
+One of the following:
+
+"count"
+
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+window: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "rate"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {model, provider, retries, timeout }
+
+</summary>
+
+model: string
+
+<a href="#">Link to this property</a>
+
+provider: string
+
+<a href="#">Link to this property</a>
+
+retries: number
+
+<a href="#">Link to this property</a>
+
+timeout: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "model"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "end"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_create_version_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DynamicRoutingGetVersionResponse object {id, active, created\_at, 7 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+active: "true"or "false"
+
+</summary>
+
+One of the following:
+
+"true"
+
+<a href="#">Link to this property</a>
+
+"false"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+<a href="#">Link to this property</a>
+
+data: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {next }
+
+</summary>
+
+<details>
+
+<summary>
+
+next: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "start"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {false, true }
+
+</summary>
+
+<details>
+
+<summary>
+
+false: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+true: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {conditions }
+
+</summary>
+
+conditions: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "conditional"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "percentage"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {key, limit, limitType, window }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+limitType: "count"or "cost"
+
+</summary>
+
+One of the following:
+
+"count"
+
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+window: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "rate"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {model, provider, retries, timeout }
+
+</summary>
+
+model: string
+
+<a href="#">Link to this property</a>
+
+provider: string
+
+<a href="#">Link to this property</a>
+
+retries: number
+
+<a href="#">Link to this property</a>
+
+timeout: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "model"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "end"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+version\_id: string
+
+<a href="#">Link to this property</a>
+
+is\_valid: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_get_version_response%20%3E%20(schema)>)
+
+#### AI GatewayProvider Configs
+
+##### [List Provider Configs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/provider_configs/methods/list)
+
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/provider\_configs
+
+##### [Create a new Provider Configs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/provider_configs/methods/create)
+
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/provider\_configs
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ProviderConfigListResponse object {id, alias, default\_config, 7 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+alias: string
+
+<a href="#">Link to this property</a>
+
+default\_config: boolean
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+gateway id
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+provider\_slug: string
+
+<a href="#">Link to this property</a>
+
+secret\_id: string
+
+<a href="#">Link to this property</a>
+
+secret\_preview: string
+
+<a href="#">Link to this property</a>
+
+rate\_limit: optional number
+
+<a href="#">Link to this property</a>
+
+rate\_limit\_period: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(model)%20provider_config_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ProviderConfigCreateResponse object {id, alias, default\_config, 7 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+alias: string
+
+<a href="#">Link to this property</a>
+
+default\_config: boolean
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+gateway id
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+provider\_slug: string
+
+<a href="#">Link to this property</a>
+
+secret\_id: string
+
+<a href="#">Link to this property</a>
+
+secret\_preview: string
+
+<a href="#">Link to this property</a>
+
+rate\_limit: optional number
+
+<a href="#">Link to this property</a>
+
+rate\_limit\_period: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.provider_configs%20%3E%20(model)%20provider_config_create_response%20%3E%20(schema)>)
+
+#### AI GatewayURLs
+
+##### [Get Gateway URL](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/urls/methods/get)
+
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/url/{provider}
+
+##### ModelsExpand Collapse
+
+URLGetResponse = string
+
+[Link to this property](#)%20ai_gateway.urls%20%3E%20(model)%20url_get_response%20%3E%20(schema)>)
+
+#### AI GatewayBilling
+
+##### [Get credit balance](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/methods/credit_balance)
+
+GET/accounts/{account\_id}/ai-gateway/billing/credit-balance
+
+##### [Get usage history](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/methods/usage_history)
+
+GET/accounts/{account\_id}/ai-gateway/billing/usage-history
+
+##### [Get invoice history](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/methods/invoice_history)
+
+GET/accounts/{account\_id}/ai-gateway/billing/invoice-history
+
+##### [Get invoice preview](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/methods/invoice_preview)
+
+GET/accounts/{account\_id}/ai-gateway/billing/invoice-preview
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+BillingCreditBalanceResponse object {balance, has\_default\_payment\_method, payment\_method, 2 more }
+
+</summary>
+
+balance: number
+
+<a href="#">Link to this property</a>
+
+has\_default\_payment\_method: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+payment\_method: object {brand, last4 }
+
+</summary>
+
+brand: optional string
+
+<a href="#">Link to this property</a>
+
+last4: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+topup\_config: object {amount, threshold, disabledReason, 2 more }
+
+</summary>
+
+amount: number
+
+<a href="#">Link to this property</a>
+
+threshold: number
+
+<a href="#">Link to this property</a>
+
+disabledReason: optional string
+
+<a href="#">Link to this property</a>
+
+error: optional string
+
+<a href="#">Link to this property</a>
+
+lastFailedAt: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+first\_topup\_success: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(model)%20billing_credit_balance_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+BillingUsageHistoryResponse object {history }
+
+</summary>
+
+<details>
+
+<summary>
+
+history: array of object {id, aggregated\_value, end\_time, start\_time }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+aggregated\_value: number
+
+<a href="#">Link to this property</a>
+
+end\_time: number
+
+<a href="#">Link to this property</a>
+
+start\_time: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(model)%20billing_usage_history_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+BillingInvoiceHistoryResponse object {invoices, pagination }
+
+</summary>
+
+<details>
+
+<summary>
+
+invoices: array of object {amount\_due, amount\_paid, amount\_remaining, 11 more }
+
+</summary>
+
+amount\_due: number
+
+<a href="#">Link to this property</a>
+
+amount\_paid: number
+
+<a href="#">Link to this property</a>
+
+amount\_remaining: number
+
+<a href="#">Link to this property</a>
+
+currency: string
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+attempt\_count: optional number
+
+<a href="#">Link to this property</a>
+
+attempted: optional boolean
+
+<a href="#">Link to this property</a>
+
+auto\_advance: optional boolean
+
+<a href="#">Link to this property</a>
+
+created: optional number
+
+<a href="#">Link to this property</a>
+
+created\_by: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+invoice\_origin: optional string
+
+<a href="#">Link to this property</a>
+
+invoice\_pdf: optional string
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pagination: object {has\_more, page, per\_page, total\_count }
+
+</summary>
+
+has\_more: boolean
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(model)%20billing_invoice_history_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+BillingInvoicePreviewResponse object {id, amount\_due, amount\_paid, 6 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+amount\_due: number
+
+<a href="#">Link to this property</a>
+
+amount\_paid: number
+
+<a href="#">Link to this property</a>
+
+amount\_remaining: number
+
+<a href="#">Link to this property</a>
+
+currency: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+invoice\_lines: array of object {amount, currency, description, 4 more }
+
+</summary>
+
+amount: number
+
+<a href="#">Link to this property</a>
+
+currency: string
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+period: object {end, start }
+
+</summary>
+
+end: number
+
+<a href="#">Link to this property</a>
+
+start: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pricing: object {unit\_amount\_decimal }
+
+</summary>
+
+unit\_amount\_decimal: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+quantity: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pretax\_credit\_amounts: optional array of object {amount, type, credit\_balance\_transaction, discount }
+
+</summary>
+
+amount: number
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+credit\_balance\_transaction: optional string
+
+<a href="#">Link to this property</a>
+
+discount: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+period\_end: number
+
+<a href="#">Link to this property</a>
+
+period\_start: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "draft"or "open"or "paid"or 2 more
+
+</summary>
+
+One of the following:
+
+"draft"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"paid"
+
+<a href="#">Link to this property</a>
+
+"uncollectible"
+
+<a href="#">Link to this property</a>
+
+"void"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(model)%20billing_invoice_preview_response%20%3E%20(schema)>)
+
+#### AI GatewayBillingTopup
+
+##### [Create a top-up](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/methods/create)
+
+POST/accounts/{account\_id}/ai-gateway/billing/topup
+
+##### [Check top-up status](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/methods/status)
+
+POST/accounts/{account\_id}/ai-gateway/billing/topup/status
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+TopupCreateResponse object {client\_secret, onboarding, payment\_intent\_id, 2 more }
+
+</summary>
+
+client\_secret: string
+
+Stripe PaymentIntent client secret.
+
+<a href="#">Link to this property</a>
+
+onboarding: boolean
+
+Whether the user was already onboarded.
+
+<a href="#">Link to this property</a>
+
+payment\_intent\_id: string
+
+Stripe invoice ID.
+
+<a href="#">Link to this property</a>
+
+brand: optional string
+
+Card brand (visa, mastercard, etc.).
+
+<a href="#">Link to this property</a>
+
+last4: optional string
+
+Last 4 digits of card.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.topup%20%3E%20(model)%20topup_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TopupStatusResponse object {payment\_intent\_id, status }
+
+</summary>
+
+payment\_intent\_id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "completed"or "pending"
+
+</summary>
+
+One of the following:
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.topup%20%3E%20(model)%20topup_status_response%20%3E%20(schema)>)
+
+#### AI GatewayBillingTopupConfig
+
+##### [Get auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/get)
+
+GET/accounts/{account\_id}/ai-gateway/billing/topup/config
+
+##### [Set auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/create)
+
+POST/accounts/{account\_id}/ai-gateway/billing/topup/config
+
+##### [Delete auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/delete)
+
+DELETE/accounts/{account\_id}/ai-gateway/billing/topup/config
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ConfigGetResponse object {amount, threshold, disabledReason, 2 more }
+
+</summary>
+
+amount: number
+
+<a href="#">Link to this property</a>
+
+threshold: number
+
+<a href="#">Link to this property</a>
+
+disabledReason: optional string
+
+<a href="#">Link to this property</a>
+
+error: optional string
+
+<a href="#">Link to this property</a>
+
+lastFailedAt: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ConfigCreateResponse object {amount, threshold }
+
+</summary>
+
+amount: number
+
+<a href="#">Link to this property</a>
+
+threshold: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_create_response%20%3E%20(schema)>)
+
+ConfigDeleteResponse = unknown
+
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_delete_response%20%3E%20(schema)>)
+
+#### AI GatewayBillingSpending Limit
+
+##### [Get spending limit](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/get)
+
+GET/accounts/{account\_id}/ai-gateway/billing/spending-limit
+
+##### [Set spending limit (deprecated)](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/create)
+
+Deprecated
+
+POST/accounts/{account\_id}/ai-gateway/billing/spending-limit
+
+##### [Delete spending limit](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/delete)
+
+DELETE/accounts/{account\_id}/ai-gateway/billing/spending-limit
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+SpendingLimitGetResponse object {config, enabled }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {amount, duration, strategy }
+
+</summary>
+
+amount: number
+
+<a href="#">Link to this property</a>
+
+duration: string
+
+<a href="#">Link to this property</a>
+
+strategy: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_get_response%20%3E%20(schema)>)
+
+SpendingLimitCreateResponse = unknown
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_create_response%20%3E%20(schema)>)
+
+SpendingLimitDeleteResponse = unknown
+
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_delete_response%20%3E%20(schema)>)

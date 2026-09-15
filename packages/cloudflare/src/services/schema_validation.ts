@@ -148,19 +148,17 @@ export type SettingsOperationsBulkEditResultValueMitigationAction =
 export const SettingsOperationsBulkEditResultValueMitigationAction = S.String;
 
 export interface SettingsOperationsBulkEditResultValue {
-  /** When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation */
-  mitigationAction: SettingsOperationsBulkEditResultValueMitigationAction;
-  /** UUID. */
-  operationId: string;
+  /** When set, this applies a mitigation action to this operation */
+  mitigationAction?: SettingsOperationsBulkEditResultValueMitigationAction | null;
 }
 export const SettingsOperationsBulkEditResultValue = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      mitigationAction:
-        SettingsOperationsBulkEditResultValueMitigationAction.pipe(
+      mitigationAction: S.optional(
+        S.NullOr(SettingsOperationsBulkEditResultValueMitigationAction).pipe(
           T.Body("mitigation_action"),
         ),
-      operationId: S.String.pipe(T.Body("operation_id")),
+      ),
     }),
 ).annotate({
   identifier: "SettingsOperationsBulkEditResultValue",
@@ -275,15 +273,9 @@ export const DeleteSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSchemaRequest",
 }) as any as S.Schema<DeleteSchemaRequest>;
 
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface DeleteSchemaResponse {
-  /** The ID of the schema that was just deleted */
-  id: string;
-}
+export type DeleteSchemaResponse = unknown;
 export const DeleteSchemaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteSchemaResponse",
 }) as any as S.Schema<DeleteSchemaResponse>;
@@ -706,7 +698,7 @@ export const SettingsEditRequestValidationOverrideMitigationAction = S.String;
 export interface PatchSettingRequest {
   /** Identifier. */
   zoneId: string;
-  /** The default mitigation action used */
+  /** The default mitigation action used Mitigation actions are as follows: */
   validationDefaultMitigationAction?:
     | SettingsEditRequestValidationDefaultMitigationAction
     | (string & {});
@@ -786,7 +778,7 @@ export const SettingsUpdateRequestValidationOverrideMitigationAction = S.String;
 export interface PutSettingRequest {
   /** Identifier. */
   zoneId: string;
-  /** The default mitigation action used */
+  /** The default mitigation action used Mitigation actions are as follows: */
   validationDefaultMitigationAction:
     | SettingsUpdateRequestValidationDefaultMitigationAction
     | (string & {});
@@ -930,7 +922,7 @@ export const bulkPatchSettingOperations: API.OperationMethod<
 }));
 
 export type CreateSchemaError = InvalidSchema | Forbidden | CloudflareOpError;
-/** Uploads a new OpenAPI schema for API Shield schema validation. The schema defines expected request/response formats for API endpoints. */
+/** Uploads an OpenAPI schema that defines expected request formats for API operations. */
 export const createSchema: API.OperationMethod<
   CreateSchemaRequest,
   CreateSchemaResponse,
@@ -945,7 +937,7 @@ export const createSchema: API.OperationMethod<
 }));
 
 export type DeleteSchemaError = SchemaNotFound | CloudflareOpError;
-/** Permanently removes an uploaded OpenAPI schema from API Shield. Operations using this schema will lose their validation rules. */
+/** Permanently removes an uploaded OpenAPI schema from API Security. Operations using this schema will lose their validation rules. */
 export const deleteSchema: API.OperationMethod<
   DeleteSchemaRequest,
   DeleteSchemaResponse,
@@ -975,7 +967,7 @@ export const deleteSettingOperation: API.OperationMethod<
 }));
 
 export type GetSchemaError = SchemaNotFound | Forbidden | CloudflareOpError;
-/** Gets the contents and metadata of a specific OpenAPI schema uploaded to API Shield. */
+/** Gets the contents and metadata of a specific OpenAPI schema uploaded to API Security. */
 export const getSchema: API.OperationMethod<
   GetSchemaRequest,
   GetSchemaResponse,
@@ -1028,7 +1020,7 @@ export const getSettingOperation: API.OperationMethod<
 }));
 
 export type ListSchemasError = ZonePurged | Forbidden | CloudflareOpError;
-/** Lists all OpenAPI schemas uploaded to API Shield with pagination support. */
+/** Lists all OpenAPI schemas uploaded to API Security. */
 export const listSchemas: API.PaginatedOperationMethod<
   ListSchemasRequest,
   ListSchemasResponse,
@@ -1054,7 +1046,7 @@ export const listSchemas: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListSettingOperationsError = CloudflareOpError;
-/** Lists all per-operation schema validation settings configured for the zone. */
+/** Lists per-operation schema validation settings configured for the zone. */
 export const listSettingOperations: API.PaginatedOperationMethod<
   ListSettingOperationsRequest,
   ListSettingOperationsResponse,
@@ -1080,7 +1072,7 @@ export const listSettingOperations: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchSchemaError = SchemaNotFound | CloudflareOpError;
-/** Modifies an existing OpenAPI schema in API Shield, updating the validation rules for associated API operations. */
+/** Enables or disables validation for an uploaded OpenAPI schema without changing the schema document. */
 export const patchSchema: API.OperationMethod<
   PatchSchemaRequest,
   PatchSchemaResponse,

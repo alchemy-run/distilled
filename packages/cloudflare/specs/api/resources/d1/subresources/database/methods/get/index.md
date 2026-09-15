@@ -1,128 +1,395 @@
-## Get D1 Database
+---
+title: Get D1 Database
+---
 
-**get** `/accounts/{account_id}/d1/database/{database_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[D1](https://developers.cloudflare.com/api/resources/d1)
+
+[Database](https://developers.cloudflare.com/api/resources/d1/subresources/database)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get D1 Database
+
+GET/accounts/{account\_id}/d1/database/{database\_id}
 
 Returns the specified D1 database.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>API Token</summary>
 
-- `database_id: string`
 
-  D1 database identifier (UUID).
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `fields: optional array of "uuid" or "name" or "created_at" or 6 more`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Comma-separated list of fields to include in the response. When omitted,
-  all fields are returned.
+</details>
 
-  - `"uuid"`
+<details>
 
-  - `"name"`
+<summary>API Email + API Key</summary>
 
-  - `"created_at"`
 
-  - `"version"`
 
-  - `"jurisdiction"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"num_tables"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"file_size"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"running_in_region"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"read_replication"`
+</details>
 
-### Returns
+##### Accepted Permissions (at least one required)
 
-- `errors: array of ResponseInfo`
+`D1 Read``D1 Write`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-  - `documentation_url: optional string`
+Account identifier tag.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+database\_id: string
 
-  - `code: number`
+D1 database identifier (UUID).
 
-  - `message: string`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20database_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### Q uery ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: D1`
+<summary>
 
-  The details of the D1 database.
+fields: optional array of "uuid"or "name"or "created\_at"or 6 more
 
-  - `created_at: optional string`
+Comma-separated list of fields to include in the response. When omitted, all fields are returned.
 
-    Specifies the timestamp the resource was created as an ISO8601 string.
+</summary>
 
-  - `file_size: optional number`
+One of the following:
 
-    The D1 database's size, in bytes.
+"uuid"
 
-  - `jurisdiction: optional "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-    Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+"name"
 
-    - `"eu"`
+<a href="#">Link to this property</a>
 
-    - `"fedramp"`
+"created\_at"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    D1 database name.
+"version"
 
-  - `num_tables: optional number`
+<a href="#">Link to this property</a>
 
-  - `read_replication: optional object { mode }`
+"jurisdiction"
 
-    Configuration for D1 read replication.
+<a href="#">Link to this property</a>
 
-    - `mode: "auto" or "disabled"`
+"num\_tables"
 
-      The read replication mode for the database. Mode 'auto' denotes that D1 creates replicas and automatically places them around the world. Mode 'disabled' denotes that no database replicas are used.
+<a href="#">Link to this property</a>
 
-      - `"auto"`
+"file\_size"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-  - `uuid: optional string`
+"running\_in\_region"
 
-    D1 database identifier (UUID).
+<a href="#">Link to this property</a>
 
-  - `version: optional string`
+"read\_replication"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+</details>
 
-  - `true`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20fields%20%3E%20(schema)>)
 
-### Example
+##### ReturnsExpand Collapse
 
-```http
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/d1#(resource)%20d1%20%3E%20(model)%20d1%20%3E%20(schema)">D1</a> { created\_at, file\_size, jurisdiction, 5 more }
+
+The details of the D1 database.
+
+</summary>
+
+created\_at: optional string
+
+Specifies the timestamp the resource was created as an ISO8601 string.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+file\_size: optional number
+
+The D1 database’s size, in bytes.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+jurisdiction: optional "eu"or "fedramp"or "us"
+
+Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+
+</summary>
+
+One of the following:
+
+"eu"
+
+<a href="#">Link to this property</a>
+
+"fedramp"
+
+<a href="#">Link to this property</a>
+
+"us"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+D1 database name.
+
+<a href="#">Link to this property</a>
+
+num\_tables: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+read\_replication: optional object {mode }
+
+Configuration for D1 read replication.
+
+</summary>
+
+<details>
+
+<summary>
+
+mode: "auto"or "disabled"
+
+The read replication mode for the database. Mode ‘auto’ denotes that D1 creates replicas and automatically places them around the world. Mode ‘disabled’ denotes that no database replicas are used.
+
+</summary>
+
+One of the following:
+
+"auto"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uuid: optional string
+
+D1 database identifier (UUID).
+
+<a href="#">Link to this property</a>
+
+version: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get D1 Database
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "created_at": "2022-11-15T18:25:44.442097Z",
+    "file_size": 12,
+    "jurisdiction": "eu",
+    "name": "my-database",
+    "num_tables": 12,
+    "read_replication": {
+      "mode": "auto"
+    },
+    "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "version": "production"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

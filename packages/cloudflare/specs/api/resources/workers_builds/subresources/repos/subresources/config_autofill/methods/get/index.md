@@ -1,97 +1,273 @@
-## Get repository configuration autofill
+---
+title: Get repository configuration autofill
+---
 
-**get** `/accounts/{account_id}/builds/repos/{provider_type}/{provider_account_id}/{repo_id}/config_autofill`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
+
+[Repos](https://developers.cloudflare.com/api/resources/workers_builds/subresources/repos)
+
+[Config Autofill](https://developers.cloudflare.com/api/resources/workers_builds/subresources/repos/subresources/config_autofill)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get repository configuration autofill
+
+GET/accounts/{account\_id}/builds/repos/{provider\_type}/{provider\_account\_id}/{repo\_id}/config\_autofill
 
 Analyze repository for automatic configuration detection
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account identifier.
+<summary>API Token</summary>
 
-- `provider_type: "github" or "gitlab" or "gitlab_internal"`
 
-  - `"github"`
 
-  - `"gitlab"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"gitlab_internal"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `provider_account_id: string`
+</details>
 
-  Provider account identifier.
+<details>
 
-- `repo_id: string`
+<summary>API Email + API Key</summary>
 
-  Repository identifier.
 
-### Query Parameters
 
-- `branch: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Git branch name.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `root_directory: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Root directory path.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message }`
+##### Accepted Permissions (at least one required)
 
-  - `code: optional number`
+`Workers CI Write``Workers CI Read`
 
-  - `message: optional string`
+##### P ath ParametersExpand Collapse
 
-- `messages: array of string`
+account\_id: string
 
-- `result: object { config_file, default_worker_name, env_worker_names, 2 more }`
+Account identifier.
 
-  - `config_file: optional string`
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `default_worker_name: optional string`
+<details>
 
-  - `env_worker_names: optional map[string]`
+<summary>
 
-  - `package_manager: optional "npm" or "yarn" or "pnpm" or 2 more`
+provider\_type: "github"or "gitlab"or "gitlab\_internal"or "origin"
 
-    - `"npm"`
+Source control provider.
 
-    - `"yarn"`
+</summary>
 
-    - `"pnpm"`
+One of the following:
 
-    - `"bun"`
+"github"
 
-    - `"uv"`
+<a href="#">Link to this property</a>
 
-  - `scripts: optional map[string]`
+"gitlab"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+"gitlab\_internal"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"origin"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-  - `total_pages: optional number`
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20provider_type%20%3E%20(schema)>)
 
-### Example
+provider\_account\_id: string
 
-```http
+Provider-specific identifier of the account or namespace that owns the repository.
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20provider_account_id%20%3E%20(schema)>)
+
+repo\_id: string
+
+Provider-specific repository identifier.
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20repo_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+branch: string
+
+Git branch name.
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20branch%20%3E%20(schema)>)
+
+root\_directory: optional string
+
+Repository directory in which build and deploy commands run.
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20root_directory%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {config\_file, default\_worker\_name, env\_worker\_names, 2 more }
+
+</summary>
+
+config\_file: optional string
+
+<a href="#">Link to this property</a>
+
+default\_worker\_name: optional string
+
+<a href="#">Link to this property</a>
+
+env\_worker\_names: optional map\[string]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+package\_manager: optional "npm"or "yarn"or "pnpm"or 2 more
+
+Package manager inferred from repository lockfiles; defaults to npm when none is detected.
+
+</summary>
+
+One of the following:
+
+"npm"
+
+<a href="#">Link to this property</a>
+
+"yarn"
+
+<a href="#">Link to this property</a>
+
+"pnpm"
+
+<a href="#">Link to this property</a>
+
+"bun"
+
+<a href="#">Link to this property</a>
+
+"uv"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scripts: optional map\[string]
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get repository configuration autofill
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/repos/$PROVIDER_TYPE/$PROVIDER_ACCOUNT_ID/$REPO_ID/config_autofill \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+401 example
+
+```
 {
   "errors": [
     {
@@ -123,5 +299,74 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/repos/$PRO
     "total_count": 150,
     "total_pages": 3
   }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12005,
+      "message": "Missing token from authorization header"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+401 example
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "config_file": "wrangler.toml",
+    "default_worker_name": "my-worker",
+    "env_worker_names": {
+      "production": "my-worker-prod",
+      "staging": "my-worker-staging"
+    },
+    "package_manager": "npm",
+    "scripts": {
+      "build": "npm run build",
+      "test": "npm test"
+    }
+  },
+  "success": true,
+  "result_info": {
+    "count": 25,
+    "page": 1,
+    "per_page": 50,
+    "total_count": 150,
+    "total_pages": 3
+  }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12005,
+      "message": "Missing token from authorization header"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

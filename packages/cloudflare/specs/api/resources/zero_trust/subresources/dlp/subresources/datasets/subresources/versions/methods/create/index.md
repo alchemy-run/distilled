@@ -1,96 +1,324 @@
-## Sets the column information for a multi-column upload
+---
+title: Sets the column information for a multi-column upload
+---
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/versions/{version}`
+[Skip to content](#_top)
 
-This is used for multi-column EDMv2 datasets. The EDMv2 format can only be
-created in the Cloudflare dashboard. The columns in the response appear in
-the same order as in the request.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-- `dataset_id: string`
+[Datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets)
 
-- `version: number`
+[Versions](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions)
 
-### Body Parameters
+Copy Markdown
 
-- `body: array of object { entry_id, header_name, num_cells }  or object { entry_name, header_name, num_cells }`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `ExistingColumn object { entry_id, header_name, num_cells }`
+---
 
-    - `entry_id: string`
+**Copy Markdown****View as Markdown**
 
-    - `header_name: optional string`
+# Sets the column information for a multi-column upload
 
-    - `num_cells: optional number`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/versions/{version}
 
-  - `NewColumn object { entry_name, header_name, num_cells }`
+This is used for multi-column EDMv2 datasets. The EDMv2 format can only be created in the Cloudflare dashboard. The columns in the response appear in the same order as in the request.
 
-    - `entry_name: string`
+##### Security
 
-    - `header_name: optional string`
+<details>
 
-    - `num_cells: optional number`
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+##### Accepted Permissions (at least one required)
 
-  - `true`
+`Zero Trust Write`
 
-- `result: optional array of object { entry_id, header_name, num_cells, upload_status }`
+##### P ath ParametersExpand Collapse
 
-  - `entry_id: string`
+account\_id: string
 
-  - `header_name: string`
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `num_cells: number`
+dataset\_id: string
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+formatuuid
 
-    - `"empty"`
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20dataset_id%20%3E%20(schema)>)
 
-    - `"uploading"`
+version: number
 
-    - `"pending"`
+formatint64
 
-    - `"processing"`
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20version%20%3E%20(schema)>)
 
-    - `"failed"`
+##### Body ParametersJSONExpand Collapse
 
-    - `"complete"`
+<details>
 
-### Example
+<summary>
 
-```http
+body: array of object {entry\_id, header\_name, num\_cells } or object {entry\_name, header\_name, num\_cells }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+ExistingColumn object {entry\_id, header\_name, num\_cells }
+
+</summary>
+
+entry\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+header\_name: optional string
+
+<a href="#">Link to this property</a>
+
+num\_cells: optional number
+
+formatint64
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+NewColumn object {entry\_name, header\_name, num\_cells }
+
+</summary>
+
+entry\_name: string
+
+<a href="#">Link to this property</a>
+
+header\_name: optional string
+
+<a href="#">Link to this property</a>
+
+num\_cells: optional number
+
+formatint64
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {entry\_id, header\_name, num\_cells, upload\_status }
+
+</summary>
+
+entry\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+header\_name: string
+
+<a href="#">Link to this property</a>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+upload\_status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Sets the column information for a multi-column upload
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/versions/$VERSION \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -103,9 +331,47 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DAT
         ]'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "header_name": "header_name",
+      "num_cells": 0,
+      "upload_status": "empty"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

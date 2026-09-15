@@ -1,1300 +1,555 @@
+---
+title: Data Tag Categories
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Data Tag Categories
 
-## Retrieve all data tag categories in an account
+##### [Retrieve all data tag categories in an account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/list)
 
-**get** `/accounts/{account_id}/dlp/data_tag_categories`
+GET/accounts/{account\_id}/dlp/data\_tag\_categories
 
-Retrieve all data tag categories in an account
+##### [Retrieve a specific data tag category.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}
 
-- `account_id: string`
+##### [Creates a new data tag category.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/dlp/data\_tag\_categories
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Update the attributes of a single data tag category.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}
 
-  - `message: string`
+##### [Delete a single data tag category.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+DataTagCategoryListResponse object {id, created\_at, name, 4 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_at, name, 4 more }`
+name: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `name: string`
+<summary>
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+tags: array of object {id, created\_at, name, 2 more }
 
-    - `id: string`
+</summary>
 
-    - `created_at: string`
+id: string
 
-    - `name: string`
+formatuuid
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+created\_at: string
 
-  - `updated_at: string`
+formatdate-time
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `template_id: optional string`
+name: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+updated\_at: string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "tags": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "name": "name",
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "description": "description"
-        }
-      ],
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Retrieve a specific data tag category.
+description: optional string
 
-**get** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}`
+<a href="#">Link to this property</a>
 
-Retrieve a specific data tag category.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+updated\_at: string
 
-- `category_id: string`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+description: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+template\_id: optional string
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_list_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+DataTagCategoryGetResponse object {id, created\_at, name, 4 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `success: true`
+formatuuid
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+created\_at: string
 
-- `result: optional object { id, created_at, name, 4 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+name: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `created_at: string`
+tags: array of object {id, created\_at, name, 2 more }
 
-    - `name: string`
+</summary>
 
-    - `updated_at: string`
+id: string
 
-    - `description: optional string`
+formatuuid
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+created\_at: string
 
-  - `template_id: optional string`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "tags": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+updated\_at: string
 
-## Creates a new data tag category.
+formatdate-time
 
-**post** `/accounts/{account_id}/dlp/data_tag_categories`
+<a href="#">Link to this property</a>
 
-Creates a new data tag category.
+description: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: string`
+updated\_at: string
 
-- `description: optional string`
+formatdate-time
 
-- `tags: optional array of object { name, description }`
+<a href="#">Link to this property</a>
 
-  Tags to create with the category. Mutually exclusive with `template_id`.
+description: optional string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+template\_id: optional string
 
-- `template_id: optional string`
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_get_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+DataTagCategoryCreateResponse object {id, created\_at, name, 4 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+formatuuid
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_at: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+name: string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { id, created_at, name, 4 more }`
+<summary>
 
-  - `id: string`
+tags: array of object {id, created\_at, name, 2 more }
 
-  - `created_at: string`
+</summary>
 
-  - `name: string`
+id: string
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+formatuuid
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+created\_at: string
 
-    - `name: string`
+formatdate-time
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+name: string
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+updated\_at: string
 
-  - `template_id: optional string`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
+description: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "tags": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+</details>
 
-## Update the attributes of a single data tag category.
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}`
+updated\_at: string
 
-Update the attributes of a single data tag category.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-- `category_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+template\_id: optional string
 
-- `description: optional string`
+formatuuid
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-- `tags: optional array of object { id, description, name }`
+</details>
 
-  The desired final state of tags.
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_create_response%20%3E%20(schema)>)
 
-  - `None` (omitted): no tag changes.
-  - `Some([])`: delete all tags.
-  - `Some([...])`: desired final set + order.
+<details>
 
-  - `id: optional string`
+<summary>
 
-    If `None` (omitted), a new tag will be created. Otherwise, an existing tag will be
-    updated.
+DataTagCategoryUpdateResponse object {id, created\_at, name, 4 more }
 
-  - `description: optional string`
+</summary>
 
-  - `name: optional string`
+id: string
 
-### Returns
+formatuuid
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_at: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+tags: array of object {id, created\_at, name, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+formatuuid
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+created\_at: string
 
-  - `true`
+formatdate-time
 
-- `result: optional object { id, created_at, name, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+name: string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+updated\_at: string
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+formatdate-time
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+description: optional string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+updated\_at: string
 
-  - `description: optional string`
+formatdate-time
 
-  - `template_id: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+description: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+template\_id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "tags": [
-      {
-        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "description": "description"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "template_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
+formatuuid
 
-## Delete a single data tag category.
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}`
+</details>
 
-Delete a single data tag category.
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_update_response%20%3E%20(schema)>)
 
-### Path Parameters
+DataTagCategoryDeleteResponse = unknown
 
-- `account_id: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories%20%3E%20(model)%20data_tag_category_delete_response%20%3E%20(schema)>)
 
-- `category_id: string`
+#### Data Tag CategoriesData Tags
 
-### Returns
+##### [Retrieve all data tags in a data tag category](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/list)
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags
 
-  - `code: number`
+##### [Retrieve a specific data tag.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/get)
 
-  - `message: string`
+GET/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags/{tag\_id}
 
-  - `documentation_url: optional string`
+##### [Creates a new data tag.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/create)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags
 
-    - `pointer: optional string`
+##### [Update the attributes of a single data tag.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/update)
 
-- `messages: array of object { code, message, documentation_url, source }`
+PUT/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags/{tag\_id}
 
-  - `code: number`
+##### [Delete a single data tag.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags/{tag\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+DataTagListResponse object {id, created\_at, name, 2 more }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+id: string
 
-- `result: optional unknown`
+formatuuid
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+created\_at: string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+name: string
 
-### Data Tag Category List Response
+<a href="#">Link to this property</a>
 
-- `DataTagCategoryListResponse object { id, created_at, name, 4 more }`
+updated\_at: string
 
-  - `id: string`
+formatdate-time
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+description: optional string
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `created_at: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_list_response%20%3E%20(schema)>)
 
-    - `name: string`
+<details>
 
-    - `updated_at: string`
+<summary>
 
-    - `description: optional string`
+DataTagGetResponse object {id, created\_at, name, 2 more }
 
-  - `updated_at: string`
+</summary>
 
-  - `description: optional string`
+id: string
 
-  - `template_id: optional string`
+formatuuid
 
-### Data Tag Category Get Response
+<a href="#">Link to this property</a>
 
-- `DataTagCategoryGetResponse object { id, created_at, name, 4 more }`
+created\_at: string
 
-  - `id: string`
+formatdate-time
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+updated\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+description: optional string
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+</details>
 
-  - `description: optional string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_get_response%20%3E%20(schema)>)
 
-  - `template_id: optional string`
+<details>
 
-### Data Tag Category Create Response
+<summary>
 
-- `DataTagCategoryCreateResponse object { id, created_at, name, 4 more }`
+DataTagCreateResponse object {id, created\_at, name, 2 more }
 
-  - `id: string`
+</summary>
 
-  - `created_at: string`
+id: string
 
-  - `name: string`
+formatuuid
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+created\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+name: string
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+updated\_at: string
 
-  - `description: optional string`
+formatdate-time
 
-  - `template_id: optional string`
+<a href="#">Link to this property</a>
 
-### Data Tag Category Update Response
+description: optional string
 
-- `DataTagCategoryUpdateResponse object { id, created_at, name, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-  - `created_at: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_create_response%20%3E%20(schema)>)
 
-  - `name: string`
+<details>
 
-  - `tags: array of object { id, created_at, name, 2 more }`
+<summary>
 
-    - `id: string`
+DataTagUpdateResponse object {id, created\_at, name, 2 more }
 
-    - `created_at: string`
+</summary>
 
-    - `name: string`
+id: string
 
-    - `updated_at: string`
+formatuuid
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+created\_at: string
 
-  - `description: optional string`
+formatdate-time
 
-  - `template_id: optional string`
+<a href="#">Link to this property</a>
 
-### Data Tag Category Delete Response
+name: string
 
-- `DataTagCategoryDeleteResponse = unknown`
+<a href="#">Link to this property</a>
 
-# Data Tags
+updated\_at: string
 
-## Retrieve all data tags in a data tag category
+formatdate-time
 
-**get** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags`
+<a href="#">Link to this property</a>
 
-Retrieve all data tags in a data tag category
+description: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-- `category_id: string`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_update_response%20%3E%20(schema)>)
 
-### Returns
+DataTagDeleteResponse = unknown
 
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description"
-    }
-  ]
-}
-```
-
-## Retrieve a specific data tag.
-
-**get** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags/{tag_id}`
-
-Retrieve a specific data tag.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-- `tag_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags/$TAG_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Creates a new data tag.
-
-**post** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags`
-
-Creates a new data tag.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-- `description: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Update the attributes of a single data tag.
-
-**put** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags/{tag_id}`
-
-Update the attributes of a single data tag.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-- `tag_id: string`
-
-### Body Parameters
-
-- `description: optional string`
-
-- `name: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags/$TAG_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Delete a single data tag.
-
-**delete** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags/{tag_id}`
-
-Delete a single data tag.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `category_id: string`
-
-- `tag_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags/$TAG_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Data Tag List Response
-
-- `DataTagListResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Tag Get Response
-
-- `DataTagGetResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Tag Create Response
-
-- `DataTagCreateResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Tag Update Response
-
-- `DataTagUpdateResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Tag Delete Response
-
-- `DataTagDeleteResponse = unknown`
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(model)%20data_tag_delete_response%20%3E%20(schema)>)

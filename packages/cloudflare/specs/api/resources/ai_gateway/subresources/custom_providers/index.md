@@ -1,502 +1,365 @@
+---
+title: Custom Providers
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Custom Providers
 
-## List Account Providers
+##### [List Account Providers](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers/methods/list)
 
-**get** `/accounts/{account_id}/ai-gateway/custom-providers`
+GET/accounts/{account\_id}/ai-gateway/custom-providers
 
-Lists all AI Gateway evaluator types configured for the account.
+##### [Fetch a Account Provider](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/ai-gateway/custom-providers/{id}
 
-- `account_id: string`
+##### [Create a new Account Provider](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/ai-gateway/custom-providers
 
-- `beta: optional boolean`
+##### [Delete a Account Provider](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers/methods/delete)
 
-- `enable: optional boolean`
+DELETE/accounts/{account\_id}/ai-gateway/custom-providers/{id}
 
-- `page: optional number`
+##### ModelsExpand Collapse
 
-- `per_page: optional number`
+<details>
 
-- `search: optional string`
+<summary>
 
-  Search by id, name, slug
+CustomProviderListResponse object {id, base\_url, created\_at, 12 more }
 
-### Returns
+</summary>
 
-- `result: array of object { id, base_url, created_at, 12 more }`
+id: string
 
-  - `id: string`
+formatuuid
 
-  - `base_url: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+base\_url: string
 
-  - `modified_at: string`
+formaturi
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+created\_at: string
 
-  - `beta: optional boolean`
+formatdate-time
 
-  - `curl_example: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+modified\_at: string
 
-  - `enable: optional boolean`
+formatdate-time
 
-  - `headers: optional string`
+<a href="#">Link to this property</a>
 
-  - `js_example: optional string`
+name: string
 
-  - `link: optional string`
+<a href="#">Link to this property</a>
 
-  - `logo: optional string`
+slug: string
 
-  - `position: optional number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+beta: optional boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+curl\_example: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "base_url": "https://example.com",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "slug": "slug",
-      "beta": true,
-      "curl_example": "curl_example",
-      "description": "description",
-      "enable": true,
-      "headers": "headers",
-      "js_example": "js_example",
-      "link": "link",
-      "logo": "logo",
-      "position": 0
-    }
-  ],
-  "success": true
-}
-```
+description: optional string
 
-## Fetch a Account Provider
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/ai-gateway/custom-providers/{id}`
+enable: optional boolean
 
-Retrieves details for a specific AI Gateway dataset.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+headers: optional string
 
-- `account_id: string`
+maxLength8192
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+js\_example: optional string
 
-- `result: object { id, base_url, created_at, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+link: optional string
 
-  - `base_url: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+logo: optional string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+position: optional number
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-  - `beta: optional boolean`
+</details>
 
-  - `curl_example: optional string`
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(model)%20custom_provider_list_response%20%3E%20(schema)>)
 
-  - `description: optional string`
+<details>
 
-  - `enable: optional boolean`
+<summary>
 
-  - `headers: optional string`
+CustomProviderGetResponse object {id, base\_url, created\_at, 12 more }
 
-  - `js_example: optional string`
+</summary>
 
-  - `link: optional string`
+id: string
 
-  - `logo: optional string`
+formatuuid
 
-  - `position: optional number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+base\_url: string
 
-### Example
+formaturi
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_at: string
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "base_url": "https://example.com",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "slug": "slug",
-    "beta": true,
-    "curl_example": "curl_example",
-    "description": "description",
-    "enable": true,
-    "headers": "headers",
-    "js_example": "js_example",
-    "link": "link",
-    "logo": "logo",
-    "position": 0
-  },
-  "success": true
-}
-```
+formatdate-time
 
-## Create a new Account Provider
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/ai-gateway/custom-providers`
+modified\_at: string
 
-Creates a new AI Gateway.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `base_url: string`
+slug: string
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `slug: string`
+beta: optional boolean
 
-- `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-- `curl_example: optional string`
+curl\_example: optional string
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-- `enable: optional boolean`
+description: optional string
 
-- `headers: optional string`
+<a href="#">Link to this property</a>
 
-- `js_example: optional string`
+enable: optional boolean
 
-- `link: optional string`
+<a href="#">Link to this property</a>
 
-- `position: optional number`
+headers: optional string
 
-### Returns
+maxLength8192
 
-- `result: object { id, base_url, created_at, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+js\_example: optional string
 
-  - `base_url: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+link: optional string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+logo: optional string
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-  - `beta: optional boolean`
+position: optional number
 
-  - `curl_example: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `enable: optional boolean`
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(model)%20custom_provider_get_response%20%3E%20(schema)>)
 
-  - `headers: optional string`
+<details>
 
-  - `js_example: optional string`
+<summary>
 
-  - `link: optional string`
+CustomProviderCreateResponse object {id, base\_url, created\_at, 12 more }
 
-  - `logo: optional string`
+</summary>
 
-  - `position: optional number`
+id: string
 
-- `success: boolean`
+formatuuid
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "base_url": "https://example.com",
-          "name": "name",
-          "slug": "slug"
-        }'
-```
+base\_url: string
 
-#### Response
+formaturi
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "base_url": "https://example.com",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "slug": "slug",
-    "beta": true,
-    "curl_example": "curl_example",
-    "description": "description",
-    "enable": true,
-    "headers": "headers",
-    "js_example": "js_example",
-    "link": "link",
-    "logo": "logo",
-    "position": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a Account Provider
+created\_at: string
 
-**delete** `/accounts/{account_id}/ai-gateway/custom-providers/{id}`
+formatdate-time
 
-Deletes an AI Gateway dataset.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+modified\_at: string
 
-- `account_id: string`
+formatdate-time
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+name: string
 
-- `result: object { id, base_url, created_at, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+slug: string
 
-  - `base_url: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+beta: optional boolean
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+curl\_example: optional string
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-  - `beta: optional boolean`
+description: optional string
 
-  - `curl_example: optional string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+enable: optional boolean
 
-  - `enable: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `headers: optional string`
+headers: optional string
 
-  - `js_example: optional string`
+maxLength8192
 
-  - `link: optional string`
+<a href="#">Link to this property</a>
 
-  - `logo: optional string`
+js\_example: optional string
 
-  - `position: optional number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+link: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+logo: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "base_url": "https://example.com",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "slug": "slug",
-    "beta": true,
-    "curl_example": "curl_example",
-    "description": "description",
-    "enable": true,
-    "headers": "headers",
-    "js_example": "js_example",
-    "link": "link",
-    "logo": "logo",
-    "position": 0
-  },
-  "success": true
-}
-```
+position: optional number
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Custom Provider List Response
+</details>
 
-- `CustomProviderListResponse object { id, base_url, created_at, 12 more }`
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(model)%20custom_provider_create_response%20%3E%20(schema)>)
 
-  - `id: string`
+<details>
 
-  - `base_url: string`
+<summary>
 
-  - `created_at: string`
+CustomProviderDeleteResponse object {id, base\_url, created\_at, 12 more }
 
-  - `modified_at: string`
+</summary>
 
-  - `name: string`
+id: string
 
-  - `slug: string`
+formatuuid
 
-  - `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `curl_example: optional string`
+base\_url: string
 
-  - `description: optional string`
+formaturi
 
-  - `enable: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `headers: optional string`
+created\_at: string
 
-  - `js_example: optional string`
+formatdate-time
 
-  - `link: optional string`
+<a href="#">Link to this property</a>
 
-  - `logo: optional string`
+modified\_at: string
 
-  - `position: optional number`
+formatdate-time
 
-### Custom Provider Get Response
+<a href="#">Link to this property</a>
 
-- `CustomProviderGetResponse object { id, base_url, created_at, 12 more }`
+name: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `base_url: string`
+slug: string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+beta: optional boolean
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+curl\_example: optional string
 
-  - `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `curl_example: optional string`
+description: optional string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `enable: optional boolean`
+enable: optional boolean
 
-  - `headers: optional string`
+<a href="#">Link to this property</a>
 
-  - `js_example: optional string`
+headers: optional string
 
-  - `link: optional string`
+maxLength8192
 
-  - `logo: optional string`
+<a href="#">Link to this property</a>
 
-  - `position: optional number`
+js\_example: optional string
 
-### Custom Provider Create Response
+<a href="#">Link to this property</a>
 
-- `CustomProviderCreateResponse object { id, base_url, created_at, 12 more }`
+link: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `base_url: string`
+logo: optional string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+position: optional number
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+</details>
 
-  - `beta: optional boolean`
-
-  - `curl_example: optional string`
-
-  - `description: optional string`
-
-  - `enable: optional boolean`
-
-  - `headers: optional string`
-
-  - `js_example: optional string`
-
-  - `link: optional string`
-
-  - `logo: optional string`
-
-  - `position: optional number`
-
-### Custom Provider Delete Response
-
-- `CustomProviderDeleteResponse object { id, base_url, created_at, 12 more }`
-
-  - `id: string`
-
-  - `base_url: string`
-
-  - `created_at: string`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `slug: string`
-
-  - `beta: optional boolean`
-
-  - `curl_example: optional string`
-
-  - `description: optional string`
-
-  - `enable: optional boolean`
-
-  - `headers: optional string`
-
-  - `js_example: optional string`
-
-  - `link: optional string`
-
-  - `logo: optional string`
-
-  - `position: optional number`
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(model)%20custom_provider_delete_response%20%3E%20(schema)>)

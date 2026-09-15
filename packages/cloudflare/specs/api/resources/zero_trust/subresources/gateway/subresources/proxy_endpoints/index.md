@@ -1,768 +1,165 @@
+---
+title: Proxy Endpoints
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Proxy Endpoints
 
-## List proxy endpoints
+##### [List proxy endpoints](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/list)
 
-**get** `/accounts/{account_id}/gateway/proxy_endpoints`
+GET/accounts/{account\_id}/gateway/proxy\_endpoints
 
-List all Zero Trust Gateway proxy endpoints for an account.
+##### [Get a proxy endpoint](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/gateway/proxy\_endpoints/{proxy\_endpoint\_id}
 
-- `account_id: string`
+##### [Create a proxy endpoint](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/gateway/proxy\_endpoints
 
-- `errors: array of ResponseInfo`
+##### [Update a proxy endpoint](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/edit)
 
-  - `code: number`
+PATCH/accounts/{account\_id}/gateway/proxy\_endpoints/{proxy\_endpoint\_id}
 
-  - `message: string`
+##### [Delete a proxy endpoint](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/proxy_endpoints/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/gateway/proxy\_endpoints/{proxy\_endpoint\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+GatewayIPs = string
 
-- `messages: array of ResponseInfo`
+Specify an IPv4 or IPv6 CIDR. Limit IPv6 to a maximum of /109 and IPv4 to a maximum of /25.
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.gateway.proxy_endpoints%20%3E%20(model)%20gateway_ips%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ProxyEndpoint = object {ips, name, id, 4 more } or object {kind, name, id, 3 more }
 
-- `success: true`
+</summary>
 
-  Indicate whether the API call was successful.
+One of the following:
 
-  - `true`
+<details>
 
-- `result: optional array of ProxyEndpoint`
+<summary>
 
-  - `IP object { ips, name, id, 4 more }`
+IP object {ips, name, id, 4 more }
 
-    - `ips: array of GatewayIPs`
+</summary>
 
-      Specify the list of CIDRs to restrict ingress connections.
+ips: array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.proxy_endpoints%20%3E%20(model)%20gateway_ips%20%3E%20(schema)">GatewayIPs</a>
 
-    - `name: string`
+Specify the list of CIDRs to restrict ingress connections.
 
-      Specify the name of the proxy endpoint.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+name: string
 
-    - `created_at: optional string`
+Specify the name of the proxy endpoint.
 
-    - `kind: optional "ip"`
+<a href="#">Link to this property</a>
 
-      The proxy endpoint kind
+id: optional string
 
-      - `"ip"`
+<a href="#">Link to this property</a>
 
-    - `subdomain: optional string`
+created\_at: optional string
 
-      Specify the subdomain to use as the destination in the proxy client.
+formatdate-time
 
-    - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `Identity object { kind, name, id, 3 more }`
+kind: optional "ip"
 
-    - `kind: "identity"`
+The proxy endpoint kind
 
-      The proxy endpoint kind
+<a href="#">Link to this property</a>
 
-      - `"identity"`
+subdomain: optional string
 
-    - `name: string`
+Specify the subdomain to use as the destination in the proxy client.
 
-      Specify the name of the proxy endpoint.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+updated\_at: optional string
 
-    - `created_at: optional string`
+formatdate-time
 
-    - `subdomain: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the subdomain to use as the destination in the proxy client.
+</details>
 
-    - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Indicate the total number of results for the requested service.
+Identity object {kind, name, id, 3 more }
 
-  - `page: optional number`
+</summary>
 
-    Indicate the current page within a paginated list of results.
+kind: "identity"
 
-  - `per_page: optional number`
+The proxy endpoint kind
 
-    Indicate the number of results per page.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+name: string
 
-    Indicate the total results available without any search parameters.
+Specify the name of the proxy endpoint.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "ips": [
-        "192.0.2.1/32"
-      ],
-      "name": "Devops team",
-      "id": "ed35569b41ce4d1facfe683550f54086",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "kind": "ip",
-      "subdomain": "oli3n9zkz5.proxy.cloudflare-gateway.com",
-      "updated_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+created\_at: optional string
 
-## Get a proxy endpoint
+formatdate-time
 
-**get** `/accounts/{account_id}/gateway/proxy_endpoints/{proxy_endpoint_id}`
+<a href="#">Link to this property</a>
 
-Get a single Zero Trust Gateway proxy endpoint.
+subdomain: optional string
 
-### Path Parameters
+Specify the subdomain to use as the destination in the proxy client.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `proxy_endpoint_id: string`
+updated\_at: optional string
 
-### Returns
+formatdate-time
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.gateway.proxy_endpoints%20%3E%20(model)%20proxy_endpoint%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+ProxyEndpointDeleteResponse = unknown
 
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional ProxyEndpoint`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints/$PROXY_ENDPOINT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ips": [
-      "192.0.2.1/32"
-    ],
-    "name": "Devops team",
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "ip",
-    "subdomain": "oli3n9zkz5.proxy.cloudflare-gateway.com",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Create a proxy endpoint
-
-**post** `/accounts/{account_id}/gateway/proxy_endpoints`
-
-Create a new Zero Trust Gateway proxy endpoint.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `body: object { name, kind }  or object { kind, name }`
-
-  - `IP object { name, kind }`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-  - `Identity object { kind, name }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional ProxyEndpoint`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Devops team",
-          "kind": "ip"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ips": [
-      "192.0.2.1/32"
-    ],
-    "name": "Devops team",
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "ip",
-    "subdomain": "oli3n9zkz5.proxy.cloudflare-gateway.com",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update a proxy endpoint
-
-**patch** `/accounts/{account_id}/gateway/proxy_endpoints/{proxy_endpoint_id}`
-
-Update a configured Zero Trust Gateway proxy endpoint.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `proxy_endpoint_id: string`
-
-### Body Parameters
-
-- `ips: optional array of GatewayIPs`
-
-  Specify the list of CIDRs to restrict ingress connections.
-
-- `name: optional string`
-
-  Specify the name of the proxy endpoint.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional ProxyEndpoint`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints/$PROXY_ENDPOINT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Devops team"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ips": [
-      "192.0.2.1/32"
-    ],
-    "name": "Devops team",
-    "id": "ed35569b41ce4d1facfe683550f54086",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "ip",
-    "subdomain": "oli3n9zkz5.proxy.cloudflare-gateway.com",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete a proxy endpoint
-
-**delete** `/accounts/{account_id}/gateway/proxy_endpoints/{proxy_endpoint_id}`
-
-Delete a configured Zero Trust Gateway proxy endpoint.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `proxy_endpoint_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/proxy_endpoints/$PROXY_ENDPOINT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Gateway IPs
-
-- `GatewayIPs = string`
-
-  Specify an IPv4 or IPv6 CIDR. Limit IPv6 to a maximum of /109 and IPv4 to a maximum of /25.
-
-### Proxy Endpoint
-
-- `ProxyEndpoint = object { ips, name, id, 4 more }  or object { kind, name, id, 3 more }`
-
-  - `IP object { ips, name, id, 4 more }`
-
-    - `ips: array of GatewayIPs`
-
-      Specify the list of CIDRs to restrict ingress connections.
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `kind: optional "ip"`
-
-      The proxy endpoint kind
-
-      - `"ip"`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-  - `Identity object { kind, name, id, 3 more }`
-
-    - `kind: "identity"`
-
-      The proxy endpoint kind
-
-      - `"identity"`
-
-    - `name: string`
-
-      Specify the name of the proxy endpoint.
-
-    - `id: optional string`
-
-    - `created_at: optional string`
-
-    - `subdomain: optional string`
-
-      Specify the subdomain to use as the destination in the proxy client.
-
-    - `updated_at: optional string`
-
-### Proxy Endpoint Delete Response
-
-- `ProxyEndpointDeleteResponse = unknown`
+[Link to this property](#)%20zero_trust.gateway.proxy_endpoints%20%3E%20(model)%20proxy_endpoint_delete_response%20%3E%20(schema)>)

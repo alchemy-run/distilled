@@ -1,405 +1,147 @@
+---
+title: CORS
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # CORS
 
-## Get Bucket CORS Policy
+##### [Get Bucket CORS Policy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/cors/methods/get)
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/cors`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/cors
 
-Get the CORS policy for a bucket.
+##### [Put Bucket CORS Policy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/cors/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/cors
 
-- `account_id: string`
+##### [Delete Bucket CORS Policy](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/cors/methods/delete)
 
-  Account ID.
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/cors
 
-- `bucket_name: string`
+##### ModelsExpand Collapse
 
-  Name of the bucket.
+<details>
 
-### Header Parameters
+<summary>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+CORSGetResponse object {rules }
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+</summary>
 
-  - `"default"`
+<details>
 
-  - `"eu"`
+<summary>
 
-  - `"fedramp"`
+rules: optional array of object {allowed, id, exposeHeaders, maxAgeSeconds }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+allowed: object {methods, origins, headers }
 
-  - `documentation_url: optional string`
+Object specifying allowed origins, methods and headers for this CORS rule.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of string`
+<summary>
 
-- `result: object { rules }`
+methods: array of "GET"or "PUT"or "POST"or 2 more
 
-  - `rules: optional array of object { allowed, id, exposeHeaders, maxAgeSeconds }`
+Specifies the value for the Access-Control-Allow-Methods header R2 sets when requesting objects in a bucket from a browser.
 
-    - `allowed: object { methods, origins, headers }`
+</summary>
 
-      Object specifying allowed origins, methods and headers for this CORS rule.
+One of the following:
 
-      - `methods: array of "GET" or "PUT" or "POST" or 2 more`
+"GET"
 
-        Specifies the value for the Access-Control-Allow-Methods header R2 sets when requesting objects in a bucket from a browser.
+<a href="#">Link to this property</a>
 
-        - `"GET"`
+"PUT"
 
-        - `"PUT"`
+<a href="#">Link to this property</a>
 
-        - `"POST"`
+"POST"
 
-        - `"DELETE"`
+<a href="#">Link to this property</a>
 
-        - `"HEAD"`
+"DELETE"
 
-      - `origins: array of string`
+<a href="#">Link to this property</a>
 
-        Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser.
+"HEAD"
 
-      - `headers: optional array of string`
+<a href="#">Link to this property</a>
 
-        Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders.
+</details>
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier for this rule.
+origins: array of string
 
-    - `exposeHeaders: optional array of string`
+Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser.
 
-      Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here.
+<a href="#">Link to this property</a>
 
-    - `maxAgeSeconds: optional number`
+headers: optional array of string
 
-      Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified.
+Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/cors \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Identifier for this rule.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "rules": [
-      {
-        "allowed": {
-          "methods": [
-            "GET"
-          ],
-          "origins": [
-            "http://localhost:3000"
-          ],
-          "headers": [
-            "x-requested-by"
-          ]
-        },
-        "id": "Allow Local Development",
-        "exposeHeaders": [
-          "Content-Encoding"
-        ],
-        "maxAgeSeconds": 3600
-      }
-    ]
-  },
-  "success": true
-}
-```
+exposeHeaders: optional array of string
 
-## Put Bucket CORS Policy
+Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here.
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/cors`
+<a href="#">Link to this property</a>
 
-Set the CORS policy for a bucket.
+maxAgeSeconds: optional number
 
-### Path Parameters
+Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+</details>
 
-- `bucket_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the bucket.
+</details>
 
-### Header Parameters
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(model)%20cors_get_response%20%3E%20(schema)>)
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+CORSUpdateResponse = unknown
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(model)%20cors_update_response%20%3E%20(schema)>)
 
-  - `"default"`
+CORSDeleteResponse = unknown
 
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Body Parameters
-
-- `rules: optional array of object { allowed, id, exposeHeaders, maxAgeSeconds }`
-
-  - `allowed: object { methods, origins, headers }`
-
-    Object specifying allowed origins, methods and headers for this CORS rule.
-
-    - `methods: array of "GET" or "PUT" or "POST" or 2 more`
-
-      Specifies the value for the Access-Control-Allow-Methods header R2 sets when requesting objects in a bucket from a browser.
-
-      - `"GET"`
-
-      - `"PUT"`
-
-      - `"POST"`
-
-      - `"DELETE"`
-
-      - `"HEAD"`
-
-    - `origins: array of string`
-
-      Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser.
-
-    - `headers: optional array of string`
-
-      Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders.
-
-  - `id: optional string`
-
-    Identifier for this rule.
-
-  - `exposeHeaders: optional array of string`
-
-    Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here.
-
-  - `maxAgeSeconds: optional number`
-
-    Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/cors \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Delete Bucket CORS Policy
-
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/cors`
-
-Delete the CORS policy for a bucket.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/cors \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### CORS Get Response
-
-- `CORSGetResponse object { rules }`
-
-  - `rules: optional array of object { allowed, id, exposeHeaders, maxAgeSeconds }`
-
-    - `allowed: object { methods, origins, headers }`
-
-      Object specifying allowed origins, methods and headers for this CORS rule.
-
-      - `methods: array of "GET" or "PUT" or "POST" or 2 more`
-
-        Specifies the value for the Access-Control-Allow-Methods header R2 sets when requesting objects in a bucket from a browser.
-
-        - `"GET"`
-
-        - `"PUT"`
-
-        - `"POST"`
-
-        - `"DELETE"`
-
-        - `"HEAD"`
-
-      - `origins: array of string`
-
-        Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser.
-
-      - `headers: optional array of string`
-
-        Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders.
-
-    - `id: optional string`
-
-      Identifier for this rule.
-
-    - `exposeHeaders: optional array of string`
-
-      Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here.
-
-    - `maxAgeSeconds: optional number`
-
-      Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified.
-
-### CORS Update Response
-
-- `CORSUpdateResponse = unknown`
-
-### CORS Delete Response
-
-- `CORSDeleteResponse = unknown`
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(model)%20cors_delete_response%20%3E%20(schema)>)

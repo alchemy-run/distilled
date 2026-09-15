@@ -1,272 +1,670 @@
-## Update an IP Access rule
+---
+title: Update an IP Access rule
+---
 
-**patch** `/{accounts_or_zones}/{account_or_zone_id}/firewall/access_rules/rules/{rule_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[Access Rules](https://developers.cloudflare.com/api/resources/firewall/subresources/access_rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update an IP Access rule
+
+PATCH/{accounts\_or\_zones}/{account\_or\_zone\_id}/firewall/access\_rules/rules/{rule\_id}
 
 Updates an IP Access rule defined.
 
 Note: This operation will affect all zones in the account or zone.
 
-### Path Parameters
+##### Security
 
-- `rule_id: string`
+<details>
 
-  Unique identifier for a rule.
+<summary>API Token</summary>
 
-- `account_id: optional string`
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-- `zone_id: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Body Parameters
+</details>
 
-- `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+<details>
 
-  The rule configuration.
+<summary>API Email + API Key</summary>
 
-  - `AccessRuleIPConfiguration object { target, value }`
 
-    - `target: optional "ip"`
 
-      The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      - `"ip"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `value: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      The IP address to match. This address will be compared to the IP address of incoming requests.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `IPV6Configuration object { target, value }`
+</details>
 
-    - `target: optional "ip6"`
+##### Accepted Permissions (at least one required)
 
-      The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+`Account Firewall Access Rules Write`
 
-      - `"ip6"`
+##### P ath ParametersExpand Collapse
 
-    - `value: optional string`
+rule\_id: string
 
-      The IPv6 address to match.
+Unique identifier for a rule.
 
-  - `AccessRuleCIDRConfiguration object { target, value }`
+maxLength32
 
-    - `target: optional "ip_range"`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20rule_id%20%3E%20(schema)>)
 
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+account\_id: optional string
 
-      - `"ip_range"`
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-    - `value: optional string`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+zone\_id: optional string
 
-  - `ASNConfiguration object { target, value }`
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-    - `target: optional "asn"`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-      The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+##### Body ParametersJSONExpand Collapse
 
-      - `"asn"`
+<details>
 
-    - `value: optional string`
+<summary>
 
-      The AS number to match.
+configuration: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_ip_configuration%20%3E%20(schema)">AccessRuleIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20ipv6_configuration%20%3E%20(schema)">IPV6Configuration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_cidr_configuration%20%3E%20(schema)">AccessRuleCIDRConfiguration</a> { target, value } or 2 more
 
-  - `CountryConfiguration object { target, value }`
+The rule configuration.
 
-    - `target: optional "country"`
+</summary>
 
-      The configuration target. You must set the target to `country` when specifying a country code in the rule.
+One of the following:
 
-      - `"country"`
+<details>
 
-    - `value: optional string`
+<summary>
 
-      The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+AccessRuleIPConfiguration object {target, value }
 
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
+</summary>
 
-  The action to apply to a matched request.
+target: optional "ip"
 
-  - `"block"`
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the rule.
 
-  - `"challenge"`
+<a href="#">Link to this property</a>
 
-  - `"whitelist"`
+value: optional string
 
-  - `"js_challenge"`
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-  - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-- `notes: optional string`
+</details>
 
-  An informative summary of the rule, typically used as a reminder or explanation.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+IPV6Configuration object {target, value }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+target: optional "ip6"
 
-  - `source: optional object { pointer }`
+The configuration target. You must set the target to <code>ip6</code> when specifying an IPv6 address in the rule.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+value: optional string
 
-  - `code: number`
+The IPv6 address to match.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { id, allowed_modes, configuration, 5 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-    The unique identifier of the IP Access rule.
+AccessRuleCIDRConfiguration object {target, value }
 
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
+</summary>
 
-    The available actions that a rule can apply to a matched request.
+target: optional "ip\_range"
 
-    - `"block"`
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the rule.
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"whitelist"`
+value: optional string
 
-    - `"js_challenge"`
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code> for IPv4 ranges, and prefix lengths <code>/32</code>, <code>/48</code>, and <code>/64</code> for IPv6 ranges.
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+</details>
 
-    The rule configuration.
+<a href="#">Link to this property</a>
 
-    - `AccessRuleIPConfiguration object { target, value }`
+<details>
 
-      - `target: optional "ip"`
+<summary>
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+ASNConfiguration object {target, value }
 
-        - `"ip"`
+</summary>
 
-      - `value: optional string`
+target: optional "asn"
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+The configuration target. You must set the target to <code>asn</code> when specifying an Autonomous System Number (ASN) in the rule.
 
-    - `IPV6Configuration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "ip6"`
+value: optional string
 
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+The AS number to match.
 
-        - `"ip6"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+</details>
 
-        The IPv6 address to match.
+<a href="#">Link to this property</a>
 
-    - `AccessRuleCIDRConfiguration object { target, value }`
+<details>
 
-      - `target: optional "ip_range"`
+<summary>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+CountryConfiguration object {target, value }
 
-        - `"ip_range"`
+</summary>
 
-      - `value: optional string`
+target: optional "country"
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+The configuration target. You must set the target to <code>country</code> when specifying a country code in the rule.
 
-    - `ASNConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "asn"`
+value: optional string
 
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to <a href="https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country">IP Access rules: Parameters</a>.
 
-        - `"asn"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+</details>
 
-        The AS number to match.
+<a href="#">Link to this property</a>
 
-    - `CountryConfiguration object { target, value }`
+</details>
 
-      - `target: optional "country"`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20configuration%20%3E%20(schema)>)
 
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
+<details>
 
-        - `"country"`
+<summary>
 
-      - `value: optional string`
+mode: "block"or "challenge"or "whitelist"or 2 more
 
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+The action to apply to a matched request.
 
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
+</summary>
 
-    The action to apply to a matched request.
+One of the following:
 
-    - `"block"`
+"block"
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"whitelist"`
+"challenge"
 
-    - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"managed_challenge"`
+"whitelist"
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    The timestamp of when the rule was created.
+"js\_challenge"
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The timestamp of when the rule was last modified.
+"managed\_challenge"
 
-  - `notes: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the rule, typically used as a reminder or explanation.
+</details>
 
-  - `scope: optional object { id, email, type }`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20mode%20%3E%20(schema)>)
 
-    All zones owned by the user will have the rule applied.
+notes: optional string
 
-    - `id: optional string`
+An informative summary of the rule, typically used as a reminder or explanation.
 
-      Defines an identifier.
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20notes%20%3E%20(schema)>)
 
-    - `email: optional string`
+##### ReturnsExpand Collapse
 
-      The contact email address of the user.
+<details>
 
-    - `type: optional "user" or "organization"`
+<summary>
 
-      Defines the scope of the rule.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `"user"`
+</summary>
 
-      - `"organization"`
+code: number
 
-- `success: true`
+minimum1000
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, allowed\_modes, configuration, 5 more }
+
+</summary>
+
+id: string
+
+The unique identifier of the IP Access rule.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowed\_modes: array of "block"or "challenge"or "whitelist"or 2 more
+
+The available actions that a rule can apply to a matched request.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"whitelist"
+
+<a href="#">Link to this property</a>
+
+"js\_challenge"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+configuration: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_ip_configuration%20%3E%20(schema)">AccessRuleIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20ipv6_configuration%20%3E%20(schema)">IPV6Configuration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_cidr_configuration%20%3E%20(schema)">AccessRuleCIDRConfiguration</a> { target, value } or 2 more
+
+The rule configuration.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+AccessRuleIPConfiguration object {target, value }
+
+</summary>
+
+target: optional "ip"
+
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The IP address to match. This address will be compared to the IP address of incoming requests.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+IPV6Configuration object {target, value }
+
+</summary>
+
+target: optional "ip6"
+
+The configuration target. You must set the target to <code>ip6</code> when specifying an IPv6 address in the rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The IPv6 address to match.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessRuleCIDRConfiguration object {target, value }
+
+</summary>
+
+target: optional "ip\_range"
+
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code> for IPv4 ranges, and prefix lengths <code>/32</code>, <code>/48</code>, and <code>/64</code> for IPv6 ranges.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ASNConfiguration object {target, value }
+
+</summary>
+
+target: optional "asn"
+
+The configuration target. You must set the target to <code>asn</code> when specifying an Autonomous System Number (ASN) in the rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The AS number to match.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CountryConfiguration object {target, value }
+
+</summary>
+
+target: optional "country"
+
+The configuration target. You must set the target to <code>country</code> when specifying a country code in the rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to <a href="https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country">IP Access rules: Parameters</a>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mode: "block"or "challenge"or "whitelist"or 2 more
+
+The action to apply to a matched request.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"whitelist"
+
+<a href="#">Link to this property</a>
+
+"js\_challenge"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+The timestamp of when the rule was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+The timestamp of when the rule was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+notes: optional string
+
+An informative summary of the rule, typically used as a reminder or explanation.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scope: optional object {id, email, type }
+
+All zones owned by the user will have the rule applied.
+
+</summary>
+
+id: optional string
+
+Defines an identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+The contact email address of the user.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "user"or "organization"
+
+Defines the scope of the rule.
+
+</summary>
+
+One of the following:
+
+"user"
+
+<a href="#">Link to this property</a>
+
+"organization"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.access_rules%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update an IP Access rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/firewall/access_rules/rules/$RULE_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -278,9 +676,62 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "92f17202ed8bd63d69a66b86a49a8f6b",
+    "allowed_modes": [
+      "whitelist",
+      "block",
+      "challenge",
+      "js_challenge",
+      "managed_challenge"
+    ],
+    "configuration": {
+      "target": "ip",
+      "value": "198.51.100.4"
+    },
+    "mode": "challenge",
+    "created_on": "2014-01-01T05:20:00.12345Z",
+    "modified_on": "2014-01-01T05:20:00.12345Z",
+    "notes": "This rule is enabled because of an event that occurred on date X.",
+    "scope": {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "email": "user@example.com",
+      "type": "user"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

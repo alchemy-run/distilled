@@ -1,1061 +1,179 @@
+---
+title: Integrations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[Posture](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Integrations
 
-## List your device posture integrations
+##### [List your device posture integrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/list)
 
-**get** `/accounts/{account_id}/devices/posture/integration`
+GET/accounts/{account\_id}/devices/posture/integration
 
-Fetches the list of device posture integrations for an account.
+##### [Get device posture integration details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/devices/posture/integration/{integration\_id}
 
-- `account_id: string`
+##### [Create a device posture integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/devices/posture/integration
 
-- `errors: array of ResponseInfo`
+##### [Update a device posture integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/edit)
 
-  - `code: number`
+PATCH/accounts/{account\_id}/devices/posture/integration/{integration\_id}
 
-  - `message: string`
+##### [Delete a device posture integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/devices/posture/integration/{integration\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+Integration object {id, config, interval, 2 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+API UUID.
 
-- `result: array of Integration`
+maxLength36
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    API UUID.
+<details>
 
-  - `config: optional object { api_url, auth_url, client_id }`
+<summary>
 
-    The configuration object containing third-party integration information.
+config: optional object {api\_url, auth\_url, client\_id }
 
-    - `api_url: string`
+The configuration object containing third-party integration information.
 
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
+</summary>
 
-    - `auth_url: string`
+api\_url: string
 
-      The Workspace One Authorization URL depending on your region.
+The Workspace One API URL provided in the Workspace One Admin Dashboard.
 
-    - `client_id: string`
+<a href="#">Link to this property</a>
 
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
+auth\_url: string
 
-  - `interval: optional string`
+The Workspace One Authorization URL depending on your region.
 
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+client\_id: string
 
-    The name of the device posture integration.
+The Workspace One client ID provided in the Workspace One Admin Dashboard.
 
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
+<a href="#">Link to this property</a>
 
-    The type of device posture integration.
+</details>
 
-    - `"workspace_one"`
+<a href="#">Link to this property</a>
 
-    - `"crowdstrike_s2s"`
+interval: optional string
 
-    - `"uptycs"`
+The interval between each posture check with the third-party API. Use <code>m</code> for minutes (e.g. <code>5m</code>) and <code>h</code> for hours (e.g. <code>12h</code>).
 
-    - `"intune"`
+<a href="#">Link to this property</a>
 
-    - `"kolide"`
+name: optional string
 
-    - `"tanium_s2s"`
+The name of the device posture integration.
 
-    - `"sentinelone_s2s"`
+<a href="#">Link to this property</a>
 
-    - `"custom_s2s"`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+type: optional "workspace\_one"or "crowdstrike\_s2s"or "uptycs"or 5 more
 
-  - `true`
+The type of device posture integration.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</summary>
 
-  - `count: optional number`
+One of the following:
 
-    Total number of results for the requested service.
+"workspace\_one"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+"crowdstrike\_s2s"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+"uptycs"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+"intune"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"kolide"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "config": {
-        "api_url": "https://as123.awmdm.com/API",
-        "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-        "client_id": "example client id"
-      },
-      "interval": "10m",
-      "name": "My Workspace One Integration",
-      "type": "workspace_one"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+"tanium\_s2s"
 
-## Get device posture integration details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/devices/posture/integration/{integration_id}`
+"sentinelone\_s2s"
 
-Fetches details for a single device posture integration.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"custom\_s2s"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `integration_id: string`
+</details>
 
-  API UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20zero_trust.devices.posture.integrations%20%3E%20(model)%20integration%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+IntegrationDeleteResponse = unknownor string
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of ResponseInfo`
+unknown
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: Integration`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration/$INTEGRATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "api_url": "https://as123.awmdm.com/API",
-      "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-      "client_id": "example client id"
-    },
-    "interval": "10m",
-    "name": "My Workspace One Integration",
-    "type": "workspace_one"
-  },
-  "success": true
-}
-```
-
-## Create a device posture integration
-
-**post** `/accounts/{account_id}/devices/posture/integration`
-
-Create a new device posture integration.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `config: object { api_url, auth_url, client_id, client_secret }  or object { api_url, client_id, client_secret, customer_id }  or object { api_url, client_key, client_secret, customer_id }  or 5 more`
-
-  The configuration object containing third-party integration information.
-
-  - `TeamsDevicesWorkspaceOneConfigRequest object { api_url, auth_url, client_id, client_secret }`
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-    - `client_secret: string`
-
-      The Workspace One client secret provided in the Workspace One Admin Dashboard.
-
-  - `TeamsDevicesCrowdstrikeConfigRequest object { api_url, client_id, client_secret, customer_id }`
-
-    - `api_url: string`
-
-      The Crowdstrike API URL.
-
-    - `client_id: string`
-
-      The Crowdstrike client ID.
-
-    - `client_secret: string`
-
-      The Crowdstrike client secret.
-
-    - `customer_id: string`
-
-      The Crowdstrike customer ID.
-
-  - `TeamsDevicesUptycsConfigRequest object { api_url, client_key, client_secret, customer_id }`
-
-    - `api_url: string`
-
-      The Uptycs API URL.
-
-    - `client_key: string`
-
-      The Uptycs client secret.
-
-    - `client_secret: string`
-
-      The Uptycs client secret.
-
-    - `customer_id: string`
-
-      The Uptycs customer ID.
-
-  - `TeamsDevicesIntuneConfigRequest object { client_id, client_secret, customer_id }`
-
-    - `client_id: string`
-
-      The Intune client ID.
-
-    - `client_secret: string`
-
-      The Intune client secret.
-
-    - `customer_id: string`
-
-      The Intune customer ID.
-
-  - `TeamsDevicesKolideConfigRequest object { client_id, client_secret }`
-
-    - `client_id: string`
-
-      The Kolide client ID.
-
-    - `client_secret: string`
-
-      The Kolide client secret.
-
-  - `TeamsDevicesTaniumConfigRequest object { api_url, client_secret, access_client_id, access_client_secret }`
-
-    - `api_url: string`
-
-      The Tanium API URL.
-
-    - `client_secret: string`
-
-      The Tanium client secret.
-
-    - `access_client_id: optional string`
-
-      If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.
-
-    - `access_client_secret: optional string`
-
-      If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.
-
-  - `TeamsDevicesSentineloneS2sConfigRequest object { api_url, client_secret }`
-
-    - `api_url: string`
-
-      The SentinelOne S2S API URL.
-
-    - `client_secret: string`
-
-      The SentinelOne S2S client secret.
-
-  - `TeamsDevicesCustomS2sConfigRequest object { access_client_id, access_client_secret, api_url }`
-
-    - `access_client_id: string`
-
-      This id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.
-
-    - `access_client_secret: string`
-
-      This secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.
-
-    - `api_url: string`
-
-      The Custom Device Posture Integration  API URL.
-
-- `interval: string`
-
-  The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-- `name: string`
-
-  The name of the device posture integration.
-
-- `type: "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-  The type of device posture integration.
-
-  - `"workspace_one"`
-
-  - `"crowdstrike_s2s"`
-
-  - `"uptycs"`
-
-  - `"intune"`
-
-  - `"kolide"`
-
-  - `"tanium_s2s"`
-
-  - `"sentinelone_s2s"`
-
-  - `"custom_s2s"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Integration`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "config": {
-            "api_url": "https://as123.awmdm.com/API",
-            "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-            "client_id": "example client id",
-            "client_secret": "example client secret"
-          },
-          "interval": "10m",
-          "name": "My Workspace One Integration",
-          "type": "workspace_one"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "api_url": "https://as123.awmdm.com/API",
-      "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-      "client_id": "example client id"
-    },
-    "interval": "10m",
-    "name": "My Workspace One Integration",
-    "type": "workspace_one"
-  },
-  "success": true
-}
-```
-
-## Update a device posture integration
-
-**patch** `/accounts/{account_id}/devices/posture/integration/{integration_id}`
-
-Updates a configured device posture integration.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `integration_id: string`
-
-  API UUID.
-
-### Body Parameters
-
-- `config: optional object { api_url, auth_url, client_id, client_secret }  or object { api_url, client_id, client_secret, customer_id }  or object { api_url, client_key, client_secret, customer_id }  or 5 more`
-
-  The configuration object containing third-party integration information.
-
-  - `TeamsDevicesWorkspaceOneConfigRequest object { api_url, auth_url, client_id, client_secret }`
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-    - `client_secret: string`
-
-      The Workspace One client secret provided in the Workspace One Admin Dashboard.
-
-  - `TeamsDevicesCrowdstrikeConfigRequest object { api_url, client_id, client_secret, customer_id }`
-
-    - `api_url: string`
-
-      The Crowdstrike API URL.
-
-    - `client_id: string`
-
-      The Crowdstrike client ID.
-
-    - `client_secret: string`
-
-      The Crowdstrike client secret.
-
-    - `customer_id: string`
-
-      The Crowdstrike customer ID.
-
-  - `TeamsDevicesUptycsConfigRequest object { api_url, client_key, client_secret, customer_id }`
-
-    - `api_url: string`
-
-      The Uptycs API URL.
-
-    - `client_key: string`
-
-      The Uptycs client secret.
-
-    - `client_secret: string`
-
-      The Uptycs client secret.
-
-    - `customer_id: string`
-
-      The Uptycs customer ID.
-
-  - `TeamsDevicesIntuneConfigRequest object { client_id, client_secret, customer_id }`
-
-    - `client_id: string`
-
-      The Intune client ID.
-
-    - `client_secret: string`
-
-      The Intune client secret.
-
-    - `customer_id: string`
-
-      The Intune customer ID.
-
-  - `TeamsDevicesKolideConfigRequest object { client_id, client_secret }`
-
-    - `client_id: string`
-
-      The Kolide client ID.
-
-    - `client_secret: string`
-
-      The Kolide client secret.
-
-  - `TeamsDevicesTaniumConfigRequest object { api_url, client_secret, access_client_id, access_client_secret }`
-
-    - `api_url: string`
-
-      The Tanium API URL.
-
-    - `client_secret: string`
-
-      The Tanium client secret.
-
-    - `access_client_id: optional string`
-
-      If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.
-
-    - `access_client_secret: optional string`
-
-      If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.
-
-  - `TeamsDevicesSentineloneS2sConfigRequest object { api_url, client_secret }`
-
-    - `api_url: string`
-
-      The SentinelOne S2S API URL.
-
-    - `client_secret: string`
-
-      The SentinelOne S2S client secret.
-
-  - `TeamsDevicesCustomS2sConfigRequest object { access_client_id, access_client_secret, api_url }`
-
-    - `access_client_id: string`
-
-      This id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.
-
-    - `access_client_secret: string`
-
-      This secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.
-
-    - `api_url: string`
-
-      The Custom Device Posture Integration  API URL.
-
-- `interval: optional string`
-
-  The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-- `name: optional string`
-
-  The name of the device posture integration.
-
-- `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-  The type of device posture integration.
-
-  - `"workspace_one"`
-
-  - `"crowdstrike_s2s"`
-
-  - `"uptycs"`
-
-  - `"intune"`
-
-  - `"kolide"`
-
-  - `"tanium_s2s"`
-
-  - `"sentinelone_s2s"`
-
-  - `"custom_s2s"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Integration`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration/$INTEGRATION_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "config": {
-            "api_url": "https://as123.awmdm.com/API",
-            "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-            "client_id": "example client id",
-            "client_secret": "example client secret"
-          },
-          "interval": "10m",
-          "name": "My Workspace One Integration",
-          "type": "workspace_one"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "api_url": "https://as123.awmdm.com/API",
-      "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-      "client_id": "example client id"
-    },
-    "interval": "10m",
-    "name": "My Workspace One Integration",
-    "type": "workspace_one"
-  },
-  "success": true
-}
-```
-
-## Delete a device posture integration
-
-**delete** `/accounts/{account_id}/devices/posture/integration/{integration_id}`
-
-Delete a configured device posture integration.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `integration_id: string`
-
-  API UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration/$INTEGRATION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Integration
-
-- `Integration object { id, config, interval, 2 more }`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-### Integration Delete Response
-
-- `IntegrationDeleteResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
+[Link to this property](#)%20zero_trust.devices.posture.integrations%20%3E%20(model)%20integration_delete_response%20%3E%20(schema)>)

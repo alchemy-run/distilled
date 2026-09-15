@@ -1,276 +1,129 @@
+---
+title: Regions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Data Localization Suite](https://developers.cloudflare.com/api/resources/dls)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Regions
 
-## List DLS regions for an account
+##### [List DLS regions for an account](https://developers.cloudflare.com/api/resources/dls/subresources/regions/methods/list)
 
-**get** `/accounts/{account_id}/dls/regions`
+GET/accounts/{account\_id}/dls/regions
 
-List DLS regions for an account
+##### [Get a DLS region](https://developers.cloudflare.com/api/resources/dls/subresources/regions/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dls/regions/{region\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier of a Cloudflare account.
+<details>
 
-### Query Parameters
+<summary>
 
-- `cursor: optional string`
+RegionListResponse object {id, created\_on, modified\_on, 4 more }
 
-  Opaque token for cursor-based pagination. Omit for the first page. Pass the value from a previous response to fetch the next page.
+</summary>
 
-- `per_page: optional number`
+id: string
 
-- `type: optional "managed" or "custom"`
+<a href="#">Link to this property</a>
 
-  Filter regions by type. Omit to return all regions.
+created\_on: string
 
-  - `"managed"`
+formatdate-time
 
-  - `"custom"`
+<a href="#">Link to this property</a>
 
-### Returns
+modified\_on: string
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+region\_key: string
 
-    - `pointer: optional string`
+maxLength128
 
-- `messages: array of ResponseInfo`
+minLength1
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+version: number
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+version\_created\_on: string
 
-- `result: array of object { id, created_on, modified_on, 4 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-  - `modified_on: string`
+[Link to this property](#)%20dls.regions%20%3E%20(model)%20region_list_response%20%3E%20(schema)>)
 
-  - `name: string`
+<details>
 
-  - `region_key: string`
+<summary>
 
-  - `version: number`
+RegionGetResponse object {id, created\_on, modified\_on, 4 more }
 
-  - `version_created_on: string`
+</summary>
 
-- `result_info: object { count, cursor, per_page }`
+id: string
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-    Number of items in the current page.
+created\_on: string
 
-  - `cursor: string`
+formatdate-time
 
-    Opaque cursor for the next page. Empty string when there are no more results.
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+modified\_on: string
 
-    Maximum number of items per page.
+formatdate-time
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+name: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+region\_key: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "region_key": "x",
-      "version": 0,
-      "version_created_on": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "cursor": "cursor",
-    "per_page": 0
-  },
-  "success": true
-}
-```
-
-## Get a DLS region
-
-**get** `/accounts/{account_id}/dls/regions/{region_id}`
-
-Get a DLS region
+maxLength128
 
-### Path Parameters
+minLength1
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+version: number
 
-- `region_id: string`
+<a href="#">Link to this property</a>
 
-  UUID of the region (custom or managed) or region_key of a managed region.
+version\_created\_on: string
 
-### Returns
+formatdate-time
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { id, created_on, modified_on, 4 more }`
-
-  - `id: string`
-
-  - `created_on: string`
-
-  - `modified_on: string`
-
-  - `name: string`
-
-  - `region_key: string`
-
-  - `version: number`
-
-  - `version_created_on: string`
-
-- `success: boolean`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regions/$REGION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "region_key": "x",
-    "version": 0,
-    "version_created_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Region List Response
-
-- `RegionListResponse object { id, created_on, modified_on, 4 more }`
-
-  - `id: string`
-
-  - `created_on: string`
-
-  - `modified_on: string`
-
-  - `name: string`
-
-  - `region_key: string`
-
-  - `version: number`
-
-  - `version_created_on: string`
-
-### Region Get Response
-
-- `RegionGetResponse object { id, created_on, modified_on, 4 more }`
-
-  - `id: string`
-
-  - `created_on: string`
-
-  - `modified_on: string`
-
-  - `name: string`
-
-  - `region_key: string`
-
-  - `version: number`
-
-  - `version_created_on: string`
+[Link to this property](#)%20dls.regions%20%3E%20(model)%20region_get_response%20%3E%20(schema)>)

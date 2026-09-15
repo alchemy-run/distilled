@@ -1,128 +1,342 @@
-## Create a new Site WAN
+---
+title: Create a new Site WAN
+---
 
-**post** `/accounts/{account_id}/magic/sites/{site_id}/wans`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites)
+
+[WANs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/wans)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a new Site WAN
+
+POST/accounts/{account\_id}/magic/sites/{site\_id}/wans
 
 Creates a new Site WAN.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-- `site_id: string`
 
-  Identifier
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `physport: number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `name: optional string`
+</details>
 
-- `priority: optional number`
+<details>
 
-- `static_addressing: optional WANStaticAddressing`
+<summary>API Email + API Key</summary>
 
-  (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
 
-  - `address: string`
 
-    A valid CIDR notation representing an IP range.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `gateway_address: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    A valid IPv4 address.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `secondary_address: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    A valid CIDR notation representing an IP range.
+</details>
 
-- `vlan_tag: optional number`
+##### Accepted Permissions (at least one required)
 
-  VLAN ID. Use zero for untagged.
+`Magic WAN Write``Magic Transit Write`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `errors: array of ResponseInfo`
+account\_id: string
 
-  - `code: number`
+Identifier
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+site\_id: string
 
-    - `pointer: optional string`
+Identifier
 
-- `messages: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20site_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### Body ParametersJSONExpand Collapse
 
-  - `documentation_url: optional string`
+physport: number
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20physport%20%3E%20(schema)>)
 
-- `result: array of WAN`
+name: optional string
 
-  - `id: optional string`
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    Identifier
+priority: optional number
 
-  - `health_check_rate: optional "low" or "mid" or "high"`
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20priority%20%3E%20(schema)>)
 
-    Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
+<details>
 
-    - `"low"`
+<summary>
 
-    - `"mid"`
+static\_addressing: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.wans%20%3E%20(model)%20wan_static_addressing%20%3E%20(schema)">WANStaticAddressing</a> { address, gateway\_address, secondary\_address }
 
-    - `"high"`
+(optional) if omitted, use DHCP. Submit secondary\_address when site is in high availability mode.
 
-  - `name: optional string`
+</summary>
 
-  - `physport: optional number`
+address: string
 
-  - `priority: optional number`
+A valid CIDR notation representing an IP range.
 
-    Priority of WAN for traffic loadbalancing.
+<a href="#">Link to this property</a>
 
-  - `site_id: optional string`
+gateway\_address: string
 
-    Identifier
+A valid IPv4 address.
 
-  - `static_addressing: optional WANStaticAddressing`
+<a href="#">Link to this property</a>
 
-    (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
+secondary\_address: optional string
 
-    - `address: string`
+A valid CIDR notation representing an IP range.
 
-      A valid CIDR notation representing an IP range.
+<a href="#">Link to this property</a>
 
-    - `gateway_address: string`
+</details>
 
-      A valid IPv4 address.
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20static_addressing%20%3E%20(schema)>)
 
-    - `secondary_address: optional string`
+vlan\_tag: optional number
 
-      A valid CIDR notation representing an IP range.
+VLAN ID. Use zero for untagged.
 
-  - `vlan_tag: optional number`
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20vlan_tag%20%3E%20(schema)>)
 
-    VLAN ID. Use zero for untagged.
+##### ReturnsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.wans%20%3E%20(model)%20wan%20%3E%20(schema)">WAN</a> { id, health\_check\_rate, name, 5 more }
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+health\_check\_rate: optional "low"or "mid"or "high"
+
+Magic WAN health check rate for tunnels created on this link. The default value is <code>mid</code>.
+
+</summary>
+
+One of the following:
+
+"low"
+
+<a href="#">Link to this property</a>
+
+"mid"
+
+<a href="#">Link to this property</a>
+
+"high"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+physport: optional number
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+Priority of WAN for traffic loadbalancing.
+
+<a href="#">Link to this property</a>
+
+site\_id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+static\_addressing: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.wans%20%3E%20(model)%20wan_static_addressing%20%3E%20(schema)">WANStaticAddressing</a> { address, gateway\_address, secondary\_address }
+
+(optional) if omitted, use DHCP. Submit secondary\_address when site is in high availability mode.
+
+</summary>
+
+address: string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+gateway\_address: string
+
+A valid IPv4 address.
+
+<a href="#">Link to this property</a>
+
+secondary\_address: optional string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vlan\_tag: optional number
+
+VLAN ID. Use zero for untagged.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20magic_transit.sites.wans%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a new Site WAN
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/wans \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -132,9 +346,55 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "health_check_rate": "low",
+      "name": "name",
+      "physport": 1,
+      "priority": 0,
+      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "static_addressing": {
+        "address": "192.0.2.0/24",
+        "gateway_address": "192.0.2.1",
+        "secondary_address": "192.0.2.0/24"
+      },
+      "vlan_tag": 42
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

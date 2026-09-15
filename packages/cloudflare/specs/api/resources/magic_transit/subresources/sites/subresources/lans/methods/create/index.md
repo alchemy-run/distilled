@@ -1,284 +1,724 @@
-## Create a new Site LAN
+---
+title: Create a new Site LAN
+---
 
-**post** `/accounts/{account_id}/magic/sites/{site_id}/lans`
+[Skip to content](#_top)
 
-Creates a new Site LAN. If the site is in high availability mode, static_addressing is required along with secondary and virtual address.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
 
-- `account_id: string`
+[Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites)
 
-  Identifier
+[LANs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans)
 
-- `site_id: string`
+Copy Markdown
 
-  Identifier
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `bond_id: optional number`
+**Copy Markdown****View as Markdown**
 
-- `ha_link: optional boolean`
+# Create a new Site LAN
 
-  mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
+POST/accounts/{account\_id}/magic/sites/{site\_id}/lans
 
-- `is_breakout: optional boolean`
+Creates a new Site LAN. If the site is in high availability mode, static\_addressing is required along with secondary and virtual address.
 
-  mark true to use this LAN for source-based breakout traffic
+##### Security
 
-- `is_prioritized: optional boolean`
+<details>
 
-  mark true to use this LAN for source-based prioritized traffic
+<summary>API Token</summary>
 
-- `name: optional string`
 
-- `nat: optional Nat`
 
-  - `static_prefix: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    A valid CIDR notation representing an IP range.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `physport: optional number`
+</details>
 
-- `routed_subnets: optional array of RoutedSubnet`
+<details>
 
-  - `next_hop: string`
+<summary>API Email + API Key</summary>
 
-    A valid IPv4 address.
 
-  - `prefix: string`
 
-    A valid CIDR notation representing an IP range.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `nat: optional Nat`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `static_addressing: optional LANStaticAddressing`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `address: string`
+</details>
 
-    A valid CIDR notation representing an IP range.
+##### Accepted Permissions (at least one required)
 
-  - `dhcp_relay: optional DHCPRelay`
+`Magic WAN Write``Magic Transit Write`
 
-    - `server_addresses: optional array of string`
+##### P ath ParametersExpand Collapse
 
-      List of DHCP server IPs.
+account\_id: string
 
-  - `dhcp_server: optional DHCPServer`
+Identifier
 
-    - `dhcp_options: optional array of object { code, type, value }`
+maxLength32
 
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `code: number`
+site\_id: string
 
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
+Identifier
 
-      - `type: "text" or "hex" or "ip" or 3 more`
+maxLength32
 
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20site_id%20%3E%20(schema)>)
 
-        - `"text"`
+##### Body ParametersJSONExpand Collapse
 
-        - `"hex"`
+bond\_id: optional number
 
-        - `"ip"`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20bond_id%20%3E%20(schema)>)
 
-        - `"byte"`
+ha\_link: optional boolean
 
-        - `"short"`
+mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha\_link.
 
-        - `"integer"`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20ha_link%20%3E%20(schema)>)
 
-      - `value: string`
+is\_breakout: optional boolean
 
-        The option value, interpreted according to the type field.
+mark true to use this LAN for source-based breakout traffic
 
-    - `dhcp_pool_end: optional string`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_breakout%20%3E%20(schema)>)
 
-      A valid IPv4 address.
+is\_prioritized: optional boolean
 
-    - `dhcp_pool_start: optional string`
+mark true to use this LAN for source-based prioritized traffic
 
-      A valid IPv4 address.
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_prioritized%20%3E%20(schema)>)
 
-    - `dns_server: optional string`
+name: optional string
 
-      A valid IPv4 address.
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `dns_servers: optional array of string`
+<details>
 
-    - `reservations: optional map[string]`
+<summary>
 
-      Mapping of MAC addresses to IP addresses
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
 
-  - `secondary_address: optional string`
+</summary>
 
-    A valid CIDR notation representing an IP range.
+static\_prefix: optional string
 
-  - `virtual_address: optional string`
+A valid CIDR notation representing an IP range.
 
-    A valid CIDR notation representing an IP range.
+<a href="#">Link to this property</a>
 
-- `vlan_tag: optional number`
+</details>
 
-  VLAN ID. Use zero for untagged.
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20nat%20%3E%20(schema)>)
 
-### Returns
+physport: optional number
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20physport%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+routed\_subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20routed_subnet%20%3E%20(schema)">RoutedSubnet</a> { next\_hop, prefix, nat }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+next\_hop: string
 
-- `messages: array of ResponseInfo`
+A valid IPv4 address.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+prefix: string
 
-  - `documentation_url: optional string`
+A valid CIDR notation representing an IP range.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of LAN`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Identifier
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
 
-  - `bond_id: optional number`
+</summary>
 
-  - `ha_link: optional boolean`
+static\_prefix: optional string
 
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
+A valid CIDR notation representing an IP range.
 
-  - `is_breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-    mark true to use this LAN for source-based breakout traffic
+</details>
 
-  - `is_prioritized: optional boolean`
+<a href="#">Link to this property</a>
 
-    mark true to use this LAN for source-based prioritized traffic
+</details>
 
-  - `name: optional string`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20routed_subnets%20%3E%20(schema)>)
 
-  - `nat: optional Nat`
+<details>
 
-    - `static_prefix: optional string`
+<summary>
 
-      A valid CIDR notation representing an IP range.
+static\_addressing: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20lan_static_addressing%20%3E%20(schema)">LANStaticAddressing</a> { address, dhcp\_relay, dhcp\_server, 2 more }
 
-  - `physport: optional number`
+If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static\_address is required along with secondary and virtual address.
 
-  - `routed_subnets: optional array of RoutedSubnet`
+</summary>
 
-    - `next_hop: string`
+address: string
 
-      A valid IPv4 address.
+A valid CIDR notation representing an IP range.
 
-    - `prefix: string`
+<a href="#">Link to this property</a>
 
-      A valid CIDR notation representing an IP range.
+<details>
 
-    - `nat: optional Nat`
+<summary>
 
-  - `site_id: optional string`
+dhcp\_relay: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_relay%20%3E%20(schema)">DHCPRelay</a> { server\_addresses }
 
-    Identifier
+</summary>
 
-  - `static_addressing: optional LANStaticAddressing`
+server\_addresses: optional array of string
 
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
+List of DHCP server IPs.
 
-    - `address: string`
+<a href="#">Link to this property</a>
 
-      A valid CIDR notation representing an IP range.
+</details>
 
-    - `dhcp_relay: optional DHCPRelay`
+<a href="#">Link to this property</a>
 
-      - `server_addresses: optional array of string`
+<details>
 
-        List of DHCP server IPs.
+<summary>
 
-    - `dhcp_server: optional DHCPServer`
+dhcp\_server: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_server%20%3E%20(schema)">DHCPServer</a> { dhcp\_options, dhcp\_pool\_end, dhcp\_pool\_start, 3 more }
 
-      - `dhcp_options: optional array of object { code, type, value }`
+</summary>
 
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
+<details>
 
-        - `code: number`
+<summary>
 
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
+dhcp\_options: optional array of object {code, type, value }
 
-        - `type: "text" or "hex" or "ip" or 3 more`
+Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
 
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
+</summary>
 
-          - `"text"`
+code: number
 
-          - `"hex"`
+DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
 
-          - `"ip"`
+maximum254
 
-          - `"byte"`
+minimum1
 
-          - `"short"`
+<a href="#">Link to this property</a>
 
-          - `"integer"`
+<details>
 
-        - `value: string`
+<summary>
 
-          The option value, interpreted according to the type field.
+type: "text"or "hex"or "ip"or 3 more
 
-      - `dhcp_pool_end: optional string`
+The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. “01:04:aa:bb:cc”, max 255 bytes). ip: an IPv4 address (e.g. “10.20.30.40”). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
 
-        A valid IPv4 address.
+</summary>
 
-      - `dhcp_pool_start: optional string`
+One of the following:
 
-        A valid IPv4 address.
+"text"
 
-      - `dns_server: optional string`
+<a href="#">Link to this property</a>
 
-        A valid IPv4 address.
+"hex"
 
-      - `dns_servers: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `reservations: optional map[string]`
+"ip"
 
-        Mapping of MAC addresses to IP addresses
+<a href="#">Link to this property</a>
 
-    - `secondary_address: optional string`
+"byte"
 
-      A valid CIDR notation representing an IP range.
+<a href="#">Link to this property</a>
 
-    - `virtual_address: optional string`
+"short"
 
-      A valid CIDR notation representing an IP range.
+<a href="#">Link to this property</a>
 
-  - `vlan_tag: optional number`
+"integer"
 
-    VLAN ID. Use zero for untagged.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+value: string
 
-### Example
+The option value, interpreted according to the type field.
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dhcp\_pool\_end: optional string
+
+A valid IPv4 address.
+
+<a href="#">Link to this property</a>
+
+dhcp\_pool\_start: optional string
+
+A valid IPv4 address.
+
+<a href="#">Link to this property</a>
+
+Deprecateddns\_server: optional string
+
+A valid IPv4 address.
+
+<a href="#">Link to this property</a>
+
+dns\_servers: optional array of string
+
+<a href="#">Link to this property</a>
+
+reservations: optional map\[string]
+
+Mapping of MAC addresses to IP addresses
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+secondary\_address: optional string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+virtual\_address: optional string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20static_addressing%20%3E%20(schema)>)
+
+vlan\_tag: optional number
+
+VLAN ID. Use zero for untagged.
+
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20vlan_tag%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20lan%20%3E%20(schema)">LAN</a> { id, bond\_id, ha\_link, 9 more }
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+bond\_id: optional number
+
+<a href="#">Link to this property</a>
+
+ha\_link: optional boolean
+
+mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha\_link.
+
+<a href="#">Link to this property</a>
+
+is\_breakout: optional boolean
+
+mark true to use this LAN for source-based breakout traffic
+
+<a href="#">Link to this property</a>
+
+is\_prioritized: optional boolean
+
+mark true to use this LAN for source-based prioritized traffic
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
+
+</summary>
+
+static\_prefix: optional string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+physport: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+routed\_subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20routed_subnet%20%3E%20(schema)">RoutedSubnet</a> { next\_hop, prefix, nat }
+
+</summary>
+
+next\_hop: string
+
+A valid IPv4 address.
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
+
+</summary>
+
+static\_prefix: optional string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+site\_id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+static\_addressing: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20lan_static_addressing%20%3E%20(schema)">LANStaticAddressing</a> { address, dhcp\_relay, dhcp\_server, 2 more }
+
+If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static\_address is required along with secondary and virtual address.
+
+</summary>
+
+address: string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dhcp\_relay: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_relay%20%3E%20(schema)">DHCPRelay</a> { server\_addresses }
+
+</summary>
+
+server\_addresses: optional array of string
+
+List of DHCP server IPs.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dhcp\_server: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_server%20%3E%20(schema)">DHCPServer</a> { dhcp\_options, dhcp\_pool\_end, dhcp\_pool\_start, 3 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+dhcp\_options: optional array of object {code, type, value }
+
+Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
+
+</summary>
+
+code: number
+
+DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
+
+maximum254
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "text"or "hex"or "ip"or 3 more
+
+The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. “01:04:aa:bb:cc”, max 255 bytes). ip: an IPv4 address (e.g. “10.20.30.40”). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
+
+</summary>
+
+One of the following:
+
+"text"
+
+<a href="#">Link to this property</a>
+
+"hex"
+
+<a href="#">Link to this property</a>
+
+"ip"
+
+<a href="#">Link to this property</a>
+
+"byte"
+
+<a href="#">Link to this property</a>
+
+"short"
+
+<a href="#">Link to this property</a>
+
+"integer"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+The option value, interpreted according to the type field.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dhcp\_pool\_end: optional string
+
+A valid IPv4 address.
+
+<a href="#">Link to this property</a>
+
+dhcp\_pool\_start: optional string
+
+A valid IPv4 address.
+
+<a href="#">Link to this property</a>
+
+Deprecateddns\_server: optional string
+
+A valid IPv4 address.
+
+<a href="#">Link to this property</a>
+
+dns\_servers: optional array of string
+
+<a href="#">Link to this property</a>
+
+reservations: optional map\[string]
+
+Mapping of MAC addresses to IP addresses
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+secondary\_address: optional string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+virtual\_address: optional string
+
+A valid CIDR notation representing an IP range.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vlan\_tag: optional number
+
+VLAN ID. Use zero for untagged.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a new Site LAN
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -289,9 +729,93 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "bond_id": 2,
+      "ha_link": true,
+      "is_breakout": true,
+      "is_prioritized": true,
+      "name": "name",
+      "nat": {
+        "static_prefix": "192.0.2.0/24"
+      },
+      "physport": 1,
+      "routed_subnets": [
+        {
+          "next_hop": "192.0.2.1",
+          "prefix": "192.0.2.0/24",
+          "nat": {
+            "static_prefix": "192.0.2.0/24"
+          }
+        }
+      ],
+      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "static_addressing": {
+        "address": "192.0.2.0/24",
+        "dhcp_relay": {
+          "server_addresses": [
+            "192.0.2.1"
+          ]
+        },
+        "dhcp_server": {
+          "dhcp_options": [
+            {
+              "code": 66,
+              "type": "ip",
+              "value": "10.20.30.40"
+            }
+          ],
+          "dhcp_pool_end": "192.0.2.1",
+          "dhcp_pool_start": "192.0.2.1",
+          "dns_server": "192.0.2.1",
+          "dns_servers": [
+            "192.0.2.1"
+          ],
+          "reservations": {
+            "00:11:22:33:44:55": "192.0.2.100",
+            "AA:BB:CC:DD:EE:FF": "192.168.1.101"
+          }
+        },
+        "secondary_address": "192.0.2.0/24",
+        "virtual_address": "192.0.2.0/24"
+      },
+      "vlan_tag": 42
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

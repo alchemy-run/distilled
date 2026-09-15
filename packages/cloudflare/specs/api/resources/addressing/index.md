@@ -1,6073 +1,2391 @@
+---
+title: Addressing
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Addressing
 
-# Regional Hostnames
+#### AddressingRegional Hostnames
 
-## List Regional Hostnames
+##### [List Regional Hostnames](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/list)
 
-**get** `/zones/{zone_id}/addressing/regional_hostnames`
+GET/zones/{zone\_id}/addressing/regional\_hostnames
 
-List all Regional Hostnames within a zone.
+##### [Fetch Regional Hostname](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/addressing/regional\_hostnames/{hostname}
 
-- `zone_id: string`
+##### [Create Regional Hostname](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/addressing/regional\_hostnames
 
-### Returns
+##### [Update Regional Hostname](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/edit)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PATCH/zones/{zone\_id}/addressing/regional\_hostnames/{hostname}
 
-  - `code: number`
+##### [Delete Regional Hostname](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/methods/delete)
 
-  - `message: string`
+DELETE/zones/{zone\_id}/addressing/regional\_hostnames/{hostname}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+RegionalHostnameListResponse object {created\_on, hostname, region\_key, routing }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+When the regional hostname was created
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+hostname: string
 
-  Whether the API call was successful.
+DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g <code>*.example.com</code>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { created_on, hostname, region_key, routing }`
+region\_key: string
 
-  - `created_on: string`
+Identifying key for the region
 
-    When the regional hostname was created
+<a href="#">Link to this property</a>
 
-  - `hostname: string`
+routing: string
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+Configure which routing method to use for the regional hostname
 
-  - `region_key: string`
+<a href="#">Link to this property</a>
 
-    Identifying key for the region
+</details>
 
-  - `routing: string`
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_list_response%20%3E%20(schema)>)
 
-    Configure which routing method to use for the regional hostname
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+RegionalHostnameGetResponse object {created\_on, hostname, region\_key, routing }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+created\_on: string
 
-    Current page within paginated list of results.
+When the regional hostname was created
 
-  - `per_page: optional number`
+formatdate-time
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+hostname: string
 
-    Total results available without any search parameters.
+DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g <code>*.example.com</code>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+region\_key: string
 
-### Example
+Identifying key for the region
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+routing: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "hostname": "foo.example.com",
-      "region_key": "ca",
-      "routing": "dns"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+Configure which routing method to use for the regional hostname
 
-## Fetch Regional Hostname
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/addressing/regional_hostnames/{hostname}`
+</details>
 
-Fetch the configuration for a specific Regional Hostname, within a zone.
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_get_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+RegionalHostnameCreateResponse object {created\_on, hostname, region\_key, routing }
 
-- `hostname: string`
+</summary>
 
-  DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+created\_on: string
 
-### Returns
+When the regional hostname was created
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+hostname: string
 
-  - `documentation_url: optional string`
+DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g <code>*.example.com</code>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+region\_key: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifying key for the region
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+routing: string
 
-  - `documentation_url: optional string`
+Configure which routing method to use for the regional hostname
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_create_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { created_on, hostname, region_key, routing }`
+RegionalHostnameEditResponse object {created\_on, hostname, region\_key, routing }
 
-  - `created_on: string`
+</summary>
 
-    When the regional hostname was created
+created\_on: string
 
-  - `hostname: string`
+When the regional hostname was created
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+formatdate-time
 
-  - `region_key: string`
+<a href="#">Link to this property</a>
 
-    Identifying key for the region
+hostname: string
 
-  - `routing: string`
+DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g <code>*.example.com</code>
 
-    Configure which routing method to use for the regional hostname
+<a href="#">Link to this property</a>
 
-### Example
+region\_key: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames/$HOSTNAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Identifying key for the region
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "hostname": "foo.example.com",
-    "region_key": "ca",
-    "routing": "dns"
-  }
-}
-```
+routing: string
 
-## Create Regional Hostname
+Configure which routing method to use for the regional hostname
 
-**post** `/zones/{zone_id}/addressing/regional_hostnames`
+<a href="#">Link to this property</a>
 
-Create a new Regional Hostname entry. Cloudflare will only use data centers that are physically located within the chosen region to decrypt and service HTTPS traffic. Learn more about [Regional Services](https://developers.cloudflare.com/data-localization/regional-services/get-started/).
+</details>
 
-### Path Parameters
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_edit_response%20%3E%20(schema)>)
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+RegionalHostnameDeleteResponse object {errors, messages, success }
 
-- `hostname: string`
+</summary>
 
-  DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+<details>
 
-- `region_key: string`
+<summary>
 
-  Identifying key for the region
+errors: array of object {code, message, documentation\_url, source }
 
-- `routing: optional string`
+</summary>
 
-  Configure which routing method to use for the regional hostname
+code: number
 
-### Returns
+minimum1000
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+message: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+documentation\_url: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+source: optional object {pointer }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+pointer: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created_on, hostname, region_key, routing }`
+<details>
 
-  - `created_on: string`
+<summary>
 
-    When the regional hostname was created
+messages: array of object {code, message, documentation\_url, source }
 
-  - `hostname: string`
+</summary>
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+code: number
 
-  - `region_key: string`
+minimum1000
 
-    Identifying key for the region
+<a href="#">Link to this property</a>
 
-  - `routing: string`
+message: string
 
-    Configure which routing method to use for the regional hostname
+<a href="#">Link to this property</a>
 
-### Example
+documentation\_url: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "hostname": "foo.example.com",
-          "region_key": "ca",
-          "routing": "dns"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "hostname": "foo.example.com",
-    "region_key": "ca",
-    "routing": "dns"
-  }
-}
-```
+<summary>
 
-## Update Regional Hostname
+source: optional object {pointer }
 
-**patch** `/zones/{zone_id}/addressing/regional_hostnames/{hostname}`
+</summary>
 
-Update the configuration for a specific Regional Hostname. Only the region_key of a hostname is mutable.
+pointer: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `hostname: string`
+</details>
 
-  DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+success: true
 
-- `region_key: string`
+Whether the API call was successful.
 
-  Identifying key for the region
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20addressing.regional_hostnames%20%3E%20(model)%20regional_hostname_delete_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### AddressingRegional HostnamesRegions
 
-  - `message: string`
+##### [List Regions](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/subresources/regions/methods/list)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/addressing/regional\_hostnames/regions
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+RegionListResponse object {key, label }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+key: optional string
 
-  - `source: optional object { pointer }`
+Identifying key for the region
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+label: optional string
 
-  Whether the API call was successful.
+Human-readable text label for the region
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created_on, hostname, region_key, routing }`
+</details>
 
-  - `created_on: string`
+[Link to this property](#)%20addressing.regional_hostnames.regions%20%3E%20(model)%20region_list_response%20%3E%20(schema)>)
 
-    When the regional hostname was created
+#### AddressingServices
 
-  - `hostname: string`
+##### [List Services](https://developers.cloudflare.com/api/resources/addressing/subresources/services/methods/list)
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+GET/accounts/{account\_id}/addressing/services
 
-  - `region_key: string`
+##### ModelsExpand Collapse
 
-    Identifying key for the region
+<details>
 
-  - `routing: string`
+<summary>
 
-    Configure which routing method to use for the regional hostname
+ServiceListResponse object {id, name }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames/$HOSTNAME \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "region_key": "ca"
-        }'
-```
+id: optional string
 
-#### Response
+Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "hostname": "foo.example.com",
-    "region_key": "ca",
-    "routing": "dns"
-  }
-}
-```
+maxLength32
 
-## Delete Regional Hostname
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/addressing/regional_hostnames/{hostname}`
+name: optional string
 
-Delete the region configuration for a specific Regional Hostname.
+Name of a service running on the Cloudflare network
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier.
+[Link to this property](#)%20addressing.services%20%3E%20(model)%20service_list_response%20%3E%20(schema)>)
 
-- `hostname: string`
+#### AddressingAddress Maps
 
-  DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+##### [List Address Maps](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/methods/list)
 
-### Returns
+GET/accounts/{account\_id}/addressing/address\_maps
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Address Map Details](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/methods/get)
 
-  - `code: number`
+GET/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}
 
-  - `message: string`
+##### [Create Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/methods/create)
 
-  - `documentation_url: optional string`
+POST/accounts/{account\_id}/addressing/address\_maps
 
-  - `source: optional object { pointer }`
+##### [Update Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/methods/edit)
 
-    - `pointer: optional string`
+PATCH/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### [Delete Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/methods/delete)
 
-  - `code: number`
+DELETE/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+AddressMap object {id, can\_delete, can\_modify\_ips, 5 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: optional string
 
-  - `true`
+Identifier of an Address Map.
 
-### Example
+maxLength32
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/addressing/regional_hostnames/$HOSTNAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+can\_delete: optional boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Regional Hostname List Response
+can\_modify\_ips: optional boolean
 
-- `RegionalHostnameListResponse object { created_on, hostname, region_key, routing }`
+If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    When the regional hostname was created
+created\_at: optional string
 
-  - `hostname: string`
+formatdate-time
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+<a href="#">Link to this property</a>
 
-  - `region_key: string`
+default\_sni: optional string
 
-    Identifying key for the region
+If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
 
-  - `routing: string`
+<a href="#">Link to this property</a>
 
-    Configure which routing method to use for the regional hostname
+description: optional string
 
-### Regional Hostname Get Response
+An optional description field which may be used to describe the types of IPs or zones on the map.
 
-- `RegionalHostnameGetResponse object { created_on, hostname, region_key, routing }`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+enabled: optional boolean
 
-    When the regional hostname was created
+Whether the Address Map is enabled or not. Cloudflare’s DNS will not respond with IP addresses on an Address Map until the map is enabled.
 
-  - `hostname: string`
+<a href="#">Link to this property</a>
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+modified\_at: optional string
 
-  - `region_key: string`
+formatdate-time
 
-    Identifying key for the region
+<a href="#">Link to this property</a>
 
-  - `routing: string`
+</details>
 
-    Configure which routing method to use for the regional hostname
+[Link to this property](#)%20addressing.address_maps%20%3E%20(model)%20address_map%20%3E%20(schema)>)
 
-### Regional Hostname Create Response
+<details>
 
-- `RegionalHostnameCreateResponse object { created_on, hostname, region_key, routing }`
+<summary>
 
-  - `created_on: string`
+Kind = "zone"or "account"
 
-    When the regional hostname was created
+The type of the membership.
 
-  - `hostname: string`
+</summary>
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+One of the following:
 
-  - `region_key: string`
+"zone"
 
-    Identifying key for the region
+<a href="#">Link to this property</a>
 
-  - `routing: string`
+"account"
 
-    Configure which routing method to use for the regional hostname
+<a href="#">Link to this property</a>
 
-### Regional Hostname Edit Response
+</details>
 
-- `RegionalHostnameEditResponse object { created_on, hostname, region_key, routing }`
+[Link to this property](#)%20addressing.address_maps%20%3E%20(model)%20kind%20%3E%20(schema)>)
 
-  - `created_on: string`
+<details>
 
-    When the regional hostname was created
+<summary>
 
-  - `hostname: string`
+AddressMapGetResponse object {id, can\_delete, can\_modify\_ips, 7 more }
 
-    DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g `*.example.com`
+</summary>
 
-  - `region_key: string`
+id: optional string
 
-    Identifying key for the region
+Identifier of an Address Map.
 
-  - `routing: string`
+maxLength32
 
-    Configure which routing method to use for the regional hostname
+<a href="#">Link to this property</a>
 
-### Regional Hostname Delete Response
+can\_delete: optional boolean
 
-- `RegionalHostnameDeleteResponse object { errors, messages, success }`
+If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+can\_modify\_ips: optional boolean
 
-    - `message: string`
+If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+created\_at: optional string
 
-      - `pointer: optional string`
+formatdate-time
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+default\_sni: optional string
 
-    - `message: string`
+If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+description: optional string
 
-      - `pointer: optional string`
+An optional description field which may be used to describe the types of IPs or zones on the map.
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+enabled: optional boolean
 
-    - `true`
+Whether the Address Map is enabled or not. Cloudflare’s DNS will not respond with IP addresses on an Address Map until the map is enabled.
 
-# Regions
+<a href="#">Link to this property</a>
 
-## List Regions
+ips: optional <a href="https://developers.cloudflare.com/api/resources/ips#(resource)%20ips%20%3E%20(model)%20ips%20%3E%20(schema)">IPs</a> { created\_at, ip }
 
-**get** `/accounts/{account_id}/addressing/regional_hostnames/regions`
+The set of IPs on the Address Map.
 
-List all Regional Services regions available for use by this account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+memberships: optional array of object {can\_delete, created\_at, identifier, kind }
 
-### Returns
+Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+can\_delete: optional boolean
 
-  - `message: string`
+Controls whether the membership can be deleted via the API or not.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: optional string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+identifier: optional string
 
-  - `message: string`
+The identifier for the membership (eg. a zone or account tag).
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+kind: optional <a href="https://developers.cloudflare.com/api/resources/addressing#(resource)%20addressing.address_maps%20%3E%20(model)%20kind%20%3E%20(schema)">Kind</a>
 
-- `success: true`
+The type of the membership.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional array of object { key, label }`
+<a href="#">Link to this property</a>
 
-  - `key: optional string`
+modified\_at: optional string
 
-    Identifying key for the region
+formatdate-time
 
-  - `label: optional string`
+<a href="#">Link to this property</a>
 
-    Human-readable text label for the region
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+[Link to this property](#)%20addressing.address_maps%20%3E%20(model)%20address_map_get_response%20%3E%20(schema)>)
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+AddressMapCreateResponse object {id, can\_delete, can\_modify\_ips, 7 more }
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+id: optional string
 
-    Number of results per page of results.
+Identifier of an Address Map.
 
-  - `total_count: optional number`
+maxLength32
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+can\_delete: optional boolean
 
-    The number of total pages in the entire result set.
+If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/regional_hostnames/regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+can\_modify\_ips: optional boolean
 
-#### Response
+If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "key": "ca",
-      "label": "Canada"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+created\_at: optional string
 
-### Region List Response
+formatdate-time
 
-- `RegionListResponse object { key, label }`
+<a href="#">Link to this property</a>
 
-  - `key: optional string`
+default\_sni: optional string
 
-    Identifying key for the region
+If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
 
-  - `label: optional string`
+<a href="#">Link to this property</a>
 
-    Human-readable text label for the region
+description: optional string
 
-# Services
+An optional description field which may be used to describe the types of IPs or zones on the map.
 
-## List Services
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/addressing/services`
+enabled: optional boolean
 
-Bring-Your-Own IP (BYOIP) prefixes onboarded to Cloudflare must be bound to a service running on the Cloudflare network to enable a Cloudflare product on the IP addresses. This endpoint can be used as a reference of available services on the Cloudflare network, and their service IDs.
+Whether the Address Map is enabled or not. Cloudflare’s DNS will not respond with IP addresses on an Address Map until the map is enabled.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+ips: optional <a href="https://developers.cloudflare.com/api/resources/ips#(resource)%20ips%20%3E%20(model)%20ips%20%3E%20(schema)">IPs</a> { created\_at, ip }
 
-  Identifier of a Cloudflare account.
+The set of IPs on the Address Map.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+memberships: optional array of object {can\_delete, created\_at, identifier, kind }
 
-  - `documentation_url: optional string`
+Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+can\_delete: optional boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Controls whether the membership can be deleted via the API or not.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_at: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+identifier: optional string
 
-- `success: true`
+The identifier for the membership (eg. a zone or account tag).
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, name }`
+kind: optional <a href="https://developers.cloudflare.com/api/resources/addressing#(resource)%20addressing.address_maps%20%3E%20(model)%20kind%20%3E%20(schema)">Kind</a>
 
-  - `id: optional string`
+The type of the membership.
 
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    Name of a service running on the Cloudflare network
+<a href="#">Link to this property</a>
 
-### Example
+modified\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/services \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "2db684ee7ca04e159946fd05b99e1bcd",
-      "name": "Magic Transit"
-    }
-  ]
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)%20addressing.address_maps%20%3E%20(model)%20address_map_create_response%20%3E%20(schema)>)
 
-### Service List Response
+<details>
 
-- `ServiceListResponse object { id, name }`
+<summary>
 
-  - `id: optional string`
+AddressMapDeleteResponse object {errors, messages, success, result\_info }
 
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
+</summary>
 
-  - `name: optional string`
+<details>
 
-    Name of a service running on the Cloudflare network
+<summary>
 
-# Address Maps
+errors: array of object {code, message, documentation\_url, source }
 
-## List Address Maps
+</summary>
 
-**get** `/accounts/{account_id}/addressing/address_maps`
+code: number
 
-List all address maps owned by the account.
+minimum1000
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+message: string
 
-  Identifier of a Cloudflare account.
+<a href="#">Link to this property</a>
 
-### Returns
+documentation\_url: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+source: optional object {pointer }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+pointer: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-- `result: optional array of AddressMap`
+code: number
 
-  - `id: optional string`
+minimum1000
 
-    Identifier of an Address Map.
+<a href="#">Link to this property</a>
 
-  - `can_delete: optional boolean`
+message: string
 
-    If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+<a href="#">Link to this property</a>
 
-  - `can_modify_ips: optional boolean`
+documentation\_url: optional string
 
-    If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+<details>
 
-  - `default_sni: optional string`
+<summary>
 
-    If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+source: optional object {pointer }
 
-  - `description: optional string`
+</summary>
 
-    An optional description field which may be used to describe the types of IPs or zones on the map.
+pointer: optional string
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+</details>
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+success: true
 
-  - `page: optional number`
+Whether the API call was successful.
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+result\_info: optional object {count, page, per\_page, 2 more }
 
-    Total results available without any search parameters.
+</summary>
 
-  - `total_pages: optional number`
+count: optional number
 
-    The number of total pages in the entire result set.
+Total number of results for the requested service.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+page: optional number
 
-#### Response
+Current page within paginated list of results.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "055817b111884e0227e1be16a0be6ee0",
-      "can_delete": true,
-      "can_modify_ips": true,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "default_sni": "*.example.com",
-      "description": "My Ecommerce zones",
-      "enabled": true,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Address Map Details
+per\_page: optional number
 
-**get** `/accounts/{account_id}/addressing/address_maps/{address_map_id}`
+Number of results per page of results.
 
-Show a particular address map owned by the account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+total\_count: optional number
 
-- `account_id: string`
+Total results available without any search parameters.
 
-  Identifier of a Cloudflare account.
+<a href="#">Link to this property</a>
 
-- `address_map_id: string`
+total\_pages: optional number
 
-  Identifier of an Address Map.
+The number of total pages in the entire result set.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20addressing.address_maps%20%3E%20(model)%20address_map_delete_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+#### AddressingAddress MapsAccounts
 
-    - `pointer: optional string`
+#### AddressingAddress MapsIPs
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### [Add an IP to an Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/subresources/ips/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}/ips/{ip\_address}
 
-  - `message: string`
+##### [Remove an IP from an Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/subresources/ips/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}/ips/{ip\_address}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+IPUpdateResponse object {errors, messages, success, result\_info }
 
-  - `true`
+</summary>
 
-- `result: optional object { id, can_delete, can_modify_ips, 7 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Identifier of an Address Map.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `can_delete: optional boolean`
+</summary>
 
-    If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+code: number
 
-  - `can_modify_ips: optional boolean`
+minimum1000
 
-    If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+message: string
 
-  - `default_sni: optional string`
+<a href="#">Link to this property</a>
 
-    If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+documentation\_url: optional string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An optional description field which may be used to describe the types of IPs or zones on the map.
+<details>
 
-  - `enabled: optional boolean`
+<summary>
 
-    Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+source: optional object {pointer }
 
-  - `ips: optional IPs`
+</summary>
 
-    The set of IPs on the Address Map.
+pointer: optional string
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `ip: optional string`
+</details>
 
-      An IPv4 or IPv6 address.
+<a href="#">Link to this property</a>
 
-  - `memberships: optional array of object { can_delete, created_at, identifier, kind }`
+</details>
 
-    Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership.
+<a href="#">Link to this property</a>
 
-    - `can_delete: optional boolean`
+<details>
 
-      Controls whether the membership can be deleted via the API or not.
+<summary>
 
-    - `created_at: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `identifier: optional string`
+</summary>
 
-      The identifier for the membership (eg. a zone or account tag).
+code: number
 
-    - `kind: optional Kind`
+minimum1000
 
-      The type of the membership.
+<a href="#">Link to this property</a>
 
-      - `"zone"`
+message: string
 
-      - `"account"`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+documentation\_url: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "055817b111884e0227e1be16a0be6ee0",
-    "can_delete": true,
-    "can_modify_ips": true,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "default_sni": "*.example.com",
-    "description": "My Ecommerce zones",
-    "enabled": true,
-    "ips": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "ip": "192.0.2.1"
-      }
-    ],
-    "memberships": [
-      {
-        "can_delete": true,
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "identifier": "023e105f4ecef8ad9ca31a8372d0c353",
-        "kind": "zone"
-      }
-    ],
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+source: optional object {pointer }
 
-## Create Address Map
+</summary>
 
-**post** `/accounts/{account_id}/addressing/address_maps`
+pointer: optional string
 
-Create a new address map under the account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+success: true
 
-  An optional description field which may be used to describe the types of IPs or zones on the map.
+Whether the API call was successful.
 
-- `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+<details>
 
-- `ips: optional array of string`
+<summary>
 
-- `memberships: optional array of object { identifier, kind }`
+result\_info: optional object {count, page, per\_page, 2 more }
 
-  Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership.
+</summary>
 
-  - `identifier: optional string`
+count: optional number
 
-    The identifier for the membership (eg. a zone or account tag).
+Total number of results for the requested service.
 
-  - `kind: optional Kind`
+<a href="#">Link to this property</a>
 
-    The type of the membership.
+page: optional number
 
-    - `"zone"`
+Current page within paginated list of results.
 
-    - `"account"`
+<a href="#">Link to this property</a>
 
-### Returns
+per\_page: optional number
 
-- `errors: array of object { code, message, documentation_url, source }`
+Number of results per page of results.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+total\_count: optional number
 
-  - `documentation_url: optional string`
+Total results available without any search parameters.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+total\_pages: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+The number of total pages in the entire result set.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20addressing.address_maps.ips%20%3E%20(model)%20ip_update_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+IPDeleteResponse object {errors, messages, success, result\_info }
 
-- `result: optional object { id, can_delete, can_modify_ips, 7 more }`
+</summary>
 
-  - `id: optional string`
+<details>
 
-    Identifier of an Address Map.
+<summary>
 
-  - `can_delete: optional boolean`
+errors: array of object {code, message, documentation\_url, source }
 
-    If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+</summary>
 
-  - `can_modify_ips: optional boolean`
+code: number
 
-    If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+minimum1000
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `default_sni: optional string`
+message: string
 
-    If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+documentation\_url: optional string
 
-    An optional description field which may be used to describe the types of IPs or zones on the map.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+<details>
 
-    Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+<summary>
 
-  - `ips: optional IPs`
+source: optional object {pointer }
 
-    The set of IPs on the Address Map.
+</summary>
 
-    - `created_at: optional string`
+pointer: optional string
 
-    - `ip: optional string`
+<a href="#">Link to this property</a>
 
-      An IPv4 or IPv6 address.
+</details>
 
-  - `memberships: optional array of object { can_delete, created_at, identifier, kind }`
+<a href="#">Link to this property</a>
 
-    Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership.
+</details>
 
-    - `can_delete: optional boolean`
+<a href="#">Link to this property</a>
 
-      Controls whether the membership can be deleted via the API or not.
+<details>
 
-    - `created_at: optional string`
+<summary>
 
-    - `identifier: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-      The identifier for the membership (eg. a zone or account tag).
+</summary>
 
-    - `kind: optional Kind`
+code: number
 
-      The type of the membership.
+minimum1000
 
-      - `"zone"`
+<a href="#">Link to this property</a>
 
-      - `"account"`
+message: string
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+documentation\_url: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "description": "My Ecommerce zones",
-          "enabled": true,
-          "ips": [
-            "192.0.2.1"
-          ],
-          "memberships": [
-            {
-              "identifier": "023e105f4ecef8ad9ca31a8372d0c353",
-              "kind": "zone"
-            }
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "055817b111884e0227e1be16a0be6ee0",
-    "can_delete": true,
-    "can_modify_ips": true,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "default_sni": "*.example.com",
-    "description": "My Ecommerce zones",
-    "enabled": true,
-    "ips": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "ip": "192.0.2.1"
-      }
-    ],
-    "memberships": [
-      {
-        "can_delete": true,
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "identifier": "023e105f4ecef8ad9ca31a8372d0c353",
-        "kind": "zone"
-      }
-    ],
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<summary>
 
-## Update Address Map
+source: optional object {pointer }
 
-**patch** `/accounts/{account_id}/addressing/address_maps/{address_map_id}`
+</summary>
 
-Modify properties of an address map owned by the account.
+pointer: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier of a Cloudflare account.
+<a href="#">Link to this property</a>
 
-- `address_map_id: string`
+</details>
 
-  Identifier of an Address Map.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+success: true
 
-- `default_sni: optional string`
+Whether the API call was successful.
 
-  If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+<details>
 
-  An optional description field which may be used to describe the types of IPs or zones on the map.
+<summary>
 
-- `enabled: optional boolean`
+result\_info: optional object {count, page, per\_page, 2 more }
 
-  Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+</summary>
 
-### Returns
+count: optional number
 
-- `errors: array of object { code, message, documentation_url, source }`
+Total number of results for the requested service.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+page: optional number
 
-  - `documentation_url: optional string`
+Current page within paginated list of results.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+per\_page: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+Number of results per page of results.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+total\_count: optional number
 
-  - `documentation_url: optional string`
+Total results available without any search parameters.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+total\_pages: optional number
 
-- `success: true`
+The number of total pages in the entire result set.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional AddressMap`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    Identifier of an Address Map.
+[Link to this property](#)%20addressing.address_maps.ips%20%3E%20(model)%20ip_delete_response%20%3E%20(schema)>)
 
-  - `can_delete: optional boolean`
+#### AddressingAddress MapsZones
 
-    If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+##### [Add a zone membership to an Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/subresources/zones/methods/update)
 
-  - `can_modify_ips: optional boolean`
+PUT/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}/zones/{zone\_id}
 
-    If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+##### [Remove a zone membership from an Address Map](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps/subresources/zones/methods/delete)
 
-  - `created_at: optional string`
+DELETE/accounts/{account\_id}/addressing/address\_maps/{address\_map\_id}/zones/{zone\_id}
 
-  - `default_sni: optional string`
+##### ModelsExpand Collapse
 
-    If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+<details>
 
-  - `description: optional string`
+<summary>
 
-    An optional description field which may be used to describe the types of IPs or zones on the map.
+ZoneUpdateResponse object {errors, messages, success, result\_info }
 
-  - `enabled: optional boolean`
+</summary>
 
-    Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+<details>
 
-  - `modified_at: optional string`
+<summary>
 
-### Example
+errors: array of object {code, message, documentation\_url, source }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "default_sni": "*.example.com",
-          "description": "My Ecommerce zones",
-          "enabled": true
-        }'
-```
+</summary>
 
-#### Response
+code: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "055817b111884e0227e1be16a0be6ee0",
-    "can_delete": true,
-    "can_modify_ips": true,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "default_sni": "*.example.com",
-    "description": "My Ecommerce zones",
-    "enabled": true,
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+minimum1000
 
-## Delete Address Map
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/addressing/address_maps/{address_map_id}`
+message: string
 
-Delete a particular address map owned by the account. An Address Map must be disabled before it can be deleted.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+documentation\_url: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+<details>
 
-- `address_map_id: string`
+<summary>
 
-  Identifier of an Address Map.
+source: optional object {pointer }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+pointer: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+code: number
 
-    - `pointer: optional string`
+minimum1000
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+message: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+documentation\_url: optional string
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+source: optional object {pointer }
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+pointer: optional string
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+success: true
 
-#### Response
+Whether the API call was successful.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Address Map
+<summary>
 
-- `AddressMap object { id, can_delete, can_modify_ips, 5 more }`
+result\_info: optional object {count, page, per\_page, 2 more }
 
-  - `id: optional string`
+</summary>
 
-    Identifier of an Address Map.
+count: optional number
 
-  - `can_delete: optional boolean`
+Total number of results for the requested service.
 
-    If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+<a href="#">Link to this property</a>
 
-  - `can_modify_ips: optional boolean`
+page: optional number
 
-    If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+Current page within paginated list of results.
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `default_sni: optional string`
+per\_page: optional number
 
-    If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+Number of results per page of results.
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An optional description field which may be used to describe the types of IPs or zones on the map.
+total\_count: optional number
 
-  - `enabled: optional boolean`
+Total results available without any search parameters.
 
-    Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+total\_pages: optional number
 
-### Kind
+The number of total pages in the entire result set.
 
-- `Kind = "zone" or "account"`
+<a href="#">Link to this property</a>
 
-  The type of the membership.
+</details>
 
-  - `"zone"`
+<a href="#">Link to this property</a>
 
-  - `"account"`
+</details>
 
-### Address Map Get Response
+[Link to this property](#)%20addressing.address_maps.zones%20%3E%20(model)%20zone_update_response%20%3E%20(schema)>)
 
-- `AddressMapGetResponse object { id, can_delete, can_modify_ips, 7 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Identifier of an Address Map.
+ZoneDeleteResponse object {errors, messages, success, result\_info }
 
-  - `can_delete: optional boolean`
+</summary>
 
-    If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+<details>
 
-  - `can_modify_ips: optional boolean`
+<summary>
 
-    If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `created_at: optional string`
+</summary>
 
-  - `default_sni: optional string`
+code: number
 
-    If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+minimum1000
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An optional description field which may be used to describe the types of IPs or zones on the map.
+message: string
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+documentation\_url: optional string
 
-  - `ips: optional IPs`
+<a href="#">Link to this property</a>
 
-    The set of IPs on the Address Map.
+<details>
 
-    - `created_at: optional string`
+<summary>
 
-    - `ip: optional string`
+source: optional object {pointer }
 
-      An IPv4 or IPv6 address.
+</summary>
 
-  - `memberships: optional array of object { can_delete, created_at, identifier, kind }`
+pointer: optional string
 
-    Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership.
+<a href="#">Link to this property</a>
 
-    - `can_delete: optional boolean`
+</details>
 
-      Controls whether the membership can be deleted via the API or not.
+<a href="#">Link to this property</a>
 
-    - `created_at: optional string`
+</details>
 
-    - `identifier: optional string`
+<a href="#">Link to this property</a>
 
-      The identifier for the membership (eg. a zone or account tag).
+<details>
 
-    - `kind: optional Kind`
+<summary>
 
-      The type of the membership.
+messages: array of object {code, message, documentation\_url, source }
 
-      - `"zone"`
+</summary>
 
-      - `"account"`
+code: number
 
-  - `modified_at: optional string`
+minimum1000
 
-### Address Map Create Response
+<a href="#">Link to this property</a>
 
-- `AddressMapCreateResponse object { id, can_delete, can_modify_ips, 7 more }`
+message: string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier of an Address Map.
+documentation\_url: optional string
 
-  - `can_delete: optional boolean`
+<a href="#">Link to this property</a>
 
-    If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+<details>
 
-  - `can_modify_ips: optional boolean`
+<summary>
 
-    If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+source: optional object {pointer }
 
-  - `created_at: optional string`
+</summary>
 
-  - `default_sni: optional string`
+pointer: optional string
 
-    If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    An optional description field which may be used to describe the types of IPs or zones on the map.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+</details>
 
-    Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+<a href="#">Link to this property</a>
 
-  - `ips: optional IPs`
+success: true
 
-    The set of IPs on the Address Map.
+Whether the API call was successful.
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `ip: optional string`
+<details>
 
-      An IPv4 or IPv6 address.
+<summary>
 
-  - `memberships: optional array of object { can_delete, created_at, identifier, kind }`
+result\_info: optional object {count, page, per\_page, 2 more }
 
-    Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership.
+</summary>
 
-    - `can_delete: optional boolean`
+count: optional number
 
-      Controls whether the membership can be deleted via the API or not.
+Total number of results for the requested service.
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `identifier: optional string`
+page: optional number
 
-      The identifier for the membership (eg. a zone or account tag).
+Current page within paginated list of results.
 
-    - `kind: optional Kind`
+<a href="#">Link to this property</a>
 
-      The type of the membership.
+per\_page: optional number
 
-      - `"zone"`
+Number of results per page of results.
 
-      - `"account"`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+total\_count: optional number
 
-### Address Map Delete Response
+Total results available without any search parameters.
 
-- `AddressMapDeleteResponse object { errors, messages, success, result_info }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+total\_pages: optional number
 
-    - `code: number`
+The number of total pages in the entire result set.
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+</details>
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+</details>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20addressing.address_maps.zones%20%3E%20(model)%20zone_delete_response%20%3E%20(schema)>)
 
-    - `code: number`
+#### AddressingLOA Documents
 
-    - `message: string`
+##### [Download LOA Document](https://developers.cloudflare.com/api/resources/addressing/subresources/loa_documents/methods/get)
 
-    - `documentation_url: optional string`
+GET/accounts/{account\_id}/addressing/loa\_documents/{loa\_document\_id}/download
 
-    - `source: optional object { pointer }`
+##### [Upload LOA Document](https://developers.cloudflare.com/api/resources/addressing/subresources/loa_documents/methods/create)
 
-      - `pointer: optional string`
+POST/accounts/{account\_id}/addressing/loa\_documents
 
-  - `success: true`
+##### ModelsExpand Collapse
 
-    Whether the API call was successful.
+<details>
 
-    - `true`
+<summary>
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+LOADocumentCreateResponse object {id, account\_id, auto\_generated, 5 more }
 
-    - `count: optional number`
+</summary>
 
-      Total number of results for the requested service.
+id: optional string
 
-    - `page: optional number`
+Identifier for the uploaded LOA document.
 
-      Current page within paginated list of results.
+maxLength32
 
-    - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-      Number of results per page of results.
+account\_id: optional string
 
-    - `total_count: optional number`
+Identifier of a Cloudflare account.
 
-      Total results available without any search parameters.
+maxLength32
 
-    - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-      The number of total pages in the entire result set.
+auto\_generated: optional boolean
 
-# Accounts
+Whether the LOA has been auto-generated for the prefix owner by Cloudflare.
 
-## Add an account membership to an Address Map
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/addressing/address_maps/{address_map_id}/accounts/{account_id}`
+created: optional string
 
-Add an account as a member of a particular address map.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+filename: optional string
 
-  Identifier of a Cloudflare account.
+Name of LOA document. Max file size 10MB, and supported filetype is pdf.
 
-- `address_map_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of an Address Map.
+size\_bytes: optional number
 
-### Body Parameters
+File size of the uploaded LOA document.
 
-- `body: unknown`
+<a href="#">Link to this property</a>
 
-### Returns
+verified: optional boolean
 
-- `errors: array of object { code, message, documentation_url, source }`
+Whether the LOA has been verified by Cloudflare staff.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+verified\_at: optional string
 
-  - `documentation_url: optional string`
+Timestamp of the moment the LOA was marked as validated.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20addressing.loa_documents%20%3E%20(model)%20loa_document_create_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### AddressingPrefixes
 
-  - `documentation_url: optional string`
+##### [List Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/list)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/addressing/prefixes
 
-    - `pointer: optional string`
+##### [Prefix Details](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/get)
 
-- `success: true`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}
 
-  Whether the API call was successful.
+##### [Add Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/create)
 
-  - `true`
+POST/accounts/{account\_id}/addressing/prefixes
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+##### [Update Prefix Description](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/edit)
 
-  - `count: optional number`
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}
 
-    Total number of results for the requested service.
+##### [Delete Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/delete)
 
-  - `page: optional number`
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}
 
-    Current page within paginated list of results.
+##### [Validate Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/methods/validate)
 
-  - `per_page: optional number`
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/validate
 
-    Number of results per page of results.
+##### ModelsExpand Collapse
 
-  - `total_count: optional number`
+<details>
 
-    Total results available without any search parameters.
+<summary>
 
-  - `total_pages: optional number`
+Prefix object {id, account\_id, advertised, 15 more }
 
-    The number of total pages in the entire result set.
+</summary>
 
-### Example
+id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID/accounts/$ACCOUNT_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+Identifier of an IP Prefix.
 
-#### Response
+maxLength32
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Remove an account membership from an Address Map
+account\_id: optional string
 
-**delete** `/accounts/{account_id}/addressing/address_maps/{address_map_id}/accounts/{account_id}`
+Identifier of a Cloudflare account.
 
-Remove an account as a member of a particular address map.
+maxLength32
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+Deprecatedadvertised: optional boolean
 
-  Identifier of a Cloudflare account.
+Prefer the <a href="https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/">BGP Prefixes API</a> instead, which allows for advertising multiple BGP routes within a single IP Prefix.
 
-- `address_map_id: string`
+Prefix advertisement status to the Internet. This field is only not ‘null’ if on demand is enabled.
 
-  Identifier of an Address Map.
+<a href="#">Link to this property</a>
 
-### Returns
+Deprecatedadvertised\_modified\_at: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Prefer the <a href="https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/">BGP Prefixes API</a> instead, which allows for advertising multiple BGP routes within a single IP Prefix.
 
-  - `code: number`
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+approved: optional string
 
-    - `pointer: optional string`
+Approval state of the prefix (P = pending, V = active).
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+asn: optional number
 
-  - `message: string`
+Autonomous System Number (ASN) the prefix will be advertised under.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+cidr: optional string
 
-    - `pointer: optional string`
+IP Prefix in Classless Inter-Domain Routing format.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+created\_at: optional string
 
-  - `true`
+formatdate-time
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+delegate\_loa\_creation: optional boolean
 
-    Total number of results for the requested service.
+Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+description: optional string
 
-  - `per_page: optional number`
+Description of the prefix.
 
-    Number of results per page of results.
+maxLength1000
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+irr\_validation\_state: optional string
 
-  - `total_pages: optional number`
+State of one kind of validation for an IP prefix.
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+loa\_document\_id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID/accounts/$ACCOUNT_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Identifier for the uploaded LOA document.
 
-#### Response
+maxLength32
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+modified\_at: optional string
 
-### Account Update Response
+formatdate-time
 
-- `AccountUpdateResponse object { errors, messages, success, result_info }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+Deprecatedon\_demand\_enabled: optional boolean
 
-    - `code: number`
+Prefer the <a href="https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/">BGP Prefixes API</a> instead, which allows for advertising multiple BGP routes within a single IP Prefix.
 
-    - `message: string`
+Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+Deprecatedon\_demand\_locked: optional boolean
 
-      - `pointer: optional string`
+Prefer the <a href="https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/">BGP Prefixes API</a> instead, which allows for advertising multiple BGP routes within a single IP Prefix.
 
-  - `messages: array of object { code, message, documentation_url, source }`
+Whether advertisement status of the prefix is locked, meaning it cannot be changed.
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+ownership\_validation\_state: optional string
 
-    - `documentation_url: optional string`
+State of one kind of validation for an IP prefix.
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+ownership\_validation\_token: optional string
 
-  - `success: true`
+Token provided to demonstrate ownership of the prefix.
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+rpki\_validation\_state: optional string
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+State of one kind of validation for an IP prefix.
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of results for the requested service.
+</details>
 
-    - `page: optional number`
+[Link to this property](#)%20addressing.prefixes%20%3E%20(model)%20prefix%20%3E%20(schema)>)
 
-      Current page within paginated list of results.
+<details>
 
-    - `per_page: optional number`
+<summary>
 
-      Number of results per page of results.
+PrefixDeleteResponse object {errors, messages, success }
 
-    - `total_count: optional number`
+</summary>
 
-      Total results available without any search parameters.
+<details>
 
-    - `total_pages: optional number`
+<summary>
 
-      The number of total pages in the entire result set.
+errors: array of object {code, message, documentation\_url, source }
 
-### Account Delete Response
+</summary>
 
-- `AccountDeleteResponse object { errors, messages, success, result_info }`
+code: number
 
-  - `errors: array of object { code, message, documentation_url, source }`
+minimum1000
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+message: string
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+documentation\_url: optional string
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-    - `code: number`
+<summary>
 
-    - `message: string`
+source: optional object {pointer }
 
-    - `documentation_url: optional string`
+</summary>
 
-    - `source: optional object { pointer }`
+pointer: optional string
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+</details>
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+</details>
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `count: optional number`
+<details>
 
-      Total number of results for the requested service.
+<summary>
 
-    - `page: optional number`
+messages: array of object {code, message, documentation\_url, source }
 
-      Current page within paginated list of results.
+</summary>
 
-    - `per_page: optional number`
+code: number
 
-      Number of results per page of results.
+minimum1000
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-      Total results available without any search parameters.
+message: string
 
-    - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-      The number of total pages in the entire result set.
+documentation\_url: optional string
 
-# IPs
+<a href="#">Link to this property</a>
 
-## Add an IP to an Address Map
+<details>
 
-**put** `/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips/{ip_address}`
+<summary>
 
-Add an IP from a prefix owned by the account to a particular address map.
+source: optional object {pointer }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+pointer: optional string
 
-  Identifier of a Cloudflare account.
+<a href="#">Link to this property</a>
 
-- `address_map_id: string`
+</details>
 
-  Identifier of an Address Map.
+<a href="#">Link to this property</a>
 
-- `ip_address: string`
+</details>
 
-  An IPv4 or IPv6 address.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+success: true
 
-- `body: unknown`
+Whether the API call was successful.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20addressing.prefixes%20%3E%20(model)%20prefix_delete_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### AddressingPrefixesService Bindings
 
-  - `documentation_url: optional string`
+##### [List Service Bindings](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings/methods/list)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings
 
-    - `pointer: optional string`
+##### [Get Service Binding](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings/methods/get)
 
-- `messages: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings/{binding\_id}
 
-  - `code: number`
+##### [Create Service Binding](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings/methods/create)
 
-  - `message: string`
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings
 
-  - `documentation_url: optional string`
+##### [Delete Service Binding](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings/methods/delete)
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings/{binding\_id}
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+ServiceBinding object {id, cidr, provisioning, 2 more }
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: optional number`
+id: optional string
 
-    Total number of results for the requested service.
+Identifier of a Service Binding.
 
-  - `page: optional number`
+maxLength32
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+cidr: optional string
 
-    Number of results per page of results.
+IP Prefix in Classless Inter-Domain Routing format.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+provisioning: optional object {state }
 
-### Example
+Status of a Service Binding’s deployment to the Cloudflare network
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID/ips/$IP_ADDRESS \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<summary>
 
-## Remove an IP from an Address Map
+state: optional "provisioning"or "active"or "magic\_transit\_route\_missing"
 
-**delete** `/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips/{ip_address}`
+When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
 
-Remove an IP from a particular address map.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"provisioning"
 
-  Identifier of a Cloudflare account.
+<a href="#">Link to this property</a>
 
-- `address_map_id: string`
+"active"
 
-  Identifier of an Address Map.
+<a href="#">Link to this property</a>
 
-- `ip_address: string`
+"magic\_transit\_route\_missing"
 
-  An IPv4 or IPv6 address.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+service\_id: optional string
 
-  - `source: optional object { pointer }`
+Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+service\_name: optional string
 
-  - `message: string`
+Name of a service running on the Cloudflare network
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(model)%20service_binding%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+ServiceBindingDeleteResponse object {errors, messages, success }
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+errors: array of object {code, message, documentation\_url, source }
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+code: number
 
-    Number of results per page of results.
+minimum1000
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+message: string
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+documentation\_url: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID/ips/$IP_ADDRESS \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+source: optional object {pointer }
 
-## Domain Types
+</summary>
 
-### IP Update Response
+pointer: optional string
 
-- `IPUpdateResponse object { errors, messages, success, result_info }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+</details>
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+<details>
 
-      - `pointer: optional string`
+<summary>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `code: number`
+</summary>
 
-    - `message: string`
+code: number
 
-    - `documentation_url: optional string`
+minimum1000
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+message: string
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+documentation\_url: optional string
 
-    - `true`
+<a href="#">Link to this property</a>
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-    - `count: optional number`
+<summary>
 
-      Total number of results for the requested service.
+source: optional object {pointer }
 
-    - `page: optional number`
+</summary>
 
-      Current page within paginated list of results.
+pointer: optional string
 
-    - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-      Number of results per page of results.
+</details>
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-      Total results available without any search parameters.
+</details>
 
-    - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-      The number of total pages in the entire result set.
+success: true
 
-### IP Delete Response
+Whether the API call was successful.
 
-- `IPDeleteResponse object { errors, messages, success, result_info }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-    - `code: number`
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(model)%20service_binding_delete_response%20%3E%20(schema)>)
 
-    - `message: string`
+#### AddressingPrefixesBGP Prefixes
 
-    - `documentation_url: optional string`
+##### [List BGP Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/list)
 
-    - `source: optional object { pointer }`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes
 
-      - `pointer: optional string`
+##### [Fetch BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/get)
 
-  - `messages: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-    - `code: number`
+##### [Create BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/create)
 
-    - `message: string`
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes
 
-    - `documentation_url: optional string`
+##### [Update BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/edit)
 
-    - `source: optional object { pointer }`
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-      - `pointer: optional string`
+##### [Delete BGP Prefix](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/methods/delete)
 
-  - `success: true`
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
-    Whether the API call was successful.
+##### ModelsExpand Collapse
 
-    - `true`
+<details>
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-    - `count: optional number`
+BGPPrefix object {id, asn, asn\_prepend\_count, 6 more }
 
-      Total number of results for the requested service.
+</summary>
 
-    - `page: optional number`
+id: optional string
 
-      Current page within paginated list of results.
+Identifier of BGP Prefix.
 
-    - `per_page: optional number`
+maxLength32
 
-      Number of results per page of results.
+<a href="#">Link to this property</a>
 
-    - `total_count: optional number`
+asn: optional number
 
-      Total results available without any search parameters.
+Autonomous System Number (ASN) the prefix will be advertised under.
 
-    - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-      The number of total pages in the entire result set.
+asn\_prepend\_count: optional number
 
-# Zones
+Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
 
-## Add a zone membership to an Address Map
+maximum3
 
-**put** `/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{zone_id}`
+minimum0
 
-Add a zone as a member of a particular address map.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+auto\_advertise\_withdraw: optional boolean
 
-- `zone_id: string`
+Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
 
-  Identifier of a zone.
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>
 
-- `address_map_id: string`
+bgp\_signal\_opts: optional object {enabled, modified\_at }
 
-  Identifier of an Address Map.
+</summary>
 
-### Body Parameters
+enabled: optional boolean
 
-- `body: unknown`
+Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+modified\_at: optional string
 
-  - `code: number`
+Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+cidr: optional string
 
-  - `code: number`
+IP Prefix in Classless Inter-Domain Routing format.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_at: optional string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+modified\_at: optional string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service.
+on\_demand: optional object {advertised, advertised\_modified\_at, on\_demand\_enabled, on\_demand\_locked }
 
-  - `page: optional number`
+</summary>
 
-    Current page within paginated list of results.
+advertised: optional boolean
 
-  - `per_page: optional number`
+Prefix advertisement status to the Internet. This field is only not ‘null’ if on demand is enabled.
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+advertised\_modified\_at: optional string
 
-    Total results available without any search parameters.
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-  - `total_pages: optional number`
+formatdate-time
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+on\_demand\_enabled: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID/zones/$ZONE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+on\_demand\_locked: optional boolean
 
-## Remove a zone membership from an Address Map
+Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
 
-**delete** `/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{zone_id}`
+<a href="#">Link to this property</a>
 
-Remove a zone as a member of a particular address map.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier of a zone.
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(model)%20bgp_prefix%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>
 
-- `address_map_id: string`
+BGPPrefixDeleteResponse object {errors, messages, success }
 
-  Identifier of an Address Map.
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+code: number
 
-  - `source: optional object { pointer }`
+minimum1000
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+message: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+documentation\_url: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+source: optional object {pointer }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+pointer: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+messages: array of object {code, message, documentation\_url, source }
 
-    Total results available without any search parameters.
+</summary>
 
-  - `total_pages: optional number`
+code: number
 
-    The number of total pages in the entire result set.
+minimum1000
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps/$ADDRESS_MAP_ID/zones/$ZONE_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+message: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+documentation\_url: optional string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Zone Update Response
+<details>
 
-- `ZoneUpdateResponse object { errors, messages, success, result_info }`
+<summary>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+source: optional object {pointer }
 
-    - `code: number`
+</summary>
 
-    - `message: string`
+pointer: optional string
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+success: true
 
-    - `documentation_url: optional string`
+Whether the API call was successful.
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+</details>
 
-  - `success: true`
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(model)%20bgp_prefix_delete_response%20%3E%20(schema)>)
 
-    Whether the API call was successful.
+#### AddressingPrefixesAdvertisement Status
 
-    - `true`
+##### [Get Advertisement Status](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/advertisement_status/methods/get)
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+Deprecated
 
-    - `count: optional number`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/status
 
-      Total number of results for the requested service.
+##### [Update Prefix Dynamic Advertisement Status](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/advertisement_status/methods/edit)
 
-    - `page: optional number`
+Deprecated
 
-      Current page within paginated list of results.
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/status
 
-    - `per_page: optional number`
+##### ModelsExpand Collapse
 
-      Number of results per page of results.
+<details>
 
-    - `total_count: optional number`
+<summary>
 
-      Total results available without any search parameters.
+AdvertisementStatusGetResponse object {advertised, advertised\_modified\_at }
 
-    - `total_pages: optional number`
+</summary>
 
-      The number of total pages in the entire result set.
+advertised: optional boolean
 
-### Zone Delete Response
+Advertisement status of the prefix. If <code>true</code>, the BGP route for the prefix is advertised to the Internet. If <code>false</code>, the BGP route is withdrawn.
 
-- `ZoneDeleteResponse object { errors, messages, success, result_info }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+advertised\_modified\_at: optional string
 
-    - `code: number`
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-    - `message: string`
+formatdate-time
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(model)%20advertisement_status_get_response%20%3E%20(schema)>)
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-    - `code: number`
+<summary>
 
-    - `message: string`
+AdvertisementStatusEditResponse object {advertised, advertised\_modified\_at }
 
-    - `documentation_url: optional string`
+</summary>
 
-    - `source: optional object { pointer }`
+advertised: optional boolean
 
-      - `pointer: optional string`
+Advertisement status of the prefix. If <code>true</code>, the BGP route for the prefix is advertised to the Internet. If <code>false</code>, the BGP route is withdrawn.
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+advertised\_modified\_at: optional string
 
-    - `true`
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+formatdate-time
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of results for the requested service.
+</details>
 
-    - `page: optional number`
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(model)%20advertisement_status_edit_response%20%3E%20(schema)>)
 
-      Current page within paginated list of results.
+#### AddressingPrefixesDelegations
 
-    - `per_page: optional number`
+##### [List Prefix Delegations](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/list)
 
-      Number of results per page of results.
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations
 
-    - `total_count: optional number`
+##### [Create Prefix Delegation](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/create)
 
-      Total results available without any search parameters.
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations
 
-    - `total_pages: optional number`
+##### [Delete Prefix Delegation](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/delete)
 
-      The number of total pages in the entire result set.
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations/{delegation\_id}
 
-# LOA Documents
+##### ModelsExpand Collapse
 
-## Download LOA Document
+<details>
 
-**get** `/accounts/{account_id}/addressing/loa_documents/{loa_document_id}/download`
+<summary>
 
-Download specified LOA document under the account.
+Delegations object {id, cidr, created\_at, 3 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: optional string
 
-  Identifier of a Cloudflare account.
+Identifier of a Delegation.
 
-- `loa_document_id: string`
+maxLength32
 
-  Identifier for the uploaded LOA document.
+<a href="#">Link to this property</a>
 
-### Example
+cidr: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/loa_documents/$LOA_DOCUMENT_ID/download \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+IP Prefix in Classless Inter-Domain Routing format.
 
-## Upload LOA Document
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/addressing/loa_documents`
+created\_at: optional string
 
-Submit LOA document (pdf format) under the account.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+delegated\_account\_id: optional string
 
-  Identifier of a Cloudflare account.
+Account identifier for the account to which prefix is being delegated.
 
-### Returns
+maxLength32
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+parent\_prefix\_id: optional string
 
-    - `pointer: optional string`
+Identifier of an IP Prefix.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(model)%20delegations%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+DelegationDeleteResponse object {id }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+id: optional string
 
-- `result: optional object { id, account_id, auto_generated, 5 more }`
+Identifier of a Delegation.
 
-  - `id: optional string`
+maxLength32
 
-    Identifier for the uploaded LOA document.
+<a href="#">Link to this property</a>
 
-  - `account_id: optional string`
+</details>
 
-    Identifier of a Cloudflare account.
-
-  - `auto_generated: optional boolean`
-
-    Whether the LOA has been auto-generated for the prefix owner by Cloudflare.
-
-  - `created: optional string`
-
-  - `filename: optional string`
-
-    Name of LOA document. Max file size 10MB, and supported filetype is pdf.
-
-  - `size_bytes: optional number`
-
-    File size of the uploaded LOA document.
-
-  - `verified: optional boolean`
-
-    Whether the LOA has been verified by Cloudflare staff.
-
-  - `verified_at: optional string`
-
-    Timestamp of the moment the LOA was marked as validated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/loa_documents \
-    -H 'Content-Type: multipart/form-data' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -F loa_document=@document.pdf
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "d933b1530bc56c9953cf8ce166da8004",
-    "account_id": "258def64c72dae45f3e4c8516e2111f2",
-    "auto_generated": true,
-    "created": "2014-01-01T05:20:00.12345Z",
-    "filename": "site_loa_doc.pdf",
-    "size_bytes": 444,
-    "verified": true,
-    "verified_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
-
-## Domain Types
-
-### LOA Document Create Response
-
-- `LOADocumentCreateResponse object { id, account_id, auto_generated, 5 more }`
-
-  - `id: optional string`
-
-    Identifier for the uploaded LOA document.
-
-  - `account_id: optional string`
-
-    Identifier of a Cloudflare account.
-
-  - `auto_generated: optional boolean`
-
-    Whether the LOA has been auto-generated for the prefix owner by Cloudflare.
-
-  - `created: optional string`
-
-  - `filename: optional string`
-
-    Name of LOA document. Max file size 10MB, and supported filetype is pdf.
-
-  - `size_bytes: optional number`
-
-    File size of the uploaded LOA document.
-
-  - `verified: optional boolean`
-
-    Whether the LOA has been verified by Cloudflare staff.
-
-  - `verified_at: optional string`
-
-    Timestamp of the moment the LOA was marked as validated.
-
-# Prefixes
-
-## List Prefixes
-
-**get** `/accounts/{account_id}/addressing/prefixes`
-
-List all prefixes owned by the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Prefix`
-
-  - `id: optional string`
-
-    Identifier of an IP Prefix.
-
-  - `account_id: optional string`
-
-    Identifier of a Cloudflare account.
-
-  - `advertised: optional boolean`
-
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-  - `approved: optional string`
-
-    Approval state of the prefix (P = pending, V = active).
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegate_loa_creation: optional boolean`
-
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
-
-  - `description: optional string`
-
-    Description of the prefix.
-
-  - `irr_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `loa_document_id: optional string`
-
-    Identifier for the uploaded LOA document.
-
-  - `modified_at: optional string`
-
-  - `on_demand_enabled: optional boolean`
-
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-  - `on_demand_locked: optional boolean`
-
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
-
-  - `ownership_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `ownership_validation_token: optional string`
-
-    Token provided to demonstrate ownership of the prefix.
-
-  - `rpki_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "2af39739cc4e3b5910c918468bb89828",
-      "account_id": "258def64c72dae45f3e4c8516e2111f2",
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "approved": "P",
-      "asn": 13335,
-      "cidr": "192.0.2.0/24",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "delegate_loa_creation": true,
-      "description": "Internal test prefix",
-      "irr_validation_state": "pending",
-      "loa_document_id": "d933b1530bc56c9953cf8ce166da8004",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false,
-      "ownership_validation_state": "pending",
-      "ownership_validation_token": "1234a5b6-1234-1abc-12a3-1234a5b6789c",
-      "rpki_validation_state": "pending"
-    }
-  ]
-}
-```
-
-## Prefix Details
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}`
-
-List a particular prefix owned by the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Prefix`
-
-  - `id: optional string`
-
-    Identifier of an IP Prefix.
-
-  - `account_id: optional string`
-
-    Identifier of a Cloudflare account.
-
-  - `advertised: optional boolean`
-
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-  - `approved: optional string`
-
-    Approval state of the prefix (P = pending, V = active).
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegate_loa_creation: optional boolean`
-
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
-
-  - `description: optional string`
-
-    Description of the prefix.
-
-  - `irr_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `loa_document_id: optional string`
-
-    Identifier for the uploaded LOA document.
-
-  - `modified_at: optional string`
-
-  - `on_demand_enabled: optional boolean`
-
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-  - `on_demand_locked: optional boolean`
-
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
-
-  - `ownership_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `ownership_validation_token: optional string`
-
-    Token provided to demonstrate ownership of the prefix.
-
-  - `rpki_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "2af39739cc4e3b5910c918468bb89828",
-    "account_id": "258def64c72dae45f3e4c8516e2111f2",
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-    "approved": "P",
-    "asn": 13335,
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegate_loa_creation": true,
-    "description": "Internal test prefix",
-    "irr_validation_state": "pending",
-    "loa_document_id": "d933b1530bc56c9953cf8ce166da8004",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand_enabled": true,
-    "on_demand_locked": false,
-    "ownership_validation_state": "pending",
-    "ownership_validation_token": "1234a5b6-1234-1abc-12a3-1234a5b6789c",
-    "rpki_validation_state": "pending"
-  }
-}
-```
-
-## Add Prefix
-
-**post** `/accounts/{account_id}/addressing/prefixes`
-
-Add a new prefix under the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-### Body Parameters
-
-- `asn: number`
-
-  Autonomous System Number (ASN) the prefix will be advertised under.
-
-- `cidr: string`
-
-  IP Prefix in Classless Inter-Domain Routing format.
-
-- `delegate_loa_creation: optional boolean`
-
-  Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
-
-- `description: optional string`
-
-  Description of the prefix.
-
-- `loa_document_id: optional string`
-
-  Identifier for the uploaded LOA document.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Prefix`
-
-  - `id: optional string`
-
-    Identifier of an IP Prefix.
-
-  - `account_id: optional string`
-
-    Identifier of a Cloudflare account.
-
-  - `advertised: optional boolean`
-
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-  - `approved: optional string`
-
-    Approval state of the prefix (P = pending, V = active).
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegate_loa_creation: optional boolean`
-
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
-
-  - `description: optional string`
-
-    Description of the prefix.
-
-  - `irr_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `loa_document_id: optional string`
-
-    Identifier for the uploaded LOA document.
-
-  - `modified_at: optional string`
-
-  - `on_demand_enabled: optional boolean`
-
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-  - `on_demand_locked: optional boolean`
-
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
-
-  - `ownership_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `ownership_validation_token: optional string`
-
-    Token provided to demonstrate ownership of the prefix.
-
-  - `rpki_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "asn": 13335,
-          "cidr": "192.0.2.0/24",
-          "delegate_loa_creation": true,
-          "description": "Internal test prefix",
-          "loa_document_id": "d933b1530bc56c9953cf8ce166da8004"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "2af39739cc4e3b5910c918468bb89828",
-    "account_id": "258def64c72dae45f3e4c8516e2111f2",
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-    "approved": "P",
-    "asn": 13335,
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegate_loa_creation": true,
-    "description": "Internal test prefix",
-    "irr_validation_state": "pending",
-    "loa_document_id": "d933b1530bc56c9953cf8ce166da8004",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand_enabled": true,
-    "on_demand_locked": false,
-    "ownership_validation_state": "pending",
-    "ownership_validation_token": "1234a5b6-1234-1abc-12a3-1234a5b6789c",
-    "rpki_validation_state": "pending"
-  }
-}
-```
-
-## Update Prefix Description
-
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}`
-
-Modify the description for a prefix owned by the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `description: string`
-
-  Description of the prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Prefix`
-
-  - `id: optional string`
-
-    Identifier of an IP Prefix.
-
-  - `account_id: optional string`
-
-    Identifier of a Cloudflare account.
-
-  - `advertised: optional boolean`
-
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-  - `approved: optional string`
-
-    Approval state of the prefix (P = pending, V = active).
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegate_loa_creation: optional boolean`
-
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
-
-  - `description: optional string`
-
-    Description of the prefix.
-
-  - `irr_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `loa_document_id: optional string`
-
-    Identifier for the uploaded LOA document.
-
-  - `modified_at: optional string`
-
-  - `on_demand_enabled: optional boolean`
-
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-  - `on_demand_locked: optional boolean`
-
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
-
-  - `ownership_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `ownership_validation_token: optional string`
-
-    Token provided to demonstrate ownership of the prefix.
-
-  - `rpki_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "description": "Internal test prefix"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "2af39739cc4e3b5910c918468bb89828",
-    "account_id": "258def64c72dae45f3e4c8516e2111f2",
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-    "approved": "P",
-    "asn": 13335,
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegate_loa_creation": true,
-    "description": "Internal test prefix",
-    "irr_validation_state": "pending",
-    "loa_document_id": "d933b1530bc56c9953cf8ce166da8004",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand_enabled": true,
-    "on_demand_locked": false,
-    "ownership_validation_state": "pending",
-    "ownership_validation_token": "1234a5b6-1234-1abc-12a3-1234a5b6789c",
-    "rpki_validation_state": "pending"
-  }
-}
-```
-
-## Delete Prefix
-
-**delete** `/accounts/{account_id}/addressing/prefixes/{prefix_id}`
-
-Delete an unapproved prefix owned by the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Prefix
-
-- `Prefix object { id, account_id, advertised, 15 more }`
-
-  - `id: optional string`
-
-    Identifier of an IP Prefix.
-
-  - `account_id: optional string`
-
-    Identifier of a Cloudflare account.
-
-  - `advertised: optional boolean`
-
-    Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-  - `approved: optional string`
-
-    Approval state of the prefix (P = pending, V = active).
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegate_loa_creation: optional boolean`
-
-    Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.
-
-  - `description: optional string`
-
-    Description of the prefix.
-
-  - `irr_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `loa_document_id: optional string`
-
-    Identifier for the uploaded LOA document.
-
-  - `modified_at: optional string`
-
-  - `on_demand_enabled: optional boolean`
-
-    Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-  - `on_demand_locked: optional boolean`
-
-    Whether advertisement status of the prefix is locked, meaning it cannot be changed.
-
-  - `ownership_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-  - `ownership_validation_token: optional string`
-
-    Token provided to demonstrate ownership of the prefix.
-
-  - `rpki_validation_state: optional string`
-
-    State of one kind of validation for an IP prefix.
-
-### Prefix Delete Response
-
-- `PrefixDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# Service Bindings
-
-## List Service Bindings
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings`
-
-List the Cloudflare services this prefix is currently bound to. Traffic sent to an address within an IP prefix will be routed to the Cloudflare service of the most-specific Service Binding matching the address.
-**Example:** binding `192.0.2.0/24` to Cloudflare Magic Transit and `192.0.2.1/32` to the Cloudflare CDN would route traffic for `192.0.2.1` to the CDN, and traffic for all other IPs in the prefix to Cloudflare Magic Transit.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of ServiceBinding`
-
-  - `id: optional string`
-
-    Identifier of a Service Binding.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `provisioning: optional object { state }`
-
-    Status of a Service Binding's deployment to the Cloudflare network
-
-    - `state: optional "provisioning" or "active"`
-
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
-
-      - `"provisioning"`
-
-      - `"active"`
-
-  - `service_id: optional string`
-
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
-
-  - `service_name: optional string`
-
-    Name of a service running on the Cloudflare network
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "0429b49b6a5155297b78e75a44b09e14",
-      "cidr": "192.0.2.0/24",
-      "provisioning": {
-        "state": "provisioning"
-      },
-      "service_id": "2db684ee7ca04e159946fd05b99e1bcd",
-      "service_name": "Magic Transit"
-    }
-  ]
-}
-```
-
-## Get Service Binding
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings/{binding_id}`
-
-Fetch a single Service Binding
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `binding_id: string`
-
-  Identifier of a Service Binding.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ServiceBinding`
-
-  - `id: optional string`
-
-    Identifier of a Service Binding.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `provisioning: optional object { state }`
-
-    Status of a Service Binding's deployment to the Cloudflare network
-
-    - `state: optional "provisioning" or "active"`
-
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
-
-      - `"provisioning"`
-
-      - `"active"`
-
-  - `service_id: optional string`
-
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
-
-  - `service_name: optional string`
-
-    Name of a service running on the Cloudflare network
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings/$BINDING_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "0429b49b6a5155297b78e75a44b09e14",
-    "cidr": "192.0.2.0/24",
-    "provisioning": {
-      "state": "provisioning"
-    },
-    "service_id": "2db684ee7ca04e159946fd05b99e1bcd",
-    "service_name": "Magic Transit"
-  }
-}
-```
-
-## Create Service Binding
-
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings`
-
-Creates a new Service Binding, routing traffic to IPs within the given CIDR to a service running on Cloudflare's network.
-**NOTE:** The first Service Binding created for an IP Prefix must exactly match the IP Prefix's CIDR. Subsequent Service Bindings may be created with a more-specific CIDR. Refer to the  [Service Bindings Documentation](https://developers.cloudflare.com/byoip/service-bindings/) for compatibility details.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `cidr: string`
-
-  IP Prefix in Classless Inter-Domain Routing format.
-
-- `service_id: string`
-
-  Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-  **List Services** endpoint.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ServiceBinding`
-
-  - `id: optional string`
-
-    Identifier of a Service Binding.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `provisioning: optional object { state }`
-
-    Status of a Service Binding's deployment to the Cloudflare network
-
-    - `state: optional "provisioning" or "active"`
-
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
-
-      - `"provisioning"`
-
-      - `"active"`
-
-  - `service_id: optional string`
-
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
-
-  - `service_name: optional string`
-
-    Name of a service running on the Cloudflare network
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "cidr": "192.0.2.0/24",
-          "service_id": "2db684ee7ca04e159946fd05b99e1bcd"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "0429b49b6a5155297b78e75a44b09e14",
-    "cidr": "192.0.2.0/24",
-    "provisioning": {
-      "state": "provisioning"
-    },
-    "service_id": "2db684ee7ca04e159946fd05b99e1bcd",
-    "service_name": "Magic Transit"
-  }
-}
-```
-
-## Delete Service Binding
-
-**delete** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings/{binding_id}`
-
-Delete a Service Binding
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `binding_id: string`
-
-  Identifier of a Service Binding.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings/$BINDING_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Service Binding
-
-- `ServiceBinding object { id, cidr, provisioning, 2 more }`
-
-  - `id: optional string`
-
-    Identifier of a Service Binding.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `provisioning: optional object { state }`
-
-    Status of a Service Binding's deployment to the Cloudflare network
-
-    - `state: optional "provisioning" or "active"`
-
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
-
-      - `"provisioning"`
-
-      - `"active"`
-
-  - `service_id: optional string`
-
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
-
-  - `service_name: optional string`
-
-    Name of a service running on the Cloudflare network
-
-### Service Binding Delete Response
-
-- `ServiceBindingDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# BGP Prefixes
-
-## List BGP Prefixes
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes`
-
-List all BGP Prefixes within the specified IP Prefix. BGP Prefixes are used to control which specific subnets are advertised to the Internet. It is possible to advertise subnets more specific than an IP Prefix by creating more specific BGP Prefixes.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7009ba364c7a5760798ceb430e603b74",
-      "asn": 13335,
-      "asn_prepend_count": 2,
-      "auto_advertise_withdraw": true,
-      "bgp_signal_opts": {
-        "enabled": false,
-        "modified_at": "2014-01-01T05:20:00.12345Z"
-      },
-      "cidr": "192.0.2.0/24",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand": {
-        "advertised": true,
-        "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-        "on_demand_enabled": true,
-        "on_demand_locked": false
-      }
-    }
-  ]
-}
-```
-
-## Fetch BGP Prefix
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}`
-
-Retrieve a single BGP Prefix according to its identifier
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `bgp_prefix_id: string`
-
-  Identifier of BGP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes/$BGP_PREFIX_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
-
-## Create BGP Prefix
-
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes`
-
-Create a BGP prefix, controlling the BGP advertisement status of a specific subnet. When created, BGP prefixes are initially withdrawn, and can be advertised with the Update BGP Prefix API.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `cidr: string`
-
-  IP Prefix in Classless Inter-Domain Routing format.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "cidr": "192.0.2.0/24"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
-
-## Update BGP Prefix
-
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}`
-
-Update the properties of a BGP Prefix, such as the on demand advertisement status (advertised or withdrawn).
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `bgp_prefix_id: string`
-
-  Identifier of BGP Prefix.
-
-### Body Parameters
-
-- `asn_prepend_count: optional number`
-
-  Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-- `auto_advertise_withdraw: optional boolean`
-
-  Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-- `on_demand: optional object { advertised }`
-
-  - `advertised: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional BGPPrefix`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes/$BGP_PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "asn_prepend_count": 2,
-          "auto_advertise_withdraw": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7009ba364c7a5760798ceb430e603b74",
-    "asn": 13335,
-    "asn_prepend_count": 2,
-    "auto_advertise_withdraw": true,
-    "bgp_signal_opts": {
-      "enabled": false,
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    },
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "on_demand": {
-      "advertised": true,
-      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
-      "on_demand_enabled": true,
-      "on_demand_locked": false
-    }
-  }
-}
-```
-
-## Domain Types
-
-### BGP Prefix
-
-- `BGPPrefix object { id, asn, asn_prepend_count, 6 more }`
-
-  - `id: optional string`
-
-    Identifier of BGP Prefix.
-
-  - `asn: optional number`
-
-    Autonomous System Number (ASN) the prefix will be advertised under.
-
-  - `asn_prepend_count: optional number`
-
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
-
-  - `auto_advertise_withdraw: optional boolean`
-
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
-
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
-
-    - `enabled: optional boolean`
-
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
-
-    - `modified_at: optional string`
-
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `modified_at: optional string`
-
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
-
-    - `advertised: optional boolean`
-
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
-
-    - `advertised_modified_at: optional string`
-
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-    - `on_demand_enabled: optional boolean`
-
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
-
-    - `on_demand_locked: optional boolean`
-
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
-
-# Advertisement Status
-
-## Get Advertisement Status
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/status`
-
-View the current advertisement state for a prefix.
-
-**Deprecated:** Prefer the BGP Prefixes endpoints, which additionally allow for advertising and withdrawing
-subnets of an IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/status \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update Prefix Dynamic Advertisement Status
-
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/status`
-
-Advertise or withdraw the BGP route for a prefix.
-
-**Deprecated:** Prefer the BGP Prefixes endpoints, which additionally allow for advertising and withdrawing
-subnets of an IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `advertised: boolean`
-
-  Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-  `false`, the BGP route is withdrawn.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/status \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "advertised": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Advertisement Status Get Response
-
-- `AdvertisementStatusGetResponse object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-### Advertisement Status Edit Response
-
-- `AdvertisementStatusEditResponse object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-# Delegations
-
-## List Prefix Delegations
-
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations`
-
-List all delegations for a given account IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Delegations`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegated_account_id: optional string`
-
-    Account identifier for the account to which prefix is being delegated.
-
-  - `modified_at: optional string`
-
-  - `parent_prefix_id: optional string`
-
-    Identifier of an IP Prefix.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "d933b1530bc56c9953cf8ce166da8004",
-      "cidr": "192.0.2.0/24",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "delegated_account_id": "b1946ac92492d2347c6235b4d2611184",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "parent_prefix_id": "2af39739cc4e3b5910c918468bb89828"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Create Prefix Delegation
-
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations`
-
-Create a new account delegation for a given IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `cidr: string`
-
-  IP Prefix in Classless Inter-Domain Routing format.
-
-- `delegated_account_id: string`
-
-  Account identifier for the account to which prefix is being delegated.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Delegations`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegated_account_id: optional string`
-
-    Account identifier for the account to which prefix is being delegated.
-
-  - `modified_at: optional string`
-
-  - `parent_prefix_id: optional string`
-
-    Identifier of an IP Prefix.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "cidr": "192.0.2.0/24",
-          "delegated_account_id": "b1946ac92492d2347c6235b4d2611184"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "d933b1530bc56c9953cf8ce166da8004",
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegated_account_id": "b1946ac92492d2347c6235b4d2611184",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "parent_prefix_id": "2af39739cc4e3b5910c918468bb89828"
-  }
-}
-```
-
-## Delete Prefix Delegation
-
-**delete** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations/{delegation_id}`
-
-Delete an account delegation for a given IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `delegation_id: string`
-
-  Identifier of a Delegation.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations/$DELEGATION_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "d933b1530bc56c9953cf8ce166da8004"
-  }
-}
-```
-
-## Domain Types
-
-### Delegations
-
-- `Delegations object { id, cidr, created_at, 3 more }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegated_account_id: optional string`
-
-    Account identifier for the account to which prefix is being delegated.
-
-  - `modified_at: optional string`
-
-  - `parent_prefix_id: optional string`
-
-    Identifier of an IP Prefix.
-
-### Delegation Delete Response
-
-- `DelegationDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(model)%20delegation_delete_response%20%3E%20(schema)>)

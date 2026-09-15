@@ -1,178 +1,153 @@
+---
+title: Apps
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Apps
 
-## Fetch all apps
+##### [Fetch all apps](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/apps/methods/get)
 
-**get** `/accounts/{account_id}/realtime/kit/apps`
+GET/accounts/{account\_id}/realtime/kit/apps
 
-Fetch all apps for your account
+##### [Create App](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/apps/methods/post)
 
-### Path Parameters
+POST/accounts/{account\_id}/realtime/kit/apps
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  The account identifier tag.
+<details>
 
-### Query Parameters
+<summary>
 
-- `page_no: optional number`
+AppGetResponse object {data, paging, success }
 
-  The page number from which you want your page search results to be displayed.
+</summary>
 
-- `per_page: optional number`
+<details>
 
-  Number of results per page.
+<summary>
 
-- `search: optional string`
+data: optional array of object {id, created\_at, name }
 
-  Search string that matches apps by name.
+</summary>
 
-- `sort_order: optional "ASC" or "DESC"`
+id: optional string
 
-  Sort order for apps by creation time.
+formatuuid
 
-  - `"ASC"`
+<a href="#">Link to this property</a>
 
-  - `"DESC"`
+created\_at: optional string
 
-### Returns
+formatdate-time
 
-- `data: optional array of object { id, created_at, name }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+name: optional string
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-- `paging: optional object { end_offset, start_offset, total_count }`
+<a href="#">Link to this property</a>
 
-  - `end_offset: optional number`
+<details>
 
-  - `start_offset: optional number`
+<summary>
 
-  - `total_count: optional number`
+paging: optional object {end\_offset, start\_offset, total\_count }
 
-- `success: optional boolean`
+</summary>
 
-### Example
+end\_offset: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/apps \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+start\_offset: optional number
 
-```json
-{
-  "data": [
-    {
-      "created_at": "2025-01-01T08:16:40.644Z",
-      "id": "14a396e7-ca44-4937-bf1f-050a69118543",
-      "name": "my-first-app"
-    }
-  ],
-  "paging": {
-    "end_offset": 1,
-    "start_offset": 1,
-    "total_count": 1
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create App
+total\_count: optional number
 
-**post** `/accounts/{account_id}/realtime/kit/apps`
+<a href="#">Link to this property</a>
 
-Create new app for your account
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+success: optional boolean
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `name: string`
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(model)%20app_get_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `data: optional object { app }`
+<summary>
 
-  - `app: optional object { id, created_at, name }`
+AppPostResponse object {data, success }
 
-    - `id: optional string`
+</summary>
 
-    - `created_at: optional string`
+<details>
 
-    - `name: optional string`
+<summary>
 
-- `success: optional boolean`
+data: optional object {app }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/apps \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "x"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "data": {
-    "app": {
-      "created_at": "2025-01-01T08:16:40.644Z",
-      "id": "14a396e7-ca44-4937-bf1f-050a69118543",
-      "name": "my-new-app"
-    }
-  },
-  "success": true
-}
-```
+app: optional object {id, created\_at, name }
 
-## Domain Types
+</summary>
 
-### App Get Response
+id: optional string
 
-- `AppGetResponse object { data, paging, success }`
+formatuuid
 
-  - `data: optional array of object { id, created_at, name }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+created\_at: optional string
 
-    - `created_at: optional string`
+formatdate-time
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-  - `paging: optional object { end_offset, start_offset, total_count }`
+name: optional string
 
-    - `end_offset: optional number`
+<a href="#">Link to this property</a>
 
-    - `start_offset: optional number`
+</details>
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-  - `success: optional boolean`
+</details>
 
-### App Post Response
+<a href="#">Link to this property</a>
 
-- `AppPostResponse object { data, success }`
+success: optional boolean
 
-  - `data: optional object { app }`
+<a href="#">Link to this property</a>
 
-    - `app: optional object { id, created_at, name }`
+</details>
 
-      - `id: optional string`
-
-      - `created_at: optional string`
-
-      - `name: optional string`
-
-  - `success: optional boolean`
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(model)%20app_post_response%20%3E%20(schema)>)

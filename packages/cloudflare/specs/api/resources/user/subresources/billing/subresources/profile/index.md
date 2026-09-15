@@ -1,281 +1,203 @@
+---
+title: Profile
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[User](https://developers.cloudflare.com/api/resources/user)
+
+[Billing](https://developers.cloudflare.com/api/resources/user/subresources/billing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Profile
 
-## Billing Profile Details
+##### [Billing Profile Details](https://developers.cloudflare.com/api/resources/user/subresources/billing/subresources/profile/methods/get)
 
-**get** `/user/billing/profile`
+Deprecated
 
-Accesses your billing profile object.
+GET/user/billing/profile
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+ProfileGetResponse object {id, account\_type, address, 35 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+Billing item identifier tag.
 
-- `messages: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+account\_type: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+address: optional string
 
-- `result: object { id, account_type, address, 36 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+address2: optional string
 
-    Billing item identifier tag.
+<a href="#">Link to this property</a>
 
-  - `account_type: optional string`
+balance: optional string
 
-  - `address: optional string`
+<a href="#">Link to this property</a>
 
-  - `address2: optional string`
+card\_expiry\_month: optional number
 
-  - `balance: optional string`
+<a href="#">Link to this property</a>
 
-  - `card_expiry_month: optional number`
+card\_expiry\_year: optional number
 
-  - `card_expiry_year: optional number`
+<a href="#">Link to this property</a>
 
-  - `card_number: optional string`
+card\_number: optional string
 
-  - `city: optional string`
+<a href="#">Link to this property</a>
 
-  - `company: optional string`
+city: optional string
 
-  - `country: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+company: optional string
 
-  - `device_data: optional string`
+<a href="#">Link to this property</a>
 
-  - `edited_on: optional string`
+country: optional string
 
-  - `enterprise_billing_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `enterprise_primary_email: optional string`
+created\_on: optional string
 
-  - `first_name: optional string`
+formatdate-time
 
-  - `is_partner: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_name: optional string`
+device\_data: optional string
 
-  - `next_bill_date: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_address: optional string`
+edited\_on: optional string
 
-  - `payment_address2: optional string`
+formatdate-time
 
-  - `payment_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_country: optional string`
+enterprise\_billing\_email: optional string
 
-  - `payment_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_first_name: optional string`
+enterprise\_primary\_email: optional string
 
-  - `payment_gateway: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_last_name: optional string`
+first\_name: optional string
 
-  - `payment_nonce: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_state: optional string`
+is\_partner: optional boolean
 
-  - `payment_zipcode: optional string`
+<a href="#">Link to this property</a>
 
-  - `primary_email: optional string`
+last\_name: optional string
 
-  - `state: optional string`
+<a href="#">Link to this property</a>
 
-  - `tax_id_type: optional string`
-
-  - `telephone: optional string`
-
-  - `use_legacy: optional boolean`
-
-  - `validation_code: optional string`
-
-  - `vat: optional string`
-
-  - `zipcode: optional string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/billing/profile \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "b69a9f3492637782896352daae219e7d",
-    "account_type": "type",
-    "address": "123 Main Street",
-    "address2": "Apt 1",
-    "balance": "0",
-    "card_expiry_month": 12,
-    "card_expiry_year": 2099,
-    "card_number": "4242424242424242",
-    "city": "Anytown",
-    "company": "Company",
-    "country": "Anycountry",
-    "created_on": "2014-03-01T12:21:59.3456Z",
-    "device_data": "sample_data",
-    "edited_on": "2014-03-01T12:21:59.3456Z",
-    "enterprise_billing_email": "johndoe@gmail.com",
-    "enterprise_primary_email": "johndoe@gmail.com",
-    "first_name": "John",
-    "is_partner": false,
-    "last_name": "Doe",
-    "next_bill_date": "2014-03-01T12:21:59.3456Z",
-    "payment_address": "123 Main Street",
-    "payment_address2": "Apt 1",
-    "payment_city": "Anytown",
-    "payment_country": "Anycountry",
-    "payment_email": "johndoe@gmail.com",
-    "payment_first_name": "John",
-    "payment_gateway": "gateway",
-    "payment_last_name": "Doe",
-    "payment_nonce": "abc123",
-    "payment_state": "state",
-    "payment_zipcode": "12345",
-    "primary_email": "johndoe@gmail.com",
-    "state": "AnyState",
-    "tax_id_type": "type",
-    "telephone": "1234567899",
-    "use_legacy": false,
-    "validation_code": "1111",
-    "vat": "GB123456789",
-    "zipcode": "12345"
-  },
-  "success": true
-}
-```
+next\_bill\_date: optional string
 
-## Domain Types
+formatdate-time
 
-### Profile Get Response
+<a href="#">Link to this property</a>
 
-- `ProfileGetResponse object { id, account_type, address, 36 more }`
+payment\_address: optional string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Billing item identifier tag.
+payment\_address2: optional string
 
-  - `account_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `address: optional string`
+payment\_city: optional string
 
-  - `address2: optional string`
+<a href="#">Link to this property</a>
 
-  - `balance: optional string`
+payment\_country: optional string
 
-  - `card_expiry_month: optional number`
+<a href="#">Link to this property</a>
 
-  - `card_expiry_year: optional number`
+payment\_email: optional string
 
-  - `card_number: optional string`
+<a href="#">Link to this property</a>
 
-  - `city: optional string`
+payment\_first\_name: optional string
 
-  - `company: optional string`
+<a href="#">Link to this property</a>
 
-  - `country: optional string`
+payment\_gateway: optional string
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_data: optional string`
+payment\_last\_name: optional string
 
-  - `edited_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `enterprise_billing_email: optional string`
+payment\_nonce: optional string
 
-  - `enterprise_primary_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `first_name: optional string`
+payment\_state: optional string
 
-  - `is_partner: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_name: optional string`
+payment\_zipcode: optional string
 
-  - `next_bill_date: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_address: optional string`
+primary\_email: optional string
 
-  - `payment_address2: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_city: optional string`
+state: optional string
 
-  - `payment_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_email: optional string`
+tax\_id\_type: optional string
 
-  - `payment_first_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_gateway: optional string`
+telephone: optional string
 
-  - `payment_last_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_nonce: optional string`
+validation\_code: optional string
 
-  - `payment_state: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_zipcode: optional string`
+vat: optional string
 
-  - `primary_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `state: optional string`
+zipcode: optional string
 
-  - `tax_id_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `telephone: optional string`
+</details>
 
-  - `use_legacy: optional boolean`
-
-  - `validation_code: optional string`
-
-  - `vat: optional string`
-
-  - `zipcode: optional string`
+[Link to this property](#)%20user.billing.profile%20%3E%20(model)%20profile_get_response%20%3E%20(schema)>)

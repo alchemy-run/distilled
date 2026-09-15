@@ -1,2195 +1,661 @@
+---
+title: Tokens
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tokens
 
-## List Tokens
+##### [List Tokens](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/list)
 
-**get** `/accounts/{account_id}/tokens`
+GET/accounts/{account\_id}/tokens
 
-List all Account Owned API tokens created for this account.
+##### [Token Details](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/tokens/{token\_id}
 
-- `account_id: string`
+##### [Create Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/create)
 
-  Account identifier tag.
+POST/accounts/{account\_id}/tokens
 
-### Query Parameters
+##### [Update Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/update)
 
-- `direction: optional "asc" or "desc"`
+PUT/accounts/{account\_id}/tokens/{token\_id}
 
-  Direction to order results.
+##### [Delete Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/tokens/{token\_id}
 
-  - `"desc"`
+##### [Verify Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/verify)
 
-- `page: optional number`
+GET/accounts/{account\_id}/tokens/verify
 
-  Page number of paginated results.
+##### ModelsExpand Collapse
 
-- `per_page: optional number`
+<details>
 
-  Maximum number of results per page.
+<summary>
 
-### Returns
+TokenCreateResponse object {id, condition, expires\_on, 8 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+Token identifier tag.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+condition: optional object {request\_ip }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+request\_ip: optional object {in, not\_in }
 
-- `success: true`
+Client IP restrictions.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
 
-- `result: optional array of Token`
+List of IPv4/IPv6 CIDR addresses.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Token identifier tag.
+not\_in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
 
-  - `condition: optional object { request_ip }`
+List of IPv4/IPv6 CIDR addresses.
 
-    - `request_ip: optional object { in, not_in }`
+<a href="#">Link to this property</a>
 
-      Client IP restrictions.
+</details>
 
-      - `in: optional array of TokenConditionCIDRList`
+<a href="#">Link to this property</a>
 
-        List of IPv4/IPv6 CIDR addresses.
+</details>
 
-      - `not_in: optional array of TokenConditionCIDRList`
+<a href="#">Link to this property</a>
 
-        List of IPv4/IPv6 CIDR addresses.
+expires\_on: optional string
 
-  - `expires_on: optional string`
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
 
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
+formatdate-time
 
-  - `issued_on: optional string`
+<a href="#">Link to this property</a>
 
-    The time on which the token was created.
+issued\_on: optional string
 
-  - `last_used_on: optional string`
+The time on which the token was created.
 
-    Last time the token was used.
+formatdate-time
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time the token was modified.
+last\_used\_on: optional string
 
-  - `name: optional string`
+Last time the token was used.
 
-    Token name.
+formatdate-time
 
-  - `not_before: optional string`
+<a href="#">Link to this property</a>
 
-    The time before which the token MUST NOT be accepted for processing.
+modified\_on: optional string
 
-  - `policies: optional array of TokenPolicy`
+Last time the token was modified.
 
-    List of access policies assigned to the token.
+formatdate-time
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+name: optional string
 
-    - `effect: "allow" or "deny"`
+Token name.
 
-      Allow or deny operations against the resources.
+maxLength120
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+not\_before: optional string
 
-    - `permission_groups: array of object { id, meta, name }`
+The time before which the token MUST NOT be accepted for processing.
 
-      A set of permission groups that are specified to the policy.
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the permission group.
+<details>
 
-      - `meta: optional object { key, value }`
+<summary>
 
-        Attributes associated to the permission group.
+policies: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_policy%20%3E%20(schema)">TokenPolicy</a> { id, effect, permission\_groups, resources }
 
-        - `key: optional string`
+List of access policies assigned to the token.
 
-        - `value: optional string`
+</summary>
 
-      - `name: optional string`
+id: string
 
-        Name of the permission group.
+Policy identifier.
 
-    - `resources: map[string] or map[map[string]]`
+<a href="#">Link to this property</a>
 
-      A list of resource names that the policy applies to.
+<details>
 
-      - `IAMResourcesTypeObjectString = map[string]`
+<summary>
 
-        Map of simple string resource permissions
+effect: "allow"or "deny"
 
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
+Allow or deny operations against the resources.
 
-        Map of nested resource permissions
+</summary>
 
-  - `status: optional "active" or "disabled" or "expired"`
+One of the following:
 
-    Status of the token.
+"allow"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+"deny"
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results
+permission\_groups: array of object {id, meta, name }
 
-  - `per_page: optional number`
+A set of permission groups that are specified to the policy.
 
-    Number of results per page of results
+</summary>
 
-  - `total_count: optional number`
+id: string
 
-    Total results available without any search parameters
+Identifier of the permission group.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "ed17574386854bf78a67040be0a770b0",
-      "condition": {
-        "request_ip": {
-          "in": [
-            "123.123.123.0/24",
-            "2606:4700::/32"
-          ],
-          "not_in": [
-            "123.123.123.100/24",
-            "2606:4700:4700::/48"
-          ]
-        }
-      },
-      "expires_on": "2020-01-01T00:00:00Z",
-      "issued_on": "2018-07-01T05:20:00Z",
-      "last_used_on": "2020-01-02T12:34:00Z",
-      "modified_on": "2018-07-02T05:20:00Z",
-      "name": "readonly token",
-      "not_before": "2018-07-01T05:20:00Z",
-      "policies": [
-        {
-          "id": "f267e341f3dd4697bd3b9f71dd96247f",
-          "effect": "allow",
-          "permission_groups": [
-            {
-              "id": "c8fed203ed3043cba015a93ad1616f1f",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Zone Read"
-            },
-            {
-              "id": "82e64a83756745bbbb1c9c2701bf816b",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Magic Network Monitoring"
-            }
-          ],
-          "resources": {
-            "foo": "string"
-          }
-        }
-      ],
-      "status": "active"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+meta: optional object {key, value }
 
-## Token Details
+Attributes associated to the permission group.
 
-**get** `/accounts/{account_id}/tokens/{token_id}`
+</summary>
 
-Get information about a specific Account Owned API token.
+key: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+value: optional string
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `token_id: string`
+</details>
 
-  Token identifier tag.
+<a href="#">Link to this property</a>
 
-### Returns
+name: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Name of the permission group.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+resources: map\[string]or map\[map\[string]]
 
-  - `code: number`
+A list of resource names that the policy applies to.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+IAMResourcesTypeObjectString = map\[string]
 
-    - `pointer: optional string`
+Map of simple string resource permissions
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+IAMResourcesTypeObjectNested = map\[map\[string]]
 
-  - `true`
+Map of nested resource permissions
 
-- `result: optional Token`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    Token identifier tag.
+<a href="#">Link to this property</a>
 
-  - `condition: optional object { request_ip }`
+</details>
 
-    - `request_ip: optional object { in, not_in }`
+<a href="#">Link to this property</a>
 
-      Client IP restrictions.
+<details>
 
-      - `in: optional array of TokenConditionCIDRList`
+<summary>
 
-        List of IPv4/IPv6 CIDR addresses.
+status: optional "active"or "disabled"or "expired"
 
-      - `not_in: optional array of TokenConditionCIDRList`
+Status of the token.
 
-        List of IPv4/IPv6 CIDR addresses.
+</summary>
 
-  - `expires_on: optional string`
+One of the following:
 
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
+"active"
 
-  - `issued_on: optional string`
+<a href="#">Link to this property</a>
 
-    The time on which the token was created.
+"disabled"
 
-  - `last_used_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time the token was used.
+"expired"
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time the token was modified.
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Token name.
+value: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_value%20%3E%20(schema)">TokenValue</a>
 
-  - `not_before: optional string`
+The token value.
 
-    The time before which the token MUST NOT be accepted for processing.
+maxLength80
 
-  - `policies: optional array of TokenPolicy`
+minLength40
 
-    List of access policies assigned to the token.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Policy identifier.
+[Link to this property](#)%20accounts.tokens%20%3E%20(model)%20token_create_response%20%3E%20(schema)>)
 
-    - `effect: "allow" or "deny"`
+<details>
 
-      Allow or deny operations against the resources.
+<summary>
 
-      - `"allow"`
+TokenDeleteResponse object {id }
 
-      - `"deny"`
+</summary>
 
-    - `permission_groups: array of object { id, meta, name }`
+id: string
 
-      A set of permission groups that are specified to the policy.
+Identifier
 
-      - `id: string`
+maxLength32
 
-        Identifier of the permission group.
+minLength32
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+</details>
 
-        - `key: optional string`
+[Link to this property](#)%20accounts.tokens%20%3E%20(model)%20token_delete_response%20%3E%20(schema)>)
 
-        - `value: optional string`
+<details>
 
-      - `name: optional string`
+<summary>
 
-        Name of the permission group.
+TokenVerifyResponse object {id, status, expires\_on, not\_before }
 
-    - `resources: map[string] or map[map[string]]`
+</summary>
 
-      A list of resource names that the policy applies to.
+id: string
 
-      - `IAMResourcesTypeObjectString = map[string]`
+Token identifier tag.
 
-        Map of simple string resource permissions
+maxLength32
 
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
+<a href="#">Link to this property</a>
 
-        Map of nested resource permissions
+<details>
 
-  - `status: optional "active" or "disabled" or "expired"`
+<summary>
 
-    Status of the token.
+status: "active"or "disabled"or "expired"
 
-    - `"active"`
+Status of the token.
 
-    - `"disabled"`
+</summary>
 
-    - `"expired"`
+One of the following:
 
-### Example
+"active"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"disabled"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Token
+"expired"
 
-**post** `/accounts/{account_id}/tokens`
+<a href="#">Link to this property</a>
 
-Create a new Account Owned API token.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+expires\_on: optional string
 
-  Account identifier tag.
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
 
-### Body Parameters
+formatdate-time
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Token name.
+not\_before: optional string
 
-- `policies: array of TokenPolicy`
+The time before which the token MUST NOT be accepted for processing.
 
-  List of access policies assigned to the token.
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Policy identifier.
+</details>
 
-  - `effect: "allow" or "deny"`
+[Link to this property](#)%20accounts.tokens%20%3E%20(model)%20token_verify_response%20%3E%20(schema)>)
 
-    Allow or deny operations against the resources.
+#### TokensPermission Groups
 
-    - `"allow"`
+##### [List Permission Groups](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/permission_groups/methods/list)
 
-    - `"deny"`
+GET/accounts/{account\_id}/tokens/permission\_groups
 
-  - `permission_groups: array of object { id, meta, name }`
+##### [List Permission Groups](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/permission_groups/methods/get)
 
-    A set of permission groups that are specified to the policy.
+GET/accounts/{account\_id}/tokens/permission\_groups
 
-    - `id: string`
+##### ModelsExpand Collapse
 
-      Identifier of the permission group.
+<details>
 
-    - `meta: optional object { key, value }`
+<summary>
 
-      Attributes associated to the permission group.
+PermissionGroupListResponse object {id, category, name, scopes }
 
-      - `key: optional string`
+</summary>
 
-      - `value: optional string`
+id: optional string
 
-    - `name: optional string`
+Public ID.
 
-      Name of the permission group.
+<a href="#">Link to this property</a>
 
-  - `resources: map[string] or map[map[string]]`
+<details>
 
-    A list of resource names that the policy applies to.
+<summary>
 
-    - `IAMResourcesTypeObjectString = map[string]`
+category: optional "developer\_platform"or "ai\_and\_machine\_learning"or "dns\_and\_zones"or 10 more
 
-      Map of simple string resource permissions
+Product category that this permission group belongs to.
 
-    - `IAMResourcesTypeObjectNested = map[map[string]]`
+</summary>
 
-      Map of nested resource permissions
+One of the following:
 
-- `condition: optional object { request_ip }`
+"developer\_platform"
 
-  - `request_ip: optional object { in, not_in }`
+<a href="#">Link to this property</a>
 
-    Client IP restrictions.
+"ai\_and\_machine\_learning"
 
-    - `in: optional array of TokenConditionCIDRList`
+<a href="#">Link to this property</a>
 
-      List of IPv4/IPv6 CIDR addresses.
+"dns\_and\_zones"
 
-    - `not_in: optional array of TokenConditionCIDRList`
+<a href="#">Link to this property</a>
 
-      List of IPv4/IPv6 CIDR addresses.
+"app\_security"
 
-- `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-  The expiration time on or after which the JWT MUST NOT be accepted for processing.
+"rules\_and\_configuration"
 
-- `not_before: optional string`
+<a href="#">Link to this property</a>
 
-  The time before which the token MUST NOT be accepted for processing.
+"cloudflare\_one\_and\_zero\_trust"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"analytics\_and\_logs"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"network\_services"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"media"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"email\_and\_messaging"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"cache\_and\_performance"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"account\_and\_billing"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"other"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id, condition, expires_on, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+name: optional string
 
-    Token identifier tag.
+Permission Group Name
 
-  - `condition: optional object { request_ip }`
+<a href="#">Link to this property</a>
 
-    - `request_ip: optional object { in, not_in }`
+<details>
 
-      Client IP restrictions.
+<summary>
 
-      - `in: optional array of TokenConditionCIDRList`
+scopes: optional array of "com.cloudflare.api.account"or "com.cloudflare.api.account.zone"or "com.cloudflare.api.user"or "com.cloudflare.edge.r2.bucket"
 
-        List of IPv4/IPv6 CIDR addresses.
+Resources to which the Permission Group is scoped
 
-      - `not_in: optional array of TokenConditionCIDRList`
+</summary>
 
-        List of IPv4/IPv6 CIDR addresses.
+One of the following:
 
-  - `expires_on: optional string`
+"com.cloudflare.api.account"
 
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
+<a href="#">Link to this property</a>
 
-  - `issued_on: optional string`
+"com.cloudflare.api.account.zone"
 
-    The time on which the token was created.
+<a href="#">Link to this property</a>
 
-  - `last_used_on: optional string`
+"com.cloudflare.api.user"
 
-    Last time the token was used.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+"com.cloudflare.edge.r2.bucket"
 
-    Last time the token was modified.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    Token name.
+<a href="#">Link to this property</a>
 
-  - `not_before: optional string`
+</details>
 
-    The time before which the token MUST NOT be accepted for processing.
+[Link to this property](#)%20accounts.tokens.permission_groups%20%3E%20(model)%20permission_group_list_response%20%3E%20(schema)>)
 
-  - `policies: optional array of TokenPolicy`
+<details>
 
-    List of access policies assigned to the token.
+<summary>
 
-    - `id: string`
+PermissionGroupGetResponse = array of object {id, category, name, scopes }
 
-      Policy identifier.
+</summary>
 
-    - `effect: "allow" or "deny"`
+id: optional string
 
-      Allow or deny operations against the resources.
+Public ID.
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+<details>
 
-    - `permission_groups: array of object { id, meta, name }`
+<summary>
 
-      A set of permission groups that are specified to the policy.
+category: optional "developer\_platform"or "ai\_and\_machine\_learning"or "dns\_and\_zones"or 10 more
 
-      - `id: string`
+Product category that this permission group belongs to.
 
-        Identifier of the permission group.
+</summary>
 
-      - `meta: optional object { key, value }`
+One of the following:
 
-        Attributes associated to the permission group.
+"developer\_platform"
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+"ai\_and\_machine\_learning"
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the permission group.
+"dns\_and\_zones"
 
-    - `resources: map[string] or map[map[string]]`
+<a href="#">Link to this property</a>
 
-      A list of resource names that the policy applies to.
+"app\_security"
 
-      - `IAMResourcesTypeObjectString = map[string]`
+<a href="#">Link to this property</a>
 
-        Map of simple string resource permissions
+"rules\_and\_configuration"
 
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
+<a href="#">Link to this property</a>
 
-        Map of nested resource permissions
+"cloudflare\_one\_and\_zero\_trust"
 
-  - `status: optional "active" or "disabled" or "expired"`
+<a href="#">Link to this property</a>
 
-    Status of the token.
+"analytics\_and\_logs"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+"network\_services"
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-  - `value: optional TokenValue`
+"media"
 
-    The token value.
+<a href="#">Link to this property</a>
 
-### Example
+"email\_and\_messaging"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "readonly token",
-          "policies": [
-            {
-              "effect": "allow",
-              "permission_groups": [
-                {
-                  "id": "c8fed203ed3043cba015a93ad1616f1f",
-                  "meta": {}
-                },
-                {
-                  "id": "82e64a83756745bbbb1c9c2701bf816b",
-                  "meta": {}
-                }
-              ],
-              "resources": {
-                "foo": "string"
-              }
-            }
-          ],
-          "expires_on": "2020-01-01T00:00:00Z",
-          "not_before": "2018-07-01T05:20:00Z"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"cache\_and\_performance"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active",
-    "value": "8M7wS6hCpXVc-DoRnPPY_UCWPgy8aea4Wy6kCe5T"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Token
+"account\_and\_billing"
 
-**put** `/accounts/{account_id}/tokens/{token_id}`
+<a href="#">Link to this property</a>
 
-Update an existing token.
+"other"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `token_id: string`
+name: optional string
 
-  Token identifier tag.
+Permission Group Name
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: string`
+<details>
 
-  Token name.
+<summary>
 
-- `policies: array of TokenPolicy`
+scopes: optional array of "com.cloudflare.api.account"or "com.cloudflare.api.account.zone"or "com.cloudflare.api.user"or "com.cloudflare.edge.r2.bucket"
 
-  List of access policies assigned to the token.
+Resources to which the Permission Group is scoped
 
-  - `id: string`
+</summary>
 
-    Policy identifier.
+One of the following:
 
-  - `effect: "allow" or "deny"`
+"com.cloudflare.api.account"
 
-    Allow or deny operations against the resources.
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+"com.cloudflare.api.account.zone"
 
-    - `"deny"`
+<a href="#">Link to this property</a>
 
-  - `permission_groups: array of object { id, meta, name }`
+"com.cloudflare.api.user"
 
-    A set of permission groups that are specified to the policy.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"com.cloudflare.edge.r2.bucket"
 
-      Identifier of the permission group.
+<a href="#">Link to this property</a>
 
-    - `meta: optional object { key, value }`
+</details>
 
-      Attributes associated to the permission group.
+<a href="#">Link to this property</a>
 
-      - `key: optional string`
+</details>
 
-      - `value: optional string`
+[Link to this property](#)%20accounts.tokens.permission_groups%20%3E%20(model)%20permission_group_get_response%20%3E%20(schema)>)
 
-    - `name: optional string`
+#### TokensValue
 
-      Name of the permission group.
+##### [Roll Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/value/methods/update)
 
-  - `resources: map[string] or map[map[string]]`
-
-    A list of resource names that the policy applies to.
-
-    - `IAMResourcesTypeObjectString = map[string]`
-
-      Map of simple string resource permissions
-
-    - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-      Map of nested resource permissions
-
-- `condition: optional object { request_ip }`
-
-  - `request_ip: optional object { in, not_in }`
-
-    Client IP restrictions.
-
-    - `in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-    - `not_in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-- `expires_on: optional string`
-
-  The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-- `not_before: optional string`
-
-  The time before which the token MUST NOT be accepted for processing.
-
-- `status: optional "active" or "disabled" or "expired"`
-
-  Status of the token.
-
-  - `"active"`
-
-  - `"disabled"`
-
-  - `"expired"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Token`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "readonly token",
-          "policies": [
-            {
-              "effect": "allow",
-              "permission_groups": [
-                {
-                  "id": "c8fed203ed3043cba015a93ad1616f1f",
-                  "meta": {}
-                },
-                {
-                  "id": "82e64a83756745bbbb1c9c2701bf816b",
-                  "meta": {}
-                }
-              ],
-              "resources": {
-                "foo": "string"
-              }
-            }
-          ],
-          "expires_on": "2020-01-01T00:00:00Z",
-          "not_before": "2018-07-01T05:20:00Z",
-          "status": "active"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active"
-  }
-}
-```
-
-## Delete Token
-
-**delete** `/accounts/{account_id}/tokens/{token_id}`
-
-Destroy an Account Owned API token.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Verify Token
-
-**get** `/accounts/{account_id}/tokens/verify`
-
-Test whether a token works.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, status, expires_on, not_before }`
-
-  - `id: string`
-
-    Token identifier tag.
-
-  - `status: "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/verify \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "status": "active",
-    "expires_on": "2020-01-01T00:00:00Z",
-    "not_before": "2018-07-01T05:20:00Z"
-  }
-}
-```
-
-## Domain Types
-
-### Token Create Response
-
-- `TokenCreateResponse object { id, condition, expires_on, 8 more }`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `value: optional TokenValue`
-
-    The token value.
-
-### Token Delete Response
-
-- `TokenDeleteResponse object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Token Verify Response
-
-- `TokenVerifyResponse object { id, status, expires_on, not_before }`
-
-  - `id: string`
-
-    Token identifier tag.
-
-  - `status: "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-# Permission Groups
-
-## List Permission Groups
-
-**get** `/accounts/{account_id}/tokens/permission_groups`
-
-Find all available permission groups for Account Owned API Tokens
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Query Parameters
-
-- `name: optional string`
-
-  Filter by the name of the permission group.
-  The value must be URL-encoded.
-
-- `scope: optional string`
-
-  Filter by the scope of the permission group.
-  The value must be URL-encoded.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7cf72faf220841aabcfdfab81c43c4f6",
-      "category": "account_and_billing",
-      "name": "Billing Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "9d24387c6e8544e2bc4024a03991339f",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "d2a1802cc9a34e30852f8b33869b2f3c",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "8b47d2786a534c08a1f94ee8f9f599ef",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "f7f0eda5697f475c90846e879bab8666",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "1a71c399035b4950a1bd1466bbe4f420",
-      "category": "developer_platform",
-      "name": "Workers Scripts Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "e086da7e2179491d91ee5f35b3ca210a",
-      "category": "developer_platform",
-      "name": "Workers Scripts Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## List Permission Groups
-
-**get** `/accounts/{account_id}/tokens/permission_groups`
-
-Find all available permission groups for Account Owned API Tokens
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Query Parameters
-
-- `name: optional string`
-
-  Filter by the name of the permission group.
-  The value must be URL-encoded.
-
-- `scope: optional string`
-
-  Filter by the scope of the permission group.
-  The value must be URL-encoded.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7cf72faf220841aabcfdfab81c43c4f6",
-      "category": "account_and_billing",
-      "name": "Billing Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "9d24387c6e8544e2bc4024a03991339f",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "d2a1802cc9a34e30852f8b33869b2f3c",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "8b47d2786a534c08a1f94ee8f9f599ef",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "f7f0eda5697f475c90846e879bab8666",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "1a71c399035b4950a1bd1466bbe4f420",
-      "category": "developer_platform",
-      "name": "Workers Scripts Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "e086da7e2179491d91ee5f35b3ca210a",
-      "category": "developer_platform",
-      "name": "Workers Scripts Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### Permission Group List Response
-
-- `PermissionGroupListResponse object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-### Permission Group Get Response
-
-- `PermissionGroupGetResponse = array of object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-# Value
-
-## Roll Token
-
-**put** `/accounts/{account_id}/tokens/{token_id}/value`
-
-Roll the Account Owned API token secret.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TokenValue`
-
-  The token value.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID/value \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "8M7wS6hCpXVc-DoRnPPY_UCWPgy8aea4Wy6kCe5T"
-}
-```
+PUT/accounts/{account\_id}/tokens/{token\_id}/value

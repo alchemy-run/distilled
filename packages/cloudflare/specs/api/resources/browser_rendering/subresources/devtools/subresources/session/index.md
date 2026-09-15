@@ -1,277 +1,191 @@
+---
+title: Session
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+[Devtools](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Session
 
-## List sessions.
+##### [List sessions.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/session/methods/list)
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/session`
+GET/accounts/{account\_id}/browser-rendering/devtools/session
 
-List active browser sessions.
+##### [Get session details.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/session/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/browser-rendering/devtools/session/{session\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account ID.
+<details>
 
-### Query Parameters
+<summary>
 
-- `limit: optional number`
+SessionListResponse = array of object {sessionId, closeReason, closeReasonText, 8 more }
 
-- `offset: optional number`
+</summary>
 
-### Returns
+sessionId: string
 
-- `sessionId: string`
+Session ID.
 
-  Session ID.
+formatuuid
 
-- `closeReason: optional string`
+<a href="#">Link to this property</a>
 
-  Reason for session closure.
+closeReason: optional number
 
-- `closeReasonText: optional string`
+Reason code for session closure.
 
-  Human-readable close reason.
+<a href="#">Link to this property</a>
 
-- `connectionEndTime: optional number`
+closeReasonText: optional string
 
-  Connection end time.
+Human-readable close reason.
 
-- `connectionId: optional string`
+<a href="#">Link to this property</a>
 
-  Connection ID.
+connectionEndTime: optional number
 
-- `connectionStartTime: optional number`
+Connection end time.
 
-  Connection start time.
+<a href="#">Link to this property</a>
 
-- `devtoolsFrontendUrl: optional string`
+connectionId: optional string
 
-  DevTools frontend URL.
+Connection ID.
 
-- `endTime: optional number`
+<a href="#">Link to this property</a>
 
-  Session end time.
+connectionStartTime: optional number
 
-- `lastUpdated: optional number`
+Connection start time.
 
-  Last updated timestamp.
+<a href="#">Link to this property</a>
 
-- `startTime: optional number`
+devtoolsFrontendUrl: optional string
 
-  Session start time.
+DevTools frontend URL.
 
-- `webSocketDebuggerUrl: optional string`
+<a href="#">Link to this property</a>
 
-  WebSocket URL for debugging this target.
+endTime: optional number
 
-### Example
+Session end time.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/session \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+lastUpdated: optional number
 
-```json
-[
-  {
-    "sessionId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "closeReason": "closeReason",
-    "closeReasonText": "closeReasonText",
-    "connectionEndTime": 0,
-    "connectionId": "connectionId",
-    "connectionStartTime": 0,
-    "devtoolsFrontendUrl": "devtoolsFrontendUrl",
-    "endTime": 0,
-    "lastUpdated": 0,
-    "startTime": 0,
-    "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-  }
-]
-```
+Last updated timestamp.
 
-## Get session details.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/session/{session_id}`
+startTime: optional number
 
-Get details for a specific browser session.
+Session start time.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+webSocketDebuggerUrl: optional string
 
-  Account ID.
+WebSocket URL for debugging this target.
 
-- `session_id: string`
+<a href="#">Link to this property</a>
 
-  Session ID.
+</details>
 
-### Returns
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)>)
 
-- `sessionId: string`
+<details>
 
-  Session ID.
+<summary>
 
-- `closeReason: optional string`
+SessionGetResponse object {sessionId, closeReason, closeReasonText, 8 more }
 
-  Reason for session closure.
+</summary>
 
-- `closeReasonText: optional string`
+sessionId: string
 
-  Human-readable close reason.
+Session ID.
 
-- `connectionEndTime: optional number`
+formatuuid
 
-  Connection end time.
+<a href="#">Link to this property</a>
 
-- `connectionId: optional string`
+closeReason: optional number
 
-  Connection ID.
+Reason code for session closure.
 
-- `connectionStartTime: optional number`
+<a href="#">Link to this property</a>
 
-  Connection start time.
+closeReasonText: optional string
 
-- `devtoolsFrontendUrl: optional string`
+Human-readable close reason.
 
-  DevTools frontend URL.
+<a href="#">Link to this property</a>
 
-- `endTime: optional number`
+connectionEndTime: optional number
 
-  Session end time.
+Connection end time.
 
-- `lastUpdated: optional number`
+<a href="#">Link to this property</a>
 
-  Last updated timestamp.
+connectionId: optional string
 
-- `startTime: optional number`
+Connection ID.
 
-  Session start time.
+<a href="#">Link to this property</a>
 
-- `webSocketDebuggerUrl: optional string`
+connectionStartTime: optional number
 
-  WebSocket URL for debugging this target.
+Connection start time.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/session/$SESSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+devtoolsFrontendUrl: optional string
 
-#### Response
+DevTools frontend URL.
 
-```json
-{
-  "sessionId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "closeReason": "closeReason",
-  "closeReasonText": "closeReasonText",
-  "connectionEndTime": 0,
-  "connectionId": "connectionId",
-  "connectionStartTime": 0,
-  "devtoolsFrontendUrl": "devtoolsFrontendUrl",
-  "endTime": 0,
-  "lastUpdated": 0,
-  "startTime": 0,
-  "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+endTime: optional number
 
-### Session List Response
+Session end time.
 
-- `SessionListResponse = array of object { sessionId, closeReason, closeReasonText, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `sessionId: string`
+lastUpdated: optional number
 
-    Session ID.
+Last updated timestamp.
 
-  - `closeReason: optional string`
+<a href="#">Link to this property</a>
 
-    Reason for session closure.
+startTime: optional number
 
-  - `closeReasonText: optional string`
+Session start time.
 
-    Human-readable close reason.
+<a href="#">Link to this property</a>
 
-  - `connectionEndTime: optional number`
+webSocketDebuggerUrl: optional string
 
-    Connection end time.
+WebSocket URL for debugging this target.
 
-  - `connectionId: optional string`
+<a href="#">Link to this property</a>
 
-    Connection ID.
+</details>
 
-  - `connectionStartTime: optional number`
-
-    Connection start time.
-
-  - `devtoolsFrontendUrl: optional string`
-
-    DevTools frontend URL.
-
-  - `endTime: optional number`
-
-    Session end time.
-
-  - `lastUpdated: optional number`
-
-    Last updated timestamp.
-
-  - `startTime: optional number`
-
-    Session start time.
-
-  - `webSocketDebuggerUrl: optional string`
-
-    WebSocket URL for debugging this target.
-
-### Session Get Response
-
-- `SessionGetResponse object { sessionId, closeReason, closeReasonText, 8 more }`
-
-  - `sessionId: string`
-
-    Session ID.
-
-  - `closeReason: optional string`
-
-    Reason for session closure.
-
-  - `closeReasonText: optional string`
-
-    Human-readable close reason.
-
-  - `connectionEndTime: optional number`
-
-    Connection end time.
-
-  - `connectionId: optional string`
-
-    Connection ID.
-
-  - `connectionStartTime: optional number`
-
-    Connection start time.
-
-  - `devtoolsFrontendUrl: optional string`
-
-    DevTools frontend URL.
-
-  - `endTime: optional number`
-
-    Session end time.
-
-  - `lastUpdated: optional number`
-
-    Last updated timestamp.
-
-  - `startTime: optional number`
-
-    Session start time.
-
-  - `webSocketDebuggerUrl: optional string`
-
-    WebSocket URL for debugging this target.
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_get_response%20%3E%20(schema)>)

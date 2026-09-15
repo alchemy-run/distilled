@@ -1,806 +1,395 @@
+---
+title: Deploy Hooks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Deploy Hooks
 
-## List deploy hooks
+##### [List deploy hooks](https://developers.cloudflare.com/api/resources/workers_builds/subresources/deploy_hooks/methods/list)
 
-**get** `/accounts/{account_id}/builds/workers/{script_name}/deploy_hooks`
+GET/accounts/{account\_id}/builds/workers/{script\_name}/deploy\_hooks
 
-Get all deploy hooks for a specific worker script.
+##### [Create a deploy hook](https://developers.cloudflare.com/api/resources/workers_builds/subresources/deploy_hooks/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/builds/workers/{script\_name}/deploy\_hooks
 
-- `account_id: string`
+##### [Get a deploy hook](https://developers.cloudflare.com/api/resources/workers_builds/subresources/deploy_hooks/methods/get)
 
-  Account identifier.
+GET/accounts/{account\_id}/builds/workers/{script\_name}/deploy\_hooks/{deploy\_hook\_uuid}
 
-- `script_name: string`
+##### [Update a deploy hook](https://developers.cloudflare.com/api/resources/workers_builds/subresources/deploy_hooks/methods/update)
 
-  Human-readable name of the worker.
+PUT/accounts/{account\_id}/builds/workers/{script\_name}/deploy\_hooks/{deploy\_hook\_uuid}
 
-### Returns
+##### [Delete a deploy hook](https://developers.cloudflare.com/api/resources/workers_builds/subresources/deploy_hooks/methods/delete)
 
-- `errors: array of object { code, message }`
+DELETE/accounts/{account\_id}/builds/workers/{script\_name}/deploy\_hooks/{deploy\_hook\_uuid}
 
-  - `code: optional number`
+##### [Trigger deploy hook](https://developers.cloudflare.com/api/resources/workers_builds/subresources/deploy_hooks/methods/trigger)
 
-  - `message: optional string`
+POST/workers/builds/deploy\_hooks/{deploy\_hook\_uuid}
 
-- `messages: array of string`
+##### ModelsExpand Collapse
 
-- `result: array of object { branch, created_on, deploy_hook_name, 4 more }`
+<details>
 
-  - `branch: optional string`
+<summary>
 
-    Git branch name.
+DeployHookListResponse object {branch, created\_on, deploy\_hook\_name, 4 more }
 
-  - `created_on: optional string`
+</summary>
 
-  - `deploy_hook_name: optional string`
+branch: optional string
 
-    Deploy hook name (1-58 characters).
+Git branch name.
 
-  - `deploy_hook_uuid: optional string`
+<a href="#">Link to this property</a>
 
-    Deploy hook UUID.
+created\_on: optional string
 
-  - `external_script_id: optional string`
+formatdate-time
 
-    System-generated worker script tag.
+<a href="#">Link to this property</a>
 
-  - `latest_build: optional object { created_on }`
+deploy\_hook\_name: optional string
 
-    - `created_on: optional string`
+Deploy hook name (1-58 characters).
 
-  - `modified_on: optional string`
+maxLength58
 
-- `success: boolean`
+minLength1
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+deploy\_hook\_uuid: optional string
 
-  - `page: optional number`
+Deploy hook UUID.
 
-  - `per_page: optional number`
+formatuuid
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+external\_script\_id: optional string
 
-### Example
+System-generated tag of the Worker. This is not the Worker name.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/workers/$SCRIPT_NAME/deploy_hooks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "branch": "main",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "deploy_hook_name": "Production Deploy Hook",
-      "deploy_hook_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "external_script_id": "dd7160bb9cef458093557736f4b9e75b",
-      "latest_build": {
-        "created_on": "2019-12-27T18:11:19.117Z"
-      },
-      "modified_on": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
+<summary>
 
-## Create deploy hook
+latest\_build: optional object {created\_on }
 
-**post** `/accounts/{account_id}/builds/workers/{script_name}/deploy_hooks`
+</summary>
 
-Create a new deploy hook for a worker script.
+created\_on: optional string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier.
+</details>
 
-- `script_name: string`
+<a href="#">Link to this property</a>
 
-  Human-readable name of the worker.
+modified\_on: optional string
 
-### Body Parameters
+formatdate-time
 
-- `branch: string`
+<a href="#">Link to this property</a>
 
-  Git branch name.
+</details>
 
-- `deploy_hook_name: string`
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(model)%20deploy_hook_list_response%20%3E%20(schema)>)
 
-  Deploy hook name (1-58 characters).
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message }`
+DeployHookCreateResponse object {branch, created\_on, deploy\_hook\_name, 3 more }
 
-  - `code: optional number`
+</summary>
 
-  - `message: optional string`
+branch: optional string
 
-- `messages: array of string`
+Git branch name.
 
-- `result: object { branch, created_on, deploy_hook_name, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `branch: optional string`
+created\_on: optional string
 
-    Git branch name.
+formatdate-time
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `deploy_hook_name: optional string`
+deploy\_hook\_name: optional string
 
-    Deploy hook name (1-58 characters).
+Deploy hook name (1-58 characters).
 
-  - `deploy_hook_uuid: optional string`
+maxLength58
 
-    Deploy hook UUID.
+minLength1
 
-  - `external_script_id: optional string`
+<a href="#">Link to this property</a>
 
-    System-generated worker script tag.
+deploy\_hook\_uuid: optional string
 
-  - `modified_on: optional string`
+Deploy hook UUID.
 
-- `success: boolean`
+formatuuid
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+external\_script\_id: optional string
 
-  - `page: optional number`
+System-generated tag of the Worker. This is not the Worker name.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+modified\_on: optional string
 
-  - `total_pages: optional number`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/workers/$SCRIPT_NAME/deploy_hooks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "branch": "main",
-          "deploy_hook_name": "Production Deploy Hook"
-        }'
-```
+</details>
 
-#### Response
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(model)%20deploy_hook_create_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "branch": "main",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "deploy_hook_name": "Production Deploy Hook",
-    "deploy_hook_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "external_script_id": "dd7160bb9cef458093557736f4b9e75b",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
+<details>
 
-## Get deploy hook
+<summary>
 
-**get** `/accounts/{account_id}/builds/workers/{script_name}/deploy_hooks/{deploy_hook_uuid}`
+DeployHookGetResponse object {branch, created\_on, deploy\_hook\_name, 3 more }
 
-Get details of a specific deploy hook.
+</summary>
 
-### Path Parameters
+branch: optional string
 
-- `account_id: string`
+Git branch name.
 
-  Account identifier.
+<a href="#">Link to this property</a>
 
-- `script_name: string`
+created\_on: optional string
 
-  Human-readable name of the worker.
+formatdate-time
 
-- `deploy_hook_uuid: string`
+<a href="#">Link to this property</a>
 
-  Deploy hook UUID.
+deploy\_hook\_name: optional string
 
-### Returns
+Deploy hook name (1-58 characters).
 
-- `errors: array of object { code, message }`
+maxLength58
 
-  - `code: optional number`
+minLength1
 
-  - `message: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+deploy\_hook\_uuid: optional string
 
-- `result: object { branch, created_on, deploy_hook_name, 3 more }`
+Deploy hook UUID.
 
-  - `branch: optional string`
+formatuuid
 
-    Git branch name.
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+external\_script\_id: optional string
 
-  - `deploy_hook_name: optional string`
+System-generated tag of the Worker. This is not the Worker name.
 
-    Deploy hook name (1-58 characters).
+<a href="#">Link to this property</a>
 
-  - `deploy_hook_uuid: optional string`
+modified\_on: optional string
 
-    Deploy hook UUID.
+formatdate-time
 
-  - `external_script_id: optional string`
+<a href="#">Link to this property</a>
 
-    System-generated worker script tag.
+</details>
 
-  - `modified_on: optional string`
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(model)%20deploy_hook_get_response%20%3E%20(schema)>)
 
-- `success: boolean`
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+DeployHookUpdateResponse object {branch, created\_on, deploy\_hook\_name, 3 more }
 
-  - `page: optional number`
+</summary>
 
-  - `per_page: optional number`
+branch: optional string
 
-  - `total_count: optional number`
+Git branch name.
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+created\_on: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/workers/$SCRIPT_NAME/deploy_hooks/$DEPLOY_HOOK_UUID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "branch": "main",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "deploy_hook_name": "Production Deploy Hook",
-    "deploy_hook_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "external_script_id": "dd7160bb9cef458093557736f4b9e75b",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
+deploy\_hook\_name: optional string
 
-## Update deploy hook
+Deploy hook name (1-58 characters).
 
-**put** `/accounts/{account_id}/builds/workers/{script_name}/deploy_hooks/{deploy_hook_uuid}`
+maxLength58
 
-Update an existing deploy hook.
+minLength1
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+deploy\_hook\_uuid: optional string
 
-  Account identifier.
+Deploy hook UUID.
 
-- `script_name: string`
+formatuuid
 
-  Human-readable name of the worker.
+<a href="#">Link to this property</a>
 
-- `deploy_hook_uuid: string`
+external\_script\_id: optional string
 
-  Deploy hook UUID.
+System-generated tag of the Worker. This is not the Worker name.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `branch: string`
+modified\_on: optional string
 
-  Git branch name.
+formatdate-time
 
-- `deploy_hook_name: string`
+<a href="#">Link to this property</a>
 
-  Deploy hook name (1-58 characters).
+</details>
 
-### Returns
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(model)%20deploy_hook_update_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message }`
+<details>
 
-  - `code: optional number`
+<summary>
 
-  - `message: optional string`
+DeployHookDeleteResponse object {branch, created\_on, deploy\_hook\_name, 3 more }
 
-- `messages: array of string`
+</summary>
 
-- `result: object { branch, created_on, deploy_hook_name, 3 more }`
+branch: optional string
 
-  - `branch: optional string`
+Git branch name.
 
-    Git branch name.
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+created\_on: optional string
 
-  - `deploy_hook_name: optional string`
+formatdate-time
 
-    Deploy hook name (1-58 characters).
+<a href="#">Link to this property</a>
 
-  - `deploy_hook_uuid: optional string`
+deploy\_hook\_name: optional string
 
-    Deploy hook UUID.
+Deploy hook name (1-58 characters).
 
-  - `external_script_id: optional string`
+maxLength58
 
-    System-generated worker script tag.
+minLength1
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+deploy\_hook\_uuid: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+Deploy hook UUID.
 
-  - `count: optional number`
+formatuuid
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+external\_script\_id: optional string
 
-  - `total_count: optional number`
+System-generated tag of the Worker. This is not the Worker name.
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+modified\_on: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/workers/$SCRIPT_NAME/deploy_hooks/$DEPLOY_HOOK_UUID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "branch": "main",
-          "deploy_hook_name": "Production Deploy Hook"
-        }'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "branch": "main",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "deploy_hook_name": "Production Deploy Hook",
-    "deploy_hook_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "external_script_id": "dd7160bb9cef458093557736f4b9e75b",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
+</details>
 
-## Delete deploy hook
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(model)%20deploy_hook_delete_response%20%3E%20(schema)>)
 
-**delete** `/accounts/{account_id}/builds/workers/{script_name}/deploy_hooks/{deploy_hook_uuid}`
+<details>
 
-Delete a deploy hook.
+<summary>
 
-### Path Parameters
+DeployHookTriggerResponse object {already\_exists, build\_uuid, created\_on, status }
 
-- `account_id: string`
+</summary>
 
-  Account identifier.
+already\_exists: optional boolean
 
-- `script_name: string`
+True if a pending build already exists for this branch
 
-  Human-readable name of the worker.
+<a href="#">Link to this property</a>
 
-- `deploy_hook_uuid: string`
+build\_uuid: optional string
 
-  Deploy hook UUID.
+Build UUID.
 
-### Returns
+formatuuid
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+created\_on: optional string
 
-  - `message: optional string`
+formatdate-time
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: object { branch, created_on, deploy_hook_name, 3 more }`
+<details>
 
-  - `branch: optional string`
+<summary>
 
-    Git branch name.
+status: optional "queued"or "initializing"or "running"or "stopped"
 
-  - `created_on: optional string`
+</summary>
 
-  - `deploy_hook_name: optional string`
+One of the following:
 
-    Deploy hook name (1-58 characters).
+"queued"
 
-  - `deploy_hook_uuid: optional string`
+<a href="#">Link to this property</a>
 
-    Deploy hook UUID.
+"initializing"
 
-  - `external_script_id: optional string`
+<a href="#">Link to this property</a>
 
-    System-generated worker script tag.
+"running"
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"stopped"
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-  - `total_count: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/workers/$SCRIPT_NAME/deploy_hooks/$DEPLOY_HOOK_UUID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "branch": "main",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "deploy_hook_name": "Production Deploy Hook",
-    "deploy_hook_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "external_script_id": "dd7160bb9cef458093557736f4b9e75b",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
-
-## Trigger deploy hook
-
-**post** `/workers/builds/deploy_hooks/{deploy_hook_uuid}`
-
-Trigger a build using a deploy hook. This endpoint does not require authentication - the deploy_hook_uuid acts as a secret token.
-
-### Path Parameters
-
-- `deploy_hook_uuid: string`
-
-  Deploy hook UUID.
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: optional number`
-
-  - `message: optional string`
-
-- `messages: array of string`
-
-- `result: object { already_exists, build_uuid, created_on, status }`
-
-  - `already_exists: optional boolean`
-
-    True if a pending build already exists for this branch
-
-  - `build_uuid: optional string`
-
-    Build UUID.
-
-  - `created_on: optional string`
-
-  - `status: optional "queued" or "initializing" or "running" or "stopped"`
-
-    - `"queued"`
-
-    - `"initializing"`
-
-    - `"running"`
-
-    - `"stopped"`
-
-- `success: boolean`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-  - `page: optional number`
-
-  - `per_page: optional number`
-
-  - `total_count: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/workers/builds/deploy_hooks/$DEPLOY_HOOK_UUID \
-    -X POST \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "already_exists": false,
-    "build_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "status": "running"
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
-
-## Domain Types
-
-### Deploy Hook List Response
-
-- `DeployHookListResponse object { branch, created_on, deploy_hook_name, 4 more }`
-
-  - `branch: optional string`
-
-    Git branch name.
-
-  - `created_on: optional string`
-
-  - `deploy_hook_name: optional string`
-
-    Deploy hook name (1-58 characters).
-
-  - `deploy_hook_uuid: optional string`
-
-    Deploy hook UUID.
-
-  - `external_script_id: optional string`
-
-    System-generated worker script tag.
-
-  - `latest_build: optional object { created_on }`
-
-    - `created_on: optional string`
-
-  - `modified_on: optional string`
-
-### Deploy Hook Create Response
-
-- `DeployHookCreateResponse object { branch, created_on, deploy_hook_name, 3 more }`
-
-  - `branch: optional string`
-
-    Git branch name.
-
-  - `created_on: optional string`
-
-  - `deploy_hook_name: optional string`
-
-    Deploy hook name (1-58 characters).
-
-  - `deploy_hook_uuid: optional string`
-
-    Deploy hook UUID.
-
-  - `external_script_id: optional string`
-
-    System-generated worker script tag.
-
-  - `modified_on: optional string`
-
-### Deploy Hook Get Response
-
-- `DeployHookGetResponse object { branch, created_on, deploy_hook_name, 3 more }`
-
-  - `branch: optional string`
-
-    Git branch name.
-
-  - `created_on: optional string`
-
-  - `deploy_hook_name: optional string`
-
-    Deploy hook name (1-58 characters).
-
-  - `deploy_hook_uuid: optional string`
-
-    Deploy hook UUID.
-
-  - `external_script_id: optional string`
-
-    System-generated worker script tag.
-
-  - `modified_on: optional string`
-
-### Deploy Hook Update Response
-
-- `DeployHookUpdateResponse object { branch, created_on, deploy_hook_name, 3 more }`
-
-  - `branch: optional string`
-
-    Git branch name.
-
-  - `created_on: optional string`
-
-  - `deploy_hook_name: optional string`
-
-    Deploy hook name (1-58 characters).
-
-  - `deploy_hook_uuid: optional string`
-
-    Deploy hook UUID.
-
-  - `external_script_id: optional string`
-
-    System-generated worker script tag.
-
-  - `modified_on: optional string`
-
-### Deploy Hook Delete Response
-
-- `DeployHookDeleteResponse object { branch, created_on, deploy_hook_name, 3 more }`
-
-  - `branch: optional string`
-
-    Git branch name.
-
-  - `created_on: optional string`
-
-  - `deploy_hook_name: optional string`
-
-    Deploy hook name (1-58 characters).
-
-  - `deploy_hook_uuid: optional string`
-
-    Deploy hook UUID.
-
-  - `external_script_id: optional string`
-
-    System-generated worker script tag.
-
-  - `modified_on: optional string`
-
-### Deploy Hook Trigger Response
-
-- `DeployHookTriggerResponse object { already_exists, build_uuid, created_on, status }`
-
-  - `already_exists: optional boolean`
-
-    True if a pending build already exists for this branch
-
-  - `build_uuid: optional string`
-
-    Build UUID.
-
-  - `created_on: optional string`
-
-  - `status: optional "queued" or "initializing" or "running" or "stopped"`
-
-    - `"queued"`
-
-    - `"initializing"`
-
-    - `"running"`
-
-    - `"stopped"`
+[Link to this property](#)%20workers_builds.deploy_hooks%20%3E%20(model)%20deploy_hook_trigger_response%20%3E%20(schema)>)

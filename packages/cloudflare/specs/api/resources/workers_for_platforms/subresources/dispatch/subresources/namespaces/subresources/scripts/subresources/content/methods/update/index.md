@@ -1,468 +1,1453 @@
-## Put Script Content
+---
+title: Put Script Content
+---
 
-**put** `/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/content`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers For Platforms](https://developers.cloudflare.com/api/resources/workers_for_platforms)
+
+[Dispatch](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts)
+
+[Content](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts/subresources/content)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Put Script Content
+
+PUT/accounts/{account\_id}/workers/dispatch/namespaces/{dispatch\_namespace}/scripts/{script\_name}/content
 
 Put script content for a script uploaded to a Workers for Platforms namespace.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `dispatch_namespace: string`
 
-  Name of the Workers for Platforms dispatch namespace.
 
-- `script_name: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Name of the script, used in URLs and route configuration.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Header Parameters
+</details>
 
-- `"CF-WORKER-BODY-PART": optional string`
+<details>
 
-- `"CF-WORKER-MAIN-MODULE-PART": optional string`
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Workers Scripts Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `result: Script`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `id: optional string`
+dispatch\_namespace: string
 
-    The name used to identify the script.
+Name of the Workers for Platforms dispatch namespace.
 
-  - `cache_options: optional object { enabled, cross_version_cache }`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20dispatch_namespace%20%3E%20(schema)>)
 
-    Global CacheW configuration for the Worker. When caching is on,
-    the platform provisions a `cloudflare.app` zone for the Worker.
-    A `type: worker` entry in the `exports` map can override this
-    value for a single entrypoint.
+script\_name: string
 
-    - `enabled: boolean`
+Name of the script, used in URLs and route configuration.
 
-      Whether caching is enabled for this Worker.
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20script_name%20%3E%20(schema)>)
 
-    - `cross_version_cache: optional boolean`
+##### H eader ParametersExpand Collapse
 
-      Whether cached responses are shared across Worker version
-      uploads. This is independent of `enabled`. It can stay true
-      while caching is off, so the preference survives turning
-      caching off and back on.
+"CF-WORKER-BODY-PART": optional string
 
-  - `compatibility_date: optional string`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20CF-WORKER-BODY-PART%20%3E%20(schema)>)
 
-    Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker.
+"CF-WORKER-MAIN-MODULE-PART": optional string
 
-  - `compatibility_flags: optional array of string`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20CF-WORKER-MAIN-MODULE-PART%20%3E%20(schema)>)
 
-    Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`.
+##### Body ParametersForm DataExpand Collapse
 
-  - `created_on: optional string`
+<details>
 
-    When the script was created.
+<summary>
 
-  - `etag: optional string`
+metadata: <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers%20%3E%20(model)%20worker_metadata%20%3E%20(schema)">WorkerMetadata</a> { body\_part, main\_module }
 
-    Hashed script content, can be used in a If-None-Match header when updating.
+JSON-encoded metadata about the uploaded parts and Worker configuration.
 
-  - `handlers: optional array of string`
+</summary>
 
-    The names of handlers exported as part of the default export.
+body\_part: optional string
 
-  - `has_assets: optional boolean`
+Name of the part in the multipart request that contains the script (e.g. the file adding a listener to the <code>fetch</code> event). Indicates a <code>service worker syntax</code> Worker.
 
-    Whether a Worker contains assets.
+<a href="#">Link to this property</a>
 
-  - `has_modules: optional boolean`
+main\_module: optional string
 
-    Whether a Worker contains modules.
+Name of the part in the multipart request that contains the main module (e.g. the file exporting a <code>fetch</code> handler). Indicates a <code>module syntax</code> Worker.
 
-  - `last_deployed_from: optional string`
+<a href="#">Link to this property</a>
 
-    The client most recently used to deploy this Worker.
+</details>
 
-  - `logpush: optional boolean`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20metadata%20%3E%20(schema)>)
 
-    Whether Logpush is turned on for the Worker.
+files: optional array of string
 
-  - `migration_tag: optional string`
+An array of modules (often JavaScript files) comprising a Worker script. At least one module must be present and referenced in the metadata as `main_module` or `body_part` by filename.  
+Possible Content-Type(s) are: `application/javascript+module`, `text/javascript+module`, `application/javascript`, `text/javascript`, `text/x-python`, `text/x-python-requirement`, `application/wasm`, `text/plain`, `application/octet-stream`, `application/source-map`.
 
-    The tag of the Durable Object migration that was most recently applied for this Worker.
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20files%20%3E%20(schema)>)
 
-  - `modified_on: optional string`
+##### ReturnsExpand Collapse
 
-    When the script was last modified.
+<details>
 
-  - `named_handlers: optional array of object { handlers, name }`
+<summary>
 
-    Named exports, such as Durable Object class implementations and named entrypoints.
+errors: array of object {code, message, documentation\_url, source }
 
-    - `handlers: optional array of string`
+</summary>
 
-      The names of handlers exported as part of the named export.
+code: number
 
-    - `name: optional string`
+minimum1000
 
-      The name of the export.
+<a href="#">Link to this property</a>
 
-  - `observability: optional object { enabled, head_sampling_rate, logs, traces }`
+message: string
 
-    Observability settings for the Worker.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+documentation\_url: optional string
 
-      Whether observability is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `head_sampling_rate: optional number`
+<details>
 
-      The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+<summary>
 
-    - `logs: optional object { enabled, invocation_logs, destinations, 2 more }`
+source: optional object {pointer }
 
-      Log settings for the Worker.
+</summary>
 
-      - `enabled: boolean`
+pointer: optional string
 
-        Whether logs are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `invocation_logs: boolean`
+</details>
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `destinations: optional array of string`
+</details>
 
-        A list of destinations where logs will be exported to.
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `head_sampling_rate: optional number`
+<details>
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+<summary>
 
-      - `persist: optional boolean`
+messages: array of object {code, message, documentation\_url, source }
 
-        Whether log persistence is enabled for the Worker.
+</summary>
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+code: number
 
-      Trace settings for the Worker.
+minimum1000
 
-      - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-        A list of destinations where traces will be exported to.
+message: string
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether traces are enabled for the Worker.
+documentation\_url: optional string
 
-      - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+<details>
 
-      - `persist: optional boolean`
+<summary>
 
-        Whether trace persistence is enabled for the Worker.
+source: optional object {pointer }
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+</summary>
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+pointer: optional string
 
-        - `"authenticated"`
+<a href="#">Link to this property</a>
 
-        - `"accept"`
+</details>
 
-  - `placement: optional object { mode, last_analyzed_at, status }  or object { region, last_analyzed_at, status }  or object { hostname, last_analyzed_at, status }  or 5 more`
+<a href="#">Link to this property</a>
 
-    Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host.
+</details>
 
-    - `object { mode, last_analyzed_at, status }`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-      - `mode: "smart"`
+<details>
 
-        Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+<summary>
 
-        - `"smart"`
+result: <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers.scripts%20%3E%20(model)%20script%20%3E%20(schema)">Script</a> { id, cache\_options, compatibility\_date, 20 more }
 
-      - `last_analyzed_at: optional string`
+</summary>
 
-        The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+id: optional string
 
-      - `status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+The name used to identify the script.
 
-        Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+<a href="#">Link to this property</a>
 
-        - `"SUCCESS"`
+<details>
 
-        - `"UNSUPPORTED_APPLICATION"`
+<summary>
 
-        - `"INSUFFICIENT_INVOCATIONS"`
+cache\_options: optional object {enabled, cross\_version\_cache }
 
-    - `object { region, last_analyzed_at, status }`
+Global CacheW configuration for the Worker. When caching is on, the platform provisions a <code>cloudflare.app</code> zone for the Worker. A <code>type: worker</code> entry in the <code>exports</code> map can override this value for a single entrypoint.
 
-      - `region: string`
+</summary>
 
-        Cloud region for targeted placement in format 'provider:region'.
+enabled: boolean
 
-      - `last_analyzed_at: optional string`
+Whether caching is enabled for this Worker.
 
-        The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+<a href="#">Link to this property</a>
 
-      - `status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+cross\_version\_cache: optional boolean
 
-        Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+Whether cached responses are shared across Worker version uploads. This is independent of <code>enabled</code>. It can stay true while caching is off, so the preference survives turning caching off and back on.
 
-        - `"SUCCESS"`
+<a href="#">Link to this property</a>
 
-        - `"UNSUPPORTED_APPLICATION"`
+</details>
 
-        - `"INSUFFICIENT_INVOCATIONS"`
+<a href="#">Link to this property</a>
 
-    - `object { hostname, last_analyzed_at, status }`
+compatibility\_date: optional string
 
-      - `hostname: string`
+Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker.
 
-        HTTP hostname for targeted placement.
+<a href="#">Link to this property</a>
 
-      - `last_analyzed_at: optional string`
+compatibility\_flags: optional array of string
 
-        The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a <code>compatibility_date</code>.
 
-      - `status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+<a href="#">Link to this property</a>
 
-        Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+created\_on: optional string
 
-        - `"SUCCESS"`
+When the script was created.
 
-        - `"UNSUPPORTED_APPLICATION"`
+formatdate-time
 
-        - `"INSUFFICIENT_INVOCATIONS"`
+<a href="#">Link to this property</a>
 
-    - `object { host, last_analyzed_at, status }`
+etag: optional string
 
-      - `host: string`
+Hashed script content, can be used in a If-None-Match header when updating.
 
-        TCP host and port for targeted placement.
+<a href="#">Link to this property</a>
 
-      - `last_analyzed_at: optional string`
+<details>
 
-        The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+<summary>
 
-      - `status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+exports: optional map\[object {type, cache, state } or object {storage, type, container, state } or object {state, type } or 3 more]
 
-        Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+Declarative exports for the Worker’s most recent version, including Durable Object classes (with their <code>storage</code> backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (<code>created</code> and <code>expecting-transfer</code>) are returned.
 
-        - `"SUCCESS"`
+</summary>
 
-        - `"UNSUPPORTED_APPLICATION"`
+One of the following:
 
-        - `"INSUFFICIENT_INVOCATIONS"`
+<details>
 
-    - `object { mode, region, last_analyzed_at, status }`
+<summary>
 
-      - `mode: "targeted"`
+Worker object {type, cache, state }
 
-        Targeted placement mode.
+A named Worker entrypoint export (<code>type: worker</code>). Worker entrypoints are always live (<code>state: created</code>) and carry no storage or lifecycle fields. The optional <code>cache</code> block overrides the Worker’s global <code>cache_options.enabled</code> for this entrypoint.
 
-        - `"targeted"`
+</summary>
 
-      - `region: string`
+type: "worker"
 
-        Cloud region for targeted placement in format 'provider:region'.
+Marks this entry as a Worker entrypoint export.
 
-      - `last_analyzed_at: optional string`
+<a href="#">Link to this property</a>
 
-        The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+<details>
 
-      - `status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+<summary>
 
-        Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+cache: optional object {enabled }
 
-        - `"SUCCESS"`
+Cache override for this entrypoint. Overrides the Worker’s global <code>cache_options.enabled</code> for this entrypoint only.
 
-        - `"UNSUPPORTED_APPLICATION"`
+</summary>
 
-        - `"INSUFFICIENT_INVOCATIONS"`
+enabled: boolean
 
-    - `object { hostname, mode, last_analyzed_at, status }`
+Whether caching is enabled for this entrypoint.
 
-      - `hostname: string`
+<a href="#">Link to this property</a>
 
-        HTTP hostname for targeted placement.
+</details>
 
-      - `mode: "targeted"`
+<a href="#">Link to this property</a>
 
-        Targeted placement mode.
+state: optional "created"
 
-        - `"targeted"`
+Live export. May be omitted; defaults to <code>created</code>.
 
-      - `last_analyzed_at: optional string`
+<a href="#">Link to this property</a>
 
-        The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+</details>
 
-      - `status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+<a href="#">Link to this property</a>
 
-        Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+<details>
 
-        - `"SUCCESS"`
+<summary>
 
-        - `"UNSUPPORTED_APPLICATION"`
+WorkersDurableObjectExport object {storage, type, container, state }
 
-        - `"INSUFFICIENT_INVOCATIONS"`
+A live Durable Object export (<code>state: created</code>, the default). The platform auto-provisions the namespace on first deploy, matches it on subsequent deploys, and never mutates or deletes it as a side effect of a code-only change. <code>storage</code> is required; <code>renamed_to</code>, <code>transferred_to</code> and <code>transfer_from</code> are not allowed on a live entry.
 
-    - `object { host, mode, last_analyzed_at, status }`
+</summary>
 
-      - `host: string`
+<details>
 
-        TCP host and port for targeted placement.
+<summary>
 
-      - `mode: "targeted"`
+storage: "sqlite"or "legacy-kv"
 
-        Targeted placement mode.
+Durable Object storage backend. <code>sqlite</code> is the recommended (and only) backend for new namespaces. <code>legacy-kv</code> is accepted only for a class whose namespace already exists as KV-backed; the <code>exports</code> flow never provisions a new <code>legacy-kv</code> namespace.
 
-        - `"targeted"`
+</summary>
 
-      - `last_analyzed_at: optional string`
+One of the following:
 
-        The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+"sqlite"
 
-      - `status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+<a href="#">Link to this property</a>
 
-        Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+"legacy-kv"
 
-        - `"SUCCESS"`
+<a href="#">Link to this property</a>
 
-        - `"UNSUPPORTED_APPLICATION"`
+</details>
 
-        - `"INSUFFICIENT_INVOCATIONS"`
+<a href="#">Link to this property</a>
 
-    - `object { mode, target, last_analyzed_at, status }`
+type: "durable-object"
 
-      - `mode: "targeted"`
+Marks this entry as a Durable Object export.
 
-        Targeted placement mode.
+<a href="#">Link to this property</a>
 
-        - `"targeted"`
+container: optional string
 
-      - `target: array of object { region }  or object { hostname }  or object { host }`
+Name of the container (declared in the upload’s <code>metadata.containers</code>) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries.
 
-        Array of placement targets (currently limited to single target).
+maxLength128
 
-        - `Region object { region }`
+<a href="#">Link to this property</a>
 
-          - `region: string`
+state: optional "created"
 
-            Cloud region in format 'provider:region'.
+Live export. May be omitted; defaults to <code>created</code>.
 
-        - `Hostname object { hostname }`
+<a href="#">Link to this property</a>
 
-          - `hostname: string`
+</details>
 
-            HTTP hostname for targeted placement.
+<a href="#">Link to this property</a>
 
-        - `Host object { host }`
+<details>
 
-          - `host: string`
+<summary>
 
-            TCP host:port for targeted placement.
+WorkersDurableObjectDeletedExport object {state, type }
 
-      - `last_analyzed_at: optional string`
+A <code>deleted</code> tombstone: retires the provisioned namespace for this class and all of its data. The class must be absent from the uploaded code and no other Worker in the account may bind to the namespace, otherwise the deploy is rejected. No other fields are allowed. Deletion is irreversible.
 
-        The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+</summary>
 
-      - `status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+state: "deleted"
 
-        Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+Tombstone that deletes the namespace.
 
-        - `"SUCCESS"`
+<a href="#">Link to this property</a>
 
-        - `"UNSUPPORTED_APPLICATION"`
+type: "durable-object"
 
-        - `"INSUFFICIENT_INVOCATIONS"`
+Marks this entry as a Durable Object export.
 
-  - `placement_mode: optional "smart" or "targeted"`
+<a href="#">Link to this property</a>
 
-    Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host.
+</details>
 
-    - `"smart"`
+<a href="#">Link to this property</a>
 
-    - `"targeted"`
+<details>
 
-  - `placement_status: optional "SUCCESS" or "UNSUPPORTED_APPLICATION" or "INSUFFICIENT_INVOCATIONS"`
+<summary>
 
-    Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+WorkersDurableObjectRenamedExport object {renamed\_to, state, type }
 
-    - `"SUCCESS"`
+A <code>renamed</code> tombstone: rewrites the provisioned namespace’s class name from this map key to <code>renamed_to</code>. The source class may stay in code during the rollout window (an info notice is emitted). <code>storage</code>, <code>transferred_to</code> and <code>transfer_from</code> are not allowed.
 
-    - `"UNSUPPORTED_APPLICATION"`
+</summary>
 
-    - `"INSUFFICIENT_INVOCATIONS"`
+renamed\_to: string
 
-  - `tag: optional string`
+The destination class name. Must differ from the source class (the map key) and must be declared as a live (<code>created</code>) entry in the same <code>exports</code> map. Write-only: never present in GET responses.
 
-    The immutable ID of the script.
+maxLength128
 
-  - `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-    Tags associated with the Worker.
+state: "renamed"
 
-  - `tail_consumers: optional array of ConsumerScript`
+Tombstone that renames the namespace’s class.
 
-    List of Workers that will consume logs from the attached Worker.
+<a href="#">Link to this property</a>
 
-    - `service: string`
+type: "durable-object"
 
-      Name of Worker that is to be the consumer.
+Marks this entry as a Durable Object export.
 
-    - `environment: optional string`
+<a href="#">Link to this property</a>
 
-      Optional environment if the Worker utilizes one.
+</details>
 
-    - `namespace: optional string`
+<a href="#">Link to this property</a>
 
-      Optional dispatch namespace the script belongs to.
+<details>
 
-  - `usage_model: optional "standard" or "bundled" or "unbound"`
+<summary>
 
-    Usage model for the Worker invocations.
+WorkersDurableObjectTransferredExport object {state, transferred\_to, type }
 
-    - `"standard"`
+A <code>transferred</code> tombstone (source side of a two-phase transfer): hands ownership of the provisioned namespace to another script in the same account, named by <code>transferred_to</code>. The target must have already deployed a matching <code>expecting-transfer</code> entry. The source class may stay in code during the rollout window (an info notice is emitted). <code>storage</code>, <code>renamed_to</code> and <code>transfer_from</code> are not allowed.
 
-    - `"bundled"`
+</summary>
 
-    - `"unbound"`
+state: "transferred"
 
-- `success: true`
+Tombstone that transfers the namespace to another script.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+transferred\_to: string
 
-### Example
+The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses.
 
-```http
+maxLength128
+
+<a href="#">Link to this property</a>
+
+type: "durable-object"
+
+Marks this entry as a Durable Object export.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WorkersDurableObjectExpectingTransferExport object {state, storage, transfer\_from, 2 more }
+
+The target side of a two-phase transfer (<code>state: expecting-transfer</code>). Declares that this script expects to receive a namespace for this class from the <code>transfer_from</code> script. This is a live entry, not a tombstone: bindings resolve through the source’s namespace until the source commits with a <code>transferred</code> tombstone. <code>storage</code> and <code>transfer_from</code> are required; <code>renamed_to</code> and <code>transferred_to</code> are not allowed.
+
+</summary>
+
+state: "expecting-transfer"
+
+Target side of a two-phase transfer.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+storage: "sqlite"or "legacy-kv"
+
+Durable Object storage backend. <code>sqlite</code> is the recommended (and only) backend for new namespaces. <code>legacy-kv</code> is accepted only for a class whose namespace already exists as KV-backed; the <code>exports</code> flow never provisions a new <code>legacy-kv</code> namespace.
+
+</summary>
+
+One of the following:
+
+"sqlite"
+
+<a href="#">Link to this property</a>
+
+"legacy-kv"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+transfer\_from: string
+
+The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for <code>expecting-transfer</code> entries.
+
+maxLength128
+
+<a href="#">Link to this property</a>
+
+type: "durable-object"
+
+Marks this entry as a Durable Object export.
+
+<a href="#">Link to this property</a>
+
+container: optional string
+
+Name of the container (declared in the upload’s <code>metadata.containers</code>) that backs this Durable Object once the transfer settles. Valid only on live entries.
+
+maxLength128
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+handlers: optional array of string
+
+The names of handlers exported as part of the default export.
+
+<a href="#">Link to this property</a>
+
+has\_assets: optional boolean
+
+Whether a Worker contains assets.
+
+<a href="#">Link to this property</a>
+
+has\_modules: optional boolean
+
+Whether a Worker contains modules.
+
+<a href="#">Link to this property</a>
+
+last\_deployed\_from: optional string
+
+The client most recently used to deploy this Worker.
+
+<a href="#">Link to this property</a>
+
+logpush: optional boolean
+
+Whether Logpush is turned on for the Worker.
+
+<a href="#">Link to this property</a>
+
+migration\_tag: optional string
+
+The tag of the Durable Object migration that was most recently applied for this Worker.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+When the script was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+named\_handlers: optional array of object {handlers, name }
+
+Named exports, such as Durable Object class implementations and named entrypoints.
+
+</summary>
+
+handlers: optional array of string
+
+The names of handlers exported as part of the named export.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the export.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+observability: optional object {enabled, head\_sampling\_rate, logs, 2 more }
+
+Observability settings for the Worker.
+
+</summary>
+
+enabled: boolean
+
+Whether observability is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logs: optional object {enabled, invocation\_logs, destinations, 2 more }
+
+Log settings for the Worker.
+
+</summary>
+
+enabled: boolean
+
+Whether logs are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+invocation\_logs: boolean
+
+Whether <a href="https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs">invocation logs</a> are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+destinations: optional array of string
+
+A list of destinations where logs will be exported to.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+
+<a href="#">Link to this property</a>
+
+persist: optional boolean
+
+Whether log persistence is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+redact\_query\_string: optional boolean
+
+Whether query strings are removed from request URLs in logs and traces.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+traces: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
+
+Trace settings for the Worker.
+
+</summary>
+
+destinations: optional array of string
+
+A list of destinations where traces will be exported to.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether traces are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+
+<a href="#">Link to this property</a>
+
+persist: optional boolean
+
+Whether trace persistence is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+propagation\_policy: optional "authenticated"or "accept"
+
+Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. “authenticated” honors inbound trace context only when accompanied by a valid trace auth token. “accept” unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account.
+
+</summary>
+
+One of the following:
+
+"authenticated"
+
+<a href="#">Link to this property</a>
+
+"accept"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+placement: optional object {mode, last\_analyzed\_at, status } or object {region, last\_analyzed\_at, status } or object {hostname, last\_analyzed\_at, status } or 5 more
+
+Configuration for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>. Specify mode=‘smart’ for Smart Placement, or one of region/hostname/host.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {mode, last\_analyzed\_at, status }
+
+</summary>
+
+mode: "smart"
+
+Enables <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+<a href="#">Link to this property</a>
+
+last\_analyzed\_at: optional string
+
+The last time the script was analyzed for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {region, last\_analyzed\_at, status }
+
+</summary>
+
+region: string
+
+Cloud region for targeted placement in format ‘provider:region’.
+
+<a href="#">Link to this property</a>
+
+last\_analyzed\_at: optional string
+
+The last time the script was analyzed for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {hostname, last\_analyzed\_at, status }
+
+</summary>
+
+hostname: string
+
+HTTP hostname for targeted placement.
+
+<a href="#">Link to this property</a>
+
+last\_analyzed\_at: optional string
+
+The last time the script was analyzed for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {host, last\_analyzed\_at, status }
+
+</summary>
+
+host: string
+
+TCP host and port for targeted placement.
+
+<a href="#">Link to this property</a>
+
+last\_analyzed\_at: optional string
+
+The last time the script was analyzed for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {mode, region, last\_analyzed\_at, status }
+
+</summary>
+
+mode: "targeted"
+
+Targeted placement mode.
+
+<a href="#">Link to this property</a>
+
+region: string
+
+Cloud region for targeted placement in format ‘provider:region’.
+
+<a href="#">Link to this property</a>
+
+last\_analyzed\_at: optional string
+
+The last time the script was analyzed for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {hostname, mode, last\_analyzed\_at, status }
+
+</summary>
+
+hostname: string
+
+HTTP hostname for targeted placement.
+
+<a href="#">Link to this property</a>
+
+mode: "targeted"
+
+Targeted placement mode.
+
+<a href="#">Link to this property</a>
+
+last\_analyzed\_at: optional string
+
+The last time the script was analyzed for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {host, mode, last\_analyzed\_at, status }
+
+</summary>
+
+host: string
+
+TCP host and port for targeted placement.
+
+<a href="#">Link to this property</a>
+
+mode: "targeted"
+
+Targeted placement mode.
+
+<a href="#">Link to this property</a>
+
+last\_analyzed\_at: optional string
+
+The last time the script was analyzed for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {mode, target, last\_analyzed\_at, status }
+
+</summary>
+
+mode: "targeted"
+
+Targeted placement mode.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+target: array of object {region } or object {hostname } or object {host }
+
+Array of placement targets (currently limited to single target).
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Region object {region }
+
+</summary>
+
+region: string
+
+Cloud region in format ‘provider:region’.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Hostname object {hostname }
+
+</summary>
+
+hostname: string
+
+HTTP hostname for targeted placement.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Host object {host }
+
+</summary>
+
+host: string
+
+TCP host:port for targeted placement.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+last\_analyzed\_at: optional string
+
+The last time the script was analyzed for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedplacement\_mode: optional "smart"or "targeted"
+
+Configuration for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>. Specify mode=‘smart’ for Smart Placement, or one of region/hostname/host.
+
+</summary>
+
+One of the following:
+
+"smart"
+
+<a href="#">Link to this property</a>
+
+"targeted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedplacement\_status: optional "SUCCESS"or "UNSUPPORTED\_APPLICATION"or "INSUFFICIENT\_INVOCATIONS"
+
+Status of <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
+
+</summary>
+
+One of the following:
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"UNSUPPORTED\_APPLICATION"
+
+<a href="#">Link to this property</a>
+
+"INSUFFICIENT\_INVOCATIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tag: optional string
+
+The immutable ID of the script.
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+Tags associated with the Worker.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tail\_consumers: optional array of <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers.scripts.tail%20%3E%20(model)%20consumer_script%20%3E%20(schema)">ConsumerScript</a> { service, environment, namespace }
+
+List of Workers that will consume logs from the attached Worker.
+
+</summary>
+
+service: string
+
+Name of Worker that is to be the consumer.
+
+<a href="#">Link to this property</a>
+
+environment: optional string
+
+Optional environment if the Worker utilizes one.
+
+<a href="#">Link to this property</a>
+
+namespace: optional string
+
+Optional dispatch namespace the script belongs to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+usage\_model: optional "standard"or "bundled"or "unbound"
+
+Usage model for the Worker invocations.
+
+</summary>
+
+One of the following:
+
+"standard"
+
+<a href="#">Link to this property</a>
+
+"bundled"
+
+<a href="#">Link to this property</a>
+
+"unbound"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.content%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Put Script Content
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/namespaces/$DISPATCH_NAMESPACE/scripts/$SCRIPT_NAME/content \
     -X PUT \
     -H 'Content-Type: multipart/form-data' \
@@ -470,9 +1455,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/
     -F metadata='{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -500,12 +1485,38 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/
       "enabled": true,
       "cross_version_cache": true
     },
-    "compatibility_date": "2021-01-01",
+    "compatibility_date": "2021-01-01T00:00:00Z",
     "compatibility_flags": [
       "nodejs_compat"
     ],
     "created_on": "2017-01-01T00:00:00Z",
     "etag": "ea95132c15732412d22c1476fa83f27a",
+    "exports": {
+      "Admin": {
+        "type": "worker",
+        "cache": {
+          "enabled": true
+        },
+        "state": "created"
+      },
+      "Counter": {
+        "storage": "sqlite",
+        "type": "durable-object",
+        "container": "my-container",
+        "state": "created"
+      },
+      "OldCounter": {
+        "state": "renamed",
+        "type": "durable-object"
+      },
+      "default": {
+        "type": "worker",
+        "cache": {
+          "enabled": false
+        },
+        "state": "created"
+      }
+    },
     "handlers": [
       "fetch",
       "scheduled"
@@ -536,6 +1547,137 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/
         "head_sampling_rate": 0.1,
         "persist": true
       },
+      "redact_query_string": false,
+      "traces": {
+        "destinations": [
+          "cloudflare"
+        ],
+        "enabled": true,
+        "head_sampling_rate": 0.1,
+        "persist": true,
+        "propagation_policy": "authenticated"
+      }
+    },
+    "placement": {
+      "mode": "smart",
+      "last_analyzed_at": "2025-01-01T00:00:00Z",
+      "status": "SUCCESS"
+    },
+    "placement_mode": "smart",
+    "placement_status": "SUCCESS",
+    "tag": "e8f70fdbc8b1fb0b8ddb1af166186758",
+    "tags": [
+      "my-team",
+      "my-public-api"
+    ],
+    "tail_consumers": [
+      {
+        "service": "my-log-consumer",
+        "environment": "production",
+        "namespace": "my-namespace"
+      }
+    ],
+    "usage_model": "standard"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "my-workers-script",
+    "cache_options": {
+      "enabled": true,
+      "cross_version_cache": true
+    },
+    "compatibility_date": "2021-01-01T00:00:00Z",
+    "compatibility_flags": [
+      "nodejs_compat"
+    ],
+    "created_on": "2017-01-01T00:00:00Z",
+    "etag": "ea95132c15732412d22c1476fa83f27a",
+    "exports": {
+      "Admin": {
+        "type": "worker",
+        "cache": {
+          "enabled": true
+        },
+        "state": "created"
+      },
+      "Counter": {
+        "storage": "sqlite",
+        "type": "durable-object",
+        "container": "my-container",
+        "state": "created"
+      },
+      "OldCounter": {
+        "state": "renamed",
+        "type": "durable-object"
+      },
+      "default": {
+        "type": "worker",
+        "cache": {
+          "enabled": false
+        },
+        "state": "created"
+      }
+    },
+    "handlers": [
+      "fetch",
+      "scheduled"
+    ],
+    "has_assets": false,
+    "has_modules": false,
+    "last_deployed_from": "wrangler",
+    "logpush": false,
+    "migration_tag": "v1",
+    "modified_on": "2017-01-01T00:00:00Z",
+    "named_handlers": [
+      {
+        "handlers": [
+          "class"
+        ],
+        "name": "MyDurableObject"
+      }
+    ],
+    "observability": {
+      "enabled": true,
+      "head_sampling_rate": 0.1,
+      "logs": {
+        "enabled": true,
+        "invocation_logs": true,
+        "destinations": [
+          "cloudflare"
+        ],
+        "head_sampling_rate": 0.1,
+        "persist": true
+      },
+      "redact_query_string": false,
       "traces": {
         "destinations": [
           "cloudflare"

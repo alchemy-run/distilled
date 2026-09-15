@@ -1,478 +1,1028 @@
-## Create URL Scan
+---
+title: Create URL Scan
+---
 
-**post** `/accounts/{account_id}/urlscanner/v2/scan`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[URL Scanner](https://developers.cloudflare.com/api/resources/url_scanner)
+
+[Scans](https://developers.cloudflare.com/api/resources/url_scanner/subresources/scans)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create URL Scan
+
+POST/accounts/{account\_id}/urlscanner/v2/scan
 
 Submit a URL to scan. Check limits at https://developers.cloudflare.com/security-center/investigate/scan-limits/.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `url: string`
 
-- `agentReadiness: optional boolean`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Enable agent readiness checks.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `country: optional "AF" or "AL" or "DZ" or 192 more`
+</details>
 
-  Country to geo egress from
+<details>
 
-  - `"AF"`
+<summary>API Email + API Key</summary>
 
-  - `"AL"`
 
-  - `"DZ"`
 
-  - `"AD"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"AO"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"AG"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"AR"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"AM"`
+</details>
 
-  - `"AU"`
+##### Accepted Permissions (at least one required)
 
-  - `"AT"`
+`URL Scanner Write``URL Scanner Read`
 
-  - `"AZ"`
+##### P ath ParametersExpand Collapse
 
-  - `"BH"`
+account\_id: string
 
-  - `"BD"`
+Account ID.
 
-  - `"BB"`
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"BY"`
+##### Body ParametersJSONExpand Collapse
 
-  - `"BE"`
+url: string
 
-  - `"BZ"`
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20url%20%3E%20(schema)>)
 
-  - `"BJ"`
+agentReadiness: optional boolean
 
-  - `"BM"`
+Enable agent readiness checks.
 
-  - `"BT"`
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20agentReadiness%20%3E%20(schema)>)
 
-  - `"BO"`
+<details>
 
-  - `"BA"`
+<summary>
 
-  - `"BW"`
+country: optional "AF"or "AL"or "DZ"or 192 more
 
-  - `"BR"`
+Country to geo egress from
 
-  - `"BN"`
+</summary>
 
-  - `"BG"`
+One of the following:
 
-  - `"BF"`
+"AF"
 
-  - `"BI"`
+<a href="#">Link to this property</a>
 
-  - `"KH"`
+"AL"
 
-  - `"CM"`
+<a href="#">Link to this property</a>
 
-  - `"CA"`
+"DZ"
 
-  - `"CV"`
+<a href="#">Link to this property</a>
 
-  - `"KY"`
+"AD"
 
-  - `"CF"`
+<a href="#">Link to this property</a>
 
-  - `"TD"`
+"AO"
 
-  - `"CL"`
+<a href="#">Link to this property</a>
 
-  - `"CN"`
+"AG"
 
-  - `"CO"`
+<a href="#">Link to this property</a>
 
-  - `"KM"`
+"AR"
 
-  - `"CG"`
+<a href="#">Link to this property</a>
 
-  - `"CR"`
+"AM"
 
-  - `"CI"`
+<a href="#">Link to this property</a>
 
-  - `"HR"`
+"AU"
 
-  - `"CU"`
+<a href="#">Link to this property</a>
 
-  - `"CY"`
+"AT"
 
-  - `"CZ"`
+<a href="#">Link to this property</a>
 
-  - `"CD"`
+"AZ"
 
-  - `"DK"`
+<a href="#">Link to this property</a>
 
-  - `"DJ"`
+"BH"
 
-  - `"DM"`
+<a href="#">Link to this property</a>
 
-  - `"DO"`
+"BD"
 
-  - `"EC"`
+<a href="#">Link to this property</a>
 
-  - `"EG"`
+"BB"
 
-  - `"SV"`
+<a href="#">Link to this property</a>
 
-  - `"GQ"`
+"BY"
 
-  - `"ER"`
+<a href="#">Link to this property</a>
 
-  - `"EE"`
+"BE"
 
-  - `"SZ"`
+<a href="#">Link to this property</a>
 
-  - `"ET"`
+"BZ"
 
-  - `"FJ"`
+<a href="#">Link to this property</a>
 
-  - `"FI"`
+"BJ"
 
-  - `"FR"`
+<a href="#">Link to this property</a>
 
-  - `"GA"`
+"BM"
 
-  - `"GE"`
+<a href="#">Link to this property</a>
 
-  - `"DE"`
+"BT"
 
-  - `"GH"`
+<a href="#">Link to this property</a>
 
-  - `"GR"`
+"BO"
 
-  - `"GL"`
+<a href="#">Link to this property</a>
 
-  - `"GD"`
+"BA"
 
-  - `"GT"`
+<a href="#">Link to this property</a>
 
-  - `"GN"`
+"BW"
 
-  - `"GW"`
+<a href="#">Link to this property</a>
 
-  - `"GY"`
+"BR"
 
-  - `"HT"`
+<a href="#">Link to this property</a>
 
-  - `"HN"`
+"BN"
 
-  - `"HU"`
+<a href="#">Link to this property</a>
 
-  - `"IS"`
+"BG"
 
-  - `"IN"`
+<a href="#">Link to this property</a>
 
-  - `"ID"`
+"BF"
 
-  - `"IR"`
+<a href="#">Link to this property</a>
 
-  - `"IQ"`
+"BI"
 
-  - `"IE"`
+<a href="#">Link to this property</a>
 
-  - `"IL"`
+"KH"
 
-  - `"IT"`
+<a href="#">Link to this property</a>
 
-  - `"JM"`
+"CM"
 
-  - `"JP"`
+<a href="#">Link to this property</a>
 
-  - `"JO"`
+"CA"
 
-  - `"KZ"`
+<a href="#">Link to this property</a>
 
-  - `"KE"`
+"CV"
 
-  - `"KI"`
+<a href="#">Link to this property</a>
 
-  - `"KW"`
+"KY"
 
-  - `"KG"`
+<a href="#">Link to this property</a>
 
-  - `"LA"`
+"CF"
 
-  - `"LV"`
+<a href="#">Link to this property</a>
 
-  - `"LB"`
+"TD"
 
-  - `"LS"`
+<a href="#">Link to this property</a>
 
-  - `"LR"`
+"CL"
 
-  - `"LY"`
+<a href="#">Link to this property</a>
 
-  - `"LI"`
+"CN"
 
-  - `"LT"`
+<a href="#">Link to this property</a>
 
-  - `"LU"`
+"CO"
 
-  - `"MO"`
+<a href="#">Link to this property</a>
 
-  - `"MG"`
+"KM"
 
-  - `"MW"`
+<a href="#">Link to this property</a>
 
-  - `"MY"`
+"CG"
 
-  - `"MV"`
+<a href="#">Link to this property</a>
 
-  - `"ML"`
+"CR"
 
-  - `"MR"`
+<a href="#">Link to this property</a>
 
-  - `"MU"`
+"CI"
 
-  - `"MX"`
+<a href="#">Link to this property</a>
 
-  - `"FM"`
+"HR"
 
-  - `"MD"`
+<a href="#">Link to this property</a>
 
-  - `"MC"`
+"CU"
 
-  - `"MN"`
+<a href="#">Link to this property</a>
 
-  - `"MS"`
+"CY"
 
-  - `"MA"`
+<a href="#">Link to this property</a>
 
-  - `"MZ"`
+"CZ"
 
-  - `"MM"`
+<a href="#">Link to this property</a>
 
-  - `"NA"`
+"CD"
 
-  - `"NR"`
+<a href="#">Link to this property</a>
 
-  - `"NP"`
+"DK"
 
-  - `"NL"`
+<a href="#">Link to this property</a>
 
-  - `"NZ"`
+"DJ"
 
-  - `"NI"`
+<a href="#">Link to this property</a>
 
-  - `"NE"`
+"DM"
 
-  - `"NG"`
+<a href="#">Link to this property</a>
 
-  - `"KP"`
+"DO"
 
-  - `"MK"`
+<a href="#">Link to this property</a>
 
-  - `"NO"`
+"EC"
 
-  - `"OM"`
+<a href="#">Link to this property</a>
 
-  - `"PK"`
+"EG"
 
-  - `"PS"`
+<a href="#">Link to this property</a>
 
-  - `"PA"`
+"SV"
 
-  - `"PG"`
+<a href="#">Link to this property</a>
 
-  - `"PY"`
+"GQ"
 
-  - `"PE"`
+<a href="#">Link to this property</a>
 
-  - `"PH"`
+"ER"
 
-  - `"PL"`
+<a href="#">Link to this property</a>
 
-  - `"PT"`
+"EE"
 
-  - `"QA"`
+<a href="#">Link to this property</a>
 
-  - `"RO"`
+"SZ"
 
-  - `"RU"`
+<a href="#">Link to this property</a>
 
-  - `"RW"`
+"ET"
 
-  - `"SH"`
+<a href="#">Link to this property</a>
 
-  - `"KN"`
+"FJ"
 
-  - `"LC"`
+<a href="#">Link to this property</a>
 
-  - `"VC"`
+"FI"
 
-  - `"WS"`
+<a href="#">Link to this property</a>
 
-  - `"SM"`
+"FR"
 
-  - `"ST"`
+<a href="#">Link to this property</a>
 
-  - `"SA"`
+"GA"
 
-  - `"SN"`
+<a href="#">Link to this property</a>
 
-  - `"RS"`
+"GE"
 
-  - `"SC"`
+<a href="#">Link to this property</a>
 
-  - `"SL"`
+"DE"
 
-  - `"SK"`
+<a href="#">Link to this property</a>
 
-  - `"SI"`
+"GH"
 
-  - `"SB"`
+<a href="#">Link to this property</a>
 
-  - `"SO"`
+"GR"
 
-  - `"ZA"`
+<a href="#">Link to this property</a>
 
-  - `"KR"`
+"GL"
 
-  - `"SS"`
+<a href="#">Link to this property</a>
 
-  - `"ES"`
+"GD"
 
-  - `"LK"`
+<a href="#">Link to this property</a>
 
-  - `"SD"`
+"GT"
 
-  - `"SR"`
+<a href="#">Link to this property</a>
 
-  - `"SE"`
+"GN"
 
-  - `"CH"`
+<a href="#">Link to this property</a>
 
-  - `"SY"`
+"GW"
 
-  - `"TW"`
+<a href="#">Link to this property</a>
 
-  - `"TJ"`
+"GY"
 
-  - `"TZ"`
+<a href="#">Link to this property</a>
 
-  - `"TH"`
+"HT"
 
-  - `"BS"`
+<a href="#">Link to this property</a>
 
-  - `"GM"`
+"HN"
 
-  - `"TL"`
+<a href="#">Link to this property</a>
 
-  - `"TG"`
+"HU"
 
-  - `"TO"`
+<a href="#">Link to this property</a>
 
-  - `"TT"`
+"IS"
 
-  - `"TN"`
+<a href="#">Link to this property</a>
 
-  - `"TR"`
+"IN"
 
-  - `"TM"`
+<a href="#">Link to this property</a>
 
-  - `"UG"`
+"ID"
 
-  - `"UA"`
+<a href="#">Link to this property</a>
 
-  - `"AE"`
+"IR"
 
-  - `"GB"`
+<a href="#">Link to this property</a>
 
-  - `"US"`
+"IQ"
 
-  - `"UY"`
+<a href="#">Link to this property</a>
 
-  - `"UZ"`
+"IE"
 
-  - `"VU"`
+<a href="#">Link to this property</a>
 
-  - `"VE"`
+"IL"
 
-  - `"VN"`
+<a href="#">Link to this property</a>
 
-  - `"YE"`
+"IT"
 
-  - `"ZM"`
+<a href="#">Link to this property</a>
 
-  - `"ZW"`
+"JM"
 
-- `customagent: optional string`
+<a href="#">Link to this property</a>
 
-- `customHeaders: optional map[string]`
+"JP"
 
-  Set custom headers.
+<a href="#">Link to this property</a>
 
-- `referer: optional string`
+"JO"
 
-- `screenshotsResolutions: optional array of "desktop" or "mobile" or "tablet"`
+<a href="#">Link to this property</a>
 
-  Take multiple screenshots targeting different device types.
+"KZ"
 
-  - `"desktop"`
+<a href="#">Link to this property</a>
 
-  - `"mobile"`
+"KE"
 
-  - `"tablet"`
+<a href="#">Link to this property</a>
 
-- `visibility: optional "Public" or "Unlisted"`
+"KI"
 
-  The option `Public` means it will be included in listings like recent scans and search results. `Unlisted` means it will not be included in the aforementioned listings, users will need to have the scan's ID to access it. A a scan will be automatically marked as unlisted if it fails, if it contains potential PII or other sensitive material.
+<a href="#">Link to this property</a>
 
-  - `"Public"`
+"KW"
 
-  - `"Unlisted"`
+<a href="#">Link to this property</a>
 
-### Returns
+"KG"
 
-- `api: string`
+<a href="#">Link to this property</a>
 
-  URL to api report.
+"LA"
 
-- `message: string`
+<a href="#">Link to this property</a>
 
-- `result: string`
+"LV"
 
-  Public URL to report.
+<a href="#">Link to this property</a>
 
-- `url: string`
+"LB"
 
-  Canonical form of submitted URL. Use this if you want to later search by URL.
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+"LS"
 
-  Scan ID.
+<a href="#">Link to this property</a>
 
-- `visibility: "public" or "unlisted"`
+"LR"
 
-  Submitted visibility status.
+<a href="#">Link to this property</a>
 
-  - `"public"`
+"LY"
 
-  - `"unlisted"`
+<a href="#">Link to this property</a>
 
-- `options: optional object { useragent }`
+"LI"
 
-  - `useragent: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"LT"
 
-```http
+<a href="#">Link to this property</a>
+
+"LU"
+
+<a href="#">Link to this property</a>
+
+"MO"
+
+<a href="#">Link to this property</a>
+
+"MG"
+
+<a href="#">Link to this property</a>
+
+"MW"
+
+<a href="#">Link to this property</a>
+
+"MY"
+
+<a href="#">Link to this property</a>
+
+"MV"
+
+<a href="#">Link to this property</a>
+
+"ML"
+
+<a href="#">Link to this property</a>
+
+"MR"
+
+<a href="#">Link to this property</a>
+
+"MU"
+
+<a href="#">Link to this property</a>
+
+"MX"
+
+<a href="#">Link to this property</a>
+
+"FM"
+
+<a href="#">Link to this property</a>
+
+"MD"
+
+<a href="#">Link to this property</a>
+
+"MC"
+
+<a href="#">Link to this property</a>
+
+"MN"
+
+<a href="#">Link to this property</a>
+
+"MS"
+
+<a href="#">Link to this property</a>
+
+"MA"
+
+<a href="#">Link to this property</a>
+
+"MZ"
+
+<a href="#">Link to this property</a>
+
+"MM"
+
+<a href="#">Link to this property</a>
+
+"NA"
+
+<a href="#">Link to this property</a>
+
+"NR"
+
+<a href="#">Link to this property</a>
+
+"NP"
+
+<a href="#">Link to this property</a>
+
+"NL"
+
+<a href="#">Link to this property</a>
+
+"NZ"
+
+<a href="#">Link to this property</a>
+
+"NI"
+
+<a href="#">Link to this property</a>
+
+"NE"
+
+<a href="#">Link to this property</a>
+
+"NG"
+
+<a href="#">Link to this property</a>
+
+"KP"
+
+<a href="#">Link to this property</a>
+
+"MK"
+
+<a href="#">Link to this property</a>
+
+"NO"
+
+<a href="#">Link to this property</a>
+
+"OM"
+
+<a href="#">Link to this property</a>
+
+"PK"
+
+<a href="#">Link to this property</a>
+
+"PS"
+
+<a href="#">Link to this property</a>
+
+"PA"
+
+<a href="#">Link to this property</a>
+
+"PG"
+
+<a href="#">Link to this property</a>
+
+"PY"
+
+<a href="#">Link to this property</a>
+
+"PE"
+
+<a href="#">Link to this property</a>
+
+"PH"
+
+<a href="#">Link to this property</a>
+
+"PL"
+
+<a href="#">Link to this property</a>
+
+"PT"
+
+<a href="#">Link to this property</a>
+
+"QA"
+
+<a href="#">Link to this property</a>
+
+"RO"
+
+<a href="#">Link to this property</a>
+
+"RU"
+
+<a href="#">Link to this property</a>
+
+"RW"
+
+<a href="#">Link to this property</a>
+
+"SH"
+
+<a href="#">Link to this property</a>
+
+"KN"
+
+<a href="#">Link to this property</a>
+
+"LC"
+
+<a href="#">Link to this property</a>
+
+"VC"
+
+<a href="#">Link to this property</a>
+
+"WS"
+
+<a href="#">Link to this property</a>
+
+"SM"
+
+<a href="#">Link to this property</a>
+
+"ST"
+
+<a href="#">Link to this property</a>
+
+"SA"
+
+<a href="#">Link to this property</a>
+
+"SN"
+
+<a href="#">Link to this property</a>
+
+"RS"
+
+<a href="#">Link to this property</a>
+
+"SC"
+
+<a href="#">Link to this property</a>
+
+"SL"
+
+<a href="#">Link to this property</a>
+
+"SK"
+
+<a href="#">Link to this property</a>
+
+"SI"
+
+<a href="#">Link to this property</a>
+
+"SB"
+
+<a href="#">Link to this property</a>
+
+"SO"
+
+<a href="#">Link to this property</a>
+
+"ZA"
+
+<a href="#">Link to this property</a>
+
+"KR"
+
+<a href="#">Link to this property</a>
+
+"SS"
+
+<a href="#">Link to this property</a>
+
+"ES"
+
+<a href="#">Link to this property</a>
+
+"LK"
+
+<a href="#">Link to this property</a>
+
+"SD"
+
+<a href="#">Link to this property</a>
+
+"SR"
+
+<a href="#">Link to this property</a>
+
+"SE"
+
+<a href="#">Link to this property</a>
+
+"CH"
+
+<a href="#">Link to this property</a>
+
+"SY"
+
+<a href="#">Link to this property</a>
+
+"TW"
+
+<a href="#">Link to this property</a>
+
+"TJ"
+
+<a href="#">Link to this property</a>
+
+"TZ"
+
+<a href="#">Link to this property</a>
+
+"TH"
+
+<a href="#">Link to this property</a>
+
+"BS"
+
+<a href="#">Link to this property</a>
+
+"GM"
+
+<a href="#">Link to this property</a>
+
+"TL"
+
+<a href="#">Link to this property</a>
+
+"TG"
+
+<a href="#">Link to this property</a>
+
+"TO"
+
+<a href="#">Link to this property</a>
+
+"TT"
+
+<a href="#">Link to this property</a>
+
+"TN"
+
+<a href="#">Link to this property</a>
+
+"TR"
+
+<a href="#">Link to this property</a>
+
+"TM"
+
+<a href="#">Link to this property</a>
+
+"UG"
+
+<a href="#">Link to this property</a>
+
+"UA"
+
+<a href="#">Link to this property</a>
+
+"AE"
+
+<a href="#">Link to this property</a>
+
+"GB"
+
+<a href="#">Link to this property</a>
+
+"US"
+
+<a href="#">Link to this property</a>
+
+"UY"
+
+<a href="#">Link to this property</a>
+
+"UZ"
+
+<a href="#">Link to this property</a>
+
+"VU"
+
+<a href="#">Link to this property</a>
+
+"VE"
+
+<a href="#">Link to this property</a>
+
+"VN"
+
+<a href="#">Link to this property</a>
+
+"YE"
+
+<a href="#">Link to this property</a>
+
+"ZM"
+
+<a href="#">Link to this property</a>
+
+"ZW"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20country%20%3E%20(schema)>)
+
+customagent: optional string
+
+maxLength4096
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20customagent%20%3E%20(schema)>)
+
+customHeaders: optional map\[string]
+
+Set custom headers.
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20customHeaders%20%3E%20(schema)>)
+
+referer: optional string
+
+maxLength4096
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20referer%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+screenshotsResolutions: optional array of "desktop"or "mobile"or "tablet"
+
+Take multiple screenshots targeting different device types.
+
+</summary>
+
+One of the following:
+
+"desktop"
+
+<a href="#">Link to this property</a>
+
+"mobile"
+
+<a href="#">Link to this property</a>
+
+"tablet"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20screenshotsResolutions%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+visibility: optional "Public"or "Unlisted"
+
+The option <code>Public</code> means it will be included in listings like recent scans and search results. <code>Unlisted</code> means it will not be included in the aforementioned listings, users will need to have the scan’s ID to access it. A a scan will be automatically marked as unlisted if it fails, if it contains potential PII or other sensitive material.
+
+</summary>
+
+One of the following:
+
+"Public"
+
+<a href="#">Link to this property</a>
+
+"Unlisted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20visibility%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+api: string
+
+URL to api report.
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_create_response%20%3E%20(schema)%20%3E%20(property)%20api>)
+
+message: string
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_create_response%20%3E%20(schema)%20%3E%20(property)%20message>)
+
+result: string
+
+Public URL to report.
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_create_response%20%3E%20(schema)%20%3E%20(property)%20result>)
+
+url: string
+
+Canonical form of submitted URL. Use this if you want to later search by URL.
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_create_response%20%3E%20(schema)%20%3E%20(property)%20url>)
+
+uuid: string
+
+Scan ID.
+
+formatuuid
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_create_response%20%3E%20(schema)%20%3E%20(property)%20uuid>)
+
+<details>
+
+<summary>
+
+visibility: "public"or "unlisted"
+
+Submitted visibility status.
+
+</summary>
+
+One of the following:
+
+"public"
+
+<a href="#">Link to this property</a>
+
+"unlisted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_create_response%20%3E%20(schema)%20%3E%20(property)%20visibility>)
+
+<details>
+
+<summary>
+
+options: optional object {useragent }
+
+</summary>
+
+useragent: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_create_response%20%3E%20(schema)%20%3E%20(property)%20options>)
+
+### Create URL Scan
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/urlscanner/v2/scan \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -481,9 +1031,27 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/urlscanner/v2/sca
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "api": "api",
+  "message": "Submission successful",
+  "result": "result",
+  "url": "url",
+  "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "visibility": "public",
+  "options": {
+    "useragent": "useragent"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "api": "api",
   "message": "Submission successful",

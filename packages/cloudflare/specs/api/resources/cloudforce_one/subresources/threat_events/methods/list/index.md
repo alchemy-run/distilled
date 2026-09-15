@@ -1,177 +1,819 @@
-## Filter and list events
+---
+title: Filter and list events
+---
 
-**get** `/accounts/{account_id}/cloudforce-one/events`
+[Skip to content](#_top)
 
-Use `datasetId=all` or `datasetId=*` to query all event datasets for the account (limited to 10). When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
 
-  Account ID.
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `cursor: optional string`
+---
 
-  Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize. Returned in the previous response's result_info.cursor field. Use cursor-based pagination for deep pagination (beyond 100,000 records) or for optimal performance.
+**Copy Markdown****View as Markdown**
 
-- `datasetId: optional array of string`
+# Filter and list events
 
-  Dataset IDs to query events from (array of UUIDs), or special value 'all' or '*' to query all event datasets for the account. If not provided, uses the default dataset.
+GET/accounts/{account\_id}/cloudforce-one/events
 
-- `forceRefresh: optional boolean`
+Use `datasetId=all` or `datasetId=*` for the legacy all-datasets scope, `datasetId=analytics` for datasets with `isAnalytics=true`, or `datasetId=operational` for datasets with `isAnalytics=false` (limited to 50). Scope values must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
 
-- `format: optional "json" or "stix2" or "taxii"`
+##### Security
 
-  - `"json"`
+API Token
 
-  - `"stix2"`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-  - `"taxii"`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `order: optional "asc" or "desc"`
+##### Accepted Permissions (at least one required)
 
-  - `"asc"`
+`Cloudforce One Write``Cloudforce One Read`
 
-  - `"desc"`
+##### P ath ParametersExpand Collapse
 
-- `orderBy: optional string`
+account\_id: string
 
-- `page: optional number`
+Account ID.
 
-  Page number (1-indexed) for offset-based pagination. Limited to offset of 100,000 records. For deep pagination, use cursor-based pagination instead.
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `pageSize: optional number`
+##### Q uery ParametersExpand Collapse
 
-  Number of results per page. Maximum 25,000.
+cache: optional "from-graph"
 
-- `search: optional array of object { field, op, value }`
+Cache strategy. ‘from-graph’ serves results from the graph-node KV cache when all requested UUIDs are cached; falls back to normal path on partial/zero hit.
 
-  - `field: optional string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cache%20%3E%20(schema)>)
 
-    Event field to search on. Allowed: attacker, attackerCountry, category, createdAt, date, event, indicator, indicatorType, killChain, mitreAttack, tags, targetCountry, targetIndustry, tlp, uuid.
+cursor: optional string
 
-  - `op: optional "equals" or "not" or "gt" or 9 more`
+Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize. Returned in the previous response’s result\_info.cursor field. Use cursor-based pagination for deep pagination (beyond 100,000 records) or for optimal performance.
 
-    Search operator. Use 'in' for bulk lookup of up to 100 values at once, e.g. {field:'tags', op:'in', value:['malware','apt']}.
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cursor%20%3E%20(schema)>)
 
-    - `"equals"`
+datasetId: optional array of string
 
-    - `"not"`
+Dataset UUIDs to query, or one standalone scope value: ‘all’/’\*’ for the legacy all-datasets behavior, ‘analytics’ for isAnalytics=true datasets, or ‘operational’ for isAnalytics=false datasets. If not provided, uses the default dataset.
 
-    - `"gt"`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20datasetId%20%3E%20(schema)>)
 
-    - `"gte"`
+forceRefresh: optional boolean
 
-    - `"lt"`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20forceRefresh%20%3E%20(schema)>)
 
-    - `"lte"`
+<details>
 
-    - `"like"`
+<summary>
 
-    - `"contains"`
+format: optional "json"or "stix2"or "taxii"
 
-    - `"startsWith"`
+</summary>
 
-    - `"endsWith"`
+One of the following:
 
-    - `"in"`
+"json"
 
-    - `"find"`
+<a href="#">Link to this property</a>
 
-  - `value: optional string or number or array of string or number`
+"stix2"
 
-    Search value. String or number for most operators. Array for 'in' operator (max 100 items).
+<a href="#">Link to this property</a>
 
-    - `string`
+"taxii"
 
-    - `number`
+<a href="#">Link to this property</a>
 
-    - `array of string or number`
+</details>
 
-      - `string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-      - `number`
+<details>
 
-- `source: optional "do" or "r2catalog"`
+<summary>
 
-  Read backend. 'do' (default) reads Durable Object storage. 'r2catalog' reads R2 Data Catalog (admin-only, experimental; supports a subset of search fields — no 'tags').
+order: optional "asc"or "desc"
 
-  - `"do"`
+</summary>
 
-  - `"r2catalog"`
+One of the following:
 
-### Returns
+"asc"
 
-- `attacker: string`
+<a href="#">Link to this property</a>
 
-- `attackerCountry: string`
+"desc"
 
-- `attackerCountryAlpha3: string`
+<a href="#">Link to this property</a>
 
-- `category: string`
+</details>
 
-- `datasetId: string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-- `date: string`
+orderBy: optional string
 
-- `event: string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20orderBy%20%3E%20(schema)>)
 
-- `hasChildren: boolean`
+page: optional number
 
-- `indicator: string`
+Page number (1-indexed) for offset-based pagination. Limited to offset of 100,000 records. For deep pagination, use cursor-based pagination instead.
 
-- `indicatorType: string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-- `indicatorTypeId: number`
+pageSize: optional number
 
-- `killChain: number`
+Number of results per page. Maximum 25,000.
 
-- `mitreAttack: array of string`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20pageSize%20%3E%20(schema)>)
 
-- `mitreCapec: array of string`
+<details>
 
-- `numReferenced: number`
+<summary>
 
-- `numReferences: number`
+search: optional array of object {field, op, value } or object {field, op, value } or object {field, op, value } or 3 more
 
-- `rawId: string`
+</summary>
 
-- `referenced: array of string`
+One of the following:
 
-- `referencedIds: array of number`
+<details>
 
-- `references: array of string`
+<summary>
 
-- `referencesIds: array of number`
+object {field, op, value }
 
-- `tags: array of string`
+</summary>
 
-- `targetCountry: string`
+<details>
 
-- `targetCountryAlpha3: string`
+<summary>
 
-- `targetIndustry: string`
+field: "attacker"or "attackerCountry"or "category"or 12 more
 
-- `tlp: string`
+</summary>
 
-- `uuid: string`
+One of the following:
 
-- `insight: optional string`
+"attacker"
 
-- `releasabilityId: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"attackerCountry"
 
-```http
+<a href="#">Link to this property</a>
+
+"category"
+
+<a href="#">Link to this property</a>
+
+"createdAt"
+
+<a href="#">Link to this property</a>
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"event"
+
+<a href="#">Link to this property</a>
+
+"indicator"
+
+<a href="#">Link to this property</a>
+
+"indicatorType"
+
+<a href="#">Link to this property</a>
+
+"mitreAttack"
+
+<a href="#">Link to this property</a>
+
+"mitreCapec"
+
+<a href="#">Link to this property</a>
+
+"tags"
+
+<a href="#">Link to this property</a>
+
+"targetCountry"
+
+<a href="#">Link to this property</a>
+
+"targetIndustry"
+
+<a href="#">Link to this property</a>
+
+"tlp"
+
+<a href="#">Link to this property</a>
+
+"uuid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+op: "equals"or "not"or "gt"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+"like"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"startsWith"
+
+<a href="#">Link to this property</a>
+
+"endsWith"
+
+<a href="#">Link to this property</a>
+
+"find"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+maxLength512
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {field, op, value }
+
+</summary>
+
+<details>
+
+<summary>
+
+field: "attacker"or "attackerCountry"or "category"or 12 more
+
+</summary>
+
+One of the following:
+
+"attacker"
+
+<a href="#">Link to this property</a>
+
+"attackerCountry"
+
+<a href="#">Link to this property</a>
+
+"category"
+
+<a href="#">Link to this property</a>
+
+"createdAt"
+
+<a href="#">Link to this property</a>
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"event"
+
+<a href="#">Link to this property</a>
+
+"indicator"
+
+<a href="#">Link to this property</a>
+
+"indicatorType"
+
+<a href="#">Link to this property</a>
+
+"mitreAttack"
+
+<a href="#">Link to this property</a>
+
+"mitreCapec"
+
+<a href="#">Link to this property</a>
+
+"tags"
+
+<a href="#">Link to this property</a>
+
+"targetCountry"
+
+<a href="#">Link to this property</a>
+
+"targetIndustry"
+
+<a href="#">Link to this property</a>
+
+"tlp"
+
+<a href="#">Link to this property</a>
+
+"uuid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+op: "in"
+
+<a href="#">Link to this property</a>
+
+value: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {field, op, value }
+
+</summary>
+
+field: "killChain"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+op: "equals"or "not"or "gt"or 3 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: numberor string
+
+</summary>
+
+One of the following:
+
+number
+
+<a href="#">Link to this property</a>
+
+string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {field, op, value }
+
+</summary>
+
+field: "killChain"
+
+<a href="#">Link to this property</a>
+
+op: "in"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: array of numberor string
+
+</summary>
+
+One of the following:
+
+number
+
+<a href="#">Link to this property</a>
+
+string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {field, op, value }
+
+</summary>
+
+field: "hasChildren"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+op: "equals"or "not"or "gt"or 3 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: unknownor boolean
+
+</summary>
+
+One of the following:
+
+unknown
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {field, op, value }
+
+</summary>
+
+field: "hasChildren"
+
+<a href="#">Link to this property</a>
+
+op: "in"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: array of unknownor boolean
+
+</summary>
+
+One of the following:
+
+unknown
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+attacker: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20attacker>)
+
+attackerCountry: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20attackerCountry>)
+
+attackerCountryAlpha3: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20attackerCountryAlpha3>)
+
+category: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20category>)
+
+datasetId: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20datasetId>)
+
+date: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20date>)
+
+event: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20event>)
+
+hasChildren: boolean
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20hasChildren>)
+
+indicator: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20indicator>)
+
+indicatorType: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20indicatorType>)
+
+indicatorTypeId: number
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20indicatorTypeId>)
+
+killChain: number
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20killChain>)
+
+mitreAttack: array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20mitreAttack>)
+
+mitreCapec: array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20mitreCapec>)
+
+numReferenced: number
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20numReferenced>)
+
+numReferences: number
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20numReferences>)
+
+rawId: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20rawId>)
+
+referenced: array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20referenced>)
+
+referencedIds: array of number
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20referencedIds>)
+
+references: array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20references>)
+
+referencesIds: array of number
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20referencesIds>)
+
+tags: array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20tags>)
+
+targetCountry: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20targetCountry>)
+
+targetCountryAlpha3: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20targetCountryAlpha3>)
+
+targetIndustry: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20targetIndustry>)
+
+tlp: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20tlp>)
+
+uuid: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20uuid>)
+
+insight: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20insight>)
+
+releasabilityId: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20releasabilityId>)
+
+### Filter and list events
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+[
+  {
+    "attacker": "Flying Yeti",
+    "attackerCountry": "CN",
+    "attackerCountryAlpha3": "CHN",
+    "category": "Domain Resolution",
+    "datasetId": "dataset-example-id",
+    "date": "2022-04-01T00:00:00Z",
+    "event": "An attacker registered the domain domain.com",
+    "hasChildren": true,
+    "indicator": "domain.com",
+    "indicatorType": "domain",
+    "indicatorTypeId": 5,
+    "killChain": 0,
+    "mitreAttack": [
+      " "
+    ],
+    "mitreCapec": [
+      " "
+    ],
+    "numReferenced": 0,
+    "numReferences": 0,
+    "rawId": "453gw34w3",
+    "referenced": [
+      " "
+    ],
+    "referencedIds": [
+      0
+    ],
+    "references": [
+      " "
+    ],
+    "referencesIds": [
+      0
+    ],
+    "tags": [
+      "malware"
+    ],
+    "targetCountry": "US",
+    "targetCountryAlpha3": "USA",
+    "targetIndustry": "Agriculture",
+    "tlp": "amber",
+    "uuid": "12345678-1234-1234-1234-1234567890ab",
+    "insight": "insight",
+    "releasabilityId": "releasabilityId"
+  }
+]
+```
+
+##### Returns Examples
+
+200 example
+
+```
 [
   {
     "attacker": "Flying Yeti",

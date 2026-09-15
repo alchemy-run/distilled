@@ -1,363 +1,125 @@
+---
+title: Plans
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zones](https://developers.cloudflare.com/api/resources/zones)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Plans
 
-## List Available Plans
+##### [List Available Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/methods/list)
 
-**get** `/zones/{zone_id}/available_plans`
+GET/zones/{zone\_id}/available\_plans
 
-Lists available plans the zone can subscribe to.
+##### [Available Plan Details](https://developers.cloudflare.com/api/resources/zones/subresources/plans/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/available\_plans/{plan\_identifier}
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+AvailableRatePlan object {id, can\_subscribe, currency, 6 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+Identifier
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+can\_subscribe: optional boolean
 
-  - `code: number`
+Indicates whether you can subscribe to this plan.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+currency: optional string
 
-  - `source: optional object { pointer }`
+The monetary unit in which pricing information is displayed.
 
-- `result: array of AvailableRatePlan`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+externally\_managed: optional boolean
 
-    Identifier
+Indicates whether this plan is managed externally.
 
-  - `can_subscribe: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether you can subscribe to this plan.
+<details>
 
-  - `currency: optional string`
+<summary>
 
-    The monetary unit in which pricing information is displayed.
+frequency: optional "weekly"or "monthly"or "quarterly"or "yearly"
 
-  - `externally_managed: optional boolean`
+The frequency at which you will be billed for this plan.
 
-    Indicates whether this plan is managed externally.
+</summary>
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+One of the following:
 
-    The frequency at which you will be billed for this plan.
+"weekly"
 
-    - `"weekly"`
+<a href="#">Link to this property</a>
 
-    - `"monthly"`
+"monthly"
 
-    - `"quarterly"`
+<a href="#">Link to this property</a>
 
-    - `"yearly"`
+"quarterly"
 
-  - `is_subscribed: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether you are currently subscribed to this plan.
+"yearly"
 
-  - `legacy_discount: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether this plan has a legacy discount applied.
+</details>
 
-  - `legacy_id: optional string`
+<a href="#">Link to this property</a>
 
-    The legacy identifier for this rate plan, if any.
+is\_subscribed: optional boolean
 
-  - `name: optional string`
+Indicates whether you are currently subscribed to this plan.
 
-    The plan name.
+<a href="#">Link to this property</a>
 
-  - `price: optional number`
+legacy\_id: optional string
 
-    The amount you will be billed for this plan.
+The legacy identifier for this rate plan, if any.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+name: optional string
 
-  - `true`
+The plan name.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+maxLength80
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+price: optional number
 
-  - `page: optional number`
+The amount you will be billed for this plan.
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/available_plans \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "can_subscribe": true,
-      "currency": "USD",
-      "externally_managed": false,
-      "frequency": "monthly",
-      "is_subscribed": false,
-      "legacy_discount": false,
-      "legacy_id": "free",
-      "name": "Free Plan",
-      "price": 0
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Available Plan Details
-
-**get** `/zones/{zone_id}/available_plans/{plan_identifier}`
-
-Details of the available plan that the zone can subscribe to.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `plan_identifier: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: AvailableRatePlan`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `can_subscribe: optional boolean`
-
-    Indicates whether you can subscribe to this plan.
-
-  - `currency: optional string`
-
-    The monetary unit in which pricing information is displayed.
-
-  - `externally_managed: optional boolean`
-
-    Indicates whether this plan is managed externally.
-
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-    The frequency at which you will be billed for this plan.
-
-    - `"weekly"`
-
-    - `"monthly"`
-
-    - `"quarterly"`
-
-    - `"yearly"`
-
-  - `is_subscribed: optional boolean`
-
-    Indicates whether you are currently subscribed to this plan.
-
-  - `legacy_discount: optional boolean`
-
-    Indicates whether this plan has a legacy discount applied.
-
-  - `legacy_id: optional string`
-
-    The legacy identifier for this rate plan, if any.
-
-  - `name: optional string`
-
-    The plan name.
-
-  - `price: optional number`
-
-    The amount you will be billed for this plan.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/available_plans/$PLAN_IDENTIFIER \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "can_subscribe": true,
-    "currency": "USD",
-    "externally_managed": false,
-    "frequency": "monthly",
-    "is_subscribed": false,
-    "legacy_discount": false,
-    "legacy_id": "free",
-    "name": "Free Plan",
-    "price": 0
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Available Rate Plan
-
-- `AvailableRatePlan object { id, can_subscribe, currency, 7 more }`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `can_subscribe: optional boolean`
-
-    Indicates whether you can subscribe to this plan.
-
-  - `currency: optional string`
-
-    The monetary unit in which pricing information is displayed.
-
-  - `externally_managed: optional boolean`
-
-    Indicates whether this plan is managed externally.
-
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-    The frequency at which you will be billed for this plan.
-
-    - `"weekly"`
-
-    - `"monthly"`
-
-    - `"quarterly"`
-
-    - `"yearly"`
-
-  - `is_subscribed: optional boolean`
-
-    Indicates whether you are currently subscribed to this plan.
-
-  - `legacy_discount: optional boolean`
-
-    Indicates whether this plan has a legacy discount applied.
-
-  - `legacy_id: optional string`
-
-    The legacy identifier for this rate plan, if any.
-
-  - `name: optional string`
-
-    The plan name.
-
-  - `price: optional number`
-
-    The amount you will be billed for this plan.
+[Link to this property](#)%20zones.plans%20%3E%20(model)%20available_rate_plan%20%3E%20(schema)>)

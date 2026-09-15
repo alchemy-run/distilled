@@ -1,436 +1,355 @@
+---
+title: Maintenance Configs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2 Data Catalog](https://developers.cloudflare.com/api/resources/r2_data_catalog)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Maintenance Configs
 
-## Get catalog maintenance configuration
+##### [Get catalog maintenance configuration](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/maintenance_configs/methods/get)
 
-**get** `/accounts/{account_id}/r2-catalog/{bucket_name}/maintenance-configs`
+GET/accounts/{account\_id}/r2-catalog/{bucket\_name}/maintenance-configs
 
-Retrieve the maintenance configuration for a specific catalog,
-including compaction settings and credential status.
+##### [Update catalog maintenance configuration](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/maintenance_configs/methods/update)
 
-### Path Parameters
+POST/accounts/{account\_id}/r2-catalog/{bucket\_name}/maintenance-configs
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Use this to identify the account.
+<details>
 
-- `bucket_name: string`
+<summary>
 
-  Specifies the R2 bucket name.
+MaintenanceConfigGetResponse object {credential\_status, maintenance\_config }
 
-### Returns
+Contains maintenance configuration and credential status.
 
-- `errors: array of object { code, message }`
+</summary>
 
-  Contains errors if the API call was unsuccessful.
+<details>
 
-  - `code: number`
+<summary>
 
-    Specifies the error code.
+credential\_status: "present"or "absent"
 
-  - `message: string`
+Shows the credential configuration status.
 
-    Describes the error.
+</summary>
 
-- `messages: array of object { code, message }`
+One of the following:
 
-  Contains informational messages.
+"present"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-    Specifies the message code.
+"absent"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Contains the message text.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+<details>
 
-- `result: optional object { credential_status, maintenance_config }`
+<summary>
 
-  Contains maintenance configuration and credential status.
+maintenance\_config: object {compaction, interval, snapshot\_expiration }
 
-  - `credential_status: "present" or "absent"`
+Configures maintenance for the catalog.
 
-    Shows the credential configuration status.
+</summary>
 
-    - `"present"`
+<details>
 
-    - `"absent"`
+<summary>
 
-  - `maintenance_config: object { compaction, snapshot_expiration }`
+compaction: optional object {state, target\_size\_mb }
 
-    Configures maintenance for the catalog.
+Configures compaction for catalog maintenance.
 
-    - `compaction: optional object { state, target_size_mb }`
+</summary>
 
-      Configures compaction for catalog maintenance.
+<details>
 
-      - `state: "enabled" or "disabled"`
+<summary>
 
-        Specifies the state of maintenance operations.
+state: "enabled"or "disabled"
 
-        - `"enabled"`
+Specifies the state of maintenance operations.
 
-        - `"disabled"`
+</summary>
 
-      - `target_size_mb: "64" or "128" or "256" or "512"`
+One of the following:
 
-        Sets the target file size for compaction in megabytes. Defaults to "128".
+"enabled"
 
-        - `"64"`
+<a href="#">Link to this property</a>
 
-        - `"128"`
+"disabled"
 
-        - `"256"`
+<a href="#">Link to this property</a>
 
-        - `"512"`
+</details>
 
-    - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<a href="#">Link to this property</a>
 
-      Configures snapshot expiration settings.
+<details>
 
-      - `max_snapshot_age: string`
+<summary>
 
-        Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-        Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-        Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-        Defaults to "7d".
+target\_size\_mb: "64"or "128"or "256"or "512"
 
-      - `min_snapshots_to_keep: number`
+Sets the target file size for compaction in megabytes. Defaults to “128”.
 
-        Specifies the minimum number of snapshots to retain. Defaults to 100.
+</summary>
 
-      - `state: "enabled" or "disabled"`
+One of the following:
 
-        Specifies the state of maintenance operations.
+"64"
 
-        - `"enabled"`
+<a href="#">Link to this property</a>
 
-        - `"disabled"`
+"128"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/maintenance-configs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"256"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "credential_status": "present",
-    "maintenance_config": {
-      "compaction": {
-        "state": "enabled",
-        "target_size_mb": "128"
-      },
-      "snapshot_expiration": {
-        "max_snapshot_age": "7d",
-        "min_snapshots_to_keep": 100,
-        "state": "enabled"
-      }
-    }
-  },
-  "success": true
-}
-```
+"512"
 
-## Update catalog maintenance configuration
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/r2-catalog/{bucket_name}/maintenance-configs`
+</details>
 
-Update the maintenance configuration for a catalog. This allows you to
-enable or disable compaction and adjust target file sizes for optimization.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Use this to identify the account.
+interval: optional string
 
-- `bucket_name: string`
+Scheduling interval between normal table maintenance runs.
 
-  Specifies the R2 bucket name.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `compaction: optional object { state, target_size_mb }`
+<summary>
 
-  Updates compaction configuration (all fields optional).
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state }
 
-  - `state: optional "enabled" or "disabled"`
+Configures snapshot expiration settings.
 
-    Updates the state optionally.
+</summary>
 
-    - `"enabled"`
+max\_snapshot\_age: string
 
-    - `"disabled"`
+Specifies the maximum age for snapshots. The system deletes snapshots older than this age. Format: where unit is d (days), h (hours), m (minutes), or s (seconds). Examples: “7d” (7 days), “48h” (48 hours), “2880m” (2,880 minutes). Defaults to “7d”.
 
-  - `target_size_mb: optional "64" or "128" or "256" or "512"`
+<a href="#">Link to this property</a>
 
-    Updates the target file size optionally.
+min\_snapshots\_to\_keep: number
 
-    - `"64"`
+Specifies the minimum number of snapshots to retain. Defaults to 100.
 
-    - `"128"`
+formatint64
 
-    - `"256"`
+minimum1
 
-    - `"512"`
+<a href="#">Link to this property</a>
 
-- `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<details>
 
-  Updates snapshot expiration configuration (all fields optional).
+<summary>
 
-  - `max_snapshot_age: optional string`
+state: "enabled"or "disabled"
 
-    Updates the maximum age for snapshots optionally.
+Specifies the state of maintenance operations.
 
-  - `min_snapshots_to_keep: optional number`
+</summary>
 
-    Updates the minimum number of snapshots to retain optionally.
+One of the following:
 
-  - `state: optional "enabled" or "disabled"`
+"enabled"
 
-    Updates the state optionally.
+<a href="#">Link to this property</a>
 
-    - `"enabled"`
+"disabled"
 
-    - `"disabled"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  Contains errors if the API call was unsuccessful.
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-    Specifies the error code.
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Describes the error.
+</details>
 
-- `messages: array of object { code, message }`
+[Link to this property](#)%20r2_data_catalog.maintenance_configs%20%3E%20(model)%20maintenance_config_get_response%20%3E%20(schema)>)
 
-  Contains informational messages.
+<details>
 
-  - `code: number`
+<summary>
 
-    Specifies the message code.
+MaintenanceConfigUpdateResponse object {compaction, interval, snapshot\_expiration }
 
-  - `message: string`
+Configures maintenance for the catalog.
 
-    Contains the message text.
+</summary>
 
-- `success: boolean`
+<details>
 
-  Indicates whether the API call was successful.
+<summary>
 
-- `result: optional object { compaction, snapshot_expiration }`
+compaction: optional object {state, target\_size\_mb }
 
-  Configures maintenance for the catalog.
+Configures compaction for catalog maintenance.
 
-  - `compaction: optional object { state, target_size_mb }`
+</summary>
 
-    Configures compaction for catalog maintenance.
+<details>
 
-    - `state: "enabled" or "disabled"`
+<summary>
 
-      Specifies the state of maintenance operations.
+state: "enabled"or "disabled"
 
-      - `"enabled"`
+Specifies the state of maintenance operations.
 
-      - `"disabled"`
+</summary>
 
-    - `target_size_mb: "64" or "128" or "256" or "512"`
+One of the following:
 
-      Sets the target file size for compaction in megabytes. Defaults to "128".
+"enabled"
 
-      - `"64"`
+<a href="#">Link to this property</a>
 
-      - `"128"`
+"disabled"
 
-      - `"256"`
+<a href="#">Link to this property</a>
 
-      - `"512"`
+</details>
 
-  - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<a href="#">Link to this property</a>
 
-    Configures snapshot expiration settings.
+<details>
 
-    - `max_snapshot_age: string`
+<summary>
 
-      Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-      Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-      Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-      Defaults to "7d".
+target\_size\_mb: "64"or "128"or "256"or "512"
 
-    - `min_snapshots_to_keep: number`
+Sets the target file size for compaction in megabytes. Defaults to “128”.
 
-      Specifies the minimum number of snapshots to retain. Defaults to 100.
+</summary>
 
-    - `state: "enabled" or "disabled"`
+One of the following:
 
-      Specifies the state of maintenance operations.
+"64"
 
-      - `"enabled"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+"128"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/maintenance-configs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+"256"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "compaction": {
-      "state": "enabled",
-      "target_size_mb": "256"
-    },
-    "snapshot_expiration": {
-      "max_snapshot_age": "14d",
-      "min_snapshots_to_keep": 5,
-      "state": "enabled"
-    }
-  },
-  "success": true
-}
-```
+"512"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Maintenance Config Get Response
+</details>
 
-- `MaintenanceConfigGetResponse object { credential_status, maintenance_config }`
+<a href="#">Link to this property</a>
 
-  Contains maintenance configuration and credential status.
+</details>
 
-  - `credential_status: "present" or "absent"`
+<a href="#">Link to this property</a>
 
-    Shows the credential configuration status.
+interval: optional string
 
-    - `"present"`
+Scheduling interval between normal table maintenance runs.
 
-    - `"absent"`
+<a href="#">Link to this property</a>
 
-  - `maintenance_config: object { compaction, snapshot_expiration }`
+<details>
 
-    Configures maintenance for the catalog.
+<summary>
 
-    - `compaction: optional object { state, target_size_mb }`
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state }
 
-      Configures compaction for catalog maintenance.
+Configures snapshot expiration settings.
 
-      - `state: "enabled" or "disabled"`
+</summary>
 
-        Specifies the state of maintenance operations.
+max\_snapshot\_age: string
 
-        - `"enabled"`
+Specifies the maximum age for snapshots. The system deletes snapshots older than this age. Format: where unit is d (days), h (hours), m (minutes), or s (seconds). Examples: “7d” (7 days), “48h” (48 hours), “2880m” (2,880 minutes). Defaults to “7d”.
 
-        - `"disabled"`
+<a href="#">Link to this property</a>
 
-      - `target_size_mb: "64" or "128" or "256" or "512"`
+min\_snapshots\_to\_keep: number
 
-        Sets the target file size for compaction in megabytes. Defaults to "128".
+Specifies the minimum number of snapshots to retain. Defaults to 100.
 
-        - `"64"`
+formatint64
 
-        - `"128"`
+minimum1
 
-        - `"256"`
+<a href="#">Link to this property</a>
 
-        - `"512"`
+<details>
 
-    - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<summary>
 
-      Configures snapshot expiration settings.
+state: "enabled"or "disabled"
 
-      - `max_snapshot_age: string`
+Specifies the state of maintenance operations.
 
-        Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-        Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-        Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-        Defaults to "7d".
+</summary>
 
-      - `min_snapshots_to_keep: number`
+One of the following:
 
-        Specifies the minimum number of snapshots to retain. Defaults to 100.
+"enabled"
 
-      - `state: "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-        Specifies the state of maintenance operations.
+"disabled"
 
-        - `"enabled"`
+<a href="#">Link to this property</a>
 
-        - `"disabled"`
+</details>
 
-### Maintenance Config Update Response
+<a href="#">Link to this property</a>
 
-- `MaintenanceConfigUpdateResponse object { compaction, snapshot_expiration }`
+</details>
 
-  Configures maintenance for the catalog.
+<a href="#">Link to this property</a>
 
-  - `compaction: optional object { state, target_size_mb }`
+</details>
 
-    Configures compaction for catalog maintenance.
-
-    - `state: "enabled" or "disabled"`
-
-      Specifies the state of maintenance operations.
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `target_size_mb: "64" or "128" or "256" or "512"`
-
-      Sets the target file size for compaction in megabytes. Defaults to "128".
-
-      - `"64"`
-
-      - `"128"`
-
-      - `"256"`
-
-      - `"512"`
-
-  - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
-
-    Configures snapshot expiration settings.
-
-    - `max_snapshot_age: string`
-
-      Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-      Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-      Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-      Defaults to "7d".
-
-    - `min_snapshots_to_keep: number`
-
-      Specifies the minimum number of snapshots to retain. Defaults to 100.
-
-    - `state: "enabled" or "disabled"`
-
-      Specifies the state of maintenance operations.
-
-      - `"enabled"`
-
-      - `"disabled"`
+[Link to this property](#)%20r2_data_catalog.maintenance_configs%20%3E%20(model)%20maintenance_config_update_response%20%3E%20(schema)>)

@@ -1,202 +1,91 @@
+---
+title: DNS
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # DNS
 
-## Get Passive DNS by IP
+##### [Get Passive DNS by IP](https://developers.cloudflare.com/api/resources/intel/subresources/dns/methods/list)
 
-**get** `/accounts/{account_id}/intel/dns`
+GET/accounts/{account\_id}/intel/dns
 
-Gets a list of all the domains that have resolved to a specific IP address.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+DNS object {count, page, per\_page, reverse\_records }
 
-### Query Parameters
+</summary>
 
-- `ipv4: optional string`
+count: optional number
 
-- `page: optional number`
+Total results returned based on your search parameters.
 
-  Requested page within paginated list of results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+page: optional number
 
-  Maximum number of results requested.
+Current page within paginated list of results.
 
-- `start_end_params: optional object { end, start }`
+<a href="#">Link to this property</a>
 
-  - `end: optional string`
+per\_page: optional number
 
-    Defaults to the current date.
+Number of results per page of results.
 
-  - `start: optional string`
+<a href="#">Link to this property</a>
 
-    Defaults to 30 days before the end parameter value.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+reverse\_records: optional array of object {first\_seen, hostname, last\_seen }
 
-  - `code: number`
+Reverse DNS look-ups observed during the time period.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+first\_seen: optional string
 
-  - `source: optional object { pointer }`
+First seen date of the DNS record during the time period.
 
-    - `pointer: optional string`
+formatdate
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+hostname: optional string
 
-  - `message: string`
+Hostname that the IP was observed resolving to.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+last\_seen: optional string
 
-    - `pointer: optional string`
+Last seen date of the DNS record during the time period.
 
-- `success: true`
+formatdate
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional DNS`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total results returned based on your search parameters.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `reverse_records: optional array of object { first_seen, hostname, last_seen }`
-
-    Reverse DNS look-ups observed during the time period.
-
-    - `first_seen: optional string`
-
-      First seen date of the DNS record during the time period.
-
-    - `hostname: optional string`
-
-      Hostname that the IP was observed resolving to.
-
-    - `last_seen: optional string`
-
-      Last seen date of the DNS record during the time period.
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/dns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "reverse_records": [
-      {
-        "first_seen": "2021-04-01",
-        "hostname": "hostname",
-        "last_seen": "2021-04-30"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### DNS
-
-- `DNS object { count, page, per_page, reverse_records }`
-
-  - `count: optional number`
-
-    Total results returned based on your search parameters.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `reverse_records: optional array of object { first_seen, hostname, last_seen }`
-
-    Reverse DNS look-ups observed during the time period.
-
-    - `first_seen: optional string`
-
-      First seen date of the DNS record during the time period.
-
-    - `hostname: optional string`
-
-      Hostname that the IP was observed resolving to.
-
-    - `last_seen: optional string`
-
-      Last seen date of the DNS record during the time period.
+[Link to this property](#)%20intel.dns%20%3E%20(model)%20dns%20%3E%20(schema)>)

@@ -1,146 +1,61 @@
+---
+title: Quota
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Quota
 
-## Returns account commands usage, quota, and reset time
+##### [Returns account commands usage, quota, and reset time](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/quota/methods/get)
 
-**get** `/accounts/{account_id}/dex/commands/quota`
+GET/accounts/{account\_id}/dex/commands/quota
 
-Retrieves the current quota usage and limits for device commands within a specific account, including the time when the quota will reset
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+QuotaGetResponse object {quota, quota\_usage, reset\_time }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+quota: number
 
-  - `code: number`
+The total number of commands that can be initiated for an account.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+quota\_usage: number
 
-  - `source: optional object { pointer }`
+The number of commands that have been initiated for an account.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+reset\_time: string
 
-  - `code: number`
+The time when the quota resets.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { quota, quota_usage, reset_time }`
-
-  - `quota: number`
-
-    The total number of commands that can be initiated for an account.
-
-  - `quota_usage: number`
-
-    The number of commands that have been initiated for an account.
-
-  - `reset_time: string`
-
-    The time when the quota resets.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/quota \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "quota": 0,
-    "quota_usage": 0,
-    "reset_time": "2019-12-27T18:11:19.117Z"
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Quota Get Response
-
-- `QuotaGetResponse object { quota, quota_usage, reset_time }`
-
-  - `quota: number`
-
-    The total number of commands that can be initiated for an account.
-
-  - `quota_usage: number`
-
-    The number of commands that have been initiated for an account.
-
-  - `reset_time: string`
-
-    The time when the quota resets.
+[Link to this property](#)%20zero_trust.dex.commands.quota%20%3E%20(model)%20quota_get_response%20%3E%20(schema)>)

@@ -1,69 +1,241 @@
-## List Services
+---
+title: List Services
+---
 
-**get** `/accounts/{account_id}/addressing/services`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Services](https://developers.cloudflare.com/api/resources/addressing/subresources/services)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Services
+
+GET/accounts/{account\_id}/addressing/services
 
 Bring-Your-Own IP (BYOIP) prefixes onboarded to Cloudflare must be bound to a service running on the Cloudflare network to enable a Cloudflare product on the IP addresses. This endpoint can be used as a reference of available services on the Cloudflare network, and their service IDs.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+##### Accepted Permissions (at least one required)
 
-  - `true`
+`IP Prefixes: Write``IP Prefixes: Read`
 
-- `result: optional array of object { id, name }`
+##### P ath ParametersExpand Collapse
 
-  - `id: optional string`
+account\_id: string
 
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
+Identifier of a Cloudflare account.
 
-  - `name: optional string`
+maxLength32
 
-    Name of a service running on the Cloudflare network
+[Link to this property](#)%20addressing.services%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-### Example
+##### ReturnsExpand Collapse
 
-```http
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20addressing.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, name }
+
+</summary>
+
+id: optional string
+
+Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of a service running on the Cloudflare network
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List Services
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/services \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "2db684ee7ca04e159946fd05b99e1bcd",
+      "name": "Magic Transit"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

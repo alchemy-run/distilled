@@ -1,410 +1,918 @@
-## Replace Custom Certificate and Custom Key In Custom Hostname
+---
+title: Replace Custom Certificate and Custom Key In Custom Hostname
+---
 
-**put** `/zones/{zone_id}/custom_hostnames/{custom_hostname_id}/certificate_pack/{certificate_pack_id}/certificates/{certificate_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Custom Hostnames](https://developers.cloudflare.com/api/resources/custom_hostnames)
+
+[Certificate Pack](https://developers.cloudflare.com/api/resources/custom_hostnames/subresources/certificate_pack)
+
+[Certificates](https://developers.cloudflare.com/api/resources/custom_hostnames/subresources/certificate_pack/subresources/certificates)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Replace Custom Certificate and Custom Key In Custom Hostname
+
+PUT/zones/{zone\_id}/custom\_hostnames/{custom\_hostname\_id}/certificate\_pack/{certificate\_pack\_id}/certificates/{certificate\_id}
 
 Replace a single custom certificate within a certificate pack that contains two bundled certificates. The replacement must adhere to the following constraints. You can only replace an RSA certificate with another RSA certificate or an ECDSA certificate with another ECDSA certificate.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `custom_hostname_id: string`
 
-  Identifier.
 
-- `certificate_pack_id: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Identifier.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `certificate_id: string`
+</details>
 
-  Identifier.
+<details>
 
-### Body Parameters
+<summary>API Email + API Key</summary>
 
-- `custom_certificate: string`
 
-  If a custom uploaded certificate is used.
 
-- `custom_key: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  The key for a custom uploaded certificate.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`SSL and Certificates Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+zone\_id: string
 
-- `messages: array of string`
+Identifier.
 
-  Informational messages returned by the custom hostname API.
+maxLength32
 
-- `success: true`
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+custom\_hostname\_id: string
 
-  - `true`
+Identifier.
 
-- `result: optional object { id, hostname, created_at, 8 more }`
+maxLength32
 
-  - `id: string`
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20custom_hostname_id%20%3E%20(schema)>)
 
-    Identifier.
+certificate\_pack\_id: string
 
-  - `hostname: string`
+Identifier.
 
-    The custom hostname that will point to your hostname via CNAME.
+maxLength32
 
-  - `created_at: optional string`
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20certificate_pack_id%20%3E%20(schema)>)
 
-    This is the time the hostname was created.
+certificate\_id: string
 
-  - `custom_metadata: optional map[string]`
+Identifier.
 
-    Unique key/value metadata for this hostname. These are per-hostname (customer) settings.
+maxLength32
 
-  - `custom_origin_server: optional string`
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20certificate_id%20%3E%20(schema)>)
 
-    a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.
+##### Body ParametersJSONExpand Collapse
 
-  - `custom_origin_sni: optional string`
+custom\_certificate: string
 
-    A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server.
+If a custom uploaded certificate is used.
 
-  - `ownership_verification: optional object { name, type, value }`
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20custom_certificate%20%3E%20(schema)>)
 
-    This is a record which can be placed to activate a hostname.
+custom\_key: string
 
-    - `name: optional string`
+The key for a custom uploaded certificate.
 
-      DNS Name for record.
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20custom_key%20%3E%20(schema)>)
 
-    - `type: optional "txt"`
+##### ReturnsExpand Collapse
 
-      DNS Record type.
+<details>
 
-      - `"txt"`
+<summary>
 
-    - `value: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-      Content for the record.
+</summary>
 
-  - `ownership_verification_http: optional object { http_body, http_url }`
+code: number
 
-    This presents the token to be served by the given http url to activate a hostname.
+minimum1000
 
-    - `http_body: optional string`
+<a href="#">Link to this property</a>
 
-      Token to be served.
+message: string
 
-    - `http_url: optional string`
+<a href="#">Link to this property</a>
 
-      The HTTP URL that will be checked during custom hostname verification and where the customer should host the token.
+documentation\_url: optional string
 
-  - `ssl: optional object { id, bundle_method, certificate_authority, 17 more }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+<details>
 
-      Custom hostname SSL identifier tag.
+<summary>
 
-    - `bundle_method: optional BundleMethod`
+source: optional object {pointer }
 
-      A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.
+</summary>
 
-      - `"ubiquitous"`
+pointer: optional string
 
-      - `"optimal"`
+<a href="#">Link to this property</a>
 
-      - `"force"`
+</details>
 
-    - `certificate_authority: optional CertificateCA`
+<a href="#">Link to this property</a>
 
-      The Certificate Authority that will issue the certificate.
+</details>
 
-      - `"digicert"`
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `"google"`
+messages: array of string
 
-      - `"lets_encrypt"`
+Informational messages returned by the custom hostname API.
 
-      - `"ssl_com"`
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `custom_certificate: optional string`
+success: true
 
-      If a custom uploaded certificate is used.
+Whether the API call was successful.
 
-    - `custom_csr_id: optional string`
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      The identifier for the Custom CSR that was used.
+<details>
 
-    - `custom_key: optional string`
+<summary>
 
-      The key for a custom uploaded certificate.
+result: optional object {id, hostname, created\_at, 8 more }
 
-    - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+</summary>
 
-      DCV Delegation records for domain validation.
+id: string
 
-      - `cname: optional string`
+Identifier.
 
-        The CNAME record hostname for DCV delegation.
+maxLength32
 
-      - `cname_target: optional string`
+<a href="#">Link to this property</a>
 
-        The CNAME record target value for DCV delegation.
+hostname: string
 
-      - `emails: optional array of string`
+The custom hostname that will point to your hostname via CNAME.
 
-        The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+maxLength255
 
-      - `http_body: optional string`
+<a href="#">Link to this property</a>
 
-        The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+created\_at: optional string
 
-      - `http_url: optional string`
+This is the time the hostname was created.
 
-        The url that will be checked during domain validation.
+formatdate-time
 
-      - `status: optional string`
+<a href="#">Link to this property</a>
 
-        Status of the validation record.
+custom\_metadata: optional map\[string]
 
-      - `txt_name: optional string`
+Unique key/value metadata for this hostname. These are per-hostname (customer) settings.
 
-        The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<a href="#">Link to this property</a>
 
-      - `txt_value: optional string`
+custom\_origin\_server: optional string
 
-        The TXT record that the certificate authority (CA) will check during domain validation.
+a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.
 
-    - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-      The time the custom certificate expires on.
+custom\_origin\_sni: optional string
 
-    - `hosts: optional array of string`
+A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ‘:request\_host\_header:’ which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server.
 
-      A list of Hostnames on a custom uploaded certificate.
+<a href="#">Link to this property</a>
 
-    - `issuer: optional string`
+<details>
 
-      The issuer on a custom uploaded certificate.
+<summary>
 
-    - `method: optional DCVMethod`
+ownership\_verification: optional object {name, type, value }
 
-      Domain control validation (DCV) method used for this hostname.
+This is a record which can be placed to activate a hostname.
 
-      - `"http"`
+</summary>
 
-      - `"txt"`
+name: optional string
 
-      - `"email"`
+DNS Name for record.
 
-    - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-      The serial number on a custom uploaded certificate.
+type: optional "txt"
 
-    - `settings: optional object { ciphers, early_hints, http2, 2 more }`
+DNS Record type.
 
-      - `ciphers: optional array of string`
+<a href="#">Link to this property</a>
 
-        An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+value: optional string
 
-      - `early_hints: optional "on" or "off"`
+Content for the record.
 
-        Whether or not Early Hints is enabled.
+<a href="#">Link to this property</a>
 
-        - `"on"`
+</details>
 
-        - `"off"`
+<a href="#">Link to this property</a>
 
-      - `http2: optional "on" or "off"`
+<details>
 
-        Whether or not HTTP2 is enabled.
+<summary>
 
-        - `"on"`
+ownership\_verification\_http: optional object {http\_body, http\_url }
 
-        - `"off"`
+This presents the token to be served by the given http url to activate a hostname.
 
-      - `min_tls_version: optional "1.0" or "1.1" or "1.2" or "1.3"`
+</summary>
 
-        The minimum TLS version supported.
+http\_body: optional string
 
-        - `"1.0"`
+Token to be served.
 
-        - `"1.1"`
+<a href="#">Link to this property</a>
 
-        - `"1.2"`
+http\_url: optional string
 
-        - `"1.3"`
+The HTTP URL that will be checked during custom hostname verification and where the customer should host the token.
 
-      - `tls_1_3: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-        Whether or not TLS 1.3 is enabled.
+</details>
 
-        - `"on"`
+<a href="#">Link to this property</a>
 
-        - `"off"`
+<details>
 
-    - `signature: optional string`
+<summary>
 
-      The signature on a custom uploaded certificate.
+ssl: optional object {id, bundle\_method, certificate\_authority, 17 more }
 
-    - `status: optional "initializing" or "pending_validation" or "deleted" or 18 more`
+</summary>
 
-      Status of the hostname's SSL certificates.
+id: optional string
 
-      - `"initializing"`
+Custom hostname SSL identifier tag.
 
-      - `"pending_validation"`
+maxLength36
 
-      - `"deleted"`
+minLength36
 
-      - `"pending_issuance"`
+<a href="#">Link to this property</a>
 
-      - `"pending_deployment"`
+<details>
 
-      - `"pending_deletion"`
+<summary>
 
-      - `"pending_expiration"`
+bundle\_method: optional <a href="https://developers.cloudflare.com/api/resources/custom_hostnames#(resource)%20custom_hostnames%20%3E%20(model)%20bundle_method%20%3E%20(schema)">BundleMethod</a>
 
-      - `"expired"`
+A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.
 
-      - `"active"`
+</summary>
 
-      - `"initializing_timed_out"`
+One of the following:
 
-      - `"validation_timed_out"`
+"ubiquitous"
 
-      - `"issuance_timed_out"`
+<a href="#">Link to this property</a>
 
-      - `"deployment_timed_out"`
+"optimal"
 
-      - `"deletion_timed_out"`
+<a href="#">Link to this property</a>
 
-      - `"pending_cleanup"`
+"force"
 
-      - `"staging_deployment"`
+<a href="#">Link to this property</a>
 
-      - `"staging_active"`
+</details>
 
-      - `"deactivating"`
+<a href="#">Link to this property</a>
 
-      - `"inactive"`
+<details>
 
-      - `"backup_issued"`
+<summary>
 
-      - `"holding_deployment"`
+certificate\_authority: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20certificate_ca%20%3E%20(schema)">CertificateCA</a>
 
-    - `type: optional DomainValidationType`
+The Certificate Authority that will issue the certificate.
 
-      Level of validation to be used for this hostname. Domain validation (dv) must be used.
+</summary>
 
-      - `"dv"`
+One of the following:
 
-    - `uploaded_on: optional string`
+"digicert"
 
-      The time the custom certificate was uploaded.
+<a href="#">Link to this property</a>
 
-    - `validation_errors: optional array of object { message }`
+"google"
 
-      Domain validation errors that have been received by the certificate authority (CA).
+<a href="#">Link to this property</a>
 
-      - `message: optional string`
+"lets\_encrypt"
 
-        A domain validation error.
+<a href="#">Link to this property</a>
 
-    - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+"ssl\_com"
 
-      - `cname: optional string`
+<a href="#">Link to this property</a>
 
-        The CNAME record hostname for DCV delegation.
+</details>
 
-      - `cname_target: optional string`
+<a href="#">Link to this property</a>
 
-        The CNAME record target value for DCV delegation.
+custom\_certificate: optional string
 
-      - `emails: optional array of string`
+If a custom uploaded certificate is used.
 
-        The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+<a href="#">Link to this property</a>
 
-      - `http_body: optional string`
+custom\_csr\_id: optional string
 
-        The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+The identifier for the Custom CSR that was used.
 
-      - `http_url: optional string`
+<a href="#">Link to this property</a>
 
-        The url that will be checked during domain validation.
+custom\_key: optional string
 
-      - `status: optional string`
+The key for a custom uploaded certificate.
 
-        Status of the validation record.
+<a href="#">Link to this property</a>
 
-      - `txt_name: optional string`
+<details>
 
-        The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<summary>
 
-      - `txt_value: optional string`
+dcv\_delegation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-        The TXT record that the certificate authority (CA) will check during domain validation.
+DCV Delegation records for domain validation.
 
-    - `wildcard: optional boolean`
+</summary>
 
-      Indicates whether the certificate covers a wildcard.
+cname: optional string
 
-  - `status: optional "active" or "pending" or "active_redeploying" or 13 more`
+The CNAME record hostname for DCV delegation.
 
-    Status of the hostname's activation.
+<a href="#">Link to this property</a>
 
-    - `"active"`
+cname\_target: optional string
 
-    - `"pending"`
+The CNAME record target value for DCV delegation.
 
-    - `"active_redeploying"`
+<a href="#">Link to this property</a>
 
-    - `"moved"`
+emails: optional array of string
 
-    - `"pending_deletion"`
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-    - `"pending_blocked"`
+http\_body: optional string
 
-    - `"pending_migration"`
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-    - `"pending_provisioned"`
+<a href="#">Link to this property</a>
 
-    - `"test_pending"`
+http\_url: optional string
 
-    - `"test_active"`
+The url that will be checked during domain validation.
 
-    - `"test_active_apex"`
+<a href="#">Link to this property</a>
 
-    - `"test_blocked"`
+status: optional string
 
-    - `"test_failed"`
+Status of the validation record.
 
-    - `"provisioned"`
+<a href="#">Link to this property</a>
 
-    - `"blocked"`
+txt\_name: optional string
 
-  - `verification_errors: optional array of string`
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-    These are errors that were encountered while trying to activate a hostname.
+<a href="#">Link to this property</a>
 
-### Example
+txt\_value: optional string
 
-```http
+The TXT record that the certificate authority (CA) will check during domain validation.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+The time the custom certificate expires on.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+hosts: optional array of string
+
+A list of Hostnames on a custom uploaded certificate.
+
+<a href="#">Link to this property</a>
+
+issuer: optional string
+
+The issuer on a custom uploaded certificate.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+method: optional <a href="https://developers.cloudflare.com/api/resources/custom_hostnames#(resource)%20custom_hostnames%20%3E%20(model)%20dcv_method%20%3E%20(schema)">DCVMethod</a>
+
+Domain control validation (DCV) method used for this hostname.
+
+</summary>
+
+One of the following:
+
+"http"
+
+<a href="#">Link to this property</a>
+
+"txt"
+
+<a href="#">Link to this property</a>
+
+"email"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+serial\_number: optional string
+
+The serial number on a custom uploaded certificate.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: optional object {ciphers, early\_hints, http2, 2 more }
+
+</summary>
+
+ciphers: optional array of string
+
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+early\_hints: optional "on"or "off"
+
+Whether or not Early Hints is enabled.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+http2: optional "on"or "off"
+
+Whether or not HTTP2 is enabled.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+min\_tls\_version: optional "1.0"or "1.1"or "1.2"or "1.3"
+
+The minimum TLS version supported.
+
+</summary>
+
+One of the following:
+
+"1.0"
+
+<a href="#">Link to this property</a>
+
+"1.1"
+
+<a href="#">Link to this property</a>
+
+"1.2"
+
+<a href="#">Link to this property</a>
+
+"1.3"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tls\_1\_3: optional "on"or "off"
+
+Whether or not TLS 1.3 is enabled.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+signature: optional string
+
+The signature on a custom uploaded certificate.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "initializing"or "pending\_validation"or "deleted"or 18 more
+
+Status of the hostname’s SSL certificates.
+
+</summary>
+
+One of the following:
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"pending\_validation"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+"pending\_issuance"
+
+<a href="#">Link to this property</a>
+
+"pending\_deployment"
+
+<a href="#">Link to this property</a>
+
+"pending\_deletion"
+
+<a href="#">Link to this property</a>
+
+"pending\_expiration"
+
+<a href="#">Link to this property</a>
+
+"expired"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"initializing\_timed\_out"
+
+<a href="#">Link to this property</a>
+
+"validation\_timed\_out"
+
+<a href="#">Link to this property</a>
+
+"issuance\_timed\_out"
+
+<a href="#">Link to this property</a>
+
+"deployment\_timed\_out"
+
+<a href="#">Link to this property</a>
+
+"deletion\_timed\_out"
+
+<a href="#">Link to this property</a>
+
+"pending\_cleanup"
+
+<a href="#">Link to this property</a>
+
+"staging\_deployment"
+
+<a href="#">Link to this property</a>
+
+"staging\_active"
+
+<a href="#">Link to this property</a>
+
+"deactivating"
+
+<a href="#">Link to this property</a>
+
+"inactive"
+
+<a href="#">Link to this property</a>
+
+"backup\_issued"
+
+<a href="#">Link to this property</a>
+
+"holding\_deployment"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: optional <a href="https://developers.cloudflare.com/api/resources/custom_hostnames#(resource)%20custom_hostnames%20%3E%20(model)%20domain_validation_type%20%3E%20(schema)">DomainValidationType</a>
+
+Level of validation to be used for this hostname. Domain validation (dv) must be used.
+
+<a href="#">Link to this property</a>
+
+uploaded\_on: optional string
+
+The time the custom certificate was uploaded.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+validation\_errors: optional array of object {message }
+
+Domain validation errors that have been received by the certificate authority (CA).
+
+</summary>
+
+message: optional string
+
+A domain validation error.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+validation\_records: optional array of object {cname, cname\_target, emails, 5 more }
+
+</summary>
+
+cname: optional string
+
+The CNAME record hostname for DCV delegation.
+
+<a href="#">Link to this property</a>
+
+cname\_target: optional string
+
+The CNAME record target value for DCV delegation.
+
+<a href="#">Link to this property</a>
+
+emails: optional array of string
+
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+
+<a href="#">Link to this property</a>
+
+http\_body: optional string
+
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
+
+<a href="#">Link to this property</a>
+
+http\_url: optional string
+
+The url that will be checked during domain validation.
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+Status of the validation record.
+
+<a href="#">Link to this property</a>
+
+txt\_name: optional string
+
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+
+<a href="#">Link to this property</a>
+
+txt\_value: optional string
+
+The TXT record that the certificate authority (CA) will check during domain validation.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+wildcard: optional boolean
+
+Indicates whether the certificate covers a wildcard.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "active"or "pending"or "active\_redeploying"or 13 more
+
+Status of the hostname’s activation.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active\_redeploying"
+
+<a href="#">Link to this property</a>
+
+"moved"
+
+<a href="#">Link to this property</a>
+
+"pending\_deletion"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+"pending\_blocked"
+
+<a href="#">Link to this property</a>
+
+"pending\_migration"
+
+<a href="#">Link to this property</a>
+
+"pending\_provisioned"
+
+<a href="#">Link to this property</a>
+
+"test\_pending"
+
+<a href="#">Link to this property</a>
+
+"test\_active"
+
+<a href="#">Link to this property</a>
+
+"test\_active\_apex"
+
+<a href="#">Link to this property</a>
+
+"test\_blocked"
+
+<a href="#">Link to this property</a>
+
+"test\_failed"
+
+<a href="#">Link to this property</a>
+
+"provisioned"
+
+<a href="#">Link to this property</a>
+
+"blocked"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+verification\_errors: optional array of string
+
+These are errors that were encountered while trying to activate a hostname.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_hostnames.certificate_pack.certificates%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Replace Custom Certificate and Custom Key In Custom Hostname
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_hostnames/$CUSTOM_HOSTNAME_ID/certificate_pack/$CERTIFICATE_PACK_ID/certificates/$CERTIFICATE_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -415,9 +923,121 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_hostnames/$CUSTO
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "hostname": "app.example.com",
+    "created_at": "2020-02-06T18:11:23.531995Z",
+    "custom_metadata": {
+      "foo": "string"
+    },
+    "custom_origin_server": "origin2.example.com",
+    "custom_origin_sni": "sni.example.com",
+    "ownership_verification": {
+      "name": "_cf-custom-hostname.app.example.com",
+      "type": "txt",
+      "value": "5cc07c04-ea62-4a5a-95f0-419334a875a4"
+    },
+    "ownership_verification_http": {
+      "http_body": "5cc07c04-ea62-4a5a-95f0-419334a875a4",
+      "http_url": "http://custom.test.com/.well-known/cf-custom-hostname-challenge/0d89c70d-ad9f-4843-b99f-6cc0252067e9"
+    },
+    "ssl": {
+      "id": "0d89c70d-ad9f-4843-b99f-6cc0252067e9",
+      "bundle_method": "ubiquitous",
+      "certificate_authority": "google",
+      "custom_certificate": "-----BEGIN CERTIFICATE-----\nMIIFJDCCBAygAwIBAgIQD0ifmj/Yi5NP/2gdUySbfzANBgkqhkiG9w0BAQsFADBN\nMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMScwJQYDVQQDEx5E...SzSHfXp5lnu/3V08I72q1QNzOCgY1XeL4GKVcj4or6cT6tX6oJH7ePPmfrBfqI/O\nOeH8gMJ+FuwtXYEPa4hBf38M5eU5xWG7\n-----END CERTIFICATE-----\n",
+      "custom_csr_id": "7b163417-1d2b-4c84-a38a-2fb7a0cd7752",
+      "custom_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmG\ndtcGbg/1CGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKn\nabIRuGvBKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpid\ntnKX/a+50GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+py\nFxIXjbEIdZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pE\newooaeO2izNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABAoIBACbhTYXBZYKmYPCb\nHBR1IBlCQA2nLGf0qRuJNJZg5iEzXows/6tc8YymZkQE7nolapWsQ+upk2y5Xdp/\naxiuprIs9JzkYK8Ox0r+dlwCG1kSW+UAbX0bQ/qUqlsTvU6muVuMP8vZYHxJ3wmb\n+ufRBKztPTQ/rYWaYQcgC0RWI20HTFBMxlTAyNxYNWzX7RKFkGVVyB9RsAtmcc8g\n+j4OdosbfNoJPS0HeIfNpAznDfHKdxDk2Yc1tV6RHBrC1ynyLE9+TaflIAdo2MVv\nKLMLq51GqYKtgJFIlBRPQqKoyXdz3fGvXrTkf/WY9QNq0J1Vk5ERePZ54mN8iZB7\n9lwy/AkCgYEA6FXzosxswaJ2wQLeoYc7ceaweX/SwTvxHgXzRyJIIT0eJWgx13Wo\n/WA3Iziimsjf6qE+SI/8laxPp2A86VMaIt3Z3mJN/CqSVGw8LK2AQst+OwdPyDMu\niacE8lj/IFGC8mwNUAb9CzGU3JpU4PxxGFjS/eMtGeRXCWkK4NE+G08CgYEA1Kp9\nN2JrVlqUz+gAX+LPmE9OEMAS9WQSQsfCHGogIFDGGcNf7+uwBM7GAaSJIP01zcoe\nVAgWdzXCv3FLhsaZoJ6RyLOLay5phbu1iaTr4UNYm5WtYTzMzqh8l1+MFFDl9xDB\nvULuCIIrglM5MeS/qnSg1uMoH2oVPj9TVst/ir8CgYEAxrI7Ws9Zc4Bt70N1As+U\nlySjaEVZCMkqvHJ6TCuVZFfQoE0r0whdLdRLU2PsLFP+q7qaeZQqgBaNSKeVcDYR\n9B+nY/jOmQoPewPVsp/vQTCnE/R81spu0mp0YI6cIheT1Z9zAy322svcc43JaWB7\nmEbeqyLOP4Z4qSOcmghZBSECgYACvR9Xs0DGn+wCsW4vze/2ei77MD4OQvepPIFX\ndFZtlBy5ADcgE9z0cuVB6CiL8DbdK5kwY9pGNr8HUCI03iHkW6Zs+0L0YmihfEVe\nPG19PSzK9CaDdhD9KFZSbLyVFmWfxOt50H7YRTTiPMgjyFpfi5j2q348yVT0tEQS\nfhRqaQKBgAcWPokmJ7EbYQGeMbS7HC8eWO/RyamlnSffdCdSc7ue3zdVJxpAkQ8W\nqu80pEIF6raIQfAf8MXiiZ7auFOSnHQTXUbhCpvDLKi0Mwq3G8Pl07l+2s6dQG6T\nlv6XTQaMyf6n1yjzL+fzDrH3qXMxHMO/b13EePXpDMpY7HQpoLDi\n-----END RSA PRIVATE KEY-----\n",
+      "dcv_delegation_records": [
+        {
+          "cname": "_acme-challenge.example.com",
+          "cname_target": "dcv.cloudflare.com",
+          "emails": [
+            "administrator@example.com",
+            "webmaster@example.com"
+          ],
+          "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
+          "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
+          "status": "pending",
+          "txt_name": "_acme-challenge.app.example.com",
+          "txt_value": "810b7d5f01154524b961ba0cd578acc2"
+        }
+      ],
+      "expires_on": "2021-02-06T18:11:23.531995Z",
+      "hosts": [
+        "app.example.com",
+        "*.app.example.com"
+      ],
+      "issuer": "DigiCertInc",
+      "method": "http",
+      "serial_number": "6743787633689793699141714808227354901",
+      "settings": {
+        "ciphers": [
+          "ECDHE-RSA-AES128-GCM-SHA256",
+          "AES128-SHA"
+        ],
+        "early_hints": "on",
+        "http2": "on",
+        "min_tls_version": "1.2",
+        "tls_1_3": "on"
+      },
+      "signature": "SHA256WithRSA",
+      "status": "pending_validation",
+      "type": "dv",
+      "uploaded_on": "2020-02-06T18:11:23.531995Z",
+      "validation_errors": [
+        {
+          "message": "SERVFAIL looking up CAA for app.example.com"
+        }
+      ],
+      "validation_records": [
+        {
+          "cname": "_acme-challenge.example.com",
+          "cname_target": "dcv.cloudflare.com",
+          "emails": [
+            "administrator@example.com",
+            "webmaster@example.com"
+          ],
+          "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
+          "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
+          "status": "pending",
+          "txt_name": "_acme-challenge.app.example.com",
+          "txt_value": "810b7d5f01154524b961ba0cd578acc2"
+        }
+      ],
+      "wildcard": false
+    },
+    "status": "pending",
+    "verification_errors": [
+      "None of the A or AAAA records are owned by this account and the pre-generated ownership verification token was not found."
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

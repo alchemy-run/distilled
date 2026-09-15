@@ -1,1447 +1,1049 @@
+---
+title: Labels
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
+
+[Operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Labels
 
-## Replace label(s) on an operation in endpoint management
+##### [Replace labels on a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/update)
 
-**put** `/zones/{zone_id}/api_gateway/operations/{operation_id}/labels`
+PUT/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/labels
 
-Replace label(s) on an operation in endpoint management
+##### [Attach labels to a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/labels
 
-- `zone_id: string`
+##### [Remove labels from a web or API operation](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/delete)
 
-  Identifier.
+DELETE/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/labels
 
-- `operation_id: string`
+##### [Replace labels on web or API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/bulk_update)
 
-  UUID.
+PUT/zones/{zone\_id}/api\_gateway/operations/labels
 
-### Body Parameters
+##### [Attach labels to web or API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/bulk_create)
 
-- `managed: optional array of string`
+POST/zones/{zone\_id}/api\_gateway/operations/labels
 
-  List of managed label names. Omitting this property or passing an empty array will result in all managed labels being removed from the operation
+##### [Remove labels from web or API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/labels/methods/bulk_delete)
 
-- `user: optional array of string`
+DELETE/zones/{zone\_id}/api\_gateway/operations/labels
 
-  List of user label names. Omitting this property or passing an empty array will result in all user labels being removed from the operation
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: Message`
+<summary>
 
-  - `code: number`
+LabelUpdateResponse object {endpoint, host, last\_updated, 3 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+endpoint: string
 
-  - `source: optional object { pointer }`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    - `pointer: optional string`
+formaturi-template
 
-- `messages: Message`
+maxLength4096
 
-- `result: object { endpoint, host, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+host: string
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+RFC3986-compliant host.
 
-  - `host: string`
+formathostname
 
-    RFC3986-compliant host.
+maxLength255
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+last\_updated: string
 
-    The HTTP method used to access the endpoint.
+formatdate-time
 
-    - `"GET"`
+<a href="#">Link to this property</a>
 
-    - `"POST"`
+<details>
 
-    - `"HEAD"`
+<summary>
 
-    - `"OPTIONS"`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-    - `"PUT"`
+The HTTP method used to access the endpoint.
 
-    - `"DELETE"`
+</summary>
 
-    - `"CONNECT"`
+One of the following:
 
-    - `"PATCH"`
+"GET"
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+"POST"
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+"HEAD"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+"OPTIONS"
 
-      The description of the label
+<a href="#">Link to this property</a>
 
-    - `last_updated: string`
+"PUT"
 
-    - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-      Metadata for the label
+"DELETE"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the label
+"CONNECT"
 
-    - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+"PATCH"
 
-      - `"user"`
+<a href="#">Link to this property</a>
 
-      - `"managed"`
+"TRACE"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+operation\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/labels \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+UUID.
 
-#### Response
+maxLength36
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "endpoint": "/api/v1/users/{var1}",
-    "host": "www.example.com",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "method": "GET",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "labels": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "All endpoints that deal with logins",
-        "last_updated": "2014-01-01T05:20:00.12345Z",
-        "metadata": {
-          "foo": "bar"
-        },
-        "name": "login",
-        "source": "user"
-      }
-    ]
-  },
-  "success": true
-}
-```
+minLength36
 
-## Attach label(s) on an operation in endpoint management
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/api_gateway/operations/{operation_id}/labels`
+<details>
 
-Attach label(s) on an operation in endpoint management
+<summary>
 
-### Path Parameters
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+created\_at: string
 
-- `operation_id: string`
+formatdate-time
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+description: string
 
-- `managed: optional array of string`
+The description of the label
 
-  List of managed label names.
+<a href="#">Link to this property</a>
 
-- `user: optional array of string`
+last\_updated: string
 
-  List of user label names.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+metadata: unknown
 
-  - `code: number`
+Metadata for the label
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: string
 
-  - `source: optional object { pointer }`
+The name of the label
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+<details>
 
-- `result: object { endpoint, host, last_updated, 3 more }`
+<summary>
 
-  - `endpoint: string`
+source: "user"or "managed"
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-  - `host: string`
+</summary>
 
-    RFC3986-compliant host.
+One of the following:
 
-  - `last_updated: string`
+"user"
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<a href="#">Link to this property</a>
 
-    The HTTP method used to access the endpoint.
+"managed"
 
-    - `"GET"`
+<a href="#">Link to this property</a>
 
-    - `"POST"`
+</details>
 
-    - `"HEAD"`
+<a href="#">Link to this property</a>
 
-    - `"OPTIONS"`
+</details>
 
-    - `"PUT"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+</details>
 
-    - `"CONNECT"`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_update_response%20%3E%20(schema)>)
 
-    - `"PATCH"`
+<details>
 
-    - `"TRACE"`
+<summary>
 
-  - `operation_id: string`
+LabelCreateResponse object {endpoint, host, last\_updated, 3 more }
 
-    UUID.
+</summary>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+endpoint: string
 
-    - `created_at: string`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    - `description: string`
+formaturi-template
 
-      The description of the label
+maxLength4096
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+host: string
 
-      Metadata for the label
+RFC3986-compliant host.
 
-    - `name: string`
+formathostname
 
-      The name of the label
+maxLength255
 
-    - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+last\_updated: string
 
-      - `"user"`
+formatdate-time
 
-      - `"managed"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-### Example
+The HTTP method used to access the endpoint.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/labels \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "endpoint": "/api/v1/users/{var1}",
-    "host": "www.example.com",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "method": "GET",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "labels": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "All endpoints that deal with logins",
-        "last_updated": "2014-01-01T05:20:00.12345Z",
-        "metadata": {
-          "foo": "bar"
-        },
-        "name": "login",
-        "source": "user"
-      }
-    ]
-  },
-  "success": true
-}
-```
+"GET"
 
-## Remove label(s) on an operation in endpoint management
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/api_gateway/operations/{operation_id}/labels`
+"POST"
 
-Remove label(s) on an operation in endpoint management
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"HEAD"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"OPTIONS"
 
-- `operation_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+"PUT"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+"DELETE"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"CONNECT"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"PATCH"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+"TRACE"
 
-- `result: object { endpoint, host, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+</details>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+operation\_id: string
 
-    RFC3986-compliant host.
+UUID.
 
-  - `last_updated: string`
+maxLength36
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+minLength36
 
-    The HTTP method used to access the endpoint.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+<details>
 
-    - `"POST"`
+<summary>
 
-    - `"HEAD"`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-    - `"OPTIONS"`
+</summary>
 
-    - `"PUT"`
+created\_at: string
 
-    - `"DELETE"`
+formatdate-time
 
-    - `"CONNECT"`
+<a href="#">Link to this property</a>
 
-    - `"PATCH"`
+description: string
 
-    - `"TRACE"`
+The description of the label
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+last\_updated: string
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+formatdate-time
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+metadata: unknown
 
-      The description of the label
+Metadata for the label
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+name: string
 
-      Metadata for the label
+The name of the label
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the label
+<details>
 
-    - `source: "user" or "managed"`
+<summary>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+source: "user"or "managed"
 
-      - `"user"`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-      - `"managed"`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"user"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"managed"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/labels \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "endpoint": "/api/v1/users/{var1}",
-    "host": "www.example.com",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "method": "GET",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "labels": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "All endpoints that deal with logins",
-        "last_updated": "2014-01-01T05:20:00.12345Z",
-        "metadata": {
-          "foo": "bar"
-        },
-        "name": "login",
-        "source": "user"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Bulk replace label(s) on operation(s) in endpoint management
+</details>
 
-**put** `/zones/{zone_id}/api_gateway/operations/labels`
+<a href="#">Link to this property</a>
 
-Bulk replace label(s) on operation(s) in endpoint management
+</details>
 
-### Path Parameters
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_create_response%20%3E%20(schema)>)
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+LabelDeleteResponse object {endpoint, host, last\_updated, 3 more }
 
-- `managed: object { labels }`
+</summary>
 
-  Managed labels to replace for all affected operations
+endpoint: string
 
-  - `labels: array of string`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    List of managed label names. Providing an empty array will result in all managed labels being removed from all affected operations
+formaturi-template
 
-- `selector: object { include }`
+maxLength4096
 
-  Operation IDs selector
+<a href="#">Link to this property</a>
 
-  - `include: object { operation_ids }`
+host: string
 
-    - `operation_ids: array of string`
+RFC3986-compliant host.
 
-- `user: object { labels }`
+formathostname
 
-  User labels to replace for all affected operations
+maxLength255
 
-  - `labels: array of string`
+<a href="#">Link to this property</a>
 
-    List of user label names. Providing an empty array will result in all user labels being removed from all affected operations
+last\_updated: string
 
-### Returns
+formatdate-time
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-  - `source: optional object { pointer }`
+The HTTP method used to access the endpoint.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: Message`
+One of the following:
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+"GET"
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+"POST"
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+"HEAD"
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+"OPTIONS"
 
-    The HTTP method used to access the endpoint.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+"PUT"
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+"DELETE"
 
-    - `"OPTIONS"`
+<a href="#">Link to this property</a>
 
-    - `"PUT"`
+"CONNECT"
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+"PATCH"
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+"TRACE"
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+</details>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+operation\_id: string
 
-    - `description: string`
+UUID.
 
-      The description of the label
+maxLength36
 
-    - `last_updated: string`
+minLength36
 
-    - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-      Metadata for the label
+<details>
 
-    - `name: string`
+<summary>
 
-      The name of the label
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-    - `source: "user" or "managed"`
+</summary>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+created\_at: string
 
-      - `"user"`
+formatdate-time
 
-      - `"managed"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+description: string
 
-  Whether the API call was successful.
+The description of the label
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+last\_updated: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/labels \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "managed": {
-            "labels": [
-              "login"
-            ]
-          },
-          "selector": {
-            "include": {
-              "operation_ids": [
-                "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-              ]
-            }
-          },
-          "user": {
-            "labels": [
-              "login"
-            ]
-          }
-        }'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "labels": [
-        {
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "description": "All endpoints that deal with logins",
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "metadata": {
-            "foo": "bar"
-          },
-          "name": "login",
-          "source": "user"
-        }
-      ]
-    }
-  ],
-  "success": true
-}
-```
+metadata: unknown
 
-## Bulk attach label(s) on operation(s) in endpoint management
+Metadata for the label
 
-**post** `/zones/{zone_id}/api_gateway/operations/labels`
+<a href="#">Link to this property</a>
 
-Bulk attach label(s) on operation(s) in endpoint management
+name: string
 
-### Path Parameters
+The name of the label
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-### Body Parameters
+<summary>
 
-- `selector: object { include }`
+source: "user"or "managed"
 
-  Operation IDs selector
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-  - `include: object { operation_ids }`
+</summary>
 
-    - `operation_ids: array of string`
+One of the following:
 
-- `managed: optional object { labels }`
+"user"
 
-  - `labels: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of managed label names.
+"managed"
 
-- `user: optional object { labels }`
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of string`
+</details>
 
-    List of user label names.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_delete_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+LabelBulkUpdateResponse object {endpoint, host, last\_updated, 3 more }
 
-- `messages: Message`
+</summary>
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+endpoint: string
 
-  - `endpoint: string`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+formaturi-template
 
-  - `host: string`
+maxLength4096
 
-    RFC3986-compliant host.
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+host: string
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+RFC3986-compliant host.
 
-    The HTTP method used to access the endpoint.
+formathostname
 
-    - `"GET"`
+maxLength255
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+last\_updated: string
 
-    - `"OPTIONS"`
+formatdate-time
 
-    - `"PUT"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+<details>
 
-    - `"CONNECT"`
+<summary>
 
-    - `"PATCH"`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-    - `"TRACE"`
+The HTTP method used to access the endpoint.
 
-  - `operation_id: string`
+</summary>
 
-    UUID.
+One of the following:
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+"GET"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+"POST"
 
-      The description of the label
+<a href="#">Link to this property</a>
 
-    - `last_updated: string`
+"HEAD"
 
-    - `metadata: unknown`
+<a href="#">Link to this property</a>
 
-      Metadata for the label
+"OPTIONS"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the label
+"PUT"
 
-    - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+"DELETE"
 
-      - `"user"`
+<a href="#">Link to this property</a>
 
-      - `"managed"`
+"CONNECT"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"PATCH"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"TRACE"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/labels \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "selector": {
-            "include": {
-              "operation_ids": [
-                "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-              ]
-            }
-          }
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "labels": [
-        {
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "description": "All endpoints that deal with logins",
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "metadata": {
-            "foo": "bar"
-          },
-          "name": "login",
-          "source": "user"
-        }
-      ]
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Bulk remove label(s) on operation(s) in endpoint management
+operation\_id: string
 
-**delete** `/zones/{zone_id}/api_gateway/operations/labels`
+UUID.
 
-Bulk remove label(s) on operation(s) in endpoint management
+maxLength36
 
-### Path Parameters
+minLength36
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: Message`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+created\_at: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+description: string
 
-- `messages: Message`
+The description of the label
 
-- `result: array of object { endpoint, host, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+last\_updated: string
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+formatdate-time
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+metadata: unknown
 
-  - `last_updated: string`
+Metadata for the label
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<a href="#">Link to this property</a>
 
-    The HTTP method used to access the endpoint.
+name: string
 
-    - `"GET"`
+The name of the label
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+<details>
 
-    - `"OPTIONS"`
+<summary>
 
-    - `"PUT"`
+source: "user"or "managed"
 
-    - `"DELETE"`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-    - `"CONNECT"`
+</summary>
 
-    - `"PATCH"`
+One of the following:
 
-    - `"TRACE"`
+"user"
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+"managed"
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      The description of the label
+</details>
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+</details>
 
-      Metadata for the label
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_bulk_update_response%20%3E%20(schema)>)
 
-    - `name: string`
+<details>
 
-      The name of the label
+<summary>
 
-    - `source: "user" or "managed"`
+LabelBulkCreateResponse object {endpoint, host, last\_updated, 3 more }
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+</summary>
 
-      - `"user"`
+endpoint: string
 
-      - `"managed"`
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-- `success: true`
+formaturi-template
 
-  Whether the API call was successful.
+maxLength4096
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+host: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/labels \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+RFC3986-compliant host.
 
-#### Response
+formathostname
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "labels": [
-        {
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "description": "All endpoints that deal with logins",
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "metadata": {
-            "foo": "bar"
-          },
-          "name": "login",
-          "source": "user"
-        }
-      ]
-    }
-  ],
-  "success": true
-}
-```
+maxLength255
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Label Update Response
+last\_updated: string
 
-- `LabelUpdateResponse object { endpoint, host, last_updated, 3 more }`
+formatdate-time
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<details>
 
-  - `host: string`
+<summary>
 
-    RFC3986-compliant host.
+method: "GET"or "POST"or "HEAD"or 6 more
 
-  - `last_updated: string`
+The HTTP method used to access the endpoint.
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+</summary>
 
-    The HTTP method used to access the endpoint.
+One of the following:
 
-    - `"GET"`
+"GET"
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+"POST"
 
-    - `"OPTIONS"`
+<a href="#">Link to this property</a>
 
-    - `"PUT"`
+"HEAD"
 
-    - `"DELETE"`
+<a href="#">Link to this property</a>
 
-    - `"CONNECT"`
+"OPTIONS"
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+"PUT"
 
-  - `operation_id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+"DELETE"
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"CONNECT"
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      The description of the label
+"PATCH"
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+"TRACE"
 
-      Metadata for the label
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      The name of the label
+<a href="#">Link to this property</a>
 
-    - `source: "user" or "managed"`
+operation\_id: string
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+UUID.
 
-      - `"user"`
+maxLength36
 
-      - `"managed"`
+minLength36
 
-### Label Create Response
+<a href="#">Link to this property</a>
 
-- `LabelCreateResponse object { endpoint, host, last_updated, 3 more }`
+<details>
 
-  - `endpoint: string`
+<summary>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-  - `host: string`
+</summary>
 
-    RFC3986-compliant host.
+created\_at: string
 
-  - `last_updated: string`
+formatdate-time
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+<a href="#">Link to this property</a>
 
-    The HTTP method used to access the endpoint.
+description: string
 
-    - `"GET"`
+The description of the label
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+last\_updated: string
 
-    - `"OPTIONS"`
+formatdate-time
 
-    - `"PUT"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+metadata: unknown
 
-    - `"CONNECT"`
+Metadata for the label
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+name: string
 
-  - `operation_id: string`
+The name of the label
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<details>
 
-    - `created_at: string`
+<summary>
 
-    - `description: string`
+source: "user"or "managed"
 
-      The description of the label
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-    - `last_updated: string`
+</summary>
 
-    - `metadata: unknown`
+One of the following:
 
-      Metadata for the label
+"user"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the label
+"managed"
 
-    - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+</details>
 
-      - `"user"`
+<a href="#">Link to this property</a>
 
-      - `"managed"`
+</details>
 
-### Label Delete Response
+<a href="#">Link to this property</a>
 
-- `LabelDeleteResponse object { endpoint, host, last_updated, 3 more }`
+</details>
 
-  - `endpoint: string`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_bulk_create_response%20%3E%20(schema)>)
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<details>
 
-  - `host: string`
+<summary>
 
-    RFC3986-compliant host.
+LabelBulkDeleteResponse object {endpoint, host, last\_updated, 3 more }
 
-  - `last_updated: string`
+</summary>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+endpoint: string
 
-    The HTTP method used to access the endpoint.
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-    - `"GET"`
+formaturi-template
 
-    - `"POST"`
+maxLength4096
 
-    - `"HEAD"`
+<a href="#">Link to this property</a>
 
-    - `"OPTIONS"`
+host: string
 
-    - `"PUT"`
+RFC3986-compliant host.
 
-    - `"DELETE"`
+formathostname
 
-    - `"CONNECT"`
+maxLength255
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+last\_updated: string
 
-  - `operation_id: string`
+formatdate-time
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+<details>
 
-    - `created_at: string`
+<summary>
 
-    - `description: string`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-      The description of the label
+The HTTP method used to access the endpoint.
 
-    - `last_updated: string`
+</summary>
 
-    - `metadata: unknown`
+One of the following:
 
-      Metadata for the label
+"GET"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the label
+"POST"
 
-    - `source: "user" or "managed"`
+<a href="#">Link to this property</a>
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+"HEAD"
 
-      - `"user"`
+<a href="#">Link to this property</a>
 
-      - `"managed"`
+"OPTIONS"
 
-### Label Bulk Update Response
+<a href="#">Link to this property</a>
 
-- `LabelBulkUpdateResponse object { endpoint, host, last_updated, 3 more }`
+"PUT"
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+"DELETE"
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+"CONNECT"
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+"PATCH"
 
-    The HTTP method used to access the endpoint.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+"TRACE"
 
-    - `"POST"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+</details>
 
-    - `"OPTIONS"`
+<a href="#">Link to this property</a>
 
-    - `"PUT"`
+operation\_id: string
 
-    - `"DELETE"`
+UUID.
 
-    - `"CONNECT"`
+maxLength36
 
-    - `"PATCH"`
+minLength36
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+<details>
 
-    UUID.
+<summary>
 
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
+labels: optional array of object {created\_at, description, last\_updated, 3 more }
 
-    - `created_at: string`
+</summary>
 
-    - `description: string`
+created\_at: string
 
-      The description of the label
+formatdate-time
 
-    - `last_updated: string`
+<a href="#">Link to this property</a>
 
-    - `metadata: unknown`
+description: string
 
-      Metadata for the label
+The description of the label
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the label
+last\_updated: string
 
-    - `source: "user" or "managed"`
+formatdate-time
 
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
+<a href="#">Link to this property</a>
 
-      - `"user"`
+metadata: unknown
 
-      - `"managed"`
+Metadata for the label
 
-### Label Bulk Create Response
+<a href="#">Link to this property</a>
 
-- `LabelBulkCreateResponse object { endpoint, host, last_updated, 3 more }`
+name: string
 
-  - `endpoint: string`
+The name of the label
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+<details>
 
-    RFC3986-compliant host.
+<summary>
 
-  - `last_updated: string`
+source: "user"or "managed"
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-    The HTTP method used to access the endpoint.
+</summary>
 
-    - `"GET"`
+One of the following:
 
-    - `"POST"`
+"user"
 
-    - `"HEAD"`
+<a href="#">Link to this property</a>
 
-    - `"OPTIONS"`
+"managed"
 
-    - `"PUT"`
+<a href="#">Link to this property</a>
 
-    - `"DELETE"`
+</details>
 
-    - `"CONNECT"`
+<a href="#">Link to this property</a>
 
-    - `"PATCH"`
+</details>
 
-    - `"TRACE"`
+<a href="#">Link to this property</a>
 
-  - `operation_id: string`
+</details>
 
-    UUID.
-
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
-
-    - `created_at: string`
-
-    - `description: string`
-
-      The description of the label
-
-    - `last_updated: string`
-
-    - `metadata: unknown`
-
-      Metadata for the label
-
-    - `name: string`
-
-      The name of the label
-
-    - `source: "user" or "managed"`
-
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
-
-      - `"user"`
-
-      - `"managed"`
-
-### Label Bulk Delete Response
-
-- `LabelBulkDeleteResponse object { endpoint, host, last_updated, 3 more }`
-
-  - `endpoint: string`
-
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
-
-  - `host: string`
-
-    RFC3986-compliant host.
-
-  - `last_updated: string`
-
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
-
-    The HTTP method used to access the endpoint.
-
-    - `"GET"`
-
-    - `"POST"`
-
-    - `"HEAD"`
-
-    - `"OPTIONS"`
-
-    - `"PUT"`
-
-    - `"DELETE"`
-
-    - `"CONNECT"`
-
-    - `"PATCH"`
-
-    - `"TRACE"`
-
-  - `operation_id: string`
-
-    UUID.
-
-  - `labels: optional array of object { created_at, description, last_updated, 3 more }`
-
-    - `created_at: string`
-
-    - `description: string`
-
-      The description of the label
-
-    - `last_updated: string`
-
-    - `metadata: unknown`
-
-      Metadata for the label
-
-    - `name: string`
-
-      The name of the label
-
-    - `source: "user" or "managed"`
-
-      * `user` - label is owned by the user
-      * `managed` - label is owned by cloudflare
-
-      - `"user"`
-
-      - `"managed"`
+[Link to this property](#)%20api_gateway.operations.labels%20%3E%20(model)%20label_bulk_delete_response%20%3E%20(schema)>)

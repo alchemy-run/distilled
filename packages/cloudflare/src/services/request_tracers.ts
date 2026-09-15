@@ -156,23 +156,69 @@ export const CreateTraceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateTraceRequest",
 }) as any as S.Schema<CreateTraceRequest>;
 
+export interface TracesCreateResponseTraceItem {
+  /** If step type is rule, then action performed by this rule */
+  action?: string | null;
+  /** If step type is rule, then action parameters of this rule as JSON */
+  actionParameters?: unknown | null;
+  /** If step type is rule or ruleset, the description of this entity */
+  description?: string | null;
+  /** If step type is rule, then expression used to match for this rule */
+  expression?: string | null;
+  /** If step type is ruleset, then kind of this ruleset */
+  kind?: string | null;
+  /** Whether tracing step affected tracing request/response */
+  matched?: boolean | null;
+  /** If step type is ruleset, then name of this ruleset */
+  name?: string | null;
+  /** Tracing step identifying name */
+  stepName?: string | null;
+  trace?: unknown | null;
+  /** Tracing step type */
+  type?: string | null;
+}
+export const TracesCreateResponseTraceItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.NullOr(S.String)),
+    actionParameters: S.optional(
+      S.NullOr(S.Unknown).pipe(T.Body("action_parameters")),
+    ),
+    description: S.optional(S.NullOr(S.String)),
+    expression: S.optional(S.NullOr(S.String)),
+    kind: S.optional(S.NullOr(S.String)),
+    matched: S.optional(S.NullOr(S.Boolean)),
+    name: S.optional(S.NullOr(S.String)),
+    stepName: S.optional(S.NullOr(S.String).pipe(T.Body("step_name"))),
+    trace: S.optional(S.NullOr(S.Unknown)),
+    type: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "TracesCreateResponseTraceItem",
+}) as any as S.Schema<TracesCreateResponseTraceItem>;
+
+export type TracesCreateResponseTraceList =
+  Array<TracesCreateResponseTraceItem>;
+export const TracesCreateResponseTraceList = /*@__PURE__*/ S.Array(
+  TracesCreateResponseTraceItem,
+) as any as S.Schema<TracesCreateResponseTraceList>;
+
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTraceResponse {
   /** HTTP Status code of zone response */
   statusCode?: number | null;
-  trace?: unknown | null;
+  trace?: TracesCreateResponseTraceList | null;
 }
 export const CreateTraceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     statusCode: S.optional(S.NullOr(S.Number).pipe(T.Body("status_code"))),
-    trace: S.optional(S.NullOr(S.Unknown)),
+    trace: S.optional(S.NullOr(TracesCreateResponseTraceList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateTraceResponse",
 }) as any as S.Schema<CreateTraceResponse>;
 
 export type CreateTraceError = CloudflareOpError;
-/** Request Trace */
+/** Traces a simulated HTTP request through Cloudflare's edge to analyze how rules, settings, and configurations would process the request. Useful for debugging firewall rules, page rules, and other request transformations without sending actual traffic. Supports custom headers, cookies, body content, and geolocation context. */
 export const createTrace: API.OperationMethod<
   CreateTraceRequest,
   CreateTraceResponse,

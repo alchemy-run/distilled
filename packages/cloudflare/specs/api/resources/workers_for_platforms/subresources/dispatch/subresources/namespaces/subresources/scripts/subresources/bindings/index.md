@@ -1,1487 +1,1419 @@
+---
+title: Bindings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers For Platforms](https://developers.cloudflare.com/api/resources/workers_for_platforms)
+
+[Dispatch](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Bindings
 
-## Get Script Bindings
+##### [Get Script Bindings](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts/subresources/bindings/methods/get)
 
-**get** `/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/bindings`
+GET/accounts/{account\_id}/workers/dispatch/namespaces/{dispatch\_namespace}/scripts/{script\_name}/bindings
 
-Fetch script bindings from a script uploaded to a Workers for Platforms namespace.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+BindingGetResponse = object {name, type } or object {instance\_name, name, type, namespace } or object {name, namespace, type } or 33 more
 
-- `dispatch_namespace: string`
+A binding to allow the Worker to communicate with resources.
 
-  Name of the Workers for Platforms dispatch namespace.
+</summary>
 
-- `script_name: string`
+One of the following:
 
-  Name of the script, used in URLs and route configuration.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+AI object {name, type }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+A JavaScript variable name for the binding.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+type: "ai"
 
-- `messages: array of object { code, message, documentation_url, source }`
+The kind of resource that the binding provides.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `result: array of object { name, type }  or object { instance_name, name, type, namespace }  or object { name, namespace, type }  or 32 more`
+AISearch object {instance\_name, name, type, namespace }
 
-  List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings.
+</summary>
 
-  - `AI object { name, type }`
+instance\_name: string
 
-    - `name: string`
+The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "ai"`
+name: string
 
-      The kind of resource that the binding provides.
+A JavaScript variable name for the binding.
 
-      - `"ai"`
+<a href="#">Link to this property</a>
 
-  - `AISearch object { instance_name, name, type, namespace }`
+type: "ai\_search"
 
-    - `instance_name: string`
+The kind of resource that the binding provides.
 
-      The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+namespace: optional string
 
-      A JavaScript variable name for the binding.
+The namespace the instance belongs to. Defaults to “default” if omitted. Customers who don’t use namespaces can simply omit this field.
 
-    - `type: "ai_search"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+</details>
 
-      - `"ai_search"`
+<a href="#">Link to this property</a>
 
-    - `namespace: optional string`
+<details>
 
-      The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field.
+<summary>
 
-  - `AISearchNamespace object { name, namespace, type }`
+AISearchNamespace object {name, namespace, type }
 
-    - `name: string`
+</summary>
 
-      A JavaScript variable name for the binding.
+name: string
 
-    - `namespace: string`
+A JavaScript variable name for the binding.
 
-      The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
+<a href="#">Link to this property</a>
 
-    - `type: "ai_search_namespace"`
+namespace: string
 
-      The kind of resource that the binding provides.
+The user-chosen namespace name. Must exist before deploy — Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The “default” namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
 
-      - `"ai_search_namespace"`
+<a href="#">Link to this property</a>
 
-  - `AnalyticsEngine object { dataset, name, type }`
+type: "ai\_search\_namespace"
 
-    - `dataset: string`
+The kind of resource that the binding provides.
 
-      The name of the dataset to bind to.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "analytics_engine"`
+<details>
 
-      The kind of resource that the binding provides.
+<summary>
 
-      - `"analytics_engine"`
+Messaging object {name, namespace, type }
 
-  - `Assets object { name, type }`
+</summary>
 
-    - `name: string`
+name: string
 
-      A JavaScript variable name for the binding.
+A JavaScript variable name for the binding.
 
-    - `type: "assets"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+namespace: string
 
-      - `"assets"`
+The Messaging namespace to bind to.
 
-  - `Browser object { name, type }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+type: "messaging"
 
-      A JavaScript variable name for the binding.
+The kind of resource that the binding provides.
 
-    - `type: "browser"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+</details>
 
-      - `"browser"`
+<a href="#">Link to this property</a>
 
-  - `D1 object { database_id, name, type, id }`
+<details>
 
-    - `database_id: string`
+<summary>
 
-      Identifier of the D1 database to bind to.
+AnalyticsEngine object {dataset, name, type }
 
-    - `name: string`
+</summary>
 
-      A JavaScript variable name for the binding.
+dataset: string
 
-    - `type: "d1"`
+The name of the dataset to bind to.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"d1"`
+name: string
 
-    - `id: optional string`
+A JavaScript variable name for the binding.
 
-      Identifier of the D1 database to bind to.
+<a href="#">Link to this property</a>
 
-  - `DataBlob object { name, part, type }`
+type: "analytics\_engine"
 
-    - `name: string`
+The kind of resource that the binding provides.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `part: string`
+</details>
 
-      The name of the file containing the data content. Only accepted for `service worker syntax` Workers.
+<a href="#">Link to this property</a>
 
-    - `type: "data_blob"`
+<details>
 
-      The kind of resource that the binding provides.
+<summary>
 
-      - `"data_blob"`
+Assets object {name, type }
 
-  - `DispatchNamespace object { name, namespace, type, outbound }`
+</summary>
 
-    - `name: string`
+name: string
 
-      A JavaScript variable name for the binding.
+A JavaScript variable name for the binding.
 
-    - `namespace: string`
+<a href="#">Link to this property</a>
 
-      The name of the dispatch namespace.
+type: "assets"
 
-    - `type: "dispatch_namespace"`
+The kind of resource that the binding provides.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"dispatch_namespace"`
+</details>
 
-    - `outbound: optional object { params, worker }`
+<a href="#">Link to this property</a>
 
-      Outbound worker.
+<details>
 
-      - `params: optional array of object { name }`
+<summary>
 
-        Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
+Browser object {name, type }
 
-        - `name: string`
+</summary>
 
-          Name of the parameter.
+name: string
 
-      - `worker: optional object { entrypoint, environment, service }`
+A JavaScript variable name for the binding.
 
-        Outbound worker.
+<a href="#">Link to this property</a>
 
-        - `entrypoint: optional string`
+type: "browser"
 
-          Entrypoint to invoke on the outbound worker.
+The kind of resource that the binding provides.
 
-        - `environment: optional string`
+<a href="#">Link to this property</a>
 
-          Environment of the outbound worker.
+</details>
 
-        - `service: optional string`
+<a href="#">Link to this property</a>
 
-          Name of the outbound worker.
+<details>
 
-  - `DurableObjectNamespace object { name, type, class_name, 4 more }`
+<summary>
 
-    - `name: string`
+D1 object {database\_id, name, type, id }
 
-      A JavaScript variable name for the binding.
+</summary>
 
-    - `type: "durable_object_namespace"`
+database\_id: string
 
-      The kind of resource that the binding provides.
+Identifier of the D1 database to bind to.
 
-      - `"durable_object_namespace"`
+<a href="#">Link to this property</a>
 
-    - `class_name: optional string`
+name: string
 
-      The exported class name of the Durable Object.
+A JavaScript variable name for the binding.
 
-    - `dispatch_namespace: optional string`
+<a href="#">Link to this property</a>
 
-      The dispatch namespace the Durable Object script belongs to.
+type: "d1"
 
-    - `environment: optional string`
+The kind of resource that the binding provides.
 
-      The environment of the script_name to bind to.
+<a href="#">Link to this property</a>
 
-    - `namespace_id: optional string`
+Deprecatedid: optional string
 
-      Namespace identifier tag.
+This property has been renamed to <code>database_id</code>.
 
-    - `script_name: optional string`
+Identifier of the D1 database to bind to.
 
-      The script where the Durable Object is defined, if it is external to this Worker.
+<a href="#">Link to this property</a>
 
-  - `Hyperdrive object { id, name, type }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifier of the Hyperdrive connection to bind to.
+<details>
 
-    - `name: string`
+<summary>
 
-      A JavaScript variable name for the binding.
+DataBlob object {name, part, type }
 
-    - `type: "hyperdrive"`
+</summary>
 
-      The kind of resource that the binding provides.
+name: string
 
-      - `"hyperdrive"`
+A JavaScript variable name for the binding.
 
-  - `Inherit object { name, type, old_name, version_id }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+part: string
 
-      The name of the inherited binding.
+The name of the file containing the data content. Only accepted for <code>service worker syntax</code> Workers.
 
-    - `type: "inherit"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+Deprecatedtype: "data\_blob"
 
-      - `"inherit"`
+The kind of resource that the binding provides.
 
-    - `old_name: optional string`
+<a href="#">Link to this property</a>
 
-      The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions.
+</details>
 
-    - `version_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version.
+<details>
 
-  - `Images object { name, type }`
+<summary>
 
-    - `name: string`
+DispatchNamespace object {name, namespace, type, outbound }
 
-      A JavaScript variable name for the binding.
+</summary>
 
-    - `type: "images"`
+name: string
 
-      The kind of resource that the binding provides.
+A JavaScript variable name for the binding.
 
-      - `"images"`
+<a href="#">Link to this property</a>
 
-  - `Json object { json, name, type }`
+namespace: string
 
-    - `json: unknown`
+The name of the dispatch namespace.
 
-      JSON data to use.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+type: "dispatch\_namespace"
 
-      A JavaScript variable name for the binding.
+The kind of resource that the binding provides.
 
-    - `type: "json"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+<details>
 
-      - `"json"`
+<summary>
 
-  - `KVNamespace object { name, namespace_id, type }`
+outbound: optional object {params, worker }
 
-    - `name: string`
+Outbound worker.
 
-      A JavaScript variable name for the binding.
+</summary>
 
-    - `namespace_id: string`
+<details>
 
-      Namespace identifier tag.
+<summary>
 
-    - `type: "kv_namespace"`
+params: optional array of object {name }
 
-      The kind of resource that the binding provides.
+Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
 
-      - `"kv_namespace"`
+</summary>
 
-  - `Media object { name, type }`
+name: string
 
-    - `name: string`
+Name of the parameter.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "media"`
+</details>
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"media"`
+<details>
 
-  - `MTLSCertificate object { certificate_id, name, type }`
+<summary>
 
-    - `certificate_id: string`
+worker: optional object {entrypoint, environment, service }
 
-      Identifier of the certificate to bind to.
+Outbound worker.
 
-    - `name: string`
+</summary>
 
-      A JavaScript variable name for the binding.
+entrypoint: optional string
 
-    - `type: "mtls_certificate"`
+Entrypoint to invoke on the outbound worker.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"mtls_certificate"`
+environment: optional string
 
-  - `PlainText object { name, text, type }`
+Environment of the outbound worker.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+service: optional string
 
-    - `text: string`
+Name of the outbound worker.
 
-      The text value to use.
+<a href="#">Link to this property</a>
 
-    - `type: "plain_text"`
+</details>
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"plain_text"`
+</details>
 
-  - `Pipelines object { name, pipeline, type }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `pipeline: string`
+<details>
 
-      Name of the Pipeline to bind to.
+<summary>
 
-    - `type: "pipelines"`
+DurableObjectNamespace object {name, type, class\_name, 4 more }
 
-      The kind of resource that the binding provides.
+</summary>
 
-      - `"pipelines"`
+name: string
 
-  - `Queue object { name, queue_name, type }`
+A JavaScript variable name for the binding.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+type: "durable\_object\_namespace"
 
-    - `queue_name: string`
+The kind of resource that the binding provides.
 
-      Name of the Queue to bind to.
+<a href="#">Link to this property</a>
 
-    - `type: "queue"`
+class\_name: optional string
 
-      The kind of resource that the binding provides.
+The exported class name of the Durable Object.
 
-      - `"queue"`
+<a href="#">Link to this property</a>
 
-  - `Ratelimit object { name, namespace_id, simple, type }`
+dispatch\_namespace: optional string
 
-    - `name: string`
+The dispatch namespace the Durable Object script belongs to.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `namespace_id: string`
+environment: optional string
 
-      Identifier of the rate limit namespace to bind to.
+The environment of the script\_name to bind to.
 
-    - `simple: object { limit, period, mitigation_timeout }`
+<a href="#">Link to this property</a>
 
-      The rate limit configuration.
+namespace\_id: optional string
 
-      - `limit: number`
+Namespace identifier tag.
 
-        The limit (requests per period).
+maxLength32
 
-      - `period: number`
+<a href="#">Link to this property</a>
 
-        The period in seconds.
+script\_name: optional string
 
-      - `mitigation_timeout: optional number`
+The script where the Durable Object is defined, if it is external to this Worker.
 
-        Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
+<a href="#">Link to this property</a>
 
-    - `type: "ratelimit"`
+</details>
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"ratelimit"`
+<details>
 
-  - `R2Bucket object { bucket_name, name, type, jurisdiction }`
+<summary>
 
-    - `bucket_name: string`
+Hyperdrive object {id, name, type }
 
-      R2 bucket to bind to.
+</summary>
 
-    - `name: string`
+id: string
 
-      A JavaScript variable name for the binding.
+Identifier of the Hyperdrive connection to bind to.
 
-    - `type: "r2_bucket"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+name: string
 
-      - `"r2_bucket"`
+A JavaScript variable name for the binding.
 
-    - `jurisdiction: optional "eu" or "fedramp" or "fedramp-high"`
+<a href="#">Link to this property</a>
 
-      The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket.
+type: "hyperdrive"
 
-      - `"eu"`
+The kind of resource that the binding provides.
 
-      - `"fedramp"`
+<a href="#">Link to this property</a>
 
-      - `"fedramp-high"`
+</details>
 
-  - `SecretText object { name, text, type }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-      A JavaScript variable name for the binding.
+<summary>
 
-    - `text: string`
+Inherit object {name, type, old\_name, version\_id }
 
-      The secret value to use.
+</summary>
 
-    - `type: "secret_text"`
+name: string
 
-      The kind of resource that the binding provides.
+The name of the inherited binding.
 
-      - `"secret_text"`
+<a href="#">Link to this property</a>
 
-  - `SendEmail object { name, type, allowed_destination_addresses, 2 more }`
+type: "inherit"
 
-    - `name: string`
+The kind of resource that the binding provides.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "send_email"`
+old\_name: optional string
 
-      The kind of resource that the binding provides.
+The old name of the inherited binding. If set, the binding will be renamed from <code>old_name</code> to <code>name</code> in the new version. If not set, the binding will keep the same name between versions.
 
-      - `"send_email"`
+<a href="#">Link to this property</a>
 
-    - `allowed_destination_addresses: optional array of string`
+version\_id: optional string
 
-      List of allowed destination addresses.
+Identifier for the version to inherit the binding from, which can be the version ID or the literal “latest” to inherit from the latest version. Defaults to inheriting the binding from the latest version.
 
-    - `allowed_sender_addresses: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of allowed sender addresses.
+</details>
 
-    - `destination_address: optional string`
+<a href="#">Link to this property</a>
 
-      Destination address for the email.
+<details>
 
-  - `Service object { name, service, type, 2 more }`
+<summary>
 
-    - `name: string`
+Images object {name, type }
 
-      A JavaScript variable name for the binding.
+</summary>
 
-    - `service: string`
+name: string
 
-      Name of Worker to bind to.
+A JavaScript variable name for the binding.
 
-    - `type: "service"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+type: "images"
 
-      - `"service"`
+The kind of resource that the binding provides.
 
-    - `entrypoint: optional string`
+<a href="#">Link to this property</a>
 
-      Entrypoint to invoke on the target Worker.
+</details>
 
-    - `environment: optional string`
+<a href="#">Link to this property</a>
 
-      Optional environment if the Worker utilizes one.
+<details>
 
-  - `TextBlob object { name, part, type }`
+<summary>
 
-    - `name: string`
+Json object {json, name, type }
 
-      A JavaScript variable name for the binding.
+</summary>
 
-    - `part: string`
+json: unknown
 
-      The name of the file containing the text content. Only accepted for `service worker syntax` Workers.
+JSON data to use.
 
-    - `type: "text_blob"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+name: string
 
-      - `"text_blob"`
+A JavaScript variable name for the binding.
 
-  - `Vectorize object { index_name, name, type }`
+<a href="#">Link to this property</a>
 
-    - `index_name: string`
+type: "json"
 
-      Name of the Vectorize index to bind to.
+The kind of resource that the binding provides.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+</details>
 
-    - `type: "vectorize"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+<details>
 
-      - `"vectorize"`
+<summary>
 
-  - `VersionMetadata object { name, type }`
+KVNamespace object {name, namespace\_id, type }
 
-    - `name: string`
+</summary>
 
-      A JavaScript variable name for the binding.
+name: string
 
-    - `type: "version_metadata"`
+A JavaScript variable name for the binding.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"version_metadata"`
+namespace\_id: string
 
-  - `SecretsStoreSecret object { name, secret_name, store_id, type }`
+Namespace identifier tag.
 
-    - `name: string`
+maxLength32
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `secret_name: string`
+type: "kv\_namespace"
 
-      Name of the secret in the store.
+The kind of resource that the binding provides.
 
-    - `store_id: string`
+<a href="#">Link to this property</a>
 
-      ID of the store containing the secret.
+</details>
 
-    - `type: "secrets_store_secret"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+<details>
 
-      - `"secrets_store_secret"`
+<summary>
 
-  - `Flagship object { app_id, name, type }`
+Media object {name, type }
 
-    - `app_id: string`
+</summary>
 
-      ID of the Flagship app to bind to for feature flag evaluation.
+name: string
 
-    - `name: string`
+A JavaScript variable name for the binding.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "flagship"`
+type: "media"
 
-      The kind of resource that the binding provides.
+The kind of resource that the binding provides.
 
-      - `"flagship"`
+<a href="#">Link to this property</a>
 
-  - `SecretKey object { algorithm, format, name, 4 more }`
+</details>
 
-    - `algorithm: unknown`
+<a href="#">Link to this property</a>
 
-      Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
+<details>
 
-    - `format: "raw" or "pkcs8" or "spki" or "jwk"`
+<summary>
 
-      Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
+MTLSCertificate object {certificate\_id, name, type }
 
-      - `"raw"`
+</summary>
 
-      - `"pkcs8"`
+certificate\_id: string
 
-      - `"spki"`
+Identifier of the certificate to bind to.
 
-      - `"jwk"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+name: string
 
-      A JavaScript variable name for the binding.
+A JavaScript variable name for the binding.
 
-    - `type: "secret_key"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+type: "mtls\_certificate"
 
-      - `"secret_key"`
+The kind of resource that the binding provides.
 
-    - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
+<a href="#">Link to this property</a>
 
-      Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
+</details>
 
-      - `"encrypt"`
+<a href="#">Link to this property</a>
 
-      - `"decrypt"`
+<details>
 
-      - `"sign"`
+<summary>
 
-      - `"verify"`
+PlainText object {name, text, type }
 
-      - `"deriveKey"`
+</summary>
 
-      - `"deriveBits"`
+name: string
 
-      - `"wrapKey"`
+A JavaScript variable name for the binding.
 
-      - `"unwrapKey"`
+<a href="#">Link to this property</a>
 
-    - `key_base64: optional string`
+text: string
 
-      Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
+The text value to use.
 
-    - `key_jwk: optional unknown`
+<a href="#">Link to this property</a>
 
-      Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
+type: "plain\_text"
 
-  - `Workflow object { name, type, workflow_name, 2 more }`
+The kind of resource that the binding provides.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+</details>
 
-    - `type: "workflow"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+<details>
 
-      - `"workflow"`
+<summary>
 
-    - `workflow_name: string`
+Pipelines object {name, pipeline, type }
 
-      Name of the Workflow to bind to.
+</summary>
 
-    - `class_name: optional string`
+name: string
 
-      Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
+A JavaScript variable name for the binding.
 
-    - `script_name: optional string`
+<a href="#">Link to this property</a>
 
-      Script name that contains the Workflow. If not provided, defaults to this script name.
+pipeline: string
 
-  - `WasmModule object { name, part, type }`
+Name of the Pipeline to bind to.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+type: "pipelines"
 
-    - `part: string`
+The kind of resource that the binding provides.
 
-      The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers.
+<a href="#">Link to this property</a>
 
-    - `type: "wasm_module"`
+</details>
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"wasm_module"`
+<details>
 
-  - `VPCService object { name, service_id, type }`
+<summary>
 
-    - `name: string`
+Queue object {name, queue\_name, type }
 
-      A JavaScript variable name for the binding.
+</summary>
 
-    - `service_id: string`
+name: string
 
-      Identifier of the VPC service to bind to.
+A JavaScript variable name for the binding.
 
-    - `type: "vpc_service"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+queue\_name: string
 
-      - `"vpc_service"`
+Name of the Queue to bind to.
 
-  - `VPCNetwork object { name, type, network_id, tunnel_id }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+type: "queue"
 
-      A JavaScript variable name for the binding.
+The kind of resource that the binding provides.
 
-    - `type: "vpc_network"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+</details>
 
-      - `"vpc_network"`
+<a href="#">Link to this property</a>
 
-    - `network_id: optional string`
+<details>
 
-      Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id.
+<summary>
 
-    - `tunnel_id: optional string`
+Ratelimit object {name, namespace\_id, simple, type }
 
-      UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id.
+</summary>
 
-- `success: true`
+name: string
 
-  Whether the API call was successful.
+A JavaScript variable name for the binding.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+namespace\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/namespaces/$DISPATCH_NAMESPACE/scripts/$SCRIPT_NAME/bindings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Identifier of the rate limit namespace to bind to.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "name": "MY_ENV_VAR",
-      "text": "my_data",
-      "type": "plain_text"
-    }
-  ],
-  "success": true
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Binding Get Response
+simple: object {limit, period, mitigation\_timeout }
 
-- `BindingGetResponse = object { name, type }  or object { instance_name, name, type, namespace }  or object { name, namespace, type }  or 32 more`
+The rate limit configuration.
 
-  A binding to allow the Worker to communicate with resources.
+</summary>
 
-  - `AI object { name, type }`
+limit: number
 
-    - `name: string`
+The limit (requests per period).
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "ai"`
+period: number
 
-      The kind of resource that the binding provides.
+The period in seconds.
 
-      - `"ai"`
+<a href="#">Link to this property</a>
 
-  - `AISearch object { instance_name, name, type, namespace }`
+mitigation\_timeout: optional number
 
-    - `instance_name: string`
+Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
 
-      The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "ai_search"`
+type: "ratelimit"
 
-      The kind of resource that the binding provides.
+The kind of resource that the binding provides.
 
-      - `"ai_search"`
+<a href="#">Link to this property</a>
 
-    - `namespace: optional string`
+</details>
 
-      The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field.
+<a href="#">Link to this property</a>
 
-  - `AISearchNamespace object { name, namespace, type }`
+<details>
 
-    - `name: string`
+<summary>
 
-      A JavaScript variable name for the binding.
+R2Bucket object {bucket\_name, name, type, jurisdiction }
 
-    - `namespace: string`
+</summary>
 
-      The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
+bucket\_name: string
 
-    - `type: "ai_search_namespace"`
+R2 bucket to bind to.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"ai_search_namespace"`
+name: string
 
-  - `AnalyticsEngine object { dataset, name, type }`
+A JavaScript variable name for the binding.
 
-    - `dataset: string`
+<a href="#">Link to this property</a>
 
-      The name of the dataset to bind to.
+type: "r2\_bucket"
 
-    - `name: string`
+The kind of resource that the binding provides.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "analytics_engine"`
+<details>
 
-      The kind of resource that the binding provides.
+<summary>
 
-      - `"analytics_engine"`
+jurisdiction: optional "eu"or "fedramp"or "fedramp-high"or "us"
 
-  - `Assets object { name, type }`
+The <a href="https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions">jurisdiction</a> of the R2 bucket.
 
-    - `name: string`
+</summary>
 
-      A JavaScript variable name for the binding.
+One of the following:
 
-    - `type: "assets"`
+"eu"
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"assets"`
+"fedramp"
 
-  - `Browser object { name, type }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"fedramp-high"
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "browser"`
+"us"
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"browser"`
+</details>
 
-  - `D1 object { database_id, name, type, id }`
+<a href="#">Link to this property</a>
 
-    - `database_id: string`
+</details>
 
-      Identifier of the D1 database to bind to.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-      A JavaScript variable name for the binding.
+<summary>
 
-    - `type: "d1"`
+SecretText object {name, text, type }
 
-      The kind of resource that the binding provides.
+</summary>
 
-      - `"d1"`
+name: string
 
-    - `id: optional string`
+A JavaScript variable name for the binding.
 
-      Identifier of the D1 database to bind to.
+<a href="#">Link to this property</a>
 
-  - `DataBlob object { name, part, type }`
+text: string
 
-    - `name: string`
+The secret value to use.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `part: string`
+type: "secret\_text"
 
-      The name of the file containing the data content. Only accepted for `service worker syntax` Workers.
+The kind of resource that the binding provides.
 
-    - `type: "data_blob"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+</details>
 
-      - `"data_blob"`
+<a href="#">Link to this property</a>
 
-  - `DispatchNamespace object { name, namespace, type, outbound }`
+<details>
 
-    - `name: string`
+<summary>
 
-      A JavaScript variable name for the binding.
+SendEmail object {name, type, allowed\_destination\_addresses, 2 more }
 
-    - `namespace: string`
+</summary>
 
-      The name of the dispatch namespace.
+name: string
 
-    - `type: "dispatch_namespace"`
+A JavaScript variable name for the binding.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"dispatch_namespace"`
+type: "send\_email"
 
-    - `outbound: optional object { params, worker }`
+The kind of resource that the binding provides.
 
-      Outbound worker.
+<a href="#">Link to this property</a>
 
-      - `params: optional array of object { name }`
+allowed\_destination\_addresses: optional array of string
 
-        Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
+List of allowed destination addresses.
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-          Name of the parameter.
+allowed\_sender\_addresses: optional array of string
 
-      - `worker: optional object { entrypoint, environment, service }`
+List of allowed sender addresses.
 
-        Outbound worker.
+<a href="#">Link to this property</a>
 
-        - `entrypoint: optional string`
+destination\_address: optional string
 
-          Entrypoint to invoke on the outbound worker.
+Destination address for the email.
 
-        - `environment: optional string`
+formatemail
 
-          Environment of the outbound worker.
+<a href="#">Link to this property</a>
 
-        - `service: optional string`
+</details>
 
-          Name of the outbound worker.
+<a href="#">Link to this property</a>
 
-  - `DurableObjectNamespace object { name, type, class_name, 4 more }`
+<details>
 
-    - `name: string`
+<summary>
 
-      A JavaScript variable name for the binding.
+Service object {name, service, type, 2 more }
 
-    - `type: "durable_object_namespace"`
+</summary>
 
-      The kind of resource that the binding provides.
+name: string
 
-      - `"durable_object_namespace"`
+A JavaScript variable name for the binding.
 
-    - `class_name: optional string`
+<a href="#">Link to this property</a>
 
-      The exported class name of the Durable Object.
+service: string
 
-    - `dispatch_namespace: optional string`
+Name of Worker to bind to.
 
-      The dispatch namespace the Durable Object script belongs to.
+<a href="#">Link to this property</a>
 
-    - `environment: optional string`
+type: "service"
 
-      The environment of the script_name to bind to.
+The kind of resource that the binding provides.
 
-    - `namespace_id: optional string`
+<a href="#">Link to this property</a>
 
-      Namespace identifier tag.
+entrypoint: optional string
 
-    - `script_name: optional string`
+Entrypoint to invoke on the target Worker.
 
-      The script where the Durable Object is defined, if it is external to this Worker.
+<a href="#">Link to this property</a>
 
-  - `Hyperdrive object { id, name, type }`
+environment: optional string
 
-    - `id: string`
+Optional environment if the Worker utilizes one.
 
-      Identifier of the Hyperdrive connection to bind to.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "hyperdrive"`
+<details>
 
-      The kind of resource that the binding provides.
+<summary>
 
-      - `"hyperdrive"`
+TextBlob object {name, part, type }
 
-  - `Inherit object { name, type, old_name, version_id }`
+</summary>
 
-    - `name: string`
+name: string
 
-      The name of the inherited binding.
+A JavaScript variable name for the binding.
 
-    - `type: "inherit"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+part: string
 
-      - `"inherit"`
+The name of the file containing the text content. Only accepted for <code>service worker syntax</code> Workers.
 
-    - `old_name: optional string`
+<a href="#">Link to this property</a>
 
-      The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions.
+Deprecatedtype: "text\_blob"
 
-    - `version_id: optional string`
+The kind of resource that the binding provides.
 
-      Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version.
+<a href="#">Link to this property</a>
 
-  - `Images object { name, type }`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+<details>
 
-    - `type: "images"`
+<summary>
 
-      The kind of resource that the binding provides.
+Vectorize object {index\_name, name, type }
 
-      - `"images"`
+</summary>
 
-  - `Json object { json, name, type }`
+index\_name: string
 
-    - `json: unknown`
+Name of the Vectorize index to bind to.
 
-      JSON data to use.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+name: string
 
-      A JavaScript variable name for the binding.
+A JavaScript variable name for the binding.
 
-    - `type: "json"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+type: "vectorize"
 
-      - `"json"`
+The kind of resource that the binding provides.
 
-  - `KVNamespace object { name, namespace_id, type }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `namespace_id: string`
+<details>
 
-      Namespace identifier tag.
+<summary>
 
-    - `type: "kv_namespace"`
+VersionMetadata object {name, type }
 
-      The kind of resource that the binding provides.
+</summary>
 
-      - `"kv_namespace"`
+name: string
 
-  - `Media object { name, type }`
+A JavaScript variable name for the binding.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+type: "version\_metadata"
 
-    - `type: "media"`
+The kind of resource that the binding provides.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"media"`
+</details>
 
-  - `MTLSCertificate object { certificate_id, name, type }`
+<a href="#">Link to this property</a>
 
-    - `certificate_id: string`
+<details>
 
-      Identifier of the certificate to bind to.
+<summary>
 
-    - `name: string`
+SecretsStoreSecret object {name, secret\_name, store\_id, type }
 
-      A JavaScript variable name for the binding.
+</summary>
 
-    - `type: "mtls_certificate"`
+name: string
 
-      The kind of resource that the binding provides.
+A JavaScript variable name for the binding.
 
-      - `"mtls_certificate"`
+<a href="#">Link to this property</a>
 
-  - `PlainText object { name, text, type }`
+secret\_name: string
 
-    - `name: string`
+Name of the secret in the store.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `text: string`
+store\_id: string
 
-      The text value to use.
+ID of the store containing the secret.
 
-    - `type: "plain_text"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+type: "secrets\_store\_secret"
 
-      - `"plain_text"`
+The kind of resource that the binding provides.
 
-  - `Pipelines object { name, pipeline, type }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `pipeline: string`
+<details>
 
-      Name of the Pipeline to bind to.
+<summary>
 
-    - `type: "pipelines"`
+Flagship object {app\_id, name, type }
 
-      The kind of resource that the binding provides.
+</summary>
 
-      - `"pipelines"`
+app\_id: string
 
-  - `Queue object { name, queue_name, type }`
+ID of the Flagship app to bind to for feature flag evaluation.
 
-    - `name: string`
+maxLength128
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `queue_name: string`
+name: string
 
-      Name of the Queue to bind to.
+A JavaScript variable name for the binding.
 
-    - `type: "queue"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+type: "flagship"
 
-      - `"queue"`
+The kind of resource that the binding provides.
 
-  - `Ratelimit object { name, namespace_id, simple, type }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `namespace_id: string`
+<details>
 
-      Identifier of the rate limit namespace to bind to.
+<summary>
 
-    - `simple: object { limit, period, mitigation_timeout }`
+SecretKey object {algorithm, format, name, 4 more }
 
-      The rate limit configuration.
+</summary>
 
-      - `limit: number`
+algorithm: unknown
 
-        The limit (requests per period).
+Algorithm-specific key parameters. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm">Learn more</a>.
 
-      - `period: number`
+<a href="#">Link to this property</a>
 
-        The period in seconds.
+<details>
 
-      - `mitigation_timeout: optional number`
+<summary>
 
-        Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
+format: "raw"or "pkcs8"or "spki"or "jwk"
 
-    - `type: "ratelimit"`
+Data format of the key. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format">Learn more</a>.
 
-      The kind of resource that the binding provides.
+</summary>
 
-      - `"ratelimit"`
+One of the following:
 
-  - `R2Bucket object { bucket_name, name, type, jurisdiction }`
+"raw"
 
-    - `bucket_name: string`
+<a href="#">Link to this property</a>
 
-      R2 bucket to bind to.
+"pkcs8"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+"spki"
 
-    - `type: "r2_bucket"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+"jwk"
 
-      - `"r2_bucket"`
+<a href="#">Link to this property</a>
 
-    - `jurisdiction: optional "eu" or "fedramp" or "fedramp-high"`
+</details>
 
-      The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket.
+<a href="#">Link to this property</a>
 
-      - `"eu"`
+name: string
 
-      - `"fedramp"`
+A JavaScript variable name for the binding.
 
-      - `"fedramp-high"`
+<a href="#">Link to this property</a>
 
-  - `SecretText object { name, text, type }`
+type: "secret\_key"
 
-    - `name: string`
+The kind of resource that the binding provides.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `text: string`
+<details>
 
-      The secret value to use.
+<summary>
 
-    - `type: "secret_text"`
+usages: array of "encrypt"or "decrypt"or "sign"or 5 more
 
-      The kind of resource that the binding provides.
+Allowed operations with the key. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages">Learn more</a>.
 
-      - `"secret_text"`
+</summary>
 
-  - `SendEmail object { name, type, allowed_destination_addresses, 2 more }`
+One of the following:
 
-    - `name: string`
+"encrypt"
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "send_email"`
+"decrypt"
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"send_email"`
+"sign"
 
-    - `allowed_destination_addresses: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of allowed destination addresses.
+"verify"
 
-    - `allowed_sender_addresses: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of allowed sender addresses.
+"deriveKey"
 
-    - `destination_address: optional string`
+<a href="#">Link to this property</a>
 
-      Destination address for the email.
+"deriveBits"
 
-  - `Service object { name, service, type, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"wrapKey"
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `service: string`
+"unwrapKey"
 
-      Name of Worker to bind to.
+<a href="#">Link to this property</a>
 
-    - `type: "service"`
+</details>
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"service"`
+key\_base64: optional string
 
-    - `entrypoint: optional string`
+Base64-encoded key data. Required if <code>format</code> is “raw”, “pkcs8”, or “spki”.
 
-      Entrypoint to invoke on the target Worker.
+<a href="#">Link to this property</a>
 
-    - `environment: optional string`
+key\_jwk: optional unknown
 
-      Optional environment if the Worker utilizes one.
+Key data in <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key">JSON Web Key</a> format. Required if <code>format</code> is “jwk”.
 
-  - `TextBlob object { name, part, type }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `part: string`
+<details>
 
-      The name of the file containing the text content. Only accepted for `service worker syntax` Workers.
+<summary>
 
-    - `type: "text_blob"`
+Workflow object {name, type, workflow\_name, 2 more }
 
-      The kind of resource that the binding provides.
+</summary>
 
-      - `"text_blob"`
+name: string
 
-  - `Vectorize object { index_name, name, type }`
+A JavaScript variable name for the binding.
 
-    - `index_name: string`
+<a href="#">Link to this property</a>
 
-      Name of the Vectorize index to bind to.
+type: "workflow"
 
-    - `name: string`
+The kind of resource that the binding provides.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "vectorize"`
+workflow\_name: string
 
-      The kind of resource that the binding provides.
+Name of the Workflow to bind to.
 
-      - `"vectorize"`
+<a href="#">Link to this property</a>
 
-  - `VersionMetadata object { name, type }`
+class\_name: optional string
 
-    - `name: string`
+Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "version_metadata"`
+script\_name: optional string
 
-      The kind of resource that the binding provides.
+Script name that contains the Workflow. If not provided, defaults to this script name.
 
-      - `"version_metadata"`
+<a href="#">Link to this property</a>
 
-  - `SecretsStoreSecret object { name, secret_name, store_id, type }`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+<details>
 
-    - `secret_name: string`
+<summary>
 
-      Name of the secret in the store.
+WasmModule object {name, part, type }
 
-    - `store_id: string`
+</summary>
 
-      ID of the store containing the secret.
+name: string
 
-    - `type: "secrets_store_secret"`
+A JavaScript variable name for the binding.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"secrets_store_secret"`
+part: string
 
-  - `Flagship object { app_id, name, type }`
+The name of the file containing the WebAssembly module content. Only accepted for <code>service worker syntax</code> Workers.
 
-    - `app_id: string`
+<a href="#">Link to this property</a>
 
-      ID of the Flagship app to bind to for feature flag evaluation.
+Deprecatedtype: "wasm\_module"
 
-    - `name: string`
+The kind of resource that the binding provides.
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "flagship"`
+</details>
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"flagship"`
+<details>
 
-  - `SecretKey object { algorithm, format, name, 4 more }`
+<summary>
 
-    - `algorithm: unknown`
+VPCService object {name, service\_id, type }
 
-      Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
+</summary>
 
-    - `format: "raw" or "pkcs8" or "spki" or "jwk"`
+name: string
 
-      Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
+A JavaScript variable name for the binding.
 
-      - `"raw"`
+<a href="#">Link to this property</a>
 
-      - `"pkcs8"`
+service\_id: string
 
-      - `"spki"`
+Identifier of the VPC service to bind to.
 
-      - `"jwk"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+type: "vpc\_service"
 
-      A JavaScript variable name for the binding.
+The kind of resource that the binding provides.
 
-    - `type: "secret_key"`
+<a href="#">Link to this property</a>
 
-      The kind of resource that the binding provides.
+</details>
 
-      - `"secret_key"`
+<a href="#">Link to this property</a>
 
-    - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
+<details>
 
-      Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
+<summary>
 
-      - `"encrypt"`
+VPCNetwork object {name, type, identity, 2 more }
 
-      - `"decrypt"`
+</summary>
 
-      - `"sign"`
+name: string
 
-      - `"verify"`
+A JavaScript variable name for the binding.
 
-      - `"deriveKey"`
+<a href="#">Link to this property</a>
 
-      - `"deriveBits"`
+type: "vpc\_network"
 
-      - `"wrapKey"`
+The kind of resource that the binding provides.
 
-      - `"unwrapKey"`
+<a href="#">Link to this property</a>
 
-    - `key_base64: optional string`
+identity: optional "runtime-email-alpha"
 
-      Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
+Enables Gateway identity for the binding. Requires network\_id to be “cf1:network” and cannot be combined with tunnel\_id.
 
-    - `key_jwk: optional unknown`
+<a href="#">Link to this property</a>
 
-      Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
+network\_id: optional string
 
-  - `Workflow object { name, type, workflow_name, 2 more }`
+Identifier of the network to bind to. Only “cf1:network” is currently supported. Mutually exclusive with tunnel\_id.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+tunnel\_id: optional string
 
-    - `type: "workflow"`
+UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network\_id.
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"workflow"`
+</details>
 
-    - `workflow_name: string`
+<a href="#">Link to this property</a>
 
-      Name of the Workflow to bind to.
+</details>
 
-    - `class_name: optional string`
-
-      Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
-
-    - `script_name: optional string`
-
-      Script name that contains the Workflow. If not provided, defaults to this script name.
-
-  - `WasmModule object { name, part, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `part: string`
-
-      The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers.
-
-    - `type: "wasm_module"`
-
-      The kind of resource that the binding provides.
-
-      - `"wasm_module"`
-
-  - `VPCService object { name, service_id, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `service_id: string`
-
-      Identifier of the VPC service to bind to.
-
-    - `type: "vpc_service"`
-
-      The kind of resource that the binding provides.
-
-      - `"vpc_service"`
-
-  - `VPCNetwork object { name, type, network_id, tunnel_id }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "vpc_network"`
-
-      The kind of resource that the binding provides.
-
-      - `"vpc_network"`
-
-    - `network_id: optional string`
-
-      Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id.
-
-    - `tunnel_id: optional string`
-
-      UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id.
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.bindings%20%3E%20(model)%20binding_get_response%20%3E%20(schema)>)

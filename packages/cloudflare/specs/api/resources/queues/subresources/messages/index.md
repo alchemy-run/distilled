@@ -1,603 +1,373 @@
+---
+title: Messages
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Queues](https://developers.cloudflare.com/api/resources/queues)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Messages
 
-## Push Message
+##### [Push Message](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/push)
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages`
+POST/accounts/{account\_id}/queues/{queue\_id}/messages
 
-Push a message to a Queue
+##### [Acknowledge + Retry Queue Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/ack)
 
-### Path Parameters
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/ack
 
-- `account_id: string`
+##### [Pull Queue Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/pull)
 
-  A Resource identifier.
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/pull
 
-- `queue_id: string`
+##### [Push Message Batch](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/bulk_push)
 
-  A Resource identifier.
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/batch
 
-### Body Parameters
+##### [Peek Queue Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/peek)
 
-- `body: optional object { body, content_type, delay_seconds }  or object { body, content_type, delay_seconds }`
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/peek
 
-  - `MqQueueMessageText object { body, content_type, delay_seconds }`
+##### [Purge Peeked Queue Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/purge)
 
-    - `body: optional string`
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/purge
 
-    - `content_type: optional "text"`
+##### ModelsExpand Collapse
 
-      - `"text"`
+<details>
 
-    - `delay_seconds: optional number`
+<summary>
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+MessagePushResponse object {metadata }
 
-  - `MqQueueMessageJson object { body, content_type, delay_seconds }`
+</summary>
 
-    - `body: optional unknown`
+<details>
 
-    - `content_type: optional "json"`
+<summary>
 
-      - `"json"`
+metadata: optional object {metrics }
 
-    - `delay_seconds: optional number`
+</summary>
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+<details>
 
-### Returns
+<summary>
 
-- `errors: optional array of ResponseInfo`
+metrics: optional object {backlog\_bytes, backlog\_count, oldest\_message\_timestamp\_ms }
 
-  - `code: number`
+Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+backlog\_bytes: number
 
-  - `source: optional object { pointer }`
+The size in bytes of unacknowledged messages in the queue.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of string`
+backlog\_count: number
 
-- `result: optional object { metadata }`
+The number of unacknowledged messages in the queue.
 
-  - `metadata: optional object { metrics }`
+<a href="#">Link to this property</a>
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+oldest\_message\_timestamp\_ms: number
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
-      - `backlog_bytes: number`
+<a href="#">Link to this property</a>
 
-        The size in bytes of unacknowledged messages in the queue.
+</details>
 
-      - `backlog_count: number`
+<a href="#">Link to this property</a>
 
-        The number of unacknowledged messages in the queue.
+</details>
 
-      - `oldest_message_timestamp_ms: number`
+<a href="#">Link to this property</a>
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+</details>
 
-- `success: optional true`
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_push_response%20%3E%20(schema)>)
 
-  Indicates if the API call was successful or not.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+MessageAckResponse object {ackCount, retryCount, warnings }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+ackCount: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "metadata": {
-      "metrics": {
-        "backlog_bytes": 1024,
-        "backlog_count": 5,
-        "oldest_message_timestamp_ms": 1710950954154
-      }
-    }
-  },
-  "success": true
-}
-```
+The number of messages that were succesfully acknowledged.
 
-## Acknowledge + Retry Queue Messages
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages/ack`
+retryCount: optional number
 
-Acknowledge + Retry messages from a Queue
+The number of messages that were succesfully retried.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+warnings: optional map\[string]
 
-  A Resource identifier.
+Map of lease IDs to warning messages encountered during acknowledgement.
 
-- `queue_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+</details>
 
-### Body Parameters
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_ack_response%20%3E%20(schema)>)
 
-- `acks: optional array of object { lease_id }`
+<details>
 
-  - `lease_id: optional string`
+<summary>
 
-    An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
+MessagePullResponse object {message\_backlog\_count, messages, metadata }
 
-- `retries: optional array of object { delay_seconds, lease_id }`
+</summary>
 
-  - `delay_seconds: optional number`
+message\_backlog\_count: optional number
 
-    The number of seconds to delay before making the message available for another attempt.
+The number of unacknowledged messages in the queue.
 
-  - `lease_id: optional string`
+<a href="#">Link to this property</a>
 
-    An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
+<details>
 
-### Returns
+<summary>
 
-- `errors: optional array of ResponseInfo`
+messages: optional array of object {id, attempts, body, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+attempts: optional number
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of string`
+body: optional string
 
-- `result: optional object { ackCount, retryCount, warnings }`
+<a href="#">Link to this property</a>
 
-  - `ackCount: optional number`
+lease\_id: optional string
 
-    The number of messages that were succesfully acknowledged.
+An ID that represents an “in-flight” message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
 
-  - `retryCount: optional number`
+<a href="#">Link to this property</a>
 
-    The number of messages that were succesfully retried.
+metadata: optional unknown
 
-  - `warnings: optional map[string]`
+<a href="#">Link to this property</a>
 
-    Map of lease IDs to warning messages encountered during acknowledgement.
+timestamp\_ms: optional number
 
-- `success: optional true`
+<a href="#">Link to this property</a>
 
-  Indicates if the API call was successful or not.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages/ack \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+metadata: optional object {metrics }
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "ackCount": 5,
-    "retryCount": 5,
-    "warnings": {
-      "foo": "string"
-    }
-  },
-  "success": true
-}
-```
+</summary>
 
-## Pull Queue Messages
+<details>
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages/pull`
+<summary>
 
-Pull a batch of messages from a Queue
+metrics: optional object {backlog\_bytes, backlog\_count, oldest\_message\_timestamp\_ms }
 
-### Path Parameters
+Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
 
-- `account_id: string`
+</summary>
 
-  A Resource identifier.
+backlog\_bytes: number
 
-- `queue_id: string`
+The size in bytes of unacknowledged messages in the queue.
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+backlog\_count: number
 
-- `batch_size: optional number`
+The number of unacknowledged messages in the queue.
 
-  The maximum number of messages to include in a batch.
+<a href="#">Link to this property</a>
 
-- `visibility_timeout_ms: optional number`
+oldest\_message\_timestamp\_ms: number
 
-  The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_pull_response%20%3E%20(schema)>)
 
-- `messages: optional array of string`
+<details>
 
-- `result: optional object { message_backlog_count, messages, metadata }`
+<summary>
 
-  - `message_backlog_count: optional number`
+MessageBulkPushResponse object {metadata }
 
-    The number of unacknowledged messages in the queue.
+</summary>
 
-  - `messages: optional array of object { id, attempts, body, 3 more }`
+<details>
 
-    - `id: optional string`
+<summary>
 
-    - `attempts: optional number`
+metadata: optional object {metrics }
 
-    - `body: optional string`
+</summary>
 
-    - `lease_id: optional string`
+<details>
 
-      An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
+<summary>
 
-    - `metadata: optional unknown`
+metrics: optional object {backlog\_bytes, backlog\_count, oldest\_message\_timestamp\_ms }
 
-    - `timestamp_ms: optional number`
+Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
 
-  - `metadata: optional object { metrics }`
+</summary>
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+backlog\_bytes: number
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+The size in bytes of unacknowledged messages in the queue.
 
-      - `backlog_bytes: number`
+<a href="#">Link to this property</a>
 
-        The size in bytes of unacknowledged messages in the queue.
+backlog\_count: number
 
-      - `backlog_count: number`
+The number of unacknowledged messages in the queue.
 
-        The number of unacknowledged messages in the queue.
+<a href="#">Link to this property</a>
 
-      - `oldest_message_timestamp_ms: number`
+oldest\_message\_timestamp\_ms: number
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
-- `success: optional true`
+<a href="#">Link to this property</a>
 
-  Indicates if the API call was successful or not.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages/pull \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "message_backlog_count": 5,
-    "messages": [
-      {
-        "id": "b01b5594f784d0165c2985833f5660dd",
-        "attempts": 1,
-        "body": "hello world",
-        "lease_id": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..Q8p21d7dceR6vUfwftONdQ.JVqZgAS-Zk7MqmqccYtTHeeMElNHaOMigeWdb8LyMOg.T2_HV99CYzGaQuhTyW8RsgbnpTRZHRM6N7UoSaAKeK0",
-        "metadata": {
-          "CF-Content-Type": "text",
-          "CF-sourceMessageSource": "dash"
-        },
-        "timestamp_ms": 1710950954154
-      }
-    ],
-    "metadata": {
-      "metrics": {
-        "backlog_bytes": 1024,
-        "backlog_count": 5,
-        "oldest_message_timestamp_ms": 1710950954154
-      }
-    }
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_bulk_push_response%20%3E%20(schema)>)
 
-## Push Message Batch
+<details>
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages/batch`
+<summary>
 
-Push a batch of message to a Queue
+MessagePeekResponse object {messages }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+<details>
 
-  A Resource identifier.
+<summary>
 
-- `queue_id: string`
+messages: optional array of object {id, attempts, body, 3 more }
 
-  A Resource identifier.
+</summary>
 
-### Body Parameters
+id: optional string
 
-- `delay_seconds: optional number`
+<a href="#">Link to this property</a>
 
-  The number of seconds to wait for attempting to deliver this batch to consumers
+attempts: optional number
 
-- `messages: optional array of object { body, content_type, delay_seconds }  or object { body, content_type, delay_seconds }`
+<a href="#">Link to this property</a>
 
-  - `MqQueueMessageText object { body, content_type, delay_seconds }`
+body: optional string
 
-    - `body: optional string`
+<a href="#">Link to this property</a>
 
-    - `content_type: optional "text"`
+metadata: optional unknown
 
-      - `"text"`
+<a href="#">Link to this property</a>
 
-    - `delay_seconds: optional number`
+ref: optional string
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+An opaque reference to a peeked message. You must hold on to this value and use it to purge the message.
 
-  - `MqQueueMessageJson object { body, content_type, delay_seconds }`
+<a href="#">Link to this property</a>
 
-    - `body: optional unknown`
+timestamp\_ms: optional number
 
-    - `content_type: optional "json"`
+<a href="#">Link to this property</a>
 
-      - `"json"`
+</details>
 
-    - `delay_seconds: optional number`
+<a href="#">Link to this property</a>
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+</details>
 
-### Returns
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_peek_response%20%3E%20(schema)>)
 
-- `errors: optional array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+MessagePurgeResponse object {errors, warnings }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: optional array of string`
+errors: optional array of object {message }
 
-- `result: optional object { metadata }`
+Errors encountered while purging messages.
 
-  - `metadata: optional object { metrics }`
+</summary>
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+message: optional string
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+<a href="#">Link to this property</a>
 
-      - `backlog_bytes: number`
+</details>
 
-        The size in bytes of unacknowledged messages in the queue.
+<a href="#">Link to this property</a>
 
-      - `backlog_count: number`
+warnings: optional map\[string]
 
-        The number of unacknowledged messages in the queue.
+Map of refs to warning messages encountered during purge.
 
-      - `oldest_message_timestamp_ms: number`
+<a href="#">Link to this property</a>
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+</details>
 
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages/batch \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "metadata": {
-      "metrics": {
-        "backlog_bytes": 1024,
-        "backlog_count": 5,
-        "oldest_message_timestamp_ms": 1710950954154
-      }
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Message Push Response
-
-- `MessagePushResponse object { metadata }`
-
-  - `metadata: optional object { metrics }`
-
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
-
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
-
-      - `backlog_bytes: number`
-
-        The size in bytes of unacknowledged messages in the queue.
-
-      - `backlog_count: number`
-
-        The number of unacknowledged messages in the queue.
-
-      - `oldest_message_timestamp_ms: number`
-
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
-
-### Message Ack Response
-
-- `MessageAckResponse object { ackCount, retryCount, warnings }`
-
-  - `ackCount: optional number`
-
-    The number of messages that were succesfully acknowledged.
-
-  - `retryCount: optional number`
-
-    The number of messages that were succesfully retried.
-
-  - `warnings: optional map[string]`
-
-    Map of lease IDs to warning messages encountered during acknowledgement.
-
-### Message Pull Response
-
-- `MessagePullResponse object { message_backlog_count, messages, metadata }`
-
-  - `message_backlog_count: optional number`
-
-    The number of unacknowledged messages in the queue.
-
-  - `messages: optional array of object { id, attempts, body, 3 more }`
-
-    - `id: optional string`
-
-    - `attempts: optional number`
-
-    - `body: optional string`
-
-    - `lease_id: optional string`
-
-      An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
-
-    - `metadata: optional unknown`
-
-    - `timestamp_ms: optional number`
-
-  - `metadata: optional object { metrics }`
-
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
-
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
-
-      - `backlog_bytes: number`
-
-        The size in bytes of unacknowledged messages in the queue.
-
-      - `backlog_count: number`
-
-        The number of unacknowledged messages in the queue.
-
-      - `oldest_message_timestamp_ms: number`
-
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
-
-### Message Bulk Push Response
-
-- `MessageBulkPushResponse object { metadata }`
-
-  - `metadata: optional object { metrics }`
-
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
-
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
-
-      - `backlog_bytes: number`
-
-        The size in bytes of unacknowledged messages in the queue.
-
-      - `backlog_count: number`
-
-        The number of unacknowledged messages in the queue.
-
-      - `oldest_message_timestamp_ms: number`
-
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_purge_response%20%3E%20(schema)>)

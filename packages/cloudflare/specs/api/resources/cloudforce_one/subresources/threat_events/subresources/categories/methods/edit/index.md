@@ -1,56 +1,141 @@
-## Updates a category
+---
+title: Updates a category
+---
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+[Skip to content](#_top)
 
-Updates a category
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
 
-  Account ID.
+[Categories](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories)
 
-- `category_id: string`
+Copy Markdown
 
-  Category UUID.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `killChain: optional number`
+**Copy Markdown****View as Markdown**
 
-- `mitreAttack: optional array of string`
+# Updates a category
 
-- `mitreCapec: optional array of string`
+PATCH/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
 
-- `name: optional string`
+Partially updates a threat event category in Cloudforce One, modifying specific fields without replacing the entire category.
 
-- `shortname: optional string`
+##### Security
 
-### Returns
+API Token
 
-- `killChain: number`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `name: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `uuid: string`
+##### Accepted Permissions (at least one required)
 
-- `mitreAttack: optional array of string`
+`Cloudforce One Write`
 
-- `mitreCapec: optional array of string`
+##### P ath ParametersExpand Collapse
 
-- `shortname: optional string`
+account\_id: string
 
-### Example
+Account ID.
 
-```http
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+category\_id: string
+
+Category UUID.
+
+formatuuid
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20category_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+killChain: optional number
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20killChain%20%3E%20(schema)>)
+
+mitreAttack: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20mitreAttack%20%3E%20(schema)>)
+
+mitreCapec: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20mitreCapec%20%3E%20(schema)>)
+
+name: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+shortname: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20shortname%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+killChain: number
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)%20%3E%20(property)%20killChain>)
+
+name: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)%20%3E%20(property)%20name>)
+
+uuid: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)%20%3E%20(property)%20uuid>)
+
+mitreAttack: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)%20%3E%20(property)%20mitreAttack>)
+
+mitreCapec: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)%20%3E%20(property)%20mitreCapec>)
+
+shortname: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)%20%3E%20(property)%20shortname>)
+
+### Updates a category
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
     -X PATCH \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "killChain": 0,
+  "name": "name",
+  "uuid": "12345678-1234-1234-1234-1234567890ab",
+  "mitreAttack": [
+    "T1234"
+  ],
+  "mitreCapec": [
+    "123"
+  ],
+  "shortname": "shortname"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "killChain": 0,
   "name": "name",

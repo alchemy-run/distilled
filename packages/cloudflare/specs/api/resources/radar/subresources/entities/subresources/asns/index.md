@@ -1,884 +1,613 @@
+---
+title: ASNs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Entities](https://developers.cloudflare.com/api/resources/radar/subresources/entities)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # ASNs
 
-## List autonomous systems
+##### [List autonomous systems](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns/methods/list)
 
-**get** `/radar/entities/asns`
+GET/radar/entities/asns
 
-Retrieves a list of autonomous systems.
+##### [Get AS details by ASN](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns/methods/get)
 
-### Query Parameters
+GET/radar/entities/asns/{asn}
 
-- `asn: optional string`
+##### [Get AS-level relationships by ASN](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns/methods/rel)
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list.
+GET/radar/entities/asns/{asn}/rel
 
-- `format: optional "JSON" or "CSV"`
+##### [Get IRR AS-SETs that an AS is a member of](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns/methods/as_set)
 
-  Format in which results will be returned.
+GET/radar/entities/asns/{asn}/as\_set
 
-  - `"JSON"`
+##### [Get AS details by IP address](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns/methods/ip)
 
-  - `"CSV"`
+GET/radar/entities/asns/ip
 
-- `limit: optional number`
+##### [Get AS rankings by botnet threat feed activity](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns/methods/botnet_threat_feed)
 
-  Limits the number of objects returned in the response.
+GET/radar/entities/asns/botnet\_threat\_feed
 
-- `location: optional string`
+##### ModelsExpand Collapse
 
-  Filters results by location. Specify an alpha-2 location code.
+<details>
 
-- `offset: optional number`
+<summary>
 
-  Skips the specified number of objects before fetching the results.
+ASNListResponse object {asns }
 
-- `orderBy: optional "ASN" or "POPULATION"`
+</summary>
 
-  Specifies the metric to order the ASNs by.
+<details>
 
-  - `"ASN"`
+<summary>
 
-  - `"POPULATION"`
+asns: array of object {asn, country, countryName, 5 more }
 
-### Returns
+</summary>
 
-- `result: object { asns }`
+asn: number
 
-  - `asns: array of object { asn, country, countryName, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+country: string
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-    - `countryName: string`
+countryName: string
 
-    - `estimatedUsers: object { estimatedUsers }`
+<a href="#">Link to this property</a>
 
-      - `estimatedUsers: optional number`
+<details>
 
-        Total estimated users.
+<summary>
 
-    - `name: string`
+estimatedUsers: object {estimatedUsers }
 
-    - `aka: optional string`
+</summary>
 
-    - `orgName: optional string`
+estimatedUsers: optional number
 
-    - `website: optional string`
+Total estimated users.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/entities/asns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "result": {
-    "asns": [
-      {
-        "asn": 714,
-        "country": "GB",
-        "countryName": "United Kingdom",
-        "estimatedUsers": {
-          "estimatedUsers": 86099
-        },
-        "name": "Apple Inc.",
-        "aka": "aka",
-        "orgName": "orgName",
-        "website": "https://www.apple.com/support/systemstatus/"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get AS details by ASN
+aka: optional string
 
-**get** `/radar/entities/asns/{asn}`
+<a href="#">Link to this property</a>
 
-Retrieves the requested autonomous system information. (A confidence level below `5` indicates a low level of confidence in the traffic data - normally this happens because Cloudflare has a small amount of traffic from/to this AS). Population estimates come from APNIC (refer to https://labs.apnic.net/?p=526).
+orgName: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `asn: number`
+website: optional string
 
-  Single Autonomous System Number (ASN) as integer.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+</details>
 
-  - `"JSON"`
+[Link to this property](#)%20radar.entities.asns%20%3E%20(model)%20asn_list_response%20%3E%20(schema)>)
 
-  - `"CSV"`
+<details>
 
-### Returns
+<summary>
 
-- `result: object { asn }`
+ASNGetResponse object {asn }
 
-  - `asn: object { asn, confidenceLevel, country, 8 more }`
+</summary>
 
-    - `asn: number`
+<details>
 
-    - `confidenceLevel: number`
+<summary>
 
-    - `country: string`
+asn: object {asn, confidenceLevel, country, 8 more }
 
-    - `countryName: string`
+</summary>
 
-    - `estimatedUsers: object { locations, estimatedUsers }`
+asn: number
 
-      - `locations: array of object { locationAlpha2, locationName, estimatedUsers }`
+<a href="#">Link to this property</a>
 
-        - `locationAlpha2: string`
+confidenceLevel: number
 
-        - `locationName: string`
+<a href="#">Link to this property</a>
 
-        - `estimatedUsers: optional number`
+country: string
 
-          Estimated users per location.
+<a href="#">Link to this property</a>
 
-      - `estimatedUsers: optional number`
+countryName: string
 
-        Total estimated users.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-    - `orgName: string`
+<summary>
 
-    - `related: array of object { asn, name, aka, estimatedUsers }`
+estimatedUsers: object {locations, estimatedUsers }
 
-      - `asn: number`
+</summary>
 
-      - `name: string`
+<details>
 
-      - `aka: optional string`
+<summary>
 
-      - `estimatedUsers: optional number`
+locations: array of object {locationAlpha2, locationName, estimatedUsers }
 
-        Total estimated users.
+</summary>
 
-    - `source: string`
+locationAlpha2: string
 
-      Regional Internet Registry.
+<a href="#">Link to this property</a>
 
-    - `website: string`
+locationName: string
 
-    - `aka: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+estimatedUsers: optional number
 
-### Example
+Estimated users per location.
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/entities/asns/$ASN \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "asn": {
-      "asn": 714,
-      "confidenceLevel": 5,
-      "country": "GB",
-      "countryName": "United Kingdom",
-      "estimatedUsers": {
-        "locations": [
-          {
-            "locationAlpha2": "US",
-            "locationName": "United States",
-            "estimatedUsers": 16710
-          }
-        ],
-        "estimatedUsers": 86099
-      },
-      "name": "Apple Inc.",
-      "orgName": "orgName",
-      "related": [
-        {
-          "asn": 174,
-          "name": "Cogent-174",
-          "aka": "aka",
-          "estimatedUsers": 65345
-        }
-      ],
-      "source": "RIPE",
-      "website": "https://www.apple.com/support/systemstatus/",
-      "aka": "aka"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get AS-level relationships by ASN
+estimatedUsers: optional number
 
-**get** `/radar/entities/asns/{asn}/rel`
+Total estimated users.
 
-Retrieves AS-level relationship for given networks.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `asn: number`
+<a href="#">Link to this property</a>
 
-  Retrieves all ASNs with provider-customer or peering relationships with the given ASN.
+name: string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `asn2: optional number`
+orgName: string
 
-  Retrieves the AS relationship of ASN2 with respect to the given ASN.
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>
 
-  - `"JSON"`
+related: array of object {asn, name, aka, estimatedUsers }
 
-  - `"CSV"`
+</summary>
 
-### Returns
+asn: number
 
-- `result: object { meta, rels }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { data_time, query_time, total_peers }`
+name: string
 
-    - `data_time: string`
+<a href="#">Link to this property</a>
 
-    - `query_time: string`
+aka: optional string
 
-    - `total_peers: number`
+<a href="#">Link to this property</a>
 
-  - `rels: array of object { asn1, asn1_country, asn1_name, 4 more }`
+estimatedUsers: optional number
 
-    - `asn1: number`
+Total estimated users.
 
-    - `asn1_country: string`
+<a href="#">Link to this property</a>
 
-    - `asn1_name: string`
+</details>
 
-    - `asn2: number`
+<a href="#">Link to this property</a>
 
-    - `asn2_country: string`
+source: string
 
-    - `asn2_name: string`
+Regional Internet Registry.
 
-    - `rel: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+website: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/entities/asns/$ASN/rel \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+aka: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    },
-    "rels": [
-      {
-        "asn1": 0,
-        "asn1_country": "asn1_country",
-        "asn1_name": "asn1_name",
-        "asn2": 0,
-        "asn2_country": "asn2_country",
-        "asn2_name": "asn2_name",
-        "rel": "rel"
-      }
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Get IRR AS-SETs that an AS is a member of
+<a href="#">Link to this property</a>
 
-**get** `/radar/entities/asns/{asn}/as_set`
+</details>
 
-Retrieves Internet Routing Registry AS-SETs that an AS is a member of.
+[Link to this property](#)%20radar.entities.asns%20%3E%20(model)%20asn_get_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `asn: number`
+<summary>
 
-  Retrieves all AS-SETs that the given AS is a member of.
+ASNRelResponse object {meta, rels }
 
-### Query Parameters
+</summary>
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>
 
-  - `"JSON"`
+meta: object {data\_time, query\_time, total\_peers }
 
-  - `"CSV"`
+</summary>
 
-### Returns
+data\_time: string
 
-- `result: object { as_sets, paths }`
+<a href="#">Link to this property</a>
 
-  - `as_sets: array of object { as_members_count, as_set_members_count, as_set_upstreams_count, 6 more }`
+query\_time: string
 
-    - `as_members_count: number`
+<a href="#">Link to this property</a>
 
-      The number of AS members in the AS-SET
+total\_peers: number
 
-    - `as_set_members_count: number`
+<a href="#">Link to this property</a>
 
-      The number of AS-SET members in the AS-SET
+</details>
 
-    - `as_set_upstreams_count: number`
+<a href="#">Link to this property</a>
 
-      The number of recursive upstream AS-SETs
+<details>
 
-    - `asn_cone_size: number`
+<summary>
 
-      The number of unique ASNs in the AS-SETs recursive downstream
+rels: array of object {asn1, asn1\_country, asn1\_name, 4 more }
 
-    - `irr_sources: array of string`
+</summary>
 
-      The IRR sources of the AS-SET
+asn1: number
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the AS-SET
+asn1\_country: string
 
-    - `hierarchical_asn: optional number`
+<a href="#">Link to this property</a>
 
-      The AS number following hierarchical AS-SET name
+asn1\_name: string
 
-    - `inferred_asn: optional number`
+<a href="#">Link to this property</a>
 
-      The inferred AS number of the AS-SET
+asn2: number
 
-    - `peeringdb_asn: optional number`
+<a href="#">Link to this property</a>
 
-      The AS number matching PeeringDB record
+asn2\_country: string
 
-  - `paths: array of array of string`
+<a href="#">Link to this property</a>
 
-    Paths from the AS-SET that include the given AS to its upstreams recursively
+asn2\_name: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+rel: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/entities/asns/$ASN/as_set \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "as_sets": [
-      {
-        "as_members_count": 0,
-        "as_set_members_count": 0,
-        "as_set_upstreams_count": 0,
-        "asn_cone_size": 0,
-        "irr_sources": [
-          "string"
-        ],
-        "name": "name",
-        "hierarchical_asn": 0,
-        "inferred_asn": 0,
-        "peeringdb_asn": 0
-      }
-    ],
-    "paths": [
-      [
-        "string"
-      ]
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get AS details by IP address
+</details>
 
-**get** `/radar/entities/asns/ip`
+[Link to this property](#)%20radar.entities.asns%20%3E%20(model)%20asn_rel_response%20%3E%20(schema)>)
 
-Retrieves the requested autonomous system information based on IP address. Population estimates come from APNIC (refer to https://labs.apnic.net/?p=526).
+<details>
 
-### Query Parameters
+<summary>
 
-- `ip: string`
+ASNAsSetResponse object {as\_sets, paths }
 
-  IP address.
+</summary>
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>
 
-  - `"JSON"`
+as\_sets: array of object {as\_members\_count, as\_set\_members\_count, as\_set\_upstreams\_count, 6 more }
 
-  - `"CSV"`
+</summary>
 
-### Returns
+as\_members\_count: number
 
-- `result: object { asn }`
+The number of AS members in the AS-SET
 
-  - `asn: object { asn, country, countryName, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+as\_set\_members\_count: number
 
-    - `country: string`
+The number of AS-SET members in the AS-SET
 
-    - `countryName: string`
+<a href="#">Link to this property</a>
 
-    - `estimatedUsers: object { locations, estimatedUsers }`
+as\_set\_upstreams\_count: number
 
-      - `locations: array of object { locationAlpha2, locationName, estimatedUsers }`
+The number of recursive upstream AS-SETs
 
-        - `locationAlpha2: string`
+<a href="#">Link to this property</a>
 
-        - `locationName: string`
+asn\_cone\_size: number
 
-        - `estimatedUsers: optional number`
+The number of unique ASNs in the AS-SETs recursive downstream
 
-          Estimated users per location.
+<a href="#">Link to this property</a>
 
-      - `estimatedUsers: optional number`
+irr\_sources: array of string
 
-        Total estimated users.
+The IRR sources of the AS-SET
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `orgName: string`
+name: string
 
-    - `related: array of object { asn, name, aka, estimatedUsers }`
+The name of the AS-SET
 
-      - `asn: number`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+hierarchical\_asn: optional number
 
-      - `aka: optional string`
+The AS number following hierarchical AS-SET name
 
-      - `estimatedUsers: optional number`
+<a href="#">Link to this property</a>
 
-        Total estimated users.
+inferred\_asn: optional number
 
-    - `source: string`
+The inferred AS number of the AS-SET
 
-      Regional Internet Registry.
+<a href="#">Link to this property</a>
 
-    - `website: string`
+peeringdb\_asn: optional number
 
-    - `aka: optional string`
+The AS number matching PeeringDB record
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/entities/asns/ip \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+paths: array of array of string
 
-```json
-{
-  "result": {
-    "asn": {
-      "asn": 714,
-      "country": "GB",
-      "countryName": "United Kingdom",
-      "estimatedUsers": {
-        "locations": [
-          {
-            "locationAlpha2": "US",
-            "locationName": "United States",
-            "estimatedUsers": 16710
-          }
-        ],
-        "estimatedUsers": 86099
-      },
-      "name": "Apple Inc.",
-      "orgName": "orgName",
-      "related": [
-        {
-          "asn": 0,
-          "name": "name",
-          "aka": "aka",
-          "estimatedUsers": 65345
-        }
-      ],
-      "source": "RIPE",
-      "website": "https://www.apple.com/support/systemstatus/",
-      "aka": "aka"
-    }
-  },
-  "success": true
-}
-```
+Paths from the AS-SET that include the given AS to its upstreams recursively
 
-## Get AS rankings by botnet threat feed activity
+<a href="#">Link to this property</a>
 
-**get** `/radar/entities/asns/botnet_threat_feed`
+</details>
 
-Retrieves a ranked list of Autonomous Systems based on their presence in the Cloudflare Botnet Threat Feed. Rankings can be sorted by offense count or number of bad IPs. Optionally compare to a previous date to see rank changes.
+[Link to this property](#)%20radar.entities.asns%20%3E%20(model)%20asn_as_set_response%20%3E%20(schema)>)
 
-### Query Parameters
+<details>
 
-- `asn: optional array of string`
+<summary>
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+ASNIPResponse object {asn }
 
-- `compareDateRange: optional string`
+</summary>
 
-  Relative date range for rank change comparison (e.g., "1d", "7d", "30d").
+<details>
 
-- `date: optional string`
+<summary>
 
-  The date to retrieve (YYYY-MM-DD format). If not specified, returns the most recent available data. Note: This is the date the report was generated. The report is generated from information collected from the previous day (e.g., the 2026-02-23 entry contains data from 2026-02-22).
+asn: object {asn, country, countryName, 7 more }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+asn: number
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+country: string
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects returned in the response.
+countryName: string
 
-- `location: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by location. Specify an alpha-2 location code.
+<details>
 
-- `metric: optional "OFFENSE_COUNT" or "NUMBER_OF_OFFENDING_IPS"`
+<summary>
 
-  Metric to rank ASNs by.
+estimatedUsers: object {locations, estimatedUsers }
 
-  - `"OFFENSE_COUNT"`
+</summary>
 
-  - `"NUMBER_OF_OFFENDING_IPS"`
+<details>
 
-- `offset: optional number`
+<summary>
 
-  Skips the specified number of objects before fetching the results.
+locations: array of object {locationAlpha2, locationName, estimatedUsers }
 
-- `sortOrder: optional "ASC" or "DESC"`
+</summary>
 
-  Sort order.
+locationAlpha2: string
 
-  - `"ASC"`
+<a href="#">Link to this property</a>
 
-  - `"DESC"`
+locationName: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { ases, meta }`
+estimatedUsers: optional number
 
-  - `ases: array of object { asn, country, name, 2 more }`
+Estimated users per location.
 
-    - `asn: number`
+<a href="#">Link to this property</a>
 
-    - `country: string`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `rank: number`
+estimatedUsers: optional number
 
-    - `rankChange: optional number`
+Total estimated users.
 
-  - `meta: object { date, total, compareDate }`
+<a href="#">Link to this property</a>
 
-    - `date: string`
+</details>
 
-    - `total: number`
+<a href="#">Link to this property</a>
 
-    - `compareDate: optional string`
+name: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+orgName: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/entities/asns/botnet_threat_feed \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "result": {
-    "ases": [
-      {
-        "asn": 4134,
-        "country": "CN",
-        "name": "CHINANET-BACKBONE",
-        "rank": 1,
-        "rankChange": -2
-      }
-    ],
-    "meta": {
-      "date": "2026-02-04",
-      "total": 50,
-      "compareDate": "2026-01-28"
-    }
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+related: array of object {asn, name, aka, estimatedUsers }
 
-### ASN List Response
+</summary>
 
-- `ASNListResponse object { asns }`
+asn: number
 
-  - `asns: array of object { asn, country, countryName, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+name: string
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-    - `countryName: string`
+aka: optional string
 
-    - `estimatedUsers: object { estimatedUsers }`
+<a href="#">Link to this property</a>
 
-      - `estimatedUsers: optional number`
+estimatedUsers: optional number
 
-        Total estimated users.
+Total estimated users.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `aka: optional string`
+</details>
 
-    - `orgName: optional string`
+<a href="#">Link to this property</a>
 
-    - `website: optional string`
+source: string
 
-### ASN Get Response
+Regional Internet Registry.
 
-- `ASNGetResponse object { asn }`
+<a href="#">Link to this property</a>
 
-  - `asn: object { asn, confidenceLevel, country, 8 more }`
+website: string
 
-    - `asn: number`
+<a href="#">Link to this property</a>
 
-    - `confidenceLevel: number`
+aka: optional string
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-    - `countryName: string`
+</details>
 
-    - `estimatedUsers: object { locations, estimatedUsers }`
+<a href="#">Link to this property</a>
 
-      - `locations: array of object { locationAlpha2, locationName, estimatedUsers }`
+</details>
 
-        - `locationAlpha2: string`
+[Link to this property](#)%20radar.entities.asns%20%3E%20(model)%20asn_ip_response%20%3E%20(schema)>)
 
-        - `locationName: string`
+<details>
 
-        - `estimatedUsers: optional number`
+<summary>
 
-          Estimated users per location.
+ASNBotnetThreatFeedResponse object {ases, meta }
 
-      - `estimatedUsers: optional number`
+</summary>
 
-        Total estimated users.
+<details>
 
-    - `name: string`
+<summary>
 
-    - `orgName: string`
+ases: array of object {asn, country, name, 2 more }
 
-    - `related: array of object { asn, name, aka, estimatedUsers }`
+</summary>
 
-      - `asn: number`
+asn: number
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `aka: optional string`
+country: string
 
-      - `estimatedUsers: optional number`
+<a href="#">Link to this property</a>
 
-        Total estimated users.
+name: string
 
-    - `source: string`
+<a href="#">Link to this property</a>
 
-      Regional Internet Registry.
+rank: number
 
-    - `website: string`
+<a href="#">Link to this property</a>
 
-    - `aka: optional string`
+rankChange: optional number
 
-### ASN Rel Response
+<a href="#">Link to this property</a>
 
-- `ASNRelResponse object { meta, rels }`
+</details>
 
-  - `meta: object { data_time, query_time, total_peers }`
+<a href="#">Link to this property</a>
 
-    - `data_time: string`
+<details>
 
-    - `query_time: string`
+<summary>
 
-    - `total_peers: number`
+meta: object {date, total, compareDate }
 
-  - `rels: array of object { asn1, asn1_country, asn1_name, 4 more }`
+</summary>
 
-    - `asn1: number`
+date: string
 
-    - `asn1_country: string`
+<a href="#">Link to this property</a>
 
-    - `asn1_name: string`
+total: number
 
-    - `asn2: number`
+<a href="#">Link to this property</a>
 
-    - `asn2_country: string`
+compareDate: optional string
 
-    - `asn2_name: string`
+<a href="#">Link to this property</a>
 
-    - `rel: string`
+</details>
 
-### ASN As Set Response
+<a href="#">Link to this property</a>
 
-- `ASNAsSetResponse object { as_sets, paths }`
+</details>
 
-  - `as_sets: array of object { as_members_count, as_set_members_count, as_set_upstreams_count, 6 more }`
-
-    - `as_members_count: number`
-
-      The number of AS members in the AS-SET
-
-    - `as_set_members_count: number`
-
-      The number of AS-SET members in the AS-SET
-
-    - `as_set_upstreams_count: number`
-
-      The number of recursive upstream AS-SETs
-
-    - `asn_cone_size: number`
-
-      The number of unique ASNs in the AS-SETs recursive downstream
-
-    - `irr_sources: array of string`
-
-      The IRR sources of the AS-SET
-
-    - `name: string`
-
-      The name of the AS-SET
-
-    - `hierarchical_asn: optional number`
-
-      The AS number following hierarchical AS-SET name
-
-    - `inferred_asn: optional number`
-
-      The inferred AS number of the AS-SET
-
-    - `peeringdb_asn: optional number`
-
-      The AS number matching PeeringDB record
-
-  - `paths: array of array of string`
-
-    Paths from the AS-SET that include the given AS to its upstreams recursively
-
-### ASN IP Response
-
-- `ASNIPResponse object { asn }`
-
-  - `asn: object { asn, country, countryName, 7 more }`
-
-    - `asn: number`
-
-    - `country: string`
-
-    - `countryName: string`
-
-    - `estimatedUsers: object { locations, estimatedUsers }`
-
-      - `locations: array of object { locationAlpha2, locationName, estimatedUsers }`
-
-        - `locationAlpha2: string`
-
-        - `locationName: string`
-
-        - `estimatedUsers: optional number`
-
-          Estimated users per location.
-
-      - `estimatedUsers: optional number`
-
-        Total estimated users.
-
-    - `name: string`
-
-    - `orgName: string`
-
-    - `related: array of object { asn, name, aka, estimatedUsers }`
-
-      - `asn: number`
-
-      - `name: string`
-
-      - `aka: optional string`
-
-      - `estimatedUsers: optional number`
-
-        Total estimated users.
-
-    - `source: string`
-
-      Regional Internet Registry.
-
-    - `website: string`
-
-    - `aka: optional string`
-
-### ASN Botnet Threat Feed Response
-
-- `ASNBotnetThreatFeedResponse object { ases, meta }`
-
-  - `ases: array of object { asn, country, name, 2 more }`
-
-    - `asn: number`
-
-    - `country: string`
-
-    - `name: string`
-
-    - `rank: number`
-
-    - `rankChange: optional number`
-
-  - `meta: object { date, total, compareDate }`
-
-    - `date: string`
-
-    - `total: number`
-
-    - `compareDate: optional string`
+[Link to this property](#)%20radar.entities.asns%20%3E%20(model)%20asn_botnet_threat_feed_response%20%3E%20(schema)>)

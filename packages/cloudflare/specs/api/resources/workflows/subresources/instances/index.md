@@ -1,1687 +1,1263 @@
+---
+title: Instances
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workflows](https://developers.cloudflare.com/api/resources/workflows)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Instances
 
-## List of workflow instances
+##### [List of workflow instances](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/methods/list)
 
-**get** `/accounts/{account_id}/workflows/{workflow_name}/instances`
+GET/accounts/{account\_id}/workflows/{workflow\_name}/instances
 
-Lists all instances of a workflow with their execution status.
+##### [Get logs and status from instance](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/workflows/{workflow\_name}/instances/{instance\_id}
 
-- `account_id: string`
+##### [Create a new workflow instance](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/methods/create)
 
-- `workflow_name: string`
+POST/accounts/{account\_id}/workflows/{workflow\_name}/instances
 
-### Query Parameters
+##### [Batch create new Workflow instances](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/methods/bulk)
 
-- `cursor: optional string`
+POST/accounts/{account\_id}/workflows/{workflow\_name}/instances/batch
 
-  Opaque token for cursor-based pagination. Mutually exclusive with `page`.
+##### [Get full step output from instance](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/methods/step)
 
-- `date_end: optional string`
+GET/accounts/{account\_id}/workflows/{workflow\_name}/instances/{instance\_id}/step
 
-  Accepts ISO 8601 with no timezone offsets and in UTC.
+##### ModelsExpand Collapse
 
-- `date_start: optional string`
+<details>
 
-  Accepts ISO 8601 with no timezone offsets and in UTC.
+<summary>
 
-- `direction: optional "asc" or "desc"`
+InstanceListResponse object {id, created\_on, ended\_on, 6 more }
 
-  Defines the direction for cursor-based pagination.
+</summary>
 
-  - `"asc"`
+id: string
 
-  - `"desc"`
+maxLength100
 
-- `page: optional number`
+minLength1
 
-  Deprecated: use `cursor` for pagination instead.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+created\_on: string
 
-- `status: optional "queued" or "running" or "paused" or 6 more`
+formatdate-time
 
-  - `"queued"`
+<a href="#">Link to this property</a>
 
-  - `"running"`
+ended\_on: string
 
-  - `"paused"`
+formatdate-time
 
-  - `"errored"`
+<a href="#">Link to this property</a>
 
-  - `"terminated"`
+modified\_on: string
 
-  - `"complete"`
+formatdate-time
 
-  - `"waitingForPause"`
+<a href="#">Link to this property</a>
 
-  - `"waiting"`
+started\_on: string
 
-  - `"rollingBack"`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+status: "queued"or "running"or "paused"or 6 more
 
-- `messages: array of object { code, message }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"queued"
 
-- `result: array of object { id, created_on, ended_on, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"running"
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-  - `ended_on: string`
+"paused"
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-  - `started_on: string`
+"errored"
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+<a href="#">Link to this property</a>
 
-    - `"queued"`
+"terminated"
 
-    - `"running"`
+<a href="#">Link to this property</a>
 
-    - `"paused"`
+"complete"
 
-    - `"errored"`
+<a href="#">Link to this property</a>
 
-    - `"terminated"`
+"waitingForPause"
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-    - `"waitingForPause"`
+"waiting"
 
-    - `"waiting"`
+<a href="#">Link to this property</a>
 
-    - `"rollingBack"`
+"rollingBack"
 
-  - `version_id: string`
+<a href="#">Link to this property</a>
 
-  - `workflow_id: string`
+</details>
 
-  - `trigger_source: optional "unknown" or "api" or "binding" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"unknown"`
+version\_id: string
 
-    - `"api"`
+formatuuid
 
-    - `"binding"`
+<a href="#">Link to this property</a>
 
-    - `"event"`
+workflow\_id: string
 
-    - `"cron"`
+formatuuid
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+<summary>
 
-  - `count: number`
+trigger\_source: optional "unknown"or "api"or "binding"or 2 more
 
-  - `per_page: number`
+</summary>
 
-  - `total_count: number`
+One of the following:
 
-    Deprecated: total count is not reliable with cursor-based pagination.
+"unknown"
 
-  - `cursor: optional string`
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"api"
 
-    Deprecated: use cursor-based pagination instead.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+"binding"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"event"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "x",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "ended_on": "2019-12-27T18:11:19.117Z",
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "started_on": "2019-12-27T18:11:19.117Z",
-      "status": "queued",
-      "version_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "workflow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "trigger_source": "unknown"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
+"cron"
 
-## Get logs and status from instance
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}`
+</details>
 
-Retrieves logs and execution status for a specific workflow instance.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20workflows.instances%20%3E%20(model)%20instance_list_response%20%3E%20(schema)>)
 
-- `workflow_name: string`
+<details>
 
-- `instance_id: string`
+<summary>
 
-  Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.
+InstanceGetResponse object {end, error, output, 11 more }
 
-### Query Parameters
+</summary>
 
-- `order: optional "asc" or "desc"`
+end: string
 
-  Step ordering: "asc" (default, oldest first) or "desc" (newest first).
+formatdate-time
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+<details>
 
-- `simple: optional "true" or "false"`
+<summary>
 
-  When true, omits step details and returns only metadata with step_count.
+error: object {message, name }
 
-  - `"true"`
+</summary>
 
-  - `"false"`
+message: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+name: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-- `result: object { end, error, output, 11 more }`
+output: stringor number
 
-  - `end: string`
+</summary>
 
-  - `error: object { message, name }`
+One of the following:
 
-    - `message: string`
+string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `output: string or number`
+number
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+</details>
 
-  - `params: unknown`
+<a href="#">Link to this property</a>
 
-  - `queued: string`
+params: unknown
 
-  - `rollback: object { error, outcome }`
+<a href="#">Link to this property</a>
 
-    - `error: object { message, name }`
+queued: string
 
-      - `message: string`
+formatdate-time
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `outcome: "complete" or "failed"`
+<details>
 
-      - `"complete"`
+<summary>
 
-      - `"failed"`
+rollback: object {error, outcome }
 
-  - `start: string`
+</summary>
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+<details>
 
-    - `"queued"`
+<summary>
 
-    - `"running"`
+error: object {message, name }
 
-    - `"paused"`
+</summary>
 
-    - `"errored"`
+message: string
 
-    - `"terminated"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+name: string
 
-    - `"waitingForPause"`
+<a href="#">Link to this property</a>
 
-    - `"waiting"`
+</details>
 
-    - `"rollingBack"`
+<a href="#">Link to this property</a>
 
-  - `step_count: number`
+<details>
 
-  - `steps: array of object { attempts, config, end, 5 more }  or object { end, error, finished, 3 more }  or object { trigger, type }  or object { end, error, finished, 4 more }`
+<summary>
 
-    - `object { attempts, config, end, 5 more }`
+outcome: "complete"or "failed"
 
-      - `attempts: array of object { end, error, start, success }`
+</summary>
 
-        - `end: string`
+One of the following:
 
-        - `error: object { message, name }`
+"complete"
 
-          - `message: string`
+<a href="#">Link to this property</a>
 
-          - `name: string`
+"failed"
 
-        - `start: string`
+<a href="#">Link to this property</a>
 
-        - `success: boolean`
+</details>
 
-      - `config: object { retries, timeout, sensitive }`
+<a href="#">Link to this property</a>
 
-        - `retries: object { delay, limit, backoff }`
+</details>
 
-          - `delay: string or number`
+<a href="#">Link to this property</a>
 
-            Specifies the delay duration. '[dynamic]' indicates the delay is computed by a user-supplied function.
+start: string
 
-            - `string`
+formatdate-time
 
-            - `number`
+<a href="#">Link to this property</a>
 
-          - `limit: number`
+<details>
 
-          - `backoff: optional "constant" or "linear" or "exponential"`
+<summary>
 
-            - `"constant"`
+status: "queued"or "running"or "paused"or 6 more
 
-            - `"linear"`
+</summary>
 
-            - `"exponential"`
+One of the following:
 
-        - `timeout: string or number`
+"queued"
 
-          Specifies the timeout duration.
+<a href="#">Link to this property</a>
 
-          - `string`
+"running"
 
-          - `number`
+<a href="#">Link to this property</a>
 
-        - `sensitive: optional "output"`
+"paused"
 
-          When set to 'output', step output is redacted from log and step output responses.
+<a href="#">Link to this property</a>
 
-          - `"output"`
+"errored"
 
-      - `end: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"terminated"
 
-      - `output: string`
+<a href="#">Link to this property</a>
 
-      - `start: string`
+"complete"
 
-      - `success: boolean`
+<a href="#">Link to this property</a>
 
-      - `type: "step" or "rollback"`
+"waitingForPause"
 
-        - `"step"`
+<a href="#">Link to this property</a>
 
-        - `"rollback"`
+"waiting"
 
-    - `object { end, error, finished, 3 more }`
+<a href="#">Link to this property</a>
 
-      - `end: string`
+"rollingBack"
 
-      - `error: object { message, name }`
+<a href="#">Link to this property</a>
 
-        - `message: string`
+</details>
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-      - `finished: boolean`
+step\_count: number
 
-      - `name: string`
+maximum9007199254740991
 
-      - `start: string`
+minimum-9007199254740991
 
-      - `type: "sleep"`
+<a href="#">Link to this property</a>
 
-        - `"sleep"`
+<details>
 
-    - `object { trigger, type }`
+<summary>
 
-      - `trigger: object { source }`
+steps: array of object {attempts, config, end, 5 more } or object {end, error, finished, 3 more } or object {trigger, type } or object {end, error, finished, 5 more }
 
-        - `source: string`
+</summary>
 
-      - `type: "termination"`
+One of the following:
 
-        - `"termination"`
+<details>
 
-    - `object { end, error, finished, 4 more }`
+<summary>
 
-      - `end: string`
+object {attempts, config, end, 5 more }
 
-      - `error: object { message, name }`
+</summary>
 
-        - `message: string`
+<details>
 
-        - `name: string`
+<summary>
 
-      - `finished: boolean`
+attempts: array of object {end, error, start, success }
 
-      - `name: string`
+</summary>
 
-      - `start: string`
+end: string
 
-      - `type: "waitForEvent"`
+formatdate-time
 
-        - `"waitForEvent"`
+<a href="#">Link to this property</a>
 
-      - `output: optional string`
+<details>
 
-  - `success: boolean`
+<summary>
 
-  - `trigger: object { source }`
+error: object {message, name }
 
-    - `source: "unknown" or "api" or "binding" or 2 more`
+</summary>
 
-      - `"unknown"`
+message: string
 
-      - `"api"`
+<a href="#">Link to this property</a>
 
-      - `"binding"`
+name: string
 
-      - `"event"`
+<a href="#">Link to this property</a>
 
-      - `"cron"`
+</details>
 
-  - `versionId: string`
+<a href="#">Link to this property</a>
 
-  - `schedule: optional object { cron, scheduledTime }`
+start: string
 
-    - `cron: string`
+formatdate-time
 
-    - `scheduledTime: number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+success: boolean
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+</details>
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+<details>
 
-  - `total_count: number`
+<summary>
 
-  - `cursor: optional string`
+config: object {retries, timeout, sensitive }
 
-  - `page: optional number`
+</summary>
 
-  - `total_pages: optional number`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/$INSTANCE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+retries: object {delay, limit, backoff }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "end": "2019-12-27T18:11:19.117Z",
-    "error": {
-      "message": "message",
-      "name": "name"
-    },
-    "output": "string",
-    "params": {},
-    "queued": "2019-12-27T18:11:19.117Z",
-    "rollback": {
-      "error": {
-        "message": "message",
-        "name": "name"
-      },
-      "outcome": "complete"
-    },
-    "start": "2019-12-27T18:11:19.117Z",
-    "status": "queued",
-    "step_count": 0,
-    "steps": [
-      {
-        "attempts": [
-          {
-            "end": "2019-12-27T18:11:19.117Z",
-            "error": {
-              "message": "message",
-              "name": "name"
-            },
-            "start": "2019-12-27T18:11:19.117Z",
-            "success": true
-          }
-        ],
-        "config": {
-          "retries": {
-            "delay": "string",
-            "limit": 0,
-            "backoff": "constant"
-          },
-          "timeout": "string",
-          "sensitive": "output"
-        },
-        "end": "2019-12-27T18:11:19.117Z",
-        "name": "name",
-        "output": "output",
-        "start": "2019-12-27T18:11:19.117Z",
-        "success": true,
-        "type": "step"
-      }
-    ],
-    "success": true,
-    "trigger": {
-      "source": "unknown"
-    },
-    "versionId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "schedule": {
-      "cron": "cron",
-      "scheduledTime": 0
-    }
-  },
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
+<details>
 
-## Create a new workflow instance
+<summary>
 
-**post** `/accounts/{account_id}/workflows/{workflow_name}/instances`
+delay: stringor number
 
-Creates a new instance of a workflow, starting its execution.
+Specifies the delay duration. The value ‘\[dynamic]’ means that a user-supplied function computes the delay.
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-- `workflow_name: string`
+string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `instance_id: optional string`
+number
 
-- `instance_retention: optional object { error_retention, success_retention }`
+<a href="#">Link to this property</a>
 
-  - `error_retention: optional number or string`
+</details>
 
-    Specifies the duration in milliseconds or as a string like '5 minutes'.
+<a href="#">Link to this property</a>
 
-    - `number`
+limit: number
 
-      Specifies the duration in milliseconds.
+<a href="#">Link to this property</a>
 
-    - `string`
+<details>
 
-  - `success_retention: optional number or string`
+<summary>
 
-    Specifies the duration in milliseconds or as a string like '5 minutes'.
+backoff: optional "constant"or "linear"or "exponential"
 
-    - `number`
+</summary>
 
-      Specifies the duration in milliseconds.
+One of the following:
 
-    - `string`
+"constant"
 
-- `params: optional unknown`
+<a href="#">Link to this property</a>
 
-### Returns
+"linear"
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"exponential"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `result: object { id, status, version_id, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+<summary>
 
-    - `"queued"`
+timeout: stringor number
 
-    - `"running"`
+Specifies the timeout duration.
 
-    - `"paused"`
+</summary>
 
-    - `"errored"`
+One of the following:
 
-    - `"terminated"`
+string
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-    - `"waitingForPause"`
+number
 
-    - `"waiting"`
+<a href="#">Link to this property</a>
 
-    - `"rollingBack"`
+</details>
 
-  - `version_id: string`
+<a href="#">Link to this property</a>
 
-  - `workflow_id: string`
+sensitive: optional "output"
 
-  - `trigger_source: optional "unknown" or "api" or "binding" or 2 more`
+When set to ‘output’, step output is redacted from log and step output responses.
 
-    - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `"api"`
+</details>
 
-    - `"binding"`
+<a href="#">Link to this property</a>
 
-    - `"event"`
+end: string
 
-    - `"cron"`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+name: string
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+output: string
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+start: string
 
-  - `cursor: optional string`
+formatdate-time
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+success: boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "x",
-    "status": "queued",
-    "version_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "workflow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "trigger_source": "unknown"
-  },
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
+type: "step"or "rollback"
 
-## Batch create new Workflow instances
+</summary>
 
-**post** `/accounts/{account_id}/workflows/{workflow_name}/instances/batch`
+One of the following:
 
-Creates multiple workflow instances in a single batch operation.
+"step"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"rollback"
 
-- `workflow_name: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `body: optional array of object { instance_id, instance_retention, params }`
+<a href="#">Link to this property</a>
 
-  - `instance_id: optional string`
+</details>
 
-  - `instance_retention: optional object { error_retention, success_retention }`
+<a href="#">Link to this property</a>
 
-    - `error_retention: optional number or string`
+<details>
 
-      Specifies the duration in milliseconds or as a string like '5 minutes'.
+<summary>
 
-      - `number`
+object {end, error, finished, 3 more }
 
-        Specifies the duration in milliseconds.
+</summary>
 
-      - `string`
+end: string
 
-    - `success_retention: optional number or string`
+formatdate-time
 
-      Specifies the duration in milliseconds or as a string like '5 minutes'.
+<a href="#">Link to this property</a>
 
-      - `number`
+<details>
 
-        Specifies the duration in milliseconds.
+<summary>
 
-      - `string`
+error: object {message, name }
 
-  - `params: optional unknown`
+</summary>
 
-### Returns
+message: string
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+finished: boolean
 
-- `result: array of object { id, status, version_id, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+name: string
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+<a href="#">Link to this property</a>
 
-    - `"queued"`
+start: string
 
-    - `"running"`
+formatdate-time
 
-    - `"paused"`
+<a href="#">Link to this property</a>
 
-    - `"errored"`
+type: "sleep"
 
-    - `"terminated"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+</details>
 
-    - `"waitingForPause"`
+<a href="#">Link to this property</a>
 
-    - `"waiting"`
+<details>
 
-    - `"rollingBack"`
+<summary>
 
-  - `version_id: string`
+object {trigger, type }
 
-  - `workflow_id: string`
+</summary>
 
-  - `trigger_source: optional "unknown" or "api" or "binding" or 2 more`
+<details>
 
-    - `"unknown"`
+<summary>
 
-    - `"api"`
+trigger: object {source }
 
-    - `"binding"`
+</summary>
 
-    - `"event"`
+source: string
 
-    - `"cron"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+type: "termination"
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+</details>
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-  - `cursor: optional string`
+<details>
 
-  - `page: optional number`
+<summary>
 
-  - `total_pages: optional number`
+object {end, error, finished, 5 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/batch \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+end: string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "x",
-      "status": "queued",
-      "version_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "workflow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "trigger_source": "unknown"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get full step output from instance
+<details>
 
-**get** `/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/step`
+<summary>
 
-Retrieves the full, untruncated output for a specific step on a workflow instance. Returns a flat status-shaped JSON body with step `status` ('running' | 'waiting' | 'complete' | 'errored'), `error` (nullable), and `output` (the step value, or null while running/waiting/errored). When the step returned a ReadableStream from step.do, the response is served as 'application/octet-stream' with the raw bytes as the body instead of JSON. A `status='running'` response with non-null `error` indicates the step is currently retrying after a prior attempt failed.
+error: object {message, name }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+message: string
 
-- `workflow_name: string`
+<a href="#">Link to this property</a>
 
-- `instance_id: string`
+name: string
 
-  Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Exact step name from the instance logs response, including the generated counter suffix.
+finished: boolean
 
-- `type: "step" or "waitForEvent"`
+<a href="#">Link to this property</a>
 
-  Step type to disambiguate step.do and waitForEvent entries that share the same name.
+name: string
 
-  - `"step"`
+<a href="#">Link to this property</a>
 
-  - `"waitForEvent"`
+start: string
 
-- `attempt: optional number`
+formatdate-time
 
-  Specific attempt number to retrieve output or error for.
+<a href="#">Link to this property</a>
 
-### Returns
+type: "waitForEvent"
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+event\_type: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+output: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `result: object { error, status, output }`
+<a href="#">Link to this property</a>
 
-  - `error: object { message, name }`
+</details>
 
-    Error details when status='errored'; null otherwise.
+<a href="#">Link to this property</a>
 
-    - `message: string`
+success: boolean
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+<details>
 
-    - `"queued"`
+<summary>
 
-    - `"running"`
+trigger: object {source }
 
-    - `"paused"`
+</summary>
 
-    - `"errored"`
+<details>
 
-    - `"terminated"`
+<summary>
 
-    - `"complete"`
+source: "unknown"or "api"or "binding"or 2 more
 
-    - `"waitingForPause"`
+</summary>
 
-    - `"waiting"`
+One of the following:
 
-    - `"rollingBack"`
+"unknown"
 
-  - `output: optional unknown`
+<a href="#">Link to this property</a>
 
-    Full step output or waitForEvent payload without truncation. Sensitive outputs are returned as '[REDACTED]'. Populated when status='complete'. May be a ReadableStream when the step returned one from step.do; stream outputs are served as application/octet-stream rather than JSON.
+"api"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+"binding"
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+"event"
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+"cron"
 
-  - `cursor: optional string`
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/$INSTANCE_ID/step \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+versionId: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "error": {
-      "message": "message",
-      "name": "name"
-    },
-    "status": "queued",
-    "output": {}
-  },
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
+formatuuid
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Instance List Response
+<details>
 
-- `InstanceListResponse object { id, created_on, ended_on, 6 more }`
+<summary>
 
-  - `id: string`
+schedule: optional object {cron, scheduledTime }
 
-  - `created_on: string`
+</summary>
 
-  - `ended_on: string`
+cron: string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-  - `started_on: string`
+scheduledTime: number
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+<a href="#">Link to this property</a>
 
-    - `"queued"`
+</details>
 
-    - `"running"`
+<a href="#">Link to this property</a>
 
-    - `"paused"`
+</details>
 
-    - `"errored"`
+[Link to this property](#)%20workflows.instances%20%3E%20(model)%20instance_get_response%20%3E%20(schema)>)
 
-    - `"terminated"`
+<details>
 
-    - `"complete"`
+<summary>
 
-    - `"waitingForPause"`
+InstanceCreateResponse object {id, status, version\_id, 2 more }
 
-    - `"waiting"`
+</summary>
 
-    - `"rollingBack"`
+id: string
 
-  - `version_id: string`
+maxLength100
 
-  - `workflow_id: string`
+minLength1
 
-  - `trigger_source: optional "unknown" or "api" or "binding" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"unknown"`
+<details>
 
-    - `"api"`
+<summary>
 
-    - `"binding"`
+status: "queued"or "running"or "paused"or 6 more
 
-    - `"event"`
+</summary>
 
-    - `"cron"`
+One of the following:
 
-### Instance Get Response
+"queued"
 
-- `InstanceGetResponse object { end, error, output, 11 more }`
+<a href="#">Link to this property</a>
 
-  - `end: string`
+"running"
 
-  - `error: object { message, name }`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+"paused"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `output: string or number`
+"errored"
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+"terminated"
 
-  - `params: unknown`
+<a href="#">Link to this property</a>
 
-  - `queued: string`
+"complete"
 
-  - `rollback: object { error, outcome }`
+<a href="#">Link to this property</a>
 
-    - `error: object { message, name }`
+"waitingForPause"
 
-      - `message: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"waiting"
 
-    - `outcome: "complete" or "failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+"rollingBack"
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-  - `start: string`
+</details>
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+<a href="#">Link to this property</a>
 
-    - `"queued"`
+version\_id: string
 
-    - `"running"`
+formatuuid
 
-    - `"paused"`
+<a href="#">Link to this property</a>
 
-    - `"errored"`
+workflow\_id: string
 
-    - `"terminated"`
+formatuuid
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-    - `"waitingForPause"`
+<details>
 
-    - `"waiting"`
+<summary>
 
-    - `"rollingBack"`
+trigger\_source: optional "unknown"or "api"or "binding"or 2 more
 
-  - `step_count: number`
+</summary>
 
-  - `steps: array of object { attempts, config, end, 5 more }  or object { end, error, finished, 3 more }  or object { trigger, type }  or object { end, error, finished, 4 more }`
+One of the following:
 
-    - `object { attempts, config, end, 5 more }`
+"unknown"
 
-      - `attempts: array of object { end, error, start, success }`
+<a href="#">Link to this property</a>
 
-        - `end: string`
+"api"
 
-        - `error: object { message, name }`
+<a href="#">Link to this property</a>
 
-          - `message: string`
+"binding"
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-        - `start: string`
+"event"
 
-        - `success: boolean`
+<a href="#">Link to this property</a>
 
-      - `config: object { retries, timeout, sensitive }`
+"cron"
 
-        - `retries: object { delay, limit, backoff }`
+<a href="#">Link to this property</a>
 
-          - `delay: string or number`
+</details>
 
-            Specifies the delay duration. '[dynamic]' indicates the delay is computed by a user-supplied function.
+<a href="#">Link to this property</a>
 
-            - `string`
+</details>
 
-            - `number`
+[Link to this property](#)%20workflows.instances%20%3E%20(model)%20instance_create_response%20%3E%20(schema)>)
 
-          - `limit: number`
+<details>
 
-          - `backoff: optional "constant" or "linear" or "exponential"`
+<summary>
 
-            - `"constant"`
+InstanceBulkResponse object {id, status, version\_id, 2 more }
 
-            - `"linear"`
+</summary>
 
-            - `"exponential"`
+id: string
 
-        - `timeout: string or number`
+maxLength100
 
-          Specifies the timeout duration.
+minLength1
 
-          - `string`
+<a href="#">Link to this property</a>
 
-          - `number`
+<details>
 
-        - `sensitive: optional "output"`
+<summary>
 
-          When set to 'output', step output is redacted from log and step output responses.
+status: "queued"or "running"or "paused"or 6 more
 
-          - `"output"`
+</summary>
 
-      - `end: string`
+One of the following:
 
-      - `name: string`
+"queued"
 
-      - `output: string`
+<a href="#">Link to this property</a>
 
-      - `start: string`
+"running"
 
-      - `success: boolean`
+<a href="#">Link to this property</a>
 
-      - `type: "step" or "rollback"`
+"paused"
 
-        - `"step"`
+<a href="#">Link to this property</a>
 
-        - `"rollback"`
+"errored"
 
-    - `object { end, error, finished, 3 more }`
+<a href="#">Link to this property</a>
 
-      - `end: string`
+"terminated"
 
-      - `error: object { message, name }`
+<a href="#">Link to this property</a>
 
-        - `message: string`
+"complete"
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-      - `finished: boolean`
+"waitingForPause"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `start: string`
+"waiting"
 
-      - `type: "sleep"`
+<a href="#">Link to this property</a>
 
-        - `"sleep"`
+"rollingBack"
 
-    - `object { trigger, type }`
+<a href="#">Link to this property</a>
 
-      - `trigger: object { source }`
+</details>
 
-        - `source: string`
+<a href="#">Link to this property</a>
 
-      - `type: "termination"`
+version\_id: string
 
-        - `"termination"`
+formatuuid
 
-    - `object { end, error, finished, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `end: string`
+workflow\_id: string
 
-      - `error: object { message, name }`
+formatuuid
 
-        - `message: string`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-      - `finished: boolean`
+<summary>
 
-      - `name: string`
+trigger\_source: optional "unknown"or "api"or "binding"or 2 more
 
-      - `start: string`
+</summary>
 
-      - `type: "waitForEvent"`
+One of the following:
 
-        - `"waitForEvent"`
+"unknown"
 
-      - `output: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+"api"
 
-  - `trigger: object { source }`
+<a href="#">Link to this property</a>
 
-    - `source: "unknown" or "api" or "binding" or 2 more`
+"binding"
 
-      - `"unknown"`
+<a href="#">Link to this property</a>
 
-      - `"api"`
+"event"
 
-      - `"binding"`
+<a href="#">Link to this property</a>
 
-      - `"event"`
+"cron"
 
-      - `"cron"`
+<a href="#">Link to this property</a>
 
-  - `versionId: string`
+</details>
 
-  - `schedule: optional object { cron, scheduledTime }`
+<a href="#">Link to this property</a>
 
-    - `cron: string`
+</details>
 
-    - `scheduledTime: number`
+[Link to this property](#)%20workflows.instances%20%3E%20(model)%20instance_bulk_response%20%3E%20(schema)>)
 
-### Instance Create Response
+<details>
 
-- `InstanceCreateResponse object { id, status, version_id, 2 more }`
+<summary>
 
-  - `id: string`
+InstanceStepResponse object {error, status, event\_type, output }
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+</summary>
 
-    - `"queued"`
+<details>
 
-    - `"running"`
+<summary>
 
-    - `"paused"`
+error: object {message, name }
 
-    - `"errored"`
+Error details when status=‘errored’; null otherwise.
 
-    - `"terminated"`
+</summary>
 
-    - `"complete"`
+message: string
 
-    - `"waitingForPause"`
+<a href="#">Link to this property</a>
 
-    - `"waiting"`
+name: string
 
-    - `"rollingBack"`
+<a href="#">Link to this property</a>
 
-  - `version_id: string`
+</details>
 
-  - `workflow_id: string`
+<a href="#">Link to this property</a>
 
-  - `trigger_source: optional "unknown" or "api" or "binding" or 2 more`
+<details>
 
-    - `"unknown"`
+<summary>
 
-    - `"api"`
+status: "queued"or "running"or "paused"or 6 more
 
-    - `"binding"`
+</summary>
 
-    - `"event"`
+One of the following:
 
-    - `"cron"`
+"queued"
 
-### Instance Bulk Response
+<a href="#">Link to this property</a>
 
-- `InstanceBulkResponse object { id, status, version_id, 2 more }`
+"running"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+"paused"
 
-    - `"queued"`
+<a href="#">Link to this property</a>
 
-    - `"running"`
+"errored"
 
-    - `"paused"`
+<a href="#">Link to this property</a>
 
-    - `"errored"`
+"terminated"
 
-    - `"terminated"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+"complete"
 
-    - `"waitingForPause"`
+<a href="#">Link to this property</a>
 
-    - `"waiting"`
+"waitingForPause"
 
-    - `"rollingBack"`
+<a href="#">Link to this property</a>
 
-  - `version_id: string`
+"waiting"
 
-  - `workflow_id: string`
+<a href="#">Link to this property</a>
 
-  - `trigger_source: optional "unknown" or "api" or "binding" or 2 more`
+"rollingBack"
 
-    - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `"api"`
+</details>
 
-    - `"binding"`
+<a href="#">Link to this property</a>
 
-    - `"event"`
+event\_type: optional string
 
-    - `"cron"`
+The event type the step is waiting on, as supplied to step.waitForEvent. Only present when type=‘waitForEvent’.
 
-### Instance Step Response
+<a href="#">Link to this property</a>
 
-- `InstanceStepResponse object { error, status, output }`
+output: optional unknown
 
-  - `error: object { message, name }`
+Contains the full step output or waitForEvent payload without truncation. Uses ‘\[REDACTED]’ for sensitive outputs. Contains a value when status=‘complete’. May contain a ReadableStream when step.do returns one; the response serves stream outputs as application/octet-stream rather than JSON.
 
-    Error details when status='errored'; null otherwise.
+<a href="#">Link to this property</a>
 
-    - `message: string`
+</details>
 
-    - `name: string`
+[Link to this property](#)%20workflows.instances%20%3E%20(model)%20instance_step_response%20%3E%20(schema)>)
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+#### InstancesStatus
 
-    - `"queued"`
+##### [Change status of instance](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/subresources/status/methods/edit)
 
-    - `"running"`
+PATCH/accounts/{account\_id}/workflows/{workflow\_name}/instances/{instance\_id}/status
 
-    - `"paused"`
+##### ModelsExpand Collapse
 
-    - `"errored"`
+<details>
 
-    - `"terminated"`
+<summary>
 
-    - `"complete"`
+StatusEditResponse object {status, timestamp }
 
-    - `"waitingForPause"`
+</summary>
 
-    - `"waiting"`
+<details>
 
-    - `"rollingBack"`
+<summary>
 
-  - `output: optional unknown`
+status: "queued"or "running"or "paused"or 6 more
 
-    Full step output or waitForEvent payload without truncation. Sensitive outputs are returned as '[REDACTED]'. Populated when status='complete'. May be a ReadableStream when the step returned one from step.do; stream outputs are served as application/octet-stream rather than JSON.
+</summary>
 
-# Status
+One of the following:
 
-## Change status of instance
+"queued"
 
-**patch** `/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/status`
+<a href="#">Link to this property</a>
 
-Changes the execution status of a workflow instance (e.g., pause, resume, terminate).
+"running"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"paused"
 
-- `workflow_name: string`
+<a href="#">Link to this property</a>
 
-- `instance_id: string`
+"errored"
 
-  Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"terminated"
 
-- `body: optional object { status }  or object { status }  or object { status, rollback }  or object { status, from }`
+<a href="#">Link to this property</a>
 
-  - `Status object { status }`
+"complete"
 
-    - `status: "pause"`
+<a href="#">Link to this property</a>
 
-      - `"pause"`
+"waitingForPause"
 
-  - `Status object { status }`
+<a href="#">Link to this property</a>
 
-    - `status: "resume"`
+"waiting"
 
-      - `"resume"`
+<a href="#">Link to this property</a>
 
-  - `object { status, rollback }`
+"rollingBack"
 
-    - `status: "terminate"`
+<a href="#">Link to this property</a>
 
-      - `"terminate"`
+</details>
 
-    - `rollback: optional boolean`
+<a href="#">Link to this property</a>
 
-      Run rollback before terminating.
+timestamp: string
 
-  - `object { status, from }`
+Accepts ISO 8601 with no timezone offsets and in UTC.
 
-    - `status: "restart"`
+formatdate-time
 
-      - `"restart"`
+<a href="#">Link to this property</a>
 
-    - `from: optional object { name, count, type }`
+</details>
 
-      Step to restart from.
+[Link to this property](#)%20workflows.instances.status%20%3E%20(model)%20status_edit_response%20%3E%20(schema)>)
 
-      - `name: string`
+#### InstancesEvents
 
-      - `count: optional number`
+##### [Send event to instance](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/subresources/events/methods/create)
 
-      - `type: optional "do" or "sleep" or "waitForEvent"`
+POST/accounts/{account\_id}/workflows/{workflow\_name}/instances/{instance\_id}/events/{event\_type}
 
-        - `"do"`
+##### ModelsExpand Collapse
 
-        - `"sleep"`
+<details>
 
-        - `"waitForEvent"`
+<summary>
 
-### Returns
+EventCreateResponse object {instanceId, timestamp }
 
-- `errors: array of object { code, message }`
+</summary>
 
-  - `code: number`
+instanceId: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+timestamp: string
 
-  - `code: number`
+Accepts ISO 8601 with no timezone offsets and in UTC.
 
-  - `message: string`
+formatdate-time
 
-- `result: object { status, timestamp }`
+<a href="#">Link to this property</a>
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+</details>
 
-    - `"queued"`
-
-    - `"running"`
-
-    - `"paused"`
-
-    - `"errored"`
-
-    - `"terminated"`
-
-    - `"complete"`
-
-    - `"waitingForPause"`
-
-    - `"waiting"`
-
-    - `"rollingBack"`
-
-  - `timestamp: string`
-
-    Accepts ISO 8601 with no timezone offsets and in UTC.
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { count, per_page, total_count, 3 more }`
-
-  - `count: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-  - `cursor: optional string`
-
-  - `page: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/$INSTANCE_ID/status \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "status": "queued",
-    "timestamp": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
-
-## Domain Types
-
-### Status Edit Response
-
-- `StatusEditResponse object { status, timestamp }`
-
-  - `status: "queued" or "running" or "paused" or 6 more`
-
-    - `"queued"`
-
-    - `"running"`
-
-    - `"paused"`
-
-    - `"errored"`
-
-    - `"terminated"`
-
-    - `"complete"`
-
-    - `"waitingForPause"`
-
-    - `"waiting"`
-
-    - `"rollingBack"`
-
-  - `timestamp: string`
-
-    Accepts ISO 8601 with no timezone offsets and in UTC.
-
-# Events
-
-## Send event to instance
-
-**post** `/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/events/{event_type}`
-
-Sends an event to a running workflow instance to trigger state transitions.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `workflow_name: string`
-
-- `instance_id: string`
-
-  Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.
-
-- `event_type: string`
-
-### Body Parameters
-
-- `body: optional unknown`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `success: true`
-
-  - `true`
-
-- `result: optional unknown`
-
-- `result_info: optional object { count, per_page, total_count, 3 more }`
-
-  - `count: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-  - `cursor: optional string`
-
-  - `page: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/$INSTANCE_ID/events/$EVENT_TYPE \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "success": true,
-  "result": {},
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
-
-## Domain Types
-
-### Event Create Response
-
-- `EventCreateResponse = unknown`
+[Link to this property](#)%20workflows.instances.events%20%3E%20(model)%20event_create_response%20%3E%20(schema)>)

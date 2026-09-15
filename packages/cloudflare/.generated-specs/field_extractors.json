@@ -1,0 +1,392 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.cloudflare.field_extractors#DeleteRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "extractor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Extractor type.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.field_extractors#DeleteResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.field_extractors#Delete": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.field_extractors#DeleteRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.field_extractors#DeleteResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/field_extractors/{extractor}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes all custom extraction rules for an extractor type.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.field_extractors#GetRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "extractor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Extractor type.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.field_extractors#GetResponseRulesItemFieldsItem": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Wirefilter value expression.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Field name.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.field_extractors#GetResponseRulesItemFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.field_extractors#GetResponseRulesItemFieldsItem"
+      }
+    },
+    "com.cloudflare.field_extractors#GetResponseRulesItem": {
+      "type": "structure",
+      "members": {
+        "fields": {
+          "target": "com.cloudflare.field_extractors#GetResponseRulesItemFieldsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable rule identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable rule description."
+          }
+        }
+      }
+    },
+    "com.cloudflare.field_extractors#GetResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.field_extractors#GetResponseRulesItem"
+      }
+    },
+    "com.cloudflare.field_extractors#GetResponse": {
+      "type": "structure",
+      "members": {
+        "extractor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Extractor type.",
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.cloudflare.field_extractors#GetResponseRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.field_extractors#Get": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.field_extractors#GetRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.field_extractors#GetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/field_extractors/{extractor}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves the custom extraction rules configured for a given extractor type.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateRequestRulesItemFieldsItem": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateRequestRulesItemFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.field_extractors#UpdateRequestRulesItemFieldsItem"
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateRequestRulesItem": {
+      "type": "structure",
+      "members": {
+        "fields": {
+          "target": "com.cloudflare.field_extractors#UpdateRequestRulesItemFieldsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.field_extractors#UpdateRequestRulesItem"
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "extractor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Extractor type.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.cloudflare.field_extractors#UpdateRequestRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateResponseRulesItemFieldsItem": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Wirefilter value expression.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Field name.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateResponseRulesItemFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.field_extractors#UpdateResponseRulesItemFieldsItem"
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateResponseRulesItem": {
+      "type": "structure",
+      "members": {
+        "fields": {
+          "target": "com.cloudflare.field_extractors#UpdateResponseRulesItemFieldsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable rule identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable rule description."
+          }
+        }
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.field_extractors#UpdateResponseRulesItem"
+      }
+    },
+    "com.cloudflare.field_extractors#UpdateResponse": {
+      "type": "structure",
+      "members": {
+        "extractor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Extractor type.",
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.cloudflare.field_extractors#UpdateResponseRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.field_extractors#Update": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.field_extractors#UpdateRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.field_extractors#UpdateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/accounts/{account_id}/field_extractors/{extractor}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replaces all custom extraction rules for an extractor type. Omitted rules are deleted.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.field_extractors#FieldExtractors": {
+      "type": "service",
+      "version": "4.0",
+      "operations": [
+        {
+          "target": "com.cloudflare.field_extractors#Delete"
+        },
+        {
+          "target": "com.cloudflare.field_extractors#Get"
+        },
+        {
+          "target": "com.cloudflare.field_extractors#Update"
+        }
+      ],
+      "traits": {
+        "com.cloudflare.protocols#v4Json": {},
+        "smithy.api#title": "Cloudflare FieldExtractors",
+        "smithy.api#documentation": "Cloudflare API — field_extractors resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
+      }
+    }
+  }
+}

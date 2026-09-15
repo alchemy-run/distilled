@@ -1,328 +1,157 @@
+---
+title: Locks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Locks
 
-## Get Bucket Lock Rules
+##### [Get Bucket Lock Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/locks/methods/get)
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/lock`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/lock
 
-Get lock rules for a bucket.
+##### [Put Bucket Lock Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/locks/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/lock
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account ID.
+<details>
 
-- `bucket_name: string`
+<summary>
 
-  Name of the bucket.
+LockGetResponse object {rules }
 
-### Header Parameters
+</summary>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<summary>
 
-  - `"default"`
+rules: optional array of object {id, condition, enabled, prefix }
 
-  - `"eu"`
+</summary>
 
-  - `"fedramp"`
+id: string
 
-### Returns
+Unique identifier for this rule.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+condition: object {maxAgeSeconds, type } or object {date, type } or object {type }
 
-  - `source: optional object { pointer }`
+Condition to apply a lock rule to an object for how long in seconds.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of string`
+One of the following:
 
-- `result: object { rules }`
+<details>
 
-  - `rules: optional array of object { id, condition, enabled, prefix }`
+<summary>
 
-    - `id: string`
+R2LockRuleAgeCondition object {maxAgeSeconds, type }
 
-      Unique identifier for this rule.
+Condition to apply a lock rule to an object for how long in seconds.
 
-    - `condition: object { maxAgeSeconds, type }  or object { date, type }  or object { type }`
+</summary>
 
-      Condition to apply a lock rule to an object for how long in seconds.
+maxAgeSeconds: number
 
-      - `R2LockRuleAgeCondition object { maxAgeSeconds, type }`
+<a href="#">Link to this property</a>
 
-        Condition to apply a lock rule to an object for how long in seconds.
+type: "Age"
 
-        - `maxAgeSeconds: number`
+<a href="#">Link to this property</a>
 
-        - `type: "Age"`
+</details>
 
-          - `"Age"`
+<a href="#">Link to this property</a>
 
-      - `R2LockRuleDateCondition object { date, type }`
+<details>
 
-        Condition to apply a lock rule to an object until a specific date.
+<summary>
 
-        - `date: string`
+R2LockRuleDateCondition object {date, type }
 
-        - `type: "Date"`
+Condition to apply a lock rule to an object until a specific date.
 
-          - `"Date"`
+</summary>
 
-      - `R2LockRuleIndefiniteCondition object { type }`
+date: string
 
-        Condition to apply a lock rule indefinitely.
+formatdate-time
 
-        - `type: "Indefinite"`
+<a href="#">Link to this property</a>
 
-          - `"Indefinite"`
+type: "Date"
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Whether or not this rule is in effect.
+</details>
 
-    - `prefix: optional string`
+<a href="#">Link to this property</a>
 
-      Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+R2LockRuleIndefiniteCondition object {type }
 
-  - `true`
+Condition to apply a lock rule indefinitely.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/lock \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+type: "Indefinite"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "rules": [
-      {
-        "id": "Lock all objects for 24 hours",
-        "condition": {
-          "maxAgeSeconds": 100,
-          "type": "Age"
-        },
-        "enabled": true,
-        "prefix": "prefix"
-      }
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Put Bucket Lock Rules
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/lock`
+</details>
 
-Set lock rules for a bucket.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+enabled: boolean
 
-- `account_id: string`
+Whether or not this rule is in effect.
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+prefix: optional string
 
-  Name of the bucket.
+Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+</details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<a href="#">Link to this property</a>
 
-  - `"default"`
+</details>
 
-  - `"eu"`
+[Link to this property](#)%20r2.buckets.locks%20%3E%20(model)%20lock_get_response%20%3E%20(schema)>)
 
-  - `"fedramp"`
+LockUpdateResponse = unknown
 
-### Body Parameters
-
-- `rules: optional array of object { id, condition, enabled, prefix }`
-
-  - `id: string`
-
-    Unique identifier for this rule.
-
-  - `condition: object { maxAgeSeconds, type }  or object { date, type }  or object { type }`
-
-    Condition to apply a lock rule to an object for how long in seconds.
-
-    - `R2LockRuleAgeCondition object { maxAgeSeconds, type }`
-
-      Condition to apply a lock rule to an object for how long in seconds.
-
-      - `maxAgeSeconds: number`
-
-      - `type: "Age"`
-
-        - `"Age"`
-
-    - `R2LockRuleDateCondition object { date, type }`
-
-      Condition to apply a lock rule to an object until a specific date.
-
-      - `date: string`
-
-      - `type: "Date"`
-
-        - `"Date"`
-
-    - `R2LockRuleIndefiniteCondition object { type }`
-
-      Condition to apply a lock rule indefinitely.
-
-      - `type: "Indefinite"`
-
-        - `"Indefinite"`
-
-  - `enabled: boolean`
-
-    Whether or not this rule is in effect.
-
-  - `prefix: optional string`
-
-    Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/lock \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Lock Get Response
-
-- `LockGetResponse object { rules }`
-
-  - `rules: optional array of object { id, condition, enabled, prefix }`
-
-    - `id: string`
-
-      Unique identifier for this rule.
-
-    - `condition: object { maxAgeSeconds, type }  or object { date, type }  or object { type }`
-
-      Condition to apply a lock rule to an object for how long in seconds.
-
-      - `R2LockRuleAgeCondition object { maxAgeSeconds, type }`
-
-        Condition to apply a lock rule to an object for how long in seconds.
-
-        - `maxAgeSeconds: number`
-
-        - `type: "Age"`
-
-          - `"Age"`
-
-      - `R2LockRuleDateCondition object { date, type }`
-
-        Condition to apply a lock rule to an object until a specific date.
-
-        - `date: string`
-
-        - `type: "Date"`
-
-          - `"Date"`
-
-      - `R2LockRuleIndefiniteCondition object { type }`
-
-        Condition to apply a lock rule indefinitely.
-
-        - `type: "Indefinite"`
-
-          - `"Indefinite"`
-
-    - `enabled: boolean`
-
-      Whether or not this rule is in effect.
-
-    - `prefix: optional string`
-
-      Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads.
-
-### Lock Update Response
-
-- `LockUpdateResponse = unknown`
+[Link to this property](#)%20r2.buckets.locks%20%3E%20(model)%20lock_update_response%20%3E%20(schema)>)

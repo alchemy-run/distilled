@@ -1,110 +1,306 @@
-## Create hostname route
+---
+title: Create hostname route
+---
 
-**post** `/accounts/{account_id}/zerotrust/routes/hostname`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks)
+
+[Hostname Routes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create hostname route
+
+POST/accounts/{account\_id}/zerotrust/routes/hostname
 
 Create a hostname route.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `comment: optional string`
 
-  An optional description of the hostname route.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `hostname: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The hostname of the route.
+</details>
 
-- `tunnel_id: optional string`
+<details>
 
-  UUID of the tunnel.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Cloudflare One Networks Write``Cloudflare Tunnel Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Cloudflare account ID
 
-- `result: HostnameRoute`
+maxLength32
 
-  - `id: optional string`
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    The hostname route ID.
+##### Body ParametersJSONExpand Collapse
 
-  - `comment: optional string`
+comment: optional string
 
-    An optional description of the hostname route.
+An optional description of the hostname route.
 
-  - `created_at: optional string`
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20comment%20%3E%20(schema)>)
 
-    Timestamp of when the resource was created.
+hostname: optional string
 
-  - `deleted_at: optional string`
+The hostname of the route.
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20hostname%20%3E%20(schema)>)
 
-  - `hostname: optional string`
+tunnel\_id: optional string
 
-    The hostname of the route.
+UUID of the tunnel.
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+formatuuid
 
-    The type of tunnel.
+maxLength36
 
-    - `"cfd_tunnel"`
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20tunnel_id%20%3E%20(schema)>)
 
-    - `"warp_connector"`
+##### ReturnsExpand Collapse
 
-    - `"warp"`
+<details>
 
-    - `"magic"`
+<summary>
 
-    - `"ip_sec"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"gre"`
+</summary>
 
-    - `"cni"`
+code: number
 
-  - `tunnel_id: optional string`
+minimum1000
 
-    UUID of the tunnel.
+<a href="#">Link to this property</a>
 
-  - `tunnel_name: optional string`
+message: string
 
-    A user-friendly name for a tunnel.
+<a href="#">Link to this property</a>
 
-- `success: true`
+documentation\_url: optional string
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.networks.hostname_routes%20%3E%20(model)%20hostname_route%20%3E%20(schema)">HostnameRoute</a> { id, comment, created\_at, 5 more }
+
+</summary>
+
+id: optional string
+
+The hostname route ID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+An optional description of the hostname route.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+Timestamp of when the resource was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleted\_at: optional string
+
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+hostname: optional string
+
+The hostname of the route.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
+
+The type of tunnel.
+
+</summary>
+
+One of the following:
+
+"cfd\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"warp\_connector"
+
+<a href="#">Link to this property</a>
+
+"warp"
+
+<a href="#">Link to this property</a>
+
+"magic"
+
+<a href="#">Link to this property</a>
+
+"ip\_sec"
+
+<a href="#">Link to this property</a>
+
+"gre"
+
+<a href="#">Link to this property</a>
+
+"cni"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tunnel\_id: optional string
+
+UUID of the tunnel.
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+tunnel\_name: optional string
+
+A user-friendly name for a tunnel.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create hostname route
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -115,9 +311,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -143,7 +339,47 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/
     "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
     "comment": "example comment",
     "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
+    "hostname": "office-1.local",
+    "tun_type": "cfd_tunnel",
+    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "tunnel_name": "api-tunnel"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "comment": "example comment",
+    "created_at": "2021-01-25T18:22:34.317854Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
     "hostname": "office-1.local",
     "tun_type": "cfd_tunnel",
     "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",

@@ -1,363 +1,135 @@
+---
+title: Metadata Index
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Vectorize](https://developers.cloudflare.com/api/resources/vectorize)
+
+[Indexes](https://developers.cloudflare.com/api/resources/vectorize/subresources/indexes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Metadata Index
 
-## List Metadata Indexes
+##### [List Metadata Indexes](https://developers.cloudflare.com/api/resources/vectorize/subresources/indexes/subresources/metadata_index/methods/list)
 
-**get** `/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/list`
+GET/accounts/{account\_id}/vectorize/v2/indexes/{index\_name}/metadata\_index/list
 
-List Metadata Indexes for the specified Vectorize Index.
+##### [Create Metadata Index](https://developers.cloudflare.com/api/resources/vectorize/subresources/indexes/subresources/metadata_index/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/vectorize/v2/indexes/{index\_name}/metadata\_index/create
 
-- `account_id: string`
+##### [Delete Metadata Index](https://developers.cloudflare.com/api/resources/vectorize/subresources/indexes/subresources/metadata_index/methods/delete)
 
-  Identifier
+POST/accounts/{account\_id}/vectorize/v2/indexes/{index\_name}/metadata\_index/delete
 
-- `index_name: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+MetadataIndexListResponse object {metadataIndexes }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+metadataIndexes: optional array of object {indexType, propertyName }
 
-- `messages: array of ResponseInfo`
+Array of indexed metadata properties.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+indexType: optional "string"or "number"or "boolean"
 
-- `result: object { metadataIndexes }`
+Specifies the type of indexed metadata property.
 
-  - `metadataIndexes: optional array of object { indexType, propertyName }`
+</summary>
 
-    Array of indexed metadata properties.
+One of the following:
 
-    - `indexType: optional "string" or "number" or "boolean"`
+"string"
 
-      Specifies the type of indexed metadata property.
+<a href="#">Link to this property</a>
 
-      - `"string"`
+"number"
 
-      - `"number"`
+<a href="#">Link to this property</a>
 
-      - `"boolean"`
+"boolean"
 
-    - `propertyName: optional string`
+<a href="#">Link to this property</a>
 
-      Specifies the indexed metadata property.
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+propertyName: optional string
 
-  - `true`
+Specifies the indexed metadata property.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/vectorize/v2/indexes/$INDEX_NAME/metadata_index/list \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "metadataIndexes": [
-      {
-        "indexType": "number",
-        "propertyName": "some-num-prop"
-      },
-      {
-        "indexType": "string",
-        "propertyName": "some-str-prop"
-      },
-      {
-        "indexType": "boolean",
-        "propertyName": "some-bool-prop"
-      }
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Create Metadata Index
+[Link to this property](#)%20vectorize.indexes.metadata_index%20%3E%20(model)%20metadata_index_list_response%20%3E%20(schema)>)
 
-**post** `/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/create`
+<details>
 
-Enable metadata filtering based on metadata property. Limited to 10 properties.
+<summary>
 
-### Path Parameters
+MetadataIndexCreateResponse object {mutationId }
 
-- `account_id: string`
+</summary>
 
-  Identifier
+mutationId: optional string
 
-- `index_name: string`
+The unique identifier for the async mutation operation containing the changeset.
 
-### Body Parameters
+maxLength36
 
-- `indexType: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-  Specifies the type of metadata property to index.
+</details>
 
-  - `"string"`
+[Link to this property](#)%20vectorize.indexes.metadata_index%20%3E%20(model)%20metadata_index_create_response%20%3E%20(schema)>)
 
-  - `"number"`
+<details>
 
-  - `"boolean"`
+<summary>
 
-- `propertyName: string`
+MetadataIndexDeleteResponse object {mutationId }
 
-  Specifies the metadata property to index.
+</summary>
 
-### Returns
+mutationId: optional string
 
-- `errors: array of ResponseInfo`
+The unique identifier for the async mutation operation containing the changeset.
 
-  - `code: number`
+maxLength36
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { mutationId }`
-
-  - `mutationId: optional string`
-
-    The unique identifier for the async mutation operation containing the changeset.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/vectorize/v2/indexes/$INDEX_NAME/metadata_index/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "indexType": "string",
-          "propertyName": "random_metadata_property"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "mutationId": "0000aaaa-11bb-22cc-33dd-444444eeeeee"
-  },
-  "success": true
-}
-```
-
-## Delete Metadata Index
-
-**post** `/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/delete`
-
-Allow Vectorize to delete the specified metadata index.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `index_name: string`
-
-### Body Parameters
-
-- `propertyName: string`
-
-  Specifies the metadata property for which the index must be deleted.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { mutationId }`
-
-  - `mutationId: optional string`
-
-    The unique identifier for the async mutation operation containing the changeset.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/vectorize/v2/indexes/$INDEX_NAME/metadata_index/delete \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "propertyName": "random_metadata_property"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "mutationId": "0000aaaa-11bb-22cc-33dd-444444eeeeee"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Metadata Index List Response
-
-- `MetadataIndexListResponse object { metadataIndexes }`
-
-  - `metadataIndexes: optional array of object { indexType, propertyName }`
-
-    Array of indexed metadata properties.
-
-    - `indexType: optional "string" or "number" or "boolean"`
-
-      Specifies the type of indexed metadata property.
-
-      - `"string"`
-
-      - `"number"`
-
-      - `"boolean"`
-
-    - `propertyName: optional string`
-
-      Specifies the indexed metadata property.
-
-### Metadata Index Create Response
-
-- `MetadataIndexCreateResponse object { mutationId }`
-
-  - `mutationId: optional string`
-
-    The unique identifier for the async mutation operation containing the changeset.
-
-### Metadata Index Delete Response
-
-- `MetadataIndexDeleteResponse object { mutationId }`
-
-  - `mutationId: optional string`
-
-    The unique identifier for the async mutation operation containing the changeset.
+[Link to this property](#)%20vectorize.indexes.metadata_index%20%3E%20(model)%20metadata_index_delete_response%20%3E%20(schema)>)

@@ -1,135 +1,345 @@
-## Get PayGo Account Billable Usage (Version 1, Alpha)
+---
+title: Get Account Billable Usage (Version 1, Alpha)
+---
 
-**get** `/accounts/{account_id}/paygo-usage`
+[Skip to content](#_top)
 
-Returns billable usage data for PayGo (self-serve) accounts.
-When no query parameters are provided, returns usage for the current
-billing period.
-This endpoint is currently in alpha and access is restricted to select
-accounts. While in alpha, the endpoint may get breaking changes.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Billing](https://developers.cloudflare.com/api/resources/billing)
 
-- `account_id: string`
+[Usage](https://developers.cloudflare.com/api/resources/billing/subresources/usage)
 
-  Represents a Cloudflare resource identifier tag.
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `from: optional string`
+---
 
-  Start date for the usage query (ISO 8601).
+**Copy Markdown****View as Markdown**
 
-- `to: optional string`
+# Get Account Billable Usage (Version 1, Alpha)
 
-  End date for the usage query (ISO 8601).
+Deprecated: Use \`get\_account\_usage\_v1\` instead.
 
-### Returns
+GET/accounts/{account\_id}/billable-usage
 
-- `errors: array of object { message, code }`
+Returns billable usage data for the account. When no query parameters are provided, returns usage for the current billing period.
 
-  Contains error details if the request failed.
+##### Security
 
-  - `message: string`
+<details>
 
-    Describes the error or notice.
+<summary>API Token</summary>
 
-  - `code: optional number`
 
-    Identifies the error or notice type.
 
-- `messages: array of object { message, code }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Contains informational notices about the response.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `message: string`
+</details>
 
-    Describes the error or notice.
+<details>
 
-  - `code: optional number`
+<summary>API Email + API Key</summary>
 
-    Identifies the error or notice type.
 
-- `result: array of object { BillingCurrency, BillingPeriodStart, ChargePeriodEnd, 12 more }`
 
-  Contains the array of billable usage records.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `BillingCurrency: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Specifies the billing currency code (ISO 4217).
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `BillingPeriodStart: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Indicates the start of the billing period.
+</details>
 
-  - `ChargePeriodEnd: string`
+##### P ath ParametersExpand Collapse
 
-    Indicates the end of the charge period.
+account\_id: string
 
-  - `ChargePeriodStart: string`
+Represents a Cloudflare resource identifier tag.
 
-    Indicates the start of the charge period.
+maxLength32
 
-  - `ConsumedQuantity: number`
+[Link to this property](#)%20billing.usage%20%3E%20(method)%20paygo%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    Specifies the quantity consumed during this charge period.
+##### Q uery ParametersExpand Collapse
 
-  - `ConsumedUnit: string`
+from: optional string
 
-    A display name for the unit of measurement used for the product (for example, "GB-months", "GB-seconds"). May be empty when the unit is implicit in the service name.
+Start date for the usage query (ISO 8601). The provided time range must include the subscription billing cycle anchor day, otherwise no usage data is returned. Use the info endpoint to retrieve the subscription anchor day.
 
-  - `ContractedCost: number`
+formatdate
 
-    Specifies the cost for this charge period in the billing currency.
+[Link to this property](#)%20billing.usage%20%3E%20(method)%20paygo%20%3E%20(params)%20default%20%3E%20(param)%20from%20%3E%20(schema)>)
 
-  - `CumulatedContractedCost: number`
+to: optional string
 
-    Specifies the cumulated cost for the billing period in the billing currency.
+End date for the usage query (ISO 8601).
 
-  - `CumulatedPricingQuantity: number`
+formatdate
 
-    Specifies the cumulated pricing quantity for the billing period.
+[Link to this property](#)%20billing.usage%20%3E%20(method)%20paygo%20%3E%20(params)%20default%20%3E%20(param)%20to%20%3E%20(schema)>)
 
-  - `PricingQuantity: number`
+##### ReturnsExpand Collapse
 
-    Specifies the pricing quantity for this charge period.
+<details>
 
-  - `ServiceName: string`
+<summary>
 
-    Identifies the Cloudflare service.
+errors: array of object {message, code }
 
-  - `ServiceFamilyName: optional string`
+Contains error details if the request failed.
 
-    Identifies the product family for the Cloudflare service.
+</summary>
 
-  - `SubscriptionId: optional string`
+message: string
 
-    The identifier for the Cloudflare subscription.
+Describes the error or notice.
 
-  - `ZoneId: optional string`
+<a href="#">Link to this property</a>
 
-    The identifier for the Cloudflare zone (zone tag).
+code: optional number
 
-  - `ZoneName: optional string`
+Identifies the error or notice type.
 
-    The display name of the Cloudflare zone.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Indicates whether the API call was successful.
+[Link to this property](#)%20billing.usage%20%3E%20(method)%20paygo%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/paygo-usage \
+messages: array of object {message, code }
+
+Contains informational notices about the response.
+
+</summary>
+
+message: string
+
+Describes the error or notice.
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+Identifies the error or notice type.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.usage%20%3E%20(method)%20paygo%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {BilledCost, BillingAccountId, BillingAccountName, 24 more }
+
+Contains the array of billable usage records.
+
+</summary>
+
+BilledCost: number
+
+The amount invoiced for this charge. PayGo is billed directly by Cloudflare, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+BillingAccountId: string
+
+The identifier of the account the charge is billed to (account tag).
+
+<a href="#">Link to this property</a>
+
+BillingAccountName: string
+
+The display name of the billing account. Null when the name could not be resolved.
+
+<a href="#">Link to this property</a>
+
+BillingCurrency: string
+
+Specifies the billing currency code (ISO 4217).
+
+<a href="#">Link to this property</a>
+
+BillingPeriodStart: string
+
+Indicates the start of the billing period. There is no <code>BillingPeriodEnd</code> counterpart; see the known gaps described on this schema.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargeCategory: "Usage"
+
+Describes the nature of the charge. Always “Usage” for this endpoint, which only returns metered usage.
+
+<a href="#">Link to this property</a>
+
+ChargeClass: string
+
+Indicates whether the row corrects a previously invoiced billing period. Always null for this endpoint, which does not return corrections.
+
+<a href="#">Link to this property</a>
+
+ChargeDescription: string
+
+A human-readable summary of the charge.
+
+<a href="#">Link to this property</a>
+
+ChargePeriodEnd: string
+
+Indicates the end of the charge period.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ChargePeriodStart: string
+
+Indicates the start of the charge period.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ConsumedQuantity: number
+
+Specifies the quantity consumed during this charge period.
+
+<a href="#">Link to this property</a>
+
+ConsumedUnit: string
+
+A display name for the unit of measurement used for the product (for example, “GB-months”, “GB-seconds”). May be empty when the unit is implicit in the service name.
+
+<a href="#">Link to this property</a>
+
+ContractedCost: number
+
+Specifies the cost for this charge period in the billing currency.
+
+<a href="#">Link to this property</a>
+
+CumulatedContractedCost: number
+
+Specifies the cumulated cost for the billing period in the billing currency.
+
+<a href="#">Link to this property</a>
+
+CumulatedPricingQuantity: number
+
+Specifies the portion of usage that is actually subject to a unit price.
+
+<a href="#">Link to this property</a>
+
+EffectiveCost: number
+
+The amortized cost of the charge. PayGo has no upfront commitments, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+HostProviderName: string
+
+The provider that hosts the infrastructure or platform the service runs on.
+
+<a href="#">Link to this property</a>
+
+InvoiceIssuerName: string
+
+The entity that issues the invoice for this charge.
+
+<a href="#">Link to this property</a>
+
+ListCost: number
+
+The cost at published list prices, before any discount. PayGo has no commitment discounts, so this equals ContractedCost.
+
+<a href="#">Link to this property</a>
+
+PricingQuantity: number
+
+Specifies the pricing quantity for this charge period.
+
+<a href="#">Link to this property</a>
+
+PricingUnit: string
+
+The unit that PricingQuantity is expressed in. Unlike ConsumedUnit this is never empty; it falls back to “Count” when the service has no explicit unit.
+
+<a href="#">Link to this property</a>
+
+ServiceName: string
+
+Identifies the Cloudflare service.
+
+<a href="#">Link to this property</a>
+
+ServiceProviderName: string
+
+The provider of the purchased service.
+
+<a href="#">Link to this property</a>
+
+ServiceFamilyName: optional string
+
+Identifies the product family for the Cloudflare service.
+
+<a href="#">Link to this property</a>
+
+SubscriptionId: optional string
+
+The identifier for the Cloudflare subscription.
+
+<a href="#">Link to this property</a>
+
+ZoneId: optional string
+
+The identifier for the Cloudflare zone (zone tag).
+
+<a href="#">Link to this property</a>
+
+ZoneName: optional string
+
+The display name of the Cloudflare zone.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20billing.usage%20%3E%20(method)%20paygo%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20billing.usage%20%3E%20(method)%20paygo%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get Account Billable Usage (Version 1, Alpha)
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
+curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/billable-usage \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -145,8 +355,14 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/paygo-usage \
   ],
   "result": [
     {
+      "BilledCost": 0.75,
+      "BillingAccountId": "023e105f4ecef8ad9ca31a8372d0c353",
+      "BillingAccountName": "Example Account",
       "BillingCurrency": "USD",
       "BillingPeriodStart": "2025-02-01T00:00:00Z",
+      "ChargeCategory": "Usage",
+      "ChargeClass": "ChargeClass",
+      "ChargeDescription": "Workers Standard usage measured in Count",
       "ChargePeriodEnd": "2025-02-02T00:00:00Z",
       "ChargePeriodStart": "2025-02-01T00:00:00Z",
       "ConsumedQuantity": 150000,
@@ -154,8 +370,67 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/paygo-usage \
       "ContractedCost": 0.75,
       "CumulatedContractedCost": 2.25,
       "CumulatedPricingQuantity": 4500000,
+      "EffectiveCost": 0.75,
+      "HostProviderName": "Cloudflare, Inc.",
+      "InvoiceIssuerName": "Cloudflare, Inc.",
+      "ListCost": 0.75,
       "PricingQuantity": 150000,
+      "PricingUnit": "Count",
       "ServiceName": "Workers Standard",
+      "ServiceProviderName": "Cloudflare, Inc.",
+      "ServiceFamilyName": "Workers",
+      "SubscriptionId": "3F3CD4CQ6N7FXO7IK6NVFJBOYA",
+      "ZoneId": "023e105f4ecef8ad9ca31a8372d0c353",
+      "ZoneName": "example.com"
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "message": "message",
+      "code": 0
+    }
+  ],
+  "messages": [
+    {
+      "message": "message",
+      "code": 0
+    }
+  ],
+  "result": [
+    {
+      "BilledCost": 0.75,
+      "BillingAccountId": "023e105f4ecef8ad9ca31a8372d0c353",
+      "BillingAccountName": "Example Account",
+      "BillingCurrency": "USD",
+      "BillingPeriodStart": "2025-02-01T00:00:00Z",
+      "ChargeCategory": "Usage",
+      "ChargeClass": "ChargeClass",
+      "ChargeDescription": "Workers Standard usage measured in Count",
+      "ChargePeriodEnd": "2025-02-02T00:00:00Z",
+      "ChargePeriodStart": "2025-02-01T00:00:00Z",
+      "ConsumedQuantity": 150000,
+      "ConsumedUnit": "GB-months",
+      "ContractedCost": 0.75,
+      "CumulatedContractedCost": 2.25,
+      "CumulatedPricingQuantity": 4500000,
+      "EffectiveCost": 0.75,
+      "HostProviderName": "Cloudflare, Inc.",
+      "InvoiceIssuerName": "Cloudflare, Inc.",
+      "ListCost": 0.75,
+      "PricingQuantity": 150000,
+      "PricingUnit": "Count",
+      "ServiceName": "Workers Standard",
+      "ServiceProviderName": "Cloudflare, Inc.",
       "ServiceFamilyName": "Workers",
       "SubscriptionId": "3F3CD4CQ6N7FXO7IK6NVFJBOYA",
       "ZoneId": "023e105f4ecef8ad9ca31a8372d0c353",

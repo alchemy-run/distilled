@@ -1,178 +1,462 @@
-## Update a User Agent Blocking rule
+---
+title: Update a User Agent Blocking rule
+---
 
-**put** `/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[UA Rules](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a User Agent Blocking rule
+
+PUT/zones/{zone\_id}/firewall/ua\_rules/{ua\_rule\_id}
 
 Updates an existing User Agent Blocking rule.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>API Token</summary>
 
-- `ua_rule_id: string`
 
-  The unique identifier of the User Agent Blocking rule.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The rule configuration.
+</details>
 
-  - `AccessRuleIPConfiguration object { target, value }`
+<details>
 
-    - `target: optional "ip"`
+<summary>API Email + API Key</summary>
 
-      The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
 
-      - `"ip"`
 
-    - `value: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      The IP address to match. This address will be compared to the IP address of incoming requests.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `IPV6Configuration object { target, value }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `target: optional "ip6"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+</details>
 
-      - `"ip6"`
+##### Accepted Permissions (at least one required)
 
-    - `value: optional string`
+`Firewall Services Write`
 
-      The IPv6 address to match.
+##### P ath ParametersExpand Collapse
 
-  - `AccessRuleCIDRConfiguration object { target, value }`
+zone\_id: string
 
-    - `target: optional "ip_range"`
+Defines an identifier.
 
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+maxLength32
 
-      - `"ip_range"`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `value: optional string`
+ua\_rule\_id: string
 
-      The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+The unique identifier of the User Agent Blocking rule.
 
-  - `ASNConfiguration object { target, value }`
+maxLength32
 
-    - `target: optional "asn"`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20ua_rule_id%20%3E%20(schema)>)
 
-      The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+##### Body ParametersJSONExpand Collapse
 
-      - `"asn"`
+<details>
 
-    - `value: optional string`
+<summary>
 
-      The AS number to match.
+configuration: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_ip_configuration%20%3E%20(schema)">AccessRuleIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20ipv6_configuration%20%3E%20(schema)">IPV6Configuration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_cidr_configuration%20%3E%20(schema)">AccessRuleCIDRConfiguration</a> { target, value } or 2 more
 
-  - `CountryConfiguration object { target, value }`
+The rule configuration.
 
-    - `target: optional "country"`
+</summary>
 
-      The configuration target. You must set the target to `country` when specifying a country code in the rule.
+One of the following:
 
-      - `"country"`
+<details>
 
-    - `value: optional string`
+<summary>
 
-      The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+AccessRuleIPConfiguration object {target, value }
 
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
+</summary>
 
-  The action to apply to a matched request.
+target: optional "ip"
 
-  - `"block"`
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the rule.
 
-  - `"challenge"`
+<a href="#">Link to this property</a>
 
-  - `"whitelist"`
+value: optional string
 
-  - `"js_challenge"`
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-  - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+</details>
 
-  An informative summary of the rule. This value is sanitized and any tags will be removed.
+<a href="#">Link to this property</a>
 
-- `paused: optional boolean`
+<details>
 
-  When true, indicates that the rule is currently paused.
+<summary>
 
-### Returns
+IPV6Configuration object {target, value }
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+target: optional "ip6"
 
-  - `message: string`
+The configuration target. You must set the target to <code>ip6</code> when specifying an IPv6 address in the rule.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+value: optional string
 
-    - `pointer: optional string`
+The IPv6 address to match.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `result: object { id, configuration, description, 2 more }`
+AccessRuleCIDRConfiguration object {target, value }
 
-  - `id: optional string`
+</summary>
 
-    The unique identifier of the User Agent Blocking rule.
+target: optional "ip\_range"
 
-  - `configuration: optional object { target, value }`
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the rule.
 
-    The configuration object for the current rule.
+<a href="#">Link to this property</a>
 
-    - `target: optional string`
+value: optional string
 
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code> for IPv4 ranges, and prefix lengths <code>/32</code>, <code>/48</code>, and <code>/64</code> for IPv6 ranges.
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the rule.
+<details>
 
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
+<summary>
 
-    The action to apply to a matched request.
+ASNConfiguration object {target, value }
 
-    - `"block"`
+</summary>
 
-    - `"challenge"`
+target: optional "asn"
 
-    - `"js_challenge"`
+The configuration target. You must set the target to <code>asn</code> when specifying an Autonomous System Number (ASN) in the rule.
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-  - `paused: optional boolean`
+value: optional string
 
-    When true, indicates that the rule is currently paused.
+The AS number to match.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+CountryConfiguration object {target, value }
+
+</summary>
+
+target: optional "country"
+
+The configuration target. You must set the target to <code>country</code> when specifying a country code in the rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to <a href="https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country">IP Access rules: Parameters</a>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20configuration%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+mode: "block"or "challenge"or "whitelist"or 2 more
+
+The action to apply to a matched request.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"whitelist"
+
+<a href="#">Link to this property</a>
+
+"js\_challenge"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20mode%20%3E%20(schema)>)
+
+description: optional string
+
+An informative summary of the rule. This value is sanitized and any tags will be removed.
+
+maxLength1024
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+paused: optional boolean
+
+When true, indicates that the rule is currently paused.
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20paused%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, configuration, description, 2 more }
+
+</summary>
+
+id: optional string
+
+The unique identifier of the User Agent Blocking rule.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+configuration: optional object {target, value }
+
+The configuration object for the current rule.
+
+</summary>
+
+target: optional string
+
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An informative summary of the rule.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
+
+The action to apply to a matched request.
+
+maxLength12
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"js\_challenge"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+When true, indicates that the rule is currently paused.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update a User Agent Blocking rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules/$UA_RULE_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -184,9 +468,49 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules/$UA_R
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "372e67954025e0ba6aaa6d586b9e0b59",
+    "configuration": {
+      "target": "ua",
+      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
+    },
+    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
+    "mode": "js_challenge",
+    "paused": false
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

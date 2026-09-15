@@ -1,1665 +1,1169 @@
+---
+title: Email
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Email
 
-# Account Mapping
+#### EmailAccount Mapping
 
-## Get mapping
+##### [Get mapping](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/account_mapping/methods/get)
 
-**get** `/accounts/{account_id}/dlp/email/account_mapping`
+GET/accounts/{account\_id}/dlp/email/account\_mapping
 
-Retrieves the email provider mapping configuration for DLP email scanning.
+##### [Create mapping](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/account_mapping/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/dlp/email/account\_mapping
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+AccountMappingGetResponse object {addin\_identifier\_token, auth\_requirements }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+addin\_identifier\_token: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+auth\_requirements: object {allowed\_microsoft\_organizations, type } or object {type }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+object {allowed\_microsoft\_organizations, type }
 
-  - `true`
+</summary>
 
-- `result: optional object { addin_identifier_token, auth_requirements }`
+allowed\_microsoft\_organizations: array of string
 
-  - `addin_identifier_token: string`
+<a href="#">Link to this property</a>
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+type: "Org"
 
-    - `object { allowed_microsoft_organizations, type }`
+<a href="#">Link to this property</a>
 
-      - `allowed_microsoft_organizations: array of string`
+</details>
 
-      - `type: "Org"`
+<a href="#">Link to this property</a>
 
-        - `"Org"`
+<details>
 
-    - `Type object { type }`
+<summary>
 
-      - `type: "NoAuth"`
+Type object {type }
 
-        - `"NoAuth"`
+</summary>
 
-### Example
+type: "NoAuth"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/account_mapping \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "addin_identifier_token": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "auth_requirements": {
-      "allowed_microsoft_organizations": [
-        "string"
-      ],
-      "type": "Org"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create mapping
+</details>
 
-**post** `/accounts/{account_id}/dlp/email/account_mapping`
+<a href="#">Link to this property</a>
 
-Creates a mapping between a Cloudflare account and an email provider for DLP email scanning integration.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.dlp.email.account_mapping%20%3E%20(model)%20account_mapping_get_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+AccountMappingCreateResponse object {addin\_identifier\_token, auth\_requirements }
 
-  - `object { allowed_microsoft_organizations, type }`
+</summary>
 
-    - `allowed_microsoft_organizations: array of string`
+addin\_identifier\_token: string
 
-    - `type: "Org"`
+formatuuid
 
-      - `"Org"`
+<a href="#">Link to this property</a>
 
-  - `Type object { type }`
+<details>
 
-    - `type: "NoAuth"`
+<summary>
 
-      - `"NoAuth"`
+auth\_requirements: object {allowed\_microsoft\_organizations, type } or object {type }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+object {allowed\_microsoft\_organizations, type }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+allowed\_microsoft\_organizations: array of string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+type: "Org"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+Type object {type }
 
-  - `true`
+</summary>
 
-- `result: optional object { addin_identifier_token, auth_requirements }`
+type: "NoAuth"
 
-  - `addin_identifier_token: string`
+<a href="#">Link to this property</a>
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+</details>
 
-    - `object { allowed_microsoft_organizations, type }`
+<a href="#">Link to this property</a>
 
-      - `allowed_microsoft_organizations: array of string`
+</details>
 
-      - `type: "Org"`
+<a href="#">Link to this property</a>
 
-        - `"Org"`
+</details>
 
-    - `Type object { type }`
+[Link to this property](#)%20zero_trust.dlp.email.account_mapping%20%3E%20(model)%20account_mapping_create_response%20%3E%20(schema)>)
 
-      - `type: "NoAuth"`
+#### EmailRules
 
-        - `"NoAuth"`
+##### [List all email scanner rules](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/list)
 
-### Example
+GET/accounts/{account\_id}/dlp/email/rules
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/account_mapping \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auth_requirements": {
-            "allowed_microsoft_organizations": [
-              "string"
-            ],
-            "type": "Org"
-          }
-        }'
-```
+##### [Get an email scanner rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/get)
 
-#### Response
+GET/accounts/{account\_id}/dlp/email/rules/{rule\_id}
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "addin_identifier_token": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "auth_requirements": {
-      "allowed_microsoft_organizations": [
-        "string"
-      ],
-      "type": "Org"
-    }
-  }
-}
-```
+##### [Create email scanner rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/create)
 
-## Domain Types
+POST/accounts/{account\_id}/dlp/email/rules
 
-### Account Mapping Get Response
+##### [Update email scanner rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/update)
 
-- `AccountMappingGetResponse object { addin_identifier_token, auth_requirements }`
+PUT/accounts/{account\_id}/dlp/email/rules/{rule\_id}
 
-  - `addin_identifier_token: string`
+##### [Delete email scanner rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/delete)
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+DELETE/accounts/{account\_id}/dlp/email/rules/{rule\_id}
 
-    - `object { allowed_microsoft_organizations, type }`
+##### [Update email scanner rule priorities](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/email/subresources/rules/methods/bulk_edit)
 
-      - `allowed_microsoft_organizations: array of string`
+PATCH/accounts/{account\_id}/dlp/email/rules
 
-      - `type: "Org"`
+##### ModelsExpand Collapse
 
-        - `"Org"`
+<details>
 
-    - `Type object { type }`
+<summary>
 
-      - `type: "NoAuth"`
+RuleListResponse object {action, conditions, created\_at, 6 more }
 
-        - `"NoAuth"`
+</summary>
 
-### Account Mapping Create Response
+<details>
 
-- `AccountMappingCreateResponse object { addin_identifier_token, auth_requirements }`
+<summary>
 
-  - `addin_identifier_token: string`
+action: object {action, message }
 
-  - `auth_requirements: object { allowed_microsoft_organizations, type }  or object { type }`
+</summary>
 
-    - `object { allowed_microsoft_organizations, type }`
+action: "Block"
 
-      - `allowed_microsoft_organizations: array of string`
+<a href="#">Link to this property</a>
 
-      - `type: "Org"`
+message: optional string
 
-        - `"Org"`
+<a href="#">Link to this property</a>
 
-    - `Type object { type }`
+</details>
 
-      - `type: "NoAuth"`
+<a href="#">Link to this property</a>
 
-        - `"NoAuth"`
+<details>
 
-# Rules
+<summary>
 
-## List all email scanner rules
+conditions: array of object {operator, selector, value }
 
-**get** `/accounts/{account_id}/dlp/email/rules`
+Triggered if all conditions match.
 
-Lists all email scanner rules for an account.
+</summary>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Returns
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"InList"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"NotInList"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"MatchRegex"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"NotMatchRegex"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-- `result: optional array of object { action, conditions, created_at, 6 more }`
+</summary>
 
-  - `action: object { action, message }`
+One of the following:
 
-    - `action: "Block"`
+"Recipients"
 
-      - `"Block"`
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+"Sender"
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+"DLPProfiles"
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"InList"`
+</details>
 
-      - `"NotInList"`
+<a href="#">Link to this property</a>
 
-      - `"MatchRegex"`
+<details>
 
-      - `"NotMatchRegex"`
+<summary>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+value: array of stringor string
 
-      - `"Recipients"`
+</summary>
 
-      - `"Sender"`
+One of the following:
 
-      - `"DLPProfiles"`
+array of string
 
-    - `value: array of string or string`
+<a href="#">Link to this property</a>
 
-      - `array of string`
+string
 
-      - `string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `priority: number`
+<a href="#">Link to this property</a>
 
-  - `rule_id: string`
+created\_at: string
 
-  - `updated_at: string`
+formatdate-time
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+enabled: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "action": {
-        "action": "Block",
-        "message": "message"
-      },
-      "conditions": [
-        {
-          "operator": "InList",
-          "selector": "Recipients",
-          "value": [
-            "string"
-          ]
-        }
-      ],
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "name": "name",
-      "priority": 0,
-      "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Get an email scanner rule
+priority: number
 
-**get** `/accounts/{account_id}/dlp/email/rules/{rule_id}`
+formatint32
 
-Gets detailed configuration for a specific DLP email scanning rule, including detection patterns and actions.
+minimum0
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+rule\_id: string
 
-- `rule_id: string`
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+updated\_at: string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+description: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+RuleGetResponse object {action, conditions, created\_at, 6 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+action: object {action, message }
 
-  - `true`
+</summary>
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+action: "Block"
 
-  - `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-    - `action: "Block"`
+message: optional string
 
-      - `"Block"`
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+</details>
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+<details>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<summary>
 
-      - `"InList"`
+conditions: array of object {operator, selector, value }
 
-      - `"NotInList"`
+Triggered if all conditions match.
 
-      - `"MatchRegex"`
+</summary>
 
-      - `"NotMatchRegex"`
+<details>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<summary>
 
-      - `"Recipients"`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-      - `"Sender"`
+</summary>
 
-      - `"DLPProfiles"`
+One of the following:
 
-    - `value: array of string or string`
+"InList"
 
-      - `array of string`
+<a href="#">Link to this property</a>
 
-      - `string`
+"NotInList"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"MatchRegex"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+"NotMatchRegex"
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+</summary>
 
-## Create email scanner rule
+One of the following:
 
-**post** `/accounts/{account_id}/dlp/email/rules`
+"Recipients"
 
-Creates a new DLP email scanning rule that defines what content patterns to detect in email messages and what actions to take.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"Sender"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"DLPProfiles"
 
-- `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-  - `action: "Block"`
+</details>
 
-    - `"Block"`
+<a href="#">Link to this property</a>
 
-  - `message: optional string`
+<details>
 
-- `conditions: array of object { operator, selector, value }`
+<summary>
 
-  Triggered if all conditions match.
+value: array of stringor string
 
-  - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+</summary>
 
-    - `"InList"`
+One of the following:
 
-    - `"NotInList"`
+array of string
 
-    - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `"NotMatchRegex"`
+string
 
-  - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<a href="#">Link to this property</a>
 
-    - `"Recipients"`
+</details>
 
-    - `"Sender"`
+<a href="#">Link to this property</a>
 
-    - `"DLPProfiles"`
+</details>
 
-  - `value: array of string or string`
+<a href="#">Link to this property</a>
 
-    - `array of string`
+created\_at: string
 
-    - `string`
+formatdate-time
 
-- `enabled: boolean`
+<a href="#">Link to this property</a>
 
-- `name: string`
+enabled: boolean
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+name: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+priority: number
 
-  - `message: string`
+formatint32
 
-  - `documentation_url: optional string`
+minimum0
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+rule\_id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatuuid
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+updated\_at: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+description: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_get_response%20%3E%20(schema)>)
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+<details>
 
-  - `action: object { action, message }`
+<summary>
 
-    - `action: "Block"`
+RuleCreateResponse object {action, conditions, created\_at, 6 more }
 
-      - `"Block"`
+</summary>
 
-    - `message: optional string`
+<details>
 
-  - `conditions: array of object { operator, selector, value }`
+<summary>
 
-    Triggered if all conditions match.
+action: object {action, message }
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+</summary>
 
-      - `"InList"`
+action: "Block"
 
-      - `"NotInList"`
+<a href="#">Link to this property</a>
 
-      - `"MatchRegex"`
+message: optional string
 
-      - `"NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+</details>
 
-      - `"Recipients"`
+<a href="#">Link to this property</a>
 
-      - `"Sender"`
+<details>
 
-      - `"DLPProfiles"`
+<summary>
 
-    - `value: array of string or string`
+conditions: array of object {operator, selector, value }
 
-      - `array of string`
+Triggered if all conditions match.
 
-      - `string`
+</summary>
 
-  - `created_at: string`
+<details>
 
-  - `enabled: boolean`
+<summary>
 
-  - `name: string`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-  - `priority: number`
+</summary>
 
-  - `rule_id: string`
+One of the following:
 
-  - `updated_at: string`
+"InList"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"NotInList"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": {
-            "action": "Block"
-          },
-          "conditions": [
-            {
-              "operator": "InList",
-              "selector": "Recipients",
-              "value": [
-                "string"
-              ]
-            }
-          ],
-          "enabled": true,
-          "name": "name"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"MatchRegex"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update email scanner rule
+"NotMatchRegex"
 
-**put** `/accounts/{account_id}/dlp/email/rules/{rule_id}`
+<a href="#">Link to this property</a>
 
-Update email scanner rule
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-- `rule_id: string`
+<summary>
 
-### Body Parameters
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-- `action: object { action, message }`
+</summary>
 
-  - `action: "Block"`
+One of the following:
 
-    - `"Block"`
+"Recipients"
 
-  - `message: optional string`
+<a href="#">Link to this property</a>
 
-- `conditions: array of object { operator, selector, value }`
+"Sender"
 
-  Triggered if all conditions match.
+<a href="#">Link to this property</a>
 
-  - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+"DLPProfiles"
 
-    - `"InList"`
+<a href="#">Link to this property</a>
 
-    - `"NotInList"`
+</details>
 
-    - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `"NotMatchRegex"`
+<details>
 
-  - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<summary>
 
-    - `"Recipients"`
+value: array of stringor string
 
-    - `"Sender"`
+</summary>
 
-    - `"DLPProfiles"`
+One of the following:
 
-  - `value: array of string or string`
+array of string
 
-    - `array of string`
+<a href="#">Link to this property</a>
 
-    - `string`
+string
 
-- `enabled: boolean`
+<a href="#">Link to this property</a>
 
-- `name: string`
+</details>
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_at: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+enabled: boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+name: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+priority: number
 
-  - `documentation_url: optional string`
+formatint32
 
-  - `source: optional object { pointer }`
+minimum0
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+rule\_id: string
 
-  Whether the API call was successful.
+formatuuid
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+updated\_at: string
 
-  - `action: object { action, message }`
+formatdate-time
 
-    - `action: "Block"`
+<a href="#">Link to this property</a>
 
-      - `"Block"`
+description: optional string
 
-    - `message: optional string`
+<a href="#">Link to this property</a>
 
-  - `conditions: array of object { operator, selector, value }`
+</details>
 
-    Triggered if all conditions match.
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_create_response%20%3E%20(schema)>)
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<details>
 
-      - `"InList"`
+<summary>
 
-      - `"NotInList"`
+RuleUpdateResponse object {action, conditions, created\_at, 6 more }
 
-      - `"MatchRegex"`
+</summary>
 
-      - `"NotMatchRegex"`
+<details>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<summary>
 
-      - `"Recipients"`
+action: object {action, message }
 
-      - `"Sender"`
+</summary>
 
-      - `"DLPProfiles"`
+action: "Block"
 
-    - `value: array of string or string`
+<a href="#">Link to this property</a>
 
-      - `array of string`
+message: optional string
 
-      - `string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-  - `priority: number`
+<summary>
 
-  - `rule_id: string`
+conditions: array of object {operator, selector, value }
 
-  - `updated_at: string`
+Triggered if all conditions match.
 
-  - `description: optional string`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules/$RULE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": {
-            "action": "Block"
-          },
-          "conditions": [
-            {
-              "operator": "InList",
-              "selector": "Recipients",
-              "value": [
-                "string"
-              ]
-            }
-          ],
-          "enabled": true,
-          "name": "name"
-        }'
-```
+<summary>
 
-#### Response
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+</summary>
 
-## Delete email scanner rule
+One of the following:
 
-**delete** `/accounts/{account_id}/dlp/email/rules/{rule_id}`
+"InList"
 
-Removes a DLP email scanning rule. The rule will no longer be applied to email messages.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"NotInList"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+"MatchRegex"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"NotMatchRegex"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"Recipients"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"Sender"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"DLPProfiles"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+</details>
 
-  - `action: object { action, message }`
+<a href="#">Link to this property</a>
 
-    - `action: "Block"`
+<details>
 
-      - `"Block"`
+<summary>
 
-    - `message: optional string`
+value: array of stringor string
 
-  - `conditions: array of object { operator, selector, value }`
+</summary>
 
-    Triggered if all conditions match.
+One of the following:
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+array of string
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+string
 
-      - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"NotMatchRegex"`
+</details>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<a href="#">Link to this property</a>
 
-      - `"Recipients"`
+</details>
 
-      - `"Sender"`
+<a href="#">Link to this property</a>
 
-      - `"DLPProfiles"`
+created\_at: string
 
-    - `value: array of string or string`
+formatdate-time
 
-      - `array of string`
+<a href="#">Link to this property</a>
 
-      - `string`
+enabled: boolean
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+name: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+priority: number
 
-  - `rule_id: string`
+formatint32
 
-  - `updated_at: string`
+minimum0
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+rule\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatuuid
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+updated\_at: string
 
-## Update email scanner rule priorities
+formatdate-time
 
-**patch** `/accounts/{account_id}/dlp/email/rules`
+<a href="#">Link to this property</a>
 
-Reorders DLP email scanning rules by updating their priority values. Higher priority rules are evaluated first.
+description: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-### Body Parameters
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_update_response%20%3E%20(schema)>)
 
-- `new_priorities: map[number]`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+RuleDeleteResponse object {action, conditions, created\_at, 6 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+action: object {action, message }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+action: "Block"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+message: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+conditions: array of object {operator, selector, value }
 
-- `result: optional object { action, conditions, created_at, 6 more }`
+Triggered if all conditions match.
 
-  - `action: object { action, message }`
+</summary>
 
-    - `action: "Block"`
+<details>
 
-      - `"Block"`
+<summary>
 
-    - `message: optional string`
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-  - `conditions: array of object { operator, selector, value }`
+</summary>
 
-    Triggered if all conditions match.
+One of the following:
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+"InList"
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+"NotInList"
 
-      - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"NotMatchRegex"`
+"MatchRegex"
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<a href="#">Link to this property</a>
 
-      - `"Recipients"`
+"NotMatchRegex"
 
-      - `"Sender"`
+<a href="#">Link to this property</a>
 
-      - `"DLPProfiles"`
+</details>
 
-    - `value: array of string or string`
+<a href="#">Link to this property</a>
 
-      - `array of string`
+<details>
 
-      - `string`
+<summary>
 
-  - `created_at: string`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-  - `enabled: boolean`
+</summary>
 
-  - `name: string`
+One of the following:
 
-  - `priority: number`
+"Recipients"
 
-  - `rule_id: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+"Sender"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"DLPProfiles"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/email/rules \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "new_priorities": {
-            "foo": 0
-          }
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "action": {
-      "action": "Block",
-      "message": "message"
-    },
-    "conditions": [
-      {
-        "operator": "InList",
-        "selector": "Recipients",
-        "value": [
-          "string"
-        ]
-      }
-    ],
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "priority": 0,
-    "rule_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Rule List Response
+<summary>
 
-- `RuleListResponse object { action, conditions, created_at, 6 more }`
+value: array of stringor string
 
-  - `action: object { action, message }`
+</summary>
 
-    - `action: "Block"`
+One of the following:
 
-      - `"Block"`
+array of string
 
-    - `message: optional string`
+<a href="#">Link to this property</a>
 
-  - `conditions: array of object { operator, selector, value }`
+string
 
-    Triggered if all conditions match.
+<a href="#">Link to this property</a>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+</details>
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+</details>
 
-      - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"NotMatchRegex"`
+created\_at: string
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+formatdate-time
 
-      - `"Recipients"`
+<a href="#">Link to this property</a>
 
-      - `"Sender"`
+enabled: boolean
 
-      - `"DLPProfiles"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or string`
+name: string
 
-      - `array of string`
+<a href="#">Link to this property</a>
 
-      - `string`
+priority: number
 
-  - `created_at: string`
+formatint32
 
-  - `enabled: boolean`
+minimum0
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+rule\_id: string
 
-  - `rule_id: string`
+formatuuid
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+updated\_at: string
 
-### Rule Get Response
+formatdate-time
 
-- `RuleGetResponse object { action, conditions, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `action: object { action, message }`
+description: optional string
 
-    - `action: "Block"`
+<a href="#">Link to this property</a>
 
-      - `"Block"`
+</details>
 
-    - `message: optional string`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_delete_response%20%3E%20(schema)>)
 
-  - `conditions: array of object { operator, selector, value }`
+<details>
 
-    Triggered if all conditions match.
+<summary>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+RuleBulkEditResponse object {action, conditions, created\_at, 6 more }
 
-      - `"InList"`
+</summary>
 
-      - `"NotInList"`
+<details>
 
-      - `"MatchRegex"`
+<summary>
 
-      - `"NotMatchRegex"`
+action: object {action, message }
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+</summary>
 
-      - `"Recipients"`
+action: "Block"
 
-      - `"Sender"`
+<a href="#">Link to this property</a>
 
-      - `"DLPProfiles"`
+message: optional string
 
-    - `value: array of string or string`
+<a href="#">Link to this property</a>
 
-      - `array of string`
+</details>
 
-      - `string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `enabled: boolean`
+<summary>
 
-  - `name: string`
+conditions: array of object {operator, selector, value }
 
-  - `priority: number`
+Triggered if all conditions match.
 
-  - `rule_id: string`
+</summary>
 
-  - `updated_at: string`
+<details>
 
-  - `description: optional string`
+<summary>
 
-### Rule Create Response
+operator: "InList"or "NotInList"or "MatchRegex"or "NotMatchRegex"
 
-- `RuleCreateResponse object { action, conditions, created_at, 6 more }`
+</summary>
 
-  - `action: object { action, message }`
+One of the following:
 
-    - `action: "Block"`
+"InList"
 
-      - `"Block"`
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+"NotInList"
 
-  - `conditions: array of object { operator, selector, value }`
+<a href="#">Link to this property</a>
 
-    Triggered if all conditions match.
+"MatchRegex"
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"InList"`
+"NotMatchRegex"
 
-      - `"NotInList"`
+<a href="#">Link to this property</a>
 
-      - `"MatchRegex"`
+</details>
 
-      - `"NotMatchRegex"`
+<a href="#">Link to this property</a>
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+<details>
 
-      - `"Recipients"`
+<summary>
 
-      - `"Sender"`
+selector: "Recipients"or "Sender"or "DLPProfiles"
 
-      - `"DLPProfiles"`
+</summary>
 
-    - `value: array of string or string`
+One of the following:
 
-      - `array of string`
+"Recipients"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"Sender"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"DLPProfiles"
 
-  - `priority: number`
+<a href="#">Link to this property</a>
 
-  - `rule_id: string`
+</details>
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-### Rule Update Response
+<summary>
 
-- `RuleUpdateResponse object { action, conditions, created_at, 6 more }`
+value: array of stringor string
 
-  - `action: object { action, message }`
+</summary>
 
-    - `action: "Block"`
+One of the following:
 
-      - `"Block"`
+array of string
 
-    - `message: optional string`
+<a href="#">Link to this property</a>
 
-  - `conditions: array of object { operator, selector, value }`
+string
 
-    Triggered if all conditions match.
+<a href="#">Link to this property</a>
 
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
+</details>
 
-      - `"InList"`
+<a href="#">Link to this property</a>
 
-      - `"NotInList"`
+</details>
 
-      - `"MatchRegex"`
+<a href="#">Link to this property</a>
 
-      - `"NotMatchRegex"`
+created\_at: string
 
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
+formatdate-time
 
-      - `"Recipients"`
+<a href="#">Link to this property</a>
 
-      - `"Sender"`
+enabled: boolean
 
-      - `"DLPProfiles"`
+<a href="#">Link to this property</a>
 
-    - `value: array of string or string`
+name: string
 
-      - `array of string`
+<a href="#">Link to this property</a>
 
-      - `string`
+priority: number
 
-  - `created_at: string`
+formatint32
 
-  - `enabled: boolean`
+minimum0
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `priority: number`
+rule\_id: string
 
-  - `rule_id: string`
+formatuuid
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+updated\_at: string
 
-### Rule Delete Response
+formatdate-time
 
-- `RuleDeleteResponse object { action, conditions, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `action: object { action, message }`
+description: optional string
 
-    - `action: "Block"`
+<a href="#">Link to this property</a>
 
-      - `"Block"`
+</details>
 
-    - `message: optional string`
-
-  - `conditions: array of object { operator, selector, value }`
-
-    Triggered if all conditions match.
-
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
-
-      - `"InList"`
-
-      - `"NotInList"`
-
-      - `"MatchRegex"`
-
-      - `"NotMatchRegex"`
-
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
-
-      - `"Recipients"`
-
-      - `"Sender"`
-
-      - `"DLPProfiles"`
-
-    - `value: array of string or string`
-
-      - `array of string`
-
-      - `string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `priority: number`
-
-  - `rule_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Rule Bulk Edit Response
-
-- `RuleBulkEditResponse object { action, conditions, created_at, 6 more }`
-
-  - `action: object { action, message }`
-
-    - `action: "Block"`
-
-      - `"Block"`
-
-    - `message: optional string`
-
-  - `conditions: array of object { operator, selector, value }`
-
-    Triggered if all conditions match.
-
-    - `operator: "InList" or "NotInList" or "MatchRegex" or "NotMatchRegex"`
-
-      - `"InList"`
-
-      - `"NotInList"`
-
-      - `"MatchRegex"`
-
-      - `"NotMatchRegex"`
-
-    - `selector: "Recipients" or "Sender" or "DLPProfiles"`
-
-      - `"Recipients"`
-
-      - `"Sender"`
-
-      - `"DLPProfiles"`
-
-    - `value: array of string or string`
-
-      - `array of string`
-
-      - `string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `priority: number`
-
-  - `rule_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
+[Link to this property](#)%20zero_trust.dlp.email.rules%20%3E%20(model)%20rule_bulk_edit_response%20%3E%20(schema)>)

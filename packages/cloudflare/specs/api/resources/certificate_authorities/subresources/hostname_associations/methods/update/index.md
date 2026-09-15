@@ -1,62 +1,204 @@
-## Replace Hostname Associations
+---
+title: Replace Hostname Associations
+---
 
-**put** `/zones/{zone_id}/certificate_authorities/hostname_associations`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Certificate Authorities](https://developers.cloudflare.com/api/resources/certificate_authorities)
+
+[Hostname Associations](https://developers.cloudflare.com/api/resources/certificate_authorities/subresources/hostname_associations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Replace Hostname Associations
+
+PUT/zones/{zone\_id}/certificate\_authorities/hostname\_associations
 
 Replace Hostname Associations.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `hostnames: optional array of HostnameAssociation`
 
-- `mtls_certificate_id: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the hostnames will be associated to your active Cloudflare Managed CA.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### Accepted Permissions (at least one required)
 
-  - `source: optional object { pointer }`
+`SSL and Certificates Write`
 
-    - `pointer: optional string`
+##### P ath ParametersExpand Collapse
 
-- `success: true`
+zone\_id: string
 
-  Whether the API call was successful.
+Identifier.
 
-  - `true`
+maxLength32
 
-- `result: optional object { hostnames }`
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `hostnames: optional array of HostnameAssociation`
+##### Body ParametersJSONExpand Collapse
 
-### Example
+hostnames: optional array of string
 
-```http
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20hostnames%20%3E%20(schema)>)
+
+mtls\_certificate\_id: optional string
+
+The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls\_certificate\_id is given, the hostnames will be associated to your active Cloudflare Managed CA.
+
+maxLength36
+
+minLength36
+
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20mtls_certificate_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {hostnames }
+
+</summary>
+
+hostnames: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Replace Hostname Associations
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/certificate_authorities/hostname_associations \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -64,9 +206,44 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/certificate_authorities
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "hostnames": [
+      "api.example.com"
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,586 +1,93 @@
+---
+title: TSIGs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+[Zone Transfers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # TSIGs
 
-## List TSIGs
+##### [List TSIGs](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/list)
 
-**get** `/accounts/{account_id}/secondary_dns/tsigs`
+GET/accounts/{account\_id}/secondary\_dns/tsigs
 
-List TSIGs.
+##### [TSIG Details](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/secondary\_dns/tsigs/{tsig\_id}
 
-- `account_id: string`
+##### [Create TSIG](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/secondary\_dns/tsigs
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Update TSIG](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/secondary\_dns/tsigs/{tsig\_id}
 
-  - `message: string`
+##### [Delete TSIG](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/tsigs/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/secondary\_dns/tsigs/{tsig\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+TSIG object {id, algo, name, secret }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+algo: string
 
-- `success: true`
+TSIG algorithm.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+name: string
 
-- `result: optional array of TSIG`
+TSIG key name.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `algo: string`
+secret: string
 
-    TSIG algorithm.
+TSIG secret.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    TSIG key name.
+</details>
 
-  - `secret: string`
+[Link to this property](#)%20dns.zone_transfers.tsigs%20%3E%20(model)%20tsig%20%3E%20(schema)>)
 
-    TSIG secret.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+TSIGDeleteResponse object {id }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+id: optional string
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "69cd1e104af3e6ed3cb344f263fd0d5a",
-      "algo": "hmac-sha512.",
-      "name": "tsig.customer.cf.",
-      "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## TSIG Details
-
-**get** `/accounts/{account_id}/secondary_dns/tsigs/{tsig_id}`
-
-Get TSIG.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `tsig_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TSIG`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs/$TSIG_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "69cd1e104af3e6ed3cb344f263fd0d5a",
-    "algo": "hmac-sha512.",
-    "name": "tsig.customer.cf.",
-    "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-  }
-}
-```
-
-## Create TSIG
-
-**post** `/accounts/{account_id}/secondary_dns/tsigs`
-
-Create TSIG.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `algo: string`
-
-  TSIG algorithm.
-
-- `name: string`
-
-  TSIG key name.
-
-- `secret: string`
-
-  TSIG secret.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TSIG`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "algo": "hmac-sha512.",
-          "name": "tsig.customer.cf.",
-          "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "69cd1e104af3e6ed3cb344f263fd0d5a",
-    "algo": "hmac-sha512.",
-    "name": "tsig.customer.cf.",
-    "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-  }
-}
-```
-
-## Update TSIG
-
-**put** `/accounts/{account_id}/secondary_dns/tsigs/{tsig_id}`
-
-Modify TSIG.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `tsig_id: string`
-
-### Body Parameters
-
-- `algo: string`
-
-  TSIG algorithm.
-
-- `name: string`
-
-  TSIG key name.
-
-- `secret: string`
-
-  TSIG secret.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TSIG`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs/$TSIG_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "algo": "hmac-sha512.",
-          "name": "tsig.customer.cf.",
-          "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "69cd1e104af3e6ed3cb344f263fd0d5a",
-    "algo": "hmac-sha512.",
-    "name": "tsig.customer.cf.",
-    "secret": "caf79a7804b04337c9c66ccd7bef9190a1e1679b5dd03d8aa10f7ad45e1a9dab92b417896c15d4d007c7c14194538d2a5d0feffdecc5a7f0e1c570cfa700837c"
-  }
-}
-```
-
-## Delete TSIG
-
-**delete** `/accounts/{account_id}/secondary_dns/tsigs/{tsig_id}`
-
-Delete TSIG.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `tsig_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secondary_dns/tsigs/$TSIG_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "69cd1e104af3e6ed3cb344f263fd0d5a"
-  }
-}
-```
-
-## Domain Types
-
-### TSIG
-
-- `TSIG object { id, algo, name, secret }`
-
-  - `id: string`
-
-  - `algo: string`
-
-    TSIG algorithm.
-
-  - `name: string`
-
-    TSIG key name.
-
-  - `secret: string`
-
-    TSIG secret.
-
-### TSIG Delete Response
-
-- `TSIGDeleteResponse object { id }`
-
-  - `id: optional string`
+[Link to this property](#)%20dns.zone_transfers.tsigs%20%3E%20(model)%20tsig_delete_response%20%3E%20(schema)>)

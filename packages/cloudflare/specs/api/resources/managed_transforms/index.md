@@ -1,478 +1,219 @@
+---
+title: Managed Transforms
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Managed Transforms
 
-## List Managed Transforms
+##### [List Managed Transforms](https://developers.cloudflare.com/api/resources/managed_transforms/methods/list)
 
-**get** `/zones/{zone_id}/managed_headers`
+GET/zones/{zone\_id}/managed\_headers
 
-Fetches a list of all Managed Transforms.
+##### [Update Managed Transforms](https://developers.cloudflare.com/api/resources/managed_transforms/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/managed\_headers
 
-- `zone_id: string`
+##### [Delete Managed Transforms](https://developers.cloudflare.com/api/resources/managed_transforms/methods/delete)
 
-  The unique ID of the zone.
+DELETE/zones/{zone\_id}/managed\_headers
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { message, code, source }`
+<details>
 
-  A list of error messages.
+<summary>
 
-  - `message: string`
+ManagedTransformListResponse object {managed\_request\_headers, managed\_response\_headers }
 
-    A text description of this message.
+A result.
 
-  - `code: optional number`
+</summary>
 
-    A unique code for this message.
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    The source of this message.
+managed\_request\_headers: array of object {id, enabled, has\_conflict, conflicts\_with }
 
-    - `pointer: string`
+The list of Managed Request Transforms.
 
-      A JSON pointer to the field that is the source of the message.
+</summary>
 
-- `messages: array of object { message, code, source }`
+id: string
 
-  A list of warning messages.
+The human-readable identifier of the Managed Transform.
 
-  - `message: string`
+minLength1
 
-    A text description of this message.
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+enabled: boolean
 
-    A unique code for this message.
+Whether the Managed Transform is enabled.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    The source of this message.
+has\_conflict: boolean
 
-    - `pointer: string`
+Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
 
-      A JSON pointer to the field that is the source of the message.
+<a href="#">Link to this property</a>
 
-- `result: object { managed_request_headers, managed_response_headers }`
+conflicts\_with: optional array of string
 
-  A result.
+The Managed Transforms that this Managed Transform conflicts with.
 
-  - `managed_request_headers: array of object { id, enabled, has_conflict, conflicts_with }`
+<a href="#">Link to this property</a>
 
-    The list of Managed Request Transforms.
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      The human-readable identifier of the Managed Transform.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Whether the Managed Transform is enabled.
+managed\_response\_headers: array of object {id, enabled, has\_conflict, conflicts\_with }
 
-    - `has_conflict: boolean`
+The list of Managed Response Transforms.
 
-      Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
+</summary>
 
-    - `conflicts_with: optional array of string`
+id: string
 
-      The Managed Transforms that this Managed Transform conflicts with.
+The human-readable identifier of the Managed Transform.
 
-  - `managed_response_headers: array of object { id, enabled, has_conflict, conflicts_with }`
+minLength1
 
-    The list of Managed Response Transforms.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+enabled: boolean
 
-      The human-readable identifier of the Managed Transform.
+Whether the Managed Transform is enabled.
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Whether the Managed Transform is enabled.
+has\_conflict: boolean
 
-    - `has_conflict: boolean`
+Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
 
-      Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
+<a href="#">Link to this property</a>
 
-    - `conflicts_with: optional array of string`
+conflicts\_with: optional array of string
 
-      The Managed Transforms that this Managed Transform conflicts with.
+The Managed Transforms that this Managed Transform conflicts with.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/managed_headers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20managed_transforms%20%3E%20(model)%20managed_transform_list_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "result": {
-    "managed_request_headers": [
-      {
-        "id": "add_bot_protection_headers",
-        "enabled": true,
-        "has_conflict": false,
-        "conflicts_with": [
-          "add_true_client_ip_headers"
-        ]
-      }
-    ],
-    "managed_response_headers": [
-      {
-        "id": "add_security_headers",
-        "enabled": true,
-        "has_conflict": false,
-        "conflicts_with": [
-          "add_true_client_ip_headers"
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
+<summary>
 
-## Update Managed Transforms
+ManagedTransformEditResponse object {managed\_request\_headers, managed\_response\_headers }
 
-**patch** `/zones/{zone_id}/managed_headers`
+A result.
 
-Updates the status of one or more Managed Transforms.
+</summary>
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  The unique ID of the zone.
+managed\_request\_headers: array of object {id, enabled, has\_conflict, conflicts\_with }
 
-### Body Parameters
+The list of Managed Request Transforms.
 
-- `managed_request_headers: optional array of object { id, enabled, has_conflict, conflicts_with }`
+</summary>
 
-  The list of Managed Request Transforms.
+id: string
 
-  - `id: string`
+The human-readable identifier of the Managed Transform.
 
-    The human-readable identifier of the Managed Transform.
+minLength1
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the Managed Transform is enabled.
+enabled: boolean
 
-  - `has_conflict: boolean`
+Whether the Managed Transform is enabled.
 
-    Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
+<a href="#">Link to this property</a>
 
-  - `conflicts_with: optional array of string`
+has\_conflict: boolean
 
-    The Managed Transforms that this Managed Transform conflicts with.
+Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
 
-- `managed_response_headers: optional array of object { id, enabled, has_conflict, conflicts_with }`
+<a href="#">Link to this property</a>
 
-  The list of Managed Response Transforms.
+conflicts\_with: optional array of string
 
-  - `id: string`
+The Managed Transforms that this Managed Transform conflicts with.
 
-    The human-readable identifier of the Managed Transform.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-    Whether the Managed Transform is enabled.
+<a href="#">Link to this property</a>
 
-  - `has_conflict: boolean`
+<details>
 
-    Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
+<summary>
 
-  - `conflicts_with: optional array of string`
+managed\_response\_headers: array of object {id, enabled, has\_conflict, conflicts\_with }
 
-    The Managed Transforms that this Managed Transform conflicts with.
+The list of Managed Response Transforms.
 
-### Returns
+</summary>
 
-- `errors: array of object { message, code, source }`
+id: string
 
-  A list of error messages.
+The human-readable identifier of the Managed Transform.
 
-  - `message: string`
+minLength1
 
-    A text description of this message.
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+enabled: boolean
 
-    A unique code for this message.
+Whether the Managed Transform is enabled.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    The source of this message.
+has\_conflict: boolean
 
-    - `pointer: string`
+Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
 
-      A JSON pointer to the field that is the source of the message.
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code, source }`
+conflicts\_with: optional array of string
 
-  A list of warning messages.
+The Managed Transforms that this Managed Transform conflicts with.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    A text description of this message.
+</details>
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-    A unique code for this message.
+</details>
 
-  - `source: optional object { pointer }`
-
-    The source of this message.
-
-    - `pointer: string`
-
-      A JSON pointer to the field that is the source of the message.
-
-- `result: object { managed_request_headers, managed_response_headers }`
-
-  A result.
-
-  - `managed_request_headers: array of object { id, enabled, has_conflict, conflicts_with }`
-
-    The list of Managed Request Transforms.
-
-    - `id: string`
-
-      The human-readable identifier of the Managed Transform.
-
-    - `enabled: boolean`
-
-      Whether the Managed Transform is enabled.
-
-    - `has_conflict: boolean`
-
-      Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
-
-    - `conflicts_with: optional array of string`
-
-      The Managed Transforms that this Managed Transform conflicts with.
-
-  - `managed_response_headers: array of object { id, enabled, has_conflict, conflicts_with }`
-
-    The list of Managed Response Transforms.
-
-    - `id: string`
-
-      The human-readable identifier of the Managed Transform.
-
-    - `enabled: boolean`
-
-      Whether the Managed Transform is enabled.
-
-    - `has_conflict: boolean`
-
-      Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
-
-    - `conflicts_with: optional array of string`
-
-      The Managed Transforms that this Managed Transform conflicts with.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/managed_headers \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "result": {
-    "managed_request_headers": [
-      {
-        "id": "add_bot_protection_headers",
-        "enabled": true,
-        "has_conflict": false,
-        "conflicts_with": [
-          "add_true_client_ip_headers"
-        ]
-      }
-    ],
-    "managed_response_headers": [
-      {
-        "id": "add_security_headers",
-        "enabled": true,
-        "has_conflict": false,
-        "conflicts_with": [
-          "add_true_client_ip_headers"
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Delete Managed Transforms
-
-**delete** `/zones/{zone_id}/managed_headers`
-
-Disables all Managed Transforms.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  The unique ID of the zone.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/managed_headers \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### Managed Transform List Response
-
-- `ManagedTransformListResponse object { managed_request_headers, managed_response_headers }`
-
-  A result.
-
-  - `managed_request_headers: array of object { id, enabled, has_conflict, conflicts_with }`
-
-    The list of Managed Request Transforms.
-
-    - `id: string`
-
-      The human-readable identifier of the Managed Transform.
-
-    - `enabled: boolean`
-
-      Whether the Managed Transform is enabled.
-
-    - `has_conflict: boolean`
-
-      Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
-
-    - `conflicts_with: optional array of string`
-
-      The Managed Transforms that this Managed Transform conflicts with.
-
-  - `managed_response_headers: array of object { id, enabled, has_conflict, conflicts_with }`
-
-    The list of Managed Response Transforms.
-
-    - `id: string`
-
-      The human-readable identifier of the Managed Transform.
-
-    - `enabled: boolean`
-
-      Whether the Managed Transform is enabled.
-
-    - `has_conflict: boolean`
-
-      Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
-
-    - `conflicts_with: optional array of string`
-
-      The Managed Transforms that this Managed Transform conflicts with.
-
-### Managed Transform Edit Response
-
-- `ManagedTransformEditResponse object { managed_request_headers, managed_response_headers }`
-
-  A result.
-
-  - `managed_request_headers: array of object { id, enabled, has_conflict, conflicts_with }`
-
-    The list of Managed Request Transforms.
-
-    - `id: string`
-
-      The human-readable identifier of the Managed Transform.
-
-    - `enabled: boolean`
-
-      Whether the Managed Transform is enabled.
-
-    - `has_conflict: boolean`
-
-      Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
-
-    - `conflicts_with: optional array of string`
-
-      The Managed Transforms that this Managed Transform conflicts with.
-
-  - `managed_response_headers: array of object { id, enabled, has_conflict, conflicts_with }`
-
-    The list of Managed Response Transforms.
-
-    - `id: string`
-
-      The human-readable identifier of the Managed Transform.
-
-    - `enabled: boolean`
-
-      Whether the Managed Transform is enabled.
-
-    - `has_conflict: boolean`
-
-      Whether the Managed Transform conflicts with the currently-enabled Managed Transforms.
-
-    - `conflicts_with: optional array of string`
-
-      The Managed Transforms that this Managed Transform conflicts with.
+[Link to this property](#)%20managed_transforms%20%3E%20(model)%20managed_transform_edit_response%20%3E%20(schema)>)

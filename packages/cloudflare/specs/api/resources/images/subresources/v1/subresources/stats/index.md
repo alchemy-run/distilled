@@ -1,112 +1,63 @@
+---
+title: Stats
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Images](https://developers.cloudflare.com/api/resources/images)
+
+[V1](https://developers.cloudflare.com/api/resources/images/subresources/v1)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Stats
 
-## Images usage statistics
+##### [Images usage statistics](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/stats/methods/get)
 
-**get** `/accounts/{account_id}/images/v1/stats`
+GET/accounts/{account\_id}/images/v1/stats
 
-Fetch image statistics details for Cloudflare Images. The returned statistics detail storage usage, including the current image count vs this account's allowance.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier tag.
+Stat object {count }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+count: optional object {allowed, current }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+allowed: optional number
 
-    - `pointer: optional string`
+Cloudflare Images allowed usage.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+current: optional number
 
-  - `message: string`
+Cloudflare Images current usage.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: Stat`
+<a href="#">Link to this property</a>
 
-  - `count: optional object { allowed, current }`
+</details>
 
-    - `allowed: optional number`
-
-      Cloudflare Images allowed usage.
-
-    - `current: optional number`
-
-      Cloudflare Images current usage.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/stats \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "count": {
-      "allowed": 100000,
-      "current": 1000
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Stat
-
-- `Stat object { count }`
-
-  - `count: optional object { allowed, current }`
-
-    - `allowed: optional number`
-
-      Cloudflare Images allowed usage.
-
-    - `current: optional number`
-
-      Cloudflare Images current usage.
+[Link to this property](#)%20images.v1.stats%20%3E%20(model)%20stat%20%3E%20(schema)>)

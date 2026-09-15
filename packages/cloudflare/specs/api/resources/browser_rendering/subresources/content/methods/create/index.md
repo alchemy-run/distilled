@@ -1,583 +1,861 @@
-## Get HTML content.
+---
+title: Get HTML content.
+---
 
-**post** `/accounts/{account_id}/browser-rendering/content`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+[Content](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/content)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get HTML content.
+
+POST/accounts/{account\_id}/browser-rendering/content
 
 Fetches rendered HTML content from provided URL or HTML. Check available options like `gotoOptions` and `waitFor*` to control page load behaviour.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `cacheTTL: optional number`
 
-  Cache TTL default is 5s. Set to 0 to disable.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Body Parameters
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `body: object { url, actionTimeout, addScriptTag, 16 more }  or object { html, actionTimeout, addScriptTag, 16 more }`
+</details>
 
-  - `object { url, actionTimeout, addScriptTag, 16 more }`
+<details>
 
-    - `url: string`
+<summary>API Email + API Key</summary>
 
-      URL to navigate to, eg. `https://example.com`.
 
-    - `actionTimeout: optional number`
 
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `addScriptTag: optional array of object { id, content, type, url }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      Adds a `<script>` tag into the page with the desired URL or content.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `id: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `content: optional string`
+</details>
 
-      - `type: optional string`
+##### Accepted Permissions (at least one required)
 
-      - `url: optional string`
+`Browser Rendering Write`
 
-    - `addStyleTag: optional array of object { content, url }`
+##### P ath ParametersExpand Collapse
 
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
+account\_id: string
 
-      - `content: optional string`
+Account ID.
 
-      - `url: optional string`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `allowRequestPattern: optional array of string`
+##### Q uery ParametersExpand Collapse
 
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
+cacheTTL: optional number
 
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+Cache TTL default is 5s. Set to 0 to disable.
 
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
+maximum86400
 
-      - `"document"`
+minimum0
 
-      - `"stylesheet"`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20cacheTTL%20%3E%20(schema)>)
 
-      - `"image"`
+##### Body ParametersJSONExpand Collapse
 
-      - `"media"`
+actionTimeout: optional number
 
-      - `"font"`
+The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
 
-      - `"script"`
+maximum120000
 
-      - `"texttrack"`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20actionTimeout%20%3E%20(schema)>)
 
-      - `"xhr"`
+<details>
 
-      - `"fetch"`
+<summary>
 
-      - `"prefetch"`
+addScriptTag: optional array of object {id, content, type, url }
 
-      - `"eventsource"`
+Adds a <code>&lt;script&gt;</code> tag into the page with the desired URL or content.
 
-      - `"websocket"`
+</summary>
 
-      - `"manifest"`
+id: optional string
 
-      - `"signedexchange"`
+<a href="#">Link to this property</a>
 
-      - `"ping"`
+content: optional string
 
-      - `"cspviolationreport"`
+<a href="#">Link to this property</a>
 
-      - `"preflight"`
+type: optional string
 
-      - `"other"`
+<a href="#">Link to this property</a>
 
-    - `authenticate: optional object { password, username }`
+url: optional string
 
-      Provide credentials for HTTP authentication.
+formaturi
 
-      - `password: string`
+<a href="#">Link to this property</a>
 
-      - `username: string`
+</details>
 
-    - `bestAttempt: optional boolean`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20addScriptTag%20%3E%20(schema)>)
 
-      Attempt to proceed when 'awaited' events fail or timeout.
+<details>
 
-    - `cookies: optional array of object { name, value, domain, 11 more }`
+<summary>
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
+addStyleTag: optional array of object {content, url }
 
-      - `name: string`
+Adds a <code>&lt;link rel="stylesheet"&gt;</code> tag into the page with the desired URL or a <code>&lt;style type="text/css"&gt;</code> tag with the content.
 
-        Cookie name.
+</summary>
 
-      - `value: string`
+content: optional string
 
-      - `domain: optional string`
+<a href="#">Link to this property</a>
 
-      - `expires: optional number`
+url: optional string
 
-      - `httpOnly: optional boolean`
+formaturi
 
-      - `partitionKey: optional string`
+<a href="#">Link to this property</a>
 
-      - `path: optional string`
+</details>
 
-      - `priority: optional "Low" or "Medium" or "High"`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20addStyleTag%20%3E%20(schema)>)
 
-        - `"Low"`
+allowRequestPattern: optional array of string
 
-        - `"Medium"`
+Only allow requests that match the provided regex patterns, eg. ’/^.\*.(css)’. Reject rules are applied first.
 
-        - `"High"`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20allowRequestPattern%20%3E%20(schema)>)
 
-      - `sameParty: optional boolean`
+<details>
 
-      - `sameSite: optional "Strict" or "Lax" or "None"`
+<summary>
 
-        - `"Strict"`
+allowResourceTypes: optional array of "document"or "stylesheet"or "image"or 15 more
 
-        - `"Lax"`
+Only allow requests that match the provided resource types, eg. ‘image’ or ‘script’. Reject rules are applied first.
 
-        - `"None"`
+</summary>
 
-      - `secure: optional boolean`
+One of the following:
 
-      - `sourcePort: optional number`
+"document"
 
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
+<a href="#">Link to this property</a>
 
-        - `"Unset"`
+"stylesheet"
 
-        - `"NonSecure"`
+<a href="#">Link to this property</a>
 
-        - `"Secure"`
+"image"
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-    - `emulateMediaType: optional string`
+"media"
 
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
+<a href="#">Link to this property</a>
 
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
+"font"
 
-      - `referer: optional string`
+<a href="#">Link to this property</a>
 
-      - `referrerPolicy: optional string`
+"script"
 
-      - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+"texttrack"
 
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+<a href="#">Link to this property</a>
 
-          - `"load"`
+"xhr"
 
-          - `"domcontentloaded"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle0"`
+"fetch"
 
-          - `"networkidle2"`
+<a href="#">Link to this property</a>
 
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+"prefetch"
 
-          - `"load"`
+<a href="#">Link to this property</a>
 
-          - `"domcontentloaded"`
+"eventsource"
 
-          - `"networkidle0"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle2"`
+"websocket"
 
-    - `rejectRequestPattern: optional array of string`
+<a href="#">Link to this property</a>
 
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
+"manifest"
 
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+<a href="#">Link to this property</a>
 
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
+"signedexchange"
 
-      - `"document"`
+<a href="#">Link to this property</a>
 
-      - `"stylesheet"`
+"ping"
 
-      - `"image"`
+<a href="#">Link to this property</a>
 
-      - `"media"`
+"cspviolationreport"
 
-      - `"font"`
+<a href="#">Link to this property</a>
 
-      - `"script"`
+"preflight"
 
-      - `"texttrack"`
+<a href="#">Link to this property</a>
 
-      - `"xhr"`
+"other"
 
-      - `"fetch"`
+<a href="#">Link to this property</a>
 
-      - `"prefetch"`
+</details>
 
-      - `"eventsource"`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20allowResourceTypes%20%3E%20(schema)>)
 
-      - `"websocket"`
+<details>
 
-      - `"manifest"`
+<summary>
 
-      - `"signedexchange"`
+authenticate: optional object {password, username }
 
-      - `"ping"`
+Provide credentials for HTTP authentication.
 
-      - `"cspviolationreport"`
+</summary>
 
-      - `"preflight"`
+password: string
 
-      - `"other"`
+minLength1
 
-    - `setExtraHTTPHeaders: optional map[string]`
+<a href="#">Link to this property</a>
 
-    - `setJavaScriptEnabled: optional boolean`
+username: string
 
-    - `userAgent: optional string`
+minLength1
 
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
+<a href="#">Link to this property</a>
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
+</details>
 
-      - `height: number`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20authenticate%20%3E%20(schema)>)
 
-      - `width: number`
+bestAttempt: optional boolean
 
-      - `deviceScaleFactor: optional number`
+Attempt to proceed when ‘awaited’ events fail or timeout.
 
-      - `hasTouch: optional boolean`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20bestAttempt%20%3E%20(schema)>)
 
-      - `isLandscape: optional boolean`
+<details>
 
-      - `isMobile: optional boolean`
+<summary>
 
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
+cookies: optional array of object {name, value, domain, 11 more }
 
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
+Check <a href="https://pptr.dev/api/puppeteer.page.setcookie">options</a>.
 
-      - `selector: string`
+</summary>
 
-      - `hidden: optional true`
+name: string
 
-        - `true`
+Cookie name.
 
-      - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-      - `visible: optional true`
+value: string
 
-        - `true`
+<a href="#">Link to this property</a>
 
-    - `waitForTimeout: optional number`
+domain: optional string
 
-      Waits for a specified timeout before continuing.
+<a href="#">Link to this property</a>
 
-  - `object { html, actionTimeout, addScriptTag, 16 more }`
+expires: optional number
 
-    - `html: string`
+<a href="#">Link to this property</a>
 
-      Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set.
+httpOnly: optional boolean
 
-    - `actionTimeout: optional number`
+<a href="#">Link to this property</a>
 
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
+partitionKey: optional string
 
-    - `addScriptTag: optional array of object { id, content, type, url }`
+<a href="#">Link to this property</a>
 
-      Adds a `<script>` tag into the page with the desired URL or content.
+path: optional string
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+<details>
 
-      - `type: optional string`
+<summary>
 
-      - `url: optional string`
+priority: optional "Low"or "Medium"or "High"
 
-    - `addStyleTag: optional array of object { content, url }`
+</summary>
 
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
+One of the following:
 
-      - `content: optional string`
+"Low"
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-    - `allowRequestPattern: optional array of string`
+"Medium"
 
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
+<a href="#">Link to this property</a>
 
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+"High"
 
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
+<a href="#">Link to this property</a>
 
-      - `"document"`
+</details>
 
-      - `"stylesheet"`
+<a href="#">Link to this property</a>
 
-      - `"image"`
+sameParty: optional boolean
 
-      - `"media"`
+<a href="#">Link to this property</a>
 
-      - `"font"`
+<details>
 
-      - `"script"`
+<summary>
 
-      - `"texttrack"`
+sameSite: optional "Strict"or "Lax"or "None"
 
-      - `"xhr"`
+</summary>
 
-      - `"fetch"`
+One of the following:
 
-      - `"prefetch"`
+"Strict"
 
-      - `"eventsource"`
+<a href="#">Link to this property</a>
 
-      - `"websocket"`
+"Lax"
 
-      - `"manifest"`
+<a href="#">Link to this property</a>
 
-      - `"signedexchange"`
+"None"
 
-      - `"ping"`
+<a href="#">Link to this property</a>
 
-      - `"cspviolationreport"`
+</details>
 
-      - `"preflight"`
+<a href="#">Link to this property</a>
 
-      - `"other"`
+secure: optional boolean
 
-    - `authenticate: optional object { password, username }`
+<a href="#">Link to this property</a>
 
-      Provide credentials for HTTP authentication.
+sourcePort: optional number
 
-      - `password: string`
+<a href="#">Link to this property</a>
 
-      - `username: string`
+<details>
 
-    - `bestAttempt: optional boolean`
+<summary>
 
-      Attempt to proceed when 'awaited' events fail or timeout.
+sourceScheme: optional "Unset"or "NonSecure"or "Secure"
 
-    - `cookies: optional array of object { name, value, domain, 11 more }`
+</summary>
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
+One of the following:
 
-      - `name: string`
+"Unset"
 
-        Cookie name.
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"NonSecure"
 
-      - `domain: optional string`
+<a href="#">Link to this property</a>
 
-      - `expires: optional number`
+"Secure"
 
-      - `httpOnly: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `partitionKey: optional string`
+</details>
 
-      - `path: optional string`
+<a href="#">Link to this property</a>
 
-      - `priority: optional "Low" or "Medium" or "High"`
+url: optional string
 
-        - `"Low"`
+<a href="#">Link to this property</a>
 
-        - `"Medium"`
+</details>
 
-        - `"High"`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20cookies%20%3E%20(schema)>)
 
-      - `sameParty: optional boolean`
+emulateMediaType: optional string
 
-      - `sameSite: optional "Strict" or "Lax" or "None"`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20emulateMediaType%20%3E%20(schema)>)
 
-        - `"Strict"`
+<details>
 
-        - `"Lax"`
+<summary>
 
-        - `"None"`
+gotoOptions: optional object {referer, referrerPolicy, timeout, waitUntil }
 
-      - `secure: optional boolean`
+Check <a href="https://pptr.dev/api/puppeteer.gotooptions">options</a>.
 
-      - `sourcePort: optional number`
+</summary>
 
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
+referer: optional string
 
-        - `"Unset"`
+<a href="#">Link to this property</a>
 
-        - `"NonSecure"`
+referrerPolicy: optional string
 
-        - `"Secure"`
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+timeout: optional number
 
-    - `emulateMediaType: optional string`
+maximum60000
 
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
+<a href="#">Link to this property</a>
 
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
+<details>
 
-      - `referer: optional string`
+<summary>
 
-      - `referrerPolicy: optional string`
+waitUntil: optional "load"or "domcontentloaded"or "networkidle0"or "networkidle2"or array of "load"or "domcontentloaded"or "networkidle0"or "networkidle2"
 
-      - `timeout: optional number`
+</summary>
 
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+One of the following:
 
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+<details>
 
-          - `"load"`
+<summary>
 
-          - `"domcontentloaded"`
+"load"or "domcontentloaded"or "networkidle0"or "networkidle2"
 
-          - `"networkidle0"`
+</summary>
 
-          - `"networkidle2"`
+One of the following:
 
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+"load"
 
-          - `"load"`
+<a href="#">Link to this property</a>
 
-          - `"domcontentloaded"`
+"domcontentloaded"
 
-          - `"networkidle0"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle2"`
+"networkidle0"
 
-    - `rejectRequestPattern: optional array of string`
+<a href="#">Link to this property</a>
 
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
+"networkidle2"
 
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+<a href="#">Link to this property</a>
 
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
+</details>
 
-      - `"document"`
+<a href="#">Link to this property</a>
 
-      - `"stylesheet"`
+<details>
 
-      - `"image"`
+<summary>
 
-      - `"media"`
+array of "load"or "domcontentloaded"or "networkidle0"or "networkidle2"
 
-      - `"font"`
+</summary>
 
-      - `"script"`
+One of the following:
 
-      - `"texttrack"`
+"load"
 
-      - `"xhr"`
+<a href="#">Link to this property</a>
 
-      - `"fetch"`
+"domcontentloaded"
 
-      - `"prefetch"`
+<a href="#">Link to this property</a>
 
-      - `"eventsource"`
+"networkidle0"
 
-      - `"websocket"`
+<a href="#">Link to this property</a>
 
-      - `"manifest"`
+"networkidle2"
 
-      - `"signedexchange"`
+<a href="#">Link to this property</a>
 
-      - `"ping"`
+</details>
 
-      - `"cspviolationreport"`
+<a href="#">Link to this property</a>
 
-      - `"preflight"`
+</details>
 
-      - `"other"`
+<a href="#">Link to this property</a>
 
-    - `setExtraHTTPHeaders: optional map[string]`
+</details>
 
-    - `setJavaScriptEnabled: optional boolean`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20gotoOptions%20%3E%20(schema)>)
 
-    - `userAgent: optional string`
+html: optional string
 
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
+Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set.
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
+minLength1
 
-      - `height: number`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20html%20%3E%20(schema)>)
 
-      - `width: number`
+rejectRequestPattern: optional array of string
 
-      - `deviceScaleFactor: optional number`
+Block undesired requests that match the provided regex patterns, eg. ’/^.\*.(css)’.
 
-      - `hasTouch: optional boolean`
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20rejectRequestPattern%20%3E%20(schema)>)
 
-      - `isLandscape: optional boolean`
+<details>
 
-      - `isMobile: optional boolean`
+<summary>
 
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
+rejectResourceTypes: optional array of "document"or "stylesheet"or "image"or 15 more
 
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
+Block undesired requests that match the provided resource types, eg. ‘image’ or ‘script’.
 
-      - `selector: string`
+</summary>
 
-      - `hidden: optional true`
+One of the following:
 
-        - `true`
+"document"
 
-      - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-      - `visible: optional true`
+"stylesheet"
 
-        - `true`
+<a href="#">Link to this property</a>
 
-    - `waitForTimeout: optional number`
+"image"
 
-      Waits for a specified timeout before continuing.
+<a href="#">Link to this property</a>
 
-### Returns
+"media"
 
-- `meta: object { status, title }`
+<a href="#">Link to this property</a>
 
-  - `status: optional number`
+"font"
 
-  - `title: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"script"
 
-  Response status.
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { code, message }`
+"texttrack"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-    Error code.
+"xhr"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Error message.
+"fetch"
 
-- `result: optional string`
+<a href="#">Link to this property</a>
 
-  HTML content.
+"prefetch"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"eventsource"
+
+<a href="#">Link to this property</a>
+
+"websocket"
+
+<a href="#">Link to this property</a>
+
+"manifest"
+
+<a href="#">Link to this property</a>
+
+"signedexchange"
+
+<a href="#">Link to this property</a>
+
+"ping"
+
+<a href="#">Link to this property</a>
+
+"cspviolationreport"
+
+<a href="#">Link to this property</a>
+
+"preflight"
+
+<a href="#">Link to this property</a>
+
+"other"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20rejectResourceTypes%20%3E%20(schema)>)
+
+setExtraHTTPHeaders: optional map\[string]
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20setExtraHTTPHeaders%20%3E%20(schema)>)
+
+setJavaScriptEnabled: optional boolean
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20setJavaScriptEnabled%20%3E%20(schema)>)
+
+url: optional string
+
+URL to navigate to, eg. `https://example.com`.
+
+formaturi
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20url%20%3E%20(schema)>)
+
+userAgent: optional string
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20userAgent%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+viewport: optional object {height, width, deviceScaleFactor, 3 more }
+
+Check <a href="https://pptr.dev/api/puppeteer.page.setviewport">options</a>.
+
+</summary>
+
+height: number
+
+<a href="#">Link to this property</a>
+
+width: number
+
+<a href="#">Link to this property</a>
+
+deviceScaleFactor: optional number
+
+<a href="#">Link to this property</a>
+
+hasTouch: optional boolean
+
+<a href="#">Link to this property</a>
+
+isLandscape: optional boolean
+
+<a href="#">Link to this property</a>
+
+isMobile: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20viewport%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+waitForSelector: optional object {selector, hidden, timeout, visible }
+
+Wait for the selector to appear in page. Check <a href="https://pptr.dev/api/puppeteer.page.waitforselector">options</a>.
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+hidden: optional true
+
+<a href="#">Link to this property</a>
+
+timeout: optional number
+
+maximum120000
+
+<a href="#">Link to this property</a>
+
+visible: optional true
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20waitForSelector%20%3E%20(schema)>)
+
+waitForTimeout: optional number
+
+Waits for a specified timeout before continuing.
+
+maximum120000
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20waitForTimeout%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+meta: object {finalUrl, headers, redirectChain, 2 more }
+
+</summary>
+
+finalUrl: optional string
+
+URL that served the response, after any redirects the browser followed.
+
+<a href="#">Link to this property</a>
+
+headers: optional map\[string]
+
+Origin response headers, lowercased. Repeated headers are joined with a newline. Credential and transport-only headers that do not survive rendering are omitted.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+redirectChain: optional array of object {headers, status, url }
+
+HTTP redirects followed to reach <code>finalUrl</code>, oldest first. Omitted for direct navigation and for client-side redirects such as meta refresh. An empty array means redirects occurred but their intermediate responses could not be read.
+
+</summary>
+
+headers: map\[string]
+
+Redirect response headers, including <code>location</code>.
+
+<a href="#">Link to this property</a>
+
+status: number
+
+HTTP status of the redirect.
+
+<a href="#">Link to this property</a>
+
+url: string
+
+URL that returned the redirect.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: optional number
+
+HTTP status returned by the origin.
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+Page title.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20meta>)
+
+success: boolean
+
+Response status.
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+Error code.
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Error message.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+result: optional string
+
+HTML content.
+
+[Link to this property](#)%20browser_rendering.content%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get HTML content.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/content \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{
-          "url": "https://example.com/"
+          "html": "<h1>Hello World!</h1>",
+          "url": "https://www.example.com/"
         }'
 ```
 
-#### Response
+200 example
 
-```json
+429 example
+
+```
 {
   "meta": {
+    "finalUrl": "finalUrl",
+    "headers": {
+      "foo": "string"
+    },
+    "redirectChain": [
+      {
+        "headers": {
+          "foo": "string"
+        },
+        "status": 0,
+        "url": "url"
+      }
+    ],
     "status": 0,
     "title": "title"
   },
@@ -589,5 +867,65 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering
     }
   ],
   "result": "result"
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 2001,
+      "message": "Rate limit exceeded"
+    }
+  ],
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+429 example
+
+```
+{
+  "meta": {
+    "finalUrl": "finalUrl",
+    "headers": {
+      "foo": "string"
+    },
+    "redirectChain": [
+      {
+        "headers": {
+          "foo": "string"
+        },
+        "status": 0,
+        "url": "url"
+      }
+    ],
+    "status": 0,
+    "title": "title"
+  },
+  "success": true,
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": "result"
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 2001,
+      "message": "Rate limit exceeded"
+    }
+  ],
+  "success": false
 }
 ```

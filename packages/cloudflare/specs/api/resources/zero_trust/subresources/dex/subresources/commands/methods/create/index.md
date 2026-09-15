@@ -1,172 +1,472 @@
-## Create account commands
+---
+title: Create account commands
+---
 
-**post** `/accounts/{account_id}/dex/commands`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create account commands
+
+POST/accounts/{account\_id}/dex/commands
 
 Initiate commands for up to 10 devices per account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Unique identifier linked to an account.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `commands: array of object { device_id, type, user_email, 2 more }`
 
-  List of device-level commands to execute
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `device_id: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    Unique identifier for the physical device
+</details>
 
-  - `type: "pcap" or "speed-test" or "warp-diag"`
+<details>
 
-    Type of command to execute on the device
+<summary>API Email + API Key</summary>
 
-    - `"pcap"`
 
-    - `"speed-test"`
 
-    - `"warp-diag"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `user_email: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Email tied to the device
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `args: optional object { "test-all-routes" }  or object { "max-file-size-mb", "packet-size-bytes", "time-limit-min" }  or object { interfaces }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Command arguments. Allowed fields depend on `type`.
+</details>
 
-    - `WARPDiagArgs object { "test-all-routes" }`
+##### Accepted Permissions (at least one required)
 
-      - `"test-all-routes": optional boolean`
+`Cloudflare DEX Write`
 
-        Test an IP address from all included or excluded ranges. Essentially the same as running 'route get <ip>' and collecting the results. This option may increase the time taken to collect the warp-diag.
+##### P ath ParametersExpand Collapse
 
-    - `PCAPArgs object { "max-file-size-mb", "packet-size-bytes", "time-limit-min" }`
+account\_id: string
 
-      - `"max-file-size-mb": optional number`
+Unique identifier linked to an account.
 
-        Maximum file size (in MB) for the capture file. If the capture artifact exceeds the specified max file size, it will NOT be uploaded.
+maxLength32
 
-      - `"packet-size-bytes": optional number`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        Maximum number of bytes to save for each packet
+##### Body ParametersJSONExpand Collapse
 
-      - `"time-limit-min": optional number`
+<details>
 
-        Limit on capture duration (in minutes)
+<summary>
 
-    - `SpeedTestArgs object { interfaces }`
+commands: array of object {device\_id, type, user\_email, 2 more }
 
-      - `interfaces: optional array of "default" or "tunnel"`
+List of device-level commands to execute
 
-        List of interfaces to run the speed test on
+</summary>
 
-        - `"default"`
+device\_id: string
 
-        - `"tunnel"`
+Unique identifier for the physical device
 
-  - `registration_id: optional string`
+<a href="#">Link to this property</a>
 
-    Unique identifier for the device registration. Required for multi-user devices to target the correct user session.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+type: "pcap"or "speed-test"or "warp-diag"
 
-  - `code: number`
+Type of command to execute on the device
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"pcap"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"speed-test"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"warp-diag"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+user\_email: string
 
-  Whether the API call was successful.
+Email tied to the device
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { commands }`
+<details>
 
-  - `commands: optional array of object { id, args, device_id, 3 more }`
+<summary>
 
-    List of created commands
+args: optional object {"test-all-routes" } or object {"max-file-size-mb", "packet-size-bytes", "time-limit-min" } or object {interfaces }
 
-    - `id: optional string`
+Command arguments. Allowed fields depend on <code>type</code>.
 
-      Unique identifier for the command
+</summary>
 
-    - `args: optional map[string]`
+One of the following:
 
-      Command arguments
+<details>
 
-    - `device_id: optional string`
+<summary>
 
-      Identifier for the device associated with the command
+WARPDiagArgs object {"test-all-routes" }
 
-    - `registration_id: optional string`
+</summary>
 
-      Unique identifier for the device registration
+"test-all-routes": optional boolean
 
-    - `status: optional "PENDING_EXEC" or "PENDING_UPLOAD" or "SUCCESS" or "FAILED"`
+Test an IP address from all included or excluded ranges. Essentially the same as running ‘route get ’ and collecting the results. This option may increase the time taken to collect the warp-diag.
 
-      Current status of the command
+<a href="#">Link to this property</a>
 
-      - `"PENDING_EXEC"`
+</details>
 
-      - `"PENDING_UPLOAD"`
+<a href="#">Link to this property</a>
 
-      - `"SUCCESS"`
+<details>
 
-      - `"FAILED"`
+<summary>
 
-    - `type: optional string`
+PCAPArgs object {"max-file-size-mb", "packet-size-bytes", "time-limit-min" }
 
-      Type of the command (e.g., "pcap", "speed-test", or "warp-diag")
+</summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+"max-file-size-mb": optional number
 
-  - `count: optional number`
+Maximum file size (in MB) for the capture file. If the capture artifact exceeds the specified max file size, it will NOT be uploaded.
 
-    Total number of results for the requested service.
+minimum1
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+"packet-size-bytes": optional number
 
-  - `per_page: optional number`
+Maximum number of bytes to save for each packet
 
-    Number of results per page of results.
+minimum1
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+"time-limit-min": optional number
 
-  - `total_pages: optional number`
+Limit on capture duration (in minutes)
 
-    The number of total pages in the entire result set.
+minimum1
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SpeedTestArgs object {interfaces }
+
+</summary>
+
+<details>
+
+<summary>
+
+interfaces: optional array of "default"or "tunnel"
+
+List of interfaces to run the speed test on
+
+</summary>
+
+One of the following:
+
+"default"
+
+<a href="#">Link to this property</a>
+
+"tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+registration\_id: optional string
+
+Unique identifier for the device registration. Required for multi-user devices to target the correct user session.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20commands%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {commands }
+
+</summary>
+
+<details>
+
+<summary>
+
+commands: optional array of object {id, args, device\_id, 3 more }
+
+List of created commands
+
+</summary>
+
+id: optional string
+
+Unique identifier for the command
+
+<a href="#">Link to this property</a>
+
+args: optional map\[string]
+
+Command arguments
+
+<a href="#">Link to this property</a>
+
+device\_id: optional string
+
+Identifier for the device associated with the command
+
+<a href="#">Link to this property</a>
+
+registration\_id: optional string
+
+Unique identifier for the device registration
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "PENDING\_EXEC"or "PENDING\_UPLOAD"or "SUCCESS"or "FAILED"
+
+Current status of the command
+
+</summary>
+
+One of the following:
+
+"PENDING\_EXEC"
+
+<a href="#">Link to this property</a>
+
+"PENDING\_UPLOAD"
+
+<a href="#">Link to this property</a>
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Type of the command (e.g., “pcap”, “speed-test”, or “warp-diag”)
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Create account commands
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -181,9 +481,60 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "commands": [
+      {
+        "id": "id",
+        "args": {
+          "foo": "string"
+        },
+        "device_id": "device_id",
+        "registration_id": "registration_id",
+        "status": "PENDING_EXEC",
+        "type": "type"
+      }
+    ]
+  },
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

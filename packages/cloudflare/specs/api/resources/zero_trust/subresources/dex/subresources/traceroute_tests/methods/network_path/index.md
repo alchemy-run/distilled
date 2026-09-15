@@ -1,143 +1,415 @@
-## Get network path breakdown for a traceroute test
+---
+title: Get network path breakdown for a traceroute test
+---
 
-**get** `/accounts/{account_id}/dex/traceroute-tests/{test_id}/network-path`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Traceroute Tests](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_tests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get network path breakdown for a traceroute test
+
+GET/accounts/{account\_id}/dex/traceroute-tests/{test\_id}/network-path
 
 Get a breakdown of metrics by hop for individual traceroute test runs.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Unique identifier linked to an account.
+<summary>API Token</summary>
 
-- `test_id: string`
 
-  API Resource UUID tag.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `deviceId: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Device to filter traceroute result runs to.
+</details>
 
-- `from: string`
+<details>
 
-  Start time for aggregate metrics in ISO ms.
+<summary>API Email + API Key</summary>
 
-- `interval: "minute" or "hour"`
 
-  Time interval for aggregate time slots.
 
-  - `"minute"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"hour"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `to: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  End time for aggregate metrics in ISO ms.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Cloudflare DEX Write``Cloudflare DEX Read``Zero Trust Report``Zero Trust Read`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Unique identifier linked to an account.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+test\_id: string
 
-  - `message: string`
+API Resource UUID tag.
 
-  - `documentation_url: optional string`
+maxLength36
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(params)%20default%20%3E%20(param)%20test_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### Q uery ParametersExpand Collapse
 
-- `success: true`
+deviceId: string
 
-  Whether the API call was successful.
+Device to filter traceroute result runs to.
 
-  - `true`
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(params)%20default%20%3E%20(param)%20deviceId%20%3E%20(schema)>)
 
-- `result: optional NetworkPathResponse`
+from: string
 
-  - `id: string`
+Start time for aggregate metrics in ISO ms.
 
-    API Resource UUID tag.
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(params)%20default%20%3E%20(param)%20from%20%3E%20(schema)>)
 
-  - `deviceName: optional string`
+<details>
 
-    Name of the device that ran the test.
+<summary>
 
-  - `interval: optional string`
+interval: "minute"or "hour"
 
-    The interval at which the Traceroute synthetic application test is set to run.
+Time interval for aggregate time slots.
 
-  - `kind: optional "traceroute"`
+</summary>
 
-    - `"traceroute"`
+One of the following:
 
-  - `name: optional string`
+"minute"
 
-  - `networkPath: optional NetworkPath`
+<a href="#">Link to this property</a>
 
-    - `slots: array of object { id, clientToAppRttMs, clientToCfEgressRttMs, 3 more }`
+"hour"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        API Resource UUID tag.
+</details>
 
-      - `clientToAppRttMs: number`
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(params)%20default%20%3E%20(param)%20interval%20%3E%20(schema)>)
 
-        Round trip time in ms of the client to app mile
+to: string
 
-      - `clientToCfEgressRttMs: number`
+End time for aggregate metrics in ISO ms.
 
-        Round trip time in ms of the client to Cloudflare egress mile
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(params)%20default%20%3E%20(param)%20to%20%3E%20(schema)>)
 
-      - `clientToCfIngressRttMs: number`
+##### ReturnsExpand Collapse
 
-        Round trip time in ms of the client to Cloudflare ingress mile
+<details>
 
-      - `timestamp: string`
+<summary>
 
-      - `clientToIspRttMs: optional number`
+errors: array of object {code, message, documentation\_url, source }
 
-        Round trip time in ms of the client to ISP mile
+</summary>
 
-    - `sampling: optional object { unit, value }`
+code: number
 
-      Specifies the sampling applied, if any, to the slots response. When sampled, results shown represent the first test run to the start of each sampling interval.
+minimum1000
 
-      - `unit: "hours"`
+<a href="#">Link to this property</a>
 
-        - `"hours"`
+message: string
 
-      - `value: number`
+<a href="#">Link to this property</a>
 
-  - `url: optional string`
+documentation\_url: optional string
 
-    The host of the Traceroute synthetic application test.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20network_path_response%20%3E%20(schema)">NetworkPathResponse</a> { id, deviceName, interval, 4 more }
+
+</summary>
+
+id: string
+
+API Resource UUID tag.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+deviceName: optional string
+
+Name of the device that ran the test.
+
+<a href="#">Link to this property</a>
+
+interval: optional string
+
+The interval at which the Traceroute synthetic application test is set to run.
+
+<a href="#">Link to this property</a>
+
+kind: optional "traceroute"
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+networkPath: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20network_path%20%3E%20(schema)">NetworkPath</a> { slots, sampling }
+
+</summary>
+
+<details>
+
+<summary>
+
+slots: array of object {id, clientToAppRttMs, clientToCfEgressRttMs, 3 more }
+
+</summary>
+
+id: string
+
+API Resource UUID tag.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+clientToAppRttMs: number
+
+Round trip time in ms of the client to app mile
+
+<a href="#">Link to this property</a>
+
+clientToCfEgressRttMs: number
+
+Round trip time in ms of the client to Cloudflare egress mile
+
+<a href="#">Link to this property</a>
+
+clientToCfIngressRttMs: number
+
+Round trip time in ms of the client to Cloudflare ingress mile
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+<a href="#">Link to this property</a>
+
+clientToIspRttMs: optional number
+
+Round trip time in ms of the client to ISP mile
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sampling: optional object {unit, value }
+
+Specifies the sampling applied, if any, to the slots response. When sampled, results shown represent the first test run to the start of each sampling interval.
+
+</summary>
+
+unit: "hours"
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The host of the Traceroute synthetic application test.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(method)%20network_path%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get network path breakdown for a traceroute test
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-tests/$TEST_ID/network-path \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "deviceName": "deviceName",
+    "interval": "0h5m0s",
+    "kind": "traceroute",
+    "name": "name",
+    "networkPath": {
+      "slots": [
+        {
+          "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+          "clientToAppRttMs": 0,
+          "clientToCfEgressRttMs": 0,
+          "clientToCfIngressRttMs": 0,
+          "timestamp": "2023-07-16 15:00:00+00",
+          "clientToIspRttMs": 0
+        }
+      ],
+      "sampling": {
+        "unit": "hours",
+        "value": 0
+      }
+    },
+    "url": "1.1.1.1"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

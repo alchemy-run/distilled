@@ -1,148 +1,430 @@
-## Update details about a dataset
+---
+title: Update details about a dataset
+---
 
-**put** `/accounts/{account_id}/dlp/datasets/{dataset_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update details about a dataset
+
+PUT/accounts/{account\_id}/dlp/datasets/{dataset\_id}
 
 Updates the configuration of an existing DLP dataset, such as its name, description, or detection settings.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `dataset_id: string`
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `case_sensitive: optional boolean`
 
-  Determines if the words should be matched in a case-sensitive manner.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Only required for custom word lists.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `description: optional string`
+</details>
 
-  The description of the dataset.
+<details>
 
-- `name: optional string`
+<summary>API Email + API Key</summary>
 
-  The name of the dataset, must be unique.
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`Zero Trust Write`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+dataset\_id: string
 
-    - `pointer: optional string`
+formatuuid
 
-- `success: true`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20dataset_id%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+##### Body ParametersJSONExpand Collapse
 
-  - `true`
+case\_sensitive: optional boolean
 
-- `result: optional Dataset`
+Determines if the words should be matched in a case-sensitive manner.
 
-  - `id: string`
+Only required for custom word lists.
 
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20case_sensitive%20%3E%20(schema)>)
 
-    - `entry_id: string`
+description: optional string
 
-    - `header_name: string`
+The description of the dataset.
 
-    - `num_cells: number`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+name: optional string
 
-      - `"empty"`
+The name of the dataset, must be unique.
 
-      - `"uploading"`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      - `"pending"`
+##### ReturnsExpand Collapse
 
-      - `"processing"`
+<details>
 
-      - `"failed"`
+<summary>
 
-      - `"complete"`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `created_at: string`
+</summary>
 
-  - `encoding_version: number`
+code: number
 
-  - `name: string`
+minimum1000
 
-  - `num_cells: number`
+<a href="#">Link to this property</a>
 
-  - `secret: boolean`
+message: string
 
-  - `status: "empty" or "uploading" or "pending" or 3 more`
+<a href="#">Link to this property</a>
 
-    - `"empty"`
+documentation\_url: optional string
 
-    - `"uploading"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+<details>
 
-    - `"processing"`
+<summary>
 
-    - `"failed"`
+source: optional object {pointer }
 
-    - `"complete"`
+</summary>
 
-  - `updated_at: string`
+pointer: optional string
 
-    Stores when the dataset was last updated.
+<a href="#">Link to this property</a>
 
-    This includes name or description changes as well as uploads.
+</details>
 
-  - `uploads: array of object { num_cells, status, version }`
+<a href="#">Link to this property</a>
 
-    - `num_cells: number`
+</details>
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `"empty"`
+<details>
 
-      - `"uploading"`
+<summary>
 
-      - `"pending"`
+messages: array of object {code, message, documentation\_url, source }
 
-      - `"processing"`
+</summary>
 
-      - `"failed"`
+code: number
 
-      - `"complete"`
+minimum1000
 
-    - `version: number`
+<a href="#">Link to this property</a>
 
-  - `case_sensitive: optional boolean`
+message: string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    The description of the dataset.
+documentation\_url: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset%20%3E%20(schema)">Dataset</a> { id, columns, created\_at, 9 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+columns: array of object {entry\_id, header\_name, num\_cells, upload\_status }
+
+</summary>
+
+entry\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+header\_name: string
+
+<a href="#">Link to this property</a>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+upload\_status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+encoding\_version: number
+
+formatint32
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+secret: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Stores when the dataset was last updated.
+
+This includes name or description changes as well as uploads.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+uploads: array of object {num\_cells, status, version }
+
+</summary>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+version: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+case\_sensitive: optional boolean
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The description of the dataset.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update details about a dataset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -150,9 +432,66 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DAT
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "columns": [
+      {
+        "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "header_name": "header_name",
+        "num_cells": 0,
+        "upload_status": "empty"
+      }
+    ],
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "encoding_version": 0,
+    "name": "name",
+    "num_cells": 0,
+    "secret": true,
+    "status": "empty",
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "uploads": [
+      {
+        "num_cells": 0,
+        "status": "empty",
+        "version": 0
+      }
+    ],
+    "case_sensitive": true,
+    "description": "description"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

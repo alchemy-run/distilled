@@ -57,36 +57,13 @@
         }
       }
     },
-    "com.cloudflare.workflows#GetResponseInstances": {
-      "type": "structure",
-      "members": {
-        "complete": {
-          "target": "smithy.api#Double"
-        },
-        "errored": {
-          "target": "smithy.api#Double"
-        },
-        "paused": {
-          "target": "smithy.api#Double"
-        },
-        "queued": {
-          "target": "smithy.api#Double"
-        },
-        "rollingBack": {
-          "target": "smithy.api#Double"
-        },
-        "running": {
-          "target": "smithy.api#Double"
-        },
-        "terminated": {
-          "target": "smithy.api#Double"
-        },
-        "waiting": {
-          "target": "smithy.api#Double"
-        },
-        "waitingForPause": {
-          "target": "smithy.api#Double"
-        }
+    "com.cloudflare.workflows#GetResponseInstancesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
       }
     },
     "com.cloudflare.workflows#GetResponseSchedulesItem": {
@@ -112,36 +89,13 @@
         "target": "com.cloudflare.workflows#GetResponseSchedulesItem"
       }
     },
-    "com.cloudflare.workflows#ListResultItemInstances": {
-      "type": "structure",
-      "members": {
-        "complete": {
-          "target": "smithy.api#Double"
-        },
-        "errored": {
-          "target": "smithy.api#Double"
-        },
-        "paused": {
-          "target": "smithy.api#Double"
-        },
-        "queued": {
-          "target": "smithy.api#Double"
-        },
-        "rollingBack": {
-          "target": "smithy.api#Double"
-        },
-        "running": {
-          "target": "smithy.api#Double"
-        },
-        "terminated": {
-          "target": "smithy.api#Double"
-        },
-        "waiting": {
-          "target": "smithy.api#Double"
-        },
-        "waitingForPause": {
-          "target": "smithy.api#Double"
-        }
+    "com.cloudflare.workflows#ListResultItemInstancesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
       }
     },
     "com.cloudflare.workflows#ListResultItemSchedulesItem": {
@@ -189,7 +143,7 @@
           }
         },
         "instances": {
-          "target": "com.cloudflare.workflows#ListResultItemInstances",
+          "target": "com.cloudflare.workflows#ListResultItemInstancesMap",
           "traits": {
             "smithy.api#required": {}
           }
@@ -227,6 +181,56 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.workflows#ListResultItem"
+      }
+    },
+    "com.cloudflare.workflows#UpdateRequestConcurrency": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances complete. Must not exceed the account concurrency limit."
+          }
+        }
+      }
+    },
+    "com.cloudflare.workflows#UpdateRequestDefaultRetentionErrorRetention": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.cloudflare.workflows#UpdateRequestDefaultRetentionSuccessRetention": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.cloudflare.workflows#UpdateRequestDefaultRetention": {
+      "type": "structure",
+      "members": {
+        "error_retention": {
+          "target": "com.cloudflare.workflows#UpdateRequestDefaultRetentionErrorRetention",
+          "traits": {
+            "smithy.api#documentation": "Specifies the duration in milliseconds or as a string like '5 minutes'."
+          }
+        },
+        "success_retention": {
+          "target": "com.cloudflare.workflows#UpdateRequestDefaultRetentionSuccessRetention",
+          "traits": {
+            "smithy.api#documentation": "Specifies the duration in milliseconds or as a string like '5 minutes'."
+          }
+        }
       }
     },
     "com.cloudflare.workflows#UpdateRequestLimits": {
@@ -293,17 +297,97 @@
         }
       }
     },
+    "com.cloudflare.workflows#InstancesBulkRequestBodyItemLocationHint": {
+      "type": "enum",
+      "members": {
+        "WNAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wnam"
+          }
+        },
+        "WEUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weur"
+          }
+        },
+        "ENAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enam"
+          }
+        },
+        "EEUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eeur"
+          }
+        },
+        "APAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apac"
+          }
+        },
+        "APAC_NE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apac-ne"
+          }
+        },
+        "APAC_SE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apac-se"
+          }
+        },
+        "OC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oc"
+          }
+        },
+        "SAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sam"
+          }
+        },
+        "AFR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afr"
+          }
+        },
+        "ME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "me"
+          }
+        }
+      }
+    },
     "com.cloudflare.workflows#InstancesBulkRequestBodyItem": {
       "type": "structure",
       "members": {
         "instance_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters."
+          }
         },
         "instance_retention": {
           "target": "com.cloudflare.workflows#InstancesBulkRequestBodyItemInstanceRetention"
         },
+        "location_hint": {
+          "target": "com.cloudflare.workflows#InstancesBulkRequestBodyItemLocationHint"
+        },
         "params": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded event payload passed into the new instance."
+          }
         }
       }
     },
@@ -480,6 +564,77 @@
           "target": "com.cloudflare.workflows#InstancesCreateRequestInstanceRetentionSuccessRetention",
           "traits": {
             "smithy.api#documentation": "Specifies the duration in milliseconds or as a string like '5 minutes'."
+          }
+        }
+      }
+    },
+    "com.cloudflare.workflows#InstancesCreateRequestLocationHint": {
+      "type": "enum",
+      "members": {
+        "WNAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wnam"
+          }
+        },
+        "WEUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weur"
+          }
+        },
+        "ENAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enam"
+          }
+        },
+        "EEUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eeur"
+          }
+        },
+        "APAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apac"
+          }
+        },
+        "APAC_NE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apac-ne"
+          }
+        },
+        "APAC_SE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apac-se"
+          }
+        },
+        "OC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oc"
+          }
+        },
+        "SAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sam"
+          }
+        },
+        "AFR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afr"
+          }
+        },
+        "ME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "me"
           }
         }
       }
@@ -842,7 +997,7 @@
         "delay": {
           "target": "com.cloudflare.workflows#InstancesGetResponseStepsItemCase0ConfigRetriesDelay",
           "traits": {
-            "smithy.api#documentation": "Specifies the delay duration. '[dynamic]' indicates the delay is computed by a user-supplied function.",
+            "smithy.api#documentation": "Specifies the delay duration. The value '[dynamic]' means that a user-supplied function computes the delay.",
             "smithy.api#required": {}
           }
         },
@@ -1147,6 +1302,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "event_type": {
+          "target": "smithy.api#String"
         },
         "output": {
           "target": "smithy.api#String"
@@ -1626,7 +1784,10 @@
           }
         },
         "count": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "exclusiveMinimum"
+          }
         },
         "type": {
           "target": "com.cloudflare.workflows#InstancesStatusEditRequestFromType"
@@ -1705,6 +1866,34 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "python"
+          }
+        }
+      }
+    },
+    "com.cloudflare.workflows#VersionsGetResponseConcurrency": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances complete. Must not exceed the account concurrency limit."
+          }
+        }
+      }
+    },
+    "com.cloudflare.workflows#VersionsGetResponseDefaultRetention": {
+      "type": "structure",
+      "members": {
+        "error_retention": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Default error retention in milliseconds."
+          }
+        },
+        "success_retention": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Default success retention in milliseconds."
           }
         }
       }
@@ -3040,6 +3229,34 @@
         }
       }
     },
+    "com.cloudflare.workflows#VersionsListResultItemConcurrency": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances complete. Must not exceed the account concurrency limit."
+          }
+        }
+      }
+    },
+    "com.cloudflare.workflows#VersionsListResultItemDefaultRetention": {
+      "type": "structure",
+      "members": {
+        "error_retention": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Default error retention in milliseconds."
+          }
+        },
+        "success_retention": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Default success retention in milliseconds."
+          }
+        }
+      }
+    },
     "com.cloudflare.workflows#VersionsListResultItemLimits": {
       "type": "structure",
       "members": {
@@ -3078,7 +3295,7 @@
         "language": {
           "target": "com.cloudflare.workflows#VersionsListResultItemLanguage",
           "traits": {
-            "smithy.api#documentation": "The programming language of the workflow implementation",
+            "smithy.api#documentation": "The programming language of the workflow implementation.",
             "smithy.api#required": {}
           }
         },
@@ -3093,6 +3310,12 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "concurrency": {
+          "target": "com.cloudflare.workflows#VersionsListResultItemConcurrency"
+        },
+        "default_retention": {
+          "target": "com.cloudflare.workflows#VersionsListResultItemDefaultRetention"
         },
         "limits": {
           "target": "com.cloudflare.workflows#VersionsListResultItemLimits"
@@ -3368,6 +3591,7 @@
         "body": {
           "target": "com.cloudflare.workflows#InstancesBulkRequestBodyList",
           "traits": {
+            "smithy.api#required": {},
             "smithy.api#httpPayload": {}
           }
         }
@@ -3440,13 +3664,22 @@
           }
         },
         "instance_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters."
+          }
         },
         "instance_retention": {
           "target": "com.cloudflare.workflows#InstancesCreateRequestInstanceRetention"
         },
+        "location_hint": {
+          "target": "com.cloudflare.workflows#InstancesCreateRequestLocationHint"
+        },
         "params": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded event payload passed into the new instance."
+          }
         }
       },
       "traits": {
@@ -3540,7 +3773,6 @@
         "instance_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -3560,16 +3792,23 @@
     "com.cloudflare.workflows#CreateInstanceEventResponse": {
       "type": "structure",
       "members": {
-        "result": {
-          "target": "smithy.api#Document",
+        "instanceId": {
+          "target": "smithy.api#String",
           "traits": {
-            "com.cloudflare.protocols#envelopePayload": {},
-            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Accepts ISO 8601 with no timezone offsets and in UTC.",
+            "smithy.api#required": {}
           }
         }
       },
       "traits": {
-        "smithy.api#output": {}
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
       }
     },
     "com.cloudflare.workflows#DeleteWorkflow": {
@@ -3690,7 +3929,6 @@
         "instance_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -3892,7 +4130,7 @@
         "language": {
           "target": "com.cloudflare.workflows#VersionsGetResponseLanguage",
           "traits": {
-            "smithy.api#documentation": "The programming language of the workflow implementation",
+            "smithy.api#documentation": "The programming language of the workflow implementation.",
             "smithy.api#required": {}
           }
         },
@@ -3907,6 +4145,12 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "concurrency": {
+          "target": "com.cloudflare.workflows#VersionsGetResponseConcurrency"
+        },
+        "default_retention": {
+          "target": "com.cloudflare.workflows#VersionsGetResponseDefaultRetention"
         },
         "limits": {
           "target": "com.cloudflare.workflows#VersionsGetResponseLimits"
@@ -3987,7 +4231,7 @@
           }
         },
         "instances": {
-          "target": "com.cloudflare.workflows#GetResponseInstances",
+          "target": "com.cloudflare.workflows#GetResponseInstancesMap",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4448,13 +4692,15 @@
         "instance_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
         "status": {
-          "target": "com.cloudflare.workflows#InstancesStatusEditRequestStatus"
+          "target": "com.cloudflare.workflows#InstancesStatusEditRequestStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "rollback": {
           "target": "smithy.api#Boolean",
@@ -4548,6 +4794,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "concurrency": {
+          "target": "com.cloudflare.workflows#UpdateRequestConcurrency"
+        },
+        "default_retention": {
+          "target": "com.cloudflare.workflows#UpdateRequestDefaultRetention",
+          "traits": {
+            "smithy.api#documentation": "Default retention applied to instances of this version when they do not set their own retention."
           }
         },
         "limits": {
@@ -4668,7 +4923,6 @@
         "instance_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -4717,10 +4971,16 @@
             "smithy.api#required": {}
           }
         },
+        "event_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event type the step is waiting on, as supplied to step.waitForEvent. Only present when type='waitForEvent'."
+          }
+        },
         "output": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Full step output or waitForEvent payload without truncation. Sensitive outputs are returned as '[REDACTED]'. Populated when status='complete'. May be a ReadableStream when the step returned one from step.do; stream outputs are served as application/octet-stream rather than JSON."
+            "smithy.api#documentation": "Contains the full step output or waitForEvent payload without truncation. Uses '[REDACTED]' for sensitive outputs. Contains a value when status='complete'. May contain a ReadableStream when step.do returns one; the response serves stream outputs as application/octet-stream rather than JSON."
           }
         }
       },

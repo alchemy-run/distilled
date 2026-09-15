@@ -1098,9 +1098,9 @@ export const RulesCreateRequestActionResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RulesCreateRequestAction {
   /** The action to perform. */
   mode?: RulesCreateRequestActionMode | (string & {});
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: RulesCreateRequestActionResponse;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number;
 }
 export const RulesCreateRequestAction = /*@__PURE__*/ S.suspend(() =>
@@ -2556,7 +2556,7 @@ export const AccessRulesListRequestConfigurationTarget = S.String;
 export interface AccessRulesListRequestConfiguration {
   /** Defines the target to search in existing rules. */
   target?: AccessRulesListRequestConfigurationTarget | (string & {});
-  /** Defines the target value to search for in existing rules: an IP address, an IP address range, or a country code, depending on the provided `configuration.target`. */
+  /** Defines the target value to search for in existing rules: an IP address, an IP address range, or a country code, depending on the provided `configuration.target`. Notes: You can search for a single IPv4 address, an IP address range with a subnet of '/16' or '/24', or a two-letter ISO-3166-1 alpha-2 country code. */
   value?: string;
 }
 export const AccessRulesListRequestConfiguration = /*@__PURE__*/ S.suspend(() =>
@@ -2598,7 +2598,7 @@ export interface ListAccessRulesForAccountRequest {
   match?: AccessRulesListRequestMatch | (string & {});
   /** The action to apply to a matched request. */
   mode?: AccessRulesListRequestMode | (string & {});
-  /** Defines the string to search for in the notes of existing IP Access rules. */
+  /** Defines the string to search for in the notes of existing IP Access rules. Notes: For example, the string 'attack' would match IP Access rules with notes 'Attack 26/02' and 'Attack 27/02'. The search is case insensitive. */
   notes?: string;
   /** Defines the field used to sort returned rules. */
   order?: AccessRulesListRequestOrder | (string & {});
@@ -2881,7 +2881,7 @@ export interface ListAccessRulesForZoneRequest {
   match?: AccessRulesListRequestMatch | (string & {});
   /** The action to apply to a matched request. */
   mode?: AccessRulesListRequestMode | (string & {});
-  /** Defines the string to search for in the notes of existing IP Access rules. */
+  /** Defines the string to search for in the notes of existing IP Access rules. Notes: For example, the string 'attack' would match IP Access rules with notes 'Attack 26/02' and 'Attack 27/02'. The search is case insensitive. */
   notes?: string;
   /** Defines the field used to sort returned rules. */
   order?: AccessRulesListRequestOrder | (string & {});
@@ -3722,6 +3722,11 @@ export type WafPackagesRulesListResultItemWAFManagedRulesTraditionalDenyRuleDefa
 export const WafPackagesRulesListResultItemWAFManagedRulesTraditionalDenyRuleDefaultMode =
   S.String;
 
+export type WafPackagesRulesListResultItemWAFManagedRulesTraditionalDenyRuleGroup =
+  WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup;
+export const WafPackagesRulesListResultItemWAFManagedRulesTraditionalDenyRuleGroup =
+  WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup;
+
 export type WafPackagesRulesListResultItemWAFManagedRulesTraditionalDenyRuleMode =
   | "default"
   | "disable"
@@ -3784,6 +3789,11 @@ export const WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleAl
   /*@__PURE__*/ S.Array(
     WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleAllowedModesItem,
   ) as any as S.Schema<WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleAllowedModesList>;
+
+export type WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleGroup =
+  WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup;
+export const WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleGroup =
+  WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup;
 
 export type WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleMode =
   | "on"
@@ -4647,6 +4657,11 @@ export type WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRuleDefaultM
 export const WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRuleDefaultMode =
   S.String;
 
+export type WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRuleGroup =
+  WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup;
+export const WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRuleGroup =
+  WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup;
+
 export type WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRuleMode =
   | "default"
   | "disable"
@@ -4708,6 +4723,11 @@ export const WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleAllowe
   /*@__PURE__*/ S.Array(
     WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleAllowedModesItem,
   ) as any as S.Schema<WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleAllowedModesList>;
+
+export type WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleGroup =
+  WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup;
+export const WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleGroup =
+  WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup;
 
 export type WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleMode =
   | "on"
@@ -4893,9 +4913,9 @@ export const RulesUpdateRequestActionResponse =
 export interface RulesUpdateRequestAction {
   /** The action to perform. */
   mode?: RulesUpdateRequestActionMode | (string & {});
-  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. */
+  /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
   response?: RulesCreateRequestActionResponse;
-  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. */
+  /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
   timeout?: number;
 }
 export const RulesUpdateRequestAction = /*@__PURE__*/ S.suspend(() =>
@@ -5483,7 +5503,7 @@ export const UpdateWafOverrideResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateWafOverrideResponse>;
 
 export type BulkDeleteRulesError = CloudflareOpError;
-/** Deletes existing firewall rules. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Deletes existing firewall rules. */
 export const bulkDeleteRules: API.PaginatedOperationMethod<
   BulkDeleteRulesRequest,
   BulkDeleteRulesResponse,
@@ -5503,7 +5523,7 @@ export const bulkDeleteRules: API.PaginatedOperationMethod<
 ) as any;
 
 export type BulkPatchRulesError = CloudflareOpError;
-/** Updates the priority of existing firewall rules. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Updates the priority of existing firewall rules. */
 export const bulkPatchRules: API.PaginatedOperationMethod<
   BulkPatchRulesRequest,
   BulkPatchRulesResponse,
@@ -5523,7 +5543,7 @@ export const bulkPatchRules: API.PaginatedOperationMethod<
 ) as any;
 
 export type BulkPutRulesError = CloudflareOpError;
-/** Updates one or more existing firewall rules. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Updates one or more existing firewall rules. */
 export const bulkPutRules: API.PaginatedOperationMethod<
   BulkPutRulesRequest,
   BulkPutRulesResponse,
@@ -5612,7 +5632,7 @@ export const createLockdown: API.OperationMethod<
 }));
 
 export type CreateRuleError = CloudflareOpError;
-/** Create one or more firewall rules. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Create one or more firewall rules. */
 export const createRule: API.PaginatedOperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
@@ -5647,7 +5667,7 @@ export const createUaRule: API.OperationMethod<
 }));
 
 export type CreateWafOverrideError = CloudflareOpError;
-/** Creates a URI-based WAF override for a zone. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/). */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously created a URI-based WAF override for a zone. */
 export const createWafOverride: API.OperationMethod<
   CreateWafOverrideRequest,
   CreateWafOverrideResponse,
@@ -5726,7 +5746,7 @@ export const deleteLockdown: API.OperationMethod<
 }));
 
 export type DeleteRuleError = CloudflareOpError;
-/** Deletes an existing firewall rule. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Deletes an existing firewall rule. */
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
@@ -5756,7 +5776,7 @@ export const deleteUaRule: API.OperationMethod<
 }));
 
 export type DeleteWafOverrideError = CloudflareOpError;
-/** Deletes an existing URI-based WAF override. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/). */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously deleted an existing URI-based WAF override. */
 export const deleteWafOverride: API.OperationMethod<
   DeleteWafOverrideRequest,
   DeleteWafOverrideResponse,
@@ -5832,7 +5852,7 @@ export const getLockdown: API.OperationMethod<
 }));
 
 export type GetRuleError = CloudflareOpError;
-/** Fetches the details of a firewall rule. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Fetches the details of a firewall rule. */
 export const getRule: API.OperationMethod<
   GetRuleRequest,
   GetRuleResponse,
@@ -5862,7 +5882,7 @@ export const getUaRule: API.OperationMethod<
 }));
 
 export type GetWafOverrideError = CloudflareOpError;
-/** Fetches the details of a URI-based WAF override. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/). */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously fetched the details of a URI-based WAF override. */
 export const getWafOverride: API.OperationMethod<
   GetWafOverrideRequest,
   GetWafOverrideResponse,
@@ -6000,7 +6020,7 @@ export const listLockdowns: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListRulesError = CloudflareOpError;
-/** Fetches firewall rules in a zone. You can filter the results using several optional parameters. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Fetches firewall rules in a zone. You can filter the results using several optional parameters. */
 export const listRules: API.PaginatedOperationMethod<
   ListRulesRequest,
   ListRulesResponse,
@@ -6052,7 +6072,7 @@ export const listUaRules: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListWafOverridesError = CloudflareOpError;
-/** Fetches the URI-based WAF overrides in a zone. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/). */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously fetched the URI-based WAF overrides in a zone. */
 export const listWafOverrides: API.PaginatedOperationMethod<
   ListWafOverridesRequest,
   ListWafOverridesResponse,
@@ -6191,7 +6211,7 @@ export const patchAccessRuleForZone: API.OperationMethod<
 }));
 
 export type PatchRuleError = CloudflareOpError;
-/** Updates the priority of an existing firewall rule. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Updates the priority of an existing firewall rule. */
 export const patchRule: API.PaginatedOperationMethod<
   PatchRuleRequest,
   PatchRuleResponse,
@@ -6266,7 +6286,7 @@ export const updateLockdown: API.OperationMethod<
 }));
 
 export type UpdateRuleError = CloudflareOpError;
-/** Updates an existing firewall rule. */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Updates an existing firewall rule. */
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
@@ -6306,7 +6326,7 @@ export const updateUaRule: API.OperationMethod<
 }));
 
 export type UpdateWafOverrideError = CloudflareOpError;
-/** Updates an existing URI-based WAF override. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/). */
+/** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously updated an existing URI-based WAF override. */
 export const updateWafOverride: API.OperationMethod<
   UpdateWafOverrideRequest,
   UpdateWafOverrideResponse,

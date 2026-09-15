@@ -1,85 +1,49 @@
+---
+title: Memberships
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Tenants](https://developers.cloudflare.com/api/resources/tenants)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Memberships
 
-## List tenant memberships
+##### [List tenant memberships](https://developers.cloudflare.com/api/resources/tenants/subresources/memberships/methods/list)
 
-**get** `/tenants/{tenant_id}/memberships`
+GET/tenants/{tenant\_id}/memberships
 
-List of active members (Cloudflare users) for the Tenant.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `tenant_id: string`
+<summary>
 
-### Returns
+TenantMembership object {user\_email, user\_name, user\_tag }
 
-- `errors: array of unknown`
+</summary>
 
-- `messages: array of ResponseInfo`
+user\_email: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+user\_name: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+user\_tag: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of TenantMembership`
+</details>
 
-  - `user_email: string`
-
-  - `user_name: string`
-
-  - `user_tag: string`
-
-- `success: true`
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID/memberships \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "user_email": "user_email",
-      "user_name": "user_name",
-      "user_tag": "user_tag"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Tenant Membership
-
-- `TenantMembership object { user_email, user_name, user_tag }`
-
-  - `user_email: string`
-
-  - `user_name: string`
-
-  - `user_tag: string`
+[Link to this property](#)%20tenants.memberships%20%3E%20(model)%20tenant_membership%20%3E%20(schema)>)

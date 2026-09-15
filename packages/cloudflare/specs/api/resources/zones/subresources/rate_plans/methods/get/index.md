@@ -1,127 +1,395 @@
-## List Available Rate Plans
+---
+title: List Available Rate Plans
+---
 
-**get** `/zones/{zone_id}/available_rate_plans`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zones](https://developers.cloudflare.com/api/resources/zones)
+
+[Rate Plans](https://developers.cloudflare.com/api/resources/zones/subresources/rate_plans)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Available Rate Plans
+
+GET/zones/{zone\_id}/available\_rate\_plans
 
 Lists all rate plans the zone can subscribe to.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `result: array of object { id, components, currency, 3 more }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `id: optional string`
+</details>
 
-    Plan identifier tag.
+##### Accepted Permissions (at least one required)
 
-  - `components: optional array of object { default, name, unit_price }`
+`Billing Write``Billing Read`
 
-    Array of available components values for the plan.
+##### P ath ParametersExpand Collapse
 
-    - `default: optional number`
+zone\_id: string
 
-      The default amount allocated.
+Identifier
 
-    - `name: optional "zones" or "page_rules" or "dedicated_certificates" or "dedicated_certificates_custom"`
+maxLength32
 
-      The unique component.
+[Link to this property](#)%20zones.rate_plans%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-      - `"zones"`
+##### ReturnsExpand Collapse
 
-      - `"page_rules"`
+<details>
 
-      - `"dedicated_certificates"`
+<summary>
 
-      - `"dedicated_certificates_custom"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `unit_price: optional number`
+</summary>
 
-      The unit price of the addon.
+code: number
 
-  - `currency: optional string`
+minimum1000
 
-    The monetary unit in which pricing information is displayed.
+<a href="#">Link to this property</a>
 
-  - `duration: optional number`
+message: string
 
-    The duration of the plan subscription.
+<a href="#">Link to this property</a>
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+documentation\_url: optional string
 
-    The frequency at which you will be billed for this plan.
+<a href="#">Link to this property</a>
 
-    - `"weekly"`
+<details>
 
-    - `"monthly"`
+<summary>
 
-    - `"quarterly"`
+source: optional object {pointer }
 
-    - `"yearly"`
+</summary>
 
-  - `name: optional string`
+pointer: optional string
 
-    The plan name.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+[Link to this property](#)%20zones.rate_plans%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service
+<summary>
 
-  - `page: optional number`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    Current page within paginated list of results
+</summary>
 
-  - `per_page: optional number`
+code: number
 
-    Number of results per page of results
+minimum1000
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.rate_plans%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {id, components, currency, 3 more }
+
+</summary>
+
+id: optional string
+
+Plan identifier tag.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+components: optional array of object {default, name, unit\_price }
+
+Array of available components values for the plan.
+
+</summary>
+
+default: optional number
+
+The default amount allocated.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+name: optional "zones"or "page\_rules"or "dedicated\_certificates"or "dedicated\_certificates\_custom"
+
+The unique component.
+
+</summary>
+
+One of the following:
+
+"zones"
+
+<a href="#">Link to this property</a>
+
+"page\_rules"
+
+<a href="#">Link to this property</a>
+
+"dedicated\_certificates"
+
+<a href="#">Link to this property</a>
+
+"dedicated\_certificates\_custom"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+unit\_price: optional number
+
+The unit price of the component.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The monetary unit in which pricing information is displayed.
+
+<a href="#">Link to this property</a>
+
+duration: optional number
+
+The duration of the plan subscription.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+frequency: optional "weekly"or "monthly"or "quarterly"or "yearly"
+
+The frequency at which you will be billed for this plan.
+
+</summary>
+
+One of the following:
+
+"weekly"
+
+<a href="#">Link to this property</a>
+
+"monthly"
+
+<a href="#">Link to this property</a>
+
+"quarterly"
+
+<a href="#">Link to this property</a>
+
+"yearly"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The plan name.
+
+maxLength80
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.rate_plans%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zones.rate_plans%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.rate_plans%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Available Rate Plans
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/available_rate_plans \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "free",
+      "components": [
+        {
+          "default": 5,
+          "name": "page_rules",
+          "unit_price": 1
+        }
+      ],
+      "currency": "USD",
+      "duration": 1,
+      "frequency": "monthly",
+      "name": "Free Plan"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

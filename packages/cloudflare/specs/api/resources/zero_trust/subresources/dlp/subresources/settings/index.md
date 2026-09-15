@@ -1,623 +1,126 @@
+---
+title: Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Settings
 
-## Get DLP account-level settings.
+##### [Get DLP account-level settings.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings/methods/get)
 
-**get** `/accounts/{account_id}/dlp/settings`
+GET/accounts/{account\_id}/dlp/settings
 
-Get DLP account-level settings.
+##### [Update DLP account-level settings (full replacement).](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/dlp/settings
 
-- `account_id: string`
+##### [Partially update DLP account-level settings.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings/methods/edit)
 
-### Returns
+PATCH/accounts/{account\_id}/dlp/settings
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Delete (reset) DLP account-level settings to initial values.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings/methods/delete)
 
-  - `code: number`
+DELETE/accounts/{account\_id}/dlp/settings
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+DLPSettings object {ai\_context\_analysis, ocr, payload\_logging }
 
-- `messages: array of object { code, message, documentation_url, source }`
+DLP account-level settings response.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+ai\_context\_analysis: boolean
 
-  - `documentation_url: optional string`
+Whether AI context analysis is enabled at the account level.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+ocr: boolean
 
-- `success: true`
+Whether OCR is enabled at the account level.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional DLPSettings`
+<summary>
 
-  DLP account-level settings response.
+payload\_logging: object {updated\_at, masking\_level, public\_key }
 
-  - `ai_context_analysis: boolean`
+</summary>
 
-    Whether AI context analysis is enabled at the account level.
+updated\_at: string
 
-  - `ocr: boolean`
+formatdate-time
 
-    Whether OCR is enabled at the account level.
+<a href="#">Link to this property</a>
 
-  - `payload_logging: object { updated_at, masking_level, public_key }`
+<details>
 
-    - `updated_at: string`
+<summary>
 
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
+masking\_level: optional "full"or "partial"or "clear"or "default"
 
-      Masking level for payload logs.
+Masking level for payload logs.
 
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
+- <code>full</code>: The entire payload is masked.
+- <code>partial</code>: Only partial payload content is masked.
+- <code>clear</code>: No masking is applied to the payload content.
+- <code>default</code>: DLP uses its default masking behavior.
 
-      - `"full"`
+</summary>
 
-      - `"partial"`
+One of the following:
 
-      - `"clear"`
+"full"
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-    - `public_key: optional string`
+"partial"
 
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+<a href="#">Link to this property</a>
 
-### Example
+"clear"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"default"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_context_analysis": true,
-    "ocr": true,
-    "payload_logging": {
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "masking_level": "full",
-      "public_key": "public_key"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update DLP account-level settings (full replacement).
+</details>
 
-**put** `/accounts/{account_id}/dlp/settings`
+<a href="#">Link to this property</a>
 
-Missing fields are reset to initial (unconfigured) values.
+public\_key: optional string
 
-### Path Parameters
+Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `ai_context_analysis: optional boolean`
+<a href="#">Link to this property</a>
 
-  Whether AI context analysis is enabled at the account level.
+</details>
 
-- `ocr: optional boolean`
-
-  Whether OCR is enabled at the account level.
-
-- `payload_logging: optional object { masking_level, public_key }`
-
-  Request model for payload log settings within the DLP settings endpoint.
-  Unlike the legacy endpoint, null and missing are treated identically here
-  (both mean "not provided" for PATCH, "reset to default" for PUT).
-
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-    Masking level for payload logs.
-
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
-
-    - `"full"`
-
-    - `"partial"`
-
-    - `"clear"`
-
-    - `"default"`
-
-  - `public_key: optional string`
-
-    Base64-encoded public key for encrypting payload logs.
-
-    - Set to a non-empty base64 string to enable payload logging with the given key.
-    - Set to an empty string to disable payload logging.
-    - Omit or set to null to leave unchanged (PATCH) or reset to disabled (PUT).
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional DLPSettings`
-
-  DLP account-level settings response.
-
-  - `ai_context_analysis: boolean`
-
-    Whether AI context analysis is enabled at the account level.
-
-  - `ocr: boolean`
-
-    Whether OCR is enabled at the account level.
-
-  - `payload_logging: object { updated_at, masking_level, public_key }`
-
-    - `updated_at: string`
-
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-      Masking level for payload logs.
-
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
-
-      - `"full"`
-
-      - `"partial"`
-
-      - `"clear"`
-
-      - `"default"`
-
-    - `public_key: optional string`
-
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_context_analysis": true,
-    "ocr": true,
-    "payload_logging": {
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "masking_level": "full",
-      "public_key": "public_key"
-    }
-  }
-}
-```
-
-## Partially update DLP account-level settings.
-
-**patch** `/accounts/{account_id}/dlp/settings`
-
-Missing fields keep their existing values.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `ai_context_analysis: optional boolean`
-
-  Whether AI context analysis is enabled at the account level.
-
-- `ocr: optional boolean`
-
-  Whether OCR is enabled at the account level.
-
-- `payload_logging: optional object { masking_level, public_key }`
-
-  Request model for payload log settings within the DLP settings endpoint.
-  Unlike the legacy endpoint, null and missing are treated identically here
-  (both mean "not provided" for PATCH, "reset to default" for PUT).
-
-  - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-    Masking level for payload logs.
-
-    - `full`: The entire payload is masked.
-    - `partial`: Only partial payload content is masked.
-    - `clear`: No masking is applied to the payload content.
-    - `default`: DLP uses its default masking behavior.
-
-    - `"full"`
-
-    - `"partial"`
-
-    - `"clear"`
-
-    - `"default"`
-
-  - `public_key: optional string`
-
-    Base64-encoded public key for encrypting payload logs.
-
-    - Set to a non-empty base64 string to enable payload logging with the given key.
-    - Set to an empty string to disable payload logging.
-    - Omit or set to null to leave unchanged (PATCH) or reset to disabled (PUT).
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional DLPSettings`
-
-  DLP account-level settings response.
-
-  - `ai_context_analysis: boolean`
-
-    Whether AI context analysis is enabled at the account level.
-
-  - `ocr: boolean`
-
-    Whether OCR is enabled at the account level.
-
-  - `payload_logging: object { updated_at, masking_level, public_key }`
-
-    - `updated_at: string`
-
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-      Masking level for payload logs.
-
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
-
-      - `"full"`
-
-      - `"partial"`
-
-      - `"clear"`
-
-      - `"default"`
-
-    - `public_key: optional string`
-
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_context_analysis": true,
-    "ocr": true,
-    "payload_logging": {
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "masking_level": "full",
-      "public_key": "public_key"
-    }
-  }
-}
-```
-
-## Delete (reset) DLP account-level settings to initial values.
-
-**delete** `/accounts/{account_id}/dlp/settings`
-
-Delete (reset) DLP account-level settings to initial values.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional DLPSettings`
-
-  DLP account-level settings response.
-
-  - `ai_context_analysis: boolean`
-
-    Whether AI context analysis is enabled at the account level.
-
-  - `ocr: boolean`
-
-    Whether OCR is enabled at the account level.
-
-  - `payload_logging: object { updated_at, masking_level, public_key }`
-
-    - `updated_at: string`
-
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-      Masking level for payload logs.
-
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
-
-      - `"full"`
-
-      - `"partial"`
-
-      - `"clear"`
-
-      - `"default"`
-
-    - `public_key: optional string`
-
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_context_analysis": true,
-    "ocr": true,
-    "payload_logging": {
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "masking_level": "full",
-      "public_key": "public_key"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### DLP Settings
-
-- `DLPSettings object { ai_context_analysis, ocr, payload_logging }`
-
-  DLP account-level settings response.
-
-  - `ai_context_analysis: boolean`
-
-    Whether AI context analysis is enabled at the account level.
-
-  - `ocr: boolean`
-
-    Whether OCR is enabled at the account level.
-
-  - `payload_logging: object { updated_at, masking_level, public_key }`
-
-    - `updated_at: string`
-
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
-
-      Masking level for payload logs.
-
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
-
-      - `"full"`
-
-      - `"partial"`
-
-      - `"clear"`
-
-      - `"default"`
-
-    - `public_key: optional string`
-
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+[Link to this property](#)%20zero_trust.dlp.settings%20%3E%20(model)%20dlp_settings%20%3E%20(schema)>)

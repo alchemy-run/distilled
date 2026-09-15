@@ -1,1662 +1,1309 @@
+---
+title: Email Auth
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Email Auth
 
-# DMARC Reports
+#### Email AuthDMARC Reports
 
-## Get DMARC Report Status
+##### [Get DMARC Report Status](https://developers.cloudflare.com/api/resources/email_auth/subresources/dmarc_reports/methods/get)
 
-**get** `/zones/{zone_id}/email/auth/dmarc-reports`
+GET/zones/{zone\_id}/email/auth/dmarc-reports
 
-Retrieves the current DMARC report configuration and status for a zone.
-Returns the RUA prefix, enabled status, approved sources, and DNS records.
+##### [Configure DMARC Reports](https://developers.cloudflare.com/api/resources/email_auth/subresources/dmarc_reports/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/email/auth/dmarc-reports
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+DMARCReportGetResponse object {approved\_sources, created, created\_at, 9 more }
 
-  - `code: number`
+Response for GET/PATCH /dmarc-reports
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+approved\_sources: optional array of object {created, created\_at, domain, 6 more }
 
-- `messages: array of object { code, message, documentation_url, source }`
+List of approved sending sources (omitted when empty)
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+Deprecatedcreated: optional string
 
-  - `documentation_url: optional string`
+Use <code>created_at</code> instead.
 
-  - `source: optional object { pointer }`
+Deprecated, use created\_at
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+created\_at: optional string
 
-  - `true`
+Creation timestamp
 
-- `result: optional object { approved_sources, created, created_at, 9 more }`
+formatdate-time
 
-  Response for GET/PATCH /dmarc-reports
+<a href="#">Link to this property</a>
 
-  - `approved_sources: optional array of object { created, created_at, domain, 6 more }`
+domain: optional string
 
-    List of approved sending sources (omitted when empty)
+The source domain
 
-    - `created: optional string`
+<a href="#">Link to this property</a>
 
-      Deprecated, use created_at
+ips: optional array of string
 
-    - `created_at: optional string`
+Resolved IP addresses from SPF
 
-      Creation timestamp
+<a href="#">Link to this property</a>
 
-    - `domain: optional string`
+Deprecatedmodified: optional string
 
-      The source domain
+Use <code>modified_at</code> instead.
 
-    - `ips: optional array of string`
+Deprecated, use modified\_at
 
-      Resolved IP addresses from SPF
+formatdate-time
 
-    - `modified: optional string`
+<a href="#">Link to this property</a>
 
-      Deprecated, use modified_at
+modified\_at: optional string
 
-    - `modified_at: optional string`
+Last modification timestamp
 
-      Last modification timestamp
+formatdate-time
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Source name (typically same as domain)
+name: optional string
 
-    - `slug: optional string`
+Source name (typically same as domain)
 
-      URL-friendly identifier
+<a href="#">Link to this property</a>
 
-    - `tag: optional string`
+slug: optional string
 
-      Source UUID
+URL-friendly identifier
 
-  - `created: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use created_at
+tag: optional string
 
-  - `created_at: optional string`
+Source UUID
 
-    Creation timestamp
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+</details>
 
-    Whether DMARC reports are enabled
+<a href="#">Link to this property</a>
 
-  - `modified: optional string`
+Deprecatedcreated: optional string
 
-    Deprecated, use modified_at
+Use <code>created_at</code> instead.
 
-  - `modified_at: optional string`
+Deprecated, use created\_at
 
-    Last modification timestamp
+formatdate-time
 
-  - `records: optional object { bimi_records, cname_dkim_records, cname_dmarc_records, 4 more }`
+<a href="#">Link to this property</a>
 
-    Live DNS records for the zone, grouped by type
+created\_at: optional string
 
-    - `bimi_records: optional array of object { id, content, name, 2 more }`
+Creation timestamp
 
-      BIMI TXT records
+formatdate-time
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record ID
+enabled: optional boolean
 
-      - `content: optional string`
+Whether DMARC reports are enabled
 
-        Record content
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+Deprecatedmodified: optional string
 
-        DNS record name
+Use <code>modified_at</code> instead.
 
-      - `ttl: optional number`
+Deprecated, use modified\_at
 
-        Time to live in seconds
+formatdate-time
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+modified\_at: optional string
 
-    - `cname_dkim_records: optional array of object { id, content, name, 2 more }`
+Last modification timestamp
 
-      CNAME records for DKIM
+formatdate-time
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record ID
+<details>
 
-      - `content: optional string`
+<summary>
 
-        Record content
+records: optional object {bimi\_records, cname\_dkim\_records, cname\_dmarc\_records, 5 more }
 
-      - `name: optional string`
+Live DNS records for the zone, grouped by type
 
-        DNS record name
+</summary>
 
-      - `ttl: optional number`
+<details>
 
-        Time to live in seconds
+<summary>
 
-      - `type: optional string`
+bimi\_records: optional array of object {id, content, name, 3 more }
 
-        Record type
+BIMI TXT records
 
-    - `cname_dmarc_records: optional array of object { id, content, name, 2 more }`
+</summary>
 
-      CNAME records at _dmarc (problematic)
+id: optional string
 
-      - `id: optional string`
+DNS record ID
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+content: optional string
 
-        Record content
+Record content
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+name: optional string
 
-      - `ttl: optional number`
+DNS record name
 
-        Time to live in seconds
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+resolved: optional array of string
 
-        Record type
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-    - `cname_spf_records: optional array of object { id, content, name, 2 more }`
+<a href="#">Link to this property</a>
 
-      CNAME records for SPF
+ttl: optional number
 
-      - `id: optional string`
+Time to live in seconds
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+type: optional string
 
-        Record content
+Record type
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+</details>
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+<details>
 
-      - `type: optional string`
+<summary>
 
-        Record type
+cname\_dkim\_records: optional array of object {id, content, name, 3 more }
 
-    - `dkim_records: optional array of object { id, content, name, 2 more }`
+CNAME records for DKIM selectors. Each selector is resolved independently; when a selector’s CNAME resolves to a DKIM TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
 
-      DKIM TXT records
+</summary>
 
-      - `id: optional string`
+id: optional string
 
-        DNS record ID
+DNS record ID
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+content: optional string
 
-      - `name: optional string`
+Record content
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+name: optional string
 
-        Time to live in seconds
+DNS record name
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+resolved: optional array of string
 
-    - `dmarc_records: optional array of object { id, content, name, 2 more }`
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-      DMARC TXT records
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+ttl: optional number
 
-        DNS record ID
+Time to live in seconds
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+type: optional string
 
-      - `name: optional string`
+Record type
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+</details>
 
-        Time to live in seconds
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+<details>
 
-        Record type
+<summary>
 
-    - `spf_records: optional array of object { id, content, name, 2 more }`
+cname\_dmarc\_records: optional array of object {id, content, name, 3 more }
 
-      SPF TXT records
+CNAME records at \_dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
 
-      - `id: optional string`
+</summary>
 
-        DNS record ID
+id: optional string
 
-      - `content: optional string`
+DNS record ID
 
-        Record content
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+content: optional string
 
-        DNS record name
+Record content
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+name: optional string
 
-      - `type: optional string`
+DNS record name
 
-        Record type
+<a href="#">Link to this property</a>
 
-  - `rua_prefix: optional string`
+resolved: optional array of string
 
-    Prefix for DMARC RUA addresses (32-char hex string)
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-  - `skip_wizard: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to skip the setup wizard
+ttl: optional number
 
-  - `status: optional "missing-dmarc-report" or "multiple-dmarc-reports" or "missing-dmarc-rua" or "cname-on-dmarc-record"`
+Time to live in seconds
 
-    DMARC configuration status
+<a href="#">Link to this property</a>
 
-    - `"missing-dmarc-report"`
+type: optional string
 
-    - `"multiple-dmarc-reports"`
+Record type
 
-    - `"missing-dmarc-rua"`
+<a href="#">Link to this property</a>
 
-    - `"cname-on-dmarc-record"`
+</details>
 
-  - `tag: optional string`
+<a href="#">Link to this property</a>
 
-    Use `zone_id` instead
+<details>
 
-  - `zone_id: optional string`
+<summary>
 
-    Zone identifier
+cname\_spf\_records: optional array of object {id, content, name, 3 more }
 
-### Example
+CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-reports \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "approved_sources": [
-      {
-        "created": "2024-01-15T10:30:00.12345Z",
-        "created_at": "2024-01-15T10:30:00.12345Z",
-        "domain": "sendgrid.net",
-        "ips": [
-          "192.168.1.1",
-          "10.0.0.1"
-        ],
-        "modified": "2024-01-15T11:45:00.12345Z",
-        "modified_at": "2024-01-15T11:45:00.12345Z",
-        "name": "SendGrid",
-        "slug": "sendgrid-net",
-        "tag": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      }
-    ],
-    "created": "2024-01-15T10:30:00.12345Z",
-    "created_at": "2024-01-15T10:30:00.12345Z",
-    "enabled": true,
-    "modified": "2024-01-15T11:45:00.12345Z",
-    "modified_at": "2024-01-15T11:45:00.12345Z",
-    "records": {
-      "bimi_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "cname_dkim_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "cname_dmarc_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "cname_spf_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "dkim_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "dmarc_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "spf_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ]
-    },
-    "rua_prefix": "9233c80fc89f43e3a7b749605f651868",
-    "skip_wizard": false,
-    "status": "missing-dmarc-report",
-    "tag": "023e105f4ecef8ad9ca31a8372d0c353",
-    "zone_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+DNS record ID
 
-## Configure DMARC Reports
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/email/auth/dmarc-reports`
+content: optional string
 
-Updates the DMARC report configuration for a zone.
-At least one of `enabled` or `skip_wizard` must be provided.
-When enabling, the handler will ensure the DMARC RUA record exists in DNS.
+Record content
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+name: optional string
 
-  Identifier.
+DNS record name
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `enabled: optional boolean`
+resolved: optional array of string
 
-  Enable or disable DMARC reports for this zone
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-- `skip_wizard: optional boolean`
+<a href="#">Link to this property</a>
 
-  Skip the DMARC setup wizard
+ttl: optional number
 
-### Returns
+Time to live in seconds
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+type: optional string
 
-  - `message: string`
+Record type
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+dkim\_records: optional array of object {id, content, name, 3 more }
 
-  - `documentation_url: optional string`
+DKIM TXT records
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: optional string
 
-- `success: true`
+DNS record ID
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+content: optional string
 
-- `result: optional object { approved_sources, created, created_at, 9 more }`
+Record content
 
-  Response for GET/PATCH /dmarc-reports
+<a href="#">Link to this property</a>
 
-  - `approved_sources: optional array of object { created, created_at, domain, 6 more }`
+name: optional string
 
-    List of approved sending sources (omitted when empty)
+DNS record name
 
-    - `created: optional string`
+<a href="#">Link to this property</a>
 
-      Deprecated, use created_at
+resolved: optional array of string
 
-    - `created_at: optional string`
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-      Creation timestamp
+<a href="#">Link to this property</a>
 
-    - `domain: optional string`
+ttl: optional number
 
-      The source domain
+Time to live in seconds
 
-    - `ips: optional array of string`
+<a href="#">Link to this property</a>
 
-      Resolved IP addresses from SPF
+type: optional string
 
-    - `modified: optional string`
+Record type
 
-      Deprecated, use modified_at
+<a href="#">Link to this property</a>
 
-    - `modified_at: optional string`
+</details>
 
-      Last modification timestamp
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-      Source name (typically same as domain)
+<summary>
 
-    - `slug: optional string`
+dmarc\_records: optional array of object {id, content, name, 3 more }
 
-      URL-friendly identifier
+DMARC TXT records
 
-    - `tag: optional string`
+</summary>
 
-      Source UUID
+id: optional string
 
-  - `created: optional string`
+DNS record ID
 
-    Deprecated, use created_at
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+content: optional string
 
-    Creation timestamp
+Record content
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether DMARC reports are enabled
+name: optional string
 
-  - `modified: optional string`
+DNS record name
 
-    Deprecated, use modified_at
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+resolved: optional array of string
 
-    Last modification timestamp
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-  - `records: optional object { bimi_records, cname_dkim_records, cname_dmarc_records, 4 more }`
+<a href="#">Link to this property</a>
 
-    Live DNS records for the zone, grouped by type
+ttl: optional number
 
-    - `bimi_records: optional array of object { id, content, name, 2 more }`
+Time to live in seconds
 
-      BIMI TXT records
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+type: optional string
 
-        DNS record ID
+Record type
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+<details>
 
-      - `ttl: optional number`
+<summary>
 
-        Time to live in seconds
+Deprecatedresolved\_dmarc\_records: optional array of object {content, name }
 
-      - `type: optional string`
+Use the <code>resolved</code> field on the corresponding entry in cname\_dmarc\_records instead.
 
-        Record type
+DMARC records that a recursive lookup of \_dmarc.{zone} returned. The API populates this only when the zone lacks a DMARC TXT record of its own, which usually means a CNAME delegates DMARC to another zone.
 
-    - `cname_dkim_records: optional array of object { id, content, name, 2 more }`
+</summary>
 
-      CNAME records for DKIM
+content: optional string
 
-      - `id: optional string`
+The TXT record value. The API joins all character-strings into a single string.
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+name: optional string
 
-        Record content
+The name the API queried.
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+</details>
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+<details>
 
-      - `type: optional string`
+<summary>
 
-        Record type
+spf\_records: optional array of object {id, content, name, 3 more }
 
-    - `cname_dmarc_records: optional array of object { id, content, name, 2 more }`
+SPF TXT records
 
-      CNAME records at _dmarc (problematic)
+</summary>
 
-      - `id: optional string`
+id: optional string
 
-        DNS record ID
+DNS record ID
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+content: optional string
 
-      - `name: optional string`
+Record content
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+name: optional string
 
-        Time to live in seconds
+DNS record name
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+resolved: optional array of string
 
-    - `cname_spf_records: optional array of object { id, content, name, 2 more }`
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-      CNAME records for SPF
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+ttl: optional number
 
-        DNS record ID
+Time to live in seconds
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+type: optional string
 
-      - `name: optional string`
+Record type
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+</details>
 
-        Time to live in seconds
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+</details>
 
-        Record type
+<a href="#">Link to this property</a>
 
-    - `dkim_records: optional array of object { id, content, name, 2 more }`
+rua\_prefix: optional string
 
-      DKIM TXT records
+Prefix for DMARC RUA addresses (32-char hex string)
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record ID
+skip\_wizard: optional boolean
 
-      - `content: optional string`
+Whether to skip the setup wizard
 
-        Record content
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+<details>
 
-        DNS record name
+<summary>
 
-      - `ttl: optional number`
+status: optional "missing-dmarc-report"or "multiple-dmarc-reports"or "missing-dmarc-rua"or 2 more
 
-        Time to live in seconds
+DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, the API resolves \_dmarc.{zone} recursively and evaluates whatever that lookup returns. A CNAME at \_dmarc.{zone} that points to a valid DMARC record is therefore healthy; the cname-on-dmarc-record value means the CNAME resolves to no DMARC record at all.
 
-      - `type: optional string`
+</summary>
 
-        Record type
+One of the following:
 
-    - `dmarc_records: optional array of object { id, content, name, 2 more }`
+"missing-dmarc-report"
 
-      DMARC TXT records
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+"multiple-dmarc-reports"
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+"missing-dmarc-rua"
 
-        Record content
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+"cname-on-dmarc-record"
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+"unauthorized-reporting-domain"
 
-        Time to live in seconds
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+</details>
 
-        Record type
+<a href="#">Link to this property</a>
 
-    - `spf_records: optional array of object { id, content, name, 2 more }`
+Deprecatedtag: optional string
 
-      SPF TXT records
+Use <code>zone_id</code> instead.
 
-      - `id: optional string`
+Use <code>zone_id</code> instead
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+zone\_id: optional string
 
-        Record content
+Zone identifier
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+</details>
 
-      - `ttl: optional number`
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(model)%20dmarc_report_get_response%20%3E%20(schema)>)
 
-        Time to live in seconds
+<details>
 
-      - `type: optional string`
+<summary>
 
-        Record type
+DMARCReportEditResponse object {approved\_sources, created, created\_at, 9 more }
 
-  - `rua_prefix: optional string`
+Response for GET/PATCH /dmarc-reports
 
-    Prefix for DMARC RUA addresses (32-char hex string)
+</summary>
 
-  - `skip_wizard: optional boolean`
+<details>
 
-    Whether to skip the setup wizard
+<summary>
 
-  - `status: optional "missing-dmarc-report" or "multiple-dmarc-reports" or "missing-dmarc-rua" or "cname-on-dmarc-record"`
+approved\_sources: optional array of object {created, created\_at, domain, 6 more }
 
-    DMARC configuration status
+List of approved sending sources (omitted when empty)
 
-    - `"missing-dmarc-report"`
+</summary>
 
-    - `"multiple-dmarc-reports"`
+Deprecatedcreated: optional string
 
-    - `"missing-dmarc-rua"`
+Use <code>created_at</code> instead.
 
-    - `"cname-on-dmarc-record"`
+Deprecated, use created\_at
 
-  - `tag: optional string`
+formatdate-time
 
-    Use `zone_id` instead
+<a href="#">Link to this property</a>
 
-  - `zone_id: optional string`
+created\_at: optional string
 
-    Zone identifier
+Creation timestamp
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-reports \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+domain: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "approved_sources": [
-      {
-        "created": "2024-01-15T10:30:00.12345Z",
-        "created_at": "2024-01-15T10:30:00.12345Z",
-        "domain": "sendgrid.net",
-        "ips": [
-          "192.168.1.1",
-          "10.0.0.1"
-        ],
-        "modified": "2024-01-15T11:45:00.12345Z",
-        "modified_at": "2024-01-15T11:45:00.12345Z",
-        "name": "SendGrid",
-        "slug": "sendgrid-net",
-        "tag": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      }
-    ],
-    "created": "2024-01-15T10:30:00.12345Z",
-    "created_at": "2024-01-15T10:30:00.12345Z",
-    "enabled": true,
-    "modified": "2024-01-15T11:45:00.12345Z",
-    "modified_at": "2024-01-15T11:45:00.12345Z",
-    "records": {
-      "bimi_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "cname_dkim_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "cname_dmarc_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "cname_spf_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "dkim_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "dmarc_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ],
-      "spf_records": [
-        {
-          "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
-          "name": "_dmarc.example.com",
-          "ttl": 300,
-          "type": "TXT"
-        }
-      ]
-    },
-    "rua_prefix": "9233c80fc89f43e3a7b749605f651868",
-    "skip_wizard": false,
-    "status": "missing-dmarc-report",
-    "tag": "023e105f4ecef8ad9ca31a8372d0c353",
-    "zone_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+The source domain
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### DMARC Report Get Response
+ips: optional array of string
 
-- `DMARCReportGetResponse object { approved_sources, created, created_at, 9 more }`
+Resolved IP addresses from SPF
 
-  Response for GET/PATCH /dmarc-reports
+<a href="#">Link to this property</a>
 
-  - `approved_sources: optional array of object { created, created_at, domain, 6 more }`
+Deprecatedmodified: optional string
 
-    List of approved sending sources (omitted when empty)
+Use <code>modified_at</code> instead.
 
-    - `created: optional string`
+Deprecated, use modified\_at
 
-      Deprecated, use created_at
+formatdate-time
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-      Creation timestamp
+modified\_at: optional string
 
-    - `domain: optional string`
+Last modification timestamp
 
-      The source domain
+formatdate-time
 
-    - `ips: optional array of string`
+<a href="#">Link to this property</a>
 
-      Resolved IP addresses from SPF
+name: optional string
 
-    - `modified: optional string`
+Source name (typically same as domain)
 
-      Deprecated, use modified_at
+<a href="#">Link to this property</a>
 
-    - `modified_at: optional string`
+slug: optional string
 
-      Last modification timestamp
+URL-friendly identifier
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Source name (typically same as domain)
+tag: optional string
 
-    - `slug: optional string`
+Source UUID
 
-      URL-friendly identifier
+<a href="#">Link to this property</a>
 
-    - `tag: optional string`
+</details>
 
-      Source UUID
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+Deprecatedcreated: optional string
 
-    Deprecated, use created_at
+Use <code>created_at</code> instead.
 
-  - `created_at: optional string`
+Deprecated, use created\_at
 
-    Creation timestamp
+formatdate-time
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether DMARC reports are enabled
+created\_at: optional string
 
-  - `modified: optional string`
+Creation timestamp
 
-    Deprecated, use modified_at
+formatdate-time
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-    Last modification timestamp
+enabled: optional boolean
 
-  - `records: optional object { bimi_records, cname_dkim_records, cname_dmarc_records, 4 more }`
+Whether DMARC reports are enabled
 
-    Live DNS records for the zone, grouped by type
+<a href="#">Link to this property</a>
 
-    - `bimi_records: optional array of object { id, content, name, 2 more }`
+Deprecatedmodified: optional string
 
-      BIMI TXT records
+Use <code>modified_at</code> instead.
 
-      - `id: optional string`
+Deprecated, use modified\_at
 
-        DNS record ID
+formatdate-time
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+modified\_at: optional string
 
-      - `name: optional string`
+Last modification timestamp
 
-        DNS record name
+formatdate-time
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+<details>
 
-      - `type: optional string`
+<summary>
 
-        Record type
+records: optional object {bimi\_records, cname\_dkim\_records, cname\_dmarc\_records, 5 more }
 
-    - `cname_dkim_records: optional array of object { id, content, name, 2 more }`
+Live DNS records for the zone, grouped by type
 
-      CNAME records for DKIM
+</summary>
 
-      - `id: optional string`
+<details>
 
-        DNS record ID
+<summary>
 
-      - `content: optional string`
+bimi\_records: optional array of object {id, content, name, 3 more }
 
-        Record content
+BIMI TXT records
 
-      - `name: optional string`
+</summary>
 
-        DNS record name
+id: optional string
 
-      - `ttl: optional number`
+DNS record ID
 
-        Time to live in seconds
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+content: optional string
 
-        Record type
+Record content
 
-    - `cname_dmarc_records: optional array of object { id, content, name, 2 more }`
+<a href="#">Link to this property</a>
 
-      CNAME records at _dmarc (problematic)
+name: optional string
 
-      - `id: optional string`
+DNS record name
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+resolved: optional array of string
 
-        Record content
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+ttl: optional number
 
-      - `ttl: optional number`
+Time to live in seconds
 
-        Time to live in seconds
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+type: optional string
 
-        Record type
+Record type
 
-    - `cname_spf_records: optional array of object { id, content, name, 2 more }`
+<a href="#">Link to this property</a>
 
-      CNAME records for SPF
+</details>
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record ID
+<details>
 
-      - `content: optional string`
+<summary>
 
-        Record content
+cname\_dkim\_records: optional array of object {id, content, name, 3 more }
 
-      - `name: optional string`
+CNAME records for DKIM selectors. Each selector is resolved independently; when a selector’s CNAME resolves to a DKIM TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
 
-        DNS record name
+</summary>
 
-      - `ttl: optional number`
+id: optional string
 
-        Time to live in seconds
+DNS record ID
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+content: optional string
 
-    - `dkim_records: optional array of object { id, content, name, 2 more }`
+Record content
 
-      DKIM TXT records
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+name: optional string
 
-        DNS record ID
+DNS record name
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+resolved: optional array of string
 
-      - `name: optional string`
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+ttl: optional number
 
-        Time to live in seconds
+Time to live in seconds
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+type: optional string
 
-    - `dmarc_records: optional array of object { id, content, name, 2 more }`
+Record type
 
-      DMARC TXT records
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+</details>
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+<details>
 
-        Record content
+<summary>
 
-      - `name: optional string`
+cname\_dmarc\_records: optional array of object {id, content, name, 3 more }
 
-        DNS record name
+CNAME records at \_dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
 
-      - `ttl: optional number`
+</summary>
 
-        Time to live in seconds
+id: optional string
 
-      - `type: optional string`
+DNS record ID
 
-        Record type
+<a href="#">Link to this property</a>
 
-    - `spf_records: optional array of object { id, content, name, 2 more }`
+content: optional string
 
-      SPF TXT records
+Record content
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record ID
+name: optional string
 
-      - `content: optional string`
+DNS record name
 
-        Record content
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+resolved: optional array of string
 
-        DNS record name
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+ttl: optional number
 
-      - `type: optional string`
+Time to live in seconds
 
-        Record type
+<a href="#">Link to this property</a>
 
-  - `rua_prefix: optional string`
+type: optional string
 
-    Prefix for DMARC RUA addresses (32-char hex string)
+Record type
 
-  - `skip_wizard: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to skip the setup wizard
+</details>
 
-  - `status: optional "missing-dmarc-report" or "multiple-dmarc-reports" or "missing-dmarc-rua" or "cname-on-dmarc-record"`
+<a href="#">Link to this property</a>
 
-    DMARC configuration status
+<details>
 
-    - `"missing-dmarc-report"`
+<summary>
 
-    - `"multiple-dmarc-reports"`
+cname\_spf\_records: optional array of object {id, content, name, 3 more }
 
-    - `"missing-dmarc-rua"`
+CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
 
-    - `"cname-on-dmarc-record"`
+</summary>
 
-  - `tag: optional string`
+id: optional string
 
-    Use `zone_id` instead
+DNS record ID
 
-  - `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-    Zone identifier
+content: optional string
 
-### DMARC Report Edit Response
+Record content
 
-- `DMARCReportEditResponse object { approved_sources, created, created_at, 9 more }`
+<a href="#">Link to this property</a>
 
-  Response for GET/PATCH /dmarc-reports
+name: optional string
 
-  - `approved_sources: optional array of object { created, created_at, domain, 6 more }`
+DNS record name
 
-    List of approved sending sources (omitted when empty)
+<a href="#">Link to this property</a>
 
-    - `created: optional string`
+resolved: optional array of string
 
-      Deprecated, use created_at
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-      Creation timestamp
+ttl: optional number
 
-    - `domain: optional string`
+Time to live in seconds
 
-      The source domain
+<a href="#">Link to this property</a>
 
-    - `ips: optional array of string`
+type: optional string
 
-      Resolved IP addresses from SPF
+Record type
 
-    - `modified: optional string`
+<a href="#">Link to this property</a>
 
-      Deprecated, use modified_at
+</details>
 
-    - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-      Last modification timestamp
+<details>
 
-    - `name: optional string`
+<summary>
 
-      Source name (typically same as domain)
+dkim\_records: optional array of object {id, content, name, 3 more }
 
-    - `slug: optional string`
+DKIM TXT records
 
-      URL-friendly identifier
+</summary>
 
-    - `tag: optional string`
+id: optional string
 
-      Source UUID
+DNS record ID
 
-  - `created: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use created_at
+content: optional string
 
-  - `created_at: optional string`
+Record content
 
-    Creation timestamp
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+name: optional string
 
-    Whether DMARC reports are enabled
+DNS record name
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use modified_at
+resolved: optional array of string
 
-  - `modified_at: optional string`
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-    Last modification timestamp
+<a href="#">Link to this property</a>
 
-  - `records: optional object { bimi_records, cname_dkim_records, cname_dmarc_records, 4 more }`
+ttl: optional number
 
-    Live DNS records for the zone, grouped by type
+Time to live in seconds
 
-    - `bimi_records: optional array of object { id, content, name, 2 more }`
+<a href="#">Link to this property</a>
 
-      BIMI TXT records
+type: optional string
 
-      - `id: optional string`
+Record type
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+</details>
 
-        Record content
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+<details>
 
-        DNS record name
+<summary>
 
-      - `ttl: optional number`
+dmarc\_records: optional array of object {id, content, name, 3 more }
 
-        Time to live in seconds
+DMARC TXT records
 
-      - `type: optional string`
+</summary>
 
-        Record type
+id: optional string
 
-    - `cname_dkim_records: optional array of object { id, content, name, 2 more }`
+DNS record ID
 
-      CNAME records for DKIM
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+content: optional string
 
-        DNS record ID
+Record content
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+name: optional string
 
-      - `name: optional string`
+DNS record name
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+resolved: optional array of string
 
-        Time to live in seconds
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+ttl: optional number
 
-    - `cname_dmarc_records: optional array of object { id, content, name, 2 more }`
+Time to live in seconds
 
-      CNAME records at _dmarc (problematic)
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+type: optional string
 
-        DNS record ID
+Record type
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+<details>
 
-      - `ttl: optional number`
+<summary>
 
-        Time to live in seconds
+Deprecatedresolved\_dmarc\_records: optional array of object {content, name }
 
-      - `type: optional string`
+Use the <code>resolved</code> field on the corresponding entry in cname\_dmarc\_records instead.
 
-        Record type
+DMARC records that a recursive lookup of \_dmarc.{zone} returned. The API populates this only when the zone lacks a DMARC TXT record of its own, which usually means a CNAME delegates DMARC to another zone.
 
-    - `cname_spf_records: optional array of object { id, content, name, 2 more }`
+</summary>
 
-      CNAME records for SPF
+content: optional string
 
-      - `id: optional string`
+The TXT record value. The API joins all character-strings into a single string.
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+name: optional string
 
-        Record content
+The name the API queried.
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+</details>
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+<details>
 
-      - `type: optional string`
+<summary>
 
-        Record type
+spf\_records: optional array of object {id, content, name, 3 more }
 
-    - `dkim_records: optional array of object { id, content, name, 2 more }`
+SPF TXT records
 
-      DKIM TXT records
+</summary>
 
-      - `id: optional string`
+id: optional string
 
-        DNS record ID
+DNS record ID
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+content: optional string
 
-      - `name: optional string`
+Record content
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+name: optional string
 
-        Time to live in seconds
+DNS record name
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+resolved: optional array of string
 
-    - `dmarc_records: optional array of object { id, content, name, 2 more }`
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
 
-      DMARC TXT records
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+ttl: optional number
 
-        DNS record ID
+Time to live in seconds
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+type: optional string
 
-      - `name: optional string`
+Record type
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+</details>
 
-        Time to live in seconds
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+</details>
 
-        Record type
+<a href="#">Link to this property</a>
 
-    - `spf_records: optional array of object { id, content, name, 2 more }`
+rua\_prefix: optional string
 
-      SPF TXT records
+Prefix for DMARC RUA addresses (32-char hex string)
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record ID
+skip\_wizard: optional boolean
 
-      - `content: optional string`
+Whether to skip the setup wizard
 
-        Record content
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+<details>
 
-        DNS record name
+<summary>
 
-      - `ttl: optional number`
+status: optional "missing-dmarc-report"or "multiple-dmarc-reports"or "missing-dmarc-rua"or 2 more
 
-        Time to live in seconds
+DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, the API resolves \_dmarc.{zone} recursively and evaluates whatever that lookup returns. A CNAME at \_dmarc.{zone} that points to a valid DMARC record is therefore healthy; the cname-on-dmarc-record value means the CNAME resolves to no DMARC record at all.
 
-      - `type: optional string`
+</summary>
 
-        Record type
+One of the following:
 
-  - `rua_prefix: optional string`
+"missing-dmarc-report"
 
-    Prefix for DMARC RUA addresses (32-char hex string)
+<a href="#">Link to this property</a>
 
-  - `skip_wizard: optional boolean`
+"multiple-dmarc-reports"
 
-    Whether to skip the setup wizard
+<a href="#">Link to this property</a>
 
-  - `status: optional "missing-dmarc-report" or "multiple-dmarc-reports" or "missing-dmarc-rua" or "cname-on-dmarc-record"`
+"missing-dmarc-rua"
 
-    DMARC configuration status
+<a href="#">Link to this property</a>
 
-    - `"missing-dmarc-report"`
+"cname-on-dmarc-record"
 
-    - `"multiple-dmarc-reports"`
+<a href="#">Link to this property</a>
 
-    - `"missing-dmarc-rua"`
+"unauthorized-reporting-domain"
 
-    - `"cname-on-dmarc-record"`
+<a href="#">Link to this property</a>
 
-  - `tag: optional string`
+</details>
 
-    Use `zone_id` instead
+<a href="#">Link to this property</a>
 
-  - `zone_id: optional string`
+Deprecatedtag: optional string
 
-    Zone identifier
+Use <code>zone_id</code> instead.
 
-# SPF
+Use <code>zone_id</code> instead
 
-# Inspect
+<a href="#">Link to this property</a>
 
-## Inspect SPF Record
+zone\_id: optional string
 
-**get** `/zones/{zone_id}/email/auth/spf/inspect`
+Zone identifier
 
-Inspects a specific SPF TXT record and returns a parsed tree structure
-in the spflimit-worker format.
+<a href="#">Link to this property</a>
 
-The record ID must be provided via the `id` query parameter.
+</details>
 
-Returns a recursive tree showing:
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(model)%20dmarc_report_edit_response%20%3E%20(schema)>)
 
-- Parsed components with their qualifiers and types
-- Nested includes recursively resolved within components
-- Per-component and total lookup counts
-- Detailed error information with context
+#### Email AuthSPF
 
-### Path Parameters
+#### Email AuthSPFInspect
 
-- `zone_id: string`
+##### [Inspect SPF Record](https://developers.cloudflare.com/api/resources/email_auth/subresources/spf/subresources/inspect/methods/get)
 
-  Identifier.
+GET/zones/{zone\_id}/email/auth/spf/inspect
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `id: string`
+<details>
 
-  DNS record ID (rec_tag) to inspect
+<summary>
 
-### Returns
+InspectGetResponse object {components, domain, record, 2 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+Recursive SPF inspection tree
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+components: array of unknown
 
-  - `documentation_url: optional string`
+Parsed SPF components (mechanisms)
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+domain: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Domain being inspected
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+record: string
 
-  - `documentation_url: optional string`
+Raw SPF record content
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+total\_lookups: number
 
-- `success: true`
+Total number of DNS lookups performed across all includes
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { components, domain, record, 2 more }`
+<summary>
 
-  Recursive SPF inspection tree
+errors: optional array of object {code, domain, message, details }
 
-  - `components: array of unknown`
+All errors encountered during inspection, collected from the entire tree. This includes errors from nested includes at any depth, providing a quick overview of all issues without needing to traverse the nested structure. Each error includes a <code>domain</code> field to identify where it occurred. Empty array if no errors (omitted from JSON when empty).
 
-    Parsed SPF components (mechanisms)
+</summary>
 
-  - `domain: string`
+code: string
 
-    Domain being inspected
+Error code. Known values:
 
-  - `record: string`
+- <code>lookup_failed</code> — DNS TXT lookup failed
+- <code>spf_not_found</code> — no SPF record found
+- <code>invalid_spf</code> — record does not start with <code>v=spf1</code>
+- <code>invalid_domain</code> — PSL validation failed
+- <code>loop_detected</code> — include/redirect cycle detected
+- <code>invalid_mechanism</code> — unrecognised or malformed mechanism
+- <code>resource_limit_exceeded</code> — internal resource protection limits exceeded (recursion depth or query budget)
+- <code>max_lookups</code> — RFC 7208 10-lookup limit exceeded
 
-    Raw SPF record content
+<a href="#">Link to this property</a>
 
-  - `total_lookups: number`
+domain: string
 
-    Total number of DNS lookups performed across all includes
+Domain where the error occurred
 
-  - `errors: optional array of object { code, domain, message, details }`
+<a href="#">Link to this property</a>
 
-    All errors encountered during inspection, collected from the entire tree.
-    This includes errors from nested includes at any depth, providing a quick
-    overview of all issues without needing to traverse the nested structure.
-    Each error includes a `domain` field to identify where it occurred.
-    Empty array if no errors (omitted from JSON when empty).
+message: string
 
-    - `code: string`
+Human-readable error message
 
-      Error code. Known values:
+<a href="#">Link to this property</a>
 
-      - `lookup_failed` — DNS TXT lookup failed
-      - `spf_not_found` — no SPF record found
-      - `invalid_spf` — record does not start with `v=spf1`
-      - `invalid_domain` — PSL validation failed
-      - `loop_detected` — include/redirect cycle detected
-      - `invalid_mechanism` — unrecognised or malformed mechanism
-      - `resource_limit_exceeded` — internal resource protection limits exceeded (recursion depth or query budget)
-      - `max_lookups` — RFC 7208 10-lookup limit exceeded
+details: optional string
 
-    - `domain: string`
+Additional error-specific details (optional).
 
-      Domain where the error occurred
+- For <code>invalid_domain</code> errors: the invalid domain string
+- For <code>invalid_mechanism</code> errors: the invalid mechanism text (e.g., “invalidmech123”)
+- For <code>loop_detected</code> errors: the domain that caused the loop
+- For other error types: not present
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-      Human-readable error message
+</details>
 
-    - `details: optional string`
+<a href="#">Link to this property</a>
 
-      Additional error-specific details (optional).
+</details>
 
-      - For `invalid_domain` errors: the invalid domain string
-      - For `invalid_mechanism` errors: the invalid mechanism text (e.g., "invalidmech123")
-      - For `loop_detected` errors: the domain that caused the loop
-      - For other error types: not present
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/spf/inspect \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "components": [
-      {}
-    ],
-    "domain": "example.com",
-    "record": "v=spf1 ip4:203.0.113.1 include:spf.example.com -all",
-    "total_lookups": 2,
-    "errors": [
-      {
-        "code": "max_lookups",
-        "domain": "example.com",
-        "message": "RFC 7208 10-lookup limit exceeded",
-        "details": "invalid"
-      }
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Inspect Get Response
-
-- `InspectGetResponse object { components, domain, record, 2 more }`
-
-  Recursive SPF inspection tree
-
-  - `components: array of unknown`
-
-    Parsed SPF components (mechanisms)
-
-  - `domain: string`
-
-    Domain being inspected
-
-  - `record: string`
-
-    Raw SPF record content
-
-  - `total_lookups: number`
-
-    Total number of DNS lookups performed across all includes
-
-  - `errors: optional array of object { code, domain, message, details }`
-
-    All errors encountered during inspection, collected from the entire tree.
-    This includes errors from nested includes at any depth, providing a quick
-    overview of all issues without needing to traverse the nested structure.
-    Each error includes a `domain` field to identify where it occurred.
-    Empty array if no errors (omitted from JSON when empty).
-
-    - `code: string`
-
-      Error code. Known values:
-
-      - `lookup_failed` — DNS TXT lookup failed
-      - `spf_not_found` — no SPF record found
-      - `invalid_spf` — record does not start with `v=spf1`
-      - `invalid_domain` — PSL validation failed
-      - `loop_detected` — include/redirect cycle detected
-      - `invalid_mechanism` — unrecognised or malformed mechanism
-      - `resource_limit_exceeded` — internal resource protection limits exceeded (recursion depth or query budget)
-      - `max_lookups` — RFC 7208 10-lookup limit exceeded
-
-    - `domain: string`
-
-      Domain where the error occurred
-
-    - `message: string`
-
-      Human-readable error message
-
-    - `details: optional string`
-
-      Additional error-specific details (optional).
-
-      - For `invalid_domain` errors: the invalid domain string
-      - For `invalid_mechanism` errors: the invalid mechanism text (e.g., "invalidmech123")
-      - For `loop_detected` errors: the domain that caused the loop
-      - For other error types: not present
+[Link to this property](#)%20email_auth.spf.inspect%20%3E%20(model)%20inspect_get_response%20%3E%20(schema)>)

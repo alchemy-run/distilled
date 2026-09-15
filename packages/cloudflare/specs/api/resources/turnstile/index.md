@@ -1,1440 +1,513 @@
+---
+title: Turnstile
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Turnstile
 
-# Widgets
+#### TurnstileWidgets
 
-## List Turnstile Widgets
+##### [List Turnstile Widgets](https://developers.cloudflare.com/api/resources/turnstile/subresources/widgets/methods/list)
 
-**get** `/accounts/{account_id}/challenges/widgets`
+GET/accounts/{account\_id}/challenges/widgets
 
-Lists all turnstile widgets of an account.
+##### [Turnstile Widget Details](https://developers.cloudflare.com/api/resources/turnstile/subresources/widgets/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/challenges/widgets/{sitekey}
 
-- `account_id: string`
+##### [Create a Turnstile Widget](https://developers.cloudflare.com/api/resources/turnstile/subresources/widgets/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/challenges/widgets
 
-### Query Parameters
+##### [Update a Turnstile Widget](https://developers.cloudflare.com/api/resources/turnstile/subresources/widgets/methods/update)
 
-- `direction: optional "asc" or "desc"`
+PUT/accounts/{account\_id}/challenges/widgets/{sitekey}
 
-  Direction to order widgets.
+##### [Delete a Turnstile Widget](https://developers.cloudflare.com/api/resources/turnstile/subresources/widgets/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/challenges/widgets/{sitekey}
 
-  - `"desc"`
+##### [Rotate Secret for a Turnstile Widget](https://developers.cloudflare.com/api/resources/turnstile/subresources/widgets/methods/rotate_secret)
 
-- `filter: optional string`
+POST/accounts/{account\_id}/challenges/widgets/{sitekey}/rotate\_secret
 
-  Filter widgets by field using case-insensitive substring matching.
-  Format: `field:value`
+##### ModelsExpand Collapse
 
-  Supported fields:
+<details>
 
-  - `name` - Filter by widget name (e.g., `filter=name:login-form`)
-  - `sitekey` - Filter by sitekey (e.g., `filter=sitekey:0x4AAA`)
+<summary>
 
-  Returns 400 Bad Request if the field is unsupported or format is invalid.
-  An empty filter value returns all results.
+Widget object {bot\_fight\_mode, clearance\_level, created\_on, 11 more }
 
-- `order: optional "id" or "sitekey" or "name" or 2 more`
+A Turnstile widget’s detailed configuration
 
-  Field to order widgets by.
+</summary>
 
-  - `"id"`
+bot\_fight\_mode: boolean
 
-  - `"sitekey"`
+If bot\_fight\_mode is set to <code>true</code>, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only).
 
-  - `"name"`
+<a href="#">Link to this property</a>
 
-  - `"created_on"`
+<details>
 
-  - `"modified_on"`
+<summary>
 
-- `page: optional number`
+clearance\_level: "no\_clearance"or "jschallenge"or "managed"or "interactive"
 
-  Page number of paginated results.
+If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set
 
-- `per_page: optional number`
+</summary>
 
-  Number of items per page.
+One of the following:
 
-### Returns
+"no\_clearance"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"jschallenge"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"managed"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"interactive"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_on: string
 
-  - `source: optional object { pointer }`
+When the widget was created.
 
-- `success: boolean`
+formatdate-time
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { bot_fight_mode, clearance_level, created_on, 8 more }`
+domains: array of <a href="https://developers.cloudflare.com/api/resources/turnstile#(resource)%20turnstile.widgets%20%3E%20(model)%20widget_domain%20%3E%20(schema)">WidgetDomain</a>
 
-  - `bot_fight_mode: boolean`
+maxLength10
 
-    If bot_fight_mode is set to `true`, Cloudflare issues computationally
-    expensive challenges in response to malicious bots (ENT only).
+<a href="#">Link to this property</a>
 
-  - `clearance_level: "no_clearance" or "jschallenge" or "managed" or "interactive"`
+ephemeral\_id: boolean
 
-    If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-    this setting can determine the clearance level to be set
+Return the Ephemeral ID in /siteverify (ENT only).
 
-    - `"no_clearance"`
+<a href="#">Link to this property</a>
 
-    - `"jschallenge"`
+<details>
 
-    - `"managed"`
+<summary>
 
-    - `"interactive"`
+mode: "non-interactive"or "invisible"or "managed"
 
-  - `created_on: string`
+Widget Mode
 
-    When the widget was created.
+</summary>
 
-  - `domains: array of WidgetDomain`
+One of the following:
 
-  - `ephemeral_id: boolean`
+"non-interactive"
 
-    Return the Ephemeral ID in /siteverify (ENT only).
+<a href="#">Link to this property</a>
 
-  - `mode: "non-interactive" or "invisible" or "managed"`
+"invisible"
 
-    Widget Mode
+<a href="#">Link to this property</a>
 
-    - `"non-interactive"`
+"managed"
 
-    - `"invisible"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+</details>
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    When the widget was modified.
+modified\_on: string
 
-  - `name: string`
+When the widget was modified.
 
-    Human readable widget name. Not unique. Cloudflare suggests that you
-    set this to a meaningful string to make it easier to identify your
-    widget, and where it is used.
+formatdate-time
 
-  - `offlabel: boolean`
+<a href="#">Link to this property</a>
 
-    Do not show any Cloudflare branding on the widget (ENT only).
+name: string
 
-  - `region: "world" or "china"`
+Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.
 
-    Region where this widget can be used. This cannot be changed after creation.
+maxLength254
 
-    - `"world"`
+minLength1
 
-    - `"china"`
+<a href="#">Link to this property</a>
 
-  - `sitekey: string`
+offlabel: boolean
 
-    Widget item identifier tag.
+Do not show any Cloudflare branding on the widget (ENT only).
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+<details>
 
-    Total number of results for the requested service
+<summary>
 
-  - `page: number`
+region: "world"or "china"
 
-    Current page within paginated list of results
+Region where this widget can be used. This cannot be changed after creation.
 
-  - `per_page: number`
+</summary>
 
-    Number of results per page of results
+One of the following:
 
-  - `total_count: number`
+"world"
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+"china"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/challenges/widgets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "bot_fight_mode": false,
-      "clearance_level": "interactive",
-      "created_on": "2014-01-01T05:20:00.123123Z",
-      "domains": [
-        "203.0.113.1",
-        "cloudflare.com",
-        "blog.example.com"
-      ],
-      "ephemeral_id": false,
-      "mode": "invisible",
-      "modified_on": "2014-01-01T05:20:00.123123Z",
-      "name": "blog.cloudflare.com login form",
-      "offlabel": false,
-      "region": "world",
-      "sitekey": "0x4AAF00AAAABn0R22HWm-YUc"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Turnstile Widget Details
+secret: string
 
-**get** `/accounts/{account_id}/challenges/widgets/{sitekey}`
+Secret key for this widget.
 
-Show a single challenge widget configuration.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+sitekey: string
 
-- `account_id: string`
+Widget item identifier tag.
 
-  Identifier
+maxLength32
 
-- `sitekey: string`
+<a href="#">Link to this property</a>
 
-  Widget item identifier tag.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+deployed\_via: optional "wrangler"or "dashboard"or "spin"or 2 more
 
-  - `code: number`
+Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"wrangler"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"dashboard"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"spin"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"api"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+"unknown"
 
-- `result: optional Widget`
+<a href="#">Link to this property</a>
 
-  A Turnstile widget's detailed configuration
+</details>
 
-  - `bot_fight_mode: boolean`
+<a href="#">Link to this property</a>
 
-    If bot_fight_mode is set to `true`, Cloudflare issues computationally
-    expensive challenges in response to malicious bots (ENT only).
+<details>
 
-  - `clearance_level: "no_clearance" or "jschallenge" or "managed" or "interactive"`
+<summary>
 
-    If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-    this setting can determine the clearance level to be set
+last\_modified\_via: optional "wrangler"or "dashboard"or "spin"or 2 more
 
-    - `"no_clearance"`
+Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed.
 
-    - `"jschallenge"`
+</summary>
 
-    - `"managed"`
+One of the following:
 
-    - `"interactive"`
+"wrangler"
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    When the widget was created.
+"dashboard"
 
-  - `domains: array of WidgetDomain`
+<a href="#">Link to this property</a>
 
-  - `ephemeral_id: boolean`
+"spin"
 
-    Return the Ephemeral ID in /siteverify (ENT only).
+<a href="#">Link to this property</a>
 
-  - `mode: "non-interactive" or "invisible" or "managed"`
+"api"
 
-    Widget Mode
+<a href="#">Link to this property</a>
 
-    - `"non-interactive"`
+"unknown"
 
-    - `"invisible"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+</details>
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    When the widget was modified.
+</details>
 
-  - `name: string`
+[Link to this property](#)%20turnstile.widgets%20%3E%20(model)%20widget%20%3E%20(schema)>)
 
-    Human readable widget name. Not unique. Cloudflare suggests that you
-    set this to a meaningful string to make it easier to identify your
-    widget, and where it is used.
+WidgetDomain = string
 
-  - `offlabel: boolean`
+Hosts as a hostname or IPv4/IPv6 address represented by strings. The widget will only work on these domains, and their subdomains.
 
-    Do not show any Cloudflare branding on the widget (ENT only).
+[Link to this property](#)%20turnstile.widgets%20%3E%20(model)%20widget_domain%20%3E%20(schema)>)
 
-  - `region: "world" or "china"`
+<details>
 
-    Region where this widget can be used. This cannot be changed after creation.
+<summary>
 
-    - `"world"`
+WidgetListResponse object {bot\_fight\_mode, clearance\_level, created\_on, 10 more }
 
-    - `"china"`
+A Turnstile Widgets configuration as it appears in listings
 
-  - `secret: string`
+</summary>
 
-    Secret key for this widget.
+bot\_fight\_mode: boolean
 
-  - `sitekey: string`
+If bot\_fight\_mode is set to <code>true</code>, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only).
 
-    Widget item identifier tag.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/challenges/widgets/$SITEKEY \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+clearance\_level: "no\_clearance"or "jschallenge"or "managed"or "interactive"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "bot_fight_mode": false,
-    "clearance_level": "interactive",
-    "created_on": "2014-01-01T05:20:00.123123Z",
-    "domains": [
-      "203.0.113.1",
-      "cloudflare.com",
-      "blog.example.com"
-    ],
-    "ephemeral_id": false,
-    "mode": "invisible",
-    "modified_on": "2014-01-01T05:20:00.123123Z",
-    "name": "blog.cloudflare.com login form",
-    "offlabel": false,
-    "region": "world",
-    "secret": "0x4AAF00AAAABn0R22HWm098HVBjhdsYUc",
-    "sitekey": "0x4AAF00AAAABn0R22HWm-YUc"
-  }
-}
-```
+If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set
 
-## Create a Turnstile Widget
+</summary>
 
-**post** `/accounts/{account_id}/challenges/widgets`
+One of the following:
 
-Lists challenge widgets.
+"no\_clearance"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"jschallenge"
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Query Parameters
+"managed"
 
-- `direction: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  Direction to order widgets.
+"interactive"
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+</details>
 
-- `filter: optional string`
+<a href="#">Link to this property</a>
 
-  Filter widgets by field using case-insensitive substring matching.
-  Format: `field:value`
+created\_on: string
 
-  Supported fields:
+When the widget was created.
 
-  - `name` - Filter by widget name (e.g., `filter=name:login-form`)
-  - `sitekey` - Filter by sitekey (e.g., `filter=sitekey:0x4AAA`)
+formatdate-time
 
-  Returns 400 Bad Request if the field is unsupported or format is invalid.
-  An empty filter value returns all results.
+<a href="#">Link to this property</a>
 
-- `order: optional "id" or "sitekey" or "name" or 2 more`
+domains: array of <a href="https://developers.cloudflare.com/api/resources/turnstile#(resource)%20turnstile.widgets%20%3E%20(model)%20widget_domain%20%3E%20(schema)">WidgetDomain</a>
 
-  Field to order widgets by.
+maxLength10
 
-  - `"id"`
+<a href="#">Link to this property</a>
 
-  - `"sitekey"`
+ephemeral\_id: boolean
 
-  - `"name"`
+Return the Ephemeral ID in /siteverify (ENT only).
 
-  - `"created_on"`
+<a href="#">Link to this property</a>
 
-  - `"modified_on"`
+<details>
 
-- `page: optional number`
+<summary>
 
-  Page number of paginated results.
+mode: "non-interactive"or "invisible"or "managed"
 
-- `per_page: optional number`
+Widget Mode
 
-  Number of items per page.
+</summary>
 
-### Body Parameters
+One of the following:
 
-- `domains: array of WidgetDomain`
+"non-interactive"
 
-- `mode: "non-interactive" or "invisible" or "managed"`
+<a href="#">Link to this property</a>
 
-  Widget Mode
+"invisible"
 
-  - `"non-interactive"`
+<a href="#">Link to this property</a>
 
-  - `"invisible"`
+"managed"
 
-  - `"managed"`
+<a href="#">Link to this property</a>
 
-- `name: string`
+</details>
 
-  Human readable widget name. Not unique. Cloudflare suggests that you
-  set this to a meaningful string to make it easier to identify your
-  widget, and where it is used.
+<a href="#">Link to this property</a>
 
-- `bot_fight_mode: optional boolean`
+modified\_on: string
 
-  If bot_fight_mode is set to `true`, Cloudflare issues computationally
-  expensive challenges in response to malicious bots (ENT only).
+When the widget was modified.
 
-- `clearance_level: optional "no_clearance" or "jschallenge" or "managed" or "interactive"`
+formatdate-time
 
-  If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-  this setting can determine the clearance level to be set
+<a href="#">Link to this property</a>
 
-  - `"no_clearance"`
+name: string
 
-  - `"jschallenge"`
+Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.
 
-  - `"managed"`
+maxLength254
 
-  - `"interactive"`
+minLength1
 
-- `ephemeral_id: optional boolean`
+<a href="#">Link to this property</a>
 
-  Return the Ephemeral ID in /siteverify (ENT only).
+offlabel: boolean
 
-- `offlabel: optional boolean`
+Do not show any Cloudflare branding on the widget (ENT only).
 
-  Do not show any Cloudflare branding on the widget (ENT only).
+<a href="#">Link to this property</a>
 
-- `region: optional "world" or "china"`
+<details>
 
-  Region where this widget can be used. This cannot be changed after creation.
+<summary>
 
-  - `"world"`
+region: "world"or "china"
 
-  - `"china"`
+Region where this widget can be used. This cannot be changed after creation.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"world"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"china"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+sitekey: string
 
-  - `message: string`
+Widget item identifier tag.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-- `result: optional Widget`
+deployed\_via: optional "wrangler"or "dashboard"or "spin"or 2 more
 
-  A Turnstile widget's detailed configuration
+Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed.
 
-  - `bot_fight_mode: boolean`
+</summary>
 
-    If bot_fight_mode is set to `true`, Cloudflare issues computationally
-    expensive challenges in response to malicious bots (ENT only).
+One of the following:
 
-  - `clearance_level: "no_clearance" or "jschallenge" or "managed" or "interactive"`
+"wrangler"
 
-    If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-    this setting can determine the clearance level to be set
+<a href="#">Link to this property</a>
 
-    - `"no_clearance"`
+"dashboard"
 
-    - `"jschallenge"`
+<a href="#">Link to this property</a>
 
-    - `"managed"`
+"spin"
 
-    - `"interactive"`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+"api"
 
-    When the widget was created.
+<a href="#">Link to this property</a>
 
-  - `domains: array of WidgetDomain`
+"unknown"
 
-  - `ephemeral_id: boolean`
+<a href="#">Link to this property</a>
 
-    Return the Ephemeral ID in /siteverify (ENT only).
+</details>
 
-  - `mode: "non-interactive" or "invisible" or "managed"`
+<a href="#">Link to this property</a>
 
-    Widget Mode
+<details>
 
-    - `"non-interactive"`
+<summary>
 
-    - `"invisible"`
+last\_modified\_via: optional "wrangler"or "dashboard"or "spin"or 2 more
 
-    - `"managed"`
+Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed.
 
-  - `modified_on: string`
+</summary>
 
-    When the widget was modified.
+One of the following:
 
-  - `name: string`
+"wrangler"
 
-    Human readable widget name. Not unique. Cloudflare suggests that you
-    set this to a meaningful string to make it easier to identify your
-    widget, and where it is used.
+<a href="#">Link to this property</a>
 
-  - `offlabel: boolean`
+"dashboard"
 
-    Do not show any Cloudflare branding on the widget (ENT only).
+<a href="#">Link to this property</a>
 
-  - `region: "world" or "china"`
+"spin"
 
-    Region where this widget can be used. This cannot be changed after creation.
+<a href="#">Link to this property</a>
 
-    - `"world"`
+"api"
 
-    - `"china"`
+<a href="#">Link to this property</a>
 
-  - `secret: string`
+"unknown"
 
-    Secret key for this widget.
+<a href="#">Link to this property</a>
 
-  - `sitekey: string`
+</details>
 
-    Widget item identifier tag.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: number`
-
-    Total number of results for the requested service
-
-  - `page: number`
-
-    Current page within paginated list of results
-
-  - `per_page: number`
-
-    Number of results per page of results
-
-  - `total_count: number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/challenges/widgets \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "domains": [
-            "203.0.113.1",
-            "cloudflare.com",
-            "blog.example.com"
-          ],
-          "mode": "invisible",
-          "name": "blog.cloudflare.com login form",
-          "clearance_level": "interactive"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "bot_fight_mode": false,
-    "clearance_level": "interactive",
-    "created_on": "2014-01-01T05:20:00.123123Z",
-    "domains": [
-      "203.0.113.1",
-      "cloudflare.com",
-      "blog.example.com"
-    ],
-    "ephemeral_id": false,
-    "mode": "invisible",
-    "modified_on": "2014-01-01T05:20:00.123123Z",
-    "name": "blog.cloudflare.com login form",
-    "offlabel": false,
-    "region": "world",
-    "secret": "0x4AAF00AAAABn0R22HWm098HVBjhdsYUc",
-    "sitekey": "0x4AAF00AAAABn0R22HWm-YUc"
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Update a Turnstile Widget
-
-**put** `/accounts/{account_id}/challenges/widgets/{sitekey}`
-
-Update the configuration of a widget.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `sitekey: string`
-
-  Widget item identifier tag.
-
-### Body Parameters
-
-- `domains: array of WidgetDomain`
-
-- `mode: "non-interactive" or "invisible" or "managed"`
-
-  Widget Mode
-
-  - `"non-interactive"`
-
-  - `"invisible"`
-
-  - `"managed"`
-
-- `name: string`
-
-  Human readable widget name. Not unique. Cloudflare suggests that you
-  set this to a meaningful string to make it easier to identify your
-  widget, and where it is used.
-
-- `bot_fight_mode: optional boolean`
-
-  If bot_fight_mode is set to `true`, Cloudflare issues computationally
-  expensive challenges in response to malicious bots (ENT only).
-
-- `clearance_level: optional "no_clearance" or "jschallenge" or "managed" or "interactive"`
-
-  If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-  this setting can determine the clearance level to be set
-
-  - `"no_clearance"`
-
-  - `"jschallenge"`
-
-  - `"managed"`
-
-  - `"interactive"`
-
-- `ephemeral_id: optional boolean`
-
-  Return the Ephemeral ID in /siteverify (ENT only).
-
-- `offlabel: optional boolean`
-
-  Do not show any Cloudflare branding on the widget (ENT only).
-
-- `region: optional "world" or "china"`
-
-  Region where this widget can be used. This cannot be changed after creation.
-
-  - `"world"`
-
-  - `"china"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful
-
-- `result: optional Widget`
-
-  A Turnstile widget's detailed configuration
-
-  - `bot_fight_mode: boolean`
-
-    If bot_fight_mode is set to `true`, Cloudflare issues computationally
-    expensive challenges in response to malicious bots (ENT only).
-
-  - `clearance_level: "no_clearance" or "jschallenge" or "managed" or "interactive"`
-
-    If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-    this setting can determine the clearance level to be set
-
-    - `"no_clearance"`
-
-    - `"jschallenge"`
-
-    - `"managed"`
-
-    - `"interactive"`
-
-  - `created_on: string`
-
-    When the widget was created.
-
-  - `domains: array of WidgetDomain`
-
-  - `ephemeral_id: boolean`
-
-    Return the Ephemeral ID in /siteverify (ENT only).
-
-  - `mode: "non-interactive" or "invisible" or "managed"`
-
-    Widget Mode
-
-    - `"non-interactive"`
-
-    - `"invisible"`
-
-    - `"managed"`
-
-  - `modified_on: string`
-
-    When the widget was modified.
-
-  - `name: string`
-
-    Human readable widget name. Not unique. Cloudflare suggests that you
-    set this to a meaningful string to make it easier to identify your
-    widget, and where it is used.
-
-  - `offlabel: boolean`
-
-    Do not show any Cloudflare branding on the widget (ENT only).
-
-  - `region: "world" or "china"`
-
-    Region where this widget can be used. This cannot be changed after creation.
-
-    - `"world"`
-
-    - `"china"`
-
-  - `secret: string`
-
-    Secret key for this widget.
-
-  - `sitekey: string`
-
-    Widget item identifier tag.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/challenges/widgets/$SITEKEY \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "domains": [
-            "203.0.113.1",
-            "cloudflare.com",
-            "blog.example.com"
-          ],
-          "mode": "invisible",
-          "name": "blog.cloudflare.com login form",
-          "clearance_level": "interactive"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "bot_fight_mode": false,
-    "clearance_level": "interactive",
-    "created_on": "2014-01-01T05:20:00.123123Z",
-    "domains": [
-      "203.0.113.1",
-      "cloudflare.com",
-      "blog.example.com"
-    ],
-    "ephemeral_id": false,
-    "mode": "invisible",
-    "modified_on": "2014-01-01T05:20:00.123123Z",
-    "name": "blog.cloudflare.com login form",
-    "offlabel": false,
-    "region": "world",
-    "secret": "0x4AAF00AAAABn0R22HWm098HVBjhdsYUc",
-    "sitekey": "0x4AAF00AAAABn0R22HWm-YUc"
-  }
-}
-```
-
-## Delete a Turnstile Widget
-
-**delete** `/accounts/{account_id}/challenges/widgets/{sitekey}`
-
-Destroy a Turnstile Widget.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `sitekey: string`
-
-  Widget item identifier tag.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful
-
-- `result: optional Widget`
-
-  A Turnstile widget's detailed configuration
-
-  - `bot_fight_mode: boolean`
-
-    If bot_fight_mode is set to `true`, Cloudflare issues computationally
-    expensive challenges in response to malicious bots (ENT only).
-
-  - `clearance_level: "no_clearance" or "jschallenge" or "managed" or "interactive"`
-
-    If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-    this setting can determine the clearance level to be set
-
-    - `"no_clearance"`
-
-    - `"jschallenge"`
-
-    - `"managed"`
-
-    - `"interactive"`
-
-  - `created_on: string`
-
-    When the widget was created.
-
-  - `domains: array of WidgetDomain`
-
-  - `ephemeral_id: boolean`
-
-    Return the Ephemeral ID in /siteverify (ENT only).
-
-  - `mode: "non-interactive" or "invisible" or "managed"`
-
-    Widget Mode
-
-    - `"non-interactive"`
-
-    - `"invisible"`
-
-    - `"managed"`
-
-  - `modified_on: string`
-
-    When the widget was modified.
-
-  - `name: string`
-
-    Human readable widget name. Not unique. Cloudflare suggests that you
-    set this to a meaningful string to make it easier to identify your
-    widget, and where it is used.
-
-  - `offlabel: boolean`
-
-    Do not show any Cloudflare branding on the widget (ENT only).
-
-  - `region: "world" or "china"`
-
-    Region where this widget can be used. This cannot be changed after creation.
-
-    - `"world"`
-
-    - `"china"`
-
-  - `secret: string`
-
-    Secret key for this widget.
-
-  - `sitekey: string`
-
-    Widget item identifier tag.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/challenges/widgets/$SITEKEY \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "bot_fight_mode": false,
-    "clearance_level": "interactive",
-    "created_on": "2014-01-01T05:20:00.123123Z",
-    "domains": [
-      "203.0.113.1",
-      "cloudflare.com",
-      "blog.example.com"
-    ],
-    "ephemeral_id": false,
-    "mode": "invisible",
-    "modified_on": "2014-01-01T05:20:00.123123Z",
-    "name": "blog.cloudflare.com login form",
-    "offlabel": false,
-    "region": "world",
-    "secret": "0x4AAF00AAAABn0R22HWm098HVBjhdsYUc",
-    "sitekey": "0x4AAF00AAAABn0R22HWm-YUc"
-  }
-}
-```
-
-## Rotate Secret for a Turnstile Widget
-
-**post** `/accounts/{account_id}/challenges/widgets/{sitekey}/rotate_secret`
-
-Generate a new secret key for this widget. If `invalidate_immediately`
-is set to `false`, the previous secret remains valid for 2 hours.
-
-Note that secrets cannot be rotated again during the grace period.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `sitekey: string`
-
-  Widget item identifier tag.
-
-### Body Parameters
-
-- `invalidate_immediately: optional boolean`
-
-  If `invalidate_immediately` is set to `false`, the previous secret will
-  remain valid for two hours. Otherwise, the secret is immediately
-  invalidated, and requests using it will be rejected.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful
-
-- `result: optional Widget`
-
-  A Turnstile widget's detailed configuration
-
-  - `bot_fight_mode: boolean`
-
-    If bot_fight_mode is set to `true`, Cloudflare issues computationally
-    expensive challenges in response to malicious bots (ENT only).
-
-  - `clearance_level: "no_clearance" or "jschallenge" or "managed" or "interactive"`
-
-    If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-    this setting can determine the clearance level to be set
-
-    - `"no_clearance"`
-
-    - `"jschallenge"`
-
-    - `"managed"`
-
-    - `"interactive"`
-
-  - `created_on: string`
-
-    When the widget was created.
-
-  - `domains: array of WidgetDomain`
-
-  - `ephemeral_id: boolean`
-
-    Return the Ephemeral ID in /siteverify (ENT only).
-
-  - `mode: "non-interactive" or "invisible" or "managed"`
-
-    Widget Mode
-
-    - `"non-interactive"`
-
-    - `"invisible"`
-
-    - `"managed"`
-
-  - `modified_on: string`
-
-    When the widget was modified.
-
-  - `name: string`
-
-    Human readable widget name. Not unique. Cloudflare suggests that you
-    set this to a meaningful string to make it easier to identify your
-    widget, and where it is used.
-
-  - `offlabel: boolean`
-
-    Do not show any Cloudflare branding on the widget (ENT only).
-
-  - `region: "world" or "china"`
-
-    Region where this widget can be used. This cannot be changed after creation.
-
-    - `"world"`
-
-    - `"china"`
-
-  - `secret: string`
-
-    Secret key for this widget.
-
-  - `sitekey: string`
-
-    Widget item identifier tag.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/challenges/widgets/$SITEKEY/rotate_secret \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "bot_fight_mode": false,
-    "clearance_level": "interactive",
-    "created_on": "2014-01-01T05:20:00.123123Z",
-    "domains": [
-      "203.0.113.1",
-      "cloudflare.com",
-      "blog.example.com"
-    ],
-    "ephemeral_id": false,
-    "mode": "invisible",
-    "modified_on": "2014-01-01T05:20:00.123123Z",
-    "name": "blog.cloudflare.com login form",
-    "offlabel": false,
-    "region": "world",
-    "secret": "0x4AAF00AAAABn0R22HWm098HVBjhdsYUc",
-    "sitekey": "0x4AAF00AAAABn0R22HWm-YUc"
-  }
-}
-```
-
-## Domain Types
-
-### Widget
-
-- `Widget object { bot_fight_mode, clearance_level, created_on, 9 more }`
-
-  A Turnstile widget's detailed configuration
-
-  - `bot_fight_mode: boolean`
-
-    If bot_fight_mode is set to `true`, Cloudflare issues computationally
-    expensive challenges in response to malicious bots (ENT only).
-
-  - `clearance_level: "no_clearance" or "jschallenge" or "managed" or "interactive"`
-
-    If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-    this setting can determine the clearance level to be set
-
-    - `"no_clearance"`
-
-    - `"jschallenge"`
-
-    - `"managed"`
-
-    - `"interactive"`
-
-  - `created_on: string`
-
-    When the widget was created.
-
-  - `domains: array of WidgetDomain`
-
-  - `ephemeral_id: boolean`
-
-    Return the Ephemeral ID in /siteverify (ENT only).
-
-  - `mode: "non-interactive" or "invisible" or "managed"`
-
-    Widget Mode
-
-    - `"non-interactive"`
-
-    - `"invisible"`
-
-    - `"managed"`
-
-  - `modified_on: string`
-
-    When the widget was modified.
-
-  - `name: string`
-
-    Human readable widget name. Not unique. Cloudflare suggests that you
-    set this to a meaningful string to make it easier to identify your
-    widget, and where it is used.
-
-  - `offlabel: boolean`
-
-    Do not show any Cloudflare branding on the widget (ENT only).
-
-  - `region: "world" or "china"`
-
-    Region where this widget can be used. This cannot be changed after creation.
-
-    - `"world"`
-
-    - `"china"`
-
-  - `secret: string`
-
-    Secret key for this widget.
-
-  - `sitekey: string`
-
-    Widget item identifier tag.
-
-### Widget Domain
-
-- `WidgetDomain = string`
-
-  Hosts as a hostname or IPv4/IPv6 address represented by strings. The
-  widget will only work on these domains, and their subdomains.
-
-### Widget List Response
-
-- `WidgetListResponse object { bot_fight_mode, clearance_level, created_on, 8 more }`
-
-  A Turnstile Widgets configuration as it appears in listings
-
-  - `bot_fight_mode: boolean`
-
-    If bot_fight_mode is set to `true`, Cloudflare issues computationally
-    expensive challenges in response to malicious bots (ENT only).
-
-  - `clearance_level: "no_clearance" or "jschallenge" or "managed" or "interactive"`
-
-    If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,
-    this setting can determine the clearance level to be set
-
-    - `"no_clearance"`
-
-    - `"jschallenge"`
-
-    - `"managed"`
-
-    - `"interactive"`
-
-  - `created_on: string`
-
-    When the widget was created.
-
-  - `domains: array of WidgetDomain`
-
-  - `ephemeral_id: boolean`
-
-    Return the Ephemeral ID in /siteverify (ENT only).
-
-  - `mode: "non-interactive" or "invisible" or "managed"`
-
-    Widget Mode
-
-    - `"non-interactive"`
-
-    - `"invisible"`
-
-    - `"managed"`
-
-  - `modified_on: string`
-
-    When the widget was modified.
-
-  - `name: string`
-
-    Human readable widget name. Not unique. Cloudflare suggests that you
-    set this to a meaningful string to make it easier to identify your
-    widget, and where it is used.
-
-  - `offlabel: boolean`
-
-    Do not show any Cloudflare branding on the widget (ENT only).
-
-  - `region: "world" or "china"`
-
-    Region where this widget can be used. This cannot be changed after creation.
-
-    - `"world"`
-
-    - `"china"`
-
-  - `sitekey: string`
-
-    Widget item identifier tag.
+[Link to this property](#)%20turnstile.widgets%20%3E%20(model)%20widget_list_response%20%3E%20(schema)>)

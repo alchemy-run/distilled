@@ -1,699 +1,253 @@
+---
+title: Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Hostnames](https://developers.cloudflare.com/api/resources/hostnames)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Settings
 
-# TLS
+#### SettingsTLS
 
-## List TLS setting for hostnames
+##### [List TLS setting for hostnames](https://developers.cloudflare.com/api/resources/hostnames/subresources/settings/subresources/tls/methods/list)
 
-**get** `/zones/{zone_id}/hostnames/settings/{setting_id}`
+GET/zones/{zone\_id}/hostnames/settings/{setting\_id}
 
-List the requested TLS setting for the hostnames under this zone.
+##### [Get TLS setting for hostname](https://developers.cloudflare.com/api/resources/hostnames/subresources/settings/subresources/tls/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/hostnames/settings/{setting\_id}/{hostname}
 
-- `zone_id: string`
+##### [Edit TLS setting for hostname](https://developers.cloudflare.com/api/resources/hostnames/subresources/settings/subresources/tls/methods/update)
 
-  Identifier.
+PUT/zones/{zone\_id}/hostnames/settings/{setting\_id}/{hostname}
 
-- `setting_id: "ciphers" or "min_tls_version" or "http2"`
+##### [Delete TLS setting for hostname](https://developers.cloudflare.com/api/resources/hostnames/subresources/settings/subresources/tls/methods/delete)
 
-  The TLS Setting name.
-  The value type depends on the setting:
+DELETE/zones/{zone\_id}/hostnames/settings/{setting\_id}/{hostname}
 
-  - `ciphers`: value is an array of cipher suite strings (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-  - `min_tls_version`: value is a TLS version string (`"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"`).
-  - `http2`: value is `"on"` or `"off"`.
+##### ModelsExpand Collapse
 
-  - `"ciphers"`
+<details>
 
-  - `"min_tls_version"`
+<summary>
 
-  - `"http2"`
+Setting object {created\_at, hostname, status, 2 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+created\_at: optional string
 
-  - `code: number`
+This is the time the tls setting was originally created for this hostname.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+hostname: optional string
 
-    - `pointer: optional string`
+The hostname for which the tls settings are set.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+status: optional string
 
-  - `message: string`
+Deployment status for the given tls setting.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+updated\_at: optional string
 
-    - `pointer: optional string`
+This is the time the tls setting was updated.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+value: optional <a href="https://developers.cloudflare.com/api/resources/hostnames#(resource)%20hostnames.settings.tls%20%3E%20(model)%20setting_value%20%3E%20(schema)">SettingValue</a>
 
-- `result: optional array of object { created_at, hostname, status, 2 more }`
+The TLS setting value. The type depends on the <code>setting_id</code> used in the request path:
 
-  - `created_at: optional string`
+- <code>ciphers</code>: an array of allowed cipher suite strings in BoringSSL format (e.g., <code>["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]</code>).
+- <code>min_tls_version</code>: a string indicating the minimum TLS version — one of <code>"1.0"</code>, <code>"1.1"</code>, <code>"1.2"</code>, or <code>"1.3"</code> (e.g., <code>"1.2"</code>).
+- <code>http2</code>: a string indicating whether HTTP/2 is enabled — <code>"on"</code> or <code>"off"</code> (e.g., <code>"on"</code>).
 
-    This is the time the tls setting was originally created for this hostname.
+<a href="#">Link to this property</a>
 
-  - `hostname: optional string`
+</details>
 
-    The hostname for which the tls settings are set.
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(model)%20setting%20%3E%20(schema)>)
 
-  - `status: optional string`
+<details>
 
-    Deployment status for the given tls setting.
+<summary>
 
-  - `updated_at: optional string`
+SettingValue = "1.0"or "1.1"or "1.2"or 3 moreor array of string
 
-    This is the time the tls setting was updated.
+The TLS setting value. The type depends on the <code>setting_id</code> used in the request path:
 
-  - `value: optional SettingValue`
+- <code>ciphers</code>: an array of allowed cipher suite strings in BoringSSL format (e.g., <code>["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]</code>).
+- <code>min_tls_version</code>: a string indicating the minimum TLS version — one of <code>"1.0"</code>, <code>"1.1"</code>, <code>"1.2"</code>, or <code>"1.3"</code> (e.g., <code>"1.2"</code>).
+- <code>http2</code>: a string indicating whether HTTP/2 is enabled — <code>"on"</code> or <code>"off"</code> (e.g., <code>"on"</code>).
 
-    The TLS setting value.
-    The type depends on the `setting_id` used in the request path:
+</summary>
 
-    - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-    - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-    - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
+One of the following:
 
-    - `"1.0" or "1.1" or "1.2" or 3 more`
+<details>
 
-      - `"1.0"`
+<summary>
 
-      - `"1.1"`
+"1.0"or "1.1"or "1.2"or 3 more
 
-      - `"1.2"`
+</summary>
 
-      - `"1.3"`
+One of the following:
 
-      - `"on"`
+"1.0"
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-    - `array of string`
+"1.1"
 
-      Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+"1.2"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+"1.3"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+"on"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+"off"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    Total pages available of results.
+array of string
 
-### Example
+Used when <code>setting_id</code> is <code>ciphers</code>. An array of allowed cipher suite strings.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/hostnames/settings/$SETTING_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created_at": "2023-07-10T20:01:50.219171Z",
-      "hostname": "app.example.com",
-      "status": "pending_deployment",
-      "updated_at": "2023-07-10T20:01:50.219171Z",
-      "value": [
-        "ECDHE-RSA-AES128-GCM-SHA256",
-        "AES128-GCM-SHA256"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 1,
-    "total_pages": 1
-  }
-}
-```
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(model)%20setting_value%20%3E%20(schema)>)
 
-## Edit TLS setting for hostname
+<details>
 
-**put** `/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}`
+<summary>
 
-Update the tls setting value for the hostname.
+TLSListResponse object {created\_at, hostname, status, 2 more }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+created\_at: optional string
 
-  Identifier.
+This is the time the tls setting was originally created for this hostname.
 
-- `setting_id: "ciphers" or "min_tls_version" or "http2"`
+formatdate-time
 
-  The TLS Setting name.
-  The value type depends on the setting:
+<a href="#">Link to this property</a>
 
-  - `ciphers`: value is an array of cipher suite strings (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-  - `min_tls_version`: value is a TLS version string (`"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"`).
-  - `http2`: value is `"on"` or `"off"`.
+hostname: optional string
 
-  - `"ciphers"`
+The hostname for which the tls settings are set.
 
-  - `"min_tls_version"`
+<a href="#">Link to this property</a>
 
-  - `"http2"`
+status: optional string
 
-- `hostname: string`
+Deployment status for the given tls setting.
 
-  The hostname for which the tls settings are set.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+updated\_at: optional string
 
-- `value: SettingValue`
+This is the time the tls setting was updated.
 
-  The TLS setting value.
-  The type depends on the `setting_id` used in the request path:
+formatdate-time
 
-  - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-  - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-  - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
+<a href="#">Link to this property</a>
 
-  - `"1.0" or "1.1" or "1.2" or 3 more`
+value: optional <a href="https://developers.cloudflare.com/api/resources/hostnames#(resource)%20hostnames.settings.tls%20%3E%20(model)%20setting_value%20%3E%20(schema)">SettingValue</a>
 
-    - `"1.0"`
+The TLS setting value. The type depends on the <code>setting_id</code> used in the request path:
 
-    - `"1.1"`
+- <code>ciphers</code>: an array of allowed cipher suite strings in BoringSSL format (e.g., <code>["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]</code>).
+- <code>min_tls_version</code>: a string indicating the minimum TLS version — one of <code>"1.0"</code>, <code>"1.1"</code>, <code>"1.2"</code>, or <code>"1.3"</code> (e.g., <code>"1.2"</code>).
+- <code>http2</code>: a string indicating whether HTTP/2 is enabled — <code>"on"</code> or <code>"off"</code> (e.g., <code>"on"</code>).
 
-    - `"1.2"`
+<a href="#">Link to this property</a>
 
-    - `"1.3"`
+</details>
 
-    - `"on"`
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(model)%20tls_list_response%20%3E%20(schema)>)
 
-    - `"off"`
+<details>
 
-  - `array of string`
+<summary>
 
-    Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
+TLSDeleteResponse object {created\_at, hostname, status, 2 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+created\_at: optional string
 
-  - `code: number`
+This is the time the tls setting was originally created for this hostname.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+hostname: optional string
 
-    - `pointer: optional string`
+The hostname for which the tls settings are set.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+status: optional string
 
-  - `message: string`
+Deployment status for the given tls setting.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+updated\_at: optional string
 
-    - `pointer: optional string`
+This is the time the tls setting was updated.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+value: optional <a href="https://developers.cloudflare.com/api/resources/hostnames#(resource)%20hostnames.settings.tls%20%3E%20(model)%20setting_value%20%3E%20(schema)">SettingValue</a>
 
-- `result: optional Setting`
+The TLS setting value. The type depends on the <code>setting_id</code> used in the request path:
 
-  - `created_at: optional string`
+- <code>ciphers</code>: an array of allowed cipher suite strings in BoringSSL format (e.g., <code>["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]</code>).
+- <code>min_tls_version</code>: a string indicating the minimum TLS version — one of <code>"1.0"</code>, <code>"1.1"</code>, <code>"1.2"</code>, or <code>"1.3"</code> (e.g., <code>"1.2"</code>).
+- <code>http2</code>: a string indicating whether HTTP/2 is enabled — <code>"on"</code> or <code>"off"</code> (e.g., <code>"on"</code>).
 
-    This is the time the tls setting was originally created for this hostname.
+<a href="#">Link to this property</a>
 
-  - `hostname: optional string`
+</details>
 
-    The hostname for which the tls settings are set.
-
-  - `status: optional string`
-
-    Deployment status for the given tls setting.
-
-  - `updated_at: optional string`
-
-    This is the time the tls setting was updated.
-
-  - `value: optional SettingValue`
-
-    The TLS setting value.
-    The type depends on the `setting_id` used in the request path:
-
-    - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-    - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-    - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
-
-    - `"1.0" or "1.1" or "1.2" or 3 more`
-
-      - `"1.0"`
-
-      - `"1.1"`
-
-      - `"1.2"`
-
-      - `"1.3"`
-
-      - `"on"`
-
-      - `"off"`
-
-    - `array of string`
-
-      Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/hostnames/settings/$SETTING_ID/$HOSTNAME \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": [
-            "ECDHE-RSA-AES128-GCM-SHA256",
-            "AES128-GCM-SHA256"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2023-07-10T20:01:50.219171Z",
-    "hostname": "app.example.com",
-    "status": "pending_deployment",
-    "updated_at": "2023-07-10T20:01:50.219171Z",
-    "value": [
-      "ECDHE-RSA-AES128-GCM-SHA256",
-      "AES128-GCM-SHA256"
-    ]
-  }
-}
-```
-
-## Delete TLS setting for hostname
-
-**delete** `/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}`
-
-Delete the tls setting value for the hostname.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `setting_id: "ciphers" or "min_tls_version" or "http2"`
-
-  The TLS Setting name.
-  The value type depends on the setting:
-
-  - `ciphers`: value is an array of cipher suite strings (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-  - `min_tls_version`: value is a TLS version string (`"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"`).
-  - `http2`: value is `"on"` or `"off"`.
-
-  - `"ciphers"`
-
-  - `"min_tls_version"`
-
-  - `"http2"`
-
-- `hostname: string`
-
-  The hostname for which the tls settings are set.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { created_at, hostname, status, 2 more }`
-
-  - `created_at: optional string`
-
-    This is the time the tls setting was originally created for this hostname.
-
-  - `hostname: optional string`
-
-    The hostname for which the tls settings are set.
-
-  - `status: optional string`
-
-    Deployment status for the given tls setting.
-
-  - `updated_at: optional string`
-
-    This is the time the tls setting was updated.
-
-  - `value: optional SettingValue`
-
-    The TLS setting value.
-    The type depends on the `setting_id` used in the request path:
-
-    - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-    - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-    - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
-
-    - `"1.0" or "1.1" or "1.2" or 3 more`
-
-      - `"1.0"`
-
-      - `"1.1"`
-
-      - `"1.2"`
-
-      - `"1.3"`
-
-      - `"on"`
-
-      - `"off"`
-
-    - `array of string`
-
-      Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/hostnames/settings/$SETTING_ID/$HOSTNAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2023-07-10T20:01:50.219171Z",
-    "hostname": "app.example.com",
-    "status": "pending_deployment",
-    "updated_at": "2023-07-10T20:01:50.219171Z",
-    "value": [
-      "ECDHE-RSA-AES128-GCM-SHA256",
-      "AES128-GCM-SHA256"
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Setting
-
-- `Setting object { created_at, hostname, status, 2 more }`
-
-  - `created_at: optional string`
-
-    This is the time the tls setting was originally created for this hostname.
-
-  - `hostname: optional string`
-
-    The hostname for which the tls settings are set.
-
-  - `status: optional string`
-
-    Deployment status for the given tls setting.
-
-  - `updated_at: optional string`
-
-    This is the time the tls setting was updated.
-
-  - `value: optional SettingValue`
-
-    The TLS setting value.
-    The type depends on the `setting_id` used in the request path:
-
-    - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-    - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-    - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
-
-    - `"1.0" or "1.1" or "1.2" or 3 more`
-
-      - `"1.0"`
-
-      - `"1.1"`
-
-      - `"1.2"`
-
-      - `"1.3"`
-
-      - `"on"`
-
-      - `"off"`
-
-    - `array of string`
-
-      Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
-
-### Setting Value
-
-- `SettingValue = "1.0" or "1.1" or "1.2" or 3 more or array of string`
-
-  The TLS setting value.
-  The type depends on the `setting_id` used in the request path:
-
-  - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-  - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-  - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
-
-  - `"1.0" or "1.1" or "1.2" or 3 more`
-
-    - `"1.0"`
-
-    - `"1.1"`
-
-    - `"1.2"`
-
-    - `"1.3"`
-
-    - `"on"`
-
-    - `"off"`
-
-  - `array of string`
-
-    Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
-
-### TLS Get Response
-
-- `TLSGetResponse object { created_at, hostname, status, 2 more }`
-
-  - `created_at: optional string`
-
-    This is the time the tls setting was originally created for this hostname.
-
-  - `hostname: optional string`
-
-    The hostname for which the tls settings are set.
-
-  - `status: optional string`
-
-    Deployment status for the given tls setting.
-
-  - `updated_at: optional string`
-
-    This is the time the tls setting was updated.
-
-  - `value: optional SettingValue`
-
-    The TLS setting value.
-    The type depends on the `setting_id` used in the request path:
-
-    - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-    - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-    - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
-
-    - `"1.0" or "1.1" or "1.2" or 3 more`
-
-      - `"1.0"`
-
-      - `"1.1"`
-
-      - `"1.2"`
-
-      - `"1.3"`
-
-      - `"on"`
-
-      - `"off"`
-
-    - `array of string`
-
-      Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
-
-### TLS Delete Response
-
-- `TLSDeleteResponse object { created_at, hostname, status, 2 more }`
-
-  - `created_at: optional string`
-
-    This is the time the tls setting was originally created for this hostname.
-
-  - `hostname: optional string`
-
-    The hostname for which the tls settings are set.
-
-  - `status: optional string`
-
-    Deployment status for the given tls setting.
-
-  - `updated_at: optional string`
-
-    This is the time the tls setting was updated.
-
-  - `value: optional SettingValue`
-
-    The TLS setting value.
-    The type depends on the `setting_id` used in the request path:
-
-    - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-    - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-    - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
-
-    - `"1.0" or "1.1" or "1.2" or 3 more`
-
-      - `"1.0"`
-
-      - `"1.1"`
-
-      - `"1.2"`
-
-      - `"1.3"`
-
-      - `"on"`
-
-      - `"off"`
-
-    - `array of string`
-
-      Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(model)%20tls_delete_response%20%3E%20(schema)>)

@@ -1,67 +1,206 @@
-## Delete secrets
+---
+title: Delete secrets
+---
 
-**delete** `/accounts/{account_id}/secrets_store/stores/{store_id}/secrets`
+[Skip to content](#_top)
 
-Deletes one or more secrets
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Secrets Store](https://developers.cloudflare.com/api/resources/secrets_store)
 
-- `account_id: string`
+[Stores](https://developers.cloudflare.com/api/resources/secrets_store/subresources/stores)
 
-  Account Identifier
+[Secrets](https://developers.cloudflare.com/api/resources/secrets_store/subresources/stores/subresources/secrets)
 
-- `store_id: string`
+Copy Markdown
 
-  Store Identifier
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Copy Markdown****View as Markdown**
 
-  - `code: number`
+# Delete secrets
 
-  - `message: string`
+DELETE/accounts/{account\_id}/secrets\_store/stores/{store\_id}/secrets
 
-  - `documentation_url: optional string`
+Deletes one or more secrets.
 
-  - `source: optional object { pointer }`
+##### Security
 
-    - `pointer: optional string`
+API Email + API Key
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Secrets Store Write`
 
-- `success: true`
+##### P ath ParametersExpand Collapse
 
-  Whether the API call was successful.
+account\_id: string
 
-  - `true`
+maxLength32
 
-- `result: optional unknown`
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20bulk_delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Result is null for delete operations.
+store\_id: string
 
-### Example
+maxLength32
 
-```http
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20bulk_delete%20%3E%20(params)%20default%20%3E%20(param)%20store_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20bulk_delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20bulk_delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20bulk_delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+result: optional unknown
+
+Result is null for delete operations.
+
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20bulk_delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete secrets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secrets_store/stores/$STORE_ID/secrets \
     -X DELETE \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {}
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

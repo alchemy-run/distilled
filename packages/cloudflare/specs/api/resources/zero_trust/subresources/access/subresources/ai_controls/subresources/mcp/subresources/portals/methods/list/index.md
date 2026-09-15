@@ -1,176 +1,664 @@
-## List MCP Portals
+---
+title: List MCP Portals
+---
 
-**get** `/accounts/{account_id}/access/ai-controls/mcp/portals`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[AI Controls](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/ai_controls)
+
+[Mcp](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/ai_controls/subresources/mcp)
+
+[Portals](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/ai_controls/subresources/mcp/subresources/portals)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List MCP Portals
+
+GET/accounts/{account\_id}/access/ai-controls/mcp/portals
 
 Lists all MCP portals configured for the account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Query Parameters
+<summary>API Token</summary>
 
-- `page: optional number`
 
-- `per_page: optional number`
 
-- `search: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Search by id, name, hostname
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `result: array of object { id, hostname, name, 8 more }`
+<details>
 
-  - `id: string`
+<summary>API Email + API Key</summary>
 
-    portal id
 
-  - `hostname: string`
 
-  - `name: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `servers: array of object { id, auth_type, hostname, 20 more }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `id: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      server id
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `auth_type: "oauth" or "bearer" or "unauthenticated"`
+</details>
 
-      - `"oauth"`
+##### Accepted Permissions (at least one required)
 
-      - `"bearer"`
+`MCP Portals Write``MCP Portals Read`
 
-      - `"unauthenticated"`
+##### P ath ParametersExpand Collapse
 
-    - `hostname: string`
+account\_id: string
 
-    - `name: string`
+[Link to this property](#)%20zero_trust.access.ai_controls.mcp.portals%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `prompts: array of map[unknown]`
+##### Q uery ParametersExpand Collapse
 
-    - `server_id: string`
+page: optional number
 
-      server id
+minimum1
 
-    - `tools: array of map[unknown]`
+[Link to this property](#)%20zero_trust.access.ai_controls.mcp.portals%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `created_at: optional string`
+per\_page: optional number
 
-    - `created_by: optional string`
+maximum100
 
-    - `default_disabled: optional boolean`
+minimum1
 
-    - `description: optional string`
+[Link to this property](#)%20zero_trust.access.ai_controls.mcp.portals%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `error: optional string`
+search: optional string
 
-    - `error_details: optional object { cause, is_upstream, mcp_code, 2 more }`
+Search by id, name, hostname
 
-      - `cause: optional string`
+[Link to this property](#)%20zero_trust.access.ai_controls.mcp.portals%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
 
-        Underlying error message
+##### ReturnsExpand Collapse
 
-      - `is_upstream: optional boolean`
+<details>
 
-        True = MCP server returned an error. False = couldn't reach the server
+<summary>
 
-      - `mcp_code: optional number`
+result: array of object {id, hostname, name, 9 more }
 
-        MCP protocol error code
+</summary>
 
-      - `retryable: optional boolean`
+id: string
 
-        Whether the error is transient and worth retrying
+Unique identifier for the MCP portal.
 
-      - `status_code: optional number`
+maxLength32
 
-        HTTP status code from the server
+minLength1
 
-    - `is_shared_oauth_callback_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, instead of the customer portal hostname. Defaults to false (off); opt in per server by setting true. Effective behavior is gated by the gateway worker's per-env rollout mode KV key.
+hostname: string
 
-    - `last_successful_sync: optional string`
+Hostname where the MCP portal is available.
 
-    - `last_synced: optional string`
+<a href="#">Link to this property</a>
 
-    - `modified_at: optional string`
+name: string
 
-    - `modified_by: optional string`
+Display name for the MCP portal.
 
-    - `on_behalf: optional boolean`
+maxLength350
 
-    - `secure_web_gateway: optional boolean`
+<a href="#">Link to this property</a>
 
-      Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
+<details>
 
-    - `status: optional string`
+<summary>
 
-    - `updated_prompts: optional array of object { name, enabled, portal_alias, 3 more }`
+servers: array of object {id, auth\_type, hostname, 22 more }
 
-      - `name: string`
+</summary>
 
-      - `enabled: optional boolean`
+id: string
 
-      - `portal_alias: optional string`
+Unique identifier for the MCP server.
 
-      - `portal_description: optional string`
+maxLength32
 
-      - `server_alias: optional string`
+minLength1
 
-      - `server_description: optional string`
+<a href="#">Link to this property</a>
 
-    - `updated_tools: optional array of object { name, enabled, portal_alias, 3 more }`
+<details>
 
-      - `name: string`
+<summary>
 
-      - `enabled: optional boolean`
+auth\_type: "oauth"or "bearer"or "unauthenticated"
 
-      - `portal_alias: optional string`
+Authentication method used to connect to the upstream MCP server.
 
-      - `portal_description: optional string`
+</summary>
 
-      - `server_alias: optional string`
+One of the following:
 
-      - `server_description: optional string`
+"oauth"
 
-  - `allow_code_mode: optional boolean`
+<a href="#">Link to this property</a>
 
-    Allow remote code execution in Dynamic Workers (beta)
+"bearer"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_by: optional string`
+"unauthenticated"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+</details>
 
-  - `modified_by: optional string`
+<a href="#">Link to this property</a>
 
-  - `secure_web_gateway: optional boolean`
+hostname: string
 
-    Route outbound MCP traffic through Zero Trust Secure Web Gateway
+URL of the upstream MCP endpoint.
 
-- `success: boolean`
+formaturi
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+name: string
+
+Display name for the MCP server.
+
+maxLength350
+
+<a href="#">Link to this property</a>
+
+prompts: array of map\[unknown]
+
+<a href="#">Link to this property</a>
+
+server\_id: string
+
+Unique identifier for the MCP server.
+
+maxLength32
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+tools: array of map\[unknown]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+auth\_config\_summary: optional object {auth\_mode, client\_secret\_version, config, 2 more }
+
+Safe subset of auth\_credentials surfaced to the dashboard. Includes auth\_mode (dcr|manual), has\_client\_secret, client\_secret\_version, and the OAuth endpoints + client\_id for manual servers. Never includes the secret value.
+
+</summary>
+
+<details>
+
+<summary>
+
+auth\_mode: optional "dcr"or "manual"
+
+</summary>
+
+One of the following:
+
+"dcr"
+
+<a href="#">Link to this property</a>
+
+"manual"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+client\_secret\_version: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+config: optional object {authorization\_endpoint, issuer, resource, 2 more }
+
+</summary>
+
+authorization\_endpoint: optional string
+
+<a href="#">Link to this property</a>
+
+issuer: optional string
+
+<a href="#">Link to this property</a>
+
+resource: optional string
+
+<a href="#">Link to this property</a>
+
+revocation\_endpoint: optional string
+
+<a href="#">Link to this property</a>
+
+token\_endpoint: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+has\_client\_secret: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+registration\_info: optional object {client\_id, redirect\_uris, scope, token\_endpoint\_auth\_method }
+
+</summary>
+
+client\_id: optional string
+
+<a href="#">Link to this property</a>
+
+redirect\_uris: optional array of string
+
+<a href="#">Link to this property</a>
+
+scope: optional string
+
+<a href="#">Link to this property</a>
+
+token\_endpoint\_auth\_method: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authentication\_status: optional "not\_required"or "required"or "connected"or 2 more
+
+Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative authentication flow.
+
+</summary>
+
+One of the following:
+
+"not\_required"
+
+<a href="#">Link to this property</a>
+
+"required"
+
+<a href="#">Link to this property</a>
+
+"connected"
+
+<a href="#">Link to this property</a>
+
+"stale"
+
+<a href="#">Link to this property</a>
+
+"manual"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+created\_by: optional string
+
+<a href="#">Link to this property</a>
+
+default\_disabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Optional description of the MCP server.
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+error: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+error\_details: optional object {cause, is\_upstream, mcp\_code, 2 more }
+
+</summary>
+
+cause: optional string
+
+Underlying error message
+
+<a href="#">Link to this property</a>
+
+is\_upstream: optional boolean
+
+True = MCP server returned an error. False = couldn’t reach the server
+
+<a href="#">Link to this property</a>
+
+mcp\_code: optional number
+
+MCP protocol error code
+
+<a href="#">Link to this property</a>
+
+retryable: optional boolean
+
+Whether the error is transient and worth retrying
+
+<a href="#">Link to this property</a>
+
+status\_code: optional number
+
+HTTP status code from the server
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+is\_shared\_oauth\_callback\_enabled: optional boolean
+
+When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect\_uri for upstream on-behalf OAuth, instead of the customer portal hostname. Defaults to false (off); opt in per server by setting true.
+
+<a href="#">Link to this property</a>
+
+last\_successful\_sync: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_synced: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_by: optional string
+
+<a href="#">Link to this property</a>
+
+on\_behalf: optional boolean
+
+<a href="#">Link to this property</a>
+
+secure\_web\_gateway: optional boolean
+
+Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "waiting"or "ready"or "stale"or "error"
+
+Current sync state of the server
+
+</summary>
+
+One of the following:
+
+"waiting"
+
+<a href="#">Link to this property</a>
+
+"ready"
+
+<a href="#">Link to this property</a>
+
+"stale"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+updated\_prompts: optional array of object {name, enabled, portal\_alias, 3 more }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+portal\_alias: optional string
+
+<a href="#">Link to this property</a>
+
+portal\_description: optional string
+
+<a href="#">Link to this property</a>
+
+server\_alias: optional string
+
+<a href="#">Link to this property</a>
+
+server\_description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+updated\_tools: optional array of object {name, enabled, portal\_alias, 3 more }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+portal\_alias: optional string
+
+<a href="#">Link to this property</a>
+
+portal\_description: optional string
+
+<a href="#">Link to this property</a>
+
+server\_alias: optional string
+
+<a href="#">Link to this property</a>
+
+server\_description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedallow\_code\_mode: optional boolean
+
+Deprecated: use <code>code_mode</code> for new integrations. <code>true</code> maps to any non-off Code Mode policy; <code>false</code> maps to <code>code_mode: off</code>. If both fields are sent, they must be consistent or the request returns a 400.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+code\_mode: optional "off"or "opt\_in"or "default\_on"or "enforced"
+
+Code Mode policy for this portal. <code>off</code>: Code Mode is unavailable; query parameters are ignored. <code>opt_in</code>: Code Mode is off by default; clients turn it on with <code>?codemode=search_and_execute</code>. <code>default_on</code>: Code Mode is on by default; clients can opt out with <code>?codemode=off</code>. <code>enforced</code>: Code Mode is always on; query parameters are ignored. Defaults to <code>opt_in</code> when omitted on create. If both <code>code_mode</code> and <code>allow_code_mode</code> are sent, they must be consistent or the request returns a 400.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"opt\_in"
+
+<a href="#">Link to this property</a>
+
+"default\_on"
+
+<a href="#">Link to this property</a>
+
+"enforced"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+created\_by: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Optional description of the MCP portal.
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_by: optional string
+
+<a href="#">Link to this property</a>
+
+secure\_web\_gateway: optional boolean
+
+Route outbound MCP traffic through Zero Trust Secure Web Gateway.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.ai_controls.mcp.portals%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20zero_trust.access.ai_controls.mcp.portals%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List MCP Portals
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/ai-controls/mcp/portals \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": [
     {
       "id": "my-mcp-portal",
-      "hostname": "exmaple.com",
+      "hostname": "example.com",
       "name": "My MCP Portal",
       "servers": [
         {
@@ -189,10 +677,31 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/ai-control
               "foo": "bar"
             }
           ],
+          "auth_config_summary": {
+            "auth_mode": "dcr",
+            "client_secret_version": 0,
+            "config": {
+              "authorization_endpoint": "authorization_endpoint",
+              "issuer": "issuer",
+              "resource": "resource",
+              "revocation_endpoint": "revocation_endpoint",
+              "token_endpoint": "token_endpoint"
+            },
+            "has_client_secret": true,
+            "registration_info": {
+              "client_id": "client_id",
+              "redirect_uris": [
+                "string"
+              ],
+              "scope": "scope",
+              "token_endpoint_auth_method": "token_endpoint_auth_method"
+            }
+          },
+          "authentication_status": "not_required",
           "created_at": "2019-12-27T18:11:19.117Z",
           "created_by": "created_by",
           "default_disabled": true,
-          "description": "This is one remote mcp server",
+          "description": "This is one remote MCP server",
           "error": "error",
           "error_details": {
             "cause": "cause",
@@ -208,7 +717,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/ai-control
           "modified_by": "modified_by",
           "on_behalf": true,
           "secure_web_gateway": false,
-          "status": "status",
+          "status": "ready",
           "updated_prompts": [
             {
               "name": "name",
@@ -232,6 +741,112 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/ai-control
         }
       ],
       "allow_code_mode": true,
+      "code_mode": "opt_in",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "created_by": "created_by",
+      "description": "This is my custom MCP Portal",
+      "modified_at": "2019-12-27T18:11:19.117Z",
+      "modified_by": "modified_by",
+      "secure_web_gateway": false
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": [
+    {
+      "id": "my-mcp-portal",
+      "hostname": "example.com",
+      "name": "My MCP Portal",
+      "servers": [
+        {
+          "id": "my-mcp-server",
+          "auth_type": "unauthenticated",
+          "hostname": "https://example.com/mcp",
+          "name": "My MCP Server",
+          "prompts": [
+            {
+              "foo": "bar"
+            }
+          ],
+          "server_id": "my-mcp-server",
+          "tools": [
+            {
+              "foo": "bar"
+            }
+          ],
+          "auth_config_summary": {
+            "auth_mode": "dcr",
+            "client_secret_version": 0,
+            "config": {
+              "authorization_endpoint": "authorization_endpoint",
+              "issuer": "issuer",
+              "resource": "resource",
+              "revocation_endpoint": "revocation_endpoint",
+              "token_endpoint": "token_endpoint"
+            },
+            "has_client_secret": true,
+            "registration_info": {
+              "client_id": "client_id",
+              "redirect_uris": [
+                "string"
+              ],
+              "scope": "scope",
+              "token_endpoint_auth_method": "token_endpoint_auth_method"
+            }
+          },
+          "authentication_status": "not_required",
+          "created_at": "2019-12-27T18:11:19.117Z",
+          "created_by": "created_by",
+          "default_disabled": true,
+          "description": "This is one remote MCP server",
+          "error": "error",
+          "error_details": {
+            "cause": "cause",
+            "is_upstream": true,
+            "mcp_code": 0,
+            "retryable": true,
+            "status_code": 0
+          },
+          "is_shared_oauth_callback_enabled": true,
+          "last_successful_sync": "2019-12-27T18:11:19.117Z",
+          "last_synced": "2019-12-27T18:11:19.117Z",
+          "modified_at": "2019-12-27T18:11:19.117Z",
+          "modified_by": "modified_by",
+          "on_behalf": true,
+          "secure_web_gateway": false,
+          "status": "ready",
+          "updated_prompts": [
+            {
+              "name": "name",
+              "enabled": true,
+              "portal_alias": "portal-tool-alias",
+              "portal_description": "portal-level description",
+              "server_alias": "server-tool-alias",
+              "server_description": "server-level description"
+            }
+          ],
+          "updated_tools": [
+            {
+              "name": "name",
+              "enabled": true,
+              "portal_alias": "portal-tool-alias",
+              "portal_description": "portal-level description",
+              "server_alias": "server-tool-alias",
+              "server_description": "server-level description"
+            }
+          ]
+        }
+      ],
+      "allow_code_mode": true,
+      "code_mode": "opt_in",
       "created_at": "2019-12-27T18:11:19.117Z",
       "created_by": "created_by",
       "description": "This is my custom MCP Portal",

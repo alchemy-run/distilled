@@ -1,2535 +1,2725 @@
+---
+title: Streams
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Pipelines](https://developers.cloudflare.com/api/resources/pipelines)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Streams
 
-## List Streams
+##### [List Streams](https://developers.cloudflare.com/api/resources/pipelines/subresources/streams/methods/list)
 
-**get** `/accounts/{account_id}/pipelines/v1/streams`
+GET/accounts/{account\_id}/pipelines/v1/streams
 
-List/Filter Streams in Account.
+##### [Get Stream Details](https://developers.cloudflare.com/api/resources/pipelines/subresources/streams/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/pipelines/v1/streams/{stream\_id}
 
-- `account_id: string`
+##### [Create Stream](https://developers.cloudflare.com/api/resources/pipelines/subresources/streams/methods/create)
 
-  Specifies the public ID of the account.
+POST/accounts/{account\_id}/pipelines/v1/streams
 
-### Query Parameters
+##### [Update Stream](https://developers.cloudflare.com/api/resources/pipelines/subresources/streams/methods/update)
 
-- `name: optional string`
+PATCH/accounts/{account\_id}/pipelines/v1/streams/{stream\_id}
 
-  Filters streams by name (case-insensitive substring).
+##### [Delete Stream](https://developers.cloudflare.com/api/resources/pipelines/subresources/streams/methods/delete)
 
-- `page: optional number`
+DELETE/accounts/{account\_id}/pipelines/v1/streams/{stream\_id}
 
-- `per_page: optional number`
+##### ModelsExpand Collapse
 
-- `pipeline_id: optional string`
+<details>
 
-  Specifies the public ID of the pipeline.
+<summary>
 
-### Returns
+StreamListResponse object {id, created\_at, http, 7 more }
 
-- `result: array of object { id, created_at, http, 7 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-    Indicates a unique identifier for this stream.
+Indicates a unique identifier for this stream.
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `http: object { authentication, enabled, cors }`
+created\_at: string
 
-    - `authentication: boolean`
+formatdate-time
 
-      Indicates that authentication is required for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+<details>
 
-      Indicates that the HTTP endpoint is enabled.
+<summary>
 
-    - `cors: optional object { origins }`
+http: object {authentication, enabled, cors }
 
-      Specifies the CORS options for the HTTP endpoint.
+</summary>
 
-      - `origins: optional array of string`
+authentication: boolean
 
-  - `modified_at: string`
+Indicates that authentication is required for the HTTP endpoint.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Indicates the name of the Stream.
+enabled: boolean
 
-  - `version: number`
+Indicates that the HTTP endpoint is enabled.
 
-    Indicates the current version of this stream.
+<a href="#">Link to this property</a>
 
-  - `worker_binding: object { enabled }`
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Indicates that the worker binding is enabled.
+cors: optional object {origins }
 
-  - `endpoint: optional string`
+Specifies the CORS options for the HTTP endpoint.
 
-    Indicates the endpoint URL of this stream.
+</summary>
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+origins: optional array of string
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+<a href="#">Link to this property</a>
 
-      - `type: "json"`
+</details>
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+</details>
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+modified\_at: string
 
-        - `"bytes"`
+formatdate-time
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<a href="#">Link to this property</a>
 
-        - `"rfc3339"`
+name: string
 
-        - `"unix_millis"`
+Indicates the name of the Stream.
 
-      - `unstructured: optional boolean`
+maxLength128
 
-    - `Parquet object { type, compression, row_group_bytes }`
+minLength1
 
-      - `type: "parquet"`
+<a href="#">Link to this property</a>
 
-        - `"parquet"`
+version: number
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+Indicates the current version of this stream.
 
-        - `"uncompressed"`
+<a href="#">Link to this property</a>
 
-        - `"snappy"`
+<details>
 
-        - `"gzip"`
+<summary>
 
-        - `"zstd"`
+worker\_binding: object {enabled }
 
-        - `"lz4"`
+</summary>
 
-      - `row_group_bytes: optional number`
+enabled: boolean
 
-  - `schema: optional object { fields, format, inferred }`
+Indicates that the worker binding is enabled.
 
-    - `fields: optional array of object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or 8 more`
+<a href="#">Link to this property</a>
 
-      - `Int32 object { type, metadata_key, name, 2 more }`
+</details>
 
-        - `type: "int32"`
+<a href="#">Link to this property</a>
 
-          - `"int32"`
+endpoint: optional string
 
-        - `metadata_key: optional string`
+Indicates the endpoint URL of this stream.
 
-        - `name: optional string`
+formaturi
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+<details>
 
-      - `Int64 object { type, metadata_key, name, 2 more }`
+<summary>
 
-        - `type: "int64"`
+format: optional object {type, decimal\_encoding, timestamp\_format, unstructured } or object {type, compression, row\_group\_bytes }
 
-          - `"int64"`
+Defines the data format of the events.
 
-        - `metadata_key: optional string`
+</summary>
 
-        - `name: optional string`
+One of the following:
 
-        - `required: optional boolean`
+<details>
 
-        - `sql_name: optional string`
+<summary>
 
-      - `Float32 object { type, metadata_key, name, 2 more }`
+Json object {type, decimal\_encoding, timestamp\_format, unstructured }
 
-        - `type: "float32"`
+</summary>
 
-          - `"float32"`
+type: "json"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+<details>
 
-        - `required: optional boolean`
+<summary>
 
-        - `sql_name: optional string`
+decimal\_encoding: optional "number"or "string"or "bytes"
 
-      - `Float64 object { type, metadata_key, name, 2 more }`
+</summary>
 
-        - `type: "float64"`
+One of the following:
 
-          - `"float64"`
+"number"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+"string"
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+"bytes"
 
-      - `Bool object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "bool"`
+</details>
 
-          - `"bool"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+<details>
 
-        - `name: optional string`
+<summary>
 
-        - `required: optional boolean`
+timestamp\_format: optional "rfc3339"or "unix\_millis"
 
-        - `sql_name: optional string`
+</summary>
 
-      - `String object { type, metadata_key, name, 2 more }`
+One of the following:
 
-        - `type: "string"`
+"rfc3339"
 
-          - `"string"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+"unix\_millis"
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+</details>
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Binary object { type, metadata_key, name, 2 more }`
+unstructured: optional boolean
 
-        - `type: "binary"`
+<a href="#">Link to this property</a>
 
-          - `"binary"`
+</details>
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+<details>
 
-        - `required: optional boolean`
+<summary>
 
-        - `sql_name: optional string`
+Parquet object {type, compression, row\_group\_bytes }
 
-      - `Timestamp object { type, metadata_key, name, 3 more }`
+</summary>
 
-        - `type: "timestamp"`
+type: "parquet"
 
-          - `"timestamp"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+<details>
 
-        - `name: optional string`
+<summary>
 
-        - `required: optional boolean`
+compression: optional "uncompressed"or "snappy"or "gzip"or 2 more
 
-        - `sql_name: optional string`
+</summary>
 
-        - `unit: optional "second" or "millisecond" or "microsecond" or "nanosecond"`
+One of the following:
 
-          - `"second"`
+"uncompressed"
 
-          - `"millisecond"`
+<a href="#">Link to this property</a>
 
-          - `"microsecond"`
+"snappy"
 
-          - `"nanosecond"`
+<a href="#">Link to this property</a>
 
-      - `Json object { type, metadata_key, name, 2 more }`
+"gzip"
 
-        - `type: "json"`
+<a href="#">Link to this property</a>
 
-          - `"json"`
+"zstd"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+"lz4"
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+</details>
 
-      - `Struct =`
+<a href="#">Link to this property</a>
 
-      - `List =`
+row\_group\_bytes: optional number
 
-    - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+formatint64
 
-      - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+minimum0
 
-        - `type: "json"`
+<a href="#">Link to this property</a>
 
-          - `"json"`
+</details>
 
-        - `decimal_encoding: optional "number" or "string" or "bytes"`
+<a href="#">Link to this property</a>
 
-          - `"number"`
+</details>
 
-          - `"string"`
+<a href="#">Link to this property</a>
 
-          - `"bytes"`
+<details>
 
-        - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<summary>
 
-          - `"rfc3339"`
+schema: optional object {fields, inferred }
 
-          - `"unix_millis"`
+Defines the schema of the events in the data stream.
 
-        - `unstructured: optional boolean`
+</summary>
 
-      - `Parquet object { type, compression, row_group_bytes }`
+<details>
 
-        - `type: "parquet"`
+<summary>
 
-          - `"parquet"`
+fields: optional array of <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20source_field%20%3E%20(schema)">SourceField</a>
 
-        - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+</summary>
 
-          - `"uncompressed"`
+One of the following:
 
-          - `"snappy"`
+<details>
 
-          - `"gzip"`
+<summary>
 
-          - `"zstd"`
+Int32 object {type, metadata\_key, name, 2 more }
 
-          - `"lz4"`
+</summary>
 
-        - `row_group_bytes: optional number`
+type: "int32"
 
-    - `inferred: optional boolean`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, total_count }`
+metadata\_key: optional string
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-    Indicates the number of items on current page.
+name: optional string
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-    Indicates the current page number.
+required: optional boolean
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-    Indicates the number of items per page.
+sql\_name: optional string
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-    Indicates the total number of items.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/streams \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Int64 object {type, metadata\_key, name, 2 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": [
-    {
-      "id": "01234567890123457689012345678901",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "http": {
-        "authentication": false,
-        "enabled": true,
-        "cors": {
-          "origins": [
-            "string"
-          ]
-        }
-      },
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "my_stream",
-      "version": 3,
-      "worker_binding": {
-        "enabled": true
-      },
-      "endpoint": "https://01234567890123457689012345678901.ingest.cloudflare.com/v1",
-      "format": {
-        "type": "json",
-        "decimal_encoding": "number",
-        "timestamp_format": "rfc3339",
-        "unstructured": true
-      },
-      "schema": {
-        "fields": [
-          {
-            "type": "int32",
-            "metadata_key": "metadata_key",
-            "name": "name",
-            "required": true,
-            "sql_name": "sql_name"
-          }
-        ],
-        "format": {
-          "type": "json",
-          "decimal_encoding": "number",
-          "timestamp_format": "rfc3339",
-          "unstructured": true
-        },
-        "inferred": true
-      }
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 0,
-    "per_page": 10,
-    "total_count": 1
-  },
-  "success": true
-}
-```
+type: "int64"
 
-## Get Stream Details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/pipelines/v1/streams/{stream_id}`
+metadata\_key: optional string
 
-Get Stream Details.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+name: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Specifies the public ID of the account.
+required: optional boolean
 
-- `stream_id: string`
+<a href="#">Link to this property</a>
 
-  Specifies the public ID of the stream.
+sql\_name: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, created_at, http, 7 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Indicates a unique identifier for this stream.
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `http: object { authentication, enabled, cors }`
+Float32 object {type, metadata\_key, name, 2 more }
 
-    - `authentication: boolean`
+</summary>
 
-      Indicates that authentication is required for the HTTP endpoint.
+type: "float32"
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the HTTP endpoint is enabled.
+metadata\_key: optional string
 
-    - `cors: optional object { origins }`
+<a href="#">Link to this property</a>
 
-      Specifies the CORS options for the HTTP endpoint.
+name: optional string
 
-      - `origins: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+required: optional boolean
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Indicates the name of the Stream.
+sql\_name: optional string
 
-  - `version: number`
+<a href="#">Link to this property</a>
 
-    Indicates the current version of this stream.
+</details>
 
-  - `worker_binding: object { enabled }`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+<details>
 
-      Indicates that the worker binding is enabled.
+<summary>
 
-  - `endpoint: optional string`
+Float64 object {type, metadata\_key, name, 2 more }
 
-    Indicates the endpoint URL of this stream.
+</summary>
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+type: "float64"
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+<a href="#">Link to this property</a>
 
-      - `type: "json"`
+metadata\_key: optional string
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+name: optional string
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+required: optional boolean
 
-        - `"bytes"`
+<a href="#">Link to this property</a>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+sql\_name: optional string
 
-        - `"rfc3339"`
+<a href="#">Link to this property</a>
 
-        - `"unix_millis"`
+</details>
 
-      - `unstructured: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `Parquet object { type, compression, row_group_bytes }`
+<details>
 
-      - `type: "parquet"`
+<summary>
 
-        - `"parquet"`
+Bool object {type, metadata\_key, name, 2 more }
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+</summary>
 
-        - `"uncompressed"`
+type: "bool"
 
-        - `"snappy"`
+<a href="#">Link to this property</a>
 
-        - `"gzip"`
+metadata\_key: optional string
 
-        - `"zstd"`
+<a href="#">Link to this property</a>
 
-        - `"lz4"`
+name: optional string
 
-      - `row_group_bytes: optional number`
+<a href="#">Link to this property</a>
 
-  - `schema: optional object { fields, format, inferred }`
+required: optional boolean
 
-    - `fields: optional array of object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or 8 more`
+<a href="#">Link to this property</a>
 
-      - `Int32 object { type, metadata_key, name, 2 more }`
+sql\_name: optional string
 
-        - `type: "int32"`
+<a href="#">Link to this property</a>
 
-          - `"int32"`
+</details>
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+<details>
 
-        - `required: optional boolean`
+<summary>
 
-        - `sql_name: optional string`
+String object {type, metadata\_key, name, 2 more }
 
-      - `Int64 object { type, metadata_key, name, 2 more }`
+</summary>
 
-        - `type: "int64"`
+type: "string"
 
-          - `"int64"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+metadata\_key: optional string
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+name: optional string
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Float32 object { type, metadata_key, name, 2 more }`
+required: optional boolean
 
-        - `type: "float32"`
+<a href="#">Link to this property</a>
 
-          - `"float32"`
+sql\_name: optional string
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+</details>
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+<details>
 
-      - `Float64 object { type, metadata_key, name, 2 more }`
+<summary>
 
-        - `type: "float64"`
+Binary object {type, metadata\_key, name, 2 more }
 
-          - `"float64"`
+</summary>
 
-        - `metadata_key: optional string`
+type: "binary"
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+metadata\_key: optional string
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Bool object { type, metadata_key, name, 2 more }`
+name: optional string
 
-        - `type: "bool"`
+<a href="#">Link to this property</a>
 
-          - `"bool"`
+required: optional boolean
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+sql\_name: optional string
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+</details>
 
-      - `String object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "string"`
+<details>
 
-          - `"string"`
+<summary>
 
-        - `metadata_key: optional string`
+Timestamp object {type, metadata\_key, name, 3 more }
 
-        - `name: optional string`
+</summary>
 
-        - `required: optional boolean`
+type: "timestamp"
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Binary object { type, metadata_key, name, 2 more }`
+metadata\_key: optional string
 
-        - `type: "binary"`
+<a href="#">Link to this property</a>
 
-          - `"binary"`
+name: optional string
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+required: optional boolean
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+sql\_name: optional string
 
-      - `Timestamp object { type, metadata_key, name, 3 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "timestamp"`
+<details>
 
-          - `"timestamp"`
+<summary>
 
-        - `metadata_key: optional string`
+unit: optional "second"or "millisecond"or "microsecond"or "nanosecond"
 
-        - `name: optional string`
+</summary>
 
-        - `required: optional boolean`
+One of the following:
 
-        - `sql_name: optional string`
+"second"
 
-        - `unit: optional "second" or "millisecond" or "microsecond" or "nanosecond"`
+<a href="#">Link to this property</a>
 
-          - `"second"`
+"millisecond"
 
-          - `"millisecond"`
+<a href="#">Link to this property</a>
 
-          - `"microsecond"`
+"microsecond"
 
-          - `"nanosecond"`
+<a href="#">Link to this property</a>
 
-      - `Json object { type, metadata_key, name, 2 more }`
+"nanosecond"
 
-        - `type: "json"`
+<a href="#">Link to this property</a>
 
-          - `"json"`
+</details>
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+</details>
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+<details>
 
-      - `Struct =`
+<summary>
 
-      - `List =`
+Json object {type, metadata\_key, name, 2 more }
 
-    - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+</summary>
 
-      - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+type: "json"
 
-        - `type: "json"`
+<a href="#">Link to this property</a>
 
-          - `"json"`
+metadata\_key: optional string
 
-        - `decimal_encoding: optional "number" or "string" or "bytes"`
+<a href="#">Link to this property</a>
 
-          - `"number"`
+name: optional string
 
-          - `"string"`
+<a href="#">Link to this property</a>
 
-          - `"bytes"`
+required: optional boolean
 
-        - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<a href="#">Link to this property</a>
 
-          - `"rfc3339"`
+sql\_name: optional string
 
-          - `"unix_millis"`
+<a href="#">Link to this property</a>
 
-        - `unstructured: optional boolean`
+</details>
 
-      - `Parquet object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-        - `type: "parquet"`
+<details>
 
-          - `"parquet"`
+<summary>
 
-        - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+Struct = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20struct_field%20%3E%20(schema)">StructField</a> { fields, name }
 
-          - `"uncompressed"`
+</summary>
 
-          - `"snappy"`
+type: "struct"
 
-          - `"gzip"`
+<a href="#">Link to this property</a>
 
-          - `"zstd"`
+metadata\_key: optional string
 
-          - `"lz4"`
+<a href="#">Link to this property</a>
 
-        - `row_group_bytes: optional number`
+name: optional string
 
-    - `inferred: optional boolean`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+required: optional boolean
 
-  Indicates whether the API call was successful.
+<a href="#">Link to this property</a>
 
-### Example
+sql\_name: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/streams/$STREAM_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "id": "01234567890123457689012345678901",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "http": {
-      "authentication": false,
-      "enabled": true,
-      "cors": {
-        "origins": [
-          "string"
-        ]
-      }
-    },
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "my_stream",
-    "version": 3,
-    "worker_binding": {
-      "enabled": true
-    },
-    "endpoint": "https://01234567890123457689012345678901.ingest.cloudflare.com/v1",
-    "format": {
-      "type": "json",
-      "decimal_encoding": "number",
-      "timestamp_format": "rfc3339",
-      "unstructured": true
-    },
-    "schema": {
-      "fields": [
-        {
-          "type": "int32",
-          "metadata_key": "metadata_key",
-          "name": "name",
-          "required": true,
-          "sql_name": "sql_name"
-        }
-      ],
-      "format": {
-        "type": "json",
-        "decimal_encoding": "number",
-        "timestamp_format": "rfc3339",
-        "unstructured": true
-      },
-      "inferred": true
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Stream
+<details>
 
-**post** `/accounts/{account_id}/pipelines/v1/streams`
+<summary>
 
-Create a new Stream.
+List = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20list_field%20%3E%20(schema)">ListField</a> { items }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+type: "list"
 
-  Specifies the public ID of the account.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+metadata\_key: optional string
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Specifies the name of the Stream.
+name: optional string
 
-- `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-  - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+required: optional boolean
 
-    - `type: "json"`
+<a href="#">Link to this property</a>
 
-      - `"json"`
+sql\_name: optional string
 
-    - `decimal_encoding: optional "number" or "string" or "bytes"`
+<a href="#">Link to this property</a>
 
-      - `"number"`
+</details>
 
-      - `"string"`
+<a href="#">Link to this property</a>
 
-      - `"bytes"`
+</details>
 
-    - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<a href="#">Link to this property</a>
 
-      - `"rfc3339"`
+inferred: optional boolean
 
-      - `"unix_millis"`
+<a href="#">Link to this property</a>
 
-    - `unstructured: optional boolean`
+</details>
 
-  - `Parquet object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-    - `type: "parquet"`
+</details>
 
-      - `"parquet"`
+[Link to this property](#)%20pipelines.streams%20%3E%20(model)%20stream_list_response%20%3E%20(schema)>)
 
-    - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<details>
 
-      - `"uncompressed"`
+<summary>
 
-      - `"snappy"`
+StreamGetResponse object {id, created\_at, http, 7 more }
 
-      - `"gzip"`
+</summary>
 
-      - `"zstd"`
+id: string
 
-      - `"lz4"`
+Indicates a unique identifier for this stream.
 
-    - `row_group_bytes: optional number`
+<a href="#">Link to this property</a>
 
-- `http: optional object { authentication, enabled, cors }`
+created\_at: string
 
-  - `authentication: boolean`
+formatdate-time
 
-    Indicates that authentication is required for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+<details>
 
-    Indicates that the HTTP endpoint is enabled.
+<summary>
 
-  - `cors: optional object { origins }`
+http: object {authentication, enabled, cors }
 
-    Specifies the CORS options for the HTTP endpoint.
+</summary>
 
-    - `origins: optional array of string`
+authentication: boolean
 
-- `schema: optional object { fields, format, inferred }`
+Indicates that authentication is required for the HTTP endpoint.
 
-  - `fields: optional array of object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or 8 more`
+<a href="#">Link to this property</a>
 
-    - `Int32 object { type, metadata_key, name, 2 more }`
+enabled: boolean
 
-      - `type: "int32"`
+Indicates that the HTTP endpoint is enabled.
 
-        - `"int32"`
+<a href="#">Link to this property</a>
 
-      - `metadata_key: optional string`
+<details>
 
-      - `name: optional string`
+<summary>
 
-      - `required: optional boolean`
+cors: optional object {origins }
 
-      - `sql_name: optional string`
+Specifies the CORS options for the HTTP endpoint.
 
-    - `Int64 object { type, metadata_key, name, 2 more }`
+</summary>
 
-      - `type: "int64"`
+origins: optional array of string
 
-        - `"int64"`
+<a href="#">Link to this property</a>
 
-      - `metadata_key: optional string`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-      - `required: optional boolean`
+</details>
 
-      - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `Float32 object { type, metadata_key, name, 2 more }`
+modified\_at: string
 
-      - `type: "float32"`
+formatdate-time
 
-        - `"float32"`
+<a href="#">Link to this property</a>
 
-      - `metadata_key: optional string`
+name: string
 
-      - `name: optional string`
+Indicates the name of the Stream.
 
-      - `required: optional boolean`
+maxLength128
 
-      - `sql_name: optional string`
+minLength1
 
-    - `Float64 object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `type: "float64"`
+version: number
 
-        - `"float64"`
+Indicates the current version of this stream.
 
-      - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+<details>
 
-      - `required: optional boolean`
+<summary>
 
-      - `sql_name: optional string`
+worker\_binding: object {enabled }
 
-    - `Bool object { type, metadata_key, name, 2 more }`
+</summary>
 
-      - `type: "bool"`
+enabled: boolean
 
-        - `"bool"`
+Indicates that the worker binding is enabled.
 
-      - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-      - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `sql_name: optional string`
+endpoint: optional string
 
-    - `String object { type, metadata_key, name, 2 more }`
+Indicates the endpoint URL of this stream.
 
-      - `type: "string"`
+formaturi
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-      - `metadata_key: optional string`
+<details>
 
-      - `name: optional string`
+<summary>
 
-      - `required: optional boolean`
+format: optional object {type, decimal\_encoding, timestamp\_format, unstructured } or object {type, compression, row\_group\_bytes }
 
-      - `sql_name: optional string`
+Defines the data format of the events.
 
-    - `Binary object { type, metadata_key, name, 2 more }`
+</summary>
 
-      - `type: "binary"`
+One of the following:
 
-        - `"binary"`
+<details>
 
-      - `metadata_key: optional string`
+<summary>
 
-      - `name: optional string`
+Json object {type, decimal\_encoding, timestamp\_format, unstructured }
 
-      - `required: optional boolean`
+</summary>
 
-      - `sql_name: optional string`
+type: "json"
 
-    - `Timestamp object { type, metadata_key, name, 3 more }`
+<a href="#">Link to this property</a>
 
-      - `type: "timestamp"`
+<details>
 
-        - `"timestamp"`
+<summary>
 
-      - `metadata_key: optional string`
+decimal\_encoding: optional "number"or "string"or "bytes"
 
-      - `name: optional string`
+</summary>
 
-      - `required: optional boolean`
+One of the following:
 
-      - `sql_name: optional string`
+"number"
 
-      - `unit: optional "second" or "millisecond" or "microsecond" or "nanosecond"`
+<a href="#">Link to this property</a>
 
-        - `"second"`
+"string"
 
-        - `"millisecond"`
+<a href="#">Link to this property</a>
 
-        - `"microsecond"`
+"bytes"
 
-        - `"nanosecond"`
+<a href="#">Link to this property</a>
 
-    - `Json object { type, metadata_key, name, 2 more }`
+</details>
 
-      - `type: "json"`
+<a href="#">Link to this property</a>
 
-        - `"json"`
+<details>
 
-      - `metadata_key: optional string`
+<summary>
 
-      - `name: optional string`
+timestamp\_format: optional "rfc3339"or "unix\_millis"
 
-      - `required: optional boolean`
+</summary>
 
-      - `sql_name: optional string`
+One of the following:
 
-    - `Struct =`
+"rfc3339"
 
-    - `List =`
+<a href="#">Link to this property</a>
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+"unix\_millis"
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+<a href="#">Link to this property</a>
 
-      - `type: "json"`
+</details>
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+unstructured: optional boolean
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+</details>
 
-        - `"bytes"`
+<a href="#">Link to this property</a>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<details>
 
-        - `"rfc3339"`
+<summary>
 
-        - `"unix_millis"`
+Parquet object {type, compression, row\_group\_bytes }
 
-      - `unstructured: optional boolean`
+</summary>
 
-    - `Parquet object { type, compression, row_group_bytes }`
+type: "parquet"
 
-      - `type: "parquet"`
+<a href="#">Link to this property</a>
 
-        - `"parquet"`
+<details>
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<summary>
 
-        - `"uncompressed"`
+compression: optional "uncompressed"or "snappy"or "gzip"or 2 more
 
-        - `"snappy"`
+</summary>
 
-        - `"gzip"`
+One of the following:
 
-        - `"zstd"`
+"uncompressed"
 
-        - `"lz4"`
+<a href="#">Link to this property</a>
 
-      - `row_group_bytes: optional number`
+"snappy"
 
-  - `inferred: optional boolean`
+<a href="#">Link to this property</a>
 
-- `worker_binding: optional object { enabled }`
+"gzip"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Indicates that the worker binding is enabled.
+"zstd"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, created_at, http, 7 more }`
+"lz4"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Indicates a unique identifier for this stream.
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `http: object { authentication, enabled, cors }`
+row\_group\_bytes: optional number
 
-    - `authentication: boolean`
+formatint64
 
-      Indicates that authentication is required for the HTTP endpoint.
+minimum0
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the HTTP endpoint is enabled.
+</details>
 
-    - `cors: optional object { origins }`
+<a href="#">Link to this property</a>
 
-      Specifies the CORS options for the HTTP endpoint.
+</details>
 
-      - `origins: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+<details>
 
-  - `name: string`
+<summary>
 
-    Indicates the name of the Stream.
+schema: optional object {fields, inferred }
 
-  - `version: number`
+Defines the schema of the events in the data stream.
 
-    Indicates the current version of this stream.
+</summary>
 
-  - `worker_binding: object { enabled }`
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Indicates that the worker binding is enabled.
+fields: optional array of <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20source_field%20%3E%20(schema)">SourceField</a>
 
-  - `endpoint: optional string`
+</summary>
 
-    Indicates the endpoint URL of this stream.
+One of the following:
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<details>
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+<summary>
 
-      - `type: "json"`
+Int32 object {type, metadata\_key, name, 2 more }
 
-        - `"json"`
+</summary>
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+type: "int32"
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+metadata\_key: optional string
 
-        - `"bytes"`
+<a href="#">Link to this property</a>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+name: optional string
 
-        - `"rfc3339"`
+<a href="#">Link to this property</a>
 
-        - `"unix_millis"`
+required: optional boolean
 
-      - `unstructured: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `Parquet object { type, compression, row_group_bytes }`
+sql\_name: optional string
 
-      - `type: "parquet"`
+<a href="#">Link to this property</a>
 
-        - `"parquet"`
+</details>
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<a href="#">Link to this property</a>
 
-        - `"uncompressed"`
+<details>
 
-        - `"snappy"`
+<summary>
 
-        - `"gzip"`
+Int64 object {type, metadata\_key, name, 2 more }
 
-        - `"zstd"`
+</summary>
 
-        - `"lz4"`
+type: "int64"
 
-      - `row_group_bytes: optional number`
+<a href="#">Link to this property</a>
 
-  - `schema: optional object { fields, format, inferred }`
+metadata\_key: optional string
 
-    - `fields: optional array of object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or 8 more`
+<a href="#">Link to this property</a>
 
-      - `Int32 object { type, metadata_key, name, 2 more }`
+name: optional string
 
-        - `type: "int32"`
+<a href="#">Link to this property</a>
 
-          - `"int32"`
+required: optional boolean
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+sql\_name: optional string
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+</details>
 
-      - `Int64 object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "int64"`
+<details>
 
-          - `"int64"`
+<summary>
 
-        - `metadata_key: optional string`
+Float32 object {type, metadata\_key, name, 2 more }
 
-        - `name: optional string`
+</summary>
 
-        - `required: optional boolean`
+type: "float32"
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Float32 object { type, metadata_key, name, 2 more }`
+metadata\_key: optional string
 
-        - `type: "float32"`
+<a href="#">Link to this property</a>
 
-          - `"float32"`
+name: optional string
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+required: optional boolean
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+sql\_name: optional string
 
-      - `Float64 object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "float64"`
+</details>
 
-          - `"float64"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+<details>
 
-        - `name: optional string`
+<summary>
 
-        - `required: optional boolean`
+Float64 object {type, metadata\_key, name, 2 more }
 
-        - `sql_name: optional string`
+</summary>
 
-      - `Bool object { type, metadata_key, name, 2 more }`
+type: "float64"
 
-        - `type: "bool"`
+<a href="#">Link to this property</a>
 
-          - `"bool"`
+metadata\_key: optional string
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+name: optional string
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+required: optional boolean
 
-      - `String object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "string"`
+sql\_name: optional string
 
-          - `"string"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+</details>
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+<details>
 
-        - `sql_name: optional string`
+<summary>
 
-      - `Binary object { type, metadata_key, name, 2 more }`
+Bool object {type, metadata\_key, name, 2 more }
 
-        - `type: "binary"`
+</summary>
 
-          - `"binary"`
+type: "bool"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+metadata\_key: optional string
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+name: optional string
 
-      - `Timestamp object { type, metadata_key, name, 3 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "timestamp"`
+required: optional boolean
 
-          - `"timestamp"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+sql\_name: optional string
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+</details>
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-        - `unit: optional "second" or "millisecond" or "microsecond" or "nanosecond"`
+<details>
 
-          - `"second"`
+<summary>
 
-          - `"millisecond"`
+String object {type, metadata\_key, name, 2 more }
 
-          - `"microsecond"`
+</summary>
 
-          - `"nanosecond"`
+type: "string"
 
-      - `Json object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "json"`
+metadata\_key: optional string
 
-          - `"json"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+name: optional string
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+required: optional boolean
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Struct =`
+sql\_name: optional string
 
-      - `List =`
+<a href="#">Link to this property</a>
 
-    - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+</details>
 
-      - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+<a href="#">Link to this property</a>
 
-        - `type: "json"`
+<details>
 
-          - `"json"`
+<summary>
 
-        - `decimal_encoding: optional "number" or "string" or "bytes"`
+Binary object {type, metadata\_key, name, 2 more }
 
-          - `"number"`
+</summary>
 
-          - `"string"`
+type: "binary"
 
-          - `"bytes"`
+<a href="#">Link to this property</a>
 
-        - `timestamp_format: optional "rfc3339" or "unix_millis"`
+metadata\_key: optional string
 
-          - `"rfc3339"`
+<a href="#">Link to this property</a>
 
-          - `"unix_millis"`
+name: optional string
 
-        - `unstructured: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `Parquet object { type, compression, row_group_bytes }`
+required: optional boolean
 
-        - `type: "parquet"`
+<a href="#">Link to this property</a>
 
-          - `"parquet"`
+sql\_name: optional string
 
-        - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<a href="#">Link to this property</a>
 
-          - `"uncompressed"`
+</details>
 
-          - `"snappy"`
+<a href="#">Link to this property</a>
 
-          - `"gzip"`
+<details>
 
-          - `"zstd"`
+<summary>
 
-          - `"lz4"`
+Timestamp object {type, metadata\_key, name, 3 more }
 
-        - `row_group_bytes: optional number`
+</summary>
 
-    - `inferred: optional boolean`
+type: "timestamp"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+metadata\_key: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/streams \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my_stream"
-        }'
-```
+name: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "01234567890123457689012345678901",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "http": {
-      "authentication": false,
-      "enabled": true,
-      "cors": {
-        "origins": [
-          "string"
-        ]
-      }
-    },
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "my_stream",
-    "version": 3,
-    "worker_binding": {
-      "enabled": true
-    },
-    "endpoint": "https://01234567890123457689012345678901.ingest.cloudflare.com/v1",
-    "format": {
-      "type": "json",
-      "decimal_encoding": "number",
-      "timestamp_format": "rfc3339",
-      "unstructured": true
-    },
-    "schema": {
-      "fields": [
-        {
-          "type": "int32",
-          "metadata_key": "metadata_key",
-          "name": "name",
-          "required": true,
-          "sql_name": "sql_name"
-        }
-      ],
-      "format": {
-        "type": "json",
-        "decimal_encoding": "number",
-        "timestamp_format": "rfc3339",
-        "unstructured": true
-      },
-      "inferred": true
-    }
-  },
-  "success": true
-}
-```
+required: optional boolean
 
-## Update Stream
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/pipelines/v1/streams/{stream_id}`
+sql\_name: optional string
 
-Update a Stream.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Specifies the public ID of the account.
+unit: optional "second"or "millisecond"or "microsecond"or "nanosecond"
 
-- `stream_id: string`
+</summary>
 
-  Specifies the public ID of the stream.
+One of the following:
 
-### Body Parameters
+"second"
 
-- `http: optional object { authentication, enabled, cors }`
+<a href="#">Link to this property</a>
 
-  - `authentication: boolean`
+"millisecond"
 
-    Indicates that authentication is required for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"microsecond"
 
-    Indicates that the HTTP endpoint is enabled.
+<a href="#">Link to this property</a>
 
-  - `cors: optional object { origins }`
+"nanosecond"
 
-    Specifies the CORS options for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-    - `origins: optional array of string`
+</details>
 
-- `worker_binding: optional object { enabled }`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-    Indicates that the worker binding is enabled.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `result: object { id, created_at, http, 6 more }`
+<summary>
 
-  - `id: string`
+Json object {type, metadata\_key, name, 2 more }
 
-    Indicates a unique identifier for this stream.
+</summary>
 
-  - `created_at: string`
+type: "json"
 
-  - `http: object { authentication, enabled, cors }`
+<a href="#">Link to this property</a>
 
-    - `authentication: boolean`
+metadata\_key: optional string
 
-      Indicates that authentication is required for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+name: optional string
 
-      Indicates that the HTTP endpoint is enabled.
+<a href="#">Link to this property</a>
 
-    - `cors: optional object { origins }`
+required: optional boolean
 
-      Specifies the CORS options for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-      - `origins: optional array of string`
+sql\_name: optional string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Indicates the name of the Stream.
+<a href="#">Link to this property</a>
 
-  - `version: number`
+<details>
 
-    Indicates the current version of this stream.
+<summary>
 
-  - `worker_binding: object { enabled }`
+Struct = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20struct_field%20%3E%20(schema)">StructField</a> { fields, name }
 
-    - `enabled: boolean`
+</summary>
 
-      Indicates that the worker binding is enabled.
+type: "struct"
 
-  - `endpoint: optional string`
+<a href="#">Link to this property</a>
 
-    Indicates the endpoint URL of this stream.
+metadata\_key: optional string
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+name: optional string
 
-      - `type: "json"`
+<a href="#">Link to this property</a>
 
-        - `"json"`
+required: optional boolean
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+sql\_name: optional string
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"bytes"`
+</details>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<a href="#">Link to this property</a>
 
-        - `"rfc3339"`
+<details>
 
-        - `"unix_millis"`
+<summary>
 
-      - `unstructured: optional boolean`
+List = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20list_field%20%3E%20(schema)">ListField</a> { items }
 
-    - `Parquet object { type, compression, row_group_bytes }`
+</summary>
 
-      - `type: "parquet"`
+type: "list"
 
-        - `"parquet"`
+<a href="#">Link to this property</a>
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+metadata\_key: optional string
 
-        - `"uncompressed"`
+<a href="#">Link to this property</a>
 
-        - `"snappy"`
+name: optional string
 
-        - `"gzip"`
+<a href="#">Link to this property</a>
 
-        - `"zstd"`
+required: optional boolean
 
-        - `"lz4"`
+<a href="#">Link to this property</a>
 
-      - `row_group_bytes: optional number`
+sql\_name: optional string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/streams/$STREAM_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "01234567890123457689012345678901",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "http": {
-      "authentication": false,
-      "enabled": true,
-      "cors": {
-        "origins": [
-          "string"
-        ]
-      }
-    },
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "my_stream",
-    "version": 3,
-    "worker_binding": {
-      "enabled": true
-    },
-    "endpoint": "https://01234567890123457689012345678901.ingest.cloudflare.com/v1",
-    "format": {
-      "type": "json",
-      "decimal_encoding": "number",
-      "timestamp_format": "rfc3339",
-      "unstructured": true
-    }
-  },
-  "success": true
-}
-```
+inferred: optional boolean
 
-## Delete Stream
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/pipelines/v1/streams/{stream_id}`
+</details>
 
-Delete Stream in Account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20pipelines.streams%20%3E%20(model)%20stream_get_response%20%3E%20(schema)>)
 
-  Specifies the public ID of the account.
+<details>
 
-- `stream_id: string`
+<summary>
 
-  Specifies the public ID of the stream.
+StreamCreateResponse object {id, created\_at, http, 7 more }
 
-### Query Parameters
+</summary>
 
-- `force: optional string`
+id: string
 
-  Deprecated: Delete stream forcefully, including deleting any dependent pipelines.
+Indicates a unique identifier for this stream.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: unknown`
+created\_at: string
 
-- `success: boolean`
+formatdate-time
 
-  Indicates whether the API call was successful.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/streams/$STREAM_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+http: object {authentication, enabled, cors }
 
-```json
-{
-  "result": {},
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+authentication: boolean
 
-### Stream List Response
+Indicates that authentication is required for the HTTP endpoint.
 
-- `StreamListResponse object { id, created_at, http, 7 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+enabled: boolean
 
-    Indicates a unique identifier for this stream.
+Indicates that the HTTP endpoint is enabled.
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `http: object { authentication, enabled, cors }`
+<details>
 
-    - `authentication: boolean`
+<summary>
 
-      Indicates that authentication is required for the HTTP endpoint.
+cors: optional object {origins }
 
-    - `enabled: boolean`
+Specifies the CORS options for the HTTP endpoint.
 
-      Indicates that the HTTP endpoint is enabled.
+</summary>
 
-    - `cors: optional object { origins }`
+origins: optional array of string
 
-      Specifies the CORS options for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-      - `origins: optional array of string`
+</details>
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Indicates the name of the Stream.
+<a href="#">Link to this property</a>
 
-  - `version: number`
+modified\_at: string
 
-    Indicates the current version of this stream.
+formatdate-time
 
-  - `worker_binding: object { enabled }`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+name: string
 
-      Indicates that the worker binding is enabled.
+Indicates the name of the Stream.
 
-  - `endpoint: optional string`
+maxLength128
 
-    Indicates the endpoint URL of this stream.
+minLength1
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+version: number
 
-      - `type: "json"`
+Indicates the current version of this stream.
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+<details>
 
-        - `"number"`
+<summary>
 
-        - `"string"`
+worker\_binding: object {enabled }
 
-        - `"bytes"`
+</summary>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+enabled: boolean
 
-        - `"rfc3339"`
+Indicates that the worker binding is enabled.
 
-        - `"unix_millis"`
+<a href="#">Link to this property</a>
 
-      - `unstructured: optional boolean`
+</details>
 
-    - `Parquet object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-      - `type: "parquet"`
+endpoint: optional string
 
-        - `"parquet"`
+Indicates the endpoint URL of this stream.
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+formaturi
 
-        - `"uncompressed"`
+<a href="#">Link to this property</a>
 
-        - `"snappy"`
+<details>
 
-        - `"gzip"`
+<summary>
 
-        - `"zstd"`
+format: optional object {type, decimal\_encoding, timestamp\_format, unstructured } or object {type, compression, row\_group\_bytes }
 
-        - `"lz4"`
+Defines the data format of the events.
 
-      - `row_group_bytes: optional number`
+</summary>
 
-  - `schema: optional object { fields, format, inferred }`
+One of the following:
 
-    - `fields: optional array of object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or 8 more`
+<details>
 
-      - `Int32 object { type, metadata_key, name, 2 more }`
+<summary>
 
-        - `type: "int32"`
+Json object {type, decimal\_encoding, timestamp\_format, unstructured }
 
-          - `"int32"`
+</summary>
 
-        - `metadata_key: optional string`
+type: "json"
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+<details>
 
-        - `sql_name: optional string`
+<summary>
 
-      - `Int64 object { type, metadata_key, name, 2 more }`
+decimal\_encoding: optional "number"or "string"or "bytes"
 
-        - `type: "int64"`
+</summary>
 
-          - `"int64"`
+One of the following:
 
-        - `metadata_key: optional string`
+"number"
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+"string"
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Float32 object { type, metadata_key, name, 2 more }`
+"bytes"
 
-        - `type: "float32"`
+<a href="#">Link to this property</a>
 
-          - `"float32"`
+</details>
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+<details>
 
-        - `required: optional boolean`
+<summary>
 
-        - `sql_name: optional string`
+timestamp\_format: optional "rfc3339"or "unix\_millis"
 
-      - `Float64 object { type, metadata_key, name, 2 more }`
+</summary>
 
-        - `type: "float64"`
+One of the following:
 
-          - `"float64"`
+"rfc3339"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+"unix\_millis"
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+</details>
 
-      - `Bool object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "bool"`
+unstructured: optional boolean
 
-          - `"bool"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+</details>
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+<details>
 
-        - `sql_name: optional string`
+<summary>
 
-      - `String object { type, metadata_key, name, 2 more }`
+Parquet object {type, compression, row\_group\_bytes }
 
-        - `type: "string"`
+</summary>
 
-          - `"string"`
+type: "parquet"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+<details>
 
-        - `required: optional boolean`
+<summary>
 
-        - `sql_name: optional string`
+compression: optional "uncompressed"or "snappy"or "gzip"or 2 more
 
-      - `Binary object { type, metadata_key, name, 2 more }`
+</summary>
 
-        - `type: "binary"`
+One of the following:
 
-          - `"binary"`
+"uncompressed"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+"snappy"
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+"gzip"
 
-      - `Timestamp object { type, metadata_key, name, 3 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "timestamp"`
+"zstd"
 
-          - `"timestamp"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+"lz4"
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+</details>
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-        - `unit: optional "second" or "millisecond" or "microsecond" or "nanosecond"`
+row\_group\_bytes: optional number
 
-          - `"second"`
+formatint64
 
-          - `"millisecond"`
+minimum0
 
-          - `"microsecond"`
+<a href="#">Link to this property</a>
 
-          - `"nanosecond"`
+</details>
 
-      - `Json object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "json"`
+</details>
 
-          - `"json"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+<details>
 
-        - `name: optional string`
+<summary>
 
-        - `required: optional boolean`
+schema: optional object {fields, inferred }
 
-        - `sql_name: optional string`
+Defines the schema of the events in the data stream.
 
-      - `Struct =`
+</summary>
 
-      - `List =`
+<details>
 
-    - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<summary>
 
-      - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+fields: optional array of <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20source_field%20%3E%20(schema)">SourceField</a>
 
-        - `type: "json"`
+</summary>
 
-          - `"json"`
+One of the following:
 
-        - `decimal_encoding: optional "number" or "string" or "bytes"`
+<details>
 
-          - `"number"`
+<summary>
 
-          - `"string"`
+Int32 object {type, metadata\_key, name, 2 more }
 
-          - `"bytes"`
+</summary>
 
-        - `timestamp_format: optional "rfc3339" or "unix_millis"`
+type: "int32"
 
-          - `"rfc3339"`
+<a href="#">Link to this property</a>
 
-          - `"unix_millis"`
+metadata\_key: optional string
 
-        - `unstructured: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `Parquet object { type, compression, row_group_bytes }`
+name: optional string
 
-        - `type: "parquet"`
+<a href="#">Link to this property</a>
 
-          - `"parquet"`
+required: optional boolean
 
-        - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<a href="#">Link to this property</a>
 
-          - `"uncompressed"`
+sql\_name: optional string
 
-          - `"snappy"`
+<a href="#">Link to this property</a>
 
-          - `"gzip"`
+</details>
 
-          - `"zstd"`
+<a href="#">Link to this property</a>
 
-          - `"lz4"`
+<details>
 
-        - `row_group_bytes: optional number`
+<summary>
 
-    - `inferred: optional boolean`
+Int64 object {type, metadata\_key, name, 2 more }
 
-### Stream Get Response
+</summary>
 
-- `StreamGetResponse object { id, created_at, http, 7 more }`
+type: "int64"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Indicates a unique identifier for this stream.
+metadata\_key: optional string
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `http: object { authentication, enabled, cors }`
+name: optional string
 
-    - `authentication: boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that authentication is required for the HTTP endpoint.
+required: optional boolean
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the HTTP endpoint is enabled.
+sql\_name: optional string
 
-    - `cors: optional object { origins }`
+<a href="#">Link to this property</a>
 
-      Specifies the CORS options for the HTTP endpoint.
+</details>
 
-      - `origins: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+<details>
 
-  - `name: string`
+<summary>
 
-    Indicates the name of the Stream.
+Float32 object {type, metadata\_key, name, 2 more }
 
-  - `version: number`
+</summary>
 
-    Indicates the current version of this stream.
+type: "float32"
 
-  - `worker_binding: object { enabled }`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+metadata\_key: optional string
 
-      Indicates that the worker binding is enabled.
+<a href="#">Link to this property</a>
 
-  - `endpoint: optional string`
+name: optional string
 
-    Indicates the endpoint URL of this stream.
+<a href="#">Link to this property</a>
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+required: optional boolean
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+<a href="#">Link to this property</a>
 
-      - `type: "json"`
+sql\_name: optional string
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+</details>
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+<details>
 
-        - `"bytes"`
+<summary>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+Float64 object {type, metadata\_key, name, 2 more }
 
-        - `"rfc3339"`
+</summary>
 
-        - `"unix_millis"`
+type: "float64"
 
-      - `unstructured: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `Parquet object { type, compression, row_group_bytes }`
+metadata\_key: optional string
 
-      - `type: "parquet"`
+<a href="#">Link to this property</a>
 
-        - `"parquet"`
+name: optional string
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<a href="#">Link to this property</a>
 
-        - `"uncompressed"`
+required: optional boolean
 
-        - `"snappy"`
+<a href="#">Link to this property</a>
 
-        - `"gzip"`
+sql\_name: optional string
 
-        - `"zstd"`
+<a href="#">Link to this property</a>
 
-        - `"lz4"`
+</details>
 
-      - `row_group_bytes: optional number`
+<a href="#">Link to this property</a>
 
-  - `schema: optional object { fields, format, inferred }`
+<details>
 
-    - `fields: optional array of object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or 8 more`
+<summary>
 
-      - `Int32 object { type, metadata_key, name, 2 more }`
+Bool object {type, metadata\_key, name, 2 more }
 
-        - `type: "int32"`
+</summary>
 
-          - `"int32"`
+type: "bool"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+metadata\_key: optional string
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+name: optional string
 
-      - `Int64 object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "int64"`
+required: optional boolean
 
-          - `"int64"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+sql\_name: optional string
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+</details>
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Float32 object { type, metadata_key, name, 2 more }`
+<details>
 
-        - `type: "float32"`
+<summary>
 
-          - `"float32"`
+String object {type, metadata\_key, name, 2 more }
 
-        - `metadata_key: optional string`
+</summary>
 
-        - `name: optional string`
+type: "string"
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+metadata\_key: optional string
 
-      - `Float64 object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "float64"`
+name: optional string
 
-          - `"float64"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+required: optional boolean
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+sql\_name: optional string
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Bool object { type, metadata_key, name, 2 more }`
+</details>
 
-        - `type: "bool"`
+<a href="#">Link to this property</a>
 
-          - `"bool"`
+<details>
 
-        - `metadata_key: optional string`
+<summary>
 
-        - `name: optional string`
+Binary object {type, metadata\_key, name, 2 more }
 
-        - `required: optional boolean`
+</summary>
 
-        - `sql_name: optional string`
+type: "binary"
 
-      - `String object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "string"`
+metadata\_key: optional string
 
-          - `"string"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+name: optional string
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+required: optional boolean
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Binary object { type, metadata_key, name, 2 more }`
+sql\_name: optional string
 
-        - `type: "binary"`
+<a href="#">Link to this property</a>
 
-          - `"binary"`
+</details>
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+<details>
 
-        - `required: optional boolean`
+<summary>
 
-        - `sql_name: optional string`
+Timestamp object {type, metadata\_key, name, 3 more }
 
-      - `Timestamp object { type, metadata_key, name, 3 more }`
+</summary>
 
-        - `type: "timestamp"`
+type: "timestamp"
 
-          - `"timestamp"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+metadata\_key: optional string
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+name: optional string
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-        - `unit: optional "second" or "millisecond" or "microsecond" or "nanosecond"`
+required: optional boolean
 
-          - `"second"`
+<a href="#">Link to this property</a>
 
-          - `"millisecond"`
+sql\_name: optional string
 
-          - `"microsecond"`
+<a href="#">Link to this property</a>
 
-          - `"nanosecond"`
+<details>
 
-      - `Json object { type, metadata_key, name, 2 more }`
+<summary>
 
-        - `type: "json"`
+unit: optional "second"or "millisecond"or "microsecond"or "nanosecond"
 
-          - `"json"`
+</summary>
 
-        - `metadata_key: optional string`
+One of the following:
 
-        - `name: optional string`
+"second"
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+"millisecond"
 
-      - `Struct =`
+<a href="#">Link to this property</a>
 
-      - `List =`
+"microsecond"
 
-    - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-      - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+"nanosecond"
 
-        - `type: "json"`
+<a href="#">Link to this property</a>
 
-          - `"json"`
+</details>
 
-        - `decimal_encoding: optional "number" or "string" or "bytes"`
+<a href="#">Link to this property</a>
 
-          - `"number"`
+</details>
 
-          - `"string"`
+<a href="#">Link to this property</a>
 
-          - `"bytes"`
+<details>
 
-        - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<summary>
 
-          - `"rfc3339"`
+Json object {type, metadata\_key, name, 2 more }
 
-          - `"unix_millis"`
+</summary>
 
-        - `unstructured: optional boolean`
+type: "json"
 
-      - `Parquet object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-        - `type: "parquet"`
+metadata\_key: optional string
 
-          - `"parquet"`
+<a href="#">Link to this property</a>
 
-        - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+name: optional string
 
-          - `"uncompressed"`
+<a href="#">Link to this property</a>
 
-          - `"snappy"`
+required: optional boolean
 
-          - `"gzip"`
+<a href="#">Link to this property</a>
 
-          - `"zstd"`
+sql\_name: optional string
 
-          - `"lz4"`
+<a href="#">Link to this property</a>
 
-        - `row_group_bytes: optional number`
+</details>
 
-    - `inferred: optional boolean`
+<a href="#">Link to this property</a>
 
-### Stream Create Response
+<details>
 
-- `StreamCreateResponse object { id, created_at, http, 7 more }`
+<summary>
 
-  - `id: string`
+Struct = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20struct_field%20%3E%20(schema)">StructField</a> { fields, name }
 
-    Indicates a unique identifier for this stream.
+</summary>
 
-  - `created_at: string`
+type: "struct"
 
-  - `http: object { authentication, enabled, cors }`
+<a href="#">Link to this property</a>
 
-    - `authentication: boolean`
+metadata\_key: optional string
 
-      Indicates that authentication is required for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+name: optional string
 
-      Indicates that the HTTP endpoint is enabled.
+<a href="#">Link to this property</a>
 
-    - `cors: optional object { origins }`
+required: optional boolean
 
-      Specifies the CORS options for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-      - `origins: optional array of string`
+sql\_name: optional string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Indicates the name of the Stream.
+<a href="#">Link to this property</a>
 
-  - `version: number`
+<details>
 
-    Indicates the current version of this stream.
+<summary>
 
-  - `worker_binding: object { enabled }`
+List = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20list_field%20%3E%20(schema)">ListField</a> { items }
 
-    - `enabled: boolean`
+</summary>
 
-      Indicates that the worker binding is enabled.
+type: "list"
 
-  - `endpoint: optional string`
+<a href="#">Link to this property</a>
 
-    Indicates the endpoint URL of this stream.
+metadata\_key: optional string
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+name: optional string
 
-      - `type: "json"`
+<a href="#">Link to this property</a>
 
-        - `"json"`
+required: optional boolean
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+sql\_name: optional string
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"bytes"`
+</details>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<a href="#">Link to this property</a>
 
-        - `"rfc3339"`
+</details>
 
-        - `"unix_millis"`
+<a href="#">Link to this property</a>
 
-      - `unstructured: optional boolean`
+inferred: optional boolean
 
-    - `Parquet object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-      - `type: "parquet"`
+</details>
 
-        - `"parquet"`
+<a href="#">Link to this property</a>
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+</details>
 
-        - `"uncompressed"`
+[Link to this property](#)%20pipelines.streams%20%3E%20(model)%20stream_create_response%20%3E%20(schema)>)
 
-        - `"snappy"`
+<details>
 
-        - `"gzip"`
+<summary>
 
-        - `"zstd"`
+StreamUpdateResponse object {id, created\_at, http, 7 more }
 
-        - `"lz4"`
+</summary>
 
-      - `row_group_bytes: optional number`
+id: string
 
-  - `schema: optional object { fields, format, inferred }`
+Indicates a unique identifier for this stream.
 
-    - `fields: optional array of object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or 8 more`
+<a href="#">Link to this property</a>
 
-      - `Int32 object { type, metadata_key, name, 2 more }`
+created\_at: string
 
-        - `type: "int32"`
+formatdate-time
 
-          - `"int32"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+<details>
 
-        - `name: optional string`
+<summary>
 
-        - `required: optional boolean`
+http: object {authentication, enabled, cors }
 
-        - `sql_name: optional string`
+</summary>
 
-      - `Int64 object { type, metadata_key, name, 2 more }`
+authentication: boolean
 
-        - `type: "int64"`
+Indicates that authentication is required for the HTTP endpoint.
 
-          - `"int64"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+enabled: boolean
 
-        - `name: optional string`
+Indicates that the HTTP endpoint is enabled.
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+<details>
 
-      - `Float32 object { type, metadata_key, name, 2 more }`
+<summary>
 
-        - `type: "float32"`
+cors: optional object {origins }
 
-          - `"float32"`
+Specifies the CORS options for the HTTP endpoint.
 
-        - `metadata_key: optional string`
+</summary>
 
-        - `name: optional string`
+origins: optional array of string
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+</details>
 
-      - `Float64 object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "float64"`
+</details>
 
-          - `"float64"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+modified\_at: string
 
-        - `name: optional string`
+formatdate-time
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+name: string
 
-      - `Bool object { type, metadata_key, name, 2 more }`
+Indicates the name of the Stream.
 
-        - `type: "bool"`
+maxLength128
 
-          - `"bool"`
+minLength1
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+version: number
 
-        - `required: optional boolean`
+Indicates the current version of this stream.
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `String object { type, metadata_key, name, 2 more }`
+<details>
 
-        - `type: "string"`
+<summary>
 
-          - `"string"`
+worker\_binding: object {enabled }
 
-        - `metadata_key: optional string`
+</summary>
 
-        - `name: optional string`
+enabled: boolean
 
-        - `required: optional boolean`
+Indicates that the worker binding is enabled.
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Binary object { type, metadata_key, name, 2 more }`
+</details>
 
-        - `type: "binary"`
+<a href="#">Link to this property</a>
 
-          - `"binary"`
+endpoint: optional string
 
-        - `metadata_key: optional string`
+Indicates the endpoint URL of this stream.
 
-        - `name: optional string`
+formaturi
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+<details>
 
-      - `Timestamp object { type, metadata_key, name, 3 more }`
+<summary>
 
-        - `type: "timestamp"`
+format: optional object {type, decimal\_encoding, timestamp\_format, unstructured } or object {type, compression, row\_group\_bytes }
 
-          - `"timestamp"`
+Defines the data format of the events.
 
-        - `metadata_key: optional string`
+</summary>
 
-        - `name: optional string`
+One of the following:
 
-        - `required: optional boolean`
+<details>
 
-        - `sql_name: optional string`
+<summary>
 
-        - `unit: optional "second" or "millisecond" or "microsecond" or "nanosecond"`
+Json object {type, decimal\_encoding, timestamp\_format, unstructured }
 
-          - `"second"`
+</summary>
 
-          - `"millisecond"`
+type: "json"
 
-          - `"microsecond"`
+<a href="#">Link to this property</a>
 
-          - `"nanosecond"`
+<details>
 
-      - `Json object { type, metadata_key, name, 2 more }`
+<summary>
 
-        - `type: "json"`
+decimal\_encoding: optional "number"or "string"or "bytes"
 
-          - `"json"`
+</summary>
 
-        - `metadata_key: optional string`
+One of the following:
 
-        - `name: optional string`
+"number"
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+"string"
 
-      - `Struct =`
+<a href="#">Link to this property</a>
 
-      - `List =`
+"bytes"
 
-    - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-      - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+</details>
 
-        - `type: "json"`
+<a href="#">Link to this property</a>
 
-          - `"json"`
+<details>
 
-        - `decimal_encoding: optional "number" or "string" or "bytes"`
+<summary>
 
-          - `"number"`
+timestamp\_format: optional "rfc3339"or "unix\_millis"
 
-          - `"string"`
+</summary>
 
-          - `"bytes"`
+One of the following:
 
-        - `timestamp_format: optional "rfc3339" or "unix_millis"`
+"rfc3339"
 
-          - `"rfc3339"`
+<a href="#">Link to this property</a>
 
-          - `"unix_millis"`
+"unix\_millis"
 
-        - `unstructured: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `Parquet object { type, compression, row_group_bytes }`
+</details>
 
-        - `type: "parquet"`
+<a href="#">Link to this property</a>
 
-          - `"parquet"`
+unstructured: optional boolean
 
-        - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<a href="#">Link to this property</a>
 
-          - `"uncompressed"`
+</details>
 
-          - `"snappy"`
+<a href="#">Link to this property</a>
 
-          - `"gzip"`
+<details>
 
-          - `"zstd"`
+<summary>
 
-          - `"lz4"`
+Parquet object {type, compression, row\_group\_bytes }
 
-        - `row_group_bytes: optional number`
+</summary>
 
-    - `inferred: optional boolean`
+type: "parquet"
 
-### Stream Update Response
+<a href="#">Link to this property</a>
 
-- `StreamUpdateResponse object { id, created_at, http, 6 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-    Indicates a unique identifier for this stream.
+compression: optional "uncompressed"or "snappy"or "gzip"or 2 more
 
-  - `created_at: string`
+</summary>
 
-  - `http: object { authentication, enabled, cors }`
+One of the following:
 
-    - `authentication: boolean`
+"uncompressed"
 
-      Indicates that authentication is required for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+"snappy"
 
-      Indicates that the HTTP endpoint is enabled.
+<a href="#">Link to this property</a>
 
-    - `cors: optional object { origins }`
+"gzip"
 
-      Specifies the CORS options for the HTTP endpoint.
+<a href="#">Link to this property</a>
 
-      - `origins: optional array of string`
+"zstd"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"lz4"
 
-    Indicates the name of the Stream.
+<a href="#">Link to this property</a>
 
-  - `version: number`
+</details>
 
-    Indicates the current version of this stream.
+<a href="#">Link to this property</a>
 
-  - `worker_binding: object { enabled }`
+row\_group\_bytes: optional number
 
-    - `enabled: boolean`
+formatint64
 
-      Indicates that the worker binding is enabled.
+minimum0
 
-  - `endpoint: optional string`
+<a href="#">Link to this property</a>
 
-    Indicates the endpoint URL of this stream.
+</details>
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+</details>
 
-      - `type: "json"`
+<a href="#">Link to this property</a>
 
-        - `"json"`
+<details>
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+<summary>
 
-        - `"number"`
+schema: optional object {fields, inferred }
 
-        - `"string"`
+Defines the schema of the events in the data stream.
 
-        - `"bytes"`
+</summary>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<details>
 
-        - `"rfc3339"`
+<summary>
 
-        - `"unix_millis"`
+fields: optional array of <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20source_field%20%3E%20(schema)">SourceField</a>
 
-      - `unstructured: optional boolean`
+</summary>
 
-    - `Parquet object { type, compression, row_group_bytes }`
+One of the following:
 
-      - `type: "parquet"`
+<details>
 
-        - `"parquet"`
+<summary>
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+Int32 object {type, metadata\_key, name, 2 more }
 
-        - `"uncompressed"`
+</summary>
 
-        - `"snappy"`
+type: "int32"
 
-        - `"gzip"`
+<a href="#">Link to this property</a>
 
-        - `"zstd"`
+metadata\_key: optional string
 
-        - `"lz4"`
+<a href="#">Link to this property</a>
 
-      - `row_group_bytes: optional number`
+name: optional string
 
-### Stream Delete Response
+<a href="#">Link to this property</a>
 
-- `StreamDeleteResponse = unknown`
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Int64 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "int64"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Float32 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "float32"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Float64 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "float64"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Bool object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "bool"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+String object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "string"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Binary object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "binary"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Timestamp object {type, metadata\_key, name, 3 more }
+
+</summary>
+
+type: "timestamp"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+unit: optional "second"or "millisecond"or "microsecond"or "nanosecond"
+
+</summary>
+
+One of the following:
+
+"second"
+
+<a href="#">Link to this property</a>
+
+"millisecond"
+
+<a href="#">Link to this property</a>
+
+"microsecond"
+
+<a href="#">Link to this property</a>
+
+"nanosecond"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Json object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "json"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Struct = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20struct_field%20%3E%20(schema)">StructField</a> { fields, name }
+
+</summary>
+
+type: "struct"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+List = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20list_field%20%3E%20(schema)">ListField</a> { items }
+
+</summary>
+
+type: "list"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+inferred: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pipelines.streams%20%3E%20(model)%20stream_update_response%20%3E%20(schema)>)
+
+StreamDeleteResponse = unknown
+
+[Link to this property](#)%20pipelines.streams%20%3E%20(model)%20stream_delete_response%20%3E%20(schema)>)

@@ -1,1180 +1,1297 @@
+---
+title: Versions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workflows](https://developers.cloudflare.com/api/resources/workflows)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Versions
 
-## List deployed Workflow versions
+##### [List deployed Workflow versions](https://developers.cloudflare.com/api/resources/workflows/subresources/versions/methods/list)
 
-**get** `/accounts/{account_id}/workflows/{workflow_name}/versions`
+GET/accounts/{account\_id}/workflows/{workflow\_name}/versions
 
-Lists all deployed versions of a workflow.
+##### [Get Workflow version details](https://developers.cloudflare.com/api/resources/workflows/subresources/versions/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/workflows/{workflow\_name}/versions/{version\_id}
 
-- `account_id: string`
+##### [Get Workflow version graph](https://developers.cloudflare.com/api/resources/workflows/subresources/versions/methods/graph)
 
-- `workflow_name: string`
+GET/accounts/{account\_id}/workflows/{workflow\_name}/versions/{version\_id}/graph
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `page: optional number`
+<details>
 
-- `per_page: optional number`
+<summary>
 
-### Returns
+VersionListResponse object {id, class\_name, created\_on, 7 more }
 
-- `errors: array of object { code, message }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+formatuuid
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+class\_name: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, class_name, created_on, 5 more }`
+created\_on: string
 
-  - `id: string`
+formatdate-time
 
-  - `class_name: string`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+has\_dag: boolean
 
-  - `has_dag: boolean`
+<a href="#">Link to this property</a>
 
-  - `language: "javascript" or "python"`
+<details>
 
-    The programming language of the workflow implementation
+<summary>
 
-    - `"javascript"`
+language: "javascript"or "python"
 
-    - `"python"`
+The programming language of the workflow implementation.
 
-  - `modified_on: string`
+</summary>
 
-  - `workflow_id: string`
+One of the following:
 
-  - `limits: optional object { steps }`
+"javascript"
 
-    - `steps: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"python"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+</details>
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+modified\_on: string
 
-  - `total_count: number`
+formatdate-time
 
-  - `cursor: optional string`
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+workflow\_id: string
 
-  - `total_pages: optional number`
+formatuuid
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/versions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "class_name": "class_name",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "has_dag": true,
-      "language": "javascript",
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "workflow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "limits": {
-        "steps": 1
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
+concurrency: optional object {limit }
 
-## Get Workflow version details
+</summary>
 
-**get** `/accounts/{account_id}/workflows/{workflow_name}/versions/{version_id}`
+limit: optional number
 
-Retrieves details for a specific deployed workflow version.
+Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances complete. Must not exceed the account concurrency limit.
 
-### Path Parameters
+maximum9007199254740991
 
-- `account_id: string`
+minimum1
 
-- `workflow_name: string`
+<a href="#">Link to this property</a>
 
-- `version_id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+default\_retention: optional object {error\_retention, success\_retention }
 
-- `messages: array of object { code, message }`
+</summary>
 
-  - `code: number`
+error\_retention: optional number
 
-  - `message: string`
+Default error retention in milliseconds.
 
-- `result: object { id, class_name, created_on, 5 more }`
+maximum9007199254740991
 
-  - `id: string`
+minimum-9007199254740991
 
-  - `class_name: string`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+success\_retention: optional number
 
-  - `has_dag: boolean`
+Default success retention in milliseconds.
 
-  - `language: "javascript" or "python"`
+maximum9007199254740991
 
-    The programming language of the workflow implementation
+minimum-9007199254740991
 
-    - `"javascript"`
+<a href="#">Link to this property</a>
 
-    - `"python"`
+</details>
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-  - `workflow_id: string`
+<details>
 
-  - `limits: optional object { steps }`
+<summary>
 
-    - `steps: optional number`
+limits: optional object {steps }
 
-- `success: true`
+</summary>
 
-  - `true`
+steps: optional number
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+maximum9007199254740991
 
-  - `count: number`
+minimum1
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+</details>
 
-  - `cursor: optional string`
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-  - `total_pages: optional number`
+[Link to this property](#)%20workflows.versions%20%3E%20(model)%20version_list_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/versions/$VERSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+VersionGetResponse object {id, class\_name, created\_on, 7 more }
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "class_name": "class_name",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "has_dag": true,
-    "language": "javascript",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "workflow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "limits": {
-      "steps": 1
-    }
-  },
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
+</summary>
 
-## Get Workflow version graph
+id: string
 
-**get** `/accounts/{account_id}/workflows/{workflow_name}/versions/{version_id}/graph`
+formatuuid
 
-Retrieves the graph visualization of a workflow version.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+class\_name: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `workflow_name: string`
+created\_on: string
 
-- `version_id: string`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+has\_dag: boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `messages: array of object { code, message }`
+<summary>
 
-  - `code: number`
+language: "javascript"or "python"
 
-  - `message: string`
+The programming language of the workflow implementation.
 
-- `result: object { id, class_name, created_on, 3 more }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-  - `class_name: string`
+"javascript"
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-  - `graph: object { version, workflow }`
+"python"
 
-    Versioned workflow graph payload.
+<a href="#">Link to this property</a>
 
-    - `version: number`
+</details>
 
-    - `workflow: object { class_name, functions, nodes, payload }`
+<a href="#">Link to this property</a>
 
-      A parsed workflow entrypoint with its step graph.
+modified\_on: string
 
-      - `class_name: string`
+formatdate-time
 
-      - `functions: map[object { name, nodes, type } ]`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+workflow\_id: string
 
-        - `nodes: array of unknown`
+formatuuid
 
-          Child nodes (recursive).
+<a href="#">Link to this property</a>
 
-        - `type: "function_def"`
+<details>
 
-          - `"function_def"`
+<summary>
 
-      - `nodes: array of object { duration, name, type, 2 more }  or object { config, name, nodes, 3 more }  or object { name, options, type, 3 more }  or 11 more`
+concurrency: optional object {limit }
 
-        - `object { duration, name, type, 2 more }`
+</summary>
 
-          - `duration: number or string`
+limit: optional number
 
-            Duration as milliseconds (number) or human-readable string.
+Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances complete. Must not exceed the account concurrency limit.
 
-            - `number`
+maximum9007199254740991
 
-            - `string`
+minimum1
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `type: "step_sleep"`
+</details>
 
-            - `"step_sleep"`
+<a href="#">Link to this property</a>
 
-          - `resolves: optional number`
+<details>
 
-          - `starts: optional number`
+<summary>
 
-        - `object { config, name, nodes, 3 more }`
+default\_retention: optional object {error\_retention, success\_retention }
 
-          - `config: object { retries, timeout }`
+</summary>
 
-            Configuration for a step (retries and timeout).
+error\_retention: optional number
 
-            - `retries: object { backoff, delay, limit }`
+Default error retention in milliseconds.
 
-              Retry policy for a step.
+maximum9007199254740991
 
-              - `backoff: "constant" or "linear" or "exponential"`
+minimum-9007199254740991
 
-                Backoff strategy for step retries.
+<a href="#">Link to this property</a>
 
-                - `"constant"`
+success\_retention: optional number
 
-                - `"linear"`
+Default success retention in milliseconds.
 
-                - `"exponential"`
+maximum9007199254740991
 
-              - `delay: number or string`
+minimum-9007199254740991
 
-                Duration as milliseconds (number) or human-readable string.
+<a href="#">Link to this property</a>
 
-                - `number`
+</details>
 
-                - `string`
+<a href="#">Link to this property</a>
 
-              - `limit: number`
+<details>
 
-            - `timeout: number or string`
+<summary>
 
-              Duration as milliseconds (number) or human-readable string.
+limits: optional object {steps }
 
-              - `number`
+</summary>
 
-              - `string`
+steps: optional number
 
-          - `name: string`
+maximum9007199254740991
 
-          - `nodes: array of unknown`
+minimum1
 
-            Child nodes (recursive).
+<a href="#">Link to this property</a>
 
-          - `type: "step_do"`
+</details>
 
-            - `"step_do"`
+<a href="#">Link to this property</a>
 
-          - `resolves: optional number`
+</details>
 
-          - `starts: optional number`
+[Link to this property](#)%20workflows.versions%20%3E%20(model)%20version_get_response%20%3E%20(schema)>)
 
-        - `object { name, options, type, 3 more }`
+<details>
 
-          - `name: string`
+<summary>
 
-          - `options: object { event_type, timeout }`
+VersionGraphResponse object {id, class\_name, created\_on, 3 more }
 
-            Options for a waitForEvent step.
+</summary>
 
-            - `event_type: string`
+id: string
 
-            - `timeout: number or string`
+formatuuid
 
-              Duration as milliseconds (number) or human-readable string.
+<a href="#">Link to this property</a>
 
-              - `number`
+class\_name: string
 
-              - `string`
+<a href="#">Link to this property</a>
 
-          - `type: "step_wait_for_event"`
+created\_on: string
 
-            - `"step_wait_for_event"`
+formatdate-time
 
-          - `payload: optional object { type }  or object { fields, type }`
+<a href="#">Link to this property</a>
 
-            Shape descriptor for JSON payloads.
+<details>
 
-            - `Type object { type }`
+<summary>
 
-              - `type: "unknown"`
+graph: object {version, workflow }
 
-                - `"unknown"`
+Versioned workflow graph payload.
 
-            - `object { fields, type }`
+</summary>
 
-              - `fields: map[unknown]`
+version: number
 
-                Nested JsonShape fields (recursive structure).
+<a href="#">Link to this property</a>
 
-              - `type: "object"`
+<details>
 
-                - `"object"`
+<summary>
 
-          - `resolves: optional number`
+workflow: object {class\_name, functions, nodes, payload }
 
-          - `starts: optional number`
+A parsed workflow entrypoint with its step graph.
 
-        - `object { name, timestamp, type, 2 more }`
+</summary>
 
-          - `name: string`
+class\_name: string
 
-          - `timestamp: string`
+<a href="#">Link to this property</a>
 
-          - `type: "step_sleep_until"`
+<details>
 
-            - `"step_sleep_until"`
+<summary>
 
-          - `resolves: optional number`
+functions: map\[object {name, nodes, type } ]
 
-          - `starts: optional number`
+</summary>
 
-        - `object { nodes, type }`
+name: string
 
-          - `nodes: array of unknown`
+<a href="#">Link to this property</a>
 
-            Child nodes (recursive).
+nodes: array of unknown
 
-          - `type: "loop"`
+Child nodes (recursive).
 
-            - `"loop"`
+<a href="#">Link to this property</a>
 
-        - `object { kind, nodes, type }`
+type: "function\_def"
 
-          - `kind: "all" or "any" or "all_settled" or "race"`
+<a href="#">Link to this property</a>
 
-            Parallel execution strategy.
+</details>
 
-            - `"all"`
+<a href="#">Link to this property</a>
 
-            - `"any"`
+<details>
 
-            - `"all_settled"`
+<summary>
 
-            - `"race"`
+nodes: array of object {duration, name, type, 2 more } or object {config, name, nodes, 3 more } or object {name, options, type, 3 more } or 11 more
 
-          - `nodes: array of unknown`
+</summary>
 
-            Child nodes (recursive).
+One of the following:
 
-          - `type: "parallel"`
+<details>
 
-            - `"parallel"`
+<summary>
 
-        - `object { catch_block, finally_block, try_block, type }`
+object {duration, name, type, 2 more }
 
-          - `catch_block: object { nodes, type }`
+</summary>
 
-            - `nodes: array of unknown`
+<details>
 
-              Child nodes (recursive).
+<summary>
 
-            - `type: "block"`
+duration: numberor string
 
-              - `"block"`
+Duration as milliseconds (number) or human-readable string.
 
-          - `finally_block: object { nodes, type }`
+</summary>
 
-            - `nodes: array of unknown`
+One of the following:
 
-              Child nodes (recursive).
+number
 
-            - `type: "block"`
+<a href="#">Link to this property</a>
 
-              - `"block"`
+string
 
-          - `try_block: object { nodes, type }`
+<a href="#">Link to this property</a>
 
-            - `nodes: array of unknown`
+</details>
 
-              Child nodes (recursive).
+<a href="#">Link to this property</a>
 
-            - `type: "block"`
+name: string
 
-              - `"block"`
+<a href="#">Link to this property</a>
 
-          - `type: "try"`
+type: "step\_sleep"
 
-            - `"try"`
+<a href="#">Link to this property</a>
 
-        - `object { nodes, type }`
+resolves: optional number
 
-          - `nodes: array of unknown`
+<a href="#">Link to this property</a>
 
-            Child nodes (recursive).
+starts: optional number
 
-          - `type: "block"`
+<a href="#">Link to this property</a>
 
-            - `"block"`
+</details>
 
-        - `object { branches, type }`
+<a href="#">Link to this property</a>
 
-          - `branches: array of object { condition, nodes }`
+<details>
 
-            - `condition: string`
+<summary>
 
-            - `nodes: array of unknown`
+object {config, name, nodes, 3 more }
 
-              Child nodes (recursive).
+</summary>
 
-          - `type: "if"`
+<details>
 
-            - `"if"`
+<summary>
 
-        - `object { branches, discriminant, type }`
+config: object {retries, timeout }
 
-          - `branches: array of object { condition, nodes }`
+Configuration for a step (retries and timeout).
 
-            - `condition: string`
+</summary>
 
-            - `nodes: array of unknown`
+<details>
 
-              Child nodes (recursive).
+<summary>
 
-          - `discriminant: string`
+retries: object {backoff, delay, limit }
 
-          - `type: "switch"`
+Retry policy for a step.
 
-            - `"switch"`
+</summary>
 
-        - `object { class_name, functions, nodes, 2 more }`
+<details>
 
-          - `class_name: string`
+<summary>
 
-          - `functions: map[object { name, nodes, type } ]`
+backoff: "constant"or "linear"or "exponential"
 
-            - `name: string`
+Backoff strategy for step retries.
 
-            - `nodes: array of unknown`
+</summary>
 
-              Child nodes (recursive).
+One of the following:
 
-            - `type: "function_def"`
+"constant"
 
-              - `"function_def"`
+<a href="#">Link to this property</a>
 
-          - `nodes: array of unknown`
+"linear"
 
-            Child nodes (recursive).
+<a href="#">Link to this property</a>
 
-          - `type: "start"`
+"exponential"
 
-            - `"start"`
+<a href="#">Link to this property</a>
 
-          - `payload: optional object { type }  or object { fields, type }`
+</details>
 
-            Shape descriptor for JSON payloads.
+<a href="#">Link to this property</a>
 
-            - `Type object { type }`
+<details>
 
-              - `type: "unknown"`
+<summary>
 
-                - `"unknown"`
+delay: numberor string
 
-            - `object { fields, type }`
+Duration as milliseconds (number) or human-readable string.
 
-              - `fields: map[unknown]`
+</summary>
 
-                Nested JsonShape fields (recursive structure).
+One of the following:
 
-              - `type: "object"`
+number
 
-                - `"object"`
+<a href="#">Link to this property</a>
 
-        - `object { name, type, resolves, starts }`
+string
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `type: "function_call"`
+</details>
 
-            - `"function_call"`
+<a href="#">Link to this property</a>
 
-          - `resolves: optional number`
+limit: number
 
-          - `starts: optional number`
+<a href="#">Link to this property</a>
 
-        - `object { name, nodes, type }`
+</details>
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `nodes: array of unknown`
+<details>
 
-            Child nodes (recursive).
+<summary>
 
-          - `type: "function_def"`
+timeout: numberor string
 
-            - `"function_def"`
+Duration as milliseconds (number) or human-readable string.
 
-        - `object { kind, type }`
+</summary>
 
-          - `kind: "break" or "return"`
+One of the following:
 
-            Break or return from a loop.
+number
 
-            - `"break"`
+<a href="#">Link to this property</a>
 
-            - `"return"`
+string
 
-          - `type: "break"`
+<a href="#">Link to this property</a>
 
-            - `"break"`
+</details>
 
-      - `payload: optional object { type }  or object { fields, type }`
+<a href="#">Link to this property</a>
 
-        Shape descriptor for JSON payloads.
+</details>
 
-        - `Type object { type }`
+<a href="#">Link to this property</a>
 
-          - `type: "unknown"`
+name: string
 
-            - `"unknown"`
+<a href="#">Link to this property</a>
 
-        - `object { fields, type }`
+nodes: array of unknown
 
-          - `fields: map[unknown]`
+Child nodes (recursive).
 
-            Nested JsonShape fields (recursive structure).
+<a href="#">Link to this property</a>
 
-          - `type: "object"`
+type: "step\_do"
 
-            - `"object"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+resolves: optional number
 
-  - `workflow_id: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+starts: optional number
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+</details>
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+<details>
 
-  - `total_count: number`
+<summary>
 
-  - `cursor: optional string`
+object {name, options, type, 3 more }
 
-  - `page: optional number`
+</summary>
 
-  - `total_pages: optional number`
+name: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/versions/$VERSION_ID/graph \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "class_name": "class_name",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "graph": {
-      "version": 0,
-      "workflow": {
-        "class_name": "class_name",
-        "functions": {
-          "foo": {
-            "name": "name",
-            "nodes": [
-              {}
-            ],
-            "type": "function_def"
-          }
-        },
-        "nodes": [
-          {
-            "duration": 0,
-            "name": "name",
-            "type": "step_sleep",
-            "resolves": 0,
-            "starts": 0
-          }
-        ],
-        "payload": {
-          "type": "unknown"
-        }
-      }
-    },
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "workflow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  },
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
+options: object {event\_type, timeout }
 
-## Domain Types
+Options for a waitForEvent step.
 
-### Version List Response
+</summary>
 
-- `VersionListResponse object { id, class_name, created_on, 5 more }`
+event\_type: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `class_name: string`
+<details>
 
-  - `created_on: string`
+<summary>
 
-  - `has_dag: boolean`
+timeout: numberor string
 
-  - `language: "javascript" or "python"`
+Duration as milliseconds (number) or human-readable string.
 
-    The programming language of the workflow implementation
+</summary>
 
-    - `"javascript"`
+One of the following:
 
-    - `"python"`
+number
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-  - `workflow_id: string`
+string
 
-  - `limits: optional object { steps }`
+<a href="#">Link to this property</a>
 
-    - `steps: optional number`
+</details>
 
-### Version Get Response
+<a href="#">Link to this property</a>
 
-- `VersionGetResponse object { id, class_name, created_on, 5 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `class_name: string`
+type: "step\_wait\_for\_event"
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-  - `has_dag: boolean`
+<details>
 
-  - `language: "javascript" or "python"`
+<summary>
 
-    The programming language of the workflow implementation
+payload: optional object {type } or object {fields, type }
 
-    - `"javascript"`
+Shape descriptor for JSON payloads.
 
-    - `"python"`
+</summary>
 
-  - `modified_on: string`
+One of the following:
 
-  - `workflow_id: string`
+<details>
 
-  - `limits: optional object { steps }`
+<summary>
 
-    - `steps: optional number`
+Type object {type }
 
-### Version Graph Response
+</summary>
 
-- `VersionGraphResponse object { id, class_name, created_on, 3 more }`
+type: "unknown"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `class_name: string`
+</details>
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-  - `graph: object { version, workflow }`
+<details>
 
-    Versioned workflow graph payload.
+<summary>
 
-    - `version: number`
+object {fields, type }
 
-    - `workflow: object { class_name, functions, nodes, payload }`
+</summary>
 
-      A parsed workflow entrypoint with its step graph.
+fields: map\[unknown]
 
-      - `class_name: string`
+Nested JsonShape fields (recursive structure).
 
-      - `functions: map[object { name, nodes, type } ]`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+type: "object"
 
-        - `nodes: array of unknown`
+<a href="#">Link to this property</a>
 
-          Child nodes (recursive).
+</details>
 
-        - `type: "function_def"`
+<a href="#">Link to this property</a>
 
-          - `"function_def"`
+</details>
 
-      - `nodes: array of object { duration, name, type, 2 more }  or object { config, name, nodes, 3 more }  or object { name, options, type, 3 more }  or 11 more`
+<a href="#">Link to this property</a>
 
-        - `object { duration, name, type, 2 more }`
+resolves: optional number
 
-          - `duration: number or string`
+<a href="#">Link to this property</a>
 
-            Duration as milliseconds (number) or human-readable string.
+starts: optional number
 
-            - `number`
+<a href="#">Link to this property</a>
 
-            - `string`
+</details>
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `type: "step_sleep"`
+<details>
 
-            - `"step_sleep"`
+<summary>
 
-          - `resolves: optional number`
+object {name, timestamp, type, 2 more }
 
-          - `starts: optional number`
+</summary>
 
-        - `object { config, name, nodes, 3 more }`
+name: string
 
-          - `config: object { retries, timeout }`
+<a href="#">Link to this property</a>
 
-            Configuration for a step (retries and timeout).
+timestamp: string
 
-            - `retries: object { backoff, delay, limit }`
+<a href="#">Link to this property</a>
 
-              Retry policy for a step.
+type: "step\_sleep\_until"
 
-              - `backoff: "constant" or "linear" or "exponential"`
+<a href="#">Link to this property</a>
 
-                Backoff strategy for step retries.
+resolves: optional number
 
-                - `"constant"`
+<a href="#">Link to this property</a>
 
-                - `"linear"`
+starts: optional number
 
-                - `"exponential"`
+<a href="#">Link to this property</a>
 
-              - `delay: number or string`
+</details>
 
-                Duration as milliseconds (number) or human-readable string.
+<a href="#">Link to this property</a>
 
-                - `number`
+<details>
 
-                - `string`
+<summary>
 
-              - `limit: number`
+object {nodes, type }
 
-            - `timeout: number or string`
+</summary>
 
-              Duration as milliseconds (number) or human-readable string.
+nodes: array of unknown
 
-              - `number`
+Child nodes (recursive).
 
-              - `string`
+<a href="#">Link to this property</a>
 
-          - `name: string`
+type: "loop"
 
-          - `nodes: array of unknown`
+<a href="#">Link to this property</a>
 
-            Child nodes (recursive).
+</details>
 
-          - `type: "step_do"`
+<a href="#">Link to this property</a>
 
-            - `"step_do"`
+<details>
 
-          - `resolves: optional number`
+<summary>
 
-          - `starts: optional number`
+object {kind, nodes, type }
 
-        - `object { name, options, type, 3 more }`
+</summary>
 
-          - `name: string`
+<details>
 
-          - `options: object { event_type, timeout }`
+<summary>
 
-            Options for a waitForEvent step.
+kind: "all"or "any"or "all\_settled"or "race"
 
-            - `event_type: string`
+Parallel execution strategy.
 
-            - `timeout: number or string`
+</summary>
 
-              Duration as milliseconds (number) or human-readable string.
+One of the following:
 
-              - `number`
+"all"
 
-              - `string`
+<a href="#">Link to this property</a>
 
-          - `type: "step_wait_for_event"`
+"any"
 
-            - `"step_wait_for_event"`
+<a href="#">Link to this property</a>
 
-          - `payload: optional object { type }  or object { fields, type }`
+"all\_settled"
 
-            Shape descriptor for JSON payloads.
+<a href="#">Link to this property</a>
 
-            - `Type object { type }`
+"race"
 
-              - `type: "unknown"`
+<a href="#">Link to this property</a>
 
-                - `"unknown"`
+</details>
 
-            - `object { fields, type }`
+<a href="#">Link to this property</a>
 
-              - `fields: map[unknown]`
+nodes: array of unknown
 
-                Nested JsonShape fields (recursive structure).
+Child nodes (recursive).
 
-              - `type: "object"`
+<a href="#">Link to this property</a>
 
-                - `"object"`
+type: "parallel"
 
-          - `resolves: optional number`
+<a href="#">Link to this property</a>
 
-          - `starts: optional number`
+</details>
 
-        - `object { name, timestamp, type, 2 more }`
+<a href="#">Link to this property</a>
 
-          - `name: string`
+<details>
 
-          - `timestamp: string`
+<summary>
 
-          - `type: "step_sleep_until"`
+object {catch\_block, finally\_block, try\_block, type }
 
-            - `"step_sleep_until"`
+</summary>
 
-          - `resolves: optional number`
+<details>
 
-          - `starts: optional number`
+<summary>
 
-        - `object { nodes, type }`
+catch\_block: object {nodes, type }
 
-          - `nodes: array of unknown`
+</summary>
 
-            Child nodes (recursive).
+nodes: array of unknown
 
-          - `type: "loop"`
+Child nodes (recursive).
 
-            - `"loop"`
+<a href="#">Link to this property</a>
 
-        - `object { kind, nodes, type }`
+type: "block"
 
-          - `kind: "all" or "any" or "all_settled" or "race"`
+<a href="#">Link to this property</a>
 
-            Parallel execution strategy.
+</details>
 
-            - `"all"`
+<a href="#">Link to this property</a>
 
-            - `"any"`
+<details>
 
-            - `"all_settled"`
+<summary>
 
-            - `"race"`
+finally\_block: object {nodes, type }
 
-          - `nodes: array of unknown`
+</summary>
 
-            Child nodes (recursive).
+nodes: array of unknown
 
-          - `type: "parallel"`
+Child nodes (recursive).
 
-            - `"parallel"`
+<a href="#">Link to this property</a>
 
-        - `object { catch_block, finally_block, try_block, type }`
+type: "block"
 
-          - `catch_block: object { nodes, type }`
+<a href="#">Link to this property</a>
 
-            - `nodes: array of unknown`
+</details>
 
-              Child nodes (recursive).
+<a href="#">Link to this property</a>
 
-            - `type: "block"`
+<details>
 
-              - `"block"`
+<summary>
 
-          - `finally_block: object { nodes, type }`
+try\_block: object {nodes, type }
 
-            - `nodes: array of unknown`
+</summary>
 
-              Child nodes (recursive).
+nodes: array of unknown
 
-            - `type: "block"`
+Child nodes (recursive).
 
-              - `"block"`
+<a href="#">Link to this property</a>
 
-          - `try_block: object { nodes, type }`
+type: "block"
 
-            - `nodes: array of unknown`
+<a href="#">Link to this property</a>
 
-              Child nodes (recursive).
+</details>
 
-            - `type: "block"`
+<a href="#">Link to this property</a>
 
-              - `"block"`
+type: "try"
 
-          - `type: "try"`
+<a href="#">Link to this property</a>
 
-            - `"try"`
+</details>
 
-        - `object { nodes, type }`
+<a href="#">Link to this property</a>
 
-          - `nodes: array of unknown`
+<details>
 
-            Child nodes (recursive).
+<summary>
 
-          - `type: "block"`
+object {nodes, type }
 
-            - `"block"`
+</summary>
 
-        - `object { branches, type }`
+nodes: array of unknown
 
-          - `branches: array of object { condition, nodes }`
+Child nodes (recursive).
 
-            - `condition: string`
+<a href="#">Link to this property</a>
 
-            - `nodes: array of unknown`
+type: "block"
 
-              Child nodes (recursive).
+<a href="#">Link to this property</a>
 
-          - `type: "if"`
+</details>
 
-            - `"if"`
+<a href="#">Link to this property</a>
 
-        - `object { branches, discriminant, type }`
+<details>
 
-          - `branches: array of object { condition, nodes }`
+<summary>
 
-            - `condition: string`
+object {branches, type }
 
-            - `nodes: array of unknown`
+</summary>
 
-              Child nodes (recursive).
+<details>
 
-          - `discriminant: string`
+<summary>
 
-          - `type: "switch"`
+branches: array of object {condition, nodes }
 
-            - `"switch"`
+</summary>
 
-        - `object { class_name, functions, nodes, 2 more }`
+condition: string
 
-          - `class_name: string`
+<a href="#">Link to this property</a>
 
-          - `functions: map[object { name, nodes, type } ]`
+nodes: array of unknown
 
-            - `name: string`
+Child nodes (recursive).
 
-            - `nodes: array of unknown`
+<a href="#">Link to this property</a>
 
-              Child nodes (recursive).
+</details>
 
-            - `type: "function_def"`
+<a href="#">Link to this property</a>
 
-              - `"function_def"`
+type: "if"
 
-          - `nodes: array of unknown`
+<a href="#">Link to this property</a>
 
-            Child nodes (recursive).
+</details>
 
-          - `type: "start"`
+<a href="#">Link to this property</a>
 
-            - `"start"`
+<details>
 
-          - `payload: optional object { type }  or object { fields, type }`
+<summary>
 
-            Shape descriptor for JSON payloads.
+object {branches, discriminant, type }
 
-            - `Type object { type }`
+</summary>
 
-              - `type: "unknown"`
+<details>
 
-                - `"unknown"`
+<summary>
 
-            - `object { fields, type }`
+branches: array of object {condition, nodes }
 
-              - `fields: map[unknown]`
+</summary>
 
-                Nested JsonShape fields (recursive structure).
+condition: string
 
-              - `type: "object"`
+<a href="#">Link to this property</a>
 
-                - `"object"`
+nodes: array of unknown
 
-        - `object { name, type, resolves, starts }`
+Child nodes (recursive).
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `type: "function_call"`
+</details>
 
-            - `"function_call"`
+<a href="#">Link to this property</a>
 
-          - `resolves: optional number`
+discriminant: string
 
-          - `starts: optional number`
+<a href="#">Link to this property</a>
 
-        - `object { name, nodes, type }`
+type: "switch"
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `nodes: array of unknown`
+</details>
 
-            Child nodes (recursive).
+<a href="#">Link to this property</a>
 
-          - `type: "function_def"`
+<details>
 
-            - `"function_def"`
+<summary>
 
-        - `object { kind, type }`
+object {class\_name, functions, nodes, 2 more }
 
-          - `kind: "break" or "return"`
+</summary>
 
-            Break or return from a loop.
+class\_name: string
 
-            - `"break"`
+<a href="#">Link to this property</a>
 
-            - `"return"`
+<details>
 
-          - `type: "break"`
+<summary>
 
-            - `"break"`
+functions: map\[object {name, nodes, type } ]
 
-      - `payload: optional object { type }  or object { fields, type }`
+</summary>
 
-        Shape descriptor for JSON payloads.
+name: string
 
-        - `Type object { type }`
+<a href="#">Link to this property</a>
 
-          - `type: "unknown"`
+nodes: array of unknown
 
-            - `"unknown"`
+Child nodes (recursive).
 
-        - `object { fields, type }`
+<a href="#">Link to this property</a>
 
-          - `fields: map[unknown]`
+type: "function\_def"
 
-            Nested JsonShape fields (recursive structure).
+<a href="#">Link to this property</a>
 
-          - `type: "object"`
+</details>
 
-            - `"object"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+nodes: array of unknown
 
-  - `workflow_id: string`
+Child nodes (recursive).
+
+<a href="#">Link to this property</a>
+
+type: "start"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+payload: optional object {type } or object {fields, type }
+
+Shape descriptor for JSON payloads.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Type object {type }
+
+</summary>
+
+type: "unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {fields, type }
+
+</summary>
+
+fields: map\[unknown]
+
+Nested JsonShape fields (recursive structure).
+
+<a href="#">Link to this property</a>
+
+type: "object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {name, type, resolves, starts }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "function\_call"
+
+<a href="#">Link to this property</a>
+
+resolves: optional number
+
+<a href="#">Link to this property</a>
+
+starts: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {name, nodes, type }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+nodes: array of unknown
+
+Child nodes (recursive).
+
+<a href="#">Link to this property</a>
+
+type: "function\_def"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {kind, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+kind: "break"or "return"
+
+Break or return from a loop.
+
+</summary>
+
+One of the following:
+
+"break"
+
+<a href="#">Link to this property</a>
+
+"return"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "break"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+payload: optional object {type } or object {fields, type }
+
+Shape descriptor for JSON payloads.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Type object {type }
+
+</summary>
+
+type: "unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {fields, type }
+
+</summary>
+
+fields: map\[unknown]
+
+Nested JsonShape fields (recursive structure).
+
+<a href="#">Link to this property</a>
+
+type: "object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+workflow\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows.versions%20%3E%20(model)%20version_graph_response%20%3E%20(schema)>)

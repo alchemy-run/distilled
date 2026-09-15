@@ -168,6 +168,47 @@ const topLevelColon = (s: string): number => {
 };
 
 /**
+ * Build a FieldNode from one declaration as the docs write it:
+ * `name: type` is a field, `Name = type` a named union arm, anything else
+ * (`"lit"`, `number`, `Name object {…}`) a bare arm.
+ */
+const nodeFromDeclaration = (content: string): FieldNode => {
+  let name: string;
+  let typeStr: string;
+  let sep: FieldNode["sep"];
+  const colon = /^"(?:[^"\\]|\\.)*"$/.test(content)
+    ? -1 // a bare quoted literal is an enum arm, never a field
+    : topLevelColon(content);
+  if (colon >= 0) {
+    sep = ":";
+    name = content.slice(0, colon).trim();
+    typeStr = content.slice(colon + 1).trim();
+  } else {
+    // Named union-arm defs: `Name = type` (`AccessUUID2 = string`,
+    // `ARecord = ARecord`, `Struct =`). Anything else is a bare arm.
+    const eq = content.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=(.*)$/s);
+    if (eq) {
+      sep = "=";
+      name = eq[1];
+      typeStr = eq[2].trim() || "unknown";
+    } else {
+      sep = "bare";
+      name = "";
+      typeStr = content;
+    }
+  }
+  // Header/param names are frequently written quoted in the docs
+  // (e.g. `"cf-r2-storage-class": ...`). The quotes are markdown emphasis
+  // of the literal wire name, never part of the field name itself —
+  // strip a single surrounding pair so the httpHeader trait and member
+  // ident don't carry stray quote characters.
+  if (name.length >= 2 && name.startsWith('"') && name.endsWith('"')) {
+    name = name.slice(1, -1);
+  }
+  return { name, typeStr, sep, children: [] };
+};
+
+/**
  * Parse the indented bullet list of a section (Path/Query/Body/Returns) into a
  * tree of FieldNodes. `- \`name: type\`` lines are fields; every other
  * backticked bullet (`- \`"lit"\``, `- \`number\``, `- \`Name object {…}\``,
@@ -184,40 +225,7 @@ const parseFieldTree = (lines: string[]): FieldNode[] => {
     const m = raw.match(itemRe);
     if (m) {
       const indent = m[1].length;
-      const content = m[2].trim();
-      let name: string;
-      let typeStr: string;
-      let sep: FieldNode["sep"];
-      const colon = /^"(?:[^"\\]|\\.)*"$/.test(content)
-        ? -1 // a bare quoted literal is an enum arm, never a field
-        : topLevelColon(content);
-      if (colon >= 0) {
-        sep = ":";
-        name = content.slice(0, colon).trim();
-        typeStr = content.slice(colon + 1).trim();
-      } else {
-        // Named union-arm defs: `Name = type` (`AccessUUID2 = string`,
-        // `ARecord = ARecord`, `Struct =`). Anything else is a bare arm.
-        const eq = content.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=(.*)$/s);
-        if (eq) {
-          sep = "=";
-          name = eq[1];
-          typeStr = eq[2].trim() || "unknown";
-        } else {
-          sep = "bare";
-          name = "";
-          typeStr = content;
-        }
-      }
-      // Header/param names are frequently written quoted in the docs
-      // (e.g. `"cf-r2-storage-class": ...`). The quotes are markdown emphasis
-      // of the literal wire name, never part of the field name itself —
-      // strip a single surrounding pair so the httpHeader trait and member
-      // ident don't carry stray quote characters.
-      if (name.length >= 2 && name.startsWith('"') && name.endsWith('"')) {
-        name = name.slice(1, -1);
-      }
-      const node: FieldNode = { name, typeStr, sep, children: [] };
+      const node = nodeFromDeclaration(m[2].trim());
       while (stack.length && stack[stack.length - 1].indent >= indent) {
         stack.pop();
       }
@@ -241,7 +249,11 @@ const parseFieldTree = (lines: string[]): FieldNode[] => {
   return roots;
 };
 
-const parseMarkdown = (md: string): ParsedOp | null => {
+/**
+ * Parse a page written in the ORIGINAL docs format: an `## Title` heading, a
+ * `**get** \`/uri\`` line, and `### <Section>` bullet trees.
+ */
+const parseLegacyMarkdown = (md: string): ParsedOp | null => {
   const lines = md.split(/\r?\n/);
 
   let title = "";
@@ -310,6 +322,383 @@ const parseMarkdown = (md: string): ParsedOp | null => {
     returns: section("Returns"),
   };
 };
+
+// ============================================================================
+// Markdown parsing — current format
+// ============================================================================
+
+/**
+ * Cloudflare now publishes the API reference by converting the rendered docs
+ * HTML to markdown, so the indented bullet tree is gone. A page reads:
+ *
+ *     # Create Bucket
+ *
+ *     POST/accounts/{account\_id}/r2/buckets
+ *
+ *     ##### Body ParametersJSONExpand Collapse
+ *
+ *     name: string
+ *
+ *     Name of the bucket.
+ *
+ *     maxLength64
+ *
+ *     [Link to this property](<#…>)
+ *
+ *     <details>
+ *
+ *     <summary>
+ *
+ *     locationHint: optional "apac"or "eeur"or 3 more
+ *
+ *     </summary>
+ *
+ *     One of the following:
+ *     …
+ *     </details>
+ *
+ * Every property is a run of paragraphs — declaration, prose, constraint
+ * badges — closed by its "Link to this property" anchor; nesting travels as
+ * `<details>`/`<summary>`; headings carry the expander's "Expand Collapse"
+ * label; markdown punctuation arrives backslash-escaped; the ` or ` joining
+ * union arms lost its leading space; types link to their model page; and named
+ * types now print the key list that only anonymous objects used to carry.
+ * Rebuild the same FieldNode tree the bullet format produced.
+ */
+
+type SectionKey =
+  | "path"
+  | "query"
+  | "header"
+  | "body"
+  | "returns"
+  /** A resource index page's shared-model list; method pages have none. */
+  | "models";
+
+const METHOD_LINE = /^(GET|POST|PUT|PATCH|DELETE)(\/\S*)$/;
+
+const LINK_ANCHOR = /Link to this property/;
+
+/** The expander's lead-in for a union's arms. */
+const ARM_ANNOTATION = /^(?:One|Any|All) of the following:$/;
+
+/** A JSON-Schema constraint badge (`maxLength32`, `formatdate-time`). */
+const CONSTRAINT_BADGE =
+  /^(?:maxLength|minLength|maximum|minimum|exclusiveMaximum|exclusiveMinimum|multipleOf|format|pattern|default)\S/;
+
+/** A type token the ` or ` operator can follow. */
+const TYPE_TOKEN_END =
+  /(?:["\]})\d]|\b(?:string|number|integer|int|boolean|true|false|null|unknown|any|object|array)|[A-Z][A-Za-z0-9_]*)$/;
+
+/** A declaration paragraph: `name: <type>` with a type-shaped right side. */
+const FIELD_DECL =
+  /^(?:"[^"]*"|[A-Za-z_$][A-Za-z0-9_$\\.-]*):\s+(?:optional\s+)?(?:string|number|integer|int|boolean|true|false|null|unknown|any|object\b|array\b|map\[|"|-?\d|[A-Z][A-Za-z0-9_]*(?:\s*\{|\s+or\s|$))/;
+
+/** Blank-line-separated blocks; a fenced code block stays one block. */
+const splitBlocks = (md: string): string[] => {
+  const blocks: string[] = [];
+  let cur: string[] = [];
+  let fence: string | undefined;
+  const flush = () => {
+    const text = cur.join("\n").trim();
+    if (text) blocks.push(text);
+    cur = [];
+  };
+  for (const line of md.split(/\r?\n/)) {
+    const marker = line.match(/^\s*(```+|~~~+)/)?.[1];
+    if (fence) {
+      cur.push(line);
+      if (marker && line.trim().startsWith(fence)) {
+        flush();
+        fence = undefined;
+      }
+      continue;
+    }
+    if (marker) {
+      flush();
+      fence = marker;
+      cur.push(line);
+      continue;
+    }
+    if (!line.trim()) {
+      flush();
+      continue;
+    }
+    cur.push(line);
+  }
+  flush();
+  return blocks;
+};
+
+const unescapeMarkdown = (s: string): string =>
+  s.replace(/\\([\\`*_{}[\]()#+\-.!<>|~])/g, "$1");
+
+/** The html pass curls quotes; the docs' own text uses the ASCII ones. */
+const straightenQuotes = (s: string): string =>
+  s.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"');
+
+const collapseLines = (s: string): string =>
+  s
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+
+/**
+ * Restore the space the html→markdown pass ate before a union's ` or `.
+ * A `{` never starts an arm — it opens a named type's key preview
+ * (`Monitor { id, … }`), where the `or` belongs to the type name.
+ */
+const respaceUnion = (decl: string): string =>
+  decl.replace(/(\S)or (?=\S)/g, (match, _prev: string, offset: number) =>
+    TYPE_TOKEN_END.test(decl.slice(0, offset + 1)) && decl[offset + 4] !== "{"
+      ? `${match[0]} or `
+      : match,
+  );
+
+/** One property declaration, spelled the way the bullet format spelled it. */
+const declarationText = (block: string): string => {
+  const flat = collapseLines(
+    straightenQuotes(
+      unescapeMarkdown(
+        block
+          .replace(/<a\b[^>]*>([\s\S]*?)<\/a>/g, "$1")
+          .replace(/\[([^\]]*)\]\((?:<[^>]*>|[^()]*)\)/g, "$1")
+          .replace(/<\/?(?:code|strong|em|b|i|span|p|br)\b[^>]*>/g, ""),
+      ),
+    ),
+  );
+  return (
+    respaceUnion(flat.replace(/^Deprecated(?=\S)/, ""))
+      // A named type prints its keys (`Bucket { name, … }`); the fields come
+      // from the expanded children, and the bare name is what resolves a
+      // later reference to the same def.
+      .replace(/\b([A-Z][A-Za-z0-9_]*)\s*\{[^{}]*\}/g, "$1")
+      .trim()
+  );
+};
+
+/** A property's prose, with type links kept as markdown links. */
+const documentationText = (block: string): string =>
+  collapseLines(
+    straightenQuotes(
+      unescapeMarkdown(
+        block
+          .replace(/<a\b[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g, "[$2]($1)")
+          .replace(/<code\b[^>]*>([\s\S]*?)<\/code>/g, "`$1`")
+          .replace(/<br\s*\/?>/g, " ")
+          .replace(/<\/?(?:code|strong|em|b|i|span|p)\b[^>]*>/g, ""),
+      ),
+    ),
+    // A bare URL is linkified in some places and not others; print it plainly.
+  ).replace(
+    /\[([^\]]+)\]\(([^()\s]+)\)/g,
+    (match, text: string, href: string) => (text === href ? text : match),
+  );
+
+const isConstraintBadge = (block: string): boolean =>
+  !block.includes("\n") &&
+  CONSTRAINT_BADGE.test(block) &&
+  topLevelColon(block) < 0;
+
+const isNoise = (block: string): boolean =>
+  LINK_ANCHOR.test(block) ||
+  ARM_ANNOTATION.test(block) ||
+  isConstraintBadge(block) ||
+  block.startsWith("```") ||
+  block.startsWith("~~~");
+
+/** Which parameter list a `##### …` heading opens, if any. */
+const sectionKey = (heading: string): SectionKey | undefined => {
+  // `H<!-- -->eader<!-- --> Parameters` renders as `H eader Parameters`, and
+  // the expander toggle and body content-type ride along in the heading.
+  const h = heading
+    .replace(/Expand\s*Collapse\s*$/i, "")
+    .replace(/\s+/g, "")
+    .toLowerCase();
+  if (h.startsWith("pathparameters")) return "path";
+  if (h.startsWith("queryparameters")) return "query";
+  if (h.startsWith("headerparameters")) return "header";
+  if (h.startsWith("bodyparameters")) return "body";
+  if (h === "returns") return "returns";
+  if (h === "models") return "models";
+  return undefined;
+};
+
+interface ParsedPage {
+  title: string;
+  method: string;
+  uri: string;
+  descBlocks: string[];
+  sections: Record<SectionKey, FieldNode[]>;
+}
+
+const parsePage = (md: string): ParsedPage => {
+  let title = "";
+  let method = "";
+  let uri = "";
+  const descBlocks: string[] = [];
+  const sections: Record<SectionKey, FieldNode[]> = {
+    path: [],
+    query: [],
+    header: [],
+    body: [],
+    returns: [],
+    models: [],
+  };
+
+  let seenTitle = false;
+  // The prose between the route line and the first `#####` heading is the
+  // operation's description; `Security`, permissions and the sample tabs that
+  // follow it are not.
+  let descDone = false;
+  let section: SectionKey | undefined;
+  let roots: FieldNode[] = [];
+  let open: FieldNode[] = []; // currently open <details> nodes, outermost first
+  let group: string[] = [];
+  let summary: string[] | undefined;
+
+  const siblings = (): FieldNode[] =>
+    open.length ? open[open.length - 1].children : roots;
+
+  const node = (blocks: string[]): FieldNode | undefined => {
+    const decl = declarationText(blocks[0]);
+    if (!decl) return undefined;
+    const field = nodeFromDeclaration(decl);
+    for (const block of blocks.slice(1)) {
+      if (isNoise(block)) continue;
+      const doc = documentationText(block);
+      if (doc) {
+        field.doc = doc;
+        break;
+      }
+    }
+    return field;
+  };
+
+  const flushGroup = () => {
+    if (!group.length) return;
+    const field = node(group);
+    group = [];
+    if (field) siblings().push(field);
+  };
+
+  const closeDetails = () => {
+    flushGroup();
+    const field = open.pop();
+    if (field) siblings().push(field);
+  };
+
+  const endSection = () => {
+    if (!section) return;
+    while (open.length) closeDetails();
+    flushGroup();
+    sections[section].push(...roots);
+    roots = [];
+    summary = undefined;
+    section = undefined;
+  };
+
+  for (const block of splitBlocks(md)) {
+    const heading = block.match(/^(#{1,6})\s+(.*)$/);
+    if (heading) {
+      endSection();
+      if (heading[1].length === 1 && !seenTitle) {
+        // The page title is prose — a page called "Models" opens no section.
+        title = documentationText(heading[2]);
+        seenTitle = true;
+        continue;
+      }
+      if (seenTitle) descDone = true;
+      section = sectionKey(heading[2]);
+      continue;
+    }
+
+    if (!section) {
+      // Everything above the title is site chrome (breadcrumbs, copy buttons).
+      if (!seenTitle) continue;
+      const route = unescapeMarkdown(block).match(METHOD_LINE);
+      if (route && !method) {
+        method = route[1];
+        uri = route[2];
+        continue;
+      }
+      if (method && !descDone && !isNoise(block)) {
+        descBlocks.push(documentationText(block));
+      }
+      continue;
+    }
+
+    if (/^<summary\b[^>]*>$/i.test(block)) {
+      summary = [];
+      continue;
+    }
+    if (/^<\/summary>$/i.test(block)) {
+      open.push(
+        (summary?.length ? node(summary) : undefined) ?? {
+          name: "",
+          typeStr: "object",
+          sep: "bare",
+          children: [],
+        },
+      );
+      summary = undefined;
+      continue;
+    }
+    if (summary) {
+      summary.push(block);
+      continue;
+    }
+    if (/^<details\b[^>]*>$/i.test(block)) {
+      flushGroup();
+      continue;
+    }
+    if (/^<\/details>$/i.test(block)) {
+      closeDetails();
+      continue;
+    }
+    if (isNoise(block)) {
+      if (LINK_ANCHOR.test(block)) flushGroup();
+      continue;
+    }
+    // A property whose anchor the page omitted still starts a new group.
+    if (
+      group.length &&
+      FIELD_DECL.test(collapseLines(unescapeMarkdown(block)))
+    ) {
+      flushGroup();
+    }
+    group.push(block);
+  }
+  endSection();
+
+  return { title, method, uri, descBlocks, sections };
+};
+
+const parseCurrentMarkdown = (md: string): ParsedOp | null => {
+  const page = parsePage(md);
+  if (!page.method || !page.uri) return null;
+
+  return {
+    title: page.title,
+    method: page.method,
+    uri: page.uri.split(/[?#]/)[0],
+    doc: page.descBlocks.join(" ").trim() || undefined,
+    pathParams: page.sections.path,
+    queryParams: page.sections.query,
+    headerParams: page.sections.header,
+    bodyParams: page.sections.body,
+    returns: page.sections.returns,
+  };
+};
+
+/** The original format announces its route as `**get** \`/uri\``. */
+const isLegacyMarkdown = (md: string): boolean =>
+  /^\*\*(?:get|post|put|patch|delete)\*\*\s+`/im.test(md);
+
+const parseMarkdown = (md: string): ParsedOp | null =>
+  isLegacyMarkdown(md) ? parseLegacyMarkdown(md) : parseCurrentMarkdown(md);
 
 // ============================================================================
 // Smithy shape construction
@@ -429,6 +818,80 @@ const isArmChild = (f: FieldNode): boolean => f.sep !== ":";
  */
 let namedTypeRegistry = new Map<string, string>();
 const NAMED_TYPE = /^[A-Z][A-Za-z0-9_]*$/;
+
+/**
+ * A model as a resource index page's `Models` list writes it: the type
+ * descriptor and the field tree under it.
+ */
+interface ModelDef {
+  typeStr: string;
+  children: FieldNode[];
+}
+
+/**
+ * The shared models of the resource being converted. A method page prints a
+ * reference to one as its name plus a key preview (`BlockRule { id, 10 more }`)
+ * and expands only the handful of fields it has room for, so the index pages'
+ * `Models` lists are the only complete definitions. Consulted only where the
+ * method page itself came up short, so it can only ADD information.
+ */
+let modelRegistry = new Map<string, ModelDef>();
+
+/** Models being expanded right now, so a self-reference can't recurse. */
+const expandingModels = new Set<string>();
+
+/** `Name = type` and `Name object { … }` are how a model prints its head. */
+const MODEL_HEAD = /^([A-Z][A-Za-z0-9_]*)\s+(\S[\s\S]*)$/;
+
+const modelEntry = (node: FieldNode): [string, ModelDef] | undefined => {
+  if (node.sep === ":") return undefined; // a field, not a model
+  const [name, typeStr] =
+    node.sep === "="
+      ? [node.name, node.typeStr]
+      : (node.typeStr.match(MODEL_HEAD)?.slice(1) ?? []);
+  if (!name || !NAMED_TYPE.test(name) || !typeStr) return undefined;
+  return [name, { typeStr, children: node.children }];
+};
+
+/**
+ * Read one index page's `Models` lists into `into`. The same model prints on
+ * several pages — expanded on the one that owns it, collapsed to a reference
+ * on the others — so the fullest spelling wins.
+ */
+const collectModels = (md: string, into: Map<string, ModelDef>): void => {
+  for (const node of parsePage(md).sections.models) {
+    const entry = modelEntry(node);
+    if (!entry) continue;
+    const prev = into.get(entry[0]);
+    if (!prev || prev.children.length < entry[1].children.length) {
+      into.set(entry[0], entry[1]);
+    }
+  }
+};
+
+/**
+ * The fields to build a reference to `name` from. A page that collapsed the
+ * reference prints a few of the model's fields and drops the rest, so the
+ * models list wins whenever it holds strictly more of the same fields.
+ */
+const preferModelFields = (name: string, printed: FieldNode[]): FieldNode[] => {
+  if (!NAMED_TYPE.test(name) || expandingModels.has(name)) return printed;
+  const full =
+    modelRegistry.get(name)?.children.filter((c) => !isArmChild(c)) ?? [];
+  return full.length > printed.length &&
+    printed.every((p) => full.some((f) => f.name === p.name))
+    ? full
+    : printed;
+};
+
+const withModel = <T>(name: string, f: () => T): T => {
+  expandingModels.add(name);
+  try {
+    return f();
+  } finally {
+    expandingModels.delete(name);
+  }
+};
 
 const FULL_QUOTED = /^"(?:[^"\\]|\\.)*"$/;
 const NUM_LIT = /^-?\d+(?:\.\d+)?$/;
@@ -685,7 +1148,10 @@ const parseArmNode = (
   const named = t.match(NAMED_OBJECT_ARM);
   if (named) {
     const cname = caseName ?? named[1];
-    const fields = node.children.filter((c) => !isArmChild(c));
+    const fields = preferModelFields(
+      cname,
+      node.children.filter((c) => !isArmChild(c)),
+    );
     // No children: the arm's keys are only stated inline in the type.
     const inline = fields.length ? undefined : inlineArmMembers(t);
     return {
@@ -696,7 +1162,9 @@ const parseArmNode = (
             type: "structure",
             members: inline,
           })
-        : structFrom(bag, fields, `${hint}${pascal(cname)}`),
+        : withModel(cname, () =>
+            structFrom(bag, fields, `${hint}${pascal(cname)}`),
+          ),
     };
   }
 
@@ -887,13 +1355,20 @@ const resolveDesc = (
   // is a reference — resolve it against the defs this page already inlined,
   // and only a name the page never expands stays opaque.
   if (fieldChildren.length) {
-    const target = structFrom(bag, fieldChildren, hint);
+    const fields = preferModelFields(t, fieldChildren);
+    const target = withModel(t, () => structFrom(bag, fields, hint));
     if (NAMED_TYPE.test(t)) namedTypeRegistry.set(t, target);
     return { target, nullable: false };
   }
   if (NAMED_TYPE.test(t)) {
     const known = namedTypeRegistry.get(t);
     if (known) return { target: known, nullable: false };
+    const model = expandingModels.has(t) ? undefined : modelRegistry.get(t);
+    if (model) {
+      return withModel(t, () =>
+        resolveDesc(bag, model.typeStr, model.children, hint),
+      );
+    }
   }
   return { target: PRELUDE.Document, nullable: false };
 };
@@ -1549,6 +2024,7 @@ const buildProtocolModel = (): any => ({
 // Filesystem walk
 // ============================================================================
 
+/** Every `index.md` under `dir`: the method pages and the resource pages. */
 const walkMarkdown = (
   dir: string,
 ): Effect.Effect<string[], any, FileSystem.FileSystem | Path.Path> =>
@@ -1564,10 +2040,7 @@ const walkMarkdown = (
           const stat = yield* fs.stat(full);
           if (stat.type === "Directory") {
             yield* recurse(full);
-          } else if (
-            entry === "index.md" &&
-            full.replace(/\\/g, "/").includes("/methods/")
-          ) {
+          } else if (entry === "index.md") {
             out.push(full);
           }
         }
@@ -1635,8 +2108,30 @@ const command = Command.make(
       yield* Console.log(`   Specs:  ${specsDir}`);
       yield* Console.log(`   Output: ${outDir}`);
 
-      const files = yield* walkMarkdown(specsDir);
-      yield* Console.log(`\n📄 Found ${files.length} method pages.`);
+      const pages = yield* walkMarkdown(specsDir);
+      const isMethodPage = (f: string) =>
+        f.replace(/\\/g, "/").includes("/methods/");
+      const files = pages.filter(isMethodPage);
+      const resourcePages = pages.filter((f) => !isMethodPage(f));
+      yield* Console.log(
+        `\n📄 Found ${files.length} method pages and ${resourcePages.length} resource pages.`,
+      );
+
+      // The models a resource's index pages define, shared by all its method
+      // pages: subresources define most of them, and a reference can point at
+      // any of them.
+      const models = new Map<string, Map<string, ModelDef>>();
+      for (const file of resourcePages) {
+        const rel = file.slice(specsDir.length + 1);
+        const top = opIdentity(rel).top;
+        if (config.resource && top !== config.resource) continue;
+        let into = models.get(top);
+        if (!into) {
+          into = new Map();
+          models.set(top, into);
+        }
+        collectModels(yield* fs.readFileString(file), into);
+      }
 
       // Group operations per top-level resource into one Bag each.
       const bags = new Map<string, Bag>();
@@ -1649,6 +2144,7 @@ const command = Command.make(
         const rel = file.slice(specsDir.length + 1);
         const { top, opName } = opIdentity(rel);
         if (config.resource && top !== config.resource) continue;
+        modelRegistry = models.get(top) ?? new Map();
 
         const md = yield* fs.readFileString(file);
         const parsed = parseMarkdown(md);

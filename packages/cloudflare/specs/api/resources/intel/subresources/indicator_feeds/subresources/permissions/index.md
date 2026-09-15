@@ -1,381 +1,119 @@
+---
+title: Permissions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+[Indicator Feeds](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Permissions
 
-## List indicator feed permissions
+##### [List indicator feed permissions](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/list)
 
-**get** `/accounts/{account_id}/intel/indicator-feeds/permissions/view`
+GET/accounts/{account\_id}/intel/indicator-feeds/permissions/view
 
-Lists current access permissions for custom threat indicator feeds.
+##### [Grant permission to indicator feed](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/create)
 
-### Path Parameters
+PUT/accounts/{account\_id}/intel/indicator-feeds/permissions/add
 
-- `account_id: string`
+##### [Revoke permission to indicator feed](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/delete)
 
-  Identifier
+PUT/accounts/{account\_id}/intel/indicator-feeds/permissions/remove
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+PermissionListResponse = array of object {id, description, is\_attributable, 3 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional number
 
-    - `pointer: optional string`
+The unique identifier for the indicator feed
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+description: optional string
 
-  - `message: string`
+The description of the example test
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_attributable: optional boolean
 
-    - `pointer: optional string`
+Whether the indicator feed can be attributed to a provider
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+is\_downloadable: optional boolean
 
-  - `true`
+Whether the indicator feed can be downloaded
 
-- `result: optional array of object { id, description, is_attributable, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional number`
+is\_public: optional boolean
 
-    The unique identifier for the indicator feed
+Whether the indicator feed is exposed to customers
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    The description of the example test
+name: optional string
 
-  - `is_attributable: optional boolean`
+The name of the indicator feed
 
-    Whether the indicator feed can be attributed to a provider
+<a href="#">Link to this property</a>
 
-  - `is_downloadable: optional boolean`
+</details>
 
-    Whether the indicator feed can be downloaded
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_list_response%20%3E%20(schema)>)
 
-  - `is_public: optional boolean`
+<details>
 
-    Whether the indicator feed is exposed to customers
+<summary>
 
-  - `name: optional string`
+PermissionCreateResponse object {success }
 
-    The name of the indicator feed
+</summary>
 
-### Example
+success: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/view \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Whether the update succeeded or not
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 1,
-      "description": "An important indicator list",
-      "is_attributable": false,
-      "is_downloadable": false,
-      "is_public": false,
-      "name": "indicator_list_1"
-    },
-    {
-      "id": 2,
-      "description": "An even more important indicator list",
-      "is_attributable": true,
-      "is_downloadable": false,
-      "is_public": true,
-      "name": "indicator_list_2"
-    }
-  ]
-}
-```
+</details>
 
-## Grant permission to indicator feed
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_create_response%20%3E%20(schema)>)
 
-**put** `/accounts/{account_id}/intel/indicator-feeds/permissions/add`
+<details>
 
-Grants access permissions for a custom threat indicator feed to other accounts.
+<summary>
 
-### Path Parameters
+PermissionDeleteResponse object {success }
 
-- `account_id: string`
+</summary>
 
-  Identifier
+success: optional boolean
 
-### Body Parameters
+Whether the update succeeded or not
 
-- `account_tag: optional string`
+<a href="#">Link to this property</a>
 
-  The Cloudflare account tag of the account to change permissions on
+</details>
 
-- `feed_id: optional number`
-
-  The ID of the feed to add/remove permissions on
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { success }`
-
-  - `success: optional boolean`
-
-    Whether the update succeeded or not
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/add \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "account_tag": "823f45f16fd2f7e21e1e054aga4d2859",
-          "feed_id": 1
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "success": true
-  }
-}
-```
-
-## Revoke permission to indicator feed
-
-**put** `/accounts/{account_id}/intel/indicator-feeds/permissions/remove`
-
-Revokes access permissions for a custom threat indicator feed.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `account_tag: optional string`
-
-  The Cloudflare account tag of the account to change permissions on
-
-- `feed_id: optional number`
-
-  The ID of the feed to add/remove permissions on
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { success }`
-
-  - `success: optional boolean`
-
-    Whether the update succeeded or not
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/remove \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "account_tag": "823f45f16fd2f7e21e1e054aga4d2859",
-          "feed_id": 1
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "success": true
-  }
-}
-```
-
-## Domain Types
-
-### Permission List Response
-
-- `PermissionListResponse = array of object { id, description, is_attributable, 3 more }`
-
-  - `id: optional number`
-
-    The unique identifier for the indicator feed
-
-  - `description: optional string`
-
-    The description of the example test
-
-  - `is_attributable: optional boolean`
-
-    Whether the indicator feed can be attributed to a provider
-
-  - `is_downloadable: optional boolean`
-
-    Whether the indicator feed can be downloaded
-
-  - `is_public: optional boolean`
-
-    Whether the indicator feed is exposed to customers
-
-  - `name: optional string`
-
-    The name of the indicator feed
-
-### Permission Create Response
-
-- `PermissionCreateResponse object { success }`
-
-  - `success: optional boolean`
-
-    Whether the update succeeded or not
-
-### Permission Delete Response
-
-- `PermissionDeleteResponse object { success }`
-
-  - `success: optional boolean`
-
-    Whether the update succeeded or not
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_delete_response%20%3E%20(schema)>)

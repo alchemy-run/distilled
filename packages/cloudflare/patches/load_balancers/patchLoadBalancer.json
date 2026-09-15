@@ -1,14 +1,14 @@
 {
-  "description": "Align load_balancers#Edit with distilled cloudflare/load-balancers patchLoadBalancer",
+  "description": "Align load_balancers#Edit with distilled cloudflare/load-balancers patchLoadBalancer: the docs now offer this endpoint under both /zones and /accounts; keep the zone-scope operation the SDK already ships and drop the account twin (its per-scope copies fold back into the shared shapes).",
   "patches": [
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#Edit",
+      "from": "/shapes/com.cloudflare.load_balancers#EditForZone",
       "path": "/shapes/com.cloudflare.load_balancers#PatchLoadBalancer"
     },
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#EditRequest",
+      "from": "/shapes/com.cloudflare.load_balancers#EditForZoneRequest",
       "path": "/shapes/com.cloudflare.load_balancers#PatchLoadBalancerRequest"
     },
     {
@@ -18,13 +18,25 @@
     },
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#EditResponse",
+      "from": "/shapes/com.cloudflare.load_balancers#EditForZoneResponse",
       "path": "/shapes/com.cloudflare.load_balancers#PatchLoadBalancerResponse"
     },
     {
       "op": "replace",
       "path": "/shapes/com.cloudflare.load_balancers#PatchLoadBalancer/output/target",
       "value": "com.cloudflare.load_balancers#PatchLoadBalancerResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#EditForAccount"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#EditForAccountRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#EditForAccountResponse"
     }
   ]
 }

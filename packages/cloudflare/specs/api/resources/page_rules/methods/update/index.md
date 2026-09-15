@@ -1,1502 +1,3412 @@
-## Update a Page Rule
+---
+title: Update a Page Rule
+---
 
-**put** `/zones/{zone_id}/pagerules/{pagerule_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Page Rules](https://developers.cloudflare.com/api/resources/page_rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a Page Rule
+
+PUT/zones/{zone\_id}/pagerules/{pagerule\_id}
 
 Replaces the configuration of an existing Page Rule. The configuration of the updated Page Rule will exactly match the data passed in the API request.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `pagerule_id: string`
 
-  Identifier.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `actions: array of AlwaysUseHTTPS or AutomaticHTTPSRewrites or BrowserCacheTTL or 31 more`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The set of actions to perform if the targets of this rule match the
-  request. Actions can redirect to another URL or override settings, but
-  not both.
+</details>
 
-  - `AlwaysUseHTTPS object { id }`
+<details>
 
-    - `id: optional "always_use_https"`
+<summary>API Email + API Key</summary>
 
-      If enabled, any `http://`` URL is converted to`https://` through a
-      301 redirect.
 
-      - `"always_use_https"`
 
-  - `AutomaticHTTPSRewrites object { id, value }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `id: optional "automatic_https_rewrites"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      Turn on or off Automatic HTTPS Rewrites.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `"automatic_https_rewrites"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `value: optional "on" or "off"`
+</details>
 
-      The status of Automatic HTTPS Rewrites.
+##### Accepted Permissions (at least one required)
 
-      - `"on"`
+`Zone Write``Page Rules Write`
 
-      - `"off"`
+##### P ath ParametersExpand Collapse
 
-  - `BrowserCacheTTL object { id, value }`
+zone\_id: string
 
-    - `id: optional "browser_cache_ttl"`
+Identifier.
 
-      Control how long resources cached by client browsers remain valid.
+maxLength32
 
-      - `"browser_cache_ttl"`
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `value: optional number`
+pagerule\_id: string
 
-      The number of seconds to cache resources for.
-      Setting this to 0 enables "Respect Existing Headers".
+Identifier.
 
-  - `BrowserCheck object { id, value }`
+maxLength32
 
-    - `id: optional "browser_check"`
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20pagerule_id%20%3E%20(schema)>)
 
-      Inspect the visitor's browser for headers commonly associated with
-      spammers and certain bots.
+##### Body ParametersJSONExpand Collapse
 
-      - `"browser_check"`
+<details>
 
-    - `value: optional "on" or "off"`
+<summary>
 
-      The status of Browser Integrity Check.
+actions: array of <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20always_use_https%20%3E%20(schema)">AlwaysUseHTTPS</a> { id } or <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20automatic_https_rewrites%20%3E%20(schema)">AutomaticHTTPSRewrites</a> { id, value } or <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20browser_cache_ttl%20%3E%20(schema)">BrowserCacheTTL</a> { id, value } or 31 more
 
-      - `"on"`
+The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.
 
-      - `"off"`
+</summary>
 
-  - `BypassCacheOnCookie object { id, value }`
+One of the following:
 
-    - `id: optional "bypass_cache_on_cookie"`
+<details>
 
-      Bypass cache and fetch resources from the origin server if a regular
-      expression matches against a cookie name present in the request.
+<summary>
 
-      - `"bypass_cache_on_cookie"`
+AlwaysUseHTTPS object {id }
 
-    - `value: optional string`
+</summary>
 
-      The regular expression to use for matching cookie names in the
-      request. Refer to [Bypass Cache on Cookie
-      setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting)
-      to learn about limited regular expression support.
+id: optional "always\_use\_https"
 
-  - `CacheByDeviceType object { id, value }`
+If enabled, any <code>http://`` URL is converted to</code> https://\` through a 301 redirect.
 
-    - `id: optional "cache_by_device_type"`
+<a href="#">Link to this property</a>
 
-      Separate cached content based on the visitor's device type.
+</details>
 
-      - `"cache_by_device_type"`
+<a href="#">Link to this property</a>
 
-    - `value: optional "on" or "off"`
+<details>
 
-      The status of Cache By Device Type.
+<summary>
 
-      - `"on"`
+AutomaticHTTPSRewrites object {id, value }
 
-      - `"off"`
+</summary>
 
-  - `CacheDeceptionArmor object { id, value }`
+id: optional "automatic\_https\_rewrites"
 
-    - `id: optional "cache_deception_armor"`
+Turn on or off Automatic HTTPS Rewrites.
 
-      Protect from web cache deception attacks while still allowing static
-      assets to be cached. This setting verifies that the URL's extension
-      matches the returned `Content-Type`.
+<a href="#">Link to this property</a>
 
-      - `"cache_deception_armor"`
+<details>
 
-    - `value: optional "on" or "off"`
+<summary>
 
-      The status of Cache Deception Armor.
+value: optional "on"or "off"
 
-      - `"on"`
+The status of Automatic HTTPS Rewrites.
 
-      - `"off"`
+</summary>
 
-  - `CacheKeyFields object { id, value }`
+One of the following:
 
-    - `id: optional "cache_key_fields"`
+"on"
 
-      Control specifically what variables to include when deciding which
-      resources to cache. This allows customers to determine what to cache
-      based on something other than just the URL.
+<a href="#">Link to this property</a>
 
-      - `"cache_key_fields"`
+"off"
 
-    - `value: optional object { cookie, header, host, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `cookie: optional object { check_presence, include }`
+</details>
 
-        Controls which cookies appear in the Cache Key.
+<a href="#">Link to this property</a>
 
-        - `check_presence: optional array of string`
+</details>
 
-          A list of cookies to check for the presence of, without
-          including their actual values.
+<a href="#">Link to this property</a>
 
-        - `include: optional array of string`
+<details>
 
-          A list of cookies to include.
+<summary>
 
-      - `header: optional object { check_presence, exclude, include }`
+BrowserCacheTTL object {id, value }
 
-        Controls which headers go into the Cache Key. Exactly one of
-        `include` or `exclude` is expected.
+</summary>
 
-        - `check_presence: optional array of string`
+id: optional "browser\_cache\_ttl"
 
-          A list of headers to check for the presence of, without
-          including their actual values.
+Control how long resources cached by client browsers remain valid.
 
-        - `exclude: optional array of string`
+<a href="#">Link to this property</a>
 
-          A list of headers to ignore.
+value: optional number
 
-        - `include: optional array of string`
+The number of seconds to cache resources for. Setting this to 0 enables “Respect Existing Headers”.
 
-          A list of headers to include.
+maximum31536000
 
-      - `host: optional object { resolved }`
+minimum0
 
-        Determines which host header to include in the Cache Key.
+<a href="#">Link to this property</a>
 
-        - `resolved: optional boolean`
+</details>
 
-          Whether to include the Host header in the HTTP request sent
-          to the origin.
+<a href="#">Link to this property</a>
 
-      - `query_string: optional object { exclude, include }`
+<details>
 
-        Controls which URL query string parameters go into the Cache
-        Key. Exactly one of `include` or `exclude` is expected.
+<summary>
 
-        - `exclude: optional "*" or array of string`
+BrowserCheck object {id, value }
 
-          Ignore all query string parameters.
+</summary>
 
-          - `"*"`
+id: optional "browser\_check"
 
-            Ignore all query string parameters.
+Inspect the visitor’s browser for headers commonly associated with spammers and certain bots.
 
-            - `"*"`
+<a href="#">Link to this property</a>
 
-          - `array of string`
+<details>
 
-            A list of query string parameters to ignore.
+<summary>
 
-        - `include: optional "*" or array of string`
+value: optional "on"or "off"
 
-          Include all query string parameters.
+The status of Browser Integrity Check.
 
-          - `"*"`
+</summary>
 
-            Include all query string parameters.
+One of the following:
 
-            - `"*"`
+"on"
 
-          - `array of string`
+<a href="#">Link to this property</a>
 
-            A list of query string parameters to include.
+"off"
 
-      - `user: optional object { device_type, geo, lang }`
+<a href="#">Link to this property</a>
 
-        Feature fields to add features about the end-user (client) into
-        the Cache Key.
+</details>
 
-        - `device_type: optional boolean`
+<a href="#">Link to this property</a>
 
-          Classifies a request as `mobile`, `desktop`, or `tablet`
-          based on the User Agent.
+</details>
 
-        - `geo: optional boolean`
+<a href="#">Link to this property</a>
 
-          Includes the client's country, derived from the IP address.
+<details>
 
-        - `lang: optional boolean`
+<summary>
 
-          Includes the first language code contained in the
-          `Accept-Language` header sent by the client.
+BypassCacheOnCookie object {id, value }
 
-  - `CacheLevel object { id, value }`
+</summary>
 
-    - `id: optional "cache_level"`
+id: optional "bypass\_cache\_on\_cookie"
 
-      Apply custom caching based on the option selected.
+Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request.
 
-      - `"cache_level"`
+<a href="#">Link to this property</a>
 
-    - `value: optional "bypass" or "basic" or "simplified" or 2 more`
+value: optional string
 
-      * `bypass`: Cloudflare does not cache.
-      * `basic`: Delivers resources from cache when there is no query
-        string.
-      * `simplified`: Delivers the same resource to everyone independent
-        of the query string.
-      * `aggressive`: Caches all static content that has a query string.
-      * `cache_everything`: Treats all content as static and caches all
-        file types beyond the [Cloudflare default cached
-        content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions).
+The regular expression to use for matching cookie names in the request. Refer to <a href="https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting">Bypass Cache on Cookie setting</a> to learn about limited regular expression support.
 
-      - `"bypass"`
+maxLength150
 
-      - `"basic"`
+minLength1
 
-      - `"simplified"`
+<a href="#">Link to this property</a>
 
-      - `"aggressive"`
+</details>
 
-      - `"cache_everything"`
+<a href="#">Link to this property</a>
 
-  - `CacheOnCookie object { id, value }`
+<details>
 
-    - `id: optional "cache_on_cookie"`
+<summary>
 
-      Apply the Cache Everything option (Cache Level setting) based on a
-      regular expression match against a cookie name.
+CacheByDeviceType object {id, value }
 
-      - `"cache_on_cookie"`
+</summary>
 
-    - `value: optional string`
+id: optional "cache\_by\_device\_type"
 
-      The regular expression to use for matching cookie names in the
-      request.
+Separate cached content based on the visitor’s device type.
 
-  - `CacheTTLByStatus object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "cache_ttl_by_status"`
+<details>
 
-      Enterprise customers can set cache time-to-live (TTL) based on the
-      response status from the origin web server. Cache TTL refers to the
-      duration of a resource in the Cloudflare network before being
-      marked as stale or discarded from cache. Status codes are returned
-      by a resource's origin. Setting cache TTL based on response status
-      overrides the default cache behavior (standard caching) for static
-      files and overrides cache instructions sent by the origin web
-      server. To cache non-static assets, set a Cache Level of Cache
-      Everything using a Page Rule. Setting no-store Cache-Control or a
-      low TTL (using `max-age`/`s-maxage`) increases requests to origin
-      web servers and decreases performance.
+<summary>
 
-      - `"cache_ttl_by_status"`
+value: optional "on"or "off"
 
-    - `value: optional map["no-cache" or "no-store" or number]`
+The status of Cache By Device Type.
 
-      A JSON object containing status codes and their corresponding TTLs.
-      Each key-value pair in the cache TTL by status cache rule has the
-      following syntax
+</summary>
 
-      - `status_code`: An integer value such as 200 or 500. status_code
-        matches the exact status code from the origin web server. Valid
-        status codes are between 100-999.
-      - `status_code_range`: Integer values for from and to.
-        status_code_range matches any status code from the origin web
-        server within the specified range.
-      - `value`: An integer value that defines the duration an asset is
-        valid in seconds or one of the following strings: no-store
-        (equivalent to -1), no-cache (equivalent to 0).
+One of the following:
 
-      - `"no-cache" or "no-store"`
+"on"
 
-        `no-store` (equivalent to -1), `no-cache` (equivalent to 0)
+<a href="#">Link to this property</a>
 
-        - `"no-cache"`
+"off"
 
-        - `"no-store"`
+<a href="#">Link to this property</a>
 
-      - `number`
+</details>
 
-        An integer value that defines the duration an asset is valid in
-        seconds.
+<a href="#">Link to this property</a>
 
-  - `DisableApps object { id }`
+</details>
 
-    - `id: optional "disable_apps"`
+<a href="#">Link to this property</a>
 
-      Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)
-      (deprecated).
+<details>
 
-      - `"disable_apps"`
+<summary>
 
-  - `DisablePerformance object { id }`
+CacheDeceptionArmor object {id, value }
 
-    - `id: optional "disable_performance"`
+</summary>
 
-      Turn off
-      [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and
-      [Polish](https://developers.cloudflare.com/images/polish/).
+id: optional "cache\_deception\_armor"
 
-      - `"disable_performance"`
+Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL’s extension matches the returned <code>Content-Type</code>.
 
-  - `DisableSecurity object { id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "disable_security"`
+<details>
 
-      Turn off
-      [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/),
-      [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/),
-      [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/),
-      [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and
-      [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/).
+<summary>
 
-      - `"disable_security"`
+value: optional "on"or "off"
 
-  - `DisableZaraz object { id }`
+The status of Cache Deception Armor.
 
-    - `id: optional "disable_zaraz"`
+</summary>
 
-      Turn off [Zaraz](https://developers.cloudflare.com/zaraz/).
+One of the following:
 
-      - `"disable_zaraz"`
+"on"
 
-  - `EdgeCacheTTL object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "edge_cache_ttl"`
+"off"
 
-      Specify how long to cache a resource in the Cloudflare global
-      network. *Edge Cache TTL* is not visible in response headers.
+<a href="#">Link to this property</a>
 
-      - `"edge_cache_ttl"`
+</details>
 
-    - `value: optional number`
+<a href="#">Link to this property</a>
 
-  - `EmailObfuscation object { id, value }`
+</details>
 
-    - `id: optional "email_obfuscation"`
+<a href="#">Link to this property</a>
 
-      Turn on or off **Email Obfuscation**.
+<details>
 
-      - `"email_obfuscation"`
+<summary>
 
-    - `value: optional "on" or "off"`
+CacheKeyFields object {id, value }
 
-      The status of Email Obfuscation.
+</summary>
 
-      - `"on"`
+id: optional "cache\_key\_fields"
 
-      - `"off"`
+Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL.
 
-  - `ExplicitCacheControl object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "explicit_cache_control"`
+<details>
 
-      Origin Cache Control is enabled by default for Free, Pro, and
-      Business domains and disabled by default for Enterprise domains.
+<summary>
 
-      - `"explicit_cache_control"`
+value: optional object {cookie, header, host, 2 more }
 
-    - `value: optional "on" or "off"`
+</summary>
 
-      The status of Origin Cache Control.
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+cookie: optional object {check\_presence, include }
 
-  - `ForwardingURL object { id, value }`
+Controls which cookies appear in the Cache Key.
 
-    - `id: optional "forwarding_url"`
+</summary>
 
-      Redirects one URL to another using an `HTTP 301/302` redirect. Refer
-      to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/).
+check\_presence: optional array of string
 
-      - `"forwarding_url"`
+A list of cookies to check for the presence of, without including their actual values.
 
-    - `value: optional object { status_code, url }`
+<a href="#">Link to this property</a>
 
-      - `status_code: optional 301 or 302`
+include: optional array of string
 
-        The status code to use for the URL redirect. 301 is a permanent
-        redirect. 302 is a temporary redirect.
+A list of cookies to include.
 
-        - `301`
+<a href="#">Link to this property</a>
 
-        - `302`
+</details>
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-        The URL to redirect the request to.
-        Notes: ${num} refers to the position of '*' in the constraint value.
+<details>
 
-  - `HostHeaderOverride object { id, value }`
+<summary>
 
-    - `id: optional "host_header_override"`
+header: optional object {check\_presence, exclude, include }
 
-      Apply a specific host header.
+Controls which headers go into the Cache Key. Exactly one of <code>include</code> or <code>exclude</code> is expected.
 
-      - `"host_header_override"`
+</summary>
 
-    - `value: optional string`
+check\_presence: optional array of string
 
-      The hostname to use in the `Host` header
+A list of headers to check for the presence of, without including their actual values.
 
-  - `IPGeolocation object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "ip_geolocation"`
+exclude: optional array of string
 
-      Cloudflare adds a CF-IPCountry HTTP header containing the country code that corresponds to the visitor.
+A list of headers to ignore.
 
-      - `"ip_geolocation"`
+<a href="#">Link to this property</a>
 
-    - `value: optional "on" or "off"`
+include: optional array of string
 
-      The status of adding the IP Geolocation Header.
+A list of headers to include.
 
-      - `"on"`
+<a href="#">Link to this property</a>
 
-      - `"off"`
+</details>
 
-  - `Mirage object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "mirage"`
+<details>
 
-      Cloudflare Mirage reduces bandwidth used by images in mobile browsers.
-      It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1.
+<summary>
 
-      - `"mirage"`
+host: optional object {resolved }
 
-    - `value: optional "on" or "off"`
+Determines which host header to include in the Cache Key.
 
-      The status of Mirage.
+</summary>
 
-      - `"on"`
+resolved: optional boolean
 
-      - `"off"`
+Whether to include the Host header in the HTTP request sent to the origin.
 
-  - `OpportunisticEncryption object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "opportunistic_encryption"`
+</details>
 
-      Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel.
-      It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests.
+<a href="#">Link to this property</a>
 
-      - `"opportunistic_encryption"`
+<details>
 
-    - `value: optional "on" or "off"`
+<summary>
 
-      The status of Opportunistic Encryption.
+query\_string: optional object {exclude, include }
 
-      - `"on"`
+Controls which URL query string parameters go into the Cache Key. Exactly one of <code>include</code> or <code>exclude</code> is expected.
 
-      - `"off"`
+</summary>
 
-  - `OriginErrorPagePassThru object { id, value }`
+<details>
 
-    - `id: optional "origin_error_page_pass_thru"`
+<summary>
 
-      Turn on or off Cloudflare error pages generated from issues sent from the origin server. If enabled, this setting triggers error pages issued by the origin.
+exclude: optional "\*"or array of string
 
-      - `"origin_error_page_pass_thru"`
+Ignore all query string parameters.
 
-    - `value: optional "on" or "off"`
+</summary>
 
-      The status of Origin Error Page Passthru.
+One of the following:
 
-      - `"on"`
+"\*"
 
-      - `"off"`
+Ignore all query string parameters.
 
-  - `Polish object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "polish"`
+array of string
 
-      Apply options from the Polish feature of the Cloudflare Speed app.
+A list of query string parameters to ignore.
 
-      - `"polish"`
+<a href="#">Link to this property</a>
 
-    - `value: optional "off" or "lossless" or "lossy"`
+</details>
 
-      The level of Polish you want applied to your origin.
+<a href="#">Link to this property</a>
 
-      - `"off"`
+<details>
 
-      - `"lossless"`
+<summary>
 
-      - `"lossy"`
+include: optional "\*"or array of string
 
-  - `ResolveOverride object { id, value }`
+Include all query string parameters.
 
-    - `id: optional "resolve_override"`
+</summary>
 
-      Change the origin address to the value specified in this setting.
+One of the following:
 
-      - `"resolve_override"`
+"\*"
 
-    - `value: optional string`
+Include all query string parameters.
 
-      The origin address you want to override with.
+<a href="#">Link to this property</a>
 
-  - `RespectStrongEtag object { id, value }`
+array of string
 
-    - `id: optional "respect_strong_etag"`
+A list of query string parameters to include.
 
-      Turn on or off byte-for-byte equivalency checks between the
-      Cloudflare cache and the origin server.
+<a href="#">Link to this property</a>
 
-      - `"respect_strong_etag"`
+</details>
 
-    - `value: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-      The status of Respect Strong ETags
+</details>
 
-      - `"on"`
+<a href="#">Link to this property</a>
 
-      - `"off"`
+<details>
 
-  - `ResponseBuffering object { id, value }`
+<summary>
 
-    - `id: optional "response_buffering"`
+user: optional object {device\_type, geo, lang }
 
-      Turn on or off whether Cloudflare should wait for an entire file
-      from the origin server before forwarding it to the site visitor. By
-      default, Cloudflare sends packets to the client as they arrive from
-      the origin server.
+Feature fields to add features about the end-user (client) into the Cache Key.
 
-      - `"response_buffering"`
+</summary>
 
-    - `value: optional "on" or "off"`
+device\_type: optional boolean
 
-      The status of Response Buffering
+Classifies a request as <code>mobile</code>, <code>desktop</code>, or <code>tablet</code> based on the User Agent.
 
-      - `"on"`
+<a href="#">Link to this property</a>
 
-      - `"off"`
+geo: optional boolean
 
-  - `RocketLoader object { id, value }`
+Includes the client’s country, derived from the IP address.
 
-    - `id: optional "rocket_loader"`
+<a href="#">Link to this property</a>
 
-      Turn on or off Rocket Loader in the Cloudflare Speed app.
+lang: optional boolean
 
-      - `"rocket_loader"`
+Includes the first language code contained in the <code>Accept-Language</code> header sent by the client.
 
-    - `value: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-      The status of Rocket Loader
+</details>
 
-      - `"on"`
+<a href="#">Link to this property</a>
 
-      - `"off"`
+</details>
 
-  - `SecurityLevel object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "security_level"`
+</details>
 
-      Control options for the **Security Level** feature from the **Security** app.
+<a href="#">Link to this property</a>
 
-      - `"security_level"`
+<details>
 
-    - `value: optional "off" or "essentially_off" or "low" or 3 more`
+<summary>
 
-      - `"off"`
+CacheLevel object {id, value }
 
-      - `"essentially_off"`
+</summary>
 
-      - `"low"`
+id: optional "cache\_level"
 
-      - `"medium"`
+Apply custom caching based on the option selected.
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-      - `"under_attack"`
+<details>
 
-  - `SortQueryStringForCache object { id, value }`
+<summary>
 
-    - `id: optional "sort_query_string_for_cache"`
+value: optional "bypass"or "basic"or "simplified"or 2 more
 
-      Turn on or off the reordering of query strings. When query strings have the same structure, caching improves.
+- <code>bypass</code>: Cloudflare does not cache.
+- <code>basic</code>: Delivers resources from cache when there is no query string.
+- <code>simplified</code>: Delivers the same resource to everyone independent of the query string.
+- <code>aggressive</code>: Caches all static content that has a query string.
+- <code>cache_everything</code>: Treats all content as static and caches all file types beyond the <a href="https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions">Cloudflare default cached content</a>.
 
-      - `"sort_query_string_for_cache"`
+</summary>
 
-    - `value: optional "on" or "off"`
+One of the following:
 
-      The status of Query String Sort
+"bypass"
 
-      - `"on"`
+<a href="#">Link to this property</a>
 
-      - `"off"`
+"basic"
 
-  - `SSL object { id, value }`
+<a href="#">Link to this property</a>
 
-    - `id: optional "ssl"`
+"simplified"
 
-      Control options for the SSL feature of the Edge Certificates tab in the Cloudflare SSL/TLS app.
+<a href="#">Link to this property</a>
 
-      - `"ssl"`
+"aggressive"
 
-    - `value: optional "off" or "flexible" or "full" or 2 more`
+<a href="#">Link to this property</a>
 
-      The encryption mode that Cloudflare uses to connect to your origin server.
+"cache\_everything"
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"flexible"`
+</details>
 
-      - `"full"`
+<a href="#">Link to this property</a>
 
-      - `"strict"`
+</details>
 
-      - `"origin_pull"`
+<a href="#">Link to this property</a>
 
-  - `TrueClientIPHeader object { id, value }`
+<details>
 
-    - `id: optional "true_client_ip_header"`
+<summary>
 
-      Turn on or off the True-Client-IP Header feature of the Cloudflare Network app.
+CacheOnCookie object {id, value }
 
-      - `"true_client_ip_header"`
+</summary>
 
-    - `value: optional "on" or "off"`
+id: optional "cache\_on\_cookie"
 
-      The status of True Client IP Header.
+Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name.
 
-      - `"on"`
+<a href="#">Link to this property</a>
 
-      - `"off"`
+value: optional string
 
-  - `WAF object { id, value }`
+The regular expression to use for matching cookie names in the request.
 
-    - `id: optional "waf"`
+maxLength150
 
-      Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/).
-      You cannot enable or disable individual WAF managed rules via Page Rules.
+minLength1
 
-      - `"waf"`
+<a href="#">Link to this property</a>
 
-    - `value: optional "on" or "off"`
+</details>
 
-      The status of WAF managed rules (previous version).
+<a href="#">Link to this property</a>
 
-      - `"on"`
+<details>
 
-      - `"off"`
+<summary>
 
-- `targets: array of Target`
+CacheTTLByStatus object {id, value }
 
-  The rule targets to evaluate on each request.
+</summary>
 
-  - `constraint: optional object { operator, value }`
+id: optional "cache\_ttl\_by\_status"
 
-    String constraint.
+Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource’s origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using <code>max-age</code>/<code>s-maxage</code>) increases requests to origin web servers and decreases performance.
 
-    - `operator: "matches" or "contains" or "equals" or 2 more`
+<a href="#">Link to this property</a>
 
-      The matches operator can use asterisks and pipes as wildcard and 'or' operators.
+<details>
 
-      - `"matches"`
+<summary>
 
-      - `"contains"`
+value: optional map\["no-cache"or "no-store"or number]
 
-      - `"equals"`
+A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax
 
-      - `"not_equal"`
+- <code>status_code</code>: An integer value such as 200 or 500. status\_code matches the exact status code from the origin web server. Valid status codes are between 100-999.
+- <code>status_code_range</code>: Integer values for from and to. status\_code\_range matches any status code from the origin web server within the specified range.
+- <code>value</code>: An integer value that defines the duration an asset is valid in seconds or one of the following strings: no-store (equivalent to -1), no-cache (equivalent to 0).
 
-      - `"not_contain"`
+</summary>
 
-    - `value: string`
+One of the following:
 
-      The URL pattern to match against the current request. The pattern may contain up to four asterisks ('*') as placeholders.
+<details>
 
-  - `target: optional "url"`
+<summary>
 
-    A target based on the URL of the request.
+"no-cache"or "no-store"
 
-    - `"url"`
+<code>no-store</code> (equivalent to -1), <code>no-cache</code> (equivalent to 0)
 
-- `priority: optional number`
+</summary>
 
-  The priority of the rule, used to define which Page Rule is processed
-  over another. A higher number indicates a higher priority. For example,
-  if you have a catch-all Page Rule (rule A: `/images/*`) but want a more
-  specific Page Rule to take precedence (rule B: `/images/special/*`),
-  specify a higher priority for rule B so it overrides rule A.
+One of the following:
 
-- `status: optional "active" or "disabled"`
+"no-cache"
 
-  The status of the Page Rule.
+<a href="#">Link to this property</a>
 
-  - `"active"`
+"no-store"
 
-  - `"disabled"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+number
 
-  - `message: string`
+An integer value that defines the duration an asset is valid in seconds.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+DisableApps object {id }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+id: optional "disable\_apps"
 
-  Whether the API call was successful.
+Turn off all active <a href="https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/">Cloudflare Apps</a> (deprecated).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional PageRule`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+<details>
 
-  - `actions: array of AlwaysUseHTTPS or AutomaticHTTPSRewrites or BrowserCacheTTL or 31 more`
+<summary>
 
-    The set of actions to perform if the targets of this rule match the
-    request. Actions can redirect to another URL or override settings, but
-    not both.
+DisablePerformance object {id }
 
-    - `AlwaysUseHTTPS object { id }`
+</summary>
 
-      - `id: optional "always_use_https"`
+id: optional "disable\_performance"
 
-        If enabled, any `http://`` URL is converted to`https://` through a
-        301 redirect.
+Turn off <a href="https://developers.cloudflare.com/speed/optimization/content/rocket-loader/">Rocket Loader</a>, and <a href="https://developers.cloudflare.com/images/polish/">Polish</a>.
 
-        - `"always_use_https"`
+<a href="#">Link to this property</a>
 
-    - `AutomaticHTTPSRewrites object { id, value }`
+</details>
 
-      - `id: optional "automatic_https_rewrites"`
+<a href="#">Link to this property</a>
 
-        Turn on or off Automatic HTTPS Rewrites.
+<details>
 
-        - `"automatic_https_rewrites"`
+<summary>
 
-      - `value: optional "on" or "off"`
+DisableSecurity object {id }
 
-        The status of Automatic HTTPS Rewrites.
+</summary>
 
-        - `"on"`
+id: optional "disable\_security"
 
-        - `"off"`
+Turn off <a href="https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/">Email Obfuscation</a>, <a href="https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/">Rate Limiting (previous version, deprecated)</a>, <a href="https://developers.cloudflare.com/waf/tools/scrape-shield/">Scrape Shield</a>, <a href="https://developers.cloudflare.com/waf/tools/zone-lockdown/">URL (Zone) Lockdown</a>, and <a href="https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/">WAF managed rules (previous version, deprecated)</a>.
 
-    - `BrowserCacheTTL object { id, value }`
+<a href="#">Link to this property</a>
 
-      - `id: optional "browser_cache_ttl"`
+</details>
 
-        Control how long resources cached by client browsers remain valid.
+<a href="#">Link to this property</a>
 
-        - `"browser_cache_ttl"`
+<details>
 
-      - `value: optional number`
+<summary>
 
-        The number of seconds to cache resources for.
-        Setting this to 0 enables "Respect Existing Headers".
+DisableZaraz object {id }
 
-    - `BrowserCheck object { id, value }`
+</summary>
 
-      - `id: optional "browser_check"`
+id: optional "disable\_zaraz"
 
-        Inspect the visitor's browser for headers commonly associated with
-        spammers and certain bots.
+Turn off <a href="https://developers.cloudflare.com/zaraz/">Zaraz</a>.
 
-        - `"browser_check"`
+<a href="#">Link to this property</a>
 
-      - `value: optional "on" or "off"`
+</details>
 
-        The status of Browser Integrity Check.
+<a href="#">Link to this property</a>
 
-        - `"on"`
+<details>
 
-        - `"off"`
+<summary>
 
-    - `BypassCacheOnCookie object { id, value }`
+EdgeCacheTTL object {id, value }
 
-      - `id: optional "bypass_cache_on_cookie"`
+</summary>
 
-        Bypass cache and fetch resources from the origin server if a regular
-        expression matches against a cookie name present in the request.
+id: optional "edge\_cache\_ttl"
 
-        - `"bypass_cache_on_cookie"`
+Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers.
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The regular expression to use for matching cookie names in the
-        request. Refer to [Bypass Cache on Cookie
-        setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting)
-        to learn about limited regular expression support.
+value: optional number
 
-    - `CacheByDeviceType object { id, value }`
+maximum31536000
 
-      - `id: optional "cache_by_device_type"`
+minimum1
 
-        Separate cached content based on the visitor's device type.
+<a href="#">Link to this property</a>
 
-        - `"cache_by_device_type"`
+</details>
 
-      - `value: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-        The status of Cache By Device Type.
+<details>
 
-        - `"on"`
+<summary>
 
-        - `"off"`
+EmailObfuscation object {id, value }
 
-    - `CacheDeceptionArmor object { id, value }`
+</summary>
 
-      - `id: optional "cache_deception_armor"`
+id: optional "email\_obfuscation"
 
-        Protect from web cache deception attacks while still allowing static
-        assets to be cached. This setting verifies that the URL's extension
-        matches the returned `Content-Type`.
+Turn on or off **Email Obfuscation**.
 
-        - `"cache_deception_armor"`
+<a href="#">Link to this property</a>
 
-      - `value: optional "on" or "off"`
+<details>
 
-        The status of Cache Deception Armor.
+<summary>
 
-        - `"on"`
+value: optional "on"or "off"
 
-        - `"off"`
+The status of Email Obfuscation.
 
-    - `CacheKeyFields object { id, value }`
+</summary>
 
-      - `id: optional "cache_key_fields"`
+One of the following:
 
-        Control specifically what variables to include when deciding which
-        resources to cache. This allows customers to determine what to cache
-        based on something other than just the URL.
+"on"
 
-        - `"cache_key_fields"`
+<a href="#">Link to this property</a>
 
-      - `value: optional object { cookie, header, host, 2 more }`
+"off"
 
-        - `cookie: optional object { check_presence, include }`
+<a href="#">Link to this property</a>
 
-          Controls which cookies appear in the Cache Key.
+</details>
 
-          - `check_presence: optional array of string`
+<a href="#">Link to this property</a>
 
-            A list of cookies to check for the presence of, without
-            including their actual values.
+</details>
 
-          - `include: optional array of string`
+<a href="#">Link to this property</a>
 
-            A list of cookies to include.
+<details>
 
-        - `header: optional object { check_presence, exclude, include }`
+<summary>
 
-          Controls which headers go into the Cache Key. Exactly one of
-          `include` or `exclude` is expected.
+ExplicitCacheControl object {id, value }
 
-          - `check_presence: optional array of string`
+</summary>
 
-            A list of headers to check for the presence of, without
-            including their actual values.
+id: optional "explicit\_cache\_control"
 
-          - `exclude: optional array of string`
+Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains.
 
-            A list of headers to ignore.
+<a href="#">Link to this property</a>
 
-          - `include: optional array of string`
+<details>
 
-            A list of headers to include.
+<summary>
 
-        - `host: optional object { resolved }`
+value: optional "on"or "off"
 
-          Determines which host header to include in the Cache Key.
+The status of Origin Cache Control.
 
-          - `resolved: optional boolean`
+</summary>
 
-            Whether to include the Host header in the HTTP request sent
-            to the origin.
+One of the following:
 
-        - `query_string: optional object { exclude, include }`
+"on"
 
-          Controls which URL query string parameters go into the Cache
-          Key. Exactly one of `include` or `exclude` is expected.
+<a href="#">Link to this property</a>
 
-          - `exclude: optional "*" or array of string`
+"off"
 
-            Ignore all query string parameters.
+<a href="#">Link to this property</a>
 
-            - `"*"`
+</details>
 
-              Ignore all query string parameters.
+<a href="#">Link to this property</a>
 
-              - `"*"`
+</details>
 
-            - `array of string`
+<a href="#">Link to this property</a>
 
-              A list of query string parameters to ignore.
+<details>
 
-          - `include: optional "*" or array of string`
+<summary>
 
-            Include all query string parameters.
+ForwardingURL object {id, value }
 
-            - `"*"`
+</summary>
 
-              Include all query string parameters.
+id: optional "forwarding\_url"
 
-              - `"*"`
+Redirects one URL to another using an <code>HTTP 301/302</code> redirect. Refer to <a href="https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/">Wildcard matching and referencing</a>.
 
-            - `array of string`
+<a href="#">Link to this property</a>
 
-              A list of query string parameters to include.
+<details>
 
-        - `user: optional object { device_type, geo, lang }`
+<summary>
 
-          Feature fields to add features about the end-user (client) into
-          the Cache Key.
+value: optional object {status\_code, url }
 
-          - `device_type: optional boolean`
+</summary>
 
-            Classifies a request as `mobile`, `desktop`, or `tablet`
-            based on the User Agent.
+<details>
 
-          - `geo: optional boolean`
+<summary>
 
-            Includes the client's country, derived from the IP address.
+status\_code: optional 301or 302
 
-          - `lang: optional boolean`
+The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect.
 
-            Includes the first language code contained in the
-            `Accept-Language` header sent by the client.
+</summary>
 
-    - `CacheLevel object { id, value }`
+One of the following:
 
-      - `id: optional "cache_level"`
+301
 
-        Apply custom caching based on the option selected.
+<a href="#">Link to this property</a>
 
-        - `"cache_level"`
+302
 
-      - `value: optional "bypass" or "basic" or "simplified" or 2 more`
+<a href="#">Link to this property</a>
 
-        * `bypass`: Cloudflare does not cache.
-        * `basic`: Delivers resources from cache when there is no query
-          string.
-        * `simplified`: Delivers the same resource to everyone independent
-          of the query string.
-        * `aggressive`: Caches all static content that has a query string.
-        * `cache_everything`: Treats all content as static and caches all
-          file types beyond the [Cloudflare default cached
-          content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions).
+</details>
 
-        - `"bypass"`
+<a href="#">Link to this property</a>
 
-        - `"basic"`
+url: optional string
 
-        - `"simplified"`
+The URL to redirect the request to. Notes: ${num} refers to the position of ’\*’ in the constraint value.
 
-        - `"aggressive"`
+maxLength1500
 
-        - `"cache_everything"`
+<a href="#">Link to this property</a>
 
-    - `CacheOnCookie object { id, value }`
+</details>
 
-      - `id: optional "cache_on_cookie"`
+<a href="#">Link to this property</a>
 
-        Apply the Cache Everything option (Cache Level setting) based on a
-        regular expression match against a cookie name.
+</details>
 
-        - `"cache_on_cookie"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+<details>
 
-        The regular expression to use for matching cookie names in the
-        request.
+<summary>
 
-    - `CacheTTLByStatus object { id, value }`
+HostHeaderOverride object {id, value }
 
-      - `id: optional "cache_ttl_by_status"`
+</summary>
 
-        Enterprise customers can set cache time-to-live (TTL) based on the
-        response status from the origin web server. Cache TTL refers to the
-        duration of a resource in the Cloudflare network before being
-        marked as stale or discarded from cache. Status codes are returned
-        by a resource's origin. Setting cache TTL based on response status
-        overrides the default cache behavior (standard caching) for static
-        files and overrides cache instructions sent by the origin web
-        server. To cache non-static assets, set a Cache Level of Cache
-        Everything using a Page Rule. Setting no-store Cache-Control or a
-        low TTL (using `max-age`/`s-maxage`) increases requests to origin
-        web servers and decreases performance.
+id: optional "host\_header\_override"
 
-        - `"cache_ttl_by_status"`
+Apply a specific host header.
 
-      - `value: optional map["no-cache" or "no-store" or number]`
+<a href="#">Link to this property</a>
 
-        A JSON object containing status codes and their corresponding TTLs.
-        Each key-value pair in the cache TTL by status cache rule has the
-        following syntax
+value: optional string
 
-        - `status_code`: An integer value such as 200 or 500. status_code
-          matches the exact status code from the origin web server. Valid
-          status codes are between 100-999.
-        - `status_code_range`: Integer values for from and to.
-          status_code_range matches any status code from the origin web
-          server within the specified range.
-        - `value`: An integer value that defines the duration an asset is
-          valid in seconds or one of the following strings: no-store
-          (equivalent to -1), no-cache (equivalent to 0).
+The hostname to use in the <code>Host</code> header
 
-        - `"no-cache" or "no-store"`
+minLength1
 
-          `no-store` (equivalent to -1), `no-cache` (equivalent to 0)
+<a href="#">Link to this property</a>
 
-          - `"no-cache"`
+</details>
 
-          - `"no-store"`
+<a href="#">Link to this property</a>
 
-        - `number`
+<details>
 
-          An integer value that defines the duration an asset is valid in
-          seconds.
+<summary>
 
-    - `DisableApps object { id }`
+IPGeolocation object {id, value }
 
-      - `id: optional "disable_apps"`
+</summary>
 
-        Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/)
-        (deprecated).
+id: optional "ip\_geolocation"
 
-        - `"disable_apps"`
+Cloudflare adds a CF-IPCountry HTTP header containing the country code that corresponds to the visitor.
 
-    - `DisablePerformance object { id }`
+<a href="#">Link to this property</a>
 
-      - `id: optional "disable_performance"`
+<details>
 
-        Turn off
-        [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and
-        [Polish](https://developers.cloudflare.com/images/polish/).
+<summary>
 
-        - `"disable_performance"`
+value: optional "on"or "off"
 
-    - `DisableSecurity object { id }`
+The status of adding the IP Geolocation Header.
 
-      - `id: optional "disable_security"`
+</summary>
 
-        Turn off
-        [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/),
-        [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/),
-        [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/),
-        [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and
-        [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/).
+One of the following:
 
-        - `"disable_security"`
+"on"
 
-    - `DisableZaraz object { id }`
+<a href="#">Link to this property</a>
 
-      - `id: optional "disable_zaraz"`
+"off"
 
-        Turn off [Zaraz](https://developers.cloudflare.com/zaraz/).
+<a href="#">Link to this property</a>
 
-        - `"disable_zaraz"`
+</details>
 
-    - `EdgeCacheTTL object { id, value }`
+<a href="#">Link to this property</a>
 
-      - `id: optional "edge_cache_ttl"`
+</details>
 
-        Specify how long to cache a resource in the Cloudflare global
-        network. *Edge Cache TTL* is not visible in response headers.
+<a href="#">Link to this property</a>
 
-        - `"edge_cache_ttl"`
+<details>
 
-      - `value: optional number`
+<summary>
 
-    - `EmailObfuscation object { id, value }`
+Mirage object {id, value }
 
-      - `id: optional "email_obfuscation"`
+</summary>
 
-        Turn on or off **Email Obfuscation**.
+id: optional "mirage"
 
-        - `"email_obfuscation"`
+Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1.
 
-      - `value: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-        The status of Email Obfuscation.
+<details>
 
-        - `"on"`
+<summary>
 
-        - `"off"`
+value: optional "on"or "off"
 
-    - `ExplicitCacheControl object { id, value }`
+The status of Mirage.
 
-      - `id: optional "explicit_cache_control"`
+</summary>
 
-        Origin Cache Control is enabled by default for Free, Pro, and
-        Business domains and disabled by default for Enterprise domains.
+One of the following:
 
-        - `"explicit_cache_control"`
+"on"
 
-      - `value: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-        The status of Origin Cache Control.
+"off"
 
-        - `"on"`
+<a href="#">Link to this property</a>
 
-        - `"off"`
+</details>
 
-    - `ForwardingURL object { id, value }`
+<a href="#">Link to this property</a>
 
-      - `id: optional "forwarding_url"`
+</details>
 
-        Redirects one URL to another using an `HTTP 301/302` redirect. Refer
-        to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/).
+<a href="#">Link to this property</a>
 
-        - `"forwarding_url"`
+<details>
 
-      - `value: optional object { status_code, url }`
+<summary>
 
-        - `status_code: optional 301 or 302`
+OpportunisticEncryption object {id, value }
 
-          The status code to use for the URL redirect. 301 is a permanent
-          redirect. 302 is a temporary redirect.
+</summary>
 
-          - `301`
+id: optional "opportunistic\_encryption"
 
-          - `302`
+Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It’s not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests.
 
-        - `url: optional string`
+<a href="#">Link to this property</a>
 
-          The URL to redirect the request to.
-          Notes: ${num} refers to the position of '*' in the constraint value.
+<details>
 
-    - `HostHeaderOverride object { id, value }`
+<summary>
 
-      - `id: optional "host_header_override"`
+value: optional "on"or "off"
 
-        Apply a specific host header.
+The status of Opportunistic Encryption.
 
-        - `"host_header_override"`
+</summary>
 
-      - `value: optional string`
+One of the following:
 
-        The hostname to use in the `Host` header
+"on"
 
-    - `IPGeolocation object { id, value }`
+<a href="#">Link to this property</a>
 
-      - `id: optional "ip_geolocation"`
+"off"
 
-        Cloudflare adds a CF-IPCountry HTTP header containing the country code that corresponds to the visitor.
+<a href="#">Link to this property</a>
 
-        - `"ip_geolocation"`
+</details>
 
-      - `value: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-        The status of adding the IP Geolocation Header.
+</details>
 
-        - `"on"`
+<a href="#">Link to this property</a>
 
-        - `"off"`
+<details>
 
-    - `Mirage object { id, value }`
+<summary>
 
-      - `id: optional "mirage"`
+OriginErrorPagePassThru object {id, value }
 
-        Cloudflare Mirage reduces bandwidth used by images in mobile browsers.
-        It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1.
+</summary>
 
-        - `"mirage"`
+id: optional "origin\_error\_page\_pass\_thru"
 
-      - `value: optional "on" or "off"`
+Turn on or off Cloudflare error pages generated from issues sent from the origin server. If enabled, this setting triggers error pages issued by the origin.
 
-        The status of Mirage.
+<a href="#">Link to this property</a>
 
-        - `"on"`
+<details>
 
-        - `"off"`
+<summary>
 
-    - `OpportunisticEncryption object { id, value }`
+value: optional "on"or "off"
 
-      - `id: optional "opportunistic_encryption"`
+The status of Origin Error Page Passthru.
 
-        Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel.
-        It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests.
+</summary>
 
-        - `"opportunistic_encryption"`
+One of the following:
 
-      - `value: optional "on" or "off"`
+"on"
 
-        The status of Opportunistic Encryption.
+<a href="#">Link to this property</a>
 
-        - `"on"`
+"off"
 
-        - `"off"`
+<a href="#">Link to this property</a>
 
-    - `OriginErrorPagePassThru object { id, value }`
+</details>
 
-      - `id: optional "origin_error_page_pass_thru"`
+<a href="#">Link to this property</a>
 
-        Turn on or off Cloudflare error pages generated from issues sent from the origin server. If enabled, this setting triggers error pages issued by the origin.
+</details>
 
-        - `"origin_error_page_pass_thru"`
+<a href="#">Link to this property</a>
 
-      - `value: optional "on" or "off"`
+<details>
 
-        The status of Origin Error Page Passthru.
+<summary>
 
-        - `"on"`
+Polish object {id, value }
 
-        - `"off"`
+</summary>
 
-    - `Polish object { id, value }`
+id: optional "polish"
 
-      - `id: optional "polish"`
+Apply options from the Polish feature of the Cloudflare Speed app.
 
-        Apply options from the Polish feature of the Cloudflare Speed app.
+<a href="#">Link to this property</a>
 
-        - `"polish"`
+<details>
 
-      - `value: optional "off" or "lossless" or "lossy"`
+<summary>
 
-        The level of Polish you want applied to your origin.
+value: optional "off"or "lossless"or "lossy"
 
-        - `"off"`
+The level of Polish you want applied to your origin.
 
-        - `"lossless"`
+</summary>
 
-        - `"lossy"`
+One of the following:
 
-    - `ResolveOverride object { id, value }`
+"off"
 
-      - `id: optional "resolve_override"`
+<a href="#">Link to this property</a>
 
-        Change the origin address to the value specified in this setting.
+"lossless"
 
-        - `"resolve_override"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+"lossy"
 
-        The origin address you want to override with.
+<a href="#">Link to this property</a>
 
-    - `RespectStrongEtag object { id, value }`
+</details>
 
-      - `id: optional "respect_strong_etag"`
+<a href="#">Link to this property</a>
 
-        Turn on or off byte-for-byte equivalency checks between the
-        Cloudflare cache and the origin server.
+</details>
 
-        - `"respect_strong_etag"`
+<a href="#">Link to this property</a>
 
-      - `value: optional "on" or "off"`
+<details>
 
-        The status of Respect Strong ETags
+<summary>
 
-        - `"on"`
+ResolveOverride object {id, value }
 
-        - `"off"`
+</summary>
 
-    - `ResponseBuffering object { id, value }`
+id: optional "resolve\_override"
 
-      - `id: optional "response_buffering"`
+Change the origin address to the value specified in this setting.
 
-        Turn on or off whether Cloudflare should wait for an entire file
-        from the origin server before forwarding it to the site visitor. By
-        default, Cloudflare sends packets to the client as they arrive from
-        the origin server.
+<a href="#">Link to this property</a>
 
-        - `"response_buffering"`
+value: optional string
 
-      - `value: optional "on" or "off"`
+The origin address you want to override with.
 
-        The status of Response Buffering
+<a href="#">Link to this property</a>
 
-        - `"on"`
+</details>
 
-        - `"off"`
+<a href="#">Link to this property</a>
 
-    - `RocketLoader object { id, value }`
+<details>
 
-      - `id: optional "rocket_loader"`
+<summary>
 
-        Turn on or off Rocket Loader in the Cloudflare Speed app.
+RespectStrongEtag object {id, value }
 
-        - `"rocket_loader"`
+</summary>
 
-      - `value: optional "on" or "off"`
+id: optional "respect\_strong\_etag"
 
-        The status of Rocket Loader
+Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server.
 
-        - `"on"`
+<a href="#">Link to this property</a>
 
-        - `"off"`
+<details>
 
-    - `SecurityLevel object { id, value }`
+<summary>
 
-      - `id: optional "security_level"`
+value: optional "on"or "off"
 
-        Control options for the **Security Level** feature from the **Security** app.
+The status of Respect Strong ETags
 
-        - `"security_level"`
+</summary>
 
-      - `value: optional "off" or "essentially_off" or "low" or 3 more`
+One of the following:
 
-        - `"off"`
+"on"
 
-        - `"essentially_off"`
+<a href="#">Link to this property</a>
 
-        - `"low"`
+"off"
 
-        - `"medium"`
+<a href="#">Link to this property</a>
 
-        - `"high"`
+</details>
 
-        - `"under_attack"`
+<a href="#">Link to this property</a>
 
-    - `SortQueryStringForCache object { id, value }`
+</details>
 
-      - `id: optional "sort_query_string_for_cache"`
+<a href="#">Link to this property</a>
 
-        Turn on or off the reordering of query strings. When query strings have the same structure, caching improves.
+<details>
 
-        - `"sort_query_string_for_cache"`
+<summary>
 
-      - `value: optional "on" or "off"`
+ResponseBuffering object {id, value }
 
-        The status of Query String Sort
+</summary>
 
-        - `"on"`
+id: optional "response\_buffering"
 
-        - `"off"`
+Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server.
 
-    - `SSL object { id, value }`
+<a href="#">Link to this property</a>
 
-      - `id: optional "ssl"`
+<details>
 
-        Control options for the SSL feature of the Edge Certificates tab in the Cloudflare SSL/TLS app.
+<summary>
 
-        - `"ssl"`
+value: optional "on"or "off"
 
-      - `value: optional "off" or "flexible" or "full" or 2 more`
+The status of Response Buffering
 
-        The encryption mode that Cloudflare uses to connect to your origin server.
+</summary>
 
-        - `"off"`
+One of the following:
 
-        - `"flexible"`
+"on"
 
-        - `"full"`
+<a href="#">Link to this property</a>
 
-        - `"strict"`
+"off"
 
-        - `"origin_pull"`
+<a href="#">Link to this property</a>
 
-    - `TrueClientIPHeader object { id, value }`
+</details>
 
-      - `id: optional "true_client_ip_header"`
+<a href="#">Link to this property</a>
 
-        Turn on or off the True-Client-IP Header feature of the Cloudflare Network app.
+</details>
 
-        - `"true_client_ip_header"`
+<a href="#">Link to this property</a>
 
-      - `value: optional "on" or "off"`
+<details>
 
-        The status of True Client IP Header.
+<summary>
 
-        - `"on"`
+RocketLoader object {id, value }
 
-        - `"off"`
+</summary>
 
-    - `WAF object { id, value }`
+id: optional "rocket\_loader"
 
-      - `id: optional "waf"`
+Turn on or off Rocket Loader in the Cloudflare Speed app.
 
-        Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/).
-        You cannot enable or disable individual WAF managed rules via Page Rules.
+<a href="#">Link to this property</a>
 
-        - `"waf"`
+<details>
 
-      - `value: optional "on" or "off"`
+<summary>
 
-        The status of WAF managed rules (previous version).
+value: optional "on"or "off"
 
-        - `"on"`
+The status of Rocket Loader
 
-        - `"off"`
+</summary>
 
-  - `created_on: string`
+One of the following:
 
-    The timestamp of when the Page Rule was created.
+"on"
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The timestamp of when the Page Rule was last modified.
+"off"
 
-  - `priority: number`
+<a href="#">Link to this property</a>
 
-    The priority of the rule, used to define which Page Rule is processed
-    over another. A higher number indicates a higher priority. For example,
-    if you have a catch-all Page Rule (rule A: `/images/*`) but want a more
-    specific Page Rule to take precedence (rule B: `/images/special/*`),
-    specify a higher priority for rule B so it overrides rule A.
+</details>
 
-  - `status: "active" or "disabled"`
+<a href="#">Link to this property</a>
 
-    The status of the Page Rule.
+</details>
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+<details>
 
-  - `targets: array of Target`
+<summary>
 
-    The rule targets to evaluate on each request.
+SecurityLevel object {id, value }
 
-    - `constraint: optional object { operator, value }`
+</summary>
 
-      String constraint.
+id: optional "security\_level"
 
-      - `operator: "matches" or "contains" or "equals" or 2 more`
+Control options for the **Security Level** feature from the **Security** app.
 
-        The matches operator can use asterisks and pipes as wildcard and 'or' operators.
+<a href="#">Link to this property</a>
 
-        - `"matches"`
+<details>
 
-        - `"contains"`
+<summary>
 
-        - `"equals"`
+value: optional "off"or "essentially\_off"or "low"or 3 more
 
-        - `"not_equal"`
+</summary>
 
-        - `"not_contain"`
+One of the following:
 
-      - `value: string`
+"off"
 
-        The URL pattern to match against the current request. The pattern may contain up to four asterisks ('*') as placeholders.
+<a href="#">Link to this property</a>
 
-    - `target: optional "url"`
+"essentially\_off"
 
-      A target based on the URL of the request.
+<a href="#">Link to this property</a>
 
-      - `"url"`
+"low"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"medium"
+
+<a href="#">Link to this property</a>
+
+"high"
+
+<a href="#">Link to this property</a>
+
+"under\_attack"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SortQueryStringForCache object {id, value }
+
+</summary>
+
+id: optional "sort\_query\_string\_for\_cache"
+
+Turn on or off the reordering of query strings. When query strings have the same structure, caching improves.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Query String Sort
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SSL object {id, value }
+
+</summary>
+
+id: optional "ssl"
+
+Control options for the SSL feature of the Edge Certificates tab in the Cloudflare SSL/TLS app.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "off"or "flexible"or "full"or 2 more
+
+The encryption mode that Cloudflare uses to connect to your origin server.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"flexible"
+
+<a href="#">Link to this property</a>
+
+"full"
+
+<a href="#">Link to this property</a>
+
+"strict"
+
+<a href="#">Link to this property</a>
+
+"origin\_pull"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TrueClientIPHeader object {id, value }
+
+</summary>
+
+id: optional "true\_client\_ip\_header"
+
+Turn on or off the True-Client-IP Header feature of the Cloudflare Network app.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of True Client IP Header.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WAF object {id, value }
+
+</summary>
+
+id: optional "waf"
+
+Turn on or off <a href="https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/">WAF managed rules (previous version, deprecated)</a>. You cannot enable or disable individual WAF managed rules via Page Rules.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of WAF managed rules (previous version).
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20actions%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+targets: array of <a href="https://developers.cloudflare.com/api/resources/page_rules#(resource)%20page_rules%20%3E%20(model)%20target%20%3E%20(schema)">Target</a> { constraint, target }
+
+The rule targets to evaluate on each request.
+
+</summary>
+
+<details>
+
+<summary>
+
+constraint: optional object {operator, value }
+
+String constraint.
+
+</summary>
+
+<details>
+
+<summary>
+
+operator: "matches"or "contains"or "equals"or 2 more
+
+The matches operator can use asterisks and pipes as wildcard and ‘or’ operators.
+
+</summary>
+
+One of the following:
+
+"matches"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equal"
+
+<a href="#">Link to this property</a>
+
+"not\_contain"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+The URL pattern to match against the current request. The pattern may contain up to four asterisks (’\*’) as placeholders.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+target: optional "url"
+
+A target based on the URL of the request.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20targets%20%3E%20(schema)>)
+
+priority: optional number
+
+The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A.
+
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20priority%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+status: optional "active"or "disabled"
+
+The status of the Page Rule.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20status%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/page_rules#(resource)%20page_rules%20%3E%20(model)%20page_rule%20%3E%20(schema)">PageRule</a> { id, actions, created\_on, 4 more }
+
+</summary>
+
+id: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actions: array of <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20always_use_https%20%3E%20(schema)">AlwaysUseHTTPS</a> { id } or <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20automatic_https_rewrites%20%3E%20(schema)">AutomaticHTTPSRewrites</a> { id, value } or <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones.settings%20%3E%20(model)%20browser_cache_ttl%20%3E%20(schema)">BrowserCacheTTL</a> { id, value } or 31 more
+
+The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+AlwaysUseHTTPS object {id }
+
+</summary>
+
+id: optional "always\_use\_https"
+
+If enabled, any <code>http://`` URL is converted to</code> https://\` through a 301 redirect.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AutomaticHTTPSRewrites object {id, value }
+
+</summary>
+
+id: optional "automatic\_https\_rewrites"
+
+Turn on or off Automatic HTTPS Rewrites.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Automatic HTTPS Rewrites.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+BrowserCacheTTL object {id, value }
+
+</summary>
+
+id: optional "browser\_cache\_ttl"
+
+Control how long resources cached by client browsers remain valid.
+
+<a href="#">Link to this property</a>
+
+value: optional number
+
+The number of seconds to cache resources for. Setting this to 0 enables “Respect Existing Headers”.
+
+maximum31536000
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+BrowserCheck object {id, value }
+
+</summary>
+
+id: optional "browser\_check"
+
+Inspect the visitor’s browser for headers commonly associated with spammers and certain bots.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Browser Integrity Check.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+BypassCacheOnCookie object {id, value }
+
+</summary>
+
+id: optional "bypass\_cache\_on\_cookie"
+
+Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The regular expression to use for matching cookie names in the request. Refer to <a href="https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting">Bypass Cache on Cookie setting</a> to learn about limited regular expression support.
+
+maxLength150
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CacheByDeviceType object {id, value }
+
+</summary>
+
+id: optional "cache\_by\_device\_type"
+
+Separate cached content based on the visitor’s device type.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Cache By Device Type.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CacheDeceptionArmor object {id, value }
+
+</summary>
+
+id: optional "cache\_deception\_armor"
+
+Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL’s extension matches the returned <code>Content-Type</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Cache Deception Armor.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CacheKeyFields object {id, value }
+
+</summary>
+
+id: optional "cache\_key\_fields"
+
+Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional object {cookie, header, host, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+cookie: optional object {check\_presence, include }
+
+Controls which cookies appear in the Cache Key.
+
+</summary>
+
+check\_presence: optional array of string
+
+A list of cookies to check for the presence of, without including their actual values.
+
+<a href="#">Link to this property</a>
+
+include: optional array of string
+
+A list of cookies to include.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+header: optional object {check\_presence, exclude, include }
+
+Controls which headers go into the Cache Key. Exactly one of <code>include</code> or <code>exclude</code> is expected.
+
+</summary>
+
+check\_presence: optional array of string
+
+A list of headers to check for the presence of, without including their actual values.
+
+<a href="#">Link to this property</a>
+
+exclude: optional array of string
+
+A list of headers to ignore.
+
+<a href="#">Link to this property</a>
+
+include: optional array of string
+
+A list of headers to include.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+host: optional object {resolved }
+
+Determines which host header to include in the Cache Key.
+
+</summary>
+
+resolved: optional boolean
+
+Whether to include the Host header in the HTTP request sent to the origin.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+query\_string: optional object {exclude, include }
+
+Controls which URL query string parameters go into the Cache Key. Exactly one of <code>include</code> or <code>exclude</code> is expected.
+
+</summary>
+
+<details>
+
+<summary>
+
+exclude: optional "\*"or array of string
+
+Ignore all query string parameters.
+
+</summary>
+
+One of the following:
+
+"\*"
+
+Ignore all query string parameters.
+
+<a href="#">Link to this property</a>
+
+array of string
+
+A list of query string parameters to ignore.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+include: optional "\*"or array of string
+
+Include all query string parameters.
+
+</summary>
+
+One of the following:
+
+"\*"
+
+Include all query string parameters.
+
+<a href="#">Link to this property</a>
+
+array of string
+
+A list of query string parameters to include.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+user: optional object {device\_type, geo, lang }
+
+Feature fields to add features about the end-user (client) into the Cache Key.
+
+</summary>
+
+device\_type: optional boolean
+
+Classifies a request as <code>mobile</code>, <code>desktop</code>, or <code>tablet</code> based on the User Agent.
+
+<a href="#">Link to this property</a>
+
+geo: optional boolean
+
+Includes the client’s country, derived from the IP address.
+
+<a href="#">Link to this property</a>
+
+lang: optional boolean
+
+Includes the first language code contained in the <code>Accept-Language</code> header sent by the client.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CacheLevel object {id, value }
+
+</summary>
+
+id: optional "cache\_level"
+
+Apply custom caching based on the option selected.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "bypass"or "basic"or "simplified"or 2 more
+
+- <code>bypass</code>: Cloudflare does not cache.
+- <code>basic</code>: Delivers resources from cache when there is no query string.
+- <code>simplified</code>: Delivers the same resource to everyone independent of the query string.
+- <code>aggressive</code>: Caches all static content that has a query string.
+- <code>cache_everything</code>: Treats all content as static and caches all file types beyond the <a href="https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions">Cloudflare default cached content</a>.
+
+</summary>
+
+One of the following:
+
+"bypass"
+
+<a href="#">Link to this property</a>
+
+"basic"
+
+<a href="#">Link to this property</a>
+
+"simplified"
+
+<a href="#">Link to this property</a>
+
+"aggressive"
+
+<a href="#">Link to this property</a>
+
+"cache\_everything"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CacheOnCookie object {id, value }
+
+</summary>
+
+id: optional "cache\_on\_cookie"
+
+Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The regular expression to use for matching cookie names in the request.
+
+maxLength150
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CacheTTLByStatus object {id, value }
+
+</summary>
+
+id: optional "cache\_ttl\_by\_status"
+
+Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource’s origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using <code>max-age</code>/<code>s-maxage</code>) increases requests to origin web servers and decreases performance.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional map\["no-cache"or "no-store"or number]
+
+A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax
+
+- <code>status_code</code>: An integer value such as 200 or 500. status\_code matches the exact status code from the origin web server. Valid status codes are between 100-999.
+- <code>status_code_range</code>: Integer values for from and to. status\_code\_range matches any status code from the origin web server within the specified range.
+- <code>value</code>: An integer value that defines the duration an asset is valid in seconds or one of the following strings: no-store (equivalent to -1), no-cache (equivalent to 0).
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+"no-cache"or "no-store"
+
+<code>no-store</code> (equivalent to -1), <code>no-cache</code> (equivalent to 0)
+
+</summary>
+
+One of the following:
+
+"no-cache"
+
+<a href="#">Link to this property</a>
+
+"no-store"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+number
+
+An integer value that defines the duration an asset is valid in seconds.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DisableApps object {id }
+
+</summary>
+
+id: optional "disable\_apps"
+
+Turn off all active <a href="https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/">Cloudflare Apps</a> (deprecated).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DisablePerformance object {id }
+
+</summary>
+
+id: optional "disable\_performance"
+
+Turn off <a href="https://developers.cloudflare.com/speed/optimization/content/rocket-loader/">Rocket Loader</a>, and <a href="https://developers.cloudflare.com/images/polish/">Polish</a>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DisableSecurity object {id }
+
+</summary>
+
+id: optional "disable\_security"
+
+Turn off <a href="https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/">Email Obfuscation</a>, <a href="https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/">Rate Limiting (previous version, deprecated)</a>, <a href="https://developers.cloudflare.com/waf/tools/scrape-shield/">Scrape Shield</a>, <a href="https://developers.cloudflare.com/waf/tools/zone-lockdown/">URL (Zone) Lockdown</a>, and <a href="https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/">WAF managed rules (previous version, deprecated)</a>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DisableZaraz object {id }
+
+</summary>
+
+id: optional "disable\_zaraz"
+
+Turn off <a href="https://developers.cloudflare.com/zaraz/">Zaraz</a>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+EdgeCacheTTL object {id, value }
+
+</summary>
+
+id: optional "edge\_cache\_ttl"
+
+Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers.
+
+<a href="#">Link to this property</a>
+
+value: optional number
+
+maximum31536000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+EmailObfuscation object {id, value }
+
+</summary>
+
+id: optional "email\_obfuscation"
+
+Turn on or off **Email Obfuscation**.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Email Obfuscation.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ExplicitCacheControl object {id, value }
+
+</summary>
+
+id: optional "explicit\_cache\_control"
+
+Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Origin Cache Control.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ForwardingURL object {id, value }
+
+</summary>
+
+id: optional "forwarding\_url"
+
+Redirects one URL to another using an <code>HTTP 301/302</code> redirect. Refer to <a href="https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/">Wildcard matching and referencing</a>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional object {status\_code, url }
+
+</summary>
+
+<details>
+
+<summary>
+
+status\_code: optional 301or 302
+
+The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect.
+
+</summary>
+
+One of the following:
+
+301
+
+<a href="#">Link to this property</a>
+
+302
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The URL to redirect the request to. Notes: ${num} refers to the position of ’\*’ in the constraint value.
+
+maxLength1500
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+HostHeaderOverride object {id, value }
+
+</summary>
+
+id: optional "host\_header\_override"
+
+Apply a specific host header.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The hostname to use in the <code>Host</code> header
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+IPGeolocation object {id, value }
+
+</summary>
+
+id: optional "ip\_geolocation"
+
+Cloudflare adds a CF-IPCountry HTTP header containing the country code that corresponds to the visitor.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of adding the IP Geolocation Header.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Mirage object {id, value }
+
+</summary>
+
+id: optional "mirage"
+
+Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Mirage.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+OpportunisticEncryption object {id, value }
+
+</summary>
+
+id: optional "opportunistic\_encryption"
+
+Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It’s not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Opportunistic Encryption.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+OriginErrorPagePassThru object {id, value }
+
+</summary>
+
+id: optional "origin\_error\_page\_pass\_thru"
+
+Turn on or off Cloudflare error pages generated from issues sent from the origin server. If enabled, this setting triggers error pages issued by the origin.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Origin Error Page Passthru.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Polish object {id, value }
+
+</summary>
+
+id: optional "polish"
+
+Apply options from the Polish feature of the Cloudflare Speed app.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "off"or "lossless"or "lossy"
+
+The level of Polish you want applied to your origin.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"lossless"
+
+<a href="#">Link to this property</a>
+
+"lossy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ResolveOverride object {id, value }
+
+</summary>
+
+id: optional "resolve\_override"
+
+Change the origin address to the value specified in this setting.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The origin address you want to override with.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+RespectStrongEtag object {id, value }
+
+</summary>
+
+id: optional "respect\_strong\_etag"
+
+Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Respect Strong ETags
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ResponseBuffering object {id, value }
+
+</summary>
+
+id: optional "response\_buffering"
+
+Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Response Buffering
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+RocketLoader object {id, value }
+
+</summary>
+
+id: optional "rocket\_loader"
+
+Turn on or off Rocket Loader in the Cloudflare Speed app.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Rocket Loader
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SecurityLevel object {id, value }
+
+</summary>
+
+id: optional "security\_level"
+
+Control options for the **Security Level** feature from the **Security** app.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "off"or "essentially\_off"or "low"or 3 more
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"essentially\_off"
+
+<a href="#">Link to this property</a>
+
+"low"
+
+<a href="#">Link to this property</a>
+
+"medium"
+
+<a href="#">Link to this property</a>
+
+"high"
+
+<a href="#">Link to this property</a>
+
+"under\_attack"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SortQueryStringForCache object {id, value }
+
+</summary>
+
+id: optional "sort\_query\_string\_for\_cache"
+
+Turn on or off the reordering of query strings. When query strings have the same structure, caching improves.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of Query String Sort
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SSL object {id, value }
+
+</summary>
+
+id: optional "ssl"
+
+Control options for the SSL feature of the Edge Certificates tab in the Cloudflare SSL/TLS app.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "off"or "flexible"or "full"or 2 more
+
+The encryption mode that Cloudflare uses to connect to your origin server.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"flexible"
+
+<a href="#">Link to this property</a>
+
+"full"
+
+<a href="#">Link to this property</a>
+
+"strict"
+
+<a href="#">Link to this property</a>
+
+"origin\_pull"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TrueClientIPHeader object {id, value }
+
+</summary>
+
+id: optional "true\_client\_ip\_header"
+
+Turn on or off the True-Client-IP Header feature of the Cloudflare Network app.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of True Client IP Header.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WAF object {id, value }
+
+</summary>
+
+id: optional "waf"
+
+Turn on or off <a href="https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/">WAF managed rules (previous version, deprecated)</a>. You cannot enable or disable individual WAF managed rules via Page Rules.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+The status of WAF managed rules (previous version).
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The timestamp of when the Page Rule was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The timestamp of when the Page Rule was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+priority: number
+
+The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: <code>/images/*</code>) but want a more specific Page Rule to take precedence (rule B: <code>/images/special/*</code>), specify a higher priority for rule B so it overrides rule A.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "active"or "disabled"
+
+The status of the Page Rule.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+targets: array of <a href="https://developers.cloudflare.com/api/resources/page_rules#(resource)%20page_rules%20%3E%20(model)%20target%20%3E%20(schema)">Target</a> { constraint, target }
+
+The rule targets to evaluate on each request.
+
+</summary>
+
+<details>
+
+<summary>
+
+constraint: optional object {operator, value }
+
+String constraint.
+
+</summary>
+
+<details>
+
+<summary>
+
+operator: "matches"or "contains"or "equals"or 2 more
+
+The matches operator can use asterisks and pipes as wildcard and ‘or’ operators.
+
+</summary>
+
+One of the following:
+
+"matches"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equal"
+
+<a href="#">Link to this property</a>
+
+"not\_contain"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+The URL pattern to match against the current request. The pattern may contain up to four asterisks (’\*’) as placeholders.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+target: optional "url"
+
+A target based on the URL of the request.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_rules%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a Page Rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/pagerules/$PAGERULE_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -1521,9 +3431,61 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/pagerules/$PAGERULE_ID 
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "actions": [
+      {
+        "id": "browser_check",
+        "value": "on"
+      }
+    ],
+    "created_on": "2014-01-01T05:20:00.12345Z",
+    "modified_on": "2014-01-01T05:20:00.12345Z",
+    "priority": 0,
+    "status": "active",
+    "targets": [
+      {
+        "constraint": {
+          "operator": "matches",
+          "value": "*example.com/images/*"
+        },
+        "target": "url"
+      }
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

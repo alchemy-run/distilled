@@ -1,97 +1,33 @@
+---
+title: Force AXFR
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+[Zone Transfers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Force AXFR
 
-## Force AXFR
+##### [Force AXFR](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/force_axfr/methods/create)
 
-**post** `/zones/{zone_id}/secondary_dns/force_axfr`
+POST/zones/{zone\_id}/secondary\_dns/force\_axfr
 
-Sends AXFR zone transfer request to primary nameserver(s).
+##### ModelsExpand Collapse
 
-### Path Parameters
+ForceAXFR = string
 
-- `zone_id: string`
+When force\_axfr query parameter is set to true, the response is a simple string.
 
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ForceAXFR`
-
-  When force_axfr query parameter is set to true, the response is a simple string.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/force_axfr \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "OK"
-}
-```
-
-## Domain Types
-
-### Force AXFR
-
-- `ForceAXFR = string`
-
-  When force_axfr query parameter is set to true, the response is a simple string.
+[Link to this property](#)%20dns.zone_transfers.force_axfr%20%3E%20(model)%20force_axfr%20%3E%20(schema)>)

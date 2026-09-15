@@ -1,52 +1,166 @@
-## Update app
+---
+title: Update app
+---
 
-**put** `/accounts/{account_id}/flagship/apps/{app_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Flagship](https://developers.cloudflare.com/api/resources/flagship)
+
+[Apps](https://developers.cloudflare.com/api/resources/flagship/subresources/apps)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update app
+
+PUT/accounts/{account\_id}/flagship/apps/{app\_id}
 
 Updates an app. Only `name` is mutable.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID.
+<summary>API Token</summary>
 
-- `app_id: string`
 
-  App identifier.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `name: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `errors: array of object { message }`
+<details>
 
-  - `message: string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of object { message }`
 
-  - `message: string`
 
-- `result: object { id, created_at, name, 2 more }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `id: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `created_at: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `name: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `updated_at: string`
+</details>
 
-  - `updated_by: string`
+##### Accepted Permissions (at least one required)
 
-    Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes.
+`Flagship Write`
 
-- `success: boolean`
+##### P ath ParametersExpand Collapse
 
-### Example
+account\_id: string
 
-```http
+Cloudflare account ID.
+
+[Link to this property](#)%20flagship.apps%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+app\_id: string
+
+App identifier.
+
+[Link to this property](#)%20flagship.apps%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+name: optional string
+
+maxLength64
+
+minLength1
+
+[Link to this property](#)%20flagship.apps%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20flagship.apps%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20flagship.apps%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, created\_at, name, 2 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+<a href="#">Link to this property</a>
+
+updated\_by: string
+
+Email of the actor who last modified the app, or <code>unknown</code> when unavailable.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20flagship.apps%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20flagship.apps%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update app
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -54,9 +168,36 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$AP
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "message"
+    }
+  ],
+  "result": {
+    "id": "id",
+    "created_at": "created_at",
+    "name": "name",
+    "updated_at": "updated_at",
+    "updated_by": "updated_by"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

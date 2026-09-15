@@ -1,571 +1,103 @@
+---
+title: Custom Prompt Topics
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Custom Prompt Topics
 
-## List custom prompt topics
+##### [List custom prompt topics](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/list)
 
-**get** `/accounts/{account_id}/dlp/custom_prompt_topics`
+GET/accounts/{account\_id}/dlp/custom\_prompt\_topics
 
-Lists all DLP custom prompt topic entries in an account.
+##### [Get custom prompt topic](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dlp/custom\_prompt\_topics/{entry\_id}
 
-- `account_id: string`
+##### [Create custom prompt topic](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/dlp/custom\_prompt\_topics
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Update custom prompt topic](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/dlp/custom\_prompt\_topics/{entry\_id}
 
-  - `message: string`
+##### [Delete custom prompt topic](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/custom_prompt_topics/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/dlp/custom\_prompt\_topics/{entry\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+CustomPromptTopic object {id, created\_at, enabled, 5 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of CustomPromptTopic`
+Deprecatedenabled: boolean
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+name: string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+topic: string
 
-  - `topic: string`
+maxLength50
 
-  - `updated_at: string`
+minLength2
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `profile_id: optional string`
+updated\_at: string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+description: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "name": "name",
-      "topic": "topic",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Get custom prompt topic
+Deprecatedprofile\_id: optional string
 
-**get** `/accounts/{account_id}/dlp/custom_prompt_topics/{entry_id}`
+formatuuid
 
-Fetches a DLP custom prompt topic entry by ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20zero_trust.dlp.custom_prompt_topics%20%3E%20(model)%20custom_prompt_topic%20%3E%20(schema)>)
 
-- `entry_id: string`
+CustomPromptTopicDeleteResponse = unknown
 
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomPromptTopic`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `topic: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `profile_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics/$ENTRY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "topic": "topic",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Create custom prompt topic
-
-**post** `/accounts/{account_id}/dlp/custom_prompt_topics`
-
-Creates a DLP custom prompt topic entry.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `enabled: boolean`
-
-- `name: string`
-
-- `topic: string`
-
-- `description: optional string`
-
-- `profile_id: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomPromptTopic`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `topic: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `profile_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "name": "name",
-          "topic": "topic"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "topic": "topic",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Update custom prompt topic
-
-**put** `/accounts/{account_id}/dlp/custom_prompt_topics/{entry_id}`
-
-Updates a DLP custom prompt topic entry.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `entry_id: string`
-
-### Body Parameters
-
-- `enabled: boolean`
-
-- `name: string`
-
-- `topic: string`
-
-- `description: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomPromptTopic`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `topic: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `profile_id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics/$ENTRY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "name": "name",
-          "topic": "topic"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "name": "name",
-    "topic": "topic",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description",
-    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  }
-}
-```
-
-## Delete custom prompt topic
-
-**delete** `/accounts/{account_id}/dlp/custom_prompt_topics/{entry_id}`
-
-Deletes a DLP custom prompt topic entry.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `entry_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/custom_prompt_topics/$ENTRY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Custom Prompt Topic
-
-- `CustomPromptTopic object { id, created_at, enabled, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `topic: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-  - `profile_id: optional string`
-
-### Custom Prompt Topic Delete Response
-
-- `CustomPromptTopicDeleteResponse = unknown`
+[Link to this property](#)%20zero_trust.dlp.custom_prompt_topics%20%3E%20(model)%20custom_prompt_topic_delete_response%20%3E%20(schema)>)

@@ -1,136 +1,385 @@
-## User Details
+---
+title: User Details
+---
 
-**get** `/user`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[User](https://developers.cloudflare.com/api/resources/user)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# User Details
+
+GET/user
 
 Retrieves detailed information about the currently authenticated user, including email, name, and account memberships.
 
-### Returns
+##### Security
 
-- `errors: array of object { code, message, documentation_url, source }`
+API Email + API Key
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`User Details Write``User Details Read`
 
-  - `code: number`
+##### ReturnsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+code: number
 
-  Whether the API call was successful.
+minimum1000
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, email, betas, 12 more }`
+message: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier of the user.
+documentation\_url: optional string
 
-  - `email: string`
+<a href="#">Link to this property</a>
 
-    Current email address of the user.
+<details>
 
-  - `betas: optional array of string`
+<summary>
 
-    Lists the betas that the user is participating in.
+source: optional object {pointer }
 
-  - `country: optional string`
+</summary>
 
-    The country in which the user lives.
+pointer: optional string
 
-  - `first_name: optional string`
+<a href="#">Link to this property</a>
 
-    User's first name
+</details>
 
-  - `has_business_zones: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether user has any business zones
+</details>
 
-  - `has_enterprise_zones: optional boolean`
+[Link to this property](#)%20user%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    Indicates whether user has any enterprise zones
+<details>
 
-  - `has_pro_zones: optional boolean`
+<summary>
 
-    Indicates whether user has any pro zones
+messages: array of object {code, message, documentation\_url, source }
 
-  - `last_name: optional string`
+</summary>
 
-    User's last name
+code: number
 
-  - `organizations: optional array of Organization`
+minimum1000
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+message: string
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Organization name.
+documentation\_url: optional string
 
-    - `permissions: optional array of Permission`
+<a href="#">Link to this property</a>
 
-      Access permissions for this User.
+<details>
 
-    - `roles: optional array of string`
+<summary>
 
-      List of roles that a user has within an organization.
+source: optional object {pointer }
 
-    - `status: optional Status`
+</summary>
 
-      Whether the user is a member of the organization or has an invitation pending.
+pointer: optional string
 
-      - `"member"`
+<a href="#">Link to this property</a>
 
-      - `"invited"`
+</details>
 
-  - `suspended: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether user has been suspended
+</details>
 
-  - `telephone: optional string`
+[Link to this property](#)%20user%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    User's telephone number
+success: true
 
-  - `two_factor_authentication_enabled: optional boolean`
+Whether the API call was successful.
 
-    Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+[Link to this property](#)%20user%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-  - `two_factor_authentication_locked: optional boolean`
+<details>
 
-    Indicates whether two-factor authentication is required by one of the accounts that the user is a member of.
+<summary>
 
-  - `zipcode: optional string`
+result: optional object {id, email, betas, 12 more }
 
-    The zipcode or postal code where the user lives.
+</summary>
 
-### Example
+id: string
 
-```http
+Identifier of the user.
+
+<a href="#">Link to this property</a>
+
+email: string
+
+Current email address of the user.
+
+formatemail
+
+<a href="#">Link to this property</a>
+
+betas: optional array of string
+
+Lists the betas that the user is participating in.
+
+<a href="#">Link to this property</a>
+
+country: optional string
+
+The country in which the user lives.
+
+maxLength30
+
+<a href="#">Link to this property</a>
+
+first\_name: optional string
+
+User’s first name
+
+maxLength60
+
+<a href="#">Link to this property</a>
+
+has\_business\_zones: optional boolean
+
+Indicates whether user has any business zones
+
+<a href="#">Link to this property</a>
+
+has\_enterprise\_zones: optional boolean
+
+Indicates whether user has any enterprise zones
+
+<a href="#">Link to this property</a>
+
+has\_pro\_zones: optional boolean
+
+Indicates whether user has any pro zones
+
+<a href="#">Link to this property</a>
+
+last\_name: optional string
+
+User’s last name
+
+maxLength60
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+organizations: optional array of <a href="https://developers.cloudflare.com/api/resources/user#(resource)%20user.organizations%20%3E%20(model)%20organization%20%3E%20(schema)">Organization</a> { id, name, permissions, 2 more }
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Organization name.
+
+maxLength100
+
+<a href="#">Link to this property</a>
+
+permissions: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission%20%3E%20(schema)">Permission</a>
+
+Access permissions for this User.
+
+<a href="#">Link to this property</a>
+
+roles: optional array of string
+
+List of roles that a user has within an organization.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts.members%20%3E%20(model)%20status%20%3E%20(schema)">Status</a>
+
+Whether the user is a member of the organization or has an invitation pending.
+
+</summary>
+
+One of the following:
+
+"member"
+
+<a href="#">Link to this property</a>
+
+"invited"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+suspended: optional boolean
+
+Indicates whether user has been suspended
+
+<a href="#">Link to this property</a>
+
+telephone: optional string
+
+User’s telephone number
+
+maxLength20
+
+<a href="#">Link to this property</a>
+
+two\_factor\_authentication\_enabled: optional boolean
+
+Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+
+<a href="#">Link to this property</a>
+
+two\_factor\_authentication\_locked: optional boolean
+
+Indicates whether two-factor authentication is required by one of the accounts that the user is a member of.
+
+<a href="#">Link to this property</a>
+
+zipcode: optional string
+
+The zipcode or postal code where the user lives.
+
+maxLength20
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### User Details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/user \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
+    "email": "alice@example.com",
+    "betas": [
+      "zone_level_access_beta"
+    ],
+    "country": "US",
+    "first_name": "John",
+    "has_business_zones": true,
+    "has_enterprise_zones": true,
+    "has_pro_zones": true,
+    "last_name": "Appleseed",
+    "organizations": [
+      {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "name": "Cloudflare, Inc.",
+        "permissions": [
+          "#zones:read"
+        ],
+        "roles": [
+          "All Privileges - Super Administrator"
+        ],
+        "status": "member"
+      }
+    ],
+    "suspended": true,
+    "telephone": "+1 123-123-1234",
+    "two_factor_authentication_enabled": true,
+    "two_factor_authentication_locked": true,
+    "zipcode": "12345"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

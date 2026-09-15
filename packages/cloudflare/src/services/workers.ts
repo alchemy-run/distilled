@@ -791,17 +791,17 @@ export interface CreateAssetUploadRequest {
   accountId: string;
   /** Whether the file contents are base64-encoded. Must be `true`. */
   base64: boolean;
-  /** Asset-upload session JWT (sent as Bearer Authorization). */
-  jwtToken?: string;
   /** Map of asset hash -> base64 file content; each entry is a multipart form part. */
   body?: CreateAssetUploadBodyMap;
+  /** Asset-upload session JWT (sent as Bearer Authorization). */
+  jwtToken?: string;
 }
 export const CreateAssetUploadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     base64: S.Boolean.pipe(T.Query()),
-    jwtToken: S.optional(S.String.pipe(T.Header("Authorization"))),
     body: S.optional(CreateAssetUploadBodyMap.pipe(T.HttpBody())),
+    jwtToken: S.optional(S.String.pipe(T.Header("Authorization"))),
   })
     .pipe(
       T.Http({
@@ -885,7 +885,7 @@ export interface BetaWorkersCreateRequestObservabilityTraces {
   headSamplingRate?: number;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | BetaWorkersCreateRequestObservabilityTracesPropagationPolicy
     | (string & {});
@@ -916,6 +916,8 @@ export interface BetaWorkersCreateRequestObservability {
   headSamplingRate?: number;
   /** Log settings for the Worker. */
   logs?: BetaWorkersCreateRequestObservabilityLogs;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean;
   /** Trace settings for the Worker. */
   traces?: BetaWorkersCreateRequestObservabilityTraces;
 }
@@ -925,6 +927,9 @@ export const BetaWorkersCreateRequestObservability = /*@__PURE__*/ S.suspend(
       enabled: S.optional(S.Boolean),
       headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
       logs: S.optional(BetaWorkersCreateRequestObservabilityLogs),
+      redactQueryString: S.optional(
+        S.Boolean.pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(BetaWorkersCreateRequestObservabilityTraces),
     }),
 ).annotate({
@@ -934,13 +939,19 @@ export const BetaWorkersCreateRequestObservability = /*@__PURE__*/ S.suspend(
 export interface BetaWorkersCreateRequestSubdomain {
   /** Whether the *.workers.dev subdomain is enabled for the Worker. */
   enabled?: boolean;
+  /** Prepend a version or preview prefix to this host suffix to form the *.workers.dev [preview URL](https://developers.cloudflare.com/workers/configuration/previews/) the Worker would serve on once previews are enabled, e.g. `https://&lt;prefix&gt;-my-worker.my-subdomain.workers.dev`. Present whenever the account owns a workers.dev subdomain, regardless of whether `previews_enabled` is true, so presence does not imply preview URLs are currently live. Absent only when the account owns no workers.dev subdomain. */
+  previewUrlSuffix?: string;
   /** Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker. */
   previewsEnabled?: boolean;
+  /** The address the Worker would serve on once its *.workers.dev subdomain is enabled. Present whenever the account owns a workers.dev subdomain, regardless of whether `enabled` is true, so presence does not imply the Worker is currently live at this URL. Absent only when the account owns no workers.dev subdomain. */
+  url?: string;
 }
 export const BetaWorkersCreateRequestSubdomain = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
+    previewUrlSuffix: S.optional(S.String.pipe(T.Body("preview_url_suffix"))),
     previewsEnabled: S.optional(S.Boolean.pipe(T.Body("previews_enabled"))),
+    url: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BetaWorkersCreateRequestSubdomain",
@@ -1070,7 +1081,7 @@ export interface BetaWorkersCreateResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: BetaWorkersCreateResponseObservabilityTracesPropagationPolicy | null;
 }
 export const BetaWorkersCreateResponseObservabilityTraces =
@@ -1101,6 +1112,8 @@ export interface BetaWorkersCreateResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: BetaWorkersCreateResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: BetaWorkersCreateResponseObservabilityTraces | null;
 }
@@ -1112,6 +1125,9 @@ export const BetaWorkersCreateResponseObservability = /*@__PURE__*/ S.suspend(
         S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
       ),
       logs: S.optional(S.NullOr(BetaWorkersCreateResponseObservabilityLogs)),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(
         S.NullOr(BetaWorkersCreateResponseObservabilityTraces),
       ),
@@ -1292,15 +1308,23 @@ export const BetaWorkersCreateResponseReferences = /*@__PURE__*/ S.suspend(() =>
 export interface BetaWorkersCreateResponseSubdomain {
   /** Whether the *.workers.dev subdomain is enabled for the Worker. */
   enabled?: boolean | null;
+  /** Prepend a version or preview prefix to this host suffix to form the *.workers.dev [preview URL](https://developers.cloudflare.com/workers/configuration/previews/) the Worker would serve on once previews are enabled, e.g. `https://&lt;prefix&gt;-my-worker.my-subdomain.workers.dev`. Present whenever the account owns a workers.dev subdomain, regardless of whether `previews_enabled` is true, so presence does not imply preview URLs are currently live. Absent only when the account owns no workers.dev subdomain. */
+  previewUrlSuffix?: string | null;
   /** Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker. */
   previewsEnabled?: boolean | null;
+  /** The address the Worker would serve on once its *.workers.dev subdomain is enabled. Present whenever the account owns a workers.dev subdomain, regardless of whether `enabled` is true, so presence does not imply the Worker is currently live at this URL. Absent only when the account owns no workers.dev subdomain. */
+  url?: string | null;
 }
 export const BetaWorkersCreateResponseSubdomain = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.NullOr(S.Boolean)),
+    previewUrlSuffix: S.optional(
+      S.NullOr(S.String).pipe(T.Body("preview_url_suffix")),
+    ),
     previewsEnabled: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("previews_enabled")),
     ),
+    url: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "BetaWorkersCreateResponseSubdomain",
@@ -1521,7 +1545,7 @@ export const BetaWorkersVersionsCreateRequestBindingsItemAISearchNamespaceType =
 export interface BetaWorkersVersionsCreateRequestBindingsItemAISearchNamespace {
   /** A JavaScript variable name for the binding. */
   name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
+  /** The user-chosen namespace name. Must exist before deploy — Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
   namespace: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemAISearchNamespaceType;
@@ -1536,6 +1560,30 @@ export const BetaWorkersVersionsCreateRequestBindingsItemAISearchNamespace =
   ).annotate({
     identifier: "BetaWorkersVersionsCreateRequestBindingsItemAISearchNamespace",
   }) as any as S.Schema<BetaWorkersVersionsCreateRequestBindingsItemAISearchNamespace>;
+
+export type BetaWorkersVersionsCreateRequestBindingsItemMessagingType =
+  "messaging";
+export const BetaWorkersVersionsCreateRequestBindingsItemMessagingType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateRequestBindingsItemMessaging {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Messaging namespace to bind to. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: BetaWorkersVersionsCreateRequestBindingsItemMessagingType;
+}
+export const BetaWorkersVersionsCreateRequestBindingsItemMessaging =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: BetaWorkersVersionsCreateRequestBindingsItemMessagingType,
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsCreateRequestBindingsItemMessaging",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestBindingsItemMessaging>;
 
 export type BetaWorkersVersionsCreateRequestBindingsItemAnalyticsEngineType =
   "analytics_engine";
@@ -1609,7 +1657,7 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemD1 {
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemD1Type;
-  /** Identifier of the D1 database to bind to. */
+  /** This property has been renamed to `database_id`. */
   id?: string;
 }
 export const BetaWorkersVersionsCreateRequestBindingsItemD1 =
@@ -2061,7 +2109,8 @@ export const BetaWorkersVersionsCreateRequestBindingsItemR2BucketType =
 export type BetaWorkersVersionsCreateRequestBindingsItemR2BucketJurisdiction =
   | "eu"
   | "fedramp"
-  | "fedramp-high";
+  | "fedramp-high"
+  | "us";
 export const BetaWorkersVersionsCreateRequestBindingsItemR2BucketJurisdiction =
   S.String;
 
@@ -2469,11 +2518,20 @@ export type BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkType =
 export const BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkType =
   S.String;
 
+export type BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkIdentity =
+  "runtime-email-alpha";
+export const BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkIdentity =
+  S.String;
+
 export interface BetaWorkersVersionsCreateRequestBindingsItemVPCNetwork {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkType;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  identity?:
+    | BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkIdentity
+    | (string & {});
   /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
   networkId?: string;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
@@ -2484,6 +2542,9 @@ export const BetaWorkersVersionsCreateRequestBindingsItemVPCNetwork =
     S.Struct({
       name: S.String,
       type: BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkType,
+      identity: S.optional(
+        BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkIdentity,
+      ),
       networkId: S.optional(S.String.pipe(T.Body("network_id"))),
       tunnelId: S.optional(S.String.pipe(T.Body("tunnel_id"))),
     }),
@@ -2495,6 +2556,7 @@ export type BetaWorkersVersionsCreateRequestBindingsItem =
   | BetaWorkersVersionsCreateRequestBindingsItemAI
   | BetaWorkersVersionsCreateRequestBindingsItemAISearch
   | BetaWorkersVersionsCreateRequestBindingsItemAISearchNamespace
+  | BetaWorkersVersionsCreateRequestBindingsItemMessaging
   | BetaWorkersVersionsCreateRequestBindingsItemAnalyticsEngine
   | BetaWorkersVersionsCreateRequestBindingsItemAssets
   | BetaWorkersVersionsCreateRequestBindingsItemBrowser
@@ -2532,6 +2594,7 @@ export const BetaWorkersVersionsCreateRequestBindingsItem =
     T.UnionCases([
       ["name", "type"],
       ["instanceName", "name", "type", "namespace"],
+      ["name", "namespace", "type"],
       ["name", "namespace", "type"],
       ["dataset", "name", "type"],
       ["name", "type"],
@@ -2578,7 +2641,7 @@ export const BetaWorkersVersionsCreateRequestBindingsItem =
       ["name", "type", "workflowName", "className", "scriptName"],
       ["name", "part", "type"],
       ["name", "serviceId", "type"],
-      ["name", "type", "networkId", "tunnelId"],
+      ["name", "type", "identity", "networkId", "tunnelId"],
     ]),
   );
 
@@ -2592,7 +2655,7 @@ export const BetaWorkersVersionsCreateRequestBindingsList =
 export interface BetaWorkersVersionsCreateRequestCacheOptions {
   /** Whether caching is enabled for this Worker. */
   enabled: boolean;
-  /** Whether cached responses are shared across Worker version */
+  /** Whether cached responses are shared across Worker version uploads. This is independent of `enabled`. It can stay true while caching is off, so the preference survives turning caching off and back on. */
   crossVersionCache?: boolean;
 }
 export const BetaWorkersVersionsCreateRequestCacheOptions =
@@ -2633,6 +2696,245 @@ export const BetaWorkersVersionsCreateRequestContainersList =
   /*@__PURE__*/ S.Array(
     BetaWorkersVersionsCreateRequestContainersItem,
   ) as any as S.Schema<BetaWorkersVersionsCreateRequestContainersList>;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkerType = "worker";
+export const BetaWorkersVersionsCreateRequestExportsWorkerType = S.String;
+
+export interface BetaWorkersVersionsCreateRequestExportsWorkerCache {
+  /** Whether caching is enabled for this entrypoint. */
+  enabled: boolean;
+}
+export const BetaWorkersVersionsCreateRequestExportsWorkerCache =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enabled: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsCreateRequestExportsWorkerCache",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkerCache>;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkerState = "created";
+export const BetaWorkersVersionsCreateRequestExportsWorkerState = S.String;
+
+export interface BetaWorkersVersionsCreateRequestExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: BetaWorkersVersionsCreateRequestExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: BetaWorkersVersionsCreateRequestExportsWorkerState | (string & {});
+}
+export const BetaWorkersVersionsCreateRequestExportsWorker =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: BetaWorkersVersionsCreateRequestExportsWorkerType,
+      cache: S.optional(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      state: S.optional(BetaWorkersVersionsCreateRequestExportsWorkerState),
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsCreateRequestExportsWorker",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorker>;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportState =
+  "created";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage:
+    | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportStorage
+    | (string & {});
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?:
+    | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportState
+    | (string & {});
+}
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportStorage,
+      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportType,
+      container: S.optional(S.String),
+      state: S.optional(
+        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportState,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport>;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportType;
+}
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportState,
+      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport>;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportType;
+}
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportState,
+      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport>;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportType;
+}
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport>;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage:
+    | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportStorage
+    | (string & {});
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string;
+}
+export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type BetaWorkersVersionsCreateRequestExports =
+  | BetaWorkersVersionsCreateRequestExportsWorker
+  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport
+  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport
+  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport
+  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport
+  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport;
+export const BetaWorkersVersionsCreateRequestExports =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
 
 export interface BetaWorkersVersionsCreateRequestLimits {
   /** CPU time limit in milliseconds. */
@@ -3180,7 +3482,7 @@ export interface CreateBetaWorkerVersionRequest {
   assets?: BetaWorkersVersionsCreateRequestAssets;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
   bindings?: BetaWorkersVersionsCreateRequestBindingsList;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateRequestCacheOptions;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string;
@@ -3188,6 +3490,8 @@ export interface CreateBetaWorkerVersionRequest {
   compatibilityFlags?: BetaWorkersVersionsCreateRequestCompatibilityFlagsList;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsCreateRequestContainersList;
+  /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
+  exports?: BetaWorkersVersionsCreateRequestExports;
   /** Resource limits enforced at runtime. */
   limits?: BetaWorkersVersionsCreateRequestLimits;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
@@ -3196,7 +3500,7 @@ export interface CreateBetaWorkerVersionRequest {
   migrations?: BetaWorkersVersionsCreateRequestMigrations;
   /** Code, sourcemaps, and other content used at runtime. */
   modules?: BetaWorkersVersionsCreateRequestModulesList;
-  /** The list of npm packages that were installed and used when this Worker */
+  /** The list of npm packages that were installed and used when this Worker version was built. */
   packageDependencies?: BetaWorkersVersionsCreateRequestPackageDependenciesList;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
   placement?: BetaWorkersVersionsCreateRequestPlacement;
@@ -3223,6 +3527,7 @@ export const CreateBetaWorkerVersionRequest = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
     containers: S.optional(BetaWorkersVersionsCreateRequestContainersList),
+    exports: S.optional(BetaWorkersVersionsCreateRequestExports),
     limits: S.optional(BetaWorkersVersionsCreateRequestLimits),
     mainModule: S.optional(S.String.pipe(T.Body("main_module"))),
     migrations: S.optional(BetaWorkersVersionsCreateRequestMigrations),
@@ -3408,7 +3713,7 @@ export const BetaWorkersVersionsCreateResponseBindingsItemAISearchNamespaceType 
 export interface BetaWorkersVersionsCreateResponseBindingsItemAISearchNamespace {
   /** A JavaScript variable name for the binding. */
   name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
+  /** The user-chosen namespace name. Must exist before deploy — Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
   namespace: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemAISearchNamespaceType;
@@ -3424,6 +3729,30 @@ export const BetaWorkersVersionsCreateResponseBindingsItemAISearchNamespace =
     identifier:
       "BetaWorkersVersionsCreateResponseBindingsItemAISearchNamespace",
   }) as any as S.Schema<BetaWorkersVersionsCreateResponseBindingsItemAISearchNamespace>;
+
+export type BetaWorkersVersionsCreateResponseBindingsItemMessagingType =
+  "messaging";
+export const BetaWorkersVersionsCreateResponseBindingsItemMessagingType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseBindingsItemMessaging {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Messaging namespace to bind to. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: BetaWorkersVersionsCreateResponseBindingsItemMessagingType;
+}
+export const BetaWorkersVersionsCreateResponseBindingsItemMessaging =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: BetaWorkersVersionsCreateResponseBindingsItemMessagingType,
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsCreateResponseBindingsItemMessaging",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseBindingsItemMessaging>;
 
 export type BetaWorkersVersionsCreateResponseBindingsItemAnalyticsEngineType =
   "analytics_engine";
@@ -3499,7 +3828,7 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemD1 {
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemD1Type;
-  /** Identifier of the D1 database to bind to. */
+  /** This property has been renamed to `database_id`. */
   id?: string | null;
 }
 export const BetaWorkersVersionsCreateResponseBindingsItemD1 =
@@ -3951,7 +4280,8 @@ export const BetaWorkersVersionsCreateResponseBindingsItemR2BucketType =
 export type BetaWorkersVersionsCreateResponseBindingsItemR2BucketJurisdiction =
   | "eu"
   | "fedramp"
-  | "fedramp-high";
+  | "fedramp-high"
+  | "us";
 export const BetaWorkersVersionsCreateResponseBindingsItemR2BucketJurisdiction =
   S.String;
 
@@ -4356,11 +4686,18 @@ export type BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkType =
 export const BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkType =
   S.String;
 
+export type BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkIdentity =
+  "runtime-email-alpha";
+export const BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkIdentity =
+  S.String;
+
 export interface BetaWorkersVersionsCreateResponseBindingsItemVPCNetwork {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkType;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  identity?: BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkIdentity | null;
   /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
@@ -4371,6 +4708,11 @@ export const BetaWorkersVersionsCreateResponseBindingsItemVPCNetwork =
     S.Struct({
       name: S.String,
       type: BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkType,
+      identity: S.optional(
+        S.NullOr(
+          BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkIdentity,
+        ),
+      ),
       networkId: S.optional(S.NullOr(S.String).pipe(T.Body("network_id"))),
       tunnelId: S.optional(S.NullOr(S.String).pipe(T.Body("tunnel_id"))),
     }),
@@ -4382,6 +4724,7 @@ export type BetaWorkersVersionsCreateResponseBindingsItem =
   | BetaWorkersVersionsCreateResponseBindingsItemAI
   | BetaWorkersVersionsCreateResponseBindingsItemAISearch
   | BetaWorkersVersionsCreateResponseBindingsItemAISearchNamespace
+  | BetaWorkersVersionsCreateResponseBindingsItemMessaging
   | BetaWorkersVersionsCreateResponseBindingsItemAnalyticsEngine
   | BetaWorkersVersionsCreateResponseBindingsItemAssets
   | BetaWorkersVersionsCreateResponseBindingsItemBrowser
@@ -4419,6 +4762,7 @@ export const BetaWorkersVersionsCreateResponseBindingsItem =
     T.UnionCases([
       ["name", "type"],
       ["instanceName", "name", "type", "namespace"],
+      ["name", "namespace", "type"],
       ["name", "namespace", "type"],
       ["dataset", "name", "type"],
       ["name", "type"],
@@ -4465,7 +4809,7 @@ export const BetaWorkersVersionsCreateResponseBindingsItem =
       ["name", "type", "workflowName", "className", "scriptName"],
       ["name", "part", "type"],
       ["name", "serviceId", "type"],
-      ["name", "type", "networkId", "tunnelId"],
+      ["name", "type", "identity", "networkId", "tunnelId"],
     ]),
   );
 
@@ -4479,7 +4823,7 @@ export const BetaWorkersVersionsCreateResponseBindingsList =
 export interface BetaWorkersVersionsCreateResponseCacheOptions {
   /** Whether caching is enabled for this Worker. */
   enabled: boolean;
-  /** Whether cached responses are shared across Worker version */
+  /** Whether cached responses are shared across Worker version uploads. This is independent of `enabled`. It can stay true while caching is off, so the preference survives turning caching off and back on. */
   crossVersionCache?: boolean | null;
 }
 export const BetaWorkersVersionsCreateResponseCacheOptions =
@@ -4512,6 +4856,545 @@ export const BetaWorkersVersionsCreateResponseContainersList =
   /*@__PURE__*/ S.Array(
     BetaWorkersVersionsCreateRequestContainersItem,
   ) as any as S.Schema<BetaWorkersVersionsCreateResponseContainersList>;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkerType = "worker";
+export const BetaWorkersVersionsCreateResponseExportsWorkerType = S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const BetaWorkersVersionsCreateResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkerState = "created";
+export const BetaWorkersVersionsCreateResponseExportsWorkerState = S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: BetaWorkersVersionsCreateResponseExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: BetaWorkersVersionsCreateResponseExportsWorkerState | null;
+}
+export const BetaWorkersVersionsCreateResponseExportsWorker =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: BetaWorkersVersionsCreateResponseExportsWorkerType,
+      cache: S.optional(
+        S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      ),
+      state: S.optional(
+        S.NullOr(BetaWorkersVersionsCreateResponseExportsWorkerState),
+      ),
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsCreateResponseExportsWorker",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorker>;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportState =
+  "created";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportState | null;
+}
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportStorage,
+      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport>;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportType;
+}
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportState,
+      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport>;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportType;
+}
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportState,
+      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport>;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportType;
+}
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport>;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type BetaWorkersVersionsCreateResponseExports =
+  | BetaWorkersVersionsCreateResponseExportsWorker
+  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport
+  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport
+  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport
+  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport
+  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport;
+export const BetaWorkersVersionsCreateResponseExports =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationCreatedList =
+  Array<string>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationCreatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationCreatedList>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationDeletedList =
+  Array<string>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationDeletedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationDeletedList>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemScenario =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList =
+  Array<string>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList>;
+
+export interface BetaWorkersVersionsCreateResponseExportsReconciliationInfoItem {
+  /** The class name the info entry is about. */
+  class: string;
+  /** Human-readable explanation. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemScenario;
+  /** The provisioned namespace the entry relates to, when applicable. */
+  namespaceId?: string | null;
+  /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove — redeploy these Workers with bindings re-pointed first. */
+  referencingScripts?: BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+}
+export const BetaWorkersVersionsCreateResponseExportsReconciliationInfoItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+      referencingScripts: S.optional(
+        S.NullOr(
+          BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList,
+        ).pipe(T.Body("referencing_scripts")),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsReconciliationInfoItem",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationInfoItem>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationInfoList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationInfoItem>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationInfoList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationInfoItem,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationInfoList>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationRemovableEntriesList =
+  Array<string>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationRemovableEntriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationRemovableEntriesList>;
+
+export interface BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem {
+  /** The original (source) class name. */
+  from: string;
+  /** The new class name (`renamed_to`). */
+  to: string;
+}
+export const BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      from: S.String,
+      to: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationRenamedList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationRenamedList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationRenamedList>;
+
+export interface BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem {
+  /** The target-side class name awaiting transfer. */
+  class: string;
+  /** The source script the namespace will be transferred from. */
+  from: string;
+}
+export const BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      from: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingList>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItemPhase =
+  "committed";
+export const BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItemPhase =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItem {
+  /** The source class name that was transferred. */
+  class: string;
+  /** The transfer phase. Currently always `committed`. */
+  phase: BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItemPhase;
+  /** The destination script that now owns the namespace. */
+  to: string;
+}
+export const BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      phase:
+        BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItemPhase,
+      to: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItem",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItem>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationTransferredList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItem>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationTransferredList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationTransferredItem,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationTransferredList>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationUpdatedList =
+  Array<string>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationUpdatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationUpdatedList>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItemScenario =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItem {
+  /** The class name the warning is about. */
+  class: string;
+  /** Human-readable explanation of the warning. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItemScenario;
+  /** The provisioned namespace the warning relates to, when applicable. */
+  namespaceId?: string | null;
+}
+export const BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItem",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItem>;
+
+export type BetaWorkersVersionsCreateResponseExportsReconciliationWarningsList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItem>;
+export const BetaWorkersVersionsCreateResponseExportsReconciliationWarningsList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItem,
+  ) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliationWarningsList>;
+
+export interface BetaWorkersVersionsCreateResponseExportsReconciliation {
+  /** Class names for which a new namespace was provisioned. */
+  created: BetaWorkersVersionsCreateResponseExportsReconciliationCreatedList;
+  /** Class names whose namespace was deleted by a `deleted` tombstone. */
+  deleted: BetaWorkersVersionsCreateResponseExportsReconciliationDeletedList;
+  /** Non-blocking info entries (stale tombstones, tombstone applied with class still in code). See `exports_reconciliation_info`. */
+  info: BetaWorkersVersionsCreateResponseExportsReconciliationInfoList;
+  /** Source class names whose tombstone entry is now stale and safe to delete from `exports` (no remaining referencing scripts). */
+  removableEntries: BetaWorkersVersionsCreateResponseExportsReconciliationRemovableEntriesList;
+  /** Applied `renamed` tombstones. */
+  renamed: BetaWorkersVersionsCreateResponseExportsReconciliationRenamedList;
+  /** Phase-1 transfer hints recorded on the target side. */
+  transferPending: BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingList;
+  /** Committed `transferred` tombstones (phase-2). */
+  transferred: BetaWorkersVersionsCreateResponseExportsReconciliationTransferredList;
+  /** Class names whose provisioned namespace was mutated in place. */
+  updated: BetaWorkersVersionsCreateResponseExportsReconciliationUpdatedList;
+  /** Non-blocking warnings. See `exports_reconciliation_warning`. */
+  warnings: BetaWorkersVersionsCreateResponseExportsReconciliationWarningsList;
+}
+export const BetaWorkersVersionsCreateResponseExportsReconciliation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      created:
+        BetaWorkersVersionsCreateResponseExportsReconciliationCreatedList,
+      deleted:
+        BetaWorkersVersionsCreateResponseExportsReconciliationDeletedList,
+      info: BetaWorkersVersionsCreateResponseExportsReconciliationInfoList,
+      removableEntries:
+        BetaWorkersVersionsCreateResponseExportsReconciliationRemovableEntriesList.pipe(
+          T.Body("removable_entries"),
+        ),
+      renamed:
+        BetaWorkersVersionsCreateResponseExportsReconciliationRenamedList,
+      transferPending:
+        BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingList.pipe(
+          T.Body("transfer_pending"),
+        ),
+      transferred:
+        BetaWorkersVersionsCreateResponseExportsReconciliationTransferredList,
+      updated:
+        BetaWorkersVersionsCreateResponseExportsReconciliationUpdatedList,
+      warnings:
+        BetaWorkersVersionsCreateResponseExportsReconciliationWarningsList,
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsCreateResponseExportsReconciliation",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsReconciliation>;
 
 export interface BetaWorkersVersionsCreateResponseLimits {
   /** CPU time limit in milliseconds. */
@@ -4994,9 +5877,13 @@ export interface CreateBetaWorkerVersionResponse {
   annotations?: BetaWorkersVersionsCreateResponseAnnotations | null;
   /** Configuration for assets within a Worker. */
   assets?: BetaWorkersVersionsCreateResponseAssets | null;
+  /** Email of the user who created the version. */
+  authorEmail?: string | null;
+  /** Identifier of the user who created the version. */
+  authorId?: string | null;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
   bindings?: BetaWorkersVersionsCreateResponseBindingsList | null;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateResponseCacheOptions | null;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string | null;
@@ -5004,6 +5891,10 @@ export interface CreateBetaWorkerVersionResponse {
   compatibilityFlags?: BetaWorkersVersionsCreateResponseCompatibilityFlagsList | null;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsCreateResponseContainersList | null;
+  /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
+  exports?: BetaWorkersVersionsCreateResponseExports | null;
+  /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
+  exportsReconciliation?: BetaWorkersVersionsCreateResponseExportsReconciliation | null;
   /** Resource limits enforced at runtime. */
   limits?: BetaWorkersVersionsCreateResponseLimits | null;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
@@ -5014,7 +5905,7 @@ export interface CreateBetaWorkerVersionResponse {
   migrations?: BetaWorkersVersionsCreateResponseMigrations | null;
   /** Code, sourcemaps, and other content used at runtime. */
   modules?: BetaWorkersVersionsCreateResponseModulesList | null;
-  /** The list of npm packages that were installed and used when this Worker */
+  /** The list of npm packages that were installed and used when this Worker version was built. */
   packageDependencies?: BetaWorkersVersionsCreateResponsePackageDependenciesList | null;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
   placement?: BetaWorkersVersionsCreateResponsePlacement | null;
@@ -5035,6 +5926,8 @@ export const CreateBetaWorkerVersionResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(BetaWorkersVersionsCreateResponseAnnotations),
     ),
     assets: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseAssets)),
+    authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
+    authorId: S.optional(S.NullOr(S.String).pipe(T.Body("author_id"))),
     bindings: S.optional(
       S.NullOr(BetaWorkersVersionsCreateResponseBindingsList),
     ),
@@ -5053,6 +5946,12 @@ export const CreateBetaWorkerVersionResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     containers: S.optional(
       S.NullOr(BetaWorkersVersionsCreateResponseContainersList),
+    ),
+    exports: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseExports)),
+    exportsReconciliation: S.optional(
+      S.NullOr(BetaWorkersVersionsCreateResponseExportsReconciliation).pipe(
+        T.Body("exports_reconciliation"),
+      ),
     ),
     limits: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseLimits)),
     mainModule: S.optional(S.NullOr(S.String).pipe(T.Body("main_module"))),
@@ -5209,9 +6108,47 @@ export const CreateObservabilityDestinationResponse = /*@__PURE__*/ S.suspend(
   identifier: "CreateObservabilityDestinationResponse",
 }) as any as S.Schema<CreateObservabilityDestinationResponse>;
 
-export type ObservabilityQueriesCreateRequestParametersCalculationsItemOperator =
-  | "uniq"
+export type ObservabilityQueriesCreateRequestParametersCalculationsItemCase0Operator =
   | "count"
+  | "COUNT";
+export const ObservabilityQueriesCreateRequestParametersCalculationsItemCase0Operator =
+  S.String;
+
+export type ObservabilityQueriesCreateRequestParametersCalculationsItemCase0KeyType =
+  | "string"
+  | "number"
+  | "boolean";
+export const ObservabilityQueriesCreateRequestParametersCalculationsItemCase0KeyType =
+  S.String;
+
+export interface ObservabilityQueriesCreateRequestParametersCalculationsItemCase0 {
+  operator:
+    | ObservabilityQueriesCreateRequestParametersCalculationsItemCase0Operator
+    | (string & {});
+  alias?: string;
+  key?: string;
+  keyType?:
+    | ObservabilityQueriesCreateRequestParametersCalculationsItemCase0KeyType
+    | (string & {});
+}
+export const ObservabilityQueriesCreateRequestParametersCalculationsItemCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      operator:
+        ObservabilityQueriesCreateRequestParametersCalculationsItemCase0Operator,
+      alias: S.optional(S.String),
+      key: S.optional(S.String),
+      keyType: S.optional(
+        ObservabilityQueriesCreateRequestParametersCalculationsItemCase0KeyType,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ObservabilityQueriesCreateRequestParametersCalculationsItemCase0",
+  }) as any as S.Schema<ObservabilityQueriesCreateRequestParametersCalculationsItemCase0>;
+
+export type ObservabilityQueriesCreateRequestParametersCalculationsItemCase1Operator =
+  | "uniq"
   | "max"
   | "min"
   | "sum"
@@ -5230,7 +6167,6 @@ export type ObservabilityQueriesCreateRequestParametersCalculationsItemOperator 
   | "stddev"
   | "variance"
   | "COUNT_DISTINCT"
-  | "COUNT"
   | "MAX"
   | "MIN"
   | "SUM"
@@ -5248,40 +6184,52 @@ export type ObservabilityQueriesCreateRequestParametersCalculationsItemOperator 
   | "P999"
   | "STDDEV"
   | "VARIANCE";
-export const ObservabilityQueriesCreateRequestParametersCalculationsItemOperator =
+export const ObservabilityQueriesCreateRequestParametersCalculationsItemCase1Operator =
   S.String;
 
-export type ObservabilityQueriesCreateRequestParametersCalculationsItemKeyType =
+export type ObservabilityQueriesCreateRequestParametersCalculationsItemCase1KeyType =
   | "string"
   | "number"
   | "boolean";
-export const ObservabilityQueriesCreateRequestParametersCalculationsItemKeyType =
+export const ObservabilityQueriesCreateRequestParametersCalculationsItemCase1KeyType =
   S.String;
 
-export interface ObservabilityQueriesCreateRequestParametersCalculationsItem {
+export interface ObservabilityQueriesCreateRequestParametersCalculationsItemCase1 {
+  key: string;
   operator:
-    | ObservabilityQueriesCreateRequestParametersCalculationsItemOperator
+    | ObservabilityQueriesCreateRequestParametersCalculationsItemCase1Operator
     | (string & {});
   alias?: string;
-  key?: string;
   keyType?:
-    | ObservabilityQueriesCreateRequestParametersCalculationsItemKeyType
+    | ObservabilityQueriesCreateRequestParametersCalculationsItemCase1KeyType
     | (string & {});
 }
-export const ObservabilityQueriesCreateRequestParametersCalculationsItem =
+export const ObservabilityQueriesCreateRequestParametersCalculationsItemCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      key: S.String,
       operator:
-        ObservabilityQueriesCreateRequestParametersCalculationsItemOperator,
+        ObservabilityQueriesCreateRequestParametersCalculationsItemCase1Operator,
       alias: S.optional(S.String),
-      key: S.optional(S.String),
       keyType: S.optional(
-        ObservabilityQueriesCreateRequestParametersCalculationsItemKeyType,
+        ObservabilityQueriesCreateRequestParametersCalculationsItemCase1KeyType,
       ),
     }),
   ).annotate({
-    identifier: "ObservabilityQueriesCreateRequestParametersCalculationsItem",
-  }) as any as S.Schema<ObservabilityQueriesCreateRequestParametersCalculationsItem>;
+    identifier:
+      "ObservabilityQueriesCreateRequestParametersCalculationsItemCase1",
+  }) as any as S.Schema<ObservabilityQueriesCreateRequestParametersCalculationsItemCase1>;
+
+export type ObservabilityQueriesCreateRequestParametersCalculationsItem =
+  | ObservabilityQueriesCreateRequestParametersCalculationsItemCase0
+  | ObservabilityQueriesCreateRequestParametersCalculationsItemCase1;
+export const ObservabilityQueriesCreateRequestParametersCalculationsItem =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["operator", "alias", "key", "keyType"],
+      ["key", "operator", "alias", "keyType"],
+    ]),
+  );
 
 export type ObservabilityQueriesCreateRequestParametersCalculationsList =
   Array<ObservabilityQueriesCreateRequestParametersCalculationsItem>;
@@ -5363,10 +6311,10 @@ export type ObservabilityQueriesCreateRequestParametersFiltersItemWorkersObserva
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -5644,9 +6592,45 @@ export const CreateObservabilityQueryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateObservabilityQueryRequest",
 }) as any as S.Schema<CreateObservabilityQueryRequest>;
 
-export type ObservabilityQueriesCreateResponseParametersCalculationsItemOperator =
-  | "uniq"
+export type ObservabilityQueriesCreateResponseParametersCalculationsItemCase0Operator =
   | "count"
+  | "COUNT";
+export const ObservabilityQueriesCreateResponseParametersCalculationsItemCase0Operator =
+  S.String;
+
+export type ObservabilityQueriesCreateResponseParametersCalculationsItemCase0KeyType =
+  | "string"
+  | "number"
+  | "boolean";
+export const ObservabilityQueriesCreateResponseParametersCalculationsItemCase0KeyType =
+  S.String;
+
+export interface ObservabilityQueriesCreateResponseParametersCalculationsItemCase0 {
+  operator: ObservabilityQueriesCreateResponseParametersCalculationsItemCase0Operator;
+  alias?: string | null;
+  key?: string | null;
+  keyType?: ObservabilityQueriesCreateResponseParametersCalculationsItemCase0KeyType | null;
+}
+export const ObservabilityQueriesCreateResponseParametersCalculationsItemCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      operator:
+        ObservabilityQueriesCreateResponseParametersCalculationsItemCase0Operator,
+      alias: S.optional(S.NullOr(S.String)),
+      key: S.optional(S.NullOr(S.String)),
+      keyType: S.optional(
+        S.NullOr(
+          ObservabilityQueriesCreateResponseParametersCalculationsItemCase0KeyType,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ObservabilityQueriesCreateResponseParametersCalculationsItemCase0",
+  }) as any as S.Schema<ObservabilityQueriesCreateResponseParametersCalculationsItemCase0>;
+
+export type ObservabilityQueriesCreateResponseParametersCalculationsItemCase1Operator =
+  | "uniq"
   | "max"
   | "min"
   | "sum"
@@ -5665,7 +6649,6 @@ export type ObservabilityQueriesCreateResponseParametersCalculationsItemOperator
   | "stddev"
   | "variance"
   | "COUNT_DISTINCT"
-  | "COUNT"
   | "MAX"
   | "MIN"
   | "SUM"
@@ -5683,38 +6666,50 @@ export type ObservabilityQueriesCreateResponseParametersCalculationsItemOperator
   | "P999"
   | "STDDEV"
   | "VARIANCE";
-export const ObservabilityQueriesCreateResponseParametersCalculationsItemOperator =
+export const ObservabilityQueriesCreateResponseParametersCalculationsItemCase1Operator =
   S.String;
 
-export type ObservabilityQueriesCreateResponseParametersCalculationsItemKeyType =
+export type ObservabilityQueriesCreateResponseParametersCalculationsItemCase1KeyType =
   | "string"
   | "number"
   | "boolean";
-export const ObservabilityQueriesCreateResponseParametersCalculationsItemKeyType =
+export const ObservabilityQueriesCreateResponseParametersCalculationsItemCase1KeyType =
   S.String;
 
-export interface ObservabilityQueriesCreateResponseParametersCalculationsItem {
-  operator: ObservabilityQueriesCreateResponseParametersCalculationsItemOperator;
+export interface ObservabilityQueriesCreateResponseParametersCalculationsItemCase1 {
+  key: string;
+  operator: ObservabilityQueriesCreateResponseParametersCalculationsItemCase1Operator;
   alias?: string | null;
-  key?: string | null;
-  keyType?: ObservabilityQueriesCreateResponseParametersCalculationsItemKeyType | null;
+  keyType?: ObservabilityQueriesCreateResponseParametersCalculationsItemCase1KeyType | null;
 }
-export const ObservabilityQueriesCreateResponseParametersCalculationsItem =
+export const ObservabilityQueriesCreateResponseParametersCalculationsItemCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      key: S.String,
       operator:
-        ObservabilityQueriesCreateResponseParametersCalculationsItemOperator,
+        ObservabilityQueriesCreateResponseParametersCalculationsItemCase1Operator,
       alias: S.optional(S.NullOr(S.String)),
-      key: S.optional(S.NullOr(S.String)),
       keyType: S.optional(
         S.NullOr(
-          ObservabilityQueriesCreateResponseParametersCalculationsItemKeyType,
+          ObservabilityQueriesCreateResponseParametersCalculationsItemCase1KeyType,
         ),
       ),
     }),
   ).annotate({
-    identifier: "ObservabilityQueriesCreateResponseParametersCalculationsItem",
-  }) as any as S.Schema<ObservabilityQueriesCreateResponseParametersCalculationsItem>;
+    identifier:
+      "ObservabilityQueriesCreateResponseParametersCalculationsItemCase1",
+  }) as any as S.Schema<ObservabilityQueriesCreateResponseParametersCalculationsItemCase1>;
+
+export type ObservabilityQueriesCreateResponseParametersCalculationsItem =
+  | ObservabilityQueriesCreateResponseParametersCalculationsItemCase0
+  | ObservabilityQueriesCreateResponseParametersCalculationsItemCase1;
+export const ObservabilityQueriesCreateResponseParametersCalculationsItem =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["operator", "alias", "key", "keyType"],
+      ["key", "operator", "alias", "keyType"],
+    ]),
+  );
 
 export type ObservabilityQueriesCreateResponseParametersCalculationsList =
   Array<ObservabilityQueriesCreateResponseParametersCalculationsItem>;
@@ -5794,10 +6789,10 @@ export type ObservabilityQueriesCreateResponseParametersFiltersItemWorkersObserv
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -6075,9 +7070,9 @@ export const CreateObservabilityQueryResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateObservabilityQueryResponse>;
 
 export interface ObservabilitySharedQueriesCreateRequestTimeframe {
-  /** Start timestamp for the query timeframe (Unix timestamp in milliseconds) */
+  /** Start timestamp for the query timeframe. Unix timestamp in milliseconds */
   from: number;
-  /** End timestamp for the query timeframe (Unix timestamp in milliseconds) */
+  /** End timestamp for the query timeframe. Unix timestamp in milliseconds */
   to: number;
 }
 export const ObservabilitySharedQueriesCreateRequestTimeframe =
@@ -6090,9 +7085,64 @@ export const ObservabilitySharedQueriesCreateRequestTimeframe =
     identifier: "ObservabilitySharedQueriesCreateRequestTimeframe",
   }) as any as S.Schema<ObservabilitySharedQueriesCreateRequestTimeframe>;
 
-export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemOperator =
-  | "uniq"
+export type ObservabilitySharedQueriesCreateRequestChartType =
+  | "timeseries_and_aggregate"
+  | "timeseries"
+  | "aggregate"
+  | "distribution";
+export const ObservabilitySharedQueriesCreateRequestChartType = S.String;
+
+export type ObservabilitySharedQueriesCreateRequestDistributionScale =
+  | "log"
+  | "linear";
+export const ObservabilitySharedQueriesCreateRequestDistributionScale =
+  S.String;
+
+export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0Operator =
   | "count"
+  | "COUNT";
+export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0Operator =
+  S.String;
+
+export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0KeyType =
+  | "string"
+  | "number"
+  | "boolean";
+export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0KeyType =
+  S.String;
+
+export interface ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0 {
+  /** Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance. */
+  operator:
+    | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0Operator
+    | (string & {});
+  /** Custom label for this calculation in the results. Useful for distinguishing multiple calculations. */
+  alias?: string;
+  /** Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except `count`, which aggregates whole rows and may omit it. */
+  key?: string;
+  /** Data type of the key. Required when key is provided to ensure correct aggregation. */
+  keyType?:
+    | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0KeyType
+    | (string & {});
+}
+export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      operator:
+        ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0Operator,
+      alias: S.optional(S.String),
+      key: S.optional(S.String),
+      keyType: S.optional(
+        ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0KeyType,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0",
+  }) as any as S.Schema<ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0>;
+
+export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1Operator =
+  | "uniq"
   | "max"
   | "min"
   | "sum"
@@ -6111,7 +7161,6 @@ export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemOpe
   | "stddev"
   | "variance"
   | "COUNT_DISTINCT"
-  | "COUNT"
   | "MAX"
   | "MIN"
   | "SUM"
@@ -6129,45 +7178,56 @@ export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemOpe
   | "P999"
   | "STDDEV"
   | "VARIANCE";
-export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItemOperator =
+export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1Operator =
   S.String;
 
-export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemKeyType =
+export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1KeyType =
   | "string"
   | "number"
   | "boolean";
-export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItemKeyType =
+export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1KeyType =
   S.String;
 
-export interface ObservabilitySharedQueriesCreateRequestParametersCalculationsItem {
+export interface ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1 {
+  /** Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except `count`, which aggregates whole rows and may omit it. */
+  key: string;
   /** Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance. */
   operator:
-    | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemOperator
+    | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1Operator
     | (string & {});
   /** Custom label for this calculation in the results. Useful for distinguishing multiple calculations. */
   alias?: string;
-  /** Field name to calculate over. Must exist in the data — verify with the keys endpoint. Omit for operators that don't require a key (e.g. count). */
-  key?: string;
   /** Data type of the key. Required when key is provided to ensure correct aggregation. */
   keyType?:
-    | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemKeyType
+    | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1KeyType
     | (string & {});
 }
-export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItem =
+export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      key: S.String,
       operator:
-        ObservabilitySharedQueriesCreateRequestParametersCalculationsItemOperator,
+        ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1Operator,
       alias: S.optional(S.String),
-      key: S.optional(S.String),
       keyType: S.optional(
-        ObservabilitySharedQueriesCreateRequestParametersCalculationsItemKeyType,
+        ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1KeyType,
       ),
     }),
   ).annotate({
     identifier:
-      "ObservabilitySharedQueriesCreateRequestParametersCalculationsItem",
-  }) as any as S.Schema<ObservabilitySharedQueriesCreateRequestParametersCalculationsItem>;
+      "ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1",
+  }) as any as S.Schema<ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1>;
+
+export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItem =
+  | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0
+  | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1;
+export const ObservabilitySharedQueriesCreateRequestParametersCalculationsItem =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["operator", "alias", "key", "keyType"],
+      ["key", "operator", "alias", "keyType"],
+    ]),
+  );
 
 export type ObservabilitySharedQueriesCreateRequestParametersCalculationsList =
   Array<ObservabilitySharedQueriesCreateRequestParametersCalculationsItem>;
@@ -6258,10 +7318,10 @@ export type ObservabilitySharedQueriesCreateRequestParametersFiltersItemCase0Fil
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -6392,10 +7452,10 @@ export type ObservabilitySharedQueriesCreateRequestParametersFiltersItemWorkersO
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -6618,7 +7678,7 @@ export interface ObservabilitySharedQueriesCreateRequestParameters {
   filters?: ObservabilitySharedQueriesCreateRequestParametersFiltersList;
   /** Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values. */
   groupBys?: ObservabilitySharedQueriesCreateRequestParametersGroupBysList;
-  /** Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100). */
+  /** Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count &gt; 100). */
   havings?: ObservabilitySharedQueriesCreateRequestParametersHavingsList;
   /** Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases. */
   limit?: number;
@@ -6673,12 +7733,18 @@ export interface CreateObservabilitySharedQueryRequest {
   accountId: string;
   /** Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID). */
   queryId: string;
-  /** Timeframe for the query using Unix timestamps in milliseconds. Narrower timeframes produce faster responses and more specific results. */
+  /** Timeframe for the query using Unix timestamps in milliseconds. 'from' must be earlier than 'to'. Narrower timeframes produce faster responses and more specific results. */
   timeframe: ObservabilitySharedQueriesCreateRequestTimeframe;
   /** When true, includes time-series data in the response. */
   chart?: boolean;
+  /** Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour — both the time-series and aggregate queries. 'timeseries': time-series only. 'aggregate': aggregate only. 'distribution': a bucketed 2D histogram (time × value buckets) returned in 'distribution' instead of 'calculations'. 'distribution' is not compatible with 'compare' — combining them returns a 400. */
+  chartType?: ObservabilitySharedQueriesCreateRequestChartType | (string & {});
   /** When true, includes a comparison dataset from the previous time period of equal length. */
   compare?: boolean;
+  /** Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode. */
+  distributionScale?:
+    | ObservabilitySharedQueriesCreateRequestDistributionScale
+    | (string & {});
   /** When true, executes the query without persisting the results. Useful for validation or previewing. */
   dry?: boolean;
   /** Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity. */
@@ -6687,7 +7753,7 @@ export interface CreateObservabilitySharedQueryRequest {
   ignoreSeries?: boolean;
   /** Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'. */
   limit?: number;
-  /** Cursor for pagination in event, trace, and invocation views. Pass the $metadata.id of the last returned item to fetch the next page. */
+  /** Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page. */
   offset?: string;
   /** Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination. */
   offsetBy?: number;
@@ -6695,7 +7761,7 @@ export interface CreateObservabilitySharedQueryRequest {
   offsetDirection?: string;
   /** Query parameters defining what data to retrieve — filters, calculations, group-bys, and ordering. In practice this should always be provided for ad-hoc queries. Only omit when executing a previously saved query by queryId. Use the keys and values endpoints to discover available fields before building filters. */
   parameters?: ObservabilitySharedQueriesCreateRequestParameters;
-  /** Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': Durable Object agent summaries. */
+  /** Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': agent-specific trace summaries. */
   view?: ObservabilitySharedQueriesCreateRequestView | (string & {});
 }
 export const CreateObservabilitySharedQueryRequest = /*@__PURE__*/ S.suspend(
@@ -6705,7 +7771,11 @@ export const CreateObservabilitySharedQueryRequest = /*@__PURE__*/ S.suspend(
       queryId: S.String,
       timeframe: ObservabilitySharedQueriesCreateRequestTimeframe,
       chart: S.optional(S.Boolean),
+      chartType: S.optional(ObservabilitySharedQueriesCreateRequestChartType),
       compare: S.optional(S.Boolean),
+      distributionScale: S.optional(
+        ObservabilitySharedQueriesCreateRequestDistributionScale,
+      ),
       dry: S.optional(S.Boolean),
       granularity: S.optional(S.Number),
       ignoreSeries: S.optional(S.Boolean),
@@ -10373,1112 +11443,6 @@ export const CreateScriptVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateScriptVersionRequest",
 }) as any as S.Schema<CreateScriptVersionRequest>;
 
-export type ScriptsVersionsCreateResponseResourcesBindingsItemAIType = "ai";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAIType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemAI {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemAIType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAI =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemAIType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemAI",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemAI>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemAISearchType =
-  "ai_search";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAISearchType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemAISearch {
-  /** The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance. */
-  instanceName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemAISearchType;
-  /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAISearch =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      instanceName: S.String.pipe(T.Body("instance_name")),
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemAISearchType,
-      namespace: S.optional(S.NullOr(S.String)),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemAISearch",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemAISearch>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespaceType =
-  "ai_search_namespace";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespaceType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
-  namespace: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespaceType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespace: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespaceType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespace",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespace>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngineType =
-  "analytics_engine";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngineType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngine {
-  /** The name of the dataset to bind to. */
-  dataset: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngineType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngine =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dataset: S.String,
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngineType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngine",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngine>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemAssetsType =
-  "assets";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAssetsType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemAssets {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemAssetsType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemAssets =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemAssetsType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemAssets",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemAssets>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemBrowserType =
-  "browser";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemBrowserType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemBrowser {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemBrowserType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemBrowser =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemBrowserType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemBrowser",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemBrowser>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemD1Type = "d1";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemD1Type =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemD1 {
-  /** Identifier of the D1 database to bind to. */
-  databaseId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemD1Type;
-  /** Identifier of the D1 database to bind to. */
-  id?: string | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemD1 =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      databaseId: S.String.pipe(T.Body("database_id")),
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemD1Type,
-      id: S.optional(S.NullOr(S.String)),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemD1",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemD1>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemDataBlobType =
-  "data_blob";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDataBlobType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemDataBlob {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the data content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemDataBlobType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDataBlob =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemDataBlobType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemDataBlob",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemDataBlob>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceType =
-  "dispatch_namespace";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceType =
-  S.String;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundParamsItem =
-  BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem;
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundParamsItem =
-  BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList =
-  Array<BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem>;
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList =
-  /*@__PURE__*/ S.Array(
-    BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem,
-  ) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundWorker =
-  BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundWorker =
-  BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutbound {
-  /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList | null;
-  /** Outbound worker. */
-  worker?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutbound =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      params: S.optional(
-        S.NullOr(
-          ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList,
-        ),
-      ),
-      worker: S.optional(
-        S.NullOr(
-          BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutbound",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutbound>;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the dispatch namespace. */
-  namespace: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceType;
-  /** Outbound worker. */
-  outbound?: ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutbound | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespace: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceType,
-      outbound: S.optional(
-        S.NullOr(
-          ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespaceOutbound,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespace",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespace>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespaceType =
-  "durable_object_namespace";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespaceType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespaceType;
-  /** The exported class name of the Durable Object. */
-  className?: string | null;
-  /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
-  /** The environment of the script_name to bind to. */
-  environment?: string | null;
-  /** Namespace identifier tag. */
-  namespaceId?: string | null;
-  /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespaceType,
-      className: S.optional(S.NullOr(S.String).pipe(T.Body("class_name"))),
-      dispatchNamespace: S.optional(
-        S.NullOr(S.String).pipe(T.Body("dispatch_namespace")),
-      ),
-      environment: S.optional(S.NullOr(S.String)),
-      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
-      scriptName: S.optional(S.NullOr(S.String).pipe(T.Body("script_name"))),
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespace",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespace>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemHyperdriveType =
-  "hyperdrive";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemHyperdriveType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemHyperdrive {
-  /** Identifier of the Hyperdrive connection to bind to. */
-  id: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemHyperdriveType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemHyperdrive =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.String,
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemHyperdriveType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemHyperdrive",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemHyperdrive>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemInheritType =
-  "inherit";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemInheritType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemInherit {
-  /** The name of the inherited binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemInheritType;
-  /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
-  /** Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version. */
-  versionId?: string | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemInherit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemInheritType,
-      oldName: S.optional(S.NullOr(S.String).pipe(T.Body("old_name"))),
-      versionId: S.optional(S.NullOr(S.String).pipe(T.Body("version_id"))),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemInherit",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemInherit>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemImagesType =
-  "images";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemImagesType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemImages {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemImagesType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemImages =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemImagesType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemImages",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemImages>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemJsonType = "json";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemJsonType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemJson {
-  /** JSON data to use. */
-  json: unknown;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemJsonType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemJson =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      json: S.Unknown,
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemJsonType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemJson",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemJson>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespaceType =
-  "kv_namespace";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespaceType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Namespace identifier tag. */
-  namespaceId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespaceType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespaceId: S.String.pipe(T.Body("namespace_id")),
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespaceType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespace",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespace>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemMediaType =
-  "media";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemMediaType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemMedia {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemMediaType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemMedia =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemMediaType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemMedia",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemMedia>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificateType =
-  "mtls_certificate";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificateType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificate {
-  /** Identifier of the certificate to bind to. */
-  certificateId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificateType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificate =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      certificateId: S.String.pipe(T.Body("certificate_id")),
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificateType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificate",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificate>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemPlainTextType =
-  "plain_text";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemPlainTextType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemPlainText {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The text value to use. */
-  text: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemPlainTextType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemPlainText =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      text: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemPlainTextType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemPlainText",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemPlainText>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemPipelinesType =
-  "pipelines";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemPipelinesType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemPipelines {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the Pipeline to bind to. */
-  pipeline: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemPipelinesType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemPipelines =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      pipeline: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemPipelinesType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemPipelines",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemPipelines>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemQueueType =
-  "queue";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemQueueType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemQueue {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the Queue to bind to. */
-  queueName: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemQueueType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemQueue =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      queueName: S.String.pipe(T.Body("queue_name")),
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemQueueType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemQueue",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemQueue>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemRatelimitSimple =
-  BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
-export const ScriptsVersionsCreateResponseResourcesBindingsItemRatelimitSimple =
-  BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemRatelimitType =
-  "ratelimit";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemRatelimitType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemRatelimit {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Identifier of the rate limit namespace to bind to. */
-  namespaceId: string;
-  /** The rate limit configuration. */
-  simple: BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemRatelimitType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemRatelimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespaceId: S.String.pipe(T.Body("namespace_id")),
-      simple: BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemRatelimitType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemRatelimit",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemRatelimit>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemR2BucketType =
-  "r2_bucket";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemR2BucketType =
-  S.String;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemR2BucketJurisdiction =
-  | "eu"
-  | "fedramp"
-  | "fedramp-high";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemR2BucketJurisdiction =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemR2Bucket {
-  /** R2 bucket to bind to. */
-  bucketName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemR2BucketType;
-  /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: ScriptsVersionsCreateResponseResourcesBindingsItemR2BucketJurisdiction | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemR2Bucket =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      bucketName: S.String.pipe(T.Body("bucket_name")),
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemR2BucketType,
-      jurisdiction: S.optional(
-        S.NullOr(
-          ScriptsVersionsCreateResponseResourcesBindingsItemR2BucketJurisdiction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemR2Bucket",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemR2Bucket>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSecretTextType =
-  "secret_text";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretTextType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemSecretText {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The secret value to use. */
-  text: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemSecretTextType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretText =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      text: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemSecretTextType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemSecretText",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemSecretText>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailType =
-  "send_email";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailType =
-  S.String;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList =
-  Array<string>;
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList =
-  Array<string>;
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList>;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemSendEmail {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailType;
-  /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList | null;
-  /** List of allowed sender addresses. */
-  allowedSenderAddresses?: ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList | null;
-  /** Destination address for the email. */
-  destinationAddress?: string | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSendEmail =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailType,
-      allowedDestinationAddresses: S.optional(
-        S.NullOr(
-          ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList,
-        ).pipe(T.Body("allowed_destination_addresses")),
-      ),
-      allowedSenderAddresses: S.optional(
-        S.NullOr(
-          ScriptsVersionsCreateResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList,
-        ).pipe(T.Body("allowed_sender_addresses")),
-      ),
-      destinationAddress: S.optional(
-        S.NullOr(S.String).pipe(T.Body("destination_address")),
-      ),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemSendEmail",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemSendEmail>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemServiceType =
-  "service";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemServiceType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemService {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of Worker to bind to. */
-  service: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemServiceType;
-  /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
-  /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemService =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      service: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemServiceType,
-      entrypoint: S.optional(S.NullOr(S.String)),
-      environment: S.optional(S.NullOr(S.String)),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemService",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemService>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemTextBlobType =
-  "text_blob";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemTextBlobType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemTextBlob {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the text content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemTextBlobType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemTextBlob =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemTextBlobType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemTextBlob",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemTextBlob>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemVectorizeType =
-  "vectorize";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemVectorizeType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemVectorize {
-  /** Name of the Vectorize index to bind to. */
-  indexName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemVectorizeType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemVectorize =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      indexName: S.String.pipe(T.Body("index_name")),
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemVectorizeType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemVectorize",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemVectorize>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadataType =
-  "version_metadata";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadataType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadata {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadataType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadata =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadataType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadata",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadata>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecretType =
-  "secrets_store_secret";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecretType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecret {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the secret in the store. */
-  secretName: string;
-  /** ID of the store containing the secret. */
-  storeId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecretType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecret =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      secretName: S.String.pipe(T.Body("secret_name")),
-      storeId: S.String.pipe(T.Body("store_id")),
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecretType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecret",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecret>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemFlagshipType =
-  "flagship";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemFlagshipType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemFlagship {
-  /** ID of the Flagship app to bind to for feature flag evaluation. */
-  appId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemFlagshipType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemFlagship =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appId: S.String.pipe(T.Body("app_id")),
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemFlagshipType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemFlagship",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemFlagship>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyFormat =
-  | "raw"
-  | "pkcs8"
-  | "spki"
-  | "jwk";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyFormat =
-  S.String;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyType =
-  "secret_key";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyType =
-  S.String;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesItem =
-  | "encrypt"
-  | "decrypt"
-  | "sign"
-  | "verify"
-  | "deriveKey"
-  | "deriveBits"
-  | "wrapKey"
-  | "unwrapKey";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesItem =
-  S.String;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesList =
-  Array<ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesItem>;
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesList =
-  /*@__PURE__*/ S.Array(
-    ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesItem,
-  ) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesList>;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemSecretKey {
-  /** Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). */
-  algorithm: unknown;
-  /** Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format). */
-  format: ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyFormat;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyType;
-  /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
-  usages: ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesList;
-  /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
-  /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemSecretKey =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algorithm: S.Unknown,
-      format: ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyFormat,
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyType,
-      usages:
-        ScriptsVersionsCreateResponseResourcesBindingsItemSecretKeyUsagesList,
-      keyBase64: S.optional(S.NullOr(S.String).pipe(T.Body("key_base64"))),
-      keyJwk: S.optional(S.NullOr(S.Unknown).pipe(T.Body("key_jwk"))),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemSecretKey",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemSecretKey>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemWorkflowType =
-  "workflow";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemWorkflowType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemWorkflow {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemWorkflowType;
-  /** Name of the Workflow to bind to. */
-  workflowName: string;
-  /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
-  /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemWorkflow =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemWorkflowType,
-      workflowName: S.String.pipe(T.Body("workflow_name")),
-      className: S.optional(S.NullOr(S.String).pipe(T.Body("class_name"))),
-      scriptName: S.optional(S.NullOr(S.String).pipe(T.Body("script_name"))),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemWorkflow",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemWorkflow>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemWasmModuleType =
-  "wasm_module";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemWasmModuleType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemWasmModule {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemWasmModuleType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemWasmModule =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemWasmModuleType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemWasmModule",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemWasmModule>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemVPCServiceType =
-  "vpc_service";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemVPCServiceType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemVPCService {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Identifier of the VPC service to bind to. */
-  serviceId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemVPCServiceType;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemVPCService =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      serviceId: S.String.pipe(T.Body("service_id")),
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemVPCServiceType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemVPCService",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemVPCService>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetworkType =
-  "vpc_network";
-export const ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetworkType =
-  S.String;
-
-export interface ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetwork {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetworkType;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
-  /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
-}
-export const ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetwork =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetworkType,
-      networkId: S.optional(S.NullOr(S.String).pipe(T.Body("network_id"))),
-      tunnelId: S.optional(S.NullOr(S.String).pipe(T.Body("tunnel_id"))),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetwork",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetwork>;
-
-export type ScriptsVersionsCreateResponseResourcesBindingsItem =
-  | ScriptsVersionsCreateResponseResourcesBindingsItemAI
-  | ScriptsVersionsCreateResponseResourcesBindingsItemAISearch
-  | ScriptsVersionsCreateResponseResourcesBindingsItemAISearchNamespace
-  | ScriptsVersionsCreateResponseResourcesBindingsItemAnalyticsEngine
-  | ScriptsVersionsCreateResponseResourcesBindingsItemAssets
-  | ScriptsVersionsCreateResponseResourcesBindingsItemBrowser
-  | ScriptsVersionsCreateResponseResourcesBindingsItemD1
-  | ScriptsVersionsCreateResponseResourcesBindingsItemDataBlob
-  | ScriptsVersionsCreateResponseResourcesBindingsItemDispatchNamespace
-  | ScriptsVersionsCreateResponseResourcesBindingsItemDurableObjectNamespace
-  | ScriptsVersionsCreateResponseResourcesBindingsItemHyperdrive
-  | ScriptsVersionsCreateResponseResourcesBindingsItemInherit
-  | ScriptsVersionsCreateResponseResourcesBindingsItemImages
-  | ScriptsVersionsCreateResponseResourcesBindingsItemJson
-  | ScriptsVersionsCreateResponseResourcesBindingsItemKVNamespace
-  | ScriptsVersionsCreateResponseResourcesBindingsItemMedia
-  | ScriptsVersionsCreateResponseResourcesBindingsItemMTLSCertificate
-  | ScriptsVersionsCreateResponseResourcesBindingsItemPlainText
-  | ScriptsVersionsCreateResponseResourcesBindingsItemPipelines
-  | ScriptsVersionsCreateResponseResourcesBindingsItemQueue
-  | ScriptsVersionsCreateResponseResourcesBindingsItemRatelimit
-  | ScriptsVersionsCreateResponseResourcesBindingsItemR2Bucket
-  | ScriptsVersionsCreateResponseResourcesBindingsItemSecretText
-  | ScriptsVersionsCreateResponseResourcesBindingsItemSendEmail
-  | ScriptsVersionsCreateResponseResourcesBindingsItemService
-  | ScriptsVersionsCreateResponseResourcesBindingsItemTextBlob
-  | ScriptsVersionsCreateResponseResourcesBindingsItemVectorize
-  | ScriptsVersionsCreateResponseResourcesBindingsItemVersionMetadata
-  | ScriptsVersionsCreateResponseResourcesBindingsItemSecretsStoreSecret
-  | ScriptsVersionsCreateResponseResourcesBindingsItemFlagship
-  | ScriptsVersionsCreateResponseResourcesBindingsItemSecretKey
-  | ScriptsVersionsCreateResponseResourcesBindingsItemWorkflow
-  | ScriptsVersionsCreateResponseResourcesBindingsItemWasmModule
-  | ScriptsVersionsCreateResponseResourcesBindingsItemVPCService
-  | ScriptsVersionsCreateResponseResourcesBindingsItemVPCNetwork;
-export const ScriptsVersionsCreateResponseResourcesBindingsItem =
-  /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["name", "type"],
-      ["instanceName", "name", "type", "namespace"],
-      ["name", "namespace", "type"],
-      ["dataset", "name", "type"],
-      ["name", "type"],
-      ["name", "type"],
-      ["databaseId", "name", "type", "id"],
-      ["name", "part", "type"],
-      ["name", "namespace", "type", "outbound"],
-      [
-        "name",
-        "type",
-        "className",
-        "dispatchNamespace",
-        "environment",
-        "namespaceId",
-        "scriptName",
-      ],
-      ["id", "name", "type"],
-      ["name", "type", "oldName", "versionId"],
-      ["name", "type"],
-      ["json", "name", "type"],
-      ["name", "namespaceId", "type"],
-      ["name", "type"],
-      ["certificateId", "name", "type"],
-      ["name", "text", "type"],
-      ["name", "pipeline", "type"],
-      ["name", "queueName", "type"],
-      ["name", "namespaceId", "simple", "type"],
-      ["bucketName", "name", "type", "jurisdiction"],
-      ["name", "text", "type"],
-      [
-        "name",
-        "type",
-        "allowedDestinationAddresses",
-        "allowedSenderAddresses",
-        "destinationAddress",
-      ],
-      ["name", "service", "type", "entrypoint", "environment"],
-      ["name", "part", "type"],
-      ["indexName", "name", "type"],
-      ["name", "type"],
-      ["name", "secretName", "storeId", "type"],
-      ["appId", "name", "type"],
-      ["algorithm", "format", "name", "type", "usages", "keyBase64", "keyJwk"],
-      ["name", "type", "workflowName", "className", "scriptName"],
-      ["name", "part", "type"],
-      ["name", "serviceId", "type"],
-      ["name", "type", "networkId", "tunnelId"],
-    ]),
-  );
-
-export type ScriptsVersionsCreateResponseResourcesBindingsList =
-  Array<ScriptsVersionsCreateResponseResourcesBindingsItem>;
-export const ScriptsVersionsCreateResponseResourcesBindingsList =
-  /*@__PURE__*/ S.Array(
-    ScriptsVersionsCreateResponseResourcesBindingsItem,
-  ) as any as S.Schema<ScriptsVersionsCreateResponseResourcesBindingsList>;
-
 export type ScriptsVersionsCreateResponseResourcesScriptHandlersList =
   Array<string>;
 export const ScriptsVersionsCreateResponseResourcesScriptHandlersList =
@@ -11557,6 +11521,244 @@ export const ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFla
     S.String,
   ) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFlagsList>;
 
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerType =
+  "worker";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerType =
+  S.String;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerState =
+  "created";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerState =
+  S.String;
+
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerState | null;
+}
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerType,
+      cache: S.optional(
+        S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      ),
+      state: S.optional(
+        S.NullOr(
+          ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker>;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState =
+  "created";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState | null;
+}
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage,
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport>;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType;
+}
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState,
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport>;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType;
+}
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState,
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport>;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType;
+}
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport>;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExports =
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport;
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExports =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
+
 export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits {
   /** The amount of CPU time this Worker can use in milliseconds. */
   cpuMs?: number | null;
@@ -11582,6 +11784,8 @@ export interface ScriptsVersionsCreateResponseResourcesScriptRuntime {
   compatibilityDate?: string | null;
   /** Flags that enable or disable certain features in the Workers runtime. */
   compatibilityFlags?: ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFlagsList | null;
+  /** Declarative exports for this version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
+  exports?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExports | null;
   /** Resource limits for the Worker. */
   limits?: ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits | null;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
@@ -11599,6 +11803,9 @@ export const ScriptsVersionsCreateResponseResourcesScriptRuntime =
         S.NullOr(
           ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFlagsList,
         ).pipe(T.Body("compatibility_flags")),
+      ),
+      exports: S.optional(
+        S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeExports),
       ),
       limits: S.optional(
         S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits),
@@ -11618,7 +11825,7 @@ export const ScriptsVersionsCreateResponseResourcesScriptRuntime =
 
 export interface ScriptsVersionsCreateResponseResources {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: ScriptsVersionsCreateResponseResourcesBindingsList | null;
+  bindings: unknown;
   script?: ScriptsVersionsCreateResponseResourcesScript | null;
   /** Runtime configuration for the Worker. */
   scriptRuntime?: ScriptsVersionsCreateResponseResourcesScriptRuntime | null;
@@ -11626,9 +11833,7 @@ export interface ScriptsVersionsCreateResponseResources {
 export const ScriptsVersionsCreateResponseResources = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      bindings: S.optional(
-        S.NullOr(ScriptsVersionsCreateResponseResourcesBindingsList),
-      ),
+      bindings: S.Unknown,
       script: S.optional(
         S.NullOr(ScriptsVersionsCreateResponseResourcesScript),
       ),
@@ -11641,6 +11846,284 @@ export const ScriptsVersionsCreateResponseResources = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ScriptsVersionsCreateResponseResources",
 }) as any as S.Schema<ScriptsVersionsCreateResponseResources>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationCreatedList =
+  Array<string>;
+export const ScriptsVersionsCreateResponseExportsReconciliationCreatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationCreatedList>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationDeletedList =
+  Array<string>;
+export const ScriptsVersionsCreateResponseExportsReconciliationDeletedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationDeletedList>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationInfoItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const ScriptsVersionsCreateResponseExportsReconciliationInfoItemScenario =
+  S.String;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList =
+  Array<string>;
+export const ScriptsVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList>;
+
+export interface ScriptsVersionsCreateResponseExportsReconciliationInfoItem {
+  /** The class name the info entry is about. */
+  class: string;
+  /** Human-readable explanation. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: ScriptsVersionsCreateResponseExportsReconciliationInfoItemScenario;
+  /** The provisioned namespace the entry relates to, when applicable. */
+  namespaceId?: string | null;
+  /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove — redeploy these Workers with bindings re-pointed first. */
+  referencingScripts?: ScriptsVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+}
+export const ScriptsVersionsCreateResponseExportsReconciliationInfoItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        ScriptsVersionsCreateResponseExportsReconciliationInfoItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+      referencingScripts: S.optional(
+        S.NullOr(
+          ScriptsVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList,
+        ).pipe(T.Body("referencing_scripts")),
+      ),
+    }),
+  ).annotate({
+    identifier: "ScriptsVersionsCreateResponseExportsReconciliationInfoItem",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationInfoItem>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationInfoList =
+  Array<ScriptsVersionsCreateResponseExportsReconciliationInfoItem>;
+export const ScriptsVersionsCreateResponseExportsReconciliationInfoList =
+  /*@__PURE__*/ S.Array(
+    ScriptsVersionsCreateResponseExportsReconciliationInfoItem,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationInfoList>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationRemovableEntriesList =
+  Array<string>;
+export const ScriptsVersionsCreateResponseExportsReconciliationRemovableEntriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationRemovableEntriesList>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+export const ScriptsVersionsCreateResponseExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationRenamedList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem>;
+export const ScriptsVersionsCreateResponseExportsReconciliationRenamedList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationRenamedList>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+export const ScriptsVersionsCreateResponseExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationTransferPendingList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem>;
+export const ScriptsVersionsCreateResponseExportsReconciliationTransferPendingList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationTransferPendingList>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationTransferredItemPhase =
+  "committed";
+export const ScriptsVersionsCreateResponseExportsReconciliationTransferredItemPhase =
+  S.String;
+
+export interface ScriptsVersionsCreateResponseExportsReconciliationTransferredItem {
+  /** The source class name that was transferred. */
+  class: string;
+  /** The transfer phase. Currently always `committed`. */
+  phase: ScriptsVersionsCreateResponseExportsReconciliationTransferredItemPhase;
+  /** The destination script that now owns the namespace. */
+  to: string;
+}
+export const ScriptsVersionsCreateResponseExportsReconciliationTransferredItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      phase:
+        ScriptsVersionsCreateResponseExportsReconciliationTransferredItemPhase,
+      to: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsCreateResponseExportsReconciliationTransferredItem",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationTransferredItem>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationTransferredList =
+  Array<ScriptsVersionsCreateResponseExportsReconciliationTransferredItem>;
+export const ScriptsVersionsCreateResponseExportsReconciliationTransferredList =
+  /*@__PURE__*/ S.Array(
+    ScriptsVersionsCreateResponseExportsReconciliationTransferredItem,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationTransferredList>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationUpdatedList =
+  Array<string>;
+export const ScriptsVersionsCreateResponseExportsReconciliationUpdatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationUpdatedList>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationWarningsItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const ScriptsVersionsCreateResponseExportsReconciliationWarningsItemScenario =
+  S.String;
+
+export interface ScriptsVersionsCreateResponseExportsReconciliationWarningsItem {
+  /** The class name the warning is about. */
+  class: string;
+  /** Human-readable explanation of the warning. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: ScriptsVersionsCreateResponseExportsReconciliationWarningsItemScenario;
+  /** The provisioned namespace the warning relates to, when applicable. */
+  namespaceId?: string | null;
+}
+export const ScriptsVersionsCreateResponseExportsReconciliationWarningsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        ScriptsVersionsCreateResponseExportsReconciliationWarningsItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsCreateResponseExportsReconciliationWarningsItem",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationWarningsItem>;
+
+export type ScriptsVersionsCreateResponseExportsReconciliationWarningsList =
+  Array<ScriptsVersionsCreateResponseExportsReconciliationWarningsItem>;
+export const ScriptsVersionsCreateResponseExportsReconciliationWarningsList =
+  /*@__PURE__*/ S.Array(
+    ScriptsVersionsCreateResponseExportsReconciliationWarningsItem,
+  ) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliationWarningsList>;
+
+export interface ScriptsVersionsCreateResponseExportsReconciliation {
+  /** Class names for which a new namespace was provisioned. */
+  created: ScriptsVersionsCreateResponseExportsReconciliationCreatedList;
+  /** Class names whose namespace was deleted by a `deleted` tombstone. */
+  deleted: ScriptsVersionsCreateResponseExportsReconciliationDeletedList;
+  /** Non-blocking info entries (stale tombstones, tombstone applied with class still in code). See `exports_reconciliation_info`. */
+  info: ScriptsVersionsCreateResponseExportsReconciliationInfoList;
+  /** Source class names whose tombstone entry is now stale and safe to delete from `exports` (no remaining referencing scripts). */
+  removableEntries: ScriptsVersionsCreateResponseExportsReconciliationRemovableEntriesList;
+  /** Applied `renamed` tombstones. */
+  renamed: ScriptsVersionsCreateResponseExportsReconciliationRenamedList;
+  /** Phase-1 transfer hints recorded on the target side. */
+  transferPending: ScriptsVersionsCreateResponseExportsReconciliationTransferPendingList;
+  /** Committed `transferred` tombstones (phase-2). */
+  transferred: ScriptsVersionsCreateResponseExportsReconciliationTransferredList;
+  /** Class names whose provisioned namespace was mutated in place. */
+  updated: ScriptsVersionsCreateResponseExportsReconciliationUpdatedList;
+  /** Non-blocking warnings. See `exports_reconciliation_warning`. */
+  warnings: ScriptsVersionsCreateResponseExportsReconciliationWarningsList;
+}
+export const ScriptsVersionsCreateResponseExportsReconciliation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      created: ScriptsVersionsCreateResponseExportsReconciliationCreatedList,
+      deleted: ScriptsVersionsCreateResponseExportsReconciliationDeletedList,
+      info: ScriptsVersionsCreateResponseExportsReconciliationInfoList,
+      removableEntries:
+        ScriptsVersionsCreateResponseExportsReconciliationRemovableEntriesList.pipe(
+          T.Body("removable_entries"),
+        ),
+      renamed: ScriptsVersionsCreateResponseExportsReconciliationRenamedList,
+      transferPending:
+        ScriptsVersionsCreateResponseExportsReconciliationTransferPendingList.pipe(
+          T.Body("transfer_pending"),
+        ),
+      transferred:
+        ScriptsVersionsCreateResponseExportsReconciliationTransferredList,
+      updated: ScriptsVersionsCreateResponseExportsReconciliationUpdatedList,
+      warnings: ScriptsVersionsCreateResponseExportsReconciliationWarningsList,
+    }),
+  ).annotate({
+    identifier: "ScriptsVersionsCreateResponseExportsReconciliation",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseExportsReconciliation>;
 
 export type ScriptsVersionsCreateResponseMetadataSource =
   | "unknown"
@@ -11689,6 +12172,8 @@ export interface CreateScriptVersionResponse {
   resources: ScriptsVersionsCreateResponseResources;
   /** Unique identifier for the version. */
   id?: string | null;
+  /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
+  exportsReconciliation?: ScriptsVersionsCreateResponseExportsReconciliation | null;
   metadata?: ScriptsVersionsCreateResponseMetadata | null;
   /** Sequential version number. */
   number?: number | null;
@@ -11699,6 +12184,11 @@ export const CreateScriptVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: ScriptsVersionsCreateResponseResources,
     id: S.optional(S.NullOr(S.String)),
+    exportsReconciliation: S.optional(
+      S.NullOr(ScriptsVersionsCreateResponseExportsReconciliation).pipe(
+        T.Body("exports_reconciliation"),
+      ),
+    ),
     metadata: S.optional(S.NullOr(ScriptsVersionsCreateResponseMetadata)),
     number: S.optional(S.NullOr(S.Number)),
     startupTimeMs: S.optional(
@@ -12402,7 +12892,7 @@ export interface BetaWorkersGetResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: BetaWorkersGetResponseObservabilityTracesPropagationPolicy | null;
 }
 export const BetaWorkersGetResponseObservabilityTraces =
@@ -12433,6 +12923,8 @@ export interface BetaWorkersGetResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: BetaWorkersGetResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: BetaWorkersGetResponseObservabilityTraces | null;
 }
@@ -12443,6 +12935,9 @@ export const BetaWorkersGetResponseObservability = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
     ),
     logs: S.optional(S.NullOr(BetaWorkersGetResponseObservabilityLogs)),
+    redactQueryString: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+    ),
     traces: S.optional(S.NullOr(BetaWorkersGetResponseObservabilityTraces)),
   }),
 ).annotate({
@@ -12772,7 +13267,7 @@ export const BetaWorkersVersionsGetResponseBindingsItemAISearchNamespaceType =
 export interface BetaWorkersVersionsGetResponseBindingsItemAISearchNamespace {
   /** A JavaScript variable name for the binding. */
   name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
+  /** The user-chosen namespace name. Must exist before deploy — Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
   namespace: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemAISearchNamespaceType;
@@ -12787,6 +13282,29 @@ export const BetaWorkersVersionsGetResponseBindingsItemAISearchNamespace =
   ).annotate({
     identifier: "BetaWorkersVersionsGetResponseBindingsItemAISearchNamespace",
   }) as any as S.Schema<BetaWorkersVersionsGetResponseBindingsItemAISearchNamespace>;
+
+export type BetaWorkersVersionsGetResponseBindingsItemMessagingType =
+  "messaging";
+export const BetaWorkersVersionsGetResponseBindingsItemMessagingType = S.String;
+
+export interface BetaWorkersVersionsGetResponseBindingsItemMessaging {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Messaging namespace to bind to. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: BetaWorkersVersionsGetResponseBindingsItemMessagingType;
+}
+export const BetaWorkersVersionsGetResponseBindingsItemMessaging =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: BetaWorkersVersionsGetResponseBindingsItemMessagingType,
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsGetResponseBindingsItemMessaging",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseBindingsItemMessaging>;
 
 export type BetaWorkersVersionsGetResponseBindingsItemAnalyticsEngineType =
   "analytics_engine";
@@ -12860,7 +13378,7 @@ export interface BetaWorkersVersionsGetResponseBindingsItemD1 {
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemD1Type;
-  /** Identifier of the D1 database to bind to. */
+  /** This property has been renamed to `database_id`. */
   id?: string | null;
 }
 export const BetaWorkersVersionsGetResponseBindingsItemD1 =
@@ -13273,7 +13791,8 @@ export const BetaWorkersVersionsGetResponseBindingsItemR2BucketType = S.String;
 export type BetaWorkersVersionsGetResponseBindingsItemR2BucketJurisdiction =
   | "eu"
   | "fedramp"
-  | "fedramp-high";
+  | "fedramp-high"
+  | "us";
 export const BetaWorkersVersionsGetResponseBindingsItemR2BucketJurisdiction =
   S.String;
 
@@ -13667,11 +14186,18 @@ export type BetaWorkersVersionsGetResponseBindingsItemVPCNetworkType =
 export const BetaWorkersVersionsGetResponseBindingsItemVPCNetworkType =
   S.String;
 
+export type BetaWorkersVersionsGetResponseBindingsItemVPCNetworkIdentity =
+  "runtime-email-alpha";
+export const BetaWorkersVersionsGetResponseBindingsItemVPCNetworkIdentity =
+  S.String;
+
 export interface BetaWorkersVersionsGetResponseBindingsItemVPCNetwork {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemVPCNetworkType;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  identity?: BetaWorkersVersionsGetResponseBindingsItemVPCNetworkIdentity | null;
   /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
@@ -13682,6 +14208,9 @@ export const BetaWorkersVersionsGetResponseBindingsItemVPCNetwork =
     S.Struct({
       name: S.String,
       type: BetaWorkersVersionsGetResponseBindingsItemVPCNetworkType,
+      identity: S.optional(
+        S.NullOr(BetaWorkersVersionsGetResponseBindingsItemVPCNetworkIdentity),
+      ),
       networkId: S.optional(S.NullOr(S.String).pipe(T.Body("network_id"))),
       tunnelId: S.optional(S.NullOr(S.String).pipe(T.Body("tunnel_id"))),
     }),
@@ -13693,6 +14222,7 @@ export type BetaWorkersVersionsGetResponseBindingsItem =
   | BetaWorkersVersionsGetResponseBindingsItemAI
   | BetaWorkersVersionsGetResponseBindingsItemAISearch
   | BetaWorkersVersionsGetResponseBindingsItemAISearchNamespace
+  | BetaWorkersVersionsGetResponseBindingsItemMessaging
   | BetaWorkersVersionsGetResponseBindingsItemAnalyticsEngine
   | BetaWorkersVersionsGetResponseBindingsItemAssets
   | BetaWorkersVersionsGetResponseBindingsItemBrowser
@@ -13730,6 +14260,7 @@ export const BetaWorkersVersionsGetResponseBindingsItem =
     T.UnionCases([
       ["name", "type"],
       ["instanceName", "name", "type", "namespace"],
+      ["name", "namespace", "type"],
       ["name", "namespace", "type"],
       ["dataset", "name", "type"],
       ["name", "type"],
@@ -13776,7 +14307,7 @@ export const BetaWorkersVersionsGetResponseBindingsItem =
       ["name", "type", "workflowName", "className", "scriptName"],
       ["name", "part", "type"],
       ["name", "serviceId", "type"],
-      ["name", "type", "networkId", "tunnelId"],
+      ["name", "type", "identity", "networkId", "tunnelId"],
     ]),
   );
 
@@ -13809,6 +14340,515 @@ export const BetaWorkersVersionsGetResponseContainersList =
   /*@__PURE__*/ S.Array(
     BetaWorkersVersionsCreateRequestContainersItem,
   ) as any as S.Schema<BetaWorkersVersionsGetResponseContainersList>;
+
+export type BetaWorkersVersionsGetResponseExportsWorkerType = "worker";
+export const BetaWorkersVersionsGetResponseExportsWorkerType = S.String;
+
+export type BetaWorkersVersionsGetResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const BetaWorkersVersionsGetResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+
+export type BetaWorkersVersionsGetResponseExportsWorkerState = "created";
+export const BetaWorkersVersionsGetResponseExportsWorkerState = S.String;
+
+export interface BetaWorkersVersionsGetResponseExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: BetaWorkersVersionsGetResponseExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: BetaWorkersVersionsGetResponseExportsWorkerState | null;
+}
+export const BetaWorkersVersionsGetResponseExportsWorker =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: BetaWorkersVersionsGetResponseExportsWorkerType,
+      cache: S.optional(
+        S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      ),
+      state: S.optional(
+        S.NullOr(BetaWorkersVersionsGetResponseExportsWorkerState),
+      ),
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsGetResponseExportsWorker",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorker>;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportState =
+  "created";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportState | null;
+}
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportStorage,
+      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport>;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportType;
+}
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportState,
+      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport>;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportType;
+}
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportState,
+      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport>;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportType;
+}
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport>;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type BetaWorkersVersionsGetResponseExports =
+  | BetaWorkersVersionsGetResponseExportsWorker
+  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport
+  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport
+  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport
+  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport
+  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport;
+export const BetaWorkersVersionsGetResponseExports =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationCreatedList =
+  Array<string>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationCreatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationCreatedList>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationDeletedList =
+  Array<string>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationDeletedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationDeletedList>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationInfoItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const BetaWorkersVersionsGetResponseExportsReconciliationInfoItemScenario =
+  S.String;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationInfoItemReferencingScriptsList =
+  Array<string>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationInfoItemReferencingScriptsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationInfoItemReferencingScriptsList>;
+
+export interface BetaWorkersVersionsGetResponseExportsReconciliationInfoItem {
+  /** The class name the info entry is about. */
+  class: string;
+  /** Human-readable explanation. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: BetaWorkersVersionsGetResponseExportsReconciliationInfoItemScenario;
+  /** The provisioned namespace the entry relates to, when applicable. */
+  namespaceId?: string | null;
+  /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove — redeploy these Workers with bindings re-pointed first. */
+  referencingScripts?: BetaWorkersVersionsGetResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+}
+export const BetaWorkersVersionsGetResponseExportsReconciliationInfoItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        BetaWorkersVersionsGetResponseExportsReconciliationInfoItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+      referencingScripts: S.optional(
+        S.NullOr(
+          BetaWorkersVersionsGetResponseExportsReconciliationInfoItemReferencingScriptsList,
+        ).pipe(T.Body("referencing_scripts")),
+      ),
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsGetResponseExportsReconciliationInfoItem",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationInfoItem>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationInfoList =
+  Array<BetaWorkersVersionsGetResponseExportsReconciliationInfoItem>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationInfoList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsGetResponseExportsReconciliationInfoItem,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationInfoList>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationRemovableEntriesList =
+  Array<string>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationRemovableEntriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationRemovableEntriesList>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+export const BetaWorkersVersionsGetResponseExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationRenamedList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationRenamedList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationRenamedList>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+export const BetaWorkersVersionsGetResponseExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationTransferPendingList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationTransferPendingList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationTransferPendingList>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationTransferredItemPhase =
+  "committed";
+export const BetaWorkersVersionsGetResponseExportsReconciliationTransferredItemPhase =
+  S.String;
+
+export interface BetaWorkersVersionsGetResponseExportsReconciliationTransferredItem {
+  /** The source class name that was transferred. */
+  class: string;
+  /** The transfer phase. Currently always `committed`. */
+  phase: BetaWorkersVersionsGetResponseExportsReconciliationTransferredItemPhase;
+  /** The destination script that now owns the namespace. */
+  to: string;
+}
+export const BetaWorkersVersionsGetResponseExportsReconciliationTransferredItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      phase:
+        BetaWorkersVersionsGetResponseExportsReconciliationTransferredItemPhase,
+      to: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsGetResponseExportsReconciliationTransferredItem",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationTransferredItem>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationTransferredList =
+  Array<BetaWorkersVersionsGetResponseExportsReconciliationTransferredItem>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationTransferredList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsGetResponseExportsReconciliationTransferredItem,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationTransferredList>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationUpdatedList =
+  Array<string>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationUpdatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationUpdatedList>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationWarningsItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const BetaWorkersVersionsGetResponseExportsReconciliationWarningsItemScenario =
+  S.String;
+
+export interface BetaWorkersVersionsGetResponseExportsReconciliationWarningsItem {
+  /** The class name the warning is about. */
+  class: string;
+  /** Human-readable explanation of the warning. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: BetaWorkersVersionsGetResponseExportsReconciliationWarningsItemScenario;
+  /** The provisioned namespace the warning relates to, when applicable. */
+  namespaceId?: string | null;
+}
+export const BetaWorkersVersionsGetResponseExportsReconciliationWarningsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        BetaWorkersVersionsGetResponseExportsReconciliationWarningsItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsGetResponseExportsReconciliationWarningsItem",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationWarningsItem>;
+
+export type BetaWorkersVersionsGetResponseExportsReconciliationWarningsList =
+  Array<BetaWorkersVersionsGetResponseExportsReconciliationWarningsItem>;
+export const BetaWorkersVersionsGetResponseExportsReconciliationWarningsList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsGetResponseExportsReconciliationWarningsItem,
+  ) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliationWarningsList>;
+
+export interface BetaWorkersVersionsGetResponseExportsReconciliation {
+  /** Class names for which a new namespace was provisioned. */
+  created: BetaWorkersVersionsGetResponseExportsReconciliationCreatedList;
+  /** Class names whose namespace was deleted by a `deleted` tombstone. */
+  deleted: BetaWorkersVersionsGetResponseExportsReconciliationDeletedList;
+  /** Non-blocking info entries (stale tombstones, tombstone applied with class still in code). See `exports_reconciliation_info`. */
+  info: BetaWorkersVersionsGetResponseExportsReconciliationInfoList;
+  /** Source class names whose tombstone entry is now stale and safe to delete from `exports` (no remaining referencing scripts). */
+  removableEntries: BetaWorkersVersionsGetResponseExportsReconciliationRemovableEntriesList;
+  /** Applied `renamed` tombstones. */
+  renamed: BetaWorkersVersionsGetResponseExportsReconciliationRenamedList;
+  /** Phase-1 transfer hints recorded on the target side. */
+  transferPending: BetaWorkersVersionsGetResponseExportsReconciliationTransferPendingList;
+  /** Committed `transferred` tombstones (phase-2). */
+  transferred: BetaWorkersVersionsGetResponseExportsReconciliationTransferredList;
+  /** Class names whose provisioned namespace was mutated in place. */
+  updated: BetaWorkersVersionsGetResponseExportsReconciliationUpdatedList;
+  /** Non-blocking warnings. See `exports_reconciliation_warning`. */
+  warnings: BetaWorkersVersionsGetResponseExportsReconciliationWarningsList;
+}
+export const BetaWorkersVersionsGetResponseExportsReconciliation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      created: BetaWorkersVersionsGetResponseExportsReconciliationCreatedList,
+      deleted: BetaWorkersVersionsGetResponseExportsReconciliationDeletedList,
+      info: BetaWorkersVersionsGetResponseExportsReconciliationInfoList,
+      removableEntries:
+        BetaWorkersVersionsGetResponseExportsReconciliationRemovableEntriesList.pipe(
+          T.Body("removable_entries"),
+        ),
+      renamed: BetaWorkersVersionsGetResponseExportsReconciliationRenamedList,
+      transferPending:
+        BetaWorkersVersionsGetResponseExportsReconciliationTransferPendingList.pipe(
+          T.Body("transfer_pending"),
+        ),
+      transferred:
+        BetaWorkersVersionsGetResponseExportsReconciliationTransferredList,
+      updated: BetaWorkersVersionsGetResponseExportsReconciliationUpdatedList,
+      warnings: BetaWorkersVersionsGetResponseExportsReconciliationWarningsList,
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsGetResponseExportsReconciliation",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsReconciliation>;
 
 export type BetaWorkersVersionsGetResponseLimits =
   BetaWorkersVersionsCreateResponseLimits;
@@ -14256,9 +15296,13 @@ export interface GetBetaWorkerVersionResponse {
   annotations?: BetaWorkersVersionsCreateResponseAnnotations | null;
   /** Configuration for assets within a Worker. */
   assets?: BetaWorkersVersionsGetResponseAssets | null;
+  /** Email of the user who created the version. */
+  authorEmail?: string | null;
+  /** Identifier of the user who created the version. */
+  authorId?: string | null;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
   bindings?: BetaWorkersVersionsGetResponseBindingsList | null;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateResponseCacheOptions | null;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string | null;
@@ -14266,6 +15310,10 @@ export interface GetBetaWorkerVersionResponse {
   compatibilityFlags?: BetaWorkersVersionsGetResponseCompatibilityFlagsList | null;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsGetResponseContainersList | null;
+  /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
+  exports?: BetaWorkersVersionsGetResponseExports | null;
+  /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
+  exportsReconciliation?: BetaWorkersVersionsGetResponseExportsReconciliation | null;
   /** Resource limits enforced at runtime. */
   limits?: BetaWorkersVersionsCreateResponseLimits | null;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
@@ -14276,7 +15324,7 @@ export interface GetBetaWorkerVersionResponse {
   migrations?: BetaWorkersVersionsGetResponseMigrations | null;
   /** Code, sourcemaps, and other content used at runtime. */
   modules?: BetaWorkersVersionsGetResponseModulesList | null;
-  /** The list of npm packages that were installed and used when this Worker */
+  /** The list of npm packages that were installed and used when this Worker version was built. */
   packageDependencies?: BetaWorkersVersionsGetResponsePackageDependenciesList | null;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
   placement?: BetaWorkersVersionsGetResponsePlacement | null;
@@ -14297,6 +15345,8 @@ export const GetBetaWorkerVersionResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(BetaWorkersVersionsCreateResponseAnnotations),
     ),
     assets: S.optional(S.NullOr(BetaWorkersVersionsGetResponseAssets)),
+    authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
+    authorId: S.optional(S.NullOr(S.String).pipe(T.Body("author_id"))),
     bindings: S.optional(S.NullOr(BetaWorkersVersionsGetResponseBindingsList)),
     cacheOptions: S.optional(
       S.NullOr(BetaWorkersVersionsCreateResponseCacheOptions).pipe(
@@ -14313,6 +15363,12 @@ export const GetBetaWorkerVersionResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     containers: S.optional(
       S.NullOr(BetaWorkersVersionsGetResponseContainersList),
+    ),
+    exports: S.optional(S.NullOr(BetaWorkersVersionsGetResponseExports)),
+    exportsReconciliation: S.optional(
+      S.NullOr(BetaWorkersVersionsGetResponseExportsReconciliation).pipe(
+        T.Body("exports_reconciliation"),
+      ),
     ),
     limits: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseLimits)),
     mainModule: S.optional(S.NullOr(S.String).pipe(T.Body("main_module"))),
@@ -14429,9 +15485,45 @@ export const GetObservabilitySharedQueryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetObservabilitySharedQueryRequest",
 }) as any as S.Schema<GetObservabilitySharedQueryRequest>;
 
-export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemOperator =
-  | "uniq"
+export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0Operator =
   | "count"
+  | "COUNT";
+export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0Operator =
+  S.String;
+
+export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0KeyType =
+  | "string"
+  | "number"
+  | "boolean";
+export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0KeyType =
+  S.String;
+
+export interface ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0 {
+  operator: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0Operator;
+  alias?: string | null;
+  key?: string | null;
+  keyType?: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0KeyType | null;
+}
+export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      operator:
+        ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0Operator,
+      alias: S.optional(S.NullOr(S.String)),
+      key: S.optional(S.NullOr(S.String)),
+      keyType: S.optional(
+        S.NullOr(
+          ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0KeyType,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0",
+  }) as any as S.Schema<ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0>;
+
+export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1Operator =
+  | "uniq"
   | "max"
   | "min"
   | "sum"
@@ -14450,7 +15542,6 @@ export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsI
   | "stddev"
   | "variance"
   | "COUNT_DISTINCT"
-  | "COUNT"
   | "MAX"
   | "MIN"
   | "SUM"
@@ -14468,39 +15559,50 @@ export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsI
   | "P999"
   | "STDDEV"
   | "VARIANCE";
-export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemOperator =
+export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1Operator =
   S.String;
 
-export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemKeyType =
+export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1KeyType =
   | "string"
   | "number"
   | "boolean";
-export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemKeyType =
+export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1KeyType =
   S.String;
 
-export interface ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItem {
-  operator: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemOperator;
+export interface ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1 {
+  key: string;
+  operator: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1Operator;
   alias?: string | null;
-  key?: string | null;
-  keyType?: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemKeyType | null;
+  keyType?: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1KeyType | null;
 }
-export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItem =
+export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      key: S.String,
       operator:
-        ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemOperator,
+        ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1Operator,
       alias: S.optional(S.NullOr(S.String)),
-      key: S.optional(S.NullOr(S.String)),
       keyType: S.optional(
         S.NullOr(
-          ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemKeyType,
+          ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1KeyType,
         ),
       ),
     }),
   ).annotate({
     identifier:
-      "ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItem",
-  }) as any as S.Schema<ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItem>;
+      "ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1",
+  }) as any as S.Schema<ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1>;
+
+export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItem =
+  | ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0
+  | ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1;
+export const ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItem =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["operator", "alias", "key", "keyType"],
+      ["key", "operator", "alias", "keyType"],
+    ]),
+  );
 
 export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsList =
   Array<ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItem>;
@@ -14581,10 +15683,10 @@ export type ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersItemWo
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -14918,7 +16020,7 @@ export interface ObservabilitySharedQueriesGetResponseRun {
   query: ObservabilitySharedQueriesGetResponseRunQuery;
   /** Current execution status of the query run. */
   status: ObservabilitySharedQueriesGetResponseRunStatus;
-  /** Time range for the query execution */
+  /** Time range for the query execution. 'from' must be earlier than 'to'. No fractional milliseconds. */
   timeframe: ObservabilitySharedQueriesCreateRequestTimeframe;
   /** ID of the user who initiated the query run. */
   userId: string;
@@ -14955,44 +16057,92 @@ export type ObservabilitySharedQueriesGetResponseStatistics =
 export const ObservabilitySharedQueriesGetResponseStatistics =
   ObservabilitySharedQueriesGetResponseRunStatistics;
 
-export type ObservabilitySharedQueriesGetResponseAgentsItemEventTypeCountsMap =
-  { [key: string]: number | undefined };
-export const ObservabilitySharedQueriesGetResponseAgentsItemEventTypeCountsMap =
-  /*@__PURE__*/ S.Record(
+export type ObservabilitySharedQueriesGetResponseAgentsItemErrorsList =
+  Array<string>;
+export const ObservabilitySharedQueriesGetResponseAgentsItemErrorsList =
+  /*@__PURE__*/ S.Array(
     S.String,
-    S.Number,
-  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseAgentsItemEventTypeCountsMap>;
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseAgentsItemErrorsList>;
+
+export type ObservabilitySharedQueriesGetResponseAgentsItemModelsList =
+  Array<string>;
+export const ObservabilitySharedQueriesGetResponseAgentsItemModelsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseAgentsItemModelsList>;
+
+export type ObservabilitySharedQueriesGetResponseAgentsItemProvidersList =
+  Array<string>;
+export const ObservabilitySharedQueriesGetResponseAgentsItemProvidersList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseAgentsItemProvidersList>;
+
+export type ObservabilitySharedQueriesGetResponseAgentsItemServicesList =
+  Array<string>;
+export const ObservabilitySharedQueriesGetResponseAgentsItemServicesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseAgentsItemServicesList>;
+
+export type ObservabilitySharedQueriesGetResponseAgentsItemStatus =
+  | "completed"
+  | "error";
+export const ObservabilitySharedQueriesGetResponseAgentsItemStatus = S.String;
 
 export interface ObservabilitySharedQueriesGetResponseAgentsItem {
-  /** Class name of the Durable Object agent. */
-  agentClass: string;
-  /** Breakdown of event counts by event type. */
-  eventTypeCounts: ObservabilitySharedQueriesGetResponseAgentsItemEventTypeCountsMap;
-  /** Timestamp of the earliest event from this agent in the queried window (Unix epoch ms). */
-  firstEventMs: number;
-  /** Whether the agent emitted any error events in the queried window. */
-  hasErrors: boolean;
-  /** Timestamp of the most recent event from this agent (Unix epoch ms). */
-  lastEventMs: number;
-  /** Durable Object namespace the agent belongs to. */
-  namespace: string;
-  /** Worker service name that hosts this agent. */
-  service: string;
-  /** Total number of events emitted by this agent in the queried window. */
-  totalEvents: number;
+  /** Stable pagination cursor for this agent run. */
+  id: string;
+  /** Distinct errors reported by spans in the run. */
+  errors: ObservabilitySharedQueriesGetResponseAgentsItemErrorsList;
+  /** Distinct models reported by chat spans across the run's trace. */
+  models: ObservabilitySharedQueriesGetResponseAgentsItemModelsList;
+  /** Distinct GenAI providers reported by chat spans in the run. */
+  providers: ObservabilitySharedQueriesGetResponseAgentsItemProvidersList;
+  /** Worker services represented in the run's trace. */
+  services: ObservabilitySharedQueriesGetResponseAgentsItemServicesList;
+  /** Number of spans in the run's trace. */
+  spans: number;
+  /** Observed run status. */
+  status: ObservabilitySharedQueriesGetResponseAgentsItemStatus;
+  /** Total trace duration in milliseconds. */
+  traceDurationMs: number;
+  /** End of the run's trace as a Unix epoch in milliseconds. */
+  traceEndMs: number;
+  /** Trace identifier for this agent run. */
+  traceId: string;
+  /** Start of the run's trace as a Unix epoch in milliseconds. */
+  traceStartMs: number;
+  /** ID from the earliest agent invocation that provides one. */
+  agentId?: string | null;
+  /** Name from the earliest agent invocation that provides one. */
+  agentName?: string | null;
+  /** Conversation ID from the earliest invocation that provides one. */
+  conversationId?: string | null;
+  /** Input tokens summed across chat spans in the run's trace; informational, not billing data. */
+  inputTokens?: number | null;
+  /** Output tokens summed across chat spans in the run's trace; informational, not billing data. */
+  outputTokens?: number | null;
 }
 export const ObservabilitySharedQueriesGetResponseAgentsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      agentClass: S.String,
-      eventTypeCounts:
-        ObservabilitySharedQueriesGetResponseAgentsItemEventTypeCountsMap,
-      firstEventMs: S.Number,
-      hasErrors: S.Boolean,
-      lastEventMs: S.Number,
-      namespace: S.String,
-      service: S.String,
-      totalEvents: S.Number,
+      id: S.String,
+      errors: ObservabilitySharedQueriesGetResponseAgentsItemErrorsList,
+      models: ObservabilitySharedQueriesGetResponseAgentsItemModelsList,
+      providers: ObservabilitySharedQueriesGetResponseAgentsItemProvidersList,
+      services: ObservabilitySharedQueriesGetResponseAgentsItemServicesList,
+      spans: S.Number,
+      status: ObservabilitySharedQueriesGetResponseAgentsItemStatus,
+      traceDurationMs: S.Number,
+      traceEndMs: S.Number,
+      traceId: S.String,
+      traceStartMs: S.Number,
+      agentId: S.optional(S.NullOr(S.String)),
+      agentName: S.optional(S.NullOr(S.String)),
+      conversationId: S.optional(S.NullOr(S.String)),
+      inputTokens: S.optional(S.NullOr(S.Number)),
+      outputTokens: S.optional(S.NullOr(S.Number)),
     }),
   ).annotate({
     identifier: "ObservabilitySharedQueriesGetResponseAgentsItem",
@@ -15356,6 +16506,73 @@ export const ObservabilitySharedQueriesGetResponseCompareList =
     ObservabilitySharedQueriesGetResponseCompareItem,
   ) as any as S.Schema<ObservabilitySharedQueriesGetResponseCompareList>;
 
+export type ObservabilitySharedQueriesGetResponseDistributionBinsList =
+  Array<string>;
+export const ObservabilitySharedQueriesGetResponseDistributionBinsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseDistributionBinsList>;
+
+export type ObservabilitySharedQueriesGetResponseDistributionBucketBoundariesList =
+  Array<number>;
+export const ObservabilitySharedQueriesGetResponseDistributionBucketBoundariesList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseDistributionBucketBoundariesList>;
+
+export type ObservabilitySharedQueriesGetResponseDistributionBucketMode =
+  | "log"
+  | "linear";
+export const ObservabilitySharedQueriesGetResponseDistributionBucketMode =
+  S.String;
+
+export type ObservabilitySharedQueriesGetResponseDistributionBucketsList =
+  Array<string>;
+export const ObservabilitySharedQueriesGetResponseDistributionBucketsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseDistributionBucketsList>;
+
+export type ObservabilitySharedQueriesGetResponseDistributionMatrixItemList =
+  Array<number>;
+export const ObservabilitySharedQueriesGetResponseDistributionMatrixItemList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseDistributionMatrixItemList>;
+
+export type ObservabilitySharedQueriesGetResponseDistributionMatrixList =
+  Array<ObservabilitySharedQueriesGetResponseDistributionMatrixItemList>;
+export const ObservabilitySharedQueriesGetResponseDistributionMatrixList =
+  /*@__PURE__*/ S.Array(
+    ObservabilitySharedQueriesGetResponseDistributionMatrixItemList,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseDistributionMatrixList>;
+
+export interface ObservabilitySharedQueriesGetResponseDistribution {
+  /** Time-bucket labels (ISO-8601 strings), one per matrix column. */
+  bins: ObservabilitySharedQueriesGetResponseDistributionBinsList;
+  /** Raw bucket edges in the value's native unit, length buckets.length + 1. Used for the colour scale and percentile mapping. */
+  bucketBoundaries: ObservabilitySharedQueriesGetResponseDistributionBucketBoundariesList;
+  /** Bucketing scheme used to derive the boundaries. 'log' produces geometric edges; 'linear' produces fixed-width edges. */
+  bucketMode: ObservabilitySharedQueriesGetResponseDistributionBucketMode;
+  /** Value-range labels, one per matrix row (e.g. '50–100ms'). */
+  buckets: ObservabilitySharedQueriesGetResponseDistributionBucketsList;
+  /** Sampling-corrected counts. matrix[bucketIdx][binIdx] is the estimated number of events in value-bucket 'bucketIdx' during time-bin 'binIdx'. */
+  matrix: ObservabilitySharedQueriesGetResponseDistributionMatrixList;
+}
+export const ObservabilitySharedQueriesGetResponseDistribution =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      bins: ObservabilitySharedQueriesGetResponseDistributionBinsList,
+      bucketBoundaries:
+        ObservabilitySharedQueriesGetResponseDistributionBucketBoundariesList,
+      bucketMode: ObservabilitySharedQueriesGetResponseDistributionBucketMode,
+      buckets: ObservabilitySharedQueriesGetResponseDistributionBucketsList,
+      matrix: ObservabilitySharedQueriesGetResponseDistributionMatrixList,
+    }),
+  ).annotate({
+    identifier: "ObservabilitySharedQueriesGetResponseDistribution",
+  }) as any as S.Schema<ObservabilitySharedQueriesGetResponseDistribution>;
+
 export interface ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata {
   /** Unique event ID. Use as the cursor value for offset-based pagination. */
   id: string;
@@ -15363,6 +16580,7 @@ export interface ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata {
   account?: string | null;
   /** Cloudflare product that generated this event (e.g. workers, pages). */
   cloudService?: string | null;
+  /** exclusiveMinimum */
   coldStart?: number | null;
   /** Estimated cost units for this invocation. */
   cost?: number | null;
@@ -15390,6 +16608,8 @@ export interface ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata {
   parentSpanId?: string | null;
   /** Infrastructure provider identifier. */
   provider?: string | null;
+  /** Cloudflare Ray ID from the `cf-ray` header of the request that triggered the invocation. */
+  rayId?: string | null;
   /** Cloudflare data center / region that handled the request. */
   region?: string | null;
   /** Cloudflare request ID that ties all logs from a single invocation together. */
@@ -15439,6 +16659,7 @@ export const ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata =
       origin: S.optional(S.NullOr(S.String)),
       parentSpanId: S.optional(S.NullOr(S.String)),
       provider: S.optional(S.NullOr(S.String)),
+      rayId: S.optional(S.NullOr(S.String)),
       region: S.optional(S.NullOr(S.String)),
       requestId: S.optional(S.NullOr(S.String)),
       service: S.optional(S.NullOr(S.String)),
@@ -15841,7 +17062,9 @@ export const ObservabilitySharedQueriesGetResponseEventsFieldsList =
   ) as any as S.Schema<ObservabilitySharedQueriesGetResponseEventsFieldsList>;
 
 export interface ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemAggregates {
+  /** exclusiveMinimum */
   count: number;
+  /** exclusiveMinimum */
   interval: number;
   firstSeen?: string | null;
   lastSeen?: string | null;
@@ -16357,12 +17580,14 @@ export interface GetObservabilitySharedQueryResponse {
   run: ObservabilitySharedQueriesGetResponseRun;
   /** Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency. */
   statistics: ObservabilitySharedQueriesGetResponseRunStatistics;
-  /** Durable Object agent summaries. Present when the query view is 'agents'. Each entry represents an agent with its event counts and status. */
+  /** Agent run summaries. Present when the query view is 'agents'. Each entry represents one trace containing at least one agent invocation. */
   agents?: ObservabilitySharedQueriesGetResponseAgentsList | null;
   /** Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data. */
   calculations?: ObservabilitySharedQueriesGetResponseCalculationsList | null;
   /** Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations. */
   compare?: ObservabilitySharedQueriesGetResponseCompareList | null;
+  /** Bucketed 2D histogram of a numeric field over time. Present when chartType is 'distribution'. */
+  distribution?: ObservabilitySharedQueriesGetResponseDistribution | null;
   /** Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata. */
   events?: ObservabilitySharedQueriesGetResponseEvents | null;
   /** Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation. */
@@ -16382,6 +17607,9 @@ export const GetObservabilitySharedQueryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     compare: S.optional(
       S.NullOr(ObservabilitySharedQueriesGetResponseCompareList),
+    ),
+    distribution: S.optional(
+      S.NullOr(ObservabilitySharedQueriesGetResponseDistribution),
     ),
     events: S.optional(S.NullOr(ObservabilitySharedQueriesGetResponseEvents)),
     invocations: S.optional(
@@ -16778,7 +18006,7 @@ export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNames
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespace {
   /** A JavaScript variable name for the binding. */
   name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
+  /** The user-chosen namespace name. Must exist before deploy — Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
   namespace: string;
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespaceType;
@@ -16794,6 +18022,31 @@ export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNames
     identifier:
       "ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespace",
   }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespace>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessagingType =
+  "messaging";
+export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessagingType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Messaging namespace to bind to. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessagingType;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessagingType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging>;
 
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngineType =
   "analytics_engine";
@@ -16873,7 +18126,7 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1 {
   name: string;
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1Type;
-  /** Identifier of the D1 database to bind to. */
+  /** This property has been renamed to `database_id`. */
   id?: string | null;
 }
 export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1 =
@@ -17309,7 +18562,8 @@ export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketType 
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketJurisdiction =
   | "eu"
   | "fedramp"
-  | "fedramp-high";
+  | "fedramp-high"
+  | "us";
 export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketJurisdiction =
   S.String;
 
@@ -17727,11 +18981,18 @@ export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType
 export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType =
   S.String;
 
+export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity =
+  "runtime-email-alpha";
+export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity =
+  S.String;
+
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetwork {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  identity?: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity | null;
   /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
@@ -17742,6 +19003,11 @@ export const ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetwork =
     S.Struct({
       name: S.String,
       type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType,
+      identity: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity,
+        ),
+      ),
       networkId: S.optional(S.NullOr(S.String).pipe(T.Body("network_id"))),
       tunnelId: S.optional(S.NullOr(S.String).pipe(T.Body("tunnel_id"))),
     }),
@@ -17754,6 +19020,7 @@ export type ScriptsScriptAndVersionSettingsGetResponseBindingsItem =
   | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAI
   | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearch
   | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespace
+  | ScriptsScriptAndVersionSettingsGetResponseBindingsItemMessaging
   | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAnalyticsEngine
   | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAssets
   | ScriptsScriptAndVersionSettingsGetResponseBindingsItemBrowser
@@ -17791,6 +19058,7 @@ export const ScriptsScriptAndVersionSettingsGetResponseBindingsItem =
     T.UnionCases([
       ["name", "type"],
       ["instanceName", "name", "type", "namespace"],
+      ["name", "namespace", "type"],
       ["name", "namespace", "type"],
       ["dataset", "name", "type"],
       ["name", "type"],
@@ -17837,7 +19105,7 @@ export const ScriptsScriptAndVersionSettingsGetResponseBindingsItem =
       ["name", "type", "workflowName", "className", "scriptName"],
       ["name", "part", "type"],
       ["name", "serviceId", "type"],
-      ["name", "type", "networkId", "tunnelId"],
+      ["name", "type", "identity", "networkId", "tunnelId"],
     ]),
   );
 
@@ -17860,53 +19128,525 @@ export const ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList =
     S.String,
   ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsValueType =
-  | "worker"
-  | "durable-object";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsValueType =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkerType =
+  "worker";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkerType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueCache {
-  /** Whether caching is enabled for this entrypoint. */
-  enabled: boolean;
-}
-export const ScriptsScriptAndVersionSettingsGetResponseExportsValueCache =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      enabled: S.Boolean,
-    }),
-  ).annotate({
-    identifier: "ScriptsScriptAndVersionSettingsGetResponseExportsValueCache",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsValueCache>;
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
 
-export interface ScriptsScriptAndVersionSettingsGetResponseExportsValue {
-  /** The kind of export. */
-  type: ScriptsScriptAndVersionSettingsGetResponseExportsValueType;
-  /** Cache override for this entrypoint. It applies only to */
-  cache?: ScriptsScriptAndVersionSettingsGetResponseExportsValueCache | null;
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkerState =
+  "created";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkerState =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsScriptAndVersionSettingsGetResponseExportsWorkerState | null;
 }
-export const ScriptsScriptAndVersionSettingsGetResponseExportsValue =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorker =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: ScriptsScriptAndVersionSettingsGetResponseExportsValueType,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkerType,
       cache: S.optional(
-        S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsValueCache),
+        S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      ),
+      state: S.optional(
+        S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsWorkerState),
       ),
     }),
   ).annotate({
-    identifier: "ScriptsScriptAndVersionSettingsGetResponseExportsValue",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsValue>;
+    identifier: "ScriptsScriptAndVersionSettingsGetResponseExportsWorker",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorker>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsMap = {
-  [key: string]:
-    | ScriptsScriptAndVersionSettingsGetResponseExportsValue
-    | undefined;
-};
-export const ScriptsScriptAndVersionSettingsGetResponseExportsMap =
-  /*@__PURE__*/ S.Record(
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportState =
+  "created";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportState | null;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportStorage,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportType;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportState,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportType;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportState,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportType;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExports =
+  | ScriptsScriptAndVersionSettingsGetResponseExportsWorker
+  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport
+  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport
+  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport
+  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport
+  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport;
+export const ScriptsScriptAndVersionSettingsGetResponseExports =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationCreatedList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationCreatedList =
+  /*@__PURE__*/ S.Array(
     S.String,
-    ScriptsScriptAndVersionSettingsGetResponseExportsValue,
-  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsMap>;
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationCreatedList>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationDeletedList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationDeletedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationDeletedList>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemScenario =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList>;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItem {
+  /** The class name the info entry is about. */
+  class: string;
+  /** Human-readable explanation. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemScenario;
+  /** The provisioned namespace the entry relates to, when applicable. */
+  namespaceId?: string | null;
+  /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove — redeploy these Workers with bindings re-pointed first. */
+  referencingScripts?: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+      referencingScripts: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList,
+        ).pipe(T.Body("referencing_scripts")),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItem",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItem>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoList =
+  Array<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItem>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoList =
+  /*@__PURE__*/ S.Array(
+    ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoList>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRemovableEntriesList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRemovableEntriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRemovableEntriesList>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRenamedList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRenamedList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRenamedList>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferPendingList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferPendingList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferPendingList>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItemPhase =
+  "committed";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItemPhase =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItem {
+  /** The source class name that was transferred. */
+  class: string;
+  /** The transfer phase. Currently always `committed`. */
+  phase: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItemPhase;
+  /** The destination script that now owns the namespace. */
+  to: string;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      phase:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItemPhase,
+      to: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItem",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItem>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredList =
+  Array<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItem>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredList =
+  /*@__PURE__*/ S.Array(
+    ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredList>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationUpdatedList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationUpdatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationUpdatedList>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItemScenario =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItem {
+  /** The class name the warning is about. */
+  class: string;
+  /** Human-readable explanation of the warning. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItemScenario;
+  /** The provisioned namespace the warning relates to, when applicable. */
+  namespaceId?: string | null;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItem",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItem>;
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsList =
+  Array<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItem>;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsList =
+  /*@__PURE__*/ S.Array(
+    ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsList>;
+
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation {
+  /** Class names for which a new namespace was provisioned. */
+  created: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationCreatedList;
+  /** Class names whose namespace was deleted by a `deleted` tombstone. */
+  deleted: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationDeletedList;
+  /** Non-blocking info entries (stale tombstones, tombstone applied with class still in code). See `exports_reconciliation_info`. */
+  info: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoList;
+  /** Source class names whose tombstone entry is now stale and safe to delete from `exports` (no remaining referencing scripts). */
+  removableEntries: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRemovableEntriesList;
+  /** Applied `renamed` tombstones. */
+  renamed: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRenamedList;
+  /** Phase-1 transfer hints recorded on the target side. */
+  transferPending: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferPendingList;
+  /** Committed `transferred` tombstones (phase-2). */
+  transferred: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredList;
+  /** Class names whose provisioned namespace was mutated in place. */
+  updated: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationUpdatedList;
+  /** Non-blocking warnings. See `exports_reconciliation_warning`. */
+  warnings: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsList;
+}
+export const ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      created:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationCreatedList,
+      deleted:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationDeletedList,
+      info: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoList,
+      removableEntries:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRemovableEntriesList.pipe(
+          T.Body("removable_entries"),
+        ),
+      renamed:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationRenamedList,
+      transferPending:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferPendingList.pipe(
+          T.Body("transfer_pending"),
+        ),
+      transferred:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationTransferredList,
+      updated:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationUpdatedList,
+      warnings:
+        ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsList,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation>;
 
 export interface ScriptsScriptAndVersionSettingsGetResponseLimits {
   /** The amount of CPU time this Worker can use in milliseconds. */
@@ -18222,7 +19962,7 @@ export interface ScriptsScriptAndVersionSettingsGetResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: ScriptsScriptAndVersionSettingsGetResponseObservabilityTracesPropagationPolicy | null;
 }
 export const ScriptsScriptAndVersionSettingsGetResponseObservabilityTraces =
@@ -18255,6 +19995,8 @@ export interface ScriptsScriptAndVersionSettingsGetResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: ScriptsScriptAndVersionSettingsGetResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: ScriptsScriptAndVersionSettingsGetResponseObservabilityTraces | null;
 }
@@ -18267,6 +20009,9 @@ export const ScriptsScriptAndVersionSettingsGetResponseObservability =
       ),
       logs: S.optional(
         S.NullOr(ScriptsScriptAndVersionSettingsGetResponseObservabilityLogs),
+      ),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
       ),
       traces: S.optional(
         S.NullOr(ScriptsScriptAndVersionSettingsGetResponseObservabilityTraces),
@@ -18492,14 +20237,16 @@ export interface GetScriptScriptAndVersionSettingResponse {
   annotations?: ScriptsScriptAndVersionSettingsGetResponseAnnotations | null;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
   bindings?: ScriptsScriptAndVersionSettingsGetResponseBindingsList | null;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateResponseCacheOptions | null;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string | null;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
   compatibilityFlags?: ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList | null;
-  /** Declarative exports for the Worker. Worker entrypoint entries */
-  exports?: ScriptsScriptAndVersionSettingsGetResponseExportsMap | null;
+  /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
+  exports?: ScriptsScriptAndVersionSettingsGetResponseExports | null;
+  /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
+  exportsReconciliation?: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation | null;
   /** Limits to apply for this Worker. */
   limits?: ScriptsScriptAndVersionSettingsGetResponseLimits | null;
   /** Whether Logpush is turned on for the Worker. */
@@ -18540,7 +20287,12 @@ export const GetScriptScriptAndVersionSettingResponse = /*@__PURE__*/ S.suspend(
         ).pipe(T.Body("compatibility_flags")),
       ),
       exports: S.optional(
-        S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsMap),
+        S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExports),
+      ),
+      exportsReconciliation: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation,
+        ).pipe(T.Body("exports_reconciliation")),
       ),
       limits: S.optional(
         S.NullOr(ScriptsScriptAndVersionSettingsGetResponseLimits),
@@ -18781,7 +20533,7 @@ export interface ScriptsSettingsGetResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: ScriptsSettingsGetResponseObservabilityTracesPropagationPolicy | null;
 }
 export const ScriptsSettingsGetResponseObservabilityTraces =
@@ -18812,6 +20564,8 @@ export interface ScriptsSettingsGetResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: ScriptsSettingsGetResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: ScriptsSettingsGetResponseObservabilityTraces | null;
 }
@@ -18823,6 +20577,9 @@ export const ScriptsSettingsGetResponseObservability = /*@__PURE__*/ S.suspend(
         S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
       ),
       logs: S.optional(S.NullOr(ScriptsSettingsGetResponseObservabilityLogs)),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(
         S.NullOr(ScriptsSettingsGetResponseObservabilityTraces),
       ),
@@ -18980,1107 +20737,6 @@ export const GetScriptVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetScriptVersionRequest",
 }) as any as S.Schema<GetScriptVersionRequest>;
 
-export type ScriptsVersionsGetResponseResourcesBindingsItemAIType = "ai";
-export const ScriptsVersionsGetResponseResourcesBindingsItemAIType = S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemAI {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemAIType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemAI =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemAIType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemAI",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemAI>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemAISearchType =
-  "ai_search";
-export const ScriptsVersionsGetResponseResourcesBindingsItemAISearchType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemAISearch {
-  /** The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance. */
-  instanceName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemAISearchType;
-  /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemAISearch =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      instanceName: S.String.pipe(T.Body("instance_name")),
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemAISearchType,
-      namespace: S.optional(S.NullOr(S.String)),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemAISearch",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemAISearch>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespaceType =
-  "ai_search_namespace";
-export const ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespaceType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
-  namespace: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespaceType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespace: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespaceType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespace",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespace>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngineType =
-  "analytics_engine";
-export const ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngineType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngine {
-  /** The name of the dataset to bind to. */
-  dataset: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngineType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngine =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dataset: S.String,
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngineType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngine",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngine>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemAssetsType =
-  "assets";
-export const ScriptsVersionsGetResponseResourcesBindingsItemAssetsType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemAssets {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemAssetsType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemAssets =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemAssetsType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemAssets",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemAssets>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemBrowserType =
-  "browser";
-export const ScriptsVersionsGetResponseResourcesBindingsItemBrowserType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemBrowser {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemBrowserType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemBrowser =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemBrowserType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemBrowser",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemBrowser>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemD1Type = "d1";
-export const ScriptsVersionsGetResponseResourcesBindingsItemD1Type = S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemD1 {
-  /** Identifier of the D1 database to bind to. */
-  databaseId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemD1Type;
-  /** Identifier of the D1 database to bind to. */
-  id?: string | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemD1 =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      databaseId: S.String.pipe(T.Body("database_id")),
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemD1Type,
-      id: S.optional(S.NullOr(S.String)),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemD1",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemD1>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemDataBlobType =
-  "data_blob";
-export const ScriptsVersionsGetResponseResourcesBindingsItemDataBlobType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemDataBlob {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the data content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemDataBlobType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemDataBlob =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemDataBlobType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemDataBlob",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemDataBlob>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceType =
-  "dispatch_namespace";
-export const ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceType =
-  S.String;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundParamsItem =
-  BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem;
-export const ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundParamsItem =
-  BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList =
-  Array<BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem>;
-export const ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList =
-  /*@__PURE__*/ S.Array(
-    BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem,
-  ) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundWorker =
-  BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
-export const ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundWorker =
-  BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutbound {
-  /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList | null;
-  /** Outbound worker. */
-  worker?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutbound =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      params: S.optional(
-        S.NullOr(
-          ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutboundParamsList,
-        ),
-      ),
-      worker: S.optional(
-        S.NullOr(
-          BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutbound",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutbound>;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the dispatch namespace. */
-  namespace: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceType;
-  /** Outbound worker. */
-  outbound?: ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutbound | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespace: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceType,
-      outbound: S.optional(
-        S.NullOr(
-          ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespaceOutbound,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespace",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespace>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespaceType =
-  "durable_object_namespace";
-export const ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespaceType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespaceType;
-  /** The exported class name of the Durable Object. */
-  className?: string | null;
-  /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
-  /** The environment of the script_name to bind to. */
-  environment?: string | null;
-  /** Namespace identifier tag. */
-  namespaceId?: string | null;
-  /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespaceType,
-      className: S.optional(S.NullOr(S.String).pipe(T.Body("class_name"))),
-      dispatchNamespace: S.optional(
-        S.NullOr(S.String).pipe(T.Body("dispatch_namespace")),
-      ),
-      environment: S.optional(S.NullOr(S.String)),
-      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
-      scriptName: S.optional(S.NullOr(S.String).pipe(T.Body("script_name"))),
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespace",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespace>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemHyperdriveType =
-  "hyperdrive";
-export const ScriptsVersionsGetResponseResourcesBindingsItemHyperdriveType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemHyperdrive {
-  /** Identifier of the Hyperdrive connection to bind to. */
-  id: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemHyperdriveType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemHyperdrive =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.String,
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemHyperdriveType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemHyperdrive",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemHyperdrive>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemInheritType =
-  "inherit";
-export const ScriptsVersionsGetResponseResourcesBindingsItemInheritType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemInherit {
-  /** The name of the inherited binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemInheritType;
-  /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
-  /** Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version. */
-  versionId?: string | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemInherit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemInheritType,
-      oldName: S.optional(S.NullOr(S.String).pipe(T.Body("old_name"))),
-      versionId: S.optional(S.NullOr(S.String).pipe(T.Body("version_id"))),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemInherit",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemInherit>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemImagesType =
-  "images";
-export const ScriptsVersionsGetResponseResourcesBindingsItemImagesType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemImages {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemImagesType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemImages =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemImagesType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemImages",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemImages>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemJsonType = "json";
-export const ScriptsVersionsGetResponseResourcesBindingsItemJsonType = S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemJson {
-  /** JSON data to use. */
-  json: unknown;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemJsonType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemJson =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      json: S.Unknown,
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemJsonType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemJson",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemJson>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemKVNamespaceType =
-  "kv_namespace";
-export const ScriptsVersionsGetResponseResourcesBindingsItemKVNamespaceType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemKVNamespace {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Namespace identifier tag. */
-  namespaceId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemKVNamespaceType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemKVNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespaceId: S.String.pipe(T.Body("namespace_id")),
-      type: ScriptsVersionsGetResponseResourcesBindingsItemKVNamespaceType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemKVNamespace",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemKVNamespace>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemMediaType = "media";
-export const ScriptsVersionsGetResponseResourcesBindingsItemMediaType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemMedia {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemMediaType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemMedia =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemMediaType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemMedia",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemMedia>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificateType =
-  "mtls_certificate";
-export const ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificateType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificate {
-  /** Identifier of the certificate to bind to. */
-  certificateId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificateType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificate =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      certificateId: S.String.pipe(T.Body("certificate_id")),
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificateType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificate",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificate>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemPlainTextType =
-  "plain_text";
-export const ScriptsVersionsGetResponseResourcesBindingsItemPlainTextType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemPlainText {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The text value to use. */
-  text: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemPlainTextType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemPlainText =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      text: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemPlainTextType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemPlainText",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemPlainText>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemPipelinesType =
-  "pipelines";
-export const ScriptsVersionsGetResponseResourcesBindingsItemPipelinesType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemPipelines {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the Pipeline to bind to. */
-  pipeline: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemPipelinesType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemPipelines =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      pipeline: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemPipelinesType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemPipelines",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemPipelines>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemQueueType = "queue";
-export const ScriptsVersionsGetResponseResourcesBindingsItemQueueType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemQueue {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the Queue to bind to. */
-  queueName: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemQueueType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemQueue =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      queueName: S.String.pipe(T.Body("queue_name")),
-      type: ScriptsVersionsGetResponseResourcesBindingsItemQueueType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemQueue",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemQueue>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemRatelimitSimple =
-  BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
-export const ScriptsVersionsGetResponseResourcesBindingsItemRatelimitSimple =
-  BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemRatelimitType =
-  "ratelimit";
-export const ScriptsVersionsGetResponseResourcesBindingsItemRatelimitType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemRatelimit {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Identifier of the rate limit namespace to bind to. */
-  namespaceId: string;
-  /** The rate limit configuration. */
-  simple: BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemRatelimitType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemRatelimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespaceId: S.String.pipe(T.Body("namespace_id")),
-      simple: BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemRatelimitType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemRatelimit",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemRatelimit>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemR2BucketType =
-  "r2_bucket";
-export const ScriptsVersionsGetResponseResourcesBindingsItemR2BucketType =
-  S.String;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemR2BucketJurisdiction =
-  | "eu"
-  | "fedramp"
-  | "fedramp-high";
-export const ScriptsVersionsGetResponseResourcesBindingsItemR2BucketJurisdiction =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemR2Bucket {
-  /** R2 bucket to bind to. */
-  bucketName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemR2BucketType;
-  /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: ScriptsVersionsGetResponseResourcesBindingsItemR2BucketJurisdiction | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemR2Bucket =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      bucketName: S.String.pipe(T.Body("bucket_name")),
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemR2BucketType,
-      jurisdiction: S.optional(
-        S.NullOr(
-          ScriptsVersionsGetResponseResourcesBindingsItemR2BucketJurisdiction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemR2Bucket",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemR2Bucket>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSecretTextType =
-  "secret_text";
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretTextType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemSecretText {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The secret value to use. */
-  text: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemSecretTextType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretText =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      text: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemSecretTextType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemSecretText",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemSecretText>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSendEmailType =
-  "send_email";
-export const ScriptsVersionsGetResponseResourcesBindingsItemSendEmailType =
-  S.String;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList =
-  Array<string>;
-export const ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList =
-  Array<string>;
-export const ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList>;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemSendEmail {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemSendEmailType;
-  /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList | null;
-  /** List of allowed sender addresses. */
-  allowedSenderAddresses?: ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList | null;
-  /** Destination address for the email. */
-  destinationAddress?: string | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemSendEmail =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemSendEmailType,
-      allowedDestinationAddresses: S.optional(
-        S.NullOr(
-          ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedDestinationAddressesList,
-        ).pipe(T.Body("allowed_destination_addresses")),
-      ),
-      allowedSenderAddresses: S.optional(
-        S.NullOr(
-          ScriptsVersionsGetResponseResourcesBindingsItemSendEmailAllowedSenderAddressesList,
-        ).pipe(T.Body("allowed_sender_addresses")),
-      ),
-      destinationAddress: S.optional(
-        S.NullOr(S.String).pipe(T.Body("destination_address")),
-      ),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemSendEmail",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemSendEmail>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemServiceType =
-  "service";
-export const ScriptsVersionsGetResponseResourcesBindingsItemServiceType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemService {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of Worker to bind to. */
-  service: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemServiceType;
-  /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
-  /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemService =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      service: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemServiceType,
-      entrypoint: S.optional(S.NullOr(S.String)),
-      environment: S.optional(S.NullOr(S.String)),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemService",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemService>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemTextBlobType =
-  "text_blob";
-export const ScriptsVersionsGetResponseResourcesBindingsItemTextBlobType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemTextBlob {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the text content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemTextBlobType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemTextBlob =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemTextBlobType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemTextBlob",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemTextBlob>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemVectorizeType =
-  "vectorize";
-export const ScriptsVersionsGetResponseResourcesBindingsItemVectorizeType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemVectorize {
-  /** Name of the Vectorize index to bind to. */
-  indexName: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemVectorizeType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemVectorize =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      indexName: S.String.pipe(T.Body("index_name")),
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemVectorizeType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemVectorize",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemVectorize>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadataType =
-  "version_metadata";
-export const ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadataType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadata {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadataType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadata =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadataType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadata",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadata>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecretType =
-  "secrets_store_secret";
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecretType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecret {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Name of the secret in the store. */
-  secretName: string;
-  /** ID of the store containing the secret. */
-  storeId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecretType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecret =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      secretName: S.String.pipe(T.Body("secret_name")),
-      storeId: S.String.pipe(T.Body("store_id")),
-      type: ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecretType,
-    }),
-  ).annotate({
-    identifier:
-      "ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecret",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecret>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemFlagshipType =
-  "flagship";
-export const ScriptsVersionsGetResponseResourcesBindingsItemFlagshipType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemFlagship {
-  /** ID of the Flagship app to bind to for feature flag evaluation. */
-  appId: string;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemFlagshipType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemFlagship =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appId: S.String.pipe(T.Body("app_id")),
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemFlagshipType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemFlagship",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemFlagship>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyFormat =
-  | "raw"
-  | "pkcs8"
-  | "spki"
-  | "jwk";
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyFormat =
-  S.String;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyType =
-  "secret_key";
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyType =
-  S.String;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesItem =
-  | "encrypt"
-  | "decrypt"
-  | "sign"
-  | "verify"
-  | "deriveKey"
-  | "deriveBits"
-  | "wrapKey"
-  | "unwrapKey";
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesItem =
-  S.String;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesList =
-  Array<ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesItem>;
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesList =
-  /*@__PURE__*/ S.Array(
-    ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesItem,
-  ) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesList>;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemSecretKey {
-  /** Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). */
-  algorithm: unknown;
-  /** Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format). */
-  format: ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyFormat;
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyType;
-  /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
-  usages: ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesList;
-  /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
-  /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemSecretKey =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algorithm: S.Unknown,
-      format: ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyFormat,
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyType,
-      usages:
-        ScriptsVersionsGetResponseResourcesBindingsItemSecretKeyUsagesList,
-      keyBase64: S.optional(S.NullOr(S.String).pipe(T.Body("key_base64"))),
-      keyJwk: S.optional(S.NullOr(S.Unknown).pipe(T.Body("key_jwk"))),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemSecretKey",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemSecretKey>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemWorkflowType =
-  "workflow";
-export const ScriptsVersionsGetResponseResourcesBindingsItemWorkflowType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemWorkflow {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemWorkflowType;
-  /** Name of the Workflow to bind to. */
-  workflowName: string;
-  /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
-  /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemWorkflow =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemWorkflowType,
-      workflowName: S.String.pipe(T.Body("workflow_name")),
-      className: S.optional(S.NullOr(S.String).pipe(T.Body("class_name"))),
-      scriptName: S.optional(S.NullOr(S.String).pipe(T.Body("script_name"))),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemWorkflow",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemWorkflow>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemWasmModuleType =
-  "wasm_module";
-export const ScriptsVersionsGetResponseResourcesBindingsItemWasmModuleType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemWasmModule {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers. */
-  part: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemWasmModuleType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemWasmModule =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemWasmModuleType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemWasmModule",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemWasmModule>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemVPCServiceType =
-  "vpc_service";
-export const ScriptsVersionsGetResponseResourcesBindingsItemVPCServiceType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemVPCService {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** Identifier of the VPC service to bind to. */
-  serviceId: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemVPCServiceType;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemVPCService =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      serviceId: S.String.pipe(T.Body("service_id")),
-      type: ScriptsVersionsGetResponseResourcesBindingsItemVPCServiceType,
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemVPCService",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemVPCService>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItemVPCNetworkType =
-  "vpc_network";
-export const ScriptsVersionsGetResponseResourcesBindingsItemVPCNetworkType =
-  S.String;
-
-export interface ScriptsVersionsGetResponseResourcesBindingsItemVPCNetwork {
-  /** A JavaScript variable name for the binding. */
-  name: string;
-  /** The kind of resource that the binding provides. */
-  type: ScriptsVersionsGetResponseResourcesBindingsItemVPCNetworkType;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
-  /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
-}
-export const ScriptsVersionsGetResponseResourcesBindingsItemVPCNetwork =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: ScriptsVersionsGetResponseResourcesBindingsItemVPCNetworkType,
-      networkId: S.optional(S.NullOr(S.String).pipe(T.Body("network_id"))),
-      tunnelId: S.optional(S.NullOr(S.String).pipe(T.Body("tunnel_id"))),
-    }),
-  ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesBindingsItemVPCNetwork",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsItemVPCNetwork>;
-
-export type ScriptsVersionsGetResponseResourcesBindingsItem =
-  | ScriptsVersionsGetResponseResourcesBindingsItemAI
-  | ScriptsVersionsGetResponseResourcesBindingsItemAISearch
-  | ScriptsVersionsGetResponseResourcesBindingsItemAISearchNamespace
-  | ScriptsVersionsGetResponseResourcesBindingsItemAnalyticsEngine
-  | ScriptsVersionsGetResponseResourcesBindingsItemAssets
-  | ScriptsVersionsGetResponseResourcesBindingsItemBrowser
-  | ScriptsVersionsGetResponseResourcesBindingsItemD1
-  | ScriptsVersionsGetResponseResourcesBindingsItemDataBlob
-  | ScriptsVersionsGetResponseResourcesBindingsItemDispatchNamespace
-  | ScriptsVersionsGetResponseResourcesBindingsItemDurableObjectNamespace
-  | ScriptsVersionsGetResponseResourcesBindingsItemHyperdrive
-  | ScriptsVersionsGetResponseResourcesBindingsItemInherit
-  | ScriptsVersionsGetResponseResourcesBindingsItemImages
-  | ScriptsVersionsGetResponseResourcesBindingsItemJson
-  | ScriptsVersionsGetResponseResourcesBindingsItemKVNamespace
-  | ScriptsVersionsGetResponseResourcesBindingsItemMedia
-  | ScriptsVersionsGetResponseResourcesBindingsItemMTLSCertificate
-  | ScriptsVersionsGetResponseResourcesBindingsItemPlainText
-  | ScriptsVersionsGetResponseResourcesBindingsItemPipelines
-  | ScriptsVersionsGetResponseResourcesBindingsItemQueue
-  | ScriptsVersionsGetResponseResourcesBindingsItemRatelimit
-  | ScriptsVersionsGetResponseResourcesBindingsItemR2Bucket
-  | ScriptsVersionsGetResponseResourcesBindingsItemSecretText
-  | ScriptsVersionsGetResponseResourcesBindingsItemSendEmail
-  | ScriptsVersionsGetResponseResourcesBindingsItemService
-  | ScriptsVersionsGetResponseResourcesBindingsItemTextBlob
-  | ScriptsVersionsGetResponseResourcesBindingsItemVectorize
-  | ScriptsVersionsGetResponseResourcesBindingsItemVersionMetadata
-  | ScriptsVersionsGetResponseResourcesBindingsItemSecretsStoreSecret
-  | ScriptsVersionsGetResponseResourcesBindingsItemFlagship
-  | ScriptsVersionsGetResponseResourcesBindingsItemSecretKey
-  | ScriptsVersionsGetResponseResourcesBindingsItemWorkflow
-  | ScriptsVersionsGetResponseResourcesBindingsItemWasmModule
-  | ScriptsVersionsGetResponseResourcesBindingsItemVPCService
-  | ScriptsVersionsGetResponseResourcesBindingsItemVPCNetwork;
-export const ScriptsVersionsGetResponseResourcesBindingsItem =
-  /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["name", "type"],
-      ["instanceName", "name", "type", "namespace"],
-      ["name", "namespace", "type"],
-      ["dataset", "name", "type"],
-      ["name", "type"],
-      ["name", "type"],
-      ["databaseId", "name", "type", "id"],
-      ["name", "part", "type"],
-      ["name", "namespace", "type", "outbound"],
-      [
-        "name",
-        "type",
-        "className",
-        "dispatchNamespace",
-        "environment",
-        "namespaceId",
-        "scriptName",
-      ],
-      ["id", "name", "type"],
-      ["name", "type", "oldName", "versionId"],
-      ["name", "type"],
-      ["json", "name", "type"],
-      ["name", "namespaceId", "type"],
-      ["name", "type"],
-      ["certificateId", "name", "type"],
-      ["name", "text", "type"],
-      ["name", "pipeline", "type"],
-      ["name", "queueName", "type"],
-      ["name", "namespaceId", "simple", "type"],
-      ["bucketName", "name", "type", "jurisdiction"],
-      ["name", "text", "type"],
-      [
-        "name",
-        "type",
-        "allowedDestinationAddresses",
-        "allowedSenderAddresses",
-        "destinationAddress",
-      ],
-      ["name", "service", "type", "entrypoint", "environment"],
-      ["name", "part", "type"],
-      ["indexName", "name", "type"],
-      ["name", "type"],
-      ["name", "secretName", "storeId", "type"],
-      ["appId", "name", "type"],
-      ["algorithm", "format", "name", "type", "usages", "keyBase64", "keyJwk"],
-      ["name", "type", "workflowName", "className", "scriptName"],
-      ["name", "part", "type"],
-      ["name", "serviceId", "type"],
-      ["name", "type", "networkId", "tunnelId"],
-    ]),
-  );
-
-export type ScriptsVersionsGetResponseResourcesBindingsList =
-  Array<ScriptsVersionsGetResponseResourcesBindingsItem>;
-export const ScriptsVersionsGetResponseResourcesBindingsList =
-  /*@__PURE__*/ S.Array(
-    ScriptsVersionsGetResponseResourcesBindingsItem,
-  ) as any as S.Schema<ScriptsVersionsGetResponseResourcesBindingsList>;
-
 export type ScriptsVersionsGetResponseResourcesScriptHandlersList =
   Array<string>;
 export const ScriptsVersionsGetResponseResourcesScriptHandlersList =
@@ -20159,6 +20815,243 @@ export const ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsL
     S.String,
   ) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsList>;
 
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerType =
+  "worker";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerType =
+  S.String;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerState =
+  "created";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerState =
+  S.String;
+
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerState | null;
+}
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerType,
+      cache: S.optional(
+        S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      ),
+      state: S.optional(
+        S.NullOr(
+          ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker>;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState =
+  "created";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState | null;
+}
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage,
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport>;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType;
+}
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState,
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport>;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType;
+}
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState,
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport>;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType;
+}
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport>;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExports =
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport;
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExports =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
+
 export type ScriptsVersionsGetResponseResourcesScriptRuntimeLimits =
   ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits;
 export const ScriptsVersionsGetResponseResourcesScriptRuntimeLimits =
@@ -20176,6 +21069,8 @@ export interface ScriptsVersionsGetResponseResourcesScriptRuntime {
   compatibilityDate?: string | null;
   /** Flags that enable or disable certain features in the Workers runtime. */
   compatibilityFlags?: ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsList | null;
+  /** Declarative exports for this version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
+  exports?: ScriptsVersionsGetResponseResourcesScriptRuntimeExports | null;
   /** Resource limits for the Worker. */
   limits?: ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits | null;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
@@ -20193,6 +21088,9 @@ export const ScriptsVersionsGetResponseResourcesScriptRuntime =
         S.NullOr(
           ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsList,
         ).pipe(T.Body("compatibility_flags")),
+      ),
+      exports: S.optional(
+        S.NullOr(ScriptsVersionsGetResponseResourcesScriptRuntimeExports),
       ),
       limits: S.optional(
         S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits),
@@ -20212,16 +21110,14 @@ export const ScriptsVersionsGetResponseResourcesScriptRuntime =
 
 export interface ScriptsVersionsGetResponseResources {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: ScriptsVersionsGetResponseResourcesBindingsList | null;
+  bindings: unknown;
   script?: ScriptsVersionsGetResponseResourcesScript | null;
   /** Runtime configuration for the Worker. */
   scriptRuntime?: ScriptsVersionsGetResponseResourcesScriptRuntime | null;
 }
 export const ScriptsVersionsGetResponseResources = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bindings: S.optional(
-      S.NullOr(ScriptsVersionsGetResponseResourcesBindingsList),
-    ),
+    bindings: S.Unknown,
     script: S.optional(S.NullOr(ScriptsVersionsGetResponseResourcesScript)),
     scriptRuntime: S.optional(
       S.NullOr(ScriptsVersionsGetResponseResourcesScriptRuntime).pipe(
@@ -20399,10 +21295,10 @@ export type ObservabilityTelemetryKeysRequestFiltersItemCase0FiltersItemWorkersO
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -20529,10 +21425,10 @@ export type ObservabilityTelemetryKeysRequestFiltersItemWorkersObservabilityFilt
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -20856,7 +21752,7 @@ export interface BetaWorkersListResultItemObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: BetaWorkersListResultItemObservabilityTracesPropagationPolicy | null;
 }
 export const BetaWorkersListResultItemObservabilityTraces =
@@ -20887,6 +21783,8 @@ export interface BetaWorkersListResultItemObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: BetaWorkersListResultItemObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: BetaWorkersListResultItemObservabilityTraces | null;
 }
@@ -20898,6 +21796,9 @@ export const BetaWorkersListResultItemObservability = /*@__PURE__*/ S.suspend(
         S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
       ),
       logs: S.optional(S.NullOr(BetaWorkersListResultItemObservabilityLogs)),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(
         S.NullOr(BetaWorkersListResultItemObservabilityTraces),
       ),
@@ -21250,7 +22151,7 @@ export const BetaWorkersVersionsListResultItemBindingsItemAISearchNamespaceType 
 export interface BetaWorkersVersionsListResultItemBindingsItemAISearchNamespace {
   /** A JavaScript variable name for the binding. */
   name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
+  /** The user-chosen namespace name. Must exist before deploy — Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
   namespace: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemAISearchNamespaceType;
@@ -21266,6 +22167,30 @@ export const BetaWorkersVersionsListResultItemBindingsItemAISearchNamespace =
     identifier:
       "BetaWorkersVersionsListResultItemBindingsItemAISearchNamespace",
   }) as any as S.Schema<BetaWorkersVersionsListResultItemBindingsItemAISearchNamespace>;
+
+export type BetaWorkersVersionsListResultItemBindingsItemMessagingType =
+  "messaging";
+export const BetaWorkersVersionsListResultItemBindingsItemMessagingType =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemBindingsItemMessaging {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Messaging namespace to bind to. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: BetaWorkersVersionsListResultItemBindingsItemMessagingType;
+}
+export const BetaWorkersVersionsListResultItemBindingsItemMessaging =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: BetaWorkersVersionsListResultItemBindingsItemMessagingType,
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsListResultItemBindingsItemMessaging",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemBindingsItemMessaging>;
 
 export type BetaWorkersVersionsListResultItemBindingsItemAnalyticsEngineType =
   "analytics_engine";
@@ -21341,7 +22266,7 @@ export interface BetaWorkersVersionsListResultItemBindingsItemD1 {
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemD1Type;
-  /** Identifier of the D1 database to bind to. */
+  /** This property has been renamed to `database_id`. */
   id?: string | null;
 }
 export const BetaWorkersVersionsListResultItemBindingsItemD1 =
@@ -21762,7 +22687,8 @@ export const BetaWorkersVersionsListResultItemBindingsItemR2BucketType =
 export type BetaWorkersVersionsListResultItemBindingsItemR2BucketJurisdiction =
   | "eu"
   | "fedramp"
-  | "fedramp-high";
+  | "fedramp-high"
+  | "us";
 export const BetaWorkersVersionsListResultItemBindingsItemR2BucketJurisdiction =
   S.String;
 
@@ -22167,11 +23093,18 @@ export type BetaWorkersVersionsListResultItemBindingsItemVPCNetworkType =
 export const BetaWorkersVersionsListResultItemBindingsItemVPCNetworkType =
   S.String;
 
+export type BetaWorkersVersionsListResultItemBindingsItemVPCNetworkIdentity =
+  "runtime-email-alpha";
+export const BetaWorkersVersionsListResultItemBindingsItemVPCNetworkIdentity =
+  S.String;
+
 export interface BetaWorkersVersionsListResultItemBindingsItemVPCNetwork {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemVPCNetworkType;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  identity?: BetaWorkersVersionsListResultItemBindingsItemVPCNetworkIdentity | null;
   /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
@@ -22182,6 +23115,11 @@ export const BetaWorkersVersionsListResultItemBindingsItemVPCNetwork =
     S.Struct({
       name: S.String,
       type: BetaWorkersVersionsListResultItemBindingsItemVPCNetworkType,
+      identity: S.optional(
+        S.NullOr(
+          BetaWorkersVersionsListResultItemBindingsItemVPCNetworkIdentity,
+        ),
+      ),
       networkId: S.optional(S.NullOr(S.String).pipe(T.Body("network_id"))),
       tunnelId: S.optional(S.NullOr(S.String).pipe(T.Body("tunnel_id"))),
     }),
@@ -22193,6 +23131,7 @@ export type BetaWorkersVersionsListResultItemBindingsItem =
   | BetaWorkersVersionsListResultItemBindingsItemAI
   | BetaWorkersVersionsListResultItemBindingsItemAISearch
   | BetaWorkersVersionsListResultItemBindingsItemAISearchNamespace
+  | BetaWorkersVersionsListResultItemBindingsItemMessaging
   | BetaWorkersVersionsListResultItemBindingsItemAnalyticsEngine
   | BetaWorkersVersionsListResultItemBindingsItemAssets
   | BetaWorkersVersionsListResultItemBindingsItemBrowser
@@ -22230,6 +23169,7 @@ export const BetaWorkersVersionsListResultItemBindingsItem =
     T.UnionCases([
       ["name", "type"],
       ["instanceName", "name", "type", "namespace"],
+      ["name", "namespace", "type"],
       ["name", "namespace", "type"],
       ["dataset", "name", "type"],
       ["name", "type"],
@@ -22276,7 +23216,7 @@ export const BetaWorkersVersionsListResultItemBindingsItem =
       ["name", "type", "workflowName", "className", "scriptName"],
       ["name", "part", "type"],
       ["name", "serviceId", "type"],
-      ["name", "type", "networkId", "tunnelId"],
+      ["name", "type", "identity", "networkId", "tunnelId"],
     ]),
   );
 
@@ -22310,6 +23250,521 @@ export const BetaWorkersVersionsListResultItemContainersList =
   /*@__PURE__*/ S.Array(
     BetaWorkersVersionsCreateRequestContainersItem,
   ) as any as S.Schema<BetaWorkersVersionsListResultItemContainersList>;
+
+export type BetaWorkersVersionsListResultItemExportsWorkerType = "worker";
+export const BetaWorkersVersionsListResultItemExportsWorkerType = S.String;
+
+export type BetaWorkersVersionsListResultItemExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const BetaWorkersVersionsListResultItemExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+
+export type BetaWorkersVersionsListResultItemExportsWorkerState = "created";
+export const BetaWorkersVersionsListResultItemExportsWorkerState = S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: BetaWorkersVersionsListResultItemExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: BetaWorkersVersionsListResultItemExportsWorkerState | null;
+}
+export const BetaWorkersVersionsListResultItemExportsWorker =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: BetaWorkersVersionsListResultItemExportsWorkerType,
+      cache: S.optional(
+        S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      ),
+      state: S.optional(
+        S.NullOr(BetaWorkersVersionsListResultItemExportsWorkerState),
+      ),
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsListResultItemExportsWorker",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorker>;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportState =
+  "created";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportState | null;
+}
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportStorage,
+      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport>;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportType;
+}
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportState,
+      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport>;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportType;
+}
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportState,
+      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport>;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportType;
+}
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport>;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type BetaWorkersVersionsListResultItemExports =
+  | BetaWorkersVersionsListResultItemExportsWorker
+  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport
+  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport
+  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport
+  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport
+  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport;
+export const BetaWorkersVersionsListResultItemExports =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationCreatedList =
+  Array<string>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationCreatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationCreatedList>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationDeletedList =
+  Array<string>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationDeletedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationDeletedList>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationInfoItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const BetaWorkersVersionsListResultItemExportsReconciliationInfoItemScenario =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationInfoItemReferencingScriptsList =
+  Array<string>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationInfoItemReferencingScriptsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationInfoItemReferencingScriptsList>;
+
+export interface BetaWorkersVersionsListResultItemExportsReconciliationInfoItem {
+  /** The class name the info entry is about. */
+  class: string;
+  /** Human-readable explanation. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: BetaWorkersVersionsListResultItemExportsReconciliationInfoItemScenario;
+  /** The provisioned namespace the entry relates to, when applicable. */
+  namespaceId?: string | null;
+  /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove — redeploy these Workers with bindings re-pointed first. */
+  referencingScripts?: BetaWorkersVersionsListResultItemExportsReconciliationInfoItemReferencingScriptsList | null;
+}
+export const BetaWorkersVersionsListResultItemExportsReconciliationInfoItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        BetaWorkersVersionsListResultItemExportsReconciliationInfoItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+      referencingScripts: S.optional(
+        S.NullOr(
+          BetaWorkersVersionsListResultItemExportsReconciliationInfoItemReferencingScriptsList,
+        ).pipe(T.Body("referencing_scripts")),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsReconciliationInfoItem",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationInfoItem>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationInfoList =
+  Array<BetaWorkersVersionsListResultItemExportsReconciliationInfoItem>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationInfoList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsListResultItemExportsReconciliationInfoItem,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationInfoList>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationRemovableEntriesList =
+  Array<string>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationRemovableEntriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationRemovableEntriesList>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+export const BetaWorkersVersionsListResultItemExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationRenamedList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationRenamedList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationRenamedList>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+export const BetaWorkersVersionsListResultItemExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationTransferPendingList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationTransferPendingList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationTransferPendingList>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationTransferredItemPhase =
+  "committed";
+export const BetaWorkersVersionsListResultItemExportsReconciliationTransferredItemPhase =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsReconciliationTransferredItem {
+  /** The source class name that was transferred. */
+  class: string;
+  /** The transfer phase. Currently always `committed`. */
+  phase: BetaWorkersVersionsListResultItemExportsReconciliationTransferredItemPhase;
+  /** The destination script that now owns the namespace. */
+  to: string;
+}
+export const BetaWorkersVersionsListResultItemExportsReconciliationTransferredItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      phase:
+        BetaWorkersVersionsListResultItemExportsReconciliationTransferredItemPhase,
+      to: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsReconciliationTransferredItem",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationTransferredItem>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationTransferredList =
+  Array<BetaWorkersVersionsListResultItemExportsReconciliationTransferredItem>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationTransferredList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsListResultItemExportsReconciliationTransferredItem,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationTransferredList>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationUpdatedList =
+  Array<string>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationUpdatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationUpdatedList>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationWarningsItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const BetaWorkersVersionsListResultItemExportsReconciliationWarningsItemScenario =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsReconciliationWarningsItem {
+  /** The class name the warning is about. */
+  class: string;
+  /** Human-readable explanation of the warning. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: BetaWorkersVersionsListResultItemExportsReconciliationWarningsItemScenario;
+  /** The provisioned namespace the warning relates to, when applicable. */
+  namespaceId?: string | null;
+}
+export const BetaWorkersVersionsListResultItemExportsReconciliationWarningsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        BetaWorkersVersionsListResultItemExportsReconciliationWarningsItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsReconciliationWarningsItem",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationWarningsItem>;
+
+export type BetaWorkersVersionsListResultItemExportsReconciliationWarningsList =
+  Array<BetaWorkersVersionsListResultItemExportsReconciliationWarningsItem>;
+export const BetaWorkersVersionsListResultItemExportsReconciliationWarningsList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsListResultItemExportsReconciliationWarningsItem,
+  ) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliationWarningsList>;
+
+export interface BetaWorkersVersionsListResultItemExportsReconciliation {
+  /** Class names for which a new namespace was provisioned. */
+  created: BetaWorkersVersionsListResultItemExportsReconciliationCreatedList;
+  /** Class names whose namespace was deleted by a `deleted` tombstone. */
+  deleted: BetaWorkersVersionsListResultItemExportsReconciliationDeletedList;
+  /** Non-blocking info entries (stale tombstones, tombstone applied with class still in code). See `exports_reconciliation_info`. */
+  info: BetaWorkersVersionsListResultItemExportsReconciliationInfoList;
+  /** Source class names whose tombstone entry is now stale and safe to delete from `exports` (no remaining referencing scripts). */
+  removableEntries: BetaWorkersVersionsListResultItemExportsReconciliationRemovableEntriesList;
+  /** Applied `renamed` tombstones. */
+  renamed: BetaWorkersVersionsListResultItemExportsReconciliationRenamedList;
+  /** Phase-1 transfer hints recorded on the target side. */
+  transferPending: BetaWorkersVersionsListResultItemExportsReconciliationTransferPendingList;
+  /** Committed `transferred` tombstones (phase-2). */
+  transferred: BetaWorkersVersionsListResultItemExportsReconciliationTransferredList;
+  /** Class names whose provisioned namespace was mutated in place. */
+  updated: BetaWorkersVersionsListResultItemExportsReconciliationUpdatedList;
+  /** Non-blocking warnings. See `exports_reconciliation_warning`. */
+  warnings: BetaWorkersVersionsListResultItemExportsReconciliationWarningsList;
+}
+export const BetaWorkersVersionsListResultItemExportsReconciliation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      created:
+        BetaWorkersVersionsListResultItemExportsReconciliationCreatedList,
+      deleted:
+        BetaWorkersVersionsListResultItemExportsReconciliationDeletedList,
+      info: BetaWorkersVersionsListResultItemExportsReconciliationInfoList,
+      removableEntries:
+        BetaWorkersVersionsListResultItemExportsReconciliationRemovableEntriesList.pipe(
+          T.Body("removable_entries"),
+        ),
+      renamed:
+        BetaWorkersVersionsListResultItemExportsReconciliationRenamedList,
+      transferPending:
+        BetaWorkersVersionsListResultItemExportsReconciliationTransferPendingList.pipe(
+          T.Body("transfer_pending"),
+        ),
+      transferred:
+        BetaWorkersVersionsListResultItemExportsReconciliationTransferredList,
+      updated:
+        BetaWorkersVersionsListResultItemExportsReconciliationUpdatedList,
+      warnings:
+        BetaWorkersVersionsListResultItemExportsReconciliationWarningsList,
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsListResultItemExportsReconciliation",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsReconciliation>;
 
 export type BetaWorkersVersionsListResultItemLimits =
   BetaWorkersVersionsCreateResponseLimits;
@@ -22758,9 +24213,13 @@ export interface BetaWorkersVersionsListResultItem {
   annotations?: BetaWorkersVersionsCreateResponseAnnotations | null;
   /** Configuration for assets within a Worker. */
   assets?: BetaWorkersVersionsListResultItemAssets | null;
+  /** Email of the user who created the version. */
+  authorEmail?: string | null;
+  /** Identifier of the user who created the version. */
+  authorId?: string | null;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
   bindings?: BetaWorkersVersionsListResultItemBindingsList | null;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateResponseCacheOptions | null;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string | null;
@@ -22768,6 +24227,10 @@ export interface BetaWorkersVersionsListResultItem {
   compatibilityFlags?: BetaWorkersVersionsListResultItemCompatibilityFlagsList | null;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsListResultItemContainersList | null;
+  /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
+  exports?: BetaWorkersVersionsListResultItemExports | null;
+  /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
+  exportsReconciliation?: BetaWorkersVersionsListResultItemExportsReconciliation | null;
   /** Resource limits enforced at runtime. */
   limits?: BetaWorkersVersionsCreateResponseLimits | null;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
@@ -22778,7 +24241,7 @@ export interface BetaWorkersVersionsListResultItem {
   migrations?: BetaWorkersVersionsListResultItemMigrations | null;
   /** Code, sourcemaps, and other content used at runtime. */
   modules?: BetaWorkersVersionsListResultItemModulesList | null;
-  /** The list of npm packages that were installed and used when this Worker */
+  /** The list of npm packages that were installed and used when this Worker version was built. */
   packageDependencies?: BetaWorkersVersionsListResultItemPackageDependenciesList | null;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
   placement?: BetaWorkersVersionsListResultItemPlacement | null;
@@ -22799,6 +24262,8 @@ export const BetaWorkersVersionsListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(BetaWorkersVersionsCreateResponseAnnotations),
     ),
     assets: S.optional(S.NullOr(BetaWorkersVersionsListResultItemAssets)),
+    authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
+    authorId: S.optional(S.NullOr(S.String).pipe(T.Body("author_id"))),
     bindings: S.optional(
       S.NullOr(BetaWorkersVersionsListResultItemBindingsList),
     ),
@@ -22817,6 +24282,12 @@ export const BetaWorkersVersionsListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     containers: S.optional(
       S.NullOr(BetaWorkersVersionsListResultItemContainersList),
+    ),
+    exports: S.optional(S.NullOr(BetaWorkersVersionsListResultItemExports)),
+    exportsReconciliation: S.optional(
+      S.NullOr(BetaWorkersVersionsListResultItemExportsReconciliation).pipe(
+        T.Body("exports_reconciliation"),
+      ),
     ),
     limits: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseLimits)),
     mainModule: S.optional(S.NullOr(S.String).pipe(T.Body("main_module"))),
@@ -23135,9 +24606,45 @@ export const ListObservabilityQueriesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListObservabilityQueriesRequest",
 }) as any as S.Schema<ListObservabilityQueriesRequest>;
 
-export type ObservabilityQueriesListResultItemParametersCalculationsItemOperator =
-  | "uniq"
+export type ObservabilityQueriesListResultItemParametersCalculationsItemCase0Operator =
   | "count"
+  | "COUNT";
+export const ObservabilityQueriesListResultItemParametersCalculationsItemCase0Operator =
+  S.String;
+
+export type ObservabilityQueriesListResultItemParametersCalculationsItemCase0KeyType =
+  | "string"
+  | "number"
+  | "boolean";
+export const ObservabilityQueriesListResultItemParametersCalculationsItemCase0KeyType =
+  S.String;
+
+export interface ObservabilityQueriesListResultItemParametersCalculationsItemCase0 {
+  operator: ObservabilityQueriesListResultItemParametersCalculationsItemCase0Operator;
+  alias?: string | null;
+  key?: string | null;
+  keyType?: ObservabilityQueriesListResultItemParametersCalculationsItemCase0KeyType | null;
+}
+export const ObservabilityQueriesListResultItemParametersCalculationsItemCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      operator:
+        ObservabilityQueriesListResultItemParametersCalculationsItemCase0Operator,
+      alias: S.optional(S.NullOr(S.String)),
+      key: S.optional(S.NullOr(S.String)),
+      keyType: S.optional(
+        S.NullOr(
+          ObservabilityQueriesListResultItemParametersCalculationsItemCase0KeyType,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ObservabilityQueriesListResultItemParametersCalculationsItemCase0",
+  }) as any as S.Schema<ObservabilityQueriesListResultItemParametersCalculationsItemCase0>;
+
+export type ObservabilityQueriesListResultItemParametersCalculationsItemCase1Operator =
+  | "uniq"
   | "max"
   | "min"
   | "sum"
@@ -23156,7 +24663,6 @@ export type ObservabilityQueriesListResultItemParametersCalculationsItemOperator
   | "stddev"
   | "variance"
   | "COUNT_DISTINCT"
-  | "COUNT"
   | "MAX"
   | "MIN"
   | "SUM"
@@ -23174,38 +24680,50 @@ export type ObservabilityQueriesListResultItemParametersCalculationsItemOperator
   | "P999"
   | "STDDEV"
   | "VARIANCE";
-export const ObservabilityQueriesListResultItemParametersCalculationsItemOperator =
+export const ObservabilityQueriesListResultItemParametersCalculationsItemCase1Operator =
   S.String;
 
-export type ObservabilityQueriesListResultItemParametersCalculationsItemKeyType =
+export type ObservabilityQueriesListResultItemParametersCalculationsItemCase1KeyType =
   | "string"
   | "number"
   | "boolean";
-export const ObservabilityQueriesListResultItemParametersCalculationsItemKeyType =
+export const ObservabilityQueriesListResultItemParametersCalculationsItemCase1KeyType =
   S.String;
 
-export interface ObservabilityQueriesListResultItemParametersCalculationsItem {
-  operator: ObservabilityQueriesListResultItemParametersCalculationsItemOperator;
+export interface ObservabilityQueriesListResultItemParametersCalculationsItemCase1 {
+  key: string;
+  operator: ObservabilityQueriesListResultItemParametersCalculationsItemCase1Operator;
   alias?: string | null;
-  key?: string | null;
-  keyType?: ObservabilityQueriesListResultItemParametersCalculationsItemKeyType | null;
+  keyType?: ObservabilityQueriesListResultItemParametersCalculationsItemCase1KeyType | null;
 }
-export const ObservabilityQueriesListResultItemParametersCalculationsItem =
+export const ObservabilityQueriesListResultItemParametersCalculationsItemCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      key: S.String,
       operator:
-        ObservabilityQueriesListResultItemParametersCalculationsItemOperator,
+        ObservabilityQueriesListResultItemParametersCalculationsItemCase1Operator,
       alias: S.optional(S.NullOr(S.String)),
-      key: S.optional(S.NullOr(S.String)),
       keyType: S.optional(
         S.NullOr(
-          ObservabilityQueriesListResultItemParametersCalculationsItemKeyType,
+          ObservabilityQueriesListResultItemParametersCalculationsItemCase1KeyType,
         ),
       ),
     }),
   ).annotate({
-    identifier: "ObservabilityQueriesListResultItemParametersCalculationsItem",
-  }) as any as S.Schema<ObservabilityQueriesListResultItemParametersCalculationsItem>;
+    identifier:
+      "ObservabilityQueriesListResultItemParametersCalculationsItemCase1",
+  }) as any as S.Schema<ObservabilityQueriesListResultItemParametersCalculationsItemCase1>;
+
+export type ObservabilityQueriesListResultItemParametersCalculationsItem =
+  | ObservabilityQueriesListResultItemParametersCalculationsItemCase0
+  | ObservabilityQueriesListResultItemParametersCalculationsItemCase1;
+export const ObservabilityQueriesListResultItemParametersCalculationsItem =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["operator", "alias", "key", "keyType"],
+      ["key", "operator", "alias", "keyType"],
+    ]),
+  );
 
 export type ObservabilityQueriesListResultItemParametersCalculationsList =
   Array<ObservabilityQueriesListResultItemParametersCalculationsItem>;
@@ -23285,10 +24803,10 @@ export type ObservabilityQueriesListResultItemParametersFiltersItemWorkersObserv
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -23766,6 +25284,225 @@ export const ScriptsListResultItemCompatibilityFlagsList =
     S.String,
   ) as any as S.Schema<ScriptsListResultItemCompatibilityFlagsList>;
 
+export type ScriptsListResultItemExportsWorkerType = "worker";
+export const ScriptsListResultItemExportsWorkerType = S.String;
+
+export type ScriptsListResultItemExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const ScriptsListResultItemExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+
+export type ScriptsListResultItemExportsWorkerState = "created";
+export const ScriptsListResultItemExportsWorkerState = S.String;
+
+export interface ScriptsListResultItemExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: ScriptsListResultItemExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsListResultItemExportsWorkerState | null;
+}
+export const ScriptsListResultItemExportsWorker = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ScriptsListResultItemExportsWorkerType,
+    cache: S.optional(
+      S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+    ),
+    state: S.optional(S.NullOr(ScriptsListResultItemExportsWorkerState)),
+  }),
+).annotate({
+  identifier: "ScriptsListResultItemExportsWorker",
+}) as any as S.Schema<ScriptsListResultItemExportsWorker>;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsListResultItemExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const ScriptsListResultItemExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectExportState =
+  "created";
+export const ScriptsListResultItemExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface ScriptsListResultItemExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsListResultItemExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsListResultItemExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsListResultItemExportsWorkersDurableObjectExportState | null;
+}
+export const ScriptsListResultItemExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage: ScriptsListResultItemExportsWorkersDurableObjectExportStorage,
+      type: ScriptsListResultItemExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(ScriptsListResultItemExportsWorkersDurableObjectExportState),
+      ),
+    }),
+  ).annotate({
+    identifier: "ScriptsListResultItemExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectExport>;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsListResultItemExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsListResultItemExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface ScriptsListResultItemExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: ScriptsListResultItemExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsListResultItemExportsWorkersDurableObjectDeletedExportType;
+}
+export const ScriptsListResultItemExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state: ScriptsListResultItemExportsWorkersDurableObjectDeletedExportState,
+      type: ScriptsListResultItemExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier: "ScriptsListResultItemExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectDeletedExport>;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const ScriptsListResultItemExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsListResultItemExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface ScriptsListResultItemExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: ScriptsListResultItemExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsListResultItemExportsWorkersDurableObjectRenamedExportType;
+}
+export const ScriptsListResultItemExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state: ScriptsListResultItemExportsWorkersDurableObjectRenamedExportState,
+      type: ScriptsListResultItemExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier: "ScriptsListResultItemExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectRenamedExport>;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsListResultItemExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const ScriptsListResultItemExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface ScriptsListResultItemExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: ScriptsListResultItemExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsListResultItemExportsWorkersDurableObjectTransferredExportType;
+}
+export const ScriptsListResultItemExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsListResultItemExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: ScriptsListResultItemExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsListResultItemExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectTransferredExport>;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type ScriptsListResultItemExports =
+  | ScriptsListResultItemExportsWorker
+  | ScriptsListResultItemExportsWorkersDurableObjectExport
+  | ScriptsListResultItemExportsWorkersDurableObjectDeletedExport
+  | ScriptsListResultItemExportsWorkersDurableObjectRenamedExport
+  | ScriptsListResultItemExportsWorkersDurableObjectTransferredExport
+  | ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport;
+export const ScriptsListResultItemExports = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["type", "cache", "state"],
+    ["storage", "type", "container", "state"],
+    ["state", "type"],
+    ["renamedTo", "state", "type"],
+    ["state", "transferredTo", "type"],
+    ["state", "storage", "transferFrom", "type", "container"],
+  ]),
+);
+
 export type ScriptsListResultItemHandlersList = Array<string>;
 export const ScriptsListResultItemHandlersList = /*@__PURE__*/ S.Array(
   S.String,
@@ -23859,7 +25596,7 @@ export interface ScriptsListResultItemObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: ScriptsListResultItemObservabilityTracesPropagationPolicy | null;
 }
 export const ScriptsListResultItemObservabilityTraces = /*@__PURE__*/ S.suspend(
@@ -23890,6 +25627,8 @@ export interface ScriptsListResultItemObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: ScriptsListResultItemObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: ScriptsListResultItemObservabilityTraces | null;
 }
@@ -23900,6 +25639,9 @@ export const ScriptsListResultItemObservability = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
     ),
     logs: S.optional(S.NullOr(ScriptsListResultItemObservabilityLogs)),
+    redactQueryString: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+    ),
     traces: S.optional(S.NullOr(ScriptsListResultItemObservabilityTraces)),
   }),
 ).annotate({
@@ -24236,7 +25978,7 @@ export const ScriptsListResultItemUsageModel = S.String;
 export interface ScriptsListResultItem {
   /** The name used to identify the script. */
   id?: string | null;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateResponseCacheOptions | null;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string | null;
@@ -24246,6 +25988,8 @@ export interface ScriptsListResultItem {
   createdOn?: string | null;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
   etag?: string | null;
+  /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
+  exports?: ScriptsListResultItemExports | null;
   /** The names of handlers exported as part of the default export. */
   handlers?: ScriptsListResultItemHandlersList | null;
   /** Whether a Worker contains assets. */
@@ -24297,6 +26041,7 @@ export const ScriptsListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
     etag: S.optional(S.NullOr(S.String)),
+    exports: S.optional(S.NullOr(ScriptsListResultItemExports)),
     handlers: S.optional(S.NullOr(ScriptsListResultItemHandlersList)),
     hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
     hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -24711,10 +26456,10 @@ export type ObservabilityTelemetryLiveTailRequestFiltersItemCase0FiltersItemWork
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -24842,10 +26587,10 @@ export type ObservabilityTelemetryLiveTailRequestFiltersItemWorkersObservability
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -25034,7 +26779,7 @@ export interface BetaWorkersEditRequestObservabilityTraces {
   headSamplingRate?: number;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | BetaWorkersEditRequestObservabilityTracesPropagationPolicy
     | (string & {});
@@ -25065,6 +26810,8 @@ export interface BetaWorkersEditRequestObservability {
   headSamplingRate?: number;
   /** Log settings for the Worker. */
   logs?: BetaWorkersEditRequestObservabilityLogs;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean;
   /** Trace settings for the Worker. */
   traces?: BetaWorkersEditRequestObservabilityTraces;
 }
@@ -25073,6 +26820,9 @@ export const BetaWorkersEditRequestObservability = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
     logs: S.optional(BetaWorkersEditRequestObservabilityLogs),
+    redactQueryString: S.optional(
+      S.Boolean.pipe(T.Body("redact_query_string")),
+    ),
     traces: S.optional(BetaWorkersEditRequestObservabilityTraces),
   }),
 ).annotate({
@@ -25202,7 +26952,7 @@ export interface BetaWorkersEditResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: BetaWorkersEditResponseObservabilityTracesPropagationPolicy | null;
 }
 export const BetaWorkersEditResponseObservabilityTraces =
@@ -25233,6 +26983,8 @@ export interface BetaWorkersEditResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: BetaWorkersEditResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: BetaWorkersEditResponseObservabilityTraces | null;
 }
@@ -25244,6 +26996,9 @@ export const BetaWorkersEditResponseObservability = /*@__PURE__*/ S.suspend(
         S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
       ),
       logs: S.optional(S.NullOr(BetaWorkersEditResponseObservabilityLogs)),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(S.NullOr(BetaWorkersEditResponseObservabilityTraces)),
     }),
 ).annotate({
@@ -25609,7 +27364,7 @@ export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchName
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchNamespace {
   /** A JavaScript variable name for the binding. */
   name: string;
-  /** The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
+  /** The user-chosen namespace name. Must exist before deploy — Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace. */
   namespace: string;
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchNamespaceType;
@@ -25625,6 +27380,31 @@ export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchName
     identifier:
       "ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchNamespace",
   }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchNamespace>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessagingType =
+  "messaging";
+export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessagingType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessaging {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Messaging namespace to bind to. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessagingType;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessaging =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessagingType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessaging",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessaging>;
 
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemAnalyticsEngineType =
   "analytics_engine";
@@ -25706,7 +27486,7 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemD1 {
   name: string;
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemD1Type;
-  /** Identifier of the D1 database to bind to. */
+  /** This property has been renamed to `database_id`. */
   id?: string | null;
 }
 export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemD1 =
@@ -26143,7 +27923,8 @@ export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemR2BucketType
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemR2BucketJurisdiction =
   | "eu"
   | "fedramp"
-  | "fedramp-high";
+  | "fedramp-high"
+  | "us";
 export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemR2BucketJurisdiction =
   S.String;
 
@@ -26562,11 +28343,18 @@ export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkTyp
 export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkType =
   S.String;
 
+export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkIdentity =
+  "runtime-email-alpha";
+export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkIdentity =
+  S.String;
+
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetwork {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkType;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  identity?: ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkIdentity | null;
   /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
@@ -26577,6 +28365,11 @@ export const ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetwork =
     S.Struct({
       name: S.String,
       type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkType,
+      identity: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkIdentity,
+        ),
+      ),
       networkId: S.optional(S.NullOr(S.String).pipe(T.Body("network_id"))),
       tunnelId: S.optional(S.NullOr(S.String).pipe(T.Body("tunnel_id"))),
     }),
@@ -26589,6 +28382,7 @@ export type ScriptsScriptAndVersionSettingsEditResponseBindingsItem =
   | ScriptsScriptAndVersionSettingsEditResponseBindingsItemAI
   | ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearch
   | ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchNamespace
+  | ScriptsScriptAndVersionSettingsEditResponseBindingsItemMessaging
   | ScriptsScriptAndVersionSettingsEditResponseBindingsItemAnalyticsEngine
   | ScriptsScriptAndVersionSettingsEditResponseBindingsItemAssets
   | ScriptsScriptAndVersionSettingsEditResponseBindingsItemBrowser
@@ -26626,6 +28420,7 @@ export const ScriptsScriptAndVersionSettingsEditResponseBindingsItem =
     T.UnionCases([
       ["name", "type"],
       ["instanceName", "name", "type", "namespace"],
+      ["name", "namespace", "type"],
       ["name", "namespace", "type"],
       ["dataset", "name", "type"],
       ["name", "type"],
@@ -26672,7 +28467,7 @@ export const ScriptsScriptAndVersionSettingsEditResponseBindingsItem =
       ["name", "type", "workflowName", "className", "scriptName"],
       ["name", "part", "type"],
       ["name", "serviceId", "type"],
-      ["name", "type", "networkId", "tunnelId"],
+      ["name", "type", "identity", "networkId", "tunnelId"],
     ]),
   );
 
@@ -26695,45 +28490,525 @@ export const ScriptsScriptAndVersionSettingsEditResponseCompatibilityFlagsList =
     S.String,
   ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseCompatibilityFlagsList>;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsValueType =
-  | "worker"
-  | "durable-object";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsValueType =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkerType =
+  "worker";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkerType =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsValueCache =
-  ScriptsScriptAndVersionSettingsGetResponseExportsValueCache;
-export const ScriptsScriptAndVersionSettingsEditResponseExportsValueCache =
-  ScriptsScriptAndVersionSettingsGetResponseExportsValueCache;
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
 
-export interface ScriptsScriptAndVersionSettingsEditResponseExportsValue {
-  /** The kind of export. */
-  type: ScriptsScriptAndVersionSettingsEditResponseExportsValueType;
-  /** Cache override for this entrypoint. It applies only to */
-  cache?: ScriptsScriptAndVersionSettingsGetResponseExportsValueCache | null;
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkerState =
+  "created";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkerState =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsScriptAndVersionSettingsEditResponseExportsWorkerState | null;
 }
-export const ScriptsScriptAndVersionSettingsEditResponseExportsValue =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorker =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: ScriptsScriptAndVersionSettingsEditResponseExportsValueType,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkerType,
       cache: S.optional(
-        S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsValueCache),
+        S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      ),
+      state: S.optional(
+        S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExportsWorkerState),
       ),
     }),
   ).annotate({
-    identifier: "ScriptsScriptAndVersionSettingsEditResponseExportsValue",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsValue>;
+    identifier: "ScriptsScriptAndVersionSettingsEditResponseExportsWorker",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorker>;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsMap = {
-  [key: string]:
-    | ScriptsScriptAndVersionSettingsEditResponseExportsValue
-    | undefined;
-};
-export const ScriptsScriptAndVersionSettingsEditResponseExportsMap =
-  /*@__PURE__*/ S.Record(
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportState =
+  "created";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportState | null;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportStorage,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportType;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportState,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportType;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportState,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportType;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExports =
+  | ScriptsScriptAndVersionSettingsEditResponseExportsWorker
+  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport
+  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport
+  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport
+  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport
+  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport;
+export const ScriptsScriptAndVersionSettingsEditResponseExports =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationCreatedList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationCreatedList =
+  /*@__PURE__*/ S.Array(
     S.String,
-    ScriptsScriptAndVersionSettingsEditResponseExportsValue,
-  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsMap>;
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationCreatedList>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationDeletedList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationDeletedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationDeletedList>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemScenario =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList>;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItem {
+  /** The class name the info entry is about. */
+  class: string;
+  /** Human-readable explanation. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemScenario;
+  /** The provisioned namespace the entry relates to, when applicable. */
+  namespaceId?: string | null;
+  /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove — redeploy these Workers with bindings re-pointed first. */
+  referencingScripts?: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+      referencingScripts: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList,
+        ).pipe(T.Body("referencing_scripts")),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItem",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItem>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoList =
+  Array<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItem>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoList =
+  /*@__PURE__*/ S.Array(
+    ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoList>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRemovableEntriesList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRemovableEntriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRemovableEntriesList>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRenamedItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRenamedList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRenamedList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationRenamedItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRenamedList>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferPendingItem =
+  BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferPendingList =
+  Array<BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferPendingList =
+  /*@__PURE__*/ S.Array(
+    BetaWorkersVersionsCreateResponseExportsReconciliationTransferPendingItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferPendingList>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItemPhase =
+  "committed";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItemPhase =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItem {
+  /** The source class name that was transferred. */
+  class: string;
+  /** The transfer phase. Currently always `committed`. */
+  phase: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItemPhase;
+  /** The destination script that now owns the namespace. */
+  to: string;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      phase:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItemPhase,
+      to: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItem",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItem>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredList =
+  Array<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItem>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredList =
+  /*@__PURE__*/ S.Array(
+    ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredList>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationUpdatedList =
+  Array<string>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationUpdatedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationUpdatedList>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItemScenario =
+  | "code_class_not_in_exports"
+  | "provisioned_class_missing_from_config"
+  | "config_export_not_in_code"
+  | "config_references_nonexistent_class"
+  | "orphaned_provisioned_namespace"
+  | "storage_type_mismatch"
+  | "free_tier_requires_sqlite"
+  | "invalid_export"
+  | "tombstone_delete_class_still_in_code"
+  | "tombstone_delete_blocked_by_external_bindings"
+  | "tombstone_renamed_to_occupied"
+  | "transferred_pending_not_found"
+  | "transferred_target_missing"
+  | "transferred_target_mismatch"
+  | "phase_one_transfer_source_missing"
+  | "phase_one_transfer_source_namespace_missing"
+  | "phase_one_transfer_target_class_provisioned"
+  | "phase_one_transfer_after_commit_mismatch"
+  | "phase_one_transfer_duplicate"
+  | "phase_one_transfer_target_in_dispatch_namespace"
+  | "phase_one_transfer_source_in_dispatch_namespace"
+  | "transferred_source_in_dispatch_namespace"
+  | "transferred_target_in_dispatch_namespace"
+  | "container_undeclared_reference"
+  | "container_class_not_durable_object"
+  | "container_wiring_inconsistent"
+  | "container_multiple_durable_objects"
+  | "transfer_container_parity_mismatch"
+  | "transfer_container_parity_mismatch_on_commit"
+  | "tombstone_class_still_in_code"
+  | "stale_tombstone"
+  | "transfer_receive_already_applied"
+  | "transfer_receive_cleanup_complete";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItemScenario =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItem {
+  /** The class name the warning is about. */
+  class: string;
+  /** Human-readable explanation of the warning. */
+  message: string;
+  /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
+  scenario: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItemScenario;
+  /** The provisioned namespace the warning relates to, when applicable. */
+  namespaceId?: string | null;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      class: S.String,
+      message: S.String,
+      scenario:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItemScenario,
+      namespaceId: S.optional(S.NullOr(S.String).pipe(T.Body("namespace_id"))),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItem",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItem>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsList =
+  Array<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItem>;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsList =
+  /*@__PURE__*/ S.Array(
+    ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItem,
+  ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsList>;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation {
+  /** Class names for which a new namespace was provisioned. */
+  created: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationCreatedList;
+  /** Class names whose namespace was deleted by a `deleted` tombstone. */
+  deleted: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationDeletedList;
+  /** Non-blocking info entries (stale tombstones, tombstone applied with class still in code). See `exports_reconciliation_info`. */
+  info: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoList;
+  /** Source class names whose tombstone entry is now stale and safe to delete from `exports` (no remaining referencing scripts). */
+  removableEntries: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRemovableEntriesList;
+  /** Applied `renamed` tombstones. */
+  renamed: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRenamedList;
+  /** Phase-1 transfer hints recorded on the target side. */
+  transferPending: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferPendingList;
+  /** Committed `transferred` tombstones (phase-2). */
+  transferred: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredList;
+  /** Class names whose provisioned namespace was mutated in place. */
+  updated: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationUpdatedList;
+  /** Non-blocking warnings. See `exports_reconciliation_warning`. */
+  warnings: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsList;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      created:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationCreatedList,
+      deleted:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationDeletedList,
+      info: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoList,
+      removableEntries:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRemovableEntriesList.pipe(
+          T.Body("removable_entries"),
+        ),
+      renamed:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationRenamedList,
+      transferPending:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferPendingList.pipe(
+          T.Body("transfer_pending"),
+        ),
+      transferred:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationTransferredList,
+      updated:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationUpdatedList,
+      warnings:
+        ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsList,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation>;
 
 export type ScriptsScriptAndVersionSettingsEditResponseLimits =
   ScriptsScriptAndVersionSettingsGetResponseLimits;
@@ -27038,7 +29313,7 @@ export interface ScriptsScriptAndVersionSettingsEditResponseObservabilityTraces 
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: ScriptsScriptAndVersionSettingsEditResponseObservabilityTracesPropagationPolicy | null;
 }
 export const ScriptsScriptAndVersionSettingsEditResponseObservabilityTraces =
@@ -27072,6 +29347,8 @@ export interface ScriptsScriptAndVersionSettingsEditResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: ScriptsScriptAndVersionSettingsEditResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: ScriptsScriptAndVersionSettingsEditResponseObservabilityTraces | null;
 }
@@ -27084,6 +29361,9 @@ export const ScriptsScriptAndVersionSettingsEditResponseObservability =
       ),
       logs: S.optional(
         S.NullOr(ScriptsScriptAndVersionSettingsEditResponseObservabilityLogs),
+      ),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
       ),
       traces: S.optional(
         S.NullOr(
@@ -27297,14 +29577,16 @@ export interface PatchScriptScriptAndVersionSettingResponse {
   annotations?: ScriptsScriptAndVersionSettingsGetResponseAnnotations | null;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
   bindings?: ScriptsScriptAndVersionSettingsEditResponseBindingsList | null;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateResponseCacheOptions | null;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string | null;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
   compatibilityFlags?: ScriptsScriptAndVersionSettingsEditResponseCompatibilityFlagsList | null;
-  /** Declarative exports for the Worker. Worker entrypoint entries */
-  exports?: ScriptsScriptAndVersionSettingsEditResponseExportsMap | null;
+  /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
+  exports?: ScriptsScriptAndVersionSettingsEditResponseExports | null;
+  /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
+  exportsReconciliation?: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation | null;
   /** Limits to apply for this Worker. */
   limits?: ScriptsScriptAndVersionSettingsGetResponseLimits | null;
   /** Whether Logpush is turned on for the Worker. */
@@ -27345,7 +29627,12 @@ export const PatchScriptScriptAndVersionSettingResponse =
         ).pipe(T.Body("compatibility_flags")),
       ),
       exports: S.optional(
-        S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExportsMap),
+        S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExports),
+      ),
+      exportsReconciliation: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation,
+        ).pipe(T.Body("exports_reconciliation")),
       ),
       limits: S.optional(
         S.NullOr(ScriptsScriptAndVersionSettingsGetResponseLimits),
@@ -27434,7 +29721,7 @@ export interface ScriptsSettingsEditRequestObservabilityTraces {
   headSamplingRate?: number;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | ScriptsSettingsEditRequestObservabilityTracesPropagationPolicy
     | (string & {});
@@ -27465,6 +29752,8 @@ export interface ScriptsSettingsEditRequestObservability {
   headSamplingRate?: number;
   /** Log settings for the Worker. */
   logs?: ScriptsSettingsEditRequestObservabilityLogs;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean;
   /** Trace settings for the Worker. */
   traces?: ScriptsSettingsEditRequestObservabilityTraces;
 }
@@ -27474,6 +29763,9 @@ export const ScriptsSettingsEditRequestObservability = /*@__PURE__*/ S.suspend(
       enabled: S.Boolean,
       headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
       logs: S.optional(ScriptsSettingsEditRequestObservabilityLogs),
+      redactQueryString: S.optional(
+        S.Boolean.pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(ScriptsSettingsEditRequestObservabilityTraces),
     }),
 ).annotate({
@@ -27608,7 +29900,7 @@ export interface ScriptsSettingsEditResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: ScriptsSettingsEditResponseObservabilityTracesPropagationPolicy | null;
 }
 export const ScriptsSettingsEditResponseObservabilityTraces =
@@ -27641,6 +29933,8 @@ export interface ScriptsSettingsEditResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: ScriptsSettingsEditResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: ScriptsSettingsEditResponseObservabilityTraces | null;
 }
@@ -27652,6 +29946,9 @@ export const ScriptsSettingsEditResponseObservability = /*@__PURE__*/ S.suspend(
         S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
       ),
       logs: S.optional(S.NullOr(ScriptsSettingsEditResponseObservabilityLogs)),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(
         S.NullOr(ScriptsSettingsEditResponseObservabilityTraces),
       ),
@@ -27752,8 +30049,6 @@ export interface PutDomainRequest {
   hostname: string;
   /** Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker. */
   service: string;
-  /** Worker environment associated with the domain. */
-  environment?: string;
   /** ID of the zone containing the domain hostname. */
   zoneId?: string;
   /** Name of the zone containing the domain hostname. */
@@ -27766,7 +30061,6 @@ export const PutDomainRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     hostname: S.String,
     service: S.String,
-    environment: S.optional(S.String),
     zoneId: S.optional(S.String.pipe(T.Body("zone_id"))),
     zoneName: S.optional(S.String.pipe(T.Body("zone_name"))),
     previewsEnabled: S.optional(S.Boolean.pipe(T.Body("previews_enabled"))),
@@ -27970,6 +30264,225 @@ export const ScriptsUpdateResponseCompatibilityFlagsList =
     S.String,
   ) as any as S.Schema<ScriptsUpdateResponseCompatibilityFlagsList>;
 
+export type ScriptsUpdateResponseExportsWorkerType = "worker";
+export const ScriptsUpdateResponseExportsWorkerType = S.String;
+
+export type ScriptsUpdateResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const ScriptsUpdateResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+
+export type ScriptsUpdateResponseExportsWorkerState = "created";
+export const ScriptsUpdateResponseExportsWorkerState = S.String;
+
+export interface ScriptsUpdateResponseExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: ScriptsUpdateResponseExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsUpdateResponseExportsWorkerState | null;
+}
+export const ScriptsUpdateResponseExportsWorker = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ScriptsUpdateResponseExportsWorkerType,
+    cache: S.optional(
+      S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+    ),
+    state: S.optional(S.NullOr(ScriptsUpdateResponseExportsWorkerState)),
+  }),
+).annotate({
+  identifier: "ScriptsUpdateResponseExportsWorker",
+}) as any as S.Schema<ScriptsUpdateResponseExportsWorker>;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectExportState =
+  "created";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface ScriptsUpdateResponseExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsUpdateResponseExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsUpdateResponseExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsUpdateResponseExportsWorkersDurableObjectExportState | null;
+}
+export const ScriptsUpdateResponseExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage: ScriptsUpdateResponseExportsWorkersDurableObjectExportStorage,
+      type: ScriptsUpdateResponseExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(ScriptsUpdateResponseExportsWorkersDurableObjectExportState),
+      ),
+    }),
+  ).annotate({
+    identifier: "ScriptsUpdateResponseExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectExport>;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType;
+}
+export const ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state: ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState,
+      type: ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier: "ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport>;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType;
+}
+export const ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state: ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState,
+      type: ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier: "ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport>;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType;
+}
+export const ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport>;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type ScriptsUpdateResponseExports =
+  | ScriptsUpdateResponseExportsWorker
+  | ScriptsUpdateResponseExportsWorkersDurableObjectExport
+  | ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport
+  | ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport
+  | ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport
+  | ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport;
+export const ScriptsUpdateResponseExports = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["type", "cache", "state"],
+    ["storage", "type", "container", "state"],
+    ["state", "type"],
+    ["renamedTo", "state", "type"],
+    ["state", "transferredTo", "type"],
+    ["state", "storage", "transferFrom", "type", "container"],
+  ]),
+);
+
 export type ScriptsUpdateResponseHandlersList = Array<string>;
 export const ScriptsUpdateResponseHandlersList = /*@__PURE__*/ S.Array(
   S.String,
@@ -28063,7 +30576,7 @@ export interface ScriptsUpdateResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: ScriptsUpdateResponseObservabilityTracesPropagationPolicy | null;
 }
 export const ScriptsUpdateResponseObservabilityTraces = /*@__PURE__*/ S.suspend(
@@ -28094,6 +30607,8 @@ export interface ScriptsUpdateResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: ScriptsUpdateResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: ScriptsUpdateResponseObservabilityTraces | null;
 }
@@ -28104,6 +30619,9 @@ export const ScriptsUpdateResponseObservability = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
     ),
     logs: S.optional(S.NullOr(ScriptsUpdateResponseObservabilityLogs)),
+    redactQueryString: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+    ),
     traces: S.optional(S.NullOr(ScriptsUpdateResponseObservabilityTraces)),
   }),
 ).annotate({
@@ -28448,7 +30966,7 @@ export interface PutScriptResponse {
   startupTimeMs: number;
   /** The name used to identify the script. */
   id?: string | null;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateResponseCacheOptions | null;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string | null;
@@ -28460,6 +30978,8 @@ export interface PutScriptResponse {
   entryPoint?: string | null;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
   etag?: string | null;
+  /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
+  exports?: ScriptsUpdateResponseExports | null;
   /** The names of handlers exported as part of the default export. */
   handlers?: ScriptsUpdateResponseHandlersList | null;
   /** Whether a Worker contains assets. */
@@ -28511,6 +31031,7 @@ export const PutScriptResponse = /*@__PURE__*/ S.suspend(() =>
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
     entryPoint: S.optional(S.NullOr(S.String).pipe(T.Body("entry_point"))),
     etag: S.optional(S.NullOr(S.String)),
+    exports: S.optional(S.NullOr(ScriptsUpdateResponseExports)),
     handlers: S.optional(S.NullOr(ScriptsUpdateResponseHandlersList)),
     hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
     hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -28552,11 +31073,35 @@ export const PutScriptResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutScriptResponse",
 }) as any as S.Schema<PutScriptResponse>;
 
+export interface ScriptsContentUpdateRequestMetadata {
+  /** Name of the uploaded file that contains the Worker script (e.g. the file adding a listener to the `fetch` event). Indicates a `service worker syntax` Worker. */
+  bodyPart?: string;
+  /** Name of the uploaded file that contains the main module (e.g. the file exporting a `fetch` handler). Indicates a `module syntax` Worker. */
+  mainModule?: string;
+}
+export const ScriptsContentUpdateRequestMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bodyPart: S.optional(S.String.pipe(T.Body("body_part"))),
+    mainModule: S.optional(S.String.pipe(T.Body("main_module"))),
+  }),
+).annotate({
+  identifier: "ScriptsContentUpdateRequestMetadata",
+}) as any as S.Schema<ScriptsContentUpdateRequestMetadata>;
+
+export type ScriptsContentUpdateRequestFilesList = Array<string>;
+export const ScriptsContentUpdateRequestFilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ScriptsContentUpdateRequestFilesList>;
+
 export interface PutScriptContentRequest {
   /** Identifier. */
   accountId: string;
   /** Name of the script, used in URLs and route configuration. */
   scriptName: string;
+  /** JSON-encoded metadata about the uploaded parts and Worker configuration. */
+  metadata: ScriptsContentUpdateRequestMetadata;
+  /** An array of modules (often JavaScript files) comprising a Worker script. At least one module must be present and referenced in the metadata as `main_module` or `body_part` by filename. Possible Content-Type(s) are: `application/javascript+module`, `text/javascript+module`, `application/javascript`, `text/javascript`, `text/x-python`, `text/x-python-requirement`, `application/wasm`, `text/plain`, `application/octet-stream`, `application/source-map`. */
+  files?: ScriptsContentUpdateRequestFilesList;
   cfworkerbodypart?: string;
   cfworkermainmodulepart?: string;
 }
@@ -28564,6 +31109,8 @@ export const PutScriptContentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     scriptName: S.String.pipe(T.Label("script_name")),
+    metadata: ScriptsContentUpdateRequestMetadata,
+    files: S.optional(ScriptsContentUpdateRequestFilesList),
     cfworkerbodypart: S.optional(
       S.String.pipe(T.Header("CF-WORKER-BODY-PART")),
     ),
@@ -28593,6 +31140,235 @@ export const ScriptsContentUpdateResponseCompatibilityFlagsList =
   /*@__PURE__*/ S.Array(
     S.String,
   ) as any as S.Schema<ScriptsContentUpdateResponseCompatibilityFlagsList>;
+
+export type ScriptsContentUpdateResponseExportsWorkerType = "worker";
+export const ScriptsContentUpdateResponseExportsWorkerType = S.String;
+
+export type ScriptsContentUpdateResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export const ScriptsContentUpdateResponseExportsWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+
+export type ScriptsContentUpdateResponseExportsWorkerState = "created";
+export const ScriptsContentUpdateResponseExportsWorkerState = S.String;
+
+export interface ScriptsContentUpdateResponseExportsWorker {
+  /** Marks this entry as a Worker entrypoint export. */
+  type: ScriptsContentUpdateResponseExportsWorkerType;
+  /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
+  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsContentUpdateResponseExportsWorkerState | null;
+}
+export const ScriptsContentUpdateResponseExportsWorker =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ScriptsContentUpdateResponseExportsWorkerType,
+      cache: S.optional(
+        S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache),
+      ),
+      state: S.optional(
+        S.NullOr(ScriptsContentUpdateResponseExportsWorkerState),
+      ),
+    }),
+  ).annotate({
+    identifier: "ScriptsContentUpdateResponseExportsWorker",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorker>;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage =
+  S.String;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExportType =
+  "durable-object";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExportType =
+  S.String;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExportState =
+  "created";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExportState =
+  S.String;
+
+export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportState | null;
+}
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        ScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage,
+      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          ScriptsContentUpdateResponseExportsWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "ScriptsContentUpdateResponseExportsWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectExport>;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType;
+}
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState,
+      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport>;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState =
+  S.String;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType =
+  S.String;
+
+export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport {
+  /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
+  renamedTo: string;
+  /** Tombstone that renames the namespace's class. */
+  state: ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType;
+}
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      renamedTo: S.String.pipe(T.Body("renamed_to")),
+      state:
+        ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState,
+      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport>;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState =
+  S.String;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType =
+  "durable-object";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType =
+  S.String;
+
+export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport {
+  /** Tombstone that transfers the namespace to another script. */
+  state: ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState;
+  /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
+  transferredTo: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType;
+}
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport>;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState,
+      storage:
+        ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+      transferFrom: S.String.pipe(T.Body("transfer_from")),
+      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      container: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport>;
+
+export type ScriptsContentUpdateResponseExports =
+  | ScriptsContentUpdateResponseExportsWorker
+  | ScriptsContentUpdateResponseExportsWorkersDurableObjectExport
+  | ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport
+  | ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport
+  | ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport
+  | ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport;
+export const ScriptsContentUpdateResponseExports = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["type", "cache", "state"],
+    ["storage", "type", "container", "state"],
+    ["state", "type"],
+    ["renamedTo", "state", "type"],
+    ["state", "transferredTo", "type"],
+    ["state", "storage", "transferFrom", "type", "container"],
+  ]),
+);
 
 export type ScriptsContentUpdateResponseHandlersList = Array<string>;
 export const ScriptsContentUpdateResponseHandlersList = /*@__PURE__*/ S.Array(
@@ -28689,7 +31465,7 @@ export interface ScriptsContentUpdateResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: ScriptsContentUpdateResponseObservabilityTracesPropagationPolicy | null;
 }
 export const ScriptsContentUpdateResponseObservabilityTraces =
@@ -28722,6 +31498,8 @@ export interface ScriptsContentUpdateResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: ScriptsContentUpdateResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: ScriptsContentUpdateResponseObservabilityTraces | null;
 }
@@ -28733,6 +31511,9 @@ export const ScriptsContentUpdateResponseObservability =
         S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
       ),
       logs: S.optional(S.NullOr(ScriptsContentUpdateResponseObservabilityLogs)),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(
         S.NullOr(ScriptsContentUpdateResponseObservabilityTraces),
       ),
@@ -29090,7 +31871,7 @@ export const ScriptsContentUpdateResponseUsageModel = S.String;
 export interface PutScriptContentResponse {
   /** The name used to identify the script. */
   id?: string | null;
-  /** Global CacheW configuration for the Worker. When caching is on, */
+  /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersVersionsCreateResponseCacheOptions | null;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string | null;
@@ -29100,6 +31881,8 @@ export interface PutScriptContentResponse {
   createdOn?: string | null;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
   etag?: string | null;
+  /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
+  exports?: ScriptsContentUpdateResponseExports | null;
   /** The names of handlers exported as part of the default export. */
   handlers?: ScriptsContentUpdateResponseHandlersList | null;
   /** Whether a Worker contains assets. */
@@ -29151,6 +31934,7 @@ export const PutScriptContentResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
     etag: S.optional(S.NullOr(S.String)),
+    exports: S.optional(S.NullOr(ScriptsContentUpdateResponseExports)),
     handlers: S.optional(S.NullOr(ScriptsContentUpdateResponseHandlersList)),
     hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
     hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -29481,9 +32265,63 @@ export type ObservabilityTelemetryQueryRequestTimeframe =
 export const ObservabilityTelemetryQueryRequestTimeframe =
   ObservabilitySharedQueriesCreateRequestTimeframe;
 
-export type ObservabilityTelemetryQueryRequestParametersCalculationsItemOperator =
-  | "uniq"
+export type ObservabilityTelemetryQueryRequestChartType =
+  | "timeseries_and_aggregate"
+  | "timeseries"
+  | "aggregate"
+  | "distribution";
+export const ObservabilityTelemetryQueryRequestChartType = S.String;
+
+export type ObservabilityTelemetryQueryRequestDistributionScale =
+  | "log"
+  | "linear";
+export const ObservabilityTelemetryQueryRequestDistributionScale = S.String;
+
+export type ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0Operator =
   | "count"
+  | "COUNT";
+export const ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0Operator =
+  S.String;
+
+export type ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0KeyType =
+  | "string"
+  | "number"
+  | "boolean";
+export const ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0KeyType =
+  S.String;
+
+export interface ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0 {
+  /** Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance. */
+  operator:
+    | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0Operator
+    | (string & {});
+  /** Custom label for this calculation in the results. Useful for distinguishing multiple calculations. */
+  alias?: string;
+  /** Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except `count`, which aggregates whole rows and may omit it. */
+  key?: string;
+  /** Data type of the key. Required when key is provided to ensure correct aggregation. */
+  keyType?:
+    | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0KeyType
+    | (string & {});
+}
+export const ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      operator:
+        ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0Operator,
+      alias: S.optional(S.String),
+      key: S.optional(S.String),
+      keyType: S.optional(
+        ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0KeyType,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0",
+  }) as any as S.Schema<ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0>;
+
+export type ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1Operator =
+  | "uniq"
   | "max"
   | "min"
   | "sum"
@@ -29502,7 +32340,6 @@ export type ObservabilityTelemetryQueryRequestParametersCalculationsItemOperator
   | "stddev"
   | "variance"
   | "COUNT_DISTINCT"
-  | "COUNT"
   | "MAX"
   | "MIN"
   | "SUM"
@@ -29520,44 +32357,56 @@ export type ObservabilityTelemetryQueryRequestParametersCalculationsItemOperator
   | "P999"
   | "STDDEV"
   | "VARIANCE";
-export const ObservabilityTelemetryQueryRequestParametersCalculationsItemOperator =
+export const ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1Operator =
   S.String;
 
-export type ObservabilityTelemetryQueryRequestParametersCalculationsItemKeyType =
+export type ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1KeyType =
   | "string"
   | "number"
   | "boolean";
-export const ObservabilityTelemetryQueryRequestParametersCalculationsItemKeyType =
+export const ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1KeyType =
   S.String;
 
-export interface ObservabilityTelemetryQueryRequestParametersCalculationsItem {
+export interface ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1 {
+  /** Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except `count`, which aggregates whole rows and may omit it. */
+  key: string;
   /** Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance. */
   operator:
-    | ObservabilityTelemetryQueryRequestParametersCalculationsItemOperator
+    | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1Operator
     | (string & {});
   /** Custom label for this calculation in the results. Useful for distinguishing multiple calculations. */
   alias?: string;
-  /** Field name to calculate over. Must exist in the data — verify with the keys endpoint. Omit for operators that don't require a key (e.g. count). */
-  key?: string;
   /** Data type of the key. Required when key is provided to ensure correct aggregation. */
   keyType?:
-    | ObservabilityTelemetryQueryRequestParametersCalculationsItemKeyType
+    | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1KeyType
     | (string & {});
 }
-export const ObservabilityTelemetryQueryRequestParametersCalculationsItem =
+export const ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      key: S.String,
       operator:
-        ObservabilityTelemetryQueryRequestParametersCalculationsItemOperator,
+        ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1Operator,
       alias: S.optional(S.String),
-      key: S.optional(S.String),
       keyType: S.optional(
-        ObservabilityTelemetryQueryRequestParametersCalculationsItemKeyType,
+        ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1KeyType,
       ),
     }),
   ).annotate({
-    identifier: "ObservabilityTelemetryQueryRequestParametersCalculationsItem",
-  }) as any as S.Schema<ObservabilityTelemetryQueryRequestParametersCalculationsItem>;
+    identifier:
+      "ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1",
+  }) as any as S.Schema<ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1>;
+
+export type ObservabilityTelemetryQueryRequestParametersCalculationsItem =
+  | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0
+  | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1;
+export const ObservabilityTelemetryQueryRequestParametersCalculationsItem =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["operator", "alias", "key", "keyType"],
+      ["key", "operator", "alias", "keyType"],
+    ]),
+  );
 
 export type ObservabilityTelemetryQueryRequestParametersCalculationsList =
   Array<ObservabilityTelemetryQueryRequestParametersCalculationsItem>;
@@ -29648,10 +32497,10 @@ export type ObservabilityTelemetryQueryRequestParametersFiltersItemCase0FiltersI
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -29781,10 +32630,10 @@ export type ObservabilityTelemetryQueryRequestParametersFiltersItemWorkersObserv
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -30007,7 +32856,7 @@ export interface ObservabilityTelemetryQueryRequestParameters {
   filters?: ObservabilityTelemetryQueryRequestParametersFiltersList;
   /** Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values. */
   groupBys?: ObservabilityTelemetryQueryRequestParametersGroupBysList;
-  /** Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100). */
+  /** Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count &gt; 100). */
   havings?: ObservabilityTelemetryQueryRequestParametersHavingsList;
   /** Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases. */
   limit?: number;
@@ -30058,12 +32907,18 @@ export interface QueryObservabilityTelemetryRequest {
   accountId: string;
   /** Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID). */
   queryId: string;
-  /** Timeframe for the query using Unix timestamps in milliseconds. Narrower timeframes produce faster responses and more specific results. */
+  /** Timeframe for the query using Unix timestamps in milliseconds. 'from' must be earlier than 'to'. Narrower timeframes produce faster responses and more specific results. */
   timeframe: ObservabilitySharedQueriesCreateRequestTimeframe;
   /** When true, includes time-series data in the response. */
   chart?: boolean;
+  /** Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour — both the time-series and aggregate queries. 'timeseries': time-series only. 'aggregate': aggregate only. 'distribution': a bucketed 2D histogram (time × value buckets) returned in 'distribution' instead of 'calculations'. 'distribution' is not compatible with 'compare' — combining them returns a 400. */
+  chartType?: ObservabilityTelemetryQueryRequestChartType | (string & {});
   /** When true, includes a comparison dataset from the previous time period of equal length. */
   compare?: boolean;
+  /** Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode. */
+  distributionScale?:
+    | ObservabilityTelemetryQueryRequestDistributionScale
+    | (string & {});
   /** When true, executes the query without persisting the results. Useful for validation or previewing. */
   dry?: boolean;
   /** Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity. */
@@ -30072,7 +32927,7 @@ export interface QueryObservabilityTelemetryRequest {
   ignoreSeries?: boolean;
   /** Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'. */
   limit?: number;
-  /** Cursor for pagination in event, trace, and invocation views. Pass the $metadata.id of the last returned item to fetch the next page. */
+  /** Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page. */
   offset?: string;
   /** Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination. */
   offsetBy?: number;
@@ -30080,7 +32935,7 @@ export interface QueryObservabilityTelemetryRequest {
   offsetDirection?: string;
   /** Query parameters defining what data to retrieve — filters, calculations, group-bys, and ordering. In practice this should always be provided for ad-hoc queries. Only omit when executing a previously saved query by queryId. Use the keys and values endpoints to discover available fields before building filters. */
   parameters?: ObservabilityTelemetryQueryRequestParameters;
-  /** Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': Durable Object agent summaries. */
+  /** Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': agent-specific trace summaries. */
   view?: ObservabilityTelemetryQueryRequestView | (string & {});
 }
 export const QueryObservabilityTelemetryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -30089,7 +32944,11 @@ export const QueryObservabilityTelemetryRequest = /*@__PURE__*/ S.suspend(() =>
     queryId: S.String,
     timeframe: ObservabilitySharedQueriesCreateRequestTimeframe,
     chart: S.optional(S.Boolean),
+    chartType: S.optional(ObservabilityTelemetryQueryRequestChartType),
     compare: S.optional(S.Boolean),
+    distributionScale: S.optional(
+      ObservabilityTelemetryQueryRequestDistributionScale,
+    ),
     dry: S.optional(S.Boolean),
     granularity: S.optional(S.Number),
     ignoreSeries: S.optional(S.Boolean),
@@ -30112,9 +32971,45 @@ export const QueryObservabilityTelemetryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryObservabilityTelemetryRequest",
 }) as any as S.Schema<QueryObservabilityTelemetryRequest>;
 
-export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemOperator =
-  | "uniq"
+export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0Operator =
   | "count"
+  | "COUNT";
+export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0Operator =
+  S.String;
+
+export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0KeyType =
+  | "string"
+  | "number"
+  | "boolean";
+export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0KeyType =
+  S.String;
+
+export interface ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0 {
+  operator: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0Operator;
+  alias?: string | null;
+  key?: string | null;
+  keyType?: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0KeyType | null;
+}
+export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      operator:
+        ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0Operator,
+      alias: S.optional(S.NullOr(S.String)),
+      key: S.optional(S.NullOr(S.String)),
+      keyType: S.optional(
+        S.NullOr(
+          ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0KeyType,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0",
+  }) as any as S.Schema<ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0>;
+
+export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1Operator =
+  | "uniq"
   | "max"
   | "min"
   | "sum"
@@ -30133,7 +33028,6 @@ export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsIte
   | "stddev"
   | "variance"
   | "COUNT_DISTINCT"
-  | "COUNT"
   | "MAX"
   | "MIN"
   | "SUM"
@@ -30151,39 +33045,50 @@ export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsIte
   | "P999"
   | "STDDEV"
   | "VARIANCE";
-export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemOperator =
+export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1Operator =
   S.String;
 
-export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemKeyType =
+export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1KeyType =
   | "string"
   | "number"
   | "boolean";
-export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemKeyType =
+export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1KeyType =
   S.String;
 
-export interface ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItem {
-  operator: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemOperator;
+export interface ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1 {
+  key: string;
+  operator: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1Operator;
   alias?: string | null;
-  key?: string | null;
-  keyType?: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemKeyType | null;
+  keyType?: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1KeyType | null;
 }
-export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItem =
+export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      key: S.String,
       operator:
-        ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemOperator,
+        ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1Operator,
       alias: S.optional(S.NullOr(S.String)),
-      key: S.optional(S.NullOr(S.String)),
       keyType: S.optional(
         S.NullOr(
-          ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemKeyType,
+          ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1KeyType,
         ),
       ),
     }),
   ).annotate({
     identifier:
-      "ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItem",
-  }) as any as S.Schema<ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItem>;
+      "ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1",
+  }) as any as S.Schema<ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1>;
+
+export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItem =
+  | ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0
+  | ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1;
+export const ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItem =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["operator", "alias", "key", "keyType"],
+      ["key", "operator", "alias", "keyType"],
+    ]),
+  );
 
 export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsList =
   Array<ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItem>;
@@ -30264,10 +33169,10 @@ export type ObservabilityTelemetryQueryResponseRunQueryParametersFiltersItemWork
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -30570,7 +33475,7 @@ export interface ObservabilityTelemetryQueryResponseRun {
   query: ObservabilityTelemetryQueryResponseRunQuery;
   /** Current execution status of the query run. */
   status: ObservabilityTelemetryQueryResponseRunStatus;
-  /** Time range for the query execution */
+  /** Time range for the query execution. 'from' must be earlier than 'to'. No fractional milliseconds. */
   timeframe: ObservabilitySharedQueriesCreateRequestTimeframe;
   /** ID of the user who initiated the query run. */
   userId: string;
@@ -30607,45 +33512,92 @@ export type ObservabilityTelemetryQueryResponseStatistics =
 export const ObservabilityTelemetryQueryResponseStatistics =
   ObservabilitySharedQueriesGetResponseRunStatistics;
 
-export type ObservabilityTelemetryQueryResponseAgentsItemEventTypeCountsMap = {
-  [key: string]: number | undefined;
-};
-export const ObservabilityTelemetryQueryResponseAgentsItemEventTypeCountsMap =
-  /*@__PURE__*/ S.Record(
+export type ObservabilityTelemetryQueryResponseAgentsItemErrorsList =
+  Array<string>;
+export const ObservabilityTelemetryQueryResponseAgentsItemErrorsList =
+  /*@__PURE__*/ S.Array(
     S.String,
-    S.Number,
-  ) as any as S.Schema<ObservabilityTelemetryQueryResponseAgentsItemEventTypeCountsMap>;
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseAgentsItemErrorsList>;
+
+export type ObservabilityTelemetryQueryResponseAgentsItemModelsList =
+  Array<string>;
+export const ObservabilityTelemetryQueryResponseAgentsItemModelsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseAgentsItemModelsList>;
+
+export type ObservabilityTelemetryQueryResponseAgentsItemProvidersList =
+  Array<string>;
+export const ObservabilityTelemetryQueryResponseAgentsItemProvidersList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseAgentsItemProvidersList>;
+
+export type ObservabilityTelemetryQueryResponseAgentsItemServicesList =
+  Array<string>;
+export const ObservabilityTelemetryQueryResponseAgentsItemServicesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseAgentsItemServicesList>;
+
+export type ObservabilityTelemetryQueryResponseAgentsItemStatus =
+  | "completed"
+  | "error";
+export const ObservabilityTelemetryQueryResponseAgentsItemStatus = S.String;
 
 export interface ObservabilityTelemetryQueryResponseAgentsItem {
-  /** Class name of the Durable Object agent. */
-  agentClass: string;
-  /** Breakdown of event counts by event type. */
-  eventTypeCounts: ObservabilityTelemetryQueryResponseAgentsItemEventTypeCountsMap;
-  /** Timestamp of the earliest event from this agent in the queried window (Unix epoch ms). */
-  firstEventMs: number;
-  /** Whether the agent emitted any error events in the queried window. */
-  hasErrors: boolean;
-  /** Timestamp of the most recent event from this agent (Unix epoch ms). */
-  lastEventMs: number;
-  /** Durable Object namespace the agent belongs to. */
-  namespace: string;
-  /** Worker service name that hosts this agent. */
-  service: string;
-  /** Total number of events emitted by this agent in the queried window. */
-  totalEvents: number;
+  /** Stable pagination cursor for this agent run. */
+  id: string;
+  /** Distinct errors reported by spans in the run. */
+  errors: ObservabilityTelemetryQueryResponseAgentsItemErrorsList;
+  /** Distinct models reported by chat spans across the run's trace. */
+  models: ObservabilityTelemetryQueryResponseAgentsItemModelsList;
+  /** Distinct GenAI providers reported by chat spans in the run. */
+  providers: ObservabilityTelemetryQueryResponseAgentsItemProvidersList;
+  /** Worker services represented in the run's trace. */
+  services: ObservabilityTelemetryQueryResponseAgentsItemServicesList;
+  /** Number of spans in the run's trace. */
+  spans: number;
+  /** Observed run status. */
+  status: ObservabilityTelemetryQueryResponseAgentsItemStatus;
+  /** Total trace duration in milliseconds. */
+  traceDurationMs: number;
+  /** End of the run's trace as a Unix epoch in milliseconds. */
+  traceEndMs: number;
+  /** Trace identifier for this agent run. */
+  traceId: string;
+  /** Start of the run's trace as a Unix epoch in milliseconds. */
+  traceStartMs: number;
+  /** ID from the earliest agent invocation that provides one. */
+  agentId?: string | null;
+  /** Name from the earliest agent invocation that provides one. */
+  agentName?: string | null;
+  /** Conversation ID from the earliest invocation that provides one. */
+  conversationId?: string | null;
+  /** Input tokens summed across chat spans in the run's trace; informational, not billing data. */
+  inputTokens?: number | null;
+  /** Output tokens summed across chat spans in the run's trace; informational, not billing data. */
+  outputTokens?: number | null;
 }
 export const ObservabilityTelemetryQueryResponseAgentsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      agentClass: S.String,
-      eventTypeCounts:
-        ObservabilityTelemetryQueryResponseAgentsItemEventTypeCountsMap,
-      firstEventMs: S.Number,
-      hasErrors: S.Boolean,
-      lastEventMs: S.Number,
-      namespace: S.String,
-      service: S.String,
-      totalEvents: S.Number,
+      id: S.String,
+      errors: ObservabilityTelemetryQueryResponseAgentsItemErrorsList,
+      models: ObservabilityTelemetryQueryResponseAgentsItemModelsList,
+      providers: ObservabilityTelemetryQueryResponseAgentsItemProvidersList,
+      services: ObservabilityTelemetryQueryResponseAgentsItemServicesList,
+      spans: S.Number,
+      status: ObservabilityTelemetryQueryResponseAgentsItemStatus,
+      traceDurationMs: S.Number,
+      traceEndMs: S.Number,
+      traceId: S.String,
+      traceStartMs: S.Number,
+      agentId: S.optional(S.NullOr(S.String)),
+      agentName: S.optional(S.NullOr(S.String)),
+      conversationId: S.optional(S.NullOr(S.String)),
+      inputTokens: S.optional(S.NullOr(S.Number)),
+      outputTokens: S.optional(S.NullOr(S.Number)),
     }),
   ).annotate({
     identifier: "ObservabilityTelemetryQueryResponseAgentsItem",
@@ -31005,6 +33957,73 @@ export const ObservabilityTelemetryQueryResponseCompareList =
   /*@__PURE__*/ S.Array(
     ObservabilityTelemetryQueryResponseCompareItem,
   ) as any as S.Schema<ObservabilityTelemetryQueryResponseCompareList>;
+
+export type ObservabilityTelemetryQueryResponseDistributionBinsList =
+  Array<string>;
+export const ObservabilityTelemetryQueryResponseDistributionBinsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseDistributionBinsList>;
+
+export type ObservabilityTelemetryQueryResponseDistributionBucketBoundariesList =
+  Array<number>;
+export const ObservabilityTelemetryQueryResponseDistributionBucketBoundariesList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseDistributionBucketBoundariesList>;
+
+export type ObservabilityTelemetryQueryResponseDistributionBucketMode =
+  | "log"
+  | "linear";
+export const ObservabilityTelemetryQueryResponseDistributionBucketMode =
+  S.String;
+
+export type ObservabilityTelemetryQueryResponseDistributionBucketsList =
+  Array<string>;
+export const ObservabilityTelemetryQueryResponseDistributionBucketsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseDistributionBucketsList>;
+
+export type ObservabilityTelemetryQueryResponseDistributionMatrixItemList =
+  Array<number>;
+export const ObservabilityTelemetryQueryResponseDistributionMatrixItemList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseDistributionMatrixItemList>;
+
+export type ObservabilityTelemetryQueryResponseDistributionMatrixList =
+  Array<ObservabilityTelemetryQueryResponseDistributionMatrixItemList>;
+export const ObservabilityTelemetryQueryResponseDistributionMatrixList =
+  /*@__PURE__*/ S.Array(
+    ObservabilityTelemetryQueryResponseDistributionMatrixItemList,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseDistributionMatrixList>;
+
+export interface ObservabilityTelemetryQueryResponseDistribution {
+  /** Time-bucket labels (ISO-8601 strings), one per matrix column. */
+  bins: ObservabilityTelemetryQueryResponseDistributionBinsList;
+  /** Raw bucket edges in the value's native unit, length buckets.length + 1. Used for the colour scale and percentile mapping. */
+  bucketBoundaries: ObservabilityTelemetryQueryResponseDistributionBucketBoundariesList;
+  /** Bucketing scheme used to derive the boundaries. 'log' produces geometric edges; 'linear' produces fixed-width edges. */
+  bucketMode: ObservabilityTelemetryQueryResponseDistributionBucketMode;
+  /** Value-range labels, one per matrix row (e.g. '50–100ms'). */
+  buckets: ObservabilityTelemetryQueryResponseDistributionBucketsList;
+  /** Sampling-corrected counts. matrix[bucketIdx][binIdx] is the estimated number of events in value-bucket 'bucketIdx' during time-bin 'binIdx'. */
+  matrix: ObservabilityTelemetryQueryResponseDistributionMatrixList;
+}
+export const ObservabilityTelemetryQueryResponseDistribution =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      bins: ObservabilityTelemetryQueryResponseDistributionBinsList,
+      bucketBoundaries:
+        ObservabilityTelemetryQueryResponseDistributionBucketBoundariesList,
+      bucketMode: ObservabilityTelemetryQueryResponseDistributionBucketMode,
+      buckets: ObservabilityTelemetryQueryResponseDistributionBucketsList,
+      matrix: ObservabilityTelemetryQueryResponseDistributionMatrixList,
+    }),
+  ).annotate({
+    identifier: "ObservabilityTelemetryQueryResponseDistribution",
+  }) as any as S.Schema<ObservabilityTelemetryQueryResponseDistribution>;
 
 export type ObservabilityTelemetryQueryResponseEventsEventsItemMetadata =
   ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata;
@@ -31848,12 +34867,14 @@ export interface QueryObservabilityTelemetryResponse {
   run: ObservabilityTelemetryQueryResponseRun;
   /** Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency. */
   statistics: ObservabilitySharedQueriesGetResponseRunStatistics;
-  /** Durable Object agent summaries. Present when the query view is 'agents'. Each entry represents an agent with its event counts and status. */
+  /** Agent run summaries. Present when the query view is 'agents'. Each entry represents one trace containing at least one agent invocation. */
   agents?: ObservabilityTelemetryQueryResponseAgentsList | null;
   /** Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data. */
   calculations?: ObservabilityTelemetryQueryResponseCalculationsList | null;
   /** Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations. */
   compare?: ObservabilityTelemetryQueryResponseCompareList | null;
+  /** Bucketed 2D histogram of a numeric field over time. Present when chartType is 'distribution'. */
+  distribution?: ObservabilityTelemetryQueryResponseDistribution | null;
   /** Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata. */
   events?: ObservabilityTelemetryQueryResponseEvents | null;
   /** Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation. */
@@ -31871,6 +34892,9 @@ export const QueryObservabilityTelemetryResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     compare: S.optional(
       S.NullOr(ObservabilityTelemetryQueryResponseCompareList),
+    ),
+    distribution: S.optional(
+      S.NullOr(ObservabilityTelemetryQueryResponseDistribution),
     ),
     events: S.optional(S.NullOr(ObservabilityTelemetryQueryResponseEvents)),
     invocations: S.optional(
@@ -32025,7 +35049,7 @@ export interface BetaWorkersUpdateRequestObservabilityTraces {
   headSamplingRate?: number;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | BetaWorkersUpdateRequestObservabilityTracesPropagationPolicy
     | (string & {});
@@ -32056,6 +35080,8 @@ export interface BetaWorkersUpdateRequestObservability {
   headSamplingRate?: number;
   /** Log settings for the Worker. */
   logs?: BetaWorkersUpdateRequestObservabilityLogs;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean;
   /** Trace settings for the Worker. */
   traces?: BetaWorkersUpdateRequestObservabilityTraces;
 }
@@ -32065,6 +35091,9 @@ export const BetaWorkersUpdateRequestObservability = /*@__PURE__*/ S.suspend(
       enabled: S.optional(S.Boolean),
       headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
       logs: S.optional(BetaWorkersUpdateRequestObservabilityLogs),
+      redactQueryString: S.optional(
+        S.Boolean.pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(BetaWorkersUpdateRequestObservabilityTraces),
     }),
 ).annotate({
@@ -32195,7 +35224,7 @@ export interface BetaWorkersUpdateResponseObservabilityTraces {
   headSamplingRate?: number | null;
   /** Whether trace persistence is enabled for the Worker. */
   persist?: boolean | null;
-  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. */
+  /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?: BetaWorkersUpdateResponseObservabilityTracesPropagationPolicy | null;
 }
 export const BetaWorkersUpdateResponseObservabilityTraces =
@@ -32226,6 +35255,8 @@ export interface BetaWorkersUpdateResponseObservability {
   headSamplingRate?: number | null;
   /** Log settings for the Worker. */
   logs?: BetaWorkersUpdateResponseObservabilityLogs | null;
+  /** Whether query strings are removed from request URLs in logs and traces. */
+  redactQueryString?: boolean | null;
   /** Trace settings for the Worker. */
   traces?: BetaWorkersUpdateResponseObservabilityTraces | null;
 }
@@ -32237,6 +35268,9 @@ export const BetaWorkersUpdateResponseObservability = /*@__PURE__*/ S.suspend(
         S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
       ),
       logs: S.optional(S.NullOr(BetaWorkersUpdateResponseObservabilityLogs)),
+      redactQueryString: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("redact_query_string")),
+      ),
       traces: S.optional(
         S.NullOr(BetaWorkersUpdateResponseObservabilityTraces),
       ),
@@ -32541,10 +35575,10 @@ export type ObservabilityTelemetryValuesRequestFiltersItemCase0FiltersItemWorker
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -32671,10 +35705,10 @@ export type ObservabilityTelemetryValuesRequestFiltersItemWorkersObservabilityFi
   | "lte"
   | "="
   | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
+  | "&gt;"
+  | "&gt;="
+  | "&lt;"
+  | "&lt;="
   | "INCLUDES"
   | "DOES_NOT_INCLUDE"
   | "MATCH_REGEX"
@@ -32877,7 +35911,7 @@ export const ValuesObservabilityTelemetryResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ValuesObservabilityTelemetryResponse>;
 
 export type BulkUpdateScriptSecretsError = CloudflareOpError;
-/** Create, update, or delete multiple secrets on a script in a single operation using JSON Merge Patch (RFC 7396). Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged. */
+/** Create, update, or delete multiple secrets on a script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged. */
 export const bulkUpdateScriptSecrets: API.OperationMethod<
   BulkUpdateScriptSecretsRequest,
   BulkUpdateScriptSecretsResponse,
@@ -33359,7 +36393,7 @@ export type DeleteScriptSecretError =
   | WorkerNotFound
   | SecretNotFound
   | CloudflareOpError;
-/** Remove a secret from a script. */
+/** Remove a secret from a script by creating a new version without that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually. */
 export const deleteScriptSecret: API.OperationMethod<
   DeleteScriptSecretRequest,
   DeleteScriptSecretResponse,
@@ -34301,7 +37335,7 @@ export const putScriptSchedule: API.OperationMethod<
 }));
 
 export type PutScriptSecretError = WorkerNotFound | CloudflareOpError;
-/** Add a secret to a script. */
+/** Add a secret to a script by creating a new version with that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually. */
 export const putScriptSecret: API.OperationMethod<
   PutScriptSecretRequest,
   PutScriptSecretResponse,

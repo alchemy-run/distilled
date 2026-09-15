@@ -1,700 +1,325 @@
+---
+title: Endpoint Healthchecks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Diagnostics](https://developers.cloudflare.com/api/resources/diagnostics)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Endpoint Healthchecks
 
-## List Endpoint Health Checks
+##### [List Endpoint Health Checks](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/list)
 
-**get** `/accounts/{account_id}/diagnostics/endpoint-healthchecks`
+GET/accounts/{account\_id}/diagnostics/endpoint-healthchecks
 
-List Endpoint Health Checks.
+##### [Endpoint Health Check](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/diagnostics/endpoint-healthchecks
 
-- `account_id: string`
+##### [Get Endpoint Health Check](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/get)
 
-  Identifier
+GET/accounts/{account\_id}/diagnostics/endpoint-healthchecks/{id}
 
-### Returns
+##### [Delete Endpoint Health Check](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/diagnostics/endpoint-healthchecks/{id}
 
-  - `code: number`
+##### [Update Endpoint Health Check](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/update)
 
-  - `message: string`
+PUT/accounts/{account\_id}/diagnostics/endpoint-healthchecks/{id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+EndpointHealthcheck object {check\_type, endpoint, name }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+check\_type: "icmp"
 
-  - `documentation_url: optional string`
+type of check to perform
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+endpoint: string
 
-- `success: true`
+the IP address of the host to perform checks against
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+name: optional string
 
-- `result: optional object { check_type, endpoint, id, name }`
+Optional name associated with this check
 
-  - `check_type: "icmp"`
+<a href="#">Link to this property</a>
 
-    type of check to perform
+</details>
 
-    - `"icmp"`
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck%20%3E%20(schema)>)
 
-  - `endpoint: string`
+<details>
 
-    the IP address of the host to perform checks against
+<summary>
 
-  - `id: optional string`
+EndpointHealthcheckListResponse object {check\_type, endpoint, id, name }
 
-    UUID.
+</summary>
 
-  - `name: optional string`
+check\_type: "icmp"
 
-    Optional name associated with this check
+type of check to perform
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+endpoint: string
 
-#### Response
+the IP address of the host to perform checks against
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "check_type": "icmp",
-    "endpoint": "203.0.113.1",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "name": "My Endpoint"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Endpoint Health Check
+id: optional string
 
-**post** `/accounts/{account_id}/diagnostics/endpoint-healthchecks`
+UUID.
 
-Create Endpoint Health Check.
+maxLength36
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: optional string
 
-  Identifier
+Optional name associated with this check
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `check_type: "icmp"`
+</details>
 
-  type of check to perform
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_list_response%20%3E%20(schema)>)
 
-  - `"icmp"`
+<details>
 
-- `endpoint: string`
+<summary>
 
-  the IP address of the host to perform checks against
+EndpointHealthcheckCreateResponse object {check\_type, endpoint, id, name }
 
-- `name: optional string`
+</summary>
 
-  Optional name associated with this check
+check\_type: "icmp"
 
-### Returns
+type of check to perform
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+endpoint: string
 
-  - `message: string`
+the IP address of the host to perform checks against
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+UUID.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength36
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+Optional name associated with this check
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_create_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { check_type, endpoint, id, name }`
+EndpointHealthcheckGetResponse object {check\_type, endpoint, id, name }
 
-  - `check_type: "icmp"`
+</summary>
 
-    type of check to perform
+check\_type: "icmp"
 
-    - `"icmp"`
+type of check to perform
 
-  - `endpoint: string`
+<a href="#">Link to this property</a>
 
-    the IP address of the host to perform checks against
+endpoint: string
 
-  - `id: optional string`
+the IP address of the host to perform checks against
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+id: optional string
 
-    Optional name associated with this check
+UUID.
 
-### Example
+maxLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "check_type": "icmp",
-          "endpoint": "203.0.113.1",
-          "name": "My Endpoint"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "check_type": "icmp",
-    "endpoint": "203.0.113.1",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "name": "My Endpoint"
-  }
-}
-```
+Optional name associated with this check
 
-## Get Endpoint Health Check
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}`
+</details>
 
-Get a single Endpoint Health Check.
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_get_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier
+EndpointHealthcheckDeleteResponse object {errors, messages, success }
 
-- `id: string`
+</summary>
 
-  UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+code: number
 
-  - `documentation_url: optional string`
+minimum1000
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+message: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+documentation\_url: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+source: optional object {pointer }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+pointer: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { check_type, endpoint, id, name }`
+</details>
 
-  - `check_type: "icmp"`
+<a href="#">Link to this property</a>
 
-    type of check to perform
+</details>
 
-    - `"icmp"`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+<details>
 
-    the IP address of the host to perform checks against
+<summary>
 
-  - `id: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-    UUID.
+</summary>
 
-  - `name: optional string`
+code: number
 
-    Optional name associated with this check
+minimum1000
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+message: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "check_type": "icmp",
-    "endpoint": "203.0.113.1",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "name": "My Endpoint"
-  }
-}
-```
+documentation\_url: optional string
 
-## Delete Endpoint Health Check
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}`
+<details>
 
-Delete Endpoint Health Check.
+<summary>
 
-### Path Parameters
+source: optional object {pointer }
 
-- `account_id: string`
+</summary>
 
-  Identifier
+pointer: optional string
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+success: true
 
-  - `documentation_url: optional string`
+Whether the API call was successful.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_delete_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+EndpointHealthcheckUpdateResponse object {check\_type, endpoint, id, name }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+check\_type: "icmp"
 
-- `success: true`
+type of check to perform
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+endpoint: string
 
-### Example
+the IP address of the host to perform checks against
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+UUID.
 
-## Update Endpoint Health Check
+maxLength36
 
-**put** `/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}`
+<a href="#">Link to this property</a>
 
-Update a Endpoint Health Check.
+name: optional string
 
-### Path Parameters
+Optional name associated with this check
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+</details>
 
-- `id: string`
-
-  UUID.
-
-### Body Parameters
-
-- `check_type: "icmp"`
-
-  type of check to perform
-
-  - `"icmp"`
-
-- `endpoint: string`
-
-  the IP address of the host to perform checks against
-
-- `name: optional string`
-
-  Optional name associated with this check
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks/$ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "check_type": "icmp",
-          "endpoint": "203.0.113.1",
-          "name": "My Endpoint"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "check_type": "icmp",
-    "endpoint": "203.0.113.1",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "name": "My Endpoint"
-  }
-}
-```
-
-## Domain Types
-
-### Endpoint Healthcheck
-
-- `EndpointHealthcheck object { check_type, endpoint, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Endpoint Healthcheck List Response
-
-- `EndpointHealthcheckListResponse object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Endpoint Healthcheck Create Response
-
-- `EndpointHealthcheckCreateResponse object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Endpoint Healthcheck Get Response
-
-- `EndpointHealthcheckGetResponse object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Endpoint Healthcheck Delete Response
-
-- `EndpointHealthcheckDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-### Endpoint Healthcheck Update Response
-
-- `EndpointHealthcheckUpdateResponse object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_update_response%20%3E%20(schema)>)

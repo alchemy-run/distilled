@@ -1,355 +1,167 @@
+---
+title: Keys
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Images](https://developers.cloudflare.com/api/resources/images)
+
+[V1](https://developers.cloudflare.com/api/resources/images/subresources/v1)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Keys
 
-## List Signing Keys
+##### [List Signing Keys](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/keys/methods/list)
 
-**get** `/accounts/{account_id}/images/v1/keys`
+GET/accounts/{account\_id}/images/v1/keys
 
-List your CF Images signing keys.
+##### [Create a new Signing Key](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/keys/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/images/v1/keys/{signing\_key\_name}
 
-- `account_id: string`
+##### [Delete Signing Key](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/keys/methods/delete)
 
-  Account identifier tag.
+DELETE/accounts/{account\_id}/images/v1/keys/{signing\_key\_name}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+Key object {name, value }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+Key name.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+value: optional string
 
-  - `message: string`
+Key value.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { keys }`
+[Link to this property](#)%20images.v1.keys%20%3E%20(model)%20key%20%3E%20(schema)>)
 
-  - `keys: optional array of Key`
+<details>
 
-    - `name: optional string`
+<summary>
 
-      Key name.
+KeyListResponse object {keys }
 
-    - `value: optional string`
+</summary>
 
-      Key value.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+keys: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1.keys%20%3E%20(model)%20key%20%3E%20(schema)">Key</a> { name, value }
 
-  - `true`
+</summary>
 
-### Example
+name: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/keys \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Key name.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "keys": [
-      {
-        "name": "default",
-        "value": "Oix0bbNaT8Rge9PuyxUBrjI6zrgnsyJ5="
-      }
-    ]
-  },
-  "success": true
-}
-```
+value: optional string
 
-## Create a new Signing Key
+Key value.
 
-**put** `/accounts/{account_id}/images/v1/keys/{signing_key_name}`
+<a href="#">Link to this property</a>
 
-Create a new CF Images signing key with specified name. Returns all keys available.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+[Link to this property](#)%20images.v1.keys%20%3E%20(model)%20key_list_response%20%3E%20(schema)>)
 
-- `signing_key_name: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+KeyUpdateResponse object {keys }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+keys: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1.keys%20%3E%20(model)%20key%20%3E%20(schema)">Key</a> { name, value }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+name: optional string
 
-  - `code: number`
+Key name.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+Key value.
 
-- `result: object { keys }`
+<a href="#">Link to this property</a>
 
-  - `keys: optional array of Key`
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Key name.
+</details>
 
-    - `value: optional string`
+[Link to this property](#)%20images.v1.keys%20%3E%20(model)%20key_update_response%20%3E%20(schema)>)
 
-      Key value.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+KeyDeleteResponse object {keys }
 
-  - `true`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/keys/$SIGNING_KEY_NAME \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+keys: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1.keys%20%3E%20(model)%20key%20%3E%20(schema)">Key</a> { name, value }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "keys": [
-      {
-        "name": "default",
-        "value": "Oix0bbNaT8Rge9PuyxUBrjI6zrgnsyJ5="
-      }
-    ]
-  },
-  "success": true
-}
-```
+</summary>
 
-## Delete Signing Key
+name: optional string
 
-**delete** `/accounts/{account_id}/images/v1/keys/{signing_key_name}`
+Key name.
 
-Delete a CF Images signing key with specified name. Returns all keys available.
-When the last key is removed, a new default signing key will be generated.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+value: optional string
 
-- `account_id: string`
+Key value.
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `signing_key_name: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { keys }`
-
-  - `keys: optional array of Key`
-
-    - `name: optional string`
-
-      Key name.
-
-    - `value: optional string`
-
-      Key value.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/keys/$SIGNING_KEY_NAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "keys": [
-      {
-        "name": "default",
-        "value": "Oix0bbNaT8Rge9PuyxUBrjI6zrgnsyJ5="
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Key
-
-- `Key object { name, value }`
-
-  - `name: optional string`
-
-    Key name.
-
-  - `value: optional string`
-
-    Key value.
-
-### Key List Response
-
-- `KeyListResponse object { keys }`
-
-  - `keys: optional array of Key`
-
-    - `name: optional string`
-
-      Key name.
-
-    - `value: optional string`
-
-      Key value.
-
-### Key Update Response
-
-- `KeyUpdateResponse object { keys }`
-
-  - `keys: optional array of Key`
-
-    - `name: optional string`
-
-      Key name.
-
-    - `value: optional string`
-
-      Key value.
-
-### Key Delete Response
-
-- `KeyDeleteResponse object { keys }`
-
-  - `keys: optional array of Key`
-
-    - `name: optional string`
-
-      Key name.
-
-    - `value: optional string`
-
-      Key value.
+[Link to this property](#)%20images.v1.keys%20%3E%20(model)%20key_delete_response%20%3E%20(schema)>)

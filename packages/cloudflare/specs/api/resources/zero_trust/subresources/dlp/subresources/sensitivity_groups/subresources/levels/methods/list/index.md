@@ -1,69 +1,262 @@
-## Retrieve all sensitivity levels in a sensitivity group
+---
+title: Retrieve all sensitivity levels in a sensitivity group
+---
 
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels`
+[Skip to content](#_top)
 
-Retrieve all sensitivity levels in a sensitivity group
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-- `sensitivity_group_id: string`
+[Sensitivity Groups](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups)
 
-### Returns
+[Levels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels)
 
-- `errors: array of object { code, message, documentation_url, source }`
+Copy Markdown
 
-  - `code: number`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `message: string`
+---
 
-  - `documentation_url: optional string`
+**Copy Markdown****View as Markdown**
 
-  - `source: optional object { pointer }`
+# Retrieve all sensitivity levels in a sensitivity group
 
-    - `pointer: optional string`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels
 
-- `messages: array of object { code, message, documentation_url, source }`
+Lists sensitivity levels in a sensitivity group.
 
-  - `code: number`
+##### Security
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Token</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `success: true`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Whether the API call was successful.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `true`
+</details>
 
-- `result: optional array of object { id, created_at, name, 2 more }`
+<details>
 
-  - `id: string`
+<summary>API Email + API Key</summary>
 
-  - `created_at: string`
 
-  - `name: string`
 
-  - `updated_at: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `description: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Example
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-```http
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Zero Trust Read``Zero Trust Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+sensitivity\_group\_id: string
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sensitivity_group_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_at, name, 2 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Retrieve all sensitivity levels in a sensitivity group
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "name": "name",
+      "updated_at": "2019-12-27T18:11:19.117Z",
+      "description": "description"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

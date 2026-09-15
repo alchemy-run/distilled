@@ -1,34 +1,118 @@
-## Get screenshot
+---
+title: Get screenshot
+---
 
-**get** `/accounts/{account_id}/urlscanner/v2/screenshots/{scan_id}.png`
+[Skip to content](#_top)
 
-Get scan's screenshot by resolution (desktop/mobile/tablet).
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[URL Scanner](https://developers.cloudflare.com/api/resources/url_scanner)
 
-- `account_id: string`
+[Scans](https://developers.cloudflare.com/api/resources/url_scanner/subresources/scans)
 
-  Account ID.
+Copy Markdown
 
-- `scan_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Scan UUID.
+---
 
-### Query Parameters
+**Copy Markdown****View as Markdown**
 
-- `resolution: optional "desktop" or "mobile" or "tablet"`
+# Get screenshot
 
-  Target device type.
+GET/accounts/{account\_id}/urlscanner/v2/screenshots/{scan\_id}.png
 
-  - `"desktop"`
+Get scan’s screenshot by resolution (desktop/mobile/tablet).
 
-  - `"mobile"`
+##### Security
 
-  - `"tablet"`
+<details>
 
-### Example
+<summary>API Token</summary>
 
-```http
+
+
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
+
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
+
+</details>
+
+<details>
+
+<summary>API Email + API Key</summary>
+
+
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`URL Scanner Write``URL Scanner Read`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account ID.
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20screenshot%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+scan\_id: string
+
+Scan UUID.
+
+formatuuid
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20screenshot%20%3E%20(params)%20default%20%3E%20(param)%20scan_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+<details>
+
+<summary>
+
+resolution: optional "desktop"or "mobile"or "tablet"
+
+Target device type.
+
+</summary>
+
+One of the following:
+
+"desktop"
+
+<a href="#">Link to this property</a>
+
+"mobile"
+
+<a href="#">Link to this property</a>
+
+"tablet"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20screenshot%20%3E%20(params)%20default%20%3E%20(param)%20resolution%20%3E%20(schema)>)
+
+### Get screenshot
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/urlscanner/v2/screenshots/$SCAN_ID.png \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
+
+##### Returns Examples

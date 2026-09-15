@@ -1,155 +1,91 @@
+---
+title: Config Autofill
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
+
+[Repos](https://developers.cloudflare.com/api/resources/workers_builds/subresources/repos)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Config Autofill
 
-## Get repository configuration autofill
+##### [Get repository configuration autofill](https://developers.cloudflare.com/api/resources/workers_builds/subresources/repos/subresources/config_autofill/methods/get)
 
-**get** `/accounts/{account_id}/builds/repos/{provider_type}/{provider_account_id}/{repo_id}/config_autofill`
+GET/accounts/{account\_id}/builds/repos/{provider\_type}/{provider\_account\_id}/{repo\_id}/config\_autofill
 
-Analyze repository for automatic configuration detection
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier.
+ConfigAutofillGetResponse object {config\_file, default\_worker\_name, env\_worker\_names, 2 more }
 
-- `provider_type: "github" or "gitlab" or "gitlab_internal"`
+</summary>
 
-  - `"github"`
+config\_file: optional string
 
-  - `"gitlab"`
+<a href="#">Link to this property</a>
 
-  - `"gitlab_internal"`
+default\_worker\_name: optional string
 
-- `provider_account_id: string`
+<a href="#">Link to this property</a>
 
-  Provider account identifier.
+env\_worker\_names: optional map\[string]
 
-- `repo_id: string`
+<a href="#">Link to this property</a>
 
-  Repository identifier.
+<details>
 
-### Query Parameters
+<summary>
 
-- `branch: string`
+package\_manager: optional "npm"or "yarn"or "pnpm"or 2 more
 
-  Git branch name.
+Package manager inferred from repository lockfiles; defaults to npm when none is detected.
 
-- `root_directory: optional string`
+</summary>
 
-  Root directory path.
+One of the following:
 
-### Returns
+"npm"
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+"yarn"
 
-  - `message: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+"pnpm"
 
-- `result: object { config_file, default_worker_name, env_worker_names, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `config_file: optional string`
+"bun"
 
-  - `default_worker_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `env_worker_names: optional map[string]`
+"uv"
 
-  - `package_manager: optional "npm" or "yarn" or "pnpm" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"npm"`
+</details>
 
-    - `"yarn"`
+<a href="#">Link to this property</a>
 
-    - `"pnpm"`
+scripts: optional map\[string]
 
-    - `"bun"`
+<a href="#">Link to this property</a>
 
-    - `"uv"`
+</details>
 
-  - `scripts: optional map[string]`
-
-- `success: boolean`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-  - `page: optional number`
-
-  - `per_page: optional number`
-
-  - `total_count: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/repos/$PROVIDER_TYPE/$PROVIDER_ACCOUNT_ID/$REPO_ID/config_autofill \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "config_file": "wrangler.toml",
-    "default_worker_name": "my-worker",
-    "env_worker_names": {
-      "production": "my-worker-prod",
-      "staging": "my-worker-staging"
-    },
-    "package_manager": "npm",
-    "scripts": {
-      "build": "npm run build",
-      "test": "npm test"
-    }
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
-
-## Domain Types
-
-### Config Autofill Get Response
-
-- `ConfigAutofillGetResponse object { config_file, default_worker_name, env_worker_names, 2 more }`
-
-  - `config_file: optional string`
-
-  - `default_worker_name: optional string`
-
-  - `env_worker_names: optional map[string]`
-
-  - `package_manager: optional "npm" or "yarn" or "pnpm" or 2 more`
-
-    - `"npm"`
-
-    - `"yarn"`
-
-    - `"pnpm"`
-
-    - `"bun"`
-
-    - `"uv"`
-
-  - `scripts: optional map[string]`
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(model)%20config_autofill_get_response%20%3E%20(schema)>)

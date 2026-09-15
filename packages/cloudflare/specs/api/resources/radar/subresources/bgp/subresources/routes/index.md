@@ -1,909 +1,827 @@
+---
+title: Routes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Routes
 
-## Get Multi-Origin AS (MOAS) prefixes
+##### [Get Multi-Origin AS (MOAS) prefixes](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/moas)
 
-**get** `/radar/bgp/routes/moas`
+GET/radar/bgp/routes/moas
 
-Retrieves all Multi-Origin AS (MOAS) prefixes in the global routing tables.
+##### [Get prefix-to-ASN mapping](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/pfx2as)
 
-### Query Parameters
+GET/radar/bgp/routes/pfx2as
 
-- `format: optional "JSON" or "CSV"`
+##### [Get BGP routing table stats](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/stats)
 
-  Format in which results will be returned.
+GET/radar/bgp/routes/stats
 
-  - `"JSON"`
+##### [List ASes from global routing tables](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/ases)
 
-  - `"CSV"`
+GET/radar/bgp/routes/ases
 
-- `invalid_only: optional boolean`
+##### [Get real-time BGP routes for a prefix](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/realtime)
 
-  Lookup only RPKI invalid MOASes.
+GET/radar/bgp/routes/realtime
 
-- `origin: optional number`
+##### ModelsExpand Collapse
 
-  Lookup MOASes originated by the given ASN.
+<details>
 
-- `prefix: optional string`
+<summary>
 
-### Returns
+RouteMoasResponse object {meta, moas }
 
-- `result: object { meta, moas }`
+</summary>
 
-  - `meta: object { data_time, query_time, total_peers }`
+<details>
 
-    - `data_time: string`
+<summary>
 
-    - `query_time: string`
+meta: object {data\_time, query\_time, total\_peers }
 
-    - `total_peers: number`
+</summary>
 
-  - `moas: array of object { origins, prefix }`
+data\_time: string
 
-    - `origins: array of object { origin, peer_count, rpki_validation }`
+<a href="#">Link to this property</a>
 
-      - `origin: number`
+query\_time: string
 
-      - `peer_count: number`
+<a href="#">Link to this property</a>
 
-      - `rpki_validation: string`
+total\_peers: number
 
-    - `prefix: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/moas \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "result": {
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    },
-    "moas": [
-      {
-        "origins": [
-          {
-            "origin": 0,
-            "peer_count": 0,
-            "rpki_validation": "rpki_validation"
-          }
-        ],
-        "prefix": "prefix"
-      }
-    ]
-  },
-  "success": true
-}
-```
+moas: array of object {origins, prefix }
 
-## Get prefix-to-ASN mapping
+</summary>
 
-**get** `/radar/bgp/routes/pfx2as`
+<details>
 
-Retrieves the prefix-to-ASN mapping from global routing tables.
+<summary>
 
-### Query Parameters
+origins: array of object {origin, peer\_count, rpki\_validation }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+origin: number
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+peer\_count: number
 
-- `longestPrefixMatch: optional boolean`
+<a href="#">Link to this property</a>
 
-  Return only results with the longest prefix match for the given prefix. For example, specify a /32 prefix to lookup the origin ASN for an IPv4 address.
+rpki\_validation: string
 
-- `origin: optional number`
+<a href="#">Link to this property</a>
 
-  Lookup prefixes originated by the given ASN.
+</details>
 
-- `prefix: optional string`
+<a href="#">Link to this property</a>
 
-- `rpkiStatus: optional "VALID" or "INVALID" or "UNKNOWN"`
+prefix: string
 
-  Return only results with matching rpki status: valid, invalid or unknown.
+<a href="#">Link to this property</a>
 
-  - `"VALID"`
+</details>
 
-  - `"INVALID"`
+<a href="#">Link to this property</a>
 
-  - `"UNKNOWN"`
+</details>
 
-### Returns
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_moas_response%20%3E%20(schema)>)
 
-- `result: object { meta, prefix_origins }`
+<details>
 
-  - `meta: object { data_time, query_time, total_peers }`
+<summary>
 
-    - `data_time: string`
+RoutePfx2asResponse object {meta, prefix\_origins }
 
-    - `query_time: string`
+</summary>
 
-    - `total_peers: number`
+<details>
 
-  - `prefix_origins: array of object { origin, peer_count, prefix, rpki_validation }`
+<summary>
 
-    - `origin: number`
+meta: object {data\_time, query\_time, total\_peers }
 
-    - `peer_count: number`
+</summary>
 
-    - `prefix: string`
+data\_time: string
 
-    - `rpki_validation: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+query\_time: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/pfx2as \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+total\_peers: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    },
-    "prefix_origins": [
-      {
-        "origin": 0,
-        "peer_count": 0,
-        "prefix": "prefix",
-        "rpki_validation": "rpki_validation"
-      }
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Get BGP routing table stats 
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/routes/stats`
+<details>
 
-Retrieves the BGP routing table stats.
+<summary>
 
-### Query Parameters
+prefix\_origins: array of object {origin, peer\_count, prefix, rpki\_validation }
 
-- `asn: optional number`
+</summary>
 
-  Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer.
+origin: number
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+peer\_count: number
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+prefix: string
 
-- `location: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by location. Specify an alpha-2 location code.
+rpki\_validation: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, stats }`
+</details>
 
-  - `meta: object { data_time, query_time, total_peers }`
+<a href="#">Link to this property</a>
 
-    - `data_time: string`
+</details>
 
-    - `query_time: string`
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_pfx2as_response%20%3E%20(schema)>)
 
-    - `total_peers: number`
+<details>
 
-  - `stats: object { distinct_origins, distinct_origins_ipv4, distinct_origins_ipv6, 15 more }`
+<summary>
 
-    - `distinct_origins: number`
+RouteStatsResponse object {meta, stats }
 
-    - `distinct_origins_ipv4: number`
+</summary>
 
-    - `distinct_origins_ipv6: number`
+<details>
 
-    - `distinct_prefixes: number`
+<summary>
 
-    - `distinct_prefixes_ipv4: number`
+meta: object {data\_time, query\_time, total\_peers }
 
-    - `distinct_prefixes_ipv6: number`
+</summary>
 
-    - `routes_invalid: number`
+data\_time: string
 
-    - `routes_invalid_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `routes_invalid_ipv6: number`
+query\_time: string
 
-    - `routes_total: number`
+<a href="#">Link to this property</a>
 
-    - `routes_total_ipv4: number`
+total\_peers: number
 
-    - `routes_total_ipv6: number`
+<a href="#">Link to this property</a>
 
-    - `routes_unknown: number`
+</details>
 
-    - `routes_unknown_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `routes_unknown_ipv6: number`
+<details>
 
-    - `routes_valid: number`
+<summary>
 
-    - `routes_valid_ipv4: number`
+stats: object {distinct\_origins, distinct\_origins\_ipv4, distinct\_origins\_ipv6, 15 more }
 
-    - `routes_valid_ipv6: number`
+</summary>
 
-- `success: boolean`
+distinct\_origins: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/stats \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+distinct\_origins\_ipv4: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    },
-    "stats": {
-      "distinct_origins": 0,
-      "distinct_origins_ipv4": 0,
-      "distinct_origins_ipv6": 0,
-      "distinct_prefixes": 0,
-      "distinct_prefixes_ipv4": 0,
-      "distinct_prefixes_ipv6": 0,
-      "routes_invalid": 0,
-      "routes_invalid_ipv4": 0,
-      "routes_invalid_ipv6": 0,
-      "routes_total": 0,
-      "routes_total_ipv4": 0,
-      "routes_total_ipv6": 0,
-      "routes_unknown": 0,
-      "routes_unknown_ipv4": 0,
-      "routes_unknown_ipv6": 0,
-      "routes_valid": 0,
-      "routes_valid_ipv4": 0,
-      "routes_valid_ipv6": 0
-    }
-  },
-  "success": true
-}
-```
+distinct\_origins\_ipv6: number
 
-## List ASes from global routing tables
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/routes/ases`
+distinct\_prefixes: number
 
-Retrieves all ASes in the current global routing tables with routing statistics.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+distinct\_prefixes\_ipv4: number
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+distinct\_prefixes\_ipv6: number
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+routes\_invalid: number
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects returned in the response.
+routes\_invalid\_ipv4: number
 
-- `location: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by location. Specify an alpha-2 location code.
+routes\_invalid\_ipv6: number
 
-- `sortBy: optional "cone" or "pfxs" or "ipv4" or 4 more`
+<a href="#">Link to this property</a>
 
-  Sorts results by the specified field.
+routes\_total: number
 
-  - `"cone"`
+<a href="#">Link to this property</a>
 
-  - `"pfxs"`
+routes\_total\_ipv4: number
 
-  - `"ipv4"`
+<a href="#">Link to this property</a>
 
-  - `"ipv6"`
+routes\_total\_ipv6: number
 
-  - `"rpki_valid"`
+<a href="#">Link to this property</a>
 
-  - `"rpki_invalid"`
+routes\_unknown: number
 
-  - `"rpki_unknown"`
+<a href="#">Link to this property</a>
 
-- `sortOrder: optional "ASC" or "DESC"`
+routes\_unknown\_ipv4: number
 
-  Sort order.
+<a href="#">Link to this property</a>
 
-  - `"ASC"`
+routes\_unknown\_ipv6: number
 
-  - `"DESC"`
+<a href="#">Link to this property</a>
 
-### Returns
+routes\_valid: number
 
-- `result: object { asns, meta }`
+<a href="#">Link to this property</a>
 
-  - `asns: array of object { asn, coneSize, country, 7 more }`
+routes\_valid\_ipv4: number
 
-    - `asn: number`
+<a href="#">Link to this property</a>
 
-    - `coneSize: number`
+routes\_valid\_ipv6: number
 
-      AS's customer cone size.
+<a href="#">Link to this property</a>
 
-    - `country: string`
+</details>
 
-      Alpha-2 code for the AS's registration country.
+<a href="#">Link to this property</a>
 
-    - `ipv4Count: number`
+</details>
 
-      Number of IPv4 addresses originated by the AS.
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_stats_response%20%3E%20(schema)>)
 
-    - `ipv6Count: string`
+<details>
 
-      Number of IPv6 addresses originated by the AS.
+<summary>
 
-    - `name: string`
+RouteAsesResponse object {asns, meta }
 
-      Name of the AS.
+</summary>
 
-    - `pfxsCount: number`
+<details>
 
-      Number of total IP prefixes originated by the AS.
+<summary>
 
-    - `rpkiInvalid: number`
+asns: array of object {asn, coneSize, country, 7 more }
 
-      Number of RPKI invalid prefixes originated by the AS.
+</summary>
 
-    - `rpkiUnknown: number`
+asn: number
 
-      Number of RPKI unknown prefixes originated by the AS.
+<a href="#">Link to this property</a>
 
-    - `rpkiValid: number`
+coneSize: number
 
-      Number of RPKI valid prefixes originated by the AS.
+AS’s customer cone size.
 
-  - `meta: object { dataTime, queryTime, totalPeers }`
+<a href="#">Link to this property</a>
 
-    - `dataTime: string`
+country: string
 
-      The timestamp of when the data is generated.
+Alpha-2 code for the AS’s registration country.
 
-    - `queryTime: string`
+<a href="#">Link to this property</a>
 
-      The timestamp of the query.
+ipv4Count: number
 
-    - `totalPeers: number`
+Number of IPv4 addresses originated by the AS.
 
-      Total number of route collector peers used to generate this data.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+ipv6Count: string
 
-### Example
+Number of IPv6 addresses originated by the AS.
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/ases \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "result": {
-    "asns": [
-      {
-        "asn": 0,
-        "coneSize": 0,
-        "country": "US",
-        "ipv4Count": 0,
-        "ipv6Count": "1.21e24",
-        "name": "name",
-        "pfxsCount": 0,
-        "rpkiInvalid": 0,
-        "rpkiUnknown": 0,
-        "rpkiValid": 0
-      }
-    ],
-    "meta": {
-      "dataTime": "2024-06-03T14:00:00",
-      "queryTime": "2024-06-03T14:00:00",
-      "totalPeers": 0
-    }
-  },
-  "success": true
-}
-```
+Name of the AS.
 
-## Get real-time BGP routes for a prefix
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/routes/realtime`
+pfxsCount: number
 
-Retrieves real-time BGP routes for a prefix, using public real-time data collectors (RouteViews and RIPE RIS).
+Number of total IP prefixes originated by the AS.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+rpkiInvalid: number
 
-  Format in which results will be returned.
+Number of RPKI invalid prefixes originated by the AS.
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+rpkiUnknown: number
 
-- `prefix: optional string`
+Number of RPKI unknown prefixes originated by the AS.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, routes }`
+rpkiValid: number
 
-  - `meta: object { asn_info, collectors, data_time, 2 more }`
+Number of RPKI valid prefixes originated by the AS.
 
-    - `asn_info: array of object { as_name, asn, country_code, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `as_name: string`
+</details>
 
-        Name of the autonomous system.
+<a href="#">Link to this property</a>
 
-      - `asn: number`
+<details>
 
-        AS number.
+<summary>
 
-      - `country_code: string`
+meta: object {dataTime, queryTime, totalPeers }
 
-        Alpha-2 code for the AS's registration country.
+</summary>
 
-      - `org_id: string`
+dataTime: string
 
-        Organization ID.
+The timestamp of when the data is generated.
 
-      - `org_name: string`
+<a href="#">Link to this property</a>
 
-        Organization name.
+queryTime: string
 
-    - `collectors: array of object { collector, latest_realtime_ts, latest_rib_ts, 4 more }`
+The timestamp of the query.
 
-      - `collector: string`
+<a href="#">Link to this property</a>
 
-        Public route collector ID.
+totalPeers: number
 
-      - `latest_realtime_ts: string`
+Total number of route collector peers used to generate this data.
 
-        Latest real-time stream timestamp for this collector.
+<a href="#">Link to this property</a>
 
-      - `latest_rib_ts: string`
+</details>
 
-        Latest RIB dump MRT file timestamp for this collector.
+<a href="#">Link to this property</a>
 
-      - `latest_updates_ts: string`
+</details>
 
-        Latest BGP updates MRT file timestamp for this collector.
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_ases_response%20%3E%20(schema)>)
 
-      - `peers_count: number`
+<details>
 
-        Total number of collector peers used from this collector.
+<summary>
 
-      - `peers_v4_count: number`
+RouteRealtimeResponse object {meta, routes }
 
-        Total number of collector peers used from this collector for IPv4 prefixes.
+</summary>
 
-      - `peers_v6_count: number`
+<details>
 
-        Total number of collector peers used from this collector for IPv6 prefixes.
+<summary>
 
-    - `data_time: string`
+meta: object {asn\_info, collectors, data\_time, 2 more }
 
-      The most recent data timestamp for from the real-time sources.
+</summary>
 
-    - `prefix_origins: array of object { origin, prefix, rpki_validation, 3 more }`
+<details>
 
-      - `origin: number`
+<summary>
 
-        Origin ASN.
+asn\_info: array of object {as\_name, asn, country\_code, 2 more }
 
-      - `prefix: string`
+</summary>
 
-        IP prefix of this query.
+as\_name: string
 
-      - `rpki_validation: string`
+Name of the autonomous system.
 
-        Prefix-origin RPKI validation: valid, invalid, unknown.
+<a href="#">Link to this property</a>
 
-      - `total_peers: number`
+asn: number
 
-        Total number of peers.
+AS number.
 
-      - `total_visible: number`
+<a href="#">Link to this property</a>
 
-        Total number of peers seeing this prefix.
+country\_code: string
 
-      - `visibility: number`
+Alpha-2 code for the AS’s registration country.
 
-        Ratio of peers seeing this prefix to total number of peers.
+<a href="#">Link to this property</a>
 
-    - `query_time: string`
+org\_id: string
 
-      The timestamp of this query.
+Organization ID.
 
-  - `routes: array of object { as_path, collector, communities, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `as_path: array of number`
+org\_name: string
 
-      AS-level path for this route, from collector to origin.
+Organization name.
 
-    - `collector: string`
+<a href="#">Link to this property</a>
 
-      Public collector ID for this route.
+</details>
 
-    - `communities: array of string`
+<a href="#">Link to this property</a>
 
-      BGP community values.
+<details>
 
-    - `prefix: string`
+<summary>
 
-      IP prefix of this query.
+collectors: array of object {collector, latest\_realtime\_ts, latest\_rib\_ts, 4 more }
 
-    - `timestamp: string`
+</summary>
 
-      Latest timestamp of change for this route.
+collector: string
 
-- `success: boolean`
+Public route collector ID.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/realtime \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+latest\_realtime\_ts: string
 
-#### Response
+Latest real-time stream timestamp for this collector.
 
-```json
-{
-  "result": {
-    "meta": {
-      "asn_info": [
-        {
-          "as_name": "as_name",
-          "asn": 0,
-          "country_code": "country_code",
-          "org_id": "org_id",
-          "org_name": "org_name"
-        }
-      ],
-      "collectors": [
-        {
-          "collector": "collector",
-          "latest_realtime_ts": "latest_realtime_ts",
-          "latest_rib_ts": "latest_rib_ts",
-          "latest_updates_ts": "latest_updates_ts",
-          "peers_count": 0,
-          "peers_v4_count": 0,
-          "peers_v6_count": 0
-        }
-      ],
-      "data_time": "data_time",
-      "prefix_origins": [
-        {
-          "origin": 0,
-          "prefix": "prefix",
-          "rpki_validation": "rpki_validation",
-          "total_peers": 0,
-          "total_visible": 0,
-          "visibility": 0
-        }
-      ],
-      "query_time": "query_time"
-    },
-    "routes": [
-      {
-        "as_path": [
-          0
-        ],
-        "collector": "collector",
-        "communities": [
-          "string"
-        ],
-        "prefix": "prefix",
-        "timestamp": "timestamp"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+latest\_rib\_ts: string
 
-### Route Moas Response
+Latest RIB dump MRT file timestamp for this collector.
 
-- `RouteMoasResponse object { meta, moas }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { data_time, query_time, total_peers }`
+latest\_updates\_ts: string
 
-    - `data_time: string`
+Latest BGP updates MRT file timestamp for this collector.
 
-    - `query_time: string`
+<a href="#">Link to this property</a>
 
-    - `total_peers: number`
+peers\_count: number
 
-  - `moas: array of object { origins, prefix }`
+Total number of collector peers used from this collector.
 
-    - `origins: array of object { origin, peer_count, rpki_validation }`
+<a href="#">Link to this property</a>
 
-      - `origin: number`
+peers\_v4\_count: number
 
-      - `peer_count: number`
+Total number of collector peers used from this collector for IPv4 prefixes.
 
-      - `rpki_validation: string`
+<a href="#">Link to this property</a>
 
-    - `prefix: string`
+peers\_v6\_count: number
 
-### Route Pfx2as Response
+Total number of collector peers used from this collector for IPv6 prefixes.
 
-- `RoutePfx2asResponse object { meta, prefix_origins }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { data_time, query_time, total_peers }`
+</details>
 
-    - `data_time: string`
+<a href="#">Link to this property</a>
 
-    - `query_time: string`
+data\_time: string
 
-    - `total_peers: number`
+The most recent data timestamp for from the real-time sources.
 
-  - `prefix_origins: array of object { origin, peer_count, prefix, rpki_validation }`
+<a href="#">Link to this property</a>
 
-    - `origin: number`
+<details>
 
-    - `peer_count: number`
+<summary>
 
-    - `prefix: string`
+prefix\_origins: array of object {origin, prefix, rpki\_validation, 3 more }
 
-    - `rpki_validation: string`
+</summary>
 
-### Route Stats Response
+origin: number
 
-- `RouteStatsResponse object { meta, stats }`
+Origin ASN.
 
-  - `meta: object { data_time, query_time, total_peers }`
+<a href="#">Link to this property</a>
 
-    - `data_time: string`
+prefix: string
 
-    - `query_time: string`
+IP prefix of this query.
 
-    - `total_peers: number`
+<a href="#">Link to this property</a>
 
-  - `stats: object { distinct_origins, distinct_origins_ipv4, distinct_origins_ipv6, 15 more }`
+rpki\_validation: string
 
-    - `distinct_origins: number`
+Prefix-origin RPKI validation: valid, invalid, unknown.
 
-    - `distinct_origins_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `distinct_origins_ipv6: number`
+total\_peers: number
 
-    - `distinct_prefixes: number`
+Total number of peers.
 
-    - `distinct_prefixes_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `distinct_prefixes_ipv6: number`
+total\_visible: number
 
-    - `routes_invalid: number`
+Total number of peers seeing this prefix.
 
-    - `routes_invalid_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `routes_invalid_ipv6: number`
+visibility: number
 
-    - `routes_total: number`
+Ratio of peers seeing this prefix to total number of peers.
 
-    - `routes_total_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `routes_total_ipv6: number`
+</details>
 
-    - `routes_unknown: number`
+<a href="#">Link to this property</a>
 
-    - `routes_unknown_ipv4: number`
+query\_time: string
 
-    - `routes_unknown_ipv6: number`
+The timestamp of this query.
 
-    - `routes_valid: number`
+<a href="#">Link to this property</a>
 
-    - `routes_valid_ipv4: number`
+</details>
 
-    - `routes_valid_ipv6: number`
+<a href="#">Link to this property</a>
 
-### Route Ases Response
+<details>
 
-- `RouteAsesResponse object { asns, meta }`
+<summary>
 
-  - `asns: array of object { asn, coneSize, country, 7 more }`
+routes: array of object {as\_path, collector, communities, 2 more }
 
-    - `asn: number`
+</summary>
 
-    - `coneSize: number`
+as\_path: array of number
 
-      AS's customer cone size.
+AS-level path for this route, from collector to origin.
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-      Alpha-2 code for the AS's registration country.
+collector: string
 
-    - `ipv4Count: number`
+Public collector ID for this route.
 
-      Number of IPv4 addresses originated by the AS.
+<a href="#">Link to this property</a>
 
-    - `ipv6Count: string`
+communities: array of string
 
-      Number of IPv6 addresses originated by the AS.
+BGP community values.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the AS.
+prefix: string
 
-    - `pfxsCount: number`
+IP prefix of this query.
 
-      Number of total IP prefixes originated by the AS.
+<a href="#">Link to this property</a>
 
-    - `rpkiInvalid: number`
+timestamp: string
 
-      Number of RPKI invalid prefixes originated by the AS.
+Latest timestamp of change for this route.
 
-    - `rpkiUnknown: number`
+<a href="#">Link to this property</a>
 
-      Number of RPKI unknown prefixes originated by the AS.
+</details>
 
-    - `rpkiValid: number`
+<a href="#">Link to this property</a>
 
-      Number of RPKI valid prefixes originated by the AS.
+</details>
 
-  - `meta: object { dataTime, queryTime, totalPeers }`
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_realtime_response%20%3E%20(schema)>)
 
-    - `dataTime: string`
+#### RoutesUpstreams
 
-      The timestamp of when the data is generated.
+##### [Get upstream composition time series for an AS](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/subresources/upstreams/methods/timeseries)
 
-    - `queryTime: string`
+GET/radar/bgp/routes/upstreams/{asn}/timeseries
 
-      The timestamp of the query.
+##### ModelsExpand Collapse
 
-    - `totalPeers: number`
+<details>
 
-      Total number of route collector peers used to generate this data.
+<summary>
 
-### Route Realtime Response
+UpstreamTimeseriesResponse object {meta, serie\_0 }
 
-- `RouteRealtimeResponse object { meta, routes }`
+</summary>
 
-  - `meta: object { asn_info, collectors, data_time, 2 more }`
+<details>
 
-    - `asn_info: array of object { as_name, asn, country_code, 2 more }`
+<summary>
 
-      - `as_name: string`
+meta: object {dataTime, effectiveCollector, queryTime, stale }
 
-        Name of the autonomous system.
+</summary>
 
-      - `asn: number`
+dataTime: string
 
-        AS number.
+Timestamp of the underlying RIB data.
 
-      - `country_code: string`
+formatdate-time
 
-        Alpha-2 code for the AS's registration country.
+<a href="#">Link to this property</a>
 
-      - `org_id: string`
+effectiveCollector: string
 
-        Organization ID.
+<a href="#">Link to this property</a>
 
-      - `org_name: string`
+queryTime: string
 
-        Organization name.
+Timestamp when the query was executed.
 
-    - `collectors: array of object { collector, latest_realtime_ts, latest_rib_ts, 4 more }`
+formatdate-time
 
-      - `collector: string`
+<a href="#">Link to this property</a>
 
-        Public route collector ID.
+stale: boolean
 
-      - `latest_realtime_ts: string`
+<a href="#">Link to this property</a>
 
-        Latest real-time stream timestamp for this collector.
+</details>
 
-      - `latest_rib_ts: string`
+<a href="#">Link to this property</a>
 
-        Latest RIB dump MRT file timestamp for this collector.
+<details>
 
-      - `latest_updates_ts: string`
+<summary>
 
-        Latest BGP updates MRT file timestamp for this collector.
+serie\_0: object {timestamps }
 
-      - `peers_count: number`
+</summary>
 
-        Total number of collector peers used from this collector.
+timestamps: array of string
 
-      - `peers_v4_count: number`
+<a href="#">Link to this property</a>
 
-        Total number of collector peers used from this collector for IPv4 prefixes.
+</details>
 
-      - `peers_v6_count: number`
+<a href="#">Link to this property</a>
 
-        Total number of collector peers used from this collector for IPv6 prefixes.
+</details>
 
-    - `data_time: string`
+[Link to this property](#)%20radar.bgp.routes.upstreams%20%3E%20(model)%20upstream_timeseries_response%20%3E%20(schema)>)
 
-      The most recent data timestamp for from the real-time sources.
+#### RoutesPaths
 
-    - `prefix_origins: array of object { origin, prefix, rpki_validation, 3 more }`
+##### [Get tier-1 path segments for an AS](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/subresources/paths/methods/list)
 
-      - `origin: number`
+GET/radar/bgp/routes/paths/{asn}
 
-        Origin ASN.
+##### ModelsExpand Collapse
 
-      - `prefix: string`
+<details>
 
-        IP prefix of this query.
+<summary>
 
-      - `rpki_validation: string`
+PathListResponse object {asnInfo, collectors, meta, paths }
 
-        Prefix-origin RPKI validation: valid, invalid, unknown.
+</summary>
 
-      - `total_peers: number`
+<details>
 
-        Total number of peers.
+<summary>
 
-      - `total_visible: number`
+asnInfo: map\[object {asn, country, name } ]
 
-        Total number of peers seeing this prefix.
+</summary>
 
-      - `visibility: number`
+asn: number
 
-        Ratio of peers seeing this prefix to total number of peers.
+ASN number.
 
-    - `query_time: string`
+<a href="#">Link to this property</a>
 
-      The timestamp of this query.
+country: string
 
-  - `routes: array of object { as_path, collector, communities, 2 more }`
+Alpha-2 country code.
 
-    - `as_path: array of number`
+<a href="#">Link to this property</a>
 
-      AS-level path for this route, from collector to origin.
+name: string
 
-    - `collector: string`
+AS name.
 
-      Public collector ID for this route.
+<a href="#">Link to this property</a>
 
-    - `communities: array of string`
+</details>
 
-      BGP community values.
+<a href="#">Link to this property</a>
 
-    - `prefix: string`
+collectors: array of string
 
-      IP prefix of this query.
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+<details>
 
-      Latest timestamp of change for this route.
+<summary>
+
+meta: object {dataTime, effectiveCollector, queryTime, stale }
+
+</summary>
+
+dataTime: string
+
+Timestamp of the underlying RIB data.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+effectiveCollector: string
+
+<a href="#">Link to this property</a>
+
+queryTime: string
+
+Timestamp when the query was executed.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+stale: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+paths: array of object {collectors, pathsCount, peersCount, segment }
+
+</summary>
+
+collectors: array of string
+
+<a href="#">Link to this property</a>
+
+pathsCount: number
+
+<a href="#">Link to this property</a>
+
+peersCount: number
+
+<a href="#">Link to this property</a>
+
+segment: array of number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.routes.paths%20%3E%20(model)%20path_list_response%20%3E%20(schema)>)

@@ -1,143 +1,49 @@
+---
+title: Associations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[MTLS Certificates](https://developers.cloudflare.com/api/resources/mtls_certificates)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Associations
 
-## List mTLS certificate associations
+##### [List mTLS certificate associations](https://developers.cloudflare.com/api/resources/mtls_certificates/subresources/associations/methods/get)
 
-**get** `/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}/associations`
+GET/accounts/{account\_id}/mtls\_certificates/{mtls\_certificate\_id}/associations
 
-Lists all active associations between the certificate and Cloudflare services.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+CertificateAsssociation object {service, status }
 
-- `mtls_certificate_id: string`
+</summary>
 
-  Identifier.
+service: optional string
 
-### Returns
+The service using the certificate.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+status: optional string
 
-  - `message: string`
+Certificate deployment status for the given service.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of CertificateAsssociation`
-
-  - `service: optional string`
-
-    The service using the certificate.
-
-  - `status: optional string`
-
-    Certificate deployment status for the given service.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mtls_certificates/$MTLS_CERTIFICATE_ID/associations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "service": "gateway",
-      "status": "pending_deployment"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Certificate Asssociation
-
-- `CertificateAsssociation object { service, status }`
-
-  - `service: optional string`
-
-    The service using the certificate.
-
-  - `status: optional string`
-
-    Certificate deployment status for the given service.
+[Link to this property](#)%20mtls_certificates.associations%20%3E%20(model)%20certificate_asssociation%20%3E%20(schema)>)

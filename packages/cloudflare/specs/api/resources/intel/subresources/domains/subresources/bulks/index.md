@@ -1,307 +1,199 @@
+---
+title: Bulks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+[Domains](https://developers.cloudflare.com/api/resources/intel/subresources/domains)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Bulks
 
-## Get Multiple Domain Details
+##### [Get Multiple Domain Details](https://developers.cloudflare.com/api/resources/intel/subresources/domains/subresources/bulks/methods/get)
 
-**get** `/accounts/{account_id}/intel/domain/bulk`
+GET/accounts/{account\_id}/intel/domain/bulk
 
-Returns security details and statistics about multiple domains in a
-single request.
+##### ModelsExpand Collapse
 
-**Behavior change — domain ranking is becoming opt-in.** This endpoint
-previously included domain ranking data in every response and accepted
-a `skip_ranking=true` query parameter to opt out. That parameter is
-being deprecated and ranking will no longer be returned by default.
-Callers that want ranking data must pass `include_ranking=true`. The
-`skip_ranking` parameter will be silently ignored once the change ships.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+BulkGetResponse = array of object {additional\_information, application, content\_categories, 7 more }
 
-  Identifier.
+</summary>
 
-### Query Parameters
+<details>
 
-- `domain: optional array of string`
+<summary>
 
-  Accepts multiple values like `?domain=cloudflare.com&domain=example.com`.
+additional\_information: optional object {suspected\_malware\_family }
 
-- `include_ranking: optional boolean`
+Additional information related to the host name.
 
-  Whether to include domain ranking data in the response. Defaults to
-  `false` — ranking lookups are expensive at bulk scale and most
-  callers do not need them. Set to `true` to opt in. This parameter
-  replaces the deprecated `skip_ranking` (see below).
+</summary>
 
-- `skip_ranking: optional boolean`
+suspected\_malware\_family: optional string
 
-  **Deprecated.** Previously controlled whether the ranking lookup
-  was skipped (defaulted to `false`, meaning ranking ran). The
-  endpoint's default behavior is being flipped — ranking is now
-  opt-in via `include_ranking=true` — and this parameter will be
-  silently ignored. Remove it from your callers and use
-  `include_ranking` instead.
+Suspected DGA malware family.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+application: optional object {id, name }
 
-    - `pointer: optional string`
+Application that the hostname belongs to.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of object { additional_information, application, content_categories, 7 more }`
+</details>
 
-  - `additional_information: optional object { suspected_malware_family }`
+<a href="#">Link to this property</a>
 
-    Additional information related to the host name.
+<details>
 
-    - `suspected_malware_family: optional string`
+<summary>
 
-      Suspected DGA malware family.
+content\_categories: optional array of object {id, name, super\_category\_id }
 
-  - `application: optional object { id, name }`
+</summary>
 
-    Application that the hostname belongs to.
+id: optional number
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+name: optional string
 
-  - `content_categories: optional array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+super\_category\_id: optional number
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `super_category_id: optional number`
+</details>
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `inherited_content_categories: optional array of object { id, name, super_category_id }`
+domain: optional string
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-    - `super_category_id: optional number`
+<summary>
 
-  - `inherited_from: optional string`
+inherited\_content\_categories: optional array of object {id, name, super\_category\_id }
 
-    Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable.
+</summary>
 
-  - `inherited_risk_types: optional array of object { id, name, super_category_id }`
+id: optional number
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+name: optional string
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `popularity_rank: optional number`
+super\_category\_id: optional number
 
-    Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
+<a href="#">Link to this property</a>
 
-  - `risk_score: optional number`
+</details>
 
-    Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
-
-  - `risk_types: optional array of object { id, name, super_category_id }`
-
-    - `id: optional number`
-
-    - `name: optional string`
-
-    - `super_category_id: optional number`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/domain/bulk \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+inherited\_from: optional string
 
-#### Response
+Domain from which <code>inherited_content_categories</code> and <code>inherited_risk_types</code> are inherited, if applicable.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "additional_information": {
-        "suspected_malware_family": ""
-      },
-      "application": {
-        "id": 0,
-        "name": "CLOUDFLARE"
-      },
-      "content_categories": [
-        {
-          "id": 155,
-          "name": "Technology",
-          "super_category_id": 26
-        }
-      ],
-      "domain": "cloudflare.com",
-      "inherited_content_categories": [
-        {
-          "id": 0,
-          "name": "name",
-          "super_category_id": 0
-        }
-      ],
-      "inherited_from": "inherited_from",
-      "inherited_risk_types": [
-        {
-          "id": 0,
-          "name": "name",
-          "super_category_id": 0
-        }
-      ],
-      "popularity_rank": 0,
-      "risk_score": 0,
-      "risk_types": [
-        {
-          "id": 0,
-          "name": "name",
-          "super_category_id": 0
-        }
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Bulk Get Response
+<summary>
 
-- `BulkGetResponse = array of object { additional_information, application, content_categories, 7 more }`
+inherited\_risk\_types: optional array of object {id, name, super\_category\_id }
 
-  - `additional_information: optional object { suspected_malware_family }`
+</summary>
 
-    Additional information related to the host name.
+id: optional number
 
-    - `suspected_malware_family: optional string`
+<a href="#">Link to this property</a>
 
-      Suspected DGA malware family.
+name: optional string
 
-  - `application: optional object { id, name }`
+<a href="#">Link to this property</a>
 
-    Application that the hostname belongs to.
+super\_category\_id: optional number
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-  - `content_categories: optional array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional number`
+popularity\_rank: optional number
 
-    - `name: optional string`
+Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+risk\_score: optional number
 
-  - `inherited_content_categories: optional array of object { id, name, super_category_id }`
+Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-    - `super_category_id: optional number`
+<summary>
 
-  - `inherited_from: optional string`
+risk\_types: optional array of object {id, name, super\_category\_id }
 
-    Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable.
+</summary>
 
-  - `inherited_risk_types: optional array of object { id, name, super_category_id }`
+id: optional number
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+name: optional string
 
-    - `super_category_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `popularity_rank: optional number`
+super\_category\_id: optional number
 
-    Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000.
+<a href="#">Link to this property</a>
 
-  - `risk_score: optional number`
+</details>
 
-    Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk).
+<a href="#">Link to this property</a>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+</details>
 
-    - `id: optional number`
-
-    - `name: optional string`
-
-    - `super_category_id: optional number`
+[Link to this property](#)%20intel.domains.bulks%20%3E%20(model)%20bulk_get_response%20%3E%20(schema)>)

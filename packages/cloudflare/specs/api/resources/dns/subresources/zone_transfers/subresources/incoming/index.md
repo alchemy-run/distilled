@@ -1,652 +1,295 @@
+---
+title: Incoming
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+[Zone Transfers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Incoming
 
-## Secondary Zone Configuration Details
+##### [Secondary Zone Configuration Details](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/incoming/methods/get)
 
-**get** `/zones/{zone_id}/secondary_dns/incoming`
+GET/zones/{zone\_id}/secondary\_dns/incoming
 
-Get secondary zone configuration for incoming zone transfers.
+##### [Create Secondary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/incoming/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/secondary\_dns/incoming
 
-- `zone_id: string`
+##### [Update Secondary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/incoming/methods/update)
 
-### Returns
+PUT/zones/{zone\_id}/secondary\_dns/incoming
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Delete Secondary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/incoming/methods/delete)
 
-  - `code: number`
+DELETE/zones/{zone\_id}/secondary\_dns/incoming
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+Incoming object {id, auto\_refresh\_seconds, checked\_time, 5 more }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+auto\_refresh\_seconds: optional number
 
-  - `source: optional object { pointer }`
+How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones.
 
-    - `pointer: optional string`
+minimum300
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+checked\_time: optional string
 
-  - `true`
+The time for a specific event.
 
-- `result: optional object { id, auto_refresh_seconds, checked_time, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+created\_time: optional string
 
-  - `auto_refresh_seconds: optional number`
+The time for a specific event.
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+<a href="#">Link to this property</a>
 
-  - `checked_time: optional string`
+modified\_time: optional string
 
-    The time for a specific event.
+The time for a specific event.
 
-  - `created_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+name: optional string
 
-  - `modified_time: optional string`
+Zone name.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+peers: optional array of string
 
-    Zone name.
+A list of peer tags.
 
-  - `peers: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of peer tags.
+soa\_serial: optional number
 
-  - `soa_serial: optional number`
+The serial number of the SOA for the given zone.
 
-    The serial number of the SOA for the given zone.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/incoming \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "auto_refresh_seconds": 86400,
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "modified_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+<summary>
 
-## Create Secondary Zone Configuration
+IncomingGetResponse object {id, auto\_refresh\_seconds, checked\_time, 5 more }
 
-**post** `/zones/{zone_id}/secondary_dns/incoming`
+</summary>
 
-Create secondary zone configuration for incoming zone transfers.
+id: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+auto\_refresh\_seconds: optional number
 
-### Body Parameters
+How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones.
 
-- `auto_refresh_seconds: number`
+minimum300
 
-  How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-  Not applicable for primary zones.
+<a href="#">Link to this property</a>
 
-- `name: string`
+checked\_time: optional string
 
-  Zone name.
+The time for a specific event.
 
-- `peers: array of string`
+<a href="#">Link to this property</a>
 
-  A list of peer tags.
+created\_time: optional string
 
-### Returns
+The time for a specific event.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_time: optional string
 
-  - `message: string`
+The time for a specific event.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+Zone name.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+peers: optional array of string
 
-  - `message: string`
+A list of peer tags.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+soa\_serial: optional number
 
-    - `pointer: optional string`
+The serial number of the SOA for the given zone.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming_get_response%20%3E%20(schema)>)
 
-- `result: optional object { id, auto_refresh_seconds, checked_time, 5 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-  - `auto_refresh_seconds: optional number`
+IncomingCreateResponse object {id, auto\_refresh\_seconds, checked\_time, 5 more }
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+</summary>
 
-  - `checked_time: optional string`
+id: optional string
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `created_time: optional string`
+auto\_refresh\_seconds: optional number
 
-    The time for a specific event.
+How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones.
 
-  - `modified_time: optional string`
+minimum300
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+checked\_time: optional string
 
-    Zone name.
+The time for a specific event.
 
-  - `peers: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of peer tags.
+created\_time: optional string
 
-  - `soa_serial: optional number`
+The time for a specific event.
 
-    The serial number of the SOA for the given zone.
+<a href="#">Link to this property</a>
 
-### Example
+modified\_time: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/incoming \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auto_refresh_seconds": 86400,
-          "name": "www.example.com.",
-          "peers": [
-            "23ff594956f20c2a721606e94745a8aa",
-            "00920f38ce07c2e2f4df50b1f61d4194"
-          ]
-        }'
-```
+The time for a specific event.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "auto_refresh_seconds": 86400,
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "modified_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+name: optional string
 
-## Update Secondary Zone Configuration
+Zone name.
 
-**put** `/zones/{zone_id}/secondary_dns/incoming`
+<a href="#">Link to this property</a>
 
-Update secondary zone configuration for incoming zone transfers.
+peers: optional array of string
 
-### Path Parameters
+A list of peer tags.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+soa\_serial: optional number
 
-- `auto_refresh_seconds: number`
+The serial number of the SOA for the given zone.
 
-  How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-  Not applicable for primary zones.
+<a href="#">Link to this property</a>
 
-- `name: string`
+</details>
 
-  Zone name.
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming_create_response%20%3E%20(schema)>)
 
-- `peers: array of string`
+<details>
 
-  A list of peer tags.
+<summary>
 
-### Returns
+IncomingUpdateResponse object {id, auto\_refresh\_seconds, checked\_time, 5 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+auto\_refresh\_seconds: optional number
 
-  - `source: optional object { pointer }`
+How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones.
 
-    - `pointer: optional string`
+minimum300
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+checked\_time: optional string
 
-  - `message: string`
+The time for a specific event.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_time: optional string
 
-    - `pointer: optional string`
+The time for a specific event.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+modified\_time: optional string
 
-  - `true`
+The time for a specific event.
 
-- `result: optional object { id, auto_refresh_seconds, checked_time, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+name: optional string
 
-  - `auto_refresh_seconds: optional number`
+Zone name.
 
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
+<a href="#">Link to this property</a>
 
-  - `checked_time: optional string`
+peers: optional array of string
 
-    The time for a specific event.
+A list of peer tags.
 
-  - `created_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+soa\_serial: optional number
 
-  - `modified_time: optional string`
+The serial number of the SOA for the given zone.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    Zone name.
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming_update_response%20%3E%20(schema)>)
 
-  - `peers: optional array of string`
+<details>
 
-    A list of peer tags.
+<summary>
 
-  - `soa_serial: optional number`
+IncomingDeleteResponse object {id }
 
-    The serial number of the SOA for the given zone.
+</summary>
 
-### Example
+id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/incoming \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auto_refresh_seconds": 86400,
-          "name": "www.example.com.",
-          "peers": [
-            "23ff594956f20c2a721606e94745a8aa",
-            "00920f38ce07c2e2f4df50b1f61d4194"
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "auto_refresh_seconds": 86400,
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "modified_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
-
-## Delete Secondary Zone Configuration
-
-**delete** `/zones/{zone_id}/secondary_dns/incoming`
-
-Delete secondary zone configuration for incoming zone transfers.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/incoming \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20"
-  }
-}
-```
-
-## Domain Types
-
-### Incoming
-
-- `Incoming object { id, auto_refresh_seconds, checked_time, 5 more }`
-
-  - `id: optional string`
-
-  - `auto_refresh_seconds: optional number`
-
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `modified_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Incoming Get Response
-
-- `IncomingGetResponse object { id, auto_refresh_seconds, checked_time, 5 more }`
-
-  - `id: optional string`
-
-  - `auto_refresh_seconds: optional number`
-
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `modified_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Incoming Create Response
-
-- `IncomingCreateResponse object { id, auto_refresh_seconds, checked_time, 5 more }`
-
-  - `id: optional string`
-
-  - `auto_refresh_seconds: optional number`
-
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `modified_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Incoming Update Response
-
-- `IncomingUpdateResponse object { id, auto_refresh_seconds, checked_time, 5 more }`
-
-  - `id: optional string`
-
-  - `auto_refresh_seconds: optional number`
-
-    How often should a secondary zone auto refresh regardless of DNS NOTIFY.
-    Not applicable for primary zones.
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `modified_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Incoming Delete Response
-
-- `IncomingDeleteResponse object { id }`
-
-  - `id: optional string`
+[Link to this property](#)%20dns.zone_transfers.incoming%20%3E%20(model)%20incoming_delete_response%20%3E%20(schema)>)

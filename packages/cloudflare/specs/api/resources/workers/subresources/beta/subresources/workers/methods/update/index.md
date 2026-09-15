@@ -1,362 +1,848 @@
-## Update Worker
+---
+title: Update Worker
+---
 
-**put** `/accounts/{account_id}/workers/workers/{worker_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Beta](https://developers.cloudflare.com/api/resources/workers/subresources/beta)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Worker
+
+PUT/accounts/{account\_id}/workers/workers/{worker\_id}
 
 Perform a complete replacement of a Worker, where omitted properties are set to their default values. This is the exact same as the Create Worker endpoint, but operates on an existing Worker. To perform a partial update instead, use the Edit Worker endpoint.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `worker_id: string`
 
-  Identifier for the Worker, which can be ID or name.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `name: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Name of the Worker.
+</details>
 
-- `logpush: optional boolean`
+<details>
 
-  Whether logpush is enabled for the Worker.
+<summary>API Email + API Key</summary>
 
-- `observability: optional object { enabled, head_sampling_rate, logs, traces }`
 
-  Observability settings for the Worker.
 
-  - `enabled: optional boolean`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    Whether observability is enabled for the Worker.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `head_sampling_rate: optional number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+</details>
 
-    Log settings for the Worker.
+##### Accepted Permissions (at least one required)
 
-    - `destinations: optional array of string`
+`Workers Scripts Write`
 
-      A list of destinations where logs will be exported to.
+##### P ath ParametersExpand Collapse
 
-    - `enabled: optional boolean`
+account\_id: string
 
-      Whether logs are enabled for the Worker.
+Identifier.
 
-    - `head_sampling_rate: optional number`
+maxLength32
 
-      The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `invocation_logs: optional boolean`
+worker\_id: string
 
-      Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+Identifier for the Worker, which can be ID or name.
 
-    - `persist: optional boolean`
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20worker_id%20%3E%20(schema)>)
 
-      Whether log persistence is enabled for the Worker.
+##### Body ParametersJSONExpand Collapse
 
-  - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+name: string
 
-    Trace settings for the Worker.
+Name of the Worker.
 
-    - `destinations: optional array of string`
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      A list of destinations where traces will be exported to.
+logpush: optional boolean
 
-    - `enabled: optional boolean`
+Whether logpush is enabled for the Worker.
 
-      Whether traces are enabled for the Worker.
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20logpush%20%3E%20(schema)>)
 
-    - `head_sampling_rate: optional number`
+<details>
 
-      The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<summary>
 
-    - `persist: optional boolean`
+observability: optional object {enabled, head\_sampling\_rate, logs, 2 more }
 
-      Whether trace persistence is enabled for the Worker.
+Observability settings for the Worker.
 
-    - `propagation_policy: optional "authenticated" or "accept"`
+</summary>
 
-      Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+enabled: optional boolean
 
-      - `"authenticated"`
+Whether observability is enabled for the Worker.
 
-      - `"accept"`
+<a href="#">Link to this property</a>
 
-- `subdomain: optional object { enabled, previews_enabled }`
+head\_sampling\_rate: optional number
 
-  Subdomain settings for the Worker.
+The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the *.workers.dev subdomain is enabled for the Worker.
+<details>
 
-  - `previews_enabled: optional boolean`
+<summary>
 
-    Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+logs: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
 
-- `tags: optional array of string`
+Log settings for the Worker.
 
-  Tags associated with the Worker.
+</summary>
 
-- `tail_consumers: optional array of object { name }`
+destinations: optional array of string
 
-  Other Workers that should consume logs from the Worker.
+A list of destinations where logs will be exported to.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the consumer Worker.
+enabled: optional boolean
 
-### Returns
+Whether logs are enabled for the Worker.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+head\_sampling\_rate: optional number
 
-  - `message: string`
+The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+invocation\_logs: optional boolean
 
-    - `pointer: optional string`
+Whether <a href="https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs">invocation logs</a> are enabled for the Worker.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+persist: optional boolean
 
-  - `message: string`
+Whether log persistence is enabled for the Worker.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: Worker`
+redact\_query\_string: optional boolean
 
-  - `id: string`
+Whether query strings are removed from request URLs in logs and traces.
 
-    Immutable ID of the Worker.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+<details>
 
-    When the Worker was created.
+<summary>
 
-  - `logpush: boolean`
+traces: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
 
-    Whether logpush is enabled for the Worker.
+Trace settings for the Worker.
 
-  - `name: string`
+</summary>
 
-    Name of the Worker.
+destinations: optional array of string
 
-  - `observability: object { enabled, head_sampling_rate, logs, traces }`
+A list of destinations where traces will be exported to.
 
-    Observability settings for the Worker.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+enabled: optional boolean
 
-      Whether observability is enabled for the Worker.
+Whether traces are enabled for the Worker.
 
-    - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-      The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+head\_sampling\_rate: optional number
 
-    - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
 
-      Log settings for the Worker.
+<a href="#">Link to this property</a>
 
-      - `destinations: optional array of string`
+persist: optional boolean
 
-        A list of destinations where logs will be exported to.
+Whether trace persistence is enabled for the Worker.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether logs are enabled for the Worker.
+<details>
 
-      - `head_sampling_rate: optional number`
+<summary>
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+propagation\_policy: optional "authenticated"or "accept"
 
-      - `invocation_logs: optional boolean`
+Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. “authenticated” honors inbound trace context only when accompanied by a valid trace auth token. “accept” unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account.
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+</summary>
 
-      - `persist: optional boolean`
+One of the following:
 
-        Whether log persistence is enabled for the Worker.
+"authenticated"
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      Trace settings for the Worker.
+"accept"
 
-      - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-        A list of destinations where traces will be exported to.
+</details>
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether traces are enabled for the Worker.
+</details>
 
-      - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+</details>
 
-      - `persist: optional boolean`
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20observability%20%3E%20(schema)>)
 
-        Whether trace persistence is enabled for the Worker.
+<details>
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+<summary>
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+subdomain: optional object {enabled, preview\_url\_suffix, previews\_enabled, url }
 
-        - `"authenticated"`
+Subdomain settings for the Worker.
 
-        - `"accept"`
+</summary>
 
-  - `references: object { dispatch_namespace_outbounds, domains, durable_objects, 2 more }`
+enabled: optional boolean
 
-    Other resources that reference the Worker and depend on it existing.
+Whether the \*.workers.dev subdomain is enabled for the Worker.
 
-    - `dispatch_namespace_outbounds: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+<a href="#">Link to this property</a>
 
-      Other Workers that reference the Worker as an outbound for a dispatch namespace.
+preview\_url\_suffix: optional string
 
-      - `namespace_id: string`
+Prepend a version or preview prefix to this host suffix to form the \*.workers.dev <a href="https://developers.cloudflare.com/workers/configuration/previews/">preview URL</a> the Worker would serve on once previews are enabled, e.g. <code>https://&lt;prefix&gt;-my-worker.my-subdomain.workers.dev</code>. Present whenever the account owns a workers.dev subdomain, regardless of whether <code>previews_enabled</code> is true, so presence does not imply preview URLs are currently live. Absent only when the account owns no workers.dev subdomain.
 
-        ID of the dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `namespace_name: string`
+previews\_enabled: optional boolean
 
-        Name of the dispatch namespace.
+Whether <a href="https://developers.cloudflare.com/workers/configuration/previews/">preview URLs</a> are enabled for the Worker.
 
-      - `worker_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the Worker using the dispatch namespace.
+url: optional string
 
-      - `worker_name: string`
+The address the Worker would serve on once its \*.workers.dev subdomain is enabled. Present whenever the account owns a workers.dev subdomain, regardless of whether <code>enabled</code> is true, so presence does not imply the Worker is currently live at this URL. Absent only when the account owns no workers.dev subdomain.
 
-        Name of the Worker using the dispatch namespace.
+formaturi
 
-    - `domains: array of object { id, certificate_id, hostname, 2 more }`
+<a href="#">Link to this property</a>
 
-      Custom domains connected to the Worker.
+</details>
 
-      - `id: string`
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20subdomain%20%3E%20(schema)>)
 
-        ID of the custom domain.
+tags: optional array of string
 
-      - `certificate_id: string`
+Tags associated with the Worker.
 
-        ID of the TLS certificate issued for the custom domain.
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20tags%20%3E%20(schema)>)
 
-      - `hostname: string`
+<details>
 
-        Full hostname of the custom domain, including the zone name.
+<summary>
 
-      - `zone_id: string`
+tail\_consumers: optional array of object {name }
 
-        ID of the zone.
+Other Workers that should consume logs from the Worker.
 
-      - `zone_name: string`
+</summary>
 
-        Name of the zone.
+name: string
 
-    - `durable_objects: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+Name of the consumer Worker.
 
-      Other Workers that reference Durable Object classes implemented by the Worker.
+<a href="#">Link to this property</a>
 
-      - `namespace_id: string`
+</details>
 
-        ID of the Durable Object namespace being used.
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20tail_consumers%20%3E%20(schema)>)
 
-      - `namespace_name: string`
+##### ReturnsExpand Collapse
 
-        Name of the Durable Object namespace being used.
+<details>
 
-      - `worker_id: string`
+<summary>
 
-        ID of the Worker using the Durable Object implementation.
+errors: array of object {code, message, documentation\_url, source }
 
-      - `worker_name: string`
+</summary>
 
-        Name of the Worker using the Durable Object implementation.
+code: number
 
-    - `queues: array of object { queue_consumer_id, queue_id, queue_name }`
+minimum1000
 
-      Queues that send messages to the Worker.
+<a href="#">Link to this property</a>
 
-      - `queue_consumer_id: string`
+message: string
 
-        ID of the queue consumer configuration.
+<a href="#">Link to this property</a>
 
-      - `queue_id: string`
+documentation\_url: optional string
 
-        ID of the queue.
+<a href="#">Link to this property</a>
 
-      - `queue_name: string`
+<details>
 
-        Name of the queue.
+<summary>
 
-    - `workers: array of object { id, name }`
+source: optional object {pointer }
 
-      Other Workers that reference the Worker using [service bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/).
+</summary>
 
-      - `id: string`
+pointer: optional string
 
-        ID of the referencing Worker.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        Name of the referencing Worker.
+<a href="#">Link to this property</a>
 
-  - `subdomain: object { enabled, previews_enabled }`
+</details>
 
-    Subdomain settings for the Worker.
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `enabled: optional boolean`
+<details>
 
-      Whether the *.workers.dev subdomain is enabled for the Worker.
+<summary>
 
-    - `previews_enabled: optional boolean`
+messages: array of object {code, message, documentation\_url, source }
 
-      Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+</summary>
 
-  - `tags: array of string`
+code: number
 
-    Tags associated with the Worker.
+minimum1000
 
-  - `tail_consumers: array of object { name }`
+<a href="#">Link to this property</a>
 
-    Other Workers that should consume logs from the Worker.
+message: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the consumer Worker.
+documentation\_url: optional string
 
-  - `updated_on: string`
+<a href="#">Link to this property</a>
 
-    When the Worker was most recently updated.
+<details>
 
-  - `deployed_on: optional string`
+<summary>
 
-    When the Worker's most recent deployment was created. `null` if the Worker has never been deployed.
+source: optional object {pointer }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+pointer: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers.beta.workers%20%3E%20(model)%20worker%20%3E%20(schema)">Worker</a> { id, created\_on, logpush, 8 more }
+
+</summary>
+
+id: string
+
+Immutable ID of the Worker.
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+When the Worker was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+logpush: boolean
+
+Whether logpush is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the Worker.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+observability: object {enabled, head\_sampling\_rate, logs, 2 more }
+
+Observability settings for the Worker.
+
+</summary>
+
+enabled: optional boolean
+
+Whether observability is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logs: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
+
+Log settings for the Worker.
+
+</summary>
+
+destinations: optional array of string
+
+A list of destinations where logs will be exported to.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether logs are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+
+<a href="#">Link to this property</a>
+
+invocation\_logs: optional boolean
+
+Whether <a href="https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs">invocation logs</a> are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+persist: optional boolean
+
+Whether log persistence is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+redact\_query\_string: optional boolean
+
+Whether query strings are removed from request URLs in logs and traces.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+traces: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
+
+Trace settings for the Worker.
+
+</summary>
+
+destinations: optional array of string
+
+A list of destinations where traces will be exported to.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether traces are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+head\_sampling\_rate: optional number
+
+The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+
+<a href="#">Link to this property</a>
+
+persist: optional boolean
+
+Whether trace persistence is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+propagation\_policy: optional "authenticated"or "accept"
+
+Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. “authenticated” honors inbound trace context only when accompanied by a valid trace auth token. “accept” unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account.
+
+</summary>
+
+One of the following:
+
+"authenticated"
+
+<a href="#">Link to this property</a>
+
+"accept"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+references: object {dispatch\_namespace\_outbounds, domains, durable\_objects, 2 more }
+
+Other resources that reference the Worker and depend on it existing.
+
+</summary>
+
+<details>
+
+<summary>
+
+dispatch\_namespace\_outbounds: array of object {namespace\_id, namespace\_name, worker\_id, worker\_name }
+
+Other Workers that reference the Worker as an outbound for a dispatch namespace.
+
+</summary>
+
+namespace\_id: string
+
+ID of the dispatch namespace.
+
+<a href="#">Link to this property</a>
+
+namespace\_name: string
+
+Name of the dispatch namespace.
+
+<a href="#">Link to this property</a>
+
+worker\_id: string
+
+ID of the Worker using the dispatch namespace.
+
+<a href="#">Link to this property</a>
+
+worker\_name: string
+
+Name of the Worker using the dispatch namespace.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+domains: array of object {id, certificate\_id, hostname, 2 more }
+
+Custom domains connected to the Worker.
+
+</summary>
+
+id: string
+
+ID of the custom domain.
+
+<a href="#">Link to this property</a>
+
+certificate\_id: string
+
+ID of the TLS certificate issued for the custom domain.
+
+<a href="#">Link to this property</a>
+
+hostname: string
+
+Full hostname of the custom domain, including the zone name.
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+ID of the zone.
+
+<a href="#">Link to this property</a>
+
+zone\_name: string
+
+Name of the zone.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+durable\_objects: array of object {namespace\_id, namespace\_name, worker\_id, worker\_name }
+
+Other Workers that reference Durable Object classes implemented by the Worker.
+
+</summary>
+
+namespace\_id: string
+
+ID of the Durable Object namespace being used.
+
+<a href="#">Link to this property</a>
+
+namespace\_name: string
+
+Name of the Durable Object namespace being used.
+
+<a href="#">Link to this property</a>
+
+worker\_id: string
+
+ID of the Worker using the Durable Object implementation.
+
+<a href="#">Link to this property</a>
+
+worker\_name: string
+
+Name of the Worker using the Durable Object implementation.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+queues: array of object {queue\_consumer\_id, queue\_id, queue\_name }
+
+Queues that send messages to the Worker.
+
+</summary>
+
+queue\_consumer\_id: string
+
+ID of the queue consumer configuration.
+
+<a href="#">Link to this property</a>
+
+queue\_id: string
+
+ID of the queue.
+
+<a href="#">Link to this property</a>
+
+queue\_name: string
+
+Name of the queue.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+workers: array of object {id, name }
+
+Other Workers that reference the Worker using <a href="https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/">service bindings</a>.
+
+</summary>
+
+id: string
+
+ID of the referencing Worker.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the referencing Worker.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+subdomain: object {enabled, preview\_url\_suffix, previews\_enabled, url }
+
+Subdomain settings for the Worker.
+
+</summary>
+
+enabled: optional boolean
+
+Whether the \*.workers.dev subdomain is enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+preview\_url\_suffix: optional string
+
+Prepend a version or preview prefix to this host suffix to form the \*.workers.dev <a href="https://developers.cloudflare.com/workers/configuration/previews/">preview URL</a> the Worker would serve on once previews are enabled, e.g. <code>https://&lt;prefix&gt;-my-worker.my-subdomain.workers.dev</code>. Present whenever the account owns a workers.dev subdomain, regardless of whether <code>previews_enabled</code> is true, so presence does not imply preview URLs are currently live. Absent only when the account owns no workers.dev subdomain.
+
+<a href="#">Link to this property</a>
+
+previews\_enabled: optional boolean
+
+Whether <a href="https://developers.cloudflare.com/workers/configuration/previews/">preview URLs</a> are enabled for the Worker.
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The address the Worker would serve on once its \*.workers.dev subdomain is enabled. Present whenever the account owns a workers.dev subdomain, regardless of whether <code>enabled</code> is true, so presence does not imply the Worker is currently live at this URL. Absent only when the account owns no workers.dev subdomain.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tags: array of string
+
+Tags associated with the Worker.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tail\_consumers: array of object {name }
+
+Other Workers that should consume logs from the Worker.
+
+</summary>
+
+name: string
+
+Name of the consumer Worker.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_on: string
+
+When the Worker was most recently updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deployed\_on: optional string
+
+When the Worker’s most recent deployment was created. <code>null</code> if the Worker has never been deployed.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers.beta.workers%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update Worker
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -370,9 +856,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -411,6 +897,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$
         "invocation_logs": true,
         "persist": true
       },
+      "redact_query_string": true,
       "traces": {
         "destinations": [
           "string"
@@ -463,7 +950,125 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$
     },
     "subdomain": {
       "enabled": true,
-      "previews_enabled": true
+      "preview_url_suffix": "-my-worker.my-subdomain.workers.dev",
+      "previews_enabled": true,
+      "url": "https://my-worker.my-subdomain.workers.dev"
+    },
+    "tags": [
+      "my-team",
+      "my-public-api"
+    ],
+    "tail_consumers": [
+      {
+        "name": "my-tail-consumer"
+      }
+    ],
+    "updated_on": "2019-12-27T18:11:19.117Z",
+    "deployed_on": "2019-12-27T18:11:19.117Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+    "created_on": "2019-12-27T18:11:19.117Z",
+    "logpush": true,
+    "name": "my-worker",
+    "observability": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "logs": {
+        "destinations": [
+          "string"
+        ],
+        "enabled": true,
+        "head_sampling_rate": 1,
+        "invocation_logs": true,
+        "persist": true
+      },
+      "redact_query_string": true,
+      "traces": {
+        "destinations": [
+          "string"
+        ],
+        "enabled": true,
+        "head_sampling_rate": 1,
+        "persist": true,
+        "propagation_policy": "authenticated"
+      }
+    },
+    "references": {
+      "dispatch_namespace_outbounds": [
+        {
+          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "namespace_name": "my-dispatch-namespace",
+          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "worker_name": "my-worker"
+        }
+      ],
+      "domains": [
+        {
+          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "certificate_id": "certificate_id",
+          "hostname": "my-worker.example.com",
+          "zone_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "zone_name": "example.com"
+        }
+      ],
+      "durable_objects": [
+        {
+          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "namespace_name": "my-durable-object-namespace",
+          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "worker_name": "my-worker"
+        }
+      ],
+      "queues": [
+        {
+          "queue_consumer_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "queue_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "queue_name": "my-queue"
+        }
+      ],
+      "workers": [
+        {
+          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
+          "name": "my-worker"
+        }
+      ]
+    },
+    "subdomain": {
+      "enabled": true,
+      "preview_url_suffix": "-my-worker.my-subdomain.workers.dev",
+      "previews_enabled": true,
+      "url": "https://my-worker.my-subdomain.workers.dev"
     },
     "tags": [
       "my-team",

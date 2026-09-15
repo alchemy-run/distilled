@@ -224,6 +224,75 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.kv#NamespacesCreateRequestJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        }
+      }
+    },
+    "com.cloudflare.kv#NamespacesCreateResponseJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        }
+      }
+    },
+    "com.cloudflare.kv#NamespacesGetResponseJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        }
+      }
+    },
     "com.cloudflare.kv#NamespacesListRequestDirection": {
       "type": "enum",
       "members": {
@@ -258,6 +327,29 @@
         }
       }
     },
+    "com.cloudflare.kv#NamespacesListResultItemJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        }
+      }
+    },
     "com.cloudflare.kv#NamespacesListResultItem": {
       "type": "structure",
       "members": {
@@ -275,6 +367,12 @@
             "smithy.api#required": {}
           }
         },
+        "jurisdiction": {
+          "target": "com.cloudflare.kv#NamespacesListResultItemJurisdiction",
+          "traits": {
+            "smithy.api#documentation": "Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time."
+          }
+        },
         "supports_url_encoding": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -287,6 +385,29 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.kv#NamespacesListResultItem"
+      }
+    },
+    "com.cloudflare.kv#NamespacesUpdateResponseJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        }
       }
     },
     "com.cloudflare.kv#NamespacesKeysBulkDeleteRequestBodyList": {
@@ -1286,6 +1407,12 @@
             "smithy.api#documentation": "A human-readable string name for a Namespace.",
             "smithy.api#required": {}
           }
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.kv#NamespacesCreateRequestJurisdiction",
+          "traits": {
+            "smithy.api#documentation": "Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time."
+          }
         }
       },
       "traits": {
@@ -1307,6 +1434,12 @@
           "traits": {
             "smithy.api#documentation": "A human-readable string name for a Namespace.",
             "smithy.api#required": {}
+          }
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.kv#NamespacesCreateResponseJurisdiction",
+          "traits": {
+            "smithy.api#documentation": "Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time."
           }
         },
         "supports_url_encoding": {
@@ -1497,6 +1630,12 @@
           "traits": {
             "smithy.api#documentation": "A human-readable string name for a Namespace.",
             "smithy.api#required": {}
+          }
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.kv#NamespacesGetResponseJurisdiction",
+          "traits": {
+            "smithy.api#documentation": "Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time."
           }
         },
         "supports_url_encoding": {
@@ -1984,6 +2123,12 @@
           "traits": {
             "smithy.api#documentation": "A human-readable string name for a Namespace.",
             "smithy.api#required": {}
+          }
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.kv#NamespacesUpdateResponseJurisdiction",
+          "traits": {
+            "smithy.api#documentation": "Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time."
           }
         },
         "supports_url_encoding": {

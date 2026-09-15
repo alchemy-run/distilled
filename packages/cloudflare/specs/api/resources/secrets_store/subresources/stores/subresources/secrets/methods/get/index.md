@@ -1,126 +1,296 @@
-## Get a secret by ID
+---
+title: Get a secret by ID
+---
 
-**get** `/accounts/{account_id}/secrets_store/stores/{store_id}/secrets/{secret_id}`
+[Skip to content](#_top)
 
-Returns details of a single secret
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Secrets Store](https://developers.cloudflare.com/api/resources/secrets_store)
 
-- `account_id: string`
+[Stores](https://developers.cloudflare.com/api/resources/secrets_store/subresources/stores)
 
-  Account Identifier
+[Secrets](https://developers.cloudflare.com/api/resources/secrets_store/subresources/stores/subresources/secrets)
 
-- `store_id: string`
+Copy Markdown
 
-  Store Identifier
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `secret_id: string`
+---
 
-  Secret identifier tag.
+**Copy Markdown****View as Markdown**
 
-### Returns
+# Get a secret by ID
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/secrets\_store/stores/{store\_id}/secrets/{secret\_id}
 
-  - `code: number`
+Returns details of a single secret.
 
-  - `message: string`
+##### Security
 
-  - `documentation_url: optional string`
+API Email + API Key
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**`X-Auth-Email: user@example.com`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Secrets Store Write``Secrets Store Read`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `success: true`
+maxLength32
 
-  Whether the API call was successful.
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `true`
+store\_id: string
 
-- `result: optional object { id, created, modified, 5 more }`
+maxLength32
 
-  - `id: string`
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20store_id%20%3E%20(schema)>)
 
-    Secret identifier tag.
+secret\_id: string
 
-  - `created: string`
+maxLength32
 
-    Whenthe secret was created.
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20secret_id%20%3E%20(schema)>)
 
-  - `modified: string`
+##### ReturnsExpand Collapse
 
-    When the secret was modified.
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the secret
+errors: array of object {code, message, documentation\_url, source }
 
-  - `status: "pending" or "active" or "deleted"`
+</summary>
 
-    - `"pending"`
+code: number
 
-    - `"active"`
+minimum1000
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-  - `store_id: string`
+message: string
 
-    Store Identifier
+<a href="#">Link to this property</a>
 
-  - `comment: optional string`
+documentation\_url: optional string
 
-    Freeform text describing the secret
+<a href="#">Link to this property</a>
 
-  - `scopes: optional array of string`
+<details>
 
-    The list of services that can use this secret.
+<summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+source: optional object {pointer }
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service.
+pointer: optional string
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+messages: array of object {code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created, modified, 5 more }
+
+</summary>
+
+id: string
+
+Secret identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created: string
+
+When the secret was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified: string
+
+When the secret was modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the secret.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "active"or "deleted"
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+store\_id: string
+
+Store Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Freeform text describing the secret.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scopes: optional array of "workers"or "ai\_gateway"or "dex"or 3 more
+
+The list of services that can use this secret.
+
+</summary>
+
+One of the following:
+
+"workers"
+
+<a href="#">Link to this property</a>
+
+"ai\_gateway"
+
+<a href="#">Link to this property</a>
+
+"dex"
+
+<a href="#">Link to this property</a>
+
+"access"
+
+<a href="#">Link to this property</a>
+
+"containers"
+
+<a href="#">Link to this property</a>
+
+"websearch"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20secrets_store.stores.secrets%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get a secret by ID
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secrets_store/stores/$STORE_ID/secrets/$SECRET_ID \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -155,15 +325,55 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secrets_store/sto
       "workers",
       "ai_gateway",
       "dex",
-      "access"
+      "access",
+      "websearch"
     ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "3fd85f74b32742f1bff64a85009dda07",
+    "created": "2023-09-21T18:56:32.624632Z",
+    "modified": "2023-09-21T18:56:32.624632Z",
+    "name": "MY_API_KEY",
+    "status": "pending",
+    "store_id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "comment": "info about my secret",
+    "scopes": [
+      "workers",
+      "ai_gateway",
+      "dex",
+      "access",
+      "websearch"
+    ]
   }
 }
 ```

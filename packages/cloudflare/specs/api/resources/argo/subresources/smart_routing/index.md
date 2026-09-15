@@ -1,276 +1,141 @@
+---
+title: Smart Routing
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Argo](https://developers.cloudflare.com/api/resources/argo)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Smart Routing
 
-## Get Argo Smart Routing setting
+##### [Get Argo Smart Routing setting](https://developers.cloudflare.com/api/resources/argo/subresources/smart_routing/methods/get)
 
-**get** `/zones/{zone_id}/argo/smart_routing`
+GET/zones/{zone\_id}/argo/smart\_routing
 
-Retrieves the value of Argo Smart Routing enablement setting.
+##### [Patch Argo Smart Routing setting](https://developers.cloudflare.com/api/resources/argo/subresources/smart_routing/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/argo/smart\_routing
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Specifies the zone associated with the API call.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+SmartRoutingGetResponse object {id, editable, value, modified\_on }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+Specifies the identifier of the Argo Smart Routing setting.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+editable: boolean
 
-- `messages: array of ResponseInfo`
+Specifies if the setting is editable.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+value: "on"or "off"
 
-- `result: object { id, editable, value, modified_on }`
+Specifies the enablement value of Argo Smart Routing.
 
-  - `id: string`
+</summary>
 
-    Specifies the identifier of the Argo Smart Routing setting.
+One of the following:
 
-  - `editable: boolean`
+"on"
 
-    Specifies if the setting is editable.
+<a href="#">Link to this property</a>
 
-  - `value: "on" or "off"`
+"off"
 
-    Specifies the enablement value of Argo Smart Routing.
+<a href="#">Link to this property</a>
 
-    - `"on"`
+</details>
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+modified\_on: optional string
 
-    Specifies the time when the setting was last modified.
+Specifies the time when the setting was last modified.
 
-- `success: true`
+formatdate-time
 
-  Describes a successful API response.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20argo.smart_routing%20%3E%20(model)%20smart_routing_get_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/argo/smart_routing \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+SmartRoutingEditResponse object {id, editable, value, modified\_on }
 
-## Patch Argo Smart Routing setting
+</summary>
 
-**patch** `/zones/{zone_id}/argo/smart_routing`
+id: string
 
-Configures the value of the Argo Smart Routing enablement setting.
+Specifies the identifier of the Argo Smart Routing setting.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+editable: boolean
 
-  Specifies the zone associated with the API call.
+Specifies if the setting is editable.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `value: "on" or "off"`
+<details>
 
-  Specifies the enablement value of Argo Smart Routing.
+<summary>
 
-  - `"on"`
+value: "on"or "off"
 
-  - `"off"`
+Specifies the enablement value of Argo Smart Routing.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"on"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"off"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_on: optional string
 
-  - `message: string`
+Specifies the time when the setting was last modified.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { id, editable, value, modified_on }`
+</details>
 
-  - `id: string`
-
-    Specifies the identifier of the Argo Smart Routing setting.
-
-  - `editable: boolean`
-
-    Specifies if the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Specifies the enablement value of Argo Smart Routing.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Specifies the time when the setting was last modified.
-
-- `success: true`
-
-  Describes a successful API response.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/argo/smart_routing \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Smart Routing Get Response
-
-- `SmartRoutingGetResponse object { id, editable, value, modified_on }`
-
-  - `id: string`
-
-    Specifies the identifier of the Argo Smart Routing setting.
-
-  - `editable: boolean`
-
-    Specifies if the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Specifies the enablement value of Argo Smart Routing.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Specifies the time when the setting was last modified.
-
-### Smart Routing Edit Response
-
-- `SmartRoutingEditResponse object { id, editable, value, modified_on }`
-
-  - `id: string`
-
-    Specifies the identifier of the Argo Smart Routing setting.
-
-  - `editable: boolean`
-
-    Specifies if the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Specifies the enablement value of Argo Smart Routing.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Specifies the time when the setting was last modified.
+[Link to this property](#)%20argo.smart_routing%20%3E%20(model)%20smart_routing_edit_response%20%3E%20(schema)>)

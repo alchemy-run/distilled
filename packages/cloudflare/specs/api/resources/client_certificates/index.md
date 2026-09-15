@@ -1,1131 +1,203 @@
+---
+title: Client Certificates
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Client Certificates
 
-## List Client Certificates
+##### [List Client Certificates](https://developers.cloudflare.com/api/resources/client_certificates/methods/list)
 
-**get** `/zones/{zone_id}/client_certificates`
+GET/zones/{zone\_id}/client\_certificates
 
-List all of your Zone's API Shield mTLS Client Certificates by Status and/or using Pagination.
+##### [Client Certificate Details](https://developers.cloudflare.com/api/resources/client_certificates/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/client\_certificates/{client\_certificate\_id}
 
-- `zone_id: string`
+##### [Create Client Certificate](https://developers.cloudflare.com/api/resources/client_certificates/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/client\_certificates
 
-### Query Parameters
+##### [Reactivate Client Certificate](https://developers.cloudflare.com/api/resources/client_certificates/methods/edit)
 
-- `limit: optional number`
+PATCH/zones/{zone\_id}/client\_certificates/{client\_certificate\_id}
 
-  Limit to the number of records returned.
+##### [Revoke Client Certificate](https://developers.cloudflare.com/api/resources/client_certificates/methods/delete)
 
-- `offset: optional number`
+DELETE/zones/{zone\_id}/client\_certificates/{client\_certificate\_id}
 
-  Offset the results.
+##### ModelsExpand Collapse
 
-- `page: optional number`
+<details>
 
-  Page number of paginated results.
+<summary>
 
-- `per_page: optional number`
+ClientCertificate object {id, certificate, certificate\_authority, 15 more }
 
-  Number of records per page.
+</summary>
 
-- `status: optional "all" or "active" or "pending_reactivation" or 2 more`
+id: optional string
 
-  Client Certitifcate Status to filter results by.
+Identifier.
 
-  - `"all"`
+maxLength32
 
-  - `"active"`
+<a href="#">Link to this property</a>
 
-  - `"pending_reactivation"`
+certificate: optional string
 
-  - `"pending_revocation"`
+The Client Certificate PEM.
 
-  - `"revoked"`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+certificate\_authority: optional object {id, name }
 
-  - `message: string`
+Certificate Authority used to issue the Client Certificate.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+name: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+common\_name: optional string
 
-    - `pointer: optional string`
+Common Name of the Client Certificate.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+country: optional string
 
-  - `true`
+Country, provided by the CSR.
 
-- `result: optional array of ClientCertificate`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+csr: optional string
 
-    Identifier.
+The Certificate Signing Request (CSR). Must be newline-encoded.
 
-  - `certificate: optional string`
+<a href="#">Link to this property</a>
 
-    The Client Certificate PEM.
+expires\_on: optional string
 
-  - `certificate_authority: optional object { id, name }`
+Date that the Client Certificate expires.
 
-    Certificate Authority used to issue the Client Certificate.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+fingerprint\_sha256: optional string
 
-    - `name: optional string`
+Unique identifier of the Client Certificate.
 
-  - `common_name: optional string`
+<a href="#">Link to this property</a>
 
-    Common Name of the Client Certificate.
+issued\_on: optional string
 
-  - `country: optional string`
+Date that the Client Certificate was issued by the Certificate Authority.
 
-    Country, provided by the CSR.
+<a href="#">Link to this property</a>
 
-  - `csr: optional string`
+location: optional string
 
-    The Certificate Signing Request (CSR). Must be newline-encoded.
+Location, provided by the CSR.
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-    Date that the Client Certificate expires.
+organization: optional string
 
-  - `fingerprint_sha256: optional string`
+Organization, provided by the CSR.
 
-    Unique identifier of the Client Certificate.
+<a href="#">Link to this property</a>
 
-  - `issued_on: optional string`
+organizational\_unit: optional string
 
-    Date that the Client Certificate was issued by the Certificate Authority.
+Organizational Unit, provided by the CSR.
 
-  - `location: optional string`
+<a href="#">Link to this property</a>
 
-    Location, provided by the CSR.
+serial\_number: optional string
 
-  - `organization: optional string`
+The serial number on the created Client Certificate.
 
-    Organization, provided by the CSR.
+<a href="#">Link to this property</a>
 
-  - `organizational_unit: optional string`
+signature: optional string
 
-    Organizational Unit, provided by the CSR.
+The type of hash used for the Client Certificate..
 
-  - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    The serial number on the created Client Certificate.
+ski: optional string
 
-  - `signature: optional string`
+Subject Key Identifier.
 
-    The type of hash used for the Client Certificate..
+<a href="#">Link to this property</a>
 
-  - `ski: optional string`
+state: optional string
 
-    Subject Key Identifier.
+State, provided by the CSR.
 
-  - `state: optional string`
+<a href="#">Link to this property</a>
 
-    State, provided by the CSR.
+<details>
 
-  - `status: optional Status`
+<summary>
 
-    Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions.
+status: optional "active"or "pending\_reactivation"or "pending\_revocation"or "revoked"
 
-    - `"active"`
+Client Certificates may be active or revoked, and the pending\_reactivation or pending\_revocation represent in-progress asynchronous transitions.
 
-    - `"pending_reactivation"`
+</summary>
 
-    - `"pending_revocation"`
+One of the following:
 
-    - `"revoked"`
+"active"
 
-  - `validity_days: optional number`
+<a href="#">Link to this property</a>
 
-    The number of days the Client Certificate will be valid after the issued_on date.
+"pending\_reactivation"
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+"pending\_revocation"
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"revoked"
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+validity\_days: optional number
 
-    Total results available without any search parameters.
+The number of days the Client Certificate will be valid after the issued\_on date.
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/client_certificates \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "certificate": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoC...dhDDE\n-----END CERTIFICATE-----",
-      "certificate_authority": {
-        "id": "568b6b74-7b0c-4755-8840-4e3b8c24adeb",
-        "name": "Cloudflare Managed CA for account"
-      },
-      "common_name": "Cloudflare",
-      "country": "US",
-      "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICY....\n-----END CERTIFICATE REQUEST-----",
-      "expires_on": "2033-02-20T23:18:00Z",
-      "fingerprint_sha256": "256c24690243359fb8cf139a125bd05ebf1d968b71e4caf330718e9f5c8a89ea",
-      "issued_on": "2023-02-23T23:18:00Z",
-      "location": "Somewhere",
-      "organization": "Organization",
-      "organizational_unit": "Organizational Unit",
-      "serial_number": "3bb94ff144ac567b9f75ad664b6c55f8d5e48182",
-      "signature": "SHA256WithRSA",
-      "ski": "8e375af1389a069a0f921f8cc8e1eb12d784b949",
-      "state": "CA",
-      "status": "active",
-      "validity_days": 3650
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Client Certificate Details
-
-**get** `/zones/{zone_id}/client_certificates/{client_certificate_id}`
-
-Get Details for a single mTLS API Shield Client Certificate.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `client_certificate_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ClientCertificate`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The Client Certificate PEM.
-
-  - `certificate_authority: optional object { id, name }`
-
-    Certificate Authority used to issue the Client Certificate.
-
-    - `id: optional string`
-
-    - `name: optional string`
-
-  - `common_name: optional string`
-
-    Common Name of the Client Certificate.
-
-  - `country: optional string`
-
-    Country, provided by the CSR.
-
-  - `csr: optional string`
-
-    The Certificate Signing Request (CSR). Must be newline-encoded.
-
-  - `expires_on: optional string`
-
-    Date that the Client Certificate expires.
-
-  - `fingerprint_sha256: optional string`
-
-    Unique identifier of the Client Certificate.
-
-  - `issued_on: optional string`
-
-    Date that the Client Certificate was issued by the Certificate Authority.
-
-  - `location: optional string`
-
-    Location, provided by the CSR.
-
-  - `organization: optional string`
-
-    Organization, provided by the CSR.
-
-  - `organizational_unit: optional string`
-
-    Organizational Unit, provided by the CSR.
-
-  - `serial_number: optional string`
-
-    The serial number on the created Client Certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the Client Certificate..
-
-  - `ski: optional string`
-
-    Subject Key Identifier.
-
-  - `state: optional string`
-
-    State, provided by the CSR.
-
-  - `status: optional Status`
-
-    Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions.
-
-    - `"active"`
-
-    - `"pending_reactivation"`
-
-    - `"pending_revocation"`
-
-    - `"revoked"`
-
-  - `validity_days: optional number`
-
-    The number of days the Client Certificate will be valid after the issued_on date.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/client_certificates/$CLIENT_CERTIFICATE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoC...dhDDE\n-----END CERTIFICATE-----",
-    "certificate_authority": {
-      "id": "568b6b74-7b0c-4755-8840-4e3b8c24adeb",
-      "name": "Cloudflare Managed CA for account"
-    },
-    "common_name": "Cloudflare",
-    "country": "US",
-    "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICY....\n-----END CERTIFICATE REQUEST-----",
-    "expires_on": "2033-02-20T23:18:00Z",
-    "fingerprint_sha256": "256c24690243359fb8cf139a125bd05ebf1d968b71e4caf330718e9f5c8a89ea",
-    "issued_on": "2023-02-23T23:18:00Z",
-    "location": "Somewhere",
-    "organization": "Organization",
-    "organizational_unit": "Organizational Unit",
-    "serial_number": "3bb94ff144ac567b9f75ad664b6c55f8d5e48182",
-    "signature": "SHA256WithRSA",
-    "ski": "8e375af1389a069a0f921f8cc8e1eb12d784b949",
-    "state": "CA",
-    "status": "active",
-    "validity_days": 3650
-  }
-}
-```
-
-## Create Client Certificate
-
-**post** `/zones/{zone_id}/client_certificates`
-
-Create a new API Shield mTLS Client Certificate.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `csr: string`
-
-  The Certificate Signing Request (CSR). Must be newline-encoded.
-
-- `validity_days: number`
-
-  The number of days the Client Certificate will be valid after the issued_on date.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ClientCertificate`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The Client Certificate PEM.
-
-  - `certificate_authority: optional object { id, name }`
-
-    Certificate Authority used to issue the Client Certificate.
-
-    - `id: optional string`
-
-    - `name: optional string`
-
-  - `common_name: optional string`
-
-    Common Name of the Client Certificate.
-
-  - `country: optional string`
-
-    Country, provided by the CSR.
-
-  - `csr: optional string`
-
-    The Certificate Signing Request (CSR). Must be newline-encoded.
-
-  - `expires_on: optional string`
-
-    Date that the Client Certificate expires.
-
-  - `fingerprint_sha256: optional string`
-
-    Unique identifier of the Client Certificate.
-
-  - `issued_on: optional string`
-
-    Date that the Client Certificate was issued by the Certificate Authority.
-
-  - `location: optional string`
-
-    Location, provided by the CSR.
-
-  - `organization: optional string`
-
-    Organization, provided by the CSR.
-
-  - `organizational_unit: optional string`
-
-    Organizational Unit, provided by the CSR.
-
-  - `serial_number: optional string`
-
-    The serial number on the created Client Certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the Client Certificate..
-
-  - `ski: optional string`
-
-    Subject Key Identifier.
-
-  - `state: optional string`
-
-    State, provided by the CSR.
-
-  - `status: optional Status`
-
-    Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions.
-
-    - `"active"`
-
-    - `"pending_reactivation"`
-
-    - `"pending_revocation"`
-
-    - `"revoked"`
-
-  - `validity_days: optional number`
-
-    The number of days the Client Certificate will be valid after the issued_on date.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/client_certificates \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "csr": "-----BEGIN CERTIFICATE REQUEST-----\\nMIICY....\\n-----END CERTIFICATE REQUEST-----",
-          "validity_days": 3650
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoC...dhDDE\n-----END CERTIFICATE-----",
-    "certificate_authority": {
-      "id": "568b6b74-7b0c-4755-8840-4e3b8c24adeb",
-      "name": "Cloudflare Managed CA for account"
-    },
-    "common_name": "Cloudflare",
-    "country": "US",
-    "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICY....\n-----END CERTIFICATE REQUEST-----",
-    "expires_on": "2033-02-20T23:18:00Z",
-    "fingerprint_sha256": "256c24690243359fb8cf139a125bd05ebf1d968b71e4caf330718e9f5c8a89ea",
-    "issued_on": "2023-02-23T23:18:00Z",
-    "location": "Somewhere",
-    "organization": "Organization",
-    "organizational_unit": "Organizational Unit",
-    "serial_number": "3bb94ff144ac567b9f75ad664b6c55f8d5e48182",
-    "signature": "SHA256WithRSA",
-    "ski": "8e375af1389a069a0f921f8cc8e1eb12d784b949",
-    "state": "CA",
-    "status": "active",
-    "validity_days": 3650
-  }
-}
-```
-
-## Reactivate Client Certificate
-
-**patch** `/zones/{zone_id}/client_certificates/{client_certificate_id}`
-
-If a API Shield mTLS Client Certificate is in a pending_revocation state, you may reactivate it with this endpoint.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `client_certificate_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `reactivate: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ClientCertificate`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The Client Certificate PEM.
-
-  - `certificate_authority: optional object { id, name }`
-
-    Certificate Authority used to issue the Client Certificate.
-
-    - `id: optional string`
-
-    - `name: optional string`
-
-  - `common_name: optional string`
-
-    Common Name of the Client Certificate.
-
-  - `country: optional string`
-
-    Country, provided by the CSR.
-
-  - `csr: optional string`
-
-    The Certificate Signing Request (CSR). Must be newline-encoded.
-
-  - `expires_on: optional string`
-
-    Date that the Client Certificate expires.
-
-  - `fingerprint_sha256: optional string`
-
-    Unique identifier of the Client Certificate.
-
-  - `issued_on: optional string`
-
-    Date that the Client Certificate was issued by the Certificate Authority.
-
-  - `location: optional string`
-
-    Location, provided by the CSR.
-
-  - `organization: optional string`
-
-    Organization, provided by the CSR.
-
-  - `organizational_unit: optional string`
-
-    Organizational Unit, provided by the CSR.
-
-  - `serial_number: optional string`
-
-    The serial number on the created Client Certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the Client Certificate..
-
-  - `ski: optional string`
-
-    Subject Key Identifier.
-
-  - `state: optional string`
-
-    State, provided by the CSR.
-
-  - `status: optional Status`
-
-    Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions.
-
-    - `"active"`
-
-    - `"pending_reactivation"`
-
-    - `"pending_revocation"`
-
-    - `"revoked"`
-
-  - `validity_days: optional number`
-
-    The number of days the Client Certificate will be valid after the issued_on date.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/client_certificates/$CLIENT_CERTIFICATE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "reactivate": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoC...dhDDE\n-----END CERTIFICATE-----",
-    "certificate_authority": {
-      "id": "568b6b74-7b0c-4755-8840-4e3b8c24adeb",
-      "name": "Cloudflare Managed CA for account"
-    },
-    "common_name": "Cloudflare",
-    "country": "US",
-    "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICY....\n-----END CERTIFICATE REQUEST-----",
-    "expires_on": "2033-02-20T23:18:00Z",
-    "fingerprint_sha256": "256c24690243359fb8cf139a125bd05ebf1d968b71e4caf330718e9f5c8a89ea",
-    "issued_on": "2023-02-23T23:18:00Z",
-    "location": "Somewhere",
-    "organization": "Organization",
-    "organizational_unit": "Organizational Unit",
-    "serial_number": "3bb94ff144ac567b9f75ad664b6c55f8d5e48182",
-    "signature": "SHA256WithRSA",
-    "ski": "8e375af1389a069a0f921f8cc8e1eb12d784b949",
-    "state": "CA",
-    "status": "active",
-    "validity_days": 3650
-  }
-}
-```
-
-## Revoke Client Certificate
-
-**delete** `/zones/{zone_id}/client_certificates/{client_certificate_id}`
-
-Set a API Shield mTLS Client Certificate to pending_revocation status for processing to revoked status.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `client_certificate_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ClientCertificate`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The Client Certificate PEM.
-
-  - `certificate_authority: optional object { id, name }`
-
-    Certificate Authority used to issue the Client Certificate.
-
-    - `id: optional string`
-
-    - `name: optional string`
-
-  - `common_name: optional string`
-
-    Common Name of the Client Certificate.
-
-  - `country: optional string`
-
-    Country, provided by the CSR.
-
-  - `csr: optional string`
-
-    The Certificate Signing Request (CSR). Must be newline-encoded.
-
-  - `expires_on: optional string`
-
-    Date that the Client Certificate expires.
-
-  - `fingerprint_sha256: optional string`
-
-    Unique identifier of the Client Certificate.
-
-  - `issued_on: optional string`
-
-    Date that the Client Certificate was issued by the Certificate Authority.
-
-  - `location: optional string`
-
-    Location, provided by the CSR.
-
-  - `organization: optional string`
-
-    Organization, provided by the CSR.
-
-  - `organizational_unit: optional string`
-
-    Organizational Unit, provided by the CSR.
-
-  - `serial_number: optional string`
-
-    The serial number on the created Client Certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the Client Certificate..
-
-  - `ski: optional string`
-
-    Subject Key Identifier.
-
-  - `state: optional string`
-
-    State, provided by the CSR.
-
-  - `status: optional Status`
-
-    Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions.
-
-    - `"active"`
-
-    - `"pending_reactivation"`
-
-    - `"pending_revocation"`
-
-    - `"revoked"`
-
-  - `validity_days: optional number`
-
-    The number of days the Client Certificate will be valid after the issued_on date.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/client_certificates/$CLIENT_CERTIFICATE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoC...dhDDE\n-----END CERTIFICATE-----",
-    "certificate_authority": {
-      "id": "568b6b74-7b0c-4755-8840-4e3b8c24adeb",
-      "name": "Cloudflare Managed CA for account"
-    },
-    "common_name": "Cloudflare",
-    "country": "US",
-    "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICY....\n-----END CERTIFICATE REQUEST-----",
-    "expires_on": "2033-02-20T23:18:00Z",
-    "fingerprint_sha256": "256c24690243359fb8cf139a125bd05ebf1d968b71e4caf330718e9f5c8a89ea",
-    "issued_on": "2023-02-23T23:18:00Z",
-    "location": "Somewhere",
-    "organization": "Organization",
-    "organizational_unit": "Organizational Unit",
-    "serial_number": "3bb94ff144ac567b9f75ad664b6c55f8d5e48182",
-    "signature": "SHA256WithRSA",
-    "ski": "8e375af1389a069a0f921f8cc8e1eb12d784b949",
-    "state": "CA",
-    "status": "active",
-    "validity_days": 3650
-  }
-}
-```
-
-## Domain Types
-
-### Client Certificate
-
-- `ClientCertificate object { id, certificate, certificate_authority, 15 more }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The Client Certificate PEM.
-
-  - `certificate_authority: optional object { id, name }`
-
-    Certificate Authority used to issue the Client Certificate.
-
-    - `id: optional string`
-
-    - `name: optional string`
-
-  - `common_name: optional string`
-
-    Common Name of the Client Certificate.
-
-  - `country: optional string`
-
-    Country, provided by the CSR.
-
-  - `csr: optional string`
-
-    The Certificate Signing Request (CSR). Must be newline-encoded.
-
-  - `expires_on: optional string`
-
-    Date that the Client Certificate expires.
-
-  - `fingerprint_sha256: optional string`
-
-    Unique identifier of the Client Certificate.
-
-  - `issued_on: optional string`
-
-    Date that the Client Certificate was issued by the Certificate Authority.
-
-  - `location: optional string`
-
-    Location, provided by the CSR.
-
-  - `organization: optional string`
-
-    Organization, provided by the CSR.
-
-  - `organizational_unit: optional string`
-
-    Organizational Unit, provided by the CSR.
-
-  - `serial_number: optional string`
-
-    The serial number on the created Client Certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the Client Certificate..
-
-  - `ski: optional string`
-
-    Subject Key Identifier.
-
-  - `state: optional string`
-
-    State, provided by the CSR.
-
-  - `status: optional Status`
-
-    Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions.
-
-    - `"active"`
-
-    - `"pending_reactivation"`
-
-    - `"pending_revocation"`
-
-    - `"revoked"`
-
-  - `validity_days: optional number`
-
-    The number of days the Client Certificate will be valid after the issued_on date.
+[Link to this property](#)%20client_certificates%20%3E%20(model)%20client_certificate%20%3E%20(schema)>)

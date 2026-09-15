@@ -1,57 +1,59 @@
+---
+title: Attackers
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Attackers
 
-## Lists attackers across multiple datasets
+##### [Lists attackers across multiple datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/attackers/methods/list)
 
-**get** `/accounts/{account_id}/cloudforce-one/events/attackers`
+GET/accounts/{account\_id}/cloudforce-one/events/attackers
 
-Lists attackers across multiple datasets
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+AttackerListResponse object {items, type }
 
-### Query Parameters
+</summary>
 
-- `datasetIds: optional array of string`
+<details>
 
-  Array of dataset IDs to query attackers from. If not provided, uses the default dataset.
+<summary>
 
-### Returns
+items: object {type }
 
-- `items: object { type }`
+</summary>
 
-  - `type: string`
+type: string
 
-- `type: string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/attackers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+type: string
 
-```json
-{
-  "items": {
-    "type": "string"
-  },
-  "type": "array"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Attacker List Response
-
-- `AttackerListResponse object { items, type }`
-
-  - `items: object { type }`
-
-    - `type: string`
-
-  - `type: string`
+[Link to this property](#)%20cloudforce_one.threat_events.attackers%20%3E%20(model)%20attacker_list_response%20%3E%20(schema)>)

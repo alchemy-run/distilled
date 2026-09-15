@@ -1,65 +1,232 @@
-## Get Multi-Origin AS (MOAS) prefixes
+---
+title: Get Multi-Origin AS (MOAS) prefixes
+---
 
-**get** `/radar/bgp/routes/moas`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[Routes](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Multi-Origin AS (MOAS) prefixes
+
+GET/radar/bgp/routes/moas
 
 Retrieves all Multi-Origin AS (MOAS) prefixes in the global routing tables.
 
-### Query Parameters
+##### Security
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>API Token</summary>
 
-  - `"JSON"`
 
-  - `"CSV"`
 
-- `invalid_only: optional boolean`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Lookup only RPKI invalid MOASes.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `origin: optional number`
+</details>
 
-  Lookup MOASes originated by the given ASN.
+<details>
 
-- `prefix: optional string`
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `result: object { meta, moas }`
 
-  - `meta: object { data_time, query_time, total_peers }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `data_time: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `query_time: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `total_peers: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `moas: array of object { origins, prefix }`
+</details>
 
-    - `origins: array of object { origin, peer_count, rpki_validation }`
+##### Accepted Permissions (at least one required)
 
-      - `origin: number`
+`User Details Write``User Details Read`
 
-      - `peer_count: number`
+##### Q uery ParametersExpand Collapse
 
-      - `rpki_validation: string`
+<details>
 
-    - `prefix: string`
+<summary>
 
-- `success: boolean`
+format: optional "JSON"or "CSV"
 
-### Example
+Format in which results will be returned.
 
-```http
+</summary>
+
+One of the following:
+
+"JSON"
+
+<a href="#">Link to this property</a>
+
+"CSV"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20moas%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+invalid\_only: optional boolean
+
+Lookup only RPKI invalid MOASes.
+
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20moas%20%3E%20(params)%20default%20%3E%20(param)%20invalid_only%20%3E%20(schema)>)
+
+origin: optional number
+
+Lookup MOASes originated by the given ASN.
+
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20moas%20%3E%20(params)%20default%20%3E%20(param)%20origin%20%3E%20(schema)>)
+
+prefix: optional string
+
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20moas%20%3E%20(params)%20default%20%3E%20(param)%20prefix%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {meta, moas }
+
+</summary>
+
+<details>
+
+<summary>
+
+meta: object {data\_time, query\_time, total\_peers }
+
+</summary>
+
+data\_time: string
+
+<a href="#">Link to this property</a>
+
+query\_time: string
+
+<a href="#">Link to this property</a>
+
+total\_peers: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+moas: array of object {origins, prefix }
+
+</summary>
+
+<details>
+
+<summary>
+
+origins: array of object {origin, peer\_count, rpki\_validation }
+
+</summary>
+
+origin: number
+
+<a href="#">Link to this property</a>
+
+peer\_count: number
+
+<a href="#">Link to this property</a>
+
+rpki\_validation: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20moas%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20moas%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get Multi-Origin AS (MOAS) prefixes
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/bgp/routes/moas \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "meta": {
+      "data_time": "data_time",
+      "query_time": "query_time",
+      "total_peers": 0
+    },
+    "moas": [
+      {
+        "origins": [
+          {
+            "origin": 0,
+            "peer_count": 0,
+            "rpki_validation": "rpki_validation"
+          }
+        ],
+        "prefix": "prefix"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "meta": {

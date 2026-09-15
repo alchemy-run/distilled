@@ -1,107 +1,343 @@
-## List URL ignore patterns
+---
+title: List URL ignore patterns
+---
 
-**get** `/accounts/{account_id}/email-security/settings/url_ignore_patterns`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+[URL Ignore Patterns](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List URL ignore patterns
+
+GET/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns
 
 Returns a paginated list of URL rewrite ignore patterns for the account. URLs matching these patterns will not be rewritten.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `page: optional number`
 
-  Current page within paginated list of results.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `per_page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The number of results per page. Maximum value is 1000.
+</details>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>API Email + API Key</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `messages: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Cloud Email Security: Write``Cloud Email Security: Read`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `success: true`
+Identifier.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `result: optional array of object { id, created_at, pattern, 3 more }`
+##### Q uery ParametersExpand Collapse
 
-  - `id: string`
+page: optional number
 
-    URL ignore pattern identifier
+Current page within paginated list of results.
 
-  - `created_at: string`
+minimum1
 
-  - `pattern: string`
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    Regular expression matching URLs that should not be rewritten.
+per\_page: optional number
 
-  - `comments: optional string`
+The number of results per page. Maximum value is 1000.
 
-    Optional note describing the reason for the ignore pattern.
+maximum1000
 
-  - `last_modified: optional string`
+minimum1
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `modified_at: optional string`
+##### ReturnsExpand Collapse
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `page: optional number`
+</summary>
 
-    Current page within paginated list of results.
+code: number
 
-  - `per_page: optional number`
+minimum1000
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+message: string
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+documentation\_url: optional string
 
-```http
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_at, pattern, 3 more }
+
+</summary>
+
+id: string
+
+URL ignore pattern identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: string
+
+Regular expression identifying URLs to exempt from rewriting.
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Optional note describing the reason for the ignore pattern.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List URL ignore patterns
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "pattern": "https://example\\.com/.*",
+      "comments": "Trusted internal redirect service",
+      "last_modified": "2019-12-27T18:11:19.117Z",
+      "modified_at": "2019-12-27T18:11:19.117Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

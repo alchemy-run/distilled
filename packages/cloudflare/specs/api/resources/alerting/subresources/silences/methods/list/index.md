@@ -1,71 +1,223 @@
-## List Silences
+---
+title: List Silences
+---
 
-**get** `/accounts/{account_id}/alerting/v3/silences`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+[Silences](https://developers.cloudflare.com/api/resources/alerting/subresources/silences)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Silences
+
+GET/accounts/{account\_id}/alerting/v3/silences
 
 Gets a list of silences for an account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  The account id
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { message, code }`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `code: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: array of object { message, code }`
+</details>
 
-  - `message: string`
+<details>
 
-  - `code: optional number`
+<summary>API Email + API Key</summary>
 
-- `success: true`
 
-  Whether the API call was successful
 
-  - `true`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `result: optional array of object { id, created_at, end_time, 3 more }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `id: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Silence ID
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `created_at: optional string`
+</details>
 
-    When the silence was created.
+##### Accepted Permissions (at least one required)
 
-  - `end_time: optional string`
+`Zero Trust: PII Read``Notifications Write``Notifications Read``Account Settings Write``Account Settings Read`
 
-    When the silence ends.
+##### P ath ParametersExpand Collapse
 
-  - `policy_id: optional string`
+account\_id: string
 
-    The unique identifier of a notification policy
+The account id
 
-  - `start_time: optional string`
+maxLength32
 
-    When the silence starts.
+[Link to this property](#)%20alerting.silences%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `updated_at: optional string`
+##### ReturnsExpand Collapse
 
-    When the silence was modified.
+<details>
 
-### Example
+<summary>
 
-```http
+errors: array of object {message, code }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.silences%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message, code }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.silences%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20alerting.silences%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_at, end\_time, 3 more }
+
+</summary>
+
+id: optional string
+
+Silence ID
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+When the silence was created.
+
+<a href="#">Link to this property</a>
+
+end\_time: optional string
+
+When the silence ends.
+
+<a href="#">Link to this property</a>
+
+policy\_id: optional string
+
+The unique identifier of a notification policy
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+start\_time: optional string
+
+When the silence starts.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+When the silence was modified.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.silences%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List Silences
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/silences \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "message",
+      "code": 1000
+    }
+  ],
+  "messages": [
+    {
+      "message": "message",
+      "code": 1000
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "f878e90c23f44126ae3cfc399f646977",
+      "created_at": "2022-01-01T00:00:00Z",
+      "end_time": "2022-01-01T00:00:00Z",
+      "policy_id": "0da2b59ef118439d8097bdfb215203c9",
+      "start_time": "2022-01-01T00:00:00Z",
+      "updated_at": "2022-01-01T00:00:00Z"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

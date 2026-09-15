@@ -1,271 +1,235 @@
+---
+title: Organization Accounts
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Organizations](https://developers.cloudflare.com/api/resources/organizations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Organization Accounts
 
-## Get organization accounts
+##### [Get organization accounts](https://developers.cloudflare.com/api/resources/organizations/subresources/organization_accounts/methods/get)
 
-**get** `/organizations/{organization_id}/accounts`
+GET/organizations/{organization\_id}/accounts
 
-Retrieve a list of accounts that belong to a specific organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `organization_id: string`
+<summary>
 
-### Query Parameters
+OrganizationAccounts object {id, name, type, 3 more }
 
-- `account_pubname: optional object { contains, endsWith, startsWith }`
+</summary>
 
-  - `contains: optional string`
+id: string
 
-    (case-insensitive) Filter the list of accounts to where the account_pubname contains
-    a particular string.
+Identifier
 
-  - `endsWith: optional string`
+maxLength32
 
-    (case-insensitive) Filter the list of accounts to where the account_pubname ends with
-    a particular string.
+minLength32
 
-  - `startsWith: optional string`
+<a href="#">Link to this property</a>
 
-    (case-insensitive) Filter the list of accounts to where the account_pubname starts with
-    a particular string.
+name: string
 
-- `direction: optional "asc" or "desc"`
+Account name
 
-  Sort direction for the order_by field. Valid values: `asc`, `desc`.
-  Defaults to `asc` when order_by is specified.
+maxLength100
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+<details>
 
-- `name: optional object { contains, endsWith, startsWith }`
+<summary>
 
-  - `contains: optional string`
+type: "standard"or "enterprise"
 
-    (case-insensitive) Filter the list of accounts to where the name contains a particular
-    string.
+</summary>
 
-  - `endsWith: optional string`
+One of the following:
 
-    (case-insensitive) Filter the list of accounts to where the name ends with a particular
-    string.
+"standard"
 
-  - `startsWith: optional string`
+<a href="#">Link to this property</a>
 
-    (case-insensitive) Filter the list of accounts to where the name starts with a
-    particular string.
+"enterprise"
 
-- `order_by: optional "account_name"`
+<a href="#">Link to this property</a>
 
-  Field to order results by. Currently supported values: `account_name`.
-  When not specified, results are ordered by internal account ID.
+</details>
 
-  - `"account_name"`
+<a href="#">Link to this property</a>
 
-- `page_size: optional number`
+created\_on: optional string
 
-  The amount of items to return. Defaults to 10.
+Timestamp for the creation of the account
 
-- `page_token: optional string`
+formatdate-time
 
-  An opaque token returned from the last list response that when
-  provided will retrieve the next page.
+<a href="#">Link to this property</a>
 
-  Parameters used to filter the retrieved list must remain in subsequent
-  requests with a page token.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of unknown`
+managed\_by: optional object {parent\_org\_id, parent\_org\_name }
 
-- `messages: array of ResponseInfo`
+Parent container details
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+parent\_org\_id: optional string
 
-  - `documentation_url: optional string`
+ID of the parent Organization, if one exists
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of TenantAccount`
+parent\_org\_name: optional string
 
-  - `id: string`
+Name of the parent Organization, if one exists
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `settings: object { abuse_contact_email, access_approval_expiry, api_access_enabled, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `abuse_contact_email: string`
+<details>
 
-    - `access_approval_expiry: string`
+<summary>
 
-    - `api_access_enabled: boolean`
+settings: optional object {abuse\_contact\_email, enforce\_twofactor }
 
-    - `default_nameservers: string`
+Account settings
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+</summary>
 
-    - `enforce_twofactor: boolean`
+abuse\_contact\_email: optional string
 
-    - `use_account_custom_ns_by_default: boolean`
+Sets an abuse contact email to notify for abuse reports.
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<a href="#">Link to this property</a>
 
-  - `type: "standard" or "enterprise"`
+enforce\_twofactor: optional boolean
 
-    - `"standard"`
+Indicates whether membership in this account requires that Two-Factor Authentication is enabled
 
-    - `"enterprise"`
+<a href="#">Link to this property</a>
 
-- `result_info: object { next_page_token, total_size }`
+</details>
 
-  - `next_page_token: optional string`
+<a href="#">Link to this property</a>
 
-    Use this opaque token in the next request to retrieve the
-    next page.
+</details>
 
-    Parameters used to filter the retrieved list must remain in subsequent
-    requests with a page token.
+[Link to this property](#)%20organizations.organization_accounts%20%3E%20(model)%20organization_accounts%20%3E%20(schema)>)
 
-  - `total_size: optional number`
+<details>
 
-    Counts the total amount of items in a list with the applied filters. The API omits next_page_token to indicate no more items in a particular list.
+<summary>
 
-- `success: true`
+OrganizationAccountGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/tenants#(resource)%20tenants.accounts%20%3E%20(model)%20tenant_account%20%3E%20(schema)">TenantAccount</a> { id, created\_on, name, 3 more }
 
-  - `true`
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/accounts \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_on: string
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "settings": {
-        "abuse_contact_email": "abuse_contact_email",
-        "access_approval_expiry": "2019-12-27T18:11:19.117Z",
-        "api_access_enabled": true,
-        "default_nameservers": "default_nameservers",
-        "enforce_twofactor": true,
-        "use_account_custom_ns_by_default": true
-      },
-      "type": "standard"
-    }
-  ],
-  "result_info": {
-    "next_page_token": "next_page_token",
-    "total_size": 0
-  },
-  "success": true
-}
-```
+formatdate-time
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Organization Accounts
+name: string
 
-- `OrganizationAccounts object { id, name, type, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    Identifier
+<summary>
 
-  - `name: string`
+settings: object {abuse\_contact\_email, access\_approval\_expiry, api\_access\_enabled, 3 more }
 
-    Account name
+</summary>
 
-  - `type: "standard" or "enterprise"`
+abuse\_contact\_email: string
 
-    - `"standard"`
+<a href="#">Link to this property</a>
 
-    - `"enterprise"`
+access\_approval\_expiry: string
 
-  - `created_on: optional string`
+formatdate-time
 
-    Timestamp for the creation of the account
+<a href="#">Link to this property</a>
 
-  - `managed_by: optional object { parent_org_id, parent_org_name }`
+api\_access\_enabled: boolean
 
-    Parent container details
+<a href="#">Link to this property</a>
 
-    - `parent_org_id: optional string`
+Deprecateddefault\_nameservers: string
 
-      ID of the parent Organization, if one exists
+Use <a href="https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings">DNS Settings</a> instead. Deprecated.
 
-    - `parent_org_name: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the parent Organization, if one exists
+enforce\_twofactor: boolean
 
-  - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+<a href="#">Link to this property</a>
 
-    Account settings
+Deprecateduse\_account\_custom\_ns\_by\_default: boolean
 
-    - `abuse_contact_email: optional string`
+Use <a href="https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings">DNS Settings</a> instead. Deprecated.
 
-      Sets an abuse contact email to notify for abuse reports.
+<a href="#">Link to this property</a>
 
-    - `enforce_twofactor: optional boolean`
+</details>
 
-      Indicates whether membership in this account requires that
-      Two-Factor Authentication is enabled
+<a href="#">Link to this property</a>
 
-### Organization Account Get Response
+<details>
 
-- `OrganizationAccountGetResponse = array of TenantAccount`
+<summary>
 
-  - `id: string`
+type: "standard"or "enterprise"
 
-  - `created_on: string`
+</summary>
 
-  - `name: string`
+One of the following:
 
-  - `settings: object { abuse_contact_email, access_approval_expiry, api_access_enabled, 3 more }`
+"standard"
 
-    - `abuse_contact_email: string`
+<a href="#">Link to this property</a>
 
-    - `access_approval_expiry: string`
+"enterprise"
 
-    - `api_access_enabled: boolean`
+<a href="#">Link to this property</a>
 
-    - `default_nameservers: string`
+</details>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<a href="#">Link to this property</a>
 
-    - `enforce_twofactor: boolean`
+tags: optional map\[string]
 
-    - `use_account_custom_ns_by_default: boolean`
+Account tags, present only when <code>include_tags=true</code> is requested.
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<a href="#">Link to this property</a>
 
-  - `type: "standard" or "enterprise"`
+</details>
 
-    - `"standard"`
-
-    - `"enterprise"`
+[Link to this property](#)%20organizations.organization_accounts%20%3E%20(model)%20organization_account_get_response%20%3E%20(schema)>)

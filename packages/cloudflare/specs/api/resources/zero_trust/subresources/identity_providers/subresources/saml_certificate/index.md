@@ -1,193 +1,113 @@
+---
+title: SAML Certificate
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Identity Providers](https://developers.cloudflare.com/api/resources/zero_trust/subresources/identity_providers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # SAML Certificate
 
-## Create SAML encryption certificate for Identity Provider
+##### [Create SAML encryption certificate for Identity Provider](https://developers.cloudflare.com/api/resources/zero_trust/subresources/identity_providers/subresources/saml_certificate/methods/create)
 
-**post** `/accounts/{account_id}/access/identity_providers/{identity_provider_id}/saml_certificate`
+POST/accounts/{account\_id}/access/identity\_providers/{identity\_provider\_id}/saml\_certificate
 
-Creates a new SAML encryption certificate set and assigns it to the specified
-SAML Identity Provider. This endpoint is idempotent - if the IdP already has
-a certificate set assigned, the existing certificate set is returned with a 200 status.
+##### ModelsExpand Collapse
 
-**Workflow for enabling SAML encryption:**
+<details>
 
-1. Call this endpoint to create and assign a certificate set to the IdP
-1. Update the IdP configuration (PUT `/identity_providers/{id}`) with:
-   - `config.enable_encryption: true`
-   - `saml_certificate_set_id: <uid from step 1>`
-1. Configure the certificate's public key in your external SAML Identity Provider
+<summary>
 
-### Path Parameters
+SAMLCertificateCreateResponse object {created\_at, uid, updated\_at, 2 more }
 
-- `account_id: string`
+A SAML encryption certificate set containing current and optionally previous certificates for encryption key rotation.
 
-  Identifier.
+</summary>
 
-- `identity_provider_id: string`
+created\_at: string
 
-  UUID.
+Timestamp when the certificate set was created
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+uid: string
 
-  - `message: string`
+Unique identifier for the certificate set
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+updated\_at: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Timestamp when the certificate set was last updated (e.g., during rotation)
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
 
-- `success: true`
+The currently active certificate used for encrypting SAML assertions
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+is\_current: boolean
 
-- `result: optional object { created_at, uid, updated_at, 2 more }`
+Indicates whether this is the currently active certificate
 
-  A SAML encryption certificate set containing current and optionally previous certificates for encryption key rotation.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+not\_after: string
 
-    Timestamp when the certificate set was created
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
 
-  - `uid: string`
+formatdate-time
 
-    Unique identifier for the certificate set
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+public\_certificate: string
 
-    Timestamp when the certificate set was last updated (e.g., during rotation)
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
 
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<a href="#">Link to this property</a>
 
-    The currently active certificate used for encrypting SAML assertions
+uid: string
 
-    - `is_current: boolean`
+Unique identifier for the certificate
 
-      Indicates whether this is the currently active certificate
+formatuuid
 
-    - `not_after: string`
+<a href="#">Link to this property</a>
 
-      Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+</details>
 
-    - `public_certificate: string`
+<a href="#">Link to this property</a>
 
-      PEM-encoded X.509 certificate containing the public key.
-      Configure this certificate in your external SAML Identity Provider to enable encryption.
+previous\_certificate: optional unknown
 
-    - `uid: string`
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
 
-      Unique identifier for the certificate
+<a href="#">Link to this property</a>
 
-  - `previous_certificate: optional unknown`
+</details>
 
-    The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/identity_providers/$IDENTITY_PROVIDER_ID/saml_certificate \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2026-05-07T19:16:19.821162Z",
-    "uid": "c409ef44-e72c-41c8-8c0b-278c8a6f4fd8",
-    "updated_at": "2026-05-07T19:16:19.821162Z",
-    "current_certificate": {
-      "is_current": true,
-      "not_after": "2027-05-07T19:11:00Z",
-      "public_certificate": "-----BEGIN CERTIFICATE-----\nMIIEpzCCA4+gAwIBAgIUTh2VSDDJ0oB/gabio6j1L9QwWoUwDQYJKoZIhvcNAQEL\n...\n-----END CERTIFICATE-----\n",
-      "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    },
-    "previous_certificate": {}
-  }
-}
-```
-
-## Domain Types
-
-### SAML Certificate Create Response
-
-- `SAMLCertificateCreateResponse object { created_at, uid, updated_at, 2 more }`
-
-  A SAML encryption certificate set containing current and optionally previous certificates for encryption key rotation.
-
-  - `created_at: string`
-
-    Timestamp when the certificate set was created
-
-  - `uid: string`
-
-    Unique identifier for the certificate set
-
-  - `updated_at: string`
-
-    Timestamp when the certificate set was last updated (e.g., during rotation)
-
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
-
-    The currently active certificate used for encrypting SAML assertions
-
-    - `is_current: boolean`
-
-      Indicates whether this is the currently active certificate
-
-    - `not_after: string`
-
-      Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
-
-    - `public_certificate: string`
-
-      PEM-encoded X.509 certificate containing the public key.
-      Configure this certificate in your external SAML Identity Provider to enable encryption.
-
-    - `uid: string`
-
-      Unique identifier for the certificate
-
-  - `previous_certificate: optional unknown`
-
-    The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+[Link to this property](#)%20zero_trust.identity_providers.saml_certificate%20%3E%20(model)%20saml_certificate_create_response%20%3E%20(schema)>)

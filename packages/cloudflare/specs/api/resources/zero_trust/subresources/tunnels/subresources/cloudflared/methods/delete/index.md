@@ -1,174 +1,456 @@
-## Delete a Cloudflare Tunnel
+---
+title: Delete a Cloudflare Tunnel
+---
 
-**delete** `/accounts/{account_id}/cfd_tunnel/{tunnel_id}`
+[Skip to content](#_top)
 
-Deletes a Cloudflare Tunnel from an account.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels)
 
-  Cloudflare account ID
+[Cloudflared](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared)
 
-- `tunnel_id: string`
+Copy Markdown
 
-  UUID of the tunnel.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `errors: array of ResponseInfo`
+**Copy Markdown****View as Markdown**
 
-  - `code: number`
+# Delete a Cloudflare Tunnel
 
-  - `message: string`
+DELETE/accounts/{account\_id}/cfd\_tunnel/{tunnel\_id}
 
-  - `documentation_url: optional string`
+Permanently deletes a Cloudflare Tunnel from an account. The tunnel must have no active connections.
 
-  - `source: optional object { pointer }`
+##### Security
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>API Token</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `source: optional object { pointer }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `result: CloudflareTunnel`
+</details>
 
-  A Cloudflare Tunnel that connects your origin to Cloudflare's edge.
+<details>
 
-  - `id: optional string`
+<summary>API Email + API Key</summary>
 
-    UUID of the tunnel.
 
-  - `account_tag: optional string`
 
-    Cloudflare account ID
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `config_src: optional "local" or "cloudflare"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"local"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"cloudflare"`
+</details>
 
-  - `connections: optional array of object { id, client_id, client_version, 5 more }`
+##### Accepted Permissions (at least one required)
 
-    The Cloudflare Tunnel connections between your origin and Cloudflare's edge.
+`Cloudflare One Connectors Write``Cloudflare One Connector: cloudflared Write``Cloudflare Tunnel Write`
 
-    - `id: optional string`
+##### P ath ParametersExpand Collapse
 
-      UUID of the Cloudflare Tunnel connection.
+account\_id: string
 
-    - `client_id: optional string`
+Cloudflare account ID
 
-      UUID of the Cloudflare Tunnel connector.
+maxLength32
 
-    - `client_version: optional string`
+[Link to this property](#)%20zero_trust.tunnels.cloudflared%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      The cloudflared version used to establish this connection.
+tunnel\_id: string
 
-    - `colo_name: optional string`
+UUID of the tunnel.
 
-      The Cloudflare data center used for this connection.
+formatuuid
 
-    - `is_pending_reconnect: optional boolean`
+maxLength36
 
-      Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting.  If `true`, the connection has disconnected but is still being tracked. If `false`, the connection is actively serving traffic.
+[Link to this property](#)%20zero_trust.tunnels.cloudflared%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20tunnel_id%20%3E%20(schema)>)
 
-    - `opened_at: optional string`
+##### ReturnsExpand Collapse
 
-      Timestamp of when the connection was established.
+<details>
 
-    - `origin_ip: optional string`
+<summary>
 
-      The public IP address of the host running cloudflared.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `uuid: optional string`
+</summary>
 
-      UUID of the Cloudflare Tunnel connection.
+code: number
 
-  - `conns_active_at: optional string`
+minimum1000
 
-    Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive.
+<a href="#">Link to this property</a>
 
-  - `conns_inactive_at: optional string`
+message: string
 
-    Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+documentation\_url: optional string
 
-    Timestamp of when the resource was created.
+<a href="#">Link to this property</a>
 
-  - `deleted_at: optional string`
+<details>
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+<summary>
 
-  - `metadata: optional unknown`
+source: optional object {pointer }
 
-    Metadata associated with the tunnel.
+</summary>
 
-  - `name: optional string`
+pointer: optional string
 
-    A user-friendly name for a tunnel.
+<a href="#">Link to this property</a>
 
-  - `remote_config: optional boolean`
+</details>
 
-    If `true`, the tunnel can be configured remotely from the Zero Trust dashboard. If `false`, the tunnel must be configured locally on the origin machine.
+<a href="#">Link to this property</a>
 
-  - `status: optional "inactive" or "degraded" or "healthy" or "down"`
+</details>
 
-    The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and able to serve traffic), or `down` (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+[Link to this property](#)%20zero_trust.tunnels.cloudflared%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"inactive"`
+<details>
 
-    - `"degraded"`
+<summary>
 
-    - `"healthy"`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"down"`
+</summary>
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+code: number
 
-    The type of tunnel.
+minimum1000
 
-    - `"cfd_tunnel"`
+<a href="#">Link to this property</a>
 
-    - `"warp_connector"`
+message: string
 
-    - `"warp"`
+<a href="#">Link to this property</a>
 
-    - `"magic"`
+documentation\_url: optional string
 
-    - `"ip_sec"`
+<a href="#">Link to this property</a>
 
-    - `"gre"`
+<details>
 
-    - `"cni"`
+<summary>
 
-- `success: true`
+source: optional object {pointer }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.tunnels.cloudflared%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20cloudflare_tunnel%20%3E%20(schema)">CloudflareTunnel</a> { id, account\_tag, config\_src, 10 more }
+
+A Cloudflare Tunnel that connects your origin to Cloudflare’s edge.
+
+</summary>
+
+id: optional string
+
+UUID of the tunnel.
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+account\_tag: optional string
+
+Cloudflare account ID
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+config\_src: optional "local"or "cloudflare"
+
+Indicates if this is a locally or remotely configured tunnel. If <code>local</code>, manage the tunnel using a YAML file on the origin machine. If <code>cloudflare</code>, manage the tunnel on the Zero Trust dashboard.
+
+</summary>
+
+One of the following:
+
+"local"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedconnections: optional array of object {id, client\_id, client\_version, 5 more }
+
+This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint <code>/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections</code>
+
+The Cloudflare Tunnel connections between your origin and Cloudflare’s edge.
+
+</summary>
+
+id: optional string
+
+UUID of the Cloudflare Tunnel connection.
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+UUID of the Cloudflare Tunnel connector.
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+client\_version: optional string
+
+The cloudflared version used to establish this connection.
+
+<a href="#">Link to this property</a>
+
+colo\_name: optional string
+
+The Cloudflare data center used for this connection.
+
+<a href="#">Link to this property</a>
+
+Deprecatedis\_pending\_reconnect: optional boolean
+
+This functionality has been removed. The is\_pending\_reconnect field will now always report false.
+
+Cloudflare continues to track connections for several minutes after they disconnect. This is an optimization to improve latency and reliability of reconnecting. If <code>true</code>, the connection has disconnected but is still being tracked. If <code>false</code>, the connection is actively serving traffic.
+
+<a href="#">Link to this property</a>
+
+opened\_at: optional string
+
+Timestamp of when the connection was established.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+origin\_ip: optional string
+
+The public IP address of the host running cloudflared.
+
+<a href="#">Link to this property</a>
+
+uuid: optional string
+
+UUID of the Cloudflare Tunnel connection.
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+conns\_active\_at: optional string
+
+Timestamp of when the tunnel established at least one connection to Cloudflare’s edge. If <code>null</code>, the tunnel is inactive.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+conns\_inactive\_at: optional string
+
+Timestamp of when the tunnel became inactive (no connections to Cloudflare’s edge). If <code>null</code>, the tunnel is active.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+Timestamp of when the resource was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleted\_at: optional string
+
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+metadata: optional unknown
+
+Metadata associated with the tunnel.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+A user-friendly name for a tunnel.
+
+<a href="#">Link to this property</a>
+
+Deprecatedremote\_config: optional boolean
+
+Use the config\_src field instead.
+
+If <code>true</code>, the tunnel can be configured remotely from the Zero Trust dashboard. If <code>false</code>, the tunnel must be configured locally on the origin machine.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "inactive"or "degraded"or "healthy"or "down"
+
+The status of the tunnel. Valid values are <code>inactive</code> (tunnel has never been run), <code>degraded</code> (tunnel is active and able to serve traffic but in an unhealthy state), <code>healthy</code> (tunnel is active and able to serve traffic), or <code>down</code> (tunnel can not serve traffic as it has no connections to the Cloudflare Edge).
+
+</summary>
+
+One of the following:
+
+"inactive"
+
+<a href="#">Link to this property</a>
+
+"degraded"
+
+<a href="#">Link to this property</a>
+
+"healthy"
+
+<a href="#">Link to this property</a>
+
+"down"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
+
+The type of tunnel.
+
+</summary>
+
+One of the following:
+
+"cfd\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"warp\_connector"
+
+<a href="#">Link to this property</a>
+
+"warp"
+
+<a href="#">Link to this property</a>
+
+"magic"
+
+<a href="#">Link to this property</a>
+
+"ip\_sec"
+
+<a href="#">Link to this property</a>
+
+"gre"
+
+<a href="#">Link to this property</a>
+
+"cni"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.tunnels.cloudflared%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zero_trust.tunnels.cloudflared%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete a Cloudflare Tunnel
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -209,7 +491,63 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNE
     "conns_active_at": "2009-11-10T23:00:00Z",
     "conns_inactive_at": "2009-11-10T23:00:00Z",
     "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
+    "metadata": {},
+    "name": "blog",
+    "remote_config": true,
+    "status": "healthy",
+    "tun_type": "cfd_tunnel"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "account_tag": "699d98642c564d2e855e9661899b7252",
+    "config_src": "cloudflare",
+    "connections": [
+      {
+        "id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
+        "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925",
+        "client_version": "2022.7.1",
+        "colo_name": "DFW",
+        "is_pending_reconnect": false,
+        "opened_at": "2021-01-25T18:22:34.317854Z",
+        "origin_ip": "10.1.0.137",
+        "uuid": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
+      }
+    ],
+    "conns_active_at": "2009-11-10T23:00:00Z",
+    "conns_inactive_at": "2009-11-10T23:00:00Z",
+    "created_at": "2021-01-25T18:22:34.317854Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
     "metadata": {},
     "name": "blog",
     "remote_config": true,

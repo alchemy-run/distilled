@@ -1,74 +1,236 @@
-## Create integration entry
+---
+title: Create integration entry
+---
 
-**post** `/accounts/{account_id}/dlp/entries/integration`
+[Skip to content](#_top)
 
-Integration entries can't be created, this will update an existing integration entry.
-This is needed for our generated terraform API.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-### Body Parameters
+[Entries](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries)
 
-- `enabled: boolean`
+[Integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/integration)
 
-- `entry_id: string`
+Copy Markdown
 
-- `profile_id: optional string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  This field is not used as the owning profile.
-  For predefined entries it is already set to a predefined profile.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `errors: array of object { code, message, documentation_url, source }`
+# Create integration entry
 
-  - `code: number`
+POST/accounts/{account\_id}/dlp/entries/integration
 
-  - `message: string`
+Integration entries can’t be created, this will update an existing integration entry. This is needed for our generated terraform API.
 
-  - `documentation_url: optional string`
+##### Security
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Token</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `documentation_url: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>API Email + API Key</summary>
 
-  Whether the API call was successful.
 
-  - `true`
 
-- `result: optional object { id, created_at, enabled, 3 more }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `id: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `created_at: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `enabled: boolean`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `name: string`
+</details>
 
-  - `updated_at: string`
+##### Accepted Permissions (at least one required)
 
-  - `profile_id: optional string`
+`Zero Trust Write`
 
-### Example
+##### P ath ParametersExpand Collapse
 
-```http
+account\_id: string
+
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+enabled: boolean
+
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
+
+entry\_id: string
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20entry_id%20%3E%20(schema)>)
+
+profile\_id: optional string
+
+This field is not used as the owning profile. For predefined entries it is already set to a predefined profile.
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20profile_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, enabled, 3 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+profile\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.entries.integration%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create integration entry
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/integration \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -78,9 +240,47 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/integ
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "enabled": true,
+    "name": "name",
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

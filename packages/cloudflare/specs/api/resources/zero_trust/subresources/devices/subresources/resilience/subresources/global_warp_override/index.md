@@ -1,220 +1,85 @@
+---
+title: Global WARP Override
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[Resilience](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/resilience)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Global WARP Override
 
-## Retrieve Global WARP override state
+##### [Retrieve Global WARP override state](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/resilience/subresources/global_warp_override/methods/get)
 
-**get** `/accounts/{account_id}/devices/resilience/disconnect`
+GET/accounts/{account\_id}/devices/resilience/disconnect
 
-Fetch the Global WARP override state.
+##### [Set Global WARP override state](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/resilience/subresources/global_warp_override/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/devices/resilience/disconnect
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+GlobalWARPOverrideGetResponse object {disconnect, timestamp }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+disconnect: optional boolean
 
-  - `source: optional object { pointer }`
+Disconnects all devices on the account using Global WARP override.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+timestamp: optional string
 
-  - `code: number`
+When the Global WARP override state was updated.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { disconnect, timestamp }`
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(model)%20global_warp_override_get_response%20%3E%20(schema)>)
 
-  - `disconnect: optional boolean`
+<details>
 
-    Disconnects all devices on the account using Global WARP override.
+<summary>
 
-  - `timestamp: optional string`
+GlobalWARPOverrideCreateResponse object {disconnect, timestamp }
 
-    When the Global WARP override state was updated.
+</summary>
 
-- `success: true`
+disconnect: optional boolean
 
-  Whether the API call was successful.
+Disconnects all devices on the account using Global WARP override.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+timestamp: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/resilience/disconnect \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+When the Global WARP override state was updated.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disconnect": false,
-    "timestamp": "1970-01-01T00:00:00.000Z"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Set Global WARP override state
+</details>
 
-**post** `/accounts/{account_id}/devices/resilience/disconnect`
-
-Sets the Global WARP override state.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `disconnect: boolean`
-
-  Disconnects all devices on the account using Global WARP override.
-
-- `justification: optional string`
-
-  Reasoning for setting the Global WARP override state. This will be surfaced in the audit log.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { disconnect, timestamp }`
-
-  - `disconnect: optional boolean`
-
-    Disconnects all devices on the account using Global WARP override.
-
-  - `timestamp: optional string`
-
-    When the Global WARP override state was updated.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/resilience/disconnect \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "disconnect": false,
-          "justification": "Turning off WARP for testing purposes."
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disconnect": false,
-    "timestamp": "1970-01-01T00:00:00.000Z"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Global WARP Override Get Response
-
-- `GlobalWARPOverrideGetResponse object { disconnect, timestamp }`
-
-  - `disconnect: optional boolean`
-
-    Disconnects all devices on the account using Global WARP override.
-
-  - `timestamp: optional string`
-
-    When the Global WARP override state was updated.
-
-### Global WARP Override Create Response
-
-- `GlobalWARPOverrideCreateResponse object { disconnect, timestamp }`
-
-  - `disconnect: optional boolean`
-
-    Disconnects all devices on the account using Global WARP override.
-
-  - `timestamp: optional string`
-
-    When the Global WARP override state was updated.
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(model)%20global_warp_override_create_response%20%3E%20(schema)>)

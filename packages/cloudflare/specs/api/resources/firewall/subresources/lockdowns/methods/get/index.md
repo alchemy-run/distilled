@@ -1,113 +1,353 @@
-## Get a Zone Lockdown rule
+---
+title: Get a Zone Lockdown rule
+---
 
-**get** `/zones/{zone_id}/firewall/lockdowns/{lock_downs_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[Lockdowns](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get a Zone Lockdown rule
+
+GET/zones/{zone\_id}/firewall/lockdowns/{lock\_downs\_id}
 
 Fetches the details of a Zone Lockdown rule.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>API Token</summary>
 
-- `lock_downs_id: string`
 
-  The unique identifier of the Zone Lockdown rule.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: Lockdown`
+##### Accepted Permissions (at least one required)
 
-  - `id: string`
+`Firewall Services Write``Firewall Services Read`
 
-    The unique identifier of the Zone Lockdown rule.
+##### P ath ParametersExpand Collapse
 
-  - `configurations: Configuration`
+zone\_id: string
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+Defines an identifier.
 
-    - `LockdownIPConfiguration object { target, value }`
+maxLength32
 
-      - `target: optional "ip"`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+lock\_downs\_id: string
 
-        - `"ip"`
+The unique identifier of the Zone Lockdown rule.
 
-      - `value: optional string`
+maxLength32
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20lock_downs_id%20%3E%20(schema)>)
 
-    - `LockdownCIDRConfiguration object { target, value }`
+##### ReturnsExpand Collapse
 
-      - `target: optional "ip_range"`
+<details>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+<summary>
 
-        - `"ip_range"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `value: optional string`
+</summary>
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+code: number
 
-  - `created_on: string`
+minimum1000
 
-    The timestamp of when the rule was created.
+<a href="#">Link to this property</a>
 
-  - `description: string`
+message: string
 
-    An informative summary of the rule.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+documentation\_url: optional string
 
-    The timestamp of when the rule was last modified.
+<a href="#">Link to this property</a>
 
-  - `paused: boolean`
+<details>
 
-    When true, indicates that the rule is currently paused.
+<summary>
 
-  - `urls: array of LockdownURL`
+source: optional object {pointer }
 
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+</summary>
 
-- `success: true`
+pointer: optional string
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown%20%3E%20(schema)">Lockdown</a> { id, configurations, created\_on, 4 more }
+
+</summary>
+
+id: string
+
+The unique identifier of the Zone Lockdown rule.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+configurations: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20configuration%20%3E%20(schema)">Configuration</a> { , }
+
+A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of <code>ip</code> or <code>ip_range</code> configurations.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+LockdownIPConfiguration object {target, value }
+
+</summary>
+
+target: optional "ip"
+
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the Zone Lockdown rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The IP address to match. This address will be compared to the IP address of incoming requests.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+LockdownCIDRConfiguration object {target, value }
+
+</summary>
+
+target: optional "ip\_range"
+
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the Zone Lockdown rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The timestamp of when the rule was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: string
+
+An informative summary of the rule.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The timestamp of when the rule was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+paused: boolean
+
+When true, indicates that the rule is currently paused.
+
+<a href="#">Link to this property</a>
+
+urls: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown_url%20%3E%20(schema)">LockdownURL</a>
+
+The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get a Zone Lockdown rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns/$LOCK_DOWNS_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "372e67954025e0ba6aaa6d586b9e0b59",
+    "configurations": [
+      {
+        "target": "ip",
+        "value": "198.51.100.4"
+      }
+    ],
+    "created_on": "2014-01-01T05:20:00.12345Z",
+    "description": "Restrict access to these endpoints to requests from a known IP address",
+    "modified_on": "2014-01-01T05:20:00.12345Z",
+    "paused": false,
+    "urls": [
+      "api.mysite.com/some/endpoint*"
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

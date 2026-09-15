@@ -1,20907 +1,7453 @@
-# Devices
+---
+title: Devices
+---
 
-## List devices (deprecated)
+[Skip to content](#_top)
 
-**get** `/accounts/{account_id}/devices`
+[API Reference](https://developers.cloudflare.com/api)
 
-List WARP devices. Not supported when [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/) is enabled for the account.
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-**Deprecated**: please use one of the following endpoints instead:
+Copy Markdown
 
-- GET /accounts/{account_id}/devices/physical-devices
-- GET /accounts/{account_id}/devices/registrations
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Path Parameters
+---
 
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of Device`
-
-  - `id: optional string`
-
-    Registration ID. Equal to Device ID except for accounts which enabled [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/).
-
-  - `created: optional string`
-
-    When the device was created.
-
-  - `deleted: optional boolean`
-
-    True if the device was deleted.
-
-  - `device_type: optional "windows" or "mac" or "linux" or 3 more`
-
-    - `"windows"`
-
-    - `"mac"`
-
-    - `"linux"`
-
-    - `"android"`
-
-    - `"ios"`
-
-    - `"chromeos"`
-
-  - `ip: optional string`
-
-    IPv4 or IPv6 address.
-
-  - `key: optional string`
-
-    The device's public key.
-
-  - `last_seen: optional string`
-
-    When the device last connected to Cloudflare services.
-
-  - `mac_address: optional string`
-
-    The device mac address.
-
-  - `manufacturer: optional string`
-
-    The device manufacturer name.
-
-  - `model: optional string`
-
-    The device model name.
-
-  - `name: optional string`
-
-    The device name.
-
-  - `os_distro_name: optional string`
-
-    The Linux distro name.
-
-  - `os_distro_revision: optional string`
-
-    The Linux distro revision.
-
-  - `os_version: optional string`
-
-    The operating system version.
-
-  - `os_version_extra: optional string`
-
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-  - `revoked_at: optional string`
-
-    When the device was revoked.
-
-  - `serial_number: optional string`
-
-    The device serial number.
-
-  - `updated: optional string`
-
-    When the device was updated.
-
-  - `user: optional object { id, email, name }`
-
-    - `id: optional string`
-
-      UUID.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `name: optional string`
-
-      The enrolled device user's name.
-
-  - `version: optional string`
-
-    The WARP client version.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created": "2017-06-14T00:00:00Z",
-      "deleted": true,
-      "device_type": "windows",
-      "ip": "1.1.1.1",
-      "key": "yek0SUYoOQ10vMGsIYAevozXUQpQtNFJFfFGqER/BGc=",
-      "last_seen": "2017-06-14T00:00:00Z",
-      "mac_address": "00-00-5E-00-53-00",
-      "manufacturer": "My phone corp",
-      "model": "MyPhone(pro-X)",
-      "name": "My mobile device",
-      "os_distro_name": "ubuntu",
-      "os_distro_revision": "1.0.0",
-      "os_version": "10.0.0",
-      "os_version_extra": "(a) or 6889 or Ubuntu 24.04",
-      "revoked_at": "2017-06-14T00:00:00Z",
-      "serial_number": "EXAMPLEHMD6R",
-      "updated": "2017-06-14T00:00:00Z",
-      "user": {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "email": "user@example.com",
-        "name": "John Appleseed"
-      },
-      "version": "1.0.0"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get device (deprecated)
-
-**get** `/accounts/{account_id}/devices/{device_id}`
-
-Fetches a single WARP device. Not supported when [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/) is enabled for the account.
-
-**Deprecated**: please use one of the following endpoints instead:
-
-- GET /accounts/{account_id}/devices/physical-devices/{device_id}
-- GET /accounts/{account_id}/devices/registrations/{registration_id}
-
-### Path Parameters
-
-- `account_id: string`
-
-- `device_id: string`
-
-  Registration ID. Equal to Device ID except for accounts which enabled [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/).
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, account, created, 16 more }`
-
-  - `id: optional string`
-
-    Registration ID. Equal to Device ID except for accounts which enabled [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/).
-
-  - `account: optional object { id, account_type, name }`
-
-    - `id: optional string`
-
-    - `account_type: optional string`
-
-    - `name: optional string`
-
-      The name of the enrolled account.
-
-  - `created: optional string`
-
-    When the device was created.
-
-  - `deleted: optional boolean`
-
-    True if the device was deleted.
-
-  - `device_type: optional string`
-
-  - `gateway_device_id: optional string`
-
-  - `ip: optional string`
-
-    IPv4 or IPv6 address.
-
-  - `key: optional string`
-
-    The device's public key.
-
-  - `key_type: optional string`
-
-    Type of the key.
-
-  - `last_seen: optional string`
-
-    When the device last connected to Cloudflare services.
-
-  - `mac_address: optional string`
-
-    The device mac address.
-
-  - `model: optional string`
-
-    The device model name.
-
-  - `name: optional string`
-
-    The device name.
-
-  - `os_version: optional string`
-
-    The operating system version.
-
-  - `serial_number: optional string`
-
-    The device serial number.
-
-  - `tunnel_type: optional string`
-
-    Type of the tunnel connection used.
-
-  - `updated: optional string`
-
-    When the device was updated.
-
-  - `user: optional object { id, email, name }`
-
-    - `id: optional string`
-
-      UUID.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `name: optional string`
-
-      The enrolled device user's name.
-
-  - `version: optional string`
-
-    The WARP client version.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/$DEVICE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "account": {
-      "id": "id",
-      "account_type": "account_type",
-      "name": "Company"
-    },
-    "created": "2017-06-14T00:00:00Z",
-    "deleted": true,
-    "device_type": "windows",
-    "gateway_device_id": "PD33E90AXfafe14643cbbbc-4a0ed4fc8415Q",
-    "ip": "1.1.1.1",
-    "key": "yek0SUYoOQ10vMGsIYAevozXUQpQtNFJFfFGqER/BGc=",
-    "key_type": "curve25519",
-    "last_seen": "2017-06-14T00:00:00Z",
-    "mac_address": "00-00-5E-00-53-00",
-    "model": "MyPhone(pro-X)",
-    "name": "My mobile device",
-    "os_version": "10.0.0",
-    "serial_number": "EXAMPLEHMD6R",
-    "tunnel_type": "masque",
-    "updated": "2017-06-14T00:00:00Z",
-    "user": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "email": "user@example.com",
-      "name": "John Appleseed"
-    },
-    "version": "1.0.0"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Device
-
-- `Device object { id, created, deleted, 17 more }`
-
-  - `id: optional string`
-
-    Registration ID. Equal to Device ID except for accounts which enabled [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/).
-
-  - `created: optional string`
-
-    When the device was created.
-
-  - `deleted: optional boolean`
-
-    True if the device was deleted.
-
-  - `device_type: optional "windows" or "mac" or "linux" or 3 more`
-
-    - `"windows"`
-
-    - `"mac"`
-
-    - `"linux"`
-
-    - `"android"`
-
-    - `"ios"`
-
-    - `"chromeos"`
-
-  - `ip: optional string`
-
-    IPv4 or IPv6 address.
-
-  - `key: optional string`
-
-    The device's public key.
-
-  - `last_seen: optional string`
-
-    When the device last connected to Cloudflare services.
-
-  - `mac_address: optional string`
-
-    The device mac address.
-
-  - `manufacturer: optional string`
-
-    The device manufacturer name.
-
-  - `model: optional string`
-
-    The device model name.
-
-  - `name: optional string`
-
-    The device name.
-
-  - `os_distro_name: optional string`
-
-    The Linux distro name.
-
-  - `os_distro_revision: optional string`
-
-    The Linux distro revision.
-
-  - `os_version: optional string`
-
-    The operating system version.
-
-  - `os_version_extra: optional string`
-
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-  - `revoked_at: optional string`
-
-    When the device was revoked.
-
-  - `serial_number: optional string`
-
-    The device serial number.
-
-  - `updated: optional string`
-
-    When the device was updated.
-
-  - `user: optional object { id, email, name }`
-
-    - `id: optional string`
-
-      UUID.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `name: optional string`
-
-      The enrolled device user's name.
-
-  - `version: optional string`
-
-    The WARP client version.
-
-### Device Get Response
-
-- `DeviceGetResponse object { id, account, created, 16 more }`
-
-  - `id: optional string`
-
-    Registration ID. Equal to Device ID except for accounts which enabled [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/).
-
-  - `account: optional object { id, account_type, name }`
-
-    - `id: optional string`
-
-    - `account_type: optional string`
-
-    - `name: optional string`
-
-      The name of the enrolled account.
-
-  - `created: optional string`
-
-    When the device was created.
-
-  - `deleted: optional boolean`
-
-    True if the device was deleted.
-
-  - `device_type: optional string`
-
-  - `gateway_device_id: optional string`
-
-  - `ip: optional string`
-
-    IPv4 or IPv6 address.
-
-  - `key: optional string`
-
-    The device's public key.
-
-  - `key_type: optional string`
-
-    Type of the key.
-
-  - `last_seen: optional string`
-
-    When the device last connected to Cloudflare services.
-
-  - `mac_address: optional string`
-
-    The device mac address.
-
-  - `model: optional string`
-
-    The device model name.
-
-  - `name: optional string`
-
-    The device name.
-
-  - `os_version: optional string`
-
-    The operating system version.
-
-  - `serial_number: optional string`
-
-    The device serial number.
-
-  - `tunnel_type: optional string`
-
-    Type of the tunnel connection used.
-
-  - `updated: optional string`
-
-    When the device was updated.
-
-  - `user: optional object { id, email, name }`
-
-    - `id: optional string`
-
-      UUID.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `name: optional string`
-
-      The enrolled device user's name.
-
-  - `version: optional string`
-
-    The WARP client version.
+**Copy Markdown****View as Markdown**
 
 # Devices
 
-## List devices
+##### [List devices (deprecated)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/methods/list)
 
-**get** `/accounts/{account_id}/devices/physical-devices`
+Deprecated
 
-Lists WARP devices.
+GET/accounts/{account\_id}/devices
 
-### Path Parameters
+##### [Get device (deprecated)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/methods/get)
 
-- `account_id: string`
+Deprecated
 
-### Query Parameters
+GET/accounts/{account\_id}/devices/{device\_id}
 
-- `id: optional array of string`
+##### ModelsExpand Collapse
 
-  Filter by a one or more device IDs.
+<details>
 
-- `active_registrations: optional "include" or "only" or "exclude"`
+<summary>
 
-  Include or exclude devices with active registrations. The default is "only" - return only devices with active registrations.
+Device object {id, created, deleted, 17 more }
 
-  - `"include"`
+</summary>
 
-  - `"only"`
+id: optional string
 
-  - `"exclude"`
+Registration ID. Equal to Device ID except for accounts which enabled <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/">multi-user mode</a>.
 
-- `cursor: optional string`
+maxLength36
 
-  Opaque token indicating the starting position when requesting the next set of records. A cursor value can be obtained from the result_info.cursor field in the response.
+<a href="#">Link to this property</a>
 
-- `include: optional string`
+created: optional string
 
-  Comma-separated list of additional information that should be included in the device response. Supported values are: "last_seen_registration.policy".
+When the device was created.
 
-- `last_seen_user: optional object { email }`
+formatdate-time
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    Filter by the last seen user's email.
+deleted: optional boolean
 
-- `per_page: optional number`
+True if the device was deleted.
 
-  The maximum number of devices to return in a single response.
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+<details>
 
-  Search by device details.
+<summary>
 
-- `seen_after: optional string`
+device\_type: optional "windows"or "mac"or "linux"or 3 more
 
-  Filter by the last_seen timestamp - returns only devices last seen after this timestamp.
+</summary>
 
-- `seen_before: optional string`
+One of the following:
 
-  Filter by the last_seen timestamp - returns only devices last seen before this timestamp.
+"windows"
 
-- `sort_by: optional "name" or "id" or "client_version" or 4 more`
+<a href="#">Link to this property</a>
 
-  The device field to order results by.
+"mac"
 
-  - `"name"`
+<a href="#">Link to this property</a>
 
-  - `"id"`
+"linux"
 
-  - `"client_version"`
+<a href="#">Link to this property</a>
 
-  - `"last_seen_user.email"`
+"android"
 
-  - `"last_seen_at"`
+<a href="#">Link to this property</a>
 
-  - `"active_registrations"`
+"ios"
 
-  - `"created_at"`
+<a href="#">Link to this property</a>
 
-- `sort_order: optional "asc" or "desc"`
+"chromeos"
 
-  Sort direction.
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+</details>
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-### Returns
+ip: optional string
 
-- `errors: array of object { code, message }`
+IPv4 or IPv6 address.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+key: optional string
 
-- `messages: array of object { code, message }`
+The device’s public key.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+last\_seen: optional string
 
-- `result: array of object { id, active_registrations, created_at, 16 more }`
+When the device last connected to Cloudflare services.
 
-  - `id: string`
+formatdate-time
 
-    The unique ID of the device.
+<a href="#">Link to this property</a>
 
-  - `active_registrations: number`
+mac\_address: optional string
 
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
+The device mac address.
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the device was created.
+manufacturer: optional string
 
-  - `last_seen_at: string`
+The device manufacturer name.
 
-    The RFC3339 timestamp when the device was last seen.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+model: optional string
 
-    The name of the device.
+The device model name.
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the device was last updated.
+name: optional string
 
-  - `client_version: optional string`
+The device name.
 
-    Version of the WARP client.
+<a href="#">Link to this property</a>
 
-  - `deleted_at: optional string`
+os\_distro\_name: optional string
 
-    The RFC3339 timestamp when the device was deleted.
+The Linux distro name.
 
-  - `device_type: optional string`
+<a href="#">Link to this property</a>
 
-    The device operating system.
+os\_distro\_revision: optional string
 
-  - `hardware_id: optional string`
+The Linux distro revision.
 
-    A string that uniquely identifies the hardware or virtual machine (VM).
+<a href="#">Link to this property</a>
 
-  - `last_seen_registration: optional object { policy }`
+os\_version: optional string
 
-    The last seen registration for the device.
+The operating system version.
 
-    - `policy: optional object { id, default, deleted, 2 more }`
+<a href="#">Link to this property</a>
 
-      A summary of the device profile evaluated for the registration.
+os\_version\_extra: optional string
 
-      - `id: string`
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
 
-        The ID of the device settings profile.
+<a href="#">Link to this property</a>
 
-      - `default: boolean`
+revoked\_at: optional string
 
-        Whether the device settings profile is the default profile for the account.
+When the device was revoked.
 
-      - `deleted: boolean`
+formatdate-time
 
-        Whether the device settings profile was deleted.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+serial\_number: optional string
 
-        The name of the device settings profile.
+The device serial number.
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
+updated: optional string
 
-  - `last_seen_user: optional object { id, email, name }`
+When the device was updated.
 
-    The last user to use the WARP device.
+formatdate-time
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+<details>
 
-    - `email: optional string`
+<summary>
 
-      The contact email address of the user.
+user: optional object {id, email, name }
 
-    - `name: optional string`
+</summary>
 
-      The enrolled device user's name.
+id: optional string
 
-  - `mac_address: optional string`
+UUID.
 
-    The device MAC address.
+maxLength36
 
-  - `manufacturer: optional string`
+<a href="#">Link to this property</a>
 
-    The device manufacturer.
+email: optional string
 
-  - `model: optional string`
+The contact email address of the user.
 
-    The model name of the device.
+maxLength90
 
-  - `os_version: optional string`
+<a href="#">Link to this property</a>
 
-    The device operating system version number.
+name: optional string
 
-  - `os_version_extra: optional string`
+The enrolled device user’s name.
 
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+<a href="#">Link to this property</a>
 
-  - `public_ip: optional string`
+</details>
 
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
+<a href="#">Link to this property</a>
 
-  - `serial_number: optional string`
+version: optional string
 
-    The device serial number.
+The WARP client version.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-- `result_info: optional object { count, cursor, per_page, total_count }`
+[Link to this property](#)%20zero_trust.devices%20%3E%20(model)%20device%20%3E%20(schema)>)
 
-  V4 public API Pagination/Cursor info.
+<details>
 
-  - `count: number`
+<summary>
 
-    Number of records in the response.
+DeviceGetResponse object {id, account, created, 16 more }
 
-  - `cursor: string`
+</summary>
 
-    Opaque token to request the next set of records.
+id: optional string
 
-  - `per_page: number`
+Registration ID. Equal to Device ID except for accounts which enabled <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/">multi-user mode</a>.
 
-    The limit for the number of records in the response.
+maxLength36
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of records available.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+account: optional object {id, account\_type, name }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "fc9ab6ab-3b94-4319-9941-459462b3d73e",
-      "active_registrations": 1,
-      "created_at": "2025-02-14T13:17:00Z",
-      "last_seen_at": "2025-02-14T13:17:00Z",
-      "name": "My Device",
-      "updated_at": "2025-02-14T13:17:00Z",
-      "client_version": "1.0.0",
-      "deleted_at": "2025-02-14T13:17:00Z",
-      "device_type": "linux",
-      "hardware_id": "hardware_id",
-      "last_seen_registration": {
-        "policy": {
-          "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-          "default": true,
-          "deleted": true,
-          "name": "name",
-          "updated_at": "2025-02-14T13:17:00Z"
-        }
-      },
-      "last_seen_user": {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "email": "user@example.com",
-        "name": "John Appleseed"
-      },
-      "mac_address": "f5:01:73:cf:12:23",
-      "manufacturer": "ACME",
-      "model": "Mark VII",
-      "os_version": "os_version",
-      "os_version_extra": "os_version_extra",
-      "public_ip": "1.1.1.1",
-      "serial_number": "ABS765ASD8A"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  }
-}
-```
+Deprecatedid: optional string
 
-## Get device
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/devices/physical-devices/{device_id}`
+Deprecatedaccount\_type: optional string
 
-Fetches a single WARP device.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+name: optional string
 
-- `account_id: string`
+The name of the enrolled account.
 
-- `device_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `include: optional string`
+<a href="#">Link to this property</a>
 
-  Comma-separated list of additional information that should be included in the device response. Supported values are: "last_seen_registration.policy".
+created: optional string
 
-### Returns
+When the device was created.
 
-- `errors: array of object { code, message }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+deleted: optional boolean
 
-- `messages: array of object { code, message }`
+True if the device was deleted.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+device\_type: optional string
 
-- `result: object { id, active_registrations, created_at, 16 more }`
+<a href="#">Link to this property</a>
 
-  A WARP Device.
+Deprecatedgateway\_device\_id: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the device.
+ip: optional string
 
-  - `active_registrations: number`
+IPv4 or IPv6 address.
 
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+key: optional string
 
-    The RFC3339 timestamp when the device was created.
+The device’s public key.
 
-  - `last_seen_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the device was last seen.
+key\_type: optional string
 
-  - `name: string`
+Type of the key.
 
-    The name of the device.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+last\_seen: optional string
 
-    The RFC3339 timestamp when the device was last updated.
+When the device last connected to Cloudflare services.
 
-  - `client_version: optional string`
+formatdate-time
 
-    Version of the WARP client.
+<a href="#">Link to this property</a>
 
-  - `deleted_at: optional string`
+mac\_address: optional string
 
-    The RFC3339 timestamp when the device was deleted.
+The device mac address.
 
-  - `device_type: optional string`
+<a href="#">Link to this property</a>
 
-    The device operating system.
+model: optional string
 
-  - `hardware_id: optional string`
+The device model name.
 
-    A string that uniquely identifies the hardware or virtual machine (VM).
+<a href="#">Link to this property</a>
 
-  - `last_seen_registration: optional object { policy }`
+name: optional string
 
-    The last seen registration for the device.
+The device name.
 
-    - `policy: optional object { id, default, deleted, 2 more }`
+<a href="#">Link to this property</a>
 
-      A summary of the device profile evaluated for the registration.
+os\_version: optional string
 
-      - `id: string`
+The operating system version.
 
-        The ID of the device settings profile.
+<a href="#">Link to this property</a>
 
-      - `default: boolean`
+serial\_number: optional string
 
-        Whether the device settings profile is the default profile for the account.
+The device serial number.
 
-      - `deleted: boolean`
+<a href="#">Link to this property</a>
 
-        Whether the device settings profile was deleted.
+tunnel\_type: optional string
 
-      - `name: string`
+Type of the tunnel connection used.
 
-        The name of the device settings profile.
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+updated: optional string
 
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
+When the device was updated.
 
-  - `last_seen_user: optional object { id, email, name }`
+formatdate-time
 
-    The last user to use the WARP device.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+<details>
 
-      UUID.
+<summary>
 
-    - `email: optional string`
+user: optional object {id, email, name }
 
-      The contact email address of the user.
+</summary>
 
-    - `name: optional string`
+id: optional string
 
-      The enrolled device user's name.
+UUID.
 
-  - `mac_address: optional string`
+maxLength36
 
-    The device MAC address.
+<a href="#">Link to this property</a>
 
-  - `manufacturer: optional string`
+email: optional string
 
-    The device manufacturer.
+The contact email address of the user.
 
-  - `model: optional string`
+maxLength90
 
-    The model name of the device.
+<a href="#">Link to this property</a>
 
-  - `os_version: optional string`
+name: optional string
 
-    The device operating system version number.
+The enrolled device user’s name.
 
-  - `os_version_extra: optional string`
+<a href="#">Link to this property</a>
 
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+</details>
 
-  - `public_ip: optional string`
+<a href="#">Link to this property</a>
 
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
+version: optional string
 
-  - `serial_number: optional string`
+The WARP client version.
 
-    The device serial number.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20zero_trust.devices%20%3E%20(model)%20device_get_response%20%3E%20(schema)>)
 
-### Example
+#### DevicesDevices
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices/$DEVICE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [List devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices/methods/list)
 
-#### Response
+GET/accounts/{account\_id}/devices/physical-devices
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "fc9ab6ab-3b94-4319-9941-459462b3d73e",
-    "active_registrations": 1,
-    "created_at": "2025-02-14T13:17:00Z",
-    "last_seen_at": "2025-02-14T13:17:00Z",
-    "name": "My Device",
-    "updated_at": "2025-02-14T13:17:00Z",
-    "client_version": "1.0.0",
-    "deleted_at": "2025-02-14T13:17:00Z",
-    "device_type": "linux",
-    "hardware_id": "hardware_id",
-    "last_seen_registration": {
-      "policy": {
-        "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-        "default": true,
-        "deleted": true,
-        "name": "name",
-        "updated_at": "2025-02-14T13:17:00Z"
-      }
-    },
-    "last_seen_user": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "email": "user@example.com",
-      "name": "John Appleseed"
-    },
-    "mac_address": "f5:01:73:cf:12:23",
-    "manufacturer": "ACME",
-    "model": "Mark VII",
-    "os_version": "os_version",
-    "os_version_extra": "os_version_extra",
-    "public_ip": "1.1.1.1",
-    "serial_number": "ABS765ASD8A"
-  },
-  "success": true
-}
-```
+##### [Get device](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices/methods/get)
 
-## Delete device
+GET/accounts/{account\_id}/devices/physical-devices/{device\_id}
 
-**delete** `/accounts/{account_id}/devices/physical-devices/{device_id}`
+##### [Delete device](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices/methods/delete)
 
-Deletes a WARP device.
+DELETE/accounts/{account\_id}/devices/physical-devices/{device\_id}
 
-### Path Parameters
+##### [Revoke device registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices/methods/revoke)
 
-- `account_id: string`
+POST/accounts/{account\_id}/devices/physical-devices/{device\_id}/revoke
 
-- `device_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message }`
+<summary>
 
-  - `code: number`
+DeviceListResponse object {id, active\_registrations, created\_at, 16 more }
 
-  - `message: string`
+A WARP Device.
 
-- `messages: array of object { code, message }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+The unique ID of the device.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+active\_registrations: number
 
-- `result: optional unknown`
+The number of active registrations for the device. Active registrations are those which haven’t been revoked or deleted.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices/$DEVICE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+created\_at: string
 
-#### Response
+The RFC3339 timestamp when the device was created.
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+<a href="#">Link to this property</a>
 
-## Revoke device registrations
+last\_seen\_at: string
 
-**post** `/accounts/{account_id}/devices/physical-devices/{device_id}/revoke`
+The RFC3339 timestamp when the device was last seen.
 
-Revokes all WARP registrations associated with the specified device.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+name: string
 
-- `account_id: string`
+The name of the device.
 
-- `device_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+updated\_at: string
 
-- `errors: array of object { code, message }`
+The RFC3339 timestamp when the device was last updated.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+client\_version: optional string
 
-- `messages: array of object { code, message }`
+Version of the WARP client.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+deleted\_at: optional string
 
-- `success: boolean`
+The RFC3339 timestamp when the device was deleted.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result: optional unknown`
+device\_type: optional string
 
-### Example
+The device operating system.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices/$DEVICE_ID/revoke \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+hardware\_id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+A string that uniquely identifies the hardware or virtual machine (VM).
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Device List Response
+<details>
 
-- `DeviceListResponse object { id, active_registrations, created_at, 16 more }`
+<summary>
 
-  A WARP Device.
+last\_seen\_registration: optional object {policy }
 
-  - `id: string`
+The last seen registration for the device.
 
-    The unique ID of the device.
+</summary>
 
-  - `active_registrations: number`
+<details>
 
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
+<summary>
 
-  - `created_at: string`
+policy: optional object {id, default, deleted, 2 more }
 
-    The RFC3339 timestamp when the device was created.
+A summary of the device profile evaluated for the registration.
 
-  - `last_seen_at: string`
+</summary>
 
-    The RFC3339 timestamp when the device was last seen.
+id: string
 
-  - `name: string`
+The ID of the device settings profile.
 
-    The name of the device.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+default: boolean
 
-    The RFC3339 timestamp when the device was last updated.
+Whether the device settings profile is the default profile for the account.
 
-  - `client_version: optional string`
+<a href="#">Link to this property</a>
 
-    Version of the WARP client.
+deleted: boolean
 
-  - `deleted_at: optional string`
+Whether the device settings profile was deleted.
 
-    The RFC3339 timestamp when the device was deleted.
+<a href="#">Link to this property</a>
 
-  - `device_type: optional string`
+name: string
 
-    The device operating system.
+The name of the device settings profile.
 
-  - `hardware_id: optional string`
+<a href="#">Link to this property</a>
 
-    A string that uniquely identifies the hardware or virtual machine (VM).
+updated\_at: string
 
-  - `last_seen_registration: optional object { policy }`
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
 
-    The last seen registration for the device.
+<a href="#">Link to this property</a>
 
-    - `policy: optional object { id, default, deleted, 2 more }`
+</details>
 
-      A summary of the device profile evaluated for the registration.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-        The ID of the device settings profile.
+<a href="#">Link to this property</a>
 
-      - `default: boolean`
+<details>
 
-        Whether the device settings profile is the default profile for the account.
+<summary>
 
-      - `deleted: boolean`
+last\_seen\_user: optional object {id, email, name }
 
-        Whether the device settings profile was deleted.
+The last user to use the WARP device.
 
-      - `name: string`
+</summary>
 
-        The name of the device settings profile.
+id: optional string
 
-      - `updated_at: string`
+UUID.
 
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
+maxLength36
 
-  - `last_seen_user: optional object { id, email, name }`
+<a href="#">Link to this property</a>
 
-    The last user to use the WARP device.
+email: optional string
 
-    - `id: optional string`
+The contact email address of the user.
 
-      UUID.
+maxLength90
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+name: optional string
 
-    - `name: optional string`
+The enrolled device user’s name.
 
-      The enrolled device user's name.
+<a href="#">Link to this property</a>
 
-  - `mac_address: optional string`
+</details>
 
-    The device MAC address.
+<a href="#">Link to this property</a>
 
-  - `manufacturer: optional string`
+mac\_address: optional string
 
-    The device manufacturer.
+The device MAC address.
 
-  - `model: optional string`
+<a href="#">Link to this property</a>
 
-    The model name of the device.
+manufacturer: optional string
 
-  - `os_version: optional string`
+The device manufacturer.
 
-    The device operating system version number.
+<a href="#">Link to this property</a>
 
-  - `os_version_extra: optional string`
+model: optional string
 
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+The model name of the device.
 
-  - `public_ip: optional string`
+<a href="#">Link to this property</a>
 
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
+os\_version: optional string
 
-  - `serial_number: optional string`
+The device operating system version number.
 
-    The device serial number.
+<a href="#">Link to this property</a>
 
-### Device Get Response
+os\_version\_extra: optional string
 
-- `DeviceGetResponse object { id, active_registrations, created_at, 16 more }`
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
 
-  A WARP Device.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+Deprecatedpublic\_ip: optional string
 
-    The unique ID of the device.
+**Deprecated**: IP information is provided by DEX - see <a href="https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/">https://developers.cloudflare.com/api/resources/zero\_trust/subresources/dex/subresources/fleet\_status/subresources/devices/methods/list/</a>
 
-  - `active_registrations: number`
+<a href="#">Link to this property</a>
 
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
+serial\_number: optional string
 
-  - `created_at: string`
+The device serial number.
 
-    The RFC3339 timestamp when the device was created.
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+</details>
 
-    The RFC3339 timestamp when the device was last seen.
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(model)%20device_list_response%20%3E%20(schema)>)
 
-  - `name: string`
+<details>
 
-    The name of the device.
+<summary>
 
-  - `updated_at: string`
+DeviceGetResponse object {id, active\_registrations, created\_at, 16 more }
 
-    The RFC3339 timestamp when the device was last updated.
+A WARP Device.
 
-  - `client_version: optional string`
+</summary>
 
-    Version of the WARP client.
+id: string
 
-  - `deleted_at: optional string`
+The unique ID of the device.
 
-    The RFC3339 timestamp when the device was deleted.
+<a href="#">Link to this property</a>
 
-  - `device_type: optional string`
+active\_registrations: number
 
-    The device operating system.
+The number of active registrations for the device. Active registrations are those which haven’t been revoked or deleted.
 
-  - `hardware_id: optional string`
+<a href="#">Link to this property</a>
 
-    A string that uniquely identifies the hardware or virtual machine (VM).
+created\_at: string
 
-  - `last_seen_registration: optional object { policy }`
+The RFC3339 timestamp when the device was created.
 
-    The last seen registration for the device.
+<a href="#">Link to this property</a>
 
-    - `policy: optional object { id, default, deleted, 2 more }`
+last\_seen\_at: string
 
-      A summary of the device profile evaluated for the registration.
+The RFC3339 timestamp when the device was last seen.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        The ID of the device settings profile.
+name: string
 
-      - `default: boolean`
+The name of the device.
 
-        Whether the device settings profile is the default profile for the account.
+<a href="#">Link to this property</a>
 
-      - `deleted: boolean`
+updated\_at: string
 
-        Whether the device settings profile was deleted.
+The RFC3339 timestamp when the device was last updated.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        The name of the device settings profile.
+client\_version: optional string
 
-      - `updated_at: string`
+Version of the WARP client.
 
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
+<a href="#">Link to this property</a>
 
-  - `last_seen_user: optional object { id, email, name }`
+deleted\_at: optional string
 
-    The last user to use the WARP device.
+The RFC3339 timestamp when the device was deleted.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+device\_type: optional string
 
-    - `email: optional string`
+The device operating system.
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+hardware\_id: optional string
 
-      The enrolled device user's name.
+A string that uniquely identifies the hardware or virtual machine (VM).
 
-  - `mac_address: optional string`
+<a href="#">Link to this property</a>
 
-    The device MAC address.
+<details>
 
-  - `manufacturer: optional string`
+<summary>
 
-    The device manufacturer.
+last\_seen\_registration: optional object {policy }
 
-  - `model: optional string`
+The last seen registration for the device.
 
-    The model name of the device.
+</summary>
 
-  - `os_version: optional string`
+<details>
 
-    The device operating system version number.
+<summary>
 
-  - `os_version_extra: optional string`
+policy: optional object {id, default, deleted, 2 more }
 
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+A summary of the device profile evaluated for the registration.
 
-  - `public_ip: optional string`
+</summary>
 
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
+id: string
 
-  - `serial_number: optional string`
+The ID of the device settings profile.
 
-    The device serial number.
+<a href="#">Link to this property</a>
 
-### Device Delete Response
+default: boolean
 
-- `DeviceDeleteResponse = unknown`
+Whether the device settings profile is the default profile for the account.
 
-### Device Revoke Response
+<a href="#">Link to this property</a>
 
-- `DeviceRevokeResponse = unknown`
+deleted: boolean
 
-# Resilience
+Whether the device settings profile was deleted.
 
-# Global WARP Override
+<a href="#">Link to this property</a>
 
-## Retrieve Global WARP override state
+name: string
 
-**get** `/accounts/{account_id}/devices/resilience/disconnect`
+The name of the device settings profile.
 
-Fetch the Global WARP override state.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+updated\_at: string
 
-- `account_id: string`
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+last\_seen\_user: optional object {id, email, name }
 
-  - `code: number`
+The last user to use the WARP device.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+UUID.
 
-- `result: object { disconnect, timestamp }`
+maxLength36
 
-  - `disconnect: optional boolean`
+<a href="#">Link to this property</a>
 
-    Disconnects all devices on the account using Global WARP override.
+email: optional string
 
-  - `timestamp: optional string`
+The contact email address of the user.
 
-    When the Global WARP override state was updated.
+maxLength90
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+name: optional string
 
-  - `true`
+The enrolled device user’s name.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/resilience/disconnect \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disconnect": false,
-    "timestamp": "1970-01-01T00:00:00.000Z"
-  },
-  "success": true
-}
-```
+mac\_address: optional string
 
-## Set Global WARP override state
+The device MAC address.
 
-**post** `/accounts/{account_id}/devices/resilience/disconnect`
+<a href="#">Link to this property</a>
 
-Sets the Global WARP override state.
+manufacturer: optional string
 
-### Path Parameters
+The device manufacturer.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+model: optional string
 
-- `disconnect: boolean`
+The model name of the device.
 
-  Disconnects all devices on the account using Global WARP override.
+<a href="#">Link to this property</a>
 
-- `justification: optional string`
+os\_version: optional string
 
-  Reasoning for setting the Global WARP override state. This will be surfaced in the audit log.
+The device operating system version number.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+os\_version\_extra: optional string
 
-  - `code: number`
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedpublic\_ip: optional string
 
-  - `source: optional object { pointer }`
+**Deprecated**: IP information is provided by DEX - see <a href="https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/">https://developers.cloudflare.com/api/resources/zero\_trust/subresources/dex/subresources/fleet\_status/subresources/devices/methods/list/</a>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+serial\_number: optional string
 
-  - `code: number`
+The device serial number.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(model)%20device_get_response%20%3E%20(schema)>)
 
-- `result: object { disconnect, timestamp }`
+DeviceDeleteResponse = unknown
 
-  - `disconnect: optional boolean`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(model)%20device_delete_response%20%3E%20(schema)>)
 
-    Disconnects all devices on the account using Global WARP override.
+DeviceRevokeResponse = unknown
 
-  - `timestamp: optional string`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(model)%20device_revoke_response%20%3E%20(schema)>)
 
-    When the Global WARP override state was updated.
+#### DevicesResilience
 
-- `success: true`
+#### DevicesResilienceGlobal WARP Override
 
-  Whether the API call was successful.
+##### [Retrieve Global WARP override state](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/resilience/subresources/global_warp_override/methods/get)
 
-  - `true`
+GET/accounts/{account\_id}/devices/resilience/disconnect
 
-### Example
+##### [Set Global WARP override state](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/resilience/subresources/global_warp_override/methods/create)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/resilience/disconnect \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "disconnect": false,
-          "justification": "Turning off WARP for testing purposes."
-        }'
-```
+POST/accounts/{account\_id}/devices/resilience/disconnect
 
-#### Response
+##### ModelsExpand Collapse
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disconnect": false,
-    "timestamp": "1970-01-01T00:00:00.000Z"
-  },
-  "success": true
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Global WARP Override Get Response
+GlobalWARPOverrideGetResponse object {disconnect, timestamp }
 
-- `GlobalWARPOverrideGetResponse object { disconnect, timestamp }`
+</summary>
 
-  - `disconnect: optional boolean`
+disconnect: optional boolean
 
-    Disconnects all devices on the account using Global WARP override.
+Disconnects all devices on the account using Global WARP override.
 
-  - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-    When the Global WARP override state was updated.
+timestamp: optional string
 
-### Global WARP Override Create Response
+When the Global WARP override state was updated.
 
-- `GlobalWARPOverrideCreateResponse object { disconnect, timestamp }`
+formatdate-time
 
-  - `disconnect: optional boolean`
+<a href="#">Link to this property</a>
 
-    Disconnects all devices on the account using Global WARP override.
+</details>
 
-  - `timestamp: optional string`
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(model)%20global_warp_override_get_response%20%3E%20(schema)>)
 
-    When the Global WARP override state was updated.
+<details>
 
-# Registrations
+<summary>
 
-## List registrations
+GlobalWARPOverrideCreateResponse object {disconnect, timestamp }
 
-**get** `/accounts/{account_id}/devices/registrations`
+</summary>
 
-Lists WARP registrations.
+disconnect: optional boolean
 
-### Path Parameters
+Disconnects all devices on the account using Global WARP override.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+timestamp: optional string
 
-- `id: optional array of string`
+When the Global WARP override state was updated.
 
-  Filter by registration ID.
+formatdate-time
 
-- `cursor: optional string`
+<a href="#">Link to this property</a>
 
-  Opaque token indicating the starting position when requesting the next set of records. A cursor value can be obtained from the result_info.cursor field in the response.
+</details>
 
-- `device: optional object { id }`
+[Link to this property](#)%20zero_trust.devices.resilience.global_warp_override%20%3E%20(model)%20global_warp_override_create_response%20%3E%20(schema)>)
 
-  - `id: optional string`
+#### DevicesRegistrations
 
-    Filter by WARP device ID.
+##### [List registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/list)
 
-- `include: optional string`
+GET/accounts/{account\_id}/devices/registrations
 
-  Comma-separated list of additional information that should be included in the registration response. Supported values are: "policy".
+##### [Get registration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/get)
 
-- `per_page: optional number`
+GET/accounts/{account\_id}/devices/registrations/{registration\_id}
 
-  The maximum number of devices to return in a single response.
+##### [Delete registration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/delete)
 
-- `search: optional string`
+DELETE/accounts/{account\_id}/devices/registrations/{registration\_id}
 
-  Filter by registration details.
+##### [Delete registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/bulk_delete)
 
-- `seen_after: optional string`
+DELETE/accounts/{account\_id}/devices/registrations
 
-  Filter by the last_seen timestamp - returns only registrations last seen after this timestamp.
+##### [Revoke registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/revoke)
 
-- `seen_before: optional string`
+POST/accounts/{account\_id}/devices/registrations/revoke
 
-  Filter by the last_seen timestamp - returns only registrations last seen before this timestamp.
+##### [Unrevoke registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/registrations/methods/unrevoke)
 
-- `sort_by: optional "id" or "user.name" or "user.email" or 2 more`
+POST/accounts/{account\_id}/devices/registrations/unrevoke
 
-  The registration field to order results by.
+##### ModelsExpand Collapse
 
-  - `"id"`
+<details>
 
-  - `"user.name"`
+<summary>
 
-  - `"user.email"`
+RegistrationListResponse object {id, created\_at, device, 11 more }
 
-  - `"last_seen_at"`
+A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
 
-  - `"created_at"`
+</summary>
 
-- `sort_order: optional "asc" or "desc"`
+id: string
 
-  Sort direction.
+The ID of the registration.
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+created\_at: string
 
-- `status: optional "active" or "all" or "revoked"`
+The RFC3339 timestamp when the registration was created.
 
-  Filter by registration status. Defaults to 'active'.
+<a href="#">Link to this property</a>
 
-  - `"active"`
+<details>
 
-  - `"all"`
+<summary>
 
-  - `"revoked"`
+device: object {id, name, client\_version }
 
-- `user: optional object { id }`
+Device details embedded inside of a registration.
 
-  - `id: optional array of string`
+</summary>
 
-    Filter by user ID.
+id: string
 
-### Returns
+The ID of the device.
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+The name of the device.
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+client\_version: optional string
 
-  - `message: string`
+Version of the WARP client.
 
-- `result: array of object { id, created_at, device, 11 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    The ID of the registration.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+key: string
 
-    The RFC3339 timestamp when the registration was created.
+The public key used to connect to the Cloudflare network.
 
-  - `device: object { id, name, client_version }`
+<a href="#">Link to this property</a>
 
-    Device details embedded inside of a registration.
+last\_seen\_at: string
 
-    - `id: string`
+The RFC3339 timestamp when the registration was last seen.
 
-      The ID of the device.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+updated\_at: string
 
-      The name of the device.
+The RFC3339 timestamp when the registration was last updated.
 
-    - `client_version: optional string`
+<a href="#">Link to this property</a>
 
-      Version of the WARP client.
+deleted\_at: optional string
 
-  - `key: string`
+The RFC3339 timestamp when the registration was deleted.
 
-    The public key used to connect to the Cloudflare network.
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+key\_type: optional string
 
-    The RFC3339 timestamp when the registration was last seen.
+The type of encryption key used by the WARP client for the active key. Currently ‘curve25519’ for WireGuard and ‘secp256r1’ for MASQUE.
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the registration was last updated.
+<details>
 
-  - `deleted_at: optional string`
+<summary>
 
-    The RFC3339 timestamp when the registration was deleted.
+policy: optional object {id, default, deleted, 2 more }
 
-  - `key_type: optional string`
+The device settings profile assigned to this registration.
 
-    The type of encryption key used by the WARP client for the active key. Currently 'curve25519' for WireGuard and 'secp256r1' for MASQUE.
+</summary>
 
-  - `policy: optional object { id, default, deleted, 2 more }`
+id: string
 
-    The device settings profile assigned to this registration.
+The ID of the device settings profile.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      The ID of the device settings profile.
+default: boolean
 
-    - `default: boolean`
+Whether the device settings profile is the default profile for the account.
 
-      Whether the device settings profile is the default profile for the account.
+<a href="#">Link to this property</a>
 
-    - `deleted: boolean`
+deleted: boolean
 
-      Whether the device settings profile was deleted.
+Whether the device settings profile was deleted.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the device settings profile.
+name: string
 
-    - `updated_at: string`
+The name of the device settings profile.
 
-      The RFC3339 timestamp of when the device settings profile last changed for the registration.
+<a href="#">Link to this property</a>
 
-  - `revoked_at: optional string`
+updated\_at: string
 
-    The RFC3339 timestamp when the registration was revoked.
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
 
-  - `tunnel_type: optional string`
+<a href="#">Link to this property</a>
 
-    Type of the tunnel - wireguard or masque.
+</details>
 
-  - `user: optional object { id, email, name }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+revoked\_at: optional string
 
-      UUID.
+The RFC3339 timestamp when the registration was revoked.
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+tunnel\_type: optional string
 
-    - `name: optional string`
+Type of the tunnel - wireguard or masque.
 
-      The enrolled device user's name.
+<a href="#">Link to this property</a>
 
-  - `virtual_ipv4: optional string`
+<details>
 
-    The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
+<summary>
 
-  - `virtual_ipv6: optional string`
+user: optional object {id, email, name }
 
-    The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
+</summary>
 
-- `success: boolean`
+id: optional string
 
-  Whether the API call was successful.
+UUID.
 
-- `result_info: optional object { count, cursor, per_page, total_count }`
+maxLength36
 
-  V4 public API Pagination/Cursor info.
+<a href="#">Link to this property</a>
 
-  - `count: number`
+email: optional string
 
-    Number of records in the response.
+The contact email address of the user.
 
-  - `cursor: string`
+maxLength90
 
-    Opaque token to request the next set of records.
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+name: optional string
 
-    The limit for the number of records in the response.
+The enrolled device user’s name.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of records available.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+virtual\_ipv4: optional string
 
-#### Response
+The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": [
-    {
-      "created_at": "2025-02-14T13:17:00Z",
-      "deleted_at": null,
-      "device": {
-        "client_version": "1.0.0",
-        "id": "32aa0404-78f1-49a4-99e0-97f575081356",
-        "name": "My Device"
-      },
-      "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-      "key": "U+QTP50RsWfeLGHF4tlGDnmGeuwtsz46KCHr5OyhWq00Rsdfl45mgnQAuEJ6CO0YrkyTl9FUf5iB0bwYR3g4EEFEHhtu6jFaqfMrBMBSz6itv9HQXkaR9OieKQ==",
-      "key_type": "secp256r1",
-      "last_seen_at": "2025-02-14T13:17:00Z",
-      "revoked_at": null,
-      "tunnel_type": "masque",
-      "updated_at": "2025-02-14T13:17:00Z",
-      "user": {
-        "email": "alice@example.org",
-        "id": "30323c1f-318d-4ec9-92c7-5a8c4d25c4fc",
-        "name": "Alice"
-      }
-    },
-    {
-      "created_at": "2025-02-15T10:20:00Z",
-      "deleted_at": null,
-      "device": {
-        "client_version": "1.0.1",
-        "id": "43bb1515-8902-50b5-aa01-a88686192467",
-        "name": "Bob's Laptop"
-      },
-      "id": "22eedc7a-4a1d-5417-c5b3-f73a983c277b",
-      "key": "V/RSP61StXgfmLHJG5umHEonHfvxtz57LDIs6PziXr11Stegm56nhrRBvFK7DP1ZsLzUm0GVg6jC1cxZS4h5FFGFJiju7kGbrgNsCNCT77juw0IRYlS0QpjgLR==",
-      "key_type": "secp256r1",
-      "last_seen_at": "2025-02-15T10:25:00Z",
-      "revoked_at": null,
-      "tunnel_type": "masque",
-      "updated_at": "2025-02-15T10:25:00Z",
-      "user": {
-        "email": "bob@example.com",
-        "id": "41434d2a-429e-5fd0-a3d8-6b9d5e36d5ad",
-        "name": "Bob"
-      }
-    }
-  ],
-  "result_info": {
-    "count": 2,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get registration
+virtual\_ipv6: optional string
 
-**get** `/accounts/{account_id}/devices/registrations/{registration_id}`
+The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
 
-Fetches a single WARP registration.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_list_response%20%3E%20(schema)>)
 
-- `registration_id: string`
+<details>
 
-### Query Parameters
+<summary>
 
-- `include: optional string`
+RegistrationGetResponse object {id, created\_at, device, 11 more }
 
-  Comma-separated list of additional information that should be included in the registration response. Supported values are: "policy".
+A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message }`
+id: string
 
-  - `code: number`
+The ID of the registration.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+created\_at: string
 
-  - `code: number`
+The RFC3339 timestamp when the registration was created.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, created_at, device, 11 more }`
+<details>
 
-  A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
+<summary>
 
-  - `id: string`
+device: object {id, name, client\_version }
 
-    The ID of the registration.
+Device details embedded inside of a registration.
 
-  - `created_at: string`
+</summary>
 
-    The RFC3339 timestamp when the registration was created.
+id: string
 
-  - `device: object { id, name, client_version }`
+The ID of the device.
 
-    Device details embedded inside of a registration.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+name: string
 
-      The ID of the device.
+The name of the device.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the device.
+client\_version: optional string
 
-    - `client_version: optional string`
+Version of the WARP client.
 
-      Version of the WARP client.
+<a href="#">Link to this property</a>
 
-  - `key: string`
+</details>
 
-    The public key used to connect to the Cloudflare network.
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+key: string
 
-    The RFC3339 timestamp when the registration was last seen.
+The public key used to connect to the Cloudflare network.
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the registration was last updated.
+last\_seen\_at: string
 
-  - `deleted_at: optional string`
+The RFC3339 timestamp when the registration was last seen.
 
-    The RFC3339 timestamp when the registration was deleted.
+<a href="#">Link to this property</a>
 
-  - `key_type: optional string`
+updated\_at: string
 
-    The type of encryption key used by the WARP client for the active key. Currently 'curve25519' for WireGuard and 'secp256r1' for MASQUE.
+The RFC3339 timestamp when the registration was last updated.
 
-  - `policy: optional object { id, default, deleted, 2 more }`
+<a href="#">Link to this property</a>
 
-    The device settings profile assigned to this registration.
+deleted\_at: optional string
 
-    - `id: string`
+The RFC3339 timestamp when the registration was deleted.
 
-      The ID of the device settings profile.
+<a href="#">Link to this property</a>
 
-    - `default: boolean`
+key\_type: optional string
 
-      Whether the device settings profile is the default profile for the account.
+The type of encryption key used by the WARP client for the active key. Currently ‘curve25519’ for WireGuard and ‘secp256r1’ for MASQUE.
 
-    - `deleted: boolean`
+<a href="#">Link to this property</a>
 
-      Whether the device settings profile was deleted.
+<details>
 
-    - `name: string`
+<summary>
 
-      The name of the device settings profile.
+policy: optional object {id, default, deleted, 2 more }
 
-    - `updated_at: string`
+The device settings profile assigned to this registration.
 
-      The RFC3339 timestamp of when the device settings profile last changed for the registration.
+</summary>
 
-  - `revoked_at: optional string`
+id: string
 
-    The RFC3339 timestamp when the registration was revoked.
+The ID of the device settings profile.
 
-  - `tunnel_type: optional string`
+<a href="#">Link to this property</a>
 
-    Type of the tunnel - wireguard or masque.
+default: boolean
 
-  - `user: optional object { id, email, name }`
+Whether the device settings profile is the default profile for the account.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+deleted: boolean
 
-    - `email: optional string`
+Whether the device settings profile was deleted.
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+name: string
 
-      The enrolled device user's name.
+The name of the device settings profile.
 
-  - `virtual_ipv4: optional string`
+<a href="#">Link to this property</a>
 
-    The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
+updated\_at: string
 
-  - `virtual_ipv6: optional string`
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
 
-    The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-### Example
+revoked\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/$REGISTRATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The RFC3339 timestamp when the registration was revoked.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-    "created_at": "2025-02-14T13:17:00Z",
-    "device": {
-      "id": "32aa0404-78f1-49a4-99e0-97f575081356",
-      "name": "My Device",
-      "client_version": "1.0.0"
-    },
-    "key": "U+QTP50RsWfeLGHF4tlGDnmGeuwtsz46KCHr5OyhWq00Rsdfl45mgnQAuEJ6CO0YrkyTl9FUf5iB0bwYR3g4EEFEHhtu6jFaqfMrBMBSz6itv9HQXkaR9OieKQ==",
-    "last_seen_at": "2025-02-14T13:17:00Z",
-    "updated_at": "2025-02-14T13:17:00Z",
-    "deleted_at": "2025-02-14T13:17:00Z",
-    "key_type": "secp256r1",
-    "policy": {
-      "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-      "default": true,
-      "deleted": true,
-      "name": "name",
-      "updated_at": "2025-02-14T13:17:00Z"
-    },
-    "revoked_at": "2025-02-14T13:17:00Z",
-    "tunnel_type": "masque",
-    "user": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "email": "user@example.com",
-      "name": "John Appleseed"
-    },
-    "virtual_ipv4": "100.96.0.1",
-    "virtual_ipv6": "2606:4700:0cf1:1000::1"
-  },
-  "success": true
-}
-```
+tunnel\_type: optional string
 
-## Delete registration
+Type of the tunnel - wireguard or masque.
 
-**delete** `/accounts/{account_id}/devices/registrations/{registration_id}`
+<a href="#">Link to this property</a>
 
-Deletes a WARP registration.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+user: optional object {id, email, name }
 
-- `registration_id: string`
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of object { code, message }`
+UUID.
 
-  - `code: number`
+maxLength36
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+email: optional string
 
-  - `code: number`
+The contact email address of the user.
 
-  - `message: string`
+maxLength90
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+name: optional string
 
-- `result: optional unknown`
+The enrolled device user’s name.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/$REGISTRATION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+virtual\_ipv4: optional string
 
-## Delete registrations
+The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
 
-**delete** `/accounts/{account_id}/devices/registrations`
+<a href="#">Link to this property</a>
 
-Deletes a list of WARP registrations.
+virtual\_ipv6: optional string
 
-### Path Parameters
+The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `id: array of string`
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_get_response%20%3E%20(schema)>)
 
-  A list of registration IDs to delete.
+RegistrationDeleteResponse = unknown
 
-### Returns
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_delete_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message }`
+RegistrationBulkDeleteResponse = unknown
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_bulk_delete_response%20%3E%20(schema)>)
 
-  - `message: string`
+RegistrationRevokeResponse = unknown
 
-- `messages: array of object { code, message }`
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_revoke_response%20%3E%20(schema)>)
 
-  - `code: number`
+RegistrationUnrevokeResponse = unknown
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.devices.registrations%20%3E%20(model)%20registration_unrevoke_response%20%3E%20(schema)>)
 
-- `result: unknown`
+#### DevicesDEX Tests
 
-- `success: boolean`
+##### [List Device DEX tests](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/list)
 
-  Whether the API call was successful.
+GET/accounts/{account\_id}/dex/devices/dex\_tests
 
-- `result_info: optional object { count, cursor, per_page, total_count }`
+##### [Get Device DEX test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/get)
 
-  V4 public API Pagination/Cursor info.
+GET/accounts/{account\_id}/dex/devices/dex\_tests/{dex\_test\_id}
 
-  - `count: number`
+##### [Create Device DEX test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/create)
 
-    Number of records in the response.
+POST/accounts/{account\_id}/dex/devices/dex\_tests
 
-  - `cursor: string`
+##### [Update Device DEX test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/update)
 
-    Opaque token to request the next set of records.
+PUT/accounts/{account\_id}/dex/devices/dex\_tests/{dex\_test\_id}
 
-  - `per_page: number`
+##### [Delete Device DEX test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests/methods/delete)
 
-    The limit for the number of records in the response.
+DELETE/accounts/{account\_id}/dex/devices/dex\_tests/{dex\_test\_id}
 
-  - `total_count: optional number`
+##### ModelsExpand Collapse
 
-    Total number of records available.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+SchemaData object {host, kind, method }
 
-#### Response
+The configuration object which contains the details for the WARP client to conduct the test.
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  }
-}
-```
+</summary>
 
-## Revoke registrations
+host: string
 
-**post** `/accounts/{account_id}/devices/registrations/revoke`
+The desired endpoint to test.
 
-Revokes a list of WARP registrations.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+kind: "http"or "traceroute"
 
-- `id: array of string`
+The type of test.
 
-  A list of registration IDs to revoke.
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { code, message }`
+"http"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"traceroute"
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: unknown`
+method: optional "GET"
 
-- `success: boolean`
+The HTTP request method type.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, cursor, per_page, total_count }`
+</details>
 
-  V4 public API Pagination/Cursor info.
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)>)
 
-  - `count: number`
+<details>
 
-    Number of records in the response.
+<summary>
 
-  - `cursor: string`
+SchemaHTTP object {data, enabled, interval, 7 more }
 
-    Opaque token to request the next set of records.
+</summary>
 
-  - `per_page: number`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-    The limit for the number of records in the response.
+The configuration object which contains the details for the WARP client to conduct the test.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of records available.
+enabled: boolean
 
-### Example
+Determines whether or not the test is active.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/revoke \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+interval: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  }
-}
-```
+How often the test will run.
 
-## Unrevoke registrations
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/devices/registrations/unrevoke`
+name: string
 
-Unrevokes a list of WARP registrations.
+The name of the DEX test. Must be unique.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created: optional string
 
-### Query Parameters
+Date the test was created, in RFC 3339 format.
 
-- `id: array of string`
+formatdate-time
 
-  A list of registration IDs to unrevoke.
+<a href="#">Link to this property</a>
 
-### Returns
+description: optional string
 
-- `errors: array of object { code, message }`
+Additional details about the test.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `messages: array of object { code, message }`
+<summary>
 
-  - `code: number`
+target\_policies: optional array of object {id, default, name }
 
-  - `message: string`
+DEX rules targeted by this test
 
-- `result: unknown`
+</summary>
 
-- `success: boolean`
+id: string
 
-  Whether the API call was successful.
+The id of the DEX rule.
 
-- `result_info: optional object { count, cursor, per_page, total_count }`
+maxLength36
 
-  V4 public API Pagination/Cursor info.
+<a href="#">Link to this property</a>
 
-  - `count: number`
+default: optional boolean
 
-    Number of records in the response.
+Whether the DEX rule is the account default.
 
-  - `cursor: string`
+<a href="#">Link to this property</a>
 
-    Opaque token to request the next set of records.
+name: optional string
 
-  - `per_page: number`
+The name of the DEX rule.
 
-    The limit for the number of records in the response.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total number of records available.
+<a href="#">Link to this property</a>
 
-### Example
+targeted: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/unrevoke \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+test\_id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  }
-}
-```
+The unique identifier for the test.
 
-## Domain Types
+maxLength32
 
-### Registration List Response
+<a href="#">Link to this property</a>
 
-- `RegistrationListResponse object { id, created_at, device, 11 more }`
+updated: optional string
 
-  A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
+Date the test was last updated, in RFC 3339 format.
 
-  - `id: string`
+formatdate-time
 
-    The ID of the registration.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-    The RFC3339 timestamp when the registration was created.
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_http%20%3E%20(schema)>)
 
-  - `device: object { id, name, client_version }`
+<details>
 
-    Device details embedded inside of a registration.
+<summary>
 
-    - `id: string`
+DEXTestDeleteResponse object {dex\_tests }
 
-      The ID of the device.
+</summary>
 
-    - `name: string`
+<details>
 
-      The name of the device.
+<summary>
 
-    - `client_version: optional string`
+dex\_tests: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_http%20%3E%20(schema)">SchemaHTTP</a> { data, enabled, interval, 7 more }
 
-      Version of the WARP client.
+</summary>
 
-  - `key: string`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-    The public key used to connect to the Cloudflare network.
+The configuration object which contains the details for the WARP client to conduct the test.
 
-  - `last_seen_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the registration was last seen.
+enabled: boolean
 
-  - `updated_at: string`
+Determines whether or not the test is active.
 
-    The RFC3339 timestamp when the registration was last updated.
+<a href="#">Link to this property</a>
 
-  - `deleted_at: optional string`
+interval: string
 
-    The RFC3339 timestamp when the registration was deleted.
+How often the test will run.
 
-  - `key_type: optional string`
+<a href="#">Link to this property</a>
 
-    The type of encryption key used by the WARP client for the active key. Currently 'curve25519' for WireGuard and 'secp256r1' for MASQUE.
+name: string
 
-  - `policy: optional object { id, default, deleted, 2 more }`
+The name of the DEX test. Must be unique.
 
-    The device settings profile assigned to this registration.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+created: optional string
 
-      The ID of the device settings profile.
+Date the test was created, in RFC 3339 format.
 
-    - `default: boolean`
+formatdate-time
 
-      Whether the device settings profile is the default profile for the account.
+<a href="#">Link to this property</a>
 
-    - `deleted: boolean`
+description: optional string
 
-      Whether the device settings profile was deleted.
+Additional details about the test.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the device settings profile.
+<details>
 
-    - `updated_at: string`
+<summary>
 
-      The RFC3339 timestamp of when the device settings profile last changed for the registration.
+target\_policies: optional array of object {id, default, name }
 
-  - `revoked_at: optional string`
+DEX rules targeted by this test
 
-    The RFC3339 timestamp when the registration was revoked.
+</summary>
 
-  - `tunnel_type: optional string`
+id: string
 
-    Type of the tunnel - wireguard or masque.
+The id of the DEX rule.
 
-  - `user: optional object { id, email, name }`
+maxLength36
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+default: optional boolean
 
-    - `email: optional string`
+Whether the DEX rule is the account default.
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+name: optional string
 
-      The enrolled device user's name.
+The name of the DEX rule.
 
-  - `virtual_ipv4: optional string`
+<a href="#">Link to this property</a>
 
-    The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
+</details>
 
-  - `virtual_ipv6: optional string`
+<a href="#">Link to this property</a>
 
-    The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
+targeted: optional boolean
 
-### Registration Get Response
+<a href="#">Link to this property</a>
 
-- `RegistrationGetResponse object { id, created_at, device, 11 more }`
+test\_id: optional string
 
-  A WARP configuration tied to a single user. Multiple registrations can be created from a single WARP device.
+The unique identifier for the test.
 
-  - `id: string`
+maxLength32
 
-    The ID of the registration.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+updated: optional string
 
-    The RFC3339 timestamp when the registration was created.
+Date the test was last updated, in RFC 3339 format.
 
-  - `device: object { id, name, client_version }`
+formatdate-time
 
-    Device details embedded inside of a registration.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      The ID of the device.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      The name of the device.
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(model)%20dex_test_delete_response%20%3E%20(schema)>)
 
-    - `client_version: optional string`
+#### DevicesIP Profiles
 
-      Version of the WARP client.
+##### [List IP profiles](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/ip_profiles/methods/list)
 
-  - `key: string`
+GET/accounts/{account\_id}/devices/ip-profiles
 
-    The public key used to connect to the Cloudflare network.
+##### [Get IP profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/ip_profiles/methods/get)
 
-  - `last_seen_at: string`
+GET/accounts/{account\_id}/devices/ip-profiles/{profile\_id}
 
-    The RFC3339 timestamp when the registration was last seen.
+##### [Create IP profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/ip_profiles/methods/create)
 
-  - `updated_at: string`
+POST/accounts/{account\_id}/devices/ip-profiles
 
-    The RFC3339 timestamp when the registration was last updated.
+##### [Update IP profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/ip_profiles/methods/update)
 
-  - `deleted_at: optional string`
+PATCH/accounts/{account\_id}/devices/ip-profiles/{profile\_id}
 
-    The RFC3339 timestamp when the registration was deleted.
+##### [Delete IP profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/ip_profiles/methods/delete)
 
-  - `key_type: optional string`
+DELETE/accounts/{account\_id}/devices/ip-profiles/{profile\_id}
 
-    The type of encryption key used by the WARP client for the active key. Currently 'curve25519' for WireGuard and 'secp256r1' for MASQUE.
+##### ModelsExpand Collapse
 
-  - `policy: optional object { id, default, deleted, 2 more }`
+<details>
 
-    The device settings profile assigned to this registration.
+<summary>
 
-    - `id: string`
+IPProfile object {id, created\_at, description, 6 more }
 
-      The ID of the device settings profile.
+</summary>
 
-    - `default: boolean`
+id: string
 
-      Whether the device settings profile is the default profile for the account.
+The ID of the Device IP profile.
 
-    - `deleted: boolean`
+<a href="#">Link to this property</a>
 
-      Whether the device settings profile was deleted.
+created\_at: string
 
-    - `name: string`
+The RFC3339Nano timestamp when the Device IP profile was created.
 
-      The name of the device settings profile.
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+description: string
 
-      The RFC3339 timestamp of when the device settings profile last changed for the registration.
+An optional description of the Device IP profile.
 
-  - `revoked_at: optional string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the registration was revoked.
+enabled: boolean
 
-  - `tunnel_type: optional string`
+Whether the Device IP profile is enabled.
 
-    Type of the tunnel - wireguard or masque.
+<a href="#">Link to this property</a>
 
-  - `user: optional object { id, email, name }`
+match: string
 
-    - `id: optional string`
+The wirefilter expression to match registrations. Available values: “identity.name”, “identity.email”, “identity.groups.id”, “identity.groups.name”, “identity.groups.email”, “identity.saml\_attributes”.
 
-      UUID.
+maxLength10000
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+name: string
 
-    - `name: optional string`
+A user-friendly name for the Device IP profile.
 
-      The enrolled device user's name.
+<a href="#">Link to this property</a>
 
-  - `virtual_ipv4: optional string`
+precedence: number
 
-    The virtual IPv4 address assigned to the network interface of the tunnel for this registration.
+The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
 
-  - `virtual_ipv6: optional string`
+<a href="#">Link to this property</a>
 
-    The virtual IPv6 address assigned to the network interface of the tunnel for this registration.
+subnet\_id: string
 
-### Registration Delete Response
+The ID of the Subnet.
 
-- `RegistrationDeleteResponse = unknown`
+<a href="#">Link to this property</a>
 
-### Registration Bulk Delete Response
+updated\_at: string
 
-- `RegistrationBulkDeleteResponse = unknown`
+The RFC3339Nano timestamp when the Device IP profile was last updated.
 
-### Registration Revoke Response
+<a href="#">Link to this property</a>
 
-- `RegistrationRevokeResponse = unknown`
+</details>
 
-### Registration Unrevoke Response
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(model)%20ip_profile%20%3E%20(schema)>)
 
-- `RegistrationUnrevokeResponse = unknown`
+<details>
 
-# DEX Tests
+<summary>
 
-## List Device DEX tests
+IPProfileDeleteResponse object {id }
 
-**get** `/accounts/{account_id}/dex/devices/dex_tests`
+</summary>
 
-Fetch all DEX tests.
+id: optional string
 
-### Path Parameters
+ID of the deleted Device IP profile.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+</details>
 
-### Query Parameters
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(model)%20ip_profile_delete_response%20%3E%20(schema)>)
 
-- `kind: optional "http" or "traceroute"`
+#### DevicesDeployment Groups
 
-  Filter by test type.
+##### [List deployment groups](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/deployment_groups/methods/list)
 
-  - `"http"`
+GET/accounts/{account\_id}/devices/deployment-groups
 
-  - `"traceroute"`
+##### [Get deployment group](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/deployment_groups/methods/get)
 
-- `page: optional number`
+GET/accounts/{account\_id}/devices/deployment-groups/{group\_id}
 
-  Page number of paginated results.
+##### [Create deployment group](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/deployment_groups/methods/create)
 
-- `per_page: optional number`
+POST/accounts/{account\_id}/devices/deployment-groups
 
-  Number of results per page.
+##### [Update deployment group](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/deployment_groups/methods/edit)
 
-- `testName: optional string`
+PATCH/accounts/{account\_id}/devices/deployment-groups/{group\_id}
 
-  Filter by test name.
+##### [Delete deployment group](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/deployment_groups/methods/delete)
 
-### Returns
+DELETE/accounts/{account\_id}/devices/deployment-groups/{group\_id}
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+DeploymentGroup object {id, created\_at, name, 3 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The ID of the deployment group.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_at: string
 
-  - `documentation_url: optional string`
+The RFC3339Nano timestamp when the deployment group was created.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `success: true`
+A user-friendly name for the deployment group.
 
-  Whether the API call was successful.
+maxLength255
 
-  - `true`
+minLength1
 
-- `result: optional array of object { data, enabled, interval, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `data: object { host, kind, method }`
+updated\_at: string
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+The RFC3339Nano timestamp when the deployment group was last updated.
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-      The desired endpoint to test.
+<details>
 
-    - `kind: "http" or "traceroute"`
+<summary>
 
-      The type of test.
+version\_config: array of object {target\_environment, version }
 
-      - `"http"`
+Contains version configurations for different target environments.
 
-      - `"traceroute"`
+</summary>
 
-    - `method: optional "GET"`
+target\_environment: string
 
-      The HTTP request method type.
+The target environment for the client version (e.g., windows, macos).
 
-      - `"GET"`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+version: string
 
-    Determines whether or not the test is active.
+The specific client version to deploy.
 
-  - `interval: string`
+<a href="#">Link to this property</a>
 
-    How often the test will run.
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the DEX test. Must be unique.
+policy\_ids: optional array of string
 
-  - `description: optional string`
+Contains a list of policy IDs assigned to this deployment group.
 
-    Additional details about the test.
+<a href="#">Link to this property</a>
 
-  - `target_policies: optional array of object { id, default, name }`
+</details>
 
-    DEX rules targeted by this test
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(model)%20deployment_group%20%3E%20(schema)>)
 
-    - `id: string`
+<details>
 
-      The id of the DEX rule.
+<summary>
 
-    - `default: optional boolean`
+DeploymentGroupDeleteResponse object {id }
 
-      Whether the DEX rule is the account default.
+</summary>
 
-    - `name: optional string`
+id: optional string
 
-      The name of the DEX rule.
+The ID of a deleted deployment group.
 
-  - `targeted: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `test_id: optional string`
+</details>
 
-    The unique identifier for the test.
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(model)%20deployment_group_delete_response%20%3E%20(schema)>)
 
-### Example
+#### DevicesNetworks
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+##### [List your device managed networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/networks/methods/list)
 
-#### Response
+GET/accounts/{account\_id}/devices/networks
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "data": {
-        "host": "https://dash.cloudflare.com",
-        "kind": "http",
-        "method": "GET"
-      },
-      "enabled": true,
-      "interval": "30m",
-      "name": "HTTP dash health check",
-      "description": "Checks the dash endpoint every 30 minutes",
-      "target_policies": [
-        {
-          "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-          "default": true,
-          "name": "name"
-        }
-      ],
-      "targeted": true,
-      "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-    }
-  ]
-}
-```
+##### [Get device managed network details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/networks/methods/get)
 
-## Get Device DEX test
+GET/accounts/{account\_id}/devices/networks/{network\_id}
 
-**get** `/accounts/{account_id}/dex/devices/dex_tests/{dex_test_id}`
+##### [Create a device managed network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/networks/methods/create)
 
-Fetch a single DEX test.
+POST/accounts/{account\_id}/devices/networks
 
-### Path Parameters
+##### [Update a device managed network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/networks/methods/update)
 
-- `account_id: string`
+PUT/accounts/{account\_id}/devices/networks/{network\_id}
 
-  Unique identifier linked to an account.
+##### [Delete a device managed network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/networks/methods/delete)
 
-- `dex_test_id: string`
+DELETE/accounts/{account\_id}/devices/networks/{network\_id}
 
-  The unique identifier for the test.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+DeviceNetwork object {config, name, network\_id, type }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+config: optional object {tls\_sockaddr, sha256 }
 
-- `messages: array of object { code, message, documentation_url, source }`
+The configuration object containing information for the WARP client to detect the managed network.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+tls\_sockaddr: string
 
-  - `documentation_url: optional string`
+A network address of the form “host:port” that the WARP client will use to detect the presence of a TLS host.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+sha256: optional string
 
-- `success: true`
+The SHA-256 hash of the TLS certificate presented by the host found at tls\_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { data, enabled, interval, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `data: object { host, kind, method }`
+name: optional string
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+The name of the device managed network. This name must be unique.
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-      The desired endpoint to test.
+network\_id: optional string
 
-    - `kind: "http" or "traceroute"`
+API UUID.
 
-      The type of test.
+maxLength36
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"traceroute"`
+type: optional "tls"
 
-    - `method: optional "GET"`
+The type of device managed network.
 
-      The HTTP request method type.
+<a href="#">Link to this property</a>
 
-      - `"GET"`
+</details>
 
-  - `enabled: boolean`
+[Link to this property](#)%20zero_trust.devices.networks%20%3E%20(model)%20device_network%20%3E%20(schema)>)
 
-    Determines whether or not the test is active.
+#### DevicesFleet Status
 
-  - `interval: string`
+##### [Get the latest status of a device.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/fleet_status/methods/get)
 
-    How often the test will run.
+GET/accounts/{account\_id}/dex/devices/{device\_id}/fleet-status/live
 
-  - `name: string`
+##### ModelsExpand Collapse
 
-    The name of the DEX test. Must be unique.
+<details>
 
-  - `description: optional string`
+<summary>
 
-    Additional details about the test.
+FleetStatusGetResponse object {colo, deviceId, mode, 40 more }
 
-  - `target_policies: optional array of object { id, default, name }`
+</summary>
 
-    DEX rules targeted by this test
+colo: string
 
-    - `id: string`
+Cloudflare colo airport code.
 
-      The id of the DEX rule.
+<a href="#">Link to this property</a>
 
-    - `default: optional boolean`
+deviceId: string
 
-      Whether the DEX rule is the account default.
+Device identifier (UUID v4)
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      The name of the DEX rule.
+mode: string
 
-  - `targeted: optional boolean`
+The mode under which the WARP client is run.
 
-  - `test_id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier for the test.
+platform: string
 
-### Example
+Operating system.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests/$DEX_TEST_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+status: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": {
-      "host": "https://dash.cloudflare.com",
-      "kind": "http",
-      "method": "GET"
-    },
-    "enabled": true,
-    "interval": "30m",
-    "name": "HTTP dash health check",
-    "description": "Checks the dash endpoint every 30 minutes",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true,
-    "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-  }
-}
-```
+Network status.
 
-## Create Device DEX test
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dex/devices/dex_tests`
+timestamp: string
 
-Create a DEX test.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+version: string
 
-- `account_id: string`
+WARP client version.
 
-  Unique identifier linked to an account.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+alwaysOn: optional boolean
 
-- `data: object { host, kind, method }`
+<a href="#">Link to this property</a>
 
-  The configuration object which contains the details for the WARP client to conduct the test.
+batteryCharging: optional boolean
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    The desired endpoint to test.
+batteryCycles: optional number
 
-  - `kind: "http" or "traceroute"`
+formatint64
 
-    The type of test.
+<a href="#">Link to this property</a>
 
-    - `"http"`
+batteryPct: optional number
 
-    - `"traceroute"`
+formatfloat
 
-  - `method: optional "GET"`
+<a href="#">Link to this property</a>
 
-    The HTTP request method type.
+connectionType: optional string
 
-    - `"GET"`
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+cpuPct: optional number
 
-  Determines whether or not the test is active.
+formatfloat
 
-- `interval: string`
+<a href="#">Link to this property</a>
 
-  How often the test will run.
+<details>
 
-- `name: string`
+<summary>
 
-  The name of the DEX test. Must be unique.
+cpuPctByApp: optional array of object {cpu\_pct, name }
 
-- `description: optional string`
+</summary>
 
-  Additional details about the test.
+cpu\_pct: optional number
 
-- `target_policies: optional array of object { id, default, name }`
+CPU usage percentage, on a scale of 0 to 100.
 
-  DEX rules targeted by this test
+formatfloat
 
-  - `id: string`
+maximum100
 
-    The id of the DEX rule.
+minimum0
 
-  - `default: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the DEX rule is the account default.
+name: optional string
 
-  - `name: optional string`
+Application name.
 
-    The name of the DEX rule.
+<a href="#">Link to this property</a>
 
-- `targeted: optional boolean`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+deviceIpv4: optional object {address, asn, aso, 4 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+address: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+asn: optional number
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+aso: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+city: optional string
 
-- `result: optional object { data, enabled, interval, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `data: object { host, kind, method }`
+country\_iso: optional string
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+<a href="#">Link to this property</a>
 
-    - `host: string`
+state\_iso: optional string
 
-      The desired endpoint to test.
+<a href="#">Link to this property</a>
 
-    - `kind: "http" or "traceroute"`
+zip: optional string
 
-      The type of test.
+<a href="#">Link to this property</a>
 
-      - `"http"`
+</details>
 
-      - `"traceroute"`
+<a href="#">Link to this property</a>
 
-    - `method: optional "GET"`
+name: optional string
 
-      The HTTP request method type.
+<a href="#">Link to this property</a>
 
-      - `"GET"`
+netmask: optional string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether or not the test is active.
+version: optional number
 
-  - `interval: string`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-    How often the test will run.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    The name of the DEX test. Must be unique.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-    Additional details about the test.
+<summary>
 
-  - `target_policies: optional array of object { id, default, name }`
+deviceIpv6: optional object {address, asn, aso, 4 more }
 
-    DEX rules targeted by this test
+</summary>
 
-    - `id: string`
+address: optional string
 
-      The id of the DEX rule.
+<a href="#">Link to this property</a>
 
-    - `default: optional boolean`
+asn: optional number
 
-      Whether the DEX rule is the account default.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+aso: optional string
 
-      The name of the DEX rule.
+<a href="#">Link to this property</a>
 
-  - `targeted: optional boolean`
+<details>
 
-  - `test_id: optional string`
+<summary>
 
-    The unique identifier for the test.
+location: optional object {city, country\_iso, state\_iso, zip }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "data": {
-            "host": "https://dash.cloudflare.com",
-            "kind": "http",
-            "method": "GET"
-          },
-          "enabled": true,
-          "interval": "30m",
-          "name": "HTTP dash health check",
-          "description": "Checks the dash endpoint every 30 minutes"
-        }'
-```
+city: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": {
-      "host": "https://dash.cloudflare.com",
-      "kind": "http",
-      "method": "GET"
-    },
-    "enabled": true,
-    "interval": "30m",
-    "name": "HTTP dash health check",
-    "description": "Checks the dash endpoint every 30 minutes",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true,
-    "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-  }
-}
-```
+country\_iso: optional string
 
-## Update Device DEX test
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/dex/devices/dex_tests/{dex_test_id}`
+state\_iso: optional string
 
-Update a DEX test.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+zip: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+</details>
 
-- `dex_test_id: string`
+<a href="#">Link to this property</a>
 
-  API Resource UUID tag.
+name: optional string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `data: object { host, kind, method }`
+netmask: optional string
 
-  The configuration object which contains the details for the WARP client to conduct the test.
+<a href="#">Link to this property</a>
 
-  - `host: string`
+version: optional number
 
-    The desired endpoint to test.
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-  - `kind: "http" or "traceroute"`
+<a href="#">Link to this property</a>
 
-    The type of test.
+</details>
 
-    - `"http"`
+<a href="#">Link to this property</a>
 
-    - `"traceroute"`
+deviceName: optional string
 
-  - `method: optional "GET"`
+Device identifier (human readable).
 
-    The HTTP request method type.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+DeprecateddeviceRegistration: optional string
 
-- `enabled: boolean`
+Use <code>registrationId</code> instead.
 
-  Determines whether or not the test is active.
+Deprecated: use registrationId. Device registration identifier (UUID).
 
-- `interval: string`
+<a href="#">Link to this property</a>
 
-  How often the test will run.
+diskReadBps: optional number
 
-- `name: string`
+formatint64
 
-  The name of the DEX test. Must be unique.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+diskUsagePct: optional number
 
-  Additional details about the test.
+formatfloat
 
-- `target_policies: optional array of object { id, default, name }`
+<a href="#">Link to this property</a>
 
-  DEX rules targeted by this test
+diskWriteBps: optional number
 
-  - `id: string`
+formatint64
 
-    The id of the DEX rule.
+<a href="#">Link to this property</a>
 
-  - `default: optional boolean`
+dohSubdomain: optional string
 
-    Whether the DEX rule is the account default.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+estimatedLossPct: optional number
 
-    The name of the DEX rule.
+formatfloat
 
-- `targeted: optional boolean`
+<a href="#">Link to this property</a>
 
-### Returns
+firewallEnabled: optional boolean
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+gatewayIpv4: optional object {address, asn, aso, 4 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+address: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+asn: optional number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+aso: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+location: optional object {city, country\_iso, state\_iso, zip }
 
-  - `true`
+</summary>
 
-- `result: optional object { data, enabled, interval, 5 more }`
+city: optional string
 
-  - `data: object { host, kind, method }`
+<a href="#">Link to this property</a>
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+country\_iso: optional string
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-      The desired endpoint to test.
+state\_iso: optional string
 
-    - `kind: "http" or "traceroute"`
+<a href="#">Link to this property</a>
 
-      The type of test.
+zip: optional string
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"traceroute"`
+</details>
 
-    - `method: optional "GET"`
+<a href="#">Link to this property</a>
 
-      The HTTP request method type.
+name: optional string
 
-      - `"GET"`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+netmask: optional string
 
-    Determines whether or not the test is active.
+<a href="#">Link to this property</a>
 
-  - `interval: string`
+version: optional number
 
-    How often the test will run.
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the DEX test. Must be unique.
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Additional details about the test.
+<details>
 
-  - `target_policies: optional array of object { id, default, name }`
+<summary>
 
-    DEX rules targeted by this test
+gatewayIpv6: optional object {address, asn, aso, 4 more }
 
-    - `id: string`
+</summary>
 
-      The id of the DEX rule.
+address: optional string
 
-    - `default: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the DEX rule is the account default.
+asn: optional number
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      The name of the DEX rule.
+aso: optional string
 
-  - `targeted: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `test_id: optional string`
+<details>
 
-    The unique identifier for the test.
+<summary>
 
-### Example
+location: optional object {city, country\_iso, state\_iso, zip }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests/$DEX_TEST_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "data": {
-            "host": "https://dash.cloudflare.com",
-            "kind": "http",
-            "method": "GET"
-          },
-          "enabled": true,
-          "interval": "30m",
-          "name": "HTTP dash health check",
-          "description": "Checks the dash endpoint every 30 minutes"
-        }'
-```
+</summary>
 
-#### Response
+city: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "data": {
-      "host": "https://dash.cloudflare.com",
-      "kind": "http",
-      "method": "GET"
-    },
-    "enabled": true,
-    "interval": "30m",
-    "name": "HTTP dash health check",
-    "description": "Checks the dash endpoint every 30 minutes",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true,
-    "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete Device DEX test
+country\_iso: optional string
 
-**delete** `/accounts/{account_id}/dex/devices/dex_tests/{dex_test_id}`
+<a href="#">Link to this property</a>
 
-Delete a Device DEX test. Returns the remaining device dex tests for the account.
+state\_iso: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+zip: optional string
 
-  Unique identifier linked to an account.
+<a href="#">Link to this property</a>
 
-- `dex_test_id: string`
+</details>
 
-  API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-### Returns
+name: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+netmask: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+version: optional number
 
-  - `source: optional object { pointer }`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+handshakeLatencyMs: optional number
 
-  - `documentation_url: optional string`
+formatint64
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+ispIpv4: optional object {address, asn, aso, 4 more }
 
-  - `true`
+</summary>
 
-- `result: optional object { dex_tests }`
+address: optional string
 
-  - `dex_tests: optional array of object { data, enabled, interval, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `data: object { host, kind, method }`
+asn: optional number
 
-      The configuration object which contains the details for the WARP client to conduct the test.
+<a href="#">Link to this property</a>
 
-      - `host: string`
+aso: optional string
 
-        The desired endpoint to test.
+<a href="#">Link to this property</a>
 
-      - `kind: "http" or "traceroute"`
+<details>
 
-        The type of test.
+<summary>
 
-        - `"http"`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-        - `"traceroute"`
+</summary>
 
-      - `method: optional "GET"`
+city: optional string
 
-        The HTTP request method type.
+<a href="#">Link to this property</a>
 
-        - `"GET"`
+country\_iso: optional string
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Determines whether or not the test is active.
+state\_iso: optional string
 
-    - `interval: string`
+<a href="#">Link to this property</a>
 
-      How often the test will run.
+zip: optional string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the DEX test. Must be unique.
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      Additional details about the test.
+name: optional string
 
-    - `target_policies: optional array of object { id, default, name }`
+<a href="#">Link to this property</a>
 
-      DEX rules targeted by this test
+netmask: optional string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        The id of the DEX rule.
+version: optional number
 
-      - `default: optional boolean`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-        Whether the DEX rule is the account default.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        The name of the DEX rule.
+<a href="#">Link to this property</a>
 
-    - `targeted: optional boolean`
+<details>
 
-    - `test_id: optional string`
+<summary>
 
-      The unique identifier for the test.
+ispIpv6: optional object {address, asn, aso, 4 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests/$DEX_TEST_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+address: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dex_tests": [
-      {
-        "data": {
-          "host": "https://dash.cloudflare.com",
-          "kind": "http",
-          "method": "GET"
-        },
-        "enabled": true,
-        "interval": "30m",
-        "name": "HTTP dash health check",
-        "description": "Checks the dash endpoint every 30 minutes",
-        "target_policies": [
-          {
-            "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-            "default": true,
-            "name": "name"
-          }
-        ],
-        "targeted": true,
-        "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
-      }
-    ]
-  }
-}
-```
+asn: optional number
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Schema Data
+aso: optional string
 
-- `SchemaData object { host, kind, method }`
+<a href="#">Link to this property</a>
 
-  The configuration object which contains the details for the WARP client to conduct the test.
+<details>
 
-  - `host: optional string`
+<summary>
 
-    The desired endpoint to test.
+location: optional object {city, country\_iso, state\_iso, zip }
 
-  - `kind: optional string`
+</summary>
 
-    The type of test.
+city: optional string
 
-  - `method: optional string`
+<a href="#">Link to this property</a>
 
-    The HTTP request method type.
+country\_iso: optional string
 
-### Schema HTTP
+<a href="#">Link to this property</a>
 
-- `SchemaHTTP object { data, enabled, interval, 5 more }`
+state\_iso: optional string
 
-  - `data: SchemaData`
+<a href="#">Link to this property</a>
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+zip: optional string
 
-    - `host: optional string`
+<a href="#">Link to this property</a>
 
-      The desired endpoint to test.
+</details>
 
-    - `kind: optional string`
+<a href="#">Link to this property</a>
 
-      The type of test.
+name: optional string
 
-    - `method: optional string`
+<a href="#">Link to this property</a>
 
-      The HTTP request method type.
+netmask: optional string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether or not the test is active.
+version: optional number
 
-  - `interval: string`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-    How often the test will run.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    The name of the DEX test. Must be unique.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+metal: optional string
 
-    Additional details about the test.
+<a href="#">Link to this property</a>
 
-  - `target_policies: optional array of object { id, default, name }`
+networkRcvdBps: optional number
 
-    Device settings profiles targeted by this test.
+formatint64
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      The id of the device settings profile.
+networkSentBps: optional number
 
-    - `default: optional boolean`
+formatint64
 
-      Whether the profile is the account default.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+networkSsid: optional string
 
-      The name of the device settings profile.
+<a href="#">Link to this property</a>
 
-  - `targeted: optional boolean`
+personEmail: optional string
 
-  - `test_id: optional string`
+User contact email address
 
-    The unique identifier for the test.
+<a href="#">Link to this property</a>
 
-### DEX Test List Response
+ramAvailableKb: optional number
 
-- `DEXTestListResponse object { data, enabled, interval, 5 more }`
+formatint64
 
-  - `data: object { host, kind, method }`
+<a href="#">Link to this property</a>
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+ramUsedPct: optional number
 
-    - `host: string`
+formatfloat
 
-      The desired endpoint to test.
+<a href="#">Link to this property</a>
 
-    - `kind: "http" or "traceroute"`
+<details>
 
-      The type of test.
+<summary>
 
-      - `"http"`
+ramUsedPctByApp: optional array of object {name, ram\_used\_pct }
 
-      - `"traceroute"`
+</summary>
 
-    - `method: optional "GET"`
+name: optional string
 
-      The HTTP request method type.
+Application name.
 
-      - `"GET"`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+ram\_used\_pct: optional number
 
-    Determines whether or not the test is active.
+RAM usage percentage, on a scale of 0 to 100.
 
-  - `interval: string`
+formatfloat
 
-    How often the test will run.
+maximum100
 
-  - `name: string`
+minimum0
 
-    The name of the DEX test. Must be unique.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    Additional details about the test.
+<a href="#">Link to this property</a>
 
-  - `target_policies: optional array of object { id, default, name }`
+registrationId: optional string
 
-    DEX rules targeted by this test
+Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user’s registration on the device.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      The id of the DEX rule.
+<details>
 
-    - `default: optional boolean`
+<summary>
 
-      Whether the DEX rule is the account default.
+rtt: optional object {minRttUs, rttUs, rttVarUs }
 
-    - `name: optional string`
+Round-trip time statistics for the WARP tunnel.
 
-      The name of the DEX rule.
+</summary>
 
-  - `targeted: optional boolean`
+<details>
 
-  - `test_id: optional string`
+<summary>
 
-    The unique identifier for the test.
+minRttUs: optional object {downstream, upstream }
 
-### DEX Test Get Response
+Minimum round-trip time in microseconds.
 
-- `DEXTestGetResponse object { data, enabled, interval, 5 more }`
+</summary>
 
-  - `data: object { host, kind, method }`
+downstream: optional number
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+<a href="#">Link to this property</a>
 
-    - `host: string`
+upstream: optional number
 
-      The desired endpoint to test.
+<a href="#">Link to this property</a>
 
-    - `kind: "http" or "traceroute"`
+</details>
 
-      The type of test.
+<a href="#">Link to this property</a>
 
-      - `"http"`
+<details>
 
-      - `"traceroute"`
+<summary>
 
-    - `method: optional "GET"`
+rttUs: optional object {downstream, upstream }
 
-      The HTTP request method type.
+Round-trip time in microseconds.
 
-      - `"GET"`
+</summary>
 
-  - `enabled: boolean`
+downstream: optional number
 
-    Determines whether or not the test is active.
+<a href="#">Link to this property</a>
 
-  - `interval: string`
+upstream: optional number
 
-    How often the test will run.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    The name of the DEX test. Must be unique.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-    Additional details about the test.
+<summary>
 
-  - `target_policies: optional array of object { id, default, name }`
+rttVarUs: optional object {downstream, upstream }
 
-    DEX rules targeted by this test
+Round-trip time variance in microseconds.
 
-    - `id: string`
+</summary>
 
-      The id of the DEX rule.
+downstream: optional number
 
-    - `default: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the DEX rule is the account default.
+upstream: optional number
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      The name of the DEX rule.
+</details>
 
-  - `targeted: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `test_id: optional string`
+</details>
 
-    The unique identifier for the test.
+<a href="#">Link to this property</a>
 
-### DEX Test Create Response
+switchLocked: optional boolean
 
-- `DEXTestCreateResponse object { data, enabled, interval, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `data: object { host, kind, method }`
+<details>
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+<summary>
 
-    - `host: string`
+tunnelStats: optional object {bytesLost, bytesReceived, bytesRetransmitted, 6 more }
 
-      The desired endpoint to test.
+WARP tunnel packet and byte counters.
 
-    - `kind: "http" or "traceroute"`
+</summary>
 
-      The type of test.
+<details>
 
-      - `"http"`
+<summary>
 
-      - `"traceroute"`
+bytesLost: optional object {downstream, upstream }
 
-    - `method: optional "GET"`
+Number of bytes lost, split by direction.
 
-      The HTTP request method type.
+</summary>
 
-      - `"GET"`
+downstream: optional number
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether or not the test is active.
+upstream: optional number
 
-  - `interval: string`
+<a href="#">Link to this property</a>
 
-    How often the test will run.
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the DEX test. Must be unique.
+<details>
 
-  - `description: optional string`
+<summary>
 
-    Additional details about the test.
+bytesReceived: optional object {downstream, upstream }
 
-  - `target_policies: optional array of object { id, default, name }`
+Number of bytes received, split by direction.
 
-    DEX rules targeted by this test
+</summary>
 
-    - `id: string`
+downstream: optional number
 
-      The id of the DEX rule.
+<a href="#">Link to this property</a>
 
-    - `default: optional boolean`
+upstream: optional number
 
-      Whether the DEX rule is the account default.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      The name of the DEX rule.
+<a href="#">Link to this property</a>
 
-  - `targeted: optional boolean`
+<details>
 
-  - `test_id: optional string`
+<summary>
 
-    The unique identifier for the test.
+bytesRetransmitted: optional object {downstream, upstream }
 
-### DEX Test Update Response
+Number of bytes retransmitted, split by direction.
 
-- `DEXTestUpdateResponse object { data, enabled, interval, 5 more }`
+</summary>
 
-  - `data: object { host, kind, method }`
+downstream: optional number
 
-    The configuration object which contains the details for the WARP client to conduct the test.
+<a href="#">Link to this property</a>
 
-    - `host: string`
+upstream: optional number
 
-      The desired endpoint to test.
+<a href="#">Link to this property</a>
 
-    - `kind: "http" or "traceroute"`
+</details>
 
-      The type of test.
+<a href="#">Link to this property</a>
 
-      - `"http"`
+<details>
 
-      - `"traceroute"`
+<summary>
 
-    - `method: optional "GET"`
+bytesSent: optional object {downstream, upstream }
 
-      The HTTP request method type.
+Number of bytes sent, split by direction.
 
-      - `"GET"`
+</summary>
 
-  - `enabled: boolean`
+downstream: optional number
 
-    Determines whether or not the test is active.
+<a href="#">Link to this property</a>
 
-  - `interval: string`
+upstream: optional number
 
-    How often the test will run.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    The name of the DEX test. Must be unique.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-    Additional details about the test.
+<summary>
 
-  - `target_policies: optional array of object { id, default, name }`
+packetsLost: optional object {downstream, upstream }
 
-    DEX rules targeted by this test
+Number of packets lost, split by direction.
 
-    - `id: string`
+</summary>
 
-      The id of the DEX rule.
+downstream: optional number
 
-    - `default: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the DEX rule is the account default.
+upstream: optional number
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      The name of the DEX rule.
+</details>
 
-  - `targeted: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `test_id: optional string`
+<details>
 
-    The unique identifier for the test.
+<summary>
 
-### DEX Test Delete Response
+packetsReceived: optional object {downstream, upstream }
 
-- `DEXTestDeleteResponse object { dex_tests }`
+Number of packets received, split by direction.
 
-  - `dex_tests: optional array of object { data, enabled, interval, 5 more }`
+</summary>
 
-    - `data: object { host, kind, method }`
+downstream: optional number
 
-      The configuration object which contains the details for the WARP client to conduct the test.
+<a href="#">Link to this property</a>
 
-      - `host: string`
+upstream: optional number
 
-        The desired endpoint to test.
+<a href="#">Link to this property</a>
 
-      - `kind: "http" or "traceroute"`
+</details>
 
-        The type of test.
+<a href="#">Link to this property</a>
 
-        - `"http"`
+<details>
 
-        - `"traceroute"`
+<summary>
 
-      - `method: optional "GET"`
+packetsRetransmitted: optional object {downstream, upstream }
 
-        The HTTP request method type.
+Number of packets retransmitted, split by direction.
 
-        - `"GET"`
+</summary>
 
-    - `enabled: boolean`
+downstream: optional number
 
-      Determines whether or not the test is active.
+<a href="#">Link to this property</a>
 
-    - `interval: string`
+upstream: optional number
 
-      How often the test will run.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      The name of the DEX test. Must be unique.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+<details>
 
-      Additional details about the test.
+<summary>
 
-    - `target_policies: optional array of object { id, default, name }`
+packetsSent: optional object {downstream, upstream }
 
-      DEX rules targeted by this test
+Number of packets sent, split by direction.
 
-      - `id: string`
+</summary>
 
-        The id of the DEX rule.
+downstream: optional number
 
-      - `default: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether the DEX rule is the account default.
+upstream: optional number
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        The name of the DEX rule.
+</details>
 
-    - `targeted: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `test_id: optional string`
+statsWindowMs: optional number
 
-      The unique identifier for the test.
+The measurement window duration in milliseconds.
 
-# IP Profiles
+<a href="#">Link to this property</a>
 
-## List IP profiles
+</details>
 
-**get** `/accounts/{account_id}/devices/ip-profiles`
+<a href="#">Link to this property</a>
 
-Lists WARP Device IP profiles.
+tunnelType: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+wifiStrengthDbm: optional number
 
-### Query Parameters
+formatint64
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  The page number to return.
+</details>
 
-- `per_page: optional number`
+[Link to this property](#)%20zero_trust.devices.fleet_status%20%3E%20(model)%20fleet_status_get_response%20%3E%20(schema)>)
 
-  The number of IP profiles to return per page.
+#### DevicesPolicies
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+DevicePolicyCertificates object {enabled }
 
-- `messages: array of object { code, message }`
+</summary>
 
-  - `code: number`
+enabled: boolean
 
-  - `message: string`
+The current status of the device policy certificate provisioning feature for WARP clients.
 
-- `result: array of IPProfile`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    The ID of the Device IP profile.
+[Link to this property](#)%20zero_trust.devices.policies%20%3E%20(model)%20device_policy_certificates%20%3E%20(schema)>)
 
-  - `created_at: string`
+<details>
 
-    The RFC3339Nano timestamp when the Device IP profile was created.
+<summary>
 
-  - `description: string`
+FallbackDomain object {suffix, description, dns\_server }
 
-    An optional description of the Device IP profile.
+</summary>
 
-  - `enabled: boolean`
+suffix: string
 
-    Whether the Device IP profile is enabled.
+The domain suffix to match when resolving locally.
 
-  - `match: string`
+<a href="#">Link to this property</a>
 
-    The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".
+description: optional string
 
-  - `name: string`
+A description of the fallback domain, displayed in the client UI.
 
-    A user-friendly name for the Device IP profile.
+maxLength100
 
-  - `precedence: number`
+<a href="#">Link to this property</a>
 
-    The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+dns\_server: optional array of string
 
-  - `subnet_id: string`
+A list of IP addresses to handle domain resolution.
 
-    The ID of the Subnet.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+</details>
 
-    The RFC3339Nano timestamp when the Device IP profile was last updated.
+[Link to this property](#)%20zero_trust.devices.policies%20%3E%20(model)%20fallback_domain%20%3E%20(schema)>)
 
-- `success: boolean`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+FallbackDomainPolicy = array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20fallback_domain%20%3E%20(schema)">FallbackDomain</a> { suffix, description, dns\_server }
 
-  - `count: number`
+</summary>
 
-    Number of records in the response.
+suffix: string
 
-  - `page: number`
+The domain suffix to match when resolving locally.
 
-    The page size number of the response.
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+description: optional string
 
-    The limit for the number of records in the response.
+A description of the fallback domain, displayed in the client UI.
 
-  - `total_count: number`
+maxLength100
 
-    Total number of records available.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+dns\_server: optional array of string
 
-    Total number of pages available.
+A list of IP addresses to handle domain resolution.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/ip-profiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20zero_trust.devices.policies%20%3E%20(model)%20fallback_domain_policy%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2025-02-14T13:17:00.123456789Z",
-      "description": "example comment",
-      "enabled": true,
-      "match": "identity.email == \"test@cloudflare.com\"",
-      "name": "IPv4 Cloudflare Source IPs",
-      "precedence": 100,
-      "subnet_id": "b70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "updated_at": "2025-02-14T13:17:00.123456789Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 10,
-    "total_count": 10,
-    "total_pages": 1
-  }
-}
-```
+<details>
 
-## Get IP profile
+<summary>
 
-**get** `/accounts/{account_id}/devices/ip-profiles/{profile_id}`
+SettingsPolicy object {allow\_mode\_switch, allow\_updates, allowed\_to\_leave, 28 more }
 
-Fetches a single WARP Device IP profile.
+</summary>
 
-### Path Parameters
+allow\_mode\_switch: optional boolean
 
-- `account_id: string`
+Whether to allow the user to switch WARP between modes.
 
-- `profile_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+allow\_updates: optional boolean
 
-- `errors: array of object { code, message }`
+Whether to receive update notifications when a new version of the client is available.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+allowed\_to\_leave: optional boolean
 
-- `messages: array of object { code, message }`
+Whether to allow devices to leave the organization.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+auto\_connect: optional number
 
-- `result: IPProfile`
+The amount of time in seconds to reconnect after having been disabled.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The ID of the Device IP profile.
+captive\_portal: optional number
 
-  - `created_at: string`
+Turn on the captive portal after the specified amount of time.
 
-    The RFC3339Nano timestamp when the Device IP profile was created.
+<a href="#">Link to this property</a>
 
-  - `description: string`
+default: optional boolean
 
-    An optional description of the Device IP profile.
+Whether the policy is the default policy for an account.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the Device IP profile is enabled.
+description: optional string
 
-  - `match: string`
+A description of the policy.
 
-    The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".
+maxLength500
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for the Device IP profile.
+disable\_auto\_fallback: optional boolean
 
-  - `precedence: number`
+If the <code>dns_server</code> field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to <code>true</code>.
 
-    The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+<a href="#">Link to this property</a>
 
-  - `subnet_id: string`
+<details>
 
-    The ID of the Subnet.
+<summary>
 
-  - `updated_at: string`
+dns\_search\_suffixes: optional array of object {suffix, description }
 
-    The RFC3339Nano timestamp when the Device IP profile was last updated.
+List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
 
-- `success: boolean`
+</summary>
 
-  Whether the API call was successful.
+suffix: string
 
-### Example
+The DNS search suffix to append when resolving short hostnames.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/ip-profiles/$PROFILE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+description: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2025-02-14T13:17:00.123456789Z",
-    "description": "example comment",
-    "enabled": true,
-    "match": "identity.email == \"test@cloudflare.com\"",
-    "name": "IPv4 Cloudflare Source IPs",
-    "precedence": 100,
-    "subnet_id": "b70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2025-02-14T13:17:00.123456789Z"
-  },
-  "success": true
-}
-```
+A description of the DNS search suffix.
 
-## Create IP profile
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/devices/ip-profiles`
+</details>
 
-Creates a WARP Device IP profile. Currently, only IPv4 Device subnets can be associated.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+enabled: optional boolean
 
-- `account_id: string`
+Whether the policy will be applied to matching devices.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `match: string`
+<details>
 
-  The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".
+<summary>
 
-- `name: string`
+exclude: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_exclude%20%3E%20(schema)">SplitTunnelExclude</a>
 
-  A user-friendly name for the Device IP profile.
+List of routes excluded in the WARP client’s tunnel.
 
-- `precedence: number`
+</summary>
 
-  The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+One of the following:
 
-- `subnet_id: string`
+<details>
 
-  The ID of the Subnet.
+<summary>
 
-- `description: optional string`
+TeamsDevicesExcludeSplitTunnelWithAddress object {address, description }
 
-  An optional description of the Device IP profile.
+</summary>
 
-- `enabled: optional boolean`
+address: string
 
-  Whether the Device IP profile will be applied to matching devices.
+The address in CIDR format to exclude from the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+description: optional string
 
-  - `code: number`
+A description of the Split Tunnel item, displayed in the client UI.
 
-  - `message: string`
+maxLength100
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: IPProfile`
+<details>
 
-  - `id: string`
+<summary>
 
-    The ID of the Device IP profile.
+TeamsDevicesExcludeSplitTunnelWithHost object {host, description }
 
-  - `created_at: string`
+</summary>
 
-    The RFC3339Nano timestamp when the Device IP profile was created.
+host: string
 
-  - `description: string`
+The domain name to exclude from the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-    An optional description of the Device IP profile.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+description: optional string
 
-    Whether the Device IP profile is enabled.
+A description of the Split Tunnel item, displayed in the client UI.
 
-  - `match: string`
+maxLength100
 
-    The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    A user-friendly name for the Device IP profile.
+<a href="#">Link to this property</a>
 
-  - `precedence: number`
+</details>
 
-    The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+<a href="#">Link to this property</a>
 
-  - `subnet_id: string`
+exclude\_office\_ips: optional boolean
 
-    The ID of the Subnet.
+Whether to add Microsoft IPs to Split Tunnel exclusions.
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339Nano timestamp when the Device IP profile was last updated.
+<details>
 
-- `success: boolean`
+<summary>
 
-  Whether the API call was successful.
+fallback\_domains: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20fallback_domain%20%3E%20(schema)">FallbackDomain</a> { suffix, description, dns\_server }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/ip-profiles \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "match": "identity.email == \\"test@cloudflare.com\\"",
-          "name": "IPv4 Cloudflare Source IPs",
-          "precedence": 100,
-          "subnet_id": "b70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-          "description": "example comment",
-          "enabled": true
-        }'
-```
+suffix: string
 
-#### Response
+The domain suffix to match when resolving locally.
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2025-02-14T13:17:00.123456789Z",
-    "description": "example comment",
-    "enabled": true,
-    "match": "identity.email == \"test@cloudflare.com\"",
-    "name": "IPv4 Cloudflare Source IPs",
-    "precedence": 100,
-    "subnet_id": "b70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2025-02-14T13:17:00.123456789Z"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update IP profile
+description: optional string
 
-**patch** `/accounts/{account_id}/devices/ip-profiles/{profile_id}`
+A description of the fallback domain, displayed in the client UI.
 
-Updates a WARP Device IP profile. Currently, only IPv4 Device subnets can be associated.
+maxLength100
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+dns\_server: optional array of string
 
-- `profile_id: string`
+A list of IP addresses to handle domain resolution.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+</details>
 
-  An optional description of the Device IP profile.
+<a href="#">Link to this property</a>
 
-- `enabled: optional boolean`
+gateway\_unique\_id: optional string
 
-  Whether the Device IP profile is enabled.
+<a href="#">Link to this property</a>
 
-- `match: optional string`
+<details>
 
-  The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".
+<summary>
 
-- `name: optional string`
+global\_acceleration: optional object {api\_endpoints, enabled, masque\_endpoints, wireguard\_endpoints }
 
-  A user-friendly name for the Device IP profile.
+Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See <a href="https://developers.cloudflare.com/china-network/concepts/global-acceleration/">https://developers.cloudflare.com/china-network/concepts/global-acceleration/</a>.
 
-- `precedence: optional number`
+</summary>
 
-  The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+api\_endpoints: array of string
 
-- `subnet_id: optional string`
+IP:port entries for the API endpoints.
 
-  The ID of the Subnet.
+<a href="#">Link to this property</a>
 
-### Returns
+enabled: boolean
 
-- `errors: array of object { code, message }`
+Global acceleration settings are used only when “enabled”.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+masque\_endpoints: array of string
 
-- `messages: array of object { code, message }`
+IP:port entries for the MASQUE tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+wireguard\_endpoints: array of string
 
-- `result: IPProfile`
+IP:port entries for the WireGuard tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The ID of the Device IP profile.
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339Nano timestamp when the Device IP profile was created.
+<details>
 
-  - `description: string`
+<summary>
 
-    An optional description of the Device IP profile.
+include: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_include%20%3E%20(schema)">SplitTunnelInclude</a>
 
-  - `enabled: boolean`
+List of routes included in the WARP client’s tunnel.
 
-    Whether the Device IP profile is enabled.
+</summary>
 
-  - `match: string`
+One of the following:
 
-    The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".
+<details>
 
-  - `name: string`
+<summary>
 
-    A user-friendly name for the Device IP profile.
+TeamsDevicesIncludeSplitTunnelWithAddress object {address, description }
 
-  - `precedence: number`
+</summary>
 
-    The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+address: string
 
-  - `subnet_id: string`
+The address in CIDR format to include in the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-    The ID of the Subnet.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+description: optional string
 
-    The RFC3339Nano timestamp when the Device IP profile was last updated.
+A description of the Split Tunnel item, displayed in the client UI.
 
-- `success: boolean`
+maxLength100
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/ip-profiles/$PROFILE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "example comment",
-          "enabled": true,
-          "match": "identity.email == \\"test@cloudflare.com\\"",
-          "name": "IPv4 Cloudflare Source IPs",
-          "precedence": 100,
-          "subnet_id": "b70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2025-02-14T13:17:00.123456789Z",
-    "description": "example comment",
-    "enabled": true,
-    "match": "identity.email == \"test@cloudflare.com\"",
-    "name": "IPv4 Cloudflare Source IPs",
-    "precedence": 100,
-    "subnet_id": "b70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2025-02-14T13:17:00.123456789Z"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Delete IP profile
+TeamsDevicesIncludeSplitTunnelWithHost object {host, description }
 
-**delete** `/accounts/{account_id}/devices/ip-profiles/{profile_id}`
+</summary>
 
-Delete a WARP Device IP profile.
+host: string
 
-### Path Parameters
+The domain name to include in the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `profile_id: string`
+description: optional string
 
-### Returns
+A description of the Split Tunnel item, displayed in the client UI.
 
-- `errors: array of object { code, message }`
+maxLength100
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { id }`
+lan\_allow\_minutes: optional number
 
-  - `id: optional string`
+The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
 
-    ID of the deleted Device IP profile.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+lan\_allow\_subnet\_size: optional number
 
-  Whether the API call was successful.
+The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/ip-profiles/$PROFILE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+match: optional string
 
-#### Response
+The wirefilter expression to match devices. Available values: “identity.email”, “identity.groups.id”, “identity.groups.name”, “identity.groups.email”, “identity.service\_token\_uuid”, “identity.saml\_attributes”, “network”, “os.name”, “os.version”.
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
+maxLength500
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### IP Profile
+name: optional string
 
-- `IPProfile object { id, created_at, description, 6 more }`
+The name of the device settings profile.
 
-  - `id: string`
+maxLength100
 
-    The ID of the Device IP profile.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+policy\_id: optional string
 
-    The RFC3339Nano timestamp when the Device IP profile was created.
+maxLength36
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    An optional description of the Device IP profile.
+precedence: optional number
 
-  - `enabled: boolean`
+The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
 
-    Whether the Device IP profile is enabled.
+<a href="#">Link to this property</a>
 
-  - `match: string`
+register\_interface\_ip\_with\_dns: optional boolean
 
-    The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".
+Determines if the operating system will register WARP’s local interface IP with your on-premises DNS server.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for the Device IP profile.
+sccm\_vpn\_boundary\_support: optional boolean
 
-  - `precedence: number`
+Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
 
-    The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+<a href="#">Link to this property</a>
 
-  - `subnet_id: string`
+<details>
 
-    The ID of the Subnet.
+<summary>
 
-  - `updated_at: string`
+service\_mode\_v2: optional object {mode, port }
 
-    The RFC3339Nano timestamp when the Device IP profile was last updated.
+</summary>
 
-### IP Profile Delete Response
+mode: optional string
 
-- `IPProfileDeleteResponse object { id }`
+The mode to run the WARP client under.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    ID of the deleted Device IP profile.
+port: optional number
 
-# Deployment Groups
+The port number when used with proxy mode.
 
-## List deployment groups
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/devices/deployment-groups`
+</details>
 
-Lists all deployment groups for an account. Use deployment groups to assign target WARP client versions to specific devices. This endpoint is in Beta.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+support\_url: optional string
 
-- `account_id: string`
+The URL to launch when the Send Feedback button is clicked.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+switch\_locked: optional boolean
 
-  The page number to return.
+Whether to allow the user to turn off the WARP switch and disconnect the client.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The maximum number of deployment groups to return per page.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message }`
+target\_tests: optional array of object {id, name }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-- `messages: array of object { code, message }`
+The id of the DEX test targeting this policy.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-- `result: array of DeploymentGroup`
+The name of the DEX test targeting this policy.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The ID of the deployment group.
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339Nano timestamp when the deployment group was created.
+tunnel\_protocol: optional string
 
-  - `name: string`
+Determines which tunnel protocol to use.
 
-    A user-friendly name for the deployment group.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+uninstall\_protection: optional boolean
 
-    The RFC3339Nano timestamp when the deployment group was last updated.
+Determines whether uninstalling the WARP client requires an override code. (Windows only).
 
-  - `version_config: array of object { target_environment, version }`
+<a href="#">Link to this property</a>
 
-    Contains version configurations for different target environments.
+<details>
 
-    - `target_environment: string`
+<summary>
 
-      The target environment for the client version (e.g., windows, macos).
+virtual\_networks: optional object {allowed, default }
 
-    - `version: string`
+Virtual network access settings for the device.
 
-      The specific client version to deploy.
+</summary>
 
-  - `policy_ids: optional array of string`
+allowed: array of string
 
-    Contains a list of policy IDs assigned to this deployment group.
+List of virtual network IDs the device is allowed to access. When virtual\_networks is set, at least one entry is required.
 
-- `result_info: object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+default: string
 
-    Number of records in the response.
+The default virtual network ID. Must be included in the <code>allowed</code> list.
 
-  - `page: number`
+formatuuid
 
-    The page size number of the response.
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+</details>
 
-    The limit for the number of records in the response.
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+</details>
 
-    Total number of records available.
+[Link to this property](#)%20zero_trust.devices.policies%20%3E%20(model)%20settings_policy%20%3E%20(schema)>)
 
-  - `total_pages: optional number`
+<details>
 
-    Total number of pages available.
+<summary>
 
-- `success: boolean`
+SplitTunnelExclude = object {address, description } or object {host, description }
 
-  Indicates whether the API call was successful.
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/deployment-groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "created_at": "2026-02-14T13:17:00.123456789Z",
-      "name": "Engineering Ring 0",
-      "updated_at": "2026-02-14T13:17:00.123456789Z",
-      "version_config": [
-        {
-          "target_environment": "windows",
-          "version": "2026.6.234.0"
-        }
-      ],
-      "policy_ids": [
-        "policy-uuid-1",
-        "policy-uuid-2"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 10,
-    "total_count": 10,
-    "total_pages": 1
-  },
-  "success": true
-}
-```
+TeamsDevicesExcludeSplitTunnelWithAddress object {address, description }
 
-## Get deployment group
+</summary>
 
-**get** `/accounts/{account_id}/devices/deployment-groups/{group_id}`
+address: string
 
-Fetches a single deployment group by its ID. This endpoint is in Beta.
+The address in CIDR format to exclude from the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-- `group_id: string`
+A description of the Split Tunnel item, displayed in the client UI.
 
-### Returns
+maxLength100
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+TeamsDevicesExcludeSplitTunnelWithHost object {host, description }
 
-- `result: DeploymentGroup`
+</summary>
 
-  - `id: string`
+host: string
 
-    The ID of the deployment group.
+The domain name to exclude from the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339Nano timestamp when the deployment group was created.
+description: optional string
 
-  - `name: string`
+A description of the Split Tunnel item, displayed in the client UI.
 
-    A user-friendly name for the deployment group.
+maxLength100
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339Nano timestamp when the deployment group was last updated.
+</details>
 
-  - `version_config: array of object { target_environment, version }`
+<a href="#">Link to this property</a>
 
-    Contains version configurations for different target environments.
+</details>
 
-    - `target_environment: string`
+[Link to this property](#)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_exclude%20%3E%20(schema)>)
 
-      The target environment for the client version (e.g., windows, macos).
+<details>
 
-    - `version: string`
+<summary>
 
-      The specific client version to deploy.
+SplitTunnelInclude = object {address, description } or object {host, description }
 
-  - `policy_ids: optional array of string`
+</summary>
 
-    Contains a list of policy IDs assigned to this deployment group.
+One of the following:
 
-- `success: boolean`
+<details>
 
-  Indicates whether the API call was successful.
+<summary>
 
-### Example
+TeamsDevicesIncludeSplitTunnelWithAddress object {address, description }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/deployment-groups/$GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+address: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "created_at": "2026-02-14T13:17:00.123456789Z",
-    "name": "Engineering Ring 0",
-    "updated_at": "2026-02-14T13:17:00.123456789Z",
-    "version_config": [
-      {
-        "target_environment": "windows",
-        "version": "2026.6.234.0"
-      }
-    ],
-    "policy_ids": [
-      "policy-uuid-1",
-      "policy-uuid-2"
-    ]
-  },
-  "success": true
-}
-```
+The address in CIDR format to include in the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-## Create deployment group
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/devices/deployment-groups`
+description: optional string
 
-Creates a new deployment group. Policy IDs must be unique across all deployment groups. This endpoint is in Beta.
+A description of the Split Tunnel item, displayed in the client UI.
 
-### Path Parameters
+maxLength100
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  A user-friendly name for the deployment group.
+<details>
 
-- `version_config: array of object { target_environment, version }`
+<summary>
 
-  Contains at least one version configuration.
+TeamsDevicesIncludeSplitTunnelWithHost object {host, description }
 
-  - `target_environment: string`
+</summary>
 
-    The target environment for the client version (e.g., windows, macos).
+host: string
 
-  - `version: string`
+The domain name to include in the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-    The specific client version to deploy.
+<a href="#">Link to this property</a>
 
-- `policy_ids: optional array of string`
+description: optional string
 
-  Contains an optional list of policy IDs assigned to a group.
+A description of the Split Tunnel item, displayed in the client UI.
 
-### Returns
+maxLength100
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_include%20%3E%20(schema)>)
 
-  - `message: string`
+#### DevicesPoliciesDefault
 
-- `result: DeploymentGroup`
+##### [Get the default device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/methods/get)
 
-  - `id: string`
+GET/accounts/{account\_id}/devices/policy
 
-    The ID of the deployment group.
+##### [Update the default device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/methods/edit)
 
-  - `created_at: string`
+PATCH/accounts/{account\_id}/devices/policy
 
-    The RFC3339Nano timestamp when the deployment group was created.
+##### ModelsExpand Collapse
 
-  - `name: string`
+<details>
 
-    A user-friendly name for the deployment group.
+<summary>
 
-  - `updated_at: string`
+DefaultGetResponse object {allow\_mode\_switch, allow\_updates, allowed\_to\_leave, 21 more }
 
-    The RFC3339Nano timestamp when the deployment group was last updated.
+</summary>
 
-  - `version_config: array of object { target_environment, version }`
+allow\_mode\_switch: optional boolean
 
-    Contains version configurations for different target environments.
+Whether to allow the user to switch WARP between modes.
 
-    - `target_environment: string`
+<a href="#">Link to this property</a>
 
-      The target environment for the client version (e.g., windows, macos).
+allow\_updates: optional boolean
 
-    - `version: string`
+Whether to receive update notifications when a new version of the client is available.
 
-      The specific client version to deploy.
+<a href="#">Link to this property</a>
 
-  - `policy_ids: optional array of string`
+allowed\_to\_leave: optional boolean
 
-    Contains a list of policy IDs assigned to this deployment group.
+Whether to allow devices to leave the organization.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+auto\_connect: optional number
 
-### Example
+The amount of time in seconds to reconnect after having been disabled.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/deployment-groups \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Engineering Ring 0",
-          "version_config": [
-            {
-              "target_environment": "windows",
-              "version": "2026.6.234.0"
-            }
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+captive\_portal: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "created_at": "2026-02-14T13:17:00.123456789Z",
-    "name": "Engineering Ring 0",
-    "updated_at": "2026-02-14T13:17:00.123456789Z",
-    "version_config": [
-      {
-        "target_environment": "windows",
-        "version": "2026.6.234.0"
-      }
-    ],
-    "policy_ids": [
-      "policy-uuid-1",
-      "policy-uuid-2"
-    ]
-  },
-  "success": true
-}
-```
+Turn on the captive portal after the specified amount of time.
 
-## Update deployment group
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/devices/deployment-groups/{group_id}`
+default: optional boolean
 
-Updates a deployment group. Returns 409 if any newly added policy IDs already belong to another deployment group. This endpoint is in Beta.
+Whether the policy will be applied to matching devices.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+disable\_auto\_fallback: optional boolean
 
-- `group_id: string`
+If the <code>dns_server</code> field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to <code>true</code>.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+<details>
 
-  A user-friendly name for the deployment group.
+<summary>
 
-- `policy_ids: optional array of string`
+dns\_search\_suffixes: optional array of object {suffix, description }
 
-  Replaces the entire list of policy IDs.
+List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
 
-- `version_config: optional array of object { target_environment, version }`
+</summary>
 
-  Replaces the entire version_config array.
+suffix: string
 
-  - `target_environment: string`
+The DNS search suffix to append when resolving short hostnames.
 
-    The target environment for the client version (e.g., windows, macos).
+<a href="#">Link to this property</a>
 
-  - `version: string`
+description: optional string
 
-    The specific client version to deploy.
+A description of the DNS search suffix.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+enabled: optional boolean
 
-- `messages: array of object { code, message }`
+Whether the policy will be applied to matching devices.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `result: DeploymentGroup`
+<summary>
 
-  - `id: string`
+exclude: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_exclude%20%3E%20(schema)">SplitTunnelExclude</a>
 
-    The ID of the deployment group.
+List of routes excluded in the WARP client’s tunnel.
 
-  - `created_at: string`
+</summary>
 
-    The RFC3339Nano timestamp when the deployment group was created.
+One of the following:
 
-  - `name: string`
+<details>
 
-    A user-friendly name for the deployment group.
+<summary>
 
-  - `updated_at: string`
+TeamsDevicesExcludeSplitTunnelWithAddress object {address, description }
 
-    The RFC3339Nano timestamp when the deployment group was last updated.
+</summary>
 
-  - `version_config: array of object { target_environment, version }`
+address: string
 
-    Contains version configurations for different target environments.
+The address in CIDR format to exclude from the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-    - `target_environment: string`
+<a href="#">Link to this property</a>
 
-      The target environment for the client version (e.g., windows, macos).
+description: optional string
 
-    - `version: string`
+A description of the Split Tunnel item, displayed in the client UI.
 
-      The specific client version to deploy.
+maxLength100
 
-  - `policy_ids: optional array of string`
+<a href="#">Link to this property</a>
 
-    Contains a list of policy IDs assigned to this deployment group.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/deployment-groups/$GROUP_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Engineering Ring 0"
-        }'
-```
+TeamsDevicesExcludeSplitTunnelWithHost object {host, description }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "created_at": "2026-02-14T13:17:00.123456789Z",
-    "name": "Engineering Ring 0",
-    "updated_at": "2026-02-14T13:17:00.123456789Z",
-    "version_config": [
-      {
-        "target_environment": "windows",
-        "version": "2026.6.234.0"
-      }
-    ],
-    "policy_ids": [
-      "policy-uuid-1",
-      "policy-uuid-2"
-    ]
-  },
-  "success": true
-}
-```
+host: string
 
-## Delete deployment group
+The domain name to exclude from the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-**delete** `/accounts/{account_id}/devices/deployment-groups/{group_id}`
+<a href="#">Link to this property</a>
 
-Deletes a deployment group. Associated policies no longer apply and devices stop receiving version targets. This endpoint is in Beta.
+description: optional string
 
-### Path Parameters
+A description of the Split Tunnel item, displayed in the client UI.
 
-- `account_id: string`
+maxLength100
 
-- `group_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+exclude\_office\_ips: optional boolean
 
-  - `code: number`
+Whether to add Microsoft IPs to Split Tunnel exclusions.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { id }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    The ID of a deleted deployment group.
+fallback\_domains: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20fallback_domain%20%3E%20(schema)">FallbackDomain</a> { suffix, description, dns\_server }
 
-- `success: boolean`
+</summary>
 
-  Indicates whether the API call was successful.
+suffix: string
 
-### Example
+The domain suffix to match when resolving locally.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/deployment-groups/$GROUP_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+description: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "550e8400-e29b-41d4-a716-446655440000"
-  },
-  "success": true
-}
-```
+A description of the fallback domain, displayed in the client UI.
 
-## Domain Types
+maxLength100
 
-### Deployment Group
+<a href="#">Link to this property</a>
 
-- `DeploymentGroup object { id, created_at, name, 3 more }`
+dns\_server: optional array of string
 
-  - `id: string`
+A list of IP addresses to handle domain resolution.
 
-    The ID of the deployment group.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-    The RFC3339Nano timestamp when the deployment group was created.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+gateway\_unique\_id: optional string
 
-    A user-friendly name for the deployment group.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+<details>
 
-    The RFC3339Nano timestamp when the deployment group was last updated.
+<summary>
 
-  - `version_config: array of object { target_environment, version }`
+global\_acceleration: optional object {api\_endpoints, enabled, masque\_endpoints, wireguard\_endpoints }
 
-    Contains version configurations for different target environments.
+Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See <a href="https://developers.cloudflare.com/china-network/concepts/global-acceleration/">https://developers.cloudflare.com/china-network/concepts/global-acceleration/</a>.
 
-    - `target_environment: string`
+</summary>
 
-      The target environment for the client version (e.g., windows, macos).
+api\_endpoints: array of string
 
-    - `version: string`
+IP:port entries for the API endpoints.
 
-      The specific client version to deploy.
+<a href="#">Link to this property</a>
 
-  - `policy_ids: optional array of string`
+enabled: boolean
 
-    Contains a list of policy IDs assigned to this deployment group.
+Global acceleration settings are used only when “enabled”.
 
-### Deployment Group Delete Response
+<a href="#">Link to this property</a>
 
-- `DeploymentGroupDeleteResponse object { id }`
+masque\_endpoints: array of string
 
-  - `id: optional string`
+IP:port entries for the MASQUE tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-    The ID of a deleted deployment group.
+<a href="#">Link to this property</a>
 
-# Networks
+wireguard\_endpoints: array of string
 
-## List your device managed networks
+IP:port entries for the WireGuard tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-**get** `/accounts/{account_id}/devices/networks`
+<a href="#">Link to this property</a>
 
-Fetches a list of managed networks for an account.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+include: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_include%20%3E%20(schema)">SplitTunnelInclude</a>
 
-  - `code: number`
+List of routes included in the WARP client’s tunnel.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+TeamsDevicesIncludeSplitTunnelWithAddress object {address, description }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+address: string
 
-  - `documentation_url: optional string`
+The address in CIDR format to include in the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of DeviceNetwork`
+description: optional string
 
-  - `config: optional object { tls_sockaddr, sha256 }`
+A description of the Split Tunnel item, displayed in the client UI.
 
-    The configuration object containing information for the WARP client to detect the managed network.
+maxLength100
 
-    - `tls_sockaddr: string`
+<a href="#">Link to this property</a>
 
-      A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.
+</details>
 
-    - `sha256: optional string`
+<a href="#">Link to this property</a>
 
-      The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
+<details>
 
-  - `name: optional string`
+<summary>
 
-    The name of the device managed network. This name must be unique.
+TeamsDevicesIncludeSplitTunnelWithHost object {host, description }
 
-  - `network_id: optional string`
+</summary>
 
-    API UUID.
+host: string
 
-  - `type: optional "tls"`
+The domain name to include in the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-    The type of device managed network.
+<a href="#">Link to this property</a>
 
-    - `"tls"`
+description: optional string
 
-- `success: true`
+A description of the Split Tunnel item, displayed in the client UI.
 
-  Whether the API call was successful.
+maxLength100
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+</details>
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+policy\_id: optional string
 
-  - `per_page: optional number`
+maxLength36
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+register\_interface\_ip\_with\_dns: optional boolean
 
-    Total results available without any search parameters.
+Determines if the operating system will register WARP’s local interface IP with your on-premises DNS server.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/networks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+sccm\_vpn\_boundary\_support: optional boolean
 
-#### Response
+Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "config": {
-        "tls_sockaddr": "foo.bar:1234",
-        "sha256": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
-      },
-      "name": "managed-network-1",
-      "network_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "type": "tls"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get device managed network details
+<details>
 
-**get** `/accounts/{account_id}/devices/networks/{network_id}`
+<summary>
 
-Fetches details for a single managed network.
+service\_mode\_v2: optional object {mode, port }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+mode: optional string
 
-- `network_id: string`
+The mode to run the WARP client under.
 
-  API UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+port: optional number
 
-- `errors: array of ResponseInfo`
+The port number when used with proxy mode.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+support\_url: optional string
 
-    - `pointer: optional string`
+The URL to launch when the Send Feedback button is clicked.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+switch\_locked: optional boolean
 
-  - `message: string`
+Whether to allow the user to turn off the WARP switch and disconnect the client.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+tunnel\_protocol: optional string
 
-- `result: DeviceNetwork`
+Determines which tunnel protocol to use.
 
-  - `config: optional object { tls_sockaddr, sha256 }`
+<a href="#">Link to this property</a>
 
-    The configuration object containing information for the WARP client to detect the managed network.
+uninstall\_protection: optional boolean
 
-    - `tls_sockaddr: string`
+Determines whether uninstalling the WARP client requires an override code. (Windows only).
 
-      A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.
+<a href="#">Link to this property</a>
 
-    - `sha256: optional string`
+<details>
 
-      The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
+<summary>
 
-  - `name: optional string`
+virtual\_networks: optional object {allowed, default }
 
-    The name of the device managed network. This name must be unique.
+Virtual network access settings for the device.
 
-  - `network_id: optional string`
+</summary>
 
-    API UUID.
+allowed: array of string
 
-  - `type: optional "tls"`
+List of virtual network IDs the device is allowed to access. When virtual\_networks is set, at least one entry is required.
 
-    The type of device managed network.
+<a href="#">Link to this property</a>
 
-    - `"tls"`
+default: string
 
-- `success: true`
+The default virtual network ID. Must be included in the <code>allowed</code> list.
 
-  Whether the API call was successful.
+formatuuid
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/networks/$NETWORK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "config": {
-      "tls_sockaddr": "foo.bar:1234",
-      "sha256": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
-    },
-    "name": "managed-network-1",
-    "network_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "type": "tls"
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20zero_trust.devices.policies.default%20%3E%20(model)%20default_get_response%20%3E%20(schema)>)
 
-## Create a device managed network
+<details>
 
-**post** `/accounts/{account_id}/devices/networks`
+<summary>
 
-Creates a new device managed network.
+DefaultEditResponse object {allow\_mode\_switch, allow\_updates, allowed\_to\_leave, 21 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+allow\_mode\_switch: optional boolean
 
-### Body Parameters
+Whether to allow the user to switch WARP between modes.
 
-- `config: object { tls_sockaddr, sha256 }`
+<a href="#">Link to this property</a>
 
-  The configuration object containing information for the WARP client to detect the managed network.
+allow\_updates: optional boolean
 
-  - `tls_sockaddr: string`
+Whether to receive update notifications when a new version of the client is available.
 
-    A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.
+<a href="#">Link to this property</a>
 
-  - `sha256: optional string`
+allowed\_to\_leave: optional boolean
 
-    The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
+Whether to allow devices to leave the organization.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  The name of the device managed network. This name must be unique.
+auto\_connect: optional number
 
-- `type: "tls"`
+The amount of time in seconds to reconnect after having been disabled.
 
-  The type of device managed network.
+<a href="#">Link to this property</a>
 
-  - `"tls"`
+captive\_portal: optional number
 
-### Returns
+Turn on the captive portal after the specified amount of time.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+default: optional boolean
 
-  - `message: string`
+Whether the policy will be applied to matching devices.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+disable\_auto\_fallback: optional boolean
 
-    - `pointer: optional string`
+If the <code>dns_server</code> field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to <code>true</code>.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+dns\_search\_suffixes: optional array of object {suffix, description }
 
-  - `source: optional object { pointer }`
+List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
 
-- `result: DeviceNetwork`
+</summary>
 
-  - `config: optional object { tls_sockaddr, sha256 }`
+suffix: string
 
-    The configuration object containing information for the WARP client to detect the managed network.
+The DNS search suffix to append when resolving short hostnames.
 
-    - `tls_sockaddr: string`
+<a href="#">Link to this property</a>
 
-      A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.
+description: optional string
 
-    - `sha256: optional string`
+A description of the DNS search suffix.
 
-      The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    The name of the device managed network. This name must be unique.
+<a href="#">Link to this property</a>
 
-  - `network_id: optional string`
+enabled: optional boolean
 
-    API UUID.
+Whether the policy will be applied to matching devices.
 
-  - `type: optional "tls"`
+<a href="#">Link to this property</a>
 
-    The type of device managed network.
+<details>
 
-    - `"tls"`
+<summary>
 
-- `success: true`
+exclude: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_exclude%20%3E%20(schema)">SplitTunnelExclude</a>
 
-  Whether the API call was successful.
+List of routes excluded in the WARP client’s tunnel.
 
-  - `true`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/networks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "config": {
-            "tls_sockaddr": "foo.bar:1234",
-            "sha256": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
-          },
-          "name": "managed-network-1",
-          "type": "tls"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "config": {
-      "tls_sockaddr": "foo.bar:1234",
-      "sha256": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
-    },
-    "name": "managed-network-1",
-    "network_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "type": "tls"
-  },
-  "success": true
-}
-```
+TeamsDevicesExcludeSplitTunnelWithAddress object {address, description }
 
-## Update a device managed network
+</summary>
 
-**put** `/accounts/{account_id}/devices/networks/{network_id}`
+address: string
 
-Updates a configured device managed network.
+The address in CIDR format to exclude from the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-- `network_id: string`
+A description of the Split Tunnel item, displayed in the client UI.
 
-  API UUID.
+maxLength100
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `config: optional object { tls_sockaddr, sha256 }`
+</details>
 
-  The configuration object containing information for the WARP client to detect the managed network.
+<a href="#">Link to this property</a>
 
-  - `tls_sockaddr: string`
+<details>
 
-    A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.
+<summary>
 
-  - `sha256: optional string`
+TeamsDevicesExcludeSplitTunnelWithHost object {host, description }
 
-    The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
+</summary>
 
-- `name: optional string`
+host: string
 
-  The name of the device managed network. This name must be unique.
+The domain name to exclude from the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-- `type: optional "tls"`
+<a href="#">Link to this property</a>
 
-  The type of device managed network.
+description: optional string
 
-  - `"tls"`
+A description of the Split Tunnel item, displayed in the client UI.
 
-### Returns
+maxLength100
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+exclude\_office\_ips: optional boolean
 
-- `messages: array of ResponseInfo`
+Whether to add Microsoft IPs to Split Tunnel exclusions.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+fallback\_domains: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20fallback_domain%20%3E%20(schema)">FallbackDomain</a> { suffix, description, dns\_server }
 
-- `result: DeviceNetwork`
+</summary>
 
-  - `config: optional object { tls_sockaddr, sha256 }`
+suffix: string
 
-    The configuration object containing information for the WARP client to detect the managed network.
+The domain suffix to match when resolving locally.
 
-    - `tls_sockaddr: string`
+<a href="#">Link to this property</a>
 
-      A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.
+description: optional string
 
-    - `sha256: optional string`
+A description of the fallback domain, displayed in the client UI.
 
-      The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
+maxLength100
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the device managed network. This name must be unique.
+dns\_server: optional array of string
 
-  - `network_id: optional string`
+A list of IP addresses to handle domain resolution.
 
-    API UUID.
+<a href="#">Link to this property</a>
 
-  - `type: optional "tls"`
+</details>
 
-    The type of device managed network.
+<a href="#">Link to this property</a>
 
-    - `"tls"`
+gateway\_unique\_id: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+global\_acceleration: optional object {api\_endpoints, enabled, masque\_endpoints, wireguard\_endpoints }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/networks/$NETWORK_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "config": {
-            "tls_sockaddr": "foo.bar:1234",
-            "sha256": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
-          },
-          "name": "managed-network-1",
-          "type": "tls"
-        }'
-```
+Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See <a href="https://developers.cloudflare.com/china-network/concepts/global-acceleration/">https://developers.cloudflare.com/china-network/concepts/global-acceleration/</a>.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "config": {
-      "tls_sockaddr": "foo.bar:1234",
-      "sha256": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
-    },
-    "name": "managed-network-1",
-    "network_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "type": "tls"
-  },
-  "success": true
-}
-```
+api\_endpoints: array of string
 
-## Delete a device managed network
+IP:port entries for the API endpoints.
 
-**delete** `/accounts/{account_id}/devices/networks/{network_id}`
+<a href="#">Link to this property</a>
 
-Deletes a device managed network and fetches a list of the remaining device managed networks for an account.
+enabled: boolean
 
-### Path Parameters
+Global acceleration settings are used only when “enabled”.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `network_id: string`
+masque\_endpoints: array of string
 
-  API UUID.
+IP:port entries for the MASQUE tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+wireguard\_endpoints: array of string
 
-  - `code: number`
+IP:port entries for the WireGuard tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+include: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_include%20%3E%20(schema)">SplitTunnelInclude</a>
 
-  - `message: string`
+List of routes included in the WARP client’s tunnel.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-- `result: array of DeviceNetwork`
+<details>
 
-  - `config: optional object { tls_sockaddr, sha256 }`
+<summary>
 
-    The configuration object containing information for the WARP client to detect the managed network.
+TeamsDevicesIncludeSplitTunnelWithAddress object {address, description }
 
-    - `tls_sockaddr: string`
+</summary>
 
-      A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.
+address: string
 
-    - `sha256: optional string`
+The address in CIDR format to include in the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-      The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+description: optional string
 
-    The name of the device managed network. This name must be unique.
+A description of the Split Tunnel item, displayed in the client UI.
 
-  - `network_id: optional string`
+maxLength100
 
-    API UUID.
+<a href="#">Link to this property</a>
 
-  - `type: optional "tls"`
+</details>
 
-    The type of device managed network.
+<a href="#">Link to this property</a>
 
-    - `"tls"`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+TeamsDevicesIncludeSplitTunnelWithHost object {host, description }
 
-  - `true`
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+host: string
 
-  - `count: optional number`
+The domain name to include in the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+description: optional string
 
-    Current page within paginated list of results.
+A description of the Split Tunnel item, displayed in the client UI.
 
-  - `per_page: optional number`
+maxLength100
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/networks/$NETWORK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+policy\_id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "config": {
-        "tls_sockaddr": "foo.bar:1234",
-        "sha256": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
-      },
-      "name": "managed-network-1",
-      "network_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "type": "tls"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+maxLength36
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Device Network
+register\_interface\_ip\_with\_dns: optional boolean
 
-- `DeviceNetwork object { config, name, network_id, type }`
+Determines if the operating system will register WARP’s local interface IP with your on-premises DNS server.
 
-  - `config: optional object { tls_sockaddr, sha256 }`
+<a href="#">Link to this property</a>
 
-    The configuration object containing information for the WARP client to detect the managed network.
+sccm\_vpn\_boundary\_support: optional boolean
 
-    - `tls_sockaddr: string`
+Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
 
-      A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.
+<a href="#">Link to this property</a>
 
-    - `sha256: optional string`
+<details>
 
-      The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.
+<summary>
 
-  - `name: optional string`
+service\_mode\_v2: optional object {mode, port }
 
-    The name of the device managed network. This name must be unique.
+</summary>
 
-  - `network_id: optional string`
+mode: optional string
 
-    API UUID.
+The mode to run the WARP client under.
 
-  - `type: optional "tls"`
+<a href="#">Link to this property</a>
 
-    The type of device managed network.
+port: optional number
 
-    - `"tls"`
+The port number when used with proxy mode.
 
-# Fleet Status
+<a href="#">Link to this property</a>
 
-## Get the latest status of a device.
+</details>
 
-**get** `/accounts/{account_id}/dex/devices/{device_id}/fleet-status/live`
+<a href="#">Link to this property</a>
 
-Get the latest status of a device given device_id from the device_state table.
+support\_url: optional string
 
-### Path Parameters
+The URL to launch when the Send Feedback button is clicked.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+switch\_locked: optional boolean
 
-- `device_id: string`
+Whether to allow the user to turn off the WARP switch and disconnect the client.
 
-  Unique identifier for the physical device (UUID).
+<a href="#">Link to this property</a>
 
-### Query Parameters
+tunnel\_protocol: optional string
 
-- `since_minutes: number`
+Determines which tunnel protocol to use.
 
-  Number of minutes before current time.
+<a href="#">Link to this property</a>
 
-- `colo: optional string`
+uninstall\_protection: optional boolean
 
-  List of data centers to filter results.
+Determines whether uninstalling the WARP client requires an override code. (Windows only).
 
-- `time_now: optional string`
+<a href="#">Link to this property</a>
 
-  Current time in ISO format.
+<details>
 
-### Returns
+<summary>
 
-- `colo: string`
+virtual\_networks: optional object {allowed, default }
 
-  Cloudflare colo airport code.
+Virtual network access settings for the device.
 
-- `deviceId: string`
+</summary>
 
-  Device identifier (UUID v4)
+allowed: array of string
 
-- `mode: string`
+List of virtual network IDs the device is allowed to access. When virtual\_networks is set, at least one entry is required.
 
-  The mode under which the WARP client is run.
+<a href="#">Link to this property</a>
 
-- `platform: string`
+default: string
 
-  Operating system.
+The default virtual network ID. Must be included in the <code>allowed</code> list.
 
-- `status: string`
+formatuuid
 
-  Network status.
+<a href="#">Link to this property</a>
 
-- `timestamp: string`
+</details>
 
-- `version: string`
+<a href="#">Link to this property</a>
 
-  WARP client version.
+</details>
 
-- `alwaysOn: optional boolean`
+[Link to this property](#)%20zero_trust.devices.policies.default%20%3E%20(model)%20default_edit_response%20%3E%20(schema)>)
 
-- `batteryCharging: optional boolean`
+#### DevicesPoliciesDefaultExcludes
 
-- `batteryCycles: optional number`
+##### [Get the Split Tunnel exclude list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/excludes/methods/get)
 
-- `batteryPct: optional number`
+GET/accounts/{account\_id}/devices/policy/exclude
 
-- `connectionType: optional string`
+##### [Set the Split Tunnel exclude list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/excludes/methods/update)
 
-- `cpuPct: optional number`
+PUT/accounts/{account\_id}/devices/policy/exclude
 
-- `cpuPctByApp: optional array of object { cpu_pct, name }`
+#### DevicesPoliciesDefaultIncludes
 
-  - `cpu_pct: optional number`
+##### [Get the Split Tunnel include list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/includes/methods/get)
 
-    CPU usage percentage, on a scale of 0 to 100.
+GET/accounts/{account\_id}/devices/policy/include
 
-  - `name: optional string`
+##### [Set the Split Tunnel include list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/includes/methods/update)
 
-    Application name.
+PUT/accounts/{account\_id}/devices/policy/include
 
-- `deviceIpv4: optional object { address, asn, aso, 4 more }`
+#### DevicesPoliciesDefaultFallback Domains
 
-  - `address: optional string`
+##### [Get your Local Domain Fallback list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/fallback_domains/methods/get)
 
-  - `asn: optional number`
+GET/accounts/{account\_id}/devices/policy/fallback\_domains
 
-  - `aso: optional string`
+##### [Set your Local Domain Fallback list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/fallback_domains/methods/update)
 
-  - `location: optional object { city, country_iso, state_iso, zip }`
+PUT/accounts/{account\_id}/devices/policy/fallback\_domains
 
-    - `city: optional string`
+#### DevicesPoliciesDefaultCertificates
 
-    - `country_iso: optional string`
+##### [Get device certificate provisioning status](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/certificates/methods/get)
 
-    - `state_iso: optional string`
+GET/zones/{zone\_id}/devices/policy/certificates
 
-    - `zip: optional string`
+##### [Update device certificate provisioning status](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/certificates/methods/edit)
 
-  - `name: optional string`
+PATCH/zones/{zone\_id}/devices/policy/certificates
 
-  - `netmask: optional string`
+#### DevicesPoliciesCustom
 
-  - `version: optional number`
+##### [List device settings profiles](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/methods/list)
 
-    IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+GET/accounts/{account\_id}/devices/policies
 
-- `deviceIpv6: optional object { address, asn, aso, 4 more }`
+##### [Get device settings profile by ID](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/methods/get)
 
-  - `address: optional string`
+GET/accounts/{account\_id}/devices/policy/{policy\_id}
 
-  - `asn: optional number`
+##### [Create a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/methods/create)
 
-  - `aso: optional string`
+POST/accounts/{account\_id}/devices/policy
 
-  - `location: optional object { city, country_iso, state_iso, zip }`
+##### [Update a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/methods/edit)
 
-    - `city: optional string`
+PATCH/accounts/{account\_id}/devices/policy/{policy\_id}
 
-    - `country_iso: optional string`
+##### [Delete a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/methods/delete)
 
-    - `state_iso: optional string`
+DELETE/accounts/{account\_id}/devices/policy/{policy\_id}
 
-    - `zip: optional string`
+#### DevicesPoliciesCustomExcludes
 
-  - `name: optional string`
+##### [Get the Split Tunnel exclude list for a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/subresources/excludes/methods/get)
 
-  - `netmask: optional string`
+GET/accounts/{account\_id}/devices/policy/{policy\_id}/exclude
 
-  - `version: optional number`
+##### [Set the Split Tunnel exclude list for a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/subresources/excludes/methods/update)
 
-    IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+PUT/accounts/{account\_id}/devices/policy/{policy\_id}/exclude
 
-- `deviceName: optional string`
+#### DevicesPoliciesCustomIncludes
 
-  Device identifier (human readable).
+##### [Get the Split Tunnel include list for a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/subresources/includes/methods/get)
 
-- `deviceRegistration: optional string`
+GET/accounts/{account\_id}/devices/policy/{policy\_id}/include
 
-  Deprecated: use registrationId. Device registration identifier (UUID).
+##### [Set the Split Tunnel include list for a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/subresources/includes/methods/update)
 
-- `diskReadBps: optional number`
+PUT/accounts/{account\_id}/devices/policy/{policy\_id}/include
 
-- `diskUsagePct: optional number`
+#### DevicesPoliciesCustomFallback Domains
 
-- `diskWriteBps: optional number`
+##### [Get the Local Domain Fallback list for a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/subresources/fallback_domains/methods/get)
 
-- `dohSubdomain: optional string`
+GET/accounts/{account\_id}/devices/policy/{policy\_id}/fallback\_domains
 
-- `estimatedLossPct: optional number`
+##### [Set the Local Domain Fallback list for a device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/custom/subresources/fallback_domains/methods/update)
 
-- `firewallEnabled: optional boolean`
+PUT/accounts/{account\_id}/devices/policy/{policy\_id}/fallback\_domains
 
-- `gatewayIpv4: optional object { address, asn, aso, 4 more }`
+#### DevicesPosture
 
-  - `address: optional string`
+##### [List device posture rules](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/methods/list)
 
-  - `asn: optional number`
+GET/accounts/{account\_id}/devices/posture
 
-  - `aso: optional string`
+##### [Get device posture rule details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/methods/get)
 
-  - `location: optional object { city, country_iso, state_iso, zip }`
+GET/accounts/{account\_id}/devices/posture/{rule\_id}
 
-    - `city: optional string`
+##### [Create a device posture rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/methods/create)
 
-    - `country_iso: optional string`
+POST/accounts/{account\_id}/devices/posture
 
-    - `state_iso: optional string`
+##### [Update a device posture rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/methods/update)
 
-    - `zip: optional string`
+PUT/accounts/{account\_id}/devices/posture/{rule\_id}
 
-  - `name: optional string`
+##### [Delete a device posture rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/methods/delete)
 
-  - `netmask: optional string`
+DELETE/accounts/{account\_id}/devices/posture/{rule\_id}
 
-  - `version: optional number`
+##### ModelsExpand Collapse
 
-    IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+CarbonblackInput = string
 
-- `gatewayIpv6: optional object { address, asn, aso, 4 more }`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20carbonblack_input%20%3E%20(schema)>)
 
-  - `address: optional string`
+<details>
 
-  - `asn: optional number`
+<summary>
 
-  - `aso: optional string`
+ClientCertificateInput object {certificate\_id, cn }
 
-  - `location: optional object { city, country_iso, state_iso, zip }`
+</summary>
 
-    - `city: optional string`
+certificate\_id: string
 
-    - `country_iso: optional string`
+UUID of Cloudflare managed certificate.
 
-    - `state_iso: optional string`
+maxLength36
 
-    - `zip: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+cn: string
 
-  - `netmask: optional string`
+Common Name that is protected by the certificate.
 
-  - `version: optional number`
+<a href="#">Link to this property</a>
 
-    IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+</details>
 
-- `handshakeLatencyMs: optional number`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20client_certificate_input%20%3E%20(schema)>)
 
-- `ispIpv4: optional object { address, asn, aso, 4 more }`
+<details>
 
-  - `address: optional string`
+<summary>
 
-  - `asn: optional number`
+CrowdstrikeInput object {connection\_id, last\_seen, operator, 6 more }
 
-  - `aso: optional string`
+</summary>
 
-  - `location: optional object { city, country_iso, state_iso, zip }`
+connection\_id: string
 
-    - `city: optional string`
+Posture Integration ID.
 
-    - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-    - `state_iso: optional string`
+last\_seen: optional string
 
-    - `zip: optional string`
+For more details on last seen, please refer to the Crowdstrike documentation.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-  - `netmask: optional string`
+<details>
 
-  - `version: optional number`
+<summary>
 
-    IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-- `ispIpv6: optional object { address, asn, aso, 4 more }`
+Operator.
 
-  - `address: optional string`
+</summary>
 
-  - `asn: optional number`
+One of the following:
 
-  - `aso: optional string`
+"&lt;"
 
-  - `location: optional object { city, country_iso, state_iso, zip }`
+<a href="#">Link to this property</a>
 
-    - `city: optional string`
+"&lt;="
 
-    - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-    - `state_iso: optional string`
+"&gt;"
 
-    - `zip: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+"&gt;="
 
-  - `netmask: optional string`
+<a href="#">Link to this property</a>
 
-  - `version: optional number`
+"=="
 
-    IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<a href="#">Link to this property</a>
 
-- `metal: optional string`
+</details>
 
-- `networkRcvdBps: optional number`
+<a href="#">Link to this property</a>
 
-- `networkSentBps: optional number`
+os: optional string
 
-- `networkSsid: optional string`
+Os Version.
 
-- `personEmail: optional string`
+<a href="#">Link to this property</a>
 
-  User contact email address
+overall: optional string
 
-- `ramAvailableKb: optional number`
+Overall.
 
-- `ramUsedPct: optional number`
+<a href="#">Link to this property</a>
 
-- `ramUsedPctByApp: optional array of object { name, ram_used_pct }`
+sensor\_config: optional string
 
-  - `name: optional string`
+SensorConfig.
 
-    Application name.
+<a href="#">Link to this property</a>
 
-  - `ram_used_pct: optional number`
+<details>
 
-    RAM usage percentage, on a scale of 0 to 100.
+<summary>
 
-- `registrationId: optional string`
+state: optional "online"or "offline"or "unknown"
 
-  Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
+For more details on state, please refer to the Crowdstrike documentation.
 
-- `rtt: optional object { minRttUs, rttUs, rttVarUs }`
+</summary>
 
-  Round-trip time statistics for the WARP tunnel.
+One of the following:
 
-  - `minRttUs: optional object { downstream, upstream }`
+"online"
 
-    Minimum round-trip time in microseconds.
+<a href="#">Link to this property</a>
 
-    - `downstream: optional number`
+"offline"
 
-    - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-  - `rttUs: optional object { downstream, upstream }`
+"unknown"
 
-    Round-trip time in microseconds.
+<a href="#">Link to this property</a>
 
-    - `downstream: optional number`
+</details>
 
-    - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-  - `rttVarUs: optional object { downstream, upstream }`
+version: optional string
 
-    Round-trip time variance in microseconds.
+Version.
 
-    - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `upstream: optional number`
+<details>
 
-- `switchLocked: optional boolean`
+<summary>
 
-- `tunnelStats: optional object { bytesLost, bytesReceived, bytesRetransmitted, 6 more }`
+versionOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  WARP tunnel packet and byte counters.
+Version Operator.
 
-  - `bytesLost: optional object { downstream, upstream }`
+</summary>
 
-    Number of bytes lost, split by direction.
+One of the following:
 
-    - `downstream: optional number`
+"&lt;"
 
-    - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-  - `bytesReceived: optional object { downstream, upstream }`
+"&lt;="
 
-    Number of bytes received, split by direction.
+<a href="#">Link to this property</a>
 
-    - `downstream: optional number`
+"&gt;"
 
-    - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-  - `bytesRetransmitted: optional object { downstream, upstream }`
+"&gt;="
 
-    Number of bytes retransmitted, split by direction.
+<a href="#">Link to this property</a>
 
-    - `downstream: optional number`
+"=="
 
-    - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-  - `bytesSent: optional object { downstream, upstream }`
+</details>
 
-    Number of bytes sent, split by direction.
+<a href="#">Link to this property</a>
 
-    - `downstream: optional number`
+</details>
 
-    - `upstream: optional number`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20crowdstrike_input%20%3E%20(schema)>)
 
-  - `packetsLost: optional object { downstream, upstream }`
+<details>
 
-    Number of packets lost, split by direction.
+<summary>
 
-    - `downstream: optional number`
+DeviceInput = <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20file_input%20%3E%20(schema)">FileInput</a> { operating\_system, path, exists, 2 more } or <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20unique_client_id_input%20%3E%20(schema)">UniqueClientIDInput</a> { id, operating\_system } or <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20domain_joined_input%20%3E%20(schema)">DomainJoinedInput</a> { operating\_system, domain } or 17 more
 
-    - `upstream: optional number`
+The value to be checked against.
 
-  - `packetsReceived: optional object { downstream, upstream }`
+</summary>
 
-    Number of packets received, split by direction.
+One of the following:
 
-    - `downstream: optional number`
+<details>
 
-    - `upstream: optional number`
+<summary>
 
-  - `packetsRetransmitted: optional object { downstream, upstream }`
+FileInput object {operating\_system, path, exists, 2 more }
 
-    Number of packets retransmitted, split by direction.
+</summary>
 
-    - `downstream: optional number`
+<details>
 
-    - `upstream: optional number`
+<summary>
 
-  - `packetsSent: optional object { downstream, upstream }`
+operating\_system: "windows"or "linux"or "mac"
 
-    Number of packets sent, split by direction.
+Operating system.
 
-    - `downstream: optional number`
+</summary>
 
-    - `upstream: optional number`
+One of the following:
 
-  - `statsWindowMs: optional number`
+"windows"
 
-    The measurement window duration in milliseconds.
+<a href="#">Link to this property</a>
 
-- `tunnelType: optional string`
+"linux"
 
-- `wifiStrengthDbm: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+"mac"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/$DEVICE_ID/fleet-status/live \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "colo": "SJC",
-  "deviceId": "deviceId",
-  "mode": "proxy",
-  "platform": "windows",
-  "status": "connected",
-  "timestamp": "2023-10-11 00:00:00+00",
-  "version": "1.0.0",
-  "alwaysOn": true,
-  "batteryCharging": true,
-  "batteryCycles": 0,
-  "batteryPct": 0,
-  "connectionType": "connectionType",
-  "cpuPct": 0,
-  "cpuPctByApp": [
-    {
-      "cpu_pct": 0,
-      "name": "name"
-    }
-  ],
-  "deviceIpv4": {
-    "address": "address",
-    "asn": 0,
-    "aso": "aso",
-    "location": {
-      "city": "city",
-      "country_iso": "country_iso",
-      "state_iso": "state_iso",
-      "zip": "zip"
-    },
-    "name": "name",
-    "netmask": "netmask",
-    "version": 1
-  },
-  "deviceIpv6": {
-    "address": "address",
-    "asn": 0,
-    "aso": "aso",
-    "location": {
-      "city": "city",
-      "country_iso": "country_iso",
-      "state_iso": "state_iso",
-      "zip": "zip"
-    },
-    "name": "name",
-    "netmask": "netmask",
-    "version": 1
-  },
-  "deviceName": "deviceName",
-  "deviceRegistration": "deviceRegistration",
-  "diskReadBps": 0,
-  "diskUsagePct": 0,
-  "diskWriteBps": 0,
-  "dohSubdomain": "dohSubdomain",
-  "estimatedLossPct": 0,
-  "firewallEnabled": true,
-  "gatewayIpv4": {
-    "address": "address",
-    "asn": 0,
-    "aso": "aso",
-    "location": {
-      "city": "city",
-      "country_iso": "country_iso",
-      "state_iso": "state_iso",
-      "zip": "zip"
-    },
-    "name": "name",
-    "netmask": "netmask",
-    "version": 1
-  },
-  "gatewayIpv6": {
-    "address": "address",
-    "asn": 0,
-    "aso": "aso",
-    "location": {
-      "city": "city",
-      "country_iso": "country_iso",
-      "state_iso": "state_iso",
-      "zip": "zip"
-    },
-    "name": "name",
-    "netmask": "netmask",
-    "version": 1
-  },
-  "handshakeLatencyMs": 0,
-  "ispIpv4": {
-    "address": "address",
-    "asn": 0,
-    "aso": "aso",
-    "location": {
-      "city": "city",
-      "country_iso": "country_iso",
-      "state_iso": "state_iso",
-      "zip": "zip"
-    },
-    "name": "name",
-    "netmask": "netmask",
-    "version": 1
-  },
-  "ispIpv6": {
-    "address": "address",
-    "asn": 0,
-    "aso": "aso",
-    "location": {
-      "city": "city",
-      "country_iso": "country_iso",
-      "state_iso": "state_iso",
-      "zip": "zip"
-    },
-    "name": "name",
-    "netmask": "netmask",
-    "version": 1
-  },
-  "metal": "metal",
-  "networkRcvdBps": 0,
-  "networkSentBps": 0,
-  "networkSsid": "networkSsid",
-  "personEmail": "personEmail",
-  "ramAvailableKb": 0,
-  "ramUsedPct": 0,
-  "ramUsedPctByApp": [
-    {
-      "name": "name",
-      "ram_used_pct": 0
-    }
-  ],
-  "registrationId": "registrationId",
-  "rtt": {
-    "minRttUs": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "rttUs": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "rttVarUs": {
-      "downstream": 0,
-      "upstream": 0
-    }
-  },
-  "switchLocked": true,
-  "tunnelStats": {
-    "bytesLost": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "bytesReceived": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "bytesRetransmitted": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "bytesSent": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "packetsLost": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "packetsReceived": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "packetsRetransmitted": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "packetsSent": {
-      "downstream": 0,
-      "upstream": 0
-    },
-    "statsWindowMs": 0
-  },
-  "tunnelType": "tunnelType",
-  "wifiStrengthDbm": 0
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+path: string
 
-### Fleet Status Get Response
+File path.
 
-- `FleetStatusGetResponse object { colo, deviceId, mode, 40 more }`
+<a href="#">Link to this property</a>
 
-  - `colo: string`
+exists: optional boolean
 
-    Cloudflare colo airport code.
+Whether or not file exists.
 
-  - `deviceId: string`
+<a href="#">Link to this property</a>
 
-    Device identifier (UUID v4)
+sha256: optional string
 
-  - `mode: string`
+SHA-256.
 
-    The mode under which the WARP client is run.
+<a href="#">Link to this property</a>
 
-  - `platform: string`
+thumbprint: optional string
 
-    Operating system.
+Signing certificate thumbprint.
 
-  - `status: string`
+<a href="#">Link to this property</a>
 
-    Network status.
+</details>
 
-  - `timestamp: string`
+<a href="#">Link to this property</a>
 
-  - `version: string`
+<details>
 
-    WARP client version.
+<summary>
 
-  - `alwaysOn: optional boolean`
+UniqueClientIDInput object {id, operating\_system }
 
-  - `batteryCharging: optional boolean`
+</summary>
 
-  - `batteryCycles: optional number`
+id: string
 
-  - `batteryPct: optional number`
+List ID.
 
-  - `connectionType: optional string`
+<a href="#">Link to this property</a>
 
-  - `cpuPct: optional number`
+<details>
 
-  - `cpuPctByApp: optional array of object { cpu_pct, name }`
+<summary>
 
-    - `cpu_pct: optional number`
+operating\_system: "android"or "ios"or "chromeos"
 
-      CPU usage percentage, on a scale of 0 to 100.
+Operating System.
 
-    - `name: optional string`
+</summary>
 
-      Application name.
+One of the following:
 
-  - `deviceIpv4: optional object { address, asn, aso, 4 more }`
+"android"
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+"ios"
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+"chromeos"
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-      - `country_iso: optional string`
+</details>
 
-      - `state_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `zip: optional string`
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+<details>
 
-    - `version: optional number`
+<summary>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+DomainJoinedInput object {operating\_system, domain }
 
-  - `deviceIpv6: optional object { address, asn, aso, 4 more }`
+</summary>
 
-    - `address: optional string`
+operating\_system: "windows"
 
-    - `asn: optional number`
+Operating System.
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+domain: optional string
 
-      - `city: optional string`
+Domain.
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+</details>
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-    - `netmask: optional string`
+<summary>
 
-    - `version: optional number`
+OSVersionInput object {operating\_system, operator, version, 3 more }
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+</summary>
 
-  - `deviceName: optional string`
+operating\_system: "windows"
 
-    Device identifier (human readable).
+Operating System.
 
-  - `deviceRegistration: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated: use registrationId. Device registration identifier (UUID).
+<details>
 
-  - `diskReadBps: optional number`
+<summary>
 
-  - `diskUsagePct: optional number`
+operator: "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  - `diskWriteBps: optional number`
+Operator.
 
-  - `dohSubdomain: optional string`
+</summary>
 
-  - `estimatedLossPct: optional number`
+One of the following:
 
-  - `firewallEnabled: optional boolean`
+"&lt;"
 
-  - `gatewayIpv4: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+"&lt;="
 
-    - `asn: optional number`
+<a href="#">Link to this property</a>
 
-    - `aso: optional string`
+"&gt;"
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+"&gt;="
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+"=="
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-    - `netmask: optional string`
+<a href="#">Link to this property</a>
 
-    - `version: optional number`
+version: string
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+Version of OS.
 
-  - `gatewayIpv6: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+os\_distro\_name: optional string
 
-    - `asn: optional number`
+Operating System Distribution Name (linux only).
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+os\_distro\_revision: optional string
 
-      - `city: optional string`
+Version of OS Distribution (linux only).
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+os\_version\_extra: optional string
 
-      - `zip: optional string`
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+</details>
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<details>
 
-  - `handshakeLatencyMs: optional number`
+<summary>
 
-  - `ispIpv4: optional object { address, asn, aso, 4 more }`
+FirewallInput object {enabled, operating\_system }
 
-    - `address: optional string`
+</summary>
 
-    - `asn: optional number`
+enabled: boolean
 
-    - `aso: optional string`
+Enabled.
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+<details>
 
-      - `country_iso: optional string`
+<summary>
 
-      - `state_iso: optional string`
+operating\_system: "windows"or "mac"
 
-      - `zip: optional string`
+Operating System.
 
-    - `name: optional string`
+</summary>
 
-    - `netmask: optional string`
+One of the following:
 
-    - `version: optional number`
+"windows"
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<a href="#">Link to this property</a>
 
-  - `ispIpv6: optional object { address, asn, aso, 4 more }`
+"mac"
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+</details>
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+</details>
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-      - `country_iso: optional string`
+<details>
 
-      - `state_iso: optional string`
+<summary>
 
-      - `zip: optional string`
+SentineloneInput object {operating\_system, path, sha256, thumbprint }
 
-    - `name: optional string`
+</summary>
 
-    - `netmask: optional string`
+<details>
 
-    - `version: optional number`
+<summary>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+operating\_system: "windows"or "linux"or "mac"
 
-  - `metal: optional string`
+Operating system.
 
-  - `networkRcvdBps: optional number`
+</summary>
 
-  - `networkSentBps: optional number`
+One of the following:
 
-  - `networkSsid: optional string`
+"windows"
 
-  - `personEmail: optional string`
+<a href="#">Link to this property</a>
 
-    User contact email address
+"linux"
 
-  - `ramAvailableKb: optional number`
+<a href="#">Link to this property</a>
 
-  - `ramUsedPct: optional number`
+"mac"
 
-  - `ramUsedPctByApp: optional array of object { name, ram_used_pct }`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      Application name.
+<a href="#">Link to this property</a>
 
-    - `ram_used_pct: optional number`
+path: string
 
-      RAM usage percentage, on a scale of 0 to 100.
+File path.
 
-  - `registrationId: optional string`
+<a href="#">Link to this property</a>
 
-    Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
+sha256: optional string
 
-  - `rtt: optional object { minRttUs, rttUs, rttVarUs }`
+SHA-256.
 
-    Round-trip time statistics for the WARP tunnel.
+<a href="#">Link to this property</a>
 
-    - `minRttUs: optional object { downstream, upstream }`
+thumbprint: optional string
 
-      Minimum round-trip time in microseconds.
+Signing certificate thumbprint.
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+</details>
 
-    - `rttUs: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Round-trip time in microseconds.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+TeamsDevicesCarbonblackInputRequest object {operating\_system, path, sha256, thumbprint }
 
-    - `rttVarUs: optional object { downstream, upstream }`
+</summary>
 
-      Round-trip time variance in microseconds.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+operating\_system: "windows"or "linux"or "mac"
 
-  - `switchLocked: optional boolean`
+Operating system.
 
-  - `tunnelStats: optional object { bytesLost, bytesReceived, bytesRetransmitted, 6 more }`
+</summary>
 
-    WARP tunnel packet and byte counters.
+One of the following:
 
-    - `bytesLost: optional object { downstream, upstream }`
+"windows"
 
-      Number of bytes lost, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+"linux"
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `bytesReceived: optional object { downstream, upstream }`
+"mac"
 
-      Number of bytes received, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+</details>
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `bytesRetransmitted: optional object { downstream, upstream }`
+path: string
 
-      Number of bytes retransmitted, split by direction.
+File path.
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+sha256: optional string
 
-    - `bytesSent: optional object { downstream, upstream }`
+SHA-256.
 
-      Number of bytes sent, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+thumbprint: optional string
 
-      - `upstream: optional number`
+Signing certificate thumbprint.
 
-    - `packetsLost: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of packets lost, split by direction.
+</details>
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+<details>
 
-    - `packetsReceived: optional object { downstream, upstream }`
+<summary>
 
-      Number of packets received, split by direction.
+TeamsDevicesAccessSerialNumberListInputRequest object {id }
 
-      - `downstream: optional number`
+</summary>
 
-      - `upstream: optional number`
+id: string
 
-    - `packetsRetransmitted: optional object { downstream, upstream }`
+UUID of Access List.
 
-      Number of packets retransmitted, split by direction.
+maxLength36
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+</details>
 
-    - `packetsSent: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of packets sent, split by direction.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+DiskEncryptionInput object {checkDisks, requireAll }
 
-    - `statsWindowMs: optional number`
+</summary>
 
-      The measurement window duration in milliseconds.
+checkDisks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20carbonblack_input%20%3E%20(schema)">CarbonblackInput</a>
 
-  - `tunnelType: optional string`
+List of volume names to be checked for encryption.
 
-  - `wifiStrengthDbm: optional number`
+<a href="#">Link to this property</a>
 
-# Policies
+requireAll: optional boolean
 
-## Domain Types
+Whether to check all disks for encryption.
 
-### Device Policy Certificates
+<a href="#">Link to this property</a>
 
-- `DevicePolicyCertificates object { enabled }`
+</details>
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    The current status of the device policy certificate provisioning feature for WARP clients.
+<details>
 
-### Fallback Domain
+<summary>
 
-- `FallbackDomain object { suffix, description, dns_server }`
+TeamsDevicesApplicationInputRequest object {operating\_system, path, sha256, thumbprint }
 
-  - `suffix: string`
+</summary>
 
-    The domain suffix to match when resolving locally.
+<details>
 
-  - `description: optional string`
+<summary>
 
-    A description of the fallback domain, displayed in the client UI.
+operating\_system: "windows"or "linux"or "mac"
 
-  - `dns_server: optional array of string`
+Operating system.
 
-    A list of IP addresses to handle domain resolution.
+</summary>
 
-### Fallback Domain Policy
+One of the following:
 
-- `FallbackDomainPolicy = array of FallbackDomain`
+"windows"
 
-  - `suffix: string`
+<a href="#">Link to this property</a>
 
-    The domain suffix to match when resolving locally.
+"linux"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    A description of the fallback domain, displayed in the client UI.
+"mac"
 
-  - `dns_server: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of IP addresses to handle domain resolution.
+</details>
 
-### Settings Policy
+<a href="#">Link to this property</a>
 
-- `SettingsPolicy object { allow_mode_switch, allow_updates, allowed_to_leave, 27 more }`
+path: string
 
-  - `allow_mode_switch: optional boolean`
+Path for the application.
 
-    Whether to allow the user to switch WARP between modes.
+<a href="#">Link to this property</a>
 
-  - `allow_updates: optional boolean`
+sha256: optional string
 
-    Whether to receive update notifications when a new version of the client is available.
+SHA-256.
 
-  - `allowed_to_leave: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to allow devices to leave the organization.
+thumbprint: optional string
 
-  - `auto_connect: optional number`
+Signing certificate thumbprint.
 
-    The amount of time in seconds to reconnect after having been disabled.
+<a href="#">Link to this property</a>
 
-  - `captive_portal: optional number`
+</details>
 
-    Turn on the captive portal after the specified amount of time.
+<a href="#">Link to this property</a>
 
-  - `default: optional boolean`
+<details>
 
-    Whether the policy is the default policy for an account.
+<summary>
 
-  - `description: optional string`
+ClientCertificateInput object {certificate\_id, cn }
 
-    A description of the policy.
+</summary>
 
-  - `disable_auto_fallback: optional boolean`
+certificate\_id: string
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+UUID of Cloudflare managed certificate.
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+maxLength36
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+<a href="#">Link to this property</a>
 
-    - `suffix: string`
+cn: string
 
-      The DNS search suffix to append when resolving short hostnames.
+Common Name that is protected by the certificate.
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the DNS search suffix.
+</details>
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy will be applied to matching devices.
+<details>
 
-  - `exclude: optional array of SplitTunnelExclude`
+<summary>
 
-    List of routes excluded in the WARP client's tunnel.
+TeamsDevicesClientCertificateV2InputRequest object {certificate\_id, check\_private\_key, operating\_system, 4 more }
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+</summary>
 
-      - `address: string`
+certificate\_id: string
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+UUID of Cloudflare managed certificate.
 
-      - `description: optional string`
+maxLength36
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+check\_private\_key: boolean
 
-      - `host: string`
+Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+<details>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<summary>
 
-  - `exclude_office_ips: optional boolean`
+operating\_system: "windows"or "linux"or "mac"
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+Operating system.
 
-  - `fallback_domains: optional array of FallbackDomain`
+</summary>
 
-    - `suffix: string`
+One of the following:
 
-      The domain suffix to match when resolving locally.
+"windows"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the fallback domain, displayed in the client UI.
+"linux"
 
-    - `dns_server: optional array of string`
+<a href="#">Link to this property</a>
 
-      A list of IP addresses to handle domain resolution.
+"mac"
 
-  - `gateway_unique_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+</details>
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+<a href="#">Link to this property</a>
 
-    - `api_endpoints: array of string`
+cn: optional string
 
-      IP:port entries for the API endpoints.
+Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial\_number} and ${hostname} are valid variables.
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Global acceleration settings are used only when "enabled".
+<details>
 
-    - `masque_endpoints: array of string`
+<summary>
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+extended\_key\_usage: optional array of "clientAuth"or "emailProtection"
 
-    - `wireguard_endpoints: array of string`
+List of values indicating purposes for which the certificate public key can be used.
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+</summary>
 
-  - `include: optional array of SplitTunnelInclude`
+One of the following:
 
-    List of routes included in the WARP client's tunnel.
+"clientAuth"
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-      - `address: string`
+"emailProtection"
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+</details>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+<details>
 
-      - `host: string`
+<summary>
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+locations: optional object {paths, trust\_stores }
 
-      - `description: optional string`
+</summary>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+paths: optional array of string
 
-  - `lan_allow_minutes: optional number`
+List of paths to check for client certificate on linux.
 
-    The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
+<a href="#">Link to this property</a>
 
-  - `lan_allow_subnet_size: optional number`
+<details>
 
-    The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
+<summary>
 
-  - `match: optional string`
+trust\_stores: optional array of "system"or "user"
 
-    The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".
+List of trust stores to check for client certificate.
 
-  - `name: optional string`
+</summary>
 
-    The name of the device settings profile.
+One of the following:
 
-  - `policy_id: optional string`
+"system"
 
-  - `precedence: optional number`
+<a href="#">Link to this property</a>
 
-    The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
+"user"
 
-  - `register_interface_ip_with_dns: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+</details>
 
-  - `sccm_vpn_boundary_support: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+</details>
 
-  - `service_mode_v2: optional object { mode, port }`
+<a href="#">Link to this property</a>
 
-    - `mode: optional string`
+subject\_alternative\_names: optional array of string
 
-      The mode to run the WARP client under.
+List of certificate Subject Alternative Names.
 
-    - `port: optional number`
+<a href="#">Link to this property</a>
 
-      The port number when used with proxy mode.
+</details>
 
-  - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-    The URL to launch when the Send Feedback button is clicked.
+<details>
 
-  - `switch_locked: optional boolean`
+<summary>
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+TeamsDevicesAntivirusInputRequest object {update\_window\_days }
 
-  - `target_tests: optional array of object { id, name }`
+</summary>
 
-    - `id: optional string`
+update\_window\_days: optional number
 
-      The id of the DEX test targeting this policy.
+Number of days that the antivirus should be updated within.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      The name of the DEX test targeting this policy.
+</details>
 
-  - `tunnel_protocol: optional string`
+<a href="#">Link to this property</a>
 
-    Determines which tunnel protocol to use.
+<details>
 
-  - `virtual_networks: optional object { allowed, default }`
+<summary>
 
-    Virtual network access settings for the device.
+WorkspaceOneInput object {compliance\_status, connection\_id }
 
-    - `allowed: array of string`
+</summary>
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+<details>
 
-    - `default: string`
+<summary>
 
-      The default virtual network ID. Must be included in the `allowed` list.
+compliance\_status: "compliant"or "noncompliant"or "unknown"
 
-### Split Tunnel Exclude
+Compliance Status.
 
-- `SplitTunnelExclude = object { address, description }  or object { host, description }`
+</summary>
 
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+One of the following:
 
-    - `address: string`
+"compliant"
 
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"noncompliant"
 
-      A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+"unknown"
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+</details>
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+connection\_id: string
 
-### Split Tunnel Include
+Posture Integration ID.
 
-- `SplitTunnelInclude = object { address, description }  or object { host, description }`
+<a href="#">Link to this property</a>
 
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+</details>
 
-    - `address: string`
+<a href="#">Link to this property</a>
 
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+<details>
 
-    - `description: optional string`
+<summary>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+CrowdstrikeInput object {connection\_id, last\_seen, operator, 6 more }
 
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+</summary>
 
-    - `host: string`
+connection\_id: string
 
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+Posture Integration ID.
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+last\_seen: optional string
 
-# Default
+For more details on last seen, please refer to the Crowdstrike documentation.
 
-## Get the default device settings profile
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/devices/policy`
+<details>
 
-Fetches the default device settings profile for an account.
+<summary>
 
-### Path Parameters
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-- `account_id: string`
+Operator.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"&lt;"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"&lt;="
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"&gt;"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"&gt;="
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"=="
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { allow_mode_switch, allow_updates, allowed_to_leave, 20 more }`
+</details>
 
-  - `allow_mode_switch: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to allow the user to switch WARP between modes.
+os: optional string
 
-  - `allow_updates: optional boolean`
+Os Version.
 
-    Whether to receive update notifications when a new version of the client is available.
+<a href="#">Link to this property</a>
 
-  - `allowed_to_leave: optional boolean`
+overall: optional string
 
-    Whether to allow devices to leave the organization.
+Overall.
 
-  - `auto_connect: optional number`
+<a href="#">Link to this property</a>
 
-    The amount of time in seconds to reconnect after having been disabled.
+sensor\_config: optional string
 
-  - `captive_portal: optional number`
+SensorConfig.
 
-    Turn on the captive portal after the specified amount of time.
+<a href="#">Link to this property</a>
 
-  - `default: optional boolean`
+<details>
 
-    Whether the policy will be applied to matching devices.
+<summary>
 
-  - `disable_auto_fallback: optional boolean`
+state: optional "online"or "offline"or "unknown"
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+For more details on state, please refer to the Crowdstrike documentation.
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+</summary>
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+One of the following:
 
-    - `suffix: string`
+"online"
 
-      The DNS search suffix to append when resolving short hostnames.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"offline"
 
-      A description of the DNS search suffix.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+"unknown"
 
-    Whether the policy will be applied to matching devices.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of SplitTunnelExclude`
+</details>
 
-    List of routes excluded in the WARP client's tunnel.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+version: optional string
 
-      - `address: string`
+Version.
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+<details>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<summary>
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+versionOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-      - `host: string`
+Version Operator.
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+</summary>
 
-      - `description: optional string`
+One of the following:
 
-        A description of the Split Tunnel item, displayed in the client UI.
+"&lt;"
 
-  - `exclude_office_ips: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+"&lt;="
 
-  - `fallback_domains: optional array of FallbackDomain`
+<a href="#">Link to this property</a>
 
-    - `suffix: string`
+"&gt;"
 
-      The domain suffix to match when resolving locally.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"&gt;="
 
-      A description of the fallback domain, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `dns_server: optional array of string`
+"=="
 
-      A list of IP addresses to handle domain resolution.
+<a href="#">Link to this property</a>
 
-  - `gateway_unique_id: optional string`
+</details>
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+<a href="#">Link to this property</a>
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+</details>
 
-    - `api_endpoints: array of string`
+<a href="#">Link to this property</a>
 
-      IP:port entries for the API endpoints.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Global acceleration settings are used only when "enabled".
+IntuneInput object {compliance\_status, connection\_id }
 
-    - `masque_endpoints: array of string`
+</summary>
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+<details>
 
-    - `wireguard_endpoints: array of string`
+<summary>
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+compliance\_status: "compliant"or "noncompliant"or "unknown"or 3 more
 
-  - `include: optional array of SplitTunnelInclude`
+Compliance Status.
 
-    List of routes included in the WARP client's tunnel.
+</summary>
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+One of the following:
 
-      - `address: string`
+"compliant"
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+"noncompliant"
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+"unknown"
 
-      - `host: string`
+<a href="#">Link to this property</a>
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+"notapplicable"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+"ingraceperiod"
 
-  - `policy_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `register_interface_ip_with_dns: optional boolean`
+"error"
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+<a href="#">Link to this property</a>
 
-  - `sccm_vpn_boundary_support: optional boolean`
+</details>
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+<a href="#">Link to this property</a>
 
-  - `service_mode_v2: optional object { mode, port }`
+connection\_id: string
 
-    - `mode: optional string`
+Posture Integration ID.
 
-      The mode to run the WARP client under.
+<a href="#">Link to this property</a>
 
-    - `port: optional number`
+</details>
 
-      The port number when used with proxy mode.
+<a href="#">Link to this property</a>
 
-  - `support_url: optional string`
+<details>
 
-    The URL to launch when the Send Feedback button is clicked.
+<summary>
 
-  - `switch_locked: optional boolean`
+KolideInput object {connection\_id, auth\_state, countOperator, issue\_count }
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+</summary>
 
-  - `tunnel_protocol: optional string`
+connection\_id: string
 
-    Determines which tunnel protocol to use.
+Posture Integration ID.
 
-  - `virtual_networks: optional object { allowed, default }`
+<a href="#">Link to this property</a>
 
-    Virtual network access settings for the device.
+<details>
 
-    - `allowed: array of string`
+<summary>
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+auth\_state: optional array of "Good"or "Notified"or "Will Block"or "Blocked"
 
-    - `default: string`
+The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
 
-      The default virtual network ID. Must be included in the `allowed` list.
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"Good"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"Notified"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"Will Block"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_mode_switch": true,
-    "allow_updates": true,
-    "allowed_to_leave": true,
-    "auto_connect": 0,
-    "captive_portal": 180,
-    "default": true,
-    "disable_auto_fallback": true,
-    "dns_search_suffixes": [
-      {
-        "suffix": "internal.corp",
-        "description": "Example internal domains"
-      }
-    ],
-    "enabled": true,
-    "exclude": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Exclude testing domains from the tunnel"
-      }
-    ],
-    "exclude_office_ips": true,
-    "fallback_domains": [
-      {
-        "suffix": "example.com",
-        "description": "Domain bypass for local development",
-        "dns_server": [
-          "1.1.1.1"
-        ]
-      }
-    ],
-    "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-    "global_acceleration": {
-      "api_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "enabled": true,
-      "masque_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "wireguard_endpoints": [
-        "198.51.100.1:2408"
-      ]
-    },
-    "include": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Include testing domains in the tunnel"
-      }
-    ],
-    "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "register_interface_ip_with_dns": true,
-    "sccm_vpn_boundary_support": false,
-    "service_mode_v2": {
-      "mode": "proxy",
-      "port": 3000
-    },
-    "support_url": "https://1.1.1.1/help",
-    "switch_locked": true,
-    "tunnel_protocol": "wireguard",
-    "virtual_networks": {
-      "allowed": [
-        "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      ],
-      "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update the default device settings profile
+"Blocked"
 
-**patch** `/accounts/{account_id}/devices/policy`
+<a href="#">Link to this property</a>
 
-Updates the default device settings profile for an account.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `allow_mode_switch: optional boolean`
+countOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  Whether to allow the user to switch WARP between modes.
+Count Operator.
 
-- `allow_updates: optional boolean`
+</summary>
 
-  Whether to receive update notifications when a new version of the client is available.
+One of the following:
 
-- `allowed_to_leave: optional boolean`
+"&lt;"
 
-  Whether to allow devices to leave the organization.
+<a href="#">Link to this property</a>
 
-- `auto_connect: optional number`
+"&lt;="
 
-  The amount of time in seconds to reconnect after having been disabled.
+<a href="#">Link to this property</a>
 
-- `captive_portal: optional number`
+"&gt;"
 
-  Turn on the captive portal after the specified amount of time.
+<a href="#">Link to this property</a>
 
-- `disable_auto_fallback: optional boolean`
+"&gt;="
 
-  If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+<a href="#">Link to this property</a>
 
-- `dns_search_suffixes: optional array of object { suffix, description }`
+"=="
 
-  List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+<a href="#">Link to this property</a>
 
-  - `suffix: string`
+</details>
 
-    The DNS search suffix to append when resolving short hostnames.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+issue\_count: optional string
 
-    A description of the DNS search suffix.
+The Number of Issues.
 
-- `exclude: optional array of SplitTunnelExclude`
+<a href="#">Link to this property</a>
 
-  List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request.
+</details>
 
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-    - `address: string`
+<details>
 
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+<summary>
 
-    - `description: optional string`
+TaniumInput object {connection\_id, eid\_last\_seen, operator, 3 more }
 
-      A description of the Split Tunnel item, displayed in the client UI.
+</summary>
 
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+connection\_id: string
 
-    - `host: string`
+Posture Integration ID.
 
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+eid\_last\_seen: optional string
 
-      A description of the Split Tunnel item, displayed in the client UI.
+For more details on eid last seen, refer to the Tanium documentation.
 
-- `exclude_office_ips: optional boolean`
+<a href="#">Link to this property</a>
 
-  Whether to add Microsoft IPs to Split Tunnel exclusions.
+<details>
 
-- `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+<summary>
 
-  Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  - `api_endpoints: array of string`
+Operator to evaluate risk\_level or eid\_last\_seen.
 
-    IP:port entries for the API endpoints.
+</summary>
 
-  - `enabled: boolean`
+One of the following:
 
-    Global acceleration settings are used only when "enabled".
+"&lt;"
 
-  - `masque_endpoints: array of string`
+<a href="#">Link to this property</a>
 
-    IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+"&lt;="
 
-  - `wireguard_endpoints: array of string`
+<a href="#">Link to this property</a>
 
-    IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+"&gt;"
 
-- `include: optional array of SplitTunnelInclude`
+<a href="#">Link to this property</a>
 
-  List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request.
+"&gt;="
 
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-    - `address: string`
+"=="
 
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+<details>
 
-    - `host: string`
+<summary>
 
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+risk\_level: optional "low"or "medium"or "high"or "critical"
 
-    - `description: optional string`
+For more details on risk level, refer to the Tanium documentation.
 
-      A description of the Split Tunnel item, displayed in the client UI.
+</summary>
 
-- `lan_allow_minutes: optional number`
+One of the following:
 
-  The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
+"low"
 
-- `lan_allow_subnet_size: optional number`
+<a href="#">Link to this property</a>
 
-  The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
+"medium"
 
-- `register_interface_ip_with_dns: optional boolean`
+<a href="#">Link to this property</a>
 
-  Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+"high"
 
-- `sccm_vpn_boundary_support: optional boolean`
+<a href="#">Link to this property</a>
 
-  Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+"critical"
 
-- `service_mode_v2: optional object { mode, port }`
+<a href="#">Link to this property</a>
 
-  - `mode: optional string`
+</details>
 
-    The mode to run the WARP client under.
+<a href="#">Link to this property</a>
 
-  - `port: optional number`
+<details>
 
-    The port number when used with proxy mode.
+<summary>
 
-- `support_url: optional string`
+scoreOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  The URL to launch when the Send Feedback button is clicked.
+Score Operator.
 
-- `switch_locked: optional boolean`
+</summary>
 
-  Whether to allow the user to turn off the WARP switch and disconnect the client.
+One of the following:
 
-- `tunnel_protocol: optional string`
+"&lt;"
 
-  Determines which tunnel protocol to use.
+<a href="#">Link to this property</a>
 
-- `virtual_networks: optional object { allowed, default }`
+"&lt;="
 
-  Virtual network access settings for the device.
+<a href="#">Link to this property</a>
 
-  - `allowed: array of string`
+"&gt;"
 
-    List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+<a href="#">Link to this property</a>
 
-  - `default: string`
+"&gt;="
 
-    The default virtual network ID. Must be included in the `allowed` list.
+<a href="#">Link to this property</a>
 
-### Returns
+"=="
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+total\_score: optional number
 
-  - `source: optional object { pointer }`
+For more details on total score, refer to the Tanium documentation.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+SentineloneS2sInput object {connection\_id, active\_threats, infected, 4 more }
 
-- `result: object { allow_mode_switch, allow_updates, allowed_to_leave, 20 more }`
+</summary>
 
-  - `allow_mode_switch: optional boolean`
+connection\_id: string
 
-    Whether to allow the user to switch WARP between modes.
+Posture Integration ID.
 
-  - `allow_updates: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to receive update notifications when a new version of the client is available.
+active\_threats: optional number
 
-  - `allowed_to_leave: optional boolean`
+The Number of active threats.
 
-    Whether to allow devices to leave the organization.
+<a href="#">Link to this property</a>
 
-  - `auto_connect: optional number`
+infected: optional boolean
 
-    The amount of time in seconds to reconnect after having been disabled.
+Whether device is infected.
 
-  - `captive_portal: optional number`
+<a href="#">Link to this property</a>
 
-    Turn on the captive portal after the specified amount of time.
+is\_active: optional boolean
 
-  - `default: optional boolean`
+Whether device is active.
 
-    Whether the policy will be applied to matching devices.
+<a href="#">Link to this property</a>
 
-  - `disable_auto_fallback: optional boolean`
+<details>
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+<summary>
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+network\_status: optional "connected"or "disconnected"or "disconnecting"or "connecting"
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+Network status of device.
 
-    - `suffix: string`
+</summary>
 
-      The DNS search suffix to append when resolving short hostnames.
+One of the following:
 
-    - `description: optional string`
+"connected"
 
-      A description of the DNS search suffix.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+"disconnected"
 
-    Whether the policy will be applied to matching devices.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of SplitTunnelExclude`
+"disconnecting"
 
-    List of routes excluded in the WARP client's tunnel.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+"connecting"
 
-      - `address: string`
+<a href="#">Link to this property</a>
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+</details>
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<details>
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+<summary>
 
-      - `host: string`
+operational\_state: optional "na"or "partially\_disabled"or "auto\_fully\_disabled"or 4 more
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+Agent operational state.
 
-      - `description: optional string`
+</summary>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+One of the following:
 
-  - `exclude_office_ips: optional boolean`
+"na"
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+<a href="#">Link to this property</a>
 
-  - `fallback_domains: optional array of FallbackDomain`
+"partially\_disabled"
 
-    - `suffix: string`
+<a href="#">Link to this property</a>
 
-      The domain suffix to match when resolving locally.
+"auto\_fully\_disabled"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the fallback domain, displayed in the client UI.
+"fully\_disabled"
 
-    - `dns_server: optional array of string`
+<a href="#">Link to this property</a>
 
-      A list of IP addresses to handle domain resolution.
+"auto\_partially\_disabled"
 
-  - `gateway_unique_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+"disabled\_error"
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+<a href="#">Link to this property</a>
 
-    - `api_endpoints: array of string`
+"db\_corruption"
 
-      IP:port entries for the API endpoints.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+</details>
 
-      Global acceleration settings are used only when "enabled".
+<a href="#">Link to this property</a>
 
-    - `masque_endpoints: array of string`
+<details>
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+<summary>
 
-    - `wireguard_endpoints: array of string`
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+Operator.
 
-  - `include: optional array of SplitTunnelInclude`
+</summary>
 
-    List of routes included in the WARP client's tunnel.
+One of the following:
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+"&lt;"
 
-      - `address: string`
+<a href="#">Link to this property</a>
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+"&lt;="
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+"&gt;"
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+<a href="#">Link to this property</a>
 
-      - `host: string`
+"&gt;="
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+"=="
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `policy_id: optional string`
+</details>
 
-  - `register_interface_ip_with_dns: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+</details>
 
-  - `sccm_vpn_boundary_support: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+<details>
 
-  - `service_mode_v2: optional object { mode, port }`
+<summary>
 
-    - `mode: optional string`
+TeamsDevicesCustomS2sInputRequest object {connection\_id, operator, score }
 
-      The mode to run the WARP client under.
+</summary>
 
-    - `port: optional number`
+connection\_id: string
 
-      The port number when used with proxy mode.
+Posture Integration ID.
 
-  - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-    The URL to launch when the Send Feedback button is clicked.
+<details>
 
-  - `switch_locked: optional boolean`
+<summary>
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+operator: "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  - `tunnel_protocol: optional string`
+Operator.
 
-    Determines which tunnel protocol to use.
+</summary>
 
-  - `virtual_networks: optional object { allowed, default }`
+One of the following:
 
-    Virtual network access settings for the device.
+"&lt;"
 
-    - `allowed: array of string`
+<a href="#">Link to this property</a>
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+"&lt;="
 
-    - `default: string`
+<a href="#">Link to this property</a>
 
-      The default virtual network ID. Must be included in the `allowed` list.
+"&gt;"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"&gt;="
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"=="
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allow_mode_switch": true,
-          "allow_updates": true,
-          "allowed_to_leave": true,
-          "captive_portal": 180,
-          "disable_auto_fallback": true,
-          "exclude_office_ips": true,
-          "lan_allow_minutes": 30,
-          "lan_allow_subnet_size": 24,
-          "register_interface_ip_with_dns": true,
-          "support_url": "https://1.1.1.1/help",
-          "switch_locked": true,
-          "tunnel_protocol": "wireguard"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_mode_switch": true,
-    "allow_updates": true,
-    "allowed_to_leave": true,
-    "auto_connect": 0,
-    "captive_portal": 180,
-    "default": true,
-    "disable_auto_fallback": true,
-    "dns_search_suffixes": [
-      {
-        "suffix": "internal.corp",
-        "description": "Example internal domains"
-      }
-    ],
-    "enabled": true,
-    "exclude": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Exclude testing domains from the tunnel"
-      }
-    ],
-    "exclude_office_ips": true,
-    "fallback_domains": [
-      {
-        "suffix": "example.com",
-        "description": "Domain bypass for local development",
-        "dns_server": [
-          "1.1.1.1"
-        ]
-      }
-    ],
-    "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-    "global_acceleration": {
-      "api_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "enabled": true,
-      "masque_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "wireguard_endpoints": [
-        "198.51.100.1:2408"
-      ]
-    },
-    "include": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Include testing domains in the tunnel"
-      }
-    ],
-    "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "register_interface_ip_with_dns": true,
-    "sccm_vpn_boundary_support": false,
-    "service_mode_v2": {
-      "mode": "proxy",
-      "port": 3000
-    },
-    "support_url": "https://1.1.1.1/help",
-    "switch_locked": true,
-    "tunnel_protocol": "wireguard",
-    "virtual_networks": {
-      "allowed": [
-        "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      ],
-      "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+score: number
 
-### Default Get Response
+A value between 0-100 assigned to devices set by the 3rd party posture provider.
 
-- `DefaultGetResponse object { allow_mode_switch, allow_updates, allowed_to_leave, 20 more }`
+<a href="#">Link to this property</a>
 
-  - `allow_mode_switch: optional boolean`
+</details>
 
-    Whether to allow the user to switch WARP between modes.
+<a href="#">Link to this property</a>
 
-  - `allow_updates: optional boolean`
+</details>
 
-    Whether to receive update notifications when a new version of the client is available.
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20device_input%20%3E%20(schema)>)
 
-  - `allowed_to_leave: optional boolean`
+<details>
 
-    Whether to allow devices to leave the organization.
+<summary>
 
-  - `auto_connect: optional number`
+DeviceMatch object {platform }
 
-    The amount of time in seconds to reconnect after having been disabled.
+</summary>
 
-  - `captive_portal: optional number`
+<details>
 
-    Turn on the captive portal after the specified amount of time.
+<summary>
 
-  - `default: optional boolean`
+platform: optional "windows"or "mac"or "linux"or 3 more
 
-    Whether the policy will be applied to matching devices.
+</summary>
 
-  - `disable_auto_fallback: optional boolean`
+One of the following:
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+"windows"
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+<a href="#">Link to this property</a>
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+"mac"
 
-    - `suffix: string`
+<a href="#">Link to this property</a>
 
-      The DNS search suffix to append when resolving short hostnames.
+"linux"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the DNS search suffix.
+"android"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy will be applied to matching devices.
+"ios"
 
-  - `exclude: optional array of SplitTunnelExclude`
+<a href="#">Link to this property</a>
 
-    List of routes excluded in the WARP client's tunnel.
+"chromeos"
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-      - `address: string`
+</details>
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+</details>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20device_match%20%3E%20(schema)>)
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+<details>
 
-      - `host: string`
+<summary>
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+DevicePostureRule object {id, description, enabled, 6 more }
 
-      - `description: optional string`
+</summary>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+id: optional string
 
-  - `exclude_office_ips: optional boolean`
+API UUID.
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+maxLength36
 
-  - `fallback_domains: optional array of FallbackDomain`
+<a href="#">Link to this property</a>
 
-    - `suffix: string`
+description: optional string
 
-      The domain suffix to match when resolving locally.
+The description of the device posture rule.
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the fallback domain, displayed in the client UI.
+enabled: optional boolean
 
-    - `dns_server: optional array of string`
+Whether the rule is enabled. This is a computed, read-only value. It is false for deprecated Kolide posture rules that still use the issue\_count input, and true otherwise.
 
-      A list of IP addresses to handle domain resolution.
+<a href="#">Link to this property</a>
 
-  - `gateway_unique_id: optional string`
+expiration: optional string
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+<a href="#">Link to this property</a>
 
-    - `api_endpoints: array of string`
+input: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20device_input%20%3E%20(schema)">DeviceInput</a>
 
-      IP:port entries for the API endpoints.
+The value to be checked against.
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Global acceleration settings are used only when "enabled".
+<details>
 
-    - `masque_endpoints: array of string`
+<summary>
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+match: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20device_match%20%3E%20(schema)">DeviceMatch</a> { platform }
 
-    - `wireguard_endpoints: array of string`
+The conditions that the client must match to run the rule.
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+</summary>
 
-  - `include: optional array of SplitTunnelInclude`
+<details>
 
-    List of routes included in the WARP client's tunnel.
+<summary>
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+platform: optional "windows"or "mac"or "linux"or 3 more
 
-      - `address: string`
+</summary>
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+One of the following:
 
-      - `description: optional string`
+"windows"
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+"mac"
 
-      - `host: string`
+<a href="#">Link to this property</a>
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+"linux"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+"android"
 
-  - `policy_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `register_interface_ip_with_dns: optional boolean`
+"ios"
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+<a href="#">Link to this property</a>
 
-  - `sccm_vpn_boundary_support: optional boolean`
+"chromeos"
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+<a href="#">Link to this property</a>
 
-  - `service_mode_v2: optional object { mode, port }`
+</details>
 
-    - `mode: optional string`
+<a href="#">Link to this property</a>
 
-      The mode to run the WARP client under.
+</details>
 
-    - `port: optional number`
+<a href="#">Link to this property</a>
 
-      The port number when used with proxy mode.
+name: optional string
 
-  - `support_url: optional string`
+The name of the device posture rule.
 
-    The URL to launch when the Send Feedback button is clicked.
+<a href="#">Link to this property</a>
 
-  - `switch_locked: optional boolean`
+schedule: optional string
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+Polling frequency for the WARP client posture check. Default: <code>5m</code> (poll every five minutes). Minimum: <code>1m</code>.
 
-  - `tunnel_protocol: optional string`
+<a href="#">Link to this property</a>
 
-    Determines which tunnel protocol to use.
+<details>
 
-  - `virtual_networks: optional object { allowed, default }`
+<summary>
 
-    Virtual network access settings for the device.
+type: optional "file"or "application"or "tanium"or 20 more
 
-    - `allowed: array of string`
+The type of device posture rule.
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+</summary>
 
-    - `default: string`
+One of the following:
 
-      The default virtual network ID. Must be included in the `allowed` list.
+"file"
 
-### Default Edit Response
+<a href="#">Link to this property</a>
 
-- `DefaultEditResponse object { allow_mode_switch, allow_updates, allowed_to_leave, 20 more }`
+"application"
 
-  - `allow_mode_switch: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to allow the user to switch WARP between modes.
+"tanium"
 
-  - `allow_updates: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to receive update notifications when a new version of the client is available.
+"gateway"
 
-  - `allowed_to_leave: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to allow devices to leave the organization.
+"warp"
 
-  - `auto_connect: optional number`
+<a href="#">Link to this property</a>
 
-    The amount of time in seconds to reconnect after having been disabled.
+"disk\_encryption"
 
-  - `captive_portal: optional number`
+<a href="#">Link to this property</a>
 
-    Turn on the captive portal after the specified amount of time.
+"serial\_number"
 
-  - `default: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy will be applied to matching devices.
+"sentinelone"
 
-  - `disable_auto_fallback: optional boolean`
+<a href="#">Link to this property</a>
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+"carbonblack"
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+<a href="#">Link to this property</a>
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+"firewall"
 
-    - `suffix: string`
+<a href="#">Link to this property</a>
 
-      The DNS search suffix to append when resolving short hostnames.
+"os\_version"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the DNS search suffix.
+"domain\_joined"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy will be applied to matching devices.
+"client\_certificate"
 
-  - `exclude: optional array of SplitTunnelExclude`
+<a href="#">Link to this property</a>
 
-    List of routes excluded in the WARP client's tunnel.
+"client\_certificate\_v2"
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-      - `address: string`
+"antivirus"
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+"unique\_client\_id"
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+"kolide"
 
-      - `host: string`
+<a href="#">Link to this property</a>
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+"tanium\_s2s"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+"crowdstrike\_s2s"
 
-  - `exclude_office_ips: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+"intune"
 
-  - `fallback_domains: optional array of FallbackDomain`
+<a href="#">Link to this property</a>
 
-    - `suffix: string`
+"workspace\_one"
 
-      The domain suffix to match when resolving locally.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"sentinelone\_s2s"
 
-      A description of the fallback domain, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `dns_server: optional array of string`
+"custom\_s2s"
 
-      A list of IP addresses to handle domain resolution.
+<a href="#">Link to this property</a>
 
-  - `gateway_unique_id: optional string`
+</details>
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+<a href="#">Link to this property</a>
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+</details>
 
-    - `api_endpoints: array of string`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20device_posture_rule%20%3E%20(schema)>)
 
-      IP:port entries for the API endpoints.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Global acceleration settings are used only when "enabled".
+DiskEncryptionInput object {checkDisks, requireAll }
 
-    - `masque_endpoints: array of string`
+</summary>
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+checkDisks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20carbonblack_input%20%3E%20(schema)">CarbonblackInput</a>
 
-    - `wireguard_endpoints: array of string`
+List of volume names to be checked for encryption.
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+<a href="#">Link to this property</a>
 
-  - `include: optional array of SplitTunnelInclude`
+requireAll: optional boolean
 
-    List of routes included in the WARP client's tunnel.
+Whether to check all disks for encryption.
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-      - `address: string`
+</details>
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20disk_encryption_input%20%3E%20(schema)>)
 
-      - `description: optional string`
+<details>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<summary>
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+DomainJoinedInput object {operating\_system, domain }
 
-      - `host: string`
+</summary>
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+operating\_system: "windows"
 
-      - `description: optional string`
+Operating System.
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `policy_id: optional string`
+domain: optional string
 
-  - `register_interface_ip_with_dns: optional boolean`
+Domain.
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+<a href="#">Link to this property</a>
 
-  - `sccm_vpn_boundary_support: optional boolean`
+</details>
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20domain_joined_input%20%3E%20(schema)>)
 
-  - `service_mode_v2: optional object { mode, port }`
+<details>
 
-    - `mode: optional string`
+<summary>
 
-      The mode to run the WARP client under.
+FileInput object {operating\_system, path, exists, 2 more }
 
-    - `port: optional number`
+</summary>
 
-      The port number when used with proxy mode.
+<details>
 
-  - `support_url: optional string`
+<summary>
 
-    The URL to launch when the Send Feedback button is clicked.
+operating\_system: "windows"or "linux"or "mac"
 
-  - `switch_locked: optional boolean`
+Operating system.
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+</summary>
 
-  - `tunnel_protocol: optional string`
+One of the following:
 
-    Determines which tunnel protocol to use.
+"windows"
 
-  - `virtual_networks: optional object { allowed, default }`
+<a href="#">Link to this property</a>
 
-    Virtual network access settings for the device.
+"linux"
 
-    - `allowed: array of string`
+<a href="#">Link to this property</a>
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+"mac"
 
-    - `default: string`
+<a href="#">Link to this property</a>
 
-      The default virtual network ID. Must be included in the `allowed` list.
+</details>
 
-# Excludes
+<a href="#">Link to this property</a>
 
-## Get the Split Tunnel exclude list
+path: string
 
-**get** `/accounts/{account_id}/devices/policy/exclude`
+File path.
 
-Fetches the list of routes excluded from the WARP client's tunnel.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+exists: optional boolean
 
-- `account_id: string`
+Whether or not file exists.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+sha256: optional string
 
-  - `code: number`
+SHA-256.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+thumbprint: optional string
 
-  - `source: optional object { pointer }`
+Signing certificate thumbprint.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20file_input%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+FirewallInput object {enabled, operating\_system }
 
-- `result: array of SplitTunnelExclude`
+</summary>
 
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+enabled: boolean
 
-    - `address: string`
+Enabled.
 
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+<details>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+<summary>
 
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+operating\_system: "windows"or "mac"
 
-    - `host: string`
+Operating System.
 
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+</summary>
 
-    - `description: optional string`
+One of the following:
 
-      A description of the Split Tunnel item, displayed in the client UI.
+"windows"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"mac"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20firewall_input%20%3E%20(schema)>)
 
-    Current page within paginated list of results.
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    Number of results per page of results.
+IntuneInput object {compliance\_status, connection\_id }
 
-  - `total_count: optional number`
+</summary>
 
-    Total results available without any search parameters.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/exclude \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+compliance\_status: "compliant"or "noncompliant"or "unknown"or 3 more
 
-#### Response
+Compliance Status.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Exclude testing domains from the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+</summary>
 
-## Set the Split Tunnel exclude list
+One of the following:
 
-**put** `/accounts/{account_id}/devices/policy/exclude`
+"compliant"
 
-Sets the list of routes excluded from the WARP client's tunnel.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"noncompliant"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"unknown"
 
-- `body: array of SplitTunnelExclude`
+<a href="#">Link to this property</a>
 
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+"notapplicable"
 
-    - `address: string`
+<a href="#">Link to this property</a>
 
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+"ingraceperiod"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+"error"
 
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+<a href="#">Link to this property</a>
 
-    - `host: string`
+</details>
 
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+connection\_id: string
 
-      A description of the Split Tunnel item, displayed in the client UI.
+Posture Integration ID.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20intune_input%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+KolideInput object {connection\_id, auth\_state, countOperator, issue\_count }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+connection\_id: string
 
-  - `code: number`
+Posture Integration ID.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `result: array of SplitTunnelExclude`
+auth\_state: optional array of "Good"or "Notified"or "Will Block"or "Blocked"
 
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
 
-    - `address: string`
+</summary>
 
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+One of the following:
 
-    - `description: optional string`
+"Good"
 
-      A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+"Notified"
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+"Will Block"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+"Blocked"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service.
+countOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  - `page: optional number`
+Count Operator.
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+One of the following:
 
-    Number of results per page of results.
+"&lt;"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+"&lt;="
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/exclude \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "address": "192.0.2.0/24",
-            "description": "Exclude testing domains from the tunnel"
-          }
-        ]'
-```
+"&gt;"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Exclude testing domains from the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+"&gt;="
 
-# Includes
+<a href="#">Link to this property</a>
 
-## Get the Split Tunnel include list
+"=="
 
-**get** `/accounts/{account_id}/devices/policy/include`
+<a href="#">Link to this property</a>
 
-Fetches the list of routes included in the WARP client's tunnel.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+issue\_count: optional string
 
-### Returns
+The Number of Issues.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20kolide_input%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+OSVersionInput object {operating\_system, operator, version, 3 more }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+operating\_system: "windows"
 
-  - `message: string`
+Operating System.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: array of SplitTunnelInclude`
+<summary>
 
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+operator: "&lt;"or "&lt;="or "&gt;"or 2 more
 
-    - `address: string`
+Operator.
 
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+</summary>
 
-    - `description: optional string`
+One of the following:
 
-      A description of the Split Tunnel item, displayed in the client UI.
+"&lt;"
 
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+<a href="#">Link to this property</a>
 
-    - `host: string`
+"&lt;="
 
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"&gt;"
 
-      A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-- `success: true`
+"&gt;="
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"=="
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+version: string
 
-    Current page within paginated list of results.
+Version of OS.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+os\_distro\_name: optional string
 
-  - `total_count: optional number`
+Operating System Distribution Name (linux only).
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+os\_distro\_revision: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/include \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Version of OS Distribution (linux only).
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Include testing domains in the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+os\_version\_extra: optional string
 
-## Set the Split Tunnel include list
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
 
-**put** `/accounts/{account_id}/devices/policy/include`
+<a href="#">Link to this property</a>
 
-Sets the list of routes included in the WARP client's tunnel.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20os_version_input%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `body: array of SplitTunnelInclude`
+SentineloneInput object {operating\_system, path, sha256, thumbprint }
 
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+</summary>
 
-    - `address: string`
+<details>
 
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+<summary>
 
-    - `description: optional string`
+operating\_system: "windows"or "linux"or "mac"
 
-      A description of the Split Tunnel item, displayed in the client UI.
+Operating system.
 
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+</summary>
 
-    - `host: string`
+One of the following:
 
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+"windows"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+"linux"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"mac"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+path: string
 
-    - `pointer: optional string`
+File path.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+sha256: optional string
 
-  - `message: string`
+SHA-256.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+thumbprint: optional string
 
-- `result: array of SplitTunnelInclude`
+Signing certificate thumbprint.
 
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-    - `address: string`
+</details>
 
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20sentinelone_input%20%3E%20(schema)>)
 
-    - `description: optional string`
+<details>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+<summary>
 
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+SentineloneS2sInput object {connection\_id, active\_threats, infected, 4 more }
 
-    - `host: string`
+</summary>
 
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+connection\_id: string
 
-    - `description: optional string`
+Posture Integration ID.
 
-      A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-- `success: true`
+active\_threats: optional number
 
-  Whether the API call was successful.
+The Number of active threats.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+infected: optional boolean
 
-  - `count: optional number`
+Whether device is infected.
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+is\_active: optional boolean
 
-    Current page within paginated list of results.
+Whether device is active.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+network\_status: optional "connected"or "disconnected"or "disconnecting"or "connecting"
 
-### Example
+Network status of device.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/include \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "address": "192.0.2.0/24",
-            "description": "Include testing domains in the tunnel"
-          }
-        ]'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Include testing domains in the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+"connected"
 
-# Fallback Domains
+<a href="#">Link to this property</a>
 
-## Get your Local Domain Fallback list
+"disconnected"
 
-**get** `/accounts/{account_id}/devices/policy/fallback_domains`
+<a href="#">Link to this property</a>
 
-Fetches a list of domains to bypass Gateway DNS resolution. These domains will use the specified local DNS resolver instead.
+"disconnecting"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"connecting"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+operational\_state: optional "na"or "partially\_disabled"or "auto\_fully\_disabled"or 4 more
 
-    - `pointer: optional string`
+Agent operational state.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"na"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"partially\_disabled"
 
-- `result: array of FallbackDomain`
+<a href="#">Link to this property</a>
 
-  - `suffix: string`
+"auto\_fully\_disabled"
 
-    The domain suffix to match when resolving locally.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"fully\_disabled"
 
-    A description of the fallback domain, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `dns_server: optional array of string`
+"auto\_partially\_disabled"
 
-    A list of IP addresses to handle domain resolution.
+<a href="#">Link to this property</a>
 
-- `success: true`
+"disabled\_error"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"db\_corruption"
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+<details>
 
-    Current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-    Number of results per page of results.
+Operator.
 
-  - `total_count: optional number`
+</summary>
 
-    Total results available without any search parameters.
+One of the following:
 
-### Example
+"&lt;"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/fallback_domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"&lt;="
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "suffix": "example.com",
-      "description": "Domain bypass for local development",
-      "dns_server": [
-        "1.1.1.1"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Set your Local Domain Fallback list
+"&gt;"
 
-**put** `/accounts/{account_id}/devices/policy/fallback_domains`
+<a href="#">Link to this property</a>
 
-Sets the list of domains to bypass Gateway DNS resolution. These domains will use the specified local DNS resolver instead.
+"&gt;="
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"=="
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `domains: array of FallbackDomain`
+</details>
 
-  - `suffix: string`
+<a href="#">Link to this property</a>
 
-    The domain suffix to match when resolving locally.
+</details>
 
-  - `description: optional string`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20sentinelone_s2s_input%20%3E%20(schema)>)
 
-    A description of the fallback domain, displayed in the client UI.
+<details>
 
-  - `dns_server: optional array of string`
+<summary>
 
-    A list of IP addresses to handle domain resolution.
+TaniumInput object {connection\_id, eid\_last\_seen, operator, 3 more }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+connection\_id: string
 
-  - `code: number`
+Posture Integration ID.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+eid\_last\_seen: optional string
 
-  - `source: optional object { pointer }`
+For more details on eid last seen, refer to the Tanium documentation.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  - `documentation_url: optional string`
+Operator to evaluate risk\_level or eid\_last\_seen.
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: array of FallbackDomain`
+One of the following:
 
-  - `suffix: string`
+"&lt;"
 
-    The domain suffix to match when resolving locally.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"&lt;="
 
-    A description of the fallback domain, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `dns_server: optional array of string`
+"&gt;"
 
-    A list of IP addresses to handle domain resolution.
+<a href="#">Link to this property</a>
 
-- `success: true`
+"&gt;="
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"=="
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+<details>
 
-    Current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+risk\_level: optional "low"or "medium"or "high"or "critical"
 
-    Number of results per page of results.
+For more details on risk level, refer to the Tanium documentation.
 
-  - `total_count: optional number`
+</summary>
 
-    Total results available without any search parameters.
+One of the following:
 
-### Example
+"low"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/fallback_domains \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "suffix": "example.com",
-            "description": "Domain bypass for local development",
-            "dns_server": [
-              "1.1.1.1"
-            ]
-          }
-        ]'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"medium"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "suffix": "example.com",
-      "description": "Domain bypass for local development",
-      "dns_server": [
-        "1.1.1.1"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-# Certificates
+"high"
 
-## Get device certificate provisioning status
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/devices/policy/certificates`
+"critical"
 
-Fetches device certificate provisioning.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+scoreOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-  - `message: string`
+Score Operator.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"&lt;"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"&lt;="
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"&gt;"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: DevicePolicyCertificates`
+"&gt;="
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    The current status of the device policy certificate provisioning feature for WARP clients.
+"=="
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+total\_score: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/devices/policy/certificates \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+For more details on total score, refer to the Tanium documentation.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true
-  },
-  "success": true
-}
-```
+</details>
 
-## Update device certificate provisioning status
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20tanium_input%20%3E%20(schema)>)
 
-**patch** `/zones/{zone_id}/devices/policy/certificates`
+<details>
 
-Enable Zero Trust Clients to provision a certificate, containing a x509 subject, and referenced by Access device posture policies when the client visits MTLS protected domains. This facilitates device posture without a WARP session.
+<summary>
 
-### Path Parameters
+UniqueClientIDInput object {id, operating\_system }
 
-- `zone_id: string`
+</summary>
 
-### Body Parameters
+id: string
 
-- `enabled: boolean`
+List ID.
 
-  The current status of the device policy certificate provisioning feature for WARP clients.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+operating\_system: "android"or "ios"or "chromeos"
 
-  - `message: string`
+Operating System.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"android"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"ios"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"chromeos"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: DevicePolicyCertificates`
+</details>
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    The current status of the device policy certificate provisioning feature for WARP clients.
+</details>
 
-- `success: true`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20unique_client_id_input%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+WorkspaceOneInput object {compliance\_status, connection\_id }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/devices/policy/certificates \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true
-  },
-  "success": true
-}
-```
+<summary>
 
-# Custom
+compliance\_status: "compliant"or "noncompliant"or "unknown"
 
-## List device settings profiles
+Compliance Status.
 
-**get** `/accounts/{account_id}/devices/policies`
+</summary>
 
-Fetches a list of the device settings profiles for an account.
+One of the following:
 
-### Path Parameters
+"compliant"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"noncompliant"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"unknown"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+connection\_id: string
 
-- `messages: array of ResponseInfo`
+Posture Integration ID.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20workspace_one_input%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: array of SettingsPolicy`
+<summary>
 
-  - `allow_mode_switch: optional boolean`
+PostureDeleteResponse object {id }
 
-    Whether to allow the user to switch WARP between modes.
+</summary>
 
-  - `allow_updates: optional boolean`
+id: optional string
 
-    Whether to receive update notifications when a new version of the client is available.
+API UUID.
 
-  - `allowed_to_leave: optional boolean`
+maxLength36
 
-    Whether to allow devices to leave the organization.
+<a href="#">Link to this property</a>
 
-  - `auto_connect: optional number`
+</details>
 
-    The amount of time in seconds to reconnect after having been disabled.
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(model)%20posture_delete_response%20%3E%20(schema)>)
 
-  - `captive_portal: optional number`
+#### DevicesPostureIntegrations
 
-    Turn on the captive portal after the specified amount of time.
+##### [List your device posture integrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/list)
 
-  - `default: optional boolean`
+GET/accounts/{account\_id}/devices/posture/integration
 
-    Whether the policy is the default policy for an account.
+##### [Get device posture integration details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/get)
 
-  - `description: optional string`
+GET/accounts/{account\_id}/devices/posture/integration/{integration\_id}
 
-    A description of the policy.
+##### [Create a device posture integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/create)
 
-  - `disable_auto_fallback: optional boolean`
+POST/accounts/{account\_id}/devices/posture/integration
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+##### [Update a device posture integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/edit)
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+PATCH/accounts/{account\_id}/devices/posture/integration/{integration\_id}
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+##### [Delete a device posture integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture/subresources/integrations/methods/delete)
 
-    - `suffix: string`
+DELETE/accounts/{account\_id}/devices/posture/integration/{integration\_id}
 
-      The DNS search suffix to append when resolving short hostnames.
+##### ModelsExpand Collapse
 
-    - `description: optional string`
+<details>
 
-      A description of the DNS search suffix.
+<summary>
 
-  - `enabled: optional boolean`
+Integration object {id, config, interval, 2 more }
 
-    Whether the policy will be applied to matching devices.
+</summary>
 
-  - `exclude: optional array of SplitTunnelExclude`
+id: optional string
 
-    List of routes excluded in the WARP client's tunnel.
+API UUID.
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+maxLength36
 
-      - `address: string`
+<a href="#">Link to this property</a>
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+<details>
 
-      - `description: optional string`
+<summary>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+config: optional object {api\_url, auth\_url, client\_id }
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+The configuration object containing third-party integration information.
 
-      - `host: string`
+</summary>
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+api\_url: string
 
-      - `description: optional string`
+The Workspace One API URL provided in the Workspace One Admin Dashboard.
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `exclude_office_ips: optional boolean`
+auth\_url: string
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+The Workspace One Authorization URL depending on your region.
 
-  - `fallback_domains: optional array of FallbackDomain`
+<a href="#">Link to this property</a>
 
-    - `suffix: string`
+client\_id: string
 
-      The domain suffix to match when resolving locally.
+The Workspace One client ID provided in the Workspace One Admin Dashboard.
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description of the fallback domain, displayed in the client UI.
+</details>
 
-    - `dns_server: optional array of string`
+<a href="#">Link to this property</a>
 
-      A list of IP addresses to handle domain resolution.
+interval: optional string
 
-  - `gateway_unique_id: optional string`
+The interval between each posture check with the third-party API. Use <code>m</code> for minutes (e.g. <code>5m</code>) and <code>h</code> for hours (e.g. <code>12h</code>).
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+<a href="#">Link to this property</a>
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+name: optional string
 
-    - `api_endpoints: array of string`
+The name of the device posture integration.
 
-      IP:port entries for the API endpoints.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+<details>
 
-      Global acceleration settings are used only when "enabled".
+<summary>
 
-    - `masque_endpoints: array of string`
+type: optional "workspace\_one"or "crowdstrike\_s2s"or "uptycs"or 5 more
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+The type of device posture integration.
 
-    - `wireguard_endpoints: array of string`
+</summary>
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+One of the following:
 
-  - `include: optional array of SplitTunnelInclude`
+"workspace\_one"
 
-    List of routes included in the WARP client's tunnel.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+"crowdstrike\_s2s"
 
-      - `address: string`
+<a href="#">Link to this property</a>
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+"uptycs"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+"intune"
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+<a href="#">Link to this property</a>
 
-      - `host: string`
+"kolide"
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+"tanium\_s2s"
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-  - `lan_allow_minutes: optional number`
+"sentinelone\_s2s"
 
-    The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
+<a href="#">Link to this property</a>
 
-  - `lan_allow_subnet_size: optional number`
+"custom\_s2s"
 
-    The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
+<a href="#">Link to this property</a>
 
-  - `match: optional string`
+</details>
 
-    The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    The name of the device settings profile.
+[Link to this property](#)%20zero_trust.devices.posture.integrations%20%3E%20(model)%20integration%20%3E%20(schema)>)
 
-  - `policy_id: optional string`
+<details>
 
-  - `precedence: optional number`
+<summary>
 
-    The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
+IntegrationDeleteResponse = unknownor string
 
-  - `register_interface_ip_with_dns: optional boolean`
+</summary>
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+One of the following:
 
-  - `sccm_vpn_boundary_support: optional boolean`
+unknown
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+<a href="#">Link to this property</a>
 
-  - `service_mode_v2: optional object { mode, port }`
+string
 
-    - `mode: optional string`
+<a href="#">Link to this property</a>
 
-      The mode to run the WARP client under.
+</details>
 
-    - `port: optional number`
+[Link to this property](#)%20zero_trust.devices.posture.integrations%20%3E%20(model)%20integration_delete_response%20%3E%20(schema)>)
 
-      The port number when used with proxy mode.
+#### DevicesRevoke
 
-  - `support_url: optional string`
+##### [Revoke devices (deprecated)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/revoke/methods/create)
 
-    The URL to launch when the Send Feedback button is clicked.
+Deprecated
 
-  - `switch_locked: optional boolean`
+POST/accounts/{account\_id}/devices/revoke
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+##### ModelsExpand Collapse
 
-  - `target_tests: optional array of object { id, name }`
+<details>
 
-    - `id: optional string`
+<summary>
 
-      The id of the DEX test targeting this policy.
+RevokeCreateResponse = unknownor string
 
-    - `name: optional string`
+</summary>
 
-      The name of the DEX test targeting this policy.
+One of the following:
 
-  - `tunnel_protocol: optional string`
+unknown
 
-    Determines which tunnel protocol to use.
+<a href="#">Link to this property</a>
 
-  - `virtual_networks: optional object { allowed, default }`
+string
 
-    Virtual network access settings for the device.
+<a href="#">Link to this property</a>
 
-    - `allowed: array of string`
+</details>
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+[Link to this property](#)%20zero_trust.devices.revoke%20%3E%20(model)%20revoke_create_response%20%3E%20(schema)>)
 
-    - `default: string`
+#### DevicesSettings
 
-      The default virtual network ID. Must be included in the `allowed` list.
+##### [Get device settings for a Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/settings/methods/get)
 
-- `success: true`
+GET/accounts/{account\_id}/devices/settings
 
-  Whether the API call was successful.
+##### [Update device settings for a Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/settings/methods/update)
 
-  - `true`
+PUT/accounts/{account\_id}/devices/settings
 
-- `result_info: optional object { count, page, per_page, total_count }`
+##### [Patch device settings for a Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/settings/methods/edit)
 
-  - `count: optional number`
+PATCH/accounts/{account\_id}/devices/settings
 
-    Total number of results for the requested service.
+##### [Reset device settings for a Zero Trust account with defaults. This turns off all proxying.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/settings/methods/delete)
 
-  - `page: optional number`
+DELETE/accounts/{account\_id}/devices/settings
 
-    Current page within paginated list of results.
+##### ModelsExpand Collapse
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+DeviceSettings object {disable\_for\_time, external\_emergency\_signal\_enabled, external\_emergency\_signal\_fingerprint, 6 more }
 
-    Total results available without any search parameters.
+</summary>
 
-### Example
+disable\_for\_time: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policies \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "allow_mode_switch": true,
-      "allow_updates": true,
-      "allowed_to_leave": true,
-      "auto_connect": 0,
-      "captive_portal": 180,
-      "default": false,
-      "description": "Policy for test teams.",
-      "disable_auto_fallback": true,
-      "dns_search_suffixes": [
-        {
-          "suffix": "internal.corp",
-          "description": "Example internal domains"
-        }
-      ],
-      "enabled": true,
-      "exclude": [
-        {
-          "address": "192.0.2.0/24",
-          "description": "Exclude testing domains from the tunnel"
-        }
-      ],
-      "exclude_office_ips": true,
-      "fallback_domains": [
-        {
-          "suffix": "example.com",
-          "description": "Domain bypass for local development",
-          "dns_server": [
-            "1.1.1.1"
-          ]
-        }
-      ],
-      "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-      "global_acceleration": {
-        "api_endpoints": [
-          "198.51.100.1:443"
-        ],
-        "enabled": true,
-        "masque_endpoints": [
-          "198.51.100.1:443"
-        ],
-        "wireguard_endpoints": [
-          "198.51.100.1:2408"
-        ]
-      },
-      "include": [
-        {
-          "address": "192.0.2.0/24",
-          "description": "Include testing domains in the tunnel"
-        }
-      ],
-      "lan_allow_minutes": 30,
-      "lan_allow_subnet_size": 24,
-      "match": "identity.email == \"test@cloudflare.com\"",
-      "name": "Allow Developers",
-      "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "precedence": 100,
-      "register_interface_ip_with_dns": true,
-      "sccm_vpn_boundary_support": false,
-      "service_mode_v2": {
-        "mode": "proxy",
-        "port": 3000
-      },
-      "support_url": "https://1.1.1.1/help",
-      "switch_locked": true,
-      "target_tests": [
-        {
-          "id": "id",
-          "name": "name"
-        }
-      ],
-      "tunnel_protocol": "wireguard",
-      "virtual_networks": {
-        "allowed": [
-          "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-        ],
-        "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+external\_emergency\_signal\_enabled: optional boolean
 
-## Get device settings profile by ID
+Controls whether the external emergency disconnect feature is enabled.
 
-**get** `/accounts/{account_id}/devices/policy/{policy_id}`
+<a href="#">Link to this property</a>
 
-Fetches a device settings profile by ID.
+external\_emergency\_signal\_fingerprint: optional string
 
-### Path Parameters
+The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external\_emergency\_signal\_url. If provided, the WARP client will use this value to verify the server’s identity. The device will ignore any response if the server’s certificate fingerprint does not exactly match this value.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `policy_id: string`
+external\_emergency\_signal\_interval: optional string
 
-### Returns
+The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., “5m”, “2m30s”, “1h”). Minimum 30 seconds.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+external\_emergency\_signal\_url: optional string
 
-  - `message: string`
+The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+gateway\_proxy\_enabled: optional boolean
 
-    - `pointer: optional string`
+Enable gateway proxy filtering on TCP.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+gateway\_udp\_proxy\_enabled: optional boolean
 
-  - `message: string`
+Enable gateway proxy filtering on UDP.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+root\_certificate\_installation\_enabled: optional boolean
 
-- `result: SettingsPolicy`
+Enable installation of cloudflare managed root certificate.
 
-  - `allow_mode_switch: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to allow the user to switch WARP between modes.
+use\_zt\_virtual\_ip: optional boolean
 
-  - `allow_updates: optional boolean`
+Enable using CGNAT virtual IPv4.
 
-    Whether to receive update notifications when a new version of the client is available.
+<a href="#">Link to this property</a>
 
-  - `allowed_to_leave: optional boolean`
+</details>
 
-    Whether to allow devices to leave the organization.
+[Link to this property](#)%20zero_trust.devices.settings%20%3E%20(model)%20device_settings%20%3E%20(schema)>)
 
-  - `auto_connect: optional number`
+#### DevicesUnrevoke
 
-    The amount of time in seconds to reconnect after having been disabled.
+##### [Unrevoke devices (deprecated)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/unrevoke/methods/create)
 
-  - `captive_portal: optional number`
+Deprecated
 
-    Turn on the captive portal after the specified amount of time.
+POST/accounts/{account\_id}/devices/unrevoke
 
-  - `default: optional boolean`
+##### ModelsExpand Collapse
 
-    Whether the policy is the default policy for an account.
+<details>
 
-  - `description: optional string`
+<summary>
 
-    A description of the policy.
+UnrevokeCreateResponse = unknownor string
 
-  - `disable_auto_fallback: optional boolean`
+</summary>
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+One of the following:
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+unknown
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+<a href="#">Link to this property</a>
 
-    - `suffix: string`
+string
 
-      The DNS search suffix to append when resolving short hostnames.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      A description of the DNS search suffix.
+[Link to this property](#)%20zero_trust.devices.unrevoke%20%3E%20(model)%20unrevoke_create_response%20%3E%20(schema)>)
 
-  - `enabled: optional boolean`
+#### DevicesOverride Codes
 
-    Whether the policy will be applied to matching devices.
+##### [Get override codes (deprecated)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/override_codes/methods/list)
 
-  - `exclude: optional array of SplitTunnelExclude`
+Deprecated
 
-    List of routes excluded in the WARP client's tunnel.
+GET/accounts/{account\_id}/devices/{device\_id}/override\_codes
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+##### [Get override codes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/override_codes/methods/get)
 
-      - `address: string`
+GET/accounts/{account\_id}/devices/registrations/{registration\_id}/override\_codes
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+##### ModelsExpand Collapse
 
-      - `description: optional string`
+OverrideCodeListResponse = unknown
 
-        A description of the Split Tunnel item, displayed in the client UI.
+[Link to this property](#)%20zero_trust.devices.override_codes%20%3E%20(model)%20override_code_list_response%20%3E%20(schema)>)
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+<details>
 
-      - `host: string`
+<summary>
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+OverrideCodeGetResponse object {disable\_for\_time }
 
-      - `description: optional string`
+</summary>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+disable\_for\_time: optional map\[string]
 
-  - `exclude_office_ips: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+</details>
 
-  - `fallback_domains: optional array of FallbackDomain`
-
-    - `suffix: string`
-
-      The domain suffix to match when resolving locally.
-
-    - `description: optional string`
-
-      A description of the fallback domain, displayed in the client UI.
-
-    - `dns_server: optional array of string`
-
-      A list of IP addresses to handle domain resolution.
-
-  - `gateway_unique_id: optional string`
-
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
-
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
-
-    - `api_endpoints: array of string`
-
-      IP:port entries for the API endpoints.
-
-    - `enabled: boolean`
-
-      Global acceleration settings are used only when "enabled".
-
-    - `masque_endpoints: array of string`
-
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-    - `wireguard_endpoints: array of string`
-
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-  - `include: optional array of SplitTunnelInclude`
-
-    List of routes included in the WARP client's tunnel.
-
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `lan_allow_minutes: optional number`
-
-    The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
-
-  - `lan_allow_subnet_size: optional number`
-
-    The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
-
-  - `match: optional string`
-
-    The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".
-
-  - `name: optional string`
-
-    The name of the device settings profile.
-
-  - `policy_id: optional string`
-
-  - `precedence: optional number`
-
-    The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
-
-  - `register_interface_ip_with_dns: optional boolean`
-
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
-
-  - `sccm_vpn_boundary_support: optional boolean`
-
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
-
-  - `service_mode_v2: optional object { mode, port }`
-
-    - `mode: optional string`
-
-      The mode to run the WARP client under.
-
-    - `port: optional number`
-
-      The port number when used with proxy mode.
-
-  - `support_url: optional string`
-
-    The URL to launch when the Send Feedback button is clicked.
-
-  - `switch_locked: optional boolean`
-
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
-
-  - `target_tests: optional array of object { id, name }`
-
-    - `id: optional string`
-
-      The id of the DEX test targeting this policy.
-
-    - `name: optional string`
-
-      The name of the DEX test targeting this policy.
-
-  - `tunnel_protocol: optional string`
-
-    Determines which tunnel protocol to use.
-
-  - `virtual_networks: optional object { allowed, default }`
-
-    Virtual network access settings for the device.
-
-    - `allowed: array of string`
-
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
-
-    - `default: string`
-
-      The default virtual network ID. Must be included in the `allowed` list.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_mode_switch": true,
-    "allow_updates": true,
-    "allowed_to_leave": true,
-    "auto_connect": 0,
-    "captive_portal": 180,
-    "default": false,
-    "description": "Policy for test teams.",
-    "disable_auto_fallback": true,
-    "dns_search_suffixes": [
-      {
-        "suffix": "internal.corp",
-        "description": "Example internal domains"
-      }
-    ],
-    "enabled": true,
-    "exclude": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Exclude testing domains from the tunnel"
-      }
-    ],
-    "exclude_office_ips": true,
-    "fallback_domains": [
-      {
-        "suffix": "example.com",
-        "description": "Domain bypass for local development",
-        "dns_server": [
-          "1.1.1.1"
-        ]
-      }
-    ],
-    "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-    "global_acceleration": {
-      "api_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "enabled": true,
-      "masque_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "wireguard_endpoints": [
-        "198.51.100.1:2408"
-      ]
-    },
-    "include": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Include testing domains in the tunnel"
-      }
-    ],
-    "lan_allow_minutes": 30,
-    "lan_allow_subnet_size": 24,
-    "match": "identity.email == \"test@cloudflare.com\"",
-    "name": "Allow Developers",
-    "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "precedence": 100,
-    "register_interface_ip_with_dns": true,
-    "sccm_vpn_boundary_support": false,
-    "service_mode_v2": {
-      "mode": "proxy",
-      "port": 3000
-    },
-    "support_url": "https://1.1.1.1/help",
-    "switch_locked": true,
-    "target_tests": [
-      {
-        "id": "id",
-        "name": "name"
-      }
-    ],
-    "tunnel_protocol": "wireguard",
-    "virtual_networks": {
-      "allowed": [
-        "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      ],
-      "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  },
-  "success": true
-}
-```
-
-## Create a device settings profile
-
-**post** `/accounts/{account_id}/devices/policy`
-
-Creates a device settings profile to be applied to certain devices matching the criteria.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `match: string`
-
-  The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".
-
-- `name: string`
-
-  The name of the device settings profile.
-
-- `precedence: number`
-
-  The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
-
-- `allow_mode_switch: optional boolean`
-
-  Whether to allow the user to switch WARP between modes.
-
-- `allow_updates: optional boolean`
-
-  Whether to receive update notifications when a new version of the client is available.
-
-- `allowed_to_leave: optional boolean`
-
-  Whether to allow devices to leave the organization.
-
-- `auto_connect: optional number`
-
-  The amount of time in seconds to reconnect after having been disabled.
-
-- `captive_portal: optional number`
-
-  Turn on the captive portal after the specified amount of time.
-
-- `description: optional string`
-
-  A description of the policy.
-
-- `disable_auto_fallback: optional boolean`
-
-  If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
-
-- `dns_search_suffixes: optional array of object { suffix, description }`
-
-  List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
-
-  - `suffix: string`
-
-    The DNS search suffix to append when resolving short hostnames.
-
-  - `description: optional string`
-
-    A description of the DNS search suffix.
-
-- `enabled: optional boolean`
-
-  Whether the policy will be applied to matching devices.
-
-- `exclude: optional array of SplitTunnelExclude`
-
-  List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request.
-
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `exclude_office_ips: optional boolean`
-
-  Whether to add Microsoft IPs to Split Tunnel exclusions.
-
-- `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
-
-  Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
-
-  - `api_endpoints: array of string`
-
-    IP:port entries for the API endpoints.
-
-  - `enabled: boolean`
-
-    Global acceleration settings are used only when "enabled".
-
-  - `masque_endpoints: array of string`
-
-    IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-  - `wireguard_endpoints: array of string`
-
-    IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-- `include: optional array of SplitTunnelInclude`
-
-  List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request.
-
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `lan_allow_minutes: optional number`
-
-  The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
-
-- `lan_allow_subnet_size: optional number`
-
-  The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
-
-- `register_interface_ip_with_dns: optional boolean`
-
-  Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
-
-- `sccm_vpn_boundary_support: optional boolean`
-
-  Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
-
-- `service_mode_v2: optional object { mode, port }`
-
-  - `mode: optional string`
-
-    The mode to run the WARP client under.
-
-  - `port: optional number`
-
-    The port number when used with proxy mode.
-
-- `support_url: optional string`
-
-  The URL to launch when the Send Feedback button is clicked.
-
-- `switch_locked: optional boolean`
-
-  Whether to allow the user to turn off the WARP switch and disconnect the client.
-
-- `tunnel_protocol: optional string`
-
-  Determines which tunnel protocol to use.
-
-- `virtual_networks: optional object { allowed, default }`
-
-  Virtual network access settings for the device.
-
-  - `allowed: array of string`
-
-    List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
-
-  - `default: string`
-
-    The default virtual network ID. Must be included in the `allowed` list.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: SettingsPolicy`
-
-  - `allow_mode_switch: optional boolean`
-
-    Whether to allow the user to switch WARP between modes.
-
-  - `allow_updates: optional boolean`
-
-    Whether to receive update notifications when a new version of the client is available.
-
-  - `allowed_to_leave: optional boolean`
-
-    Whether to allow devices to leave the organization.
-
-  - `auto_connect: optional number`
-
-    The amount of time in seconds to reconnect after having been disabled.
-
-  - `captive_portal: optional number`
-
-    Turn on the captive portal after the specified amount of time.
-
-  - `default: optional boolean`
-
-    Whether the policy is the default policy for an account.
-
-  - `description: optional string`
-
-    A description of the policy.
-
-  - `disable_auto_fallback: optional boolean`
-
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
-
-  - `dns_search_suffixes: optional array of object { suffix, description }`
-
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
-
-    - `suffix: string`
-
-      The DNS search suffix to append when resolving short hostnames.
-
-    - `description: optional string`
-
-      A description of the DNS search suffix.
-
-  - `enabled: optional boolean`
-
-    Whether the policy will be applied to matching devices.
-
-  - `exclude: optional array of SplitTunnelExclude`
-
-    List of routes excluded in the WARP client's tunnel.
-
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `exclude_office_ips: optional boolean`
-
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
-
-  - `fallback_domains: optional array of FallbackDomain`
-
-    - `suffix: string`
-
-      The domain suffix to match when resolving locally.
-
-    - `description: optional string`
-
-      A description of the fallback domain, displayed in the client UI.
-
-    - `dns_server: optional array of string`
-
-      A list of IP addresses to handle domain resolution.
-
-  - `gateway_unique_id: optional string`
-
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
-
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
-
-    - `api_endpoints: array of string`
-
-      IP:port entries for the API endpoints.
-
-    - `enabled: boolean`
-
-      Global acceleration settings are used only when "enabled".
-
-    - `masque_endpoints: array of string`
-
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-    - `wireguard_endpoints: array of string`
-
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-  - `include: optional array of SplitTunnelInclude`
-
-    List of routes included in the WARP client's tunnel.
-
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `lan_allow_minutes: optional number`
-
-    The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
-
-  - `lan_allow_subnet_size: optional number`
-
-    The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
-
-  - `match: optional string`
-
-    The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".
-
-  - `name: optional string`
-
-    The name of the device settings profile.
-
-  - `policy_id: optional string`
-
-  - `precedence: optional number`
-
-    The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
-
-  - `register_interface_ip_with_dns: optional boolean`
-
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
-
-  - `sccm_vpn_boundary_support: optional boolean`
-
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
-
-  - `service_mode_v2: optional object { mode, port }`
-
-    - `mode: optional string`
-
-      The mode to run the WARP client under.
-
-    - `port: optional number`
-
-      The port number when used with proxy mode.
-
-  - `support_url: optional string`
-
-    The URL to launch when the Send Feedback button is clicked.
-
-  - `switch_locked: optional boolean`
-
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
-
-  - `target_tests: optional array of object { id, name }`
-
-    - `id: optional string`
-
-      The id of the DEX test targeting this policy.
-
-    - `name: optional string`
-
-      The name of the DEX test targeting this policy.
-
-  - `tunnel_protocol: optional string`
-
-    Determines which tunnel protocol to use.
-
-  - `virtual_networks: optional object { allowed, default }`
-
-    Virtual network access settings for the device.
-
-    - `allowed: array of string`
-
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
-
-    - `default: string`
-
-      The default virtual network ID. Must be included in the `allowed` list.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "match": "identity.email == \\"test@cloudflare.com\\"",
-          "name": "Allow Developers",
-          "precedence": 100,
-          "allow_mode_switch": true,
-          "allow_updates": true,
-          "allowed_to_leave": true,
-          "captive_portal": 180,
-          "description": "Policy for test teams.",
-          "disable_auto_fallback": true,
-          "enabled": true,
-          "exclude_office_ips": true,
-          "lan_allow_minutes": 30,
-          "lan_allow_subnet_size": 24,
-          "register_interface_ip_with_dns": true,
-          "support_url": "https://1.1.1.1/help",
-          "switch_locked": true,
-          "tunnel_protocol": "wireguard"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_mode_switch": true,
-    "allow_updates": true,
-    "allowed_to_leave": true,
-    "auto_connect": 0,
-    "captive_portal": 180,
-    "default": false,
-    "description": "Policy for test teams.",
-    "disable_auto_fallback": true,
-    "dns_search_suffixes": [
-      {
-        "suffix": "internal.corp",
-        "description": "Example internal domains"
-      }
-    ],
-    "enabled": true,
-    "exclude": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Exclude testing domains from the tunnel"
-      }
-    ],
-    "exclude_office_ips": true,
-    "fallback_domains": [
-      {
-        "suffix": "example.com",
-        "description": "Domain bypass for local development",
-        "dns_server": [
-          "1.1.1.1"
-        ]
-      }
-    ],
-    "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-    "global_acceleration": {
-      "api_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "enabled": true,
-      "masque_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "wireguard_endpoints": [
-        "198.51.100.1:2408"
-      ]
-    },
-    "include": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Include testing domains in the tunnel"
-      }
-    ],
-    "lan_allow_minutes": 30,
-    "lan_allow_subnet_size": 24,
-    "match": "identity.email == \"test@cloudflare.com\"",
-    "name": "Allow Developers",
-    "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "precedence": 100,
-    "register_interface_ip_with_dns": true,
-    "sccm_vpn_boundary_support": false,
-    "service_mode_v2": {
-      "mode": "proxy",
-      "port": 3000
-    },
-    "support_url": "https://1.1.1.1/help",
-    "switch_locked": true,
-    "target_tests": [
-      {
-        "id": "id",
-        "name": "name"
-      }
-    ],
-    "tunnel_protocol": "wireguard",
-    "virtual_networks": {
-      "allowed": [
-        "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      ],
-      "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  },
-  "success": true
-}
-```
-
-## Update a device settings profile
-
-**patch** `/accounts/{account_id}/devices/policy/{policy_id}`
-
-Updates a configured device settings profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `policy_id: string`
-
-### Body Parameters
-
-- `allow_mode_switch: optional boolean`
-
-  Whether to allow the user to switch WARP between modes.
-
-- `allow_updates: optional boolean`
-
-  Whether to receive update notifications when a new version of the client is available.
-
-- `allowed_to_leave: optional boolean`
-
-  Whether to allow devices to leave the organization.
-
-- `auto_connect: optional number`
-
-  The amount of time in seconds to reconnect after having been disabled.
-
-- `captive_portal: optional number`
-
-  Turn on the captive portal after the specified amount of time.
-
-- `description: optional string`
-
-  A description of the policy.
-
-- `disable_auto_fallback: optional boolean`
-
-  If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
-
-- `dns_search_suffixes: optional array of object { suffix, description }`
-
-  List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
-
-  - `suffix: string`
-
-    The DNS search suffix to append when resolving short hostnames.
-
-  - `description: optional string`
-
-    A description of the DNS search suffix.
-
-- `enabled: optional boolean`
-
-  Whether the policy will be applied to matching devices.
-
-- `exclude: optional array of SplitTunnelExclude`
-
-  List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request.
-
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `exclude_office_ips: optional boolean`
-
-  Whether to add Microsoft IPs to Split Tunnel exclusions.
-
-- `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
-
-  Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
-
-  - `api_endpoints: array of string`
-
-    IP:port entries for the API endpoints.
-
-  - `enabled: boolean`
-
-    Global acceleration settings are used only when "enabled".
-
-  - `masque_endpoints: array of string`
-
-    IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-  - `wireguard_endpoints: array of string`
-
-    IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-- `include: optional array of SplitTunnelInclude`
-
-  List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request.
-
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `lan_allow_minutes: optional number`
-
-  The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
-
-- `lan_allow_subnet_size: optional number`
-
-  The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
-
-- `match: optional string`
-
-  The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".
-
-- `name: optional string`
-
-  The name of the device settings profile.
-
-- `precedence: optional number`
-
-  The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
-
-- `register_interface_ip_with_dns: optional boolean`
-
-  Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
-
-- `sccm_vpn_boundary_support: optional boolean`
-
-  Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
-
-- `service_mode_v2: optional object { mode, port }`
-
-  - `mode: optional string`
-
-    The mode to run the WARP client under.
-
-  - `port: optional number`
-
-    The port number when used with proxy mode.
-
-- `support_url: optional string`
-
-  The URL to launch when the Send Feedback button is clicked.
-
-- `switch_locked: optional boolean`
-
-  Whether to allow the user to turn off the WARP switch and disconnect the client.
-
-- `tunnel_protocol: optional string`
-
-  Determines which tunnel protocol to use.
-
-- `virtual_networks: optional object { allowed, default }`
-
-  Virtual network access settings for the device.
-
-  - `allowed: array of string`
-
-    List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
-
-  - `default: string`
-
-    The default virtual network ID. Must be included in the `allowed` list.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: SettingsPolicy`
-
-  - `allow_mode_switch: optional boolean`
-
-    Whether to allow the user to switch WARP between modes.
-
-  - `allow_updates: optional boolean`
-
-    Whether to receive update notifications when a new version of the client is available.
-
-  - `allowed_to_leave: optional boolean`
-
-    Whether to allow devices to leave the organization.
-
-  - `auto_connect: optional number`
-
-    The amount of time in seconds to reconnect after having been disabled.
-
-  - `captive_portal: optional number`
-
-    Turn on the captive portal after the specified amount of time.
-
-  - `default: optional boolean`
-
-    Whether the policy is the default policy for an account.
-
-  - `description: optional string`
-
-    A description of the policy.
-
-  - `disable_auto_fallback: optional boolean`
-
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
-
-  - `dns_search_suffixes: optional array of object { suffix, description }`
-
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
-
-    - `suffix: string`
-
-      The DNS search suffix to append when resolving short hostnames.
-
-    - `description: optional string`
-
-      A description of the DNS search suffix.
-
-  - `enabled: optional boolean`
-
-    Whether the policy will be applied to matching devices.
-
-  - `exclude: optional array of SplitTunnelExclude`
-
-    List of routes excluded in the WARP client's tunnel.
-
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `exclude_office_ips: optional boolean`
-
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
-
-  - `fallback_domains: optional array of FallbackDomain`
-
-    - `suffix: string`
-
-      The domain suffix to match when resolving locally.
-
-    - `description: optional string`
-
-      A description of the fallback domain, displayed in the client UI.
-
-    - `dns_server: optional array of string`
-
-      A list of IP addresses to handle domain resolution.
-
-  - `gateway_unique_id: optional string`
-
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
-
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
-
-    - `api_endpoints: array of string`
-
-      IP:port entries for the API endpoints.
-
-    - `enabled: boolean`
-
-      Global acceleration settings are used only when "enabled".
-
-    - `masque_endpoints: array of string`
-
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-    - `wireguard_endpoints: array of string`
-
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-  - `include: optional array of SplitTunnelInclude`
-
-    List of routes included in the WARP client's tunnel.
-
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `lan_allow_minutes: optional number`
-
-    The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
-
-  - `lan_allow_subnet_size: optional number`
-
-    The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
-
-  - `match: optional string`
-
-    The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".
-
-  - `name: optional string`
-
-    The name of the device settings profile.
-
-  - `policy_id: optional string`
-
-  - `precedence: optional number`
-
-    The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
-
-  - `register_interface_ip_with_dns: optional boolean`
-
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
-
-  - `sccm_vpn_boundary_support: optional boolean`
-
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
-
-  - `service_mode_v2: optional object { mode, port }`
-
-    - `mode: optional string`
-
-      The mode to run the WARP client under.
-
-    - `port: optional number`
-
-      The port number when used with proxy mode.
-
-  - `support_url: optional string`
-
-    The URL to launch when the Send Feedback button is clicked.
-
-  - `switch_locked: optional boolean`
-
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
-
-  - `target_tests: optional array of object { id, name }`
-
-    - `id: optional string`
-
-      The id of the DEX test targeting this policy.
-
-    - `name: optional string`
-
-      The name of the DEX test targeting this policy.
-
-  - `tunnel_protocol: optional string`
-
-    Determines which tunnel protocol to use.
-
-  - `virtual_networks: optional object { allowed, default }`
-
-    Virtual network access settings for the device.
-
-    - `allowed: array of string`
-
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
-
-    - `default: string`
-
-      The default virtual network ID. Must be included in the `allowed` list.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allow_mode_switch": true,
-          "allow_updates": true,
-          "allowed_to_leave": true,
-          "captive_portal": 180,
-          "description": "Policy for test teams.",
-          "disable_auto_fallback": true,
-          "enabled": true,
-          "exclude_office_ips": true,
-          "lan_allow_minutes": 30,
-          "lan_allow_subnet_size": 24,
-          "match": "identity.email == \\"test@cloudflare.com\\"",
-          "name": "Allow Developers",
-          "precedence": 100,
-          "register_interface_ip_with_dns": true,
-          "support_url": "https://1.1.1.1/help",
-          "switch_locked": true,
-          "tunnel_protocol": "wireguard"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_mode_switch": true,
-    "allow_updates": true,
-    "allowed_to_leave": true,
-    "auto_connect": 0,
-    "captive_portal": 180,
-    "default": false,
-    "description": "Policy for test teams.",
-    "disable_auto_fallback": true,
-    "dns_search_suffixes": [
-      {
-        "suffix": "internal.corp",
-        "description": "Example internal domains"
-      }
-    ],
-    "enabled": true,
-    "exclude": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Exclude testing domains from the tunnel"
-      }
-    ],
-    "exclude_office_ips": true,
-    "fallback_domains": [
-      {
-        "suffix": "example.com",
-        "description": "Domain bypass for local development",
-        "dns_server": [
-          "1.1.1.1"
-        ]
-      }
-    ],
-    "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-    "global_acceleration": {
-      "api_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "enabled": true,
-      "masque_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "wireguard_endpoints": [
-        "198.51.100.1:2408"
-      ]
-    },
-    "include": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Include testing domains in the tunnel"
-      }
-    ],
-    "lan_allow_minutes": 30,
-    "lan_allow_subnet_size": 24,
-    "match": "identity.email == \"test@cloudflare.com\"",
-    "name": "Allow Developers",
-    "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "precedence": 100,
-    "register_interface_ip_with_dns": true,
-    "sccm_vpn_boundary_support": false,
-    "service_mode_v2": {
-      "mode": "proxy",
-      "port": 3000
-    },
-    "support_url": "https://1.1.1.1/help",
-    "switch_locked": true,
-    "target_tests": [
-      {
-        "id": "id",
-        "name": "name"
-      }
-    ],
-    "tunnel_protocol": "wireguard",
-    "virtual_networks": {
-      "allowed": [
-        "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      ],
-      "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  },
-  "success": true
-}
-```
-
-## Delete a device settings profile
-
-**delete** `/accounts/{account_id}/devices/policy/{policy_id}`
-
-Deletes a device settings profile and fetches a list of the remaining profiles for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `policy_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SettingsPolicy`
-
-  - `allow_mode_switch: optional boolean`
-
-    Whether to allow the user to switch WARP between modes.
-
-  - `allow_updates: optional boolean`
-
-    Whether to receive update notifications when a new version of the client is available.
-
-  - `allowed_to_leave: optional boolean`
-
-    Whether to allow devices to leave the organization.
-
-  - `auto_connect: optional number`
-
-    The amount of time in seconds to reconnect after having been disabled.
-
-  - `captive_portal: optional number`
-
-    Turn on the captive portal after the specified amount of time.
-
-  - `default: optional boolean`
-
-    Whether the policy is the default policy for an account.
-
-  - `description: optional string`
-
-    A description of the policy.
-
-  - `disable_auto_fallback: optional boolean`
-
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
-
-  - `dns_search_suffixes: optional array of object { suffix, description }`
-
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
-
-    - `suffix: string`
-
-      The DNS search suffix to append when resolving short hostnames.
-
-    - `description: optional string`
-
-      A description of the DNS search suffix.
-
-  - `enabled: optional boolean`
-
-    Whether the policy will be applied to matching devices.
-
-  - `exclude: optional array of SplitTunnelExclude`
-
-    List of routes excluded in the WARP client's tunnel.
-
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `exclude_office_ips: optional boolean`
-
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
-
-  - `fallback_domains: optional array of FallbackDomain`
-
-    - `suffix: string`
-
-      The domain suffix to match when resolving locally.
-
-    - `description: optional string`
-
-      A description of the fallback domain, displayed in the client UI.
-
-    - `dns_server: optional array of string`
-
-      A list of IP addresses to handle domain resolution.
-
-  - `gateway_unique_id: optional string`
-
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
-
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
-
-    - `api_endpoints: array of string`
-
-      IP:port entries for the API endpoints.
-
-    - `enabled: boolean`
-
-      Global acceleration settings are used only when "enabled".
-
-    - `masque_endpoints: array of string`
-
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-    - `wireguard_endpoints: array of string`
-
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-  - `include: optional array of SplitTunnelInclude`
-
-    List of routes included in the WARP client's tunnel.
-
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `lan_allow_minutes: optional number`
-
-    The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
-
-  - `lan_allow_subnet_size: optional number`
-
-    The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
-
-  - `match: optional string`
-
-    The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".
-
-  - `name: optional string`
-
-    The name of the device settings profile.
-
-  - `policy_id: optional string`
-
-  - `precedence: optional number`
-
-    The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field.
-
-  - `register_interface_ip_with_dns: optional boolean`
-
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
-
-  - `sccm_vpn_boundary_support: optional boolean`
-
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
-
-  - `service_mode_v2: optional object { mode, port }`
-
-    - `mode: optional string`
-
-      The mode to run the WARP client under.
-
-    - `port: optional number`
-
-      The port number when used with proxy mode.
-
-  - `support_url: optional string`
-
-    The URL to launch when the Send Feedback button is clicked.
-
-  - `switch_locked: optional boolean`
-
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
-
-  - `target_tests: optional array of object { id, name }`
-
-    - `id: optional string`
-
-      The id of the DEX test targeting this policy.
-
-    - `name: optional string`
-
-      The name of the DEX test targeting this policy.
-
-  - `tunnel_protocol: optional string`
-
-    Determines which tunnel protocol to use.
-
-  - `virtual_networks: optional object { allowed, default }`
-
-    Virtual network access settings for the device.
-
-    - `allowed: array of string`
-
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
-
-    - `default: string`
-
-      The default virtual network ID. Must be included in the `allowed` list.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "allow_mode_switch": true,
-      "allow_updates": true,
-      "allowed_to_leave": true,
-      "auto_connect": 0,
-      "captive_portal": 180,
-      "default": false,
-      "description": "Policy for test teams.",
-      "disable_auto_fallback": true,
-      "dns_search_suffixes": [
-        {
-          "suffix": "internal.corp",
-          "description": "Example internal domains"
-        }
-      ],
-      "enabled": true,
-      "exclude": [
-        {
-          "address": "192.0.2.0/24",
-          "description": "Exclude testing domains from the tunnel"
-        }
-      ],
-      "exclude_office_ips": true,
-      "fallback_domains": [
-        {
-          "suffix": "example.com",
-          "description": "Domain bypass for local development",
-          "dns_server": [
-            "1.1.1.1"
-          ]
-        }
-      ],
-      "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-      "global_acceleration": {
-        "api_endpoints": [
-          "198.51.100.1:443"
-        ],
-        "enabled": true,
-        "masque_endpoints": [
-          "198.51.100.1:443"
-        ],
-        "wireguard_endpoints": [
-          "198.51.100.1:2408"
-        ]
-      },
-      "include": [
-        {
-          "address": "192.0.2.0/24",
-          "description": "Include testing domains in the tunnel"
-        }
-      ],
-      "lan_allow_minutes": 30,
-      "lan_allow_subnet_size": 24,
-      "match": "identity.email == \"test@cloudflare.com\"",
-      "name": "Allow Developers",
-      "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "precedence": 100,
-      "register_interface_ip_with_dns": true,
-      "sccm_vpn_boundary_support": false,
-      "service_mode_v2": {
-        "mode": "proxy",
-        "port": 3000
-      },
-      "support_url": "https://1.1.1.1/help",
-      "switch_locked": true,
-      "target_tests": [
-        {
-          "id": "id",
-          "name": "name"
-        }
-      ],
-      "tunnel_protocol": "wireguard",
-      "virtual_networks": {
-        "allowed": [
-          "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-        ],
-        "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-# Excludes
-
-## Get the Split Tunnel exclude list for a device settings profile
-
-**get** `/accounts/{account_id}/devices/policy/{policy_id}/exclude`
-
-Fetches the list of routes excluded from the WARP client's tunnel for a specific device settings profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `policy_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SplitTunnelExclude`
-
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID/exclude \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Exclude testing domains from the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Set the Split Tunnel exclude list for a device settings profile
-
-**put** `/accounts/{account_id}/devices/policy/{policy_id}/exclude`
-
-Sets the list of routes excluded from the WARP client's tunnel for a specific device settings profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `policy_id: string`
-
-### Body Parameters
-
-- `body: array of SplitTunnelExclude`
-
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SplitTunnelExclude`
-
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID/exclude \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "address": "192.0.2.0/24",
-            "description": "Exclude testing domains from the tunnel"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Exclude testing domains from the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-# Includes
-
-## Get the Split Tunnel include list for a device settings profile
-
-**get** `/accounts/{account_id}/devices/policy/{policy_id}/include`
-
-Fetches the list of routes included in the WARP client's tunnel for a specific device settings profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `policy_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SplitTunnelInclude`
-
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID/include \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Include testing domains in the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Set the Split Tunnel include list for a device settings profile
-
-**put** `/accounts/{account_id}/devices/policy/{policy_id}/include`
-
-Sets the list of routes included in the WARP client's tunnel for a specific device settings profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `policy_id: string`
-
-### Body Parameters
-
-- `body: array of SplitTunnelInclude`
-
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SplitTunnelInclude`
-
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID/include \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "address": "192.0.2.0/24",
-            "description": "Include testing domains in the tunnel"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Include testing domains in the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-# Fallback Domains
-
-## Get the Local Domain Fallback list for a device settings profile
-
-**get** `/accounts/{account_id}/devices/policy/{policy_id}/fallback_domains`
-
-Fetches the list of domains to bypass Gateway DNS resolution from a specified device settings profile. These domains will use the specified local DNS resolver instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `policy_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of FallbackDomain`
-
-  - `suffix: string`
-
-    The domain suffix to match when resolving locally.
-
-  - `description: optional string`
-
-    A description of the fallback domain, displayed in the client UI.
-
-  - `dns_server: optional array of string`
-
-    A list of IP addresses to handle domain resolution.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID/fallback_domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "suffix": "example.com",
-      "description": "Domain bypass for local development",
-      "dns_server": [
-        "1.1.1.1"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Set the Local Domain Fallback list for a device settings profile
-
-**put** `/accounts/{account_id}/devices/policy/{policy_id}/fallback_domains`
-
-Sets the list of domains to bypass Gateway DNS resolution. These domains will use the specified local DNS resolver instead. This will only apply to the specified device settings profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `policy_id: string`
-
-### Body Parameters
-
-- `domains: array of FallbackDomain`
-
-  - `suffix: string`
-
-    The domain suffix to match when resolving locally.
-
-  - `description: optional string`
-
-    A description of the fallback domain, displayed in the client UI.
-
-  - `dns_server: optional array of string`
-
-    A list of IP addresses to handle domain resolution.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of FallbackDomain`
-
-  - `suffix: string`
-
-    The domain suffix to match when resolving locally.
-
-  - `description: optional string`
-
-    A description of the fallback domain, displayed in the client UI.
-
-  - `dns_server: optional array of string`
-
-    A list of IP addresses to handle domain resolution.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/$POLICY_ID/fallback_domains \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "suffix": "example.com",
-            "description": "Domain bypass for local development",
-            "dns_server": [
-              "1.1.1.1"
-            ]
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "suffix": "example.com",
-      "description": "Domain bypass for local development",
-      "dns_server": [
-        "1.1.1.1"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-# Posture
-
-## List device posture rules
-
-**get** `/accounts/{account_id}/devices/posture`
-
-Fetches device posture rules for a Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of DevicePostureRule`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `description: optional string`
-
-    The description of the device posture rule.
-
-  - `expiration: optional string`
-
-    Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
-
-  - `input: optional DeviceInput`
-
-    The value to be checked against.
-
-    - `FileInput object { operating_system, path, exists, 2 more }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `exists: optional boolean`
-
-        Whether or not file exists.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `UniqueClientIDInput object { id, operating_system }`
-
-      - `id: string`
-
-        List ID.
-
-      - `operating_system: "android" or "ios" or "chromeos"`
-
-        Operating System.
-
-        - `"android"`
-
-        - `"ios"`
-
-        - `"chromeos"`
-
-    - `DomainJoinedInput object { operating_system, domain }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `domain: optional string`
-
-        Domain.
-
-    - `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `version: string`
-
-        Version of OS.
-
-      - `os_distro_name: optional string`
-
-        Operating System Distribution Name (linux only).
-
-      - `os_distro_revision: optional string`
-
-        Version of OS Distribution (linux only).
-
-      - `os_version_extra: optional string`
-
-        Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-    - `FirewallInput object { enabled, operating_system }`
-
-      - `enabled: boolean`
-
-        Enabled.
-
-      - `operating_system: "windows" or "mac"`
-
-        Operating System.
-
-        - `"windows"`
-
-        - `"mac"`
-
-    - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
-
-      - `id: string`
-
-        UUID of Access List.
-
-    - `DiskEncryptionInput object { checkDisks, requireAll }`
-
-      - `checkDisks: optional array of CarbonblackInput`
-
-        List of volume names to be checked for encryption.
-
-      - `requireAll: optional boolean`
-
-        Whether to check all disks for encryption.
-
-    - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        Path for the application.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `ClientCertificateInput object { certificate_id, cn }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `cn: string`
-
-        Common Name that is protected by the certificate.
-
-    - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `check_private_key: boolean`
-
-        Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `cn: optional string`
-
-        Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
-
-      - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
-
-        List of values indicating purposes for which the certificate public key can be used.
-
-        - `"clientAuth"`
-
-        - `"emailProtection"`
-
-      - `locations: optional object { paths, trust_stores }`
-
-        - `paths: optional array of string`
-
-          List of paths to check for client certificate on linux.
-
-        - `trust_stores: optional array of "system" or "user"`
-
-          List of trust stores to check for client certificate.
-
-          - `"system"`
-
-          - `"user"`
-
-      - `subject_alternative_names: optional array of string`
-
-        List of certificate Subject Alternative Names.
-
-    - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
-
-      - `update_window_days: optional number`
-
-        Number of days that the antivirus should be updated within.
-
-    - `WorkspaceOneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `last_seen: optional string`
-
-        For more details on last seen, please refer to the Crowdstrike documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `os: optional string`
-
-        Os Version.
-
-      - `overall: optional string`
-
-        Overall.
-
-      - `sensor_config: optional string`
-
-        SensorConfig.
-
-      - `state: optional "online" or "offline" or "unknown"`
-
-        For more details on state, please refer to the Crowdstrike documentation.
-
-        - `"online"`
-
-        - `"offline"`
-
-        - `"unknown"`
-
-      - `version: optional string`
-
-        Version.
-
-      - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Version Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `IntuneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-        - `"notapplicable"`
-
-        - `"ingraceperiod"`
-
-        - `"error"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-        The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-        - `"Good"`
-
-        - `"Notified"`
-
-        - `"Will Block"`
-
-        - `"Blocked"`
-
-      - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Count Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `issue_count: optional string`
-
-        The Number of Issues.
-
-    - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `eid_last_seen: optional string`
-
-        For more details on eid last seen, refer to the Tanium documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator to evaluate risk_level or eid_last_seen.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-        For more details on risk level, refer to the Tanium documentation.
-
-        - `"low"`
-
-        - `"medium"`
-
-        - `"high"`
-
-        - `"critical"`
-
-      - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Score Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `total_score: optional number`
-
-        For more details on total score, refer to the Tanium documentation.
-
-    - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `active_threats: optional number`
-
-        The Number of active threats.
-
-      - `infected: optional boolean`
-
-        Whether device is infected.
-
-      - `is_active: optional boolean`
-
-        Whether device is active.
-
-      - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-        Network status of device.
-
-        - `"connected"`
-
-        - `"disconnected"`
-
-        - `"disconnecting"`
-
-        - `"connecting"`
-
-      - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-        Agent operational state.
-
-        - `"na"`
-
-        - `"partially_disabled"`
-
-        - `"auto_fully_disabled"`
-
-        - `"fully_disabled"`
-
-        - `"auto_partially_disabled"`
-
-        - `"disabled_error"`
-
-        - `"db_corruption"`
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `score: number`
-
-        A value between 0-100 assigned to devices set by the 3rd party posture provider.
-
-  - `match: optional array of DeviceMatch`
-
-    The conditions that the client must match to run the rule.
-
-    - `platform: optional "windows" or "mac" or "linux" or 3 more`
-
-      - `"windows"`
-
-      - `"mac"`
-
-      - `"linux"`
-
-      - `"android"`
-
-      - `"ios"`
-
-      - `"chromeos"`
-
-  - `name: optional string`
-
-    The name of the device posture rule.
-
-  - `schedule: optional string`
-
-    Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
-
-  - `type: optional "file" or "application" or "tanium" or 20 more`
-
-    The type of device posture rule.
-
-    - `"file"`
-
-    - `"application"`
-
-    - `"tanium"`
-
-    - `"gateway"`
-
-    - `"warp"`
-
-    - `"disk_encryption"`
-
-    - `"serial_number"`
-
-    - `"sentinelone"`
-
-    - `"carbonblack"`
-
-    - `"firewall"`
-
-    - `"os_version"`
-
-    - `"domain_joined"`
-
-    - `"client_certificate"`
-
-    - `"client_certificate_v2"`
-
-    - `"antivirus"`
-
-    - `"unique_client_id"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"intune"`
-
-    - `"workspace_one"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "description": "The rule for admin serial numbers",
-      "expiration": "1h",
-      "input": {
-        "operating_system": "linux",
-        "path": "/bin/cat",
-        "exists": true,
-        "sha256": "https://api.us-2.crowdstrike.com",
-        "thumbprint": "0aabab210bdb998e9cf45da2c9ce352977ab531c681b74cf1e487be1bbe9fe6e"
-      },
-      "match": [
-        {
-          "platform": "windows"
-        }
-      ],
-      "name": "Admin Serial Numbers",
-      "schedule": "1h",
-      "type": "file"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get device posture rule details
-
-**get** `/accounts/{account_id}/devices/posture/{rule_id}`
-
-Fetches a single device posture rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  API UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DevicePostureRule`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `description: optional string`
-
-    The description of the device posture rule.
-
-  - `expiration: optional string`
-
-    Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
-
-  - `input: optional DeviceInput`
-
-    The value to be checked against.
-
-    - `FileInput object { operating_system, path, exists, 2 more }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `exists: optional boolean`
-
-        Whether or not file exists.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `UniqueClientIDInput object { id, operating_system }`
-
-      - `id: string`
-
-        List ID.
-
-      - `operating_system: "android" or "ios" or "chromeos"`
-
-        Operating System.
-
-        - `"android"`
-
-        - `"ios"`
-
-        - `"chromeos"`
-
-    - `DomainJoinedInput object { operating_system, domain }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `domain: optional string`
-
-        Domain.
-
-    - `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `version: string`
-
-        Version of OS.
-
-      - `os_distro_name: optional string`
-
-        Operating System Distribution Name (linux only).
-
-      - `os_distro_revision: optional string`
-
-        Version of OS Distribution (linux only).
-
-      - `os_version_extra: optional string`
-
-        Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-    - `FirewallInput object { enabled, operating_system }`
-
-      - `enabled: boolean`
-
-        Enabled.
-
-      - `operating_system: "windows" or "mac"`
-
-        Operating System.
-
-        - `"windows"`
-
-        - `"mac"`
-
-    - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
-
-      - `id: string`
-
-        UUID of Access List.
-
-    - `DiskEncryptionInput object { checkDisks, requireAll }`
-
-      - `checkDisks: optional array of CarbonblackInput`
-
-        List of volume names to be checked for encryption.
-
-      - `requireAll: optional boolean`
-
-        Whether to check all disks for encryption.
-
-    - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        Path for the application.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `ClientCertificateInput object { certificate_id, cn }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `cn: string`
-
-        Common Name that is protected by the certificate.
-
-    - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `check_private_key: boolean`
-
-        Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `cn: optional string`
-
-        Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
-
-      - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
-
-        List of values indicating purposes for which the certificate public key can be used.
-
-        - `"clientAuth"`
-
-        - `"emailProtection"`
-
-      - `locations: optional object { paths, trust_stores }`
-
-        - `paths: optional array of string`
-
-          List of paths to check for client certificate on linux.
-
-        - `trust_stores: optional array of "system" or "user"`
-
-          List of trust stores to check for client certificate.
-
-          - `"system"`
-
-          - `"user"`
-
-      - `subject_alternative_names: optional array of string`
-
-        List of certificate Subject Alternative Names.
-
-    - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
-
-      - `update_window_days: optional number`
-
-        Number of days that the antivirus should be updated within.
-
-    - `WorkspaceOneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `last_seen: optional string`
-
-        For more details on last seen, please refer to the Crowdstrike documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `os: optional string`
-
-        Os Version.
-
-      - `overall: optional string`
-
-        Overall.
-
-      - `sensor_config: optional string`
-
-        SensorConfig.
-
-      - `state: optional "online" or "offline" or "unknown"`
-
-        For more details on state, please refer to the Crowdstrike documentation.
-
-        - `"online"`
-
-        - `"offline"`
-
-        - `"unknown"`
-
-      - `version: optional string`
-
-        Version.
-
-      - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Version Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `IntuneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-        - `"notapplicable"`
-
-        - `"ingraceperiod"`
-
-        - `"error"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-        The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-        - `"Good"`
-
-        - `"Notified"`
-
-        - `"Will Block"`
-
-        - `"Blocked"`
-
-      - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Count Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `issue_count: optional string`
-
-        The Number of Issues.
-
-    - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `eid_last_seen: optional string`
-
-        For more details on eid last seen, refer to the Tanium documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator to evaluate risk_level or eid_last_seen.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-        For more details on risk level, refer to the Tanium documentation.
-
-        - `"low"`
-
-        - `"medium"`
-
-        - `"high"`
-
-        - `"critical"`
-
-      - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Score Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `total_score: optional number`
-
-        For more details on total score, refer to the Tanium documentation.
-
-    - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `active_threats: optional number`
-
-        The Number of active threats.
-
-      - `infected: optional boolean`
-
-        Whether device is infected.
-
-      - `is_active: optional boolean`
-
-        Whether device is active.
-
-      - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-        Network status of device.
-
-        - `"connected"`
-
-        - `"disconnected"`
-
-        - `"disconnecting"`
-
-        - `"connecting"`
-
-      - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-        Agent operational state.
-
-        - `"na"`
-
-        - `"partially_disabled"`
-
-        - `"auto_fully_disabled"`
-
-        - `"fully_disabled"`
-
-        - `"auto_partially_disabled"`
-
-        - `"disabled_error"`
-
-        - `"db_corruption"`
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `score: number`
-
-        A value between 0-100 assigned to devices set by the 3rd party posture provider.
-
-  - `match: optional array of DeviceMatch`
-
-    The conditions that the client must match to run the rule.
-
-    - `platform: optional "windows" or "mac" or "linux" or 3 more`
-
-      - `"windows"`
-
-      - `"mac"`
-
-      - `"linux"`
-
-      - `"android"`
-
-      - `"ios"`
-
-      - `"chromeos"`
-
-  - `name: optional string`
-
-    The name of the device posture rule.
-
-  - `schedule: optional string`
-
-    Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
-
-  - `type: optional "file" or "application" or "tanium" or 20 more`
-
-    The type of device posture rule.
-
-    - `"file"`
-
-    - `"application"`
-
-    - `"tanium"`
-
-    - `"gateway"`
-
-    - `"warp"`
-
-    - `"disk_encryption"`
-
-    - `"serial_number"`
-
-    - `"sentinelone"`
-
-    - `"carbonblack"`
-
-    - `"firewall"`
-
-    - `"os_version"`
-
-    - `"domain_joined"`
-
-    - `"client_certificate"`
-
-    - `"client_certificate_v2"`
-
-    - `"antivirus"`
-
-    - `"unique_client_id"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"intune"`
-
-    - `"workspace_one"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "description": "The rule for admin serial numbers",
-    "expiration": "1h",
-    "input": {
-      "operating_system": "linux",
-      "path": "/bin/cat",
-      "exists": true,
-      "sha256": "https://api.us-2.crowdstrike.com",
-      "thumbprint": "0aabab210bdb998e9cf45da2c9ce352977ab531c681b74cf1e487be1bbe9fe6e"
-    },
-    "match": [
-      {
-        "platform": "windows"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "schedule": "1h",
-    "type": "file"
-  },
-  "success": true
-}
-```
-
-## Create a device posture rule
-
-**post** `/accounts/{account_id}/devices/posture`
-
-Creates a new device posture rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `name: string`
-
-  The name of the device posture rule.
-
-- `type: "file" or "application" or "tanium" or 20 more`
-
-  The type of device posture rule.
-
-  - `"file"`
-
-  - `"application"`
-
-  - `"tanium"`
-
-  - `"gateway"`
-
-  - `"warp"`
-
-  - `"disk_encryption"`
-
-  - `"serial_number"`
-
-  - `"sentinelone"`
-
-  - `"carbonblack"`
-
-  - `"firewall"`
-
-  - `"os_version"`
-
-  - `"domain_joined"`
-
-  - `"client_certificate"`
-
-  - `"client_certificate_v2"`
-
-  - `"antivirus"`
-
-  - `"unique_client_id"`
-
-  - `"kolide"`
-
-  - `"tanium_s2s"`
-
-  - `"crowdstrike_s2s"`
-
-  - `"intune"`
-
-  - `"workspace_one"`
-
-  - `"sentinelone_s2s"`
-
-  - `"custom_s2s"`
-
-- `description: optional string`
-
-  The description of the device posture rule.
-
-- `expiration: optional string`
-
-  Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
-
-- `input: optional DeviceInput`
-
-  The value to be checked against.
-
-  - `FileInput object { operating_system, path, exists, 2 more }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `exists: optional boolean`
-
-      Whether or not file exists.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `UniqueClientIDInput object { id, operating_system }`
-
-    - `id: string`
-
-      List ID.
-
-    - `operating_system: "android" or "ios" or "chromeos"`
-
-      Operating System.
-
-      - `"android"`
-
-      - `"ios"`
-
-      - `"chromeos"`
-
-  - `DomainJoinedInput object { operating_system, domain }`
-
-    - `operating_system: "windows"`
-
-      Operating System.
-
-      - `"windows"`
-
-    - `domain: optional string`
-
-      Domain.
-
-  - `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-    - `operating_system: "windows"`
-
-      Operating System.
-
-      - `"windows"`
-
-    - `operator: "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `version: string`
-
-      Version of OS.
-
-    - `os_distro_name: optional string`
-
-      Operating System Distribution Name (linux only).
-
-    - `os_distro_revision: optional string`
-
-      Version of OS Distribution (linux only).
-
-    - `os_version_extra: optional string`
-
-      Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-  - `FirewallInput object { enabled, operating_system }`
-
-    - `enabled: boolean`
-
-      Enabled.
-
-    - `operating_system: "windows" or "mac"`
-
-      Operating System.
-
-      - `"windows"`
-
-      - `"mac"`
-
-  - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
-
-    - `id: string`
-
-      UUID of Access List.
-
-  - `DiskEncryptionInput object { checkDisks, requireAll }`
-
-    - `checkDisks: optional array of CarbonblackInput`
-
-      List of volume names to be checked for encryption.
-
-    - `requireAll: optional boolean`
-
-      Whether to check all disks for encryption.
-
-  - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      Path for the application.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `ClientCertificateInput object { certificate_id, cn }`
-
-    - `certificate_id: string`
-
-      UUID of Cloudflare managed certificate.
-
-    - `cn: string`
-
-      Common Name that is protected by the certificate.
-
-  - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
-
-    - `certificate_id: string`
-
-      UUID of Cloudflare managed certificate.
-
-    - `check_private_key: boolean`
-
-      Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `cn: optional string`
-
-      Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
-
-    - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
-
-      List of values indicating purposes for which the certificate public key can be used.
-
-      - `"clientAuth"`
-
-      - `"emailProtection"`
-
-    - `locations: optional object { paths, trust_stores }`
-
-      - `paths: optional array of string`
-
-        List of paths to check for client certificate on linux.
-
-      - `trust_stores: optional array of "system" or "user"`
-
-        List of trust stores to check for client certificate.
-
-        - `"system"`
-
-        - `"user"`
-
-    - `subject_alternative_names: optional array of string`
-
-      List of certificate Subject Alternative Names.
-
-  - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
-
-    - `update_window_days: optional number`
-
-      Number of days that the antivirus should be updated within.
-
-  - `WorkspaceOneInput object { compliance_status, connection_id }`
-
-    - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-      Compliance Status.
-
-      - `"compliant"`
-
-      - `"noncompliant"`
-
-      - `"unknown"`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-  - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `last_seen: optional string`
-
-      For more details on last seen, please refer to the Crowdstrike documentation.
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `os: optional string`
-
-      Os Version.
-
-    - `overall: optional string`
-
-      Overall.
-
-    - `sensor_config: optional string`
-
-      SensorConfig.
-
-    - `state: optional "online" or "offline" or "unknown"`
-
-      For more details on state, please refer to the Crowdstrike documentation.
-
-      - `"online"`
-
-      - `"offline"`
-
-      - `"unknown"`
-
-    - `version: optional string`
-
-      Version.
-
-    - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Version Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-  - `IntuneInput object { compliance_status, connection_id }`
-
-    - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-      Compliance Status.
-
-      - `"compliant"`
-
-      - `"noncompliant"`
-
-      - `"unknown"`
-
-      - `"notapplicable"`
-
-      - `"ingraceperiod"`
-
-      - `"error"`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-  - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-      The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-      - `"Good"`
-
-      - `"Notified"`
-
-      - `"Will Block"`
-
-      - `"Blocked"`
-
-    - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Count Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `issue_count: optional string`
-
-      The Number of Issues.
-
-  - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `eid_last_seen: optional string`
-
-      For more details on eid last seen, refer to the Tanium documentation.
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator to evaluate risk_level or eid_last_seen.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-      For more details on risk level, refer to the Tanium documentation.
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-      - `"critical"`
-
-    - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Score Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `total_score: optional number`
-
-      For more details on total score, refer to the Tanium documentation.
-
-  - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `active_threats: optional number`
-
-      The Number of active threats.
-
-    - `infected: optional boolean`
-
-      Whether device is infected.
-
-    - `is_active: optional boolean`
-
-      Whether device is active.
-
-    - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-      Network status of device.
-
-      - `"connected"`
-
-      - `"disconnected"`
-
-      - `"disconnecting"`
-
-      - `"connecting"`
-
-    - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-      Agent operational state.
-
-      - `"na"`
-
-      - `"partially_disabled"`
-
-      - `"auto_fully_disabled"`
-
-      - `"fully_disabled"`
-
-      - `"auto_partially_disabled"`
-
-      - `"disabled_error"`
-
-      - `"db_corruption"`
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-  - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `operator: "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `score: number`
-
-      A value between 0-100 assigned to devices set by the 3rd party posture provider.
-
-- `match: optional array of DeviceMatch`
-
-  The conditions that the client must match to run the rule.
-
-  - `platform: optional "windows" or "mac" or "linux" or 3 more`
-
-    - `"windows"`
-
-    - `"mac"`
-
-    - `"linux"`
-
-    - `"android"`
-
-    - `"ios"`
-
-    - `"chromeos"`
-
-- `schedule: optional string`
-
-  Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DevicePostureRule`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `description: optional string`
-
-    The description of the device posture rule.
-
-  - `expiration: optional string`
-
-    Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
-
-  - `input: optional DeviceInput`
-
-    The value to be checked against.
-
-    - `FileInput object { operating_system, path, exists, 2 more }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `exists: optional boolean`
-
-        Whether or not file exists.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `UniqueClientIDInput object { id, operating_system }`
-
-      - `id: string`
-
-        List ID.
-
-      - `operating_system: "android" or "ios" or "chromeos"`
-
-        Operating System.
-
-        - `"android"`
-
-        - `"ios"`
-
-        - `"chromeos"`
-
-    - `DomainJoinedInput object { operating_system, domain }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `domain: optional string`
-
-        Domain.
-
-    - `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `version: string`
-
-        Version of OS.
-
-      - `os_distro_name: optional string`
-
-        Operating System Distribution Name (linux only).
-
-      - `os_distro_revision: optional string`
-
-        Version of OS Distribution (linux only).
-
-      - `os_version_extra: optional string`
-
-        Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-    - `FirewallInput object { enabled, operating_system }`
-
-      - `enabled: boolean`
-
-        Enabled.
-
-      - `operating_system: "windows" or "mac"`
-
-        Operating System.
-
-        - `"windows"`
-
-        - `"mac"`
-
-    - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
-
-      - `id: string`
-
-        UUID of Access List.
-
-    - `DiskEncryptionInput object { checkDisks, requireAll }`
-
-      - `checkDisks: optional array of CarbonblackInput`
-
-        List of volume names to be checked for encryption.
-
-      - `requireAll: optional boolean`
-
-        Whether to check all disks for encryption.
-
-    - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        Path for the application.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `ClientCertificateInput object { certificate_id, cn }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `cn: string`
-
-        Common Name that is protected by the certificate.
-
-    - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `check_private_key: boolean`
-
-        Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `cn: optional string`
-
-        Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
-
-      - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
-
-        List of values indicating purposes for which the certificate public key can be used.
-
-        - `"clientAuth"`
-
-        - `"emailProtection"`
-
-      - `locations: optional object { paths, trust_stores }`
-
-        - `paths: optional array of string`
-
-          List of paths to check for client certificate on linux.
-
-        - `trust_stores: optional array of "system" or "user"`
-
-          List of trust stores to check for client certificate.
-
-          - `"system"`
-
-          - `"user"`
-
-      - `subject_alternative_names: optional array of string`
-
-        List of certificate Subject Alternative Names.
-
-    - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
-
-      - `update_window_days: optional number`
-
-        Number of days that the antivirus should be updated within.
-
-    - `WorkspaceOneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `last_seen: optional string`
-
-        For more details on last seen, please refer to the Crowdstrike documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `os: optional string`
-
-        Os Version.
-
-      - `overall: optional string`
-
-        Overall.
-
-      - `sensor_config: optional string`
-
-        SensorConfig.
-
-      - `state: optional "online" or "offline" or "unknown"`
-
-        For more details on state, please refer to the Crowdstrike documentation.
-
-        - `"online"`
-
-        - `"offline"`
-
-        - `"unknown"`
-
-      - `version: optional string`
-
-        Version.
-
-      - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Version Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `IntuneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-        - `"notapplicable"`
-
-        - `"ingraceperiod"`
-
-        - `"error"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-        The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-        - `"Good"`
-
-        - `"Notified"`
-
-        - `"Will Block"`
-
-        - `"Blocked"`
-
-      - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Count Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `issue_count: optional string`
-
-        The Number of Issues.
-
-    - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `eid_last_seen: optional string`
-
-        For more details on eid last seen, refer to the Tanium documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator to evaluate risk_level or eid_last_seen.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-        For more details on risk level, refer to the Tanium documentation.
-
-        - `"low"`
-
-        - `"medium"`
-
-        - `"high"`
-
-        - `"critical"`
-
-      - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Score Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `total_score: optional number`
-
-        For more details on total score, refer to the Tanium documentation.
-
-    - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `active_threats: optional number`
-
-        The Number of active threats.
-
-      - `infected: optional boolean`
-
-        Whether device is infected.
-
-      - `is_active: optional boolean`
-
-        Whether device is active.
-
-      - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-        Network status of device.
-
-        - `"connected"`
-
-        - `"disconnected"`
-
-        - `"disconnecting"`
-
-        - `"connecting"`
-
-      - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-        Agent operational state.
-
-        - `"na"`
-
-        - `"partially_disabled"`
-
-        - `"auto_fully_disabled"`
-
-        - `"fully_disabled"`
-
-        - `"auto_partially_disabled"`
-
-        - `"disabled_error"`
-
-        - `"db_corruption"`
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `score: number`
-
-        A value between 0-100 assigned to devices set by the 3rd party posture provider.
-
-  - `match: optional array of DeviceMatch`
-
-    The conditions that the client must match to run the rule.
-
-    - `platform: optional "windows" or "mac" or "linux" or 3 more`
-
-      - `"windows"`
-
-      - `"mac"`
-
-      - `"linux"`
-
-      - `"android"`
-
-      - `"ios"`
-
-      - `"chromeos"`
-
-  - `name: optional string`
-
-    The name of the device posture rule.
-
-  - `schedule: optional string`
-
-    Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
-
-  - `type: optional "file" or "application" or "tanium" or 20 more`
-
-    The type of device posture rule.
-
-    - `"file"`
-
-    - `"application"`
-
-    - `"tanium"`
-
-    - `"gateway"`
-
-    - `"warp"`
-
-    - `"disk_encryption"`
-
-    - `"serial_number"`
-
-    - `"sentinelone"`
-
-    - `"carbonblack"`
-
-    - `"firewall"`
-
-    - `"os_version"`
-
-    - `"domain_joined"`
-
-    - `"client_certificate"`
-
-    - `"client_certificate_v2"`
-
-    - `"antivirus"`
-
-    - `"unique_client_id"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"intune"`
-
-    - `"workspace_one"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Admin Serial Numbers",
-          "type": "file",
-          "description": "The rule for admin serial numbers",
-          "expiration": "1h",
-          "input": {
-            "operating_system": "linux",
-            "path": "/bin/cat",
-            "thumbprint": "0aabab210bdb998e9cf45da2c9ce352977ab531c681b74cf1e487be1bbe9fe6e"
-          },
-          "schedule": "1h"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "description": "The rule for admin serial numbers",
-    "expiration": "1h",
-    "input": {
-      "operating_system": "linux",
-      "path": "/bin/cat",
-      "exists": true,
-      "sha256": "https://api.us-2.crowdstrike.com",
-      "thumbprint": "0aabab210bdb998e9cf45da2c9ce352977ab531c681b74cf1e487be1bbe9fe6e"
-    },
-    "match": [
-      {
-        "platform": "windows"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "schedule": "1h",
-    "type": "file"
-  },
-  "success": true
-}
-```
-
-## Update a device posture rule
-
-**put** `/accounts/{account_id}/devices/posture/{rule_id}`
-
-Updates a device posture rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  API UUID.
-
-### Body Parameters
-
-- `name: string`
-
-  The name of the device posture rule.
-
-- `type: "file" or "application" or "tanium" or 20 more`
-
-  The type of device posture rule.
-
-  - `"file"`
-
-  - `"application"`
-
-  - `"tanium"`
-
-  - `"gateway"`
-
-  - `"warp"`
-
-  - `"disk_encryption"`
-
-  - `"serial_number"`
-
-  - `"sentinelone"`
-
-  - `"carbonblack"`
-
-  - `"firewall"`
-
-  - `"os_version"`
-
-  - `"domain_joined"`
-
-  - `"client_certificate"`
-
-  - `"client_certificate_v2"`
-
-  - `"antivirus"`
-
-  - `"unique_client_id"`
-
-  - `"kolide"`
-
-  - `"tanium_s2s"`
-
-  - `"crowdstrike_s2s"`
-
-  - `"intune"`
-
-  - `"workspace_one"`
-
-  - `"sentinelone_s2s"`
-
-  - `"custom_s2s"`
-
-- `description: optional string`
-
-  The description of the device posture rule.
-
-- `expiration: optional string`
-
-  Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
-
-- `input: optional DeviceInput`
-
-  The value to be checked against.
-
-  - `FileInput object { operating_system, path, exists, 2 more }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `exists: optional boolean`
-
-      Whether or not file exists.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `UniqueClientIDInput object { id, operating_system }`
-
-    - `id: string`
-
-      List ID.
-
-    - `operating_system: "android" or "ios" or "chromeos"`
-
-      Operating System.
-
-      - `"android"`
-
-      - `"ios"`
-
-      - `"chromeos"`
-
-  - `DomainJoinedInput object { operating_system, domain }`
-
-    - `operating_system: "windows"`
-
-      Operating System.
-
-      - `"windows"`
-
-    - `domain: optional string`
-
-      Domain.
-
-  - `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-    - `operating_system: "windows"`
-
-      Operating System.
-
-      - `"windows"`
-
-    - `operator: "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `version: string`
-
-      Version of OS.
-
-    - `os_distro_name: optional string`
-
-      Operating System Distribution Name (linux only).
-
-    - `os_distro_revision: optional string`
-
-      Version of OS Distribution (linux only).
-
-    - `os_version_extra: optional string`
-
-      Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-  - `FirewallInput object { enabled, operating_system }`
-
-    - `enabled: boolean`
-
-      Enabled.
-
-    - `operating_system: "windows" or "mac"`
-
-      Operating System.
-
-      - `"windows"`
-
-      - `"mac"`
-
-  - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
-
-    - `id: string`
-
-      UUID of Access List.
-
-  - `DiskEncryptionInput object { checkDisks, requireAll }`
-
-    - `checkDisks: optional array of CarbonblackInput`
-
-      List of volume names to be checked for encryption.
-
-    - `requireAll: optional boolean`
-
-      Whether to check all disks for encryption.
-
-  - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      Path for the application.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `ClientCertificateInput object { certificate_id, cn }`
-
-    - `certificate_id: string`
-
-      UUID of Cloudflare managed certificate.
-
-    - `cn: string`
-
-      Common Name that is protected by the certificate.
-
-  - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
-
-    - `certificate_id: string`
-
-      UUID of Cloudflare managed certificate.
-
-    - `check_private_key: boolean`
-
-      Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `cn: optional string`
-
-      Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
-
-    - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
-
-      List of values indicating purposes for which the certificate public key can be used.
-
-      - `"clientAuth"`
-
-      - `"emailProtection"`
-
-    - `locations: optional object { paths, trust_stores }`
-
-      - `paths: optional array of string`
-
-        List of paths to check for client certificate on linux.
-
-      - `trust_stores: optional array of "system" or "user"`
-
-        List of trust stores to check for client certificate.
-
-        - `"system"`
-
-        - `"user"`
-
-    - `subject_alternative_names: optional array of string`
-
-      List of certificate Subject Alternative Names.
-
-  - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
-
-    - `update_window_days: optional number`
-
-      Number of days that the antivirus should be updated within.
-
-  - `WorkspaceOneInput object { compliance_status, connection_id }`
-
-    - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-      Compliance Status.
-
-      - `"compliant"`
-
-      - `"noncompliant"`
-
-      - `"unknown"`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-  - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `last_seen: optional string`
-
-      For more details on last seen, please refer to the Crowdstrike documentation.
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `os: optional string`
-
-      Os Version.
-
-    - `overall: optional string`
-
-      Overall.
-
-    - `sensor_config: optional string`
-
-      SensorConfig.
-
-    - `state: optional "online" or "offline" or "unknown"`
-
-      For more details on state, please refer to the Crowdstrike documentation.
-
-      - `"online"`
-
-      - `"offline"`
-
-      - `"unknown"`
-
-    - `version: optional string`
-
-      Version.
-
-    - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Version Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-  - `IntuneInput object { compliance_status, connection_id }`
-
-    - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-      Compliance Status.
-
-      - `"compliant"`
-
-      - `"noncompliant"`
-
-      - `"unknown"`
-
-      - `"notapplicable"`
-
-      - `"ingraceperiod"`
-
-      - `"error"`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-  - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-      The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-      - `"Good"`
-
-      - `"Notified"`
-
-      - `"Will Block"`
-
-      - `"Blocked"`
-
-    - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Count Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `issue_count: optional string`
-
-      The Number of Issues.
-
-  - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `eid_last_seen: optional string`
-
-      For more details on eid last seen, refer to the Tanium documentation.
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator to evaluate risk_level or eid_last_seen.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-      For more details on risk level, refer to the Tanium documentation.
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-      - `"critical"`
-
-    - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Score Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `total_score: optional number`
-
-      For more details on total score, refer to the Tanium documentation.
-
-  - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `active_threats: optional number`
-
-      The Number of active threats.
-
-    - `infected: optional boolean`
-
-      Whether device is infected.
-
-    - `is_active: optional boolean`
-
-      Whether device is active.
-
-    - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-      Network status of device.
-
-      - `"connected"`
-
-      - `"disconnected"`
-
-      - `"disconnecting"`
-
-      - `"connecting"`
-
-    - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-      Agent operational state.
-
-      - `"na"`
-
-      - `"partially_disabled"`
-
-      - `"auto_fully_disabled"`
-
-      - `"fully_disabled"`
-
-      - `"auto_partially_disabled"`
-
-      - `"disabled_error"`
-
-      - `"db_corruption"`
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-  - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `operator: "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `score: number`
-
-      A value between 0-100 assigned to devices set by the 3rd party posture provider.
-
-- `match: optional array of DeviceMatch`
-
-  The conditions that the client must match to run the rule.
-
-  - `platform: optional "windows" or "mac" or "linux" or 3 more`
-
-    - `"windows"`
-
-    - `"mac"`
-
-    - `"linux"`
-
-    - `"android"`
-
-    - `"ios"`
-
-    - `"chromeos"`
-
-- `schedule: optional string`
-
-  Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DevicePostureRule`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `description: optional string`
-
-    The description of the device posture rule.
-
-  - `expiration: optional string`
-
-    Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
-
-  - `input: optional DeviceInput`
-
-    The value to be checked against.
-
-    - `FileInput object { operating_system, path, exists, 2 more }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `exists: optional boolean`
-
-        Whether or not file exists.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `UniqueClientIDInput object { id, operating_system }`
-
-      - `id: string`
-
-        List ID.
-
-      - `operating_system: "android" or "ios" or "chromeos"`
-
-        Operating System.
-
-        - `"android"`
-
-        - `"ios"`
-
-        - `"chromeos"`
-
-    - `DomainJoinedInput object { operating_system, domain }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `domain: optional string`
-
-        Domain.
-
-    - `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `version: string`
-
-        Version of OS.
-
-      - `os_distro_name: optional string`
-
-        Operating System Distribution Name (linux only).
-
-      - `os_distro_revision: optional string`
-
-        Version of OS Distribution (linux only).
-
-      - `os_version_extra: optional string`
-
-        Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-    - `FirewallInput object { enabled, operating_system }`
-
-      - `enabled: boolean`
-
-        Enabled.
-
-      - `operating_system: "windows" or "mac"`
-
-        Operating System.
-
-        - `"windows"`
-
-        - `"mac"`
-
-    - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
-
-      - `id: string`
-
-        UUID of Access List.
-
-    - `DiskEncryptionInput object { checkDisks, requireAll }`
-
-      - `checkDisks: optional array of CarbonblackInput`
-
-        List of volume names to be checked for encryption.
-
-      - `requireAll: optional boolean`
-
-        Whether to check all disks for encryption.
-
-    - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        Path for the application.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `ClientCertificateInput object { certificate_id, cn }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `cn: string`
-
-        Common Name that is protected by the certificate.
-
-    - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `check_private_key: boolean`
-
-        Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `cn: optional string`
-
-        Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
-
-      - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
-
-        List of values indicating purposes for which the certificate public key can be used.
-
-        - `"clientAuth"`
-
-        - `"emailProtection"`
-
-      - `locations: optional object { paths, trust_stores }`
-
-        - `paths: optional array of string`
-
-          List of paths to check for client certificate on linux.
-
-        - `trust_stores: optional array of "system" or "user"`
-
-          List of trust stores to check for client certificate.
-
-          - `"system"`
-
-          - `"user"`
-
-      - `subject_alternative_names: optional array of string`
-
-        List of certificate Subject Alternative Names.
-
-    - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
-
-      - `update_window_days: optional number`
-
-        Number of days that the antivirus should be updated within.
-
-    - `WorkspaceOneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `last_seen: optional string`
-
-        For more details on last seen, please refer to the Crowdstrike documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `os: optional string`
-
-        Os Version.
-
-      - `overall: optional string`
-
-        Overall.
-
-      - `sensor_config: optional string`
-
-        SensorConfig.
-
-      - `state: optional "online" or "offline" or "unknown"`
-
-        For more details on state, please refer to the Crowdstrike documentation.
-
-        - `"online"`
-
-        - `"offline"`
-
-        - `"unknown"`
-
-      - `version: optional string`
-
-        Version.
-
-      - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Version Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `IntuneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-        - `"notapplicable"`
-
-        - `"ingraceperiod"`
-
-        - `"error"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-        The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-        - `"Good"`
-
-        - `"Notified"`
-
-        - `"Will Block"`
-
-        - `"Blocked"`
-
-      - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Count Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `issue_count: optional string`
-
-        The Number of Issues.
-
-    - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `eid_last_seen: optional string`
-
-        For more details on eid last seen, refer to the Tanium documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator to evaluate risk_level or eid_last_seen.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-        For more details on risk level, refer to the Tanium documentation.
-
-        - `"low"`
-
-        - `"medium"`
-
-        - `"high"`
-
-        - `"critical"`
-
-      - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Score Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `total_score: optional number`
-
-        For more details on total score, refer to the Tanium documentation.
-
-    - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `active_threats: optional number`
-
-        The Number of active threats.
-
-      - `infected: optional boolean`
-
-        Whether device is infected.
-
-      - `is_active: optional boolean`
-
-        Whether device is active.
-
-      - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-        Network status of device.
-
-        - `"connected"`
-
-        - `"disconnected"`
-
-        - `"disconnecting"`
-
-        - `"connecting"`
-
-      - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-        Agent operational state.
-
-        - `"na"`
-
-        - `"partially_disabled"`
-
-        - `"auto_fully_disabled"`
-
-        - `"fully_disabled"`
-
-        - `"auto_partially_disabled"`
-
-        - `"disabled_error"`
-
-        - `"db_corruption"`
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `score: number`
-
-        A value between 0-100 assigned to devices set by the 3rd party posture provider.
-
-  - `match: optional array of DeviceMatch`
-
-    The conditions that the client must match to run the rule.
-
-    - `platform: optional "windows" or "mac" or "linux" or 3 more`
-
-      - `"windows"`
-
-      - `"mac"`
-
-      - `"linux"`
-
-      - `"android"`
-
-      - `"ios"`
-
-      - `"chromeos"`
-
-  - `name: optional string`
-
-    The name of the device posture rule.
-
-  - `schedule: optional string`
-
-    Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
-
-  - `type: optional "file" or "application" or "tanium" or 20 more`
-
-    The type of device posture rule.
-
-    - `"file"`
-
-    - `"application"`
-
-    - `"tanium"`
-
-    - `"gateway"`
-
-    - `"warp"`
-
-    - `"disk_encryption"`
-
-    - `"serial_number"`
-
-    - `"sentinelone"`
-
-    - `"carbonblack"`
-
-    - `"firewall"`
-
-    - `"os_version"`
-
-    - `"domain_joined"`
-
-    - `"client_certificate"`
-
-    - `"client_certificate_v2"`
-
-    - `"antivirus"`
-
-    - `"unique_client_id"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"intune"`
-
-    - `"workspace_one"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/$RULE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Admin Serial Numbers",
-          "type": "file",
-          "description": "The rule for admin serial numbers",
-          "expiration": "1h",
-          "input": {
-            "operating_system": "linux",
-            "path": "/bin/cat",
-            "thumbprint": "0aabab210bdb998e9cf45da2c9ce352977ab531c681b74cf1e487be1bbe9fe6e"
-          },
-          "schedule": "1h"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "description": "The rule for admin serial numbers",
-    "expiration": "1h",
-    "input": {
-      "operating_system": "linux",
-      "path": "/bin/cat",
-      "exists": true,
-      "sha256": "https://api.us-2.crowdstrike.com",
-      "thumbprint": "0aabab210bdb998e9cf45da2c9ce352977ab531c681b74cf1e487be1bbe9fe6e"
-    },
-    "match": [
-      {
-        "platform": "windows"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "schedule": "1h",
-    "type": "file"
-  },
-  "success": true
-}
-```
-
-## Delete a device posture rule
-
-**delete** `/accounts/{account_id}/devices/posture/{rule_id}`
-
-Deletes a device posture rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  API UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id }`
-
-  - `id: optional string`
-
-    API UUID.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Carbonblack Input
-
-- `CarbonblackInput = string`
-
-### Client Certificate Input
-
-- `ClientCertificateInput object { certificate_id, cn }`
-
-  - `certificate_id: string`
-
-    UUID of Cloudflare managed certificate.
-
-  - `cn: string`
-
-    Common Name that is protected by the certificate.
-
-### Crowdstrike Input
-
-- `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-  - `connection_id: string`
-
-    Posture Integration ID.
-
-  - `last_seen: optional string`
-
-    For more details on last seen, please refer to the Crowdstrike documentation.
-
-  - `operator: optional "<" or "<=" or ">" or 2 more`
-
-    Operator.
-
-    - `"<"`
-
-    - `"<="`
-
-    - `">"`
-
-    - `">="`
-
-    - `"=="`
-
-  - `os: optional string`
-
-    Os Version.
-
-  - `overall: optional string`
-
-    Overall.
-
-  - `sensor_config: optional string`
-
-    SensorConfig.
-
-  - `state: optional "online" or "offline" or "unknown"`
-
-    For more details on state, please refer to the Crowdstrike documentation.
-
-    - `"online"`
-
-    - `"offline"`
-
-    - `"unknown"`
-
-  - `version: optional string`
-
-    Version.
-
-  - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-    Version Operator.
-
-    - `"<"`
-
-    - `"<="`
-
-    - `">"`
-
-    - `">="`
-
-    - `"=="`
-
-### Device Input
-
-- `DeviceInput = FileInput or UniqueClientIDInput or DomainJoinedInput or 17 more`
-
-  The value to be checked against.
-
-  - `FileInput object { operating_system, path, exists, 2 more }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `exists: optional boolean`
-
-      Whether or not file exists.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `UniqueClientIDInput object { id, operating_system }`
-
-    - `id: string`
-
-      List ID.
-
-    - `operating_system: "android" or "ios" or "chromeos"`
-
-      Operating System.
-
-      - `"android"`
-
-      - `"ios"`
-
-      - `"chromeos"`
-
-  - `DomainJoinedInput object { operating_system, domain }`
-
-    - `operating_system: "windows"`
-
-      Operating System.
-
-      - `"windows"`
-
-    - `domain: optional string`
-
-      Domain.
-
-  - `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-    - `operating_system: "windows"`
-
-      Operating System.
-
-      - `"windows"`
-
-    - `operator: "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `version: string`
-
-      Version of OS.
-
-    - `os_distro_name: optional string`
-
-      Operating System Distribution Name (linux only).
-
-    - `os_distro_revision: optional string`
-
-      Version of OS Distribution (linux only).
-
-    - `os_version_extra: optional string`
-
-      Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-  - `FirewallInput object { enabled, operating_system }`
-
-    - `enabled: boolean`
-
-      Enabled.
-
-    - `operating_system: "windows" or "mac"`
-
-      Operating System.
-
-      - `"windows"`
-
-      - `"mac"`
-
-  - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      File path.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
-
-    - `id: string`
-
-      UUID of Access List.
-
-  - `DiskEncryptionInput object { checkDisks, requireAll }`
-
-    - `checkDisks: optional array of CarbonblackInput`
-
-      List of volume names to be checked for encryption.
-
-    - `requireAll: optional boolean`
-
-      Whether to check all disks for encryption.
-
-  - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `path: string`
-
-      Path for the application.
-
-    - `sha256: optional string`
-
-      SHA-256.
-
-    - `thumbprint: optional string`
-
-      Signing certificate thumbprint.
-
-  - `ClientCertificateInput object { certificate_id, cn }`
-
-    - `certificate_id: string`
-
-      UUID of Cloudflare managed certificate.
-
-    - `cn: string`
-
-      Common Name that is protected by the certificate.
-
-  - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
-
-    - `certificate_id: string`
-
-      UUID of Cloudflare managed certificate.
-
-    - `check_private_key: boolean`
-
-      Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
-
-    - `operating_system: "windows" or "linux" or "mac"`
-
-      Operating system.
-
-      - `"windows"`
-
-      - `"linux"`
-
-      - `"mac"`
-
-    - `cn: optional string`
-
-      Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
-
-    - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
-
-      List of values indicating purposes for which the certificate public key can be used.
-
-      - `"clientAuth"`
-
-      - `"emailProtection"`
-
-    - `locations: optional object { paths, trust_stores }`
-
-      - `paths: optional array of string`
-
-        List of paths to check for client certificate on linux.
-
-      - `trust_stores: optional array of "system" or "user"`
-
-        List of trust stores to check for client certificate.
-
-        - `"system"`
-
-        - `"user"`
-
-    - `subject_alternative_names: optional array of string`
-
-      List of certificate Subject Alternative Names.
-
-  - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
-
-    - `update_window_days: optional number`
-
-      Number of days that the antivirus should be updated within.
-
-  - `WorkspaceOneInput object { compliance_status, connection_id }`
-
-    - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-      Compliance Status.
-
-      - `"compliant"`
-
-      - `"noncompliant"`
-
-      - `"unknown"`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-  - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `last_seen: optional string`
-
-      For more details on last seen, please refer to the Crowdstrike documentation.
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `os: optional string`
-
-      Os Version.
-
-    - `overall: optional string`
-
-      Overall.
-
-    - `sensor_config: optional string`
-
-      SensorConfig.
-
-    - `state: optional "online" or "offline" or "unknown"`
-
-      For more details on state, please refer to the Crowdstrike documentation.
-
-      - `"online"`
-
-      - `"offline"`
-
-      - `"unknown"`
-
-    - `version: optional string`
-
-      Version.
-
-    - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Version Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-  - `IntuneInput object { compliance_status, connection_id }`
-
-    - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-      Compliance Status.
-
-      - `"compliant"`
-
-      - `"noncompliant"`
-
-      - `"unknown"`
-
-      - `"notapplicable"`
-
-      - `"ingraceperiod"`
-
-      - `"error"`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-  - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-      The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-      - `"Good"`
-
-      - `"Notified"`
-
-      - `"Will Block"`
-
-      - `"Blocked"`
-
-    - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Count Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `issue_count: optional string`
-
-      The Number of Issues.
-
-  - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `eid_last_seen: optional string`
-
-      For more details on eid last seen, refer to the Tanium documentation.
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator to evaluate risk_level or eid_last_seen.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-      For more details on risk level, refer to the Tanium documentation.
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-      - `"critical"`
-
-    - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-      Score Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `total_score: optional number`
-
-      For more details on total score, refer to the Tanium documentation.
-
-  - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `active_threats: optional number`
-
-      The Number of active threats.
-
-    - `infected: optional boolean`
-
-      Whether device is infected.
-
-    - `is_active: optional boolean`
-
-      Whether device is active.
-
-    - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-      Network status of device.
-
-      - `"connected"`
-
-      - `"disconnected"`
-
-      - `"disconnecting"`
-
-      - `"connecting"`
-
-    - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-      Agent operational state.
-
-      - `"na"`
-
-      - `"partially_disabled"`
-
-      - `"auto_fully_disabled"`
-
-      - `"fully_disabled"`
-
-      - `"auto_partially_disabled"`
-
-      - `"disabled_error"`
-
-      - `"db_corruption"`
-
-    - `operator: optional "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-  - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
-
-    - `connection_id: string`
-
-      Posture Integration ID.
-
-    - `operator: "<" or "<=" or ">" or 2 more`
-
-      Operator.
-
-      - `"<"`
-
-      - `"<="`
-
-      - `">"`
-
-      - `">="`
-
-      - `"=="`
-
-    - `score: number`
-
-      A value between 0-100 assigned to devices set by the 3rd party posture provider.
-
-### Device Match
-
-- `DeviceMatch object { platform }`
-
-  - `platform: optional "windows" or "mac" or "linux" or 3 more`
-
-    - `"windows"`
-
-    - `"mac"`
-
-    - `"linux"`
-
-    - `"android"`
-
-    - `"ios"`
-
-    - `"chromeos"`
-
-### Device Posture Rule
-
-- `DevicePostureRule object { id, description, expiration, 5 more }`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `description: optional string`
-
-    The description of the device posture rule.
-
-  - `expiration: optional string`
-
-    Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
-
-  - `input: optional DeviceInput`
-
-    The value to be checked against.
-
-    - `FileInput object { operating_system, path, exists, 2 more }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `exists: optional boolean`
-
-        Whether or not file exists.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `UniqueClientIDInput object { id, operating_system }`
-
-      - `id: string`
-
-        List ID.
-
-      - `operating_system: "android" or "ios" or "chromeos"`
-
-        Operating System.
-
-        - `"android"`
-
-        - `"ios"`
-
-        - `"chromeos"`
-
-    - `DomainJoinedInput object { operating_system, domain }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `domain: optional string`
-
-        Domain.
-
-    - `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-      - `operating_system: "windows"`
-
-        Operating System.
-
-        - `"windows"`
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `version: string`
-
-        Version of OS.
-
-      - `os_distro_name: optional string`
-
-        Operating System Distribution Name (linux only).
-
-      - `os_distro_revision: optional string`
-
-        Version of OS Distribution (linux only).
-
-      - `os_version_extra: optional string`
-
-        Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-    - `FirewallInput object { enabled, operating_system }`
-
-      - `enabled: boolean`
-
-        Enabled.
-
-      - `operating_system: "windows" or "mac"`
-
-        Operating System.
-
-        - `"windows"`
-
-        - `"mac"`
-
-    - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        File path.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
-
-      - `id: string`
-
-        UUID of Access List.
-
-    - `DiskEncryptionInput object { checkDisks, requireAll }`
-
-      - `checkDisks: optional array of CarbonblackInput`
-
-        List of volume names to be checked for encryption.
-
-      - `requireAll: optional boolean`
-
-        Whether to check all disks for encryption.
-
-    - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `path: string`
-
-        Path for the application.
-
-      - `sha256: optional string`
-
-        SHA-256.
-
-      - `thumbprint: optional string`
-
-        Signing certificate thumbprint.
-
-    - `ClientCertificateInput object { certificate_id, cn }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `cn: string`
-
-        Common Name that is protected by the certificate.
-
-    - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
-
-      - `certificate_id: string`
-
-        UUID of Cloudflare managed certificate.
-
-      - `check_private_key: boolean`
-
-        Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
-
-      - `operating_system: "windows" or "linux" or "mac"`
-
-        Operating system.
-
-        - `"windows"`
-
-        - `"linux"`
-
-        - `"mac"`
-
-      - `cn: optional string`
-
-        Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
-
-      - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
-
-        List of values indicating purposes for which the certificate public key can be used.
-
-        - `"clientAuth"`
-
-        - `"emailProtection"`
-
-      - `locations: optional object { paths, trust_stores }`
-
-        - `paths: optional array of string`
-
-          List of paths to check for client certificate on linux.
-
-        - `trust_stores: optional array of "system" or "user"`
-
-          List of trust stores to check for client certificate.
-
-          - `"system"`
-
-          - `"user"`
-
-      - `subject_alternative_names: optional array of string`
-
-        List of certificate Subject Alternative Names.
-
-    - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
-
-      - `update_window_days: optional number`
-
-        Number of days that the antivirus should be updated within.
-
-    - `WorkspaceOneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `last_seen: optional string`
-
-        For more details on last seen, please refer to the Crowdstrike documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `os: optional string`
-
-        Os Version.
-
-      - `overall: optional string`
-
-        Overall.
-
-      - `sensor_config: optional string`
-
-        SensorConfig.
-
-      - `state: optional "online" or "offline" or "unknown"`
-
-        For more details on state, please refer to the Crowdstrike documentation.
-
-        - `"online"`
-
-        - `"offline"`
-
-        - `"unknown"`
-
-      - `version: optional string`
-
-        Version.
-
-      - `versionOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Version Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `IntuneInput object { compliance_status, connection_id }`
-
-      - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-        Compliance Status.
-
-        - `"compliant"`
-
-        - `"noncompliant"`
-
-        - `"unknown"`
-
-        - `"notapplicable"`
-
-        - `"ingraceperiod"`
-
-        - `"error"`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-    - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-        The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-        - `"Good"`
-
-        - `"Notified"`
-
-        - `"Will Block"`
-
-        - `"Blocked"`
-
-      - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Count Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `issue_count: optional string`
-
-        The Number of Issues.
-
-    - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `eid_last_seen: optional string`
-
-        For more details on eid last seen, refer to the Tanium documentation.
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator to evaluate risk_level or eid_last_seen.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-        For more details on risk level, refer to the Tanium documentation.
-
-        - `"low"`
-
-        - `"medium"`
-
-        - `"high"`
-
-        - `"critical"`
-
-      - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-        Score Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `total_score: optional number`
-
-        For more details on total score, refer to the Tanium documentation.
-
-    - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `active_threats: optional number`
-
-        The Number of active threats.
-
-      - `infected: optional boolean`
-
-        Whether device is infected.
-
-      - `is_active: optional boolean`
-
-        Whether device is active.
-
-      - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-        Network status of device.
-
-        - `"connected"`
-
-        - `"disconnected"`
-
-        - `"disconnecting"`
-
-        - `"connecting"`
-
-      - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-        Agent operational state.
-
-        - `"na"`
-
-        - `"partially_disabled"`
-
-        - `"auto_fully_disabled"`
-
-        - `"fully_disabled"`
-
-        - `"auto_partially_disabled"`
-
-        - `"disabled_error"`
-
-        - `"db_corruption"`
-
-      - `operator: optional "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-    - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
-
-      - `connection_id: string`
-
-        Posture Integration ID.
-
-      - `operator: "<" or "<=" or ">" or 2 more`
-
-        Operator.
-
-        - `"<"`
-
-        - `"<="`
-
-        - `">"`
-
-        - `">="`
-
-        - `"=="`
-
-      - `score: number`
-
-        A value between 0-100 assigned to devices set by the 3rd party posture provider.
-
-  - `match: optional array of DeviceMatch`
-
-    The conditions that the client must match to run the rule.
-
-    - `platform: optional "windows" or "mac" or "linux" or 3 more`
-
-      - `"windows"`
-
-      - `"mac"`
-
-      - `"linux"`
-
-      - `"android"`
-
-      - `"ios"`
-
-      - `"chromeos"`
-
-  - `name: optional string`
-
-    The name of the device posture rule.
-
-  - `schedule: optional string`
-
-    Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
-
-  - `type: optional "file" or "application" or "tanium" or 20 more`
-
-    The type of device posture rule.
-
-    - `"file"`
-
-    - `"application"`
-
-    - `"tanium"`
-
-    - `"gateway"`
-
-    - `"warp"`
-
-    - `"disk_encryption"`
-
-    - `"serial_number"`
-
-    - `"sentinelone"`
-
-    - `"carbonblack"`
-
-    - `"firewall"`
-
-    - `"os_version"`
-
-    - `"domain_joined"`
-
-    - `"client_certificate"`
-
-    - `"client_certificate_v2"`
-
-    - `"antivirus"`
-
-    - `"unique_client_id"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"intune"`
-
-    - `"workspace_one"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-### Disk Encryption Input
-
-- `DiskEncryptionInput object { checkDisks, requireAll }`
-
-  - `checkDisks: optional array of CarbonblackInput`
-
-    List of volume names to be checked for encryption.
-
-  - `requireAll: optional boolean`
-
-    Whether to check all disks for encryption.
-
-### Domain Joined Input
-
-- `DomainJoinedInput object { operating_system, domain }`
-
-  - `operating_system: "windows"`
-
-    Operating System.
-
-    - `"windows"`
-
-  - `domain: optional string`
-
-    Domain.
-
-### File Input
-
-- `FileInput object { operating_system, path, exists, 2 more }`
-
-  - `operating_system: "windows" or "linux" or "mac"`
-
-    Operating system.
-
-    - `"windows"`
-
-    - `"linux"`
-
-    - `"mac"`
-
-  - `path: string`
-
-    File path.
-
-  - `exists: optional boolean`
-
-    Whether or not file exists.
-
-  - `sha256: optional string`
-
-    SHA-256.
-
-  - `thumbprint: optional string`
-
-    Signing certificate thumbprint.
-
-### Firewall Input
-
-- `FirewallInput object { enabled, operating_system }`
-
-  - `enabled: boolean`
-
-    Enabled.
-
-  - `operating_system: "windows" or "mac"`
-
-    Operating System.
-
-    - `"windows"`
-
-    - `"mac"`
-
-### Intune Input
-
-- `IntuneInput object { compliance_status, connection_id }`
-
-  - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
-
-    Compliance Status.
-
-    - `"compliant"`
-
-    - `"noncompliant"`
-
-    - `"unknown"`
-
-    - `"notapplicable"`
-
-    - `"ingraceperiod"`
-
-    - `"error"`
-
-  - `connection_id: string`
-
-    Posture Integration ID.
-
-### Kolide Input
-
-- `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
-
-  - `connection_id: string`
-
-    Posture Integration ID.
-
-  - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
-
-    The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
-
-    - `"Good"`
-
-    - `"Notified"`
-
-    - `"Will Block"`
-
-    - `"Blocked"`
-
-  - `countOperator: optional "<" or "<=" or ">" or 2 more`
-
-    Count Operator.
-
-    - `"<"`
-
-    - `"<="`
-
-    - `">"`
-
-    - `">="`
-
-    - `"=="`
-
-  - `issue_count: optional string`
-
-    The Number of Issues.
-
-### OS Version Input
-
-- `OSVersionInput object { operating_system, operator, version, 3 more }`
-
-  - `operating_system: "windows"`
-
-    Operating System.
-
-    - `"windows"`
-
-  - `operator: "<" or "<=" or ">" or 2 more`
-
-    Operator.
-
-    - `"<"`
-
-    - `"<="`
-
-    - `">"`
-
-    - `">="`
-
-    - `"=="`
-
-  - `version: string`
-
-    Version of OS.
-
-  - `os_distro_name: optional string`
-
-    Operating System Distribution Name (linux only).
-
-  - `os_distro_revision: optional string`
-
-    Version of OS Distribution (linux only).
-
-  - `os_version_extra: optional string`
-
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-### Sentinelone Input
-
-- `SentineloneInput object { operating_system, path, sha256, thumbprint }`
-
-  - `operating_system: "windows" or "linux" or "mac"`
-
-    Operating system.
-
-    - `"windows"`
-
-    - `"linux"`
-
-    - `"mac"`
-
-  - `path: string`
-
-    File path.
-
-  - `sha256: optional string`
-
-    SHA-256.
-
-  - `thumbprint: optional string`
-
-    Signing certificate thumbprint.
-
-### Sentinelone S2s Input
-
-- `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
-
-  - `connection_id: string`
-
-    Posture Integration ID.
-
-  - `active_threats: optional number`
-
-    The Number of active threats.
-
-  - `infected: optional boolean`
-
-    Whether device is infected.
-
-  - `is_active: optional boolean`
-
-    Whether device is active.
-
-  - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
-
-    Network status of device.
-
-    - `"connected"`
-
-    - `"disconnected"`
-
-    - `"disconnecting"`
-
-    - `"connecting"`
-
-  - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
-
-    Agent operational state.
-
-    - `"na"`
-
-    - `"partially_disabled"`
-
-    - `"auto_fully_disabled"`
-
-    - `"fully_disabled"`
-
-    - `"auto_partially_disabled"`
-
-    - `"disabled_error"`
-
-    - `"db_corruption"`
-
-  - `operator: optional "<" or "<=" or ">" or 2 more`
-
-    Operator.
-
-    - `"<"`
-
-    - `"<="`
-
-    - `">"`
-
-    - `">="`
-
-    - `"=="`
-
-### Tanium Input
-
-- `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
-
-  - `connection_id: string`
-
-    Posture Integration ID.
-
-  - `eid_last_seen: optional string`
-
-    For more details on eid last seen, refer to the Tanium documentation.
-
-  - `operator: optional "<" or "<=" or ">" or 2 more`
-
-    Operator to evaluate risk_level or eid_last_seen.
-
-    - `"<"`
-
-    - `"<="`
-
-    - `">"`
-
-    - `">="`
-
-    - `"=="`
-
-  - `risk_level: optional "low" or "medium" or "high" or "critical"`
-
-    For more details on risk level, refer to the Tanium documentation.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-    - `"critical"`
-
-  - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
-
-    Score Operator.
-
-    - `"<"`
-
-    - `"<="`
-
-    - `">"`
-
-    - `">="`
-
-    - `"=="`
-
-  - `total_score: optional number`
-
-    For more details on total score, refer to the Tanium documentation.
-
-### Unique Client ID Input
-
-- `UniqueClientIDInput object { id, operating_system }`
-
-  - `id: string`
-
-    List ID.
-
-  - `operating_system: "android" or "ios" or "chromeos"`
-
-    Operating System.
-
-    - `"android"`
-
-    - `"ios"`
-
-    - `"chromeos"`
-
-### Workspace One Input
-
-- `WorkspaceOneInput object { compliance_status, connection_id }`
-
-  - `compliance_status: "compliant" or "noncompliant" or "unknown"`
-
-    Compliance Status.
-
-    - `"compliant"`
-
-    - `"noncompliant"`
-
-    - `"unknown"`
-
-  - `connection_id: string`
-
-    Posture Integration ID.
-
-### Posture Delete Response
-
-- `PostureDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    API UUID.
-
-# Integrations
-
-## List your device posture integrations
-
-**get** `/accounts/{account_id}/devices/posture/integration`
-
-Fetches the list of device posture integrations for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of Integration`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "config": {
-        "api_url": "https://as123.awmdm.com/API",
-        "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-        "client_id": "example client id"
-      },
-      "interval": "10m",
-      "name": "My Workspace One Integration",
-      "type": "workspace_one"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get device posture integration details
-
-**get** `/accounts/{account_id}/devices/posture/integration/{integration_id}`
-
-Fetches details for a single device posture integration.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `integration_id: string`
-
-  API UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Integration`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration/$INTEGRATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "api_url": "https://as123.awmdm.com/API",
-      "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-      "client_id": "example client id"
-    },
-    "interval": "10m",
-    "name": "My Workspace One Integration",
-    "type": "workspace_one"
-  },
-  "success": true
-}
-```
-
-## Create a device posture integration
-
-**post** `/accounts/{account_id}/devices/posture/integration`
-
-Create a new device posture integration.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `config: object { api_url, auth_url, client_id, client_secret }  or object { api_url, client_id, client_secret, customer_id }  or object { api_url, client_key, client_secret, customer_id }  or 5 more`
-
-  The configuration object containing third-party integration information.
-
-  - `TeamsDevicesWorkspaceOneConfigRequest object { api_url, auth_url, client_id, client_secret }`
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-    - `client_secret: string`
-
-      The Workspace One client secret provided in the Workspace One Admin Dashboard.
-
-  - `TeamsDevicesCrowdstrikeConfigRequest object { api_url, client_id, client_secret, customer_id }`
-
-    - `api_url: string`
-
-      The Crowdstrike API URL.
-
-    - `client_id: string`
-
-      The Crowdstrike client ID.
-
-    - `client_secret: string`
-
-      The Crowdstrike client secret.
-
-    - `customer_id: string`
-
-      The Crowdstrike customer ID.
-
-  - `TeamsDevicesUptycsConfigRequest object { api_url, client_key, client_secret, customer_id }`
-
-    - `api_url: string`
-
-      The Uptycs API URL.
-
-    - `client_key: string`
-
-      The Uptycs client secret.
-
-    - `client_secret: string`
-
-      The Uptycs client secret.
-
-    - `customer_id: string`
-
-      The Uptycs customer ID.
-
-  - `TeamsDevicesIntuneConfigRequest object { client_id, client_secret, customer_id }`
-
-    - `client_id: string`
-
-      The Intune client ID.
-
-    - `client_secret: string`
-
-      The Intune client secret.
-
-    - `customer_id: string`
-
-      The Intune customer ID.
-
-  - `TeamsDevicesKolideConfigRequest object { client_id, client_secret }`
-
-    - `client_id: string`
-
-      The Kolide client ID.
-
-    - `client_secret: string`
-
-      The Kolide client secret.
-
-  - `TeamsDevicesTaniumConfigRequest object { api_url, client_secret, access_client_id, access_client_secret }`
-
-    - `api_url: string`
-
-      The Tanium API URL.
-
-    - `client_secret: string`
-
-      The Tanium client secret.
-
-    - `access_client_id: optional string`
-
-      If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.
-
-    - `access_client_secret: optional string`
-
-      If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.
-
-  - `TeamsDevicesSentineloneS2sConfigRequest object { api_url, client_secret }`
-
-    - `api_url: string`
-
-      The SentinelOne S2S API URL.
-
-    - `client_secret: string`
-
-      The SentinelOne S2S client secret.
-
-  - `TeamsDevicesCustomS2sConfigRequest object { access_client_id, access_client_secret, api_url }`
-
-    - `access_client_id: string`
-
-      This id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.
-
-    - `access_client_secret: string`
-
-      This secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.
-
-    - `api_url: string`
-
-      The Custom Device Posture Integration  API URL.
-
-- `interval: string`
-
-  The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-- `name: string`
-
-  The name of the device posture integration.
-
-- `type: "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-  The type of device posture integration.
-
-  - `"workspace_one"`
-
-  - `"crowdstrike_s2s"`
-
-  - `"uptycs"`
-
-  - `"intune"`
-
-  - `"kolide"`
-
-  - `"tanium_s2s"`
-
-  - `"sentinelone_s2s"`
-
-  - `"custom_s2s"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Integration`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "config": {
-            "api_url": "https://as123.awmdm.com/API",
-            "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-            "client_id": "example client id",
-            "client_secret": "example client secret"
-          },
-          "interval": "10m",
-          "name": "My Workspace One Integration",
-          "type": "workspace_one"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "api_url": "https://as123.awmdm.com/API",
-      "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-      "client_id": "example client id"
-    },
-    "interval": "10m",
-    "name": "My Workspace One Integration",
-    "type": "workspace_one"
-  },
-  "success": true
-}
-```
-
-## Update a device posture integration
-
-**patch** `/accounts/{account_id}/devices/posture/integration/{integration_id}`
-
-Updates a configured device posture integration.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `integration_id: string`
-
-  API UUID.
-
-### Body Parameters
-
-- `config: optional object { api_url, auth_url, client_id, client_secret }  or object { api_url, client_id, client_secret, customer_id }  or object { api_url, client_key, client_secret, customer_id }  or 5 more`
-
-  The configuration object containing third-party integration information.
-
-  - `TeamsDevicesWorkspaceOneConfigRequest object { api_url, auth_url, client_id, client_secret }`
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-    - `client_secret: string`
-
-      The Workspace One client secret provided in the Workspace One Admin Dashboard.
-
-  - `TeamsDevicesCrowdstrikeConfigRequest object { api_url, client_id, client_secret, customer_id }`
-
-    - `api_url: string`
-
-      The Crowdstrike API URL.
-
-    - `client_id: string`
-
-      The Crowdstrike client ID.
-
-    - `client_secret: string`
-
-      The Crowdstrike client secret.
-
-    - `customer_id: string`
-
-      The Crowdstrike customer ID.
-
-  - `TeamsDevicesUptycsConfigRequest object { api_url, client_key, client_secret, customer_id }`
-
-    - `api_url: string`
-
-      The Uptycs API URL.
-
-    - `client_key: string`
-
-      The Uptycs client secret.
-
-    - `client_secret: string`
-
-      The Uptycs client secret.
-
-    - `customer_id: string`
-
-      The Uptycs customer ID.
-
-  - `TeamsDevicesIntuneConfigRequest object { client_id, client_secret, customer_id }`
-
-    - `client_id: string`
-
-      The Intune client ID.
-
-    - `client_secret: string`
-
-      The Intune client secret.
-
-    - `customer_id: string`
-
-      The Intune customer ID.
-
-  - `TeamsDevicesKolideConfigRequest object { client_id, client_secret }`
-
-    - `client_id: string`
-
-      The Kolide client ID.
-
-    - `client_secret: string`
-
-      The Kolide client secret.
-
-  - `TeamsDevicesTaniumConfigRequest object { api_url, client_secret, access_client_id, access_client_secret }`
-
-    - `api_url: string`
-
-      The Tanium API URL.
-
-    - `client_secret: string`
-
-      The Tanium client secret.
-
-    - `access_client_id: optional string`
-
-      If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.
-
-    - `access_client_secret: optional string`
-
-      If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.
-
-  - `TeamsDevicesSentineloneS2sConfigRequest object { api_url, client_secret }`
-
-    - `api_url: string`
-
-      The SentinelOne S2S API URL.
-
-    - `client_secret: string`
-
-      The SentinelOne S2S client secret.
-
-  - `TeamsDevicesCustomS2sConfigRequest object { access_client_id, access_client_secret, api_url }`
-
-    - `access_client_id: string`
-
-      This id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.
-
-    - `access_client_secret: string`
-
-      This secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.
-
-    - `api_url: string`
-
-      The Custom Device Posture Integration  API URL.
-
-- `interval: optional string`
-
-  The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-- `name: optional string`
-
-  The name of the device posture integration.
-
-- `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-  The type of device posture integration.
-
-  - `"workspace_one"`
-
-  - `"crowdstrike_s2s"`
-
-  - `"uptycs"`
-
-  - `"intune"`
-
-  - `"kolide"`
-
-  - `"tanium_s2s"`
-
-  - `"sentinelone_s2s"`
-
-  - `"custom_s2s"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Integration`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration/$INTEGRATION_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "config": {
-            "api_url": "https://as123.awmdm.com/API",
-            "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-            "client_id": "example client id",
-            "client_secret": "example client secret"
-          },
-          "interval": "10m",
-          "name": "My Workspace One Integration",
-          "type": "workspace_one"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "api_url": "https://as123.awmdm.com/API",
-      "auth_url": "https://na.uemauth.workspaceone.com/connect/token",
-      "client_id": "example client id"
-    },
-    "interval": "10m",
-    "name": "My Workspace One Integration",
-    "type": "workspace_one"
-  },
-  "success": true
-}
-```
-
-## Delete a device posture integration
-
-**delete** `/accounts/{account_id}/devices/posture/integration/{integration_id}`
-
-Delete a configured device posture integration.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `integration_id: string`
-
-  API UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/integration/$INTEGRATION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Integration
-
-- `Integration object { id, config, interval, 2 more }`
-
-  - `id: optional string`
-
-    API UUID.
-
-  - `config: optional object { api_url, auth_url, client_id }`
-
-    The configuration object containing third-party integration information.
-
-    - `api_url: string`
-
-      The Workspace One API URL provided in the Workspace One Admin Dashboard.
-
-    - `auth_url: string`
-
-      The Workspace One Authorization URL depending on your region.
-
-    - `client_id: string`
-
-      The Workspace One client ID provided in the Workspace One Admin Dashboard.
-
-  - `interval: optional string`
-
-    The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).
-
-  - `name: optional string`
-
-    The name of the device posture integration.
-
-  - `type: optional "workspace_one" or "crowdstrike_s2s" or "uptycs" or 5 more`
-
-    The type of device posture integration.
-
-    - `"workspace_one"`
-
-    - `"crowdstrike_s2s"`
-
-    - `"uptycs"`
-
-    - `"intune"`
-
-    - `"kolide"`
-
-    - `"tanium_s2s"`
-
-    - `"sentinelone_s2s"`
-
-    - `"custom_s2s"`
-
-### Integration Delete Response
-
-- `IntegrationDeleteResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-# Revoke
-
-## Revoke devices (deprecated)
-
-**post** `/accounts/{account_id}/devices/revoke`
-
-Revokes a list of devices. Not supported when [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/) is enabled.
-
-**Deprecated**: please use POST /accounts/{account_id}/devices/registrations/revoke instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `body: array of string`
-
-  A list of Registration IDs to revoke.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/revoke \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Revoke Create Response
-
-- `RevokeCreateResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-# Settings
-
-## Get device settings for a Zero Trust account
-
-**get** `/accounts/{account_id}/devices/settings`
-
-Describes the current device settings for a Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DeviceSettings`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disable_for_time": 0,
-    "external_emergency_signal_enabled": true,
-    "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-    "external_emergency_signal_interval": "5m",
-    "external_emergency_signal_url": "https://192.0.2.1/signal",
-    "gateway_proxy_enabled": true,
-    "gateway_udp_proxy_enabled": true,
-    "root_certificate_installation_enabled": true,
-    "use_zt_virtual_ip": true
-  },
-  "success": true
-}
-```
-
-## Update device settings for a Zero Trust account
-
-**put** `/accounts/{account_id}/devices/settings`
-
-Updates the current device settings for a Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `disable_for_time: optional number`
-
-  Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-- `external_emergency_signal_enabled: optional boolean`
-
-  Controls whether the external emergency disconnect feature is enabled.
-
-- `external_emergency_signal_fingerprint: optional string`
-
-  The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-- `external_emergency_signal_interval: optional string`
-
-  The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-- `external_emergency_signal_url: optional string`
-
-  The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-- `gateway_proxy_enabled: optional boolean`
-
-  Enable gateway proxy filtering on TCP.
-
-- `gateway_udp_proxy_enabled: optional boolean`
-
-  Enable gateway proxy filtering on UDP.
-
-- `root_certificate_installation_enabled: optional boolean`
-
-  Enable installation of cloudflare managed root certificate.
-
-- `use_zt_virtual_ip: optional boolean`
-
-  Enable using CGNAT virtual IPv4.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DeviceSettings`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "external_emergency_signal_enabled": true,
-          "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-          "external_emergency_signal_interval": "5m",
-          "external_emergency_signal_url": "https://192.0.2.1/signal",
-          "gateway_proxy_enabled": true,
-          "gateway_udp_proxy_enabled": true,
-          "root_certificate_installation_enabled": true,
-          "use_zt_virtual_ip": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disable_for_time": 0,
-    "external_emergency_signal_enabled": true,
-    "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-    "external_emergency_signal_interval": "5m",
-    "external_emergency_signal_url": "https://192.0.2.1/signal",
-    "gateway_proxy_enabled": true,
-    "gateway_udp_proxy_enabled": true,
-    "root_certificate_installation_enabled": true,
-    "use_zt_virtual_ip": true
-  },
-  "success": true
-}
-```
-
-## Patch device settings for a Zero Trust account
-
-**patch** `/accounts/{account_id}/devices/settings`
-
-Patches the current device settings for a Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `disable_for_time: optional number`
-
-  Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-- `external_emergency_signal_enabled: optional boolean`
-
-  Controls whether the external emergency disconnect feature is enabled.
-
-- `external_emergency_signal_fingerprint: optional string`
-
-  The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-- `external_emergency_signal_interval: optional string`
-
-  The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-- `external_emergency_signal_url: optional string`
-
-  The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-- `gateway_proxy_enabled: optional boolean`
-
-  Enable gateway proxy filtering on TCP.
-
-- `gateway_udp_proxy_enabled: optional boolean`
-
-  Enable gateway proxy filtering on UDP.
-
-- `root_certificate_installation_enabled: optional boolean`
-
-  Enable installation of cloudflare managed root certificate.
-
-- `use_zt_virtual_ip: optional boolean`
-
-  Enable using CGNAT virtual IPv4.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DeviceSettings`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "external_emergency_signal_enabled": true,
-          "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-          "external_emergency_signal_interval": "5m",
-          "external_emergency_signal_url": "https://192.0.2.1/signal",
-          "gateway_proxy_enabled": true,
-          "gateway_udp_proxy_enabled": true,
-          "root_certificate_installation_enabled": true,
-          "use_zt_virtual_ip": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disable_for_time": 0,
-    "external_emergency_signal_enabled": true,
-    "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-    "external_emergency_signal_interval": "5m",
-    "external_emergency_signal_url": "https://192.0.2.1/signal",
-    "gateway_proxy_enabled": true,
-    "gateway_udp_proxy_enabled": true,
-    "root_certificate_installation_enabled": true,
-    "use_zt_virtual_ip": true
-  },
-  "success": true
-}
-```
-
-## Reset device settings for a Zero Trust account with defaults. This turns off all proxying.
-
-**delete** `/accounts/{account_id}/devices/settings`
-
-Resets the current device settings for a Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DeviceSettings`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/settings \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disable_for_time": 0,
-    "external_emergency_signal_enabled": true,
-    "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-    "external_emergency_signal_interval": "5m",
-    "external_emergency_signal_url": "https://192.0.2.1/signal",
-    "gateway_proxy_enabled": true,
-    "gateway_udp_proxy_enabled": true,
-    "root_certificate_installation_enabled": true,
-    "use_zt_virtual_ip": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Device Settings
-
-- `DeviceSettings object { disable_for_time, external_emergency_signal_enabled, external_emergency_signal_fingerprint, 6 more }`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
-
-# Unrevoke
-
-## Unrevoke devices (deprecated)
-
-**post** `/accounts/{account_id}/devices/unrevoke`
-
-Unrevokes a list of devices. Not supported when [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/) is enabled.
-
-**Deprecated**: please use POST /accounts/{account_id}/devices/registrations/unrevoke instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `body: array of string`
-
-  A list of Registration IDs to unrevoke.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/unrevoke \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Unrevoke Create Response
-
-- `UnrevokeCreateResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-# Override Codes
-
-## Get override codes (deprecated)
-
-
-**get** `/accounts/{account_id}/devices/{device_id}/override_codes`
-
-Fetches a one-time use admin override code for a device. This relies on the **Admin Override** setting being enabled in your device configuration. Not supported when [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/) is enabled for the account.
-**Deprecated:** please use GET /accounts/{account_id}/devices/registrations/{registration_id}/override_codes instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `device_id: string`
-
-  Registration ID. Equal to Device ID except for accounts which enabled [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/windows-multiuser/).
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/$DEVICE_ID/override_codes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {}
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get override codes
-
-**get** `/accounts/{account_id}/devices/registrations/{registration_id}/override_codes`
-
-Fetches one-time use admin override codes for a registration. This relies on the **Admin Override** setting being enabled in your device configuration.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `registration_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: object { disable_for_time }`
-
-  - `disable_for_time: optional map[string]`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/registrations/$REGISTRATION_ID/override_codes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "disable_for_time": {
-      "foo": "string"
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Override Code List Response
-
-- `OverrideCodeListResponse = unknown`
-
-### Override Code Get Response
-
-- `OverrideCodeGetResponse object { disable_for_time }`
-
-  - `disable_for_time: optional map[string]`
+[Link to this property](#)%20zero_trust.devices.override_codes%20%3E%20(model)%20override_code_get_response%20%3E%20(schema)>)

@@ -1,722 +1,273 @@
+---
+title: Views
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+[Settings](https://developers.cloudflare.com/api/resources/dns/subresources/settings)
+
+[Account](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Views
 
-## List Internal DNS Views
+##### [List Internal DNS Views](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account/subresources/views/methods/list)
 
-**get** `/accounts/{account_id}/dns_settings/views`
+GET/accounts/{account\_id}/dns\_settings/views
 
-List DNS Internal Views for an Account
+##### [DNS Internal View Details](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account/subresources/views/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dns\_settings/views/{view\_id}
 
-- `account_id: string`
+##### [Create Internal DNS View](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account/subresources/views/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/dns\_settings/views
 
-### Query Parameters
+##### [Update Internal DNS View](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account/subresources/views/methods/edit)
 
-- `direction: optional "asc" or "desc"`
+PATCH/accounts/{account\_id}/dns\_settings/views/{view\_id}
 
-  Direction to order DNS views in.
+##### [Delete Internal DNS View](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account/subresources/views/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/dns\_settings/views/{view\_id}
 
-  - `"desc"`
+##### ModelsExpand Collapse
 
-- `match: optional "any" or "all"`
+<details>
 
-  Whether to match all search requirements or at least one (any). If set to `all`, acts like a logical AND between filters. If set to `any`, acts like a logical OR instead.
+<summary>
 
-  - `"any"`
+ViewListResponse object {id, created\_time, modified\_time, 2 more }
 
-  - `"all"`
+</summary>
 
-- `name: optional object { contains, endswith, exact, startswith }`
+id: string
 
-  - `contains: optional string`
+Identifier.
 
-    Substring of the DNS view name.
+maxLength32
 
-  - `endswith: optional string`
+<a href="#">Link to this property</a>
 
-    Suffix of the DNS view name.
+created\_time: string
 
-  - `exact: optional string`
+When the view was created.
 
-    Exact value of the DNS view name.
+formatdate-time
 
-  - `startswith: optional string`
+<a href="#">Link to this property</a>
 
-    Prefix of the DNS view name.
+modified\_time: string
 
-- `order: optional "name" or "created_on" or "modified_on"`
+When the view was last modified.
 
-  Field to order DNS views by.
+formatdate-time
 
-  - `"name"`
+<a href="#">Link to this property</a>
 
-  - `"created_on"`
+name: string
 
-  - `"modified_on"`
+The name of the view.
 
-- `page: optional number`
+maxLength255
 
-  Page number of paginated results.
+minLength1
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of DNS views per page.
+zones: array of string
 
-- `zone_id: optional string`
+The list of zones linked to this view.
 
-  A zone ID that exists in the zones list for the view.
+<a href="#">Link to this property</a>
 
-- `zone_name: optional string`
+</details>
 
-  A zone name that exists in the zones list for the view.
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(model)%20view_list_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+ViewGetResponse object {id, created\_time, modified\_time, 2 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_time: string
 
-  - `message: string`
+When the view was created.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+modified\_time: string
 
-- `success: true`
+When the view was last modified.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_time, modified_time, 2 more }`
+name: string
 
-  - `id: string`
+The name of the view.
 
-    Identifier.
+maxLength255
 
-  - `created_time: string`
+minLength1
 
-    When the view was created.
+<a href="#">Link to this property</a>
 
-  - `modified_time: string`
+zones: array of string
 
-    When the view was last modified.
+The list of zones linked to this view.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the view.
+</details>
 
-  - `zones: array of string`
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(model)%20view_get_response%20%3E%20(schema)>)
 
-    The list of zones linked to this view.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+ViewCreateResponse object {id, created\_time, modified\_time, 2 more }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+id: string
 
-    Current page within paginated list of results.
+Identifier.
 
-  - `per_page: optional number`
+maxLength32
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+created\_time: string
 
-    Total results available without any search parameters.
+When the view was created.
 
-  - `total_pages: optional number`
+formatdate-time
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+modified\_time: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_settings/views \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+When the view was last modified.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_time": "2014-01-01T05:20:00.12345Z",
-      "modified_time": "2014-01-01T05:20:00.12345Z",
-      "name": "my view",
-      "zones": [
-        "372e67954025e0ba6aaa6d586b9e0b59"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## DNS Internal View Details
+name: string
 
-**get** `/accounts/{account_id}/dns_settings/views/{view_id}`
+The name of the view.
 
-Get DNS Internal View
+maxLength255
 
-### Path Parameters
+minLength1
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+zones: array of string
 
-- `view_id: string`
+The list of zones linked to this view.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(model)%20view_create_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ViewEditResponse object {id, created\_time, modified\_time, 2 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_time: string
 
-  - `source: optional object { pointer }`
+When the view was created.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+modified\_time: string
 
-  - `true`
+When the view was last modified.
 
-- `result: optional object { id, created_time, modified_time, 2 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+name: string
 
-  - `created_time: string`
+The name of the view.
 
-    When the view was created.
+maxLength255
 
-  - `modified_time: string`
+minLength1
 
-    When the view was last modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+zones: array of string
 
-    The name of the view.
+The list of zones linked to this view.
 
-  - `zones: array of string`
+<a href="#">Link to this property</a>
 
-    The list of zones linked to this view.
+</details>
 
-### Example
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(model)%20view_edit_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_settings/views/$VIEW_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_time": "2014-01-01T05:20:00.12345Z",
-    "modified_time": "2014-01-01T05:20:00.12345Z",
-    "name": "my view",
-    "zones": [
-      "372e67954025e0ba6aaa6d586b9e0b59"
-    ]
-  }
-}
-```
+ViewDeleteResponse object {id }
 
-## Create Internal DNS View
+</summary>
 
-**post** `/accounts/{account_id}/dns_settings/views`
+id: optional string
 
-Create Internal DNS View for an account
+Identifier.
 
-### Path Parameters
+maxLength32
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Body Parameters
-
-- `name: string`
-
-  The name of the view.
-
-- `zones: array of string`
-
-  The list of zones linked to this view.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_time, modified_time, 2 more }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `created_time: string`
-
-    When the view was created.
-
-  - `modified_time: string`
-
-    When the view was last modified.
-
-  - `name: string`
-
-    The name of the view.
-
-  - `zones: array of string`
-
-    The list of zones linked to this view.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_settings/views \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my view",
-          "zones": [
-            "372e67954025e0ba6aaa6d586b9e0b59"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_time": "2014-01-01T05:20:00.12345Z",
-    "modified_time": "2014-01-01T05:20:00.12345Z",
-    "name": "my view",
-    "zones": [
-      "372e67954025e0ba6aaa6d586b9e0b59"
-    ]
-  }
-}
-```
-
-## Update Internal DNS View
-
-**patch** `/accounts/{account_id}/dns_settings/views/{view_id}`
-
-Update an existing Internal DNS View
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `view_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `name: optional string`
-
-  The name of the view.
-
-- `zones: optional array of string`
-
-  The list of zones linked to this view.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_time, modified_time, 2 more }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `created_time: string`
-
-    When the view was created.
-
-  - `modified_time: string`
-
-    When the view was last modified.
-
-  - `name: string`
-
-    The name of the view.
-
-  - `zones: array of string`
-
-    The list of zones linked to this view.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_settings/views/$VIEW_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my view"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_time": "2014-01-01T05:20:00.12345Z",
-    "modified_time": "2014-01-01T05:20:00.12345Z",
-    "name": "my view",
-    "zones": [
-      "372e67954025e0ba6aaa6d586b9e0b59"
-    ]
-  }
-}
-```
-
-## Delete Internal DNS View
-
-**delete** `/accounts/{account_id}/dns_settings/views/{view_id}`
-
-Delete an existing Internal DNS View
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `view_id: string`
-
-  Identifier.
-
-### Returns
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    Identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_settings/views/$VIEW_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### View List Response
-
-- `ViewListResponse object { id, created_time, modified_time, 2 more }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `created_time: string`
-
-    When the view was created.
-
-  - `modified_time: string`
-
-    When the view was last modified.
-
-  - `name: string`
-
-    The name of the view.
-
-  - `zones: array of string`
-
-    The list of zones linked to this view.
-
-### View Get Response
-
-- `ViewGetResponse object { id, created_time, modified_time, 2 more }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `created_time: string`
-
-    When the view was created.
-
-  - `modified_time: string`
-
-    When the view was last modified.
-
-  - `name: string`
-
-    The name of the view.
-
-  - `zones: array of string`
-
-    The list of zones linked to this view.
-
-### View Create Response
-
-- `ViewCreateResponse object { id, created_time, modified_time, 2 more }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `created_time: string`
-
-    When the view was created.
-
-  - `modified_time: string`
-
-    When the view was last modified.
-
-  - `name: string`
-
-    The name of the view.
-
-  - `zones: array of string`
-
-    The list of zones linked to this view.
-
-### View Edit Response
-
-- `ViewEditResponse object { id, created_time, modified_time, 2 more }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `created_time: string`
-
-    When the view was created.
-
-  - `modified_time: string`
-
-    When the view was last modified.
-
-  - `name: string`
-
-    The name of the view.
-
-  - `zones: array of string`
-
-    The list of zones linked to this view.
-
-### View Delete Response
-
-- `ViewDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier.
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(model)%20view_delete_response%20%3E%20(schema)>)

@@ -1,99 +1,41 @@
+---
+title: DCV Delegation
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # DCV Delegation
 
-## Retrieve the DCV Delegation unique identifier.
+##### [Retrieve the DCV Delegation unique identifier.](https://developers.cloudflare.com/api/resources/dcv_delegation/methods/get)
 
-**get** `/zones/{zone_id}/dcv_delegation/uuid`
+GET/zones/{zone\_id}/dcv\_delegation/uuid
 
-Retrieve the account and zone specific unique identifier used as part of the CNAME target for DCV Delegation.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+DCVDelegationUUID object {uuid }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+uuid: optional string
 
-  - `code: number`
+The DCV Delegation unique identifier.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional DCVDelegationUUID`
-
-  - `uuid: optional string`
-
-    The DCV Delegation unique identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dcv_delegation/uuid \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "uuid": "abc123def456ghi7"
-  }
-}
-```
-
-## Domain Types
-
-### DCV Delegation UUID
-
-- `DCVDelegationUUID object { uuid }`
-
-  - `uuid: optional string`
-
-    The DCV Delegation unique identifier.
+[Link to this property](#)%20dcv_delegation%20%3E%20(model)%20dcv_delegation_uuid%20%3E%20(schema)>)

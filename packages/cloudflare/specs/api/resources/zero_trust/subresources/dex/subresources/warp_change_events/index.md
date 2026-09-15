@@ -1,397 +1,273 @@
+---
+title: WARP Change Events
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # WARP Change Events
 
-## List WARP change events.
+##### [List WARP change events.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/warp_change_events/methods/get)
 
-**get** `/accounts/{account_id}/dex/warp-change-events`
+GET/accounts/{account\_id}/dex/warp-change-events
 
-List WARP configuration and enablement toggle change events by device.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+WARPChangeEventGetResponse = array of object {account\_name, account\_tag, device\_id, 7 more } or object {device\_id, device\_registration, from, 6 more }
 
-### Query Parameters
+</summary>
 
-- `from: string`
+One of the following:
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+<details>
 
-- `page: number`
+<summary>
 
-  Page number of paginated results.
+DigitalExperienceMonitoringWARPToggleChangeEvent object {account\_name, account\_tag, device\_id, 7 more }
 
-- `per_page: number`
+</summary>
 
-  Number of results per page.
+account\_name: optional string
 
-- `to: string`
+The account name.
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+<a href="#">Link to this property</a>
 
-- `account_name: optional string`
+account\_tag: optional string
 
-  Filter events by account name.
+The public account identifier.
 
-- `config_name: optional string`
+<a href="#">Link to this property</a>
 
-  Filter events by WARP configuration name changed from or to. Applicable to type='config' events only.
+device\_id: optional string
 
-- `sort_order: optional "ASC" or "DESC"`
+The device ID.
 
-  Sort response by event timestamp.
+maxLength36
 
-  - `"ASC"`
+<a href="#">Link to this property</a>
 
-  - `"DESC"`
+Deprecateddevice\_registration: optional string
 
-- `toggle: optional "on" or "off"`
+Use <code>registration_id</code> instead.
 
-  Filter events by type toggle value. Applicable to type='toggle' events only.
+Deprecated: use registration\_id. The device registration ID.
 
-  - `"on"`
+maxLength36
 
-  - `"off"`
+<a href="#">Link to this property</a>
 
-- `type: optional "config" or "toggle"`
+hostname: optional string
 
-  Filter events by type 'config' or 'toggle'.
+The hostname of the machine the event is from.
 
-  - `"config"`
+<a href="#">Link to this property</a>
 
-  - `"toggle"`
+registration\_id: optional string
 
-### Returns
+The device registration ID.
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength36
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+serial\_number: optional string
 
-  - `documentation_url: optional string`
+The serial number of the machine the event is from.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+timestamp: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The event time.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+toggle: optional "on"or "off"
 
-- `success: true`
+The state of the WARP toggle.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional array of object { account_name, account_tag, device_id, 7 more }  or object { device_id, device_registration, from, 6 more }`
+"on"
 
-  - `DigitalExperienceMonitoringWARPToggleChangeEvent object { account_name, account_tag, device_id, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `account_name: optional string`
+"off"
 
-      The account name.
+<a href="#">Link to this property</a>
 
-    - `account_tag: optional string`
+</details>
 
-      The public account identifier.
+<a href="#">Link to this property</a>
 
-    - `device_id: optional string`
+user\_email: optional string
 
-      The device ID.
+Email tied to the device.
 
-    - `device_registration: optional string`
+<a href="#">Link to this property</a>
 
-      Deprecated: use registration_id. The device registration ID.
+</details>
 
-    - `hostname: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname of the machine the event is from.
+<details>
 
-    - `registration_id: optional string`
+<summary>
 
-      The device registration ID.
+DigitalExperienceMonitoringWARPConfigChangeEvent object {device\_id, device\_registration, from, 6 more }
 
-    - `serial_number: optional string`
+</summary>
 
-      The serial number of the machine the event is from.
+device\_id: optional string
 
-    - `timestamp: optional string`
+The device ID.
 
-      The event time.
+maxLength36
 
-    - `toggle: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-      The state of the WARP toggle.
+Deprecateddevice\_registration: optional string
 
-      - `"on"`
+Use <code>registration_id</code> instead.
 
-      - `"off"`
+Deprecated: use registration\_id. The device registration ID.
 
-    - `user_email: optional string`
+maxLength36
 
-      Email tied to the device.
+<a href="#">Link to this property</a>
 
-  - `DigitalExperienceMonitoringWARPConfigChangeEvent object { device_id, device_registration, from, 6 more }`
+<details>
 
-    - `device_id: optional string`
+<summary>
 
-      The device ID.
+from: optional object {account\_name, account\_tag, config\_name }
 
-    - `device_registration: optional string`
+The details for the WARP configuration that was switched from.
 
-      Deprecated: use registration_id. The device registration ID.
+</summary>
 
-    - `from: optional object { account_name, account_tag, config_name }`
+account\_name: optional string
 
-      The details for the WARP configuration that was switched from.
+The account name.
 
-      - `account_name: optional string`
+<a href="#">Link to this property</a>
 
-        The account name.
+account\_tag: optional string
 
-      - `account_tag: optional string`
+The public account identifier.
 
-        The public account identifier.
+maxLength36
 
-      - `config_name: optional string`
+<a href="#">Link to this property</a>
 
-        The name of the WARP configuration.
+config\_name: optional string
 
-    - `hostname: optional string`
+The name of the WARP configuration.
 
-      The hostname of the machine the event is from.
+<a href="#">Link to this property</a>
 
-    - `registration_id: optional string`
+</details>
 
-      The device registration ID.
+<a href="#">Link to this property</a>
 
-    - `serial_number: optional string`
+hostname: optional string
 
-      The serial number of the machine the event is from.
+The hostname of the machine the event is from.
 
-    - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-      The event time.
+registration\_id: optional string
 
-    - `to: optional object { account_name, account_tag, config_name }`
+The device registration ID.
 
-      The details for the WARP configuration that was switched to.
+maxLength36
 
-      - `account_name: optional string`
+<a href="#">Link to this property</a>
 
-        The account name.
+serial\_number: optional string
 
-      - `account_tag: optional string`
+The serial number of the machine the event is from.
 
-        The public account identifier.
+<a href="#">Link to this property</a>
 
-      - `config_name: optional string`
+timestamp: optional string
 
-        The name of the WARP configuration.
+The event time.
 
-    - `user_email: optional string`
+formatdate-time
 
-      Email tied to the device.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service.
+to: optional object {account\_name, account\_tag, config\_name }
 
-  - `page: optional number`
+The details for the WARP configuration that was switched to.
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+account\_name: optional string
 
-    Number of results per page of results.
+The account name.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+account\_tag: optional string
 
-  - `total_pages: optional number`
+The public account identifier.
 
-    The number of total pages in the entire result set.
+maxLength36
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/warp-change-events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+config\_name: optional string
 
-#### Response
+The name of the WARP configuration.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "account_name": "account_name",
-      "account_tag": "account_tag",
-      "device_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "device_registration": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "hostname": "hostname",
-      "registration_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "serial_number": "serial_number",
-      "timestamp": "2023-10-11T00:00:00Z",
-      "toggle": "on",
-      "user_email": "user_email"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### WARP Change Event Get Response
+<a href="#">Link to this property</a>
 
-- `WARPChangeEventGetResponse = array of object { account_name, account_tag, device_id, 7 more }  or object { device_id, device_registration, from, 6 more }`
+user\_email: optional string
 
-  - `DigitalExperienceMonitoringWARPToggleChangeEvent object { account_name, account_tag, device_id, 7 more }`
+Email tied to the device.
 
-    - `account_name: optional string`
+<a href="#">Link to this property</a>
 
-      The account name.
+</details>
 
-    - `account_tag: optional string`
+<a href="#">Link to this property</a>
 
-      The public account identifier.
+</details>
 
-    - `device_id: optional string`
-
-      The device ID.
-
-    - `device_registration: optional string`
-
-      Deprecated: use registration_id. The device registration ID.
-
-    - `hostname: optional string`
-
-      The hostname of the machine the event is from.
-
-    - `registration_id: optional string`
-
-      The device registration ID.
-
-    - `serial_number: optional string`
-
-      The serial number of the machine the event is from.
-
-    - `timestamp: optional string`
-
-      The event time.
-
-    - `toggle: optional "on" or "off"`
-
-      The state of the WARP toggle.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `user_email: optional string`
-
-      Email tied to the device.
-
-  - `DigitalExperienceMonitoringWARPConfigChangeEvent object { device_id, device_registration, from, 6 more }`
-
-    - `device_id: optional string`
-
-      The device ID.
-
-    - `device_registration: optional string`
-
-      Deprecated: use registration_id. The device registration ID.
-
-    - `from: optional object { account_name, account_tag, config_name }`
-
-      The details for the WARP configuration that was switched from.
-
-      - `account_name: optional string`
-
-        The account name.
-
-      - `account_tag: optional string`
-
-        The public account identifier.
-
-      - `config_name: optional string`
-
-        The name of the WARP configuration.
-
-    - `hostname: optional string`
-
-      The hostname of the machine the event is from.
-
-    - `registration_id: optional string`
-
-      The device registration ID.
-
-    - `serial_number: optional string`
-
-      The serial number of the machine the event is from.
-
-    - `timestamp: optional string`
-
-      The event time.
-
-    - `to: optional object { account_name, account_tag, config_name }`
-
-      The details for the WARP configuration that was switched to.
-
-      - `account_name: optional string`
-
-        The account name.
-
-      - `account_tag: optional string`
-
-        The public account identifier.
-
-      - `config_name: optional string`
-
-        The name of the WARP configuration.
-
-    - `user_email: optional string`
-
-      Email tied to the device.
+[Link to this property](#)%20zero_trust.dex.warp_change_events%20%3E%20(model)%20warp_change_event_get_response%20%3E%20(schema)>)

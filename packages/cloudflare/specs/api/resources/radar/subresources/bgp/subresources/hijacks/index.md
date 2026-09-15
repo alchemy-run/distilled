@@ -1,279 +1,169 @@
+---
+title: Hijacks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Hijacks
 
-# Events
+#### HijacksEvents
 
-## Get BGP hijack events
+##### [Get BGP hijack events](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/hijacks/subresources/events/methods/list)
 
-**get** `/radar/bgp/hijacks/events`
+GET/radar/bgp/hijacks/events
 
-Retrieves the BGP hijack events.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `dateEnd: optional string`
+<summary>
 
-  End of the date range (inclusive).
+EventListResponse object {asn\_info, events, total\_monitors }
 
-- `dateRange: optional string`
+</summary>
 
-  Filters results by date range.
+<details>
 
-- `dateStart: optional string`
+<summary>
 
-  Start of the date range (inclusive).
+asn\_info: array of object {asn, country\_code, org\_name }
 
-- `eventId: optional number`
+</summary>
 
-  The unique identifier of a event.
+asn: number
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+country\_code: string
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+org\_name: string
 
-- `hijackerAsn: optional number`
+<a href="#">Link to this property</a>
 
-  The potential hijacker AS of a BGP hijack event.
+</details>
 
-- `involvedAsn: optional number`
+<a href="#">Link to this property</a>
 
-  The potential hijacker or victim AS of a BGP hijack event.
+<details>
 
-- `involvedCountry: optional string`
+<summary>
 
-  The country code of the potential hijacker or victim AS of a BGP hijack event.
+events: array of object {id, confidence\_score, duration, 15 more }
 
-- `maxConfidence: optional number`
+</summary>
 
-  Filters events by maximum confidence score (1-4 low, 5-7 mid, 8+ high).
+id: number
 
-- `minConfidence: optional number`
+<a href="#">Link to this property</a>
 
-  Filters events by minimum confidence score (1-4 low, 5-7 mid, 8+ high).
+confidence\_score: number
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Current page number, starting from 1.
+duration: number
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of entries per page.
+event\_type: number
 
-- `prefix: optional string`
+<a href="#">Link to this property</a>
 
-- `sortBy: optional "ID" or "TIME" or "CONFIDENCE"`
+hijack\_msgs\_count: number
 
-  Sorts results by the specified field.
+<a href="#">Link to this property</a>
 
-  - `"ID"`
+hijacker\_asn: number
 
-  - `"TIME"`
+<a href="#">Link to this property</a>
 
-  - `"CONFIDENCE"`
+hijacker\_country: string
 
-- `sortOrder: optional "ASC" or "DESC"`
+<a href="#">Link to this property</a>
 
-  Sort order.
+is\_stale: boolean
 
-  - `"ASC"`
+<a href="#">Link to this property</a>
 
-  - `"DESC"`
+max\_hijack\_ts: string
 
-- `victimAsn: optional number`
+<a href="#">Link to this property</a>
 
-  The potential victim AS of a BGP hijack event.
+max\_msg\_ts: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { asn_info, events, total_monitors }`
+min\_hijack\_ts: string
 
-  - `asn_info: array of object { asn, country_code, org_name }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+on\_going\_count: number
 
-    - `country_code: string`
+<a href="#">Link to this property</a>
 
-    - `org_name: string`
+peer\_asns: array of number
 
-  - `events: array of object { id, confidence_score, duration, 15 more }`
+<a href="#">Link to this property</a>
 
-    - `id: number`
+peer\_ip\_count: number
 
-    - `confidence_score: number`
+<a href="#">Link to this property</a>
 
-    - `duration: number`
+prefixes: array of string
 
-    - `event_type: number`
+<a href="#">Link to this property</a>
 
-    - `hijack_msgs_count: number`
+<details>
 
-    - `hijacker_asn: number`
+<summary>
 
-    - `hijacker_country: string`
+tags: array of object {name, score }
 
-    - `is_stale: boolean`
+</summary>
 
-    - `max_hijack_ts: string`
+name: string
 
-    - `max_msg_ts: string`
+<a href="#">Link to this property</a>
 
-    - `min_hijack_ts: string`
+score: number
 
-    - `on_going_count: number`
+<a href="#">Link to this property</a>
 
-    - `peer_asns: array of number`
+</details>
 
-    - `peer_ip_count: number`
+<a href="#">Link to this property</a>
 
-    - `prefixes: array of string`
+victim\_asns: array of number
 
-    - `tags: array of object { name, score }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+victim\_countries: array of string
 
-      - `score: number`
+<a href="#">Link to this property</a>
 
-    - `victim_asns: array of number`
+</details>
 
-    - `victim_countries: array of string`
+<a href="#">Link to this property</a>
 
-  - `total_monitors: number`
+total\_monitors: number
 
-- `result_info: object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+</details>
 
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/hijacks/events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "asn_info": [
-      {
-        "asn": 0,
-        "country_code": "country_code",
-        "org_name": "org_name"
-      }
-    ],
-    "events": [
-      {
-        "id": 0,
-        "confidence_score": 0,
-        "duration": 0,
-        "event_type": 0,
-        "hijack_msgs_count": 0,
-        "hijacker_asn": 0,
-        "hijacker_country": "hijacker_country",
-        "is_stale": true,
-        "max_hijack_ts": "max_hijack_ts",
-        "max_msg_ts": "max_msg_ts",
-        "min_hijack_ts": "min_hijack_ts",
-        "on_going_count": 0,
-        "peer_asns": [
-          0
-        ],
-        "peer_ip_count": 0,
-        "prefixes": [
-          "string"
-        ],
-        "tags": [
-          {
-            "name": "name",
-            "score": 0
-          }
-        ],
-        "victim_asns": [
-          0
-        ],
-        "victim_countries": [
-          "string"
-        ]
-      }
-    ],
-    "total_monitors": 0
-  },
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Event List Response
-
-- `EventListResponse object { asn_info, events, total_monitors }`
-
-  - `asn_info: array of object { asn, country_code, org_name }`
-
-    - `asn: number`
-
-    - `country_code: string`
-
-    - `org_name: string`
-
-  - `events: array of object { id, confidence_score, duration, 15 more }`
-
-    - `id: number`
-
-    - `confidence_score: number`
-
-    - `duration: number`
-
-    - `event_type: number`
-
-    - `hijack_msgs_count: number`
-
-    - `hijacker_asn: number`
-
-    - `hijacker_country: string`
-
-    - `is_stale: boolean`
-
-    - `max_hijack_ts: string`
-
-    - `max_msg_ts: string`
-
-    - `min_hijack_ts: string`
-
-    - `on_going_count: number`
-
-    - `peer_asns: array of number`
-
-    - `peer_ip_count: number`
-
-    - `prefixes: array of string`
-
-    - `tags: array of object { name, score }`
-
-      - `name: string`
-
-      - `score: number`
-
-    - `victim_asns: array of number`
-
-    - `victim_countries: array of string`
-
-  - `total_monitors: number`
+[Link to this property](#)%20radar.bgp.hijacks.events%20%3E%20(model)%20event_list_response%20%3E%20(schema)>)

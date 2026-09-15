@@ -1,75 +1,257 @@
-## View webhooks
+---
+title: View webhook
+---
 
-**get** `/accounts/{account_id}/stream/webhook`
+[Skip to content](#_top)
 
-Retrieves a list of webhooks.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Stream](https://developers.cloudflare.com/api/resources/stream)
 
-- `account_id: string`
+[Webhooks](https://developers.cloudflare.com/api/resources/stream/subresources/webhooks)
 
-  The account identifier tag.
+Copy Markdown
 
-### Returns
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `errors: array of object { code, message, documentation_url, source }`
+---
 
-  - `code: number`
+**Copy Markdown****View as Markdown**
 
-  - `message: string`
+# View webhook
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/stream/webhook
 
-  - `source: optional object { pointer }`
+Retrieve current on-demand webhook information.
 
-    - `pointer: optional string`
+##### Security
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `pointer: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>API Email + API Key</summary>
 
-- `result: optional object { modified, notification_url, notificationUrl, secret }`
 
-  - `modified: optional string`
 
-    The date and time the webhook was last modified.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `notification_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    The URL where webhooks will be sent.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `notificationUrl: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    The URL where webhooks will be sent.
+</details>
 
-  - `secret: optional string`
+##### Accepted Permissions (at least one required)
 
-    The secret used to verify webhook signatures.
+`Stream Write``Stream Read`
 
-### Example
+##### P ath ParametersExpand Collapse
 
-```http
+account\_id: string
+
+The account identifier tag.
+
+maxLength32
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {modified, notification\_url, notificationUrl, secret }
+
+</summary>
+
+modified: optional string
+
+The date and time the webhook was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+notification\_url: optional string
+
+The URL where webhooks will be sent.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+notificationUrl: optional string
+
+The URL where webhooks will be sent.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+The secret used to verify webhook signatures.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.webhooks%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### View webhook
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "modified": "2014-01-02T02:20:00Z",
+    "notification_url": "https://example.com",
+    "notificationUrl": "https://example.com",
+    "secret": "secret"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

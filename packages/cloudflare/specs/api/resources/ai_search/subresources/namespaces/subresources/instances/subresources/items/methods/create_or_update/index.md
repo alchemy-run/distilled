@@ -1,84 +1,260 @@
-## Create or Update Item.
+---
+title: Create or Update Item.
+---
 
-**put** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces)
+
+[Instances](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances)
+
+[Items](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create or Update Item.
+
+PUT/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items
 
 Creates or updates an indexed item in an AI Search instance.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `name: string`
+<summary>API Token</summary>
 
-- `id: string`
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `key: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Item key / filename. Must not exceed 128 characters.
+</details>
 
-- `next_action: "INDEX"`
+<details>
 
-  - `"INDEX"`
+<summary>API Email + API Key</summary>
 
-- `wait_for_completion: optional boolean`
 
-  Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion confirmation (up to 40s) so the returned item reflects a queryable state. On timeout the item is returned in `running` state and the background alarm continues polling. Defaults to false.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `result: object { id, checksum, chunks_count, 9 more }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `id: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `checksum: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `chunks_count: number`
+</details>
 
-  - `created_at: string`
+##### P ath ParametersExpand Collapse
 
-  - `file_size: number`
+account\_id: string
 
-  - `key: string`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20create_or_update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `last_seen_at: string`
+name: string
 
-  - `namespace: string`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20create_or_update%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `next_action: "INDEX" or "DELETE"`
+id: string
 
-    - `"INDEX"`
+AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
 
-    - `"DELETE"`
+maxLength64
 
-  - `source_id: string`
+minLength1
 
-    Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items.
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20create_or_update%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-  - `status: "queued" or "running" or "completed" or 3 more`
+##### Body ParametersJSONExpand Collapse
 
-    - `"queued"`
+key: string
 
-    - `"running"`
+Item key / filename. Must not exceed 128 characters.
 
-    - `"completed"`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20create_or_update%20%3E%20(params)%200%20%3E%20(param)%20key%20%3E%20(schema)>)
 
-    - `"error"`
+next\_action: "INDEX"
 
-    - `"skipped"`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20create_or_update%20%3E%20(params)%200%20%3E%20(param)%20next_action%20%3E%20(schema)>)
 
-    - `"outdated"`
+wait\_for\_completion: optional boolean
 
-  - `error: optional string`
+Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion confirmation (up to 40s) so the returned item reflects a queryable state. On timeout the item is returned in `running` state and the background alarm continues polling. Defaults to false.
 
-- `success: boolean`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20create_or_update%20%3E%20(params)%200%20%3E%20(param)%20wait_for_completion%20%3E%20(schema)>)
 
-### Example
+##### ReturnsExpand Collapse
 
-```http
+<details>
+
+<summary>
+
+result: object {id, checksum, chunks\_count, 10 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+checksum: string
+
+<a href="#">Link to this property</a>
+
+chunks\_count: number
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+file\_size: number
+
+<a href="#">Link to this property</a>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+last\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+metadata: map\[stringor numberor boolean]
+
+Built-in, configured filterable, and retained source metadata for the item.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+namespace: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+next\_action: "INDEX"or "DELETE"
+
+</summary>
+
+One of the following:
+
+"INDEX"
+
+<a href="#">Link to this property</a>
+
+"DELETE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+source\_id: string
+
+Identifies which data source this item belongs to. “builtin” for uploaded files, “{type}:{source}” for external sources, null for legacy items.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "queued"or "running"or "completed"or 3 more
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"running"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"skipped"
+
+<a href="#">Link to this property</a>
+
+"outdated"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+error: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20create_or_update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20create_or_update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create or Update Item.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -89,9 +265,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespa
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "id": "id",
@@ -101,6 +277,36 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespa
     "file_size": 0,
     "key": "key",
     "last_seen_at": "2019-12-27T18:11:19.117Z",
+    "metadata": {
+      "foo": "string"
+    },
+    "namespace": "namespace",
+    "next_action": "INDEX",
+    "source_id": "source_id",
+    "status": "queued",
+    "error": "error"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "id": "id",
+    "checksum": "checksum",
+    "chunks_count": 0,
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "file_size": 0,
+    "key": "key",
+    "last_seen_at": "2019-12-27T18:11:19.117Z",
+    "metadata": {
+      "foo": "string"
+    },
     "namespace": "namespace",
     "next_action": "INDEX",
     "source_id": "source_id",

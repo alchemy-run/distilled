@@ -272,7 +272,12 @@ export const BucketsCreateRequestLocationHint = S.String;
 export type BucketsCreateRequestStorageClass = "Standard" | "InfrequentAccess";
 export const BucketsCreateRequestStorageClass = S.String;
 
-export type BucketsCreateRequestCfR2Jurisdiction = "default" | "eu" | "fedramp";
+export type BucketsCreateRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsCreateRequestCfR2Jurisdiction = S.String;
 
 export interface CreateBucketRequest {
@@ -309,7 +314,12 @@ export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateBucketRequest",
 }) as any as S.Schema<CreateBucketRequest>;
 
-export type BucketsCreateResponseJurisdiction = "default" | "eu" | "fedramp";
+export type BucketsCreateResponseJurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsCreateResponseJurisdiction = S.String;
 
 export type BucketsCreateResponseLocation =
@@ -367,7 +377,9 @@ export const BucketsDomainsCustomCreateRequestMinTLS = S.String;
 export type BucketsDomainsCustomCreateRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsDomainsCustomCreateRequestCfR2Jurisdiction = S.String;
 
 export interface CreateBucketDomainCustomRequest {
@@ -573,6 +585,7 @@ export const SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaVendor =
 export type SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaJurisdiction =
   | "default"
   | "eu"
+  | "us"
   | "fedramp";
 export const SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaJurisdiction =
   S.String;
@@ -629,16 +642,20 @@ export type SuperSlurperJobsCreateRequestTargetSecret =
 export const SuperSlurperJobsCreateRequestTargetSecret =
   SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaSecret;
 
+export type SuperSlurperJobsCreateRequestTargetVendor = "r2";
+export const SuperSlurperJobsCreateRequestTargetVendor = S.String;
+
 export type SuperSlurperJobsCreateRequestTargetJurisdiction =
   | "default"
   | "eu"
+  | "us"
   | "fedramp";
 export const SuperSlurperJobsCreateRequestTargetJurisdiction = S.String;
 
 export interface SuperSlurperJobsCreateRequestTarget {
   bucket: string;
   secret: SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaSecret;
-  vendor: SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaVendor;
+  vendor: SuperSlurperJobsCreateRequestTargetVendor | (string & {});
   jurisdiction?:
     | SuperSlurperJobsCreateRequestTargetJurisdiction
     | (string & {});
@@ -647,7 +664,7 @@ export const SuperSlurperJobsCreateRequestTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bucket: S.String,
     secret: SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaSecret,
-    vendor: SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaVendor,
+    vendor: SuperSlurperJobsCreateRequestTargetVendor,
     jurisdiction: S.optional(SuperSlurperJobsCreateRequestTargetJurisdiction),
   }),
 ).annotate({
@@ -767,7 +784,12 @@ export const CreateTemporaryCredentialResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateTemporaryCredentialResponse",
 }) as any as S.Schema<CreateTemporaryCredentialResponse>;
 
-export type BucketsDeleteRequestCfR2Jurisdiction = "default" | "eu" | "fedramp";
+export type BucketsDeleteRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsDeleteRequestCfR2Jurisdiction = S.String;
 
 export interface DeleteBucketRequest {
@@ -808,7 +830,9 @@ export const DeleteBucketResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsCorsDeleteRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsCorsDeleteRequestCfR2Jurisdiction = S.String;
 
 export interface DeleteBucketCorsRequest {
@@ -851,7 +875,9 @@ export const DeleteBucketCorsResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsDomainsCustomDeleteRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsDomainsCustomDeleteRequestCfR2Jurisdiction = S.String;
 
 export interface DeleteBucketDomainCustomRequest {
@@ -905,7 +931,9 @@ export const DeleteBucketDomainCustomResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsEventNotificationsDeleteRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsEventNotificationsDeleteRequestCfR2Jurisdiction = S.String;
 
 export interface DeleteBucketEventNotificationRequest {
@@ -955,7 +983,9 @@ export const DeleteBucketEventNotificationResponse = /*@__PURE__*/ S.suspend(
 export type BucketsObjectsDeleteRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsObjectsDeleteRequestCfR2Jurisdiction = S.String;
 
 export interface DeleteBucketObjectRequest {
@@ -967,7 +997,7 @@ export interface DeleteBucketObjectRequest {
   cfR2Jurisdiction?:
     | BucketsObjectsDeleteRequestCfR2Jurisdiction
     | (string & {});
-  /** The key (name) of the object to delete. May contain slashes for path-like keys. */
+  /** The key (name) of the object to delete. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
 }
 export const DeleteBucketObjectRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1009,7 +1039,9 @@ export const DeleteBucketObjectResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsSippyDeleteRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsSippyDeleteRequestCfR2Jurisdiction = S.String;
 
 export interface DeleteBucketSippyRequest {
@@ -1095,7 +1127,12 @@ export const DeleteObjectsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteObjectsResponse",
 }) as any as S.Schema<DeleteObjectsResponse>;
 
-export type BucketsGetRequestCfR2Jurisdiction = "default" | "eu" | "fedramp";
+export type BucketsGetRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsGetRequestCfR2Jurisdiction = S.String;
 
 export interface GetBucketRequest {
@@ -1126,7 +1163,12 @@ export const GetBucketRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBucketRequest",
 }) as any as S.Schema<GetBucketRequest>;
 
-export type BucketsGetResponseJurisdiction = "default" | "eu" | "fedramp";
+export type BucketsGetResponseJurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsGetResponseJurisdiction = S.String;
 
 export type BucketsGetResponseLocation =
@@ -1171,7 +1213,9 @@ export const GetBucketResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsCorsGetRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsCorsGetRequestCfR2Jurisdiction = S.String;
 
 export interface GetBucketCorsRequest {
@@ -1302,7 +1346,9 @@ export const GetBucketCorsResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsDomainsCustomGetRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsDomainsCustomGetRequestCfR2Jurisdiction = S.String;
 
 export interface GetBucketDomainCustomRequest {
@@ -1417,7 +1463,9 @@ export const GetBucketDomainCustomResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsEventNotificationsGetRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsEventNotificationsGetRequestCfR2Jurisdiction = S.String;
 
 export interface GetBucketEventNotificationRequest {
@@ -1427,7 +1475,7 @@ export interface GetBucketEventNotificationRequest {
   bucketName: string;
   /** Queue ID. */
   queueId: string;
-  /** The bucket jurisdiction. */
+  /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
   jurisdiction?:
     | BucketsEventNotificationsGetRequestCfR2Jurisdiction
     | (string & {});
@@ -1527,7 +1575,9 @@ export const GetBucketEventNotificationResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsLifecycleGetRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsLifecycleGetRequestCfR2Jurisdiction = S.String;
 
 export interface GetBucketLifecycleRequest {
@@ -1819,7 +1869,9 @@ export const GetBucketLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsLocksGetRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsLocksGetRequestCfR2Jurisdiction = S.String;
 
 export interface GetBucketLockRequest {
@@ -1961,7 +2013,9 @@ export const GetBucketLockResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsObjectsGetRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsObjectsGetRequestCfR2Jurisdiction = S.String;
 
 export interface GetBucketObjectRequest {
@@ -1971,11 +2025,11 @@ export interface GetBucketObjectRequest {
   bucketName: string;
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
   cfR2Jurisdiction?: BucketsObjectsGetRequestCfR2Jurisdiction | (string & {});
-  /** Returns the object only if it has been modified since the specified time. */
+  /** Returns the object only if it has been modified since the specified time. Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`. */
   ifModifiedSince?: string;
   /** Returns the object only if its ETag does not match the given value. */
   ifNoneMatch?: string;
-  /** The key (name) of the object to retrieve. May contain slashes for path-like keys. */
+  /** The key (name) of the object to retrieve. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
 }
 export const GetBucketObjectRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2062,7 +2116,9 @@ export const GetBucketObjectResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsSippyGetRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsSippyGetRequestCfR2Jurisdiction = S.String;
 
 export interface GetBucketSippyRequest {
@@ -2099,7 +2155,7 @@ export type BucketsSippyGetResponseDestinationProvider = "r2";
 export const BucketsSippyGetResponseDestinationProvider = S.String;
 
 export interface BucketsSippyGetResponseDestination {
-  /** ID of the Cloudflare API token used when writing objects to this */
+  /** ID of the Cloudflare API token used when writing objects to this bucket. */
   accessKeyId?: string | null;
   account?: string | null;
   /** Name of the bucket on the provider. */
@@ -2117,7 +2173,11 @@ export const BucketsSippyGetResponseDestination = /*@__PURE__*/ S.suspend(() =>
   identifier: "BucketsSippyGetResponseDestination",
 }) as any as S.Schema<BucketsSippyGetResponseDestination>;
 
-export type BucketsSippyGetResponseSourceProvider = "aws" | "gcs" | "s3";
+export type BucketsSippyGetResponseSourceProvider =
+  | "aws"
+  | "gcs"
+  | "s3"
+  | "azure";
 export const BucketsSippyGetResponseSourceProvider = S.String;
 
 export interface BucketsSippyGetResponseSource {
@@ -2125,6 +2185,8 @@ export interface BucketsSippyGetResponseSource {
   bucket?: string | null;
   /** S3-compatible URL (Generic S3-compatible providers only). */
   bucketUrl?: string | null;
+  /** Name of the Azure Blob Storage container (Azure only). */
+  container?: string | null;
   provider?: BucketsSippyGetResponseSourceProvider | null;
   /** Region where the bucket resides (AWS only). */
   region?: string | null;
@@ -2133,6 +2195,7 @@ export const BucketsSippyGetResponseSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bucket: S.optional(S.NullOr(S.String)),
     bucketUrl: S.optional(S.NullOr(S.String)),
+    container: S.optional(S.NullOr(S.String)),
     provider: S.optional(S.NullOr(BucketsSippyGetResponseSourceProvider)),
     region: S.optional(S.NullOr(S.String)),
   }),
@@ -2259,6 +2322,7 @@ export const SuperSlurperJobsGetResponseSourceGcsSourceResponseSchema =
 export type SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaJurisdiction =
   | "default"
   | "eu"
+  | "us"
   | "fedramp";
 export const SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaJurisdiction =
   S.String;
@@ -2327,13 +2391,17 @@ export const SuperSlurperJobsGetResponseStatus = S.String;
 export type SuperSlurperJobsGetResponseTargetJurisdiction =
   | "default"
   | "eu"
+  | "us"
   | "fedramp";
 export const SuperSlurperJobsGetResponseTargetJurisdiction = S.String;
+
+export type SuperSlurperJobsGetResponseTargetVendor = "r2";
+export const SuperSlurperJobsGetResponseTargetVendor = S.String;
 
 export interface SuperSlurperJobsGetResponseTarget {
   bucket?: string | null;
   jurisdiction?: SuperSlurperJobsGetResponseTargetJurisdiction | null;
-  vendor?: SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaVendor | null;
+  vendor?: SuperSlurperJobsGetResponseTargetVendor | null;
 }
 export const SuperSlurperJobsGetResponseTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2341,9 +2409,7 @@ export const SuperSlurperJobsGetResponseTarget = /*@__PURE__*/ S.suspend(() =>
     jurisdiction: S.optional(
       S.NullOr(SuperSlurperJobsGetResponseTargetJurisdiction),
     ),
-    vendor: S.optional(
-      S.NullOr(SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaVendor),
-    ),
+    vendor: S.optional(S.NullOr(SuperSlurperJobsGetResponseTargetVendor)),
   }),
 ).annotate({
   identifier: "SuperSlurperJobsGetResponseTarget",
@@ -2376,7 +2442,9 @@ export const GetSuperSlurperJobResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsDomainsCustomListRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsDomainsCustomListRequestCfR2Jurisdiction = S.String;
 
 export interface ListBucketDomainCustomsRequest {
@@ -2516,7 +2584,9 @@ export const ListBucketDomainCustomsResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsDomainsManagedListRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsDomainsManagedListRequestCfR2Jurisdiction = S.String;
 
 export interface ListBucketDomainManagedsRequest {
@@ -2573,7 +2643,9 @@ export const ListBucketDomainManagedsResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsEventNotificationsListRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsEventNotificationsListRequestCfR2Jurisdiction = S.String;
 
 export interface ListBucketEventNotificationsRequest {
@@ -2806,7 +2878,9 @@ export const ListBucketMetricsResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsObjectsListRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsObjectsListRequestCfR2Jurisdiction = S.String;
 
 export interface ListBucketObjectsRequest {
@@ -2899,7 +2973,7 @@ export const BucketsObjectsListResultItemStorageClass = S.String;
 export interface BucketsObjectsListResultItem {
   /** Custom metadata key-value pairs associated with the object. */
   customMetadata?: BucketsObjectsListResultItemCustomMetadataMap | null;
-  /** The entity tag for the object. In JSON list/get responses this is the raw */
+  /** The entity tag for the object. In JSON list/get responses this is the raw hex digest (without surrounding quotes). The HTTP `ETag` response header on Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes. */
   etag?: string | null;
   /** HTTP metadata associated with an R2 object. */
   httpMetadata?: BucketsObjectsListResultItemHttpMetadata | null;
@@ -2967,7 +3041,12 @@ export const BucketsListRequestDirection = S.String;
 export type BucketsListRequestOrder = "name";
 export const BucketsListRequestOrder = S.String;
 
-export type BucketsListRequestCfR2Jurisdiction = "default" | "eu" | "fedramp";
+export type BucketsListRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsListRequestCfR2Jurisdiction = S.String;
 
 export interface ListBucketsRequest {
@@ -3016,7 +3095,9 @@ export const ListBucketsRequest = /*@__PURE__*/ S.suspend(() =>
 export type BucketsListResponseBucketsItemJurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsListResponseBucketsItemJurisdiction = S.String;
 
 export type BucketsListResponseBucketsItemLocation =
@@ -3268,6 +3349,7 @@ export const SuperSlurperJobsListResultItemSourceGcsSourceResponseSchema =
 export type SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaJurisdiction =
   | "default"
   | "eu"
+  | "us"
   | "fedramp";
 export const SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaJurisdiction =
   S.String;
@@ -3339,13 +3421,17 @@ export const SuperSlurperJobsListResultItemStatus = S.String;
 export type SuperSlurperJobsListResultItemTargetJurisdiction =
   | "default"
   | "eu"
+  | "us"
   | "fedramp";
 export const SuperSlurperJobsListResultItemTargetJurisdiction = S.String;
+
+export type SuperSlurperJobsListResultItemTargetVendor = "r2";
+export const SuperSlurperJobsListResultItemTargetVendor = S.String;
 
 export interface SuperSlurperJobsListResultItemTarget {
   bucket?: string | null;
   jurisdiction?: SuperSlurperJobsListResultItemTargetJurisdiction | null;
-  vendor?: SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaVendor | null;
+  vendor?: SuperSlurperJobsListResultItemTargetVendor | null;
 }
 export const SuperSlurperJobsListResultItemTarget = /*@__PURE__*/ S.suspend(
   () =>
@@ -3354,11 +3440,7 @@ export const SuperSlurperJobsListResultItemTarget = /*@__PURE__*/ S.suspend(
       jurisdiction: S.optional(
         S.NullOr(SuperSlurperJobsListResultItemTargetJurisdiction),
       ),
-      vendor: S.optional(
-        S.NullOr(
-          SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaVendor,
-        ),
-      ),
+      vendor: S.optional(S.NullOr(SuperSlurperJobsListResultItemTargetVendor)),
     }),
 ).annotate({
   identifier: "SuperSlurperJobsListResultItemTarget",
@@ -3413,7 +3495,12 @@ export type BucketsEditRequestCfR2StorageClass =
   | "InfrequentAccess";
 export const BucketsEditRequestCfR2StorageClass = S.String;
 
-export type BucketsEditRequestCfR2Jurisdiction = "default" | "eu" | "fedramp";
+export type BucketsEditRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsEditRequestCfR2Jurisdiction = S.String;
 
 export interface PatchBucketRequest {
@@ -3449,7 +3536,12 @@ export const PatchBucketRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatchBucketRequest",
 }) as any as S.Schema<PatchBucketRequest>;
 
-export type BucketsEditResponseJurisdiction = "default" | "eu" | "fedramp";
+export type BucketsEditResponseJurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsEditResponseJurisdiction = S.String;
 
 export type BucketsEditResponseLocation =
@@ -3656,7 +3748,9 @@ export const BucketsCorsUpdateRequestRulesList = /*@__PURE__*/ S.Array(
 export type BucketsCorsUpdateRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsCorsUpdateRequestCfR2Jurisdiction = S.String;
 
 export interface PutBucketCorsRequest {
@@ -3701,7 +3795,9 @@ export const PutBucketCorsResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsDomainsManagedUpdateRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsDomainsManagedUpdateRequestCfR2Jurisdiction = S.String;
 
 export interface PutBucketDomainManagedRequest {
@@ -3807,7 +3903,9 @@ export const BucketsEventNotificationsUpdateRequestRulesList =
 export type BucketsEventNotificationsUpdateRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsEventNotificationsUpdateRequestCfR2Jurisdiction = S.String;
 
 export interface PutBucketEventNotificationRequest {
@@ -4090,7 +4188,9 @@ export const BucketsLifecycleUpdateRequestRulesList = /*@__PURE__*/ S.Array(
 export type BucketsLifecycleUpdateRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsLifecycleUpdateRequestCfR2Jurisdiction = S.String;
 
 export interface PutBucketLifecycleRequest {
@@ -4229,7 +4329,9 @@ export const BucketsLocksUpdateRequestRulesList = /*@__PURE__*/ S.Array(
 export type BucketsLocksUpdateRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsLocksUpdateRequestCfR2Jurisdiction = S.String;
 
 export interface PutBucketLockRequest {
@@ -4271,47 +4373,26 @@ export const PutBucketLockResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutBucketLockResponse",
 }) as any as S.Schema<PutBucketLockResponse>;
 
-export type BucketsSippyUpdateRequestDestinationR2EnableSippyAwsProvider = "r2";
-export const BucketsSippyUpdateRequestDestinationR2EnableSippyAwsProvider =
-  S.String;
+export type BucketsSippyUpdateRequestDestinationProvider = "r2";
+export const BucketsSippyUpdateRequestDestinationProvider = S.String;
 
-export interface BucketsSippyUpdateRequestDestinationR2EnableSippyAws {
-  /** ID of a Cloudflare API token. */
+export interface BucketsSippyUpdateRequestDestination {
+  /** ID of a Cloudflare API token. This is the value labelled "Access Key ID" when creating an API. token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens). */
   accessKeyId?: string;
-  provider?:
-    | BucketsSippyUpdateRequestDestinationR2EnableSippyAwsProvider
-    | (string & {});
-  /** Value of a Cloudflare API token. */
+  provider?: BucketsSippyUpdateRequestDestinationProvider | (string & {});
+  /** Value of a Cloudflare API token. This is the value labelled "Secret Access Key" when creating an API. token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens). */
   secretAccessKey?: string;
 }
-export const BucketsSippyUpdateRequestDestinationR2EnableSippyAws =
-  /*@__PURE__*/ S.suspend(() =>
+export const BucketsSippyUpdateRequestDestination = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
       accessKeyId: S.optional(S.String),
-      provider: S.optional(
-        BucketsSippyUpdateRequestDestinationR2EnableSippyAwsProvider,
-      ),
+      provider: S.optional(BucketsSippyUpdateRequestDestinationProvider),
       secretAccessKey: S.optional(S.String),
     }),
-  ).annotate({
-    identifier: "BucketsSippyUpdateRequestDestinationR2EnableSippyAws",
-  }) as any as S.Schema<BucketsSippyUpdateRequestDestinationR2EnableSippyAws>;
-
-export type BucketsSippyUpdateRequestDestinationR2EnableSippyGcs =
-  BucketsSippyUpdateRequestDestinationR2EnableSippyAws;
-export const BucketsSippyUpdateRequestDestinationR2EnableSippyGcs =
-  BucketsSippyUpdateRequestDestinationR2EnableSippyAws;
-
-export type BucketsSippyUpdateRequestDestination =
-  | BucketsSippyUpdateRequestDestinationR2EnableSippyAws
-  | BucketsSippyUpdateRequestDestinationR2EnableSippyAws;
-export const BucketsSippyUpdateRequestDestination =
-  /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["accessKeyId", "provider", "secretAccessKey"],
-      ["accessKeyId", "provider", "secretAccessKey"],
-    ]),
-  );
+).annotate({
+  identifier: "BucketsSippyUpdateRequestDestination",
+}) as any as S.Schema<BucketsSippyUpdateRequestDestination>;
 
 export type BucketsSippyUpdateRequestSourceR2EnableSippyAwsProvider = "aws";
 export const BucketsSippyUpdateRequestSourceR2EnableSippyAwsProvider = S.String;
@@ -4400,22 +4481,58 @@ export const BucketsSippyUpdateRequestSourceR2EnableSippyS3 =
     identifier: "BucketsSippyUpdateRequestSourceR2EnableSippyS3",
   }) as any as S.Schema<BucketsSippyUpdateRequestSourceR2EnableSippyS3>;
 
+export type BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider = "azure";
+export const BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider =
+  S.String;
+
+export interface BucketsSippyUpdateRequestSourceR2EnableSippyAzure {
+  /** Access key for the Azure Storage account. Mutually exclusive with sasToken. */
+  accountKey?: string;
+  /** Name of the Azure Storage account. */
+  accountName?: string;
+  /** Name of the Azure Blob Storage container. */
+  container?: string;
+  provider?:
+    | BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider
+    | (string & {});
+  /** Shared Access Signature token for the Azure Storage account. Mutually exclusive with accountKey. */
+  sasToken?: string;
+}
+export const BucketsSippyUpdateRequestSourceR2EnableSippyAzure =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accountKey: S.optional(S.String),
+      accountName: S.optional(S.String),
+      container: S.optional(S.String),
+      provider: S.optional(
+        BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider,
+      ),
+      sasToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "BucketsSippyUpdateRequestSourceR2EnableSippyAzure",
+  }) as any as S.Schema<BucketsSippyUpdateRequestSourceR2EnableSippyAzure>;
+
 export type BucketsSippyUpdateRequestSource =
   | BucketsSippyUpdateRequestSourceR2EnableSippyAws
   | BucketsSippyUpdateRequestSourceR2EnableSippyGcs
-  | BucketsSippyUpdateRequestSourceR2EnableSippyS3;
+  | BucketsSippyUpdateRequestSourceR2EnableSippyS3
+  | BucketsSippyUpdateRequestSourceR2EnableSippyAzure;
 export const BucketsSippyUpdateRequestSource = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["accessKeyId", "bucket", "provider", "region", "secretAccessKey"],
     ["bucket", "clientEmail", "privateKey", "provider"],
     ["accessKeyId", "bucketUrl", "provider", "secretAccessKey"],
+    ["accountKey", "accountName", "container", "provider", "sasToken"],
   ]),
 );
 
 export type BucketsSippyUpdateRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsSippyUpdateRequestCfR2Jurisdiction = S.String;
 
 export interface PutBucketSippyRequest {
@@ -4458,7 +4575,7 @@ export type BucketsSippyUpdateResponseDestinationProvider = "r2";
 export const BucketsSippyUpdateResponseDestinationProvider = S.String;
 
 export interface BucketsSippyUpdateResponseDestination {
-  /** ID of the Cloudflare API token used when writing objects to this */
+  /** ID of the Cloudflare API token used when writing objects to this bucket. */
   accessKeyId?: string | null;
   account?: string | null;
   /** Name of the bucket on the provider. */
@@ -4479,7 +4596,11 @@ export const BucketsSippyUpdateResponseDestination = /*@__PURE__*/ S.suspend(
   identifier: "BucketsSippyUpdateResponseDestination",
 }) as any as S.Schema<BucketsSippyUpdateResponseDestination>;
 
-export type BucketsSippyUpdateResponseSourceProvider = "aws" | "gcs" | "s3";
+export type BucketsSippyUpdateResponseSourceProvider =
+  | "aws"
+  | "gcs"
+  | "s3"
+  | "azure";
 export const BucketsSippyUpdateResponseSourceProvider = S.String;
 
 export interface BucketsSippyUpdateResponseSource {
@@ -4487,6 +4608,8 @@ export interface BucketsSippyUpdateResponseSource {
   bucket?: string | null;
   /** S3-compatible URL (Generic S3-compatible providers only). */
   bucketUrl?: string | null;
+  /** Name of the Azure Blob Storage container (Azure only). */
+  container?: string | null;
   provider?: BucketsSippyUpdateResponseSourceProvider | null;
   /** Region where the bucket resides (AWS only). */
   region?: string | null;
@@ -4495,6 +4618,7 @@ export const BucketsSippyUpdateResponseSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bucket: S.optional(S.NullOr(S.String)),
     bucketUrl: S.optional(S.NullOr(S.String)),
+    container: S.optional(S.NullOr(S.String)),
     provider: S.optional(S.NullOr(BucketsSippyUpdateResponseSourceProvider)),
     region: S.optional(S.NullOr(S.String)),
   }),
@@ -4598,6 +4722,7 @@ export const SuperSlurperConnectivityPrecheckSourceRequestKeysList =
 export type SuperSlurperConnectivityPrecheckSourceRequestJurisdiction =
   | "default"
   | "eu"
+  | "us"
   | "fedramp";
 export const SuperSlurperConnectivityPrecheckSourceRequestJurisdiction =
   S.String;
@@ -4677,6 +4802,7 @@ export const SuperSlurperConnectivityPrecheckTargetRequestVendor = S.String;
 export type SuperSlurperConnectivityPrecheckTargetRequestJurisdiction =
   | "default"
   | "eu"
+  | "us"
   | "fedramp";
 export const SuperSlurperConnectivityPrecheckTargetRequestJurisdiction =
   S.String;
@@ -4752,7 +4878,9 @@ export const BucketsDomainsCustomUpdateRequestMinTLS = S.String;
 export type BucketsDomainsCustomUpdateRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsDomainsCustomUpdateRequestCfR2Jurisdiction = S.String;
 
 export interface UpdateBucketDomainCustomRequest {
@@ -4839,7 +4967,9 @@ export const UpdateBucketDomainCustomResponse = /*@__PURE__*/ S.suspend(() =>
 export type BucketsObjectsUploadRequestCfR2Jurisdiction =
   | "default"
   | "eu"
-  | "fedramp";
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
 export const BucketsObjectsUploadRequestCfR2Jurisdiction = S.String;
 
 export type BucketsObjectsUploadRequestCfR2StorageClass =
@@ -4860,7 +4990,7 @@ export interface UploadBucketObjectRequest {
   cfR2StorageClass?:
     | BucketsObjectsUploadRequestCfR2StorageClass
     | (string & {});
-  /** The key (name) to assign to the object. May contain slashes for path-like keys. */
+  /** The key (name) to assign to the object. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
   /** The object content — sent verbatim as the request body. */
   body?: Blob | Uint8Array | ArrayBuffer | string;

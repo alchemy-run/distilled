@@ -1,132 +1,77 @@
+---
+title: References
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+[Pools](https://developers.cloudflare.com/api/resources/load_balancers/subresources/pools)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # References
 
-## List Pool References
+##### [List Pool References](https://developers.cloudflare.com/api/resources/load_balancers/subresources/pools/subresources/references/methods/get)
 
-**get** `/accounts/{account_id}/load_balancers/pools/{pool_id}/references`
+GET/accounts/{account\_id}/load\_balancers/pools/{pool\_id}/references
 
-Get the list of resources that reference the provided pool.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+ReferenceGetResponse object {reference\_type, resource\_id, resource\_name, resource\_type }
 
-- `pool_id: string`
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+reference\_type: optional "\*"or "referral"or "referrer"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"\*"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"referral"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"referrer"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: array of object { reference_type, resource_id, resource_name, resource_type }`
+<a href="#">Link to this property</a>
 
-  List of resources that reference a given pool.
+resource\_id: optional string
 
-  - `reference_type: optional "*" or "referral" or "referrer"`
+<a href="#">Link to this property</a>
 
-    - `"*"`
+resource\_name: optional string
 
-    - `"referral"`
+<a href="#">Link to this property</a>
 
-    - `"referrer"`
+resource\_type: optional string
 
-  - `resource_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `resource_name: optional string`
+</details>
 
-  - `resource_type: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/pools/$POOL_ID/references \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "reference_type": "referrer",
-      "resource_id": "699d98642c564d2e855e9661899b7252",
-      "resource_name": "www.example.com",
-      "resource_type": "load_balancer"
-    },
-    {
-      "reference_type": "referral",
-      "resource_id": "f1aba936b94213e5b8dca0c0dbf1f9cc",
-      "resource_name": "Login page monitor",
-      "resource_type": "monitor"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Reference Get Response
-
-- `ReferenceGetResponse object { reference_type, resource_id, resource_name, resource_type }`
-
-  - `reference_type: optional "*" or "referral" or "referrer"`
-
-    - `"*"`
-
-    - `"referral"`
-
-    - `"referrer"`
-
-  - `resource_id: optional string`
-
-  - `resource_name: optional string`
-
-  - `resource_type: optional string`
+[Link to this property](#)%20load_balancers.pools.references%20%3E%20(model)%20reference_get_response%20%3E%20(schema)>)

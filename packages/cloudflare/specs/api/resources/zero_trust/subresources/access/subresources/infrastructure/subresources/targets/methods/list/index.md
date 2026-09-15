@@ -1,224 +1,525 @@
-## List all targets
+---
+title: List all targets
+---
 
-**get** `/accounts/{account_id}/infrastructure/targets`
+[Skip to content](#_top)
 
-Lists and sorts an account’s targets. Filters are optional and are ANDed
-together.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
 
-  Account identifier
+[Infrastructure](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure)
 
-### Query Parameters
+[Targets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets)
 
-- `created_after: optional string`
+Copy Markdown
 
-  Date and time at which the target was created after (inclusive)
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `created_before: optional string`
+---
 
-  Date and time at which the target was created before (inclusive)
+**Copy Markdown****View as Markdown**
 
-- `direction: optional "asc" or "desc"`
+# List all targets
 
-  The sorting direction.
+GET/accounts/{account\_id}/infrastructure/targets
 
-  - `"asc"`
+Lists and sorts an account’s targets. Filters are optional and are ANDed together.
 
-  - `"desc"`
+##### Security
 
-- `hostname: optional string`
+<details>
 
-  Hostname of a target
+<summary>API Token</summary>
 
-- `hostname_contains: optional string`
 
-  Partial match to the hostname of a target
 
-- `ip_like: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Filters for targets whose IP addresses look like the specified string.
-  Supports `*` as a wildcard character
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `ip_v4: optional string`
+</details>
 
-  IPv4 address of the target
+<details>
 
-- `ip_v6: optional string`
+<summary>API Email + API Key</summary>
 
-  IPv6 address of the target
 
-- `ips: optional array of string`
 
-  Filters for targets that have any of the following IP addresses. Specify
-  `ips` multiple times in query parameter to build list of candidates.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `ipv4_end: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Defines an IPv4 filter range's ending value (inclusive). Requires
-  `ipv4_start` to be specified as well.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `ipv4_start: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Defines an IPv4 filter range's starting value (inclusive). Requires
-  `ipv4_end` to be specified as well.
+</details>
 
-- `ipv6_end: optional string`
+##### P ath ParametersExpand Collapse
 
-  Defines an IPv6 filter range's ending value (inclusive). Requires
-  `ipv6_start` to be specified as well.
+account\_id: string
 
-- `ipv6_start: optional string`
+Account identifier
 
-  Defines an IPv6 filter range's starting value (inclusive). Requires
-  `ipv6_end` to be specified as well.
+maxLength32
 
-- `modified_after: optional string`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Date and time at which the target was modified after (inclusive)
+##### Q uery ParametersExpand Collapse
 
-- `modified_before: optional string`
+created\_after: optional string
 
-  Date and time at which the target was modified before (inclusive)
+Date and time at which the target was created after (inclusive)
 
-- `order: optional "hostname" or "created_at"`
+formatdate-time
 
-  The field to sort by.
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20created_after%20%3E%20(schema)>)
 
-  - `"hostname"`
+created\_before: optional string
 
-  - `"created_at"`
+Date and time at which the target was created before (inclusive)
 
-- `page: optional number`
+formatdate-time
 
-  Current page in the response
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20created_before%20%3E%20(schema)>)
 
-- `per_page: optional number`
+<details>
 
-  Max amount of entries returned per page
+<summary>
 
-- `target_ids: optional array of string`
+direction: optional "asc"or "desc"
 
-  Filters for targets that have any of the following UUIDs. Specify
-  `target_ids` multiple times in query parameter to build list of
-  candidates.
+The sorting direction.
 
-- `virtual_network_id: optional string`
+</summary>
 
-  Private virtual network identifier of the target
+One of the following:
 
-### Returns
+"asc"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"desc"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+hostname: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Hostname of a target
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20hostname%20%3E%20(schema)>)
 
-  - `message: string`
+hostname\_contains: optional string
 
-  - `documentation_url: optional string`
+Partial match to the hostname of a target
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20hostname_contains%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+ip\_like: optional string
 
-- `success: true`
+Filters for targets whose IP addresses look like the specified string. Supports `*` as a wildcard character
 
-  Whether the API call was successful.
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ip_like%20%3E%20(schema)>)
 
-  - `true`
+ip\_v4: optional string
 
-- `result: optional array of object { id, created_at, hostname, 2 more }`
+IPv4 address of the target
 
-  - `id: string`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ip_v4%20%3E%20(schema)>)
 
-    Target identifier
+ip\_v6: optional string
 
-  - `created_at: string`
+IPv6 address of the target
 
-    Date and time at which the target was created
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ip_v6%20%3E%20(schema)>)
 
-  - `hostname: string`
+ips: optional array of string
 
-    A non-unique field that refers to a target
+Filters for targets that have any of the following IP addresses. Specify `ips` multiple times in query parameter to build list of candidates.
 
-  - `ip: object { ipv4, ipv6 }`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ips%20%3E%20(schema)>)
 
-    The IPv4/IPv6 address that identifies where to reach a target
+ipv4\_end: optional string
 
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
+Defines an IPv4 filter range’s ending value (inclusive). Requires `ipv4_start` to be specified as well.
 
-      The target's IPv4 address
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ipv4_end%20%3E%20(schema)>)
 
-      - `ip_addr: optional string`
+ipv4\_start: optional string
 
-        IP address of the target
+Defines an IPv4 filter range’s starting value (inclusive). Requires `ipv4_end` to be specified as well.
 
-      - `virtual_network_id: optional string`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ipv4_start%20%3E%20(schema)>)
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+ipv6\_end: optional string
 
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
+Defines an IPv6 filter range’s ending value (inclusive). Requires `ipv6_start` to be specified as well.
 
-      The target's IPv6 address
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ipv6_end%20%3E%20(schema)>)
 
-      - `ip_addr: optional string`
+ipv6\_start: optional string
 
-        IP address of the target
+Defines an IPv6 filter range’s starting value (inclusive). Requires `ipv6_end` to be specified as well.
 
-      - `virtual_network_id: optional string`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ipv6_start%20%3E%20(schema)>)
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+modified\_after: optional string
 
-  - `modified_at: string`
+Date and time at which the target was modified after (inclusive)
 
-    Date and time at which the target was modified
+formatdate-time
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20modified_after%20%3E%20(schema)>)
 
-  - `count: optional number`
+modified\_before: optional string
 
-    Total number of results for the requested service.
+Date and time at which the target was modified before (inclusive)
 
-  - `page: optional number`
+formatdate-time
 
-    Current page within paginated list of results.
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20modified_before%20%3E%20(schema)>)
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+order: optional "hostname"or "created\_at"
 
-    Total results available without any search parameters.
+The field to sort by.
 
-  - `total_pages: optional number`
+</summary>
 
-    The number of total pages in the entire result set.
+One of the following:
 
-### Example
+"hostname"
 
-```http
+<a href="#">Link to this property</a>
+
+"created\_at"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
+
+page: optional number
+
+Current page in the response
+
+formatint32
+
+minimum1
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
+
+per\_page: optional number
+
+Max amount of entries returned per page
+
+formatint32
+
+maximum1000
+
+minimum1
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
+
+tag: optional array of string
+
+Filter by tag key:value pairs. Multiple `tag` params are AND’d. Format: `tag=key:value` (e.g., `tag=environment:production`). Key and value must both be non-empty; `tag=:value` and `tag=key:` return 400.
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20tag%20%3E%20(schema)>)
+
+target\_ids: optional array of string
+
+Filters for targets that have any of the following UUIDs. Specify `target_ids` multiple times in query parameter to build list of candidates.
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20target_ids%20%3E%20(schema)>)
+
+virtual\_network\_id: optional string
+
+Private virtual network identifier of the target
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20virtual_network_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_at, hostname, 3 more }
+
+</summary>
+
+id: string
+
+Target identifier
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Date and time at which the target was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+hostname: string
+
+A non-unique field that refers to a target
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ip: object {ipv4, ipv6 }
+
+The IPv4/IPv6 address that identifies where to reach a target
+
+</summary>
+
+<details>
+
+<summary>
+
+ipv4: optional object {ip\_addr, virtual\_network\_id }
+
+The target’s IPv4 address
+
+</summary>
+
+ip\_addr: optional string
+
+IP address of the target
+
+<a href="#">Link to this property</a>
+
+virtual\_network\_id: optional string
+
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ipv6: optional object {ip\_addr, virtual\_network\_id }
+
+The target’s IPv6 address
+
+</summary>
+
+ip\_addr: optional string
+
+IP address of the target
+
+<a href="#">Link to this property</a>
+
+virtual\_network\_id: optional string
+
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+Date and time at which the target was modified
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional map\[string]
+
+Tags assigned to the target. Empty when no tags are assigned.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List all targets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -256,7 +557,68 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/ta
           "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
         }
       },
-      "modified_at": "2019-08-24T14:15:22Z"
+      "modified_at": "2019-08-24T14:15:22Z",
+      "tags": {
+        "foo": "string"
+      }
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "created_at": "2019-08-24T14:15:22Z",
+      "hostname": "infra-access-target",
+      "ip": {
+        "ipv4": {
+          "ip_addr": "187.26.29.249",
+          "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
+        },
+        "ipv6": {
+          "ip_addr": "64c0:64e8:f0b4:8dbf:7104:72b0:ec8f:f5e0",
+          "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
+        }
+      },
+      "modified_at": "2019-08-24T14:15:22Z",
+      "tags": {
+        "foo": "string"
+      }
     }
   ],
   "result_info": {

@@ -1,74 +1,218 @@
-## Post Worker subdomain
+---
+title: Post Worker subdomain
+---
 
-**post** `/accounts/{account_id}/workers/scripts/{script_name}/subdomain`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers/subresources/scripts)
+
+[Subdomain](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/subdomain)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Post Worker subdomain
+
+POST/accounts/{account\_id}/workers/scripts/{script\_name}/subdomain
 
 Enable or disable the Worker on the workers.dev subdomain.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `script_name: string`
 
-  Name of the script, used in URLs and route configuration.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `enabled: boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Whether the Worker should be available on the workers.dev subdomain.
+</details>
 
-- `previews_enabled: optional boolean`
+<details>
 
-  Whether the Worker's Preview URLs should be available on the workers.dev subdomain.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Workers Scripts Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `result: object { enabled, previews_enabled }`
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `enabled: boolean`
+script\_name: string
 
-    Whether the Worker is available on the workers.dev subdomain.
+Name of the script, used in URLs and route configuration.
 
-  - `previews_enabled: boolean`
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20script_name%20%3E%20(schema)>)
 
-    Whether the Worker's Preview URLs are available on the workers.dev subdomain.
+##### Body ParametersJSONExpand Collapse
 
-- `success: true`
+enabled: boolean
 
-  Whether the API call was successful.
+Whether the Worker should be available on the workers.dev subdomain.
 
-  - `true`
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-### Example
+previews\_enabled: optional boolean
 
-```http
+Whether the Worker’s Preview URLs should be available on the workers.dev subdomain.
+
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20previews_enabled%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {enabled, previews\_enabled }
+
+</summary>
+
+enabled: boolean
+
+Whether the Worker is available on the workers.dev subdomain.
+
+<a href="#">Link to this property</a>
+
+previews\_enabled: boolean
+
+Whether the Worker’s Preview URLs are available on the workers.dev subdomain.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Post Worker subdomain
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/subdomain \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -77,9 +221,43 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "enabled": false,
+    "previews_enabled": false
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

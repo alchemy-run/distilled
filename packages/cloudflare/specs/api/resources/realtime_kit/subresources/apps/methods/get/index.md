@@ -1,67 +1,195 @@
-## Fetch all apps
+---
+title: Fetch all apps
+---
 
-**get** `/accounts/{account_id}/realtime/kit/apps`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+[Apps](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/apps)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Fetch all apps
+
+GET/accounts/{account\_id}/realtime/kit/apps
 
 Fetch all apps for your account
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  The account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Query Parameters
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `page_no: optional number`
+##### Accepted Permissions (at least one required)
 
-  The page number from which you want your page search results to be displayed.
+`Realtime Admin``Realtime`
 
-- `per_page: optional number`
+##### P ath ParametersExpand Collapse
 
-  Number of results per page.
+account\_id: string
 
-- `search: optional string`
+The account identifier tag.
 
-  Search string that matches apps by name.
+maxLength32
 
-- `sort_order: optional "ASC" or "DESC"`
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Sort order for apps by creation time.
+##### Q uery ParametersExpand Collapse
 
-  - `"ASC"`
+page\_no: optional number
 
-  - `"DESC"`
+The page number from which you want your page search results to be displayed.
 
-### Returns
+minimum1
 
-- `data: optional array of object { id, created_at, name }`
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20page_no%20%3E%20(schema)>)
 
-  - `id: optional string`
+per\_page: optional number
 
-  - `created_at: optional string`
+Number of results per page.
 
-  - `name: optional string`
+minimum1
 
-- `paging: optional object { end_offset, start_offset, total_count }`
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `end_offset: optional number`
+search: optional string
 
-  - `start_offset: optional number`
+Search string that matches apps by name.
 
-  - `total_count: optional number`
+maxLength125
 
-- `success: optional boolean`
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
+<summary>
+
+sort\_order: optional "ASC"or "DESC"
+
+Sort order for apps by creation time.
+
+</summary>
+
+One of the following:
+
+"ASC"
+
+<a href="#">Link to this property</a>
+
+"DESC"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20sort_order%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+data: optional array of object {id, created\_at, name }
+
+</summary>
+
+id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(model)%20app_get_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+<details>
+
+<summary>
+
+paging: optional object {end\_offset, start\_offset, total\_count }
+
+</summary>
+
+end\_offset: optional number
+
+<a href="#">Link to this property</a>
+
+start\_offset: optional number
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(model)%20app_get_response%20%3E%20(schema)%20%3E%20(property)%20paging>)
+
+success: optional boolean
+
+[Link to this property](#)%20realtime_kit.apps%20%3E%20(model)%20app_get_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Fetch all apps
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/apps \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "data": [
+    {
+      "created_at": "2025-01-01T08:16:40.644Z",
+      "id": "14a396e7-ca44-4937-bf1f-050a69118543",
+      "name": "my-first-app"
+    }
+  ],
+  "paging": {
+    "end_offset": 1,
+    "start_offset": 1,
+    "total_count": 1
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "data": [
     {

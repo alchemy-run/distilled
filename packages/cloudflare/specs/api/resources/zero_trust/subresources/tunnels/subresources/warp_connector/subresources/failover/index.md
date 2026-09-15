@@ -1,102 +1,33 @@
+---
+title: Failover
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels)
+
+[WARP Connector](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Failover
 
-## Trigger a manual failover for a WARP Connector Tunnel
+##### [Trigger a manual failover for a WARP Connector Tunnel](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/failover/methods/update)
 
-**put** `/accounts/{account_id}/warp_connector/{tunnel_id}/failover`
+PUT/accounts/{account\_id}/warp\_connector/{tunnel\_id}/failover
 
-Triggers a manual failover for a specific WARP Connector Tunnel, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel.
+##### ModelsExpand Collapse
 
-### Path Parameters
+FailoverUpdateResponse = unknown
 
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-### Body Parameters
-
-- `client_id: string`
-
-  UUID of the Cloudflare Tunnel connector.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/failover \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "client_id": "1bedc50d-42b3-473c-b108-ff3d10c0d925"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Failover Update Response
-
-- `FailoverUpdateResponse = unknown`
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(model)%20failover_update_response%20%3E%20(schema)>)

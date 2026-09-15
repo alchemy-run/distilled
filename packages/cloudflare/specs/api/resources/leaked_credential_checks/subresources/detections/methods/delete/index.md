@@ -1,62 +1,223 @@
-## Delete Leaked Credential Checks Custom Detection
+---
+title: Delete a custom detection location from a zone.
+---
 
-**delete** `/zones/{zone_id}/leaked-credential-checks/detections/{detection_id}`
+[Skip to content](#_top)
 
-Remove user-defined detection pattern for Leaked Credential Checks.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Leaked Credential Checks](https://developers.cloudflare.com/api/resources/leaked_credential_checks)
 
-- `zone_id: string`
+[Detections](https://developers.cloudflare.com/api/resources/leaked_credential_checks/subresources/detections)
 
-  Defines an identifier.
+Copy Markdown
 
-- `detection_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Defines the unique ID for this custom detection.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `errors: array of ResponseInfo`
+# Delete a custom detection location from a zone.
 
-  - `code: number`
+DELETE/zones/{zone\_id}/leaked-credential-checks/detections/{detection\_id}
 
-  - `message: string`
+Delete a user-defined detection location, identified by its detection ID. Incoming requests are then scanned using only the default scan locations and the detection locations that remain.
 
-  - `documentation_url: optional string`
+##### Security
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Token</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `documentation_url: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: unknown`
+<details>
 
-- `success: true`
+<summary>API Email + API Key</summary>
 
-  Defines whether the API call was successful.
 
-  - `true`
 
-### Example
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-```http
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Zone WAF Write``Account WAF Write`
+
+##### P ath ParametersExpand Collapse
+
+zone\_id: string
+
+Defines an identifier.
+
+maxLength32
+
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+detection\_id: string
+
+Defines the unique ID for this custom detection.
+
+maxLength32
+
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20detection_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+result: unknown
+
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete a custom detection location from a zone.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/leaked-credential-checks/detections/$DETECTION_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,99 +1,260 @@
-## Get organization
+---
+title: Get organization
+---
 
-**get** `/organizations/{organization_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Organizations](https://developers.cloudflare.com/api/resources/organizations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get organization
+
+GET/organizations/{organization\_id}
 
 Retrieve the details of a certain organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
 
-### Path Parameters
+##### Security
 
-- `organization_id: string`
+API Email + API Key
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of unknown`
+**Example:**`X-Auth-Email: user@example.com`
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+organization\_id: string
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20organizations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20organization_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### ReturnsExpand Collapse
 
-- `result: Organization`
+errors: array of unknown
 
-  References an Organization in the Cloudflare data model.
+[Link to this property](#)%20organizations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `id: string`
+<details>
 
-  - `create_time: string`
+<summary>
 
-  - `meta: object { flags, hierarchy_tags, managed_by }`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `flags: optional object { account_creation, account_deletion, account_migration, 2 more }`
+</summary>
 
-      Enable features for Organizations.
+code: number
 
-      - `account_creation: string`
+minimum1000
 
-      - `account_deletion: string`
+<a href="#">Link to this property</a>
 
-      - `account_migration: string`
+message: string
 
-      - `account_mobility: string`
+<a href="#">Link to this property</a>
 
-      - `sub_org_creation: string`
+documentation\_url: optional string
 
-    - `hierarchy_tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      Ordered chain of organization tags from the root organization down to
-      (and including) this organization itself. Root organizations return a
-      single-element array containing their own tag; sub-organizations return
-      `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for
-      constructing authorization scopes that need to cover every ancestor
-      in the hierarchy.
+<details>
 
-    - `managed_by: optional string`
+<summary>
 
-  - `name: string`
+source: optional object {pointer }
 
-  - `parent: optional object { id, name }`
+</summary>
 
-    - `id: string`
+pointer: optional string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `profile: optional AccountProfile`
+</details>
 
-    - `business_address: string`
+<a href="#">Link to this property</a>
 
-    - `business_email: string`
+</details>
 
-    - `business_name: string`
+[Link to this property](#)%20organizations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `business_phone: string`
+<details>
 
-    - `external_metadata: string`
+<summary>
 
-- `success: true`
+result: <a href="https://developers.cloudflare.com/api/resources/organizations#(resource)%20organizations%20%3E%20(model)%20organization%20%3E%20(schema)">Organization</a> { id, create\_time, meta, 3 more }
 
-  - `true`
+References an Organization in the Cloudflare data model.
 
-### Example
+</summary>
 
-```http
+id: string
+
+<a href="#">Link to this property</a>
+
+create\_time: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: object {hierarchy\_tags, managed\_by, tenant\_flags }
+
+</summary>
+
+hierarchy\_tags: optional array of string
+
+Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return <code>[rootTag, ...intermediateTags, parentTag, selfTag]</code>. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy.
+
+<a href="#">Link to this property</a>
+
+managed\_by: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tenant\_flags: optional object {account\_creation, account\_creation\_applies\_tenant\_defaults, account\_deletion, 5 more }
+
+Enable features for Organizations.
+
+</summary>
+
+account\_creation: string
+
+<a href="#">Link to this property</a>
+
+account\_creation\_applies\_tenant\_defaults: string
+
+<a href="#">Link to this property</a>
+
+account\_deletion: string
+
+<a href="#">Link to this property</a>
+
+account\_migration: string
+
+<a href="#">Link to this property</a>
+
+account\_mobility: string
+
+<a href="#">Link to this property</a>
+
+enterprise\_capability: string
+
+<a href="#">Link to this property</a>
+
+member\_management: string
+
+<a href="#">Link to this property</a>
+
+sub\_org\_creation: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parent: optional object {id, name }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+profile: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts.account_profile%20%3E%20(model)%20account_profile%20%3E%20(schema)">AccountProfile</a> { business\_address, business\_email, business\_name, 2 more }
+
+</summary>
+
+business\_address: string
+
+<a href="#">Link to this property</a>
+
+business\_email: string
+
+<a href="#">Link to this property</a>
+
+business\_name: string
+
+<a href="#">Link to this property</a>
+
+business\_phone: string
+
+<a href="#">Link to this property</a>
+
+external\_metadata: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20organizations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20organizations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get organization
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [],
   "messages": [
@@ -107,24 +268,80 @@ curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID \
     }
   ],
   "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
+    "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
     "create_time": "2019-12-27T18:11:19.117Z",
     "meta": {
-      "flags": {
-        "account_creation": "account_creation",
-        "account_deletion": "account_deletion",
-        "account_migration": "account_migration",
-        "account_mobility": "account_mobility",
-        "sub_org_creation": "sub_org_creation"
-      },
       "hierarchy_tags": [
         "string"
       ],
-      "managed_by": "managed_by"
+      "managed_by": "managed_by",
+      "tenant_flags": {
+        "account_creation": "account_creation",
+        "account_creation_applies_tenant_defaults": "account_creation_applies_tenant_defaults",
+        "account_deletion": "account_deletion",
+        "account_migration": "account_migration",
+        "account_mobility": "account_mobility",
+        "enterprise_capability": "enterprise_capability",
+        "member_management": "member_management",
+        "sub_org_creation": "sub_org_creation"
+      }
     },
     "name": "name",
     "parent": {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
+      "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
+      "name": "name"
+    },
+    "profile": {
+      "business_address": "business_address",
+      "business_email": "business_email",
+      "business_name": "business_name",
+      "business_phone": "business_phone",
+      "external_metadata": "external_metadata"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
+    "create_time": "2019-12-27T18:11:19.117Z",
+    "meta": {
+      "hierarchy_tags": [
+        "string"
+      ],
+      "managed_by": "managed_by",
+      "tenant_flags": {
+        "account_creation": "account_creation",
+        "account_creation_applies_tenant_defaults": "account_creation_applies_tenant_defaults",
+        "account_deletion": "account_deletion",
+        "account_migration": "account_migration",
+        "account_mobility": "account_mobility",
+        "enterprise_capability": "enterprise_capability",
+        "member_management": "member_management",
+        "sub_org_creation": "sub_org_creation"
+      }
+    },
+    "name": "name",
+    "parent": {
+      "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
       "name": "name"
     },
     "profile": {

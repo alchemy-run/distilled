@@ -1,106 +1,249 @@
-## Get Workflow details
+---
+title: Get Workflow details
+---
 
-**get** `/accounts/{account_id}/workflows/{workflow_name}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workflows](https://developers.cloudflare.com/api/resources/workflows)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Workflow details
+
+GET/accounts/{account\_id}/workflows/{workflow\_name}
 
 Retrieves configuration and metadata for a specific workflow.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `workflow_name: string`
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { code, message }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: array of object { code, message }`
+</details>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Email + API Key</summary>
 
-- `result: object { id, class_name, created_on, 6 more }`
 
-  - `id: string`
 
-  - `class_name: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `created_on: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `instances: object { complete, errored, paused, 6 more }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `complete: optional number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `errored: optional number`
+</details>
 
-    - `paused: optional number`
+##### Accepted Permissions (at least one required)
 
-    - `queued: optional number`
+`Workers Tail Read``Workers Scripts Write``Workers Scripts Read`
 
-    - `rollingBack: optional number`
+##### P ath ParametersExpand Collapse
 
-    - `running: optional number`
+account\_id: string
 
-    - `terminated: optional number`
+[Link to this property](#)%20workflows%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `waiting: optional number`
+workflow\_name: string
 
-    - `waitingForPause: optional number`
+maxLength64
 
-  - `modified_on: string`
+minLength1
 
-  - `name: string`
+[Link to this property](#)%20workflows%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20workflow_name%20%3E%20(schema)>)
 
-  - `script_name: string`
+##### ReturnsExpand Collapse
 
-  - `triggered_on: string`
+<details>
 
-  - `schedules: optional array of object { cron, next_instance }`
+<summary>
 
-    - `cron: string`
+errors: array of object {code, message }
 
-    - `next_instance: string`
+</summary>
 
-- `success: true`
+code: number
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+message: string
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+</details>
 
-  - `total_count: number`
+[Link to this property](#)%20workflows%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `cursor: optional string`
+<details>
 
-  - `page: optional number`
+<summary>
 
-  - `total_pages: optional number`
+messages: array of object {code, message }
 
-### Example
+</summary>
 
-```http
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, class\_name, created\_on, 6 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+class\_name: string
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+instances: map\[number]
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+script\_name: string
+
+<a href="#">Link to this property</a>
+
+triggered\_on: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schedules: optional array of object {cron, next\_instance }
+
+</summary>
+
+cron: string
+
+<a href="#">Link to this property</a>
+
+next\_instance: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20workflows%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, per\_page, total\_count, 3 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+cursor: optional string
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get Workflow details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
+  "errors": [],
   "messages": [
     {
       "code": 0,
@@ -112,15 +255,50 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFL
     "class_name": "class_name",
     "created_on": "2019-12-27T18:11:19.117Z",
     "instances": {
-      "complete": 0,
-      "errored": 0,
-      "paused": 0,
-      "queued": 0,
-      "rollingBack": 0,
-      "running": 0,
-      "terminated": 0,
-      "waiting": 0,
-      "waitingForPause": 0
+      "foo": 0
+    },
+    "modified_on": "2019-12-27T18:11:19.117Z",
+    "name": "x",
+    "script_name": "script_name",
+    "triggered_on": "2019-12-27T18:11:19.117Z",
+    "schedules": [
+      {
+        "cron": "cron",
+        "next_instance": "next_instance"
+      }
+    ]
+  },
+  "success": true,
+  "result_info": {
+    "count": 0,
+    "per_page": 0,
+    "total_count": 0,
+    "cursor": "cursor",
+    "page": 0,
+    "total_pages": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "class_name": "class_name",
+    "created_on": "2019-12-27T18:11:19.117Z",
+    "instances": {
+      "foo": 0
     },
     "modified_on": "2019-12-27T18:11:19.117Z",
     "name": "x",

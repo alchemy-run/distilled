@@ -1,842 +1,151 @@
+---
+title: Hostname Routes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Hostname Routes
 
-## List hostname routes
+##### [List hostname routes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/list)
 
-**get** `/accounts/{account_id}/zerotrust/routes/hostname`
+GET/accounts/{account\_id}/zerotrust/routes/hostname
 
-Lists and filters hostname routes in an account.
+##### [Get hostname route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/zerotrust/routes/hostname/{hostname\_route\_id}
 
-- `account_id: string`
+##### [Create hostname route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/create)
 
-  Cloudflare account ID
+POST/accounts/{account\_id}/zerotrust/routes/hostname
 
-### Query Parameters
+##### [Update hostname route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/edit)
 
-- `id: optional string`
+PATCH/accounts/{account\_id}/zerotrust/routes/hostname/{hostname\_route\_id}
 
-  The hostname route ID.
+##### [Delete hostname route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/delete)
 
-- `comment: optional string`
+DELETE/accounts/{account\_id}/zerotrust/routes/hostname/{hostname\_route\_id}
 
-  If set, only list hostname routes with the given comment.
+##### ModelsExpand Collapse
 
-- `existed_at: optional string`
+<details>
 
-  If provided, include only resources that were created (and not deleted) before this time. URL encoded.
+<summary>
 
-- `hostname: optional string`
+HostnameRoute object {id, comment, created\_at, 5 more }
 
-  If set, only list hostname routes that contain a substring of the given value, the filter is case-insensitive.
+</summary>
 
-- `is_deleted: optional boolean`
+id: optional string
 
-  If `true`, only return deleted hostname routes. If `false`, exclude deleted hostname routes.
+The hostname route ID.
 
-- `page: optional number`
+formatuuid
 
-  Page number of paginated results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+comment: optional string
 
-  Number of results to display.
+An optional description of the hostname route.
 
-- `tunnel_id: optional string`
+<a href="#">Link to this property</a>
 
-  If set, only list hostname routes that point to a specific tunnel.
+created\_at: optional string
 
-### Returns
+Timestamp of when the resource was created.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+deleted\_at: optional string
 
-  - `documentation_url: optional string`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+hostname: optional string
 
-  - `code: number`
+The hostname of the route.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `result: array of HostnameRoute`
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-  - `id: optional string`
+The type of tunnel.
 
-    The hostname route ID.
+</summary>
 
-  - `comment: optional string`
+One of the following:
 
-    An optional description of the hostname route.
+"cfd\_tunnel"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was created.
+"warp\_connector"
 
-  - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+"warp"
 
-  - `hostname: optional string`
+<a href="#">Link to this property</a>
 
-    The hostname of the route.
+"magic"
 
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+<a href="#">Link to this property</a>
 
-    The type of tunnel.
+"ip\_sec"
 
-    - `"cfd_tunnel"`
+<a href="#">Link to this property</a>
 
-    - `"warp_connector"`
+"gre"
 
-    - `"warp"`
+<a href="#">Link to this property</a>
 
-    - `"magic"`
+"cni"
 
-    - `"ip_sec"`
+<a href="#">Link to this property</a>
 
-    - `"gre"`
+</details>
 
-    - `"cni"`
+<a href="#">Link to this property</a>
 
-  - `tunnel_id: optional string`
+tunnel\_id: optional string
 
-    UUID of the tunnel.
+UUID of the tunnel.
 
-  - `tunnel_name: optional string`
+formatuuid
 
-    A user-friendly name for a tunnel.
+maxLength36
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+tunnel\_name: optional string
 
-  - `true`
+A user-friendly name for a tunnel.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "comment": "example comment",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "deleted_at": "2009-11-10T23:00:00.000000Z",
-      "hostname": "office-1.local",
-      "tun_type": "cfd_tunnel",
-      "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "tunnel_name": "api-tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get hostname route
-
-**get** `/accounts/{account_id}/zerotrust/routes/hostname/{hostname_route_id}`
-
-Get a hostname route.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `hostname_route_id: string`
-
-  The hostname route ID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname/$HOSTNAME_ROUTE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "hostname": "office-1.local",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "api-tunnel"
-  },
-  "success": true
-}
-```
-
-## Create hostname route
-
-**post** `/accounts/{account_id}/zerotrust/routes/hostname`
-
-Create a hostname route.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Body Parameters
-
-- `comment: optional string`
-
-  An optional description of the hostname route.
-
-- `hostname: optional string`
-
-  The hostname of the route.
-
-- `tunnel_id: optional string`
-
-  UUID of the tunnel.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "example comment",
-          "hostname": "office-1.local",
-          "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "hostname": "office-1.local",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "api-tunnel"
-  },
-  "success": true
-}
-```
-
-## Update hostname route
-
-**patch** `/accounts/{account_id}/zerotrust/routes/hostname/{hostname_route_id}`
-
-Updates a hostname route.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `hostname_route_id: string`
-
-  The hostname route ID.
-
-### Body Parameters
-
-- `comment: optional string`
-
-  An optional description of the hostname route.
-
-- `hostname: optional string`
-
-  The hostname of the route.
-
-- `tunnel_id: optional string`
-
-  UUID of the tunnel.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname/$HOSTNAME_ROUTE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "example comment",
-          "hostname": "office-1.local",
-          "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "hostname": "office-1.local",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "api-tunnel"
-  },
-  "success": true
-}
-```
-
-## Delete hostname route
-
-**delete** `/accounts/{account_id}/zerotrust/routes/hostname/{hostname_route_id}`
-
-Delete a hostname route.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `hostname_route_id: string`
-
-  The hostname route ID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname/$HOSTNAME_ROUTE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "hostname": "office-1.local",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "api-tunnel"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Hostname Route
-
-- `HostnameRoute object { id, comment, created_at, 5 more }`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(model)%20hostname_route%20%3E%20(schema)>)

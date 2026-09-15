@@ -1,1532 +1,5159 @@
-## List Access identity providers
+---
+title: List Access identity providers
+---
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/access/identity_providers`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Identity Providers](https://developers.cloudflare.com/api/resources/zero_trust/subresources/identity_providers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Access identity providers
+
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/identity\_providers
 
 Lists all configured identity providers.
 
-### Path Parameters
+##### Security
 
-- `account_id: optional string`
+<details>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<summary>API Token</summary>
 
-- `zone_id: optional string`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Page number of results.
+</details>
 
-- `per_page: optional number`
+<details>
 
-  Number of results per page.
+<summary>API Email + API Key</summary>
 
-- `scim_enabled: optional string`
 
-  Indicates to Access to only retrieve identity providers that have the System for Cross-Domain Identity Management (SCIM) enabled.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Access: Organizations, Identity Providers, and Groups Write``Access: Organizations, Identity Providers, and Groups Read`
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: optional string
 
-  - `message: string`
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+zone\_id: optional string
 
-    - `pointer: optional string`
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-- `success: true`
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+##### Q uery ParametersExpand Collapse
 
-  - `true`
+page: optional number
 
-- `result: optional array of AzureAD or object { config, name, type, 5 more }  or object { config, name, type, 5 more }  or 12 more`
+Page number of results.
 
-  - `AzureAD object { config, name, type, 5 more }`
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `config: object { claims, client_id, client_secret, 5 more }`
+per\_page: optional number
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+Number of results per page.
 
-      - `claims: optional array of string`
+maximum1000
 
-        Custom claims
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-      - `client_id: optional string`
+scim\_enabled: optional string
 
-        Your OAuth Client ID
+Indicates to Access to only retrieve identity providers that have the System for Cross-Domain Identity Management (SCIM) enabled.
 
-      - `client_secret: optional string`
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20scim_enabled%20%3E%20(schema)>)
 
-        Your OAuth Client Secret
+##### ReturnsExpand Collapse
 
-      - `conditional_access_enabled: optional boolean`
+<details>
 
-        Should Cloudflare try to load authentication contexts from your account
+<summary>
 
-      - `directory_id: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-        Your Azure directory uuid
+</summary>
 
-      - `email_claim_name: optional string`
+code: number
 
-        The claim name for email in the id_token response.
+minimum1000
 
-      - `prompt: optional "login" or "select_account" or "none"`
+<a href="#">Link to this property</a>
 
-        Indicates the type of user interaction that is required. prompt=login forces the user to enter their credentials on that request, negating single-sign on. prompt=none is the opposite. It ensures that the user isn't presented with any interactive prompt. If the request can't be completed silently by using single-sign on, the Microsoft identity platform returns an interaction_required error. prompt=select_account interrupts single sign-on providing account selection experience listing all the accounts either in session or any remembered account or an option to choose to use a different account altogether.
+message: string
 
-        - `"login"`
+<a href="#">Link to this property</a>
 
-        - `"select_account"`
+documentation\_url: optional string
 
-        - `"none"`
+<a href="#">Link to this property</a>
 
-      - `support_groups: optional boolean`
+<details>
 
-        Should Cloudflare try to load groups from your account
+<summary>
 
-    - `name: string`
+source: optional object {pointer }
 
-      The name of the identity provider, shown to users on the login page.
+</summary>
 
-    - `type: IdentityProviderType`
+pointer: optional string
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-      - `"onetimepin"`
+</details>
 
-      - `"azureAD"`
+<a href="#">Link to this property</a>
 
-      - `"saml"`
+</details>
 
-      - `"centrify"`
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `"facebook"`
+<details>
 
-      - `"github"`
+<summary>
 
-      - `"google-apps"`
+messages: array of object {code, message, documentation\_url, source }
 
-      - `"google"`
+</summary>
 
-      - `"linkedin"`
+code: number
 
-      - `"oidc"`
+minimum1000
 
-      - `"okta"`
+<a href="#">Link to this property</a>
 
-      - `"onelogin"`
+message: string
 
-      - `"pingone"`
+<a href="#">Link to this property</a>
 
-      - `"yandex"`
+documentation\_url: optional string
 
-      - `"cloudflare"`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+<details>
 
-      UUID.
+<summary>
 
-    - `read_only: optional boolean`
+source: optional object {pointer }
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+</summary>
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+pointer: optional string
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+</details>
 
-        Timestamp when the certificate set was created
+<a href="#">Link to this property</a>
 
-      - `uid: string`
+</details>
 
-        Unique identifier for the certificate set
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-      - `updated_at: string`
+success: true
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+Whether the API call was successful.
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-        The currently active certificate used for encrypting SAML assertions
+<details>
 
-        - `is_current: boolean`
+<summary>
 
-          Indicates whether this is the currently active certificate
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20azure_ad%20%3E%20(schema)">AzureAD</a> { config, name, type, 5 more } or object {config, name, type, 5 more } or object {config, name, type, 5 more } or 12 more
 
-        - `not_after: string`
+</summary>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+One of the following:
 
-        - `public_certificate: string`
+<details>
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+<summary>
 
-        - `uid: string`
+AzureAD object {config, name, type, 5 more }
 
-          Unique identifier for the certificate
+</summary>
 
-      - `previous_certificate: optional unknown`
+<details>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+<summary>
 
-    - `saml_certificate_set_id: optional string`
+config: object {claims, client\_id, client\_secret, 5 more }
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+</summary>
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+claims: optional array of string
 
-      - `enabled: optional boolean`
+Custom claims
 
-        A flag to enable or disable SCIM for the identity provider.
+<a href="#">Link to this property</a>
 
-      - `identity_update_behavior: optional "automatic" or "reauth" or "no_action"`
+client\_id: optional string
 
-        Indicates how a SCIM event updates a user identity used for policy evaluation. Use "automatic" to automatically update a user's identity and augment it with fields from the SCIM user resource. Use "reauth" to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With "reauth" identities will not contain fields from the SCIM user resource. With "no_action" identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+Your OAuth Client ID
 
-        - `"automatic"`
+<a href="#">Link to this property</a>
 
-        - `"reauth"`
+client\_secret: optional string
 
-        - `"no_action"`
+Your OAuth Client Secret
 
-      - `scim_base_url: optional string`
+<a href="#">Link to this property</a>
 
-        The base URL of Cloudflare's SCIM V2.0 API endpoint.
+conditional\_access\_enabled: optional boolean
 
-      - `seat_deprovision: optional boolean`
+Should Cloudflare try to load authentication contexts from your account
 
-        A flag to remove a user's seat in Zero Trust when they have been deprovisioned in the Identity Provider.  This cannot be enabled unless user_deprovision is also enabled.
+<a href="#">Link to this property</a>
 
-      - `secret: optional string`
+directory\_id: optional string
 
-        A read-only token generated when the SCIM integration is enabled for the first time.  It is redacted on subsequent requests.  If you lose this you will need to refresh it at /access/identity_providers/:idpID/refresh_scim_secret.
+Your Azure directory uuid
 
-      - `user_deprovision: optional boolean`
+<a href="#">Link to this property</a>
 
-        A flag to enable revoking a user's session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+email\_claim\_name: optional string
 
-  - `AccessCentrify object { config, name, type, 5 more }`
+The claim name for email in the id\_token response.
 
-    - `config: object { centrify_account, centrify_app_id, claims, 3 more }`
+<a href="#">Link to this property</a>
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<details>
 
-      - `centrify_account: optional string`
+<summary>
 
-        Your centrify account url
+prompt: optional "login"or "select\_account"or "none"
 
-      - `centrify_app_id: optional string`
+Indicates the type of user interaction that is required. prompt=login forces the user to enter their credentials on that request, negating single-sign on. prompt=none is the opposite. It ensures that the user isn’t presented with any interactive prompt. If the request can’t be completed silently by using single-sign on, the Microsoft identity platform returns an interaction\_required error. prompt=select\_account interrupts single sign-on providing account selection experience listing all the accounts either in session or any remembered account or an option to choose to use a different account altogether.
 
-        Your centrify app id
+</summary>
 
-      - `claims: optional array of string`
+One of the following:
 
-        Custom claims
+"login"
 
-      - `client_id: optional string`
+<a href="#">Link to this property</a>
 
-        Your OAuth Client ID
+"select\_account"
 
-      - `client_secret: optional string`
+<a href="#">Link to this property</a>
 
-        Your OAuth Client Secret
+"none"
 
-      - `email_claim_name: optional string`
+<a href="#">Link to this property</a>
 
-        The claim name for email in the id_token response.
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the identity provider, shown to users on the login page.
+support\_groups: optional boolean
 
-    - `type: IdentityProviderType`
+Should Cloudflare try to load groups from your account
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      UUID.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+name: string
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+The name of the identity provider, shown to users on the login page.
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+<details>
 
-      - `created_at: string`
+<summary>
 
-        Timestamp when the certificate set was created
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
 
-      - `uid: string`
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
 
-        Unique identifier for the certificate set
+</summary>
 
-      - `updated_at: string`
+One of the following:
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+"onetimepin"
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<a href="#">Link to this property</a>
 
-        The currently active certificate used for encrypting SAML assertions
+"azureAD"
 
-        - `is_current: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this is the currently active certificate
+"saml"
 
-        - `not_after: string`
+<a href="#">Link to this property</a>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+"centrify"
 
-        - `public_certificate: string`
+<a href="#">Link to this property</a>
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+"facebook"
 
-        - `uid: string`
+<a href="#">Link to this property</a>
 
-          Unique identifier for the certificate
+"github"
 
-      - `previous_certificate: optional unknown`
+<a href="#">Link to this property</a>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+"google-apps"
 
-    - `saml_certificate_set_id: optional string`
+<a href="#">Link to this property</a>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+"google"
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+<a href="#">Link to this property</a>
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+"linkedin"
 
-  - `AccessFacebook object { config, name, type, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `config: GenericOAuthConfig`
+"oidc"
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-      - `client_id: optional string`
+"okta"
 
-        Your OAuth Client ID
+<a href="#">Link to this property</a>
 
-      - `client_secret: optional string`
+"onelogin"
 
-        Your OAuth Client Secret
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"pingone"
 
-      The name of the identity provider, shown to users on the login page.
+<a href="#">Link to this property</a>
 
-    - `type: IdentityProviderType`
+"yandex"
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"cloudflare"
 
-      UUID.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+</details>
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+<a href="#">Link to this property</a>
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+id: optional string
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+UUID.
 
-      - `created_at: string`
+maxLength36
 
-        Timestamp when the certificate set was created
+<a href="#">Link to this property</a>
 
-      - `uid: string`
+read\_only: optional boolean
 
-        Unique identifier for the certificate set
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+<details>
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<summary>
 
-        The currently active certificate used for encrypting SAML assertions
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
 
-        - `is_current: boolean`
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
 
-          Indicates whether this is the currently active certificate
+</summary>
 
-        - `not_after: string`
+created\_at: string
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+Timestamp when the certificate set was created
 
-        - `public_certificate: string`
+formatdate-time
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+<a href="#">Link to this property</a>
 
-        - `uid: string`
+uid: string
 
-          Unique identifier for the certificate
+Unique identifier for the certificate set
 
-      - `previous_certificate: optional unknown`
+formatuuid
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+<a href="#">Link to this property</a>
 
-    - `saml_certificate_set_id: optional string`
+updated\_at: string
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+Timestamp when the certificate set was last updated (e.g., during rotation)
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+formatdate-time
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+<a href="#">Link to this property</a>
 
-  - `AccessGitHub object { config, name, type, 5 more }`
+<details>
 
-    - `config: GenericOAuthConfig`
+<summary>
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
 
-    - `name: string`
+The currently active certificate used for encrypting SAML assertions
 
-      The name of the identity provider, shown to users on the login page.
+</summary>
 
-    - `type: IdentityProviderType`
+is\_current: boolean
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+Indicates whether this is the currently active certificate
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+not\_after: string
 
-    - `read_only: optional boolean`
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+formatdate-time
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+public\_certificate: string
 
-      - `created_at: string`
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
 
-        Timestamp when the certificate set was created
+<a href="#">Link to this property</a>
 
-      - `uid: string`
+uid: string
 
-        Unique identifier for the certificate set
+Unique identifier for the certificate
 
-      - `updated_at: string`
+formatuuid
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+<a href="#">Link to this property</a>
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+</details>
 
-        The currently active certificate used for encrypting SAML assertions
+<a href="#">Link to this property</a>
 
-        - `is_current: boolean`
+previous\_certificate: optional unknown
 
-          Indicates whether this is the currently active certificate
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
 
-        - `not_after: string`
+<a href="#">Link to this property</a>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+</details>
 
-        - `public_certificate: string`
+<a href="#">Link to this property</a>
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+saml\_certificate\_set\_id: optional string
 
-        - `uid: string`
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
 
-          Unique identifier for the certificate
+formatuuid
 
-      - `previous_certificate: optional unknown`
+<a href="#">Link to this property</a>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+<details>
 
-    - `saml_certificate_set_id: optional string`
+<summary>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+</summary>
 
-  - `AccessGoogle object { config, name, type, 5 more }`
+enabled: optional boolean
 
-    - `config: object { claims, client_id, client_secret, email_claim_name }`
+A flag to enable or disable SCIM for the identity provider.
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-      - `claims: optional array of string`
+<details>
 
-        Custom claims
+<summary>
 
-      - `client_id: optional string`
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
 
-        Your OAuth Client ID
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
 
-      - `client_secret: optional string`
+</summary>
 
-        Your OAuth Client Secret
+One of the following:
 
-      - `email_claim_name: optional string`
+"automatic"
 
-        The claim name for email in the id_token response.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"reauth"
 
-      The name of the identity provider, shown to users on the login page.
+<a href="#">Link to this property</a>
 
-    - `type: IdentityProviderType`
+"no\_action"
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      UUID.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+scim\_base\_url: optional string
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+seat\_deprovision: optional boolean
 
-      - `created_at: string`
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
 
-        Timestamp when the certificate set was created
+<a href="#">Link to this property</a>
 
-      - `uid: string`
+secret: optional string
 
-        Unique identifier for the certificate set
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+user\_deprovision: optional boolean
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
 
-        The currently active certificate used for encrypting SAML assertions
+<a href="#">Link to this property</a>
 
-        - `is_current: boolean`
+</details>
 
-          Indicates whether this is the currently active certificate
+<a href="#">Link to this property</a>
 
-        - `not_after: string`
+</details>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+<a href="#">Link to this property</a>
 
-        - `public_certificate: string`
+<details>
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+<summary>
 
-        - `uid: string`
+AccessCentrify object {config, name, type, 5 more }
 
-          Unique identifier for the certificate
+</summary>
 
-      - `previous_certificate: optional unknown`
+<details>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+<summary>
 
-    - `saml_certificate_set_id: optional string`
+config: object {centrify\_account, centrify\_app\_id, claims, 3 more }
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+</summary>
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+centrify\_account: optional string
 
-  - `AccessGoogleApps object { config, name, type, 5 more }`
+Your centrify account url
 
-    - `config: object { apps_domain, claims, client_id, 2 more }`
+<a href="#">Link to this property</a>
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+centrify\_app\_id: optional string
 
-      - `apps_domain: optional string`
+Your centrify app id
 
-        Your companies TLD
+<a href="#">Link to this property</a>
 
-      - `claims: optional array of string`
+claims: optional array of string
 
-        Custom claims
+Custom claims
 
-      - `client_id: optional string`
+<a href="#">Link to this property</a>
 
-        Your OAuth Client ID
+client\_id: optional string
 
-      - `client_secret: optional string`
+Your OAuth Client ID
 
-        Your OAuth Client Secret
+<a href="#">Link to this property</a>
 
-      - `email_claim_name: optional string`
+client\_secret: optional string
 
-        The claim name for email in the id_token response.
+Your OAuth Client Secret
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the identity provider, shown to users on the login page.
+email\_claim\_name: optional string
 
-    - `type: IdentityProviderType`
+The claim name for email in the id\_token response.
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      UUID.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+name: string
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+The name of the identity provider, shown to users on the login page.
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+<details>
 
-      - `created_at: string`
+<summary>
 
-        Timestamp when the certificate set was created
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
 
-      - `uid: string`
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
 
-        Unique identifier for the certificate set
+</summary>
 
-      - `updated_at: string`
+One of the following:
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+"onetimepin"
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<a href="#">Link to this property</a>
 
-        The currently active certificate used for encrypting SAML assertions
+"azureAD"
 
-        - `is_current: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this is the currently active certificate
+"saml"
 
-        - `not_after: string`
+<a href="#">Link to this property</a>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+"centrify"
 
-        - `public_certificate: string`
+<a href="#">Link to this property</a>
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+"facebook"
 
-        - `uid: string`
+<a href="#">Link to this property</a>
 
-          Unique identifier for the certificate
+"github"
 
-      - `previous_certificate: optional unknown`
+<a href="#">Link to this property</a>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+"google-apps"
 
-    - `saml_certificate_set_id: optional string`
+<a href="#">Link to this property</a>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+"google"
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+<a href="#">Link to this property</a>
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+"linkedin"
 
-  - `AccessLinkedin object { config, name, type, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `config: GenericOAuthConfig`
+"oidc"
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"okta"
 
-      The name of the identity provider, shown to users on the login page.
+<a href="#">Link to this property</a>
 
-    - `type: IdentityProviderType`
+"onelogin"
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"pingone"
 
-      UUID.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+"yandex"
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+<a href="#">Link to this property</a>
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+"cloudflare"
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+</details>
 
-        Timestamp when the certificate set was created
+<a href="#">Link to this property</a>
 
-      - `uid: string`
+id: optional string
 
-        Unique identifier for the certificate set
+UUID.
 
-      - `updated_at: string`
+maxLength36
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+<a href="#">Link to this property</a>
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+read\_only: optional boolean
 
-        The currently active certificate used for encrypting SAML assertions
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
 
-        - `is_current: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this is the currently active certificate
+<details>
 
-        - `not_after: string`
+<summary>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
 
-        - `public_certificate: string`
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+</summary>
 
-        - `uid: string`
+created\_at: string
 
-          Unique identifier for the certificate
+Timestamp when the certificate set was created
 
-      - `previous_certificate: optional unknown`
+formatdate-time
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+<a href="#">Link to this property</a>
 
-    - `saml_certificate_set_id: optional string`
+uid: string
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+Unique identifier for the certificate set
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+formatuuid
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+<a href="#">Link to this property</a>
 
-  - `AccessOIDC object { config, name, type, 5 more }`
+updated\_at: string
 
-    - `config: object { auth_url, certs_url, claims, 6 more }`
+Timestamp when the certificate set was last updated (e.g., during rotation)
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+formatdate-time
 
-      - `auth_url: optional string`
+<a href="#">Link to this property</a>
 
-        The authorization_endpoint URL of your IdP
+<details>
 
-      - `certs_url: optional string`
+<summary>
 
-        The jwks_uri endpoint of your IdP to allow the IdP keys to sign the tokens
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
 
-      - `claims: optional array of string`
+The currently active certificate used for encrypting SAML assertions
 
-        Custom claims
+</summary>
 
-      - `client_id: optional string`
+is\_current: boolean
 
-        Your OAuth Client ID
+Indicates whether this is the currently active certificate
 
-      - `client_secret: optional string`
+<a href="#">Link to this property</a>
 
-        Your OAuth Client Secret
+not\_after: string
 
-      - `email_claim_name: optional string`
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
 
-        The claim name for email in the id_token response.
+formatdate-time
 
-      - `pkce_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Enable Proof Key for Code Exchange (PKCE)
+public\_certificate: string
 
-      - `scopes: optional array of string`
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
 
-        OAuth scopes
+<a href="#">Link to this property</a>
 
-      - `token_url: optional string`
+uid: string
 
-        The token_endpoint URL of your IdP
+Unique identifier for the certificate
 
-    - `name: string`
+formatuuid
 
-      The name of the identity provider, shown to users on the login page.
+<a href="#">Link to this property</a>
 
-    - `type: IdentityProviderType`
+</details>
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+previous\_certificate: optional unknown
 
-      UUID.
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
 
-    - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+</details>
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+saml\_certificate\_set\_id: optional string
 
-      - `created_at: string`
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
 
-        Timestamp when the certificate set was created
+formatuuid
 
-      - `uid: string`
+<a href="#">Link to this property</a>
 
-        Unique identifier for the certificate set
+<details>
 
-      - `updated_at: string`
+<summary>
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
 
-        The currently active certificate used for encrypting SAML assertions
+</summary>
 
-        - `is_current: boolean`
+enabled: optional boolean
 
-          Indicates whether this is the currently active certificate
+A flag to enable or disable SCIM for the identity provider.
 
-        - `not_after: string`
+<a href="#">Link to this property</a>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+<details>
 
-        - `public_certificate: string`
+<summary>
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
 
-        - `uid: string`
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
 
-          Unique identifier for the certificate
+</summary>
 
-      - `previous_certificate: optional unknown`
+One of the following:
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+"automatic"
 
-    - `saml_certificate_set_id: optional string`
+<a href="#">Link to this property</a>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+"reauth"
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+<a href="#">Link to this property</a>
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+"no\_action"
 
-  - `AccessOkta object { config, name, type, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `config: object { authorization_server_id, claims, client_id, 3 more }`
+</details>
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-      - `authorization_server_id: optional string`
+scim\_base\_url: optional string
 
-        Your okta authorization server id
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
 
-      - `claims: optional array of string`
+<a href="#">Link to this property</a>
 
-        Custom claims
+seat\_deprovision: optional boolean
 
-      - `client_id: optional string`
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
 
-        Your OAuth Client ID
+<a href="#">Link to this property</a>
 
-      - `client_secret: optional string`
+secret: optional string
 
-        Your OAuth Client Secret
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
 
-      - `email_claim_name: optional string`
+<a href="#">Link to this property</a>
 
-        The claim name for email in the id_token response.
+user\_deprovision: optional boolean
 
-      - `okta_account: optional string`
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
 
-        Your okta account url
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      The name of the identity provider, shown to users on the login page.
+<a href="#">Link to this property</a>
 
-    - `type: IdentityProviderType`
+</details>
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+<details>
 
-      UUID.
+<summary>
 
-    - `read_only: optional boolean`
+AccessFacebook object {config, name, type, 5 more }
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+</summary>
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<details>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+<summary>
 
-      - `created_at: string`
+config: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20generic_oauth_config%20%3E%20(schema)">GenericOAuthConfig</a> { client\_id, client\_secret }
 
-        Timestamp when the certificate set was created
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
 
-      - `uid: string`
+</summary>
 
-        Unique identifier for the certificate set
+client\_id: optional string
 
-      - `updated_at: string`
+Your OAuth Client ID
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+<a href="#">Link to this property</a>
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+client\_secret: optional string
 
-        The currently active certificate used for encrypting SAML assertions
+Your OAuth Client Secret
 
-        - `is_current: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this is the currently active certificate
+</details>
 
-        - `not_after: string`
+<a href="#">Link to this property</a>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+name: string
 
-        - `public_certificate: string`
+The name of the identity provider, shown to users on the login page.
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+<a href="#">Link to this property</a>
 
-        - `uid: string`
+<details>
 
-          Unique identifier for the certificate
+<summary>
 
-      - `previous_certificate: optional unknown`
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
 
-    - `saml_certificate_set_id: optional string`
+</summary>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+One of the following:
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+"onetimepin"
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+<a href="#">Link to this property</a>
 
-  - `AccessOnelogin object { config, name, type, 5 more }`
+"azureAD"
 
-    - `config: object { claims, client_id, client_secret, 2 more }`
+<a href="#">Link to this property</a>
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+"saml"
 
-      - `claims: optional array of string`
+<a href="#">Link to this property</a>
 
-        Custom claims
+"centrify"
 
-      - `client_id: optional string`
+<a href="#">Link to this property</a>
 
-        Your OAuth Client ID
+"facebook"
 
-      - `client_secret: optional string`
+<a href="#">Link to this property</a>
 
-        Your OAuth Client Secret
+"github"
 
-      - `email_claim_name: optional string`
+<a href="#">Link to this property</a>
 
-        The claim name for email in the id_token response.
+"google-apps"
 
-      - `onelogin_account: optional string`
+<a href="#">Link to this property</a>
 
-        Your OneLogin account url
+"google"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the identity provider, shown to users on the login page.
+"linkedin"
 
-    - `type: IdentityProviderType`
+<a href="#">Link to this property</a>
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+"oidc"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+"okta"
 
-    - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+"onelogin"
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+"pingone"
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-        Timestamp when the certificate set was created
+"yandex"
 
-      - `uid: string`
+<a href="#">Link to this property</a>
 
-        Unique identifier for the certificate set
+"cloudflare"
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+</details>
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<a href="#">Link to this property</a>
 
-        The currently active certificate used for encrypting SAML assertions
+id: optional string
 
-        - `is_current: boolean`
+UUID.
 
-          Indicates whether this is the currently active certificate
+maxLength36
 
-        - `not_after: string`
+<a href="#">Link to this property</a>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+read\_only: optional boolean
 
-        - `public_certificate: string`
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+<a href="#">Link to this property</a>
 
-        - `uid: string`
+<details>
 
-          Unique identifier for the certificate
+<summary>
 
-      - `previous_certificate: optional unknown`
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
 
-    - `saml_certificate_set_id: optional string`
+</summary>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+created\_at: string
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+Timestamp when the certificate set was created
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+formatdate-time
 
-  - `AccessPingone object { config, name, type, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `config: object { claims, client_id, client_secret, 2 more }`
+uid: string
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+Unique identifier for the certificate set
 
-      - `claims: optional array of string`
+formatuuid
 
-        Custom claims
+<a href="#">Link to this property</a>
 
-      - `client_id: optional string`
+updated\_at: string
 
-        Your OAuth Client ID
+Timestamp when the certificate set was last updated (e.g., during rotation)
 
-      - `client_secret: optional string`
+formatdate-time
 
-        Your OAuth Client Secret
+<a href="#">Link to this property</a>
 
-      - `email_claim_name: optional string`
+<details>
 
-        The claim name for email in the id_token response.
+<summary>
 
-      - `ping_env_id: optional string`
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
 
-        Your PingOne environment identifier
+The currently active certificate used for encrypting SAML assertions
 
-    - `name: string`
+</summary>
 
-      The name of the identity provider, shown to users on the login page.
+is\_current: boolean
 
-    - `type: IdentityProviderType`
+Indicates whether this is the currently active certificate
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+not\_after: string
 
-      UUID.
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
 
-    - `read_only: optional boolean`
+formatdate-time
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+<a href="#">Link to this property</a>
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+public\_certificate: string
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-        Timestamp when the certificate set was created
+uid: string
 
-      - `uid: string`
+Unique identifier for the certificate
 
-        Unique identifier for the certificate set
+formatuuid
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+</details>
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<a href="#">Link to this property</a>
 
-        The currently active certificate used for encrypting SAML assertions
+previous\_certificate: optional unknown
 
-        - `is_current: boolean`
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
 
-          Indicates whether this is the currently active certificate
+<a href="#">Link to this property</a>
 
-        - `not_after: string`
+</details>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+<a href="#">Link to this property</a>
 
-        - `public_certificate: string`
+saml\_certificate\_set\_id: optional string
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
 
-        - `uid: string`
+formatuuid
 
-          Unique identifier for the certificate
+<a href="#">Link to this property</a>
 
-      - `previous_certificate: optional unknown`
+<details>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+<summary>
 
-    - `saml_certificate_set_id: optional string`
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+</summary>
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+enabled: optional boolean
 
-  - `AccessSAML object { config, name, type, 5 more }`
+A flag to enable or disable SCIM for the identity provider.
 
-    - `config: object { attributes, email_attribute_name, enable_encryption, 5 more }`
+<a href="#">Link to this property</a>
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<details>
 
-      - `attributes: optional array of string`
+<summary>
 
-        A list of SAML attribute names that will be added to your signed JWT token and can be used in SAML policy rules.
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
 
-      - `email_attribute_name: optional string`
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
 
-        The attribute name for email in the SAML response.
+</summary>
 
-      - `enable_encryption: optional boolean`
+One of the following:
 
-        Enable SAML assertion encryption. When enabled, the Identity Provider will encrypt
-        SAML assertions using the certificate from the assigned certificate set.
+"automatic"
 
-        To enable encryption:
+<a href="#">Link to this property</a>
 
-        1. Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`
-        1. Set this field to `true` and include `saml_certificate_set_id` in the PUT request
-        1. Configure the public certificate in your external Identity Provider
+"reauth"
 
-        Note: Requires `saml_certificate_set_id` to be set when `true`.
+<a href="#">Link to this property</a>
 
-      - `header_attributes: optional array of object { attribute_name, header_name }`
+"no\_action"
 
-        Add a list of attribute names that will be returned in the response header from the Access callback.
+<a href="#">Link to this property</a>
 
-        - `attribute_name: optional string`
+</details>
 
-          attribute name from the IDP
+<a href="#">Link to this property</a>
 
-        - `header_name: optional string`
+scim\_base\_url: optional string
 
-          header that will be added on the request to the origin
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
 
-      - `idp_public_certs: optional array of string`
+<a href="#">Link to this property</a>
 
-        X509 certificate to verify the signature in the SAML authentication response
+seat\_deprovision: optional boolean
 
-      - `issuer_url: optional string`
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
 
-        IdP Entity ID or Issuer URL
+<a href="#">Link to this property</a>
 
-      - `sign_request: optional boolean`
+secret: optional string
 
-        Sign the SAML authentication request with Access credentials. To verify the signature, use the public key from the Access certs endpoints.
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
 
-      - `sso_target_url: optional string`
+<a href="#">Link to this property</a>
 
-        URL to send the SAML authentication requests to
+user\_deprovision: optional boolean
 
-    - `name: string`
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
 
-      The name of the identity provider, shown to users on the login page.
+<a href="#">Link to this property</a>
 
-    - `type: IdentityProviderType`
+</details>
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      UUID.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+<details>
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+<summary>
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+AccessGitHub object {config, name, type, 5 more }
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+</summary>
 
-      - `created_at: string`
+<details>
 
-        Timestamp when the certificate set was created
+<summary>
 
-      - `uid: string`
+config: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20generic_oauth_config%20%3E%20(schema)">GenericOAuthConfig</a> { client\_id, client\_secret }
 
-        Unique identifier for the certificate set
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
 
-      - `updated_at: string`
+</summary>
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+client\_id: optional string
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+Your OAuth Client ID
 
-        The currently active certificate used for encrypting SAML assertions
+<a href="#">Link to this property</a>
 
-        - `is_current: boolean`
+client\_secret: optional string
 
-          Indicates whether this is the currently active certificate
+Your OAuth Client Secret
 
-        - `not_after: string`
+<a href="#">Link to this property</a>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+</details>
 
-        - `public_certificate: string`
+<a href="#">Link to this property</a>
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+name: string
 
-        - `uid: string`
+The name of the identity provider, shown to users on the login page.
 
-          Unique identifier for the certificate
+<a href="#">Link to this property</a>
 
-      - `previous_certificate: optional unknown`
+<details>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+<summary>
 
-    - `saml_certificate_set_id: optional string`
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+</summary>
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+One of the following:
 
-  - `AccessYandex object { config, name, type, 5 more }`
+"onetimepin"
 
-    - `config: GenericOAuthConfig`
+<a href="#">Link to this property</a>
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+"azureAD"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the identity provider, shown to users on the login page.
+"saml"
 
-    - `type: IdentityProviderType`
+<a href="#">Link to this property</a>
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+"centrify"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+"facebook"
 
-    - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+"github"
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+"google-apps"
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-        Timestamp when the certificate set was created
+"google"
 
-      - `uid: string`
+<a href="#">Link to this property</a>
 
-        Unique identifier for the certificate set
+"linkedin"
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+"oidc"
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<a href="#">Link to this property</a>
 
-        The currently active certificate used for encrypting SAML assertions
+"okta"
 
-        - `is_current: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this is the currently active certificate
+"onelogin"
 
-        - `not_after: string`
+<a href="#">Link to this property</a>
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+"pingone"
 
-        - `public_certificate: string`
+<a href="#">Link to this property</a>
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+"yandex"
 
-        - `uid: string`
+<a href="#">Link to this property</a>
 
-          Unique identifier for the certificate
+"cloudflare"
 
-      - `previous_certificate: optional unknown`
+<a href="#">Link to this property</a>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+</details>
 
-    - `saml_certificate_set_id: optional string`
+<a href="#">Link to this property</a>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+id: optional string
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+UUID.
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+maxLength36
 
-  - `AccessOnetimepin object { config, name, type, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `config: object { redirect_url }`
+read\_only: optional boolean
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
 
-      - `redirect_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-      The name of the identity provider, shown to users on the login page.
+<summary>
 
-    - `type: IdentityProviderType`
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
 
-    - `id: optional string`
+</summary>
 
-      UUID.
+created\_at: string
 
-    - `read_only: optional boolean`
+Timestamp when the certificate set was created
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+formatdate-time
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+uid: string
 
-      - `created_at: string`
+Unique identifier for the certificate set
 
-        Timestamp when the certificate set was created
+formatuuid
 
-      - `uid: string`
+<a href="#">Link to this property</a>
 
-        Unique identifier for the certificate set
+updated\_at: string
 
-      - `updated_at: string`
+Timestamp when the certificate set was last updated (e.g., during rotation)
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+formatdate-time
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<a href="#">Link to this property</a>
 
-        The currently active certificate used for encrypting SAML assertions
+<details>
 
-        - `is_current: boolean`
+<summary>
 
-          Indicates whether this is the currently active certificate
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
 
-        - `not_after: string`
+The currently active certificate used for encrypting SAML assertions
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+</summary>
 
-        - `public_certificate: string`
+is\_current: boolean
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+Indicates whether this is the currently active certificate
 
-        - `uid: string`
+<a href="#">Link to this property</a>
 
-          Unique identifier for the certificate
+not\_after: string
 
-      - `previous_certificate: optional unknown`
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+formatdate-time
 
-    - `saml_certificate_set_id: optional string`
+<a href="#">Link to this property</a>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+public\_certificate: string
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+<a href="#">Link to this property</a>
 
-  - `AccessCloudflare object { config, name, type, 5 more }`
+uid: string
 
-    - `config: object { redirect_url, restrict_to_account_members }`
+Unique identifier for the certificate
 
-      The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+formatuuid
 
-      - `redirect_url: optional string`
+<a href="#">Link to this property</a>
 
-      - `restrict_to_account_members: optional boolean`
+</details>
 
-        When enabled, only users who are members of your Cloudflare account can authenticate through this identity provider. When disabled, any user with a Cloudflare account can authenticate, subject to your Access policies.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+previous\_certificate: optional unknown
 
-      The name of the identity provider, shown to users on the login page.
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
 
-    - `type: IdentityProviderType`
+<a href="#">Link to this property</a>
 
-      The type of identity provider. To determine the value for a specific provider, refer to our [developer documentation](https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/).
+</details>
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+saml\_certificate\_set\_id: optional string
 
-    - `read_only: optional boolean`
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
 
-      Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+formatuuid
 
-    - `saml_certificate_set: optional object { created_at, uid, updated_at, 2 more }`
+<a href="#">Link to this property</a>
 
-      The SAML encryption certificate set details, including current and previous certificates.
-      Only present for SAML identity providers with a certificate set assigned.
+<details>
 
-      - `created_at: string`
+<summary>
 
-        Timestamp when the certificate set was created
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
 
-      - `uid: string`
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
 
-        Unique identifier for the certificate set
+</summary>
 
-      - `updated_at: string`
+enabled: optional boolean
 
-        Timestamp when the certificate set was last updated (e.g., during rotation)
+A flag to enable or disable SCIM for the identity provider.
 
-      - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+<a href="#">Link to this property</a>
 
-        The currently active certificate used for encrypting SAML assertions
+<details>
 
-        - `is_current: boolean`
+<summary>
 
-          Indicates whether this is the currently active certificate
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
 
-        - `not_after: string`
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
 
-          Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+</summary>
 
-        - `public_certificate: string`
+One of the following:
 
-          PEM-encoded X.509 certificate containing the public key.
-          Configure this certificate in your external SAML Identity Provider to enable encryption.
+"automatic"
 
-        - `uid: string`
+<a href="#">Link to this property</a>
 
-          Unique identifier for the certificate
+"reauth"
 
-      - `previous_certificate: optional unknown`
+<a href="#">Link to this property</a>
 
-        The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+"no\_action"
 
-    - `saml_certificate_set_id: optional string`
+<a href="#">Link to this property</a>
 
-      The UID of the SAML encryption certificate set assigned to this Identity Provider.
-      Only present for SAML identity providers with encryption configured.
-      Create a certificate set via POST to `/identity_providers/{id}/saml_certificate`.
+</details>
 
-    - `scim_config: optional IdentityProviderSCIMConfig`
+<a href="#">Link to this property</a>
 
-      The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+scim\_base\_url: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+seat\_deprovision: optional boolean
 
-  - `page: optional number`
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+secret: optional string
 
-    Number of results per page of results.
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+user\_deprovision: optional boolean
 
-  - `total_pages: optional number`
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessGoogle object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {claims, client\_id, client\_secret, email\_claim\_name }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+claims: optional array of string
+
+Custom claims
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+Your OAuth Client ID
+
+<a href="#">Link to this property</a>
+
+client\_secret: optional string
+
+Your OAuth Client Secret
+
+<a href="#">Link to this property</a>
+
+email\_claim\_name: optional string
+
+The claim name for email in the id\_token response.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessGoogleApps object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {apps\_domain, claims, client\_id, 4 more }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+apps\_domain: optional string
+
+Your companies TLD
+
+<a href="#">Link to this property</a>
+
+claims: optional array of string
+
+Custom claims
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+Your OAuth Client ID
+
+<a href="#">Link to this property</a>
+
+client\_secret: optional string
+
+Your OAuth Client Secret
+
+<a href="#">Link to this property</a>
+
+email\_claim\_name: optional string
+
+The claim name for email in the id\_token response.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+prompt: optional "none"or "consent"or "select\_account"
+
+Configures the prompt behavior for Google authentication.
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"consent"
+
+<a href="#">Link to this property</a>
+
+"select\_account"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+use\_login\_hint: optional boolean
+
+Whether to use a previously authenticated Access email as a Google login hint when exactly one email matches the Workspace domain.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessLinkedin object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20generic_oauth_config%20%3E%20(schema)">GenericOAuthConfig</a> { client\_id, client\_secret }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+client\_id: optional string
+
+Your OAuth Client ID
+
+<a href="#">Link to this property</a>
+
+client\_secret: optional string
+
+Your OAuth Client Secret
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessOIDC object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {auth\_url, certs\_url, claims, 6 more }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+auth\_url: optional string
+
+The authorization\_endpoint URL of your IdP
+
+<a href="#">Link to this property</a>
+
+certs\_url: optional string
+
+The jwks\_uri endpoint of your IdP to allow the IdP keys to sign the tokens
+
+<a href="#">Link to this property</a>
+
+claims: optional array of string
+
+Custom claims
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+Your OAuth Client ID
+
+<a href="#">Link to this property</a>
+
+client\_secret: optional string
+
+Your OAuth Client Secret
+
+<a href="#">Link to this property</a>
+
+email\_claim\_name: optional string
+
+The claim name for email in the id\_token response.
+
+<a href="#">Link to this property</a>
+
+pkce\_enabled: optional boolean
+
+Enable Proof Key for Code Exchange (PKCE)
+
+<a href="#">Link to this property</a>
+
+scopes: optional array of string
+
+OAuth scopes
+
+<a href="#">Link to this property</a>
+
+token\_url: optional string
+
+The token\_endpoint URL of your IdP
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessOkta object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {authorization\_server\_id, claims, client\_id, 3 more }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+authorization\_server\_id: optional string
+
+Your okta authorization server id
+
+<a href="#">Link to this property</a>
+
+claims: optional array of string
+
+Custom claims
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+Your OAuth Client ID
+
+<a href="#">Link to this property</a>
+
+client\_secret: optional string
+
+Your OAuth Client Secret
+
+<a href="#">Link to this property</a>
+
+email\_claim\_name: optional string
+
+The claim name for email in the id\_token response.
+
+<a href="#">Link to this property</a>
+
+okta\_account: optional string
+
+Your okta account url
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessOnelogin object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {claims, client\_id, client\_secret, 2 more }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+claims: optional array of string
+
+Custom claims
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+Your OAuth Client ID
+
+<a href="#">Link to this property</a>
+
+client\_secret: optional string
+
+Your OAuth Client Secret
+
+<a href="#">Link to this property</a>
+
+email\_claim\_name: optional string
+
+The claim name for email in the id\_token response.
+
+<a href="#">Link to this property</a>
+
+onelogin\_account: optional string
+
+Your OneLogin account url
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessPingone object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {claims, client\_id, client\_secret, 2 more }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+claims: optional array of string
+
+Custom claims
+
+<a href="#">Link to this property</a>
+
+client\_id: optional string
+
+Your OAuth Client ID
+
+<a href="#">Link to this property</a>
+
+client\_secret: optional string
+
+Your OAuth Client Secret
+
+<a href="#">Link to this property</a>
+
+email\_claim\_name: optional string
+
+The claim name for email in the id\_token response.
+
+<a href="#">Link to this property</a>
+
+ping\_env\_id: optional string
+
+Your PingOne environment identifier
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessSAML object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {attributes, email\_attribute\_name, enable\_encryption, 7 more }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+attributes: optional array of string
+
+A list of SAML attribute names that will be added to your signed JWT token and can be used in SAML policy rules.
+
+<a href="#">Link to this property</a>
+
+email\_attribute\_name: optional string
+
+The attribute name for email in the SAML response.
+
+<a href="#">Link to this property</a>
+
+enable\_encryption: optional boolean
+
+Enable SAML assertion encryption. When enabled, the Identity Provider will encrypt SAML assertions using the certificate from the assigned certificate set.
+
+To enable encryption:
+
+1. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>
+2. Set this field to <code>true</code> and include <code>saml_certificate_set_id</code> in the PUT request
+3. Configure the public certificate in your external Identity Provider
+
+Note: Requires <code>saml_certificate_set_id</code> to be set when <code>true</code>.
+
+<a href="#">Link to this property</a>
+
+force\_authn: optional boolean
+
+Asks the IdP to reauthenticate the user for each SAML authentication request.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+header\_attributes: optional array of object {attribute\_name, header\_name }
+
+Add a list of attribute names that will be returned in the response header from the Access callback.
+
+</summary>
+
+attribute\_name: optional string
+
+attribute name from the IDP
+
+<a href="#">Link to this property</a>
+
+header\_name: optional string
+
+header that will be added on the request to the origin
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+idp\_public\_certs: optional array of string
+
+X509 certificate to verify the signature in the SAML authentication response
+
+<a href="#">Link to this property</a>
+
+issuer\_url: optional string
+
+IdP Entity ID or Issuer URL
+
+<a href="#">Link to this property</a>
+
+max\_sso\_url\_length: optional number
+
+The maximum URL length the IdP accepts for the SSO redirect URL. When the constructed SSO URL would exceed this length, the RelayState is stored server-side and a short nonce is passed to the IdP instead. Set this if your IdP enforces a URL length limit.
+
+maximum100000
+
+minimum512
+
+<a href="#">Link to this property</a>
+
+sign\_request: optional boolean
+
+Sign the SAML authentication request with Access credentials. To verify the signature, use the public key from the Access certs endpoints.
+
+<a href="#">Link to this property</a>
+
+sso\_target\_url: optional string
+
+URL to send the SAML authentication requests to
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessYandex object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20generic_oauth_config%20%3E%20(schema)">GenericOAuthConfig</a> { client\_id, client\_secret }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+client\_id: optional string
+
+Your OAuth Client ID
+
+<a href="#">Link to this property</a>
+
+client\_secret: optional string
+
+Your OAuth Client Secret
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessOnetimepin object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {redirect\_url }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+redirect\_url: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AccessCloudflare object {config, name, type, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {redirect\_url, restrict\_to\_account\_members }
+
+The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+redirect\_url: optional string
+
+<a href="#">Link to this property</a>
+
+restrict\_to\_account\_members: optional boolean
+
+When enabled, only users who are members of your Cloudflare account can authenticate through this identity provider. When disabled, any user with a Cloudflare account can authenticate, subject to your Access policies.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the identity provider, shown to users on the login page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_type%20%3E%20(schema)">IdentityProviderType</a>
+
+The type of identity provider. To determine the value for a specific provider, refer to our <a href="https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/">developer documentation</a>.
+
+</summary>
+
+One of the following:
+
+"onetimepin"
+
+<a href="#">Link to this property</a>
+
+"azureAD"
+
+<a href="#">Link to this property</a>
+
+"saml"
+
+<a href="#">Link to this property</a>
+
+"centrify"
+
+<a href="#">Link to this property</a>
+
+"facebook"
+
+<a href="#">Link to this property</a>
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"google-apps"
+
+<a href="#">Link to this property</a>
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"linkedin"
+
+<a href="#">Link to this property</a>
+
+"oidc"
+
+<a href="#">Link to this property</a>
+
+"okta"
+
+<a href="#">Link to this property</a>
+
+"onelogin"
+
+<a href="#">Link to this property</a>
+
+"pingone"
+
+<a href="#">Link to this property</a>
+
+"yandex"
+
+<a href="#">Link to this property</a>
+
+"cloudflare"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicates that the identity provider is immutable and cannot be updated or deleted via the API.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+saml\_certificate\_set: optional object {created\_at, uid, updated\_at, 2 more }
+
+The SAML encryption certificate set details, including current and previous certificates. Only present for SAML identity providers with a certificate set assigned.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+saml\_certificate\_set\_id: optional string
+
+The UID of the SAML encryption certificate set assigned to this Identity Provider. Only present for SAML identity providers with encryption configured. Create a certificate set via POST to <code>/identity_providers/{id}/saml_certificate</code>.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scim\_config: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.identity_providers%20%3E%20(model)%20identity_provider_scim_config%20%3E%20(schema)">IdentityProviderSCIMConfig</a> { enabled, identity\_update\_behavior, scim\_base\_url, 3 more }
+
+The configuration settings for enabling a System for Cross-Domain Identity Management (SCIM) with the identity provider.
+
+</summary>
+
+enabled: optional boolean
+
+A flag to enable or disable SCIM for the identity provider.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+identity\_update\_behavior: optional "automatic"or "reauth"or "no\_action"
+
+Indicates how a SCIM event updates a user identity used for policy evaluation. Use “automatic” to automatically update a user’s identity and augment it with fields from the SCIM user resource. Use “reauth” to force re-authentication on group membership updates, user identity update will only occur after successful re-authentication. With “reauth” identities will not contain fields from the SCIM user resource. With “no\_action” identities will not be changed by SCIM updates in any way and users will not be prompted to reauthenticate.
+
+</summary>
+
+One of the following:
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+"reauth"
+
+<a href="#">Link to this property</a>
+
+"no\_action"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scim\_base\_url: optional string
+
+The base URL of Cloudflare’s SCIM V2.0 API endpoint.
+
+<a href="#">Link to this property</a>
+
+seat\_deprovision: optional boolean
+
+A flag to remove a user’s seat in Zero Trust when they have been deprovisioned in the Identity Provider. This cannot be enabled unless user\_deprovision is also enabled.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+A read-only token generated when the SCIM integration is enabled for the first time. It is redacted on subsequent requests. If you lose this you will need to refresh it at /access/identity\_providers/:idpID/refresh\_scim\_secret.
+
+<a href="#">Link to this property</a>
+
+user\_deprovision: optional boolean
+
+A flag to enable revoking a user’s session in Access and Gateway when they have been deprovisioned in the Identity Provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.identity_providers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Access identity providers
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/identity_providers \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "config": {
+        "claims": [
+          "email_verified",
+          "preferred_username",
+          "custom_claim_name"
+        ],
+        "client_id": "<your client id>",
+        "client_secret": "<your client secret>",
+        "conditional_access_enabled": true,
+        "directory_id": "<your azure directory uuid>",
+        "email_claim_name": "custom_claim_name",
+        "prompt": "login",
+        "support_groups": true
+      },
+      "name": "Widget Corps IDP",
+      "type": "onetimepin",
+      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "read_only": true,
+      "saml_certificate_set": {
+        "created_at": "2026-05-07T19:16:19.821162Z",
+        "uid": "c409ef44-e72c-41c8-8c0b-278c8a6f4fd8",
+        "updated_at": "2026-05-07T19:16:19.821162Z",
+        "current_certificate": {
+          "is_current": true,
+          "not_after": "2027-05-07T19:11:00Z",
+          "public_certificate": "-----BEGIN CERTIFICATE-----\nMIIEpzCCA4+gAwIBAgIUTh2VSDDJ0oB/gabio6j1L9QwWoUwDQYJKoZIhvcNAQEL\n...\n-----END CERTIFICATE-----\n",
+          "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+        },
+        "previous_certificate": {}
+      },
+      "saml_certificate_set_id": "c409ef44-e72c-41c8-8c0b-278c8a6f4fd8",
+      "scim_config": {
+        "enabled": true,
+        "identity_update_behavior": "automatic",
+        "scim_base_url": "scim_base_url",
+        "seat_deprovision": true,
+        "secret": "secret",
+        "user_deprovision": true
+      }
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

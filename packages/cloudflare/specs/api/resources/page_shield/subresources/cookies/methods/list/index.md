@@ -1,210 +1,558 @@
-## List Page Shield Cookies
+---
+title: List detected cookies
+---
 
-**get** `/zones/{zone_id}/page_shield/cookies`
+[Skip to content](#_top)
 
-Lists all cookies collected by Page Shield.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Page Shield](https://developers.cloudflare.com/api/resources/page_shield)
 
-- `zone_id: string`
+[Cookies](https://developers.cloudflare.com/api/resources/page_shield/subresources/cookies)
 
-  Identifier
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `direction: optional "asc" or "desc"`
+---
 
-  The direction used to sort returned cookies.'
+**Copy Markdown****View as Markdown**
 
-  - `"asc"`
+# List detected cookies
 
-  - `"desc"`
+GET/zones/{zone\_id}/page\_shield/cookies
 
-- `domain: optional string`
+Lists cookies detected on the zone.
 
-  Filters the returned cookies that match the specified domain attribute
+##### Security
 
-- `export: optional "csv"`
+API Email + API Key
 
-  Export the list of cookies as a file, limited to 50000 entries.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"csv"`
+**Example:**`X-Auth-Email: user@example.com`
 
-- `hosts: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Includes cookies that match one or more URL-encoded hostnames separated by commas.
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  Wildcards are supported at the start and end of each hostname to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+##### Accepted Permissions (at least one required)
 
-- `http_only: optional boolean`
+`Page Shield``Domain Page Shield Read``Domain Page Shield``Page Shield Read``Zone Settings Write``Zone Settings Read`
 
-  Filters the returned cookies that are set with HttpOnly
+##### P ath ParametersExpand Collapse
 
-- `name: optional string`
+zone\_id: string
 
-  Filters the returned cookies that match the specified name.
-  Wildcards are supported at the start and end to support starts with, ends with
-  and contains. e.g. session*
+Identifier
 
-- `order_by: optional "first_seen_at" or "last_seen_at"`
+maxLength32
 
-  The field used to sort returned cookies.
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `"first_seen_at"`
+##### Q uery ParametersExpand Collapse
 
-  - `"last_seen_at"`
+<details>
 
-- `page: optional string`
+<summary>
 
-  The current page number of the paginated results.
+direction: optional "asc"or "desc"
 
-  We additionally support a special value "all". When "all" is used, the API will return all the cookies
-  with the applied filters in a single page. This feature is best-effort and it may only work for zones with
-  a low number of cookies
+The direction used to sort returned cookies.’
 
-- `page_url: optional string`
+</summary>
 
-  Includes connections that match one or more page URLs (separated by commas) where they were last seen
+One of the following:
 
-  Wildcards are supported at the start and end of each page URL to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+"asc"
 
-- `path: optional string`
+<a href="#">Link to this property</a>
 
-  Filters the returned cookies that match the specified path attribute
+"desc"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The number of results per page.
+</details>
 
-- `same_site: optional "lax" or "strict" or "none"`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-  Filters the returned cookies that match the specified same_site attribute
+domain: optional string
 
-  - `"lax"`
+Filters the returned cookies that match the specified domain attribute
 
-  - `"strict"`
+maxLength1024
 
-  - `"none"`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20domain%20%3E%20(schema)>)
 
-- `secure: optional boolean`
+export: optional "csv"
 
-  Filters the returned cookies that are set with Secure
+Export the list of cookies as a file, limited to 50000 entries.
 
-- `type: optional "first_party" or "unknown"`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20export%20%3E%20(schema)>)
 
-  Filters the returned cookies that match the specified type attribute
+hosts: optional string
 
-  - `"first_party"`
+Includes cookies that match one or more URL-encoded hostnames separated by commas.
 
-  - `"unknown"`
+Wildcards are supported at the start and end of each hostname to support starts with, ends with and contains. If no wildcards are used, results will be filtered by exact match
 
-### Returns
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20hosts%20%3E%20(schema)>)
 
-- `result: array of object { id, first_seen_at, host, 11 more }`
+http\_only: optional boolean
 
-  - `id: string`
+Filters the returned cookies that are set with HttpOnly
 
-    Identifier
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20http_only%20%3E%20(schema)>)
 
-  - `first_seen_at: string`
+name: optional string
 
-  - `host: string`
+Filters the returned cookies that match the specified name. Wildcards are supported at the start and end to support starts with, ends with and contains. e.g. session\*
 
-  - `last_seen_at: string`
+maxLength1024
 
-  - `name: string`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `type: "first_party" or "unknown"`
+<details>
 
-    - `"first_party"`
+<summary>
 
-    - `"unknown"`
+order\_by: optional "first\_seen\_at"or "last\_seen\_at"
 
-  - `domain_attribute: optional string`
+The field used to sort returned cookies.
 
-  - `expires_attribute: optional string`
+</summary>
 
-  - `http_only_attribute: optional boolean`
+One of the following:
 
-  - `max_age_attribute: optional number`
+"first\_seen\_at"
 
-  - `page_urls: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `path_attribute: optional string`
+"last\_seen\_at"
 
-  - `same_site_attribute: optional "lax" or "strict" or "none"`
+<a href="#">Link to this property</a>
 
-    - `"lax"`
+</details>
 
-    - `"strict"`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order_by%20%3E%20(schema)>)
 
-    - `"none"`
+page: optional string
 
-  - `secure_attribute: optional boolean`
+The current page number of the paginated results.
 
-- `result_info: object { count, page, per_page, 2 more }`
+We additionally support a special value “all”. When “all” is used, the API will return all the cookies with the applied filters in a single page. This feature is best-effort and it may only work for zones with a low number of cookies
 
-  - `count: number`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    Total number of results for the requested service
+page\_url: optional string
 
-  - `page: number`
+Includes connections that match one or more page URLs (separated by commas) where they were last seen
 
-    Current page within paginated list of results
+Wildcards are supported at the start and end of each page URL to support starts with, ends with and contains. If no wildcards are used, results will be filtered by exact match
 
-  - `per_page: number`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page_url%20%3E%20(schema)>)
 
-    Number of results per page of results
+path: optional string
 
-  - `total_count: number`
+Filters the returned cookies that match the specified path attribute
 
-    Total results available without any search parameters
+maxLength1024
 
-  - `total_pages: number`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20path%20%3E%20(schema)>)
 
-    Total number of pages
+per\_page: optional number
 
-- `success: true`
+The number of results per page.
 
-  Whether the API call was successful
+maximum100
 
-  - `true`
+minimum1
 
-- `errors: optional array of ResponseInfo`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+same\_site: optional "lax"or "strict"or "none"
 
-  - `source: optional object { pointer }`
+Filters the returned cookies that match the specified same\_site attribute
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: optional array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"lax"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"strict"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-### Example
+"none"
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20same_site%20%3E%20(schema)>)
+
+secure: optional boolean
+
+Filters the returned cookies that are set with Secure
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20secure%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+type: optional "first\_party"or "unknown"
+
+Filters the returned cookies that match the specified type attribute
+
+</summary>
+
+One of the following:
+
+"first\_party"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20type%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: array of object {id, first\_seen\_at, host, 11 more }
+
+</summary>
+
+id: string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+first\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+host: string
+
+<a href="#">Link to this property</a>
+
+last\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "first\_party"or "unknown"
+
+</summary>
+
+One of the following:
+
+"first\_party"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain\_attribute: optional string
+
+<a href="#">Link to this property</a>
+
+expires\_attribute: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+http\_only\_attribute: optional boolean
+
+<a href="#">Link to this property</a>
+
+max\_age\_attribute: optional number
+
+<a href="#">Link to this property</a>
+
+page\_urls: optional array of string
+
+<a href="#">Link to this property</a>
+
+path\_attribute: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+same\_site\_attribute: optional "lax"or "strict"or "none"
+
+</summary>
+
+One of the following:
+
+"lax"
+
+<a href="#">Link to this property</a>
+
+"strict"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+secure\_attribute: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: number
+
+Total number of results for the requested service
+
+<a href="#">Link to this property</a>
+
+page: number
+
+Current page within paginated list of results
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+Number of results per page of results
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+Total results available without any search parameters
+
+<a href="#">Link to this property</a>
+
+total\_pages: number
+
+Total number of pages
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+### List detected cookies
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/cookies \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "first_seen_at": "2021-08-18T10:51:08Z",
+      "host": "blog.cloudflare.com",
+      "last_seen_at": "2021-09-02T09:57:54Z",
+      "name": "session_id",
+      "type": "first_party",
+      "domain_attribute": "cloudflare.com",
+      "expires_attribute": "2021-10-02T09:57:54Z",
+      "http_only_attribute": true,
+      "max_age_attribute": 3600,
+      "page_urls": [
+        "blog.cloudflare.com/page1",
+        "blog.cloudflare.com/page2"
+      ],
+      "path_attribute": "/",
+      "same_site_attribute": "strict",
+      "secure_attribute": true
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  },
+  "success": true,
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": [
     {

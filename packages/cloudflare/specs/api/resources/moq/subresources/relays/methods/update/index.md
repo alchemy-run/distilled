@@ -1,119 +1,252 @@
-## Update a relay
+---
+title: Update a relay
+---
 
-**put** `/accounts/{account_id}/moq/relays/{relay_id}`
+[Skip to content](#_top)
 
-Updates a relay's name and/or configuration. Partial updates:
-omitted fields are preserved. Config sub-objects replace as
-whole objects when present. upstreams and lingering_subscribe
-are mutually exclusive.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[MoQ](https://developers.cloudflare.com/api/resources/moq)
 
-- `account_id: string`
+[Relays](https://developers.cloudflare.com/api/resources/moq/subresources/relays)
 
-  Cloudflare account identifier.
+Copy Markdown
 
-- `relay_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `config: optional object { lingering_subscribe, upstreams }`
+**Copy Markdown****View as Markdown**
 
-  upstreams and lingering_subscribe are mutually exclusive.
+# Update a relay
 
-  - `lingering_subscribe: optional object { enabled, max_timeout_ms }`
+PUT/accounts/{account\_id}/moq/relays/{relay\_id}
 
-    - `enabled: optional boolean`
+Updates a relay’s name and/or configuration. The relay ID goes in the URL path — `PUT /accounts/{account_id}/moq/relays/{relay_id}` — not the request body; there is no collection-level update endpoint. This is also the only way to set a relay’s config (config cannot be set at create time). Partial updates: omitted fields are preserved; config sub-objects replace as whole objects when present.
 
-    - `max_timeout_ms: optional number`
+##### Security
 
-      Relay-level ceiling on lingering subscribe timeout (ms). Default 30000.
+API Token
 
-  - `upstreams: optional object { enabled, upstreams }`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-    Upstreams are external MOQT server publishers that a relay falls back
-    to when it has no local publisher for a requested namespace/track.
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-    - `enabled: optional boolean`
+##### P ath ParametersExpand Collapse
 
-    - `upstreams: optional array of object { url }`
+account\_id: string
 
-      Ordered list of upstream MOQT server publishers. Each entry is an
-      object (not a bare string) so per-upstream configuration can be
-      added in the future without another breaking change.
+Cloudflare account identifier.
 
-      - `url: optional string`
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        Upstream MOQT server publisher URL.
+relay\_id: string
 
-- `name: optional string`
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20relay_id%20%3E%20(schema)>)
 
-### Returns
+##### Body ParametersJSONExpand Collapse
 
-- `errors: array of object { code, message }`
+<details>
 
-  - `code: optional number`
+<summary>
 
-  - `message: optional string`
+config: optional object {upstreams }
 
-- `messages: array of object { code, message }`
+</summary>
 
-  - `code: optional number`
+<details>
 
-  - `message: optional string`
+<summary>
 
-- `success: boolean`
+upstreams: optional object {enabled, upstreams }
 
-- `result: optional object { config, created, modified, 3 more }`
+Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track.
 
-  Full relay details (no tokens).
+</summary>
 
-  - `config: object { lingering_subscribe, upstreams }`
+enabled: optional boolean
 
-    upstreams and lingering_subscribe are mutually exclusive.
+<a href="#">Link to this property</a>
 
-    - `lingering_subscribe: optional object { enabled, max_timeout_ms }`
+<details>
 
-      - `enabled: optional boolean`
+<summary>
 
-      - `max_timeout_ms: optional number`
+upstreams: optional array of object {url }
 
-        Relay-level ceiling on lingering subscribe timeout (ms). Default 30000.
+Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change.
 
-    - `upstreams: optional object { enabled, upstreams }`
+</summary>
 
-      Upstreams are external MOQT server publishers that a relay falls back
-      to when it has no local publisher for a requested namespace/track.
+url: string
 
-      - `enabled: optional boolean`
+Upstream MOQT server publisher URL. Must be an absolute URL with a host and a scheme the relay can dial: moqt:// (raw QUIC) or https:// (WebTransport). Validated on update (PUT); rejected with 21013.
 
-      - `upstreams: optional array of object { url }`
+formaturi
 
-        Ordered list of upstream MOQT server publishers. Each entry is an
-        object (not a bare string) so per-upstream configuration can be
-        added in the future without another breaking change.
+<a href="#">Link to this property</a>
 
-        - `url: optional string`
+</details>
 
-          Upstream MOQT server publisher URL.
+<a href="#">Link to this property</a>
 
-  - `created: string`
+</details>
 
-  - `modified: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `uid: string`
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20config%20%3E%20(schema)>)
 
-  - `status: optional "connected"`
+name: optional string
 
-    "connected" when active, omitted otherwise.
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `"connected"`
+##### ReturnsExpand Collapse
 
-### Example
+<details>
 
-```http
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {config, created, modified, 3 more }
+
+Full relay details (no tokens).
+
+</summary>
+
+<details>
+
+<summary>
+
+config: object {upstreams }
+
+</summary>
+
+<details>
+
+<summary>
+
+upstreams: optional object {enabled, upstreams }
+
+Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track.
+
+</summary>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+upstreams: optional array of object {url }
+
+Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change.
+
+</summary>
+
+url: string
+
+Upstream MOQT server publisher URL. Must be an absolute URL with a host and a scheme the relay can dial: moqt:// (raw QUIC) or https:// (WebTransport). Validated on update (PUT); rejected with 21013.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+<a href="#">Link to this property</a>
+
+status: optional "connected"
+
+“connected” when active, omitted otherwise.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a relay
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/moq/relays/$RELAY_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -121,9 +254,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/moq/relays/$RELAY
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -140,15 +273,50 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/moq/relays/$RELAY
   "success": true,
   "result": {
     "config": {
-      "lingering_subscribe": {
-        "enabled": true,
-        "max_timeout_ms": 0
-      },
       "upstreams": {
         "enabled": true,
         "upstreams": [
           {
-            "url": "url"
+            "url": "https://example.com"
+          }
+        ]
+      }
+    },
+    "created": "2019-12-27T18:11:19.117Z",
+    "modified": "2019-12-27T18:11:19.117Z",
+    "name": "Production Live Stream",
+    "uid": "a1b2c3d4e5f67890a1b2c3d4e5f67890",
+    "status": "connected"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "success": true,
+  "result": {
+    "config": {
+      "upstreams": {
+        "enabled": true,
+        "upstreams": [
+          {
+            "url": "https://example.com"
           }
         ]
       }

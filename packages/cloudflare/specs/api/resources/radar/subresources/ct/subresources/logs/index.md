@@ -1,535 +1,497 @@
+---
+title: Logs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[CT](https://developers.cloudflare.com/api/resources/radar/subresources/ct)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logs
 
-## Get certificate log details
+##### [Get certificate log details](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/logs/methods/get)
 
-**get** `/radar/ct/logs/{log_slug}`
+GET/radar/ct/logs/{log\_slug}
 
-Retrieves the requested certificate log information.
+##### [List certificate logs](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/logs/methods/list)
 
-### Path Parameters
+GET/radar/ct/logs
 
-- `log_slug: string`
+##### ModelsExpand Collapse
 
-  Certificate log slug.
+<details>
 
-### Query Parameters
+<summary>
 
-- `format: optional "JSON" or "CSV"`
+LogGetResponse object {certificateLog }
 
-  Format in which results will be returned.
+</summary>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-### Returns
+certificateLog: object {api, avgThroughput, description, 12 more }
 
-- `result: object { certificateLog }`
+</summary>
 
-  - `certificateLog: object { api, avgThroughput, description, 12 more }`
+<details>
 
-    - `api: "RFC6962" or "STATIC"`
+<summary>
 
-      The API standard that the certificate log follows.
+api: "RFC6962"or "STATIC"
 
-      - `"RFC6962"`
+The API standard that the certificate log follows.
 
-      - `"STATIC"`
+</summary>
 
-    - `avgThroughput: number`
+One of the following:
 
-      The average throughput of the CT log, measured in certificates per hour (certs/hour).
+"RFC6962"
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      A brief description of the certificate log.
+"STATIC"
 
-    - `endExclusive: string`
+<a href="#">Link to this property</a>
 
-      The end date and time for when the log will stop accepting certificates.
+</details>
 
-    - `lastUpdate: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the most recent update to the CT log.
+avgThroughput: number
 
-    - `operator: string`
+The average throughput of the CT log, measured in certificates per hour (certs/hour).
 
-      The organization responsible for operating the certificate log.
+<a href="#">Link to this property</a>
 
-    - `performance: object { endpoints, responseTime, uptime }`
+description: string
 
-      Log performance metrics, including averages and per-endpoint details.
+A brief description of the certificate log.
 
-      - `endpoints: array of object { endpoint, responseTime, uptime }`
+<a href="#">Link to this property</a>
 
-        - `endpoint: "add-chain (new)" or "add-chain (old)" or "add-pre-chain (new)" or 4 more`
+endExclusive: string
 
-          The certificate log endpoint names used in performance metrics.
+The end date and time for when the log will stop accepting certificates.
 
-          - `"add-chain (new)"`
+formatdate-time
 
-          - `"add-chain (old)"`
+<a href="#">Link to this property</a>
 
-          - `"add-pre-chain (new)"`
+lastUpdate: string
 
-          - `"add-pre-chain (old)"`
+Timestamp of the most recent update to the CT log.
 
-          - `"get-entries"`
+formatdate-time
 
-          - `"get-roots"`
+<a href="#">Link to this property</a>
 
-          - `"get-sth"`
+operator: string
 
-        - `responseTime: number`
+The organization responsible for operating the certificate log.
 
-        - `uptime: number`
+<a href="#">Link to this property</a>
 
-      - `responseTime: number`
+<details>
 
-      - `uptime: number`
+<summary>
 
-    - `related: array of object { description, endExclusive, slug, 2 more }`
+performance: object {endpoints, responseTime, uptime }
 
-      Logs from the same operator.
+Log performance metrics, including averages and per-endpoint details.
 
-      - `description: string`
+</summary>
 
-        A brief description of the certificate log.
+<details>
 
-      - `endExclusive: string`
+<summary>
 
-        The end date and time for when the log will stop accepting certificates.
+endpoints: array of object {endpoint, responseTime, uptime }
 
-      - `slug: string`
+</summary>
 
-        A URL-friendly, kebab-case identifier for the certificate log.
+<details>
 
-      - `startInclusive: string`
+<summary>
 
-        The start date and time for when the log starts accepting certificates.
+endpoint: "add-chain (new)"or "add-chain (old)"or "add-pre-chain (new)"or 4 more
 
-      - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
+The certificate log endpoint names used in performance metrics.
 
-        The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
+</summary>
 
-        - `"USABLE"`
+One of the following:
 
-        - `"PENDING"`
+"add-chain (new)"
 
-        - `"QUALIFIED"`
+<a href="#">Link to this property</a>
 
-        - `"READ_ONLY"`
+"add-chain (old)"
 
-        - `"RETIRED"`
+<a href="#">Link to this property</a>
 
-        - `"REJECTED"`
+"add-pre-chain (new)"
 
-    - `slug: string`
+<a href="#">Link to this property</a>
 
-      A URL-friendly, kebab-case identifier for the certificate log.
+"add-pre-chain (old)"
 
-    - `startInclusive: string`
+<a href="#">Link to this property</a>
 
-      The start date and time for when the log starts accepting certificates.
+"get-entries"
 
-    - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
+<a href="#">Link to this property</a>
 
-      The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
+"get-roots"
 
-      - `"USABLE"`
+<a href="#">Link to this property</a>
 
-      - `"PENDING"`
+"get-sth"
 
-      - `"QUALIFIED"`
+<a href="#">Link to this property</a>
 
-      - `"READ_ONLY"`
+</details>
 
-      - `"RETIRED"`
+<a href="#">Link to this property</a>
 
-      - `"REJECTED"`
+responseTime: number
 
-    - `stateTimestamp: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the log state was last updated.
+uptime: number
 
-    - `submittableCertCount: string`
+<a href="#">Link to this property</a>
 
-      Number of certificates that are eligible for inclusion to this log but have not been included yet. Based on certificates signed by trusted root CAs within the log's accepted date range.
+</details>
 
-    - `submittedCertCount: string`
+<a href="#">Link to this property</a>
 
-      Number of certificates already included in this CT log.
+responseTime: number
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-      The URL for the certificate log.
+uptime: number
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/logs/$LOG_SLUG \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "result": {
-    "certificateLog": {
-      "api": "RFC6962",
-      "avgThroughput": 0,
-      "description": "Google 'Argon2024' log",
-      "endExclusive": "2025-01-01T00:00:00Z",
-      "lastUpdate": "2025-01-01T00:00:00Z",
-      "operator": "Google",
-      "performance": {
-        "endpoints": [
-          {
-            "endpoint": "add-chain (new)",
-            "responseTime": 0,
-            "uptime": 0
-          }
-        ],
-        "responseTime": 0,
-        "uptime": 0
-      },
-      "related": [
-        {
-          "description": "Google 'Argon2024' log",
-          "endExclusive": "2025-01-01T00:00:00Z",
-          "slug": "argon2024",
-          "startInclusive": "2024-01-01T00:00:00Z",
-          "state": "USABLE"
-        }
-      ],
-      "slug": "argon2024",
-      "startInclusive": "2024-01-01T00:00:00Z",
-      "state": "USABLE",
-      "stateTimestamp": "2025-02-01T08:53:20Z",
-      "submittableCertCount": "10",
-      "submittedCertCount": "10",
-      "url": "https://ct.googleapis.com/logs/us1/argon2024/"
-    }
-  },
-  "success": true
-}
-```
+<summary>
 
-## List certificate logs
+related: array of object {description, endExclusive, slug, 2 more }
 
-**get** `/radar/ct/logs`
+Logs from the same operator.
 
-Retrieves a list of certificate logs.
+</summary>
 
-### Query Parameters
+description: string
 
-- `format: optional "JSON" or "CSV"`
+A brief description of the certificate log.
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+endExclusive: string
 
-  - `"CSV"`
+The end date and time for when the log will stop accepting certificates.
 
-- `limit: optional number`
+formatdate-time
 
-  Limits the number of objects returned in the response.
+<a href="#">Link to this property</a>
 
-- `offset: optional number`
+slug: string
 
-  Skips the specified number of objects before fetching the results.
+A URL-friendly, kebab-case identifier for the certificate log.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { certificateLogs }`
+startInclusive: string
 
-  - `certificateLogs: array of object { api, description, endExclusive, 6 more }`
+The start date and time for when the log starts accepting certificates.
 
-    - `api: "RFC6962" or "STATIC"`
+formatdate-time
 
-      The API standard that the certificate log follows.
+<a href="#">Link to this property</a>
 
-      - `"RFC6962"`
+<details>
 
-      - `"STATIC"`
+<summary>
 
-    - `description: string`
+state: "USABLE"or "PENDING"or "QUALIFIED"or 3 more
 
-      A brief description of the certificate log.
+The current state of the certificate log. More details about log states can be found here: <a href="https://googlechrome.github.io/CertificateTransparency/log_states.html">https://googlechrome.github.io/CertificateTransparency/log\_states.html</a>
 
-    - `endExclusive: string`
+</summary>
 
-      The end date and time for when the log will stop accepting certificates.
+One of the following:
 
-    - `operator: string`
+"USABLE"
 
-      The organization responsible for operating the certificate log.
+<a href="#">Link to this property</a>
 
-    - `slug: string`
+"PENDING"
 
-      A URL-friendly, kebab-case identifier for the certificate log.
+<a href="#">Link to this property</a>
 
-    - `startInclusive: string`
+"QUALIFIED"
 
-      The start date and time for when the log starts accepting certificates.
+<a href="#">Link to this property</a>
 
-    - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
+"READ\_ONLY"
 
-      The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
+<a href="#">Link to this property</a>
 
-      - `"USABLE"`
+"RETIRED"
 
-      - `"PENDING"`
+<a href="#">Link to this property</a>
 
-      - `"QUALIFIED"`
+"REJECTED"
 
-      - `"READ_ONLY"`
+<a href="#">Link to this property</a>
 
-      - `"RETIRED"`
+</details>
 
-      - `"REJECTED"`
+<a href="#">Link to this property</a>
 
-    - `stateTimestamp: string`
+</details>
 
-      Timestamp of when the log state was last updated.
+<a href="#">Link to this property</a>
 
-    - `url: string`
+slug: string
 
-      The URL for the certificate log.
+A URL-friendly, kebab-case identifier for the certificate log.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+startInclusive: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ct/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The start date and time for when the log starts accepting certificates.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "result": {
-    "certificateLogs": [
-      {
-        "api": "RFC6962",
-        "description": "Google 'Argon2024' log",
-        "endExclusive": "2025-01-01T00:00:00Z",
-        "operator": "Google",
-        "slug": "argon2024",
-        "startInclusive": "2024-01-01T00:00:00Z",
-        "state": "USABLE",
-        "stateTimestamp": "2025-02-01T08:53:20Z",
-        "url": "https://ct.googleapis.com/logs/us1/argon2024/"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Log Get Response
+<summary>
 
-- `LogGetResponse object { certificateLog }`
+state: "USABLE"or "PENDING"or "QUALIFIED"or 3 more
 
-  - `certificateLog: object { api, avgThroughput, description, 12 more }`
+The current state of the certificate log. More details about log states can be found here: <a href="https://googlechrome.github.io/CertificateTransparency/log_states.html">https://googlechrome.github.io/CertificateTransparency/log\_states.html</a>
 
-    - `api: "RFC6962" or "STATIC"`
+</summary>
 
-      The API standard that the certificate log follows.
+One of the following:
 
-      - `"RFC6962"`
+"USABLE"
 
-      - `"STATIC"`
+<a href="#">Link to this property</a>
 
-    - `avgThroughput: number`
+"PENDING"
 
-      The average throughput of the CT log, measured in certificates per hour (certs/hour).
+<a href="#">Link to this property</a>
 
-    - `description: string`
+"QUALIFIED"
 
-      A brief description of the certificate log.
+<a href="#">Link to this property</a>
 
-    - `endExclusive: string`
+"READ\_ONLY"
 
-      The end date and time for when the log will stop accepting certificates.
+<a href="#">Link to this property</a>
 
-    - `lastUpdate: string`
+"RETIRED"
 
-      Timestamp of the most recent update to the CT log.
+<a href="#">Link to this property</a>
 
-    - `operator: string`
+"REJECTED"
 
-      The organization responsible for operating the certificate log.
+<a href="#">Link to this property</a>
 
-    - `performance: object { endpoints, responseTime, uptime }`
+</details>
 
-      Log performance metrics, including averages and per-endpoint details.
+<a href="#">Link to this property</a>
 
-      - `endpoints: array of object { endpoint, responseTime, uptime }`
+stateTimestamp: string
 
-        - `endpoint: "add-chain (new)" or "add-chain (old)" or "add-pre-chain (new)" or 4 more`
+Timestamp of when the log state was last updated.
 
-          The certificate log endpoint names used in performance metrics.
+formatdate-time
 
-          - `"add-chain (new)"`
+<a href="#">Link to this property</a>
 
-          - `"add-chain (old)"`
+submittableCertCount: string
 
-          - `"add-pre-chain (new)"`
+Number of certificates that are eligible for inclusion to this log but have not been included yet. Based on certificates signed by trusted root CAs within the log’s accepted date range.
 
-          - `"add-pre-chain (old)"`
+<a href="#">Link to this property</a>
 
-          - `"get-entries"`
+submittedCertCount: string
 
-          - `"get-roots"`
+Number of certificates already included in this CT log.
 
-          - `"get-sth"`
+<a href="#">Link to this property</a>
 
-        - `responseTime: number`
+url: string
 
-        - `uptime: number`
+The URL for the certificate log.
 
-      - `responseTime: number`
+<a href="#">Link to this property</a>
 
-      - `uptime: number`
+</details>
 
-    - `related: array of object { description, endExclusive, slug, 2 more }`
+<a href="#">Link to this property</a>
 
-      Logs from the same operator.
+</details>
 
-      - `description: string`
+[Link to this property](#)%20radar.ct.logs%20%3E%20(model)%20log_get_response%20%3E%20(schema)>)
 
-        A brief description of the certificate log.
+<details>
 
-      - `endExclusive: string`
+<summary>
 
-        The end date and time for when the log will stop accepting certificates.
+LogListResponse object {certificateLogs }
 
-      - `slug: string`
+</summary>
 
-        A URL-friendly, kebab-case identifier for the certificate log.
+<details>
 
-      - `startInclusive: string`
+<summary>
 
-        The start date and time for when the log starts accepting certificates.
+certificateLogs: array of object {api, description, endExclusive, 6 more }
 
-      - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
+</summary>
 
-        The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
+<details>
 
-        - `"USABLE"`
+<summary>
 
-        - `"PENDING"`
+api: "RFC6962"or "STATIC"
 
-        - `"QUALIFIED"`
+The API standard that the certificate log follows.
 
-        - `"READ_ONLY"`
+</summary>
 
-        - `"RETIRED"`
+One of the following:
 
-        - `"REJECTED"`
+"RFC6962"
 
-    - `slug: string`
+<a href="#">Link to this property</a>
 
-      A URL-friendly, kebab-case identifier for the certificate log.
+"STATIC"
 
-    - `startInclusive: string`
+<a href="#">Link to this property</a>
 
-      The start date and time for when the log starts accepting certificates.
+</details>
 
-    - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
+<a href="#">Link to this property</a>
 
-      The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
+description: string
 
-      - `"USABLE"`
+A brief description of the certificate log.
 
-      - `"PENDING"`
+<a href="#">Link to this property</a>
 
-      - `"QUALIFIED"`
+endExclusive: string
 
-      - `"READ_ONLY"`
+The end date and time for when the log will stop accepting certificates.
 
-      - `"RETIRED"`
+formatdate-time
 
-      - `"REJECTED"`
+<a href="#">Link to this property</a>
 
-    - `stateTimestamp: string`
+operator: string
 
-      Timestamp of when the log state was last updated.
+The organization responsible for operating the certificate log.
 
-    - `submittableCertCount: string`
+<a href="#">Link to this property</a>
 
-      Number of certificates that are eligible for inclusion to this log but have not been included yet. Based on certificates signed by trusted root CAs within the log's accepted date range.
+slug: string
 
-    - `submittedCertCount: string`
+A URL-friendly, kebab-case identifier for the certificate log.
 
-      Number of certificates already included in this CT log.
+<a href="#">Link to this property</a>
 
-    - `url: string`
+startInclusive: string
 
-      The URL for the certificate log.
+The start date and time for when the log starts accepting certificates.
 
-### Log List Response
+formatdate-time
 
-- `LogListResponse object { certificateLogs }`
+<a href="#">Link to this property</a>
 
-  - `certificateLogs: array of object { api, description, endExclusive, 6 more }`
+<details>
 
-    - `api: "RFC6962" or "STATIC"`
+<summary>
 
-      The API standard that the certificate log follows.
+state: "USABLE"or "PENDING"or "QUALIFIED"or 3 more
 
-      - `"RFC6962"`
+The current state of the certificate log. More details about log states can be found here: <a href="https://googlechrome.github.io/CertificateTransparency/log_states.html">https://googlechrome.github.io/CertificateTransparency/log\_states.html</a>
 
-      - `"STATIC"`
+</summary>
 
-    - `description: string`
+One of the following:
 
-      A brief description of the certificate log.
+"USABLE"
 
-    - `endExclusive: string`
+<a href="#">Link to this property</a>
 
-      The end date and time for when the log will stop accepting certificates.
+"PENDING"
 
-    - `operator: string`
+<a href="#">Link to this property</a>
 
-      The organization responsible for operating the certificate log.
+"QUALIFIED"
 
-    - `slug: string`
+<a href="#">Link to this property</a>
 
-      A URL-friendly, kebab-case identifier for the certificate log.
+"READ\_ONLY"
 
-    - `startInclusive: string`
+<a href="#">Link to this property</a>
 
-      The start date and time for when the log starts accepting certificates.
+"RETIRED"
 
-    - `state: "USABLE" or "PENDING" or "QUALIFIED" or 3 more`
+<a href="#">Link to this property</a>
 
-      The current state of the certificate log. More details about log states can be found here: https://googlechrome.github.io/CertificateTransparency/log_states.html
+"REJECTED"
 
-      - `"USABLE"`
+<a href="#">Link to this property</a>
 
-      - `"PENDING"`
+</details>
 
-      - `"QUALIFIED"`
+<a href="#">Link to this property</a>
 
-      - `"READ_ONLY"`
+stateTimestamp: string
 
-      - `"RETIRED"`
+Timestamp of when the log state was last updated.
 
-      - `"REJECTED"`
+formatdate-time
 
-    - `stateTimestamp: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the log state was last updated.
+url: string
 
-    - `url: string`
+The URL for the certificate log.
 
-      The URL for the certificate log.
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ct.logs%20%3E%20(model)%20log_list_response%20%3E%20(schema)>)

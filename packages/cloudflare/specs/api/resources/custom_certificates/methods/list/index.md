@@ -1,251 +1,692 @@
-## List SSL Configurations
+---
+title: List SSL Configurations
+---
 
-**get** `/zones/{zone_id}/custom_certificates`
+[Skip to content](#_top)
 
-List, search, and filter all of your custom SSL certificates. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Custom Certificates](https://developers.cloudflare.com/api/resources/custom_certificates)
 
-- `zone_id: string`
+Copy Markdown
 
-  Identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Query Parameters
+---
 
-- `match: optional "any" or "all"`
+**Copy Markdown****View as Markdown**
 
-  Whether to match all search requirements or at least one (any).
+# List SSL Configurations
 
-  - `"any"`
+GET/zones/{zone\_id}/custom\_certificates
 
-  - `"all"`
+List, search, and filter all of your custom SSL certificates. The higher priority will break ties across overlapping ‘legacy\_custom’ certificates, but ‘legacy\_custom’ certificates will always supercede ‘sni\_custom’ certificates.
 
-- `page: optional number`
+##### Security
 
-  Page number of paginated results.
+<details>
 
-- `per_page: optional number`
+<summary>API Token</summary>
 
-  Number of zones per page.
 
-- `status: optional "active" or "expired" or "deleted" or 2 more`
 
-  Status of the zone's custom SSL.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"active"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"expired"`
+</details>
 
-  - `"deleted"`
+<details>
 
-  - `"pending"`
+<summary>API Email + API Key</summary>
 
-  - `"initializing"`
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`Access: Mutual TLS Certificates Write``Access: Mutual TLS Certificates Read``SSL and Certificates Write``SSL and Certificates Read`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+zone\_id: string
 
-  - `documentation_url: optional string`
+Identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `success: true`
+##### Q uery ParametersExpand Collapse
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional array of CustomCertificate`
+match: optional "any"or "all"
 
-  - `id: string`
+Whether to match all search requirements or at least one (any).
 
-    Identifier.
+</summary>
 
-  - `zone_id: string`
+One of the following:
 
-    Identifier.
+"any"
 
-  - `bundle_method: optional BundleMethod`
+<a href="#">Link to this property</a>
 
-    A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.
+"all"
 
-    - `"ubiquitous"`
+<a href="#">Link to this property</a>
 
-    - `"optimal"`
+</details>
 
-    - `"force"`
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20match%20%3E%20(schema)>)
 
-  - `custom_csr_id: optional string`
+page: optional number
 
-    The identifier for the Custom CSR that was used.
+Page number of paginated results.
 
-  - `expires_on: optional string`
+minimum1
 
-    When the certificate from the authority expires.
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `geo_restrictions: optional GeoRestrictions`
+per\_page: optional number
 
-    Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance.
+Number of zones per page.
 
-    - `label: optional "us" or "eu" or "highest_security"`
+maximum50
 
-      - `"us"`
+minimum5
 
-      - `"eu"`
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-      - `"highest_security"`
+<details>
 
-  - `hosts: optional array of string`
+<summary>
 
-  - `issuer: optional string`
+status: optional "active"or "expired"or "deleted"or 2 more
 
-    The certificate authority that issued the certificate.
+Status of the zone’s custom SSL.
 
-  - `keyless_server: optional KeylessCertificate`
+</summary>
 
-    - `id: string`
+One of the following:
 
-      Keyless certificate identifier tag.
+"active"
 
-    - `created_on: string`
+<a href="#">Link to this property</a>
 
-      When the Keyless SSL was created.
+"expired"
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Whether or not the Keyless SSL is on or off.
+"deleted"
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-      The keyless SSL name.
+"pending"
 
-    - `modified_on: string`
+<a href="#">Link to this property</a>
 
-      When the Keyless SSL was last modified.
+"initializing"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The keyless SSL name.
+</details>
 
-    - `permissions: array of string`
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-      Available permissions for the Keyless SSL for the current user requesting the item.
+##### ReturnsExpand Collapse
 
-    - `port: number`
+<details>
 
-      The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server.
+<summary>
 
-    - `status: "active" or "deleted"`
+errors: array of object {code, message, documentation\_url, source }
 
-      Status of the Keyless SSL.
+</summary>
 
-      - `"active"`
+code: number
 
-      - `"deleted"`
+minimum1000
 
-    - `tunnel: optional Tunnel`
+<a href="#">Link to this property</a>
 
-      Configuration for using Keyless SSL through a Cloudflare Tunnel.
+message: string
 
-      - `private_ip: string`
+<a href="#">Link to this property</a>
 
-        Private IP of the Key Server Host.
+documentation\_url: optional string
 
-      - `vnet_id: string`
+<a href="#">Link to this property</a>
 
-        Cloudflare Tunnel Virtual Network ID.
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-    When the certificate was last modified.
+source: optional object {pointer }
 
-  - `policy_restrictions: optional string`
+</summary>
 
-    The policy restrictions returned by the API. This field is returned in responses
-    when a policy has been set. The API accepts the "policy" field in requests but
-    returns this field as "policy_restrictions" in responses.
+pointer: optional string
 
-    Specifies the region(s) where your private key can be held locally for optimal
-    TLS performance. Format is a boolean expression, for example:
-    "(country: US) or (region: EU)"
+<a href="#">Link to this property</a>
 
-  - `priority: optional number`
+</details>
 
-    The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates.
+<a href="#">Link to this property</a>
 
-  - `signature: optional string`
+</details>
 
-    The type of hash used for the certificate.
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `status: optional "active" or "expired" or "deleted" or 2 more`
+<details>
 
-    Status of the zone's custom SSL.
+<summary>
 
-    - `"active"`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `"expired"`
+</summary>
 
-    - `"deleted"`
+code: number
 
-    - `"pending"`
+minimum1000
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-  - `uploaded_on: optional string`
+message: string
 
-    When the certificate was uploaded to Cloudflare.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+documentation\_url: optional string
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+source: optional object {pointer }
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+pointer: optional string
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+</details>
 
-### Example
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-```http
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/custom_certificates#(resource)%20custom_certificates%20%3E%20(model)%20custom_certificate%20%3E%20(schema)">CustomCertificate</a> { id, zone\_id, bundle\_method, 12 more }
+
+</summary>
+
+id: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+bundle\_method: optional <a href="https://developers.cloudflare.com/api/resources/custom_hostnames#(resource)%20custom_hostnames%20%3E%20(model)%20bundle_method%20%3E%20(schema)">BundleMethod</a>
+
+A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.
+
+</summary>
+
+One of the following:
+
+"ubiquitous"
+
+<a href="#">Link to this property</a>
+
+"optimal"
+
+<a href="#">Link to this property</a>
+
+"force"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+custom\_csr\_id: optional string
+
+The identifier for the Custom CSR that was used.
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+When the certificate from the authority expires.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+geo\_restrictions: optional <a href="https://developers.cloudflare.com/api/resources/custom_certificates#(resource)%20custom_certificates%20%3E%20(model)%20geo_restrictions%20%3E%20(schema)">GeoRestrictions</a> { label }
+
+Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance.
+
+</summary>
+
+<details>
+
+<summary>
+
+label: optional "us"or "eu"or "highest\_security"
+
+</summary>
+
+One of the following:
+
+"us"
+
+<a href="#">Link to this property</a>
+
+"eu"
+
+<a href="#">Link to this property</a>
+
+"highest\_security"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+hosts: optional array of string
+
+<a href="#">Link to this property</a>
+
+issuer: optional string
+
+The certificate authority that issued the certificate.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+keyless\_server: optional <a href="https://developers.cloudflare.com/api/resources/keyless_certificates#(resource)%20keyless_certificates%20%3E%20(model)%20keyless_certificate%20%3E%20(schema)">KeylessCertificate</a> { id, created\_on, enabled, 7 more }
+
+</summary>
+
+id: string
+
+Keyless certificate identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+When the Keyless SSL was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether or not the Keyless SSL is on or off.
+
+<a href="#">Link to this property</a>
+
+host: string
+
+The keyless SSL name.
+
+formathostname
+
+maxLength253
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+When the Keyless SSL was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The keyless SSL name.
+
+maxLength180
+
+<a href="#">Link to this property</a>
+
+permissions: array of string
+
+Available permissions for the Keyless SSL for the current user requesting the item.
+
+<a href="#">Link to this property</a>
+
+port: number
+
+The keyless SSL port used to communicate between Cloudflare and the client’s Keyless SSL server.
+
+maxLength65535
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "active"or "deleted"
+
+Status of the Keyless SSL.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tunnel: optional <a href="https://developers.cloudflare.com/api/resources/keyless_certificates#(resource)%20keyless_certificates%20%3E%20(model)%20tunnel%20%3E%20(schema)">Tunnel</a> { private\_ip, vnet\_id }
+
+Configuration for using Keyless SSL through a Cloudflare Tunnel.
+
+</summary>
+
+private\_ip: string
+
+Private IP of the Key Server Host.
+
+<a href="#">Link to this property</a>
+
+vnet\_id: string
+
+Cloudflare Tunnel Virtual Network ID.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+When the certificate was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+policy\_restrictions: optional string
+
+The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the “policy” field in requests but returns this field as “policy\_restrictions” in responses.
+
+Specifies the region(s) where your private key can be held locally for optimal TLS performance. Format is a boolean expression, for example: “(country: US) or (region: EU)”
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping ‘legacy\_custom’ certificates, but ‘legacy\_custom’ certificates will always supercede ‘sni\_custom’ certificates.
+
+<a href="#">Link to this property</a>
+
+signature: optional string
+
+The type of hash used for the certificate.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "active"or "expired"or "deleted"or 2 more
+
+Status of the zone’s custom SSL.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"expired"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uploaded\_on: optional string
+
+When the certificate was uploaded to Cloudflare.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List SSL Configurations
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_certificates \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "zone_id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "bundle_method": "ubiquitous",
+      "custom_csr_id": "7b163417-1d2b-4c84-a38a-2fb7a0cd7752",
+      "expires_on": "2016-01-01T05:20:00Z",
+      "geo_restrictions": {
+        "label": "us"
+      },
+      "hosts": [
+        "example.com"
+      ],
+      "issuer": "GlobalSign",
+      "keyless_server": {
+        "id": "4d2844d2ce78891c34d0b6c0535a291e",
+        "created_on": "2014-01-01T05:20:00Z",
+        "enabled": false,
+        "host": "example.com",
+        "modified_on": "2014-01-01T05:20:00Z",
+        "name": "example.com Keyless SSL",
+        "permissions": [
+          "#ssl:read",
+          "#ssl:edit"
+        ],
+        "port": 24008,
+        "status": "active",
+        "tunnel": {
+          "private_ip": "10.0.0.1",
+          "vnet_id": "7365377a-85a4-4390-9480-531ef7dc7a3c"
+        }
+      },
+      "modified_on": "2014-01-01T05:20:00Z",
+      "policy_restrictions": "(country: US) or (region: EU)",
+      "priority": 1,
+      "signature": "SHA256WithRSA",
+      "status": "active",
+      "uploaded_on": "2014-01-01T05:20:00Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

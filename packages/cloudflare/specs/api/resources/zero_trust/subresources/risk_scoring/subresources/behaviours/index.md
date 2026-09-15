@@ -1,267 +1,147 @@
+---
+title: Behaviours
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Risk Scoring](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Behaviours
 
-## Get all behaviors and associated configuration
+##### [Get all behaviors and associated configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/behaviours/methods/get)
 
-**get** `/accounts/{account_id}/zt_risk_scoring/behaviors`
+GET/accounts/{account\_id}/zt\_risk\_scoring/behaviors
 
-Retrieves configured risk score behaviors that define how user actions affect their overall risk score.
+##### [Update configuration for risk behaviors](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/behaviours/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/zt\_risk\_scoring/behaviors
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+BehaviourGetResponse object {behaviors }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+behaviors: map\[object {description, enabled, name, risk\_level } ]
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+description: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+enabled: boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { behaviors }`
+risk\_level: "low"or "medium"or "high"
 
-  - `behaviors: map[object { description, enabled, name, risk_level } ]`
+</summary>
 
-    - `description: string`
+One of the following:
 
-    - `enabled: boolean`
+"low"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `risk_level: "low" or "medium" or "high"`
+"medium"
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"medium"`
+"high"
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/behaviors \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "behaviors": {
-      "foo": {
-        "description": "description",
-        "enabled": true,
-        "name": "name",
-        "risk_level": "low"
-      }
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update configuration for risk behaviors
+</details>
 
-**put** `/accounts/{account_id}/zt_risk_scoring/behaviors`
+[Link to this property](#)%20zero_trust.risk_scoring.behaviours%20%3E%20(model)%20behaviour_get_response%20%3E%20(schema)>)
 
-Updates risk score behavior configurations, defining weights and thresholds for risk calculation.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+BehaviourUpdateResponse object {behaviors }
 
-### Body Parameters
+</summary>
 
-- `behaviors: map[object { enabled, risk_level } ]`
+<details>
 
-  - `enabled: boolean`
+<summary>
 
-  - `risk_level: "low" or "medium" or "high"`
+behaviors: map\[object {enabled, risk\_level } ]
 
-    - `"low"`
+</summary>
 
-    - `"medium"`
+enabled: boolean
 
-    - `"high"`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+risk\_level: "low"or "medium"or "high"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"low"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"medium"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"high"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { behaviors }`
-
-  - `behaviors: map[object { enabled, risk_level } ]`
-
-    - `enabled: boolean`
-
-    - `risk_level: "low" or "medium" or "high"`
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/behaviors \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "behaviors": {
-            "foo": {
-              "enabled": true,
-              "risk_level": "low"
-            }
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "behaviors": {
-      "foo": {
-        "enabled": true,
-        "risk_level": "low"
-      }
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Behaviour Get Response
-
-- `BehaviourGetResponse object { behaviors }`
-
-  - `behaviors: map[object { description, enabled, name, risk_level } ]`
-
-    - `description: string`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `risk_level: "low" or "medium" or "high"`
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-### Behaviour Update Response
-
-- `BehaviourUpdateResponse object { behaviors }`
-
-  - `behaviors: map[object { enabled, risk_level } ]`
-
-    - `enabled: boolean`
-
-    - `risk_level: "low" or "medium" or "high"`
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
+[Link to this property](#)%20zero_trust.risk_scoring.behaviours%20%3E%20(model)%20behaviour_update_response%20%3E%20(schema)>)

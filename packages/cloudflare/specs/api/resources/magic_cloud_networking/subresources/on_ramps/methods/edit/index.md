@@ -1,3036 +1,7126 @@
-## Patch On-ramp
+---
+title: Patch On-ramp
+---
 
-**patch** `/accounts/{account_id}/magic/cloud/onramps/{onramp_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Cloud Networking](https://developers.cloudflare.com/api/resources/magic_cloud_networking)
+
+[On Ramps](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/on_ramps)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Patch On-ramp
+
+PATCH/accounts/{account\_id}/magic/cloud/onramps/{onramp\_id}
 
 Update an On-ramp (Closed Beta).
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `onramp_id: string`
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `attached_hubs: optional array of string`
 
-- `attached_vpcs: optional array of string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `description: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `install_routes_in_cloud: optional boolean`
+</details>
 
-- `install_routes_in_magic_wan: optional boolean`
+<details>
 
-- `manage_hub_to_hub_attachments: optional boolean`
+<summary>API Email + API Key</summary>
 
-- `manage_vpc_to_hub_attachments: optional boolean`
 
-- `name: optional string`
 
-- `vpc: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Returns
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `errors: array of object { code, message, documentation_url, 2 more }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `1001`
+</details>
 
-    - `1002`
+##### Accepted Permissions (at least one required)
 
-    - `1003`
+`Magic WAN Write`
 
-    - `1004`
+##### P ath ParametersExpand Collapse
 
-    - `1005`
+account\_id: string
 
-    - `1006`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `1007`
+onramp\_id: string
 
-    - `1008`
+formatuuid
 
-    - `1009`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20onramp_id%20%3E%20(schema)>)
 
-    - `1010`
+##### Body ParametersJSONExpand Collapse
 
-    - `1011`
+attached\_hubs: optional array of string
 
-    - `1012`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20attached_hubs%20%3E%20(schema)>)
 
-    - `1013`
+attached\_vpcs: optional array of string
 
-    - `1014`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20attached_vpcs%20%3E%20(schema)>)
 
-    - `1015`
+description: optional string
 
-    - `1016`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    - `1017`
+install\_routes\_in\_cloud: optional boolean
 
-    - `1018`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20install_routes_in_cloud%20%3E%20(schema)>)
 
-    - `2001`
+install\_routes\_in\_magic\_wan: optional boolean
 
-    - `2002`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20install_routes_in_magic_wan%20%3E%20(schema)>)
 
-    - `2003`
+manage\_hub\_to\_hub\_attachments: optional boolean
 
-    - `2004`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20manage_hub_to_hub_attachments%20%3E%20(schema)>)
 
-    - `2005`
+manage\_vpc\_to\_hub\_attachments: optional boolean
 
-    - `2006`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20manage_vpc_to_hub_attachments%20%3E%20(schema)>)
 
-    - `2007`
+name: optional string
 
-    - `2008`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `2009`
+vpc: optional string
 
-    - `2010`
+formatuuid
 
-    - `2011`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20vpc%20%3E%20(schema)>)
 
-    - `2012`
+##### ReturnsExpand Collapse
 
-    - `2013`
+<details>
 
-    - `2014`
+<summary>
 
-    - `2015`
+errors: array of object {code, message, documentation\_url, 2 more }
 
-    - `2016`
+maxLength0
 
-    - `2017`
+</summary>
 
-    - `2018`
+<details>
 
-    - `2019`
+<summary>
 
-    - `2020`
+code: 1001or 1002or 1003or 152 more
 
-    - `2021`
+</summary>
 
-    - `2022`
+One of the following:
 
-    - `3001`
+1001
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+1002
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+1003
 
-    - `3006`
+<a href="#">Link to this property</a>
 
-    - `3007`
+1004
 
-    - `4001`
+<a href="#">Link to this property</a>
 
-    - `4002`
+1005
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+1006
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+1007
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+1008
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+1009
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+1010
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+1011
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+1012
 
-    - `4017`
+<a href="#">Link to this property</a>
 
-    - `4018`
+1013
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+1014
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+1015
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+1016
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+1017
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+1018
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+2001
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+2002
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+2003
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+2004
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+2005
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+2006
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+2007
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+2008
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+2009
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+2010
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+2011
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+2012
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+2013
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+2014
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+2015
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+2016
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+2017
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+2018
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+2019
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+2020
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+2021
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+2022
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+3001
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+3002
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+3003
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+3004
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+3005
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+3006
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+3007
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+4001
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+4002
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+4003
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+4004
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+4005
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+4006
 
-    - `102071`
+<a href="#">Link to this property</a>
 
-    - `102072`
+4007
 
-    - `103001`
+<a href="#">Link to this property</a>
 
-    - `103002`
+4008
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+4009
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+4010
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+4011
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+4012
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+4013
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+4014
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+4015
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+4016
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, 2 more }`
+4017
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+<a href="#">Link to this property</a>
 
-    - `1001`
+4018
 
-    - `1002`
+<a href="#">Link to this property</a>
 
-    - `1003`
+4019
 
-    - `1004`
+<a href="#">Link to this property</a>
 
-    - `1005`
+4020
 
-    - `1006`
+<a href="#">Link to this property</a>
 
-    - `1007`
+4021
 
-    - `1008`
+<a href="#">Link to this property</a>
 
-    - `1009`
+4022
 
-    - `1010`
+<a href="#">Link to this property</a>
 
-    - `1011`
+4023
 
-    - `1012`
+<a href="#">Link to this property</a>
 
-    - `1013`
+5001
 
-    - `1014`
+<a href="#">Link to this property</a>
 
-    - `1015`
+5002
 
-    - `1016`
+<a href="#">Link to this property</a>
 
-    - `1017`
+5003
 
-    - `1018`
+<a href="#">Link to this property</a>
 
-    - `2001`
+5004
 
-    - `2002`
+<a href="#">Link to this property</a>
 
-    - `2003`
+102000
 
-    - `2004`
+<a href="#">Link to this property</a>
 
-    - `2005`
+102001
 
-    - `2006`
+<a href="#">Link to this property</a>
 
-    - `2007`
+102002
 
-    - `2008`
+<a href="#">Link to this property</a>
 
-    - `2009`
+102003
 
-    - `2010`
+<a href="#">Link to this property</a>
 
-    - `2011`
+102004
 
-    - `2012`
+<a href="#">Link to this property</a>
 
-    - `2013`
+102005
 
-    - `2014`
+<a href="#">Link to this property</a>
 
-    - `2015`
+102006
 
-    - `2016`
+<a href="#">Link to this property</a>
 
-    - `2017`
+102007
 
-    - `2018`
+<a href="#">Link to this property</a>
 
-    - `2019`
+102008
 
-    - `2020`
+<a href="#">Link to this property</a>
 
-    - `2021`
+102009
 
-    - `2022`
+<a href="#">Link to this property</a>
 
-    - `3001`
+102010
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+102011
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+102012
 
-    - `3006`
+<a href="#">Link to this property</a>
 
-    - `3007`
+102013
 
-    - `4001`
+<a href="#">Link to this property</a>
 
-    - `4002`
+102014
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+102015
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+102016
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+102017
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+102018
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+102019
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+102020
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+102021
 
-    - `4017`
+<a href="#">Link to this property</a>
 
-    - `4018`
+102022
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+102023
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+102024
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+102025
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+102026
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+102027
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+102028
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+102029
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+102030
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+102031
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+102032
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+102033
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+102034
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+102035
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+102036
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+102037
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+102038
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+102039
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+102040
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+102041
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+102042
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+102043
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+102044
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+102045
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+102046
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+102047
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+102048
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+102049
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+102050
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+102051
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+102052
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+102053
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+102054
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+102055
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+102056
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+102057
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+102058
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+102059
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+102060
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+102061
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+102062
 
-    - `102071`
+<a href="#">Link to this property</a>
 
-    - `102072`
+102063
 
-    - `103001`
+<a href="#">Link to this property</a>
 
-    - `103002`
+102064
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+102065
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+102066
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+102067
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+102068
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+102069
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+102070
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+102071
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+102072
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, cloud_type, dynamic_routing, 26 more }`
+103001
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE"`
+103002
 
-    - `"AWS"`
+<a href="#">Link to this property</a>
 
-    - `"AZURE"`
+103003
 
-    - `"GOOGLE"`
+<a href="#">Link to this property</a>
 
-  - `dynamic_routing: boolean`
+103004
 
-  - `install_routes_in_cloud: boolean`
+<a href="#">Link to this property</a>
 
-  - `install_routes_in_magic_wan: boolean`
+103005
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `type: "OnrampTypeSingle" or "OnrampTypeHub"`
+103006
 
-    - `"OnrampTypeSingle"`
+<a href="#">Link to this property</a>
 
-    - `"OnrampTypeHub"`
+103007
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `attached_hubs: optional array of string`
+103008
 
-  - `attached_vpcs: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `cloud_asn: optional number`
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `hub: optional string`
+message: string
 
-  - `last_applied_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `last_exported_at: optional string`
+documentation\_url: optional string
 
-  - `last_planned_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `manage_hub_to_hub_attachments: optional boolean`
+<details>
 
-  - `manage_vpc_to_hub_attachments: optional boolean`
+<summary>
 
-  - `planned_monthly_cost_estimate: optional object { currency, current_monthly_cost, diff, proposed_monthly_cost }`
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
 
-    - `currency: string`
+</summary>
 
-    - `current_monthly_cost: number`
+l10n\_key: optional string
 
-    - `diff: number`
+<a href="#">Link to this property</a>
 
-    - `proposed_monthly_cost: number`
+loggable\_error: optional string
 
-  - `planned_resources: optional array of object { diff, keys_require_replace, monthly_cost_estimate_diff, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `diff: object { diff, left_description, left_yaml, 2 more }`
+template\_data: optional unknown
 
-      - `diff: string`
+<a href="#">Link to this property</a>
 
-      - `left_description: string`
+trace\_id: optional string
 
-      - `left_yaml: string`
+<a href="#">Link to this property</a>
 
-      - `right_description: string`
+</details>
 
-      - `right_yaml: string`
+<a href="#">Link to this property</a>
 
-    - `keys_require_replace: array of string`
+<details>
 
-    - `monthly_cost_estimate_diff: object { currency, current_monthly_cost, diff, proposed_monthly_cost }`
+<summary>
 
-      - `currency: string`
+source: optional object {parameter, parameter\_value\_index, pointer }
 
-      - `current_monthly_cost: number`
+</summary>
 
-      - `diff: number`
+parameter: optional string
 
-      - `proposed_monthly_cost: number`
+<a href="#">Link to this property</a>
 
-    - `planned_action: "no_op" or "create" or "update" or 2 more`
+parameter\_value\_index: optional number
 
-      - `"no_op"`
+<a href="#">Link to this property</a>
 
-      - `"create"`
+pointer: optional string
 
-      - `"update"`
+<a href="#">Link to this property</a>
 
-      - `"replace"`
+</details>
 
-      - `"destroy"`
+<a href="#">Link to this property</a>
 
-    - `resource: object { id, cloud_type, detail, 3 more }`
+</details>
 
-      - `id: string`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<details>
 
-        - `"AWS"`
+<summary>
 
-        - `"AZURE"`
+messages: array of object {code, message, documentation\_url, 2 more }
 
-        - `"GOOGLE"`
+</summary>
 
-        - `"CLOUDFLARE"`
+<details>
 
-      - `detail: string`
+<summary>
 
-      - `name: string`
+code: 1001or 1002or 1003or 152 more
 
-      - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+</summary>
 
-        - `"aws_customer_gateway"`
+One of the following:
 
-        - `"aws_egress_only_internet_gateway"`
+1001
 
-        - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-        - `"aws_instance"`
+1002
 
-        - `"aws_network_interface"`
+<a href="#">Link to this property</a>
 
-        - `"aws_route"`
+1003
 
-        - `"aws_route_table"`
+<a href="#">Link to this property</a>
 
-        - `"aws_route_table_association"`
+1004
 
-        - `"aws_subnet"`
+<a href="#">Link to this property</a>
 
-        - `"aws_vpc"`
+1005
 
-        - `"aws_vpc_ipv4_cidr_block_association"`
+<a href="#">Link to this property</a>
 
-        - `"aws_vpn_connection"`
+1006
 
-        - `"aws_vpn_connection_route"`
+<a href="#">Link to this property</a>
 
-        - `"aws_vpn_gateway"`
+1007
 
-        - `"aws_security_group"`
+<a href="#">Link to this property</a>
 
-        - `"aws_vpc_security_group_ingress_rule"`
+1008
 
-        - `"aws_vpc_security_group_egress_rule"`
+<a href="#">Link to this property</a>
 
-        - `"aws_ec2_managed_prefix_list"`
+1009
 
-        - `"aws_ec2_transit_gateway"`
+<a href="#">Link to this property</a>
 
-        - `"aws_ec2_transit_gateway_prefix_list_reference"`
+1010
 
-        - `"aws_ec2_transit_gateway_vpc_attachment"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_application_security_group"`
+1011
 
-        - `"azurerm_lb"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_lb_backend_address_pool"`
+1012
 
-        - `"azurerm_lb_nat_pool"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_lb_nat_rule"`
+1013
 
-        - `"azurerm_lb_rule"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_local_network_gateway"`
+1014
 
-        - `"azurerm_network_interface"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_network_interface_application_security_group_association"`
+1015
 
-        - `"azurerm_network_interface_backend_address_pool_association"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_network_interface_security_group_association"`
+1016
 
-        - `"azurerm_network_security_group"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_public_ip"`
+1017
 
-        - `"azurerm_route"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_route_table"`
+1018
 
-        - `"azurerm_subnet"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_subnet_route_table_association"`
+2001
 
-        - `"azurerm_virtual_machine"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_virtual_network_gateway_connection"`
+2002
 
-        - `"azurerm_virtual_network"`
+<a href="#">Link to this property</a>
 
-        - `"azurerm_virtual_network_gateway"`
+2003
 
-        - `"google_compute_network"`
+<a href="#">Link to this property</a>
 
-        - `"google_compute_subnetwork"`
+2004
 
-        - `"google_compute_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-        - `"google_compute_vpn_tunnel"`
+2005
 
-        - `"google_compute_route"`
+<a href="#">Link to this property</a>
 
-        - `"google_compute_address"`
+2006
 
-        - `"google_compute_global_address"`
+<a href="#">Link to this property</a>
 
-        - `"google_compute_router"`
+2007
 
-        - `"google_compute_interconnect_attachment"`
+<a href="#">Link to this property</a>
 
-        - `"google_compute_ha_vpn_gateway"`
+2008
 
-        - `"google_compute_forwarding_rule"`
+<a href="#">Link to this property</a>
 
-        - `"google_compute_network_firewall_policy"`
+2009
 
-        - `"google_compute_network_firewall_policy_rule"`
+<a href="#">Link to this property</a>
 
-        - `"cloudflare_static_route"`
+2010
 
-        - `"cloudflare_ipsec_tunnel"`
+<a href="#">Link to this property</a>
 
-      - `title: string`
+2011
 
-  - `planned_resources_unavailable: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `post_apply_monthly_cost_estimate: optional object { currency, monthly_cost }`
+2012
 
-    - `currency: string`
+<a href="#">Link to this property</a>
 
-    - `monthly_cost: number`
+2013
 
-  - `post_apply_resources: optional map[object { id, account_id, cloud_type, 18 more } ]`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+2014
 
-    - `account_id: string`
+<a href="#">Link to this property</a>
 
-    - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+2015
 
-      - `"AWS"`
+<a href="#">Link to this property</a>
 
-      - `"AZURE"`
+2016
 
-      - `"GOOGLE"`
+<a href="#">Link to this property</a>
 
-      - `"CLOUDFLARE"`
+2017
 
-    - `config: map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `deployment_provider: string`
+2018
 
-    - `managed: boolean`
+<a href="#">Link to this property</a>
 
-    - `monthly_cost_estimate: object { currency, monthly_cost }`
+2019
 
-      - `currency: string`
+<a href="#">Link to this property</a>
 
-      - `monthly_cost: number`
+2020
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `native_id: string`
+2021
 
-    - `observations: map[object { first_observed_at, last_observed_at, provider_id, resource_id } ]`
+<a href="#">Link to this property</a>
 
-      - `first_observed_at: string`
+2022
 
-      - `last_observed_at: string`
+<a href="#">Link to this property</a>
 
-      - `provider_id: string`
+3001
 
-      - `resource_id: string`
+<a href="#">Link to this property</a>
 
-    - `provider_ids: array of string`
+3002
 
-    - `provider_names_by_id: map[string]`
+<a href="#">Link to this property</a>
 
-    - `region: string`
+3003
 
-    - `resource_group: string`
+<a href="#">Link to this property</a>
 
-    - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+3004
 
-      - `"aws_customer_gateway"`
+<a href="#">Link to this property</a>
 
-      - `"aws_egress_only_internet_gateway"`
+3005
 
-      - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-      - `"aws_instance"`
+3006
 
-      - `"aws_network_interface"`
+<a href="#">Link to this property</a>
 
-      - `"aws_route"`
+3007
 
-      - `"aws_route_table"`
+<a href="#">Link to this property</a>
 
-      - `"aws_route_table_association"`
+4001
 
-      - `"aws_subnet"`
+<a href="#">Link to this property</a>
 
-      - `"aws_vpc"`
+4002
 
-      - `"aws_vpc_ipv4_cidr_block_association"`
+<a href="#">Link to this property</a>
 
-      - `"aws_vpn_connection"`
+4003
 
-      - `"aws_vpn_connection_route"`
+<a href="#">Link to this property</a>
 
-      - `"aws_vpn_gateway"`
+4004
 
-      - `"aws_security_group"`
+<a href="#">Link to this property</a>
 
-      - `"aws_vpc_security_group_ingress_rule"`
+4005
 
-      - `"aws_vpc_security_group_egress_rule"`
+<a href="#">Link to this property</a>
 
-      - `"aws_ec2_managed_prefix_list"`
+4006
 
-      - `"aws_ec2_transit_gateway"`
+<a href="#">Link to this property</a>
 
-      - `"aws_ec2_transit_gateway_prefix_list_reference"`
+4007
 
-      - `"aws_ec2_transit_gateway_vpc_attachment"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_application_security_group"`
+4008
 
-      - `"azurerm_lb"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_lb_backend_address_pool"`
+4009
 
-      - `"azurerm_lb_nat_pool"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_lb_nat_rule"`
+4010
 
-      - `"azurerm_lb_rule"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_local_network_gateway"`
+4011
 
-      - `"azurerm_network_interface"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_network_interface_application_security_group_association"`
+4012
 
-      - `"azurerm_network_interface_backend_address_pool_association"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_network_interface_security_group_association"`
+4013
 
-      - `"azurerm_network_security_group"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_public_ip"`
+4014
 
-      - `"azurerm_route"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_route_table"`
+4015
 
-      - `"azurerm_subnet"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_subnet_route_table_association"`
+4016
 
-      - `"azurerm_virtual_machine"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_virtual_network_gateway_connection"`
+4017
 
-      - `"azurerm_virtual_network"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_virtual_network_gateway"`
+4018
 
-      - `"google_compute_network"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_subnetwork"`
+4019
 
-      - `"google_compute_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_vpn_tunnel"`
+4020
 
-      - `"google_compute_route"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_address"`
+4021
 
-      - `"google_compute_global_address"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_router"`
+4022
 
-      - `"google_compute_interconnect_attachment"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_ha_vpn_gateway"`
+4023
 
-      - `"google_compute_forwarding_rule"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_network_firewall_policy"`
+5001
 
-      - `"google_compute_network_firewall_policy_rule"`
+<a href="#">Link to this property</a>
 
-      - `"cloudflare_static_route"`
+5002
 
-      - `"cloudflare_ipsec_tunnel"`
+<a href="#">Link to this property</a>
 
-    - `sections: array of object { hidden_items, name, visible_items, help_text }`
+5003
 
-      - `hidden_items: array of object { helpText, name, value }`
+<a href="#">Link to this property</a>
 
-        - `helpText: optional string`
+5004
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional object { item_type, string }  or object { item_type, yaml }  or object { item_type, yaml_diff }  or 2 more`
+102000
 
-          - `McnStringItem object { item_type, string }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+102001
 
-            - `string: string`
+<a href="#">Link to this property</a>
 
-          - `McnYamlItem object { item_type, yaml }`
+102002
 
-            - `item_type: string`
+<a href="#">Link to this property</a>
 
-            - `yaml: string`
+102003
 
-          - `McnYamlDiffItem object { item_type, yaml_diff }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+102004
 
-            - `yaml_diff: object { diff, left_description, left_yaml, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `diff: string`
+102005
 
-              - `left_description: string`
+<a href="#">Link to this property</a>
 
-              - `left_yaml: string`
+102006
 
-              - `right_description: string`
+<a href="#">Link to this property</a>
 
-              - `right_yaml: string`
+102007
 
-          - `McnResourcePreviewItem object { item_type, resource_preview }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+102008
 
-            - `resource_preview: object { id, cloud_type, detail, 3 more }`
+<a href="#">Link to this property</a>
 
-              - `id: string`
+102009
 
-              - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                - `"AWS"`
+102010
 
-                - `"AZURE"`
+<a href="#">Link to this property</a>
 
-                - `"GOOGLE"`
+102011
 
-                - `"CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-              - `detail: string`
+102012
 
-              - `name: string`
+<a href="#">Link to this property</a>
 
-              - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+102013
 
-                - `"aws_customer_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_egress_only_internet_gateway"`
+102014
 
-                - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_instance"`
+102015
 
-                - `"aws_network_interface"`
+<a href="#">Link to this property</a>
 
-                - `"aws_route"`
+102016
 
-                - `"aws_route_table"`
+<a href="#">Link to this property</a>
 
-                - `"aws_route_table_association"`
+102017
 
-                - `"aws_subnet"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpc"`
+102018
 
-                - `"aws_vpc_ipv4_cidr_block_association"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpn_connection"`
+102019
 
-                - `"aws_vpn_connection_route"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpn_gateway"`
+102020
 
-                - `"aws_security_group"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpc_security_group_ingress_rule"`
+102021
 
-                - `"aws_vpc_security_group_egress_rule"`
+<a href="#">Link to this property</a>
 
-                - `"aws_ec2_managed_prefix_list"`
+102022
 
-                - `"aws_ec2_transit_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_ec2_transit_gateway_prefix_list_reference"`
+102023
 
-                - `"aws_ec2_transit_gateway_vpc_attachment"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_application_security_group"`
+102024
 
-                - `"azurerm_lb"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb_backend_address_pool"`
+102025
 
-                - `"azurerm_lb_nat_pool"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb_nat_rule"`
+102026
 
-                - `"azurerm_lb_rule"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_local_network_gateway"`
+102027
 
-                - `"azurerm_network_interface"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_interface_application_security_group_association"`
+102028
 
-                - `"azurerm_network_interface_backend_address_pool_association"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_interface_security_group_association"`
+102029
 
-                - `"azurerm_network_security_group"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_public_ip"`
+102030
 
-                - `"azurerm_route"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_route_table"`
+102031
 
-                - `"azurerm_subnet"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_subnet_route_table_association"`
+102032
 
-                - `"azurerm_virtual_machine"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_virtual_network_gateway_connection"`
+102033
 
-                - `"azurerm_virtual_network"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_virtual_network_gateway"`
+102034
 
-                - `"google_compute_network"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_subnetwork"`
+102035
 
-                - `"google_compute_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_vpn_tunnel"`
+102036
 
-                - `"google_compute_route"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_address"`
+102037
 
-                - `"google_compute_global_address"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_router"`
+102038
 
-                - `"google_compute_interconnect_attachment"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_ha_vpn_gateway"`
+102039
 
-                - `"google_compute_forwarding_rule"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_network_firewall_policy"`
+102040
 
-                - `"google_compute_network_firewall_policy_rule"`
+<a href="#">Link to this property</a>
 
-                - `"cloudflare_static_route"`
+102041
 
-                - `"cloudflare_ipsec_tunnel"`
+<a href="#">Link to this property</a>
 
-              - `title: string`
+102042
 
-          - `McnListItem object { item_type, list }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+102043
 
-            - `list: array of object { item_type, string }  or object { item_type, resource_preview }`
+<a href="#">Link to this property</a>
 
-              - `McnStringItem object { item_type, string }`
+102044
 
-                - `item_type: string`
+<a href="#">Link to this property</a>
 
-                - `string: string`
+102045
 
-              - `McnResourcePreviewItem object { item_type, resource_preview }`
+<a href="#">Link to this property</a>
 
-                - `item_type: string`
+102046
 
-                - `resource_preview: object { id, cloud_type, detail, 3 more }`
+<a href="#">Link to this property</a>
 
-                  - `id: string`
+102047
 
-                  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                    - `"AWS"`
+102048
 
-                    - `"AZURE"`
+<a href="#">Link to this property</a>
 
-                    - `"GOOGLE"`
+102049
 
-                    - `"CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                  - `detail: string`
+102050
 
-                  - `name: string`
+<a href="#">Link to this property</a>
 
-                  - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+102051
 
-                    - `"aws_customer_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_egress_only_internet_gateway"`
+102052
 
-                    - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_instance"`
+102053
 
-                    - `"aws_network_interface"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_route"`
+102054
 
-                    - `"aws_route_table"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_route_table_association"`
+102055
 
-                    - `"aws_subnet"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpc"`
+102056
 
-                    - `"aws_vpc_ipv4_cidr_block_association"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpn_connection"`
+102057
 
-                    - `"aws_vpn_connection_route"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpn_gateway"`
+102058
 
-                    - `"aws_security_group"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpc_security_group_ingress_rule"`
+102059
 
-                    - `"aws_vpc_security_group_egress_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_ec2_managed_prefix_list"`
+102060
 
-                    - `"aws_ec2_transit_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_ec2_transit_gateway_prefix_list_reference"`
+102061
 
-                    - `"aws_ec2_transit_gateway_vpc_attachment"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_application_security_group"`
+102062
 
-                    - `"azurerm_lb"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb_backend_address_pool"`
+102063
 
-                    - `"azurerm_lb_nat_pool"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb_nat_rule"`
+102064
 
-                    - `"azurerm_lb_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_local_network_gateway"`
+102065
 
-                    - `"azurerm_network_interface"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_network_interface_application_security_group_association"`
+102066
 
-                    - `"azurerm_network_interface_backend_address_pool_association"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_network_interface_security_group_association"`
+102067
 
-                    - `"azurerm_network_security_group"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_public_ip"`
+102068
 
-                    - `"azurerm_route"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_route_table"`
+102069
 
-                    - `"azurerm_subnet"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_subnet_route_table_association"`
+102070
 
-                    - `"azurerm_virtual_machine"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_virtual_network_gateway_connection"`
+102071
 
-                    - `"azurerm_virtual_network"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_virtual_network_gateway"`
+102072
 
-                    - `"google_compute_network"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_subnetwork"`
+103001
 
-                    - `"google_compute_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_vpn_tunnel"`
+103002
 
-                    - `"google_compute_route"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_address"`
+103003
 
-                    - `"google_compute_global_address"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_router"`
+103004
 
-                    - `"google_compute_interconnect_attachment"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_ha_vpn_gateway"`
+103005
 
-                    - `"google_compute_forwarding_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_network_firewall_policy"`
+103006
 
-                    - `"google_compute_network_firewall_policy_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"cloudflare_static_route"`
+103007
 
-                    - `"cloudflare_ipsec_tunnel"`
+<a href="#">Link to this property</a>
 
-                  - `title: string`
+103008
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `visible_items: array of object { helpText, name, value }`
+</details>
 
-        - `helpText: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+message: string
 
-        - `value: optional object { item_type, string }  or object { item_type, yaml }  or object { item_type, yaml_diff }  or 2 more`
+<a href="#">Link to this property</a>
 
-          - `McnStringItem object { item_type, string }`
+documentation\_url: optional string
 
-            - `item_type: string`
+<a href="#">Link to this property</a>
 
-            - `string: string`
+<details>
 
-          - `McnYamlItem object { item_type, yaml }`
+<summary>
 
-            - `item_type: string`
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
 
-            - `yaml: string`
+</summary>
 
-          - `McnYamlDiffItem object { item_type, yaml_diff }`
+l10n\_key: optional string
 
-            - `item_type: string`
+<a href="#">Link to this property</a>
 
-            - `yaml_diff: object { diff, left_description, left_yaml, 2 more }`
+loggable\_error: optional string
 
-              - `diff: string`
+<a href="#">Link to this property</a>
 
-              - `left_description: string`
+template\_data: optional unknown
 
-              - `left_yaml: string`
+<a href="#">Link to this property</a>
 
-              - `right_description: string`
+trace\_id: optional string
 
-              - `right_yaml: string`
+<a href="#">Link to this property</a>
 
-          - `McnResourcePreviewItem object { item_type, resource_preview }`
+</details>
 
-            - `item_type: string`
+<a href="#">Link to this property</a>
 
-            - `resource_preview: object { id, cloud_type, detail, 3 more }`
+<details>
 
-              - `id: string`
+<summary>
 
-              - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+source: optional object {parameter, parameter\_value\_index, pointer }
 
-                - `"AWS"`
+</summary>
 
-                - `"AZURE"`
+parameter: optional string
 
-                - `"GOOGLE"`
+<a href="#">Link to this property</a>
 
-                - `"CLOUDFLARE"`
+parameter\_value\_index: optional number
 
-              - `detail: string`
+<a href="#">Link to this property</a>
 
-              - `name: string`
+pointer: optional string
 
-              - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+<a href="#">Link to this property</a>
 
-                - `"aws_customer_gateway"`
+</details>
 
-                - `"aws_egress_only_internet_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_internet_gateway"`
+</details>
 
-                - `"aws_instance"`
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-                - `"aws_network_interface"`
+<details>
 
-                - `"aws_route"`
+<summary>
 
-                - `"aws_route_table"`
+result: object {id, cloud\_type, dynamic\_routing, 26 more }
 
-                - `"aws_route_table_association"`
+</summary>
 
-                - `"aws_subnet"`
+id: string
 
-                - `"aws_vpc"`
+formatuuid
 
-                - `"aws_vpc_ipv4_cidr_block_association"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpn_connection"`
+<details>
 
-                - `"aws_vpn_connection_route"`
+<summary>
 
-                - `"aws_vpn_gateway"`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"
 
-                - `"aws_security_group"`
+</summary>
 
-                - `"aws_vpc_security_group_ingress_rule"`
+One of the following:
 
-                - `"aws_vpc_security_group_egress_rule"`
+"AWS"
 
-                - `"aws_ec2_managed_prefix_list"`
+<a href="#">Link to this property</a>
 
-                - `"aws_ec2_transit_gateway"`
+"AZURE"
 
-                - `"aws_ec2_transit_gateway_prefix_list_reference"`
+<a href="#">Link to this property</a>
 
-                - `"aws_ec2_transit_gateway_vpc_attachment"`
+"GOOGLE"
 
-                - `"azurerm_application_security_group"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb"`
+</details>
 
-                - `"azurerm_lb_backend_address_pool"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb_nat_pool"`
+dynamic\_routing: boolean
 
-                - `"azurerm_lb_nat_rule"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb_rule"`
+install\_routes\_in\_cloud: boolean
 
-                - `"azurerm_local_network_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_interface"`
+install\_routes\_in\_magic\_wan: boolean
 
-                - `"azurerm_network_interface_application_security_group_association"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_interface_backend_address_pool_association"`
+name: string
 
-                - `"azurerm_network_interface_security_group_association"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_security_group"`
+<details>
 
-                - `"azurerm_public_ip"`
+<summary>
 
-                - `"azurerm_route"`
+type: "OnrampTypeSingle"or "OnrampTypeHub"
 
-                - `"azurerm_route_table"`
+</summary>
 
-                - `"azurerm_subnet"`
+One of the following:
 
-                - `"azurerm_subnet_route_table_association"`
+"OnrampTypeSingle"
 
-                - `"azurerm_virtual_machine"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_virtual_network_gateway_connection"`
+"OnrampTypeHub"
 
-                - `"azurerm_virtual_network"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_virtual_network_gateway"`
+</details>
 
-                - `"google_compute_network"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_subnetwork"`
+updated\_at: string
 
-                - `"google_compute_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_vpn_tunnel"`
+attached\_hubs: optional array of string
 
-                - `"google_compute_route"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_address"`
+attached\_vpcs: optional array of string
 
-                - `"google_compute_global_address"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_router"`
+cloud\_asn: optional number
 
-                - `"google_compute_interconnect_attachment"`
+formatuint32
 
-                - `"google_compute_ha_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_forwarding_rule"`
+description: optional string
 
-                - `"google_compute_network_firewall_policy"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_network_firewall_policy_rule"`
+hub: optional string
 
-                - `"cloudflare_static_route"`
+formatuuid
 
-                - `"cloudflare_ipsec_tunnel"`
+<a href="#">Link to this property</a>
 
-              - `title: string`
+last\_applied\_at: optional string
 
-          - `McnListItem object { item_type, list }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+last\_exported\_at: optional string
 
-            - `list: array of object { item_type, string }  or object { item_type, resource_preview }`
+<a href="#">Link to this property</a>
 
-              - `McnStringItem object { item_type, string }`
+last\_planned\_at: optional string
 
-                - `item_type: string`
+<a href="#">Link to this property</a>
 
-                - `string: string`
+manage\_hub\_to\_hub\_attachments: optional boolean
 
-              - `McnResourcePreviewItem object { item_type, resource_preview }`
+<a href="#">Link to this property</a>
 
-                - `item_type: string`
+manage\_vpc\_to\_hub\_attachments: optional boolean
 
-                - `resource_preview: object { id, cloud_type, detail, 3 more }`
+<a href="#">Link to this property</a>
 
-                  - `id: string`
+<details>
 
-                  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<summary>
 
-                    - `"AWS"`
+planned\_monthly\_cost\_estimate: optional object {currency, current\_monthly\_cost, diff, proposed\_monthly\_cost }
 
-                    - `"AZURE"`
+</summary>
 
-                    - `"GOOGLE"`
+currency: string
 
-                    - `"CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                  - `detail: string`
+current\_monthly\_cost: number
 
-                  - `name: string`
+formatdouble
 
-                  - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+<a href="#">Link to this property</a>
 
-                    - `"aws_customer_gateway"`
+diff: number
 
-                    - `"aws_egress_only_internet_gateway"`
+formatdouble
 
-                    - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_instance"`
+proposed\_monthly\_cost: number
 
-                    - `"aws_network_interface"`
+formatdouble
 
-                    - `"aws_route"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_route_table"`
+</details>
 
-                    - `"aws_route_table_association"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_subnet"`
+<details>
 
-                    - `"aws_vpc"`
+<summary>
 
-                    - `"aws_vpc_ipv4_cidr_block_association"`
+planned\_resources: optional array of object {diff, keys\_require\_replace, monthly\_cost\_estimate\_diff, 2 more }
 
-                    - `"aws_vpn_connection"`
+</summary>
 
-                    - `"aws_vpn_connection_route"`
+<details>
 
-                    - `"aws_vpn_gateway"`
+<summary>
 
-                    - `"aws_security_group"`
+diff: object {diff, left\_description, left\_yaml, 2 more }
 
-                    - `"aws_vpc_security_group_ingress_rule"`
+</summary>
 
-                    - `"aws_vpc_security_group_egress_rule"`
+diff: string
 
-                    - `"aws_ec2_managed_prefix_list"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_ec2_transit_gateway"`
+left\_description: string
 
-                    - `"aws_ec2_transit_gateway_prefix_list_reference"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_ec2_transit_gateway_vpc_attachment"`
+left\_yaml: string
 
-                    - `"azurerm_application_security_group"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb"`
+right\_description: string
 
-                    - `"azurerm_lb_backend_address_pool"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb_nat_pool"`
+right\_yaml: string
 
-                    - `"azurerm_lb_nat_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb_rule"`
+</details>
 
-                    - `"azurerm_local_network_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_network_interface"`
+keys\_require\_replace: array of string
 
-                    - `"azurerm_network_interface_application_security_group_association"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_network_interface_backend_address_pool_association"`
+<details>
 
-                    - `"azurerm_network_interface_security_group_association"`
+<summary>
 
-                    - `"azurerm_network_security_group"`
+monthly\_cost\_estimate\_diff: object {currency, current\_monthly\_cost, diff, proposed\_monthly\_cost }
 
-                    - `"azurerm_public_ip"`
+</summary>
 
-                    - `"azurerm_route"`
+currency: string
 
-                    - `"azurerm_route_table"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_subnet"`
+current\_monthly\_cost: number
 
-                    - `"azurerm_subnet_route_table_association"`
+formatdouble
 
-                    - `"azurerm_virtual_machine"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_virtual_network_gateway_connection"`
+diff: number
 
-                    - `"azurerm_virtual_network"`
+formatdouble
 
-                    - `"azurerm_virtual_network_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_network"`
+proposed\_monthly\_cost: number
 
-                    - `"google_compute_subnetwork"`
+formatdouble
 
-                    - `"google_compute_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_vpn_tunnel"`
+</details>
 
-                    - `"google_compute_route"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_address"`
+<details>
 
-                    - `"google_compute_global_address"`
+<summary>
 
-                    - `"google_compute_router"`
+planned\_action: "no\_op"or "create"or "update"or 2 more
 
-                    - `"google_compute_interconnect_attachment"`
+</summary>
 
-                    - `"google_compute_ha_vpn_gateway"`
+One of the following:
 
-                    - `"google_compute_forwarding_rule"`
+"no\_op"
 
-                    - `"google_compute_network_firewall_policy"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_network_firewall_policy_rule"`
+"create"
 
-                    - `"cloudflare_static_route"`
+<a href="#">Link to this property</a>
 
-                    - `"cloudflare_ipsec_tunnel"`
+"update"
 
-                  - `title: string`
+<a href="#">Link to this property</a>
 
-      - `help_text: optional string`
+"replace"
 
-    - `state: map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+"destroy"
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `url: string`
+</details>
 
-    - `managed_by: optional array of object { id, client_type, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
+<summary>
 
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
+resource: object {id, cloud\_type, detail, 3 more }
 
-      - `name: string`
+</summary>
 
-  - `post_apply_resources_unavailable: optional boolean`
+id: string
 
-  - `region: optional string`
+formatuuid
 
-  - `status: optional object { apply_progress, lifecycle_state, plan_progress, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `apply_progress: object { done, total }`
+<details>
 
-      - `done: number`
+<summary>
 
-      - `total: number`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-    - `lifecycle_state: "OnrampNeedsApply" or "OnrampPendingPlan" or "OnrampPlanning" or 9 more`
+</summary>
 
-      - `"OnrampNeedsApply"`
+One of the following:
 
-      - `"OnrampPendingPlan"`
+"AWS"
 
-      - `"OnrampPlanning"`
+<a href="#">Link to this property</a>
 
-      - `"OnrampPlanFailed"`
+"AZURE"
 
-      - `"OnrampPendingApproval"`
+<a href="#">Link to this property</a>
 
-      - `"OnrampPendingApply"`
+"GOOGLE"
 
-      - `"OnrampApplying"`
+<a href="#">Link to this property</a>
 
-      - `"OnrampApplyFailed"`
+"CLOUDFLARE"
 
-      - `"OnrampActive"`
+<a href="#">Link to this property</a>
 
-      - `"OnrampPendingDestroy"`
+</details>
 
-      - `"OnrampDestroying"`
+<a href="#">Link to this property</a>
 
-      - `"OnrampDestroyFailed"`
+detail: string
 
-    - `plan_progress: object { done, total }`
+<a href="#">Link to this property</a>
 
-      - `done: number`
+name: string
 
-      - `total: number`
+<a href="#">Link to this property</a>
 
-    - `routes: array of string`
+<details>
 
-    - `tunnels: array of string`
+<summary>
 
-    - `lifecycle_errors: optional map[object { code, message, documentation_url, 2 more } ]`
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
 
-      - `code: 1001 or 1002 or 1003 or 152 more`
+</summary>
 
-        - `1001`
+One of the following:
 
-        - `1002`
+"aws\_customer\_gateway"
 
-        - `1003`
+<a href="#">Link to this property</a>
 
-        - `1004`
+"aws\_egress\_only\_internet\_gateway"
 
-        - `1005`
+<a href="#">Link to this property</a>
 
-        - `1006`
+"aws\_internet\_gateway"
 
-        - `1007`
+<a href="#">Link to this property</a>
 
-        - `1008`
+"aws\_instance"
 
-        - `1009`
+<a href="#">Link to this property</a>
 
-        - `1010`
+"aws\_network\_interface"
 
-        - `1011`
+<a href="#">Link to this property</a>
 
-        - `1012`
+"aws\_route"
 
-        - `1013`
+<a href="#">Link to this property</a>
 
-        - `1014`
+"aws\_route\_table"
 
-        - `1015`
+<a href="#">Link to this property</a>
 
-        - `1016`
+"aws\_route\_table\_association"
 
-        - `1017`
+<a href="#">Link to this property</a>
 
-        - `1018`
+"aws\_subnet"
 
-        - `2001`
+<a href="#">Link to this property</a>
 
-        - `2002`
+"aws\_vpc"
 
-        - `2003`
+<a href="#">Link to this property</a>
 
-        - `2004`
+"aws\_vpc\_ipv4\_cidr\_block\_association"
 
-        - `2005`
+<a href="#">Link to this property</a>
 
-        - `2006`
+"aws\_vpn\_connection"
 
-        - `2007`
+<a href="#">Link to this property</a>
 
-        - `2008`
+"aws\_vpn\_connection\_route"
 
-        - `2009`
+<a href="#">Link to this property</a>
 
-        - `2010`
+"aws\_vpn\_gateway"
 
-        - `2011`
+<a href="#">Link to this property</a>
 
-        - `2012`
+"aws\_security\_group"
 
-        - `2013`
+<a href="#">Link to this property</a>
 
-        - `2014`
+"aws\_vpc\_security\_group\_ingress\_rule"
 
-        - `2015`
+<a href="#">Link to this property</a>
 
-        - `2016`
+"aws\_vpc\_security\_group\_egress\_rule"
 
-        - `2017`
+<a href="#">Link to this property</a>
 
-        - `2018`
+"aws\_ec2\_managed\_prefix\_list"
 
-        - `2019`
+<a href="#">Link to this property</a>
 
-        - `2020`
+"aws\_ec2\_transit\_gateway"
 
-        - `2021`
+<a href="#">Link to this property</a>
 
-        - `2022`
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
 
-        - `3001`
+<a href="#">Link to this property</a>
 
-        - `3002`
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
 
-        - `3003`
+<a href="#">Link to this property</a>
 
-        - `3004`
+"azurerm\_application\_security\_group"
 
-        - `3005`
+<a href="#">Link to this property</a>
 
-        - `3006`
+"azurerm\_lb"
 
-        - `3007`
+<a href="#">Link to this property</a>
 
-        - `4001`
+"azurerm\_lb\_backend\_address\_pool"
 
-        - `4002`
+<a href="#">Link to this property</a>
 
-        - `4003`
+"azurerm\_lb\_nat\_pool"
 
-        - `4004`
+<a href="#">Link to this property</a>
 
-        - `4005`
+"azurerm\_lb\_nat\_rule"
 
-        - `4006`
+<a href="#">Link to this property</a>
 
-        - `4007`
+"azurerm\_lb\_rule"
 
-        - `4008`
+<a href="#">Link to this property</a>
 
-        - `4009`
+"azurerm\_local\_network\_gateway"
 
-        - `4010`
+<a href="#">Link to this property</a>
 
-        - `4011`
+"azurerm\_network\_interface"
 
-        - `4012`
+<a href="#">Link to this property</a>
 
-        - `4013`
+"azurerm\_network\_interface\_application\_security\_group\_association"
 
-        - `4014`
+<a href="#">Link to this property</a>
 
-        - `4015`
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
 
-        - `4016`
+<a href="#">Link to this property</a>
 
-        - `4017`
+"azurerm\_network\_interface\_security\_group\_association"
 
-        - `4018`
+<a href="#">Link to this property</a>
 
-        - `4019`
+"azurerm\_network\_security\_group"
 
-        - `4020`
+<a href="#">Link to this property</a>
 
-        - `4021`
+"azurerm\_public\_ip"
 
-        - `4022`
+<a href="#">Link to this property</a>
 
-        - `4023`
+"azurerm\_route"
 
-        - `5001`
+<a href="#">Link to this property</a>
 
-        - `5002`
+"azurerm\_route\_table"
 
-        - `5003`
+<a href="#">Link to this property</a>
 
-        - `5004`
+"azurerm\_subnet"
 
-        - `102000`
+<a href="#">Link to this property</a>
 
-        - `102001`
+"azurerm\_subnet\_route\_table\_association"
 
-        - `102002`
+<a href="#">Link to this property</a>
 
-        - `102003`
+"azurerm\_virtual\_machine"
 
-        - `102004`
+<a href="#">Link to this property</a>
 
-        - `102005`
+"azurerm\_virtual\_network\_gateway\_connection"
 
-        - `102006`
+<a href="#">Link to this property</a>
 
-        - `102007`
+"azurerm\_virtual\_network"
 
-        - `102008`
+<a href="#">Link to this property</a>
 
-        - `102009`
+"azurerm\_virtual\_network\_gateway"
 
-        - `102010`
+<a href="#">Link to this property</a>
 
-        - `102011`
+"google\_compute\_network"
 
-        - `102012`
+<a href="#">Link to this property</a>
 
-        - `102013`
+"google\_compute\_subnetwork"
 
-        - `102014`
+<a href="#">Link to this property</a>
 
-        - `102015`
+"google\_compute\_vpn\_gateway"
 
-        - `102016`
+<a href="#">Link to this property</a>
 
-        - `102017`
+"google\_compute\_vpn\_tunnel"
 
-        - `102018`
+<a href="#">Link to this property</a>
 
-        - `102019`
+"google\_compute\_route"
 
-        - `102020`
+<a href="#">Link to this property</a>
 
-        - `102021`
+"google\_compute\_address"
 
-        - `102022`
+<a href="#">Link to this property</a>
 
-        - `102023`
+"google\_compute\_global\_address"
 
-        - `102024`
+<a href="#">Link to this property</a>
 
-        - `102025`
+"google\_compute\_router"
 
-        - `102026`
+<a href="#">Link to this property</a>
 
-        - `102027`
+"google\_compute\_interconnect\_attachment"
 
-        - `102028`
+<a href="#">Link to this property</a>
 
-        - `102029`
+"google\_compute\_ha\_vpn\_gateway"
 
-        - `102030`
+<a href="#">Link to this property</a>
 
-        - `102031`
+"google\_compute\_forwarding\_rule"
 
-        - `102032`
+<a href="#">Link to this property</a>
 
-        - `102033`
+"google\_compute\_network\_firewall\_policy"
 
-        - `102034`
+<a href="#">Link to this property</a>
 
-        - `102035`
+"google\_compute\_network\_firewall\_policy\_rule"
 
-        - `102036`
+<a href="#">Link to this property</a>
 
-        - `102037`
+"cloudflare\_static\_route"
 
-        - `102038`
+<a href="#">Link to this property</a>
 
-        - `102039`
+"cloudflare\_ipsec\_tunnel"
 
-        - `102040`
+<a href="#">Link to this property</a>
 
-        - `102041`
+</details>
 
-        - `102042`
+<a href="#">Link to this property</a>
 
-        - `102043`
+title: string
 
-        - `102044`
+<a href="#">Link to this property</a>
 
-        - `102045`
+</details>
 
-        - `102046`
+<a href="#">Link to this property</a>
 
-        - `102047`
+</details>
 
-        - `102048`
+<a href="#">Link to this property</a>
 
-        - `102049`
+planned\_resources\_unavailable: optional boolean
 
-        - `102050`
+<a href="#">Link to this property</a>
 
-        - `102051`
+<details>
 
-        - `102052`
+<summary>
 
-        - `102053`
+post\_apply\_monthly\_cost\_estimate: optional object {currency, monthly\_cost }
 
-        - `102054`
+</summary>
 
-        - `102055`
+currency: string
 
-        - `102056`
+<a href="#">Link to this property</a>
 
-        - `102057`
+monthly\_cost: number
 
-        - `102058`
+formatdouble
 
-        - `102059`
+<a href="#">Link to this property</a>
 
-        - `102060`
+</details>
 
-        - `102061`
+<a href="#">Link to this property</a>
 
-        - `102062`
+<details>
 
-        - `102063`
+<summary>
 
-        - `102064`
+post\_apply\_resources: optional map\[object {id, account\_id, cloud\_type, 18 more } ]
 
-        - `102065`
+</summary>
 
-        - `102066`
+id: string
 
-        - `102067`
+formatuuid
 
-        - `102068`
+<a href="#">Link to this property</a>
 
-        - `102069`
+account\_id: string
 
-        - `102070`
+<a href="#">Link to this property</a>
 
-        - `102071`
+<details>
 
-        - `102072`
+<summary>
 
-        - `103001`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-        - `103002`
+</summary>
 
-        - `103003`
+One of the following:
 
-        - `103004`
+"AWS"
 
-        - `103005`
+<a href="#">Link to this property</a>
 
-        - `103006`
+"AZURE"
 
-        - `103007`
+<a href="#">Link to this property</a>
 
-        - `103008`
+"GOOGLE"
 
-      - `message: string`
+<a href="#">Link to this property</a>
 
-      - `documentation_url: optional string`
+"CLOUDFLARE"
 
-      - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-        - `l10n_key: optional string`
+</details>
 
-        - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-        - `template_data: optional unknown`
+config: map\[unknown]
 
-        - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-      - `source: optional object { parameter, parameter_value_index, pointer }`
+deployment\_provider: string
 
-        - `parameter: optional string`
+formatuuid
 
-        - `parameter_value_index: optional number`
+<a href="#">Link to this property</a>
 
-        - `pointer: optional string`
+managed: boolean
 
-  - `vpc: optional string`
+<a href="#">Link to this property</a>
 
-  - `vpcs_by_id: optional map[object { id, account_id, cloud_type, 18 more } ]`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `account_id: string`
+monthly\_cost\_estimate: object {currency, monthly\_cost }
 
-    - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+</summary>
 
-      - `"AWS"`
+currency: string
 
-      - `"AZURE"`
+<a href="#">Link to this property</a>
 
-      - `"GOOGLE"`
+monthly\_cost: number
 
-      - `"CLOUDFLARE"`
+formatdouble
 
-    - `config: map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `deployment_provider: string`
+</details>
 
-    - `managed: boolean`
+<a href="#">Link to this property</a>
 
-    - `monthly_cost_estimate: object { currency, monthly_cost }`
+name: string
 
-      - `currency: string`
+<a href="#">Link to this property</a>
 
-      - `monthly_cost: number`
+native\_id: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `native_id: string`
+<details>
 
-    - `observations: map[object { first_observed_at, last_observed_at, provider_id, resource_id } ]`
+<summary>
 
-      - `first_observed_at: string`
+observations: map\[object {first\_observed\_at, last\_observed\_at, provider\_id, resource\_id } ]
 
-      - `last_observed_at: string`
+</summary>
 
-      - `provider_id: string`
+first\_observed\_at: string
 
-      - `resource_id: string`
+<a href="#">Link to this property</a>
 
-    - `provider_ids: array of string`
+last\_observed\_at: string
 
-    - `provider_names_by_id: map[string]`
+<a href="#">Link to this property</a>
 
-    - `region: string`
+provider\_id: string
 
-    - `resource_group: string`
+formatuuid
 
-    - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+<a href="#">Link to this property</a>
 
-      - `"aws_customer_gateway"`
+resource\_id: string
 
-      - `"aws_egress_only_internet_gateway"`
+formatuuid
 
-      - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-      - `"aws_instance"`
+</details>
 
-      - `"aws_network_interface"`
+<a href="#">Link to this property</a>
 
-      - `"aws_route"`
+provider\_ids: array of string
 
-      - `"aws_route_table"`
+<a href="#">Link to this property</a>
 
-      - `"aws_route_table_association"`
+provider\_names\_by\_id: map\[string]
 
-      - `"aws_subnet"`
+<a href="#">Link to this property</a>
 
-      - `"aws_vpc"`
+region: string
 
-      - `"aws_vpc_ipv4_cidr_block_association"`
+<a href="#">Link to this property</a>
 
-      - `"aws_vpn_connection"`
+resource\_group: string
 
-      - `"aws_vpn_connection_route"`
+<a href="#">Link to this property</a>
 
-      - `"aws_vpn_gateway"`
+<details>
 
-      - `"aws_security_group"`
+<summary>
 
-      - `"aws_vpc_security_group_ingress_rule"`
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
 
-      - `"aws_vpc_security_group_egress_rule"`
+</summary>
 
-      - `"aws_ec2_managed_prefix_list"`
+One of the following:
 
-      - `"aws_ec2_transit_gateway"`
+"aws\_customer\_gateway"
 
-      - `"aws_ec2_transit_gateway_prefix_list_reference"`
+<a href="#">Link to this property</a>
 
-      - `"aws_ec2_transit_gateway_vpc_attachment"`
+"aws\_egress\_only\_internet\_gateway"
 
-      - `"azurerm_application_security_group"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_lb"`
+"aws\_internet\_gateway"
 
-      - `"azurerm_lb_backend_address_pool"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_lb_nat_pool"`
+"aws\_instance"
 
-      - `"azurerm_lb_nat_rule"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_lb_rule"`
+"aws\_network\_interface"
 
-      - `"azurerm_local_network_gateway"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_network_interface"`
+"aws\_route"
 
-      - `"azurerm_network_interface_application_security_group_association"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_network_interface_backend_address_pool_association"`
+"aws\_route\_table"
 
-      - `"azurerm_network_interface_security_group_association"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_network_security_group"`
+"aws\_route\_table\_association"
 
-      - `"azurerm_public_ip"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_route"`
+"aws\_subnet"
 
-      - `"azurerm_route_table"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_subnet"`
+"aws\_vpc"
 
-      - `"azurerm_subnet_route_table_association"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_virtual_machine"`
+"aws\_vpc\_ipv4\_cidr\_block\_association"
 
-      - `"azurerm_virtual_network_gateway_connection"`
+<a href="#">Link to this property</a>
 
-      - `"azurerm_virtual_network"`
+"aws\_vpn\_connection"
 
-      - `"azurerm_virtual_network_gateway"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_network"`
+"aws\_vpn\_connection\_route"
 
-      - `"google_compute_subnetwork"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_vpn_gateway"`
+"aws\_vpn\_gateway"
 
-      - `"google_compute_vpn_tunnel"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_route"`
+"aws\_security\_group"
 
-      - `"google_compute_address"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_global_address"`
+"aws\_vpc\_security\_group\_ingress\_rule"
 
-      - `"google_compute_router"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_interconnect_attachment"`
+"aws\_vpc\_security\_group\_egress\_rule"
 
-      - `"google_compute_ha_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_forwarding_rule"`
+"aws\_ec2\_managed\_prefix\_list"
 
-      - `"google_compute_network_firewall_policy"`
+<a href="#">Link to this property</a>
 
-      - `"google_compute_network_firewall_policy_rule"`
+"aws\_ec2\_transit\_gateway"
 
-      - `"cloudflare_static_route"`
+<a href="#">Link to this property</a>
 
-      - `"cloudflare_ipsec_tunnel"`
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
 
-    - `sections: array of object { hidden_items, name, visible_items, help_text }`
+<a href="#">Link to this property</a>
 
-      - `hidden_items: array of object { helpText, name, value }`
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
 
-        - `helpText: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+"azurerm\_application\_security\_group"
 
-        - `value: optional object { item_type, string }  or object { item_type, yaml }  or object { item_type, yaml_diff }  or 2 more`
+<a href="#">Link to this property</a>
 
-          - `McnStringItem object { item_type, string }`
+"azurerm\_lb"
 
-            - `item_type: string`
+<a href="#">Link to this property</a>
 
-            - `string: string`
+"azurerm\_lb\_backend\_address\_pool"
 
-          - `McnYamlItem object { item_type, yaml }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+"azurerm\_lb\_nat\_pool"
 
-            - `yaml: string`
+<a href="#">Link to this property</a>
 
-          - `McnYamlDiffItem object { item_type, yaml_diff }`
+"azurerm\_lb\_nat\_rule"
 
-            - `item_type: string`
+<a href="#">Link to this property</a>
 
-            - `yaml_diff: object { diff, left_description, left_yaml, 2 more }`
+"azurerm\_lb\_rule"
 
-              - `diff: string`
+<a href="#">Link to this property</a>
 
-              - `left_description: string`
+"azurerm\_local\_network\_gateway"
 
-              - `left_yaml: string`
+<a href="#">Link to this property</a>
 
-              - `right_description: string`
+"azurerm\_network\_interface"
 
-              - `right_yaml: string`
+<a href="#">Link to this property</a>
 
-          - `McnResourcePreviewItem object { item_type, resource_preview }`
+"azurerm\_network\_interface\_application\_security\_group\_association"
 
-            - `item_type: string`
+<a href="#">Link to this property</a>
 
-            - `resource_preview: object { id, cloud_type, detail, 3 more }`
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
 
-              - `id: string`
+<a href="#">Link to this property</a>
 
-              - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+"azurerm\_network\_interface\_security\_group\_association"
 
-                - `"AWS"`
+<a href="#">Link to this property</a>
 
-                - `"AZURE"`
+"azurerm\_network\_security\_group"
 
-                - `"GOOGLE"`
+<a href="#">Link to this property</a>
 
-                - `"CLOUDFLARE"`
+"azurerm\_public\_ip"
 
-              - `detail: string`
+<a href="#">Link to this property</a>
 
-              - `name: string`
+"azurerm\_route"
 
-              - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+<a href="#">Link to this property</a>
 
-                - `"aws_customer_gateway"`
+"azurerm\_route\_table"
 
-                - `"aws_egress_only_internet_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_internet_gateway"`
+"azurerm\_subnet"
 
-                - `"aws_instance"`
+<a href="#">Link to this property</a>
 
-                - `"aws_network_interface"`
+"azurerm\_subnet\_route\_table\_association"
 
-                - `"aws_route"`
+<a href="#">Link to this property</a>
 
-                - `"aws_route_table"`
+"azurerm\_virtual\_machine"
 
-                - `"aws_route_table_association"`
+<a href="#">Link to this property</a>
 
-                - `"aws_subnet"`
+"azurerm\_virtual\_network\_gateway\_connection"
 
-                - `"aws_vpc"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpc_ipv4_cidr_block_association"`
+"azurerm\_virtual\_network"
 
-                - `"aws_vpn_connection"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpn_connection_route"`
+"azurerm\_virtual\_network\_gateway"
 
-                - `"aws_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_security_group"`
+"google\_compute\_network"
 
-                - `"aws_vpc_security_group_ingress_rule"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpc_security_group_egress_rule"`
+"google\_compute\_subnetwork"
 
-                - `"aws_ec2_managed_prefix_list"`
+<a href="#">Link to this property</a>
 
-                - `"aws_ec2_transit_gateway"`
+"google\_compute\_vpn\_gateway"
 
-                - `"aws_ec2_transit_gateway_prefix_list_reference"`
+<a href="#">Link to this property</a>
 
-                - `"aws_ec2_transit_gateway_vpc_attachment"`
+"google\_compute\_vpn\_tunnel"
 
-                - `"azurerm_application_security_group"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb"`
+"google\_compute\_route"
 
-                - `"azurerm_lb_backend_address_pool"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb_nat_pool"`
+"google\_compute\_address"
 
-                - `"azurerm_lb_nat_rule"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb_rule"`
+"google\_compute\_global\_address"
 
-                - `"azurerm_local_network_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_interface"`
+"google\_compute\_router"
 
-                - `"azurerm_network_interface_application_security_group_association"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_interface_backend_address_pool_association"`
+"google\_compute\_interconnect\_attachment"
 
-                - `"azurerm_network_interface_security_group_association"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_security_group"`
+"google\_compute\_ha\_vpn\_gateway"
 
-                - `"azurerm_public_ip"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_route"`
+"google\_compute\_forwarding\_rule"
 
-                - `"azurerm_route_table"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_subnet"`
+"google\_compute\_network\_firewall\_policy"
 
-                - `"azurerm_subnet_route_table_association"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_virtual_machine"`
+"google\_compute\_network\_firewall\_policy\_rule"
 
-                - `"azurerm_virtual_network_gateway_connection"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_virtual_network"`
+"cloudflare\_static\_route"
 
-                - `"azurerm_virtual_network_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_network"`
+"cloudflare\_ipsec\_tunnel"
 
-                - `"google_compute_subnetwork"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_vpn_gateway"`
+</details>
 
-                - `"google_compute_vpn_tunnel"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_route"`
+<details>
 
-                - `"google_compute_address"`
+<summary>
 
-                - `"google_compute_global_address"`
+sections: array of object {hidden\_items, name, visible\_items, help\_text }
 
-                - `"google_compute_router"`
+</summary>
 
-                - `"google_compute_interconnect_attachment"`
+<details>
 
-                - `"google_compute_ha_vpn_gateway"`
+<summary>
 
-                - `"google_compute_forwarding_rule"`
+hidden\_items: array of object {helpText, name, value }
 
-                - `"google_compute_network_firewall_policy"`
+</summary>
 
-                - `"google_compute_network_firewall_policy_rule"`
+helpText: optional string
 
-                - `"cloudflare_static_route"`
+<a href="#">Link to this property</a>
 
-                - `"cloudflare_ipsec_tunnel"`
+name: optional string
 
-              - `title: string`
+<a href="#">Link to this property</a>
 
-          - `McnListItem object { item_type, list }`
+<details>
 
-            - `item_type: string`
+<summary>
 
-            - `list: array of object { item_type, string }  or object { item_type, resource_preview }`
+value: optional object {item\_type, string } or object {item\_type, yaml } or object {item\_type, yaml\_diff } or 2 more
 
-              - `McnStringItem object { item_type, string }`
+</summary>
 
-                - `item_type: string`
+One of the following:
 
-                - `string: string`
+<details>
 
-              - `McnResourcePreviewItem object { item_type, resource_preview }`
+<summary>
 
-                - `item_type: string`
+McnStringItem object {item\_type, string }
 
-                - `resource_preview: object { id, cloud_type, detail, 3 more }`
+</summary>
 
-                  - `id: string`
+item\_type: string
 
-                  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                    - `"AWS"`
+string: string
 
-                    - `"AZURE"`
+<a href="#">Link to this property</a>
 
-                    - `"GOOGLE"`
+</details>
 
-                    - `"CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                  - `detail: string`
+<details>
 
-                  - `name: string`
+<summary>
 
-                  - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+McnYamlItem object {item\_type, yaml }
 
-                    - `"aws_customer_gateway"`
+</summary>
 
-                    - `"aws_egress_only_internet_gateway"`
+item\_type: string
 
-                    - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_instance"`
+yaml: string
 
-                    - `"aws_network_interface"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_route"`
+</details>
 
-                    - `"aws_route_table"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_route_table_association"`
+<details>
 
-                    - `"aws_subnet"`
+<summary>
 
-                    - `"aws_vpc"`
+McnYamlDiffItem object {item\_type, yaml\_diff }
 
-                    - `"aws_vpc_ipv4_cidr_block_association"`
+</summary>
 
-                    - `"aws_vpn_connection"`
+item\_type: string
 
-                    - `"aws_vpn_connection_route"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpn_gateway"`
+<details>
 
-                    - `"aws_security_group"`
+<summary>
 
-                    - `"aws_vpc_security_group_ingress_rule"`
+yaml\_diff: object {diff, left\_description, left\_yaml, 2 more }
 
-                    - `"aws_vpc_security_group_egress_rule"`
+</summary>
 
-                    - `"aws_ec2_managed_prefix_list"`
+diff: string
 
-                    - `"aws_ec2_transit_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_ec2_transit_gateway_prefix_list_reference"`
+left\_description: string
 
-                    - `"aws_ec2_transit_gateway_vpc_attachment"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_application_security_group"`
+left\_yaml: string
 
-                    - `"azurerm_lb"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb_backend_address_pool"`
+right\_description: string
 
-                    - `"azurerm_lb_nat_pool"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb_nat_rule"`
+right\_yaml: string
 
-                    - `"azurerm_lb_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_local_network_gateway"`
+</details>
 
-                    - `"azurerm_network_interface"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_network_interface_application_security_group_association"`
+</details>
 
-                    - `"azurerm_network_interface_backend_address_pool_association"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_network_interface_security_group_association"`
+<details>
 
-                    - `"azurerm_network_security_group"`
+<summary>
 
-                    - `"azurerm_public_ip"`
+McnResourcePreviewItem object {item\_type, resource\_preview }
 
-                    - `"azurerm_route"`
+</summary>
 
-                    - `"azurerm_route_table"`
+item\_type: string
 
-                    - `"azurerm_subnet"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_subnet_route_table_association"`
+<details>
 
-                    - `"azurerm_virtual_machine"`
+<summary>
 
-                    - `"azurerm_virtual_network_gateway_connection"`
+resource\_preview: object {id, cloud\_type, detail, 3 more }
 
-                    - `"azurerm_virtual_network"`
+</summary>
 
-                    - `"azurerm_virtual_network_gateway"`
+id: string
 
-                    - `"google_compute_network"`
+formatuuid
 
-                    - `"google_compute_subnetwork"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_vpn_gateway"`
+<details>
 
-                    - `"google_compute_vpn_tunnel"`
+<summary>
 
-                    - `"google_compute_route"`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-                    - `"google_compute_address"`
+</summary>
 
-                    - `"google_compute_global_address"`
+One of the following:
 
-                    - `"google_compute_router"`
+"AWS"
 
-                    - `"google_compute_interconnect_attachment"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_ha_vpn_gateway"`
+"AZURE"
 
-                    - `"google_compute_forwarding_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_network_firewall_policy"`
+"GOOGLE"
 
-                    - `"google_compute_network_firewall_policy_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"cloudflare_static_route"`
+"CLOUDFLARE"
 
-                    - `"cloudflare_ipsec_tunnel"`
+<a href="#">Link to this property</a>
 
-                  - `title: string`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `visible_items: array of object { helpText, name, value }`
+detail: string
 
-        - `helpText: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+name: string
 
-        - `value: optional object { item_type, string }  or object { item_type, yaml }  or object { item_type, yaml_diff }  or 2 more`
+<a href="#">Link to this property</a>
 
-          - `McnStringItem object { item_type, string }`
+<details>
 
-            - `item_type: string`
+<summary>
 
-            - `string: string`
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
 
-          - `McnYamlItem object { item_type, yaml }`
+</summary>
 
-            - `item_type: string`
+One of the following:
 
-            - `yaml: string`
+"aws\_customer\_gateway"
 
-          - `McnYamlDiffItem object { item_type, yaml_diff }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+"aws\_egress\_only\_internet\_gateway"
 
-            - `yaml_diff: object { diff, left_description, left_yaml, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `diff: string`
+"aws\_internet\_gateway"
 
-              - `left_description: string`
+<a href="#">Link to this property</a>
 
-              - `left_yaml: string`
+"aws\_instance"
 
-              - `right_description: string`
+<a href="#">Link to this property</a>
 
-              - `right_yaml: string`
+"aws\_network\_interface"
 
-          - `McnResourcePreviewItem object { item_type, resource_preview }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+"aws\_route"
 
-            - `resource_preview: object { id, cloud_type, detail, 3 more }`
+<a href="#">Link to this property</a>
 
-              - `id: string`
+"aws\_route\_table"
 
-              - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                - `"AWS"`
+"aws\_route\_table\_association"
 
-                - `"AZURE"`
+<a href="#">Link to this property</a>
 
-                - `"GOOGLE"`
+"aws\_subnet"
 
-                - `"CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-              - `detail: string`
+"aws\_vpc"
 
-              - `name: string`
+<a href="#">Link to this property</a>
 
-              - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+"aws\_vpc\_ipv4\_cidr\_block\_association"
 
-                - `"aws_customer_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_egress_only_internet_gateway"`
+"aws\_vpn\_connection"
 
-                - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_instance"`
+"aws\_vpn\_connection\_route"
 
-                - `"aws_network_interface"`
+<a href="#">Link to this property</a>
 
-                - `"aws_route"`
+"aws\_vpn\_gateway"
 
-                - `"aws_route_table"`
+<a href="#">Link to this property</a>
 
-                - `"aws_route_table_association"`
+"aws\_security\_group"
 
-                - `"aws_subnet"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpc"`
+"aws\_vpc\_security\_group\_ingress\_rule"
 
-                - `"aws_vpc_ipv4_cidr_block_association"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpn_connection"`
+"aws\_vpc\_security\_group\_egress\_rule"
 
-                - `"aws_vpn_connection_route"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpn_gateway"`
+"aws\_ec2\_managed\_prefix\_list"
 
-                - `"aws_security_group"`
+<a href="#">Link to this property</a>
 
-                - `"aws_vpc_security_group_ingress_rule"`
+"aws\_ec2\_transit\_gateway"
 
-                - `"aws_vpc_security_group_egress_rule"`
+<a href="#">Link to this property</a>
 
-                - `"aws_ec2_managed_prefix_list"`
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
 
-                - `"aws_ec2_transit_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"aws_ec2_transit_gateway_prefix_list_reference"`
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
 
-                - `"aws_ec2_transit_gateway_vpc_attachment"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_application_security_group"`
+"azurerm\_application\_security\_group"
 
-                - `"azurerm_lb"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb_backend_address_pool"`
+"azurerm\_lb"
 
-                - `"azurerm_lb_nat_pool"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_lb_nat_rule"`
+"azurerm\_lb\_backend\_address\_pool"
 
-                - `"azurerm_lb_rule"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_local_network_gateway"`
+"azurerm\_lb\_nat\_pool"
 
-                - `"azurerm_network_interface"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_interface_application_security_group_association"`
+"azurerm\_lb\_nat\_rule"
 
-                - `"azurerm_network_interface_backend_address_pool_association"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_network_interface_security_group_association"`
+"azurerm\_lb\_rule"
 
-                - `"azurerm_network_security_group"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_public_ip"`
+"azurerm\_local\_network\_gateway"
 
-                - `"azurerm_route"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_route_table"`
+"azurerm\_network\_interface"
 
-                - `"azurerm_subnet"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_subnet_route_table_association"`
+"azurerm\_network\_interface\_application\_security\_group\_association"
 
-                - `"azurerm_virtual_machine"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_virtual_network_gateway_connection"`
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
 
-                - `"azurerm_virtual_network"`
+<a href="#">Link to this property</a>
 
-                - `"azurerm_virtual_network_gateway"`
+"azurerm\_network\_interface\_security\_group\_association"
 
-                - `"google_compute_network"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_subnetwork"`
+"azurerm\_network\_security\_group"
 
-                - `"google_compute_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_vpn_tunnel"`
+"azurerm\_public\_ip"
 
-                - `"google_compute_route"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_address"`
+"azurerm\_route"
 
-                - `"google_compute_global_address"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_router"`
+"azurerm\_route\_table"
 
-                - `"google_compute_interconnect_attachment"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_ha_vpn_gateway"`
+"azurerm\_subnet"
 
-                - `"google_compute_forwarding_rule"`
+<a href="#">Link to this property</a>
 
-                - `"google_compute_network_firewall_policy"`
+"azurerm\_subnet\_route\_table\_association"
 
-                - `"google_compute_network_firewall_policy_rule"`
+<a href="#">Link to this property</a>
 
-                - `"cloudflare_static_route"`
+"azurerm\_virtual\_machine"
 
-                - `"cloudflare_ipsec_tunnel"`
+<a href="#">Link to this property</a>
 
-              - `title: string`
+"azurerm\_virtual\_network\_gateway\_connection"
 
-          - `McnListItem object { item_type, list }`
+<a href="#">Link to this property</a>
 
-            - `item_type: string`
+"azurerm\_virtual\_network"
 
-            - `list: array of object { item_type, string }  or object { item_type, resource_preview }`
+<a href="#">Link to this property</a>
 
-              - `McnStringItem object { item_type, string }`
+"azurerm\_virtual\_network\_gateway"
 
-                - `item_type: string`
+<a href="#">Link to this property</a>
 
-                - `string: string`
+"google\_compute\_network"
 
-              - `McnResourcePreviewItem object { item_type, resource_preview }`
+<a href="#">Link to this property</a>
 
-                - `item_type: string`
+"google\_compute\_subnetwork"
 
-                - `resource_preview: object { id, cloud_type, detail, 3 more }`
+<a href="#">Link to this property</a>
 
-                  - `id: string`
+"google\_compute\_vpn\_gateway"
 
-                  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                    - `"AWS"`
+"google\_compute\_vpn\_tunnel"
 
-                    - `"AZURE"`
+<a href="#">Link to this property</a>
 
-                    - `"GOOGLE"`
+"google\_compute\_route"
 
-                    - `"CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-                  - `detail: string`
+"google\_compute\_address"
 
-                  - `name: string`
+<a href="#">Link to this property</a>
 
-                  - `resource_type: "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
+"google\_compute\_global\_address"
 
-                    - `"aws_customer_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_egress_only_internet_gateway"`
+"google\_compute\_router"
 
-                    - `"aws_internet_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_instance"`
+"google\_compute\_interconnect\_attachment"
 
-                    - `"aws_network_interface"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_route"`
+"google\_compute\_ha\_vpn\_gateway"
 
-                    - `"aws_route_table"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_route_table_association"`
+"google\_compute\_forwarding\_rule"
 
-                    - `"aws_subnet"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpc"`
+"google\_compute\_network\_firewall\_policy"
 
-                    - `"aws_vpc_ipv4_cidr_block_association"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpn_connection"`
+"google\_compute\_network\_firewall\_policy\_rule"
 
-                    - `"aws_vpn_connection_route"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpn_gateway"`
+"cloudflare\_static\_route"
 
-                    - `"aws_security_group"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_vpc_security_group_ingress_rule"`
+"cloudflare\_ipsec\_tunnel"
 
-                    - `"aws_vpc_security_group_egress_rule"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_ec2_managed_prefix_list"`
+</details>
 
-                    - `"aws_ec2_transit_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"aws_ec2_transit_gateway_prefix_list_reference"`
+title: string
 
-                    - `"aws_ec2_transit_gateway_vpc_attachment"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_application_security_group"`
+</details>
 
-                    - `"azurerm_lb"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb_backend_address_pool"`
+</details>
 
-                    - `"azurerm_lb_nat_pool"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_lb_nat_rule"`
+<details>
 
-                    - `"azurerm_lb_rule"`
+<summary>
 
-                    - `"azurerm_local_network_gateway"`
+McnListItem object {item\_type, list }
 
-                    - `"azurerm_network_interface"`
+</summary>
 
-                    - `"azurerm_network_interface_application_security_group_association"`
+item\_type: string
 
-                    - `"azurerm_network_interface_backend_address_pool_association"`
+<a href="#">Link to this property</a>
 
-                    - `"azurerm_network_interface_security_group_association"`
+<details>
 
-                    - `"azurerm_network_security_group"`
+<summary>
 
-                    - `"azurerm_public_ip"`
+list: array of object {item\_type, string } or object {item\_type, resource\_preview }
 
-                    - `"azurerm_route"`
+</summary>
 
-                    - `"azurerm_route_table"`
+One of the following:
 
-                    - `"azurerm_subnet"`
+<details>
 
-                    - `"azurerm_subnet_route_table_association"`
+<summary>
 
-                    - `"azurerm_virtual_machine"`
+McnStringItem object {item\_type, string }
 
-                    - `"azurerm_virtual_network_gateway_connection"`
+</summary>
 
-                    - `"azurerm_virtual_network"`
+item\_type: string
 
-                    - `"azurerm_virtual_network_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_network"`
+string: string
 
-                    - `"google_compute_subnetwork"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_vpn_gateway"`
+</details>
 
-                    - `"google_compute_vpn_tunnel"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_route"`
+<details>
 
-                    - `"google_compute_address"`
+<summary>
 
-                    - `"google_compute_global_address"`
+McnResourcePreviewItem object {item\_type, resource\_preview }
 
-                    - `"google_compute_router"`
+</summary>
 
-                    - `"google_compute_interconnect_attachment"`
+item\_type: string
 
-                    - `"google_compute_ha_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-                    - `"google_compute_forwarding_rule"`
+<details>
 
-                    - `"google_compute_network_firewall_policy"`
+<summary>
 
-                    - `"google_compute_network_firewall_policy_rule"`
+resource\_preview: object {id, cloud\_type, detail, 3 more }
 
-                    - `"cloudflare_static_route"`
+</summary>
 
-                    - `"cloudflare_ipsec_tunnel"`
+id: string
 
-                  - `title: string`
+formatuuid
 
-      - `help_text: optional string`
+<a href="#">Link to this property</a>
 
-    - `state: map[unknown]`
+<details>
 
-    - `tags: map[string]`
+<summary>
 
-    - `updated_at: string`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-    - `url: string`
+</summary>
 
-    - `managed_by: optional array of object { id, client_type, name }`
+One of the following:
 
-      - `id: string`
+"AWS"
 
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
+<a href="#">Link to this property</a>
 
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
+"AZURE"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-  - `vpcs_by_id_unavailable: optional array of string`
+"GOOGLE"
 
-    The list of vpc IDs for which resource details failed to generate.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"CLOUDFLARE"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
+
+</summary>
+
+One of the following:
+
+"aws\_customer\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_egress\_only\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_instance"
+
+<a href="#">Link to this property</a>
+
+"aws\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"aws\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_subnet"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_ipv4\_cidr\_block\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+visible\_items: array of object {helpText, name, value }
+
+</summary>
+
+helpText: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional object {item\_type, string } or object {item\_type, yaml } or object {item\_type, yaml\_diff } or 2 more
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+McnStringItem object {item\_type, string }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+string: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnYamlItem object {item\_type, yaml }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+yaml: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnYamlDiffItem object {item\_type, yaml\_diff }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+yaml\_diff: object {diff, left\_description, left\_yaml, 2 more }
+
+</summary>
+
+diff: string
+
+<a href="#">Link to this property</a>
+
+left\_description: string
+
+<a href="#">Link to this property</a>
+
+left\_yaml: string
+
+<a href="#">Link to this property</a>
+
+right\_description: string
+
+<a href="#">Link to this property</a>
+
+right\_yaml: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnResourcePreviewItem object {item\_type, resource\_preview }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_preview: object {id, cloud\_type, detail, 3 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"AZURE"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE"
+
+<a href="#">Link to this property</a>
+
+"CLOUDFLARE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
+
+</summary>
+
+One of the following:
+
+"aws\_customer\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_egress\_only\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_instance"
+
+<a href="#">Link to this property</a>
+
+"aws\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"aws\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_subnet"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_ipv4\_cidr\_block\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnListItem object {item\_type, list }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+list: array of object {item\_type, string } or object {item\_type, resource\_preview }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+McnStringItem object {item\_type, string }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+string: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnResourcePreviewItem object {item\_type, resource\_preview }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_preview: object {id, cloud\_type, detail, 3 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"AZURE"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE"
+
+<a href="#">Link to this property</a>
+
+"CLOUDFLARE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
+
+</summary>
+
+One of the following:
+
+"aws\_customer\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_egress\_only\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_instance"
+
+<a href="#">Link to this property</a>
+
+"aws\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"aws\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_subnet"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_ipv4\_cidr\_block\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+help\_text: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+state: map\[unknown]
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+managed\_by: optional array of object {id, client\_type, name }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+client\_type: "MAGIC\_WAN\_CLOUD\_ONRAMP"
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+post\_apply\_resources\_unavailable: optional boolean
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional object {apply\_progress, lifecycle\_state, plan\_progress, 3 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+apply\_progress: object {done, total }
+
+</summary>
+
+done: number
+
+<a href="#">Link to this property</a>
+
+total: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+lifecycle\_state: "OnrampNeedsApply"or "OnrampPendingPlan"or "OnrampPlanning"or 9 more
+
+</summary>
+
+One of the following:
+
+"OnrampNeedsApply"
+
+<a href="#">Link to this property</a>
+
+"OnrampPendingPlan"
+
+<a href="#">Link to this property</a>
+
+"OnrampPlanning"
+
+<a href="#">Link to this property</a>
+
+"OnrampPlanFailed"
+
+<a href="#">Link to this property</a>
+
+"OnrampPendingApproval"
+
+<a href="#">Link to this property</a>
+
+"OnrampPendingApply"
+
+<a href="#">Link to this property</a>
+
+"OnrampApplying"
+
+<a href="#">Link to this property</a>
+
+"OnrampApplyFailed"
+
+<a href="#">Link to this property</a>
+
+"OnrampActive"
+
+<a href="#">Link to this property</a>
+
+"OnrampPendingDestroy"
+
+<a href="#">Link to this property</a>
+
+"OnrampDestroying"
+
+<a href="#">Link to this property</a>
+
+"OnrampDestroyFailed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+plan\_progress: object {done, total }
+
+</summary>
+
+done: number
+
+<a href="#">Link to this property</a>
+
+total: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+routes: array of string
+
+<a href="#">Link to this property</a>
+
+tunnels: array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+lifecycle\_errors: optional map\[object {code, message, documentation\_url, 2 more } ]
+
+</summary>
+
+<details>
+
+<summary>
+
+code: 1001or 1002or 1003or 152 more
+
+</summary>
+
+One of the following:
+
+1001
+
+<a href="#">Link to this property</a>
+
+1002
+
+<a href="#">Link to this property</a>
+
+1003
+
+<a href="#">Link to this property</a>
+
+1004
+
+<a href="#">Link to this property</a>
+
+1005
+
+<a href="#">Link to this property</a>
+
+1006
+
+<a href="#">Link to this property</a>
+
+1007
+
+<a href="#">Link to this property</a>
+
+1008
+
+<a href="#">Link to this property</a>
+
+1009
+
+<a href="#">Link to this property</a>
+
+1010
+
+<a href="#">Link to this property</a>
+
+1011
+
+<a href="#">Link to this property</a>
+
+1012
+
+<a href="#">Link to this property</a>
+
+1013
+
+<a href="#">Link to this property</a>
+
+1014
+
+<a href="#">Link to this property</a>
+
+1015
+
+<a href="#">Link to this property</a>
+
+1016
+
+<a href="#">Link to this property</a>
+
+1017
+
+<a href="#">Link to this property</a>
+
+1018
+
+<a href="#">Link to this property</a>
+
+2001
+
+<a href="#">Link to this property</a>
+
+2002
+
+<a href="#">Link to this property</a>
+
+2003
+
+<a href="#">Link to this property</a>
+
+2004
+
+<a href="#">Link to this property</a>
+
+2005
+
+<a href="#">Link to this property</a>
+
+2006
+
+<a href="#">Link to this property</a>
+
+2007
+
+<a href="#">Link to this property</a>
+
+2008
+
+<a href="#">Link to this property</a>
+
+2009
+
+<a href="#">Link to this property</a>
+
+2010
+
+<a href="#">Link to this property</a>
+
+2011
+
+<a href="#">Link to this property</a>
+
+2012
+
+<a href="#">Link to this property</a>
+
+2013
+
+<a href="#">Link to this property</a>
+
+2014
+
+<a href="#">Link to this property</a>
+
+2015
+
+<a href="#">Link to this property</a>
+
+2016
+
+<a href="#">Link to this property</a>
+
+2017
+
+<a href="#">Link to this property</a>
+
+2018
+
+<a href="#">Link to this property</a>
+
+2019
+
+<a href="#">Link to this property</a>
+
+2020
+
+<a href="#">Link to this property</a>
+
+2021
+
+<a href="#">Link to this property</a>
+
+2022
+
+<a href="#">Link to this property</a>
+
+3001
+
+<a href="#">Link to this property</a>
+
+3002
+
+<a href="#">Link to this property</a>
+
+3003
+
+<a href="#">Link to this property</a>
+
+3004
+
+<a href="#">Link to this property</a>
+
+3005
+
+<a href="#">Link to this property</a>
+
+3006
+
+<a href="#">Link to this property</a>
+
+3007
+
+<a href="#">Link to this property</a>
+
+4001
+
+<a href="#">Link to this property</a>
+
+4002
+
+<a href="#">Link to this property</a>
+
+4003
+
+<a href="#">Link to this property</a>
+
+4004
+
+<a href="#">Link to this property</a>
+
+4005
+
+<a href="#">Link to this property</a>
+
+4006
+
+<a href="#">Link to this property</a>
+
+4007
+
+<a href="#">Link to this property</a>
+
+4008
+
+<a href="#">Link to this property</a>
+
+4009
+
+<a href="#">Link to this property</a>
+
+4010
+
+<a href="#">Link to this property</a>
+
+4011
+
+<a href="#">Link to this property</a>
+
+4012
+
+<a href="#">Link to this property</a>
+
+4013
+
+<a href="#">Link to this property</a>
+
+4014
+
+<a href="#">Link to this property</a>
+
+4015
+
+<a href="#">Link to this property</a>
+
+4016
+
+<a href="#">Link to this property</a>
+
+4017
+
+<a href="#">Link to this property</a>
+
+4018
+
+<a href="#">Link to this property</a>
+
+4019
+
+<a href="#">Link to this property</a>
+
+4020
+
+<a href="#">Link to this property</a>
+
+4021
+
+<a href="#">Link to this property</a>
+
+4022
+
+<a href="#">Link to this property</a>
+
+4023
+
+<a href="#">Link to this property</a>
+
+5001
+
+<a href="#">Link to this property</a>
+
+5002
+
+<a href="#">Link to this property</a>
+
+5003
+
+<a href="#">Link to this property</a>
+
+5004
+
+<a href="#">Link to this property</a>
+
+102000
+
+<a href="#">Link to this property</a>
+
+102001
+
+<a href="#">Link to this property</a>
+
+102002
+
+<a href="#">Link to this property</a>
+
+102003
+
+<a href="#">Link to this property</a>
+
+102004
+
+<a href="#">Link to this property</a>
+
+102005
+
+<a href="#">Link to this property</a>
+
+102006
+
+<a href="#">Link to this property</a>
+
+102007
+
+<a href="#">Link to this property</a>
+
+102008
+
+<a href="#">Link to this property</a>
+
+102009
+
+<a href="#">Link to this property</a>
+
+102010
+
+<a href="#">Link to this property</a>
+
+102011
+
+<a href="#">Link to this property</a>
+
+102012
+
+<a href="#">Link to this property</a>
+
+102013
+
+<a href="#">Link to this property</a>
+
+102014
+
+<a href="#">Link to this property</a>
+
+102015
+
+<a href="#">Link to this property</a>
+
+102016
+
+<a href="#">Link to this property</a>
+
+102017
+
+<a href="#">Link to this property</a>
+
+102018
+
+<a href="#">Link to this property</a>
+
+102019
+
+<a href="#">Link to this property</a>
+
+102020
+
+<a href="#">Link to this property</a>
+
+102021
+
+<a href="#">Link to this property</a>
+
+102022
+
+<a href="#">Link to this property</a>
+
+102023
+
+<a href="#">Link to this property</a>
+
+102024
+
+<a href="#">Link to this property</a>
+
+102025
+
+<a href="#">Link to this property</a>
+
+102026
+
+<a href="#">Link to this property</a>
+
+102027
+
+<a href="#">Link to this property</a>
+
+102028
+
+<a href="#">Link to this property</a>
+
+102029
+
+<a href="#">Link to this property</a>
+
+102030
+
+<a href="#">Link to this property</a>
+
+102031
+
+<a href="#">Link to this property</a>
+
+102032
+
+<a href="#">Link to this property</a>
+
+102033
+
+<a href="#">Link to this property</a>
+
+102034
+
+<a href="#">Link to this property</a>
+
+102035
+
+<a href="#">Link to this property</a>
+
+102036
+
+<a href="#">Link to this property</a>
+
+102037
+
+<a href="#">Link to this property</a>
+
+102038
+
+<a href="#">Link to this property</a>
+
+102039
+
+<a href="#">Link to this property</a>
+
+102040
+
+<a href="#">Link to this property</a>
+
+102041
+
+<a href="#">Link to this property</a>
+
+102042
+
+<a href="#">Link to this property</a>
+
+102043
+
+<a href="#">Link to this property</a>
+
+102044
+
+<a href="#">Link to this property</a>
+
+102045
+
+<a href="#">Link to this property</a>
+
+102046
+
+<a href="#">Link to this property</a>
+
+102047
+
+<a href="#">Link to this property</a>
+
+102048
+
+<a href="#">Link to this property</a>
+
+102049
+
+<a href="#">Link to this property</a>
+
+102050
+
+<a href="#">Link to this property</a>
+
+102051
+
+<a href="#">Link to this property</a>
+
+102052
+
+<a href="#">Link to this property</a>
+
+102053
+
+<a href="#">Link to this property</a>
+
+102054
+
+<a href="#">Link to this property</a>
+
+102055
+
+<a href="#">Link to this property</a>
+
+102056
+
+<a href="#">Link to this property</a>
+
+102057
+
+<a href="#">Link to this property</a>
+
+102058
+
+<a href="#">Link to this property</a>
+
+102059
+
+<a href="#">Link to this property</a>
+
+102060
+
+<a href="#">Link to this property</a>
+
+102061
+
+<a href="#">Link to this property</a>
+
+102062
+
+<a href="#">Link to this property</a>
+
+102063
+
+<a href="#">Link to this property</a>
+
+102064
+
+<a href="#">Link to this property</a>
+
+102065
+
+<a href="#">Link to this property</a>
+
+102066
+
+<a href="#">Link to this property</a>
+
+102067
+
+<a href="#">Link to this property</a>
+
+102068
+
+<a href="#">Link to this property</a>
+
+102069
+
+<a href="#">Link to this property</a>
+
+102070
+
+<a href="#">Link to this property</a>
+
+102071
+
+<a href="#">Link to this property</a>
+
+102072
+
+<a href="#">Link to this property</a>
+
+103001
+
+<a href="#">Link to this property</a>
+
+103002
+
+<a href="#">Link to this property</a>
+
+103003
+
+<a href="#">Link to this property</a>
+
+103004
+
+<a href="#">Link to this property</a>
+
+103005
+
+<a href="#">Link to this property</a>
+
+103006
+
+<a href="#">Link to this property</a>
+
+103007
+
+<a href="#">Link to this property</a>
+
+103008
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
+
+</summary>
+
+l10n\_key: optional string
+
+<a href="#">Link to this property</a>
+
+loggable\_error: optional string
+
+<a href="#">Link to this property</a>
+
+template\_data: optional unknown
+
+<a href="#">Link to this property</a>
+
+trace\_id: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {parameter, parameter\_value\_index, pointer }
+
+</summary>
+
+parameter: optional string
+
+<a href="#">Link to this property</a>
+
+parameter\_value\_index: optional number
+
+<a href="#">Link to this property</a>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vpc: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vpcs\_by\_id: optional map\[object {id, account\_id, cloud\_type, 18 more } ]
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+account\_id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"AZURE"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE"
+
+<a href="#">Link to this property</a>
+
+"CLOUDFLARE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+config: map\[unknown]
+
+<a href="#">Link to this property</a>
+
+deployment\_provider: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+managed: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+monthly\_cost\_estimate: object {currency, monthly\_cost }
+
+</summary>
+
+currency: string
+
+<a href="#">Link to this property</a>
+
+monthly\_cost: number
+
+formatdouble
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+native\_id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+observations: map\[object {first\_observed\_at, last\_observed\_at, provider\_id, resource\_id } ]
+
+</summary>
+
+first\_observed\_at: string
+
+<a href="#">Link to this property</a>
+
+last\_observed\_at: string
+
+<a href="#">Link to this property</a>
+
+provider\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+resource\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+provider\_ids: array of string
+
+<a href="#">Link to this property</a>
+
+provider\_names\_by\_id: map\[string]
+
+<a href="#">Link to this property</a>
+
+region: string
+
+<a href="#">Link to this property</a>
+
+resource\_group: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
+
+</summary>
+
+One of the following:
+
+"aws\_customer\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_egress\_only\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_instance"
+
+<a href="#">Link to this property</a>
+
+"aws\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"aws\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_subnet"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_ipv4\_cidr\_block\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sections: array of object {hidden\_items, name, visible\_items, help\_text }
+
+</summary>
+
+<details>
+
+<summary>
+
+hidden\_items: array of object {helpText, name, value }
+
+</summary>
+
+helpText: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional object {item\_type, string } or object {item\_type, yaml } or object {item\_type, yaml\_diff } or 2 more
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+McnStringItem object {item\_type, string }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+string: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnYamlItem object {item\_type, yaml }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+yaml: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnYamlDiffItem object {item\_type, yaml\_diff }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+yaml\_diff: object {diff, left\_description, left\_yaml, 2 more }
+
+</summary>
+
+diff: string
+
+<a href="#">Link to this property</a>
+
+left\_description: string
+
+<a href="#">Link to this property</a>
+
+left\_yaml: string
+
+<a href="#">Link to this property</a>
+
+right\_description: string
+
+<a href="#">Link to this property</a>
+
+right\_yaml: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnResourcePreviewItem object {item\_type, resource\_preview }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_preview: object {id, cloud\_type, detail, 3 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"AZURE"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE"
+
+<a href="#">Link to this property</a>
+
+"CLOUDFLARE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
+
+</summary>
+
+One of the following:
+
+"aws\_customer\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_egress\_only\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_instance"
+
+<a href="#">Link to this property</a>
+
+"aws\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"aws\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_subnet"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_ipv4\_cidr\_block\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnListItem object {item\_type, list }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+list: array of object {item\_type, string } or object {item\_type, resource\_preview }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+McnStringItem object {item\_type, string }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+string: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnResourcePreviewItem object {item\_type, resource\_preview }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_preview: object {id, cloud\_type, detail, 3 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"AZURE"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE"
+
+<a href="#">Link to this property</a>
+
+"CLOUDFLARE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
+
+</summary>
+
+One of the following:
+
+"aws\_customer\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_egress\_only\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_instance"
+
+<a href="#">Link to this property</a>
+
+"aws\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"aws\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_subnet"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_ipv4\_cidr\_block\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+visible\_items: array of object {helpText, name, value }
+
+</summary>
+
+helpText: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional object {item\_type, string } or object {item\_type, yaml } or object {item\_type, yaml\_diff } or 2 more
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+McnStringItem object {item\_type, string }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+string: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnYamlItem object {item\_type, yaml }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+yaml: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnYamlDiffItem object {item\_type, yaml\_diff }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+yaml\_diff: object {diff, left\_description, left\_yaml, 2 more }
+
+</summary>
+
+diff: string
+
+<a href="#">Link to this property</a>
+
+left\_description: string
+
+<a href="#">Link to this property</a>
+
+left\_yaml: string
+
+<a href="#">Link to this property</a>
+
+right\_description: string
+
+<a href="#">Link to this property</a>
+
+right\_yaml: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnResourcePreviewItem object {item\_type, resource\_preview }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_preview: object {id, cloud\_type, detail, 3 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"AZURE"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE"
+
+<a href="#">Link to this property</a>
+
+"CLOUDFLARE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
+
+</summary>
+
+One of the following:
+
+"aws\_customer\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_egress\_only\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_instance"
+
+<a href="#">Link to this property</a>
+
+"aws\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"aws\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_subnet"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_ipv4\_cidr\_block\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnListItem object {item\_type, list }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+list: array of object {item\_type, string } or object {item\_type, resource\_preview }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+McnStringItem object {item\_type, string }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+string: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+McnResourcePreviewItem object {item\_type, resource\_preview }
+
+</summary>
+
+item\_type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_preview: object {id, cloud\_type, detail, 3 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
+
+</summary>
+
+One of the following:
+
+"AWS"
+
+<a href="#">Link to this property</a>
+
+"AZURE"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE"
+
+<a href="#">Link to this property</a>
+
+"CLOUDFLARE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
+
+</summary>
+
+One of the following:
+
+"aws\_customer\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_egress\_only\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_internet\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_instance"
+
+<a href="#">Link to this property</a>
+
+"aws\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"aws\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"aws\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_subnet"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_ipv4\_cidr\_block\_association"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_connection\_route"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+help\_text: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+state: map\[unknown]
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+managed\_by: optional array of object {id, client\_type, name }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+client\_type: "MAGIC\_WAN\_CLOUD\_ONRAMP"
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vpcs\_by\_id\_unavailable: optional array of string
+
+The list of vpc IDs for which resource details failed to generate.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20magic_cloud_networking.on_ramps%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Patch On-ramp
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/onramps/$ONRAMP_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -3038,9 +7128,312 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/onram
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1001,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "meta": {
+        "l10n_key": "l10n_key",
+        "loggable_error": "loggable_error",
+        "template_data": {},
+        "trace_id": "trace_id"
+      },
+      "source": {
+        "parameter": "parameter",
+        "parameter_value_index": 0,
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1001,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "meta": {
+        "l10n_key": "l10n_key",
+        "loggable_error": "loggable_error",
+        "template_data": {},
+        "trace_id": "trace_id"
+      },
+      "source": {
+        "parameter": "parameter",
+        "parameter_value_index": 0,
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "cloud_type": "AWS",
+    "dynamic_routing": true,
+    "install_routes_in_cloud": true,
+    "install_routes_in_magic_wan": true,
+    "name": "name",
+    "type": "OnrampTypeSingle",
+    "updated_at": "updated_at",
+    "attached_hubs": [
+      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+    ],
+    "attached_vpcs": [
+      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+    ],
+    "cloud_asn": 0,
+    "description": "description",
+    "hub": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "last_applied_at": "last_applied_at",
+    "last_exported_at": "last_exported_at",
+    "last_planned_at": "last_planned_at",
+    "manage_hub_to_hub_attachments": true,
+    "manage_vpc_to_hub_attachments": true,
+    "planned_monthly_cost_estimate": {
+      "currency": "currency",
+      "current_monthly_cost": 0,
+      "diff": 0,
+      "proposed_monthly_cost": 0
+    },
+    "planned_resources": [
+      {
+        "diff": {
+          "diff": "diff",
+          "left_description": "left_description",
+          "left_yaml": "left_yaml",
+          "right_description": "right_description",
+          "right_yaml": "right_yaml"
+        },
+        "keys_require_replace": [
+          "string"
+        ],
+        "monthly_cost_estimate_diff": {
+          "currency": "currency",
+          "current_monthly_cost": 0,
+          "diff": 0,
+          "proposed_monthly_cost": 0
+        },
+        "planned_action": "no_op",
+        "resource": {
+          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+          "cloud_type": "AWS",
+          "detail": "detail",
+          "name": "name",
+          "resource_type": "aws_customer_gateway",
+          "title": "title"
+        }
+      }
+    ],
+    "planned_resources_unavailable": true,
+    "post_apply_monthly_cost_estimate": {
+      "currency": "currency",
+      "monthly_cost": 0
+    },
+    "post_apply_resources": {
+      "foo": {
+        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "account_id": "account_id",
+        "cloud_type": "AWS",
+        "config": {
+          "foo": "bar"
+        },
+        "deployment_provider": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "managed": true,
+        "monthly_cost_estimate": {
+          "currency": "currency",
+          "monthly_cost": 0
+        },
+        "name": "name",
+        "native_id": "native_id",
+        "observations": {
+          "foo": {
+            "first_observed_at": "first_observed_at",
+            "last_observed_at": "last_observed_at",
+            "provider_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "resource_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+          }
+        },
+        "provider_ids": [
+          "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+        ],
+        "provider_names_by_id": {
+          "foo": "string"
+        },
+        "region": "region",
+        "resource_group": "resource_group",
+        "resource_type": "aws_customer_gateway",
+        "sections": [
+          {
+            "hidden_items": [
+              {
+                "helpText": "helpText",
+                "name": "name",
+                "value": {
+                  "item_type": "item_type",
+                  "string": "string"
+                }
+              }
+            ],
+            "name": "name",
+            "visible_items": [
+              {
+                "helpText": "helpText",
+                "name": "name",
+                "value": {
+                  "item_type": "item_type",
+                  "string": "string"
+                }
+              }
+            ],
+            "help_text": "help_text"
+          }
+        ],
+        "state": {
+          "foo": "bar"
+        },
+        "tags": {
+          "foo": "string"
+        },
+        "updated_at": "updated_at",
+        "url": "url",
+        "managed_by": [
+          {
+            "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "client_type": "MAGIC_WAN_CLOUD_ONRAMP",
+            "name": "name"
+          }
+        ]
+      }
+    },
+    "post_apply_resources_unavailable": true,
+    "region": "region",
+    "status": {
+      "apply_progress": {
+        "done": 0,
+        "total": 0
+      },
+      "lifecycle_state": "OnrampNeedsApply",
+      "plan_progress": {
+        "done": 0,
+        "total": 0
+      },
+      "routes": [
+        "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+      ],
+      "tunnels": [
+        "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+      ],
+      "lifecycle_errors": {
+        "foo": {
+          "code": 1001,
+          "message": "message",
+          "documentation_url": "documentation_url",
+          "meta": {
+            "l10n_key": "l10n_key",
+            "loggable_error": "loggable_error",
+            "template_data": {},
+            "trace_id": "trace_id"
+          },
+          "source": {
+            "parameter": "parameter",
+            "parameter_value_index": 0,
+            "pointer": "pointer"
+          }
+        }
+      }
+    },
+    "vpc": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "vpcs_by_id": {
+      "foo": {
+        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "account_id": "account_id",
+        "cloud_type": "AWS",
+        "config": {
+          "foo": "bar"
+        },
+        "deployment_provider": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "managed": true,
+        "monthly_cost_estimate": {
+          "currency": "currency",
+          "monthly_cost": 0
+        },
+        "name": "name",
+        "native_id": "native_id",
+        "observations": {
+          "foo": {
+            "first_observed_at": "first_observed_at",
+            "last_observed_at": "last_observed_at",
+            "provider_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "resource_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+          }
+        },
+        "provider_ids": [
+          "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+        ],
+        "provider_names_by_id": {
+          "foo": "string"
+        },
+        "region": "region",
+        "resource_group": "resource_group",
+        "resource_type": "aws_customer_gateway",
+        "sections": [
+          {
+            "hidden_items": [
+              {
+                "helpText": "helpText",
+                "name": "name",
+                "value": {
+                  "item_type": "item_type",
+                  "string": "string"
+                }
+              }
+            ],
+            "name": "name",
+            "visible_items": [
+              {
+                "helpText": "helpText",
+                "name": "name",
+                "value": {
+                  "item_type": "item_type",
+                  "string": "string"
+                }
+              }
+            ],
+            "help_text": "help_text"
+          }
+        ],
+        "state": {
+          "foo": "bar"
+        },
+        "tags": {
+          "foo": "string"
+        },
+        "updated_at": "updated_at",
+        "url": "url",
+        "managed_by": [
+          {
+            "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "client_type": "MAGIC_WAN_CLOUD_ONRAMP",
+            "name": "name"
+          }
+        ]
+      }
+    },
+    "vpcs_by_id_unavailable": [
+      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -49,7 +49,7 @@
         "destination_conf": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Unique WebSocket address that will receive messages from Cloudflare’s edge."
+            "smithy.api#documentation": "Unique WebSocket address that will receive messages from Cloudflare's edge."
           }
         },
         "fields": {
@@ -84,10 +84,953 @@
         "target": "com.cloudflare.logpush#EdgeGetResultItem"
       }
     },
+    "com.cloudflare.logpush#CreateTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-provided name for identification.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional customer-provided description."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logpush#CreateTransformerResponseAssociatedJobsItemObjectType": {
+      "type": "enum",
+      "members": {
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#CreateTransformerResponseAssociatedJobsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The logpush job ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The logpush job destination name."
+          }
+        },
+        "object_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone or account tag."
+          }
+        },
+        "object_type": {
+          "target": "com.cloudflare.logpush#CreateTransformerResponseAssociatedJobsItemObjectType",
+          "traits": {
+            "smithy.api#documentation": "Whether the job is zone-scoped or account-scoped."
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#CreateTransformerResponseAssociatedJobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.logpush#CreateTransformerResponseAssociatedJobsItem"
+      }
+    },
+    "com.cloudflare.logpush#CreateTransformerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID."
+          }
+        },
+        "associated_jobs": {
+          "target": "com.cloudflare.logpush#CreateTransformerResponseAssociatedJobsList",
+          "traits": {
+            "smithy.api#documentation": "Logpush jobs that reference this transformer."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transformer was created (RFC 3339)."
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The dataset this transformer operates on, derived from the SQL query's FROM clause. Informational only. May be absent if the dataset cannot be determined from the query."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional customer-provided description."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-provided name for identification."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transformer was last modified (RFC 3339)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.logpush#CreateTransformer": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logpush#CreateTransformerRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logpush#CreateTransformerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/logpush/transformers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates a new custom log transformer for an account."
+      }
+    },
+    "com.cloudflare.logpush#DeleteTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "transformer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logpush#DeleteTransformerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The deleted transformer's ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.logpush#DeleteTransformer": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logpush#DeleteTransformerRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logpush#DeleteTransformerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/logpush/transformers/{transformer_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes a custom log transformer. Returns 409 Conflict if any active logpush jobs reference the transformer.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.logpush#GetTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "transformer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logpush#GetTransformerResponseAssociatedJobsItemObjectType": {
+      "type": "enum",
+      "members": {
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#GetTransformerResponseAssociatedJobsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The logpush job ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The logpush job destination name."
+          }
+        },
+        "object_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone or account tag."
+          }
+        },
+        "object_type": {
+          "target": "com.cloudflare.logpush#GetTransformerResponseAssociatedJobsItemObjectType",
+          "traits": {
+            "smithy.api#documentation": "Whether the job is zone-scoped or account-scoped."
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#GetTransformerResponseAssociatedJobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.logpush#GetTransformerResponseAssociatedJobsItem"
+      }
+    },
+    "com.cloudflare.logpush#GetTransformerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID."
+          }
+        },
+        "associated_jobs": {
+          "target": "com.cloudflare.logpush#GetTransformerResponseAssociatedJobsList",
+          "traits": {
+            "smithy.api#documentation": "Logpush jobs that reference this transformer."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transformer was created (RFC 3339)."
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The dataset this transformer operates on, derived from the SQL query's FROM clause. Informational only. May be absent if the dataset cannot be determined from the query."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional customer-provided description."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-provided name for identification."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transformer was last modified (RFC 3339)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.logpush#GetTransformer": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logpush#GetTransformerRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logpush#GetTransformerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/logpush/transformers/{transformer_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets a single custom log transformer by ID.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersResultItemAssociatedJobsItemObjectType": {
+      "type": "enum",
+      "members": {
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersResultItemAssociatedJobsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The logpush job ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The logpush job destination name."
+          }
+        },
+        "object_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone or account tag."
+          }
+        },
+        "object_type": {
+          "target": "com.cloudflare.logpush#ListTransformersResultItemAssociatedJobsItemObjectType",
+          "traits": {
+            "smithy.api#documentation": "Whether the job is zone-scoped or account-scoped."
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersResultItemAssociatedJobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.logpush#ListTransformersResultItemAssociatedJobsItem"
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID."
+          }
+        },
+        "associated_jobs": {
+          "target": "com.cloudflare.logpush#ListTransformersResultItemAssociatedJobsList",
+          "traits": {
+            "smithy.api#documentation": "Logpush jobs that reference this transformer."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transformer was created (RFC 3339)."
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The dataset this transformer operates on, derived from the SQL query's FROM clause. Informational only. May be absent if the dataset cannot be determined from the query."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional customer-provided description."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-provided name for identification."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transformer was last modified (RFC 3339)."
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.logpush#ListTransformersResultItem"
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.logpush#ListTransformersResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.logpush#ListTransformers": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logpush#ListTransformersRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logpush#ListTransformersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/logpush/transformers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists all custom log transformers for an account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.logpush#PreviewTransformerRequestInputMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.logpush#PreviewTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "com.cloudflare.logpush#PreviewTransformerRequestInputMap",
+          "traits": {
+            "smithy.api#documentation": "A single log record to transform (JSON object).",
+            "smithy.api#required": {}
+          }
+        },
+        "sql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logpush#PreviewTransformerResultItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.logpush#PreviewTransformerResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.logpush#PreviewTransformerResultItemMap"
+      }
+    },
+    "com.cloudflare.logpush#PreviewTransformerResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.logpush#PreviewTransformerResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.logpush#PreviewTransformer": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logpush#PreviewTransformerRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logpush#PreviewTransformerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/logpush/transformers/preview",
+          "code": 200
+        },
+        "smithy.api#documentation": "Executes a SQL transformer against a single input record and returns the transformed output. This is a stateless endpoint — nothing is persisted."
+      }
+    },
+    "com.cloudflare.logpush#UpdateTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "transformer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-provided name for identification.",
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional customer-provided description."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logpush#UpdateTransformerResponseAssociatedJobsItemObjectType": {
+      "type": "enum",
+      "members": {
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#UpdateTransformerResponseAssociatedJobsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The logpush job ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The logpush job destination name."
+          }
+        },
+        "object_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone or account tag."
+          }
+        },
+        "object_type": {
+          "target": "com.cloudflare.logpush#UpdateTransformerResponseAssociatedJobsItemObjectType",
+          "traits": {
+            "smithy.api#documentation": "Whether the job is zone-scoped or account-scoped."
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#UpdateTransformerResponseAssociatedJobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.logpush#UpdateTransformerResponseAssociatedJobsItem"
+      }
+    },
+    "com.cloudflare.logpush#UpdateTransformerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID."
+          }
+        },
+        "associated_jobs": {
+          "target": "com.cloudflare.logpush#UpdateTransformerResponseAssociatedJobsList",
+          "traits": {
+            "smithy.api#documentation": "Logpush jobs that reference this transformer."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transformer was created (RFC 3339)."
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The dataset this transformer operates on, derived from the SQL query's FROM clause. Informational only. May be absent if the dataset cannot be determined from the query."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional customer-provided description."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-provided name for identification."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transformer was last modified (RFC 3339)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.logpush#UpdateTransformer": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logpush#UpdateTransformerRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logpush#UpdateTransformerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/accounts/{account_id}/logpush/transformers/{transformer_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Updates an existing custom log transformer. When `code` is provided, the SQL query is validated and a new version is created. When `code` is omitted, only the name and description are updated. Omitting `description` clears the existing description.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.logpush#GetTransformersContentRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "transformer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Specific version ID to retrieve. When omitted, the latest version is returned.",
+            "smithy.api#httpQuery": "version_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logpush#GetTransformersContentResponse": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SQL query content."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.logpush#GetTransformersContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logpush#GetTransformersContentRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logpush#GetTransformersContentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/logpush/transformers/{transformer_id}/content",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns the SQL query content for a transformer. Without query params, returns the latest version. With `version_id`, returns the specified version.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "transformer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The transformer ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of versions to return.",
+            "smithy.api#httpQuery": "limit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersVersionsResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this version."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this version was created (RFC 3339)."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sequential version number."
+          }
+        }
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersVersionsResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.logpush#ListTransformersVersionsResultItem"
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.logpush#ListTransformersVersionsResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.logpush#ListTransformersVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logpush#ListTransformersVersionsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logpush#ListTransformersVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/logpush/transformers/{transformer_id}/versions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns version metadata for a transformer, newest first. Each version corresponds to a SQL query update.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.logpush#Logpush": {
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.logpush#CreateTransformer"
+        },
+        {
+          "target": "com.cloudflare.logpush#DeleteTransformer"
+        },
+        {
+          "target": "com.cloudflare.logpush#GetTransformer"
+        },
+        {
+          "target": "com.cloudflare.logpush#ListTransformers"
+        },
+        {
+          "target": "com.cloudflare.logpush#PreviewTransformer"
+        },
+        {
+          "target": "com.cloudflare.logpush#UpdateTransformer"
+        },
+        {
+          "target": "com.cloudflare.logpush#GetTransformersContent"
+        },
+        {
+          "target": "com.cloudflare.logpush#ListTransformersVersions"
+        },
         {
           "target": "com.cloudflare.logpush#CreateEdge"
         },
@@ -293,7 +1236,7 @@
         "destination_conf": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Unique WebSocket address that will receive messages from Cloudflare’s edge."
+            "smithy.api#documentation": "Unique WebSocket address that will receive messages from Cloudflare's edge."
           }
         },
         "fields": {
@@ -377,6 +1320,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/)."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
           }
         },
         "frequency": {
@@ -489,6 +1438,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/)."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
           }
         },
         "frequency": {
@@ -1440,6 +2395,12 @@
             "smithy.api#documentation": "The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/)."
           }
         },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
+          }
+        },
         "frequency": {
           "target": "com.cloudflare.logpush#JobsUpdateRequestFrequency",
           "traits": {
@@ -1552,6 +2513,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/)."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
           }
         },
         "frequency": {
@@ -1734,21 +2701,6 @@
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
       }
     },
-    "com.cloudflare.logpush#GetDatasetFieldResponse": {
-      "type": "structure",
-      "members": {
-        "result": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.cloudflare.protocols#envelopePayload": {},
-            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
     "com.cloudflare.logpush#DestinationValidateResponse": {
       "type": "structure",
       "members": {
@@ -1910,6 +2862,12 @@
             "smithy.api#enumValue": "access_requests"
           }
         },
+        "ACCOUNT_ABUSE_PROTECTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_abuse_protection_events"
+          }
+        },
         "AUDIT_LOGS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2016,6 +2974,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ipsec_logs"
+          }
+        },
+        "MAGIC_BGP_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_bgp_logs"
           }
         },
         "MAGIC_IDS_DETECTIONS": {
@@ -2309,6 +3273,12 @@
             "smithy.api#enumValue": "access_requests"
           }
         },
+        "ACCOUNT_ABUSE_PROTECTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_abuse_protection_events"
+          }
+        },
         "AUDIT_LOGS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2415,6 +3385,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ipsec_logs"
+          }
+        },
+        "MAGIC_BGP_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_bgp_logs"
           }
         },
         "MAGIC_IDS_DETECTIONS": {
@@ -2616,6 +3592,12 @@
             "smithy.api#enumValue": "access_requests"
           }
         },
+        "ACCOUNT_ABUSE_PROTECTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_abuse_protection_events"
+          }
+        },
         "AUDIT_LOGS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2722,6 +3704,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ipsec_logs"
+          }
+        },
+        "MAGIC_BGP_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_bgp_logs"
           }
         },
         "MAGIC_IDS_DETECTIONS": {
@@ -2923,6 +3911,12 @@
             "smithy.api#enumValue": "access_requests"
           }
         },
+        "ACCOUNT_ABUSE_PROTECTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_abuse_protection_events"
+          }
+        },
         "AUDIT_LOGS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3029,6 +4023,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ipsec_logs"
+          }
+        },
+        "MAGIC_BGP_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_bgp_logs"
           }
         },
         "MAGIC_IDS_DETECTIONS": {
@@ -3230,6 +4230,12 @@
             "smithy.api#enumValue": "access_requests"
           }
         },
+        "ACCOUNT_ABUSE_PROTECTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_abuse_protection_events"
+          }
+        },
         "AUDIT_LOGS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3336,6 +4342,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ipsec_logs"
+          }
+        },
+        "MAGIC_BGP_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_bgp_logs"
           }
         },
         "MAGIC_IDS_DETECTIONS": {
@@ -3537,6 +4549,12 @@
             "smithy.api#enumValue": "access_requests"
           }
         },
+        "ACCOUNT_ABUSE_PROTECTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_abuse_protection_events"
+          }
+        },
         "AUDIT_LOGS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3643,6 +4661,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ipsec_logs"
+          }
+        },
+        "MAGIC_BGP_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_bgp_logs"
           }
         },
         "MAGIC_IDS_DETECTIONS": {
@@ -3752,6 +4776,12 @@
             "smithy.api#enumValue": "access_requests"
           }
         },
+        "ACCOUNT_ABUSE_PROTECTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_abuse_protection_events"
+          }
+        },
         "AUDIT_LOGS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3858,6 +4888,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ipsec_logs"
+          }
+        },
+        "MAGIC_BGP_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_bgp_logs"
           }
         },
         "MAGIC_IDS_DETECTIONS": {
@@ -3958,6 +4994,15 @@
         }
       }
     },
+    "com.cloudflare.logpush#DatasetsFieldsGetResultMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.logpush#DatasetsFieldsGetRequestDatasetId": {
       "type": "enum",
       "members": {
@@ -3965,6 +5010,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "access_requests"
+          }
+        },
+        "ACCOUNT_ABUSE_PROTECTION_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_abuse_protection_events"
           }
         },
         "AUDIT_LOGS": {
@@ -4075,6 +5126,12 @@
             "smithy.api#enumValue": "ipsec_logs"
           }
         },
+        "MAGIC_BGP_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_bgp_logs"
+          }
+        },
         "MAGIC_IDS_DETECTIONS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4171,6 +5228,21 @@
             "smithy.api#enumValue": "zero_trust_network_sessions"
           }
         }
+      }
+    },
+    "com.cloudflare.logpush#GetDatasetFieldResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.logpush#DatasetsFieldsGetResultMap",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.cloudflare.logpush#JobsUpdateResponseOutputOptions": {
@@ -4239,7 +5311,7 @@
         "sample_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
+            "smithy.api#documentation": "Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
           }
         },
         "timestamp_format": {
@@ -4324,7 +5396,7 @@
         "sample_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
+            "smithy.api#documentation": "Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
           }
         },
         "timestamp_format": {
@@ -4409,7 +5481,7 @@
         "sample_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
+            "smithy.api#documentation": "Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
           }
         },
         "timestamp_format": {
@@ -4494,7 +5566,7 @@
         "sample_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
+            "smithy.api#documentation": "Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
           }
         },
         "timestamp_format": {
@@ -4579,7 +5651,7 @@
         "sample_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
+            "smithy.api#documentation": "Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
           }
         },
         "timestamp_format": {
@@ -4664,7 +5736,7 @@
         "sample_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
+            "smithy.api#documentation": "Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
           }
         },
         "timestamp_format": {
@@ -4749,7 +5821,7 @@
         "sample_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
+            "smithy.api#documentation": "Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data."
           }
         },
         "timestamp_format": {
@@ -4799,6 +5871,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
           }
         },
         "frequency": {
@@ -4900,6 +5978,12 @@
             "smithy.api#documentation": "If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null."
           }
         },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
+          }
+        },
         "frequency": {
           "target": "com.cloudflare.logpush#JobsGetResponseFrequency",
           "traits": {
@@ -4997,6 +6081,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
           }
         },
         "frequency": {
@@ -5098,6 +6188,12 @@
             "smithy.api#documentation": "If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null."
           }
         },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
+          }
+        },
         "frequency": {
           "target": "com.cloudflare.logpush#JobsListResultItemFrequency",
           "traits": {
@@ -5191,6 +6287,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
           }
         },
         "frequency": {

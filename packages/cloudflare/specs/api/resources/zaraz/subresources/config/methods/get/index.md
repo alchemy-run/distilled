@@ -1,715 +1,1950 @@
-## Get Zaraz configuration
+---
+title: Get Zaraz configuration
+---
 
-**get** `/zones/{zone_id}/settings/zaraz/config`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zaraz](https://developers.cloudflare.com/api/resources/zaraz)
+
+[Config](https://developers.cloudflare.com/api/resources/zaraz/subresources/config)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Zaraz configuration
+
+GET/zones/{zone\_id}/settings/zaraz/config
 
 Gets latest Zaraz configuration for a zone. It can be preview or published configuration, whichever was the last updated. Secret variables values will not be included.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result: Configuration`
+</details>
 
-  Zaraz configuration.
+##### Accepted Permissions (at least one required)
 
-  - `dataLayer: boolean`
+`Zaraz Edit``Zaraz Read``Zaraz Admin`
 
-    Data layer compatibility mode enabled.
+##### P ath ParametersExpand Collapse
 
-  - `debugKey: string`
+zone\_id: string
 
-    The key for Zaraz debug mode.
+Identifier.
 
-  - `settings: object { autoInjectScript, contextEnricher, cookieDomain, 11 more }`
+maxLength32
 
-    General Zaraz settings.
+[Link to this property](#)%20zaraz.config%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `autoInjectScript: boolean`
+##### ReturnsExpand Collapse
 
-      Automatic injection of Zaraz scripts enabled.
+<details>
 
-    - `contextEnricher: optional object { escapedWorkerName, workerTag }`
+<summary>
 
-      Details of the worker that receives and edits Zaraz Context object.
+errors: array of object {code, message, documentation\_url, source }
 
-      - `escapedWorkerName: string`
+</summary>
 
-      - `workerTag: string`
+code: number
 
-    - `cookieDomain: optional string`
+minimum1000
 
-      The domain Zaraz will use for writing and reading its cookies.
+<a href="#">Link to this property</a>
 
-    - `ecommerce: optional boolean`
+message: string
 
-      Ecommerce API enabled.
+<a href="#">Link to this property</a>
 
-    - `eventsApiPath: optional string`
+documentation\_url: optional string
 
-      Custom endpoint for server-side track events.
+<a href="#">Link to this property</a>
 
-    - `hideExternalReferer: optional boolean`
+<details>
 
-      Hiding external referrer URL enabled.
+<summary>
 
-    - `hideIPAddress: optional boolean`
+source: optional object {pointer }
 
-      Trimming IP address enabled.
+</summary>
 
-    - `hideQueryParams: optional boolean`
+pointer: optional string
 
-      Removing URL query params enabled.
+<a href="#">Link to this property</a>
 
-    - `hideUserAgent: optional boolean`
+</details>
 
-      Removing sensitive data from User Agent string enabled.
+<a href="#">Link to this property</a>
 
-    - `initPath: optional string`
+</details>
 
-      Custom endpoint for Zaraz init script.
+[Link to this property](#)%20zaraz.config%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `injectIframes: optional boolean`
+<details>
 
-      Injection of Zaraz scripts into iframes enabled.
+<summary>
 
-    - `mcRootPath: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-      Custom path for Managed Components server functionalities.
+</summary>
 
-    - `scriptPath: optional string`
+code: number
 
-      Custom endpoint for Zaraz main script.
+minimum1000
 
-    - `trackPath: optional string`
+<a href="#">Link to this property</a>
 
-      Custom endpoint for Zaraz tracking requests.
+message: string
 
-  - `tools: map[object { blockingTriggers, component, defaultFields, 10 more }  or object { blockingTriggers, component, defaultFields, 11 more } ]`
+<a href="#">Link to this property</a>
 
-    Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object.
+documentation\_url: optional string
 
-    - `ZarazManagedComponent object { blockingTriggers, component, defaultFields, 10 more }`
+<a href="#">Link to this property</a>
 
-      - `blockingTriggers: array of string`
+<details>
 
-        List of blocking trigger IDs.
+<summary>
 
-      - `component: string`
+source: optional object {pointer }
 
-        Tool's internal name.
+</summary>
 
-      - `defaultFields: map[string or boolean]`
+pointer: optional string
 
-        Default fields for tool's actions.
+<a href="#">Link to this property</a>
 
-        - `string`
+</details>
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+</details>
 
-        Whether tool is enabled.
+[Link to this property](#)%20zaraz.config%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-      - `name: string`
+<details>
 
-        Tool's name defined by the user.
+<summary>
 
-      - `permissions: array of string`
+result: <a href="https://developers.cloudflare.com/api/resources/zaraz#(resource)%20zaraz.config%20%3E%20(model)%20configuration%20%3E%20(schema)">Configuration</a> { dataLayer, debugKey, settings, 7 more }
 
-        List of permissions granted to the component.
+Zaraz configuration.
 
-      - `settings: map[string or boolean]`
+</summary>
 
-        Tool's settings.
+dataLayer: boolean
 
-        - `string`
+Data layer compatibility mode enabled.
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-      - `type: "component"`
+debugKey: string
 
-        - `"component"`
+The key for Zaraz debug mode.
 
-      - `actions: optional map[NeoEvent]`
+<a href="#">Link to this property</a>
 
-        Actions configured on a tool. Either this or neoEvents field is required.
+<details>
 
-        - `actionType: string`
+<summary>
 
-          Tool event type.
+settings: object {autoInjectScript, contextEnricher, cookieDomain, 11 more }
 
-        - `blockingTriggers: array of string`
+General Zaraz settings.
 
-          List of blocking triggers IDs.
+</summary>
 
-        - `data: unknown`
+autoInjectScript: boolean
 
-          Event payload.
+Automatic injection of Zaraz scripts enabled.
 
-        - `firingTriggers: array of string`
+<a href="#">Link to this property</a>
 
-          List of firing triggers IDs.
+<details>
 
-      - `defaultPurpose: optional string`
+<summary>
 
-        Default consent purpose ID.
+contextEnricher: optional object {escapedWorkerName, workerTag }
 
-      - `neoEvents: optional array of NeoEvent`
+Details of the worker that receives and edits Zaraz Context object.
 
-        DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence.
+</summary>
 
-        - `actionType: string`
+escapedWorkerName: string
 
-          Tool event type.
+<a href="#">Link to this property</a>
 
-        - `blockingTriggers: array of string`
+workerTag: string
 
-          List of blocking triggers IDs.
+<a href="#">Link to this property</a>
 
-        - `data: unknown`
+</details>
 
-          Event payload.
+<a href="#">Link to this property</a>
 
-        - `firingTriggers: array of string`
+cookieDomain: optional string
 
-          List of firing triggers IDs.
+The domain Zaraz will use for writing and reading its cookies.
 
-      - `vendorName: optional string`
+<a href="#">Link to this property</a>
 
-        Vendor name for TCF compliant consent modal, required for Custom Managed Components and Custom HTML tool with a defaultPurpose assigned.
+ecommerce: optional boolean
 
-      - `vendorPolicyUrl: optional string`
+Ecommerce API enabled.
 
-        Vendor's Privacy Policy URL for TCF compliant consent modal, required for Custom Managed Components and Custom HTML tool with a defaultPurpose assigned.
+<a href="#">Link to this property</a>
 
-    - `Worker object { blockingTriggers, component, defaultFields, 11 more }`
+eventsApiPath: optional string
 
-      - `blockingTriggers: array of string`
+Custom endpoint for server-side track events.
 
-        List of blocking trigger IDs.
+<a href="#">Link to this property</a>
 
-      - `component: string`
+hideExternalReferer: optional boolean
 
-        Tool's internal name.
+Hiding external referrer URL enabled.
 
-      - `defaultFields: map[string or boolean]`
+<a href="#">Link to this property</a>
 
-        Default fields for tool's actions.
+hideIPAddress: optional boolean
 
-        - `string`
+Trimming IP address enabled.
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+hideQueryParams: optional boolean
 
-        Whether tool is enabled.
+Removing URL query params enabled.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        Tool's name defined by the user.
+hideUserAgent: optional boolean
 
-      - `permissions: array of string`
+Removing sensitive data from User Agent string enabled.
 
-        List of permissions granted to the component.
+<a href="#">Link to this property</a>
 
-      - `settings: map[string or boolean]`
+initPath: optional string
 
-        Tool's settings.
+Custom endpoint for Zaraz init script.
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+injectIframes: optional boolean
 
-      - `type: "custom-mc"`
+Injection of Zaraz scripts into iframes enabled.
 
-        - `"custom-mc"`
+<a href="#">Link to this property</a>
 
-      - `worker: object { escapedWorkerName, workerTag }`
+mcRootPath: optional string
 
-        Cloudflare worker that acts as a managed component.
+Custom path for Managed Components server functionalities.
 
-        - `escapedWorkerName: string`
+<a href="#">Link to this property</a>
 
-        - `workerTag: string`
+scriptPath: optional string
 
-      - `actions: optional map[NeoEvent]`
+Custom endpoint for Zaraz main script.
 
-        Actions configured on a tool. Either this or neoEvents field is required.
+<a href="#">Link to this property</a>
 
-        - `actionType: string`
+trackPath: optional string
 
-          Tool event type.
+Custom endpoint for Zaraz tracking requests.
 
-        - `blockingTriggers: array of string`
+<a href="#">Link to this property</a>
 
-          List of blocking triggers IDs.
+</details>
 
-        - `data: unknown`
+<a href="#">Link to this property</a>
 
-          Event payload.
+<details>
 
-        - `firingTriggers: array of string`
+<summary>
 
-          List of firing triggers IDs.
+tools: map\[object {blockingTriggers, component, defaultFields, 10 more } or object {blockingTriggers, component, defaultFields, 11 more } ]
 
-      - `defaultPurpose: optional string`
+Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object.
 
-        Default consent purpose ID.
+</summary>
 
-      - `neoEvents: optional array of NeoEvent`
+One of the following:
 
-        DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence.
+<details>
 
-        - `actionType: string`
+<summary>
 
-          Tool event type.
+ZarazManagedComponent object {blockingTriggers, component, defaultFields, 10 more }
 
-        - `blockingTriggers: array of string`
+</summary>
 
-          List of blocking triggers IDs.
+blockingTriggers: array of string
 
-        - `data: unknown`
+List of blocking trigger IDs.
 
-          Event payload.
+<a href="#">Link to this property</a>
 
-        - `firingTriggers: array of string`
+component: string
 
-          List of firing triggers IDs.
+Tool’s internal name.
 
-      - `vendorName: optional string`
+<a href="#">Link to this property</a>
 
-        Vendor name for TCF compliant consent modal, required for Custom Managed Components and Custom HTML tool with a defaultPurpose assigned.
+<details>
 
-      - `vendorPolicyUrl: optional string`
+<summary>
 
-        Vendor's Privacy Policy URL for TCF compliant consent modal, required for Custom Managed Components and Custom HTML tool with a defaultPurpose assigned.
+defaultFields: map\[stringor boolean]
 
-  - `triggers: map[object { excludeRules, loadRules, name, 2 more } ]`
+Default fields for tool’s actions.
 
-    Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration.
+</summary>
 
-    - `excludeRules: array of object { id, match, op, value }  or object { id, action, settings }  or object { id, action, settings }  or 4 more`
+One of the following:
 
-      Rules defining when the trigger is not fired.
+string
 
-      - `ZarazLoadRule object { id, match, op, value }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+boolean
 
-        - `match: string`
+<a href="#">Link to this property</a>
 
-        - `op: "CONTAINS" or "EQUALS" or "STARTS_WITH" or 7 more`
+</details>
 
-          - `"CONTAINS"`
+<a href="#">Link to this property</a>
 
-          - `"EQUALS"`
+enabled: boolean
 
-          - `"STARTS_WITH"`
+Whether tool is enabled.
 
-          - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-          - `"MATCH_REGEX"`
+name: string
 
-          - `"NOT_MATCH_REGEX"`
+Tool’s name defined by the user.
 
-          - `"GREATER_THAN"`
+<a href="#">Link to this property</a>
 
-          - `"GREATER_THAN_OR_EQUAL"`
+permissions: array of string
 
-          - `"LESS_THAN"`
+List of permissions granted to the component.
 
-          - `"LESS_THAN_OR_EQUAL"`
+<a href="#">Link to this property</a>
 
-        - `value: string`
+<details>
 
-      - `ZarazClickListenerRule object { id, action, settings }`
+<summary>
 
-        - `id: string`
+settings: map\[stringor boolean]
 
-        - `action: "clickListener"`
+Tool’s settings.
 
-          - `"clickListener"`
+</summary>
 
-        - `settings: object { selector, type, waitForTags }`
+One of the following:
 
-          - `selector: string`
+string
 
-          - `type: "xpath" or "css"`
+<a href="#">Link to this property</a>
 
-            - `"xpath"`
+boolean
 
-            - `"css"`
+<a href="#">Link to this property</a>
 
-          - `waitForTags: number`
+</details>
 
-      - `ZarazTimerRule object { id, action, settings }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+type: "component"
 
-        - `action: "timer"`
+<a href="#">Link to this property</a>
 
-          - `"timer"`
+<details>
 
-        - `settings: object { interval, limit }`
+<summary>
 
-          - `interval: number`
+actions: optional map\[<a href="https://developers.cloudflare.com/api/resources/zaraz#(resource)%20zaraz%20%3E%20(model)%20neo_event%20%3E%20(schema)">NeoEvent</a> { actionType, blockingTriggers, data, firingTriggers } ]
 
-          - `limit: number`
+Actions configured on a tool. Either this or neoEvents field is required.
 
-      - `ZarazFormSubmissionRule object { id, action, settings }`
+</summary>
 
-        - `id: string`
+actionType: string
 
-        - `action: "formSubmission"`
+Tool event type.
 
-          - `"formSubmission"`
+<a href="#">Link to this property</a>
 
-        - `settings: object { selector, validate }`
+blockingTriggers: array of string
 
-          - `selector: string`
+List of blocking triggers IDs.
 
-          - `validate: boolean`
+<a href="#">Link to this property</a>
 
-      - `ZarazVariableMatchRule object { id, action, settings }`
+data: unknown
 
-        - `id: string`
+Event payload.
 
-        - `action: "variableMatch"`
+<a href="#">Link to this property</a>
 
-          - `"variableMatch"`
+firingTriggers: array of string
 
-        - `settings: object { match, variable }`
+List of firing triggers IDs.
 
-          - `match: string`
+<a href="#">Link to this property</a>
 
-          - `variable: string`
+</details>
 
-      - `ZarazScrollDepthRule object { id, action, settings }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+defaultPurpose: optional string
 
-        - `action: "scrollDepth"`
+Default consent purpose ID.
 
-          - `"scrollDepth"`
+<a href="#">Link to this property</a>
 
-        - `settings: object { positions }`
+<details>
 
-          - `positions: string`
+<summary>
 
-      - `ZarazElementVisibilityRule object { id, action, settings }`
+neoEvents: optional array of <a href="https://developers.cloudflare.com/api/resources/zaraz#(resource)%20zaraz%20%3E%20(model)%20neo_event%20%3E%20(schema)">NeoEvent</a> { actionType, blockingTriggers, data, firingTriggers }
 
-        - `id: string`
+DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence.
 
-        - `action: "elementVisibility"`
+</summary>
 
-          - `"elementVisibility"`
+actionType: string
 
-        - `settings: object { selector }`
+Tool event type.
 
-          - `selector: string`
+<a href="#">Link to this property</a>
 
-    - `loadRules: array of object { id, match, op, value }  or object { id, action, settings }  or object { id, action, settings }  or 4 more`
+blockingTriggers: array of string
 
-      Rules defining when the trigger is fired.
+List of blocking triggers IDs.
 
-      - `ZarazLoadRule object { id, match, op, value }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+data: unknown
 
-        - `match: string`
+Event payload.
 
-        - `op: "CONTAINS" or "EQUALS" or "STARTS_WITH" or 7 more`
+<a href="#">Link to this property</a>
 
-          - `"CONTAINS"`
+firingTriggers: array of string
 
-          - `"EQUALS"`
+List of firing triggers IDs.
 
-          - `"STARTS_WITH"`
+<a href="#">Link to this property</a>
 
-          - `"ENDS_WITH"`
+</details>
 
-          - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-          - `"NOT_MATCH_REGEX"`
+vendorName: optional string
 
-          - `"GREATER_THAN"`
+Vendor name for TCF compliant consent modal, required for Custom Managed Components and Custom HTML tool with a defaultPurpose assigned.
 
-          - `"GREATER_THAN_OR_EQUAL"`
+<a href="#">Link to this property</a>
 
-          - `"LESS_THAN"`
+vendorPolicyUrl: optional string
 
-          - `"LESS_THAN_OR_EQUAL"`
+Vendor’s Privacy Policy URL for TCF compliant consent modal, required for Custom Managed Components and Custom HTML tool with a defaultPurpose assigned.
 
-        - `value: string`
+<a href="#">Link to this property</a>
 
-      - `ZarazClickListenerRule object { id, action, settings }`
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `action: "clickListener"`
+<details>
 
-          - `"clickListener"`
+<summary>
 
-        - `settings: object { selector, type, waitForTags }`
+Worker object {blockingTriggers, component, defaultFields, 11 more }
 
-          - `selector: string`
+</summary>
 
-          - `type: "xpath" or "css"`
+blockingTriggers: array of string
 
-            - `"xpath"`
+List of blocking trigger IDs.
 
-            - `"css"`
+<a href="#">Link to this property</a>
 
-          - `waitForTags: number`
+component: string
 
-      - `ZarazTimerRule object { id, action, settings }`
+Tool’s internal name.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `action: "timer"`
+<details>
 
-          - `"timer"`
+<summary>
 
-        - `settings: object { interval, limit }`
+defaultFields: map\[stringor boolean]
 
-          - `interval: number`
+Default fields for tool’s actions.
 
-          - `limit: number`
+</summary>
 
-      - `ZarazFormSubmissionRule object { id, action, settings }`
+One of the following:
 
-        - `id: string`
+string
 
-        - `action: "formSubmission"`
+<a href="#">Link to this property</a>
 
-          - `"formSubmission"`
+boolean
 
-        - `settings: object { selector, validate }`
+<a href="#">Link to this property</a>
 
-          - `selector: string`
+</details>
 
-          - `validate: boolean`
+<a href="#">Link to this property</a>
 
-      - `ZarazVariableMatchRule object { id, action, settings }`
+enabled: boolean
 
-        - `id: string`
+Whether tool is enabled.
 
-        - `action: "variableMatch"`
+<a href="#">Link to this property</a>
 
-          - `"variableMatch"`
+name: string
 
-        - `settings: object { match, variable }`
+Tool’s name defined by the user.
 
-          - `match: string`
+<a href="#">Link to this property</a>
 
-          - `variable: string`
+permissions: array of string
 
-      - `ZarazScrollDepthRule object { id, action, settings }`
+List of permissions granted to the component.
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `action: "scrollDepth"`
+<details>
 
-          - `"scrollDepth"`
+<summary>
 
-        - `settings: object { positions }`
+settings: map\[stringor boolean]
 
-          - `positions: string`
+Tool’s settings.
 
-      - `ZarazElementVisibilityRule object { id, action, settings }`
+</summary>
 
-        - `id: string`
+One of the following:
 
-        - `action: "elementVisibility"`
+string
 
-          - `"elementVisibility"`
+<a href="#">Link to this property</a>
 
-        - `settings: object { selector }`
+boolean
 
-          - `selector: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      Trigger name.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+type: "custom-mc"
 
-      Trigger description.
+<a href="#">Link to this property</a>
 
-    - `system: optional "pageload"`
+<details>
 
-      - `"pageload"`
+<summary>
 
-  - `variables: map[object { name, type, value }  or object { name, type, value }  or object { name, type, value } ]`
+worker: object {escapedWorkerName, workerTag }
 
-    Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included.
+Cloudflare worker that acts as a managed component.
 
-    - `String object { name, type, value }`
+</summary>
 
-      - `name: string`
+escapedWorkerName: string
 
-      - `type: "string"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+workerTag: string
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-    - `Secret object { name, type, value }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "secret"`
+<details>
 
-        - `"secret"`
+<summary>
 
-      - `value: string`
+actions: optional map\[<a href="https://developers.cloudflare.com/api/resources/zaraz#(resource)%20zaraz%20%3E%20(model)%20neo_event%20%3E%20(schema)">NeoEvent</a> { actionType, blockingTriggers, data, firingTriggers } ]
 
-    - `Worker object { name, type, value }`
+Actions configured on a tool. Either this or neoEvents field is required.
 
-      - `name: string`
+</summary>
 
-      - `type: "worker"`
+actionType: string
 
-        - `"worker"`
+Tool event type.
 
-      - `value: object { escapedWorkerName, workerTag }`
+<a href="#">Link to this property</a>
 
-        - `escapedWorkerName: string`
+blockingTriggers: array of string
 
-        - `workerTag: string`
+List of blocking triggers IDs.
 
-  - `zarazVersion: number`
+<a href="#">Link to this property</a>
 
-    Zaraz internal version of the config.
+data: unknown
 
-  - `analytics: optional object { defaultPurpose, enabled, sessionExpTime }`
+Event payload.
 
-    Cloudflare Monitoring settings.
+<a href="#">Link to this property</a>
 
-    - `defaultPurpose: optional string`
+firingTriggers: array of string
 
-      Consent purpose assigned to Monitoring.
+List of firing triggers IDs.
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether Advanced Monitoring reports are enabled.
+</details>
 
-    - `sessionExpTime: optional number`
+<a href="#">Link to this property</a>
 
-      Session expiration time (seconds).
+defaultPurpose: optional string
 
-  - `consent: optional object { enabled, buttonTextTranslations, companyEmail, 12 more }`
+Default consent purpose ID.
 
-    Consent management configuration.
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+<details>
 
-    - `buttonTextTranslations: optional ButtonTextTranslation`
+<summary>
 
-      - `accept_all: map[string]`
+neoEvents: optional array of <a href="https://developers.cloudflare.com/api/resources/zaraz#(resource)%20zaraz%20%3E%20(model)%20neo_event%20%3E%20(schema)">NeoEvent</a> { actionType, blockingTriggers, data, firingTriggers }
 
-        Object where keys are language codes.
+DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence.
 
-      - `confirm_my_choices: map[string]`
+</summary>
 
-        Object where keys are language codes.
+actionType: string
 
-      - `reject_all: map[string]`
+Tool event type.
 
-        Object where keys are language codes.
+<a href="#">Link to this property</a>
 
-    - `companyEmail: optional string`
+blockingTriggers: array of string
 
-    - `companyName: optional string`
+List of blocking triggers IDs.
 
-    - `companyStreetAddress: optional string`
+<a href="#">Link to this property</a>
 
-    - `consentModalIntroHTML: optional string`
+data: unknown
 
-    - `consentModalIntroHTMLWithTranslations: optional map[string]`
+Event payload.
 
-      Object where keys are language codes.
+<a href="#">Link to this property</a>
 
-    - `cookieName: optional string`
+firingTriggers: array of string
 
-    - `customCSS: optional string`
+List of firing triggers IDs.
 
-    - `customIntroDisclaimerDismissed: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `defaultLanguage: optional string`
+</details>
 
-    - `hideModal: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `purposes: optional map[object { description, name } ]`
+vendorName: optional string
 
-      Object where keys are purpose alpha-numeric IDs.
+Vendor name for TCF compliant consent modal, required for Custom Managed Components and Custom HTML tool with a defaultPurpose assigned.
 
-      - `description: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+vendorPolicyUrl: optional string
 
-    - `purposesWithTranslations: optional map[object { description, name, order } ]`
+Vendor’s Privacy Policy URL for TCF compliant consent modal, required for Custom Managed Components and Custom HTML tool with a defaultPurpose assigned.
 
-      Object where keys are purpose alpha-numeric IDs.
+<a href="#">Link to this property</a>
 
-      - `description: map[string]`
+</details>
 
-        Object where keys are language codes.
+<a href="#">Link to this property</a>
 
-      - `name: map[string]`
+</details>
 
-        Object where keys are language codes.
+<a href="#">Link to this property</a>
 
-      - `order: number`
+<details>
 
-    - `tcfCompliant: optional boolean`
+<summary>
 
-  - `historyChange: optional boolean`
+triggers: map\[object {excludeRules, loadRules, name, 2 more } ]
 
-    Single Page Application support enabled.
+Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration.
 
-- `success: boolean`
+</summary>
 
-  Whether the API call was successful.
+<details>
 
-### Example
+<summary>
 
-```http
+excludeRules: array of object {id, match, op, value } or object {id, action, settings } or object {id, action, settings } or 4 more
+
+Rules defining when the trigger is not fired.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+ZarazLoadRule object {id, match, op, value }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+match: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+op: "CONTAINS"or "EQUALS"or "STARTS\_WITH"or 7 more
+
+</summary>
+
+One of the following:
+
+"CONTAINS"
+
+<a href="#">Link to this property</a>
+
+"EQUALS"
+
+<a href="#">Link to this property</a>
+
+"STARTS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"ENDS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"NOT\_MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"GREATER\_THAN"
+
+<a href="#">Link to this property</a>
+
+"GREATER\_THAN\_OR\_EQUAL"
+
+<a href="#">Link to this property</a>
+
+"LESS\_THAN"
+
+<a href="#">Link to this property</a>
+
+"LESS\_THAN\_OR\_EQUAL"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazClickListenerRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "clickListener"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {selector, type, waitForTags }
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "xpath"or "css"
+
+</summary>
+
+One of the following:
+
+"xpath"
+
+<a href="#">Link to this property</a>
+
+"css"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+waitForTags: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazTimerRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "timer"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {interval, limit }
+
+</summary>
+
+interval: number
+
+minimum50
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazFormSubmissionRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "formSubmission"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {selector, validate }
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+validate: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazVariableMatchRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "variableMatch"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {match, variable }
+
+</summary>
+
+match: string
+
+<a href="#">Link to this property</a>
+
+variable: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazScrollDepthRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "scrollDepth"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {positions }
+
+</summary>
+
+positions: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazElementVisibilityRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "elementVisibility"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {selector }
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+loadRules: array of object {id, match, op, value } or object {id, action, settings } or object {id, action, settings } or 4 more
+
+Rules defining when the trigger is fired.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+ZarazLoadRule object {id, match, op, value }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+match: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+op: "CONTAINS"or "EQUALS"or "STARTS\_WITH"or 7 more
+
+</summary>
+
+One of the following:
+
+"CONTAINS"
+
+<a href="#">Link to this property</a>
+
+"EQUALS"
+
+<a href="#">Link to this property</a>
+
+"STARTS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"ENDS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"NOT\_MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"GREATER\_THAN"
+
+<a href="#">Link to this property</a>
+
+"GREATER\_THAN\_OR\_EQUAL"
+
+<a href="#">Link to this property</a>
+
+"LESS\_THAN"
+
+<a href="#">Link to this property</a>
+
+"LESS\_THAN\_OR\_EQUAL"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazClickListenerRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "clickListener"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {selector, type, waitForTags }
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "xpath"or "css"
+
+</summary>
+
+One of the following:
+
+"xpath"
+
+<a href="#">Link to this property</a>
+
+"css"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+waitForTags: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazTimerRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "timer"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {interval, limit }
+
+</summary>
+
+interval: number
+
+minimum50
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazFormSubmissionRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "formSubmission"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {selector, validate }
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+validate: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazVariableMatchRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "variableMatch"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {match, variable }
+
+</summary>
+
+match: string
+
+<a href="#">Link to this property</a>
+
+variable: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazScrollDepthRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "scrollDepth"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {positions }
+
+</summary>
+
+positions: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZarazElementVisibilityRule object {id, action, settings }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+action: "elementVisibility"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: object {selector }
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Trigger name.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Trigger description.
+
+<a href="#">Link to this property</a>
+
+system: optional "pageload"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+variables: map\[object {name, type, value } or object {name, type, value } or object {name, type, value } ]
+
+Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+String object {name, type, value }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "string"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Secret object {name, type, value }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "secret"
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Worker object {name, type, value }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "worker"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: object {escapedWorkerName, workerTag }
+
+</summary>
+
+escapedWorkerName: string
+
+<a href="#">Link to this property</a>
+
+workerTag: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+zarazVersion: number
+
+Zaraz internal version of the config.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+analytics: optional object {defaultPurpose, enabled, sessionExpTime }
+
+Cloudflare Monitoring settings.
+
+</summary>
+
+defaultPurpose: optional string
+
+Consent purpose assigned to Monitoring.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether Advanced Monitoring reports are enabled.
+
+<a href="#">Link to this property</a>
+
+sessionExpTime: optional number
+
+Session expiration time (seconds).
+
+maximum86400
+
+minimum60
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+consent: optional object {enabled, buttonTextTranslations, companyEmail, 12 more }
+
+Consent management configuration.
+
+</summary>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+buttonTextTranslations: optional <a href="https://developers.cloudflare.com/api/resources/zaraz#(resource)%20zaraz%20%3E%20(model)%20button_text_translation%20%3E%20(schema)">ButtonTextTranslation</a> { accept\_all, confirm\_my\_choices, reject\_all }
+
+</summary>
+
+accept\_all: map\[string]
+
+Object where keys are language codes.
+
+<a href="#">Link to this property</a>
+
+confirm\_my\_choices: map\[string]
+
+Object where keys are language codes.
+
+<a href="#">Link to this property</a>
+
+reject\_all: map\[string]
+
+Object where keys are language codes.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+companyEmail: optional string
+
+<a href="#">Link to this property</a>
+
+companyName: optional string
+
+<a href="#">Link to this property</a>
+
+companyStreetAddress: optional string
+
+<a href="#">Link to this property</a>
+
+consentModalIntroHTML: optional string
+
+<a href="#">Link to this property</a>
+
+consentModalIntroHTMLWithTranslations: optional map\[string]
+
+Object where keys are language codes.
+
+<a href="#">Link to this property</a>
+
+cookieName: optional string
+
+<a href="#">Link to this property</a>
+
+customCSS: optional string
+
+<a href="#">Link to this property</a>
+
+customIntroDisclaimerDismissed: optional boolean
+
+<a href="#">Link to this property</a>
+
+defaultLanguage: optional string
+
+<a href="#">Link to this property</a>
+
+hideModal: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+purposes: optional map\[object {description, name } ]
+
+Object where keys are purpose alpha-numeric IDs.
+
+</summary>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+purposesWithTranslations: optional map\[object {description, name, order } ]
+
+Object where keys are purpose alpha-numeric IDs.
+
+</summary>
+
+description: map\[string]
+
+Object where keys are language codes.
+
+<a href="#">Link to this property</a>
+
+name: map\[string]
+
+Object where keys are language codes.
+
+<a href="#">Link to this property</a>
+
+order: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tcfCompliant: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+historyChange: optional boolean
+
+Single Page Application support enabled.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zaraz.config%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zaraz.config%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get Zaraz configuration
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/zaraz/config \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "dataLayer": true,
+    "debugKey": "debugKey",
+    "settings": {
+      "autoInjectScript": true,
+      "contextEnricher": {
+        "escapedWorkerName": "escapedWorkerName",
+        "workerTag": "workerTag"
+      },
+      "cookieDomain": "cookieDomain",
+      "ecommerce": true,
+      "eventsApiPath": "eventsApiPath",
+      "hideExternalReferer": true,
+      "hideIPAddress": true,
+      "hideQueryParams": true,
+      "hideUserAgent": true,
+      "initPath": "initPath",
+      "injectIframes": true,
+      "mcRootPath": "mcRootPath",
+      "scriptPath": "scriptPath",
+      "trackPath": "trackPath"
+    },
+    "tools": {
+      "foo": {
+        "blockingTriggers": [
+          "string"
+        ],
+        "component": "component",
+        "defaultFields": {
+          "foo": "string"
+        },
+        "enabled": true,
+        "name": "name",
+        "permissions": [
+          "string"
+        ],
+        "settings": {
+          "foo": "string"
+        },
+        "type": "component",
+        "actions": {
+          "foo": {
+            "actionType": "actionType",
+            "blockingTriggers": [
+              "string"
+            ],
+            "data": {},
+            "firingTriggers": [
+              "string"
+            ]
+          }
+        },
+        "defaultPurpose": "defaultPurpose",
+        "neoEvents": [
+          {
+            "actionType": "actionType",
+            "blockingTriggers": [
+              "string"
+            ],
+            "data": {},
+            "firingTriggers": [
+              "string"
+            ]
+          }
+        ],
+        "vendorName": "vendorName",
+        "vendorPolicyUrl": "vendorPolicyUrl"
+      }
+    },
+    "triggers": {
+      "foo": {
+        "excludeRules": [
+          {
+            "id": "id",
+            "match": "match",
+            "op": "CONTAINS",
+            "value": "value"
+          }
+        ],
+        "loadRules": [
+          {
+            "id": "id",
+            "match": "match",
+            "op": "CONTAINS",
+            "value": "value"
+          }
+        ],
+        "name": "name",
+        "description": "description",
+        "system": "pageload"
+      }
+    },
+    "variables": {
+      "foo": {
+        "name": "name",
+        "type": "string",
+        "value": "value"
+      }
+    },
+    "zarazVersion": 0,
+    "analytics": {
+      "defaultPurpose": "defaultPurpose",
+      "enabled": true,
+      "sessionExpTime": 60
+    },
+    "consent": {
+      "enabled": true,
+      "buttonTextTranslations": {
+        "accept_all": {
+          "foo": "string"
+        },
+        "confirm_my_choices": {
+          "foo": "string"
+        },
+        "reject_all": {
+          "foo": "string"
+        }
+      },
+      "companyEmail": "companyEmail",
+      "companyName": "companyName",
+      "companyStreetAddress": "companyStreetAddress",
+      "consentModalIntroHTML": "consentModalIntroHTML",
+      "consentModalIntroHTMLWithTranslations": {
+        "foo": "string"
+      },
+      "cookieName": "cookieName",
+      "customCSS": "customCSS",
+      "customIntroDisclaimerDismissed": true,
+      "defaultLanguage": "defaultLanguage",
+      "hideModal": true,
+      "purposes": {
+        "foo": {
+          "description": "description",
+          "name": "name"
+        }
+      },
+      "purposesWithTranslations": {
+        "foo": {
+          "description": {
+            "foo": "string"
+          },
+          "name": {
+            "foo": "string"
+          },
+          "order": 0
+        }
+      },
+      "tcfCompliant": true
+    },
+    "historyChange": true
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

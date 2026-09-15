@@ -1,166 +1,131 @@
+---
+title: Logs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Super Slurper](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper)
+
+[Jobs](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logs
 
-## Get job logs
+##### [Get job logs](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/subresources/logs/methods/list)
 
-**get** `/accounts/{account_id}/slurper/jobs/{job_id}/logs`
+GET/accounts/{account\_id}/slurper/jobs/{job\_id}/logs
 
-Gets log entries for an R2 Super Slurper migration job, showing migration status changes, errors, etc.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `job_id: string`
+LogListResponse object {createdAt, job, logType, 2 more }
 
-### Query Parameters
+</summary>
 
-- `limit: optional number`
+createdAt: optional string
 
-- `offset: optional number`
+<a href="#">Link to this property</a>
 
-### Returns
+job: optional string
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+logType: optional "migrationStart"or "migrationComplete"or "migrationAbort"or 12 more
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: optional array of string`
+"migrationStart"
 
-- `result: optional array of object { createdAt, job, logType, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `createdAt: optional string`
+"migrationComplete"
 
-  - `job: optional string`
+<a href="#">Link to this property</a>
 
-  - `logType: optional "migrationStart" or "migrationComplete" or "migrationAbort" or 12 more`
+"migrationAbort"
 
-    - `"migrationStart"`
+<a href="#">Link to this property</a>
 
-    - `"migrationComplete"`
+"migrationError"
 
-    - `"migrationAbort"`
+<a href="#">Link to this property</a>
 
-    - `"migrationError"`
+"migrationPause"
 
-    - `"migrationPause"`
+<a href="#">Link to this property</a>
 
-    - `"migrationResume"`
+"migrationResume"
 
-    - `"migrationErrorFailedContinuation"`
+<a href="#">Link to this property</a>
 
-    - `"importErrorRetryExhaustion"`
+"migrationErrorFailedContinuation"
 
-    - `"importSkippedStorageClass"`
+<a href="#">Link to this property</a>
 
-    - `"importSkippedOversized"`
+"importErrorRetryExhaustion"
 
-    - `"importSkippedEmptyObject"`
+<a href="#">Link to this property</a>
 
-    - `"importSkippedUnsupportedContentType"`
+"importSkippedStorageClass"
 
-    - `"importSkippedExcludedContentType"`
+<a href="#">Link to this property</a>
 
-    - `"importSkippedInvalidMedia"`
+"importSkippedOversized"
 
-    - `"importSkippedRequiresRetrieval"`
+<a href="#">Link to this property</a>
 
-  - `message: optional string`
+"importSkippedEmptyObject"
 
-  - `objectKey: optional string`
+<a href="#">Link to this property</a>
 
-- `success: optional true`
+"importSkippedUnsupportedContentType"
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+"importSkippedExcludedContentType"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/$JOB_ID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"importSkippedInvalidMedia"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "createdAt": "createdAt",
-      "job": "job",
-      "logType": "migrationStart",
-      "message": "message",
-      "objectKey": "objectKey"
-    }
-  ],
-  "success": true
-}
-```
+"importSkippedRequiresRetrieval"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Log List Response
+</details>
 
-- `LogListResponse object { createdAt, job, logType, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `createdAt: optional string`
+message: optional string
 
-  - `job: optional string`
+<a href="#">Link to this property</a>
 
-  - `logType: optional "migrationStart" or "migrationComplete" or "migrationAbort" or 12 more`
+objectKey: optional string
 
-    - `"migrationStart"`
+<a href="#">Link to this property</a>
 
-    - `"migrationComplete"`
+</details>
 
-    - `"migrationAbort"`
-
-    - `"migrationError"`
-
-    - `"migrationPause"`
-
-    - `"migrationResume"`
-
-    - `"migrationErrorFailedContinuation"`
-
-    - `"importErrorRetryExhaustion"`
-
-    - `"importSkippedStorageClass"`
-
-    - `"importSkippedOversized"`
-
-    - `"importSkippedEmptyObject"`
-
-    - `"importSkippedUnsupportedContentType"`
-
-    - `"importSkippedExcludedContentType"`
-
-    - `"importSkippedInvalidMedia"`
-
-    - `"importSkippedRequiresRetrieval"`
-
-  - `message: optional string`
-
-  - `objectKey: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs.logs%20%3E%20(model)%20log_list_response%20%3E%20(schema)>)

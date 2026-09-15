@@ -1,109 +1,384 @@
-## Get invoice preview
+---
+title: Get invoice preview
+---
 
-**get** `/accounts/{account_id}/ai-gateway/billing/invoice-preview`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Billing](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get invoice preview
+
+GET/accounts/{account\_id}/ai-gateway/billing/invoice-preview
 
 Retrieve a preview of the upcoming invoice including line items and tax.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Returns
+<summary>API Token</summary>
 
-- `errors: array of object { code, message }`
 
-  - `code: number`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `messages: array of object { code, message }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-- `result: object { id, amount_due, amount_paid, 6 more }`
+<summary>API Email + API Key</summary>
 
-  - `id: string`
 
-  - `amount_due: number`
 
-  - `amount_paid: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `amount_remaining: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `currency: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `invoice_lines: array of object { amount, currency, description, 4 more }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `amount: number`
+</details>
 
-    - `currency: string`
+##### Accepted Permissions (at least one required)
 
-    - `description: string`
+`AI Gateway Write``AI Gateway Read`
 
-    - `period: object { end, start }`
+##### P ath ParametersExpand Collapse
 
-      - `end: number`
+account\_id: string
 
-      - `start: number`
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(method)%20invoice_preview%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `pricing: object { unit_amount_decimal }`
+##### ReturnsExpand Collapse
 
-      - `unit_amount_decimal: string`
+<details>
 
-    - `quantity: number`
+<summary>
 
-    - `pretax_credit_amounts: optional array of object { amount, type, credit_balance_transaction, discount }`
+errors: array of object {code, message }
 
-      - `amount: number`
+</summary>
 
-      - `type: string`
+code: number
 
-      - `credit_balance_transaction: optional string`
+<a href="#">Link to this property</a>
 
-      - `discount: optional string`
+message: string
 
-  - `period_end: number`
+<a href="#">Link to this property</a>
 
-  - `period_start: number`
+</details>
 
-  - `status: "draft" or "open" or "paid" or 2 more`
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(method)%20invoice_preview%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"draft"`
+<details>
 
-    - `"open"`
+<summary>
 
-    - `"paid"`
+messages: array of object {code, message }
 
-    - `"uncollectible"`
+</summary>
 
-    - `"void"`
+code: number
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+message: string
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `has_more: boolean`
+</details>
 
-  - `page: number`
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(method)%20invoice_preview%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  - `per_page: number`
+<details>
 
-  - `total_count: number`
+<summary>
 
-### Example
+result: object {id, amount\_due, amount\_paid, 6 more }
 
-```http
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+amount\_due: number
+
+<a href="#">Link to this property</a>
+
+amount\_paid: number
+
+<a href="#">Link to this property</a>
+
+amount\_remaining: number
+
+<a href="#">Link to this property</a>
+
+currency: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+invoice\_lines: array of object {amount, currency, description, 4 more }
+
+</summary>
+
+amount: number
+
+<a href="#">Link to this property</a>
+
+currency: string
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+period: object {end, start }
+
+</summary>
+
+end: number
+
+<a href="#">Link to this property</a>
+
+start: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pricing: object {unit\_amount\_decimal }
+
+</summary>
+
+unit\_amount\_decimal: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+quantity: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pretax\_credit\_amounts: optional array of object {amount, type, credit\_balance\_transaction, discount }
+
+</summary>
+
+amount: number
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+credit\_balance\_transaction: optional string
+
+<a href="#">Link to this property</a>
+
+discount: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+period\_end: number
+
+<a href="#">Link to this property</a>
+
+period\_start: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "draft"or "open"or "paid"or 2 more
+
+</summary>
+
+One of the following:
+
+"draft"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"paid"
+
+<a href="#">Link to this property</a>
+
+"uncollectible"
+
+<a href="#">Link to this property</a>
+
+"void"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(method)%20invoice_preview%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(method)%20invoice_preview%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {has\_more, page, per\_page, total\_count }
+
+</summary>
+
+has\_more: boolean
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.billing%20%3E%20(method)%20invoice_preview%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get invoice preview
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/invoice-preview \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": {
+    "id": "id",
+    "amount_due": 0,
+    "amount_paid": 0,
+    "amount_remaining": 0,
+    "currency": "currency",
+    "invoice_lines": [
+      {
+        "amount": 0,
+        "currency": "currency",
+        "description": "description",
+        "period": {
+          "end": 0,
+          "start": 0
+        },
+        "pricing": {
+          "unit_amount_decimal": "unit_amount_decimal"
+        },
+        "quantity": 0,
+        "pretax_credit_amounts": [
+          {
+            "amount": 0,
+            "type": "type",
+            "credit_balance_transaction": "credit_balance_transaction",
+            "discount": "discount"
+          }
+        ]
+      }
+    ],
+    "period_end": 0,
+    "period_start": 0,
+    "status": "draft"
+  },
+  "success": true,
+  "result_info": {
+    "has_more": true,
+    "page": 0,
+    "per_page": 0,
+    "total_count": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

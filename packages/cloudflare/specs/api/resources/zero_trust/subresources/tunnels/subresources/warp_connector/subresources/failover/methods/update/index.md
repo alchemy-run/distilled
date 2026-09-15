@@ -1,60 +1,202 @@
-## Trigger a manual failover for a WARP Connector Tunnel
+---
+title: Trigger a manual failover for a WARP Connector Tunnel
+---
 
-**put** `/accounts/{account_id}/warp_connector/{tunnel_id}/failover`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels)
+
+[WARP Connector](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector)
+
+[Failover](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/failover)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Trigger a manual failover for a WARP Connector Tunnel
+
+PUT/accounts/{account\_id}/warp\_connector/{tunnel\_id}/failover
 
 Triggers a manual failover for a specific WARP Connector Tunnel, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID
+<summary>API Token</summary>
 
-- `tunnel_id: string`
 
-  UUID of the tunnel.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `client_id: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  UUID of the Cloudflare Tunnel connector.
+</details>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>API Email + API Key</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `messages: array of ResponseInfo`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Cloudflare One Connectors Write``Cloudflare One Connector: WARP Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-- `result: unknown`
+account\_id: string
 
-- `success: true`
+Cloudflare account ID
 
-  Whether the API call was successful
+maxLength32
 
-  - `true`
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-### Example
+tunnel\_id: string
 
-```http
+UUID of the tunnel.
+
+formatuuid
+
+maxLength36
+
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20tunnel_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+client\_id: string
+
+UUID of the Cloudflare Tunnel connector.
+
+formatuuid
+
+maxLength36
+
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20client_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+result: unknown
+
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.failover%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Trigger a manual failover for a WARP Connector Tunnel
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/failover \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -64,9 +206,40 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$T
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,114 +1,330 @@
-## Create CF1 Sites
+---
+title: Create CF1 Sites
+---
 
-**post** `/accounts/{account_id}/magic/cf1_sites`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Cf1 Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/cf1_sites)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create CF1 Sites
+
+POST/accounts/{account\_id}/magic/cf1\_sites
 
 Creates new CF1 Sites for an account. Each site must have a unique name within the account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `body: array of Cf1Site`
 
-  - `name: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    A human-provided name describing the CF1 Site that should be unique within the account.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `id: optional string`
+</details>
 
-    Identifier
+<details>
 
-  - `created_on: optional string`
+<summary>API Email + API Key</summary>
 
-  - `description: optional string`
 
-    A human-provided description of the CF1 Site.
 
-  - `location: optional Cf1SiteLocation`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `lat: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      Latitude of the CF1 Site.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `long: optional number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      Longitude of the CF1 Site.
+</details>
 
-    - `name: optional string`
+##### Accepted Permissions (at least one required)
 
-      Name of nearest town, city, or village.
+`Magic WAN Write``Magic Transit Write`
 
-  - `modified_on: optional string`
+##### P ath ParametersExpand Collapse
 
-### Returns
+account\_id: string
 
-- `errors: array of ResponseInfo`
+Identifier
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20magic_transit.cf1_sites%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### Body ParametersJSONExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+body: array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.cf1_sites%20%3E%20(model)%20cf1_site%20%3E%20(schema)">Cf1Site</a> { name, id, created\_on, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+A human-provided name describing the CF1 Site that should be unique within the account.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of Cf1Site`
+id: optional string
 
-  - `name: string`
+Identifier
 
-    A human-provided name describing the CF1 Site that should be unique within the account.
+maxLength32
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier
+created\_on: optional string
 
-  - `created_on: optional string`
+formatdate-time
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    A human-provided description of the CF1 Site.
+description: optional string
 
-  - `location: optional Cf1SiteLocation`
+A human-provided description of the CF1 Site.
 
-    - `lat: optional number`
+<a href="#">Link to this property</a>
 
-      Latitude of the CF1 Site.
+<details>
 
-    - `long: optional number`
+<summary>
 
-      Longitude of the CF1 Site.
+location: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.cf1_sites%20%3E%20(model)%20cf1_site_location%20%3E%20(schema)">Cf1SiteLocation</a> { lat, long, name }
 
-    - `name: optional string`
+</summary>
 
-      Name of nearest town, city, or village.
+lat: optional number
 
-  - `modified_on: optional string`
+Latitude of the CF1 Site.
 
-- `success: true`
+formatfloat
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+long: optional number
 
-### Example
+Longitude of the CF1 Site.
 
-```http
+formatfloat
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of nearest town, city, or village.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.cf1_sites%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.cf1_sites%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.cf1_sites%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.cf1_sites%20%3E%20(model)%20cf1_site%20%3E%20(schema)">Cf1Site</a> { name, id, created\_on, 3 more }
+
+</summary>
+
+name: string
+
+A human-provided name describing the CF1 Site that should be unique within the account.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A human-provided description of the CF1 Site.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+location: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.cf1_sites%20%3E%20(model)%20cf1_site_location%20%3E%20(schema)">Cf1SiteLocation</a> { lat, long, name }
+
+</summary>
+
+lat: optional number
+
+Latitude of the CF1 Site.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+long: optional number
+
+Longitude of the CF1 Site.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of nearest town, city, or village.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.cf1_sites%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20magic_transit.cf1_sites%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create CF1 Sites
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cf1_sites \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -125,9 +341,53 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cf1_sites \
         ]'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "name": "Pad 34",
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "created_on": "2019-12-27T18:11:19.117Z",
+      "description": "Launch Pad 34",
+      "location": {
+        "lat": 28.521339842093845,
+        "long": -80.56092644815843,
+        "name": "Cape Canaveral"
+      },
+      "modified_on": "2019-12-27T18:11:19.117Z"
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

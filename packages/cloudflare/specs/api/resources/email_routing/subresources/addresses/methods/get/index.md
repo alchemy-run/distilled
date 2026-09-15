@@ -1,88 +1,268 @@
-## Get a destination address
+---
+title: Get a destination address
+---
 
-**get** `/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
+
+[Addresses](https://developers.cloudflare.com/api/resources/email_routing/subresources/addresses)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get a destination address
+
+GET/accounts/{account\_id}/email/routing/addresses/{destination\_address\_identifier}
 
 Gets information for a specific destination email already created.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `destination_address_identifier: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  Destination address identifier.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Returns
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Email Routing Addresses Write``Email Routing Addresses Read`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+destination\_address\_identifier: string
 
-  - `message: string`
+Destination address identifier.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20destination_address_identifier%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### ReturnsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+errors: array of object {code, message, documentation\_url, source }
 
-- `result: optional Address`
+</summary>
 
-  - `id: optional string`
+code: number
 
-    Destination address identifier.
+minimum1000
 
-  - `created: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the destination address has been created.
+message: string
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The contact email address of the user.
+documentation\_url: optional string
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the destination address was last modified.
+<details>
 
-  - `tag: optional string`
+<summary>
 
-    Destination address tag. (Deprecated, replaced by destination address identifier)
+source: optional object {pointer }
 
-  - `verified: optional string`
+</summary>
 
-    The date and time the destination address has been verified. Null means not verified yet.
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.addresses%20%3E%20(model)%20address%20%3E%20(schema)">Address</a> { id, created, email, 3 more }
+
+</summary>
+
+id: optional string
+
+Destination address identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+The date and time the destination address has been created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+The contact email address of the user.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+modified: optional string
+
+The date and time the destination address was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+Deprecatedtag: optional string
+
+Destination address tag. (Deprecated, replaced by destination address identifier)
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+verified: optional string
+
+The date and time the destination address has been verified. Null means not verified yet.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get a destination address
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/routing/addresses/$DESTINATION_ADDRESS_IDENTIFIER \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "ea95132c15732412d22c1476fa83f27a",
+    "created": "2014-01-02T02:20:00Z",
+    "email": "user@example.com",
+    "modified": "2014-01-02T02:20:00Z",
+    "tag": "ea95132c15732412d22c1476fa83f27a",
+    "verified": "2014-01-02T02:20:00Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

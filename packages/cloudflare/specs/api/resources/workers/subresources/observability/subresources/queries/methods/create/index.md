@@ -1,670 +1,1864 @@
-## Save query
+---
+title: Save query
+---
 
-**post** `/accounts/{account_id}/workers/observability/queries`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Observability](https://developers.cloudflare.com/api/resources/workers/subresources/observability)
+
+[Queries](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/queries)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Save query
+
+POST/accounts/{account\_id}/workers/observability/queries
 
 Persist query for later use.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Email + API Key</summary>
 
-- `description: string`
 
-- `name: string`
 
-  Query name
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `parameters: object { calculations, datasets, filterCombination, 6 more }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `calculations: optional array of object { operator, alias, key, keyType }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Create Calculations to compute as part of the query.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `operator: "uniq" or "count" or "max" or 35 more`
+</details>
 
-      - `"uniq"`
+<details>
 
-      - `"count"`
+<summary>API Token</summary>
 
-      - `"max"`
 
-      - `"min"`
 
-      - `"sum"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-      - `"avg"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-      - `"median"`
+</details>
 
-      - `"p001"`
+<details>
 
-      - `"p01"`
+<summary>User Service Key</summary>
 
-      - `"p05"`
 
-      - `"p10"`
 
-      - `"p25"`
+Used when interacting with the Origin CA certificates API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/ca-keys/#viewchange-your-origin-ca-keys">View/change your key</a>.
 
-      - `"p75"`
+**Example:**<code>X-Auth-User-Service-Key: v1.0-144c9defac04969c7bfad8ef-631a41d003a32d25fe878081ef365c49503f7fada600da935e2851a1c7326084b85cbf6429c4b859de8475731dc92a9c329631e6d59e6c73da7b198497172b4cefe071d90d0f5d2719</code>
 
-      - `"p90"`
+</details>
 
-      - `"p95"`
+##### Accepted Permissions (at least one required)
 
-      - `"p99"`
+`Workers Observability Write`
 
-      - `"p999"`
+##### P ath ParametersExpand Collapse
 
-      - `"stddev"`
+account\_id: string
 
-      - `"variance"`
+[Link to this property](#)%20workers.observability.queries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `"COUNT_DISTINCT"`
+##### Body ParametersJSONExpand Collapse
 
-      - `"COUNT"`
+description: string
 
-      - `"MAX"`
+maxLength1000
 
-      - `"MIN"`
+[Link to this property](#)%20workers.observability.queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-      - `"SUM"`
+name: string
 
-      - `"AVG"`
+Query name
 
-      - `"MEDIAN"`
+maxLength250
 
-      - `"P001"`
+minLength1
 
-      - `"P01"`
+[Link to this property](#)%20workers.observability.queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      - `"P05"`
+<details>
 
-      - `"P10"`
+<summary>
 
-      - `"P25"`
+parameters: object {calculations, datasets, filterCombination, 6 more }
 
-      - `"P75"`
+</summary>
 
-      - `"P90"`
+<details>
 
-      - `"P95"`
+<summary>
 
-      - `"P99"`
+calculations: optional array of object {operator, alias, key, keyType } or object {key, operator, alias, keyType }
 
-      - `"P999"`
+Create Calculations to compute as part of the query.
 
-      - `"STDDEV"`
+</summary>
 
-      - `"VARIANCE"`
+One of the following:
 
-    - `alias: optional string`
+<details>
 
-    - `key: optional string`
+<summary>
 
-    - `keyType: optional "string" or "number" or "boolean"`
+object {operator, alias, key, keyType }
 
-      - `"string"`
+</summary>
 
-      - `"number"`
+<details>
 
-      - `"boolean"`
+<summary>
 
-  - `datasets: optional array of string`
+operator: "count"or "COUNT"
 
-    Set the Datasets to query. Leave it empty to query all the datasets.
+</summary>
 
-  - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+One of the following:
 
-    Set a Flag to describe how to combine the filters on the query.
+"count"
 
-    - `"and"`
+<a href="#">Link to this property</a>
 
-    - `"or"`
+"COUNT"
 
-    - `"AND"`
+<a href="#">Link to this property</a>
 
-    - `"OR"`
+</details>
 
-  - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-    Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+alias: optional string
 
-    - `object { filterCombination, filters, kind }`
+<a href="#">Link to this property</a>
 
-      - `filterCombination: "and" or "or" or "AND" or "OR"`
+key: optional string
 
-        - `"and"`
+<a href="#">Link to this property</a>
 
-        - `"or"`
+<details>
 
-        - `"AND"`
+<summary>
 
-        - `"OR"`
+keyType: optional "string"or "number"or "boolean"
 
-      - `filters: array of unknown`
+</summary>
 
-      - `kind: "group"`
+One of the following:
 
-        - `"group"`
+"string"
 
-    - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-      A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+"number"
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+"boolean"
 
-      - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-        Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+</details>
 
-        - `"includes"`
+<a href="#">Link to this property</a>
 
-        - `"not_includes"`
+</details>
 
-        - `"starts_with"`
+<a href="#">Link to this property</a>
 
-        - `"ends_with"`
+<details>
 
-        - `"regex"`
+<summary>
 
-        - `"exists"`
+object {key, operator, alias, keyType }
 
-        - `"is_null"`
+</summary>
 
-        - `"in"`
+key: string
 
-        - `"not_in"`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+<details>
 
-        - `"neq"`
+<summary>
 
-        - `"gt"`
+operator: "uniq"or "max"or "min"or 33 more
 
-        - `"gte"`
+</summary>
 
-        - `"lt"`
+One of the following:
 
-        - `"lte"`
+"uniq"
 
-        - `"="`
+<a href="#">Link to this property</a>
 
-        - `"!="`
+"max"
 
-        - `">"`
+<a href="#">Link to this property</a>
 
-        - `">="`
+"min"
 
-        - `"<"`
+<a href="#">Link to this property</a>
 
-        - `"<="`
+"sum"
 
-        - `"INCLUDES"`
+<a href="#">Link to this property</a>
 
-        - `"DOES_NOT_INCLUDE"`
+"avg"
 
-        - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-        - `"EXISTS"`
+"median"
 
-        - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-        - `"IN"`
+"p001"
 
-        - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-        - `"STARTS_WITH"`
+"p01"
 
-        - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-      - `type: "string" or "number" or "boolean"`
+"p05"
 
-        Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-        - `"string"`
+"p10"
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+"p25"
 
-      - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-        Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+"p75"
 
-        - `"filter"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string or number or boolean`
+"p90"
 
-        Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-        - `string`
+"p95"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+"p99"
 
-  - `groupBys: optional array of object { type, value }`
+<a href="#">Link to this property</a>
 
-    Define how to group the results of the query.
+"p999"
 
-    - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-      - `"string"`
+"stddev"
 
-      - `"number"`
+<a href="#">Link to this property</a>
 
-      - `"boolean"`
+"variance"
 
-    - `value: string`
+<a href="#">Link to this property</a>
 
-  - `havings: optional array of object { key, operation, value }`
+"COUNT\_DISTINCT"
 
-    Configure the Having clauses that filter on calculations in the query result.
+<a href="#">Link to this property</a>
 
-    - `key: string`
+"MAX"
 
-    - `operation: "eq" or "neq" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+"MIN"
 
-      - `"neq"`
+<a href="#">Link to this property</a>
 
-      - `"gt"`
+"SUM"
 
-      - `"gte"`
+<a href="#">Link to this property</a>
 
-      - `"lt"`
+"AVG"
 
-      - `"lte"`
+<a href="#">Link to this property</a>
 
-    - `value: number`
+"MEDIAN"
 
-  - `limit: optional number`
+<a href="#">Link to this property</a>
 
-    Set a limit on the number of results / records returned by the query
+"P001"
 
-  - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-    Define an expression to search using full-text search.
+"P01"
 
-    - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-      - `string`
+"P05"
 
-      - `number`
+<a href="#">Link to this property</a>
 
-      - `boolean`
+"P10"
 
-    - `isRegex: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `matchCase: optional boolean`
+"P25"
 
-  - `orderBy: optional object { value, order }`
+<a href="#">Link to this property</a>
 
-    Configure the order of the results returned by the query.
+"P75"
 
-    - `value: string`
+<a href="#">Link to this property</a>
 
-      Configure which Calculation to order the results by.
+"P90"
 
-    - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-      Set the order of the results
+"P95"
 
-      - `"asc"`
+<a href="#">Link to this property</a>
 
-      - `"desc"`
+"P99"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+"P999"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+"STDDEV"
 
-  - `message: "Successful request"`
+<a href="#">Link to this property</a>
 
-    - `"Successful request"`
+"VARIANCE"
 
-- `result: object { id, adhoc, created, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-  - `adhoc: boolean`
+<a href="#">Link to this property</a>
 
-    If the query wasn't explcitly saved
+alias: optional string
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-  - `createdBy: string`
+<details>
 
-  - `description: string`
+<summary>
 
-  - `name: string`
+keyType: optional "string"or "number"or "boolean"
 
-    Query name
+</summary>
 
-  - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+One of the following:
 
-    - `calculations: optional array of object { operator, alias, key, keyType }`
+"string"
 
-      Create Calculations to compute as part of the query.
+<a href="#">Link to this property</a>
 
-      - `operator: "uniq" or "count" or "max" or 35 more`
+"number"
 
-        - `"uniq"`
+<a href="#">Link to this property</a>
 
-        - `"count"`
+"boolean"
 
-        - `"max"`
+<a href="#">Link to this property</a>
 
-        - `"min"`
+</details>
 
-        - `"sum"`
+<a href="#">Link to this property</a>
 
-        - `"avg"`
+</details>
 
-        - `"median"`
+<a href="#">Link to this property</a>
 
-        - `"p001"`
+</details>
 
-        - `"p01"`
+<a href="#">Link to this property</a>
 
-        - `"p05"`
+datasets: optional array of string
 
-        - `"p10"`
+Set the Datasets to query. Leave it empty to query all the datasets.
 
-        - `"p25"`
+<a href="#">Link to this property</a>
 
-        - `"p75"`
+<details>
 
-        - `"p90"`
+<summary>
 
-        - `"p95"`
+filterCombination: optional "and"or "or"or "AND"or "OR"
 
-        - `"p99"`
+Set a Flag to describe how to combine the filters on the query.
 
-        - `"p999"`
+</summary>
 
-        - `"stddev"`
+One of the following:
 
-        - `"variance"`
+"and"
 
-        - `"COUNT_DISTINCT"`
+<a href="#">Link to this property</a>
 
-        - `"COUNT"`
+"or"
 
-        - `"MAX"`
+<a href="#">Link to this property</a>
 
-        - `"MIN"`
+"AND"
 
-        - `"SUM"`
+<a href="#">Link to this property</a>
 
-        - `"AVG"`
+"OR"
 
-        - `"MEDIAN"`
+<a href="#">Link to this property</a>
 
-        - `"P001"`
+</details>
 
-        - `"P01"`
+<a href="#">Link to this property</a>
 
-        - `"P05"`
+<details>
 
-        - `"P10"`
+<summary>
 
-        - `"P25"`
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
 
-        - `"P75"`
+Configure the Filters to apply to the query. Supports nested groups via kind: ‘group’.
 
-        - `"P90"`
+</summary>
 
-        - `"P95"`
+One of the following:
 
-        - `"P99"`
+<details>
 
-        - `"P999"`
+<summary>
 
-        - `"STDDEV"`
+object {filterCombination, filters, kind }
 
-        - `"VARIANCE"`
+</summary>
 
-      - `alias: optional string`
+<details>
 
-      - `key: optional string`
+<summary>
 
-      - `keyType: optional "string" or "number" or "boolean"`
+filterCombination: "and"or "or"or "AND"or "OR"
 
-        - `"string"`
+</summary>
 
-        - `"number"`
+One of the following:
 
-        - `"boolean"`
+"and"
 
-    - `datasets: optional array of string`
+<a href="#">Link to this property</a>
 
-      Set the Datasets to query. Leave it empty to query all the datasets.
+"or"
 
-    - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-      Set a Flag to describe how to combine the filters on the query.
+"AND"
 
-      - `"and"`
+<a href="#">Link to this property</a>
 
-      - `"or"`
+"OR"
 
-      - `"AND"`
+<a href="#">Link to this property</a>
 
-      - `"OR"`
+</details>
 
-    - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-      Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+filters: array of unknown
 
-      - `object { filterCombination, filters, kind }`
+<a href="#">Link to this property</a>
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+kind: "group"
 
-          - `"and"`
+<a href="#">Link to this property</a>
 
-          - `"or"`
+</details>
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+<details>
 
-        - `filters: array of unknown`
+<summary>
 
-        - `kind: "group"`
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
 
-          - `"group"`
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+</summary>
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+key: string
 
-        - `key: string`
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+<a href="#">Link to this property</a>
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<details>
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<summary>
 
-          - `"includes"`
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
 
-          - `"not_includes"`
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
 
-          - `"starts_with"`
+</summary>
 
-          - `"ends_with"`
+One of the following:
 
-          - `"regex"`
+"includes"
 
-          - `"exists"`
+<a href="#">Link to this property</a>
 
-          - `"is_null"`
+"not\_includes"
 
-          - `"in"`
+<a href="#">Link to this property</a>
 
-          - `"not_in"`
+"starts\_with"
 
-          - `"eq"`
+<a href="#">Link to this property</a>
 
-          - `"neq"`
+"ends\_with"
 
-          - `"gt"`
+<a href="#">Link to this property</a>
 
-          - `"gte"`
+"regex"
 
-          - `"lt"`
+<a href="#">Link to this property</a>
 
-          - `"lte"`
+"exists"
 
-          - `"="`
+<a href="#">Link to this property</a>
 
-          - `"!="`
+"is\_null"
 
-          - `">"`
+<a href="#">Link to this property</a>
 
-          - `">="`
+"in"
 
-          - `"<"`
+<a href="#">Link to this property</a>
 
-          - `"<="`
+"not\_in"
 
-          - `"INCLUDES"`
+<a href="#">Link to this property</a>
 
-          - `"DOES_NOT_INCLUDE"`
+"eq"
 
-          - `"MATCH_REGEX"`
+<a href="#">Link to this property</a>
 
-          - `"EXISTS"`
+"neq"
 
-          - `"DOES_NOT_EXIST"`
+<a href="#">Link to this property</a>
 
-          - `"IN"`
+"gt"
 
-          - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-          - `"STARTS_WITH"`
+"gte"
 
-          - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-        - `type: "string" or "number" or "boolean"`
+"lt"
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-          - `"string"`
+"lte"
 
-          - `"number"`
+<a href="#">Link to this property</a>
 
-          - `"boolean"`
+"="
 
-        - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+"!="
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `value: optional string or number or boolean`
+"&gt;"
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-          - `string`
+"&gt;="
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+"&lt;"
 
-    - `groupBys: optional array of object { type, value }`
+<a href="#">Link to this property</a>
 
-      Define how to group the results of the query.
+"&lt;="
 
-      - `type: "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+"INCLUDES"
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+"DOES\_NOT\_INCLUDE"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-    - `havings: optional array of object { key, operation, value }`
+"MATCH\_REGEX"
 
-      Configure the Having clauses that filter on calculations in the query result.
+<a href="#">Link to this property</a>
 
-      - `key: string`
+"EXISTS"
 
-      - `operation: "eq" or "neq" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+"DOES\_NOT\_EXIST"
 
-        - `"neq"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+"IN"
 
-        - `"gte"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+"NOT\_IN"
 
-        - `"lte"`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+"STARTS\_WITH"
 
-    - `limit: optional number`
+<a href="#">Link to this property</a>
 
-      Set a limit on the number of results / records returned by the query
+"ENDS\_WITH"
 
-    - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-      Define an expression to search using full-text search.
+</details>
 
-      - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+<details>
 
-        - `number`
+<summary>
 
-        - `boolean`
+type: "string"or "number"or "boolean"
 
-      - `isRegex: optional boolean`
+Data type of the filter field. Must match the actual type of the key being filtered.
 
-      - `matchCase: optional boolean`
+</summary>
 
-    - `orderBy: optional object { value, order }`
+One of the following:
 
-      Configure the order of the results returned by the query.
+"string"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-        Configure which Calculation to order the results by.
+"number"
 
-      - `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-        Set the order of the results
+"boolean"
 
-        - `"asc"`
+<a href="#">Link to this property</a>
 
-        - `"desc"`
+</details>
 
-  - `updated: string`
+<a href="#">Link to this property</a>
 
-  - `updatedBy: string`
+kind: optional "filter"
 
-- `success: true`
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+value: optional stringor numberor boolean
+
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+groupBys: optional array of object {type, value }
+
+Define how to group the results of the query.
+
+</summary>
+
+<details>
+
+<summary>
+
+type: "string"or "number"or "boolean"
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+havings: optional array of object {key, operation, value }
+
+Configure the Having clauses that filter on calculations in the query result.
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operation: "eq"or "neq"or "gt"or 3 more
+
+</summary>
+
+One of the following:
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+limit: optional number
+
+Set a limit on the number of results / records returned by the query
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+needle: optional object {value, isRegex, matchCase }
+
+Define an expression to search using full-text search.
+
+</summary>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+maxLength1000
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isRegex: optional boolean
+
+<a href="#">Link to this property</a>
+
+matchCase: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+orderBy: optional object {value, order }
+
+Configure the order of the results returned by the query.
+
+</summary>
+
+value: string
+
+Configure which Calculation to order the results by.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+order: optional "asc"or "desc"
+
+Set the order of the results
+
+</summary>
+
+One of the following:
+
+"asc"
+
+<a href="#">Link to this property</a>
+
+"desc"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.queries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20parameters%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.queries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message }
+
+</summary>
+
+message: "Successful request"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.queries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, adhoc, created, 6 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+adhoc: boolean
+
+If the query wasn’t explcitly saved
+
+<a href="#">Link to this property</a>
+
+created: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+createdBy: string
+
+<a href="#">Link to this property</a>
+
+description: string
+
+maxLength1000
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Query name
+
+maxLength250
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parameters: object {calculations, datasets, filterCombination, 6 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+calculations: optional array of object {operator, alias, key, keyType } or object {key, operator, alias, keyType }
+
+Create Calculations to compute as part of the query.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {operator, alias, key, keyType }
+
+</summary>
+
+<details>
+
+<summary>
+
+operator: "count"or "COUNT"
+
+</summary>
+
+One of the following:
+
+"count"
+
+<a href="#">Link to this property</a>
+
+"COUNT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+alias: optional string
+
+<a href="#">Link to this property</a>
+
+key: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+keyType: optional "string"or "number"or "boolean"
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {key, operator, alias, keyType }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "uniq"or "max"or "min"or 33 more
+
+</summary>
+
+One of the following:
+
+"uniq"
+
+<a href="#">Link to this property</a>
+
+"max"
+
+<a href="#">Link to this property</a>
+
+"min"
+
+<a href="#">Link to this property</a>
+
+"sum"
+
+<a href="#">Link to this property</a>
+
+"avg"
+
+<a href="#">Link to this property</a>
+
+"median"
+
+<a href="#">Link to this property</a>
+
+"p001"
+
+<a href="#">Link to this property</a>
+
+"p01"
+
+<a href="#">Link to this property</a>
+
+"p05"
+
+<a href="#">Link to this property</a>
+
+"p10"
+
+<a href="#">Link to this property</a>
+
+"p25"
+
+<a href="#">Link to this property</a>
+
+"p75"
+
+<a href="#">Link to this property</a>
+
+"p90"
+
+<a href="#">Link to this property</a>
+
+"p95"
+
+<a href="#">Link to this property</a>
+
+"p99"
+
+<a href="#">Link to this property</a>
+
+"p999"
+
+<a href="#">Link to this property</a>
+
+"stddev"
+
+<a href="#">Link to this property</a>
+
+"variance"
+
+<a href="#">Link to this property</a>
+
+"COUNT\_DISTINCT"
+
+<a href="#">Link to this property</a>
+
+"MAX"
+
+<a href="#">Link to this property</a>
+
+"MIN"
+
+<a href="#">Link to this property</a>
+
+"SUM"
+
+<a href="#">Link to this property</a>
+
+"AVG"
+
+<a href="#">Link to this property</a>
+
+"MEDIAN"
+
+<a href="#">Link to this property</a>
+
+"P001"
+
+<a href="#">Link to this property</a>
+
+"P01"
+
+<a href="#">Link to this property</a>
+
+"P05"
+
+<a href="#">Link to this property</a>
+
+"P10"
+
+<a href="#">Link to this property</a>
+
+"P25"
+
+<a href="#">Link to this property</a>
+
+"P75"
+
+<a href="#">Link to this property</a>
+
+"P90"
+
+<a href="#">Link to this property</a>
+
+"P95"
+
+<a href="#">Link to this property</a>
+
+"P99"
+
+<a href="#">Link to this property</a>
+
+"P999"
+
+<a href="#">Link to this property</a>
+
+"STDDEV"
+
+<a href="#">Link to this property</a>
+
+"VARIANCE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+alias: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+keyType: optional "string"or "number"or "boolean"
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+datasets: optional array of string
+
+Set the Datasets to query. Leave it empty to query all the datasets.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+filterCombination: optional "and"or "or"or "AND"or "OR"
+
+Set a Flag to describe how to combine the filters on the query.
+
+</summary>
+
+One of the following:
+
+"and"
+
+<a href="#">Link to this property</a>
+
+"or"
+
+<a href="#">Link to this property</a>
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
+
+Configure the Filters to apply to the query. Supports nested groups via kind: ‘group’.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {filterCombination, filters, kind }
+
+</summary>
+
+<details>
+
+<summary>
+
+filterCombination: "and"or "or"or "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"and"
+
+<a href="#">Link to this property</a>
+
+"or"
+
+<a href="#">Link to this property</a>
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+filters: array of unknown
+
+<a href="#">Link to this property</a>
+
+kind: "group"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
+
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+
+</summary>
+
+key: string
+
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
+
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+
+</summary>
+
+One of the following:
+
+"includes"
+
+<a href="#">Link to this property</a>
+
+"not\_includes"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"regex"
+
+<a href="#">Link to this property</a>
+
+"exists"
+
+<a href="#">Link to this property</a>
+
+"is\_null"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+"="
+
+<a href="#">Link to this property</a>
+
+"!="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"INCLUDES"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_INCLUDE"
+
+<a href="#">Link to this property</a>
+
+"MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"EXISTS"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_EXIST"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"NOT\_IN"
+
+<a href="#">Link to this property</a>
+
+"STARTS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"ENDS\_WITH"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "string"or "number"or "boolean"
+
+Data type of the filter field. Must match the actual type of the key being filtered.
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+kind: optional "filter"
+
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional stringor numberor boolean
+
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+groupBys: optional array of object {type, value }
+
+Define how to group the results of the query.
+
+</summary>
+
+<details>
+
+<summary>
+
+type: "string"or "number"or "boolean"
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+havings: optional array of object {key, operation, value }
+
+Configure the Having clauses that filter on calculations in the query result.
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operation: "eq"or "neq"or "gt"or 3 more
+
+</summary>
+
+One of the following:
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+limit: optional number
+
+Set a limit on the number of results / records returned by the query
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+needle: optional object {value, isRegex, matchCase }
+
+Define an expression to search using full-text search.
+
+</summary>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+maxLength1000
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isRegex: optional boolean
+
+<a href="#">Link to this property</a>
+
+matchCase: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+orderBy: optional object {value, order }
+
+Configure the order of the results returned by the query.
+
+</summary>
+
+value: string
+
+Configure which Calculation to order the results by.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+order: optional "asc"or "desc"
+
+Set the order of the results
+
+</summary>
+
+One of the following:
+
+"asc"
+
+<a href="#">Link to this property</a>
+
+"desc"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+updatedBy: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.queries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20workers.observability.queries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Save query
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/queries \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -676,9 +1870,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -693,14 +1887,14 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
   "result": {
     "id": "id",
     "adhoc": true,
-    "created": "created",
+    "created": "2019-12-27T18:11:19.117Z",
     "createdBy": "createdBy",
     "description": "Query description",
     "name": "x",
     "parameters": {
       "calculations": [
         {
-          "operator": "uniq",
+          "operator": "count",
           "alias": "alias",
           "key": "key",
           "keyType": "string"
@@ -743,7 +1937,83 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
         "order": "asc"
       }
     },
-    "updated": "updated",
+    "updated": "2019-12-27T18:11:19.117Z",
+    "updatedBy": "updatedBy"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "Successful request"
+    }
+  ],
+  "result": {
+    "id": "id",
+    "adhoc": true,
+    "created": "2019-12-27T18:11:19.117Z",
+    "createdBy": "createdBy",
+    "description": "Query description",
+    "name": "x",
+    "parameters": {
+      "calculations": [
+        {
+          "operator": "count",
+          "alias": "alias",
+          "key": "key",
+          "keyType": "string"
+        }
+      ],
+      "datasets": [
+        "string"
+      ],
+      "filterCombination": "and",
+      "filters": [
+        {
+          "filterCombination": "and",
+          "filters": [
+            {}
+          ],
+          "kind": "group"
+        }
+      ],
+      "groupBys": [
+        {
+          "type": "string",
+          "value": "value"
+        }
+      ],
+      "havings": [
+        {
+          "key": "key",
+          "operation": "eq",
+          "value": 0
+        }
+      ],
+      "limit": 0,
+      "needle": {
+        "value": "string",
+        "isRegex": true,
+        "matchCase": true
+      },
+      "orderBy": {
+        "value": "value",
+        "order": "asc"
+      }
+    },
+    "updated": "2019-12-27T18:11:19.117Z",
     "updatedBy": "updatedBy"
   },
   "success": true

@@ -1,90 +1,262 @@
-## Validate buckets for full packet captures
+---
+title: Validate buckets for full packet captures
+---
 
-**post** `/accounts/{account_id}/pcaps/ownership/validate`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[PCAPs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/pcaps)
+
+[Ownership](https://developers.cloudflare.com/api/resources/magic_transit/subresources/pcaps/subresources/ownership)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Validate buckets for full packet captures
+
+POST/accounts/{account\_id}/pcaps/ownership/validate
 
 Validates buckets added to the packet captures API.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `destination_conf: string`
 
-  The full URI for the bucket. This field only applies to `full` packet captures.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `ownership_challenge: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The ownership challenge filename stored in the bucket.
+</details>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>API Email + API Key</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `messages: array of ResponseInfo`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Magic Firewall Packet Captures - Write PCAPs API`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-- `result: Ownership`
+account\_id: string
 
-  - `id: string`
+Identifier.
 
-    The bucket ID associated with the packet captures API.
+maxLength32
 
-  - `destination_conf: string`
+[Link to this property](#)%20magic_transit.pcaps.ownership%20%3E%20(method)%20validate%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    The full URI for the bucket. This field only applies to `full` packet captures.
+##### Body ParametersJSONExpand Collapse
 
-  - `filename: string`
+destination\_conf: string
 
-    The ownership challenge filename stored in the bucket.
+The full URI for the bucket. This field only applies to `full` packet captures.
 
-  - `status: "pending" or "success" or "failed"`
+[Link to this property](#)%20magic_transit.pcaps.ownership%20%3E%20(method)%20validate%20%3E%20(params)%200%20%3E%20(param)%20destination_conf%20%3E%20(schema)>)
 
-    The status of the ownership challenge. Can be pending, success or failed.
+ownership\_challenge: string
 
-    - `"pending"`
+The ownership challenge filename stored in the bucket.
 
-    - `"success"`
+[Link to this property](#)%20magic_transit.pcaps.ownership%20%3E%20(method)%20validate%20%3E%20(params)%200%20%3E%20(param)%20ownership_challenge%20%3E%20(schema)>)
 
-    - `"failed"`
+##### ReturnsExpand Collapse
 
-  - `submitted: string`
+<details>
 
-    The RFC 3339 timestamp when the bucket was added to packet captures API.
+<summary>
 
-  - `validated: optional string`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    The RFC 3339 timestamp when the bucket was validated.
+</summary>
 
-- `success: true`
+code: number
 
-  Whether the API call was successful.
+minimum1000
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+message: string
 
-```http
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.pcaps.ownership%20%3E%20(method)%20validate%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.pcaps.ownership%20%3E%20(method)%20validate%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.pcaps.ownership%20%3E%20(model)%20ownership%20%3E%20(schema)">Ownership</a> { id, destination\_conf, filename, 3 more }
+
+</summary>
+
+id: string
+
+The bucket ID associated with the packet captures API.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+destination\_conf: string
+
+The full URI for the bucket. This field only applies to <code>full</code> packet captures.
+
+<a href="#">Link to this property</a>
+
+filename: string
+
+The ownership challenge filename stored in the bucket.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "success"or "failed"
+
+The status of the ownership challenge. Can be pending, success or failed.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+submitted: string
+
+The RFC 3339 timestamp when the bucket was added to packet captures API.
+
+<a href="#">Link to this property</a>
+
+validated: optional string
+
+The RFC 3339 timestamp when the bucket was validated.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.pcaps.ownership%20%3E%20(method)%20validate%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20magic_transit.pcaps.ownership%20%3E%20(method)%20validate%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Validate buckets for full packet captures
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pcaps/ownership/validate \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -94,9 +266,47 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pcaps/ownership/v
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "9883874ecac311ec8475433579a6bf5f",
+    "destination_conf": "s3://pcaps-bucket?region=us-east-1",
+    "filename": "ownership-challenge-9883874ecac311ec8475433579a6bf5f.txt",
+    "status": "success",
+    "submitted": "2020-01-01T08:00:00Z",
+    "validated": "2020-01-01T08:00:00Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

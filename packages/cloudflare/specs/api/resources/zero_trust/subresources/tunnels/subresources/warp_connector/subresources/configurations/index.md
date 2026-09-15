@@ -1,476 +1,357 @@
+---
+title: Configurations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Tunnels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels)
+
+[WARP Connector](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Configurations
 
-## Get WARP Connector HA configuration
+##### [Get WARP Connector HA configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/configurations/methods/get)
 
-**get** `/accounts/{account_id}/warp_connector/{tunnel_id}/configurations`
+GET/accounts/{account\_id}/warp\_connector/{tunnel\_id}/configurations
 
-Gets the high-availability configuration for a WARP Connector tunnel.
+##### [Update WARP Connector HA configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/warp_connector/subresources/configurations/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/warp\_connector/{tunnel\_id}/configurations
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `tunnel_id: string`
+<summary>
 
-  UUID of the tunnel.
+ConfigurationGetResponse object {configuration\_version, created\_at, ha\_mode, 3 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+configuration\_version: number
 
-  - `code: number`
+Monotonically increasing configuration version, incremented on each PUT.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_at: string
 
-  - `source: optional object { pointer }`
+Timestamp of when the resource was created.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ha\_mode: "none"or "disabled"or "aws"or "local"
 
-  - `source: optional object { pointer }`
+High-availability mode for the WARP Connector tunnel. <code>none</code> means HA is enabled but no provider is configured yet (newly created tunnels default to this). <code>disabled</code> means HA is explicitly turned off. <code>aws</code> uses AWS ENI move for failover. <code>local</code> uses virtual IPs (VIPs) on the local interface.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"none"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { configuration_version, created_at, ha_mode, 3 more }`
+"disabled"
 
-  - `configuration_version: number`
+<a href="#">Link to this property</a>
 
-    Monotonically increasing configuration version, incremented on each PUT.
+"aws"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was created.
+"local"
 
-  - `ha_mode: "none" or "disabled" or "aws" or "local"`
+<a href="#">Link to this property</a>
 
-    High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
+</details>
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+tunnel\_id: string
 
-    - `"aws"`
+UUID of the tunnel.
 
-    - `"local"`
+formatuuid
 
-  - `tunnel_id: string`
+maxLength36
 
-    UUID of the tunnel.
+<a href="#">Link to this property</a>
 
-  - `config: optional object { fnr_id }  or object { vips, vips_previous }`
+<details>
 
-    Provider-specific configuration. Present for `aws` and `local` modes.
+<summary>
 
-    - `TunnelMeshAwsConfig object { fnr_id }`
+config: optional object {fnr\_id } or object {vips, vips\_previous }
 
-      - `fnr_id: string`
+Provider-specific configuration. Present for <code>aws</code> and <code>local</code> modes.
 
-        Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
+</summary>
 
-    - `TunnelMeshLocalConfig object { vips, vips_previous }`
+One of the following:
 
-      - `vips: array of object { address }`
+<details>
 
-        VIPs to assign on the CloudflareWARP interface.
+<summary>
 
-        - `address: string`
+TunnelMeshAwsConfig object {fnr\_id }
 
-          Virtual IP address (IPv4 or IPv6).
+</summary>
 
-      - `vips_previous: optional array of object { address }`
+fnr\_id: string
 
-        VIPs to clean up on demotion or version drift.
+Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
 
-        - `address: string`
+<a href="#">Link to this property</a>
 
-          Virtual IP address (IPv4 or IPv6).
+</details>
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of the last update. Null if never updated.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/configurations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+TunnelMeshLocalConfig object {vips, vips\_previous }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "configuration_version": 0,
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "ha_mode": "aws",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "fnr_id": "eni-0123456789abcdef0"
-    },
-    "updated_at": "2021-01-25T18:22:34.317854Z"
-  }
-}
-```
+<details>
 
-## Update WARP Connector HA configuration
+<summary>
 
-**put** `/accounts/{account_id}/warp_connector/{tunnel_id}/configurations`
+vips: array of object {address }
 
-Adds or updates the high-availability configuration for a WARP Connector tunnel.
+VIPs to assign on the CloudflareWARP interface.
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+address: string
 
-  Identifier.
+Virtual IP address (IPv4 or IPv6).
 
-- `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-  UUID of the tunnel.
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `ha_mode: "none" or "disabled" or "aws" or "local"`
+<details>
 
-  High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
+<summary>
 
-  - `"none"`
+vips\_previous: optional array of object {address }
 
-  - `"disabled"`
+VIPs to clean up on demotion or version drift.
 
-  - `"aws"`
+</summary>
 
-  - `"local"`
+address: string
 
-- `config: optional object { fnr_id }  or object { vips, vips_previous }  or unknown`
+Virtual IP address (IPv4 or IPv6).
 
-  Provider-specific configuration. Required shape depends on ha_mode. For `aws`, must contain `fnr_id`. For `local`, must contain `vips`. For `none` and `disabled`, must be empty or omitted.
+<a href="#">Link to this property</a>
 
-  - `TunnelMeshAwsConfig object { fnr_id }`
+</details>
 
-    - `fnr_id: string`
+<a href="#">Link to this property</a>
 
-      Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
+</details>
 
-  - `TunnelMeshLocalConfig object { vips, vips_previous }`
+<a href="#">Link to this property</a>
 
-    - `vips: array of object { address }`
+</details>
 
-      VIPs to assign on the CloudflareWARP interface.
+<a href="#">Link to this property</a>
 
-      - `address: string`
+updated\_at: optional string
 
-        Virtual IP address (IPv4 or IPv6).
+Timestamp of the last update. Null if never updated.
 
-    - `vips_previous: optional array of object { address }`
+formatdate-time
 
-      VIPs to clean up on demotion or version drift.
+<a href="#">Link to this property</a>
 
-      - `address: string`
+</details>
 
-        Virtual IP address (IPv4 or IPv6).
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.configurations%20%3E%20(model)%20configuration_get_response%20%3E%20(schema)>)
 
-  - `unknown`
+<details>
 
-    Empty object for none/disabled modes.
+<summary>
 
-### Returns
+ConfigurationUpdateResponse object {configuration\_version, created\_at, ha\_mode, 3 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+configuration\_version: number
 
-  - `message: string`
+Monotonically increasing configuration version, incremented on each PUT.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+Timestamp of when the resource was created.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ha\_mode: "none"or "disabled"or "aws"or "local"
 
-    - `pointer: optional string`
+High-availability mode for the WARP Connector tunnel. <code>none</code> means HA is enabled but no provider is configured yet (newly created tunnels default to this). <code>disabled</code> means HA is explicitly turned off. <code>aws</code> uses AWS ENI move for failover. <code>local</code> uses virtual IPs (VIPs) on the local interface.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+One of the following:
 
-  - `true`
+"none"
 
-- `result: optional object { configuration_version, created_at, ha_mode, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `configuration_version: number`
+"disabled"
 
-    Monotonically increasing configuration version, incremented on each PUT.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"aws"
 
-    Timestamp of when the resource was created.
+<a href="#">Link to this property</a>
 
-  - `ha_mode: "none" or "disabled" or "aws" or "local"`
+"local"
 
-    High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
+<a href="#">Link to this property</a>
 
-    - `"none"`
+</details>
 
-    - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `"aws"`
+tunnel\_id: string
 
-    - `"local"`
+UUID of the tunnel.
 
-  - `tunnel_id: string`
+formatuuid
 
-    UUID of the tunnel.
+maxLength36
 
-  - `config: optional object { fnr_id }  or object { vips, vips_previous }`
+<a href="#">Link to this property</a>
 
-    Provider-specific configuration. Present for `aws` and `local` modes.
+<details>
 
-    - `TunnelMeshAwsConfig object { fnr_id }`
+<summary>
 
-      - `fnr_id: string`
+config: optional object {fnr\_id } or object {vips, vips\_previous }
 
-        Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
+Provider-specific configuration. Present for <code>aws</code> and <code>local</code> modes.
 
-    - `TunnelMeshLocalConfig object { vips, vips_previous }`
+</summary>
 
-      - `vips: array of object { address }`
+One of the following:
 
-        VIPs to assign on the CloudflareWARP interface.
+<details>
 
-        - `address: string`
+<summary>
 
-          Virtual IP address (IPv4 or IPv6).
+TunnelMeshAwsConfig object {fnr\_id }
 
-      - `vips_previous: optional array of object { address }`
+</summary>
 
-        VIPs to clean up on demotion or version drift.
+fnr\_id: string
 
-        - `address: string`
+Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
 
-          Virtual IP address (IPv4 or IPv6).
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+</details>
 
-    Timestamp of the last update. Null if never updated.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/warp_connector/$TUNNEL_ID/configurations \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ha_mode": "aws"
-        }'
-```
+<summary>
 
-#### Response
+TunnelMeshLocalConfig object {vips, vips\_previous }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "configuration_version": 0,
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "ha_mode": "aws",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "config": {
-      "fnr_id": "eni-0123456789abcdef0"
-    },
-    "updated_at": "2021-01-25T18:22:34.317854Z"
-  }
-}
-```
+</summary>
 
-## Domain Types
+<details>
 
-### Configuration Get Response
+<summary>
 
-- `ConfigurationGetResponse object { configuration_version, created_at, ha_mode, 3 more }`
+vips: array of object {address }
 
-  - `configuration_version: number`
+VIPs to assign on the CloudflareWARP interface.
 
-    Monotonically increasing configuration version, incremented on each PUT.
+</summary>
 
-  - `created_at: string`
+address: string
 
-    Timestamp of when the resource was created.
+Virtual IP address (IPv4 or IPv6).
 
-  - `ha_mode: "none" or "disabled" or "aws" or "local"`
+<a href="#">Link to this property</a>
 
-    High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
+</details>
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+<details>
 
-    - `"aws"`
+<summary>
 
-    - `"local"`
+vips\_previous: optional array of object {address }
 
-  - `tunnel_id: string`
+VIPs to clean up on demotion or version drift.
 
-    UUID of the tunnel.
+</summary>
 
-  - `config: optional object { fnr_id }  or object { vips, vips_previous }`
+address: string
 
-    Provider-specific configuration. Present for `aws` and `local` modes.
+Virtual IP address (IPv4 or IPv6).
 
-    - `TunnelMeshAwsConfig object { fnr_id }`
+<a href="#">Link to this property</a>
 
-      - `fnr_id: string`
+</details>
 
-        Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
+<a href="#">Link to this property</a>
 
-    - `TunnelMeshLocalConfig object { vips, vips_previous }`
+</details>
 
-      - `vips: array of object { address }`
+<a href="#">Link to this property</a>
 
-        VIPs to assign on the CloudflareWARP interface.
+</details>
 
-        - `address: string`
+<a href="#">Link to this property</a>
 
-          Virtual IP address (IPv4 or IPv6).
+updated\_at: optional string
 
-      - `vips_previous: optional array of object { address }`
+Timestamp of the last update. Null if never updated.
 
-        VIPs to clean up on demotion or version drift.
+formatdate-time
 
-        - `address: string`
+<a href="#">Link to this property</a>
 
-          Virtual IP address (IPv4 or IPv6).
+</details>
 
-  - `updated_at: optional string`
-
-    Timestamp of the last update. Null if never updated.
-
-### Configuration Update Response
-
-- `ConfigurationUpdateResponse object { configuration_version, created_at, ha_mode, 3 more }`
-
-  - `configuration_version: number`
-
-    Monotonically increasing configuration version, incremented on each PUT.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `ha_mode: "none" or "disabled" or "aws" or "local"`
-
-    High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.
-
-    - `"none"`
-
-    - `"disabled"`
-
-    - `"aws"`
-
-    - `"local"`
-
-  - `tunnel_id: string`
-
-    UUID of the tunnel.
-
-  - `config: optional object { fnr_id }  or object { vips, vips_previous }`
-
-    Provider-specific configuration. Present for `aws` and `local` modes.
-
-    - `TunnelMeshAwsConfig object { fnr_id }`
-
-      - `fnr_id: string`
-
-        Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.
-
-    - `TunnelMeshLocalConfig object { vips, vips_previous }`
-
-      - `vips: array of object { address }`
-
-        VIPs to assign on the CloudflareWARP interface.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-      - `vips_previous: optional array of object { address }`
-
-        VIPs to clean up on demotion or version drift.
-
-        - `address: string`
-
-          Virtual IP address (IPv4 or IPv6).
-
-  - `updated_at: optional string`
-
-    Timestamp of the last update. Null if never updated.
+[Link to this property](#)%20zero_trust.tunnels.warp_connector.configurations%20%3E%20(model)%20configuration_update_response%20%3E%20(schema)>)

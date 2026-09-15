@@ -1,187 +1,445 @@
-## List account or zone rulesets
+---
+title: List account or zone rulesets
+---
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/rulesets`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Rulesets](https://developers.cloudflare.com/api/resources/rulesets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List account or zone rulesets
+
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/rulesets
 
 Fetches all rulesets.
 
-### Path Parameters
+##### Security
 
-- `account_id: optional string`
+<details>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<summary>API Token</summary>
 
-- `zone_id: optional string`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `cursor: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The cursor to use for the next page.
+</details>
 
-- `per_page: optional number`
+<details>
 
-  The number of rulesets to return per page.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of object { message, code, source }`
 
-  A list of error messages.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    A text description of this message.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: optional number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    A unique code for this message.
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    The source of this message.
+`Mass URL Redirects Write``Mass URL Redirects Read``Magic Firewall Write``Magic Firewall Read``L4 DDoS Managed Ruleset Write``L4 DDoS Managed Ruleset Read``Transform Rules Write``Transform Rules Read``Select Configuration Write``Select Configuration Read``Account WAF Write``Account WAF Read``Account Rulesets Read``Account Rulesets Write``Logs Write``Logs Read`
 
-    - `pointer: string`
+##### P ath ParametersExpand Collapse
 
-      A JSON pointer to the field that is the source of the message.
+account\_id: optional string
 
-- `messages: array of object { message, code, source }`
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-  A list of warning messages.
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `message: string`
+zone\_id: optional string
 
-    A text description of this message.
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-  - `code: optional number`
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    A unique code for this message.
+##### Q uery ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+cursor: optional string
 
-    The source of this message.
+The cursor to use for the next page.
 
-    - `pointer: string`
+minLength1
 
-      A JSON pointer to the field that is the source of the message.
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cursor%20%3E%20(schema)>)
 
-- `result: array of object { id, kind, last_updated, 4 more }`
+per\_page: optional number
 
-  A list of rulesets. The returned information will not include the rules in each ruleset.
+The number of rulesets to return per page.
 
-  - `id: string`
+maximum50
 
-    The unique ID of the ruleset.
+minimum1
 
-  - `kind: Kind`
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    The kind of the ruleset.
+##### ReturnsExpand Collapse
 
-    - `"managed"`
+<details>
 
-    - `"custom"`
+<summary>
 
-    - `"root"`
+errors: array of object {message, code, source }
 
-    - `"zone"`
+A list of error messages.
 
-  - `last_updated: string`
+</summary>
 
-    The timestamp of when the ruleset was last modified.
+message: string
 
-  - `name: string`
+A text description of this message.
 
-    The human-readable name of the ruleset.
+minLength1
 
-  - `phase: Phase`
+<a href="#">Link to this property</a>
 
-    The phase of the ruleset.
+code: optional number
 
-    - `"ddos_l4"`
+A unique code for this message.
 
-    - `"ddos_l7"`
+<a href="#">Link to this property</a>
 
-    - `"http_config_settings"`
+<details>
 
-    - `"http_custom_errors"`
+<summary>
 
-    - `"http_log_custom_fields"`
+source: optional object {pointer }
 
-    - `"http_ratelimit"`
+The source of this message.
 
-    - `"http_request_cache_settings"`
+</summary>
 
-    - `"http_request_dynamic_redirect"`
+pointer: string
 
-    - `"http_request_firewall_custom"`
+A JSON pointer to the field that is the source of the message.
 
-    - `"http_request_firewall_managed"`
+minLength1
 
-    - `"http_request_late_transform"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_origin"`
+</details>
 
-    - `"http_request_redirect"`
+<a href="#">Link to this property</a>
 
-    - `"http_request_sanitize"`
+</details>
 
-    - `"http_request_sbfm"`
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"http_request_transform"`
+<details>
 
-    - `"http_response_cache_settings"`
+<summary>
 
-    - `"http_response_compression"`
+messages: array of object {message, code, source }
 
-    - `"http_response_firewall_managed"`
+A list of warning messages.
 
-    - `"http_response_headers_transform"`
+</summary>
 
-    - `"magic_transit"`
+message: string
 
-    - `"magic_transit_ids_managed"`
+A text description of this message.
 
-    - `"magic_transit_managed"`
+minLength1
 
-    - `"magic_transit_ratelimit"`
+<a href="#">Link to this property</a>
 
-  - `version: string`
+code: optional number
 
-    The version of the ruleset.
+A unique code for this message.
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An informative description of the ruleset.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+source: optional object {pointer }
 
-  - `true`
+The source of this message.
 
-- `result_info: optional object { cursors }`
+</summary>
 
-  Information to navigate the results.
+pointer: string
 
-  - `cursors: optional object { after }`
+A JSON pointer to the field that is the source of the message.
 
-    The set of cursors.
+minLength1
 
-    - `after: string`
+<a href="#">Link to this property</a>
 
-      The cursor to use for the next page.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {id, kind, last\_updated, 4 more }
+
+A list of rulesets. The returned information will not include the rules in each ruleset.
+
+</summary>
+
+id: string
+
+The unique ID of the ruleset.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets%20%3E%20(model)%20kind%20%3E%20(schema)">Kind</a>
+
+The kind of the ruleset.
+
+</summary>
+
+One of the following:
+
+"managed"
+
+<a href="#">Link to this property</a>
+
+"custom"
+
+<a href="#">Link to this property</a>
+
+"root"
+
+<a href="#">Link to this property</a>
+
+"zone"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+last\_updated: string
+
+The timestamp of when the ruleset was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The human-readable name of the ruleset.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+phase: <a href="https://developers.cloudflare.com/api/resources/rulesets#(resource)%20rulesets%20%3E%20(model)%20phase%20%3E%20(schema)">Phase</a>
+
+The phase of the ruleset.
+
+</summary>
+
+One of the following:
+
+"ddos\_l4"
+
+<a href="#">Link to this property</a>
+
+"ddos\_l7"
+
+<a href="#">Link to this property</a>
+
+"http\_config\_settings"
+
+<a href="#">Link to this property</a>
+
+"http\_custom\_errors"
+
+<a href="#">Link to this property</a>
+
+"http\_log\_custom\_fields"
+
+<a href="#">Link to this property</a>
+
+"http\_ratelimit"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_cache\_settings"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_dynamic\_redirect"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_firewall\_custom"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_firewall\_managed"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_late\_transform"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_origin"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_redirect"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_sanitize"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_sbfm"
+
+<a href="#">Link to this property</a>
+
+"http\_request\_transform"
+
+<a href="#">Link to this property</a>
+
+"http\_response\_cache\_settings"
+
+<a href="#">Link to this property</a>
+
+"http\_response\_compression"
+
+<a href="#">Link to this property</a>
+
+"http\_response\_firewall\_managed"
+
+<a href="#">Link to this property</a>
+
+"http\_response\_headers\_transform"
+
+<a href="#">Link to this property</a>
+
+"magic\_transit"
+
+<a href="#">Link to this property</a>
+
+"magic\_transit\_ids\_managed"
+
+<a href="#">Link to this property</a>
+
+"magic\_transit\_managed"
+
+<a href="#">Link to this property</a>
+
+"magic\_transit\_ratelimit"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+version: string
+
+The version of the ruleset.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An informative description of the ruleset.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {cursors }
+
+Information to navigate the results.
+
+</summary>
+
+<details>
+
+<summary>
+
+cursors: optional object {after }
+
+The set of cursors.
+
+</summary>
+
+after: string
+
+The cursor to use for the next page.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rulesets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List account or zone rulesets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/rulesets \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -205,7 +463,51 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
     {
       "id": "2f2feab2026849078ba485f918791bdc",
       "kind": "root",
-      "last_updated": "2000-01-01T00:00:00.000000Z",
+      "last_updated": "2000-01-01T00:00:00Z",
+      "name": "My ruleset",
+      "phase": "http_request_firewall_custom",
+      "version": "1",
+      "description": "A description for my ruleset."
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "cursors": {
+      "after": "dGhpc2lzYW5leGFtcGxlCg"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "message": "something bad happened",
+      "code": 10000,
+      "source": {
+        "pointer": "/rules/0/action"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "message": "something bad happened",
+      "code": 10000,
+      "source": {
+        "pointer": "/rules/0/action"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "2f2feab2026849078ba485f918791bdc",
+      "kind": "root",
+      "last_updated": "2000-01-01T00:00:00Z",
       "name": "My ruleset",
       "phase": "http_request_firewall_custom",
       "version": "1",

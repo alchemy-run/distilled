@@ -1,50 +1,177 @@
-## Delete flag
+---
+title: Delete flag
+---
 
-**delete** `/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}`
+[Skip to content](#_top)
 
-Permanently deletes a flag. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Flagship](https://developers.cloudflare.com/api/resources/flagship)
 
-- `account_id: string`
+[Apps](https://developers.cloudflare.com/api/resources/flagship/subresources/apps)
 
-  Cloudflare account ID.
+[Flags](https://developers.cloudflare.com/api/resources/flagship/subresources/apps/subresources/flags)
 
-- `app_id: string`
+Copy Markdown
 
-  App identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `flag_key: string`
+---
 
-  Flag key (slug).
+**Copy Markdown****View as Markdown**
 
-### Returns
+# Delete flag
 
-- `errors: array of object { message }`
+DELETE/accounts/{account\_id}/flagship/apps/{app\_id}/flags/{flag\_key}
 
-  - `message: string`
+Deletes a flag permanently. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone.
 
-- `messages: array of object { message }`
+##### Security
 
-  - `message: string`
+<details>
 
-- `result: object { key }`
+<summary>API Token</summary>
 
-  - `key: string`
 
-- `success: boolean`
 
-### Example
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-```http
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
+
+</details>
+
+<details>
+
+<summary>API Email + API Key</summary>
+
+
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Flagship Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Cloudflare account ID.
+
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+app\_id: string
+
+App identifier.
+
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
+
+flag\_key: string
+
+Flag key (slug).
+
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20flag_key%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {key }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete flag
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID/flags/$FLAG_KEY \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "message"
+    }
+  ],
+  "result": {
+    "key": "key"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

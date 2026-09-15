@@ -1,198 +1,63 @@
+---
+title: Status
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Status
 
-## Get protection status.
+##### [Get protection status.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/status/methods/get)
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_protection_status`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_protection\_status
 
-Get the protection status of the account.
+##### [Update protection status.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/status/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_protection\_status
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+StatusGetResponse object {enabled }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+enabled: boolean
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.status%20%3E%20(model)%20status_get_response%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+StatusEditResponse object {enabled }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+enabled: boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { enabled }`
-
-  - `enabled: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_protection_status \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true
-  }
-}
-```
-
-## Update protection status.
-
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_protection_status`
-
-Update the protection status of the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  Enables or disables protection.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { enabled }`
-
-  - `enabled: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_protection_status \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true
-  }
-}
-```
-
-## Domain Types
-
-### Status Get Response
-
-- `StatusGetResponse object { enabled }`
-
-  - `enabled: boolean`
-
-### Status Edit Response
-
-- `StatusEditResponse object { enabled }`
-
-  - `enabled: boolean`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.status%20%3E%20(model)%20status_edit_response%20%3E%20(schema)>)

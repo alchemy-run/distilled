@@ -1,91 +1,49 @@
+---
+title: Account Organizations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Account Organizations
 
-## Move account
+##### [Move account](https://developers.cloudflare.com/api/resources/accounts/subresources/account_organizations/methods/create)
 
-**post** `/accounts/{account_id}/move`
+POST/accounts/{account\_id}/move
 
-Move an account within an organization hierarchy or an account outside an organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+AccountOrganizationCreateResponse object {account\_id, destination\_organization\_id, source\_organization\_id }
 
-- `destination_organization_id: string`
+</summary>
 
-### Returns
+account\_id: string
 
-- `errors: array of unknown`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+destination\_organization\_id: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+source\_organization\_id: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
-
-- `result: object { account_id, destination_organization_id, source_organization_id }`
-
-  - `account_id: string`
-
-  - `destination_organization_id: string`
-
-  - `source_organization_id: string`
-
-- `success: true`
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/move \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "destination_organization_id": "destination_organization_id"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_id": "account_id",
-    "destination_organization_id": "destination_organization_id",
-    "source_organization_id": "source_organization_id"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Account Organization Create Response
-
-- `AccountOrganizationCreateResponse object { account_id, destination_organization_id, source_organization_id }`
-
-  - `account_id: string`
-
-  - `destination_organization_id: string`
-
-  - `source_organization_id: string`
+[Link to this property](#)%20accounts.account_organizations%20%3E%20(model)%20account_organization_create_response%20%3E%20(schema)>)

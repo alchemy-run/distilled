@@ -1,69 +1,239 @@
-## Delete an IdP federation grant
+---
+title: Delete an IdP federation grant
+---
 
-**delete** `/accounts/{account_id}/access/idp_federation_grants/{grant_id}`
+[Skip to content](#_top)
 
-Deletes an IdP federation grant. The identity provider remains in the account,
-but it is no longer available for federation to other accounts.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
 
-  Identifier.
+[IdP Federation Grants](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/idp_federation_grants)
 
-- `grant_id: string`
+Copy Markdown
 
-  Identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Copy Markdown****View as Markdown**
 
-  - `code: number`
+# Delete an IdP federation grant
 
-  - `message: string`
+DELETE/accounts/{account\_id}/access/idp\_federation\_grants/{grant\_id}
 
-  - `documentation_url: optional string`
+Deletes an IdP federation grant. The identity provider remains in the account, but it is no longer available for federation to other accounts.
 
-  - `source: optional object { pointer }`
+##### Security
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>API Token</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `source: optional object { pointer }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>API Email + API Key</summary>
 
-  - `true`
 
-- `result: optional object { id }`
 
-  - `id: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    UID of the deleted IdP federation grant.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Example
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-```http
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Identifier.
+
+maxLength32
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+grant\_id: string
+
+Identifier.
+
+maxLength32
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20grant_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id }
+
+</summary>
+
+id: optional string
+
+UID of the deleted IdP federation grant.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete an IdP federation grant
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/idp_federation_grants/$GRANT_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

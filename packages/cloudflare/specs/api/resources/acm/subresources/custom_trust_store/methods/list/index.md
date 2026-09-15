@@ -1,143 +1,404 @@
-## List Custom Origin Trust Store Details
+---
+title: List Custom Origin Trust Store Details
+---
 
-**get** `/zones/{zone_id}/acm/custom_trust_store`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[ACM](https://developers.cloudflare.com/api/resources/acm)
+
+[Custom Trust Store](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Custom Origin Trust Store Details
+
+GET/zones/{zone\_id}/acm/custom\_trust\_store
 
 Get Custom Origin Trust Store for a Zone.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `limit: optional number`
 
-  Limit to the number of records returned.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `offset: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Offset the results.
+</details>
 
-- `page: optional number`
+<details>
 
-  Page number of paginated results.
+<summary>API Email + API Key</summary>
 
-- `per_page: optional number`
 
-  Number of records per page.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`SSL and Certificates Write``SSL and Certificates Read`
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+zone\_id: string
 
-  - `message: string`
+Identifier.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### Q uery ParametersExpand Collapse
 
-- `success: true`
+limit: optional number
 
-  Whether the API call was successful.
+Limit to the number of records returned.
 
-  - `true`
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-- `result: optional array of CustomTrustStore`
+offset: optional number
 
-  - `id: string`
+Offset the results.
 
-    Identifier.
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-  - `certificate: string`
+page: optional number
 
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
+Page number of paginated results.
 
-  - `expires_on: string`
+minimum1
 
-    When the certificate expires.
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `issuer: string`
+per\_page: optional number
 
-    The certificate authority that issued the certificate.
+Number of records per page.
 
-  - `signature: string`
+maximum50
 
-    The type of hash used for the certificate.
+minimum5
 
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    Status of the zone's custom SSL.
+##### ReturnsExpand Collapse
 
-    - `"initializing"`
+<details>
 
-    - `"pending_deployment"`
+<summary>
 
-    - `"active"`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `"pending_deletion"`
+</summary>
 
-    - `"deleted"`
+code: number
 
-    - `"expired"`
+minimum1000
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    When the certificate was last modified.
+message: string
 
-  - `uploaded_on: string`
+<a href="#">Link to this property</a>
 
-    When the certificate was uploaded to Cloudflare.
+documentation\_url: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+source: optional object {pointer }
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+pointer: optional string
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+</details>
 
-    The number of total pages in the entire result set.
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-### Example
+<details>
 
-```http
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/acm#(resource)%20acm.custom_trust_store%20%3E%20(model)%20custom-trust-store%20%3E%20(schema)">CustomTrustStore</a> { id, certificate, expires\_on, 5 more }
+
+</summary>
+
+id: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+certificate: string
+
+The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
+
+<a href="#">Link to this property</a>
+
+expires\_on: string
+
+When the certificate expires.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+issuer: string
+
+The certificate authority that issued the certificate.
+
+<a href="#">Link to this property</a>
+
+signature: string
+
+The type of hash used for the certificate.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "initializing"or "pending\_deployment"or "active"or 3 more
+
+Status of the zone’s custom SSL.
+
+</summary>
+
+One of the following:
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"pending\_deployment"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"pending\_deletion"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+"expired"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+When the certificate was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uploaded\_on: string
+
+When the certificate was uploaded to Cloudflare.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Custom Origin Trust Store Details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "certificate": "-----BEGIN CERTIFICATE-----\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\n-----END CERTIFICATE-----\n",
+      "expires_on": "2122-10-29T16:59:47Z",
+      "issuer": "GlobalSign",
+      "signature": "SHA256WithRSA",
+      "status": "active",
+      "updated_at": "2014-01-01T05:20:00Z",
+      "uploaded_on": "2014-01-01T05:20:00Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

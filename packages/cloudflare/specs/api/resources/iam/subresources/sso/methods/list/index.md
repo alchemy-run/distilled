@@ -1,115 +1,297 @@
-## Get all SSO connectors
+---
+title: Get all SSO connectors
+---
 
-**get** `/accounts/{account_id}/sso_connectors`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+[SSO](https://developers.cloudflare.com/api/resources/iam/subresources/sso)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get all SSO connectors
+
+GET/accounts/{account\_id}/sso\_connectors
 
 Lists all SSO connectors configured for the account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Returns
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`SSO Connector Read`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Account identifier tag.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+minLength32
 
-  - `code: number`
+[Link to this property](#)%20iam.sso%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### ReturnsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+code: number
 
-  - `true`
+minimum1000
 
-- `result: optional array of object { id, created_on, email_domain, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+message: string
 
-    SSO Connector identifier tag.
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+documentation\_url: optional string
 
-    Timestamp for the creation of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `email_domain: optional string`
+<details>
 
-  - `enabled: optional boolean`
+<summary>
 
-  - `updated_on: optional string`
+source: optional object {pointer }
 
-    Timestamp for the last update of the SSO connector
+</summary>
 
-  - `use_fedramp_language: optional boolean`
+pointer: optional string
 
-    Controls the display of FedRAMP language to the user during SSO login
+<a href="#">Link to this property</a>
 
-  - `verification: optional object { code, status }`
+</details>
 
-    - `code: optional string`
+<a href="#">Link to this property</a>
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+</details>
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+[Link to this property](#)%20iam.sso%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      The status of the verification code from the verification process.
+<details>
 
-      - `"awaiting"`
+<summary>
 
-      - `"pending"`
+messages: array of object {code, message, documentation\_url, source }
 
-      - `"failed"`
+</summary>
 
-      - `"verified"`
+code: number
 
-- `result_info: optional object { count, page, per_page, total_count }`
+minimum1000
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+message: string
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results
+documentation\_url: optional string
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters
+source: optional object {pointer }
 
-### Example
+</summary>
 
-```http
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.sso%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20iam.sso%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_on, email\_domain, 4 more }
+
+</summary>
+
+id: optional string
+
+SSO Connector identifier tag.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+Timestamp for the creation of the SSO connector
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+email\_domain: optional string
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+updated\_on: optional string
+
+Timestamp for the last update of the SSO connector
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+use\_fedramp\_language: optional boolean
+
+Controls the display of FedRAMP language to the user during SSO login
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+verification: optional object {code, status }
+
+</summary>
+
+code: optional string
+
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "awaiting"or "pending"or "failed"or "verified"
+
+The status of the verification code from the verification process.
+
+</summary>
+
+One of the following:
+
+"awaiting"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"verified"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.sso%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.sso%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get all SSO connectors
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -135,10 +317,60 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors \
   "result": [
     {
       "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2025-01-01T12:21:02.0000Z",
+      "created_on": "2025-01-01T12:21:02Z",
       "email_domain": "example.com",
       "enabled": false,
-      "updated_on": "2025-01-01T12:21:02.0000Z",
+      "updated_on": "2025-01-01T12:21:02Z",
+      "use_fedramp_language": false,
+      "verification": {
+        "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
+        "status": "pending"
+      }
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "created_on": "2025-01-01T12:21:02Z",
+      "email_domain": "example.com",
+      "enabled": false,
+      "updated_on": "2025-01-01T12:21:02Z",
       "use_fedramp_language": false,
       "verification": {
         "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",

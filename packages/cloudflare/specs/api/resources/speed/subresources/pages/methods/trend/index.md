@@ -1,159 +1,451 @@
-## List core web vital metrics trend
+---
+title: List core web vital metrics trend
+---
 
-**get** `/zones/{zone_id}/speed_api/pages/{url}/trend`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Speed](https://developers.cloudflare.com/api/resources/speed)
+
+[Pages](https://developers.cloudflare.com/api/resources/speed/subresources/pages)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List core web vital metrics trend
+
+GET/zones/{zone\_id}/speed\_api/pages/{url}/trend
 
 Lists the core web vital metrics trend over time for a specific page.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `url: string`
 
-  A URL.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `deviceType: "DESKTOP" or "MOBILE"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The type of device.
+</details>
 
-  - `"DESKTOP"`
+<details>
 
-  - `"MOBILE"`
+<summary>API Email + API Key</summary>
 
-- `metrics: string`
 
-  A comma-separated list of metrics to include in the results.
 
-- `region: "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  A test region.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"asia-east1"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"asia-northeast1"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"asia-northeast2"`
+</details>
 
-  - `"asia-south1"`
+##### Accepted Permissions (at least one required)
 
-  - `"asia-southeast1"`
+`Zone Settings Write``Zone Settings Read`
 
-  - `"australia-southeast1"`
+##### P ath ParametersExpand Collapse
 
-  - `"europe-north1"`
+zone\_id: string
 
-  - `"europe-southwest1"`
+Identifier.
 
-  - `"europe-west1"`
+maxLength32
 
-  - `"europe-west2"`
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `"europe-west3"`
+url: string
 
-  - `"europe-west4"`
+A URL.
 
-  - `"europe-west8"`
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(params)%20default%20%3E%20(param)%20url%20%3E%20(schema)>)
 
-  - `"europe-west9"`
+##### Q uery ParametersExpand Collapse
 
-  - `"me-west1"`
+<details>
 
-  - `"southamerica-east1"`
+<summary>
 
-  - `"us-central1"`
+deviceType: "DESKTOP"or "MOBILE"
 
-  - `"us-east1"`
+The type of device.
 
-  - `"us-east4"`
+</summary>
 
-  - `"us-south1"`
+One of the following:
 
-  - `"us-west1"`
+"DESKTOP"
 
-- `start: string`
+<a href="#">Link to this property</a>
 
-- `tz: string`
+"MOBILE"
 
-  The timezone of the start and end timestamps.
+<a href="#">Link to this property</a>
 
-- `end: optional string`
+</details>
 
-### Returns
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(params)%20default%20%3E%20(param)%20deviceType%20%3E%20(schema)>)
 
-- `errors: array of ResponseInfo`
+metrics: string
 
-  - `code: number`
+A comma-separated list of metrics to include in the results.
 
-  - `message: string`
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(params)%20default%20%3E%20(param)%20metrics%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+region: "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
 
-- `messages: array of ResponseInfo`
+A test region.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"asia-east1"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"asia-northeast1"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result: optional Trend`
+"asia-northeast2"
 
-  - `cls: optional array of number`
+<a href="#">Link to this property</a>
 
-    Cumulative Layout Shift trend.
+"asia-south1"
 
-  - `fcp: optional array of number`
+<a href="#">Link to this property</a>
 
-    First Contentful Paint trend.
+"asia-southeast1"
 
-  - `lcp: optional array of number`
+<a href="#">Link to this property</a>
 
-    Largest Contentful Paint trend.
+"australia-southeast1"
 
-  - `performanceScore: optional array of number`
+<a href="#">Link to this property</a>
 
-    The Lighthouse score trend.
+"europe-north1"
 
-  - `si: optional array of number`
+<a href="#">Link to this property</a>
 
-    Speed Index trend.
+"europe-southwest1"
 
-  - `tbt: optional array of number`
+<a href="#">Link to this property</a>
 
-    Total Blocking Time trend.
+"europe-west1"
 
-  - `ttfb: optional array of number`
+<a href="#">Link to this property</a>
 
-    Time To First Byte trend.
+"europe-west2"
 
-  - `tti: optional array of number`
+<a href="#">Link to this property</a>
 
-    Time To Interactive trend.
+"europe-west3"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"europe-west4"
+
+<a href="#">Link to this property</a>
+
+"europe-west8"
+
+<a href="#">Link to this property</a>
+
+"europe-west9"
+
+<a href="#">Link to this property</a>
+
+"me-west1"
+
+<a href="#">Link to this property</a>
+
+"southamerica-east1"
+
+<a href="#">Link to this property</a>
+
+"us-central1"
+
+<a href="#">Link to this property</a>
+
+"us-east1"
+
+<a href="#">Link to this property</a>
+
+"us-east4"
+
+<a href="#">Link to this property</a>
+
+"us-south1"
+
+<a href="#">Link to this property</a>
+
+"us-west1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(params)%20default%20%3E%20(param)%20region%20%3E%20(schema)>)
+
+start: string
+
+formatdate-time
+
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(params)%20default%20%3E%20(param)%20start%20%3E%20(schema)>)
+
+tz: string
+
+The timezone of the start and end timestamps.
+
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(params)%20default%20%3E%20(param)%20tz%20%3E%20(schema)>)
+
+end: optional string
+
+formatdate-time
+
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(params)%20default%20%3E%20(param)%20end%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20trend%20%3E%20(schema)">Trend</a> { cls, fcp, lcp, 5 more }
+
+</summary>
+
+cls: optional array of number
+
+Cumulative Layout Shift trend.
+
+<a href="#">Link to this property</a>
+
+fcp: optional array of number
+
+First Contentful Paint trend.
+
+<a href="#">Link to this property</a>
+
+lcp: optional array of number
+
+Largest Contentful Paint trend.
+
+<a href="#">Link to this property</a>
+
+performanceScore: optional array of number
+
+The Lighthouse score trend.
+
+<a href="#">Link to this property</a>
+
+si: optional array of number
+
+Speed Index trend.
+
+<a href="#">Link to this property</a>
+
+tbt: optional array of number
+
+Total Blocking Time trend.
+
+<a href="#">Link to this property</a>
+
+ttfb: optional array of number
+
+Time To First Byte trend.
+
+<a href="#">Link to this property</a>
+
+tti: optional array of number
+
+Time To Interactive trend.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages%20%3E%20(method)%20trend%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List core web vital metrics trend
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages/$URL/trend \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "cls": [
+      0
+    ],
+    "fcp": [
+      0
+    ],
+    "lcp": [
+      0
+    ],
+    "performanceScore": [
+      0
+    ],
+    "si": [
+      0
+    ],
+    "tbt": [
+      0
+    ],
+    "ttfb": [
+      0
+    ],
+    "tti": [
+      0
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

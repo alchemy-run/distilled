@@ -1,1813 +1,895 @@
+---
+title: Organizations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Organizations
 
-## Get your Zero Trust organization
+##### [Get your Zero Trust organization](https://developers.cloudflare.com/api/resources/zero_trust/subresources/organizations/methods/list)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/access/organizations`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/organizations
 
-Returns the configuration for your Zero Trust organization.
+##### [Create your Zero Trust organization](https://developers.cloudflare.com/api/resources/zero_trust/subresources/organizations/methods/create)
 
-### Path Parameters
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/organizations
 
-- `account_id: optional string`
+##### [Update your Zero Trust organization](https://developers.cloudflare.com/api/resources/zero_trust/subresources/organizations/methods/update)
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+PUT/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/organizations
 
-- `zone_id: optional string`
+##### [Revoke all Access tokens for a user](https://developers.cloudflare.com/api/resources/zero_trust/subresources/organizations/methods/revoke_users)
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/organizations/revoke\_user
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+LoginDesign object {background\_color, footer\_text, header\_text, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+background\_color: optional string
 
-    - `pointer: optional string`
+The background color on your login page.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+footer\_text: optional string
 
-  - `message: string`
+The text at the bottom of your login page.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+header\_text: optional string
 
-    - `pointer: optional string`
+The text at the top of your login page.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+logo\_path: optional string
 
-  - `true`
+The URL of the logo on your login page.
 
-- `result: optional Organization`
+<a href="#">Link to this property</a>
 
-  - `allow_authenticate_via_warp: optional boolean`
+text\_color: optional string
 
-    When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.
+The text color on your login page.
 
-  - `auth_domain: optional string`
+<a href="#">Link to this property</a>
 
-    The unique subdomain assigned to your Zero Trust organization.
+</details>
 
-  - `auto_redirect_to_identity: optional boolean`
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(model)%20login_design%20%3E%20(schema)>)
 
-    When set to `true`, users skip the identity provider selection step during login.
+<details>
 
-  - `custom_pages: optional object { forbidden, identity_denied }`
+<summary>
 
-    - `forbidden: optional string`
+Organization object {allow\_authenticate\_via\_warp, auth\_domain, auto\_redirect\_to\_identity, 14 more }
 
-      The uid of the custom page to use when a user is denied access after failing a non-identity rule.
+</summary>
 
-    - `identity_denied: optional string`
+allow\_authenticate\_via\_warp: optional boolean
 
-      The uid of the custom page to use when a user is denied access.
+When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.
 
-  - `deny_unmatched_requests: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the `deny_unmatched_requests_exempted_zone_names` array.
+auth\_domain: optional string
 
-  - `deny_unmatched_requests_exempted_zone_names: optional array of string`
+The unique subdomain assigned to your Zero Trust organization.
 
-    Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.
+<a href="#">Link to this property</a>
 
-  - `is_ui_read_only: optional boolean`
+auto\_redirect\_to\_identity: optional boolean
 
-    Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.
+When set to <code>true</code>, users skip the identity provider selection step during login.
 
-  - `login_design: optional LoginDesign`
+<a href="#">Link to this property</a>
 
-    - `background_color: optional string`
+<details>
 
-      The background color on your login page.
+<summary>
 
-    - `footer_text: optional string`
+custom\_pages: optional object {forbidden, identity\_denied }
 
-      The text at the bottom of your login page.
+</summary>
 
-    - `header_text: optional string`
+forbidden: optional string
 
-      The text at the top of your login page.
+The uid of the custom page to use when a user is denied access after failing a non-identity rule.
 
-    - `logo_path: optional string`
+<a href="#">Link to this property</a>
 
-      The URL of the logo on your login page.
+identity\_denied: optional string
 
-    - `text_color: optional string`
+The uid of the custom page to use when a user is denied access.
 
-      The text color on your login page.
+<a href="#">Link to this property</a>
 
-  - `mfa_config: optional object { allowed_authenticators, amr_matching_session_duration, required_aaguids, session_duration }`
+</details>
 
-    Configures multi-factor authentication (MFA) settings for an organization.
+<a href="#">Link to this property</a>
 
-    - `allowed_authenticators: optional array of "totp" or "biometrics" or "security_key" or "piv_key"`
+deny\_unmatched\_requests: optional boolean
 
-      Lists the MFA methods that users can authenticate with.
+Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the <code>deny_unmatched_requests_exempted_zone_names</code> array.
 
-      - `"totp"`
+<a href="#">Link to this property</a>
 
-      - `"biometrics"`
+deny\_unmatched\_requests\_exempted\_zone\_names: optional array of string
 
-      - `"security_key"`
+Contains zone names to exempt from the <code>deny_unmatched_requests</code> feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.
 
-      - `"piv_key"`
+<a href="#">Link to this property</a>
 
-    - `amr_matching_session_duration: optional string`
+is\_ui\_read\_only: optional boolean
 
-      Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains "mfa". Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days).
+Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.
 
-    - `required_aaguids: optional string`
+<a href="#">Link to this property</a>
 
-      Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs.
+login\_design: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.organizations%20%3E%20(model)%20login_design%20%3E%20(schema)">LoginDesign</a> { background\_color, footer\_text, header\_text, 2 more }
 
-    - `session_duration: optional string`
+<a href="#">Link to this property</a>
 
-      Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`.
+<details>
 
-  - `mfa_piv_key_requirements: optional object { pin_policy, require_fips_device, ssh_key_size, 2 more }`
+<summary>
 
-    Configures PIV key requirements for MFA using hardware security keys.
+mfa\_config: optional object {allowed\_authenticators, amr\_matching\_session\_duration, required\_aaguids, session\_duration }
 
-    - `pin_policy: optional "never" or "once" or "always"`
+Configures multi-factor authentication (MFA) settings for an organization.
 
-      Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).
+</summary>
 
-      - `"never"`
+<details>
 
-      - `"once"`
+<summary>
 
-      - `"always"`
+allowed\_authenticators: optional array of "totp"or "biometrics"or "security\_key"or 2 more
 
-    - `require_fips_device: optional boolean`
+Lists the MFA methods that users can authenticate with. The <code>piv_key</code> and <code>ssh_fido2_key</code> values are supported only for infrastructure applications.
 
-      Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device.
+</summary>
 
-    - `ssh_key_size: optional array of 256 or 384 or 521 or 3 more`
+One of the following:
 
-      Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter.
+"totp"
 
-      - `256`
+<a href="#">Link to this property</a>
 
-      - `384`
+"biometrics"
 
-      - `521`
+<a href="#">Link to this property</a>
 
-      - `2048`
+"security\_key"
 
-      - `3072`
+<a href="#">Link to this property</a>
 
-      - `4096`
+"piv\_key"
 
-    - `ssh_key_type: optional array of "ecdsa" or "ed25519" or "rsa"`
+<a href="#">Link to this property</a>
 
-      Specifies the allowed SSH key types. Valid values are `ecdsa`, `ed25519`, and `rsa`.
+"ssh\_fido2\_key"
 
-      - `"ecdsa"`
+<a href="#">Link to this property</a>
 
-      - `"ed25519"`
+</details>
 
-      - `"rsa"`
+<a href="#">Link to this property</a>
 
-    - `touch_policy: optional "never" or "always" or "cached"`
+amr\_matching\_session\_duration: optional string
 
-      Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).
+Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains “mfa”. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days).
 
-      - `"never"`
+<a href="#">Link to this property</a>
 
-      - `"always"`
+required\_aaguids: optional string
 
-      - `"cached"`
+Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs.
 
-  - `mfa_required_for_all_apps: optional boolean`
+formatuuid
 
-    Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot only contain 'piv_key' if the organization has any non-infrastructure applications because PIV keys are only compatible with infrastructure apps.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+session\_duration: optional string
 
-    The name of your Zero Trust organization.
+Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:<code>5m</code> or <code>24h</code>.
 
-  - `session_duration: optional string`
+<a href="#">Link to this property</a>
 
-    The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.
+</details>
 
-  - `ui_read_only_toggle_reason: optional string`
+<a href="#">Link to this property</a>
 
-    A description of the reason why the UI read only field is being toggled.
+<details>
 
-  - `user_seat_expiration_inactive_time: optional string`
+<summary>
 
-    The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count.  Minimum value for this setting is 1 month (730h). Must be in the format `300ms` or `2h45m`. Valid time units are: `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`.
+mfa\_piv\_key\_requirements: optional object {pin\_policy, require\_fips\_device, ssh\_key\_size, 2 more }
 
-  - `warp_auth_session_duration: optional string`
+Configures PIV key requirements for MFA using hardware security keys.
 
-    The amount of time that tokens issued for applications will be valid. Must be in the format `30m` or `2h45m`. Valid time units are: m, h.
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/organizations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+pin\_policy: optional "never"or "once"or "always"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allow_authenticate_via_warp": true,
-    "auth_domain": "test.cloudflareaccess.com",
-    "auto_redirect_to_identity": true,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "custom_pages": {
-      "forbidden": "699d98642c564d2e855e9661899b7252",
-      "identity_denied": "699d98642c564d2e855e9661899b7252"
-    },
-    "deny_unmatched_requests": true,
-    "deny_unmatched_requests_exempted_zone_names": [
-      "example.com"
-    ],
-    "is_ui_read_only": true,
-    "login_design": {
-      "background_color": "#c5ed1b",
-      "footer_text": "This is an example description.",
-      "header_text": "This is an example description.",
-      "logo_path": "https://example.com/logo.png",
-      "text_color": "#c5ed1b"
-    },
-    "mfa_config": {
-      "allowed_authenticators": [
-        "totp",
-        "biometrics",
-        "security_key"
-      ],
-      "amr_matching_session_duration": "12h",
-      "required_aaguids": "2fc0579f-8113-47ea-b116-bb5a8db9202a",
-      "session_duration": "24h"
-    },
-    "mfa_piv_key_requirements": {
-      "pin_policy": "always",
-      "require_fips_device": true,
-      "ssh_key_size": [
-        256,
-        2048
-      ],
-      "ssh_key_type": [
-        "ecdsa",
-        "rsa"
-      ],
-      "touch_policy": "always"
-    },
-    "mfa_required_for_all_apps": false,
-    "name": "Widget Corps Internal Applications",
-    "session_duration": "24h",
-    "ui_read_only_toggle_reason": "Temporarily turn off the UI read only lock to make a change via the UI",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "user_seat_expiration_inactive_time": "730h",
-    "warp_auth_session_duration": "24h"
-  }
-}
-```
+Defines when a PIN is required to use the SSH key. Valid values: <code>never</code> (no PIN required), <code>once</code> (PIN required once per session), <code>always</code> (PIN required for each use).
 
-## Create your Zero Trust organization
+</summary>
 
-**post** `/{accounts_or_zones}/{account_or_zone_id}/access/organizations`
+One of the following:
 
-Sets up a Zero Trust organization for your account or zone.
+"never"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: optional string`
+"once"
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<a href="#">Link to this property</a>
 
-- `zone_id: optional string`
+"always"
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `auth_domain: string`
+<a href="#">Link to this property</a>
 
-  The unique subdomain assigned to your Zero Trust organization.
+require\_fips\_device: optional boolean
 
-- `name: string`
+Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device.
 
-  The name of your Zero Trust organization.
+<a href="#">Link to this property</a>
 
-- `allow_authenticate_via_warp: optional boolean`
+<details>
 
-  When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.
+<summary>
 
-- `auto_redirect_to_identity: optional boolean`
+ssh\_key\_size: optional array of 256or 384or 521or 3 more
 
-  When set to `true`, users skip the identity provider selection step during login.
+Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter.
 
-- `deny_unmatched_requests: optional boolean`
+</summary>
 
-  Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the `deny_unmatched_requests_exempted_zone_names` array.
+One of the following:
 
-- `deny_unmatched_requests_exempted_zone_names: optional array of string`
+256
 
-  Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.
+<a href="#">Link to this property</a>
 
-- `is_ui_read_only: optional boolean`
+384
 
-  Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.
+<a href="#">Link to this property</a>
 
-- `login_design: optional LoginDesign`
+521
 
-  - `background_color: optional string`
+<a href="#">Link to this property</a>
 
-    The background color on your login page.
+2048
 
-  - `footer_text: optional string`
+<a href="#">Link to this property</a>
 
-    The text at the bottom of your login page.
+3072
 
-  - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-    The text at the top of your login page.
+4096
 
-  - `logo_path: optional string`
+<a href="#">Link to this property</a>
 
-    The URL of the logo on your login page.
+</details>
 
-  - `text_color: optional string`
+<a href="#">Link to this property</a>
 
-    The text color on your login page.
+<details>
 
-- `mfa_config: optional object { allowed_authenticators, amr_matching_session_duration, required_aaguids, session_duration }`
+<summary>
 
-  Configures multi-factor authentication (MFA) settings for an organization.
+ssh\_key\_type: optional array of "ecdsa"or "ed25519"or "rsa"
 
-  - `allowed_authenticators: optional array of "totp" or "biometrics" or "security_key" or "piv_key"`
+Specifies the allowed SSH key types. Valid values are <code>ecdsa</code>, <code>ed25519</code>, and <code>rsa</code>.
 
-    Lists the MFA methods that users can authenticate with.
+</summary>
 
-    - `"totp"`
+One of the following:
 
-    - `"biometrics"`
+"ecdsa"
 
-    - `"security_key"`
+<a href="#">Link to this property</a>
 
-    - `"piv_key"`
+"ed25519"
 
-  - `amr_matching_session_duration: optional string`
+<a href="#">Link to this property</a>
 
-    Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains "mfa". Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days).
+"rsa"
 
-  - `required_aaguids: optional string`
+<a href="#">Link to this property</a>
 
-    Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs.
+</details>
 
-  - `session_duration: optional string`
+<a href="#">Link to this property</a>
 
-    Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`.
+<details>
 
-- `mfa_piv_key_requirements: optional object { pin_policy, require_fips_device, ssh_key_size, 2 more }`
+<summary>
 
-  Configures PIV key requirements for MFA using hardware security keys.
+touch\_policy: optional "never"or "always"or "cached"
 
-  - `pin_policy: optional "never" or "once" or "always"`
+Defines when physical touch is required to use the SSH key. Valid values: <code>never</code> (no touch required), <code>always</code> (touch required for each use), <code>cached</code> (touch cached for 15 seconds).
 
-    Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).
+</summary>
 
-    - `"never"`
+One of the following:
 
-    - `"once"`
+"never"
 
-    - `"always"`
+<a href="#">Link to this property</a>
 
-  - `require_fips_device: optional boolean`
+"always"
 
-    Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device.
+<a href="#">Link to this property</a>
 
-  - `ssh_key_size: optional array of 256 or 384 or 521 or 3 more`
+"cached"
 
-    Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter.
+<a href="#">Link to this property</a>
 
-    - `256`
+</details>
 
-    - `384`
+<a href="#">Link to this property</a>
 
-    - `521`
+</details>
 
-    - `2048`
+<a href="#">Link to this property</a>
 
-    - `3072`
+mfa\_required\_for\_all\_apps: optional boolean
 
-    - `4096`
+Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: ‘allowed\_authenticators’ cannot contain only the infrastructure SSH authenticators (‘piv\_key’ and ‘ssh\_fido2\_key’) if the organization has any non-infrastructure applications.
 
-  - `ssh_key_type: optional array of "ecdsa" or "ed25519" or "rsa"`
+<a href="#">Link to this property</a>
 
-    Specifies the allowed SSH key types. Valid values are `ecdsa`, `ed25519`, and `rsa`.
+name: optional string
 
-    - `"ecdsa"`
+The name of your Zero Trust organization.
 
-    - `"ed25519"`
+<a href="#">Link to this property</a>
 
-    - `"rsa"`
+session\_duration: optional string
 
-  - `touch_policy: optional "never" or "always" or "cached"`
+The amount of time that tokens issued for applications will be valid. Must be in the format <code>300ms</code> or <code>2h45m</code>. Valid time units are: ns, us (or µs), ms, s, m, h.
 
-    Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).
+<a href="#">Link to this property</a>
 
-    - `"never"`
+ui\_read\_only\_toggle\_reason: optional string
 
-    - `"always"`
+A description of the reason why the UI read only field is being toggled.
 
-    - `"cached"`
+<a href="#">Link to this property</a>
 
-- `mfa_required_for_all_apps: optional boolean`
+user\_seat\_expiration\_inactive\_time: optional string
 
-  Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot only contain 'piv_key' if the organization has any non-infrastructure applications because PIV keys are only compatible with infrastructure apps.
+The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count. Minimum value for this setting is 1 month (730h). Must be in the format <code>300ms</code> or <code>2h45m</code>. Valid time units are: <code>ns</code>, <code>us</code> (or <code>µs</code>), <code>ms</code>, <code>s</code>, <code>m</code>, <code>h</code>.
 
-- `session_duration: optional string`
+<a href="#">Link to this property</a>
 
-  The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.
+warp\_auth\_non\_browser\_401: optional boolean
 
-- `ui_read_only_toggle_reason: optional string`
+When enabled, unsuccessful WARP authentication requests with a non-HTML Accept header return a 401 response instead of redirecting to the login page.
 
-  A description of the reason why the UI read only field is being toggled.
+<a href="#">Link to this property</a>
 
-- `user_seat_expiration_inactive_time: optional string`
+warp\_auth\_session\_duration: optional string
 
-  The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count.  Minimum value for this setting is 1 month (730h). Must be in the format `300ms` or `2h45m`. Valid time units are: `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`.
+The amount of time that tokens issued for applications will be valid. Must be in the format <code>30m</code> or <code>2h45m</code>. Valid time units are: m, h.
 
-- `warp_auth_session_duration: optional string`
+<a href="#">Link to this property</a>
 
-  The amount of time that tokens issued for applications will be valid. Must be in the format `30m` or `2h45m`. Valid time units are: m, h.
+</details>
 
-### Returns
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(model)%20organization%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+OrganizationListResponse object {allow\_authenticate\_via\_warp, auth\_domain, auto\_redirect\_to\_identity, 15 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+allow\_authenticate\_via\_warp: optional boolean
 
-    - `pointer: optional string`
+When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+auth\_domain: optional string
 
-  - `message: string`
+The unique subdomain assigned to your Zero Trust organization.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+auto\_redirect\_to\_identity: optional boolean
 
-    - `pointer: optional string`
+When set to <code>true</code>, users skip the identity provider selection step during login.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional Organization`
+custom\_pages: optional object {forbidden, identity\_denied }
 
-  - `allow_authenticate_via_warp: optional boolean`
+</summary>
 
-    When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.
+forbidden: optional string
 
-  - `auth_domain: optional string`
+The uid of the custom page to use when a user is denied access after failing a non-identity rule.
 
-    The unique subdomain assigned to your Zero Trust organization.
+<a href="#">Link to this property</a>
 
-  - `auto_redirect_to_identity: optional boolean`
+identity\_denied: optional string
 
-    When set to `true`, users skip the identity provider selection step during login.
+The uid of the custom page to use when a user is denied access.
 
-  - `custom_pages: optional object { forbidden, identity_denied }`
+<a href="#">Link to this property</a>
 
-    - `forbidden: optional string`
+</details>
 
-      The uid of the custom page to use when a user is denied access after failing a non-identity rule.
+<a href="#">Link to this property</a>
 
-    - `identity_denied: optional string`
+deny\_unmatched\_requests: optional boolean
 
-      The uid of the custom page to use when a user is denied access.
+Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the <code>deny_unmatched_requests_exempted_zone_names</code> array.
 
-  - `deny_unmatched_requests: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the `deny_unmatched_requests_exempted_zone_names` array.
+deny\_unmatched\_requests\_exempted\_zone\_names: optional array of string
 
-  - `deny_unmatched_requests_exempted_zone_names: optional array of string`
+Contains zone names to exempt from the <code>deny_unmatched_requests</code> feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.
 
-    Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.
+<a href="#">Link to this property</a>
 
-  - `is_ui_read_only: optional boolean`
+is\_ui\_read\_only: optional boolean
 
-    Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.
+Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.
 
-  - `login_design: optional LoginDesign`
+<a href="#">Link to this property</a>
 
-    - `background_color: optional string`
+login\_design: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.organizations%20%3E%20(model)%20login_design%20%3E%20(schema)">LoginDesign</a> { background\_color, footer\_text, header\_text, 2 more }
 
-      The background color on your login page.
+<a href="#">Link to this property</a>
 
-    - `footer_text: optional string`
+<details>
 
-      The text at the bottom of your login page.
+<summary>
 
-    - `header_text: optional string`
+mfa\_config: optional object {allowed\_authenticators, amr\_matching\_session\_duration, required\_aaguids, session\_duration }
 
-      The text at the top of your login page.
+Configures multi-factor authentication (MFA) settings for an organization.
 
-    - `logo_path: optional string`
+</summary>
 
-      The URL of the logo on your login page.
+<details>
 
-    - `text_color: optional string`
+<summary>
 
-      The text color on your login page.
+allowed\_authenticators: optional array of "totp"or "biometrics"or "security\_key"or 2 more
 
-  - `mfa_config: optional object { allowed_authenticators, amr_matching_session_duration, required_aaguids, session_duration }`
+Lists the MFA methods that users can authenticate with. The <code>piv_key</code> and <code>ssh_fido2_key</code> values are supported only for infrastructure applications.
 
-    Configures multi-factor authentication (MFA) settings for an organization.
+</summary>
 
-    - `allowed_authenticators: optional array of "totp" or "biometrics" or "security_key" or "piv_key"`
+One of the following:
 
-      Lists the MFA methods that users can authenticate with.
+"totp"
 
-      - `"totp"`
+<a href="#">Link to this property</a>
 
-      - `"biometrics"`
+"biometrics"
 
-      - `"security_key"`
+<a href="#">Link to this property</a>
 
-      - `"piv_key"`
+"security\_key"
 
-    - `amr_matching_session_duration: optional string`
+<a href="#">Link to this property</a>
 
-      Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains "mfa". Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days).
+"piv\_key"
 
-    - `required_aaguids: optional string`
+<a href="#">Link to this property</a>
 
-      Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs.
+"ssh\_fido2\_key"
 
-    - `session_duration: optional string`
+<a href="#">Link to this property</a>
 
-      Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`.
+</details>
 
-  - `mfa_piv_key_requirements: optional object { pin_policy, require_fips_device, ssh_key_size, 2 more }`
+<a href="#">Link to this property</a>
 
-    Configures PIV key requirements for MFA using hardware security keys.
+amr\_matching\_session\_duration: optional string
 
-    - `pin_policy: optional "never" or "once" or "always"`
+Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains “mfa”. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days).
 
-      Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).
+<a href="#">Link to this property</a>
 
-      - `"never"`
+required\_aaguids: optional string
 
-      - `"once"`
+Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs.
 
-      - `"always"`
+formatuuid
 
-    - `require_fips_device: optional boolean`
+<a href="#">Link to this property</a>
 
-      Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device.
+session\_duration: optional string
 
-    - `ssh_key_size: optional array of 256 or 384 or 521 or 3 more`
+Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:<code>5m</code> or <code>24h</code>.
 
-      Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter.
+<a href="#">Link to this property</a>
 
-      - `256`
+</details>
 
-      - `384`
+<a href="#">Link to this property</a>
 
-      - `521`
+<details>
 
-      - `2048`
+<summary>
 
-      - `3072`
+mfa\_piv\_key\_requirements: optional object {pin\_policy, require\_fips\_device, ssh\_key\_size, 2 more }
 
-      - `4096`
+Configures PIV key requirements for MFA using hardware security keys.
 
-    - `ssh_key_type: optional array of "ecdsa" or "ed25519" or "rsa"`
+</summary>
 
-      Specifies the allowed SSH key types. Valid values are `ecdsa`, `ed25519`, and `rsa`.
+<details>
 
-      - `"ecdsa"`
+<summary>
 
-      - `"ed25519"`
+pin\_policy: optional "never"or "once"or "always"
 
-      - `"rsa"`
+Defines when a PIN is required to use the SSH key. Valid values: <code>never</code> (no PIN required), <code>once</code> (PIN required once per session), <code>always</code> (PIN required for each use).
 
-    - `touch_policy: optional "never" or "always" or "cached"`
+</summary>
 
-      Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).
+One of the following:
 
-      - `"never"`
+"never"
 
-      - `"always"`
+<a href="#">Link to this property</a>
 
-      - `"cached"`
+"once"
 
-  - `mfa_required_for_all_apps: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot only contain 'piv_key' if the organization has any non-infrastructure applications because PIV keys are only compatible with infrastructure apps.
+"always"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of your Zero Trust organization.
+</details>
 
-  - `session_duration: optional string`
+<a href="#">Link to this property</a>
 
-    The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.
+require\_fips\_device: optional boolean
 
-  - `ui_read_only_toggle_reason: optional string`
+Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device.
 
-    A description of the reason why the UI read only field is being toggled.
+<a href="#">Link to this property</a>
 
-  - `user_seat_expiration_inactive_time: optional string`
+<details>
 
-    The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count.  Minimum value for this setting is 1 month (730h). Must be in the format `300ms` or `2h45m`. Valid time units are: `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`.
+<summary>
 
-  - `warp_auth_session_duration: optional string`
+ssh\_key\_size: optional array of 256or 384or 521or 3 more
 
-    The amount of time that tokens issued for applications will be valid. Must be in the format `30m` or `2h45m`. Valid time units are: m, h.
+Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/organizations \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auth_domain": "test.cloudflareaccess.com",
-          "name": "Widget Corps Internal Applications",
-          "deny_unmatched_requests_exempted_zone_names": [
-            "example.com"
-          ],
-          "session_duration": "24h",
-          "ui_read_only_toggle_reason": "Temporarily turn off the UI read only lock to make a change via the UI",
-          "user_seat_expiration_inactive_time": "730h",
-          "warp_auth_session_duration": "24h"
-        }'
-```
+One of the following:
 
-#### Response
+256
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allow_authenticate_via_warp": true,
-    "auth_domain": "test.cloudflareaccess.com",
-    "auto_redirect_to_identity": true,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "custom_pages": {
-      "forbidden": "699d98642c564d2e855e9661899b7252",
-      "identity_denied": "699d98642c564d2e855e9661899b7252"
-    },
-    "deny_unmatched_requests": true,
-    "deny_unmatched_requests_exempted_zone_names": [
-      "example.com"
-    ],
-    "is_ui_read_only": true,
-    "login_design": {
-      "background_color": "#c5ed1b",
-      "footer_text": "This is an example description.",
-      "header_text": "This is an example description.",
-      "logo_path": "https://example.com/logo.png",
-      "text_color": "#c5ed1b"
-    },
-    "mfa_config": {
-      "allowed_authenticators": [
-        "totp",
-        "biometrics",
-        "security_key"
-      ],
-      "amr_matching_session_duration": "12h",
-      "required_aaguids": "2fc0579f-8113-47ea-b116-bb5a8db9202a",
-      "session_duration": "24h"
-    },
-    "mfa_piv_key_requirements": {
-      "pin_policy": "always",
-      "require_fips_device": true,
-      "ssh_key_size": [
-        256,
-        2048
-      ],
-      "ssh_key_type": [
-        "ecdsa",
-        "rsa"
-      ],
-      "touch_policy": "always"
-    },
-    "mfa_required_for_all_apps": false,
-    "name": "Widget Corps Internal Applications",
-    "session_duration": "24h",
-    "ui_read_only_toggle_reason": "Temporarily turn off the UI read only lock to make a change via the UI",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "user_seat_expiration_inactive_time": "730h",
-    "warp_auth_session_duration": "24h"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update your Zero Trust organization
+384
 
-**put** `/{accounts_or_zones}/{account_or_zone_id}/access/organizations`
+<a href="#">Link to this property</a>
 
-Updates the configuration for your Zero Trust organization.
+521
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: optional string`
+2048
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<a href="#">Link to this property</a>
 
-- `zone_id: optional string`
+3072
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+4096
 
-- `allow_authenticate_via_warp: optional boolean`
+<a href="#">Link to this property</a>
 
-  When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.
+</details>
 
-- `auth_domain: optional string`
+<a href="#">Link to this property</a>
 
-  The unique subdomain assigned to your Zero Trust organization.
+<details>
 
-- `auto_redirect_to_identity: optional boolean`
+<summary>
 
-  When set to `true`, users skip the identity provider selection step during login.
+ssh\_key\_type: optional array of "ecdsa"or "ed25519"or "rsa"
 
-- `custom_pages: optional object { forbidden, identity_denied }`
+Specifies the allowed SSH key types. Valid values are <code>ecdsa</code>, <code>ed25519</code>, and <code>rsa</code>.
 
-  - `forbidden: optional string`
+</summary>
 
-    The uid of the custom page to use when a user is denied access after failing a non-identity rule.
+One of the following:
 
-  - `identity_denied: optional string`
+"ecdsa"
 
-    The uid of the custom page to use when a user is denied access.
+<a href="#">Link to this property</a>
 
-- `deny_unmatched_requests: optional boolean`
+"ed25519"
 
-  Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the `deny_unmatched_requests_exempted_zone_names` array.
+<a href="#">Link to this property</a>
 
-- `deny_unmatched_requests_exempted_zone_names: optional array of string`
+"rsa"
 
-  Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.
+<a href="#">Link to this property</a>
 
-- `is_ui_read_only: optional boolean`
+</details>
 
-  Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.
+<a href="#">Link to this property</a>
 
-- `login_design: optional LoginDesign`
+<details>
 
-  - `background_color: optional string`
+<summary>
 
-    The background color on your login page.
+touch\_policy: optional "never"or "always"or "cached"
 
-  - `footer_text: optional string`
+Defines when physical touch is required to use the SSH key. Valid values: <code>never</code> (no touch required), <code>always</code> (touch required for each use), <code>cached</code> (touch cached for 15 seconds).
 
-    The text at the bottom of your login page.
+</summary>
 
-  - `header_text: optional string`
+One of the following:
 
-    The text at the top of your login page.
+"never"
 
-  - `logo_path: optional string`
+<a href="#">Link to this property</a>
 
-    The URL of the logo on your login page.
+"always"
 
-  - `text_color: optional string`
+<a href="#">Link to this property</a>
 
-    The text color on your login page.
+"cached"
 
-- `mfa_config: optional object { allowed_authenticators, amr_matching_session_duration, required_aaguids, session_duration }`
+<a href="#">Link to this property</a>
 
-  Configures multi-factor authentication (MFA) settings for an organization.
+</details>
 
-  - `allowed_authenticators: optional array of "totp" or "biometrics" or "security_key" or "piv_key"`
+<a href="#">Link to this property</a>
 
-    Lists the MFA methods that users can authenticate with.
+</details>
 
-    - `"totp"`
+<a href="#">Link to this property</a>
 
-    - `"biometrics"`
+mfa\_required\_for\_all\_apps: optional boolean
 
-    - `"security_key"`
+Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: ‘allowed\_authenticators’ cannot contain only the infrastructure SSH authenticators (‘piv\_key’ and ‘ssh\_fido2\_key’) if the organization has any non-infrastructure applications.
 
-    - `"piv_key"`
+<a href="#">Link to this property</a>
 
-  - `amr_matching_session_duration: optional string`
+name: optional string
 
-    Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains "mfa". Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days).
+The name of your Zero Trust organization.
 
-  - `required_aaguids: optional string`
+<a href="#">Link to this property</a>
 
-    Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs.
+session\_duration: optional string
 
-  - `session_duration: optional string`
+The amount of time that tokens issued for applications will be valid. Must be in the format <code>300ms</code> or <code>2h45m</code>. Valid time units are: ns, us (or µs), ms, s, m, h.
 
-    Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`.
+<a href="#">Link to this property</a>
 
-- `mfa_piv_key_requirements: optional object { pin_policy, require_fips_device, ssh_key_size, 2 more }`
+trusted\_accounts: optional array of string
 
-  Configures PIV key requirements for MFA using hardware security keys.
+The account tags of organizations trusted by this organization for policy and device posture sharing.
 
-  - `pin_policy: optional "never" or "once" or "always"`
+<a href="#">Link to this property</a>
 
-    Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).
+ui\_read\_only\_toggle\_reason: optional string
 
-    - `"never"`
+A description of the reason why the UI read only field is being toggled.
 
-    - `"once"`
+<a href="#">Link to this property</a>
 
-    - `"always"`
+user\_seat\_expiration\_inactive\_time: optional string
 
-  - `require_fips_device: optional boolean`
+The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count. Minimum value for this setting is 1 month (730h). Must be in the format <code>300ms</code> or <code>2h45m</code>. Valid time units are: <code>ns</code>, <code>us</code> (or <code>µs</code>), <code>ms</code>, <code>s</code>, <code>m</code>, <code>h</code>.
 
-    Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device.
+<a href="#">Link to this property</a>
 
-  - `ssh_key_size: optional array of 256 or 384 or 521 or 3 more`
+warp\_auth\_non\_browser\_401: optional boolean
 
-    Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter.
+When enabled, unsuccessful WARP authentication requests with a non-HTML Accept header return a 401 response instead of redirecting to the login page.
 
-    - `256`
+<a href="#">Link to this property</a>
 
-    - `384`
+warp\_auth\_session\_duration: optional string
 
-    - `521`
+The amount of time that tokens issued for applications will be valid. Must be in the format <code>30m</code> or <code>2h45m</code>. Valid time units are: m, h.
 
-    - `2048`
+<a href="#">Link to this property</a>
 
-    - `3072`
+</details>
 
-    - `4096`
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(model)%20organization_list_response%20%3E%20(schema)>)
 
-  - `ssh_key_type: optional array of "ecdsa" or "ed25519" or "rsa"`
+<details>
 
-    Specifies the allowed SSH key types. Valid values are `ecdsa`, `ed25519`, and `rsa`.
+<summary>
 
-    - `"ecdsa"`
+OrganizationRevokeUsersResponse = trueor false
 
-    - `"ed25519"`
+</summary>
 
-    - `"rsa"`
+One of the following:
 
-  - `touch_policy: optional "never" or "always" or "cached"`
+true
 
-    Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).
+<a href="#">Link to this property</a>
 
-    - `"never"`
+false
 
-    - `"always"`
+<a href="#">Link to this property</a>
 
-    - `"cached"`
+</details>
 
-- `mfa_required_for_all_apps: optional boolean`
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(model)%20organization_revoke_users_response%20%3E%20(schema)>)
 
-  Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot only contain 'piv_key' if the organization has any non-infrastructure applications because PIV keys are only compatible with infrastructure apps.
+#### OrganizationsDOH
 
-- `name: optional string`
+##### [Get your Zero Trust organization DoH settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/organizations/subresources/doh/methods/get)
 
-  The name of your Zero Trust organization.
+GET/accounts/{account\_id}/access/organizations/doh
 
-- `session_duration: optional string`
+##### [Update your Zero Trust organization DoH settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/organizations/subresources/doh/methods/update)
 
-  The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.
+PUT/accounts/{account\_id}/access/organizations/doh
 
-- `ui_read_only_toggle_reason: optional string`
+##### ModelsExpand Collapse
 
-  A description of the reason why the UI read only field is being toggled.
+<details>
 
-- `user_seat_expiration_inactive_time: optional string`
+<summary>
 
-  The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count.  Minimum value for this setting is 1 month (730h). Must be in the format `300ms` or `2h45m`. Valid time units are: `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`.
+DOHGetResponse object {id, client\_id, doh\_jwt\_duration, 4 more }
 
-- `warp_auth_session_duration: optional string`
+</summary>
 
-  The amount of time that tokens issued for applications will be valid. Must be in the format `30m` or `2h45m`. Valid time units are: m, h.
+id: optional string
 
-### Returns
+The ID of the service token.
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength36
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+client\_id: optional string
 
-  - `documentation_url: optional string`
+The Client ID for the service token. Access will check for this value in the <code>CF-Access-Client-ID</code> request header.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+doh\_jwt\_duration: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The duration the DoH JWT is valid for. Must be in the format <code>300ms</code> or <code>2h45m</code>. Valid time units are: ns, us (or µs), ms, s, m, h. Note that the maximum duration for this setting is the same as the key rotation period on the account.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+duration: optional string
 
-  - `documentation_url: optional string`
+The duration for how long the service token will be valid. Must be in the format <code>300ms</code> or <code>2h45m</code>, or the special value <code>forever</code> for non-expiring tokens. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+enabled: optional boolean
 
-- `success: true`
+Whether the service token is enabled. A disabled service token cannot be used to authenticate; both its current and previous <code>client_secret</code> stop being accepted, but the token itself is preserved and can be re-enabled at any time. Defaults to enabled when omitted on create.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+expires\_at: optional string
 
-- `result: optional Organization`
+formatdate-time
 
-  - `allow_authenticate_via_warp: optional boolean`
+<a href="#">Link to this property</a>
 
-    When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.
+name: optional string
 
-  - `auth_domain: optional string`
+The name of the service token.
 
-    The unique subdomain assigned to your Zero Trust organization.
+<a href="#">Link to this property</a>
 
-  - `auto_redirect_to_identity: optional boolean`
+</details>
 
-    When set to `true`, users skip the identity provider selection step during login.
+[Link to this property](#)%20zero_trust.organizations.doh%20%3E%20(model)%20doh_get_response%20%3E%20(schema)>)
 
-  - `custom_pages: optional object { forbidden, identity_denied }`
+<details>
 
-    - `forbidden: optional string`
+<summary>
 
-      The uid of the custom page to use when a user is denied access after failing a non-identity rule.
+DOHUpdateResponse object {id, client\_id, doh\_jwt\_duration, 4 more }
 
-    - `identity_denied: optional string`
+</summary>
 
-      The uid of the custom page to use when a user is denied access.
+id: optional string
 
-  - `deny_unmatched_requests: optional boolean`
+The ID of the service token.
 
-    Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the `deny_unmatched_requests_exempted_zone_names` array.
+maxLength36
 
-  - `deny_unmatched_requests_exempted_zone_names: optional array of string`
+<a href="#">Link to this property</a>
 
-    Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.
+client\_id: optional string
 
-  - `is_ui_read_only: optional boolean`
+The Client ID for the service token. Access will check for this value in the <code>CF-Access-Client-ID</code> request header.
 
-    Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.
+<a href="#">Link to this property</a>
 
-  - `login_design: optional LoginDesign`
+doh\_jwt\_duration: optional string
 
-    - `background_color: optional string`
+The duration the DoH JWT is valid for. Must be in the format <code>300ms</code> or <code>2h45m</code>. Valid time units are: ns, us (or µs), ms, s, m, h. Note that the maximum duration for this setting is the same as the key rotation period on the account. Default expiration is 24h
 
-      The background color on your login page.
+<a href="#">Link to this property</a>
 
-    - `footer_text: optional string`
+duration: optional string
 
-      The text at the bottom of your login page.
+The duration for how long the service token will be valid. Must be in the format <code>300ms</code> or <code>2h45m</code>, or the special value <code>forever</code> for non-expiring tokens. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h).
 
-    - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-      The text at the top of your login page.
+enabled: optional boolean
 
-    - `logo_path: optional string`
+Whether the service token is enabled. A disabled service token cannot be used to authenticate; both its current and previous <code>client_secret</code> stop being accepted, but the token itself is preserved and can be re-enabled at any time. Defaults to enabled when omitted on create.
 
-      The URL of the logo on your login page.
+<a href="#">Link to this property</a>
 
-    - `text_color: optional string`
+expires\_at: optional string
 
-      The text color on your login page.
+formatdate-time
 
-  - `mfa_config: optional object { allowed_authenticators, amr_matching_session_duration, required_aaguids, session_duration }`
+<a href="#">Link to this property</a>
 
-    Configures multi-factor authentication (MFA) settings for an organization.
+name: optional string
 
-    - `allowed_authenticators: optional array of "totp" or "biometrics" or "security_key" or "piv_key"`
+The name of the service token.
 
-      Lists the MFA methods that users can authenticate with.
+<a href="#">Link to this property</a>
 
-      - `"totp"`
+</details>
 
-      - `"biometrics"`
-
-      - `"security_key"`
-
-      - `"piv_key"`
-
-    - `amr_matching_session_duration: optional string`
-
-      Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains "mfa". Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days).
-
-    - `required_aaguids: optional string`
-
-      Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs.
-
-    - `session_duration: optional string`
-
-      Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`.
-
-  - `mfa_piv_key_requirements: optional object { pin_policy, require_fips_device, ssh_key_size, 2 more }`
-
-    Configures PIV key requirements for MFA using hardware security keys.
-
-    - `pin_policy: optional "never" or "once" or "always"`
-
-      Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).
-
-      - `"never"`
-
-      - `"once"`
-
-      - `"always"`
-
-    - `require_fips_device: optional boolean`
-
-      Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device.
-
-    - `ssh_key_size: optional array of 256 or 384 or 521 or 3 more`
-
-      Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter.
-
-      - `256`
-
-      - `384`
-
-      - `521`
-
-      - `2048`
-
-      - `3072`
-
-      - `4096`
-
-    - `ssh_key_type: optional array of "ecdsa" or "ed25519" or "rsa"`
-
-      Specifies the allowed SSH key types. Valid values are `ecdsa`, `ed25519`, and `rsa`.
-
-      - `"ecdsa"`
-
-      - `"ed25519"`
-
-      - `"rsa"`
-
-    - `touch_policy: optional "never" or "always" or "cached"`
-
-      Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).
-
-      - `"never"`
-
-      - `"always"`
-
-      - `"cached"`
-
-  - `mfa_required_for_all_apps: optional boolean`
-
-    Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot only contain 'piv_key' if the organization has any non-infrastructure applications because PIV keys are only compatible with infrastructure apps.
-
-  - `name: optional string`
-
-    The name of your Zero Trust organization.
-
-  - `session_duration: optional string`
-
-    The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.
-
-  - `ui_read_only_toggle_reason: optional string`
-
-    A description of the reason why the UI read only field is being toggled.
-
-  - `user_seat_expiration_inactive_time: optional string`
-
-    The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count.  Minimum value for this setting is 1 month (730h). Must be in the format `300ms` or `2h45m`. Valid time units are: `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`.
-
-  - `warp_auth_session_duration: optional string`
-
-    The amount of time that tokens issued for applications will be valid. Must be in the format `30m` or `2h45m`. Valid time units are: m, h.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/organizations \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auth_domain": "test.cloudflareaccess.com",
-          "deny_unmatched_requests_exempted_zone_names": [
-            "example.com"
-          ],
-          "name": "Widget Corps Internal Applications",
-          "session_duration": "24h",
-          "ui_read_only_toggle_reason": "Temporarily turn off the UI read only lock to make a change via the UI",
-          "user_seat_expiration_inactive_time": "730h",
-          "warp_auth_session_duration": "24h"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allow_authenticate_via_warp": true,
-    "auth_domain": "test.cloudflareaccess.com",
-    "auto_redirect_to_identity": true,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "custom_pages": {
-      "forbidden": "699d98642c564d2e855e9661899b7252",
-      "identity_denied": "699d98642c564d2e855e9661899b7252"
-    },
-    "deny_unmatched_requests": true,
-    "deny_unmatched_requests_exempted_zone_names": [
-      "example.com"
-    ],
-    "is_ui_read_only": true,
-    "login_design": {
-      "background_color": "#c5ed1b",
-      "footer_text": "This is an example description.",
-      "header_text": "This is an example description.",
-      "logo_path": "https://example.com/logo.png",
-      "text_color": "#c5ed1b"
-    },
-    "mfa_config": {
-      "allowed_authenticators": [
-        "totp",
-        "biometrics",
-        "security_key"
-      ],
-      "amr_matching_session_duration": "12h",
-      "required_aaguids": "2fc0579f-8113-47ea-b116-bb5a8db9202a",
-      "session_duration": "24h"
-    },
-    "mfa_piv_key_requirements": {
-      "pin_policy": "always",
-      "require_fips_device": true,
-      "ssh_key_size": [
-        256,
-        2048
-      ],
-      "ssh_key_type": [
-        "ecdsa",
-        "rsa"
-      ],
-      "touch_policy": "always"
-    },
-    "mfa_required_for_all_apps": false,
-    "name": "Widget Corps Internal Applications",
-    "session_duration": "24h",
-    "ui_read_only_toggle_reason": "Temporarily turn off the UI read only lock to make a change via the UI",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "user_seat_expiration_inactive_time": "730h",
-    "warp_auth_session_duration": "24h"
-  }
-}
-```
-
-## Revoke all Access tokens for a user
-
-**post** `/{accounts_or_zones}/{account_or_zone_id}/access/organizations/revoke_user`
-
-Revokes a user's access across all applications.
-
-### Path Parameters
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Query Parameters
-
-- `devices: optional boolean`
-
-  When set to `true`, all devices associated with the user will be revoked.
-
-### Body Parameters
-
-- `email: string`
-
-  The email of the user to revoke.
-
-- `devices: optional boolean`
-
-  When set to `true`, all devices associated with the user will be revoked.
-
-- `user_uid: optional string`
-
-  The uuid of the user to revoke.
-
-- `warp_session_reauth: optional boolean`
-
-  When set to `true`, the user will be required to re-authenticate to WARP for all Gateway policies that enforce a WARP client session duration. When `false`, the user’s WARP session will remain active
-
-### Returns
-
-- `result: optional true or false`
-
-  - `true`
-
-  - `false`
-
-- `success: optional true or false`
-
-  - `true`
-
-  - `false`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/organizations/revoke_user \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email": "test@example.com",
-          "devices": true,
-          "user_uid": "699d98642c564d2e855e9661899b7252",
-          "warp_session_reauth": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "result": true,
-  "success": true
-}
-```
-
-## Domain Types
-
-### Login Design
-
-- `LoginDesign object { background_color, footer_text, header_text, 2 more }`
-
-  - `background_color: optional string`
-
-    The background color on your login page.
-
-  - `footer_text: optional string`
-
-    The text at the bottom of your login page.
-
-  - `header_text: optional string`
-
-    The text at the top of your login page.
-
-  - `logo_path: optional string`
-
-    The URL of the logo on your login page.
-
-  - `text_color: optional string`
-
-    The text color on your login page.
-
-### Organization
-
-- `Organization object { allow_authenticate_via_warp, auth_domain, auto_redirect_to_identity, 13 more }`
-
-  - `allow_authenticate_via_warp: optional boolean`
-
-    When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.
-
-  - `auth_domain: optional string`
-
-    The unique subdomain assigned to your Zero Trust organization.
-
-  - `auto_redirect_to_identity: optional boolean`
-
-    When set to `true`, users skip the identity provider selection step during login.
-
-  - `custom_pages: optional object { forbidden, identity_denied }`
-
-    - `forbidden: optional string`
-
-      The uid of the custom page to use when a user is denied access after failing a non-identity rule.
-
-    - `identity_denied: optional string`
-
-      The uid of the custom page to use when a user is denied access.
-
-  - `deny_unmatched_requests: optional boolean`
-
-    Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the `deny_unmatched_requests_exempted_zone_names` array.
-
-  - `deny_unmatched_requests_exempted_zone_names: optional array of string`
-
-    Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.
-
-  - `is_ui_read_only: optional boolean`
-
-    Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.
-
-  - `login_design: optional LoginDesign`
-
-    - `background_color: optional string`
-
-      The background color on your login page.
-
-    - `footer_text: optional string`
-
-      The text at the bottom of your login page.
-
-    - `header_text: optional string`
-
-      The text at the top of your login page.
-
-    - `logo_path: optional string`
-
-      The URL of the logo on your login page.
-
-    - `text_color: optional string`
-
-      The text color on your login page.
-
-  - `mfa_config: optional object { allowed_authenticators, amr_matching_session_duration, required_aaguids, session_duration }`
-
-    Configures multi-factor authentication (MFA) settings for an organization.
-
-    - `allowed_authenticators: optional array of "totp" or "biometrics" or "security_key" or "piv_key"`
-
-      Lists the MFA methods that users can authenticate with.
-
-      - `"totp"`
-
-      - `"biometrics"`
-
-      - `"security_key"`
-
-      - `"piv_key"`
-
-    - `amr_matching_session_duration: optional string`
-
-      Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains "mfa". Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days).
-
-    - `required_aaguids: optional string`
-
-      Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs.
-
-    - `session_duration: optional string`
-
-      Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`.
-
-  - `mfa_piv_key_requirements: optional object { pin_policy, require_fips_device, ssh_key_size, 2 more }`
-
-    Configures PIV key requirements for MFA using hardware security keys.
-
-    - `pin_policy: optional "never" or "once" or "always"`
-
-      Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).
-
-      - `"never"`
-
-      - `"once"`
-
-      - `"always"`
-
-    - `require_fips_device: optional boolean`
-
-      Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device.
-
-    - `ssh_key_size: optional array of 256 or 384 or 521 or 3 more`
-
-      Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter.
-
-      - `256`
-
-      - `384`
-
-      - `521`
-
-      - `2048`
-
-      - `3072`
-
-      - `4096`
-
-    - `ssh_key_type: optional array of "ecdsa" or "ed25519" or "rsa"`
-
-      Specifies the allowed SSH key types. Valid values are `ecdsa`, `ed25519`, and `rsa`.
-
-      - `"ecdsa"`
-
-      - `"ed25519"`
-
-      - `"rsa"`
-
-    - `touch_policy: optional "never" or "always" or "cached"`
-
-      Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).
-
-      - `"never"`
-
-      - `"always"`
-
-      - `"cached"`
-
-  - `mfa_required_for_all_apps: optional boolean`
-
-    Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot only contain 'piv_key' if the organization has any non-infrastructure applications because PIV keys are only compatible with infrastructure apps.
-
-  - `name: optional string`
-
-    The name of your Zero Trust organization.
-
-  - `session_duration: optional string`
-
-    The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.
-
-  - `ui_read_only_toggle_reason: optional string`
-
-    A description of the reason why the UI read only field is being toggled.
-
-  - `user_seat_expiration_inactive_time: optional string`
-
-    The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count.  Minimum value for this setting is 1 month (730h). Must be in the format `300ms` or `2h45m`. Valid time units are: `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`.
-
-  - `warp_auth_session_duration: optional string`
-
-    The amount of time that tokens issued for applications will be valid. Must be in the format `30m` or `2h45m`. Valid time units are: m, h.
-
-### Organization Revoke Users Response
-
-- `OrganizationRevokeUsersResponse = true or false`
-
-  - `true`
-
-  - `false`
-
-# DOH
-
-## Get your Zero Trust organization DoH settings
-
-**get** `/accounts/{account_id}/access/organizations/doh`
-
-Returns the DoH settings for your Zero Trust organization.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, client_id, doh_jwt_duration, 3 more }`
-
-  - `id: optional string`
-
-    The ID of the service token.
-
-  - `client_id: optional string`
-
-    The Client ID for the service token. Access will check for this value in the `CF-Access-Client-ID` request header.
-
-  - `doh_jwt_duration: optional string`
-
-    The duration the DoH JWT is valid for. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.  Note that the maximum duration for this setting is the same as the key rotation period on the account.
-
-  - `duration: optional string`
-
-    The duration for how long the service token will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h).
-
-  - `expires_at: optional string`
-
-  - `name: optional string`
-
-    The name of the service token.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/organizations/doh \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "client_id": "88bf3b6d86161464f6509f7219099e57.access.example.com",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "doh_jwt_duration": "800h",
-    "duration": "60m",
-    "expires_at": "2014-01-01T05:20:00.12345Z",
-    "last_seen_at": "2014-01-01T05:20:00.12345Z",
-    "name": "CI/CD token",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update your Zero Trust organization DoH settings
-
-**put** `/accounts/{account_id}/access/organizations/doh`
-
-Updates the DoH settings for your Zero Trust organization.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `doh_jwt_duration: optional string`
-
-  The duration the DoH JWT is valid for. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.  Note that the maximum duration for this setting is the same as the key rotation period on the account. Default expiration is 24h
-
-- `service_token_id: optional string`
-
-  The uuid of the service token you want to use for DoH authentication
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, client_id, doh_jwt_duration, 3 more }`
-
-  - `id: optional string`
-
-    The ID of the service token.
-
-  - `client_id: optional string`
-
-    The Client ID for the service token. Access will check for this value in the `CF-Access-Client-ID` request header.
-
-  - `doh_jwt_duration: optional string`
-
-    The duration the DoH JWT is valid for. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.  Note that the maximum duration for this setting is the same as the key rotation period on the account. Default expiration is 24h
-
-  - `duration: optional string`
-
-    The duration for how long the service token will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h).
-
-  - `expires_at: optional string`
-
-  - `name: optional string`
-
-    The name of the service token.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/organizations/doh \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "client_id": "88bf3b6d86161464f6509f7219099e57.access.example.com",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "doh_jwt_duration": "800h",
-    "duration": "60m",
-    "expires_at": "2014-01-01T05:20:00.12345Z",
-    "last_seen_at": "2014-01-01T05:20:00.12345Z",
-    "name": "CI/CD token",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### DOH Get Response
-
-- `DOHGetResponse object { id, client_id, doh_jwt_duration, 3 more }`
-
-  - `id: optional string`
-
-    The ID of the service token.
-
-  - `client_id: optional string`
-
-    The Client ID for the service token. Access will check for this value in the `CF-Access-Client-ID` request header.
-
-  - `doh_jwt_duration: optional string`
-
-    The duration the DoH JWT is valid for. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.  Note that the maximum duration for this setting is the same as the key rotation period on the account.
-
-  - `duration: optional string`
-
-    The duration for how long the service token will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h).
-
-  - `expires_at: optional string`
-
-  - `name: optional string`
-
-    The name of the service token.
-
-### DOH Update Response
-
-- `DOHUpdateResponse object { id, client_id, doh_jwt_duration, 3 more }`
-
-  - `id: optional string`
-
-    The ID of the service token.
-
-  - `client_id: optional string`
-
-    The Client ID for the service token. Access will check for this value in the `CF-Access-Client-ID` request header.
-
-  - `doh_jwt_duration: optional string`
-
-    The duration the DoH JWT is valid for. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h.  Note that the maximum duration for this setting is the same as the key rotation period on the account. Default expiration is 24h
-
-  - `duration: optional string`
-
-    The duration for how long the service token will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h).
-
-  - `expires_at: optional string`
-
-  - `name: optional string`
-
-    The name of the service token.
+[Link to this property](#)%20zero_trust.organizations.doh%20%3E%20(model)%20doh_update_response%20%3E%20(schema)>)

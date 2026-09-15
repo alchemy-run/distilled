@@ -456,7 +456,7 @@
         "authentication_settings": {
           "target": "com.cloudflare.fraud#GetResponseAuthenticationSettings",
           "traits": {
-            "smithy.api#documentation": "Configuration for classifying login authentication outcomes based on the origin response."
+            "smithy.api#documentation": "Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled."
           }
         },
         "user_profiles": {
@@ -517,7 +517,7 @@
         "authentication_settings": {
           "target": "com.cloudflare.fraud#UpdateRequestAuthenticationSettings",
           "traits": {
-            "smithy.api#documentation": "Configuration for classifying login authentication outcomes based on the origin response."
+            "smithy.api#documentation": "Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled."
           }
         },
         "user_profiles": {
@@ -543,7 +543,7 @@
         "authentication_settings": {
           "target": "com.cloudflare.fraud#UpdateResponseAuthenticationSettings",
           "traits": {
-            "smithy.api#documentation": "Configuration for classifying login authentication outcomes based on the origin response."
+            "smithy.api#documentation": "Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled."
           }
         },
         "user_profiles": {

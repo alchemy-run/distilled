@@ -1,359 +1,851 @@
-## Get layer 7 attacks summary by dimension
+---
+title: Get layer 7 attacks summary by dimension
+---
 
-**get** `/radar/attacks/layer7/summary/{dimension}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Attacks](https://developers.cloudflare.com/api/resources/radar/subresources/attacks)
+
+[Layer7](https://developers.cloudflare.com/api/resources/radar/subresources/attacks/subresources/layer7)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get layer 7 attacks summary by dimension
+
+GET/radar/attacks/layer7/summary/{dimension}
 
 Retrieves the distribution of layer 7 attacks by the specified dimension.
 
-### Path Parameters
+##### Security
 
-- `dimension: "HTTP_METHOD" or "HTTP_VERSION" or "IP_VERSION" or 4 more`
+<details>
 
-  Specifies the attribute by which to group the results.
+<summary>API Token</summary>
 
-  - `"HTTP_METHOD"`
 
-  - `"HTTP_VERSION"`
 
-  - `"IP_VERSION"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"MANAGED_RULES"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"MITIGATION_PRODUCT"`
+</details>
 
-  - `"VERTICAL"`
+<details>
 
-  - `"INDUSTRY"`
+<summary>API Email + API Key</summary>
 
-### Query Parameters
 
-- `asn: optional array of string`
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `continent: optional array of string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `dateEnd: optional array of string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  End of the date range (inclusive).
+</details>
 
-- `dateRange: optional array of string`
+##### Accepted Permissions (at least one required)
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+`User Details Write``User Details Read`
 
-- `dateStart: optional array of string`
+##### P ath ParametersExpand Collapse
 
-  Start of the date range.
+<details>
 
-- `format: optional "JSON" or "CSV"`
+<summary>
 
-  Format in which results will be returned.
+dimension: "HTTP\_METHOD"or "HTTP\_VERSION"or "IP\_VERSION"or 4 more
 
-  - `"JSON"`
+Specifies the attribute by which to group the results.
 
-  - `"CSV"`
+</summary>
 
-- `httpMethod: optional array of "GET" or "POST" or "DELETE" or 43 more`
+One of the following:
 
-  Filters results by HTTP method.
+"HTTP\_METHOD"
 
-  - `"GET"`
+<a href="#">Link to this property</a>
 
-  - `"POST"`
+"HTTP\_VERSION"
 
-  - `"DELETE"`
+<a href="#">Link to this property</a>
 
-  - `"PUT"`
+"IP\_VERSION"
 
-  - `"HEAD"`
+<a href="#">Link to this property</a>
 
-  - `"PURGE"`
+"MANAGED\_RULES"
 
-  - `"OPTIONS"`
+<a href="#">Link to this property</a>
 
-  - `"PROPFIND"`
+"MITIGATION\_PRODUCT"
 
-  - `"MKCOL"`
+<a href="#">Link to this property</a>
 
-  - `"PATCH"`
+"VERTICAL"
 
-  - `"ACL"`
+<a href="#">Link to this property</a>
 
-  - `"BCOPY"`
+"INDUSTRY"
 
-  - `"BDELETE"`
+<a href="#">Link to this property</a>
 
-  - `"BMOVE"`
+</details>
 
-  - `"BPROPFIND"`
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20dimension%20%3E%20(schema)>)
 
-  - `"BPROPPATCH"`
+##### Q uery ParametersExpand Collapse
 
-  - `"CHECKIN"`
+asn: optional array of string
 
-  - `"CHECKOUT"`
+Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
 
-  - `"CONNECT"`
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20asn%20%3E%20(schema)>)
 
-  - `"COPY"`
+continent: optional array of string
 
-  - `"LABEL"`
+Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
 
-  - `"LOCK"`
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20continent%20%3E%20(schema)>)
 
-  - `"MERGE"`
+dateEnd: optional array of string
 
-  - `"MKACTIVITY"`
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-  - `"MKWORKSPACE"`
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-  - `"MOVE"`
+dateRange: optional array of string
 
-  - `"NOTIFY"`
+Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
 
-  - `"ORDERPATCH"`
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
 
-  - `"POLL"`
+dateStart: optional array of string
 
-  - `"PROPPATCH"`
+Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-  - `"REPORT"`
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
 
-  - `"SEARCH"`
+<details>
 
-  - `"SUBSCRIBE"`
+<summary>
 
-  - `"TRACE"`
+format: optional "JSON"or "CSV"
 
-  - `"UNCHECKOUT"`
+Format in which results will be returned.
 
-  - `"UNLOCK"`
+</summary>
 
-  - `"UNSUBSCRIBE"`
+One of the following:
 
-  - `"UPDATE"`
+"JSON"
 
-  - `"VERSIONCONTROL"`
+<a href="#">Link to this property</a>
 
-  - `"BASELINECONTROL"`
+"CSV"
 
-  - `"XMSENUMATTS"`
+<a href="#">Link to this property</a>
 
-  - `"RPC_OUT_DATA"`
+</details>
 
-  - `"RPC_IN_DATA"`
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-  - `"JSON"`
+<details>
 
-  - `"COOK"`
+<summary>
 
-  - `"TRACK"`
+httpMethod: optional array of "GET"or "POST"or "DELETE"or 43 more
 
-- `httpVersion: optional array of "HTTPv1" or "HTTPv2" or "HTTPv3"`
+Filters results by HTTP method.
 
-  Filters results by HTTP version.
+</summary>
 
-  - `"HTTPv1"`
+One of the following:
 
-  - `"HTTPv2"`
+"GET"
 
-  - `"HTTPv3"`
+<a href="#">Link to this property</a>
 
-- `ipVersion: optional array of "IPv4" or "IPv6"`
+"POST"
 
-  Filters results by IP version (Ipv4 vs. IPv6).
+<a href="#">Link to this property</a>
 
-  - `"IPv4"`
+"DELETE"
 
-  - `"IPv6"`
+<a href="#">Link to this property</a>
 
-- `limitPerGroup: optional number`
+"PUT"
 
-  Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category.
+<a href="#">Link to this property</a>
 
-- `location: optional array of string`
+"HEAD"
 
-  Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
+<a href="#">Link to this property</a>
 
-- `mitigationProduct: optional array of "DDOS" or "WAF" or "BOT_MANAGEMENT" or 4 more`
+"PURGE"
 
-  Filters the results by layer 7 mitigation product.
+<a href="#">Link to this property</a>
 
-  - `"DDOS"`
+"OPTIONS"
 
-  - `"WAF"`
+<a href="#">Link to this property</a>
 
-  - `"BOT_MANAGEMENT"`
+"PROPFIND"
 
-  - `"ACCESS_RULES"`
+<a href="#">Link to this property</a>
 
-  - `"IP_REPUTATION"`
+"MKCOL"
 
-  - `"API_SHIELD"`
+<a href="#">Link to this property</a>
 
-  - `"DATA_LOSS_PREVENTION"`
+"PATCH"
 
-- `name: optional array of string`
+<a href="#">Link to this property</a>
 
-  Array of names used to label the series in the response.
+"ACL"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+"BCOPY"
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+"BDELETE"
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"BMOVE"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+"BPROPFIND"
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+"BPROPPATCH"
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+"CHECKIN"
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+"CHECKOUT"
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+"CONNECT"
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+"COPY"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+"LABEL"
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+"LOCK"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"MERGE"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"MKACTIVITY"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"MKWORKSPACE"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"MOVE"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+"NOTIFY"
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+"ORDERPATCH"
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+"POLL"
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+"PROPPATCH"
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+"REPORT"
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+"SEARCH"
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+"SUBSCRIBE"
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+"TRACE"
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+"UNCHECKOUT"
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+"UNLOCK"
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+"UNSUBSCRIBE"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"UPDATE"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"VERSIONCONTROL"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"BASELINECONTROL"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"XMSENUMATTS"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+"RPC\_OUT\_DATA"
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+"RPC\_IN\_DATA"
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+"JSON"
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+"COOK"
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"TRACK"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: map[string]`
+</details>
 
-- `success: boolean`
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20httpMethod%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
+<summary>
+
+httpVersion: optional array of "HTTPv1"or "HTTPv2"or "HTTPv3"
+
+Filters results by HTTP version.
+
+</summary>
+
+One of the following:
+
+"HTTPv1"
+
+<a href="#">Link to this property</a>
+
+"HTTPv2"
+
+<a href="#">Link to this property</a>
+
+"HTTPv3"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20httpVersion%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ipVersion: optional array of "IPv4"or "IPv6"
+
+Filters results by IP version (Ipv4 vs. IPv6).
+
+</summary>
+
+One of the following:
+
+"IPv4"
+
+<a href="#">Link to this property</a>
+
+"IPv6"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20ipVersion%20%3E%20(schema)>)
+
+limitPerGroup: optional number
+
+Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an “other” category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2.
+
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20limitPerGroup%20%3E%20(schema)>)
+
+location: optional array of string
+
+Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
+
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20location%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+mitigationProduct: optional array of "DDOS"or "WAF"or "BOT\_MANAGEMENT"or 4 more
+
+Filters the results by layer 7 mitigation product.
+
+</summary>
+
+One of the following:
+
+"DDOS"
+
+<a href="#">Link to this property</a>
+
+"WAF"
+
+<a href="#">Link to this property</a>
+
+"BOT\_MANAGEMENT"
+
+<a href="#">Link to this property</a>
+
+"ACCESS\_RULES"
+
+<a href="#">Link to this property</a>
+
+"IP\_REPUTATION"
+
+<a href="#">Link to this property</a>
+
+"API\_SHIELD"
+
+<a href="#">Link to this property</a>
+
+"DATA\_LOSS\_PREVENTION"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20mitigationProduct%20%3E%20(schema)>)
+
+name: optional array of string
+
+Array of names used to label the series in the response.
+
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {meta, summary\_0 }
+
+</summary>
+
+<details>
+
+<summary>
+
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
+
+Metadata for the results.
+
+</summary>
+
+<details>
+
+<summary>
+
+confidenceInfo: object {annotations, level }
+
+</summary>
+
+<details>
+
+<summary>
+
+annotations: array of object {dataSource, description, endDate, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
+
+Data source for annotations.
+
+</summary>
+
+One of the following:
+
+"ALL"
+
+<a href="#">Link to this property</a>
+
+"AI\_BOTS"
+
+<a href="#">Link to this property</a>
+
+"AI\_GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"BGP"
+
+<a href="#">Link to this property</a>
+
+"BOTS"
+
+<a href="#">Link to this property</a>
+
+"CONNECTION\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+"CT"
+
+<a href="#">Link to this property</a>
+
+"DNS"
+
+<a href="#">Link to this property</a>
+
+"DNS\_MAGNITUDE"
+
+<a href="#">Link to this property</a>
+
+"DNS\_AS112"
+
+<a href="#">Link to this property</a>
+
+"DOS"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_ROUTING"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_SECURITY"
+
+<a href="#">Link to this property</a>
+
+"FW"
+
+<a href="#">Link to this property</a>
+
+"FW\_PG"
+
+<a href="#">Link to this property</a>
+
+"HTTP"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CONTROL"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CRAWLER\_REFERER"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"IQI"
+
+<a href="#">Link to this property</a>
+
+"LEAKED\_CREDENTIALS"
+
+<a href="#">Link to this property</a>
+
+"NET"
+
+<a href="#">Link to this property</a>
+
+"ROBOTS\_TXT"
+
+<a href="#">Link to this property</a>
+
+"SPEED"
+
+<a href="#">Link to this property</a>
+
+"WORKERS\_AI"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+endDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
+
+Event type for annotations.
+
+</summary>
+
+One of the following:
+
+"GENERAL"
+
+<a href="#">Link to this property</a>
+
+"OUTAGE"
+
+<a href="#">Link to this property</a>
+
+"PARTIAL\_PROJECTION"
+
+<a href="#">Link to this property</a>
+
+"PIPELINE"
+
+<a href="#">Link to this property</a>
+
+"TRAFFIC\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isInstantaneous: boolean
+
+Whether event is a single point in time or a time range.
+
+<a href="#">Link to this property</a>
+
+linkedUrl: string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+startDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+level: number
+
+Provides an indication of how much confidence Cloudflare has in the data.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dateRange: array of object {endTime, startTime }
+
+</summary>
+
+endTime: string
+
+Adjusted end of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+startTime: string
+
+Adjusted start of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastUpdated: string
+
+Timestamp of the last dataset update.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
+
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
+
+</summary>
+
+One of the following:
+
+"PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"MIN0\_MAX"
+
+<a href="#">Link to this property</a>
+
+"MIN\_MAX"
+
+<a href="#">Link to this property</a>
+
+"RAW\_VALUES"
+
+<a href="#">Link to this property</a>
+
+"PERCENTAGE\_CHANGE"
+
+<a href="#">Link to this property</a>
+
+"ROLLING\_AVERAGE"
+
+<a href="#">Link to this property</a>
+
+"OVERLAPPED\_PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"RATIO"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+units: array of object {name, value }
+
+Measurement units for the results.
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+summary\_0: map\[string]
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.attacks.layer7%20%3E%20(method)%20summary_v2%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get layer 7 attacks summary by dimension
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/attacks/layer7/summary/$DIMENSION \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "meta": {
@@ -363,7 +855,56 @@ curl https://api.cloudflare.com/client/v4/radar/attacks/layer7/summary/$DIMENSIO
             "dataSource": "ALL",
             "description": "Cable cut in Tonga",
             "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
+            "eventType": "GENERAL",
+            "isInstantaneous": true,
+            "linkedUrl": "https://example.com",
+            "startDate": "2019-12-27T18:11:19.117Z",
+            "tags": [
+              "BOT_CLASS"
+            ]
+          }
+        ],
+        "level": 0
+      },
+      "dateRange": [
+        {
+          "endTime": "2022-09-17T10:22:57.555Z",
+          "startTime": "2022-09-16T10:22:57.555Z"
+        }
+      ],
+      "lastUpdated": "2019-12-27T18:11:19.117Z",
+      "normalization": "PERCENTAGE",
+      "units": [
+        {
+          "name": "*",
+          "value": "requests"
+        }
+      ]
+    },
+    "summary_0": {
+      "GET": "50.168733",
+      "POST": "25.084366"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "meta": {
+      "confidenceInfo": {
+        "annotations": [
+          {
+            "dataSource": "ALL",
+            "description": "Cable cut in Tonga",
+            "endDate": "2019-12-27T18:11:19.117Z",
+            "eventType": "GENERAL",
             "isInstantaneous": true,
             "linkedUrl": "https://example.com",
             "startDate": "2019-12-27T18:11:19.117Z",

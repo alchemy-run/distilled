@@ -1,169 +1,442 @@
-## List SCIM User resources
+---
+title: List SCIM User resources
+---
 
-**get** `/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Identity Providers](https://developers.cloudflare.com/api/resources/zero_trust/subresources/identity_providers)
+
+[SCIM](https://developers.cloudflare.com/api/resources/zero_trust/subresources/identity_providers/subresources/scim)
+
+[Users](https://developers.cloudflare.com/api/resources/zero_trust/subresources/identity_providers/subresources/scim/subresources/users)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List SCIM User resources
+
+GET/accounts/{account\_id}/access/identity\_providers/{identity\_provider\_id}/scim/users
 
 Lists SCIM User resources synced to Cloudflare via the System for Cross-domain Identity Management (SCIM).
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `identity_provider_id: string`
 
-  UUID.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `cf_resource_id: optional array of string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The unique Cloudflare-generated Id of the SCIM User resource; also known as the "Id".
-  Pass once for a single lookup (`?cf_resource_id=A`) or repeat the parameter
-  (`?cf_resource_id=A&cf_resource_id=B`) to look up multiple users in one request,
-  up to 50 values. Mutually exclusive with `idp_resource_id`, `username`, `email`,
-  `name`, `search_contains`, and `search_starts_with`.
+</details>
 
-- `email: optional string`
+<details>
 
-  The email address of the SCIM User resource.
+<summary>API Email + API Key</summary>
 
-- `idp_resource_id: optional array of string`
 
-  The IdP-generated Id of the SCIM User resource; also known as the "external Id".
-  Pass once for a single lookup (`?idp_resource_id=A`) or repeat the parameter
-  (`?idp_resource_id=A&idp_resource_id=B`) to look up multiple users in one request,
-  up to 50 values. Mutually exclusive with `cf_resource_id`, `username`, `email`,
-  `name`, `search_contains`, and `search_starts_with`.
 
-- `name: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  The name of the SCIM User resource.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `page: optional number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Page number of results.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `per_page: optional number`
+</details>
 
-  Number of results per page.
+##### Accepted Permissions (at least one required)
 
-- `username: optional string`
+`Access: Organizations, Identity Providers, and Groups Write``Access: Organizations, Identity Providers, and Groups Read`
 
-  The username of the SCIM User resource.
+##### P ath ParametersExpand Collapse
 
-### Returns
+account\_id: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+identity\_provider\_id: string
 
-  - `source: optional object { pointer }`
+UUID.
 
-    - `pointer: optional string`
+maxLength36
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20identity_provider_id%20%3E%20(schema)>)
 
-  - `code: number`
+##### Q uery ParametersExpand Collapse
 
-  - `message: string`
+cf\_resource\_id: optional array of string
 
-  - `documentation_url: optional string`
+The unique Cloudflare-generated Id of the SCIM User resource; also known as the “Id”. Pass once for a single lookup (`?cf_resource_id=A`) or repeat the parameter (`?cf_resource_id=A&cf_resource_id=B`) to look up multiple users in one request, up to 50 values. Mutually exclusive with `idp_resource_id`, `username`, `email`, `name`, `search_contains`, and `search_starts_with`.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cf_resource_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+email: optional string
 
-- `success: true`
+The email address of the SCIM User resource.
 
-  Whether the API call was successful.
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20email%20%3E%20(schema)>)
 
-  - `true`
+idp\_resource\_id: optional array of string
 
-- `result: optional array of AccessUser`
+The IdP-generated Id of the SCIM User resource; also known as the “external Id”. Pass once for a single lookup (`?idp_resource_id=A`) or repeat the parameter (`?idp_resource_id=A&idp_resource_id=B`) to look up multiple users in one request, up to 50 values. Mutually exclusive with `cf_resource_id`, `username`, `email`, `name`, `search_contains`, and `search_starts_with`.
 
-  - `id: optional string`
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20idp_resource_id%20%3E%20(schema)>)
 
-    The unique Cloudflare-generated Id of the SCIM resource.
+name: optional string
 
-  - `active: optional boolean`
+The name of the SCIM User resource.
 
-    Determines the status of the SCIM User resource.
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `displayName: optional string`
+page: optional number
 
-    The name of the SCIM User resource.
+Page number of results.
 
-  - `emails: optional array of object { primary, type, value }`
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `primary: optional boolean`
+per\_page: optional number
 
-      Indicates if the email address is the primary email belonging to the SCIM User resource.
+Number of results per page.
 
-    - `type: optional string`
+maximum100
 
-      Indicates the type of the email address.
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `value: optional string`
+username: optional string
 
-      The email address of the SCIM User resource.
+The username of the SCIM User resource.
 
-  - `externalId: optional string`
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20username%20%3E%20(schema)>)
 
-    The IdP-generated Id of the SCIM resource.
+##### ReturnsExpand Collapse
 
-  - `meta: optional object { created, lastModified }`
+<details>
 
-    The metadata of the SCIM resource.
+<summary>
 
-    - `created: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-      The timestamp of when the SCIM resource was created.
+</summary>
 
-    - `lastModified: optional string`
+code: number
 
-      The timestamp of when the SCIM resource was last modified.
+minimum1000
 
-  - `schemas: optional array of string`
+<a href="#">Link to this property</a>
 
-    The list of URIs which indicate the attributes contained within a SCIM resource.
+message: string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+documentation\_url: optional string
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+<details>
 
-    Current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+source: optional object {pointer }
 
-    Number of results per page of results.
+</summary>
 
-  - `total_count: optional number`
+pointer: optional string
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+</details>
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.access.users%20%3E%20(model)%20access_user%20%3E%20(schema)">AccessUser</a> { id, active, displayName, 4 more }
+
+</summary>
+
+id: optional string
+
+The unique Cloudflare-generated Id of the SCIM resource.
+
+<a href="#">Link to this property</a>
+
+active: optional boolean
+
+Determines the status of the SCIM User resource.
+
+<a href="#">Link to this property</a>
+
+displayName: optional string
+
+The name of the SCIM User resource.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+emails: optional array of object {primary, type, value }
+
+</summary>
+
+primary: optional boolean
+
+Indicates if the email address is the primary email belonging to the SCIM User resource.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Indicates the type of the email address.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The email address of the SCIM User resource.
+
+formatemail
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+externalId: optional string
+
+The IdP-generated Id of the SCIM resource.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {created, lastModified }
+
+The metadata of the SCIM resource.
+
+</summary>
+
+created: optional string
+
+The timestamp of when the SCIM resource was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+lastModified: optional string
+
+The timestamp of when the SCIM resource was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+schemas: optional array of string
+
+The list of URIs which indicate the attributes contained within a SCIM resource.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.identity_providers.scim.users%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List SCIM User resources
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/identity_providers/$IDENTITY_PROVIDER_ID/scim/users \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "bd97ef8d-7986-43e3-9ee0-c25dda33e4b0",
+      "active": true,
+      "displayName": "John Smith",
+      "emails": [
+        {
+          "primary": true,
+          "type": "work",
+          "value": "john.smith@example.com"
+        }
+      ],
+      "externalId": "john_smith",
+      "meta": {
+        "created": "2025-01-01T00:00:00Z",
+        "lastModified": "2025-01-02T00:00:00Z"
+      },
+      "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+      ]
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

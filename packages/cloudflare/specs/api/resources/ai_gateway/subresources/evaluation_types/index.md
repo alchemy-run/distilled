@@ -1,112 +1,73 @@
+---
+title: Evaluation Types
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Evaluation Types
 
-## List Evaluators
+##### [List Evaluators](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluation_types/methods/list)
 
-**get** `/accounts/{account_id}/ai-gateway/evaluation-types`
+GET/accounts/{account\_id}/ai-gateway/evaluation-types
 
-List Evaluators
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+EvaluationTypeListResponse object {id, created\_at, description, 5 more }
 
-- `order_by: optional string`
+</summary>
 
-- `order_by_direction: optional "asc" or "desc"`
+id: string
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+created\_at: string
 
-- `page: optional number`
+formatdate-time
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-### Returns
+description: string
 
-- `result: array of object { id, created_at, description, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+enable: boolean
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+mandatory: boolean
 
-  - `enable: boolean`
+<a href="#">Link to this property</a>
 
-  - `mandatory: boolean`
+modified\_at: string
 
-  - `modified_at: string`
+formatdate-time
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `type: string`
+name: string
 
-- `result_info: object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+type: string
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+</details>
 
-  - `total_count: number`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/evaluation-types \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "description": "description",
-      "enable": true,
-      "mandatory": true,
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "type": "type"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Evaluation Type List Response
-
-- `EvaluationTypeListResponse object { id, created_at, description, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `description: string`
-
-  - `enable: boolean`
-
-  - `mandatory: boolean`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `type: string`
+[Link to this property](#)%20ai_gateway.evaluation_types%20%3E%20(model)%20evaluation_type_list_response%20%3E%20(schema)>)

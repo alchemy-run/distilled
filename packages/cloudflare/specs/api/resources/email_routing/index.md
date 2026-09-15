@@ -1,4083 +1,1529 @@
+---
+title: Email Routing
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Email Routing
 
-## Get Email Routing settings
+##### [Get Email Routing settings](https://developers.cloudflare.com/api/resources/email_routing/methods/get)
 
-**get** `/zones/{zone_id}/email/routing`
+GET/zones/{zone\_id}/email/routing
 
-Get information about the settings for your Email Routing zone.
+##### [Update Email Routing settings](https://developers.cloudflare.com/api/resources/email_routing/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/email/routing
 
-- `zone_id: string`
+##### [Update Email Routing settings](https://developers.cloudflare.com/api/resources/email_routing/methods/update)
 
-  Identifier.
+PUT/zones/{zone\_id}/email/routing
 
-### Returns
+##### [Disable Email Routing](https://developers.cloudflare.com/api/resources/email_routing/methods/disable)
 
-- `errors: array of object { code, message, documentation_url, source }`
+Deprecated
 
-  - `code: number`
+POST/zones/{zone\_id}/email/routing/disable
 
-  - `message: string`
+##### [Enable Email Routing](https://developers.cloudflare.com/api/resources/email_routing/methods/enable)
 
-  - `documentation_url: optional string`
+Deprecated
 
-  - `source: optional object { pointer }`
+POST/zones/{zone\_id}/email/routing/enable
 
-    - `pointer: optional string`
+##### [Unlock Email Routing](https://developers.cloudflare.com/api/resources/email_routing/methods/unlock)
 
-- `messages: array of object { code, message, documentation_url, source }`
+Deprecated
 
-  - `code: number`
+POST/zones/{zone\_id}/email/routing/unlock
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+Settings object {id, enabled, name, 6 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: string
 
-  - `true`
+Email Routing settings identifier.
 
-- `result: optional Settings`
+maxLength32
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Email Routing settings identifier.
+<details>
 
-  - `enabled: true or false`
+<summary>
 
-    State of the zone settings for Email Routing.
+enabled: trueor false
 
-    - `true`
+State of the zone settings for Email Routing.
 
-    - `false`
+</summary>
 
-  - `name: string`
+One of the following:
 
-    Domain of your zone.
+true
 
-  - `created: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the settings have been created.
+false
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the settings have been modified.
+</details>
 
-  - `skip_wizard: optional true or false`
+<a href="#">Link to this property</a>
 
-    Flag to check if the user skipped the configuration wizard.
+name: string
 
-    - `true`
+Domain of your zone.
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+created: optional string
 
-    Show the state of your account, and the type or configuration error.
+The date and time the settings have been created.
 
-    - `"ready"`
+formatdate-time
 
-    - `"unconfigured"`
+<a href="#">Link to this property</a>
 
-    - `"misconfigured"`
+modified: optional string
 
-    - `"misconfigured/locked"`
+The date and time the settings have been modified.
 
-    - `"unlocked"`
+formatdate-time
 
-  - `support_subaddress: optional true or false`
+<a href="#">Link to this property</a>
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+<details>
 
-    - `true`
+<summary>
 
-    - `false`
+skip\_wizard: optional trueor false
 
-  - `tag: optional string`
+Flag to check if the user skipped the configuration wizard.
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+true
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "75610dab9e69410a82cf7e400a09ecec",
-    "enabled": true,
-    "name": "example.net",
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "skip_wizard": true,
-    "status": "ready",
-    "support_subaddress": true,
-    "tag": "75610dab9e69410a82cf7e400a09ecec"
-  }
-}
-```
+false
 
-## Disable Email Routing
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/email/routing/disable`
+</details>
 
-Disable your Email Routing zone. Also removes additional MX records previously required for Email Routing to work.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+status: optional "ready"or "unconfigured"or "misconfigured"or 2 more
 
-### Body Parameters
+Show the state of your account, and the type or configuration error.
 
-- `body: unknown`
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { code, message, documentation_url, source }`
+"ready"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"unconfigured"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"misconfigured"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"misconfigured/locked"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"unlocked"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+support\_subaddress: optional trueor false
 
-- `result: optional Settings`
+Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
 
-  - `id: string`
+</summary>
 
-    Email Routing settings identifier.
+One of the following:
 
-  - `enabled: true or false`
+true
 
-    State of the zone settings for Email Routing.
+<a href="#">Link to this property</a>
 
-    - `true`
+false
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Domain of your zone.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+Deprecatedtag: optional string
 
-    The date and time the settings have been created.
+Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
 
-  - `modified: optional string`
+maxLength32
 
-    The date and time the settings have been modified.
+<a href="#">Link to this property</a>
 
-  - `skip_wizard: optional true or false`
+</details>
 
-    Flag to check if the user skipped the configuration wizard.
+[Link to this property](#)%20email_routing%20%3E%20(model)%20settings%20%3E%20(schema)>)
 
-    - `true`
+#### Email RoutingDNS
 
-    - `false`
+##### [Email Routing - DNS settings](https://developers.cloudflare.com/api/resources/email_routing/subresources/dns/methods/get)
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+GET/zones/{zone\_id}/email/routing/dns
 
-    Show the state of your account, and the type or configuration error.
+##### [Enable Email Routing](https://developers.cloudflare.com/api/resources/email_routing/subresources/dns/methods/create)
 
-    - `"ready"`
+POST/zones/{zone\_id}/email/routing/dns
 
-    - `"unconfigured"`
+##### [Unlock Email Routing](https://developers.cloudflare.com/api/resources/email_routing/subresources/dns/methods/edit)
 
-    - `"misconfigured"`
+PATCH/zones/{zone\_id}/email/routing/dns
 
-    - `"misconfigured/locked"`
+##### [Disable Email Routing](https://developers.cloudflare.com/api/resources/email_routing/subresources/dns/methods/delete)
 
-    - `"unlocked"`
+DELETE/zones/{zone\_id}/email/routing/dns
 
-  - `support_subaddress: optional true or false`
+##### ModelsExpand Collapse
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+<details>
 
-    - `true`
+<summary>
 
-    - `false`
+DNSRecord object {content, name, priority, 2 more }
 
-  - `tag: optional string`
+List of records needed to enable an Email Routing zone.
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+</summary>
 
-### Example
+content: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/disable \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+DNS record content.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "75610dab9e69410a82cf7e400a09ecec",
-    "enabled": true,
-    "name": "example.net",
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "skip_wizard": true,
-    "status": "ready",
-    "support_subaddress": true,
-    "tag": "75610dab9e69410a82cf7e400a09ecec"
-  }
-}
-```
+name: optional string
 
-## Enable Email Routing
+DNS record name (or @ for the zone apex).
 
-**post** `/zones/{zone_id}/email/routing/enable`
+maxLength255
 
-Enable you Email Routing zone. Add and lock the necessary MX and SPF records.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+priority: optional number
 
-- `zone_id: string`
+Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
 
-  Identifier.
+maximum65535
 
-### Body Parameters
+minimum0
 
-- `body: unknown`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+ttl: optional numberor 1
 
-  - `message: string`
+Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for ‘automatic’.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+number
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+1
 
-  - `message: string`
+Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for ‘automatic’.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+type: optional "A"or "AAAA"or "CNAME"or 15 more
 
-- `result: optional Settings`
+DNS record type.
 
-  - `id: string`
+</summary>
 
-    Email Routing settings identifier.
+One of the following:
 
-  - `enabled: true or false`
+"A"
 
-    State of the zone settings for Email Routing.
+<a href="#">Link to this property</a>
 
-    - `true`
+"AAAA"
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"CNAME"
 
-    Domain of your zone.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+"HTTPS"
 
-    The date and time the settings have been created.
+<a href="#">Link to this property</a>
 
-  - `modified: optional string`
+"TXT"
 
-    The date and time the settings have been modified.
+<a href="#">Link to this property</a>
 
-  - `skip_wizard: optional true or false`
+"SRV"
 
-    Flag to check if the user skipped the configuration wizard.
+<a href="#">Link to this property</a>
 
-    - `true`
+"LOC"
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+"MX"
 
-    Show the state of your account, and the type or configuration error.
+<a href="#">Link to this property</a>
 
-    - `"ready"`
+"NS"
 
-    - `"unconfigured"`
+<a href="#">Link to this property</a>
 
-    - `"misconfigured"`
+"CERT"
 
-    - `"misconfigured/locked"`
+<a href="#">Link to this property</a>
 
-    - `"unlocked"`
+"DNSKEY"
 
-  - `support_subaddress: optional true or false`
+<a href="#">Link to this property</a>
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+"DS"
 
-    - `true`
+<a href="#">Link to this property</a>
 
-    - `false`
+"NAPTR"
 
-  - `tag: optional string`
+<a href="#">Link to this property</a>
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+"SMIMEA"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/enable \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+"SSHFP"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "75610dab9e69410a82cf7e400a09ecec",
-    "enabled": true,
-    "name": "example.net",
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "skip_wizard": true,
-    "status": "ready",
-    "support_subaddress": true,
-    "tag": "75610dab9e69410a82cf7e400a09ecec"
-  }
-}
-```
+"SVCB"
 
-## Unlock Email Routing
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/email/routing/unlock`
+"TLSA"
 
-Unlock MX records previously locked by Email Routing. Deprecated - use PATCH /zones/{zone_id}/email/routing/dns instead.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"URI"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+</details>
 
-  Domain of your zone.
+[Link to this property](#)%20email_routing.dns%20%3E%20(model)%20dns_record%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+DNSGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.dns%20%3E%20(model)%20dns_record%20%3E%20(schema)">DNSRecord</a> { content, name, priority, 2 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+content: optional string
 
-  - `source: optional object { pointer }`
+DNS record content.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+name: optional string
 
-  - `code: number`
+DNS record name (or @ for the zone apex).
 
-  - `message: string`
+maxLength255
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+priority: optional number
 
-    - `pointer: optional string`
+Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
 
-- `success: true`
+maximum65535
 
-  Whether the API call was successful.
+minimum0
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Settings`
+<details>
 
-  - `id: string`
+<summary>
 
-    Email Routing settings identifier.
+ttl: optional numberor 1
 
-  - `enabled: true or false`
+Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for ‘automatic’.
 
-    State of the zone settings for Email Routing.
+</summary>
 
-    - `true`
+One of the following:
 
-    - `false`
+number
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Domain of your zone.
+1
 
-  - `created: optional string`
+Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for ‘automatic’.
 
-    The date and time the settings have been created.
+<a href="#">Link to this property</a>
 
-  - `modified: optional string`
+</details>
 
-    The date and time the settings have been modified.
+<a href="#">Link to this property</a>
 
-  - `skip_wizard: optional true or false`
+<details>
 
-    Flag to check if the user skipped the configuration wizard.
+<summary>
 
-    - `true`
+type: optional "A"or "AAAA"or "CNAME"or 15 more
 
-    - `false`
+DNS record type.
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+</summary>
 
-    Show the state of your account, and the type or configuration error.
+One of the following:
 
-    - `"ready"`
+"A"
 
-    - `"unconfigured"`
+<a href="#">Link to this property</a>
 
-    - `"misconfigured"`
+"AAAA"
 
-    - `"misconfigured/locked"`
+<a href="#">Link to this property</a>
 
-    - `"unlocked"`
+"CNAME"
 
-  - `support_subaddress: optional true or false`
+<a href="#">Link to this property</a>
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+"HTTPS"
 
-    - `true`
+<a href="#">Link to this property</a>
 
-    - `false`
+"TXT"
 
-  - `tag: optional string`
+<a href="#">Link to this property</a>
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+"SRV"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/unlock \
-    -X POST \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+"LOC"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "75610dab9e69410a82cf7e400a09ecec",
-    "enabled": true,
-    "name": "example.net",
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "skip_wizard": true,
-    "status": "ready",
-    "support_subaddress": true,
-    "tag": "75610dab9e69410a82cf7e400a09ecec"
-  }
-}
-```
+"MX"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Settings
+"NS"
 
-- `Settings object { id, enabled, name, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"CERT"
 
-    Email Routing settings identifier.
+<a href="#">Link to this property</a>
 
-  - `enabled: true or false`
+"DNSKEY"
 
-    State of the zone settings for Email Routing.
+<a href="#">Link to this property</a>
 
-    - `true`
+"DS"
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"NAPTR"
 
-    Domain of your zone.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+"SMIMEA"
 
-    The date and time the settings have been created.
+<a href="#">Link to this property</a>
 
-  - `modified: optional string`
+"SSHFP"
 
-    The date and time the settings have been modified.
+<a href="#">Link to this property</a>
 
-  - `skip_wizard: optional true or false`
+"SVCB"
 
-    Flag to check if the user skipped the configuration wizard.
+<a href="#">Link to this property</a>
 
-    - `true`
+"TLSA"
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+"URI"
 
-    Show the state of your account, and the type or configuration error.
+<a href="#">Link to this property</a>
 
-    - `"ready"`
+</details>
 
-    - `"unconfigured"`
+<a href="#">Link to this property</a>
 
-    - `"misconfigured"`
+</details>
 
-    - `"misconfigured/locked"`
+[Link to this property](#)%20email_routing.dns%20%3E%20(model)%20dns_get_response%20%3E%20(schema)>)
 
-    - `"unlocked"`
+#### Email RoutingRules
 
-  - `support_subaddress: optional true or false`
+##### [List account or zone routing rules](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/list)
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/email/routing/rules
 
-    - `true`
+##### [Get routing rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/get)
 
-    - `false`
+GET/zones/{zone\_id}/email/routing/rules/{rule\_identifier}
 
-  - `tag: optional string`
+##### [Create routing rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/create)
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+POST/zones/{zone\_id}/email/routing/rules
 
-# DNS
+##### [Update routing rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/update)
 
-## Email Routing - DNS settings
+PUT/zones/{zone\_id}/email/routing/rules/{rule\_identifier}
 
-**get** `/zones/{zone_id}/email/routing/dns`
+##### [Delete routing rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/delete)
 
-Show the DNS records needed to configure your Email Routing zone.
+DELETE/zones/{zone\_id}/email/routing/rules/{rule\_identifier}
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Query Parameters
+Action object {type, value }
 
-- `subdomain: optional string`
+Actions pattern.
 
-  Domain of your zone.
+</summary>
 
-### Returns
+<details>
 
-- `EmailEmailRoutingDNSQueryResponse object { errors, messages, success, 2 more }`
+<summary>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+type: "drop"or "forward"or "worker"
 
-    - `code: number`
+Type of supported action.
 
-    - `message: string`
+</summary>
 
-    - `documentation_url: optional string`
+One of the following:
 
-    - `source: optional object { pointer }`
+"drop"
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+"forward"
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+"worker"
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+value: optional array of string
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+</details>
 
-  - `result: optional object { errors, record }`
+[Link to this property](#)%20email_routing.rules%20%3E%20(model)%20action%20%3E%20(schema)>)
 
-    - `errors: optional array of object { code, missing }`
+<details>
 
-      - `code: optional string`
+<summary>
 
-      - `missing: optional DNSRecord`
+EmailRoutingRule object {id, actions, enabled, 5 more }
 
-        List of records needed to enable an Email Routing zone.
+</summary>
 
-        - `content: optional string`
+id: optional string
 
-          DNS record content.
+Routing rule identifier.
 
-        - `name: optional string`
+maxLength32
 
-          DNS record name (or @ for the zone apex).
+<a href="#">Link to this property</a>
 
-        - `priority: optional number`
+<details>
 
-          Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+<summary>
 
-        - `ttl: optional number or 1`
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20action%20%3E%20(schema)">Action</a> { type, value }
 
-          Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+List actions patterns.
 
-          - `number`
+</summary>
 
-          - `1`
+<details>
 
-            Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+<summary>
 
-            - `1`
+type: "drop"or "forward"or "worker"
 
-        - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+Type of supported action.
 
-          DNS record type.
+</summary>
 
-          - `"A"`
+One of the following:
 
-          - `"AAAA"`
+"drop"
 
-          - `"CNAME"`
+<a href="#">Link to this property</a>
 
-          - `"HTTPS"`
+"forward"
 
-          - `"TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SRV"`
+"worker"
 
-          - `"LOC"`
+<a href="#">Link to this property</a>
 
-          - `"MX"`
+</details>
 
-          - `"NS"`
+<a href="#">Link to this property</a>
 
-          - `"CERT"`
+value: optional array of string
 
-          - `"DNSKEY"`
+<a href="#">Link to this property</a>
 
-          - `"DS"`
+</details>
 
-          - `"NAPTR"`
+<a href="#">Link to this property</a>
 
-          - `"SMIMEA"`
+<details>
 
-          - `"SSHFP"`
+<summary>
 
-          - `"SVCB"`
+enabled: optional trueor false
 
-          - `"TLSA"`
+Routing rule status.
 
-          - `"URI"`
+</summary>
 
-    - `record: optional array of DNSRecord`
+One of the following:
 
-      - `content: optional string`
+true
 
-        DNS record content.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+false
 
-        DNS record name (or @ for the zone apex).
+<a href="#">Link to this property</a>
 
-      - `priority: optional number`
+</details>
 
-        Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number or 1`
+<details>
 
-        Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+<summary>
 
-      - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20matcher%20%3E%20(schema)">Matcher</a> { type, field, value }
 
-        DNS record type.
+Matching patterns to forward to your actions.
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-    - `count: optional number`
+<details>
 
-      Total number of results for the requested service.
+<summary>
 
-    - `page: optional number`
+type: "all"or "literal"
 
-      Current page within paginated list of results.
+Type of matcher.
 
-    - `per_page: optional number`
+</summary>
 
-      Number of results per page of results.
+One of the following:
 
-    - `total_count: optional number`
+"all"
 
-      Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-    - `total_pages: optional number`
+"literal"
 
-      The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-- `EmailDNSSettingsResponseCollection object { errors, messages, success, 2 more }`
+</details>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+field: optional "to"
 
-    - `message: string`
+Field for type matcher.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+value: optional string
 
-      - `pointer: optional string`
+Value for matcher.
 
-  - `messages: array of object { code, message, documentation_url, source }`
+maxLength90
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+</details>
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+name: optional string
 
-      - `pointer: optional string`
+Routing rule name.
 
-  - `success: true`
+maxLength256
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+priority: optional number
 
-  - `result: optional array of DNSRecord`
+Priority of the routing rule.
 
-    - `content: optional string`
+minimum0
 
-      DNS record content.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-      DNS record name (or @ for the zone apex).
+<summary>
 
-    - `priority: optional number`
+source: optional "api"or "wrangler"
 
-      Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-    - `ttl: optional number or 1`
+</summary>
 
-      Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+One of the following:
 
-    - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+"api"
 
-      DNS record type.
+<a href="#">Link to this property</a>
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+"wrangler"
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of results for the requested service.
+</details>
 
-    - `page: optional number`
+<a href="#">Link to this property</a>
 
-      Current page within paginated list of results.
+Deprecatedtag: optional string
 
-    - `per_page: optional number`
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-      Number of results per page of results.
+maxLength32
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-      Total results available without any search parameters.
+</details>
 
-    - `total_pages: optional number`
+[Link to this property](#)%20email_routing.rules%20%3E%20(model)%20email_routing_rule%20%3E%20(schema)>)
 
-      The number of total pages in the entire result set.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/dns \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Matcher object {type, field, value }
 
-#### Response
+Matching pattern to forward your actions.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "errors": [
-      {
-        "code": "code",
-        "missing": {
-          "content": "route1.mx.cloudflare.net",
-          "name": "example.com",
-          "priority": 12,
-          "ttl": 1,
-          "type": "NS"
-        }
-      }
-    ],
-    "record": [
-      {
-        "content": "route1.mx.cloudflare.net",
-        "name": "example.com",
-        "priority": 12,
-        "ttl": 1,
-        "type": "NS"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+</summary>
 
-## Enable Email Routing
+<details>
 
-**post** `/zones/{zone_id}/email/routing/dns`
+<summary>
 
-Enable you Email Routing zone. Add and lock the necessary MX and SPF records.
+type: "all"or "literal"
 
-### Path Parameters
+Type of matcher.
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+One of the following:
 
-### Body Parameters
+"all"
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  Domain of your zone.
+"literal"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+field: optional "to"
 
-  - `documentation_url: optional string`
+Field for type matcher.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+value: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Value for matcher.
 
-  - `code: number`
+maxLength90
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20email_routing.rules%20%3E%20(model)%20matcher%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+#### Email RoutingRulesCatch Alls
 
-- `success: true`
+##### [Get catch-all rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/subresources/catch_alls/methods/get)
 
-  Whether the API call was successful.
+GET/zones/{zone\_id}/email/routing/rules/catch\_all
 
-  - `true`
+##### [Update catch-all rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/subresources/catch_alls/methods/update)
 
-- `result: optional Settings`
+PUT/zones/{zone\_id}/email/routing/rules/catch\_all
 
-  - `id: string`
+##### ModelsExpand Collapse
 
-    Email Routing settings identifier.
+<details>
 
-  - `enabled: true or false`
+<summary>
 
-    State of the zone settings for Email Routing.
+CatchAllAction object {type, value }
 
-    - `true`
+Action for the catch-all routing rule.
 
-    - `false`
+</summary>
 
-  - `name: string`
+<details>
 
-    Domain of your zone.
+<summary>
 
-  - `created: optional string`
+type: "drop"or "forward"or "worker"
 
-    The date and time the settings have been created.
+Type of action for catch-all rule.
 
-  - `modified: optional string`
+</summary>
 
-    The date and time the settings have been modified.
+One of the following:
 
-  - `skip_wizard: optional true or false`
+"drop"
 
-    Flag to check if the user skipped the configuration wizard.
+<a href="#">Link to this property</a>
 
-    - `true`
+"forward"
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+"worker"
 
-    Show the state of your account, and the type or configuration error.
+<a href="#">Link to this property</a>
 
-    - `"ready"`
+</details>
 
-    - `"unconfigured"`
+<a href="#">Link to this property</a>
 
-    - `"misconfigured"`
+value: optional array of string
 
-    - `"misconfigured/locked"`
+<a href="#">Link to this property</a>
 
-    - `"unlocked"`
+</details>
 
-  - `support_subaddress: optional true or false`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)>)
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+<details>
 
-    - `true`
+<summary>
 
-    - `false`
+CatchAllMatcher object {type }
 
-  - `tag: optional string`
+Matcher for catch-all routing rule.
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+</summary>
 
-### Example
+type: "all"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/dns \
-    -X POST \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Type of matcher. Default is ‘all’.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "75610dab9e69410a82cf7e400a09ecec",
-    "enabled": true,
-    "name": "example.net",
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "skip_wizard": true,
-    "status": "ready",
-    "support_subaddress": true,
-    "tag": "75610dab9e69410a82cf7e400a09ecec"
-  }
-}
-```
+</details>
 
-## Unlock Email Routing
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)>)
 
-**patch** `/zones/{zone_id}/email/routing/dns`
+<details>
 
-Unlock MX Records previously locked by Email Routing.
+<summary>
 
-### Path Parameters
+CatchAllGetResponse object {id, actions, enabled, 4 more }
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+id: optional string
 
-### Body Parameters
+Routing rule identifier.
 
-- `name: optional string`
+maxLength32
 
-  Domain of your zone.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)">CatchAllAction</a> { type, value }
 
-  - `message: string`
+List actions for the catch-all routing rule.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+type: "drop"or "forward"or "worker"
 
-  - `code: number`
+Type of action for catch-all rule.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"drop"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"forward"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"worker"
 
-- `result: optional Settings`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Email Routing settings identifier.
+<a href="#">Link to this property</a>
 
-  - `enabled: true or false`
+value: optional array of string
 
-    State of the zone settings for Email Routing.
+<a href="#">Link to this property</a>
 
-    - `true`
+</details>
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-    Domain of your zone.
+<summary>
 
-  - `created: optional string`
+enabled: optional trueor false
 
-    The date and time the settings have been created.
+Routing rule status.
 
-  - `modified: optional string`
+</summary>
 
-    The date and time the settings have been modified.
+One of the following:
 
-  - `skip_wizard: optional true or false`
+true
 
-    Flag to check if the user skipped the configuration wizard.
+<a href="#">Link to this property</a>
 
-    - `true`
+false
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+</details>
 
-    Show the state of your account, and the type or configuration error.
+<a href="#">Link to this property</a>
 
-    - `"ready"`
+<details>
 
-    - `"unconfigured"`
+<summary>
 
-    - `"misconfigured"`
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)">CatchAllMatcher</a> { type }
 
-    - `"misconfigured/locked"`
+List of matchers for the catch-all routing rule.
 
-    - `"unlocked"`
+</summary>
 
-  - `support_subaddress: optional true or false`
+type: "all"
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+Type of matcher. Default is ‘all’.
 
-    - `true`
+<a href="#">Link to this property</a>
 
-    - `false`
+</details>
 
-  - `tag: optional string`
+<a href="#">Link to this property</a>
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+name: optional string
 
-### Example
+Routing rule name.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/dns \
-    -X PATCH \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+maxLength256
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "75610dab9e69410a82cf7e400a09ecec",
-    "enabled": true,
-    "name": "example.net",
-    "created": "2014-01-02T02:20:00Z",
-    "modified": "2014-01-02T02:20:00Z",
-    "skip_wizard": true,
-    "status": "ready",
-    "support_subaddress": true,
-    "tag": "75610dab9e69410a82cf7e400a09ecec"
-  }
-}
-```
+<details>
 
-## Disable Email Routing
+<summary>
 
-**delete** `/zones/{zone_id}/email/routing/dns`
+source: optional "api"or "wrangler"
 
-Disable your Email Routing zone. Also removes additional MX records previously required for Email Routing to work.
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+One of the following:
 
-  Identifier.
+"api"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `EmailAPIResponseCommon object { errors, messages, success }`
+"wrangler"
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+</details>
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+Deprecatedtag: optional string
 
-    - `source: optional object { pointer }`
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-      - `pointer: optional string`
+maxLength32
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+</details>
 
-    - `message: string`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_get_response%20%3E%20(schema)>)
 
-    - `documentation_url: optional string`
+<details>
 
-    - `source: optional object { pointer }`
+<summary>
 
-      - `pointer: optional string`
+CatchAllUpdateResponse object {id, actions, enabled, 4 more }
 
-  - `success: true`
+</summary>
 
-    Whether the API call was successful.
+id: optional string
 
-    - `true`
+Routing rule identifier.
 
-- `EmailDNSSettingsResponseCollection object { errors, messages, success, 2 more }`
+maxLength32
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+<details>
 
-    - `message: string`
+<summary>
 
-    - `documentation_url: optional string`
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)">CatchAllAction</a> { type, value }
 
-    - `source: optional object { pointer }`
+List actions for the catch-all routing rule.
 
-      - `pointer: optional string`
+</summary>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-    - `code: number`
+<summary>
 
-    - `message: string`
+type: "drop"or "forward"or "worker"
 
-    - `documentation_url: optional string`
+Type of action for catch-all rule.
 
-    - `source: optional object { pointer }`
+</summary>
 
-      - `pointer: optional string`
+One of the following:
 
-  - `success: true`
+"drop"
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+"forward"
 
-  - `result: optional array of DNSRecord`
+<a href="#">Link to this property</a>
 
-    - `content: optional string`
+"worker"
 
-      DNS record content.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      DNS record name (or @ for the zone apex).
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+value: optional array of string
 
-      Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+<a href="#">Link to this property</a>
 
-    - `ttl: optional number or 1`
+</details>
 
-      Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+<a href="#">Link to this property</a>
 
-      - `number`
+<details>
 
-      - `1`
+<summary>
 
-        Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+enabled: optional trueor false
 
-        - `1`
+Routing rule status.
 
-    - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+</summary>
 
-      DNS record type.
+One of the following:
 
-      - `"A"`
+true
 
-      - `"AAAA"`
+<a href="#">Link to this property</a>
 
-      - `"CNAME"`
+false
 
-      - `"HTTPS"`
+<a href="#">Link to this property</a>
 
-      - `"TXT"`
+</details>
 
-      - `"SRV"`
+<a href="#">Link to this property</a>
 
-      - `"LOC"`
+<details>
 
-      - `"MX"`
+<summary>
 
-      - `"NS"`
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)">CatchAllMatcher</a> { type }
 
-      - `"CERT"`
+List of matchers for the catch-all routing rule.
 
-      - `"DNSKEY"`
+</summary>
 
-      - `"DS"`
+type: "all"
 
-      - `"NAPTR"`
+Type of matcher. Default is ‘all’.
 
-      - `"SMIMEA"`
+<a href="#">Link to this property</a>
 
-      - `"SSHFP"`
+</details>
 
-      - `"SVCB"`
+<a href="#">Link to this property</a>
 
-      - `"TLSA"`
+name: optional string
 
-      - `"URI"`
+Routing rule name.
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+maxLength256
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of results for the requested service.
+<details>
 
-    - `page: optional number`
+<summary>
 
-      Current page within paginated list of results.
+source: optional "api"or "wrangler"
 
-    - `per_page: optional number`
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-      Number of results per page of results.
+</summary>
 
-    - `total_count: optional number`
+One of the following:
 
-      Total results available without any search parameters.
+"api"
 
-    - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-      The number of total pages in the entire result set.
+"wrangler"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/dns \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+Deprecatedtag: optional string
 
-## Domain Types
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-### DNS Record
+maxLength32
 
-- `DNSRecord object { content, name, priority, 2 more }`
+<a href="#">Link to this property</a>
 
-  List of records needed to enable an Email Routing zone.
+</details>
 
-  - `content: optional string`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_update_response%20%3E%20(schema)>)
 
-    DNS record content.
+#### Email RoutingAccount Rules
 
-  - `name: optional string`
+##### [List account or zone routing rules](https://developers.cloudflare.com/api/resources/email_routing/subresources/account_rules/methods/list)
 
-    DNS record name (or @ for the zone apex).
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/email/routing/rules
 
-  - `priority: optional number`
+##### ModelsExpand Collapse
 
-    Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+<details>
 
-  - `ttl: optional number or 1`
+<summary>
 
-    Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+AccountRule object {id, actions, enabled, 6 more }
 
-    - `number`
+</summary>
 
-    - `1`
+id: optional string
 
-      Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+Routing rule identifier.
 
-      - `1`
+maxLength32
 
-  - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+<a href="#">Link to this property</a>
 
-    DNS record type.
+<details>
 
-    - `"A"`
+<summary>
 
-    - `"AAAA"`
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20action%20%3E%20(schema)">Action</a> { type, value }
 
-    - `"CNAME"`
+List actions patterns.
 
-    - `"HTTPS"`
+</summary>
 
-    - `"TXT"`
+<details>
 
-    - `"SRV"`
+<summary>
 
-    - `"LOC"`
+type: "drop"or "forward"or "worker"
 
-    - `"MX"`
+Type of supported action.
 
-    - `"NS"`
+</summary>
 
-    - `"CERT"`
+One of the following:
 
-    - `"DNSKEY"`
+"drop"
 
-    - `"DS"`
+<a href="#">Link to this property</a>
 
-    - `"NAPTR"`
+"forward"
 
-    - `"SMIMEA"`
+<a href="#">Link to this property</a>
 
-    - `"SSHFP"`
+"worker"
 
-    - `"SVCB"`
+<a href="#">Link to this property</a>
 
-    - `"TLSA"`
+</details>
 
-    - `"URI"`
+<a href="#">Link to this property</a>
 
-### DNS Get Response
+value: optional array of string
 
-- `DNSGetResponse = object { errors, messages, success, 2 more }  or object { errors, messages, success, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `EmailEmailRoutingDNSQueryResponse object { errors, messages, success, 2 more }`
+</details>
 
-    - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-      - `code: number`
+<details>
 
-      - `message: string`
+<summary>
 
-      - `documentation_url: optional string`
+enabled: optional trueor false
 
-      - `source: optional object { pointer }`
+Routing rule status.
 
-        - `pointer: optional string`
+</summary>
 
-    - `messages: array of object { code, message, documentation_url, source }`
+One of the following:
 
-      - `code: number`
+true
 
-      - `message: string`
+<a href="#">Link to this property</a>
 
-      - `documentation_url: optional string`
+false
 
-      - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-        - `pointer: optional string`
+</details>
 
-    - `success: true`
+<a href="#">Link to this property</a>
 
-      Whether the API call was successful.
+<details>
 
-      - `true`
+<summary>
 
-    - `result: optional object { errors, record }`
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20matcher%20%3E%20(schema)">Matcher</a> { type, field, value }
 
-      - `errors: optional array of object { code, missing }`
+Matching patterns to forward to your actions.
 
-        - `code: optional string`
+</summary>
 
-        - `missing: optional DNSRecord`
+<details>
 
-          List of records needed to enable an Email Routing zone.
+<summary>
 
-          - `content: optional string`
+type: "all"or "literal"
 
-            DNS record content.
+Type of matcher.
 
-          - `name: optional string`
+</summary>
 
-            DNS record name (or @ for the zone apex).
+One of the following:
 
-          - `priority: optional number`
+"all"
 
-            Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+<a href="#">Link to this property</a>
 
-          - `ttl: optional number or 1`
+"literal"
 
-            Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+<a href="#">Link to this property</a>
 
-            - `number`
+</details>
 
-            - `1`
+<a href="#">Link to this property</a>
 
-              Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+field: optional "to"
 
-              - `1`
+Field for type matcher.
 
-          - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+<a href="#">Link to this property</a>
 
-            DNS record type.
+value: optional string
 
-            - `"A"`
+Value for matcher.
 
-            - `"AAAA"`
+maxLength90
 
-            - `"CNAME"`
+<a href="#">Link to this property</a>
 
-            - `"HTTPS"`
+</details>
 
-            - `"TXT"`
+<a href="#">Link to this property</a>
 
-            - `"SRV"`
+name: optional string
 
-            - `"LOC"`
+Routing rule name.
 
-            - `"MX"`
+maxLength256
 
-            - `"NS"`
+<a href="#">Link to this property</a>
 
-            - `"CERT"`
+priority: optional number
 
-            - `"DNSKEY"`
+Priority of the routing rule.
 
-            - `"DS"`
+minimum0
 
-            - `"NAPTR"`
+<a href="#">Link to this property</a>
 
-            - `"SMIMEA"`
+<details>
 
-            - `"SSHFP"`
+<summary>
 
-            - `"SVCB"`
+source: optional "api"or "wrangler"
 
-            - `"TLSA"`
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-            - `"URI"`
+</summary>
 
-      - `record: optional array of DNSRecord`
+One of the following:
 
-        - `content: optional string`
+"api"
 
-          DNS record content.
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+"wrangler"
 
-          DNS record name (or @ for the zone apex).
+<a href="#">Link to this property</a>
 
-        - `priority: optional number`
+</details>
 
-          Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+<a href="#">Link to this property</a>
 
-        - `ttl: optional number or 1`
+Deprecatedtag: optional string
 
-          Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-        - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+maxLength32
 
-          DNS record type.
+<a href="#">Link to this property</a>
 
-    - `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-      - `count: optional number`
+<summary>
 
-        Total number of results for the requested service.
+zone: optional object {name, tag }
 
-      - `page: optional number`
+Zone information for the routing rule.
 
-        Current page within paginated list of results.
+</summary>
 
-      - `per_page: optional number`
+name: optional string
 
-        Number of results per page of results.
+Zone name.
 
-      - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-        Total results available without any search parameters.
+tag: optional string
 
-      - `total_pages: optional number`
+Zone tag.
 
-        The number of total pages in the entire result set.
+maxLength32
 
-  - `EmailDNSSettingsResponseCollection object { errors, messages, success, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-      - `code: number`
+<a href="#">Link to this property</a>
 
-      - `message: string`
+</details>
 
-      - `documentation_url: optional string`
+[Link to this property](#)%20email_routing.account_rules%20%3E%20(model)%20account_rule%20%3E%20(schema)>)
 
-      - `source: optional object { pointer }`
+#### Email RoutingAddresses
 
-        - `pointer: optional string`
+##### [List destination addresses](https://developers.cloudflare.com/api/resources/email_routing/subresources/addresses/methods/list)
 
-    - `messages: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/email/routing/addresses
 
-      - `code: number`
+##### [Get a destination address](https://developers.cloudflare.com/api/resources/email_routing/subresources/addresses/methods/get)
 
-      - `message: string`
+GET/accounts/{account\_id}/email/routing/addresses/{destination\_address\_identifier}
 
-      - `documentation_url: optional string`
+##### [Create a destination address](https://developers.cloudflare.com/api/resources/email_routing/subresources/addresses/methods/create)
 
-      - `source: optional object { pointer }`
+POST/accounts/{account\_id}/email/routing/addresses
 
-        - `pointer: optional string`
+##### [Update destination address](https://developers.cloudflare.com/api/resources/email_routing/subresources/addresses/methods/edit)
 
-    - `success: true`
+PATCH/accounts/{account\_id}/email/routing/addresses/{destination\_address\_identifier}
 
-      Whether the API call was successful.
+##### [Delete destination address](https://developers.cloudflare.com/api/resources/email_routing/subresources/addresses/methods/delete)
 
-      - `true`
+DELETE/accounts/{account\_id}/email/routing/addresses/{destination\_address\_identifier}
 
-    - `result: optional array of DNSRecord`
+##### ModelsExpand Collapse
 
-      - `content: optional string`
+<details>
 
-        DNS record content.
+<summary>
 
-      - `name: optional string`
+Address object {id, created, email, 3 more }
 
-        DNS record name (or @ for the zone apex).
+</summary>
 
-      - `priority: optional number`
+id: optional string
 
-        Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+Destination address identifier.
 
-      - `ttl: optional number or 1`
+maxLength32
 
-        Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+<a href="#">Link to this property</a>
 
-      - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+created: optional string
 
-        DNS record type.
+The date and time the destination address has been created.
 
-    - `result_info: optional object { count, page, per_page, 2 more }`
+formatdate-time
 
-      - `count: optional number`
+<a href="#">Link to this property</a>
 
-        Total number of results for the requested service.
+email: optional string
 
-      - `page: optional number`
+The contact email address of the user.
 
-        Current page within paginated list of results.
+maxLength90
 
-      - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-        Number of results per page of results.
+modified: optional string
 
-      - `total_count: optional number`
+The date and time the destination address was last modified.
 
-        Total results available without any search parameters.
+formatdate-time
 
-      - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-        The number of total pages in the entire result set.
+Deprecatedtag: optional string
 
-# Rules
+Destination address tag. (Deprecated, replaced by destination address identifier)
 
-## Get routing rule
+maxLength32
 
-**get** `/zones/{zone_id}/email/routing/rules/{rule_identifier}`
+<a href="#">Link to this property</a>
 
-Get information for a specific routing rule already created.
+verified: optional string
 
-### Path Parameters
+The date and time the destination address has been verified. Null means not verified yet.
 
-- `zone_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `rule_identifier: string`
+</details>
 
-  Routing rule identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional EmailRoutingRule`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of Action`
-
-    List actions patterns.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of supported action.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of Matcher`
-
-    Matching patterns to forward to your actions.
-
-    - `type: "all" or "literal"`
-
-      Type of matcher.
-
-      - `"all"`
-
-      - `"literal"`
-
-    - `field: optional "to"`
-
-      Field for type matcher.
-
-      - `"to"`
-
-    - `value: optional string`
-
-      Value for matcher.
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `priority: optional number`
-
-    Priority of the routing rule.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/$RULE_IDENTIFIER \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "literal",
-        "field": "to",
-        "value": "test@example.com"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "priority": 0,
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
-
-## Create routing rule
-
-**post** `/zones/{zone_id}/email/routing/rules`
-
-Rules consist of a set of criteria for matching emails (such as an email being sent to a specific custom email address) plus a set of actions to take on the email (like forwarding it to a specific destination address). Forward actions require all destination addresses to be verified.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `actions: array of Action`
-
-  List actions patterns.
-
-  - `type: "drop" or "forward" or "worker"`
-
-    Type of supported action.
-
-    - `"drop"`
-
-    - `"forward"`
-
-    - `"worker"`
-
-  - `value: optional array of string`
-
-- `matchers: array of Matcher`
-
-  Matching patterns to forward to your actions.
-
-  - `type: "all" or "literal"`
-
-    Type of matcher.
-
-    - `"all"`
-
-    - `"literal"`
-
-  - `field: optional "to"`
-
-    Field for type matcher.
-
-    - `"to"`
-
-  - `value: optional string`
-
-    Value for matcher.
-
-- `enabled: optional true or false`
-
-  Routing rule status.
-
-  - `true`
-
-  - `false`
-
-- `name: optional string`
-
-  Routing rule name.
-
-- `owner_worker_tag: optional string`
-
-  Public tag (script_tag) of the Worker that owns this rule. Required when
-  `source` is `wrangler`.
-
-- `priority: optional number`
-
-  Priority of the routing rule.
-
-- `source: optional "api" or "wrangler"`
-
-  Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-  `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-  to `api` when omitted on write.
-
-  - `"api"`
-
-  - `"wrangler"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional EmailRoutingRule`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of Action`
-
-    List actions patterns.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of supported action.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of Matcher`
-
-    Matching patterns to forward to your actions.
-
-    - `type: "all" or "literal"`
-
-      Type of matcher.
-
-      - `"all"`
-
-      - `"literal"`
-
-    - `field: optional "to"`
-
-      Field for type matcher.
-
-      - `"to"`
-
-    - `value: optional string`
-
-      Value for matcher.
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `priority: optional number`
-
-    Priority of the routing rule.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "actions": [
-            {
-              "type": "forward"
-            }
-          ],
-          "matchers": [
-            {
-              "type": "literal"
-            }
-          ],
-          "enabled": true,
-          "name": "Send to user@example.net rule.",
-          "owner_worker_tag": "a7e6fb77503c41d8a7f3113c6918f10c",
-          "source": "api"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "literal",
-        "field": "to",
-        "value": "test@example.com"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "priority": 0,
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
-
-## Update routing rule
-
-**put** `/zones/{zone_id}/email/routing/rules/{rule_identifier}`
-
-Update actions and matches, or enable/disable specific routing rules. Forward actions require all destination addresses to be verified.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `rule_identifier: string`
-
-  Routing rule identifier.
-
-### Body Parameters
-
-- `actions: array of Action`
-
-  List actions patterns.
-
-  - `type: "drop" or "forward" or "worker"`
-
-    Type of supported action.
-
-    - `"drop"`
-
-    - `"forward"`
-
-    - `"worker"`
-
-  - `value: optional array of string`
-
-- `matchers: array of Matcher`
-
-  Matching patterns to forward to your actions.
-
-  - `type: "all" or "literal"`
-
-    Type of matcher.
-
-    - `"all"`
-
-    - `"literal"`
-
-  - `field: optional "to"`
-
-    Field for type matcher.
-
-    - `"to"`
-
-  - `value: optional string`
-
-    Value for matcher.
-
-- `enabled: optional true or false`
-
-  Routing rule status.
-
-  - `true`
-
-  - `false`
-
-- `name: optional string`
-
-  Routing rule name.
-
-- `owner_worker_tag: optional string`
-
-  Public tag (script_tag) of the Worker that owns this rule. Required when
-  `source` is `wrangler`.
-
-- `priority: optional number`
-
-  Priority of the routing rule.
-
-- `source: optional "api" or "wrangler"`
-
-  Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-  `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-  to `api` when omitted on write.
-
-  - `"api"`
-
-  - `"wrangler"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional EmailRoutingRule`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of Action`
-
-    List actions patterns.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of supported action.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of Matcher`
-
-    Matching patterns to forward to your actions.
-
-    - `type: "all" or "literal"`
-
-      Type of matcher.
-
-      - `"all"`
-
-      - `"literal"`
-
-    - `field: optional "to"`
-
-      Field for type matcher.
-
-      - `"to"`
-
-    - `value: optional string`
-
-      Value for matcher.
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `priority: optional number`
-
-    Priority of the routing rule.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/$RULE_IDENTIFIER \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "actions": [
-            {
-              "type": "forward"
-            }
-          ],
-          "matchers": [
-            {
-              "type": "literal"
-            }
-          ],
-          "enabled": true,
-          "name": "Send to user@example.net rule.",
-          "owner_worker_tag": "a7e6fb77503c41d8a7f3113c6918f10c",
-          "source": "api"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "literal",
-        "field": "to",
-        "value": "test@example.com"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "priority": 0,
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
-
-## Delete routing rule
-
-**delete** `/zones/{zone_id}/email/routing/rules/{rule_identifier}`
-
-Delete a specific routing rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `rule_identifier: string`
-
-  Routing rule identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional EmailRoutingRule`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of Action`
-
-    List actions patterns.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of supported action.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of Matcher`
-
-    Matching patterns to forward to your actions.
-
-    - `type: "all" or "literal"`
-
-      Type of matcher.
-
-      - `"all"`
-
-      - `"literal"`
-
-    - `field: optional "to"`
-
-      Field for type matcher.
-
-      - `"to"`
-
-    - `value: optional string`
-
-      Value for matcher.
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `priority: optional number`
-
-    Priority of the routing rule.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/$RULE_IDENTIFIER \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "literal",
-        "field": "to",
-        "value": "test@example.com"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "priority": 0,
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
-
-## Domain Types
-
-### Action
-
-- `Action object { type, value }`
-
-  Actions pattern.
-
-  - `type: "drop" or "forward" or "worker"`
-
-    Type of supported action.
-
-    - `"drop"`
-
-    - `"forward"`
-
-    - `"worker"`
-
-  - `value: optional array of string`
-
-### Email Routing Rule
-
-- `EmailRoutingRule object { id, actions, enabled, 5 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of Action`
-
-    List actions patterns.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of supported action.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of Matcher`
-
-    Matching patterns to forward to your actions.
-
-    - `type: "all" or "literal"`
-
-      Type of matcher.
-
-      - `"all"`
-
-      - `"literal"`
-
-    - `field: optional "to"`
-
-      Field for type matcher.
-
-      - `"to"`
-
-    - `value: optional string`
-
-      Value for matcher.
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `priority: optional number`
-
-    Priority of the routing rule.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Matcher
-
-- `Matcher object { type, field, value }`
-
-  Matching pattern to forward your actions.
-
-  - `type: "all" or "literal"`
-
-    Type of matcher.
-
-    - `"all"`
-
-    - `"literal"`
-
-  - `field: optional "to"`
-
-    Field for type matcher.
-
-    - `"to"`
-
-  - `value: optional string`
-
-    Value for matcher.
-
-# Catch Alls
-
-## Get catch-all rule
-
-**get** `/zones/{zone_id}/email/routing/rules/catch_all`
-
-Get information on the default catch-all routing rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, actions, enabled, 4 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of CatchAllAction`
-
-    List actions for the catch-all routing rule.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of action for catch-all rule.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/catch_all \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "all"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
-
-## Update catch-all rule
-
-**put** `/zones/{zone_id}/email/routing/rules/catch_all`
-
-Enable or disable catch-all routing rule, or change action to forward to specific destination address. Forward actions require all destination addresses to be verified.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `actions: array of CatchAllAction`
-
-  List actions for the catch-all routing rule.
-
-  - `type: "drop" or "forward" or "worker"`
-
-    Type of action for catch-all rule.
-
-    - `"drop"`
-
-    - `"forward"`
-
-    - `"worker"`
-
-  - `value: optional array of string`
-
-- `matchers: array of CatchAllMatcher`
-
-  List of matchers for the catch-all routing rule.
-
-  - `type: "all"`
-
-    Type of matcher. Default is 'all'.
-
-    - `"all"`
-
-- `enabled: optional true or false`
-
-  Routing rule status.
-
-  - `true`
-
-  - `false`
-
-- `name: optional string`
-
-  Routing rule name.
-
-- `owner_worker_tag: optional string`
-
-  Public tag (script_tag) of the Worker that owns this rule. Required when
-  `source` is `wrangler`.
-
-- `source: optional "api" or "wrangler"`
-
-  Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-  `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-  to `api` when omitted on write.
-
-  - `"api"`
-
-  - `"wrangler"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, actions, enabled, 4 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of CatchAllAction`
-
-    List actions for the catch-all routing rule.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of action for catch-all rule.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/catch_all \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "actions": [
-            {
-              "type": "forward"
-            }
-          ],
-          "matchers": [
-            {
-              "type": "all"
-            }
-          ],
-          "enabled": true,
-          "name": "Send to user@example.net rule.",
-          "owner_worker_tag": "a7e6fb77503c41d8a7f3113c6918f10c",
-          "source": "api"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "all"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
-
-## Domain Types
-
-### Catch All Action
-
-- `CatchAllAction object { type, value }`
-
-  Action for the catch-all routing rule.
-
-  - `type: "drop" or "forward" or "worker"`
-
-    Type of action for catch-all rule.
-
-    - `"drop"`
-
-    - `"forward"`
-
-    - `"worker"`
-
-  - `value: optional array of string`
-
-### Catch All Matcher
-
-- `CatchAllMatcher object { type }`
-
-  Matcher for catch-all routing rule.
-
-  - `type: "all"`
-
-    Type of matcher. Default is 'all'.
-
-    - `"all"`
-
-### Catch All Get Response
-
-- `CatchAllGetResponse object { id, actions, enabled, 4 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of CatchAllAction`
-
-    List actions for the catch-all routing rule.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of action for catch-all rule.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Catch All Update Response
-
-- `CatchAllUpdateResponse object { id, actions, enabled, 4 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of CatchAllAction`
-
-    List actions for the catch-all routing rule.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of action for catch-all rule.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-# Addresses
-
-## List destination addresses
-
-**get** `/accounts/{account_id}/email/routing/addresses`
-
-Lists existing destination addresses.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `direction: optional "asc" or "desc"`
-
-  Sorts results in an ascending or descending order.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Maximum number of results per page.
-
-- `verified: optional true or false`
-
-  Filter by verified destination addresses.
-
-  - `true`
-
-  - `false`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Address`
-
-  - `id: optional string`
-
-    Destination address identifier.
-
-  - `created: optional string`
-
-    The date and time the destination address has been created.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `modified: optional string`
-
-    The date and time the destination address was last modified.
-
-  - `tag: optional string`
-
-    Destination address tag. (Deprecated, replaced by destination address identifier)
-
-  - `verified: optional string`
-
-    The date and time the destination address has been verified. Null means not verified yet.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/routing/addresses \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "ea95132c15732412d22c1476fa83f27a",
-      "created": "2014-01-02T02:20:00Z",
-      "email": "user@example.com",
-      "modified": "2014-01-02T02:20:00Z",
-      "tag": "ea95132c15732412d22c1476fa83f27a",
-      "verified": "2014-01-02T02:20:00Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 1,
-    "total_pages": 100
-  }
-}
-```
-
-## Get a destination address
-
-**get** `/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}`
-
-Gets information for a specific destination email already created.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `destination_address_identifier: string`
-
-  Destination address identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Address`
-
-  - `id: optional string`
-
-    Destination address identifier.
-
-  - `created: optional string`
-
-    The date and time the destination address has been created.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `modified: optional string`
-
-    The date and time the destination address was last modified.
-
-  - `tag: optional string`
-
-    Destination address tag. (Deprecated, replaced by destination address identifier)
-
-  - `verified: optional string`
-
-    The date and time the destination address has been verified. Null means not verified yet.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/routing/addresses/$DESTINATION_ADDRESS_IDENTIFIER \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ea95132c15732412d22c1476fa83f27a",
-    "created": "2014-01-02T02:20:00Z",
-    "email": "user@example.com",
-    "modified": "2014-01-02T02:20:00Z",
-    "tag": "ea95132c15732412d22c1476fa83f27a",
-    "verified": "2014-01-02T02:20:00Z"
-  }
-}
-```
-
-## Create a destination address
-
-**post** `/accounts/{account_id}/email/routing/addresses`
-
-Create a destination address to forward your emails to. Destination addresses need to be verified before they can be used.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `email: string`
-
-  The contact email address of the user.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Address`
-
-  - `id: optional string`
-
-    Destination address identifier.
-
-  - `created: optional string`
-
-    The date and time the destination address has been created.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `modified: optional string`
-
-    The date and time the destination address was last modified.
-
-  - `tag: optional string`
-
-    Destination address tag. (Deprecated, replaced by destination address identifier)
-
-  - `verified: optional string`
-
-    The date and time the destination address has been verified. Null means not verified yet.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/routing/addresses \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "email": "user@example.com"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ea95132c15732412d22c1476fa83f27a",
-    "created": "2014-01-02T02:20:00Z",
-    "email": "user@example.com",
-    "modified": "2014-01-02T02:20:00Z",
-    "tag": "ea95132c15732412d22c1476fa83f27a",
-    "verified": "2014-01-02T02:20:00Z"
-  }
-}
-```
-
-## Update destination address
-
-**patch** `/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}`
-
-Updates the status of a specific destination address.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `destination_address_identifier: string`
-
-  Destination address identifier.
-
-### Body Parameters
-
-- `status: "unverified" or "verified"`
-
-  Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges.
-
-  - `"unverified"`
-
-  - `"verified"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Address`
-
-  - `id: optional string`
-
-    Destination address identifier.
-
-  - `created: optional string`
-
-    The date and time the destination address has been created.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `modified: optional string`
-
-    The date and time the destination address was last modified.
-
-  - `tag: optional string`
-
-    Destination address tag. (Deprecated, replaced by destination address identifier)
-
-  - `verified: optional string`
-
-    The date and time the destination address has been verified. Null means not verified yet.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/routing/addresses/$DESTINATION_ADDRESS_IDENTIFIER \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "status": "verified"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ea95132c15732412d22c1476fa83f27a",
-    "created": "2014-01-02T02:20:00Z",
-    "email": "user@example.com",
-    "modified": "2014-01-02T02:20:00Z",
-    "tag": "ea95132c15732412d22c1476fa83f27a",
-    "verified": "2014-01-02T02:20:00Z"
-  }
-}
-```
-
-## Delete destination address
-
-**delete** `/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}`
-
-Deletes a specific destination address.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `destination_address_identifier: string`
-
-  Destination address identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Address`
-
-  - `id: optional string`
-
-    Destination address identifier.
-
-  - `created: optional string`
-
-    The date and time the destination address has been created.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `modified: optional string`
-
-    The date and time the destination address was last modified.
-
-  - `tag: optional string`
-
-    Destination address tag. (Deprecated, replaced by destination address identifier)
-
-  - `verified: optional string`
-
-    The date and time the destination address has been verified. Null means not verified yet.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/routing/addresses/$DESTINATION_ADDRESS_IDENTIFIER \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ea95132c15732412d22c1476fa83f27a",
-    "created": "2014-01-02T02:20:00Z",
-    "email": "user@example.com",
-    "modified": "2014-01-02T02:20:00Z",
-    "tag": "ea95132c15732412d22c1476fa83f27a",
-    "verified": "2014-01-02T02:20:00Z"
-  }
-}
-```
-
-## Domain Types
-
-### Address
-
-- `Address object { id, created, email, 3 more }`
-
-  - `id: optional string`
-
-    Destination address identifier.
-
-  - `created: optional string`
-
-    The date and time the destination address has been created.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `modified: optional string`
-
-    The date and time the destination address was last modified.
-
-  - `tag: optional string`
-
-    Destination address tag. (Deprecated, replaced by destination address identifier)
-
-  - `verified: optional string`
-
-    The date and time the destination address has been verified. Null means not verified yet.
+[Link to this property](#)%20email_routing.addresses%20%3E%20(model)%20address%20%3E%20(schema)>)

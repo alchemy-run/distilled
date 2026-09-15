@@ -1,381 +1,959 @@
-## List Zones
+---
+title: List Zones
+---
 
-**get** `/zones`
+[Skip to content](#_top)
 
-Lists, searches, sorts, and filters your zones. Listing zones across more than 500 accounts
-is currently not allowed.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Query Parameters
+[Zones](https://developers.cloudflare.com/api/resources/zones)
 
-- `account: optional object { id, name }`
+Copy Markdown
 
-  - `id: optional string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-    Filter by an account ID.
+---
 
-  - `name: optional string`
+**Copy Markdown****View as Markdown**
 
-    An account Name. Optional filter operators can be provided to extend refine the search:
+# List Zones
 
-    * `equal` (default)
-    * `not_equal`
-    * `starts_with`
-    * `ends_with`
-    * `contains`
-    * `starts_with_case_sensitive`
-    * `ends_with_case_sensitive`
-    * `contains_case_sensitive`
+GET/zones
 
-- `direction: optional "asc" or "desc"`
+Lists, searches, sorts, and filters your zones. Listing zones across more than 500 accounts is currently not allowed.
 
-  Direction to order zones.
+##### Security
 
-  - `"asc"`
+<details>
 
-  - `"desc"`
+<summary>API Token</summary>
 
-- `match: optional "any" or "all"`
 
-  Whether to match all search requirements or at least one (any).
 
-  - `"any"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"all"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `name: optional string`
+</details>
 
-  A domain name. Optional filter operators can be provided to extend refine the search:
+<details>
 
-  * `equal` (default)
-  * `not_equal`
-  * `starts_with`
-  * `ends_with`
-  * `contains`
-  * `starts_with_case_sensitive`
-  * `ends_with_case_sensitive`
-  * `contains_case_sensitive`
+<summary>API Email + API Key</summary>
 
-- `order: optional "name" or "status" or "account.id" or 2 more`
 
-  Field to order zones by.
 
-  - `"name"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"status"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"account.id"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"account.name"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"plan.id"`
+</details>
 
-- `page: optional number`
+##### Accepted Permissions (at least one required)
 
-  Page number of paginated results.
+`Zone Zone Read`
 
-- `per_page: optional number`
+##### Q uery ParametersExpand Collapse
 
-  Number of zones per page.
+<details>
 
-- `status: optional "initializing" or "pending" or "active" or "moved"`
+<summary>
 
-  Specify a zone status to filter by.
+account: optional object {id, name }
 
-  - `"initializing"`
+</summary>
 
-  - `"pending"`
+id: optional string
 
-  - `"active"`
+Filter by an account ID.
 
-  - `"moved"`
+<a href="#">Link to this property</a>
 
-- `type: optional array of "full" or "partial" or "secondary" or "internal"`
+name: optional string
 
-  Zone types to filter by. Multiple types can be specified as a comma-separated list (e.g., ?type=full,partial,secondary). When this parameter is not provided, zones with type "internal" are excluded from the results.
+An account Name. Optional filter operators can be provided to extend refine the search:
 
-  - `"full"`
+- <code>equal</code> (default)
+- <code>not_equal</code>
+- <code>starts_with</code>
+- <code>ends_with</code>
+- <code>contains</code>
+- <code>starts_with_case_sensitive</code>
+- <code>ends_with_case_sensitive</code>
+- <code>contains_case_sensitive</code>
 
-  - `"partial"`
+maxLength253
 
-  - `"secondary"`
+<a href="#">Link to this property</a>
 
-  - `"internal"`
+</details>
 
-### Returns
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account%20%3E%20(schema)>)
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+direction: optional "asc"or "desc"
 
-  - `documentation_url: optional string`
+Direction to order zones.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of ResponseInfo`
+"asc"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"desc"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `success: boolean`
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-- `result: optional array of Zone`
+<summary>
 
-  - `id: string`
+match: optional "any"or "all"
 
-    Identifier
+Whether to match all search requirements or at least one (any).
 
-  - `account: object { id, name }`
+</summary>
 
-    The account the zone belongs to.
+One of the following:
 
-    - `id: optional string`
+"any"
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"all"
 
-      The name of the account.
+<a href="#">Link to this property</a>
 
-  - `activated_on: string`
+</details>
 
-    The last time proof of ownership was detected and the zone was made
-    active.
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20match%20%3E%20(schema)>)
 
-  - `created_on: string`
+name: optional string
 
-    When the zone was created.
+A domain name. Optional filter operators can be provided to extend refine the search:
 
-  - `development_mode: number`
+- `equal` (default)
+- `not_equal`
+- `starts_with`
+- `ends_with`
+- `contains`
+- `starts_with_case_sensitive`
+- `ends_with_case_sensitive`
+- `contains_case_sensitive`
 
-    The interval (in seconds) from when development mode expires
-    (positive integer) or last expired (negative integer) for the
-    domain. If development mode has never been enabled, this value is 0.
+maxLength253
 
-  - `meta: object { cdn_only, custom_certificate_quota, dns_only, 4 more }`
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    Metadata about the zone.
+<details>
 
-    - `cdn_only: optional boolean`
+<summary>
 
-      The zone is only configured for CDN.
+order: optional "name"or "status"or "account.id"or 2 more
 
-    - `custom_certificate_quota: optional number`
+Field to order zones by.
 
-      Number of Custom Certificates the zone can have.
+</summary>
 
-    - `dns_only: optional boolean`
+One of the following:
 
-      The zone is only configured for DNS.
+"name"
 
-    - `foundation_dns: optional boolean`
+<a href="#">Link to this property</a>
 
-      The zone is setup with Foundation DNS.
+"status"
 
-    - `page_rule_quota: optional number`
+<a href="#">Link to this property</a>
 
-      Number of Page Rules a zone can have.
+"account.id"
 
-    - `phishing_detected: optional boolean`
+<a href="#">Link to this property</a>
 
-      The zone has been flagged for phishing.
+"account.name"
 
-    - `step: optional number`
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+"plan.id"
 
-    When the zone was last modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    The domain name. Per [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.4) the overall zone name can be up to 253 characters, with each segment ("label") not exceeding 63 characters.
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-  - `name_servers: array of string`
+page: optional number
 
-    The name servers Cloudflare assigns to a zone.
+Page number of paginated results.
 
-  - `original_dnshost: string`
+minimum1
 
-    DNS host at the time of switching to Cloudflare.
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `original_name_servers: array of string`
+per\_page: optional number
 
-    Original name servers before moving to Cloudflare.
+Number of zones per page.
 
-  - `original_registrar: string`
+maximum50
 
-    Registrar for the domain at the time of switching to Cloudflare.
+minimum5
 
-  - `owner: object { id, name, type }`
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    The owner of the zone.
+<details>
 
-    - `id: optional string`
+<summary>
 
-      Identifier
+status: optional "initializing"or "pending"or "active"or "moved"
 
-    - `name: optional string`
+Specify a zone status to filter by.
 
-      Name of the owner.
+</summary>
 
-    - `type: optional string`
+One of the following:
 
-      The type of owner.
+"initializing"
 
-  - `plan: object { id, can_subscribe, currency, 7 more }`
+<a href="#">Link to this property</a>
 
-    A Zones subscription information.
+"pending"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+"active"
 
-    - `can_subscribe: optional boolean`
+<a href="#">Link to this property</a>
 
-      States if the subscription can be activated.
+"moved"
 
-    - `currency: optional string`
+<a href="#">Link to this property</a>
 
-      The denomination of the customer.
+</details>
 
-    - `externally_managed: optional boolean`
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-      If this Zone is managed by another company.
+<details>
 
-    - `frequency: optional string`
+<summary>
 
-      How often the customer is billed.
+type: optional array of "full"or "partial"or "secondary"or "internal"
 
-    - `is_subscribed: optional boolean`
+Zone types to filter by. Multiple types can be specified as a comma-separated list (e.g., ?type=full,partial,secondary). When this parameter is not provided, zones with type “internal” are excluded from the results.
 
-      States if the subscription active.
+</summary>
 
-    - `legacy_discount: optional boolean`
+One of the following:
 
-      If the legacy discount applies to this Zone.
+"full"
 
-    - `legacy_id: optional string`
+<a href="#">Link to this property</a>
 
-      The legacy name of the plan.
+"partial"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the owner.
+"secondary"
 
-    - `price: optional number`
+<a href="#">Link to this property</a>
 
-      How much the customer is paying.
+"internal"
 
-  - `cname_suffix: optional string`
+<a href="#">Link to this property</a>
 
-    Allows the customer to use a custom apex.
-    *Tenants Only Configuration*.
+</details>
 
-  - `paused: optional boolean`
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-    Indicates whether the zone is only using Cloudflare DNS services. A
-    true value means the zone will not receive security or performance
-    benefits.
+##### ReturnsExpand Collapse
 
-  - `permissions: optional array of string`
+<details>
 
-    Legacy permissions based on legacy user membership information.
+<summary>
 
-  - `status: optional "initializing" or "pending" or "active" or "moved"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    The zone status on Cloudflare.
+</summary>
 
-    - `"initializing"`
+code: number
 
-    - `"pending"`
+minimum1000
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"moved"`
+message: string
 
-  - `tenant: optional object { id, name }`
+<a href="#">Link to this property</a>
 
-    The root organizational unit that this zone belongs to (such as a tenant or organization).
+documentation\_url: optional string
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+<details>
 
-    - `name: optional string`
+<summary>
 
-      The name of the Tenant account.
+source: optional object {pointer }
 
-  - `tenant_unit: optional object { id }`
+</summary>
 
-    The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization).
+pointer: optional string
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+</details>
 
-  - `type: optional Type`
+<a href="#">Link to this property</a>
 
-    A full zone implies that DNS is hosted with Cloudflare. A partial zone is
-    typically a partner-hosted zone or a CNAME setup.
+</details>
 
-    - `"full"`
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"partial"`
+<details>
 
-    - `"secondary"`
+<summary>
 
-    - `"internal"`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `vanity_name_servers: optional array of string`
+</summary>
 
-    An array of domains used for custom name servers. This is only available for Business and Enterprise plans.
+code: number
 
-  - `verification_key: optional string`
+minimum1000
 
-    Verification key for partial zone setup.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+message: string
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+documentation\_url: optional string
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    Number of results per page of results.
+source: optional object {pointer }
 
-  - `total_count: optional number`
+</summary>
 
-    Total results available without any search parameters.
+pointer: optional string
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of pages
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones%20%3E%20(model)%20zone%20%3E%20(schema)">Zone</a> { id, account, activated\_on, 20 more }
+
+</summary>
+
+id: string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+account: object {id, name }
+
+The account the zone belongs to.
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the account.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+activated\_on: string
+
+The last time proof of ownership was detected and the zone was made active.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+When the zone was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+development\_mode: number
+
+The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is 0.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: object {cdn\_only, custom\_certificate\_quota, dns\_only, 4 more }
+
+Metadata about the zone.
+
+</summary>
+
+cdn\_only: optional boolean
+
+The zone is only configured for CDN.
+
+<a href="#">Link to this property</a>
+
+custom\_certificate\_quota: optional number
+
+Number of Custom Certificates the zone can have.
+
+<a href="#">Link to this property</a>
+
+dns\_only: optional boolean
+
+The zone is only configured for DNS.
+
+<a href="#">Link to this property</a>
+
+foundation\_dns: optional boolean
+
+The zone is setup with Foundation DNS.
+
+<a href="#">Link to this property</a>
+
+page\_rule\_quota: optional number
+
+Number of Page Rules a zone can have.
+
+<a href="#">Link to this property</a>
+
+phishing\_detected: optional boolean
+
+The zone has been flagged for phishing.
+
+<a href="#">Link to this property</a>
+
+step: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+When the zone was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The domain name. Per <a href="https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.4">RFC 1035</a> the overall zone name can be up to 253 characters, with each segment (“label”) not exceeding 63 characters.
+
+maxLength253
+
+<a href="#">Link to this property</a>
+
+name\_servers: array of string
+
+The name servers Cloudflare assigns to a zone.
+
+<a href="#">Link to this property</a>
+
+original\_dnshost: string
+
+DNS host at the time of switching to Cloudflare.
+
+maxLength50
+
+<a href="#">Link to this property</a>
+
+original\_name\_servers: array of string
+
+Original name servers before moving to Cloudflare.
+
+<a href="#">Link to this property</a>
+
+original\_registrar: string
+
+Registrar for the domain at the time of switching to Cloudflare.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+owner: object {id, name, type }
+
+The owner of the zone.
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the owner.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+The type of owner.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedplan: object {id, can\_subscribe, currency, 7 more }
+
+Please use the <code>/zones/{zone_id}/subscription</code> API to update a zone’s plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see <a href="https://developers.cloudflare.com/api/resources/zones/subresources/plans/">Zone Plans</a>.
+
+A Zones subscription information.
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+can\_subscribe: optional boolean
+
+States if the subscription can be activated.
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The denomination of the customer.
+
+<a href="#">Link to this property</a>
+
+externally\_managed: optional boolean
+
+If this Zone is managed by another company.
+
+<a href="#">Link to this property</a>
+
+frequency: optional string
+
+How often the customer is billed.
+
+<a href="#">Link to this property</a>
+
+is\_subscribed: optional boolean
+
+States if the subscription active.
+
+<a href="#">Link to this property</a>
+
+legacy\_discount: optional boolean
+
+If the legacy discount applies to this Zone.
+
+<a href="#">Link to this property</a>
+
+legacy\_id: optional string
+
+The legacy name of the plan.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the owner.
+
+<a href="#">Link to this property</a>
+
+price: optional number
+
+How much the customer is paying.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+cname\_suffix: optional string
+
+Allows the customer to use a custom apex. *Tenants Only Configuration*.
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits.
+
+<a href="#">Link to this property</a>
+
+Deprecatedpermissions: optional array of string
+
+This has been replaced by Account memberships.
+
+Legacy permissions based on legacy user membership information.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "initializing"or "pending"or "active"or "moved"
+
+The zone status on Cloudflare.
+
+</summary>
+
+One of the following:
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"moved"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tenant: optional object {id, name }
+
+The root organizational unit that this zone belongs to (such as a tenant or organization).
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the Tenant account.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tenant\_unit: optional object {id }
+
+The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization).
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional <a href="https://developers.cloudflare.com/api/resources/zones#(resource)%20zones%20%3E%20(model)%20type%20%3E%20(schema)">Type</a>
+
+A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup.
+
+</summary>
+
+One of the following:
+
+"full"
+
+<a href="#">Link to this property</a>
+
+"partial"
+
+<a href="#">Link to this property</a>
+
+"secondary"
+
+<a href="#">Link to this property</a>
+
+"internal"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vanity\_name\_servers: optional array of string
+
+An array of domains used for custom name servers. This is only available for Business and Enterprise plans.
+
+<a href="#">Link to this property</a>
+
+verification\_key: optional string
+
+Verification key for partial zone setup.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+Total number of pages
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Zones
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "account": {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "name": "Example Account Name"
+      },
+      "activated_on": "2014-01-02T00:01:00.12345Z",
+      "created_on": "2014-01-01T05:20:00.12345Z",
+      "development_mode": 7200,
+      "meta": {
+        "cdn_only": true,
+        "custom_certificate_quota": 1,
+        "dns_only": true,
+        "foundation_dns": true,
+        "page_rule_quota": 100,
+        "phishing_detected": false,
+        "step": 2
+      },
+      "modified_on": "2014-01-01T05:20:00.12345Z",
+      "name": "example.com",
+      "name_servers": [
+        "bob.ns.cloudflare.com",
+        "lola.ns.cloudflare.com"
+      ],
+      "original_dnshost": "NameCheap",
+      "original_name_servers": [
+        "ns1.originaldnshost.com",
+        "ns2.originaldnshost.com"
+      ],
+      "original_registrar": "GoDaddy",
+      "owner": {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "name": "Example Org",
+        "type": "organization"
+      },
+      "plan": {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "can_subscribe": false,
+        "currency": "USD",
+        "externally_managed": false,
+        "frequency": "monthly",
+        "is_subscribed": false,
+        "legacy_discount": false,
+        "legacy_id": "free",
+        "name": "Example Org",
+        "price": 10.99
+      },
+      "cname_suffix": "cdn.cloudflare.com",
+      "paused": true,
+      "permissions": [
+        "#worker:read"
+      ],
+      "status": "active",
+      "tenant": {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "name": "Example Account Name"
+      },
+      "tenant_unit": {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353"
+      },
+      "type": "full",
+      "vanity_name_servers": [
+        "ns1.example.com",
+        "ns2.example.com"
+      ],
+      "verification_key": "284344499-1084221259"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

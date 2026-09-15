@@ -1,6051 +1,8439 @@
+---
+title: Flags
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Flagship](https://developers.cloudflare.com/api/resources/flagship)
+
+[Apps](https://developers.cloudflare.com/api/resources/flagship/subresources/apps)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Flags
 
-## List flags
+##### [List flags](https://developers.cloudflare.com/api/resources/flagship/subresources/apps/subresources/flags/methods/list)
 
-**get** `/accounts/{account_id}/flagship/apps/{app_id}/flags`
+GET/accounts/{account\_id}/flagship/apps/{app\_id}/flags
 
-Lists an app's flags ordered by key. Pass `cursor` from `result_info` to page forward; a null cursor indicates the last page.
+##### [Get flag](https://developers.cloudflare.com/api/resources/flagship/subresources/apps/subresources/flags/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/flagship/apps/{app\_id}/flags/{flag\_key}
 
-- `account_id: string`
+##### [Create flag](https://developers.cloudflare.com/api/resources/flagship/subresources/apps/subresources/flags/methods/create)
 
-  Cloudflare account ID.
+POST/accounts/{account\_id}/flagship/apps/{app\_id}/flags
 
-- `app_id: string`
+##### [Update flag](https://developers.cloudflare.com/api/resources/flagship/subresources/apps/subresources/flags/methods/update)
 
-  App identifier.
+PUT/accounts/{account\_id}/flagship/apps/{app\_id}/flags/{flag\_key}
 
-### Query Parameters
+##### [Delete flag](https://developers.cloudflare.com/api/resources/flagship/subresources/apps/subresources/flags/methods/delete)
 
-- `cursor: optional string`
+DELETE/accounts/{account\_id}/flagship/apps/{app\_id}/flags/{flag\_key}
 
-  Pagination cursor from a previous response.
+##### ModelsExpand Collapse
 
-- `limit: optional string`
+<details>
 
-  Max items to return (1–200).
+<summary>
 
-### Returns
+FlagListResponse object {default\_variation, enabled, key, 6 more }
 
-- `errors: array of object { message }`
+</summary>
 
-  - `message: string`
+default\_variation: string
 
-- `messages: array of object { message }`
+Variation the API serves when the flag is off, or when it’s on but no rule matches the context. Must be a key in <code>variations</code>.
 
-  - `message: string`
+minLength1
 
-- `result: array of object { default_variation, enabled, key, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `default_variation: string`
+enabled: boolean
 
-    Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+When false, the flag bypasses all rules and always serves <code>default_variation</code>.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    When false, the flag bypasses all rules and always serves `default_variation`.
+key: string
 
-  - `key: string`
+Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
 
-    Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+maxLength64
 
-  - `rules: array of object { conditions, priority, serve_variation, rollout }`
+minLength1
 
-    Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-    - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-      Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<summary>
 
-      - `object { attribute, operator, value }`
+rules: array of object {conditions, priority, serve\_variation, rollout }
 
-        - `attribute: string`
+Targeting rules evaluated in ascending <code>priority</code>; the first matching rule wins. An empty array means the flag always serves <code>default_variation</code>.
 
-        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-          - `"equals"`
+<details>
 
-          - `"not_equals"`
+<summary>
 
-          - `"greater_than"`
+conditions: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-          - `"less_than"`
+Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
 
-          - `"greater_than_or_equals"`
+</summary>
 
-          - `"less_than_or_equals"`
+One of the following:
 
-          - `"contains"`
+<details>
 
-          - `"starts_with"`
+<summary>
 
-          - `"ends_with"`
+object {attribute, operator, value }
 
-          - `"in"`
+</summary>
 
-          - `"not_in"`
+attribute: string
 
-        - `value: unknown`
+maxLength64
 
-          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+minLength1
 
-      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-          - `object { attribute, operator, value }`
+<summary>
 
-            - `attribute: string`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-              - `"equals"`
+One of the following:
 
-              - `"not_equals"`
+"equals"
 
-              - `"greater_than"`
+<a href="#">Link to this property</a>
 
-              - `"less_than"`
+"not\_equals"
 
-              - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-              - `"less_than_or_equals"`
+"greater\_than"
 
-              - `"contains"`
+<a href="#">Link to this property</a>
 
-              - `"starts_with"`
+"less\_than"
 
-              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-              - `"in"`
+"greater\_than\_or\_equals"
 
-              - `"not_in"`
+<a href="#">Link to this property</a>
 
-            - `value: unknown`
+"less\_than\_or\_equals"
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-          - `object { clauses, logical_operator }`
+"contains"
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-              - `object { attribute, operator, value }`
+"starts\_with"
 
-                - `attribute: string`
+<a href="#">Link to this property</a>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"ends\_with"
 
-                  - `"equals"`
+<a href="#">Link to this property</a>
 
-                  - `"not_equals"`
+"in"
 
-                  - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than"`
+"not\_in"
 
-                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than_or_equals"`
+</details>
 
-                  - `"contains"`
+<a href="#">Link to this property</a>
 
-                  - `"starts_with"`
+<details>
 
-                  - `"ends_with"`
+<summary>
 
-                  - `"in"`
+value: stringor numberor booleanor 2 more
 
-                  - `"not_in"`
+</summary>
 
-                - `value: unknown`
+One of the following:
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+string
 
-              - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+number
 
-                  - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                    - `attribute: string`
+boolean
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                      - `"equals"`
+map\[unknown]
 
-                      - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"greater_than"`
+array of unknown
 
-                      - `"less_than"`
+<a href="#">Link to this property</a>
 
-                      - `"greater_than_or_equals"`
+</details>
 
-                      - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"contains"`
+</details>
 
-                      - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                      - `"ends_with"`
+<details>
 
-                      - `"in"`
+<summary>
 
-                      - `"not_in"`
+object {clauses, logical\_operator }
 
-                    - `value: unknown`
+</summary>
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<details>
 
-                  - `object { clauses, logical_operator }`
+<summary>
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                      - `object { attribute, operator, value }`
+</summary>
 
-                        - `attribute: string`
+One of the following:
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<details>
 
-                          - `"equals"`
+<summary>
 
-                          - `"not_equals"`
+object {attribute, operator, value }
 
-                          - `"greater_than"`
+</summary>
 
-                          - `"less_than"`
+attribute: string
 
-                          - `"greater_than_or_equals"`
+maxLength64
 
-                          - `"less_than_or_equals"`
+minLength1
 
-                          - `"contains"`
+<a href="#">Link to this property</a>
 
-                          - `"starts_with"`
+<details>
 
-                          - `"ends_with"`
+<summary>
 
-                          - `"in"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                          - `"not_in"`
+</summary>
 
-                        - `value: unknown`
+One of the following:
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"equals"
 
-                      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"not\_equals"
 
-                          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                            - `attribute: string`
+"greater\_than"
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                              - `"equals"`
+"less\_than"
 
-                              - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"greater_than"`
+"greater\_than\_or\_equals"
 
-                              - `"less_than"`
+<a href="#">Link to this property</a>
 
-                              - `"greater_than_or_equals"`
+"less\_than\_or\_equals"
 
-                              - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"contains"`
+"contains"
 
-                              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                              - `"ends_with"`
+"starts\_with"
 
-                              - `"in"`
+<a href="#">Link to this property</a>
 
-                              - `"not_in"`
+"ends\_with"
 
-                            - `value: unknown`
+<a href="#">Link to this property</a>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"in"
 
-                          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                            - `clauses: array of string or number or boolean or 2 more`
+"not\_in"
 
-                              - `string`
+<a href="#">Link to this property</a>
 
-                              - `number`
+</details>
 
-                              - `boolean`
+<a href="#">Link to this property</a>
 
-                              - `map[unknown]`
+<details>
 
-                              - `array of unknown`
+<summary>
 
-                            - `logical_operator: "AND" or "OR"`
+value: stringor numberor booleanor 2 more
 
-                              - `"AND"`
+</summary>
 
-                              - `"OR"`
+One of the following:
 
-                        - `logical_operator: "AND" or "OR"`
+string
 
-                          - `"AND"`
+<a href="#">Link to this property</a>
 
-                          - `"OR"`
+number
 
-                    - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                      - `"AND"`
+boolean
 
-                      - `"OR"`
+<a href="#">Link to this property</a>
 
-                - `logical_operator: "AND" or "OR"`
+map\[unknown]
 
-                  - `"AND"`
+<a href="#">Link to this property</a>
 
-                  - `"OR"`
+array of unknown
 
-            - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-              - `"AND"`
+</details>
 
-              - `"OR"`
+<a href="#">Link to this property</a>
 
-        - `logical_operator: "AND" or "OR"`
+</details>
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+<details>
 
-    - `priority: number`
+<summary>
 
-      Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+object {clauses, logical\_operator }
 
-    - `serve_variation: string`
+</summary>
 
-      Variation served when this rule matches. Must be a key in `variations`.
+<details>
 
-    - `rollout: optional object { percentage, attribute }`
+<summary>
 
-      - `percentage: number`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-        Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+</summary>
 
-      - `attribute: optional string`
+One of the following:
 
-        Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+<details>
 
-  - `variations: map[string or number or boolean or 2 more]`
+<summary>
 
-    Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+object {attribute, operator, value }
 
-    - `string`
+</summary>
 
-    - `number`
+attribute: string
 
-    - `boolean`
+maxLength64
 
-    - `map[unknown]`
+minLength1
 
-    - `array of unknown`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-  - `type: optional "boolean" or "string" or "number" or "json"`
+<summary>
 
-    Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-    - `"boolean"`
+</summary>
 
-    - `"string"`
+One of the following:
 
-    - `"number"`
+"equals"
 
-    - `"json"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+"not\_equals"
 
-  - `updated_by: optional string`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, cursor }`
+"greater\_than"
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-    Number of items returned in this page.
+"less\_than"
 
-  - `cursor: string`
+<a href="#">Link to this property</a>
 
-    Cursor to pass back to fetch the next page, or null when this is the last page.
+"greater\_than\_or\_equals"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"less\_than\_or\_equals"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID/flags \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"contains"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "default_variation": "x",
-      "enabled": true,
-      "key": "x",
-      "rules": [
-        {
-          "conditions": [
-            {
-              "attribute": "x",
-              "operator": "equals",
-              "value": {}
-            }
-          ],
-          "priority": 1,
-          "serve_variation": "x",
-          "rollout": {
-            "percentage": 0,
-            "attribute": "x"
-          }
-        }
-      ],
-      "variations": {
-        "foo": "string"
-      },
-      "description": "description",
-      "type": "boolean",
-      "updated_at": "updated_at",
-      "updated_by": "updated_by"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "cursor": "cursor"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get flag
+"starts\_with"
 
-**get** `/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}`
+<a href="#">Link to this property</a>
 
-Returns the full flag definition including rules, variations, and audit fields.
+"ends\_with"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"in"
 
-  Cloudflare account ID.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+"not\_in"
 
-  App identifier.
+<a href="#">Link to this property</a>
 
-- `flag_key: string`
+</details>
 
-  Flag key (slug).
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { message }`
+<summary>
 
-  - `message: string`
+value: stringor numberor booleanor 2 more
 
-- `messages: array of object { message }`
+</summary>
 
-  - `message: string`
+One of the following:
 
-- `result: object { default_variation, enabled, key, 6 more }`
+string
 
-  - `default_variation: string`
+<a href="#">Link to this property</a>
 
-    Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+number
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    When false, the flag bypasses all rules and always serves `default_variation`.
+boolean
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-    Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+map\[unknown]
 
-  - `rules: array of object { conditions, priority, serve_variation, rollout }`
+<a href="#">Link to this property</a>
 
-    Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+array of unknown
 
-    - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-      Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+</details>
 
-      - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-        - `attribute: string`
+</details>
 
-        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-          - `"equals"`
+<details>
 
-          - `"not_equals"`
+<summary>
 
-          - `"greater_than"`
+object {clauses, logical\_operator }
 
-          - `"less_than"`
+</summary>
 
-          - `"greater_than_or_equals"`
+<details>
 
-          - `"less_than_or_equals"`
+<summary>
 
-          - `"contains"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-          - `"starts_with"`
+</summary>
 
-          - `"ends_with"`
+One of the following:
 
-          - `"in"`
+<details>
 
-          - `"not_in"`
+<summary>
 
-        - `value: unknown`
+object {attribute, operator, value }
 
-          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-      - `object { clauses, logical_operator }`
+attribute: string
 
-        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+maxLength64
 
-          - `object { attribute, operator, value }`
+minLength1
 
-            - `attribute: string`
+<a href="#">Link to this property</a>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<details>
 
-              - `"equals"`
+<summary>
 
-              - `"not_equals"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-              - `"greater_than"`
+</summary>
 
-              - `"less_than"`
+One of the following:
 
-              - `"greater_than_or_equals"`
+"equals"
 
-              - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-              - `"contains"`
+"not\_equals"
 
-              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-              - `"ends_with"`
+"greater\_than"
 
-              - `"in"`
+<a href="#">Link to this property</a>
 
-              - `"not_in"`
+"less\_than"
 
-            - `value: unknown`
+<a href="#">Link to this property</a>
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"greater\_than\_or\_equals"
 
-          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"less\_than\_or\_equals"
 
-              - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                - `attribute: string`
+"contains"
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                  - `"equals"`
+"starts\_with"
 
-                  - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"greater_than"`
+"ends\_with"
 
-                  - `"less_than"`
+<a href="#">Link to this property</a>
 
-                  - `"greater_than_or_equals"`
+"in"
 
-                  - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"contains"`
+"not\_in"
 
-                  - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                  - `"ends_with"`
+</details>
 
-                  - `"in"`
+<a href="#">Link to this property</a>
 
-                  - `"not_in"`
+<details>
 
-                - `value: unknown`
+<summary>
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+value: stringor numberor booleanor 2 more
 
-              - `object { clauses, logical_operator }`
+</summary>
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+One of the following:
 
-                  - `object { attribute, operator, value }`
+string
 
-                    - `attribute: string`
+<a href="#">Link to this property</a>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+number
 
-                      - `"equals"`
+<a href="#">Link to this property</a>
 
-                      - `"not_equals"`
+boolean
 
-                      - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than"`
+map\[unknown]
 
-                      - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than_or_equals"`
+array of unknown
 
-                      - `"contains"`
+<a href="#">Link to this property</a>
 
-                      - `"starts_with"`
+</details>
 
-                      - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                      - `"in"`
+</details>
 
-                      - `"not_in"`
+<a href="#">Link to this property</a>
 
-                    - `value: unknown`
+<details>
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<summary>
 
-                  - `object { clauses, logical_operator }`
+object {clauses, logical\_operator }
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</summary>
 
-                      - `object { attribute, operator, value }`
+<details>
 
-                        - `attribute: string`
+<summary>
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                          - `"equals"`
+</summary>
 
-                          - `"not_equals"`
+One of the following:
 
-                          - `"greater_than"`
+<details>
 
-                          - `"less_than"`
+<summary>
 
-                          - `"greater_than_or_equals"`
+object {attribute, operator, value }
 
-                          - `"less_than_or_equals"`
+</summary>
 
-                          - `"contains"`
+attribute: string
 
-                          - `"starts_with"`
+maxLength64
 
-                          - `"ends_with"`
+minLength1
 
-                          - `"in"`
+<a href="#">Link to this property</a>
 
-                          - `"not_in"`
+<details>
 
-                        - `value: unknown`
+<summary>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                      - `object { clauses, logical_operator }`
+</summary>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+One of the following:
 
-                          - `object { attribute, operator, value }`
+"equals"
 
-                            - `attribute: string`
+<a href="#">Link to this property</a>
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"not\_equals"
 
-                              - `"equals"`
+<a href="#">Link to this property</a>
 
-                              - `"not_equals"`
+"greater\_than"
 
-                              - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                              - `"less_than"`
+"less\_than"
 
-                              - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"less_than_or_equals"`
+"greater\_than\_or\_equals"
 
-                              - `"contains"`
+<a href="#">Link to this property</a>
 
-                              - `"starts_with"`
+"less\_than\_or\_equals"
 
-                              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                              - `"in"`
+"contains"
 
-                              - `"not_in"`
+<a href="#">Link to this property</a>
 
-                            - `value: unknown`
+"starts\_with"
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                          - `object { clauses, logical_operator }`
+"ends\_with"
 
-                            - `clauses: array of string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-                              - `string`
+"in"
 
-                              - `number`
+<a href="#">Link to this property</a>
 
-                              - `boolean`
+"not\_in"
 
-                              - `map[unknown]`
+<a href="#">Link to this property</a>
 
-                              - `array of unknown`
+</details>
 
-                            - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                              - `"AND"`
+<details>
 
-                              - `"OR"`
+<summary>
 
-                        - `logical_operator: "AND" or "OR"`
+value: stringor numberor booleanor 2 more
 
-                          - `"AND"`
+</summary>
 
-                          - `"OR"`
+One of the following:
 
-                    - `logical_operator: "AND" or "OR"`
+string
 
-                      - `"AND"`
+<a href="#">Link to this property</a>
 
-                      - `"OR"`
+number
 
-                - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                  - `"AND"`
+boolean
 
-                  - `"OR"`
+<a href="#">Link to this property</a>
 
-            - `logical_operator: "AND" or "OR"`
+map\[unknown]
 
-              - `"AND"`
+<a href="#">Link to this property</a>
 
-              - `"OR"`
+array of unknown
 
-        - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-          - `"AND"`
+</details>
 
-          - `"OR"`
+<a href="#">Link to this property</a>
 
-    - `priority: number`
+</details>
 
-      Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+<a href="#">Link to this property</a>
 
-    - `serve_variation: string`
+<details>
 
-      Variation served when this rule matches. Must be a key in `variations`.
+<summary>
 
-    - `rollout: optional object { percentage, attribute }`
+object {clauses, logical\_operator }
 
-      - `percentage: number`
+</summary>
 
-        Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<details>
 
-      - `attribute: optional string`
+<summary>
 
-        Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-  - `variations: map[string or number or boolean or 2 more]`
+</summary>
 
-    Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+One of the following:
 
-    - `string`
+<details>
 
-    - `number`
+<summary>
 
-    - `boolean`
+object {attribute, operator, value }
 
-    - `map[unknown]`
+</summary>
 
-    - `array of unknown`
+attribute: string
 
-  - `description: optional string`
+maxLength64
 
-  - `type: optional "boolean" or "string" or "number" or "json"`
+minLength1
 
-    Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<a href="#">Link to this property</a>
 
-    - `"boolean"`
+<details>
 
-    - `"string"`
+<summary>
 
-    - `"number"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-    - `"json"`
+</summary>
 
-  - `updated_at: optional string`
+One of the following:
 
-  - `updated_by: optional string`
+"equals"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"not\_equals"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID/flags/$FLAG_KEY \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"greater\_than"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": {
-    "default_variation": "x",
-    "enabled": true,
-    "key": "x",
-    "rules": [
-      {
-        "conditions": [
-          {
-            "attribute": "x",
-            "operator": "equals",
-            "value": {}
-          }
-        ],
-        "priority": 1,
-        "serve_variation": "x",
-        "rollout": {
-          "percentage": 0,
-          "attribute": "x"
-        }
-      }
-    ],
-    "variations": {
-      "foo": "string"
-    },
-    "description": "description",
-    "type": "boolean",
-    "updated_at": "updated_at",
-    "updated_by": "updated_by"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create flag
+"less\_than"
 
-**post** `/accounts/{account_id}/flagship/apps/{app_id}/flags`
+<a href="#">Link to this property</a>
 
-Creates a flag. Returns 409 if the key already exists. `type` is inferred from variation values and may be omitted.
+"greater\_than\_or\_equals"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"less\_than\_or\_equals"
 
-  Cloudflare account ID.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+"contains"
 
-  App identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"starts\_with"
 
-- `default_variation: string`
+<a href="#">Link to this property</a>
 
-  Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+"ends\_with"
 
-- `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  When false, the flag bypasses all rules and always serves `default_variation`.
+"in"
 
-- `key: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+"not\_in"
 
-- `rules: array of object { conditions, priority, serve_variation, rollout }`
+<a href="#">Link to this property</a>
 
-  Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+</details>
 
-  - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-    Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<details>
 
-    - `object { attribute, operator, value }`
+<summary>
 
-      - `attribute: string`
+value: stringor numberor booleanor 2 more
 
-      - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-        - `"equals"`
+One of the following:
 
-        - `"not_equals"`
+string
 
-        - `"greater_than"`
+<a href="#">Link to this property</a>
 
-        - `"less_than"`
+number
 
-        - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-        - `"less_than_or_equals"`
+boolean
 
-        - `"contains"`
+<a href="#">Link to this property</a>
 
-        - `"starts_with"`
+map\[unknown]
 
-        - `"ends_with"`
+<a href="#">Link to this property</a>
 
-        - `"in"`
+array of unknown
 
-        - `"not_in"`
+<a href="#">Link to this property</a>
 
-      - `value: unknown`
+</details>
 
-        Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-    - `object { clauses, logical_operator }`
+</details>
 
-      - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-        - `object { attribute, operator, value }`
+<details>
 
-          - `attribute: string`
+<summary>
 
-          - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+object {clauses, logical\_operator }
 
-            - `"equals"`
+</summary>
 
-            - `"not_equals"`
+<details>
 
-            - `"greater_than"`
+<summary>
 
-            - `"less_than"`
+clauses: array of stringor numberor booleanor 2 more
 
-            - `"greater_than_or_equals"`
+</summary>
 
-            - `"less_than_or_equals"`
+One of the following:
 
-            - `"contains"`
+string
 
-            - `"starts_with"`
+<a href="#">Link to this property</a>
 
-            - `"ends_with"`
+number
 
-            - `"in"`
+<a href="#">Link to this property</a>
 
-            - `"not_in"`
+boolean
 
-          - `value: unknown`
+<a href="#">Link to this property</a>
 
-            Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+map\[unknown]
 
-        - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-          - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+array of unknown
 
-            - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-              - `attribute: string`
+</details>
 
-              - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                - `"equals"`
+<details>
 
-                - `"not_equals"`
+<summary>
 
-                - `"greater_than"`
+logical\_operator: "AND"or "OR"
 
-                - `"less_than"`
+</summary>
 
-                - `"greater_than_or_equals"`
+One of the following:
 
-                - `"less_than_or_equals"`
+"AND"
 
-                - `"contains"`
+<a href="#">Link to this property</a>
 
-                - `"starts_with"`
+"OR"
 
-                - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                - `"in"`
+</details>
 
-                - `"not_in"`
+<a href="#">Link to this property</a>
 
-              - `value: unknown`
+</details>
 
-                Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-            - `object { clauses, logical_operator }`
+</details>
 
-              - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                - `object { attribute, operator, value }`
+<details>
 
-                  - `attribute: string`
+<summary>
 
-                  - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+logical\_operator: "AND"or "OR"
 
-                    - `"equals"`
+</summary>
 
-                    - `"not_equals"`
+One of the following:
 
-                    - `"greater_than"`
+"AND"
 
-                    - `"less_than"`
+<a href="#">Link to this property</a>
 
-                    - `"greater_than_or_equals"`
+"OR"
 
-                    - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                    - `"contains"`
+</details>
 
-                    - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                    - `"ends_with"`
+</details>
 
-                    - `"in"`
+<a href="#">Link to this property</a>
 
-                    - `"not_in"`
+</details>
 
-                  - `value: unknown`
+<a href="#">Link to this property</a>
 
-                    Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<details>
 
-                - `object { clauses, logical_operator }`
+<summary>
 
-                  - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+logical\_operator: "AND"or "OR"
 
-                    - `object { attribute, operator, value }`
+</summary>
 
-                      - `attribute: string`
+One of the following:
 
-                      - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"AND"
 
-                        - `"equals"`
+<a href="#">Link to this property</a>
 
-                        - `"not_equals"`
+"OR"
 
-                        - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                        - `"less_than"`
+</details>
 
-                        - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                        - `"less_than_or_equals"`
+</details>
 
-                        - `"contains"`
+<a href="#">Link to this property</a>
 
-                        - `"starts_with"`
+</details>
 
-                        - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                        - `"in"`
+<details>
 
-                        - `"not_in"`
+<summary>
 
-                      - `value: unknown`
+logical\_operator: "AND"or "OR"
 
-                        Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-                    - `object { clauses, logical_operator }`
+One of the following:
 
-                      - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"AND"
 
-                        - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                          - `attribute: string`
+"OR"
 
-                          - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                            - `"equals"`
+</details>
 
-                            - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                            - `"greater_than"`
+</details>
 
-                            - `"less_than"`
+<a href="#">Link to this property</a>
 
-                            - `"greater_than_or_equals"`
+</details>
 
-                            - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                            - `"contains"`
+<details>
 
-                            - `"starts_with"`
+<summary>
 
-                            - `"ends_with"`
+logical\_operator: "AND"or "OR"
 
-                            - `"in"`
+</summary>
 
-                            - `"not_in"`
+One of the following:
 
-                          - `value: unknown`
+"AND"
 
-                            Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                        - `object { clauses, logical_operator }`
+"OR"
 
-                          - `clauses: array of string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-                            - `string`
+</details>
 
-                            - `number`
+<a href="#">Link to this property</a>
 
-                            - `boolean`
+</details>
 
-                            - `map[unknown]`
+<a href="#">Link to this property</a>
 
-                            - `array of unknown`
+</details>
 
-                          - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                            - `"AND"`
+<details>
 
-                            - `"OR"`
+<summary>
 
-                      - `logical_operator: "AND" or "OR"`
+logical\_operator: "AND"or "OR"
 
-                        - `"AND"`
+</summary>
 
-                        - `"OR"`
+One of the following:
 
-                  - `logical_operator: "AND" or "OR"`
+"AND"
 
-                    - `"AND"`
+<a href="#">Link to this property</a>
 
-                    - `"OR"`
+"OR"
 
-              - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                - `"AND"`
+</details>
 
-                - `"OR"`
+<a href="#">Link to this property</a>
 
-          - `logical_operator: "AND" or "OR"`
+</details>
 
-            - `"AND"`
+<a href="#">Link to this property</a>
 
-            - `"OR"`
+</details>
 
-      - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-        - `"AND"`
+priority: number
 
-        - `"OR"`
+Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag’s rules.
 
-  - `priority: number`
+minimum1
 
-    Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+<a href="#">Link to this property</a>
 
-  - `serve_variation: string`
+serve\_variation: string
 
-    Variation served when this rule matches. Must be a key in `variations`.
+Variation the API serves when this rule matches. Must be a key in <code>variations</code>.
 
-  - `rollout: optional object { percentage, attribute }`
+minLength1
 
-    - `percentage: number`
+<a href="#">Link to this property</a>
 
-      Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<details>
 
-    - `attribute: optional string`
+<summary>
 
-      Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+rollout: optional object {percentage, attribute }
 
-- `variations: map[string or number or boolean or 2 more]`
+</summary>
 
-  Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+percentage: number
 
-  - `string`
+Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
 
-  - `number`
+maximum100
 
-  - `boolean`
+minimum0
 
-  - `map[unknown]`
+<a href="#">Link to this property</a>
 
-  - `array of unknown`
+attribute: optional string
 
-- `description: optional string`
+Context attribute used for sticky bucketing. Defaults to <code>targetingKey</code>. If absent at evaluation time, bucketing is random per request.
 
-- `type: optional "boolean" or "string" or "number" or "json"`
+minLength1
 
-  Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<a href="#">Link to this property</a>
 
-  - `"boolean"`
+</details>
 
-  - `"string"`
+<a href="#">Link to this property</a>
 
-  - `"number"`
+</details>
 
-  - `"json"`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { message }`
+<summary>
 
-  - `message: string`
+type: "boolean"or "string"or "number"or "json"
 
-- `messages: array of object { message }`
+Server-inferred value type shared by all of the flag’s variations.
 
-  - `message: string`
+</summary>
 
-- `result: object { default_variation, enabled, key, 6 more }`
+One of the following:
 
-  - `default_variation: string`
+"boolean"
 
-    Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"string"
 
-    When false, the flag bypasses all rules and always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-  - `key: string`
+"number"
 
-    Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+<a href="#">Link to this property</a>
 
-  - `rules: array of object { conditions, priority, serve_variation, rollout }`
+"json"
 
-    Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-    - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</details>
 
-      Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<a href="#">Link to this property</a>
 
-      - `object { attribute, operator, value }`
+<details>
 
-        - `attribute: string`
+<summary>
 
-        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+variations: map\[stringor numberor booleanor 2 more]
 
-          - `"equals"`
+Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.
 
-          - `"not_equals"`
+</summary>
 
-          - `"greater_than"`
+One of the following:
 
-          - `"less_than"`
+string
 
-          - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-          - `"less_than_or_equals"`
+number
 
-          - `"contains"`
+<a href="#">Link to this property</a>
 
-          - `"starts_with"`
+boolean
 
-          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-          - `"in"`
+map\[unknown]
 
-          - `"not_in"`
+<a href="#">Link to this property</a>
 
-        - `value: unknown`
+array of unknown
 
-          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-      - `object { clauses, logical_operator }`
+</details>
 
-        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-          - `object { attribute, operator, value }`
+description: optional string
 
-            - `attribute: string`
+maxLength512
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-              - `"equals"`
+updated\_at: optional string
 
-              - `"not_equals"`
+<a href="#">Link to this property</a>
 
-              - `"greater_than"`
+updated\_by: optional string
 
-              - `"less_than"`
+<a href="#">Link to this property</a>
 
-              - `"greater_than_or_equals"`
+</details>
 
-              - `"less_than_or_equals"`
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(model)%20flag_list_response%20%3E%20(schema)>)
 
-              - `"contains"`
+<details>
 
-              - `"starts_with"`
+<summary>
 
-              - `"ends_with"`
+FlagGetResponse object {default\_variation, enabled, key, 6 more }
 
-              - `"in"`
+</summary>
 
-              - `"not_in"`
+default\_variation: string
 
-            - `value: unknown`
+Variation the API serves when the flag is off, or when it’s on but no rule matches the context. Must be a key in <code>variations</code>.
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+minLength1
 
-          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+enabled: boolean
 
-              - `object { attribute, operator, value }`
+When false, the flag bypasses all rules and always serves <code>default_variation</code>.
 
-                - `attribute: string`
+<a href="#">Link to this property</a>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+key: string
 
-                  - `"equals"`
+Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
 
-                  - `"not_equals"`
+maxLength64
 
-                  - `"greater_than"`
+minLength1
 
-                  - `"less_than"`
+<a href="#">Link to this property</a>
 
-                  - `"greater_than_or_equals"`
+<details>
 
-                  - `"less_than_or_equals"`
+<summary>
 
-                  - `"contains"`
+rules: array of object {conditions, priority, serve\_variation, rollout }
 
-                  - `"starts_with"`
+Targeting rules evaluated in ascending <code>priority</code>; the first matching rule wins. An empty array means the flag always serves <code>default_variation</code>.
 
-                  - `"ends_with"`
+</summary>
 
-                  - `"in"`
+<details>
 
-                  - `"not_in"`
+<summary>
 
-                - `value: unknown`
+conditions: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
 
-              - `object { clauses, logical_operator }`
+</summary>
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+One of the following:
 
-                  - `object { attribute, operator, value }`
+<details>
 
-                    - `attribute: string`
+<summary>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+object {attribute, operator, value }
 
-                      - `"equals"`
+</summary>
 
-                      - `"not_equals"`
+attribute: string
 
-                      - `"greater_than"`
+maxLength64
 
-                      - `"less_than"`
+minLength1
 
-                      - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than_or_equals"`
+<details>
 
-                      - `"contains"`
+<summary>
 
-                      - `"starts_with"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                      - `"ends_with"`
+</summary>
 
-                      - `"in"`
+One of the following:
 
-                      - `"not_in"`
+"equals"
 
-                    - `value: unknown`
+<a href="#">Link to this property</a>
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"not\_equals"
 
-                  - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"greater\_than"
 
-                      - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                        - `attribute: string`
+"less\_than"
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                          - `"equals"`
+"greater\_than\_or\_equals"
 
-                          - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than"`
+"less\_than\_or\_equals"
 
-                          - `"less_than"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than_or_equals"`
+"contains"
 
-                          - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"contains"`
+"starts\_with"
 
-                          - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                          - `"ends_with"`
+"ends\_with"
 
-                          - `"in"`
+<a href="#">Link to this property</a>
 
-                          - `"not_in"`
+"in"
 
-                        - `value: unknown`
+<a href="#">Link to this property</a>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"not\_in"
 
-                      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</details>
 
-                          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                            - `attribute: string`
+<details>
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<summary>
 
-                              - `"equals"`
+value: stringor numberor booleanor 2 more
 
-                              - `"not_equals"`
+</summary>
 
-                              - `"greater_than"`
+One of the following:
 
-                              - `"less_than"`
+string
 
-                              - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"less_than_or_equals"`
+number
 
-                              - `"contains"`
+<a href="#">Link to this property</a>
 
-                              - `"starts_with"`
+boolean
 
-                              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                              - `"in"`
+map\[unknown]
 
-                              - `"not_in"`
+<a href="#">Link to this property</a>
 
-                            - `value: unknown`
+array of unknown
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                          - `object { clauses, logical_operator }`
+</details>
 
-                            - `clauses: array of string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-                              - `string`
+</details>
 
-                              - `number`
+<a href="#">Link to this property</a>
 
-                              - `boolean`
+<details>
 
-                              - `map[unknown]`
+<summary>
 
-                              - `array of unknown`
+object {clauses, logical\_operator }
 
-                            - `logical_operator: "AND" or "OR"`
+</summary>
 
-                              - `"AND"`
+<details>
 
-                              - `"OR"`
+<summary>
 
-                        - `logical_operator: "AND" or "OR"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                          - `"AND"`
+</summary>
 
-                          - `"OR"`
+One of the following:
 
-                    - `logical_operator: "AND" or "OR"`
+<details>
 
-                      - `"AND"`
+<summary>
 
-                      - `"OR"`
+object {attribute, operator, value }
 
-                - `logical_operator: "AND" or "OR"`
+</summary>
 
-                  - `"AND"`
+attribute: string
 
-                  - `"OR"`
+maxLength64
 
-            - `logical_operator: "AND" or "OR"`
+minLength1
 
-              - `"AND"`
+<a href="#">Link to this property</a>
 
-              - `"OR"`
+<details>
 
-        - `logical_operator: "AND" or "OR"`
+<summary>
 
-          - `"AND"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-          - `"OR"`
+</summary>
 
-    - `priority: number`
+One of the following:
 
-      Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+"equals"
 
-    - `serve_variation: string`
+<a href="#">Link to this property</a>
 
-      Variation served when this rule matches. Must be a key in `variations`.
+"not\_equals"
 
-    - `rollout: optional object { percentage, attribute }`
+<a href="#">Link to this property</a>
 
-      - `percentage: number`
+"greater\_than"
 
-        Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<a href="#">Link to this property</a>
 
-      - `attribute: optional string`
+"less\_than"
 
-        Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+<a href="#">Link to this property</a>
 
-  - `variations: map[string or number or boolean or 2 more]`
+"greater\_than\_or\_equals"
 
-    Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+<a href="#">Link to this property</a>
 
-    - `string`
+"less\_than\_or\_equals"
 
-    - `number`
+<a href="#">Link to this property</a>
 
-    - `boolean`
+"contains"
 
-    - `map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `array of unknown`
+"starts\_with"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `type: optional "boolean" or "string" or "number" or "json"`
+"ends\_with"
 
-    Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<a href="#">Link to this property</a>
 
-    - `"boolean"`
+"in"
 
-    - `"string"`
+<a href="#">Link to this property</a>
 
-    - `"number"`
+"not\_in"
 
-    - `"json"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+</details>
 
-  - `updated_by: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID/flags \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "default_variation": "x",
-          "enabled": true,
-          "key": "x",
-          "rules": [
-            {
-              "conditions": [
-                {
-                  "attribute": "x",
-                  "operator": "equals",
-                  "value": {}
-                }
-              ],
-              "priority": 1,
-              "serve_variation": "x"
-            }
-          ],
-          "variations": {
-            "foo": "string"
-          }
-        }'
-```
+value: stringor numberor booleanor 2 more
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": {
-    "default_variation": "x",
-    "enabled": true,
-    "key": "x",
-    "rules": [
-      {
-        "conditions": [
-          {
-            "attribute": "x",
-            "operator": "equals",
-            "value": {}
-          }
-        ],
-        "priority": 1,
-        "serve_variation": "x",
-        "rollout": {
-          "percentage": 0,
-          "attribute": "x"
-        }
-      }
-    ],
-    "variations": {
-      "foo": "string"
-    },
-    "description": "description",
-    "type": "boolean",
-    "updated_at": "updated_at",
-    "updated_by": "updated_by"
-  },
-  "success": true
-}
-```
+One of the following:
 
-## Update flag
+string
 
-**put** `/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}`
+<a href="#">Link to this property</a>
 
-Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. Each update appends a changelog entry.
+number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+boolean
 
-  Cloudflare account ID.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+map\[unknown]
 
-  App identifier.
+<a href="#">Link to this property</a>
 
-- `flag_key: string`
+array of unknown
 
-  Flag key (slug).
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `default_variation: string`
+<a href="#">Link to this property</a>
 
-  Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+</details>
 
-- `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  When false, the flag bypasses all rules and always serves `default_variation`.
+<details>
 
-- `key: string`
+<summary>
 
-  Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+object {clauses, logical\_operator }
 
-- `rules: array of object { conditions, priority, serve_variation, rollout }`
+</summary>
 
-  Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<details>
 
-  - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<summary>
 
-    Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-    - `object { attribute, operator, value }`
+</summary>
 
-      - `attribute: string`
+One of the following:
 
-      - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<details>
 
-        - `"equals"`
+<summary>
 
-        - `"not_equals"`
+object {attribute, operator, value }
 
-        - `"greater_than"`
+</summary>
 
-        - `"less_than"`
+attribute: string
 
-        - `"greater_than_or_equals"`
+maxLength64
 
-        - `"less_than_or_equals"`
+minLength1
 
-        - `"contains"`
+<a href="#">Link to this property</a>
 
-        - `"starts_with"`
+<details>
 
-        - `"ends_with"`
+<summary>
 
-        - `"in"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-        - `"not_in"`
+</summary>
 
-      - `value: unknown`
+One of the following:
 
-        Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"equals"
 
-    - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-      - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"not\_equals"
 
-        - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-          - `attribute: string`
+"greater\_than"
 
-          - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-            - `"equals"`
+"less\_than"
 
-            - `"not_equals"`
+<a href="#">Link to this property</a>
 
-            - `"greater_than"`
+"greater\_than\_or\_equals"
 
-            - `"less_than"`
+<a href="#">Link to this property</a>
 
-            - `"greater_than_or_equals"`
+"less\_than\_or\_equals"
 
-            - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-            - `"contains"`
+"contains"
 
-            - `"starts_with"`
+<a href="#">Link to this property</a>
 
-            - `"ends_with"`
+"starts\_with"
 
-            - `"in"`
+<a href="#">Link to this property</a>
 
-            - `"not_in"`
+"ends\_with"
 
-          - `value: unknown`
+<a href="#">Link to this property</a>
 
-            Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"in"
 
-        - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-          - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"not\_in"
 
-            - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-              - `attribute: string`
+</details>
 
-              - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                - `"equals"`
+<details>
 
-                - `"not_equals"`
+<summary>
 
-                - `"greater_than"`
+value: stringor numberor booleanor 2 more
 
-                - `"less_than"`
+</summary>
 
-                - `"greater_than_or_equals"`
+One of the following:
 
-                - `"less_than_or_equals"`
+string
 
-                - `"contains"`
+<a href="#">Link to this property</a>
 
-                - `"starts_with"`
+number
 
-                - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                - `"in"`
+boolean
 
-                - `"not_in"`
+<a href="#">Link to this property</a>
 
-              - `value: unknown`
+map\[unknown]
 
-                Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-            - `object { clauses, logical_operator }`
+array of unknown
 
-              - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                - `object { attribute, operator, value }`
+</details>
 
-                  - `attribute: string`
+<a href="#">Link to this property</a>
 
-                  - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</details>
 
-                    - `"equals"`
+<a href="#">Link to this property</a>
 
-                    - `"not_equals"`
+<details>
 
-                    - `"greater_than"`
+<summary>
 
-                    - `"less_than"`
+object {clauses, logical\_operator }
 
-                    - `"greater_than_or_equals"`
+</summary>
 
-                    - `"less_than_or_equals"`
+<details>
 
-                    - `"contains"`
+<summary>
 
-                    - `"starts_with"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                    - `"ends_with"`
+</summary>
 
-                    - `"in"`
+One of the following:
 
-                    - `"not_in"`
+<details>
 
-                  - `value: unknown`
+<summary>
 
-                    Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+object {attribute, operator, value }
 
-                - `object { clauses, logical_operator }`
+</summary>
 
-                  - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+attribute: string
 
-                    - `object { attribute, operator, value }`
+maxLength64
 
-                      - `attribute: string`
+minLength1
 
-                      - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                        - `"equals"`
+<details>
 
-                        - `"not_equals"`
+<summary>
 
-                        - `"greater_than"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                        - `"less_than"`
+</summary>
 
-                        - `"greater_than_or_equals"`
+One of the following:
 
-                        - `"less_than_or_equals"`
+"equals"
 
-                        - `"contains"`
+<a href="#">Link to this property</a>
 
-                        - `"starts_with"`
+"not\_equals"
 
-                        - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                        - `"in"`
+"greater\_than"
 
-                        - `"not_in"`
+<a href="#">Link to this property</a>
 
-                      - `value: unknown`
+"less\_than"
 
-                        Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                    - `object { clauses, logical_operator }`
+"greater\_than\_or\_equals"
 
-                      - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                        - `object { attribute, operator, value }`
+"less\_than\_or\_equals"
 
-                          - `attribute: string`
+<a href="#">Link to this property</a>
 
-                          - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"contains"
 
-                            - `"equals"`
+<a href="#">Link to this property</a>
 
-                            - `"not_equals"`
+"starts\_with"
 
-                            - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                            - `"less_than"`
+"ends\_with"
 
-                            - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                            - `"less_than_or_equals"`
+"in"
 
-                            - `"contains"`
+<a href="#">Link to this property</a>
 
-                            - `"starts_with"`
+"not\_in"
 
-                            - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                            - `"in"`
+</details>
 
-                            - `"not_in"`
+<a href="#">Link to this property</a>
 
-                          - `value: unknown`
+<details>
 
-                            Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<summary>
 
-                        - `object { clauses, logical_operator }`
+value: stringor numberor booleanor 2 more
 
-                          - `clauses: array of string or number or boolean or 2 more`
+</summary>
 
-                            - `string`
+One of the following:
 
-                            - `number`
+string
 
-                            - `boolean`
+<a href="#">Link to this property</a>
 
-                            - `map[unknown]`
+number
 
-                            - `array of unknown`
+<a href="#">Link to this property</a>
 
-                          - `logical_operator: "AND" or "OR"`
+boolean
 
-                            - `"AND"`
+<a href="#">Link to this property</a>
 
-                            - `"OR"`
+map\[unknown]
 
-                      - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                        - `"AND"`
+array of unknown
 
-                        - `"OR"`
+<a href="#">Link to this property</a>
 
-                  - `logical_operator: "AND" or "OR"`
+</details>
 
-                    - `"AND"`
+<a href="#">Link to this property</a>
 
-                    - `"OR"`
+</details>
 
-              - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                - `"AND"`
+<details>
 
-                - `"OR"`
+<summary>
 
-          - `logical_operator: "AND" or "OR"`
+object {clauses, logical\_operator }
 
-            - `"AND"`
+</summary>
 
-            - `"OR"`
+<details>
 
-      - `logical_operator: "AND" or "OR"`
+<summary>
 
-        - `"AND"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-        - `"OR"`
+</summary>
 
-  - `priority: number`
+One of the following:
 
-    Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+<details>
 
-  - `serve_variation: string`
+<summary>
 
-    Variation served when this rule matches. Must be a key in `variations`.
+object {attribute, operator, value }
 
-  - `rollout: optional object { percentage, attribute }`
+</summary>
 
-    - `percentage: number`
+attribute: string
 
-      Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+maxLength64
 
-    - `attribute: optional string`
+minLength1
 
-      Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+<a href="#">Link to this property</a>
 
-- `variations: map[string or number or boolean or 2 more]`
+<details>
 
-  Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+<summary>
 
-  - `string`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-  - `number`
+</summary>
 
-  - `boolean`
+One of the following:
 
-  - `map[unknown]`
+"equals"
 
-  - `array of unknown`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+"not\_equals"
 
-- `type: optional "boolean" or "string" or "number" or "json"`
+<a href="#">Link to this property</a>
 
-  Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+"greater\_than"
 
-  - `"boolean"`
+<a href="#">Link to this property</a>
 
-  - `"string"`
+"less\_than"
 
-  - `"number"`
+<a href="#">Link to this property</a>
 
-  - `"json"`
+"greater\_than\_or\_equals"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message }`
+"less\_than\_or\_equals"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message }`
+"contains"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { default_variation, enabled, key, 6 more }`
+"starts\_with"
 
-  - `default_variation: string`
+<a href="#">Link to this property</a>
 
-    Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+"ends\_with"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    When false, the flag bypasses all rules and always serves `default_variation`.
+"in"
 
-  - `key: string`
+<a href="#">Link to this property</a>
 
-    Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+"not\_in"
 
-  - `rules: array of object { conditions, priority, serve_variation, rollout }`
+<a href="#">Link to this property</a>
 
-    Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+</details>
 
-    - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-      Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<details>
 
-      - `object { attribute, operator, value }`
+<summary>
 
-        - `attribute: string`
+value: stringor numberor booleanor 2 more
 
-        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-          - `"equals"`
+One of the following:
 
-          - `"not_equals"`
+string
 
-          - `"greater_than"`
+<a href="#">Link to this property</a>
 
-          - `"less_than"`
+number
 
-          - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-          - `"less_than_or_equals"`
+boolean
 
-          - `"contains"`
+<a href="#">Link to this property</a>
 
-          - `"starts_with"`
+map\[unknown]
 
-          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-          - `"in"`
+array of unknown
 
-          - `"not_in"`
+<a href="#">Link to this property</a>
 
-        - `value: unknown`
+</details>
 
-          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-      - `object { clauses, logical_operator }`
+</details>
 
-        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-          - `object { attribute, operator, value }`
+<details>
 
-            - `attribute: string`
+<summary>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+object {clauses, logical\_operator }
 
-              - `"equals"`
+</summary>
 
-              - `"not_equals"`
+<details>
 
-              - `"greater_than"`
+<summary>
 
-              - `"less_than"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-              - `"greater_than_or_equals"`
+</summary>
 
-              - `"less_than_or_equals"`
+One of the following:
 
-              - `"contains"`
+<details>
 
-              - `"starts_with"`
+<summary>
 
-              - `"ends_with"`
+object {attribute, operator, value }
 
-              - `"in"`
+</summary>
 
-              - `"not_in"`
+attribute: string
 
-            - `value: unknown`
+maxLength64
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+minLength1
 
-          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-              - `object { attribute, operator, value }`
+<summary>
 
-                - `attribute: string`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-                  - `"equals"`
+One of the following:
 
-                  - `"not_equals"`
+"equals"
 
-                  - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than"`
+"not\_equals"
 
-                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than_or_equals"`
+"greater\_than"
 
-                  - `"contains"`
+<a href="#">Link to this property</a>
 
-                  - `"starts_with"`
+"less\_than"
 
-                  - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                  - `"in"`
+"greater\_than\_or\_equals"
 
-                  - `"not_in"`
+<a href="#">Link to this property</a>
 
-                - `value: unknown`
+"less\_than\_or\_equals"
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-              - `object { clauses, logical_operator }`
+"contains"
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                  - `object { attribute, operator, value }`
+"starts\_with"
 
-                    - `attribute: string`
+<a href="#">Link to this property</a>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"ends\_with"
 
-                      - `"equals"`
+<a href="#">Link to this property</a>
 
-                      - `"not_equals"`
+"in"
 
-                      - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than"`
+"not\_in"
 
-                      - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than_or_equals"`
+</details>
 
-                      - `"contains"`
+<a href="#">Link to this property</a>
 
-                      - `"starts_with"`
+<details>
 
-                      - `"ends_with"`
+<summary>
 
-                      - `"in"`
+value: stringor numberor booleanor 2 more
 
-                      - `"not_in"`
+</summary>
 
-                    - `value: unknown`
+One of the following:
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+string
 
-                  - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+number
 
-                      - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                        - `attribute: string`
+boolean
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                          - `"equals"`
+map\[unknown]
 
-                          - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than"`
+array of unknown
 
-                          - `"less_than"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than_or_equals"`
+</details>
 
-                          - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"contains"`
+</details>
 
-                          - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                          - `"ends_with"`
+<details>
 
-                          - `"in"`
+<summary>
 
-                          - `"not_in"`
+object {clauses, logical\_operator }
 
-                        - `value: unknown`
+</summary>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<details>
 
-                      - `object { clauses, logical_operator }`
+<summary>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+clauses: array of stringor numberor booleanor 2 more
 
-                          - `object { attribute, operator, value }`
+</summary>
 
-                            - `attribute: string`
+One of the following:
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+string
 
-                              - `"equals"`
+<a href="#">Link to this property</a>
 
-                              - `"not_equals"`
+number
 
-                              - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                              - `"less_than"`
+boolean
 
-                              - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"less_than_or_equals"`
+map\[unknown]
 
-                              - `"contains"`
+<a href="#">Link to this property</a>
 
-                              - `"starts_with"`
+array of unknown
 
-                              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                              - `"in"`
+</details>
 
-                              - `"not_in"`
+<a href="#">Link to this property</a>
 
-                            - `value: unknown`
+<details>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<summary>
 
-                          - `object { clauses, logical_operator }`
+logical\_operator: "AND"or "OR"
 
-                            - `clauses: array of string or number or boolean or 2 more`
+</summary>
 
-                              - `string`
+One of the following:
 
-                              - `number`
+"AND"
 
-                              - `boolean`
+<a href="#">Link to this property</a>
 
-                              - `map[unknown]`
+"OR"
 
-                              - `array of unknown`
+<a href="#">Link to this property</a>
 
-                            - `logical_operator: "AND" or "OR"`
+</details>
 
-                              - `"AND"`
+<a href="#">Link to this property</a>
 
-                              - `"OR"`
+</details>
 
-                        - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                          - `"AND"`
+</details>
 
-                          - `"OR"`
+<a href="#">Link to this property</a>
 
-                    - `logical_operator: "AND" or "OR"`
+<details>
 
-                      - `"AND"`
+<summary>
 
-                      - `"OR"`
+logical\_operator: "AND"or "OR"
 
-                - `logical_operator: "AND" or "OR"`
+</summary>
 
-                  - `"AND"`
+One of the following:
 
-                  - `"OR"`
+"AND"
 
-            - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-              - `"AND"`
+"OR"
 
-              - `"OR"`
+<a href="#">Link to this property</a>
 
-        - `logical_operator: "AND" or "OR"`
+</details>
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+</details>
 
-    - `priority: number`
+<a href="#">Link to this property</a>
 
-      Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+</details>
 
-    - `serve_variation: string`
+<a href="#">Link to this property</a>
 
-      Variation served when this rule matches. Must be a key in `variations`.
+<details>
 
-    - `rollout: optional object { percentage, attribute }`
+<summary>
 
-      - `percentage: number`
+logical\_operator: "AND"or "OR"
 
-        Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+</summary>
 
-      - `attribute: optional string`
+One of the following:
 
-        Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+"AND"
 
-  - `variations: map[string or number or boolean or 2 more]`
+<a href="#">Link to this property</a>
 
-    Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+"OR"
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+</details>
 
-    - `boolean`
+<a href="#">Link to this property</a>
 
-    - `map[unknown]`
+</details>
 
-    - `array of unknown`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `type: optional "boolean" or "string" or "number" or "json"`
+<a href="#">Link to this property</a>
 
-    Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<details>
 
-    - `"boolean"`
+<summary>
 
-    - `"string"`
+logical\_operator: "AND"or "OR"
 
-    - `"number"`
+</summary>
 
-    - `"json"`
+One of the following:
 
-  - `updated_at: optional string`
+"AND"
 
-  - `updated_by: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"OR"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID/flags/$FLAG_KEY \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "default_variation": "x",
-          "enabled": true,
-          "key": "x",
-          "rules": [
-            {
-              "conditions": [
-                {
-                  "attribute": "x",
-                  "operator": "equals",
-                  "value": {}
-                }
-              ],
-              "priority": 1,
-              "serve_variation": "x"
-            }
-          ],
-          "variations": {
-            "foo": "string"
-          }
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": {
-    "default_variation": "x",
-    "enabled": true,
-    "key": "x",
-    "rules": [
-      {
-        "conditions": [
-          {
-            "attribute": "x",
-            "operator": "equals",
-            "value": {}
-          }
-        ],
-        "priority": 1,
-        "serve_variation": "x",
-        "rollout": {
-          "percentage": 0,
-          "attribute": "x"
-        }
-      }
-    ],
-    "variations": {
-      "foo": "string"
-    },
-    "description": "description",
-    "type": "boolean",
-    "updated_at": "updated_at",
-    "updated_by": "updated_by"
-  },
-  "success": true
-}
-```
+</details>
 
-## Delete flag
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}`
+</details>
 
-Permanently deletes a flag. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Cloudflare account ID.
+logical\_operator: "AND"or "OR"
 
-- `app_id: string`
+</summary>
 
-  App identifier.
+One of the following:
 
-- `flag_key: string`
+"AND"
 
-  Flag key (slug).
+<a href="#">Link to this property</a>
 
-### Returns
+"OR"
 
-- `errors: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `messages: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-- `result: object { key }`
+<a href="#">Link to this property</a>
 
-  - `key: string`
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID/flags/$FLAG_KEY \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+logical\_operator: "AND"or "OR"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": {
-    "key": "key"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+One of the following:
 
-### Flag List Response
+"AND"
 
-- `FlagListResponse object { default_variation, enabled, key, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `default_variation: string`
+"OR"
 
-    Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-    When false, the flag bypasses all rules and always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-  - `key: string`
+</details>
 
-    Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+<a href="#">Link to this property</a>
 
-  - `rules: array of object { conditions, priority, serve_variation, rollout }`
+</details>
 
-    Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-    - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+priority: number
 
-      Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag’s rules.
 
-      - `object { attribute, operator, value }`
+minimum1
 
-        - `attribute: string`
+<a href="#">Link to this property</a>
 
-        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+serve\_variation: string
 
-          - `"equals"`
+Variation the API serves when this rule matches. Must be a key in <code>variations</code>.
 
-          - `"not_equals"`
+minLength1
 
-          - `"greater_than"`
+<a href="#">Link to this property</a>
 
-          - `"less_than"`
+<details>
 
-          - `"greater_than_or_equals"`
+<summary>
 
-          - `"less_than_or_equals"`
+rollout: optional object {percentage, attribute }
 
-          - `"contains"`
+</summary>
 
-          - `"starts_with"`
+percentage: number
 
-          - `"ends_with"`
+Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
 
-          - `"in"`
+maximum100
 
-          - `"not_in"`
+minimum0
 
-        - `value: unknown`
+<a href="#">Link to this property</a>
 
-          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+attribute: optional string
 
-      - `object { clauses, logical_operator }`
+Context attribute used for sticky bucketing. Defaults to <code>targetingKey</code>. If absent at evaluation time, bucketing is random per request.
 
-        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+minLength1
 
-          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-            - `attribute: string`
+</details>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-              - `"equals"`
+</details>
 
-              - `"not_equals"`
+<a href="#">Link to this property</a>
 
-              - `"greater_than"`
+<details>
 
-              - `"less_than"`
+<summary>
 
-              - `"greater_than_or_equals"`
+type: "boolean"or "string"or "number"or "json"
 
-              - `"less_than_or_equals"`
+Server-inferred value type shared by all of the flag’s variations.
 
-              - `"contains"`
+</summary>
 
-              - `"starts_with"`
+One of the following:
 
-              - `"ends_with"`
+"boolean"
 
-              - `"in"`
+<a href="#">Link to this property</a>
 
-              - `"not_in"`
+"string"
 
-            - `value: unknown`
+<a href="#">Link to this property</a>
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"number"
 
-          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"json"
 
-              - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                - `attribute: string`
+</details>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                  - `"equals"`
+<details>
 
-                  - `"not_equals"`
+<summary>
 
-                  - `"greater_than"`
+variations: map\[stringor numberor booleanor 2 more]
 
-                  - `"less_than"`
+Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.
 
-                  - `"greater_than_or_equals"`
+</summary>
 
-                  - `"less_than_or_equals"`
+One of the following:
 
-                  - `"contains"`
+string
 
-                  - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                  - `"ends_with"`
+number
 
-                  - `"in"`
+<a href="#">Link to this property</a>
 
-                  - `"not_in"`
+boolean
 
-                - `value: unknown`
+<a href="#">Link to this property</a>
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+map\[unknown]
 
-              - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+array of unknown
 
-                  - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                    - `attribute: string`
+</details>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                      - `"equals"`
+description: optional string
 
-                      - `"not_equals"`
+maxLength512
 
-                      - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than"`
+updated\_at: optional string
 
-                      - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than_or_equals"`
+updated\_by: optional string
 
-                      - `"contains"`
+<a href="#">Link to this property</a>
 
-                      - `"starts_with"`
+</details>
 
-                      - `"ends_with"`
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(model)%20flag_get_response%20%3E%20(schema)>)
 
-                      - `"in"`
+<details>
 
-                      - `"not_in"`
+<summary>
 
-                    - `value: unknown`
+FlagCreateResponse object {default\_variation, enabled, key, 6 more }
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-                  - `object { clauses, logical_operator }`
+default\_variation: string
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+Variation the API serves when the flag is off, or when it’s on but no rule matches the context. Must be a key in <code>variations</code>.
 
-                      - `object { attribute, operator, value }`
+minLength1
 
-                        - `attribute: string`
+<a href="#">Link to this property</a>
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+enabled: boolean
 
-                          - `"equals"`
+When false, the flag bypasses all rules and always serves <code>default_variation</code>.
 
-                          - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than"`
+key: string
 
-                          - `"less_than"`
+Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
 
-                          - `"greater_than_or_equals"`
+maxLength64
 
-                          - `"less_than_or_equals"`
+minLength1
 
-                          - `"contains"`
+<a href="#">Link to this property</a>
 
-                          - `"starts_with"`
+<details>
 
-                          - `"ends_with"`
+<summary>
 
-                          - `"in"`
+rules: array of object {conditions, priority, serve\_variation, rollout }
 
-                          - `"not_in"`
+Targeting rules evaluated in ascending <code>priority</code>; the first matching rule wins. An empty array means the flag always serves <code>default_variation</code>.
 
-                        - `value: unknown`
+</summary>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<details>
 
-                      - `object { clauses, logical_operator }`
+<summary>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+conditions: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                          - `object { attribute, operator, value }`
+Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
 
-                            - `attribute: string`
+</summary>
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+One of the following:
 
-                              - `"equals"`
+<details>
 
-                              - `"not_equals"`
+<summary>
 
-                              - `"greater_than"`
+object {attribute, operator, value }
 
-                              - `"less_than"`
+</summary>
 
-                              - `"greater_than_or_equals"`
+attribute: string
 
-                              - `"less_than_or_equals"`
+maxLength64
 
-                              - `"contains"`
+minLength1
 
-                              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                              - `"ends_with"`
+<details>
 
-                              - `"in"`
+<summary>
 
-                              - `"not_in"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                            - `value: unknown`
+</summary>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+One of the following:
 
-                          - `object { clauses, logical_operator }`
+"equals"
 
-                            - `clauses: array of string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-                              - `string`
+"not\_equals"
 
-                              - `number`
+<a href="#">Link to this property</a>
 
-                              - `boolean`
+"greater\_than"
 
-                              - `map[unknown]`
+<a href="#">Link to this property</a>
 
-                              - `array of unknown`
+"less\_than"
 
-                            - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                              - `"AND"`
+"greater\_than\_or\_equals"
 
-                              - `"OR"`
+<a href="#">Link to this property</a>
 
-                        - `logical_operator: "AND" or "OR"`
+"less\_than\_or\_equals"
 
-                          - `"AND"`
+<a href="#">Link to this property</a>
 
-                          - `"OR"`
+"contains"
 
-                    - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                      - `"AND"`
+"starts\_with"
 
-                      - `"OR"`
+<a href="#">Link to this property</a>
 
-                - `logical_operator: "AND" or "OR"`
+"ends\_with"
 
-                  - `"AND"`
+<a href="#">Link to this property</a>
 
-                  - `"OR"`
+"in"
 
-            - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-              - `"AND"`
+"not\_in"
 
-              - `"OR"`
+<a href="#">Link to this property</a>
 
-        - `logical_operator: "AND" or "OR"`
+</details>
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+<details>
 
-    - `priority: number`
+<summary>
 
-      Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+value: stringor numberor booleanor 2 more
 
-    - `serve_variation: string`
+</summary>
 
-      Variation served when this rule matches. Must be a key in `variations`.
+One of the following:
 
-    - `rollout: optional object { percentage, attribute }`
+string
 
-      - `percentage: number`
+<a href="#">Link to this property</a>
 
-        Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+number
 
-      - `attribute: optional string`
+<a href="#">Link to this property</a>
 
-        Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+boolean
 
-  - `variations: map[string or number or boolean or 2 more]`
+<a href="#">Link to this property</a>
 
-    Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+map\[unknown]
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+array of unknown
 
-    - `boolean`
+<a href="#">Link to this property</a>
 
-    - `map[unknown]`
+</details>
 
-    - `array of unknown`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `type: optional "boolean" or "string" or "number" or "json"`
+<a href="#">Link to this property</a>
 
-    Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<details>
 
-    - `"boolean"`
+<summary>
 
-    - `"string"`
+object {clauses, logical\_operator }
 
-    - `"number"`
+</summary>
 
-    - `"json"`
+<details>
 
-  - `updated_at: optional string`
+<summary>
 
-  - `updated_by: optional string`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-### Flag Get Response
+</summary>
 
-- `FlagGetResponse object { default_variation, enabled, key, 6 more }`
+One of the following:
 
-  - `default_variation: string`
+<details>
 
-    Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+<summary>
 
-  - `enabled: boolean`
+object {attribute, operator, value }
 
-    When false, the flag bypasses all rules and always serves `default_variation`.
+</summary>
 
-  - `key: string`
+attribute: string
 
-    Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+maxLength64
 
-  - `rules: array of object { conditions, priority, serve_variation, rollout }`
+minLength1
 
-    Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-    - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-      Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<summary>
 
-      - `object { attribute, operator, value }`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-        - `attribute: string`
+</summary>
 
-        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+One of the following:
 
-          - `"equals"`
+"equals"
 
-          - `"not_equals"`
+<a href="#">Link to this property</a>
 
-          - `"greater_than"`
+"not\_equals"
 
-          - `"less_than"`
+<a href="#">Link to this property</a>
 
-          - `"greater_than_or_equals"`
+"greater\_than"
 
-          - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-          - `"contains"`
+"less\_than"
 
-          - `"starts_with"`
+<a href="#">Link to this property</a>
 
-          - `"ends_with"`
+"greater\_than\_or\_equals"
 
-          - `"in"`
+<a href="#">Link to this property</a>
 
-          - `"not_in"`
+"less\_than\_or\_equals"
 
-        - `value: unknown`
+<a href="#">Link to this property</a>
 
-          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"contains"
 
-      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"starts\_with"
 
-          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-            - `attribute: string`
+"ends\_with"
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-              - `"equals"`
+"in"
 
-              - `"not_equals"`
+<a href="#">Link to this property</a>
 
-              - `"greater_than"`
+"not\_in"
 
-              - `"less_than"`
+<a href="#">Link to this property</a>
 
-              - `"greater_than_or_equals"`
+</details>
 
-              - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-              - `"contains"`
+<details>
 
-              - `"starts_with"`
+<summary>
 
-              - `"ends_with"`
+value: stringor numberor booleanor 2 more
 
-              - `"in"`
+</summary>
 
-              - `"not_in"`
+One of the following:
 
-            - `value: unknown`
+string
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-          - `object { clauses, logical_operator }`
+number
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-              - `object { attribute, operator, value }`
+boolean
 
-                - `attribute: string`
+<a href="#">Link to this property</a>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+map\[unknown]
 
-                  - `"equals"`
+<a href="#">Link to this property</a>
 
-                  - `"not_equals"`
+array of unknown
 
-                  - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than"`
+</details>
 
-                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than_or_equals"`
+</details>
 
-                  - `"contains"`
+<a href="#">Link to this property</a>
 
-                  - `"starts_with"`
+<details>
 
-                  - `"ends_with"`
+<summary>
 
-                  - `"in"`
+object {clauses, logical\_operator }
 
-                  - `"not_in"`
+</summary>
 
-                - `value: unknown`
+<details>
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<summary>
 
-              - `object { clauses, logical_operator }`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</summary>
 
-                  - `object { attribute, operator, value }`
+One of the following:
 
-                    - `attribute: string`
+<details>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<summary>
 
-                      - `"equals"`
+object {attribute, operator, value }
 
-                      - `"not_equals"`
+</summary>
 
-                      - `"greater_than"`
+attribute: string
 
-                      - `"less_than"`
+maxLength64
 
-                      - `"greater_than_or_equals"`
+minLength1
 
-                      - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"contains"`
+<details>
 
-                      - `"starts_with"`
+<summary>
 
-                      - `"ends_with"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                      - `"in"`
+</summary>
 
-                      - `"not_in"`
+One of the following:
 
-                    - `value: unknown`
+"equals"
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                  - `object { clauses, logical_operator }`
+"not\_equals"
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                      - `object { attribute, operator, value }`
+"greater\_than"
 
-                        - `attribute: string`
+<a href="#">Link to this property</a>
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"less\_than"
 
-                          - `"equals"`
+<a href="#">Link to this property</a>
 
-                          - `"not_equals"`
+"greater\_than\_or\_equals"
 
-                          - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                          - `"less_than"`
+"less\_than\_or\_equals"
 
-                          - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"less_than_or_equals"`
+"contains"
 
-                          - `"contains"`
+<a href="#">Link to this property</a>
 
-                          - `"starts_with"`
+"starts\_with"
 
-                          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                          - `"in"`
+"ends\_with"
 
-                          - `"not_in"`
+<a href="#">Link to this property</a>
 
-                        - `value: unknown`
+"in"
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                      - `object { clauses, logical_operator }`
+"not\_in"
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                          - `object { attribute, operator, value }`
+</details>
 
-                            - `attribute: string`
+<a href="#">Link to this property</a>
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<details>
 
-                              - `"equals"`
+<summary>
 
-                              - `"not_equals"`
+value: stringor numberor booleanor 2 more
 
-                              - `"greater_than"`
+</summary>
 
-                              - `"less_than"`
+One of the following:
 
-                              - `"greater_than_or_equals"`
+string
 
-                              - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"contains"`
+number
 
-                              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                              - `"ends_with"`
+boolean
 
-                              - `"in"`
+<a href="#">Link to this property</a>
 
-                              - `"not_in"`
+map\[unknown]
 
-                            - `value: unknown`
+<a href="#">Link to this property</a>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+array of unknown
 
-                          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                            - `clauses: array of string or number or boolean or 2 more`
+</details>
 
-                              - `string`
+<a href="#">Link to this property</a>
 
-                              - `number`
+</details>
 
-                              - `boolean`
+<a href="#">Link to this property</a>
 
-                              - `map[unknown]`
+<details>
 
-                              - `array of unknown`
+<summary>
 
-                            - `logical_operator: "AND" or "OR"`
+object {clauses, logical\_operator }
 
-                              - `"AND"`
+</summary>
 
-                              - `"OR"`
+<details>
 
-                        - `logical_operator: "AND" or "OR"`
+<summary>
 
-                          - `"AND"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                          - `"OR"`
+</summary>
 
-                    - `logical_operator: "AND" or "OR"`
+One of the following:
 
-                      - `"AND"`
+<details>
 
-                      - `"OR"`
+<summary>
 
-                - `logical_operator: "AND" or "OR"`
+object {attribute, operator, value }
 
-                  - `"AND"`
+</summary>
 
-                  - `"OR"`
+attribute: string
 
-            - `logical_operator: "AND" or "OR"`
+maxLength64
 
-              - `"AND"`
+minLength1
 
-              - `"OR"`
+<a href="#">Link to this property</a>
 
-        - `logical_operator: "AND" or "OR"`
+<details>
 
-          - `"AND"`
+<summary>
 
-          - `"OR"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-    - `priority: number`
+</summary>
 
-      Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+One of the following:
 
-    - `serve_variation: string`
+"equals"
 
-      Variation served when this rule matches. Must be a key in `variations`.
+<a href="#">Link to this property</a>
 
-    - `rollout: optional object { percentage, attribute }`
+"not\_equals"
 
-      - `percentage: number`
+<a href="#">Link to this property</a>
 
-        Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+"greater\_than"
 
-      - `attribute: optional string`
+<a href="#">Link to this property</a>
 
-        Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+"less\_than"
 
-  - `variations: map[string or number or boolean or 2 more]`
+<a href="#">Link to this property</a>
 
-    Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+"greater\_than\_or\_equals"
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+"less\_than\_or\_equals"
 
-    - `boolean`
+<a href="#">Link to this property</a>
 
-    - `map[unknown]`
+"contains"
 
-    - `array of unknown`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"starts\_with"
 
-  - `type: optional "boolean" or "string" or "number" or "json"`
+<a href="#">Link to this property</a>
 
-    Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+"ends\_with"
 
-    - `"boolean"`
+<a href="#">Link to this property</a>
 
-    - `"string"`
+"in"
 
-    - `"number"`
+<a href="#">Link to this property</a>
 
-    - `"json"`
+"not\_in"
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_by: optional string`
+</details>
 
-### Flag Create Response
+<a href="#">Link to this property</a>
 
-- `FlagCreateResponse object { default_variation, enabled, key, 6 more }`
+<details>
 
-  - `default_variation: string`
+<summary>
 
-    Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+value: stringor numberor booleanor 2 more
 
-  - `enabled: boolean`
+</summary>
 
-    When false, the flag bypasses all rules and always serves `default_variation`.
+One of the following:
 
-  - `key: string`
+string
 
-    Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+<a href="#">Link to this property</a>
 
-  - `rules: array of object { conditions, priority, serve_variation, rollout }`
+number
 
-    Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-    - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+boolean
 
-      Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<a href="#">Link to this property</a>
 
-      - `object { attribute, operator, value }`
+map\[unknown]
 
-        - `attribute: string`
+<a href="#">Link to this property</a>
 
-        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+array of unknown
 
-          - `"equals"`
+<a href="#">Link to this property</a>
 
-          - `"not_equals"`
+</details>
 
-          - `"greater_than"`
+<a href="#">Link to this property</a>
 
-          - `"less_than"`
+</details>
 
-          - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-          - `"less_than_or_equals"`
+<details>
 
-          - `"contains"`
+<summary>
 
-          - `"starts_with"`
+object {clauses, logical\_operator }
 
-          - `"ends_with"`
+</summary>
 
-          - `"in"`
+<details>
 
-          - `"not_in"`
+<summary>
 
-        - `value: unknown`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-      - `object { clauses, logical_operator }`
+One of the following:
 
-        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-          - `object { attribute, operator, value }`
+<summary>
 
-            - `attribute: string`
+object {attribute, operator, value }
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-              - `"equals"`
+attribute: string
 
-              - `"not_equals"`
+maxLength64
 
-              - `"greater_than"`
+minLength1
 
-              - `"less_than"`
+<a href="#">Link to this property</a>
 
-              - `"greater_than_or_equals"`
+<details>
 
-              - `"less_than_or_equals"`
+<summary>
 
-              - `"contains"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-              - `"starts_with"`
+</summary>
 
-              - `"ends_with"`
+One of the following:
 
-              - `"in"`
+"equals"
 
-              - `"not_in"`
+<a href="#">Link to this property</a>
 
-            - `value: unknown`
+"not\_equals"
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-          - `object { clauses, logical_operator }`
+"greater\_than"
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-              - `object { attribute, operator, value }`
+"less\_than"
 
-                - `attribute: string`
+<a href="#">Link to this property</a>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"greater\_than\_or\_equals"
 
-                  - `"equals"`
+<a href="#">Link to this property</a>
 
-                  - `"not_equals"`
+"less\_than\_or\_equals"
 
-                  - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than"`
+"contains"
 
-                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than_or_equals"`
+"starts\_with"
 
-                  - `"contains"`
+<a href="#">Link to this property</a>
 
-                  - `"starts_with"`
+"ends\_with"
 
-                  - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                  - `"in"`
+"in"
 
-                  - `"not_in"`
+<a href="#">Link to this property</a>
 
-                - `value: unknown`
+"not\_in"
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-              - `object { clauses, logical_operator }`
+</details>
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                  - `object { attribute, operator, value }`
+<details>
 
-                    - `attribute: string`
+<summary>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+value: stringor numberor booleanor 2 more
 
-                      - `"equals"`
+</summary>
 
-                      - `"not_equals"`
+One of the following:
 
-                      - `"greater_than"`
+string
 
-                      - `"less_than"`
+<a href="#">Link to this property</a>
 
-                      - `"greater_than_or_equals"`
+number
 
-                      - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"contains"`
+boolean
 
-                      - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                      - `"ends_with"`
+map\[unknown]
 
-                      - `"in"`
+<a href="#">Link to this property</a>
 
-                      - `"not_in"`
+array of unknown
 
-                    - `value: unknown`
+<a href="#">Link to this property</a>
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</details>
 
-                  - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</details>
 
-                      - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                        - `attribute: string`
+<details>
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<summary>
 
-                          - `"equals"`
+object {clauses, logical\_operator }
 
-                          - `"not_equals"`
+</summary>
 
-                          - `"greater_than"`
+<details>
 
-                          - `"less_than"`
+<summary>
 
-                          - `"greater_than_or_equals"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                          - `"less_than_or_equals"`
+</summary>
 
-                          - `"contains"`
+One of the following:
 
-                          - `"starts_with"`
+<details>
 
-                          - `"ends_with"`
+<summary>
 
-                          - `"in"`
+object {attribute, operator, value }
 
-                          - `"not_in"`
+</summary>
 
-                        - `value: unknown`
+attribute: string
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+maxLength64
 
-                      - `object { clauses, logical_operator }`
+minLength1
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                          - `object { attribute, operator, value }`
+<details>
 
-                            - `attribute: string`
+<summary>
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                              - `"equals"`
+</summary>
 
-                              - `"not_equals"`
+One of the following:
 
-                              - `"greater_than"`
+"equals"
 
-                              - `"less_than"`
+<a href="#">Link to this property</a>
 
-                              - `"greater_than_or_equals"`
+"not\_equals"
 
-                              - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"contains"`
+"greater\_than"
 
-                              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                              - `"ends_with"`
+"less\_than"
 
-                              - `"in"`
+<a href="#">Link to this property</a>
 
-                              - `"not_in"`
+"greater\_than\_or\_equals"
 
-                            - `value: unknown`
+<a href="#">Link to this property</a>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"less\_than\_or\_equals"
 
-                          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                            - `clauses: array of string or number or boolean or 2 more`
+"contains"
 
-                              - `string`
+<a href="#">Link to this property</a>
 
-                              - `number`
+"starts\_with"
 
-                              - `boolean`
+<a href="#">Link to this property</a>
 
-                              - `map[unknown]`
+"ends\_with"
 
-                              - `array of unknown`
+<a href="#">Link to this property</a>
 
-                            - `logical_operator: "AND" or "OR"`
+"in"
 
-                              - `"AND"`
+<a href="#">Link to this property</a>
 
-                              - `"OR"`
+"not\_in"
 
-                        - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                          - `"AND"`
+</details>
 
-                          - `"OR"`
+<a href="#">Link to this property</a>
 
-                    - `logical_operator: "AND" or "OR"`
+<details>
 
-                      - `"AND"`
+<summary>
 
-                      - `"OR"`
+value: stringor numberor booleanor 2 more
 
-                - `logical_operator: "AND" or "OR"`
+</summary>
 
-                  - `"AND"`
+One of the following:
 
-                  - `"OR"`
+string
 
-            - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-              - `"AND"`
+number
 
-              - `"OR"`
+<a href="#">Link to this property</a>
 
-        - `logical_operator: "AND" or "OR"`
+boolean
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+map\[unknown]
 
-    - `priority: number`
+<a href="#">Link to this property</a>
 
-      Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+array of unknown
 
-    - `serve_variation: string`
+<a href="#">Link to this property</a>
 
-      Variation served when this rule matches. Must be a key in `variations`.
+</details>
 
-    - `rollout: optional object { percentage, attribute }`
+<a href="#">Link to this property</a>
 
-      - `percentage: number`
+</details>
 
-        Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<a href="#">Link to this property</a>
 
-      - `attribute: optional string`
+<details>
 
-        Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+<summary>
 
-  - `variations: map[string or number or boolean or 2 more]`
+object {clauses, logical\_operator }
 
-    Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+</summary>
 
-    - `string`
+<details>
 
-    - `number`
+<summary>
 
-    - `boolean`
+clauses: array of stringor numberor booleanor 2 more
 
-    - `map[unknown]`
+</summary>
 
-    - `array of unknown`
+One of the following:
 
-  - `description: optional string`
+string
 
-  - `type: optional "boolean" or "string" or "number" or "json"`
+<a href="#">Link to this property</a>
 
-    Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+number
 
-    - `"boolean"`
+<a href="#">Link to this property</a>
 
-    - `"string"`
+boolean
 
-    - `"number"`
+<a href="#">Link to this property</a>
 
-    - `"json"`
+map\[unknown]
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_by: optional string`
+array of unknown
 
-### Flag Update Response
+<a href="#">Link to this property</a>
 
-- `FlagUpdateResponse object { default_variation, enabled, key, 6 more }`
+</details>
 
-  - `default_variation: string`
+<a href="#">Link to this property</a>
 
-    Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+<details>
 
-  - `enabled: boolean`
+<summary>
 
-    When false, the flag bypasses all rules and always serves `default_variation`.
+logical\_operator: "AND"or "OR"
 
-  - `key: string`
+</summary>
 
-    Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+One of the following:
 
-  - `rules: array of object { conditions, priority, serve_variation, rollout }`
+"AND"
 
-    Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-    - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"OR"
 
-      Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<a href="#">Link to this property</a>
 
-      - `object { attribute, operator, value }`
+</details>
 
-        - `attribute: string`
+<a href="#">Link to this property</a>
 
-        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</details>
 
-          - `"equals"`
+<a href="#">Link to this property</a>
 
-          - `"not_equals"`
+</details>
 
-          - `"greater_than"`
+<a href="#">Link to this property</a>
 
-          - `"less_than"`
+<details>
 
-          - `"greater_than_or_equals"`
+<summary>
 
-          - `"less_than_or_equals"`
+logical\_operator: "AND"or "OR"
 
-          - `"contains"`
+</summary>
 
-          - `"starts_with"`
+One of the following:
 
-          - `"ends_with"`
+"AND"
 
-          - `"in"`
+<a href="#">Link to this property</a>
 
-          - `"not_in"`
+"OR"
 
-        - `value: unknown`
+<a href="#">Link to this property</a>
 
-          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</details>
 
-      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</details>
 
-          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-            - `attribute: string`
+</details>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-              - `"equals"`
+<details>
 
-              - `"not_equals"`
+<summary>
 
-              - `"greater_than"`
+logical\_operator: "AND"or "OR"
 
-              - `"less_than"`
+</summary>
 
-              - `"greater_than_or_equals"`
+One of the following:
 
-              - `"less_than_or_equals"`
+"AND"
 
-              - `"contains"`
+<a href="#">Link to this property</a>
 
-              - `"starts_with"`
+"OR"
 
-              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-              - `"in"`
+</details>
 
-              - `"not_in"`
+<a href="#">Link to this property</a>
 
-            - `value: unknown`
+</details>
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-          - `object { clauses, logical_operator }`
+</details>
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-              - `object { attribute, operator, value }`
+<details>
 
-                - `attribute: string`
+<summary>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+logical\_operator: "AND"or "OR"
 
-                  - `"equals"`
+</summary>
 
-                  - `"not_equals"`
+One of the following:
 
-                  - `"greater_than"`
+"AND"
 
-                  - `"less_than"`
+<a href="#">Link to this property</a>
 
-                  - `"greater_than_or_equals"`
+"OR"
 
-                  - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"contains"`
+</details>
 
-                  - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                  - `"ends_with"`
+</details>
 
-                  - `"in"`
+<a href="#">Link to this property</a>
 
-                  - `"not_in"`
+</details>
 
-                - `value: unknown`
+<a href="#">Link to this property</a>
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<details>
 
-              - `object { clauses, logical_operator }`
+<summary>
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+logical\_operator: "AND"or "OR"
 
-                  - `object { attribute, operator, value }`
+</summary>
 
-                    - `attribute: string`
+One of the following:
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"AND"
 
-                      - `"equals"`
+<a href="#">Link to this property</a>
 
-                      - `"not_equals"`
+"OR"
 
-                      - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than"`
+</details>
 
-                      - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than_or_equals"`
+</details>
 
-                      - `"contains"`
+<a href="#">Link to this property</a>
 
-                      - `"starts_with"`
+</details>
 
-                      - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                      - `"in"`
+<details>
 
-                      - `"not_in"`
+<summary>
 
-                    - `value: unknown`
+logical\_operator: "AND"or "OR"
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-                  - `object { clauses, logical_operator }`
+One of the following:
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"AND"
 
-                      - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                        - `attribute: string`
+"OR"
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                          - `"equals"`
+</details>
 
-                          - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than"`
+</details>
 
-                          - `"less_than"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than_or_equals"`
+</details>
 
-                          - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"contains"`
+priority: number
 
-                          - `"starts_with"`
+Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag’s rules.
 
-                          - `"ends_with"`
+minimum1
 
-                          - `"in"`
+<a href="#">Link to this property</a>
 
-                          - `"not_in"`
+serve\_variation: string
 
-                        - `value: unknown`
+Variation the API serves when this rule matches. Must be a key in <code>variations</code>.
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+minLength1
 
-                      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-                          - `object { attribute, operator, value }`
+<summary>
 
-                            - `attribute: string`
+rollout: optional object {percentage, attribute }
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-                              - `"equals"`
+percentage: number
 
-                              - `"not_equals"`
+Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
 
-                              - `"greater_than"`
+maximum100
 
-                              - `"less_than"`
+minimum0
 
-                              - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"less_than_or_equals"`
+attribute: optional string
 
-                              - `"contains"`
+Context attribute used for sticky bucketing. Defaults to <code>targetingKey</code>. If absent at evaluation time, bucketing is random per request.
 
-                              - `"starts_with"`
+minLength1
 
-                              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                              - `"in"`
+</details>
 
-                              - `"not_in"`
+<a href="#">Link to this property</a>
 
-                            - `value: unknown`
+</details>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                          - `object { clauses, logical_operator }`
+<details>
 
-                            - `clauses: array of string or number or boolean or 2 more`
+<summary>
 
-                              - `string`
+type: "boolean"or "string"or "number"or "json"
 
-                              - `number`
+Server-inferred value type shared by all of the flag’s variations.
 
-                              - `boolean`
+</summary>
 
-                              - `map[unknown]`
+One of the following:
 
-                              - `array of unknown`
+"boolean"
 
-                            - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                              - `"AND"`
+"string"
 
-                              - `"OR"`
+<a href="#">Link to this property</a>
 
-                        - `logical_operator: "AND" or "OR"`
+"number"
 
-                          - `"AND"`
+<a href="#">Link to this property</a>
 
-                          - `"OR"`
+"json"
 
-                    - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                      - `"AND"`
+</details>
 
-                      - `"OR"`
+<a href="#">Link to this property</a>
 
-                - `logical_operator: "AND" or "OR"`
+<details>
 
-                  - `"AND"`
+<summary>
 
-                  - `"OR"`
+variations: map\[stringor numberor booleanor 2 more]
 
-            - `logical_operator: "AND" or "OR"`
+Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.
 
-              - `"AND"`
+</summary>
 
-              - `"OR"`
+One of the following:
 
-        - `logical_operator: "AND" or "OR"`
+string
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+number
 
-    - `priority: number`
+<a href="#">Link to this property</a>
 
-      Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+boolean
 
-    - `serve_variation: string`
+<a href="#">Link to this property</a>
 
-      Variation served when this rule matches. Must be a key in `variations`.
+map\[unknown]
 
-    - `rollout: optional object { percentage, attribute }`
+<a href="#">Link to this property</a>
 
-      - `percentage: number`
+array of unknown
 
-        Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<a href="#">Link to this property</a>
 
-      - `attribute: optional string`
+</details>
 
-        Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+<a href="#">Link to this property</a>
 
-  - `variations: map[string or number or boolean or 2 more]`
+description: optional string
 
-    Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+maxLength512
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+updated\_at: optional string
 
-    - `boolean`
+<a href="#">Link to this property</a>
 
-    - `map[unknown]`
+updated\_by: optional string
 
-    - `array of unknown`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-  - `type: optional "boolean" or "string" or "number" or "json"`
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(model)%20flag_create_response%20%3E%20(schema)>)
 
-    Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<details>
 
-    - `"boolean"`
+<summary>
 
-    - `"string"`
+FlagUpdateResponse object {default\_variation, enabled, key, 6 more }
 
-    - `"number"`
+</summary>
 
-    - `"json"`
+default\_variation: string
 
-  - `updated_at: optional string`
+Variation the API serves when the flag is off, or when it’s on but no rule matches the context. Must be a key in <code>variations</code>.
 
-  - `updated_by: optional string`
+minLength1
 
-### Flag Delete Response
+<a href="#">Link to this property</a>
 
-- `FlagDeleteResponse object { key }`
+enabled: boolean
 
-  - `key: string`
+When false, the flag bypasses all rules and always serves <code>default_variation</code>.
 
-# Changelog
+<a href="#">Link to this property</a>
 
-## Get flag changelog
+key: string
 
-**get** `/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}/changelog`
+Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
 
-Returns the audit history for a flag, newest first. Each entry includes the event type and full flag state after the change; `update` entries include a field-level diff. Capped at 200 entries per flag.
+maxLength64
 
-### Path Parameters
+minLength1
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Cloudflare account ID.
+<details>
 
-- `app_id: string`
+<summary>
 
-  App identifier.
+rules: array of object {conditions, priority, serve\_variation, rollout }
 
-- `flag_key: string`
+Targeting rules evaluated in ascending <code>priority</code>; the first matching rule wins. An empty array means the flag always serves <code>default_variation</code>.
 
-  Flag key (slug).
+</summary>
 
-### Query Parameters
+<details>
 
-- `cursor: optional string`
+<summary>
 
-  Pagination cursor from a previous response.
+conditions: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-- `limit: optional string`
+Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
 
-  Max items to return (1–200).
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { message }`
+<details>
 
-  - `message: string`
+<summary>
 
-- `messages: array of object { message }`
+object {attribute, operator, value }
 
-  - `message: string`
+</summary>
 
-- `result: array of object { after, event, flag_key }  or object { after, event, flag_key }  or object { after, diff, event, flag_key }`
+attribute: string
 
-  - `object { after, event, flag_key }`
+maxLength64
 
-    - `after: object { default_variation, enabled, key, 6 more }`
+minLength1
 
-      - `default_variation: string`
+<a href="#">Link to this property</a>
 
-        Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+<details>
 
-      - `enabled: boolean`
+<summary>
 
-        When false, the flag bypasses all rules and always serves `default_variation`.
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-      - `key: string`
+</summary>
 
-        Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+One of the following:
 
-      - `rules: array of object { conditions, priority, serve_variation, rollout }`
+"equals"
 
-        Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-        - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"not\_equals"
 
-          Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<a href="#">Link to this property</a>
 
-          - `object { attribute, operator, value }`
+"greater\_than"
 
-            - `attribute: string`
+<a href="#">Link to this property</a>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"less\_than"
 
-              - `"equals"`
+<a href="#">Link to this property</a>
 
-              - `"not_equals"`
+"greater\_than\_or\_equals"
 
-              - `"greater_than"`
+<a href="#">Link to this property</a>
 
-              - `"less_than"`
+"less\_than\_or\_equals"
 
-              - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-              - `"less_than_or_equals"`
+"contains"
 
-              - `"contains"`
+<a href="#">Link to this property</a>
 
-              - `"starts_with"`
+"starts\_with"
 
-              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-              - `"in"`
+"ends\_with"
 
-              - `"not_in"`
+<a href="#">Link to this property</a>
 
-            - `value: unknown`
+"in"
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-          - `object { clauses, logical_operator }`
+"not\_in"
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-              - `object { attribute, operator, value }`
+</details>
 
-                - `attribute: string`
+<a href="#">Link to this property</a>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<details>
 
-                  - `"equals"`
+<summary>
 
-                  - `"not_equals"`
+value: stringor numberor booleanor 2 more
 
-                  - `"greater_than"`
+</summary>
 
-                  - `"less_than"`
+One of the following:
 
-                  - `"greater_than_or_equals"`
+string
 
-                  - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"contains"`
+number
 
-                  - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                  - `"ends_with"`
+boolean
 
-                  - `"in"`
+<a href="#">Link to this property</a>
 
-                  - `"not_in"`
+map\[unknown]
 
-                - `value: unknown`
+<a href="#">Link to this property</a>
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+array of unknown
 
-              - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</details>
 
-                  - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                    - `attribute: string`
+</details>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                      - `"equals"`
+<details>
 
-                      - `"not_equals"`
+<summary>
 
-                      - `"greater_than"`
+object {clauses, logical\_operator }
 
-                      - `"less_than"`
+</summary>
 
-                      - `"greater_than_or_equals"`
+<details>
 
-                      - `"less_than_or_equals"`
+<summary>
 
-                      - `"contains"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                      - `"starts_with"`
+</summary>
 
-                      - `"ends_with"`
+One of the following:
 
-                      - `"in"`
+<details>
 
-                      - `"not_in"`
+<summary>
 
-                    - `value: unknown`
+object {attribute, operator, value }
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-                  - `object { clauses, logical_operator }`
+attribute: string
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+maxLength64
 
-                      - `object { attribute, operator, value }`
+minLength1
 
-                        - `attribute: string`
+<a href="#">Link to this property</a>
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<details>
 
-                          - `"equals"`
+<summary>
 
-                          - `"not_equals"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                          - `"greater_than"`
+</summary>
 
-                          - `"less_than"`
+One of the following:
 
-                          - `"greater_than_or_equals"`
+"equals"
 
-                          - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"contains"`
+"not\_equals"
 
-                          - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                          - `"ends_with"`
+"greater\_than"
 
-                          - `"in"`
+<a href="#">Link to this property</a>
 
-                          - `"not_in"`
+"less\_than"
 
-                        - `value: unknown`
+<a href="#">Link to this property</a>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"greater\_than\_or\_equals"
 
-                      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"less\_than\_or\_equals"
 
-                          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                            - `attribute: string`
+"contains"
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                              - `"equals"`
+"starts\_with"
 
-                              - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"greater_than"`
+"ends\_with"
 
-                              - `"less_than"`
+<a href="#">Link to this property</a>
 
-                              - `"greater_than_or_equals"`
+"in"
 
-                              - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"contains"`
+"not\_in"
 
-                              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                              - `"ends_with"`
+</details>
 
-                              - `"in"`
+<a href="#">Link to this property</a>
 
-                              - `"not_in"`
+<details>
 
-                            - `value: unknown`
+<summary>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+value: stringor numberor booleanor 2 more
 
-                          - `object { clauses, logical_operator }`
+</summary>
 
-                            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+One of the following:
 
-                              - `object { attribute, operator, value }`
+string
 
-                                - `attribute: string`
+<a href="#">Link to this property</a>
 
-                                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+number
 
-                                  - `"equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"not_equals"`
+boolean
 
-                                  - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                                  - `"less_than"`
+map\[unknown]
 
-                                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"less_than_or_equals"`
+array of unknown
 
-                                  - `"contains"`
+<a href="#">Link to this property</a>
 
-                                  - `"starts_with"`
+</details>
 
-                                  - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                                  - `"in"`
+</details>
 
-                                  - `"not_in"`
+<a href="#">Link to this property</a>
 
-                                - `value: unknown`
+<details>
 
-                                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<summary>
 
-                              - `object { clauses, logical_operator }`
+object {clauses, logical\_operator }
 
-                                - `clauses: array of string or number or boolean or 2 more`
+</summary>
 
-                                  - `string`
+<details>
 
-                                  - `number`
+<summary>
 
-                                  - `boolean`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                                  - `map[unknown]`
+</summary>
 
-                                  - `array of unknown`
+One of the following:
 
-                                - `logical_operator: "AND" or "OR"`
+<details>
 
-                                  - `"AND"`
+<summary>
 
-                                  - `"OR"`
+object {attribute, operator, value }
 
-                            - `logical_operator: "AND" or "OR"`
+</summary>
 
-                              - `"AND"`
+attribute: string
 
-                              - `"OR"`
+maxLength64
 
-                        - `logical_operator: "AND" or "OR"`
+minLength1
 
-                          - `"AND"`
+<a href="#">Link to this property</a>
 
-                          - `"OR"`
+<details>
 
-                    - `logical_operator: "AND" or "OR"`
+<summary>
 
-                      - `"AND"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                      - `"OR"`
+</summary>
 
-                - `logical_operator: "AND" or "OR"`
+One of the following:
 
-                  - `"AND"`
+"equals"
 
-                  - `"OR"`
+<a href="#">Link to this property</a>
 
-            - `logical_operator: "AND" or "OR"`
+"not\_equals"
 
-              - `"AND"`
+<a href="#">Link to this property</a>
 
-              - `"OR"`
+"greater\_than"
 
-        - `priority: number`
+<a href="#">Link to this property</a>
 
-          Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+"less\_than"
 
-        - `serve_variation: string`
+<a href="#">Link to this property</a>
 
-          Variation served when this rule matches. Must be a key in `variations`.
+"greater\_than\_or\_equals"
 
-        - `rollout: optional object { percentage, attribute }`
+<a href="#">Link to this property</a>
 
-          - `percentage: number`
+"less\_than\_or\_equals"
 
-            Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<a href="#">Link to this property</a>
 
-          - `attribute: optional string`
+"contains"
 
-            Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+<a href="#">Link to this property</a>
 
-      - `variations: map[string or number or boolean or 2 more]`
+"starts\_with"
 
-        Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+<a href="#">Link to this property</a>
 
-        - `string`
+"ends\_with"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+"in"
 
-        - `map[unknown]`
+<a href="#">Link to this property</a>
 
-        - `array of unknown`
+"not\_in"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "boolean" or "string" or "number" or "json"`
+</details>
 
-        Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+<details>
 
-        - `"string"`
+<summary>
 
-        - `"number"`
+value: stringor numberor booleanor 2 more
 
-        - `"json"`
+</summary>
 
-      - `updated_at: optional string`
+One of the following:
 
-      - `updated_by: optional string`
+string
 
-    - `event: "create"`
+<a href="#">Link to this property</a>
 
-      - `"create"`
+number
 
-    - `flag_key: string`
+<a href="#">Link to this property</a>
 
-  - `object { after, event, flag_key }`
+boolean
 
-    - `after: object { default_variation, enabled, key, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `default_variation: string`
+map\[unknown]
 
-        Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+array of unknown
 
-        When false, the flag bypasses all rules and always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-      - `key: string`
+</details>
 
-        Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+<a href="#">Link to this property</a>
 
-      - `rules: array of object { conditions, priority, serve_variation, rollout }`
+</details>
 
-        Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-        - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-          Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<summary>
 
-          - `object { attribute, operator, value }`
+object {clauses, logical\_operator }
 
-            - `attribute: string`
+</summary>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<details>
 
-              - `"equals"`
+<summary>
 
-              - `"not_equals"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-              - `"greater_than"`
+</summary>
 
-              - `"less_than"`
+One of the following:
 
-              - `"greater_than_or_equals"`
+<details>
 
-              - `"less_than_or_equals"`
+<summary>
 
-              - `"contains"`
+object {attribute, operator, value }
 
-              - `"starts_with"`
+</summary>
 
-              - `"ends_with"`
+attribute: string
 
-              - `"in"`
+maxLength64
 
-              - `"not_in"`
+minLength1
 
-            - `value: unknown`
+<a href="#">Link to this property</a>
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<details>
 
-          - `object { clauses, logical_operator }`
+<summary>
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-              - `object { attribute, operator, value }`
+</summary>
 
-                - `attribute: string`
+One of the following:
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"equals"
 
-                  - `"equals"`
+<a href="#">Link to this property</a>
 
-                  - `"not_equals"`
+"not\_equals"
 
-                  - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than"`
+"greater\_than"
 
-                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than_or_equals"`
+"less\_than"
 
-                  - `"contains"`
+<a href="#">Link to this property</a>
 
-                  - `"starts_with"`
+"greater\_than\_or\_equals"
 
-                  - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                  - `"in"`
+"less\_than\_or\_equals"
 
-                  - `"not_in"`
+<a href="#">Link to this property</a>
 
-                - `value: unknown`
+"contains"
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-              - `object { clauses, logical_operator }`
+"starts\_with"
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                  - `object { attribute, operator, value }`
+"ends\_with"
 
-                    - `attribute: string`
+<a href="#">Link to this property</a>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"in"
 
-                      - `"equals"`
+<a href="#">Link to this property</a>
 
-                      - `"not_equals"`
+"not\_in"
 
-                      - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than"`
+</details>
 
-                      - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than_or_equals"`
+<details>
 
-                      - `"contains"`
+<summary>
 
-                      - `"starts_with"`
+value: stringor numberor booleanor 2 more
 
-                      - `"ends_with"`
+</summary>
 
-                      - `"in"`
+One of the following:
 
-                      - `"not_in"`
+string
 
-                    - `value: unknown`
+<a href="#">Link to this property</a>
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+number
 
-                  - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+boolean
 
-                      - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                        - `attribute: string`
+map\[unknown]
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                          - `"equals"`
+array of unknown
 
-                          - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than"`
+</details>
 
-                          - `"less_than"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than_or_equals"`
+</details>
 
-                          - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"contains"`
+<details>
 
-                          - `"starts_with"`
+<summary>
 
-                          - `"ends_with"`
+object {clauses, logical\_operator }
 
-                          - `"in"`
+</summary>
 
-                          - `"not_in"`
+<details>
 
-                        - `value: unknown`
+<summary>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                      - `object { clauses, logical_operator }`
+</summary>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+One of the following:
 
-                          - `object { attribute, operator, value }`
+<details>
 
-                            - `attribute: string`
+<summary>
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+object {attribute, operator, value }
 
-                              - `"equals"`
+</summary>
 
-                              - `"not_equals"`
+attribute: string
 
-                              - `"greater_than"`
+maxLength64
 
-                              - `"less_than"`
+minLength1
 
-                              - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"less_than_or_equals"`
+<details>
 
-                              - `"contains"`
+<summary>
 
-                              - `"starts_with"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                              - `"ends_with"`
+</summary>
 
-                              - `"in"`
+One of the following:
 
-                              - `"not_in"`
+"equals"
 
-                            - `value: unknown`
+<a href="#">Link to this property</a>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"not\_equals"
 
-                          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"greater\_than"
 
-                              - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                                - `attribute: string`
+"less\_than"
 
-                                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                                  - `"equals"`
+"greater\_than\_or\_equals"
 
-                                  - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"greater_than"`
+"less\_than\_or\_equals"
 
-                                  - `"less_than"`
+<a href="#">Link to this property</a>
 
-                                  - `"greater_than_or_equals"`
+"contains"
 
-                                  - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"contains"`
+"starts\_with"
 
-                                  - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                                  - `"ends_with"`
+"ends\_with"
 
-                                  - `"in"`
+<a href="#">Link to this property</a>
 
-                                  - `"not_in"`
+"in"
 
-                                - `value: unknown`
+<a href="#">Link to this property</a>
 
-                                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"not\_in"
 
-                              - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                                - `clauses: array of string or number or boolean or 2 more`
+</details>
 
-                                  - `string`
+<a href="#">Link to this property</a>
 
-                                  - `number`
+<details>
 
-                                  - `boolean`
+<summary>
 
-                                  - `map[unknown]`
+value: stringor numberor booleanor 2 more
 
-                                  - `array of unknown`
+</summary>
 
-                                - `logical_operator: "AND" or "OR"`
+One of the following:
 
-                                  - `"AND"`
+string
 
-                                  - `"OR"`
+<a href="#">Link to this property</a>
 
-                            - `logical_operator: "AND" or "OR"`
+number
 
-                              - `"AND"`
+<a href="#">Link to this property</a>
 
-                              - `"OR"`
+boolean
 
-                        - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                          - `"AND"`
+map\[unknown]
 
-                          - `"OR"`
+<a href="#">Link to this property</a>
 
-                    - `logical_operator: "AND" or "OR"`
+array of unknown
 
-                      - `"AND"`
+<a href="#">Link to this property</a>
 
-                      - `"OR"`
+</details>
 
-                - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                  - `"AND"`
+</details>
 
-                  - `"OR"`
+<a href="#">Link to this property</a>
 
-            - `logical_operator: "AND" or "OR"`
+<details>
 
-              - `"AND"`
+<summary>
 
-              - `"OR"`
+object {clauses, logical\_operator }
 
-        - `priority: number`
+</summary>
 
-          Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+<details>
 
-        - `serve_variation: string`
+<summary>
 
-          Variation served when this rule matches. Must be a key in `variations`.
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-        - `rollout: optional object { percentage, attribute }`
+</summary>
 
-          - `percentage: number`
+One of the following:
 
-            Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<details>
 
-          - `attribute: optional string`
+<summary>
 
-            Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+object {attribute, operator, value }
 
-      - `variations: map[string or number or boolean or 2 more]`
+</summary>
 
-        Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+attribute: string
 
-        - `string`
+maxLength64
 
-        - `number`
+minLength1
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-        - `map[unknown]`
+<details>
 
-        - `array of unknown`
+<summary>
 
-      - `description: optional string`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-      - `type: optional "boolean" or "string" or "number" or "json"`
+</summary>
 
-        Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+One of the following:
 
-        - `"boolean"`
+"equals"
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+"not\_equals"
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: optional string`
+"greater\_than"
 
-      - `updated_by: optional string`
+<a href="#">Link to this property</a>
 
-    - `event: "delete"`
+"less\_than"
 
-      - `"delete"`
+<a href="#">Link to this property</a>
 
-    - `flag_key: string`
+"greater\_than\_or\_equals"
 
-  - `object { after, diff, event, flag_key }`
+<a href="#">Link to this property</a>
 
-    - `after: object { default_variation, enabled, key, 6 more }`
+"less\_than\_or\_equals"
 
-      - `default_variation: string`
+<a href="#">Link to this property</a>
 
-        Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+"contains"
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        When false, the flag bypasses all rules and always serves `default_variation`.
+"starts\_with"
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+"ends\_with"
 
-      - `rules: array of object { conditions, priority, serve_variation, rollout }`
+<a href="#">Link to this property</a>
 
-        Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+"in"
 
-        - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-          Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+"not\_in"
 
-          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-            - `attribute: string`
+</details>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-              - `"equals"`
+<details>
 
-              - `"not_equals"`
+<summary>
 
-              - `"greater_than"`
+value: stringor numberor booleanor 2 more
 
-              - `"less_than"`
+</summary>
 
-              - `"greater_than_or_equals"`
+One of the following:
 
-              - `"less_than_or_equals"`
+string
 
-              - `"contains"`
+<a href="#">Link to this property</a>
 
-              - `"starts_with"`
+number
 
-              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-              - `"in"`
+boolean
 
-              - `"not_in"`
+<a href="#">Link to this property</a>
 
-            - `value: unknown`
+map\[unknown]
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-          - `object { clauses, logical_operator }`
+array of unknown
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-              - `object { attribute, operator, value }`
+</details>
 
-                - `attribute: string`
+<a href="#">Link to this property</a>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</details>
 
-                  - `"equals"`
+<a href="#">Link to this property</a>
 
-                  - `"not_equals"`
+<details>
 
-                  - `"greater_than"`
+<summary>
 
-                  - `"less_than"`
+object {clauses, logical\_operator }
 
-                  - `"greater_than_or_equals"`
+</summary>
 
-                  - `"less_than_or_equals"`
+<details>
 
-                  - `"contains"`
+<summary>
 
-                  - `"starts_with"`
+clauses: array of stringor numberor booleanor 2 more
 
-                  - `"ends_with"`
+</summary>
 
-                  - `"in"`
+One of the following:
 
-                  - `"not_in"`
+string
 
-                - `value: unknown`
+<a href="#">Link to this property</a>
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+number
 
-              - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+boolean
 
-                  - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                    - `attribute: string`
+map\[unknown]
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                      - `"equals"`
+array of unknown
 
-                      - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"greater_than"`
+</details>
 
-                      - `"less_than"`
+<a href="#">Link to this property</a>
 
-                      - `"greater_than_or_equals"`
+<details>
 
-                      - `"less_than_or_equals"`
+<summary>
 
-                      - `"contains"`
+logical\_operator: "AND"or "OR"
 
-                      - `"starts_with"`
+</summary>
 
-                      - `"ends_with"`
+One of the following:
 
-                      - `"in"`
+"AND"
 
-                      - `"not_in"`
+<a href="#">Link to this property</a>
 
-                    - `value: unknown`
+"OR"
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                  - `object { clauses, logical_operator }`
+</details>
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                      - `object { attribute, operator, value }`
+</details>
 
-                        - `attribute: string`
+<a href="#">Link to this property</a>
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</details>
 
-                          - `"equals"`
+<a href="#">Link to this property</a>
 
-                          - `"not_equals"`
+<details>
 
-                          - `"greater_than"`
+<summary>
 
-                          - `"less_than"`
+logical\_operator: "AND"or "OR"
 
-                          - `"greater_than_or_equals"`
+</summary>
 
-                          - `"less_than_or_equals"`
+One of the following:
 
-                          - `"contains"`
+"AND"
 
-                          - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                          - `"ends_with"`
+"OR"
 
-                          - `"in"`
+<a href="#">Link to this property</a>
 
-                          - `"not_in"`
+</details>
 
-                        - `value: unknown`
+<a href="#">Link to this property</a>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</details>
 
-                      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</details>
 
-                          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                            - `attribute: string`
+<details>
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<summary>
 
-                              - `"equals"`
+logical\_operator: "AND"or "OR"
 
-                              - `"not_equals"`
+</summary>
 
-                              - `"greater_than"`
+One of the following:
 
-                              - `"less_than"`
+"AND"
 
-                              - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"less_than_or_equals"`
+"OR"
 
-                              - `"contains"`
+<a href="#">Link to this property</a>
 
-                              - `"starts_with"`
+</details>
 
-                              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                              - `"in"`
+</details>
 
-                              - `"not_in"`
+<a href="#">Link to this property</a>
 
-                            - `value: unknown`
+</details>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                          - `object { clauses, logical_operator }`
+<details>
 
-                            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<summary>
 
-                              - `object { attribute, operator, value }`
+logical\_operator: "AND"or "OR"
 
-                                - `attribute: string`
+</summary>
 
-                                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+One of the following:
 
-                                  - `"equals"`
+"AND"
 
-                                  - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"greater_than"`
+"OR"
 
-                                  - `"less_than"`
+<a href="#">Link to this property</a>
 
-                                  - `"greater_than_or_equals"`
+</details>
 
-                                  - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"contains"`
+</details>
 
-                                  - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                                  - `"ends_with"`
+</details>
 
-                                  - `"in"`
+<a href="#">Link to this property</a>
 
-                                  - `"not_in"`
+<details>
 
-                                - `value: unknown`
+<summary>
 
-                                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+logical\_operator: "AND"or "OR"
 
-                              - `object { clauses, logical_operator }`
+</summary>
 
-                                - `clauses: array of string or number or boolean or 2 more`
+One of the following:
 
-                                  - `string`
+"AND"
 
-                                  - `number`
+<a href="#">Link to this property</a>
 
-                                  - `boolean`
+"OR"
 
-                                  - `map[unknown]`
+<a href="#">Link to this property</a>
 
-                                  - `array of unknown`
+</details>
 
-                                - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                                  - `"AND"`
+</details>
 
-                                  - `"OR"`
+<a href="#">Link to this property</a>
 
-                            - `logical_operator: "AND" or "OR"`
+</details>
 
-                              - `"AND"`
+<a href="#">Link to this property</a>
 
-                              - `"OR"`
+<details>
 
-                        - `logical_operator: "AND" or "OR"`
+<summary>
 
-                          - `"AND"`
+logical\_operator: "AND"or "OR"
 
-                          - `"OR"`
+</summary>
 
-                    - `logical_operator: "AND" or "OR"`
+One of the following:
 
-                      - `"AND"`
+"AND"
 
-                      - `"OR"`
+<a href="#">Link to this property</a>
 
-                - `logical_operator: "AND" or "OR"`
+"OR"
 
-                  - `"AND"`
+<a href="#">Link to this property</a>
 
-                  - `"OR"`
+</details>
 
-            - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-              - `"AND"`
+</details>
 
-              - `"OR"`
+<a href="#">Link to this property</a>
 
-        - `priority: number`
+</details>
 
-          Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+<a href="#">Link to this property</a>
 
-        - `serve_variation: string`
+priority: number
 
-          Variation served when this rule matches. Must be a key in `variations`.
+Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag’s rules.
 
-        - `rollout: optional object { percentage, attribute }`
+minimum1
 
-          - `percentage: number`
+<a href="#">Link to this property</a>
 
-            Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+serve\_variation: string
 
-          - `attribute: optional string`
+Variation the API serves when this rule matches. Must be a key in <code>variations</code>.
 
-            Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+minLength1
 
-      - `variations: map[string or number or boolean or 2 more]`
+<a href="#">Link to this property</a>
 
-        Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+<details>
 
-        - `string`
+<summary>
 
-        - `number`
+rollout: optional object {percentage, attribute }
 
-        - `boolean`
+</summary>
 
-        - `map[unknown]`
+percentage: number
 
-        - `array of unknown`
+Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
 
-      - `description: optional string`
+maximum100
 
-      - `type: optional "boolean" or "string" or "number" or "json"`
+minimum0
 
-        Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+attribute: optional string
 
-        - `"string"`
+Context attribute used for sticky bucketing. Defaults to <code>targetingKey</code>. If absent at evaluation time, bucketing is random per request.
 
-        - `"number"`
+minLength1
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: optional string`
+</details>
 
-      - `updated_by: optional string`
+<a href="#">Link to this property</a>
 
-    - `diff: map[object { from, to } ]`
+</details>
 
-      - `from: optional string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-        - `string`
+<details>
 
-        - `number`
+<summary>
 
-        - `boolean`
+type: "boolean"or "string"or "number"or "json"
 
-        - `map[unknown]`
+Server-inferred value type shared by all of the flag’s variations.
 
-        - `array of unknown`
+</summary>
 
-      - `to: optional string or number or boolean or 2 more`
+One of the following:
 
-        - `string`
+"boolean"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+"string"
 
-        - `map[unknown]`
+<a href="#">Link to this property</a>
 
-        - `array of unknown`
+"number"
 
-    - `event: "update"`
+<a href="#">Link to this property</a>
 
-      - `"update"`
+"json"
 
-    - `flag_key: string`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, cursor }`
+</details>
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-    Number of items returned in this page.
+<details>
 
-  - `cursor: string`
+<summary>
 
-    Cursor to pass back to fetch the next page, or null when this is the last page.
+variations: map\[stringor numberor booleanor 2 more]
 
-- `success: boolean`
+Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID/flags/$FLAG_KEY/changelog \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+string
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "after": {
-        "default_variation": "x",
-        "enabled": true,
-        "key": "x",
-        "rules": [
-          {
-            "conditions": [
-              {
-                "attribute": "x",
-                "operator": "equals",
-                "value": {}
-              }
-            ],
-            "priority": 1,
-            "serve_variation": "x",
-            "rollout": {
-              "percentage": 0,
-              "attribute": "x"
-            }
-          }
-        ],
-        "variations": {
-          "foo": "string"
-        },
-        "description": "description",
-        "type": "boolean",
-        "updated_at": "updated_at",
-        "updated_by": "updated_by"
-      },
-      "event": "create",
-      "flag_key": "flag_key"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "cursor": "cursor"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+number
 
-### Changelog List Response
+<a href="#">Link to this property</a>
 
-- `ChangelogListResponse = object { after, event, flag_key }  or object { after, event, flag_key }  or object { after, diff, event, flag_key }`
+boolean
 
-  - `object { after, event, flag_key }`
+<a href="#">Link to this property</a>
 
-    - `after: object { default_variation, enabled, key, 6 more }`
+map\[unknown]
 
-      - `default_variation: string`
+<a href="#">Link to this property</a>
 
-        Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+array of unknown
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        When false, the flag bypasses all rules and always serves `default_variation`.
+</details>
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+description: optional string
 
-      - `rules: array of object { conditions, priority, serve_variation, rollout }`
+maxLength512
 
-        Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-        - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+updated\_at: optional string
 
-          Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<a href="#">Link to this property</a>
 
-          - `object { attribute, operator, value }`
+updated\_by: optional string
 
-            - `attribute: string`
+<a href="#">Link to this property</a>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</details>
 
-              - `"equals"`
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(model)%20flag_update_response%20%3E%20(schema)>)
 
-              - `"not_equals"`
+<details>
 
-              - `"greater_than"`
+<summary>
 
-              - `"less_than"`
+FlagDeleteResponse object {key }
 
-              - `"greater_than_or_equals"`
+</summary>
 
-              - `"less_than_or_equals"`
+key: string
 
-              - `"contains"`
+<a href="#">Link to this property</a>
 
-              - `"starts_with"`
+</details>
 
-              - `"ends_with"`
+[Link to this property](#)%20flagship.apps.flags%20%3E%20(model)%20flag_delete_response%20%3E%20(schema)>)
 
-              - `"in"`
+#### FlagsChangelog
 
-              - `"not_in"`
+##### [Get flag changelog](https://developers.cloudflare.com/api/resources/flagship/subresources/apps/subresources/flags/subresources/changelog/methods/list)
 
-            - `value: unknown`
+GET/accounts/{account\_id}/flagship/apps/{app\_id}/flags/{flag\_key}/changelog
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+##### ModelsExpand Collapse
 
-          - `object { clauses, logical_operator }`
+<details>
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<summary>
 
-              - `object { attribute, operator, value }`
+ChangelogListResponse = object {after, event, flag\_key } or object {after, event, flag\_key } or object {after, diff, event, flag\_key }
 
-                - `attribute: string`
+</summary>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+One of the following:
 
-                  - `"equals"`
+<details>
 
-                  - `"not_equals"`
+<summary>
 
-                  - `"greater_than"`
+object {after, event, flag\_key }
 
-                  - `"less_than"`
+</summary>
 
-                  - `"greater_than_or_equals"`
+<details>
 
-                  - `"less_than_or_equals"`
+<summary>
 
-                  - `"contains"`
+after: object {default\_variation, enabled, key, 6 more }
 
-                  - `"starts_with"`
+</summary>
 
-                  - `"ends_with"`
+default\_variation: string
 
-                  - `"in"`
+Variation the API serves when the flag is off, or when it’s on but no rule matches the context. Must be a key in <code>variations</code>.
 
-                  - `"not_in"`
+minLength1
 
-                - `value: unknown`
+<a href="#">Link to this property</a>
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+enabled: boolean
 
-              - `object { clauses, logical_operator }`
+When false, the flag bypasses all rules and always serves <code>default_variation</code>.
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                  - `object { attribute, operator, value }`
+key: string
 
-                    - `attribute: string`
+Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+maxLength64
 
-                      - `"equals"`
+minLength1
 
-                      - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"greater_than"`
+<details>
 
-                      - `"less_than"`
+<summary>
 
-                      - `"greater_than_or_equals"`
+rules: array of object {conditions, priority, serve\_variation, rollout }
 
-                      - `"less_than_or_equals"`
+Targeting rules evaluated in ascending <code>priority</code>; the first matching rule wins. An empty array means the flag always serves <code>default_variation</code>.
 
-                      - `"contains"`
+</summary>
 
-                      - `"starts_with"`
+<details>
 
-                      - `"ends_with"`
+<summary>
 
-                      - `"in"`
+conditions: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                      - `"not_in"`
+Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
 
-                    - `value: unknown`
+</summary>
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+One of the following:
 
-                  - `object { clauses, logical_operator }`
+<details>
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<summary>
 
-                      - `object { attribute, operator, value }`
+object {attribute, operator, value }
 
-                        - `attribute: string`
+</summary>
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+attribute: string
 
-                          - `"equals"`
+maxLength64
 
-                          - `"not_equals"`
+minLength1
 
-                          - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                          - `"less_than"`
+<details>
 
-                          - `"greater_than_or_equals"`
+<summary>
 
-                          - `"less_than_or_equals"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                          - `"contains"`
+</summary>
 
-                          - `"starts_with"`
+One of the following:
 
-                          - `"ends_with"`
+"equals"
 
-                          - `"in"`
+<a href="#">Link to this property</a>
 
-                          - `"not_in"`
+"not\_equals"
 
-                        - `value: unknown`
+<a href="#">Link to this property</a>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"greater\_than"
 
-                      - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"less\_than"
 
-                          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                            - `attribute: string`
+"greater\_than\_or\_equals"
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                              - `"equals"`
+"less\_than\_or\_equals"
 
-                              - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"greater_than"`
+"contains"
 
-                              - `"less_than"`
+<a href="#">Link to this property</a>
 
-                              - `"greater_than_or_equals"`
+"starts\_with"
 
-                              - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"contains"`
+"ends\_with"
 
-                              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                              - `"ends_with"`
+"in"
 
-                              - `"in"`
+<a href="#">Link to this property</a>
 
-                              - `"not_in"`
+"not\_in"
 
-                            - `value: unknown`
+<a href="#">Link to this property</a>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</details>
 
-                          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-                              - `object { attribute, operator, value }`
+<summary>
 
-                                - `attribute: string`
+value: stringor numberor booleanor 2 more
 
-                                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-                                  - `"equals"`
+One of the following:
 
-                                  - `"not_equals"`
+string
 
-                                  - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                                  - `"less_than"`
+number
 
-                                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"less_than_or_equals"`
+boolean
 
-                                  - `"contains"`
+<a href="#">Link to this property</a>
 
-                                  - `"starts_with"`
+map\[unknown]
 
-                                  - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                                  - `"in"`
+array of unknown
 
-                                  - `"not_in"`
+<a href="#">Link to this property</a>
 
-                                - `value: unknown`
+</details>
 
-                                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                              - `object { clauses, logical_operator }`
+</details>
 
-                                - `clauses: array of string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-                                  - `string`
+<details>
 
-                                  - `number`
+<summary>
 
-                                  - `boolean`
+object {clauses, logical\_operator }
 
-                                  - `map[unknown]`
+</summary>
 
-                                  - `array of unknown`
+<details>
 
-                                - `logical_operator: "AND" or "OR"`
+<summary>
 
-                                  - `"AND"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                                  - `"OR"`
+</summary>
 
-                            - `logical_operator: "AND" or "OR"`
+One of the following:
 
-                              - `"AND"`
+<details>
 
-                              - `"OR"`
+<summary>
 
-                        - `logical_operator: "AND" or "OR"`
+object {attribute, operator, value }
 
-                          - `"AND"`
+</summary>
 
-                          - `"OR"`
+attribute: string
 
-                    - `logical_operator: "AND" or "OR"`
+maxLength64
 
-                      - `"AND"`
+minLength1
 
-                      - `"OR"`
+<a href="#">Link to this property</a>
 
-                - `logical_operator: "AND" or "OR"`
+<details>
 
-                  - `"AND"`
+<summary>
 
-                  - `"OR"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-            - `logical_operator: "AND" or "OR"`
+</summary>
 
-              - `"AND"`
+One of the following:
 
-              - `"OR"`
+"equals"
 
-        - `priority: number`
+<a href="#">Link to this property</a>
 
-          Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+"not\_equals"
 
-        - `serve_variation: string`
+<a href="#">Link to this property</a>
 
-          Variation served when this rule matches. Must be a key in `variations`.
+"greater\_than"
 
-        - `rollout: optional object { percentage, attribute }`
+<a href="#">Link to this property</a>
 
-          - `percentage: number`
+"less\_than"
 
-            Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<a href="#">Link to this property</a>
 
-          - `attribute: optional string`
+"greater\_than\_or\_equals"
 
-            Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+<a href="#">Link to this property</a>
 
-      - `variations: map[string or number or boolean or 2 more]`
+"less\_than\_or\_equals"
 
-        Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+<a href="#">Link to this property</a>
 
-        - `string`
+"contains"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+"starts\_with"
 
-        - `map[unknown]`
+<a href="#">Link to this property</a>
 
-        - `array of unknown`
+"ends\_with"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "boolean" or "string" or "number" or "json"`
+"in"
 
-        Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<a href="#">Link to this property</a>
 
-        - `"boolean"`
+"not\_in"
 
-        - `"string"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+</details>
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `updated_at: optional string`
+<details>
 
-      - `updated_by: optional string`
+<summary>
 
-    - `event: "create"`
+value: stringor numberor booleanor 2 more
 
-      - `"create"`
+</summary>
 
-    - `flag_key: string`
+One of the following:
 
-  - `object { after, event, flag_key }`
+string
 
-    - `after: object { default_variation, enabled, key, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `default_variation: string`
+number
 
-        Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+boolean
 
-        When false, the flag bypasses all rules and always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-      - `key: string`
+map\[unknown]
 
-        Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+<a href="#">Link to this property</a>
 
-      - `rules: array of object { conditions, priority, serve_variation, rollout }`
+array of unknown
 
-        Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+<a href="#">Link to this property</a>
 
-        - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</details>
 
-          Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+<a href="#">Link to this property</a>
 
-          - `object { attribute, operator, value }`
+</details>
 
-            - `attribute: string`
+<a href="#">Link to this property</a>
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<details>
 
-              - `"equals"`
+<summary>
 
-              - `"not_equals"`
+object {clauses, logical\_operator }
 
-              - `"greater_than"`
+</summary>
 
-              - `"less_than"`
+<details>
 
-              - `"greater_than_or_equals"`
+<summary>
 
-              - `"less_than_or_equals"`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-              - `"contains"`
+</summary>
 
-              - `"starts_with"`
+One of the following:
 
-              - `"ends_with"`
+<details>
 
-              - `"in"`
+<summary>
 
-              - `"not_in"`
+object {attribute, operator, value }
 
-            - `value: unknown`
+</summary>
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+attribute: string
 
-          - `object { clauses, logical_operator }`
+maxLength64
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+minLength1
 
-              - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                - `attribute: string`
+<details>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<summary>
 
-                  - `"equals"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                  - `"not_equals"`
+</summary>
 
-                  - `"greater_than"`
+One of the following:
 
-                  - `"less_than"`
+"equals"
 
-                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than_or_equals"`
+"not\_equals"
 
-                  - `"contains"`
+<a href="#">Link to this property</a>
 
-                  - `"starts_with"`
+"greater\_than"
 
-                  - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                  - `"in"`
+"less\_than"
 
-                  - `"not_in"`
+<a href="#">Link to this property</a>
 
-                - `value: unknown`
+"greater\_than\_or\_equals"
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-              - `object { clauses, logical_operator }`
+"less\_than\_or\_equals"
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                  - `object { attribute, operator, value }`
+"contains"
 
-                    - `attribute: string`
+<a href="#">Link to this property</a>
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"starts\_with"
 
-                      - `"equals"`
+<a href="#">Link to this property</a>
 
-                      - `"not_equals"`
+"ends\_with"
 
-                      - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than"`
+"in"
 
-                      - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                      - `"less_than_or_equals"`
+"not\_in"
 
-                      - `"contains"`
+<a href="#">Link to this property</a>
 
-                      - `"starts_with"`
+</details>
 
-                      - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                      - `"in"`
+<details>
 
-                      - `"not_in"`
+<summary>
 
-                    - `value: unknown`
+value: stringor numberor booleanor 2 more
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-                  - `object { clauses, logical_operator }`
+One of the following:
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+string
 
-                      - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                        - `attribute: string`
+number
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                          - `"equals"`
+boolean
 
-                          - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than"`
+map\[unknown]
 
-                          - `"less_than"`
+<a href="#">Link to this property</a>
 
-                          - `"greater_than_or_equals"`
+array of unknown
 
-                          - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"contains"`
+</details>
 
-                          - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                          - `"ends_with"`
+</details>
 
-                          - `"in"`
+<a href="#">Link to this property</a>
 
-                          - `"not_in"`
+<details>
 
-                        - `value: unknown`
+<summary>
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+object {clauses, logical\_operator }
 
-                      - `object { clauses, logical_operator }`
+</summary>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-                          - `object { attribute, operator, value }`
+<summary>
 
-                            - `attribute: string`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-                              - `"equals"`
+One of the following:
 
-                              - `"not_equals"`
+<details>
 
-                              - `"greater_than"`
+<summary>
 
-                              - `"less_than"`
+object {attribute, operator, value }
 
-                              - `"greater_than_or_equals"`
+</summary>
 
-                              - `"less_than_or_equals"`
+attribute: string
 
-                              - `"contains"`
+maxLength64
 
-                              - `"starts_with"`
+minLength1
 
-                              - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                              - `"in"`
+<details>
 
-                              - `"not_in"`
+<summary>
 
-                            - `value: unknown`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-                          - `object { clauses, logical_operator }`
+One of the following:
 
-                            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+"equals"
 
-                              - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                                - `attribute: string`
+"not\_equals"
 
-                                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-                                  - `"equals"`
+"greater\_than"
 
-                                  - `"not_equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"greater_than"`
+"less\_than"
 
-                                  - `"less_than"`
+<a href="#">Link to this property</a>
 
-                                  - `"greater_than_or_equals"`
+"greater\_than\_or\_equals"
 
-                                  - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                                  - `"contains"`
+"less\_than\_or\_equals"
 
-                                  - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                                  - `"ends_with"`
+"contains"
 
-                                  - `"in"`
+<a href="#">Link to this property</a>
 
-                                  - `"not_in"`
+"starts\_with"
 
-                                - `value: unknown`
+<a href="#">Link to this property</a>
 
-                                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+"ends\_with"
 
-                              - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                                - `clauses: array of string or number or boolean or 2 more`
+"in"
 
-                                  - `string`
+<a href="#">Link to this property</a>
 
-                                  - `number`
+"not\_in"
 
-                                  - `boolean`
+<a href="#">Link to this property</a>
 
-                                  - `map[unknown]`
+</details>
 
-                                  - `array of unknown`
+<a href="#">Link to this property</a>
 
-                                - `logical_operator: "AND" or "OR"`
+<details>
 
-                                  - `"AND"`
+<summary>
 
-                                  - `"OR"`
+value: stringor numberor booleanor 2 more
 
-                            - `logical_operator: "AND" or "OR"`
+</summary>
 
-                              - `"AND"`
+One of the following:
 
-                              - `"OR"`
+string
 
-                        - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                          - `"AND"`
+number
 
-                          - `"OR"`
+<a href="#">Link to this property</a>
 
-                    - `logical_operator: "AND" or "OR"`
+boolean
 
-                      - `"AND"`
+<a href="#">Link to this property</a>
 
-                      - `"OR"`
+map\[unknown]
 
-                - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                  - `"AND"`
+array of unknown
 
-                  - `"OR"`
+<a href="#">Link to this property</a>
 
-            - `logical_operator: "AND" or "OR"`
+</details>
 
-              - `"AND"`
+<a href="#">Link to this property</a>
 
-              - `"OR"`
+</details>
 
-        - `priority: number`
+<a href="#">Link to this property</a>
 
-          Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+<details>
 
-        - `serve_variation: string`
+<summary>
 
-          Variation served when this rule matches. Must be a key in `variations`.
+object {clauses, logical\_operator }
 
-        - `rollout: optional object { percentage, attribute }`
+</summary>
 
-          - `percentage: number`
+<details>
 
-            Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<summary>
 
-          - `attribute: optional string`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-            Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+</summary>
 
-      - `variations: map[string or number or boolean or 2 more]`
+One of the following:
 
-        Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+<details>
 
-        - `string`
+<summary>
 
-        - `number`
+object {attribute, operator, value }
 
-        - `boolean`
+</summary>
 
-        - `map[unknown]`
+attribute: string
 
-        - `array of unknown`
+maxLength64
 
-      - `description: optional string`
+minLength1
 
-      - `type: optional "boolean" or "string" or "number" or "json"`
+<a href="#">Link to this property</a>
 
-        Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+<details>
 
-        - `"boolean"`
+<summary>
 
-        - `"string"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-        - `"number"`
+</summary>
 
-        - `"json"`
+One of the following:
 
-      - `updated_at: optional string`
+"equals"
 
-      - `updated_by: optional string`
+<a href="#">Link to this property</a>
 
-    - `event: "delete"`
+"not\_equals"
 
-      - `"delete"`
+<a href="#">Link to this property</a>
 
-    - `flag_key: string`
+"greater\_than"
 
-  - `object { after, diff, event, flag_key }`
+<a href="#">Link to this property</a>
 
-    - `after: object { default_variation, enabled, key, 6 more }`
+"less\_than"
 
-      - `default_variation: string`
+<a href="#">Link to this property</a>
 
-        Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.
+"greater\_than\_or\_equals"
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        When false, the flag bypasses all rules and always serves `default_variation`.
+"less\_than\_or\_equals"
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+"contains"
 
-      - `rules: array of object { conditions, priority, serve_variation, rollout }`
+<a href="#">Link to this property</a>
 
-        Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`.
+"starts\_with"
 
-        - `conditions: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-          Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+"ends\_with"
 
-          - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-            - `attribute: string`
+"in"
 
-            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<a href="#">Link to this property</a>
 
-              - `"equals"`
+"not\_in"
 
-              - `"not_equals"`
+<a href="#">Link to this property</a>
 
-              - `"greater_than"`
+</details>
 
-              - `"less_than"`
+<a href="#">Link to this property</a>
 
-              - `"greater_than_or_equals"`
+<details>
 
-              - `"less_than_or_equals"`
+<summary>
 
-              - `"contains"`
+value: stringor numberor booleanor 2 more
 
-              - `"starts_with"`
+</summary>
 
-              - `"ends_with"`
+One of the following:
 
-              - `"in"`
+string
 
-              - `"not_in"`
+<a href="#">Link to this property</a>
 
-            - `value: unknown`
+number
 
-              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-          - `object { clauses, logical_operator }`
+boolean
 
-            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-              - `object { attribute, operator, value }`
+map\[unknown]
 
-                - `attribute: string`
+<a href="#">Link to this property</a>
 
-                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+array of unknown
 
-                  - `"equals"`
+<a href="#">Link to this property</a>
 
-                  - `"not_equals"`
+</details>
 
-                  - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than"`
+</details>
 
-                  - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                  - `"less_than_or_equals"`
+<details>
 
-                  - `"contains"`
+<summary>
 
-                  - `"starts_with"`
+object {clauses, logical\_operator }
 
-                  - `"ends_with"`
+</summary>
 
-                  - `"in"`
+<details>
 
-                  - `"not_in"`
+<summary>
 
-                - `value: unknown`
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
 
-                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</summary>
 
-              - `object { clauses, logical_operator }`
+One of the following:
 
-                - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<details>
 
-                  - `object { attribute, operator, value }`
+<summary>
 
-                    - `attribute: string`
+object {attribute, operator, value }
 
-                    - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+</summary>
 
-                      - `"equals"`
+attribute: string
 
-                      - `"not_equals"`
+maxLength64
 
-                      - `"greater_than"`
+minLength1
 
-                      - `"less_than"`
+<a href="#">Link to this property</a>
 
-                      - `"greater_than_or_equals"`
+<details>
 
-                      - `"less_than_or_equals"`
+<summary>
 
-                      - `"contains"`
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
 
-                      - `"starts_with"`
+</summary>
 
-                      - `"ends_with"`
+One of the following:
 
-                      - `"in"`
+"equals"
 
-                      - `"not_in"`
+<a href="#">Link to this property</a>
 
-                    - `value: unknown`
+"not\_equals"
 
-                      Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                  - `object { clauses, logical_operator }`
+"greater\_than"
 
-                    - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                      - `object { attribute, operator, value }`
+"less\_than"
 
-                        - `attribute: string`
+<a href="#">Link to this property</a>
 
-                        - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+"greater\_than\_or\_equals"
 
-                          - `"equals"`
+<a href="#">Link to this property</a>
 
-                          - `"not_equals"`
+"less\_than\_or\_equals"
 
-                          - `"greater_than"`
+<a href="#">Link to this property</a>
 
-                          - `"less_than"`
+"contains"
 
-                          - `"greater_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                          - `"less_than_or_equals"`
+"starts\_with"
 
-                          - `"contains"`
+<a href="#">Link to this property</a>
 
-                          - `"starts_with"`
+"ends\_with"
 
-                          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                          - `"in"`
+"in"
 
-                          - `"not_in"`
+<a href="#">Link to this property</a>
 
-                        - `value: unknown`
+"not\_in"
 
-                          Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                      - `object { clauses, logical_operator }`
+</details>
 
-                        - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                          - `object { attribute, operator, value }`
+<details>
 
-                            - `attribute: string`
+<summary>
 
-                            - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+value: stringor numberor booleanor 2 more
 
-                              - `"equals"`
+</summary>
 
-                              - `"not_equals"`
+One of the following:
 
-                              - `"greater_than"`
+string
 
-                              - `"less_than"`
+<a href="#">Link to this property</a>
 
-                              - `"greater_than_or_equals"`
+number
 
-                              - `"less_than_or_equals"`
+<a href="#">Link to this property</a>
 
-                              - `"contains"`
+boolean
 
-                              - `"starts_with"`
+<a href="#">Link to this property</a>
 
-                              - `"ends_with"`
+map\[unknown]
 
-                              - `"in"`
+<a href="#">Link to this property</a>
 
-                              - `"not_in"`
+array of unknown
 
-                            - `value: unknown`
+<a href="#">Link to this property</a>
 
-                              Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+</details>
 
-                          - `object { clauses, logical_operator }`
+<a href="#">Link to this property</a>
 
-                            - `clauses: array of object { attribute, operator, value }  or object { clauses, logical_operator }`
+</details>
 
-                              - `object { attribute, operator, value }`
+<a href="#">Link to this property</a>
 
-                                - `attribute: string`
+<details>
 
-                                - `operator: "equals" or "not_equals" or "greater_than" or 8 more`
+<summary>
 
-                                  - `"equals"`
+object {clauses, logical\_operator }
 
-                                  - `"not_equals"`
+</summary>
 
-                                  - `"greater_than"`
+<details>
 
-                                  - `"less_than"`
+<summary>
 
-                                  - `"greater_than_or_equals"`
+clauses: array of stringor numberor booleanor 2 more
 
-                                  - `"less_than_or_equals"`
+</summary>
 
-                                  - `"contains"`
+One of the following:
 
-                                  - `"starts_with"`
+string
 
-                                  - `"ends_with"`
+<a href="#">Link to this property</a>
 
-                                  - `"in"`
+number
 
-                                  - `"not_in"`
+<a href="#">Link to this property</a>
 
-                                - `value: unknown`
+boolean
 
-                                  Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.
+<a href="#">Link to this property</a>
 
-                              - `object { clauses, logical_operator }`
+map\[unknown]
 
-                                - `clauses: array of string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-                                  - `string`
+array of unknown
 
-                                  - `number`
+<a href="#">Link to this property</a>
 
-                                  - `boolean`
+</details>
 
-                                  - `map[unknown]`
+<a href="#">Link to this property</a>
 
-                                  - `array of unknown`
+<details>
 
-                                - `logical_operator: "AND" or "OR"`
+<summary>
 
-                                  - `"AND"`
+logical\_operator: "AND"or "OR"
 
-                                  - `"OR"`
+</summary>
 
-                            - `logical_operator: "AND" or "OR"`
+One of the following:
 
-                              - `"AND"`
+"AND"
 
-                              - `"OR"`
+<a href="#">Link to this property</a>
 
-                        - `logical_operator: "AND" or "OR"`
+"OR"
 
-                          - `"AND"`
+<a href="#">Link to this property</a>
 
-                          - `"OR"`
+</details>
 
-                    - `logical_operator: "AND" or "OR"`
+<a href="#">Link to this property</a>
 
-                      - `"AND"`
+</details>
 
-                      - `"OR"`
+<a href="#">Link to this property</a>
 
-                - `logical_operator: "AND" or "OR"`
+</details>
 
-                  - `"AND"`
+<a href="#">Link to this property</a>
 
-                  - `"OR"`
+<details>
 
-            - `logical_operator: "AND" or "OR"`
+<summary>
 
-              - `"AND"`
+logical\_operator: "AND"or "OR"
 
-              - `"OR"`
+</summary>
 
-        - `priority: number`
+One of the following:
 
-          Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.
+"AND"
 
-        - `serve_variation: string`
+<a href="#">Link to this property</a>
 
-          Variation served when this rule matches. Must be a key in `variations`.
+"OR"
 
-        - `rollout: optional object { percentage, attribute }`
+<a href="#">Link to this property</a>
 
-          - `percentage: number`
+</details>
 
-            Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+<a href="#">Link to this property</a>
 
-          - `attribute: optional string`
+</details>
 
-            Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request.
+<a href="#">Link to this property</a>
 
-      - `variations: map[string or number or boolean or 2 more]`
+</details>
 
-        Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.
+<a href="#">Link to this property</a>
 
-        - `string`
+<details>
 
-        - `number`
+<summary>
 
-        - `boolean`
+logical\_operator: "AND"or "OR"
 
-        - `map[unknown]`
+</summary>
 
-        - `array of unknown`
+One of the following:
 
-      - `description: optional string`
+"AND"
 
-      - `type: optional "boolean" or "string" or "number" or "json"`
+<a href="#">Link to this property</a>
 
-        Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests.
+"OR"
 
-        - `"boolean"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+</details>
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"json"`
+</details>
 
-      - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-      - `updated_by: optional string`
+</details>
 
-    - `diff: map[object { from, to } ]`
+<a href="#">Link to this property</a>
 
-      - `from: optional string or number or boolean or 2 more`
+<details>
 
-        - `string`
+<summary>
 
-        - `number`
+logical\_operator: "AND"or "OR"
 
-        - `boolean`
+</summary>
 
-        - `map[unknown]`
+One of the following:
 
-        - `array of unknown`
+"AND"
 
-      - `to: optional string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-        - `string`
+"OR"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+</details>
 
-        - `map[unknown]`
+<a href="#">Link to this property</a>
 
-        - `array of unknown`
+</details>
 
-    - `event: "update"`
+<a href="#">Link to this property</a>
 
-      - `"update"`
+</details>
 
-    - `flag_key: string`
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: number
+
+Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag’s rules.
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+serve\_variation: string
+
+Variation the API serves when this rule matches. Must be a key in <code>variations</code>.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rollout: optional object {percentage, attribute }
+
+</summary>
+
+percentage: number
+
+Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+attribute: optional string
+
+Context attribute used for sticky bucketing. Defaults to <code>targetingKey</code>. If absent at evaluation time, bucketing is random per request.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "boolean"or "string"or "number"or "json"
+
+Server-inferred value type shared by all of the flag’s variations.
+
+</summary>
+
+One of the following:
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"json"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+variations: map\[stringor numberor booleanor 2 more]
+
+Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+<a href="#">Link to this property</a>
+
+updated\_by: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+event: "create"
+
+<a href="#">Link to this property</a>
+
+flag\_key: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {after, event, flag\_key }
+
+</summary>
+
+<details>
+
+<summary>
+
+after: object {default\_variation, enabled, key, 6 more }
+
+</summary>
+
+default\_variation: string
+
+Variation the API serves when the flag is off, or when it’s on but no rule matches the context. Must be a key in <code>variations</code>.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+When false, the flag bypasses all rules and always serves <code>default_variation</code>.
+
+<a href="#">Link to this property</a>
+
+key: string
+
+Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rules: array of object {conditions, priority, serve\_variation, rollout }
+
+Targeting rules evaluated in ascending <code>priority</code>; the first matching rule wins. An empty array means the flag always serves <code>default_variation</code>.
+
+</summary>
+
+<details>
+
+<summary>
+
+conditions: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: number
+
+Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag’s rules.
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+serve\_variation: string
+
+Variation the API serves when this rule matches. Must be a key in <code>variations</code>.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rollout: optional object {percentage, attribute }
+
+</summary>
+
+percentage: number
+
+Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+attribute: optional string
+
+Context attribute used for sticky bucketing. Defaults to <code>targetingKey</code>. If absent at evaluation time, bucketing is random per request.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "boolean"or "string"or "number"or "json"
+
+Server-inferred value type shared by all of the flag’s variations.
+
+</summary>
+
+One of the following:
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"json"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+variations: map\[stringor numberor booleanor 2 more]
+
+Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+<a href="#">Link to this property</a>
+
+updated\_by: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+event: "delete"
+
+<a href="#">Link to this property</a>
+
+flag\_key: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {after, diff, event, flag\_key }
+
+</summary>
+
+<details>
+
+<summary>
+
+after: object {default\_variation, enabled, key, 6 more }
+
+</summary>
+
+default\_variation: string
+
+Variation the API serves when the flag is off, or when it’s on but no rule matches the context. Must be a key in <code>variations</code>.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+When false, the flag bypasses all rules and always serves <code>default_variation</code>.
+
+<a href="#">Link to this property</a>
+
+key: string
+
+Unique identifier for the flag within an app. Used in all evaluation and SDK calls.
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rules: array of object {conditions, priority, serve\_variation, rollout }
+
+Targeting rules evaluated in ascending <code>priority</code>; the first matching rule wins. An empty array means the flag always serves <code>default_variation</code>.
+
+</summary>
+
+<details>
+
+<summary>
+
+conditions: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+Conditions the context must satisfy for this rule to match. An empty array matches all contexts.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of object {attribute, operator, value } or object {clauses, logical\_operator }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {attribute, operator, value }
+
+</summary>
+
+attribute: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "equals"or "not\_equals"or "greater\_than"or 8 more
+
+</summary>
+
+One of the following:
+
+"equals"
+
+<a href="#">Link to this property</a>
+
+"not\_equals"
+
+<a href="#">Link to this property</a>
+
+"greater\_than"
+
+<a href="#">Link to this property</a>
+
+"less\_than"
+
+<a href="#">Link to this property</a>
+
+"greater\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"less\_than\_or\_equals"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {clauses, logical\_operator }
+
+</summary>
+
+<details>
+
+<summary>
+
+clauses: array of stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logical\_operator: "AND"or "OR"
+
+</summary>
+
+One of the following:
+
+"AND"
+
+<a href="#">Link to this property</a>
+
+"OR"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: number
+
+Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag’s rules.
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+serve\_variation: string
+
+Variation the API serves when this rule matches. Must be a key in <code>variations</code>.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rollout: optional object {percentage, attribute }
+
+</summary>
+
+percentage: number
+
+Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+attribute: optional string
+
+Context attribute used for sticky bucketing. Defaults to <code>targetingKey</code>. If absent at evaluation time, bucketing is random per request.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "boolean"or "string"or "number"or "json"
+
+Server-inferred value type shared by all of the flag’s variations.
+
+</summary>
+
+One of the following:
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"json"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+variations: map\[stringor numberor booleanor 2 more]
+
+Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+maxLength512
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+<a href="#">Link to this property</a>
+
+updated\_by: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+diff: map\[object {from, to } ]
+
+</summary>
+
+<details>
+
+<summary>
+
+from: optional stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+to: optional stringor numberor booleanor 2 more
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+array of unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+event: "update"
+
+<a href="#">Link to this property</a>
+
+flag\_key: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20flagship.apps.flags.changelog%20%3E%20(model)%20changelog_list_response%20%3E%20(schema)>)

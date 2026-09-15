@@ -1,1247 +1,355 @@
+---
+title: Lists
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Lists
 
-## List Zero Trust lists
+##### [List Zero Trust lists](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/list)
 
-**get** `/accounts/{account_id}/gateway/lists`
+GET/accounts/{account\_id}/gateway/lists
 
-Fetch all Zero Trust lists for an account.
+##### [Get Zero Trust list details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/gateway/lists/{list\_id}
 
-- `account_id: string`
+##### [Create Zero Trust list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/gateway/lists
 
-- `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+##### [Update Zero Trust list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/update)
 
-  Specify the list type.
+PUT/accounts/{account\_id}/gateway/lists/{list\_id}
 
-  - `"SERIAL"`
+##### [Patch Zero Trust list.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/edit)
 
-  - `"URL"`
+PATCH/accounts/{account\_id}/gateway/lists/{list\_id}
 
-  - `"DOMAIN"`
+##### [Delete Zero Trust list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/delete)
 
-  - `"EMAIL"`
+DELETE/accounts/{account\_id}/gateway/lists/{list\_id}
 
-  - `"IP"`
+##### ModelsExpand Collapse
 
-  - `"CATEGORY"`
+<details>
 
-  - `"LOCATION"`
+<summary>
 
-  - `"DEVICE"`
+GatewayItem object {created\_at, description, value }
 
-  - `"AAGUID"`
+</summary>
 
-### Returns
+created\_at: optional string
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+Provide the list item description (optional).
 
-  - `source: optional object { pointer }`
+minimum0
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+value: optional string
 
-  - `code: number`
+Specify the item value.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_item%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Indicate whether the API call was successful.
+<summary>
 
-  - `true`
+GatewayList object {id, count, created\_at, 5 more }
 
-- `result: optional array of GatewayList`
+</summary>
 
-  - `id: optional string`
+id: optional string
 
-    Identify the API resource with a UUID.
+Identify the API resource with a UUID.
 
-  - `count: optional number`
+maxLength36
 
-    Indicate the number of items in the list.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+count: optional number
 
-  - `description: optional string`
+Indicate the number of items in the list.
 
-    Provide the list description.
+<a href="#">Link to this property</a>
 
-  - `items: optional array of GatewayItem`
+created\_at: optional string
 
-    Provide the list items.
+formatdate-time
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+description: optional string
 
-      Provide the list item description (optional).
+Provide the list description.
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the item value.
+<details>
 
-  - `name: optional string`
+<summary>
 
-    Specify the list name.
+items: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_item%20%3E%20(schema)">GatewayItem</a> { created\_at, description, value }
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+Provide the list items.
 
-    Specify the list type.
-
-    - `"SERIAL"`
+</summary>
 
-    - `"URL"`
+created\_at: optional string
 
-    - `"DOMAIN"`
+formatdate-time
 
-    - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+description: optional string
 
-    - `"CATEGORY"`
+Provide the list item description (optional).
 
-    - `"LOCATION"`
+minimum0
 
-    - `"DEVICE"`
+<a href="#">Link to this property</a>
 
-    - `"AAGUID"`
+value: optional string
 
-  - `updated_at: optional string`
+Specify the item value.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Indicate the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+name: optional string
 
-    Indicate the current page within a paginated list of results.
+Specify the list name.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Indicate the number of results per page.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Indicate the total results available without any search parameters.
+type: optional "SERIAL"or "URL"or "DOMAIN"or 6 more
 
-### Example
+Specify the list type.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "count": 20,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "The serial numbers for administrators",
-      "items": [
-        {
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "description": "Austin office IP",
-          "value": "8GE8721REF"
-        }
-      ],
-      "name": "Admin Serial Numbers",
-      "type": "SERIAL",
-      "updated_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+"SERIAL"
 
-## Get Zero Trust list details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/gateway/lists/{list_id}`
+"URL"
 
-Fetch a single Zero Trust list.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"DOMAIN"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `list_id: string`
+"EMAIL"
 
-  Identify the API resource with a UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+"IP"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"CATEGORY"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"LOCATION"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"DEVICE"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"AAGUID"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+updated\_at: optional string
 
-  Indicate whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional GatewayList`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_list%20%3E%20(schema)>)
 
-    Identify the API resource with a UUID.
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Indicate the number of items in the list.
+ListCreateResponse object {id, created\_at, description, 4 more }
 
-  - `created_at: optional string`
+</summary>
 
-  - `description: optional string`
+id: optional string
 
-    Provide the list description.
+Identify the API resource with a UUID.
 
-  - `items: optional array of GatewayItem`
+maxLength36
 
-    Provide the list items.
+<a href="#">Link to this property</a>
 
-    - `created_at: optional string`
+created\_at: optional string
 
-    - `description: optional string`
+formatdate-time
 
-      Provide the list item description (optional).
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+description: optional string
 
-      Specify the item value.
+Provide the list description.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Specify the list name.
+<details>
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+<summary>
 
-    Specify the list type.
+items: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_item%20%3E%20(schema)">GatewayItem</a> { created\_at, description, value }
 
-    - `"SERIAL"`
+Provide the list items.
 
-    - `"URL"`
+</summary>
 
-    - `"DOMAIN"`
+created\_at: optional string
 
-    - `"EMAIL"`
+formatdate-time
 
-    - `"IP"`
+<a href="#">Link to this property</a>
 
-    - `"CATEGORY"`
+description: optional string
 
-    - `"LOCATION"`
+Provide the list item description (optional).
 
-    - `"DEVICE"`
+minimum0
 
-    - `"AAGUID"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+value: optional string
 
-### Example
+Specify the item value.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "count": 20,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "The serial numbers for administrators",
-    "items": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "Austin office IP",
-        "value": "8GE8721REF"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "type": "SERIAL",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Zero Trust list
+name: optional string
 
-**post** `/accounts/{account_id}/gateway/lists`
+Specify the list name.
 
-Creates a new Zero Trust list.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Body Parameters
+type: optional "SERIAL"or "URL"or "DOMAIN"or 6 more
 
-- `name: string`
+Specify the list type.
 
-  Specify the list name.
+</summary>
 
-- `type: "SERIAL" or "URL" or "DOMAIN" or 6 more`
+One of the following:
 
-  Specify the list type.
+"SERIAL"
 
-  - `"SERIAL"`
+<a href="#">Link to this property</a>
 
-  - `"URL"`
+"URL"
 
-  - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-  - `"EMAIL"`
+"DOMAIN"
 
-  - `"IP"`
+<a href="#">Link to this property</a>
 
-  - `"CATEGORY"`
+"EMAIL"
 
-  - `"LOCATION"`
+<a href="#">Link to this property</a>
 
-  - `"DEVICE"`
+"IP"
 
-  - `"AAGUID"`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+"CATEGORY"
 
-  Provide the list description.
+<a href="#">Link to this property</a>
 
-- `items: optional array of object { description, value }`
+"LOCATION"
 
-  Add items to the list.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"DEVICE"
 
-    Provide the list item description (optional).
+<a href="#">Link to this property</a>
 
-  - `value: optional string`
+"AAGUID"
 
-    Specify the item value.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+updated\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(model)%20list_create_response%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+ListDeleteResponse = unknown
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(model)%20list_delete_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### ListsItems
 
-  - `documentation_url: optional string`
+##### [Get Zero Trust list items](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists/subresources/items/methods/list)
 
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, description, 4 more }`
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Provide the list description.
-
-  - `items: optional array of GatewayItem`
-
-    Provide the list items.
-
-    - `created_at: optional string`
-
-    - `description: optional string`
-
-      Provide the list item description (optional).
-
-    - `value: optional string`
-
-      Specify the item value.
-
-  - `name: optional string`
-
-    Specify the list name.
-
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
-
-    Specify the list type.
-
-    - `"SERIAL"`
-
-    - `"URL"`
-
-    - `"DOMAIN"`
-
-    - `"EMAIL"`
-
-    - `"IP"`
-
-    - `"CATEGORY"`
-
-    - `"LOCATION"`
-
-    - `"DEVICE"`
-
-    - `"AAGUID"`
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Admin Serial Numbers",
-          "type": "SERIAL",
-          "description": "The serial numbers for administrators"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "The serial numbers for administrators",
-    "items": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "Austin office IP",
-        "value": "8GE8721REF"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "type": "SERIAL",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update Zero Trust list
-
-**put** `/accounts/{account_id}/gateway/lists/{list_id}`
-
-Updates a configured Zero Trust list. Skips updating list items if not included in the payload. A non empty list items will overwrite the existing list.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `list_id: string`
-
-  Identify the API resource with a UUID.
-
-### Body Parameters
-
-- `name: string`
-
-  Specify the list name.
-
-- `description: optional string`
-
-  Provide the list description.
-
-- `items: optional array of object { description, value }`
-
-  Add items to the list.
-
-  - `description: optional string`
-
-    Provide the list item description (optional).
-
-  - `value: optional string`
-
-    Specify the item value.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional GatewayList`
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `count: optional number`
-
-    Indicate the number of items in the list.
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Provide the list description.
-
-  - `items: optional array of GatewayItem`
-
-    Provide the list items.
-
-    - `created_at: optional string`
-
-    - `description: optional string`
-
-      Provide the list item description (optional).
-
-    - `value: optional string`
-
-      Specify the item value.
-
-  - `name: optional string`
-
-    Specify the list name.
-
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
-
-    Specify the list type.
-
-    - `"SERIAL"`
-
-    - `"URL"`
-
-    - `"DOMAIN"`
-
-    - `"EMAIL"`
-
-    - `"IP"`
-
-    - `"CATEGORY"`
-
-    - `"LOCATION"`
-
-    - `"DEVICE"`
-
-    - `"AAGUID"`
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Admin Serial Numbers",
-          "description": "The serial numbers for administrators"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "count": 20,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "The serial numbers for administrators",
-    "items": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "Austin office IP",
-        "value": "8GE8721REF"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "type": "SERIAL",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Patch Zero Trust list.
-
-**patch** `/accounts/{account_id}/gateway/lists/{list_id}`
-
-Appends or removes an item from a configured Zero Trust list.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `list_id: string`
-
-  Identify the API resource with a UUID.
-
-### Body Parameters
-
-- `append: optional array of object { description, value }`
-
-  Add items to the list.
-
-  - `description: optional string`
-
-    Provide the list item description (optional).
-
-  - `value: optional string`
-
-    Specify the item value.
-
-- `remove: optional array of string`
-
-  Lists of item values you want to remove.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional GatewayList`
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `count: optional number`
-
-    Indicate the number of items in the list.
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Provide the list description.
-
-  - `items: optional array of GatewayItem`
-
-    Provide the list items.
-
-    - `created_at: optional string`
-
-    - `description: optional string`
-
-      Provide the list item description (optional).
-
-    - `value: optional string`
-
-      Specify the item value.
-
-  - `name: optional string`
-
-    Specify the list name.
-
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
-
-    Specify the list type.
-
-    - `"SERIAL"`
-
-    - `"URL"`
-
-    - `"DOMAIN"`
-
-    - `"EMAIL"`
-
-    - `"IP"`
-
-    - `"CATEGORY"`
-
-    - `"LOCATION"`
-
-    - `"DEVICE"`
-
-    - `"AAGUID"`
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "count": 20,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "The serial numbers for administrators",
-    "items": [
-      {
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "description": "Austin office IP",
-        "value": "8GE8721REF"
-      }
-    ],
-    "name": "Admin Serial Numbers",
-    "type": "SERIAL",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete Zero Trust list
-
-**delete** `/accounts/{account_id}/gateway/lists/{list_id}`
-
-Deletes a Zero Trust list.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `list_id: string`
-
-  Identify the API resource with a UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Gateway Item
-
-- `GatewayItem object { created_at, description, value }`
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Provide the list item description (optional).
-
-  - `value: optional string`
-
-    Specify the item value.
-
-### Gateway List
-
-- `GatewayList object { id, count, created_at, 5 more }`
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `count: optional number`
-
-    Indicate the number of items in the list.
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Provide the list description.
-
-  - `items: optional array of GatewayItem`
-
-    Provide the list items.
-
-    - `created_at: optional string`
-
-    - `description: optional string`
-
-      Provide the list item description (optional).
-
-    - `value: optional string`
-
-      Specify the item value.
-
-  - `name: optional string`
-
-    Specify the list name.
-
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
-
-    Specify the list type.
-
-    - `"SERIAL"`
-
-    - `"URL"`
-
-    - `"DOMAIN"`
-
-    - `"EMAIL"`
-
-    - `"IP"`
-
-    - `"CATEGORY"`
-
-    - `"LOCATION"`
-
-    - `"DEVICE"`
-
-    - `"AAGUID"`
-
-  - `updated_at: optional string`
-
-### List Create Response
-
-- `ListCreateResponse object { id, created_at, description, 4 more }`
-
-  - `id: optional string`
-
-    Identify the API resource with a UUID.
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Provide the list description.
-
-  - `items: optional array of GatewayItem`
-
-    Provide the list items.
-
-    - `created_at: optional string`
-
-    - `description: optional string`
-
-      Provide the list item description (optional).
-
-    - `value: optional string`
-
-      Specify the item value.
-
-  - `name: optional string`
-
-    Specify the list name.
-
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
-
-    Specify the list type.
-
-    - `"SERIAL"`
-
-    - `"URL"`
-
-    - `"DOMAIN"`
-
-    - `"EMAIL"`
-
-    - `"IP"`
-
-    - `"CATEGORY"`
-
-    - `"LOCATION"`
-
-    - `"DEVICE"`
-
-    - `"AAGUID"`
-
-  - `updated_at: optional string`
-
-### List Delete Response
-
-- `ListDeleteResponse = unknown`
-
-# Items
-
-## Get Zero Trust list items
-
-**get** `/accounts/{account_id}/gateway/lists/{list_id}/items`
-
-Fetch all items in a single Zero Trust list.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `list_id: string`
-
-  Identify the API resource with a UUID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of GatewayItem`
-
-  Provide the list items.
-
-  - `created_at: optional string`
-
-  - `description: optional string`
-
-    Provide the list item description (optional).
-
-  - `value: optional string`
-
-    Specify the item value.
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Shows the total results returned based on your search parameters.
-
-  - `page: optional number`
-
-    Show the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Show the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Show the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists/$LIST_ID/items \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "description": "Austin office IP",
-      "value": "8GE8721REF"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+GET/accounts/{account\_id}/gateway/lists/{list\_id}/items

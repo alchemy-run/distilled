@@ -1,424 +1,243 @@
+---
+title: Items
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Items
 
-## Get prefix.
+##### [Get prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/subresources/items/methods/get)
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/{prefix_id}`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/{prefix\_id}
 
-Get a prefix specified by the given UUID.
+##### [Update prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/subresources/items/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/{prefix\_id}
 
-- `account_id: string`
+##### [Delete prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/subresources/items/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/{prefix\_id}
 
-- `prefix_id: string`
+##### ModelsExpand Collapse
 
-  UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ItemGetResponse object {id, comment, created\_on, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique ID of the prefix.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+comment: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+A comment describing the prefix.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+The creation timestamp of the prefix.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+excluded: boolean
 
-  Whether the API call was successful.
+Whether to exclude the prefix from protection.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+modified\_on: string
 
-  - `id: string`
+The last modification timestamp of the prefix.
 
-    The unique ID of the prefix.
+formatdate-time
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    A comment describing the prefix.
+prefix: string
 
-  - `created_on: string`
+The prefix in CIDR format.
 
-    The creation timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `excluded: boolean`
+</details>
 
-    Whether to exclude the prefix from protection.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-  - `modified_on: string`
+<details>
 
-    The last modification timestamp of the prefix.
+<summary>
 
-  - `prefix: string`
+ItemEditResponse object {id, comment, created\_on, 3 more }
 
-    The prefix in CIDR format.
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/$PREFIX_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The unique ID of the prefix.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "excluded": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "192.0.2.0/24"
-  }
-}
-```
+comment: string
 
-## Update prefix.
+A comment describing the prefix.
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/{prefix_id}`
+<a href="#">Link to this property</a>
 
-Update a prefix specified by the given UUID.
+created\_on: string
 
-### Path Parameters
+The creation timestamp of the prefix.
 
-- `account_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `prefix_id: string`
+excluded: boolean
 
-  UUID.
+Whether to exclude the prefix from protection.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `comment: optional string`
+modified\_on: string
 
-  A new comment for the prefix. Optional.
+The last modification timestamp of the prefix.
 
-- `excluded: optional boolean`
+formatdate-time
 
-  Whether to exclude the prefix from protection. Optional.
+<a href="#">Link to this property</a>
 
-### Returns
+prefix: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The prefix in CIDR format.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+ItemDeleteResponse object {errors, messages, success }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+code: number
 
-  Whether the API call was successful.
+minimum1000
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+message: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the prefix.
+documentation\_url: optional string
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    A comment describing the prefix.
+<details>
 
-  - `created_on: string`
+<summary>
 
-    The creation timestamp of the prefix.
+source: optional object {pointer }
 
-  - `excluded: boolean`
+</summary>
 
-    Whether to exclude the prefix from protection.
+pointer: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the prefix.
+</details>
 
-  - `prefix: string`
+<a href="#">Link to this property</a>
 
-    The prefix in CIDR format.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/$PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "excluded": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "192.0.2.0/24"
-  }
-}
-```
+messages: array of object {code, message, documentation\_url, source }
 
-## Delete prefix.
+</summary>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/{prefix_id}`
+code: number
 
-Delete the prefix for an account given a UUID.
+minimum1000
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+message: string
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `prefix_id: string`
+documentation\_url: optional string
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+source: optional object {pointer }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+pointer: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+success: true
 
-  - `source: optional object { pointer }`
+Whether the API call was successful.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/$PREFIX_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Item Get Response
-
-- `ItemGetResponse object { id, comment, created_on, 3 more }`
-
-  - `id: string`
-
-    The unique ID of the prefix.
-
-  - `comment: string`
-
-    A comment describing the prefix.
-
-  - `created_on: string`
-
-    The creation timestamp of the prefix.
-
-  - `excluded: boolean`
-
-    Whether to exclude the prefix from protection.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the prefix.
-
-  - `prefix: string`
-
-    The prefix in CIDR format.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, comment, created_on, 3 more }`
-
-  - `id: string`
-
-    The unique ID of the prefix.
-
-  - `comment: string`
-
-    A comment describing the prefix.
-
-  - `created_on: string`
-
-    The creation timestamp of the prefix.
-
-  - `excluded: boolean`
-
-    Whether to exclude the prefix from protection.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the prefix.
-
-  - `prefix: string`
-
-    The prefix in CIDR format.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)

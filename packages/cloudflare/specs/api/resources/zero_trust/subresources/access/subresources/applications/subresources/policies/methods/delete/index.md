@@ -1,76 +1,257 @@
-## Delete an Access application policy
+---
+title: Delete an Access application policy
+---
 
-**delete** `/{accounts_or_zones}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}`
+[Skip to content](#_top)
 
-Deletes an Access policy specific to an application. To delete a reusable policy, use the /account or zones/{account or zone_id}/policies/{uid} endpoint.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `app_id: string`
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
 
-  UUID.
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications)
 
-- `policy_id: string`
+[Policies](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/policies)
 
-  UUID.
+Copy Markdown
 
-- `account_id: optional string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+---
 
-- `zone_id: optional string`
+**Copy Markdown****View as Markdown**
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+# Delete an Access application policy
 
-### Returns
+DELETE/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/apps/{app\_id}/policies/{policy\_id}
 
-- `errors: array of object { code, message, documentation_url, source }`
+Deletes an Access policy specific to an application. To delete a reusable policy, use the /account or zones/{account or zone\_id}/policies/{uid} endpoint.
 
-  - `code: number`
+##### Security
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Token</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `code: number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>API Email + API Key</summary>
 
-    - `pointer: optional string`
 
-- `success: true`
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `result: optional object { id }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `id: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    UUID.
+</details>
 
-### Example
+##### Accepted Permissions (at least one required)
 
-```http
+`Access: Apps and Policies Write`
+
+##### P ath ParametersExpand Collapse
+
+app\_id: string
+
+UUID.
+
+maxLength36
+
+[Link to this property](#)%20zero_trust.access.applications.policies%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
+
+policy\_id: string
+
+UUID.
+
+maxLength36
+
+[Link to this property](#)%20zero_trust.access.applications.policies%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20policy_id%20%3E%20(schema)>)
+
+account\_id: optional string
+
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+
+[Link to this property](#)%20zero_trust.access.applications.policies%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+zone\_id: optional string
+
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+
+[Link to this property](#)%20zero_trust.access.applications.policies%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.applications.policies%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.applications.policies%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.access.applications.policies%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id }
+
+</summary>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.applications.policies%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete an Access application policy
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/apps/$APP_ID/policies/$POLICY_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

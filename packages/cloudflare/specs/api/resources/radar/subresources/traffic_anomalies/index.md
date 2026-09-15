@@ -1,294 +1,201 @@
+---
+title: Traffic Anomalies
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Traffic Anomalies
 
-## Get latest Internet traffic anomalies
+##### [Get latest Internet traffic anomalies](https://developers.cloudflare.com/api/resources/radar/subresources/traffic_anomalies/methods/get)
 
-**get** `/radar/traffic_anomalies`
+GET/radar/traffic\_anomalies
 
-Retrieves the latest Internet traffic anomalies, which are signals that might indicate an outage. These alerts are automatically detected by Radar and manually verified by our team.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `asn: optional number`
+<summary>
 
-  Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer.
+TrafficAnomalyGetResponse object {trafficAnomalies }
 
-- `dateEnd: optional string`
+</summary>
 
-  End of the date range (inclusive).
+<details>
 
-- `dateRange: optional string`
+<summary>
 
-  Filters results by date range.
+trafficAnomalies: array of object {asnDetails, endDate, locationDetails, 6 more }
 
-- `dateStart: optional string`
+</summary>
 
-  Start of the date range (inclusive).
+<details>
 
-- `format: optional "JSON" or "CSV"`
+<summary>
 
-  Format in which results will be returned.
+asnDetails: object {asn, location, name }
 
-  - `"JSON"`
+</summary>
 
-  - `"CSV"`
+asn: string
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects returned in the response.
+<details>
 
-- `location: optional string`
+<summary>
 
-  Filters results by location. Specify an alpha-2 location code.
+location: object {code, name }
 
-- `offset: optional number`
+</summary>
 
-  Skips the specified number of objects before fetching the results.
+code: string
 
-- `origin: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by origin.
+name: string
 
-- `status: optional "VERIFIED" or "UNVERIFIED"`
+<a href="#">Link to this property</a>
 
-  - `"VERIFIED"`
+</details>
 
-  - `"UNVERIFIED"`
+<a href="#">Link to this property</a>
 
-- `type: optional array of "LOCATION" or "AS" or "ORIGIN"`
+name: string
 
-  Filters results by entity type (LOCATION, AS, or ORIGIN).
+<a href="#">Link to this property</a>
 
-  - `"LOCATION"`
+</details>
 
-  - `"AS"`
+<a href="#">Link to this property</a>
 
-  - `"ORIGIN"`
+endDate: string
 
-### Returns
+formatdate-time
 
-- `result: object { trafficAnomalies }`
+<a href="#">Link to this property</a>
 
-  - `trafficAnomalies: array of object { startDate, status, type, 6 more }`
+<details>
 
-    - `startDate: string`
+<summary>
 
-    - `status: string`
+locationDetails: object {code, name }
 
-    - `type: string`
+</summary>
 
-    - `uuid: string`
+code: string
 
-    - `asnDetails: optional object { asn, name, locations }`
+<a href="#">Link to this property</a>
 
-      - `asn: string`
+name: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `locations: optional object { code, name }`
+</details>
 
-        - `code: string`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+<details>
 
-    - `endDate: optional string`
+<summary>
 
-    - `locationDetails: optional object { code, name }`
+originDetails: object {name, origin }
 
-      - `code: string`
+</summary>
 
-      - `name: string`
+name: string
 
-    - `originDetails: optional object { name, origin }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+origin: string
 
-      - `origin: string`
+<a href="#">Link to this property</a>
 
-    - `visibleInDataSources: optional array of string`
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+startDate: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/traffic_anomalies \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+status: string
 
-```json
-{
-  "result": {
-    "trafficAnomalies": [
-      {
-        "startDate": "2023-08-02T23:15:00Z",
-        "status": "UNVERIFIED",
-        "type": "LOCATION",
-        "uuid": "55a57f33-8bc0-4984-b4df-fdaff72df39d",
-        "asnDetails": {
-          "asn": "189",
-          "name": "LUMEN-LEGACY-L3-PARTITION",
-          "locations": {
-            "code": "US",
-            "name": "United States"
-          }
-        },
-        "endDate": "2019-12-27T18:11:19.117Z",
-        "locationDetails": {
-          "code": "US",
-          "name": "United States"
-        },
-        "originDetails": {
-          "name": "us-east-1 Amazon Web Services",
-          "origin": "amazon-us-east-1"
-        },
-        "visibleInDataSources": [
-          "string"
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+type: string
 
-### Traffic Anomaly Get Response
+<a href="#">Link to this property</a>
 
-- `TrafficAnomalyGetResponse object { trafficAnomalies }`
+uuid: string
 
-  - `trafficAnomalies: array of object { startDate, status, type, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `startDate: string`
+visibleInDataSources: array of string
 
-    - `status: string`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+</details>
 
-    - `uuid: string`
+<a href="#">Link to this property</a>
 
-    - `asnDetails: optional object { asn, name, locations }`
+</details>
 
-      - `asn: string`
+[Link to this property](#)%20radar.traffic_anomalies%20%3E%20(model)%20traffic_anomaly_get_response%20%3E%20(schema)>)
 
-      - `name: string`
+#### Traffic AnomaliesLocations
 
-      - `locations: optional object { code, name }`
+##### [Get top locations by total traffic anomalies](https://developers.cloudflare.com/api/resources/radar/subresources/traffic_anomalies/subresources/locations/methods/get)
 
-        - `code: string`
+GET/radar/traffic\_anomalies/locations
 
-        - `name: string`
+##### ModelsExpand Collapse
 
-    - `endDate: optional string`
+<details>
 
-    - `locationDetails: optional object { code, name }`
+<summary>
 
-      - `code: string`
+LocationGetResponse object {trafficAnomalies }
 
-      - `name: string`
+</summary>
 
-    - `originDetails: optional object { name, origin }`
+<details>
 
-      - `name: string`
+<summary>
 
-      - `origin: string`
+trafficAnomalies: array of object {clientCountryAlpha2, clientCountryName, value }
 
-    - `visibleInDataSources: optional array of string`
+</summary>
 
-# Locations
+clientCountryAlpha2: string
 
-## Get top locations by total traffic anomalies
+<a href="#">Link to this property</a>
 
-**get** `/radar/traffic_anomalies/locations`
+clientCountryName: string
 
-Retrieves the sum of Internet traffic anomalies, grouped by location. These anomalies are signals that might indicate an outage, automatically detected by Radar and manually verified by our team.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+value: string
 
-- `dateEnd: optional string`
+A numeric string.
 
-  End of the date range (inclusive).
+<a href="#">Link to this property</a>
 
-- `dateRange: optional string`
+</details>
 
-  Filters results by date range.
+<a href="#">Link to this property</a>
 
-- `dateStart: optional string`
+</details>
 
-  Start of the date range (inclusive).
-
-- `format: optional "JSON" or "CSV"`
-
-  Format in which results will be returned.
-
-  - `"JSON"`
-
-  - `"CSV"`
-
-- `limit: optional number`
-
-  Limits the number of objects returned in the response.
-
-- `status: optional "VERIFIED" or "UNVERIFIED"`
-
-  - `"VERIFIED"`
-
-  - `"UNVERIFIED"`
-
-### Returns
-
-- `result: object { trafficAnomalies }`
-
-  - `trafficAnomalies: array of object { clientCountryAlpha2, clientCountryName, value }`
-
-    - `clientCountryAlpha2: string`
-
-    - `clientCountryName: string`
-
-    - `value: string`
-
-      A numeric string.
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/traffic_anomalies/locations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "trafficAnomalies": [
-      {
-        "clientCountryAlpha2": "PT",
-        "clientCountryName": "Portugal",
-        "value": "10"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Location Get Response
-
-- `LocationGetResponse object { trafficAnomalies }`
-
-  - `trafficAnomalies: array of object { clientCountryAlpha2, clientCountryName, value }`
-
-    - `clientCountryAlpha2: string`
-
-    - `clientCountryName: string`
-
-    - `value: string`
-
-      A numeric string.
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(model)%20location_get_response%20%3E%20(schema)>)

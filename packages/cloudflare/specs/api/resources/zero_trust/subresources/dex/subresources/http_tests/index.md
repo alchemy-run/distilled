@@ -1,729 +1,427 @@
+---
+title: HTTP Tests
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # HTTP Tests
 
-## Get details and aggregate metrics for an http test
+##### [Get details and aggregate metrics for an http test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/http_tests/methods/get)
 
-**get** `/accounts/{account_id}/dex/http-tests/{test_id}`
+GET/accounts/{account\_id}/dex/http-tests/{test\_id}
 
-Get test details and aggregate performance metrics for an http test for a given time period between 1 hour and 7 days.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+HTTPDetails object {host, httpStats, httpStatsByColo, 6 more }
 
-- `test_id: string`
+</summary>
 
-  API Resource UUID tag.
+host: optional string
 
-### Query Parameters
+The url of the HTTP synthetic application test.
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start time for aggregate metrics in ISO ms.
+<details>
 
-- `interval: "minute" or "hour"`
+<summary>
 
-  Time interval for aggregate time slots.
+httpStats: optional object {availabilityPct, dnsResponseTimeMs, httpStatusCode, 3 more }
 
-  - `"minute"`
+</summary>
 
-  - `"hour"`
+<details>
 
-- `to: string`
+<summary>
 
-  End time for aggregate metrics in ISO ms.
+availabilityPct: object {slots, avg, max, min }
 
-- `colo: optional string`
+</summary>
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+<details>
 
-- `deviceId: optional array of string`
+<summary>
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+slots: array of object {timestamp, value }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+timestamp: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+value: number
 
-  - `documentation_url: optional string`
+formatfloat
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+avg: optional number
 
-  - `message: string`
+average observed in the time period.
 
-  - `documentation_url: optional string`
+formatfloat
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+max: optional number
 
-- `success: true`
+highest observed in the time period.
 
-  Whether the API call was successful.
+formatfloat
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional HTTPDetails`
+min: optional number
 
-  - `host: optional string`
+lowest observed in the time period.
 
-    The url of the HTTP synthetic application test.
+formatfloat
 
-  - `httpStats: optional object { availabilityPct, dnsResponseTimeMs, httpStatusCode, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `availabilityPct: object { slots, avg, max, min }`
+</details>
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+dnsResponseTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-      - `avg: optional number`
+<details>
 
-        average observed in the time period.
+<summary>
 
-      - `max: optional number`
+httpStatusCode: array of object {status200, status300, status400, 2 more }
 
-        highest observed in the time period.
+</summary>
 
-      - `min: optional number`
+status200: number
 
-        lowest observed in the time period.
+<a href="#">Link to this property</a>
 
-    - `dnsResponseTimeMs: TestStatOverTime`
+status300: number
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+status400: number
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-      - `avg: optional number`
+status500: number
 
-        average observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `max: optional number`
+timestamp: string
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+</details>
 
-        lowest observed in the time period.
+<a href="#">Link to this property</a>
 
-    - `httpStatusCode: array of object { status200, status300, status400, 2 more }`
+resourceFetchTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-      - `status200: number`
+<a href="#">Link to this property</a>
 
-      - `status300: number`
+serverResponseTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-      - `status400: number`
+<a href="#">Link to this property</a>
 
-      - `status500: number`
+uniqueDevicesTotal: number
 
-      - `timestamp: string`
+Count of unique devices that have run this test in the given time period.
 
-    - `resourceFetchTimeMs: TestStatOverTime`
+<a href="#">Link to this property</a>
 
-    - `serverResponseTimeMs: TestStatOverTime`
+</details>
 
-    - `uniqueDevicesTotal: number`
+<a href="#">Link to this property</a>
 
-      Count of unique devices that have run this test in the given time period.
+<details>
 
-  - `httpStatsByColo: optional array of object { availabilityPct, colo, dnsResponseTimeMs, 4 more }`
+<summary>
 
-    - `availabilityPct: object { slots, avg, max, min }`
+httpStatsByColo: optional array of object {availabilityPct, colo, dnsResponseTimeMs, 4 more }
 
-      - `slots: array of object { timestamp, value }`
+</summary>
 
-        - `timestamp: string`
+<details>
 
-        - `value: number`
+<summary>
 
-      - `avg: optional number`
+availabilityPct: object {slots, avg, max, min }
 
-        average observed in the time period.
+</summary>
 
-      - `max: optional number`
+<details>
 
-        highest observed in the time period.
+<summary>
 
-      - `min: optional number`
+slots: array of object {timestamp, value }
 
-        lowest observed in the time period.
+</summary>
 
-    - `colo: string`
+timestamp: string
 
-    - `dnsResponseTimeMs: TestStatOverTime`
+<a href="#">Link to this property</a>
 
-    - `httpStatusCode: array of object { status200, status300, status400, 2 more }`
+value: number
 
-      - `status200: number`
+formatfloat
 
-      - `status300: number`
+<a href="#">Link to this property</a>
 
-      - `status400: number`
+</details>
 
-      - `status500: number`
+<a href="#">Link to this property</a>
 
-      - `timestamp: string`
+avg: optional number
 
-    - `resourceFetchTimeMs: TestStatOverTime`
+average observed in the time period.
 
-    - `serverResponseTimeMs: TestStatOverTime`
+formatfloat
 
-    - `uniqueDevicesTotal: number`
+<a href="#">Link to this property</a>
 
-      Count of unique devices that have run this test in the given time period.
+max: optional number
 
-  - `interval: optional string`
+highest observed in the time period.
 
-    The interval at which the HTTP synthetic application test is set to run.
+formatfloat
 
-  - `kind: optional "http"`
+<a href="#">Link to this property</a>
 
-    - `"http"`
+min: optional number
 
-  - `method: optional string`
+lowest observed in the time period.
 
-    The HTTP method to use when running the test.
+formatfloat
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the HTTP synthetic application test.
+</details>
 
-  - `target_policies: optional array of DigitalExperienceMonitor`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+colo: string
 
-      API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-    - `default: boolean`
+dnsResponseTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-      Whether the policy is the default for the account.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-  - `targeted: optional boolean`
+<summary>
 
-### Example
+httpStatusCode: array of object {status200, status300, status400, 2 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/http-tests/$TEST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+status200: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "host": "http://example.com",
-    "httpStats": {
-      "availabilityPct": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "dnsResponseTimeMs": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "httpStatusCode": [
-        {
-          "status200": 0,
-          "status300": 0,
-          "status400": 0,
-          "status500": 0,
-          "timestamp": "2023-07-16 15:00:00+00"
-        }
-      ],
-      "resourceFetchTimeMs": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "serverResponseTimeMs": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "uniqueDevicesTotal": 57
-    },
-    "httpStatsByColo": [
-      {
-        "availabilityPct": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "colo": "DFW",
-        "dnsResponseTimeMs": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "httpStatusCode": [
-          {
-            "status200": 0,
-            "status300": 0,
-            "status400": 0,
-            "status500": 0,
-            "timestamp": "2023-07-16 15:00:00+00"
-          }
-        ],
-        "resourceFetchTimeMs": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "serverResponseTimeMs": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "uniqueDevicesTotal": 57
-      }
-    ],
-    "interval": "0h5m0s",
-    "kind": "http",
-    "method": "GET",
-    "name": "Atlassian Sign In Page",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+status300: number
 
-### HTTP Details
+<a href="#">Link to this property</a>
 
-- `HTTPDetails object { host, httpStats, httpStatsByColo, 6 more }`
+status400: number
 
-  - `host: optional string`
+<a href="#">Link to this property</a>
 
-    The url of the HTTP synthetic application test.
+status500: number
 
-  - `httpStats: optional object { availabilityPct, dnsResponseTimeMs, httpStatusCode, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `availabilityPct: object { slots, avg, max, min }`
+timestamp: string
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+</details>
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-      - `avg: optional number`
+resourceFetchTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-        average observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `max: optional number`
+serverResponseTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+uniqueDevicesTotal: number
 
-        lowest observed in the time period.
+Count of unique devices that have run this test in the given time period.
 
-    - `dnsResponseTimeMs: TestStatOverTime`
+<a href="#">Link to this property</a>
 
-      - `slots: array of object { timestamp, value }`
+</details>
 
-        - `timestamp: string`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+interval: optional string
 
-      - `avg: optional number`
+The interval at which the HTTP synthetic application test is set to run.
 
-        average observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `max: optional number`
+kind: optional "http"
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+method: optional string
 
-        lowest observed in the time period.
+The HTTP method to use when running the test.
 
-    - `httpStatusCode: array of object { status200, status300, status400, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `status200: number`
+name: optional string
 
-      - `status300: number`
+The name of the HTTP synthetic application test.
 
-      - `status400: number`
+<a href="#">Link to this property</a>
 
-      - `status500: number`
+<details>
 
-      - `timestamp: string`
+<summary>
 
-    - `resourceFetchTimeMs: TestStatOverTime`
+target\_policies: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20digital_experience_monitor%20%3E%20(schema)">DigitalExperienceMonitor</a> { id, default, name }
 
-    - `serverResponseTimeMs: TestStatOverTime`
+</summary>
 
-    - `uniqueDevicesTotal: number`
+id: string
 
-      Count of unique devices that have run this test in the given time period.
+API Resource UUID tag.
 
-  - `httpStatsByColo: optional array of object { availabilityPct, colo, dnsResponseTimeMs, 4 more }`
+maxLength36
 
-    - `availabilityPct: object { slots, avg, max, min }`
+<a href="#">Link to this property</a>
 
-      - `slots: array of object { timestamp, value }`
+default: boolean
 
-        - `timestamp: string`
+Whether the policy is the default for the account.
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-      - `avg: optional number`
+name: string
 
-        average observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `max: optional number`
+</details>
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+targeted: optional boolean
 
-        lowest observed in the time period.
+<a href="#">Link to this property</a>
 
-    - `colo: string`
+</details>
 
-    - `dnsResponseTimeMs: TestStatOverTime`
+[Link to this property](#)%20zero_trust.dex.http_tests%20%3E%20(model)%20http_details%20%3E%20(schema)>)
 
-    - `httpStatusCode: array of object { status200, status300, status400, 2 more }`
+#### HTTP TestsPercentiles
 
-      - `status200: number`
+##### [Get percentiles for an http test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/http_tests/subresources/percentiles/methods/get)
 
-      - `status300: number`
+GET/accounts/{account\_id}/dex/http-tests/{test\_id}/percentiles
 
-      - `status400: number`
+##### ModelsExpand Collapse
 
-      - `status500: number`
+<details>
 
-      - `timestamp: string`
+<summary>
 
-    - `resourceFetchTimeMs: TestStatOverTime`
+HTTPDetailsPercentiles object {dnsResponseTimeMs, resourceFetchTimeMs, serverResponseTimeMs }
 
-    - `serverResponseTimeMs: TestStatOverTime`
+</summary>
 
-    - `uniqueDevicesTotal: number`
+dnsResponseTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-      Count of unique devices that have run this test in the given time period.
+<a href="#">Link to this property</a>
 
-  - `interval: optional string`
+resourceFetchTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-    The interval at which the HTTP synthetic application test is set to run.
+<a href="#">Link to this property</a>
 
-  - `kind: optional "http"`
+serverResponseTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-    - `"http"`
+<a href="#">Link to this property</a>
 
-  - `method: optional string`
+</details>
 
-    The HTTP method to use when running the test.
+[Link to this property](#)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20http_details_percentiles%20%3E%20(schema)>)
 
-  - `name: optional string`
+<details>
 
-    The name of the HTTP synthetic application test.
+<summary>
 
-  - `target_policies: optional array of DigitalExperienceMonitor`
+TestStatOverTime object {slots, avg, max, min }
 
-    - `id: string`
+</summary>
 
-      API Resource UUID tag.
+<details>
 
-    - `default: boolean`
+<summary>
 
-      Whether the policy is the default for the account.
+slots: array of object {timestamp, value }
 
-    - `name: string`
+</summary>
 
-  - `targeted: optional boolean`
+timestamp: string
 
-# Percentiles
+<a href="#">Link to this property</a>
 
-## Get percentiles for an http test
+value: number
 
-**get** `/accounts/{account_id}/dex/http-tests/{test_id}/percentiles`
+<a href="#">Link to this property</a>
 
-Get percentiles for an http test for a given time period between 1 hour and 7 days.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+avg: optional number
 
-  Unique identifier linked to an account.
+average observed in the time period.
 
-- `test_id: string`
+<a href="#">Link to this property</a>
 
-  API Resource UUID tag.
+max: optional number
 
-### Query Parameters
+highest observed in the time period.
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+min: optional number
 
-- `to: string`
+lowest observed in the time period.
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+<a href="#">Link to this property</a>
 
-- `colo: optional string`
+</details>
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
-
-- `deviceId: optional array of string`
-
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional HTTPDetailsPercentiles`
-
-  - `dnsResponseTimeMs: optional Percentiles`
-
-    - `p50: optional number`
-
-      p50 observed in the time period.
-
-    - `p90: optional number`
-
-      p90 observed in the time period.
-
-    - `p95: optional number`
-
-      p95 observed in the time period.
-
-    - `p99: optional number`
-
-      p99 observed in the time period.
-
-  - `resourceFetchTimeMs: optional Percentiles`
-
-  - `serverResponseTimeMs: optional Percentiles`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/http-tests/$TEST_ID/percentiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dnsResponseTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "resourceFetchTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "serverResponseTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    }
-  }
-}
-```
-
-## Domain Types
-
-### HTTP Details Percentiles
-
-- `HTTPDetailsPercentiles object { dnsResponseTimeMs, resourceFetchTimeMs, serverResponseTimeMs }`
-
-  - `dnsResponseTimeMs: optional Percentiles`
-
-    - `p50: optional number`
-
-      p50 observed in the time period.
-
-    - `p90: optional number`
-
-      p90 observed in the time period.
-
-    - `p95: optional number`
-
-      p95 observed in the time period.
-
-    - `p99: optional number`
-
-      p99 observed in the time period.
-
-  - `resourceFetchTimeMs: optional Percentiles`
-
-  - `serverResponseTimeMs: optional Percentiles`
-
-### Test Stat Over Time
-
-- `TestStatOverTime object { slots, avg, max, min }`
-
-  - `slots: array of object { timestamp, value }`
-
-    - `timestamp: string`
-
-    - `value: number`
-
-  - `avg: optional number`
-
-    average observed in the time period.
-
-  - `max: optional number`
-
-    highest observed in the time period.
-
-  - `min: optional number`
-
-    lowest observed in the time period.
+[Link to this property](#)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)>)

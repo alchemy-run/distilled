@@ -1,85 +1,251 @@
-## Get Cache Reserve Clear
+---
+title: Get Cache Reserve Clear
+---
 
-**get** `/zones/{zone_id}/cache/cache_reserve_clear`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cache](https://developers.cloudflare.com/api/resources/cache)
+
+[Cache Reserve](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Cache Reserve Clear
+
+GET/zones/{zone\_id}/cache/cache\_reserve\_clear
 
 You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `success: true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+##### Accepted Permissions (at least one required)
 
-- `result: optional object { id, start_ts, state, 2 more }`
+`Zone Settings Write``Zone Settings Read``Zone Read``Zone Write`
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+##### P ath ParametersExpand Collapse
 
-  - `id: CacheReserveClear`
+zone\_id: string
 
-    ID of the zone setting.
+Identifier.
 
-    - `"cache_reserve_clear"`
+maxLength32
 
-  - `start_ts: string`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(method)%20status%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    The time that the latest Cache Reserve Clear operation started.
+##### ReturnsExpand Collapse
 
-  - `state: State`
+<details>
 
-    The current state of the Cache Reserve Clear operation.
+<summary>
 
-    - `"In-progress"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"Completed"`
+</summary>
 
-  - `end_ts: optional string`
+code: number
 
-    The time that the latest Cache Reserve Clear operation completed.
+minimum1000
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Last time this setting was modified.
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(method)%20status%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(method)%20status%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(method)%20status%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, start\_ts, state, 2 more }
+
+You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+
+</summary>
+
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)">CacheReserveClear</a>
+
+ID of the zone setting.
+
+<a href="#">Link to this property</a>
+
+start\_ts: string
+
+The time that the latest Cache Reserve Clear operation started.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20state%20%3E%20(schema)">State</a>
+
+The current state of the Cache Reserve Clear operation.
+
+</summary>
+
+One of the following:
+
+"In-progress"
+
+<a href="#">Link to this property</a>
+
+"Completed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+end\_ts: optional string
+
+The time that the latest Cache Reserve Clear operation completed.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Last time this setting was modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(method)%20status%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get Cache Reserve Clear
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve_clear \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+200 example
+
+4XX example
+
+```
 {
   "errors": [],
   "messages": [],
@@ -90,5 +256,81 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve_cle
     "state": "Completed"
   },
   "success": true
+}
+```
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "id": "cache_reserve_clear",
+    "start_ts": "2023-10-02T10:00:00.12345Z",
+    "state": "In-progress"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1142,
+      "message": "Unable to retrieve cache_reserve_clear setting value. The zone setting does not exist because you never performed a Cache Reserve Clear operation."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+200 example
+
+4XX example
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "end_ts": "2023-10-02T12:00:00.12345Z",
+    "id": "cache_reserve_clear",
+    "start_ts": "2023-10-02T10:00:00.12345Z",
+    "state": "Completed"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "id": "cache_reserve_clear",
+    "start_ts": "2023-10-02T10:00:00.12345Z",
+    "state": "In-progress"
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1142,
+      "message": "Unable to retrieve cache_reserve_clear setting value. The zone setting does not exist because you never performed a Cache Reserve Clear operation."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

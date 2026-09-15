@@ -1,107 +1,255 @@
-## List zone snippets
+---
+title: List zone snippets
+---
 
-**get** `/zones/{zone_id}/snippets`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Snippets](https://developers.cloudflare.com/api/resources/snippets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List zone snippets
+
+GET/zones/{zone\_id}/snippets
 
 Fetches all snippets belonging to the zone.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Use this field to specify the unique ID of the zone.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `page: optional number`
 
-  Specifies the current page number.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `per_page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Specifies how many results to return per page.
+</details>
 
-### Returns
+<details>
 
-- `errors: array of object { message, code }`
+<summary>API Email + API Key</summary>
 
-  Lists error messages.
 
-  - `message: string`
 
-    Describes the message text.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Identify the message code.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `messages: array of object { message, code }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Contain warning messages.
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-    Describes the message text.
+`Snippets Write``Snippets Read`
 
-  - `code: optional number`
+##### P ath ParametersExpand Collapse
 
-    Identify the message code.
+zone\_id: string
 
-- `result: array of object { created_on, snippet_name, modified_on }`
+Use this field to specify the unique ID of the zone.
 
-  Contain snippets.
+[Link to this property](#)%20snippets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `created_on: string`
+##### Q uery ParametersExpand Collapse
 
-    Indicates when the snippet was created.
+page: optional number
 
-  - `snippet_name: string`
+Specifies the current page number.
 
-    Identify the snippet.
+minimum1
 
-  - `modified_on: optional string`
+[Link to this property](#)%20snippets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    Indicates when the snippet was last modified.
+per\_page: optional number
 
-- `success: true`
+Specifies how many results to return per page.
 
-  Indicate whether the API call was successful.
+minimum1
 
-  - `true`
+[Link to this property](#)%20snippets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+##### ReturnsExpand Collapse
 
-  Additional information to navigate the results.
+<details>
 
-  - `count: number`
+<summary>
 
-    Specify the number of results in the current page.
+errors: array of object {message, code }
 
-  - `page: number`
+Lists error messages.
 
-    Specifies the current page number.
+</summary>
 
-  - `per_page: number`
+message: string
 
-    Specifies how many results to return per page.
+Describes the message text.
 
-  - `total_count: number`
+minLength1
 
-    Specify the total number of results.
+<a href="#">Link to this property</a>
 
-  - `total_pages: number`
+code: optional number
 
-    Specify the total number of pages.
+Identify the message code.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message, code }
+
+Contain warning messages.
+
+</summary>
+
+message: string
+
+Describes the message text.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+Identify the message code.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {created\_on, snippet\_name, modified\_on }
+
+Contain snippets.
+
+</summary>
+
+created\_on: string
+
+Indicates when the snippet was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+snippet\_name: string
+
+Identify the snippet.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Indicates when the snippet was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Indicate whether the API call was successful.
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+Additional information to navigate the results.
+
+</summary>
+
+count: number
+
+Specify the number of results in the current page.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+page: number
+
+Specifies the current page number.
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+Specifies how many results to return per page.
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+Specify the total number of results.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+total\_pages: number
+
+Specify the total number of pages.
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List zone snippets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -117,9 +265,45 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets \
   ],
   "result": [
     {
-      "created_on": "2000-01-01T00:00:00.000000Z",
+      "created_on": "2000-01-01T00:00:00Z",
       "snippet_name": "my_snippet",
-      "modified_on": "2000-01-01T00:00:00.000000Z"
+      "modified_on": "2000-01-01T00:00:00Z"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 25,
+    "page": 1,
+    "per_page": 25,
+    "total_count": 100,
+    "total_pages": 10
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "message": "something bad happened",
+      "code": 10000
+    }
+  ],
+  "messages": [
+    {
+      "message": "something bad happened",
+      "code": 10000
+    }
+  ],
+  "result": [
+    {
+      "created_on": "2000-01-01T00:00:00Z",
+      "snippet_name": "my_snippet",
+      "modified_on": "2000-01-01T00:00:00Z"
     }
   ],
   "success": true,

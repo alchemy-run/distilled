@@ -1,122 +1,364 @@
-## Delete TLS setting for hostname
+---
+title: Delete TLS setting for hostname
+---
 
-**delete** `/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Hostnames](https://developers.cloudflare.com/api/resources/hostnames)
+
+[Settings](https://developers.cloudflare.com/api/resources/hostnames/subresources/settings)
+
+[TLS](https://developers.cloudflare.com/api/resources/hostnames/subresources/settings/subresources/tls)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete TLS setting for hostname
+
+DELETE/zones/{zone\_id}/hostnames/settings/{setting\_id}/{hostname}
 
 Delete the tls setting value for the hostname.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `setting_id: "ciphers" or "min_tls_version" or "http2"`
 
-  The TLS Setting name.
-  The value type depends on the setting:
 
-  - `ciphers`: value is an array of cipher suite strings (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-  - `min_tls_version`: value is a TLS version string (`"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"`).
-  - `http2`: value is `"on"` or `"off"`.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"ciphers"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"min_tls_version"`
+</details>
 
-  - `"http2"`
+<details>
 
-- `hostname: string`
+<summary>API Email + API Key</summary>
 
-  The hostname for which the tls settings are set.
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`SSL and Certificates Write`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+zone\_id: string
 
-  - `documentation_url: optional string`
+Identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+setting\_id: "ciphers"or "min\_tls\_version"or "http2"
 
-- `result: optional object { created_at, hostname, status, 2 more }`
+The TLS Setting name. The value type depends on the setting:
 
-  - `created_at: optional string`
+- <code>ciphers</code>: value is an array of cipher suite strings (e.g., <code>["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]</code>).
+- <code>min_tls_version</code>: value is a TLS version string (<code>"1.0"</code>, <code>"1.1"</code>, <code>"1.2"</code>, or <code>"1.3"</code>).
+- <code>http2</code>: value is <code>"on"</code> or <code>"off"</code>.
 
-    This is the time the tls setting was originally created for this hostname.
+</summary>
 
-  - `hostname: optional string`
+One of the following:
 
-    The hostname for which the tls settings are set.
+"ciphers"
 
-  - `status: optional string`
+<a href="#">Link to this property</a>
 
-    Deployment status for the given tls setting.
+"min\_tls\_version"
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-    This is the time the tls setting was updated.
+"http2"
 
-  - `value: optional SettingValue`
+<a href="#">Link to this property</a>
 
-    The TLS setting value.
-    The type depends on the `setting_id` used in the request path:
+</details>
 
-    - `ciphers`: an array of allowed cipher suite strings in BoringSSL format (e.g., `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`).
-    - `min_tls_version`: a string indicating the minimum TLS version — one of `"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"` (e.g., `"1.2"`).
-    - `http2`: a string indicating whether HTTP/2 is enabled — `"on"` or `"off"` (e.g., `"on"`).
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20setting_id%20%3E%20(schema)>)
 
-    - `"1.0" or "1.1" or "1.2" or 3 more`
+hostname: string
 
-      - `"1.0"`
+The hostname for which the tls settings are set.
 
-      - `"1.1"`
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20hostname%20%3E%20(schema)>)
 
-      - `"1.2"`
+##### ReturnsExpand Collapse
 
-      - `"1.3"`
+<details>
 
-      - `"on"`
+<summary>
 
-      - `"off"`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `array of string`
+</summary>
 
-      Used when `setting_id` is `ciphers`. An array of allowed cipher suite strings.
+code: number
 
-### Example
+minimum1000
 
-```http
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {created\_at, hostname, status, 2 more }
+
+</summary>
+
+created\_at: optional string
+
+This is the time the tls setting was originally created for this hostname.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+hostname: optional string
+
+The hostname for which the tls settings are set.
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+Deployment status for the given tls setting.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+This is the time the tls setting was updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional <a href="https://developers.cloudflare.com/api/resources/hostnames#(resource)%20hostnames.settings.tls%20%3E%20(model)%20setting_value%20%3E%20(schema)">SettingValue</a>
+
+The TLS setting value. The type depends on the <code>setting_id</code> used in the request path:
+
+- <code>ciphers</code>: an array of allowed cipher suite strings in BoringSSL format (e.g., <code>["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]</code>).
+- <code>min_tls_version</code>: a string indicating the minimum TLS version — one of <code>"1.0"</code>, <code>"1.1"</code>, <code>"1.2"</code>, or <code>"1.3"</code> (e.g., <code>"1.2"</code>).
+- <code>http2</code>: a string indicating whether HTTP/2 is enabled — <code>"on"</code> or <code>"off"</code> (e.g., <code>"on"</code>).
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+"1.0"or "1.1"or "1.2"or 3 more
+
+</summary>
+
+One of the following:
+
+"1.0"
+
+<a href="#">Link to this property</a>
+
+"1.1"
+
+<a href="#">Link to this property</a>
+
+"1.2"
+
+<a href="#">Link to this property</a>
+
+"1.3"
+
+<a href="#">Link to this property</a>
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+array of string
+
+Used when <code>setting_id</code> is <code>ciphers</code>. An array of allowed cipher suite strings.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20hostnames.settings.tls%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete TLS setting for hostname
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/hostnames/settings/$SETTING_ID/$HOSTNAME \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "created_at": "2023-07-10T20:01:50.219171Z",
+    "hostname": "app.example.com",
+    "status": "pending_deployment",
+    "updated_at": "2023-07-10T20:01:50.219171Z",
+    "value": [
+      "ECDHE-RSA-AES128-GCM-SHA256",
+      "AES128-GCM-SHA256"
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

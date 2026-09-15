@@ -1,62 +1,227 @@
-## Delete a single data tag.
+---
+title: Delete a single data tag.
+---
 
-**delete** `/accounts/{account_id}/dlp/data_tag_categories/{category_id}/data_tags/{tag_id}`
+[Skip to content](#_top)
 
-Delete a single data tag.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-- `category_id: string`
+[Data Tag Categories](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories)
 
-- `tag_id: string`
+[Data Tags](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_tag_categories/subresources/data_tags)
 
-### Returns
+Copy Markdown
 
-- `errors: array of object { code, message, documentation_url, source }`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `code: number`
+---
 
-  - `message: string`
+**Copy Markdown****View as Markdown**
 
-  - `documentation_url: optional string`
+# Delete a single data tag.
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/dlp/data\_tag\_categories/{category\_id}/data\_tags/{tag\_id}
 
-    - `pointer: optional string`
+Deletes a data tag from a category.
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `success: true`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<details>
 
-- `result: optional unknown`
+<summary>API Email + API Key</summary>
 
-### Example
 
-```http
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Zero Trust Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+category\_id: string
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20category_id%20%3E%20(schema)>)
+
+tag\_id: string
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20tag_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+result: optional unknown
+
+[Link to this property](#)%20zero_trust.dlp.data_tag_categories.data_tags%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete a single data tag.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_tag_categories/$CATEGORY_ID/data_tags/$TAG_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {}
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

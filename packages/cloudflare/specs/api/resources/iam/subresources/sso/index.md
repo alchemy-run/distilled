@@ -1,978 +1,577 @@
+---
+title: SSO
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # SSO
 
-## Get all SSO connectors
+##### [Get all SSO connectors](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/list)
 
-**get** `/accounts/{account_id}/sso_connectors`
+GET/accounts/{account\_id}/sso\_connectors
 
-Lists all SSO connectors configured for the account.
+##### [Get single SSO connector](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/sso\_connectors/{sso\_connector\_id}
 
-- `account_id: string`
+##### [Initialize new SSO connector](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/create)
 
-  Account identifier tag.
+POST/accounts/{account\_id}/sso\_connectors
 
-### Returns
+##### [Update SSO connector state](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/update)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PATCH/accounts/{account\_id}/sso\_connectors/{sso\_connector\_id}
 
-  - `code: number`
+##### [Delete SSO connector](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/sso\_connectors/{sso\_connector\_id}
 
-  - `documentation_url: optional string`
+##### [Begin SSO connector verification](https://developers.cloudflare.com/api/resources/iam/subresources/sso/methods/begin_verification)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/sso\_connectors/{sso\_connector\_id}/begin\_verification
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+SSOListResponse object {id, created\_on, email\_domain, 4 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+SSO Connector identifier tag.
 
-- `success: true`
+maxLength32
 
-  Whether the API call was successful.
+minLength32
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_on, email_domain, 4 more }`
+created\_on: optional string
 
-  - `id: optional string`
+Timestamp for the creation of the SSO connector
 
-    SSO Connector identifier tag.
+formatdate-time
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the SSO connector
+email\_domain: optional string
 
-  - `email_domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+enabled: optional boolean
 
-  - `updated_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the last update of the SSO connector
+updated\_on: optional string
 
-  - `use_fedramp_language: optional boolean`
+Timestamp for the last update of the SSO connector
 
-    Controls the display of FedRAMP language to the user during SSO login
+formatdate-time
 
-  - `verification: optional object { code, status }`
+<a href="#">Link to this property</a>
 
-    - `code: optional string`
+use\_fedramp\_language: optional boolean
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+Controls the display of FedRAMP language to the user during SSO login
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+<a href="#">Link to this property</a>
 
-      The status of the verification code from the verification process.
+<details>
 
-      - `"awaiting"`
+<summary>
 
-      - `"pending"`
+verification: optional object {code, status }
 
-      - `"failed"`
+</summary>
 
-      - `"verified"`
+code: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results
+status: optional "awaiting"or "pending"or "failed"or "verified"
 
-  - `per_page: optional number`
+The status of the verification code from the verification process.
 
-    Number of results per page of results
+</summary>
 
-  - `total_count: optional number`
+One of the following:
 
-    Total results available without any search parameters
+"awaiting"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"pending"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2025-01-01T12:21:02.0000Z",
-      "email_domain": "example.com",
-      "enabled": false,
-      "updated_on": "2025-01-01T12:21:02.0000Z",
-      "use_fedramp_language": false,
-      "verification": {
-        "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
-        "status": "pending"
-      }
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+"failed"
 
-## Get single SSO connector
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/sso_connectors/{sso_connector_id}`
+"verified"
 
-Retrieves details for a specific SSO connector.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+</details>
 
-- `sso_connector_id: string`
+<a href="#">Link to this property</a>
 
-  SSO Connector identifier tag.
+</details>
 
-### Returns
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_list_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+SSOGetResponse object {id, created\_on, email\_domain, 4 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+SSO Connector identifier tag.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+minLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_on: optional string
 
-  - `source: optional object { pointer }`
+Timestamp for the creation of the SSO connector
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+email\_domain: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, email_domain, 4 more }`
+enabled: optional boolean
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    SSO Connector identifier tag.
+updated\_on: optional string
 
-  - `created_on: optional string`
+Timestamp for the last update of the SSO connector
 
-    Timestamp for the creation of the SSO connector
+formatdate-time
 
-  - `email_domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+use\_fedramp\_language: optional boolean
 
-  - `updated_on: optional string`
+Controls the display of FedRAMP language to the user during SSO login
 
-    Timestamp for the last update of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `use_fedramp_language: optional boolean`
+<details>
 
-    Controls the display of FedRAMP language to the user during SSO login
+<summary>
 
-  - `verification: optional object { code, status }`
+verification: optional object {code, status }
 
-    - `code: optional string`
+</summary>
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+code: optional string
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
 
-      The status of the verification code from the verification process.
+<a href="#">Link to this property</a>
 
-      - `"awaiting"`
+<details>
 
-      - `"pending"`
+<summary>
 
-      - `"failed"`
+status: optional "awaiting"or "pending"or "failed"or "verified"
 
-      - `"verified"`
+The status of the verification code from the verification process.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors/$SSO_CONNECTOR_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"awaiting"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2025-01-01T12:21:02.0000Z",
-    "email_domain": "example.com",
-    "enabled": false,
-    "updated_on": "2025-01-01T12:21:02.0000Z",
-    "use_fedramp_language": false,
-    "verification": {
-      "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
-      "status": "pending"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Initialize new SSO connector
+"pending"
 
-**post** `/accounts/{account_id}/sso_connectors`
+<a href="#">Link to this property</a>
 
-Creates a new SSO connector for logging into Cloudflare through an identity provider.
+"failed"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"verified"
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `email_domain: string`
+<a href="#">Link to this property</a>
 
-  Email domain of the new SSO connector
+</details>
 
-- `begin_verification: optional boolean`
+<a href="#">Link to this property</a>
 
-  Begin the verification process after creation
+</details>
 
-- `use_fedramp_language: optional boolean`
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_get_response%20%3E%20(schema)>)
 
-  Controls the display of FedRAMP language to the user during SSO login
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+SSOCreateResponse object {id, created\_on, email\_domain, 4 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+SSO Connector identifier tag.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+minLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: optional string
 
-  - `message: string`
+Timestamp for the creation of the SSO connector
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+email\_domain: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+enabled: optional boolean
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, email_domain, 4 more }`
+updated\_on: optional string
 
-  - `id: optional string`
+Timestamp for the last update of the SSO connector
 
-    SSO Connector identifier tag.
+formatdate-time
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the SSO connector
+use\_fedramp\_language: optional boolean
 
-  - `email_domain: optional string`
+Controls the display of FedRAMP language to the user during SSO login
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `updated_on: optional string`
+<details>
 
-    Timestamp for the last update of the SSO connector
+<summary>
 
-  - `use_fedramp_language: optional boolean`
+verification: optional object {code, status }
 
-    Controls the display of FedRAMP language to the user during SSO login
+</summary>
 
-  - `verification: optional object { code, status }`
+code: optional string
 
-    - `code: optional string`
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+<a href="#">Link to this property</a>
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+<details>
 
-      The status of the verification code from the verification process.
+<summary>
 
-      - `"awaiting"`
+status: optional "awaiting"or "pending"or "failed"or "verified"
 
-      - `"pending"`
+The status of the verification code from the verification process.
 
-      - `"failed"`
+</summary>
 
-      - `"verified"`
+One of the following:
 
-### Example
+"awaiting"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email_domain": "example.com",
-          "begin_verification": true
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"pending"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2025-01-01T12:21:02.0000Z",
-    "email_domain": "example.com",
-    "enabled": false,
-    "updated_on": "2025-01-01T12:21:02.0000Z",
-    "use_fedramp_language": false,
-    "verification": {
-      "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
-      "status": "pending"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update SSO connector state
+"failed"
 
-**patch** `/accounts/{account_id}/sso_connectors/{sso_connector_id}`
+<a href="#">Link to this property</a>
 
-Updates the state or configuration of an SSO connector.
+"verified"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `sso_connector_id: string`
+</details>
 
-  SSO Connector identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `enabled: optional boolean`
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_create_response%20%3E%20(schema)>)
 
-  SSO Connector enabled state
+<details>
 
-- `use_fedramp_language: optional boolean`
+<summary>
 
-  Controls the display of FedRAMP language to the user during SSO login
+SSOUpdateResponse object {id, created\_on, email\_domain, 4 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+SSO Connector identifier tag.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+minLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Timestamp for the creation of the SSO connector
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+email\_domain: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+enabled: optional boolean
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+updated\_on: optional string
 
-  - `true`
+Timestamp for the last update of the SSO connector
 
-- `result: optional object { id, created_on, email_domain, 4 more }`
+formatdate-time
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    SSO Connector identifier tag.
+use\_fedramp\_language: optional boolean
 
-  - `created_on: optional string`
+Controls the display of FedRAMP language to the user during SSO login
 
-    Timestamp for the creation of the SSO connector
+<a href="#">Link to this property</a>
 
-  - `email_domain: optional string`
+<details>
 
-  - `enabled: optional boolean`
+<summary>
 
-  - `updated_on: optional string`
+verification: optional object {code, status }
 
-    Timestamp for the last update of the SSO connector
+</summary>
 
-  - `use_fedramp_language: optional boolean`
+code: optional string
 
-    Controls the display of FedRAMP language to the user during SSO login
+DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
 
-  - `verification: optional object { code, status }`
+<a href="#">Link to this property</a>
 
-    - `code: optional string`
+<details>
 
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
+<summary>
 
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
+status: optional "awaiting"or "pending"or "failed"or "verified"
 
-      The status of the verification code from the verification process.
+The status of the verification code from the verification process.
 
-      - `"awaiting"`
+</summary>
 
-      - `"pending"`
+One of the following:
 
-      - `"failed"`
+"awaiting"
 
-      - `"verified"`
+<a href="#">Link to this property</a>
 
-### Example
+"pending"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors/$SSO_CONNECTOR_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"failed"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2025-01-01T12:21:02.0000Z",
-    "email_domain": "example.com",
-    "enabled": false,
-    "updated_on": "2025-01-01T12:21:02.0000Z",
-    "use_fedramp_language": false,
-    "verification": {
-      "code": "cloudflare_dashboard_sso=023e105f4ecef8ad9ca31a8372d0c353",
-      "status": "pending"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete SSO connector
+"verified"
 
-**delete** `/accounts/{account_id}/sso_connectors/{sso_connector_id}`
+<a href="#">Link to this property</a>
 
-Deletes an SSO connector from the account.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `sso_connector_id: string`
+</details>
 
-  SSO Connector identifier tag.
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_update_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+SSODeleteResponse object {id }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Identifier
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+minLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_delete_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+SSOBeginVerificationResponse object {errors, messages, success }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+<details>
 
-- `result: optional object { id }`
+<summary>
 
-  - `id: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    Identifier
+</summary>
 
-### Example
+code: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors/$SSO_CONNECTOR_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+minimum1000
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+message: string
 
-## Begin SSO connector verification
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/sso_connectors/{sso_connector_id}/begin_verification`
+documentation\_url: optional string
 
-Validates the user has added the DNS TXT record required for validating ownership of the domain they are trying to set up a connector for.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier tag.
+source: optional object {pointer }
 
-- `sso_connector_id: string`
+</summary>
 
-  SSO Connector identifier tag.
+pointer: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+code: number
 
-  - `documentation_url: optional string`
+minimum1000
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+message: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+documentation\_url: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/sso_connectors/$SSO_CONNECTOR_ID/begin_verification \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+source: optional object {pointer }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+pointer: optional string
 
-### SSO List Response
+<a href="#">Link to this property</a>
 
-- `SSOListResponse object { id, created_on, email_domain, 4 more }`
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    SSO Connector identifier tag.
+</details>
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the SSO connector
+success: true
 
-  - `email_domain: optional string`
+Whether the API call was successful.
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `updated_on: optional string`
+</details>
 
-    Timestamp for the last update of the SSO connector
-
-  - `use_fedramp_language: optional boolean`
-
-    Controls the display of FedRAMP language to the user during SSO login
-
-  - `verification: optional object { code, status }`
-
-    - `code: optional string`
-
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
-
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
-
-      The status of the verification code from the verification process.
-
-      - `"awaiting"`
-
-      - `"pending"`
-
-      - `"failed"`
-
-      - `"verified"`
-
-### SSO Get Response
-
-- `SSOGetResponse object { id, created_on, email_domain, 4 more }`
-
-  - `id: optional string`
-
-    SSO Connector identifier tag.
-
-  - `created_on: optional string`
-
-    Timestamp for the creation of the SSO connector
-
-  - `email_domain: optional string`
-
-  - `enabled: optional boolean`
-
-  - `updated_on: optional string`
-
-    Timestamp for the last update of the SSO connector
-
-  - `use_fedramp_language: optional boolean`
-
-    Controls the display of FedRAMP language to the user during SSO login
-
-  - `verification: optional object { code, status }`
-
-    - `code: optional string`
-
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
-
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
-
-      The status of the verification code from the verification process.
-
-      - `"awaiting"`
-
-      - `"pending"`
-
-      - `"failed"`
-
-      - `"verified"`
-
-### SSO Create Response
-
-- `SSOCreateResponse object { id, created_on, email_domain, 4 more }`
-
-  - `id: optional string`
-
-    SSO Connector identifier tag.
-
-  - `created_on: optional string`
-
-    Timestamp for the creation of the SSO connector
-
-  - `email_domain: optional string`
-
-  - `enabled: optional boolean`
-
-  - `updated_on: optional string`
-
-    Timestamp for the last update of the SSO connector
-
-  - `use_fedramp_language: optional boolean`
-
-    Controls the display of FedRAMP language to the user during SSO login
-
-  - `verification: optional object { code, status }`
-
-    - `code: optional string`
-
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
-
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
-
-      The status of the verification code from the verification process.
-
-      - `"awaiting"`
-
-      - `"pending"`
-
-      - `"failed"`
-
-      - `"verified"`
-
-### SSO Update Response
-
-- `SSOUpdateResponse object { id, created_on, email_domain, 4 more }`
-
-  - `id: optional string`
-
-    SSO Connector identifier tag.
-
-  - `created_on: optional string`
-
-    Timestamp for the creation of the SSO connector
-
-  - `email_domain: optional string`
-
-  - `enabled: optional boolean`
-
-  - `updated_on: optional string`
-
-    Timestamp for the last update of the SSO connector
-
-  - `use_fedramp_language: optional boolean`
-
-    Controls the display of FedRAMP language to the user during SSO login
-
-  - `verification: optional object { code, status }`
-
-    - `code: optional string`
-
-      DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership.
-
-    - `status: optional "awaiting" or "pending" or "failed" or "verified"`
-
-      The status of the verification code from the verification process.
-
-      - `"awaiting"`
-
-      - `"pending"`
-
-      - `"failed"`
-
-      - `"verified"`
-
-### SSO Delete Response
-
-- `SSODeleteResponse object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### SSO Begin Verification Response
-
-- `SSOBeginVerificationResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20iam.sso%20%3E%20(model)%20sso_begin_verification_response%20%3E%20(schema)>)

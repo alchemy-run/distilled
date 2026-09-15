@@ -1,2168 +1,363 @@
+---
+title: LANs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # LANs
 
-## List Site LANs
+##### [List Site LANs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/list)
 
-**get** `/accounts/{account_id}/magic/sites/{site_id}/lans`
+GET/accounts/{account\_id}/magic/sites/{site\_id}/lans
 
-Lists Site LANs associated with an account.
+##### [Site LAN Details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/sites/{site\_id}/lans/{lan\_id}
 
-- `account_id: string`
+##### [Create a new Site LAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/magic/sites/{site\_id}/lans
 
-- `site_id: string`
+##### [Update Site LAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/update)
 
-  Identifier
+PUT/accounts/{account\_id}/magic/sites/{site\_id}/lans/{lan\_id}
 
-### Returns
+##### [Patch Site LAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/edit)
 
-- `errors: array of ResponseInfo`
+PATCH/accounts/{account\_id}/magic/sites/{site\_id}/lans/{lan\_id}
 
-  - `code: number`
+##### [Delete Site LAN](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/lans/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/magic/sites/{site\_id}/lans/{lan\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+DHCPRelay object {server\_addresses }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+server\_addresses: optional array of string
 
-  - `documentation_url: optional string`
+List of DHCP server IPs.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of LAN`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_relay%20%3E%20(schema)>)
 
-    Identifier
+<details>
 
-  - `bond_id: optional number`
+<summary>
 
-  - `ha_link: optional boolean`
+DHCPServer object {dhcp\_options, dhcp\_pool\_end, dhcp\_pool\_start, 3 more }
 
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
+</summary>
 
-  - `is_breakout: optional boolean`
+<details>
 
-    mark true to use this LAN for source-based breakout traffic
+<summary>
 
-  - `is_prioritized: optional boolean`
+dhcp\_options: optional array of object {code, type, value }
 
-    mark true to use this LAN for source-based prioritized traffic
+Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
 
-  - `name: optional string`
+</summary>
 
-  - `nat: optional Nat`
+code: number
 
-    - `static_prefix: optional string`
+DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
 
-      A valid CIDR notation representing an IP range.
+maximum254
 
-  - `physport: optional number`
+minimum1
 
-  - `routed_subnets: optional array of RoutedSubnet`
+<a href="#">Link to this property</a>
 
-    - `next_hop: string`
+<details>
 
-      A valid IPv4 address.
+<summary>
 
-    - `prefix: string`
+type: "text"or "hex"or "ip"or 3 more
 
-      A valid CIDR notation representing an IP range.
+The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. “01:04:aa:bb:cc”, max 255 bytes). ip: an IPv4 address (e.g. “10.20.30.40”). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
 
-    - `nat: optional Nat`
+</summary>
 
-  - `site_id: optional string`
+One of the following:
 
-    Identifier
+"text"
 
-  - `static_addressing: optional LANStaticAddressing`
+<a href="#">Link to this property</a>
 
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
+"hex"
 
-    - `address: string`
+<a href="#">Link to this property</a>
 
-      A valid CIDR notation representing an IP range.
+"ip"
 
-    - `dhcp_relay: optional DHCPRelay`
+<a href="#">Link to this property</a>
 
-      - `server_addresses: optional array of string`
+"byte"
 
-        List of DHCP server IPs.
+<a href="#">Link to this property</a>
 
-    - `dhcp_server: optional DHCPServer`
+"short"
 
-      - `dhcp_options: optional array of object { code, type, value }`
+<a href="#">Link to this property</a>
 
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
+"integer"
 
-        - `code: number`
+<a href="#">Link to this property</a>
 
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
+</details>
 
-        - `type: "text" or "hex" or "ip" or 3 more`
+<a href="#">Link to this property</a>
 
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
+value: string
 
-          - `"text"`
+The option value, interpreted according to the type field.
 
-          - `"hex"`
+<a href="#">Link to this property</a>
 
-          - `"ip"`
+</details>
 
-          - `"byte"`
+<a href="#">Link to this property</a>
 
-          - `"short"`
+dhcp\_pool\_end: optional string
 
-          - `"integer"`
+A valid IPv4 address.
 
-        - `value: string`
+<a href="#">Link to this property</a>
 
-          The option value, interpreted according to the type field.
+dhcp\_pool\_start: optional string
 
-      - `dhcp_pool_end: optional string`
+A valid IPv4 address.
 
-        A valid IPv4 address.
+<a href="#">Link to this property</a>
 
-      - `dhcp_pool_start: optional string`
+Deprecateddns\_server: optional string
 
-        A valid IPv4 address.
+A valid IPv4 address.
 
-      - `dns_server: optional string`
+<a href="#">Link to this property</a>
 
-        A valid IPv4 address.
+dns\_servers: optional array of string
 
-      - `dns_servers: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
+reservations: optional map\[string]
 
-  - `true`
+Mapping of MAC addresses to IP addresses
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_server%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "bond_id": 2,
-      "ha_link": true,
-      "is_breakout": true,
-      "is_prioritized": true,
-      "name": "name",
-      "nat": {
-        "static_prefix": "192.0.2.0/24"
-      },
-      "physport": 1,
-      "routed_subnets": [
-        {
-          "next_hop": "192.0.2.1",
-          "prefix": "192.0.2.0/24",
-          "nat": {
-            "static_prefix": "192.0.2.0/24"
-          }
-        }
-      ],
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "static_addressing": {
-        "address": "192.0.2.0/24",
-        "dhcp_relay": {
-          "server_addresses": [
-            "192.0.2.1"
-          ]
-        },
-        "dhcp_server": {
-          "dhcp_options": [
-            {
-              "code": 66,
-              "type": "ip",
-              "value": "10.20.30.40"
-            }
-          ],
-          "dhcp_pool_end": "192.0.2.1",
-          "dhcp_pool_start": "192.0.2.1",
-          "dns_server": "192.0.2.1",
-          "dns_servers": [
-            "192.0.2.1"
-          ],
-          "reservations": {
-            "00:11:22:33:44:55": "192.0.2.100",
-            "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-          }
-        },
-        "secondary_address": "192.0.2.0/24",
-        "virtual_address": "192.0.2.0/24"
-      },
-      "vlan_tag": 42
-    }
-  ],
-  "success": true
-}
-```
+<details>
 
-## Site LAN Details
+<summary>
 
-**get** `/accounts/{account_id}/magic/sites/{site_id}/lans/{lan_id}`
+LAN object {id, bond\_id, ha\_link, 9 more }
 
-Get a specific Site LAN.
+</summary>
 
-### Path Parameters
+id: optional string
 
-- `account_id: string`
+Identifier
 
-  Identifier
+maxLength32
 
-- `site_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+bond\_id: optional number
 
-- `lan_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+ha\_link: optional boolean
 
-### Returns
+mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha\_link.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+is\_breakout: optional boolean
 
-  - `message: string`
+mark true to use this LAN for source-based breakout traffic
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_prioritized: optional boolean
 
-    - `pointer: optional string`
+mark true to use this LAN for source-based prioritized traffic
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: LAN`
+physport: optional number
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier
+<details>
 
-  - `bond_id: optional number`
+<summary>
 
-  - `ha_link: optional boolean`
+routed\_subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20routed_subnet%20%3E%20(schema)">RoutedSubnet</a> { next\_hop, prefix, nat }
 
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
+</summary>
 
-  - `is_breakout: optional boolean`
+next\_hop: string
 
-    mark true to use this LAN for source-based breakout traffic
+A valid IPv4 address.
 
-  - `is_prioritized: optional boolean`
+<a href="#">Link to this property</a>
 
-    mark true to use this LAN for source-based prioritized traffic
+prefix: string
 
-  - `name: optional string`
+A valid CIDR notation representing an IP range.
 
-  - `nat: optional Nat`
+<a href="#">Link to this property</a>
 
-    - `static_prefix: optional string`
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
 
-      A valid CIDR notation representing an IP range.
+<a href="#">Link to this property</a>
 
-  - `physport: optional number`
+</details>
 
-  - `routed_subnets: optional array of RoutedSubnet`
+<a href="#">Link to this property</a>
 
-    - `next_hop: string`
+site\_id: optional string
 
-      A valid IPv4 address.
+Identifier
 
-    - `prefix: string`
+maxLength32
 
-      A valid CIDR notation representing an IP range.
+<a href="#">Link to this property</a>
 
-    - `nat: optional Nat`
+static\_addressing: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20lan_static_addressing%20%3E%20(schema)">LANStaticAddressing</a> { address, dhcp\_relay, dhcp\_server, 2 more }
 
-  - `site_id: optional string`
+If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static\_address is required along with secondary and virtual address.
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `static_addressing: optional LANStaticAddressing`
+vlan\_tag: optional number
 
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
+VLAN ID. Use zero for untagged.
 
-    - `address: string`
+<a href="#">Link to this property</a>
 
-      A valid CIDR notation representing an IP range.
+</details>
 
-    - `dhcp_relay: optional DHCPRelay`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20lan%20%3E%20(schema)>)
 
-      - `server_addresses: optional array of string`
+<details>
 
-        List of DHCP server IPs.
+<summary>
 
-    - `dhcp_server: optional DHCPServer`
+LANStaticAddressing object {address, dhcp\_relay, dhcp\_server, 2 more }
 
-      - `dhcp_options: optional array of object { code, type, value }`
+If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static\_address is required along with secondary and virtual address.
 
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
+</summary>
 
-        - `code: number`
+address: string
 
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
+A valid CIDR notation representing an IP range.
 
-        - `type: "text" or "hex" or "ip" or 3 more`
+<a href="#">Link to this property</a>
 
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
+dhcp\_relay: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_relay%20%3E%20(schema)">DHCPRelay</a> { server\_addresses }
 
-          - `"text"`
+<a href="#">Link to this property</a>
 
-          - `"hex"`
+dhcp\_server: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20dhcp_server%20%3E%20(schema)">DHCPServer</a> { dhcp\_options, dhcp\_pool\_end, dhcp\_pool\_start, 3 more }
 
-          - `"ip"`
+<a href="#">Link to this property</a>
 
-          - `"byte"`
+secondary\_address: optional string
 
-          - `"short"`
+A valid CIDR notation representing an IP range.
 
-          - `"integer"`
+<a href="#">Link to this property</a>
 
-        - `value: string`
+virtual\_address: optional string
 
-          The option value, interpreted according to the type field.
+A valid CIDR notation representing an IP range.
 
-      - `dhcp_pool_end: optional string`
+<a href="#">Link to this property</a>
 
-        A valid IPv4 address.
+</details>
 
-      - `dhcp_pool_start: optional string`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20lan_static_addressing%20%3E%20(schema)>)
 
-        A valid IPv4 address.
+<details>
 
-      - `dns_server: optional string`
+<summary>
 
-        A valid IPv4 address.
+Nat object {static\_prefix }
 
-      - `dns_servers: optional array of string`
+</summary>
 
-      - `reservations: optional map[string]`
+static\_prefix: optional string
 
-        Mapping of MAC addresses to IP addresses
+A valid CIDR notation representing an IP range.
 
-    - `secondary_address: optional string`
+<a href="#">Link to this property</a>
 
-      A valid CIDR notation representing an IP range.
+</details>
 
-    - `virtual_address: optional string`
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)>)
 
-      A valid CIDR notation representing an IP range.
+<details>
 
-  - `vlan_tag: optional number`
+<summary>
 
-    VLAN ID. Use zero for untagged.
+RoutedSubnet object {next\_hop, prefix, nat }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+next\_hop: string
 
-  - `true`
+A valid IPv4 address.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans/$LAN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+prefix: string
 
-#### Response
+A valid CIDR notation representing an IP range.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "bond_id": 2,
-    "ha_link": true,
-    "is_breakout": true,
-    "is_prioritized": true,
-    "name": "name",
-    "nat": {
-      "static_prefix": "192.0.2.0/24"
-    },
-    "physport": 1,
-    "routed_subnets": [
-      {
-        "next_hop": "192.0.2.1",
-        "prefix": "192.0.2.0/24",
-        "nat": {
-          "static_prefix": "192.0.2.0/24"
-        }
-      }
-    ],
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "dhcp_relay": {
-        "server_addresses": [
-          "192.0.2.1"
-        ]
-      },
-      "dhcp_server": {
-        "dhcp_options": [
-          {
-            "code": 66,
-            "type": "ip",
-            "value": "10.20.30.40"
-          }
-        ],
-        "dhcp_pool_end": "192.0.2.1",
-        "dhcp_pool_start": "192.0.2.1",
-        "dns_server": "192.0.2.1",
-        "dns_servers": [
-          "192.0.2.1"
-        ],
-        "reservations": {
-          "00:11:22:33:44:55": "192.0.2.100",
-          "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-        }
-      },
-      "secondary_address": "192.0.2.0/24",
-      "virtual_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new Site LAN
+nat: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.lans%20%3E%20(model)%20nat%20%3E%20(schema)">Nat</a> { static\_prefix }
 
-**post** `/accounts/{account_id}/magic/sites/{site_id}/lans`
+<a href="#">Link to this property</a>
 
-Creates a new Site LAN. If the site is in high availability mode, static_addressing is required along with secondary and virtual address.
+</details>
 
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `bond_id: optional number`
-
-- `ha_link: optional boolean`
-
-  mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-- `is_breakout: optional boolean`
-
-  mark true to use this LAN for source-based breakout traffic
-
-- `is_prioritized: optional boolean`
-
-  mark true to use this LAN for source-based prioritized traffic
-
-- `name: optional string`
-
-- `nat: optional Nat`
-
-  - `static_prefix: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `physport: optional number`
-
-- `routed_subnets: optional array of RoutedSubnet`
-
-  - `next_hop: string`
-
-    A valid IPv4 address.
-
-  - `prefix: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `nat: optional Nat`
-
-- `static_addressing: optional LANStaticAddressing`
-
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `dhcp_relay: optional DHCPRelay`
-
-    - `server_addresses: optional array of string`
-
-      List of DHCP server IPs.
-
-  - `dhcp_server: optional DHCPServer`
-
-    - `dhcp_options: optional array of object { code, type, value }`
-
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-      - `code: number`
-
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-      - `type: "text" or "hex" or "ip" or 3 more`
-
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-        - `"text"`
-
-        - `"hex"`
-
-        - `"ip"`
-
-        - `"byte"`
-
-        - `"short"`
-
-        - `"integer"`
-
-      - `value: string`
-
-        The option value, interpreted according to the type field.
-
-    - `dhcp_pool_end: optional string`
-
-      A valid IPv4 address.
-
-    - `dhcp_pool_start: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_server: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_servers: optional array of string`
-
-    - `reservations: optional map[string]`
-
-      Mapping of MAC addresses to IP addresses
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `virtual_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bond_id": 2,
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "bond_id": 2,
-      "ha_link": true,
-      "is_breakout": true,
-      "is_prioritized": true,
-      "name": "name",
-      "nat": {
-        "static_prefix": "192.0.2.0/24"
-      },
-      "physport": 1,
-      "routed_subnets": [
-        {
-          "next_hop": "192.0.2.1",
-          "prefix": "192.0.2.0/24",
-          "nat": {
-            "static_prefix": "192.0.2.0/24"
-          }
-        }
-      ],
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "static_addressing": {
-        "address": "192.0.2.0/24",
-        "dhcp_relay": {
-          "server_addresses": [
-            "192.0.2.1"
-          ]
-        },
-        "dhcp_server": {
-          "dhcp_options": [
-            {
-              "code": 66,
-              "type": "ip",
-              "value": "10.20.30.40"
-            }
-          ],
-          "dhcp_pool_end": "192.0.2.1",
-          "dhcp_pool_start": "192.0.2.1",
-          "dns_server": "192.0.2.1",
-          "dns_servers": [
-            "192.0.2.1"
-          ],
-          "reservations": {
-            "00:11:22:33:44:55": "192.0.2.100",
-            "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-          }
-        },
-        "secondary_address": "192.0.2.0/24",
-        "virtual_address": "192.0.2.0/24"
-      },
-      "vlan_tag": 42
-    }
-  ],
-  "success": true
-}
-```
-
-## Update Site LAN
-
-**put** `/accounts/{account_id}/magic/sites/{site_id}/lans/{lan_id}`
-
-Update a specific Site LAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `lan_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `bond_id: optional number`
-
-- `is_breakout: optional boolean`
-
-  mark true to use this LAN for source-based breakout traffic
-
-- `is_prioritized: optional boolean`
-
-  mark true to use this LAN for source-based prioritized traffic
-
-- `name: optional string`
-
-- `nat: optional Nat`
-
-  - `static_prefix: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `physport: optional number`
-
-- `routed_subnets: optional array of RoutedSubnet`
-
-  - `next_hop: string`
-
-    A valid IPv4 address.
-
-  - `prefix: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `nat: optional Nat`
-
-- `static_addressing: optional LANStaticAddressing`
-
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `dhcp_relay: optional DHCPRelay`
-
-    - `server_addresses: optional array of string`
-
-      List of DHCP server IPs.
-
-  - `dhcp_server: optional DHCPServer`
-
-    - `dhcp_options: optional array of object { code, type, value }`
-
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-      - `code: number`
-
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-      - `type: "text" or "hex" or "ip" or 3 more`
-
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-        - `"text"`
-
-        - `"hex"`
-
-        - `"ip"`
-
-        - `"byte"`
-
-        - `"short"`
-
-        - `"integer"`
-
-      - `value: string`
-
-        The option value, interpreted according to the type field.
-
-    - `dhcp_pool_end: optional string`
-
-      A valid IPv4 address.
-
-    - `dhcp_pool_start: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_server: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_servers: optional array of string`
-
-    - `reservations: optional map[string]`
-
-      Mapping of MAC addresses to IP addresses
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `virtual_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans/$LAN_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bond_id": 2,
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "bond_id": 2,
-    "ha_link": true,
-    "is_breakout": true,
-    "is_prioritized": true,
-    "name": "name",
-    "nat": {
-      "static_prefix": "192.0.2.0/24"
-    },
-    "physport": 1,
-    "routed_subnets": [
-      {
-        "next_hop": "192.0.2.1",
-        "prefix": "192.0.2.0/24",
-        "nat": {
-          "static_prefix": "192.0.2.0/24"
-        }
-      }
-    ],
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "dhcp_relay": {
-        "server_addresses": [
-          "192.0.2.1"
-        ]
-      },
-      "dhcp_server": {
-        "dhcp_options": [
-          {
-            "code": 66,
-            "type": "ip",
-            "value": "10.20.30.40"
-          }
-        ],
-        "dhcp_pool_end": "192.0.2.1",
-        "dhcp_pool_start": "192.0.2.1",
-        "dns_server": "192.0.2.1",
-        "dns_servers": [
-          "192.0.2.1"
-        ],
-        "reservations": {
-          "00:11:22:33:44:55": "192.0.2.100",
-          "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-        }
-      },
-      "secondary_address": "192.0.2.0/24",
-      "virtual_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Patch Site LAN
-
-**patch** `/accounts/{account_id}/magic/sites/{site_id}/lans/{lan_id}`
-
-Patch a specific Site LAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `lan_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `bond_id: optional number`
-
-- `is_breakout: optional boolean`
-
-  mark true to use this LAN for source-based breakout traffic
-
-- `is_prioritized: optional boolean`
-
-  mark true to use this LAN for source-based prioritized traffic
-
-- `name: optional string`
-
-- `nat: optional Nat`
-
-  - `static_prefix: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `physport: optional number`
-
-- `routed_subnets: optional array of RoutedSubnet`
-
-  - `next_hop: string`
-
-    A valid IPv4 address.
-
-  - `prefix: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `nat: optional Nat`
-
-- `static_addressing: optional LANStaticAddressing`
-
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `dhcp_relay: optional DHCPRelay`
-
-    - `server_addresses: optional array of string`
-
-      List of DHCP server IPs.
-
-  - `dhcp_server: optional DHCPServer`
-
-    - `dhcp_options: optional array of object { code, type, value }`
-
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-      - `code: number`
-
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-      - `type: "text" or "hex" or "ip" or 3 more`
-
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-        - `"text"`
-
-        - `"hex"`
-
-        - `"ip"`
-
-        - `"byte"`
-
-        - `"short"`
-
-        - `"integer"`
-
-      - `value: string`
-
-        The option value, interpreted according to the type field.
-
-    - `dhcp_pool_end: optional string`
-
-      A valid IPv4 address.
-
-    - `dhcp_pool_start: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_server: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_servers: optional array of string`
-
-    - `reservations: optional map[string]`
-
-      Mapping of MAC addresses to IP addresses
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `virtual_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-- `vlan_tag: optional number`
-
-  VLAN ID. Use zero for untagged.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans/$LAN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bond_id": 2,
-          "physport": 1,
-          "vlan_tag": 42
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "bond_id": 2,
-    "ha_link": true,
-    "is_breakout": true,
-    "is_prioritized": true,
-    "name": "name",
-    "nat": {
-      "static_prefix": "192.0.2.0/24"
-    },
-    "physport": 1,
-    "routed_subnets": [
-      {
-        "next_hop": "192.0.2.1",
-        "prefix": "192.0.2.0/24",
-        "nat": {
-          "static_prefix": "192.0.2.0/24"
-        }
-      }
-    ],
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "dhcp_relay": {
-        "server_addresses": [
-          "192.0.2.1"
-        ]
-      },
-      "dhcp_server": {
-        "dhcp_options": [
-          {
-            "code": 66,
-            "type": "ip",
-            "value": "10.20.30.40"
-          }
-        ],
-        "dhcp_pool_end": "192.0.2.1",
-        "dhcp_pool_start": "192.0.2.1",
-        "dns_server": "192.0.2.1",
-        "dns_servers": [
-          "192.0.2.1"
-        ],
-        "reservations": {
-          "00:11:22:33:44:55": "192.0.2.100",
-          "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-        }
-      },
-      "secondary_address": "192.0.2.0/24",
-      "virtual_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Delete Site LAN
-
-**delete** `/accounts/{account_id}/magic/sites/{site_id}/lans/{lan_id}`
-
-Remove a specific Site LAN.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `site_id: string`
-
-  Identifier
-
-- `lan_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: LAN`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/lans/$LAN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "bond_id": 2,
-    "ha_link": true,
-    "is_breakout": true,
-    "is_prioritized": true,
-    "name": "name",
-    "nat": {
-      "static_prefix": "192.0.2.0/24"
-    },
-    "physport": 1,
-    "routed_subnets": [
-      {
-        "next_hop": "192.0.2.1",
-        "prefix": "192.0.2.0/24",
-        "nat": {
-          "static_prefix": "192.0.2.0/24"
-        }
-      }
-    ],
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "static_addressing": {
-      "address": "192.0.2.0/24",
-      "dhcp_relay": {
-        "server_addresses": [
-          "192.0.2.1"
-        ]
-      },
-      "dhcp_server": {
-        "dhcp_options": [
-          {
-            "code": 66,
-            "type": "ip",
-            "value": "10.20.30.40"
-          }
-        ],
-        "dhcp_pool_end": "192.0.2.1",
-        "dhcp_pool_start": "192.0.2.1",
-        "dns_server": "192.0.2.1",
-        "dns_servers": [
-          "192.0.2.1"
-        ],
-        "reservations": {
-          "00:11:22:33:44:55": "192.0.2.100",
-          "AA:BB:CC:DD:EE:FF": "192.168.1.101"
-        }
-      },
-      "secondary_address": "192.0.2.0/24",
-      "virtual_address": "192.0.2.0/24"
-    },
-    "vlan_tag": 42
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### DHCP Relay
-
-- `DHCPRelay object { server_addresses }`
-
-  - `server_addresses: optional array of string`
-
-    List of DHCP server IPs.
-
-### DHCP Server
-
-- `DHCPServer object { dhcp_options, dhcp_pool_end, dhcp_pool_start, 3 more }`
-
-  - `dhcp_options: optional array of object { code, type, value }`
-
-    Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-    - `code: number`
-
-      DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-    - `type: "text" or "hex" or "ip" or 3 more`
-
-      The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-      - `"text"`
-
-      - `"hex"`
-
-      - `"ip"`
-
-      - `"byte"`
-
-      - `"short"`
-
-      - `"integer"`
-
-    - `value: string`
-
-      The option value, interpreted according to the type field.
-
-  - `dhcp_pool_end: optional string`
-
-    A valid IPv4 address.
-
-  - `dhcp_pool_start: optional string`
-
-    A valid IPv4 address.
-
-  - `dns_server: optional string`
-
-    A valid IPv4 address.
-
-  - `dns_servers: optional array of string`
-
-  - `reservations: optional map[string]`
-
-    Mapping of MAC addresses to IP addresses
-
-### LAN
-
-- `LAN object { id, bond_id, ha_link, 9 more }`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `bond_id: optional number`
-
-  - `ha_link: optional boolean`
-
-    mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
-
-  - `is_breakout: optional boolean`
-
-    mark true to use this LAN for source-based breakout traffic
-
-  - `is_prioritized: optional boolean`
-
-    mark true to use this LAN for source-based prioritized traffic
-
-  - `name: optional string`
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `physport: optional number`
-
-  - `routed_subnets: optional array of RoutedSubnet`
-
-    - `next_hop: string`
-
-      A valid IPv4 address.
-
-    - `prefix: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `nat: optional Nat`
-
-  - `site_id: optional string`
-
-    Identifier
-
-  - `static_addressing: optional LANStaticAddressing`
-
-    If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-    - `address: string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `dhcp_relay: optional DHCPRelay`
-
-      - `server_addresses: optional array of string`
-
-        List of DHCP server IPs.
-
-    - `dhcp_server: optional DHCPServer`
-
-      - `dhcp_options: optional array of object { code, type, value }`
-
-        Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-        - `code: number`
-
-          DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-        - `type: "text" or "hex" or "ip" or 3 more`
-
-          The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-          - `"text"`
-
-          - `"hex"`
-
-          - `"ip"`
-
-          - `"byte"`
-
-          - `"short"`
-
-          - `"integer"`
-
-        - `value: string`
-
-          The option value, interpreted according to the type field.
-
-      - `dhcp_pool_end: optional string`
-
-        A valid IPv4 address.
-
-      - `dhcp_pool_start: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_server: optional string`
-
-        A valid IPv4 address.
-
-      - `dns_servers: optional array of string`
-
-      - `reservations: optional map[string]`
-
-        Mapping of MAC addresses to IP addresses
-
-    - `secondary_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-    - `virtual_address: optional string`
-
-      A valid CIDR notation representing an IP range.
-
-  - `vlan_tag: optional number`
-
-    VLAN ID. Use zero for untagged.
-
-### LAN Static Addressing
-
-- `LANStaticAddressing object { address, dhcp_relay, dhcp_server, 2 more }`
-
-  If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address.
-
-  - `address: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `dhcp_relay: optional DHCPRelay`
-
-    - `server_addresses: optional array of string`
-
-      List of DHCP server IPs.
-
-  - `dhcp_server: optional DHCPServer`
-
-    - `dhcp_options: optional array of object { code, type, value }`
-
-      Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
-
-      - `code: number`
-
-        DHCP option number (1-254). Options 0 and 255 are reserved by RFC 2132. Options 3, 6, and 51 are not allowed because they conflict with connector-managed configuration.
-
-      - `type: "text" or "hex" or "ip" or 3 more`
-
-        The type of the option value. text: a string (max 255 bytes). hex: colon-separated hex bytes (e.g. "01:04:aa:bb:cc", max 255 bytes). ip: an IPv4 address (e.g. "10.20.30.40"). byte: an unsigned integer 0-255 (1 byte). short: an unsigned integer 0-65535 (2 bytes). integer: an unsigned integer 0-4294967295 (4 bytes).
-
-        - `"text"`
-
-        - `"hex"`
-
-        - `"ip"`
-
-        - `"byte"`
-
-        - `"short"`
-
-        - `"integer"`
-
-      - `value: string`
-
-        The option value, interpreted according to the type field.
-
-    - `dhcp_pool_end: optional string`
-
-      A valid IPv4 address.
-
-    - `dhcp_pool_start: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_server: optional string`
-
-      A valid IPv4 address.
-
-    - `dns_servers: optional array of string`
-
-    - `reservations: optional map[string]`
-
-      Mapping of MAC addresses to IP addresses
-
-  - `secondary_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `virtual_address: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-### Nat
-
-- `Nat object { static_prefix }`
-
-  - `static_prefix: optional string`
-
-    A valid CIDR notation representing an IP range.
-
-### Routed Subnet
-
-- `RoutedSubnet object { next_hop, prefix, nat }`
-
-  - `next_hop: string`
-
-    A valid IPv4 address.
-
-  - `prefix: string`
-
-    A valid CIDR notation representing an IP range.
-
-  - `nat: optional Nat`
-
-    - `static_prefix: optional string`
-
-      A valid CIDR notation representing an IP range.
+[Link to this property](#)%20magic_transit.sites.lans%20%3E%20(model)%20routed_subnet%20%3E%20(schema)>)

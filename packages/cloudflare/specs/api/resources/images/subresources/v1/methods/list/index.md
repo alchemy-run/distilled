@@ -1,101 +1,330 @@
-## List images
+---
+title: List images
+---
 
-**get** `/accounts/{account_id}/images/v1`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Images](https://developers.cloudflare.com/api/resources/images)
+
+[V1](https://developers.cloudflare.com/api/resources/images/subresources/v1)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List images
+
+Deprecated
+
+GET/accounts/{account\_id}/images/v1
 
 List up to 100 images with one request. Use the optional parameters below to get a specific range of images.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `creator: optional string`
 
-  Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Page number of paginated results.
+</details>
 
-- `per_page: optional number`
+<details>
 
-  Number of items per page.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Images Read``Images Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Account identifier tag.
 
-- `result: object { images }`
+maxLength32
 
-  - `images: optional array of Image`
+[Link to this property](#)%20images.v1%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `id: optional string`
+##### Q uery ParametersExpand Collapse
 
-      Image unique identifier.
+creator: optional string
 
-    - `creator: optional string`
+Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set
 
-      Can set the creator field with an internal user ID.
+[Link to this property](#)%20images.v1%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20creator%20%3E%20(schema)>)
 
-    - `filename: optional string`
+page: optional number
 
-      Image file name.
+Page number of paginated results.
 
-    - `meta: optional unknown`
+minimum1
 
-      User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+[Link to this property](#)%20images.v1%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `requireSignedURLs: optional boolean`
+per\_page: optional number
 
-      Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+Number of items per page.
 
-    - `uploaded: optional string`
+maximum10000
 
-      When the media item was uploaded.
+minimum10
 
-    - `variants: optional array of string`
+[Link to this property](#)%20images.v1%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-      Object specifying available variants for an image.
+##### ReturnsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {images }
+
+</summary>
+
+<details>
+
+<summary>
+
+images: optional array of <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1%20%3E%20(model)%20image%20%3E%20(schema)">Image</a> { id, creator, filename, 4 more }
+
+</summary>
+
+id: optional string
+
+Image unique identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+creator: optional string
+
+Can set the creator field with an internal user ID.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+filename: optional string
+
+Image file name.
+
+maxLength255
+
+<a href="#">Link to this property</a>
+
+meta: optional unknown
+
+User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes.
+
+<a href="#">Link to this property</a>
+
+requireSignedURLs: optional boolean
+
+Indicates whether the image can be a accessed only using it’s UID. If set to true, a signed token needs to be generated with a signing key to view the image.
+
+<a href="#">Link to this property</a>
+
+uploaded: optional string
+
+When the media item was uploaded.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+variants: optional array of string
+
+Object specifying available variants for an image.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20images.v1%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List images
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1 \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "images": [
+      {
+        "id": "id",
+        "creator": "107b9558-dd06-4bbd-5fef-9c2c16bb7900",
+        "filename": "logo.png",
+        "meta": {
+          "key": "value"
+        },
+        "requireSignedURLs": true,
+        "uploaded": "2014-01-02T02:20:00.123Z",
+        "variants": [
+          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/thumbnail",
+          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/hero",
+          "https://imagedelivery.net/MTt4OTd0b0w5aj/107b9558-dd06-4bbd-5fef-9c2c16bb7900/original"
+        ]
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

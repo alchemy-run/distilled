@@ -1,111 +1,53 @@
+---
+title: Fallthrough
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
+
+[Expression Template](https://developers.cloudflare.com/api/resources/api_gateway/subresources/expression_template)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Fallthrough
 
-## Generate fallthrough WAF expression template from a set of API hosts
+##### [Generate a fallthrough WAF expression template](https://developers.cloudflare.com/api/resources/api_gateway/subresources/expression_template/subresources/fallthrough/methods/create)
 
-**post** `/zones/{zone_id}/api_gateway/expression-template/fallthrough`
+Deprecated
 
-Creates an expression template fallthrough rule for API Shield. Used for configuring default behavior when no other expression templates match.
+POST/zones/{zone\_id}/api\_gateway/expression-template/fallthrough
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+FallthroughCreateResponse object {expression, title }
 
-- `hosts: array of string`
+</summary>
 
-  List of hosts to be targeted in the expression
+expression: string
 
-### Returns
+WAF Expression for fallthrough
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+title: string
 
-  - `message: string`
+Title for the expression
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { expression, title }`
-
-  - `expression: string`
-
-    WAF Expression for fallthrough
-
-  - `title: string`
-
-    Title for the expression
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/expression-template/fallthrough \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "hosts": [
-            "{zone}.domain1.tld",
-            "domain2.tld"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "expression": "(cf.api_gateway.fallthrough_detected)",
-    "title": "Fallthrough Expression for [zone.domain.tld]"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Fallthrough Create Response
-
-- `FallthroughCreateResponse object { expression, title }`
-
-  - `expression: string`
-
-    WAF Expression for fallthrough
-
-  - `title: string`
-
-    Title for the expression
+[Link to this property](#)%20api_gateway.expression_template.fallthrough%20%3E%20(model)%20fallthrough_create_response%20%3E%20(schema)>)

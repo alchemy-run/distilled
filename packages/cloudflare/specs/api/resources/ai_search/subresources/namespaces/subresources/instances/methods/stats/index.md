@@ -1,79 +1,256 @@
-## Stats
+---
+title: Get instance statistics.
+---
 
-**get** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/stats`
+[Skip to content](#_top)
 
-Retrieves usage statistics for AI Search instances.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
 
-- `account_id: string`
+[Namespaces](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces)
 
-- `name: string`
+[Instances](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances)
 
-- `id: string`
+Copy Markdown
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `result: object { completed, degraded, engine, 8 more }`
+**Copy Markdown****View as Markdown**
 
-  - `completed: optional number`
+# Get instance statistics.
 
-  - `degraded: optional boolean`
+GET/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/stats
 
-    True when status counts are unavailable (e.g. legacy stats query exceeded D1 statement-size limit). Counts are omitted in this case.
+Retrieve usage and indexing statistics for an AI Search instance.
 
-  - `engine: optional object { r2, vectorize }`
+##### Security
 
-    Engine-specific metadata. Present only for managed (v3) instances.
+<details>
 
-    - `r2: optional object { metadataSizeBytes, objectCount, payloadSizeBytes }`
+<summary>API Token</summary>
 
-      R2 bucket storage usage in bytes.
 
-      - `metadataSizeBytes: number`
 
-      - `objectCount: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-      - `payloadSizeBytes: number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `vectorize: optional object { dimensions, vectorsCount }`
+</details>
 
-      Vectorize index metadata (dimensions, vector count).
+<details>
 
-      - `dimensions: number`
+<summary>API Email + API Key</summary>
 
-      - `vectorsCount: number`
 
-  - `error: optional number`
 
-  - `file_embed_errors: optional map[unknown]`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `index_source_errors: optional map[unknown]`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `last_activity: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `outdated: optional number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `queued: optional number`
+</details>
 
-  - `running: optional number`
+##### P ath ParametersExpand Collapse
 
-  - `skipped: optional number`
+account\_id: string
 
-- `success: boolean`
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20stats%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-### Example
+name: string
 
-```http
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20stats%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+id: string
+
+AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+
+maxLength64
+
+minLength1
+
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20stats%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {completed, degraded, engine, 8 more }
+
+</summary>
+
+completed: optional number
+
+<a href="#">Link to this property</a>
+
+degraded: optional boolean
+
+True when status counts are unavailable (e.g. legacy stats query exceeded D1 statement-size limit). Counts are omitted in this case.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+engine: optional object {r2, vectorize }
+
+Engine-specific metadata. Present only for managed (v3) instances.
+
+</summary>
+
+<details>
+
+<summary>
+
+r2: optional object {metadataSizeBytes, objectCount, payloadSizeBytes }
+
+R2 bucket storage usage in bytes.
+
+</summary>
+
+metadataSizeBytes: number
+
+<a href="#">Link to this property</a>
+
+objectCount: number
+
+<a href="#">Link to this property</a>
+
+payloadSizeBytes: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vectorize: optional object {dimensions, vectorsCount }
+
+Vectorize index metadata (dimensions, vector count).
+
+</summary>
+
+dimensions: number
+
+<a href="#">Link to this property</a>
+
+vectorsCount: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+error: optional number
+
+<a href="#">Link to this property</a>
+
+file\_embed\_errors: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+index\_source\_errors: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+last\_activity: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+outdated: optional number
+
+<a href="#">Link to this property</a>
+
+queued: optional number
+
+<a href="#">Link to this property</a>
+
+running: optional number
+
+<a href="#">Link to this property</a>
+
+skipped: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20stats%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20stats%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get instance statistics.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/stats \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "completed": 0,
+    "degraded": true,
+    "engine": {
+      "r2": {
+        "metadataSizeBytes": 0,
+        "objectCount": 0,
+        "payloadSizeBytes": 0
+      },
+      "vectorize": {
+        "dimensions": 0,
+        "vectorsCount": 0
+      }
+    },
+    "error": 0,
+    "file_embed_errors": {
+      "foo": "bar"
+    },
+    "index_source_errors": {
+      "foo": "bar"
+    },
+    "last_activity": "2019-12-27T18:11:19.117Z",
+    "outdated": 0,
+    "queued": 0,
+    "running": 0,
+    "skipped": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "completed": 0,

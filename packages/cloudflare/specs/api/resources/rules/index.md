@@ -1,2262 +1,1173 @@
+---
+title: Rules Lists
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Rules Lists
 
-# Lists
+#### Rules ListsLists
 
-## Get lists
+##### [Get lists](https://developers.cloudflare.com/api/resources/rules/subresources/lists/methods/list)
 
-**get** `/accounts/{account_id}/rules/lists`
+GET/accounts/{account\_id}/rules/lists
 
-Fetches all lists in the account.
+##### [Get a list](https://developers.cloudflare.com/api/resources/rules/subresources/lists/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/rules/lists/{list\_id}
 
-- `account_id: string`
+##### [Create a list](https://developers.cloudflare.com/api/resources/rules/subresources/lists/methods/create)
 
-  The Account ID for this resource.
+POST/accounts/{account\_id}/rules/lists
 
-### Returns
+##### [Update a list](https://developers.cloudflare.com/api/resources/rules/subresources/lists/methods/update)
 
-- `errors: array of ResponseInfo`
+PUT/accounts/{account\_id}/rules/lists/{list\_id}
 
-  - `code: number`
+##### [Delete a list](https://developers.cloudflare.com/api/resources/rules/subresources/lists/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/rules/lists/{list\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+Hostname object {url\_hostname, exclude\_exact\_hostname }
 
-  - `code: number`
+Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (\*), and the hyphen (-).
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+url\_hostname: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of ListsList`
+exclude\_exact\_hostname: optional boolean
 
-  - `id: string`
+Only applies to wildcard hostnames (e.g., \*.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains.
 
-    The unique ID of the list.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-    The RFC 3339 timestamp of when the list was created.
+[Link to this property](#)%20rules.lists%20%3E%20(model)%20hostname%20%3E%20(schema)>)
 
-  - `kind: "ip" or "redirect" or "hostname" or "asn"`
+<details>
 
-    The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+<summary>
 
-    - `"ip"`
+ListsList object {id, created\_on, kind, 5 more }
 
-    - `"redirect"`
+</summary>
 
-    - `"hostname"`
+id: string
 
-    - `"asn"`
+The unique ID of the list.
 
-  - `modified_on: string`
+maxLength32
 
-    The RFC 3339 timestamp of when the list was last modified.
+minLength32
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    An informative name for the list. Use this name in filter and rule expressions.
+created\_on: string
 
-  - `num_items: number`
+The RFC 3339 timestamp of when the list was created.
 
-    The number of items in the list.
+<a href="#">Link to this property</a>
 
-  - `num_referencing_filters: number`
+<details>
 
-    The number of [filters](/api/resources/filters/) referencing the list.
+<summary>
 
-  - `description: optional string`
+kind: "ip"or "redirect"or "hostname"or "asn"
 
-    An informative summary of the list.
+The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
 
-- `success: true`
+</summary>
 
-  Defines whether the API call was successful.
+One of the following:
 
-  - `true`
+"ip"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"redirect"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "2c0fc9fa937b11eaa1b71c4d701ab86e",
-      "created_on": "2020-01-01T08:00:00Z",
-      "kind": "ip",
-      "modified_on": "2020-01-10T14:00:00Z",
-      "name": "list1",
-      "num_items": 10,
-      "num_referencing_filters": 2,
-      "description": "This is a note"
-    }
-  ],
-  "success": true
-}
-```
+"hostname"
 
-## Get a list
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/rules/lists/{list_id}`
+"asn"
 
-Fetches the details of a list.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The Account ID for this resource.
+modified\_on: string
 
-- `list_id: string`
+The RFC 3339 timestamp of when the list was last modified.
 
-  The unique ID of the list.
+<a href="#">Link to this property</a>
 
-### Returns
+name: string
 
-- `errors: array of ResponseInfo`
+An informative name for the list. Use this name in filter and rule expressions.
 
-  - `code: number`
+maxLength50
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+num\_items: number
 
-  - `source: optional object { pointer }`
+The number of items in the list.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+num\_referencing\_filters: number
 
-  - `code: number`
+The number of <a href="https://developers.cloudflare.com/api/resources/filters/">filters</a> referencing the list.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+description: optional string
 
-  - `source: optional object { pointer }`
+An informative summary of the list.
 
-- `result: object { id, created_on, kind, 5 more }`
+maxLength500
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the list.
+</details>
 
-  - `created_on: string`
+[Link to this property](#)%20rules.lists%20%3E%20(model)%20lists_list%20%3E%20(schema)>)
 
-    The RFC 3339 timestamp of when the list was created.
+<details>
 
-  - `kind: "ip" or "redirect" or "hostname" or "asn"`
+<summary>
 
-    The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+Redirect object {source\_url, target\_url, include\_subdomains, 4 more }
 
-    - `"ip"`
+The definition of the redirect.
 
-    - `"redirect"`
+</summary>
 
-    - `"hostname"`
+source\_url: string
 
-    - `"asn"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+target\_url: string
 
-    The RFC 3339 timestamp of when the list was last modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+include\_subdomains: optional boolean
 
-    An informative name for the list. Use this name in filter and rule expressions.
+<a href="#">Link to this property</a>
 
-  - `num_items: number`
+preserve\_path\_suffix: optional boolean
 
-    The number of items in the list.
+<a href="#">Link to this property</a>
 
-  - `num_referencing_filters: number`
+preserve\_query\_string: optional boolean
 
-    The number of [filters](/api/resources/filters/) referencing the list.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-    An informative summary of the list.
+<summary>
 
-- `success: true`
+status\_code: optional 301or 302or 307or 308
 
-  Defines whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-### Example
+301
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+302
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2c0fc9fa937b11eaa1b71c4d701ab86e",
-    "created_on": "2020-01-01T08:00:00Z",
-    "kind": "ip",
-    "modified_on": "2020-01-10T14:00:00Z",
-    "name": "list1",
-    "num_items": 10,
-    "num_referencing_filters": 2,
-    "description": "This is a note"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a list
+307
 
-**post** `/accounts/{account_id}/rules/lists`
+<a href="#">Link to this property</a>
 
-Creates a new list of the specified kind.
+308
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  The Account ID for this resource.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+subpath\_matching: optional boolean
 
-- `kind: "ip" or "redirect" or "hostname" or "asn"`
+<a href="#">Link to this property</a>
 
-  The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+</details>
 
-  - `"ip"`
+[Link to this property](#)%20rules.lists%20%3E%20(model)%20redirect%20%3E%20(schema)>)
 
-  - `"redirect"`
+<details>
 
-  - `"hostname"`
+<summary>
 
-  - `"asn"`
+ListGetResponse object {id, created\_on, kind, 5 more }
 
-- `name: string`
+</summary>
 
-  An informative name for the list. Use this name in filter and rule expressions.
+id: string
 
-- `description: optional string`
+The unique ID of the list.
 
-  An informative summary of the list.
+maxLength32
 
-### Returns
+minLength32
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: string
 
-  - `message: string`
+The RFC 3339 timestamp of when the list was created.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+kind: "ip"or "redirect"or "hostname"or "asn"
 
-  - `code: number`
+The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"ip"
 
-- `result: object { id, created_on, kind, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"redirect"
 
-    The unique ID of the list.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+"hostname"
 
-    The RFC 3339 timestamp of when the list was created.
+<a href="#">Link to this property</a>
 
-  - `kind: "ip" or "redirect" or "hostname" or "asn"`
+"asn"
 
-    The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+<a href="#">Link to this property</a>
 
-    - `"ip"`
+</details>
 
-    - `"redirect"`
+<a href="#">Link to this property</a>
 
-    - `"hostname"`
+modified\_on: string
 
-    - `"asn"`
+The RFC 3339 timestamp of when the list was last modified.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The RFC 3339 timestamp of when the list was last modified.
+name: string
 
-  - `name: string`
+An informative name for the list. Use this name in filter and rule expressions.
 
-    An informative name for the list. Use this name in filter and rule expressions.
+maxLength50
 
-  - `num_items: number`
+<a href="#">Link to this property</a>
 
-    The number of items in the list.
+num\_items: number
 
-  - `num_referencing_filters: number`
+The number of items in the list.
 
-    The number of [filters](/api/resources/filters/) referencing the list.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+num\_referencing\_filters: number
 
-    An informative summary of the list.
+The number of <a href="https://developers.cloudflare.com/api/resources/filters/">filters</a> referencing the list.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+description: optional string
 
-  - `true`
+An informative summary of the list.
 
-### Example
+maxLength500
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "kind": "ip",
-          "name": "list1",
-          "description": "This is a note"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2c0fc9fa937b11eaa1b71c4d701ab86e",
-    "created_on": "2020-01-01T08:00:00Z",
-    "kind": "ip",
-    "modified_on": "2020-01-10T14:00:00Z",
-    "name": "list1",
-    "num_items": 10,
-    "num_referencing_filters": 2,
-    "description": "This is a note"
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20rules.lists%20%3E%20(model)%20list_get_response%20%3E%20(schema)>)
 
-## Update a list
+<details>
 
-**put** `/accounts/{account_id}/rules/lists/{list_id}`
+<summary>
 
-Updates the description of a list.
+ListCreateResponse object {id, created\_on, kind, 5 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: string
 
-  The Account ID for this resource.
+The unique ID of the list.
 
-- `list_id: string`
+maxLength32
 
-  The unique ID of the list.
+minLength32
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+created\_on: string
 
-  An informative summary of the list.
+The RFC 3339 timestamp of when the list was created.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+kind: "ip"or "redirect"or "hostname"or "asn"
 
-  - `documentation_url: optional string`
+The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of ResponseInfo`
+"ip"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"redirect"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"hostname"
 
-- `result: object { id, created_on, kind, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"asn"
 
-    The unique ID of the list.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-    The RFC 3339 timestamp of when the list was created.
+<a href="#">Link to this property</a>
 
-  - `kind: "ip" or "redirect" or "hostname" or "asn"`
+modified\_on: string
 
-    The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+The RFC 3339 timestamp of when the list was last modified.
 
-    - `"ip"`
+<a href="#">Link to this property</a>
 
-    - `"redirect"`
+name: string
 
-    - `"hostname"`
+An informative name for the list. Use this name in filter and rule expressions.
 
-    - `"asn"`
+maxLength50
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The RFC 3339 timestamp of when the list was last modified.
+num\_items: number
 
-  - `name: string`
+The number of items in the list.
 
-    An informative name for the list. Use this name in filter and rule expressions.
+<a href="#">Link to this property</a>
 
-  - `num_items: number`
+num\_referencing\_filters: number
 
-    The number of items in the list.
+The number of <a href="https://developers.cloudflare.com/api/resources/filters/">filters</a> referencing the list.
 
-  - `num_referencing_filters: number`
+<a href="#">Link to this property</a>
 
-    The number of [filters](/api/resources/filters/) referencing the list.
+description: optional string
 
-  - `description: optional string`
+An informative summary of the list.
 
-    An informative summary of the list.
+maxLength500
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20rules.lists%20%3E%20(model)%20list_create_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "This is a note"
-        }'
-```
+<summary>
 
-#### Response
+ListUpdateResponse object {id, created\_on, kind, 5 more }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2c0fc9fa937b11eaa1b71c4d701ab86e",
-    "created_on": "2020-01-01T08:00:00Z",
-    "kind": "ip",
-    "modified_on": "2020-01-10T14:00:00Z",
-    "name": "list1",
-    "num_items": 10,
-    "num_referencing_filters": 2,
-    "description": "This is a note"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Delete a list
+id: string
 
-**delete** `/accounts/{account_id}/rules/lists/{list_id}`
+The unique ID of the list.
 
-Deletes a specific list and all its items.
+maxLength32
 
-### Path Parameters
+minLength32
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The Account ID for this resource.
+created\_on: string
 
-- `list_id: string`
+The RFC 3339 timestamp of when the list was created.
 
-  The unique ID of the list.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+kind: "ip"or "redirect"or "hostname"or "asn"
 
-  - `message: string`
+The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"ip"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"redirect"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"hostname"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { id }`
+"asn"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the list.
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+modified\_on: string
 
-  - `true`
+The RFC 3339 timestamp of when the list was last modified.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: string
 
-#### Response
+An informative name for the list. Use this name in filter and rule expressions.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2c0fc9fa937b11eaa1b71c4d701ab86e"
-  },
-  "success": true
-}
-```
+maxLength50
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Hostname
+num\_items: number
 
-- `Hostname object { url_hostname, exclude_exact_hostname }`
+The number of items in the list.
 
-  Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
+<a href="#">Link to this property</a>
 
-  - `url_hostname: string`
+num\_referencing\_filters: number
 
-  - `exclude_exact_hostname: optional boolean`
+The number of <a href="https://developers.cloudflare.com/api/resources/filters/">filters</a> referencing the list.
 
-    Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
+<a href="#">Link to this property</a>
 
-### Lists List
+description: optional string
 
-- `ListsList object { id, created_on, kind, 5 more }`
+An informative summary of the list.
 
-  - `id: string`
+maxLength500
 
-    The unique ID of the list.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-    The RFC 3339 timestamp of when the list was created.
+[Link to this property](#)%20rules.lists%20%3E%20(model)%20list_update_response%20%3E%20(schema)>)
 
-  - `kind: "ip" or "redirect" or "hostname" or "asn"`
+<details>
 
-    The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+<summary>
 
-    - `"ip"`
+ListDeleteResponse object {id }
 
-    - `"redirect"`
+</summary>
 
-    - `"hostname"`
+id: string
 
-    - `"asn"`
+The unique ID of the list.
 
-  - `modified_on: string`
+maxLength32
 
-    The RFC 3339 timestamp of when the list was last modified.
+minLength32
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    An informative name for the list. Use this name in filter and rule expressions.
+</details>
 
-  - `num_items: number`
+[Link to this property](#)%20rules.lists%20%3E%20(model)%20list_delete_response%20%3E%20(schema)>)
 
-    The number of items in the list.
+#### Rules ListsListsBulk Operations
 
-  - `num_referencing_filters: number`
+##### [Get bulk operation status](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/bulk_operations/methods/get)
 
-    The number of [filters](/api/resources/filters/) referencing the list.
+GET/accounts/{account\_id}/rules/lists/bulk\_operations/{operation\_id}
 
-  - `description: optional string`
+##### ModelsExpand Collapse
 
-    An informative summary of the list.
+<details>
 
-### Redirect
+<summary>
 
-- `Redirect object { source_url, target_url, include_subdomains, 4 more }`
+BulkOperationGetResponse = object {id, status } or object {id, completed, status } or object {id, completed, error, status }
 
-  The definition of the redirect.
+</summary>
 
-  - `source_url: string`
+One of the following:
 
-  - `target_url: string`
+<details>
 
-  - `include_subdomains: optional boolean`
+<summary>
 
-  - `preserve_path_suffix: optional boolean`
+ListsBulkOperationPendingOrRunning object {id, status }
 
-  - `preserve_query_string: optional boolean`
+</summary>
 
-  - `status_code: optional 301 or 302 or 307 or 308`
+id: string
 
-    - `301`
+The unique operation ID of the asynchronous action.
 
-    - `302`
+<a href="#">Link to this property</a>
 
-    - `307`
+<details>
 
-    - `308`
+<summary>
 
-  - `subpath_matching: optional boolean`
+status: "pending"or "running"
 
-### List Get Response
+The current status of the asynchronous operation.
 
-- `ListGetResponse object { id, created_on, kind, 5 more }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-    The unique ID of the list.
+"pending"
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The RFC 3339 timestamp of when the list was created.
+"running"
 
-  - `kind: "ip" or "redirect" or "hostname" or "asn"`
+<a href="#">Link to this property</a>
 
-    The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+</details>
 
-    - `"ip"`
+<a href="#">Link to this property</a>
 
-    - `"redirect"`
+</details>
 
-    - `"hostname"`
+<a href="#">Link to this property</a>
 
-    - `"asn"`
+<details>
 
-  - `modified_on: string`
+<summary>
 
-    The RFC 3339 timestamp of when the list was last modified.
+ListsBulkOperationCompleted object {id, completed, status }
 
-  - `name: string`
+</summary>
 
-    An informative name for the list. Use this name in filter and rule expressions.
+id: string
 
-  - `num_items: number`
+The unique operation ID of the asynchronous action.
 
-    The number of items in the list.
+<a href="#">Link to this property</a>
 
-  - `num_referencing_filters: number`
+completed: string
 
-    The number of [filters](/api/resources/filters/) referencing the list.
+The RFC 3339 timestamp of when the operation was completed.
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the list.
+status: "completed"
 
-### List Create Response
+The current status of the asynchronous operation.
 
-- `ListCreateResponse object { id, created_on, kind, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    The unique ID of the list.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+<details>
 
-    The RFC 3339 timestamp of when the list was created.
+<summary>
 
-  - `kind: "ip" or "redirect" or "hostname" or "asn"`
+ListsBulkOperationFailed object {id, completed, error, status }
 
-    The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+</summary>
 
-    - `"ip"`
+id: string
 
-    - `"redirect"`
+The unique operation ID of the asynchronous action.
 
-    - `"hostname"`
+<a href="#">Link to this property</a>
 
-    - `"asn"`
+completed: string
 
-  - `modified_on: string`
+The RFC 3339 timestamp of when the operation was completed.
 
-    The RFC 3339 timestamp of when the list was last modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+error: string
 
-    An informative name for the list. Use this name in filter and rule expressions.
+A message describing the error when the status is <code>failed</code>.
 
-  - `num_items: number`
+<a href="#">Link to this property</a>
 
-    The number of items in the list.
+status: "failed"
 
-  - `num_referencing_filters: number`
+The current status of the asynchronous operation.
 
-    The number of [filters](/api/resources/filters/) referencing the list.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    An informative summary of the list.
+<a href="#">Link to this property</a>
 
-### List Update Response
+</details>
 
-- `ListUpdateResponse object { id, created_on, kind, 5 more }`
+[Link to this property](#)%20rules.lists.bulk_operations%20%3E%20(model)%20bulk_operation_get_response%20%3E%20(schema)>)
 
-  - `id: string`
+#### Rules ListsListsItems
 
-    The unique ID of the list.
+##### [Get list items](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/items/methods/list)
 
-  - `created_on: string`
+GET/accounts/{account\_id}/rules/lists/{list\_id}/items
 
-    The RFC 3339 timestamp of when the list was created.
+##### [Get a list item](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/items/methods/get)
 
-  - `kind: "ip" or "redirect" or "hostname" or "asn"`
+GET/accounts/{account\_id}/rules/lists/{list\_id}/items/{item\_id}
 
-    The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).
+##### [Create list items](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/items/methods/create)
 
-    - `"ip"`
+POST/accounts/{account\_id}/rules/lists/{list\_id}/items
 
-    - `"redirect"`
+##### [Update all list items](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/items/methods/update)
 
-    - `"hostname"`
+PUT/accounts/{account\_id}/rules/lists/{list\_id}/items
 
-    - `"asn"`
+##### [Delete list items](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/items/methods/delete)
 
-  - `modified_on: string`
+DELETE/accounts/{account\_id}/rules/lists/{list\_id}/items
 
-    The RFC 3339 timestamp of when the list was last modified.
+##### ModelsExpand Collapse
 
-  - `name: string`
+<details>
 
-    An informative name for the list. Use this name in filter and rule expressions.
+<summary>
 
-  - `num_items: number`
+ListCursor object {after, before }
 
-    The number of items in the list.
+</summary>
 
-  - `num_referencing_filters: number`
+after: optional string
 
-    The number of [filters](/api/resources/filters/) referencing the list.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+before: optional string
 
-    An informative summary of the list.
+<a href="#">Link to this property</a>
 
-### List Delete Response
+</details>
 
-- `ListDeleteResponse object { id }`
+[Link to this property](#)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)>)
 
-  - `id: string`
+<details>
 
-    The unique ID of the list.
+<summary>
 
-# Bulk Operations
+ListItem object {operation\_id }
 
-## Get bulk operation status
+</summary>
 
-**get** `/accounts/{account_id}/rules/lists/bulk_operations/{operation_id}`
+operation\_id: string
 
-Gets the current status of an asynchronous operation on a list.
+The unique operation ID of the asynchronous action.
 
-The `status` property can have one of the following values: `pending`, `running`, `completed`, or `failed`. If the status is `failed`, the `error` property will contain a message describing the error.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20rules.lists.items%20%3E%20(model)%20list_item%20%3E%20(schema)>)
 
-  The Account ID for this resource.
+<details>
 
-- `operation_id: string`
+<summary>
 
-  The unique operation ID of the asynchronous action.
+ItemListResponse = object {id, created\_on, ip, 2 more } or object {id, created\_on, hostname, 2 more } or object {id, created\_on, modified\_on, 2 more } or object {id, asn, created\_on, 2 more }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ListsListItemIPFull object {id, created\_on, ip, 2 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `messages: array of ResponseInfo`
+Defines the unique ID of the item in the List.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+minLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_on: string
 
-- `result: object { id, status }  or object { id, completed, status }  or object { id, completed, error, status }`
+The RFC 3339 timestamp of when the list was created.
 
-  - `ListsBulkOperationPendingOrRunning object { id, status }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+ip: string
 
-      The unique operation ID of the asynchronous action.
+An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
 
-    - `status: "pending" or "running"`
+<a href="#">Link to this property</a>
 
-      The current status of the asynchronous operation.
+modified\_on: string
 
-      - `"pending"`
+The RFC 3339 timestamp of when the list was last modified.
 
-      - `"running"`
+<a href="#">Link to this property</a>
 
-  - `ListsBulkOperationCompleted object { id, completed, status }`
+comment: optional string
 
-    - `id: string`
+Defines an informative summary of the list item.
 
-      The unique operation ID of the asynchronous action.
+<a href="#">Link to this property</a>
 
-    - `completed: string`
+</details>
 
-      The RFC 3339 timestamp of when the operation was completed.
+<a href="#">Link to this property</a>
 
-    - `status: "completed"`
+<details>
 
-      The current status of the asynchronous operation.
+<summary>
 
-      - `"completed"`
+ListsListItemHostnameFull object {id, created\_on, hostname, 2 more }
 
-  - `ListsBulkOperationFailed object { id, completed, error, status }`
+</summary>
 
-    - `id: string`
+id: string
 
-      The unique operation ID of the asynchronous action.
+Defines the unique ID of the item in the List.
 
-    - `completed: string`
+maxLength32
 
-      The RFC 3339 timestamp of when the operation was completed.
+minLength32
 
-    - `error: string`
+<a href="#">Link to this property</a>
 
-      A message describing the error when the status is `failed`.
+created\_on: string
 
-    - `status: "failed"`
+The RFC 3339 timestamp of when the list was created.
 
-      The current status of the asynchronous operation.
+<a href="#">Link to this property</a>
 
-      - `"failed"`
+hostname: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists%20%3E%20(model)%20hostname%20%3E%20(schema)">Hostname</a> { url\_hostname, exclude\_exact\_hostname }
 
-- `success: true`
+Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (\*), and the hyphen (-).
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+modified\_on: string
 
-### Example
+The RFC 3339 timestamp of when the list was last modified.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/bulk_operations/$OPERATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+comment: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "4da8780eeb215e6cb7f48dd981c4ea02",
-    "status": "pending"
-  },
-  "success": true
-}
-```
+Defines an informative summary of the list item.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Bulk Operation Get Response
+</details>
 
-- `BulkOperationGetResponse = object { id, status }  or object { id, completed, status }  or object { id, completed, error, status }`
+<a href="#">Link to this property</a>
 
-  - `ListsBulkOperationPendingOrRunning object { id, status }`
+<details>
 
-    - `id: string`
+<summary>
 
-      The unique operation ID of the asynchronous action.
+ListsListItemRedirectFull object {id, created\_on, modified\_on, 2 more }
 
-    - `status: "pending" or "running"`
+</summary>
 
-      The current status of the asynchronous operation.
+id: string
 
-      - `"pending"`
+Defines the unique ID of the item in the List.
 
-      - `"running"`
+maxLength32
 
-  - `ListsBulkOperationCompleted object { id, completed, status }`
+minLength32
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      The unique operation ID of the asynchronous action.
+created\_on: string
 
-    - `completed: string`
+The RFC 3339 timestamp of when the list was created.
 
-      The RFC 3339 timestamp of when the operation was completed.
+<a href="#">Link to this property</a>
 
-    - `status: "completed"`
+modified\_on: string
 
-      The current status of the asynchronous operation.
+The RFC 3339 timestamp of when the list was last modified.
 
-      - `"completed"`
+<a href="#">Link to this property</a>
 
-  - `ListsBulkOperationFailed object { id, completed, error, status }`
+redirect: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists%20%3E%20(model)%20redirect%20%3E%20(schema)">Redirect</a> { source\_url, target\_url, include\_subdomains, 4 more }
 
-    - `id: string`
+The definition of the redirect.
 
-      The unique operation ID of the asynchronous action.
+<a href="#">Link to this property</a>
 
-    - `completed: string`
+comment: optional string
 
-      The RFC 3339 timestamp of when the operation was completed.
+Defines an informative summary of the list item.
 
-    - `error: string`
+<a href="#">Link to this property</a>
 
-      A message describing the error when the status is `failed`.
+</details>
 
-    - `status: "failed"`
+<a href="#">Link to this property</a>
 
-      The current status of the asynchronous operation.
+<details>
 
-      - `"failed"`
+<summary>
 
-# Items
+ListsListItemASNFull object {id, asn, created\_on, 2 more }
 
-## Get list items
+</summary>
 
-**get** `/accounts/{account_id}/rules/lists/{list_id}/items`
+id: string
 
-Fetches all the items in the list.
+Defines the unique ID of the item in the List.
 
-### Path Parameters
+maxLength32
 
-- `account_id: string`
+minLength32
 
-  The Account ID for this resource.
+<a href="#">Link to this property</a>
 
-- `list_id: string`
+asn: number
 
-  The unique ID of the list.
+Defines a non-negative 32 bit integer.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `cursor: optional string`
+created\_on: string
 
-  The pagination cursor. An opaque string token indicating the position from which to continue when requesting the next/previous set of records. Cursor values are provided under `result_info.cursors` in the response. You should make no assumptions about a cursor's content or length.
+The RFC 3339 timestamp of when the list was created.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Amount of results to include in each paginated response. A non-negative 32 bit integer.
+modified\_on: string
 
-- `search: optional string`
+The RFC 3339 timestamp of when the list was last modified.
 
-  A search query to filter returned items. Its meaning depends on the list type: IP addresses must start with the provided string, hostnames and bulk redirects must contain the string, and ASNs must match the string exactly.
+<a href="#">Link to this property</a>
 
-### Returns
+comment: optional string
 
-- `errors: array of ResponseInfo`
+Defines an informative summary of the list item.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20rules.lists.items%20%3E%20(model)%20item_list_response%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+ItemGetResponse = object {id, created\_on, ip, 2 more } or object {id, created\_on, hostname, 2 more } or object {id, created\_on, modified\_on, 2 more } or object {id, asn, created\_on, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-- `result: array of object { id, created_on, ip, 2 more }  or object { id, created_on, hostname, 2 more }  or object { id, created_on, modified_on, 2 more }  or object { id, asn, created_on, 2 more }`
+<details>
 
-  - `ListsListItemIPFull object { id, created_on, ip, 2 more }`
+<summary>
 
-    - `id: string`
+ListsListItemIPFull object {id, created\_on, ip, 2 more }
 
-      Defines the unique ID of the item in the List.
+</summary>
 
-    - `created_on: string`
+id: string
 
-      The RFC 3339 timestamp of when the list was created.
+Defines the unique ID of the item in the List.
 
-    - `ip: string`
+maxLength32
 
-      An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
+minLength32
 
-    - `modified_on: string`
+<a href="#">Link to this property</a>
 
-      The RFC 3339 timestamp of when the list was last modified.
+created\_on: string
 
-    - `comment: optional string`
+The RFC 3339 timestamp of when the list was created.
 
-      Defines an informative summary of the list item.
+<a href="#">Link to this property</a>
 
-  - `ListsListItemHostnameFull object { id, created_on, hostname, 2 more }`
+ip: string
 
-    - `id: string`
+An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
 
-      Defines the unique ID of the item in the List.
+<a href="#">Link to this property</a>
 
-    - `created_on: string`
+modified\_on: string
 
-      The RFC 3339 timestamp of when the list was created.
+The RFC 3339 timestamp of when the list was last modified.
 
-    - `hostname: Hostname`
+<a href="#">Link to this property</a>
 
-      Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
+comment: optional string
 
-      - `url_hostname: string`
+Defines an informative summary of the list item.
 
-      - `exclude_exact_hostname: optional boolean`
+<a href="#">Link to this property</a>
 
-        Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
+</details>
 
-    - `modified_on: string`
+<a href="#">Link to this property</a>
 
-      The RFC 3339 timestamp of when the list was last modified.
+<details>
 
-    - `comment: optional string`
+<summary>
 
-      Defines an informative summary of the list item.
+ListsListItemHostnameFull object {id, created\_on, hostname, 2 more }
 
-  - `ListsListItemRedirectFull object { id, created_on, modified_on, 2 more }`
+</summary>
 
-    - `id: string`
+id: string
 
-      Defines the unique ID of the item in the List.
+Defines the unique ID of the item in the List.
 
-    - `created_on: string`
+maxLength32
 
-      The RFC 3339 timestamp of when the list was created.
+minLength32
 
-    - `modified_on: string`
+<a href="#">Link to this property</a>
 
-      The RFC 3339 timestamp of when the list was last modified.
+created\_on: string
 
-    - `redirect: Redirect`
+The RFC 3339 timestamp of when the list was created.
 
-      The definition of the redirect.
+<a href="#">Link to this property</a>
 
-      - `source_url: string`
+hostname: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists%20%3E%20(model)%20hostname%20%3E%20(schema)">Hostname</a> { url\_hostname, exclude\_exact\_hostname }
 
-      - `target_url: string`
+Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (\*), and the hyphen (-).
 
-      - `include_subdomains: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `preserve_path_suffix: optional boolean`
+modified\_on: string
 
-      - `preserve_query_string: optional boolean`
+The RFC 3339 timestamp of when the list was last modified.
 
-      - `status_code: optional 301 or 302 or 307 or 308`
+<a href="#">Link to this property</a>
 
-        - `301`
+comment: optional string
 
-        - `302`
+Defines an informative summary of the list item.
 
-        - `307`
+<a href="#">Link to this property</a>
 
-        - `308`
+</details>
 
-      - `subpath_matching: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `comment: optional string`
+<details>
 
-      Defines an informative summary of the list item.
+<summary>
 
-  - `ListsListItemASNFull object { id, asn, created_on, 2 more }`
+ListsListItemRedirectFull object {id, created\_on, modified\_on, 2 more }
 
-    - `id: string`
+</summary>
 
-      Defines the unique ID of the item in the List.
+id: string
 
-    - `asn: number`
+Defines the unique ID of the item in the List.
 
-      Defines a non-negative 32 bit integer.
+maxLength32
 
-    - `created_on: string`
+minLength32
 
-      The RFC 3339 timestamp of when the list was created.
+<a href="#">Link to this property</a>
 
-    - `modified_on: string`
+created\_on: string
 
-      The RFC 3339 timestamp of when the list was last modified.
+The RFC 3339 timestamp of when the list was created.
 
-    - `comment: optional string`
+<a href="#">Link to this property</a>
 
-      Defines an informative summary of the list item.
+modified\_on: string
 
-- `success: true`
+The RFC 3339 timestamp of when the list was last modified.
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+redirect: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists%20%3E%20(model)%20redirect%20%3E%20(schema)">Redirect</a> { source\_url, target\_url, include\_subdomains, 4 more }
 
-- `result_info: optional object { cursors }`
+The definition of the redirect.
 
-  - `cursors: optional ListCursor`
+<a href="#">Link to this property</a>
 
-    - `after: optional string`
+comment: optional string
 
-    - `before: optional string`
+Defines an informative summary of the list item.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID/items \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "34b12448945f11eaa1b71c4d701ab86e",
-      "created_on": "2020-01-01T08:00:00Z",
-      "ip": "10.0.0.1",
-      "modified_on": "2020-01-10T14:00:00Z",
-      "comment": "Private IP address"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "cursors": {
-      "after": "yyy",
-      "before": "xxx"
-    }
-  }
-}
-```
+<details>
 
-## Get a list item
+<summary>
 
-**get** `/accounts/{account_id}/rules/lists/{list_id}/items/{item_id}`
+ListsListItemASNFull object {id, asn, created\_on, 2 more }
 
-Fetches a list item in the list.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+Defines the unique ID of the item in the List.
 
-  The Account ID for this resource.
+maxLength32
 
-- `list_id: string`
+minLength32
 
-  The unique ID of the list.
+<a href="#">Link to this property</a>
 
-- `item_id: string`
+asn: number
 
-  Defines the unique ID of the item in the List.
+Defines a non-negative 32 bit integer.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+created\_on: string
 
-  - `code: number`
+The RFC 3339 timestamp of when the list was created.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: string
 
-  - `source: optional object { pointer }`
+The RFC 3339 timestamp of when the list was last modified.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+comment: optional string
 
-  - `code: number`
+Defines an informative summary of the list item.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { id, created_on, ip, 2 more }  or object { id, created_on, hostname, 2 more }  or object { id, created_on, modified_on, 2 more }  or object { id, asn, created_on, 2 more }`
+</details>
 
-  - `ListsListItemIPFull object { id, created_on, ip, 2 more }`
+[Link to this property](#)%20rules.lists.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-    - `id: string`
+<details>
 
-      Defines the unique ID of the item in the List.
+<summary>
 
-    - `created_on: string`
+ItemCreateResponse object {operation\_id }
 
-      The RFC 3339 timestamp of when the list was created.
+</summary>
 
-    - `ip: string`
+operation\_id: string
 
-      An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
+The unique operation ID of the asynchronous action.
 
-    - `modified_on: string`
+<a href="#">Link to this property</a>
 
-      The RFC 3339 timestamp of when the list was last modified.
+</details>
 
-    - `comment: optional string`
+[Link to this property](#)%20rules.lists.items%20%3E%20(model)%20item_create_response%20%3E%20(schema)>)
 
-      Defines an informative summary of the list item.
+<details>
 
-  - `ListsListItemHostnameFull object { id, created_on, hostname, 2 more }`
+<summary>
 
-    - `id: string`
+ItemUpdateResponse object {operation\_id }
 
-      Defines the unique ID of the item in the List.
+</summary>
 
-    - `created_on: string`
+operation\_id: string
 
-      The RFC 3339 timestamp of when the list was created.
+The unique operation ID of the asynchronous action.
 
-    - `hostname: Hostname`
+<a href="#">Link to this property</a>
 
-      Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
+</details>
 
-      - `url_hostname: string`
+[Link to this property](#)%20rules.lists.items%20%3E%20(model)%20item_update_response%20%3E%20(schema)>)
 
-      - `exclude_exact_hostname: optional boolean`
+<details>
 
-        Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
+<summary>
 
-    - `modified_on: string`
+ItemDeleteResponse object {operation\_id }
 
-      The RFC 3339 timestamp of when the list was last modified.
+</summary>
 
-    - `comment: optional string`
+operation\_id: string
 
-      Defines an informative summary of the list item.
+The unique operation ID of the asynchronous action.
 
-  - `ListsListItemRedirectFull object { id, created_on, modified_on, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Defines the unique ID of the item in the List.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `redirect: Redirect`
-
-      The definition of the redirect.
-
-      - `source_url: string`
-
-      - `target_url: string`
-
-      - `include_subdomains: optional boolean`
-
-      - `preserve_path_suffix: optional boolean`
-
-      - `preserve_query_string: optional boolean`
-
-      - `status_code: optional 301 or 302 or 307 or 308`
-
-        - `301`
-
-        - `302`
-
-        - `307`
-
-        - `308`
-
-      - `subpath_matching: optional boolean`
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemASNFull object { id, asn, created_on, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `asn: number`
-
-      Defines a non-negative 32 bit integer.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID/items/$ITEM_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "34b12448945f11eaa1b71c4d701ab86e",
-    "created_on": "2020-01-01T08:00:00Z",
-    "ip": "10.0.0.1",
-    "modified_on": "2020-01-10T14:00:00Z",
-    "comment": "Private IP address"
-  },
-  "success": true
-}
-```
-
-## Create list items
-
-**post** `/accounts/{account_id}/rules/lists/{list_id}/items`
-
-Appends new items to the list.
-
-This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
-
-There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The Account ID for this resource.
-
-- `list_id: string`
-
-  The unique ID of the list.
-
-### Body Parameters
-
-- `body: array of object { ip, comment }  or object { redirect, comment }  or object { hostname, comment }  or object { asn, comment }`
-
-  - `ListsListItemIPComment object { ip, comment }`
-
-    - `ip: string`
-
-      An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemRedirectComment object { redirect, comment }`
-
-    - `redirect: Redirect`
-
-      The definition of the redirect.
-
-      - `source_url: string`
-
-      - `target_url: string`
-
-      - `include_subdomains: optional boolean`
-
-      - `preserve_path_suffix: optional boolean`
-
-      - `preserve_query_string: optional boolean`
-
-      - `status_code: optional 301 or 302 or 307 or 308`
-
-        - `301`
-
-        - `302`
-
-        - `307`
-
-        - `308`
-
-      - `subpath_matching: optional boolean`
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemHostnameComment object { hostname, comment }`
-
-    - `hostname: Hostname`
-
-      Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
-
-      - `url_hostname: string`
-
-      - `exclude_exact_hostname: optional boolean`
-
-        Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemASNComment object { asn, comment }`
-
-    - `asn: number`
-
-      Defines a non-negative 32 bit integer.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { operation_id }`
-
-  - `operation_id: string`
-
-    The unique operation ID of the asynchronous action.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID/items \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "ip": "10.0.0.1",
-            "comment": "Private IP address"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "operation_id": "4da8780eeb215e6cb7f48dd981c4ea02"
-  },
-  "success": true
-}
-```
-
-## Update all list items
-
-**put** `/accounts/{account_id}/rules/lists/{list_id}/items`
-
-Removes all existing items from the list and adds the provided items to the list.
-
-This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
-
-There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The Account ID for this resource.
-
-- `list_id: string`
-
-  The unique ID of the list.
-
-### Body Parameters
-
-- `body: array of object { ip, comment }  or object { redirect, comment }  or object { hostname, comment }  or object { asn, comment }`
-
-  - `ListsListItemIPComment object { ip, comment }`
-
-    - `ip: string`
-
-      An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemRedirectComment object { redirect, comment }`
-
-    - `redirect: Redirect`
-
-      The definition of the redirect.
-
-      - `source_url: string`
-
-      - `target_url: string`
-
-      - `include_subdomains: optional boolean`
-
-      - `preserve_path_suffix: optional boolean`
-
-      - `preserve_query_string: optional boolean`
-
-      - `status_code: optional 301 or 302 or 307 or 308`
-
-        - `301`
-
-        - `302`
-
-        - `307`
-
-        - `308`
-
-      - `subpath_matching: optional boolean`
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemHostnameComment object { hostname, comment }`
-
-    - `hostname: Hostname`
-
-      Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
-
-      - `url_hostname: string`
-
-      - `exclude_exact_hostname: optional boolean`
-
-        Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemASNComment object { asn, comment }`
-
-    - `asn: number`
-
-      Defines a non-negative 32 bit integer.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { operation_id }`
-
-  - `operation_id: string`
-
-    The unique operation ID of the asynchronous action.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID/items \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "ip": "10.0.0.1",
-            "comment": "Private IP address"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "operation_id": "4da8780eeb215e6cb7f48dd981c4ea02"
-  },
-  "success": true
-}
-```
-
-## Delete list items
-
-**delete** `/accounts/{account_id}/rules/lists/{list_id}/items`
-
-Removes one or more items from a list.
-
-This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
-
-There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The Account ID for this resource.
-
-- `list_id: string`
-
-  The unique ID of the list.
-
-### Body Parameters
-
-- `items: optional array of object { id }`
-
-  - `id: string`
-
-    Defines the unique ID of the item in the List.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { operation_id }`
-
-  - `operation_id: string`
-
-    The unique operation ID of the asynchronous action.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID/items \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "operation_id": "4da8780eeb215e6cb7f48dd981c4ea02"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### List Cursor
-
-- `ListCursor object { after, before }`
-
-  - `after: optional string`
-
-  - `before: optional string`
-
-### List Item
-
-- `ListItem object { operation_id }`
-
-  - `operation_id: string`
-
-    The unique operation ID of the asynchronous action.
-
-### Item List Response
-
-- `ItemListResponse = object { id, created_on, ip, 2 more }  or object { id, created_on, hostname, 2 more }  or object { id, created_on, modified_on, 2 more }  or object { id, asn, created_on, 2 more }`
-
-  - `ListsListItemIPFull object { id, created_on, ip, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `ip: string`
-
-      An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemHostnameFull object { id, created_on, hostname, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `hostname: Hostname`
-
-      Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
-
-      - `url_hostname: string`
-
-      - `exclude_exact_hostname: optional boolean`
-
-        Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemRedirectFull object { id, created_on, modified_on, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `redirect: Redirect`
-
-      The definition of the redirect.
-
-      - `source_url: string`
-
-      - `target_url: string`
-
-      - `include_subdomains: optional boolean`
-
-      - `preserve_path_suffix: optional boolean`
-
-      - `preserve_query_string: optional boolean`
-
-      - `status_code: optional 301 or 302 or 307 or 308`
-
-        - `301`
-
-        - `302`
-
-        - `307`
-
-        - `308`
-
-      - `subpath_matching: optional boolean`
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemASNFull object { id, asn, created_on, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `asn: number`
-
-      Defines a non-negative 32 bit integer.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-### Item Get Response
-
-- `ItemGetResponse = object { id, created_on, ip, 2 more }  or object { id, created_on, hostname, 2 more }  or object { id, created_on, modified_on, 2 more }  or object { id, asn, created_on, 2 more }`
-
-  - `ListsListItemIPFull object { id, created_on, ip, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `ip: string`
-
-      An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemHostnameFull object { id, created_on, hostname, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `hostname: Hostname`
-
-      Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
-
-      - `url_hostname: string`
-
-      - `exclude_exact_hostname: optional boolean`
-
-        Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemRedirectFull object { id, created_on, modified_on, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `redirect: Redirect`
-
-      The definition of the redirect.
-
-      - `source_url: string`
-
-      - `target_url: string`
-
-      - `include_subdomains: optional boolean`
-
-      - `preserve_path_suffix: optional boolean`
-
-      - `preserve_query_string: optional boolean`
-
-      - `status_code: optional 301 or 302 or 307 or 308`
-
-        - `301`
-
-        - `302`
-
-        - `307`
-
-        - `308`
-
-      - `subpath_matching: optional boolean`
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-  - `ListsListItemASNFull object { id, asn, created_on, 2 more }`
-
-    - `id: string`
-
-      Defines the unique ID of the item in the List.
-
-    - `asn: number`
-
-      Defines a non-negative 32 bit integer.
-
-    - `created_on: string`
-
-      The RFC 3339 timestamp of when the list was created.
-
-    - `modified_on: string`
-
-      The RFC 3339 timestamp of when the list was last modified.
-
-    - `comment: optional string`
-
-      Defines an informative summary of the list item.
-
-### Item Create Response
-
-- `ItemCreateResponse object { operation_id }`
-
-  - `operation_id: string`
-
-    The unique operation ID of the asynchronous action.
-
-### Item Update Response
-
-- `ItemUpdateResponse object { operation_id }`
-
-  - `operation_id: string`
-
-    The unique operation ID of the asynchronous action.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { operation_id }`
-
-  - `operation_id: string`
-
-    The unique operation ID of the asynchronous action.
+[Link to this property](#)%20rules.lists.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)

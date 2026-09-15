@@ -1,1948 +1,517 @@
+---
+title: Namespaces
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[KV](https://developers.cloudflare.com/api/resources/kv)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Namespaces
 
-## List Namespaces
+##### [List Namespaces](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/methods/list)
 
-**get** `/accounts/{account_id}/storage/kv/namespaces`
+GET/accounts/{account\_id}/storage/kv/namespaces
 
-Returns the namespaces owned by an account.
+##### [Get a Namespace](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}
 
-- `account_id: string`
+##### [Create a Namespace](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/storage/kv/namespaces
 
-### Query Parameters
+##### [Rename a Namespace](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/methods/update)
 
-- `direction: optional "asc" or "desc"`
+PUT/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}
 
-  Direction to order namespaces.
+##### [Remove a Namespace](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}
 
-  - `"desc"`
+##### [Write multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/methods/bulk_update)
 
-- `order: optional "id" or "title"`
+PUT/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk
 
-  Field to order results by.
+##### [Delete multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/methods/bulk_delete)
 
-  - `"id"`
+POST/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk/delete
 
-  - `"title"`
+##### [Get multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/methods/bulk_get)
 
-- `page: optional number`
+POST/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk/get
 
-  Page number of paginated results.
+##### ModelsExpand Collapse
 
-- `per_page: optional number`
+<details>
 
-  Maximum number of results per page.
+<summary>
 
-### Returns
+Namespace object {id, title, jurisdiction, supports\_url\_encoding }
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+Namespace identifier tag.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+title: string
 
-- `messages: array of ResponseInfo`
+A human-readable string name for a Namespace.
 
-  - `code: number`
+maxLength512
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `success: true`
+jurisdiction: optional "eu"or "fedramp"or "us"
 
-  Whether the API call was successful.
+Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time.
 
-  - `true`
+</summary>
 
-- `result: optional array of Namespace`
+One of the following:
 
-  - `id: string`
+"eu"
 
-    Namespace identifier tag.
+<a href="#">Link to this property</a>
 
-  - `title: string`
+"fedramp"
 
-    A human-readable string name for a Namespace.
+<a href="#">Link to this property</a>
 
-  - `supports_url_encoding: optional boolean`
+"us"
 
-    True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?".
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+supports\_url\_encoding: optional boolean
 
-  - `page: optional number`
+True if keys written on the URL will be URL-decoded before storing. For example, if set to “true”, a key written on the URL as “%3F” will be stored as ”?”.
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+[Link to this property](#)%20kv.namespaces%20%3E%20(model)%20namespace%20%3E%20(schema)>)
 
-  - `total_count: optional number`
+NamespaceDeleteResponse object {}
 
-    Total results available without any search parameters.
+[Link to this property](#)%20kv.namespaces%20%3E%20(model)%20namespace_delete_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+NamespaceBulkUpdateResponse object {successful\_key\_count, unsuccessful\_keys }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "0f2ac74b498b48028cb68387c421e279",
-      "title": "My Own Namespace",
-      "supports_url_encoding": true
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+</summary>
 
-## Get a Namespace
+successful\_key\_count: optional number
 
-**get** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}`
+Number of keys successfully updated.
 
-Get the namespace corresponding to the given ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+unsuccessful\_keys: optional array of string
 
-- `account_id: string`
+Name of the keys that failed to be fully updated. They should be retried.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `namespace_id: string`
+</details>
 
-  Namespace identifier tag.
+[Link to this property](#)%20kv.namespaces%20%3E%20(model)%20namespace_bulk_update_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+NamespaceBulkDeleteResponse object {successful\_key\_count, unsuccessful\_keys }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+successful\_key\_count: optional number
 
-  - `source: optional object { pointer }`
+Number of keys successfully updated.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+unsuccessful\_keys: optional array of string
 
-  - `code: number`
+Name of the keys that failed to be fully updated. They should be retried.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20kv.namespaces%20%3E%20(model)%20namespace_bulk_delete_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+NamespaceBulkGetResponse = object {values } or object {values }
 
-- `result: optional Namespace`
+</summary>
 
-  - `id: string`
+One of the following:
 
-    Namespace identifier tag.
+<details>
 
-  - `title: string`
+<summary>
 
-    A human-readable string name for a Namespace.
+WorkersKVBulkGetResult object {values }
 
-  - `supports_url_encoding: optional boolean`
+</summary>
 
-    True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?".
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+values: optional map\[stringor numberor booleanor map\[unknown]]
 
-#### Response
+Requested keys are paired with their values in an object.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "0f2ac74b498b48028cb68387c421e279",
-    "title": "My Own Namespace",
-    "supports_url_encoding": true
-  }
-}
-```
+</summary>
 
-## Create a Namespace
+One of the following:
 
-**post** `/accounts/{account_id}/storage/kv/namespaces`
+string
 
-Creates a namespace under the given title. A `400` is returned if the account already owns a namespace with this title. A namespace must be explicitly deleted to be replaced.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+boolean
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `title: string`
+map\[unknown]
 
-  A human-readable string name for a Namespace.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+WorkersKVBulkGetResultWithMetadata object {values }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+values: optional map\[object {metadata, value, expiration } ]
 
-  - `source: optional object { pointer }`
+Requested keys are paired with their values and metadata in an object.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+metadata: unknown
 
-  - `true`
+The metadata associated with the key.
 
-- `result: optional Namespace`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+value: unknown
 
-    Namespace identifier tag.
+The value associated with the key.
 
-  - `title: string`
+<a href="#">Link to this property</a>
 
-    A human-readable string name for a Namespace.
+expiration: optional number
 
-  - `supports_url_encoding: optional boolean`
+Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
 
-    True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?".
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "title": "My Own Namespace"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "0f2ac74b498b48028cb68387c421e279",
-    "title": "My Own Namespace",
-    "supports_url_encoding": true
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Rename a Namespace
+</details>
 
-**put** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}`
+[Link to this property](#)%20kv.namespaces%20%3E%20(model)%20namespace_bulk_get_response%20%3E%20(schema)>)
 
-Modifies a namespace's title.
+#### NamespacesKeys
 
-### Path Parameters
+##### [List a Namespace's Keys](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/keys/methods/list)
 
-- `account_id: string`
+GET/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/keys
 
-  Identifier.
+##### [Write multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/keys/methods/bulk_update)
 
-- `namespace_id: string`
+Deprecated
 
-  Namespace identifier tag.
+PUT/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk
 
-### Body Parameters
+##### [Delete multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/keys/methods/bulk_delete)
 
-- `title: string`
+Deprecated
 
-  A human-readable string name for a Namespace.
+POST/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk/delete
 
-### Returns
+##### [Get multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/keys/methods/bulk_get)
 
-- `errors: array of ResponseInfo`
+Deprecated
 
-  - `code: number`
+POST/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk/get
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+Key object {name, expiration, metadata }
 
-- `messages: array of ResponseInfo`
+A name for a value. A value stored under a given key may be retrieved via the same key.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+A key’s name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
 
-  - `source: optional object { pointer }`
+maxLength512
 
-- `result: Namespace`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+expiration: optional number
 
-    Namespace identifier tag.
+The time, measured in number of seconds since the UNIX epoch, at which the key will expire. This property is omitted for keys that will not expire.
 
-  - `title: string`
+<a href="#">Link to this property</a>
 
-    A human-readable string name for a Namespace.
+metadata: optional unknown
 
-  - `supports_url_encoding: optional boolean`
+Arbitrary JSON that is associated with a key.
 
-    True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?".
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20kv.namespaces.keys%20%3E%20(model)%20key%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "title": "My Own Namespace"
-        }'
-```
+KeyBulkUpdateResponse object {successful\_key\_count, unsuccessful\_keys }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "0f2ac74b498b48028cb68387c421e279",
-    "title": "My Own Namespace",
-    "supports_url_encoding": true
-  },
-  "success": true
-}
-```
+successful\_key\_count: optional number
 
-## Remove a Namespace
+Number of keys successfully updated.
 
-**delete** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}`
+<a href="#">Link to this property</a>
 
-Deletes the namespace corresponding to the given ID.
+unsuccessful\_keys: optional array of string
 
-### Path Parameters
+Name of the keys that failed to be fully updated. They should be retried.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `namespace_id: string`
+[Link to this property](#)%20kv.namespaces.keys%20%3E%20(model)%20key_bulk_update_response%20%3E%20(schema)>)
 
-  Namespace identifier tag.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+KeyBulkDeleteResponse object {successful\_key\_count, unsuccessful\_keys }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+successful\_key\_count: optional number
 
-  - `documentation_url: optional string`
+Number of keys successfully updated.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+unsuccessful\_keys: optional array of string
 
-- `messages: array of ResponseInfo`
+Name of the keys that failed to be fully updated. They should be retried.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20kv.namespaces.keys%20%3E%20(model)%20key_bulk_delete_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+KeyBulkGetResponse = object {values } or object {values }
 
-  - `true`
+</summary>
 
-- `result: optional object {  }`
+One of the following:
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+WorkersKVBulkGetResult object {values }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+</summary>
 
-## Write multiple key-value pairs
+<details>
 
-**put** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk`
+<summary>
 
-Write multiple keys and values at once. Body should be an array of up to 10,000 key-value pairs to be stored, along with optional expiration information. Existing values and expirations will be overwritten. If neither `expiration` nor `expiration_ttl` is specified, the key-value pair will never expire. If both are set, `expiration_ttl` is used and `expiration` is ignored. The entire request size must be 100 megabytes or less.
+values: optional map\[stringor numberor booleanor map\[unknown]]
 
-### Path Parameters
+Requested keys are paired with their values in an object.
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+One of the following:
 
-- `namespace_id: string`
+string
 
-  Namespace identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+number
 
-- `body: array of object { key, value, base64, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `key: string`
+boolean
 
-    A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid.
+<a href="#">Link to this property</a>
 
-  - `value: string`
+map\[unknown]
 
-    A UTF-8 encoded string to be stored, up to 25 MiB in length.
+<a href="#">Link to this property</a>
 
-  - `base64: optional boolean`
+</details>
 
-    Indicates whether or not the server should base64 decode the value before storing it. Useful for writing values that wouldn't otherwise be valid JSON strings, such as images.
+<a href="#">Link to this property</a>
 
-  - `expiration: optional number`
+</details>
 
-    Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
+<a href="#">Link to this property</a>
 
-  - `expiration_ttl: optional number`
+<details>
 
-    Expires the key after a number of seconds. Must be at least 60.
+<summary>
 
-  - `metadata: optional unknown`
+WorkersKVBulkGetResultWithMetadata object {values }
 
-    Arbitrary JSON that is associated with a key.
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+values: optional map\[object {metadata, value, expiration } ]
 
-  - `message: string`
+Requested keys are paired with their values and metadata in an object.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+metadata: unknown
 
-    - `pointer: optional string`
+The metadata associated with the key.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+value: unknown
 
-  - `message: string`
+The value associated with the key.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+expiration: optional number
 
-- `success: true`
+Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { successful_key_count, unsuccessful_keys }`
+<a href="#">Link to this property</a>
 
-  - `successful_key_count: optional number`
+</details>
 
-    Number of keys successfully updated.
+<a href="#">Link to this property</a>
 
-  - `unsuccessful_keys: optional array of string`
+</details>
 
-    Name of the keys that failed to be fully updated. They should be retried.
+[Link to this property](#)%20kv.namespaces.keys%20%3E%20(model)%20key_bulk_get_response%20%3E%20(schema)>)
 
-### Example
+#### NamespacesMetadata
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "key": "My-Key",
-            "value": "Some string",
-            "base64": true,
-            "expiration": 1578435000,
-            "expiration_ttl": 300,
-            "metadata": {}
-          }
-        ]'
-```
+##### [Read the metadata for a key](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/metadata/methods/get)
 
-#### Response
+GET/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/metadata/{key\_name}
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "successful_key_count": 100,
-    "unsuccessful_keys": [
-      "string"
-    ]
-  }
-}
-```
+##### ModelsExpand Collapse
 
-## Delete multiple key-value pairs
+MetadataGetResponse = unknown
 
-**post** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/delete`
+Arbitrary JSON that is associated with a key.
 
-Remove multiple KV pairs from the namespace. Body should be an array of up to 10,000 keys to be removed.
+[Link to this property](#)%20kv.namespaces.metadata%20%3E%20(model)%20metadata_get_response%20%3E%20(schema)>)
 
-### Path Parameters
+#### NamespacesValues
 
-- `account_id: string`
+##### [Read key-value pair](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/values/methods/get)
 
-  Identifier.
+GET/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/values/{key\_name}
 
-- `namespace_id: string`
+##### [Write key-value pair with optional metadata](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/values/methods/update)
 
-  Namespace identifier tag.
+PUT/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/values/{key\_name}
 
-### Body Parameters
+##### [Delete key-value pair](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/values/methods/delete)
 
-- `body: array of string`
+DELETE/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/values/{key\_name}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+ValueUpdateResponse object {}
 
-  - `code: number`
+[Link to this property](#)%20kv.namespaces.values%20%3E%20(model)%20value_update_response%20%3E%20(schema)>)
 
-  - `message: string`
+ValueDeleteResponse object {}
 
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk/delete \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          "My-Key"
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "successful_key_count": 100,
-    "unsuccessful_keys": [
-      "string"
-    ]
-  }
-}
-```
-
-## Get multiple key-value pairs
-
-**post** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/get`
-
-Retrieve up to 100 KV pairs from the namespace. Keys must contain text-based values. JSON values can optionally be parsed instead of being returned as a string value. Metadata can be included if `withMetadata` is true.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-### Body Parameters
-
-- `keys: array of string`
-
-  Array of keys to retrieve (maximum of 100).
-
-- `type: optional "text" or "json"`
-
-  Whether to parse JSON values in the response.
-
-  - `"text"`
-
-  - `"json"`
-
-- `withMetadata: optional boolean`
-
-  Whether to include metadata in the response.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { values }  or object { values }`
-
-  - `WorkersKVBulkGetResult object { values }`
-
-    - `values: optional map[string or number or boolean or map[unknown]]`
-
-      Requested keys are paired with their values in an object.
-
-      - `string`
-
-      - `number`
-
-      - `boolean`
-
-      - `map[unknown]`
-
-  - `WorkersKVBulkGetResultWithMetadata object { values }`
-
-    - `values: optional map[object { metadata, value, expiration } ]`
-
-      Requested keys are paired with their values and metadata in an object.
-
-      - `metadata: unknown`
-
-        The metadata associated with the key.
-
-      - `value: unknown`
-
-        The value associated with the key.
-
-      - `expiration: optional number`
-
-        Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk/get \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "keys": [
-            "My-Key"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "values": {
-      "key1": "value1",
-      "key2": "value2"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Namespace
-
-- `Namespace object { id, title, supports_url_encoding }`
-
-  - `id: string`
-
-    Namespace identifier tag.
-
-  - `title: string`
-
-    A human-readable string name for a Namespace.
-
-  - `supports_url_encoding: optional boolean`
-
-    True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?".
-
-### Namespace Delete Response
-
-- `NamespaceDeleteResponse object {  }`
-
-### Namespace Bulk Update Response
-
-- `NamespaceBulkUpdateResponse object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Namespace Bulk Delete Response
-
-- `NamespaceBulkDeleteResponse object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Namespace Bulk Get Response
-
-- `NamespaceBulkGetResponse = object { values }  or object { values }`
-
-  - `WorkersKVBulkGetResult object { values }`
-
-    - `values: optional map[string or number or boolean or map[unknown]]`
-
-      Requested keys are paired with their values in an object.
-
-      - `string`
-
-      - `number`
-
-      - `boolean`
-
-      - `map[unknown]`
-
-  - `WorkersKVBulkGetResultWithMetadata object { values }`
-
-    - `values: optional map[object { metadata, value, expiration } ]`
-
-      Requested keys are paired with their values and metadata in an object.
-
-      - `metadata: unknown`
-
-        The metadata associated with the key.
-
-      - `value: unknown`
-
-        The value associated with the key.
-
-      - `expiration: optional number`
-
-        Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
-
-# Keys
-
-## List a Namespace's Keys
-
-**get** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/keys`
-
-Lists a namespace's keys.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-### Query Parameters
-
-- `cursor: optional string`
-
-  Opaque token indicating the position from which to continue when requesting the next set of records if the amount of list results was limited by the limit parameter. A valid value for the cursor can be obtained from the `cursors` object in the `result_info` structure.
-
-- `limit: optional number`
-
-  Limits the number of keys returned in the response. The cursor attribute may be used to iterate over the next batch of keys if there are more than the limit.
-
-- `prefix: optional string`
-
-  Filters returned keys by a name prefix. Exact matches and any key names that begin with the prefix will be returned.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Key`
-
-  - `name: string`
-
-    A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
-
-  - `expiration: optional number`
-
-    The time, measured in number of seconds since the UNIX epoch, at which the key will expire. This property is omitted for keys that will not expire.
-
-  - `metadata: optional unknown`
-
-    Arbitrary JSON that is associated with a key.
-
-- `result_info: optional object { count, cursor }`
-
-  - `count: optional number`
-
-    Total results returned based on your list parameters.
-
-  - `cursor: optional string`
-
-    Opaque token indicating the position from which to continue when requesting the next set of records if the amount of list results was limited by the limit parameter. A valid value for the cursor can be obtained from the cursors object in the result_info structure.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/keys \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "name": "My-Key",
-      "expiration": 1577836800,
-      "metadata": {}
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "cursor": "6Ck1la0VxJ0djhidm1MdX2FyDGxLKVeeHZZmORS_8XeSuhz9SjIJRaSa2lnsF01tQOHrfTGAP3R5X1Kv5iVUuMbNKhWNAXHOl6ePB0TUL8nw"
-  }
-}
-```
-
-## Write multiple key-value pairs
-
-**put** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk`
-
-Write multiple keys and values at once. Body should be an array of up to 10,000 key-value pairs to be stored, along with optional expiration information. Existing values and expirations will be overwritten. If neither `expiration` nor `expiration_ttl` is specified, the key-value pair will never expire. If both are set, `expiration_ttl` is used and `expiration` is ignored. The entire request size must be 100 megabytes or less.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-### Body Parameters
-
-- `body: array of object { key, value, base64, 3 more }`
-
-  - `key: string`
-
-    A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid.
-
-  - `value: string`
-
-    A UTF-8 encoded string to be stored, up to 25 MiB in length.
-
-  - `base64: optional boolean`
-
-    Indicates whether or not the server should base64 decode the value before storing it. Useful for writing values that wouldn't otherwise be valid JSON strings, such as images.
-
-  - `expiration: optional number`
-
-    Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
-
-  - `expiration_ttl: optional number`
-
-    Expires the key after a number of seconds. Must be at least 60.
-
-  - `metadata: optional unknown`
-
-    Arbitrary JSON that is associated with a key.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "key": "My-Key",
-            "value": "Some string",
-            "base64": true,
-            "expiration": 1578435000,
-            "expiration_ttl": 300,
-            "metadata": {}
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "successful_key_count": 100,
-    "unsuccessful_keys": [
-      "string"
-    ]
-  }
-}
-```
-
-## Delete multiple key-value pairs
-
-**post** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/delete`
-
-Remove multiple KV pairs from the namespace. Body should be an array of up to 10,000 keys to be removed.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-### Body Parameters
-
-- `body: array of string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk/delete \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          "My-Key"
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "successful_key_count": 100,
-    "unsuccessful_keys": [
-      "string"
-    ]
-  }
-}
-```
-
-## Get multiple key-value pairs
-
-**post** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/get`
-
-Retrieve up to 100 KV pairs from the namespace. Keys must contain text-based values. JSON values can optionally be parsed instead of being returned as a string value. Metadata can be included if `withMetadata` is true.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-### Body Parameters
-
-- `keys: array of string`
-
-  Array of keys to retrieve (maximum of 100).
-
-- `type: optional "text" or "json"`
-
-  Whether to parse JSON values in the response.
-
-  - `"text"`
-
-  - `"json"`
-
-- `withMetadata: optional boolean`
-
-  Whether to include metadata in the response.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { values }  or object { values }`
-
-  - `WorkersKVBulkGetResult object { values }`
-
-    - `values: optional map[string or number or boolean or map[unknown]]`
-
-      Requested keys are paired with their values in an object.
-
-      - `string`
-
-      - `number`
-
-      - `boolean`
-
-      - `map[unknown]`
-
-  - `WorkersKVBulkGetResultWithMetadata object { values }`
-
-    - `values: optional map[object { metadata, value, expiration } ]`
-
-      Requested keys are paired with their values and metadata in an object.
-
-      - `metadata: unknown`
-
-        The metadata associated with the key.
-
-      - `value: unknown`
-
-        The value associated with the key.
-
-      - `expiration: optional number`
-
-        Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk/get \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "keys": [
-            "My-Key"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "values": {
-      "key1": "value1",
-      "key2": "value2"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Key
-
-- `Key object { name, expiration, metadata }`
-
-  A name for a value. A value stored under a given key may be retrieved via the same key.
-
-  - `name: string`
-
-    A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
-
-  - `expiration: optional number`
-
-    The time, measured in number of seconds since the UNIX epoch, at which the key will expire. This property is omitted for keys that will not expire.
-
-  - `metadata: optional unknown`
-
-    Arbitrary JSON that is associated with a key.
-
-### Key Bulk Update Response
-
-- `KeyBulkUpdateResponse object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Key Bulk Delete Response
-
-- `KeyBulkDeleteResponse object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Key Bulk Get Response
-
-- `KeyBulkGetResponse = object { values }  or object { values }`
-
-  - `WorkersKVBulkGetResult object { values }`
-
-    - `values: optional map[string or number or boolean or map[unknown]]`
-
-      Requested keys are paired with their values in an object.
-
-      - `string`
-
-      - `number`
-
-      - `boolean`
-
-      - `map[unknown]`
-
-  - `WorkersKVBulkGetResultWithMetadata object { values }`
-
-    - `values: optional map[object { metadata, value, expiration } ]`
-
-      Requested keys are paired with their values and metadata in an object.
-
-      - `metadata: unknown`
-
-        The metadata associated with the key.
-
-      - `value: unknown`
-
-        The value associated with the key.
-
-      - `expiration: optional number`
-
-        Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
-
-# Metadata
-
-## Read the metadata for a key
-
-**get** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/metadata/{key_name}`
-
-Returns the metadata associated with the given key in the given namespace. Use URL-encoding to use special characters (for example, `:`, `!`, `%`) in the key name.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-- `key_name: string`
-
-  A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-  Arbitrary JSON that is associated with a key.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/metadata/$KEY_NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Metadata Get Response
-
-- `MetadataGetResponse = unknown`
-
-  Arbitrary JSON that is associated with a key.
-
-# Values
-
-## Read key-value pair
-
-**get** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/values/{key_name}`
-
-Returns the value associated with the given key in the given namespace. Use URL-encoding to use special characters (for example, `:`, `!`, `%`) in the key name. If the KV-pair is set to expire at some point, the expiration time as measured in seconds since the UNIX epoch will be returned in the `expiration` response header.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-- `key_name: string`
-
-  A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/values/$KEY_NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Write key-value pair with optional metadata
-
-**put** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/values/{key_name}`
-
-Write a value identified by a key. Use URL-encoding to use special characters (for example, `:`, `!`, `%`) in the key name. Body should be the value to be stored. If JSON metadata to be associated with the key/value pair is needed, use `multipart/form-data` content type for your PUT request (see dropdown below in `REQUEST BODY SCHEMA`). Existing values, expirations, and metadata will be overwritten. If neither `expiration` nor `expiration_ttl` is specified, the key-value pair will never expire. If both are set, `expiration_ttl` is used and `expiration` is ignored.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-- `key_name: string`
-
-  A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
-
-### Query Parameters
-
-- `expiration: optional number`
-
-  Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
-
-- `expiration_ttl: optional number`
-
-  Expires the key after a number of seconds. Must be at least 60.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object {  }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/values/$KEY_NAME \
-    -X PUT \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F value='Some Value'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Delete key-value pair
-
-**delete** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/values/{key_name}`
-
-Remove a KV pair from the namespace. Use URL-encoding to use special characters (for example, `:`, `!`, `%`) in the key name.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-- `key_name: string`
-
-  A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object {  }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/values/$KEY_NAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Value Update Response
-
-- `ValueUpdateResponse object {  }`
-
-### Value Delete Response
-
-- `ValueDeleteResponse object {  }`
+[Link to this property](#)%20kv.namespaces.values%20%3E%20(model)%20value_delete_response%20%3E%20(schema)>)

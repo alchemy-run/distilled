@@ -1,596 +1,135 @@
+---
+title: Watermarks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Watermarks
 
-## List watermark profiles
+##### [List watermark profiles](https://developers.cloudflare.com/api/resources/stream/subresources/watermarks/methods/list)
 
-**get** `/accounts/{account_id}/stream/watermarks`
+GET/accounts/{account\_id}/stream/watermarks
 
-Lists all watermark profiles for an account.
+##### [Watermark profile details](https://developers.cloudflare.com/api/resources/stream/subresources/watermarks/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/stream/watermarks/{identifier}
 
-- `account_id: string`
+##### [Create watermark profiles via basic upload](https://developers.cloudflare.com/api/resources/stream/subresources/watermarks/methods/create)
 
-  The account identifier tag.
+POST/accounts/{account\_id}/stream/watermarks
 
-### Returns
+##### [Delete watermark profiles](https://developers.cloudflare.com/api/resources/stream/subresources/watermarks/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/stream/watermarks/{identifier}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+Watermark object {created, downloadedFrom, height, 8 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+created: optional string
 
-  - `code: number`
+The date and a time a watermark profile was created.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+downloadedFrom: optional string
 
-    - `pointer: optional string`
+The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+height: optional number
 
-  - `true`
+The height of the image in pixels.
 
-- `result: optional array of Watermark`
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+name: optional string
 
-    The date and a time a watermark profile was created.
+A short description of the watermark profile.
 
-  - `downloadedFrom: optional string`
+<a href="#">Link to this property</a>
 
-    The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
+opacity: optional number
 
-  - `height: optional number`
+The translucency of the image. A value of <code>0.0</code> makes the image completely transparent, and <code>1.0</code> makes the image completely opaque. Note that if the image is already semi-transparent, setting this to <code>1.0</code> will not make the image completely opaque.
 
-    The height of the image in pixels.
+maximum1
 
-  - `name: optional string`
+minimum0
 
-    A short description of the watermark profile.
+<a href="#">Link to this property</a>
 
-  - `opacity: optional number`
+padding: optional number
 
-    The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
+The whitespace between the adjacent edges (determined by position) of the video and the image. <code>0.0</code> indicates no padding, and <code>1.0</code> indicates a fully padded video width or length, as determined by the algorithm.
 
-  - `padding: optional number`
+maximum1
 
-    The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
+minimum0
 
-  - `position: optional string`
+<a href="#">Link to this property</a>
 
-    The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
+position: optional string
 
-  - `scale: optional number`
+The location of the image. Valid positions are: <code>upperRight</code>, <code>upperLeft</code>, <code>lowerLeft</code>, <code>lowerRight</code>, and <code>center</code>. Note that <code>center</code> ignores the <code>padding</code> parameter.
 
-    The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
+<a href="#">Link to this property</a>
 
-  - `size: optional number`
+scale: optional number
 
-    The size of the image in bytes.
+The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. <code>0.0</code> indicates no scaling (use the size of the image as-is), and <code>1.0</code> fills the entire video.
 
-  - `uid: optional string`
+maximum1
 
-    The unique identifier for a watermark profile.
+minimum0
 
-  - `width: optional number`
+<a href="#">Link to this property</a>
 
-    The width of the image in pixels.
+size: optional number
 
-### Example
+The size of the image in bytes.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/watermarks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+uid: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created": "2014-01-02T02:20:00Z",
-      "downloadedFrom": "https://company.com/logo.png",
-      "height": 0,
-      "name": "Marketing Videos",
-      "opacity": 0.75,
-      "padding": 0.1,
-      "position": "center",
-      "scale": 0.1,
-      "size": 29472,
-      "uid": "ea95132c15732412d22c1476fa83f27a",
-      "width": 0
-    }
-  ]
-}
-```
+The unique identifier for a watermark profile.
 
-## Watermark profile details
+maxLength32
 
-**get** `/accounts/{account_id}/stream/watermarks/{identifier}`
+<a href="#">Link to this property</a>
 
-Retrieves details for a single watermark profile.
+width: optional number
 
-### Path Parameters
+The width of the image in pixels.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+</details>
 
-- `identifier: string`
+[Link to this property](#)%20stream.watermarks%20%3E%20(model)%20watermark%20%3E%20(schema)>)
 
-  The unique identifier for a watermark profile.
+WatermarkDeleteResponse = string
 
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Watermark`
-
-  - `created: optional string`
-
-    The date and a time a watermark profile was created.
-
-  - `downloadedFrom: optional string`
-
-    The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-  - `height: optional number`
-
-    The height of the image in pixels.
-
-  - `name: optional string`
-
-    A short description of the watermark profile.
-
-  - `opacity: optional number`
-
-    The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-  - `padding: optional number`
-
-    The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-  - `position: optional string`
-
-    The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-  - `scale: optional number`
-
-    The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-  - `size: optional number`
-
-    The size of the image in bytes.
-
-  - `uid: optional string`
-
-    The unique identifier for a watermark profile.
-
-  - `width: optional number`
-
-    The width of the image in pixels.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/watermarks/$IDENTIFIER \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "downloadedFrom": "https://company.com/logo.png",
-    "height": 0,
-    "name": "Marketing Videos",
-    "opacity": 0.75,
-    "padding": 0.1,
-    "position": "center",
-    "scale": 0.1,
-    "size": 29472,
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "width": 0
-  }
-}
-```
-
-## Create watermark profiles via basic upload
-
-**post** `/accounts/{account_id}/stream/watermarks`
-
-Creates watermark profiles using a single `HTTP POST multipart/form-data` request.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Body Parameters
-
-- `name: optional string`
-
-  A short description of the watermark profile.
-
-- `opacity: optional number`
-
-  The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-- `padding: optional number`
-
-  The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-- `position: optional string`
-
-  The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-- `scale: optional number`
-
-  The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-- `url: optional string`
-
-  URL of the watermark image to copy.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Watermark`
-
-  - `created: optional string`
-
-    The date and a time a watermark profile was created.
-
-  - `downloadedFrom: optional string`
-
-    The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-  - `height: optional number`
-
-    The height of the image in pixels.
-
-  - `name: optional string`
-
-    A short description of the watermark profile.
-
-  - `opacity: optional number`
-
-    The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-  - `padding: optional number`
-
-    The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-  - `position: optional string`
-
-    The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-  - `scale: optional number`
-
-    The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-  - `size: optional number`
-
-    The size of the image in bytes.
-
-  - `uid: optional string`
-
-    The unique identifier for a watermark profile.
-
-  - `width: optional number`
-
-    The width of the image in pixels.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/watermarks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Marketing Videos",
-          "opacity": 0.75,
-          "padding": 0.1,
-          "position": "center",
-          "scale": 0.1
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "downloadedFrom": "https://company.com/logo.png",
-    "height": 0,
-    "name": "Marketing Videos",
-    "opacity": 0.75,
-    "padding": 0.1,
-    "position": "center",
-    "scale": 0.1,
-    "size": 29472,
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "width": 0
-  }
-}
-```
-
-## Delete watermark profiles
-
-**delete** `/accounts/{account_id}/stream/watermarks/{identifier}`
-
-Deletes a watermark profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-- `identifier: string`
-
-  The unique identifier for a watermark profile.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/watermarks/$IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": ""
-}
-```
-
-## Domain Types
-
-### Watermark
-
-- `Watermark object { created, downloadedFrom, height, 8 more }`
-
-  - `created: optional string`
-
-    The date and a time a watermark profile was created.
-
-  - `downloadedFrom: optional string`
-
-    The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-  - `height: optional number`
-
-    The height of the image in pixels.
-
-  - `name: optional string`
-
-    A short description of the watermark profile.
-
-  - `opacity: optional number`
-
-    The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-  - `padding: optional number`
-
-    The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-  - `position: optional string`
-
-    The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-  - `scale: optional number`
-
-    The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-  - `size: optional number`
-
-    The size of the image in bytes.
-
-  - `uid: optional string`
-
-    The unique identifier for a watermark profile.
-
-  - `width: optional number`
-
-    The width of the image in pixels.
-
-### Watermark Delete Response
-
-- `WatermarkDeleteResponse = string`
+[Link to this property](#)%20stream.watermarks%20%3E%20(model)%20watermark_delete_response%20%3E%20(schema)>)

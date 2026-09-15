@@ -1,9778 +1,4881 @@
+---
+title: Cloud Integrations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Cloud Networking](https://developers.cloudflare.com/api/resources/magic_cloud_networking)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Cloud Integrations
 
-## List Cloud Integrations
+##### [List Cloud Integrations](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/list)
 
-**get** `/accounts/{account_id}/magic/cloud/providers`
+GET/accounts/{account\_id}/magic/cloud/providers
 
-List Cloud Integrations (Closed Beta).
+##### [Read Cloud Integration](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/cloud/providers/{provider\_id}
 
-- `account_id: string`
+##### [Create Cloud Integration](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/magic/cloud/providers
 
-- `cloudflare: optional boolean`
+##### [Update Cloud Integration](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/update)
 
-- `desc: optional boolean`
+PUT/accounts/{account\_id}/magic/cloud/providers/{provider\_id}
 
-- `order_by: optional string`
+##### [Patch Cloud Integration](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/edit)
 
-  One of ["updated_at", "id", "cloud_type", "name"].
+PATCH/accounts/{account\_id}/magic/cloud/providers/{provider\_id}
 
-- `status: optional boolean`
+##### [Delete Cloud Integration](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/delete)
 
-### Returns
+DELETE/accounts/{account\_id}/magic/cloud/providers/{provider\_id}
 
-- `errors: array of object { code, message, documentation_url, 2 more }`
+##### [Run Discovery for All Integrations](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/discover_all)
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+POST/accounts/{account\_id}/magic/cloud/providers/discover
 
-    - `1001`
+##### [Run Discovery](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/discover)
 
-    - `1002`
+POST/accounts/{account\_id}/magic/cloud/providers/{provider\_id}/discover
 
-    - `1003`
+##### [Get Cloud Integration Setup Config](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/cloud_integrations/methods/initial_setup)
 
-    - `1004`
+GET/accounts/{account\_id}/magic/cloud/providers/{provider\_id}/initial\_setup
 
-    - `1005`
+##### ModelsExpand Collapse
 
-    - `1006`
+<details>
 
-    - `1007`
+<summary>
 
-    - `1008`
+CloudIntegrationListResponse object {id, cloud\_type, friendly\_name, 11 more }
 
-    - `1009`
+</summary>
 
-    - `1010`
+id: string
 
-    - `1011`
+formatuuid
 
-    - `1012`
+<a href="#">Link to this property</a>
 
-    - `1013`
+<details>
 
-    - `1014`
+<summary>
 
-    - `1015`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-    - `1016`
+</summary>
 
-    - `1017`
+One of the following:
 
-    - `1018`
+"AWS"
 
-    - `2001`
+<a href="#">Link to this property</a>
 
-    - `2002`
+"AZURE"
 
-    - `2003`
+<a href="#">Link to this property</a>
 
-    - `2004`
+"GOOGLE"
 
-    - `2005`
+<a href="#">Link to this property</a>
 
-    - `2006`
+"CLOUDFLARE"
 
-    - `2007`
+<a href="#">Link to this property</a>
 
-    - `2008`
+</details>
 
-    - `2009`
+<a href="#">Link to this property</a>
 
-    - `2010`
+friendly\_name: string
 
-    - `2011`
+<a href="#">Link to this property</a>
 
-    - `2012`
+last\_updated: string
 
-    - `2013`
+<a href="#">Link to this property</a>
 
-    - `2014`
+<details>
 
-    - `2015`
+<summary>
 
-    - `2016`
+lifecycle\_state: "ACTIVE"or "PENDING\_SETUP"or "RETIRED"
 
-    - `2017`
+</summary>
 
-    - `2018`
+One of the following:
 
-    - `2019`
+"ACTIVE"
 
-    - `2020`
+<a href="#">Link to this property</a>
 
-    - `2021`
+"PENDING\_SETUP"
 
-    - `2022`
+<a href="#">Link to this property</a>
 
-    - `3001`
+"RETIRED"
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+</details>
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+<details>
 
-    - `3006`
+<summary>
 
-    - `3007`
+state: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `4001`
+</summary>
 
-    - `4002`
+One of the following:
 
-    - `4003`
+"UNSPECIFIED"
 
-    - `4004`
+<a href="#">Link to this property</a>
 
-    - `4005`
+"PENDING"
 
-    - `4006`
+<a href="#">Link to this property</a>
 
-    - `4007`
+"DISCOVERING"
 
-    - `4008`
+<a href="#">Link to this property</a>
 
-    - `4009`
+"FAILED"
 
-    - `4010`
+<a href="#">Link to this property</a>
 
-    - `4011`
+"SUCCEEDED"
 
-    - `4012`
+<a href="#">Link to this property</a>
 
-    - `4013`
+</details>
 
-    - `4014`
+<a href="#">Link to this property</a>
 
-    - `4015`
+<details>
 
-    - `4016`
+<summary>
 
-    - `4017`
+state\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `4018`
+</summary>
 
-    - `4019`
+One of the following:
 
-    - `4020`
+"UNSPECIFIED"
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+"PENDING"
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+"DISCOVERING"
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+"FAILED"
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+"SUCCEEDED"
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+</details>
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+aws\_arn: optional string
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+azure\_subscription\_id: optional string
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+azure\_tenant\_id: optional string
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+description: optional string
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+gcp\_project\_id: optional string
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+gcp\_service\_account\_email: optional string
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+<details>
 
-    - `102017`
+<summary>
 
-    - `102018`
+status: optional object {discovery\_progress, discovery\_progress\_v2, last\_discovery\_status, 13 more }
 
-    - `102019`
+</summary>
 
-    - `102020`
+<details>
 
-    - `102021`
+<summary>
 
-    - `102022`
+discovery\_progress: object {done, total, unit }
 
-    - `102023`
+</summary>
 
-    - `102024`
+done: number
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+total: number
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+unit: string
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+</details>
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+<details>
 
-    - `102033`
+<summary>
 
-    - `102034`
+discovery\_progress\_v2: object {done, total, unit }
 
-    - `102035`
+</summary>
 
-    - `102036`
+done: number
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+total: number
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+unit: string
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+</details>
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+<details>
 
-    - `102045`
+<summary>
 
-    - `102046`
+last\_discovery\_status: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `102047`
+</summary>
 
-    - `102048`
+One of the following:
 
-    - `102049`
+"UNSPECIFIED"
 
-    - `102050`
+<a href="#">Link to this property</a>
 
-    - `102051`
+"PENDING"
 
-    - `102052`
+<a href="#">Link to this property</a>
 
-    - `102053`
+"DISCOVERING"
 
-    - `102054`
+<a href="#">Link to this property</a>
 
-    - `102055`
+"FAILED"
 
-    - `102056`
+<a href="#">Link to this property</a>
 
-    - `102057`
+"SUCCEEDED"
 
-    - `102058`
+<a href="#">Link to this property</a>
 
-    - `102059`
+</details>
 
-    - `102060`
+<a href="#">Link to this property</a>
 
-    - `102061`
+<details>
 
-    - `102062`
+<summary>
 
-    - `102063`
+last\_discovery\_status\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `102064`
+</summary>
 
-    - `102065`
+One of the following:
 
-    - `102066`
+"UNSPECIFIED"
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+"PENDING"
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+"DISCOVERING"
 
-    - `102071`
+<a href="#">Link to this property</a>
 
-    - `102072`
+"FAILED"
 
-    - `103001`
+<a href="#">Link to this property</a>
 
-    - `103002`
+"SUCCEEDED"
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+</details>
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+regions: array of string
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+credentials\_good\_since: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+credentials\_missing\_since: optional string
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+credentials\_rejected\_since: optional string
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+discovery\_message: optional string
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+discovery\_message\_v2: optional string
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, 2 more }`
+in\_use\_by: optional array of object {id, client\_type, name }
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+</summary>
 
-    - `1001`
+id: string
 
-    - `1002`
+formatuuid
 
-    - `1003`
+<a href="#">Link to this property</a>
 
-    - `1004`
+client\_type: "MAGIC\_WAN\_CLOUD\_ONRAMP"
 
-    - `1005`
+<a href="#">Link to this property</a>
 
-    - `1006`
+name: string
 
-    - `1007`
+<a href="#">Link to this property</a>
 
-    - `1008`
+</details>
 
-    - `1009`
+<a href="#">Link to this property</a>
 
-    - `1010`
+last\_discovery\_completed\_at: optional string
 
-    - `1011`
+<a href="#">Link to this property</a>
 
-    - `1012`
+last\_discovery\_completed\_at\_v2: optional string
 
-    - `1013`
+<a href="#">Link to this property</a>
 
-    - `1014`
+last\_discovery\_started\_at: optional string
 
-    - `1015`
+<a href="#">Link to this property</a>
 
-    - `1016`
+last\_discovery\_started\_at\_v2: optional string
 
-    - `1017`
+<a href="#">Link to this property</a>
 
-    - `1018`
+last\_updated: optional string
 
-    - `2001`
+<a href="#">Link to this property</a>
 
-    - `2002`
+</details>
 
-    - `2003`
+<a href="#">Link to this property</a>
 
-    - `2004`
+</details>
 
-    - `2005`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_list_response%20%3E%20(schema)>)
 
-    - `2006`
+<details>
 
-    - `2007`
+<summary>
 
-    - `2008`
+CloudIntegrationGetResponse object {id, cloud\_type, friendly\_name, 11 more }
 
-    - `2009`
+</summary>
 
-    - `2010`
+id: string
 
-    - `2011`
+formatuuid
 
-    - `2012`
+<a href="#">Link to this property</a>
 
-    - `2013`
+<details>
 
-    - `2014`
+<summary>
 
-    - `2015`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-    - `2016`
+</summary>
 
-    - `2017`
+One of the following:
 
-    - `2018`
+"AWS"
 
-    - `2019`
+<a href="#">Link to this property</a>
 
-    - `2020`
+"AZURE"
 
-    - `2021`
+<a href="#">Link to this property</a>
 
-    - `2022`
+"GOOGLE"
 
-    - `3001`
+<a href="#">Link to this property</a>
 
-    - `3002`
+"CLOUDFLARE"
 
-    - `3003`
+<a href="#">Link to this property</a>
 
-    - `3004`
+</details>
 
-    - `3005`
+<a href="#">Link to this property</a>
 
-    - `3006`
+friendly\_name: string
 
-    - `3007`
+<a href="#">Link to this property</a>
 
-    - `4001`
+last\_updated: string
 
-    - `4002`
+<a href="#">Link to this property</a>
 
-    - `4003`
+<details>
 
-    - `4004`
+<summary>
 
-    - `4005`
+lifecycle\_state: "ACTIVE"or "PENDING\_SETUP"or "RETIRED"
 
-    - `4006`
+</summary>
 
-    - `4007`
+One of the following:
 
-    - `4008`
+"ACTIVE"
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+"PENDING\_SETUP"
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+"RETIRED"
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+</details>
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+<details>
 
-    - `4017`
+<summary>
 
-    - `4018`
+state: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `4019`
+</summary>
 
-    - `4020`
+One of the following:
 
-    - `4021`
+"UNSPECIFIED"
 
-    - `4022`
+<a href="#">Link to this property</a>
 
-    - `4023`
+"PENDING"
 
-    - `5001`
+<a href="#">Link to this property</a>
 
-    - `5002`
+"DISCOVERING"
 
-    - `5003`
+<a href="#">Link to this property</a>
 
-    - `5004`
+"FAILED"
 
-    - `102000`
+<a href="#">Link to this property</a>
 
-    - `102001`
+"SUCCEEDED"
 
-    - `102002`
+<a href="#">Link to this property</a>
 
-    - `102003`
+</details>
 
-    - `102004`
+<a href="#">Link to this property</a>
 
-    - `102005`
+<details>
 
-    - `102006`
+<summary>
 
-    - `102007`
+state\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `102008`
+</summary>
 
-    - `102009`
+One of the following:
 
-    - `102010`
+"UNSPECIFIED"
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+"PENDING"
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+"DISCOVERING"
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+"FAILED"
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+"SUCCEEDED"
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+</details>
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+aws\_arn: optional string
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+azure\_subscription\_id: optional string
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+azure\_tenant\_id: optional string
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+description: optional string
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+gcp\_project\_id: optional string
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+gcp\_service\_account\_email: optional string
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+<details>
 
-    - `102035`
+<summary>
 
-    - `102036`
+status: optional object {discovery\_progress, discovery\_progress\_v2, last\_discovery\_status, 13 more }
 
-    - `102037`
+</summary>
 
-    - `102038`
+<details>
 
-    - `102039`
+<summary>
 
-    - `102040`
+discovery\_progress: object {done, total, unit }
 
-    - `102041`
+</summary>
 
-    - `102042`
+done: number
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+total: number
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+unit: string
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+</details>
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+<details>
 
-    - `102051`
+<summary>
 
-    - `102052`
+discovery\_progress\_v2: object {done, total, unit }
 
-    - `102053`
+</summary>
 
-    - `102054`
+done: number
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+total: number
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+unit: string
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+</details>
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+<details>
 
-    - `102063`
+<summary>
 
-    - `102064`
+last\_discovery\_status: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `102065`
+</summary>
 
-    - `102066`
+One of the following:
 
-    - `102067`
+"UNSPECIFIED"
 
-    - `102068`
+<a href="#">Link to this property</a>
 
-    - `102069`
+"PENDING"
 
-    - `102070`
+<a href="#">Link to this property</a>
 
-    - `102071`
+"DISCOVERING"
 
-    - `102072`
+<a href="#">Link to this property</a>
 
-    - `103001`
+"FAILED"
 
-    - `103002`
+<a href="#">Link to this property</a>
 
-    - `103003`
+"SUCCEEDED"
 
-    - `103004`
+<a href="#">Link to this property</a>
 
-    - `103005`
+</details>
 
-    - `103006`
+<a href="#">Link to this property</a>
 
-    - `103007`
+<details>
 
-    - `103008`
+<summary>
 
-  - `message: string`
+last\_discovery\_status\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+One of the following:
 
-    - `l10n_key: optional string`
+"UNSPECIFIED"
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+"PENDING"
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+"DISCOVERING"
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+"FAILED"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, cloud_type, friendly_name, 11 more }`
+"SUCCEEDED"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+</details>
 
-    - `"AWS"`
+<a href="#">Link to this property</a>
 
-    - `"AZURE"`
+regions: array of string
 
-    - `"GOOGLE"`
+<a href="#">Link to this property</a>
 
-    - `"CLOUDFLARE"`
+credentials\_good\_since: optional string
 
-  - `friendly_name: string`
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+credentials\_missing\_since: optional string
 
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
+<a href="#">Link to this property</a>
 
-    - `"ACTIVE"`
+credentials\_rejected\_since: optional string
 
-    - `"PENDING_SETUP"`
+<a href="#">Link to this property</a>
 
-    - `"RETIRED"`
+discovery\_message: optional string
 
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"UNSPECIFIED"`
+discovery\_message\_v2: optional string
 
-    - `"PENDING"`
+<a href="#">Link to this property</a>
 
-    - `"DISCOVERING"`
+<details>
 
-    - `"FAILED"`
+<summary>
 
-    - `"SUCCEEDED"`
+in\_use\_by: optional array of object {id, client\_type, name }
 
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+</summary>
 
-    - `"UNSPECIFIED"`
+id: string
 
-    - `"PENDING"`
+formatuuid
 
-    - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-    - `"FAILED"`
+client\_type: "MAGIC\_WAN\_CLOUD\_ONRAMP"
 
-    - `"SUCCEEDED"`
+<a href="#">Link to this property</a>
 
-  - `aws_arn: optional string`
+name: string
 
-  - `azure_subscription_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `azure_tenant_id: optional string`
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `gcp_project_id: optional string`
+last\_discovery\_completed\_at: optional string
 
-  - `gcp_service_account_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
+last\_discovery\_completed\_at\_v2: optional string
 
-    - `discovery_progress: object { done, total, unit }`
+<a href="#">Link to this property</a>
 
-      - `done: number`
+last\_discovery\_started\_at: optional string
 
-      - `total: number`
+<a href="#">Link to this property</a>
 
-      - `unit: string`
+last\_discovery\_started\_at\_v2: optional string
 
-    - `discovery_progress_v2: object { done, total, unit }`
+<a href="#">Link to this property</a>
 
-      - `done: number`
+last\_updated: optional string
 
-      - `total: number`
+<a href="#">Link to this property</a>
 
-      - `unit: string`
+</details>
 
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"UNSPECIFIED"`
+</details>
 
-      - `"PENDING"`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_get_response%20%3E%20(schema)>)
 
-      - `"DISCOVERING"`
+<details>
 
-      - `"FAILED"`
+<summary>
 
-      - `"SUCCEEDED"`
+CloudIntegrationCreateResponse object {id, cloud\_type, friendly\_name, 11 more }
 
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+</summary>
 
-      - `"UNSPECIFIED"`
+id: string
 
-      - `"PENDING"`
+formatuuid
 
-      - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-      - `"FAILED"`
+<details>
 
-      - `"SUCCEEDED"`
+<summary>
 
-    - `regions: array of string`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-    - `credentials_good_since: optional string`
+</summary>
 
-    - `credentials_missing_since: optional string`
+One of the following:
 
-    - `credentials_rejected_since: optional string`
+"AWS"
 
-    - `discovery_message: optional string`
+<a href="#">Link to this property</a>
 
-    - `discovery_message_v2: optional string`
+"AZURE"
 
-    - `in_use_by: optional array of object { id, client_type, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"GOOGLE"
 
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
+<a href="#">Link to this property</a>
 
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
+"CLOUDFLARE"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_completed_at: optional string`
+</details>
 
-    - `last_discovery_completed_at_v2: optional string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_started_at: optional string`
+friendly\_name: string
 
-    - `last_discovery_started_at_v2: optional string`
+<a href="#">Link to this property</a>
 
-    - `last_updated: optional string`
+last\_updated: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+lifecycle\_state: "ACTIVE"or "PENDING\_SETUP"or "RETIRED"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "cloud_type": "AWS",
-      "friendly_name": "friendly_name",
-      "last_updated": "last_updated",
-      "lifecycle_state": "ACTIVE",
-      "state": "UNSPECIFIED",
-      "state_v2": "UNSPECIFIED",
-      "aws_arn": "aws_arn",
-      "azure_subscription_id": "azure_subscription_id",
-      "azure_tenant_id": "azure_tenant_id",
-      "description": "description",
-      "gcp_project_id": "gcp_project_id",
-      "gcp_service_account_email": "gcp_service_account_email",
-      "status": {
-        "discovery_progress": {
-          "done": 0,
-          "total": 0,
-          "unit": "unit"
-        },
-        "discovery_progress_v2": {
-          "done": 0,
-          "total": 0,
-          "unit": "unit"
-        },
-        "last_discovery_status": "UNSPECIFIED",
-        "last_discovery_status_v2": "UNSPECIFIED",
-        "regions": [
-          "string"
-        ],
-        "credentials_good_since": "credentials_good_since",
-        "credentials_missing_since": "credentials_missing_since",
-        "credentials_rejected_since": "credentials_rejected_since",
-        "discovery_message": "discovery_message",
-        "discovery_message_v2": "discovery_message_v2",
-        "in_use_by": [
-          {
-            "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            "client_type": "MAGIC_WAN_CLOUD_ONRAMP",
-            "name": "name"
-          }
-        ],
-        "last_discovery_completed_at": "last_discovery_completed_at",
-        "last_discovery_completed_at_v2": "last_discovery_completed_at_v2",
-        "last_discovery_started_at": "last_discovery_started_at",
-        "last_discovery_started_at_v2": "last_discovery_started_at_v2",
-        "last_updated": "last_updated"
-      }
-    }
-  ],
-  "success": true
-}
-```
+</summary>
 
-## Read Cloud Integration
+One of the following:
 
-**get** `/accounts/{account_id}/magic/cloud/providers/{provider_id}`
+"ACTIVE"
 
-Read a Cloud Integration (Closed Beta).
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"PENDING\_SETUP"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `provider_id: string`
+"RETIRED"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `status: optional boolean`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, 2 more }`
+<details>
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+<summary>
 
-    - `1001`
+state: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `1002`
+</summary>
 
-    - `1003`
+One of the following:
 
-    - `1004`
+"UNSPECIFIED"
 
-    - `1005`
+<a href="#">Link to this property</a>
 
-    - `1006`
+"PENDING"
 
-    - `1007`
+<a href="#">Link to this property</a>
 
-    - `1008`
+"DISCOVERING"
 
-    - `1009`
+<a href="#">Link to this property</a>
 
-    - `1010`
+"FAILED"
 
-    - `1011`
+<a href="#">Link to this property</a>
 
-    - `1012`
+"SUCCEEDED"
 
-    - `1013`
+<a href="#">Link to this property</a>
 
-    - `1014`
+</details>
 
-    - `1015`
+<a href="#">Link to this property</a>
 
-    - `1016`
+<details>
 
-    - `1017`
+<summary>
 
-    - `1018`
+state\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `2001`
+</summary>
 
-    - `2002`
+One of the following:
 
-    - `2003`
+"UNSPECIFIED"
 
-    - `2004`
+<a href="#">Link to this property</a>
 
-    - `2005`
+"PENDING"
 
-    - `2006`
+<a href="#">Link to this property</a>
 
-    - `2007`
+"DISCOVERING"
 
-    - `2008`
+<a href="#">Link to this property</a>
 
-    - `2009`
+"FAILED"
 
-    - `2010`
+<a href="#">Link to this property</a>
 
-    - `2011`
+"SUCCEEDED"
 
-    - `2012`
+<a href="#">Link to this property</a>
 
-    - `2013`
+</details>
 
-    - `2014`
+<a href="#">Link to this property</a>
 
-    - `2015`
+aws\_arn: optional string
 
-    - `2016`
+<a href="#">Link to this property</a>
 
-    - `2017`
+azure\_subscription\_id: optional string
 
-    - `2018`
+<a href="#">Link to this property</a>
 
-    - `2019`
+azure\_tenant\_id: optional string
 
-    - `2020`
+<a href="#">Link to this property</a>
 
-    - `2021`
+description: optional string
 
-    - `2022`
+<a href="#">Link to this property</a>
 
-    - `3001`
+gcp\_project\_id: optional string
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+gcp\_service\_account\_email: optional string
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+<details>
 
-    - `3006`
+<summary>
 
-    - `3007`
+status: optional object {discovery\_progress, discovery\_progress\_v2, last\_discovery\_status, 13 more }
 
-    - `4001`
+</summary>
 
-    - `4002`
+<details>
 
-    - `4003`
+<summary>
 
-    - `4004`
+discovery\_progress: object {done, total, unit }
 
-    - `4005`
+</summary>
 
-    - `4006`
+done: number
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+total: number
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+unit: string
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+</details>
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+<details>
 
-    - `4015`
+<summary>
 
-    - `4016`
+discovery\_progress\_v2: object {done, total, unit }
 
-    - `4017`
+</summary>
 
-    - `4018`
+done: number
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+total: number
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+unit: string
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+</details>
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+<details>
 
-    - `5004`
+<summary>
 
-    - `102000`
+last\_discovery\_status: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `102001`
+</summary>
 
-    - `102002`
+One of the following:
 
-    - `102003`
+"UNSPECIFIED"
 
-    - `102004`
+<a href="#">Link to this property</a>
 
-    - `102005`
+"PENDING"
 
-    - `102006`
+<a href="#">Link to this property</a>
 
-    - `102007`
+"DISCOVERING"
 
-    - `102008`
+<a href="#">Link to this property</a>
 
-    - `102009`
+"FAILED"
 
-    - `102010`
+<a href="#">Link to this property</a>
 
-    - `102011`
+"SUCCEEDED"
 
-    - `102012`
+<a href="#">Link to this property</a>
 
-    - `102013`
+</details>
 
-    - `102014`
+<a href="#">Link to this property</a>
 
-    - `102015`
+<details>
 
-    - `102016`
+<summary>
 
-    - `102017`
+last\_discovery\_status\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `102018`
+</summary>
 
-    - `102019`
+One of the following:
 
-    - `102020`
+"UNSPECIFIED"
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+"PENDING"
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+"DISCOVERING"
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+"FAILED"
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+"SUCCEEDED"
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+</details>
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+regions: array of string
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+credentials\_good\_since: optional string
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+credentials\_missing\_since: optional string
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+credentials\_rejected\_since: optional string
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+discovery\_message: optional string
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+discovery\_message\_v2: optional string
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+<details>
 
-    - `102045`
+<summary>
 
-    - `102046`
+in\_use\_by: optional array of object {id, client\_type, name }
 
-    - `102047`
+</summary>
 
-    - `102048`
+id: string
 
-    - `102049`
+formatuuid
 
-    - `102050`
+<a href="#">Link to this property</a>
 
-    - `102051`
+client\_type: "MAGIC\_WAN\_CLOUD\_ONRAMP"
 
-    - `102052`
+<a href="#">Link to this property</a>
 
-    - `102053`
+name: string
 
-    - `102054`
+<a href="#">Link to this property</a>
 
-    - `102055`
+</details>
 
-    - `102056`
+<a href="#">Link to this property</a>
 
-    - `102057`
+last\_discovery\_completed\_at: optional string
 
-    - `102058`
+<a href="#">Link to this property</a>
 
-    - `102059`
+last\_discovery\_completed\_at\_v2: optional string
 
-    - `102060`
+<a href="#">Link to this property</a>
 
-    - `102061`
+last\_discovery\_started\_at: optional string
 
-    - `102062`
+<a href="#">Link to this property</a>
 
-    - `102063`
+last\_discovery\_started\_at\_v2: optional string
 
-    - `102064`
+<a href="#">Link to this property</a>
 
-    - `102065`
+last\_updated: optional string
 
-    - `102066`
+<a href="#">Link to this property</a>
 
-    - `102067`
+</details>
 
-    - `102068`
+<a href="#">Link to this property</a>
 
-    - `102069`
+</details>
 
-    - `102070`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_create_response%20%3E%20(schema)>)
 
-    - `102071`
+<details>
 
-    - `102072`
+<summary>
 
-    - `103001`
+CloudIntegrationUpdateResponse object {id, cloud\_type, friendly\_name, 11 more }
 
-    - `103002`
+</summary>
 
-    - `103003`
+id: string
 
-    - `103004`
+formatuuid
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+<details>
 
-    - `103007`
+<summary>
 
-    - `103008`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+"AWS"
 
-    - `l10n_key: optional string`
+<a href="#">Link to this property</a>
 
-    - `loggable_error: optional string`
+"AZURE"
 
-    - `template_data: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `trace_id: optional string`
+"GOOGLE"
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+<a href="#">Link to this property</a>
 
-    - `parameter: optional string`
+"CLOUDFLARE"
 
-    - `parameter_value_index: optional number`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+friendly\_name: string
 
-    - `1001`
+<a href="#">Link to this property</a>
 
-    - `1002`
+last\_updated: string
 
-    - `1003`
+<a href="#">Link to this property</a>
 
-    - `1004`
+<details>
 
-    - `1005`
+<summary>
 
-    - `1006`
+lifecycle\_state: "ACTIVE"or "PENDING\_SETUP"or "RETIRED"
 
-    - `1007`
+</summary>
 
-    - `1008`
+One of the following:
 
-    - `1009`
+"ACTIVE"
 
-    - `1010`
+<a href="#">Link to this property</a>
 
-    - `1011`
+"PENDING\_SETUP"
 
-    - `1012`
+<a href="#">Link to this property</a>
 
-    - `1013`
+"RETIRED"
 
-    - `1014`
+<a href="#">Link to this property</a>
 
-    - `1015`
+</details>
 
-    - `1016`
+<a href="#">Link to this property</a>
 
-    - `1017`
+<details>
 
-    - `1018`
+<summary>
 
-    - `2001`
+state: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `2002`
+</summary>
 
-    - `2003`
+One of the following:
 
-    - `2004`
+"UNSPECIFIED"
 
-    - `2005`
+<a href="#">Link to this property</a>
 
-    - `2006`
+"PENDING"
 
-    - `2007`
+<a href="#">Link to this property</a>
 
-    - `2008`
+"DISCOVERING"
 
-    - `2009`
+<a href="#">Link to this property</a>
 
-    - `2010`
+"FAILED"
 
-    - `2011`
+<a href="#">Link to this property</a>
 
-    - `2012`
+"SUCCEEDED"
 
-    - `2013`
+<a href="#">Link to this property</a>
 
-    - `2014`
+</details>
 
-    - `2015`
+<a href="#">Link to this property</a>
 
-    - `2016`
+<details>
 
-    - `2017`
+<summary>
 
-    - `2018`
+state\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `2019`
+</summary>
 
-    - `2020`
+One of the following:
 
-    - `2021`
+"UNSPECIFIED"
 
-    - `2022`
+<a href="#">Link to this property</a>
 
-    - `3001`
+"PENDING"
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+"DISCOVERING"
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+"FAILED"
 
-    - `3006`
+<a href="#">Link to this property</a>
 
-    - `3007`
+"SUCCEEDED"
 
-    - `4001`
+<a href="#">Link to this property</a>
 
-    - `4002`
+</details>
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+aws\_arn: optional string
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+azure\_subscription\_id: optional string
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+azure\_tenant\_id: optional string
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+description: optional string
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+gcp\_project\_id: optional string
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+gcp\_service\_account\_email: optional string
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+<details>
 
-    - `4017`
+<summary>
 
-    - `4018`
+status: optional object {discovery\_progress, discovery\_progress\_v2, last\_discovery\_status, 13 more }
 
-    - `4019`
+</summary>
 
-    - `4020`
+<details>
 
-    - `4021`
+<summary>
 
-    - `4022`
+discovery\_progress: object {done, total, unit }
 
-    - `4023`
+</summary>
 
-    - `5001`
+done: number
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+total: number
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+unit: string
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+</details>
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+<details>
 
-    - `102005`
+<summary>
 
-    - `102006`
+discovery\_progress\_v2: object {done, total, unit }
 
-    - `102007`
+</summary>
 
-    - `102008`
+done: number
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+total: number
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+unit: string
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+</details>
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+<details>
 
-    - `102017`
+<summary>
 
-    - `102018`
+last\_discovery\_status: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `102019`
+</summary>
 
-    - `102020`
+One of the following:
 
-    - `102021`
+"UNSPECIFIED"
 
-    - `102022`
+<a href="#">Link to this property</a>
 
-    - `102023`
+"PENDING"
 
-    - `102024`
+<a href="#">Link to this property</a>
 
-    - `102025`
+"DISCOVERING"
 
-    - `102026`
+<a href="#">Link to this property</a>
 
-    - `102027`
+"FAILED"
 
-    - `102028`
+<a href="#">Link to this property</a>
 
-    - `102029`
+"SUCCEEDED"
 
-    - `102030`
+<a href="#">Link to this property</a>
 
-    - `102031`
+</details>
 
-    - `102032`
+<a href="#">Link to this property</a>
 
-    - `102033`
+<details>
 
-    - `102034`
+<summary>
 
-    - `102035`
+last\_discovery\_status\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `102036`
+</summary>
 
-    - `102037`
+One of the following:
 
-    - `102038`
+"UNSPECIFIED"
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+"PENDING"
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+"DISCOVERING"
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+"FAILED"
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+"SUCCEEDED"
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+</details>
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+regions: array of string
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+credentials\_good\_since: optional string
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+credentials\_missing\_since: optional string
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+credentials\_rejected\_since: optional string
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+discovery\_message: optional string
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+discovery\_message\_v2: optional string
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+<details>
 
-    - `102063`
+<summary>
 
-    - `102064`
+in\_use\_by: optional array of object {id, client\_type, name }
 
-    - `102065`
+</summary>
 
-    - `102066`
+id: string
 
-    - `102067`
+formatuuid
 
-    - `102068`
+<a href="#">Link to this property</a>
 
-    - `102069`
+client\_type: "MAGIC\_WAN\_CLOUD\_ONRAMP"
 
-    - `102070`
+<a href="#">Link to this property</a>
 
-    - `102071`
+name: string
 
-    - `102072`
+<a href="#">Link to this property</a>
 
-    - `103001`
+</details>
 
-    - `103002`
+<a href="#">Link to this property</a>
 
-    - `103003`
+last\_discovery\_completed\_at: optional string
 
-    - `103004`
+<a href="#">Link to this property</a>
 
-    - `103005`
+last\_discovery\_completed\_at\_v2: optional string
 
-    - `103006`
+<a href="#">Link to this property</a>
 
-    - `103007`
+last\_discovery\_started\_at: optional string
 
-    - `103008`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+last\_discovery\_started\_at\_v2: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+last\_updated: optional string
 
-    - `l10n_key: optional string`
+<a href="#">Link to this property</a>
 
-    - `loggable_error: optional string`
+</details>
 
-    - `template_data: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `trace_id: optional string`
+</details>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_update_response%20%3E%20(schema)>)
 
-    - `parameter: optional string`
+<details>
 
-    - `parameter_value_index: optional number`
+<summary>
 
-    - `pointer: optional string`
+CloudIntegrationEditResponse object {id, cloud\_type, friendly\_name, 11 more }
 
-- `result: object { id, cloud_type, friendly_name, 11 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+formatuuid
 
-    - `"AWS"`
+<a href="#">Link to this property</a>
 
-    - `"AZURE"`
+<details>
 
-    - `"GOOGLE"`
+<summary>
 
-    - `"CLOUDFLARE"`
+cloud\_type: "AWS"or "AZURE"or "GOOGLE"or "CLOUDFLARE"
 
-  - `friendly_name: string`
+</summary>
 
-  - `last_updated: string`
+One of the following:
 
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
+"AWS"
 
-    - `"ACTIVE"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING_SETUP"`
+"AZURE"
 
-    - `"RETIRED"`
+<a href="#">Link to this property</a>
 
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+"GOOGLE"
 
-    - `"UNSPECIFIED"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING"`
+"CLOUDFLARE"
 
-    - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-    - `"FAILED"`
+</details>
 
-    - `"SUCCEEDED"`
+<a href="#">Link to this property</a>
 
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+friendly\_name: string
 
-    - `"UNSPECIFIED"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING"`
+last\_updated: string
 
-    - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-    - `"FAILED"`
+<details>
 
-    - `"SUCCEEDED"`
+<summary>
 
-  - `aws_arn: optional string`
+lifecycle\_state: "ACTIVE"or "PENDING\_SETUP"or "RETIRED"
 
-  - `azure_subscription_id: optional string`
+</summary>
 
-  - `azure_tenant_id: optional string`
+One of the following:
 
-  - `description: optional string`
+"ACTIVE"
 
-  - `gcp_project_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `gcp_service_account_email: optional string`
+"PENDING\_SETUP"
 
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
+<a href="#">Link to this property</a>
 
-    - `discovery_progress: object { done, total, unit }`
+"RETIRED"
 
-      - `done: number`
+<a href="#">Link to this property</a>
 
-      - `total: number`
+</details>
 
-      - `unit: string`
+<a href="#">Link to this property</a>
 
-    - `discovery_progress_v2: object { done, total, unit }`
+<details>
 
-      - `done: number`
+<summary>
 
-      - `total: number`
+state: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-      - `unit: string`
+</summary>
 
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+One of the following:
 
-      - `"UNSPECIFIED"`
+"UNSPECIFIED"
 
-      - `"PENDING"`
+<a href="#">Link to this property</a>
 
-      - `"DISCOVERING"`
+"PENDING"
 
-      - `"FAILED"`
+<a href="#">Link to this property</a>
 
-      - `"SUCCEEDED"`
+"DISCOVERING"
 
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"UNSPECIFIED"`
+"FAILED"
 
-      - `"PENDING"`
+<a href="#">Link to this property</a>
 
-      - `"DISCOVERING"`
+"SUCCEEDED"
 
-      - `"FAILED"`
+<a href="#">Link to this property</a>
 
-      - `"SUCCEEDED"`
+</details>
 
-    - `regions: array of string`
+<a href="#">Link to this property</a>
 
-    - `credentials_good_since: optional string`
+<details>
 
-    - `credentials_missing_since: optional string`
+<summary>
 
-    - `credentials_rejected_since: optional string`
+state\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `discovery_message: optional string`
+</summary>
 
-    - `discovery_message_v2: optional string`
+One of the following:
 
-    - `in_use_by: optional array of object { id, client_type, name }`
+"UNSPECIFIED"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
+"PENDING"
 
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"DISCOVERING"
 
-    - `last_discovery_completed_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_completed_at_v2: optional string`
+"FAILED"
 
-    - `last_discovery_started_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_started_at_v2: optional string`
+"SUCCEEDED"
 
-    - `last_updated: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers/$PROVIDER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+aws\_arn: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "cloud_type": "AWS",
-    "friendly_name": "friendly_name",
-    "last_updated": "last_updated",
-    "lifecycle_state": "ACTIVE",
-    "state": "UNSPECIFIED",
-    "state_v2": "UNSPECIFIED",
-    "aws_arn": "aws_arn",
-    "azure_subscription_id": "azure_subscription_id",
-    "azure_tenant_id": "azure_tenant_id",
-    "description": "description",
-    "gcp_project_id": "gcp_project_id",
-    "gcp_service_account_email": "gcp_service_account_email",
-    "status": {
-      "discovery_progress": {
-        "done": 0,
-        "total": 0,
-        "unit": "unit"
-      },
-      "discovery_progress_v2": {
-        "done": 0,
-        "total": 0,
-        "unit": "unit"
-      },
-      "last_discovery_status": "UNSPECIFIED",
-      "last_discovery_status_v2": "UNSPECIFIED",
-      "regions": [
-        "string"
-      ],
-      "credentials_good_since": "credentials_good_since",
-      "credentials_missing_since": "credentials_missing_since",
-      "credentials_rejected_since": "credentials_rejected_since",
-      "discovery_message": "discovery_message",
-      "discovery_message_v2": "discovery_message_v2",
-      "in_use_by": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "client_type": "MAGIC_WAN_CLOUD_ONRAMP",
-          "name": "name"
-        }
-      ],
-      "last_discovery_completed_at": "last_discovery_completed_at",
-      "last_discovery_completed_at_v2": "last_discovery_completed_at_v2",
-      "last_discovery_started_at": "last_discovery_started_at",
-      "last_discovery_started_at_v2": "last_discovery_started_at_v2",
-      "last_updated": "last_updated"
-    }
-  },
-  "success": true
-}
-```
+azure\_subscription\_id: optional string
 
-## Create Cloud Integration
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/magic/cloud/providers`
+azure\_tenant\_id: optional string
 
-Create a new Cloud Integration (Closed Beta).
+<a href="#">Link to this property</a>
 
-### Path Parameters
+description: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Header Parameters
+gcp\_project\_id: optional string
 
-- `forwarded: optional string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+gcp\_service\_account\_email: optional string
 
-- `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-  - `"AWS"`
+<details>
 
-  - `"AZURE"`
+<summary>
 
-  - `"GOOGLE"`
+status: optional object {discovery\_progress, discovery\_progress\_v2, last\_discovery\_status, 13 more }
 
-  - `"CLOUDFLARE"`
+</summary>
 
-- `friendly_name: string`
+<details>
 
-- `description: optional string`
+<summary>
 
-### Returns
+discovery\_progress: object {done, total, unit }
 
-- `errors: array of object { code, message, documentation_url, 2 more }`
+</summary>
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+done: number
 
-    - `1001`
+<a href="#">Link to this property</a>
 
-    - `1002`
+total: number
 
-    - `1003`
+<a href="#">Link to this property</a>
 
-    - `1004`
+unit: string
 
-    - `1005`
+<a href="#">Link to this property</a>
 
-    - `1006`
+</details>
 
-    - `1007`
+<a href="#">Link to this property</a>
 
-    - `1008`
+<details>
 
-    - `1009`
+<summary>
 
-    - `1010`
+discovery\_progress\_v2: object {done, total, unit }
 
-    - `1011`
+</summary>
 
-    - `1012`
+done: number
 
-    - `1013`
+<a href="#">Link to this property</a>
 
-    - `1014`
+total: number
 
-    - `1015`
+<a href="#">Link to this property</a>
 
-    - `1016`
+unit: string
 
-    - `1017`
+<a href="#">Link to this property</a>
 
-    - `1018`
+</details>
 
-    - `2001`
+<a href="#">Link to this property</a>
 
-    - `2002`
+<details>
 
-    - `2003`
+<summary>
 
-    - `2004`
+last\_discovery\_status: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `2005`
+</summary>
 
-    - `2006`
+One of the following:
 
-    - `2007`
+"UNSPECIFIED"
 
-    - `2008`
+<a href="#">Link to this property</a>
 
-    - `2009`
+"PENDING"
 
-    - `2010`
+<a href="#">Link to this property</a>
 
-    - `2011`
+"DISCOVERING"
 
-    - `2012`
+<a href="#">Link to this property</a>
 
-    - `2013`
+"FAILED"
 
-    - `2014`
+<a href="#">Link to this property</a>
 
-    - `2015`
+"SUCCEEDED"
 
-    - `2016`
+<a href="#">Link to this property</a>
 
-    - `2017`
+</details>
 
-    - `2018`
+<a href="#">Link to this property</a>
 
-    - `2019`
+<details>
 
-    - `2020`
+<summary>
 
-    - `2021`
+last\_discovery\_status\_v2: "UNSPECIFIED"or "PENDING"or "DISCOVERING"or 2 more
 
-    - `2022`
+</summary>
 
-    - `3001`
+One of the following:
 
-    - `3002`
+"UNSPECIFIED"
 
-    - `3003`
+<a href="#">Link to this property</a>
 
-    - `3004`
+"PENDING"
 
-    - `3005`
+<a href="#">Link to this property</a>
 
-    - `3006`
+"DISCOVERING"
 
-    - `3007`
+<a href="#">Link to this property</a>
 
-    - `4001`
+"FAILED"
 
-    - `4002`
+<a href="#">Link to this property</a>
 
-    - `4003`
+"SUCCEEDED"
 
-    - `4004`
+<a href="#">Link to this property</a>
 
-    - `4005`
+</details>
 
-    - `4006`
+<a href="#">Link to this property</a>
 
-    - `4007`
+regions: array of string
 
-    - `4008`
+<a href="#">Link to this property</a>
 
-    - `4009`
+credentials\_good\_since: optional string
 
-    - `4010`
+<a href="#">Link to this property</a>
 
-    - `4011`
+credentials\_missing\_since: optional string
 
-    - `4012`
+<a href="#">Link to this property</a>
 
-    - `4013`
+credentials\_rejected\_since: optional string
 
-    - `4014`
+<a href="#">Link to this property</a>
 
-    - `4015`
+discovery\_message: optional string
 
-    - `4016`
+<a href="#">Link to this property</a>
 
-    - `4017`
+discovery\_message\_v2: optional string
 
-    - `4018`
+<a href="#">Link to this property</a>
 
-    - `4019`
+<details>
 
-    - `4020`
+<summary>
 
-    - `4021`
+in\_use\_by: optional array of object {id, client\_type, name }
 
-    - `4022`
+</summary>
 
-    - `4023`
+id: string
 
-    - `5001`
+formatuuid
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+client\_type: "MAGIC\_WAN\_CLOUD\_ONRAMP"
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+name: string
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+</details>
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+last\_discovery\_completed\_at: optional string
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+last\_discovery\_completed\_at\_v2: optional string
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+last\_discovery\_started\_at: optional string
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+last\_discovery\_started\_at\_v2: optional string
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+last\_updated: optional string
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+</details>
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+</details>
 
-    - `102017`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_edit_response%20%3E%20(schema)>)
 
-    - `102018`
+<details>
 
-    - `102019`
+<summary>
 
-    - `102020`
+CloudIntegrationDeleteResponse object {id }
 
-    - `102021`
+</summary>
 
-    - `102022`
+id: string
 
-    - `102023`
+formatuuid
 
-    - `102024`
+<a href="#">Link to this property</a>
 
-    - `102025`
+</details>
 
-    - `102026`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_delete_response%20%3E%20(schema)>)
 
-    - `102027`
+<details>
 
-    - `102028`
+<summary>
 
-    - `102029`
+CloudIntegrationDiscoverAllResponse object {errors, messages, success }
 
-    - `102030`
+</summary>
 
-    - `102031`
+<details>
 
-    - `102032`
+<summary>
 
-    - `102033`
+errors: array of object {code, message, documentation\_url, 2 more }
 
-    - `102034`
+maxLength0
 
-    - `102035`
+</summary>
 
-    - `102036`
+<details>
 
-    - `102037`
+<summary>
 
-    - `102038`
+code: 1001or 1002or 1003or 152 more
 
-    - `102039`
+</summary>
 
-    - `102040`
+One of the following:
 
-    - `102041`
+1001
 
-    - `102042`
+<a href="#">Link to this property</a>
 
-    - `102043`
+1002
 
-    - `102044`
+<a href="#">Link to this property</a>
 
-    - `102045`
+1003
 
-    - `102046`
+<a href="#">Link to this property</a>
 
-    - `102047`
+1004
 
-    - `102048`
+<a href="#">Link to this property</a>
 
-    - `102049`
+1005
 
-    - `102050`
+<a href="#">Link to this property</a>
 
-    - `102051`
+1006
 
-    - `102052`
+<a href="#">Link to this property</a>
 
-    - `102053`
+1007
 
-    - `102054`
+<a href="#">Link to this property</a>
 
-    - `102055`
+1008
 
-    - `102056`
+<a href="#">Link to this property</a>
 
-    - `102057`
+1009
 
-    - `102058`
+<a href="#">Link to this property</a>
 
-    - `102059`
+1010
 
-    - `102060`
+<a href="#">Link to this property</a>
 
-    - `102061`
+1011
 
-    - `102062`
+<a href="#">Link to this property</a>
 
-    - `102063`
+1012
 
-    - `102064`
+<a href="#">Link to this property</a>
 
-    - `102065`
+1013
 
-    - `102066`
+<a href="#">Link to this property</a>
 
-    - `102067`
+1014
 
-    - `102068`
+<a href="#">Link to this property</a>
 
-    - `102069`
+1015
 
-    - `102070`
+<a href="#">Link to this property</a>
 
-    - `102071`
+1016
 
-    - `102072`
+<a href="#">Link to this property</a>
 
-    - `103001`
+1017
 
-    - `103002`
+<a href="#">Link to this property</a>
 
-    - `103003`
+1018
 
-    - `103004`
+<a href="#">Link to this property</a>
 
-    - `103005`
+2001
 
-    - `103006`
+<a href="#">Link to this property</a>
 
-    - `103007`
+2002
 
-    - `103008`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+2003
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+2004
 
-    - `l10n_key: optional string`
+<a href="#">Link to this property</a>
 
-    - `loggable_error: optional string`
+2005
 
-    - `template_data: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `trace_id: optional string`
+2006
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+<a href="#">Link to this property</a>
 
-    - `parameter: optional string`
+2007
 
-    - `parameter_value_index: optional number`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+2008
 
-- `messages: array of object { code, message, documentation_url, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+2009
 
-    - `1001`
+<a href="#">Link to this property</a>
 
-    - `1002`
+2010
 
-    - `1003`
+<a href="#">Link to this property</a>
 
-    - `1004`
+2011
 
-    - `1005`
+<a href="#">Link to this property</a>
 
-    - `1006`
+2012
 
-    - `1007`
+<a href="#">Link to this property</a>
 
-    - `1008`
+2013
 
-    - `1009`
+<a href="#">Link to this property</a>
 
-    - `1010`
+2014
 
-    - `1011`
+<a href="#">Link to this property</a>
 
-    - `1012`
+2015
 
-    - `1013`
+<a href="#">Link to this property</a>
 
-    - `1014`
+2016
 
-    - `1015`
+<a href="#">Link to this property</a>
 
-    - `1016`
+2017
 
-    - `1017`
+<a href="#">Link to this property</a>
 
-    - `1018`
+2018
 
-    - `2001`
+<a href="#">Link to this property</a>
 
-    - `2002`
+2019
 
-    - `2003`
+<a href="#">Link to this property</a>
 
-    - `2004`
+2020
 
-    - `2005`
+<a href="#">Link to this property</a>
 
-    - `2006`
+2021
 
-    - `2007`
+<a href="#">Link to this property</a>
 
-    - `2008`
+2022
 
-    - `2009`
+<a href="#">Link to this property</a>
 
-    - `2010`
+3001
 
-    - `2011`
+<a href="#">Link to this property</a>
 
-    - `2012`
+3002
 
-    - `2013`
+<a href="#">Link to this property</a>
 
-    - `2014`
+3003
 
-    - `2015`
+<a href="#">Link to this property</a>
 
-    - `2016`
+3004
 
-    - `2017`
+<a href="#">Link to this property</a>
 
-    - `2018`
+3005
 
-    - `2019`
+<a href="#">Link to this property</a>
 
-    - `2020`
+3006
 
-    - `2021`
+<a href="#">Link to this property</a>
 
-    - `2022`
+3007
 
-    - `3001`
+<a href="#">Link to this property</a>
 
-    - `3002`
+4001
 
-    - `3003`
+<a href="#">Link to this property</a>
 
-    - `3004`
+4002
 
-    - `3005`
+<a href="#">Link to this property</a>
 
-    - `3006`
+4003
 
-    - `3007`
+<a href="#">Link to this property</a>
 
-    - `4001`
+4004
 
-    - `4002`
+<a href="#">Link to this property</a>
 
-    - `4003`
+4005
 
-    - `4004`
+<a href="#">Link to this property</a>
 
-    - `4005`
+4006
 
-    - `4006`
+<a href="#">Link to this property</a>
 
-    - `4007`
+4007
 
-    - `4008`
+<a href="#">Link to this property</a>
 
-    - `4009`
+4008
 
-    - `4010`
+<a href="#">Link to this property</a>
 
-    - `4011`
+4009
 
-    - `4012`
+<a href="#">Link to this property</a>
 
-    - `4013`
+4010
 
-    - `4014`
+<a href="#">Link to this property</a>
 
-    - `4015`
+4011
 
-    - `4016`
+<a href="#">Link to this property</a>
 
-    - `4017`
+4012
 
-    - `4018`
+<a href="#">Link to this property</a>
 
-    - `4019`
+4013
 
-    - `4020`
+<a href="#">Link to this property</a>
 
-    - `4021`
+4014
 
-    - `4022`
+<a href="#">Link to this property</a>
 
-    - `4023`
+4015
 
-    - `5001`
+<a href="#">Link to this property</a>
 
-    - `5002`
+4016
 
-    - `5003`
+<a href="#">Link to this property</a>
 
-    - `5004`
+4017
 
-    - `102000`
+<a href="#">Link to this property</a>
 
-    - `102001`
+4018
 
-    - `102002`
+<a href="#">Link to this property</a>
 
-    - `102003`
+4019
 
-    - `102004`
+<a href="#">Link to this property</a>
 
-    - `102005`
+4020
 
-    - `102006`
+<a href="#">Link to this property</a>
 
-    - `102007`
+4021
 
-    - `102008`
+<a href="#">Link to this property</a>
 
-    - `102009`
+4022
 
-    - `102010`
+<a href="#">Link to this property</a>
 
-    - `102011`
+4023
 
-    - `102012`
+<a href="#">Link to this property</a>
 
-    - `102013`
+5001
 
-    - `102014`
+<a href="#">Link to this property</a>
 
-    - `102015`
+5002
 
-    - `102016`
+<a href="#">Link to this property</a>
 
-    - `102017`
+5003
 
-    - `102018`
+<a href="#">Link to this property</a>
 
-    - `102019`
+5004
 
-    - `102020`
+<a href="#">Link to this property</a>
 
-    - `102021`
+102000
 
-    - `102022`
+<a href="#">Link to this property</a>
 
-    - `102023`
+102001
 
-    - `102024`
+<a href="#">Link to this property</a>
 
-    - `102025`
+102002
 
-    - `102026`
+<a href="#">Link to this property</a>
 
-    - `102027`
+102003
 
-    - `102028`
+<a href="#">Link to this property</a>
 
-    - `102029`
+102004
 
-    - `102030`
+<a href="#">Link to this property</a>
 
-    - `102031`
+102005
 
-    - `102032`
+<a href="#">Link to this property</a>
 
-    - `102033`
+102006
 
-    - `102034`
+<a href="#">Link to this property</a>
 
-    - `102035`
+102007
 
-    - `102036`
+<a href="#">Link to this property</a>
 
-    - `102037`
+102008
 
-    - `102038`
+<a href="#">Link to this property</a>
 
-    - `102039`
+102009
 
-    - `102040`
+<a href="#">Link to this property</a>
 
-    - `102041`
+102010
 
-    - `102042`
+<a href="#">Link to this property</a>
 
-    - `102043`
+102011
 
-    - `102044`
+<a href="#">Link to this property</a>
 
-    - `102045`
+102012
 
-    - `102046`
+<a href="#">Link to this property</a>
 
-    - `102047`
+102013
 
-    - `102048`
+<a href="#">Link to this property</a>
 
-    - `102049`
+102014
 
-    - `102050`
+<a href="#">Link to this property</a>
 
-    - `102051`
+102015
 
-    - `102052`
+<a href="#">Link to this property</a>
 
-    - `102053`
+102016
 
-    - `102054`
+<a href="#">Link to this property</a>
 
-    - `102055`
+102017
 
-    - `102056`
+<a href="#">Link to this property</a>
 
-    - `102057`
+102018
 
-    - `102058`
+<a href="#">Link to this property</a>
 
-    - `102059`
+102019
 
-    - `102060`
+<a href="#">Link to this property</a>
 
-    - `102061`
+102020
 
-    - `102062`
+<a href="#">Link to this property</a>
 
-    - `102063`
+102021
 
-    - `102064`
+<a href="#">Link to this property</a>
 
-    - `102065`
+102022
 
-    - `102066`
+<a href="#">Link to this property</a>
 
-    - `102067`
+102023
 
-    - `102068`
+<a href="#">Link to this property</a>
 
-    - `102069`
+102024
 
-    - `102070`
+<a href="#">Link to this property</a>
 
-    - `102071`
+102025
 
-    - `102072`
+<a href="#">Link to this property</a>
 
-    - `103001`
+102026
 
-    - `103002`
+<a href="#">Link to this property</a>
 
-    - `103003`
+102027
 
-    - `103004`
+<a href="#">Link to this property</a>
 
-    - `103005`
+102028
 
-    - `103006`
+<a href="#">Link to this property</a>
 
-    - `103007`
+102029
 
-    - `103008`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+102030
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+102031
 
-    - `l10n_key: optional string`
+<a href="#">Link to this property</a>
 
-    - `loggable_error: optional string`
+102032
 
-    - `template_data: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `trace_id: optional string`
+102033
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+<a href="#">Link to this property</a>
 
-    - `parameter: optional string`
+102034
 
-    - `parameter_value_index: optional number`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+102035
 
-- `result: object { id, cloud_type, friendly_name, 11 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+102036
 
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-    - `"AWS"`
+102037
 
-    - `"AZURE"`
+<a href="#">Link to this property</a>
 
-    - `"GOOGLE"`
+102038
 
-    - `"CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-  - `friendly_name: string`
+102039
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
+102040
 
-    - `"ACTIVE"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING_SETUP"`
+102041
 
-    - `"RETIRED"`
+<a href="#">Link to this property</a>
 
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+102042
 
-    - `"UNSPECIFIED"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING"`
+102043
 
-    - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-    - `"FAILED"`
+102044
 
-    - `"SUCCEEDED"`
+<a href="#">Link to this property</a>
 
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+102045
 
-    - `"UNSPECIFIED"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING"`
+102046
 
-    - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-    - `"FAILED"`
+102047
 
-    - `"SUCCEEDED"`
+<a href="#">Link to this property</a>
 
-  - `aws_arn: optional string`
+102048
 
-  - `azure_subscription_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `azure_tenant_id: optional string`
+102049
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `gcp_project_id: optional string`
+102050
 
-  - `gcp_service_account_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
+102051
 
-    - `discovery_progress: object { done, total, unit }`
+<a href="#">Link to this property</a>
 
-      - `done: number`
+102052
 
-      - `total: number`
+<a href="#">Link to this property</a>
 
-      - `unit: string`
+102053
 
-    - `discovery_progress_v2: object { done, total, unit }`
+<a href="#">Link to this property</a>
 
-      - `done: number`
+102054
 
-      - `total: number`
+<a href="#">Link to this property</a>
 
-      - `unit: string`
+102055
 
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"UNSPECIFIED"`
+102056
 
-      - `"PENDING"`
+<a href="#">Link to this property</a>
 
-      - `"DISCOVERING"`
+102057
 
-      - `"FAILED"`
+<a href="#">Link to this property</a>
 
-      - `"SUCCEEDED"`
+102058
 
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"UNSPECIFIED"`
+102059
 
-      - `"PENDING"`
+<a href="#">Link to this property</a>
 
-      - `"DISCOVERING"`
+102060
 
-      - `"FAILED"`
+<a href="#">Link to this property</a>
 
-      - `"SUCCEEDED"`
+102061
 
-    - `regions: array of string`
+<a href="#">Link to this property</a>
 
-    - `credentials_good_since: optional string`
+102062
 
-    - `credentials_missing_since: optional string`
+<a href="#">Link to this property</a>
 
-    - `credentials_rejected_since: optional string`
+102063
 
-    - `discovery_message: optional string`
+<a href="#">Link to this property</a>
 
-    - `discovery_message_v2: optional string`
+102064
 
-    - `in_use_by: optional array of object { id, client_type, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+102065
 
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
+<a href="#">Link to this property</a>
 
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
+102066
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_completed_at: optional string`
+102067
 
-    - `last_discovery_completed_at_v2: optional string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_started_at: optional string`
+102068
 
-    - `last_discovery_started_at_v2: optional string`
+<a href="#">Link to this property</a>
 
-    - `last_updated: optional string`
+102069
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+102070
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cloud_type": "AWS",
-          "friendly_name": "friendly_name"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+102071
 
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "cloud_type": "AWS",
-    "friendly_name": "friendly_name",
-    "last_updated": "last_updated",
-    "lifecycle_state": "ACTIVE",
-    "state": "UNSPECIFIED",
-    "state_v2": "UNSPECIFIED",
-    "aws_arn": "aws_arn",
-    "azure_subscription_id": "azure_subscription_id",
-    "azure_tenant_id": "azure_tenant_id",
-    "description": "description",
-    "gcp_project_id": "gcp_project_id",
-    "gcp_service_account_email": "gcp_service_account_email",
-    "status": {
-      "discovery_progress": {
-        "done": 0,
-        "total": 0,
-        "unit": "unit"
-      },
-      "discovery_progress_v2": {
-        "done": 0,
-        "total": 0,
-        "unit": "unit"
-      },
-      "last_discovery_status": "UNSPECIFIED",
-      "last_discovery_status_v2": "UNSPECIFIED",
-      "regions": [
-        "string"
-      ],
-      "credentials_good_since": "credentials_good_since",
-      "credentials_missing_since": "credentials_missing_since",
-      "credentials_rejected_since": "credentials_rejected_since",
-      "discovery_message": "discovery_message",
-      "discovery_message_v2": "discovery_message_v2",
-      "in_use_by": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "client_type": "MAGIC_WAN_CLOUD_ONRAMP",
-          "name": "name"
-        }
-      ],
-      "last_discovery_completed_at": "last_discovery_completed_at",
-      "last_discovery_completed_at_v2": "last_discovery_completed_at_v2",
-      "last_discovery_started_at": "last_discovery_started_at",
-      "last_discovery_started_at_v2": "last_discovery_started_at_v2",
-      "last_updated": "last_updated"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Cloud Integration
+102072
 
-**put** `/accounts/{account_id}/magic/cloud/providers/{provider_id}`
+<a href="#">Link to this property</a>
 
-Update a Cloud Integration (Closed Beta).
+103001
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+103002
 
-- `provider_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+103003
 
-- `aws_arn: optional string`
+<a href="#">Link to this property</a>
 
-- `azure_subscription_id: optional string`
+103004
 
-- `azure_tenant_id: optional string`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+103005
 
-- `friendly_name: optional string`
+<a href="#">Link to this property</a>
 
-- `gcp_project_id: optional string`
+103006
 
-- `gcp_service_account_email: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+103007
 
-- `errors: array of object { code, message, documentation_url, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+103008
 
-    - `1001`
+<a href="#">Link to this property</a>
 
-    - `1002`
+</details>
 
-    - `1003`
+<a href="#">Link to this property</a>
 
-    - `1004`
+message: string
 
-    - `1005`
+<a href="#">Link to this property</a>
 
-    - `1006`
+documentation\_url: optional string
 
-    - `1007`
+<a href="#">Link to this property</a>
 
-    - `1008`
+<details>
 
-    - `1009`
+<summary>
 
-    - `1010`
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
 
-    - `1011`
+</summary>
 
-    - `1012`
+l10n\_key: optional string
 
-    - `1013`
+<a href="#">Link to this property</a>
 
-    - `1014`
+loggable\_error: optional string
 
-    - `1015`
+<a href="#">Link to this property</a>
 
-    - `1016`
+template\_data: optional unknown
 
-    - `1017`
+<a href="#">Link to this property</a>
 
-    - `1018`
+trace\_id: optional string
 
-    - `2001`
+<a href="#">Link to this property</a>
 
-    - `2002`
+</details>
 
-    - `2003`
+<a href="#">Link to this property</a>
 
-    - `2004`
+<details>
 
-    - `2005`
+<summary>
 
-    - `2006`
+source: optional object {parameter, parameter\_value\_index, pointer }
 
-    - `2007`
+</summary>
 
-    - `2008`
+parameter: optional string
 
-    - `2009`
+<a href="#">Link to this property</a>
 
-    - `2010`
+parameter\_value\_index: optional number
 
-    - `2011`
+<a href="#">Link to this property</a>
 
-    - `2012`
+pointer: optional string
 
-    - `2013`
+<a href="#">Link to this property</a>
 
-    - `2014`
+</details>
 
-    - `2015`
+<a href="#">Link to this property</a>
 
-    - `2016`
+</details>
 
-    - `2017`
+<a href="#">Link to this property</a>
 
-    - `2018`
+<details>
 
-    - `2019`
+<summary>
 
-    - `2020`
+messages: array of object {code, message, documentation\_url, 2 more }
 
-    - `2021`
+</summary>
 
-    - `2022`
+<details>
 
-    - `3001`
+<summary>
 
-    - `3002`
+code: 1001or 1002or 1003or 152 more
 
-    - `3003`
+</summary>
 
-    - `3004`
+One of the following:
 
-    - `3005`
+1001
 
-    - `3006`
+<a href="#">Link to this property</a>
 
-    - `3007`
+1002
 
-    - `4001`
+<a href="#">Link to this property</a>
 
-    - `4002`
+1003
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+1004
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+1005
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+1006
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+1007
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+1008
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+1009
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+1010
 
-    - `4017`
+<a href="#">Link to this property</a>
 
-    - `4018`
+1011
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+1012
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+1013
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+1014
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+1015
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+1016
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+1017
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+1018
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+2001
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+2002
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+2003
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+2004
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+2005
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+2006
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+2007
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+2008
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+2009
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+2010
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+2011
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+2012
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+2013
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+2014
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+2015
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+2016
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+2017
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+2018
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+2019
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+2020
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+2021
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+2022
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+3001
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+3002
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+3003
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+3004
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+3005
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+3006
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+3007
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+4001
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+4002
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+4003
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+4004
 
-    - `102071`
+<a href="#">Link to this property</a>
 
-    - `102072`
+4005
 
-    - `103001`
+<a href="#">Link to this property</a>
 
-    - `103002`
+4006
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+4007
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+4008
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+4009
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+4010
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+4011
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+4012
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+4013
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+4014
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, 2 more }`
+4015
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+<a href="#">Link to this property</a>
 
-    - `1001`
+4016
 
-    - `1002`
+<a href="#">Link to this property</a>
 
-    - `1003`
+4017
 
-    - `1004`
+<a href="#">Link to this property</a>
 
-    - `1005`
+4018
 
-    - `1006`
+<a href="#">Link to this property</a>
 
-    - `1007`
+4019
 
-    - `1008`
+<a href="#">Link to this property</a>
 
-    - `1009`
+4020
 
-    - `1010`
+<a href="#">Link to this property</a>
 
-    - `1011`
+4021
 
-    - `1012`
+<a href="#">Link to this property</a>
 
-    - `1013`
+4022
 
-    - `1014`
+<a href="#">Link to this property</a>
 
-    - `1015`
+4023
 
-    - `1016`
+<a href="#">Link to this property</a>
 
-    - `1017`
+5001
 
-    - `1018`
+<a href="#">Link to this property</a>
 
-    - `2001`
+5002
 
-    - `2002`
+<a href="#">Link to this property</a>
 
-    - `2003`
+5003
 
-    - `2004`
+<a href="#">Link to this property</a>
 
-    - `2005`
+5004
 
-    - `2006`
+<a href="#">Link to this property</a>
 
-    - `2007`
+102000
 
-    - `2008`
+<a href="#">Link to this property</a>
 
-    - `2009`
+102001
 
-    - `2010`
+<a href="#">Link to this property</a>
 
-    - `2011`
+102002
 
-    - `2012`
+<a href="#">Link to this property</a>
 
-    - `2013`
+102003
 
-    - `2014`
+<a href="#">Link to this property</a>
 
-    - `2015`
+102004
 
-    - `2016`
+<a href="#">Link to this property</a>
 
-    - `2017`
+102005
 
-    - `2018`
+<a href="#">Link to this property</a>
 
-    - `2019`
+102006
 
-    - `2020`
+<a href="#">Link to this property</a>
 
-    - `2021`
+102007
 
-    - `2022`
+<a href="#">Link to this property</a>
 
-    - `3001`
+102008
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+102009
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+102010
 
-    - `3006`
+<a href="#">Link to this property</a>
 
-    - `3007`
+102011
 
-    - `4001`
+<a href="#">Link to this property</a>
 
-    - `4002`
+102012
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+102013
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+102014
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+102015
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+102016
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+102017
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+102018
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+102019
 
-    - `4017`
+<a href="#">Link to this property</a>
 
-    - `4018`
+102020
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+102021
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+102022
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+102023
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+102024
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+102025
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+102026
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+102027
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+102028
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+102029
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+102030
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+102031
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+102032
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+102033
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+102034
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+102035
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+102036
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+102037
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+102038
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+102039
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+102040
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+102041
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+102042
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+102043
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+102044
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+102045
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+102046
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+102047
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+102048
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+102049
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+102050
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+102051
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+102052
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+102053
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+102054
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+102055
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+102056
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+102057
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+102058
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+102059
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+102060
 
-    - `102071`
+<a href="#">Link to this property</a>
 
-    - `102072`
+102061
 
-    - `103001`
+<a href="#">Link to this property</a>
 
-    - `103002`
+102062
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+102063
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+102064
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+102065
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+102066
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+102067
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+102068
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+102069
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+102070
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, cloud_type, friendly_name, 11 more }`
+102071
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+102072
 
-    - `"AWS"`
+<a href="#">Link to this property</a>
 
-    - `"AZURE"`
+103001
 
-    - `"GOOGLE"`
+<a href="#">Link to this property</a>
 
-    - `"CLOUDFLARE"`
+103002
 
-  - `friendly_name: string`
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+103003
 
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
+<a href="#">Link to this property</a>
 
-    - `"ACTIVE"`
+103004
 
-    - `"PENDING_SETUP"`
+<a href="#">Link to this property</a>
 
-    - `"RETIRED"`
+103005
 
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"UNSPECIFIED"`
+103006
 
-    - `"PENDING"`
+<a href="#">Link to this property</a>
 
-    - `"DISCOVERING"`
+103007
 
-    - `"FAILED"`
+<a href="#">Link to this property</a>
 
-    - `"SUCCEEDED"`
+103008
 
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"UNSPECIFIED"`
+</details>
 
-    - `"PENDING"`
+<a href="#">Link to this property</a>
 
-    - `"DISCOVERING"`
+message: string
 
-    - `"FAILED"`
+<a href="#">Link to this property</a>
 
-    - `"SUCCEEDED"`
+documentation\_url: optional string
 
-  - `aws_arn: optional string`
+<a href="#">Link to this property</a>
 
-  - `azure_subscription_id: optional string`
+<details>
 
-  - `azure_tenant_id: optional string`
+<summary>
 
-  - `description: optional string`
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
 
-  - `gcp_project_id: optional string`
+</summary>
 
-  - `gcp_service_account_email: optional string`
+l10n\_key: optional string
 
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
+<a href="#">Link to this property</a>
 
-    - `discovery_progress: object { done, total, unit }`
+loggable\_error: optional string
 
-      - `done: number`
+<a href="#">Link to this property</a>
 
-      - `total: number`
+template\_data: optional unknown
 
-      - `unit: string`
+<a href="#">Link to this property</a>
 
-    - `discovery_progress_v2: object { done, total, unit }`
+trace\_id: optional string
 
-      - `done: number`
+<a href="#">Link to this property</a>
 
-      - `total: number`
+</details>
 
-      - `unit: string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<details>
 
-      - `"UNSPECIFIED"`
+<summary>
 
-      - `"PENDING"`
+source: optional object {parameter, parameter\_value\_index, pointer }
 
-      - `"DISCOVERING"`
+</summary>
 
-      - `"FAILED"`
+parameter: optional string
 
-      - `"SUCCEEDED"`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+parameter\_value\_index: optional number
 
-      - `"UNSPECIFIED"`
+<a href="#">Link to this property</a>
 
-      - `"PENDING"`
+pointer: optional string
 
-      - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-      - `"FAILED"`
+</details>
 
-      - `"SUCCEEDED"`
+<a href="#">Link to this property</a>
 
-    - `regions: array of string`
+</details>
 
-    - `credentials_good_since: optional string`
+<a href="#">Link to this property</a>
 
-    - `credentials_missing_since: optional string`
+success: boolean
 
-    - `credentials_rejected_since: optional string`
+<a href="#">Link to this property</a>
 
-    - `discovery_message: optional string`
+</details>
 
-    - `discovery_message_v2: optional string`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_discover_all_response%20%3E%20(schema)>)
 
-    - `in_use_by: optional array of object { id, client_type, name }`
+<details>
 
-      - `id: string`
+<summary>
 
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
+CloudIntegrationDiscoverResponse object {errors, messages, success }
 
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
+</summary>
 
-      - `name: string`
+<details>
 
-    - `last_discovery_completed_at: optional string`
+<summary>
 
-    - `last_discovery_completed_at_v2: optional string`
+errors: array of object {code, message, documentation\_url, 2 more }
 
-    - `last_discovery_started_at: optional string`
+maxLength0
 
-    - `last_discovery_started_at_v2: optional string`
+</summary>
 
-    - `last_updated: optional string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+code: 1001or 1002or 1003or 152 more
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers/$PROVIDER_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "cloud_type": "AWS",
-    "friendly_name": "friendly_name",
-    "last_updated": "last_updated",
-    "lifecycle_state": "ACTIVE",
-    "state": "UNSPECIFIED",
-    "state_v2": "UNSPECIFIED",
-    "aws_arn": "aws_arn",
-    "azure_subscription_id": "azure_subscription_id",
-    "azure_tenant_id": "azure_tenant_id",
-    "description": "description",
-    "gcp_project_id": "gcp_project_id",
-    "gcp_service_account_email": "gcp_service_account_email",
-    "status": {
-      "discovery_progress": {
-        "done": 0,
-        "total": 0,
-        "unit": "unit"
-      },
-      "discovery_progress_v2": {
-        "done": 0,
-        "total": 0,
-        "unit": "unit"
-      },
-      "last_discovery_status": "UNSPECIFIED",
-      "last_discovery_status_v2": "UNSPECIFIED",
-      "regions": [
-        "string"
-      ],
-      "credentials_good_since": "credentials_good_since",
-      "credentials_missing_since": "credentials_missing_since",
-      "credentials_rejected_since": "credentials_rejected_since",
-      "discovery_message": "discovery_message",
-      "discovery_message_v2": "discovery_message_v2",
-      "in_use_by": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "client_type": "MAGIC_WAN_CLOUD_ONRAMP",
-          "name": "name"
-        }
-      ],
-      "last_discovery_completed_at": "last_discovery_completed_at",
-      "last_discovery_completed_at_v2": "last_discovery_completed_at_v2",
-      "last_discovery_started_at": "last_discovery_started_at",
-      "last_discovery_started_at_v2": "last_discovery_started_at_v2",
-      "last_updated": "last_updated"
-    }
-  },
-  "success": true
-}
-```
+1001
 
-## Patch Cloud Integration
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/magic/cloud/providers/{provider_id}`
+1002
 
-Update a Cloud Integration (Closed Beta).
+<a href="#">Link to this property</a>
 
-### Path Parameters
+1003
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `provider_id: string`
+1004
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `aws_arn: optional string`
+1005
 
-- `azure_subscription_id: optional string`
+<a href="#">Link to this property</a>
 
-- `azure_tenant_id: optional string`
+1006
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-- `friendly_name: optional string`
+1007
 
-- `gcp_project_id: optional string`
+<a href="#">Link to this property</a>
 
-- `gcp_service_account_email: optional string`
+1008
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, 2 more }`
+1009
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+<a href="#">Link to this property</a>
 
-    - `1001`
+1010
 
-    - `1002`
+<a href="#">Link to this property</a>
 
-    - `1003`
+1011
 
-    - `1004`
+<a href="#">Link to this property</a>
 
-    - `1005`
+1012
 
-    - `1006`
+<a href="#">Link to this property</a>
 
-    - `1007`
+1013
 
-    - `1008`
+<a href="#">Link to this property</a>
 
-    - `1009`
+1014
 
-    - `1010`
+<a href="#">Link to this property</a>
 
-    - `1011`
+1015
 
-    - `1012`
+<a href="#">Link to this property</a>
 
-    - `1013`
+1016
 
-    - `1014`
+<a href="#">Link to this property</a>
 
-    - `1015`
+1017
 
-    - `1016`
+<a href="#">Link to this property</a>
 
-    - `1017`
+1018
 
-    - `1018`
+<a href="#">Link to this property</a>
 
-    - `2001`
+2001
 
-    - `2002`
+<a href="#">Link to this property</a>
 
-    - `2003`
+2002
 
-    - `2004`
+<a href="#">Link to this property</a>
 
-    - `2005`
+2003
 
-    - `2006`
+<a href="#">Link to this property</a>
 
-    - `2007`
+2004
 
-    - `2008`
+<a href="#">Link to this property</a>
 
-    - `2009`
+2005
 
-    - `2010`
+<a href="#">Link to this property</a>
 
-    - `2011`
+2006
 
-    - `2012`
+<a href="#">Link to this property</a>
 
-    - `2013`
+2007
 
-    - `2014`
+<a href="#">Link to this property</a>
 
-    - `2015`
+2008
 
-    - `2016`
+<a href="#">Link to this property</a>
 
-    - `2017`
+2009
 
-    - `2018`
+<a href="#">Link to this property</a>
 
-    - `2019`
+2010
 
-    - `2020`
+<a href="#">Link to this property</a>
 
-    - `2021`
+2011
 
-    - `2022`
+<a href="#">Link to this property</a>
 
-    - `3001`
+2012
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+2013
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+2014
 
-    - `3006`
+<a href="#">Link to this property</a>
 
-    - `3007`
+2015
 
-    - `4001`
+<a href="#">Link to this property</a>
 
-    - `4002`
+2016
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+2017
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+2018
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+2019
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+2020
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+2021
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+2022
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+3001
 
-    - `4017`
+<a href="#">Link to this property</a>
 
-    - `4018`
+3002
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+3003
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+3004
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+3005
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+3006
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+3007
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+4001
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+4002
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+4003
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+4004
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+4005
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+4006
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+4007
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+4008
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+4009
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+4010
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+4011
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+4012
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+4013
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+4014
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+4015
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+4016
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+4017
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+4018
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+4019
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+4020
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+4021
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+4022
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+4023
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+5001
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+5002
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+5003
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+5004
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+102000
 
-    - `102057`
+<a href="#">Link to this property</a>
 
-    - `102058`
+102001
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+102002
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+102003
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+102004
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+102005
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+102006
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+102007
 
-    - `102071`
+<a href="#">Link to this property</a>
 
-    - `102072`
+102008
 
-    - `103001`
+<a href="#">Link to this property</a>
 
-    - `103002`
+102009
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+102010
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+102011
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+102012
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+102013
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+102014
 
-    - `loggable_error: optional string`
+<a href="#">Link to this property</a>
 
-    - `template_data: optional unknown`
+102015
 
-    - `trace_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+102016
 
-    - `parameter: optional string`
+<a href="#">Link to this property</a>
 
-    - `parameter_value_index: optional number`
+102017
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, 2 more }`
+102018
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+<a href="#">Link to this property</a>
 
-    - `1001`
+102019
 
-    - `1002`
+<a href="#">Link to this property</a>
 
-    - `1003`
+102020
 
-    - `1004`
+<a href="#">Link to this property</a>
 
-    - `1005`
+102021
 
-    - `1006`
+<a href="#">Link to this property</a>
 
-    - `1007`
+102022
 
-    - `1008`
+<a href="#">Link to this property</a>
 
-    - `1009`
+102023
 
-    - `1010`
+<a href="#">Link to this property</a>
 
-    - `1011`
+102024
 
-    - `1012`
+<a href="#">Link to this property</a>
 
-    - `1013`
+102025
 
-    - `1014`
+<a href="#">Link to this property</a>
 
-    - `1015`
+102026
 
-    - `1016`
+<a href="#">Link to this property</a>
 
-    - `1017`
+102027
 
-    - `1018`
+<a href="#">Link to this property</a>
 
-    - `2001`
+102028
 
-    - `2002`
+<a href="#">Link to this property</a>
 
-    - `2003`
+102029
 
-    - `2004`
+<a href="#">Link to this property</a>
 
-    - `2005`
+102030
 
-    - `2006`
+<a href="#">Link to this property</a>
 
-    - `2007`
+102031
 
-    - `2008`
+<a href="#">Link to this property</a>
 
-    - `2009`
+102032
 
-    - `2010`
+<a href="#">Link to this property</a>
 
-    - `2011`
+102033
 
-    - `2012`
+<a href="#">Link to this property</a>
 
-    - `2013`
+102034
 
-    - `2014`
+<a href="#">Link to this property</a>
 
-    - `2015`
+102035
 
-    - `2016`
+<a href="#">Link to this property</a>
 
-    - `2017`
+102036
 
-    - `2018`
+<a href="#">Link to this property</a>
 
-    - `2019`
+102037
 
-    - `2020`
+<a href="#">Link to this property</a>
 
-    - `2021`
+102038
 
-    - `2022`
+<a href="#">Link to this property</a>
 
-    - `3001`
+102039
 
-    - `3002`
+<a href="#">Link to this property</a>
 
-    - `3003`
+102040
 
-    - `3004`
+<a href="#">Link to this property</a>
 
-    - `3005`
+102041
 
-    - `3006`
+<a href="#">Link to this property</a>
 
-    - `3007`
+102042
 
-    - `4001`
+<a href="#">Link to this property</a>
 
-    - `4002`
+102043
 
-    - `4003`
+<a href="#">Link to this property</a>
 
-    - `4004`
+102044
 
-    - `4005`
+<a href="#">Link to this property</a>
 
-    - `4006`
+102045
 
-    - `4007`
+<a href="#">Link to this property</a>
 
-    - `4008`
+102046
 
-    - `4009`
+<a href="#">Link to this property</a>
 
-    - `4010`
+102047
 
-    - `4011`
+<a href="#">Link to this property</a>
 
-    - `4012`
+102048
 
-    - `4013`
+<a href="#">Link to this property</a>
 
-    - `4014`
+102049
 
-    - `4015`
+<a href="#">Link to this property</a>
 
-    - `4016`
+102050
 
-    - `4017`
+<a href="#">Link to this property</a>
 
-    - `4018`
+102051
 
-    - `4019`
+<a href="#">Link to this property</a>
 
-    - `4020`
+102052
 
-    - `4021`
+<a href="#">Link to this property</a>
 
-    - `4022`
+102053
 
-    - `4023`
+<a href="#">Link to this property</a>
 
-    - `5001`
+102054
 
-    - `5002`
+<a href="#">Link to this property</a>
 
-    - `5003`
+102055
 
-    - `5004`
+<a href="#">Link to this property</a>
 
-    - `102000`
+102056
 
-    - `102001`
+<a href="#">Link to this property</a>
 
-    - `102002`
+102057
 
-    - `102003`
+<a href="#">Link to this property</a>
 
-    - `102004`
+102058
 
-    - `102005`
+<a href="#">Link to this property</a>
 
-    - `102006`
+102059
 
-    - `102007`
+<a href="#">Link to this property</a>
 
-    - `102008`
+102060
 
-    - `102009`
+<a href="#">Link to this property</a>
 
-    - `102010`
+102061
 
-    - `102011`
+<a href="#">Link to this property</a>
 
-    - `102012`
+102062
 
-    - `102013`
+<a href="#">Link to this property</a>
 
-    - `102014`
+102063
 
-    - `102015`
+<a href="#">Link to this property</a>
 
-    - `102016`
+102064
 
-    - `102017`
+<a href="#">Link to this property</a>
 
-    - `102018`
+102065
 
-    - `102019`
+<a href="#">Link to this property</a>
 
-    - `102020`
+102066
 
-    - `102021`
+<a href="#">Link to this property</a>
 
-    - `102022`
+102067
 
-    - `102023`
+<a href="#">Link to this property</a>
 
-    - `102024`
+102068
 
-    - `102025`
+<a href="#">Link to this property</a>
 
-    - `102026`
+102069
 
-    - `102027`
+<a href="#">Link to this property</a>
 
-    - `102028`
+102070
 
-    - `102029`
+<a href="#">Link to this property</a>
 
-    - `102030`
+102071
 
-    - `102031`
+<a href="#">Link to this property</a>
 
-    - `102032`
+102072
 
-    - `102033`
+<a href="#">Link to this property</a>
 
-    - `102034`
+103001
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+103002
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+103003
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+103004
 
-    - `102041`
+<a href="#">Link to this property</a>
 
-    - `102042`
+103005
 
-    - `102043`
+<a href="#">Link to this property</a>
 
-    - `102044`
+103006
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+103007
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+103008
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+</details>
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+message: string
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+documentation\_url: optional string
 
-    - `102055`
+<a href="#">Link to this property</a>
 
-    - `102056`
+<details>
 
-    - `102057`
+<summary>
 
-    - `102058`
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
 
-    - `102059`
+</summary>
 
-    - `102060`
+l10n\_key: optional string
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+loggable\_error: optional string
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+template\_data: optional unknown
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+trace\_id: optional string
 
-    - `102067`
+<a href="#">Link to this property</a>
 
-    - `102068`
+</details>
 
-    - `102069`
+<a href="#">Link to this property</a>
 
-    - `102070`
+<details>
 
-    - `102071`
+<summary>
 
-    - `102072`
+source: optional object {parameter, parameter\_value\_index, pointer }
 
-    - `103001`
+</summary>
 
-    - `103002`
+parameter: optional string
 
-    - `103003`
+<a href="#">Link to this property</a>
 
-    - `103004`
+parameter\_value\_index: optional number
 
-    - `103005`
+<a href="#">Link to this property</a>
 
-    - `103006`
+pointer: optional string
 
-    - `103007`
+<a href="#">Link to this property</a>
 
-    - `103008`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+<a href="#">Link to this property</a>
 
-    - `l10n_key: optional string`
+<details>
 
-    - `loggable_error: optional string`
+<summary>
 
-    - `template_data: optional unknown`
+messages: array of object {code, message, documentation\_url, 2 more }
 
-    - `trace_id: optional string`
+</summary>
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+<details>
 
-    - `parameter: optional string`
+<summary>
 
-    - `parameter_value_index: optional number`
+code: 1001or 1002or 1003or 152 more
 
-    - `pointer: optional string`
+</summary>
 
-- `result: object { id, cloud_type, friendly_name, 11 more }`
+One of the following:
 
-  - `id: string`
+1001
 
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-    - `"AWS"`
+1002
 
-    - `"AZURE"`
+<a href="#">Link to this property</a>
 
-    - `"GOOGLE"`
+1003
 
-    - `"CLOUDFLARE"`
+<a href="#">Link to this property</a>
 
-  - `friendly_name: string`
+1004
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
+1005
 
-    - `"ACTIVE"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING_SETUP"`
+1006
 
-    - `"RETIRED"`
+<a href="#">Link to this property</a>
 
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+1007
 
-    - `"UNSPECIFIED"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING"`
+1008
 
-    - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-    - `"FAILED"`
+1009
 
-    - `"SUCCEEDED"`
+<a href="#">Link to this property</a>
 
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+1010
 
-    - `"UNSPECIFIED"`
+<a href="#">Link to this property</a>
 
-    - `"PENDING"`
+1011
 
-    - `"DISCOVERING"`
+<a href="#">Link to this property</a>
 
-    - `"FAILED"`
+1012
 
-    - `"SUCCEEDED"`
+<a href="#">Link to this property</a>
 
-  - `aws_arn: optional string`
+1013
 
-  - `azure_subscription_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `azure_tenant_id: optional string`
+1014
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `gcp_project_id: optional string`
+1015
 
-  - `gcp_service_account_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
+1016
 
-    - `discovery_progress: object { done, total, unit }`
+<a href="#">Link to this property</a>
 
-      - `done: number`
+1017
 
-      - `total: number`
+<a href="#">Link to this property</a>
 
-      - `unit: string`
+1018
 
-    - `discovery_progress_v2: object { done, total, unit }`
+<a href="#">Link to this property</a>
 
-      - `done: number`
+2001
 
-      - `total: number`
+<a href="#">Link to this property</a>
 
-      - `unit: string`
+2002
 
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"UNSPECIFIED"`
+2003
 
-      - `"PENDING"`
+<a href="#">Link to this property</a>
 
-      - `"DISCOVERING"`
+2004
 
-      - `"FAILED"`
+<a href="#">Link to this property</a>
 
-      - `"SUCCEEDED"`
+2005
 
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"UNSPECIFIED"`
+2006
 
-      - `"PENDING"`
+<a href="#">Link to this property</a>
 
-      - `"DISCOVERING"`
+2007
 
-      - `"FAILED"`
+<a href="#">Link to this property</a>
 
-      - `"SUCCEEDED"`
+2008
 
-    - `regions: array of string`
+<a href="#">Link to this property</a>
 
-    - `credentials_good_since: optional string`
+2009
 
-    - `credentials_missing_since: optional string`
+<a href="#">Link to this property</a>
 
-    - `credentials_rejected_since: optional string`
+2010
 
-    - `discovery_message: optional string`
+<a href="#">Link to this property</a>
 
-    - `discovery_message_v2: optional string`
+2011
 
-    - `in_use_by: optional array of object { id, client_type, name }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+2012
 
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
+<a href="#">Link to this property</a>
 
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
+2013
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_completed_at: optional string`
+2014
 
-    - `last_discovery_completed_at_v2: optional string`
+<a href="#">Link to this property</a>
 
-    - `last_discovery_started_at: optional string`
+2015
 
-    - `last_discovery_started_at_v2: optional string`
+<a href="#">Link to this property</a>
 
-    - `last_updated: optional string`
+2016
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+2017
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers/$PROVIDER_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+2018
 
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "cloud_type": "AWS",
-    "friendly_name": "friendly_name",
-    "last_updated": "last_updated",
-    "lifecycle_state": "ACTIVE",
-    "state": "UNSPECIFIED",
-    "state_v2": "UNSPECIFIED",
-    "aws_arn": "aws_arn",
-    "azure_subscription_id": "azure_subscription_id",
-    "azure_tenant_id": "azure_tenant_id",
-    "description": "description",
-    "gcp_project_id": "gcp_project_id",
-    "gcp_service_account_email": "gcp_service_account_email",
-    "status": {
-      "discovery_progress": {
-        "done": 0,
-        "total": 0,
-        "unit": "unit"
-      },
-      "discovery_progress_v2": {
-        "done": 0,
-        "total": 0,
-        "unit": "unit"
-      },
-      "last_discovery_status": "UNSPECIFIED",
-      "last_discovery_status_v2": "UNSPECIFIED",
-      "regions": [
-        "string"
-      ],
-      "credentials_good_since": "credentials_good_since",
-      "credentials_missing_since": "credentials_missing_since",
-      "credentials_rejected_since": "credentials_rejected_since",
-      "discovery_message": "discovery_message",
-      "discovery_message_v2": "discovery_message_v2",
-      "in_use_by": [
-        {
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "client_type": "MAGIC_WAN_CLOUD_ONRAMP",
-          "name": "name"
-        }
-      ],
-      "last_discovery_completed_at": "last_discovery_completed_at",
-      "last_discovery_completed_at_v2": "last_discovery_completed_at_v2",
-      "last_discovery_started_at": "last_discovery_started_at",
-      "last_discovery_started_at_v2": "last_discovery_started_at_v2",
-      "last_updated": "last_updated"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete Cloud Integration
+2019
 
-**delete** `/accounts/{account_id}/magic/cloud/providers/{provider_id}`
+<a href="#">Link to this property</a>
 
-Delete a Cloud Integration (Closed Beta).
+2020
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+2021
 
-- `provider_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+2022
 
-- `errors: array of object { code, message, documentation_url, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+3001
 
-    - `1001`
+<a href="#">Link to this property</a>
 
-    - `1002`
+3002
 
-    - `1003`
+<a href="#">Link to this property</a>
 
-    - `1004`
+3003
 
-    - `1005`
+<a href="#">Link to this property</a>
 
-    - `1006`
+3004
 
-    - `1007`
+<a href="#">Link to this property</a>
 
-    - `1008`
+3005
 
-    - `1009`
+<a href="#">Link to this property</a>
 
-    - `1010`
+3006
 
-    - `1011`
+<a href="#">Link to this property</a>
 
-    - `1012`
+3007
 
-    - `1013`
+<a href="#">Link to this property</a>
 
-    - `1014`
+4001
 
-    - `1015`
+<a href="#">Link to this property</a>
 
-    - `1016`
+4002
 
-    - `1017`
+<a href="#">Link to this property</a>
 
-    - `1018`
+4003
 
-    - `2001`
+<a href="#">Link to this property</a>
 
-    - `2002`
+4004
 
-    - `2003`
+<a href="#">Link to this property</a>
 
-    - `2004`
+4005
 
-    - `2005`
+<a href="#">Link to this property</a>
 
-    - `2006`
+4006
 
-    - `2007`
+<a href="#">Link to this property</a>
 
-    - `2008`
+4007
 
-    - `2009`
+<a href="#">Link to this property</a>
 
-    - `2010`
+4008
 
-    - `2011`
+<a href="#">Link to this property</a>
 
-    - `2012`
+4009
 
-    - `2013`
+<a href="#">Link to this property</a>
 
-    - `2014`
+4010
 
-    - `2015`
+<a href="#">Link to this property</a>
 
-    - `2016`
+4011
 
-    - `2017`
+<a href="#">Link to this property</a>
 
-    - `2018`
+4012
 
-    - `2019`
+<a href="#">Link to this property</a>
 
-    - `2020`
+4013
 
-    - `2021`
+<a href="#">Link to this property</a>
 
-    - `2022`
+4014
 
-    - `3001`
+<a href="#">Link to this property</a>
 
-    - `3002`
+4015
 
-    - `3003`
+<a href="#">Link to this property</a>
 
-    - `3004`
+4016
 
-    - `3005`
+<a href="#">Link to this property</a>
 
-    - `3006`
+4017
 
-    - `3007`
+<a href="#">Link to this property</a>
 
-    - `4001`
+4018
 
-    - `4002`
+<a href="#">Link to this property</a>
 
-    - `4003`
+4019
 
-    - `4004`
+<a href="#">Link to this property</a>
 
-    - `4005`
+4020
 
-    - `4006`
+<a href="#">Link to this property</a>
 
-    - `4007`
+4021
 
-    - `4008`
+<a href="#">Link to this property</a>
 
-    - `4009`
+4022
 
-    - `4010`
+<a href="#">Link to this property</a>
 
-    - `4011`
+4023
 
-    - `4012`
+<a href="#">Link to this property</a>
 
-    - `4013`
+5001
 
-    - `4014`
+<a href="#">Link to this property</a>
 
-    - `4015`
+5002
 
-    - `4016`
+<a href="#">Link to this property</a>
 
-    - `4017`
+5003
 
-    - `4018`
+<a href="#">Link to this property</a>
 
-    - `4019`
+5004
 
-    - `4020`
+<a href="#">Link to this property</a>
 
-    - `4021`
+102000
 
-    - `4022`
+<a href="#">Link to this property</a>
 
-    - `4023`
+102001
 
-    - `5001`
+<a href="#">Link to this property</a>
 
-    - `5002`
+102002
 
-    - `5003`
+<a href="#">Link to this property</a>
 
-    - `5004`
+102003
 
-    - `102000`
+<a href="#">Link to this property</a>
 
-    - `102001`
+102004
 
-    - `102002`
+<a href="#">Link to this property</a>
 
-    - `102003`
+102005
 
-    - `102004`
+<a href="#">Link to this property</a>
 
-    - `102005`
+102006
 
-    - `102006`
+<a href="#">Link to this property</a>
 
-    - `102007`
+102007
 
-    - `102008`
+<a href="#">Link to this property</a>
 
-    - `102009`
+102008
 
-    - `102010`
+<a href="#">Link to this property</a>
 
-    - `102011`
+102009
 
-    - `102012`
+<a href="#">Link to this property</a>
 
-    - `102013`
+102010
 
-    - `102014`
+<a href="#">Link to this property</a>
 
-    - `102015`
+102011
 
-    - `102016`
+<a href="#">Link to this property</a>
 
-    - `102017`
+102012
 
-    - `102018`
+<a href="#">Link to this property</a>
 
-    - `102019`
+102013
 
-    - `102020`
+<a href="#">Link to this property</a>
 
-    - `102021`
+102014
 
-    - `102022`
+<a href="#">Link to this property</a>
 
-    - `102023`
+102015
 
-    - `102024`
+<a href="#">Link to this property</a>
 
-    - `102025`
+102016
 
-    - `102026`
+<a href="#">Link to this property</a>
 
-    - `102027`
+102017
 
-    - `102028`
+<a href="#">Link to this property</a>
 
-    - `102029`
+102018
 
-    - `102030`
+<a href="#">Link to this property</a>
 
-    - `102031`
+102019
 
-    - `102032`
+<a href="#">Link to this property</a>
 
-    - `102033`
+102020
 
-    - `102034`
+<a href="#">Link to this property</a>
 
-    - `102035`
+102021
 
-    - `102036`
+<a href="#">Link to this property</a>
 
-    - `102037`
+102022
 
-    - `102038`
+<a href="#">Link to this property</a>
 
-    - `102039`
+102023
 
-    - `102040`
+<a href="#">Link to this property</a>
 
-    - `102041`
+102024
 
-    - `102042`
+<a href="#">Link to this property</a>
 
-    - `102043`
+102025
 
-    - `102044`
+<a href="#">Link to this property</a>
 
-    - `102045`
+102026
 
-    - `102046`
+<a href="#">Link to this property</a>
 
-    - `102047`
+102027
 
-    - `102048`
+<a href="#">Link to this property</a>
 
-    - `102049`
+102028
 
-    - `102050`
+<a href="#">Link to this property</a>
 
-    - `102051`
+102029
 
-    - `102052`
+<a href="#">Link to this property</a>
 
-    - `102053`
+102030
 
-    - `102054`
+<a href="#">Link to this property</a>
 
-    - `102055`
+102031
 
-    - `102056`
+<a href="#">Link to this property</a>
 
-    - `102057`
+102032
 
-    - `102058`
+<a href="#">Link to this property</a>
 
-    - `102059`
+102033
 
-    - `102060`
+<a href="#">Link to this property</a>
 
-    - `102061`
+102034
 
-    - `102062`
+<a href="#">Link to this property</a>
 
-    - `102063`
+102035
 
-    - `102064`
+<a href="#">Link to this property</a>
 
-    - `102065`
+102036
 
-    - `102066`
+<a href="#">Link to this property</a>
 
-    - `102067`
+102037
 
-    - `102068`
+<a href="#">Link to this property</a>
 
-    - `102069`
+102038
 
-    - `102070`
+<a href="#">Link to this property</a>
 
-    - `102071`
+102039
 
-    - `102072`
+<a href="#">Link to this property</a>
 
-    - `103001`
+102040
 
-    - `103002`
+<a href="#">Link to this property</a>
 
-    - `103003`
+102041
 
-    - `103004`
+<a href="#">Link to this property</a>
 
-    - `103005`
+102042
 
-    - `103006`
+<a href="#">Link to this property</a>
 
-    - `103007`
+102043
 
-    - `103008`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+102044
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
+102045
 
-    - `l10n_key: optional string`
+<a href="#">Link to this property</a>
 
-    - `loggable_error: optional string`
+102046
 
-    - `template_data: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `trace_id: optional string`
+102047
 
-  - `source: optional object { parameter, parameter_value_index, pointer }`
+<a href="#">Link to this property</a>
 
-    - `parameter: optional string`
+102048
 
-    - `parameter_value_index: optional number`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+102049
 
-- `messages: array of object { code, message, documentation_url, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `code: 1001 or 1002 or 1003 or 152 more`
+102050
 
-    - `1001`
+<a href="#">Link to this property</a>
 
-    - `1002`
+102051
 
-    - `1003`
+<a href="#">Link to this property</a>
 
-    - `1004`
+102052
 
-    - `1005`
+<a href="#">Link to this property</a>
 
-    - `1006`
+102053
 
-    - `1007`
+<a href="#">Link to this property</a>
 
-    - `1008`
+102054
 
-    - `1009`
+<a href="#">Link to this property</a>
 
-    - `1010`
+102055
 
-    - `1011`
+<a href="#">Link to this property</a>
 
-    - `1012`
+102056
 
-    - `1013`
+<a href="#">Link to this property</a>
 
-    - `1014`
+102057
 
-    - `1015`
+<a href="#">Link to this property</a>
 
-    - `1016`
+102058
 
-    - `1017`
+<a href="#">Link to this property</a>
 
-    - `1018`
+102059
 
-    - `2001`
+<a href="#">Link to this property</a>
 
-    - `2002`
+102060
 
-    - `2003`
+<a href="#">Link to this property</a>
 
-    - `2004`
+102061
 
-    - `2005`
+<a href="#">Link to this property</a>
 
-    - `2006`
+102062
 
-    - `2007`
+<a href="#">Link to this property</a>
 
-    - `2008`
+102063
 
-    - `2009`
+<a href="#">Link to this property</a>
 
-    - `2010`
+102064
 
-    - `2011`
+<a href="#">Link to this property</a>
 
-    - `2012`
+102065
 
-    - `2013`
+<a href="#">Link to this property</a>
 
-    - `2014`
+102066
 
-    - `2015`
+<a href="#">Link to this property</a>
 
-    - `2016`
+102067
 
-    - `2017`
+<a href="#">Link to this property</a>
 
-    - `2018`
+102068
 
-    - `2019`
+<a href="#">Link to this property</a>
 
-    - `2020`
+102069
 
-    - `2021`
+<a href="#">Link to this property</a>
 
-    - `2022`
+102070
 
-    - `3001`
+<a href="#">Link to this property</a>
 
-    - `3002`
+102071
 
-    - `3003`
+<a href="#">Link to this property</a>
 
-    - `3004`
+102072
 
-    - `3005`
+<a href="#">Link to this property</a>
 
-    - `3006`
+103001
 
-    - `3007`
+<a href="#">Link to this property</a>
 
-    - `4001`
+103002
 
-    - `4002`
+<a href="#">Link to this property</a>
 
-    - `4003`
+103003
 
-    - `4004`
+<a href="#">Link to this property</a>
 
-    - `4005`
+103004
 
-    - `4006`
+<a href="#">Link to this property</a>
 
-    - `4007`
+103005
 
-    - `4008`
+<a href="#">Link to this property</a>
 
-    - `4009`
+103006
 
-    - `4010`
+<a href="#">Link to this property</a>
 
-    - `4011`
+103007
 
-    - `4012`
+<a href="#">Link to this property</a>
 
-    - `4013`
+103008
 
-    - `4014`
+<a href="#">Link to this property</a>
 
-    - `4015`
+</details>
 
-    - `4016`
+<a href="#">Link to this property</a>
 
-    - `4017`
+message: string
 
-    - `4018`
+<a href="#">Link to this property</a>
 
-    - `4019`
+documentation\_url: optional string
 
-    - `4020`
+<a href="#">Link to this property</a>
 
-    - `4021`
+<details>
 
-    - `4022`
+<summary>
 
-    - `4023`
+meta: optional object {l10n\_key, loggable\_error, template\_data, trace\_id }
 
-    - `5001`
+</summary>
 
-    - `5002`
+l10n\_key: optional string
 
-    - `5003`
+<a href="#">Link to this property</a>
 
-    - `5004`
+loggable\_error: optional string
 
-    - `102000`
+<a href="#">Link to this property</a>
 
-    - `102001`
+template\_data: optional unknown
 
-    - `102002`
+<a href="#">Link to this property</a>
 
-    - `102003`
+trace\_id: optional string
 
-    - `102004`
+<a href="#">Link to this property</a>
 
-    - `102005`
+</details>
 
-    - `102006`
+<a href="#">Link to this property</a>
 
-    - `102007`
+<details>
 
-    - `102008`
+<summary>
 
-    - `102009`
+source: optional object {parameter, parameter\_value\_index, pointer }
 
-    - `102010`
+</summary>
 
-    - `102011`
+parameter: optional string
 
-    - `102012`
+<a href="#">Link to this property</a>
 
-    - `102013`
+parameter\_value\_index: optional number
 
-    - `102014`
+<a href="#">Link to this property</a>
 
-    - `102015`
+pointer: optional string
 
-    - `102016`
+<a href="#">Link to this property</a>
 
-    - `102017`
+</details>
 
-    - `102018`
+<a href="#">Link to this property</a>
 
-    - `102019`
+</details>
 
-    - `102020`
+<a href="#">Link to this property</a>
 
-    - `102021`
+success: boolean
 
-    - `102022`
+<a href="#">Link to this property</a>
 
-    - `102023`
+</details>
 
-    - `102024`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_discover_response%20%3E%20(schema)>)
 
-    - `102025`
+<details>
 
-    - `102026`
+<summary>
 
-    - `102027`
+CloudIntegrationInitialSetupResponse = object {aws\_trust\_policy, item\_type } or object {azure\_consent\_url, integration\_identity\_tag, item\_type, tag\_cli\_command } or object {integration\_identity\_tag, item\_type, tag\_cli\_command }
 
-    - `102028`
+</summary>
 
-    - `102029`
+One of the following:
 
-    - `102030`
+<details>
 
-    - `102031`
+<summary>
 
-    - `102032`
+McnAwsTrustPolicy object {aws\_trust\_policy, item\_type }
 
-    - `102033`
+</summary>
 
-    - `102034`
+aws\_trust\_policy: string
 
-    - `102035`
+<a href="#">Link to this property</a>
 
-    - `102036`
+item\_type: string
 
-    - `102037`
+<a href="#">Link to this property</a>
 
-    - `102038`
+</details>
 
-    - `102039`
+<a href="#">Link to this property</a>
 
-    - `102040`
+<details>
 
-    - `102041`
+<summary>
 
-    - `102042`
+McnAzureSetup object {azure\_consent\_url, integration\_identity\_tag, item\_type, tag\_cli\_command }
 
-    - `102043`
+</summary>
 
-    - `102044`
+azure\_consent\_url: string
 
-    - `102045`
+<a href="#">Link to this property</a>
 
-    - `102046`
+integration\_identity\_tag: string
 
-    - `102047`
+<a href="#">Link to this property</a>
 
-    - `102048`
+item\_type: string
 
-    - `102049`
+<a href="#">Link to this property</a>
 
-    - `102050`
+tag\_cli\_command: string
 
-    - `102051`
+<a href="#">Link to this property</a>
 
-    - `102052`
+</details>
 
-    - `102053`
+<a href="#">Link to this property</a>
 
-    - `102054`
+<details>
 
-    - `102055`
+<summary>
 
-    - `102056`
+McnGcpSetup object {integration\_identity\_tag, item\_type, tag\_cli\_command }
 
-    - `102057`
+</summary>
 
-    - `102058`
+integration\_identity\_tag: string
 
-    - `102059`
+<a href="#">Link to this property</a>
 
-    - `102060`
+item\_type: string
 
-    - `102061`
+<a href="#">Link to this property</a>
 
-    - `102062`
+tag\_cli\_command: string
 
-    - `102063`
+<a href="#">Link to this property</a>
 
-    - `102064`
+</details>
 
-    - `102065`
+<a href="#">Link to this property</a>
 
-    - `102066`
+</details>
 
-    - `102067`
-
-    - `102068`
-
-    - `102069`
-
-    - `102070`
-
-    - `102071`
-
-    - `102072`
-
-    - `103001`
-
-    - `103002`
-
-    - `103003`
-
-    - `103004`
-
-    - `103005`
-
-    - `103006`
-
-    - `103007`
-
-    - `103008`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-    - `l10n_key: optional string`
-
-    - `loggable_error: optional string`
-
-    - `template_data: optional unknown`
-
-    - `trace_id: optional string`
-
-  - `source: optional object { parameter, parameter_value_index, pointer }`
-
-    - `parameter: optional string`
-
-    - `parameter_value_index: optional number`
-
-    - `pointer: optional string`
-
-- `result: object { id }`
-
-  - `id: string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers/$PROVIDER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  },
-  "success": true
-}
-```
-
-## Run Discovery for All Integrations
-
-**post** `/accounts/{account_id}/magic/cloud/providers/discover`
-
-Run discovery for all Cloud Integrations in an account (Closed Beta).
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, 2 more }`
-
-  - `code: 1001 or 1002 or 1003 or 152 more`
-
-    - `1001`
-
-    - `1002`
-
-    - `1003`
-
-    - `1004`
-
-    - `1005`
-
-    - `1006`
-
-    - `1007`
-
-    - `1008`
-
-    - `1009`
-
-    - `1010`
-
-    - `1011`
-
-    - `1012`
-
-    - `1013`
-
-    - `1014`
-
-    - `1015`
-
-    - `1016`
-
-    - `1017`
-
-    - `1018`
-
-    - `2001`
-
-    - `2002`
-
-    - `2003`
-
-    - `2004`
-
-    - `2005`
-
-    - `2006`
-
-    - `2007`
-
-    - `2008`
-
-    - `2009`
-
-    - `2010`
-
-    - `2011`
-
-    - `2012`
-
-    - `2013`
-
-    - `2014`
-
-    - `2015`
-
-    - `2016`
-
-    - `2017`
-
-    - `2018`
-
-    - `2019`
-
-    - `2020`
-
-    - `2021`
-
-    - `2022`
-
-    - `3001`
-
-    - `3002`
-
-    - `3003`
-
-    - `3004`
-
-    - `3005`
-
-    - `3006`
-
-    - `3007`
-
-    - `4001`
-
-    - `4002`
-
-    - `4003`
-
-    - `4004`
-
-    - `4005`
-
-    - `4006`
-
-    - `4007`
-
-    - `4008`
-
-    - `4009`
-
-    - `4010`
-
-    - `4011`
-
-    - `4012`
-
-    - `4013`
-
-    - `4014`
-
-    - `4015`
-
-    - `4016`
-
-    - `4017`
-
-    - `4018`
-
-    - `4019`
-
-    - `4020`
-
-    - `4021`
-
-    - `4022`
-
-    - `4023`
-
-    - `5001`
-
-    - `5002`
-
-    - `5003`
-
-    - `5004`
-
-    - `102000`
-
-    - `102001`
-
-    - `102002`
-
-    - `102003`
-
-    - `102004`
-
-    - `102005`
-
-    - `102006`
-
-    - `102007`
-
-    - `102008`
-
-    - `102009`
-
-    - `102010`
-
-    - `102011`
-
-    - `102012`
-
-    - `102013`
-
-    - `102014`
-
-    - `102015`
-
-    - `102016`
-
-    - `102017`
-
-    - `102018`
-
-    - `102019`
-
-    - `102020`
-
-    - `102021`
-
-    - `102022`
-
-    - `102023`
-
-    - `102024`
-
-    - `102025`
-
-    - `102026`
-
-    - `102027`
-
-    - `102028`
-
-    - `102029`
-
-    - `102030`
-
-    - `102031`
-
-    - `102032`
-
-    - `102033`
-
-    - `102034`
-
-    - `102035`
-
-    - `102036`
-
-    - `102037`
-
-    - `102038`
-
-    - `102039`
-
-    - `102040`
-
-    - `102041`
-
-    - `102042`
-
-    - `102043`
-
-    - `102044`
-
-    - `102045`
-
-    - `102046`
-
-    - `102047`
-
-    - `102048`
-
-    - `102049`
-
-    - `102050`
-
-    - `102051`
-
-    - `102052`
-
-    - `102053`
-
-    - `102054`
-
-    - `102055`
-
-    - `102056`
-
-    - `102057`
-
-    - `102058`
-
-    - `102059`
-
-    - `102060`
-
-    - `102061`
-
-    - `102062`
-
-    - `102063`
-
-    - `102064`
-
-    - `102065`
-
-    - `102066`
-
-    - `102067`
-
-    - `102068`
-
-    - `102069`
-
-    - `102070`
-
-    - `102071`
-
-    - `102072`
-
-    - `103001`
-
-    - `103002`
-
-    - `103003`
-
-    - `103004`
-
-    - `103005`
-
-    - `103006`
-
-    - `103007`
-
-    - `103008`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-    - `l10n_key: optional string`
-
-    - `loggable_error: optional string`
-
-    - `template_data: optional unknown`
-
-    - `trace_id: optional string`
-
-  - `source: optional object { parameter, parameter_value_index, pointer }`
-
-    - `parameter: optional string`
-
-    - `parameter_value_index: optional number`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, 2 more }`
-
-  - `code: 1001 or 1002 or 1003 or 152 more`
-
-    - `1001`
-
-    - `1002`
-
-    - `1003`
-
-    - `1004`
-
-    - `1005`
-
-    - `1006`
-
-    - `1007`
-
-    - `1008`
-
-    - `1009`
-
-    - `1010`
-
-    - `1011`
-
-    - `1012`
-
-    - `1013`
-
-    - `1014`
-
-    - `1015`
-
-    - `1016`
-
-    - `1017`
-
-    - `1018`
-
-    - `2001`
-
-    - `2002`
-
-    - `2003`
-
-    - `2004`
-
-    - `2005`
-
-    - `2006`
-
-    - `2007`
-
-    - `2008`
-
-    - `2009`
-
-    - `2010`
-
-    - `2011`
-
-    - `2012`
-
-    - `2013`
-
-    - `2014`
-
-    - `2015`
-
-    - `2016`
-
-    - `2017`
-
-    - `2018`
-
-    - `2019`
-
-    - `2020`
-
-    - `2021`
-
-    - `2022`
-
-    - `3001`
-
-    - `3002`
-
-    - `3003`
-
-    - `3004`
-
-    - `3005`
-
-    - `3006`
-
-    - `3007`
-
-    - `4001`
-
-    - `4002`
-
-    - `4003`
-
-    - `4004`
-
-    - `4005`
-
-    - `4006`
-
-    - `4007`
-
-    - `4008`
-
-    - `4009`
-
-    - `4010`
-
-    - `4011`
-
-    - `4012`
-
-    - `4013`
-
-    - `4014`
-
-    - `4015`
-
-    - `4016`
-
-    - `4017`
-
-    - `4018`
-
-    - `4019`
-
-    - `4020`
-
-    - `4021`
-
-    - `4022`
-
-    - `4023`
-
-    - `5001`
-
-    - `5002`
-
-    - `5003`
-
-    - `5004`
-
-    - `102000`
-
-    - `102001`
-
-    - `102002`
-
-    - `102003`
-
-    - `102004`
-
-    - `102005`
-
-    - `102006`
-
-    - `102007`
-
-    - `102008`
-
-    - `102009`
-
-    - `102010`
-
-    - `102011`
-
-    - `102012`
-
-    - `102013`
-
-    - `102014`
-
-    - `102015`
-
-    - `102016`
-
-    - `102017`
-
-    - `102018`
-
-    - `102019`
-
-    - `102020`
-
-    - `102021`
-
-    - `102022`
-
-    - `102023`
-
-    - `102024`
-
-    - `102025`
-
-    - `102026`
-
-    - `102027`
-
-    - `102028`
-
-    - `102029`
-
-    - `102030`
-
-    - `102031`
-
-    - `102032`
-
-    - `102033`
-
-    - `102034`
-
-    - `102035`
-
-    - `102036`
-
-    - `102037`
-
-    - `102038`
-
-    - `102039`
-
-    - `102040`
-
-    - `102041`
-
-    - `102042`
-
-    - `102043`
-
-    - `102044`
-
-    - `102045`
-
-    - `102046`
-
-    - `102047`
-
-    - `102048`
-
-    - `102049`
-
-    - `102050`
-
-    - `102051`
-
-    - `102052`
-
-    - `102053`
-
-    - `102054`
-
-    - `102055`
-
-    - `102056`
-
-    - `102057`
-
-    - `102058`
-
-    - `102059`
-
-    - `102060`
-
-    - `102061`
-
-    - `102062`
-
-    - `102063`
-
-    - `102064`
-
-    - `102065`
-
-    - `102066`
-
-    - `102067`
-
-    - `102068`
-
-    - `102069`
-
-    - `102070`
-
-    - `102071`
-
-    - `102072`
-
-    - `103001`
-
-    - `103002`
-
-    - `103003`
-
-    - `103004`
-
-    - `103005`
-
-    - `103006`
-
-    - `103007`
-
-    - `103008`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-    - `l10n_key: optional string`
-
-    - `loggable_error: optional string`
-
-    - `template_data: optional unknown`
-
-    - `trace_id: optional string`
-
-  - `source: optional object { parameter, parameter_value_index, pointer }`
-
-    - `parameter: optional string`
-
-    - `parameter_value_index: optional number`
-
-    - `pointer: optional string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers/discover \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Run Discovery
-
-**post** `/accounts/{account_id}/magic/cloud/providers/{provider_id}/discover`
-
-Run discovery for a Cloud Integration (Closed Beta).
-
-### Path Parameters
-
-- `account_id: string`
-
-- `provider_id: string`
-
-### Query Parameters
-
-- `v2: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, 2 more }`
-
-  - `code: 1001 or 1002 or 1003 or 152 more`
-
-    - `1001`
-
-    - `1002`
-
-    - `1003`
-
-    - `1004`
-
-    - `1005`
-
-    - `1006`
-
-    - `1007`
-
-    - `1008`
-
-    - `1009`
-
-    - `1010`
-
-    - `1011`
-
-    - `1012`
-
-    - `1013`
-
-    - `1014`
-
-    - `1015`
-
-    - `1016`
-
-    - `1017`
-
-    - `1018`
-
-    - `2001`
-
-    - `2002`
-
-    - `2003`
-
-    - `2004`
-
-    - `2005`
-
-    - `2006`
-
-    - `2007`
-
-    - `2008`
-
-    - `2009`
-
-    - `2010`
-
-    - `2011`
-
-    - `2012`
-
-    - `2013`
-
-    - `2014`
-
-    - `2015`
-
-    - `2016`
-
-    - `2017`
-
-    - `2018`
-
-    - `2019`
-
-    - `2020`
-
-    - `2021`
-
-    - `2022`
-
-    - `3001`
-
-    - `3002`
-
-    - `3003`
-
-    - `3004`
-
-    - `3005`
-
-    - `3006`
-
-    - `3007`
-
-    - `4001`
-
-    - `4002`
-
-    - `4003`
-
-    - `4004`
-
-    - `4005`
-
-    - `4006`
-
-    - `4007`
-
-    - `4008`
-
-    - `4009`
-
-    - `4010`
-
-    - `4011`
-
-    - `4012`
-
-    - `4013`
-
-    - `4014`
-
-    - `4015`
-
-    - `4016`
-
-    - `4017`
-
-    - `4018`
-
-    - `4019`
-
-    - `4020`
-
-    - `4021`
-
-    - `4022`
-
-    - `4023`
-
-    - `5001`
-
-    - `5002`
-
-    - `5003`
-
-    - `5004`
-
-    - `102000`
-
-    - `102001`
-
-    - `102002`
-
-    - `102003`
-
-    - `102004`
-
-    - `102005`
-
-    - `102006`
-
-    - `102007`
-
-    - `102008`
-
-    - `102009`
-
-    - `102010`
-
-    - `102011`
-
-    - `102012`
-
-    - `102013`
-
-    - `102014`
-
-    - `102015`
-
-    - `102016`
-
-    - `102017`
-
-    - `102018`
-
-    - `102019`
-
-    - `102020`
-
-    - `102021`
-
-    - `102022`
-
-    - `102023`
-
-    - `102024`
-
-    - `102025`
-
-    - `102026`
-
-    - `102027`
-
-    - `102028`
-
-    - `102029`
-
-    - `102030`
-
-    - `102031`
-
-    - `102032`
-
-    - `102033`
-
-    - `102034`
-
-    - `102035`
-
-    - `102036`
-
-    - `102037`
-
-    - `102038`
-
-    - `102039`
-
-    - `102040`
-
-    - `102041`
-
-    - `102042`
-
-    - `102043`
-
-    - `102044`
-
-    - `102045`
-
-    - `102046`
-
-    - `102047`
-
-    - `102048`
-
-    - `102049`
-
-    - `102050`
-
-    - `102051`
-
-    - `102052`
-
-    - `102053`
-
-    - `102054`
-
-    - `102055`
-
-    - `102056`
-
-    - `102057`
-
-    - `102058`
-
-    - `102059`
-
-    - `102060`
-
-    - `102061`
-
-    - `102062`
-
-    - `102063`
-
-    - `102064`
-
-    - `102065`
-
-    - `102066`
-
-    - `102067`
-
-    - `102068`
-
-    - `102069`
-
-    - `102070`
-
-    - `102071`
-
-    - `102072`
-
-    - `103001`
-
-    - `103002`
-
-    - `103003`
-
-    - `103004`
-
-    - `103005`
-
-    - `103006`
-
-    - `103007`
-
-    - `103008`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-    - `l10n_key: optional string`
-
-    - `loggable_error: optional string`
-
-    - `template_data: optional unknown`
-
-    - `trace_id: optional string`
-
-  - `source: optional object { parameter, parameter_value_index, pointer }`
-
-    - `parameter: optional string`
-
-    - `parameter_value_index: optional number`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, 2 more }`
-
-  - `code: 1001 or 1002 or 1003 or 152 more`
-
-    - `1001`
-
-    - `1002`
-
-    - `1003`
-
-    - `1004`
-
-    - `1005`
-
-    - `1006`
-
-    - `1007`
-
-    - `1008`
-
-    - `1009`
-
-    - `1010`
-
-    - `1011`
-
-    - `1012`
-
-    - `1013`
-
-    - `1014`
-
-    - `1015`
-
-    - `1016`
-
-    - `1017`
-
-    - `1018`
-
-    - `2001`
-
-    - `2002`
-
-    - `2003`
-
-    - `2004`
-
-    - `2005`
-
-    - `2006`
-
-    - `2007`
-
-    - `2008`
-
-    - `2009`
-
-    - `2010`
-
-    - `2011`
-
-    - `2012`
-
-    - `2013`
-
-    - `2014`
-
-    - `2015`
-
-    - `2016`
-
-    - `2017`
-
-    - `2018`
-
-    - `2019`
-
-    - `2020`
-
-    - `2021`
-
-    - `2022`
-
-    - `3001`
-
-    - `3002`
-
-    - `3003`
-
-    - `3004`
-
-    - `3005`
-
-    - `3006`
-
-    - `3007`
-
-    - `4001`
-
-    - `4002`
-
-    - `4003`
-
-    - `4004`
-
-    - `4005`
-
-    - `4006`
-
-    - `4007`
-
-    - `4008`
-
-    - `4009`
-
-    - `4010`
-
-    - `4011`
-
-    - `4012`
-
-    - `4013`
-
-    - `4014`
-
-    - `4015`
-
-    - `4016`
-
-    - `4017`
-
-    - `4018`
-
-    - `4019`
-
-    - `4020`
-
-    - `4021`
-
-    - `4022`
-
-    - `4023`
-
-    - `5001`
-
-    - `5002`
-
-    - `5003`
-
-    - `5004`
-
-    - `102000`
-
-    - `102001`
-
-    - `102002`
-
-    - `102003`
-
-    - `102004`
-
-    - `102005`
-
-    - `102006`
-
-    - `102007`
-
-    - `102008`
-
-    - `102009`
-
-    - `102010`
-
-    - `102011`
-
-    - `102012`
-
-    - `102013`
-
-    - `102014`
-
-    - `102015`
-
-    - `102016`
-
-    - `102017`
-
-    - `102018`
-
-    - `102019`
-
-    - `102020`
-
-    - `102021`
-
-    - `102022`
-
-    - `102023`
-
-    - `102024`
-
-    - `102025`
-
-    - `102026`
-
-    - `102027`
-
-    - `102028`
-
-    - `102029`
-
-    - `102030`
-
-    - `102031`
-
-    - `102032`
-
-    - `102033`
-
-    - `102034`
-
-    - `102035`
-
-    - `102036`
-
-    - `102037`
-
-    - `102038`
-
-    - `102039`
-
-    - `102040`
-
-    - `102041`
-
-    - `102042`
-
-    - `102043`
-
-    - `102044`
-
-    - `102045`
-
-    - `102046`
-
-    - `102047`
-
-    - `102048`
-
-    - `102049`
-
-    - `102050`
-
-    - `102051`
-
-    - `102052`
-
-    - `102053`
-
-    - `102054`
-
-    - `102055`
-
-    - `102056`
-
-    - `102057`
-
-    - `102058`
-
-    - `102059`
-
-    - `102060`
-
-    - `102061`
-
-    - `102062`
-
-    - `102063`
-
-    - `102064`
-
-    - `102065`
-
-    - `102066`
-
-    - `102067`
-
-    - `102068`
-
-    - `102069`
-
-    - `102070`
-
-    - `102071`
-
-    - `102072`
-
-    - `103001`
-
-    - `103002`
-
-    - `103003`
-
-    - `103004`
-
-    - `103005`
-
-    - `103006`
-
-    - `103007`
-
-    - `103008`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-    - `l10n_key: optional string`
-
-    - `loggable_error: optional string`
-
-    - `template_data: optional unknown`
-
-    - `trace_id: optional string`
-
-  - `source: optional object { parameter, parameter_value_index, pointer }`
-
-    - `parameter: optional string`
-
-    - `parameter_value_index: optional number`
-
-    - `pointer: optional string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers/$PROVIDER_ID/discover \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Get Cloud Integration Setup Config
-
-**get** `/accounts/{account_id}/magic/cloud/providers/{provider_id}/initial_setup`
-
-Get initial configuration to complete Cloud Integration setup (Closed Beta).
-
-### Path Parameters
-
-- `account_id: string`
-
-- `provider_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, 2 more }`
-
-  - `code: 1001 or 1002 or 1003 or 152 more`
-
-    - `1001`
-
-    - `1002`
-
-    - `1003`
-
-    - `1004`
-
-    - `1005`
-
-    - `1006`
-
-    - `1007`
-
-    - `1008`
-
-    - `1009`
-
-    - `1010`
-
-    - `1011`
-
-    - `1012`
-
-    - `1013`
-
-    - `1014`
-
-    - `1015`
-
-    - `1016`
-
-    - `1017`
-
-    - `1018`
-
-    - `2001`
-
-    - `2002`
-
-    - `2003`
-
-    - `2004`
-
-    - `2005`
-
-    - `2006`
-
-    - `2007`
-
-    - `2008`
-
-    - `2009`
-
-    - `2010`
-
-    - `2011`
-
-    - `2012`
-
-    - `2013`
-
-    - `2014`
-
-    - `2015`
-
-    - `2016`
-
-    - `2017`
-
-    - `2018`
-
-    - `2019`
-
-    - `2020`
-
-    - `2021`
-
-    - `2022`
-
-    - `3001`
-
-    - `3002`
-
-    - `3003`
-
-    - `3004`
-
-    - `3005`
-
-    - `3006`
-
-    - `3007`
-
-    - `4001`
-
-    - `4002`
-
-    - `4003`
-
-    - `4004`
-
-    - `4005`
-
-    - `4006`
-
-    - `4007`
-
-    - `4008`
-
-    - `4009`
-
-    - `4010`
-
-    - `4011`
-
-    - `4012`
-
-    - `4013`
-
-    - `4014`
-
-    - `4015`
-
-    - `4016`
-
-    - `4017`
-
-    - `4018`
-
-    - `4019`
-
-    - `4020`
-
-    - `4021`
-
-    - `4022`
-
-    - `4023`
-
-    - `5001`
-
-    - `5002`
-
-    - `5003`
-
-    - `5004`
-
-    - `102000`
-
-    - `102001`
-
-    - `102002`
-
-    - `102003`
-
-    - `102004`
-
-    - `102005`
-
-    - `102006`
-
-    - `102007`
-
-    - `102008`
-
-    - `102009`
-
-    - `102010`
-
-    - `102011`
-
-    - `102012`
-
-    - `102013`
-
-    - `102014`
-
-    - `102015`
-
-    - `102016`
-
-    - `102017`
-
-    - `102018`
-
-    - `102019`
-
-    - `102020`
-
-    - `102021`
-
-    - `102022`
-
-    - `102023`
-
-    - `102024`
-
-    - `102025`
-
-    - `102026`
-
-    - `102027`
-
-    - `102028`
-
-    - `102029`
-
-    - `102030`
-
-    - `102031`
-
-    - `102032`
-
-    - `102033`
-
-    - `102034`
-
-    - `102035`
-
-    - `102036`
-
-    - `102037`
-
-    - `102038`
-
-    - `102039`
-
-    - `102040`
-
-    - `102041`
-
-    - `102042`
-
-    - `102043`
-
-    - `102044`
-
-    - `102045`
-
-    - `102046`
-
-    - `102047`
-
-    - `102048`
-
-    - `102049`
-
-    - `102050`
-
-    - `102051`
-
-    - `102052`
-
-    - `102053`
-
-    - `102054`
-
-    - `102055`
-
-    - `102056`
-
-    - `102057`
-
-    - `102058`
-
-    - `102059`
-
-    - `102060`
-
-    - `102061`
-
-    - `102062`
-
-    - `102063`
-
-    - `102064`
-
-    - `102065`
-
-    - `102066`
-
-    - `102067`
-
-    - `102068`
-
-    - `102069`
-
-    - `102070`
-
-    - `102071`
-
-    - `102072`
-
-    - `103001`
-
-    - `103002`
-
-    - `103003`
-
-    - `103004`
-
-    - `103005`
-
-    - `103006`
-
-    - `103007`
-
-    - `103008`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-    - `l10n_key: optional string`
-
-    - `loggable_error: optional string`
-
-    - `template_data: optional unknown`
-
-    - `trace_id: optional string`
-
-  - `source: optional object { parameter, parameter_value_index, pointer }`
-
-    - `parameter: optional string`
-
-    - `parameter_value_index: optional number`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, 2 more }`
-
-  - `code: 1001 or 1002 or 1003 or 152 more`
-
-    - `1001`
-
-    - `1002`
-
-    - `1003`
-
-    - `1004`
-
-    - `1005`
-
-    - `1006`
-
-    - `1007`
-
-    - `1008`
-
-    - `1009`
-
-    - `1010`
-
-    - `1011`
-
-    - `1012`
-
-    - `1013`
-
-    - `1014`
-
-    - `1015`
-
-    - `1016`
-
-    - `1017`
-
-    - `1018`
-
-    - `2001`
-
-    - `2002`
-
-    - `2003`
-
-    - `2004`
-
-    - `2005`
-
-    - `2006`
-
-    - `2007`
-
-    - `2008`
-
-    - `2009`
-
-    - `2010`
-
-    - `2011`
-
-    - `2012`
-
-    - `2013`
-
-    - `2014`
-
-    - `2015`
-
-    - `2016`
-
-    - `2017`
-
-    - `2018`
-
-    - `2019`
-
-    - `2020`
-
-    - `2021`
-
-    - `2022`
-
-    - `3001`
-
-    - `3002`
-
-    - `3003`
-
-    - `3004`
-
-    - `3005`
-
-    - `3006`
-
-    - `3007`
-
-    - `4001`
-
-    - `4002`
-
-    - `4003`
-
-    - `4004`
-
-    - `4005`
-
-    - `4006`
-
-    - `4007`
-
-    - `4008`
-
-    - `4009`
-
-    - `4010`
-
-    - `4011`
-
-    - `4012`
-
-    - `4013`
-
-    - `4014`
-
-    - `4015`
-
-    - `4016`
-
-    - `4017`
-
-    - `4018`
-
-    - `4019`
-
-    - `4020`
-
-    - `4021`
-
-    - `4022`
-
-    - `4023`
-
-    - `5001`
-
-    - `5002`
-
-    - `5003`
-
-    - `5004`
-
-    - `102000`
-
-    - `102001`
-
-    - `102002`
-
-    - `102003`
-
-    - `102004`
-
-    - `102005`
-
-    - `102006`
-
-    - `102007`
-
-    - `102008`
-
-    - `102009`
-
-    - `102010`
-
-    - `102011`
-
-    - `102012`
-
-    - `102013`
-
-    - `102014`
-
-    - `102015`
-
-    - `102016`
-
-    - `102017`
-
-    - `102018`
-
-    - `102019`
-
-    - `102020`
-
-    - `102021`
-
-    - `102022`
-
-    - `102023`
-
-    - `102024`
-
-    - `102025`
-
-    - `102026`
-
-    - `102027`
-
-    - `102028`
-
-    - `102029`
-
-    - `102030`
-
-    - `102031`
-
-    - `102032`
-
-    - `102033`
-
-    - `102034`
-
-    - `102035`
-
-    - `102036`
-
-    - `102037`
-
-    - `102038`
-
-    - `102039`
-
-    - `102040`
-
-    - `102041`
-
-    - `102042`
-
-    - `102043`
-
-    - `102044`
-
-    - `102045`
-
-    - `102046`
-
-    - `102047`
-
-    - `102048`
-
-    - `102049`
-
-    - `102050`
-
-    - `102051`
-
-    - `102052`
-
-    - `102053`
-
-    - `102054`
-
-    - `102055`
-
-    - `102056`
-
-    - `102057`
-
-    - `102058`
-
-    - `102059`
-
-    - `102060`
-
-    - `102061`
-
-    - `102062`
-
-    - `102063`
-
-    - `102064`
-
-    - `102065`
-
-    - `102066`
-
-    - `102067`
-
-    - `102068`
-
-    - `102069`
-
-    - `102070`
-
-    - `102071`
-
-    - `102072`
-
-    - `103001`
-
-    - `103002`
-
-    - `103003`
-
-    - `103004`
-
-    - `103005`
-
-    - `103006`
-
-    - `103007`
-
-    - `103008`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-    - `l10n_key: optional string`
-
-    - `loggable_error: optional string`
-
-    - `template_data: optional unknown`
-
-    - `trace_id: optional string`
-
-  - `source: optional object { parameter, parameter_value_index, pointer }`
-
-    - `parameter: optional string`
-
-    - `parameter_value_index: optional number`
-
-    - `pointer: optional string`
-
-- `result: object { aws_trust_policy, item_type }  or object { azure_consent_url, integration_identity_tag, item_type, tag_cli_command }  or object { integration_identity_tag, item_type, tag_cli_command }`
-
-  - `McnAwsTrustPolicy object { aws_trust_policy, item_type }`
-
-    - `aws_trust_policy: string`
-
-    - `item_type: string`
-
-  - `McnAzureSetup object { azure_consent_url, integration_identity_tag, item_type, tag_cli_command }`
-
-    - `azure_consent_url: string`
-
-    - `integration_identity_tag: string`
-
-    - `item_type: string`
-
-    - `tag_cli_command: string`
-
-  - `McnGcpSetup object { integration_identity_tag, item_type, tag_cli_command }`
-
-    - `integration_identity_tag: string`
-
-    - `item_type: string`
-
-    - `tag_cli_command: string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/providers/$PROVIDER_ID/initial_setup \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1001,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "meta": {
-        "l10n_key": "l10n_key",
-        "loggable_error": "loggable_error",
-        "template_data": {},
-        "trace_id": "trace_id"
-      },
-      "source": {
-        "parameter": "parameter",
-        "parameter_value_index": 0,
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "aws_trust_policy": "aws_trust_policy",
-    "item_type": "item_type"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Cloud Integration List Response
-
-- `CloudIntegrationListResponse object { id, cloud_type, friendly_name, 11 more }`
-
-  - `id: string`
-
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
-
-    - `"AWS"`
-
-    - `"AZURE"`
-
-    - `"GOOGLE"`
-
-    - `"CLOUDFLARE"`
-
-  - `friendly_name: string`
-
-  - `last_updated: string`
-
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
-
-    - `"ACTIVE"`
-
-    - `"PENDING_SETUP"`
-
-    - `"RETIRED"`
-
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `aws_arn: optional string`
-
-  - `azure_subscription_id: optional string`
-
-  - `azure_tenant_id: optional string`
-
-  - `description: optional string`
-
-  - `gcp_project_id: optional string`
-
-  - `gcp_service_account_email: optional string`
-
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
-
-    - `discovery_progress: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `discovery_progress_v2: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `regions: array of string`
-
-    - `credentials_good_since: optional string`
-
-    - `credentials_missing_since: optional string`
-
-    - `credentials_rejected_since: optional string`
-
-    - `discovery_message: optional string`
-
-    - `discovery_message_v2: optional string`
-
-    - `in_use_by: optional array of object { id, client_type, name }`
-
-      - `id: string`
-
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
-
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
-
-      - `name: string`
-
-    - `last_discovery_completed_at: optional string`
-
-    - `last_discovery_completed_at_v2: optional string`
-
-    - `last_discovery_started_at: optional string`
-
-    - `last_discovery_started_at_v2: optional string`
-
-    - `last_updated: optional string`
-
-### Cloud Integration Get Response
-
-- `CloudIntegrationGetResponse object { id, cloud_type, friendly_name, 11 more }`
-
-  - `id: string`
-
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
-
-    - `"AWS"`
-
-    - `"AZURE"`
-
-    - `"GOOGLE"`
-
-    - `"CLOUDFLARE"`
-
-  - `friendly_name: string`
-
-  - `last_updated: string`
-
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
-
-    - `"ACTIVE"`
-
-    - `"PENDING_SETUP"`
-
-    - `"RETIRED"`
-
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `aws_arn: optional string`
-
-  - `azure_subscription_id: optional string`
-
-  - `azure_tenant_id: optional string`
-
-  - `description: optional string`
-
-  - `gcp_project_id: optional string`
-
-  - `gcp_service_account_email: optional string`
-
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
-
-    - `discovery_progress: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `discovery_progress_v2: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `regions: array of string`
-
-    - `credentials_good_since: optional string`
-
-    - `credentials_missing_since: optional string`
-
-    - `credentials_rejected_since: optional string`
-
-    - `discovery_message: optional string`
-
-    - `discovery_message_v2: optional string`
-
-    - `in_use_by: optional array of object { id, client_type, name }`
-
-      - `id: string`
-
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
-
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
-
-      - `name: string`
-
-    - `last_discovery_completed_at: optional string`
-
-    - `last_discovery_completed_at_v2: optional string`
-
-    - `last_discovery_started_at: optional string`
-
-    - `last_discovery_started_at_v2: optional string`
-
-    - `last_updated: optional string`
-
-### Cloud Integration Create Response
-
-- `CloudIntegrationCreateResponse object { id, cloud_type, friendly_name, 11 more }`
-
-  - `id: string`
-
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
-
-    - `"AWS"`
-
-    - `"AZURE"`
-
-    - `"GOOGLE"`
-
-    - `"CLOUDFLARE"`
-
-  - `friendly_name: string`
-
-  - `last_updated: string`
-
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
-
-    - `"ACTIVE"`
-
-    - `"PENDING_SETUP"`
-
-    - `"RETIRED"`
-
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `aws_arn: optional string`
-
-  - `azure_subscription_id: optional string`
-
-  - `azure_tenant_id: optional string`
-
-  - `description: optional string`
-
-  - `gcp_project_id: optional string`
-
-  - `gcp_service_account_email: optional string`
-
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
-
-    - `discovery_progress: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `discovery_progress_v2: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `regions: array of string`
-
-    - `credentials_good_since: optional string`
-
-    - `credentials_missing_since: optional string`
-
-    - `credentials_rejected_since: optional string`
-
-    - `discovery_message: optional string`
-
-    - `discovery_message_v2: optional string`
-
-    - `in_use_by: optional array of object { id, client_type, name }`
-
-      - `id: string`
-
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
-
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
-
-      - `name: string`
-
-    - `last_discovery_completed_at: optional string`
-
-    - `last_discovery_completed_at_v2: optional string`
-
-    - `last_discovery_started_at: optional string`
-
-    - `last_discovery_started_at_v2: optional string`
-
-    - `last_updated: optional string`
-
-### Cloud Integration Update Response
-
-- `CloudIntegrationUpdateResponse object { id, cloud_type, friendly_name, 11 more }`
-
-  - `id: string`
-
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
-
-    - `"AWS"`
-
-    - `"AZURE"`
-
-    - `"GOOGLE"`
-
-    - `"CLOUDFLARE"`
-
-  - `friendly_name: string`
-
-  - `last_updated: string`
-
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
-
-    - `"ACTIVE"`
-
-    - `"PENDING_SETUP"`
-
-    - `"RETIRED"`
-
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `aws_arn: optional string`
-
-  - `azure_subscription_id: optional string`
-
-  - `azure_tenant_id: optional string`
-
-  - `description: optional string`
-
-  - `gcp_project_id: optional string`
-
-  - `gcp_service_account_email: optional string`
-
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
-
-    - `discovery_progress: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `discovery_progress_v2: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `regions: array of string`
-
-    - `credentials_good_since: optional string`
-
-    - `credentials_missing_since: optional string`
-
-    - `credentials_rejected_since: optional string`
-
-    - `discovery_message: optional string`
-
-    - `discovery_message_v2: optional string`
-
-    - `in_use_by: optional array of object { id, client_type, name }`
-
-      - `id: string`
-
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
-
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
-
-      - `name: string`
-
-    - `last_discovery_completed_at: optional string`
-
-    - `last_discovery_completed_at_v2: optional string`
-
-    - `last_discovery_started_at: optional string`
-
-    - `last_discovery_started_at_v2: optional string`
-
-    - `last_updated: optional string`
-
-### Cloud Integration Edit Response
-
-- `CloudIntegrationEditResponse object { id, cloud_type, friendly_name, 11 more }`
-
-  - `id: string`
-
-  - `cloud_type: "AWS" or "AZURE" or "GOOGLE" or "CLOUDFLARE"`
-
-    - `"AWS"`
-
-    - `"AZURE"`
-
-    - `"GOOGLE"`
-
-    - `"CLOUDFLARE"`
-
-  - `friendly_name: string`
-
-  - `last_updated: string`
-
-  - `lifecycle_state: "ACTIVE" or "PENDING_SETUP" or "RETIRED"`
-
-    - `"ACTIVE"`
-
-    - `"PENDING_SETUP"`
-
-    - `"RETIRED"`
-
-  - `state: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `state_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-    - `"UNSPECIFIED"`
-
-    - `"PENDING"`
-
-    - `"DISCOVERING"`
-
-    - `"FAILED"`
-
-    - `"SUCCEEDED"`
-
-  - `aws_arn: optional string`
-
-  - `azure_subscription_id: optional string`
-
-  - `azure_tenant_id: optional string`
-
-  - `description: optional string`
-
-  - `gcp_project_id: optional string`
-
-  - `gcp_service_account_email: optional string`
-
-  - `status: optional object { discovery_progress, discovery_progress_v2, last_discovery_status, 13 more }`
-
-    - `discovery_progress: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `discovery_progress_v2: object { done, total, unit }`
-
-      - `done: number`
-
-      - `total: number`
-
-      - `unit: string`
-
-    - `last_discovery_status: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `last_discovery_status_v2: "UNSPECIFIED" or "PENDING" or "DISCOVERING" or 2 more`
-
-      - `"UNSPECIFIED"`
-
-      - `"PENDING"`
-
-      - `"DISCOVERING"`
-
-      - `"FAILED"`
-
-      - `"SUCCEEDED"`
-
-    - `regions: array of string`
-
-    - `credentials_good_since: optional string`
-
-    - `credentials_missing_since: optional string`
-
-    - `credentials_rejected_since: optional string`
-
-    - `discovery_message: optional string`
-
-    - `discovery_message_v2: optional string`
-
-    - `in_use_by: optional array of object { id, client_type, name }`
-
-      - `id: string`
-
-      - `client_type: "MAGIC_WAN_CLOUD_ONRAMP"`
-
-        - `"MAGIC_WAN_CLOUD_ONRAMP"`
-
-      - `name: string`
-
-    - `last_discovery_completed_at: optional string`
-
-    - `last_discovery_completed_at_v2: optional string`
-
-    - `last_discovery_started_at: optional string`
-
-    - `last_discovery_started_at_v2: optional string`
-
-    - `last_updated: optional string`
-
-### Cloud Integration Delete Response
-
-- `CloudIntegrationDeleteResponse object { id }`
-
-  - `id: string`
-
-### Cloud Integration Discover All Response
-
-- `CloudIntegrationDiscoverAllResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, 2 more }`
-
-    - `code: 1001 or 1002 or 1003 or 152 more`
-
-      - `1001`
-
-      - `1002`
-
-      - `1003`
-
-      - `1004`
-
-      - `1005`
-
-      - `1006`
-
-      - `1007`
-
-      - `1008`
-
-      - `1009`
-
-      - `1010`
-
-      - `1011`
-
-      - `1012`
-
-      - `1013`
-
-      - `1014`
-
-      - `1015`
-
-      - `1016`
-
-      - `1017`
-
-      - `1018`
-
-      - `2001`
-
-      - `2002`
-
-      - `2003`
-
-      - `2004`
-
-      - `2005`
-
-      - `2006`
-
-      - `2007`
-
-      - `2008`
-
-      - `2009`
-
-      - `2010`
-
-      - `2011`
-
-      - `2012`
-
-      - `2013`
-
-      - `2014`
-
-      - `2015`
-
-      - `2016`
-
-      - `2017`
-
-      - `2018`
-
-      - `2019`
-
-      - `2020`
-
-      - `2021`
-
-      - `2022`
-
-      - `3001`
-
-      - `3002`
-
-      - `3003`
-
-      - `3004`
-
-      - `3005`
-
-      - `3006`
-
-      - `3007`
-
-      - `4001`
-
-      - `4002`
-
-      - `4003`
-
-      - `4004`
-
-      - `4005`
-
-      - `4006`
-
-      - `4007`
-
-      - `4008`
-
-      - `4009`
-
-      - `4010`
-
-      - `4011`
-
-      - `4012`
-
-      - `4013`
-
-      - `4014`
-
-      - `4015`
-
-      - `4016`
-
-      - `4017`
-
-      - `4018`
-
-      - `4019`
-
-      - `4020`
-
-      - `4021`
-
-      - `4022`
-
-      - `4023`
-
-      - `5001`
-
-      - `5002`
-
-      - `5003`
-
-      - `5004`
-
-      - `102000`
-
-      - `102001`
-
-      - `102002`
-
-      - `102003`
-
-      - `102004`
-
-      - `102005`
-
-      - `102006`
-
-      - `102007`
-
-      - `102008`
-
-      - `102009`
-
-      - `102010`
-
-      - `102011`
-
-      - `102012`
-
-      - `102013`
-
-      - `102014`
-
-      - `102015`
-
-      - `102016`
-
-      - `102017`
-
-      - `102018`
-
-      - `102019`
-
-      - `102020`
-
-      - `102021`
-
-      - `102022`
-
-      - `102023`
-
-      - `102024`
-
-      - `102025`
-
-      - `102026`
-
-      - `102027`
-
-      - `102028`
-
-      - `102029`
-
-      - `102030`
-
-      - `102031`
-
-      - `102032`
-
-      - `102033`
-
-      - `102034`
-
-      - `102035`
-
-      - `102036`
-
-      - `102037`
-
-      - `102038`
-
-      - `102039`
-
-      - `102040`
-
-      - `102041`
-
-      - `102042`
-
-      - `102043`
-
-      - `102044`
-
-      - `102045`
-
-      - `102046`
-
-      - `102047`
-
-      - `102048`
-
-      - `102049`
-
-      - `102050`
-
-      - `102051`
-
-      - `102052`
-
-      - `102053`
-
-      - `102054`
-
-      - `102055`
-
-      - `102056`
-
-      - `102057`
-
-      - `102058`
-
-      - `102059`
-
-      - `102060`
-
-      - `102061`
-
-      - `102062`
-
-      - `102063`
-
-      - `102064`
-
-      - `102065`
-
-      - `102066`
-
-      - `102067`
-
-      - `102068`
-
-      - `102069`
-
-      - `102070`
-
-      - `102071`
-
-      - `102072`
-
-      - `103001`
-
-      - `103002`
-
-      - `103003`
-
-      - `103004`
-
-      - `103005`
-
-      - `103006`
-
-      - `103007`
-
-      - `103008`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-      - `l10n_key: optional string`
-
-      - `loggable_error: optional string`
-
-      - `template_data: optional unknown`
-
-      - `trace_id: optional string`
-
-    - `source: optional object { parameter, parameter_value_index, pointer }`
-
-      - `parameter: optional string`
-
-      - `parameter_value_index: optional number`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, 2 more }`
-
-    - `code: 1001 or 1002 or 1003 or 152 more`
-
-      - `1001`
-
-      - `1002`
-
-      - `1003`
-
-      - `1004`
-
-      - `1005`
-
-      - `1006`
-
-      - `1007`
-
-      - `1008`
-
-      - `1009`
-
-      - `1010`
-
-      - `1011`
-
-      - `1012`
-
-      - `1013`
-
-      - `1014`
-
-      - `1015`
-
-      - `1016`
-
-      - `1017`
-
-      - `1018`
-
-      - `2001`
-
-      - `2002`
-
-      - `2003`
-
-      - `2004`
-
-      - `2005`
-
-      - `2006`
-
-      - `2007`
-
-      - `2008`
-
-      - `2009`
-
-      - `2010`
-
-      - `2011`
-
-      - `2012`
-
-      - `2013`
-
-      - `2014`
-
-      - `2015`
-
-      - `2016`
-
-      - `2017`
-
-      - `2018`
-
-      - `2019`
-
-      - `2020`
-
-      - `2021`
-
-      - `2022`
-
-      - `3001`
-
-      - `3002`
-
-      - `3003`
-
-      - `3004`
-
-      - `3005`
-
-      - `3006`
-
-      - `3007`
-
-      - `4001`
-
-      - `4002`
-
-      - `4003`
-
-      - `4004`
-
-      - `4005`
-
-      - `4006`
-
-      - `4007`
-
-      - `4008`
-
-      - `4009`
-
-      - `4010`
-
-      - `4011`
-
-      - `4012`
-
-      - `4013`
-
-      - `4014`
-
-      - `4015`
-
-      - `4016`
-
-      - `4017`
-
-      - `4018`
-
-      - `4019`
-
-      - `4020`
-
-      - `4021`
-
-      - `4022`
-
-      - `4023`
-
-      - `5001`
-
-      - `5002`
-
-      - `5003`
-
-      - `5004`
-
-      - `102000`
-
-      - `102001`
-
-      - `102002`
-
-      - `102003`
-
-      - `102004`
-
-      - `102005`
-
-      - `102006`
-
-      - `102007`
-
-      - `102008`
-
-      - `102009`
-
-      - `102010`
-
-      - `102011`
-
-      - `102012`
-
-      - `102013`
-
-      - `102014`
-
-      - `102015`
-
-      - `102016`
-
-      - `102017`
-
-      - `102018`
-
-      - `102019`
-
-      - `102020`
-
-      - `102021`
-
-      - `102022`
-
-      - `102023`
-
-      - `102024`
-
-      - `102025`
-
-      - `102026`
-
-      - `102027`
-
-      - `102028`
-
-      - `102029`
-
-      - `102030`
-
-      - `102031`
-
-      - `102032`
-
-      - `102033`
-
-      - `102034`
-
-      - `102035`
-
-      - `102036`
-
-      - `102037`
-
-      - `102038`
-
-      - `102039`
-
-      - `102040`
-
-      - `102041`
-
-      - `102042`
-
-      - `102043`
-
-      - `102044`
-
-      - `102045`
-
-      - `102046`
-
-      - `102047`
-
-      - `102048`
-
-      - `102049`
-
-      - `102050`
-
-      - `102051`
-
-      - `102052`
-
-      - `102053`
-
-      - `102054`
-
-      - `102055`
-
-      - `102056`
-
-      - `102057`
-
-      - `102058`
-
-      - `102059`
-
-      - `102060`
-
-      - `102061`
-
-      - `102062`
-
-      - `102063`
-
-      - `102064`
-
-      - `102065`
-
-      - `102066`
-
-      - `102067`
-
-      - `102068`
-
-      - `102069`
-
-      - `102070`
-
-      - `102071`
-
-      - `102072`
-
-      - `103001`
-
-      - `103002`
-
-      - `103003`
-
-      - `103004`
-
-      - `103005`
-
-      - `103006`
-
-      - `103007`
-
-      - `103008`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-      - `l10n_key: optional string`
-
-      - `loggable_error: optional string`
-
-      - `template_data: optional unknown`
-
-      - `trace_id: optional string`
-
-    - `source: optional object { parameter, parameter_value_index, pointer }`
-
-      - `parameter: optional string`
-
-      - `parameter_value_index: optional number`
-
-      - `pointer: optional string`
-
-  - `success: boolean`
-
-### Cloud Integration Discover Response
-
-- `CloudIntegrationDiscoverResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, 2 more }`
-
-    - `code: 1001 or 1002 or 1003 or 152 more`
-
-      - `1001`
-
-      - `1002`
-
-      - `1003`
-
-      - `1004`
-
-      - `1005`
-
-      - `1006`
-
-      - `1007`
-
-      - `1008`
-
-      - `1009`
-
-      - `1010`
-
-      - `1011`
-
-      - `1012`
-
-      - `1013`
-
-      - `1014`
-
-      - `1015`
-
-      - `1016`
-
-      - `1017`
-
-      - `1018`
-
-      - `2001`
-
-      - `2002`
-
-      - `2003`
-
-      - `2004`
-
-      - `2005`
-
-      - `2006`
-
-      - `2007`
-
-      - `2008`
-
-      - `2009`
-
-      - `2010`
-
-      - `2011`
-
-      - `2012`
-
-      - `2013`
-
-      - `2014`
-
-      - `2015`
-
-      - `2016`
-
-      - `2017`
-
-      - `2018`
-
-      - `2019`
-
-      - `2020`
-
-      - `2021`
-
-      - `2022`
-
-      - `3001`
-
-      - `3002`
-
-      - `3003`
-
-      - `3004`
-
-      - `3005`
-
-      - `3006`
-
-      - `3007`
-
-      - `4001`
-
-      - `4002`
-
-      - `4003`
-
-      - `4004`
-
-      - `4005`
-
-      - `4006`
-
-      - `4007`
-
-      - `4008`
-
-      - `4009`
-
-      - `4010`
-
-      - `4011`
-
-      - `4012`
-
-      - `4013`
-
-      - `4014`
-
-      - `4015`
-
-      - `4016`
-
-      - `4017`
-
-      - `4018`
-
-      - `4019`
-
-      - `4020`
-
-      - `4021`
-
-      - `4022`
-
-      - `4023`
-
-      - `5001`
-
-      - `5002`
-
-      - `5003`
-
-      - `5004`
-
-      - `102000`
-
-      - `102001`
-
-      - `102002`
-
-      - `102003`
-
-      - `102004`
-
-      - `102005`
-
-      - `102006`
-
-      - `102007`
-
-      - `102008`
-
-      - `102009`
-
-      - `102010`
-
-      - `102011`
-
-      - `102012`
-
-      - `102013`
-
-      - `102014`
-
-      - `102015`
-
-      - `102016`
-
-      - `102017`
-
-      - `102018`
-
-      - `102019`
-
-      - `102020`
-
-      - `102021`
-
-      - `102022`
-
-      - `102023`
-
-      - `102024`
-
-      - `102025`
-
-      - `102026`
-
-      - `102027`
-
-      - `102028`
-
-      - `102029`
-
-      - `102030`
-
-      - `102031`
-
-      - `102032`
-
-      - `102033`
-
-      - `102034`
-
-      - `102035`
-
-      - `102036`
-
-      - `102037`
-
-      - `102038`
-
-      - `102039`
-
-      - `102040`
-
-      - `102041`
-
-      - `102042`
-
-      - `102043`
-
-      - `102044`
-
-      - `102045`
-
-      - `102046`
-
-      - `102047`
-
-      - `102048`
-
-      - `102049`
-
-      - `102050`
-
-      - `102051`
-
-      - `102052`
-
-      - `102053`
-
-      - `102054`
-
-      - `102055`
-
-      - `102056`
-
-      - `102057`
-
-      - `102058`
-
-      - `102059`
-
-      - `102060`
-
-      - `102061`
-
-      - `102062`
-
-      - `102063`
-
-      - `102064`
-
-      - `102065`
-
-      - `102066`
-
-      - `102067`
-
-      - `102068`
-
-      - `102069`
-
-      - `102070`
-
-      - `102071`
-
-      - `102072`
-
-      - `103001`
-
-      - `103002`
-
-      - `103003`
-
-      - `103004`
-
-      - `103005`
-
-      - `103006`
-
-      - `103007`
-
-      - `103008`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-      - `l10n_key: optional string`
-
-      - `loggable_error: optional string`
-
-      - `template_data: optional unknown`
-
-      - `trace_id: optional string`
-
-    - `source: optional object { parameter, parameter_value_index, pointer }`
-
-      - `parameter: optional string`
-
-      - `parameter_value_index: optional number`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, 2 more }`
-
-    - `code: 1001 or 1002 or 1003 or 152 more`
-
-      - `1001`
-
-      - `1002`
-
-      - `1003`
-
-      - `1004`
-
-      - `1005`
-
-      - `1006`
-
-      - `1007`
-
-      - `1008`
-
-      - `1009`
-
-      - `1010`
-
-      - `1011`
-
-      - `1012`
-
-      - `1013`
-
-      - `1014`
-
-      - `1015`
-
-      - `1016`
-
-      - `1017`
-
-      - `1018`
-
-      - `2001`
-
-      - `2002`
-
-      - `2003`
-
-      - `2004`
-
-      - `2005`
-
-      - `2006`
-
-      - `2007`
-
-      - `2008`
-
-      - `2009`
-
-      - `2010`
-
-      - `2011`
-
-      - `2012`
-
-      - `2013`
-
-      - `2014`
-
-      - `2015`
-
-      - `2016`
-
-      - `2017`
-
-      - `2018`
-
-      - `2019`
-
-      - `2020`
-
-      - `2021`
-
-      - `2022`
-
-      - `3001`
-
-      - `3002`
-
-      - `3003`
-
-      - `3004`
-
-      - `3005`
-
-      - `3006`
-
-      - `3007`
-
-      - `4001`
-
-      - `4002`
-
-      - `4003`
-
-      - `4004`
-
-      - `4005`
-
-      - `4006`
-
-      - `4007`
-
-      - `4008`
-
-      - `4009`
-
-      - `4010`
-
-      - `4011`
-
-      - `4012`
-
-      - `4013`
-
-      - `4014`
-
-      - `4015`
-
-      - `4016`
-
-      - `4017`
-
-      - `4018`
-
-      - `4019`
-
-      - `4020`
-
-      - `4021`
-
-      - `4022`
-
-      - `4023`
-
-      - `5001`
-
-      - `5002`
-
-      - `5003`
-
-      - `5004`
-
-      - `102000`
-
-      - `102001`
-
-      - `102002`
-
-      - `102003`
-
-      - `102004`
-
-      - `102005`
-
-      - `102006`
-
-      - `102007`
-
-      - `102008`
-
-      - `102009`
-
-      - `102010`
-
-      - `102011`
-
-      - `102012`
-
-      - `102013`
-
-      - `102014`
-
-      - `102015`
-
-      - `102016`
-
-      - `102017`
-
-      - `102018`
-
-      - `102019`
-
-      - `102020`
-
-      - `102021`
-
-      - `102022`
-
-      - `102023`
-
-      - `102024`
-
-      - `102025`
-
-      - `102026`
-
-      - `102027`
-
-      - `102028`
-
-      - `102029`
-
-      - `102030`
-
-      - `102031`
-
-      - `102032`
-
-      - `102033`
-
-      - `102034`
-
-      - `102035`
-
-      - `102036`
-
-      - `102037`
-
-      - `102038`
-
-      - `102039`
-
-      - `102040`
-
-      - `102041`
-
-      - `102042`
-
-      - `102043`
-
-      - `102044`
-
-      - `102045`
-
-      - `102046`
-
-      - `102047`
-
-      - `102048`
-
-      - `102049`
-
-      - `102050`
-
-      - `102051`
-
-      - `102052`
-
-      - `102053`
-
-      - `102054`
-
-      - `102055`
-
-      - `102056`
-
-      - `102057`
-
-      - `102058`
-
-      - `102059`
-
-      - `102060`
-
-      - `102061`
-
-      - `102062`
-
-      - `102063`
-
-      - `102064`
-
-      - `102065`
-
-      - `102066`
-
-      - `102067`
-
-      - `102068`
-
-      - `102069`
-
-      - `102070`
-
-      - `102071`
-
-      - `102072`
-
-      - `103001`
-
-      - `103002`
-
-      - `103003`
-
-      - `103004`
-
-      - `103005`
-
-      - `103006`
-
-      - `103007`
-
-      - `103008`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `meta: optional object { l10n_key, loggable_error, template_data, trace_id }`
-
-      - `l10n_key: optional string`
-
-      - `loggable_error: optional string`
-
-      - `template_data: optional unknown`
-
-      - `trace_id: optional string`
-
-    - `source: optional object { parameter, parameter_value_index, pointer }`
-
-      - `parameter: optional string`
-
-      - `parameter_value_index: optional number`
-
-      - `pointer: optional string`
-
-  - `success: boolean`
-
-### Cloud Integration Initial Setup Response
-
-- `CloudIntegrationInitialSetupResponse = object { aws_trust_policy, item_type }  or object { azure_consent_url, integration_identity_tag, item_type, tag_cli_command }  or object { integration_identity_tag, item_type, tag_cli_command }`
-
-  - `McnAwsTrustPolicy object { aws_trust_policy, item_type }`
-
-    - `aws_trust_policy: string`
-
-    - `item_type: string`
-
-  - `McnAzureSetup object { azure_consent_url, integration_identity_tag, item_type, tag_cli_command }`
-
-    - `azure_consent_url: string`
-
-    - `integration_identity_tag: string`
-
-    - `item_type: string`
-
-    - `tag_cli_command: string`
-
-  - `McnGcpSetup object { integration_identity_tag, item_type, tag_cli_command }`
-
-    - `integration_identity_tag: string`
-
-    - `item_type: string`
-
-    - `tag_cli_command: string`
+[Link to this property](#)%20magic_cloud_networking.cloud_integrations%20%3E%20(model)%20cloud_integration_initial_setup_response%20%3E%20(schema)>)

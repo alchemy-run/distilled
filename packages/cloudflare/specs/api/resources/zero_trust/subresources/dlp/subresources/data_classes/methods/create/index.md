@@ -1,86 +1,282 @@
-## Creates a new data class
+---
+title: Creates a new data class
+---
 
-**post** `/accounts/{account_id}/dlp/data_classes`
+[Skip to content](#_top)
 
-Creates a new data class
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-### Body Parameters
+[Data Classes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes)
 
-- `data_tags: array of string`
+Copy Markdown
 
-- `expression: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `name: string`
+---
 
-- `sensitivity_levels: array of object { group_id, level_id }`
+**Copy Markdown****View as Markdown**
 
-  - `group_id: string`
+# Creates a new data class
 
-  - `level_id: string`
+POST/accounts/{account\_id}/dlp/data\_classes
 
-- `description: optional string`
+Creates a data class for use in DLP profiles.
 
-### Returns
+##### Security
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `pointer: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Email + API Key</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `success: true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result: optional object { id, created_at, data_tags, 5 more }`
+</details>
 
-  - `id: string`
+##### Accepted Permissions (at least one required)
 
-  - `created_at: string`
+`Zero Trust Write`
 
-  - `data_tags: array of string`
+##### P ath ParametersExpand Collapse
 
-  - `expression: string`
+account\_id: string
 
-  - `name: string`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `sensitivity_levels: array of object { group_id, level_id }`
+##### Body ParametersJSONExpand Collapse
 
-    - `group_id: string`
+data\_tags: array of string
 
-    - `level_id: string`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20data_tags%20%3E%20(schema)>)
 
-  - `updated_at: string`
+expression: string
 
-  - `description: optional string`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20expression%20%3E%20(schema)>)
 
-### Example
+name: string
 
-```http
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+sensitivity\_levels: array of object {group\_id, level\_id }
+
+</summary>
+
+group\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+level\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20sensitivity_levels%20%3E%20(schema)>)
+
+description: optional string
+
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, data\_tags, 5 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+data\_tags: array of string
+
+<a href="#">Link to this property</a>
+
+expression: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sensitivity\_levels: array of object {group\_id, level\_id }
+
+</summary>
+
+group\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+level\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Creates a new data class
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -99,9 +295,56 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes 
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "data_tags": [
+      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+    ],
+    "expression": "expression",
+    "name": "name",
+    "sensitivity_levels": [
+      {
+        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+      }
+    ],
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "description": "description"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

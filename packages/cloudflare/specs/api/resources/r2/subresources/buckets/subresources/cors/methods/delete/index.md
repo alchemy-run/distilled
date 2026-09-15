@@ -1,66 +1,194 @@
-## Delete Bucket CORS Policy
+---
+title: Delete Bucket CORS Policy
+---
 
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/cors`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+[CORS](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/cors)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete Bucket CORS Policy
+
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/cors
 
 Delete the CORS policy for a bucket.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account ID.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `bucket_name: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  Name of the bucket.
+##### P ath ParametersExpand Collapse
 
-### Header Parameters
+account\_id: string
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+Account ID.
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+maxLength32
 
-  - `"default"`
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"eu"`
+bucket\_name: string
 
-  - `"fedramp"`
+Name of the bucket.
 
-### Returns
+maxLength64
 
-- `errors: array of ResponseInfo`
+minLength3
 
-  - `code: number`
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20bucket_name%20%3E%20(schema)>)
 
-  - `message: string`
+##### H eader ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+"cf-r2-jurisdiction": optional "default"or "eu"or "us"or 2 more
 
-- `messages: array of string`
+Jurisdiction where objects in this bucket are guaranteed to be stored.
 
-- `result: unknown`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"default"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"eu"
 
-```http
+<a href="#">Link to this property</a>
+
+"us"
+
+<a href="#">Link to this property</a>
+
+"fedramp"
+
+<a href="#">Link to this property</a>
+
+"fedramp-high"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20jurisdiction%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+result: unknown
+
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20r2.buckets.cors%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete Bucket CORS Policy
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/cors \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

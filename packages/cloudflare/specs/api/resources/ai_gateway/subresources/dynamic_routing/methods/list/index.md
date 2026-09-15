@@ -1,209 +1,714 @@
-## List all AI Gateway Dynamic Routes.
+---
+title: List all AI Gateway Dynamic Routes.
+---
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Dynamic Routing](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List all AI Gateway Dynamic Routes.
+
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes
 
 List all AI Gateway Dynamic Routes.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `gateway_id: string`
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `page: optional number`
 
-  Page number
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `per_page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Number of routes per page
+</details>
 
-### Returns
+<details>
 
-- `data: object { order_by, order_by_direction, page, 2 more }`
+<summary>API Email + API Key</summary>
 
-  - `order_by: string`
 
-  - `order_by_direction: string`
 
-  - `page: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `per_page: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `routes: array of object { id, account_tag, created_at, 6 more }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `id: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `account_tag: string`
+</details>
 
-    - `created_at: string`
+##### Accepted Permissions (at least one required)
 
-    - `deployment: object { created_at, deployment_id, version_id }`
+`AI Gateway Write``AI Gateway Read`
 
-      - `created_at: string`
+##### P ath ParametersExpand Collapse
 
-      - `deployment_id: string`
+account\_id: string
 
-      - `version_id: string`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+gateway\_id: string
 
-      - `object { id, outputs, type }`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20gateway_id%20%3E%20(schema)>)
 
-        - `id: string`
+##### Q uery ParametersExpand Collapse
 
-        - `outputs: object { next }`
+page: optional number
 
-          - `next: object { elementId }`
+Page number
 
-            - `elementId: string`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-        - `type: "start"`
+per\_page: optional number
 
-          - `"start"`
+Number of routes per page
 
-      - `object { id, outputs, properties, type }`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-        - `id: string`
+##### ReturnsExpand Collapse
 
-        - `outputs: object { false, true }`
+<details>
 
-          - `false: object { elementId }`
+<summary>
 
-            - `elementId: string`
+data: object {order\_by, order\_by\_direction, page, 2 more }
 
-          - `true: object { elementId }`
+</summary>
 
-            - `elementId: string`
+order\_by: string
 
-        - `properties: object { conditions }`
+<a href="#">Link to this property</a>
 
-          - `conditions: optional unknown`
+order\_by\_direction: string
 
-        - `type: "conditional"`
+<a href="#">Link to this property</a>
 
-          - `"conditional"`
+page: number
 
-      - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+per\_page: number
 
-        - `outputs: map[object { elementId } ]`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+<details>
 
-        - `type: "percentage"`
+<summary>
 
-          - `"percentage"`
+routes: array of object {id, account\_tag, created\_at, 6 more }
 
-      - `object { id, outputs, properties, type }`
+</summary>
 
-        - `id: string`
+id: string
 
-        - `outputs: object { fallback, success }`
+<a href="#">Link to this property</a>
 
-          - `fallback: object { elementId }`
+account\_tag: string
 
-            - `elementId: string`
+<a href="#">Link to this property</a>
 
-          - `success: object { elementId }`
+created\_at: string
 
-            - `elementId: string`
+formatdate-time
 
-        - `properties: object { key, limit, limitType, window }`
+<a href="#">Link to this property</a>
 
-          - `key: string`
+<details>
 
-          - `limit: number`
+<summary>
 
-          - `limitType: "count" or "cost"`
+deployment: object {created\_at, deployment\_id, version\_id }
 
-            - `"count"`
+</summary>
 
-            - `"cost"`
+created\_at: string
 
-          - `window: number`
+<a href="#">Link to this property</a>
 
-        - `type: "rate"`
+deployment\_id: string
 
-          - `"rate"`
+<a href="#">Link to this property</a>
 
-      - `object { id, outputs, properties, type }`
+version\_id: string
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-        - `outputs: object { fallback, success }`
+</details>
 
-          - `fallback: object { elementId }`
+<a href="#">Link to this property</a>
 
-            - `elementId: string`
+<details>
 
-          - `success: object { elementId }`
+<summary>
 
-            - `elementId: string`
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
 
-        - `properties: object { model, provider, retries, timeout }`
+</summary>
 
-          - `model: string`
+One of the following:
 
-          - `provider: string`
+<details>
 
-          - `retries: number`
+<summary>
 
-          - `timeout: number`
+object {id, outputs, type }
 
-        - `type: "model"`
+</summary>
 
-          - `"model"`
+id: string
 
-      - `object { id, outputs, type }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `outputs: map[object { elementId } ]`
+<summary>
 
-          - `elementId: string`
+outputs: object {next }
 
-        - `type: "end"`
+</summary>
 
-          - `"end"`
+<details>
 
-    - `gateway_id: string`
+<summary>
 
-    - `modified_at: string`
+next: object {elementId }
 
-    - `name: string`
+</summary>
 
-    - `version: object { active, created_at, data, 2 more }`
+elementId: string
 
-      - `active: "true" or "false"`
+<a href="#">Link to this property</a>
 
-        - `"true"`
+</details>
 
-        - `"false"`
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+</details>
 
-      - `data: string`
+<a href="#">Link to this property</a>
 
-      - `version_id: string`
+type: "start"
 
-      - `is_valid: optional boolean`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {false, true }
+
+</summary>
+
+<details>
+
+<summary>
+
+false: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+true: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {conditions }
+
+</summary>
+
+conditions: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "conditional"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "percentage"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {key, limit, limitType, window }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+limitType: "count"or "cost"
+
+</summary>
+
+One of the following:
+
+"count"
+
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+window: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "rate"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {model, provider, retries, timeout }
+
+</summary>
+
+model: string
+
+<a href="#">Link to this property</a>
+
+provider: string
+
+<a href="#">Link to this property</a>
+
+retries: number
+
+<a href="#">Link to this property</a>
+
+timeout: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "model"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "end"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+version: object {active, created\_at, data, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+active: "true"or "false"
+
+</summary>
+
+One of the following:
+
+"true"
+
+<a href="#">Link to this property</a>
+
+"false"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+<a href="#">Link to this property</a>
+
+data: string
+
+<a href="#">Link to this property</a>
+
+version\_id: string
+
+<a href="#">Link to this property</a>
+
+is\_valid: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_list_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+success: boolean
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(model)%20dynamic_routing_list_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### List all AI Gateway Dynamic Routes.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "data": {
+    "order_by": "order_by",
+    "order_by_direction": "order_by_direction",
+    "page": 0,
+    "per_page": 0,
+    "routes": [
+      {
+        "id": "id",
+        "account_tag": "account_tag",
+        "created_at": "2019-12-27T18:11:19.117Z",
+        "deployment": {
+          "created_at": "created_at",
+          "deployment_id": "deployment_id",
+          "version_id": "version_id"
+        },
+        "elements": [
+          {
+            "id": "id",
+            "outputs": {
+              "next": {
+                "elementId": "elementId"
+              }
+            },
+            "type": "start"
+          }
+        ],
+        "gateway_id": "gateway_id",
+        "modified_at": "2019-12-27T18:11:19.117Z",
+        "name": "name",
+        "version": {
+          "active": "true",
+          "created_at": "created_at",
+          "data": "data",
+          "version_id": "version_id",
+          "is_valid": true
+        }
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "data": {
     "order_by": "order_by",

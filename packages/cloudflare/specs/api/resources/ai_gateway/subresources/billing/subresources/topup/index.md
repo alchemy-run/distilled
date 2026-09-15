@@ -1,535 +1,183 @@
+---
+title: Topup
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Billing](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Topup
 
-## Create a top-up
+##### [Create a top-up](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/methods/create)
 
-**post** `/accounts/{account_id}/ai-gateway/billing/topup`
+POST/accounts/{account\_id}/ai-gateway/billing/topup
 
-Create a credit top-up via Stripe PaymentIntent for the given account.
+##### [Check top-up status](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/methods/status)
 
-### Path Parameters
+POST/accounts/{account\_id}/ai-gateway/billing/topup/status
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Body Parameters
+<details>
 
-- `amount: number`
+<summary>
 
-  Top-up amount in cents (min 1000).
+TopupCreateResponse object {client\_secret, onboarding, payment\_intent\_id, 2 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message }`
+client\_secret: string
 
-  - `code: number`
+Stripe PaymentIntent client secret.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+onboarding: boolean
 
-  - `code: number`
+Whether the user was already onboarded.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { client_secret, onboarding, payment_intent_id, 2 more }`
+payment\_intent\_id: string
 
-  - `client_secret: string`
+Stripe invoice ID.
 
-    Stripe PaymentIntent client secret.
+<a href="#">Link to this property</a>
 
-  - `onboarding: boolean`
+brand: optional string
 
-    Whether the user was already onboarded.
+Card brand (visa, mastercard, etc.).
 
-  - `payment_intent_id: string`
+<a href="#">Link to this property</a>
 
-    Stripe invoice ID.
+last4: optional string
 
-  - `brand: optional string`
+Last 4 digits of card.
 
-    Card brand (visa, mastercard, etc.).
+<a href="#">Link to this property</a>
 
-  - `last4: optional string`
+</details>
 
-    Last 4 digits of card.
+[Link to this property](#)%20ai_gateway.billing.topup%20%3E%20(model)%20topup_create_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+TopupStatusResponse object {payment\_intent\_id, status }
 
-  - `has_more: boolean`
+</summary>
 
-  - `page: number`
+payment\_intent\_id: string
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 5000
-        }'
-```
+status: "completed"or "pending"
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "client_secret": "client_secret",
-    "onboarding": true,
-    "payment_intent_id": "payment_intent_id",
-    "brand": "brand",
-    "last4": "last4"
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+One of the following:
 
-## Check top-up status
+"completed"
 
-**post** `/accounts/{account_id}/ai-gateway/billing/topup/status`
+<a href="#">Link to this property</a>
 
-Get the payment processing status of a top-up by its invoice ID.
+"pending"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `payment_intent_id: string`
+</details>
 
-  Stripe invoice ID to check status for.
+[Link to this property](#)%20ai_gateway.billing.topup%20%3E%20(model)%20topup_status_response%20%3E%20(schema)>)
 
-### Returns
+#### TopupConfig
 
-- `errors: array of object { code, message }`
+##### [Get auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/get)
 
-  - `code: number`
+GET/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-  - `message: string`
+##### [Set auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/create)
 
-- `messages: array of object { code, message }`
+POST/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-  - `code: number`
+##### [Delete auto top-up configuration](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/topup/subresources/config/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/ai-gateway/billing/topup/config
 
-- `result: object { payment_intent_id, status }`
+##### ModelsExpand Collapse
 
-  - `payment_intent_id: string`
+<details>
 
-  - `status: "completed" or "pending"`
+<summary>
 
-    - `"completed"`
+ConfigGetResponse object {amount, threshold, disabledReason, 2 more }
 
-    - `"pending"`
+</summary>
 
-- `success: true`
+amount: number
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+threshold: number
 
-  - `has_more: boolean`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+disabledReason: optional string
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+error: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/status \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "payment_intent_id": "in_1abc"
-        }'
-```
+lastFailedAt: optional number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "payment_intent_id": "payment_intent_id",
-    "status": "completed"
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_get_response%20%3E%20(schema)>)
 
-### Topup Create Response
+<details>
 
-- `TopupCreateResponse object { client_secret, onboarding, payment_intent_id, 2 more }`
+<summary>
 
-  - `client_secret: string`
+ConfigCreateResponse object {amount, threshold }
 
-    Stripe PaymentIntent client secret.
+</summary>
 
-  - `onboarding: boolean`
+amount: number
 
-    Whether the user was already onboarded.
+<a href="#">Link to this property</a>
 
-  - `payment_intent_id: string`
+threshold: number
 
-    Stripe invoice ID.
+<a href="#">Link to this property</a>
 
-  - `brand: optional string`
+</details>
 
-    Card brand (visa, mastercard, etc.).
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_create_response%20%3E%20(schema)>)
 
-  - `last4: optional string`
+ConfigDeleteResponse = unknown
 
-    Last 4 digits of card.
-
-### Topup Status Response
-
-- `TopupStatusResponse object { payment_intent_id, status }`
-
-  - `payment_intent_id: string`
-
-  - `status: "completed" or "pending"`
-
-    - `"completed"`
-
-    - `"pending"`
-
-# Config
-
-## Get auto top-up configuration
-
-**get** `/accounts/{account_id}/ai-gateway/billing/topup/config`
-
-Retrieve the current auto top-up threshold, amount, and any error state.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: object { amount, disabledReason, error, 2 more }`
-
-  - `amount: number`
-
-  - `disabledReason: string`
-
-  - `error: string`
-
-  - `lastFailedAt: number`
-
-  - `threshold: number`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "amount": 0,
-    "disabledReason": "disabledReason",
-    "error": "error",
-    "lastFailedAt": 0,
-    "threshold": 0
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Set auto top-up configuration
-
-**post** `/accounts/{account_id}/ai-gateway/billing/topup/config`
-
-Configure auto top-up with a balance threshold and top-up amount.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `amount: number`
-
-  Auto top-up amount in cents (min 1000).
-
-- `threshold: number`
-
-  Balance threshold in cents that triggers auto top-up (min 500).
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: object { amount, threshold }`
-
-  - `amount: number`
-
-  - `threshold: number`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 5000,
-          "threshold": 500
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "amount": 0,
-    "threshold": 0
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Delete auto top-up configuration
-
-**delete** `/accounts/{account_id}/ai-gateway/billing/topup/config`
-
-Remove the auto top-up configuration for the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/topup/config \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Domain Types
-
-### Config Get Response
-
-- `ConfigGetResponse object { amount, disabledReason, error, 2 more }`
-
-  - `amount: number`
-
-  - `disabledReason: string`
-
-  - `error: string`
-
-  - `lastFailedAt: number`
-
-  - `threshold: number`
-
-### Config Create Response
-
-- `ConfigCreateResponse object { amount, threshold }`
-
-  - `amount: number`
-
-  - `threshold: number`
-
-### Config Delete Response
-
-- `ConfigDeleteResponse = unknown`
+[Link to this property](#)%20ai_gateway.billing.topup.config%20%3E%20(model)%20config_delete_response%20%3E%20(schema)>)

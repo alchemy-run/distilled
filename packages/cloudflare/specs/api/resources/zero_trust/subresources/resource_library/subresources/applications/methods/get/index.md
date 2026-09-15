@@ -1,137 +1,343 @@
-## Get application
+---
+title: Get application
+---
 
-**get** `/accounts/{account_id}/resource-library/applications/{id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Resource Library](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library)
+
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/applications)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get application
+
+GET/accounts/{account\_id}/resource-library/applications/{id}
 
 Get application by ID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `id: string`
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `success: true`
+</details>
 
-  Indicates whether the API call was successful.
+##### P ath ParametersExpand Collapse
 
-  - `true`
+account\_id: string
 
-- `result: optional object { id, application_confidence_score, application_source, 15 more }`
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `id: string`
+id: number
 
-    Returns the application ID.
+Returns the application ID.
 
-  - `application_confidence_score: number`
+formatint64
 
-    Confidence score for the application. Returns -1 when no score is available.
+maximum4294967295
 
-  - `application_source: string`
+minimum0
 
-    Returns the application source.
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-  - `application_type: string`
+##### ReturnsExpand Collapse
 
-    Returns the application type.
+<details>
 
-  - `application_type_description: string`
+<summary>
 
-    Returns the application type description.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `created_at: string`
+</summary>
 
-    Returns the application creation time.
+code: number
 
-  - `gen_ai_score: number`
+minimum1000
 
-    GenAI score for the application. Returns -1 when no score is available.
+<a href="#">Link to this property</a>
 
-  - `hostnames: array of string`
+message: string
 
-    Returns the list of hostnames for the application.
+<a href="#">Link to this property</a>
 
-  - `human_id: string`
+documentation\_url: optional string
 
-    Returns the human readable ID.
+<a href="#">Link to this property</a>
 
-  - `ip_subnets: array of string`
+<details>
 
-    Returns the list of IP subnets for the application.
+<summary>
 
-  - `name: string`
+source: optional object {pointer }
 
-    Returns the application name.
+</summary>
 
-  - `port_protocols: array of string`
+pointer: optional string
 
-    Returns the list of port protocols for the application.
+<a href="#">Link to this property</a>
 
-  - `support_domains: array of string`
+</details>
 
-    Returns the list of support domains for the application.
+<a href="#">Link to this property</a>
 
-  - `supported: array of "GATEWAY" or "ACCESS" or "CASB"`
+</details>
 
-    Cloudflare products that support this application.
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"GATEWAY"`
+<details>
 
-    - `"ACCESS"`
+<summary>
 
-    - `"CASB"`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `updated_at: string`
+</summary>
 
-    Returns the application update time.
+code: number
 
-  - `version: string`
+minimum1000
 
-    Returns the application version.
+<a href="#">Link to this property</a>
 
-  - `application_score_composition: optional unknown`
+message: string
 
-    Returns the score composition breakdown for the application.
+<a href="#">Link to this property</a>
 
-  - `intel_id: optional number`
+documentation\_url: optional string
 
-    Returns the Intel API ID for the application.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, application\_confidence\_score, application\_source, 15 more }
+
+</summary>
+
+id: number
+
+Returns the application ID.
+
+formatint64
+
+maximum4294967295
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+application\_confidence\_score: number
+
+Confidence score for the application. Returns -1 when no score is available.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+application\_source: string
+
+Returns the application source.
+
+<a href="#">Link to this property</a>
+
+application\_type: string
+
+Returns the application type.
+
+<a href="#">Link to this property</a>
+
+application\_type\_description: string
+
+Returns the application type description.
+
+<a href="#">Link to this property</a>
+
+category\_id: number
+
+Returns the category ID.
+
+formatint64
+
+maximum4294967295
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Returns the application creation time.
+
+<a href="#">Link to this property</a>
+
+gen\_ai\_score: number
+
+GenAI score for the application. Returns -1 when no score is available.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+hostnames: array of string
+
+Hostnames matched by the application.
+
+<a href="#">Link to this property</a>
+
+human\_id: string
+
+Returns the human readable ID.
+
+<a href="#">Link to this property</a>
+
+ip\_subnets: array of string
+
+IP subnets matched by the application.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Returns the application name.
+
+<a href="#">Link to this property</a>
+
+port\_protocols: array of string
+
+Port and protocol pairs matched by the application.
+
+<a href="#">Link to this property</a>
+
+support\_domains: array of string
+
+Support domains matched by the application.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+supported: array of "GATEWAY"or "ACCESS"or "CASB"
+
+Cloudflare products that support this application.
+
+</summary>
+
+One of the following:
+
+"GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"ACCESS"
+
+<a href="#">Link to this property</a>
+
+"CASB"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Returns the application update time.
+
+<a href="#">Link to this property</a>
+
+version: string
+
+Returns the application version.
+
+<a href="#">Link to this property</a>
+
+application\_score\_composition: optional unknown
+
+Returns the score composition breakdown for the application.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get application
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/applications/$ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -155,11 +361,12 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/
   ],
   "success": true,
   "result": {
-    "id": "12345678-1234-1234-1234-123456789012",
+    "id": 498,
     "application_confidence_score": 0.92,
     "application_source": "cloudflare",
     "application_type": "Human Resources",
     "application_type_description": "Applications used to manage employees and workforce tools.",
+    "category_id": 12,
     "created_at": "2025-01-01T00:00:00Z",
     "gen_ai_score": 1.5,
     "hostnames": [
@@ -194,8 +401,80 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/
         }
       ],
       "plan": "free"
-    },
-    "intel_id": 498
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": 498,
+    "application_confidence_score": 0.92,
+    "application_source": "cloudflare",
+    "application_type": "Human Resources",
+    "application_type_description": "Applications used to manage employees and workforce tools.",
+    "category_id": 12,
+    "created_at": "2025-01-01T00:00:00Z",
+    "gen_ai_score": 1.5,
+    "hostnames": [
+      "example.com",
+      "foo.com"
+    ],
+    "human_id": "HR",
+    "ip_subnets": [
+      "192.168.1.0/24",
+      "10.0.0.0/8"
+    ],
+    "name": "HR",
+    "port_protocols": [
+      "tcp/80",
+      "tcp/443"
+    ],
+    "support_domains": [
+      "example.com",
+      "foo.com"
+    ],
+    "supported": [
+      "GATEWAY",
+      "ACCESS"
+    ],
+    "updated_at": "2025-01-01T00:00:00Z",
+    "version": "2025-01-01T00:00:00Z",
+    "application_score_composition": {
+      "categories": [
+        {
+          "confidence": 0.95,
+          "name": "Security"
+        }
+      ],
+      "plan": "free"
+    }
   }
 }
 ```

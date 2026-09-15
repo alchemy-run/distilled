@@ -1,6 +1,30 @@
-## Create WARP IP subnet
+---
+title: Create WARP IP subnet
+---
 
-**post** `/accounts/{account_id}/zerotrust/subnets/warp`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks)
+
+[Subnets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets)
+
+[WARP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create WARP IP subnet
+
+POST/accounts/{account\_id}/zerotrust/subnets/warp
 
 Create a WARP IP assignment subnet. Currently, only IPv4 subnets can be created.
 
@@ -13,101 +37,289 @@ Create a WARP IP assignment subnet. Currently, only IPv4 subnets can be created.
   - `100.64.0.0/10` (RFC 6598 - CGNAT)
 - The subnet must have a prefix length of `/24` or larger (e.g., `/16`, `/20`, `/24` are valid; `/25`, `/28` are not)
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `name: string`
 
-  A user-friendly name for the subnet.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `network: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
+</details>
 
-- `comment: optional string`
+<details>
 
-  An optional description of the subnet.
+<summary>API Email + API Key</summary>
 
-- `is_default_network: optional boolean`
 
-  If `true`, this is the default subnet for the account. There can only be one default subnet per account.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Cloudflare One Networks Write`
 
-- `messages: array of ResponseInfo`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+Cloudflare account ID
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `result: Subnet`
+##### Body ParametersJSONExpand Collapse
 
-  - `id: optional string`
+name: string
 
-    The UUID of the subnet.
+A user-friendly name for the subnet.
 
-  - `comment: optional string`
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    An optional description of the subnet.
+network: string
 
-  - `created_at: optional string`
+The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
 
-    Timestamp of when the resource was created.
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20network%20%3E%20(schema)>)
 
-  - `deleted_at: optional string`
+comment: optional string
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+An optional description of the subnet.
 
-  - `is_default_network: optional boolean`
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20comment%20%3E%20(schema)>)
 
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
+is\_default\_network: optional boolean
 
-  - `name: optional string`
+If `true`, this is the default subnet for the account. There can only be one default subnet per account.
 
-    A user-friendly name for the subnet.
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_default_network%20%3E%20(schema)>)
 
-  - `network: optional string`
+##### ReturnsExpand Collapse
 
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
+<details>
 
-  - `subnet_type: optional "cloudflare_source" or "warp"`
+<summary>
 
-    The type of subnet.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"cloudflare_source"`
+</summary>
 
-    - `"warp"`
+code: number
 
-- `success: true`
+minimum1000
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.networks.subnets.warp%20%3E%20(model)%20subnet%20%3E%20(schema)">Subnet</a> { id, capacity, comment, 6 more }
+
+</summary>
+
+id: optional string
+
+The UUID of the subnet.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+capacity: optional object {total, used }
+
+IP capacity information for the subnet.
+
+</summary>
+
+total: optional number
+
+Total number of assignable IPs in the subnet.
+
+<a href="#">Link to this property</a>
+
+used: optional number
+
+Number of assigned IPs in the subnet.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+An optional description of the subnet.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+Timestamp of when the resource was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleted\_at: optional string
+
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_default\_network: optional boolean
+
+If <code>true</code>, this is the default subnet for the account. There can only be one default subnet per account.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+A user-friendly name for the subnet.
+
+<a href="#">Link to this property</a>
+
+network: optional string
+
+The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+subnet\_type: optional "cloudflare\_source"or "initial\_resolved\_ip"or "warp"
+
+The type of subnet.
+
+</summary>
+
+One of the following:
+
+"cloudflare\_source"
+
+<a href="#">Link to this property</a>
+
+"initial\_resolved\_ip"
+
+<a href="#">Link to this property</a>
+
+"warp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create WARP IP subnet
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -118,9 +330,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -144,9 +356,57 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets
   ],
   "result": {
     "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "capacity": {
+      "total": 254,
+      "used": 42
+    },
     "comment": "example comment",
     "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
+    "is_default_network": true,
+    "name": "IPv4 Cloudflare Source IPs",
+    "network": "100.64.0.0/12",
+    "subnet_type": "cloudflare_source"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "capacity": {
+      "total": 254,
+      "used": 42
+    },
+    "comment": "example comment",
+    "created_at": "2021-01-25T18:22:34.317854Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
     "is_default_network": true,
     "name": "IPv4 Cloudflare Source IPs",
     "network": "100.64.0.0/12",

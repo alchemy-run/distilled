@@ -1,109 +1,302 @@
-## Create an account
+---
+title: Create an account
+---
 
-**post** `/accounts`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create an account
+
+POST/accounts
 
 Create an account (only available for tenant admins at this time)
 
-### Body Parameters
+##### Security
 
-- `name: string`
+API Email + API Key
 
-  Account name
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `type: optional "standard" or "enterprise"`
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `"standard"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"enterprise"`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `unit: optional object { id }`
+##### Body ParametersJSONExpand Collapse
 
-  information related to the tenant unit, and optionally, an id of the unit to create the account on. see https://developers.cloudflare.com/tenant/how-to/manage-accounts/
+name: string
 
-  - `id: optional string`
+Account name
 
-    Tenant unit ID
+[Link to this property](#)%20accounts%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+type: optional "standard"or "enterprise"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"standard"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"enterprise"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20accounts%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+unit: optional object {id }
 
-  Whether the API call was successful.
+information related to the tenant unit, and optionally, an id of the unit to create the account on. see <a href="https://developers.cloudflare.com/tenant/how-to/manage-accounts/">https://developers.cloudflare.com/tenant/how-to/manage-accounts/</a>
 
-  - `true`
+</summary>
 
-- `result: optional Account`
+id: optional string
 
-  - `id: string`
+Tenant unit ID
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Account name
+[Link to this property](#)%20accounts%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20unit%20%3E%20(schema)>)
 
-  - `type: "standard" or "enterprise"`
+##### ReturnsExpand Collapse
 
-    - `"standard"`
+<details>
 
-    - `"enterprise"`
+<summary>
 
-  - `created_on: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-    Timestamp for the creation of the account
+</summary>
 
-  - `managed_by: optional object { parent_org_id, parent_org_name }`
+code: number
 
-    Parent container details
+minimum1000
 
-    - `parent_org_id: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the parent Organization, if one exists
+message: string
 
-    - `parent_org_name: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the parent Organization, if one exists
+documentation\_url: optional string
 
-  - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+<a href="#">Link to this property</a>
 
-    Account settings
+<details>
 
-    - `abuse_contact_email: optional string`
+<summary>
 
-      Sets an abuse contact email to notify for abuse reports.
+source: optional object {pointer }
 
-    - `enforce_twofactor: optional boolean`
+</summary>
 
-      Indicates whether membership in this account requires that
-      Two-Factor Authentication is enabled
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20accounts%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts%20%3E%20(model)%20account%20%3E%20(schema)">Account</a> { id, name, type, 3 more }
+
+</summary>
+
+id: string
+
+Identifier
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Account name
+
+maxLength100
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "standard"or "enterprise"
+
+</summary>
+
+One of the following:
+
+"standard"
+
+<a href="#">Link to this property</a>
+
+"enterprise"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+Timestamp for the creation of the account
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+managed\_by: optional object {parent\_org\_id, parent\_org\_name }
+
+Parent container details
+
+</summary>
+
+parent\_org\_id: optional string
+
+ID of the parent Organization, if one exists
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+parent\_org\_name: optional string
+
+Name of the parent Organization, if one exists
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: optional object {abuse\_contact\_email, enforce\_twofactor }
+
+Account settings
+
+</summary>
+
+abuse\_contact\_email: optional string
+
+Sets an abuse contact email to notify for abuse reports.
+
+<a href="#">Link to this property</a>
+
+enforce\_twofactor: optional boolean
+
+Indicates whether membership in this account requires that Two-Factor Authentication is enabled
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create an account
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -113,9 +306,9 @@ curl https://api.cloudflare.com/client/v4/accounts \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -142,7 +335,51 @@ curl https://api.cloudflare.com/client/v4/accounts \
     "id": "023e105f4ecef8ad9ca31a8372d0c353",
     "name": "Demo Account",
     "type": "standard",
-    "created_on": "2014-03-01T12:21:02.0000Z",
+    "created_on": "2014-03-01T12:21:02Z",
+    "managed_by": {
+      "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
+      "parent_org_name": "Demo Parent Organization"
+    },
+    "settings": {
+      "abuse_contact_email": "abuse_contact_email",
+      "enforce_twofactor": true
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "name": "Demo Account",
+    "type": "standard",
+    "created_on": "2014-03-01T12:21:02Z",
     "managed_by": {
       "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
       "parent_org_name": "Demo Parent Organization"

@@ -1,164 +1,93 @@
+---
+title: Users
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications)
+
+[Policy Tests](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/policy_tests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Users
 
-## Get an Access policy test users page
+##### [Get an Access policy test users page](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/policy_tests/subresources/users/methods/list)
 
-**get** `/accounts/{account_id}/access/policy-tests/{policy_test_id}/users`
+GET/accounts/{account\_id}/access/policy-tests/{policy\_test\_id}/users
 
-Fetches a single page of user results from an Access policy test.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+UserListResponse object {id, email, name, status }
 
-- `policy_test_id: string`
+</summary>
 
-  The UUID of the policy test.
+id: optional string
 
-### Query Parameters
+UUID.
 
-- `page: optional number`
+maxLength36
 
-  Page number of results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+email: optional string
 
-- `status: optional "success" or "fail" or "error"`
+The email of the user.
 
-  Filter users by their policy evaluation status.
+formatemail
 
-  - `"success"`
+<a href="#">Link to this property</a>
 
-  - `"fail"`
+name: optional string
 
-  - `"error"`
+The name of the user.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+status: optional "approved"or "blocked"or "error"
 
-  - `documentation_url: optional string`
+Policy evaluation result for an individual user.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"approved"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"blocked"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"error"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional array of object { id, email, name, status }`
-
-  Page of processed users.
-
-  - `id: optional string`
-
-    UUID.
-
-  - `email: optional string`
-
-    The email of the user.
-
-  - `name: optional string`
-
-    The name of the user.
-
-  - `status: optional "approved" or "blocked" or "error"`
-
-    Policy evaluation result for an individual user.
-
-    - `"approved"`
-
-    - `"blocked"`
-
-    - `"error"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/policy-tests/$POLICY_TEST_ID/users \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "email": "jdoe@example.com",
-      "name": "Jane Doe",
-      "status": "approved"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### User List Response
-
-- `UserListResponse object { id, email, name, status }`
-
-  - `id: optional string`
-
-    UUID.
-
-  - `email: optional string`
-
-    The email of the user.
-
-  - `name: optional string`
-
-    The name of the user.
-
-  - `status: optional "approved" or "blocked" or "error"`
-
-    Policy evaluation result for an individual user.
-
-    - `"approved"`
-
-    - `"blocked"`
-
-    - `"error"`
+[Link to this property](#)%20zero_trust.access.applications.policy_tests.users%20%3E%20(model)%20user_list_response%20%3E%20(schema)>)

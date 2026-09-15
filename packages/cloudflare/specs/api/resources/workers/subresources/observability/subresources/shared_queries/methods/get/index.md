@@ -1,1336 +1,3464 @@
-## View a query that has been shared
+---
+title: View a query that has been shared
+---
 
-**get** `/accounts/{account_id}/workers/observability/shared/query/{id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Observability](https://developers.cloudflare.com/api/resources/workers/subresources/observability)
+
+[Shared Queries](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/shared_queries)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# View a query that has been shared
+
+GET/accounts/{account\_id}/workers/observability/shared/query/{id}
 
 Shared queries store the results of a previously run query, allowing you to share the results with others.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `id: string`
+<summary>API Email + API Key</summary>
 
-  Specify the ID of the shared query.
 
-### Query Parameters
 
-- `view: optional "events" or "invocations" or "calculations"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Select the view of the query result to return, defaults to events.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"events"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"invocations"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"calculations"`
+</details>
 
-### Returns
+<details>
 
-- `errors: array of object { message }`
+<summary>API Token</summary>
 
-  - `message: string`
 
-- `messages: array of object { message }`
 
-  - `message: "Successful request"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `"Successful request"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `result: object { run, statistics, agents, 5 more }`
+</details>
 
-  Complete results of a query run. The populated fields depend on the requested view type (events, calculations, invocations, traces, or agents).
+<details>
 
-  - `run: object { id, accountId, dry, 8 more }`
+<summary>User Service Key</summary>
 
-    Represents a single execution of a query against Workers Observability data, including the query definition, execution status, and performance statistics.
 
-    - `id: string`
 
-      Unique identifier for this query run.
+Used when interacting with the Origin CA certificates API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/ca-keys/#viewchange-your-origin-ca-keys">View/change your key</a>.
 
-    - `accountId: string`
+**Example:**<code>X-Auth-User-Service-Key: v1.0-144c9defac04969c7bfad8ef-631a41d003a32d25fe878081ef365c49503f7fada600da935e2851a1c7326084b85cbf6429c4b859de8475731dc92a9c329631e6d59e6c73da7b198497172b4cefe071d90d0f5d2719</code>
 
-      Cloudflare account ID that owns this query run.
+</details>
 
-    - `dry: boolean`
+##### Accepted Permissions (at least one required)
 
-      Whether this was a dry run (results not persisted).
+`Workers Observability Write``Workers Observability Read`
 
-    - `granularity: number`
+##### P ath ParametersExpand Collapse
 
-      Number of time-series buckets used for the query. Higher values produce more detailed series data.
+account\_id: string
 
-    - `query: object { id, adhoc, created, 6 more }`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      A saved query definition with its parameters, metadata, and ownership information.
+id: string
 
-      - `id: string`
+Specify the ID of the shared query.
 
-      - `adhoc: boolean`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-        If the query wasn't explcitly saved
+##### Q uery ParametersExpand Collapse
 
-      - `created: string`
+<details>
 
-      - `createdBy: string`
+<summary>
 
-      - `description: string`
+view: optional "events"or "invocations"or "calculations"
 
-      - `name: string`
+Select the view of the query result to return, defaults to events.
 
-        Query name
+</summary>
 
-      - `parameters: object { calculations, datasets, filterCombination, 6 more }`
+One of the following:
 
-        - `calculations: optional array of object { operator, alias, key, keyType }`
+"events"
 
-          Create Calculations to compute as part of the query.
+<a href="#">Link to this property</a>
 
-          - `operator: "uniq" or "count" or "max" or 35 more`
+"invocations"
 
-            - `"uniq"`
+<a href="#">Link to this property</a>
 
-            - `"count"`
+"calculations"
 
-            - `"max"`
+<a href="#">Link to this property</a>
 
-            - `"min"`
+</details>
 
-            - `"sum"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20view%20%3E%20(schema)>)
 
-            - `"avg"`
+##### ReturnsExpand Collapse
 
-            - `"median"`
+<details>
 
-            - `"p001"`
+<summary>
 
-            - `"p01"`
+errors: array of object {message }
 
-            - `"p05"`
+</summary>
 
-            - `"p10"`
+message: string
 
-            - `"p25"`
+<a href="#">Link to this property</a>
 
-            - `"p75"`
+</details>
 
-            - `"p90"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-            - `"p95"`
+<details>
 
-            - `"p99"`
+<summary>
 
-            - `"p999"`
+messages: array of object {message }
 
-            - `"stddev"`
+</summary>
 
-            - `"variance"`
+message: "Successful request"
 
-            - `"COUNT_DISTINCT"`
+<a href="#">Link to this property</a>
 
-            - `"COUNT"`
+</details>
 
-            - `"MAX"`
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-            - `"MIN"`
+<details>
 
-            - `"SUM"`
+<summary>
 
-            - `"AVG"`
+result: object {run, statistics, agents, 6 more }
 
-            - `"MEDIAN"`
+Complete results of a query run. The populated fields depend on the requested view type (events, calculations, invocations, traces, or agents).
 
-            - `"P001"`
+</summary>
 
-            - `"P01"`
+<details>
 
-            - `"P05"`
+<summary>
 
-            - `"P10"`
+run: object {id, accountId, dry, 8 more }
 
-            - `"P25"`
+Represents a single execution of a query against Workers Observability data, including the query definition, execution status, and performance statistics.
 
-            - `"P75"`
+</summary>
 
-            - `"P90"`
+id: string
 
-            - `"P95"`
+Unique identifier for this query run.
 
-            - `"P99"`
+<a href="#">Link to this property</a>
 
-            - `"P999"`
+accountId: string
 
-            - `"STDDEV"`
+Cloudflare account ID that owns this query run.
 
-            - `"VARIANCE"`
+<a href="#">Link to this property</a>
 
-          - `alias: optional string`
+dry: boolean
 
-          - `key: optional string`
+Whether this was a dry run (results not persisted).
 
-          - `keyType: optional "string" or "number" or "boolean"`
+<a href="#">Link to this property</a>
 
-            - `"string"`
+granularity: number
 
-            - `"number"`
+Number of time-series buckets used for the query. Higher values produce more detailed series data.
 
-            - `"boolean"`
+<a href="#">Link to this property</a>
 
-        - `datasets: optional array of string`
+<details>
 
-          Set the Datasets to query. Leave it empty to query all the datasets.
+<summary>
 
-        - `filterCombination: optional "and" or "or" or "AND" or "OR"`
+query: object {id, adhoc, created, 6 more }
 
-          Set a Flag to describe how to combine the filters on the query.
+A saved query definition with its parameters, metadata, and ownership information.
 
-          - `"and"`
+</summary>
 
-          - `"or"`
+id: string
 
-          - `"AND"`
+<a href="#">Link to this property</a>
 
-          - `"OR"`
+adhoc: boolean
 
-        - `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+If the query wasn’t explcitly saved
 
-          Configure the Filters to apply to the query. Supports nested groups via kind: 'group'.
+<a href="#">Link to this property</a>
 
-          - `object { filterCombination, filters, kind }`
+<details>
 
-            - `filterCombination: "and" or "or" or "AND" or "OR"`
+<summary>
 
-              - `"and"`
+created: stringor string
 
-              - `"or"`
+formatdate-time
 
-              - `"AND"`
+</summary>
 
-              - `"OR"`
+One of the following:
 
-            - `filters: array of unknown`
+string
 
-            - `kind: "group"`
+<a href="#">Link to this property</a>
 
-              - `"group"`
+string
 
-          - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-            A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+</details>
 
-            - `key: string`
+<a href="#">Link to this property</a>
 
-              Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+createdBy: string
 
-            - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<a href="#">Link to this property</a>
 
-              Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+description: string
 
-              - `"includes"`
+maxLength1000
 
-              - `"not_includes"`
+<a href="#">Link to this property</a>
 
-              - `"starts_with"`
+name: string
 
-              - `"ends_with"`
+Query name
 
-              - `"regex"`
+maxLength250
 
-              - `"exists"`
+minLength1
 
-              - `"is_null"`
+<a href="#">Link to this property</a>
 
-              - `"in"`
+<details>
 
-              - `"not_in"`
+<summary>
 
-              - `"eq"`
+parameters: object {calculations, datasets, filterCombination, 6 more }
 
-              - `"neq"`
+</summary>
 
-              - `"gt"`
+<details>
 
-              - `"gte"`
+<summary>
 
-              - `"lt"`
+calculations: optional array of object {operator, alias, key, keyType } or object {key, operator, alias, keyType }
 
-              - `"lte"`
+Create Calculations to compute as part of the query.
 
-              - `"="`
+</summary>
 
-              - `"!="`
+One of the following:
 
-              - `">"`
+<details>
 
-              - `">="`
+<summary>
 
-              - `"<"`
+object {operator, alias, key, keyType }
 
-              - `"<="`
+</summary>
 
-              - `"INCLUDES"`
+<details>
 
-              - `"DOES_NOT_INCLUDE"`
+<summary>
 
-              - `"MATCH_REGEX"`
+operator: "count"or "COUNT"
 
-              - `"EXISTS"`
+</summary>
 
-              - `"DOES_NOT_EXIST"`
+One of the following:
 
-              - `"IN"`
+"count"
 
-              - `"NOT_IN"`
+<a href="#">Link to this property</a>
 
-              - `"STARTS_WITH"`
+"COUNT"
 
-              - `"ENDS_WITH"`
+<a href="#">Link to this property</a>
 
-            - `type: "string" or "number" or "boolean"`
+</details>
 
-              Data type of the filter field. Must match the actual type of the key being filtered.
+<a href="#">Link to this property</a>
 
-              - `"string"`
+alias: optional string
 
-              - `"number"`
+<a href="#">Link to this property</a>
 
-              - `"boolean"`
+key: optional string
 
-            - `kind: optional "filter"`
+<a href="#">Link to this property</a>
 
-              Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+<details>
 
-              - `"filter"`
+<summary>
 
-            - `value: optional string or number or boolean`
+keyType: optional "string"or "number"or "boolean"
 
-              Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+</summary>
 
-              - `string`
+One of the following:
 
-              - `number`
+"string"
 
-              - `boolean`
+<a href="#">Link to this property</a>
 
-        - `groupBys: optional array of object { type, value }`
+"number"
 
-          Define how to group the results of the query.
+<a href="#">Link to this property</a>
 
-          - `type: "string" or "number" or "boolean"`
+"boolean"
 
-            - `"string"`
+<a href="#">Link to this property</a>
 
-            - `"number"`
+</details>
 
-            - `"boolean"`
+<a href="#">Link to this property</a>
 
-          - `value: string`
+</details>
 
-        - `havings: optional array of object { key, operation, value }`
+<a href="#">Link to this property</a>
 
-          Configure the Having clauses that filter on calculations in the query result.
+<details>
 
-          - `key: string`
+<summary>
 
-          - `operation: "eq" or "neq" or "gt" or 3 more`
+object {key, operator, alias, keyType }
 
-            - `"eq"`
+</summary>
 
-            - `"neq"`
+key: string
 
-            - `"gt"`
+<a href="#">Link to this property</a>
 
-            - `"gte"`
+<details>
 
-            - `"lt"`
+<summary>
 
-            - `"lte"`
+operator: "uniq"or "max"or "min"or 33 more
 
-          - `value: number`
+</summary>
 
-        - `limit: optional number`
+One of the following:
 
-          Set a limit on the number of results / records returned by the query
+"uniq"
 
-        - `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-          Define an expression to search using full-text search.
+"max"
 
-          - `value:`
+<a href="#">Link to this property</a>
 
-          - `isRegex: optional boolean`
+"min"
 
-          - `matchCase: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `orderBy: optional object { value, order }`
+"sum"
 
-          Configure the order of the results returned by the query.
+<a href="#">Link to this property</a>
 
-          - `value: string`
+"avg"
 
-            Configure which Calculation to order the results by.
+<a href="#">Link to this property</a>
 
-          - `order: optional "asc" or "desc"`
+"median"
 
-            Set the order of the results
+<a href="#">Link to this property</a>
 
-            - `"asc"`
+"p001"
 
-            - `"desc"`
+<a href="#">Link to this property</a>
 
-      - `updated: string`
+"p01"
 
-      - `updatedBy: string`
+<a href="#">Link to this property</a>
 
-    - `status: "STARTED" or "COMPLETED"`
+"p05"
 
-      Current execution status of the query run.
+<a href="#">Link to this property</a>
 
-      - `"STARTED"`
+"p10"
 
-      - `"COMPLETED"`
+<a href="#">Link to this property</a>
 
-    - `timeframe: object { from, to }`
+"p25"
 
-      Time range for the query execution
+<a href="#">Link to this property</a>
 
-      - `from: number`
+"p75"
 
-        Start timestamp for the query timeframe (Unix timestamp in milliseconds)
+<a href="#">Link to this property</a>
 
-      - `to: number`
+"p90"
 
-        End timestamp for the query timeframe (Unix timestamp in milliseconds)
+<a href="#">Link to this property</a>
 
-    - `userId: string`
+"p95"
 
-      ID of the user who initiated the query run.
+<a href="#">Link to this property</a>
 
-    - `created: optional string`
+"p99"
 
-      ISO-8601 timestamp when the query run was created.
+<a href="#">Link to this property</a>
 
-    - `statistics: optional object { bytes_read, elapsed, rows_read, abr_level }`
+"p999"
 
-      Query performance statistics from the database (does not include network latency).
+<a href="#">Link to this property</a>
 
-      - `bytes_read: number`
+"stddev"
 
-        Number of uncompressed bytes read from the table.
+<a href="#">Link to this property</a>
 
-      - `elapsed: number`
+"variance"
 
-        Time in seconds for the query to run.
+<a href="#">Link to this property</a>
 
-      - `rows_read: number`
+"COUNT\_DISTINCT"
 
-        Number of rows scanned from the table.
+<a href="#">Link to this property</a>
 
-      - `abr_level: optional number`
+"MAX"
 
-        The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+<a href="#">Link to this property</a>
 
-    - `updated: optional string`
+"MIN"
 
-      ISO-8601 timestamp when the query run was last updated.
+<a href="#">Link to this property</a>
 
-  - `statistics: object { bytes_read, elapsed, rows_read, abr_level }`
+"SUM"
 
-    Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.
+<a href="#">Link to this property</a>
 
-    - `bytes_read: number`
+"AVG"
 
-      Number of uncompressed bytes read from the table.
+<a href="#">Link to this property</a>
 
-    - `elapsed: number`
+"MEDIAN"
 
-      Time in seconds for the query to run.
+<a href="#">Link to this property</a>
 
-    - `rows_read: number`
+"P001"
 
-      Number of rows scanned from the table.
+<a href="#">Link to this property</a>
 
-    - `abr_level: optional number`
+"P01"
 
-      The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
+<a href="#">Link to this property</a>
 
-  - `agents: optional array of object { agentClass, eventTypeCounts, firstEventMs, 5 more }`
+"P05"
 
-    Durable Object agent summaries. Present when the query view is 'agents'. Each entry represents an agent with its event counts and status.
+<a href="#">Link to this property</a>
 
-    - `agentClass: string`
+"P10"
 
-      Class name of the Durable Object agent.
+<a href="#">Link to this property</a>
 
-    - `eventTypeCounts: map[number]`
+"P25"
 
-      Breakdown of event counts by event type.
+<a href="#">Link to this property</a>
 
-    - `firstEventMs: number`
+"P75"
 
-      Timestamp of the earliest event from this agent in the queried window (Unix epoch ms).
+<a href="#">Link to this property</a>
 
-    - `hasErrors: boolean`
+"P90"
 
-      Whether the agent emitted any error events in the queried window.
+<a href="#">Link to this property</a>
 
-    - `lastEventMs: number`
+"P95"
 
-      Timestamp of the most recent event from this agent (Unix epoch ms).
+<a href="#">Link to this property</a>
 
-    - `namespace: string`
+"P99"
 
-      Durable Object namespace the agent belongs to.
+<a href="#">Link to this property</a>
 
-    - `service: string`
+"P999"
 
-      Worker service name that hosts this agent.
+<a href="#">Link to this property</a>
 
-    - `totalEvents: number`
+"STDDEV"
 
-      Total number of events emitted by this agent in the queried window.
+<a href="#">Link to this property</a>
 
-  - `calculations: optional array of object { aggregates, calculation, series, alias }`
+"VARIANCE"
 
-    Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data.
+<a href="#">Link to this property</a>
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+</details>
 
-      - `count: number`
+<a href="#">Link to this property</a>
 
-      - `interval: number`
+alias: optional string
 
-      - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+<details>
 
-      - `groups: optional array of object { key, value }`
+<summary>
 
-        - `key: string`
+keyType: optional "string"or "number"or "boolean"
 
-        - `value: string or number or boolean`
+</summary>
 
-          - `string`
+One of the following:
 
-          - `number`
+"string"
 
-          - `boolean`
+<a href="#">Link to this property</a>
 
-    - `calculation: string`
+"number"
 
-    - `series: array of object { data, time }`
+<a href="#">Link to this property</a>
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+"boolean"
 
-        - `count: number`
+<a href="#">Link to this property</a>
 
-        - `interval: number`
+</details>
 
-        - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+</details>
 
-        - `firstSeen: optional string`
+<a href="#">Link to this property</a>
 
-        - `groups: optional array of object { key, value }`
+</details>
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-          - `value: string or number or boolean`
+datasets: optional array of string
 
-            - `string`
+Set the Datasets to query. Leave it empty to query all the datasets.
 
-            - `number`
+<a href="#">Link to this property</a>
 
-            - `boolean`
+<details>
 
-        - `lastSeen: optional string`
+<summary>
 
-      - `time: string`
+filterCombination: optional "and"or "or"or "AND"or "OR"
 
-    - `alias: optional string`
+Set a Flag to describe how to combine the filters on the query.
 
-  - `compare: optional array of object { aggregates, calculation, series, alias }`
+</summary>
 
-    Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations.
+One of the following:
 
-    - `aggregates: array of object { count, interval, sampleInterval, 2 more }`
+"and"
 
-      - `count: number`
+<a href="#">Link to this property</a>
 
-      - `interval: number`
+"or"
 
-      - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+"AND"
 
-      - `groups: optional array of object { key, value }`
+<a href="#">Link to this property</a>
 
-        - `key: string`
+"OR"
 
-        - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-          - `string`
+</details>
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+<details>
 
-    - `calculation: string`
+<summary>
 
-    - `series: array of object { data, time }`
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
 
-      - `data: array of object { count, interval, sampleInterval, 4 more }`
+Configure the Filters to apply to the query. Supports nested groups via kind: ‘group’.
 
-        - `count: number`
+</summary>
 
-        - `interval: number`
+One of the following:
 
-        - `sampleInterval: number`
+<details>
 
-        - `value: number`
+<summary>
 
-        - `firstSeen: optional string`
+object {filterCombination, filters, kind }
 
-        - `groups: optional array of object { key, value }`
+</summary>
 
-          - `key: string`
+<details>
 
-          - `value: string or number or boolean`
+<summary>
 
-            - `string`
+filterCombination: "and"or "or"or "AND"or "OR"
 
-            - `number`
+</summary>
 
-            - `boolean`
+One of the following:
 
-        - `lastSeen: optional string`
+"and"
 
-      - `time: string`
+<a href="#">Link to this property</a>
 
-    - `alias: optional string`
+"or"
 
-  - `events: optional object { count, events, fields, series }`
+<a href="#">Link to this property</a>
 
-    Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata.
+"AND"
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of events matching the query (may exceed the number returned due to limits).
+"OR"
 
-    - `events: optional array of object { "$metadata", dataset, source, 3 more }`
+<a href="#">Link to this property</a>
 
-      List of individual telemetry events matching the query.
+</details>
 
-      - `"$metadata": object { id, account, cloudService, 28 more }`
+<a href="#">Link to this property</a>
 
-        Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+filters: array of unknown
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          Unique event ID. Use as the cursor value for offset-based pagination.
+kind: "group"
 
-        - `account: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare account identifier.
+</details>
 
-        - `cloudService: optional string`
+<a href="#">Link to this property</a>
 
-          Cloudflare product that generated this event (e.g. workers, pages).
+<details>
 
-        - `coldStart: optional number`
+<summary>
 
-        - `cost: optional number`
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
 
-          Estimated cost units for this invocation.
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
 
-        - `duration: optional number`
+</summary>
 
-          Span duration in milliseconds.
+key: string
 
-        - `endTime: optional number`
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
 
-          Span end time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-        - `error: optional string`
+<details>
 
-          Error message, present when the log represents an error.
+<summary>
 
-        - `errorTemplate: optional string`
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
 
-          Templatized version of the error message used for grouping similar errors.
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
 
-        - `fingerprint: optional string`
+</summary>
 
-          Content-based fingerprint used to group similar events.
+One of the following:
 
-        - `level: optional string`
+"includes"
 
-          Log level (e.g. log, debug, info, warn, error).
+<a href="#">Link to this property</a>
 
-        - `message: optional string`
+"not\_includes"
 
-          Log message text.
+<a href="#">Link to this property</a>
 
-        - `messageTemplate: optional string`
+"starts\_with"
 
-          Templatized version of the log message used for grouping similar messages.
+<a href="#">Link to this property</a>
 
-        - `metricName: optional string`
+"ends\_with"
 
-          Metric name when the event represents a metric data point.
+<a href="#">Link to this property</a>
 
-        - `origin: optional string`
+"regex"
 
-          Origin of the event (e.g. fetch, scheduled, queue).
+<a href="#">Link to this property</a>
 
-        - `parentSpanId: optional string`
+"exists"
 
-          Span ID of the parent span in the trace hierarchy.
+<a href="#">Link to this property</a>
 
-        - `provider: optional string`
+"is\_null"
 
-          Infrastructure provider identifier.
+<a href="#">Link to this property</a>
 
-        - `region: optional string`
+"in"
 
-          Cloudflare data center / region that handled the request.
+<a href="#">Link to this property</a>
 
-        - `requestId: optional string`
+"not\_in"
 
-          Cloudflare request ID that ties all logs from a single invocation together.
+<a href="#">Link to this property</a>
 
-        - `service: optional string`
+"eq"
 
-          Worker script name that produced this event.
+<a href="#">Link to this property</a>
 
-        - `spanId: optional string`
+"neq"
 
-          Span ID for this individual unit of work within a trace.
+<a href="#">Link to this property</a>
 
-        - `spanName: optional string`
+"gt"
 
-          Human-readable name for this span.
+<a href="#">Link to this property</a>
 
-        - `stackId: optional string`
+"gte"
 
-          Stack / deployment identifier.
+<a href="#">Link to this property</a>
 
-        - `startTime: optional number`
+"lt"
 
-          Span start time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-        - `statusCode: optional number`
+"lte"
 
-          HTTP response status code returned by the Worker.
+<a href="#">Link to this property</a>
 
-        - `traceDuration: optional number`
+"="
 
-          Total duration of the entire trace in milliseconds.
+<a href="#">Link to this property</a>
 
-        - `traceId: optional string`
+"!="
 
-          Distributed trace ID linking spans across services.
+<a href="#">Link to this property</a>
 
-        - `transactionName: optional string`
+"&gt;"
 
-          Logical transaction name for this request.
+<a href="#">Link to this property</a>
 
-        - `trigger: optional string`
+"&gt;="
 
-          What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+<a href="#">Link to this property</a>
 
-        - `type: optional string`
+"&lt;"
 
-          Event type classifier (e.g. cf-worker-event, cf-worker-log).
+<a href="#">Link to this property</a>
 
-        - `url: optional string`
+"&lt;="
 
-          Request URL that triggered the Worker invocation.
+<a href="#">Link to this property</a>
 
-      - `dataset: string`
+"INCLUDES"
 
-        The dataset this event belongs to (e.g. cloudflare-workers).
+<a href="#">Link to this property</a>
 
-      - `source: string or map[unknown]`
+"DOES\_NOT\_INCLUDE"
 
-        Raw log payload. May be a string or a structured object depending on how the log was emitted.
+<a href="#">Link to this property</a>
 
-        - `string`
+"MATCH\_REGEX"
 
-        - `map[unknown]`
+<a href="#">Link to this property</a>
 
-      - `timestamp: number`
+"EXISTS"
 
-        Event timestamp as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-      - `"$containers": optional map[unknown]`
+"DOES\_NOT\_EXIST"
 
-        Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+<a href="#">Link to this property</a>
 
-      - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
+"IN"
 
-        Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+<a href="#">Link to this property</a>
 
-        - `object { eventType, requestId, scriptName, 10 more }`
+"NOT\_IN"
 
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<a href="#">Link to this property</a>
 
-            - `"fetch"`
+"STARTS\_WITH"
 
-            - `"scheduled"`
+<a href="#">Link to this property</a>
 
-            - `"alarm"`
+"ENDS\_WITH"
 
-            - `"cron"`
+<a href="#">Link to this property</a>
 
-            - `"queue"`
+</details>
 
-            - `"email"`
+<a href="#">Link to this property</a>
 
-            - `"tail"`
+<details>
 
-            - `"rpc"`
+<summary>
 
-            - `"jsrpc"`
+type: "string"or "number"or "boolean"
 
-            - `"websocket"`
+Data type of the filter field. Must match the actual type of the key being filtered.
 
-            - `"workflow"`
+</summary>
 
-            - `"unknown"`
+One of the following:
 
-          - `requestId: string`
+"string"
 
-          - `scriptName: string`
+<a href="#">Link to this property</a>
 
-          - `durableObjectId: optional string`
+"number"
 
-          - `entrypoint: optional string`
+<a href="#">Link to this property</a>
 
-          - `event: optional map[unknown]`
+"boolean"
 
-          - `executionModel: optional "durableObject" or "stateless"`
+<a href="#">Link to this property</a>
 
-            - `"durableObject"`
+</details>
 
-            - `"stateless"`
+<a href="#">Link to this property</a>
 
-          - `outcome: optional string`
+kind: optional "filter"
 
-          - `preview: optional object { id, name, slug }`
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
 
-            - `id: optional string`
+<a href="#">Link to this property</a>
 
-            - `name: optional string`
+<details>
 
-            - `slug: optional string`
+<summary>
 
-          - `scriptVersion: optional object { id, message, tag }`
+value: optional stringor numberor boolean
 
-            - `id: optional string`
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
 
-            - `message: optional string`
+</summary>
 
-            - `tag: optional string`
+One of the following:
 
-          - `spanId: optional string`
+string
 
-          - `traceId: optional string`
+<a href="#">Link to this property</a>
 
-          - `truncated: optional boolean`
+number
 
-        - `object { cpuTimeMs, eventType, outcome, 14 more }`
+<a href="#">Link to this property</a>
 
-          - `cpuTimeMs: number`
+boolean
 
-          - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<a href="#">Link to this property</a>
 
-            - `"fetch"`
+</details>
 
-            - `"scheduled"`
+<a href="#">Link to this property</a>
 
-            - `"alarm"`
+</details>
 
-            - `"cron"`
+<a href="#">Link to this property</a>
 
-            - `"queue"`
+</details>
 
-            - `"email"`
+<a href="#">Link to this property</a>
 
-            - `"tail"`
+<details>
 
-            - `"rpc"`
+<summary>
 
-            - `"jsrpc"`
+groupBys: optional array of object {type, value }
 
-            - `"websocket"`
+Define how to group the results of the query.
 
-            - `"workflow"`
+</summary>
 
-            - `"unknown"`
+<details>
 
-          - `outcome: string`
+<summary>
 
-          - `requestId: string`
+type: "string"or "number"or "boolean"
 
-          - `scriptName: string`
+</summary>
 
-          - `wallTimeMs: number`
+One of the following:
 
-          - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
+"string"
 
-            - `channel: string`
+<a href="#">Link to this property</a>
 
-            - `message: string`
+"number"
 
-            - `timestamp: number`
+<a href="#">Link to this property</a>
 
-          - `dispatchNamespace: optional string`
+"boolean"
 
-          - `durableObjectId: optional string`
+<a href="#">Link to this property</a>
 
-          - `entrypoint: optional string`
+</details>
 
-          - `event: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-          - `executionModel: optional "durableObject" or "stateless"`
+value: string
 
-            - `"durableObject"`
+<a href="#">Link to this property</a>
 
-            - `"stateless"`
+</details>
 
-          - `preview: optional object { id, name, slug }`
+<a href="#">Link to this property</a>
 
-            - `id: optional string`
+<details>
 
-            - `name: optional string`
+<summary>
 
-            - `slug: optional string`
+havings: optional array of object {key, operation, value }
 
-          - `scriptVersion: optional object { id, message, tag }`
+Configure the Having clauses that filter on calculations in the query result.
 
-            - `id: optional string`
+</summary>
 
-            - `message: optional string`
+key: string
 
-            - `tag: optional string`
+<a href="#">Link to this property</a>
 
-          - `spanId: optional string`
+<details>
 
-          - `traceId: optional string`
+<summary>
 
-          - `truncated: optional boolean`
+operation: "eq"or "neq"or "gt"or 3 more
 
-    - `fields: optional array of object { key, type }`
+</summary>
 
-      List of fields discovered in the matched events. Useful for building dynamic UIs.
+One of the following:
 
-      - `key: string`
+"eq"
 
-        Field name present in the matched events.
+<a href="#">Link to this property</a>
 
-      - `type: string`
+"neq"
 
-        Data type of the field (string, number, or boolean).
+<a href="#">Link to this property</a>
 
-    - `series: optional array of object { data, time }`
+"gt"
 
-      Time-series data for the matched events, bucketed by the query granularity.
+<a href="#">Link to this property</a>
 
-      - `data: array of object { aggregates, count, interval, 3 more }`
+"gte"
 
-        - `aggregates: object { _count, _interval, _firstSeen, 2 more }`
+<a href="#">Link to this property</a>
 
-          - `_count: number`
+"lt"
 
-          - `_interval: number`
+<a href="#">Link to this property</a>
 
-          - `_firstSeen: optional string`
+"lte"
 
-          - `_lastSeen: optional string`
+<a href="#">Link to this property</a>
 
-          - `bin: optional unknown`
+</details>
 
-        - `count: number`
+<a href="#">Link to this property</a>
 
-        - `interval: number`
+value: number
 
-        - `sampleInterval: number`
+<a href="#">Link to this property</a>
 
-        - `errors: optional number`
+</details>
 
-        - `groups: optional map[string or number or boolean]`
+<a href="#">Link to this property</a>
 
-          Groups in the query results.
+limit: optional number
 
-          - `string`
+Set a limit on the number of results / records returned by the query
 
-          - `number`
+maximum100
 
-          - `boolean`
+minimum0
 
-      - `time: string`
+<a href="#">Link to this property</a>
 
-  - `invocations: optional map[array of object { "$metadata", dataset, source, 3 more } ]`
+<details>
 
-    Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation.
+<summary>
 
-    - `"$metadata": object { id, account, cloudService, 28 more }`
+needle: optional object {value, isRegex, matchCase }
 
-      Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+Define an expression to search using full-text search.
 
-      - `id: string`
+</summary>
 
-        Unique event ID. Use as the cursor value for offset-based pagination.
+value:
 
-      - `account: optional string`
+<a href="#">Link to this property</a>
 
-        Cloudflare account identifier.
+isRegex: optional boolean
 
-      - `cloudService: optional string`
+<a href="#">Link to this property</a>
 
-        Cloudflare product that generated this event (e.g. workers, pages).
+matchCase: optional boolean
 
-      - `coldStart: optional number`
+<a href="#">Link to this property</a>
 
-      - `cost: optional number`
+</details>
 
-        Estimated cost units for this invocation.
+<a href="#">Link to this property</a>
 
-      - `duration: optional number`
+<details>
 
-        Span duration in milliseconds.
+<summary>
 
-      - `endTime: optional number`
+orderBy: optional object {value, order }
 
-        Span end time as a Unix epoch in milliseconds.
+Configure the order of the results returned by the query.
 
-      - `error: optional string`
+</summary>
 
-        Error message, present when the log represents an error.
+value: string
 
-      - `errorTemplate: optional string`
+Configure which Calculation to order the results by.
 
-        Templatized version of the error message used for grouping similar errors.
+<a href="#">Link to this property</a>
 
-      - `fingerprint: optional string`
+<details>
 
-        Content-based fingerprint used to group similar events.
+<summary>
 
-      - `level: optional string`
+order: optional "asc"or "desc"
 
-        Log level (e.g. log, debug, info, warn, error).
+Set the order of the results
 
-      - `message: optional string`
+</summary>
 
-        Log message text.
+One of the following:
 
-      - `messageTemplate: optional string`
+"asc"
 
-        Templatized version of the log message used for grouping similar messages.
+<a href="#">Link to this property</a>
 
-      - `metricName: optional string`
+"desc"
 
-        Metric name when the event represents a metric data point.
+<a href="#">Link to this property</a>
 
-      - `origin: optional string`
+</details>
 
-        Origin of the event (e.g. fetch, scheduled, queue).
+<a href="#">Link to this property</a>
 
-      - `parentSpanId: optional string`
+</details>
 
-        Span ID of the parent span in the trace hierarchy.
+<a href="#">Link to this property</a>
 
-      - `provider: optional string`
+</details>
 
-        Infrastructure provider identifier.
+<a href="#">Link to this property</a>
 
-      - `region: optional string`
+<details>
 
-        Cloudflare data center / region that handled the request.
+<summary>
 
-      - `requestId: optional string`
+updated: stringor string
 
-        Cloudflare request ID that ties all logs from a single invocation together.
+formatdate-time
 
-      - `service: optional string`
+</summary>
 
-        Worker script name that produced this event.
+One of the following:
 
-      - `spanId: optional string`
+string
 
-        Span ID for this individual unit of work within a trace.
+<a href="#">Link to this property</a>
 
-      - `spanName: optional string`
+string
 
-        Human-readable name for this span.
+<a href="#">Link to this property</a>
 
-      - `stackId: optional string`
+</details>
 
-        Stack / deployment identifier.
+<a href="#">Link to this property</a>
 
-      - `startTime: optional number`
+updatedBy: string
 
-        Span start time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-      - `statusCode: optional number`
+</details>
 
-        HTTP response status code returned by the Worker.
+<a href="#">Link to this property</a>
 
-      - `traceDuration: optional number`
+<details>
 
-        Total duration of the entire trace in milliseconds.
+<summary>
 
-      - `traceId: optional string`
+status: "STARTED"or "COMPLETED"
 
-        Distributed trace ID linking spans across services.
+Current execution status of the query run.
 
-      - `transactionName: optional string`
+</summary>
 
-        Logical transaction name for this request.
+One of the following:
 
-      - `trigger: optional string`
+"STARTED"
 
-        What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+"COMPLETED"
 
-        Event type classifier (e.g. cf-worker-event, cf-worker-log).
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+</details>
 
-        Request URL that triggered the Worker invocation.
+<a href="#">Link to this property</a>
 
-    - `dataset: string`
+<details>
 
-      The dataset this event belongs to (e.g. cloudflare-workers).
+<summary>
 
-    - `source: string or map[unknown]`
+timeframe: object {from, to }
 
-      Raw log payload. May be a string or a structured object depending on how the log was emitted.
+Time range for the query execution. ‘from’ must be earlier than ‘to’. No fractional milliseconds.
 
-      - `string`
+</summary>
 
-      - `map[unknown]`
+from: number
 
-    - `timestamp: number`
+Start timestamp for the query timeframe. Unix timestamp in milliseconds
 
-      Event timestamp as a Unix epoch in milliseconds.
+maximum253402300799999
 
-    - `"$containers": optional map[unknown]`
+minimum0
 
-      Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+<a href="#">Link to this property</a>
 
-    - `"$workers": optional object { eventType, requestId, scriptName, 10 more }  or object { cpuTimeMs, eventType, outcome, 14 more }`
+to: number
 
-      Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+End timestamp for the query timeframe. Unix timestamp in milliseconds
 
-      - `object { eventType, requestId, scriptName, 10 more }`
+maximum253402300799999
 
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+minimum0
 
-          - `"fetch"`
+<a href="#">Link to this property</a>
 
-          - `"scheduled"`
+</details>
 
-          - `"alarm"`
+<a href="#">Link to this property</a>
 
-          - `"cron"`
+userId: string
 
-          - `"queue"`
+ID of the user who initiated the query run.
 
-          - `"email"`
+<a href="#">Link to this property</a>
 
-          - `"tail"`
+created: optional string
 
-          - `"rpc"`
+ISO-8601 timestamp when the query run was created.
 
-          - `"jsrpc"`
+<a href="#">Link to this property</a>
 
-          - `"websocket"`
+<details>
 
-          - `"workflow"`
+<summary>
 
-          - `"unknown"`
+statistics: optional object {bytes\_read, elapsed, rows\_read, abr\_level }
 
-        - `requestId: string`
+Query performance statistics from the database (does not include network latency).
 
-        - `scriptName: string`
+</summary>
 
-        - `durableObjectId: optional string`
+bytes\_read: number
 
-        - `entrypoint: optional string`
+Number of uncompressed bytes read from the table.
 
-        - `event: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-        - `executionModel: optional "durableObject" or "stateless"`
+elapsed: number
 
-          - `"durableObject"`
+Time in seconds for the query to run.
 
-          - `"stateless"`
+<a href="#">Link to this property</a>
 
-        - `outcome: optional string`
+rows\_read: number
 
-        - `preview: optional object { id, name, slug }`
+Number of rows scanned from the table.
 
-          - `id: optional string`
+<a href="#">Link to this property</a>
 
-          - `name: optional string`
+abr\_level: optional number
 
-          - `slug: optional string`
+The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
 
-        - `scriptVersion: optional object { id, message, tag }`
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+</details>
 
-          - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `tag: optional string`
+updated: optional string
 
-        - `spanId: optional string`
+ISO-8601 timestamp when the query run was last updated.
 
-        - `traceId: optional string`
+<a href="#">Link to this property</a>
 
-        - `truncated: optional boolean`
+</details>
 
-      - `object { cpuTimeMs, eventType, outcome, 14 more }`
+<a href="#">Link to this property</a>
 
-        - `cpuTimeMs: number`
+<details>
 
-        - `eventType: "fetch" or "scheduled" or "alarm" or 9 more`
+<summary>
 
-          - `"fetch"`
+statistics: object {bytes\_read, elapsed, rows\_read, abr\_level }
 
-          - `"scheduled"`
+Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.
 
-          - `"alarm"`
+</summary>
 
-          - `"cron"`
+bytes\_read: number
 
-          - `"queue"`
+Number of uncompressed bytes read from the table.
 
-          - `"email"`
+<a href="#">Link to this property</a>
 
-          - `"tail"`
+elapsed: number
 
-          - `"rpc"`
+Time in seconds for the query to run.
 
-          - `"jsrpc"`
+<a href="#">Link to this property</a>
 
-          - `"websocket"`
+rows\_read: number
 
-          - `"workflow"`
+Number of rows scanned from the table.
 
-          - `"unknown"`
+<a href="#">Link to this property</a>
 
-        - `outcome: string`
+abr\_level: optional number
 
-        - `requestId: string`
+The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1
 
-        - `scriptName: string`
+<a href="#">Link to this property</a>
 
-        - `wallTimeMs: number`
+</details>
 
-        - `diagnosticsChannelEvents: optional array of object { channel, message, timestamp }`
+<a href="#">Link to this property</a>
 
-          - `channel: string`
+<details>
 
-          - `message: string`
+<summary>
 
-          - `timestamp: number`
+agents: optional array of object {id, errors, models, 13 more }
 
-        - `dispatchNamespace: optional string`
+Agent run summaries. Present when the query view is ‘agents’. Each entry represents one trace containing at least one agent invocation.
 
-        - `durableObjectId: optional string`
+</summary>
 
-        - `entrypoint: optional string`
+id: string
 
-        - `event: optional map[unknown]`
+Stable pagination cursor for this agent run.
 
-        - `executionModel: optional "durableObject" or "stateless"`
+<a href="#">Link to this property</a>
 
-          - `"durableObject"`
+errors: array of string
 
-          - `"stateless"`
+Distinct errors reported by spans in the run.
 
-        - `preview: optional object { id, name, slug }`
+<a href="#">Link to this property</a>
 
-          - `id: optional string`
+models: array of string
 
-          - `name: optional string`
+Distinct models reported by chat spans across the run’s trace.
 
-          - `slug: optional string`
+<a href="#">Link to this property</a>
 
-        - `scriptVersion: optional object { id, message, tag }`
+providers: array of string
 
-          - `id: optional string`
+Distinct GenAI providers reported by chat spans in the run.
 
-          - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `tag: optional string`
+services: array of string
 
-        - `spanId: optional string`
+Worker services represented in the run’s trace.
 
-        - `traceId: optional string`
+<a href="#">Link to this property</a>
 
-        - `truncated: optional boolean`
+spans: number
 
-  - `traces: optional array of object { rootSpanName, rootTransactionName, service, 6 more }`
+Number of spans in the run’s trace.
 
-    Trace summaries matching the query. Present when the query view is 'traces'. Each entry represents a distributed trace with its spans, duration, and services involved.
+<a href="#">Link to this property</a>
 
-    - `rootSpanName: string`
+<details>
 
-      Name of the root span that initiated the trace.
+<summary>
 
-    - `rootTransactionName: string`
+status: "completed"or "error"
 
-      Logical transaction name for the root span.
+Observed run status.
 
-    - `service: array of string`
+</summary>
 
-      List of Worker services involved in the trace.
+One of the following:
 
-    - `spans: number`
+"completed"
 
-      Total number of spans in the trace.
+<a href="#">Link to this property</a>
 
-    - `traceDurationMs: number`
+"error"
 
-      Total duration of the trace in milliseconds.
+<a href="#">Link to this property</a>
 
-    - `traceEndMs: number`
+</details>
 
-      Trace end time as a Unix epoch in milliseconds.
+<a href="#">Link to this property</a>
 
-    - `traceId: string`
+traceDurationMs: number
 
-      Unique identifier for the distributed trace.
+Total trace duration in milliseconds.
 
-    - `traceStartMs: number`
+<a href="#">Link to this property</a>
 
-      Trace start time as a Unix epoch in milliseconds.
+traceEndMs: number
 
-    - `errors: optional array of string`
+End of the run’s trace as a Unix epoch in milliseconds.
 
-      Error messages encountered during the trace, if any.
+<a href="#">Link to this property</a>
 
-- `success: true`
+traceId: string
 
-  - `true`
+Trace identifier for this agent run.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+traceStartMs: number
+
+Start of the run’s trace as a Unix epoch in milliseconds.
+
+<a href="#">Link to this property</a>
+
+agentId: optional string
+
+ID from the earliest agent invocation that provides one.
+
+<a href="#">Link to this property</a>
+
+agentName: optional string
+
+Name from the earliest agent invocation that provides one.
+
+<a href="#">Link to this property</a>
+
+conversationId: optional string
+
+Conversation ID from the earliest invocation that provides one.
+
+<a href="#">Link to this property</a>
+
+inputTokens: optional number
+
+Input tokens summed across chat spans in the run’s trace; informational, not billing data.
+
+<a href="#">Link to this property</a>
+
+outputTokens: optional number
+
+Output tokens summed across chat spans in the run’s trace; informational, not billing data.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+calculations: optional array of object {aggregates, calculation, series, alias }
+
+Aggregated calculation results. Present when the query view is ‘calculations’. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data.
+
+</summary>
+
+<details>
+
+<summary>
+
+aggregates: array of object {count, interval, sampleInterval, 2 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+interval: number
+
+<a href="#">Link to this property</a>
+
+sampleInterval: number
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+groups: optional array of object {key, value }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+calculation: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+series: array of object {data, time }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: array of object {count, interval, sampleInterval, 4 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+interval: number
+
+<a href="#">Link to this property</a>
+
+sampleInterval: number
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+firstSeen: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+groups: optional array of object {key, value }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+time: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+alias: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+compare: optional array of object {aggregates, calculation, series, alias }
+
+Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations.
+
+</summary>
+
+<details>
+
+<summary>
+
+aggregates: array of object {count, interval, sampleInterval, 2 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+interval: number
+
+<a href="#">Link to this property</a>
+
+sampleInterval: number
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+groups: optional array of object {key, value }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+calculation: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+series: array of object {data, time }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: array of object {count, interval, sampleInterval, 4 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+interval: number
+
+<a href="#">Link to this property</a>
+
+sampleInterval: number
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+firstSeen: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+groups: optional array of object {key, value }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+time: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+alias: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+distribution: optional object {bins, bucketBoundaries, bucketMode, 2 more }
+
+Bucketed 2D histogram of a numeric field over time. Present when chartType is ‘distribution’.
+
+</summary>
+
+bins: array of string
+
+Time-bucket labels (ISO-8601 strings), one per matrix column.
+
+<a href="#">Link to this property</a>
+
+bucketBoundaries: array of number
+
+Raw bucket edges in the value’s native unit, length buckets.length + 1. Used for the colour scale and percentile mapping.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+bucketMode: "log"or "linear"
+
+Bucketing scheme used to derive the boundaries. ‘log’ produces geometric edges; ‘linear’ produces fixed-width edges.
+
+</summary>
+
+One of the following:
+
+"log"
+
+<a href="#">Link to this property</a>
+
+"linear"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+buckets: array of string
+
+Value-range labels, one per matrix row (e.g. ‘50–100ms’).
+
+<a href="#">Link to this property</a>
+
+matrix: array of array of number
+
+Sampling-corrected counts. matrix\[bucketIdx]\[binIdx] is the estimated number of events in value-bucket ‘bucketIdx’ during time-bin ‘binIdx’.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+events: optional object {count, events, fields, series }
+
+Individual event results. Present when the query view is ‘events’. Contains the matching log lines and their metadata.
+
+</summary>
+
+count: optional number
+
+Total number of events matching the query (may exceed the number returned due to limits).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+events: optional array of object {"$metadata", dataset, source, 3 more }
+
+List of individual telemetry events matching the query.
+
+</summary>
+
+<details>
+
+<summary>
+
+"$metadata": object {id, account, cloudService, 29 more }
+
+Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+
+</summary>
+
+id: string
+
+Unique event ID. Use as the cursor value for offset-based pagination.
+
+<a href="#">Link to this property</a>
+
+account: optional string
+
+Cloudflare account identifier.
+
+<a href="#">Link to this property</a>
+
+cloudService: optional string
+
+Cloudflare product that generated this event (e.g. workers, pages).
+
+<a href="#">Link to this property</a>
+
+coldStart: optional number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+cost: optional number
+
+Estimated cost units for this invocation.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+duration: optional number
+
+Span duration in milliseconds.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+endTime: optional number
+
+Span end time as a Unix epoch in milliseconds.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+error: optional string
+
+Error message, present when the log represents an error.
+
+<a href="#">Link to this property</a>
+
+errorTemplate: optional string
+
+Templatized version of the error message used for grouping similar errors.
+
+<a href="#">Link to this property</a>
+
+fingerprint: optional string
+
+Content-based fingerprint used to group similar events.
+
+<a href="#">Link to this property</a>
+
+level: optional string
+
+Log level (e.g. log, debug, info, warn, error).
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+Log message text.
+
+<a href="#">Link to this property</a>
+
+messageTemplate: optional string
+
+Templatized version of the log message used for grouping similar messages.
+
+<a href="#">Link to this property</a>
+
+metricName: optional string
+
+Metric name when the event represents a metric data point.
+
+<a href="#">Link to this property</a>
+
+origin: optional string
+
+Origin of the event (e.g. fetch, scheduled, queue).
+
+<a href="#">Link to this property</a>
+
+parentSpanId: optional string
+
+Span ID of the parent span in the trace hierarchy.
+
+<a href="#">Link to this property</a>
+
+provider: optional string
+
+Infrastructure provider identifier.
+
+<a href="#">Link to this property</a>
+
+rayId: optional string
+
+Cloudflare Ray ID from the <code>cf-ray</code> header of the request that triggered the invocation.
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Cloudflare data center / region that handled the request.
+
+<a href="#">Link to this property</a>
+
+requestId: optional string
+
+Cloudflare request ID that ties all logs from a single invocation together.
+
+<a href="#">Link to this property</a>
+
+service: optional string
+
+Worker script name that produced this event.
+
+<a href="#">Link to this property</a>
+
+spanId: optional string
+
+Span ID for this individual unit of work within a trace.
+
+<a href="#">Link to this property</a>
+
+spanName: optional string
+
+Human-readable name for this span.
+
+<a href="#">Link to this property</a>
+
+stackId: optional string
+
+Stack / deployment identifier.
+
+<a href="#">Link to this property</a>
+
+startTime: optional number
+
+Span start time as a Unix epoch in milliseconds.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+statusCode: optional number
+
+HTTP response status code returned by the Worker.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+traceDuration: optional number
+
+Total duration of the entire trace in milliseconds.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+traceId: optional string
+
+Distributed trace ID linking spans across services.
+
+<a href="#">Link to this property</a>
+
+transactionName: optional string
+
+Logical transaction name for this request.
+
+<a href="#">Link to this property</a>
+
+trigger: optional string
+
+What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Event type classifier (e.g. cf-worker-event, cf-worker-log).
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+Request URL that triggered the Worker invocation.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dataset: string
+
+The dataset this event belongs to (e.g. cloudflare-workers).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: stringor map\[unknown]
+
+Raw log payload. May be a string or a structured object depending on how the log was emitted.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+timestamp: number
+
+Event timestamp as a Unix epoch in milliseconds.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+"$containers": optional map\[unknown]
+
+Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+"$workers": optional object {eventType, requestId, scriptName, 10 more } or object {cpuTimeMs, eventType, outcome, 14 more }
+
+Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {eventType, requestId, scriptName, 10 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
+
+</summary>
+
+One of the following:
+
+"fetch"
+
+<a href="#">Link to this property</a>
+
+"scheduled"
+
+<a href="#">Link to this property</a>
+
+"alarm"
+
+<a href="#">Link to this property</a>
+
+"cron"
+
+<a href="#">Link to this property</a>
+
+"queue"
+
+<a href="#">Link to this property</a>
+
+"email"
+
+<a href="#">Link to this property</a>
+
+"tail"
+
+<a href="#">Link to this property</a>
+
+"rpc"
+
+<a href="#">Link to this property</a>
+
+"jsrpc"
+
+<a href="#">Link to this property</a>
+
+"websocket"
+
+<a href="#">Link to this property</a>
+
+"workflow"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+requestId: string
+
+<a href="#">Link to this property</a>
+
+scriptName: string
+
+<a href="#">Link to this property</a>
+
+durableObjectId: optional string
+
+<a href="#">Link to this property</a>
+
+entrypoint: optional string
+
+<a href="#">Link to this property</a>
+
+event: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+executionModel: optional "durableObject"or "stateless"
+
+</summary>
+
+One of the following:
+
+"durableObject"
+
+<a href="#">Link to this property</a>
+
+"stateless"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+outcome: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+preview: optional object {id, name, slug }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+slug: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scriptVersion: optional object {id, message, tag }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+tag: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+spanId: optional string
+
+<a href="#">Link to this property</a>
+
+traceId: optional string
+
+<a href="#">Link to this property</a>
+
+truncated: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {cpuTimeMs, eventType, outcome, 14 more }
+
+</summary>
+
+cpuTimeMs: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
+
+</summary>
+
+One of the following:
+
+"fetch"
+
+<a href="#">Link to this property</a>
+
+"scheduled"
+
+<a href="#">Link to this property</a>
+
+"alarm"
+
+<a href="#">Link to this property</a>
+
+"cron"
+
+<a href="#">Link to this property</a>
+
+"queue"
+
+<a href="#">Link to this property</a>
+
+"email"
+
+<a href="#">Link to this property</a>
+
+"tail"
+
+<a href="#">Link to this property</a>
+
+"rpc"
+
+<a href="#">Link to this property</a>
+
+"jsrpc"
+
+<a href="#">Link to this property</a>
+
+"websocket"
+
+<a href="#">Link to this property</a>
+
+"workflow"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+requestId: string
+
+<a href="#">Link to this property</a>
+
+scriptName: string
+
+<a href="#">Link to this property</a>
+
+wallTimeMs: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+diagnosticsChannelEvents: optional array of object {channel, message, timestamp }
+
+</summary>
+
+channel: string
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+timestamp: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dispatchNamespace: optional string
+
+<a href="#">Link to this property</a>
+
+durableObjectId: optional string
+
+<a href="#">Link to this property</a>
+
+entrypoint: optional string
+
+<a href="#">Link to this property</a>
+
+event: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+executionModel: optional "durableObject"or "stateless"
+
+</summary>
+
+One of the following:
+
+"durableObject"
+
+<a href="#">Link to this property</a>
+
+"stateless"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+preview: optional object {id, name, slug }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+slug: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scriptVersion: optional object {id, message, tag }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+tag: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+spanId: optional string
+
+<a href="#">Link to this property</a>
+
+traceId: optional string
+
+<a href="#">Link to this property</a>
+
+truncated: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fields: optional array of object {key, type }
+
+List of fields discovered in the matched events. Useful for building dynamic UIs.
+
+</summary>
+
+key: string
+
+Field name present in the matched events.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+Data type of the field (string, number, or boolean).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+series: optional array of object {data, time }
+
+Time-series data for the matched events, bucketed by the query granularity.
+
+</summary>
+
+<details>
+
+<summary>
+
+data: array of object {aggregates, count, interval, 3 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+aggregates: object {\_count, \_interval, \_firstSeen, 2 more }
+
+</summary>
+
+Deprecated\_count: number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+Deprecated\_interval: number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+Deprecated\_firstSeen: optional string
+
+<a href="#">Link to this property</a>
+
+Deprecated\_lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+Deprecatedbin: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+interval: number
+
+<a href="#">Link to this property</a>
+
+sampleInterval: number
+
+<a href="#">Link to this property</a>
+
+errors: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+groups: optional map\[stringor numberor boolean]
+
+Groups in the query results.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+time: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+invocations: optional map\[array of object {"$metadata", dataset, source, 3 more } ]
+
+Events grouped by invocation (request ID). Present when the query view is ‘invocations’. Each key is a request ID mapping to all events from that invocation.
+
+</summary>
+
+<details>
+
+<summary>
+
+"$metadata": object {id, account, cloudService, 29 more }
+
+Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation.
+
+</summary>
+
+id: string
+
+Unique event ID. Use as the cursor value for offset-based pagination.
+
+<a href="#">Link to this property</a>
+
+account: optional string
+
+Cloudflare account identifier.
+
+<a href="#">Link to this property</a>
+
+cloudService: optional string
+
+Cloudflare product that generated this event (e.g. workers, pages).
+
+<a href="#">Link to this property</a>
+
+coldStart: optional number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+cost: optional number
+
+Estimated cost units for this invocation.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+duration: optional number
+
+Span duration in milliseconds.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+endTime: optional number
+
+Span end time as a Unix epoch in milliseconds.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+error: optional string
+
+Error message, present when the log represents an error.
+
+<a href="#">Link to this property</a>
+
+errorTemplate: optional string
+
+Templatized version of the error message used for grouping similar errors.
+
+<a href="#">Link to this property</a>
+
+fingerprint: optional string
+
+Content-based fingerprint used to group similar events.
+
+<a href="#">Link to this property</a>
+
+level: optional string
+
+Log level (e.g. log, debug, info, warn, error).
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+Log message text.
+
+<a href="#">Link to this property</a>
+
+messageTemplate: optional string
+
+Templatized version of the log message used for grouping similar messages.
+
+<a href="#">Link to this property</a>
+
+metricName: optional string
+
+Metric name when the event represents a metric data point.
+
+<a href="#">Link to this property</a>
+
+origin: optional string
+
+Origin of the event (e.g. fetch, scheduled, queue).
+
+<a href="#">Link to this property</a>
+
+parentSpanId: optional string
+
+Span ID of the parent span in the trace hierarchy.
+
+<a href="#">Link to this property</a>
+
+provider: optional string
+
+Infrastructure provider identifier.
+
+<a href="#">Link to this property</a>
+
+rayId: optional string
+
+Cloudflare Ray ID from the <code>cf-ray</code> header of the request that triggered the invocation.
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Cloudflare data center / region that handled the request.
+
+<a href="#">Link to this property</a>
+
+requestId: optional string
+
+Cloudflare request ID that ties all logs from a single invocation together.
+
+<a href="#">Link to this property</a>
+
+service: optional string
+
+Worker script name that produced this event.
+
+<a href="#">Link to this property</a>
+
+spanId: optional string
+
+Span ID for this individual unit of work within a trace.
+
+<a href="#">Link to this property</a>
+
+spanName: optional string
+
+Human-readable name for this span.
+
+<a href="#">Link to this property</a>
+
+stackId: optional string
+
+Stack / deployment identifier.
+
+<a href="#">Link to this property</a>
+
+startTime: optional number
+
+Span start time as a Unix epoch in milliseconds.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+statusCode: optional number
+
+HTTP response status code returned by the Worker.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+traceDuration: optional number
+
+Total duration of the entire trace in milliseconds.
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+traceId: optional string
+
+Distributed trace ID linking spans across services.
+
+<a href="#">Link to this property</a>
+
+transactionName: optional string
+
+Logical transaction name for this request.
+
+<a href="#">Link to this property</a>
+
+trigger: optional string
+
+What triggered the invocation (e.g. GET /users, POST /orders, queue message).
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Event type classifier (e.g. cf-worker-event, cf-worker-log).
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+Request URL that triggered the Worker invocation.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dataset: string
+
+The dataset this event belongs to (e.g. cloudflare-workers).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: stringor map\[unknown]
+
+Raw log payload. May be a string or a structured object depending on how the log was emitted.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+map\[unknown]
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+timestamp: number
+
+Event timestamp as a Unix epoch in milliseconds.
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+"$containers": optional map\[unknown]
+
+Cloudflare Containers event information that enriches your logs for identifying and debugging issues.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+"$workers": optional object {eventType, requestId, scriptName, 10 more } or object {cpuTimeMs, eventType, outcome, 14 more }
+
+Cloudflare Workers event information that enriches your logs for identifying and debugging issues.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {eventType, requestId, scriptName, 10 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
+
+</summary>
+
+One of the following:
+
+"fetch"
+
+<a href="#">Link to this property</a>
+
+"scheduled"
+
+<a href="#">Link to this property</a>
+
+"alarm"
+
+<a href="#">Link to this property</a>
+
+"cron"
+
+<a href="#">Link to this property</a>
+
+"queue"
+
+<a href="#">Link to this property</a>
+
+"email"
+
+<a href="#">Link to this property</a>
+
+"tail"
+
+<a href="#">Link to this property</a>
+
+"rpc"
+
+<a href="#">Link to this property</a>
+
+"jsrpc"
+
+<a href="#">Link to this property</a>
+
+"websocket"
+
+<a href="#">Link to this property</a>
+
+"workflow"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+requestId: string
+
+<a href="#">Link to this property</a>
+
+scriptName: string
+
+<a href="#">Link to this property</a>
+
+durableObjectId: optional string
+
+<a href="#">Link to this property</a>
+
+entrypoint: optional string
+
+<a href="#">Link to this property</a>
+
+event: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+executionModel: optional "durableObject"or "stateless"
+
+</summary>
+
+One of the following:
+
+"durableObject"
+
+<a href="#">Link to this property</a>
+
+"stateless"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+outcome: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+preview: optional object {id, name, slug }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+slug: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scriptVersion: optional object {id, message, tag }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+tag: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+spanId: optional string
+
+<a href="#">Link to this property</a>
+
+traceId: optional string
+
+<a href="#">Link to this property</a>
+
+truncated: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {cpuTimeMs, eventType, outcome, 14 more }
+
+</summary>
+
+cpuTimeMs: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "fetch"or "scheduled"or "alarm"or 9 more
+
+</summary>
+
+One of the following:
+
+"fetch"
+
+<a href="#">Link to this property</a>
+
+"scheduled"
+
+<a href="#">Link to this property</a>
+
+"alarm"
+
+<a href="#">Link to this property</a>
+
+"cron"
+
+<a href="#">Link to this property</a>
+
+"queue"
+
+<a href="#">Link to this property</a>
+
+"email"
+
+<a href="#">Link to this property</a>
+
+"tail"
+
+<a href="#">Link to this property</a>
+
+"rpc"
+
+<a href="#">Link to this property</a>
+
+"jsrpc"
+
+<a href="#">Link to this property</a>
+
+"websocket"
+
+<a href="#">Link to this property</a>
+
+"workflow"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+requestId: string
+
+<a href="#">Link to this property</a>
+
+scriptName: string
+
+<a href="#">Link to this property</a>
+
+wallTimeMs: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+diagnosticsChannelEvents: optional array of object {channel, message, timestamp }
+
+</summary>
+
+channel: string
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+timestamp: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+dispatchNamespace: optional string
+
+<a href="#">Link to this property</a>
+
+durableObjectId: optional string
+
+<a href="#">Link to this property</a>
+
+entrypoint: optional string
+
+<a href="#">Link to this property</a>
+
+event: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+executionModel: optional "durableObject"or "stateless"
+
+</summary>
+
+One of the following:
+
+"durableObject"
+
+<a href="#">Link to this property</a>
+
+"stateless"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+preview: optional object {id, name, slug }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+slug: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scriptVersion: optional object {id, message, tag }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+tag: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+spanId: optional string
+
+<a href="#">Link to this property</a>
+
+traceId: optional string
+
+<a href="#">Link to this property</a>
+
+truncated: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+traces: optional array of object {rootSpanName, rootTransactionName, service, 6 more }
+
+Trace summaries matching the query. Present when the query view is ‘traces’. Each entry represents a distributed trace with its spans, duration, and services involved.
+
+</summary>
+
+rootSpanName: string
+
+Name of the root span that initiated the trace.
+
+<a href="#">Link to this property</a>
+
+rootTransactionName: string
+
+Logical transaction name for the root span.
+
+<a href="#">Link to this property</a>
+
+service: array of string
+
+List of Worker services involved in the trace.
+
+<a href="#">Link to this property</a>
+
+spans: number
+
+Total number of spans in the trace.
+
+<a href="#">Link to this property</a>
+
+traceDurationMs: number
+
+Total duration of the trace in milliseconds.
+
+<a href="#">Link to this property</a>
+
+traceEndMs: number
+
+Trace end time as a Unix epoch in milliseconds.
+
+<a href="#">Link to this property</a>
+
+traceId: string
+
+Unique identifier for the distributed trace.
+
+<a href="#">Link to this property</a>
+
+traceStartMs: number
+
+Trace start time as a Unix epoch in milliseconds.
+
+<a href="#">Link to this property</a>
+
+errors: optional array of string
+
+Error messages encountered during the trace, if any.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20workers.observability.shared_queries%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### View a query that has been shared
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/shared/query/$ID \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -1351,14 +3479,14 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
       "query": {
         "id": "id",
         "adhoc": true,
-        "created": "created",
+        "created": "string",
         "createdBy": "createdBy",
         "description": "Query description",
         "name": "x",
         "parameters": {
           "calculations": [
             {
-              "operator": "uniq",
+              "operator": "count",
               "alias": "alias",
               "key": "key",
               "keyType": "string"
@@ -1408,7 +3536,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
             "order": "asc"
           }
         },
-        "updated": "updated",
+        "updated": "string",
         "updatedBy": "updatedBy"
       },
       "status": "STARTED",
@@ -1434,16 +3562,30 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
     },
     "agents": [
       {
-        "agentClass": "agentClass",
-        "eventTypeCounts": {
-          "foo": 0
-        },
-        "firstEventMs": 0,
-        "hasErrors": true,
-        "lastEventMs": 0,
-        "namespace": "namespace",
-        "service": "service",
-        "totalEvents": 0
+        "id": "id",
+        "errors": [
+          "string"
+        ],
+        "models": [
+          "string"
+        ],
+        "providers": [
+          "string"
+        ],
+        "services": [
+          "string"
+        ],
+        "spans": 0,
+        "status": "completed",
+        "traceDurationMs": 0,
+        "traceEndMs": 0,
+        "traceId": "traceId",
+        "traceStartMs": 0,
+        "agentId": "agentId",
+        "agentName": "agentName",
+        "conversationId": "conversationId",
+        "inputTokens": 0,
+        "outputTokens": 0
       }
     ],
     "calculations": [
@@ -1528,6 +3670,23 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
         "alias": "alias"
       }
     ],
+    "distribution": {
+      "bins": [
+        "string"
+      ],
+      "bucketBoundaries": [
+        0
+      ],
+      "bucketMode": "log",
+      "buckets": [
+        "string"
+      ],
+      "matrix": [
+        [
+          0
+        ]
+      ]
+    },
     "events": {
       "count": 0,
       "events": [
@@ -1550,6 +3709,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
             "origin": "origin",
             "parentSpanId": "parentSpanId",
             "provider": "provider",
+            "rayId": "rayId",
             "region": "region",
             "requestId": "requestId",
             "service": "service",
@@ -1649,6 +3809,434 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
             "origin": "origin",
             "parentSpanId": "parentSpanId",
             "provider": "provider",
+            "rayId": "rayId",
+            "region": "region",
+            "requestId": "requestId",
+            "service": "service",
+            "spanId": "spanId",
+            "spanName": "spanName",
+            "stackId": "stackId",
+            "startTime": 0,
+            "statusCode": 1,
+            "traceDuration": 1,
+            "traceId": "traceId",
+            "transactionName": "transactionName",
+            "trigger": "trigger",
+            "type": "type",
+            "url": "url"
+          },
+          "dataset": "dataset",
+          "source": "string",
+          "timestamp": 0,
+          "$containers": {
+            "foo": "bar"
+          },
+          "$workers": {
+            "eventType": "fetch",
+            "requestId": "requestId",
+            "scriptName": "scriptName",
+            "durableObjectId": "durableObjectId",
+            "entrypoint": "entrypoint",
+            "event": {
+              "foo": "bar"
+            },
+            "executionModel": "durableObject",
+            "outcome": "outcome",
+            "preview": {
+              "id": "id",
+              "name": "name",
+              "slug": "slug"
+            },
+            "scriptVersion": {
+              "id": "id",
+              "message": "message",
+              "tag": "tag"
+            },
+            "spanId": "spanId",
+            "traceId": "traceId",
+            "truncated": true
+          }
+        }
+      ]
+    },
+    "traces": [
+      {
+        "rootSpanName": "rootSpanName",
+        "rootTransactionName": "rootTransactionName",
+        "service": [
+          "string"
+        ],
+        "spans": 0,
+        "traceDurationMs": 0,
+        "traceEndMs": 0,
+        "traceId": "traceId",
+        "traceStartMs": 0,
+        "errors": [
+          "string"
+        ]
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "Successful request"
+    }
+  ],
+  "result": {
+    "run": {
+      "id": "id",
+      "accountId": "accountId",
+      "dry": true,
+      "granularity": 0,
+      "query": {
+        "id": "id",
+        "adhoc": true,
+        "created": "string",
+        "createdBy": "createdBy",
+        "description": "Query description",
+        "name": "x",
+        "parameters": {
+          "calculations": [
+            {
+              "operator": "count",
+              "alias": "alias",
+              "key": "key",
+              "keyType": "string"
+            }
+          ],
+          "datasets": [
+            "string"
+          ],
+          "filterCombination": "and",
+          "filters": [
+            {
+              "filterCombination": "and",
+              "filters": [
+                {}
+              ],
+              "kind": "group"
+            }
+          ],
+          "groupBys": [
+            {
+              "type": "string",
+              "value": "value"
+            }
+          ],
+          "havings": [
+            {
+              "key": "key",
+              "operation": "eq",
+              "value": 0
+            }
+          ],
+          "limit": 0,
+          "needle": {
+            "value": {
+              "0": "s",
+              "1": "t",
+              "2": "r",
+              "3": "i",
+              "4": "n",
+              "5": "g"
+            },
+            "isRegex": true,
+            "matchCase": true
+          },
+          "orderBy": {
+            "value": "value",
+            "order": "asc"
+          }
+        },
+        "updated": "string",
+        "updatedBy": "updatedBy"
+      },
+      "status": "STARTED",
+      "timeframe": {
+        "from": 0,
+        "to": 0
+      },
+      "userId": "userId",
+      "created": "created",
+      "statistics": {
+        "bytes_read": 0,
+        "elapsed": 0,
+        "rows_read": 0,
+        "abr_level": 0
+      },
+      "updated": "updated"
+    },
+    "statistics": {
+      "bytes_read": 0,
+      "elapsed": 0,
+      "rows_read": 0,
+      "abr_level": 0
+    },
+    "agents": [
+      {
+        "id": "id",
+        "errors": [
+          "string"
+        ],
+        "models": [
+          "string"
+        ],
+        "providers": [
+          "string"
+        ],
+        "services": [
+          "string"
+        ],
+        "spans": 0,
+        "status": "completed",
+        "traceDurationMs": 0,
+        "traceEndMs": 0,
+        "traceId": "traceId",
+        "traceStartMs": 0,
+        "agentId": "agentId",
+        "agentName": "agentName",
+        "conversationId": "conversationId",
+        "inputTokens": 0,
+        "outputTokens": 0
+      }
+    ],
+    "calculations": [
+      {
+        "aggregates": [
+          {
+            "count": 0,
+            "interval": 0,
+            "sampleInterval": 0,
+            "value": 0,
+            "groups": [
+              {
+                "key": "key",
+                "value": "string"
+              }
+            ]
+          }
+        ],
+        "calculation": "calculation",
+        "series": [
+          {
+            "data": [
+              {
+                "count": 0,
+                "interval": 0,
+                "sampleInterval": 0,
+                "value": 0,
+                "firstSeen": "firstSeen",
+                "groups": [
+                  {
+                    "key": "key",
+                    "value": "string"
+                  }
+                ],
+                "lastSeen": "lastSeen"
+              }
+            ],
+            "time": "time"
+          }
+        ],
+        "alias": "alias"
+      }
+    ],
+    "compare": [
+      {
+        "aggregates": [
+          {
+            "count": 0,
+            "interval": 0,
+            "sampleInterval": 0,
+            "value": 0,
+            "groups": [
+              {
+                "key": "key",
+                "value": "string"
+              }
+            ]
+          }
+        ],
+        "calculation": "calculation",
+        "series": [
+          {
+            "data": [
+              {
+                "count": 0,
+                "interval": 0,
+                "sampleInterval": 0,
+                "value": 0,
+                "firstSeen": "firstSeen",
+                "groups": [
+                  {
+                    "key": "key",
+                    "value": "string"
+                  }
+                ],
+                "lastSeen": "lastSeen"
+              }
+            ],
+            "time": "time"
+          }
+        ],
+        "alias": "alias"
+      }
+    ],
+    "distribution": {
+      "bins": [
+        "string"
+      ],
+      "bucketBoundaries": [
+        0
+      ],
+      "bucketMode": "log",
+      "buckets": [
+        "string"
+      ],
+      "matrix": [
+        [
+          0
+        ]
+      ]
+    },
+    "events": {
+      "count": 0,
+      "events": [
+        {
+          "$metadata": {
+            "id": "id",
+            "account": "account",
+            "cloudService": "cloudService",
+            "coldStart": 1,
+            "cost": 1,
+            "duration": 1,
+            "endTime": 0,
+            "error": "error",
+            "errorTemplate": "errorTemplate",
+            "fingerprint": "fingerprint",
+            "level": "level",
+            "message": "message",
+            "messageTemplate": "messageTemplate",
+            "metricName": "metricName",
+            "origin": "origin",
+            "parentSpanId": "parentSpanId",
+            "provider": "provider",
+            "rayId": "rayId",
+            "region": "region",
+            "requestId": "requestId",
+            "service": "service",
+            "spanId": "spanId",
+            "spanName": "spanName",
+            "stackId": "stackId",
+            "startTime": 0,
+            "statusCode": 1,
+            "traceDuration": 1,
+            "traceId": "traceId",
+            "transactionName": "transactionName",
+            "trigger": "trigger",
+            "type": "type",
+            "url": "url"
+          },
+          "dataset": "dataset",
+          "source": "string",
+          "timestamp": 0,
+          "$containers": {
+            "foo": "bar"
+          },
+          "$workers": {
+            "eventType": "fetch",
+            "requestId": "requestId",
+            "scriptName": "scriptName",
+            "durableObjectId": "durableObjectId",
+            "entrypoint": "entrypoint",
+            "event": {
+              "foo": "bar"
+            },
+            "executionModel": "durableObject",
+            "outcome": "outcome",
+            "preview": {
+              "id": "id",
+              "name": "name",
+              "slug": "slug"
+            },
+            "scriptVersion": {
+              "id": "id",
+              "message": "message",
+              "tag": "tag"
+            },
+            "spanId": "spanId",
+            "traceId": "traceId",
+            "truncated": true
+          }
+        }
+      ],
+      "fields": [
+        {
+          "key": "key",
+          "type": "type"
+        }
+      ],
+      "series": [
+        {
+          "data": [
+            {
+              "aggregates": {
+                "_count": 1,
+                "_interval": 1,
+                "_firstSeen": "_firstSeen",
+                "_lastSeen": "_lastSeen",
+                "bin": {}
+              },
+              "count": 0,
+              "interval": 0,
+              "sampleInterval": 0,
+              "errors": 0,
+              "groups": {
+                "foo": "string"
+              }
+            }
+          ],
+          "time": "time"
+        }
+      ]
+    },
+    "invocations": {
+      "foo": [
+        {
+          "$metadata": {
+            "id": "id",
+            "account": "account",
+            "cloudService": "cloudService",
+            "coldStart": 1,
+            "cost": 1,
+            "duration": 1,
+            "endTime": 0,
+            "error": "error",
+            "errorTemplate": "errorTemplate",
+            "fingerprint": "fingerprint",
+            "level": "level",
+            "message": "message",
+            "messageTemplate": "messageTemplate",
+            "metricName": "metricName",
+            "origin": "origin",
+            "parentSpanId": "parentSpanId",
+            "provider": "provider",
+            "rayId": "rayId",
             "region": "region",
             "requestId": "requestId",
             "service": "service",

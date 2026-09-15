@@ -1,2377 +1,1181 @@
+---
+title: Origin Cloud Regions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cache](https://developers.cloudflare.com/api/resources/cache)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Origin Cloud Regions
 
-## List origin cloud region mappings
+##### [List origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/list)
 
-**get** `/zones/{zone_id}/origin/cloud_regions`
+GET/zones/{zone\_id}/origin/cloud\_regions
 
-Returns all IP-to-cloud-region mappings configured for the zone with pagination support. Each mapping tells Cloudflare which cloud vendor and region hosts the origin at that IP, enabling the edge to route via the nearest Tiered Cache upper-tier co-located with that cloud provider. Returns an empty array when no mappings exist.
+##### [Get an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/origin/cloud\_regions/{origin\_ip}
 
-- `zone_id: string`
+##### [Create or replace an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/update)
 
-  Identifier.
+PUT/zones/{zone\_id}/origin/cloud\_regions/{origin\_ip}
 
-### Query Parameters
+##### [Delete an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/delete)
 
-- `page: optional number`
+DELETE/zones/{zone\_id}/origin/cloud\_regions/{origin\_ip}
 
-  Page number of paginated results.
+##### [Batch create or replace origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/bulk_update)
 
-- `per_page: optional number`
+PUT/zones/{zone\_id}/origin/cloud\_regions/batch
 
-  Number of items per page.
+##### [Batch delete origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/bulk_delete)
 
-### Returns
+DELETE/zones/{zone\_id}/origin/cloud\_regions/batch
 
-- `errors: array of ResponseInfo`
+##### [List supported cloud vendors and regions](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/supported_regions)
 
-  - `code: number`
+GET/zones/{zone\_id}/origin/cloud\_regions/supported\_regions
 
-  - `message: string`
+##### [List origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/list_v1)
 
-  - `documentation_url: optional string`
+Deprecated
 
-  - `source: optional object { pointer }`
+GET/zones/{zone\_id}/cache/origin\_cloud\_regions
 
-    - `pointer: optional string`
+##### [Create an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/create_v1)
 
-- `messages: array of ResponseInfo`
+Deprecated
 
-  - `code: number`
+POST/zones/{zone\_id}/cache/origin\_cloud\_regions
 
-  - `message: string`
+##### [Create or update an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/edit_v1)
 
-  - `documentation_url: optional string`
+Deprecated
 
-  - `source: optional object { pointer }`
+PATCH/zones/{zone\_id}/cache/origin\_cloud\_regions
 
-- `result: array of OriginCloudRegion`
+##### [Get an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/get_v1)
 
-  - `origin_ip: string`
+Deprecated
 
-    The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
+GET/zones/{zone\_id}/cache/origin\_cloud\_regions/{origin\_ip}
 
-  - `region: string`
+##### [Delete an origin cloud region mapping](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/delete_v1)
 
-    Cloud vendor region identifier.
+Deprecated
 
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
+DELETE/zones/{zone\_id}/cache/origin\_cloud\_regions/{origin\_ip}
 
-    Cloud vendor hosting the origin.
+##### [Batch create or update origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/bulk_edit_v1)
 
-    - `"aws"`
+Deprecated
 
-    - `"azure"`
+PATCH/zones/{zone\_id}/cache/origin\_cloud\_regions/batch
 
-    - `"gcp"`
+##### [Batch delete origin cloud region mappings](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/bulk_delete_v1)
 
-    - `"oci"`
+Deprecated
 
-  - `modified_on: optional string`
+DELETE/zones/{zone\_id}/cache/origin\_cloud\_regions/batch
 
-    Time this mapping was last modified.
+##### [List supported cloud vendors and regions](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions/methods/supported_regions_v1)
 
-- `result_info: object { count, page, per_page, 2 more }`
+Deprecated
 
-  Pagination metadata for list responses.
+GET/zones/{zone\_id}/cache/origin\_cloud\_regions/supported\_regions
 
-  - `count: number`
+##### ModelsExpand Collapse
 
-    Number of items returned in this response.
+<details>
 
-  - `page: number`
+<summary>
 
-    Current page number.
+OriginCloudRegion object {origin\_ip, region, vendor, modified\_on }
 
-  - `per_page: number`
+A single origin IP-to-cloud-region mapping.
 
-    Number of items per page.
+</summary>
 
-  - `total_count: number`
+origin\_ip: string
 
-    Total number of mappings configured for the zone.
+The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
 
-  - `total_pages: number`
+<a href="#">Link to this property</a>
 
-    Total number of pages.
+region: string
 
-- `success: true`
+Cloud vendor region identifier.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-#### Response
+Cloud vendor hosting the origin.
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": [],
-  "result_info": {
-    "count": 0,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 0,
-    "total_pages": 0
-  },
-  "success": true
-}
-```
+</summary>
 
-## Get an origin cloud region mapping
+One of the following:
 
-**get** `/zones/{zone_id}/origin/cloud_regions/{origin_ip}`
+"aws"
 
-Returns the cloud region mapping for a single origin IP address. The IP path parameter is normalized before lookup (RFC 5952 for IPv6). Returns 404 if the zone has no mappings or if the specified IP has no mapping.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"azure"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"gcp"
 
-- `origin_ip: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"oci"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: optional string
 
-  - `source: optional object { pointer }`
+Time this mapping was last modified.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `success: true`
+OriginCloudRegionDeleteResponse object {origin\_ip }
 
-  Whether the API call was successful.
+Response result for a delete operation. Identifies the deleted mapping.
 
-  - `true`
+</summary>
 
-- `result: optional OriginCloudRegion`
+origin\_ip: string
 
-  A single origin IP-to-cloud-region mapping.
+The origin IP address whose mapping was deleted.
 
-  - `origin_ip: string`
+<a href="#">Link to this property</a>
 
-    The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
+</details>
 
-  - `region: string`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_delete_response%20%3E%20(schema)>)
 
-    Cloud vendor region identifier.
+<details>
 
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
+<summary>
 
-    Cloud vendor hosting the origin.
+OriginCloudRegionBulkUpdateResponse object {failed, succeeded }
 
-    - `"aws"`
+Response result for a batch origin cloud region operation.
 
-    - `"azure"`
+</summary>
 
-    - `"gcp"`
+<details>
 
-    - `"oci"`
+<summary>
 
-  - `modified_on: optional string`
+failed: array of object {origin\_ip, error, region, vendor }
 
-    Time this mapping was last modified.
+Items that could not be applied, with error details.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/$ORIGIN_IP \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+origin\_ip: string
 
-#### Response
+The origin IP address for this item.
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "modified_on": "2026-03-01T12:00:00Z",
-    "origin_ip": "192.0.2.1",
-    "region": "us-east-1",
-    "vendor": "aws"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create or replace an origin cloud region mapping
+error: optional string
 
-**put** `/zones/{zone_id}/origin/cloud_regions/{origin_ip}`
+Error message explaining why the item failed. Present only on failed items.
 
-Creates a new IP-to-cloud-region mapping or replaces the existing mapping for the specified IP. PUT is idempotent — calling it repeatedly with the same body produces the same result. The IP path parameter is normalized to canonical form (RFC 5952 for IPv6) before storage. The vendor and region are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`. Returns 400 if the `origin_ip` in the body does not match the URL path parameter. Returns 403 (code 1164) when the zone has reached the limit of 3,500 IP mappings.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+region: optional string
 
-- `zone_id: string`
+Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `origin_ip: string`
+vendor: optional string
 
-### Body Parameters
+Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-- `origin_ip: string`
+<a href="#">Link to this property</a>
 
-  Origin IP address (IPv4 or IPv6). For the single PUT endpoint (`PUT /origin/cloud_regions/{origin_ip}`), this field must match the path parameter or the request will be rejected with a 400 error. For the batch PUT endpoint, this field identifies which mapping to upsert.
+</details>
 
-- `region: string`
+<a href="#">Link to this property</a>
 
-  Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
+<details>
 
-- `vendor: "aws" or "azure" or "gcp" or "oci"`
+<summary>
 
-  Cloud vendor hosting the origin. Must be one of the supported vendors.
+succeeded: array of object {origin\_ip, error, region, vendor }
 
-  - `"aws"`
+Items that were successfully applied.
 
-  - `"azure"`
+</summary>
 
-  - `"gcp"`
+origin\_ip: string
 
-  - `"oci"`
+The origin IP address for this item.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+error: optional string
 
-  - `code: number`
+Error message explaining why the item failed. Present only on failed items.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+region: optional string
 
-  - `source: optional object { pointer }`
+Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+vendor: optional string
 
-  - `code: number`
+Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_bulk_update_response%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-- `result: optional OriginCloudRegion`
+<summary>
 
-  A single origin IP-to-cloud-region mapping.
+OriginCloudRegionBulkDeleteResponse object {failed, succeeded }
 
-  - `origin_ip: string`
+Response result for a batch origin cloud region operation.
 
-    The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
+</summary>
 
-  - `region: string`
+<details>
 
-    Cloud vendor region identifier.
+<summary>
 
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
+failed: array of object {origin\_ip, error, region, vendor }
 
-    Cloud vendor hosting the origin.
+Items that could not be applied, with error details.
 
-    - `"aws"`
+</summary>
 
-    - `"azure"`
+origin\_ip: string
 
-    - `"gcp"`
+The origin IP address for this item.
 
-    - `"oci"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+error: optional string
 
-    Time this mapping was last modified.
+Error message explaining why the item failed. Present only on failed items.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/$ORIGIN_IP \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "origin_ip": "192.0.2.1",
-          "region": "us-east-1",
-          "vendor": "aws"
-        }'
-```
+region: optional string
 
-#### Response
+Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "modified_on": "2026-03-01T12:00:00Z",
-    "origin_ip": "192.0.2.1",
-    "region": "us-east-1",
-    "vendor": "aws"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete an origin cloud region mapping
+vendor: optional string
 
-**delete** `/zones/{zone_id}/origin/cloud_regions/{origin_ip}`
+Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-Removes the cloud region mapping for a single origin IP address. The IP path parameter is normalized before lookup. Returns the deleted IP on success. Returns 404 if no mapping exists for the specified IP. When the last mapping for the zone is removed the underlying rule record is also deleted.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `origin_ip: string`
+<summary>
 
-### Returns
+succeeded: array of object {origin\_ip, error, region, vendor }
 
-- `errors: array of ResponseInfo`
+Items that were successfully applied.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+origin\_ip: string
 
-  - `documentation_url: optional string`
+The origin IP address for this item.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+error: optional string
 
-- `messages: array of ResponseInfo`
+Error message explaining why the item failed. Present only on failed items.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+region: optional string
 
-  - `documentation_url: optional string`
+Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+vendor: optional string
 
-  Whether the API call was successful.
+Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { origin_ip }`
+</details>
 
-  Response result for a delete operation. Identifies the deleted mapping.
+<a href="#">Link to this property</a>
 
-  - `origin_ip: string`
+</details>
 
-    The origin IP address whose mapping was deleted.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_bulk_delete_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/$ORIGIN_IP \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+OriginCloudRegionSupportedRegionsResponse object {obtained\_codes, vendors }
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "origin_ip": "192.0.2.1"
-  },
-  "success": true
-}
-```
+Cloud vendors and their supported regions for origin cloud region mappings.
 
-## Batch create or replace origin cloud region mappings
+</summary>
 
-**put** `/zones/{zone_id}/origin/cloud_regions/batch`
+obtained\_codes: boolean
 
-Upserts up to 100 IP-to-cloud-region mappings in a single request. Items in the request body are created or replaced; mappings not included in the request body are preserved unchanged (this is a merge operation, not a full collection replacement). Each item is validated independently — valid items are applied and invalid items are returned in the `failed` array. The vendor and region for every item are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`.
+Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the <code>upper_tier_colos</code> field on each region. When <code>false</code>, the <code>upper_tier_colos</code> arrays may be empty or incomplete.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+vendors: map\[array of object {name, upper\_tier\_colos } ]
 
-- `body: array of object { origin_ip, region, vendor }`
+Map of vendor name to list of supported regions.
 
-  - `origin_ip: string`
+</summary>
 
-    Origin IP address (IPv4 or IPv6). For the single PUT endpoint (`PUT /origin/cloud_regions/{origin_ip}`), this field must match the path parameter or the request will be rejected with a 400 error. For the batch PUT endpoint, this field identifies which mapping to upsert.
+name: string
 
-  - `region: string`
+Cloud vendor region identifier.
 
-    Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
+<a href="#">Link to this property</a>
 
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
+upper\_tier\_colos: array of string
 
-    Cloud vendor hosting the origin. Must be one of the supported vendors.
+Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
 
-    - `"aws"`
+<a href="#">Link to this property</a>
 
-    - `"azure"`
+</details>
 
-    - `"gcp"`
+<a href="#">Link to this property</a>
 
-    - `"oci"`
+</details>
 
-### Returns
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_supported_regions_response%20%3E%20(schema)>)
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+OriginCloudRegionListV1Response object {id, editable, value, modified\_on }
 
-  - `documentation_url: optional string`
+Response result for a list of origin cloud region mappings.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: "origin\_public\_cloud\_region"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+editable: boolean
 
-  - `message: string`
+Whether the setting can be modified by the current user.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+value: array of object {"origin-ip", region, vendor, modified\_on }
 
-  - `true`
+</summary>
 
-- `result: optional object { failed, succeeded }`
+"origin-ip": string
 
-  Response result for a batch origin cloud region operation.
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-  - `failed: array of object { origin_ip, error, region, vendor }`
+<a href="#">Link to this property</a>
 
-    Items that could not be applied, with error details.
+region: string
 
-    - `origin_ip: string`
+Cloud vendor region identifier.
 
-      The origin IP address for this item.
+<a href="#">Link to this property</a>
 
-    - `error: optional string`
+<details>
 
-      Error message explaining why the item failed. Present only on failed items.
+<summary>
 
-    - `region: optional string`
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+Cloud vendor hosting the origin.
 
-    - `vendor: optional string`
+</summary>
 
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+One of the following:
 
-  - `succeeded: array of object { origin_ip, error, region, vendor }`
+"aws"
 
-    Items that were successfully applied.
+<a href="#">Link to this property</a>
 
-    - `origin_ip: string`
+"azure"
 
-      The origin IP address for this item.
+<a href="#">Link to this property</a>
 
-    - `error: optional string`
+"gcp"
 
-      Error message explaining why the item failed. Present only on failed items.
+<a href="#">Link to this property</a>
 
-    - `region: optional string`
+"oci"
 
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+<a href="#">Link to this property</a>
 
-    - `vendor: optional string`
+</details>
 
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+<a href="#">Link to this property</a>
 
-### Example
+modified\_on: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/batch \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "origin_ip": "192.0.2.1",
-            "region": "us-east-1",
-            "vendor": "aws"
-          },
-          {
-            "origin_ip": "2001:db8::1",
-            "region": "us-central1",
-            "vendor": "gcp"
-          }
-        ]'
-```
+Time this mapping was last modified.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "failed": [],
-    "succeeded": [
-      {
-        "origin_ip": "192.0.2.1",
-        "region": "us-east-1",
-        "vendor": "aws"
-      },
-      {
-        "origin_ip": "2001:db8::1",
-        "region": "us-central1",
-        "vendor": "gcp"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Batch delete origin cloud region mappings
+</details>
 
-**delete** `/zones/{zone_id}/origin/cloud_regions/batch`
+<a href="#">Link to this property</a>
 
-Removes up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array.
+modified\_on: optional string
 
-### Path Parameters
+Time the mapping set was last modified. Null when no mappings exist.
 
-- `zone_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_list_v1_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+OriginCloudRegionCreateV1Response object {id, editable, value, modified\_on }
 
-  - `source: optional object { pointer }`
+Response result for a single origin cloud region mapping.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: "origin\_public\_cloud\_region"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+editable: boolean
 
-  - `documentation_url: optional string`
+Whether the setting can be modified by the current user.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+value: object {"origin-ip", region, vendor, modified\_on }
 
-- `result: optional object { failed, succeeded }`
+A single origin IP-to-cloud-region mapping.
 
-  Response result for a batch origin cloud region operation.
+</summary>
 
-  - `failed: array of object { origin_ip, error, region, vendor }`
+"origin-ip": string
 
-    Items that could not be applied, with error details.
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-    - `origin_ip: string`
+<a href="#">Link to this property</a>
 
-      The origin IP address for this item.
+region: string
 
-    - `error: optional string`
+Cloud vendor region identifier.
 
-      Error message explaining why the item failed. Present only on failed items.
+<a href="#">Link to this property</a>
 
-    - `region: optional string`
+<details>
 
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+<summary>
 
-    - `vendor: optional string`
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+Cloud vendor hosting the origin.
 
-  - `succeeded: array of object { origin_ip, error, region, vendor }`
+</summary>
 
-    Items that were successfully applied.
+One of the following:
 
-    - `origin_ip: string`
+"aws"
 
-      The origin IP address for this item.
+<a href="#">Link to this property</a>
 
-    - `error: optional string`
+"azure"
 
-      Error message explaining why the item failed. Present only on failed items.
+<a href="#">Link to this property</a>
 
-    - `region: optional string`
+"gcp"
 
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+<a href="#">Link to this property</a>
 
-    - `vendor: optional string`
+"oci"
 
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/batch \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+modified\_on: optional string
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "failed": [],
-    "succeeded": [
-      {
-        "origin_ip": "192.0.2.1",
-        "region": "us-east-1",
-        "vendor": "aws"
-      },
-      {
-        "origin_ip": "2001:db8::1",
-        "region": "us-central1",
-        "vendor": "gcp"
-      }
-    ]
-  },
-  "success": true
-}
-```
+Time this mapping was last modified.
 
-## List supported cloud vendors and regions
+formatdate-time
 
-**get** `/zones/{zone_id}/origin/cloud_regions/supported_regions`
+<a href="#">Link to this property</a>
 
-Returns the cloud vendors and regions that are valid values for origin cloud region mappings. Each region includes the Tiered Cache upper-tier colocation codes that will be used for cache routing when a mapping targeting that region is active. Requires the zone to have Tiered Cache enabled.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+modified\_on: optional string
 
-  Identifier.
+Time the mapping was last modified.
 
-### Returns
+formatdate-time
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_create_v1_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+OriginCloudRegionEditV1Response object {id, editable, value, modified\_on }
 
-- `messages: array of ResponseInfo`
+Response result for a list of origin cloud region mappings.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: "origin\_public\_cloud\_region"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+editable: boolean
 
-- `success: true`
+Whether the setting can be modified by the current user.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { obtained_codes, vendors }`
+<summary>
 
-  Cloud vendors and their supported regions for origin cloud region mappings.
+value: array of object {"origin-ip", region, vendor, modified\_on }
 
-  - `obtained_codes: boolean`
+</summary>
 
-    Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the `upper_tier_colos` field on each region. When `false`, the `upper_tier_colos` arrays may be empty or incomplete.
+"origin-ip": string
 
-  - `vendors: map[array of object { name, upper_tier_colos } ]`
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-    Map of vendor name to list of supported regions.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+region: string
 
-      Cloud vendor region identifier.
+Cloud vendor region identifier.
 
-    - `upper_tier_colos: array of string`
+<a href="#">Link to this property</a>
 
-      Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin/cloud_regions/supported_regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-#### Response
+Cloud vendor hosting the origin.
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "obtained_codes": true,
-    "vendors": {
-      "aws": [
-        {
-          "name": "us-east-1",
-          "upper_tier_colos": [
-            "IAD",
-            "EWR"
-          ]
-        },
-        {
-          "name": "us-west-2",
-          "upper_tier_colos": [
-            "SEA"
-          ]
-        }
-      ],
-      "gcp": [
-        {
-          "name": "us-central1",
-          "upper_tier_colos": [
-            "ORD"
-          ]
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
+</summary>
 
-## List origin cloud region mappings
+One of the following:
 
-**get** `/zones/{zone_id}/cache/origin_cloud_regions`
+"aws"
 
-Returns all IP-to-cloud-region mappings configured for the zone. Each mapping tells Cloudflare which cloud vendor and region hosts the origin at that IP, enabling the edge to route via the nearest Tiered Cache upper-tier co-located with that cloud provider. Returns an empty array when no mappings exist.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"azure"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"gcp"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"oci"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_on: optional string
 
-    - `pointer: optional string`
+Time this mapping was last modified.
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_on: optional string
 
-- `success: true`
+Time the mapping set was last modified. Null when no mappings exist.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, editable, value, modified_on }`
+</details>
 
-  Response result for a list of origin cloud region mappings.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_edit_v1_response%20%3E%20(schema)>)
 
-  - `id: "origin_public_cloud_region"`
+<details>
 
-    - `"origin_public_cloud_region"`
+<summary>
 
-  - `editable: boolean`
+OriginCloudRegionGetV1Response object {id, editable, value, modified\_on }
 
-    Whether the setting can be modified by the current user.
+Response result for a single origin cloud region mapping.
 
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
+</summary>
 
-    - `"origin-ip": string`
+id: "origin\_public\_cloud\_region"
 
-      The origin IP address (IPv4 or IPv6, canonicalized).
+<a href="#">Link to this property</a>
 
-    - `region: string`
+editable: boolean
 
-      Cloud vendor region identifier.
+Whether the setting can be modified by the current user.
 
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
+<a href="#">Link to this property</a>
 
-      Cloud vendor hosting the origin.
+<details>
 
-      - `"aws"`
+<summary>
 
-      - `"azure"`
+value: object {"origin-ip", region, vendor, modified\_on }
 
-      - `"gcp"`
+A single origin IP-to-cloud-region mapping.
 
-      - `"oci"`
+</summary>
 
-    - `modified_on: optional string`
+"origin-ip": string
 
-      Time this mapping was last modified.
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Time the mapping set was last modified. Null when no mappings exist.
+region: string
 
-### Example
+Cloud vendor region identifier.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": null,
-    "value": []
-  },
-  "success": true
-}
-```
+<summary>
 
-## Create an origin cloud region mapping
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-**post** `/zones/{zone_id}/cache/origin_cloud_regions`
+Cloud vendor hosting the origin.
 
-Adds a single IP-to-cloud-region mapping for the zone. The IP must be a valid IPv4 or IPv6 address and is normalized to canonical form before storage (RFC 5952 for IPv6). Returns 400 (code 1145) if a mapping for that IP already exists — use PATCH to update an existing entry. The vendor and region are validated against the list from `GET /zones/{zone_id}/cache/origin_cloud_regions/supported_regions`.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `zone_id: string`
+"aws"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"azure"
 
-- `ip: string`
+<a href="#">Link to this property</a>
 
-  Origin IP address (IPv4 or IPv6). Normalized to canonical form before storage (RFC 5952 for IPv6).
+"gcp"
 
-- `region: string`
+<a href="#">Link to this property</a>
 
-  Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
+"oci"
 
-- `vendor: "aws" or "azure" or "gcp" or "oci"`
+<a href="#">Link to this property</a>
 
-  Cloud vendor hosting the origin. Must be one of the supported vendors.
+</details>
 
-  - `"aws"`
+<a href="#">Link to this property</a>
 
-  - `"azure"`
+modified\_on: optional string
 
-  - `"gcp"`
+Time this mapping was last modified.
 
-  - `"oci"`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: optional string
 
-  - `documentation_url: optional string`
+Time the mapping was last modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_get_v1_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+OriginCloudRegionDeleteV1Response object {id, editable, value, modified\_on }
 
-- `success: true`
+Response result for a single origin cloud region mapping.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+id: "origin\_public\_cloud\_region"
 
-- `result: optional object { id, editable, value, modified_on }`
+<a href="#">Link to this property</a>
 
-  Response result for a single origin cloud region mapping.
+editable: boolean
 
-  - `id: "origin_public_cloud_region"`
+Whether the setting can be modified by the current user.
 
-    - `"origin_public_cloud_region"`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+<details>
 
-    Whether the setting can be modified by the current user.
+<summary>
 
-  - `value: object { "origin-ip", region, vendor, modified_on }`
+value: object {"origin-ip", region, vendor, modified\_on }
 
-    A single origin IP-to-cloud-region mapping.
+A single origin IP-to-cloud-region mapping.
 
-    - `"origin-ip": string`
+</summary>
 
-      The origin IP address (IPv4 or IPv6, canonicalized).
+"origin-ip": string
 
-    - `region: string`
+The origin IP address (IPv4 or IPv6, canonicalized).
 
-      Cloud vendor region identifier.
+<a href="#">Link to this property</a>
 
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
+region: string
 
-      Cloud vendor hosting the origin.
+Cloud vendor region identifier.
 
-      - `"aws"`
+<a href="#">Link to this property</a>
 
-      - `"azure"`
+<details>
 
-      - `"gcp"`
+<summary>
 
-      - `"oci"`
+vendor: "aws"or "azure"or "gcp"or "oci"
 
-    - `modified_on: optional string`
+Cloud vendor hosting the origin.
 
-      Time this mapping was last modified.
+</summary>
 
-  - `modified_on: optional string`
+One of the following:
 
-    Time the mapping was last modified.
+"aws"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ip": "192.0.2.1",
-          "region": "us-east-1",
-          "vendor": "aws"
-        }'
-```
+"azure"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "modified_on": "2026-03-01T12:00:00Z",
-      "origin-ip": "192.0.2.1",
-      "region": "us-east-1",
-      "vendor": "aws"
-    }
-  },
-  "success": true
-}
-```
+"gcp"
 
-## Create or update an origin cloud region mapping
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/cache/origin_cloud_regions`
+"oci"
 
-Adds or updates a single IP-to-cloud-region mapping for the zone. Unlike POST, this operation is idempotent — if a mapping for the IP already exists it is overwritten. Returns the complete updated list of all mappings for the zone. Returns 403 (code 1164) when the zone has reached the limit of 3,500 IP mappings.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+modified\_on: optional string
 
-### Body Parameters
+Time this mapping was last modified.
 
-- `ip: string`
+formatdate-time
 
-  Origin IP address (IPv4 or IPv6). Normalized to canonical form before storage (RFC 5952 for IPv6).
+<a href="#">Link to this property</a>
 
-- `region: string`
+</details>
 
-  Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
+<a href="#">Link to this property</a>
 
-- `vendor: "aws" or "azure" or "gcp" or "oci"`
+modified\_on: optional string
 
-  Cloud vendor hosting the origin. Must be one of the supported vendors.
+Time the mapping was last modified.
 
-  - `"aws"`
+formatdate-time
 
-  - `"azure"`
+<a href="#">Link to this property</a>
 
-  - `"gcp"`
+</details>
 
-  - `"oci"`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_delete_v1_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+OriginCloudRegionBulkEditV1Response object {id, editable, value, modified\_on }
 
-  - `message: string`
+Response result for a batch origin cloud region operation.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: "origin\_public\_cloud\_region"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+editable: boolean
 
-  - `code: number`
+Whether the setting can be modified by the current user.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `success: true`
+value: object {failed, succeeded }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+<details>
 
-- `result: optional object { id, editable, value, modified_on }`
+<summary>
 
-  Response result for a list of origin cloud region mappings.
+failed: array of object {"origin-ip", error, region, vendor }
 
-  - `id: "origin_public_cloud_region"`
+Items that could not be applied, with error details.
 
-    - `"origin_public_cloud_region"`
+</summary>
 
-  - `editable: boolean`
+"origin-ip": string
 
-    Whether the setting can be modified by the current user.
+The origin IP address for this item.
 
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
+<a href="#">Link to this property</a>
 
-    - `"origin-ip": string`
+error: optional string
 
-      The origin IP address (IPv4 or IPv6, canonicalized).
+Error message explaining why the item failed. Present only on failed items.
 
-    - `region: string`
+<a href="#">Link to this property</a>
 
-      Cloud vendor region identifier.
+region: optional string
 
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
+Cloud vendor region identifier. Present on succeeded items for patch operations.
 
-      Cloud vendor hosting the origin.
+<a href="#">Link to this property</a>
 
-      - `"aws"`
+vendor: optional string
 
-      - `"azure"`
+Cloud vendor identifier. Present on succeeded items for patch operations.
 
-      - `"gcp"`
+<a href="#">Link to this property</a>
 
-      - `"oci"`
+</details>
 
-    - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-      Time this mapping was last modified.
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-    Time the mapping set was last modified. Null when no mappings exist.
+succeeded: array of object {"origin-ip", error, region, vendor }
 
-### Example
+Items that were successfully applied.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ip": "2001:db8::1",
-          "region": "us-central1",
-          "vendor": "gcp"
-        }'
-```
+</summary>
 
-#### Response
+"origin-ip": string
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": [
-      {
-        "modified_on": "2026-03-01T12:00:00Z",
-        "origin-ip": "192.0.2.1",
-        "region": "us-east-1",
-        "vendor": "aws"
-      },
-      {
-        "modified_on": "2026-03-01T12:00:00Z",
-        "origin-ip": "2001:db8::1",
-        "region": "us-central1",
-        "vendor": "gcp"
-      }
-    ]
-  },
-  "success": true
-}
-```
+The origin IP address for this item.
 
-## Get an origin cloud region mapping
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/cache/origin_cloud_regions/{origin_ip}`
+error: optional string
 
-Returns the cloud region mapping for a single origin IP address. The IP path parameter is normalized before lookup (RFC 5952 for IPv6). Returns 404 (code 1142) if the zone has no mappings or if the specified IP has no mapping.
+Error message explaining why the item failed. Present only on failed items.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+region: optional string
 
-  Identifier.
+Cloud vendor region identifier. Present on succeeded items for patch operations.
 
-- `origin_ip: string`
+<a href="#">Link to this property</a>
 
-### Returns
+vendor: optional string
 
-- `errors: array of ResponseInfo`
+Cloud vendor identifier. Present on succeeded items for patch operations.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+modified\_on: optional string
 
-  - `code: number`
+Time the mapping set was last modified. Null when no items were successfully applied.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `success: true`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_bulk_edit_v1_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id, editable, value, modified_on }`
+OriginCloudRegionBulkDeleteV1Response object {id, editable, value, modified\_on }
 
-  Response result for a single origin cloud region mapping.
+Response result for a batch origin cloud region operation.
 
-  - `id: "origin_public_cloud_region"`
+</summary>
 
-    - `"origin_public_cloud_region"`
+id: "origin\_public\_cloud\_region"
 
-  - `editable: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the setting can be modified by the current user.
+editable: boolean
 
-  - `value: object { "origin-ip", region, vendor, modified_on }`
+Whether the setting can be modified by the current user.
 
-    A single origin IP-to-cloud-region mapping.
+<a href="#">Link to this property</a>
 
-    - `"origin-ip": string`
+<details>
 
-      The origin IP address (IPv4 or IPv6, canonicalized).
+<summary>
 
-    - `region: string`
+value: object {failed, succeeded }
 
-      Cloud vendor region identifier.
+</summary>
 
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
+<details>
 
-      Cloud vendor hosting the origin.
+<summary>
 
-      - `"aws"`
+failed: array of object {"origin-ip", error, region, vendor }
 
-      - `"azure"`
+Items that could not be applied, with error details.
 
-      - `"gcp"`
+</summary>
 
-      - `"oci"`
+"origin-ip": string
 
-    - `modified_on: optional string`
+The origin IP address for this item.
 
-      Time this mapping was last modified.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+error: optional string
 
-    Time the mapping was last modified.
+Error message explaining why the item failed. Present only on failed items.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/$ORIGIN_IP \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+region: optional string
 
-#### Response
+Cloud vendor region identifier. Present on succeeded items for patch operations.
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "modified_on": "2026-03-01T12:00:00Z",
-      "origin-ip": "192.0.2.1",
-      "region": "us-east-1",
-      "vendor": "aws"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete an origin cloud region mapping
+vendor: optional string
 
-**delete** `/zones/{zone_id}/cache/origin_cloud_regions/{origin_ip}`
+Cloud vendor identifier. Present on succeeded items for patch operations.
 
-Removes the cloud region mapping for a single origin IP address. The IP path parameter is normalized before lookup. Returns the deleted entry on success. Returns 404 (code 1163) if no mapping exists for the specified IP. When the last mapping for the zone is removed the underlying rule record is also deleted.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `origin_ip: string`
+<summary>
 
-### Returns
+succeeded: array of object {"origin-ip", error, region, vendor }
 
-- `errors: array of ResponseInfo`
+Items that were successfully applied.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+"origin-ip": string
 
-  - `documentation_url: optional string`
+The origin IP address for this item.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+error: optional string
 
-- `messages: array of ResponseInfo`
+Error message explaining why the item failed. Present only on failed items.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+region: optional string
 
-  - `documentation_url: optional string`
+Cloud vendor region identifier. Present on succeeded items for patch operations.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+vendor: optional string
 
-  Whether the API call was successful.
+Cloud vendor identifier. Present on succeeded items for patch operations.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, editable, value, modified_on }`
+</details>
 
-  Response result for a single origin cloud region mapping.
+<a href="#">Link to this property</a>
 
-  - `id: "origin_public_cloud_region"`
+</details>
 
-    - `"origin_public_cloud_region"`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+modified\_on: optional string
 
-    Whether the setting can be modified by the current user.
+Time the mapping set was last modified. Null when no items were successfully applied.
 
-  - `value: object { "origin-ip", region, vendor, modified_on }`
+formatdate-time
 
-    A single origin IP-to-cloud-region mapping.
+<a href="#">Link to this property</a>
 
-    - `"origin-ip": string`
+</details>
 
-      The origin IP address (IPv4 or IPv6, canonicalized).
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_bulk_delete_v1_response%20%3E%20(schema)>)
 
-    - `region: string`
+<details>
 
-      Cloud vendor region identifier.
+<summary>
 
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
+OriginCloudRegionSupportedRegionsV1Response object {obtained\_codes, vendors }
 
-      Cloud vendor hosting the origin.
+Cloud vendors and their supported regions for origin cloud region mappings.
 
-      - `"aws"`
+</summary>
 
-      - `"azure"`
+obtained\_codes: boolean
 
-      - `"gcp"`
+Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the <code>upper_tier_colos</code> field on each region. When <code>false</code>, the <code>upper_tier_colos</code> arrays may be empty or incomplete.
 
-      - `"oci"`
+<a href="#">Link to this property</a>
 
-    - `modified_on: optional string`
+<details>
 
-      Time this mapping was last modified.
+<summary>
 
-  - `modified_on: optional string`
+vendors: map\[array of object {name, upper\_tier\_colos } ]
 
-    Time the mapping was last modified.
+Map of vendor name to list of supported regions.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/$ORIGIN_IP \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: string
 
-#### Response
+Cloud vendor region identifier.
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "modified_on": "2026-03-01T12:00:00Z",
-      "origin-ip": "192.0.2.1",
-      "region": "us-east-1",
-      "vendor": "aws"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Batch create or update origin cloud region mappings
+upper\_tier\_colos: array of string
 
-**patch** `/zones/{zone_id}/cache/origin_cloud_regions/batch`
+Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
 
-Adds or updates up to 100 IP-to-cloud-region mappings in a single request. Each item is validated independently — valid items are applied and invalid items are returned in the `failed` array. The vendor and region for every item are validated against the list from `GET /zones/{zone_id}/cache/origin_cloud_regions/supported_regions`.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Body Parameters
-
-- `body: array of object { ip, region, vendor }`
-
-  - `ip: string`
-
-    Origin IP address (IPv4 or IPv6). Normalized to canonical form before storage (RFC 5952 for IPv6).
-
-  - `region: string`
-
-    Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.
-
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-    Cloud vendor hosting the origin. Must be one of the supported vendors.
-
-    - `"aws"`
-
-    - `"azure"`
-
-    - `"gcp"`
-
-    - `"oci"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { failed, succeeded }`
-
-    - `failed: array of object { "origin-ip", error, region, vendor }`
-
-      Items that could not be applied, with error details.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-    - `succeeded: array of object { "origin-ip", error, region, vendor }`
-
-      Items that were successfully applied.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no items were successfully applied.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/batch \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "ip": "192.0.2.1",
-            "region": "us-east-1",
-            "vendor": "aws"
-          },
-          {
-            "ip": "2001:db8::1",
-            "region": "us-central1",
-            "vendor": "gcp"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "failed": [],
-      "succeeded": [
-        {
-          "origin-ip": "192.0.2.1",
-          "region": "us-east-1",
-          "vendor": "aws"
-        },
-        {
-          "origin-ip": "2001:db8::1",
-          "region": "us-central1",
-          "vendor": "gcp"
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## Batch delete origin cloud region mappings
-
-**delete** `/zones/{zone_id}/cache/origin_cloud_regions/batch`
-
-Removes up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { failed, succeeded }`
-
-    - `failed: array of object { "origin-ip", error, region, vendor }`
-
-      Items that could not be applied, with error details.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-    - `succeeded: array of object { "origin-ip", error, region, vendor }`
-
-      Items that were successfully applied.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no items were successfully applied.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/batch \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "origin_public_cloud_region",
-    "modified_on": "2026-03-01T12:00:00Z",
-    "value": {
-      "failed": [],
-      "succeeded": [
-        {
-          "origin-ip": "192.0.2.1",
-          "region": "us-east-1",
-          "vendor": "aws"
-        },
-        {
-          "origin-ip": "2001:db8::1",
-          "region": "us-central1",
-          "vendor": "gcp"
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## List supported cloud vendors and regions
-
-**get** `/zones/{zone_id}/cache/origin_cloud_regions/supported_regions`
-
-Returns the cloud vendors and regions that are valid values for origin cloud region mappings. Each region includes the Tiered Cache upper-tier colocation codes that will be used for cache routing when a mapping targeting that region is active. Requires the zone to have Tiered Cache enabled.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { obtained_codes, vendors }`
-
-  Cloud vendors and their supported regions for origin cloud region mappings.
-
-  - `obtained_codes: boolean`
-
-    Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the `upper_tier_colos` field on each region. When `false`, the `upper_tier_colos` arrays may be empty or incomplete.
-
-  - `vendors: map[array of object { name, upper_tier_colos } ]`
-
-    Map of vendor name to list of supported regions.
-
-    - `name: string`
-
-      Cloud vendor region identifier.
-
-    - `upper_tier_colos: array of string`
-
-      Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions/supported_regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "obtained_codes": true,
-    "vendors": {
-      "aws": [
-        {
-          "name": "us-east-1",
-          "upper_tier_colos": [
-            "IAD",
-            "EWR"
-          ]
-        },
-        {
-          "name": "us-west-2",
-          "upper_tier_colos": [
-            "SEA"
-          ]
-        }
-      ],
-      "gcp": [
-        {
-          "name": "us-central1",
-          "upper_tier_colos": [
-            "ORD"
-          ]
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Origin Cloud Region
-
-- `OriginCloudRegion object { origin_ip, region, vendor, modified_on }`
-
-  A single origin IP-to-cloud-region mapping.
-
-  - `origin_ip: string`
-
-    The origin IP address (IPv4 or IPv6). Normalized to canonical form (RFC 5952 for IPv6).
-
-  - `region: string`
-
-    Cloud vendor region identifier.
-
-  - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-    Cloud vendor hosting the origin.
-
-    - `"aws"`
-
-    - `"azure"`
-
-    - `"gcp"`
-
-    - `"oci"`
-
-  - `modified_on: optional string`
-
-    Time this mapping was last modified.
-
-### Origin Cloud Region Delete Response
-
-- `OriginCloudRegionDeleteResponse object { origin_ip }`
-
-  Response result for a delete operation. Identifies the deleted mapping.
-
-  - `origin_ip: string`
-
-    The origin IP address whose mapping was deleted.
-
-### Origin Cloud Region Bulk Update Response
-
-- `OriginCloudRegionBulkUpdateResponse object { failed, succeeded }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `failed: array of object { origin_ip, error, region, vendor }`
-
-    Items that could not be applied, with error details.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-  - `succeeded: array of object { origin_ip, error, region, vendor }`
-
-    Items that were successfully applied.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-### Origin Cloud Region Bulk Delete Response
-
-- `OriginCloudRegionBulkDeleteResponse object { failed, succeeded }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `failed: array of object { origin_ip, error, region, vendor }`
-
-    Items that could not be applied, with error details.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-  - `succeeded: array of object { origin_ip, error, region, vendor }`
-
-    Items that were successfully applied.
-
-    - `origin_ip: string`
-
-      The origin IP address for this item.
-
-    - `error: optional string`
-
-      Error message explaining why the item failed. Present only on failed items.
-
-    - `region: optional string`
-
-      Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-    - `vendor: optional string`
-
-      Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete).
-
-### Origin Cloud Region Supported Regions Response
-
-- `OriginCloudRegionSupportedRegionsResponse object { obtained_codes, vendors }`
-
-  Cloud vendors and their supported regions for origin cloud region mappings.
-
-  - `obtained_codes: boolean`
-
-    Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the `upper_tier_colos` field on each region. When `false`, the `upper_tier_colos` arrays may be empty or incomplete.
-
-  - `vendors: map[array of object { name, upper_tier_colos } ]`
-
-    Map of vendor name to list of supported regions.
-
-    - `name: string`
-
-      Cloud vendor region identifier.
-
-    - `upper_tier_colos: array of string`
-
-      Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
-
-### Origin Cloud Region List V1 Response
-
-- `OriginCloudRegionListV1Response object { id, editable, value, modified_on }`
-
-  Response result for a list of origin cloud region mappings.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no mappings exist.
-
-### Origin Cloud Region Create V1 Response
-
-- `OriginCloudRegionCreateV1Response object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Origin Cloud Region Edit V1 Response
-
-- `OriginCloudRegionEditV1Response object { id, editable, value, modified_on }`
-
-  Response result for a list of origin cloud region mappings.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no mappings exist.
-
-### Origin Cloud Region Get V1 Response
-
-- `OriginCloudRegionGetV1Response object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Origin Cloud Region Delete V1 Response
-
-- `OriginCloudRegionDeleteV1Response object { id, editable, value, modified_on }`
-
-  Response result for a single origin cloud region mapping.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { "origin-ip", region, vendor, modified_on }`
-
-    A single origin IP-to-cloud-region mapping.
-
-    - `"origin-ip": string`
-
-      The origin IP address (IPv4 or IPv6, canonicalized).
-
-    - `region: string`
-
-      Cloud vendor region identifier.
-
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
-
-      Cloud vendor hosting the origin.
-
-      - `"aws"`
-
-      - `"azure"`
-
-      - `"gcp"`
-
-      - `"oci"`
-
-    - `modified_on: optional string`
-
-      Time this mapping was last modified.
-
-  - `modified_on: optional string`
-
-    Time the mapping was last modified.
-
-### Origin Cloud Region Bulk Edit V1 Response
-
-- `OriginCloudRegionBulkEditV1Response object { id, editable, value, modified_on }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { failed, succeeded }`
-
-    - `failed: array of object { "origin-ip", error, region, vendor }`
-
-      Items that could not be applied, with error details.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-    - `succeeded: array of object { "origin-ip", error, region, vendor }`
-
-      Items that were successfully applied.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no items were successfully applied.
-
-### Origin Cloud Region Bulk Delete V1 Response
-
-- `OriginCloudRegionBulkDeleteV1Response object { id, editable, value, modified_on }`
-
-  Response result for a batch origin cloud region operation.
-
-  - `id: "origin_public_cloud_region"`
-
-    - `"origin_public_cloud_region"`
-
-  - `editable: boolean`
-
-    Whether the setting can be modified by the current user.
-
-  - `value: object { failed, succeeded }`
-
-    - `failed: array of object { "origin-ip", error, region, vendor }`
-
-      Items that could not be applied, with error details.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-    - `succeeded: array of object { "origin-ip", error, region, vendor }`
-
-      Items that were successfully applied.
-
-      - `"origin-ip": string`
-
-        The origin IP address for this item.
-
-      - `error: optional string`
-
-        Error message explaining why the item failed. Present only on failed items.
-
-      - `region: optional string`
-
-        Cloud vendor region identifier. Present on succeeded items for patch operations.
-
-      - `vendor: optional string`
-
-        Cloud vendor identifier. Present on succeeded items for patch operations.
-
-  - `modified_on: optional string`
-
-    Time the mapping set was last modified. Null when no items were successfully applied.
-
-### Origin Cloud Region Supported Regions V1 Response
-
-- `OriginCloudRegionSupportedRegionsV1Response object { obtained_codes, vendors }`
-
-  Cloud vendors and their supported regions for origin cloud region mappings.
-
-  - `obtained_codes: boolean`
-
-    Whether Cloudflare airport codes (IATA colo identifiers) were successfully resolved for the `upper_tier_colos` field on each region. When `false`, the `upper_tier_colos` arrays may be empty or incomplete.
-
-  - `vendors: map[array of object { name, upper_tier_colos } ]`
-
-    Map of vendor name to list of supported regions.
-
-    - `name: string`
-
-      Cloud vendor region identifier.
-
-    - `upper_tier_colos: array of string`
-
-      Cloudflare Tiered Cache upper-tier colocation codes co-located with this cloud region. Requests from zones with a matching origin mapping will be routed through these colos.
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(model)%20origin_cloud_region_supported_regions_v1_response%20%3E%20(schema)>)

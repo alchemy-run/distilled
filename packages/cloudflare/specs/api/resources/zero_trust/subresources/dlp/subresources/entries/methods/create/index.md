@@ -1,90 +1,278 @@
-## Create custom entry
+---
+title: Create custom entry
+---
 
-**post** `/accounts/{account_id}/dlp/entries`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Entries](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create custom entry
+
+POST/accounts/{account\_id}/dlp/entries
 
 Creates a DLP custom entry.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `enabled: boolean`
 
-- `name: string`
 
-- `pattern: Pattern`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `regex: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `validation: optional "luhn"`
+</details>
 
-    - `"luhn"`
+<details>
 
-- `description: optional string`
+<summary>API Email + API Key</summary>
 
-- `profile_id: optional string`
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`Zero Trust Write`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Body ParametersJSONExpand Collapse
 
-    - `pointer: optional string`
+enabled: boolean
 
-- `success: true`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+name: string
 
-  - `true`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-- `result: optional object { id, created_at, enabled, 5 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-  - `created_at: string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-  - `enabled: boolean`
+</summary>
 
-  - `name: string`
+regex: string
 
-  - `pattern: Pattern`
+<a href="#">Link to this property</a>
 
-    - `regex: string`
+Deprecatedvalidation: optional "luhn"
 
-    - `validation: optional "luhn"`
+<a href="#">Link to this property</a>
 
-      - `"luhn"`
+</details>
 
-  - `updated_at: string`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20pattern%20%3E%20(schema)>)
 
-  - `description: optional string`
+description: optional string
 
-  - `profile_id: optional string`
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-### Example
+profile\_id: optional string
 
-```http
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20profile_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, enabled, 5 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+Deprecatedenabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
+
+</summary>
+
+regex: string
+
+<a href="#">Link to this property</a>
+
+Deprecatedvalidation: optional "luhn"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+Deprecatedprofile\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.entries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create custom entry
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -97,9 +285,52 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "enabled": true,
+    "name": "name",
+    "pattern": {
+      "regex": "regex",
+      "validation": "luhn"
+    },
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "description": "description",
+    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

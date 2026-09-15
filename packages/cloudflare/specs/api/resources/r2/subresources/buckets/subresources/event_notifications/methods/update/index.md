@@ -1,94 +1,244 @@
-## Create Event Notification Rule
+---
+title: Create Event Notification Rule
+---
 
-**put** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+[Event Notifications](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create Event Notification Rule
+
+PUT/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration/queues/{queue\_id}
 
 Create event notification rule.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account ID.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `bucket_name: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  Name of the bucket.
+##### Accepted Permissions (at least one required)
 
-- `queue_id: string`
+`Workers R2 Storage Write`
 
-  Queue ID.
+##### P ath ParametersExpand Collapse
 
-### Header Parameters
+account\_id: string
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+Account ID.
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+maxLength32
 
-  - `"default"`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"eu"`
+bucket\_name: string
 
-  - `"fedramp"`
+Name of the bucket.
 
-### Body Parameters
+maxLength64
 
-- `rules: array of object { actions, description, prefix, suffix }`
+minLength3
 
-  Array of rules to drive notifications.
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20bucket_name%20%3E%20(schema)>)
 
-  - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
+queue\_id: string
 
-    Array of R2 object actions that will trigger notifications.
+Queue ID.
 
-    - `"PutObject"`
+maxLength32
 
-    - `"CopyObject"`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20queue_id%20%3E%20(schema)>)
 
-    - `"DeleteObject"`
+##### H eader ParametersExpand Collapse
 
-    - `"CompleteMultipartUpload"`
+<details>
 
-    - `"LifecycleDeletion"`
+<summary>
 
-  - `description: optional string`
+"cf-r2-jurisdiction": optional "default"or "eu"or "us"or 2 more
 
-    A description that can be used to identify the event notification rule after creation.
+Jurisdiction where objects in this bucket are guaranteed to be stored.
 
-  - `prefix: optional string`
+</summary>
 
-    Notifications will be sent only for objects with this prefix.
+One of the following:
 
-  - `suffix: optional string`
+"default"
 
-    Notifications will be sent only for objects with this suffix.
+<a href="#">Link to this property</a>
 
-### Returns
+"eu"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"us"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"fedramp"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"fedramp-high"
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: unknown`
+</details>
 
-- `success: true`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20jurisdiction%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+##### Body ParametersJSONExpand Collapse
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
+rules: array of object {actions, description, prefix, suffix }
+
+Array of rules to drive notifications.
+
+</summary>
+
+<details>
+
+<summary>
+
+actions: array of "PutObject"or "CopyObject"or "DeleteObject"or 2 more
+
+Array of R2 object actions that will trigger notifications.
+
+</summary>
+
+One of the following:
+
+"PutObject"
+
+<a href="#">Link to this property</a>
+
+"CopyObject"
+
+<a href="#">Link to this property</a>
+
+"DeleteObject"
+
+<a href="#">Link to this property</a>
+
+"CompleteMultipartUpload"
+
+<a href="#">Link to this property</a>
+
+"LifecycleDeletion"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A description that can be used to identify the event notification rule after creation.
+
+<a href="#">Link to this property</a>
+
+prefix: optional string
+
+Notifications will be sent only for objects with this prefix.
+
+<a href="#">Link to this property</a>
+
+suffix: optional string
+
+Notifications will be sent only for objects with this suffix.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20rules%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+result: unknown
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create Event Notification Rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration/queues/$QUEUE_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -105,9 +255,33 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notificatio
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

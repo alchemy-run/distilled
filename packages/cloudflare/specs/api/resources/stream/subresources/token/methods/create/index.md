@@ -1,120 +1,324 @@
-## Create signed URL tokens for videos
+---
+title: Create signed URL tokens for videos
+---
 
-**post** `/accounts/{account_id}/stream/{identifier}/token`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+[Token](https://developers.cloudflare.com/api/resources/stream/subresources/token)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create signed URL tokens for videos
+
+POST/accounts/{account\_id}/stream/{identifier}/token
 
 Creates a signed URL token for a video. If a body is not provided in the request, a token is created with default values.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>API Token</summary>
 
-- `identifier: string`
 
-  A Cloudflare-generated unique identifier for a media item.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `id: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The optional ID of a Stream signing key. If present, the `pem` field is also required.
+</details>
 
-- `accessRules: optional array of object { action, country, ip, type }`
+<details>
 
-  The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rule matches, the associated action is applied and no further rules are evaluated.
+<summary>API Email + API Key</summary>
 
-  - `action: optional "allow" or "block"`
 
-    The action to take when a request matches a rule. If the action is `block`, the signed token blocks views for viewers matching the rule.
 
-    - `"allow"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `"block"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `country: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    An array of 2-letter country codes in ISO 3166-1 Alpha-2 format used to match requests.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `ip: optional array of string`
+</details>
 
-    An array of IPv4 or IPV6 addresses or CIDRs used to match requests.
+##### P ath ParametersExpand Collapse
 
-  - `type: optional "any" or "ip.src" or "ip.geoip.country"`
+account\_id: string
 
-    Lists available rule types to match for requests. An `any` type matches all requests and can be used as a wildcard to apply default actions after other rules.
+The account identifier tag.
 
-    - `"any"`
+maxLength32
 
-    - `"ip.src"`
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `"ip.geoip.country"`
+identifier: string
 
-- `downloadable: optional boolean`
+A Cloudflare-generated unique identifier for a media item.
 
-  The optional boolean value that enables using signed tokens to access MP4 download links for a video.
+maxLength32
 
-- `exp: optional number`
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20identifier%20%3E%20(schema)>)
 
-  The optional unix epoch timestamp that specficies the time after a token is not accepted. The maximum time specification is 24 hours from issuing time. If this field is not set, the default is one hour after issuing.
+##### Body ParametersJSONExpand Collapse
 
-- `flags: optional object { original }`
+id: optional string
 
-  Optional flags for the signed token.
+The optional ID of a Stream signing key. If present, the `pem` field is also required.
 
-  - `original: optional boolean`
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-    Whether to return the original video without transformations.
+<details>
 
-- `nbf: optional number`
+<summary>
 
-  The optional unix epoch timestamp that specifies the time before a the token is not accepted. If this field is not set, the default is one hour before issuing.
+accessRules: optional array of object {action, country, ip, type }
 
-- `pem: optional string`
+The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rule matches, the associated action is applied and no further rules are evaluated.
 
-  The optional base64 encoded private key in PEM format associated with a Stream signing key. If present, the `id` field is also required.
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+action: optional "allow"or "block"
 
-  - `message: string`
+The action to take when a request matches a rule. If the action is <code>block</code>, the signed token blocks views for viewers matching the rule.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"allow"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"block"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+country: optional array of string
 
-- `success: true`
+An array of 2-letter country codes in ISO 3166-1 Alpha-2 format used to match requests.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+ip: optional array of string
 
-- `result: optional object { token }`
+An array of IPv4 or IPV6 addresses or CIDRs used to match requests.
 
-  - `token: optional string`
+<a href="#">Link to this property</a>
 
-    The signed token used with the signed URLs feature.
+<details>
 
-### Example
+<summary>
 
-```http
+type: optional "any"or "ip.src"or "ip.geoip.country"
+
+Lists available rule types to match for requests. An <code>any</code> type matches all requests and can be used as a wildcard to apply default actions after other rules.
+
+</summary>
+
+One of the following:
+
+"any"
+
+<a href="#">Link to this property</a>
+
+"ip.src"
+
+<a href="#">Link to this property</a>
+
+"ip.geoip.country"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20accessRules%20%3E%20(schema)>)
+
+downloadable: optional boolean
+
+The optional boolean value that enables using signed tokens to access MP4 download links for a video.
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20downloadable%20%3E%20(schema)>)
+
+exp: optional number
+
+The optional unix epoch timestamp that specficies the time after a token is not accepted. The maximum time specification is 24 hours from issuing time. If this field is not set, the default is one hour after issuing.
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20exp%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+flags: optional object {original }
+
+Optional flags for the signed token.
+
+</summary>
+
+original: optional boolean
+
+Whether to return the original video without transformations.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20flags%20%3E%20(schema)>)
+
+nbf: optional number
+
+The optional unix epoch timestamp that specifies the time before a the token is not accepted. If this field is not set, the default is one hour before issuing.
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20nbf%20%3E%20(schema)>)
+
+pem: optional string
+
+The optional base64 encoded private key in PEM format associated with a Stream signing key. If present, the `id` field is also required.
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20pem%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {token }
+
+</summary>
+
+token: optional string
+
+The signed token used with the signed URLs feature.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.token%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create signed URL tokens for videos
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/token \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -146,9 +350,42 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIE
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImU5ZGI5OTBhODI2NjZkZDU3MWM3N2Y5NDRhNWM1YzhkIn0.eyJzdWIiOiJlYTk1MTMyYzE1NzMyNDEyZDIyYzE0NzZmYTgzZjI3YSIsImtpZCI6ImU5ZGI5OTBhODI2NjZkZDU3MWM3N2Y5NDRhNWM1YzhkIiwiZXhwIjoiMTUzNzQ2MDM2NSIsIm5iZiI6IjE1Mzc0NTMxNjUifQ.OZhqOARADn1iubK6GKcn25hN3nU-hCFF5q9w2C4yup0C4diG7aMIowiRpP-eDod8dbAJubsiFuTKrqPcmyCKWYsiv0TQueukqbQlF7HCO1TV-oF6El5-7ldJ46eD-ZQ0XgcIYEKrQOYFF8iDQbqPm3REWd6BnjKZdeVrLzuRaiSnZ9qqFpGu5dfxIY9-nZKDubJHqCr3Imtb211VIG_b9MdtO92JjvkDS-rxT_pkEfTZSafl1OU-98A7KBGtPSJHz2dHORIrUiTA6on4eIXTj9aFhGiir4rSn-rn0OjPRTtJMWIDMoQyE_fwrSYzB7MPuzL2t82BWaEbHZTfixBm5A"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

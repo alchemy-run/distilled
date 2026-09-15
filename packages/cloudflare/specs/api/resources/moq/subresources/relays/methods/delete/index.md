@@ -1,46 +1,137 @@
-## Delete a relay
+---
+title: Delete a relay
+---
 
-**delete** `/accounts/{account_id}/moq/relays/{relay_id}`
+[Skip to content](#_top)
 
-Soft-deletes a MoQ relay.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[MoQ](https://developers.cloudflare.com/api/resources/moq)
 
-- `account_id: string`
+[Relays](https://developers.cloudflare.com/api/resources/moq/subresources/relays)
 
-  Cloudflare account identifier.
+Copy Markdown
 
-- `relay_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `errors: array of object { code, message }`
+**Copy Markdown****View as Markdown**
 
-  - `code: optional number`
+# Delete a relay
 
-  - `message: optional string`
+DELETE/accounts/{account\_id}/moq/relays/{relay\_id}
 
-- `messages: array of object { code, message }`
+Soft-deletes a MoQ relay. The relay ID goes in the URL path — `DELETE /accounts/{account_id}/moq/relays/{relay_id}` — not the request body; there is no collection-level delete endpoint.
 
-  - `code: optional number`
+##### Security
 
-  - `message: optional string`
+API Token
 
-- `success: boolean`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `result: optional unknown`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-### Example
+##### P ath ParametersExpand Collapse
 
-```http
+account\_id: string
+
+Cloudflare account identifier.
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+relay\_id: string
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20relay_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+result: optional unknown
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete a relay
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/moq/relays/$RELAY_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "success": true,
+  "result": {}
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

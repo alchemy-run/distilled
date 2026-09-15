@@ -1,532 +1,181 @@
+---
+title: Origin TLS Compliance Modes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Origin TLS Compliance Modes
 
-## Get Origin TLS Compliance Modes setting
+##### [Get Origin TLS Compliance Modes setting](https://developers.cloudflare.com/api/resources/origin_tls_compliance_modes/methods/get)
 
-**get** `/zones/{zone_id}/settings/origin_tls_compliance_modes`
+GET/zones/{zone\_id}/settings/origin\_tls\_compliance\_modes
 
-Origin TLS Compliance Modes constrains the set of TLS key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. The value is a list of named compliance modes (currently `fips` and `pqh`). Multiple modes are combined as the intersection of their permitted algorithm lists. An empty list (or no rule configured) means no compliance constraint is applied.
+##### [Replace Origin TLS Compliance Modes setting](https://developers.cloudflare.com/api/resources/origin_tls_compliance_modes/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/settings/origin\_tls\_compliance\_modes
 
-- `zone_id: string`
+##### [Change Origin TLS Compliance Modes setting](https://developers.cloudflare.com/api/resources/origin_tls_compliance_modes/methods/edit)
 
-  Identifier.
+PATCH/zones/{zone\_id}/settings/origin\_tls\_compliance\_modes
 
-### Returns
+##### [Delete Origin TLS Compliance Modes setting](https://developers.cloudflare.com/api/resources/origin_tls_compliance_modes/methods/delete)
 
-- `errors: array of ResponseInfo`
+DELETE/zones/{zone\_id}/settings/origin\_tls\_compliance\_modes
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+OriginTLSComplianceModeGetResponse object {id, editable, value, modified\_on }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: "origin\_tls\_compliance\_modes"
 
-  - `code: number`
+The identifier of the caching setting.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+editable: boolean
 
-  - `source: optional object { pointer }`
+Whether the setting is editable.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+value: array of string
 
-  - `true`
+List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone’s origin. Currently supported values are <code>fips</code> (FIPS-approved curves) and <code>pqh</code> (post-quantum hybrid). Future modes (e.g. <code>cnsa2</code>) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
 
-- `result: optional object { id, editable, value, modified_on }`
+<a href="#">Link to this property</a>
 
-  - `id: "origin_tls_compliance_modes"`
+modified\_on: optional string
 
-    The identifier of the caching setting.
+Last time this setting was modified.
 
-    - `"origin_tls_compliance_modes"`
+formatdate-time
 
-  - `editable: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the setting is editable.
+</details>
 
-  - `value: array of string`
+[Link to this property](#)%20origin_tls_compliance_modes%20%3E%20(model)%20origin_tls_compliance_mode_get_response%20%3E%20(schema)>)
 
-    List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-    Last time this setting was modified.
+OriginTLSComplianceModeUpdateResponse object {id, editable, value, modified\_on }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/origin_tls_compliance_modes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: "origin\_tls\_compliance\_modes"
 
-#### Response
+The identifier of the caching setting.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "origin_tls_compliance_modes",
-    "editable": true,
-    "value": [
-      "fips",
-      "pqh"
-    ],
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Replace Origin TLS Compliance Modes setting
+editable: boolean
 
-**put** `/zones/{zone_id}/settings/origin_tls_compliance_modes`
+Whether the setting is editable.
 
-Replace the entire set of TLS compliance modes for the zone with the list provided in the request body. PUT performs a full replace, not a merge — any modes not present in the request body are removed. The request body must be of the form `{"value": ["fips", "pqh"]}`. Currently supported modes are `fips` and `pqh`; an empty list clears the constraint. Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Invalid mode values are rejected with a 4xx response.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+value: array of string
 
-- `zone_id: string`
+List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone’s origin. Currently supported values are <code>fips</code> (FIPS-approved curves) and <code>pqh</code> (post-quantum hybrid). Future modes (e.g. <code>cnsa2</code>) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+modified\_on: optional string
 
-- `value: array of string`
+Last time this setting was modified.
 
-  List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20origin_tls_compliance_modes%20%3E%20(model)%20origin_tls_compliance_mode_update_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+OriginTLSComplianceModeEditResponse object {id, editable, value, modified\_on }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: "origin\_tls\_compliance\_modes"
 
-  - `code: number`
+The identifier of the caching setting.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+editable: boolean
 
-  - `source: optional object { pointer }`
+Whether the setting is editable.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+value: array of string
 
-  - `true`
+List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone’s origin. Currently supported values are <code>fips</code> (FIPS-approved curves) and <code>pqh</code> (post-quantum hybrid). Future modes (e.g. <code>cnsa2</code>) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
 
-- `result: optional object { id, editable, value, modified_on }`
+<a href="#">Link to this property</a>
 
-  - `id: "origin_tls_compliance_modes"`
+modified\_on: optional string
 
-    The identifier of the caching setting.
+Last time this setting was modified.
 
-    - `"origin_tls_compliance_modes"`
+formatdate-time
 
-  - `editable: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the setting is editable.
+</details>
 
-  - `value: array of string`
+[Link to this property](#)%20origin_tls_compliance_modes%20%3E%20(model)%20origin_tls_compliance_mode_edit_response%20%3E%20(schema)>)
 
-    List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-    Last time this setting was modified.
+OriginTLSComplianceModeDeleteResponse object {id, editable, modified\_on }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/origin_tls_compliance_modes \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": [
-            "fips",
-            "pqh"
-          ]
-        }'
-```
+id: "origin\_tls\_compliance\_modes"
 
-#### Response
+The identifier of the caching setting.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "origin_tls_compliance_modes",
-    "editable": true,
-    "value": [
-      "fips",
-      "pqh"
-    ],
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Change Origin TLS Compliance Modes setting
+editable: boolean
 
-**patch** `/zones/{zone_id}/settings/origin_tls_compliance_modes`
+Whether the setting is editable.
 
-Update the set of TLS compliance modes for the zone. PATCH performs a full replace of the modes list, not a merge — the request body is treated as the complete new list, and any modes not present in it are removed. (To remove a single mode from an existing configuration, send the updated list without it.) The request body must be of the form `{"value": ["fips", "pqh"]}`. Currently supported modes are `fips` and `pqh`; an empty list clears the constraint. Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Invalid mode values are rejected with a 4xx response.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+modified\_on: optional string
 
-- `zone_id: string`
+Last time this setting was modified.
 
-  Identifier.
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `value: array of string`
+</details>
 
-  List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  - `id: "origin_tls_compliance_modes"`
-
-    The identifier of the caching setting.
-
-    - `"origin_tls_compliance_modes"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: array of string`
-
-    List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/origin_tls_compliance_modes \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": [
-            "fips",
-            "pqh"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "origin_tls_compliance_modes",
-    "editable": true,
-    "value": [
-      "fips",
-      "pqh"
-    ],
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete Origin TLS Compliance Modes setting
-
-**delete** `/zones/{zone_id}/settings/origin_tls_compliance_modes`
-
-Delete the Origin TLS Compliance Modes setting for the zone, removing any configured compliance constraint. After deletion, Cloudflare's default behavior applies (no compliance filtering of the key-exchange algorithm list sent to the origin).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, modified_on }`
-
-  - `id: "origin_tls_compliance_modes"`
-
-    The identifier of the caching setting.
-
-    - `"origin_tls_compliance_modes"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/origin_tls_compliance_modes \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "origin_tls_compliance_modes",
-    "editable": true,
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Origin TLS Compliance Mode Get Response
-
-- `OriginTLSComplianceModeGetResponse object { id, editable, value, modified_on }`
-
-  - `id: "origin_tls_compliance_modes"`
-
-    The identifier of the caching setting.
-
-    - `"origin_tls_compliance_modes"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: array of string`
-
-    List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Origin TLS Compliance Mode Update Response
-
-- `OriginTLSComplianceModeUpdateResponse object { id, editable, value, modified_on }`
-
-  - `id: "origin_tls_compliance_modes"`
-
-    The identifier of the caching setting.
-
-    - `"origin_tls_compliance_modes"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: array of string`
-
-    List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Origin TLS Compliance Mode Edit Response
-
-- `OriginTLSComplianceModeEditResponse object { id, editable, value, modified_on }`
-
-  - `id: "origin_tls_compliance_modes"`
-
-    The identifier of the caching setting.
-
-    - `"origin_tls_compliance_modes"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: array of string`
-
-    List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Origin TLS Compliance Mode Delete Response
-
-- `OriginTLSComplianceModeDeleteResponse object { id, editable, modified_on }`
-
-  - `id: "origin_tls_compliance_modes"`
-
-    The identifier of the caching setting.
-
-    - `"origin_tls_compliance_modes"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20origin_tls_compliance_modes%20%3E%20(model)%20origin_tls_compliance_mode_delete_response%20%3E%20(schema)>)

@@ -1,1026 +1,511 @@
+---
+title: UA Rules
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # UA Rules
 
-## List User Agent Blocking rules
+##### [List User Agent Blocking rules](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/list)
 
-**get** `/zones/{zone_id}/firewall/ua_rules`
+GET/zones/{zone\_id}/firewall/ua\_rules
 
-Fetches User Agent Blocking rules in a zone. You can filter the results using several optional parameters.
+##### [Get a User Agent Blocking rule](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/firewall/ua\_rules/{ua\_rule\_id}
 
-- `zone_id: string`
+##### [Create a User Agent Blocking rule](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/create)
 
-  Defines an identifier.
+POST/zones/{zone\_id}/firewall/ua\_rules
 
-### Query Parameters
+##### [Update a User Agent Blocking rule](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/update)
 
-- `description: optional string`
+PUT/zones/{zone\_id}/firewall/ua\_rules/{ua\_rule\_id}
 
-  A string to search for in the description of existing rules.
+##### [Delete a User Agent Blocking rule](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/delete)
 
-- `page: optional number`
+DELETE/zones/{zone\_id}/firewall/ua\_rules/{ua\_rule\_id}
 
-  Page number of paginated results.
+##### ModelsExpand Collapse
 
-- `paused: optional boolean`
+<details>
 
-  When true, indicates that the rule is currently paused.
+<summary>
 
-- `per_page: optional number`
+UARuleListResponse object {id, configuration, description, 2 more }
 
-  The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
+</summary>
 
-- `user_agent: optional string`
+id: optional string
 
-  A string to search for in the user agent values of existing rules.
+The unique identifier of the User Agent Blocking rule.
 
-### Returns
+maxLength32
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+configuration: optional object {target, value }
 
-  - `source: optional object { pointer }`
+The configuration object for the current rule.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+target: optional string
 
-  - `code: number`
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-- `result: array of object { id, configuration, description, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    The unique identifier of the User Agent Blocking rule.
+<a href="#">Link to this property</a>
 
-  - `configuration: optional object { target, value }`
+description: optional string
 
-    The configuration object for the current rule.
+An informative summary of the rule.
 
-    - `target: optional string`
+maxLength1024
 
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+<details>
 
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
+<summary>
 
-  - `description: optional string`
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-    An informative summary of the rule.
+The action to apply to a matched request.
 
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
+maxLength12
 
-    The action to apply to a matched request.
+</summary>
 
-    - `"block"`
+One of the following:
 
-    - `"challenge"`
+"block"
 
-    - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"managed_challenge"`
+"challenge"
 
-  - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the rule is currently paused.
+"js\_challenge"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+"managed\_challenge"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Defines the total number of results for the requested service.
+paused: optional boolean
 
-  - `page: optional number`
+When true, indicates that the rule is currently paused.
 
-    Defines the current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Defines the number of results per page of results.
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_list_response%20%3E%20(schema)>)
 
-  - `total_count: optional number`
+<details>
 
-    Defines the total results available without any search parameters.
+<summary>
 
-### Example
+UARuleGetResponse object {id, configuration, description, 2 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b59",
-      "configuration": {
-        "target": "ua",
-        "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-      },
-      "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-      "mode": "js_challenge",
-      "paused": false
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+The unique identifier of the User Agent Blocking rule.
 
-## Get a User Agent Blocking rule
+maxLength32
 
-**get** `/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}`
+<a href="#">Link to this property</a>
 
-Fetches the details of a User Agent Blocking rule.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+configuration: optional object {target, value }
 
-  Defines an identifier.
+The configuration object for the current rule.
 
-- `ua_rule_id: string`
+</summary>
 
-  The unique identifier of the User Agent Blocking rule.
+target: optional string
 
-### Returns
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+value: optional string
 
-  - `message: string`
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+description: optional string
 
-  - `code: number`
+An informative summary of the rule.
 
-  - `message: string`
+maxLength1024
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: object { id, configuration, description, 2 more }`
+<summary>
 
-  - `id: optional string`
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-    The unique identifier of the User Agent Blocking rule.
+The action to apply to a matched request.
 
-  - `configuration: optional object { target, value }`
+maxLength12
 
-    The configuration object for the current rule.
+</summary>
 
-    - `target: optional string`
+One of the following:
 
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
+"block"
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
+"challenge"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the rule.
+"js\_challenge"
 
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request.
+"managed\_challenge"
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+</details>
 
-    - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"managed_challenge"`
+paused: optional boolean
 
-  - `paused: optional boolean`
+When true, indicates that the rule is currently paused.
 
-    When true, indicates that the rule is currently paused.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Defines whether the API call was successful.
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_get_response%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules/$UA_RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+UARuleCreateResponse object {id, configuration, description, 2 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configuration": {
-      "target": "ua",
-      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-    },
-    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-    "mode": "js_challenge",
-    "paused": false
-  },
-  "success": true
-}
-```
+id: optional string
 
-## Create a User Agent Blocking rule
+The unique identifier of the User Agent Blocking rule.
 
-**post** `/zones/{zone_id}/firewall/ua_rules`
+maxLength32
 
-Creates a new User Agent Blocking rule in a zone.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Defines an identifier.
+configuration: optional object {target, value }
 
-### Body Parameters
+The configuration object for the current rule.
 
-- `configuration: object { target, value }`
+</summary>
 
-  - `target: optional "ua"`
+target: optional string
 
-    The configuration target. You must set the target to `ua` when specifying a user agent in the rule.
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-    - `"ua"`
+<a href="#">Link to this property</a>
 
-  - `value: optional string`
+value: optional string
 
-    the user agent to exactly match
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
+<a href="#">Link to this property</a>
 
-  The action to apply to a matched request.
+</details>
 
-  - `"block"`
+<a href="#">Link to this property</a>
 
-  - `"challenge"`
+description: optional string
 
-  - `"whitelist"`
+An informative summary of the rule.
 
-  - `"js_challenge"`
+maxLength1024
 
-  - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+<details>
 
-  An informative summary of the rule. This value is sanitized and any tags will be removed.
+<summary>
 
-- `paused: optional boolean`
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-  When true, indicates that the rule is currently paused.
+The action to apply to a matched request.
 
-### Returns
+maxLength12
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"block"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"challenge"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"js\_challenge"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"managed\_challenge"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { id, configuration, description, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+paused: optional boolean
 
-    The unique identifier of the User Agent Blocking rule.
+When true, indicates that the rule is currently paused.
 
-  - `configuration: optional object { target, value }`
+<a href="#">Link to this property</a>
 
-    The configuration object for the current rule.
+</details>
 
-    - `target: optional string`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_create_response%20%3E%20(schema)>)
 
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
+<details>
 
-    - `value: optional string`
+<summary>
 
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
+UARuleUpdateResponse object {id, configuration, description, 2 more }
 
-  - `description: optional string`
+</summary>
 
-    An informative summary of the rule.
+id: optional string
 
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
+The unique identifier of the User Agent Blocking rule.
 
-    The action to apply to a matched request.
+maxLength32
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+<details>
 
-    - `"js_challenge"`
+<summary>
 
-    - `"managed_challenge"`
+configuration: optional object {target, value }
 
-  - `paused: optional boolean`
+The configuration object for the current rule.
 
-    When true, indicates that the rule is currently paused.
+</summary>
 
-- `success: true`
+target: optional string
 
-  Defines whether the API call was successful.
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+value: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configuration": {},
-          "mode": "challenge",
-          "description": "Prevent multiple login failures to mitigate brute force attacks"
-        }'
-```
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configuration": {
-      "target": "ua",
-      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-    },
-    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-    "mode": "js_challenge",
-    "paused": false
-  },
-  "success": true
-}
-```
+</details>
 
-## Update a User Agent Blocking rule
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}`
+description: optional string
 
-Updates an existing User Agent Blocking rule.
+An informative summary of the rule.
 
-### Path Parameters
+maxLength1024
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Defines an identifier.
+<details>
 
-- `ua_rule_id: string`
+<summary>
 
-  The unique identifier of the User Agent Blocking rule.
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-### Body Parameters
+The action to apply to a matched request.
 
-- `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+maxLength12
 
-  The rule configuration.
+</summary>
 
-  - `AccessRuleIPConfiguration object { target, value }`
+One of the following:
 
-    - `target: optional "ip"`
+"block"
 
-      The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+<a href="#">Link to this property</a>
 
-      - `"ip"`
+"challenge"
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The IP address to match. This address will be compared to the IP address of incoming requests.
+"js\_challenge"
 
-  - `IPV6Configuration object { target, value }`
+<a href="#">Link to this property</a>
 
-    - `target: optional "ip6"`
+"managed\_challenge"
 
-      The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+<a href="#">Link to this property</a>
 
-      - `"ip6"`
+</details>
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The IPv6 address to match.
+paused: optional boolean
 
-  - `AccessRuleCIDRConfiguration object { target, value }`
+When true, indicates that the rule is currently paused.
 
-    - `target: optional "ip_range"`
+<a href="#">Link to this property</a>
 
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+</details>
 
-      - `"ip_range"`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_update_response%20%3E%20(schema)>)
 
-    - `value: optional string`
+<details>
 
-      The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+<summary>
 
-  - `ASNConfiguration object { target, value }`
+UARuleDeleteResponse object {id, configuration, description, 2 more }
 
-    - `target: optional "asn"`
+</summary>
 
-      The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+id: optional string
 
-      - `"asn"`
+The unique identifier of the User Agent Blocking rule.
 
-    - `value: optional string`
+maxLength32
 
-      The AS number to match.
+<a href="#">Link to this property</a>
 
-  - `CountryConfiguration object { target, value }`
+<details>
 
-    - `target: optional "country"`
+<summary>
 
-      The configuration target. You must set the target to `country` when specifying a country code in the rule.
+configuration: optional object {target, value }
 
-      - `"country"`
+The configuration object for the current rule.
 
-    - `value: optional string`
+</summary>
 
-      The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+target: optional string
 
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-  The action to apply to a matched request.
+<a href="#">Link to this property</a>
 
-  - `"block"`
+value: optional string
 
-  - `"challenge"`
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-  - `"whitelist"`
+<a href="#">Link to this property</a>
 
-  - `"js_challenge"`
+</details>
 
-  - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+description: optional string
 
-  An informative summary of the rule. This value is sanitized and any tags will be removed.
+An informative summary of the rule.
 
-- `paused: optional boolean`
+maxLength1024
 
-  When true, indicates that the rule is currently paused.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-  - `message: string`
+The action to apply to a matched request.
 
-  - `documentation_url: optional string`
+maxLength12
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of ResponseInfo`
+"block"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"challenge"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"js\_challenge"
 
-- `result: object { id, configuration, description, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"managed\_challenge"
 
-    The unique identifier of the User Agent Blocking rule.
+<a href="#">Link to this property</a>
 
-  - `configuration: optional object { target, value }`
+</details>
 
-    The configuration object for the current rule.
+<a href="#">Link to this property</a>
 
-    - `target: optional string`
+paused: optional boolean
 
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
+When true, indicates that the rule is currently paused.
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
+</details>
 
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules/$UA_RULE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configuration": {},
-          "mode": "challenge",
-          "description": "Prevent multiple login failures to mitigate brute force attacks"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configuration": {
-      "target": "ua",
-      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-    },
-    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-    "mode": "js_challenge",
-    "paused": false
-  },
-  "success": true
-}
-```
-
-## Delete a User Agent Blocking rule
-
-**delete** `/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}`
-
-Deletes an existing User Agent Blocking rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `ua_rule_id: string`
-
-  The unique identifier of the User Agent Blocking rule.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules/$UA_RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configuration": {
-      "target": "ua",
-      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-    },
-    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-    "mode": "js_challenge",
-    "paused": false
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### UA Rule List Response
-
-- `UARuleListResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-### UA Rule Get Response
-
-- `UARuleGetResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-### UA Rule Create Response
-
-- `UARuleCreateResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-### UA Rule Update Response
-
-- `UARuleUpdateResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-### UA Rule Delete Response
-
-- `UARuleDeleteResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_delete_response%20%3E%20(schema)>)

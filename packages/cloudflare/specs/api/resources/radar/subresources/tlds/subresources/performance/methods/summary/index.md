@@ -1,223 +1,549 @@
-## Get TLD Performance Summary
+---
+title: Get TLD Performance Summary
+---
 
-**get** `/radar/tlds/performance/summary/{dimension}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[TLDs](https://developers.cloudflare.com/api/resources/radar/subresources/tlds)
+
+[Performance](https://developers.cloudflare.com/api/resources/radar/subresources/tlds/subresources/performance)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get TLD Performance Summary
+
+GET/radar/tlds/performance/summary/{dimension}
 
 Returns a summary of TLD authoritative nameserver performance grouped by the specified dimension.
 
-### Path Parameters
+##### Security
 
-- `dimension: "LATENCY" or "NAMESERVER_LATENCY" or "LOCATION_LATENCY"`
+<details>
 
-  Dimension to summarize TLD nameserver latency by.
+<summary>API Token</summary>
 
-  - `"LATENCY"`
 
-  - `"NAMESERVER_LATENCY"`
 
-  - `"LOCATION_LATENCY"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Query Parameters
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `continent: optional array of string`
+</details>
 
-  Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
+<details>
 
-- `dateEnd: optional array of string`
+<summary>API Email + API Key</summary>
 
-  End of the date range (inclusive).
 
-- `dateRange: optional array of string`
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `dateStart: optional array of string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Start of the date range.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `format: optional "JSON" or "CSV"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Format in which results will be returned.
+</details>
 
-  - `"JSON"`
+##### Accepted Permissions (at least one required)
 
-  - `"CSV"`
+`User Details Write``User Details Read`
 
-- `limitPerGroup: optional number`
+##### P ath ParametersExpand Collapse
 
-  Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category.
+<details>
 
-- `location: optional array of string`
+<summary>
 
-  Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
+dimension: "LATENCY"or "NAMESERVER\_LATENCY"or "LOCATION\_LATENCY"
 
-- `name: optional array of string`
+Dimension to summarize TLD nameserver latency by.
 
-  Array of names used to label the series in the response.
+</summary>
 
-- `nameserver: optional string`
+One of the following:
 
-  Filters results by nameserver hostname.
+"LATENCY"
 
-- `tld: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by top-level domain.
+"NAMESERVER\_LATENCY"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+"LOCATION\_LATENCY"
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+</details>
 
-    - `confidenceInfo: object { annotations, level }`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dimension%20%3E%20(schema)>)
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+##### Q uery ParametersExpand Collapse
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+continent: optional array of string
 
-          Data source for annotations.
+Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
 
-          - `"ALL"`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20continent%20%3E%20(schema)>)
 
-          - `"AI_BOTS"`
+dateEnd: optional array of string
 
-          - `"AI_GATEWAY"`
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-          - `"BGP"`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-          - `"BOTS"`
+dateRange: optional array of string
 
-          - `"CONNECTION_ANOMALY"`
+Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
 
-          - `"CT"`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
 
-          - `"DNS"`
+dateStart: optional array of string
 
-          - `"DNS_MAGNITUDE"`
+Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-          - `"DNS_AS112"`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
 
-          - `"DOS"`
+<details>
 
-          - `"EMAIL_ROUTING"`
+<summary>
 
-          - `"EMAIL_SECURITY"`
+format: optional "JSON"or "CSV"
 
-          - `"FW"`
+Format in which results will be returned.
 
-          - `"FW_PG"`
+</summary>
 
-          - `"HTTP"`
+One of the following:
 
-          - `"HTTP_CONTROL"`
+"JSON"
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+"CSV"
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+</details>
 
-          - `"NET"`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-          - `"ROBOTS_TXT"`
+limitPerGroup: optional number
 
-          - `"SPEED"`
+Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an “other” category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2.
 
-          - `"WORKERS_AI"`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20limitPerGroup%20%3E%20(schema)>)
 
-        - `description: string`
+location: optional array of string
 
-        - `endDate: string`
+Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20location%20%3E%20(schema)>)
 
-          Event type for annotations.
+name: optional array of string
 
-          - `"EVENT"`
+Array of names used to label the series in the response.
 
-          - `"GENERAL"`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-          - `"OUTAGE"`
+nameserver: optional string
 
-          - `"PARTIAL_PROJECTION"`
+Filters results by nameserver hostname.
 
-          - `"PIPELINE"`
+maxLength253
 
-          - `"TRAFFIC_ANOMALY"`
+minLength1
 
-        - `isInstantaneous: boolean`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20nameserver%20%3E%20(schema)>)
 
-          Whether event is a single point in time or a time range.
+tld: optional array of string
 
-        - `linkedUrl: string`
+Filters results by top-level domain.
 
-        - `startDate: string`
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20tld%20%3E%20(schema)>)
 
-        - `tags: optional array of string`
+##### ReturnsExpand Collapse
 
-      - `level: number`
+<details>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+result: object {meta, summary\_0 }
 
-      - `endTime: string`
+</summary>
 
-        Adjusted end of date range.
+<details>
 
-      - `startTime: string`
+<summary>
 
-        Adjusted start of date range.
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-    - `lastUpdated: string`
+Metadata for the results.
 
-      Timestamp of the last dataset update.
+</summary>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<details>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<summary>
 
-      - `"PERCENTAGE"`
+confidenceInfo: object {annotations, level }
 
-      - `"MIN0_MAX"`
+</summary>
 
-      - `"MIN_MAX"`
+<details>
 
-      - `"RAW_VALUES"`
+<summary>
 
-      - `"PERCENTAGE_CHANGE"`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-      - `"ROLLING_AVERAGE"`
+</summary>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<details>
 
-      - `"RATIO"`
+<summary>
 
-    - `units: array of object { name, value }`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-      Measurement units for the results.
+Data source for annotations.
 
-      - `name: string`
+</summary>
 
-      - `value: string`
+One of the following:
 
-  - `summary_0: map[string]`
+"ALL"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"AI\_BOTS"
 
-```http
+<a href="#">Link to this property</a>
+
+"AI\_GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"BGP"
+
+<a href="#">Link to this property</a>
+
+"BOTS"
+
+<a href="#">Link to this property</a>
+
+"CONNECTION\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+"CT"
+
+<a href="#">Link to this property</a>
+
+"DNS"
+
+<a href="#">Link to this property</a>
+
+"DNS\_MAGNITUDE"
+
+<a href="#">Link to this property</a>
+
+"DNS\_AS112"
+
+<a href="#">Link to this property</a>
+
+"DOS"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_ROUTING"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_SECURITY"
+
+<a href="#">Link to this property</a>
+
+"FW"
+
+<a href="#">Link to this property</a>
+
+"FW\_PG"
+
+<a href="#">Link to this property</a>
+
+"HTTP"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CONTROL"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CRAWLER\_REFERER"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"IQI"
+
+<a href="#">Link to this property</a>
+
+"LEAKED\_CREDENTIALS"
+
+<a href="#">Link to this property</a>
+
+"NET"
+
+<a href="#">Link to this property</a>
+
+"ROBOTS\_TXT"
+
+<a href="#">Link to this property</a>
+
+"SPEED"
+
+<a href="#">Link to this property</a>
+
+"WORKERS\_AI"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+endDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
+
+Event type for annotations.
+
+</summary>
+
+One of the following:
+
+"GENERAL"
+
+<a href="#">Link to this property</a>
+
+"OUTAGE"
+
+<a href="#">Link to this property</a>
+
+"PARTIAL\_PROJECTION"
+
+<a href="#">Link to this property</a>
+
+"PIPELINE"
+
+<a href="#">Link to this property</a>
+
+"TRAFFIC\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isInstantaneous: boolean
+
+Whether event is a single point in time or a time range.
+
+<a href="#">Link to this property</a>
+
+linkedUrl: string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+startDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+level: number
+
+Provides an indication of how much confidence Cloudflare has in the data.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dateRange: array of object {endTime, startTime }
+
+</summary>
+
+endTime: string
+
+Adjusted end of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+startTime: string
+
+Adjusted start of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastUpdated: string
+
+Timestamp of the last dataset update.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
+
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
+
+</summary>
+
+One of the following:
+
+"PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"MIN0\_MAX"
+
+<a href="#">Link to this property</a>
+
+"MIN\_MAX"
+
+<a href="#">Link to this property</a>
+
+"RAW\_VALUES"
+
+<a href="#">Link to this property</a>
+
+"PERCENTAGE\_CHANGE"
+
+<a href="#">Link to this property</a>
+
+"ROLLING\_AVERAGE"
+
+<a href="#">Link to this property</a>
+
+"OVERLAPPED\_PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"RATIO"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+units: array of object {name, value }
+
+Measurement units for the results.
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+summary\_0: map\[string]
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.tlds.performance%20%3E%20(method)%20summary%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get TLD Performance Summary
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/tlds/performance/summary/$DIMENSION \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "meta": {
@@ -227,7 +553,56 @@ curl https://api.cloudflare.com/client/v4/radar/tlds/performance/summary/$DIMENS
             "dataSource": "ALL",
             "description": "Cable cut in Tonga",
             "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
+            "eventType": "GENERAL",
+            "isInstantaneous": true,
+            "linkedUrl": "https://example.com",
+            "startDate": "2019-12-27T18:11:19.117Z",
+            "tags": [
+              "BOT_CLASS"
+            ]
+          }
+        ],
+        "level": 0
+      },
+      "dateRange": [
+        {
+          "endTime": "2022-09-17T10:22:57.555Z",
+          "startTime": "2022-09-16T10:22:57.555Z"
+        }
+      ],
+      "lastUpdated": "2019-12-27T18:11:19.117Z",
+      "normalization": "PERCENTAGE",
+      "units": [
+        {
+          "name": "*",
+          "value": "requests"
+        }
+      ]
+    },
+    "summary_0": {
+      "a.gtld-servers.net": "2.0",
+      "b.gtld-servers.net": "3.0"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "meta": {
+      "confidenceInfo": {
+        "annotations": [
+          {
+            "dataSource": "ALL",
+            "description": "Cable cut in Tonga",
+            "endDate": "2019-12-27T18:11:19.117Z",
+            "eventType": "GENERAL",
             "isInstantaneous": true,
             "linkedUrl": "https://example.com",
             "startDate": "2019-12-27T18:11:19.117Z",

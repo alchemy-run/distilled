@@ -1,1524 +1,827 @@
+---
+title: Super Slurper
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Super Slurper
 
-# Jobs
+#### Super SlurperJobs
 
-## List jobs
+##### [List jobs](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/methods/list)
 
-**get** `/accounts/{account_id}/slurper/jobs`
+GET/accounts/{account\_id}/slurper/jobs
 
-Lists all R2 Super Slurper migration jobs for the account with their status.
+##### [Get job details](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/slurper/jobs/{job\_id}
 
-- `account_id: string`
+##### [Create a job](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/slurper/jobs
 
-- `limit: optional number`
+##### [Abort all jobs](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/methods/abort_all)
 
-- `offset: optional number`
+PUT/accounts/{account\_id}/slurper/jobs/abortAll
 
-### Returns
+##### [Abort a job](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/methods/abort)
 
-- `errors: optional array of ResponseInfo`
+PUT/accounts/{account\_id}/slurper/jobs/{job\_id}/abort
 
-  - `code: number`
+##### [Pause a job](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/methods/pause)
 
-  - `message: string`
+PUT/accounts/{account\_id}/slurper/jobs/{job\_id}/pause
 
-  - `documentation_url: optional string`
+##### [Get job progress](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/methods/progress)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/slurper/jobs/{job\_id}/progress
 
-    - `pointer: optional string`
+##### [Resume a job](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/methods/resume)
 
-- `messages: optional array of string`
+PUT/accounts/{account\_id}/slurper/jobs/{job\_id}/resume
 
-- `result: optional array of object { id, createdAt, finishedAt, 4 more }`
+##### ModelsExpand Collapse
 
-  - `id: optional string`
+<details>
 
-  - `createdAt: optional string`
+<summary>
 
-  - `finishedAt: optional string`
+JobListResponse object {id, createdAt, finishedAt, 4 more }
 
-  - `overwrite: optional boolean`
+</summary>
 
-  - `source: optional object { bucket, endpoint, keys, 2 more }  or object { bucket, keys, pathPrefix, vendor }  or object { bucket, jurisdiction, keys, 2 more }`
+id: optional string
 
-    - `S3SourceResponseSchema object { bucket, endpoint, keys, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `bucket: optional string`
+createdAt: optional string
 
-      - `endpoint: optional string`
+<a href="#">Link to this property</a>
 
-      - `keys: optional array of string`
+finishedAt: optional string
 
-      - `pathPrefix: optional string`
+<a href="#">Link to this property</a>
 
-      - `vendor: optional "s3"`
+overwrite: optional boolean
 
-        - `"s3"`
+<a href="#">Link to this property</a>
 
-    - `GcsSourceResponseSchema object { bucket, keys, pathPrefix, vendor }`
+<details>
 
-      - `bucket: optional string`
+<summary>
 
-      - `keys: optional array of string`
+source: optional object {bucket, endpoint, keys, 2 more } or object {bucket, keys, pathPrefix, vendor } or object {bucket, jurisdiction, keys, 2 more }
 
-      - `pathPrefix: optional string`
+</summary>
 
-      - `vendor: optional "gcs"`
+One of the following:
 
-        - `"gcs"`
+<details>
 
-    - `R2SourceResponseSchema object { bucket, jurisdiction, keys, 2 more }`
+<summary>
 
-      - `bucket: optional string`
+S3SourceResponseSchema object {bucket, endpoint, keys, 2 more }
 
-      - `jurisdiction: optional "default" or "eu" or "fedramp"`
+</summary>
 
-        - `"default"`
+bucket: optional string
 
-        - `"eu"`
+<a href="#">Link to this property</a>
 
-        - `"fedramp"`
+endpoint: optional string
 
-      - `keys: optional array of string`
+formaturi
 
-      - `pathPrefix: optional string`
+<a href="#">Link to this property</a>
 
-      - `vendor: optional Provider`
+keys: optional array of string
 
-        - `"r2"`
+<a href="#">Link to this property</a>
 
-  - `status: optional "running" or "paused" or "aborted" or "completed"`
+pathPrefix: optional string
 
-    - `"running"`
+<a href="#">Link to this property</a>
 
-    - `"paused"`
+vendor: optional "s3"
 
-    - `"aborted"`
+<a href="#">Link to this property</a>
 
-    - `"completed"`
+</details>
 
-  - `target: optional object { bucket, jurisdiction, vendor }`
+<a href="#">Link to this property</a>
 
-    - `bucket: optional string`
+<details>
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+<summary>
 
-      - `"default"`
+GcsSourceResponseSchema object {bucket, keys, pathPrefix, vendor }
 
-      - `"eu"`
+</summary>
 
-      - `"fedramp"`
+bucket: optional string
 
-    - `vendor: optional Provider`
+<a href="#">Link to this property</a>
 
-- `success: optional true`
+keys: optional array of string
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+pathPrefix: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+vendor: optional "gcs"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "id": "id",
-      "createdAt": "createdAt",
-      "finishedAt": "finishedAt",
-      "overwrite": true,
-      "source": {
-        "bucket": "bucket",
-        "endpoint": "https://example.com",
-        "keys": [
-          "string"
-        ],
-        "pathPrefix": "pathPrefix",
-        "vendor": "s3"
-      },
-      "status": "running",
-      "target": {
-        "bucket": "bucket",
-        "jurisdiction": "default",
-        "vendor": "r2"
-      }
-    }
-  ],
-  "success": true
-}
-```
+</details>
 
-## Get job details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/slurper/jobs/{job_id}`
+<details>
 
-Retrieves detailed status and configuration for a specific R2 Super Slurper migration job.
+<summary>
 
-### Path Parameters
+R2SourceResponseSchema object {bucket, jurisdiction, keys, 2 more }
 
-- `account_id: string`
+</summary>
 
-- `job_id: string`
+bucket: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+jurisdiction: optional "default"or "eu"or "us"or "fedramp"
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"default"
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, createdAt, finishedAt, 4 more }`
+"eu"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `createdAt: optional string`
+"us"
 
-  - `finishedAt: optional string`
+<a href="#">Link to this property</a>
 
-  - `overwrite: optional boolean`
+"fedramp"
 
-  - `source: optional object { bucket, endpoint, keys, 2 more }  or object { bucket, keys, pathPrefix, vendor }  or object { bucket, jurisdiction, keys, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `S3SourceResponseSchema object { bucket, endpoint, keys, 2 more }`
+</details>
 
-      - `bucket: optional string`
+<a href="#">Link to this property</a>
 
-      - `endpoint: optional string`
+keys: optional array of string
 
-      - `keys: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `pathPrefix: optional string`
+pathPrefix: optional string
 
-      - `vendor: optional "s3"`
+<a href="#">Link to this property</a>
 
-        - `"s3"`
+vendor: optional <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)">Provider</a>
 
-    - `GcsSourceResponseSchema object { bucket, keys, pathPrefix, vendor }`
+<a href="#">Link to this property</a>
 
-      - `bucket: optional string`
+</details>
 
-      - `keys: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `pathPrefix: optional string`
+</details>
 
-      - `vendor: optional "gcs"`
+<a href="#">Link to this property</a>
 
-        - `"gcs"`
+<details>
 
-    - `R2SourceResponseSchema object { bucket, jurisdiction, keys, 2 more }`
+<summary>
 
-      - `bucket: optional string`
+status: optional "running"or "paused"or "aborted"or "completed"
 
-      - `jurisdiction: optional "default" or "eu" or "fedramp"`
+</summary>
 
-        - `"default"`
+One of the following:
 
-        - `"eu"`
+"running"
 
-        - `"fedramp"`
+<a href="#">Link to this property</a>
 
-      - `keys: optional array of string`
+"paused"
 
-      - `pathPrefix: optional string`
+<a href="#">Link to this property</a>
 
-      - `vendor: optional Provider`
+"aborted"
 
-        - `"r2"`
+<a href="#">Link to this property</a>
 
-  - `status: optional "running" or "paused" or "aborted" or "completed"`
+"completed"
 
-    - `"running"`
+<a href="#">Link to this property</a>
 
-    - `"paused"`
+</details>
 
-    - `"aborted"`
+<a href="#">Link to this property</a>
 
-    - `"completed"`
+<details>
 
-  - `target: optional object { bucket, jurisdiction, vendor }`
+<summary>
 
-    - `bucket: optional string`
+target: optional object {bucket, jurisdiction, vendor }
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+</summary>
 
-      - `"default"`
+bucket: optional string
 
-      - `"eu"`
+<a href="#">Link to this property</a>
 
-      - `"fedramp"`
+<details>
 
-    - `vendor: optional Provider`
+<summary>
 
-- `success: optional true`
+jurisdiction: optional "default"or "eu"or "us"or "fedramp"
 
-  Indicates if the API call was successful or not.
+</summary>
 
-  - `true`
+One of the following:
 
-### Example
+"default"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/$JOB_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"eu"
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "id": "id",
-    "createdAt": "createdAt",
-    "finishedAt": "finishedAt",
-    "overwrite": true,
-    "source": {
-      "bucket": "bucket",
-      "endpoint": "https://example.com",
-      "keys": [
-        "string"
-      ],
-      "pathPrefix": "pathPrefix",
-      "vendor": "s3"
-    },
-    "status": "running",
-    "target": {
-      "bucket": "bucket",
-      "jurisdiction": "default",
-      "vendor": "r2"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a job
+"us"
 
-**post** `/accounts/{account_id}/slurper/jobs`
+<a href="#">Link to this property</a>
 
-Creates a new R2 Super Slurper migration job to transfer objects from a source bucket (e.g. S3, GCS, R2) to R2.
+"fedramp"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `overwrite: optional boolean`
+vendor: optional <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)">Provider</a>
 
-- `source: optional object { bucket, secret, vendor, 4 more }  or object { bucket, secret, vendor, 2 more }  or object { bucket, secret, vendor, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `R2SlurperS3SourceSchema object { bucket, secret, vendor, 4 more }`
+</details>
 
-    - `bucket: string`
+<a href="#">Link to this property</a>
 
-    - `secret: object { accessKeyId, secretAccessKey }`
+</details>
 
-      - `accessKeyId: string`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(model)%20job_list_response%20%3E%20(schema)>)
 
-      - `secretAccessKey: string`
+<details>
 
-    - `vendor: "s3"`
+<summary>
 
-      - `"s3"`
+JobGetResponse object {id, createdAt, finishedAt, 4 more }
 
-    - `endpoint: optional string`
+</summary>
 
-      Custom S3-compatible endpoint that must use https://.
+id: optional string
 
-    - `keys: optional array of string`
+<a href="#">Link to this property</a>
 
-    - `pathPrefix: optional string`
+createdAt: optional string
 
-    - `region: optional string`
+<a href="#">Link to this property</a>
 
-  - `R2SlurperGcsSourceSchema object { bucket, secret, vendor, 2 more }`
+finishedAt: optional string
 
-    - `bucket: string`
+<a href="#">Link to this property</a>
 
-    - `secret: object { clientEmail, privateKey }`
+overwrite: optional boolean
 
-      - `clientEmail: string`
+<a href="#">Link to this property</a>
 
-      - `privateKey: string`
+<details>
 
-    - `vendor: "gcs"`
+<summary>
 
-      - `"gcs"`
+source: optional object {bucket, endpoint, keys, 2 more } or object {bucket, keys, pathPrefix, vendor } or object {bucket, jurisdiction, keys, 2 more }
 
-    - `keys: optional array of string`
+</summary>
 
-    - `pathPrefix: optional string`
+One of the following:
 
-  - `R2SlurperR2SourceSchema object { bucket, secret, vendor, 3 more }`
+<details>
 
-    - `bucket: string`
+<summary>
 
-    - `secret: object { accessKeyId, secretAccessKey }`
+S3SourceResponseSchema object {bucket, endpoint, keys, 2 more }
 
-      - `accessKeyId: string`
+</summary>
 
-      - `secretAccessKey: string`
+bucket: optional string
 
-    - `vendor: Provider`
+<a href="#">Link to this property</a>
 
-      - `"r2"`
+endpoint: optional string
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+formaturi
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-      - `"eu"`
+keys: optional array of string
 
-      - `"fedramp"`
+<a href="#">Link to this property</a>
 
-    - `keys: optional array of string`
+pathPrefix: optional string
 
-    - `pathPrefix: optional string`
+<a href="#">Link to this property</a>
 
-- `target: optional object { bucket, secret, vendor, jurisdiction }`
+vendor: optional "s3"
 
-  - `bucket: string`
+<a href="#">Link to this property</a>
 
-  - `secret: object { accessKeyId, secretAccessKey }`
+</details>
 
-    - `accessKeyId: string`
+<a href="#">Link to this property</a>
 
-    - `secretAccessKey: string`
+<details>
 
-  - `vendor: Provider`
+<summary>
 
-  - `jurisdiction: optional "default" or "eu" or "fedramp"`
+GcsSourceResponseSchema object {bucket, keys, pathPrefix, vendor }
 
-    - `"default"`
+</summary>
 
-    - `"eu"`
+bucket: optional string
 
-    - `"fedramp"`
+<a href="#">Link to this property</a>
 
-### Returns
+keys: optional array of string
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+pathPrefix: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+vendor: optional "gcs"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-- `success: optional true`
+R2SourceResponseSchema object {bucket, jurisdiction, keys, 2 more }
 
-  Indicates if the API call was successful or not.
+</summary>
 
-  - `true`
+bucket: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "id": "id"
-  },
-  "success": true
-}
-```
+jurisdiction: optional "default"or "eu"or "us"or "fedramp"
 
-## Abort all jobs
+</summary>
 
-**put** `/accounts/{account_id}/slurper/jobs/abortAll`
+One of the following:
 
-Cancels all running R2 Super Slurper migration jobs for the account. Any objects in the middle of a transfer will finish, but no new objects will start transferring.
+"default"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"eu"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+"us"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"fedramp"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of string`
+keys: optional array of string
 
-- `result: optional string`
+<a href="#">Link to this property</a>
 
-- `success: optional true`
+pathPrefix: optional string
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+vendor: optional <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)">Provider</a>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/abortAll \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": "result",
-  "success": true
-}
-```
+</details>
 
-## Abort a job
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/slurper/jobs/{job_id}/abort`
+<details>
 
-Cancels a specific R2 Super Slurper migration job. Any objects in the middle of a transfer will finish, but no new objects will start transferring.
+<summary>
 
-### Path Parameters
+status: optional "running"or "paused"or "aborted"or "completed"
 
-- `account_id: string`
+</summary>
 
-- `job_id: string`
+One of the following:
 
-### Returns
+"running"
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"paused"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"aborted"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"completed"
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional string`
+</details>
 
-- `success: optional true`
+<a href="#">Link to this property</a>
 
-  Indicates if the API call was successful or not.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+target: optional object {bucket, jurisdiction, vendor }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/$JOB_ID/abort \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+bucket: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": "result",
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Pause a job
+<details>
 
-**put** `/accounts/{account_id}/slurper/jobs/{job_id}/pause`
+<summary>
 
-Pauses a running R2 Super Slurper migration job. The job can be resumed later to continue transferring.
+jurisdiction: optional "default"or "eu"or "us"or "fedramp"
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-- `job_id: string`
+"default"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+"eu"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"us"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"fedramp"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of string`
+</details>
 
-- `result: optional string`
+<a href="#">Link to this property</a>
 
-- `success: optional true`
+vendor: optional <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)">Provider</a>
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/$JOB_ID/pause \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(model)%20job_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": "result",
-  "success": true
-}
-```
+<details>
 
-## Get job progress
+<summary>
 
-**get** `/accounts/{account_id}/slurper/jobs/{job_id}/progress`
+JobCreateResponse object {id }
 
-Retrieves current progress metrics for an R2 Super Slurper migration job
+</summary>
 
-### Path Parameters
+id: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `job_id: string`
+</details>
 
-### Returns
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(model)%20job_create_response%20%3E%20(schema)>)
 
-- `errors: optional array of ResponseInfo`
+JobAbortAllResponse = string
 
-  - `code: number`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(model)%20job_abort_all_response%20%3E%20(schema)>)
 
-  - `message: string`
+JobAbortResponse = string
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(model)%20job_abort_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+JobPauseResponse = string
 
-    - `pointer: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(model)%20job_pause_response%20%3E%20(schema)>)
 
-- `messages: optional array of string`
+<details>
 
-- `result: optional object { id, createdAt, failedObjects, 4 more }`
+<summary>
 
-  - `id: optional string`
+JobProgressResponse object {id, createdAt, failedObjects, 4 more }
 
-  - `createdAt: optional string`
+</summary>
 
-  - `failedObjects: optional number`
+id: optional string
 
-  - `objects: optional number`
+<a href="#">Link to this property</a>
 
-  - `skippedObjects: optional number`
+createdAt: optional string
 
-  - `status: optional "running" or "paused" or "aborted" or "completed"`
+<a href="#">Link to this property</a>
 
-    - `"running"`
+failedObjects: optional number
 
-    - `"paused"`
+<a href="#">Link to this property</a>
 
-    - `"aborted"`
+objects: optional number
 
-    - `"completed"`
+<a href="#">Link to this property</a>
 
-  - `transferredObjects: optional number`
+skippedObjects: optional number
 
-- `success: optional true`
+<a href="#">Link to this property</a>
 
-  Indicates if the API call was successful or not.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+status: optional "running"or "paused"or "aborted"or "completed"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/$JOB_ID/progress \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "id": "id",
-    "createdAt": "createdAt",
-    "failedObjects": 0,
-    "objects": 0,
-    "skippedObjects": 0,
-    "status": "running",
-    "transferredObjects": 0
-  },
-  "success": true
-}
-```
+"running"
 
-## Resume a job
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/slurper/jobs/{job_id}/resume`
+"paused"
 
-Resumes a paused R2 Super Slurper migration job, continuing the transfer from where it stopped.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"aborted"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `job_id: string`
+"completed"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+transferredObjects: optional number
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(model)%20job_progress_response%20%3E%20(schema)>)
 
-- `messages: optional array of string`
+JobResumeResponse = string
 
-- `result: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(model)%20job_resume_response%20%3E%20(schema)>)
 
-- `success: optional true`
+#### Super SlurperJobsLogs
 
-  Indicates if the API call was successful or not.
+##### [Get job logs](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs/subresources/logs/methods/list)
 
-  - `true`
+GET/accounts/{account\_id}/slurper/jobs/{job\_id}/logs
 
-### Example
+##### ModelsExpand Collapse
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/$JOB_ID/resume \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": "result",
-  "success": true
-}
-```
+LogListResponse object {createdAt, job, logType, 2 more }
 
-## Domain Types
+</summary>
 
-### Job List Response
+createdAt: optional string
 
-- `JobListResponse object { id, createdAt, finishedAt, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+job: optional string
 
-  - `createdAt: optional string`
+<a href="#">Link to this property</a>
 
-  - `finishedAt: optional string`
+<details>
 
-  - `overwrite: optional boolean`
+<summary>
 
-  - `source: optional object { bucket, endpoint, keys, 2 more }  or object { bucket, keys, pathPrefix, vendor }  or object { bucket, jurisdiction, keys, 2 more }`
+logType: optional "migrationStart"or "migrationComplete"or "migrationAbort"or 12 more
 
-    - `S3SourceResponseSchema object { bucket, endpoint, keys, 2 more }`
+</summary>
 
-      - `bucket: optional string`
+One of the following:
 
-      - `endpoint: optional string`
+"migrationStart"
 
-      - `keys: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `pathPrefix: optional string`
+"migrationComplete"
 
-      - `vendor: optional "s3"`
+<a href="#">Link to this property</a>
 
-        - `"s3"`
+"migrationAbort"
 
-    - `GcsSourceResponseSchema object { bucket, keys, pathPrefix, vendor }`
+<a href="#">Link to this property</a>
 
-      - `bucket: optional string`
+"migrationError"
 
-      - `keys: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `pathPrefix: optional string`
+"migrationPause"
 
-      - `vendor: optional "gcs"`
+<a href="#">Link to this property</a>
 
-        - `"gcs"`
+"migrationResume"
 
-    - `R2SourceResponseSchema object { bucket, jurisdiction, keys, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `bucket: optional string`
+"migrationErrorFailedContinuation"
 
-      - `jurisdiction: optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-        - `"default"`
+"importErrorRetryExhaustion"
 
-        - `"eu"`
+<a href="#">Link to this property</a>
 
-        - `"fedramp"`
+"importSkippedStorageClass"
 
-      - `keys: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `pathPrefix: optional string`
+"importSkippedOversized"
 
-      - `vendor: optional Provider`
+<a href="#">Link to this property</a>
 
-        - `"r2"`
+"importSkippedEmptyObject"
 
-  - `status: optional "running" or "paused" or "aborted" or "completed"`
+<a href="#">Link to this property</a>
 
-    - `"running"`
+"importSkippedUnsupportedContentType"
 
-    - `"paused"`
+<a href="#">Link to this property</a>
 
-    - `"aborted"`
+"importSkippedExcludedContentType"
 
-    - `"completed"`
+<a href="#">Link to this property</a>
 
-  - `target: optional object { bucket, jurisdiction, vendor }`
+"importSkippedInvalidMedia"
 
-    - `bucket: optional string`
+<a href="#">Link to this property</a>
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+"importSkippedRequiresRetrieval"
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-      - `"eu"`
+</details>
 
-      - `"fedramp"`
+<a href="#">Link to this property</a>
 
-    - `vendor: optional Provider`
+message: optional string
 
-### Job Get Response
+<a href="#">Link to this property</a>
 
-- `JobGetResponse object { id, createdAt, finishedAt, 4 more }`
+objectKey: optional string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `createdAt: optional string`
+</details>
 
-  - `finishedAt: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs.logs%20%3E%20(model)%20log_list_response%20%3E%20(schema)>)
 
-  - `overwrite: optional boolean`
+#### Super SlurperConnectivity Precheck
 
-  - `source: optional object { bucket, endpoint, keys, 2 more }  or object { bucket, keys, pathPrefix, vendor }  or object { bucket, jurisdiction, keys, 2 more }`
+##### [Check source connectivity](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/connectivity_precheck/methods/source)
 
-    - `S3SourceResponseSchema object { bucket, endpoint, keys, 2 more }`
+PUT/accounts/{account\_id}/slurper/source/connectivity-precheck
 
-      - `bucket: optional string`
+##### [Check target connectivity](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/connectivity_precheck/methods/target)
 
-      - `endpoint: optional string`
+PUT/accounts/{account\_id}/slurper/target/connectivity-precheck
 
-      - `keys: optional array of string`
+##### ModelsExpand Collapse
 
-      - `pathPrefix: optional string`
+<details>
 
-      - `vendor: optional "s3"`
+<summary>
 
-        - `"s3"`
+ConnectivityPrecheckSourceResponse object {connectivityStatus }
 
-    - `GcsSourceResponseSchema object { bucket, keys, pathPrefix, vendor }`
+</summary>
 
-      - `bucket: optional string`
+<details>
 
-      - `keys: optional array of string`
+<summary>
 
-      - `pathPrefix: optional string`
+connectivityStatus: optional "success"or "error"
 
-      - `vendor: optional "gcs"`
+</summary>
 
-        - `"gcs"`
+One of the following:
 
-    - `R2SourceResponseSchema object { bucket, jurisdiction, keys, 2 more }`
+"success"
 
-      - `bucket: optional string`
+<a href="#">Link to this property</a>
 
-      - `jurisdiction: optional "default" or "eu" or "fedramp"`
+"error"
 
-        - `"default"`
+<a href="#">Link to this property</a>
 
-        - `"eu"`
+</details>
 
-        - `"fedramp"`
+<a href="#">Link to this property</a>
 
-      - `keys: optional array of string`
+</details>
 
-      - `pathPrefix: optional string`
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(model)%20connectivity_precheck_source_response%20%3E%20(schema)>)
 
-      - `vendor: optional Provider`
+<details>
 
-        - `"r2"`
+<summary>
 
-  - `status: optional "running" or "paused" or "aborted" or "completed"`
+ConnectivityPrecheckTargetResponse object {connectivityStatus }
 
-    - `"running"`
+</summary>
 
-    - `"paused"`
+<details>
 
-    - `"aborted"`
+<summary>
 
-    - `"completed"`
+connectivityStatus: optional "success"or "error"
 
-  - `target: optional object { bucket, jurisdiction, vendor }`
+</summary>
 
-    - `bucket: optional string`
+One of the following:
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+"success"
 
-      - `"default"`
+<a href="#">Link to this property</a>
 
-      - `"eu"`
+"error"
 
-      - `"fedramp"`
+<a href="#">Link to this property</a>
 
-    - `vendor: optional Provider`
+</details>
 
-### Job Create Response
+<a href="#">Link to this property</a>
 
-- `JobCreateResponse object { id }`
+</details>
 
-  - `id: optional string`
-
-### Job Abort All Response
-
-- `JobAbortAllResponse = string`
-
-### Job Abort Response
-
-- `JobAbortResponse = string`
-
-### Job Pause Response
-
-- `JobPauseResponse = string`
-
-### Job Progress Response
-
-- `JobProgressResponse object { id, createdAt, failedObjects, 4 more }`
-
-  - `id: optional string`
-
-  - `createdAt: optional string`
-
-  - `failedObjects: optional number`
-
-  - `objects: optional number`
-
-  - `skippedObjects: optional number`
-
-  - `status: optional "running" or "paused" or "aborted" or "completed"`
-
-    - `"running"`
-
-    - `"paused"`
-
-    - `"aborted"`
-
-    - `"completed"`
-
-  - `transferredObjects: optional number`
-
-### Job Resume Response
-
-- `JobResumeResponse = string`
-
-# Logs
-
-## Get job logs
-
-**get** `/accounts/{account_id}/slurper/jobs/{job_id}/logs`
-
-Gets log entries for an R2 Super Slurper migration job, showing migration status changes, errors, etc.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `job_id: string`
-
-### Query Parameters
-
-- `limit: optional number`
-
-- `offset: optional number`
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional array of object { createdAt, job, logType, 2 more }`
-
-  - `createdAt: optional string`
-
-  - `job: optional string`
-
-  - `logType: optional "migrationStart" or "migrationComplete" or "migrationAbort" or 12 more`
-
-    - `"migrationStart"`
-
-    - `"migrationComplete"`
-
-    - `"migrationAbort"`
-
-    - `"migrationError"`
-
-    - `"migrationPause"`
-
-    - `"migrationResume"`
-
-    - `"migrationErrorFailedContinuation"`
-
-    - `"importErrorRetryExhaustion"`
-
-    - `"importSkippedStorageClass"`
-
-    - `"importSkippedOversized"`
-
-    - `"importSkippedEmptyObject"`
-
-    - `"importSkippedUnsupportedContentType"`
-
-    - `"importSkippedExcludedContentType"`
-
-    - `"importSkippedInvalidMedia"`
-
-    - `"importSkippedRequiresRetrieval"`
-
-  - `message: optional string`
-
-  - `objectKey: optional string`
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/$JOB_ID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "createdAt": "createdAt",
-      "job": "job",
-      "logType": "migrationStart",
-      "message": "message",
-      "objectKey": "objectKey"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Log List Response
-
-- `LogListResponse object { createdAt, job, logType, 2 more }`
-
-  - `createdAt: optional string`
-
-  - `job: optional string`
-
-  - `logType: optional "migrationStart" or "migrationComplete" or "migrationAbort" or 12 more`
-
-    - `"migrationStart"`
-
-    - `"migrationComplete"`
-
-    - `"migrationAbort"`
-
-    - `"migrationError"`
-
-    - `"migrationPause"`
-
-    - `"migrationResume"`
-
-    - `"migrationErrorFailedContinuation"`
-
-    - `"importErrorRetryExhaustion"`
-
-    - `"importSkippedStorageClass"`
-
-    - `"importSkippedOversized"`
-
-    - `"importSkippedEmptyObject"`
-
-    - `"importSkippedUnsupportedContentType"`
-
-    - `"importSkippedExcludedContentType"`
-
-    - `"importSkippedInvalidMedia"`
-
-    - `"importSkippedRequiresRetrieval"`
-
-  - `message: optional string`
-
-  - `objectKey: optional string`
-
-# Connectivity Precheck
-
-## Check source connectivity
-
-**put** `/accounts/{account_id}/slurper/source/connectivity-precheck`
-
-Check whether tokens are valid against the source bucket
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `body: object { bucket, secret, vendor, 4 more }  or object { bucket, secret, vendor, 2 more }  or object { bucket, secret, vendor, 3 more }`
-
-  - `R2SlurperS3SourceSchema object { bucket, secret, vendor, 4 more }`
-
-    - `bucket: string`
-
-    - `secret: object { accessKeyId, secretAccessKey }`
-
-      - `accessKeyId: string`
-
-      - `secretAccessKey: string`
-
-    - `vendor: "s3"`
-
-      - `"s3"`
-
-    - `endpoint: optional string`
-
-      Custom S3-compatible endpoint that must use https://.
-
-    - `keys: optional array of string`
-
-    - `pathPrefix: optional string`
-
-    - `region: optional string`
-
-  - `R2SlurperGcsSourceSchema object { bucket, secret, vendor, 2 more }`
-
-    - `bucket: string`
-
-    - `secret: object { clientEmail, privateKey }`
-
-      - `clientEmail: string`
-
-      - `privateKey: string`
-
-    - `vendor: "gcs"`
-
-      - `"gcs"`
-
-    - `keys: optional array of string`
-
-    - `pathPrefix: optional string`
-
-  - `R2SlurperR2SourceSchema object { bucket, secret, vendor, 3 more }`
-
-    - `bucket: string`
-
-    - `secret: object { accessKeyId, secretAccessKey }`
-
-      - `accessKeyId: string`
-
-      - `secretAccessKey: string`
-
-    - `vendor: Provider`
-
-      - `"r2"`
-
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
-
-      - `"default"`
-
-      - `"eu"`
-
-      - `"fedramp"`
-
-    - `keys: optional array of string`
-
-    - `pathPrefix: optional string`
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional object { connectivityStatus }`
-
-  - `connectivityStatus: optional "success" or "error"`
-
-    - `"success"`
-
-    - `"error"`
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/source/connectivity-precheck \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bucket": "bucket",
-          "secret": {
-            "accessKeyId": "accessKeyId",
-            "secretAccessKey": "secretAccessKey"
-          },
-          "vendor": "s3"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "connectivityStatus": "success"
-  },
-  "success": true
-}
-```
-
-## Check target connectivity
-
-**put** `/accounts/{account_id}/slurper/target/connectivity-precheck`
-
-Check whether tokens are valid against the target bucket
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `bucket: string`
-
-- `secret: object { accessKeyId, secretAccessKey }`
-
-  - `accessKeyId: string`
-
-  - `secretAccessKey: string`
-
-- `vendor: Provider`
-
-  - `"r2"`
-
-- `jurisdiction: optional "default" or "eu" or "fedramp"`
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional object { connectivityStatus }`
-
-  - `connectivityStatus: optional "success" or "error"`
-
-    - `"success"`
-
-    - `"error"`
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/target/connectivity-precheck \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bucket": "bucket",
-          "secret": {
-            "accessKeyId": "accessKeyId",
-            "secretAccessKey": "secretAccessKey"
-          },
-          "vendor": "r2"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "connectivityStatus": "success"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Connectivity Precheck Source Response
-
-- `ConnectivityPrecheckSourceResponse object { connectivityStatus }`
-
-  - `connectivityStatus: optional "success" or "error"`
-
-    - `"success"`
-
-    - `"error"`
-
-### Connectivity Precheck Target Response
-
-- `ConnectivityPrecheckTargetResponse object { connectivityStatus }`
-
-  - `connectivityStatus: optional "success" or "error"`
-
-    - `"success"`
-
-    - `"error"`
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(model)%20connectivity_precheck_target_response%20%3E%20(schema)>)

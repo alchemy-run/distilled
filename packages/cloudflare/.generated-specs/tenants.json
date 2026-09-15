@@ -212,6 +212,15 @@
         }
       }
     },
+    "com.cloudflare.tenants#AccountsListResultItemTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.tenants#AccountsListResultItem": {
       "type": "structure",
       "members": {
@@ -243,6 +252,12 @@
           "target": "com.cloudflare.tenants#AccountsListResultItemType",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.tenants#AccountsListResultItemTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Account tags, present only when `include_tags=true` is requested."
           }
         }
       }

@@ -1,138 +1,420 @@
-## Replace Connector or Re-provision License Key
+---
+title: Update Connector
+---
 
-**put** `/accounts/{account_id}/magic/connectors/{connector_id}`
+[Skip to content](#_top)
 
-Replace Connector or Re-provision License Key
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
 
-- `account_id: string`
+[Connectors](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors)
 
-  Account identifier
+Copy Markdown
 
-- `connector_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `activated: optional boolean`
+**Copy Markdown****View as Markdown**
 
-- `interrupt_window_days_of_week: optional array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+# Update Connector
 
-  Allowed days of the week for upgrades. Default is all days.
+PUT/accounts/{account\_id}/magic/connectors/{connector\_id}
 
-  - `"Sunday"`
+Updates properties of a Magic WAN Connector. May be used to re-provision a license key.
 
-  - `"Monday"`
+##### Security
 
-  - `"Tuesday"`
+<details>
 
-  - `"Wednesday"`
+<summary>API Token</summary>
 
-  - `"Thursday"`
 
-  - `"Friday"`
 
-  - `"Saturday"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `interrupt_window_duration_hours: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `interrupt_window_embargo_dates: optional array of string`
+</details>
 
-  List of dates (YYYY-MM-DD) when upgrades are blocked.
+<details>
 
-- `interrupt_window_hour_of_day: optional number`
+<summary>API Email + API Key</summary>
 
-- `notes: optional string`
 
-- `primary: optional boolean`
 
-- `provision_license: optional boolean`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  When true, regenerate license key for the connector.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `site_id: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `timezone: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Magic WAN Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-- `messages: array of object { code, message }`
+account\_id: string
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `result: object { id, activated, interrupt_window_days_of_week, 12 more }`
+connector\_id: string
 
-  - `id: string`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20connector_id%20%3E%20(schema)>)
 
-  - `activated: boolean`
+##### Body ParametersJSONExpand Collapse
 
-  - `interrupt_window_days_of_week: array of "Sunday" or "Monday" or "Tuesday" or 4 more`
+activated: optional boolean
 
-    Allowed days of the week for upgrades. Default is all days.
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20activated%20%3E%20(schema)>)
 
-    - `"Sunday"`
+<details>
 
-    - `"Monday"`
+<summary>
 
-    - `"Tuesday"`
+interrupt\_window\_days\_of\_week: optional array of "Sunday"or "Monday"or "Tuesday"or 4 more
 
-    - `"Wednesday"`
+Allowed days of the week for upgrades. Default is all days.
 
-    - `"Thursday"`
+</summary>
 
-    - `"Friday"`
+One of the following:
 
-    - `"Saturday"`
+"Sunday"
 
-  - `interrupt_window_duration_hours: number`
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_embargo_dates: array of string`
+"Monday"
 
-    List of dates (YYYY-MM-DD) when upgrades are blocked.
+<a href="#">Link to this property</a>
 
-  - `interrupt_window_hour_of_day: number`
+"Tuesday"
 
-  - `last_updated: string`
+<a href="#">Link to this property</a>
 
-  - `notes: string`
+"Wednesday"
 
-  - `primary: boolean`
+<a href="#">Link to this property</a>
 
-  - `timezone: string`
+"Thursday"
 
-  - `device: optional object { id, serial_number, type }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"Friday"
 
-    - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: optional "MANAGED" or "LICENSED"`
+"Saturday"
 
-      - `"MANAGED"`
+<a href="#">Link to this property</a>
 
-      - `"LICENSED"`
+</details>
 
-  - `last_heartbeat: optional string`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20interrupt_window_days_of_week%20%3E%20(schema)>)
 
-  - `last_seen_version: optional string`
+interrupt\_window\_duration\_hours: optional number
 
-  - `license_key: optional string`
+maximum24
 
-  - `site_id: optional string`
+minimum1
 
-- `success: boolean`
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20interrupt_window_duration_hours%20%3E%20(schema)>)
 
-### Example
+interrupt\_window\_embargo\_dates: optional array of string
 
-```http
+List of dates (YYYY-MM-DD) when upgrades are blocked.
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20interrupt_window_embargo_dates%20%3E%20(schema)>)
+
+interrupt\_window\_hour\_of\_day: optional number
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20interrupt_window_hour_of_day%20%3E%20(schema)>)
+
+notes: optional string
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20notes%20%3E%20(schema)>)
+
+primary: optional boolean
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20primary%20%3E%20(schema)>)
+
+provision\_license: optional boolean
+
+When true, regenerate license key for the connector.
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20provision_license%20%3E%20(schema)>)
+
+site\_id: optional string
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20site_id%20%3E%20(schema)>)
+
+timezone: optional string
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20timezone%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+maxLength0
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, activated, interrupt\_window\_days\_of\_week, 12 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+activated: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+interrupt\_window\_days\_of\_week: array of "Sunday"or "Monday"or "Tuesday"or 4 more
+
+Allowed days of the week for upgrades. Default is all days.
+
+</summary>
+
+One of the following:
+
+"Sunday"
+
+<a href="#">Link to this property</a>
+
+"Monday"
+
+<a href="#">Link to this property</a>
+
+"Tuesday"
+
+<a href="#">Link to this property</a>
+
+"Wednesday"
+
+<a href="#">Link to this property</a>
+
+"Thursday"
+
+<a href="#">Link to this property</a>
+
+"Friday"
+
+<a href="#">Link to this property</a>
+
+"Saturday"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+interrupt\_window\_duration\_hours: number
+
+maximum24
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+interrupt\_window\_embargo\_dates: array of string
+
+List of dates (YYYY-MM-DD) when upgrades are blocked.
+
+<a href="#">Link to this property</a>
+
+interrupt\_window\_hour\_of\_day: number
+
+<a href="#">Link to this property</a>
+
+last\_updated: string
+
+<a href="#">Link to this property</a>
+
+notes: string
+
+<a href="#">Link to this property</a>
+
+primary: boolean
+
+<a href="#">Link to this property</a>
+
+timezone: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+device: optional object {id, serial\_number, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+serial\_number: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "MANAGED"or "LICENSED"
+
+</summary>
+
+One of the following:
+
+"MANAGED"
+
+<a href="#">Link to this property</a>
+
+"LICENSED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+last\_heartbeat: optional string
+
+<a href="#">Link to this property</a>
+
+last\_seen\_version: optional string
+
+<a href="#">Link to this property</a>
+
+license\_key: optional string
+
+<a href="#">Link to this property</a>
+
+site\_id: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20magic_transit.connectors%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update Connector
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -140,20 +422,83 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
-      "code": 0,
-      "message": "message"
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
     }
   ],
   "messages": [
     {
-      "code": 0,
-      "message": "message"
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "id",
+    "activated": true,
+    "interrupt_window_days_of_week": [
+      "Sunday"
+    ],
+    "interrupt_window_duration_hours": 1,
+    "interrupt_window_embargo_dates": [
+      "string"
+    ],
+    "interrupt_window_hour_of_day": 0,
+    "last_updated": "last_updated",
+    "notes": "notes",
+    "primary": true,
+    "timezone": "timezone",
+    "device": {
+      "id": "id",
+      "serial_number": "serial_number",
+      "type": "MANAGED"
+    },
+    "last_heartbeat": "last_heartbeat",
+    "last_seen_version": "last_seen_version",
+    "license_key": "license_key",
+    "site_id": "site_id"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
     }
   ],
   "result": {

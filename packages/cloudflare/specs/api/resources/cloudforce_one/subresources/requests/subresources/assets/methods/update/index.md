@@ -1,86 +1,224 @@
-## Update a Request Asset
+---
+title: Update a Request Asset
+---
 
-**put** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Requests](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests)
+
+[Assets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/assets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a Request Asset
+
+PUT/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/asset/{asset\_id}
 
 Updates an asset in a Cloudforce One intelligence request.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `request_id: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  UUID.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `asset_id: string`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  UUID.
+##### Accepted Permissions (at least one required)
 
-### Body Parameters
+`Cloudforce One Write`
 
-- `source: optional string`
+##### P ath ParametersExpand Collapse
 
-  Asset file to upload.
+account\_id: string
 
-### Returns
+Identifier.
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `message: string`
+request\_id: string
 
-  - `documentation_url: optional string`
+UUID.
 
-  - `source: optional object { pointer }`
+maxLength36
 
-    - `pointer: optional string`
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20request_id%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+asset\_id: string
 
-  - `code: number`
+UUID.
 
-  - `message: string`
+maxLength36
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20asset_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Body ParametersJSONExpand Collapse
 
-    - `pointer: optional string`
+source: optional string
 
-- `success: true`
+Asset file to upload.
 
-  Whether the API call was successful.
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20source%20%3E%20(schema)>)
 
-  - `true`
+##### ReturnsExpand Collapse
 
-- `result: optional object { id, name, created, 2 more }`
+<details>
 
-  - `id: number`
+<summary>
 
-    Asset ID.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `name: string`
+</summary>
 
-    Asset name.
+code: number
 
-  - `created: optional string`
+minimum1000
 
-    Defines the asset creation time.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+message: string
 
-    Asset description.
+<a href="#">Link to this property</a>
 
-  - `file_type: optional string`
+documentation\_url: optional string
 
-    Asset file type.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, name, created, 2 more }
+
+</summary>
+
+id: number
+
+Asset ID.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Asset name.
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+Defines the asset creation time.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Asset description.
+
+<a href="#">Link to this property</a>
+
+file\_type: optional string
+
+Asset file type.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a Request Asset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/asset/$ASSET_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -91,9 +229,46 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/re
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": 0,
+    "name": "example.docx",
+    "created": "2022-01-01T00:00:00Z",
+    "description": "example description",
+    "file_type": "docx"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

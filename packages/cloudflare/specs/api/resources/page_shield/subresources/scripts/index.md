@@ -1,662 +1,417 @@
+---
+title: Scripts
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Page Shield](https://developers.cloudflare.com/api/resources/page_shield)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Scripts
 
-## List Page Shield scripts
+##### [List detected scripts](https://developers.cloudflare.com/api/resources/page_shield/subresources/scripts/methods/list)
 
-**get** `/zones/{zone_id}/page_shield/scripts`
+GET/zones/{zone\_id}/page\_shield/scripts
 
-Lists all scripts detected by Page Shield.
+##### [Get a detected script](https://developers.cloudflare.com/api/resources/page_shield/subresources/scripts/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/page\_shield/scripts/{script\_id}
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier
+<details>
 
-### Query Parameters
+<summary>
 
-- `direction: optional "asc" or "desc"`
+ScriptListResponse object {id, added\_at, first\_seen\_at, 18 more }
 
-  The direction used to sort returned scripts.
+</summary>
 
-  - `"asc"`
+id: string
 
-  - `"desc"`
+Identifier
 
-- `exclude_cdn_cgi: optional boolean`
+maxLength32
 
-  When true, excludes scripts seen in a `/cdn-cgi` path from the returned scripts. The default value is true.
+<a href="#">Link to this property</a>
 
-- `exclude_duplicates: optional boolean`
+added\_at: string
 
-  When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript
-  content matches and they share the same url host and zone hostname. In such case, we return the most
-  recent script for the URL host and zone hostname combination.
+formatdate-time
 
-- `exclude_urls: optional string`
+<a href="#">Link to this property</a>
 
-  Excludes scripts whose URL contains one of the URL-encoded URLs separated by commas.
+first\_seen\_at: string
 
-- `export: optional "csv"`
+formatdate-time
 
-  Export the list of scripts as a file, limited to 50000 entries.
+<a href="#">Link to this property</a>
 
-  - `"csv"`
+host: string
 
-- `hosts: optional string`
+<a href="#">Link to this property</a>
 
-  Includes scripts that match one or more URL-encoded hostnames separated by commas.
+last\_seen\_at: string
 
-  Wildcards are supported at the start and end of each hostname to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+formatdate-time
 
-- `order_by: optional "first_seen_at" or "last_seen_at"`
+<a href="#">Link to this property</a>
 
-  The field used to sort returned scripts.
+url: string
 
-  - `"first_seen_at"`
+<a href="#">Link to this property</a>
 
-  - `"last_seen_at"`
+url\_contains\_cdn\_cgi\_path: boolean
 
-- `page: optional string`
+<a href="#">Link to this property</a>
 
-  The current page number of the paginated results.
+cryptomining\_score: optional number
 
-  We additionally support a special value "all". When "all" is used, the API will return all the scripts
-  with the applied filters in a single page. This feature is best-effort and it may only work for zones with
-  a low number of scripts
+The cryptomining score of the JavaScript content.
 
-- `page_url: optional string`
+maximum99
 
-  Includes scripts that match one or more page URLs (separated by commas) where they were last seen
+minimum1
 
-  Wildcards are supported at the start and end of each page URL to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+Deprecateddataflow\_score: optional number
 
-  The number of results per page.
+The dataflow score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-- `prioritize_malicious: optional boolean`
+maximum99
 
-  When true, malicious scripts appear first in the returned scripts.
+minimum1
 
-- `status: optional string`
+<a href="#">Link to this property</a>
 
-  Filters the returned scripts using a comma-separated list of scripts statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`.
+domain\_reported\_malicious: optional boolean
 
-- `urls: optional string`
+<a href="#">Link to this property</a>
 
-  Includes scripts whose URL contain one or more URL-encoded URLs separated by commas.
+fetched\_at: optional string
 
-### Returns
+The timestamp of when the script was last fetched.
 
-- `result: array of Script`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+first\_page\_url: optional string
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `added_at: string`
+hash: optional string
 
-  - `first_seen_at: string`
+The computed hash of the analyzed script.
 
-  - `host: string`
+maxLength64
 
-  - `last_seen_at: string`
+minLength64
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-  - `url_contains_cdn_cgi_path: boolean`
+js\_integrity\_score: optional number
 
-  - `cryptomining_score: optional number`
+The integrity score of the JavaScript content.
 
-    The cryptomining score of the JavaScript content.
+maximum99
 
-  - `dataflow_score: optional number`
+minimum1
 
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+<a href="#">Link to this property</a>
 
-  - `domain_reported_malicious: optional boolean`
+magecart\_score: optional number
 
-  - `fetched_at: optional string`
+The magecart score of the JavaScript content.
 
-    The timestamp of when the script was last fetched.
+maximum99
 
-  - `first_page_url: optional string`
+minimum1
 
-  - `hash: optional string`
+<a href="#">Link to this property</a>
 
-    The computed hash of the analyzed script.
+malicious\_domain\_categories: optional array of string
 
-  - `js_integrity_score: optional number`
+<a href="#">Link to this property</a>
 
-    The integrity score of the JavaScript content.
+malicious\_url\_categories: optional array of string
 
-  - `magecart_score: optional number`
+<a href="#">Link to this property</a>
 
-    The magecart score of the JavaScript content.
+malware\_score: optional number
 
-  - `malicious_domain_categories: optional array of string`
+The malware score of the JavaScript content.
 
-  - `malicious_url_categories: optional array of string`
+maximum99
 
-  - `malware_score: optional number`
+minimum1
 
-    The malware score of the JavaScript content.
+<a href="#">Link to this property</a>
 
-  - `obfuscation_score: optional number`
+Deprecatedobfuscation\_score: optional number
 
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+The obfuscation score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-  - `page_urls: optional array of string`
+maximum99
 
-  - `url_reported_malicious: optional boolean`
+minimum1
 
-- `result_info: object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+page\_urls: optional array of string
 
-    Total number of results for the requested service
+<a href="#">Link to this property</a>
 
-  - `page: number`
+url\_reported\_malicious: optional boolean
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+</details>
 
-    Number of results per page of results
+[Link to this property](#)%20page_shield.scripts%20%3E%20(model)%20script_list_response%20%3E%20(schema)>)
 
-  - `total_count: number`
+<details>
 
-    Total results available without any search parameters
+<summary>
 
-  - `total_pages: number`
+ScriptGetResponse object {id, added\_at, first\_seen\_at, 19 more }
 
-    Total number of pages
+</summary>
 
-- `success: true`
+id: string
 
-  Whether the API call was successful
+Identifier
 
-  - `true`
+maxLength32
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+added\_at: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+first\_seen\_at: string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+host: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+last\_seen\_at: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/scripts \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+url: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "added_at": "2021-08-18T10:51:10.09615Z",
-      "first_seen_at": "2021-08-18T10:51:08Z",
-      "host": "blog.cloudflare.com",
-      "last_seen_at": "2021-09-02T09:57:54Z",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
-      "url_contains_cdn_cgi_path": false,
-      "cryptomining_score": 1,
-      "dataflow_score": 1,
-      "domain_reported_malicious": false,
-      "fetched_at": "fetched_at",
-      "first_page_url": "blog.cloudflare.com/page",
-      "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-      "js_integrity_score": 1,
-      "magecart_score": 1,
-      "malicious_domain_categories": [
-        "Malware"
-      ],
-      "malicious_url_categories": [
-        "Malware"
-      ],
-      "malware_score": 1,
-      "obfuscation_score": 1,
-      "page_urls": [
-        "blog.cloudflare.com/page1",
-        "blog.cloudflare.com/page2"
-      ],
-      "url_reported_malicious": false
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+url\_contains\_cdn\_cgi\_path: boolean
 
-## Get a Page Shield script
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/page_shield/scripts/{script_id}`
+cryptomining\_score: optional number
 
-Fetches a script detected by Page Shield by script ID.
+The cryptomining score of the JavaScript content.
 
-### Path Parameters
+maximum99
 
-- `zone_id: string`
+minimum1
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `script_id: string`
+Deprecateddataflow\_score: optional number
 
-  Identifier
+The dataflow score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-### Returns
+maximum99
 
-- `result: object { id, added_at, first_seen_at, 19 more }`
+minimum1
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier
+domain\_reported\_malicious: optional boolean
 
-  - `added_at: string`
+<a href="#">Link to this property</a>
 
-  - `first_seen_at: string`
+fetched\_at: optional string
 
-  - `host: string`
+The timestamp of when the script was last fetched.
 
-  - `last_seen_at: string`
+<a href="#">Link to this property</a>
 
-  - `url: string`
+first\_page\_url: optional string
 
-  - `url_contains_cdn_cgi_path: boolean`
+<a href="#">Link to this property</a>
 
-  - `cryptomining_score: optional number`
+hash: optional string
 
-    The cryptomining score of the JavaScript content.
+The computed hash of the analyzed script.
 
-  - `dataflow_score: optional number`
+maxLength64
 
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+minLength64
 
-  - `domain_reported_malicious: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `fetched_at: optional string`
+js\_integrity\_score: optional number
 
-    The timestamp of when the script was last fetched.
+The integrity score of the JavaScript content.
 
-  - `first_page_url: optional string`
+maximum99
 
-  - `hash: optional string`
+minimum1
 
-    The computed hash of the analyzed script.
+<a href="#">Link to this property</a>
 
-  - `js_integrity_score: optional number`
+magecart\_score: optional number
 
-    The integrity score of the JavaScript content.
+The magecart score of the JavaScript content.
 
-  - `magecart_score: optional number`
+maximum99
 
-    The magecart score of the JavaScript content.
+minimum1
 
-  - `malicious_domain_categories: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `malicious_url_categories: optional array of string`
+malicious\_domain\_categories: optional array of string
 
-  - `malware_score: optional number`
+<a href="#">Link to this property</a>
 
-    The malware score of the JavaScript content.
+malicious\_url\_categories: optional array of string
 
-  - `obfuscation_score: optional number`
+<a href="#">Link to this property</a>
 
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+malware\_score: optional number
 
-  - `page_urls: optional array of string`
+The malware score of the JavaScript content.
 
-  - `url_reported_malicious: optional boolean`
+maximum99
 
-  - `versions: optional array of object { cryptomining_score, dataflow_score, fetched_at, 5 more }`
+minimum1
 
-    - `cryptomining_score: optional number`
+<a href="#">Link to this property</a>
 
-      The cryptomining score of the JavaScript content.
+Deprecatedobfuscation\_score: optional number
 
-    - `dataflow_score: optional number`
+The obfuscation score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-      The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+maximum99
 
-    - `fetched_at: optional string`
+minimum1
 
-      The timestamp of when the script was last fetched.
+<a href="#">Link to this property</a>
 
-    - `hash: optional string`
+page\_urls: optional array of string
 
-      The computed hash of the analyzed script.
+<a href="#">Link to this property</a>
 
-    - `js_integrity_score: optional number`
+url\_reported\_malicious: optional boolean
 
-      The integrity score of the JavaScript content.
+<a href="#">Link to this property</a>
 
-    - `magecart_score: optional number`
+<details>
 
-      The magecart score of the JavaScript content.
+<summary>
 
-    - `malware_score: optional number`
+versions: optional array of object {cryptomining\_score, dataflow\_score, fetched\_at, 5 more }
 
-      The malware score of the JavaScript content.
+</summary>
 
-    - `obfuscation_score: optional number`
+cryptomining\_score: optional number
 
-      The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+The cryptomining score of the JavaScript content.
 
-- `success: true`
+maximum99
 
-  Whether the API call was successful
+minimum1
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+Deprecateddataflow\_score: optional number
 
-  - `code: number`
+The dataflow score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-  - `message: string`
+maximum99
 
-  - `documentation_url: optional string`
+minimum1
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+fetched\_at: optional string
 
-- `messages: optional array of ResponseInfo`
+The timestamp of when the script was last fetched.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+hash: optional string
 
-  - `documentation_url: optional string`
+The computed hash of the analyzed script.
 
-  - `source: optional object { pointer }`
+maxLength64
 
-### Example
+minLength64
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/scripts/$SCRIPT_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+js\_integrity\_score: optional number
 
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "added_at": "2021-08-18T10:51:10.09615Z",
-    "first_seen_at": "2021-08-18T10:51:08Z",
-    "host": "blog.cloudflare.com",
-    "last_seen_at": "2021-09-02T09:57:54Z",
-    "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
-    "url_contains_cdn_cgi_path": false,
-    "cryptomining_score": 1,
-    "dataflow_score": 1,
-    "domain_reported_malicious": false,
-    "fetched_at": "fetched_at",
-    "first_page_url": "blog.cloudflare.com/page",
-    "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "js_integrity_score": 1,
-    "magecart_score": 1,
-    "malicious_domain_categories": [
-      "Malware"
-    ],
-    "malicious_url_categories": [
-      "Malware"
-    ],
-    "malware_score": 1,
-    "obfuscation_score": 1,
-    "page_urls": [
-      "blog.cloudflare.com/page1",
-      "blog.cloudflare.com/page2"
-    ],
-    "url_reported_malicious": false,
-    "versions": [
-      {
-        "cryptomining_score": 20,
-        "dataflow_score": 1,
-        "fetched_at": "2021-08-18T10:51:08Z",
-        "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b423",
-        "js_integrity_score": 2,
-        "magecart_score": 10,
-        "malware_score": 5,
-        "obfuscation_score": 1
-      }
-    ]
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+The integrity score of the JavaScript content.
 
-## Domain Types
+maximum99
 
-### Script
+minimum1
 
-- `Script object { id, added_at, first_seen_at, 18 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+magecart\_score: optional number
 
-    Identifier
+The magecart score of the JavaScript content.
 
-  - `added_at: string`
+maximum99
 
-  - `first_seen_at: string`
+minimum1
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+malware\_score: optional number
 
-  - `url: string`
+The malware score of the JavaScript content.
 
-  - `url_contains_cdn_cgi_path: boolean`
+maximum99
 
-  - `cryptomining_score: optional number`
+minimum1
 
-    The cryptomining score of the JavaScript content.
+<a href="#">Link to this property</a>
 
-  - `dataflow_score: optional number`
+Deprecatedobfuscation\_score: optional number
 
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+The obfuscation score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-  - `domain_reported_malicious: optional boolean`
+maximum99
 
-  - `fetched_at: optional string`
+minimum1
 
-    The timestamp of when the script was last fetched.
+<a href="#">Link to this property</a>
 
-  - `first_page_url: optional string`
+</details>
 
-  - `hash: optional string`
+<a href="#">Link to this property</a>
 
-    The computed hash of the analyzed script.
+</details>
 
-  - `js_integrity_score: optional number`
-
-    The integrity score of the JavaScript content.
-
-  - `magecart_score: optional number`
-
-    The magecart score of the JavaScript content.
-
-  - `malicious_domain_categories: optional array of string`
-
-  - `malicious_url_categories: optional array of string`
-
-  - `malware_score: optional number`
-
-    The malware score of the JavaScript content.
-
-  - `obfuscation_score: optional number`
-
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
-
-### Script Get Response
-
-- `ScriptGetResponse object { id, added_at, first_seen_at, 19 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `added_at: string`
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `url: string`
-
-  - `url_contains_cdn_cgi_path: boolean`
-
-  - `cryptomining_score: optional number`
-
-    The cryptomining score of the JavaScript content.
-
-  - `dataflow_score: optional number`
-
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `domain_reported_malicious: optional boolean`
-
-  - `fetched_at: optional string`
-
-    The timestamp of when the script was last fetched.
-
-  - `first_page_url: optional string`
-
-  - `hash: optional string`
-
-    The computed hash of the analyzed script.
-
-  - `js_integrity_score: optional number`
-
-    The integrity score of the JavaScript content.
-
-  - `magecart_score: optional number`
-
-    The magecart score of the JavaScript content.
-
-  - `malicious_domain_categories: optional array of string`
-
-  - `malicious_url_categories: optional array of string`
-
-  - `malware_score: optional number`
-
-    The malware score of the JavaScript content.
-
-  - `obfuscation_score: optional number`
-
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
-
-  - `versions: optional array of object { cryptomining_score, dataflow_score, fetched_at, 5 more }`
-
-    - `cryptomining_score: optional number`
-
-      The cryptomining score of the JavaScript content.
-
-    - `dataflow_score: optional number`
-
-      The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-    - `fetched_at: optional string`
-
-      The timestamp of when the script was last fetched.
-
-    - `hash: optional string`
-
-      The computed hash of the analyzed script.
-
-    - `js_integrity_score: optional number`
-
-      The integrity score of the JavaScript content.
-
-    - `magecart_score: optional number`
-
-      The magecart score of the JavaScript content.
-
-    - `malware_score: optional number`
-
-      The malware score of the JavaScript content.
-
-    - `obfuscation_score: optional number`
-
-      The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+[Link to this property](#)%20page_shield.scripts%20%3E%20(model)%20script_get_response%20%3E%20(schema)>)

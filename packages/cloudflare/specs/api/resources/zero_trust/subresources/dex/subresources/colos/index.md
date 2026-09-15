@@ -1,139 +1,57 @@
+---
+title: Colos
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Colos
 
-## List Cloudflare colos
+##### [List Cloudflare colos](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/colos/methods/list)
 
-**get** `/accounts/{account_id}/dex/colos`
+GET/accounts/{account\_id}/dex/colos
 
-List Cloudflare colos that account's devices were connected to during a time period, sorted by usage starting from the most used colo. Colos without traffic are also returned and sorted alphabetically.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+ColoListResponse object {airportCode, city, countryCode }
 
-### Query Parameters
+</summary>
 
-- `from: string`
+airportCode: string
 
-  Start time for connection period in ISO (RFC3339 - ISO 8601) format.
+Airport code
 
-- `to: string`
+<a href="#">Link to this property</a>
 
-  End time for connection period in ISO (RFC3339 - ISO 8601) format.
+city: string
 
-- `sortBy: optional "fleet-status-usage" or "application-tests-usage"`
+City
 
-  Type of usage that colos should be sorted by. If unspecified, returns all Cloudflare colos sorted alphabetically.
+<a href="#">Link to this property</a>
 
-  - `"fleet-status-usage"`
+countryCode: string
 
-  - `"application-tests-usage"`
+Country code
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { airportCode, city, countryCode }`
-
-  array of colos.
-
-  - `airportCode: string`
-
-    Airport code
-
-  - `city: string`
-
-    City
-
-  - `countryCode: string`
-
-    Country code
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/colos \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "airportCode": "SFO",
-      "city": "San Francisco",
-      "countryCode": "US"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Colo List Response
-
-- `ColoListResponse object { airportCode, city, countryCode }`
-
-  - `airportCode: string`
-
-    Airport code
-
-  - `city: string`
-
-    City
-
-  - `countryCode: string`
-
-    Country code
+[Link to this property](#)%20zero_trust.dex.colos%20%3E%20(model)%20colo_list_response%20%3E%20(schema)>)

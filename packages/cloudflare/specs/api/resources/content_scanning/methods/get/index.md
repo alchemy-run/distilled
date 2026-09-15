@@ -1,67 +1,237 @@
-## Get Content Scanning Status
+---
+title: Get the Content Scanning status for a zone.
+---
 
-**get** `/zones/{zone_id}/content-upload-scan/settings`
+[Skip to content](#_top)
 
-Retrieve the current status of Content Scanning.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Content Scanning](https://developers.cloudflare.com/api/resources/content_scanning)
 
-- `zone_id: string`
+Copy Markdown
 
-  Defines an identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `errors: array of ResponseInfo`
+**Copy Markdown****View as Markdown**
 
-  - `code: number`
+# Get the Content Scanning status for a zone.
 
-  - `message: string`
+GET/zones/{zone\_id}/content-upload-scan/settings
 
-  - `documentation_url: optional string`
+Get the current Content Scanning status for the zone, together with the date the status was last modified.
 
-  - `source: optional object { pointer }`
+##### Security
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>API Token</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `source: optional object { pointer }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `result: object { modified, value }`
+</details>
 
-  Defines the status for Content Scanning.
+<details>
 
-  - `modified: optional string`
+<summary>API Email + API Key</summary>
 
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
 
-  - `value: optional string`
 
-    Defines the status of Content Scanning.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `success: true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Example
+</details>
 
-```http
+##### Accepted Permissions (at least one required)
+
+`Zone WAF Write``Zone WAF Read``Account WAF Write``Account WAF Read`
+
+##### P ath ParametersExpand Collapse
+
+zone\_id: string
+
+Defines an identifier.
+
+maxLength32
+
+[Link to this property](#)%20content_scanning%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20content_scanning%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20content_scanning%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {modified, value }
+
+Defines the status for Content Scanning.
+
+</summary>
+
+modified: optional string
+
+Defines the last modification date (ISO 8601) of the Content Scanning status.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+Defines the status of Content Scanning.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20content_scanning%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20content_scanning%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get the Content Scanning status for a zone.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/settings \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "modified": "2024-12-02T09:57:23.150259Z",
+    "value": "enabled"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

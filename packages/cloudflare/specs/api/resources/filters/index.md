@@ -1,989 +1,155 @@
+---
+title: Filters
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Filters
 
-## List filters
+##### [List filters](https://developers.cloudflare.com/api/resources/filters/methods/list)
 
-**get** `/zones/{zone_id}/filters`
+Deprecated
 
-Fetches filters in a zone. You can filter the results using several optional parameters.
+GET/zones/{zone\_id}/filters
 
-### Path Parameters
+##### [Get a filter](https://developers.cloudflare.com/api/resources/filters/methods/get)
 
-- `zone_id: string`
+Deprecated
 
-  Defines an identifier.
+GET/zones/{zone\_id}/filters/{filter\_id}
 
-### Query Parameters
+##### [Create filters](https://developers.cloudflare.com/api/resources/filters/methods/create)
 
-- `id: optional string`
+Deprecated
 
-  The unique identifier of the filter.
+POST/zones/{zone\_id}/filters
 
-- `description: optional string`
+##### [Update a filter](https://developers.cloudflare.com/api/resources/filters/methods/update)
 
-  A case-insensitive string to find in the description.
+Deprecated
 
-- `expression: optional string`
+PUT/zones/{zone\_id}/filters/{filter\_id}
 
-  A case-insensitive string to find in the expression.
+##### [Delete a filter](https://developers.cloudflare.com/api/resources/filters/methods/delete)
 
-- `page: optional number`
+Deprecated
 
-  Page number of paginated results.
+DELETE/zones/{zone\_id}/filters/{filter\_id}
 
-- `paused: optional boolean`
+##### [Update filters](https://developers.cloudflare.com/api/resources/filters/methods/bulk_update)
 
-  When true, indicates that the filter is currently paused.
+Deprecated
 
-- `per_page: optional number`
+PUT/zones/{zone\_id}/filters
 
-  Number of filters per page.
+##### [Delete filters](https://developers.cloudflare.com/api/resources/filters/methods/bulk_delete)
 
-- `ref: optional string`
+Deprecated
 
-  The filter ref (a short reference tag) to search for. Must be an exact match.
+DELETE/zones/{zone\_id}/filters
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+FirewallFilter object {id, description, expression, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+The unique identifier of the filter.
 
-- `messages: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+minLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+description: optional string
 
-  - `source: optional object { pointer }`
+An informative summary of the filter.
 
-- `result: array of FirewallFilter`
+maxLength500
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the filter.
+expression: optional string
 
-  - `description: optional string`
+The filter expression. For more information, refer to <a href="https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/">Expressions</a>.
 
-    An informative summary of the filter.
+<a href="#">Link to this property</a>
 
-  - `expression: optional string`
+paused: optional boolean
 
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+When true, indicates that the filter is currently paused.
 
-  - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the filter is currently paused.
+ref: optional string
 
-  - `ref: optional string`
+A short reference tag. Allows you to select related filters.
 
-    A short reference tag. Allows you to select related filters.
+maxLength50
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20filters%20%3E%20(model)%20firewall_filter%20%3E%20(schema)>)
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Defines the total number of results for the requested service.
+FilterDeleteResponse object {id }
 
-  - `page: optional number`
+</summary>
 
-    Defines the current page within paginated list of results.
+id: string
 
-  - `per_page: optional number`
+The unique identifier of the filter.
 
-    Defines the number of results per page of results.
+maxLength32
 
-  - `total_count: optional number`
+minLength32
 
-    Defines the total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/filters \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20filters%20%3E%20(model)%20filter_delete_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b61",
-      "description": "Restrict access from these browsers on this address range.",
-      "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-      "paused": false,
-      "ref": "FIL-100"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<summary>
 
-## Get a filter
+FilterBulkDeleteResponse = array of object {id }
 
-**get** `/zones/{zone_id}/filters/{filter_id}`
+</summary>
 
-Fetches the details of a filter.
+id: optional string
 
-### Path Parameters
+The unique identifier of the filter.
 
-- `zone_id: string`
+maxLength32
 
-  Defines an identifier.
+minLength32
 
-- `filter_id: string`
+<a href="#">Link to this property</a>
 
-  The unique identifier of the filter.
+</details>
 
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: FirewallFilter`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
-
-  - `description: optional string`
-
-    An informative summary of the filter.
-
-  - `expression: optional string`
-
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
-
-  - `paused: optional boolean`
-
-    When true, indicates that the filter is currently paused.
-
-  - `ref: optional string`
-
-    A short reference tag. Allows you to select related filters.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/filters/$FILTER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b61",
-    "description": "Restrict access from these browsers on this address range.",
-    "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-    "paused": false,
-    "ref": "FIL-100"
-  },
-  "success": true
-}
-```
-
-## Create filters
-
-**post** `/zones/{zone_id}/filters`
-
-Creates one or more filters.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Body Parameters
-
-- `body: array of FirewallFilter`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
-
-  - `description: optional string`
-
-    An informative summary of the filter.
-
-  - `expression: optional string`
-
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
-
-  - `paused: optional boolean`
-
-    When true, indicates that the filter is currently paused.
-
-  - `ref: optional string`
-
-    A short reference tag. Allows you to select related filters.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of FirewallFilter`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
-
-  - `description: optional string`
-
-    An informative summary of the filter.
-
-  - `expression: optional string`
-
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
-
-  - `paused: optional boolean`
-
-    When true, indicates that the filter is currently paused.
-
-  - `ref: optional string`
-
-    A short reference tag. Allows you to select related filters.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/filters \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "description": "Restrict access from these browsers on this address range.",
-            "expression": "(http.request.uri.path ~ \\".*wp-login.php\\" or http.request.uri.path ~ \\".*xmlrpc.php\\") and ip.addr ne 172.16.22.155",
-            "paused": false,
-            "ref": "FIL-100"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b61",
-      "description": "Restrict access from these browsers on this address range.",
-      "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-      "paused": false,
-      "ref": "FIL-100"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Update a filter
-
-**put** `/zones/{zone_id}/filters/{filter_id}`
-
-Updates an existing filter.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `filter_id: string`
-
-  The unique identifier of the filter.
-
-### Body Parameters
-
-- `description: optional string`
-
-  An informative summary of the filter.
-
-- `expression: optional string`
-
-  The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
-
-- `paused: optional boolean`
-
-  When true, indicates that the filter is currently paused.
-
-- `ref: optional string`
-
-  A short reference tag. Allows you to select related filters.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: FirewallFilter`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
-
-  - `description: optional string`
-
-    An informative summary of the filter.
-
-  - `expression: optional string`
-
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
-
-  - `paused: optional boolean`
-
-    When true, indicates that the filter is currently paused.
-
-  - `ref: optional string`
-
-    A short reference tag. Allows you to select related filters.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/filters/$FILTER_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "Restrict access from these browsers on this address range.",
-          "expression": "(http.request.uri.path ~ \\".*wp-login.php\\" or http.request.uri.path ~ \\".*xmlrpc.php\\") and ip.addr ne 172.16.22.155",
-          "ref": "FIL-100"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b61",
-    "description": "Restrict access from these browsers on this address range.",
-    "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-    "paused": false,
-    "ref": "FIL-100"
-  },
-  "success": true
-}
-```
-
-## Delete a filter
-
-**delete** `/zones/{zone_id}/filters/{filter_id}`
-
-Deletes an existing filter.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `filter_id: string`
-
-  The unique identifier of the filter.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id }`
-
-  - `id: string`
-
-    The unique identifier of the filter.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/filters/$FILTER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b61"
-  },
-  "success": true
-}
-```
-
-## Update filters
-
-**put** `/zones/{zone_id}/filters`
-
-Updates one or more existing filters.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Body Parameters
-
-- `body: array of object { id, description, expression, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
-
-  - `description: optional string`
-
-    An informative summary of the filter.
-
-  - `expression: optional string`
-
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
-
-  - `paused: optional boolean`
-
-    When true, indicates that the filter is currently paused.
-
-  - `ref: optional string`
-
-    A short reference tag. Allows you to select related filters.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of FirewallFilter`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
-
-  - `description: optional string`
-
-    An informative summary of the filter.
-
-  - `expression: optional string`
-
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
-
-  - `paused: optional boolean`
-
-    When true, indicates that the filter is currently paused.
-
-  - `ref: optional string`
-
-    A short reference tag. Allows you to select related filters.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/filters \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "description": "Restrict access from these browsers on this address range.",
-            "expression": "(http.request.uri.path ~ \\".*wp-login.php\\" or http.request.uri.path ~ \\".*xmlrpc.php\\") and ip.addr ne 172.16.22.155",
-            "paused": false,
-            "ref": "FIL-100"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b61",
-      "description": "Restrict access from these browsers on this address range.",
-      "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-      "paused": false,
-      "ref": "FIL-100"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Delete filters
-
-**delete** `/zones/{zone_id}/filters`
-
-Deletes one or more existing filters.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Query Parameters
-
-- `id: array of string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id }`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/filters \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b61"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### Firewall Filter
-
-- `FirewallFilter object { id, description, expression, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
-
-  - `description: optional string`
-
-    An informative summary of the filter.
-
-  - `expression: optional string`
-
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
-
-  - `paused: optional boolean`
-
-    When true, indicates that the filter is currently paused.
-
-  - `ref: optional string`
-
-    A short reference tag. Allows you to select related filters.
-
-### Filter Delete Response
-
-- `FilterDeleteResponse object { id }`
-
-  - `id: string`
-
-    The unique identifier of the filter.
-
-### Filter Bulk Delete Response
-
-- `FilterBulkDeleteResponse = array of object { id }`
-
-  - `id: optional string`
-
-    The unique identifier of the filter.
+[Link to this property](#)%20filters%20%3E%20(model)%20filter_bulk_delete_response%20%3E%20(schema)>)

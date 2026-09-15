@@ -1,136 +1,392 @@
-## Create a new interconnect
+---
+title: Create a new interconnect
+---
 
-**post** `/accounts/{account_id}/cni/interconnects`
+[Skip to content](#_top)
 
-Create a new interconnect
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Network Interconnects](https://developers.cloudflare.com/api/resources/network_interconnects)
 
-- `account_id: string`
+[Interconnects](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects)
 
-  Customer account tag
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `body: object { account, slot_id, type, speed }  or object { account, bandwidth, pairing_key, type }`
+---
 
-  - `NscInterconnectCreatePhysicalBody object { account, slot_id, type, speed }`
+**Copy Markdown****View as Markdown**
 
-    - `account: string`
+# Create a new interconnect
 
-    - `slot_id: string`
+POST/accounts/{account\_id}/cni/interconnects
 
-    - `type: string`
+Creates a new network interconnect for connecting Cloudflare’s network to external networks. Interconnects provide dedicated bandwidth and reduced latency for traffic exchange.
 
-    - `speed: optional string`
+##### Security
 
-  - `NscInterconnectCreateGcpPartnerBody object { account, bandwidth, pairing_key, type }`
+<details>
 
-    - `account: string`
+<summary>API Token</summary>
 
-    - `bandwidth: "50M" or "100M" or "200M" or 9 more`
 
-      Bandwidth structure as visible through the customer-facing API.
 
-      - `"50M"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-      - `"100M"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-      - `"200M"`
+</details>
 
-      - `"300M"`
+<details>
 
-      - `"400M"`
+<summary>API Email + API Key</summary>
 
-      - `"500M"`
 
-      - `"1G"`
 
-      - `"2G"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      - `"5G"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      - `"10G"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `"20G"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `"50G"`
+</details>
 
-    - `pairing_key: string`
+##### Accepted Permissions (at least one required)
 
-      Pairing key provided by GCP
+`Magic WAN Write``Magic Transit Write`
 
-    - `type: string`
+##### P ath ParametersExpand Collapse
 
-### Returns
+account\_id: string
 
-- `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+Customer account tag
 
-  - `account: string`
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `facility: object { address, name }`
+##### Body ParametersJSONExpand Collapse
 
-    - `address: array of string`
+<details>
 
-    - `name: string`
+<summary>
 
-  - `name: string`
+body: object {account, slot\_id, type, speed } or object {account, bandwidth, pairing\_key, type }
 
-  - `site: string`
+</summary>
 
-    A Cloudflare site name.
+One of the following:
 
-  - `slot_id: string`
+<details>
 
-  - `speed: string`
+<summary>
 
-  - `type: string`
+NscInterconnectCreatePhysicalBody object {account, slot\_id, type, speed }
 
-  - `owner: optional string`
+</summary>
 
-- `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+account: string
 
-  - `account: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+slot\_id: string
 
-  - `region: string`
+formatuuid
 
-  - `type: string`
+<a href="#">Link to this property</a>
 
-  - `owner: optional string`
+type: string
 
-  - `speed: optional "50M" or "100M" or "200M" or 9 more`
+<a href="#">Link to this property</a>
 
-    Bandwidth structure as visible through the customer-facing API.
+speed: optional string
 
-    - `"50M"`
+<a href="#">Link to this property</a>
 
-    - `"100M"`
+</details>
 
-    - `"200M"`
+<a href="#">Link to this property</a>
 
-    - `"300M"`
+<details>
 
-    - `"400M"`
+<summary>
 
-    - `"500M"`
+NscInterconnectCreateGcpPartnerBody object {account, bandwidth, pairing\_key, type }
 
-    - `"1G"`
+</summary>
 
-    - `"2G"`
+account: string
 
-    - `"5G"`
+<a href="#">Link to this property</a>
 
-    - `"10G"`
+<details>
 
-    - `"20G"`
+<summary>
 
-    - `"50G"`
+bandwidth: "50M"or "100M"or "200M"or 9 more
 
-### Example
+Bandwidth structure as visible through the customer-facing API.
 
-```http
+</summary>
+
+One of the following:
+
+"50M"
+
+<a href="#">Link to this property</a>
+
+"100M"
+
+<a href="#">Link to this property</a>
+
+"200M"
+
+<a href="#">Link to this property</a>
+
+"300M"
+
+<a href="#">Link to this property</a>
+
+"400M"
+
+<a href="#">Link to this property</a>
+
+"500M"
+
+<a href="#">Link to this property</a>
+
+"1G"
+
+<a href="#">Link to this property</a>
+
+"2G"
+
+<a href="#">Link to this property</a>
+
+"5G"
+
+<a href="#">Link to this property</a>
+
+"10G"
+
+<a href="#">Link to this property</a>
+
+"20G"
+
+<a href="#">Link to this property</a>
+
+"50G"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+pairing\_key: string
+
+Pairing key provided by GCP
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+NscInterconnectPhysicalBody object {account, facility, name, 7 more }
+
+</summary>
+
+account: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+facility: object {address, name }
+
+</summary>
+
+address: array of string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+site: string
+
+A Cloudflare site name.
+
+<a href="#">Link to this property</a>
+
+slot\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+speed: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+virtual\_port\_reservation\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ccr\_device\_name: optional string
+
+<a href="#">Link to this property</a>
+
+owner: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_create_response%20%3E%20(schema)%20%3E%20(variant)%200>)
+
+<details>
+
+<summary>
+
+NscInterconnectGcpPartnerBody object {account, name, region, 4 more }
+
+</summary>
+
+account: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+region: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+virtual\_port\_reservation\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+owner: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+speed: optional "50M"or "100M"or "200M"or 9 more
+
+Bandwidth structure as visible through the customer-facing API.
+
+</summary>
+
+One of the following:
+
+"50M"
+
+<a href="#">Link to this property</a>
+
+"100M"
+
+<a href="#">Link to this property</a>
+
+"200M"
+
+<a href="#">Link to this property</a>
+
+"300M"
+
+<a href="#">Link to this property</a>
+
+"400M"
+
+<a href="#">Link to this property</a>
+
+"500M"
+
+<a href="#">Link to this property</a>
+
+"1G"
+
+<a href="#">Link to this property</a>
+
+"2G"
+
+<a href="#">Link to this property</a>
+
+"5G"
+
+<a href="#">Link to this property</a>
+
+"10G"
+
+<a href="#">Link to this property</a>
+
+"20G"
+
+<a href="#">Link to this property</a>
+
+"50G"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_create_response%20%3E%20(schema)%20%3E%20(variant)%201>)
+
+### Create a new interconnect
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -141,9 +397,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "account": "account",
   "facility": {
@@ -157,6 +413,32 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects
   "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
   "speed": "speed",
   "type": "type",
+  "virtual_port_reservation_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "ccr_device_name": "ccr_device_name",
+  "owner": "owner"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "account": "account",
+  "facility": {
+    "address": [
+      "string"
+    ],
+    "name": "name"
+  },
+  "name": "name",
+  "site": "site",
+  "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "speed": "speed",
+  "type": "type",
+  "virtual_port_reservation_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "ccr_device_name": "ccr_device_name",
   "owner": "owner"
 }
 ```

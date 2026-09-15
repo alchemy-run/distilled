@@ -1,734 +1,2590 @@
-## Update a Gateway
+---
+title: Update a Gateway
+---
 
-**put** `/accounts/{account_id}/ai-gateway/gateways/{id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a Gateway
+
+PUT/accounts/{account\_id}/ai-gateway/gateways/{id}
 
 Updates an existing AI Gateway dataset.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `id: string`
+<summary>API Token</summary>
 
-  gateway id
 
-### Body Parameters
 
-- `cache_invalidate_on_update: boolean`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `cache_ttl: number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `collect_logs: boolean`
+</details>
 
-- `rate_limiting_interval: number`
+<details>
 
-- `rate_limiting_limit: number`
+<summary>API Email + API Key</summary>
 
-- `authentication: optional boolean`
 
-- `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
 
-  - `object { action, enabled, profiles }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `action: "BLOCK" or "FLAG"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      - `"BLOCK"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `"FLAG"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `enabled: boolean`
+</details>
 
-    - `profiles: array of string`
+##### Accepted Permissions (at least one required)
 
-  - `object { enabled, policies }`
+`AI Gateway Write`
 
-    - `enabled: boolean`
+##### P ath ParametersExpand Collapse
 
-    - `policies: array of object { id, action, check, 2 more }`
+account\_id: string
 
-      - `id: string`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `action: "FLAG" or "BLOCK"`
+id: string
 
-        - `"FLAG"`
+gateway id
 
-        - `"BLOCK"`
+maxLength64
 
-      - `check: array of "REQUEST" or "RESPONSE"`
+minLength1
 
-        - `"REQUEST"`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-        - `"RESPONSE"`
+##### Body ParametersJSONExpand Collapse
 
-      - `enabled: boolean`
+cache\_invalidate\_on\_update: boolean
 
-      - `profiles: array of string`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20cache_invalidate_on_update%20%3E%20(schema)>)
 
-- `guardrails: optional object { prompt, response }`
+cache\_ttl: number
 
-  - `prompt: object { P1, S1, S10, 11 more }`
+minimum0
 
-    - `P1: optional "FLAG" or "BLOCK"`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20cache_ttl%20%3E%20(schema)>)
 
-      - `"FLAG"`
+collect\_logs: boolean
 
-      - `"BLOCK"`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20collect_logs%20%3E%20(schema)>)
 
-    - `S1: optional "FLAG" or "BLOCK"`
+rate\_limiting\_interval: number
 
-      - `"FLAG"`
+minimum0
 
-      - `"BLOCK"`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20rate_limiting_interval%20%3E%20(schema)>)
 
-    - `S10: optional "FLAG" or "BLOCK"`
+rate\_limiting\_limit: number
 
-      - `"FLAG"`
+minimum0
 
-      - `"BLOCK"`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20rate_limiting_limit%20%3E%20(schema)>)
 
-    - `S11: optional "FLAG" or "BLOCK"`
+authentication: optional boolean
 
-      - `"FLAG"`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20authentication%20%3E%20(schema)>)
 
-      - `"BLOCK"`
+byok\_only: optional boolean
 
-    - `S12: optional "FLAG" or "BLOCK"`
+Requires customer-provided provider credentials and prevents fallback to Unified Billing.
 
-      - `"FLAG"`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20byok_only%20%3E%20(schema)>)
 
-      - `"BLOCK"`
+<details>
 
-    - `S13: optional "FLAG" or "BLOCK"`
+<summary>
 
-      - `"FLAG"`
+dlp: optional object {action, enabled, profiles } or object {enabled, policies }
 
-      - `"BLOCK"`
+</summary>
 
-    - `S2: optional "FLAG" or "BLOCK"`
+One of the following:
 
-      - `"FLAG"`
+<details>
 
-      - `"BLOCK"`
+<summary>
 
-    - `S3: optional "FLAG" or "BLOCK"`
+object {action, enabled, profiles }
 
-      - `"FLAG"`
+</summary>
 
-      - `"BLOCK"`
+<details>
 
-    - `S4: optional "FLAG" or "BLOCK"`
+<summary>
 
-      - `"FLAG"`
+action: "BLOCK"or "FLAG"
 
-      - `"BLOCK"`
+</summary>
 
-    - `S5: optional "FLAG" or "BLOCK"`
+One of the following:
 
-      - `"FLAG"`
+"BLOCK"
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S6: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+</details>
 
-    - `S7: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+enabled: boolean
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S8: optional "FLAG" or "BLOCK"`
+profiles: array of string
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+</details>
 
-    - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+<details>
 
-      - `"BLOCK"`
+<summary>
 
-  - `response: object { P1, S1, S10, 11 more }`
+object {enabled, policies }
 
-    - `P1: optional "FLAG" or "BLOCK"`
+</summary>
 
-      - `"FLAG"`
+enabled: boolean
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S1: optional "FLAG" or "BLOCK"`
+<details>
 
-      - `"FLAG"`
+<summary>
 
-      - `"BLOCK"`
+policies: array of object {id, action, check, 2 more }
 
-    - `S10: optional "FLAG" or "BLOCK"`
+</summary>
 
-      - `"FLAG"`
+id: string
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S11: optional "FLAG" or "BLOCK"`
+<details>
 
-      - `"FLAG"`
+<summary>
 
-      - `"BLOCK"`
+action: "FLAG"or "BLOCK"
 
-    - `S12: optional "FLAG" or "BLOCK"`
+</summary>
 
-      - `"FLAG"`
+One of the following:
 
-      - `"BLOCK"`
+"FLAG"
 
-    - `S13: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+"BLOCK"
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S2: optional "FLAG" or "BLOCK"`
+</details>
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+<details>
 
-    - `S3: optional "FLAG" or "BLOCK"`
+<summary>
 
-      - `"FLAG"`
+check: array of "REQUEST"or "RESPONSE"
 
-      - `"BLOCK"`
+</summary>
 
-    - `S4: optional "FLAG" or "BLOCK"`
+One of the following:
 
-      - `"FLAG"`
+"REQUEST"
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S5: optional "FLAG" or "BLOCK"`
+"RESPONSE"
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+</details>
 
-    - `S6: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+enabled: boolean
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S7: optional "FLAG" or "BLOCK"`
+profiles: array of string
 
-      - `"FLAG"`
+<a href="#">Link to this property</a>
 
-      - `"BLOCK"`
+</details>
 
-    - `S8: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `"FLAG"`
+</details>
 
-      - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `S9: optional "FLAG" or "BLOCK"`
+</details>
 
-      - `"FLAG"`
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20dlp%20%3E%20(schema)>)
 
-      - `"BLOCK"`
+<details>
 
-- `log_management: optional number`
+<summary>
 
-- `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+guardrails: optional object {prompt, response }
 
-  - `"STOP_INSERTING"`
+</summary>
 
-  - `"DELETE_OLDEST"`
+<details>
 
-- `logpush: optional boolean`
+<summary>
 
-- `logpush_public_key: optional string`
+prompt: object {P1, S1, S10, 11 more }
 
-- `otel: optional array of object { headers, url, authorization, content_type }`
+</summary>
 
-  - `headers: map[string]`
+<details>
 
-  - `url: string`
+<summary>
 
-  - `authorization: optional string`
+P1: optional "FLAG"or "BLOCK"
 
-  - `content_type: optional "json" or "protobuf"`
+</summary>
 
-    - `"json"`
+One of the following:
 
-    - `"protobuf"`
+"FLAG"
 
-- `rate_limiting_technique: optional "fixed" or "sliding"`
+<a href="#">Link to this property</a>
 
-  - `"fixed"`
+"BLOCK"
 
-  - `"sliding"`
+<a href="#">Link to this property</a>
 
-- `retry_backoff: optional "constant" or "linear" or "exponential"`
+</details>
 
-  Backoff strategy for retry delays
+<a href="#">Link to this property</a>
 
-  - `"constant"`
+<details>
 
-  - `"linear"`
+<summary>
 
-  - `"exponential"`
+S1: optional "FLAG"or "BLOCK"
 
-- `retry_delay: optional number`
+</summary>
 
-  Delay between retry attempts in milliseconds (0-5000)
+One of the following:
 
-- `retry_max_attempts: optional number`
+"FLAG"
 
-  Maximum number of retry attempts for failed requests (1-5)
+<a href="#">Link to this property</a>
 
-- `spend_limits: optional object { enabled, rules }`
+"BLOCK"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `rules: optional array of object { limit, limitType, window, 6 more }`
+</details>
 
-    - `limit: number`
+<a href="#">Link to this property</a>
 
-    - `limitType: "cost"`
+<details>
 
-      - `"cost"`
+<summary>
 
-    - `window: number`
+S10: optional "FLAG"or "BLOCK"
 
-    - `id: optional string`
+</summary>
 
-    - `enabled: optional boolean`
+One of the following:
 
-    - `metadata: optional map[object { mode }  or object { mode, values } ]`
+"FLAG"
 
-      - `Mode object { mode }`
+<a href="#">Link to this property</a>
 
-        - `mode: "partition"`
+"BLOCK"
 
-          - `"partition"`
+<a href="#">Link to this property</a>
 
-      - `object { mode, values }`
+</details>
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+<details>
 
-        - `values: array of string`
+<summary>
 
-    - `model: optional object { mode, values }`
+S11: optional "FLAG"or "BLOCK"
 
-      - `mode: "filter"`
+</summary>
 
-        - `"filter"`
+One of the following:
 
-      - `values: array of string`
+"FLAG"
 
-    - `provider: optional object { mode, values }`
+<a href="#">Link to this property</a>
 
-      - `mode: "filter"`
+"BLOCK"
 
-        - `"filter"`
+<a href="#">Link to this property</a>
 
-      - `values: array of string`
+</details>
 
-    - `technique: optional "fixed" or "sliding"`
+<a href="#">Link to this property</a>
 
-      - `"fixed"`
+<details>
 
-      - `"sliding"`
+<summary>
 
-- `store_id: optional string`
+S12: optional "FLAG"or "BLOCK"
 
-- `stripe: optional object { authorization, usage_events }`
+</summary>
 
-  - `authorization: string`
+One of the following:
 
-  - `usage_events: array of object { payload }`
+"FLAG"
 
-    - `payload: string`
+<a href="#">Link to this property</a>
 
-- `workers_ai_billing_mode: optional "postpaid"`
+"BLOCK"
 
-  Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+<a href="#">Link to this property</a>
 
-  - `"postpaid"`
+</details>
 
-- `zdr: optional boolean`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `result: object { id, cache_invalidate_on_update, cache_ttl, 23 more }`
+<summary>
 
-  - `id: string`
+S13: optional "FLAG"or "BLOCK"
 
-    gateway id
+</summary>
 
-  - `cache_invalidate_on_update: boolean`
+One of the following:
 
-  - `cache_ttl: number`
+"FLAG"
 
-  - `collect_logs: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"BLOCK"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `rate_limiting_interval: number`
+</details>
 
-  - `rate_limiting_limit: number`
+<a href="#">Link to this property</a>
 
-  - `authentication: optional boolean`
+<details>
 
-  - `dlp: optional object { action, enabled, profiles }  or object { enabled, policies }`
+<summary>
 
-    - `object { action, enabled, profiles }`
+S2: optional "FLAG"or "BLOCK"
 
-      - `action: "BLOCK" or "FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `profiles: array of string`
+"BLOCK"
 
-    - `object { enabled, policies }`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+</details>
 
-      - `policies: array of object { id, action, check, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `id: string`
+<details>
 
-        - `action: "FLAG" or "BLOCK"`
+<summary>
 
-          - `"FLAG"`
+S3: optional "FLAG"or "BLOCK"
 
-          - `"BLOCK"`
+</summary>
 
-        - `check: array of "REQUEST" or "RESPONSE"`
+One of the following:
 
-          - `"REQUEST"`
+"FLAG"
 
-          - `"RESPONSE"`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+"BLOCK"
 
-        - `profiles: array of string`
+<a href="#">Link to this property</a>
 
-  - `guardrails: optional object { prompt, response }`
+</details>
 
-    - `prompt: object { P1, S1, S10, 11 more }`
+<a href="#">Link to this property</a>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S4: optional "FLAG"or "BLOCK"
 
-      - `S1: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S10: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S11: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+<details>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+S5: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S13: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S2: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+S6: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S5: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S7: optional "FLAG"or "BLOCK"
 
-      - `S8: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-    - `response: object { P1, S1, S10, 11 more }`
+</details>
 
-      - `P1: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S1: optional "FLAG" or "BLOCK"`
+S8: optional "FLAG"or "BLOCK"
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+One of the following:
 
-      - `S10: optional "FLAG" or "BLOCK"`
+"FLAG"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+"BLOCK"
 
-      - `S11: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+</details>
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S12: optional "FLAG" or "BLOCK"`
+<details>
 
-        - `"FLAG"`
+<summary>
 
-        - `"BLOCK"`
+S9: optional "FLAG"or "BLOCK"
 
-      - `S13: optional "FLAG" or "BLOCK"`
+</summary>
 
-        - `"FLAG"`
+One of the following:
 
-        - `"BLOCK"`
+"FLAG"
 
-      - `S2: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+"BLOCK"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S3: optional "FLAG" or "BLOCK"`
+</details>
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S4: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-      - `S5: optional "FLAG" or "BLOCK"`
+response: object {P1, S1, S10, 11 more }
 
-        - `"FLAG"`
+</summary>
 
-        - `"BLOCK"`
+<details>
 
-      - `S6: optional "FLAG" or "BLOCK"`
+<summary>
 
-        - `"FLAG"`
+P1: optional "FLAG"or "BLOCK"
 
-        - `"BLOCK"`
+</summary>
 
-      - `S7: optional "FLAG" or "BLOCK"`
+One of the following:
 
-        - `"FLAG"`
+"FLAG"
 
-        - `"BLOCK"`
+<a href="#">Link to this property</a>
 
-      - `S8: optional "FLAG" or "BLOCK"`
+"BLOCK"
 
-        - `"FLAG"`
+<a href="#">Link to this property</a>
 
-        - `"BLOCK"`
+</details>
 
-      - `S9: optional "FLAG" or "BLOCK"`
+<a href="#">Link to this property</a>
 
-        - `"FLAG"`
+<details>
 
-        - `"BLOCK"`
+<summary>
 
-  - `is_default: optional boolean`
+S1: optional "FLAG"or "BLOCK"
 
-  - `log_management: optional number`
+</summary>
 
-  - `log_management_strategy: optional "STOP_INSERTING" or "DELETE_OLDEST"`
+One of the following:
 
-    - `"STOP_INSERTING"`
+"FLAG"
 
-    - `"DELETE_OLDEST"`
+<a href="#">Link to this property</a>
 
-  - `logpush: optional boolean`
+"BLOCK"
 
-  - `logpush_public_key: optional string`
+<a href="#">Link to this property</a>
 
-  - `otel: optional array of object { headers, url, authorization, content_type }`
+</details>
 
-    - `headers: map[string]`
+<a href="#">Link to this property</a>
 
-    - `url: string`
+<details>
 
-    - `authorization: optional string`
+<summary>
 
-    - `content_type: optional "json" or "protobuf"`
+S10: optional "FLAG"or "BLOCK"
 
-      - `"json"`
+</summary>
 
-      - `"protobuf"`
+One of the following:
 
-  - `rate_limiting_technique: optional "fixed" or "sliding"`
+"FLAG"
 
-    - `"fixed"`
+<a href="#">Link to this property</a>
 
-    - `"sliding"`
+"BLOCK"
 
-  - `retry_backoff: optional "constant" or "linear" or "exponential"`
+<a href="#">Link to this property</a>
 
-    Backoff strategy for retry delays
+</details>
 
-    - `"constant"`
+<a href="#">Link to this property</a>
 
-    - `"linear"`
+<details>
 
-    - `"exponential"`
+<summary>
 
-  - `retry_delay: optional number`
+S11: optional "FLAG"or "BLOCK"
 
-    Delay between retry attempts in milliseconds (0-5000)
+</summary>
 
-  - `retry_max_attempts: optional number`
+One of the following:
 
-    Maximum number of retry attempts for failed requests (1-5)
+"FLAG"
 
-  - `spend_limits: optional object { enabled, rules }`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+"BLOCK"
 
-    - `rules: optional array of object { limit, limitType, window, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `limit: number`
+</details>
 
-      - `limitType: "cost"`
+<a href="#">Link to this property</a>
 
-        - `"cost"`
+<details>
 
-      - `window: number`
+<summary>
 
-      - `id: optional string`
+S12: optional "FLAG"or "BLOCK"
 
-      - `enabled: optional boolean`
+</summary>
 
-      - `metadata: optional map[object { mode }  or object { mode, values } ]`
+One of the following:
 
-        - `Mode object { mode }`
+"FLAG"
 
-          - `mode: "partition"`
+<a href="#">Link to this property</a>
 
-            - `"partition"`
+"BLOCK"
 
-        - `object { mode, values }`
+<a href="#">Link to this property</a>
 
-          - `mode: "filter"`
+</details>
 
-            - `"filter"`
+<a href="#">Link to this property</a>
 
-          - `values: array of string`
+<details>
 
-      - `model: optional object { mode, values }`
+<summary>
 
-        - `mode: "filter"`
+S13: optional "FLAG"or "BLOCK"
 
-          - `"filter"`
+</summary>
 
-        - `values: array of string`
+One of the following:
 
-      - `provider: optional object { mode, values }`
+"FLAG"
 
-        - `mode: "filter"`
+<a href="#">Link to this property</a>
 
-          - `"filter"`
+"BLOCK"
 
-        - `values: array of string`
+<a href="#">Link to this property</a>
 
-      - `technique: optional "fixed" or "sliding"`
+</details>
 
-        - `"fixed"`
+<a href="#">Link to this property</a>
 
-        - `"sliding"`
+<details>
 
-  - `store_id: optional string`
+<summary>
 
-  - `stripe: optional object { authorization, usage_events }`
+S2: optional "FLAG"or "BLOCK"
 
-    - `authorization: string`
+</summary>
 
-    - `usage_events: array of object { payload }`
+One of the following:
 
-      - `payload: string`
+"FLAG"
 
-  - `workers_ai_billing_mode: optional "postpaid"`
+<a href="#">Link to this property</a>
 
-    Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported.
+"BLOCK"
 
-    - `"postpaid"`
+<a href="#">Link to this property</a>
 
-  - `zdr: optional boolean`
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+S3: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S4: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S5: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S6: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S7: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S8: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S9: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20guardrails%20%3E%20(schema)>)
+
+log\_classification: optional boolean
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20log_classification%20%3E%20(schema)>)
+
+log\_management: optional number
+
+maximum10000000
+
+minimum10000
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20log_management%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+log\_management\_strategy: optional "STOP\_INSERTING"or "DELETE\_OLDEST"
+
+</summary>
+
+One of the following:
+
+"STOP\_INSERTING"
+
+<a href="#">Link to this property</a>
+
+"DELETE\_OLDEST"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20log_management_strategy%20%3E%20(schema)>)
+
+logpush: optional boolean
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20logpush%20%3E%20(schema)>)
+
+logpush\_public\_key: optional string
+
+maxLength1024
+
+minLength16
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20logpush_public_key%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+otel: optional array of object {headers, url, authorization, content\_type }
+
+</summary>
+
+headers: map\[string]
+
+<a href="#">Link to this property</a>
+
+url: string
+
+formaturi
+
+maxLength2048
+
+<a href="#">Link to this property</a>
+
+authorization: optional string
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+content\_type: optional "json"or "protobuf"
+
+</summary>
+
+One of the following:
+
+"json"
+
+<a href="#">Link to this property</a>
+
+"protobuf"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20otel%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+rate\_limiting\_technique: optional "fixed"or "sliding"
+
+</summary>
+
+One of the following:
+
+"fixed"
+
+<a href="#">Link to this property</a>
+
+"sliding"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20rate_limiting_technique%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+retry\_backoff: optional "constant"or "linear"or "exponential"
+
+Backoff strategy for retry delays
+
+</summary>
+
+One of the following:
+
+"constant"
+
+<a href="#">Link to this property</a>
+
+"linear"
+
+<a href="#">Link to this property</a>
+
+"exponential"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20retry_backoff%20%3E%20(schema)>)
+
+retry\_delay: optional number
+
+Delay between retry attempts in milliseconds (0-60000)
+
+maximum60000
+
+minimum0
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20retry_delay%20%3E%20(schema)>)
+
+retry\_max\_attempts: optional number
+
+Maximum number of retry attempts for failed requests (1-5)
+
+maximum5
+
+minimum1
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20retry_max_attempts%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+spend\_limits: optional object {enabled, rules }
+
+</summary>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rules: optional array of object {limit, limitType, window, 6 more }
+
+</summary>
+
+limit: number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+limitType: "cost"
+
+<a href="#">Link to this property</a>
+
+window: number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+metadata: optional map\[object {mode } or object {mode, values } ]
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Mode object {mode }
+
+</summary>
+
+mode: "partition"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {mode, values }
+
+</summary>
+
+mode: "filter"
+
+<a href="#">Link to this property</a>
+
+values: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+model: optional object {mode, values }
+
+</summary>
+
+mode: "filter"
+
+<a href="#">Link to this property</a>
+
+values: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provider: optional object {mode, values }
+
+</summary>
+
+mode: "filter"
+
+<a href="#">Link to this property</a>
+
+values: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+technique: optional "fixed"or "sliding"
+
+</summary>
+
+One of the following:
+
+"fixed"
+
+<a href="#">Link to this property</a>
+
+"sliding"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20spend_limits%20%3E%20(schema)>)
+
+store\_id: optional string
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20store_id%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+stripe: optional object {authorization, usage\_events }
+
+</summary>
+
+authorization: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+usage\_events: array of object {payload }
+
+</summary>
+
+payload: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20stripe%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+workers\_ai\_billing\_mode: optional "postpaid"or "unified"
+
+Controls how Workers AI inference calls routed through this gateway are billed. ‘postpaid’ bills the account directly through Workers AI; ‘unified’ deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.
+
+</summary>
+
+One of the following:
+
+"postpaid"
+
+<a href="#">Link to this property</a>
+
+"unified"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20workers_ai_billing_mode%20%3E%20(schema)>)
+
+zdr: optional boolean
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20zdr%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {id, cache\_invalidate\_on\_update, cache\_ttl, 25 more }
+
+</summary>
+
+id: string
+
+gateway id
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+cache\_invalidate\_on\_update: boolean
+
+<a href="#">Link to this property</a>
+
+cache\_ttl: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+collect\_logs: boolean
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+rate\_limiting\_interval: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+rate\_limiting\_limit: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+authentication: optional boolean
+
+<a href="#">Link to this property</a>
+
+byok\_only: optional boolean
+
+Requires customer-provided provider credentials and prevents fallback to Unified Billing.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dlp: optional object {action, enabled, profiles } or object {enabled, policies }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {action, enabled, profiles }
+
+</summary>
+
+<details>
+
+<summary>
+
+action: "BLOCK"or "FLAG"
+
+</summary>
+
+One of the following:
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+profiles: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {enabled, policies }
+
+</summary>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policies: array of object {id, action, check, 2 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+action: "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+check: array of "REQUEST"or "RESPONSE"
+
+</summary>
+
+One of the following:
+
+"REQUEST"
+
+<a href="#">Link to this property</a>
+
+"RESPONSE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+profiles: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+guardrails: optional object {prompt, response }
+
+</summary>
+
+<details>
+
+<summary>
+
+prompt: object {P1, S1, S10, 11 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+P1: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S1: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S10: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S11: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S12: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S13: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S2: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S3: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S4: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S5: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S6: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S7: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S8: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S9: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: object {P1, S1, S10, 11 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+P1: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S1: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S10: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S11: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S12: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S13: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S2: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S3: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S4: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S5: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S6: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S7: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S8: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+S9: optional "FLAG"or "BLOCK"
+
+</summary>
+
+One of the following:
+
+"FLAG"
+
+<a href="#">Link to this property</a>
+
+"BLOCK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+is\_default: optional boolean
+
+<a href="#">Link to this property</a>
+
+log\_classification: optional boolean
+
+<a href="#">Link to this property</a>
+
+log\_management: optional number
+
+maximum10000000
+
+minimum10000
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+log\_management\_strategy: optional "STOP\_INSERTING"or "DELETE\_OLDEST"
+
+</summary>
+
+One of the following:
+
+"STOP\_INSERTING"
+
+<a href="#">Link to this property</a>
+
+"DELETE\_OLDEST"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+logpush: optional boolean
+
+<a href="#">Link to this property</a>
+
+logpush\_public\_key: optional string
+
+maxLength1024
+
+minLength16
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+otel: optional array of object {headers, url, authorization, content\_type }
+
+</summary>
+
+headers: map\[string]
+
+<a href="#">Link to this property</a>
+
+url: string
+
+formaturi
+
+maxLength2048
+
+<a href="#">Link to this property</a>
+
+authorization: optional string
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+content\_type: optional "json"or "protobuf"
+
+</summary>
+
+One of the following:
+
+"json"
+
+<a href="#">Link to this property</a>
+
+"protobuf"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rate\_limiting\_technique: optional "fixed"or "sliding"
+
+</summary>
+
+One of the following:
+
+"fixed"
+
+<a href="#">Link to this property</a>
+
+"sliding"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+retry\_backoff: optional "constant"or "linear"or "exponential"
+
+Backoff strategy for retry delays
+
+</summary>
+
+One of the following:
+
+"constant"
+
+<a href="#">Link to this property</a>
+
+"linear"
+
+<a href="#">Link to this property</a>
+
+"exponential"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+retry\_delay: optional number
+
+Delay between retry attempts in milliseconds (0-60000)
+
+maximum60000
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+retry\_max\_attempts: optional number
+
+Maximum number of retry attempts for failed requests (1-5)
+
+maximum5
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spend\_limits: optional object {enabled, rules }
+
+</summary>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rules: optional array of object {limit, limitType, window, 6 more }
+
+</summary>
+
+limit: number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+limitType: "cost"
+
+<a href="#">Link to this property</a>
+
+window: number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+metadata: optional map\[object {mode } or object {mode, values } ]
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Mode object {mode }
+
+</summary>
+
+mode: "partition"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {mode, values }
+
+</summary>
+
+mode: "filter"
+
+<a href="#">Link to this property</a>
+
+values: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+model: optional object {mode, values }
+
+</summary>
+
+mode: "filter"
+
+<a href="#">Link to this property</a>
+
+values: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provider: optional object {mode, values }
+
+</summary>
+
+mode: "filter"
+
+<a href="#">Link to this property</a>
+
+values: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+technique: optional "fixed"or "sliding"
+
+</summary>
+
+One of the following:
+
+"fixed"
+
+<a href="#">Link to this property</a>
+
+"sliding"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+store\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stripe: optional object {authorization, usage\_events }
+
+</summary>
+
+authorization: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+usage\_events: array of object {payload }
+
+</summary>
+
+payload: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+workers\_ai\_billing\_mode: optional "postpaid"or "unified"
+
+Controls how Workers AI inference calls routed through this gateway are billed. ‘postpaid’ bills the account directly through Workers AI; ‘unified’ deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.
+
+</summary>
+
+One of the following:
+
+"postpaid"
+
+<a href="#">Link to this property</a>
+
+"unified"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+zdr: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_gateway%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update a Gateway
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -742,9 +2598,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gatewa
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "id": "my-gateway",
@@ -756,6 +2612,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gatewa
     "rate_limiting_interval": 0,
     "rate_limiting_limit": 0,
     "authentication": true,
+    "byok_only": true,
     "dlp": {
       "action": "BLOCK",
       "enabled": true,
@@ -798,6 +2655,131 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gatewa
       }
     },
     "is_default": true,
+    "log_classification": true,
+    "log_management": 10000,
+    "log_management_strategy": "STOP_INSERTING",
+    "logpush": true,
+    "logpush_public_key": "xxxxxxxxxxxxxxxx",
+    "otel": [
+      {
+        "headers": {
+          "foo": "string"
+        },
+        "url": "https://example.com",
+        "authorization": "authorization",
+        "content_type": "json"
+      }
+    ],
+    "rate_limiting_technique": "fixed",
+    "retry_backoff": "constant",
+    "retry_delay": 0,
+    "retry_max_attempts": 1,
+    "spend_limits": {
+      "enabled": true,
+      "rules": [
+        {
+          "limit": 1,
+          "limitType": "cost",
+          "window": 1,
+          "id": "x",
+          "enabled": true,
+          "metadata": {
+            "foo": {
+              "mode": "partition"
+            }
+          },
+          "model": {
+            "mode": "filter",
+            "values": [
+              "string"
+            ]
+          },
+          "provider": {
+            "mode": "filter",
+            "values": [
+              "string"
+            ]
+          },
+          "technique": "fixed"
+        }
+      ]
+    },
+    "store_id": "store_id",
+    "stripe": {
+      "authorization": "authorization",
+      "usage_events": [
+        {
+          "payload": "payload"
+        }
+      ]
+    },
+    "workers_ai_billing_mode": "postpaid",
+    "zdr": true
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "id": "my-gateway",
+    "cache_invalidate_on_update": true,
+    "cache_ttl": 0,
+    "collect_logs": true,
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "modified_at": "2019-12-27T18:11:19.117Z",
+    "rate_limiting_interval": 0,
+    "rate_limiting_limit": 0,
+    "authentication": true,
+    "byok_only": true,
+    "dlp": {
+      "action": "BLOCK",
+      "enabled": true,
+      "profiles": [
+        "string"
+      ]
+    },
+    "guardrails": {
+      "prompt": {
+        "P1": "FLAG",
+        "S1": "FLAG",
+        "S10": "FLAG",
+        "S11": "FLAG",
+        "S12": "FLAG",
+        "S13": "FLAG",
+        "S2": "FLAG",
+        "S3": "FLAG",
+        "S4": "FLAG",
+        "S5": "FLAG",
+        "S6": "FLAG",
+        "S7": "FLAG",
+        "S8": "FLAG",
+        "S9": "FLAG"
+      },
+      "response": {
+        "P1": "FLAG",
+        "S1": "FLAG",
+        "S10": "FLAG",
+        "S11": "FLAG",
+        "S12": "FLAG",
+        "S13": "FLAG",
+        "S2": "FLAG",
+        "S3": "FLAG",
+        "S4": "FLAG",
+        "S5": "FLAG",
+        "S6": "FLAG",
+        "S7": "FLAG",
+        "S8": "FLAG",
+        "S9": "FLAG"
+      }
+    },
+    "is_default": true,
+    "log_classification": true,
     "log_management": 10000,
     "log_management_strategy": "STOP_INSERTING",
     "logpush": true,

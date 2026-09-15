@@ -1,114 +1,300 @@
-## Create multiple prefixes.
+---
+title: Create multiple prefixes.
+---
 
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/bulk`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create multiple prefixes.
+
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/bulk
 
 Create multiple prefixes for an account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `body: array of object { comment, excluded, prefix }`
 
-  - `comment: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    A comment describing the prefix.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `excluded: boolean`
+</details>
 
-    Whether to exclude the prefix from protection.
+<details>
 
-  - `prefix: string`
+<summary>API Email + API Key</summary>
 
-    The prefix to add in CIDR format.
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`DDoS Protection Write`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-  - `documentation_url: optional string`
+Identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20bulk_create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: true`
+##### Body ParametersJSONExpand Collapse
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional array of object { id, comment, created_on, 3 more }`
+body: array of object {comment, excluded, prefix }
 
-  - `id: string`
+</summary>
 
-    The unique ID of the prefix.
+comment: string
 
-  - `comment: string`
+A comment describing the prefix.
 
-    A comment describing the prefix.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+excluded: boolean
 
-    The creation timestamp of the prefix.
+Whether to exclude the prefix from protection.
 
-  - `excluded: boolean`
+<a href="#">Link to this property</a>
 
-    Whether to exclude the prefix from protection.
+prefix: string
 
-  - `modified_on: string`
+The prefix to add in CIDR format.
 
-    The last modification timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `prefix: string`
+</details>
 
-    The prefix in CIDR format.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20bulk_create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+##### ReturnsExpand Collapse
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+errors: array of object {code, message, documentation\_url, source }
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+code: number
 
-    Number of results per page of results.
+minimum1000
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+message: string
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+documentation\_url: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20bulk_create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20bulk_create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20bulk_create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, comment, created\_on, 3 more }
+
+</summary>
+
+id: string
+
+The unique ID of the prefix.
+
+<a href="#">Link to this property</a>
+
+comment: string
+
+A comment describing the prefix.
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The creation timestamp of the prefix.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+excluded: boolean
+
+Whether to exclude the prefix from protection.
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The last modification timestamp of the prefix.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+The prefix in CIDR format.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20bulk_create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(method)%20bulk_create%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Create multiple prefixes.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/bulk \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -121,9 +307,56 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tc
         ]'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "id",
+      "comment": "comment",
+      "created_on": "2019-12-27T18:11:19.117Z",
+      "excluded": true,
+      "modified_on": "2019-12-27T18:11:19.117Z",
+      "prefix": "192.0.2.0/24"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

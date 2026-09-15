@@ -1,74 +1,244 @@
-## Update a WAF rule group
+---
+title: Update a WAF rule group
+---
 
-**patch** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups/{group_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[WAF](https://developers.cloudflare.com/api/resources/firewall/subresources/waf)
+
+[Packages](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages)
+
+[Groups](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a WAF rule group
+
+Deprecated
+
+PATCH/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups/{group\_id}
 
 Updates a WAF rule group. You can update the state (`mode` parameter) of a rule group.
 
 **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier of a schema.
+<summary>API Token</summary>
 
-- `package_id: string`
 
-  Defines the unique identifier of a WAF package.
 
-- `group_id: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Defines the unique identifier of a WAF package.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Body Parameters
+</details>
 
-- `mode: optional "on" or "off"`
+<details>
 
-  Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
+<summary>API Email + API Key</summary>
 
-  - `"on"`
 
-  - `"off"`
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Firewall Services Write`
 
-- `messages: array of ResponseInfo`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+zone\_id: string
 
-  - `message: string`
+Defines an identifier of a schema.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `result: unknown or string`
+package\_id: string
 
-  - `unknown`
+Defines the unique identifier of a WAF package.
 
-  - `string`
+maxLength32
 
-- `success: true`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20package_id%20%3E%20(schema)>)
 
-  Defines whether the API call was successful.
+group\_id: string
 
-  - `true`
+Defines the unique identifier of a WAF package.
 
-### Example
+maxLength32
 
-```http
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20group_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+<details>
+
+<summary>
+
+mode: optional "on"or "off"
+
+Defines the state of the rules contained in the rule group. When <code>on</code>, the rules in the group are configurable/usable.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20mode%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: unknownor string
+
+</summary>
+
+One of the following:
+
+unknown
+
+<a href="#">Link to this property</a>
+
+string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update a WAF rule group
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups/$GROUP_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -76,9 +246,40 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

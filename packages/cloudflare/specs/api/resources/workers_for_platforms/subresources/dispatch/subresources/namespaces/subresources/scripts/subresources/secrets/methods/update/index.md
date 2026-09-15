@@ -1,212 +1,530 @@
-## Add script secret
+---
+title: Add script secret
+---
 
-**put** `/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets`
+[Skip to content](#_top)
 
-Add a secret to a script uploaded to a Workers for Platforms namespace.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Workers For Platforms](https://developers.cloudflare.com/api/resources/workers_for_platforms)
 
-- `account_id: string`
+[Dispatch](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch)
 
-  Identifier.
+[Namespaces](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces)
 
-- `dispatch_namespace: string`
+[Scripts](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts)
 
-  Name of the Workers for Platforms dispatch namespace.
+[Secrets](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts/subresources/secrets)
 
-- `script_name: string`
+Copy Markdown
 
-  Name of the script, used in URLs and route configuration.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `body: object { name, text, type }  or object { algorithm, format, name, 4 more }`
+**Copy Markdown****View as Markdown**
 
-  A secret value accessible through a binding.
+# Add script secret
 
-  - `SecretText object { name, text, type }`
+PUT/accounts/{account\_id}/workers/dispatch/namespaces/{dispatch\_namespace}/scripts/{script\_name}/secrets
 
-    - `name: string`
+Add a secret to a script by creating a new version with that secret.
 
-      A JavaScript variable name for the binding.
+When changing more than one secret at a time, prefer the “Patch multiple script secrets” API instead of changing many secrets individually.
 
-    - `text: string`
+##### Security
 
-      The secret value to use.
+<details>
 
-    - `type: "secret_text"`
+<summary>API Token</summary>
 
-      The kind of resource that the binding provides.
 
-      - `"secret_text"`
 
-  - `SecretKey object { algorithm, format, name, 4 more }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `algorithm: unknown`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-      Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
+</details>
 
-    - `format: "raw" or "pkcs8" or "spki" or "jwk"`
+<details>
 
-      Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
+<summary>API Email + API Key</summary>
 
-      - `"raw"`
 
-      - `"pkcs8"`
 
-      - `"spki"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      - `"jwk"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `name: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      A JavaScript variable name for the binding.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `type: "secret_key"`
+</details>
 
-      The kind of resource that the binding provides.
+##### Accepted Permissions (at least one required)
 
-      - `"secret_key"`
+`Workers Scripts Write`
 
-    - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
+##### P ath ParametersExpand Collapse
 
-      Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
+account\_id: string
 
-      - `"encrypt"`
+Identifier.
 
-      - `"decrypt"`
+maxLength32
 
-      - `"sign"`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.secrets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `"verify"`
+dispatch\_namespace: string
 
-      - `"deriveKey"`
+Name of the Workers for Platforms dispatch namespace.
 
-      - `"deriveBits"`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.secrets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20dispatch_namespace%20%3E%20(schema)>)
 
-      - `"wrapKey"`
+script\_name: string
 
-      - `"unwrapKey"`
+Name of the script, used in URLs and route configuration.
 
-    - `key_base64: optional string`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.secrets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20script_name%20%3E%20(schema)>)
 
-      Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
+##### Body ParametersJSONExpand Collapse
 
-    - `key_jwk: optional unknown`
+<details>
 
-      Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
+<summary>
 
-### Returns
+body: object {name, text, type } or object {algorithm, format, name, 4 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+A secret value accessible through a binding.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+SecretText object {name, text, type }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+A JavaScript variable name for the binding.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+text: string
 
-    - `pointer: optional string`
+The secret value to use.
 
-- `result: object { name, text, type }  or object { algorithm, format, name, 4 more }`
+<a href="#">Link to this property</a>
 
-  A secret value accessible through a binding.
+type: "secret\_text"
 
-  - `SecretText object { name, text, type }`
+The kind of resource that the binding provides.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      A JavaScript variable name for the binding.
+</details>
 
-    - `text: string`
+<a href="#">Link to this property</a>
 
-      The secret value to use.
+<details>
 
-    - `type: "secret_text"`
+<summary>
 
-      The kind of resource that the binding provides.
+SecretKey object {algorithm, format, name, 4 more }
 
-      - `"secret_text"`
+</summary>
 
-  - `SecretKey object { algorithm, format, name, 4 more }`
+algorithm: unknown
 
-    - `algorithm: unknown`
+Algorithm-specific key parameters. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm">Learn more</a>.
 
-      Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
+<a href="#">Link to this property</a>
 
-    - `format: "raw" or "pkcs8" or "spki" or "jwk"`
+<details>
 
-      Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
+<summary>
 
-      - `"raw"`
+format: "raw"or "pkcs8"or "spki"or "jwk"
 
-      - `"pkcs8"`
+Data format of the key. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format">Learn more</a>.
 
-      - `"spki"`
+</summary>
 
-      - `"jwk"`
+One of the following:
 
-    - `name: string`
+"raw"
 
-      A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-    - `type: "secret_key"`
+"pkcs8"
 
-      The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-      - `"secret_key"`
+"spki"
 
-    - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
+<a href="#">Link to this property</a>
 
-      Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
+"jwk"
 
-      - `"encrypt"`
+<a href="#">Link to this property</a>
 
-      - `"decrypt"`
+</details>
 
-      - `"sign"`
+<a href="#">Link to this property</a>
 
-      - `"verify"`
+name: string
 
-      - `"deriveKey"`
+A JavaScript variable name for the binding.
 
-      - `"deriveBits"`
+<a href="#">Link to this property</a>
 
-      - `"wrapKey"`
+type: "secret\_key"
 
-      - `"unwrapKey"`
+The kind of resource that the binding provides.
 
-    - `key_base64: optional string`
+<a href="#">Link to this property</a>
 
-      Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
+<details>
 
-    - `key_jwk: optional unknown`
+<summary>
 
-      Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
+usages: array of "encrypt"or "decrypt"or "sign"or 5 more
 
-- `success: true`
+Allowed operations with the key. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages">Learn more</a>.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-### Example
+"encrypt"
 
-```http
+<a href="#">Link to this property</a>
+
+"decrypt"
+
+<a href="#">Link to this property</a>
+
+"sign"
+
+<a href="#">Link to this property</a>
+
+"verify"
+
+<a href="#">Link to this property</a>
+
+"deriveKey"
+
+<a href="#">Link to this property</a>
+
+"deriveBits"
+
+<a href="#">Link to this property</a>
+
+"wrapKey"
+
+<a href="#">Link to this property</a>
+
+"unwrapKey"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+key\_base64: optional string
+
+Base64-encoded key data. Required if <code>format</code> is “raw”, “pkcs8”, or “spki”.
+
+<a href="#">Link to this property</a>
+
+key\_jwk: optional unknown
+
+Key data in <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key">JSON Web Key</a> format. Required if <code>format</code> is “jwk”.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.secrets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.secrets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.secrets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {name, text, type } or object {algorithm, format, name, 4 more }
+
+A secret value accessible through a binding.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+SecretText object {name, text, type }
+
+</summary>
+
+name: string
+
+A JavaScript variable name for the binding.
+
+<a href="#">Link to this property</a>
+
+text: string
+
+The secret value to use.
+
+<a href="#">Link to this property</a>
+
+type: "secret\_text"
+
+The kind of resource that the binding provides.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SecretKey object {algorithm, format, name, 4 more }
+
+</summary>
+
+algorithm: unknown
+
+Algorithm-specific key parameters. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm">Learn more</a>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+format: "raw"or "pkcs8"or "spki"or "jwk"
+
+Data format of the key. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format">Learn more</a>.
+
+</summary>
+
+One of the following:
+
+"raw"
+
+<a href="#">Link to this property</a>
+
+"pkcs8"
+
+<a href="#">Link to this property</a>
+
+"spki"
+
+<a href="#">Link to this property</a>
+
+"jwk"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+A JavaScript variable name for the binding.
+
+<a href="#">Link to this property</a>
+
+type: "secret\_key"
+
+The kind of resource that the binding provides.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+usages: array of "encrypt"or "decrypt"or "sign"or 5 more
+
+Allowed operations with the key. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages">Learn more</a>.
+
+</summary>
+
+One of the following:
+
+"encrypt"
+
+<a href="#">Link to this property</a>
+
+"decrypt"
+
+<a href="#">Link to this property</a>
+
+"sign"
+
+<a href="#">Link to this property</a>
+
+"verify"
+
+<a href="#">Link to this property</a>
+
+"deriveKey"
+
+<a href="#">Link to this property</a>
+
+"deriveBits"
+
+<a href="#">Link to this property</a>
+
+"wrapKey"
+
+<a href="#">Link to this property</a>
+
+"unwrapKey"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+key\_base64: optional string
+
+Base64-encoded key data. Required if <code>format</code> is “raw”, “pkcs8”, or “spki”.
+
+<a href="#">Link to this property</a>
+
+key\_jwk: optional unknown
+
+Key data in <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key">JSON Web Key</a> format. Required if <code>format</code> is “jwk”.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.secrets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces.scripts.secrets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Add script secret
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/namespaces/$DISPATCH_NAMESPACE/scripts/$SCRIPT_NAME/secrets \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -218,9 +536,43 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "name": "myBinding",
+    "type": "secret_text"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

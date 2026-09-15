@@ -1,1701 +1,721 @@
+---
+title: Security Center
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Security Center
 
-# Insights
+#### Security CenterInsights
 
-## Retrieves Security Center Insights
+##### [Retrieves Security Center Insights](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/methods/list)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights
 
-Lists all Security Center insights for the account or zone, showing security findings and recommendations.
+##### [Archives Security Center Insight](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/methods/dismiss)
 
-### Path Parameters
+PUT/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/{issue\_id}/dismiss
 
-- `account_id: optional string`
+##### ModelsExpand Collapse
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<details>
 
-- `zone_id: optional string`
+<summary>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+InsightListResponse object {count, issues, page, per\_page }
 
-### Query Parameters
+</summary>
 
-- `dismissed: optional boolean`
+count: optional number
 
-- `issue_class: optional array of string`
+Indicates the total number of results.
 
-- `"issue_class~neq": optional array of string`
+<a href="#">Link to this property</a>
 
-- `issue_type: optional array of IssueType`
+<details>
 
-  - `"compliance_violation"`
+<summary>
 
-  - `"email_security"`
+issues: optional array of object {id, dismissed, has\_extended\_context, 11 more }
 
-  - `"exposed_infrastructure"`
+</summary>
 
-  - `"insecure_configuration"`
+id: optional string
 
-  - `"weak_authentication"`
+<a href="#">Link to this property</a>
 
-  - `"configuration_suggestion"`
+dismissed: optional boolean
 
-- `"issue_type~neq": optional array of IssueType`
+<a href="#">Link to this property</a>
 
-  - `"compliance_violation"`
+has\_extended\_context: optional boolean
 
-  - `"email_security"`
+Indicates whether the insight has a large payload that requires fetching via the context endpoint.
 
-  - `"exposed_infrastructure"`
+<a href="#">Link to this property</a>
 
-  - `"insecure_configuration"`
+issue\_class: optional string
 
-  - `"weak_authentication"`
+<a href="#">Link to this property</a>
 
-  - `"configuration_suggestion"`
+issue\_type: optional <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type%20%3E%20(schema)">IssueType</a>
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Specifies the current page within paginated list of results.
+<details>
 
-- `per_page: optional number`
+<summary>
 
-  Sets the number of results per page of results.
+payload: optional object {detection\_method, zone\_tag }
 
-- `product: optional array of string`
+</summary>
 
-- `"product~neq": optional array of string`
+detection\_method: optional string
 
-- `severity: optional array of SeverityQueryParam`
+Describes the method used to detect insight.
 
-  - `"low"`
+<a href="#">Link to this property</a>
 
-  - `"moderate"`
+zone\_tag: optional string
 
-  - `"critical"`
+<a href="#">Link to this property</a>
 
-- `"severity~neq": optional array of SeverityQueryParam`
+</details>
 
-  - `"low"`
+<a href="#">Link to this property</a>
 
-  - `"moderate"`
+resolve\_link: optional string
 
-  - `"critical"`
+<a href="#">Link to this property</a>
 
-- `subject: optional array of string`
+resolve\_text: optional string
 
-- `"subject~neq": optional array of string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+severity: optional "Low"or "Moderate"or "Critical"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"Low"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"Moderate"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"Critical"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+since: optional string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { count, issues, page, per_page }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Indicates the total number of results.
+status: optional "active"or "resolved"
 
-  - `issues: optional array of object { id, dismissed, has_extended_context, 11 more }`
+The current status of the insight.
 
-    - `id: optional string`
+</summary>
 
-    - `dismissed: optional boolean`
+One of the following:
 
-    - `has_extended_context: optional boolean`
+"active"
 
-      Indicates whether the insight has a large payload that requires fetching via the context endpoint.
+<a href="#">Link to this property</a>
 
-    - `issue_class: optional string`
+"resolved"
 
-    - `issue_type: optional IssueType`
+<a href="#">Link to this property</a>
 
-      - `"compliance_violation"`
+</details>
 
-      - `"email_security"`
+<a href="#">Link to this property</a>
 
-      - `"exposed_infrastructure"`
+subject: optional string
 
-      - `"insecure_configuration"`
+<a href="#">Link to this property</a>
 
-      - `"weak_authentication"`
+timestamp: optional string
 
-      - `"configuration_suggestion"`
+formatdate-time
 
-    - `payload: optional object { detection_method, zone_tag }`
+<a href="#">Link to this property</a>
 
-      - `detection_method: optional string`
+<details>
 
-        Describes the method used to detect insight.
+<summary>
 
-      - `zone_tag: optional string`
+user\_classification: optional "false\_positive"or "accept\_risk"or "other"
 
-    - `resolve_link: optional string`
+User-defined classification for the insight. Can be ‘false\_positive’, ‘accept\_risk’, ‘other’, or null.
 
-    - `resolve_text: optional string`
+</summary>
 
-    - `severity: optional "Low" or "Moderate" or "Critical"`
+One of the following:
 
-      - `"Low"`
+"false\_positive"
 
-      - `"Moderate"`
+<a href="#">Link to this property</a>
 
-      - `"Critical"`
+"accept\_risk"
 
-    - `since: optional string`
+<a href="#">Link to this property</a>
 
-    - `status: optional "active" or "resolved"`
+"other"
 
-      The current status of the insight.
+<a href="#">Link to this property</a>
 
-      - `"active"`
+</details>
 
-      - `"resolved"`
+<a href="#">Link to this property</a>
 
-    - `subject: optional string`
+</details>
 
-    - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-    - `user_classification: optional "false_positive" or "accept_risk" or "other"`
+page: optional number
 
-      User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
+Specifies the current page within paginated list of results.
 
-      - `"false_positive"`
+<a href="#">Link to this property</a>
 
-      - `"accept_risk"`
+per\_page: optional number
 
-      - `"other"`
+Sets the number of results per page of results.
 
-  - `page: optional number`
+maximum1000
 
-    Specifies the current page within paginated list of results.
+minimum1
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Sets the number of results per page of results.
+</details>
 
-### Example
+[Link to this property](#)%20security_center.insights%20%3E%20(model)%20insight_list_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "count": 1,
-    "issues": [
-      {
-        "id": "id",
-        "dismissed": false,
-        "has_extended_context": false,
-        "issue_class": "always_use_https_not_enabled",
-        "issue_type": "compliance_violation",
-        "payload": {
-          "detection_method": "We detected security rules referencing multiple IP addresses directly in the rules.",
-          "zone_tag": "zone_tag"
-        },
-        "resolve_link": "resolve_link",
-        "resolve_text": "resolve_text",
-        "severity": "Low",
-        "since": "2019-12-27T18:11:19.117Z",
-        "status": "active",
-        "subject": "example.com",
-        "timestamp": "2019-12-27T18:11:19.117Z",
-        "user_classification": "false_positive"
-      }
-    ],
-    "page": 1,
-    "per_page": 25
-  }
-}
-```
+InsightDismissResponse object {errors, messages, success }
 
-## Archives Security Center Insight
+</summary>
 
-**put** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/{issue_id}/dismiss`
+<details>
 
-Archives a Security Center insight for an account or zone, removing it from the active insights list while preserving historical data.
+<summary>
 
-### Path Parameters
+errors: array of object {code, message, documentation\_url, source }
 
-- `issue_id: string`
+</summary>
 
-- `account_id: optional string`
+code: number
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+minimum1000
 
-- `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+message: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `dismiss: optional boolean`
+documentation\_url: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+source: optional object {pointer }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+pointer: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+messages: array of object {code, message, documentation\_url, source }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+code: number
 
-### Example
+minimum1000
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/$ISSUE_ID/dismiss \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+message: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+documentation\_url: optional string
 
-### Insight List Response
+<a href="#">Link to this property</a>
 
-- `InsightListResponse object { count, issues, page, per_page }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Indicates the total number of results.
+source: optional object {pointer }
 
-  - `issues: optional array of object { id, dismissed, has_extended_context, 11 more }`
+</summary>
 
-    - `id: optional string`
+pointer: optional string
 
-    - `dismissed: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `has_extended_context: optional boolean`
+</details>
 
-      Indicates whether the insight has a large payload that requires fetching via the context endpoint.
+<a href="#">Link to this property</a>
 
-    - `issue_class: optional string`
+</details>
 
-    - `issue_type: optional IssueType`
+<a href="#">Link to this property</a>
 
-      - `"compliance_violation"`
+success: true
 
-      - `"email_security"`
+Whether the API call was successful.
 
-      - `"exposed_infrastructure"`
+<a href="#">Link to this property</a>
 
-      - `"insecure_configuration"`
+</details>
 
-      - `"weak_authentication"`
+[Link to this property](#)%20security_center.insights%20%3E%20(model)%20insight_dismiss_response%20%3E%20(schema)>)
 
-      - `"configuration_suggestion"`
+#### Security CenterInsightsClass
 
-    - `payload: optional object { detection_method, zone_tag }`
+##### [Retrieves Security Center Insight Counts by Class](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/class/methods/get)
 
-      - `detection_method: optional string`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/class
 
-        Describes the method used to detect insight.
+##### ModelsExpand Collapse
 
-      - `zone_tag: optional string`
+<details>
 
-    - `resolve_link: optional string`
+<summary>
 
-    - `resolve_text: optional string`
+ClassGetResponse = array of object {count, value }
 
-    - `severity: optional "Low" or "Moderate" or "Critical"`
+</summary>
 
-      - `"Low"`
+count: optional number
 
-      - `"Moderate"`
+<a href="#">Link to this property</a>
 
-      - `"Critical"`
+value: optional string
 
-    - `since: optional string`
+<a href="#">Link to this property</a>
 
-    - `status: optional "active" or "resolved"`
+</details>
 
-      The current status of the insight.
+[Link to this property](#)%20security_center.insights.class%20%3E%20(model)%20class_get_response%20%3E%20(schema)>)
 
-      - `"active"`
+#### Security CenterInsightsSeverity
 
-      - `"resolved"`
+##### [Retrieves Security Center Insight Counts by Severity](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/severity/methods/get)
 
-    - `subject: optional string`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/severity
 
-    - `timestamp: optional string`
+##### ModelsExpand Collapse
 
-    - `user_classification: optional "false_positive" or "accept_risk" or "other"`
+<details>
 
-      User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
+<summary>
 
-      - `"false_positive"`
+SeverityGetResponse = array of object {count, value }
 
-      - `"accept_risk"`
+</summary>
 
-      - `"other"`
+count: optional number
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Specifies the current page within paginated list of results.
+value: optional string
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Sets the number of results per page of results.
+</details>
 
-### Insight Dismiss Response
+[Link to this property](#)%20security_center.insights.severity%20%3E%20(model)%20severity_get_response%20%3E%20(schema)>)
 
-- `InsightDismissResponse object { errors, messages, success }`
+#### Security CenterInsightsType
 
-  - `errors: array of object { code, message, documentation_url, source }`
+##### [Retrieves Security Center Insight Counts by Type](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/type/methods/get)
 
-    - `code: number`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/type
 
-    - `message: string`
+##### ModelsExpand Collapse
 
-    - `documentation_url: optional string`
+<details>
 
-    - `source: optional object { pointer }`
+<summary>
 
-      - `pointer: optional string`
+TypeGetResponse = array of object {count, value }
 
-  - `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-    - `code: number`
+count: optional number
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+value: optional string
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+</details>
 
-  - `success: true`
+[Link to this property](#)%20security_center.insights.type%20%3E%20(model)%20type_get_response%20%3E%20(schema)>)
 
-    Whether the API call was successful.
+#### Security CenterInsightsAudit Logs
 
-    - `true`
+##### [Retrieves account or zone Audit Log](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/audit_logs/methods/list)
 
-# Class
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/audit-log
 
-## Retrieves Security Center Insight Counts by Class
+##### [Retrieves Issue Audit Log](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/audit_logs/methods/list_by_insight)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/class`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/{issue\_id}/audit-log
 
-Retrieves Security Center insight counts aggregated by classification class.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: optional string`
+<summary>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+AuditLogListResponse object {id, changed\_at, changed\_by, 6 more }
 
-- `zone_id: optional string`
+</summary>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+id: optional string
 
-### Query Parameters
+UUIDv7 identifier for the audit log entry, time-ordered.
 
-- `dismissed: optional boolean`
+formatuuid
 
-- `issue_class: optional array of string`
+<a href="#">Link to this property</a>
 
-- `"issue_class~neq": optional array of string`
+changed\_at: optional string
 
-- `issue_type: optional array of IssueType`
+The timestamp when the change occurred.
 
-  - `"compliance_violation"`
+formatdate-time
 
-  - `"email_security"`
+<a href="#">Link to this property</a>
 
-  - `"exposed_infrastructure"`
+changed\_by: optional string
 
-  - `"insecure_configuration"`
+The actor that made the change. ‘system’ for automated changes, or a user identifier.
 
-  - `"weak_authentication"`
+<a href="#">Link to this property</a>
 
-  - `"configuration_suggestion"`
+current\_value: optional string
 
-- `"issue_type~neq": optional array of IssueType`
+The value of the field after the change. Null if the field was cleared.
 
-  - `"compliance_violation"`
+<a href="#">Link to this property</a>
 
-  - `"email_security"`
+<details>
 
-  - `"exposed_infrastructure"`
+<summary>
 
-  - `"insecure_configuration"`
+field\_changed: optional "status"or "user\_classification"
 
-  - `"weak_authentication"`
+The field that was changed.
 
-  - `"configuration_suggestion"`
+</summary>
 
-- `product: optional array of string`
+One of the following:
 
-- `"product~neq": optional array of string`
+"status"
 
-- `severity: optional array of SeverityQueryParam`
+<a href="#">Link to this property</a>
 
-  - `"low"`
+"user\_classification"
 
-  - `"moderate"`
+<a href="#">Link to this property</a>
 
-  - `"critical"`
+</details>
 
-- `"severity~neq": optional array of SeverityQueryParam`
+<a href="#">Link to this property</a>
 
-  - `"low"`
+issue\_id: optional string
 
-  - `"moderate"`
+The ID of the insight this audit log entry relates to.
 
-  - `"critical"`
+<a href="#">Link to this property</a>
 
-- `subject: optional array of string`
+previous\_value: optional string
 
-- `"subject~neq": optional array of string`
+The value of the field before the change. Null if the field was not previously set.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+rationale: optional string
 
-  - `code: number`
+Optional rationale provided for the change.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+zone\_id: optional number
 
-  - `source: optional object { pointer }`
+The zone ID associated with the insight. Only present for zone-level insights.
 
-    - `pointer: optional string`
+formatint64
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(model)%20audit_log_list_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+AuditLogListByInsightResponse object {id, changed\_at, changed\_by, 6 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: optional string
 
-  - `true`
+UUIDv7 identifier for the audit log entry, time-ordered.
 
-- `result: optional array of object { count, value }`
+formatuuid
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-  - `value: optional string`
+changed\_at: optional string
 
-### Example
+The timestamp when the change occurred.
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/class \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
+changed\_by: optional string
 
-## Domain Types
+The actor that made the change. ‘system’ for automated changes, or a user identifier.
 
-### Class Get Response
+<a href="#">Link to this property</a>
 
-- `ClassGetResponse = array of object { count, value }`
+current\_value: optional string
 
-  - `count: optional number`
+The value of the field after the change. Null if the field was cleared.
 
-  - `value: optional string`
+<a href="#">Link to this property</a>
 
-# Severity
+<details>
 
-## Retrieves Security Center Insight Counts by Severity
+<summary>
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/severity`
+field\_changed: optional "status"or "user\_classification"
 
-Retrieves Security Center insight counts aggregated by severity level (critical, high, medium, low).
+The field that was changed.
 
-### Path Parameters
+</summary>
 
-- `account_id: optional string`
+One of the following:
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+"status"
 
-- `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+"user\_classification"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `dismissed: optional boolean`
+</details>
 
-- `issue_class: optional array of string`
+<a href="#">Link to this property</a>
 
-- `"issue_class~neq": optional array of string`
+issue\_id: optional string
 
-- `issue_type: optional array of IssueType`
+The ID of the insight this audit log entry relates to.
 
-  - `"compliance_violation"`
+<a href="#">Link to this property</a>
 
-  - `"email_security"`
+previous\_value: optional string
 
-  - `"exposed_infrastructure"`
+The value of the field before the change. Null if the field was not previously set.
 
-  - `"insecure_configuration"`
+<a href="#">Link to this property</a>
 
-  - `"weak_authentication"`
+rationale: optional string
 
-  - `"configuration_suggestion"`
+Optional rationale provided for the change.
 
-- `"issue_type~neq": optional array of IssueType`
+<a href="#">Link to this property</a>
 
-  - `"compliance_violation"`
+zone\_id: optional number
 
-  - `"email_security"`
+The zone ID associated with the insight. Only present for zone-level insights.
 
-  - `"exposed_infrastructure"`
+formatint64
 
-  - `"insecure_configuration"`
+<a href="#">Link to this property</a>
 
-  - `"weak_authentication"`
+</details>
 
-  - `"configuration_suggestion"`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(model)%20audit_log_list_by_insight_response%20%3E%20(schema)>)
 
-- `product: optional array of string`
+#### Security CenterInsightsClassification
 
-- `"product~neq": optional array of string`
+##### [Updates Security Center Insight Classification](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/classification/methods/update)
 
-- `severity: optional array of SeverityQueryParam`
+PATCH/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/{issue\_id}/classification
 
-  - `"low"`
+##### ModelsExpand Collapse
 
-  - `"moderate"`
+<details>
 
-  - `"critical"`
+<summary>
 
-- `"severity~neq": optional array of SeverityQueryParam`
+ClassificationUpdateResponse object {errors, messages, success }
 
-  - `"low"`
+</summary>
 
-  - `"moderate"`
+<details>
 
-  - `"critical"`
+<summary>
 
-- `subject: optional array of string`
+errors: array of object {code, message, documentation\_url, source }
 
-- `"subject~neq": optional array of string`
+</summary>
 
-### Returns
+code: number
 
-- `errors: array of object { code, message, documentation_url, source }`
+minimum1000
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+message: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+documentation\_url: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+source: optional object {pointer }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+pointer: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional array of object { count, value }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-  - `value: optional string`
+<summary>
 
-### Example
+messages: array of object {code, message, documentation\_url, source }
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/severity \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+code: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
+minimum1000
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Severity Get Response
+message: string
 
-- `SeverityGetResponse = array of object { count, value }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+documentation\_url: optional string
 
-  - `value: optional string`
+<a href="#">Link to this property</a>
 
-# Type
+<details>
 
-## Retrieves Security Center Insight Counts by Type
+<summary>
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/type`
+source: optional object {pointer }
 
-Retrieves Security Center insight counts aggregated by insight type.
+</summary>
 
-### Path Parameters
+pointer: optional string
 
-- `account_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+</details>
 
-- `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+</details>
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `dismissed: optional boolean`
+success: true
 
-- `issue_class: optional array of string`
+Whether the API call was successful.
 
-- `"issue_class~neq": optional array of string`
+<a href="#">Link to this property</a>
 
-- `issue_type: optional array of IssueType`
+</details>
 
-  - `"compliance_violation"`
+[Link to this property](#)%20security_center.insights.classification%20%3E%20(model)%20classification_update_response%20%3E%20(schema)>)
 
-  - `"email_security"`
+#### Security CenterInsightsContext
 
-  - `"exposed_infrastructure"`
+##### [Retrieves Security Center Insight Context](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/context/methods/get)
 
-  - `"insecure_configuration"`
+GET/accounts/{account\_id}/security-center/insights/{issue\_id}/context
 
-  - `"weak_authentication"`
+##### ModelsExpand Collapse
 
-  - `"configuration_suggestion"`
+ContextGetResponse = map\[unknown]
 
-- `"issue_type~neq": optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `product: optional array of string`
-
-- `"product~neq": optional array of string`
-
-- `severity: optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `"severity~neq": optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `subject: optional array of string`
-
-- `"subject~neq": optional array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/type \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Type Get Response
-
-- `TypeGetResponse = array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-# Audit Logs
-
-## Retrieves account or zone Audit Log
-
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/audit-log`
-
-Lists audit log entries for all Security Center insights in the account or zone, showing changes to insight status and classification.
-
-### Path Parameters
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Query Parameters
-
-- `before: optional string`
-
-  Filter entries changed before this timestamp (RFC 3339).
-
-- `changed_by: optional string`
-
-  Filter by the actor that made the change.
-
-- `cursor: optional string`
-
-  Opaque cursor for pagination. Use the cursor value from result_info of the previous response.
-
-- `field_changed: optional "status" or "user_classification"`
-
-  Filter by the field that was changed.
-
-  - `"status"`
-
-  - `"user_classification"`
-
-- `order: optional "asc" or "desc"`
-
-  Sort order for results. Use 'asc' for oldest first or 'desc' for newest first.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `per_page: optional number`
-
-  Number of results per page.
-
-- `since: optional string`
-
-  Filter entries changed at or after this timestamp (RFC 3339).
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, changed_at, changed_by, 6 more }`
-
-  - `id: optional string`
-
-    UUIDv7 identifier for the audit log entry, time-ordered.
-
-  - `changed_at: optional string`
-
-    The timestamp when the change occurred.
-
-  - `changed_by: optional string`
-
-    The actor that made the change. 'system' for automated changes, or a user identifier.
-
-  - `current_value: optional string`
-
-    The value of the field after the change. Null if the field was cleared.
-
-  - `field_changed: optional "status" or "user_classification"`
-
-    The field that was changed.
-
-    - `"status"`
-
-    - `"user_classification"`
-
-  - `issue_id: optional string`
-
-    The ID of the insight this audit log entry relates to.
-
-  - `previous_value: optional string`
-
-    The value of the field before the change. Null if the field was not previously set.
-
-  - `rationale: optional string`
-
-    Optional rationale provided for the change.
-
-  - `zone_id: optional number`
-
-    The zone ID associated with the insight. Only present for zone-level insights.
-
-- `result_info: optional object { count, cursor, per_page }`
-
-  - `count: optional number`
-
-    The number of items in the current result set.
-
-  - `cursor: optional string`
-
-    Opaque cursor for the next page of results. Absent when there are no more results.
-
-  - `per_page: optional number`
-
-    The requested number of items per page.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/audit-log \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "changed_at": "2019-12-27T18:11:19.117Z",
-      "changed_by": "system",
-      "current_value": "current_value",
-      "field_changed": "status",
-      "issue_id": "issue_id",
-      "previous_value": "previous_value",
-      "rationale": "rationale",
-      "zone_id": 0
-    }
-  ],
-  "result_info": {
-    "count": 25,
-    "cursor": "cursor",
-    "per_page": 25
-  }
-}
-```
-
-## Retrieves Issue Audit Log
-
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/{issue_id}/audit-log`
-
-Lists audit log entries for a specific Security Center insight, showing changes to its status and classification over time.
-
-### Path Parameters
-
-- `issue_id: string`
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Query Parameters
-
-- `before: optional string`
-
-  Filter entries changed before this timestamp (RFC 3339).
-
-- `changed_by: optional string`
-
-  Filter by the actor that made the change.
-
-- `cursor: optional string`
-
-  Opaque cursor for pagination. Use the cursor value from result_info of the previous response.
-
-- `field_changed: optional "status" or "user_classification"`
-
-  Filter by the field that was changed.
-
-  - `"status"`
-
-  - `"user_classification"`
-
-- `order: optional "asc" or "desc"`
-
-  Sort order for results. Use 'asc' for oldest first or 'desc' for newest first.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `per_page: optional number`
-
-  Number of results per page.
-
-- `since: optional string`
-
-  Filter entries changed at or after this timestamp (RFC 3339).
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, changed_at, changed_by, 6 more }`
-
-  - `id: optional string`
-
-    UUIDv7 identifier for the audit log entry, time-ordered.
-
-  - `changed_at: optional string`
-
-    The timestamp when the change occurred.
-
-  - `changed_by: optional string`
-
-    The actor that made the change. 'system' for automated changes, or a user identifier.
-
-  - `current_value: optional string`
-
-    The value of the field after the change. Null if the field was cleared.
-
-  - `field_changed: optional "status" or "user_classification"`
-
-    The field that was changed.
-
-    - `"status"`
-
-    - `"user_classification"`
-
-  - `issue_id: optional string`
-
-    The ID of the insight this audit log entry relates to.
-
-  - `previous_value: optional string`
-
-    The value of the field before the change. Null if the field was not previously set.
-
-  - `rationale: optional string`
-
-    Optional rationale provided for the change.
-
-  - `zone_id: optional number`
-
-    The zone ID associated with the insight. Only present for zone-level insights.
-
-- `result_info: optional object { count, cursor, per_page }`
-
-  - `count: optional number`
-
-    The number of items in the current result set.
-
-  - `cursor: optional string`
-
-    Opaque cursor for the next page of results. Absent when there are no more results.
-
-  - `per_page: optional number`
-
-    The requested number of items per page.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/$ISSUE_ID/audit-log \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "changed_at": "2019-12-27T18:11:19.117Z",
-      "changed_by": "system",
-      "current_value": "current_value",
-      "field_changed": "status",
-      "issue_id": "issue_id",
-      "previous_value": "previous_value",
-      "rationale": "rationale",
-      "zone_id": 0
-    }
-  ],
-  "result_info": {
-    "count": 25,
-    "cursor": "cursor",
-    "per_page": 25
-  }
-}
-```
-
-## Domain Types
-
-### Audit Log List Response
-
-- `AuditLogListResponse object { id, changed_at, changed_by, 6 more }`
-
-  - `id: optional string`
-
-    UUIDv7 identifier for the audit log entry, time-ordered.
-
-  - `changed_at: optional string`
-
-    The timestamp when the change occurred.
-
-  - `changed_by: optional string`
-
-    The actor that made the change. 'system' for automated changes, or a user identifier.
-
-  - `current_value: optional string`
-
-    The value of the field after the change. Null if the field was cleared.
-
-  - `field_changed: optional "status" or "user_classification"`
-
-    The field that was changed.
-
-    - `"status"`
-
-    - `"user_classification"`
-
-  - `issue_id: optional string`
-
-    The ID of the insight this audit log entry relates to.
-
-  - `previous_value: optional string`
-
-    The value of the field before the change. Null if the field was not previously set.
-
-  - `rationale: optional string`
-
-    Optional rationale provided for the change.
-
-  - `zone_id: optional number`
-
-    The zone ID associated with the insight. Only present for zone-level insights.
-
-### Audit Log List By Insight Response
-
-- `AuditLogListByInsightResponse object { id, changed_at, changed_by, 6 more }`
-
-  - `id: optional string`
-
-    UUIDv7 identifier for the audit log entry, time-ordered.
-
-  - `changed_at: optional string`
-
-    The timestamp when the change occurred.
-
-  - `changed_by: optional string`
-
-    The actor that made the change. 'system' for automated changes, or a user identifier.
-
-  - `current_value: optional string`
-
-    The value of the field after the change. Null if the field was cleared.
-
-  - `field_changed: optional "status" or "user_classification"`
-
-    The field that was changed.
-
-    - `"status"`
-
-    - `"user_classification"`
-
-  - `issue_id: optional string`
-
-    The ID of the insight this audit log entry relates to.
-
-  - `previous_value: optional string`
-
-    The value of the field before the change. Null if the field was not previously set.
-
-  - `rationale: optional string`
-
-    Optional rationale provided for the change.
-
-  - `zone_id: optional number`
-
-    The zone ID associated with the insight. Only present for zone-level insights.
-
-# Classification
-
-## Updates Security Center Insight Classification
-
-**patch** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/{issue_id}/classification`
-
-Updates the user classification for a Security Center insight. Valid values are 'false_positive' or 'accept_risk'. To reset, set classification to null. Cannot change directly between classification values - must reset to null first.
-
-### Path Parameters
-
-- `issue_id: string`
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Body Parameters
-
-- `classification: optional "false_positive" or "accept_risk" or "other"`
-
-  User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
-
-  - `"false_positive"`
-
-  - `"accept_risk"`
-
-  - `"other"`
-
-- `rationale: optional string`
-
-  Rationale for the classification change. Required when classification is 'accept_risk' or 'other'.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/$ISSUE_ID/classification \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "classification": "false_positive"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Classification Update Response
-
-- `ClassificationUpdateResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# Context
-
-## Retrieves Security Center Insight Context
-
-**get** `/accounts/{account_id}/security-center/insights/{issue_id}/context`
-
-Returns the full context payload for an insight. This endpoint is used for insights with large payloads that are not included inline in the list response.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `issue_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional map[unknown]`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/security-center/insights/$ISSUE_ID/context \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "foo": "bar"
-  }
-}
-```
-
-## Domain Types
-
-### Context Get Response
-
-- `ContextGetResponse = map[unknown]`
+[Link to this property](#)%20security_center.insights.context%20%3E%20(model)%20context_get_response%20%3E%20(schema)>)

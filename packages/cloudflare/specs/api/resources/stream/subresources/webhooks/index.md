@@ -1,352 +1,121 @@
+---
+title: Webhooks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Webhooks
 
-## View webhooks
+##### [View webhook](https://developers.cloudflare.com/api/resources/stream/subresources/webhooks/methods/get)
 
-**get** `/accounts/{account_id}/stream/webhook`
+GET/accounts/{account\_id}/stream/webhook
 
-Retrieves a list of webhooks.
+##### [Create VOD webhooks](https://developers.cloudflare.com/api/resources/stream/subresources/webhooks/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/stream/webhook
 
-- `account_id: string`
+##### [Delete webhooks](https://developers.cloudflare.com/api/resources/stream/subresources/webhooks/methods/delete)
 
-  The account identifier tag.
+DELETE/accounts/{account\_id}/stream/webhook
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+WebhookGetResponse object {modified, notification\_url, notificationUrl, secret }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+modified: optional string
 
-    - `pointer: optional string`
+The date and time the webhook was last modified.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+notification\_url: optional string
 
-  - `documentation_url: optional string`
+The URL where webhooks will be sent.
 
-  - `source: optional object { pointer }`
+formaturi
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+notificationUrl: optional string
 
-  Whether the API call was successful.
+The URL where webhooks will be sent.
 
-  - `true`
+formaturi
 
-- `result: optional object { modified, notification_url, notificationUrl, secret }`
+<a href="#">Link to this property</a>
 
-  - `modified: optional string`
+secret: optional string
 
-    The date and time the webhook was last modified.
+The secret used to verify webhook signatures.
 
-  - `notification_url: optional string`
+<a href="#">Link to this property</a>
 
-    The URL where webhooks will be sent.
+</details>
 
-  - `notificationUrl: optional string`
+[Link to this property](#)%20stream.webhooks%20%3E%20(model)%20webhook_get_response%20%3E%20(schema)>)
 
-    The URL where webhooks will be sent.
+<details>
 
-  - `secret: optional string`
+<summary>
 
-    The secret used to verify webhook signatures.
+WebhookUpdateResponse object {modified, notification\_url, notificationUrl, secret }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+modified: optional string
 
-#### Response
+The date and time the webhook was last modified.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "modified": "2014-01-02T02:20:00Z",
-    "notification_url": "https://example.com",
-    "notificationUrl": "https://example.com",
-    "secret": "secret"
-  }
-}
-```
+formatdate-time
 
-## Create webhooks
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/stream/webhook`
+notification\_url: optional string
 
-Creates a webhook notification.
+The URL where webhooks will be sent.
 
-### Path Parameters
+formaturi
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+notificationUrl: optional string
 
-### Body Parameters
+The URL where webhooks will be sent.
 
-- `notification_url: optional string`
+formaturi
 
-  The URL where webhooks will be sent.
+<a href="#">Link to this property</a>
 
-- `notificationUrl: optional string`
+secret: optional string
 
-  The URL where webhooks will be sent.
+The secret used to verify webhook signatures.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20stream.webhooks%20%3E%20(model)%20webhook_update_response%20%3E%20(schema)>)
 
-  - `message: string`
+WebhookDeleteResponse = string
 
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { modified, notification_url, notificationUrl, secret }`
-
-  - `modified: optional string`
-
-    The date and time the webhook was last modified.
-
-  - `notification_url: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `notificationUrl: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `secret: optional string`
-
-    The secret used to verify webhook signatures.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "notification_url": "https://example.com",
-          "notificationUrl": "https://example.com"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "modified": "2014-01-02T02:20:00Z",
-    "notification_url": "https://example.com",
-    "notificationUrl": "https://example.com",
-    "secret": "secret"
-  }
-}
-```
-
-## Delete webhooks
-
-**delete** `/accounts/{account_id}/stream/webhook`
-
-Deletes a webhook.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "ok"
-}
-```
-
-## Domain Types
-
-### Webhook Get Response
-
-- `WebhookGetResponse object { modified, notification_url, notificationUrl, secret }`
-
-  - `modified: optional string`
-
-    The date and time the webhook was last modified.
-
-  - `notification_url: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `notificationUrl: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `secret: optional string`
-
-    The secret used to verify webhook signatures.
-
-### Webhook Update Response
-
-- `WebhookUpdateResponse object { modified, notification_url, notificationUrl, secret }`
-
-  - `modified: optional string`
-
-    The date and time the webhook was last modified.
-
-  - `notification_url: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `notificationUrl: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `secret: optional string`
-
-    The secret used to verify webhook signatures.
-
-### Webhook Delete Response
-
-- `WebhookDeleteResponse = string`
+[Link to this property](#)%20stream.webhooks%20%3E%20(model)%20webhook_delete_response%20%3E%20(schema)>)

@@ -1,778 +1,329 @@
+---
+title: Policies
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Page Shield](https://developers.cloudflare.com/api/resources/page_shield)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Policies
 
-## List Page Shield policies
+##### [List content security rules](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/list)
 
-**get** `/zones/{zone_id}/page_shield/policies`
+GET/zones/{zone\_id}/page\_shield/policies
 
-Lists all Page Shield policies.
+##### [Get a content security rule](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/page\_shield/policies/{policy\_id}
 
-- `zone_id: string`
+##### [Create a content security rule](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/create)
 
-  Identifier
+POST/zones/{zone\_id}/page\_shield/policies
 
-### Returns
+##### [Update a content security rule](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/update)
 
-- `result: array of object { id, action, description, 3 more }`
+PUT/zones/{zone\_id}/page\_shield/policies/{policy\_id}
 
-  - `id: string`
+##### [Delete a content security rule](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/delete)
 
-    Identifier
+DELETE/zones/{zone\_id}/page\_shield/policies/{policy\_id}
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+##### ModelsExpand Collapse
 
-    The action to take if the expression matches
+<details>
 
-    - `"allow"`
+<summary>
 
-    - `"log"`
+PolicyListResponse object {id, action, description, 3 more }
 
-    - `"add_reporting_directives"`
+</summary>
 
-  - `description: string`
+id: string
 
-    A description for the policy
+Identifier
 
-  - `enabled: boolean`
+maxLength32
 
-    Whether the policy is enabled
+<a href="#">Link to this property</a>
 
-  - `expression: string`
+<details>
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+<summary>
 
-  - `value: string`
+action: "allow"or "log"or "add\_reporting\_directives"
 
-    The policy which will be applied
+The action to take if the expression matches
 
-- `result_info: object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: number`
+One of the following:
 
-    Total number of results for the requested service
+"allow"
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results
+"log"
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+"add\_reporting\_directives"
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters
+</details>
 
-  - `total_pages: number`
+<a href="#">Link to this property</a>
 
-    Total number of pages
+description: string
 
-- `success: true`
+A description for the policy
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+enabled: boolean
 
-- `errors: optional array of ResponseInfo`
+Whether the policy is enabled
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+expression: string
 
-  - `documentation_url: optional string`
+The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+value: string
 
-- `messages: optional array of ResponseInfo`
+The policy which will be applied
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20page_shield.policies%20%3E%20(model)%20policy_list_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+PolicyGetResponse object {id, action, description, 3 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "action": "allow",
-      "description": "Checkout page CSP policy",
-      "enabled": true,
-      "expression": "ends_with(http.request.uri.path, \"/checkout\")",
-      "value": "script-src 'none';"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+id: string
 
-## Get a Page Shield policy
+Identifier
 
-**get** `/zones/{zone_id}/page_shield/policies/{policy_id}`
+maxLength32
 
-Fetches a Page Shield policy by ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier
+action: "allow"or "log"or "add\_reporting\_directives"
 
-- `policy_id: string`
+The action to take if the expression matches
 
-  Identifier
+</summary>
 
-### Returns
+One of the following:
 
-- `result: object { id, action, description, 3 more }`
+"allow"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier
+"log"
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-    The action to take if the expression matches
+"add\_reporting\_directives"
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"log"`
+</details>
 
-    - `"add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+description: string
 
-    A description for the policy
+A description for the policy
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy is enabled
+enabled: boolean
 
-  - `expression: string`
+Whether the policy is enabled
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+<a href="#">Link to this property</a>
 
-  - `value: string`
+expression: string
 
-    The policy which will be applied
+The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+value: string
 
-  - `true`
+The policy which will be applied
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20page_shield.policies%20%3E%20(model)%20policy_get_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+PolicyCreateResponse object {id, action, description, 3 more }
 
-- `messages: optional array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+Identifier
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies/$POLICY_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<summary>
 
-#### Response
+action: "allow"or "log"or "add\_reporting\_directives"
 
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "action": "allow",
-    "description": "Checkout page CSP policy",
-    "enabled": true,
-    "expression": "ends_with(http.request.uri.path, \"/checkout\")",
-    "value": "script-src 'none';"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+The action to take if the expression matches
 
-## Create a Page Shield policy
+</summary>
 
-**post** `/zones/{zone_id}/page_shield/policies`
+One of the following:
 
-Create a Page Shield policy.
+"allow"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"log"
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"add\_reporting\_directives"
 
-- `action: "allow" or "log" or "add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-  The action to take if the expression matches
+</details>
 
-  - `"allow"`
+<a href="#">Link to this property</a>
 
-  - `"log"`
+description: string
 
-  - `"add_reporting_directives"`
+A description for the policy
 
-- `description: string`
+<a href="#">Link to this property</a>
 
-  A description for the policy
+enabled: boolean
 
-- `enabled: boolean`
+Whether the policy is enabled
 
-  Whether the policy is enabled
+<a href="#">Link to this property</a>
 
-- `expression: string`
+expression: string
 
-  The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
 
-- `value: string`
+<a href="#">Link to this property</a>
 
-  The policy which will be applied
+value: string
 
-### Returns
+The policy which will be applied
 
-- `result: object { id, action, description, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Identifier
+[Link to this property](#)%20page_shield.policies%20%3E%20(model)%20policy_create_response%20%3E%20(schema)>)
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+<details>
 
-    The action to take if the expression matches
+<summary>
 
-    - `"allow"`
+PolicyUpdateResponse object {id, action, description, 3 more }
 
-    - `"log"`
+</summary>
 
-    - `"add_reporting_directives"`
+id: string
 
-  - `description: string`
+Identifier
 
-    A description for the policy
+maxLength32
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy is enabled
+<details>
 
-  - `expression: string`
+<summary>
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+action: "allow"or "log"or "add\_reporting\_directives"
 
-  - `value: string`
+The action to take if the expression matches
 
-    The policy which will be applied
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful
+"allow"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+"log"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"add\_reporting\_directives"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of ResponseInfo`
+description: string
 
-  - `code: number`
+A description for the policy
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+enabled: boolean
 
-  - `source: optional object { pointer }`
+Whether the policy is enabled
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"action\": \"allow\",
-          \"description\": \"Checkout page CSP policy\",
-          \"enabled\": true,
-          \"expression\": \"ends_with(http.request.uri.path, \\\"/checkout\\\")\",
-          \"value\": \"script-src 'none';\"
-        }"
-```
+expression: string
 
-#### Response
+The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
 
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "action": "allow",
-    "description": "Checkout page CSP policy",
-    "enabled": true,
-    "expression": "ends_with(http.request.uri.path, \"/checkout\")",
-    "value": "script-src 'none';"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Update a Page Shield policy
+value: string
 
-**put** `/zones/{zone_id}/page_shield/policies/{policy_id}`
+The policy which will be applied
 
-Update a Page Shield policy by ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
-
-  Identifier
-
-- `policy_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `action: optional "allow" or "log" or "add_reporting_directives"`
-
-  The action to take if the expression matches
-
-  - `"allow"`
-
-  - `"log"`
-
-  - `"add_reporting_directives"`
-
-- `description: optional string`
-
-  A description for the policy
-
-- `enabled: optional boolean`
-
-  Whether the policy is enabled
-
-- `expression: optional string`
-
-  The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
-
-- `value: optional string`
-
-  The policy which will be applied
-
-### Returns
-
-- `result: object { id, action, description, 3 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `action: "allow" or "log" or "add_reporting_directives"`
-
-    The action to take if the expression matches
-
-    - `"allow"`
-
-    - `"log"`
-
-    - `"add_reporting_directives"`
-
-  - `description: string`
-
-    A description for the policy
-
-  - `enabled: boolean`
-
-    Whether the policy is enabled
-
-  - `expression: string`
-
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
-
-  - `value: string`
-
-    The policy which will be applied
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies/$POLICY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"action\": \"allow\",
-          \"description\": \"Checkout page CSP policy\",
-          \"enabled\": true,
-          \"expression\": \"ends_with(http.request.uri.path, \\\"/checkout\\\")\",
-          \"value\": \"script-src 'none';\"
-        }"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "action": "allow",
-    "description": "Checkout page CSP policy",
-    "enabled": true,
-    "expression": "ends_with(http.request.uri.path, \"/checkout\")",
-    "value": "script-src 'none';"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Delete a Page Shield policy
-
-**delete** `/zones/{zone_id}/page_shield/policies/{policy_id}`
-
-Delete a Page Shield policy by ID.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `policy_id: string`
-
-  Identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies/$POLICY_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-## Domain Types
-
-### Policy
-
-- `Policy object { action, description, enabled, 2 more }`
-
-  - `action: "allow" or "log" or "add_reporting_directives"`
-
-    The action to take if the expression matches
-
-    - `"allow"`
-
-    - `"log"`
-
-    - `"add_reporting_directives"`
-
-  - `description: string`
-
-    A description for the policy
-
-  - `enabled: boolean`
-
-    Whether the policy is enabled
-
-  - `expression: string`
-
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
-
-  - `value: string`
-
-    The policy which will be applied
-
-### Policy List Response
-
-- `PolicyListResponse object { id, action, description, 3 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `action: "allow" or "log" or "add_reporting_directives"`
-
-    The action to take if the expression matches
-
-    - `"allow"`
-
-    - `"log"`
-
-    - `"add_reporting_directives"`
-
-  - `description: string`
-
-    A description for the policy
-
-  - `enabled: boolean`
-
-    Whether the policy is enabled
-
-  - `expression: string`
-
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
-
-  - `value: string`
-
-    The policy which will be applied
-
-### Policy Get Response
-
-- `PolicyGetResponse object { id, action, description, 3 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `action: "allow" or "log" or "add_reporting_directives"`
-
-    The action to take if the expression matches
-
-    - `"allow"`
-
-    - `"log"`
-
-    - `"add_reporting_directives"`
-
-  - `description: string`
-
-    A description for the policy
-
-  - `enabled: boolean`
-
-    Whether the policy is enabled
-
-  - `expression: string`
-
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
-
-  - `value: string`
-
-    The policy which will be applied
-
-### Policy Create Response
-
-- `PolicyCreateResponse object { id, action, description, 3 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `action: "allow" or "log" or "add_reporting_directives"`
-
-    The action to take if the expression matches
-
-    - `"allow"`
-
-    - `"log"`
-
-    - `"add_reporting_directives"`
-
-  - `description: string`
-
-    A description for the policy
-
-  - `enabled: boolean`
-
-    Whether the policy is enabled
-
-  - `expression: string`
-
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
-
-  - `value: string`
-
-    The policy which will be applied
-
-### Policy Update Response
-
-- `PolicyUpdateResponse object { id, action, description, 3 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `action: "allow" or "log" or "add_reporting_directives"`
-
-    The action to take if the expression matches
-
-    - `"allow"`
-
-    - `"log"`
-
-    - `"add_reporting_directives"`
-
-  - `description: string`
-
-    A description for the policy
-
-  - `enabled: boolean`
-
-    Whether the policy is enabled
-
-  - `expression: string`
-
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
-
-  - `value: string`
-
-    The policy which will be applied
+[Link to this property](#)%20page_shield.policies%20%3E%20(model)%20policy_update_response%20%3E%20(schema)>)

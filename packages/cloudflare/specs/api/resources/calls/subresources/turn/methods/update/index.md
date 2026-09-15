@@ -1,78 +1,212 @@
-## Edit TURN key details
+---
+title: Edit TURN key details
+---
 
-**put** `/accounts/{account_id}/calls/turn_keys/{key_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Calls](https://developers.cloudflare.com/api/resources/calls)
+
+[TURN](https://developers.cloudflare.com/api/resources/calls/subresources/turn)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Edit TURN key details
+
+PUT/accounts/{account\_id}/calls/turn\_keys/{key\_id}
 
 Edit details for a single TURN key.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  The account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `key_id: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  A Cloudflare-generated unique identifier for a item.
+##### Accepted Permissions (at least one required)
 
-### Body Parameters
+`Calls Write`
 
-- `name: optional string`
+##### P ath ParametersExpand Collapse
 
-  A short description of a TURN key, not shown to end users.
+account\_id: string
 
-### Returns
+The account identifier tag.
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20calls.turn%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `message: string`
+key\_id: string
 
-  - `documentation_url: optional string`
+A Cloudflare-generated unique identifier for a item.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+minLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20calls.turn%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20key_id%20%3E%20(schema)>)
 
-  - `code: number`
+##### Body ParametersJSONExpand Collapse
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+A short description of a TURN key, not shown to end users.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20calls.turn%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### ReturnsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+errors: array of object {code, message, documentation\_url, source }
 
-- `result: optional object { created, modified, name, uid }`
+</summary>
 
-  - `created: optional string`
+code: number
 
-    The date and time the item was created.
+minimum1000
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the item was last modified.
+message: string
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    A short description of Calls app, not shown to end users.
+documentation\_url: optional string
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    A Cloudflare-generated unique identifier for a item.
+<details>
 
-### Example
+<summary>
 
-```http
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20calls.turn%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20calls.turn%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20calls.turn%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {created, modified, name, uid }
+
+</summary>
+
+created: string
+
+The date and time the item was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified: string
+
+The date and time the item was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+A short description of Calls app, not shown to end users.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+A Cloudflare-generated unique identifier for a item.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20calls.turn%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Edit TURN key details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/calls/turn_keys/$KEY_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -82,9 +216,45 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/calls/turn_keys/$
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "created": "2014-01-02T02:20:00Z",
+    "modified": "2014-01-02T02:20:00Z",
+    "name": "production-realtime-app",
+    "uid": "2a95132c15732412d22c1476fa83f27a"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

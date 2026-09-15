@@ -1,640 +1,105 @@
+---
+title: Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Settings
 
-## Get device settings for a Zero Trust account
+##### [Get device settings for a Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/settings/methods/get)
 
-**get** `/accounts/{account_id}/devices/settings`
+GET/accounts/{account\_id}/devices/settings
 
-Describes the current device settings for a Zero Trust account.
+##### [Update device settings for a Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/settings/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/devices/settings
 
-- `account_id: string`
+##### [Patch device settings for a Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/settings/methods/edit)
 
-### Returns
+PATCH/accounts/{account\_id}/devices/settings
 
-- `errors: array of ResponseInfo`
+##### [Reset device settings for a Zero Trust account with defaults. This turns off all proxying.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/settings/methods/delete)
 
-  - `code: number`
+DELETE/accounts/{account\_id}/devices/settings
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+DeviceSettings object {disable\_for\_time, external\_emergency\_signal\_enabled, external\_emergency\_signal\_fingerprint, 6 more }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+disable\_for\_time: optional number
 
-  - `message: string`
+Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+external\_emergency\_signal\_enabled: optional boolean
 
-- `result: DeviceSettings`
+Controls whether the external emergency disconnect feature is enabled.
 
-  - `disable_for_time: optional number`
+<a href="#">Link to this property</a>
 
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
+external\_emergency\_signal\_fingerprint: optional string
 
-  - `external_emergency_signal_enabled: optional boolean`
+The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external\_emergency\_signal\_url. If provided, the WARP client will use this value to verify the server’s identity. The device will ignore any response if the server’s certificate fingerprint does not exactly match this value.
 
-    Controls whether the external emergency disconnect feature is enabled.
+<a href="#">Link to this property</a>
 
-  - `external_emergency_signal_fingerprint: optional string`
+external\_emergency\_signal\_interval: optional string
 
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
+The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., “5m”, “2m30s”, “1h”). Minimum 30 seconds.
 
-  - `external_emergency_signal_interval: optional string`
+<a href="#">Link to this property</a>
 
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
+external\_emergency\_signal\_url: optional string
 
-  - `external_emergency_signal_url: optional string`
+The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
 
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
+<a href="#">Link to this property</a>
 
-  - `gateway_proxy_enabled: optional boolean`
+gateway\_proxy\_enabled: optional boolean
 
-    Enable gateway proxy filtering on TCP.
+Enable gateway proxy filtering on TCP.
 
-  - `gateway_udp_proxy_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Enable gateway proxy filtering on UDP.
+gateway\_udp\_proxy\_enabled: optional boolean
 
-  - `root_certificate_installation_enabled: optional boolean`
+Enable gateway proxy filtering on UDP.
 
-    Enable installation of cloudflare managed root certificate.
+<a href="#">Link to this property</a>
 
-  - `use_zt_virtual_ip: optional boolean`
+root\_certificate\_installation\_enabled: optional boolean
 
-    Enable using CGNAT virtual IPv4.
+Enable installation of cloudflare managed root certificate.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+use\_zt\_virtual\_ip: optional boolean
 
-  - `true`
+Enable using CGNAT virtual IPv4.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disable_for_time": 0,
-    "external_emergency_signal_enabled": true,
-    "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-    "external_emergency_signal_interval": "5m",
-    "external_emergency_signal_url": "https://192.0.2.1/signal",
-    "gateway_proxy_enabled": true,
-    "gateway_udp_proxy_enabled": true,
-    "root_certificate_installation_enabled": true,
-    "use_zt_virtual_ip": true
-  },
-  "success": true
-}
-```
-
-## Update device settings for a Zero Trust account
-
-**put** `/accounts/{account_id}/devices/settings`
-
-Updates the current device settings for a Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `disable_for_time: optional number`
-
-  Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-- `external_emergency_signal_enabled: optional boolean`
-
-  Controls whether the external emergency disconnect feature is enabled.
-
-- `external_emergency_signal_fingerprint: optional string`
-
-  The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-- `external_emergency_signal_interval: optional string`
-
-  The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-- `external_emergency_signal_url: optional string`
-
-  The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-- `gateway_proxy_enabled: optional boolean`
-
-  Enable gateway proxy filtering on TCP.
-
-- `gateway_udp_proxy_enabled: optional boolean`
-
-  Enable gateway proxy filtering on UDP.
-
-- `root_certificate_installation_enabled: optional boolean`
-
-  Enable installation of cloudflare managed root certificate.
-
-- `use_zt_virtual_ip: optional boolean`
-
-  Enable using CGNAT virtual IPv4.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DeviceSettings`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "external_emergency_signal_enabled": true,
-          "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-          "external_emergency_signal_interval": "5m",
-          "external_emergency_signal_url": "https://192.0.2.1/signal",
-          "gateway_proxy_enabled": true,
-          "gateway_udp_proxy_enabled": true,
-          "root_certificate_installation_enabled": true,
-          "use_zt_virtual_ip": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disable_for_time": 0,
-    "external_emergency_signal_enabled": true,
-    "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-    "external_emergency_signal_interval": "5m",
-    "external_emergency_signal_url": "https://192.0.2.1/signal",
-    "gateway_proxy_enabled": true,
-    "gateway_udp_proxy_enabled": true,
-    "root_certificate_installation_enabled": true,
-    "use_zt_virtual_ip": true
-  },
-  "success": true
-}
-```
-
-## Patch device settings for a Zero Trust account
-
-**patch** `/accounts/{account_id}/devices/settings`
-
-Patches the current device settings for a Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `disable_for_time: optional number`
-
-  Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-- `external_emergency_signal_enabled: optional boolean`
-
-  Controls whether the external emergency disconnect feature is enabled.
-
-- `external_emergency_signal_fingerprint: optional string`
-
-  The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-- `external_emergency_signal_interval: optional string`
-
-  The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-- `external_emergency_signal_url: optional string`
-
-  The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-- `gateway_proxy_enabled: optional boolean`
-
-  Enable gateway proxy filtering on TCP.
-
-- `gateway_udp_proxy_enabled: optional boolean`
-
-  Enable gateway proxy filtering on UDP.
-
-- `root_certificate_installation_enabled: optional boolean`
-
-  Enable installation of cloudflare managed root certificate.
-
-- `use_zt_virtual_ip: optional boolean`
-
-  Enable using CGNAT virtual IPv4.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DeviceSettings`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "external_emergency_signal_enabled": true,
-          "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-          "external_emergency_signal_interval": "5m",
-          "external_emergency_signal_url": "https://192.0.2.1/signal",
-          "gateway_proxy_enabled": true,
-          "gateway_udp_proxy_enabled": true,
-          "root_certificate_installation_enabled": true,
-          "use_zt_virtual_ip": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disable_for_time": 0,
-    "external_emergency_signal_enabled": true,
-    "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-    "external_emergency_signal_interval": "5m",
-    "external_emergency_signal_url": "https://192.0.2.1/signal",
-    "gateway_proxy_enabled": true,
-    "gateway_udp_proxy_enabled": true,
-    "root_certificate_installation_enabled": true,
-    "use_zt_virtual_ip": true
-  },
-  "success": true
-}
-```
-
-## Reset device settings for a Zero Trust account with defaults. This turns off all proxying.
-
-**delete** `/accounts/{account_id}/devices/settings`
-
-Resets the current device settings for a Zero Trust account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DeviceSettings`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/settings \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "disable_for_time": 0,
-    "external_emergency_signal_enabled": true,
-    "external_emergency_signal_fingerprint": "abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
-    "external_emergency_signal_interval": "5m",
-    "external_emergency_signal_url": "https://192.0.2.1/signal",
-    "gateway_proxy_enabled": true,
-    "gateway_udp_proxy_enabled": true,
-    "root_certificate_installation_enabled": true,
-    "use_zt_virtual_ip": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Device Settings
-
-- `DeviceSettings object { disable_for_time, external_emergency_signal_enabled, external_emergency_signal_fingerprint, 6 more }`
-
-  - `disable_for_time: optional number`
-
-    Sets the time limit, in seconds, that a user can use an override code to bypass WARP.
-
-  - `external_emergency_signal_enabled: optional boolean`
-
-    Controls whether the external emergency disconnect feature is enabled.
-
-  - `external_emergency_signal_fingerprint: optional string`
-
-    The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.
-
-  - `external_emergency_signal_interval: optional string`
-
-    The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.
-
-  - `external_emergency_signal_url: optional string`
-
-    The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.
-
-  - `gateway_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on TCP.
-
-  - `gateway_udp_proxy_enabled: optional boolean`
-
-    Enable gateway proxy filtering on UDP.
-
-  - `root_certificate_installation_enabled: optional boolean`
-
-    Enable installation of cloudflare managed root certificate.
-
-  - `use_zt_virtual_ip: optional boolean`
-
-    Enable using CGNAT virtual IPv4.
+[Link to this property](#)%20zero_trust.devices.settings%20%3E%20(model)%20device_settings%20%3E%20(schema)>)

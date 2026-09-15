@@ -1,1176 +1,943 @@
+---
+title: Domains
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Pages](https://developers.cloudflare.com/api/resources/pages)
+
+[Projects](https://developers.cloudflare.com/api/resources/pages/subresources/projects)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Domains
 
-## Get domains
+##### [Get domains](https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/domains/methods/list)
 
-**get** `/accounts/{account_id}/pages/projects/{project_name}/domains`
+GET/accounts/{account\_id}/pages/projects/{project\_name}/domains
 
-Fetch a list of all domains associated with a Pages project.
+##### [Get domain](https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/domains/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/pages/projects/{project\_name}/domains/{domain\_name}
 
-- `account_id: string`
+##### [Add domain](https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/domains/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/pages/projects/{project\_name}/domains
 
-- `project_name: string`
+##### [Patch domain](https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/domains/methods/edit)
 
-  Name of the project.
+PATCH/accounts/{account\_id}/pages/projects/{project\_name}/domains/{domain\_name}
 
-### Returns
+##### [Delete domain](https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/domains/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/pages/projects/{project\_name}/domains/{domain\_name}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+DomainListResponse object {id, certificate\_authority, created\_on, 6 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+certificate\_authority: "google"or "lets\_encrypt"
 
-    - `pointer: optional string`
+</summary>
 
-- `result: array of object { id, certificate_authority, created_on, 6 more }`
+One of the following:
 
-  - `id: string`
+"google"
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+<a href="#">Link to this property</a>
 
-    - `"google"`
+"lets\_encrypt"
 
-    - `"lets_encrypt"`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-  - `domain_id: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+created\_on: string
 
-    The domain name.
+<a href="#">Link to this property</a>
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+domain\_id: string
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+name: string
 
-    - `"active"`
+The domain name.
 
-    - `"deactivated"`
+<a href="#">Link to this property</a>
 
-    - `"blocked"`
+<details>
 
-    - `"error"`
+<summary>
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+status: "initializing"or "pending"or "active"or 3 more
 
-    - `method: "http" or "txt"`
+</summary>
 
-      - `"http"`
+One of the following:
 
-      - `"txt"`
+"initializing"
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"initializing"`
+"pending"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"active"`
+"active"
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"deactivated"
 
-    - `error_message: optional string`
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+"blocked"
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-  - `verification_data: object { status, error_message }`
+"error"
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
-
-      - `"active"`
-
-      - `"deactivated"`
-
-      - `"blocked"`
-
-      - `"error"`
-
-    - `error_message: optional string`
+</details>
 
-  - `zone_tag: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+validation\_data: object {method, status, error\_message, 2 more }
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+method: "http"or "txt"
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+One of the following:
 
-    Number of results per page of results.
+"http"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+"txt"
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "certificate_authority": "lets_encrypt",
-      "created_on": "created_on",
-      "domain_id": "domain_id",
-      "name": "this-is-my-domain-01.com",
-      "status": "initializing",
-      "validation_data": {
-        "method": "http",
-        "status": "initializing",
-        "error_message": "error_message",
-        "txt_name": "txt_name",
-        "txt_value": "txt_value"
-      },
-      "verification_data": {
-        "status": "pending",
-        "error_message": "error_message"
-      },
-      "zone_tag": "zone_tag"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+status: "initializing"or "pending"or "active"or 2 more
 
-## Get domain
+</summary>
 
-**get** `/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}`
+One of the following:
 
-Fetch a single domain.
+"initializing"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"pending"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `project_name: string`
+"active"
 
-  Name of the project.
+<a href="#">Link to this property</a>
 
-- `domain_name: string`
+"deactivated"
 
-  The domain name.
+<a href="#">Link to this property</a>
 
-### Returns
+"error"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+error\_message: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+txt\_name: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+txt\_value: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `result: object { id, certificate_authority, created_on, 6 more }`
+<summary>
 
-  - `id: string`
+verification\_data: object {status, error\_message }
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+</summary>
 
-    - `"google"`
+<details>
 
-    - `"lets_encrypt"`
+<summary>
 
-  - `created_on: string`
+status: "pending"or "active"or "deactivated"or 2 more
 
-  - `domain_id: string`
+</summary>
 
-  - `name: string`
+One of the following:
 
-    The domain name.
+"pending"
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+<a href="#">Link to this property</a>
 
-    - `"initializing"`
+"active"
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"deactivated"
 
-    - `"deactivated"`
+<a href="#">Link to this property</a>
 
-    - `"blocked"`
+"blocked"
 
-    - `"error"`
+<a href="#">Link to this property</a>
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+"error"
 
-    - `method: "http" or "txt"`
+<a href="#">Link to this property</a>
 
-      - `"http"`
+</details>
 
-      - `"txt"`
+<a href="#">Link to this property</a>
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+error\_message: optional string
 
-      - `"initializing"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"deactivated"`
+zone\_tag: string
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-    - `error_message: optional string`
+</details>
 
-    - `txt_name: optional string`
+[Link to this property](#)%20pages.projects.domains%20%3E%20(model)%20domain_list_response%20%3E%20(schema)>)
 
-    - `txt_value: optional string`
+<details>
 
-  - `verification_data: object { status, error_message }`
+<summary>
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+DomainGetResponse object {id, certificate\_authority, created\_on, 6 more }
 
-      - `"pending"`
+</summary>
 
-      - `"active"`
+id: string
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"blocked"`
+<details>
 
-      - `"error"`
+<summary>
 
-    - `error_message: optional string`
+certificate\_authority: "google"or "lets\_encrypt"
 
-  - `zone_tag: string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"google"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"lets\_encrypt"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/domains/$DOMAIN_NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "certificate_authority": "lets_encrypt",
-    "created_on": "created_on",
-    "domain_id": "domain_id",
-    "name": "this-is-my-domain-01.com",
-    "status": "initializing",
-    "validation_data": {
-      "method": "http",
-      "status": "initializing",
-      "error_message": "error_message",
-      "txt_name": "txt_name",
-      "txt_value": "txt_value"
-    },
-    "verification_data": {
-      "status": "pending",
-      "error_message": "error_message"
-    },
-    "zone_tag": "zone_tag"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Add domain
+created\_on: string
 
-**post** `/accounts/{account_id}/pages/projects/{project_name}/domains`
+<a href="#">Link to this property</a>
 
-Add a new domain for the Pages project.
+domain\_id: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: string
 
-  Identifier.
+The domain name.
 
-- `project_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the project.
+<details>
 
-### Body Parameters
+<summary>
 
-- `name: string`
+status: "initializing"or "pending"or "active"or 3 more
 
-  The domain name.
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { code, message, documentation_url, source }`
+"initializing"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"pending"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"active"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"deactivated"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"blocked"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"error"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, certificate_authority, created_on, 6 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+<details>
 
-    - `"google"`
+<summary>
 
-    - `"lets_encrypt"`
+validation\_data: object {method, status, error\_message, 2 more }
 
-  - `created_on: string`
+</summary>
 
-  - `domain_id: string`
+<details>
 
-  - `name: string`
+<summary>
 
-    The domain name.
+method: "http"or "txt"
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+</summary>
 
-    - `"initializing"`
+One of the following:
 
-    - `"pending"`
+"http"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deactivated"`
+"txt"
 
-    - `"blocked"`
+<a href="#">Link to this property</a>
 
-    - `"error"`
+</details>
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `method: "http" or "txt"`
+<details>
 
-      - `"http"`
+<summary>
 
-      - `"txt"`
+status: "initializing"or "pending"or "active"or 2 more
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+</summary>
 
-      - `"initializing"`
+One of the following:
 
-      - `"pending"`
+"initializing"
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"deactivated"`
+"pending"
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-    - `error_message: optional string`
+"active"
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `txt_value: optional string`
+"deactivated"
 
-  - `verification_data: object { status, error_message }`
+<a href="#">Link to this property</a>
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+"error"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"active"`
+</details>
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"blocked"`
+error\_message: optional string
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-    - `error_message: optional string`
+txt\_name: optional string
 
-  - `zone_tag: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+txt\_value: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/domains \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "this-is-my-domain-01.com"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "certificate_authority": "lets_encrypt",
-    "created_on": "created_on",
-    "domain_id": "domain_id",
-    "name": "this-is-my-domain-01.com",
-    "status": "initializing",
-    "validation_data": {
-      "method": "http",
-      "status": "initializing",
-      "error_message": "error_message",
-      "txt_name": "txt_name",
-      "txt_value": "txt_value"
-    },
-    "verification_data": {
-      "status": "pending",
-      "error_message": "error_message"
-    },
-    "zone_tag": "zone_tag"
-  },
-  "success": true
-}
-```
+verification\_data: object {status, error\_message }
 
-## Patch domain
+</summary>
 
-**patch** `/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}`
+<details>
 
-Retry the validation status of a single domain.
+<summary>
 
-### Path Parameters
+status: "pending"or "active"or "deactivated"or 2 more
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+One of the following:
 
-- `project_name: string`
+"pending"
 
-  Name of the project.
+<a href="#">Link to this property</a>
 
-- `domain_name: string`
+"active"
 
-  The domain name.
+<a href="#">Link to this property</a>
 
-### Returns
+"deactivated"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"blocked"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"error"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+error\_message: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+zone\_tag: string
 
-- `result: object { id, certificate_authority, created_on, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+[Link to this property](#)%20pages.projects.domains%20%3E%20(model)%20domain_get_response%20%3E%20(schema)>)
 
-    - `"google"`
+<details>
 
-    - `"lets_encrypt"`
+<summary>
 
-  - `created_on: string`
+DomainCreateResponse object {id, certificate\_authority, created\_on, 6 more }
 
-  - `domain_id: string`
+</summary>
 
-  - `name: string`
+id: string
 
-    The domain name.
+<a href="#">Link to this property</a>
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+<details>
 
-    - `"initializing"`
+<summary>
 
-    - `"pending"`
+certificate\_authority: "google"or "lets\_encrypt"
 
-    - `"active"`
+</summary>
 
-    - `"deactivated"`
+One of the following:
 
-    - `"blocked"`
+"google"
 
-    - `"error"`
+<a href="#">Link to this property</a>
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+"lets\_encrypt"
 
-    - `method: "http" or "txt"`
+<a href="#">Link to this property</a>
 
-      - `"http"`
+</details>
 
-      - `"txt"`
+<a href="#">Link to this property</a>
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+created\_on: string
 
-      - `"initializing"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+domain\_id: string
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"deactivated"`
+name: string
 
-      - `"error"`
+The domain name.
 
-    - `error_message: optional string`
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+<details>
 
-    - `txt_value: optional string`
+<summary>
 
-  - `verification_data: object { status, error_message }`
+status: "initializing"or "pending"or "active"or 3 more
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+</summary>
 
-      - `"pending"`
+One of the following:
 
-      - `"active"`
+"initializing"
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"blocked"`
+"pending"
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-    - `error_message: optional string`
+"active"
 
-  - `zone_tag: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"deactivated"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"blocked"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/domains/$DOMAIN_NAME \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"error"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "certificate_authority": "lets_encrypt",
-    "created_on": "created_on",
-    "domain_id": "domain_id",
-    "name": "this-is-my-domain-01.com",
-    "status": "initializing",
-    "validation_data": {
-      "method": "http",
-      "status": "initializing",
-      "error_message": "error_message",
-      "txt_name": "txt_name",
-      "txt_value": "txt_value"
-    },
-    "verification_data": {
-      "status": "pending",
-      "error_message": "error_message"
-    },
-    "zone_tag": "zone_tag"
-  },
-  "success": true
-}
-```
+</details>
 
-## Delete domain
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}`
+<details>
 
-Delete a Pages project's domain.
+<summary>
 
-### Path Parameters
+validation\_data: object {method, status, error\_message, 2 more }
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+<details>
 
-- `project_name: string`
+<summary>
 
-  Name of the project.
+method: "http"or "txt"
 
-- `domain_name: string`
+</summary>
 
-  The domain name.
+One of the following:
 
-### Returns
+"http"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"txt"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+status: "initializing"or "pending"or "active"or 2 more
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"initializing"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: unknown`
+"pending"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"active"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"deactivated"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/domains/$DOMAIN_NAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"error"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Domain List Response
+<a href="#">Link to this property</a>
 
-- `DomainListResponse object { id, certificate_authority, created_on, 6 more }`
+error\_message: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+txt\_name: optional string
 
-    - `"google"`
+<a href="#">Link to this property</a>
 
-    - `"lets_encrypt"`
+txt\_value: optional string
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-  - `domain_id: string`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The domain name.
+<details>
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+<summary>
 
-    - `"initializing"`
+verification\_data: object {status, error\_message }
 
-    - `"pending"`
+</summary>
 
-    - `"active"`
+<details>
 
-    - `"deactivated"`
+<summary>
 
-    - `"blocked"`
+status: "pending"or "active"or "deactivated"or 2 more
 
-    - `"error"`
+</summary>
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+One of the following:
 
-    - `method: "http" or "txt"`
+"pending"
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"txt"`
+"active"
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"initializing"`
+"deactivated"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"active"`
+"blocked"
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"error"
 
-    - `error_message: optional string`
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+</details>
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-  - `verification_data: object { status, error_message }`
+error\_message: optional string
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"deactivated"`
+zone\_tag: string
 
-      - `"blocked"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+</details>
 
-    - `error_message: optional string`
+[Link to this property](#)%20pages.projects.domains%20%3E%20(model)%20domain_create_response%20%3E%20(schema)>)
 
-  - `zone_tag: string`
+<details>
 
-### Domain Get Response
+<summary>
 
-- `DomainGetResponse object { id, certificate_authority, created_on, 6 more }`
+DomainEditResponse object {id, certificate\_authority, created\_on, 6 more }
 
-  - `id: string`
+</summary>
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+id: string
 
-    - `"google"`
+<a href="#">Link to this property</a>
 
-    - `"lets_encrypt"`
+<details>
 
-  - `created_on: string`
+<summary>
 
-  - `domain_id: string`
+certificate\_authority: "google"or "lets\_encrypt"
 
-  - `name: string`
+</summary>
 
-    The domain name.
+One of the following:
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+"google"
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"lets\_encrypt"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deactivated"`
+</details>
 
-    - `"blocked"`
+<a href="#">Link to this property</a>
 
-    - `"error"`
+created\_on: string
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `method: "http" or "txt"`
+domain\_id: string
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"txt"`
+name: string
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+The domain name.
 
-      - `"initializing"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+<details>
 
-      - `"active"`
+<summary>
 
-      - `"deactivated"`
+status: "initializing"or "pending"or "active"or 3 more
 
-      - `"error"`
+</summary>
 
-    - `error_message: optional string`
+One of the following:
 
-    - `txt_name: optional string`
+"initializing"
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-  - `verification_data: object { status, error_message }`
+"pending"
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+"active"
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"deactivated"`
+"deactivated"
 
-      - `"blocked"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"blocked"
 
-    - `error_message: optional string`
+<a href="#">Link to this property</a>
 
-  - `zone_tag: string`
+"error"
 
-### Domain Create Response
+<a href="#">Link to this property</a>
 
-- `DomainCreateResponse object { id, certificate_authority, created_on, 6 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+<details>
 
-    - `"google"`
+<summary>
 
-    - `"lets_encrypt"`
+validation\_data: object {method, status, error\_message, 2 more }
 
-  - `created_on: string`
+</summary>
 
-  - `domain_id: string`
+<details>
 
-  - `name: string`
+<summary>
 
-    The domain name.
+method: "http"or "txt"
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+</summary>
 
-    - `"initializing"`
+One of the following:
 
-    - `"pending"`
+"http"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deactivated"`
+"txt"
 
-    - `"blocked"`
+<a href="#">Link to this property</a>
 
-    - `"error"`
+</details>
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `method: "http" or "txt"`
+<details>
 
-      - `"http"`
+<summary>
 
-      - `"txt"`
+status: "initializing"or "pending"or "active"or 2 more
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+</summary>
 
-      - `"initializing"`
+One of the following:
 
-      - `"pending"`
+"initializing"
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"deactivated"`
+"pending"
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-    - `error_message: optional string`
+"active"
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `txt_value: optional string`
+"deactivated"
 
-  - `verification_data: object { status, error_message }`
+<a href="#">Link to this property</a>
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+"error"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"active"`
+</details>
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"blocked"`
+error\_message: optional string
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-    - `error_message: optional string`
+txt\_name: optional string
 
-  - `zone_tag: string`
+<a href="#">Link to this property</a>
 
-### Domain Edit Response
+txt\_value: optional string
 
-- `DomainEditResponse object { id, certificate_authority, created_on, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+<a href="#">Link to this property</a>
 
-    - `"google"`
+<details>
 
-    - `"lets_encrypt"`
+<summary>
 
-  - `created_on: string`
+verification\_data: object {status, error\_message }
 
-  - `domain_id: string`
+</summary>
 
-  - `name: string`
+<details>
 
-    The domain name.
+<summary>
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+status: "pending"or "active"or "deactivated"or 2 more
 
-    - `"initializing"`
+</summary>
 
-    - `"pending"`
+One of the following:
 
-    - `"active"`
+"pending"
 
-    - `"deactivated"`
+<a href="#">Link to this property</a>
 
-    - `"blocked"`
+"active"
 
-    - `"error"`
+<a href="#">Link to this property</a>
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+"deactivated"
 
-    - `method: "http" or "txt"`
+<a href="#">Link to this property</a>
 
-      - `"http"`
+"blocked"
 
-      - `"txt"`
+<a href="#">Link to this property</a>
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+"error"
 
-      - `"initializing"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"deactivated"`
+error\_message: optional string
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-    - `error_message: optional string`
+</details>
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `txt_value: optional string`
+zone\_tag: string
 
-  - `verification_data: object { status, error_message }`
+<a href="#">Link to this property</a>
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+</details>
 
-      - `"pending"`
+[Link to this property](#)%20pages.projects.domains%20%3E%20(model)%20domain_edit_response%20%3E%20(schema)>)
 
-      - `"active"`
+DomainDeleteResponse = unknown
 
-      - `"deactivated"`
-
-      - `"blocked"`
-
-      - `"error"`
-
-    - `error_message: optional string`
-
-  - `zone_tag: string`
-
-### Domain Delete Response
-
-- `DomainDeleteResponse = unknown`
+[Link to this property](#)%20pages.projects.domains%20%3E%20(model)%20domain_delete_response%20%3E%20(schema)>)

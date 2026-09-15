@@ -1,93 +1,321 @@
-## Get the Split Tunnel exclude list
+---
+title: Get the Split Tunnel exclude list
+---
 
-**get** `/accounts/{account_id}/devices/policy/exclude`
+[Skip to content](#_top)
 
-Fetches the list of routes excluded from the WARP client's tunnel.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
 
-### Returns
+[Policies](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies)
 
-- `errors: array of ResponseInfo`
+[Default](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default)
 
-  - `code: number`
+[Excludes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/excludes)
 
-  - `message: string`
+Copy Markdown
 
-  - `documentation_url: optional string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `source: optional object { pointer }`
+---
 
-    - `pointer: optional string`
+**Copy Markdown****View as Markdown**
 
-- `messages: array of ResponseInfo`
+# Get the Split Tunnel exclude list
 
-  - `code: number`
+GET/accounts/{account\_id}/devices/policy/exclude
 
-  - `message: string`
+Fetches the list of routes excluded from the WARP client’s tunnel.
 
-  - `documentation_url: optional string`
+##### Security
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: array of SplitTunnelExclude`
+<summary>API Token</summary>
 
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
 
-    - `address: string`
 
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `description: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+</details>
 
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+<details>
 
-    - `host: string`
+<summary>API Email + API Key</summary>
 
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
 
-    - `description: optional string`
 
-      A description of the Split Tunnel item, displayed in the client UI.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `success: true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+##### P ath ParametersExpand Collapse
 
-    Total number of results for the requested service.
+account\_id: string
 
-  - `page: optional number`
+[Link to this property](#)%20zero_trust.devices.policies.default.excludes%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    Current page within paginated list of results.
+##### ReturnsExpand Collapse
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    Total results available without any search parameters.
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.policies.default.excludes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.policies.default.excludes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_exclude%20%3E%20(schema)">SplitTunnelExclude</a>
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+TeamsDevicesExcludeSplitTunnelWithAddress object {address, description }
+
+</summary>
+
+address: string
+
+The address in CIDR format to exclude from the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A description of the Split Tunnel item, displayed in the client UI.
+
+maxLength100
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TeamsDevicesExcludeSplitTunnelWithHost object {host, description }
+
+</summary>
+
+host: string
+
+The domain name to exclude from the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A description of the Split Tunnel item, displayed in the client UI.
+
+maxLength100
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.policies.default.excludes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.devices.policies.default.excludes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.policies.default.excludes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get the Split Tunnel exclude list
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/exclude \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "address": "192.0.2.0/24",
+      "description": "Exclude testing domains from the tunnel"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,229 +1,647 @@
-## List builds by script
+---
+title: List builds for a Worker
+---
 
-**get** `/accounts/{account_id}/builds/workers/{external_script_id}/builds`
+[Skip to content](#_top)
 
-Get all builds for a specific worker script with pagination
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
 
-- `account_id: string`
+[Builds](https://developers.cloudflare.com/api/resources/workers_builds/subresources/builds)
 
-  Account identifier.
+Copy Markdown
 
-- `external_script_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  System-generated worker script tag.
+---
 
-### Query Parameters
+**Copy Markdown****View as Markdown**
 
-- `page: optional number`
+# List builds for a Worker
 
-  Page number for pagination
+GET/accounts/{account\_id}/builds/workers/{external\_script\_id}/builds
 
-- `per_page: optional number`
+List paginated build records associated with a Worker tag.
 
-  Number of items per page
+##### Security
 
-### Returns
+<details>
 
-- `errors: array of object { code, message }`
+<summary>API Token</summary>
 
-  - `code: optional number`
 
-  - `message: optional string`
 
-- `messages: array of string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `result: array of object { build_outcome, build_trigger_metadata, build_uuid, 8 more }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `build_outcome: optional "success" or "fail" or "skipped" or 2 more`
+</details>
 
-    - `"success"`
+<details>
 
-    - `"fail"`
+<summary>API Email + API Key</summary>
 
-    - `"skipped"`
 
-    - `"cancelled"`
 
-    - `"terminated"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `build_trigger_metadata: optional object { author, branch, build_command, 11 more }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `author: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `branch: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      Git branch name.
+</details>
 
-    - `build_command: optional string`
+##### Accepted Permissions (at least one required)
 
-    - `build_token_name: optional string`
+`Workers CI Write``Workers CI Read`
 
-    - `build_token_uuid: optional string`
+##### P ath ParametersExpand Collapse
 
-      Build token UUID.
+account\_id: string
 
-    - `build_trigger_source: optional "push" or "pull_request" or "manual" or "api"`
+Account identifier.
 
-      - `"push"`
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `"pull_request"`
+external\_script\_id: string
 
-      - `"manual"`
+System-generated tag of the Worker. This is not the Worker name.
 
-      - `"api"`
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20external_script_id%20%3E%20(schema)>)
 
-    - `commit_hash: optional string`
+##### Q uery ParametersExpand Collapse
 
-      Git commit hash
+page: optional number
 
-    - `commit_message: optional string`
+Page number for pagination
 
-    - `deploy_command: optional string`
+minimum1
 
-    - `environment_variables: optional map[string]`
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `provider_account_name: optional string`
+per\_page: optional number
 
-    - `provider_type: optional "github" or "gitlab" or "gitlab_internal"`
+Number of items per page
 
-      - `"github"`
+maximum200
 
-      - `"gitlab"`
+minimum1
 
-      - `"gitlab_internal"`
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `repo_name: optional string`
+##### ReturnsExpand Collapse
 
-    - `root_directory: optional string`
+<details>
 
-      Root directory path.
+<summary>
 
-  - `build_uuid: optional string`
+errors: array of object {code, message }
 
-    Build UUID.
+</summary>
 
-  - `created_on: optional string`
+code: optional number
 
-  - `initializing_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+message: optional string
 
-  - `pull_request: optional object { created_on, pull_request_url }`
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+</details>
 
-    - `pull_request_url: optional string`
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `running_on: optional string`
+messages: array of string
 
-  - `status: optional "queued" or "initializing" or "running" or "stopped"`
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `"queued"`
+<details>
 
-    - `"initializing"`
+<summary>
 
-    - `"running"`
+result: array of object {build\_outcome, build\_trigger\_metadata, build\_uuid, 8 more }
 
-    - `"stopped"`
+</summary>
 
-  - `stopped_on: optional string`
+<details>
 
-  - `trigger: optional object { branch_excludes, branch_includes, build_caching_enabled, 12 more }`
+<summary>
 
-    Trigger information without build_token_uuid
+build\_outcome: optional "success"or "fail"or "skipped"or 2 more
 
-    - `branch_excludes: optional array of string`
+</summary>
 
-    - `branch_includes: optional array of string`
+One of the following:
 
-    - `build_caching_enabled: optional boolean`
+"success"
 
-    - `build_command: optional string`
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+"fail"
 
-    - `deleted_on: optional string`
+<a href="#">Link to this property</a>
 
-    - `deploy_command: optional string`
+"skipped"
 
-    - `external_script_id: optional string`
+<a href="#">Link to this property</a>
 
-      System-generated worker script tag.
+"cancelled"
 
-    - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    - `path_excludes: optional array of string`
+"terminated"
 
-    - `path_includes: optional array of string`
+<a href="#">Link to this property</a>
 
-    - `repo_connection: optional object { created_on, deleted_on, modified_on, 6 more }`
+</details>
 
-      - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-      - `deleted_on: optional string`
+<details>
 
-      - `modified_on: optional string`
+<summary>
 
-      - `provider_account_id: optional string`
+build\_trigger\_metadata: optional object {author, branch, build\_command, 11 more }
 
-        Provider account identifier.
+</summary>
 
-      - `provider_account_name: optional string`
+author: optional string
 
-      - `provider_type: optional "github" or "gitlab" or "gitlab_internal"`
+<a href="#">Link to this property</a>
 
-        - `"github"`
+branch: optional string
 
-        - `"gitlab"`
+Git branch name.
 
-        - `"gitlab_internal"`
+<a href="#">Link to this property</a>
 
-      - `repo_connection_uuid: optional string`
+build\_command: optional string
 
-        Repository connection UUID.
+Command to build the Worker.
 
-      - `repo_id: optional string`
+<a href="#">Link to this property</a>
 
-        Repository identifier.
+build\_token\_name: optional string
 
-      - `repo_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `root_directory: optional string`
+build\_token\_uuid: optional string
 
-      Root directory path.
+UUID of the build token used when deploying the Worker.
 
-    - `trigger_name: optional string`
+formatuuid
 
-    - `trigger_uuid: optional string`
+<a href="#">Link to this property</a>
 
-      Trigger UUID.
+<details>
 
-- `success: boolean`
+<summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+build\_trigger\_source: optional "push"or "pull\_request"or "manual"or "api"
 
-  - `count: optional number`
+</summary>
 
-  - `page: optional number`
+One of the following:
 
-  - `per_page: optional number`
+"push"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+"pull\_request"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"manual"
+
+<a href="#">Link to this property</a>
+
+"api"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+commit\_hash: optional string
+
+Git commit hash
+
+<a href="#">Link to this property</a>
+
+commit\_message: optional string
+
+<a href="#">Link to this property</a>
+
+deploy\_command: optional string
+
+Command to deploy the Worker.
+
+<a href="#">Link to this property</a>
+
+environment\_variables: optional map\[string]
+
+<a href="#">Link to this property</a>
+
+provider\_account\_name: optional string
+
+Human-readable name of the account or namespace that owns the repository.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provider\_type: optional "github"or "gitlab"or "gitlab\_internal"or "origin"
+
+Source control provider.
+
+</summary>
+
+One of the following:
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"gitlab"
+
+<a href="#">Link to this property</a>
+
+"gitlab\_internal"
+
+<a href="#">Link to this property</a>
+
+"origin"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+repo\_name: optional string
+
+Human-readable repository name.
+
+<a href="#">Link to this property</a>
+
+root\_directory: optional string
+
+Repository directory in which build and deploy commands run.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+build\_uuid: optional string
+
+Build UUID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+initializing\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pull\_request: optional object {created\_on, pull\_request\_url }
+
+</summary>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pull\_request\_url: optional string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+running\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "queued"or "initializing"or "running"or "stopped"
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"running"
+
+<a href="#">Link to this property</a>
+
+"stopped"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+stopped\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+trigger: optional object {branch\_excludes, branch\_includes, build\_caching\_enabled, 12 more }
+
+Trigger information without build\_token\_uuid
+
+</summary>
+
+branch\_excludes: optional array of string
+
+Branch patterns that must not start builds.
+
+<a href="#">Link to this property</a>
+
+branch\_includes: optional array of string
+
+Branch patterns that can start builds.
+
+<a href="#">Link to this property</a>
+
+build\_caching\_enabled: optional boolean
+
+Whether builds reuse cached dependencies and build artifacts.
+
+<a href="#">Link to this property</a>
+
+build\_command: optional string
+
+Command to build the Worker.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleted\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deploy\_command: optional string
+
+Command to deploy the Worker.
+
+<a href="#">Link to this property</a>
+
+external\_script\_id: optional string
+
+System-generated tag of the Worker. This is not the Worker name.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+path\_excludes: optional array of string
+
+Path patterns that must not start builds.
+
+<a href="#">Link to this property</a>
+
+path\_includes: optional array of string
+
+Path patterns that can start builds.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+repo\_connection: optional object {created\_on, deleted\_on, modified\_on, 6 more }
+
+</summary>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleted\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+provider\_account\_id: optional string
+
+Provider-specific identifier of the account or namespace that owns the repository.
+
+<a href="#">Link to this property</a>
+
+provider\_account\_name: optional string
+
+Human-readable name of the account or namespace that owns the repository.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provider\_type: optional "github"or "gitlab"or "gitlab\_internal"or "origin"
+
+Source control provider.
+
+</summary>
+
+One of the following:
+
+"github"
+
+<a href="#">Link to this property</a>
+
+"gitlab"
+
+<a href="#">Link to this property</a>
+
+"gitlab\_internal"
+
+<a href="#">Link to this property</a>
+
+"origin"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+repo\_connection\_uuid: optional string
+
+Repository connection UUID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+repo\_id: optional string
+
+Provider-specific repository identifier.
+
+<a href="#">Link to this property</a>
+
+repo\_name: optional string
+
+Human-readable repository name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+root\_directory: optional string
+
+Repository directory in which build and deploy commands run.
+
+<a href="#">Link to this property</a>
+
+trigger\_name: optional string
+
+Human-readable name of the build trigger.
+
+<a href="#">Link to this property</a>
+
+trigger\_uuid: optional string
+
+Trigger UUID.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.builds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List builds for a Worker
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/workers/$EXTERNAL_SCRIPT_ID/builds \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+401 example
+
+```
 {
   "errors": [
     {
@@ -311,5 +729,130 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/workers/$E
     "total_count": 150,
     "total_pages": 3
   }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12005,
+      "message": "Missing token from authorization header"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+401 example
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": [
+    {
+      "build_outcome": "success",
+      "build_trigger_metadata": {
+        "author": "developer@cloudflare.com",
+        "branch": "main",
+        "build_command": "npm run build",
+        "build_token_name": "My Build Token",
+        "build_token_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "build_trigger_source": "push",
+        "commit_hash": "abc123def456",
+        "commit_message": "Add new feature",
+        "deploy_command": "npx wrangler deploy",
+        "environment_variables": {
+          "foo": "string"
+        },
+        "provider_account_name": "Cloudflare",
+        "provider_type": "github",
+        "repo_name": "workers-sdk",
+        "root_directory": "/"
+      },
+      "build_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "created_on": "2019-12-27T18:11:19.117Z",
+      "initializing_on": "2019-12-27T18:11:19.117Z",
+      "modified_on": "2019-12-27T18:11:19.117Z",
+      "pull_request": {
+        "created_on": "2019-12-27T18:11:19.117Z",
+        "pull_request_url": "https://github.com/cloudflare/workers-sdk/pull/123"
+      },
+      "running_on": "2019-12-27T18:11:19.117Z",
+      "status": "running",
+      "stopped_on": "2019-12-27T18:11:19.117Z",
+      "trigger": {
+        "branch_excludes": [
+          "string"
+        ],
+        "branch_includes": [
+          "main"
+        ],
+        "build_caching_enabled": false,
+        "build_command": "npm run build",
+        "created_on": "2019-12-27T18:11:19.117Z",
+        "deleted_on": "2019-12-27T18:11:19.117Z",
+        "deploy_command": "npx wrangler deploy",
+        "external_script_id": "dd7160bb9cef458093557736f4b9e75b",
+        "modified_on": "2019-12-27T18:11:19.117Z",
+        "path_excludes": [
+          "*.md"
+        ],
+        "path_includes": [
+          "*"
+        ],
+        "repo_connection": {
+          "created_on": "2019-12-27T18:11:19.117Z",
+          "deleted_on": "2019-12-27T18:11:19.117Z",
+          "modified_on": "2019-12-27T18:11:19.117Z",
+          "provider_account_id": "cloudflare",
+          "provider_account_name": "Cloudflare",
+          "provider_type": "github",
+          "repo_connection_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+          "repo_id": "workers-sdk",
+          "repo_name": "workers-sdk"
+        },
+        "root_directory": "/",
+        "trigger_name": "Production Deploy",
+        "trigger_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+      }
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 25,
+    "page": 1,
+    "per_page": 50,
+    "total_count": 150,
+    "total_pages": 3
+  }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12005,
+      "message": "Missing token from authorization header"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

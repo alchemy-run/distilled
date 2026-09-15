@@ -1,113 +1,79 @@
+---
+title: Eligible
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+[Destinations](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Eligible
 
-## Get delivery mechanism eligibility
+##### [Get delivery mechanism eligibility](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/eligible/methods/get)
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/eligible`
+GET/accounts/{account\_id}/alerting/v3/destinations/eligible
 
-Get a list of all delivery mechanism types for which an account is eligible.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account id
+EligibleGetResponse = map\[array of object {eligible, ready, type } ]
 
-### Returns
+</summary>
 
-- `errors: array of object { message, code }`
+eligible: optional boolean
 
-  - `message: string`
+Determines whether or not the account is eligible for the delivery mechanism.
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+ready: optional boolean
 
-  - `message: string`
+Beta flag. Users can create a policy with a mechanism that is not ready, but we cannot guarantee successful delivery of notifications.
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+type: optional "email"or "pagerduty"or "webhook"
 
-- `result: optional map[array of object { eligible, ready, type } ]`
+Determines type of delivery mechanism.
 
-  - `eligible: optional boolean`
+</summary>
 
-    Determines whether or not the account is eligible for the delivery mechanism.
+One of the following:
 
-  - `ready: optional boolean`
+"email"
 
-    Beta flag. Users can create a policy with a mechanism that is not ready, but we cannot guarantee successful delivery of notifications.
+<a href="#">Link to this property</a>
 
-  - `type: optional "email" or "pagerduty" or "webhook"`
+"pagerduty"
 
-    Determines type of delivery mechanism.
+<a href="#">Link to this property</a>
 
-    - `"email"`
+"webhook"
 
-    - `"pagerduty"`
+<a href="#">Link to this property</a>
 
-    - `"webhook"`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/eligible \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "foo": [
-      {
-        "eligible": true,
-        "ready": true,
-        "type": "email"
-      }
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Eligible Get Response
-
-- `EligibleGetResponse = map[array of object { eligible, ready, type } ]`
-
-  - `eligible: optional boolean`
-
-    Determines whether or not the account is eligible for the delivery mechanism.
-
-  - `ready: optional boolean`
-
-    Beta flag. Users can create a policy with a mechanism that is not ready, but we cannot guarantee successful delivery of notifications.
-
-  - `type: optional "email" or "pagerduty" or "webhook"`
-
-    Determines type of delivery mechanism.
-
-    - `"email"`
-
-    - `"pagerduty"`
-
-    - `"webhook"`
+[Link to this property](#)%20alerting.destinations.eligible%20%3E%20(model)%20eligible_get_response%20%3E%20(schema)>)

@@ -1,72 +1,211 @@
-## Roll Token
+---
+title: Roll Token
+---
 
-**put** `/accounts/{account_id}/tokens/{token_id}/value`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
+
+[Tokens](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens)
+
+[Value](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/value)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Roll Token
+
+PUT/accounts/{account\_id}/tokens/{token\_id}/value
 
 Roll the Account Owned API token secret.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `token_id: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  Token identifier tag.
+##### Accepted Permissions (at least one required)
 
-### Body Parameters
+`Account API Tokens Write`
 
-- `body: unknown`
+##### P ath ParametersExpand Collapse
 
-### Returns
+account\_id: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Account identifier tag.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+minLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20accounts.tokens.value%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+token\_id: string
 
-    - `pointer: optional string`
+Token identifier tag.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20accounts.tokens.value%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20token_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### ReturnsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+code: number
 
-  - `true`
+minimum1000
 
-- `result: optional TokenValue`
+<a href="#">Link to this property</a>
 
-  The token value.
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts.tokens.value%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts.tokens.value%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20accounts.tokens.value%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+result: optional [TokenValue](<https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_value%20%3E%20(schema)>)
+
+The token value.
+
+maxLength80
+
+minLength40
+
+[Link to this property](#)%20accounts.tokens.value%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Roll Token
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID/value \
     -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": "8M7wS6hCpXVc-DoRnPPY_UCWPgy8aea4Wy6kCe5T"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

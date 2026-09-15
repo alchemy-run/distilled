@@ -1,855 +1,2426 @@
-## Get tags for a zone-level resource
+---
+title: Get tags for a zone-level resource
+---
 
-**get** `/zones/{zone_id}/tags`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Resource Tagging](https://developers.cloudflare.com/api/resources/resource_tagging)
+
+[Zone Tags](https://developers.cloudflare.com/api/resources/resource_tagging/subresources/zone_tags)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get tags for a zone-level resource
+
+GET/zones/{zone\_id}/tags
 
 Retrieves tags for a specific zone-level resource.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+API Email + API Key
 
-  Zone ID is required only for zone-level resources
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Query Parameters
+**Example:**`X-Auth-Email: user@example.com`
 
-- `resource_id: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  The ID of the resource to retrieve tags for.
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `resource_type: "access_application_policy" or "api_gateway_operation" or "custom_certificate" or 4 more`
+##### P ath ParametersExpand Collapse
 
-  The type of the resource.
+zone\_id: string
 
-  - `"access_application_policy"`
+Zone ID is required only for zone-level resources
 
-  - `"api_gateway_operation"`
+maxLength32
 
-  - `"custom_certificate"`
+minLength32
 
-  - `"custom_hostname"`
+[Link to this property](#)%20resource_tagging.zone_tags%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `"dns_record"`
+##### Q uery ParametersExpand Collapse
 
-  - `"managed_client_certificate"`
+resource\_id: string
 
-  - `"zone"`
+The ID of the resource to retrieve tags for.
 
-- `access_application_id: optional string`
+[Link to this property](#)%20resource_tagging.zone_tags%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20resource_id%20%3E%20(schema)>)
 
-  Access application ID identifier. Required for access_application_policy resources.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+resource\_type: "access\_application\_policy"or "api\_gateway\_operation"or "custom\_certificate"or 8 more
 
-  - `code: number`
+The type of the resource.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"access\_application\_policy"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"api\_gateway\_operation"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"custom\_certificate"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"custom\_hostname"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"dns\_record"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"healthcheck"
 
-- `result: optional object { id, etag, name, 2 more }  or object { id, access_application_id, etag, 4 more }  or object { id, etag, name, 2 more }  or 24 more`
+<a href="#">Link to this property</a>
 
-  Response for access_application resources
+"load\_balancer"
 
-  - `AccessApplication object { id, etag, name, 2 more }`
+<a href="#">Link to this property</a>
 
-    Response for access_application resources
+"managed\_client\_certificate"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifies the unique resource.
+"worker\_route"
 
-    - `etag: string`
+<a href="#">Link to this property</a>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+"zone"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable name of the resource.
+"zone\_ruleset"
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+</details>
 
-    - `type: "access_application"`
+[Link to this property](#)%20resource_tagging.zone_tags%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20resource_type%20%3E%20(schema)>)
 
-      - `"access_application"`
+access\_application\_id: optional string
 
-  - `AccessApplicationPolicy object { id, access_application_id, etag, 4 more }`
+Access application ID identifier. Required for access\_application\_policy resources.
 
-    Response for access_application_policy resources
+formatuuid
 
-    - `id: string`
+[Link to this property](#)%20resource_tagging.zone_tags%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20access_application_id%20%3E%20(schema)>)
 
-      Identifies the unique resource.
+##### ReturnsExpand Collapse
 
-    - `access_application_id: string`
+<details>
 
-      Access application ID is required only for access_application_policy resources
+<summary>
 
-    - `etag: string`
+errors: array of object {code, message, documentation\_url, source }
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+</summary>
 
-    - `name: string`
+code: number
 
-      Human-readable name of the resource.
+minimum1000
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+message: string
 
-    - `type: "access_application_policy"`
+<a href="#">Link to this property</a>
 
-      - `"access_application_policy"`
+documentation\_url: optional string
 
-    - `zone_id: string`
+<a href="#">Link to this property</a>
 
-      Zone ID is required only for zone-level resources
+<details>
 
-  - `AccessGroup object { id, etag, name, 2 more }`
+<summary>
 
-    Response for access_group resources
+source: optional object {pointer }
 
-    - `id: string`
+</summary>
 
-      Identifies the unique resource.
+pointer: optional string
 
-    - `etag: string`
+<a href="#">Link to this property</a>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable name of the resource.
+</details>
 
-    - `tags: map[string]`
+[Link to this property](#)%20resource_tagging.zone_tags%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      Contains key-value pairs of tags.
+<details>
 
-    - `type: "access_group"`
+<summary>
 
-      - `"access_group"`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `Account object { id, etag, name, 2 more }`
+</summary>
 
-    Response for account resources
+code: number
 
-    - `id: string`
+minimum1000
 
-      Identifies the unique resource.
+<a href="#">Link to this property</a>
 
-    - `etag: string`
+message: string
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+documentation\_url: optional string
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+<details>
 
-      Contains key-value pairs of tags.
+<summary>
 
-    - `type: "account"`
+source: optional object {pointer }
 
-      - `"account"`
+</summary>
 
-  - `AIGateway object { id, etag, name, 2 more }`
+pointer: optional string
 
-    Response for ai_gateway resources
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Identifies the unique resource.
+<a href="#">Link to this property</a>
 
-    - `etag: string`
+</details>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+[Link to this property](#)%20resource_tagging.zone_tags%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `name: string`
+success: true
 
-      Human-readable name of the resource.
+Whether the API call was successful.
 
-    - `tags: map[string]`
+[Link to this property](#)%20resource_tagging.zone_tags%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      Contains key-value pairs of tags.
+<details>
 
-    - `type: "ai_gateway"`
+<summary>
 
-      - `"ai_gateway"`
+result: optional object {id, etag, name, 3 more } or object {id, access\_application\_id, etag, 5 more } or object {id, etag, name, 3 more } or 38 more
 
-  - `AlertingPolicy object { id, etag, name, 2 more }`
+Response for access\_application resources
 
-    Response for alerting_policy resources
+</summary>
 
-    - `id: string`
+One of the following:
 
-      Identifies the unique resource.
+<details>
 
-    - `etag: string`
+<summary>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+AccessApplication object {id, etag, name, 3 more }
 
-    - `name: string`
+Response for access\_application resources
 
-      Human-readable name of the resource.
+</summary>
 
-    - `tags: map[string]`
+id: string
 
-      Contains key-value pairs of tags.
+Identifies the unique resource.
 
-    - `type: "alerting_policy"`
+<a href="#">Link to this property</a>
 
-      - `"alerting_policy"`
+etag: string
 
-  - `AlertingWebhook object { id, etag, name, 2 more }`
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-    Response for alerting_webhook resources
+<a href="#">Link to this property</a>
 
-    - `id: string`
+name: string
 
-      Identifies the unique resource.
+Human-readable name of the resource.
 
-    - `etag: string`
+<a href="#">Link to this property</a>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+tags: map\[string]
 
-    - `name: string`
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+type: "access\_application"
 
-      Contains key-value pairs of tags.
+<a href="#">Link to this property</a>
 
-    - `type: "alerting_webhook"`
+tags\_updated\_at: optional string
 
-      - `"alerting_webhook"`
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-  - `APIGatewayOperation object { id, etag, name, 3 more }`
+formatdate-time
 
-    Response for api_gateway_operation resources
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Identifies the unique resource.
+<a href="#">Link to this property</a>
 
-    - `etag: string`
+<details>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<summary>
 
-    - `name: string`
+AccessApplicationPolicy object {id, access\_application\_id, etag, 5 more }
 
-      Human-readable name of the resource.
+Response for access\_application\_policy resources
 
-    - `tags: map[string]`
+</summary>
 
-      Contains key-value pairs of tags.
+id: string
 
-    - `type: "api_gateway_operation"`
+Identifies the unique resource.
 
-      - `"api_gateway_operation"`
+<a href="#">Link to this property</a>
 
-    - `zone_id: string`
+access\_application\_id: string
 
-      Zone ID is required only for zone-level resources
+Access application ID is required only for access\_application\_policy resources
 
-  - `CloudflaredTunnel object { id, etag, name, 2 more }`
+formatuuid
 
-    Response for cloudflared_tunnel resources
+<a href="#">Link to this property</a>
 
-    - `id: string`
+etag: string
 
-      Identifies the unique resource.
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-    - `etag: string`
+<a href="#">Link to this property</a>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+name: string
 
-    - `name: string`
+Human-readable name of the resource.
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+tags: map\[string]
 
-      Contains key-value pairs of tags.
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-    - `type: "cloudflared_tunnel"`
+<a href="#">Link to this property</a>
 
-      - `"cloudflared_tunnel"`
+type: "access\_application\_policy"
 
-  - `CustomCertificate object { id, etag, name, 3 more }`
+<a href="#">Link to this property</a>
 
-    Response for custom_certificate resources
+zone\_id: string
 
-    - `id: string`
+Zone ID is required only for zone-level resources
 
-      Identifies the unique resource.
+maxLength32
 
-    - `etag: string`
+minLength32
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+tags\_updated\_at: optional string
 
-      Human-readable name of the resource.
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-    - `tags: map[string]`
+formatdate-time
 
-      Contains key-value pairs of tags.
+<a href="#">Link to this property</a>
 
-    - `type: "custom_certificate"`
+</details>
 
-      - `"custom_certificate"`
+<a href="#">Link to this property</a>
 
-    - `zone_id: string`
+<details>
 
-      Zone ID is required only for zone-level resources
+<summary>
 
-  - `CustomHostname object { id, etag, name, 3 more }`
+AccessGroup object {id, etag, name, 3 more }
 
-    Response for custom_hostname resources
+Response for access\_group resources
 
-    - `id: string`
+</summary>
 
-      Identifies the unique resource.
+id: string
 
-    - `etag: string`
+Identifies the unique resource.
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+etag: string
 
-      Human-readable name of the resource.
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+name: string
 
-    - `type: "custom_hostname"`
+Human-readable name of the resource.
 
-      - `"custom_hostname"`
+<a href="#">Link to this property</a>
 
-    - `zone_id: string`
+tags: map\[string]
 
-      Zone ID is required only for zone-level resources
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-  - `D1Database object { id, etag, name, 2 more }`
+<a href="#">Link to this property</a>
 
-    Response for d1_database resources
+type: "access\_group"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifies the unique resource.
+tags\_updated\_at: optional string
 
-    - `etag: string`
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable name of the resource.
+</details>
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+<details>
 
-    - `type: "d1_database"`
+<summary>
 
-      - `"d1_database"`
+Account object {id, etag, name, 3 more }
 
-  - `DNSRecord object { id, etag, name, 3 more }`
+Response for account resources
 
-    Response for dns_record resources
+</summary>
 
-    - `id: string`
+id: string
 
-      Identifies the unique resource.
+Identifies the unique resource.
 
-    - `etag: string`
+<a href="#">Link to this property</a>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+etag: string
 
-    - `name: string`
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+name: string
 
-      Contains key-value pairs of tags.
+Human-readable name of the resource.
 
-    - `type: "dns_record"`
+<a href="#">Link to this property</a>
 
-      - `"dns_record"`
+tags: map\[string]
 
-    - `zone_id: string`
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-      Zone ID is required only for zone-level resources
+<a href="#">Link to this property</a>
 
-  - `DurableObjectNamespace object { id, etag, name, 2 more }`
+type: "account"
 
-    Response for durable_object_namespace resources
+<a href="#">Link to this property</a>
 
-    - `id: string`
+tags\_updated\_at: optional string
 
-      Identifies the unique resource.
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-    - `etag: string`
+formatdate-time
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+<details>
 
-      Contains key-value pairs of tags.
+<summary>
 
-    - `type: "durable_object_namespace"`
+AccountRuleset object {id, etag, name, 3 more }
 
-      - `"durable_object_namespace"`
+Response for account\_ruleset resources
 
-  - `GatewayList object { id, etag, name, 2 more }`
+</summary>
 
-    Response for gateway_list resources
+id: string
 
-    - `id: string`
+Identifies the unique resource.
 
-      Identifies the unique resource.
+<a href="#">Link to this property</a>
 
-    - `etag: string`
+etag: string
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable name of the resource.
+name: string
 
-    - `tags: map[string]`
+Human-readable name of the resource.
 
-      Contains key-value pairs of tags.
+<a href="#">Link to this property</a>
 
-    - `type: "gateway_list"`
+tags: map\[string]
 
-      - `"gateway_list"`
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-  - `GatewayRule object { id, etag, name, 2 more }`
+<a href="#">Link to this property</a>
 
-    Response for gateway_rule resources
+type: "account\_ruleset"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifies the unique resource.
+tags\_updated\_at: optional string
 
-    - `etag: string`
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable name of the resource.
+</details>
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+<details>
 
-    - `type: "gateway_rule"`
+<summary>
 
-      - `"gateway_rule"`
+AIGateway object {id, etag, name, 3 more }
 
-  - `Image object { id, etag, name, 2 more }`
+Response for ai\_gateway resources
 
-    Response for image resources
+</summary>
 
-    - `id: string`
+id: string
 
-      Identifies the unique resource.
+Identifies the unique resource.
 
-    - `etag: string`
+<a href="#">Link to this property</a>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+etag: string
 
-    - `name: string`
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+name: string
 
-      Contains key-value pairs of tags.
+Human-readable name of the resource.
 
-    - `type: "image"`
+<a href="#">Link to this property</a>
 
-      - `"image"`
+tags: map\[string]
 
-  - `KVNamespace object { id, etag, name, 2 more }`
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-    Response for kv_namespace resources
+<a href="#">Link to this property</a>
 
-    - `id: string`
+type: "ai\_gateway"
 
-      Identifies the unique resource.
+<a href="#">Link to this property</a>
 
-    - `etag: string`
+tags\_updated\_at: optional string
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-    - `name: string`
+formatdate-time
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+</details>
 
-      Contains key-value pairs of tags.
+<a href="#">Link to this property</a>
 
-    - `type: "kv_namespace"`
+<details>
 
-      - `"kv_namespace"`
+<summary>
 
-  - `ManagedClientCertificate object { id, etag, name, 3 more }`
+AlertingPolicy object {id, etag, name, 3 more }
 
-    Response for managed_client_certificate resources
+Response for alerting\_policy resources
 
-    - `id: string`
+</summary>
 
-      Identifies the unique resource.
+id: string
 
-    - `etag: string`
+Identifies the unique resource.
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+etag: string
 
-      Human-readable name of the resource.
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+name: string
 
-    - `type: "managed_client_certificate"`
+Human-readable name of the resource.
 
-      - `"managed_client_certificate"`
+<a href="#">Link to this property</a>
 
-    - `zone_id: string`
+tags: map\[string]
 
-      Zone ID is required only for zone-level resources
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-  - `Queue object { id, etag, name, 2 more }`
+<a href="#">Link to this property</a>
 
-    Response for queue resources
+type: "alerting\_policy"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifies the unique resource.
+tags\_updated\_at: optional string
 
-    - `etag: string`
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Human-readable name of the resource.
+</details>
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+<details>
 
-    - `type: "queue"`
+<summary>
 
-      - `"queue"`
+AlertingWebhook object {id, etag, name, 3 more }
 
-  - `R2Bucket object { id, etag, name, 2 more }`
+Response for alerting\_webhook resources
 
-    Response for r2_bucket resources
+</summary>
 
-    - `id: string`
+id: string
 
-      Identifies the unique resource.
+Identifies the unique resource.
 
-    - `etag: string`
+<a href="#">Link to this property</a>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+etag: string
 
-    - `name: string`
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+name: string
 
-      Contains key-value pairs of tags.
+Human-readable name of the resource.
 
-    - `type: "r2_bucket"`
+<a href="#">Link to this property</a>
 
-      - `"r2_bucket"`
+tags: map\[string]
 
-  - `ResourceShare object { id, etag, name, 2 more }`
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-    Response for resource_share resources
+<a href="#">Link to this property</a>
 
-    - `id: string`
+type: "alerting\_webhook"
 
-      Identifies the unique resource.
+<a href="#">Link to this property</a>
 
-    - `etag: string`
+tags\_updated\_at: optional string
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-    - `name: string`
+formatdate-time
 
-      Human-readable name of the resource.
+<a href="#">Link to this property</a>
 
-    - `tags: map[string]`
+</details>
 
-      Contains key-value pairs of tags.
+<a href="#">Link to this property</a>
 
-    - `type: "resource_share"`
+<details>
 
-      - `"resource_share"`
+<summary>
 
-  - `StreamLiveInput object { id, etag, name, 2 more }`
+APIGatewayOperation object {id, etag, name, 4 more }
 
-    Response for stream_live_input resources
+Response for api\_gateway\_operation resources
 
-    - `id: string`
+</summary>
 
-      Identifies the unique resource.
+id: string
 
-    - `etag: string`
+Identifies the unique resource.
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+etag: string
 
-      Human-readable name of the resource.
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+name: string
 
-    - `type: "stream_live_input"`
+Human-readable name of the resource.
 
-      - `"stream_live_input"`
+<a href="#">Link to this property</a>
 
-  - `StreamVideo object { id, etag, name, 2 more }`
+tags: map\[string]
 
-    Response for stream_video resources
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifies the unique resource.
+type: "api\_gateway\_operation"
 
-    - `etag: string`
+<a href="#">Link to this property</a>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+zone\_id: string
 
-    - `name: string`
+Zone ID is required only for zone-level resources
 
-      Human-readable name of the resource.
+maxLength32
 
-    - `tags: map[string]`
+minLength32
 
-      Contains key-value pairs of tags.
+<a href="#">Link to this property</a>
 
-    - `type: "stream_video"`
+tags\_updated\_at: optional string
 
-      - `"stream_video"`
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-  - `Worker object { id, etag, name, 2 more }`
+formatdate-time
 
-    Response for worker resources
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Identifies the unique resource.
+<a href="#">Link to this property</a>
 
-    - `etag: string`
+<details>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<summary>
 
-    - `name: string`
+CloudflaredTunnel object {id, etag, name, 3 more }
 
-      Human-readable name of the resource.
+Response for cloudflared\_tunnel resources
 
-    - `tags: map[string]`
+</summary>
 
-      Contains key-value pairs of tags.
+id: string
 
-    - `type: "worker"`
+Identifies the unique resource.
 
-      - `"worker"`
+<a href="#">Link to this property</a>
 
-  - `WorkerVersion object { id, etag, name, 3 more }`
+etag: string
 
-    Response for worker_version resources
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifies the unique resource.
+name: string
 
-    - `etag: string`
+Human-readable name of the resource.
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+tags: map\[string]
 
-      Human-readable name of the resource.
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
 
-    - `tags: map[string]`
+<a href="#">Link to this property</a>
 
-      Contains key-value pairs of tags.
+type: "cloudflared\_tunnel"
 
-    - `type: "worker_version"`
+<a href="#">Link to this property</a>
 
-      - `"worker_version"`
+tags\_updated\_at: optional string
 
-    - `worker_id: string`
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
 
-      Worker ID is required only for worker_version resources
+formatdate-time
 
-  - `Zone object { id, etag, name, 3 more }`
+<a href="#">Link to this property</a>
 
-    Response for zone resources
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifies the unique resource.
+<details>
 
-    - `etag: string`
+<summary>
 
-      ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
-      the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map
-      canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat
-      ETags as opaque strings and pass them back via the If-Match header on write operations.
+CustomCertificate object {id, etag, name, 4 more }
 
-    - `name: string`
+Response for custom\_certificate resources
 
-      Human-readable name of the resource.
+</summary>
 
-    - `tags: map[string]`
+id: string
 
-      Contains key-value pairs of tags.
+Identifies the unique resource.
 
-    - `type: "zone"`
+<a href="#">Link to this property</a>
 
-      - `"zone"`
+etag: string
 
-    - `zone_id: string`
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
 
-      Zone ID is required only for zone-level resources
+<a href="#">Link to this property</a>
 
-### Example
+name: string
 
-```http
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "custom\_certificate"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CustomHostname object {id, etag, name, 4 more }
+
+Response for custom\_hostname resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "custom\_hostname"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CwsDeployment object {id, etag, name, 3 more }
+
+Response for cws\_deployment resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "cws\_deployment"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CwsPolicy object {id, etag, name, 3 more }
+
+Response for cws\_policy resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "cws\_policy"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CwsPolicySet object {id, etag, name, 3 more }
+
+Response for cws\_policy\_set resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "cws\_policy\_set"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CwsWorkload object {id, etag, name, 3 more }
+
+Response for cws\_workload resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "cws\_workload"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+D1Database object {id, etag, name, 3 more }
+
+Response for d1\_database resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "d1\_database"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DNSRecord object {id, etag, name, 4 more }
+
+Response for dns\_record resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "dns\_record"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DurableObjectNamespace object {id, etag, name, 3 more }
+
+Response for durable\_object\_namespace resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "durable\_object\_namespace"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+GatewayList object {id, etag, name, 3 more }
+
+Response for gateway\_list resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "gateway\_list"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+GatewayRule object {id, etag, name, 3 more }
+
+Response for gateway\_rule resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "gateway\_rule"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Healthcheck object {id, etag, name, 4 more }
+
+Response for healthcheck resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "healthcheck"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Image object {id, etag, name, 3 more }
+
+Response for image resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "image"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+InfrastructureTarget object {id, etag, name, 3 more }
+
+Response for infrastructure\_target resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "infrastructure\_target"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+KVNamespace object {id, etag, name, 3 more }
+
+Response for kv\_namespace resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "kv\_namespace"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+LoadBalancer object {id, etag, name, 4 more }
+
+Response for load\_balancer resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "load\_balancer"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+LoadBalancerMonitor object {id, etag, name, 3 more }
+
+Response for load\_balancer\_monitor resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "load\_balancer\_monitor"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+LoadBalancerPool object {id, etag, name, 3 more }
+
+Response for load\_balancer\_pool resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "load\_balancer\_pool"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ManagedClientCertificate object {id, etag, name, 4 more }
+
+Response for managed\_client\_certificate resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "managed\_client\_certificate"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+PagesProject object {id, etag, name, 3 more }
+
+Response for pages\_project resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "pages\_project"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Queue object {id, etag, name, 3 more }
+
+Response for queue resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "queue"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+R2Bucket object {id, etag, name, 3 more }
+
+Response for r2\_bucket resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "r2\_bucket"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ResourceShare object {id, etag, name, 3 more }
+
+Response for resource\_share resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "resource\_share"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+StreamLiveInput object {id, etag, name, 3 more }
+
+Response for stream\_live\_input resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "stream\_live\_input"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+StreamVideo object {id, etag, name, 3 more }
+
+Response for stream\_video resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "stream\_video"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+VectorizeIndex object {id, etag, name, 3 more }
+
+Response for vectorize\_index resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "vectorize\_index"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Worker object {id, etag, name, 3 more }
+
+Response for worker resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "worker"
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WorkerRoute object {id, etag, name, 4 more }
+
+Response for worker\_route resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "worker\_route"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WorkerVersion object {id, etag, name, 4 more }
+
+Response for worker\_version resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "worker\_version"
+
+<a href="#">Link to this property</a>
+
+worker\_id: string
+
+Worker ID is required only for worker\_version resources
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Zone object {id, etag, name, 4 more }
+
+Response for zone resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "zone"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ZoneRuleset object {id, etag, name, 4 more }
+
+Response for zone\_ruleset resources
+
+</summary>
+
+id: string
+
+Identifies the unique resource.
+
+<a href="#">Link to this property</a>
+
+etag: string
+
+ETag identifier for optimistic concurrency control. Formatted as “v1:” where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Human-readable name of the resource.
+
+<a href="#">Link to this property</a>
+
+tags: map\[string]
+
+Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.
+
+<a href="#">Link to this property</a>
+
+type: "zone\_ruleset"
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+Zone ID is required only for zone-level resources
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+tags\_updated\_at: optional string
+
+Monotonic version of the resource’s tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20resource_tagging.zone_tags%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get tags for a zone-level resource
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/tags \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -880,7 +2451,49 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/tags \
       "environment": "production",
       "team": "engineering"
     },
-    "type": "access_application"
+    "type": "access_application",
+    "tags_updated_at": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "etag": "v1:RBNvo1WzZ4oRRq0W9-hkng",
+    "name": "my-worker-script",
+    "tags": {
+      "environment": "production",
+      "team": "engineering"
+    },
+    "type": "access_application",
+    "tags_updated_at": "2024-01-15T10:30:00Z"
   }
 }
 ```

@@ -1,91 +1,73 @@
+---
+title: Public
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+[Finetunes](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Public
 
-## List Public Finetunes
+##### [List Public Finetunes](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes/subresources/public/methods/list)
 
-**get** `/accounts/{account_id}/ai/finetunes/public`
+GET/accounts/{account\_id}/ai/finetunes/public
 
-Lists publicly available fine-tuned models that can be used with Workers AI.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+PublicListResponse object {id, created\_at, model, 4 more }
 
-- `limit: optional number`
+</summary>
 
-  Pagination Limit
+id: string
 
-- `offset: optional number`
+formatuuid
 
-  Pagination Offset
+<a href="#">Link to this property</a>
 
-- `orderBy: optional string`
+created\_at: string
 
-  Order By Column Name
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, created_at, model, 4 more }`
+model: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+modified\_at: string
 
-  - `model: string`
+formatdate-time
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-  - `public: boolean`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+public: boolean
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+description: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes/public \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "model": "model",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "public": true,
-      "description": "description"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Public List Response
-
-- `PublicListResponse object { id, created_at, model, 4 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `model: string`
-
-  - `modified_at: string`
-
-  - `name: string`
-
-  - `public: boolean`
-
-  - `description: optional string`
+[Link to this property](#)%20ai.finetunes.public%20%3E%20(model)%20public_list_response%20%3E%20(schema)>)

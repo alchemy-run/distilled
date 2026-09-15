@@ -1,60 +1,164 @@
-## Revoke all Access tokens for a user
+---
+title: Revoke all Access tokens for a user
+---
 
-**post** `/{accounts_or_zones}/{account_or_zone_id}/access/organizations/revoke_user`
+[Skip to content](#_top)
 
-Revokes a user's access across all applications.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: optional string`
+[Organizations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/organizations)
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+Copy Markdown
 
-- `zone_id: optional string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+---
 
-### Query Parameters
+**Copy Markdown****View as Markdown**
 
-- `devices: optional boolean`
+# Revoke all Access tokens for a user
 
-  When set to `true`, all devices associated with the user will be revoked.
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/organizations/revoke\_user
 
-### Body Parameters
+Revokes a user’s access across all applications.
 
-- `email: string`
+##### Security
 
-  The email of the user to revoke.
+<details>
 
-- `devices: optional boolean`
+<summary>API Token</summary>
 
-  When set to `true`, all devices associated with the user will be revoked.
 
-- `user_uid: optional string`
 
-  The uuid of the user to revoke.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `warp_session_reauth: optional boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  When set to `true`, the user will be required to re-authenticate to WARP for all Gateway policies that enforce a WARP client session duration. When `false`, the user’s WARP session will remain active
+</details>
 
-### Returns
+<details>
 
-- `result: optional true or false`
+<summary>API Email + API Key</summary>
 
-  - `true`
 
-  - `false`
 
-- `success: optional true or false`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `false`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Example
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-```http
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Access: Organizations, Identity Providers, and Groups Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: optional string
+
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+zone\_id: optional string
+
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+devices: optional boolean
+
+When set to `true`, all devices associated with the user will be revoked.
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(params)%20default%20%3E%20(param)%20devices%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+email: string
+
+The email of the user to revoke.
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(params)%200%20%3E%20(param)%20email%20%3E%20(schema)>)
+
+devices: optional boolean
+
+When set to `true`, all devices associated with the user will be revoked.
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(params)%200%20%3E%20(param)%20devices%20%3E%20(schema)>)
+
+user\_uid: optional string
+
+The uuid of the user to revoke.
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(params)%200%20%3E%20(param)%20user_uid%20%3E%20(schema)>)
+
+warp\_session\_reauth: optional boolean
+
+When set to `true`, the user will be required to re-authenticate to WARP for all Gateway policies that enforce a WARP client session duration. When `false`, the user’s WARP session will remain active
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(params)%200%20%3E%20(param)%20warp_session_reauth%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: optional trueor false
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+success: optional trueor false
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.organizations%20%3E%20(method)%20revoke_users%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Revoke all Access tokens for a user
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/organizations/revoke_user \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -66,9 +170,20 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": true,
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": true,
   "success": true

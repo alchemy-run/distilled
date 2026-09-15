@@ -1,306 +1,161 @@
+---
+title: Devices
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Devices
 
-# ISPs
+#### DevicesISPs
 
-## List device ISPs
+##### [List device ISPs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/devices/subresources/isps/methods/list)
 
-**get** `/accounts/{account_id}/dex/devices/{device_id}/isps`
+GET/accounts/{account\_id}/dex/devices/{device\_id}/isps
 
-List ISP information observed for a specific device during traceroute tests.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+ISPs object {isps }
 
-- `device_id: string`
+</summary>
 
-  API Resource UUID tag.
+<details>
 
-### Query Parameters
+<summary>
 
-- `per_page: number`
+isps: array of object {test\_id, test\_result\_id, time\_start, ip }
 
-  Number of items per page
+</summary>
 
-- `cursor: optional string`
+test\_id: string
 
-  Cursor for cursor-based pagination. Mutually exclusive with page.
+The test that generated this result.
 
-- `from: optional string`
+<a href="#">Link to this property</a>
 
-  Start time for the query in ISO 8601 format.
+test\_result\_id: string
 
-- `page: optional number`
+The specific test result.
 
-  Page number of paginated results. Mutually exclusive with cursor.
+<a href="#">Link to this property</a>
 
-- `sort_by: optional "time_start"`
+time\_start: string
 
-  The field to sort results by.
+Timestamp of when the ISP was observed.
 
-  - `"time_start"`
+formatdate-time
 
-- `sort_order: optional "ASC" or "DESC"`
+<a href="#">Link to this property</a>
 
-  The order to sort results.
+<details>
 
-  - `"ASC"`
+<summary>
 
-  - `"DESC"`
+ip: optional object {address, asn, aso, 4 more }
 
-- `to: optional string`
+IP address information for the ISP hop. Fields marked as PII-gated (<code>name</code>, <code>address</code>, <code>netmask</code>, and all <code>location</code> sub-fields) will be returned as the literal string <code>"REDACTED"</code> for callers that do not have the PII permission. <code>asn</code>, <code>aso</code>, and <code>version</code> are always returned regardless of PII access.
 
-  End time for the query in ISO 8601 format.
+</summary>
 
-### Returns
+address: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+IP address. Returned as <code>"REDACTED"</code> without PII permission.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+asn: optional number
 
-  - `documentation_url: optional string`
+Autonomous System Number.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+aso: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Autonomous System Organization name.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-    - `pointer: optional string`
+Geographic location information. All fields are returned as the literal string <code>"REDACTED"</code> for callers that do not have the PII permission.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+city: optional string
 
-  - `true`
+City name. Returned as <code>"REDACTED"</code> without PII permission.
 
-- `result: optional ISPs`
+<a href="#">Link to this property</a>
 
-  - `isps: array of object { test_id, test_result_id, time_start, ip }`
+country\_iso: optional string
 
-    - `test_id: string`
+Country ISO code. Returned as <code>"REDACTED"</code> without PII permission.
 
-      The test that generated this result.
+<a href="#">Link to this property</a>
 
-    - `test_result_id: string`
+state\_iso: optional string
 
-      The specific test result.
+State/province ISO code. Returned as <code>"REDACTED"</code> without PII permission.
 
-    - `time_start: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of when the ISP was observed.
+zip: optional string
 
-    - `ip: optional object { address, asn, aso, 4 more }`
+ZIP/postal code. Returned as <code>"REDACTED"</code> without PII permission.
 
-      IP address information for the ISP hop. Fields marked as PII-gated (`name`, `address`, `netmask`, and all `location` sub-fields) will be returned as the literal string `"REDACTED"` for callers that do not have the PII permission. `asn`, `aso`, and `version` are always returned regardless of PII access.
+<a href="#">Link to this property</a>
 
-      - `address: optional string`
+</details>
 
-        IP address. Returned as `"REDACTED"` without PII permission.
+<a href="#">Link to this property</a>
 
-      - `asn: optional number`
+name: optional string
 
-        Autonomous System Number.
+Named IP address (reverse DNS hostname when available). Returned as <code>"REDACTED"</code> without PII permission.
 
-      - `aso: optional string`
+<a href="#">Link to this property</a>
 
-        Autonomous System Organization name.
+netmask: optional string
 
-      - `location: optional object { city, country_iso, state_iso, zip }`
+Network mask. Returned as <code>"REDACTED"</code> without PII permission.
 
-        Geographic location information. All fields are returned as the literal string `"REDACTED"` for callers that do not have the PII permission.
+<a href="#">Link to this property</a>
 
-        - `city: optional string`
+version: optional number
 
-          City name. Returned as `"REDACTED"` without PII permission.
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-        - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-          Country ISO code. Returned as `"REDACTED"` without PII permission.
+</details>
 
-        - `state_iso: optional string`
+<a href="#">Link to this property</a>
 
-          State/province ISO code. Returned as `"REDACTED"` without PII permission.
+</details>
 
-        - `zip: optional string`
+<a href="#">Link to this property</a>
 
-          ZIP/postal code. Returned as `"REDACTED"` without PII permission.
+</details>
 
-      - `name: optional string`
-
-        Named IP address (reverse DNS hostname when available). Returned as `"REDACTED"` without PII permission.
-
-      - `netmask: optional string`
-
-        Network mask. Returned as `"REDACTED"` without PII permission.
-
-      - `version: optional number`
-
-        IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/$DEVICE_ID/isps \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "isps": [
-      {
-        "test_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "test_result_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-        "time_start": "2024-06-01T12:00:00Z",
-        "ip": {
-          "address": "203.0.113.1",
-          "asn": 13335,
-          "aso": "CLOUDFLARENET",
-          "location": {
-            "city": "San Francisco",
-            "country_iso": "US",
-            "state_iso": "CA",
-            "zip": "94107"
-          },
-          "name": "isp-gateway.example.com",
-          "netmask": "255.255.255.0",
-          "version": 1
-        }
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### ISPs
-
-- `ISPs object { isps }`
-
-  - `isps: array of object { test_id, test_result_id, time_start, ip }`
-
-    - `test_id: string`
-
-      The test that generated this result.
-
-    - `test_result_id: string`
-
-      The specific test result.
-
-    - `time_start: string`
-
-      Timestamp of when the ISP was observed.
-
-    - `ip: optional object { address, asn, aso, 4 more }`
-
-      IP address information for the ISP hop. Fields marked as PII-gated (`name`, `address`, `netmask`, and all `location` sub-fields) will be returned as the literal string `"REDACTED"` for callers that do not have the PII permission. `asn`, `aso`, and `version` are always returned regardless of PII access.
-
-      - `address: optional string`
-
-        IP address. Returned as `"REDACTED"` without PII permission.
-
-      - `asn: optional number`
-
-        Autonomous System Number.
-
-      - `aso: optional string`
-
-        Autonomous System Organization name.
-
-      - `location: optional object { city, country_iso, state_iso, zip }`
-
-        Geographic location information. All fields are returned as the literal string `"REDACTED"` for callers that do not have the PII permission.
-
-        - `city: optional string`
-
-          City name. Returned as `"REDACTED"` without PII permission.
-
-        - `country_iso: optional string`
-
-          Country ISO code. Returned as `"REDACTED"` without PII permission.
-
-        - `state_iso: optional string`
-
-          State/province ISO code. Returned as `"REDACTED"` without PII permission.
-
-        - `zip: optional string`
-
-          ZIP/postal code. Returned as `"REDACTED"` without PII permission.
-
-      - `name: optional string`
-
-        Named IP address (reverse DNS hostname when available). Returned as `"REDACTED"` without PII permission.
-
-      - `netmask: optional string`
-
-        Network mask. Returned as `"REDACTED"` without PII permission.
-
-      - `version: optional number`
-
-        IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+[Link to this property](#)%20zero_trust.dex.devices.isps%20%3E%20(model)%20isps%20%3E%20(schema)>)

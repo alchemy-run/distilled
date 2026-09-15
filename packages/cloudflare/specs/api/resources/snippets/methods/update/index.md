@@ -1,70 +1,206 @@
-## Update a zone snippet
+---
+title: Update a zone snippet
+---
 
-**put** `/zones/{zone_id}/snippets/{snippet_name}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Snippets](https://developers.cloudflare.com/api/resources/snippets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a zone snippet
+
+PUT/zones/{zone\_id}/snippets/{snippet\_name}
 
 Creates or updates a snippet belonging to the zone.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Use this field to specify the unique ID of the zone.
+<summary>API Token</summary>
 
-- `snippet_name: string`
 
-  Identify the snippet.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { message, code }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Lists error messages.
+</details>
 
-  - `message: string`
+<details>
 
-    Describes the message text.
+<summary>API Email + API Key</summary>
 
-  - `code: optional number`
 
-    Identify the message code.
 
-- `messages: array of object { message, code }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Contain warning messages.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Describes the message text.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: optional number`
+</details>
 
-    Identify the message code.
+##### Accepted Permissions (at least one required)
 
-- `result: object { created_on, snippet_name, modified_on }`
+`Snippets Write`
 
-  Contain the response result.
+##### P ath ParametersExpand Collapse
 
-  - `created_on: string`
+zone\_id: string
 
-    Indicates when the snippet was created.
+Use this field to specify the unique ID of the zone.
 
-  - `snippet_name: string`
+[Link to this property](#)%20snippets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    Identify the snippet.
+snippet\_name: string
 
-  - `modified_on: optional string`
+Identify the snippet.
 
-    Indicates when the snippet was last modified.
+[Link to this property](#)%20snippets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20snippet_name%20%3E%20(schema)>)
 
-- `success: true`
+##### Body ParametersForm DataExpand Collapse
 
-  Indicate whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+metadata: object {main\_module }
 
-```http
+Provide metadata about the snippet.
+
+</summary>
+
+main\_module: string
+
+Specify the name of the file that contains the main module of the snippet.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20metadata%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message, code }
+
+Lists error messages.
+
+</summary>
+
+message: string
+
+Describes the message text.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+Identify the message code.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message, code }
+
+Contain warning messages.
+
+</summary>
+
+message: string
+
+Describes the message text.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+Identify the message code.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {created\_on, snippet\_name, modified\_on }
+
+Contain the response result.
+
+</summary>
+
+created\_on: string
+
+Indicates when the snippet was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+snippet\_name: string
+
+Identify the snippet.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Indicates when the snippet was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Indicate whether the API call was successful.
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update a zone snippet
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/$SNIPPET_NAME \
     -X PUT \
     -H 'Content-Type: multipart/form-data' \
@@ -72,9 +208,9 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/$SNIPPET_NAME 
     -F metadata='{"main_module":"main.js"}'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -89,9 +225,36 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/$SNIPPET_NAME 
     }
   ],
   "result": {
-    "created_on": "2000-01-01T00:00:00.000000Z",
+    "created_on": "2000-01-01T00:00:00Z",
     "snippet_name": "my_snippet",
-    "modified_on": "2000-01-01T00:00:00.000000Z"
+    "modified_on": "2000-01-01T00:00:00Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "message": "something bad happened",
+      "code": 10000
+    }
+  ],
+  "messages": [
+    {
+      "message": "something bad happened",
+      "code": 10000
+    }
+  ],
+  "result": {
+    "created_on": "2000-01-01T00:00:00Z",
+    "snippet_name": "my_snippet",
+    "modified_on": "2000-01-01T00:00:00Z"
   },
   "success": true
 }

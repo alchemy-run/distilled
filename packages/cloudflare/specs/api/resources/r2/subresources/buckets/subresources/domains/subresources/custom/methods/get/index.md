@@ -1,135 +1,380 @@
-## Get Custom Domain Settings
+---
+title: Get Custom Domain Settings
+---
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+[Domains](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains)
+
+[Custom](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Custom Domain Settings
+
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom/{domain}
 
 Get the configuration for a custom domain on an existing R2 bucket.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account ID.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `bucket_name: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  Name of the bucket.
+##### Accepted Permissions (at least one required)
 
-- `domain: string`
+`Workers R2 Storage Write``Workers R2 Storage Read`
 
-  Name of the custom domain.
+##### P ath ParametersExpand Collapse
 
-### Header Parameters
+account\_id: string
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+Account ID.
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+maxLength32
 
-  - `"default"`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"eu"`
+bucket\_name: string
 
-  - `"fedramp"`
+Name of the bucket.
 
-### Returns
+maxLength64
 
-- `errors: array of ResponseInfo`
+minLength3
 
-  - `code: number`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20bucket_name%20%3E%20(schema)>)
 
-  - `message: string`
+domain: string
 
-  - `documentation_url: optional string`
+Name of the custom domain.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20domain%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### H eader ParametersExpand Collapse
 
-- `messages: array of string`
+<details>
 
-- `result: object { domain, enabled, status, 4 more }`
+<summary>
 
-  - `domain: string`
+"cf-r2-jurisdiction": optional "default"or "eu"or "us"or 2 more
 
-    Domain name of the custom domain to be added.
+Jurisdiction where objects in this bucket are guaranteed to be stored.
 
-  - `enabled: boolean`
+</summary>
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+One of the following:
 
-  - `status: object { ownership, ssl }`
+"default"
 
-    - `ownership: "pending" or "active" or "deactivated" or 3 more`
+<a href="#">Link to this property</a>
 
-      Ownership status of the domain.
+"eu"
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"active"`
+"us"
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"blocked"`
+"fedramp"
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-      - `"unknown"`
+"fedramp-high"
 
-    - `ssl: "initializing" or "pending" or "active" or 3 more`
+<a href="#">Link to this property</a>
 
-      SSL certificate status.
+</details>
 
-      - `"initializing"`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20jurisdiction%20%3E%20(schema)>)
 
-      - `"pending"`
+##### ReturnsExpand Collapse
 
-      - `"active"`
+<details>
 
-      - `"deactivated"`
+<summary>
 
-      - `"error"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `"unknown"`
+</summary>
 
-  - `ciphers: optional array of string`
+code: number
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+minimum1000
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+<a href="#">Link to this property</a>
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+message: string
 
-    - `"1.0"`
+<a href="#">Link to this property</a>
 
-    - `"1.1"`
+documentation\_url: optional string
 
-    - `"1.2"`
+<a href="#">Link to this property</a>
 
-    - `"1.3"`
+<details>
 
-  - `zoneId: optional string`
+<summary>
 
-    Zone ID of the custom domain resides in.
+source: optional object {pointer }
 
-  - `zoneName: optional string`
+</summary>
 
-    Zone that the custom domain resides in.
+pointer: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {domain, enabled, status, 4 more }
+
+</summary>
+
+domain: string
+
+Domain name of the custom domain to be added.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether this bucket is publicly accessible at the specified custom domain.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: object {ownership, ssl }
+
+</summary>
+
+<details>
+
+<summary>
+
+ownership: "pending"or "active"or "deactivated"or 3 more
+
+Ownership status of the domain.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deactivated"
+
+<a href="#">Link to this property</a>
+
+"blocked"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ssl: "initializing"or "pending"or "active"or 3 more
+
+SSL certificate status.
+
+</summary>
+
+One of the following:
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deactivated"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ciphers: optional array of string
+
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
+
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+
+</summary>
+
+One of the following:
+
+"1.0"
+
+<a href="#">Link to this property</a>
+
+"1.1"
+
+<a href="#">Link to this property</a>
+
+"1.2"
+
+<a href="#">Link to this property</a>
+
+"1.3"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+zoneId: optional string
+
+Zone ID of the custom domain resides in.
+
+<a href="#">Link to this property</a>
+
+zoneName: optional string
+
+Zone that the custom domain resides in.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get Custom Domain Settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom/$DOMAIN \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "domain": "prefix.example-domain.one.com",
+    "enabled": false,
+    "status": {
+      "ownership": "deactivated",
+      "ssl": "pending"
+    },
+    "ciphers": [
+      "string"
+    ],
+    "minTLS": "1.0",
+    "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd",
+    "zoneName": "example-domain.one.com"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

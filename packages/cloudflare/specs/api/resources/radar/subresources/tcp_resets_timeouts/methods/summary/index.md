@@ -1,223 +1,539 @@
-## Get TCP resets and timeouts summary
+---
+title: Get TCP resets and timeouts summary
+---
 
-**get** `/radar/tcp_resets_timeouts/summary`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[TCP Resets Timeouts](https://developers.cloudflare.com/api/resources/radar/subresources/tcp_resets_timeouts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get TCP resets and timeouts summary
+
+GET/radar/tcp\_resets\_timeouts/summary
 
 Retrieves the distribution of connection stage by TCP connections terminated within the first 10 packets by a reset or timeout.
 
-### Query Parameters
+##### Security
 
-- `asn: optional array of string`
+<details>
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+<summary>API Token</summary>
 
-- `continent: optional array of string`
 
-  Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
 
-- `dateEnd: optional array of string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  End of the date range (inclusive).
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `dateRange: optional array of string`
+</details>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+<details>
 
-- `dateStart: optional array of string`
+<summary>API Email + API Key</summary>
 
-  Start of the date range.
 
-- `format: optional "JSON" or "CSV"`
 
-  Format in which results will be returned.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"JSON"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"CSV"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `location: optional array of string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
+</details>
 
-- `name: optional array of string`
+##### Accepted Permissions (at least one required)
 
-  Array of names used to label the series in the response.
+`User Details Write``User Details Read`
 
-### Returns
+##### Q uery ParametersExpand Collapse
 
-- `result: object { meta, summary_0 }`
+asn: optional array of string
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
 
-    Metadata for the results.
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20asn%20%3E%20(schema)>)
 
-    - `confidenceInfo: object { annotations, level }`
+continent: optional array of string
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20continent%20%3E%20(schema)>)
 
-          Data source for annotations.
+dateEnd: optional array of string
 
-          - `"ALL"`
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-          - `"AI_BOTS"`
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-          - `"AI_GATEWAY"`
+dateRange: optional array of string
 
-          - `"BGP"`
+Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
 
-          - `"BOTS"`
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
 
-          - `"CONNECTION_ANOMALY"`
+dateStart: optional array of string
 
-          - `"CT"`
+Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-          - `"DNS"`
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
 
-          - `"DNS_MAGNITUDE"`
+<details>
 
-          - `"DNS_AS112"`
+<summary>
 
-          - `"DOS"`
+format: optional "JSON"or "CSV"
 
-          - `"EMAIL_ROUTING"`
+Format in which results will be returned.
 
-          - `"EMAIL_SECURITY"`
+</summary>
 
-          - `"FW"`
+One of the following:
 
-          - `"FW_PG"`
+"JSON"
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+"CSV"
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+</details>
 
-          - `"IQI"`
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-          - `"LEAKED_CREDENTIALS"`
+location: optional array of string
 
-          - `"NET"`
+Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
 
-          - `"ROBOTS_TXT"`
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20location%20%3E%20(schema)>)
 
-          - `"SPEED"`
+name: optional array of string
 
-          - `"WORKERS_AI"`
+Array of names used to label the series in the response.
 
-        - `description: string`
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-        - `endDate: string`
+##### ReturnsExpand Collapse
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<details>
 
-          Event type for annotations.
+<summary>
 
-          - `"EVENT"`
+result: object {meta, summary\_0 }
 
-          - `"GENERAL"`
+</summary>
 
-          - `"OUTAGE"`
+<details>
 
-          - `"PARTIAL_PROJECTION"`
+<summary>
 
-          - `"PIPELINE"`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-          - `"TRAFFIC_ANOMALY"`
+Metadata for the results.
 
-        - `isInstantaneous: boolean`
+</summary>
 
-          Whether event is a single point in time or a time range.
+<details>
 
-        - `linkedUrl: string`
+<summary>
 
-        - `startDate: string`
+confidenceInfo: object {annotations, level }
 
-        - `tags: optional array of string`
+</summary>
 
-      - `level: number`
+<details>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-      - `endTime: string`
+</summary>
 
-        Adjusted end of date range.
+<details>
 
-      - `startTime: string`
+<summary>
 
-        Adjusted start of date range.
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-    - `lastUpdated: string`
+Data source for annotations.
 
-      Timestamp of the last dataset update.
+</summary>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+One of the following:
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+"ALL"
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+"AI\_BOTS"
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+"AI\_GATEWAY"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+"BGP"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+"BOTS"
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+"CONNECTION\_ANOMALY"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"CT"
 
-  - `summary_0: object { later_in_flow, no_match, post_ack, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `later_in_flow: string`
+"DNS"
 
-      Connection resets within the first 10 packets from the client, but after the server has received multiple data packets.
+<a href="#">Link to this property</a>
 
-    - `no_match: string`
+"DNS\_MAGNITUDE"
 
-      All other connections.
+<a href="#">Link to this property</a>
 
-    - `post_ack: string`
+"DNS\_AS112"
 
-      Connection resets or timeouts after the server received both a SYN packet and an ACK packet, meaning the connection was successfully established.
+<a href="#">Link to this property</a>
 
-    - `post_psh: string`
+"DOS"
 
-      Connection resets or timeouts after the server received a packet with PSH flag set, following connection establishment.
+<a href="#">Link to this property</a>
 
-    - `post_syn: string`
+"EMAIL\_ROUTING"
 
-      Connection resets or timeouts after the server received only a single SYN packet.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"EMAIL\_SECURITY"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"FW"
+
+<a href="#">Link to this property</a>
+
+"FW\_PG"
+
+<a href="#">Link to this property</a>
+
+"HTTP"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CONTROL"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CRAWLER\_REFERER"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"IQI"
+
+<a href="#">Link to this property</a>
+
+"LEAKED\_CREDENTIALS"
+
+<a href="#">Link to this property</a>
+
+"NET"
+
+<a href="#">Link to this property</a>
+
+"ROBOTS\_TXT"
+
+<a href="#">Link to this property</a>
+
+"SPEED"
+
+<a href="#">Link to this property</a>
+
+"WORKERS\_AI"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+endDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
+
+Event type for annotations.
+
+</summary>
+
+One of the following:
+
+"GENERAL"
+
+<a href="#">Link to this property</a>
+
+"OUTAGE"
+
+<a href="#">Link to this property</a>
+
+"PARTIAL\_PROJECTION"
+
+<a href="#">Link to this property</a>
+
+"PIPELINE"
+
+<a href="#">Link to this property</a>
+
+"TRAFFIC\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isInstantaneous: boolean
+
+Whether event is a single point in time or a time range.
+
+<a href="#">Link to this property</a>
+
+linkedUrl: string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+startDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+level: number
+
+Provides an indication of how much confidence Cloudflare has in the data.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dateRange: array of object {endTime, startTime }
+
+</summary>
+
+endTime: string
+
+Adjusted end of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+startTime: string
+
+Adjusted start of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastUpdated: string
+
+Timestamp of the last dataset update.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
+
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
+
+</summary>
+
+One of the following:
+
+"PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"MIN0\_MAX"
+
+<a href="#">Link to this property</a>
+
+"MIN\_MAX"
+
+<a href="#">Link to this property</a>
+
+"RAW\_VALUES"
+
+<a href="#">Link to this property</a>
+
+"PERCENTAGE\_CHANGE"
+
+<a href="#">Link to this property</a>
+
+"ROLLING\_AVERAGE"
+
+<a href="#">Link to this property</a>
+
+"OVERLAPPED\_PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"RATIO"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+units: array of object {name, value }
+
+Measurement units for the results.
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+summary\_0: object {later\_in\_flow, no\_match, post\_ack, 2 more }
+
+</summary>
+
+later\_in\_flow: string
+
+Connection resets within the first 10 packets from the client, but after the server has received multiple data packets.
+
+<a href="#">Link to this property</a>
+
+no\_match: string
+
+All other connections.
+
+<a href="#">Link to this property</a>
+
+post\_ack: string
+
+Connection resets or timeouts after the server received both a SYN packet and an ACK packet, meaning the connection was successfully established.
+
+<a href="#">Link to this property</a>
+
+post\_psh: string
+
+Connection resets or timeouts after the server received a packet with PSH flag set, following connection establishment.
+
+<a href="#">Link to this property</a>
+
+post\_syn: string
+
+Connection resets or timeouts after the server received only a single SYN packet.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.tcp_resets_timeouts%20%3E%20(method)%20summary%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get TCP resets and timeouts summary
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/tcp_resets_timeouts/summary \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "meta": {
@@ -227,7 +543,59 @@ curl https://api.cloudflare.com/client/v4/radar/tcp_resets_timeouts/summary \
             "dataSource": "ALL",
             "description": "Cable cut in Tonga",
             "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
+            "eventType": "GENERAL",
+            "isInstantaneous": true,
+            "linkedUrl": "https://example.com",
+            "startDate": "2019-12-27T18:11:19.117Z",
+            "tags": [
+              "BOT_CLASS"
+            ]
+          }
+        ],
+        "level": 0
+      },
+      "dateRange": [
+        {
+          "endTime": "2022-09-17T10:22:57.555Z",
+          "startTime": "2022-09-16T10:22:57.555Z"
+        }
+      ],
+      "lastUpdated": "2019-12-27T18:11:19.117Z",
+      "normalization": "PERCENTAGE",
+      "units": [
+        {
+          "name": "*",
+          "value": "requests"
+        }
+      ]
+    },
+    "summary_0": {
+      "later_in_flow": "10",
+      "no_match": "65",
+      "post_ack": "5",
+      "post_psh": "10",
+      "post_syn": "10"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "meta": {
+      "confidenceInfo": {
+        "annotations": [
+          {
+            "dataSource": "ALL",
+            "description": "Cable cut in Tonga",
+            "endDate": "2019-12-27T18:11:19.117Z",
+            "eventType": "GENERAL",
             "isInstantaneous": true,
             "linkedUrl": "https://example.com",
             "startDate": "2019-12-27T18:11:19.117Z",

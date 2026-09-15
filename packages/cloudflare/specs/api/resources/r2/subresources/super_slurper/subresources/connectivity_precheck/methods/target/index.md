@@ -1,68 +1,224 @@
-## Check target connectivity
+---
+title: Check target connectivity
+---
 
-**put** `/accounts/{account_id}/slurper/target/connectivity-precheck`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Super Slurper](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper)
+
+[Connectivity Precheck](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/connectivity_precheck)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Check target connectivity
+
+PUT/accounts/{account\_id}/slurper/target/connectivity-precheck
 
 Check whether tokens are valid against the target bucket
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `bucket: string`
 
-- `secret: object { accessKeyId, secretAccessKey }`
 
-  - `accessKeyId: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `secretAccessKey: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `vendor: Provider`
+</details>
 
-  - `"r2"`
+<details>
 
-- `jurisdiction: optional "default" or "eu" or "fedramp"`
+<summary>API Email + API Key</summary>
 
-  - `"default"`
 
-  - `"eu"`
 
-  - `"fedramp"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Returns
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `errors: optional array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+account\_id: string
 
-    - `pointer: optional string`
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `messages: optional array of string`
+##### Body ParametersJSONExpand Collapse
 
-- `result: optional object { connectivityStatus }`
+bucket: string
 
-  - `connectivityStatus: optional "success" or "error"`
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(params)%200%20%3E%20(param)%20bucket%20%3E%20(schema)>)
 
-    - `"success"`
+<details>
 
-    - `"error"`
+<summary>
 
-- `success: optional true`
+secret: object {accessKeyId, secretAccessKey }
 
-  Indicates if the API call was successful or not.
+</summary>
 
-  - `true`
+accessKeyId: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+secretAccessKey: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(params)%200%20%3E%20(param)%20secret%20%3E%20(schema)>)
+
+vendor: [Provider](<https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)>)
+
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(params)%200%20%3E%20(param)%20vendor%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+jurisdiction: optional "default"or "eu"or "us"or "fedramp"
+
+</summary>
+
+One of the following:
+
+"default"
+
+<a href="#">Link to this property</a>
+
+"eu"
+
+<a href="#">Link to this property</a>
+
+"us"
+
+<a href="#">Link to this property</a>
+
+"fedramp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(params)%200%20%3E%20(param)%20jurisdiction%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+minLength1
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: optional array of string
+
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: optional object {connectivityStatus }
+
+</summary>
+
+<details>
+
+<summary>
+
+connectivityStatus: optional "success"or "error"
+
+</summary>
+
+One of the following:
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: optional true
+
+Indicates if the API call was successful or not.
+
+[Link to this property](#)%20r2.super_slurper.connectivity_precheck%20%3E%20(method)%20target%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Check target connectivity
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/target/connectivity-precheck \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -77,9 +233,35 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/target/co
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 7003,
+      "message": "No route for the URI",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "connectivityStatus": "success"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

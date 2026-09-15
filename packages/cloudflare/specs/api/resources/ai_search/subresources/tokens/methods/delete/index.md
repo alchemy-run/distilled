@@ -1,34 +1,107 @@
-## Delete token.
+---
+title: Delete a token
+---
 
-**delete** `/accounts/{account_id}/ai-search/tokens/{id}`
+[Skip to content](#_top)
 
-Delete token.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
 
-- `account_id: string`
+[Tokens](https://developers.cloudflare.com/api/resources/ai_search/subresources/tokens)
 
-- `id: string`
+Copy Markdown
 
-### Returns
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `result: unknown`
+---
 
-- `success: true`
+**Copy Markdown****View as Markdown**
 
-  - `true`
+# Delete a token
 
-### Example
+DELETE/accounts/{account\_id}/ai-search/tokens/{id}
 
-```http
+Permanently delete a stored AI Search credential. Credentials in use by an instance cannot be deleted.
+
+##### Security
+
+<details>
+
+<summary>API Token</summary>
+
+
+
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
+
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
+
+</details>
+
+<details>
+
+<summary>API Email + API Key</summary>
+
+
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+[Link to this property](#)%20ai_search.tokens%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+id: string
+
+formatuuid
+
+[Link to this property](#)%20ai_search.tokens%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+result: unknown
+
+[Link to this property](#)%20ai_search.tokens%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20ai_search.tokens%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete a token
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/tokens/$ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {},
   "success": true

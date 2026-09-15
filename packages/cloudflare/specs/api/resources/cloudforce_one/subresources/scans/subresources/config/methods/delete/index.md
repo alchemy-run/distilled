@@ -1,40 +1,129 @@
-## Delete a Scan Config
+---
+title: Delete a Scan Config
+---
 
-**delete** `/accounts/{account_id}/cloudforce-one/scans/config/{config_id}`
+[Skip to content](#_top)
 
-Delete a Scan Config
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Scans](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans)
 
-  Defines the Account ID.
+[Config](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans/subresources/config)
 
-- `config_id: string`
+Copy Markdown
 
-  Defines the Config ID.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `errors: array of string`
+**Copy Markdown****View as Markdown**
 
-- `messages: array of string`
+# Delete a Scan Config
 
-- `result: unknown`
+DELETE/accounts/{account\_id}/cloudforce-one/scans/config/{config\_id}
 
-- `success: boolean`
+Deletes a scan configuration from Cloudforce One’s network scanning service.
 
-### Example
+##### Security
 
-```http
+<details>
+
+<summary>API Token</summary>
+
+
+
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
+
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
+
+</details>
+
+<details>
+
+<summary>API Email + API Key</summary>
+
+
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Cloudforce One Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Defines the Account ID.
+
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+config\_id: string
+
+Defines the Config ID.
+
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20config_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+errors: array of string
+
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+result: unknown
+
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete a Scan Config
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/scans/config/$CONFIG_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    "string"
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     "string"

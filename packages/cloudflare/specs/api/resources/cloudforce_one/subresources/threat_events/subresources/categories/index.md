@@ -1,356 +1,247 @@
+---
+title: Categories
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Categories
 
-## Lists categories across multiple datasets
+##### [Lists categories across multiple datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/list)
 
-**get** `/accounts/{account_id}/cloudforce-one/events/categories`
+GET/accounts/{account\_id}/cloudforce-one/events/categories
 
-Lists categories across multiple datasets
+##### [Reads a category](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
 
-- `account_id: string`
+##### [Creates a new category](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/create)
 
-  Account ID.
+POST/accounts/{account\_id}/cloudforce-one/events/categories/create
 
-### Query Parameters
+##### [Updates a category](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/edit)
 
-- `datasetIds: optional array of string`
+PATCH/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
 
-  Array of dataset IDs to query categories from. If not provided, uses the default dataset.
+##### [Deletes a category](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/methods/delete)
 
-### Returns
+DELETE/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
 
-- `killChain: number`
+##### ModelsExpand Collapse
 
-- `name: string`
+<details>
 
-- `uuid: string`
+<summary>
 
-- `mitreAttack: optional array of string`
+CategoryListResponse = array of object {killChain, name, uuid, 3 more }
 
-- `mitreCapec: optional array of string`
+</summary>
 
-- `shortname: optional string`
+killChain: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-[
-  {
-    "killChain": 0,
-    "name": "name",
-    "uuid": "12345678-1234-1234-1234-1234567890ab",
-    "mitreAttack": [
-      "T1234"
-    ],
-    "mitreCapec": [
-      "123"
-    ],
-    "shortname": "shortname"
-  }
-]
-```
+uuid: string
 
-## Reads a category
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+mitreAttack: optional array of string
 
-Reads a category
+<a href="#">Link to this property</a>
 
-### Path Parameters
+mitreCapec: optional array of string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+shortname: optional string
 
-- `category_id: string`
+<a href="#">Link to this property</a>
 
-  Category UUID.
+</details>
 
-### Returns
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)>)
 
-- `killChain: number`
+<details>
 
-- `name: string`
+<summary>
 
-- `uuid: string`
+CategoryGetResponse object {killChain, name, uuid, 3 more }
 
-- `mitreAttack: optional array of string`
+</summary>
 
-- `mitreCapec: optional array of string`
+killChain: number
 
-- `shortname: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+name: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+uuid: string
 
-```json
-{
-  "killChain": 0,
-  "name": "name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "mitreAttack": [
-    "T1234"
-  ],
-  "mitreCapec": [
-    "123"
-  ],
-  "shortname": "shortname"
-}
-```
+<a href="#">Link to this property</a>
 
-## Creates a new category
+mitreAttack: optional array of string
 
-**post** `/accounts/{account_id}/cloudforce-one/events/categories/create`
+<a href="#">Link to this property</a>
 
-Creates a new category
+mitreCapec: optional array of string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+shortname: optional string
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `killChain: number`
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)>)
 
-- `name: string`
+<details>
 
-- `mitreAttack: optional array of string`
+<summary>
 
-- `mitreCapec: optional array of string`
+CategoryCreateResponse object {killChain, name, uuid, 3 more }
 
-- `shortname: optional string`
+</summary>
 
-### Returns
+killChain: number
 
-- `killChain: number`
+<a href="#">Link to this property</a>
 
-- `name: string`
+name: string
 
-- `uuid: string`
+<a href="#">Link to this property</a>
 
-- `mitreAttack: optional array of string`
+uuid: string
 
-- `mitreCapec: optional array of string`
+<a href="#">Link to this property</a>
 
-- `shortname: optional string`
+mitreAttack: optional array of string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "killChain": 0,
-          "name": "name",
-          "shortname": "shortname"
-        }'
-```
+mitreCapec: optional array of string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "killChain": 0,
-  "name": "name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "mitreAttack": [
-    "T1234"
-  ],
-  "mitreCapec": [
-    "123"
-  ],
-  "shortname": "shortname"
-}
-```
+shortname: optional string
 
-## Updates a category
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+</details>
 
-Updates a category
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_create_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+CategoryEditResponse object {killChain, name, uuid, 3 more }
 
-- `category_id: string`
+</summary>
 
-  Category UUID.
+killChain: number
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `killChain: optional number`
+name: string
 
-- `mitreAttack: optional array of string`
+<a href="#">Link to this property</a>
 
-- `mitreCapec: optional array of string`
+uuid: string
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-- `shortname: optional string`
+mitreAttack: optional array of string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `killChain: number`
+mitreCapec: optional array of string
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+shortname: optional string
 
-- `mitreAttack: optional array of string`
+<a href="#">Link to this property</a>
 
-- `mitreCapec: optional array of string`
+</details>
 
-- `shortname: optional string`
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+CategoryDeleteResponse object {uuid }
 
-```json
-{
-  "killChain": 0,
-  "name": "name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "mitreAttack": [
-    "T1234"
-  ],
-  "mitreCapec": [
-    "123"
-  ],
-  "shortname": "shortname"
-}
-```
+</summary>
 
-## Deletes a category
+uuid: string
 
-**delete** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+<a href="#">Link to this property</a>
 
-Deletes a category
+</details>
 
-### Path Parameters
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_delete_response%20%3E%20(schema)>)
 
-- `account_id: string`
+#### CategoriesCatalog
 
-  Account ID.
+##### [Lists categories](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories/subresources/catalog/methods/list)
 
-- `category_id: string`
+GET/accounts/{account\_id}/cloudforce-one/events/categories/catalog
 
-  Category UUID.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `uuid: string`
+<summary>
 
-### Example
+CatalogListResponse = array of object {killChain, name, uuid, 3 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+killChain: number
 
-```json
-{
-  "uuid": "12345678-1234-1234-1234-1234567890ab"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+name: string
 
-### Category List Response
+<a href="#">Link to this property</a>
 
-- `CategoryListResponse = array of object { killChain, name, uuid, 3 more }`
+uuid: string
 
-  - `killChain: number`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+mitreAttack: optional array of string
 
-  - `uuid: string`
+<a href="#">Link to this property</a>
 
-  - `mitreAttack: optional array of string`
+mitreCapec: optional array of string
 
-  - `mitreCapec: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `shortname: optional string`
+shortname: optional string
 
-### Category Get Response
+<a href="#">Link to this property</a>
 
-- `CategoryGetResponse object { killChain, name, uuid, 3 more }`
+</details>
 
-  - `killChain: number`
-
-  - `name: string`
-
-  - `uuid: string`
-
-  - `mitreAttack: optional array of string`
-
-  - `mitreCapec: optional array of string`
-
-  - `shortname: optional string`
-
-### Category Create Response
-
-- `CategoryCreateResponse object { killChain, name, uuid, 3 more }`
-
-  - `killChain: number`
-
-  - `name: string`
-
-  - `uuid: string`
-
-  - `mitreAttack: optional array of string`
-
-  - `mitreCapec: optional array of string`
-
-  - `shortname: optional string`
-
-### Category Edit Response
-
-- `CategoryEditResponse object { killChain, name, uuid, 3 more }`
-
-  - `killChain: number`
-
-  - `name: string`
-
-  - `uuid: string`
-
-  - `mitreAttack: optional array of string`
-
-  - `mitreCapec: optional array of string`
-
-  - `shortname: optional string`
-
-### Category Delete Response
-
-- `CategoryDeleteResponse object { uuid }`
-
-  - `uuid: string`
+[Link to this property](#)%20cloudforce_one.threat_events.categories.catalog%20%3E%20(model)%20catalog_list_response%20%3E%20(schema)>)

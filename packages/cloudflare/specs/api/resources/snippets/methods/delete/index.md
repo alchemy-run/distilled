@@ -1,66 +1,183 @@
-## Delete a zone snippet
+---
+title: Delete a zone snippet
+---
 
-**delete** `/zones/{zone_id}/snippets/{snippet_name}`
+[Skip to content](#_top)
 
-Deletes a snippet belonging to the zone.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Snippets](https://developers.cloudflare.com/api/resources/snippets)
 
-- `zone_id: string`
+Copy Markdown
 
-  Use this field to specify the unique ID of the zone.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `snippet_name: string`
+---
 
-  Identify the snippet.
+**Copy Markdown****View as Markdown**
 
-### Returns
+# Delete a zone snippet
 
-- `errors: array of object { message, code }`
+DELETE/zones/{zone\_id}/snippets/{snippet\_name}
 
-  Lists error messages.
+Deletes a snippet belonging to the zone. Returns a 4XX response if the zone or snippet no longer exists.
 
-  - `message: string`
+##### Security
 
-    Describes the message text.
+<details>
 
-  - `code: optional number`
+<summary>API Token</summary>
 
-    Identify the message code.
 
-- `messages: array of object { message, code }`
 
-  Contain warning messages.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    Describes the message text.
+</details>
 
-  - `code: optional number`
+<details>
 
-    Identify the message code.
+<summary>API Email + API Key</summary>
 
-- `result: unknown`
 
-  Contain the response result.
 
-- `success: true`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Indicate whether the API call was successful.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `true`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Example
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-```http
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Snippets Write`
+
+##### P ath ParametersExpand Collapse
+
+zone\_id: string
+
+Use this field to specify the unique ID of the zone.
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+snippet\_name: string
+
+Identify the snippet.
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20snippet_name%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message, code }
+
+Lists error messages.
+
+</summary>
+
+message: string
+
+Describes the message text.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+Identify the message code.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message, code }
+
+Contain warning messages.
+
+</summary>
+
+message: string
+
+Describes the message text.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+Identify the message code.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+result: unknown
+
+Contain the response result.
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Indicate whether the API call was successful.
+
+[Link to this property](#)%20snippets%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete a zone snippet
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/$SNIPPET_NAME \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "something bad happened",
+      "code": 10000
+    }
+  ],
+  "messages": [
+    {
+      "message": "something bad happened",
+      "code": 10000
+    }
+  ],
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

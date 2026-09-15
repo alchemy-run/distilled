@@ -1,77 +1,53 @@
+---
+title: Logos
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logos
 
-## Create new saved logo queries from image files
+##### [Create new saved logo queries from image files](https://developers.cloudflare.com/api/resources/brand_protection/subresources/logos/methods/create)
 
-**post** `/accounts/{account_id}/brand-protection/logos`
+POST/accounts/{account\_id}/brand-protection/logos
 
-Return new saved logo queries created from image files
+##### [Delete saved logo queries by ID](https://developers.cloudflare.com/api/resources/brand_protection/subresources/logos/methods/delete)
 
-### Path Parameters
+DELETE/accounts/{account\_id}/brand-protection/logos/{logo\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `match_type: optional string`
+<summary>
 
-- `tag: optional string`
+LogoCreateResponse object {id, tag, upload\_path }
 
-- `threshold: optional number`
+</summary>
 
-### Returns
+id: optional number
 
-- `id: optional number`
+<a href="#">Link to this property</a>
 
-- `tag: optional string`
+tag: optional string
 
-- `upload_path: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+upload\_path: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/logos \
-    -H 'Content-Type: application/x-www-form-urlencoded' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "id": 0,
-  "tag": "tag",
-  "upload_path": "upload_path"
-}
-```
-
-## Delete saved logo queries by ID
-
-**delete** `/accounts/{account_id}/brand-protection/logos/{logo_id}`
-
-Return a success message after deleting saved logo queries by ID
-
-### Path Parameters
-
-- `account_id: string`
-
-- `logo_id: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/logos/$LOGO_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### Logo Create Response
-
-- `LogoCreateResponse object { id, tag, upload_path }`
-
-  - `id: optional number`
-
-  - `tag: optional string`
-
-  - `upload_path: optional string`
+[Link to this property](#)%20brand_protection.logos%20%3E%20(model)%20logo_create_response%20%3E%20(schema)>)

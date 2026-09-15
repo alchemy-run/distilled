@@ -1,620 +1,159 @@
+---
+title: Custom Trust Store
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[ACM](https://developers.cloudflare.com/api/resources/acm)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Custom Trust Store
 
-## List Custom Origin Trust Store Details
+##### [List Custom Origin Trust Store Details](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store/methods/list)
 
-**get** `/zones/{zone_id}/acm/custom_trust_store`
+GET/zones/{zone\_id}/acm/custom\_trust\_store
 
-Get Custom Origin Trust Store for a Zone.
+##### [Upload Custom Origin Trust Store](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/acm/custom\_trust\_store
 
-- `zone_id: string`
+##### [Custom Origin Trust Store Details](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store/methods/get)
 
-  Identifier.
+GET/zones/{zone\_id}/acm/custom\_trust\_store/{custom\_origin\_trust\_store\_id}
 
-### Query Parameters
+##### [Delete Custom Origin Trust Store](https://developers.cloudflare.com/api/resources/acm/subresources/custom_trust_store/methods/delete)
 
-- `limit: optional number`
+DELETE/zones/{zone\_id}/acm/custom\_trust\_store/{custom\_origin\_trust\_store\_id}
 
-  Limit to the number of records returned.
+##### ModelsExpand Collapse
 
-- `offset: optional number`
+<details>
 
-  Offset the results.
+<summary>
 
-- `page: optional number`
+CustomTrustStore object {id, certificate, expires\_on, 5 more }
 
-  Page number of paginated results.
+</summary>
 
-- `per_page: optional number`
+id: string
 
-  Number of records per page.
+Identifier.
 
-### Returns
+maxLength32
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+certificate: string
 
-  - `message: string`
+The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+expires\_on: string
 
-    - `pointer: optional string`
+When the certificate expires.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+issuer: string
 
-  - `documentation_url: optional string`
+The certificate authority that issued the certificate.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+signature: string
 
-- `success: true`
+The type of hash used for the certificate.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional array of CustomTrustStore`
+<summary>
 
-  - `id: string`
+status: "initializing"or "pending\_deployment"or "active"or 3 more
 
-    Identifier.
+Status of the zone’s custom SSL.
 
-  - `certificate: string`
+</summary>
 
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
+One of the following:
 
-  - `expires_on: string`
+"initializing"
 
-    When the certificate expires.
+<a href="#">Link to this property</a>
 
-  - `issuer: string`
+"pending\_deployment"
 
-    The certificate authority that issued the certificate.
+<a href="#">Link to this property</a>
 
-  - `signature: string`
+"active"
 
-    The type of hash used for the certificate.
+<a href="#">Link to this property</a>
 
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
+"pending\_deletion"
 
-    Status of the zone's custom SSL.
+<a href="#">Link to this property</a>
 
-    - `"initializing"`
+"deleted"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"expired"
 
-    - `"pending_deletion"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+</details>
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+updated\_at: string
 
-    When the certificate was last modified.
+When the certificate was last modified.
 
-  - `uploaded_on: string`
+formatdate-time
 
-    When the certificate was uploaded to Cloudflare.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+uploaded\_on: string
 
-  - `count: optional number`
+When the certificate was uploaded to Cloudflare.
 
-    Total number of results for the requested service.
+formatdate-time
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(model)%20custom-trust-store%20%3E%20(schema)>)
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+CustomTrustStoreDeleteResponse object {id }
 
-  - `total_pages: optional number`
+</summary>
 
-    The number of total pages in the entire result set.
+id: optional string
 
-### Example
+Identifier.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "certificate": "-----BEGIN CERTIFICATE-----\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\n-----END CERTIFICATE-----\n",
-      "expires_on": "2122-10-29T16:59:47Z",
-      "issuer": "GlobalSign",
-      "signature": "SHA256WithRSA",
-      "status": "active",
-      "updated_at": "2014-01-01T05:20:00Z",
-      "uploaded_on": "2014-01-01T05:20:00Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+</details>
 
-## Upload Custom Origin Trust Store
-
-**post** `/zones/{zone_id}/acm/custom_trust_store`
-
-Upload a root CA certificate to the Custom Origin Trust Store for a Zone. Only root CA certificates are accepted.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `certificate: string`
-
-  The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomTrustStore`
-
-  - `id: string`
-
-    Identifier.
-
-  - `certificate: string`
-
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-  - `expires_on: string`
-
-    When the certificate expires.
-
-  - `issuer: string`
-
-    The certificate authority that issued the certificate.
-
-  - `signature: string`
-
-    The type of hash used for the certificate.
-
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
-
-    Status of the zone's custom SSL.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"active"`
-
-    - `"pending_deletion"`
-
-    - `"deleted"`
-
-    - `"expired"`
-
-  - `updated_at: string`
-
-    When the certificate was last modified.
-
-  - `uploaded_on: string`
-
-    When the certificate was uploaded to Cloudflare.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\\n-----END CERTIFICATE-----\\n"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\n-----END CERTIFICATE-----\n",
-    "expires_on": "2122-10-29T16:59:47Z",
-    "issuer": "GlobalSign",
-    "signature": "SHA256WithRSA",
-    "status": "active",
-    "updated_at": "2014-01-01T05:20:00Z",
-    "uploaded_on": "2014-01-01T05:20:00Z"
-  }
-}
-```
-
-## Custom Origin Trust Store Details
-
-**get** `/zones/{zone_id}/acm/custom_trust_store/{custom_origin_trust_store_id}`
-
-Retrieves details about a specific root CA certificate in the custom origin trust store, including expiration and subject information.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `custom_origin_trust_store_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomTrustStore`
-
-  - `id: string`
-
-    Identifier.
-
-  - `certificate: string`
-
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-  - `expires_on: string`
-
-    When the certificate expires.
-
-  - `issuer: string`
-
-    The certificate authority that issued the certificate.
-
-  - `signature: string`
-
-    The type of hash used for the certificate.
-
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
-
-    Status of the zone's custom SSL.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"active"`
-
-    - `"pending_deletion"`
-
-    - `"deleted"`
-
-    - `"expired"`
-
-  - `updated_at: string`
-
-    When the certificate was last modified.
-
-  - `uploaded_on: string`
-
-    When the certificate was uploaded to Cloudflare.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store/$CUSTOM_ORIGIN_TRUST_STORE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDdjCCAl6gAwIBAgIJAPnMg0Fs+/B0MA0GCSqGSIb3DQEBCwUAMFsx...\n-----END CERTIFICATE-----\n",
-    "expires_on": "2122-10-29T16:59:47Z",
-    "issuer": "GlobalSign",
-    "signature": "SHA256WithRSA",
-    "status": "active",
-    "updated_at": "2014-01-01T05:20:00Z",
-    "uploaded_on": "2014-01-01T05:20:00Z"
-  }
-}
-```
-
-## Delete Custom Origin Trust Store
-
-**delete** `/zones/{zone_id}/acm/custom_trust_store/{custom_origin_trust_store_id}`
-
-Removes a root CA certificate from the custom origin trust store. Origins using certificates signed by this CA will no longer be trusted.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `custom_origin_trust_store_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    Identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/custom_trust_store/$CUSTOM_ORIGIN_TRUST_STORE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### Custom Trust Store
-
-- `CustomTrustStore object { id, certificate, expires_on, 5 more }`
-
-  - `id: string`
-
-    Identifier.
-
-  - `certificate: string`
-
-    The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
-
-  - `expires_on: string`
-
-    When the certificate expires.
-
-  - `issuer: string`
-
-    The certificate authority that issued the certificate.
-
-  - `signature: string`
-
-    The type of hash used for the certificate.
-
-  - `status: "initializing" or "pending_deployment" or "active" or 3 more`
-
-    Status of the zone's custom SSL.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"active"`
-
-    - `"pending_deletion"`
-
-    - `"deleted"`
-
-    - `"expired"`
-
-  - `updated_at: string`
-
-    When the certificate was last modified.
-
-  - `uploaded_on: string`
-
-    When the certificate was uploaded to Cloudflare.
-
-### Custom Trust Store Delete Response
-
-- `CustomTrustStoreDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier.
+[Link to this property](#)%20acm.custom_trust_store%20%3E%20(model)%20custom_trust_store_delete_response%20%3E%20(schema)>)

@@ -1,4019 +1,3353 @@
+---
+title: Summary
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Email](https://developers.cloudflare.com/api/resources/radar/subresources/email)
+
+[Security](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Summary
 
-## Get email ARC validation summary
+##### [Get email ARC validation summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/arc)
 
-**get** `/radar/email/security/summary/arc`
+Deprecated
 
-Retrieves the distribution of emails by ARC (Authenticated Received Chain) validation.
+GET/radar/email/security/summary/arc
 
-### Query Parameters
+##### [Get email DKIM validation summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/dkim)
 
-- `dateEnd: optional array of string`
+Deprecated
 
-  End of the date range (inclusive).
+GET/radar/email/security/summary/dkim
 
-- `dateRange: optional array of string`
+##### [Get email DMARC validation summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/dmarc)
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+Deprecated
 
-- `dateStart: optional array of string`
+GET/radar/email/security/summary/dmarc
 
-  Start of the date range.
+##### [Get email malicious classification summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/malicious)
 
-- `dkim: optional array of "PASS" or "NONE" or "FAIL"`
+Deprecated
 
-  Filters results by DKIM (DomainKeys Identified Mail) validation status.
+GET/radar/email/security/summary/malicious
 
-  - `"PASS"`
+##### [Get email spam classification summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/spam)
 
-  - `"NONE"`
+Deprecated
 
-  - `"FAIL"`
+GET/radar/email/security/summary/spam
 
-- `dmarc: optional array of "PASS" or "NONE" or "FAIL"`
+##### [Get email SPF validation summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/spf)
 
-  Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.
+Deprecated
 
-  - `"PASS"`
+GET/radar/email/security/summary/spf
 
-  - `"NONE"`
+##### [Get email threat category summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/threat_category)
 
-  - `"FAIL"`
+Deprecated
 
-- `format: optional "JSON" or "CSV"`
+GET/radar/email/security/summary/threat\_category
 
-  Format in which results will be returned.
+##### [Get email spoof classification summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/spoof)
 
-  - `"JSON"`
+Deprecated
 
-  - `"CSV"`
+GET/radar/email/security/summary/spoof
 
-- `name: optional array of string`
+##### [Get email TLS version summary](https://developers.cloudflare.com/api/resources/radar/subresources/email/subresources/security/subresources/summary/methods/tls_version)
 
-  Array of names used to label the series in the response.
+Deprecated
 
-- `spf: optional array of "PASS" or "NONE" or "FAIL"`
+GET/radar/email/security/summary/tls\_version
 
-  Filters results by SPF (Sender Policy Framework) validation status.
+##### ModelsExpand Collapse
 
-  - `"PASS"`
+<details>
 
-  - `"NONE"`
+<summary>
 
-  - `"FAIL"`
+SummaryARCResponse object {meta, summary\_0 }
 
-- `tlsVersion: optional array of "TLSv1_0" or "TLSv1_1" or "TLSv1_2" or "TLSv1_3"`
+</summary>
 
-  Filters results by TLS version.
+<details>
 
-  - `"TLSv1_0"`
+<summary>
 
-  - `"TLSv1_1"`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-  - `"TLSv1_2"`
+Metadata for the results.
 
-  - `"TLSv1_3"`
+</summary>
 
-### Returns
+<details>
 
-- `result: object { meta, summary_0 }`
+<summary>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+confidenceInfo: object {annotations, level }
 
-    Metadata for the results.
+</summary>
 
-    - `confidenceInfo: object { annotations, level }`
+<details>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<summary>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-          Data source for annotations.
+</summary>
 
-          - `"ALL"`
+<details>
 
-          - `"AI_BOTS"`
+<summary>
 
-          - `"AI_GATEWAY"`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-          - `"BGP"`
+Data source for annotations.
 
-          - `"BOTS"`
+</summary>
 
-          - `"CONNECTION_ANOMALY"`
+One of the following:
 
-          - `"CT"`
+"ALL"
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+"AI\_BOTS"
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+"AI\_GATEWAY"
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+"BGP"
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+"BOTS"
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+"CONNECTION\_ANOMALY"
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+"CT"
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+"DNS"
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+"DNS\_MAGNITUDE"
 
-          - `"SPEED"`
+<a href="#">Link to this property</a>
 
-          - `"WORKERS_AI"`
+"DNS\_AS112"
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `endDate: string`
+"DOS"
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+"EMAIL\_ROUTING"
 
-          - `"EVENT"`
+<a href="#">Link to this property</a>
 
-          - `"GENERAL"`
+"EMAIL\_SECURITY"
 
-          - `"OUTAGE"`
+<a href="#">Link to this property</a>
 
-          - `"PARTIAL_PROJECTION"`
+"FW"
 
-          - `"PIPELINE"`
+<a href="#">Link to this property</a>
 
-          - `"TRAFFIC_ANOMALY"`
+"FW\_PG"
 
-        - `isInstantaneous: boolean`
+<a href="#">Link to this property</a>
 
-          Whether event is a single point in time or a time range.
+"HTTP"
 
-        - `linkedUrl: string`
+<a href="#">Link to this property</a>
 
-        - `startDate: string`
+"HTTP\_CONTROL"
 
-        - `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `level: number`
+"HTTP\_CRAWLER\_REFERER"
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+"HTTP\_ORIGINS"
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+"IQI"
 
-      - `startTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted start of date range.
+"LEAKED\_CREDENTIALS"
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+"NET"
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+"ROBOTS\_TXT"
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+"SPEED"
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+"WORKERS\_AI"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+</details>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+description: string
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+endDate: string
 
-      - `name: string`
+formatdate-time
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: RadarEmailSummary`
+<details>
 
-    - `FAIL: string`
+<summary>
 
-      A numeric string.
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-    - `NONE: string`
+Event type for annotations.
 
-      A numeric string.
+</summary>
 
-    - `PASS: string`
+One of the following:
 
-      A numeric string.
+"GENERAL"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"OUTAGE"
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/arc \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"PARTIAL\_PROJECTION"
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "FAIL": "10",
-      "NONE": "10",
-      "PASS": "10"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get email DKIM validation summary
+"PIPELINE"
 
-**get** `/radar/email/security/summary/dkim`
+<a href="#">Link to this property</a>
 
-Retrieves the distribution of emails by DKIM (DomainKeys Identified Mail) validation.
+"TRAFFIC\_ANOMALY"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `arc: optional array of "PASS" or "NONE" or "FAIL"`
+</details>
 
-  Filters results by ARC (Authenticated Received Chain) validation.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+isInstantaneous: boolean
 
-  - `"NONE"`
+Whether event is a single point in time or a time range.
 
-  - `"FAIL"`
+<a href="#">Link to this property</a>
 
-- `dateEnd: optional array of string`
+linkedUrl: string
 
-  End of the date range (inclusive).
+formaturi
 
-- `dateRange: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+startDate: string
 
-- `dateStart: optional array of string`
+formatdate-time
 
-  Start of the date range.
+<a href="#">Link to this property</a>
 
-- `dmarc: optional array of "PASS" or "NONE" or "FAIL"`
+tags: optional array of string
 
-  Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+</details>
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+level: number
 
-- `format: optional "JSON" or "CSV"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+</details>
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `name: optional array of string`
+<details>
 
-  Array of names used to label the series in the response.
+<summary>
 
-- `spf: optional array of "PASS" or "NONE" or "FAIL"`
+dateRange: array of object {endTime, startTime }
 
-  Filters results by SPF (Sender Policy Framework) validation status.
+</summary>
 
-  - `"PASS"`
+endTime: string
 
-  - `"NONE"`
+Adjusted end of date range.
 
-  - `"FAIL"`
+formatdate-time
 
-- `tlsVersion: optional array of "TLSv1_0" or "TLSv1_1" or "TLSv1_2" or "TLSv1_3"`
+<a href="#">Link to this property</a>
 
-  Filters results by TLS version.
+startTime: string
 
-  - `"TLSv1_0"`
+Adjusted start of date range.
 
-  - `"TLSv1_1"`
+formatdate-time
 
-  - `"TLSv1_2"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_3"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+lastUpdated: string
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+Timestamp of the last dataset update.
 
-    Metadata for the results.
+formatdate-time
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<details>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<summary>
 
-          Data source for annotations.
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-          - `"ALL"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-          - `"AI_BOTS"`
+</summary>
 
-          - `"AI_GATEWAY"`
+One of the following:
 
-          - `"BGP"`
+"PERCENTAGE"
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+"MIN0\_MAX"
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+"MIN\_MAX"
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+"RAW\_VALUES"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+"PERCENTAGE\_CHANGE"
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+"ROLLING\_AVERAGE"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"OVERLAPPED\_PERCENTAGE"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"RATIO"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+</details>
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+<details>
 
-          - `"ROBOTS_TXT"`
+<summary>
 
-          - `"SPEED"`
+units: array of object {name, value }
 
-          - `"WORKERS_AI"`
+Measurement units for the results.
 
-        - `description: string`
+</summary>
 
-        - `endDate: string`
+name: string
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+value: string
 
-          - `"EVENT"`
+<a href="#">Link to this property</a>
 
-          - `"GENERAL"`
+</details>
 
-          - `"OUTAGE"`
+<a href="#">Link to this property</a>
 
-          - `"PARTIAL_PROJECTION"`
+</details>
 
-          - `"PIPELINE"`
+<a href="#">Link to this property</a>
 
-          - `"TRAFFIC_ANOMALY"`
+summary\_0: <a href="https://developers.cloudflare.com/api/resources/radar#(resource)%20radar.email%20%3E%20(model)%20radar_email_summary%20%3E%20(schema)">RadarEmailSummary</a> { FAIL, NONE, PASS }
 
-        - `isInstantaneous: boolean`
+<a href="#">Link to this property</a>
 
-          Whether event is a single point in time or a time range.
+</details>
 
-        - `linkedUrl: string`
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_arc_response%20%3E%20(schema)>)
 
-        - `startDate: string`
+<details>
 
-        - `tags: optional array of string`
+<summary>
 
-      - `level: number`
+SummaryDKIMResponse object {meta, summary\_0 }
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+</summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+<details>
 
-      - `endTime: string`
+<summary>
 
-        Adjusted end of date range.
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-      - `startTime: string`
+Metadata for the results.
 
-        Adjusted start of date range.
+</summary>
 
-    - `lastUpdated: string`
+<details>
 
-      Timestamp of the last dataset update.
+<summary>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+confidenceInfo: object {annotations, level }
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+</summary>
 
-      - `"PERCENTAGE"`
+<details>
 
-      - `"MIN0_MAX"`
+<summary>
 
-      - `"MIN_MAX"`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-      - `"RAW_VALUES"`
+</summary>
 
-      - `"PERCENTAGE_CHANGE"`
+<details>
 
-      - `"ROLLING_AVERAGE"`
+<summary>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-      - `"RATIO"`
+Data source for annotations.
 
-    - `units: array of object { name, value }`
+</summary>
 
-      Measurement units for the results.
+One of the following:
 
-      - `name: string`
+"ALL"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: RadarEmailSummary`
+"AI\_BOTS"
 
-    - `FAIL: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+"AI\_GATEWAY"
 
-    - `NONE: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+"BGP"
 
-    - `PASS: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+"BOTS"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"CONNECTION\_ANOMALY"
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/dkim \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"CT"
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "FAIL": "10",
-      "NONE": "10",
-      "PASS": "10"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get email DMARC validation summary
+"DNS"
 
-**get** `/radar/email/security/summary/dmarc`
+<a href="#">Link to this property</a>
 
-Retrieves the distribution of emails by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation.
+"DNS\_MAGNITUDE"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `arc: optional array of "PASS" or "NONE" or "FAIL"`
+"DNS\_AS112"
 
-  Filters results by ARC (Authenticated Received Chain) validation.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+"DOS"
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+"EMAIL\_ROUTING"
 
-- `dateEnd: optional array of string`
+<a href="#">Link to this property</a>
 
-  End of the date range (inclusive).
+"EMAIL\_SECURITY"
 
-- `dateRange: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+"FW"
 
-- `dateStart: optional array of string`
+<a href="#">Link to this property</a>
 
-  Start of the date range.
+"FW\_PG"
 
-- `dkim: optional array of "PASS" or "NONE" or "FAIL"`
+<a href="#">Link to this property</a>
 
-  Filters results by DKIM (DomainKeys Identified Mail) validation status.
+"HTTP"
 
-  - `"PASS"`
+<a href="#">Link to this property</a>
 
-  - `"NONE"`
+"HTTP\_CONTROL"
 
-  - `"FAIL"`
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+"HTTP\_CRAWLER\_REFERER"
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+"HTTP\_ORIGINS"
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `name: optional array of string`
+"IQI"
 
-  Array of names used to label the series in the response.
+<a href="#">Link to this property</a>
 
-- `spf: optional array of "PASS" or "NONE" or "FAIL"`
+"LEAKED\_CREDENTIALS"
 
-  Filters results by SPF (Sender Policy Framework) validation status.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+"NET"
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+"ROBOTS\_TXT"
 
-- `tlsVersion: optional array of "TLSv1_0" or "TLSv1_1" or "TLSv1_2" or "TLSv1_3"`
+<a href="#">Link to this property</a>
 
-  Filters results by TLS version.
+"SPEED"
 
-  - `"TLSv1_0"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_1"`
+"WORKERS\_AI"
 
-  - `"TLSv1_2"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_3"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+description: string
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+endDate: string
 
-    - `confidenceInfo: object { annotations, level }`
+formatdate-time
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<details>
 
-          Data source for annotations.
+<summary>
 
-          - `"ALL"`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-          - `"AI_BOTS"`
+Event type for annotations.
 
-          - `"AI_GATEWAY"`
+</summary>
 
-          - `"BGP"`
+One of the following:
 
-          - `"BOTS"`
+"GENERAL"
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+"OUTAGE"
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+"PARTIAL\_PROJECTION"
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+"PIPELINE"
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+"TRAFFIC\_ANOMALY"
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+</details>
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+isInstantaneous: boolean
 
-          - `"HTTP_CRAWLER_REFERER"`
+Whether event is a single point in time or a time range.
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+linkedUrl: string
 
-          - `"LEAKED_CREDENTIALS"`
+formaturi
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+startDate: string
 
-          - `"SPEED"`
+formatdate-time
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+tags: optional array of string
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+</details>
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+level: number
 
-          - `"GENERAL"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-          - `"OUTAGE"`
+<a href="#">Link to this property</a>
 
-          - `"PARTIAL_PROJECTION"`
+</details>
 
-          - `"PIPELINE"`
+<a href="#">Link to this property</a>
 
-          - `"TRAFFIC_ANOMALY"`
+<details>
 
-        - `isInstantaneous: boolean`
+<summary>
 
-          Whether event is a single point in time or a time range.
+dateRange: array of object {endTime, startTime }
 
-        - `linkedUrl: string`
+</summary>
 
-        - `startDate: string`
+endTime: string
 
-        - `tags: optional array of string`
+Adjusted end of date range.
 
-      - `level: number`
+formatdate-time
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+startTime: string
 
-      - `endTime: string`
+Adjusted start of date range.
 
-        Adjusted end of date range.
+formatdate-time
 
-      - `startTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted start of date range.
+</details>
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+lastUpdated: string
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+Timestamp of the last dataset update.
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+formatdate-time
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+<details>
 
-      - `"MIN_MAX"`
+<summary>
 
-      - `"RAW_VALUES"`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-      - `"PERCENTAGE_CHANGE"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-      - `"ROLLING_AVERAGE"`
+</summary>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+One of the following:
 
-      - `"RATIO"`
+"PERCENTAGE"
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+"MIN0\_MAX"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"MIN\_MAX"
 
-  - `summary_0: RadarEmailSummary`
+<a href="#">Link to this property</a>
 
-    - `FAIL: string`
+"RAW\_VALUES"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `NONE: string`
+"PERCENTAGE\_CHANGE"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `PASS: string`
+"ROLLING\_AVERAGE"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"OVERLAPPED\_PERCENTAGE"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/dmarc \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"RATIO"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "FAIL": "10",
-      "NONE": "10",
-      "PASS": "10"
-    }
-  },
-  "success": true
-}
-```
+</details>
 
-## Get email malicious classification summary
+<a href="#">Link to this property</a>
 
-**get** `/radar/email/security/summary/malicious`
+<details>
 
-Retrieves the distribution of emails by malicious classification.
+<summary>
 
-### Query Parameters
+units: array of object {name, value }
 
-- `arc: optional array of "PASS" or "NONE" or "FAIL"`
+Measurement units for the results.
 
-  Filters results by ARC (Authenticated Received Chain) validation.
+</summary>
 
-  - `"PASS"`
+name: string
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+value: string
 
-- `dateEnd: optional array of string`
+<a href="#">Link to this property</a>
 
-  End of the date range (inclusive).
+</details>
 
-- `dateRange: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+</details>
 
-- `dateStart: optional array of string`
+<a href="#">Link to this property</a>
 
-  Start of the date range.
+summary\_0: <a href="https://developers.cloudflare.com/api/resources/radar#(resource)%20radar.email%20%3E%20(model)%20radar_email_summary%20%3E%20(schema)">RadarEmailSummary</a> { FAIL, NONE, PASS }
 
-- `dkim: optional array of "PASS" or "NONE" or "FAIL"`
+<a href="#">Link to this property</a>
 
-  Filters results by DKIM (DomainKeys Identified Mail) validation status.
+</details>
 
-  - `"PASS"`
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_dkim_response%20%3E%20(schema)>)
 
-  - `"NONE"`
+<details>
 
-  - `"FAIL"`
+<summary>
 
-- `dmarc: optional array of "PASS" or "NONE" or "FAIL"`
+SummaryDMARCResponse object {meta, summary\_0 }
 
-  Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.
+</summary>
 
-  - `"PASS"`
+<details>
 
-  - `"NONE"`
+<summary>
 
-  - `"FAIL"`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-- `format: optional "JSON" or "CSV"`
+Metadata for the results.
 
-  Format in which results will be returned.
+</summary>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `name: optional array of string`
+confidenceInfo: object {annotations, level }
 
-  Array of names used to label the series in the response.
+</summary>
 
-- `spf: optional array of "PASS" or "NONE" or "FAIL"`
+<details>
 
-  Filters results by SPF (Sender Policy Framework) validation status.
+<summary>
 
-  - `"PASS"`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-  - `"NONE"`
+</summary>
 
-  - `"FAIL"`
+<details>
 
-- `tlsVersion: optional array of "TLSv1_0" or "TLSv1_1" or "TLSv1_2" or "TLSv1_3"`
+<summary>
 
-  Filters results by TLS version.
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-  - `"TLSv1_0"`
+Data source for annotations.
 
-  - `"TLSv1_1"`
+</summary>
 
-  - `"TLSv1_2"`
+One of the following:
 
-  - `"TLSv1_3"`
+"ALL"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+"AI\_BOTS"
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+"AI\_GATEWAY"
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"BGP"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+"BOTS"
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+"CONNECTION\_ANOMALY"
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+"CT"
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+"DNS"
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+"DNS\_MAGNITUDE"
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+"DNS\_AS112"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+"DOS"
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+"EMAIL\_ROUTING"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"EMAIL\_SECURITY"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"FW"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"FW\_PG"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"HTTP"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+"HTTP\_CONTROL"
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+"HTTP\_CRAWLER\_REFERER"
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+"HTTP\_ORIGINS"
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+"IQI"
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+"LEAKED\_CREDENTIALS"
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+"NET"
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+"ROBOTS\_TXT"
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+"SPEED"
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+"WORKERS\_AI"
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+</details>
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+description: string
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+endDate: string
 
-        Adjusted start of date range.
+formatdate-time
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+<details>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<summary>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-      - `"PERCENTAGE"`
+Event type for annotations.
 
-      - `"MIN0_MAX"`
+</summary>
 
-      - `"MIN_MAX"`
+One of the following:
 
-      - `"RAW_VALUES"`
+"GENERAL"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+"OUTAGE"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+"PARTIAL\_PROJECTION"
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+"PIPELINE"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"TRAFFIC\_ANOMALY"
 
-  - `summary_0: object { MALICIOUS, NOT_MALICIOUS }`
+<a href="#">Link to this property</a>
 
-    - `MALICIOUS: string`
+</details>
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `NOT_MALICIOUS: string`
+isInstantaneous: boolean
 
-      A numeric string.
+Whether event is a single point in time or a time range.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+linkedUrl: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/malicious \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formaturi
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "MALICIOUS": "10",
-      "NOT_MALICIOUS": "10"
-    }
-  },
-  "success": true
-}
-```
+startDate: string
 
-## Get email spam classification summary
+formatdate-time
 
-**get** `/radar/email/security/summary/spam`
+<a href="#">Link to this property</a>
 
-Retrieves the proportion of emails by spam classification (spam vs. non-spam).
+tags: optional array of string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `arc: optional array of "PASS" or "NONE" or "FAIL"`
+</details>
 
-  Filters results by ARC (Authenticated Received Chain) validation.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+level: number
 
-  - `"NONE"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-  - `"FAIL"`
+<a href="#">Link to this property</a>
 
-- `dateEnd: optional array of string`
+</details>
 
-  End of the date range (inclusive).
+<a href="#">Link to this property</a>
 
-- `dateRange: optional array of string`
+<details>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+<summary>
 
-- `dateStart: optional array of string`
+dateRange: array of object {endTime, startTime }
 
-  Start of the date range.
+</summary>
 
-- `dkim: optional array of "PASS" or "NONE" or "FAIL"`
+endTime: string
 
-  Filters results by DKIM (DomainKeys Identified Mail) validation status.
+Adjusted end of date range.
 
-  - `"PASS"`
+formatdate-time
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+startTime: string
 
-- `dmarc: optional array of "PASS" or "NONE" or "FAIL"`
+Adjusted start of date range.
 
-  Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.
+formatdate-time
 
-  - `"PASS"`
+<a href="#">Link to this property</a>
 
-  - `"NONE"`
+</details>
 
-  - `"FAIL"`
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+lastUpdated: string
 
-  Format in which results will be returned.
+Timestamp of the last dataset update.
 
-  - `"JSON"`
+formatdate-time
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `name: optional array of string`
+<details>
 
-  Array of names used to label the series in the response.
+<summary>
 
-- `spf: optional array of "PASS" or "NONE" or "FAIL"`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-  Filters results by SPF (Sender Policy Framework) validation status.
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-  - `"PASS"`
+</summary>
 
-  - `"NONE"`
+One of the following:
 
-  - `"FAIL"`
+"PERCENTAGE"
 
-- `tlsVersion: optional array of "TLSv1_0" or "TLSv1_1" or "TLSv1_2" or "TLSv1_3"`
+<a href="#">Link to this property</a>
 
-  Filters results by TLS version.
+"MIN0\_MAX"
 
-  - `"TLSv1_0"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_1"`
+"MIN\_MAX"
 
-  - `"TLSv1_2"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_3"`
+"RAW\_VALUES"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+"PERCENTAGE\_CHANGE"
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+"ROLLING\_AVERAGE"
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"OVERLAPPED\_PERCENTAGE"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+"RATIO"
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+</details>
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+<details>
 
-          - `"BOTS"`
+<summary>
 
-          - `"CONNECTION_ANOMALY"`
+units: array of object {name, value }
 
-          - `"CT"`
+Measurement units for the results.
 
-          - `"DNS"`
+</summary>
 
-          - `"DNS_MAGNITUDE"`
+name: string
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+value: string
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+</details>
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+</details>
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+summary\_0: <a href="https://developers.cloudflare.com/api/resources/radar#(resource)%20radar.email%20%3E%20(model)%20radar_email_summary%20%3E%20(schema)">RadarEmailSummary</a> { FAIL, NONE, PASS }
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+</details>
 
-          - `"IQI"`
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_dmarc_response%20%3E%20(schema)>)
 
-          - `"LEAKED_CREDENTIALS"`
+<details>
 
-          - `"NET"`
+<summary>
 
-          - `"ROBOTS_TXT"`
+SummaryMaliciousResponse object {meta, summary\_0 }
 
-          - `"SPEED"`
+</summary>
 
-          - `"WORKERS_AI"`
+<details>
 
-        - `description: string`
+<summary>
 
-        - `endDate: string`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+Metadata for the results.
 
-          Event type for annotations.
+</summary>
 
-          - `"EVENT"`
+<details>
 
-          - `"GENERAL"`
+<summary>
 
-          - `"OUTAGE"`
+confidenceInfo: object {annotations, level }
 
-          - `"PARTIAL_PROJECTION"`
+</summary>
 
-          - `"PIPELINE"`
+<details>
 
-          - `"TRAFFIC_ANOMALY"`
+<summary>
 
-        - `isInstantaneous: boolean`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-          Whether event is a single point in time or a time range.
+</summary>
 
-        - `linkedUrl: string`
+<details>
 
-        - `startDate: string`
+<summary>
 
-        - `tags: optional array of string`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-      - `level: number`
+Data source for annotations.
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+</summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+One of the following:
 
-      - `endTime: string`
+"ALL"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"AI\_BOTS"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"AI\_GATEWAY"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"BGP"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"BOTS"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+"CONNECTION\_ANOMALY"
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+"CT"
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+"DNS"
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+"DNS\_MAGNITUDE"
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"DNS\_AS112"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: object { NOT_SPAM, SPAM }`
+"DOS"
 
-    - `NOT_SPAM: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+"EMAIL\_ROUTING"
 
-    - `SPAM: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+"EMAIL\_SECURITY"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"FW"
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/spam \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"FW\_PG"
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "NOT_SPAM": "10",
-      "SPAM": "10"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get email SPF validation summary
+"HTTP"
 
-**get** `/radar/email/security/summary/spf`
+<a href="#">Link to this property</a>
 
-Retrieves the distribution of emails by SPF (Sender Policy Framework) validation.
+"HTTP\_CONTROL"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `arc: optional array of "PASS" or "NONE" or "FAIL"`
+"HTTP\_CRAWLER\_REFERER"
 
-  Filters results by ARC (Authenticated Received Chain) validation.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+"HTTP\_ORIGINS"
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+"IQI"
 
-- `dateEnd: optional array of string`
+<a href="#">Link to this property</a>
 
-  End of the date range (inclusive).
+"LEAKED\_CREDENTIALS"
 
-- `dateRange: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+"NET"
 
-- `dateStart: optional array of string`
+<a href="#">Link to this property</a>
 
-  Start of the date range.
+"ROBOTS\_TXT"
 
-- `dkim: optional array of "PASS" or "NONE" or "FAIL"`
+<a href="#">Link to this property</a>
 
-  Filters results by DKIM (DomainKeys Identified Mail) validation status.
+"SPEED"
 
-  - `"PASS"`
+<a href="#">Link to this property</a>
 
-  - `"NONE"`
+"WORKERS\_AI"
 
-  - `"FAIL"`
+<a href="#">Link to this property</a>
 
-- `dmarc: optional array of "PASS" or "NONE" or "FAIL"`
+</details>
 
-  Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+description: string
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+endDate: string
 
-- `format: optional "JSON" or "CSV"`
+formatdate-time
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `name: optional array of string`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-  Array of names used to label the series in the response.
+Event type for annotations.
 
-- `tlsVersion: optional array of "TLSv1_0" or "TLSv1_1" or "TLSv1_2" or "TLSv1_3"`
+</summary>
 
-  Filters results by TLS version.
+One of the following:
 
-  - `"TLSv1_0"`
+"GENERAL"
 
-  - `"TLSv1_1"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_2"`
+"OUTAGE"
 
-  - `"TLSv1_3"`
+<a href="#">Link to this property</a>
 
-### Returns
+"PARTIAL\_PROJECTION"
 
-- `result: object { meta, summary_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+"PIPELINE"
 
-    Metadata for the results.
+<a href="#">Link to this property</a>
 
-    - `confidenceInfo: object { annotations, level }`
+"TRAFFIC\_ANOMALY"
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</details>
 
-          Data source for annotations.
+<a href="#">Link to this property</a>
 
-          - `"ALL"`
+isInstantaneous: boolean
 
-          - `"AI_BOTS"`
+Whether event is a single point in time or a time range.
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+linkedUrl: string
 
-          - `"BOTS"`
+formaturi
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+startDate: string
 
-          - `"DNS"`
+formatdate-time
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+tags: optional array of string
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+</details>
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+level: number
 
-          - `"FW_PG"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+</details>
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+<details>
 
-          - `"IQI"`
+<summary>
 
-          - `"LEAKED_CREDENTIALS"`
+dateRange: array of object {endTime, startTime }
 
-          - `"NET"`
+</summary>
 
-          - `"ROBOTS_TXT"`
+endTime: string
 
-          - `"SPEED"`
+Adjusted end of date range.
 
-          - `"WORKERS_AI"`
+formatdate-time
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `endDate: string`
+startTime: string
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+Adjusted start of date range.
 
-          Event type for annotations.
+formatdate-time
 
-          - `"EVENT"`
+<a href="#">Link to this property</a>
 
-          - `"GENERAL"`
+</details>
 
-          - `"OUTAGE"`
+<a href="#">Link to this property</a>
 
-          - `"PARTIAL_PROJECTION"`
+lastUpdated: string
 
-          - `"PIPELINE"`
+Timestamp of the last dataset update.
 
-          - `"TRAFFIC_ANOMALY"`
+formatdate-time
 
-        - `isInstantaneous: boolean`
+<a href="#">Link to this property</a>
 
-          Whether event is a single point in time or a time range.
+<details>
 
-        - `linkedUrl: string`
+<summary>
 
-        - `startDate: string`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-        - `tags: optional array of string`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-      - `level: number`
+</summary>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+One of the following:
 
-    - `dateRange: array of object { endTime, startTime }`
+"PERCENTAGE"
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+"MIN0\_MAX"
 
-      - `startTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted start of date range.
+"MIN\_MAX"
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+"RAW\_VALUES"
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+"PERCENTAGE\_CHANGE"
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+"ROLLING\_AVERAGE"
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+"OVERLAPPED\_PERCENTAGE"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+"RATIO"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+</details>
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+<details>
 
-      - `name: string`
+<summary>
 
-      - `value: string`
+units: array of object {name, value }
 
-  - `summary_0: RadarEmailSummary`
+Measurement units for the results.
 
-    - `FAIL: string`
+</summary>
 
-      A numeric string.
+name: string
 
-    - `NONE: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+value: string
 
-    - `PASS: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/spf \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "FAIL": "10",
-      "NONE": "10",
-      "PASS": "10"
-    }
-  },
-  "success": true
-}
-```
+<summary>
 
-## Get email threat category summary
+summary\_0: object {MALICIOUS, NOT\_MALICIOUS }
 
-**get** `/radar/email/security/summary/threat_category`
+</summary>
 
-Retrieves the distribution of emails by threat categories.
+MALICIOUS: string
 
-### Query Parameters
+A numeric string.
 
-- `arc: optional array of "PASS" or "NONE" or "FAIL"`
+<a href="#">Link to this property</a>
 
-  Filters results by ARC (Authenticated Received Chain) validation.
+NOT\_MALICIOUS: string
 
-  - `"PASS"`
+A numeric string.
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+</details>
 
-- `dateEnd: optional array of string`
+<a href="#">Link to this property</a>
 
-  End of the date range (inclusive).
+</details>
 
-- `dateRange: optional array of string`
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_malicious_response%20%3E%20(schema)>)
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+<details>
 
-- `dateStart: optional array of string`
+<summary>
 
-  Start of the date range.
+SummarySpamResponse object {meta, summary\_0 }
 
-- `dkim: optional array of "PASS" or "NONE" or "FAIL"`
+</summary>
 
-  Filters results by DKIM (DomainKeys Identified Mail) validation status.
+<details>
 
-  - `"PASS"`
+<summary>
 
-  - `"NONE"`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-  - `"FAIL"`
+Metadata for the results.
 
-- `dmarc: optional array of "PASS" or "NONE" or "FAIL"`
+</summary>
 
-  Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.
+<details>
 
-  - `"PASS"`
+<summary>
 
-  - `"NONE"`
+confidenceInfo: object {annotations, level }
 
-  - `"FAIL"`
+</summary>
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>
 
-  - `"JSON"`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-  - `"CSV"`
+</summary>
 
-- `name: optional array of string`
+<details>
 
-  Array of names used to label the series in the response.
+<summary>
 
-- `spf: optional array of "PASS" or "NONE" or "FAIL"`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-  Filters results by SPF (Sender Policy Framework) validation status.
+Data source for annotations.
 
-  - `"PASS"`
+</summary>
 
-  - `"NONE"`
+One of the following:
 
-  - `"FAIL"`
+"ALL"
 
-- `tlsVersion: optional array of "TLSv1_0" or "TLSv1_1" or "TLSv1_2" or "TLSv1_3"`
+<a href="#">Link to this property</a>
 
-  Filters results by TLS version.
+"AI\_BOTS"
 
-  - `"TLSv1_0"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_1"`
+"AI\_GATEWAY"
 
-  - `"TLSv1_2"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_3"`
+"BGP"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+"BOTS"
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+"CONNECTION\_ANOMALY"
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"CT"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+"DNS"
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+"DNS\_MAGNITUDE"
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+"DNS\_AS112"
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+"DOS"
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+"EMAIL\_ROUTING"
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+"EMAIL\_SECURITY"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+"FW"
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+"FW\_PG"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"HTTP"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"HTTP\_CONTROL"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"HTTP\_CRAWLER\_REFERER"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"HTTP\_ORIGINS"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+"IQI"
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+"LEAKED\_CREDENTIALS"
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+"NET"
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+"ROBOTS\_TXT"
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+"SPEED"
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+"WORKERS\_AI"
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+</details>
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+description: string
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+endDate: string
 
-      - `level: number`
+formatdate-time
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+<details>
 
-      - `endTime: string`
+<summary>
 
-        Adjusted end of date range.
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-      - `startTime: string`
+Event type for annotations.
 
-        Adjusted start of date range.
+</summary>
 
-    - `lastUpdated: string`
+One of the following:
 
-      Timestamp of the last dataset update.
+"GENERAL"
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+"OUTAGE"
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+"PARTIAL\_PROJECTION"
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+"PIPELINE"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+"TRAFFIC\_ANOMALY"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+</details>
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+isInstantaneous: boolean
 
-      - `name: string`
+Whether event is a single point in time or a time range.
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: object { BrandImpersonation, CredentialHarvester, IdentityDeception, Link }`
+linkedUrl: string
 
-    - `BrandImpersonation: string`
+formaturi
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `CredentialHarvester: string`
+startDate: string
 
-      A numeric string.
+formatdate-time
 
-    - `IdentityDeception: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+tags: optional array of string
 
-    - `Link: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+level: number
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/threat_category \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Provides an indication of how much confidence Cloudflare has in the data.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "BrandImpersonation": "10",
-      "CredentialHarvester": "10",
-      "IdentityDeception": "10",
-      "Link": "10"
-    }
-  },
-  "success": true
-}
-```
+</details>
 
-## Get email spoof classification summary
+<a href="#">Link to this property</a>
 
-**get** `/radar/email/security/summary/spoof`
+<details>
 
-Retrieves the proportion of emails by spoof classification (spoof vs. non-spoof).
+<summary>
 
-### Query Parameters
+dateRange: array of object {endTime, startTime }
 
-- `arc: optional array of "PASS" or "NONE" or "FAIL"`
+</summary>
 
-  Filters results by ARC (Authenticated Received Chain) validation.
+endTime: string
 
-  - `"PASS"`
+Adjusted end of date range.
 
-  - `"NONE"`
+formatdate-time
 
-  - `"FAIL"`
+<a href="#">Link to this property</a>
 
-- `dateEnd: optional array of string`
+startTime: string
 
-  End of the date range (inclusive).
+Adjusted start of date range.
 
-- `dateRange: optional array of string`
+formatdate-time
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+<a href="#">Link to this property</a>
 
-- `dateStart: optional array of string`
+</details>
 
-  Start of the date range.
+<a href="#">Link to this property</a>
 
-- `dkim: optional array of "PASS" or "NONE" or "FAIL"`
+lastUpdated: string
 
-  Filters results by DKIM (DomainKeys Identified Mail) validation status.
+Timestamp of the last dataset update.
 
-  - `"PASS"`
+formatdate-time
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+<details>
 
-- `dmarc: optional array of "PASS" or "NONE" or "FAIL"`
+<summary>
 
-  Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-  - `"PASS"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-  - `"NONE"`
+</summary>
 
-  - `"FAIL"`
+One of the following:
 
-- `format: optional "JSON" or "CSV"`
+"PERCENTAGE"
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+"MIN0\_MAX"
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `name: optional array of string`
+"MIN\_MAX"
 
-  Array of names used to label the series in the response.
+<a href="#">Link to this property</a>
 
-- `spf: optional array of "PASS" or "NONE" or "FAIL"`
+"RAW\_VALUES"
 
-  Filters results by SPF (Sender Policy Framework) validation status.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+"PERCENTAGE\_CHANGE"
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+"ROLLING\_AVERAGE"
 
-- `tlsVersion: optional array of "TLSv1_0" or "TLSv1_1" or "TLSv1_2" or "TLSv1_3"`
+<a href="#">Link to this property</a>
 
-  Filters results by TLS version.
+"OVERLAPPED\_PERCENTAGE"
 
-  - `"TLSv1_0"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_1"`
+"RATIO"
 
-  - `"TLSv1_2"`
+<a href="#">Link to this property</a>
 
-  - `"TLSv1_3"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+<details>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<summary>
 
-    Metadata for the results.
+units: array of object {name, value }
 
-    - `confidenceInfo: object { annotations, level }`
+Measurement units for the results.
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+</summary>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+name: string
 
-          Data source for annotations.
+<a href="#">Link to this property</a>
 
-          - `"ALL"`
+value: string
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+</details>
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+</details>
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+<details>
 
-          - `"DNS"`
+<summary>
 
-          - `"DNS_MAGNITUDE"`
+summary\_0: object {NOT\_SPAM, SPAM }
 
-          - `"DNS_AS112"`
+</summary>
 
-          - `"DOS"`
+NOT\_SPAM: string
 
-          - `"EMAIL_ROUTING"`
+A numeric string.
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+SPAM: string
 
-          - `"FW_PG"`
+A numeric string.
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+</details>
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+</details>
 
-          - `"IQI"`
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_spam_response%20%3E%20(schema)>)
 
-          - `"LEAKED_CREDENTIALS"`
+<details>
 
-          - `"NET"`
+<summary>
 
-          - `"ROBOTS_TXT"`
+SummarySPFResponse object {meta, summary\_0 }
 
-          - `"SPEED"`
+</summary>
 
-          - `"WORKERS_AI"`
+<details>
 
-        - `description: string`
+<summary>
 
-        - `endDate: string`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+Metadata for the results.
 
-          Event type for annotations.
+</summary>
 
-          - `"EVENT"`
+<details>
 
-          - `"GENERAL"`
+<summary>
 
-          - `"OUTAGE"`
+confidenceInfo: object {annotations, level }
 
-          - `"PARTIAL_PROJECTION"`
+</summary>
 
-          - `"PIPELINE"`
+<details>
 
-          - `"TRAFFIC_ANOMALY"`
+<summary>
 
-        - `isInstantaneous: boolean`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-          Whether event is a single point in time or a time range.
+</summary>
 
-        - `linkedUrl: string`
+<details>
 
-        - `startDate: string`
+<summary>
 
-        - `tags: optional array of string`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-      - `level: number`
+Data source for annotations.
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+</summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+One of the following:
 
-      - `endTime: string`
+"ALL"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"AI\_BOTS"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"AI\_GATEWAY"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"BGP"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"BOTS"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+"CONNECTION\_ANOMALY"
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+"CT"
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+"DNS"
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+"DNS\_MAGNITUDE"
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"DNS\_AS112"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: object { NOT_SPOOF, SPOOF }`
+"DOS"
 
-    - `NOT_SPOOF: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+"EMAIL\_ROUTING"
 
-    - `SPOOF: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+"EMAIL\_SECURITY"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"FW"
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/spoof \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"FW\_PG"
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "NOT_SPOOF": "10",
-      "SPOOF": "10"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get email TLS version summary
+"HTTP"
 
-**get** `/radar/email/security/summary/tls_version`
+<a href="#">Link to this property</a>
 
-Retrieves the distribution of emails by TLS version.
+"HTTP\_CONTROL"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `arc: optional array of "PASS" or "NONE" or "FAIL"`
+"HTTP\_CRAWLER\_REFERER"
 
-  Filters results by ARC (Authenticated Received Chain) validation.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+"HTTP\_ORIGINS"
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+"IQI"
 
-- `dateEnd: optional array of string`
+<a href="#">Link to this property</a>
 
-  End of the date range (inclusive).
+"LEAKED\_CREDENTIALS"
 
-- `dateRange: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+"NET"
 
-- `dateStart: optional array of string`
+<a href="#">Link to this property</a>
 
-  Start of the date range.
+"ROBOTS\_TXT"
 
-- `dkim: optional array of "PASS" or "NONE" or "FAIL"`
+<a href="#">Link to this property</a>
 
-  Filters results by DKIM (DomainKeys Identified Mail) validation status.
+"SPEED"
 
-  - `"PASS"`
+<a href="#">Link to this property</a>
 
-  - `"NONE"`
+"WORKERS\_AI"
 
-  - `"FAIL"`
+<a href="#">Link to this property</a>
 
-- `dmarc: optional array of "PASS" or "NONE" or "FAIL"`
+</details>
 
-  Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.
+<a href="#">Link to this property</a>
 
-  - `"PASS"`
+description: string
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+endDate: string
 
-- `format: optional "JSON" or "CSV"`
+formatdate-time
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `name: optional array of string`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-  Array of names used to label the series in the response.
+Event type for annotations.
 
-- `spf: optional array of "PASS" or "NONE" or "FAIL"`
+</summary>
 
-  Filters results by SPF (Sender Policy Framework) validation status.
+One of the following:
 
-  - `"PASS"`
+"GENERAL"
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `"FAIL"`
+"OUTAGE"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+"PARTIAL\_PROJECTION"
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+"PIPELINE"
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"TRAFFIC\_ANOMALY"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+</details>
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+isInstantaneous: boolean
 
-          - `"AI_GATEWAY"`
+Whether event is a single point in time or a time range.
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+linkedUrl: string
 
-          - `"CONNECTION_ANOMALY"`
+formaturi
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+startDate: string
 
-          - `"DNS_MAGNITUDE"`
+formatdate-time
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+tags: optional array of string
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+</details>
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+level: number
 
-          - `"HTTP"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+</details>
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+<details>
 
-          - `"LEAKED_CREDENTIALS"`
+<summary>
 
-          - `"NET"`
+dateRange: array of object {endTime, startTime }
 
-          - `"ROBOTS_TXT"`
+</summary>
 
-          - `"SPEED"`
+endTime: string
 
-          - `"WORKERS_AI"`
+Adjusted end of date range.
 
-        - `description: string`
+formatdate-time
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+startTime: string
 
-          Event type for annotations.
+Adjusted start of date range.
 
-          - `"EVENT"`
+formatdate-time
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+</details>
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+lastUpdated: string
 
-          - `"TRAFFIC_ANOMALY"`
+Timestamp of the last dataset update.
 
-        - `isInstantaneous: boolean`
+formatdate-time
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+<details>
 
-        - `startDate: string`
+<summary>
 
-        - `tags: optional array of string`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-      - `level: number`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+</summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+One of the following:
 
-      - `endTime: string`
+"PERCENTAGE"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"MIN0\_MAX"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"MIN\_MAX"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"RAW\_VALUES"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"PERCENTAGE\_CHANGE"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+"ROLLING\_AVERAGE"
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+"OVERLAPPED\_PERCENTAGE"
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+"RATIO"
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+</details>
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+<details>
 
-      - `value: string`
+<summary>
 
-  - `summary_0: object { "TLS 1.0", "TLS 1.1", "TLS 1.2", "TLS 1.3" }`
+units: array of object {name, value }
 
-    - `"TLS 1.0": string`
+Measurement units for the results.
 
-      A numeric string.
+</summary>
 
-    - `"TLS 1.1": string`
+name: string
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `"TLS 1.2": string`
+value: string
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `"TLS 1.3": string`
+</details>
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/email/security/summary/tls_version \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+summary\_0: <a href="https://developers.cloudflare.com/api/resources/radar#(resource)%20radar.email%20%3E%20(model)%20radar_email_summary%20%3E%20(schema)">RadarEmailSummary</a> { FAIL, NONE, PASS }
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ]
-    },
-    "summary_0": {
-      "TLS 1.0": "10",
-      "TLS 1.1": "10",
-      "TLS 1.2": "10",
-      "TLS 1.3": "10"
-    }
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_spf_response%20%3E%20(schema)>)
 
-### Summary ARC Response
+<details>
 
-- `SummaryARCResponse object { meta, summary_0 }`
+<summary>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+SummaryThreatCategoryResponse object {meta, summary\_0 }
 
-    Metadata for the results.
+</summary>
 
-    - `confidenceInfo: object { annotations, level }`
+<details>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<summary>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-          Data source for annotations.
+Metadata for the results.
 
-          - `"ALL"`
+</summary>
 
-          - `"AI_BOTS"`
+<details>
 
-          - `"AI_GATEWAY"`
+<summary>
 
-          - `"BGP"`
+confidenceInfo: object {annotations, level }
 
-          - `"BOTS"`
+</summary>
 
-          - `"CONNECTION_ANOMALY"`
+<details>
 
-          - `"CT"`
+<summary>
 
-          - `"DNS"`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-          - `"DNS_MAGNITUDE"`
+</summary>
 
-          - `"DNS_AS112"`
+<details>
 
-          - `"DOS"`
+<summary>
 
-          - `"EMAIL_ROUTING"`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-          - `"EMAIL_SECURITY"`
+Data source for annotations.
 
-          - `"FW"`
+</summary>
 
-          - `"FW_PG"`
+One of the following:
 
-          - `"HTTP"`
+"ALL"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"AI\_BOTS"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"AI\_GATEWAY"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"BGP"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+"BOTS"
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+"CONNECTION\_ANOMALY"
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+"CT"
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+"DNS"
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+"DNS\_MAGNITUDE"
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+"DNS\_AS112"
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+"DOS"
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+"EMAIL\_ROUTING"
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+"EMAIL\_SECURITY"
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+"FW"
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+"FW\_PG"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"HTTP"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"HTTP\_CONTROL"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"HTTP\_CRAWLER\_REFERER"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"HTTP\_ORIGINS"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+"IQI"
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+"LEAKED\_CREDENTIALS"
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+"NET"
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+"ROBOTS\_TXT"
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"SPEED"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: RadarEmailSummary`
+"WORKERS\_AI"
 
-    - `FAIL: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+</details>
 
-    - `NONE: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+description: string
 
-    - `PASS: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+endDate: string
 
-### Summary DKIM Response
+formatdate-time
 
-- `SummaryDKIMResponse object { meta, summary_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<details>
 
-    Metadata for the results.
+<summary>
 
-    - `confidenceInfo: object { annotations, level }`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+Event type for annotations.
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</summary>
 
-          Data source for annotations.
+One of the following:
 
-          - `"ALL"`
+"GENERAL"
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+"OUTAGE"
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+"PARTIAL\_PROJECTION"
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+"PIPELINE"
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+"TRAFFIC\_ANOMALY"
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+</details>
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+isInstantaneous: boolean
 
-          - `"FW"`
+Whether event is a single point in time or a time range.
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+linkedUrl: string
 
-          - `"HTTP_CONTROL"`
+formaturi
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+startDate: string
 
-          - `"IQI"`
+formatdate-time
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+tags: optional array of string
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+</details>
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+level: number
 
-        - `endDate: string`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+</details>
 
-          - `"EVENT"`
+<a href="#">Link to this property</a>
 
-          - `"GENERAL"`
+<details>
 
-          - `"OUTAGE"`
+<summary>
 
-          - `"PARTIAL_PROJECTION"`
+dateRange: array of object {endTime, startTime }
 
-          - `"PIPELINE"`
+</summary>
 
-          - `"TRAFFIC_ANOMALY"`
+endTime: string
 
-        - `isInstantaneous: boolean`
+Adjusted end of date range.
 
-          Whether event is a single point in time or a time range.
+formatdate-time
 
-        - `linkedUrl: string`
+<a href="#">Link to this property</a>
 
-        - `startDate: string`
+startTime: string
 
-        - `tags: optional array of string`
+Adjusted start of date range.
 
-      - `level: number`
+formatdate-time
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+</details>
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+lastUpdated: string
 
-      - `startTime: string`
+Timestamp of the last dataset update.
 
-        Adjusted start of date range.
+formatdate-time
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+<details>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<summary>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-      - `"PERCENTAGE"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-      - `"MIN0_MAX"`
+</summary>
 
-      - `"MIN_MAX"`
+One of the following:
 
-      - `"RAW_VALUES"`
+"PERCENTAGE"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+"MIN0\_MAX"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+"MIN\_MAX"
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+"RAW\_VALUES"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"PERCENTAGE\_CHANGE"
 
-  - `summary_0: RadarEmailSummary`
+<a href="#">Link to this property</a>
 
-    - `FAIL: string`
+"ROLLING\_AVERAGE"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `NONE: string`
+"OVERLAPPED\_PERCENTAGE"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `PASS: string`
+"RATIO"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-### Summary DMARC Response
+</details>
 
-- `SummaryDMARCResponse object { meta, summary_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<details>
 
-    Metadata for the results.
+<summary>
 
-    - `confidenceInfo: object { annotations, level }`
+units: array of object {name, value }
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+Measurement units for the results.
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</summary>
 
-          Data source for annotations.
+name: string
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+value: string
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+</details>
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+</details>
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+<details>
 
-          - `"DNS_MAGNITUDE"`
+<summary>
 
-          - `"DNS_AS112"`
+summary\_0: object {BrandImpersonation, CredentialHarvester, IdentityDeception, Link }
 
-          - `"DOS"`
+</summary>
 
-          - `"EMAIL_ROUTING"`
+BrandImpersonation: string
 
-          - `"EMAIL_SECURITY"`
+A numeric string.
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+CredentialHarvester: string
 
-          - `"HTTP"`
+A numeric string.
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+IdentityDeception: string
 
-          - `"HTTP_ORIGINS"`
+A numeric string.
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+Link: string
 
-          - `"NET"`
+A numeric string.
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+</details>
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+</details>
 
-        - `endDate: string`
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_threat_category_response%20%3E%20(schema)>)
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<details>
 
-          Event type for annotations.
+<summary>
 
-          - `"EVENT"`
+SummarySpoofResponse object {meta, summary\_0 }
 
-          - `"GENERAL"`
+</summary>
 
-          - `"OUTAGE"`
+<details>
 
-          - `"PARTIAL_PROJECTION"`
+<summary>
 
-          - `"PIPELINE"`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-          - `"TRAFFIC_ANOMALY"`
+Metadata for the results.
 
-        - `isInstantaneous: boolean`
+</summary>
 
-          Whether event is a single point in time or a time range.
+<details>
 
-        - `linkedUrl: string`
+<summary>
 
-        - `startDate: string`
+confidenceInfo: object {annotations, level }
 
-        - `tags: optional array of string`
+</summary>
 
-      - `level: number`
+<details>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<summary>
 
-    - `dateRange: array of object { endTime, startTime }`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-      - `endTime: string`
+</summary>
 
-        Adjusted end of date range.
+<details>
 
-      - `startTime: string`
+<summary>
 
-        Adjusted start of date range.
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-    - `lastUpdated: string`
+Data source for annotations.
 
-      Timestamp of the last dataset update.
+</summary>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+One of the following:
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+"ALL"
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+"AI\_BOTS"
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+"AI\_GATEWAY"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+"BGP"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+"BOTS"
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+"CONNECTION\_ANOMALY"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+"CT"
 
-  - `summary_0: RadarEmailSummary`
+<a href="#">Link to this property</a>
 
-    - `FAIL: string`
+"DNS"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `NONE: string`
+"DNS\_MAGNITUDE"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `PASS: string`
+"DNS\_AS112"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-### Summary Malicious Response
+"DOS"
 
-- `SummaryMaliciousResponse object { meta, summary_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+"EMAIL\_ROUTING"
 
-    Metadata for the results.
+<a href="#">Link to this property</a>
 
-    - `confidenceInfo: object { annotations, level }`
+"EMAIL\_SECURITY"
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+"FW"
 
-          Data source for annotations.
+<a href="#">Link to this property</a>
 
-          - `"ALL"`
+"FW\_PG"
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+"HTTP"
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+"HTTP\_CONTROL"
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+"HTTP\_CRAWLER\_REFERER"
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+"HTTP\_ORIGINS"
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+"IQI"
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+"LEAKED\_CREDENTIALS"
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+"NET"
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+"ROBOTS\_TXT"
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+"SPEED"
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+"WORKERS\_AI"
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+</details>
 
-          - `"SPEED"`
+<a href="#">Link to this property</a>
 
-          - `"WORKERS_AI"`
+description: string
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `endDate: string`
+endDate: string
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+formatdate-time
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+<details>
 
-          - `"GENERAL"`
+<summary>
 
-          - `"OUTAGE"`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-          - `"PARTIAL_PROJECTION"`
+Event type for annotations.
 
-          - `"PIPELINE"`
+</summary>
 
-          - `"TRAFFIC_ANOMALY"`
+One of the following:
 
-        - `isInstantaneous: boolean`
+"GENERAL"
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+"OUTAGE"
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+"PARTIAL\_PROJECTION"
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+"PIPELINE"
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+"TRAFFIC\_ANOMALY"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+</details>
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+isInstantaneous: boolean
 
-      Timestamp of the last dataset update.
+Whether event is a single point in time or a time range.
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+linkedUrl: string
 
-      - `"PERCENTAGE"`
+formaturi
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+startDate: string
 
-      - `"RAW_VALUES"`
+formatdate-time
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+tags: optional array of string
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+</details>
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+level: number
 
-      - `name: string`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: object { MALICIOUS, NOT_MALICIOUS }`
+</details>
 
-    - `MALICIOUS: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+<details>
 
-    - `NOT_MALICIOUS: string`
+<summary>
 
-      A numeric string.
+dateRange: array of object {endTime, startTime }
 
-### Summary Spam Response
+</summary>
 
-- `SummarySpamResponse object { meta, summary_0 }`
+endTime: string
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+Adjusted end of date range.
 
-    Metadata for the results.
+formatdate-time
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+startTime: string
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+Adjusted start of date range.
 
-          Data source for annotations.
+formatdate-time
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+</details>
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+lastUpdated: string
 
-          - `"BOTS"`
+Timestamp of the last dataset update.
 
-          - `"CONNECTION_ANOMALY"`
+formatdate-time
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+<details>
 
-          - `"DNS_MAGNITUDE"`
+<summary>
 
-          - `"DNS_AS112"`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-          - `"DOS"`
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-          - `"EMAIL_ROUTING"`
+</summary>
 
-          - `"EMAIL_SECURITY"`
+One of the following:
 
-          - `"FW"`
+"PERCENTAGE"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"MIN0\_MAX"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"MIN\_MAX"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"RAW\_VALUES"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"PERCENTAGE\_CHANGE"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+"ROLLING\_AVERAGE"
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+"OVERLAPPED\_PERCENTAGE"
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+"RATIO"
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+</details>
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+<details>
 
-          - `"PARTIAL_PROJECTION"`
+<summary>
 
-          - `"PIPELINE"`
+units: array of object {name, value }
 
-          - `"TRAFFIC_ANOMALY"`
+Measurement units for the results.
 
-        - `isInstantaneous: boolean`
+</summary>
 
-          Whether event is a single point in time or a time range.
+name: string
 
-        - `linkedUrl: string`
+<a href="#">Link to this property</a>
 
-        - `startDate: string`
+value: string
 
-        - `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `level: number`
+</details>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+</details>
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+<details>
 
-      - `startTime: string`
+<summary>
 
-        Adjusted start of date range.
+summary\_0: object {NOT\_SPOOF, SPOOF }
 
-    - `lastUpdated: string`
+</summary>
 
-      Timestamp of the last dataset update.
+NOT\_SPOOF: string
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+A numeric string.
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+SPOOF: string
 
-      - `"MIN0_MAX"`
+A numeric string.
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+</details>
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+</details>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_spoof_response%20%3E%20(schema)>)
 
-      - `"RATIO"`
+<details>
 
-    - `units: array of object { name, value }`
+<summary>
 
-      Measurement units for the results.
+SummaryTLSVersionResponse object {meta, summary\_0 }
 
-      - `name: string`
+</summary>
 
-      - `value: string`
+<details>
 
-  - `summary_0: object { NOT_SPAM, SPAM }`
+<summary>
 
-    - `NOT_SPAM: string`
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
 
-      A numeric string.
+Metadata for the results.
 
-    - `SPAM: string`
+</summary>
 
-      A numeric string.
+<details>
 
-### Summary SPF Response
+<summary>
 
-- `SummarySPFResponse object { meta, summary_0 }`
+confidenceInfo: object {annotations, level }
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+</summary>
 
-    Metadata for the results.
+<details>
 
-    - `confidenceInfo: object { annotations, level }`
+<summary>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</summary>
 
-          Data source for annotations.
+<details>
 
-          - `"ALL"`
+<summary>
 
-          - `"AI_BOTS"`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-          - `"AI_GATEWAY"`
+Data source for annotations.
 
-          - `"BGP"`
+</summary>
 
-          - `"BOTS"`
+One of the following:
 
-          - `"CONNECTION_ANOMALY"`
+"ALL"
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+"AI\_BOTS"
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+"AI\_GATEWAY"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+"BGP"
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+"BOTS"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"CONNECTION\_ANOMALY"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"CT"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"DNS"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"DNS\_MAGNITUDE"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+"DNS\_AS112"
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+"DOS"
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+"EMAIL\_ROUTING"
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+"EMAIL\_SECURITY"
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+"FW"
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+"FW\_PG"
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+"HTTP"
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+"HTTP\_CONTROL"
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+"HTTP\_CRAWLER\_REFERER"
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+"HTTP\_ORIGINS"
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+"IQI"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"LEAKED\_CREDENTIALS"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"NET"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"ROBOTS\_TXT"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"SPEED"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+"WORKERS\_AI"
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+</details>
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+description: string
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+endDate: string
 
-      Measurement units for the results.
+formatdate-time
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+<details>
 
-  - `summary_0: RadarEmailSummary`
+<summary>
 
-    - `FAIL: string`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-      A numeric string.
+Event type for annotations.
 
-    - `NONE: string`
+</summary>
 
-      A numeric string.
+One of the following:
 
-    - `PASS: string`
+"GENERAL"
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-### Summary Threat Category Response
+"OUTAGE"
 
-- `SummaryThreatCategoryResponse object { meta, summary_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+"PARTIAL\_PROJECTION"
 
-    Metadata for the results.
+<a href="#">Link to this property</a>
 
-    - `confidenceInfo: object { annotations, level }`
+"PIPELINE"
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+"TRAFFIC\_ANOMALY"
 
-          Data source for annotations.
+<a href="#">Link to this property</a>
 
-          - `"ALL"`
+</details>
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+isInstantaneous: boolean
 
-          - `"BGP"`
+Whether event is a single point in time or a time range.
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+linkedUrl: string
 
-          - `"CT"`
+formaturi
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+startDate: string
 
-          - `"DNS_AS112"`
+formatdate-time
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+tags: optional array of string
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+</details>
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+level: number
 
-          - `"HTTP_CONTROL"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+</details>
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+<details>
 
-          - `"NET"`
+<summary>
 
-          - `"ROBOTS_TXT"`
+dateRange: array of object {endTime, startTime }
 
-          - `"SPEED"`
+</summary>
 
-          - `"WORKERS_AI"`
+endTime: string
 
-        - `description: string`
+Adjusted end of date range.
 
-        - `endDate: string`
+formatdate-time
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+startTime: string
 
-          - `"EVENT"`
+Adjusted start of date range.
 
-          - `"GENERAL"`
+formatdate-time
 
-          - `"OUTAGE"`
+<a href="#">Link to this property</a>
 
-          - `"PARTIAL_PROJECTION"`
+</details>
 
-          - `"PIPELINE"`
+<a href="#">Link to this property</a>
 
-          - `"TRAFFIC_ANOMALY"`
+lastUpdated: string
 
-        - `isInstantaneous: boolean`
+Timestamp of the last dataset update.
 
-          Whether event is a single point in time or a time range.
+formatdate-time
 
-        - `linkedUrl: string`
+<a href="#">Link to this property</a>
 
-        - `startDate: string`
+<details>
 
-        - `tags: optional array of string`
+<summary>
 
-      - `level: number`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-    - `dateRange: array of object { endTime, startTime }`
+</summary>
 
-      - `endTime: string`
+One of the following:
 
-        Adjusted end of date range.
+"PERCENTAGE"
 
-      - `startTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted start of date range.
+"MIN0\_MAX"
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the last dataset update.
+"MIN\_MAX"
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+<a href="#">Link to this property</a>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+"RAW\_VALUES"
 
-      - `"PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"MIN0_MAX"`
+"PERCENTAGE\_CHANGE"
 
-      - `"MIN_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"RAW_VALUES"`
+"ROLLING\_AVERAGE"
 
-      - `"PERCENTAGE_CHANGE"`
+<a href="#">Link to this property</a>
 
-      - `"ROLLING_AVERAGE"`
+"OVERLAPPED\_PERCENTAGE"
 
-      - `"OVERLAPPED_PERCENTAGE"`
+<a href="#">Link to this property</a>
 
-      - `"RATIO"`
+"RATIO"
 
-    - `units: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-      Measurement units for the results.
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `value: string`
+<details>
 
-  - `summary_0: object { BrandImpersonation, CredentialHarvester, IdentityDeception, Link }`
+<summary>
 
-    - `BrandImpersonation: string`
+units: array of object {name, value }
 
-      A numeric string.
+Measurement units for the results.
 
-    - `CredentialHarvester: string`
+</summary>
 
-      A numeric string.
+name: string
 
-    - `IdentityDeception: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+value: string
 
-    - `Link: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+</details>
 
-### Summary Spoof Response
+<a href="#">Link to this property</a>
 
-- `SummarySpoofResponse object { meta, summary_0 }`
+</details>
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+<details>
 
-    - `confidenceInfo: object { annotations, level }`
+<summary>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+summary\_0: object {"TLS 1.0", "TLS 1.1", "TLS 1.2", "TLS 1.3" }
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</summary>
 
-          Data source for annotations.
+"TLS 1.0": string
 
-          - `"ALL"`
+A numeric string.
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+"TLS 1.1": string
 
-          - `"BGP"`
+A numeric string.
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+"TLS 1.2": string
 
-          - `"CT"`
+A numeric string.
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+"TLS 1.3": string
 
-          - `"DNS_AS112"`
+A numeric string.
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+</details>
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+</details>
 
-          - `"FW_PG"`
-
-          - `"HTTP"`
-
-          - `"HTTP_CONTROL"`
-
-          - `"HTTP_CRAWLER_REFERER"`
-
-          - `"HTTP_ORIGINS"`
-
-          - `"IQI"`
-
-          - `"LEAKED_CREDENTIALS"`
-
-          - `"NET"`
-
-          - `"ROBOTS_TXT"`
-
-          - `"SPEED"`
-
-          - `"WORKERS_AI"`
-
-        - `description: string`
-
-        - `endDate: string`
-
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
-
-          Event type for annotations.
-
-          - `"EVENT"`
-
-          - `"GENERAL"`
-
-          - `"OUTAGE"`
-
-          - `"PARTIAL_PROJECTION"`
-
-          - `"PIPELINE"`
-
-          - `"TRAFFIC_ANOMALY"`
-
-        - `isInstantaneous: boolean`
-
-          Whether event is a single point in time or a time range.
-
-        - `linkedUrl: string`
-
-        - `startDate: string`
-
-        - `tags: optional array of string`
-
-      - `level: number`
-
-        Provides an indication of how much confidence Cloudflare has in the data.
-
-    - `dateRange: array of object { endTime, startTime }`
-
-      - `endTime: string`
-
-        Adjusted end of date range.
-
-      - `startTime: string`
-
-        Adjusted start of date range.
-
-    - `lastUpdated: string`
-
-      Timestamp of the last dataset update.
-
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
-
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
-
-      - `"PERCENTAGE"`
-
-      - `"MIN0_MAX"`
-
-      - `"MIN_MAX"`
-
-      - `"RAW_VALUES"`
-
-      - `"PERCENTAGE_CHANGE"`
-
-      - `"ROLLING_AVERAGE"`
-
-      - `"OVERLAPPED_PERCENTAGE"`
-
-      - `"RATIO"`
-
-    - `units: array of object { name, value }`
-
-      Measurement units for the results.
-
-      - `name: string`
-
-      - `value: string`
-
-  - `summary_0: object { NOT_SPOOF, SPOOF }`
-
-    - `NOT_SPOOF: string`
-
-      A numeric string.
-
-    - `SPOOF: string`
-
-      A numeric string.
-
-### Summary TLS Version Response
-
-- `SummaryTLSVersionResponse object { meta, summary_0 }`
-
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
-
-    Metadata for the results.
-
-    - `confidenceInfo: object { annotations, level }`
-
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
-
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
-
-          Data source for annotations.
-
-          - `"ALL"`
-
-          - `"AI_BOTS"`
-
-          - `"AI_GATEWAY"`
-
-          - `"BGP"`
-
-          - `"BOTS"`
-
-          - `"CONNECTION_ANOMALY"`
-
-          - `"CT"`
-
-          - `"DNS"`
-
-          - `"DNS_MAGNITUDE"`
-
-          - `"DNS_AS112"`
-
-          - `"DOS"`
-
-          - `"EMAIL_ROUTING"`
-
-          - `"EMAIL_SECURITY"`
-
-          - `"FW"`
-
-          - `"FW_PG"`
-
-          - `"HTTP"`
-
-          - `"HTTP_CONTROL"`
-
-          - `"HTTP_CRAWLER_REFERER"`
-
-          - `"HTTP_ORIGINS"`
-
-          - `"IQI"`
-
-          - `"LEAKED_CREDENTIALS"`
-
-          - `"NET"`
-
-          - `"ROBOTS_TXT"`
-
-          - `"SPEED"`
-
-          - `"WORKERS_AI"`
-
-        - `description: string`
-
-        - `endDate: string`
-
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
-
-          Event type for annotations.
-
-          - `"EVENT"`
-
-          - `"GENERAL"`
-
-          - `"OUTAGE"`
-
-          - `"PARTIAL_PROJECTION"`
-
-          - `"PIPELINE"`
-
-          - `"TRAFFIC_ANOMALY"`
-
-        - `isInstantaneous: boolean`
-
-          Whether event is a single point in time or a time range.
-
-        - `linkedUrl: string`
-
-        - `startDate: string`
-
-        - `tags: optional array of string`
-
-      - `level: number`
-
-        Provides an indication of how much confidence Cloudflare has in the data.
-
-    - `dateRange: array of object { endTime, startTime }`
-
-      - `endTime: string`
-
-        Adjusted end of date range.
-
-      - `startTime: string`
-
-        Adjusted start of date range.
-
-    - `lastUpdated: string`
-
-      Timestamp of the last dataset update.
-
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
-
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
-
-      - `"PERCENTAGE"`
-
-      - `"MIN0_MAX"`
-
-      - `"MIN_MAX"`
-
-      - `"RAW_VALUES"`
-
-      - `"PERCENTAGE_CHANGE"`
-
-      - `"ROLLING_AVERAGE"`
-
-      - `"OVERLAPPED_PERCENTAGE"`
-
-      - `"RATIO"`
-
-    - `units: array of object { name, value }`
-
-      Measurement units for the results.
-
-      - `name: string`
-
-      - `value: string`
-
-  - `summary_0: object { "TLS 1.0", "TLS 1.1", "TLS 1.2", "TLS 1.3" }`
-
-    - `"TLS 1.0": string`
-
-      A numeric string.
-
-    - `"TLS 1.1": string`
-
-      A numeric string.
-
-    - `"TLS 1.2": string`
-
-      A numeric string.
-
-    - `"TLS 1.3": string`
-
-      A numeric string.
+[Link to this property](#)%20radar.email.security.summary%20%3E%20(model)%20summary_tls_version_response%20%3E%20(schema)>)

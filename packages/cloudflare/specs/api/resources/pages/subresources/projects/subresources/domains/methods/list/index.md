@@ -1,159 +1,512 @@
-## Get domains
+---
+title: Get domains
+---
 
-**get** `/accounts/{account_id}/pages/projects/{project_name}/domains`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Pages](https://developers.cloudflare.com/api/resources/pages)
+
+[Projects](https://developers.cloudflare.com/api/resources/pages/subresources/projects)
+
+[Domains](https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/domains)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get domains
+
+GET/accounts/{account\_id}/pages/projects/{project\_name}/domains
 
 Fetch a list of all domains associated with a Pages project.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `project_name: string`
 
-  Name of the project.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `result: array of object { id, certificate_authority, created_on, 6 more }`
+`Pages Read``Pages Write`
 
-  - `id: string`
+##### P ath ParametersExpand Collapse
 
-  - `certificate_authority: "google" or "lets_encrypt"`
+account\_id: string
 
-    - `"google"`
+Identifier.
 
-    - `"lets_encrypt"`
+maxLength32
 
-  - `created_on: string`
+[Link to this property](#)%20pages.projects.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `domain_id: string`
+project\_name: string
 
-  - `name: string`
+Name of the project.
 
-    The domain name.
+[Link to this property](#)%20pages.projects.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20project_name%20%3E%20(schema)>)
 
-  - `status: "initializing" or "pending" or "active" or 3 more`
+##### ReturnsExpand Collapse
 
-    - `"initializing"`
+<details>
 
-    - `"pending"`
+<summary>
 
-    - `"active"`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `"deactivated"`
+</summary>
 
-    - `"blocked"`
+code: number
 
-    - `"error"`
+minimum1000
 
-  - `validation_data: object { method, status, error_message, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `method: "http" or "txt"`
+message: string
 
-      - `"http"`
+<a href="#">Link to this property</a>
 
-      - `"txt"`
+documentation\_url: optional string
 
-    - `status: "initializing" or "pending" or "active" or 2 more`
+<a href="#">Link to this property</a>
 
-      - `"initializing"`
+<details>
 
-      - `"pending"`
+<summary>
 
-      - `"active"`
+source: optional object {pointer }
 
-      - `"deactivated"`
+</summary>
 
-      - `"error"`
+pointer: optional string
 
-    - `error_message: optional string`
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+</details>
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-  - `verification_data: object { status, error_message }`
+</details>
 
-    - `status: "pending" or "active" or "deactivated" or 2 more`
+[Link to this property](#)%20pages.projects.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `"pending"`
+<details>
 
-      - `"active"`
+<summary>
 
-      - `"deactivated"`
+messages: array of object {code, message, documentation\_url, source }
 
-      - `"blocked"`
+</summary>
 
-      - `"error"`
+code: number
 
-    - `error_message: optional string`
+minimum1000
 
-  - `zone_tag: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+message: string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+documentation\_url: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+source: optional object {pointer }
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+pointer: optional string
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+</details>
 
-    The number of total pages in the entire result set.
+[Link to this property](#)%20pages.projects.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-### Example
+<details>
 
-```http
+<summary>
+
+result: array of object {id, certificate\_authority, created\_on, 6 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+certificate\_authority: "google"or "lets\_encrypt"
+
+</summary>
+
+One of the following:
+
+"google"
+
+<a href="#">Link to this property</a>
+
+"lets\_encrypt"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+<a href="#">Link to this property</a>
+
+domain\_id: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The domain name.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "initializing"or "pending"or "active"or 3 more
+
+</summary>
+
+One of the following:
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deactivated"
+
+<a href="#">Link to this property</a>
+
+"blocked"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+validation\_data: object {method, status, error\_message, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+method: "http"or "txt"
+
+</summary>
+
+One of the following:
+
+"http"
+
+<a href="#">Link to this property</a>
+
+"txt"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "initializing"or "pending"or "active"or 2 more
+
+</summary>
+
+One of the following:
+
+"initializing"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deactivated"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+error\_message: optional string
+
+<a href="#">Link to this property</a>
+
+txt\_name: optional string
+
+<a href="#">Link to this property</a>
+
+txt\_value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+verification\_data: object {status, error\_message }
+
+</summary>
+
+<details>
+
+<summary>
+
+status: "pending"or "active"or "deactivated"or 2 more
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deactivated"
+
+<a href="#">Link to this property</a>
+
+"blocked"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+error\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+zone\_tag: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pages.projects.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20pages.projects.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pages.projects.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get domains
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/domains \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "id",
+      "certificate_authority": "lets_encrypt",
+      "created_on": "created_on",
+      "domain_id": "domain_id",
+      "name": "this-is-my-domain-01.com",
+      "status": "initializing",
+      "validation_data": {
+        "method": "http",
+        "status": "initializing",
+        "error_message": "error_message",
+        "txt_name": "txt_name",
+        "txt_value": "txt_value"
+      },
+      "verification_data": {
+        "status": "pending",
+        "error_message": "error_message"
+      },
+      "zone_tag": "zone_tag"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

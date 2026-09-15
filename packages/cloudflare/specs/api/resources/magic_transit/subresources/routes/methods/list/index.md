@@ -1,103 +1,335 @@
-## List Routes
+---
+title: List Routes
+---
 
-**get** `/accounts/{account_id}/magic/routes`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Routes](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Routes
+
+GET/accounts/{account\_id}/magic/routes
 
 List all Magic static routes.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `result: object { routes }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `routes: optional array of object { id, nexthop, prefix, 6 more }`
+</details>
 
-    - `id: string`
+##### Accepted Permissions (at least one required)
 
-      Identifier
+`Magic WAN Write``Magic WAN Read``Magic Transit Read``Magic Transit Write`
 
-    - `nexthop: string`
+##### P ath ParametersExpand Collapse
 
-      The next-hop IP Address for the static route.
+account\_id: string
 
-    - `prefix: string`
+Identifier
 
-      IP Prefix in Classless Inter-Domain Routing format.
+maxLength32
 
-    - `priority: number`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      Priority of the static route.
+##### ReturnsExpand Collapse
 
-    - `created_on: optional string`
+<details>
 
-      When the route was created.
+<summary>
 
-    - `description: optional string`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      An optional human provided description of the static route.
+</summary>
 
-    - `modified_on: optional string`
+code: number
 
-      When the route was last modified.
+minimum1000
 
-    - `scope: optional Scope`
+<a href="#">Link to this property</a>
 
-      Used only for ECMP routes.
+message: string
 
-      - `colo_names: optional array of string`
+<a href="#">Link to this property</a>
 
-        List of colo names for the ECMP scope.
+documentation\_url: optional string
 
-      - `colo_regions: optional array of string`
+<a href="#">Link to this property</a>
 
-        List of colo regions for the ECMP scope.
+<details>
 
-    - `weight: optional number`
+<summary>
 
-      Optional weight of the ECMP scope - if provided.
+source: optional object {pointer }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+pointer: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {routes }
+
+</summary>
+
+<details>
+
+<summary>
+
+routes: optional array of object {id, nexthop, prefix, 6 more }
+
+</summary>
+
+id: string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+nexthop: string
+
+The next-hop IP Address for the static route.
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+IP Prefix in Classless Inter-Domain Routing format.
+
+<a href="#">Link to this property</a>
+
+priority: number
+
+Priority of the static route.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+When the route was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An optional human provided description of the static route.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+When the route was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
+
+Used only for ECMP routes.
+
+</summary>
+
+colo\_names: optional array of string
+
+List of colo names for the ECMP scope.
+
+<a href="#">Link to this property</a>
+
+colo\_regions: optional array of string
+
+List of colo regions for the ECMP scope.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+weight: optional number
+
+Optional weight of the ECMP scope - if provided.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Routes
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "routes": [
+      {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "nexthop": "203.0.113.1",
+        "prefix": "192.0.2.0/24",
+        "priority": 0,
+        "created_on": "2017-06-14T00:00:00Z",
+        "description": "New route for new prefix 203.0.113.1",
+        "modified_on": "2017-06-14T05:20:00Z",
+        "scope": {
+          "colo_names": [
+            "den01"
+          ],
+          "colo_regions": [
+            "APAC"
+          ]
+        },
+        "weight": 0
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

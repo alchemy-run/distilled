@@ -1,173 +1,557 @@
-## List applications
+---
+title: List applications
+---
 
-**get** `/accounts/{account_id}/one/applications`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Casb](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb)
+
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/applications)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List applications
+
+GET/accounts/{account\_id}/one/applications
 
 Returns a list of available applications with use cases and permissions.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Query Parameters
+<summary>API Token</summary>
 
-- `environment: optional string`
 
-  Filter by supported environment (standard, fedramp).
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `auth_methods: array of object { display_name, slug }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Available auth methods.
+</details>
 
-  - `display_name: string`
+<details>
 
-    Human-readable auth method name.
+<summary>API Email + API Key</summary>
 
-  - `slug: string`
 
-    Auth method identifier.
 
-- `category: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Vendor category (e.g. Productivity, AI).
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `description: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Brief description of the integration.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `display_name: string`
+</details>
 
-  Human-readable vendor name.
+##### P ath ParametersExpand Collapse
 
-- `dlp_enabled: boolean`
+account\_id: string
 
-  Whether DLP scanning is supported.
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `logo: string`
+##### Q uery ParametersExpand Collapse
 
-  Logo path.
+environment: optional string
 
-- `permissions: array of object { display_name, scope, severity }`
+Filter by supported environment (standard, fedramp).
 
-  All permissions with severity.
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20environment%20%3E%20(schema)>)
 
-  - `display_name: string`
+page: optional number
 
-    Human-readable permission name.
+A page number within the paginated result set.
 
-  - `scope: string`
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    Vendor-native scope identifier.
+page\_size: optional number
 
-  - `severity: "low" or "medium" or "high" or "critical"`
+Number of results to return per page.
 
-    Permission sensitivity level.
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page_size%20%3E%20(schema)>)
 
-    * `low` - low
-    * `medium` - medium
-    * `high` - high
-    * `critical` - critical
+##### ReturnsExpand Collapse
 
-    - `"low"`
+errors: array of unknown
 
-    - `"medium"`
+List of errors.
 
-    - `"high"`
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"critical"`
+messages: array of string
 
-- `slug: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+List of messages.
 
-  Vendor identifier (e.g. microsoft_internal, google_workspace).
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  * `GITHUB` - GITHUB
-  * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-  * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-  * `SALESFORCE` - SALESFORCE
-  * `SLACK` - SLACK
+<details>
 
-  - `"GITHUB"`
+<summary>
 
-  - `"GOOGLE_WORKSPACE"`
+result: array of object {id, auth\_methods, category, 7 more }
 
-  - `"MICROSOFT_INTERNAL"`
+List of items.
 
-  - `"SALESFORCE"`
+</summary>
 
-  - `"SLACK"`
+<details>
 
-- `supported_environments: array of string`
+<summary>
 
-  Environments this vendor supports (standard, fedramp).
+id: "ANTHROPIC"or "AWS"or "BITBUCKET"or 12 more
 
-- `use_cases: array of object { display_name, slug }`
+Vendor identifier (e.g. microsoft\_internal, google\_workspace).
 
-  Supported use cases.
+- <code>ANTHROPIC</code> - ANTHROPIC
+- <code>AWS</code> - AWS
+- <code>BITBUCKET</code> - BITBUCKET
+- <code>BOX</code> - BOX
+- <code>CONFLUENCE</code> - CONFLUENCE
+- <code>DROPBOX</code> - DROPBOX
+- <code>GITHUB</code> - GITHUB
+- <code>GOOGLE_CLOUD_PLATFORM</code> - GOOGLE\_CLOUD\_PLATFORM
+- <code>GOOGLE_WORKSPACE</code> - GOOGLE\_WORKSPACE
+- <code>JIRA</code> - JIRA
+- <code>MICROSOFT_INTERNAL</code> - MICROSOFT\_INTERNAL
+- <code>OPENAI</code> - OPENAI
+- <code>SALESFORCE</code> - SALESFORCE
+- <code>SERVICENOW</code> - SERVICENOW
+- <code>SLACK</code> - SLACK
 
-  - `display_name: string`
+</summary>
 
-    Human-readable use case name.
+One of the following:
 
-  - `slug: string`
+"ANTHROPIC"
 
-    Use case identifier (e.g. casb, ces).
+<a href="#">Link to this property</a>
 
-### Example
+"AWS"
 
-```http
+<a href="#">Link to this property</a>
+
+"BITBUCKET"
+
+<a href="#">Link to this property</a>
+
+"BOX"
+
+<a href="#">Link to this property</a>
+
+"CONFLUENCE"
+
+<a href="#">Link to this property</a>
+
+"DROPBOX"
+
+<a href="#">Link to this property</a>
+
+"GITHUB"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE\_CLOUD\_PLATFORM"
+
+<a href="#">Link to this property</a>
+
+"GOOGLE\_WORKSPACE"
+
+<a href="#">Link to this property</a>
+
+"JIRA"
+
+<a href="#">Link to this property</a>
+
+"MICROSOFT\_INTERNAL"
+
+<a href="#">Link to this property</a>
+
+"OPENAI"
+
+<a href="#">Link to this property</a>
+
+"SALESFORCE"
+
+<a href="#">Link to this property</a>
+
+"SERVICENOW"
+
+<a href="#">Link to this property</a>
+
+"SLACK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+auth\_methods: array of object {id, display\_name }
+
+Available auth methods.
+
+</summary>
+
+id: string
+
+Auth method identifier.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+Human-readable auth method name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+category: string
+
+Vendor category (e.g. Productivity, AI).
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Brief description of the integration.
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+Human-readable vendor name.
+
+<a href="#">Link to this property</a>
+
+dlp\_enabled: boolean
+
+Whether DLP scanning is supported.
+
+<a href="#">Link to this property</a>
+
+logo: string
+
+Logo path.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+permissions: array of object {display\_name, scope, severity }
+
+All permissions with severity.
+
+</summary>
+
+display\_name: string
+
+Human-readable permission name.
+
+<a href="#">Link to this property</a>
+
+scope: string
+
+Vendor-native scope identifier.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+severity: "low"or "medium"or "high"or "critical"
+
+Permission sensitivity level.
+
+- <code>low</code> - low
+- <code>medium</code> - medium
+- <code>high</code> - high
+- <code>critical</code> - critical
+
+</summary>
+
+One of the following:
+
+"low"
+
+<a href="#">Link to this property</a>
+
+"medium"
+
+<a href="#">Link to this property</a>
+
+"high"
+
+<a href="#">Link to this property</a>
+
+"critical"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+supported\_environments: array of string
+
+Environments this vendor supports (standard, fedramp).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+use\_cases: array of object {id, display\_name }
+
+Supported use cases.
+
+</summary>
+
+id: string
+
+Use case identifier (e.g. casb, ces).
+
+<a href="#">Link to this property</a>
+
+display\_name: string
+
+Human-readable use case name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {count, next, page, 3 more }
+
+Pagination metadata.
+
+</summary>
+
+count: optional number
+
+Number of items in current page.
+
+<a href="#">Link to this property</a>
+
+next: optional string
+
+URL for next page.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page number.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of items per page.
+
+<a href="#">Link to this property</a>
+
+previous: optional string
+
+URL for previous page.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total number of items.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: boolean
+
+Whether the request succeeded.
+
+[Link to this property](#)%20zero_trust.casb.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List applications
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/applications \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
-[
-  {
-    "auth_methods": [
-      {
-        "display_name": "OAuth 2.0 Admin Consent",
-        "slug": "oauth2_standard"
-      }
-    ],
-    "category": "Productivity",
-    "description": "Monitor OneDrive, SharePoint, Teams, and Outlook.",
-    "display_name": "Microsoft",
-    "dlp_enabled": true,
-    "logo": "/api/v4/accounts/12345678/casb/static/microsoft_internal.svg",
-    "permissions": [
-      {
-        "display_name": "Read all users' full profiles",
-        "scope": "User.Read.All",
-        "severity": "high"
-      },
-      {
-        "display_name": "Read all files",
-        "scope": "Files.Read.All",
-        "severity": "high"
-      },
-      {
-        "display_name": "Read and write mail",
-        "scope": "Mail.ReadWrite",
-        "severity": "critical"
-      }
-    ],
-    "slug": "MICROSOFT_INTERNAL",
-    "supported_environments": [
-      "standard",
-      "fedramp"
-    ],
-    "use_cases": [
-      {
-        "display_name": "Cloud Access Security Broker",
-        "slug": "casb"
-      },
-      {
-        "display_name": "Cloud Email Security",
-        "slug": "ces"
-      }
-    ]
-  }
-]
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": [
+    {
+      "auth_methods": [
+        {
+          "display_name": "OAuth 2.0 Admin Consent",
+          "id": "oauth2_standard"
+        }
+      ],
+      "category": "Productivity",
+      "description": "Monitor OneDrive, SharePoint, Teams, and Outlook.",
+      "display_name": "Microsoft",
+      "dlp_enabled": true,
+      "id": "MICROSOFT_INTERNAL",
+      "logo": "https://dash.cloudflare.com/v2/static/microsoft_internal.svg",
+      "permissions": [
+        {
+          "display_name": "Read all users' full profiles",
+          "scope": "User.Read.All",
+          "severity": "high"
+        },
+        {
+          "display_name": "Read all files",
+          "scope": "Files.Read.All",
+          "severity": "high"
+        },
+        {
+          "display_name": "Read and write mail",
+          "scope": "Mail.ReadWrite",
+          "severity": "critical"
+        }
+      ],
+      "supported_environments": [
+        "standard",
+        "fedramp"
+      ],
+      "use_cases": [
+        {
+          "display_name": "Cloud Access Security Broker",
+          "id": "casb"
+        },
+        {
+          "display_name": "Cloud Email Security",
+          "id": "ces"
+        }
+      ]
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "next": null,
+    "page": 1,
+    "per_page": 10,
+    "previous": null,
+    "total_count": 1
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": [
+    {
+      "auth_methods": [
+        {
+          "display_name": "OAuth 2.0 Admin Consent",
+          "id": "oauth2_standard"
+        }
+      ],
+      "category": "Productivity",
+      "description": "Monitor OneDrive, SharePoint, Teams, and Outlook.",
+      "display_name": "Microsoft",
+      "dlp_enabled": true,
+      "id": "MICROSOFT_INTERNAL",
+      "logo": "https://dash.cloudflare.com/v2/static/microsoft_internal.svg",
+      "permissions": [
+        {
+          "display_name": "Read all users' full profiles",
+          "scope": "User.Read.All",
+          "severity": "high"
+        },
+        {
+          "display_name": "Read all files",
+          "scope": "Files.Read.All",
+          "severity": "high"
+        },
+        {
+          "display_name": "Read and write mail",
+          "scope": "Mail.ReadWrite",
+          "severity": "critical"
+        }
+      ],
+      "supported_environments": [
+        "standard",
+        "fedramp"
+      ],
+      "use_cases": [
+        {
+          "display_name": "Cloud Access Security Broker",
+          "id": "casb"
+        },
+        {
+          "display_name": "Cloud Email Security",
+          "id": "ces"
+        }
+      ]
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "next": null,
+    "page": 1,
+    "per_page": 10,
+    "previous": null,
+    "total_count": 1
+  },
+  "success": true
+}
 ```

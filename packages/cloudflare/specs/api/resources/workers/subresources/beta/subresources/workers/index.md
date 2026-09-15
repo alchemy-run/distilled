@@ -1,8597 +1,3759 @@
+---
+title: Workers
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Beta](https://developers.cloudflare.com/api/resources/workers/subresources/beta)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Workers
 
-## List Workers
+##### [List Workers](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/methods/list)
 
-**get** `/accounts/{account_id}/workers/workers`
+GET/accounts/{account\_id}/workers/workers
 
-List all Workers for an account.
+##### [Get Worker](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/workers/workers/{worker\_id}
 
-- `account_id: string`
+##### [Create Worker](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/workers/workers
 
-### Query Parameters
+##### [Update Worker](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/methods/update)
 
-- `order: optional "asc" or "desc"`
+PUT/accounts/{account\_id}/workers/workers/{worker\_id}
 
-  Sort direction.
+##### [Edit Worker](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/methods/edit)
 
-  - `"asc"`
+PATCH/accounts/{account\_id}/workers/workers/{worker\_id}
 
-  - `"desc"`
+##### [Delete Worker](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/methods/delete)
 
-- `order_by: optional "deployed_on" or "updated_on" or "created_on" or "name"`
+DELETE/accounts/{account\_id}/workers/workers/{worker\_id}
 
-  Property to sort results by.
+##### ModelsExpand Collapse
 
-  - `"deployed_on"`
+<details>
 
-  - `"updated_on"`
+<summary>
 
-  - `"created_on"`
+Worker object {id, created\_on, logpush, 8 more }
 
-  - `"name"`
+</summary>
 
-- `page: optional number`
+id: string
 
-  Current page.
+Immutable ID of the Worker.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Items per-page.
+created\_on: string
 
-### Returns
+When the Worker was created.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+logpush: boolean
 
-  - `documentation_url: optional string`
+Whether logpush is enabled for the Worker.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Name of the Worker.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+observability: object {enabled, head\_sampling\_rate, logs, 2 more }
 
-    - `pointer: optional string`
+Observability settings for the Worker.
 
-- `result: array of Worker`
+</summary>
 
-  - `id: string`
+enabled: optional boolean
 
-    Immutable ID of the Worker.
+Whether observability is enabled for the Worker.
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    When the Worker was created.
+head\_sampling\_rate: optional number
 
-  - `logpush: boolean`
+The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
 
-    Whether logpush is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-    Name of the Worker.
+<summary>
 
-  - `observability: object { enabled, head_sampling_rate, logs, traces }`
+logs: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
 
-    Observability settings for the Worker.
+Log settings for the Worker.
 
-    - `enabled: optional boolean`
+</summary>
 
-      Whether observability is enabled for the Worker.
+destinations: optional array of string
 
-    - `head_sampling_rate: optional number`
+A list of destinations where logs will be exported to.
 
-      The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-    - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+enabled: optional boolean
 
-      Log settings for the Worker.
+Whether logs are enabled for the Worker.
 
-      - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-        A list of destinations where logs will be exported to.
+head\_sampling\_rate: optional number
 
-      - `enabled: optional boolean`
+The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
 
-        Whether logs are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `head_sampling_rate: optional number`
+invocation\_logs: optional boolean
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+Whether <a href="https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs">invocation logs</a> are enabled for the Worker.
 
-      - `invocation_logs: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+persist: optional boolean
 
-      - `persist: optional boolean`
+Whether log persistence is enabled for the Worker.
 
-        Whether log persistence is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+</details>
 
-      Trace settings for the Worker.
+<a href="#">Link to this property</a>
 
-      - `destinations: optional array of string`
+redact\_query\_string: optional boolean
 
-        A list of destinations where traces will be exported to.
+Whether query strings are removed from request URLs in logs and traces.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether traces are enabled for the Worker.
+<details>
 
-      - `head_sampling_rate: optional number`
+<summary>
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+traces: optional object {destinations, enabled, head\_sampling\_rate, 2 more }
 
-      - `persist: optional boolean`
+Trace settings for the Worker.
 
-        Whether trace persistence is enabled for the Worker.
+</summary>
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+destinations: optional array of string
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+A list of destinations where traces will be exported to.
 
-        - `"authenticated"`
+<a href="#">Link to this property</a>
 
-        - `"accept"`
+enabled: optional boolean
 
-  - `references: object { dispatch_namespace_outbounds, domains, durable_objects, 2 more }`
+Whether traces are enabled for the Worker.
 
-    Other resources that reference the Worker and depend on it existing.
+<a href="#">Link to this property</a>
 
-    - `dispatch_namespace_outbounds: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+head\_sampling\_rate: optional number
 
-      Other Workers that reference the Worker as an outbound for a dispatch namespace.
+The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
 
-      - `namespace_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the dispatch namespace.
+persist: optional boolean
 
-      - `namespace_name: string`
+Whether trace persistence is enabled for the Worker.
 
-        Name of the dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `worker_id: string`
+<details>
 
-        ID of the Worker using the dispatch namespace.
+<summary>
 
-      - `worker_name: string`
+propagation\_policy: optional "authenticated"or "accept"
 
-        Name of the Worker using the dispatch namespace.
+Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. “authenticated” honors inbound trace context only when accompanied by a valid trace auth token. “accept” unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account.
 
-    - `domains: array of object { id, certificate_id, hostname, 2 more }`
+</summary>
 
-      Custom domains connected to the Worker.
+One of the following:
 
-      - `id: string`
+"authenticated"
 
-        ID of the custom domain.
+<a href="#">Link to this property</a>
 
-      - `certificate_id: string`
+"accept"
 
-        ID of the TLS certificate issued for the custom domain.
+<a href="#">Link to this property</a>
 
-      - `hostname: string`
+</details>
 
-        Full hostname of the custom domain, including the zone name.
+<a href="#">Link to this property</a>
 
-      - `zone_id: string`
+</details>
 
-        ID of the zone.
+<a href="#">Link to this property</a>
 
-      - `zone_name: string`
+</details>
 
-        Name of the zone.
+<a href="#">Link to this property</a>
 
-    - `durable_objects: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+<details>
 
-      Other Workers that reference Durable Object classes implemented by the Worker.
+<summary>
 
-      - `namespace_id: string`
+references: object {dispatch\_namespace\_outbounds, domains, durable\_objects, 2 more }
 
-        ID of the Durable Object namespace being used.
+Other resources that reference the Worker and depend on it existing.
 
-      - `namespace_name: string`
+</summary>
 
-        Name of the Durable Object namespace being used.
+<details>
 
-      - `worker_id: string`
+<summary>
 
-        ID of the Worker using the Durable Object implementation.
+dispatch\_namespace\_outbounds: array of object {namespace\_id, namespace\_name, worker\_id, worker\_name }
 
-      - `worker_name: string`
+Other Workers that reference the Worker as an outbound for a dispatch namespace.
 
-        Name of the Worker using the Durable Object implementation.
+</summary>
 
-    - `queues: array of object { queue_consumer_id, queue_id, queue_name }`
+namespace\_id: string
 
-      Queues that send messages to the Worker.
+ID of the dispatch namespace.
 
-      - `queue_consumer_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the queue consumer configuration.
+namespace\_name: string
 
-      - `queue_id: string`
+Name of the dispatch namespace.
 
-        ID of the queue.
+<a href="#">Link to this property</a>
 
-      - `queue_name: string`
+worker\_id: string
 
-        Name of the queue.
+ID of the Worker using the dispatch namespace.
 
-    - `workers: array of object { id, name }`
+<a href="#">Link to this property</a>
 
-      Other Workers that reference the Worker using [service bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/).
+worker\_name: string
 
-      - `id: string`
+Name of the Worker using the dispatch namespace.
 
-        ID of the referencing Worker.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        Name of the referencing Worker.
+<a href="#">Link to this property</a>
 
-  - `subdomain: object { enabled, previews_enabled }`
+<details>
 
-    Subdomain settings for the Worker.
+<summary>
 
-    - `enabled: optional boolean`
+domains: array of object {id, certificate\_id, hostname, 2 more }
 
-      Whether the *.workers.dev subdomain is enabled for the Worker.
+Custom domains connected to the Worker.
 
-    - `previews_enabled: optional boolean`
+</summary>
 
-      Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+id: string
 
-  - `tags: array of string`
+ID of the custom domain.
 
-    Tags associated with the Worker.
+<a href="#">Link to this property</a>
 
-  - `tail_consumers: array of object { name }`
+certificate\_id: string
 
-    Other Workers that should consume logs from the Worker.
+ID of the TLS certificate issued for the custom domain.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the consumer Worker.
+hostname: string
 
-  - `updated_on: string`
+Full hostname of the custom domain, including the zone name.
 
-    When the Worker was most recently updated.
+<a href="#">Link to this property</a>
 
-  - `deployed_on: optional string`
+zone\_id: string
 
-    When the Worker's most recent deployment was created. `null` if the Worker has never been deployed.
+ID of the zone.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+zone\_name: string
 
-  - `true`
+Name of the zone.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+<details>
 
-    Current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+durable\_objects: array of object {namespace\_id, namespace\_name, worker\_id, worker\_name }
 
-    Number of results per page of results.
+Other Workers that reference Durable Object classes implemented by the Worker.
 
-  - `total_count: optional number`
+</summary>
 
-    Total results available without any search parameters.
+namespace\_id: string
 
-  - `total_pages: optional number`
+ID of the Durable Object namespace being used.
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+namespace\_name: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Name of the Durable Object namespace being used.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "logpush": true,
-      "name": "my-worker",
-      "observability": {
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "logs": {
-          "destinations": [
-            "string"
-          ],
-          "enabled": true,
-          "head_sampling_rate": 1,
-          "invocation_logs": true,
-          "persist": true
-        },
-        "traces": {
-          "destinations": [
-            "string"
-          ],
-          "enabled": true,
-          "head_sampling_rate": 1,
-          "persist": true,
-          "propagation_policy": "authenticated"
-        }
-      },
-      "references": {
-        "dispatch_namespace_outbounds": [
-          {
-            "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "namespace_name": "my-dispatch-namespace",
-            "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "worker_name": "my-worker"
-          }
-        ],
-        "domains": [
-          {
-            "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "certificate_id": "certificate_id",
-            "hostname": "my-worker.example.com",
-            "zone_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "zone_name": "example.com"
-          }
-        ],
-        "durable_objects": [
-          {
-            "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "namespace_name": "my-durable-object-namespace",
-            "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "worker_name": "my-worker"
-          }
-        ],
-        "queues": [
-          {
-            "queue_consumer_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "queue_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "queue_name": "my-queue"
-          }
-        ],
-        "workers": [
-          {
-            "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-            "name": "my-worker"
-          }
-        ]
-      },
-      "subdomain": {
-        "enabled": true,
-        "previews_enabled": true
-      },
-      "tags": [
-        "my-team",
-        "my-public-api"
-      ],
-      "tail_consumers": [
-        {
-          "name": "my-tail-consumer"
-        }
-      ],
-      "updated_on": "2019-12-27T18:11:19.117Z",
-      "deployed_on": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+worker\_id: string
 
-## Get Worker
+ID of the Worker using the Durable Object implementation.
 
-**get** `/accounts/{account_id}/workers/workers/{worker_id}`
+<a href="#">Link to this property</a>
 
-Get details about a specific Worker.
+worker\_name: string
 
-### Path Parameters
+Name of the Worker using the Durable Object implementation.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `worker_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier for the Worker, which can be ID or name.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+queues: array of object {queue\_consumer\_id, queue\_id, queue\_name }
 
-  - `code: number`
+Queues that send messages to the Worker.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+queue\_consumer\_id: string
 
-  - `source: optional object { pointer }`
+ID of the queue consumer configuration.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+queue\_id: string
 
-  - `code: number`
+ID of the queue.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+queue\_name: string
 
-  - `source: optional object { pointer }`
+Name of the queue.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: Worker`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Immutable ID of the Worker.
+<details>
 
-  - `created_on: string`
+<summary>
 
-    When the Worker was created.
+workers: array of object {id, name }
 
-  - `logpush: boolean`
+Other Workers that reference the Worker using <a href="https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/">service bindings</a>.
 
-    Whether logpush is enabled for the Worker.
+</summary>
 
-  - `name: string`
+id: string
 
-    Name of the Worker.
+ID of the referencing Worker.
 
-  - `observability: object { enabled, head_sampling_rate, logs, traces }`
+<a href="#">Link to this property</a>
 
-    Observability settings for the Worker.
+name: string
 
-    - `enabled: optional boolean`
+Name of the referencing Worker.
 
-      Whether observability is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `head_sampling_rate: optional number`
+</details>
 
-      The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-    - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+</details>
 
-      Log settings for the Worker.
+<a href="#">Link to this property</a>
 
-      - `destinations: optional array of string`
+<details>
 
-        A list of destinations where logs will be exported to.
+<summary>
 
-      - `enabled: optional boolean`
+subdomain: object {enabled, preview\_url\_suffix, previews\_enabled, url }
 
-        Whether logs are enabled for the Worker.
+Subdomain settings for the Worker.
 
-      - `head_sampling_rate: optional number`
+</summary>
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+enabled: optional boolean
 
-      - `invocation_logs: optional boolean`
+Whether the \*.workers.dev subdomain is enabled for the Worker.
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `persist: optional boolean`
+preview\_url\_suffix: optional string
 
-        Whether log persistence is enabled for the Worker.
+Prepend a version or preview prefix to this host suffix to form the \*.workers.dev <a href="https://developers.cloudflare.com/workers/configuration/previews/">preview URL</a> the Worker would serve on once previews are enabled, e.g. <code>https://&lt;prefix&gt;-my-worker.my-subdomain.workers.dev</code>. Present whenever the account owns a workers.dev subdomain, regardless of whether <code>previews_enabled</code> is true, so presence does not imply preview URLs are currently live. Absent only when the account owns no workers.dev subdomain.
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      Trace settings for the Worker.
+previews\_enabled: optional boolean
 
-      - `destinations: optional array of string`
+Whether <a href="https://developers.cloudflare.com/workers/configuration/previews/">preview URLs</a> are enabled for the Worker.
 
-        A list of destinations where traces will be exported to.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+url: optional string
 
-        Whether traces are enabled for the Worker.
+The address the Worker would serve on once its \*.workers.dev subdomain is enabled. Present whenever the account owns a workers.dev subdomain, regardless of whether <code>enabled</code> is true, so presence does not imply the Worker is currently live at this URL. Absent only when the account owns no workers.dev subdomain.
 
-      - `head_sampling_rate: optional number`
+formaturi
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-      - `persist: optional boolean`
+</details>
 
-        Whether trace persistence is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+tags: array of string
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+Tags associated with the Worker.
 
-        - `"authenticated"`
+<a href="#">Link to this property</a>
 
-        - `"accept"`
+<details>
 
-  - `references: object { dispatch_namespace_outbounds, domains, durable_objects, 2 more }`
+<summary>
 
-    Other resources that reference the Worker and depend on it existing.
+tail\_consumers: array of object {name }
 
-    - `dispatch_namespace_outbounds: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+Other Workers that should consume logs from the Worker.
 
-      Other Workers that reference the Worker as an outbound for a dispatch namespace.
+</summary>
 
-      - `namespace_id: string`
+name: string
 
-        ID of the dispatch namespace.
+Name of the consumer Worker.
 
-      - `namespace_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the dispatch namespace.
+</details>
 
-      - `worker_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the Worker using the dispatch namespace.
+updated\_on: string
 
-      - `worker_name: string`
+When the Worker was most recently updated.
 
-        Name of the Worker using the dispatch namespace.
+formatdate-time
 
-    - `domains: array of object { id, certificate_id, hostname, 2 more }`
+<a href="#">Link to this property</a>
 
-      Custom domains connected to the Worker.
+deployed\_on: optional string
 
-      - `id: string`
+When the Worker’s most recent deployment was created. <code>null</code> if the Worker has never been deployed.
 
-        ID of the custom domain.
+formatdate-time
 
-      - `certificate_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the TLS certificate issued for the custom domain.
+</details>
 
-      - `hostname: string`
+[Link to this property](#)%20workers.beta.workers%20%3E%20(model)%20worker%20%3E%20(schema)>)
 
-        Full hostname of the custom domain, including the zone name.
+<details>
 
-      - `zone_id: string`
+<summary>
 
-        ID of the zone.
+WorkerDeleteResponse object {errors, messages, success }
 
-      - `zone_name: string`
+</summary>
 
-        Name of the zone.
+<details>
 
-    - `durable_objects: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+<summary>
 
-      Other Workers that reference Durable Object classes implemented by the Worker.
+errors: array of object {code, message, documentation\_url, source }
 
-      - `namespace_id: string`
+</summary>
 
-        ID of the Durable Object namespace being used.
+code: number
 
-      - `namespace_name: string`
+minimum1000
 
-        Name of the Durable Object namespace being used.
+<a href="#">Link to this property</a>
 
-      - `worker_id: string`
+message: string
 
-        ID of the Worker using the Durable Object implementation.
+<a href="#">Link to this property</a>
 
-      - `worker_name: string`
+documentation\_url: optional string
 
-        Name of the Worker using the Durable Object implementation.
+<a href="#">Link to this property</a>
 
-    - `queues: array of object { queue_consumer_id, queue_id, queue_name }`
+<details>
 
-      Queues that send messages to the Worker.
+<summary>
 
-      - `queue_consumer_id: string`
+source: optional object {pointer }
 
-        ID of the queue consumer configuration.
+</summary>
 
-      - `queue_id: string`
+pointer: optional string
 
-        ID of the queue.
+<a href="#">Link to this property</a>
 
-      - `queue_name: string`
+</details>
 
-        Name of the queue.
+<a href="#">Link to this property</a>
 
-    - `workers: array of object { id, name }`
+</details>
 
-      Other Workers that reference the Worker using [service bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/).
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-        ID of the referencing Worker.
+<summary>
 
-      - `name: string`
+messages: array of object {code, message, documentation\_url, source }
 
-        Name of the referencing Worker.
+</summary>
 
-  - `subdomain: object { enabled, previews_enabled }`
+code: number
 
-    Subdomain settings for the Worker.
+minimum1000
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the *.workers.dev subdomain is enabled for the Worker.
+message: string
 
-    - `previews_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+documentation\_url: optional string
 
-  - `tags: array of string`
+<a href="#">Link to this property</a>
 
-    Tags associated with the Worker.
+<details>
 
-  - `tail_consumers: array of object { name }`
+<summary>
 
-    Other Workers that should consume logs from the Worker.
+source: optional object {pointer }
 
-    - `name: string`
+</summary>
 
-      Name of the consumer Worker.
+pointer: optional string
 
-  - `updated_on: string`
+<a href="#">Link to this property</a>
 
-    When the Worker was most recently updated.
+</details>
 
-  - `deployed_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the Worker's most recent deployment was created. `null` if the Worker has never been deployed.
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+success: true
 
-  - `true`
+Whether the API call was successful.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20workers.beta.workers%20%3E%20(model)%20worker_delete_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "logpush": true,
-    "name": "my-worker",
-    "observability": {
-      "enabled": true,
-      "head_sampling_rate": 1,
-      "logs": {
-        "destinations": [
-          "string"
-        ],
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "invocation_logs": true,
-        "persist": true
-      },
-      "traces": {
-        "destinations": [
-          "string"
-        ],
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "persist": true,
-        "propagation_policy": "authenticated"
-      }
-    },
-    "references": {
-      "dispatch_namespace_outbounds": [
-        {
-          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "namespace_name": "my-dispatch-namespace",
-          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "worker_name": "my-worker"
-        }
-      ],
-      "domains": [
-        {
-          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "certificate_id": "certificate_id",
-          "hostname": "my-worker.example.com",
-          "zone_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "zone_name": "example.com"
-        }
-      ],
-      "durable_objects": [
-        {
-          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "namespace_name": "my-durable-object-namespace",
-          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "worker_name": "my-worker"
-        }
-      ],
-      "queues": [
-        {
-          "queue_consumer_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "queue_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "queue_name": "my-queue"
-        }
-      ],
-      "workers": [
-        {
-          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "name": "my-worker"
-        }
-      ]
-    },
-    "subdomain": {
-      "enabled": true,
-      "previews_enabled": true
-    },
-    "tags": [
-      "my-team",
-      "my-public-api"
-    ],
-    "tail_consumers": [
-      {
-        "name": "my-tail-consumer"
-      }
-    ],
-    "updated_on": "2019-12-27T18:11:19.117Z",
-    "deployed_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+#### WorkersVersions
 
-## Create Worker
+##### [List Versions](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/subresources/versions/methods/list)
 
-**post** `/accounts/{account_id}/workers/workers`
+GET/accounts/{account\_id}/workers/workers/{worker\_id}/versions
 
-Create a new Worker.
+##### [Get Version](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/subresources/versions/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/workers/workers/{worker\_id}/versions/{version\_id}
 
-- `account_id: string`
+##### [Create Version](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/subresources/versions/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/workers/workers/{worker\_id}/versions
 
-### Body Parameters
+##### [Delete Version](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/subresources/versions/methods/delete)
 
-- `name: string`
+DELETE/accounts/{account\_id}/workers/workers/{worker\_id}/versions/{version\_id}
 
-  Name of the Worker.
+##### ModelsExpand Collapse
 
-- `logpush: optional boolean`
+<details>
 
-  Whether logpush is enabled for the Worker.
+<summary>
 
-- `observability: optional object { enabled, head_sampling_rate, logs, traces }`
+Version object {id, created\_on, number, 22 more }
 
-  Observability settings for the Worker.
+</summary>
 
-  - `enabled: optional boolean`
+id: string
 
-    Whether observability is enabled for the Worker.
+Version identifier.
 
-  - `head_sampling_rate: optional number`
+formatuuid
 
-    The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-  - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+created\_on: string
 
-    Log settings for the Worker.
+When the version was created.
 
-    - `destinations: optional array of string`
+formatdate-time
 
-      A list of destinations where logs will be exported to.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+number: number
 
-      Whether logs are enabled for the Worker.
+The integer version number, starting from one.
 
-    - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-      The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+urls: array of string
 
-    - `invocation_logs: optional boolean`
+All routable URLs that always point to this version. Does not include alias URLs, since aliases can be updated to point to a different version.
 
-      Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `persist: optional boolean`
+<details>
 
-      Whether log persistence is enabled for the Worker.
+<summary>
 
-  - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+annotations: optional object {"workers/message", "workers/tag", "workers/triggered\_by" }
 
-    Trace settings for the Worker.
+Metadata about the version.
 
-    - `destinations: optional array of string`
+</summary>
 
-      A list of destinations where traces will be exported to.
+"workers/message": optional string
 
-    - `enabled: optional boolean`
+Human-readable message about the version. Truncated to 1000 bytes if longer.
 
-      Whether traces are enabled for the Worker.
+maxLength1000
 
-    - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-      The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+"workers/tag": optional string
 
-    - `persist: optional boolean`
+User-provided identifier for the version. Maximum 100 bytes.
 
-      Whether trace persistence is enabled for the Worker.
+maxLength100
 
-    - `propagation_policy: optional "authenticated" or "accept"`
+<a href="#">Link to this property</a>
 
-      Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+"workers/triggered\_by": optional string
 
-      - `"authenticated"`
+Operation that triggered the creation of the version.
 
-      - `"accept"`
+<a href="#">Link to this property</a>
 
-- `subdomain: optional object { enabled, previews_enabled }`
+</details>
 
-  Subdomain settings for the Worker.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+<details>
 
-    Whether the *.workers.dev subdomain is enabled for the Worker.
+<summary>
 
-  - `previews_enabled: optional boolean`
+assets: optional object {config, jwt }
 
-    Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+Configuration for assets within a Worker.
 
-- `tags: optional array of string`
+<a href="https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers"><code>_headers</code></a> and <a href="https://developers.cloudflare.com/workers/static-assets/redirects/"><code>_redirects</code></a> files should be included as modules named <code>_headers</code> and <code>_redirects</code> with content type <code>text/plain</code>.
 
-  Tags associated with the Worker.
+</summary>
 
-- `tail_consumers: optional array of object { name }`
+<details>
 
-  Other Workers that should consume logs from the Worker.
+<summary>
 
-  - `name: string`
+config: optional object {html\_handling, not\_found\_handling, run\_worker\_first }
 
-    Name of the consumer Worker.
+Configuration for assets within a Worker.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+html\_handling: optional "auto-trailing-slash"or "force-trailing-slash"or "drop-trailing-slash"or "none"
 
-  - `documentation_url: optional string`
+Determines the redirects and rewrites of requests for HTML content.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"auto-trailing-slash"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"force-trailing-slash"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"drop-trailing-slash"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: Worker`
+"none"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Immutable ID of the Worker.
+</details>
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    When the Worker was created.
+<details>
 
-  - `logpush: boolean`
+<summary>
 
-    Whether logpush is enabled for the Worker.
+not\_found\_handling: optional "none"or "404-page"or "single-page-application"
 
-  - `name: string`
+Determines the response when a request does not match a static asset, and there is no Worker script.
 
-    Name of the Worker.
+</summary>
 
-  - `observability: object { enabled, head_sampling_rate, logs, traces }`
+One of the following:
 
-    Observability settings for the Worker.
+"none"
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether observability is enabled for the Worker.
+"404-page"
 
-    - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-      The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+"single-page-application"
 
-    - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      Log settings for the Worker.
+</details>
 
-      - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-        A list of destinations where logs will be exported to.
+<details>
 
-      - `enabled: optional boolean`
+<summary>
 
-        Whether logs are enabled for the Worker.
+run\_worker\_first: optional array of stringor boolean
 
-      - `head_sampling_rate: optional number`
+Contains a list path rules to control routing to either the Worker or assets. Glob (\*) and negative (!) rules are supported. Rules must start with either ’/’ or ’!/’. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+</summary>
 
-      - `invocation_logs: optional boolean`
+One of the following:
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+array of string
 
-      - `persist: optional boolean`
+Contains a list path rules to control routing to either the Worker or assets. Glob (\*) and negative (!) rules are supported. Rules must start with either ’/’ or ’!/’. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
 
-        Whether log persistence is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+boolean
 
-      Trace settings for the Worker.
+Enables routing to always invoke the Worker script ahead of all requests. When true, this is equivalent to <code>["/*"]</code> in the string array version of this field.
 
-      - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-        A list of destinations where traces will be exported to.
+</details>
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether traces are enabled for the Worker.
+</details>
 
-      - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+jwt: optional string
 
-      - `persist: optional boolean`
+Token provided upon successful upload of all files from a registered manifest.
 
-        Whether trace persistence is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+</details>
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+<a href="#">Link to this property</a>
 
-        - `"authenticated"`
+author\_email: optional string
 
-        - `"accept"`
+Email of the user who created the version.
 
-  - `references: object { dispatch_namespace_outbounds, domains, durable_objects, 2 more }`
+formatemail
 
-    Other resources that reference the Worker and depend on it existing.
+<a href="#">Link to this property</a>
 
-    - `dispatch_namespace_outbounds: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+author\_id: optional string
 
-      Other Workers that reference the Worker as an outbound for a dispatch namespace.
+Identifier of the user who created the version.
 
-      - `namespace_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the dispatch namespace.
+<details>
 
-      - `namespace_name: string`
+<summary>
 
-        Name of the dispatch namespace.
+bindings: optional array of object {name, type } or object {instance\_name, name, type, namespace } or object {name, namespace, type } or 33 more
 
-      - `worker_id: string`
+List of bindings attached to a Worker. You can find more about bindings on our docs: <a href="https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings">https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings</a>.
 
-        ID of the Worker using the dispatch namespace.
+</summary>
 
-      - `worker_name: string`
+One of the following:
 
-        Name of the Worker using the dispatch namespace.
+<details>
 
-    - `domains: array of object { id, certificate_id, hostname, 2 more }`
+<summary>
 
-      Custom domains connected to the Worker.
+AI object {name, type }
 
-      - `id: string`
+</summary>
 
-        ID of the custom domain.
+name: string
 
-      - `certificate_id: string`
+A JavaScript variable name for the binding.
 
-        ID of the TLS certificate issued for the custom domain.
+<a href="#">Link to this property</a>
 
-      - `hostname: string`
+type: "ai"
 
-        Full hostname of the custom domain, including the zone name.
+The kind of resource that the binding provides.
 
-      - `zone_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the zone.
+</details>
 
-      - `zone_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the zone.
+<details>
 
-    - `durable_objects: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+<summary>
 
-      Other Workers that reference Durable Object classes implemented by the Worker.
+AISearch object {instance\_name, name, type, namespace }
 
-      - `namespace_id: string`
+</summary>
 
-        ID of the Durable Object namespace being used.
+instance\_name: string
 
-      - `namespace_name: string`
+The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
 
-        Name of the Durable Object namespace being used.
+<a href="#">Link to this property</a>
 
-      - `worker_id: string`
+name: string
 
-        ID of the Worker using the Durable Object implementation.
+A JavaScript variable name for the binding.
 
-      - `worker_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the Worker using the Durable Object implementation.
+type: "ai\_search"
 
-    - `queues: array of object { queue_consumer_id, queue_id, queue_name }`
+The kind of resource that the binding provides.
 
-      Queues that send messages to the Worker.
+<a href="#">Link to this property</a>
 
-      - `queue_consumer_id: string`
+namespace: optional string
 
-        ID of the queue consumer configuration.
+The namespace the instance belongs to. Defaults to “default” if omitted. Customers who don’t use namespaces can simply omit this field.
 
-      - `queue_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the queue.
+</details>
 
-      - `queue_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the queue.
+<details>
 
-    - `workers: array of object { id, name }`
+<summary>
 
-      Other Workers that reference the Worker using [service bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/).
+AISearchNamespace object {name, namespace, type }
 
-      - `id: string`
+</summary>
 
-        ID of the referencing Worker.
+name: string
 
-      - `name: string`
+A JavaScript variable name for the binding.
 
-        Name of the referencing Worker.
+<a href="#">Link to this property</a>
 
-  - `subdomain: object { enabled, previews_enabled }`
+namespace: string
 
-    Subdomain settings for the Worker.
+The user-chosen namespace name. Must exist before deploy — Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The “default” namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the *.workers.dev subdomain is enabled for the Worker.
+type: "ai\_search\_namespace"
 
-    - `previews_enabled: optional boolean`
+The kind of resource that the binding provides.
 
-      Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-  - `tags: array of string`
+</details>
 
-    Tags associated with the Worker.
+<a href="#">Link to this property</a>
 
-  - `tail_consumers: array of object { name }`
+<details>
 
-    Other Workers that should consume logs from the Worker.
+<summary>
 
-    - `name: string`
+Messaging object {name, namespace, type }
 
-      Name of the consumer Worker.
+</summary>
 
-  - `updated_on: string`
+name: string
 
-    When the Worker was most recently updated.
+A JavaScript variable name for the binding.
 
-  - `deployed_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the Worker's most recent deployment was created. `null` if the Worker has never been deployed.
+namespace: string
 
-- `success: true`
+The Messaging namespace to bind to.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+type: "messaging"
 
-### Example
+The kind of resource that the binding provides.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my-worker",
-          "tags": [
-            "my-team",
-            "my-public-api"
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "logpush": true,
-    "name": "my-worker",
-    "observability": {
-      "enabled": true,
-      "head_sampling_rate": 1,
-      "logs": {
-        "destinations": [
-          "string"
-        ],
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "invocation_logs": true,
-        "persist": true
-      },
-      "traces": {
-        "destinations": [
-          "string"
-        ],
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "persist": true,
-        "propagation_policy": "authenticated"
-      }
-    },
-    "references": {
-      "dispatch_namespace_outbounds": [
-        {
-          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "namespace_name": "my-dispatch-namespace",
-          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "worker_name": "my-worker"
-        }
-      ],
-      "domains": [
-        {
-          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "certificate_id": "certificate_id",
-          "hostname": "my-worker.example.com",
-          "zone_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "zone_name": "example.com"
-        }
-      ],
-      "durable_objects": [
-        {
-          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "namespace_name": "my-durable-object-namespace",
-          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "worker_name": "my-worker"
-        }
-      ],
-      "queues": [
-        {
-          "queue_consumer_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "queue_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "queue_name": "my-queue"
-        }
-      ],
-      "workers": [
-        {
-          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "name": "my-worker"
-        }
-      ]
-    },
-    "subdomain": {
-      "enabled": true,
-      "previews_enabled": true
-    },
-    "tags": [
-      "my-team",
-      "my-public-api"
-    ],
-    "tail_consumers": [
-      {
-        "name": "my-tail-consumer"
-      }
-    ],
-    "updated_on": "2019-12-27T18:11:19.117Z",
-    "deployed_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Worker
+<details>
 
-**put** `/accounts/{account_id}/workers/workers/{worker_id}`
+<summary>
 
-Perform a complete replacement of a Worker, where omitted properties are set to their default values. This is the exact same as the Create Worker endpoint, but operates on an existing Worker. To perform a partial update instead, use the Edit Worker endpoint.
+AnalyticsEngine object {dataset, name, type }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+dataset: string
 
-  Identifier.
+The name of the dataset to bind to.
 
-- `worker_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier for the Worker, which can be ID or name.
+name: string
 
-### Body Parameters
+A JavaScript variable name for the binding.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Name of the Worker.
+type: "analytics\_engine"
 
-- `logpush: optional boolean`
+The kind of resource that the binding provides.
 
-  Whether logpush is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-- `observability: optional object { enabled, head_sampling_rate, logs, traces }`
+</details>
 
-  Observability settings for the Worker.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+<details>
 
-    Whether observability is enabled for the Worker.
+<summary>
 
-  - `head_sampling_rate: optional number`
+Assets object {name, type }
 
-    The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+</summary>
 
-  - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+name: string
 
-    Log settings for the Worker.
+A JavaScript variable name for the binding.
 
-    - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-      A list of destinations where logs will be exported to.
+type: "assets"
 
-    - `enabled: optional boolean`
+The kind of resource that the binding provides.
 
-      Whether logs are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `head_sampling_rate: optional number`
+</details>
 
-      The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-    - `invocation_logs: optional boolean`
+<details>
 
-      Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+<summary>
 
-    - `persist: optional boolean`
+Browser object {name, type }
 
-      Whether log persistence is enabled for the Worker.
+</summary>
 
-  - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+name: string
 
-    Trace settings for the Worker.
+A JavaScript variable name for the binding.
 
-    - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-      A list of destinations where traces will be exported to.
+type: "browser"
 
-    - `enabled: optional boolean`
+The kind of resource that the binding provides.
 
-      Whether traces are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `head_sampling_rate: optional number`
+</details>
 
-      The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-    - `persist: optional boolean`
+<details>
 
-      Whether trace persistence is enabled for the Worker.
+<summary>
 
-    - `propagation_policy: optional "authenticated" or "accept"`
+D1 object {database\_id, name, type, id }
 
-      Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+</summary>
 
-      - `"authenticated"`
+database\_id: string
 
-      - `"accept"`
+Identifier of the D1 database to bind to.
 
-- `subdomain: optional object { enabled, previews_enabled }`
+<a href="#">Link to this property</a>
 
-  Subdomain settings for the Worker.
+name: string
 
-  - `enabled: optional boolean`
+A JavaScript variable name for the binding.
 
-    Whether the *.workers.dev subdomain is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-  - `previews_enabled: optional boolean`
+type: "d1"
 
-    Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+The kind of resource that the binding provides.
 
-- `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-  Tags associated with the Worker.
+Deprecatedid: optional string
 
-- `tail_consumers: optional array of object { name }`
+This property has been renamed to <code>database_id</code>.
 
-  Other Workers that should consume logs from the Worker.
+Identifier of the D1 database to bind to.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the consumer Worker.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+DataBlob object {name, part, type }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+name: string
 
-    - `pointer: optional string`
+A JavaScript variable name for the binding.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+part: string
 
-  - `message: string`
+The name of the file containing the data content. Only accepted for <code>service worker syntax</code> Workers.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+Deprecatedtype: "data\_blob"
 
-    - `pointer: optional string`
+The kind of resource that the binding provides.
 
-- `result: Worker`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Immutable ID of the Worker.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+<details>
 
-    When the Worker was created.
+<summary>
 
-  - `logpush: boolean`
+DispatchNamespace object {name, namespace, type, outbound }
 
-    Whether logpush is enabled for the Worker.
+</summary>
 
-  - `name: string`
+name: string
 
-    Name of the Worker.
+A JavaScript variable name for the binding.
 
-  - `observability: object { enabled, head_sampling_rate, logs, traces }`
+<a href="#">Link to this property</a>
 
-    Observability settings for the Worker.
+namespace: string
 
-    - `enabled: optional boolean`
+The name of the dispatch namespace.
 
-      Whether observability is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `head_sampling_rate: optional number`
+type: "dispatch\_namespace"
 
-      The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+The kind of resource that the binding provides.
 
-    - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      Log settings for the Worker.
+<details>
 
-      - `destinations: optional array of string`
+<summary>
 
-        A list of destinations where logs will be exported to.
+outbound: optional object {params, worker }
 
-      - `enabled: optional boolean`
+Outbound worker.
 
-        Whether logs are enabled for the Worker.
+</summary>
 
-      - `head_sampling_rate: optional number`
+<details>
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<summary>
 
-      - `invocation_logs: optional boolean`
+params: optional array of object {name }
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
 
-      - `persist: optional boolean`
+</summary>
 
-        Whether log persistence is enabled for the Worker.
+name: string
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+Name of the parameter.
 
-      Trace settings for the Worker.
+<a href="#">Link to this property</a>
 
-      - `destinations: optional array of string`
+</details>
 
-        A list of destinations where traces will be exported to.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+<details>
 
-        Whether traces are enabled for the Worker.
+<summary>
 
-      - `head_sampling_rate: optional number`
+worker: optional object {entrypoint, environment, service }
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+Outbound worker.
 
-      - `persist: optional boolean`
+</summary>
 
-        Whether trace persistence is enabled for the Worker.
+entrypoint: optional string
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+Entrypoint to invoke on the outbound worker.
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+<a href="#">Link to this property</a>
 
-        - `"authenticated"`
+environment: optional string
 
-        - `"accept"`
+Environment of the outbound worker.
 
-  - `references: object { dispatch_namespace_outbounds, domains, durable_objects, 2 more }`
+<a href="#">Link to this property</a>
 
-    Other resources that reference the Worker and depend on it existing.
+service: optional string
 
-    - `dispatch_namespace_outbounds: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+Name of the outbound worker.
 
-      Other Workers that reference the Worker as an outbound for a dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `namespace_id: string`
+</details>
 
-        ID of the dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `namespace_name: string`
+</details>
 
-        Name of the dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `worker_id: string`
+</details>
 
-        ID of the Worker using the dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `worker_name: string`
+<details>
 
-        Name of the Worker using the dispatch namespace.
+<summary>
 
-    - `domains: array of object { id, certificate_id, hostname, 2 more }`
+DurableObjectNamespace object {name, type, class\_name, 4 more }
 
-      Custom domains connected to the Worker.
+</summary>
 
-      - `id: string`
+name: string
 
-        ID of the custom domain.
+A JavaScript variable name for the binding.
 
-      - `certificate_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the TLS certificate issued for the custom domain.
+type: "durable\_object\_namespace"
 
-      - `hostname: string`
+The kind of resource that the binding provides.
 
-        Full hostname of the custom domain, including the zone name.
+<a href="#">Link to this property</a>
 
-      - `zone_id: string`
+class\_name: optional string
 
-        ID of the zone.
+The exported class name of the Durable Object.
 
-      - `zone_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the zone.
+dispatch\_namespace: optional string
 
-    - `durable_objects: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+The dispatch namespace the Durable Object script belongs to.
 
-      Other Workers that reference Durable Object classes implemented by the Worker.
+<a href="#">Link to this property</a>
 
-      - `namespace_id: string`
+environment: optional string
 
-        ID of the Durable Object namespace being used.
+The environment of the script\_name to bind to.
 
-      - `namespace_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the Durable Object namespace being used.
+namespace\_id: optional string
 
-      - `worker_id: string`
+Namespace identifier tag.
 
-        ID of the Worker using the Durable Object implementation.
+maxLength32
 
-      - `worker_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the Worker using the Durable Object implementation.
+script\_name: optional string
 
-    - `queues: array of object { queue_consumer_id, queue_id, queue_name }`
+The script where the Durable Object is defined, if it is external to this Worker.
 
-      Queues that send messages to the Worker.
+<a href="#">Link to this property</a>
 
-      - `queue_consumer_id: string`
+</details>
 
-        ID of the queue consumer configuration.
+<a href="#">Link to this property</a>
 
-      - `queue_id: string`
+<details>
 
-        ID of the queue.
+<summary>
 
-      - `queue_name: string`
+Hyperdrive object {id, name, type }
 
-        Name of the queue.
+</summary>
 
-    - `workers: array of object { id, name }`
+id: string
 
-      Other Workers that reference the Worker using [service bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/).
+Identifier of the Hyperdrive connection to bind to.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        ID of the referencing Worker.
+name: string
 
-      - `name: string`
+A JavaScript variable name for the binding.
 
-        Name of the referencing Worker.
+<a href="#">Link to this property</a>
 
-  - `subdomain: object { enabled, previews_enabled }`
+type: "hyperdrive"
 
-    Subdomain settings for the Worker.
+The kind of resource that the binding provides.
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the *.workers.dev subdomain is enabled for the Worker.
+</details>
 
-    - `previews_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+<details>
 
-  - `tags: array of string`
+<summary>
 
-    Tags associated with the Worker.
+Inherit object {name, type, old\_name, version\_id }
 
-  - `tail_consumers: array of object { name }`
+</summary>
 
-    Other Workers that should consume logs from the Worker.
+name: string
 
-    - `name: string`
+The name of the inherited binding.
 
-      Name of the consumer Worker.
+<a href="#">Link to this property</a>
 
-  - `updated_on: string`
+type: "inherit"
 
-    When the Worker was most recently updated.
+The kind of resource that the binding provides.
 
-  - `deployed_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the Worker's most recent deployment was created. `null` if the Worker has never been deployed.
+old\_name: optional string
 
-- `success: true`
+The old name of the inherited binding. If set, the binding will be renamed from <code>old_name</code> to <code>name</code> in the new version. If not set, the binding will keep the same name between versions.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+version\_id: optional string
 
-### Example
+Identifier for the version to inherit the binding from, which can be the version ID or the literal “latest” to inherit from the latest version. Defaults to inheriting the binding from the latest version.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my-worker",
-          "tags": [
-            "my-team",
-            "my-public-api"
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "logpush": true,
-    "name": "my-worker",
-    "observability": {
-      "enabled": true,
-      "head_sampling_rate": 1,
-      "logs": {
-        "destinations": [
-          "string"
-        ],
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "invocation_logs": true,
-        "persist": true
-      },
-      "traces": {
-        "destinations": [
-          "string"
-        ],
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "persist": true,
-        "propagation_policy": "authenticated"
-      }
-    },
-    "references": {
-      "dispatch_namespace_outbounds": [
-        {
-          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "namespace_name": "my-dispatch-namespace",
-          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "worker_name": "my-worker"
-        }
-      ],
-      "domains": [
-        {
-          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "certificate_id": "certificate_id",
-          "hostname": "my-worker.example.com",
-          "zone_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "zone_name": "example.com"
-        }
-      ],
-      "durable_objects": [
-        {
-          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "namespace_name": "my-durable-object-namespace",
-          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "worker_name": "my-worker"
-        }
-      ],
-      "queues": [
-        {
-          "queue_consumer_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "queue_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "queue_name": "my-queue"
-        }
-      ],
-      "workers": [
-        {
-          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "name": "my-worker"
-        }
-      ]
-    },
-    "subdomain": {
-      "enabled": true,
-      "previews_enabled": true
-    },
-    "tags": [
-      "my-team",
-      "my-public-api"
-    ],
-    "tail_consumers": [
-      {
-        "name": "my-tail-consumer"
-      }
-    ],
-    "updated_on": "2019-12-27T18:11:19.117Z",
-    "deployed_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Edit Worker
+<details>
 
-**patch** `/accounts/{account_id}/workers/workers/{worker_id}`
+<summary>
 
-Perform a partial update on a Worker, where omitted properties are left unchanged from their current values.
+Images object {name, type }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+name: string
 
-  Identifier.
+A JavaScript variable name for the binding.
 
-- `worker_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier for the Worker, which can be ID or name.
+type: "images"
 
-### Body Parameters
+The kind of resource that the binding provides.
 
-- `logpush: boolean`
+<a href="#">Link to this property</a>
 
-  Whether logpush is enabled for the Worker.
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Name of the Worker.
+<details>
 
-- `observability: object { enabled, head_sampling_rate, logs, traces }`
+<summary>
 
-  Observability settings for the Worker.
+Json object {json, name, type }
 
-  - `enabled: optional boolean`
+</summary>
 
-    Whether observability is enabled for the Worker.
+json: unknown
 
-  - `head_sampling_rate: optional number`
+JSON data to use.
 
-    The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-  - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+name: string
 
-    Log settings for the Worker.
+A JavaScript variable name for the binding.
 
-    - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-      A list of destinations where logs will be exported to.
+type: "json"
 
-    - `enabled: optional boolean`
+The kind of resource that the binding provides.
 
-      Whether logs are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `head_sampling_rate: optional number`
+</details>
 
-      The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-    - `invocation_logs: optional boolean`
+<details>
 
-      Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+<summary>
 
-    - `persist: optional boolean`
+KVNamespace object {name, namespace\_id, type }
 
-      Whether log persistence is enabled for the Worker.
+</summary>
 
-  - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+name: string
 
-    Trace settings for the Worker.
+A JavaScript variable name for the binding.
 
-    - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-      A list of destinations where traces will be exported to.
+namespace\_id: string
 
-    - `enabled: optional boolean`
+Namespace identifier tag.
 
-      Whether traces are enabled for the Worker.
+maxLength32
 
-    - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-      The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+type: "kv\_namespace"
 
-    - `persist: optional boolean`
+The kind of resource that the binding provides.
 
-      Whether trace persistence is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `propagation_policy: optional "authenticated" or "accept"`
+</details>
 
-      Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+<a href="#">Link to this property</a>
 
-      - `"authenticated"`
+<details>
 
-      - `"accept"`
+<summary>
 
-- `subdomain: object { enabled, previews_enabled }`
+Media object {name, type }
 
-  Subdomain settings for the Worker.
+</summary>
 
-  - `enabled: optional boolean`
+name: string
 
-    Whether the *.workers.dev subdomain is enabled for the Worker.
+A JavaScript variable name for the binding.
 
-  - `previews_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+type: "media"
 
-- `tags: array of string`
+The kind of resource that the binding provides.
 
-  Tags associated with the Worker.
+<a href="#">Link to this property</a>
 
-- `tail_consumers: array of object { name }`
+</details>
 
-  Other Workers that should consume logs from the Worker.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-    Name of the consumer Worker.
+<summary>
 
-### Returns
+MTLSCertificate object {certificate\_id, name, type }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+certificate\_id: string
 
-  - `message: string`
+Identifier of the certificate to bind to.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: string
 
-    - `pointer: optional string`
+A JavaScript variable name for the binding.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+type: "mtls\_certificate"
 
-  - `message: string`
+The kind of resource that the binding provides.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: Worker`
+<details>
 
-  - `id: string`
+<summary>
 
-    Immutable ID of the Worker.
+PlainText object {name, text, type }
 
-  - `created_on: string`
+</summary>
 
-    When the Worker was created.
+name: string
 
-  - `logpush: boolean`
+A JavaScript variable name for the binding.
 
-    Whether logpush is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+text: string
 
-    Name of the Worker.
+The text value to use.
 
-  - `observability: object { enabled, head_sampling_rate, logs, traces }`
+<a href="#">Link to this property</a>
 
-    Observability settings for the Worker.
+type: "plain\_text"
 
-    - `enabled: optional boolean`
+The kind of resource that the binding provides.
 
-      Whether observability is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-    - `head_sampling_rate: optional number`
+</details>
 
-      The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-    - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+<details>
 
-      Log settings for the Worker.
+<summary>
 
-      - `destinations: optional array of string`
+Pipelines object {name, pipeline, type }
 
-        A list of destinations where logs will be exported to.
+</summary>
 
-      - `enabled: optional boolean`
+name: string
 
-        Whether logs are enabled for the Worker.
+A JavaScript variable name for the binding.
 
-      - `head_sampling_rate: optional number`
+<a href="#">Link to this property</a>
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+pipeline: string
 
-      - `invocation_logs: optional boolean`
+Name of the Pipeline to bind to.
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `persist: optional boolean`
+type: "pipelines"
 
-        Whether log persistence is enabled for the Worker.
+The kind of resource that the binding provides.
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      Trace settings for the Worker.
+</details>
 
-      - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-        A list of destinations where traces will be exported to.
+<details>
 
-      - `enabled: optional boolean`
+<summary>
 
-        Whether traces are enabled for the Worker.
+Queue object {name, queue\_name, type }
 
-      - `head_sampling_rate: optional number`
+</summary>
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+name: string
 
-      - `persist: optional boolean`
+A JavaScript variable name for the binding.
 
-        Whether trace persistence is enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+queue\_name: string
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+Name of the Queue to bind to.
 
-        - `"authenticated"`
+<a href="#">Link to this property</a>
 
-        - `"accept"`
+type: "queue"
 
-  - `references: object { dispatch_namespace_outbounds, domains, durable_objects, 2 more }`
+The kind of resource that the binding provides.
 
-    Other resources that reference the Worker and depend on it existing.
+<a href="#">Link to this property</a>
 
-    - `dispatch_namespace_outbounds: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+</details>
 
-      Other Workers that reference the Worker as an outbound for a dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `namespace_id: string`
+<details>
 
-        ID of the dispatch namespace.
+<summary>
 
-      - `namespace_name: string`
+Ratelimit object {name, namespace\_id, simple, type }
 
-        Name of the dispatch namespace.
+</summary>
 
-      - `worker_id: string`
+name: string
 
-        ID of the Worker using the dispatch namespace.
+A JavaScript variable name for the binding.
 
-      - `worker_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the Worker using the dispatch namespace.
+namespace\_id: string
 
-    - `domains: array of object { id, certificate_id, hostname, 2 more }`
+Identifier of the rate limit namespace to bind to.
 
-      Custom domains connected to the Worker.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-        ID of the custom domain.
+<summary>
 
-      - `certificate_id: string`
+simple: object {limit, period, mitigation\_timeout }
 
-        ID of the TLS certificate issued for the custom domain.
+The rate limit configuration.
 
-      - `hostname: string`
+</summary>
 
-        Full hostname of the custom domain, including the zone name.
+limit: number
 
-      - `zone_id: string`
+The limit (requests per period).
 
-        ID of the zone.
+<a href="#">Link to this property</a>
 
-      - `zone_name: string`
+period: number
 
-        Name of the zone.
+The period in seconds.
 
-    - `durable_objects: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+<a href="#">Link to this property</a>
 
-      Other Workers that reference Durable Object classes implemented by the Worker.
+mitigation\_timeout: optional number
 
-      - `namespace_id: string`
+Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
 
-        ID of the Durable Object namespace being used.
+<a href="#">Link to this property</a>
 
-      - `namespace_name: string`
+</details>
 
-        Name of the Durable Object namespace being used.
+<a href="#">Link to this property</a>
 
-      - `worker_id: string`
+type: "ratelimit"
 
-        ID of the Worker using the Durable Object implementation.
+The kind of resource that the binding provides.
 
-      - `worker_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the Worker using the Durable Object implementation.
+</details>
 
-    - `queues: array of object { queue_consumer_id, queue_id, queue_name }`
+<a href="#">Link to this property</a>
 
-      Queues that send messages to the Worker.
+<details>
 
-      - `queue_consumer_id: string`
+<summary>
 
-        ID of the queue consumer configuration.
+R2Bucket object {bucket\_name, name, type, jurisdiction }
 
-      - `queue_id: string`
+</summary>
 
-        ID of the queue.
+bucket\_name: string
 
-      - `queue_name: string`
+R2 bucket to bind to.
 
-        Name of the queue.
+<a href="#">Link to this property</a>
 
-    - `workers: array of object { id, name }`
+name: string
 
-      Other Workers that reference the Worker using [service bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/).
+A JavaScript variable name for the binding.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        ID of the referencing Worker.
+type: "r2\_bucket"
 
-      - `name: string`
+The kind of resource that the binding provides.
 
-        Name of the referencing Worker.
+<a href="#">Link to this property</a>
 
-  - `subdomain: object { enabled, previews_enabled }`
+<details>
 
-    Subdomain settings for the Worker.
+<summary>
 
-    - `enabled: optional boolean`
+jurisdiction: optional "eu"or "fedramp"or "fedramp-high"or "us"
 
-      Whether the *.workers.dev subdomain is enabled for the Worker.
+The <a href="https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions">jurisdiction</a> of the R2 bucket.
 
-    - `previews_enabled: optional boolean`
+</summary>
 
-      Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+One of the following:
 
-  - `tags: array of string`
+"eu"
 
-    Tags associated with the Worker.
+<a href="#">Link to this property</a>
 
-  - `tail_consumers: array of object { name }`
+"fedramp"
 
-    Other Workers that should consume logs from the Worker.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"fedramp-high"
 
-      Name of the consumer Worker.
+<a href="#">Link to this property</a>
 
-  - `updated_on: string`
+"us"
 
-    When the Worker was most recently updated.
+<a href="#">Link to this property</a>
 
-  - `deployed_on: optional string`
+</details>
 
-    When the Worker's most recent deployment was created. `null` if the Worker has never been deployed.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "logpush": true,
-          "name": "my-worker",
-          "observability": {},
-          "subdomain": {},
-          "tags": [
-            "my-team",
-            "my-public-api"
-          ],
-          "tail_consumers": [
-            {
-              "name": "my-tail-consumer"
-            }
-          ]
-        }'
-```
+SecretText object {name, text, type }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "logpush": true,
-    "name": "my-worker",
-    "observability": {
-      "enabled": true,
-      "head_sampling_rate": 1,
-      "logs": {
-        "destinations": [
-          "string"
-        ],
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "invocation_logs": true,
-        "persist": true
-      },
-      "traces": {
-        "destinations": [
-          "string"
-        ],
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "persist": true,
-        "propagation_policy": "authenticated"
-      }
-    },
-    "references": {
-      "dispatch_namespace_outbounds": [
-        {
-          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "namespace_name": "my-dispatch-namespace",
-          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "worker_name": "my-worker"
-        }
-      ],
-      "domains": [
-        {
-          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "certificate_id": "certificate_id",
-          "hostname": "my-worker.example.com",
-          "zone_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "zone_name": "example.com"
-        }
-      ],
-      "durable_objects": [
-        {
-          "namespace_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "namespace_name": "my-durable-object-namespace",
-          "worker_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "worker_name": "my-worker"
-        }
-      ],
-      "queues": [
-        {
-          "queue_consumer_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "queue_id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "queue_name": "my-queue"
-        }
-      ],
-      "workers": [
-        {
-          "id": "e8f70fdbc8b1fb0b8ddb1af166186758",
-          "name": "my-worker"
-        }
-      ]
-    },
-    "subdomain": {
-      "enabled": true,
-      "previews_enabled": true
-    },
-    "tags": [
-      "my-team",
-      "my-public-api"
-    ],
-    "tail_consumers": [
-      {
-        "name": "my-tail-consumer"
-      }
-    ],
-    "updated_on": "2019-12-27T18:11:19.117Z",
-    "deployed_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+name: string
 
-## Delete Worker
+A JavaScript variable name for the binding.
 
-**delete** `/accounts/{account_id}/workers/workers/{worker_id}`
+<a href="#">Link to this property</a>
 
-Delete a Worker and all its associated resources (versions, deployments, etc.).
+text: string
 
-### Path Parameters
+The secret value to use.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+type: "secret\_text"
 
-- `worker_id: string`
+The kind of resource that the binding provides.
 
-  Identifier for the Worker, which can be ID or name.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+SendEmail object {name, type, allowed\_destination\_addresses, 2 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+name: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+A JavaScript variable name for the binding.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+type: "send\_email"
 
-  - `documentation_url: optional string`
+The kind of resource that the binding provides.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+allowed\_destination\_addresses: optional array of string
 
-- `success: true`
+List of allowed destination addresses.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+allowed\_sender\_addresses: optional array of string
 
-### Example
+List of allowed sender addresses.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+destination\_address: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+Destination address for the email.
 
-## Domain Types
+formatemail
 
-### Worker
+<a href="#">Link to this property</a>
 
-- `Worker object { id, created_on, logpush, 8 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Immutable ID of the Worker.
+<details>
 
-  - `created_on: string`
+<summary>
 
-    When the Worker was created.
+Service object {name, service, type, 2 more }
 
-  - `logpush: boolean`
+</summary>
 
-    Whether logpush is enabled for the Worker.
+name: string
 
-  - `name: string`
+A JavaScript variable name for the binding.
 
-    Name of the Worker.
+<a href="#">Link to this property</a>
 
-  - `observability: object { enabled, head_sampling_rate, logs, traces }`
+service: string
 
-    Observability settings for the Worker.
+Name of Worker to bind to.
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether observability is enabled for the Worker.
+type: "service"
 
-    - `head_sampling_rate: optional number`
+The kind of resource that the binding provides.
 
-      The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-    - `logs: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+entrypoint: optional string
 
-      Log settings for the Worker.
+Entrypoint to invoke on the target Worker.
 
-      - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-        A list of destinations where logs will be exported to.
+environment: optional string
 
-      - `enabled: optional boolean`
+Optional environment if the Worker utilizes one.
 
-        Whether logs are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `head_sampling_rate: optional number`
+</details>
 
-        The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%).
+<a href="#">Link to this property</a>
 
-      - `invocation_logs: optional boolean`
+<details>
 
-        Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker.
+<summary>
 
-      - `persist: optional boolean`
+TextBlob object {name, part, type }
 
-        Whether log persistence is enabled for the Worker.
+</summary>
 
-    - `traces: optional object { destinations, enabled, head_sampling_rate, 2 more }`
+name: string
 
-      Trace settings for the Worker.
+A JavaScript variable name for the binding.
 
-      - `destinations: optional array of string`
+<a href="#">Link to this property</a>
 
-        A list of destinations where traces will be exported to.
+part: string
 
-      - `enabled: optional boolean`
+The name of the file containing the text content. Only accepted for <code>service worker syntax</code> Workers.
 
-        Whether traces are enabled for the Worker.
+<a href="#">Link to this property</a>
 
-      - `head_sampling_rate: optional number`
+Deprecatedtype: "text\_blob"
 
-        The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%).
+The kind of resource that the binding provides.
 
-      - `persist: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether trace persistence is enabled for the Worker.
+</details>
 
-      - `propagation_policy: optional "authenticated" or "accept"`
+<a href="#">Link to this property</a>
 
-        Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled.
+<details>
 
-        - `"authenticated"`
+<summary>
 
-        - `"accept"`
+Vectorize object {index\_name, name, type }
 
-  - `references: object { dispatch_namespace_outbounds, domains, durable_objects, 2 more }`
+</summary>
 
-    Other resources that reference the Worker and depend on it existing.
+index\_name: string
 
-    - `dispatch_namespace_outbounds: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+Name of the Vectorize index to bind to.
 
-      Other Workers that reference the Worker as an outbound for a dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `namespace_id: string`
+name: string
 
-        ID of the dispatch namespace.
+A JavaScript variable name for the binding.
 
-      - `namespace_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the dispatch namespace.
+type: "vectorize"
 
-      - `worker_id: string`
+The kind of resource that the binding provides.
 
-        ID of the Worker using the dispatch namespace.
+<a href="#">Link to this property</a>
 
-      - `worker_name: string`
+</details>
 
-        Name of the Worker using the dispatch namespace.
+<a href="#">Link to this property</a>
 
-    - `domains: array of object { id, certificate_id, hostname, 2 more }`
+<details>
 
-      Custom domains connected to the Worker.
+<summary>
 
-      - `id: string`
+VersionMetadata object {name, type }
 
-        ID of the custom domain.
+</summary>
 
-      - `certificate_id: string`
+name: string
 
-        ID of the TLS certificate issued for the custom domain.
+A JavaScript variable name for the binding.
 
-      - `hostname: string`
+<a href="#">Link to this property</a>
 
-        Full hostname of the custom domain, including the zone name.
+type: "version\_metadata"
 
-      - `zone_id: string`
+The kind of resource that the binding provides.
 
-        ID of the zone.
+<a href="#">Link to this property</a>
 
-      - `zone_name: string`
+</details>
 
-        Name of the zone.
+<a href="#">Link to this property</a>
 
-    - `durable_objects: array of object { namespace_id, namespace_name, worker_id, worker_name }`
+<details>
 
-      Other Workers that reference Durable Object classes implemented by the Worker.
+<summary>
 
-      - `namespace_id: string`
+SecretsStoreSecret object {name, secret\_name, store\_id, type }
 
-        ID of the Durable Object namespace being used.
+</summary>
 
-      - `namespace_name: string`
+name: string
 
-        Name of the Durable Object namespace being used.
+A JavaScript variable name for the binding.
 
-      - `worker_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the Worker using the Durable Object implementation.
+secret\_name: string
 
-      - `worker_name: string`
+Name of the secret in the store.
 
-        Name of the Worker using the Durable Object implementation.
+<a href="#">Link to this property</a>
 
-    - `queues: array of object { queue_consumer_id, queue_id, queue_name }`
+store\_id: string
 
-      Queues that send messages to the Worker.
+ID of the store containing the secret.
 
-      - `queue_consumer_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the queue consumer configuration.
+type: "secrets\_store\_secret"
 
-      - `queue_id: string`
+The kind of resource that the binding provides.
 
-        ID of the queue.
+<a href="#">Link to this property</a>
 
-      - `queue_name: string`
+</details>
 
-        Name of the queue.
+<a href="#">Link to this property</a>
 
-    - `workers: array of object { id, name }`
+<details>
 
-      Other Workers that reference the Worker using [service bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/).
+<summary>
 
-      - `id: string`
+Flagship object {app\_id, name, type }
 
-        ID of the referencing Worker.
+</summary>
 
-      - `name: string`
+app\_id: string
 
-        Name of the referencing Worker.
+ID of the Flagship app to bind to for feature flag evaluation.
 
-  - `subdomain: object { enabled, previews_enabled }`
+maxLength128
 
-    Subdomain settings for the Worker.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+name: string
 
-      Whether the *.workers.dev subdomain is enabled for the Worker.
+A JavaScript variable name for the binding.
 
-    - `previews_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker.
+type: "flagship"
 
-  - `tags: array of string`
+The kind of resource that the binding provides.
 
-    Tags associated with the Worker.
+<a href="#">Link to this property</a>
 
-  - `tail_consumers: array of object { name }`
+</details>
 
-    Other Workers that should consume logs from the Worker.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+<details>
 
-      Name of the consumer Worker.
+<summary>
 
-  - `updated_on: string`
+SecretKey object {algorithm, format, name, 4 more }
 
-    When the Worker was most recently updated.
+</summary>
 
-  - `deployed_on: optional string`
+algorithm: unknown
 
-    When the Worker's most recent deployment was created. `null` if the Worker has never been deployed.
+Algorithm-specific key parameters. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm">Learn more</a>.
 
-### Worker Delete Response
+<a href="#">Link to this property</a>
 
-- `WorkerDeleteResponse object { errors, messages, success }`
+<details>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-    - `code: number`
+format: "raw"or "pkcs8"or "spki"or "jwk"
 
-    - `message: string`
+Data format of the key. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format">Learn more</a>.
 
-    - `documentation_url: optional string`
+</summary>
 
-    - `source: optional object { pointer }`
+One of the following:
 
-      - `pointer: optional string`
+"raw"
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+"pkcs8"
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+"spki"
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+"jwk"
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+</details>
 
-    - `true`
+<a href="#">Link to this property</a>
 
-# Versions
+name: string
 
-## List Versions
+A JavaScript variable name for the binding.
 
-**get** `/accounts/{account_id}/workers/workers/{worker_id}/versions`
+<a href="#">Link to this property</a>
 
-List all versions for a Worker.
+type: "secret\_key"
 
-### Path Parameters
+The kind of resource that the binding provides.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `worker_id: string`
+<summary>
 
-  Identifier for the Worker, which can be ID or name.
+usages: array of "encrypt"or "decrypt"or "sign"or 5 more
 
-### Query Parameters
+Allowed operations with the key. <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages">Learn more</a>.
 
-- `page: optional number`
+</summary>
 
-  Current page.
+One of the following:
 
-- `per_page: optional number`
+"encrypt"
 
-  Items per-page.
+<a href="#">Link to this property</a>
 
-### Returns
+"decrypt"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"sign"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"verify"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"deriveKey"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"deriveBits"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"wrapKey"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"unwrapKey"
 
-- `result: array of Version`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Version identifier.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+key\_base64: optional string
 
-    When the version was created.
+Base64-encoded key data. Required if <code>format</code> is “raw”, “pkcs8”, or “spki”.
 
-  - `number: number`
+<a href="#">Link to this property</a>
 
-    The integer version number, starting from one.
+key\_jwk: optional unknown
 
-  - `urls: array of string`
+Key data in <a href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key">JSON Web Key</a> format. Required if <code>format</code> is “jwk”.
 
-    All routable URLs that always point to this version. Does not include alias URLs, since aliases can be updated to point to a different version.
+<a href="#">Link to this property</a>
 
-  - `annotations: optional object { "workers/message", "workers/tag", "workers/triggered_by" }`
+</details>
 
-    Metadata about the version.
+<a href="#">Link to this property</a>
 
-    - `"workers/message": optional string`
+<details>
 
-      Human-readable message about the version. Truncated to 1000 bytes if longer.
+<summary>
 
-    - `"workers/tag": optional string`
+Workflow object {name, type, workflow\_name, 2 more }
 
-      User-provided identifier for the version. Maximum 100 bytes.
+</summary>
 
-    - `"workers/triggered_by": optional string`
+name: string
 
-      Operation that triggered the creation of the version.
+A JavaScript variable name for the binding.
 
-  - `assets: optional object { config, jwt }`
+<a href="#">Link to this property</a>
 
-    Configuration for assets within a Worker.
+type: "workflow"
 
-    [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-    [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files should be
-    included as modules named `_headers` and `_redirects` with content type `text/plain`.
+The kind of resource that the binding provides.
 
-    - `config: optional object { html_handling, not_found_handling, run_worker_first }`
+<a href="#">Link to this property</a>
 
-      Configuration for assets within a Worker.
+workflow\_name: string
 
-      - `html_handling: optional "auto-trailing-slash" or "force-trailing-slash" or "drop-trailing-slash" or "none"`
+Name of the Workflow to bind to.
 
-        Determines the redirects and rewrites of requests for HTML content.
+<a href="#">Link to this property</a>
 
-        - `"auto-trailing-slash"`
+class\_name: optional string
 
-        - `"force-trailing-slash"`
+Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
 
-        - `"drop-trailing-slash"`
+<a href="#">Link to this property</a>
 
-        - `"none"`
+script\_name: optional string
 
-      - `not_found_handling: optional "none" or "404-page" or "single-page-application"`
+Script name that contains the Workflow. If not provided, defaults to this script name.
 
-        Determines the response when a request does not match a static asset, and there is no Worker script.
+<a href="#">Link to this property</a>
 
-        - `"none"`
+</details>
 
-        - `"404-page"`
+<a href="#">Link to this property</a>
 
-        - `"single-page-application"`
+<details>
 
-      - `run_worker_first: optional array of string or boolean`
+<summary>
 
-        Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
+WasmModule object {name, part, type }
 
-        - `array of string`
+</summary>
 
-          Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
+name: string
 
-        - `boolean`
+A JavaScript variable name for the binding.
 
-          Enables routing to always invoke the Worker script ahead of all requests. When true, this is equivalent to `["/*"]` in the string array version of this field.
+<a href="#">Link to this property</a>
 
-    - `jwt: optional string`
+part: string
 
-      Token provided upon successful upload of all files from a registered manifest.
+The name of the file containing the WebAssembly module content. Only accepted for <code>service worker syntax</code> Workers.
 
-  - `bindings: optional array of object { name, type }  or object { instance_name, name, type, namespace }  or object { name, namespace, type }  or 32 more`
+<a href="#">Link to this property</a>
 
-    List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings.
+Deprecatedtype: "wasm\_module"
 
-    - `AI object { name, type }`
+The kind of resource that the binding provides.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+</details>
 
-      - `type: "ai"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+<details>
 
-        - `"ai"`
+<summary>
 
-    - `AISearch object { instance_name, name, type, namespace }`
+VPCService object {name, service\_id, type }
 
-      - `instance_name: string`
+</summary>
 
-        The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
+name: string
 
-      - `name: string`
+A JavaScript variable name for the binding.
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `type: "ai_search"`
+service\_id: string
 
-        The kind of resource that the binding provides.
+Identifier of the VPC service to bind to.
 
-        - `"ai_search"`
+<a href="#">Link to this property</a>
 
-      - `namespace: optional string`
+type: "vpc\_service"
 
-        The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field.
+The kind of resource that the binding provides.
 
-    - `AISearchNamespace object { name, namespace, type }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `namespace: string`
+<details>
 
-        The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
+<summary>
 
-      - `type: "ai_search_namespace"`
+VPCNetwork object {name, type, identity, 2 more }
 
-        The kind of resource that the binding provides.
+</summary>
 
-        - `"ai_search_namespace"`
+name: string
 
-    - `AnalyticsEngine object { dataset, name, type }`
+A JavaScript variable name for the binding.
 
-      - `dataset: string`
+<a href="#">Link to this property</a>
 
-        The name of the dataset to bind to.
+type: "vpc\_network"
 
-      - `name: string`
+The kind of resource that the binding provides.
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `type: "analytics_engine"`
+identity: optional "runtime-email-alpha"
 
-        The kind of resource that the binding provides.
+Enables Gateway identity for the binding. Requires network\_id to be “cf1:network” and cannot be combined with tunnel\_id.
 
-        - `"analytics_engine"`
+<a href="#">Link to this property</a>
 
-    - `Assets object { name, type }`
+network\_id: optional string
 
-      - `name: string`
+Identifier of the network to bind to. Only “cf1:network” is currently supported. Mutually exclusive with tunnel\_id.
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `type: "assets"`
+tunnel\_id: optional string
 
-        The kind of resource that the binding provides.
+UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network\_id.
 
-        - `"assets"`
+<a href="#">Link to this property</a>
 
-    - `Browser object { name, type }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+</details>
 
-      - `type: "browser"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+<details>
 
-        - `"browser"`
+<summary>
 
-    - `D1 object { database_id, name, type, id }`
+cache\_options: optional object {enabled, cross\_version\_cache }
 
-      - `database_id: string`
+Global CacheW configuration for the Worker. When caching is on, the platform provisions a <code>cloudflare.app</code> zone for the Worker. A <code>type: worker</code> entry in the <code>exports</code> map can override this value for a single entrypoint.
 
-        Identifier of the D1 database to bind to.
+</summary>
 
-      - `name: string`
+enabled: boolean
 
-        A JavaScript variable name for the binding.
+Whether caching is enabled for this Worker.
 
-      - `type: "d1"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+cross\_version\_cache: optional boolean
 
-        - `"d1"`
+Whether cached responses are shared across Worker version uploads. This is independent of <code>enabled</code>. It can stay true while caching is off, so the preference survives turning caching off and back on.
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        Identifier of the D1 database to bind to.
+</details>
 
-    - `DataBlob object { name, part, type }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+compatibility\_date: optional string
 
-        A JavaScript variable name for the binding.
+Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker.
 
-      - `part: string`
+<a href="#">Link to this property</a>
 
-        The name of the file containing the data content. Only accepted for `service worker syntax` Workers.
+compatibility\_flags: optional array of string
 
-      - `type: "data_blob"`
+Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a <code>compatibility_date</code>.
 
-        The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-        - `"data_blob"`
+<details>
 
-    - `DispatchNamespace object { name, namespace, type, outbound }`
+<summary>
 
-      - `name: string`
+containers: optional array of object {class\_name }
 
-        A JavaScript variable name for the binding.
+List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script.
 
-      - `namespace: string`
+</summary>
 
-        The name of the dispatch namespace.
+class\_name: string
 
-      - `type: "dispatch_namespace"`
+Select which Durable Object class should get this container attached.
 
-        The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-        - `"dispatch_namespace"`
+</details>
 
-      - `outbound: optional object { params, worker }`
+<a href="#">Link to this property</a>
 
-        Outbound worker.
+<details>
 
-        - `params: optional array of object { name }`
+<summary>
 
-          Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
+exports: optional map\[object {type, cache, state } or object {storage, type, container, state } or object {state, type } or 3 more]
 
-          - `name: string`
+Declarative exports for the version, including Durable Object classes (with their <code>storage</code> backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (<code>created</code> and <code>expecting-transfer</code>) are returned. <code>exports</code> and <code>migrations</code> are mutually exclusive on upload.
 
-            Name of the parameter.
+</summary>
 
-        - `worker: optional object { entrypoint, environment, service }`
+One of the following:
 
-          Outbound worker.
+<details>
 
-          - `entrypoint: optional string`
+<summary>
 
-            Entrypoint to invoke on the outbound worker.
+Worker object {type, cache, state }
 
-          - `environment: optional string`
+A named Worker entrypoint export (<code>type: worker</code>). Worker entrypoints are always live (<code>state: created</code>) and carry no storage or lifecycle fields. The optional <code>cache</code> block overrides the Worker’s global <code>cache_options.enabled</code> for this entrypoint.
 
-            Environment of the outbound worker.
+</summary>
 
-          - `service: optional string`
+type: "worker"
 
-            Name of the outbound worker.
+Marks this entry as a Worker entrypoint export.
 
-    - `DurableObjectNamespace object { name, type, class_name, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+<details>
 
-        A JavaScript variable name for the binding.
+<summary>
 
-      - `type: "durable_object_namespace"`
+cache: optional object {enabled }
 
-        The kind of resource that the binding provides.
+Cache override for this entrypoint. Overrides the Worker’s global <code>cache_options.enabled</code> for this entrypoint only.
 
-        - `"durable_object_namespace"`
+</summary>
 
-      - `class_name: optional string`
+enabled: boolean
 
-        The exported class name of the Durable Object.
+Whether caching is enabled for this entrypoint.
 
-      - `dispatch_namespace: optional string`
+<a href="#">Link to this property</a>
 
-        The dispatch namespace the Durable Object script belongs to.
+</details>
 
-      - `environment: optional string`
+<a href="#">Link to this property</a>
 
-        The environment of the script_name to bind to.
+state: optional "created"
 
-      - `namespace_id: optional string`
+Live export. May be omitted; defaults to <code>created</code>.
 
-        Namespace identifier tag.
+<a href="#">Link to this property</a>
 
-      - `script_name: optional string`
+</details>
 
-        The script where the Durable Object is defined, if it is external to this Worker.
+<a href="#">Link to this property</a>
 
-    - `Hyperdrive object { id, name, type }`
+<details>
 
-      - `id: string`
+<summary>
 
-        Identifier of the Hyperdrive connection to bind to.
+WorkersDurableObjectExport object {storage, type, container, state }
 
-      - `name: string`
+A live Durable Object export (<code>state: created</code>, the default). The platform auto-provisions the namespace on first deploy, matches it on subsequent deploys, and never mutates or deletes it as a side effect of a code-only change. <code>storage</code> is required; <code>renamed_to</code>, <code>transferred_to</code> and <code>transfer_from</code> are not allowed on a live entry.
 
-        A JavaScript variable name for the binding.
+</summary>
 
-      - `type: "hyperdrive"`
+<details>
 
-        The kind of resource that the binding provides.
+<summary>
 
-        - `"hyperdrive"`
+storage: "sqlite"or "legacy-kv"
 
-    - `Inherit object { name, type, old_name, version_id }`
+Durable Object storage backend. <code>sqlite</code> is the recommended (and only) backend for new namespaces. <code>legacy-kv</code> is accepted only for a class whose namespace already exists as KV-backed; the <code>exports</code> flow never provisions a new <code>legacy-kv</code> namespace.
 
-      - `name: string`
+</summary>
 
-        The name of the inherited binding.
+One of the following:
 
-      - `type: "inherit"`
+"sqlite"
 
-        The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-        - `"inherit"`
+"legacy-kv"
 
-      - `old_name: optional string`
+<a href="#">Link to this property</a>
 
-        The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions.
+</details>
 
-      - `version_id: optional string`
+<a href="#">Link to this property</a>
 
-        Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version.
+type: "durable-object"
 
-    - `Images object { name, type }`
+Marks this entry as a Durable Object export.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+container: optional string
 
-      - `type: "images"`
+Name of the container (declared in the upload’s <code>metadata.containers</code>) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries.
 
-        The kind of resource that the binding provides.
+maxLength128
 
-        - `"images"`
+<a href="#">Link to this property</a>
 
-    - `Json object { json, name, type }`
+state: optional "created"
 
-      - `json: unknown`
+Live export. May be omitted; defaults to <code>created</code>.
 
-        JSON data to use.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `type: "json"`
+<details>
 
-        The kind of resource that the binding provides.
+<summary>
 
-        - `"json"`
+WorkersDurableObjectDeletedExport object {state, type }
 
-    - `KVNamespace object { name, namespace_id, type }`
+A <code>deleted</code> tombstone: retires the provisioned namespace for this class and all of its data. The class must be absent from the uploaded code and no other Worker in the account may bind to the namespace, otherwise the deploy is rejected. No other fields are allowed. Deletion is irreversible.
 
-      - `name: string`
+</summary>
 
-        A JavaScript variable name for the binding.
+state: "deleted"
 
-      - `namespace_id: string`
+Tombstone that deletes the namespace.
 
-        Namespace identifier tag.
+<a href="#">Link to this property</a>
 
-      - `type: "kv_namespace"`
+type: "durable-object"
 
-        The kind of resource that the binding provides.
+Marks this entry as a Durable Object export.
 
-        - `"kv_namespace"`
+<a href="#">Link to this property</a>
 
-    - `Media object { name, type }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+<details>
 
-      - `type: "media"`
+<summary>
 
-        The kind of resource that the binding provides.
+WorkersDurableObjectRenamedExport object {renamed\_to, state, type }
 
-        - `"media"`
+A <code>renamed</code> tombstone: rewrites the provisioned namespace’s class name from this map key to <code>renamed_to</code>. The source class may stay in code during the rollout window (an info notice is emitted). <code>storage</code>, <code>transferred_to</code> and <code>transfer_from</code> are not allowed.
 
-    - `MTLSCertificate object { certificate_id, name, type }`
+</summary>
 
-      - `certificate_id: string`
+renamed\_to: string
 
-        Identifier of the certificate to bind to.
+The destination class name. Must differ from the source class (the map key) and must be declared as a live (<code>created</code>) entry in the same <code>exports</code> map. Write-only: never present in GET responses.
 
-      - `name: string`
+maxLength128
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `type: "mtls_certificate"`
+state: "renamed"
 
-        The kind of resource that the binding provides.
+Tombstone that renames the namespace’s class.
 
-        - `"mtls_certificate"`
+<a href="#">Link to this property</a>
 
-    - `PlainText object { name, text, type }`
+type: "durable-object"
 
-      - `name: string`
+Marks this entry as a Durable Object export.
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `text: string`
+</details>
 
-        The text value to use.
+<a href="#">Link to this property</a>
 
-      - `type: "plain_text"`
+<details>
 
-        The kind of resource that the binding provides.
+<summary>
 
-        - `"plain_text"`
+WorkersDurableObjectTransferredExport object {state, transferred\_to, type }
 
-    - `Pipelines object { name, pipeline, type }`
+A <code>transferred</code> tombstone (source side of a two-phase transfer): hands ownership of the provisioned namespace to another script in the same account, named by <code>transferred_to</code>. The target must have already deployed a matching <code>expecting-transfer</code> entry. The source class may stay in code during the rollout window (an info notice is emitted). <code>storage</code>, <code>renamed_to</code> and <code>transfer_from</code> are not allowed.
 
-      - `name: string`
+</summary>
 
-        A JavaScript variable name for the binding.
+state: "transferred"
 
-      - `pipeline: string`
+Tombstone that transfers the namespace to another script.
 
-        Name of the Pipeline to bind to.
+<a href="#">Link to this property</a>
 
-      - `type: "pipelines"`
+transferred\_to: string
 
-        The kind of resource that the binding provides.
+The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses.
 
-        - `"pipelines"`
+maxLength128
 
-    - `Queue object { name, queue_name, type }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+type: "durable-object"
 
-        A JavaScript variable name for the binding.
+Marks this entry as a Durable Object export.
 
-      - `queue_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the Queue to bind to.
+</details>
 
-      - `type: "queue"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+<details>
 
-        - `"queue"`
+<summary>
 
-    - `Ratelimit object { name, namespace_id, simple, type }`
+WorkersDurableObjectExpectingTransferExport object {state, storage, transfer\_from, 2 more }
 
-      - `name: string`
+The target side of a two-phase transfer (<code>state: expecting-transfer</code>). Declares that this script expects to receive a namespace for this class from the <code>transfer_from</code> script. This is a live entry, not a tombstone: bindings resolve through the source’s namespace until the source commits with a <code>transferred</code> tombstone. <code>storage</code> and <code>transfer_from</code> are required; <code>renamed_to</code> and <code>transferred_to</code> are not allowed.
 
-        A JavaScript variable name for the binding.
+</summary>
 
-      - `namespace_id: string`
+state: "expecting-transfer"
 
-        Identifier of the rate limit namespace to bind to.
+Target side of a two-phase transfer.
 
-      - `simple: object { limit, period, mitigation_timeout }`
+<a href="#">Link to this property</a>
 
-        The rate limit configuration.
+<details>
 
-        - `limit: number`
+<summary>
 
-          The limit (requests per period).
+storage: "sqlite"or "legacy-kv"
 
-        - `period: number`
+Durable Object storage backend. <code>sqlite</code> is the recommended (and only) backend for new namespaces. <code>legacy-kv</code> is accepted only for a class whose namespace already exists as KV-backed; the <code>exports</code> flow never provisions a new <code>legacy-kv</code> namespace.
 
-          The period in seconds.
+</summary>
 
-        - `mitigation_timeout: optional number`
+One of the following:
 
-          Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
+"sqlite"
 
-      - `type: "ratelimit"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+"legacy-kv"
 
-        - `"ratelimit"`
+<a href="#">Link to this property</a>
 
-    - `R2Bucket object { bucket_name, name, type, jurisdiction }`
+</details>
 
-      - `bucket_name: string`
+<a href="#">Link to this property</a>
 
-        R2 bucket to bind to.
+transfer\_from: string
 
-      - `name: string`
+The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for <code>expecting-transfer</code> entries.
 
-        A JavaScript variable name for the binding.
+maxLength128
 
-      - `type: "r2_bucket"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+type: "durable-object"
 
-        - `"r2_bucket"`
+Marks this entry as a Durable Object export.
 
-      - `jurisdiction: optional "eu" or "fedramp" or "fedramp-high"`
+<a href="#">Link to this property</a>
 
-        The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket.
+container: optional string
 
-        - `"eu"`
+Name of the container (declared in the upload’s <code>metadata.containers</code>) that backs this Durable Object once the transfer settles. Valid only on live entries.
 
-        - `"fedramp"`
+maxLength128
 
-        - `"fedramp-high"`
+<a href="#">Link to this property</a>
 
-    - `SecretText object { name, text, type }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+</details>
 
-      - `text: string`
+<a href="#">Link to this property</a>
 
-        The secret value to use.
+<details>
 
-      - `type: "secret_text"`
+<summary>
 
-        The kind of resource that the binding provides.
+exports\_reconciliation: optional object {created, deleted, info, 6 more }
 
-        - `"secret_text"`
+Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an <code>exports</code> block. Durable Object entries drive reconciliation; <code>type: worker</code> entries do not contribute to this summary.
 
-    - `SendEmail object { name, type, allowed_destination_addresses, 2 more }`
+</summary>
 
-      - `name: string`
+created: array of string
 
-        A JavaScript variable name for the binding.
+Class names for which a new namespace was provisioned.
 
-      - `type: "send_email"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+deleted: array of string
 
-        - `"send_email"`
+Class names whose namespace was deleted by a <code>deleted</code> tombstone.
 
-      - `allowed_destination_addresses: optional array of string`
+<a href="#">Link to this property</a>
 
-        List of allowed destination addresses.
+<details>
 
-      - `allowed_sender_addresses: optional array of string`
+<summary>
 
-        List of allowed sender addresses.
+info: array of object {class, message, scenario, 2 more }
 
-      - `destination_address: optional string`
+Non-blocking info entries (stale tombstones, tombstone applied with class still in code). See <code>exports_reconciliation_info</code>.
 
-        Destination address for the email.
+</summary>
 
-    - `Service object { name, service, type, 2 more }`
+class: string
 
-      - `name: string`
+The class name the info entry is about.
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `service: string`
+message: string
 
-        Name of Worker to bind to.
+Human-readable explanation.
 
-      - `type: "service"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+<details>
 
-        - `"service"`
+<summary>
 
-      - `entrypoint: optional string`
+scenario: "code\_class\_not\_in\_exports"or "provisioned\_class\_missing\_from\_config"or "config\_export\_not\_in\_code"or 30 more
 
-        Entrypoint to invoke on the target Worker.
+Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing <code>message</code>.
 
-      - `environment: optional string`
+</summary>
 
-        Optional environment if the Worker utilizes one.
+One of the following:
 
-    - `TextBlob object { name, part, type }`
+"code\_class\_not\_in\_exports"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+"provisioned\_class\_missing\_from\_config"
 
-      - `part: string`
+<a href="#">Link to this property</a>
 
-        The name of the file containing the text content. Only accepted for `service worker syntax` Workers.
+"config\_export\_not\_in\_code"
 
-      - `type: "text_blob"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+"config\_references\_nonexistent\_class"
 
-        - `"text_blob"`
+<a href="#">Link to this property</a>
 
-    - `Vectorize object { index_name, name, type }`
+"orphaned\_provisioned\_namespace"
 
-      - `index_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the Vectorize index to bind to.
+"storage\_type\_mismatch"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+"free\_tier\_requires\_sqlite"
 
-      - `type: "vectorize"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+"invalid\_export"
 
-        - `"vectorize"`
+<a href="#">Link to this property</a>
 
-    - `VersionMetadata object { name, type }`
+"tombstone\_delete\_class\_still\_in\_code"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+"tombstone\_delete\_blocked\_by\_external\_bindings"
 
-      - `type: "version_metadata"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+"tombstone\_renamed\_to\_occupied"
 
-        - `"version_metadata"`
+<a href="#">Link to this property</a>
 
-    - `SecretsStoreSecret object { name, secret_name, store_id, type }`
+"transferred\_pending\_not\_found"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+"transferred\_target\_missing"
 
-      - `secret_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the secret in the store.
+"transferred\_target\_mismatch"
 
-      - `store_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the store containing the secret.
+"phase\_one\_transfer\_source\_missing"
 
-      - `type: "secrets_store_secret"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+"phase\_one\_transfer\_source\_namespace\_missing"
 
-        - `"secrets_store_secret"`
+<a href="#">Link to this property</a>
 
-    - `Flagship object { app_id, name, type }`
+"phase\_one\_transfer\_target\_class\_provisioned"
 
-      - `app_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the Flagship app to bind to for feature flag evaluation.
+"phase\_one\_transfer\_after\_commit\_mismatch"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+"phase\_one\_transfer\_duplicate"
 
-      - `type: "flagship"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+"phase\_one\_transfer\_target\_in\_dispatch\_namespace"
 
-        - `"flagship"`
+<a href="#">Link to this property</a>
 
-    - `SecretKey object { algorithm, format, name, 4 more }`
+"phase\_one\_transfer\_source\_in\_dispatch\_namespace"
 
-      - `algorithm: unknown`
+<a href="#">Link to this property</a>
 
-        Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
+"transferred\_source\_in\_dispatch\_namespace"
 
-      - `format: "raw" or "pkcs8" or "spki" or "jwk"`
+<a href="#">Link to this property</a>
 
-        Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
+"transferred\_target\_in\_dispatch\_namespace"
 
-        - `"raw"`
+<a href="#">Link to this property</a>
 
-        - `"pkcs8"`
+"container\_undeclared\_reference"
 
-        - `"spki"`
+<a href="#">Link to this property</a>
 
-        - `"jwk"`
+"container\_class\_not\_durable\_object"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+"container\_wiring\_inconsistent"
 
-      - `type: "secret_key"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+"container\_multiple\_durable\_objects"
 
-        - `"secret_key"`
+<a href="#">Link to this property</a>
 
-      - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
+"transfer\_container\_parity\_mismatch"
 
-        Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
+<a href="#">Link to this property</a>
 
-        - `"encrypt"`
+"transfer\_container\_parity\_mismatch\_on\_commit"
 
-        - `"decrypt"`
+<a href="#">Link to this property</a>
 
-        - `"sign"`
+"tombstone\_class\_still\_in\_code"
 
-        - `"verify"`
+<a href="#">Link to this property</a>
 
-        - `"deriveKey"`
+"stale\_tombstone"
 
-        - `"deriveBits"`
+<a href="#">Link to this property</a>
 
-        - `"wrapKey"`
+"transfer\_receive\_already\_applied"
 
-        - `"unwrapKey"`
+<a href="#">Link to this property</a>
 
-      - `key_base64: optional string`
+"transfer\_receive\_cleanup\_complete"
 
-        Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
+<a href="#">Link to this property</a>
 
-      - `key_jwk: optional unknown`
+</details>
 
-        Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
+<a href="#">Link to this property</a>
 
-    - `Workflow object { name, type, workflow_name, 2 more }`
+namespace\_id: optional string
 
-      - `name: string`
+The provisioned namespace the entry relates to, when applicable.
 
-        A JavaScript variable name for the binding.
+formatuuid
 
-      - `type: "workflow"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+referencing\_scripts: optional array of string
 
-        - `"workflow"`
+Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove — redeploy these Workers with bindings re-pointed first.
 
-      - `workflow_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the Workflow to bind to.
+</details>
 
-      - `class_name: optional string`
+<a href="#">Link to this property</a>
 
-        Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
+removable\_entries: array of string
 
-      - `script_name: optional string`
+Source class names whose tombstone entry is now stale and safe to delete from <code>exports</code> (no remaining referencing scripts).
 
-        Script name that contains the Workflow. If not provided, defaults to this script name.
+<a href="#">Link to this property</a>
 
-    - `WasmModule object { name, part, type }`
+<details>
 
-      - `name: string`
+<summary>
 
-        A JavaScript variable name for the binding.
+renamed: array of object {from, to }
 
-      - `part: string`
+Applied <code>renamed</code> tombstones.
 
-        The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers.
+</summary>
 
-      - `type: "wasm_module"`
+from: string
 
-        The kind of resource that the binding provides.
+The original (source) class name.
 
-        - `"wasm_module"`
+<a href="#">Link to this property</a>
 
-    - `VPCService object { name, service_id, type }`
+to: string
 
-      - `name: string`
+The new class name (<code>renamed_to</code>).
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `service_id: string`
+</details>
 
-        Identifier of the VPC service to bind to.
+<a href="#">Link to this property</a>
 
-      - `type: "vpc_service"`
+<details>
 
-        The kind of resource that the binding provides.
+<summary>
 
-        - `"vpc_service"`
+transfer\_pending: array of object {class, from }
 
-    - `VPCNetwork object { name, type, network_id, tunnel_id }`
+Phase-1 transfer hints recorded on the target side.
 
-      - `name: string`
+</summary>
 
-        A JavaScript variable name for the binding.
+class: string
 
-      - `type: "vpc_network"`
+The target-side class name awaiting transfer.
 
-        The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-        - `"vpc_network"`
+from: string
 
-      - `network_id: optional string`
+The source script the namespace will be transferred from.
 
-        Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id.
+<a href="#">Link to this property</a>
 
-      - `tunnel_id: optional string`
+</details>
 
-        UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id.
+<a href="#">Link to this property</a>
 
-  - `cache_options: optional object { enabled, cross_version_cache }`
+<details>
 
-    Global CacheW configuration for the Worker. When caching is on,
-    the platform provisions a `cloudflare.app` zone for the Worker.
-    A `type: worker` entry in the `exports` map can override this
-    value for a single entrypoint.
+<summary>
 
-    - `enabled: boolean`
+transferred: array of object {class, phase, to }
 
-      Whether caching is enabled for this Worker.
+Committed <code>transferred</code> tombstones (phase-2).
 
-    - `cross_version_cache: optional boolean`
+</summary>
 
-      Whether cached responses are shared across Worker version
-      uploads. This is independent of `enabled`. It can stay true
-      while caching is off, so the preference survives turning
-      caching off and back on.
+class: string
 
-  - `compatibility_date: optional string`
+The source class name that was transferred.
 
-    Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker.
+<a href="#">Link to this property</a>
 
-  - `compatibility_flags: optional array of string`
+phase: "committed"
 
-    Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`.
+The transfer phase. Currently always <code>committed</code>.
 
-  - `containers: optional array of object { class_name }`
+<a href="#">Link to this property</a>
 
-    List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script.
+to: string
 
-    - `class_name: string`
+The destination script that now owns the namespace.
 
-      Select which Durable Object class should get this container attached.
+<a href="#">Link to this property</a>
 
-  - `limits: optional object { cpu_ms, subrequests }`
+</details>
 
-    Resource limits enforced at runtime.
+<a href="#">Link to this property</a>
 
-    - `cpu_ms: optional number`
+updated: array of string
 
-      CPU time limit in milliseconds.
+Class names whose provisioned namespace was mutated in place.
 
-    - `subrequests: optional number`
+<a href="#">Link to this property</a>
 
-      Subrequest limit per request.
+<details>
 
-  - `main_module: optional string`
+<summary>
 
-    The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler).
+warnings: array of object {class, message, scenario, namespace\_id }
 
-  - `migration_tag: optional string`
+Non-blocking warnings. See <code>exports_reconciliation_warning</code>.
 
-    Durable Object migration tag. Set when the version is deployed. Omitted if the version has not been deployed or the Worker does not use Durable Objects.
+</summary>
 
-  - `migrations: optional SingleStepMigration or object { new_tag, old_tag, steps }`
+class: string
 
-    Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed.
+The class name the warning is about.
 
-    - `SingleStepMigration object { deleted_classes, new_classes, new_sqlite_classes, 4 more }`
+<a href="#">Link to this property</a>
 
-      A single set of migrations to apply.
+message: string
 
-      - `deleted_classes: optional array of string`
+Human-readable explanation of the warning.
 
-        A list of classes to delete Durable Object namespaces from.
+<a href="#">Link to this property</a>
 
-      - `new_classes: optional array of string`
+<details>
 
-        A list of classes to create Durable Object namespaces from.
+<summary>
 
-      - `new_sqlite_classes: optional array of string`
+scenario: "code\_class\_not\_in\_exports"or "provisioned\_class\_missing\_from\_config"or "config\_export\_not\_in\_code"or 30 more
 
-        A list of classes to create Durable Object namespaces with SQLite from.
+Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing <code>message</code>.
 
-      - `new_tag: optional string`
+</summary>
 
-        Tag to set as the latest migration tag.
+One of the following:
 
-      - `old_tag: optional string`
+"code\_class\_not\_in\_exports"
 
-        Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
+<a href="#">Link to this property</a>
 
-      - `renamed_classes: optional array of object { from, to }`
+"provisioned\_class\_missing\_from\_config"
 
-        A list of classes with Durable Object namespaces that were renamed.
+<a href="#">Link to this property</a>
 
-        - `from: optional string`
+"config\_export\_not\_in\_code"
 
-        - `to: optional string`
+<a href="#">Link to this property</a>
 
-      - `transferred_classes: optional array of object { from, from_script, to }`
+"config\_references\_nonexistent\_class"
 
-        A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
+<a href="#">Link to this property</a>
 
-        - `from: optional string`
+"orphaned\_provisioned\_namespace"
 
-        - `from_script: optional string`
+<a href="#">Link to this property</a>
 
-        - `to: optional string`
+"storage\_type\_mismatch"
 
-    - `WorkersMultipleStepMigrations object { new_tag, old_tag, steps }`
+<a href="#">Link to this property</a>
 
-      - `new_tag: optional string`
+"free\_tier\_requires\_sqlite"
 
-        Tag to set as the latest migration tag.
+<a href="#">Link to this property</a>
 
-      - `old_tag: optional string`
+"invalid\_export"
 
-        Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
+<a href="#">Link to this property</a>
 
-      - `steps: optional array of MigrationStep`
+"tombstone\_delete\_class\_still\_in\_code"
 
-        Migrations to apply in order.
+<a href="#">Link to this property</a>
 
-        - `deleted_classes: optional array of string`
+"tombstone\_delete\_blocked\_by\_external\_bindings"
 
-          A list of classes to delete Durable Object namespaces from.
+<a href="#">Link to this property</a>
 
-        - `new_classes: optional array of string`
+"tombstone\_renamed\_to\_occupied"
 
-          A list of classes to create Durable Object namespaces from.
+<a href="#">Link to this property</a>
 
-        - `new_sqlite_classes: optional array of string`
+"transferred\_pending\_not\_found"
 
-          A list of classes to create Durable Object namespaces with SQLite from.
+<a href="#">Link to this property</a>
 
-        - `renamed_classes: optional array of object { from, to }`
+"transferred\_target\_missing"
 
-          A list of classes with Durable Object namespaces that were renamed.
+<a href="#">Link to this property</a>
 
-          - `from: optional string`
+"transferred\_target\_mismatch"
 
-          - `to: optional string`
+<a href="#">Link to this property</a>
 
-        - `transferred_classes: optional array of object { from, from_script, to }`
+"phase\_one\_transfer\_source\_missing"
 
-          A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
+<a href="#">Link to this property</a>
 
-          - `from: optional string`
+"phase\_one\_transfer\_source\_namespace\_missing"
 
-          - `from_script: optional string`
+<a href="#">Link to this property</a>
 
-          - `to: optional string`
+"phase\_one\_transfer\_target\_class\_provisioned"
 
-  - `modules: optional array of object { content_base64, content_type, name }`
+<a href="#">Link to this property</a>
 
-    Code, sourcemaps, and other content used at runtime.
+"phase\_one\_transfer\_after\_commit\_mismatch"
 
-    This includes [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-    [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files used to configure
-    [Static Assets](https://developers.cloudflare.com/workers/static-assets/). `_headers` and `_redirects` files should be
-    included as modules named `_headers` and `_redirects` with content type `text/plain`.
+<a href="#">Link to this property</a>
 
-    - `content_base64: string`
+"phase\_one\_transfer\_duplicate"
 
-      The base64-encoded module content.
+<a href="#">Link to this property</a>
 
-    - `content_type: string`
+"phase\_one\_transfer\_target\_in\_dispatch\_namespace"
 
-      The content type of the module.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"phase\_one\_transfer\_source\_in\_dispatch\_namespace"
 
-      The name of the module.
+<a href="#">Link to this property</a>
 
-  - `package_dependencies: optional array of object { installedVersion, name, packageJsonVersion }`
+"transferred\_source\_in\_dispatch\_namespace"
 
-    The list of npm packages that were installed and used when this Worker
-    version was built.
+<a href="#">Link to this property</a>
 
-    - `installedVersion: string`
+"transferred\_target\_in\_dispatch\_namespace"
 
-      The exact version that was resolved and installed by the package manager.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"container\_undeclared\_reference"
 
-      The npm package name.
+<a href="#">Link to this property</a>
 
-    - `packageJsonVersion: string`
+"container\_class\_not\_durable\_object"
 
-      The version constraint as written in package.json.
+<a href="#">Link to this property</a>
 
-  - `placement: optional object { mode }  or object { region }  or object { hostname }  or 5 more`
+"container\_wiring\_inconsistent"
 
-    Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host.
+<a href="#">Link to this property</a>
 
-    - `Mode object { mode }`
+"container\_multiple\_durable\_objects"
 
-      - `mode: "smart"`
+<a href="#">Link to this property</a>
 
-        Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
+"transfer\_container\_parity\_mismatch"
 
-        - `"smart"`
+<a href="#">Link to this property</a>
 
-    - `Region object { region }`
+"transfer\_container\_parity\_mismatch\_on\_commit"
 
-      - `region: string`
+<a href="#">Link to this property</a>
 
-        Cloud region for targeted placement in format 'provider:region'.
+"tombstone\_class\_still\_in\_code"
 
-    - `Hostname object { hostname }`
+<a href="#">Link to this property</a>
 
-      - `hostname: string`
+"stale\_tombstone"
 
-        HTTP hostname for targeted placement.
+<a href="#">Link to this property</a>
 
-    - `Host object { host }`
+"transfer\_receive\_already\_applied"
 
-      - `host: string`
+<a href="#">Link to this property</a>
 
-        TCP host and port for targeted placement.
+"transfer\_receive\_cleanup\_complete"
 
-    - `object { mode, region }`
+<a href="#">Link to this property</a>
 
-      - `mode: "targeted"`
+</details>
 
-        Targeted placement mode.
+<a href="#">Link to this property</a>
 
-        - `"targeted"`
+namespace\_id: optional string
 
-      - `region: string`
+The provisioned namespace the warning relates to, when applicable.
 
-        Cloud region for targeted placement in format 'provider:region'.
+formatuuid
 
-    - `object { hostname, mode }`
+<a href="#">Link to this property</a>
 
-      - `hostname: string`
+</details>
 
-        HTTP hostname for targeted placement.
+<a href="#">Link to this property</a>
 
-      - `mode: "targeted"`
+</details>
 
-        Targeted placement mode.
+<a href="#">Link to this property</a>
 
-        - `"targeted"`
+<details>
 
-    - `object { host, mode }`
+<summary>
 
-      - `host: string`
+limits: optional object {cpu\_ms, subrequests }
 
-        TCP host and port for targeted placement.
+Resource limits enforced at runtime.
 
-      - `mode: "targeted"`
+</summary>
 
-        Targeted placement mode.
+cpu\_ms: optional number
 
-        - `"targeted"`
+CPU time limit in milliseconds.
 
-    - `object { mode, target }`
+<a href="#">Link to this property</a>
 
-      - `mode: "targeted"`
+subrequests: optional number
 
-        Targeted placement mode.
+Subrequest limit per request.
 
-        - `"targeted"`
+<a href="#">Link to this property</a>
 
-      - `target: array of object { region }  or object { hostname }  or object { host }`
+</details>
 
-        Array of placement targets (currently limited to single target).
+<a href="#">Link to this property</a>
 
-        - `Region object { region }`
+main\_module: optional string
 
-          - `region: string`
+The name of the main module in the <code>modules</code> array (e.g. the name of the module that exports a <code>fetch</code> handler).
 
-            Cloud region in format 'provider:region'.
+<a href="#">Link to this property</a>
 
-        - `Hostname object { hostname }`
+migration\_tag: optional string
 
-          - `hostname: string`
+Durable Object migration tag. Set when the version is deployed. Omitted if the version has not been deployed or the Worker does not use Durable Objects.
 
-            HTTP hostname for targeted placement.
+<a href="#">Link to this property</a>
 
-        - `Host object { host }`
+<details>
 
-          - `host: string`
+<summary>
 
-            TCP host:port for targeted placement.
+migrations: optional <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers%20%3E%20(model)%20single_step_migration%20%3E%20(schema)">SingleStepMigration</a> { deleted\_classes, new\_classes, new\_sqlite\_classes, 4 more } or object {new\_tag, old\_tag, steps }
 
-  - `source: optional string`
+Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed.
 
-    The client used to create the version.
+</summary>
 
-  - `startup_time_ms: optional number`
+One of the following:
 
-    Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time).
+<details>
 
-  - `usage_model: optional "standard" or "bundled" or "unbound"`
+<summary>
 
-    Usage model for the version.
+SingleStepMigration object {deleted\_classes, new\_classes, new\_sqlite\_classes, 4 more }
 
-    - `"standard"`
+A single set of migrations to apply.
 
-    - `"bundled"`
+</summary>
 
-    - `"unbound"`
+deleted\_classes: optional array of string
 
-- `success: true`
+A list of classes to delete Durable Object namespaces from.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+new\_classes: optional array of string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+A list of classes to create Durable Object namespaces from.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+new\_sqlite\_classes: optional array of string
 
-  - `page: optional number`
+A list of classes to create Durable Object namespaces with SQLite from.
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+new\_tag: optional string
 
-    Number of results per page of results.
+Tag to set as the latest migration tag.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+old\_tag: optional string
 
-  - `total_pages: optional number`
+Tag used to verify against the latest migration tag for this Worker. If they don’t match, the upload is rejected.
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID/versions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+renamed\_classes: optional array of object {from, to }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "number": 0,
-      "urls": [
-        "https://9387e76d-my-worker.my-subdomain.workers.dev"
-      ],
-      "annotations": {
-        "workers/message": "Fixed bug.",
-        "workers/tag": "v1.0.1",
-        "workers/triggered_by": "upload"
-      },
-      "assets": {
-        "config": {
-          "html_handling": "auto-trailing-slash",
-          "not_found_handling": "404-page",
-          "run_worker_first": true
-        },
-        "jwt": "jwt"
-      },
-      "bindings": [
-        {
-          "name": "MY_ENV_VAR",
-          "text": "my_data",
-          "type": "plain_text"
-        }
-      ],
-      "cache_options": {
-        "enabled": true,
-        "cross_version_cache": true
-      },
-      "compatibility_date": "2021-01-01",
-      "compatibility_flags": [
-        "nodejs_compat"
-      ],
-      "containers": [
-        {
-          "class_name": "MyDurableObject"
-        }
-      ],
-      "limits": {
-        "cpu_ms": 50,
-        "subrequests": 1000
-      },
-      "main_module": "index.js",
-      "migration_tag": "v1",
-      "migrations": {},
-      "modules": [
-        {
-          "content_base64": "ZXhwb3J0IGRlZmF1bHQgewogIGFzeW5jIGZldGNoKHJlcXVlc3QsIGVudiwgY3R4KSB7CiAgICByZXR1cm4gbmV3IFJlc3BvbnNlKCdIZWxsbyBXb3JsZCEnKQogIH0KfQ==",
-          "content_type": "application/javascript+module",
-          "name": "index.js"
-        }
-      ],
-      "package_dependencies": [
-        {
-          "installedVersion": "4.17.22",
-          "name": "lodash",
-          "packageJsonVersion": "^4.17.21"
-        }
-      ],
-      "placement": {
-        "mode": "smart"
-      },
-      "source": "wrangler",
-      "startup_time_ms": 10,
-      "usage_model": "standard"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+A list of classes with Durable Object namespaces that were renamed.
 
-## Get Version
+</summary>
 
-**get** `/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}`
+from: optional string
 
-Get details about a specific version.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+to: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `worker_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier for the Worker, which can be ID or name.
+<details>
 
-- `version_id: string`
+<summary>
 
-  Identifier for the version, which can be a UUID, a UUID prefix (minimum length 8), or the literal "latest" to operate on the most recently created version.
+transferred\_classes: optional array of object {from, from\_script, to }
 
-### Query Parameters
+A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
 
-- `include: optional "modules"`
+</summary>
 
-  Whether to include the `modules` property of the version in the response, which contains code and sourcemap content and may add several megabytes to the response size.
+from: optional string
 
-  - `"modules"`
+<a href="#">Link to this property</a>
 
-### Returns
+from\_script: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+to: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+WorkersMultipleStepMigrations object {new\_tag, old\_tag, steps }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+new\_tag: optional string
 
-- `result: Version`
+Tag to set as the latest migration tag.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Version identifier.
+old\_tag: optional string
 
-  - `created_on: string`
+Tag used to verify against the latest migration tag for this Worker. If they don’t match, the upload is rejected.
 
-    When the version was created.
+<a href="#">Link to this property</a>
 
-  - `number: number`
+<details>
 
-    The integer version number, starting from one.
+<summary>
 
-  - `urls: array of string`
+steps: optional array of <a href="https://developers.cloudflare.com/api/resources/workers#(resource)%20workers%20%3E%20(model)%20migration_step%20%3E%20(schema)">MigrationStep</a> { deleted\_classes, new\_classes, new\_sqlite\_classes, 2 more }
 
-    All routable URLs that always point to this version. Does not include alias URLs, since aliases can be updated to point to a different version.
+Migrations to apply in order.
 
-  - `annotations: optional object { "workers/message", "workers/tag", "workers/triggered_by" }`
+</summary>
 
-    Metadata about the version.
+deleted\_classes: optional array of string
 
-    - `"workers/message": optional string`
+A list of classes to delete Durable Object namespaces from.
 
-      Human-readable message about the version. Truncated to 1000 bytes if longer.
+<a href="#">Link to this property</a>
 
-    - `"workers/tag": optional string`
+new\_classes: optional array of string
 
-      User-provided identifier for the version. Maximum 100 bytes.
+A list of classes to create Durable Object namespaces from.
 
-    - `"workers/triggered_by": optional string`
+<a href="#">Link to this property</a>
 
-      Operation that triggered the creation of the version.
+new\_sqlite\_classes: optional array of string
 
-  - `assets: optional object { config, jwt }`
+A list of classes to create Durable Object namespaces with SQLite from.
 
-    Configuration for assets within a Worker.
+<a href="#">Link to this property</a>
 
-    [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-    [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files should be
-    included as modules named `_headers` and `_redirects` with content type `text/plain`.
+<details>
 
-    - `config: optional object { html_handling, not_found_handling, run_worker_first }`
+<summary>
 
-      Configuration for assets within a Worker.
+renamed\_classes: optional array of object {from, to }
 
-      - `html_handling: optional "auto-trailing-slash" or "force-trailing-slash" or "drop-trailing-slash" or "none"`
+A list of classes with Durable Object namespaces that were renamed.
 
-        Determines the redirects and rewrites of requests for HTML content.
+</summary>
 
-        - `"auto-trailing-slash"`
+from: optional string
 
-        - `"force-trailing-slash"`
+<a href="#">Link to this property</a>
 
-        - `"drop-trailing-slash"`
+to: optional string
 
-        - `"none"`
+<a href="#">Link to this property</a>
 
-      - `not_found_handling: optional "none" or "404-page" or "single-page-application"`
+</details>
 
-        Determines the response when a request does not match a static asset, and there is no Worker script.
+<a href="#">Link to this property</a>
 
-        - `"none"`
+<details>
 
-        - `"404-page"`
+<summary>
 
-        - `"single-page-application"`
+transferred\_classes: optional array of object {from, from\_script, to }
 
-      - `run_worker_first: optional array of string or boolean`
+A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
 
-        Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
+</summary>
 
-        - `array of string`
+from: optional string
 
-          Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
+<a href="#">Link to this property</a>
 
-        - `boolean`
+from\_script: optional string
 
-          Enables routing to always invoke the Worker script ahead of all requests. When true, this is equivalent to `["/*"]` in the string array version of this field.
+<a href="#">Link to this property</a>
 
-    - `jwt: optional string`
+to: optional string
 
-      Token provided upon successful upload of all files from a registered manifest.
+<a href="#">Link to this property</a>
 
-  - `bindings: optional array of object { name, type }  or object { instance_name, name, type, namespace }  or object { name, namespace, type }  or 32 more`
+</details>
 
-    List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings.
+<a href="#">Link to this property</a>
 
-    - `AI object { name, type }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+</details>
 
-      - `type: "ai"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+</details>
 
-        - `"ai"`
+<a href="#">Link to this property</a>
 
-    - `AISearch object { instance_name, name, type, namespace }`
+<details>
 
-      - `instance_name: string`
+<summary>
 
-        The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
+modules: optional array of object {content\_base64, content\_type, name }
 
-      - `name: string`
+Code, sourcemaps, and other content used at runtime.
 
-        A JavaScript variable name for the binding.
+This includes <a href="https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers"><code>_headers</code></a> and <a href="https://developers.cloudflare.com/workers/static-assets/redirects/"><code>_redirects</code></a> files used to configure <a href="https://developers.cloudflare.com/workers/static-assets/">Static Assets</a>. <code>_headers</code> and <code>_redirects</code> files should be included as modules named <code>_headers</code> and <code>_redirects</code> with content type <code>text/plain</code>.
 
-      - `type: "ai_search"`
+</summary>
 
-        The kind of resource that the binding provides.
+content\_base64: string
 
-        - `"ai_search"`
+The base64-encoded module content.
 
-      - `namespace: optional string`
+formatbyte
 
-        The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field.
+<a href="#">Link to this property</a>
 
-    - `AISearchNamespace object { name, namespace, type }`
+content\_type: string
 
-      - `name: string`
+The content type of the module.
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `namespace: string`
+name: string
 
-        The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
+The name of the module.
 
-      - `type: "ai_search_namespace"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+</details>
 
-        - `"ai_search_namespace"`
+<a href="#">Link to this property</a>
 
-    - `AnalyticsEngine object { dataset, name, type }`
+<details>
 
-      - `dataset: string`
+<summary>
 
-        The name of the dataset to bind to.
+package\_dependencies: optional array of object {installedVersion, name, packageJsonVersion }
 
-      - `name: string`
+The list of npm packages that were installed and used when this Worker version was built.
 
-        A JavaScript variable name for the binding.
+</summary>
 
-      - `type: "analytics_engine"`
+installedVersion: string
 
-        The kind of resource that the binding provides.
+The exact version that was resolved and installed by the package manager.
 
-        - `"analytics_engine"`
+<a href="#">Link to this property</a>
 
-    - `Assets object { name, type }`
+name: string
 
-      - `name: string`
+The npm package name.
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `type: "assets"`
+packageJsonVersion: string
 
-        The kind of resource that the binding provides.
+The version constraint as written in package.json.
 
-        - `"assets"`
+<a href="#">Link to this property</a>
 
-    - `Browser object { name, type }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+<details>
 
-      - `type: "browser"`
+<summary>
 
-        The kind of resource that the binding provides.
+placement: optional object {mode } or object {region } or object {hostname } or 5 more
 
-        - `"browser"`
+Configuration for <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>. Specify mode=‘smart’ for Smart Placement, or one of region/hostname/host.
 
-    - `D1 object { database_id, name, type, id }`
+</summary>
 
-      - `database_id: string`
+One of the following:
 
-        Identifier of the D1 database to bind to.
+<details>
 
-      - `name: string`
+<summary>
 
-        A JavaScript variable name for the binding.
+Mode object {mode }
 
-      - `type: "d1"`
+</summary>
 
-        The kind of resource that the binding provides.
+mode: "smart"
 
-        - `"d1"`
+Enables <a href="https://developers.cloudflare.com/workers/configuration/smart-placement">Smart Placement</a>.
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        Identifier of the D1 database to bind to.
+</details>
 
-    - `DataBlob object { name, part, type }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+<details>
 
-        A JavaScript variable name for the binding.
+<summary>
 
-      - `part: string`
+Region object {region }
 
-        The name of the file containing the data content. Only accepted for `service worker syntax` Workers.
+</summary>
 
-      - `type: "data_blob"`
+region: string
 
-        The kind of resource that the binding provides.
+Cloud region for targeted placement in format ‘provider:region’.
 
-        - `"data_blob"`
+<a href="#">Link to this property</a>
 
-    - `DispatchNamespace object { name, namespace, type, outbound }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+<details>
 
-      - `namespace: string`
+<summary>
 
-        The name of the dispatch namespace.
+Hostname object {hostname }
 
-      - `type: "dispatch_namespace"`
+</summary>
 
-        The kind of resource that the binding provides.
+hostname: string
 
-        - `"dispatch_namespace"`
+HTTP hostname for targeted placement.
 
-      - `outbound: optional object { params, worker }`
+<a href="#">Link to this property</a>
 
-        Outbound worker.
+</details>
 
-        - `params: optional array of object { name }`
+<a href="#">Link to this property</a>
 
-          Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
+<details>
 
-          - `name: string`
+<summary>
 
-            Name of the parameter.
+Host object {host }
 
-        - `worker: optional object { entrypoint, environment, service }`
+</summary>
 
-          Outbound worker.
+host: string
 
-          - `entrypoint: optional string`
+TCP host and port for targeted placement.
 
-            Entrypoint to invoke on the outbound worker.
+<a href="#">Link to this property</a>
 
-          - `environment: optional string`
+</details>
 
-            Environment of the outbound worker.
+<a href="#">Link to this property</a>
 
-          - `service: optional string`
+<details>
 
-            Name of the outbound worker.
+<summary>
 
-    - `DurableObjectNamespace object { name, type, class_name, 4 more }`
+object {mode, region }
 
-      - `name: string`
+</summary>
 
-        A JavaScript variable name for the binding.
+mode: "targeted"
 
-      - `type: "durable_object_namespace"`
+Targeted placement mode.
 
-        The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-        - `"durable_object_namespace"`
+region: string
 
-      - `class_name: optional string`
+Cloud region for targeted placement in format ‘provider:region’.
 
-        The exported class name of the Durable Object.
+<a href="#">Link to this property</a>
 
-      - `dispatch_namespace: optional string`
+</details>
 
-        The dispatch namespace the Durable Object script belongs to.
+<a href="#">Link to this property</a>
 
-      - `environment: optional string`
+<details>
 
-        The environment of the script_name to bind to.
+<summary>
 
-      - `namespace_id: optional string`
+object {hostname, mode }
 
-        Namespace identifier tag.
+</summary>
 
-      - `script_name: optional string`
+hostname: string
 
-        The script where the Durable Object is defined, if it is external to this Worker.
+HTTP hostname for targeted placement.
 
-    - `Hyperdrive object { id, name, type }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+mode: "targeted"
 
-        Identifier of the Hyperdrive connection to bind to.
+Targeted placement mode.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+</details>
 
-      - `type: "hyperdrive"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+<details>
 
-        - `"hyperdrive"`
+<summary>
 
-    - `Inherit object { name, type, old_name, version_id }`
+object {host, mode }
 
-      - `name: string`
+</summary>
 
-        The name of the inherited binding.
+host: string
 
-      - `type: "inherit"`
+TCP host and port for targeted placement.
 
-        The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-        - `"inherit"`
+mode: "targeted"
 
-      - `old_name: optional string`
+Targeted placement mode.
 
-        The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions.
+<a href="#">Link to this property</a>
 
-      - `version_id: optional string`
+</details>
 
-        Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version.
+<a href="#">Link to this property</a>
 
-    - `Images object { name, type }`
+<details>
 
-      - `name: string`
+<summary>
 
-        A JavaScript variable name for the binding.
+object {mode, target }
 
-      - `type: "images"`
+</summary>
 
-        The kind of resource that the binding provides.
+mode: "targeted"
 
-        - `"images"`
+Targeted placement mode.
 
-    - `Json object { json, name, type }`
+<a href="#">Link to this property</a>
 
-      - `json: unknown`
+<details>
 
-        JSON data to use.
+<summary>
 
-      - `name: string`
+target: array of object {region } or object {hostname } or object {host }
 
-        A JavaScript variable name for the binding.
+Array of placement targets (currently limited to single target).
 
-      - `type: "json"`
+</summary>
 
-        The kind of resource that the binding provides.
+One of the following:
 
-        - `"json"`
+<details>
 
-    - `KVNamespace object { name, namespace_id, type }`
+<summary>
 
-      - `name: string`
+Region object {region }
 
-        A JavaScript variable name for the binding.
+</summary>
 
-      - `namespace_id: string`
+region: string
 
-        Namespace identifier tag.
+Cloud region in format ‘provider:region’.
 
-      - `type: "kv_namespace"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+</details>
 
-        - `"kv_namespace"`
+<a href="#">Link to this property</a>
 
-    - `Media object { name, type }`
+<details>
 
-      - `name: string`
+<summary>
 
-        A JavaScript variable name for the binding.
+Hostname object {hostname }
 
-      - `type: "media"`
+</summary>
 
-        The kind of resource that the binding provides.
+hostname: string
 
-        - `"media"`
+HTTP hostname for targeted placement.
 
-    - `MTLSCertificate object { certificate_id, name, type }`
+<a href="#">Link to this property</a>
 
-      - `certificate_id: string`
+</details>
 
-        Identifier of the certificate to bind to.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+<details>
 
-        A JavaScript variable name for the binding.
+<summary>
 
-      - `type: "mtls_certificate"`
+Host object {host }
 
-        The kind of resource that the binding provides.
+</summary>
 
-        - `"mtls_certificate"`
+host: string
 
-    - `PlainText object { name, text, type }`
+TCP host:port for targeted placement.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+</details>
 
-      - `text: string`
+<a href="#">Link to this property</a>
 
-        The text value to use.
+</details>
 
-      - `type: "plain_text"`
+<a href="#">Link to this property</a>
 
-        The kind of resource that the binding provides.
+</details>
 
-        - `"plain_text"`
+<a href="#">Link to this property</a>
 
-    - `Pipelines object { name, pipeline, type }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+source: optional string
 
-      - `pipeline: string`
+The client used to create the version.
 
-        Name of the Pipeline to bind to.
+<a href="#">Link to this property</a>
 
-      - `type: "pipelines"`
+startup\_time\_ms: optional number
 
-        The kind of resource that the binding provides.
+Time in milliseconds spent on <a href="https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time">Worker startup</a>.
 
-        - `"pipelines"`
+<a href="#">Link to this property</a>
 
-    - `Queue object { name, queue_name, type }`
+<details>
 
-      - `name: string`
+<summary>
 
-        A JavaScript variable name for the binding.
+Deprecatedusage\_model: optional "standard"or "bundled"or "unbound"
 
-      - `queue_name: string`
+Usage model for the version.
 
-        Name of the Queue to bind to.
+</summary>
 
-      - `type: "queue"`
+One of the following:
 
-        The kind of resource that the binding provides.
+"standard"
 
-        - `"queue"`
+<a href="#">Link to this property</a>
 
-    - `Ratelimit object { name, namespace_id, simple, type }`
+"bundled"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+"unbound"
 
-      - `namespace_id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the rate limit namespace to bind to.
+</details>
 
-      - `simple: object { limit, period, mitigation_timeout }`
+<a href="#">Link to this property</a>
 
-        The rate limit configuration.
+</details>
 
-        - `limit: number`
+[Link to this property](#)%20workers.beta.workers.versions%20%3E%20(model)%20version%20%3E%20(schema)>)
 
-          The limit (requests per period).
+<details>
 
-        - `period: number`
+<summary>
 
-          The period in seconds.
+VersionDeleteResponse object {errors, messages, success }
 
-        - `mitigation_timeout: optional number`
+</summary>
 
-          Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
+<details>
 
-      - `type: "ratelimit"`
+<summary>
 
-        The kind of resource that the binding provides.
+errors: array of object {code, message, documentation\_url, source }
 
-        - `"ratelimit"`
+</summary>
 
-    - `R2Bucket object { bucket_name, name, type, jurisdiction }`
+code: number
 
-      - `bucket_name: string`
+minimum1000
 
-        R2 bucket to bind to.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+message: string
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `type: "r2_bucket"`
+documentation\_url: optional string
 
-        The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-        - `"r2_bucket"`
+<details>
 
-      - `jurisdiction: optional "eu" or "fedramp" or "fedramp-high"`
+<summary>
 
-        The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket.
+source: optional object {pointer }
 
-        - `"eu"`
+</summary>
 
-        - `"fedramp"`
+pointer: optional string
 
-        - `"fedramp-high"`
+<a href="#">Link to this property</a>
 
-    - `SecretText object { name, text, type }`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        A JavaScript variable name for the binding.
+</details>
 
-      - `text: string`
+<a href="#">Link to this property</a>
 
-        The secret value to use.
+<details>
 
-      - `type: "secret_text"`
+<summary>
 
-        The kind of resource that the binding provides.
+messages: array of object {code, message, documentation\_url, source }
 
-        - `"secret_text"`
+</summary>
 
-    - `SendEmail object { name, type, allowed_destination_addresses, 2 more }`
+code: number
 
-      - `name: string`
+minimum1000
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `type: "send_email"`
+message: string
 
-        The kind of resource that the binding provides.
+<a href="#">Link to this property</a>
 
-        - `"send_email"`
+documentation\_url: optional string
 
-      - `allowed_destination_addresses: optional array of string`
+<a href="#">Link to this property</a>
 
-        List of allowed destination addresses.
+<details>
 
-      - `allowed_sender_addresses: optional array of string`
+<summary>
 
-        List of allowed sender addresses.
+source: optional object {pointer }
 
-      - `destination_address: optional string`
+</summary>
 
-        Destination address for the email.
+pointer: optional string
 
-    - `Service object { name, service, type, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        A JavaScript variable name for the binding.
+<a href="#">Link to this property</a>
 
-      - `service: string`
+</details>
 
-        Name of Worker to bind to.
+<a href="#">Link to this property</a>
 
-      - `type: "service"`
+success: true
 
-        The kind of resource that the binding provides.
+Whether the API call was successful.
 
-        - `"service"`
+<a href="#">Link to this property</a>
 
-      - `entrypoint: optional string`
+</details>
 
-        Entrypoint to invoke on the target Worker.
-
-      - `environment: optional string`
-
-        Optional environment if the Worker utilizes one.
-
-    - `TextBlob object { name, part, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `part: string`
-
-        The name of the file containing the text content. Only accepted for `service worker syntax` Workers.
-
-      - `type: "text_blob"`
-
-        The kind of resource that the binding provides.
-
-        - `"text_blob"`
-
-    - `Vectorize object { index_name, name, type }`
-
-      - `index_name: string`
-
-        Name of the Vectorize index to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "vectorize"`
-
-        The kind of resource that the binding provides.
-
-        - `"vectorize"`
-
-    - `VersionMetadata object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "version_metadata"`
-
-        The kind of resource that the binding provides.
-
-        - `"version_metadata"`
-
-    - `SecretsStoreSecret object { name, secret_name, store_id, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `secret_name: string`
-
-        Name of the secret in the store.
-
-      - `store_id: string`
-
-        ID of the store containing the secret.
-
-      - `type: "secrets_store_secret"`
-
-        The kind of resource that the binding provides.
-
-        - `"secrets_store_secret"`
-
-    - `Flagship object { app_id, name, type }`
-
-      - `app_id: string`
-
-        ID of the Flagship app to bind to for feature flag evaluation.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "flagship"`
-
-        The kind of resource that the binding provides.
-
-        - `"flagship"`
-
-    - `SecretKey object { algorithm, format, name, 4 more }`
-
-      - `algorithm: unknown`
-
-        Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
-
-      - `format: "raw" or "pkcs8" or "spki" or "jwk"`
-
-        Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
-
-        - `"raw"`
-
-        - `"pkcs8"`
-
-        - `"spki"`
-
-        - `"jwk"`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "secret_key"`
-
-        The kind of resource that the binding provides.
-
-        - `"secret_key"`
-
-      - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
-
-        Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
-
-        - `"encrypt"`
-
-        - `"decrypt"`
-
-        - `"sign"`
-
-        - `"verify"`
-
-        - `"deriveKey"`
-
-        - `"deriveBits"`
-
-        - `"wrapKey"`
-
-        - `"unwrapKey"`
-
-      - `key_base64: optional string`
-
-        Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
-
-      - `key_jwk: optional unknown`
-
-        Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
-
-    - `Workflow object { name, type, workflow_name, 2 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "workflow"`
-
-        The kind of resource that the binding provides.
-
-        - `"workflow"`
-
-      - `workflow_name: string`
-
-        Name of the Workflow to bind to.
-
-      - `class_name: optional string`
-
-        Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
-
-      - `script_name: optional string`
-
-        Script name that contains the Workflow. If not provided, defaults to this script name.
-
-    - `WasmModule object { name, part, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `part: string`
-
-        The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers.
-
-      - `type: "wasm_module"`
-
-        The kind of resource that the binding provides.
-
-        - `"wasm_module"`
-
-    - `VPCService object { name, service_id, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `service_id: string`
-
-        Identifier of the VPC service to bind to.
-
-      - `type: "vpc_service"`
-
-        The kind of resource that the binding provides.
-
-        - `"vpc_service"`
-
-    - `VPCNetwork object { name, type, network_id, tunnel_id }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "vpc_network"`
-
-        The kind of resource that the binding provides.
-
-        - `"vpc_network"`
-
-      - `network_id: optional string`
-
-        Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id.
-
-      - `tunnel_id: optional string`
-
-        UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id.
-
-  - `cache_options: optional object { enabled, cross_version_cache }`
-
-    Global CacheW configuration for the Worker. When caching is on,
-    the platform provisions a `cloudflare.app` zone for the Worker.
-    A `type: worker` entry in the `exports` map can override this
-    value for a single entrypoint.
-
-    - `enabled: boolean`
-
-      Whether caching is enabled for this Worker.
-
-    - `cross_version_cache: optional boolean`
-
-      Whether cached responses are shared across Worker version
-      uploads. This is independent of `enabled`. It can stay true
-      while caching is off, so the preference survives turning
-      caching off and back on.
-
-  - `compatibility_date: optional string`
-
-    Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker.
-
-  - `compatibility_flags: optional array of string`
-
-    Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`.
-
-  - `containers: optional array of object { class_name }`
-
-    List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script.
-
-    - `class_name: string`
-
-      Select which Durable Object class should get this container attached.
-
-  - `limits: optional object { cpu_ms, subrequests }`
-
-    Resource limits enforced at runtime.
-
-    - `cpu_ms: optional number`
-
-      CPU time limit in milliseconds.
-
-    - `subrequests: optional number`
-
-      Subrequest limit per request.
-
-  - `main_module: optional string`
-
-    The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler).
-
-  - `migration_tag: optional string`
-
-    Durable Object migration tag. Set when the version is deployed. Omitted if the version has not been deployed or the Worker does not use Durable Objects.
-
-  - `migrations: optional SingleStepMigration or object { new_tag, old_tag, steps }`
-
-    Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed.
-
-    - `SingleStepMigration object { deleted_classes, new_classes, new_sqlite_classes, 4 more }`
-
-      A single set of migrations to apply.
-
-      - `deleted_classes: optional array of string`
-
-        A list of classes to delete Durable Object namespaces from.
-
-      - `new_classes: optional array of string`
-
-        A list of classes to create Durable Object namespaces from.
-
-      - `new_sqlite_classes: optional array of string`
-
-        A list of classes to create Durable Object namespaces with SQLite from.
-
-      - `new_tag: optional string`
-
-        Tag to set as the latest migration tag.
-
-      - `old_tag: optional string`
-
-        Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
-
-      - `renamed_classes: optional array of object { from, to }`
-
-        A list of classes with Durable Object namespaces that were renamed.
-
-        - `from: optional string`
-
-        - `to: optional string`
-
-      - `transferred_classes: optional array of object { from, from_script, to }`
-
-        A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
-
-        - `from: optional string`
-
-        - `from_script: optional string`
-
-        - `to: optional string`
-
-    - `WorkersMultipleStepMigrations object { new_tag, old_tag, steps }`
-
-      - `new_tag: optional string`
-
-        Tag to set as the latest migration tag.
-
-      - `old_tag: optional string`
-
-        Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
-
-      - `steps: optional array of MigrationStep`
-
-        Migrations to apply in order.
-
-        - `deleted_classes: optional array of string`
-
-          A list of classes to delete Durable Object namespaces from.
-
-        - `new_classes: optional array of string`
-
-          A list of classes to create Durable Object namespaces from.
-
-        - `new_sqlite_classes: optional array of string`
-
-          A list of classes to create Durable Object namespaces with SQLite from.
-
-        - `renamed_classes: optional array of object { from, to }`
-
-          A list of classes with Durable Object namespaces that were renamed.
-
-          - `from: optional string`
-
-          - `to: optional string`
-
-        - `transferred_classes: optional array of object { from, from_script, to }`
-
-          A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
-
-          - `from: optional string`
-
-          - `from_script: optional string`
-
-          - `to: optional string`
-
-  - `modules: optional array of object { content_base64, content_type, name }`
-
-    Code, sourcemaps, and other content used at runtime.
-
-    This includes [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-    [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files used to configure
-    [Static Assets](https://developers.cloudflare.com/workers/static-assets/). `_headers` and `_redirects` files should be
-    included as modules named `_headers` and `_redirects` with content type `text/plain`.
-
-    - `content_base64: string`
-
-      The base64-encoded module content.
-
-    - `content_type: string`
-
-      The content type of the module.
-
-    - `name: string`
-
-      The name of the module.
-
-  - `package_dependencies: optional array of object { installedVersion, name, packageJsonVersion }`
-
-    The list of npm packages that were installed and used when this Worker
-    version was built.
-
-    - `installedVersion: string`
-
-      The exact version that was resolved and installed by the package manager.
-
-    - `name: string`
-
-      The npm package name.
-
-    - `packageJsonVersion: string`
-
-      The version constraint as written in package.json.
-
-  - `placement: optional object { mode }  or object { region }  or object { hostname }  or 5 more`
-
-    Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host.
-
-    - `Mode object { mode }`
-
-      - `mode: "smart"`
-
-        Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
-
-        - `"smart"`
-
-    - `Region object { region }`
-
-      - `region: string`
-
-        Cloud region for targeted placement in format 'provider:region'.
-
-    - `Hostname object { hostname }`
-
-      - `hostname: string`
-
-        HTTP hostname for targeted placement.
-
-    - `Host object { host }`
-
-      - `host: string`
-
-        TCP host and port for targeted placement.
-
-    - `object { mode, region }`
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-      - `region: string`
-
-        Cloud region for targeted placement in format 'provider:region'.
-
-    - `object { hostname, mode }`
-
-      - `hostname: string`
-
-        HTTP hostname for targeted placement.
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-    - `object { host, mode }`
-
-      - `host: string`
-
-        TCP host and port for targeted placement.
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-    - `object { mode, target }`
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-      - `target: array of object { region }  or object { hostname }  or object { host }`
-
-        Array of placement targets (currently limited to single target).
-
-        - `Region object { region }`
-
-          - `region: string`
-
-            Cloud region in format 'provider:region'.
-
-        - `Hostname object { hostname }`
-
-          - `hostname: string`
-
-            HTTP hostname for targeted placement.
-
-        - `Host object { host }`
-
-          - `host: string`
-
-            TCP host:port for targeted placement.
-
-  - `source: optional string`
-
-    The client used to create the version.
-
-  - `startup_time_ms: optional number`
-
-    Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time).
-
-  - `usage_model: optional "standard" or "bundled" or "unbound"`
-
-    Usage model for the version.
-
-    - `"standard"`
-
-    - `"bundled"`
-
-    - `"unbound"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID/versions/$VERSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "number": 0,
-    "urls": [
-      "https://9387e76d-my-worker.my-subdomain.workers.dev"
-    ],
-    "annotations": {
-      "workers/message": "Fixed bug.",
-      "workers/tag": "v1.0.1",
-      "workers/triggered_by": "upload"
-    },
-    "assets": {
-      "config": {
-        "html_handling": "auto-trailing-slash",
-        "not_found_handling": "404-page",
-        "run_worker_first": true
-      },
-      "jwt": "jwt"
-    },
-    "bindings": [
-      {
-        "name": "MY_ENV_VAR",
-        "text": "my_data",
-        "type": "plain_text"
-      }
-    ],
-    "cache_options": {
-      "enabled": true,
-      "cross_version_cache": true
-    },
-    "compatibility_date": "2021-01-01",
-    "compatibility_flags": [
-      "nodejs_compat"
-    ],
-    "containers": [
-      {
-        "class_name": "MyDurableObject"
-      }
-    ],
-    "limits": {
-      "cpu_ms": 50,
-      "subrequests": 1000
-    },
-    "main_module": "index.js",
-    "migration_tag": "v1",
-    "migrations": {},
-    "modules": [
-      {
-        "content_base64": "ZXhwb3J0IGRlZmF1bHQgewogIGFzeW5jIGZldGNoKHJlcXVlc3QsIGVudiwgY3R4KSB7CiAgICByZXR1cm4gbmV3IFJlc3BvbnNlKCdIZWxsbyBXb3JsZCEnKQogIH0KfQ==",
-        "content_type": "application/javascript+module",
-        "name": "index.js"
-      }
-    ],
-    "package_dependencies": [
-      {
-        "installedVersion": "4.17.22",
-        "name": "lodash",
-        "packageJsonVersion": "^4.17.21"
-      }
-    ],
-    "placement": {
-      "mode": "smart"
-    },
-    "source": "wrangler",
-    "startup_time_ms": 10,
-    "usage_model": "standard"
-  },
-  "success": true
-}
-```
-
-## Create Version
-
-**post** `/accounts/{account_id}/workers/workers/{worker_id}/versions`
-
-Create a new version.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `worker_id: string`
-
-  Identifier for the Worker, which can be ID or name.
-
-### Query Parameters
-
-- `deploy: optional boolean`
-
-  If true, a deployment will be created that sends 100% of traffic to the new version.
-
-### Body Parameters
-
-- `annotations: optional object { "workers/message", "workers/tag", "workers/triggered_by" }`
-
-  Metadata about the version.
-
-  - `"workers/message": optional string`
-
-    Human-readable message about the version. Truncated to 1000 bytes if longer.
-
-  - `"workers/tag": optional string`
-
-    User-provided identifier for the version. Maximum 100 bytes.
-
-  - `"workers/triggered_by": optional string`
-
-    Operation that triggered the creation of the version.
-
-- `assets: optional object { config, jwt }`
-
-  Configuration for assets within a Worker.
-
-  [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-  [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files should be
-  included as modules named `_headers` and `_redirects` with content type `text/plain`.
-
-  - `config: optional object { html_handling, not_found_handling, run_worker_first }`
-
-    Configuration for assets within a Worker.
-
-    - `html_handling: optional "auto-trailing-slash" or "force-trailing-slash" or "drop-trailing-slash" or "none"`
-
-      Determines the redirects and rewrites of requests for HTML content.
-
-      - `"auto-trailing-slash"`
-
-      - `"force-trailing-slash"`
-
-      - `"drop-trailing-slash"`
-
-      - `"none"`
-
-    - `not_found_handling: optional "none" or "404-page" or "single-page-application"`
-
-      Determines the response when a request does not match a static asset, and there is no Worker script.
-
-      - `"none"`
-
-      - `"404-page"`
-
-      - `"single-page-application"`
-
-    - `run_worker_first: optional array of string or boolean`
-
-      Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
-
-      - `array of string`
-
-        Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
-
-      - `boolean`
-
-        Enables routing to always invoke the Worker script ahead of all requests. When true, this is equivalent to `["/*"]` in the string array version of this field.
-
-  - `jwt: optional string`
-
-    Token provided upon successful upload of all files from a registered manifest.
-
-- `bindings: optional array of object { name, type }  or object { instance_name, name, type, namespace }  or object { name, namespace, type }  or 32 more`
-
-  List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings.
-
-  - `AI object { name, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "ai"`
-
-      The kind of resource that the binding provides.
-
-      - `"ai"`
-
-  - `AISearch object { instance_name, name, type, namespace }`
-
-    - `instance_name: string`
-
-      The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "ai_search"`
-
-      The kind of resource that the binding provides.
-
-      - `"ai_search"`
-
-    - `namespace: optional string`
-
-      The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field.
-
-  - `AISearchNamespace object { name, namespace, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `namespace: string`
-
-      The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
-
-    - `type: "ai_search_namespace"`
-
-      The kind of resource that the binding provides.
-
-      - `"ai_search_namespace"`
-
-  - `AnalyticsEngine object { dataset, name, type }`
-
-    - `dataset: string`
-
-      The name of the dataset to bind to.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "analytics_engine"`
-
-      The kind of resource that the binding provides.
-
-      - `"analytics_engine"`
-
-  - `Assets object { name, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "assets"`
-
-      The kind of resource that the binding provides.
-
-      - `"assets"`
-
-  - `Browser object { name, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "browser"`
-
-      The kind of resource that the binding provides.
-
-      - `"browser"`
-
-  - `D1 object { database_id, name, type, id }`
-
-    - `database_id: string`
-
-      Identifier of the D1 database to bind to.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "d1"`
-
-      The kind of resource that the binding provides.
-
-      - `"d1"`
-
-    - `id: optional string`
-
-      Identifier of the D1 database to bind to.
-
-  - `DataBlob object { name, part, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `part: string`
-
-      The name of the file containing the data content. Only accepted for `service worker syntax` Workers.
-
-    - `type: "data_blob"`
-
-      The kind of resource that the binding provides.
-
-      - `"data_blob"`
-
-  - `DispatchNamespace object { name, namespace, type, outbound }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `namespace: string`
-
-      The name of the dispatch namespace.
-
-    - `type: "dispatch_namespace"`
-
-      The kind of resource that the binding provides.
-
-      - `"dispatch_namespace"`
-
-    - `outbound: optional object { params, worker }`
-
-      Outbound worker.
-
-      - `params: optional array of object { name }`
-
-        Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
-
-        - `name: string`
-
-          Name of the parameter.
-
-      - `worker: optional object { entrypoint, environment, service }`
-
-        Outbound worker.
-
-        - `entrypoint: optional string`
-
-          Entrypoint to invoke on the outbound worker.
-
-        - `environment: optional string`
-
-          Environment of the outbound worker.
-
-        - `service: optional string`
-
-          Name of the outbound worker.
-
-  - `DurableObjectNamespace object { name, type, class_name, 4 more }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "durable_object_namespace"`
-
-      The kind of resource that the binding provides.
-
-      - `"durable_object_namespace"`
-
-    - `class_name: optional string`
-
-      The exported class name of the Durable Object.
-
-    - `dispatch_namespace: optional string`
-
-      The dispatch namespace the Durable Object script belongs to.
-
-    - `environment: optional string`
-
-      The environment of the script_name to bind to.
-
-    - `namespace_id: optional string`
-
-      Namespace identifier tag.
-
-    - `script_name: optional string`
-
-      The script where the Durable Object is defined, if it is external to this Worker.
-
-  - `Hyperdrive object { id, name, type }`
-
-    - `id: string`
-
-      Identifier of the Hyperdrive connection to bind to.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "hyperdrive"`
-
-      The kind of resource that the binding provides.
-
-      - `"hyperdrive"`
-
-  - `Inherit object { name, type, old_name, version_id }`
-
-    - `name: string`
-
-      The name of the inherited binding.
-
-    - `type: "inherit"`
-
-      The kind of resource that the binding provides.
-
-      - `"inherit"`
-
-    - `old_name: optional string`
-
-      The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions.
-
-    - `version_id: optional string`
-
-      Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version.
-
-  - `Images object { name, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "images"`
-
-      The kind of resource that the binding provides.
-
-      - `"images"`
-
-  - `Json object { json, name, type }`
-
-    - `json: unknown`
-
-      JSON data to use.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "json"`
-
-      The kind of resource that the binding provides.
-
-      - `"json"`
-
-  - `KVNamespace object { name, namespace_id, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `namespace_id: string`
-
-      Namespace identifier tag.
-
-    - `type: "kv_namespace"`
-
-      The kind of resource that the binding provides.
-
-      - `"kv_namespace"`
-
-  - `Media object { name, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "media"`
-
-      The kind of resource that the binding provides.
-
-      - `"media"`
-
-  - `MTLSCertificate object { certificate_id, name, type }`
-
-    - `certificate_id: string`
-
-      Identifier of the certificate to bind to.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "mtls_certificate"`
-
-      The kind of resource that the binding provides.
-
-      - `"mtls_certificate"`
-
-  - `PlainText object { name, text, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `text: string`
-
-      The text value to use.
-
-    - `type: "plain_text"`
-
-      The kind of resource that the binding provides.
-
-      - `"plain_text"`
-
-  - `Pipelines object { name, pipeline, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `pipeline: string`
-
-      Name of the Pipeline to bind to.
-
-    - `type: "pipelines"`
-
-      The kind of resource that the binding provides.
-
-      - `"pipelines"`
-
-  - `Queue object { name, queue_name, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `queue_name: string`
-
-      Name of the Queue to bind to.
-
-    - `type: "queue"`
-
-      The kind of resource that the binding provides.
-
-      - `"queue"`
-
-  - `Ratelimit object { name, namespace_id, simple, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `namespace_id: string`
-
-      Identifier of the rate limit namespace to bind to.
-
-    - `simple: object { limit, period, mitigation_timeout }`
-
-      The rate limit configuration.
-
-      - `limit: number`
-
-        The limit (requests per period).
-
-      - `period: number`
-
-        The period in seconds.
-
-      - `mitigation_timeout: optional number`
-
-        Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
-
-    - `type: "ratelimit"`
-
-      The kind of resource that the binding provides.
-
-      - `"ratelimit"`
-
-  - `R2Bucket object { bucket_name, name, type, jurisdiction }`
-
-    - `bucket_name: string`
-
-      R2 bucket to bind to.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "r2_bucket"`
-
-      The kind of resource that the binding provides.
-
-      - `"r2_bucket"`
-
-    - `jurisdiction: optional "eu" or "fedramp" or "fedramp-high"`
-
-      The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket.
-
-      - `"eu"`
-
-      - `"fedramp"`
-
-      - `"fedramp-high"`
-
-  - `SecretText object { name, text, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `text: string`
-
-      The secret value to use.
-
-    - `type: "secret_text"`
-
-      The kind of resource that the binding provides.
-
-      - `"secret_text"`
-
-  - `SendEmail object { name, type, allowed_destination_addresses, 2 more }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "send_email"`
-
-      The kind of resource that the binding provides.
-
-      - `"send_email"`
-
-    - `allowed_destination_addresses: optional array of string`
-
-      List of allowed destination addresses.
-
-    - `allowed_sender_addresses: optional array of string`
-
-      List of allowed sender addresses.
-
-    - `destination_address: optional string`
-
-      Destination address for the email.
-
-  - `Service object { name, service, type, 2 more }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `service: string`
-
-      Name of Worker to bind to.
-
-    - `type: "service"`
-
-      The kind of resource that the binding provides.
-
-      - `"service"`
-
-    - `entrypoint: optional string`
-
-      Entrypoint to invoke on the target Worker.
-
-    - `environment: optional string`
-
-      Optional environment if the Worker utilizes one.
-
-  - `TextBlob object { name, part, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `part: string`
-
-      The name of the file containing the text content. Only accepted for `service worker syntax` Workers.
-
-    - `type: "text_blob"`
-
-      The kind of resource that the binding provides.
-
-      - `"text_blob"`
-
-  - `Vectorize object { index_name, name, type }`
-
-    - `index_name: string`
-
-      Name of the Vectorize index to bind to.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "vectorize"`
-
-      The kind of resource that the binding provides.
-
-      - `"vectorize"`
-
-  - `VersionMetadata object { name, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "version_metadata"`
-
-      The kind of resource that the binding provides.
-
-      - `"version_metadata"`
-
-  - `SecretsStoreSecret object { name, secret_name, store_id, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `secret_name: string`
-
-      Name of the secret in the store.
-
-    - `store_id: string`
-
-      ID of the store containing the secret.
-
-    - `type: "secrets_store_secret"`
-
-      The kind of resource that the binding provides.
-
-      - `"secrets_store_secret"`
-
-  - `Flagship object { app_id, name, type }`
-
-    - `app_id: string`
-
-      ID of the Flagship app to bind to for feature flag evaluation.
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "flagship"`
-
-      The kind of resource that the binding provides.
-
-      - `"flagship"`
-
-  - `SecretKey object { algorithm, format, name, 4 more }`
-
-    - `algorithm: unknown`
-
-      Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
-
-    - `format: "raw" or "pkcs8" or "spki" or "jwk"`
-
-      Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
-
-      - `"raw"`
-
-      - `"pkcs8"`
-
-      - `"spki"`
-
-      - `"jwk"`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "secret_key"`
-
-      The kind of resource that the binding provides.
-
-      - `"secret_key"`
-
-    - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
-
-      Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
-
-      - `"encrypt"`
-
-      - `"decrypt"`
-
-      - `"sign"`
-
-      - `"verify"`
-
-      - `"deriveKey"`
-
-      - `"deriveBits"`
-
-      - `"wrapKey"`
-
-      - `"unwrapKey"`
-
-    - `key_base64: optional string`
-
-      Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
-
-    - `key_jwk: optional unknown`
-
-      Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
-
-  - `Workflow object { name, type, workflow_name, 2 more }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "workflow"`
-
-      The kind of resource that the binding provides.
-
-      - `"workflow"`
-
-    - `workflow_name: string`
-
-      Name of the Workflow to bind to.
-
-    - `class_name: optional string`
-
-      Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
-
-    - `script_name: optional string`
-
-      Script name that contains the Workflow. If not provided, defaults to this script name.
-
-  - `WasmModule object { name, part, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `part: string`
-
-      The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers.
-
-    - `type: "wasm_module"`
-
-      The kind of resource that the binding provides.
-
-      - `"wasm_module"`
-
-  - `VPCService object { name, service_id, type }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `service_id: string`
-
-      Identifier of the VPC service to bind to.
-
-    - `type: "vpc_service"`
-
-      The kind of resource that the binding provides.
-
-      - `"vpc_service"`
-
-  - `VPCNetwork object { name, type, network_id, tunnel_id }`
-
-    - `name: string`
-
-      A JavaScript variable name for the binding.
-
-    - `type: "vpc_network"`
-
-      The kind of resource that the binding provides.
-
-      - `"vpc_network"`
-
-    - `network_id: optional string`
-
-      Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id.
-
-    - `tunnel_id: optional string`
-
-      UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id.
-
-- `cache_options: optional object { enabled, cross_version_cache }`
-
-  Global CacheW configuration for the Worker. When caching is on,
-  the platform provisions a `cloudflare.app` zone for the Worker.
-  A `type: worker` entry in the `exports` map can override this
-  value for a single entrypoint.
-
-  - `enabled: boolean`
-
-    Whether caching is enabled for this Worker.
-
-  - `cross_version_cache: optional boolean`
-
-    Whether cached responses are shared across Worker version
-    uploads. This is independent of `enabled`. It can stay true
-    while caching is off, so the preference survives turning
-    caching off and back on.
-
-- `compatibility_date: optional string`
-
-  Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker.
-
-- `compatibility_flags: optional array of string`
-
-  Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`.
-
-- `containers: optional array of object { class_name }`
-
-  List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script.
-
-  - `class_name: string`
-
-    Select which Durable Object class should get this container attached.
-
-- `limits: optional object { cpu_ms, subrequests }`
-
-  Resource limits enforced at runtime.
-
-  - `cpu_ms: optional number`
-
-    CPU time limit in milliseconds.
-
-  - `subrequests: optional number`
-
-    Subrequest limit per request.
-
-- `main_module: optional string`
-
-  The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler).
-
-- `migrations: optional SingleStepMigration or object { new_tag, old_tag, steps }`
-
-  Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed.
-
-  - `SingleStepMigration object { deleted_classes, new_classes, new_sqlite_classes, 4 more }`
-
-    A single set of migrations to apply.
-
-    - `deleted_classes: optional array of string`
-
-      A list of classes to delete Durable Object namespaces from.
-
-    - `new_classes: optional array of string`
-
-      A list of classes to create Durable Object namespaces from.
-
-    - `new_sqlite_classes: optional array of string`
-
-      A list of classes to create Durable Object namespaces with SQLite from.
-
-    - `new_tag: optional string`
-
-      Tag to set as the latest migration tag.
-
-    - `old_tag: optional string`
-
-      Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
-
-    - `renamed_classes: optional array of object { from, to }`
-
-      A list of classes with Durable Object namespaces that were renamed.
-
-      - `from: optional string`
-
-      - `to: optional string`
-
-    - `transferred_classes: optional array of object { from, from_script, to }`
-
-      A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
-
-      - `from: optional string`
-
-      - `from_script: optional string`
-
-      - `to: optional string`
-
-  - `WorkersMultipleStepMigrations object { new_tag, old_tag, steps }`
-
-    - `new_tag: optional string`
-
-      Tag to set as the latest migration tag.
-
-    - `old_tag: optional string`
-
-      Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
-
-    - `steps: optional array of MigrationStep`
-
-      Migrations to apply in order.
-
-      - `deleted_classes: optional array of string`
-
-        A list of classes to delete Durable Object namespaces from.
-
-      - `new_classes: optional array of string`
-
-        A list of classes to create Durable Object namespaces from.
-
-      - `new_sqlite_classes: optional array of string`
-
-        A list of classes to create Durable Object namespaces with SQLite from.
-
-      - `renamed_classes: optional array of object { from, to }`
-
-        A list of classes with Durable Object namespaces that were renamed.
-
-        - `from: optional string`
-
-        - `to: optional string`
-
-      - `transferred_classes: optional array of object { from, from_script, to }`
-
-        A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
-
-        - `from: optional string`
-
-        - `from_script: optional string`
-
-        - `to: optional string`
-
-- `modules: optional array of object { content_base64, content_type, name }`
-
-  Code, sourcemaps, and other content used at runtime.
-
-  This includes [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-  [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files used to configure
-  [Static Assets](https://developers.cloudflare.com/workers/static-assets/). `_headers` and `_redirects` files should be
-  included as modules named `_headers` and `_redirects` with content type `text/plain`.
-
-  - `content_base64: string`
-
-    The base64-encoded module content.
-
-  - `content_type: string`
-
-    The content type of the module.
-
-  - `name: string`
-
-    The name of the module.
-
-- `package_dependencies: optional array of object { installedVersion, name, packageJsonVersion }`
-
-  The list of npm packages that were installed and used when this Worker
-  version was built.
-
-  - `installedVersion: string`
-
-    The exact version that was resolved and installed by the package manager.
-
-  - `name: string`
-
-    The npm package name.
-
-  - `packageJsonVersion: string`
-
-    The version constraint as written in package.json.
-
-- `placement: optional object { mode }  or object { region }  or object { hostname }  or 5 more`
-
-  Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host.
-
-  - `Mode object { mode }`
-
-    - `mode: "smart"`
-
-      Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
-
-      - `"smart"`
-
-  - `Region object { region }`
-
-    - `region: string`
-
-      Cloud region for targeted placement in format 'provider:region'.
-
-  - `Hostname object { hostname }`
-
-    - `hostname: string`
-
-      HTTP hostname for targeted placement.
-
-  - `Host object { host }`
-
-    - `host: string`
-
-      TCP host and port for targeted placement.
-
-  - `object { mode, region }`
-
-    - `mode: "targeted"`
-
-      Targeted placement mode.
-
-      - `"targeted"`
-
-    - `region: string`
-
-      Cloud region for targeted placement in format 'provider:region'.
-
-  - `object { hostname, mode }`
-
-    - `hostname: string`
-
-      HTTP hostname for targeted placement.
-
-    - `mode: "targeted"`
-
-      Targeted placement mode.
-
-      - `"targeted"`
-
-  - `object { host, mode }`
-
-    - `host: string`
-
-      TCP host and port for targeted placement.
-
-    - `mode: "targeted"`
-
-      Targeted placement mode.
-
-      - `"targeted"`
-
-  - `object { mode, target }`
-
-    - `mode: "targeted"`
-
-      Targeted placement mode.
-
-      - `"targeted"`
-
-    - `target: array of object { region }  or object { hostname }  or object { host }`
-
-      Array of placement targets (currently limited to single target).
-
-      - `Region object { region }`
-
-        - `region: string`
-
-          Cloud region in format 'provider:region'.
-
-      - `Hostname object { hostname }`
-
-        - `hostname: string`
-
-          HTTP hostname for targeted placement.
-
-      - `Host object { host }`
-
-        - `host: string`
-
-          TCP host:port for targeted placement.
-
-- `usage_model: optional "standard" or "bundled" or "unbound"`
-
-  Usage model for the version.
-
-  - `"standard"`
-
-  - `"bundled"`
-
-  - `"unbound"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: Version`
-
-  - `id: string`
-
-    Version identifier.
-
-  - `created_on: string`
-
-    When the version was created.
-
-  - `number: number`
-
-    The integer version number, starting from one.
-
-  - `urls: array of string`
-
-    All routable URLs that always point to this version. Does not include alias URLs, since aliases can be updated to point to a different version.
-
-  - `annotations: optional object { "workers/message", "workers/tag", "workers/triggered_by" }`
-
-    Metadata about the version.
-
-    - `"workers/message": optional string`
-
-      Human-readable message about the version. Truncated to 1000 bytes if longer.
-
-    - `"workers/tag": optional string`
-
-      User-provided identifier for the version. Maximum 100 bytes.
-
-    - `"workers/triggered_by": optional string`
-
-      Operation that triggered the creation of the version.
-
-  - `assets: optional object { config, jwt }`
-
-    Configuration for assets within a Worker.
-
-    [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-    [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files should be
-    included as modules named `_headers` and `_redirects` with content type `text/plain`.
-
-    - `config: optional object { html_handling, not_found_handling, run_worker_first }`
-
-      Configuration for assets within a Worker.
-
-      - `html_handling: optional "auto-trailing-slash" or "force-trailing-slash" or "drop-trailing-slash" or "none"`
-
-        Determines the redirects and rewrites of requests for HTML content.
-
-        - `"auto-trailing-slash"`
-
-        - `"force-trailing-slash"`
-
-        - `"drop-trailing-slash"`
-
-        - `"none"`
-
-      - `not_found_handling: optional "none" or "404-page" or "single-page-application"`
-
-        Determines the response when a request does not match a static asset, and there is no Worker script.
-
-        - `"none"`
-
-        - `"404-page"`
-
-        - `"single-page-application"`
-
-      - `run_worker_first: optional array of string or boolean`
-
-        Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
-
-        - `array of string`
-
-          Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
-
-        - `boolean`
-
-          Enables routing to always invoke the Worker script ahead of all requests. When true, this is equivalent to `["/*"]` in the string array version of this field.
-
-    - `jwt: optional string`
-
-      Token provided upon successful upload of all files from a registered manifest.
-
-  - `bindings: optional array of object { name, type }  or object { instance_name, name, type, namespace }  or object { name, namespace, type }  or 32 more`
-
-    List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings.
-
-    - `AI object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "ai"`
-
-        The kind of resource that the binding provides.
-
-        - `"ai"`
-
-    - `AISearch object { instance_name, name, type, namespace }`
-
-      - `instance_name: string`
-
-        The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "ai_search"`
-
-        The kind of resource that the binding provides.
-
-        - `"ai_search"`
-
-      - `namespace: optional string`
-
-        The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field.
-
-    - `AISearchNamespace object { name, namespace, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `namespace: string`
-
-        The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
-
-      - `type: "ai_search_namespace"`
-
-        The kind of resource that the binding provides.
-
-        - `"ai_search_namespace"`
-
-    - `AnalyticsEngine object { dataset, name, type }`
-
-      - `dataset: string`
-
-        The name of the dataset to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "analytics_engine"`
-
-        The kind of resource that the binding provides.
-
-        - `"analytics_engine"`
-
-    - `Assets object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "assets"`
-
-        The kind of resource that the binding provides.
-
-        - `"assets"`
-
-    - `Browser object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "browser"`
-
-        The kind of resource that the binding provides.
-
-        - `"browser"`
-
-    - `D1 object { database_id, name, type, id }`
-
-      - `database_id: string`
-
-        Identifier of the D1 database to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "d1"`
-
-        The kind of resource that the binding provides.
-
-        - `"d1"`
-
-      - `id: optional string`
-
-        Identifier of the D1 database to bind to.
-
-    - `DataBlob object { name, part, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `part: string`
-
-        The name of the file containing the data content. Only accepted for `service worker syntax` Workers.
-
-      - `type: "data_blob"`
-
-        The kind of resource that the binding provides.
-
-        - `"data_blob"`
-
-    - `DispatchNamespace object { name, namespace, type, outbound }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `namespace: string`
-
-        The name of the dispatch namespace.
-
-      - `type: "dispatch_namespace"`
-
-        The kind of resource that the binding provides.
-
-        - `"dispatch_namespace"`
-
-      - `outbound: optional object { params, worker }`
-
-        Outbound worker.
-
-        - `params: optional array of object { name }`
-
-          Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
-
-          - `name: string`
-
-            Name of the parameter.
-
-        - `worker: optional object { entrypoint, environment, service }`
-
-          Outbound worker.
-
-          - `entrypoint: optional string`
-
-            Entrypoint to invoke on the outbound worker.
-
-          - `environment: optional string`
-
-            Environment of the outbound worker.
-
-          - `service: optional string`
-
-            Name of the outbound worker.
-
-    - `DurableObjectNamespace object { name, type, class_name, 4 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "durable_object_namespace"`
-
-        The kind of resource that the binding provides.
-
-        - `"durable_object_namespace"`
-
-      - `class_name: optional string`
-
-        The exported class name of the Durable Object.
-
-      - `dispatch_namespace: optional string`
-
-        The dispatch namespace the Durable Object script belongs to.
-
-      - `environment: optional string`
-
-        The environment of the script_name to bind to.
-
-      - `namespace_id: optional string`
-
-        Namespace identifier tag.
-
-      - `script_name: optional string`
-
-        The script where the Durable Object is defined, if it is external to this Worker.
-
-    - `Hyperdrive object { id, name, type }`
-
-      - `id: string`
-
-        Identifier of the Hyperdrive connection to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "hyperdrive"`
-
-        The kind of resource that the binding provides.
-
-        - `"hyperdrive"`
-
-    - `Inherit object { name, type, old_name, version_id }`
-
-      - `name: string`
-
-        The name of the inherited binding.
-
-      - `type: "inherit"`
-
-        The kind of resource that the binding provides.
-
-        - `"inherit"`
-
-      - `old_name: optional string`
-
-        The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions.
-
-      - `version_id: optional string`
-
-        Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version.
-
-    - `Images object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "images"`
-
-        The kind of resource that the binding provides.
-
-        - `"images"`
-
-    - `Json object { json, name, type }`
-
-      - `json: unknown`
-
-        JSON data to use.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "json"`
-
-        The kind of resource that the binding provides.
-
-        - `"json"`
-
-    - `KVNamespace object { name, namespace_id, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `namespace_id: string`
-
-        Namespace identifier tag.
-
-      - `type: "kv_namespace"`
-
-        The kind of resource that the binding provides.
-
-        - `"kv_namespace"`
-
-    - `Media object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "media"`
-
-        The kind of resource that the binding provides.
-
-        - `"media"`
-
-    - `MTLSCertificate object { certificate_id, name, type }`
-
-      - `certificate_id: string`
-
-        Identifier of the certificate to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "mtls_certificate"`
-
-        The kind of resource that the binding provides.
-
-        - `"mtls_certificate"`
-
-    - `PlainText object { name, text, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `text: string`
-
-        The text value to use.
-
-      - `type: "plain_text"`
-
-        The kind of resource that the binding provides.
-
-        - `"plain_text"`
-
-    - `Pipelines object { name, pipeline, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `pipeline: string`
-
-        Name of the Pipeline to bind to.
-
-      - `type: "pipelines"`
-
-        The kind of resource that the binding provides.
-
-        - `"pipelines"`
-
-    - `Queue object { name, queue_name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `queue_name: string`
-
-        Name of the Queue to bind to.
-
-      - `type: "queue"`
-
-        The kind of resource that the binding provides.
-
-        - `"queue"`
-
-    - `Ratelimit object { name, namespace_id, simple, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `namespace_id: string`
-
-        Identifier of the rate limit namespace to bind to.
-
-      - `simple: object { limit, period, mitigation_timeout }`
-
-        The rate limit configuration.
-
-        - `limit: number`
-
-          The limit (requests per period).
-
-        - `period: number`
-
-          The period in seconds.
-
-        - `mitigation_timeout: optional number`
-
-          Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
-
-      - `type: "ratelimit"`
-
-        The kind of resource that the binding provides.
-
-        - `"ratelimit"`
-
-    - `R2Bucket object { bucket_name, name, type, jurisdiction }`
-
-      - `bucket_name: string`
-
-        R2 bucket to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "r2_bucket"`
-
-        The kind of resource that the binding provides.
-
-        - `"r2_bucket"`
-
-      - `jurisdiction: optional "eu" or "fedramp" or "fedramp-high"`
-
-        The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket.
-
-        - `"eu"`
-
-        - `"fedramp"`
-
-        - `"fedramp-high"`
-
-    - `SecretText object { name, text, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `text: string`
-
-        The secret value to use.
-
-      - `type: "secret_text"`
-
-        The kind of resource that the binding provides.
-
-        - `"secret_text"`
-
-    - `SendEmail object { name, type, allowed_destination_addresses, 2 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "send_email"`
-
-        The kind of resource that the binding provides.
-
-        - `"send_email"`
-
-      - `allowed_destination_addresses: optional array of string`
-
-        List of allowed destination addresses.
-
-      - `allowed_sender_addresses: optional array of string`
-
-        List of allowed sender addresses.
-
-      - `destination_address: optional string`
-
-        Destination address for the email.
-
-    - `Service object { name, service, type, 2 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `service: string`
-
-        Name of Worker to bind to.
-
-      - `type: "service"`
-
-        The kind of resource that the binding provides.
-
-        - `"service"`
-
-      - `entrypoint: optional string`
-
-        Entrypoint to invoke on the target Worker.
-
-      - `environment: optional string`
-
-        Optional environment if the Worker utilizes one.
-
-    - `TextBlob object { name, part, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `part: string`
-
-        The name of the file containing the text content. Only accepted for `service worker syntax` Workers.
-
-      - `type: "text_blob"`
-
-        The kind of resource that the binding provides.
-
-        - `"text_blob"`
-
-    - `Vectorize object { index_name, name, type }`
-
-      - `index_name: string`
-
-        Name of the Vectorize index to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "vectorize"`
-
-        The kind of resource that the binding provides.
-
-        - `"vectorize"`
-
-    - `VersionMetadata object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "version_metadata"`
-
-        The kind of resource that the binding provides.
-
-        - `"version_metadata"`
-
-    - `SecretsStoreSecret object { name, secret_name, store_id, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `secret_name: string`
-
-        Name of the secret in the store.
-
-      - `store_id: string`
-
-        ID of the store containing the secret.
-
-      - `type: "secrets_store_secret"`
-
-        The kind of resource that the binding provides.
-
-        - `"secrets_store_secret"`
-
-    - `Flagship object { app_id, name, type }`
-
-      - `app_id: string`
-
-        ID of the Flagship app to bind to for feature flag evaluation.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "flagship"`
-
-        The kind of resource that the binding provides.
-
-        - `"flagship"`
-
-    - `SecretKey object { algorithm, format, name, 4 more }`
-
-      - `algorithm: unknown`
-
-        Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
-
-      - `format: "raw" or "pkcs8" or "spki" or "jwk"`
-
-        Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
-
-        - `"raw"`
-
-        - `"pkcs8"`
-
-        - `"spki"`
-
-        - `"jwk"`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "secret_key"`
-
-        The kind of resource that the binding provides.
-
-        - `"secret_key"`
-
-      - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
-
-        Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
-
-        - `"encrypt"`
-
-        - `"decrypt"`
-
-        - `"sign"`
-
-        - `"verify"`
-
-        - `"deriveKey"`
-
-        - `"deriveBits"`
-
-        - `"wrapKey"`
-
-        - `"unwrapKey"`
-
-      - `key_base64: optional string`
-
-        Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
-
-      - `key_jwk: optional unknown`
-
-        Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
-
-    - `Workflow object { name, type, workflow_name, 2 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "workflow"`
-
-        The kind of resource that the binding provides.
-
-        - `"workflow"`
-
-      - `workflow_name: string`
-
-        Name of the Workflow to bind to.
-
-      - `class_name: optional string`
-
-        Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
-
-      - `script_name: optional string`
-
-        Script name that contains the Workflow. If not provided, defaults to this script name.
-
-    - `WasmModule object { name, part, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `part: string`
-
-        The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers.
-
-      - `type: "wasm_module"`
-
-        The kind of resource that the binding provides.
-
-        - `"wasm_module"`
-
-    - `VPCService object { name, service_id, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `service_id: string`
-
-        Identifier of the VPC service to bind to.
-
-      - `type: "vpc_service"`
-
-        The kind of resource that the binding provides.
-
-        - `"vpc_service"`
-
-    - `VPCNetwork object { name, type, network_id, tunnel_id }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "vpc_network"`
-
-        The kind of resource that the binding provides.
-
-        - `"vpc_network"`
-
-      - `network_id: optional string`
-
-        Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id.
-
-      - `tunnel_id: optional string`
-
-        UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id.
-
-  - `cache_options: optional object { enabled, cross_version_cache }`
-
-    Global CacheW configuration for the Worker. When caching is on,
-    the platform provisions a `cloudflare.app` zone for the Worker.
-    A `type: worker` entry in the `exports` map can override this
-    value for a single entrypoint.
-
-    - `enabled: boolean`
-
-      Whether caching is enabled for this Worker.
-
-    - `cross_version_cache: optional boolean`
-
-      Whether cached responses are shared across Worker version
-      uploads. This is independent of `enabled`. It can stay true
-      while caching is off, so the preference survives turning
-      caching off and back on.
-
-  - `compatibility_date: optional string`
-
-    Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker.
-
-  - `compatibility_flags: optional array of string`
-
-    Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`.
-
-  - `containers: optional array of object { class_name }`
-
-    List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script.
-
-    - `class_name: string`
-
-      Select which Durable Object class should get this container attached.
-
-  - `limits: optional object { cpu_ms, subrequests }`
-
-    Resource limits enforced at runtime.
-
-    - `cpu_ms: optional number`
-
-      CPU time limit in milliseconds.
-
-    - `subrequests: optional number`
-
-      Subrequest limit per request.
-
-  - `main_module: optional string`
-
-    The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler).
-
-  - `migration_tag: optional string`
-
-    Durable Object migration tag. Set when the version is deployed. Omitted if the version has not been deployed or the Worker does not use Durable Objects.
-
-  - `migrations: optional SingleStepMigration or object { new_tag, old_tag, steps }`
-
-    Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed.
-
-    - `SingleStepMigration object { deleted_classes, new_classes, new_sqlite_classes, 4 more }`
-
-      A single set of migrations to apply.
-
-      - `deleted_classes: optional array of string`
-
-        A list of classes to delete Durable Object namespaces from.
-
-      - `new_classes: optional array of string`
-
-        A list of classes to create Durable Object namespaces from.
-
-      - `new_sqlite_classes: optional array of string`
-
-        A list of classes to create Durable Object namespaces with SQLite from.
-
-      - `new_tag: optional string`
-
-        Tag to set as the latest migration tag.
-
-      - `old_tag: optional string`
-
-        Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
-
-      - `renamed_classes: optional array of object { from, to }`
-
-        A list of classes with Durable Object namespaces that were renamed.
-
-        - `from: optional string`
-
-        - `to: optional string`
-
-      - `transferred_classes: optional array of object { from, from_script, to }`
-
-        A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
-
-        - `from: optional string`
-
-        - `from_script: optional string`
-
-        - `to: optional string`
-
-    - `WorkersMultipleStepMigrations object { new_tag, old_tag, steps }`
-
-      - `new_tag: optional string`
-
-        Tag to set as the latest migration tag.
-
-      - `old_tag: optional string`
-
-        Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
-
-      - `steps: optional array of MigrationStep`
-
-        Migrations to apply in order.
-
-        - `deleted_classes: optional array of string`
-
-          A list of classes to delete Durable Object namespaces from.
-
-        - `new_classes: optional array of string`
-
-          A list of classes to create Durable Object namespaces from.
-
-        - `new_sqlite_classes: optional array of string`
-
-          A list of classes to create Durable Object namespaces with SQLite from.
-
-        - `renamed_classes: optional array of object { from, to }`
-
-          A list of classes with Durable Object namespaces that were renamed.
-
-          - `from: optional string`
-
-          - `to: optional string`
-
-        - `transferred_classes: optional array of object { from, from_script, to }`
-
-          A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
-
-          - `from: optional string`
-
-          - `from_script: optional string`
-
-          - `to: optional string`
-
-  - `modules: optional array of object { content_base64, content_type, name }`
-
-    Code, sourcemaps, and other content used at runtime.
-
-    This includes [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-    [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files used to configure
-    [Static Assets](https://developers.cloudflare.com/workers/static-assets/). `_headers` and `_redirects` files should be
-    included as modules named `_headers` and `_redirects` with content type `text/plain`.
-
-    - `content_base64: string`
-
-      The base64-encoded module content.
-
-    - `content_type: string`
-
-      The content type of the module.
-
-    - `name: string`
-
-      The name of the module.
-
-  - `package_dependencies: optional array of object { installedVersion, name, packageJsonVersion }`
-
-    The list of npm packages that were installed and used when this Worker
-    version was built.
-
-    - `installedVersion: string`
-
-      The exact version that was resolved and installed by the package manager.
-
-    - `name: string`
-
-      The npm package name.
-
-    - `packageJsonVersion: string`
-
-      The version constraint as written in package.json.
-
-  - `placement: optional object { mode }  or object { region }  or object { hostname }  or 5 more`
-
-    Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host.
-
-    - `Mode object { mode }`
-
-      - `mode: "smart"`
-
-        Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
-
-        - `"smart"`
-
-    - `Region object { region }`
-
-      - `region: string`
-
-        Cloud region for targeted placement in format 'provider:region'.
-
-    - `Hostname object { hostname }`
-
-      - `hostname: string`
-
-        HTTP hostname for targeted placement.
-
-    - `Host object { host }`
-
-      - `host: string`
-
-        TCP host and port for targeted placement.
-
-    - `object { mode, region }`
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-      - `region: string`
-
-        Cloud region for targeted placement in format 'provider:region'.
-
-    - `object { hostname, mode }`
-
-      - `hostname: string`
-
-        HTTP hostname for targeted placement.
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-    - `object { host, mode }`
-
-      - `host: string`
-
-        TCP host and port for targeted placement.
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-    - `object { mode, target }`
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-      - `target: array of object { region }  or object { hostname }  or object { host }`
-
-        Array of placement targets (currently limited to single target).
-
-        - `Region object { region }`
-
-          - `region: string`
-
-            Cloud region in format 'provider:region'.
-
-        - `Hostname object { hostname }`
-
-          - `hostname: string`
-
-            HTTP hostname for targeted placement.
-
-        - `Host object { host }`
-
-          - `host: string`
-
-            TCP host:port for targeted placement.
-
-  - `source: optional string`
-
-    The client used to create the version.
-
-  - `startup_time_ms: optional number`
-
-    Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time).
-
-  - `usage_model: optional "standard" or "bundled" or "unbound"`
-
-    Usage model for the version.
-
-    - `"standard"`
-
-    - `"bundled"`
-
-    - `"unbound"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID/versions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bindings": [
-            {
-              "name": "MY_ENV_VAR",
-              "text": "my_data",
-              "type": "plain_text"
-            }
-          ],
-          "compatibility_date": "2021-01-01",
-          "compatibility_flags": [
-            "nodejs_compat"
-          ],
-          "containers": [
-            {
-              "class_name": "MyDurableObject"
-            }
-          ],
-          "main_module": "index.js",
-          "usage_model": "standard"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "number": 0,
-    "urls": [
-      "https://9387e76d-my-worker.my-subdomain.workers.dev"
-    ],
-    "annotations": {
-      "workers/message": "Fixed bug.",
-      "workers/tag": "v1.0.1",
-      "workers/triggered_by": "upload"
-    },
-    "assets": {
-      "config": {
-        "html_handling": "auto-trailing-slash",
-        "not_found_handling": "404-page",
-        "run_worker_first": true
-      },
-      "jwt": "jwt"
-    },
-    "bindings": [
-      {
-        "name": "MY_ENV_VAR",
-        "text": "my_data",
-        "type": "plain_text"
-      }
-    ],
-    "cache_options": {
-      "enabled": true,
-      "cross_version_cache": true
-    },
-    "compatibility_date": "2021-01-01",
-    "compatibility_flags": [
-      "nodejs_compat"
-    ],
-    "containers": [
-      {
-        "class_name": "MyDurableObject"
-      }
-    ],
-    "limits": {
-      "cpu_ms": 50,
-      "subrequests": 1000
-    },
-    "main_module": "index.js",
-    "migration_tag": "v1",
-    "migrations": {},
-    "modules": [
-      {
-        "content_base64": "ZXhwb3J0IGRlZmF1bHQgewogIGFzeW5jIGZldGNoKHJlcXVlc3QsIGVudiwgY3R4KSB7CiAgICByZXR1cm4gbmV3IFJlc3BvbnNlKCdIZWxsbyBXb3JsZCEnKQogIH0KfQ==",
-        "content_type": "application/javascript+module",
-        "name": "index.js"
-      }
-    ],
-    "package_dependencies": [
-      {
-        "installedVersion": "4.17.22",
-        "name": "lodash",
-        "packageJsonVersion": "^4.17.21"
-      }
-    ],
-    "placement": {
-      "mode": "smart"
-    },
-    "source": "wrangler",
-    "startup_time_ms": 10,
-    "usage_model": "standard"
-  },
-  "success": true
-}
-```
-
-## Delete Version
-
-**delete** `/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}`
-
-Delete a version.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `worker_id: string`
-
-  Identifier for the Worker, which can be ID or name.
-
-- `version_id: string`
-
-  Identifier for the version, which can be a UUID, a UUID prefix (minimum length 8), or the literal "latest" to operate on the most recently created version.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/workers/$WORKER_ID/versions/$VERSION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Version
-
-- `Version object { id, created_on, number, 18 more }`
-
-  - `id: string`
-
-    Version identifier.
-
-  - `created_on: string`
-
-    When the version was created.
-
-  - `number: number`
-
-    The integer version number, starting from one.
-
-  - `urls: array of string`
-
-    All routable URLs that always point to this version. Does not include alias URLs, since aliases can be updated to point to a different version.
-
-  - `annotations: optional object { "workers/message", "workers/tag", "workers/triggered_by" }`
-
-    Metadata about the version.
-
-    - `"workers/message": optional string`
-
-      Human-readable message about the version. Truncated to 1000 bytes if longer.
-
-    - `"workers/tag": optional string`
-
-      User-provided identifier for the version. Maximum 100 bytes.
-
-    - `"workers/triggered_by": optional string`
-
-      Operation that triggered the creation of the version.
-
-  - `assets: optional object { config, jwt }`
-
-    Configuration for assets within a Worker.
-
-    [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-    [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files should be
-    included as modules named `_headers` and `_redirects` with content type `text/plain`.
-
-    - `config: optional object { html_handling, not_found_handling, run_worker_first }`
-
-      Configuration for assets within a Worker.
-
-      - `html_handling: optional "auto-trailing-slash" or "force-trailing-slash" or "drop-trailing-slash" or "none"`
-
-        Determines the redirects and rewrites of requests for HTML content.
-
-        - `"auto-trailing-slash"`
-
-        - `"force-trailing-slash"`
-
-        - `"drop-trailing-slash"`
-
-        - `"none"`
-
-      - `not_found_handling: optional "none" or "404-page" or "single-page-application"`
-
-        Determines the response when a request does not match a static asset, and there is no Worker script.
-
-        - `"none"`
-
-        - `"404-page"`
-
-        - `"single-page-application"`
-
-      - `run_worker_first: optional array of string or boolean`
-
-        Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
-
-        - `array of string`
-
-          Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules.
-
-        - `boolean`
-
-          Enables routing to always invoke the Worker script ahead of all requests. When true, this is equivalent to `["/*"]` in the string array version of this field.
-
-    - `jwt: optional string`
-
-      Token provided upon successful upload of all files from a registered manifest.
-
-  - `bindings: optional array of object { name, type }  or object { instance_name, name, type, namespace }  or object { name, namespace, type }  or 32 more`
-
-    List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings.
-
-    - `AI object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "ai"`
-
-        The kind of resource that the binding provides.
-
-        - `"ai"`
-
-    - `AISearch object { instance_name, name, type, namespace }`
-
-      - `instance_name: string`
-
-        The user-chosen instance name. Must exist at deploy time. The worker can search, chat, update, and manage items/jobs on this instance.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "ai_search"`
-
-        The kind of resource that the binding provides.
-
-        - `"ai_search"`
-
-      - `namespace: optional string`
-
-        The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field.
-
-    - `AISearchNamespace object { name, namespace, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `namespace: string`
-
-        The user-chosen namespace name. Must exist before deploy -- Wrangler handles auto-creation on deploy failure (R2 bucket pattern). The "default" namespace is auto-created by config-api for new accounts. Grants full access (CRUD + search + chat) to all instances within the namespace.
-
-      - `type: "ai_search_namespace"`
-
-        The kind of resource that the binding provides.
-
-        - `"ai_search_namespace"`
-
-    - `AnalyticsEngine object { dataset, name, type }`
-
-      - `dataset: string`
-
-        The name of the dataset to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "analytics_engine"`
-
-        The kind of resource that the binding provides.
-
-        - `"analytics_engine"`
-
-    - `Assets object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "assets"`
-
-        The kind of resource that the binding provides.
-
-        - `"assets"`
-
-    - `Browser object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "browser"`
-
-        The kind of resource that the binding provides.
-
-        - `"browser"`
-
-    - `D1 object { database_id, name, type, id }`
-
-      - `database_id: string`
-
-        Identifier of the D1 database to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "d1"`
-
-        The kind of resource that the binding provides.
-
-        - `"d1"`
-
-      - `id: optional string`
-
-        Identifier of the D1 database to bind to.
-
-    - `DataBlob object { name, part, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `part: string`
-
-        The name of the file containing the data content. Only accepted for `service worker syntax` Workers.
-
-      - `type: "data_blob"`
-
-        The kind of resource that the binding provides.
-
-        - `"data_blob"`
-
-    - `DispatchNamespace object { name, namespace, type, outbound }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `namespace: string`
-
-        The name of the dispatch namespace.
-
-      - `type: "dispatch_namespace"`
-
-        The kind of resource that the binding provides.
-
-        - `"dispatch_namespace"`
-
-      - `outbound: optional object { params, worker }`
-
-        Outbound worker.
-
-        - `params: optional array of object { name }`
-
-          Pass information from the Dispatch Worker to the Outbound Worker through the parameters.
-
-          - `name: string`
-
-            Name of the parameter.
-
-        - `worker: optional object { entrypoint, environment, service }`
-
-          Outbound worker.
-
-          - `entrypoint: optional string`
-
-            Entrypoint to invoke on the outbound worker.
-
-          - `environment: optional string`
-
-            Environment of the outbound worker.
-
-          - `service: optional string`
-
-            Name of the outbound worker.
-
-    - `DurableObjectNamespace object { name, type, class_name, 4 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "durable_object_namespace"`
-
-        The kind of resource that the binding provides.
-
-        - `"durable_object_namespace"`
-
-      - `class_name: optional string`
-
-        The exported class name of the Durable Object.
-
-      - `dispatch_namespace: optional string`
-
-        The dispatch namespace the Durable Object script belongs to.
-
-      - `environment: optional string`
-
-        The environment of the script_name to bind to.
-
-      - `namespace_id: optional string`
-
-        Namespace identifier tag.
-
-      - `script_name: optional string`
-
-        The script where the Durable Object is defined, if it is external to this Worker.
-
-    - `Hyperdrive object { id, name, type }`
-
-      - `id: string`
-
-        Identifier of the Hyperdrive connection to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "hyperdrive"`
-
-        The kind of resource that the binding provides.
-
-        - `"hyperdrive"`
-
-    - `Inherit object { name, type, old_name, version_id }`
-
-      - `name: string`
-
-        The name of the inherited binding.
-
-      - `type: "inherit"`
-
-        The kind of resource that the binding provides.
-
-        - `"inherit"`
-
-      - `old_name: optional string`
-
-        The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions.
-
-      - `version_id: optional string`
-
-        Identifier for the version to inherit the binding from, which can be the version ID or the literal "latest" to inherit from the latest version. Defaults to inheriting the binding from the latest version.
-
-    - `Images object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "images"`
-
-        The kind of resource that the binding provides.
-
-        - `"images"`
-
-    - `Json object { json, name, type }`
-
-      - `json: unknown`
-
-        JSON data to use.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "json"`
-
-        The kind of resource that the binding provides.
-
-        - `"json"`
-
-    - `KVNamespace object { name, namespace_id, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `namespace_id: string`
-
-        Namespace identifier tag.
-
-      - `type: "kv_namespace"`
-
-        The kind of resource that the binding provides.
-
-        - `"kv_namespace"`
-
-    - `Media object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "media"`
-
-        The kind of resource that the binding provides.
-
-        - `"media"`
-
-    - `MTLSCertificate object { certificate_id, name, type }`
-
-      - `certificate_id: string`
-
-        Identifier of the certificate to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "mtls_certificate"`
-
-        The kind of resource that the binding provides.
-
-        - `"mtls_certificate"`
-
-    - `PlainText object { name, text, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `text: string`
-
-        The text value to use.
-
-      - `type: "plain_text"`
-
-        The kind of resource that the binding provides.
-
-        - `"plain_text"`
-
-    - `Pipelines object { name, pipeline, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `pipeline: string`
-
-        Name of the Pipeline to bind to.
-
-      - `type: "pipelines"`
-
-        The kind of resource that the binding provides.
-
-        - `"pipelines"`
-
-    - `Queue object { name, queue_name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `queue_name: string`
-
-        Name of the Queue to bind to.
-
-      - `type: "queue"`
-
-        The kind of resource that the binding provides.
-
-        - `"queue"`
-
-    - `Ratelimit object { name, namespace_id, simple, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `namespace_id: string`
-
-        Identifier of the rate limit namespace to bind to.
-
-      - `simple: object { limit, period, mitigation_timeout }`
-
-        The rate limit configuration.
-
-        - `limit: number`
-
-          The limit (requests per period).
-
-        - `period: number`
-
-          The period in seconds.
-
-        - `mitigation_timeout: optional number`
-
-          Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero.
-
-      - `type: "ratelimit"`
-
-        The kind of resource that the binding provides.
-
-        - `"ratelimit"`
-
-    - `R2Bucket object { bucket_name, name, type, jurisdiction }`
-
-      - `bucket_name: string`
-
-        R2 bucket to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "r2_bucket"`
-
-        The kind of resource that the binding provides.
-
-        - `"r2_bucket"`
-
-      - `jurisdiction: optional "eu" or "fedramp" or "fedramp-high"`
-
-        The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket.
-
-        - `"eu"`
-
-        - `"fedramp"`
-
-        - `"fedramp-high"`
-
-    - `SecretText object { name, text, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `text: string`
-
-        The secret value to use.
-
-      - `type: "secret_text"`
-
-        The kind of resource that the binding provides.
-
-        - `"secret_text"`
-
-    - `SendEmail object { name, type, allowed_destination_addresses, 2 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "send_email"`
-
-        The kind of resource that the binding provides.
-
-        - `"send_email"`
-
-      - `allowed_destination_addresses: optional array of string`
-
-        List of allowed destination addresses.
-
-      - `allowed_sender_addresses: optional array of string`
-
-        List of allowed sender addresses.
-
-      - `destination_address: optional string`
-
-        Destination address for the email.
-
-    - `Service object { name, service, type, 2 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `service: string`
-
-        Name of Worker to bind to.
-
-      - `type: "service"`
-
-        The kind of resource that the binding provides.
-
-        - `"service"`
-
-      - `entrypoint: optional string`
-
-        Entrypoint to invoke on the target Worker.
-
-      - `environment: optional string`
-
-        Optional environment if the Worker utilizes one.
-
-    - `TextBlob object { name, part, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `part: string`
-
-        The name of the file containing the text content. Only accepted for `service worker syntax` Workers.
-
-      - `type: "text_blob"`
-
-        The kind of resource that the binding provides.
-
-        - `"text_blob"`
-
-    - `Vectorize object { index_name, name, type }`
-
-      - `index_name: string`
-
-        Name of the Vectorize index to bind to.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "vectorize"`
-
-        The kind of resource that the binding provides.
-
-        - `"vectorize"`
-
-    - `VersionMetadata object { name, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "version_metadata"`
-
-        The kind of resource that the binding provides.
-
-        - `"version_metadata"`
-
-    - `SecretsStoreSecret object { name, secret_name, store_id, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `secret_name: string`
-
-        Name of the secret in the store.
-
-      - `store_id: string`
-
-        ID of the store containing the secret.
-
-      - `type: "secrets_store_secret"`
-
-        The kind of resource that the binding provides.
-
-        - `"secrets_store_secret"`
-
-    - `Flagship object { app_id, name, type }`
-
-      - `app_id: string`
-
-        ID of the Flagship app to bind to for feature flag evaluation.
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "flagship"`
-
-        The kind of resource that the binding provides.
-
-        - `"flagship"`
-
-    - `SecretKey object { algorithm, format, name, 4 more }`
-
-      - `algorithm: unknown`
-
-        Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm).
-
-      - `format: "raw" or "pkcs8" or "spki" or "jwk"`
-
-        Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).
-
-        - `"raw"`
-
-        - `"pkcs8"`
-
-        - `"spki"`
-
-        - `"jwk"`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "secret_key"`
-
-        The kind of resource that the binding provides.
-
-        - `"secret_key"`
-
-      - `usages: array of "encrypt" or "decrypt" or "sign" or 5 more`
-
-        Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).
-
-        - `"encrypt"`
-
-        - `"decrypt"`
-
-        - `"sign"`
-
-        - `"verify"`
-
-        - `"deriveKey"`
-
-        - `"deriveBits"`
-
-        - `"wrapKey"`
-
-        - `"unwrapKey"`
-
-      - `key_base64: optional string`
-
-        Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".
-
-      - `key_jwk: optional unknown`
-
-        Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk".
-
-    - `Workflow object { name, type, workflow_name, 2 more }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "workflow"`
-
-        The kind of resource that the binding provides.
-
-        - `"workflow"`
-
-      - `workflow_name: string`
-
-        Name of the Workflow to bind to.
-
-      - `class_name: optional string`
-
-        Class name of the Workflow. Should only be provided if the Workflow belongs to this script.
-
-      - `script_name: optional string`
-
-        Script name that contains the Workflow. If not provided, defaults to this script name.
-
-    - `WasmModule object { name, part, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `part: string`
-
-        The name of the file containing the WebAssembly module content. Only accepted for `service worker syntax` Workers.
-
-      - `type: "wasm_module"`
-
-        The kind of resource that the binding provides.
-
-        - `"wasm_module"`
-
-    - `VPCService object { name, service_id, type }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `service_id: string`
-
-        Identifier of the VPC service to bind to.
-
-      - `type: "vpc_service"`
-
-        The kind of resource that the binding provides.
-
-        - `"vpc_service"`
-
-    - `VPCNetwork object { name, type, network_id, tunnel_id }`
-
-      - `name: string`
-
-        A JavaScript variable name for the binding.
-
-      - `type: "vpc_network"`
-
-        The kind of resource that the binding provides.
-
-        - `"vpc_network"`
-
-      - `network_id: optional string`
-
-        Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id.
-
-      - `tunnel_id: optional string`
-
-        UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id.
-
-  - `cache_options: optional object { enabled, cross_version_cache }`
-
-    Global CacheW configuration for the Worker. When caching is on,
-    the platform provisions a `cloudflare.app` zone for the Worker.
-    A `type: worker` entry in the `exports` map can override this
-    value for a single entrypoint.
-
-    - `enabled: boolean`
-
-      Whether caching is enabled for this Worker.
-
-    - `cross_version_cache: optional boolean`
-
-      Whether cached responses are shared across Worker version
-      uploads. This is independent of `enabled`. It can stay true
-      while caching is off, so the preference survives turning
-      caching off and back on.
-
-  - `compatibility_date: optional string`
-
-    Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker.
-
-  - `compatibility_flags: optional array of string`
-
-    Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`.
-
-  - `containers: optional array of object { class_name }`
-
-    List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script.
-
-    - `class_name: string`
-
-      Select which Durable Object class should get this container attached.
-
-  - `limits: optional object { cpu_ms, subrequests }`
-
-    Resource limits enforced at runtime.
-
-    - `cpu_ms: optional number`
-
-      CPU time limit in milliseconds.
-
-    - `subrequests: optional number`
-
-      Subrequest limit per request.
-
-  - `main_module: optional string`
-
-    The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler).
-
-  - `migration_tag: optional string`
-
-    Durable Object migration tag. Set when the version is deployed. Omitted if the version has not been deployed or the Worker does not use Durable Objects.
-
-  - `migrations: optional SingleStepMigration or object { new_tag, old_tag, steps }`
-
-    Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed.
-
-    - `SingleStepMigration object { deleted_classes, new_classes, new_sqlite_classes, 4 more }`
-
-      A single set of migrations to apply.
-
-      - `deleted_classes: optional array of string`
-
-        A list of classes to delete Durable Object namespaces from.
-
-      - `new_classes: optional array of string`
-
-        A list of classes to create Durable Object namespaces from.
-
-      - `new_sqlite_classes: optional array of string`
-
-        A list of classes to create Durable Object namespaces with SQLite from.
-
-      - `new_tag: optional string`
-
-        Tag to set as the latest migration tag.
-
-      - `old_tag: optional string`
-
-        Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
-
-      - `renamed_classes: optional array of object { from, to }`
-
-        A list of classes with Durable Object namespaces that were renamed.
-
-        - `from: optional string`
-
-        - `to: optional string`
-
-      - `transferred_classes: optional array of object { from, from_script, to }`
-
-        A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
-
-        - `from: optional string`
-
-        - `from_script: optional string`
-
-        - `to: optional string`
-
-    - `WorkersMultipleStepMigrations object { new_tag, old_tag, steps }`
-
-      - `new_tag: optional string`
-
-        Tag to set as the latest migration tag.
-
-      - `old_tag: optional string`
-
-        Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected.
-
-      - `steps: optional array of MigrationStep`
-
-        Migrations to apply in order.
-
-        - `deleted_classes: optional array of string`
-
-          A list of classes to delete Durable Object namespaces from.
-
-        - `new_classes: optional array of string`
-
-          A list of classes to create Durable Object namespaces from.
-
-        - `new_sqlite_classes: optional array of string`
-
-          A list of classes to create Durable Object namespaces with SQLite from.
-
-        - `renamed_classes: optional array of object { from, to }`
-
-          A list of classes with Durable Object namespaces that were renamed.
-
-          - `from: optional string`
-
-          - `to: optional string`
-
-        - `transferred_classes: optional array of object { from, from_script, to }`
-
-          A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker.
-
-          - `from: optional string`
-
-          - `from_script: optional string`
-
-          - `to: optional string`
-
-  - `modules: optional array of object { content_base64, content_type, name }`
-
-    Code, sourcemaps, and other content used at runtime.
-
-    This includes [`_headers`](https://developers.cloudflare.com/workers/static-assets/headers/#custom-headers) and
-    [`_redirects`](https://developers.cloudflare.com/workers/static-assets/redirects/) files used to configure
-    [Static Assets](https://developers.cloudflare.com/workers/static-assets/). `_headers` and `_redirects` files should be
-    included as modules named `_headers` and `_redirects` with content type `text/plain`.
-
-    - `content_base64: string`
-
-      The base64-encoded module content.
-
-    - `content_type: string`
-
-      The content type of the module.
-
-    - `name: string`
-
-      The name of the module.
-
-  - `package_dependencies: optional array of object { installedVersion, name, packageJsonVersion }`
-
-    The list of npm packages that were installed and used when this Worker
-    version was built.
-
-    - `installedVersion: string`
-
-      The exact version that was resolved and installed by the package manager.
-
-    - `name: string`
-
-      The npm package name.
-
-    - `packageJsonVersion: string`
-
-      The version constraint as written in package.json.
-
-  - `placement: optional object { mode }  or object { region }  or object { hostname }  or 5 more`
-
-    Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host.
-
-    - `Mode object { mode }`
-
-      - `mode: "smart"`
-
-        Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement).
-
-        - `"smart"`
-
-    - `Region object { region }`
-
-      - `region: string`
-
-        Cloud region for targeted placement in format 'provider:region'.
-
-    - `Hostname object { hostname }`
-
-      - `hostname: string`
-
-        HTTP hostname for targeted placement.
-
-    - `Host object { host }`
-
-      - `host: string`
-
-        TCP host and port for targeted placement.
-
-    - `object { mode, region }`
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-      - `region: string`
-
-        Cloud region for targeted placement in format 'provider:region'.
-
-    - `object { hostname, mode }`
-
-      - `hostname: string`
-
-        HTTP hostname for targeted placement.
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-    - `object { host, mode }`
-
-      - `host: string`
-
-        TCP host and port for targeted placement.
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-    - `object { mode, target }`
-
-      - `mode: "targeted"`
-
-        Targeted placement mode.
-
-        - `"targeted"`
-
-      - `target: array of object { region }  or object { hostname }  or object { host }`
-
-        Array of placement targets (currently limited to single target).
-
-        - `Region object { region }`
-
-          - `region: string`
-
-            Cloud region in format 'provider:region'.
-
-        - `Hostname object { hostname }`
-
-          - `hostname: string`
-
-            HTTP hostname for targeted placement.
-
-        - `Host object { host }`
-
-          - `host: string`
-
-            TCP host:port for targeted placement.
-
-  - `source: optional string`
-
-    The client used to create the version.
-
-  - `startup_time_ms: optional number`
-
-    Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time).
-
-  - `usage_model: optional "standard" or "bundled" or "unbound"`
-
-    Usage model for the version.
-
-    - `"standard"`
-
-    - `"bundled"`
-
-    - `"unbound"`
-
-### Version Delete Response
-
-- `VersionDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20workers.beta.workers.versions%20%3E%20(model)%20version_delete_response%20%3E%20(schema)>)

@@ -1,222 +1,87 @@
+---
+title: Hostname Associations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Certificate Authorities](https://developers.cloudflare.com/api/resources/certificate_authorities)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Hostname Associations
 
-## List Hostname Associations
+##### [List Hostname Associations](https://developers.cloudflare.com/api/resources/certificate_authorities/subresources/hostname_associations/methods/get)
 
-**get** `/zones/{zone_id}/certificate_authorities/hostname_associations`
+GET/zones/{zone\_id}/certificate\_authorities/hostname\_associations
 
-List Hostname Associations.
+##### [Replace Hostname Associations](https://developers.cloudflare.com/api/resources/certificate_authorities/subresources/hostname_associations/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/certificate\_authorities/hostname\_associations
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Query Parameters
+<summary>
 
-- `mtls_certificate_id: optional string`
+TLSHostnameAssociation object {hostnames, mtls\_certificate\_id }
 
-  The UUID to match against for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the results will be the hostnames associated to your active Cloudflare Managed CA.
+</summary>
 
-### Returns
+hostnames: optional array of string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+mtls\_certificate\_id: optional string
 
-  - `message: string`
+The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls\_certificate\_id is given, the hostnames will be associated to your active Cloudflare Managed CA.
 
-  - `documentation_url: optional string`
+maxLength36
 
-  - `source: optional object { pointer }`
+minLength36
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(model)%20tls_hostname_association%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+HostnameAssociationGetResponse object {hostnames }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+hostnames: optional array of string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { hostnames }`
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(model)%20hostname_association_get_response%20%3E%20(schema)>)
 
-  - `hostnames: optional array of HostnameAssociation`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/certificate_authorities/hostname_associations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+HostnameAssociationUpdateResponse object {hostnames }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "hostnames": [
-      "api.example.com"
-    ]
-  }
-}
-```
+hostnames: optional array of string
 
-## Replace Hostname Associations
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/certificate_authorities/hostname_associations`
+</details>
 
-Replace Hostname Associations.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `hostnames: optional array of HostnameAssociation`
-
-- `mtls_certificate_id: optional string`
-
-  The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the hostnames will be associated to your active Cloudflare Managed CA.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { hostnames }`
-
-  - `hostnames: optional array of HostnameAssociation`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/certificate_authorities/hostname_associations \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "hostnames": [
-      "api.example.com"
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Hostname Association
-
-- `HostnameAssociation = string`
-
-### TLS Hostname Association
-
-- `TLSHostnameAssociation object { hostnames, mtls_certificate_id }`
-
-  - `hostnames: optional array of HostnameAssociation`
-
-  - `mtls_certificate_id: optional string`
-
-    The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the hostnames will be associated to your active Cloudflare Managed CA.
-
-### Hostname Association Get Response
-
-- `HostnameAssociationGetResponse object { hostnames }`
-
-  - `hostnames: optional array of HostnameAssociation`
-
-### Hostname Association Update Response
-
-- `HostnameAssociationUpdateResponse object { hostnames }`
-
-  - `hostnames: optional array of HostnameAssociation`
+[Link to this property](#)%20certificate_authorities.hostname_associations%20%3E%20(model)%20hostname_association_update_response%20%3E%20(schema)>)

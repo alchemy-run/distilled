@@ -1,618 +1,257 @@
+---
+title: Objects
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Objects
 
-## List Objects
+##### [List Objects](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects/methods/list)
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects
 
-Lists objects in an R2 bucket. Returns object metadata including key, size, etag, last modified date, HTTP metadata, and custom metadata.
+##### [Get Object](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects/methods/get)
 
-For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects/{object\_key}
 
-### Path Parameters
+##### [Upload Object](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects/methods/upload)
 
-- `account_id: string`
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects/{object\_key}
 
-  Account ID.
+##### [Delete Object](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects/methods/delete)
 
-- `bucket_name: string`
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects/{object\_key}
 
-  Name of the bucket.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `cursor: optional string`
+<summary>
 
-  Pagination cursor received from a previous List Objects call. Used to retrieve the next page of results.
+ObjectListResponse object {custom\_metadata, etag, http\_metadata, 5 more }
 
-- `delimiter: optional string`
+Metadata for an R2 object.
 
-  A single character used to group keys. All keys that contain the delimiter between the prefix and the first occurrence of the delimiter after the prefix are grouped under a single result element.
+</summary>
 
-- `per_page: optional number`
+custom\_metadata: optional map\[string]
 
-  Maximum number of objects to return per page.
+Custom metadata key-value pairs associated with the object.
 
-- `prefix: optional string`
+<a href="#">Link to this property</a>
 
-  Restricts results to only those objects whose keys begin with the specified prefix.
+etag: optional string
 
-- `start_after: optional string`
+The entity tag for the object. In JSON list/get responses this is the raw hex digest (without surrounding quotes). The HTTP <code>ETag</code> response header on Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes.
 
-  Returns objects with keys that come after the specified key in lexicographic order.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+<details>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<summary>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+http\_metadata: optional object {cacheControl, cacheExpiry, contentDisposition, 3 more }
 
-  - `"default"`
+HTTP metadata associated with an R2 object.
 
-  - `"eu"`
+</summary>
 
-  - `"fedramp"`
+cacheControl: optional string
 
-### Returns
+Specifies caching behavior for the object.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+cacheExpiry: optional string
 
-  - `message: string`
+The date and time at which the object’s cache entry expires.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+contentDisposition: optional string
 
-- `messages: array of string`
+Specifies presentational information for the object.
 
-- `result: array of object { custom_metadata, etag, http_metadata, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `custom_metadata: optional map[string]`
+contentEncoding: optional string
 
-    Custom metadata key-value pairs associated with the object.
+Specifies the content encoding applied to the object.
 
-  - `etag: optional string`
+<a href="#">Link to this property</a>
 
-    The entity tag for the object. In JSON list/get responses this is the raw
-    hex digest (without surrounding quotes). The HTTP `ETag` response header on
-    Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes.
+contentLanguage: optional string
 
-  - `http_metadata: optional object { cacheControl, cacheExpiry, contentDisposition, 3 more }`
+The language of the object content.
 
-    HTTP metadata associated with an R2 object.
+<a href="#">Link to this property</a>
 
-    - `cacheControl: optional string`
+contentType: optional string
 
-      Specifies caching behavior for the object.
+The MIME type of the object.
 
-    - `cacheExpiry: optional string`
+<a href="#">Link to this property</a>
 
-      The date and time at which the object's cache entry expires.
+</details>
 
-    - `contentDisposition: optional string`
+<a href="#">Link to this property</a>
 
-      Specifies presentational information for the object.
+key: optional string
 
-    - `contentEncoding: optional string`
+The object key (name).
 
-      Specifies the content encoding applied to the object.
+<a href="#">Link to this property</a>
 
-    - `contentLanguage: optional string`
+last\_modified: optional string
 
-      The language of the object content.
+The date and time the object was last modified.
 
-    - `contentType: optional string`
+formatdate-time
 
-      The MIME type of the object.
+<a href="#">Link to this property</a>
 
-  - `key: optional string`
+size: optional number
 
-    The object key (name).
+The size of the object in bytes.
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the object was last modified.
+ssec: optional boolean
 
-  - `size: optional number`
+Whether the object is encrypted with a customer-supplied encryption key.
 
-    The size of the object in bytes.
+<a href="#">Link to this property</a>
 
-  - `ssec: optional boolean`
+<details>
 
-    Whether the object is encrypted with a customer-supplied encryption key.
+<summary>
 
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
+storage\_class: optional "Standard"or "InfrequentAccess"
 
-    Storage class for newly uploaded objects, unless specified otherwise.
+Storage class for newly uploaded objects, unless specified otherwise.
 
-    - `"Standard"`
+</summary>
 
-    - `"InfrequentAccess"`
+One of the following:
 
-- `success: true`
+"Standard"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"InfrequentAccess"
 
-- `result_info: optional object { cursor, delimited, is_truncated, per_page }`
+<a href="#">Link to this property</a>
 
-  Pagination information for list objects responses.
+</details>
 
-  - `cursor: optional string`
+<a href="#">Link to this property</a>
 
-    Pagination cursor to use in the next List Objects call to retrieve the next page of results.
+</details>
 
-  - `delimited: optional array of string`
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(model)%20object_list_response%20%3E%20(schema)>)
 
-    Common prefixes found when a delimiter is specified. Each entry represents a group
-    of keys sharing a common prefix up to the delimiter. Equivalent to S3's `CommonPrefixes`
-    in `ListObjectsV2`; the field name differs because of the existing R2 API wire format.
+<details>
 
-  - `is_truncated: optional boolean`
+<summary>
 
-    Whether the result was truncated. If true, use the cursor to retrieve the next page.
+ObjectUploadResponse object {etag, key, size, 3 more }
 
-  - `per_page: optional number`
+Result of a successful object upload.
 
-    The maximum number of objects returned per page.
+</summary>
 
-### Example
+etag: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The entity tag for the uploaded object.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "custom_metadata": {},
-      "etag": "d41d8cd98f00b204e9800998ecf8427e",
-      "http_metadata": {
-        "cacheControl": "max-age=3600",
-        "cacheExpiry": "2024-12-31T23:59:59Z",
-        "contentDisposition": "attachment; filename=\"example.jpg\"",
-        "contentEncoding": "gzip",
-        "contentLanguage": "en-US",
-        "contentType": "image/jpeg"
-      },
-      "key": "path/to/my-object.txt",
-      "last_modified": "2024-01-15T10:30:00Z",
-      "size": 1048576,
-      "ssec": false,
-      "storage_class": "Standard"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "cursor": "eyJrZXkiOiJwYXRoL3RvL215LW9iamVjdC50eHQifQ==",
-    "delimited": [
-      "path/to/",
-      "another/path/"
-    ],
-    "is_truncated": true,
-    "per_page": 20
-  }
-}
-```
+key: optional string
 
-## Get Object
+The key (name) of the uploaded object.
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_key}`
+<a href="#">Link to this property</a>
 
-Retrieves an object from an R2 bucket. Returns the object body along with metadata headers.
+size: optional string
 
-For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
+The size of the uploaded object in bytes (as a string).
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>
 
-- `bucket_name: string`
+storage\_class: optional "Standard"or "InfrequentAccess"
 
-  Name of the bucket.
+Storage class for newly uploaded objects, unless specified otherwise.
 
-- `object_key: string`
+</summary>
 
-  The key (name) of the object to retrieve. May contain slashes for path-like keys.
-  Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded
-  (i.e. `%2F`); other reserved characters should be percent-encoded as usual.
+One of the following:
 
-### Header Parameters
+"Standard"
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+"InfrequentAccess"
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"eu"`
+</details>
 
-  - `"fedramp"`
+<a href="#">Link to this property</a>
 
-- `"If-Modified-Since": optional string`
+uploaded: optional string
 
-  Returns the object only if it has been modified since the specified time.
-  Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`.
+The date and time the object was uploaded.
 
-- `"If-None-Match": optional string`
+formatdate-time
 
-  Returns the object only if its ETag does not match the given value.
+<a href="#">Link to this property</a>
 
-### Example
+version: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects/$OBJECT_KEY \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The version UUID of the uploaded object.
 
-## Upload Object
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_key}`
+</details>
 
-Uploads an object to an R2 bucket. The object body is provided as the request body. Returns metadata about the uploaded object.
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(model)%20object_upload_response%20%3E%20(schema)>)
 
-The maximum upload size for this endpoint is 300 MB. For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+ObjectDeleteResponse object {key }
 
-  Account ID.
+Result of a successful object deletion.
 
-- `bucket_name: string`
+</summary>
 
-  Name of the bucket.
+key: optional string
 
-- `object_key: string`
+The key (name) of the deleted object.
 
-  The key (name) to assign to the object. May contain slashes for path-like keys.
-  Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded
-  (i.e. `%2F`); other reserved characters should be percent-encoded as usual.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+</details>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-- `"cf-r2-storage-class": optional "Standard" or "InfrequentAccess"`
-
-  Storage class for newly uploaded objects, unless specified otherwise.
-
-  - `"Standard"`
-
-  - `"InfrequentAccess"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { etag, key, size, 3 more }`
-
-  Result of a successful object upload.
-
-  - `etag: optional string`
-
-    The entity tag for the uploaded object.
-
-  - `key: optional string`
-
-    The key (name) of the uploaded object.
-
-  - `size: optional string`
-
-    The size of the uploaded object in bytes (as a string).
-
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
-
-    Storage class for newly uploaded objects, unless specified otherwise.
-
-    - `"Standard"`
-
-    - `"InfrequentAccess"`
-
-  - `uploaded: optional string`
-
-    The date and time the object was uploaded.
-
-  - `version: optional string`
-
-    The version UUID of the uploaded object.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects/$OBJECT_KEY \
-    -X PUT \
-    -H 'Content-Type: application/octet-stream' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'body=@/path/to/body'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "etag": "d41d8cd98f00b204e9800998ecf8427e",
-    "key": "path/to/my-object.txt",
-    "size": "1048576",
-    "storage_class": "Standard",
-    "uploaded": "2024-01-15T10:30:00Z",
-    "version": "3fd5b4a8-1234-5678-abcd-ef0123456789"
-  },
-  "success": true
-}
-```
-
-## Delete Object
-
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_key}`
-
-Deletes an object from an R2 bucket.
-
-For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-- `object_key: string`
-
-  The key (name) of the object to delete. May contain slashes for path-like keys.
-  Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded
-  (i.e. `%2F`); other reserved characters should be percent-encoded as usual.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { key }`
-
-  Result of a successful object deletion.
-
-  - `key: optional string`
-
-    The key (name) of the deleted object.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects/$OBJECT_KEY \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "key": "path/to/my-object.txt"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Object List Response
-
-- `ObjectListResponse object { custom_metadata, etag, http_metadata, 5 more }`
-
-  Metadata for an R2 object.
-
-  - `custom_metadata: optional map[string]`
-
-    Custom metadata key-value pairs associated with the object.
-
-  - `etag: optional string`
-
-    The entity tag for the object. In JSON list/get responses this is the raw
-    hex digest (without surrounding quotes). The HTTP `ETag` response header on
-    Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes.
-
-  - `http_metadata: optional object { cacheControl, cacheExpiry, contentDisposition, 3 more }`
-
-    HTTP metadata associated with an R2 object.
-
-    - `cacheControl: optional string`
-
-      Specifies caching behavior for the object.
-
-    - `cacheExpiry: optional string`
-
-      The date and time at which the object's cache entry expires.
-
-    - `contentDisposition: optional string`
-
-      Specifies presentational information for the object.
-
-    - `contentEncoding: optional string`
-
-      Specifies the content encoding applied to the object.
-
-    - `contentLanguage: optional string`
-
-      The language of the object content.
-
-    - `contentType: optional string`
-
-      The MIME type of the object.
-
-  - `key: optional string`
-
-    The object key (name).
-
-  - `last_modified: optional string`
-
-    The date and time the object was last modified.
-
-  - `size: optional number`
-
-    The size of the object in bytes.
-
-  - `ssec: optional boolean`
-
-    Whether the object is encrypted with a customer-supplied encryption key.
-
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
-
-    Storage class for newly uploaded objects, unless specified otherwise.
-
-    - `"Standard"`
-
-    - `"InfrequentAccess"`
-
-### Object Upload Response
-
-- `ObjectUploadResponse object { etag, key, size, 3 more }`
-
-  Result of a successful object upload.
-
-  - `etag: optional string`
-
-    The entity tag for the uploaded object.
-
-  - `key: optional string`
-
-    The key (name) of the uploaded object.
-
-  - `size: optional string`
-
-    The size of the uploaded object in bytes (as a string).
-
-  - `storage_class: optional "Standard" or "InfrequentAccess"`
-
-    Storage class for newly uploaded objects, unless specified otherwise.
-
-    - `"Standard"`
-
-    - `"InfrequentAccess"`
-
-  - `uploaded: optional string`
-
-    The date and time the object was uploaded.
-
-  - `version: optional string`
-
-    The version UUID of the uploaded object.
-
-### Object Delete Response
-
-- `ObjectDeleteResponse object { key }`
-
-  Result of a successful object deletion.
-
-  - `key: optional string`
-
-    The key (name) of the deleted object.
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(model)%20object_delete_response%20%3E%20(schema)>)

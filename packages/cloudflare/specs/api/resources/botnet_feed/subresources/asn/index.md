@@ -1,215 +1,81 @@
+---
+title: ASN
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Botnet Feed](https://developers.cloudflare.com/api/resources/botnet_feed)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # ASN
 
-## Get daily report
+##### [Get daily report](https://developers.cloudflare.com/api/resources/botnet_feed/subresources/asn/methods/day_report)
 
-**get** `/accounts/{account_id}/botnet_feed/asn/{asn_id}/day_report`
+GET/accounts/{account\_id}/botnet\_feed/asn/{asn\_id}/day\_report
 
-Gets all the data the botnet tracking database has for a given ASN registered to user account for given date. If no date is given, it will return results for the previous day.
+##### [Get full report](https://developers.cloudflare.com/api/resources/botnet_feed/subresources/asn/methods/full_report)
 
-### Path Parameters
+GET/accounts/{account\_id}/botnet\_feed/asn/{asn\_id}/full\_report
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `asn_id: number`
+<summary>
 
-### Query Parameters
+ASNDayReportResponse object {cidr, date, offense\_count }
 
-- `date: optional string`
+</summary>
 
-### Returns
+cidr: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+date: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+offense\_count: optional number
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20botnet_feed.asn%20%3E%20(model)%20asn_day_report_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ASNFullReportResponse object {cidr, date, offense\_count }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+cidr: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+date: optional string
 
-- `result: optional object { cidr, date, offense_count }`
+formatdate-time
 
-  - `cidr: optional string`
+<a href="#">Link to this property</a>
 
-  - `date: optional string`
+offense\_count: optional number
 
-  - `offense_count: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/botnet_feed/asn/$ASN_ID/day_report \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "cidr": "1.1.1.1/32",
-    "date": "2014-01-01T05:20:00.12345Z",
-    "offense_count": 1000
-  }
-}
-```
-
-## Get full report
-
-**get** `/accounts/{account_id}/botnet_feed/asn/{asn_id}/full_report`
-
-Gets all the data the botnet threat feed tracking database has for a given ASN registered to user account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `asn_id: number`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { cidr, date, offense_count }`
-
-  - `cidr: optional string`
-
-  - `date: optional string`
-
-  - `offense_count: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/botnet_feed/asn/$ASN_ID/full_report \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "cidr": "1.1.1.1/32",
-    "date": "2014-01-01T05:20:00.12345Z",
-    "offense_count": 1000
-  }
-}
-```
-
-## Domain Types
-
-### ASN Day Report Response
-
-- `ASNDayReportResponse object { cidr, date, offense_count }`
-
-  - `cidr: optional string`
-
-  - `date: optional string`
-
-  - `offense_count: optional number`
-
-### ASN Full Report Response
-
-- `ASNFullReportResponse object { cidr, date, offense_count }`
-
-  - `cidr: optional string`
-
-  - `date: optional string`
-
-  - `offense_count: optional number`
+[Link to this property](#)%20botnet_feed.asn%20%3E%20(model)%20asn_full_report_response%20%3E%20(schema)>)

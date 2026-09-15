@@ -1,1679 +1,1179 @@
+---
+title: Livestreams
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Livestreams
 
-## Create an independent livestream
+##### [Fetch all livestreams](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/get_all_livestreams)
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/livestreams
 
-Creates a livestream for the given App ID and returns ingest server, stream key, and playback URL. You can pass custom input to the ingest server and stream key, and freely distribute the content using the playback URL on any player that supports HLS/LHLS.
+##### [Stop livestreaming a meeting](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/stop_livestreaming_a_meeting)
 
-### Path Parameters
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/active-livestream/stop
 
-- `account_id: string`
+##### [Start livestreaming a meeting](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/start_livestreaming_a_meeting)
 
-  The account identifier tag.
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/livestreams
 
-- `app_id: string`
+##### [Fetch complete analytics data for your livestreams](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/get_livestream_analytics_complete)
 
-  The app identifier tag.
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/analytics/livestreams/overall
 
-### Body Parameters
+##### [Fetch day-wise analytics data for your livestreams](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/get_livestream_analytics_daywise)
 
-- `name: optional string`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/analytics/livestreams/daywise
 
-  Name of the livestream
+##### [Fetch day-wise session and recording analytics data for an App](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/get_org_analytics)
 
-### Returns
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/analytics/daywise
 
-- `data: optional object { id, disabled, ingest_server, 5 more }`
+##### [Fetch active livestreams for a meeting](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/get_meeting_active_livestreams)
 
-  - `id: optional string`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/active-livestream
 
-    The livestream ID.
+##### [Fetch livestream session details using livestream session ID](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/get_livestream_session_details_for_session_id)
 
-  - `disabled: optional boolean`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/livestreams/sessions/{livestream-session-id}
 
-    Specifies if the livestream was disabled.
+##### [Fetch active livestream session details](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/get_active_livestreams_for_livestream_id)
 
-  - `ingest_server: optional string`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/livestreams/{livestream\_id}/active-livestream-session
 
-    The server URL to which the RTMP encoder should send the video and audio data.
+##### [Fetch livestream details using livestream ID](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/livestreams/methods/get_livestream_session_for_livestream_id)
 
-  - `meeting_id: optional string`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/livestreams/{livestream\_id}
 
-  - `name: optional string`
+##### ModelsExpand Collapse
 
-  - `playback_url: optional string`
+<details>
 
-    The web address that viewers can use to watch the livestream.
+<summary>
 
-  - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+LivestreamGetAllLivestreamsResponse object {data, success }
 
-    - `"LIVE"`
+</summary>
 
-    - `"IDLE"`
+<details>
 
-    - `"ERRORED"`
+<summary>
 
-    - `"INVOKED"`
+data: optional object {id, created\_at, disabled, 8 more }
 
-  - `stream_key: optional string`
+</summary>
 
-    Unique key for accessing each livestream.
+id: optional string
 
-- `success: optional boolean`
+The ID of the livestream.
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_at: optional string
 
-```json
-{
-  "data": {
-    "disabled": false,
-    "id": "78dd0b50-4147-4bb8-88d3-2ccc2e98bff0",
-    "ingest_server": "rtmps://live.cloudflare.com:443/live/",
-    "meeting_id": null,
-    "name": "Livestreaming-Demo",
-    "playback_url": "https://customer-s8oj0c1n5ek8ah1e.cloudflarestream.com/7de6a3fec0f9c05bf1df140950d3a237/manifest/video.m3u8",
-    "status": "INVOKED",
-    "stream_key": "f26566285faca6fbe2e79a73a66rsrrsrrsr3cde23a2bb7dbc6c2c1761b98f4e4"
-  },
-  "success": true
-}
-```
+Timestamp the object was created at. The time is returned in ISO format.
 
-## Fetch all livestreams
+formatdate-time
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams`
+<a href="#">Link to this property</a>
 
-Returns details of livestreams associated with the given App ID. It includes livestreams created by your App and RealtimeKit meetings that are livestreamed by your App. If you only want details of livestreams created by your App and not RealtimeKit meetings, you can use the `exclude_meetings` query parameter.
+disabled: optional string
 
-### Path Parameters
+Specifies if the livestream was disabled.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+ingest\_server: optional string
 
-- `app_id: string`
+The server URL to which the RTMP encoder sends the video and audio data.
 
-  The app identifier tag.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+meeting\_id: optional string
 
-- `end_time: optional string`
+ID of the meeting.
 
-  Specify the end time range in ISO format to access the live stream.
+<a href="#">Link to this property</a>
 
-- `exclude_meetings: optional boolean`
+name: optional string
 
-  Exclude the RealtimeKit meetings that are livestreamed.
+Name of the livestream.
 
-- `page_no: optional number`
+<a href="#">Link to this property</a>
 
-  The page number from which you want your page search results to be displayed.
+<details>
 
-- `per_page: optional number`
+<summary>
 
-  Number of results per page.
+paging: optional object {end\_offset, start\_offset, total\_count }
 
-- `sort_order: optional "ASC" or "DSC"`
+</summary>
 
-  Specifies the sorting order for the results.
+end\_offset: optional number
 
-  - `"ASC"`
+<a href="#">Link to this property</a>
 
-  - `"DSC"`
+start\_offset: optional number
 
-- `start_time: optional string`
+<a href="#">Link to this property</a>
 
-  Specify the start time range in ISO format to access the live stream.
+total\_count: optional number
 
-- `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+<a href="#">Link to this property</a>
 
-  Specifies the status of the operation.
+</details>
 
-  - `"LIVE"`
+<a href="#">Link to this property</a>
 
-  - `"IDLE"`
+playback\_url: optional string
 
-  - `"ERRORED"`
+The web address that viewers can use to watch the livestream.
 
-  - `"INVOKED"`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `data: optional object { id, created_at, disabled, 8 more }`
+<summary>
 
-  - `id: optional string`
+status: optional "LIVE"or "IDLE"or "ERRORED"or "INVOKED"
 
-    The ID of the livestream.
+</summary>
 
-  - `created_at: optional string`
+One of the following:
 
-    Timestamp the object was created at. The time is returned in ISO format.
+"LIVE"
 
-  - `disabled: optional string`
+<a href="#">Link to this property</a>
 
-    Specifies if the livestream was disabled.
+"IDLE"
 
-  - `ingest_server: optional string`
+<a href="#">Link to this property</a>
 
-    The server URL to which the RTMP encoder sends the video and audio data.
+"ERRORED"
 
-  - `meeting_id: optional string`
+<a href="#">Link to this property</a>
 
-    ID of the meeting.
+"INVOKED"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the livestream.
+</details>
 
-  - `paging: optional object { end_offset, start_offset, total_count }`
+<a href="#">Link to this property</a>
 
-    - `end_offset: optional number`
+stream\_key: optional string
 
-    - `start_offset: optional number`
+Unique key for accessing each livestream.
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-  - `playback_url: optional string`
+updated\_at: optional string
 
-    The web address that viewers can use to watch the livestream.
+Timestamp the object was updated at. The time is returned in ISO format.
 
-  - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+formatdate-time
 
-    - `"LIVE"`
+<a href="#">Link to this property</a>
 
-    - `"IDLE"`
+</details>
 
-    - `"ERRORED"`
+<a href="#">Link to this property</a>
 
-    - `"INVOKED"`
+success: optional boolean
 
-  - `stream_key: optional string`
+<a href="#">Link to this property</a>
 
-    Unique key for accessing each livestream.
+</details>
 
-  - `updated_at: optional string`
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_get_all_livestreams_response%20%3E%20(schema)>)
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+<details>
 
-- `success: optional boolean`
+<summary>
 
-### Example
+LivestreamStopLivestreamingAMeetingResponse object {data, success }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "data": {
-    "id": "3fd739f4-3c41-456e-bfba-6ebd51e16d2d",
-    "created_at": "2023-07-15T11:48:34.753Z",
-    "disabled": "disabled",
-    "ingest_server": "rtmps://live.cloudflare.com:443/live/",
-    "meeting_id": "meeting_id",
-    "name": "test",
-    "paging": {
-      "end_offset": 1,
-      "start_offset": 1,
-      "total_count": 1
-    },
-    "playback_url": "https://customer-s8oj0c1n5ek8ah1e.cloudflarestream.com/7de6a3fec0f9c05bf1df140950d3a237/manifest/video.m3u8",
-    "status": "LIVE",
-    "stream_key": "f26566285faca6fbe2e79a73a66rsrrsrrsr3cde23a2bb7dbc6c2c1761b98f4e4",
-    "updated_at": "2023-07-15T11:48:34.753Z"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Stop livestreaming a meeting
+data: optional object {message }
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-livestream/stop`
+</summary>
 
-Stops the active livestream of a meeting associated with the given meeting ID. Retreive the meeting ID using the `Create a meeting` API.
+message: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+success: optional boolean
 
-  The app identifier tag.
+<a href="#">Link to this property</a>
 
-- `meeting_id: string`
+</details>
 
-### Returns
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_stop_livestreaming_a_meeting_response%20%3E%20(schema)>)
 
-- `data: optional object { message }`
+<details>
 
-  - `message: optional string`
+<summary>
 
-- `success: optional boolean`
+LivestreamStartLivestreamingAMeetingResponse object {data, success }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-livestream/stop \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "data": {
-    "message": "Stopped live stream successfully"
-  },
-  "success": true
-}
-```
+data: optional object {id, ingest\_server, playback\_url, 2 more }
 
-## Start livestreaming a meeting
+</summary>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/livestreams`
+id: optional string
 
-Starts livestream of a meeting associated with the given meeting ID. Retreive the meeting ID using the `Create a meeting` API.
+The livestream ID.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+ingest\_server: optional string
 
-  The account identifier tag.
+The server URL to which the RTMP encoder sends the video and audio data.
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+playback\_url: optional string
 
-- `meeting_id: string`
+The web address that viewers can use to watch the livestream.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+<details>
 
-- `video_config: optional object { height, width }`
+<summary>
 
-  - `height: optional number`
+status: optional "LIVE"or "IDLE"or "ERRORED"or "INVOKED"
 
-    Height of the livestreaming video in pixels
+</summary>
 
-  - `width: optional number`
+One of the following:
 
-    Width of the livestreaming video in pixels
+"LIVE"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: optional object { id, ingest_server, playback_url, 2 more }`
+"IDLE"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The livestream ID.
+"ERRORED"
 
-  - `ingest_server: optional string`
+<a href="#">Link to this property</a>
 
-    The server URL to which the RTMP encoder sends the video and audio data.
+"INVOKED"
 
-  - `playback_url: optional string`
+<a href="#">Link to this property</a>
 
-    The web address that viewers can use to watch the livestream.
+</details>
 
-  - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+<a href="#">Link to this property</a>
 
-    - `"LIVE"`
+stream\_key: optional string
 
-    - `"IDLE"`
+Unique key for accessing each livestream.
 
-    - `"ERRORED"`
+<a href="#">Link to this property</a>
 
-    - `"INVOKED"`
+</details>
 
-  - `stream_key: optional string`
+<a href="#">Link to this property</a>
 
-    Unique key for accessing each livestream.
+success: optional boolean
 
-- `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/livestreams \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_start_livestreaming_a_meeting_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "data": {
-    "id": "7088bba8-f522-49a8-b59b-3cd0e946bbb0",
-    "ingest_server": "rtmps://live.cloudflare.com:443/live/",
-    "playback_url": "https://customer-s8oj0c1n5ek8ah1e.cloudflarestream.com/7de6a3fec0f9c05bf1df140950d3a237/manifest/video.m3u8",
-    "status": "INVOKED",
-    "stream_key": "f26566285faca6fbe2e79a73a66rsrrsrrsr3cde23a2bb7dbc6c2c1761b98f4e4"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Fetch complete analytics data for your livestreams
+LivestreamGetLivestreamAnalyticsCompleteResponse object {data, success }
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/livestreams/overall`
+</summary>
 
-Returns livestream analytics for the specified time range.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+data: optional object {count, total\_ingest\_seconds, total\_viewer\_seconds }
 
-  The account identifier tag.
+</summary>
 
-- `app_id: string`
+count: optional number
 
-  The app identifier tag.
+Count of total livestreams.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `end_time: optional number`
+total\_ingest\_seconds: optional number
 
-  Specify the end time as a Unix timestamp in seconds to access the livestream analytics.
+Total time duration for which the input was given or the meeting was streamed.
 
-- `filters: optional string`
+<a href="#">Link to this property</a>
 
-  Optional filters for livestream analytics.
+total\_viewer\_seconds: optional number
 
-- `start_time: optional number`
+Total view time for which the viewers watched the stream.
 
-  Specify the start time as a Unix timestamp in seconds to access the livestream analytics.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `data: optional object { count, total_ingest_seconds, total_viewer_seconds }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+success: optional boolean
 
-    Count of total livestreams.
+<a href="#">Link to this property</a>
 
-  - `total_ingest_seconds: optional number`
+</details>
 
-    Total time duration for which the input was given or the meeting was streamed.
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_get_livestream_analytics_complete_response%20%3E%20(schema)>)
 
-  - `total_viewer_seconds: optional number`
+<details>
 
-    Total view time for which the viewers watched the stream.
+<summary>
 
-- `success: optional boolean`
+LivestreamGetLivestreamAnalyticsDaywiseResponse object {data, success }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/livestreams/overall \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "data": {
-    "count": 4,
-    "total_ingest_seconds": 531,
-    "total_viewer_seconds": 116
-  },
-  "success": true
-}
-```
+data: optional array of object {count, date, total\_ingest\_seconds, total\_viewer\_seconds }
 
-## Fetch day-wise analytics data for your livestreams
+</summary>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/livestreams/daywise`
+count: optional number
 
-Returns day-wise livestream analytics for the specified time range.
+Count of total livestream sessions.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+date: optional string
 
-  The account identifier tag.
+Analytics date.
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+total\_ingest\_seconds: optional number
 
-### Query Parameters
+Total time duration for which the input was given or the meeting was streamed.
 
-- `end_time: optional number`
+<a href="#">Link to this property</a>
 
-  Specify the end time as a Unix timestamp in seconds to access the livestream analytics.
+total\_viewer\_seconds: optional number
 
-- `filters: optional string`
+Total view time for which the viewers watched the stream.
 
-  Optional filters for livestream analytics.
+<a href="#">Link to this property</a>
 
-- `start_time: optional number`
+</details>
 
-  Specify the start time as a Unix timestamp in seconds to access the livestream analytics.
+<a href="#">Link to this property</a>
 
-### Returns
+success: optional boolean
 
-- `data: optional array of object { count, date, total_ingest_seconds, total_viewer_seconds }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Count of total livestream sessions.
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_get_livestream_analytics_daywise_response%20%3E%20(schema)>)
 
-  - `date: optional string`
+<details>
 
-    Analytics date.
+<summary>
 
-  - `total_ingest_seconds: optional number`
+LivestreamGetOrgAnalyticsResponse object {data, success }
 
-    Total time duration for which the input was given or the meeting was streamed.
+</summary>
 
-  - `total_viewer_seconds: optional number`
+<details>
 
-    Total view time for which the viewers watched the stream.
+<summary>
 
-- `success: optional boolean`
+data: optional object {recording\_stats, session\_stats }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/livestreams/daywise \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "data": [
-    {
-      "count": 4,
-      "date": "2023-07-15",
-      "total_ingest_seconds": 531,
-      "total_viewer_seconds": 116
-    }
-  ],
-  "success": true
-}
-```
+recording\_stats: optional object {day\_stats, recording\_count, recording\_minutes\_consumed }
 
-## Fetch day-wise session and recording analytics data for an App
+Recording statistics of an App during the range specified
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/daywise`
+</summary>
 
-Returns day-wise session and recording analytics data of an App for the specified time range start_date to end_date. If start_date and end_date are not provided, the default time range is set from 30 days ago to the current date.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+day\_stats: optional array of object {day, total\_recording\_minutes, total\_recordings }
 
-  The account identifier tag.
+Day wise recording stats
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+day: optional string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `end_date: optional string`
+total\_recording\_minutes: optional number
 
-  end date in YYYY-MM-DD format
+Total recording minutes for a specific day
 
-- `start_date: optional string`
+<a href="#">Link to this property</a>
 
-  start date in YYYY-MM-DD format
+total\_recordings: optional number
 
-### Returns
+Total number of recordings for a specific day
 
-- `data: optional object { recording_stats, session_stats }`
+<a href="#">Link to this property</a>
 
-  - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+</details>
 
-    Recording statistics of an App during the range specified
+<a href="#">Link to this property</a>
 
-    - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+recording\_count: optional number
 
-      Day wise recording stats
+Total number of recordings during the range specified
 
-      - `day: optional string`
+<a href="#">Link to this property</a>
 
-      - `total_recording_minutes: optional number`
+recording\_minutes\_consumed: optional number
 
-        Total recording minutes for a specific day
+Total recording minutes during the range specified
 
-      - `total_recordings: optional number`
+<a href="#">Link to this property</a>
 
-        Total number of recordings for a specific day
+</details>
 
-    - `recording_count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of recordings during the range specified
+<details>
 
-    - `recording_minutes_consumed: optional number`
+<summary>
 
-      Total recording minutes during the range specified
+session\_stats: optional object {day\_stats, sessions\_count, sessions\_minutes\_consumed }
 
-  - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+Session statistics of an App during the range specified
 
-    Session statistics of an App during the range specified
+</summary>
 
-    - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+<details>
 
-      Day wise session stats
+<summary>
 
-      - `day: optional string`
+day\_stats: optional array of object {day, total\_session\_minutes, total\_sessions }
 
-      - `total_session_minutes: optional number`
+Day wise session stats
 
-        Total session minutes for a specific day
+</summary>
 
-      - `total_sessions: optional number`
+day: optional string
 
-        Total number of sessions for a specific day
+<a href="#">Link to this property</a>
 
-    - `sessions_count: optional number`
+total\_session\_minutes: optional number
 
-      Total number of sessions during the range specified
+Total session minutes for a specific day
 
-    - `sessions_minutes_consumed: optional number`
+<a href="#">Link to this property</a>
 
-      Total session minutes during the range specified
+total\_sessions: optional number
 
-- `success: optional boolean`
+Total number of sessions for a specific day
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/daywise \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "data": {
-    "recording_stats": {
-      "day_stats": [
-        {
-          "day": "day",
-          "total_recording_minutes": 0,
-          "total_recordings": 0
-        }
-      ],
-      "recording_count": 0,
-      "recording_minutes_consumed": 0
-    },
-    "session_stats": {
-      "day_stats": [
-        {
-          "day": "day",
-          "total_session_minutes": 0,
-          "total_sessions": 0
-        }
-      ],
-      "sessions_count": 0,
-      "sessions_minutes_consumed": 0
-    }
-  },
-  "success": true
-}
-```
+sessions\_count: optional number
 
-## Fetch active livestreams for a meeting
+Total number of sessions during the range specified
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-livestream`
+<a href="#">Link to this property</a>
 
-Returns details of all active livestreams for the given meeting ID.
+sessions\_minutes\_consumed: optional number
 
-### Path Parameters
+Total session minutes during the range specified
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+</details>
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+</details>
 
-- `meeting_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+success: optional boolean
 
-- `data: optional object { id, created_at, disabled, 7 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    The livestream ID.
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_get_org_analytics_response%20%3E%20(schema)>)
 
-  - `created_at: optional string`
+<details>
 
-    Timestamp the object was created at. The time is returned in ISO format.
+<summary>
 
-  - `disabled: optional string`
+LivestreamGetMeetingActiveLivestreamsResponse object {data, success }
 
-    Specifies if the livestream was disabled.
+</summary>
 
-  - `ingest_server: optional string`
+<details>
 
-    The server URL to which the RTMP encoder sends the video and audio data.
+<summary>
 
-  - `meeting_id: optional string`
+data: optional object {id, created\_at, disabled, 7 more }
 
-  - `name: optional string`
+</summary>
 
-    Name of the livestream.
+id: optional string
 
-  - `playback_url: optional string`
+The livestream ID.
 
-    The web address that viewers can use to watch the livestream.
+<a href="#">Link to this property</a>
 
-  - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+created\_at: optional string
 
-    - `"LIVE"`
+Timestamp the object was created at. The time is returned in ISO format.
 
-    - `"IDLE"`
+formatdate-time
 
-    - `"ERRORED"`
+<a href="#">Link to this property</a>
 
-    - `"INVOKED"`
+disabled: optional string
 
-  - `stream_key: optional string`
+Specifies if the livestream was disabled.
 
-    Unique key for accessing each livestream.
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+ingest\_server: optional string
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+The server URL to which the RTMP encoder sends the video and audio data.
 
-- `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Example
+meeting\_id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-livestream \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: optional string
 
-```json
-{
-  "data": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "disabled": "disabled",
-    "ingest_server": "ingest_server",
-    "meeting_id": "meeting_id",
-    "name": "name",
-    "playback_url": "playback_url",
-    "status": "LIVE",
-    "stream_key": "stream_key",
-    "updated_at": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+Name of the livestream.
 
-## Fetch livestream session details using livestream session ID
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams/sessions/{livestream-session-id}`
+playback\_url: optional string
 
-Returns livestream session details for the given livestream session ID. Retrieve the `livestream_session_id`using the `Fetch livestream session details using a session ID` API.
+The web address that viewers can use to watch the livestream.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>
 
-- `app_id: string`
+status: optional "LIVE"or "IDLE"or "ERRORED"or "INVOKED"
 
-  The app identifier tag.
+</summary>
 
-- `"livestream-session-id": string`
+One of the following:
 
-### Returns
+"LIVE"
 
-- `data: optional object { id, created_at, err_message, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"IDLE"
 
-    The livestream ID.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"ERRORED"
 
-    Timestamp the object was created at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `err_message: optional string`
+"INVOKED"
 
-    The server URL to which the RTMP encoder sends the video and audio data.
+<a href="#">Link to this property</a>
 
-  - `ingest_seconds: optional number`
+</details>
 
-    Name of the livestream.
+<a href="#">Link to this property</a>
 
-  - `livestream_id: optional string`
+stream\_key: optional string
 
-  - `started_time: optional string`
+Unique key for accessing each livestream.
 
-    Unique key for accessing each livestream.
+<a href="#">Link to this property</a>
 
-  - `stopped_time: optional string`
+updated\_at: optional string
 
-    The web address that viewers can use to watch the livestream.
+Timestamp the object was updated at. The time is returned in ISO format.
 
-  - `updated_at: optional string`
+formatdate-time
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `viewer_seconds: optional number`
+</details>
 
-    Specifies if the livestream was disabled.
+<a href="#">Link to this property</a>
 
-- `success: optional boolean`
+success: optional boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams/sessions/$LIVESTREAM_SESSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_get_meeting_active_livestreams_response%20%3E%20(schema)>)
 
-```json
-{
-  "data": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "err_message": "err_message",
-    "ingest_seconds": 0,
-    "livestream_id": "livestream_id",
-    "started_time": "started_time",
-    "stopped_time": "stopped_time",
-    "updated_at": "updated_at",
-    "viewer_seconds": 0
-  },
-  "success": true
-}
-```
+<details>
 
-## Fetch active livestream session details
+<summary>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams/{livestream_id}/active-livestream-session`
+LivestreamGetLivestreamSessionDetailsForSessionIDResponse object {data, success }
 
-Returns details of all active livestreams for the given livestream ID. Retreive the livestream ID using the `Start livestreaming a meeting` API.
+</summary>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+data: optional object {id, created\_at, err\_message, 6 more }
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+id: optional string
 
-- `livestream_id: string`
+The livestream ID.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: optional object { livestream, session }`
+created\_at: optional string
 
-  - `livestream: optional object { id, created_at, disabled, 7 more }`
+Timestamp the object was created at. The time is returned in ISO format.
 
-    - `id: optional string`
+formatdate-time
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp the object was created at. The time is returned in ISO format.
+err\_message: optional string
 
-    - `disabled: optional string`
+The server URL to which the RTMP encoder sends the video and audio data.
 
-      Specifies if the livestream was disabled.
+<a href="#">Link to this property</a>
 
-    - `ingest_server: optional string`
+ingest\_seconds: optional number
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+Name of the livestream.
 
-    - `meeting_id: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the meeting.
+livestream\_id: optional string
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the livestream.
+started\_time: optional string
 
-    - `playback_url: optional string`
+Unique key for accessing each livestream.
 
-      The web address that viewers can use to watch the livestream.
+<a href="#">Link to this property</a>
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+stopped\_time: optional string
 
-      - `"LIVE"`
+The web address that viewers can use to watch the livestream.
 
-      - `"IDLE"`
+<a href="#">Link to this property</a>
 
-      - `"ERRORED"`
+updated\_at: optional string
 
-      - `"INVOKED"`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-    - `stream_key: optional string`
+<a href="#">Link to this property</a>
 
-      Unique key for accessing each livestream.
+viewer\_seconds: optional number
 
-    - `updated_at: optional string`
+Specifies if the livestream was disabled.
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `session: optional object { id, created_at, err_message, 7 more }`
+</details>
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `created_at: optional string`
+success: optional boolean
 
-      Timestamp the object was created at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `err_message: optional string`
+</details>
 
-    - `ingest_seconds: optional string`
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_get_livestream_session_details_for_session_id_response%20%3E%20(schema)>)
 
-      The time duration for which the input was given or the meeting was streamed.
+<details>
 
-    - `invoked_time: optional string`
+<summary>
 
-      Timestamp the object was invoked. The time is returned in ISO format.
+LivestreamGetActiveLivestreamsForLivestreamIDResponse object {data, success }
 
-    - `livestream_id: optional string`
+</summary>
 
-    - `started_time: optional string`
+<details>
 
-      Timestamp the object was started. The time is returned in ISO format.
+<summary>
 
-    - `stopped_time: optional string`
+data: optional object {livestream, session }
 
-      Timestamp the object was stopped. The time is returned in ISO format.
+</summary>
 
-    - `updated_at: optional string`
+<details>
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<summary>
 
-    - `viewer_seconds: optional string`
+livestream: optional object {id, created\_at, disabled, 7 more }
 
-      The total view time for which the viewers watched the stream.
+</summary>
 
-- `success: optional boolean`
+id: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams/$LIVESTREAM_ID/active-livestream-session \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+created\_at: optional string
 
-#### Response
+Timestamp the object was created at. The time is returned in ISO format.
 
-```json
-{
-  "data": {
-    "livestream": {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "disabled": "disabled",
-      "ingest_server": "ingest_server",
-      "meeting_id": "meeting_id",
-      "name": "name",
-      "playback_url": "playback_url",
-      "status": "LIVE",
-      "stream_key": "stream_key",
-      "updated_at": "2019-12-27T18:11:19.117Z"
-    },
-    "session": {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "err_message": "err_message",
-      "ingest_seconds": "ingest_seconds",
-      "invoked_time": "2019-12-27T18:11:19.117Z",
-      "livestream_id": "livestream_id",
-      "started_time": "2019-12-27T18:11:19.117Z",
-      "stopped_time": "2019-12-27T18:11:19.117Z",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "viewer_seconds": "viewer_seconds"
-    }
-  },
-  "success": true
-}
-```
+formatdate-time
 
-## Fetch livestream details using livestream ID
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/livestreams/{livestream_id}`
+disabled: optional string
 
-Returns details of a livestream with sessions for the given livestream ID. Retreive the livestream ID using the `Start livestreaming a meeting` API.
+Specifies if the livestream was disabled.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+ingest\_server: optional string
 
-  The account identifier tag.
+The server URL to which the RTMP encoder sends the video and audio data.
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+meeting\_id: optional string
 
-- `livestream_id: string`
+ID of the meeting.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `page_no: optional number`
+name: optional string
 
-  The page number from which you want your page search results to be displayed.
+Name of the livestream.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of results per page.
+playback\_url: optional string
 
-### Returns
+The web address that viewers can use to watch the livestream.
 
-- `data: optional object { livestream, paging, session }`
+<a href="#">Link to this property</a>
 
-  - `livestream: optional object { id, created_at, disabled, 7 more }`
+<details>
 
-    - `id: optional string`
+<summary>
 
-      ID of the livestream.
+status: optional "LIVE"or "IDLE"or "ERRORED"or "INVOKED"
 
-    - `created_at: optional string`
+</summary>
 
-      Timestamp the object was created at. The time is returned in ISO format.
+One of the following:
 
-    - `disabled: optional string`
+"LIVE"
 
-      Specifies if the livestream was disabled.
+<a href="#">Link to this property</a>
 
-    - `ingest_server: optional string`
+"IDLE"
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+<a href="#">Link to this property</a>
 
-    - `meeting_id: optional string`
+"ERRORED"
 
-      The ID of the meeting.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"INVOKED"
 
-      Name of the livestream.
+<a href="#">Link to this property</a>
 
-    - `playback_url: optional string`
+</details>
 
-      The web address that viewers can use to watch the livestream.
+<a href="#">Link to this property</a>
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+stream\_key: optional string
 
-      - `"LIVE"`
+Unique key for accessing each livestream.
 
-      - `"IDLE"`
+<a href="#">Link to this property</a>
 
-      - `"ERRORED"`
+updated\_at: optional string
 
-      - `"INVOKED"`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-    - `stream_key: optional string`
+formatdate-time
 
-      Unique key for accessing each livestream.
+<a href="#">Link to this property</a>
 
-    - `updated_at: optional string`
+</details>
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `paging: optional object { end_offset, start_offset, total_count }`
+<details>
 
-    - `end_offset: optional number`
+<summary>
 
-    - `start_offset: optional number`
+session: optional object {id, created\_at, err\_message, 7 more }
 
-    - `total_count: optional number`
+</summary>
 
-  - `session: optional object { id, created_at, err_message, 7 more }`
+id: optional string
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the session.
+created\_at: optional string
 
-    - `created_at: optional string`
+Timestamp the object was created at. The time is returned in ISO format.
 
-      Timestamp the object was created at. The time is returned in ISO format.
+formatdate-time
 
-    - `err_message: optional string`
+<a href="#">Link to this property</a>
 
-    - `ingest_seconds: optional number`
+err\_message: optional string
 
-      The time duration for which the input was given or the meeting was streamed.
+<a href="#">Link to this property</a>
 
-    - `invoked_time: optional string`
+ingest\_seconds: optional string
 
-      Timestamp the object was invoked. The time is returned in ISO format.
+The time duration for which the input was given or the meeting was streamed.
 
-    - `livestream_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `started_time: optional string`
+invoked\_time: optional string
 
-      Timestamp the object was started. The time is returned in ISO format.
+Timestamp the object was invoked. The time is returned in ISO format.
 
-    - `stopped_time: optional string`
+formatdate-time
 
-      Timestamp the object was stopped. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `updated_at: optional string`
+livestream\_id: optional string
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `viewer_seconds: optional number`
+started\_time: optional string
 
-      The total view time for which the viewers watched the stream.
+Timestamp the object was started. The time is returned in ISO format.
 
-- `success: optional boolean`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/livestreams/$LIVESTREAM_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+stopped\_time: optional string
 
-#### Response
+Timestamp the object was stopped. The time is returned in ISO format.
 
-```json
-{
-  "data": {
-    "livestream": {
-      "id": "id",
-      "created_at": "created_at",
-      "disabled": "disabled",
-      "ingest_server": "ingest_server",
-      "meeting_id": "meeting_id",
-      "name": "name",
-      "playback_url": "playback_url",
-      "status": "LIVE",
-      "stream_key": "stream_key",
-      "updated_at": "updated_at"
-    },
-    "paging": {
-      "end_offset": 1,
-      "start_offset": 1,
-      "total_count": 1
-    },
-    "session": {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "err_message": "err_message",
-      "ingest_seconds": 0,
-      "invoked_time": "2019-12-27T18:11:19.117Z",
-      "livestream_id": "livestream_id",
-      "started_time": "2019-12-27T18:11:19.117Z",
-      "stopped_time": "2019-12-27T18:11:19.117Z",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "viewer_seconds": 0
-    }
-  },
-  "success": true
-}
-```
+formatdate-time
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Livestream Create Independent Livestream Response
+updated\_at: optional string
 
-- `LivestreamCreateIndependentLivestreamResponse object { data, success }`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-  - `data: optional object { id, disabled, ingest_server, 5 more }`
+formatdate-time
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      The livestream ID.
+viewer\_seconds: optional string
 
-    - `disabled: optional boolean`
+The total view time for which the viewers watched the stream.
 
-      Specifies if the livestream was disabled.
+<a href="#">Link to this property</a>
 
-    - `ingest_server: optional string`
+</details>
 
-      The server URL to which the RTMP encoder should send the video and audio data.
+<a href="#">Link to this property</a>
 
-    - `meeting_id: optional string`
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `playback_url: optional string`
+success: optional boolean
 
-      The web address that viewers can use to watch the livestream.
+<a href="#">Link to this property</a>
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+</details>
 
-      - `"LIVE"`
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_get_active_livestreams_for_livestream_id_response%20%3E%20(schema)>)
 
-      - `"IDLE"`
+<details>
 
-      - `"ERRORED"`
+<summary>
 
-      - `"INVOKED"`
+LivestreamGetLivestreamSessionForLivestreamIDResponse object {data, success }
 
-    - `stream_key: optional string`
+</summary>
 
-      Unique key for accessing each livestream.
+<details>
 
-  - `success: optional boolean`
+<summary>
 
-### Livestream Get All Livestreams Response
+data: optional object {livestream, paging, session }
 
-- `LivestreamGetAllLivestreamsResponse object { data, success }`
+</summary>
 
-  - `data: optional object { id, created_at, disabled, 8 more }`
+<details>
 
-    - `id: optional string`
+<summary>
 
-      The ID of the livestream.
+livestream: optional object {id, created\_at, disabled, 7 more }
 
-    - `created_at: optional string`
+</summary>
 
-      Timestamp the object was created at. The time is returned in ISO format.
+id: optional string
 
-    - `disabled: optional string`
+ID of the livestream.
 
-      Specifies if the livestream was disabled.
+<a href="#">Link to this property</a>
 
-    - `ingest_server: optional string`
+created\_at: optional string
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+Timestamp the object was created at. The time is returned in ISO format.
 
-    - `meeting_id: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the meeting.
+disabled: optional string
 
-    - `name: optional string`
+Specifies if the livestream was disabled.
 
-      Name of the livestream.
+<a href="#">Link to this property</a>
 
-    - `paging: optional object { end_offset, start_offset, total_count }`
+ingest\_server: optional string
 
-      - `end_offset: optional number`
+The server URL to which the RTMP encoder sends the video and audio data.
 
-      - `start_offset: optional number`
+<a href="#">Link to this property</a>
 
-      - `total_count: optional number`
+meeting\_id: optional string
 
-    - `playback_url: optional string`
+The ID of the meeting.
 
-      The web address that viewers can use to watch the livestream.
+<a href="#">Link to this property</a>
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+name: optional string
 
-      - `"LIVE"`
+Name of the livestream.
 
-      - `"IDLE"`
+<a href="#">Link to this property</a>
 
-      - `"ERRORED"`
+playback\_url: optional string
 
-      - `"INVOKED"`
+The web address that viewers can use to watch the livestream.
 
-    - `stream_key: optional string`
+<a href="#">Link to this property</a>
 
-      Unique key for accessing each livestream.
+<details>
 
-    - `updated_at: optional string`
+<summary>
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+status: optional "LIVE"or "IDLE"or "ERRORED"or "INVOKED"
 
-  - `success: optional boolean`
+</summary>
 
-### Livestream Stop Livestreaming A Meeting Response
+One of the following:
 
-- `LivestreamStopLivestreamingAMeetingResponse object { data, success }`
+"LIVE"
 
-  - `data: optional object { message }`
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+"IDLE"
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Livestream Start Livestreaming A Meeting Response
+"ERRORED"
 
-- `LivestreamStartLivestreamingAMeetingResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: optional object { id, ingest_server, playback_url, 2 more }`
+"INVOKED"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      The livestream ID.
+</details>
 
-    - `ingest_server: optional string`
+<a href="#">Link to this property</a>
 
-      The server URL to which the RTMP encoder sends the video and audio data.
+stream\_key: optional string
 
-    - `playback_url: optional string`
+Unique key for accessing each livestream.
 
-      The web address that viewers can use to watch the livestream.
+<a href="#">Link to this property</a>
 
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
+updated\_at: optional string
 
-      - `"LIVE"`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-      - `"IDLE"`
+<a href="#">Link to this property</a>
 
-      - `"ERRORED"`
+</details>
 
-      - `"INVOKED"`
+<a href="#">Link to this property</a>
 
-    - `stream_key: optional string`
+<details>
 
-      Unique key for accessing each livestream.
+<summary>
 
-  - `success: optional boolean`
+paging: optional object {end\_offset, start\_offset, total\_count }
 
-### Livestream Get Livestream Analytics Complete Response
+</summary>
 
-- `LivestreamGetLivestreamAnalyticsCompleteResponse object { data, success }`
+end\_offset: optional number
 
-  - `data: optional object { count, total_ingest_seconds, total_viewer_seconds }`
+<a href="#">Link to this property</a>
 
-    - `count: optional number`
+start\_offset: optional number
 
-      Count of total livestreams.
+<a href="#">Link to this property</a>
 
-    - `total_ingest_seconds: optional number`
+total\_count: optional number
 
-      Total time duration for which the input was given or the meeting was streamed.
+<a href="#">Link to this property</a>
 
-    - `total_viewer_seconds: optional number`
+</details>
 
-      Total view time for which the viewers watched the stream.
+<a href="#">Link to this property</a>
 
-  - `success: optional boolean`
+<details>
 
-### Livestream Get Livestream Analytics Daywise Response
+<summary>
 
-- `LivestreamGetLivestreamAnalyticsDaywiseResponse object { data, success }`
+session: optional object {id, created\_at, err\_message, 7 more }
 
-  - `data: optional array of object { count, date, total_ingest_seconds, total_viewer_seconds }`
+</summary>
 
-    - `count: optional number`
+id: optional string
 
-      Count of total livestream sessions.
+ID of the session.
 
-    - `date: optional string`
+<a href="#">Link to this property</a>
 
-      Analytics date.
+created\_at: optional string
 
-    - `total_ingest_seconds: optional number`
+Timestamp the object was created at. The time is returned in ISO format.
 
-      Total time duration for which the input was given or the meeting was streamed.
+formatdate-time
 
-    - `total_viewer_seconds: optional number`
+<a href="#">Link to this property</a>
 
-      Total view time for which the viewers watched the stream.
+err\_message: optional string
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Livestream Get Org Analytics Response
+ingest\_seconds: optional number
 
-- `LivestreamGetOrgAnalyticsResponse object { data, success }`
+The time duration for which the input was given or the meeting was streamed.
 
-  - `data: optional object { recording_stats, session_stats }`
+<a href="#">Link to this property</a>
 
-    - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+invoked\_time: optional string
 
-      Recording statistics of an App during the range specified
+Timestamp the object was invoked. The time is returned in ISO format.
 
-      - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+formatdate-time
 
-        Day wise recording stats
+<a href="#">Link to this property</a>
 
-        - `day: optional string`
+livestream\_id: optional string
 
-        - `total_recording_minutes: optional number`
+<a href="#">Link to this property</a>
 
-          Total recording minutes for a specific day
+started\_time: optional string
 
-        - `total_recordings: optional number`
+Timestamp the object was started. The time is returned in ISO format.
 
-          Total number of recordings for a specific day
+formatdate-time
 
-      - `recording_count: optional number`
+<a href="#">Link to this property</a>
 
-        Total number of recordings during the range specified
+stopped\_time: optional string
 
-      - `recording_minutes_consumed: optional number`
+Timestamp the object was stopped. The time is returned in ISO format.
 
-        Total recording minutes during the range specified
+formatdate-time
 
-    - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+<a href="#">Link to this property</a>
 
-      Session statistics of an App during the range specified
+updated\_at: optional string
 
-      - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-        Day wise session stats
+formatdate-time
 
-        - `day: optional string`
+<a href="#">Link to this property</a>
 
-        - `total_session_minutes: optional number`
+viewer\_seconds: optional number
 
-          Total session minutes for a specific day
+The total view time for which the viewers watched the stream.
 
-        - `total_sessions: optional number`
+<a href="#">Link to this property</a>
 
-          Total number of sessions for a specific day
+</details>
 
-      - `sessions_count: optional number`
+<a href="#">Link to this property</a>
 
-        Total number of sessions during the range specified
+</details>
 
-      - `sessions_minutes_consumed: optional number`
+<a href="#">Link to this property</a>
 
-        Total session minutes during the range specified
+success: optional boolean
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Livestream Get Meeting Active Livestreams Response
+</details>
 
-- `LivestreamGetMeetingActiveLivestreamsResponse object { data, success }`
-
-  - `data: optional object { id, created_at, disabled, 7 more }`
-
-    - `id: optional string`
-
-      The livestream ID.
-
-    - `created_at: optional string`
-
-      Timestamp the object was created at. The time is returned in ISO format.
-
-    - `disabled: optional string`
-
-      Specifies if the livestream was disabled.
-
-    - `ingest_server: optional string`
-
-      The server URL to which the RTMP encoder sends the video and audio data.
-
-    - `meeting_id: optional string`
-
-    - `name: optional string`
-
-      Name of the livestream.
-
-    - `playback_url: optional string`
-
-      The web address that viewers can use to watch the livestream.
-
-    - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
-
-      - `"LIVE"`
-
-      - `"IDLE"`
-
-      - `"ERRORED"`
-
-      - `"INVOKED"`
-
-    - `stream_key: optional string`
-
-      Unique key for accessing each livestream.
-
-    - `updated_at: optional string`
-
-      Timestamp the object was updated at. The time is returned in ISO format.
-
-  - `success: optional boolean`
-
-### Livestream Get Livestream Session Details For Session ID Response
-
-- `LivestreamGetLivestreamSessionDetailsForSessionIDResponse object { data, success }`
-
-  - `data: optional object { id, created_at, err_message, 6 more }`
-
-    - `id: optional string`
-
-      The livestream ID.
-
-    - `created_at: optional string`
-
-      Timestamp the object was created at. The time is returned in ISO format.
-
-    - `err_message: optional string`
-
-      The server URL to which the RTMP encoder sends the video and audio data.
-
-    - `ingest_seconds: optional number`
-
-      Name of the livestream.
-
-    - `livestream_id: optional string`
-
-    - `started_time: optional string`
-
-      Unique key for accessing each livestream.
-
-    - `stopped_time: optional string`
-
-      The web address that viewers can use to watch the livestream.
-
-    - `updated_at: optional string`
-
-      Timestamp the object was updated at. The time is returned in ISO format.
-
-    - `viewer_seconds: optional number`
-
-      Specifies if the livestream was disabled.
-
-  - `success: optional boolean`
-
-### Livestream Get Active Livestreams For Livestream ID Response
-
-- `LivestreamGetActiveLivestreamsForLivestreamIDResponse object { data, success }`
-
-  - `data: optional object { livestream, session }`
-
-    - `livestream: optional object { id, created_at, disabled, 7 more }`
-
-      - `id: optional string`
-
-      - `created_at: optional string`
-
-        Timestamp the object was created at. The time is returned in ISO format.
-
-      - `disabled: optional string`
-
-        Specifies if the livestream was disabled.
-
-      - `ingest_server: optional string`
-
-        The server URL to which the RTMP encoder sends the video and audio data.
-
-      - `meeting_id: optional string`
-
-        ID of the meeting.
-
-      - `name: optional string`
-
-        Name of the livestream.
-
-      - `playback_url: optional string`
-
-        The web address that viewers can use to watch the livestream.
-
-      - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
-
-        - `"LIVE"`
-
-        - `"IDLE"`
-
-        - `"ERRORED"`
-
-        - `"INVOKED"`
-
-      - `stream_key: optional string`
-
-        Unique key for accessing each livestream.
-
-      - `updated_at: optional string`
-
-        Timestamp the object was updated at. The time is returned in ISO format.
-
-    - `session: optional object { id, created_at, err_message, 7 more }`
-
-      - `id: optional string`
-
-      - `created_at: optional string`
-
-        Timestamp the object was created at. The time is returned in ISO format.
-
-      - `err_message: optional string`
-
-      - `ingest_seconds: optional string`
-
-        The time duration for which the input was given or the meeting was streamed.
-
-      - `invoked_time: optional string`
-
-        Timestamp the object was invoked. The time is returned in ISO format.
-
-      - `livestream_id: optional string`
-
-      - `started_time: optional string`
-
-        Timestamp the object was started. The time is returned in ISO format.
-
-      - `stopped_time: optional string`
-
-        Timestamp the object was stopped. The time is returned in ISO format.
-
-      - `updated_at: optional string`
-
-        Timestamp the object was updated at. The time is returned in ISO format.
-
-      - `viewer_seconds: optional string`
-
-        The total view time for which the viewers watched the stream.
-
-  - `success: optional boolean`
-
-### Livestream Get Livestream Session For Livestream ID Response
-
-- `LivestreamGetLivestreamSessionForLivestreamIDResponse object { data, success }`
-
-  - `data: optional object { livestream, paging, session }`
-
-    - `livestream: optional object { id, created_at, disabled, 7 more }`
-
-      - `id: optional string`
-
-        ID of the livestream.
-
-      - `created_at: optional string`
-
-        Timestamp the object was created at. The time is returned in ISO format.
-
-      - `disabled: optional string`
-
-        Specifies if the livestream was disabled.
-
-      - `ingest_server: optional string`
-
-        The server URL to which the RTMP encoder sends the video and audio data.
-
-      - `meeting_id: optional string`
-
-        The ID of the meeting.
-
-      - `name: optional string`
-
-        Name of the livestream.
-
-      - `playback_url: optional string`
-
-        The web address that viewers can use to watch the livestream.
-
-      - `status: optional "LIVE" or "IDLE" or "ERRORED" or "INVOKED"`
-
-        - `"LIVE"`
-
-        - `"IDLE"`
-
-        - `"ERRORED"`
-
-        - `"INVOKED"`
-
-      - `stream_key: optional string`
-
-        Unique key for accessing each livestream.
-
-      - `updated_at: optional string`
-
-        Timestamp the object was updated at. The time is returned in ISO format.
-
-    - `paging: optional object { end_offset, start_offset, total_count }`
-
-      - `end_offset: optional number`
-
-      - `start_offset: optional number`
-
-      - `total_count: optional number`
-
-    - `session: optional object { id, created_at, err_message, 7 more }`
-
-      - `id: optional string`
-
-        ID of the session.
-
-      - `created_at: optional string`
-
-        Timestamp the object was created at. The time is returned in ISO format.
-
-      - `err_message: optional string`
-
-      - `ingest_seconds: optional number`
-
-        The time duration for which the input was given or the meeting was streamed.
-
-      - `invoked_time: optional string`
-
-        Timestamp the object was invoked. The time is returned in ISO format.
-
-      - `livestream_id: optional string`
-
-      - `started_time: optional string`
-
-        Timestamp the object was started. The time is returned in ISO format.
-
-      - `stopped_time: optional string`
-
-        Timestamp the object was stopped. The time is returned in ISO format.
-
-      - `updated_at: optional string`
-
-        Timestamp the object was updated at. The time is returned in ISO format.
-
-      - `viewer_seconds: optional number`
-
-        The total view time for which the viewers watched the stream.
-
-  - `success: optional boolean`
+[Link to this property](#)%20realtime_kit.livestreams%20%3E%20(model)%20livestream_get_livestream_session_for_livestream_id_response%20%3E%20(schema)>)

@@ -1,478 +1,187 @@
+---
+title: Groups
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[WAF](https://developers.cloudflare.com/api/resources/firewall/subresources/waf)
+
+[Packages](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Groups
 
-## List WAF rule groups
+##### [List WAF rule groups](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/list)
 
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups`
+Deprecated
 
-Fetches the WAF rule groups in a WAF package.
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+##### [Get a WAF rule group](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/get)
 
-### Path Parameters
+Deprecated
 
-- `zone_id: string`
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups/{group\_id}
 
-  Defines an identifier of a schema.
+##### [Update a WAF rule group](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/edit)
 
-- `package_id: string`
+Deprecated
 
-  Defines the unique identifier of a WAF package.
+PATCH/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups/{group\_id}
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `direction: optional "asc" or "desc"`
+<details>
 
-  Defines the direction used to sort returned rule groups.
+<summary>
 
-  - `"asc"`
+Group object {id, description, mode, 5 more }
 
-  - `"desc"`
+</summary>
 
-- `match: optional "any" or "all"`
+id: string
 
-  Defines the condition for search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
+Defines the unique identifier of the rule group.
 
-  - `"any"`
+maxLength32
 
-  - `"all"`
+<a href="#">Link to this property</a>
 
-- `mode: optional "on" or "off"`
+description: string
 
-  Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
+Defines an informative summary of what the rule group does.
 
-  - `"on"`
+<a href="#">Link to this property</a>
 
-  - `"off"`
+<details>
 
-- `name: optional string`
+<summary>
 
-  Defines the name of the rule group.
+mode: "on"or "off"
 
-- `order: optional "mode" or "rules_count"`
+Defines the state of the rules contained in the rule group. When <code>on</code>, the rules in the group are configurable/usable.
 
-  Defines the field used to sort returned rule groups.
+</summary>
 
-  - `"mode"`
+One of the following:
 
-  - `"rules_count"`
+"on"
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Defines the page number of paginated results.
+"off"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Defines the number of rule groups per page.
+</details>
 
-- `rules_count: optional number`
+<a href="#">Link to this property</a>
 
-  Defines the number of rules in the current rule group.
+name: string
 
-### Returns
+Defines the name of the rule group.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+rules\_count: number
 
-  - `message: string`
+Defines the number of rules in the current rule group.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+allowed\_modes: optional array of "on"or "off"
 
-  - `code: number`
+Defines the available states for the rule group.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"on"
 
-- `result: array of Group`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"off"
 
-    Defines the unique identifier of the rule group.
+<a href="#">Link to this property</a>
 
-  - `description: string`
+</details>
 
-    Defines an informative summary of what the rule group does.
+<a href="#">Link to this property</a>
 
-  - `mode: "on" or "off"`
+modified\_rules\_count: optional number
 
-    Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
+Defines the number of rules within the group that have been modified from their default configuration.
 
-    - `"on"`
+<a href="#">Link to this property</a>
 
-    - `"off"`
+package\_id: optional string
 
-  - `name: string`
+Defines the unique identifier of a WAF package.
 
-    Defines the name of the rule group.
+maxLength32
 
-  - `rules_count: number`
+<a href="#">Link to this property</a>
 
-    Defines the number of rules in the current rule group.
+</details>
 
-  - `allowed_modes: optional array of "on" or "off"`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group%20%3E%20(schema)>)
 
-    Defines the available states for the rule group.
+<details>
 
-    - `"on"`
+<summary>
 
-    - `"off"`
+GroupGetResponse = unknownor string
 
-  - `modified_rules_count: optional number`
+</summary>
 
-    Defines the number of rules within the group that have been modified from their default configuration.
+One of the following:
 
-  - `package_id: optional string`
+unknown
 
-    Defines the unique identifier of a WAF package.
+<a href="#">Link to this property</a>
 
-- `success: true`
+string
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group_get_response%20%3E%20(schema)>)
 
-  - `count: optional number`
+<details>
 
-    Defines the total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+GroupEditResponse = unknownor string
 
-    Defines the current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+One of the following:
 
-    Defines the number of results per page of results.
+unknown
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Defines the total results available without any search parameters.
+string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "de677e5818985db1285d0e80225f06e5",
-      "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks",
-      "mode": "on",
-      "name": "Project Honey Pot",
-      "rules_count": 10,
-      "allowed_modes": [
-        "on",
-        "off"
-      ],
-      "modified_rules_count": 2,
-      "package_id": "a25a9a7e9c00afc1fb2e0245519d725b"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a WAF rule group
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups/{group_id}`
-
-Fetches the details of a WAF rule group.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `group_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups/$GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Update a WAF rule group
-
-**patch** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups/{group_id}`
-
-Updates a WAF rule group. You can update the state (`mode` parameter) of a rule group.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `group_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Body Parameters
-
-- `mode: optional "on" or "off"`
-
-  Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-  - `"on"`
-
-  - `"off"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups/$GROUP_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Group
-
-- `Group object { id, description, mode, 5 more }`
-
-  - `id: string`
-
-    Defines the unique identifier of the rule group.
-
-  - `description: string`
-
-    Defines an informative summary of what the rule group does.
-
-  - `mode: "on" or "off"`
-
-    Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `name: string`
-
-    Defines the name of the rule group.
-
-  - `rules_count: number`
-
-    Defines the number of rules in the current rule group.
-
-  - `allowed_modes: optional array of "on" or "off"`
-
-    Defines the available states for the rule group.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_rules_count: optional number`
-
-    Defines the number of rules within the group that have been modified from their default configuration.
-
-  - `package_id: optional string`
-
-    Defines the unique identifier of a WAF package.
-
-### Group Get Response
-
-- `GroupGetResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-### Group Edit Response
-
-- `GroupEditResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group_edit_response%20%3E%20(schema)>)

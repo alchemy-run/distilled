@@ -74,7 +74,8 @@ export type RulesListResultItemProvider =
   | "aws_s3"
   | "cloudflare_r2"
   | "gcp_storage"
-  | "azure_storage";
+  | "azure_storage"
+  | "oci_storage";
 export const RulesListResultItemProvider = S.String;
 
 export interface RulesListResultItem {
@@ -137,7 +138,8 @@ export type RulesUpdateRequestRulesItemProvider =
   | "aws_s3"
   | "cloudflare_r2"
   | "gcp_storage"
-  | "azure_storage";
+  | "azure_storage"
+  | "oci_storage";
 export const RulesUpdateRequestRulesItemProvider = S.String;
 
 export interface RulesUpdateRequestRulesItem {
@@ -193,7 +195,8 @@ export type RulesUpdateResultItemProvider =
   | "aws_s3"
   | "cloudflare_r2"
   | "gcp_storage"
-  | "azure_storage";
+  | "azure_storage"
+  | "oci_storage";
 export const RulesUpdateResultItemProvider = S.String;
 
 export interface RulesUpdateResultItem {

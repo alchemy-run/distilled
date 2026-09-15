@@ -1,776 +1,277 @@
+---
+title: Logs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logs
 
-## List Gateway Logs
+##### [List Gateway Logs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/list)
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs
 
-List Gateway Logs
+##### [Get Gateway Log Detail](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs/{id}
 
-- `account_id: string`
+##### [Patch Gateway Log](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/edit)
 
-- `gateway_id: string`
+PATCH/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs/{id}
 
-  gateway id
+##### [Delete Gateway Logs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/delete)
 
-### Query Parameters
+DELETE/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs
 
-- `cached: optional boolean`
+##### [Get Gateway Log Request](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/request)
 
-- `direction: optional "asc" or "desc"`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs/{id}/request
 
-  - `"asc"`
+##### [Get Gateway Log Response](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs/methods/response)
 
-  - `"desc"`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs/{id}/response
 
-- `end_date: optional string`
+##### ModelsExpand Collapse
 
-- `feedback: optional 0 or 1`
+<details>
 
-  - `0`
+<summary>
 
-  - `1`
+LogListResponse object {id, cached, created\_at, 16 more }
 
-- `filters: optional array of object { key, operator, value }`
+</summary>
 
-  - `key: "id" or "created_at" or "request_content_type" or 21 more`
+id: string
 
-    - `"id"`
+<a href="#">Link to this property</a>
 
-    - `"created_at"`
+cached: boolean
 
-    - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-    - `"response_content_type"`
+created\_at: string
 
-    - `"request_type"`
+formatdate-time
 
-    - `"success"`
+<a href="#">Link to this property</a>
 
-    - `"cached"`
+duration: number
 
-    - `"provider"`
+<a href="#">Link to this property</a>
 
-    - `"model"`
+model: string
 
-    - `"model_type"`
+<a href="#">Link to this property</a>
 
-    - `"cost"`
+path: string
 
-    - `"tokens"`
+<a href="#">Link to this property</a>
 
-    - `"tokens_in"`
+provider: string
 
-    - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-    - `"duration"`
+success: boolean
 
-    - `"feedback"`
+<a href="#">Link to this property</a>
 
-    - `"event_id"`
+tokens\_in: number
 
-    - `"metadata.key"`
+<a href="#">Link to this property</a>
 
-    - `"metadata.value"`
+tokens\_out: number
 
-    - `"authentication"`
+<a href="#">Link to this property</a>
 
-    - `"wholesale"`
+cost: optional number
 
-    - `"compatibilityMode"`
+<a href="#">Link to this property</a>
 
-    - `"dlp_action"`
+custom\_cost: optional boolean
 
-    - `"user_agent"`
+<a href="#">Link to this property</a>
 
-  - `operator: "eq" or "neq" or "contains" or 2 more`
+metadata: optional string
 
-    - `"eq"`
+<a href="#">Link to this property</a>
 
-    - `"neq"`
+model\_type: optional string
 
-    - `"contains"`
+<a href="#">Link to this property</a>
 
-    - `"lt"`
+request\_content\_type: optional string
 
-    - `"gt"`
+<a href="#">Link to this property</a>
 
-  - `value: array of string or number or boolean`
+request\_type: optional string
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+response\_content\_type: optional string
 
-    - `boolean`
+<a href="#">Link to this property</a>
 
-- `max_cost: optional number`
+status\_code: optional number
 
-- `max_duration: optional number`
+<a href="#">Link to this property</a>
 
-- `max_tokens_in: optional number`
+step: optional number
 
-- `max_tokens_out: optional number`
+<a href="#">Link to this property</a>
 
-- `max_total_tokens: optional number`
+</details>
 
-- `meta_info: optional boolean`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_list_response%20%3E%20(schema)>)
 
-- `min_cost: optional number`
+<details>
 
-- `min_duration: optional number`
+<summary>
 
-- `min_tokens_in: optional number`
+LogGetResponse object {id, cached, created\_at, 22 more }
 
-- `min_tokens_out: optional number`
+</summary>
 
-- `min_total_tokens: optional number`
+id: string
 
-- `model: optional string`
+<a href="#">Link to this property</a>
 
-- `model_type: optional string`
+cached: boolean
 
-- `order_by: optional "created_at" or "provider" or "model" or 3 more`
+<a href="#">Link to this property</a>
 
-  - `"created_at"`
+created\_at: string
 
-  - `"provider"`
+formatdate-time
 
-  - `"model"`
+<a href="#">Link to this property</a>
 
-  - `"model_type"`
+duration: number
 
-  - `"success"`
+<a href="#">Link to this property</a>
 
-  - `"cached"`
+model: string
 
-- `order_by_direction: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+path: string
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+provider: string
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-- `provider: optional string`
+success: boolean
 
-- `request_content_type: optional string`
+<a href="#">Link to this property</a>
 
-- `response_content_type: optional string`
+tokens\_in: number
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-- `start_date: optional string`
+tokens\_out: number
 
-- `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Returns
+cost: optional number
 
-- `result: array of object { id, cached, created_at, 16 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+custom\_cost: optional boolean
 
-  - `cached: boolean`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+metadata: optional string
 
-  - `duration: number`
+<a href="#">Link to this property</a>
 
-  - `model: string`
+model\_type: optional string
 
-  - `path: string`
+<a href="#">Link to this property</a>
 
-  - `provider: string`
+request\_content\_type: optional string
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-  - `tokens_in: number`
+request\_head: optional string
 
-  - `tokens_out: number`
+<a href="#">Link to this property</a>
 
-  - `cost: optional number`
+request\_head\_complete: optional boolean
 
-  - `custom_cost: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `metadata: optional string`
+request\_size: optional number
 
-  - `model_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `request_content_type: optional string`
+request\_type: optional string
 
-  - `request_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `response_content_type: optional string`
+response\_content\_type: optional string
 
-  - `status_code: optional number`
+<a href="#">Link to this property</a>
 
-  - `step: optional number`
+response\_head: optional string
 
-- `result_info: object { count, max_cost, max_duration, 11 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+response\_head\_complete: optional boolean
 
-  - `max_cost: optional number`
+<a href="#">Link to this property</a>
 
-  - `max_duration: optional number`
+response\_size: optional number
 
-  - `max_tokens_in: optional number`
+<a href="#">Link to this property</a>
 
-  - `max_tokens_out: optional number`
+status\_code: optional number
 
-  - `max_total_tokens: optional number`
+<a href="#">Link to this property</a>
 
-  - `min_cost: optional number`
+step: optional number
 
-  - `min_duration: optional number`
+<a href="#">Link to this property</a>
 
-  - `min_tokens_in: optional number`
+</details>
 
-  - `min_tokens_out: optional number`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_get_response%20%3E%20(schema)>)
 
-  - `min_total_tokens: optional number`
+LogEditResponse = unknown
 
-  - `page: optional number`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_edit_response%20%3E%20(schema)>)
 
-  - `per_page: optional number`
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-- `success: boolean`
+LogDeleteResponse object {success }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+success: boolean
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "cached": true,
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "duration": 0,
-      "model": "model",
-      "path": "path",
-      "provider": "provider",
-      "success": true,
-      "tokens_in": 0,
-      "tokens_out": 0,
-      "cost": 0,
-      "custom_cost": true,
-      "metadata": "metadata",
-      "model_type": "model_type",
-      "request_content_type": "request_content_type",
-      "request_type": "request_type",
-      "response_content_type": "response_content_type",
-      "status_code": 0,
-      "step": 0
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "max_cost": 0,
-    "max_duration": 0,
-    "max_tokens_in": 0,
-    "max_tokens_out": 0,
-    "max_total_tokens": 0,
-    "min_cost": 0,
-    "min_duration": 0,
-    "min_tokens_in": 0,
-    "min_tokens_out": 0,
-    "min_total_tokens": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+</details>
 
-## Get Gateway Log Detail
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_delete_response%20%3E%20(schema)>)
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}`
+LogRequestResponse = unknown
 
-Retrieves detailed information for a specific AI Gateway log entry.
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_request_response%20%3E%20(schema)>)
 
-### Path Parameters
+LogResponseResponse = unknown
 
-- `account_id: string`
-
-- `gateway_id: string`
-
-  gateway id
-
-- `id: string`
-
-### Returns
-
-- `result: object { id, cached, created_at, 22 more }`
-
-  - `id: string`
-
-  - `cached: boolean`
-
-  - `created_at: string`
-
-  - `duration: number`
-
-  - `model: string`
-
-  - `path: string`
-
-  - `provider: string`
-
-  - `success: boolean`
-
-  - `tokens_in: number`
-
-  - `tokens_out: number`
-
-  - `cost: optional number`
-
-  - `custom_cost: optional boolean`
-
-  - `metadata: optional string`
-
-  - `model_type: optional string`
-
-  - `request_content_type: optional string`
-
-  - `request_head: optional string`
-
-  - `request_head_complete: optional boolean`
-
-  - `request_size: optional number`
-
-  - `request_type: optional string`
-
-  - `response_content_type: optional string`
-
-  - `response_head: optional string`
-
-  - `response_head_complete: optional boolean`
-
-  - `response_size: optional number`
-
-  - `status_code: optional number`
-
-  - `step: optional number`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "id",
-    "cached": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "duration": 0,
-    "model": "model",
-    "path": "path",
-    "provider": "provider",
-    "success": true,
-    "tokens_in": 0,
-    "tokens_out": 0,
-    "cost": 0,
-    "custom_cost": true,
-    "metadata": "metadata",
-    "model_type": "model_type",
-    "request_content_type": "request_content_type",
-    "request_head": "request_head",
-    "request_head_complete": true,
-    "request_size": 0,
-    "request_type": "request_type",
-    "response_content_type": "response_content_type",
-    "response_head": "response_head",
-    "response_head_complete": true,
-    "response_size": 0,
-    "status_code": 0,
-    "step": 0
-  },
-  "success": true
-}
-```
-
-## Patch Gateway Log
-
-**patch** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}`
-
-Updates metadata for an AI Gateway log entry.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `gateway_id: string`
-
-  gateway id
-
-- `id: string`
-
-### Body Parameters
-
-- `feedback: optional number`
-
-- `metadata: optional map[string or number or boolean]`
-
-  - `string`
-
-  - `number`
-
-  - `boolean`
-
-- `score: optional number`
-
-### Returns
-
-- `result: unknown`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs/$ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {},
-  "success": true
-}
-```
-
-## Delete Gateway Logs
-
-**delete** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs`
-
-Delete Gateway Logs
-
-### Path Parameters
-
-- `account_id: string`
-
-- `gateway_id: string`
-
-  gateway id
-
-### Query Parameters
-
-- `filters: optional array of object { key, operator, value }`
-
-  - `key: "id" or "created_at" or "request_content_type" or 21 more`
-
-    - `"id"`
-
-    - `"created_at"`
-
-    - `"request_content_type"`
-
-    - `"response_content_type"`
-
-    - `"request_type"`
-
-    - `"success"`
-
-    - `"cached"`
-
-    - `"provider"`
-
-    - `"model"`
-
-    - `"model_type"`
-
-    - `"cost"`
-
-    - `"tokens"`
-
-    - `"tokens_in"`
-
-    - `"tokens_out"`
-
-    - `"duration"`
-
-    - `"feedback"`
-
-    - `"event_id"`
-
-    - `"metadata.key"`
-
-    - `"metadata.value"`
-
-    - `"authentication"`
-
-    - `"wholesale"`
-
-    - `"compatibilityMode"`
-
-    - `"dlp_action"`
-
-    - `"user_agent"`
-
-  - `operator: "eq" or "neq" or "contains" or 2 more`
-
-    - `"eq"`
-
-    - `"neq"`
-
-    - `"contains"`
-
-    - `"lt"`
-
-    - `"gt"`
-
-  - `value: array of string or number or boolean`
-
-    - `string`
-
-    - `number`
-
-    - `boolean`
-
-- `limit: optional number`
-
-- `order_by: optional "created_at" or "provider" or "model" or 8 more`
-
-  - `"created_at"`
-
-  - `"provider"`
-
-  - `"model"`
-
-  - `"model_type"`
-
-  - `"success"`
-
-  - `"cached"`
-
-  - `"cost"`
-
-  - `"tokens_in"`
-
-  - `"tokens_out"`
-
-  - `"duration"`
-
-  - `"feedback"`
-
-- `order_by_direction: optional "asc" or "desc"`
-
-  - `"asc"`
-
-  - `"desc"`
-
-### Returns
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "success": true
-}
-```
-
-## Get Gateway Log Request
-
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}/request`
-
-Retrieves the original request payload for an AI Gateway log entry.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `gateway_id: string`
-
-  gateway id
-
-- `id: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs/$ID/request \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{}
-```
-
-## Get Gateway Log Response
-
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}/response`
-
-Retrieves the response payload for an AI Gateway log entry.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `gateway_id: string`
-
-  gateway id
-
-- `id: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs/$ID/response \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{}
-```
-
-## Domain Types
-
-### Log List Response
-
-- `LogListResponse object { id, cached, created_at, 16 more }`
-
-  - `id: string`
-
-  - `cached: boolean`
-
-  - `created_at: string`
-
-  - `duration: number`
-
-  - `model: string`
-
-  - `path: string`
-
-  - `provider: string`
-
-  - `success: boolean`
-
-  - `tokens_in: number`
-
-  - `tokens_out: number`
-
-  - `cost: optional number`
-
-  - `custom_cost: optional boolean`
-
-  - `metadata: optional string`
-
-  - `model_type: optional string`
-
-  - `request_content_type: optional string`
-
-  - `request_type: optional string`
-
-  - `response_content_type: optional string`
-
-  - `status_code: optional number`
-
-  - `step: optional number`
-
-### Log Get Response
-
-- `LogGetResponse object { id, cached, created_at, 22 more }`
-
-  - `id: string`
-
-  - `cached: boolean`
-
-  - `created_at: string`
-
-  - `duration: number`
-
-  - `model: string`
-
-  - `path: string`
-
-  - `provider: string`
-
-  - `success: boolean`
-
-  - `tokens_in: number`
-
-  - `tokens_out: number`
-
-  - `cost: optional number`
-
-  - `custom_cost: optional boolean`
-
-  - `metadata: optional string`
-
-  - `model_type: optional string`
-
-  - `request_content_type: optional string`
-
-  - `request_head: optional string`
-
-  - `request_head_complete: optional boolean`
-
-  - `request_size: optional number`
-
-  - `request_type: optional string`
-
-  - `response_content_type: optional string`
-
-  - `response_head: optional string`
-
-  - `response_head_complete: optional boolean`
-
-  - `response_size: optional number`
-
-  - `status_code: optional number`
-
-  - `step: optional number`
-
-### Log Edit Response
-
-- `LogEditResponse = unknown`
-
-### Log Delete Response
-
-- `LogDeleteResponse object { success }`
-
-  - `success: boolean`
-
-### Log Request Response
-
-- `LogRequestResponse = unknown`
-
-### Log Response Response
-
-- `LogResponseResponse = unknown`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(model)%20log_response_response%20%3E%20(schema)>)

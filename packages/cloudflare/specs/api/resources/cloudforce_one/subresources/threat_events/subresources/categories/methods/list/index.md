@@ -1,45 +1,120 @@
-## Lists categories across multiple datasets
+---
+title: Lists categories across multiple datasets
+---
 
-**get** `/accounts/{account_id}/cloudforce-one/events/categories`
+[Skip to content](#_top)
 
-Lists categories across multiple datasets
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
 
-  Account ID.
+[Categories](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories)
 
-### Query Parameters
+Copy Markdown
 
-- `datasetIds: optional array of string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Array of dataset IDs to query categories from. If not provided, uses the default dataset.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `killChain: number`
+# Lists categories across multiple datasets
 
-- `name: string`
+GET/accounts/{account\_id}/cloudforce-one/events/categories
 
-- `uuid: string`
+Lists all threat event categories configured for classifying and organizing threat events.
 
-- `mitreAttack: optional array of string`
+##### Security
 
-- `mitreCapec: optional array of string`
+API Token
 
-- `shortname: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Example
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-```http
+##### Accepted Permissions (at least one required)
+
+`Cloudforce One Write``Cloudforce One Read`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account ID.
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+datasetIds: optional array of string
+
+Array of dataset IDs to query categories from. If not provided, uses the default dataset.
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20datasetIds%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+killChain: number
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20killChain>)
+
+name: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20name>)
+
+uuid: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20uuid>)
+
+mitreAttack: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20mitreAttack>)
+
+mitreCapec: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20mitreCapec>)
+
+shortname: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20shortname>)
+
+### Lists categories across multiple datasets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+[
+  {
+    "killChain": 0,
+    "name": "name",
+    "uuid": "12345678-1234-1234-1234-1234567890ab",
+    "mitreAttack": [
+      "T1234"
+    ],
+    "mitreCapec": [
+      "123"
+    ],
+    "shortname": "shortname"
+  }
+]
+```
+
+##### Returns Examples
+
+200 example
+
+```
 [
   {
     "killChain": 0,

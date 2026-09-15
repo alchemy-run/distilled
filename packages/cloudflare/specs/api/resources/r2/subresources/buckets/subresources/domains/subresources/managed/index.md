@@ -1,240 +1,97 @@
+---
+title: Managed
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+[Domains](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Managed
 
-## Get r2.dev Domain of Bucket
+##### [Get r2.dev Domain of Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/managed/methods/list)
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/managed
 
-Gets state of public access over the bucket's R2-managed (r2.dev) domain.
+##### [Update r2.dev Domain of Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/managed/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/managed
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account ID.
+<details>
 
-- `bucket_name: string`
+<summary>
 
-  Name of the bucket.
+ManagedListResponse object {bucketId, domain, enabled }
 
-### Header Parameters
+</summary>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+bucketId: string
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+Bucket ID.
 
-  - `"default"`
+maxLength32
 
-  - `"eu"`
+<a href="#">Link to this property</a>
 
-  - `"fedramp"`
+domain: string
 
-### Returns
+Domain name of the bucket’s r2.dev domain.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+enabled: boolean
 
-  - `message: string`
+Whether this bucket is publicly accessible at the r2.dev domain.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(model)%20managed_list_response%20%3E%20(schema)>)
 
-- `messages: array of string`
+<details>
 
-- `result: object { bucketId, domain, enabled }`
+<summary>
 
-  - `bucketId: string`
+ManagedUpdateResponse object {bucketId, domain, enabled }
 
-    Bucket ID.
+</summary>
 
-  - `domain: string`
+bucketId: string
 
-    Domain name of the bucket's r2.dev domain.
+Bucket ID.
 
-  - `enabled: boolean`
+maxLength32
 
-    Whether this bucket is publicly accessible at the r2.dev domain.
+<a href="#">Link to this property</a>
 
-- `success: true`
+domain: string
 
-  Whether the API call was successful.
+Domain name of the bucket’s r2.dev domain.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+enabled: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/managed \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Whether this bucket is publicly accessible at the r2.dev domain.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "bucketId": "0113a9e4549cf9b1ff1bf56e04da0cef",
-    "domain": "pub-0113a9e4549cf9b1ff1bf56e04da0cef.r2.dev",
-    "enabled": true
-  },
-  "success": true
-}
-```
+</details>
 
-## Update r2.dev Domain of Bucket
-
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed`
-
-Updates state of public access over the bucket's R2-managed (r2.dev) domain.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  Whether to enable public bucket access at the r2.dev domain.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { bucketId, domain, enabled }`
-
-  - `bucketId: string`
-
-    Bucket ID.
-
-  - `domain: string`
-
-    Domain name of the bucket's r2.dev domain.
-
-  - `enabled: boolean`
-
-    Whether this bucket is publicly accessible at the r2.dev domain.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/managed \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "bucketId": "0113a9e4549cf9b1ff1bf56e04da0cef",
-    "domain": "pub-0113a9e4549cf9b1ff1bf56e04da0cef.r2.dev",
-    "enabled": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Managed List Response
-
-- `ManagedListResponse object { bucketId, domain, enabled }`
-
-  - `bucketId: string`
-
-    Bucket ID.
-
-  - `domain: string`
-
-    Domain name of the bucket's r2.dev domain.
-
-  - `enabled: boolean`
-
-    Whether this bucket is publicly accessible at the r2.dev domain.
-
-### Managed Update Response
-
-- `ManagedUpdateResponse object { bucketId, domain, enabled }`
-
-  - `bucketId: string`
-
-    Bucket ID.
-
-  - `domain: string`
-
-    Domain name of the bucket's r2.dev domain.
-
-  - `enabled: boolean`
-
-    Whether this bucket is publicly accessible at the r2.dev domain.
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(model)%20managed_update_response%20%3E%20(schema)>)

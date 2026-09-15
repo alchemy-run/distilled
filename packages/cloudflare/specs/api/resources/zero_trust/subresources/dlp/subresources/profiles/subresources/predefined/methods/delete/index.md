@@ -1,60 +1,221 @@
-## Delete predefined profile
+---
+title: Delete predefined profile
+---
 
-**delete** `/accounts/{account_id}/dlp/profiles/predefined/{profile_id}`
+[Skip to content](#_top)
 
-This is a no-op as predefined profiles can't be deleted but is needed for our generated terraform API.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-- `profile_id: string`
+[Profiles](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles)
 
-### Returns
+[Predefined](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/predefined)
 
-- `errors: array of object { code, message, documentation_url, source }`
+Copy Markdown
 
-  - `code: number`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `message: string`
+---
 
-  - `documentation_url: optional string`
+**Copy Markdown****View as Markdown**
 
-  - `source: optional object { pointer }`
+# Delete predefined profile
 
-    - `pointer: optional string`
+DELETE/accounts/{account\_id}/dlp/profiles/predefined/{profile\_id}
 
-- `messages: array of object { code, message, documentation_url, source }`
+This is a no-op as predefined profiles can’t be deleted but is needed for our generated terraform API.
 
-  - `code: number`
+##### Security
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Token</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `success: true`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Whether the API call was successful.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `true`
+</details>
 
-- `result: optional unknown`
+<details>
 
-### Example
+<summary>API Email + API Key</summary>
 
-```http
+
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Zero Trust Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+profile\_id: string
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20profile_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+result: optional unknown
+
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete predefined profile
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/predefined/$PROFILE_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {}
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

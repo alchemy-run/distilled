@@ -1,499 +1,253 @@
+---
+title: Latest
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Connectors](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors)
+
+[Events](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Latest
 
-## Get latest Events
+##### [Get latest Events](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/events/subresources/latest/methods/list)
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events/latest`
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/events/latest
 
-Get latest Events
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier
+LatestListResponse object {count, items }
 
-- `connector_id: string`
+</summary>
 
-### Returns
+count: number
 
-- `result: object { count, items }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+<details>
 
-  - `items: array of object { e, n, t, v }`
+<summary>
 
-    - `e: object { k }  or object { k }  or object { k }  or 18 more`
+items: array of object {e, n, t, v }
 
-      - `Init object { k }`
+</summary>
 
-        - `k: "Init"`
+<details>
 
-          Initialized process
+<summary>
 
-          - `"Init"`
+e: object {k }
 
-      - `Leave object { k }`
+Event kind plus event-specific payload fields.
 
-        - `k: "Leave"`
+Event kinds:
 
-          Stopped process
+- <code>Init</code>: Initialized process
+- <code>Leave</code>: Stopped process
+- <code>StartAttestation</code>: Started attestation
+- <code>FinishAttestationSuccess</code>: Finished attestation
+- <code>FinishAttestationFailure</code>: Failed attestation
+- <code>StartRotateCryptKey</code>: Started crypt key rotation
+- <code>FinishRotateCryptKeySuccess</code>: Finished crypt key rotation
+- <code>FinishRotateCryptKeyFailure</code>: Failed crypt key rotation
+- <code>StartRotatePki</code>: Started PKI rotation
+- <code>FinishRotatePkiSuccess</code>: Finished PKI rotation
+- <code>FinishRotatePkiFailure</code>: Failed PKI rotation
+- <code>StartUpgrade</code>: Started upgrade
+- <code>FinishUpgradeSuccess</code>: Finished upgrade
+- <code>FinishUpgradeFailure</code>: Failed upgrade
+- <code>BlessSlotSuccess</code>: Blessed boot entry slot
+- <code>BlessSlotPending</code>: Boot entry slot is not yet blessed
+- <code>BlessSlotFailure</code>: Failed to bless boot entry slot
+- <code>Reconcile</code>: Reconciled
+- <code>ConfigureCloudflaredTunnel</code>: Configured Cloudflared tunnel
+- <code>RekeyInstallBoth</code>: Installed initial inbound and outbound keys
+- <code>RekeyStart</code>: Installed new inbound key, kept old outbound
+- <code>RekeyRestart</code>: Restarted in-progress rekey with newer key material
+- <code>RekeyAdvance</code>: Confirmed traffic on new inbound key, swapped outbound to new
+- <code>RekeyComplete</code>: Deleted old keys
+- <code>RekeyReset</code>: Deleted all keys after receiving an unexpected key
+- <code>HaTransition</code>: Completed HA state transition
+- <code>HaError</code>: Received unexpected HA error
+- <code>HaInit</code>: Initialized HA subsystem
+- <code>HaLeave</code>: Stopped HA subsystem
 
-          - `"Leave"`
+</summary>
 
-      - `StartAttestation object { k }`
+<details>
 
-        - `k: "StartAttestation"`
+<summary>
 
-          Started attestation
+k: "Init"or "Leave"or "StartAttestation"or 26 more
 
-          - `"StartAttestation"`
+Event kind
 
-      - `FinishAttestationSuccess object { k }`
+</summary>
 
-        - `k: "FinishAttestationSuccess"`
+One of the following:
 
-          Finished attestation
+"Init"
 
-          - `"FinishAttestationSuccess"`
+<a href="#">Link to this property</a>
 
-      - `FinishAttestationFailure object { k }`
+"Leave"
 
-        - `k: "FinishAttestationFailure"`
+<a href="#">Link to this property</a>
 
-          Failed attestation
+"StartAttestation"
 
-          - `"FinishAttestationFailure"`
+<a href="#">Link to this property</a>
 
-      - `StartRotateCryptKey object { k }`
+"FinishAttestationSuccess"
 
-        - `k: "StartRotateCryptKey"`
+<a href="#">Link to this property</a>
 
-          Started crypt key rotation
+"FinishAttestationFailure"
 
-          - `"StartRotateCryptKey"`
+<a href="#">Link to this property</a>
 
-      - `FinishRotateCryptKeySuccess object { k }`
+"StartRotateCryptKey"
 
-        - `k: "FinishRotateCryptKeySuccess"`
+<a href="#">Link to this property</a>
 
-          Finished crypt key rotation
+"FinishRotateCryptKeySuccess"
 
-          - `"FinishRotateCryptKeySuccess"`
+<a href="#">Link to this property</a>
 
-      - `FinishRotateCryptKeyFailure object { k }`
+"FinishRotateCryptKeyFailure"
 
-        - `k: "FinishRotateCryptKeyFailure"`
+<a href="#">Link to this property</a>
 
-          Failed crypt key rotation
+"StartRotatePki"
 
-          - `"FinishRotateCryptKeyFailure"`
+<a href="#">Link to this property</a>
 
-      - `StartRotatePki object { k }`
+"FinishRotatePkiSuccess"
 
-        - `k: "StartRotatePki"`
+<a href="#">Link to this property</a>
 
-          Started PKI rotation
+"FinishRotatePkiFailure"
 
-          - `"StartRotatePki"`
+<a href="#">Link to this property</a>
 
-      - `FinishRotatePkiSuccess object { k }`
+"StartUpgrade"
 
-        - `k: "FinishRotatePkiSuccess"`
+<a href="#">Link to this property</a>
 
-          Finished PKI rotation
+"FinishUpgradeSuccess"
 
-          - `"FinishRotatePkiSuccess"`
+<a href="#">Link to this property</a>
 
-      - `FinishRotatePkiFailure object { k }`
+"FinishUpgradeFailure"
 
-        - `k: "FinishRotatePkiFailure"`
+<a href="#">Link to this property</a>
 
-          Failed PKI rotation
+"BlessSlotSuccess"
 
-          - `"FinishRotatePkiFailure"`
+<a href="#">Link to this property</a>
 
-      - `StartUpgrade object { k, url }`
+"BlessSlotPending"
 
-        - `k: "StartUpgrade"`
+<a href="#">Link to this property</a>
 
-          Started upgrade
+"BlessSlotFailure"
 
-          - `"StartUpgrade"`
+<a href="#">Link to this property</a>
 
-        - `url: string`
+"Reconcile"
 
-          Location of upgrade bundle
+<a href="#">Link to this property</a>
 
-      - `FinishUpgradeSuccess object { k }`
+"ConfigureCloudflaredTunnel"
 
-        - `k: "FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-          Finished upgrade
+"RekeyInstallBoth"
 
-          - `"FinishUpgradeSuccess"`
+<a href="#">Link to this property</a>
 
-      - `FinishUpgradeFailure object { k }`
+"RekeyStart"
 
-        - `k: "FinishUpgradeFailure"`
+<a href="#">Link to this property</a>
 
-          Failed upgrade
+"RekeyRestart"
 
-          - `"FinishUpgradeFailure"`
+<a href="#">Link to this property</a>
 
-      - `Reconcile object { k }`
+"RekeyAdvance"
 
-        - `k: "Reconcile"`
+<a href="#">Link to this property</a>
 
-          Reconciled
+"RekeyComplete"
 
-          - `"Reconcile"`
+<a href="#">Link to this property</a>
 
-      - `ConfigureCloudflaredTunnel object { k }`
+"RekeyReset"
 
-        - `k: "ConfigureCloudflaredTunnel"`
+<a href="#">Link to this property</a>
 
-          Configured Cloudflared tunnel
+"HaTransition"
 
-          - `"ConfigureCloudflaredTunnel"`
+<a href="#">Link to this property</a>
 
-      - `RekeyInstallBoth object { k, tunnel_id }`
+"HaError"
 
-        - `k: "RekeyInstallBoth"`
+<a href="#">Link to this property</a>
 
-          Installed initial inbound and outbound keys
+"HaInit"
 
-          - `"RekeyInstallBoth"`
+<a href="#">Link to this property</a>
 
-        - `tunnel_id: string`
+"HaLeave"
 
-          Tunnel identifier
+<a href="#">Link to this property</a>
 
-      - `RekeyStart object { k, tunnel_id }`
+</details>
 
-        - `k: "RekeyStart"`
+<a href="#">Link to this property</a>
 
-          Installed new inbound key, kept old outbound
+</details>
 
-          - `"RekeyStart"`
+<a href="#">Link to this property</a>
 
-        - `tunnel_id: string`
+n: number
 
-          Tunnel identifier
+Sequence number, used to order events with the same timestamp
 
-      - `RekeyAdvance object { k, tunnel_id }`
+<a href="#">Link to this property</a>
 
-        - `k: "RekeyAdvance"`
+t: number
 
-          Confirmed traffic on new inbound key, swapped outbound to new
+Time the Event was recorded (seconds since the Unix epoch)
 
-          - `"RekeyAdvance"`
+<a href="#">Link to this property</a>
 
-        - `tunnel_id: string`
+v: optional string
 
-          Tunnel identifier
+Version
 
-      - `RekeyComplete object { k, tunnel_id }`
+<a href="#">Link to this property</a>
 
-        - `k: "RekeyComplete"`
+</details>
 
-          Deleted old keys
+<a href="#">Link to this property</a>
 
-          - `"RekeyComplete"`
+</details>
 
-        - `tunnel_id: string`
-
-          Tunnel identifier
-
-      - `RekeyReset object { k, tunnel_id }`
-
-        - `k: "RekeyReset"`
-
-          Deleted all keys after receiving an unexpected key
-
-          - `"RekeyReset"`
-
-        - `tunnel_id: string`
-
-          Tunnel identifier
-
-    - `n: number`
-
-      Sequence number, used to order events with the same timestamp
-
-    - `t: number`
-
-      Time the Event was recorded (seconds since the Unix epoch)
-
-    - `v: optional string`
-
-      Version
-
-- `success: boolean`
-
-- `errors: optional array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: optional array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/events/latest \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "count": 0,
-    "items": [
-      {
-        "e": {
-          "k": "Init"
-        },
-        "n": 0,
-        "t": 0,
-        "v": "v"
-      }
-    ]
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Latest List Response
-
-- `LatestListResponse object { count, items }`
-
-  - `count: number`
-
-  - `items: array of object { e, n, t, v }`
-
-    - `e: object { k }  or object { k }  or object { k }  or 18 more`
-
-      - `Init object { k }`
-
-        - `k: "Init"`
-
-          Initialized process
-
-          - `"Init"`
-
-      - `Leave object { k }`
-
-        - `k: "Leave"`
-
-          Stopped process
-
-          - `"Leave"`
-
-      - `StartAttestation object { k }`
-
-        - `k: "StartAttestation"`
-
-          Started attestation
-
-          - `"StartAttestation"`
-
-      - `FinishAttestationSuccess object { k }`
-
-        - `k: "FinishAttestationSuccess"`
-
-          Finished attestation
-
-          - `"FinishAttestationSuccess"`
-
-      - `FinishAttestationFailure object { k }`
-
-        - `k: "FinishAttestationFailure"`
-
-          Failed attestation
-
-          - `"FinishAttestationFailure"`
-
-      - `StartRotateCryptKey object { k }`
-
-        - `k: "StartRotateCryptKey"`
-
-          Started crypt key rotation
-
-          - `"StartRotateCryptKey"`
-
-      - `FinishRotateCryptKeySuccess object { k }`
-
-        - `k: "FinishRotateCryptKeySuccess"`
-
-          Finished crypt key rotation
-
-          - `"FinishRotateCryptKeySuccess"`
-
-      - `FinishRotateCryptKeyFailure object { k }`
-
-        - `k: "FinishRotateCryptKeyFailure"`
-
-          Failed crypt key rotation
-
-          - `"FinishRotateCryptKeyFailure"`
-
-      - `StartRotatePki object { k }`
-
-        - `k: "StartRotatePki"`
-
-          Started PKI rotation
-
-          - `"StartRotatePki"`
-
-      - `FinishRotatePkiSuccess object { k }`
-
-        - `k: "FinishRotatePkiSuccess"`
-
-          Finished PKI rotation
-
-          - `"FinishRotatePkiSuccess"`
-
-      - `FinishRotatePkiFailure object { k }`
-
-        - `k: "FinishRotatePkiFailure"`
-
-          Failed PKI rotation
-
-          - `"FinishRotatePkiFailure"`
-
-      - `StartUpgrade object { k, url }`
-
-        - `k: "StartUpgrade"`
-
-          Started upgrade
-
-          - `"StartUpgrade"`
-
-        - `url: string`
-
-          Location of upgrade bundle
-
-      - `FinishUpgradeSuccess object { k }`
-
-        - `k: "FinishUpgradeSuccess"`
-
-          Finished upgrade
-
-          - `"FinishUpgradeSuccess"`
-
-      - `FinishUpgradeFailure object { k }`
-
-        - `k: "FinishUpgradeFailure"`
-
-          Failed upgrade
-
-          - `"FinishUpgradeFailure"`
-
-      - `Reconcile object { k }`
-
-        - `k: "Reconcile"`
-
-          Reconciled
-
-          - `"Reconcile"`
-
-      - `ConfigureCloudflaredTunnel object { k }`
-
-        - `k: "ConfigureCloudflaredTunnel"`
-
-          Configured Cloudflared tunnel
-
-          - `"ConfigureCloudflaredTunnel"`
-
-      - `RekeyInstallBoth object { k, tunnel_id }`
-
-        - `k: "RekeyInstallBoth"`
-
-          Installed initial inbound and outbound keys
-
-          - `"RekeyInstallBoth"`
-
-        - `tunnel_id: string`
-
-          Tunnel identifier
-
-      - `RekeyStart object { k, tunnel_id }`
-
-        - `k: "RekeyStart"`
-
-          Installed new inbound key, kept old outbound
-
-          - `"RekeyStart"`
-
-        - `tunnel_id: string`
-
-          Tunnel identifier
-
-      - `RekeyAdvance object { k, tunnel_id }`
-
-        - `k: "RekeyAdvance"`
-
-          Confirmed traffic on new inbound key, swapped outbound to new
-
-          - `"RekeyAdvance"`
-
-        - `tunnel_id: string`
-
-          Tunnel identifier
-
-      - `RekeyComplete object { k, tunnel_id }`
-
-        - `k: "RekeyComplete"`
-
-          Deleted old keys
-
-          - `"RekeyComplete"`
-
-        - `tunnel_id: string`
-
-          Tunnel identifier
-
-      - `RekeyReset object { k, tunnel_id }`
-
-        - `k: "RekeyReset"`
-
-          Deleted all keys after receiving an unexpected key
-
-          - `"RekeyReset"`
-
-        - `tunnel_id: string`
-
-          Tunnel identifier
-
-    - `n: number`
-
-      Sequence number, used to order events with the same timestamp
-
-    - `t: number`
-
-      Time the Event was recorded (seconds since the Unix epoch)
-
-    - `v: optional string`
-
-      Version
+[Link to this property](#)%20magic_transit.connectors.events.latest%20%3E%20(model)%20latest_list_response%20%3E%20(schema)>)

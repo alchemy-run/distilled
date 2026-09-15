@@ -1,92 +1,83 @@
+---
+title: Statuses
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Waiting Rooms](https://developers.cloudflare.com/api/resources/waiting_rooms)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Statuses
 
-## Get waiting room status
+##### [Get waiting room status](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/statuses/methods/get)
 
-**get** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/status`
+GET/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/status
 
-Fetches the status of a configured waiting room. Response fields include:
+##### ModelsExpand Collapse
 
-1. `status`: String indicating the status of the waiting room. The possible status are:
-   - **not\_queueing** indicates that the configured thresholds have not been met and all users are going through to the origin.
-   - **queueing** indicates that the thresholds have been met and some users are held in the waiting room.
-   - **event\_prequeueing** indicates that an event is active and is currently prequeueing users before it starts.
-   - **suspended** indicates that the room is suspended.
-1. `event_id`: String of the current event's `id` if an event is active, otherwise an empty string.
-1. `estimated_queued_users`: Integer of the estimated number of users currently waiting in the queue.
-1. `estimated_total_active_users`: Integer of the estimated number of users currently active on the origin.
-1. `max_estimated_time_minutes`: Integer of the maximum estimated time currently presented to the users.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+StatusGetResponse object {estimated\_queued\_users, estimated\_total\_active\_users, event\_id, 2 more }
 
-  Identifier.
+</summary>
 
-- `waiting_room_id: string`
+estimated\_queued\_users: optional number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { estimated_queued_users, estimated_total_active_users, event_id, 2 more }`
+estimated\_total\_active\_users: optional number
 
-  - `estimated_queued_users: optional number`
+<a href="#">Link to this property</a>
 
-  - `estimated_total_active_users: optional number`
+event\_id: optional string
 
-  - `event_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `max_estimated_time_minutes: optional number`
+max\_estimated\_time\_minutes: optional number
 
-  - `status: optional "event_prequeueing" or "not_queueing" or "queueing" or "suspended"`
+<a href="#">Link to this property</a>
 
-    - `"event_prequeueing"`
+<details>
 
-    - `"not_queueing"`
+<summary>
 
-    - `"queueing"`
+status: optional "event\_prequeueing"or "not\_queueing"or "queueing"or "suspended"
 
-    - `"suspended"`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/status \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"event\_prequeueing"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "estimated_queued_users": 0,
-    "estimated_total_active_users": 0,
-    "event_id": "25756b2dfe6e378a06b033b670413757",
-    "max_estimated_time_minutes": 0,
-    "status": "queueing"
-  }
-}
-```
+"not\_queueing"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Status Get Response
+"queueing"
 
-- `StatusGetResponse object { estimated_queued_users, estimated_total_active_users, event_id, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `estimated_queued_users: optional number`
+"suspended"
 
-  - `estimated_total_active_users: optional number`
+<a href="#">Link to this property</a>
 
-  - `event_id: optional string`
+</details>
 
-  - `max_estimated_time_minutes: optional number`
+<a href="#">Link to this property</a>
 
-  - `status: optional "event_prequeueing" or "not_queueing" or "queueing" or "suspended"`
+</details>
 
-    - `"event_prequeueing"`
-
-    - `"not_queueing"`
-
-    - `"queueing"`
-
-    - `"suspended"`
+[Link to this property](#)%20waiting_rooms.statuses%20%3E%20(model)%20status_get_response%20%3E%20(schema)>)

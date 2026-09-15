@@ -1,179 +1,488 @@
-## Create a new dataset
+---
+title: Create a new dataset
+---
 
-**post** `/accounts/{account_id}/dlp/datasets`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a new dataset
+
+POST/accounts/{account\_id}/dlp/datasets
 
 Creates a new DLP (Data Loss Prevention) dataset for storing custom detection patterns. Datasets can contain exact match data, word lists, or EDM (Exact Data Match) configurations.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `name: string`
 
-- `case_sensitive: optional boolean`
 
-  Only applies to custom word lists.
-  Determines if the words should be matched in a case-sensitive manner
-  Cannot be set to false if `secret` is true or undefined
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `description: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The description of the dataset.
+</details>
 
-- `encoding_version: optional number`
+<details>
 
-  Dataset encoding version
+<summary>API Email + API Key</summary>
 
-  Non-secret custom word lists with no header are always version 1.
-  Secret EDM lists with no header are version 1.
-  Multicolumn CSV with headers are version 2.
-  Omitting this field provides the default value 0, which is interpreted
-  the same as 1.
 
-- `secret: optional boolean`
 
-  Generate a secret dataset.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  If true, the response will include a secret to use with the EDM encoder.
-  If false, the response has no secret and the dataset is uploaded in plaintext.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Zero Trust Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+##### Body ParametersJSONExpand Collapse
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+case\_sensitive: optional boolean
 
-    - `pointer: optional string`
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if `secret` is true or undefined
 
-- `success: true`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20case_sensitive%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+description: optional string
 
-  - `true`
+The description of the dataset.
 
-- `result: optional DatasetCreation`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-  - `dataset: Dataset`
+encoding\_version: optional number
 
-    - `id: string`
+Dataset encoding version
 
-    - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
+Non-secret custom word lists with no header are always version 1. Secret EDM lists with no header are version 1. Multicolumn CSV with headers are version 2. Omitting this field provides the default value 0, which is interpreted the same as 1.
 
-      - `entry_id: string`
+formatint32
 
-      - `header_name: string`
+minimum0
 
-      - `num_cells: number`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20encoding_version%20%3E%20(schema)>)
 
-      - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+secret: optional boolean
 
-        - `"empty"`
+Generate a secret dataset.
 
-        - `"uploading"`
+If true, the response will include a secret to use with the EDM encoder. If false, the response has no secret and the dataset is uploaded in plaintext.
 
-        - `"pending"`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20secret%20%3E%20(schema)>)
 
-        - `"processing"`
+##### ReturnsExpand Collapse
 
-        - `"failed"`
+<details>
 
-        - `"complete"`
+<summary>
 
-    - `created_at: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `encoding_version: number`
+</summary>
 
-    - `name: string`
+code: number
 
-    - `num_cells: number`
+minimum1000
 
-    - `secret: boolean`
+<a href="#">Link to this property</a>
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+message: string
 
-      - `"empty"`
+<a href="#">Link to this property</a>
 
-      - `"uploading"`
+documentation\_url: optional string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+<details>
 
-      - `"failed"`
+<summary>
 
-      - `"complete"`
+source: optional object {pointer }
 
-    - `updated_at: string`
+</summary>
 
-      Stores when the dataset was last updated.
+pointer: optional string
 
-      This includes name or description changes as well as uploads.
+<a href="#">Link to this property</a>
 
-    - `uploads: array of object { num_cells, status, version }`
+</details>
 
-      - `num_cells: number`
+<a href="#">Link to this property</a>
 
-      - `status: "empty" or "uploading" or "pending" or 3 more`
+</details>
 
-        - `"empty"`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-        - `"uploading"`
+<details>
 
-        - `"pending"`
+<summary>
 
-        - `"processing"`
+messages: array of object {code, message, documentation\_url, source }
 
-        - `"failed"`
+</summary>
 
-        - `"complete"`
+code: number
 
-      - `version: number`
+minimum1000
 
-    - `case_sensitive: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+message: string
 
-      The description of the dataset.
+<a href="#">Link to this property</a>
 
-  - `encoding_version: number`
+documentation\_url: optional string
 
-    Encoding version to use for dataset.
+<a href="#">Link to this property</a>
 
-  - `max_cells: number`
+<details>
 
-  - `version: number`
+<summary>
 
-    The version to use when uploading the dataset.
+source: optional object {pointer }
 
-  - `secret: optional string`
+</summary>
 
-    The secret to use for Exact Data Match datasets.
+pointer: optional string
 
-    This is not present in Custom Wordlists.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset_creation%20%3E%20(schema)">DatasetCreation</a> { dataset, encoding\_version, max\_cells, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+dataset: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset%20%3E%20(schema)">Dataset</a> { id, columns, created\_at, 9 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+columns: array of object {entry\_id, header\_name, num\_cells, upload\_status }
+
+</summary>
+
+entry\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+header\_name: string
+
+<a href="#">Link to this property</a>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+upload\_status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+encoding\_version: number
+
+formatint32
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+secret: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Stores when the dataset was last updated.
+
+This includes name or description changes as well as uploads.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+uploads: array of object {num\_cells, status, version }
+
+</summary>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+version: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+case\_sensitive: optional boolean
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The description of the dataset.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+encoding\_version: number
+
+Encoding version to use for dataset.
+
+formatint32
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+max\_cells: number
+
+formatint64
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+version: number
+
+The version to use when uploading the dataset.
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+The secret to use for Exact Data Match datasets.
+
+This is not present in Custom Wordlists.
+
+formatpassword
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create a new dataset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -182,9 +491,72 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "dataset": {
+      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "columns": [
+        {
+          "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+          "header_name": "header_name",
+          "num_cells": 0,
+          "upload_status": "empty"
+        }
+      ],
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "encoding_version": 0,
+      "name": "name",
+      "num_cells": 0,
+      "secret": true,
+      "status": "empty",
+      "updated_at": "2019-12-27T18:11:19.117Z",
+      "uploads": [
+        {
+          "num_cells": 0,
+          "status": "empty",
+          "version": 0
+        }
+      ],
+      "case_sensitive": true,
+      "description": "description"
+    },
+    "encoding_version": 0,
+    "max_cells": 0,
+    "version": 0,
+    "secret": "secret"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

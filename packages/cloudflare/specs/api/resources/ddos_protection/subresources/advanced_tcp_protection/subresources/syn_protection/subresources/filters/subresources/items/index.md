@@ -1,408 +1,233 @@
+---
+title: Items
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[SYN Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection)
+
+[Filters](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Items
 
-## Get SYN Protection filter.
+##### [Get SYN Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/subresources/items/methods/get)
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters/{filter\_id}
 
-Get a SYN Protection filter specified by the given UUID.
+##### [Update SYN Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/subresources/items/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters/{filter\_id}
 
-- `account_id: string`
+##### [Delete SYN Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/subresources/items/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters/{filter\_id}
 
-- `filter_id: string`
+##### ModelsExpand Collapse
 
-  UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ItemGetResponse object {id, created\_on, expression, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique ID of the expression filter.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The creation timestamp of the expression filter.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+expression: string
 
-  - `source: optional object { pointer }`
+The filter expression.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+mode: string
 
-  Whether the API call was successful.
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, expression, 2 more }`
+modified\_on: string
 
-  - `id: string`
+The last modification timestamp of the expression filter.
 
-    The unique ID of the expression filter.
+formatdate-time
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the expression filter.
+</details>
 
-  - `expression: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-    The filter expression.
+<details>
 
-  - `mode: string`
+<summary>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+ItemEditResponse object {id, created\_on, expression, 2 more }
 
-  - `modified_on: string`
+</summary>
 
-    The last modification timestamp of the expression filter.
+id: string
 
-### Example
+The unique ID of the expression filter.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters/$FILTER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_on: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+The creation timestamp of the expression filter.
 
-## Update SYN Protection filter.
+formatdate-time
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}`
+<a href="#">Link to this property</a>
 
-Update a SYN Protection filter specified by the given UUID.
+expression: string
 
-### Path Parameters
+The filter expression.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+mode: string
 
-- `filter_id: string`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+modified\_on: string
 
-- `expression: optional string`
+The last modification timestamp of the expression filter.
 
-  The new filter expression. Optional.
+formatdate-time
 
-- `mode: optional string`
+<a href="#">Link to this property</a>
 
-  The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.
+</details>
 
-### Returns
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+ItemDeleteResponse object {errors, messages, success }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+code: number
 
-  - `documentation_url: optional string`
+minimum1000
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+message: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+documentation\_url: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, expression, 2 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-    The unique ID of the expression filter.
+source: optional object {pointer }
 
-  - `created_on: string`
+</summary>
 
-    The creation timestamp of the expression filter.
+pointer: optional string
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    The filter expression.
+</details>
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+</details>
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the expression filter.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters/$FILTER_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }"
-        }'
-```
+messages: array of object {code, message, documentation\_url, source }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+code: number
 
-## Delete SYN Protection filter.
+minimum1000
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}`
+<a href="#">Link to this property</a>
 
-Delete a SYN Protection filter specified by the given UUID.
+message: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+documentation\_url: optional string
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `filter_id: string`
+<details>
 
-  UUID.
+<summary>
 
-### Returns
+source: optional object {pointer }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+pointer: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+success: true
 
-  - `message: string`
+Whether the API call was successful.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters/$FILTER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Item Get Response
-
-- `ItemGetResponse object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)

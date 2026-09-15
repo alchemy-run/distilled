@@ -1,85 +1,231 @@
-## List application categories
+---
+title: List application categories
+---
 
-**get** `/accounts/{account_id}/resource-library/categories`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Resource Library](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library)
+
+[Categories](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/categories)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List application categories
+
+GET/accounts/{account\_id}/resource-library/categories
 
 List application categories.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Query Parameters
+<summary>API Token</summary>
 
-- `limit: optional number`
 
-  Limit of number of results to return.
 
-- `offset: optional number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Offset of results to return.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+account\_id: string
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: true`
+##### Q uery ParametersExpand Collapse
 
-  Indicates whether the API call was successful.
+limit: optional number
 
-  - `true`
+Limit of number of results to return.
 
-- `result: optional array of object { id, created_at, description, name }`
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-  Returns the list of categories.
+offset: optional number
 
-  - `id: string`
+Offset of results to return.
 
-    Returns the category ID.
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-  - `created_at: string`
+##### ReturnsExpand Collapse
 
-    Returns the category creation time.
+<details>
 
-  - `description: string`
+<summary>
 
-    Returns the category description.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `name: string`
+</summary>
 
-    Returns the category name.
+code: number
 
-### Example
+minimum1000
 
-```http
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_at, description, name }
+
+Returns the list of categories.
+
+</summary>
+
+id: number
+
+Returns the category ID.
+
+formatint64
+
+maximum4294967295
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Returns the category creation time.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Returns the category description.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Returns the category name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List application categories
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/categories \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -104,7 +250,45 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/
   "success": true,
   "result": [
     {
-      "id": "12345678-1234-1234-1234-123456789012",
+      "id": 12,
+      "created_at": "2025-01-01T00:00:00Z",
+      "description": "Category description",
+      "name": "Category name"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": 12,
       "created_at": "2025-01-01T00:00:00Z",
       "description": "Category description",
       "name": "Category name"

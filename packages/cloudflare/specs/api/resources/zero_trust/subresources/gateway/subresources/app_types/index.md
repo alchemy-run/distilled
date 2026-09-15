@@ -1,182 +1,113 @@
+---
+title: App Types
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # App Types
 
-## List application and application type mappings
+##### [List application and application type mappings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/app_types/methods/list)
 
-**get** `/accounts/{account_id}/gateway/app_types`
+GET/accounts/{account\_id}/gateway/app\_types
 
-List all application and application type mappings.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Provide the identifier string.
+AppType = object {id, application\_type\_id, created\_at, name } or object {id, created\_at, description, name }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ZeroTrustGatewayApplication object {id, application\_type\_id, created\_at, name }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: optional number
 
-- `messages: array of ResponseInfo`
+Identify this application. Only one application per ID.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+application\_type\_id: optional number
 
-  - `documentation_url: optional string`
+Identify the type of this application. Multiple applications can share the same type. Refers to the <code>id</code> of a returned application type.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: optional string
 
-  Indicate whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of AppType`
+name: optional string
 
-  - `ZeroTrustGatewayApplication object { id, application_type_id, created_at, name }`
+Specify the name of the application or application type.
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-      Identify this application. Only one application per ID.
+</details>
 
-    - `application_type_id: optional number`
+<a href="#">Link to this property</a>
 
-      Identify the type of this application. Multiple applications can share the same type. Refers to the `id` of a returned application type.
+<details>
 
-    - `created_at: optional string`
+<summary>
 
-    - `name: optional string`
+ZeroTrustGatewayApplicationType object {id, created\_at, description, name }
 
-      Specify the name of the application or application type.
+</summary>
 
-  - `ZeroTrustGatewayApplicationType object { id, created_at, description, name }`
+id: optional number
 
-    - `id: optional number`
+Identify the type of this application. Multiple applications can share the same type. Refers to the <code>id</code> of a returned application type.
 
-      Identify the type of this application. Multiple applications can share the same type. Refers to the `id` of a returned application type.
+<a href="#">Link to this property</a>
 
-    - `created_at: optional string`
+created\_at: optional string
 
-    - `description: optional string`
+formatdate-time
 
-      Provide a short summary of applications with this type.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+description: optional string
 
-      Specify the name of the application or application type.
+Provide a short summary of applications with this type.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+name: optional string
 
-    Indicate the total number of results for the requested service.
+Specify the name of the application or application type.
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Indicate the current page within a paginated list of results.
+</details>
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Indicate the number of results per page.
+</details>
 
-  - `total_count: optional number`
-
-    Indicate the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/app_types \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 0,
-      "application_type_id": 0,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "name": "Facebook"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### App Type
-
-- `AppType = object { id, application_type_id, created_at, name }  or object { id, created_at, description, name }`
-
-  - `ZeroTrustGatewayApplication object { id, application_type_id, created_at, name }`
-
-    - `id: optional number`
-
-      Identify this application. Only one application per ID.
-
-    - `application_type_id: optional number`
-
-      Identify the type of this application. Multiple applications can share the same type. Refers to the `id` of a returned application type.
-
-    - `created_at: optional string`
-
-    - `name: optional string`
-
-      Specify the name of the application or application type.
-
-  - `ZeroTrustGatewayApplicationType object { id, created_at, description, name }`
-
-    - `id: optional number`
-
-      Identify the type of this application. Multiple applications can share the same type. Refers to the `id` of a returned application type.
-
-    - `created_at: optional string`
-
-    - `description: optional string`
-
-      Provide a short summary of applications with this type.
-
-    - `name: optional string`
-
-      Specify the name of the application or application type.
+[Link to this property](#)%20zero_trust.gateway.app_types%20%3E%20(model)%20app_type%20%3E%20(schema)>)

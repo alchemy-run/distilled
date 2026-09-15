@@ -1,9272 +1,3913 @@
+---
+title: Firewall
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Firewall
 
-# Lockdowns
+#### FirewallLockdowns
 
-## List Zone Lockdown rules
+##### [List Zone Lockdown rules](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/list)
 
-**get** `/zones/{zone_id}/firewall/lockdowns`
+GET/zones/{zone\_id}/firewall/lockdowns
 
-Fetches Zone Lockdown rules. You can filter the results using several optional parameters.
+##### [Get a Zone Lockdown rule](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/firewall/lockdowns/{lock\_downs\_id}
 
-- `zone_id: string`
+##### [Create a Zone Lockdown rule](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/create)
 
-  Defines an identifier.
+POST/zones/{zone\_id}/firewall/lockdowns
 
-### Query Parameters
+##### [Update a Zone Lockdown rule](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/update)
 
-- `created_on: optional string`
+PUT/zones/{zone\_id}/firewall/lockdowns/{lock\_downs\_id}
 
-  The timestamp of when the rule was created.
+##### [Delete a Zone Lockdown rule](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/delete)
 
-- `description: optional string`
+DELETE/zones/{zone\_id}/firewall/lockdowns/{lock\_downs\_id}
 
-  A string to search for in the description of existing rules.
+##### ModelsExpand Collapse
 
-- `description_search: optional string`
+<details>
 
-  A string to search for in the description of existing rules.
+<summary>
 
-- `ip: optional string`
+Configuration = array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown_ip_configuration%20%3E%20(schema)">LockdownIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown_cidr_configuration%20%3E%20(schema)">LockdownCIDRConfiguration</a> { target, value }
 
-  A single IP address to search for in existing rules.
+A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of <code>ip</code> or <code>ip_range</code> configurations.
 
-- `ip_range_search: optional string`
+</summary>
 
-  A single IP address range to search for in existing rules.
+One of the following:
 
-- `ip_search: optional string`
+<details>
 
-  A single IP address to search for in existing rules.
+<summary>
 
-- `modified_on: optional string`
+LockdownIPConfiguration object {target, value }
 
-  The timestamp of when the rule was last modified.
+</summary>
 
-- `page: optional number`
+target: optional "ip"
 
-  Page number of paginated results.
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the Zone Lockdown rule.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
+value: optional string
 
-- `priority: optional number`
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-  The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority.
+<a href="#">Link to this property</a>
 
-- `uri_search: optional string`
+</details>
 
-  A single URI to search for in the list of URLs of existing rules.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+LockdownCIDRConfiguration object {target, value }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+target: optional "ip\_range"
 
-  - `source: optional object { pointer }`
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the Zone Lockdown rule.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+value: optional string
 
-  - `code: number`
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code>.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of Lockdown`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20configuration%20%3E%20(schema)>)
 
-    The unique identifier of the Zone Lockdown rule.
+<details>
 
-  - `configurations: Configuration`
+<summary>
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+Lockdown object {id, configurations, created\_on, 4 more }
 
-    - `LockdownIPConfiguration object { target, value }`
+</summary>
 
-      - `target: optional "ip"`
+id: string
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+The unique identifier of the Zone Lockdown rule.
 
-        - `"ip"`
+maxLength32
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+configurations: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20configuration%20%3E%20(schema)">Configuration</a> { , }
 
-    - `LockdownCIDRConfiguration object { target, value }`
+A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of <code>ip</code> or <code>ip_range</code> configurations.
 
-      - `target: optional "ip_range"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+created\_on: string
 
-        - `"ip_range"`
+The timestamp of when the rule was created.
 
-      - `value: optional string`
+formatdate-time
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+description: string
 
-    The timestamp of when the rule was created.
+An informative summary of the rule.
 
-  - `description: string`
+maxLength1024
 
-    An informative summary of the rule.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+modified\_on: string
 
-    The timestamp of when the rule was last modified.
+The timestamp of when the rule was last modified.
 
-  - `paused: boolean`
+formatdate-time
 
-    When true, indicates that the rule is currently paused.
+<a href="#">Link to this property</a>
 
-  - `urls: array of LockdownURL`
+paused: boolean
 
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+When true, indicates that the rule is currently paused.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+urls: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown_url%20%3E%20(schema)">LockdownURL</a>
 
-  - `true`
+The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Defines the total number of results for the requested service.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown%20%3E%20(schema)>)
 
-  - `page: optional number`
+<details>
 
-    Defines the current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+LockdownCIDRConfiguration object {target, value }
 
-    Defines the number of results per page of results.
+</summary>
 
-  - `total_count: optional number`
+target: optional "ip\_range"
 
-    Defines the total results available without any search parameters.
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the Zone Lockdown rule.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: optional string
 
-#### Response
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code>.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b59",
-      "configurations": [
-        {
-          "target": "ip",
-          "value": "198.51.100.4"
-        }
-      ],
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "description": "Restrict access to these endpoints to requests from a known IP address",
-      "modified_on": "2014-01-01T05:20:00.12345Z",
-      "paused": false,
-      "urls": [
-        "api.mysite.com/some/endpoint*"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get a Zone Lockdown rule
+</details>
 
-**get** `/zones/{zone_id}/firewall/lockdowns/{lock_downs_id}`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown_cidr_configuration%20%3E%20(schema)>)
 
-Fetches the details of a Zone Lockdown rule.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+LockdownIPConfiguration object {target, value }
 
-  Defines an identifier.
+</summary>
 
-- `lock_downs_id: string`
+target: optional "ip"
 
-  The unique identifier of the Zone Lockdown rule.
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the Zone Lockdown rule.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+value: optional string
 
-  - `code: number`
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown_ip_configuration%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+LockdownURL = string
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown_url%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+LockdownDeleteResponse object {id }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: Lockdown`
+id: optional string
 
-  - `id: string`
+The unique identifier of the Zone Lockdown rule.
 
-    The unique identifier of the Zone Lockdown rule.
+maxLength32
 
-  - `configurations: Configuration`
+<a href="#">Link to this property</a>
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+</details>
 
-    - `LockdownIPConfiguration object { target, value }`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown_delete_response%20%3E%20(schema)>)
 
-      - `target: optional "ip"`
+#### FirewallRules
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+##### [List firewall rules](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/list)
 
-        - `"ip"`
+Deprecated
 
-      - `value: optional string`
+GET/zones/{zone\_id}/firewall/rules
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+##### [Get a firewall rule](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/get)
 
-    - `LockdownCIDRConfiguration object { target, value }`
+Deprecated
 
-      - `target: optional "ip_range"`
+GET/zones/{zone\_id}/firewall/rules/{rule\_id}
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+##### [Create firewall rules](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/create)
 
-        - `"ip_range"`
+Deprecated
 
-      - `value: optional string`
+POST/zones/{zone\_id}/firewall/rules
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+##### [Update a firewall rule](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/update)
 
-  - `created_on: string`
+Deprecated
 
-    The timestamp of when the rule was created.
+PUT/zones/{zone\_id}/firewall/rules/{rule\_id}
 
-  - `description: string`
+##### [Update priority of a firewall rule](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/edit)
 
-    An informative summary of the rule.
+Deprecated
 
-  - `modified_on: string`
+PATCH/zones/{zone\_id}/firewall/rules/{rule\_id}
 
-    The timestamp of when the rule was last modified.
+##### [Delete a firewall rule](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/delete)
 
-  - `paused: boolean`
+Deprecated
 
-    When true, indicates that the rule is currently paused.
+DELETE/zones/{zone\_id}/firewall/rules/{rule\_id}
 
-  - `urls: array of LockdownURL`
+##### [Update firewall rules](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/bulk_update)
 
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+Deprecated
 
-- `success: true`
+PUT/zones/{zone\_id}/firewall/rules
 
-  Defines whether the API call was successful.
+##### [Update priority of firewall rules](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/bulk_edit)
 
-  - `true`
+Deprecated
 
-### Example
+PATCH/zones/{zone\_id}/firewall/rules
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns/$LOCK_DOWNS_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Delete firewall rules](https://developers.cloudflare.com/api/resources/firewall/subresources/rules/methods/bulk_delete)
 
-#### Response
+Deprecated
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configurations": [
-      {
-        "target": "ip",
-        "value": "198.51.100.4"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Restrict access to these endpoints to requests from a known IP address",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "paused": false,
-    "urls": [
-      "api.mysite.com/some/endpoint*"
-    ]
-  },
-  "success": true
-}
-```
+DELETE/zones/{zone\_id}/firewall/rules
 
-## Create a Zone Lockdown rule
+##### ModelsExpand Collapse
 
-**post** `/zones/{zone_id}/firewall/lockdowns`
+<details>
 
-Creates a new Zone Lockdown rule.
+<summary>
 
-### Path Parameters
+DeletedFilter object {id, deleted }
 
-- `zone_id: string`
+</summary>
 
-  Defines an identifier.
+id: string
 
-### Body Parameters
+The unique identifier of the filter.
 
-- `configurations: Configuration`
+maxLength32
 
-  A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+minLength32
 
-  - `LockdownIPConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-    - `target: optional "ip"`
+deleted: boolean
 
-      The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+When true, indicates that the firewall rule was deleted.
 
-      - `"ip"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+</details>
 
-      The IP address to match. This address will be compared to the IP address of incoming requests.
+[Link to this property](#)%20firewall.rules%20%3E%20(model)%20deleted_filter%20%3E%20(schema)>)
 
-  - `LockdownCIDRConfiguration object { target, value }`
+<details>
 
-    - `target: optional "ip_range"`
+<summary>
 
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+FirewallRule object {id, action, description, 5 more }
 
-      - `"ip_range"`
+</summary>
 
-    - `value: optional string`
+id: optional string
 
-      The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+The unique identifier of the firewall rule.
 
-- `urls: array of OverrideURL`
+maxLength32
 
-  The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+action: optional <a href="https://developers.cloudflare.com/api/resources/rate_limits#(resource)%20rate_limits%20%3E%20(model)%20action%20%3E%20(schema)">Action</a>
 
-  An informative summary of the rule. This value is sanitized and any tags will be removed.
+The action to apply to a matched request. The <code>log</code> action is only available on an Enterprise plan.
 
-- `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-  When true, indicates that the rule is currently paused.
+description: optional string
 
-- `priority: optional number`
+An informative summary of the firewall rule.
 
-  The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority.
+maxLength500
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+filter: optional <a href="https://developers.cloudflare.com/api/resources/filters#(resource)%20filters%20%3E%20(model)%20firewall_filter%20%3E%20(schema)">FirewallFilter</a> { id, description, expression, 2 more } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.rules%20%3E%20(model)%20deleted_filter%20%3E%20(schema)">DeletedFilter</a> { id, deleted }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+FirewallFilter object {id, description, expression, 2 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+The unique identifier of the filter.
 
-- `result: Lockdown`
+maxLength32
 
-  - `id: string`
+minLength32
 
-    The unique identifier of the Zone Lockdown rule.
+<a href="#">Link to this property</a>
 
-  - `configurations: Configuration`
+description: optional string
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+An informative summary of the filter.
 
-    - `LockdownIPConfiguration object { target, value }`
+maxLength500
 
-      - `target: optional "ip"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+expression: optional string
 
-        - `"ip"`
+The filter expression. For more information, refer to <a href="https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/">Expressions</a>.
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+paused: optional boolean
 
-    - `LockdownCIDRConfiguration object { target, value }`
+When true, indicates that the filter is currently paused.
 
-      - `target: optional "ip_range"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+ref: optional string
 
-        - `"ip_range"`
+A short reference tag. Allows you to select related filters.
 
-      - `value: optional string`
+maxLength50
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-    The timestamp of when the rule was created.
+<a href="#">Link to this property</a>
 
-  - `description: string`
+<details>
 
-    An informative summary of the rule.
+<summary>
 
-  - `modified_on: string`
+DeletedFilter object {id, deleted }
 
-    The timestamp of when the rule was last modified.
+</summary>
 
-  - `paused: boolean`
+id: string
 
-    When true, indicates that the rule is currently paused.
+The unique identifier of the filter.
 
-  - `urls: array of LockdownURL`
+maxLength32
 
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+minLength32
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+deleted: boolean
 
-  - `true`
+When true, indicates that the firewall rule was deleted.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configurations": [
-            {}
-          ],
-          "urls": [
-            "shop.example.com/*"
-          ],
-          "description": "Prevent multiple login failures to mitigate brute force attacks",
-          "priority": 5
-        }'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configurations": [
-      {
-        "target": "ip",
-        "value": "198.51.100.4"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Restrict access to these endpoints to requests from a known IP address",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "paused": false,
-    "urls": [
-      "api.mysite.com/some/endpoint*"
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Update a Zone Lockdown rule
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/firewall/lockdowns/{lock_downs_id}`
+paused: optional boolean
 
-Updates an existing Zone Lockdown rule.
+When true, indicates that the firewall rule is currently paused.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+priority: optional number
 
-  Defines an identifier.
+The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
 
-- `lock_downs_id: string`
+maximum2147483647
 
-  The unique identifier of the Zone Lockdown rule.
+minimum0
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `configurations: Configuration`
+<details>
 
-  A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+<summary>
 
-  - `LockdownIPConfiguration object { target, value }`
+products: optional array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.rules%20%3E%20(model)%20product%20%3E%20(schema)">Product</a>
 
-    - `target: optional "ip"`
+</summary>
 
-      The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+One of the following:
 
-      - `"ip"`
+"zoneLockdown"
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The IP address to match. This address will be compared to the IP address of incoming requests.
+"uaBlock"
 
-  - `LockdownCIDRConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-    - `target: optional "ip_range"`
+"bic"
 
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+<a href="#">Link to this property</a>
 
-      - `"ip_range"`
+"hot"
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+"securityLevel"
 
-- `urls: array of OverrideURL`
+<a href="#">Link to this property</a>
 
-  The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+"rateLimit"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+"waf"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+ref: optional string
 
-    - `pointer: optional string`
+A short reference tag. Allows you to select related firewall rules.
 
-- `messages: array of ResponseInfo`
+maxLength50
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20firewall.rules%20%3E%20(model)%20firewall_rule%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: Lockdown`
+<summary>
 
-  - `id: string`
+Product = "zoneLockdown"or "uaBlock"or "bic"or 4 more
 
-    The unique identifier of the Zone Lockdown rule.
+A list of products to bypass for a request when using the <code>bypass</code> action.
 
-  - `configurations: Configuration`
+</summary>
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+One of the following:
 
-    - `LockdownIPConfiguration object { target, value }`
+"zoneLockdown"
 
-      - `target: optional "ip"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+"uaBlock"
 
-        - `"ip"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+"bic"
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+<a href="#">Link to this property</a>
 
-    - `LockdownCIDRConfiguration object { target, value }`
+"hot"
 
-      - `target: optional "ip_range"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+"securityLevel"
 
-        - `"ip_range"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+"rateLimit"
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+"waf"
 
-    The timestamp of when the rule was created.
+<a href="#">Link to this property</a>
 
-  - `description: string`
+</details>
 
-    An informative summary of the rule.
+[Link to this property](#)%20firewall.rules%20%3E%20(model)%20product%20%3E%20(schema)>)
 
-  - `modified_on: string`
+#### FirewallAccess Rules
 
-    The timestamp of when the rule was last modified.
+##### [List IP Access rules](https://developers.cloudflare.com/api/resources/firewall/subresources/access_rules/methods/list)
 
-  - `paused: boolean`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/firewall/access\_rules/rules
 
-    When true, indicates that the rule is currently paused.
+##### [Get an IP Access rule](https://developers.cloudflare.com/api/resources/firewall/subresources/access_rules/methods/get)
 
-  - `urls: array of LockdownURL`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/firewall/access\_rules/rules/{rule\_id}
 
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+##### [Create an IP Access rule](https://developers.cloudflare.com/api/resources/firewall/subresources/access_rules/methods/create)
 
-- `success: true`
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/firewall/access\_rules/rules
 
-  Defines whether the API call was successful.
+##### [Update an IP Access rule](https://developers.cloudflare.com/api/resources/firewall/subresources/access_rules/methods/edit)
 
-  - `true`
+PATCH/{accounts\_or\_zones}/{account\_or\_zone\_id}/firewall/access\_rules/rules/{rule\_id}
 
-### Example
+##### [Delete an IP Access rule](https://developers.cloudflare.com/api/resources/firewall/subresources/access_rules/methods/delete)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns/$LOCK_DOWNS_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configurations": [
-            {}
-          ],
-          "urls": [
-            "shop.example.com/*"
-          ]
-        }'
-```
+DELETE/{accounts\_or\_zones}/{account\_or\_zone\_id}/firewall/access\_rules/rules/{rule\_id}
 
-#### Response
+##### ModelsExpand Collapse
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configurations": [
-      {
-        "target": "ip",
-        "value": "198.51.100.4"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Restrict access to these endpoints to requests from a known IP address",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "paused": false,
-    "urls": [
-      "api.mysite.com/some/endpoint*"
-    ]
-  },
-  "success": true
-}
-```
+<details>
 
-## Delete a Zone Lockdown rule
+<summary>
 
-**delete** `/zones/{zone_id}/firewall/lockdowns/{lock_downs_id}`
+AccessRuleCIDRConfiguration object {target, value }
 
-Deletes an existing Zone Lockdown rule.
+</summary>
 
-### Path Parameters
+target: optional "ip\_range"
 
-- `zone_id: string`
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the rule.
 
-  Defines an identifier.
+<a href="#">Link to this property</a>
 
-- `lock_downs_id: string`
+value: optional string
 
-  The unique identifier of the Zone Lockdown rule.
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code> for IPv4 ranges, and prefix lengths <code>/32</code>, <code>/48</code>, and <code>/64</code> for IPv6 ranges.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: optional object { id }`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20access_rule_cidr_configuration%20%3E%20(schema)>)
 
-    The unique identifier of the Zone Lockdown rule.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns/$LOCK_DOWNS_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+AccessRuleIPConfiguration object {target, value }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59"
-  }
-}
-```
+target: optional "ip"
 
-## Domain Types
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the rule.
 
-### Configuration
+<a href="#">Link to this property</a>
 
-- `Configuration = array of LockdownIPConfiguration or LockdownCIDRConfiguration`
+value: optional string
 
-  A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-  - `LockdownIPConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-    - `target: optional "ip"`
+</details>
 
-      The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20access_rule_ip_configuration%20%3E%20(schema)>)
 
-      - `"ip"`
+<details>
 
-    - `value: optional string`
+<summary>
 
-      The IP address to match. This address will be compared to the IP address of incoming requests.
+ASNConfiguration object {target, value }
 
-  - `LockdownCIDRConfiguration object { target, value }`
+</summary>
 
-    - `target: optional "ip_range"`
+target: optional "asn"
 
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+The configuration target. You must set the target to <code>asn</code> when specifying an Autonomous System Number (ASN) in the rule.
 
-      - `"ip_range"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+value: optional string
 
-      The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+The AS number to match.
 
-### Lockdown
+<a href="#">Link to this property</a>
 
-- `Lockdown object { id, configurations, created_on, 4 more }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20asn_configuration%20%3E%20(schema)>)
 
-    The unique identifier of the Zone Lockdown rule.
+<details>
 
-  - `configurations: Configuration`
+<summary>
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+CountryConfiguration object {target, value }
 
-    - `LockdownIPConfiguration object { target, value }`
+</summary>
 
-      - `target: optional "ip"`
+target: optional "country"
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+The configuration target. You must set the target to <code>country</code> when specifying a country code in the rule.
 
-        - `"ip"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+value: optional string
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to <a href="https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country">IP Access rules: Parameters</a>.
 
-    - `LockdownCIDRConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "ip_range"`
+</details>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20country_configuration%20%3E%20(schema)>)
 
-        - `"ip_range"`
+<details>
 
-      - `value: optional string`
+<summary>
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+IPV6Configuration object {target, value }
 
-  - `created_on: string`
+</summary>
 
-    The timestamp of when the rule was created.
+target: optional "ip6"
 
-  - `description: string`
+The configuration target. You must set the target to <code>ip6</code> when specifying an IPv6 address in the rule.
 
-    An informative summary of the rule.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+value: optional string
 
-    The timestamp of when the rule was last modified.
+The IPv6 address to match.
 
-  - `paused: boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the rule is currently paused.
+</details>
 
-  - `urls: array of LockdownURL`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20ipv6_configuration%20%3E%20(schema)>)
 
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+<details>
 
-### Lockdown CIDR Configuration
+<summary>
 
-- `LockdownCIDRConfiguration object { target, value }`
+AccessRuleListResponse object {id, allowed\_modes, configuration, 5 more }
 
-  - `target: optional "ip_range"`
+</summary>
 
-    The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+id: string
 
-    - `"ip_range"`
+The unique identifier of the IP Access rule.
 
-  - `value: optional string`
+maxLength32
 
-    The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+<a href="#">Link to this property</a>
 
-### Lockdown IP Configuration
+<details>
 
-- `LockdownIPConfiguration object { target, value }`
+<summary>
 
-  - `target: optional "ip"`
+allowed\_modes: array of "block"or "challenge"or "whitelist"or 2 more
 
-    The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+The available actions that a rule can apply to a matched request.
 
-    - `"ip"`
+</summary>
 
-  - `value: optional string`
+One of the following:
 
-    The IP address to match. This address will be compared to the IP address of incoming requests.
+"block"
 
-### Lockdown URL
+<a href="#">Link to this property</a>
 
-- `LockdownURL = string`
+"challenge"
 
-### Lockdown Delete Response
+<a href="#">Link to this property</a>
 
-- `LockdownDeleteResponse object { id }`
+"whitelist"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the Zone Lockdown rule.
+"js\_challenge"
 
-# Rules
+<a href="#">Link to this property</a>
 
-## List firewall rules
+"managed\_challenge"
 
-**get** `/zones/{zone_id}/firewall/rules`
+<a href="#">Link to this property</a>
 
-Fetches firewall rules in a zone. You can filter the results using several optional parameters.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>
 
-### Query Parameters
+configuration: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_ip_configuration%20%3E%20(schema)">AccessRuleIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20ipv6_configuration%20%3E%20(schema)">IPV6Configuration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_cidr_configuration%20%3E%20(schema)">AccessRuleCIDRConfiguration</a> { target, value } or 2 more
 
-- `id: optional string`
+The rule configuration.
 
-  The unique identifier of the firewall rule.
+</summary>
 
-- `action: optional string`
+One of the following:
 
-  The action to search for. Must be an exact match.
+<details>
 
-- `description: optional string`
+<summary>
 
-  A case-insensitive string to find in the description.
+AccessRuleIPConfiguration object {target, value }
 
-- `page: optional number`
+</summary>
 
-  Page number of paginated results.
+target: optional "ip"
 
-- `paused: optional boolean`
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the rule.
 
-  When true, indicates that the firewall rule is currently paused.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+value: optional string
 
-  Number of firewall rules per page.
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+IPV6Configuration object {target, value }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+target: optional "ip6"
 
-  - `code: number`
+The configuration target. You must set the target to <code>ip6</code> when specifying an IPv6 address in the rule.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+The IPv6 address to match.
 
-- `result: array of FirewallRule`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    The unique identifier of the firewall rule.
+<a href="#">Link to this property</a>
 
-  - `action: optional Action`
+<details>
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+<summary>
 
-    - `"block"`
+AccessRuleCIDRConfiguration object {target, value }
 
-    - `"challenge"`
+</summary>
 
-    - `"js_challenge"`
+target: optional "ip\_range"
 
-    - `"managed_challenge"`
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the rule.
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"log"`
+value: optional string
 
-    - `"bypass"`
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code> for IPv4 ranges, and prefix lengths <code>/32</code>, <code>/48</code>, and <code>/64</code> for IPv6 ranges.
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the firewall rule.
+</details>
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+<a href="#">Link to this property</a>
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+<details>
 
-      - `id: optional string`
+<summary>
 
-        The unique identifier of the filter.
+ASNConfiguration object {target, value }
 
-      - `description: optional string`
+</summary>
 
-        An informative summary of the filter.
+target: optional "asn"
 
-      - `expression: optional string`
+The configuration target. You must set the target to <code>asn</code> when specifying an Autonomous System Number (ASN) in the rule.
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+<a href="#">Link to this property</a>
 
-      - `paused: optional boolean`
+value: optional string
 
-        When true, indicates that the filter is currently paused.
+The AS number to match.
 
-      - `ref: optional string`
+<a href="#">Link to this property</a>
 
-        A short reference tag. Allows you to select related filters.
+</details>
 
-    - `DeletedFilter object { id, deleted }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-        The unique identifier of the filter.
+<summary>
 
-      - `deleted: boolean`
+CountryConfiguration object {target, value }
 
-        When true, indicates that the firewall rule was deleted.
+</summary>
 
-  - `paused: optional boolean`
+target: optional "country"
 
-    When true, indicates that the firewall rule is currently paused.
+The configuration target. You must set the target to <code>country</code> when specifying a country code in the rule.
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+value: optional string
 
-  - `products: optional array of Product`
+The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to <a href="https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country">IP Access rules: Parameters</a>.
 
-    - `"zoneLockdown"`
+<a href="#">Link to this property</a>
 
-    - `"uaBlock"`
+</details>
 
-    - `"bic"`
+<a href="#">Link to this property</a>
 
-    - `"hot"`
+</details>
 
-    - `"securityLevel"`
+<a href="#">Link to this property</a>
 
-    - `"rateLimit"`
+<details>
 
-    - `"waf"`
+<summary>
 
-  - `ref: optional string`
+mode: "block"or "challenge"or "whitelist"or 2 more
 
-    A short reference tag. Allows you to select related firewall rules.
+The action to apply to a matched request.
 
-- `success: true`
+</summary>
 
-  Defines whether the API call was successful.
+One of the following:
 
-  - `true`
+"block"
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+"challenge"
 
-    Defines the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"whitelist"
 
-    Defines the current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"js\_challenge"
 
-    Defines the number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+"managed\_challenge"
 
-    Defines the total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_on: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b60",
-      "action": "block",
-      "description": "Blocks traffic identified during investigation for MIR-31",
-      "filter": {
-        "id": "372e67954025e0ba6aaa6d586b9e0b61",
-        "description": "Restrict access from these browsers on this address range.",
-        "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-        "paused": false,
-        "ref": "FIL-100"
-      },
-      "paused": false,
-      "priority": 50,
-      "products": [
-        "waf"
-      ],
-      "ref": "MIR-31"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+The timestamp of when the rule was created.
 
-## Get a firewall rule
+formatdate-time
 
-**get** `/zones/{zone_id}/firewall/rules/{rule_id}`
+<a href="#">Link to this property</a>
 
-Fetches the details of a firewall rule.
+modified\_on: optional string
 
-### Path Parameters
+The timestamp of when the rule was last modified.
 
-- `zone_id: string`
+formatdate-time
 
-  Defines an identifier.
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+notes: optional string
 
-  The unique identifier of the firewall rule.
+An informative summary of the rule, typically used as a reminder or explanation.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+scope: optional object {id, email, type }
 
-  - `documentation_url: optional string`
+All zones owned by the user will have the rule applied.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: optional string
 
-- `messages: array of ResponseInfo`
+Defines an identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+email: optional string
 
-  - `source: optional object { pointer }`
+The contact email address of the user.
 
-- `result: FirewallRule`
+maxLength90
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the firewall rule.
+<details>
 
-  - `action: optional Action`
+<summary>
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+type: optional "user"or "organization"
 
-    - `"block"`
+Defines the scope of the rule.
 
-    - `"challenge"`
+</summary>
 
-    - `"js_challenge"`
+One of the following:
 
-    - `"managed_challenge"`
+"user"
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"log"`
+"organization"
 
-    - `"bypass"`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    An informative summary of the firewall rule.
+<a href="#">Link to this property</a>
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+</details>
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+</details>
 
-        The unique identifier of the filter.
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20access_rule_list_response%20%3E%20(schema)>)
 
-      - `description: optional string`
+<details>
 
-        An informative summary of the filter.
+<summary>
 
-      - `expression: optional string`
+AccessRuleGetResponse object {id, allowed\_modes, configuration, 5 more }
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+</summary>
 
-      - `paused: optional boolean`
+id: string
 
-        When true, indicates that the filter is currently paused.
+The unique identifier of the IP Access rule.
 
-      - `ref: optional string`
+maxLength32
 
-        A short reference tag. Allows you to select related filters.
+<a href="#">Link to this property</a>
 
-    - `DeletedFilter object { id, deleted }`
+<details>
 
-      - `id: string`
+<summary>
 
-        The unique identifier of the filter.
+allowed\_modes: array of "block"or "challenge"or "whitelist"or 2 more
 
-      - `deleted: boolean`
+The available actions that a rule can apply to a matched request.
 
-        When true, indicates that the firewall rule was deleted.
+</summary>
 
-  - `paused: optional boolean`
+One of the following:
 
-    When true, indicates that the firewall rule is currently paused.
+"block"
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+"challenge"
 
-  - `products: optional array of Product`
+<a href="#">Link to this property</a>
 
-    - `"zoneLockdown"`
+"whitelist"
 
-    - `"uaBlock"`
+<a href="#">Link to this property</a>
 
-    - `"bic"`
+"js\_challenge"
 
-    - `"hot"`
+<a href="#">Link to this property</a>
 
-    - `"securityLevel"`
+"managed\_challenge"
 
-    - `"rateLimit"`
+<a href="#">Link to this property</a>
 
-    - `"waf"`
+</details>
 
-  - `ref: optional string`
+<a href="#">Link to this property</a>
 
-    A short reference tag. Allows you to select related firewall rules.
+<details>
 
-- `success: true`
+<summary>
 
-  Defines whether the API call was successful.
+configuration: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_ip_configuration%20%3E%20(schema)">AccessRuleIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20ipv6_configuration%20%3E%20(schema)">IPV6Configuration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_cidr_configuration%20%3E%20(schema)">AccessRuleCIDRConfiguration</a> { target, value } or 2 more
 
-  - `true`
+The rule configuration.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b60",
-    "action": "block",
-    "description": "Blocks traffic identified during investigation for MIR-31",
-    "filter": {
-      "id": "372e67954025e0ba6aaa6d586b9e0b61",
-      "description": "Restrict access from these browsers on this address range.",
-      "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-      "paused": false,
-      "ref": "FIL-100"
-    },
-    "paused": false,
-    "priority": 50,
-    "products": [
-      "waf"
-    ],
-    "ref": "MIR-31"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Create firewall rules
+AccessRuleIPConfiguration object {target, value }
 
-**post** `/zones/{zone_id}/firewall/rules`
+</summary>
 
-Create one or more firewall rules.
+target: optional "ip"
 
-### Path Parameters
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the rule.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Defines an identifier.
+value: optional string
 
-### Body Parameters
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-- `action: object { mode, response, timeout }`
+<a href="#">Link to this property</a>
 
-  The action to perform when the threshold of matched traffic within the configured period is exceeded.
+</details>
 
-  - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
+<a href="#">Link to this property</a>
 
-    The action to perform.
+<details>
 
-    - `"simulate"`
+<summary>
 
-    - `"ban"`
+IPV6Configuration object {target, value }
 
-    - `"challenge"`
+</summary>
 
-    - `"js_challenge"`
+target: optional "ip6"
 
-    - `"managed_challenge"`
+The configuration target. You must set the target to <code>ip6</code> when specifying an IPv6 address in the rule.
 
-  - `response: optional object { body, content_type }`
+<a href="#">Link to this property</a>
 
-    A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-    Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
+value: optional string
 
-    - `body: optional string`
+The IPv6 address to match.
 
-      The response body to return. The value must conform to the configured content type.
+<a href="#">Link to this property</a>
 
-    - `content_type: optional string`
+</details>
 
-      The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
+<a href="#">Link to this property</a>
 
-  - `timeout: optional number`
+<details>
 
-    The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-    Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
+<summary>
 
-- `filter: FirewallFilter`
+AccessRuleCIDRConfiguration object {target, value }
 
-  - `id: optional string`
+</summary>
 
-    The unique identifier of the filter.
+target: optional "ip\_range"
 
-  - `description: optional string`
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the rule.
 
-    An informative summary of the filter.
+<a href="#">Link to this property</a>
 
-  - `expression: optional string`
+value: optional string
 
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code> for IPv4 ranges, and prefix lengths <code>/32</code>, <code>/48</code>, and <code>/64</code> for IPv6 ranges.
 
-  - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the filter is currently paused.
+</details>
 
-  - `ref: optional string`
+<a href="#">Link to this property</a>
 
-    A short reference tag. Allows you to select related filters.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+ASNConfiguration object {target, value }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+target: optional "asn"
 
-  - `documentation_url: optional string`
+The configuration target. You must set the target to <code>asn</code> when specifying an Autonomous System Number (ASN) in the rule.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+value: optional string
 
-- `messages: array of ResponseInfo`
+The AS number to match.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: array of FirewallRule`
+<summary>
 
-  - `id: optional string`
+CountryConfiguration object {target, value }
 
-    The unique identifier of the firewall rule.
+</summary>
 
-  - `action: optional Action`
+target: optional "country"
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+The configuration target. You must set the target to <code>country</code> when specifying a country code in the rule.
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+value: optional string
 
-    - `"js_challenge"`
+The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to <a href="https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country">IP Access rules: Parameters</a>.
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+</details>
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"bypass"`
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the firewall rule.
+<details>
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+<summary>
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+mode: "block"or "challenge"or "whitelist"or 2 more
 
-      - `id: optional string`
+The action to apply to a matched request.
 
-        The unique identifier of the filter.
+</summary>
 
-      - `description: optional string`
+One of the following:
 
-        An informative summary of the filter.
+"block"
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+"challenge"
 
-      - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-        When true, indicates that the filter is currently paused.
+"whitelist"
 
-      - `ref: optional string`
+<a href="#">Link to this property</a>
 
-        A short reference tag. Allows you to select related filters.
+"js\_challenge"
 
-    - `DeletedFilter object { id, deleted }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+"managed\_challenge"
 
-        The unique identifier of the filter.
+<a href="#">Link to this property</a>
 
-      - `deleted: boolean`
+</details>
 
-        When true, indicates that the firewall rule was deleted.
+<a href="#">Link to this property</a>
 
-  - `paused: optional boolean`
+created\_on: optional string
 
-    When true, indicates that the firewall rule is currently paused.
+The timestamp of when the rule was created.
 
-  - `priority: optional number`
+formatdate-time
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+<a href="#">Link to this property</a>
 
-  - `products: optional array of Product`
+modified\_on: optional string
 
-    - `"zoneLockdown"`
+The timestamp of when the rule was last modified.
 
-    - `"uaBlock"`
+formatdate-time
 
-    - `"bic"`
+<a href="#">Link to this property</a>
 
-    - `"hot"`
+notes: optional string
 
-    - `"securityLevel"`
+An informative summary of the rule, typically used as a reminder or explanation.
 
-    - `"rateLimit"`
+<a href="#">Link to this property</a>
 
-    - `"waf"`
+<details>
 
-  - `ref: optional string`
+<summary>
 
-    A short reference tag. Allows you to select related firewall rules.
+scope: optional object {id, email, type }
 
-- `success: true`
+All zones owned by the user will have the rule applied.
 
-  Defines whether the API call was successful.
+</summary>
 
-  - `true`
+id: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+Defines an identifier.
 
-  - `count: optional number`
+maxLength32
 
-    Defines the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+email: optional string
 
-    Defines the current page within paginated list of results.
+The contact email address of the user.
 
-  - `per_page: optional number`
+maxLength90
 
-    Defines the number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+<details>
 
-    Defines the total results available without any search parameters.
+<summary>
 
-### Example
+type: optional "user"or "organization"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": {},
-          "filter": {}
-        }'
-```
+Defines the scope of the rule.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b60",
-      "action": "block",
-      "description": "Blocks traffic identified during investigation for MIR-31",
-      "filter": {
-        "id": "372e67954025e0ba6aaa6d586b9e0b61",
-        "description": "Restrict access from these browsers on this address range.",
-        "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-        "paused": false,
-        "ref": "FIL-100"
-      },
-      "paused": false,
-      "priority": 50,
-      "products": [
-        "waf"
-      ],
-      "ref": "MIR-31"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+One of the following:
 
-## Update a firewall rule
+"user"
 
-**put** `/zones/{zone_id}/firewall/rules/{rule_id}`
+<a href="#">Link to this property</a>
 
-Updates an existing firewall rule.
+"organization"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Defines an identifier.
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+</details>
 
-  The unique identifier of the firewall rule.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `action: object { mode, response, timeout }`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20access_rule_get_response%20%3E%20(schema)>)
 
-  The action to perform when the threshold of matched traffic within the configured period is exceeded.
+<details>
 
-  - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
+<summary>
 
-    The action to perform.
+AccessRuleCreateResponse object {id, allowed\_modes, configuration, 5 more }
 
-    - `"simulate"`
+</summary>
 
-    - `"ban"`
+id: string
 
-    - `"challenge"`
+The unique identifier of the IP Access rule.
 
-    - `"js_challenge"`
+maxLength32
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-  - `response: optional object { body, content_type }`
+<details>
 
-    A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-    Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
+<summary>
 
-    - `body: optional string`
+allowed\_modes: array of "block"or "challenge"or "whitelist"or 2 more
 
-      The response body to return. The value must conform to the configured content type.
+The available actions that a rule can apply to a matched request.
 
-    - `content_type: optional string`
+</summary>
 
-      The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
+One of the following:
 
-  - `timeout: optional number`
+"block"
 
-    The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-    Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
+<a href="#">Link to this property</a>
 
-- `filter: FirewallFilter`
+"challenge"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the filter.
+"whitelist"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the filter.
+"js\_challenge"
 
-  - `expression: optional string`
+<a href="#">Link to this property</a>
 
-    The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+"managed\_challenge"
 
-  - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the filter is currently paused.
+</details>
 
-  - `ref: optional string`
+<a href="#">Link to this property</a>
 
-    A short reference tag. Allows you to select related filters.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+configuration: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_ip_configuration%20%3E%20(schema)">AccessRuleIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20ipv6_configuration%20%3E%20(schema)">IPV6Configuration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_cidr_configuration%20%3E%20(schema)">AccessRuleCIDRConfiguration</a> { target, value } or 2 more
 
-  - `code: number`
+The rule configuration.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+AccessRuleIPConfiguration object {target, value }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+target: optional "ip"
 
-  - `documentation_url: optional string`
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the rule.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: FirewallRule`
+value: optional string
 
-  - `id: optional string`
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-    The unique identifier of the firewall rule.
+<a href="#">Link to this property</a>
 
-  - `action: optional Action`
+</details>
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+<details>
 
-    - `"challenge"`
+<summary>
 
-    - `"js_challenge"`
+IPV6Configuration object {target, value }
 
-    - `"managed_challenge"`
+</summary>
 
-    - `"allow"`
+target: optional "ip6"
 
-    - `"log"`
+The configuration target. You must set the target to <code>ip6</code> when specifying an IPv6 address in the rule.
 
-    - `"bypass"`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+value: optional string
 
-    An informative summary of the firewall rule.
+The IPv6 address to match.
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+<a href="#">Link to this property</a>
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+</details>
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique identifier of the filter.
+<details>
 
-      - `description: optional string`
+<summary>
 
-        An informative summary of the filter.
+AccessRuleCIDRConfiguration object {target, value }
 
-      - `expression: optional string`
+</summary>
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+target: optional "ip\_range"
 
-      - `paused: optional boolean`
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the rule.
 
-        When true, indicates that the filter is currently paused.
+<a href="#">Link to this property</a>
 
-      - `ref: optional string`
+value: optional string
 
-        A short reference tag. Allows you to select related filters.
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code> for IPv4 ranges, and prefix lengths <code>/32</code>, <code>/48</code>, and <code>/64</code> for IPv6 ranges.
 
-    - `DeletedFilter object { id, deleted }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-        The unique identifier of the filter.
+<a href="#">Link to this property</a>
 
-      - `deleted: boolean`
+<details>
 
-        When true, indicates that the firewall rule was deleted.
+<summary>
 
-  - `paused: optional boolean`
+ASNConfiguration object {target, value }
 
-    When true, indicates that the firewall rule is currently paused.
+</summary>
 
-  - `priority: optional number`
+target: optional "asn"
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+The configuration target. You must set the target to <code>asn</code> when specifying an Autonomous System Number (ASN) in the rule.
 
-  - `products: optional array of Product`
+<a href="#">Link to this property</a>
 
-    - `"zoneLockdown"`
+value: optional string
 
-    - `"uaBlock"`
+The AS number to match.
 
-    - `"bic"`
+<a href="#">Link to this property</a>
 
-    - `"hot"`
+</details>
 
-    - `"securityLevel"`
+<a href="#">Link to this property</a>
 
-    - `"rateLimit"`
+<details>
 
-    - `"waf"`
+<summary>
 
-  - `ref: optional string`
+CountryConfiguration object {target, value }
 
-    A short reference tag. Allows you to select related firewall rules.
+</summary>
 
-- `success: true`
+target: optional "country"
 
-  Defines whether the API call was successful.
+The configuration target. You must set the target to <code>country</code> when specifying a country code in the rule.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+value: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules/$RULE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": {},
-          "filter": {}
-        }'
-```
+The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to <a href="https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country">IP Access rules: Parameters</a>.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b60",
-    "action": "block",
-    "description": "Blocks traffic identified during investigation for MIR-31",
-    "filter": {
-      "id": "372e67954025e0ba6aaa6d586b9e0b61",
-      "description": "Restrict access from these browsers on this address range.",
-      "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-      "paused": false,
-      "ref": "FIL-100"
-    },
-    "paused": false,
-    "priority": 50,
-    "products": [
-      "waf"
-    ],
-    "ref": "MIR-31"
-  },
-  "success": true
-}
-```
+</details>
 
-## Update priority of a firewall rule
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/firewall/rules/{rule_id}`
+</details>
 
-Updates the priority of an existing firewall rule.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Defines an identifier.
+mode: "block"or "challenge"or "whitelist"or 2 more
 
-- `rule_id: string`
+The action to apply to a matched request.
 
-  The unique identifier of the firewall rule.
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of ResponseInfo`
+"block"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"challenge"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"whitelist"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"js\_challenge"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"managed\_challenge"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: array of FirewallRule`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+created\_on: optional string
 
-    The unique identifier of the firewall rule.
+The timestamp of when the rule was created.
 
-  - `action: optional Action`
+formatdate-time
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+modified\_on: optional string
 
-    - `"challenge"`
+The timestamp of when the rule was last modified.
 
-    - `"js_challenge"`
+formatdate-time
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+notes: optional string
 
-    - `"log"`
+An informative summary of the rule, typically used as a reminder or explanation.
 
-    - `"bypass"`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+<details>
 
-    An informative summary of the firewall rule.
+<summary>
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+scope: optional object {id, email, type }
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+All zones owned by the user will have the rule applied.
 
-      - `id: optional string`
+</summary>
 
-        The unique identifier of the filter.
+id: optional string
 
-      - `description: optional string`
+Defines an identifier.
 
-        An informative summary of the filter.
+maxLength32
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+email: optional string
 
-      - `paused: optional boolean`
+The contact email address of the user.
 
-        When true, indicates that the filter is currently paused.
+maxLength90
 
-      - `ref: optional string`
+<a href="#">Link to this property</a>
 
-        A short reference tag. Allows you to select related filters.
+<details>
 
-    - `DeletedFilter object { id, deleted }`
+<summary>
 
-      - `id: string`
+type: optional "user"or "organization"
 
-        The unique identifier of the filter.
+Defines the scope of the rule.
 
-      - `deleted: boolean`
+</summary>
 
-        When true, indicates that the firewall rule was deleted.
+One of the following:
 
-  - `paused: optional boolean`
+"user"
 
-    When true, indicates that the firewall rule is currently paused.
+<a href="#">Link to this property</a>
 
-  - `priority: optional number`
+"organization"
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+<a href="#">Link to this property</a>
 
-  - `products: optional array of Product`
+</details>
 
-    - `"zoneLockdown"`
+<a href="#">Link to this property</a>
 
-    - `"uaBlock"`
+</details>
 
-    - `"bic"`
+<a href="#">Link to this property</a>
 
-    - `"hot"`
+</details>
 
-    - `"securityLevel"`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20access_rule_create_response%20%3E%20(schema)>)
 
-    - `"rateLimit"`
+<details>
 
-    - `"waf"`
+<summary>
 
-  - `ref: optional string`
+AccessRuleEditResponse object {id, allowed\_modes, configuration, 5 more }
 
-    A short reference tag. Allows you to select related firewall rules.
+</summary>
 
-- `success: true`
+id: string
 
-  Defines whether the API call was successful.
+The unique identifier of the IP Access rule.
 
-  - `true`
+maxLength32
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Defines the total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+allowed\_modes: array of "block"or "challenge"or "whitelist"or 2 more
 
-    Defines the current page within paginated list of results.
+The available actions that a rule can apply to a matched request.
 
-  - `per_page: optional number`
+</summary>
 
-    Defines the number of results per page of results.
+One of the following:
 
-  - `total_count: optional number`
+"block"
 
-    Defines the total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+"challenge"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"whitelist"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b60",
-      "action": "block",
-      "description": "Blocks traffic identified during investigation for MIR-31",
-      "filter": {
-        "id": "372e67954025e0ba6aaa6d586b9e0b61",
-        "description": "Restrict access from these browsers on this address range.",
-        "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-        "paused": false,
-        "ref": "FIL-100"
-      },
-      "paused": false,
-      "priority": 50,
-      "products": [
-        "waf"
-      ],
-      "ref": "MIR-31"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a firewall rule
+"js\_challenge"
 
-**delete** `/zones/{zone_id}/firewall/rules/{rule_id}`
+<a href="#">Link to this property</a>
 
-Deletes an existing firewall rule.
+"managed\_challenge"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Defines an identifier.
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+<details>
 
-  The unique identifier of the firewall rule.
+<summary>
 
-### Returns
+configuration: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_ip_configuration%20%3E%20(schema)">AccessRuleIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20ipv6_configuration%20%3E%20(schema)">IPV6Configuration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.access_rules%20%3E%20(model)%20access_rule_cidr_configuration%20%3E%20(schema)">AccessRuleCIDRConfiguration</a> { target, value } or 2 more
 
-- `errors: array of ResponseInfo`
+The rule configuration.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+AccessRuleIPConfiguration object {target, value }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+target: optional "ip"
 
-  - `message: string`
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the rule.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+value: optional string
 
-- `result: FirewallRule`
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the firewall rule.
+</details>
 
-  - `action: optional Action`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+<details>
 
-    - `"block"`
+<summary>
 
-    - `"challenge"`
+IPV6Configuration object {target, value }
 
-    - `"js_challenge"`
+</summary>
 
-    - `"managed_challenge"`
+target: optional "ip6"
 
-    - `"allow"`
+The configuration target. You must set the target to <code>ip6</code> when specifying an IPv6 address in the rule.
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"bypass"`
+value: optional string
 
-  - `description: optional string`
+The IPv6 address to match.
 
-    An informative summary of the firewall rule.
+<a href="#">Link to this property</a>
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+</details>
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+<details>
 
-        The unique identifier of the filter.
+<summary>
 
-      - `description: optional string`
+AccessRuleCIDRConfiguration object {target, value }
 
-        An informative summary of the filter.
+</summary>
 
-      - `expression: optional string`
+target: optional "ip\_range"
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the rule.
 
-      - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-        When true, indicates that the filter is currently paused.
+value: optional string
 
-      - `ref: optional string`
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code> for IPv4 ranges, and prefix lengths <code>/32</code>, <code>/48</code>, and <code>/64</code> for IPv6 ranges.
 
-        A short reference tag. Allows you to select related filters.
+<a href="#">Link to this property</a>
 
-    - `DeletedFilter object { id, deleted }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        The unique identifier of the filter.
+<details>
 
-      - `deleted: boolean`
+<summary>
 
-        When true, indicates that the firewall rule was deleted.
+ASNConfiguration object {target, value }
 
-  - `paused: optional boolean`
+</summary>
 
-    When true, indicates that the firewall rule is currently paused.
+target: optional "asn"
 
-  - `priority: optional number`
+The configuration target. You must set the target to <code>asn</code> when specifying an Autonomous System Number (ASN) in the rule.
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+<a href="#">Link to this property</a>
 
-  - `products: optional array of Product`
+value: optional string
 
-    - `"zoneLockdown"`
+The AS number to match.
 
-    - `"uaBlock"`
+<a href="#">Link to this property</a>
 
-    - `"bic"`
+</details>
 
-    - `"hot"`
+<a href="#">Link to this property</a>
 
-    - `"securityLevel"`
+<details>
 
-    - `"rateLimit"`
+<summary>
 
-    - `"waf"`
+CountryConfiguration object {target, value }
 
-  - `ref: optional string`
+</summary>
 
-    A short reference tag. Allows you to select related firewall rules.
+target: optional "country"
 
-- `success: true`
+The configuration target. You must set the target to <code>country</code> when specifying a country code in the rule.
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+value: optional string
 
-### Example
+The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to <a href="https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country">IP Access rules: Parameters</a>.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b60",
-    "action": "block",
-    "description": "Blocks traffic identified during investigation for MIR-31",
-    "filter": {
-      "id": "372e67954025e0ba6aaa6d586b9e0b61",
-      "description": "Restrict access from these browsers on this address range.",
-      "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-      "paused": false,
-      "ref": "FIL-100"
-    },
-    "paused": false,
-    "priority": 50,
-    "products": [
-      "waf"
-    ],
-    "ref": "MIR-31"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update firewall rules
+</details>
 
-**put** `/zones/{zone_id}/firewall/rules`
+<a href="#">Link to this property</a>
 
-Updates one or more existing firewall rules.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+mode: "block"or "challenge"or "whitelist"or 2 more
 
-  Defines an identifier.
+The action to apply to a matched request.
 
-### Body Parameters
+</summary>
 
-- `body: unknown`
+One of the following:
 
-### Returns
+"block"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"challenge"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"whitelist"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"js\_challenge"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"managed\_challenge"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of FirewallRule`
+created\_on: optional string
 
-  - `id: optional string`
+The timestamp of when the rule was created.
 
-    The unique identifier of the firewall rule.
+formatdate-time
 
-  - `action: optional Action`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+modified\_on: optional string
 
-    - `"block"`
+The timestamp of when the rule was last modified.
 
-    - `"challenge"`
+formatdate-time
 
-    - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"managed_challenge"`
+notes: optional string
 
-    - `"allow"`
+An informative summary of the rule, typically used as a reminder or explanation.
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"bypass"`
+<details>
 
-  - `description: optional string`
+<summary>
 
-    An informative summary of the firewall rule.
+scope: optional object {id, email, type }
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+All zones owned by the user will have the rule applied.
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+</summary>
 
-      - `id: optional string`
+id: optional string
 
-        The unique identifier of the filter.
+Defines an identifier.
 
-      - `description: optional string`
+maxLength32
 
-        An informative summary of the filter.
+<a href="#">Link to this property</a>
 
-      - `expression: optional string`
+email: optional string
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+The contact email address of the user.
 
-      - `paused: optional boolean`
+maxLength90
 
-        When true, indicates that the filter is currently paused.
+<a href="#">Link to this property</a>
 
-      - `ref: optional string`
+<details>
 
-        A short reference tag. Allows you to select related filters.
+<summary>
 
-    - `DeletedFilter object { id, deleted }`
+type: optional "user"or "organization"
 
-      - `id: string`
+Defines the scope of the rule.
 
-        The unique identifier of the filter.
+</summary>
 
-      - `deleted: boolean`
+One of the following:
 
-        When true, indicates that the firewall rule was deleted.
+"user"
 
-  - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the firewall rule is currently paused.
+"organization"
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+</details>
 
-  - `products: optional array of Product`
+<a href="#">Link to this property</a>
 
-    - `"zoneLockdown"`
+</details>
 
-    - `"uaBlock"`
+<a href="#">Link to this property</a>
 
-    - `"bic"`
+</details>
 
-    - `"hot"`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20access_rule_edit_response%20%3E%20(schema)>)
 
-    - `"securityLevel"`
+<details>
 
-    - `"rateLimit"`
+<summary>
 
-    - `"waf"`
+AccessRuleDeleteResponse object {id }
 
-  - `ref: optional string`
+</summary>
 
-    A short reference tag. Allows you to select related firewall rules.
+id: string
 
-- `success: true`
+Defines an identifier.
 
-  Defines whether the API call was successful.
+maxLength32
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+[Link to this property](#)%20firewall.access_rules%20%3E%20(model)%20access_rule_delete_response%20%3E%20(schema)>)
 
-    Defines the total number of results for the requested service.
+#### FirewallUA Rules
 
-  - `page: optional number`
+##### [List User Agent Blocking rules](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/list)
 
-    Defines the current page within paginated list of results.
+GET/zones/{zone\_id}/firewall/ua\_rules
 
-  - `per_page: optional number`
+##### [Get a User Agent Blocking rule](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/get)
 
-    Defines the number of results per page of results.
+GET/zones/{zone\_id}/firewall/ua\_rules/{ua\_rule\_id}
 
-  - `total_count: optional number`
+##### [Create a User Agent Blocking rule](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/create)
 
-    Defines the total results available without any search parameters.
+POST/zones/{zone\_id}/firewall/ua\_rules
 
-### Example
+##### [Update a User Agent Blocking rule](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/update)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+PUT/zones/{zone\_id}/firewall/ua\_rules/{ua\_rule\_id}
 
-#### Response
+##### [Delete a User Agent Blocking rule](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules/methods/delete)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b60",
-      "action": "block",
-      "description": "Blocks traffic identified during investigation for MIR-31",
-      "filter": {
-        "id": "372e67954025e0ba6aaa6d586b9e0b61",
-        "description": "Restrict access from these browsers on this address range.",
-        "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-        "paused": false,
-        "ref": "FIL-100"
-      },
-      "paused": false,
-      "priority": 50,
-      "products": [
-        "waf"
-      ],
-      "ref": "MIR-31"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+DELETE/zones/{zone\_id}/firewall/ua\_rules/{ua\_rule\_id}
 
-## Update priority of firewall rules
+##### ModelsExpand Collapse
 
-**patch** `/zones/{zone_id}/firewall/rules`
+<details>
 
-Updates the priority of existing firewall rules.
+<summary>
 
-### Path Parameters
+UARuleListResponse object {id, configuration, description, 2 more }
 
-- `zone_id: string`
+</summary>
 
-  Defines an identifier.
+id: optional string
 
-### Body Parameters
+The unique identifier of the User Agent Blocking rule.
 
-- `body: unknown`
+maxLength32
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+configuration: optional object {target, value }
 
-  - `documentation_url: optional string`
+The configuration object for the current rule.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+target: optional string
 
-- `messages: array of ResponseInfo`
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+value: optional string
 
-  - `documentation_url: optional string`
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of FirewallRule`
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the firewall rule.
+description: optional string
 
-  - `action: optional Action`
+An informative summary of the rule.
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+maxLength1024
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+<details>
 
-    - `"js_challenge"`
+<summary>
 
-    - `"managed_challenge"`
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-    - `"allow"`
+The action to apply to a matched request.
 
-    - `"log"`
+maxLength12
 
-    - `"bypass"`
+</summary>
 
-  - `description: optional string`
+One of the following:
 
-    An informative summary of the firewall rule.
+"block"
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+<a href="#">Link to this property</a>
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+"challenge"
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique identifier of the filter.
+"js\_challenge"
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        An informative summary of the filter.
+"managed\_challenge"
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+</details>
 
-      - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-        When true, indicates that the filter is currently paused.
+paused: optional boolean
 
-      - `ref: optional string`
+When true, indicates that the rule is currently paused.
 
-        A short reference tag. Allows you to select related filters.
+<a href="#">Link to this property</a>
 
-    - `DeletedFilter object { id, deleted }`
+</details>
 
-      - `id: string`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_list_response%20%3E%20(schema)>)
 
-        The unique identifier of the filter.
+<details>
 
-      - `deleted: boolean`
+<summary>
 
-        When true, indicates that the firewall rule was deleted.
+UARuleGetResponse object {id, configuration, description, 2 more }
 
-  - `paused: optional boolean`
+</summary>
 
-    When true, indicates that the firewall rule is currently paused.
+id: optional string
 
-  - `priority: optional number`
+The unique identifier of the User Agent Blocking rule.
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+maxLength32
 
-  - `products: optional array of Product`
+<a href="#">Link to this property</a>
 
-    - `"zoneLockdown"`
+<details>
 
-    - `"uaBlock"`
+<summary>
 
-    - `"bic"`
+configuration: optional object {target, value }
 
-    - `"hot"`
+The configuration object for the current rule.
 
-    - `"securityLevel"`
+</summary>
 
-    - `"rateLimit"`
+target: optional string
 
-    - `"waf"`
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-  - `ref: optional string`
+<a href="#">Link to this property</a>
 
-    A short reference tag. Allows you to select related firewall rules.
+value: optional string
 
-- `success: true`
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+description: optional string
 
-    Defines the total number of results for the requested service.
+An informative summary of the rule.
 
-  - `page: optional number`
+maxLength1024
 
-    Defines the current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+<details>
 
-    Defines the number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-    Defines the total results available without any search parameters.
+The action to apply to a matched request.
 
-### Example
+maxLength12
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b60",
-      "action": "block",
-      "description": "Blocks traffic identified during investigation for MIR-31",
-      "filter": {
-        "id": "372e67954025e0ba6aaa6d586b9e0b61",
-        "description": "Restrict access from these browsers on this address range.",
-        "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-        "paused": false,
-        "ref": "FIL-100"
-      },
-      "paused": false,
-      "priority": 50,
-      "products": [
-        "waf"
-      ],
-      "ref": "MIR-31"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+"block"
 
-## Delete firewall rules
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/firewall/rules`
+"challenge"
 
-Deletes existing firewall rules.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"js\_challenge"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Defines an identifier.
+"managed\_challenge"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+paused: optional boolean
 
-  - `documentation_url: optional string`
+When true, indicates that the rule is currently paused.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_get_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+UARuleCreateResponse object {id, configuration, description, 2 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: array of FirewallRule`
+id: optional string
 
-  - `id: optional string`
+The unique identifier of the User Agent Blocking rule.
 
-    The unique identifier of the firewall rule.
+maxLength32
 
-  - `action: optional Action`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+<details>
 
-    - `"block"`
+<summary>
 
-    - `"challenge"`
+configuration: optional object {target, value }
 
-    - `"js_challenge"`
+The configuration object for the current rule.
 
-    - `"managed_challenge"`
+</summary>
 
-    - `"allow"`
+target: optional string
 
-    - `"log"`
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-    - `"bypass"`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+value: optional string
 
-    An informative summary of the firewall rule.
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+<a href="#">Link to this property</a>
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+</details>
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The unique identifier of the filter.
+description: optional string
 
-      - `description: optional string`
+An informative summary of the rule.
 
-        An informative summary of the filter.
+maxLength1024
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+<details>
 
-      - `paused: optional boolean`
+<summary>
 
-        When true, indicates that the filter is currently paused.
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-      - `ref: optional string`
+The action to apply to a matched request.
 
-        A short reference tag. Allows you to select related filters.
+maxLength12
 
-    - `DeletedFilter object { id, deleted }`
+</summary>
 
-      - `id: string`
+One of the following:
 
-        The unique identifier of the filter.
+"block"
 
-      - `deleted: boolean`
+<a href="#">Link to this property</a>
 
-        When true, indicates that the firewall rule was deleted.
+"challenge"
 
-  - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-    When true, indicates that the firewall rule is currently paused.
+"js\_challenge"
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+"managed\_challenge"
 
-  - `products: optional array of Product`
+<a href="#">Link to this property</a>
 
-    - `"zoneLockdown"`
+</details>
 
-    - `"uaBlock"`
+<a href="#">Link to this property</a>
 
-    - `"bic"`
+paused: optional boolean
 
-    - `"hot"`
+When true, indicates that the rule is currently paused.
 
-    - `"securityLevel"`
+<a href="#">Link to this property</a>
 
-    - `"rateLimit"`
+</details>
 
-    - `"waf"`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_create_response%20%3E%20(schema)>)
 
-  - `ref: optional string`
+<details>
 
-    A short reference tag. Allows you to select related firewall rules.
+<summary>
 
-- `success: true`
+UARuleUpdateResponse object {id, configuration, description, 2 more }
 
-  Defines whether the API call was successful.
+</summary>
 
-  - `true`
+id: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+The unique identifier of the User Agent Blocking rule.
 
-  - `count: optional number`
+maxLength32
 
-    Defines the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+<details>
 
-    Defines the current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+configuration: optional object {target, value }
 
-    Defines the number of results per page of results.
+The configuration object for the current rule.
 
-  - `total_count: optional number`
+</summary>
 
-    Defines the total results available without any search parameters.
+target: optional string
 
-### Example
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+value: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b60",
-      "action": "block",
-      "description": "Blocks traffic identified during investigation for MIR-31",
-      "filter": {
-        "id": "372e67954025e0ba6aaa6d586b9e0b61",
-        "description": "Restrict access from these browsers on this address range.",
-        "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
-        "paused": false,
-        "ref": "FIL-100"
-      },
-      "paused": false,
-      "priority": 50,
-      "products": [
-        "waf"
-      ],
-      "ref": "MIR-31"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Deleted Filter
+</details>
 
-- `DeletedFilter object { id, deleted }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+description: optional string
 
-    The unique identifier of the filter.
+An informative summary of the rule.
 
-  - `deleted: boolean`
+maxLength1024
 
-    When true, indicates that the firewall rule was deleted.
+<a href="#">Link to this property</a>
 
-### Firewall Rule
+<details>
 
-- `FirewallRule object { id, action, description, 5 more }`
+<summary>
 
-  - `id: optional string`
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-    The unique identifier of the firewall rule.
+The action to apply to a matched request.
 
-  - `action: optional Action`
+maxLength12
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+</summary>
 
-    - `"block"`
+One of the following:
 
-    - `"challenge"`
+"block"
 
-    - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"managed_challenge"`
+"challenge"
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"log"`
+"js\_challenge"
 
-    - `"bypass"`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"managed\_challenge"
 
-    An informative summary of the firewall rule.
+<a href="#">Link to this property</a>
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+</details>
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+paused: optional boolean
 
-        The unique identifier of the filter.
+When true, indicates that the rule is currently paused.
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        An informative summary of the filter.
+</details>
 
-      - `expression: optional string`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_update_response%20%3E%20(schema)>)
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+<details>
 
-      - `paused: optional boolean`
+<summary>
 
-        When true, indicates that the filter is currently paused.
+UARuleDeleteResponse object {id, configuration, description, 2 more }
 
-      - `ref: optional string`
+</summary>
 
-        A short reference tag. Allows you to select related filters.
+id: optional string
 
-    - `DeletedFilter object { id, deleted }`
+The unique identifier of the User Agent Blocking rule.
 
-      - `id: string`
+maxLength32
 
-        The unique identifier of the filter.
+<a href="#">Link to this property</a>
 
-      - `deleted: boolean`
+<details>
 
-        When true, indicates that the firewall rule was deleted.
+<summary>
 
-  - `paused: optional boolean`
+configuration: optional object {target, value }
 
-    When true, indicates that the firewall rule is currently paused.
+The configuration object for the current rule.
 
-  - `priority: optional number`
+</summary>
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+target: optional string
 
-  - `products: optional array of Product`
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
 
-    - `"zoneLockdown"`
+<a href="#">Link to this property</a>
 
-    - `"uaBlock"`
+value: optional string
 
-    - `"bic"`
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
 
-    - `"hot"`
+<a href="#">Link to this property</a>
 
-    - `"securityLevel"`
+</details>
 
-    - `"rateLimit"`
+<a href="#">Link to this property</a>
 
-    - `"waf"`
+description: optional string
 
-  - `ref: optional string`
+An informative summary of the rule.
 
-    A short reference tag. Allows you to select related firewall rules.
+maxLength1024
 
-### Product
+<a href="#">Link to this property</a>
 
-- `Product = "zoneLockdown" or "uaBlock" or "bic" or 4 more`
+<details>
 
-  A list of products to bypass for a request when using the `bypass` action.
+<summary>
 
-  - `"zoneLockdown"`
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
 
-  - `"uaBlock"`
+The action to apply to a matched request.
 
-  - `"bic"`
+maxLength12
 
-  - `"hot"`
+</summary>
 
-  - `"securityLevel"`
+One of the following:
 
-  - `"rateLimit"`
+"block"
 
-  - `"waf"`
+<a href="#">Link to this property</a>
 
-# Access Rules
+"challenge"
 
-## List IP Access rules
+<a href="#">Link to this property</a>
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/firewall/access_rules/rules`
+"js\_challenge"
 
-Fetches IP Access rules of an account or zone. These rules apply to all the zones in the account or zone. You can filter the results using several optional parameters.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"managed\_challenge"
 
-- `account_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+</details>
 
-- `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+paused: optional boolean
 
-### Query Parameters
+When true, indicates that the rule is currently paused.
 
-- `configuration: optional object { target, value }`
+<a href="#">Link to this property</a>
 
-  - `target: optional "ip" or "ip_range" or "asn" or "country"`
+</details>
 
-    Defines the target to search in existing rules.
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(model)%20ua_rule_delete_response%20%3E%20(schema)>)
 
-    - `"ip"`
+#### FirewallWAF
 
-    - `"ip_range"`
+#### FirewallWAFOverrides
 
-    - `"asn"`
+##### [List WAF overrides](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/list)
 
-    - `"country"`
+Deprecated
 
-  - `value: optional string`
+GET/zones/{zone\_id}/firewall/waf/overrides
 
-    Defines the target value to search for in existing rules: an IP address, an IP address range, or a country code, depending on the provided `configuration.target`.
-    Notes: You can search for a single IPv4 address, an IP address range with a subnet of '/16' or '/24', or a two-letter ISO-3166-1 alpha-2 country code.
+##### [Get a WAF override](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/get)
 
-- `direction: optional "asc" or "desc"`
+Deprecated
 
-  Defines the direction used to sort returned rules.
+GET/zones/{zone\_id}/firewall/waf/overrides/{overrides\_id}
 
-  - `"asc"`
+##### [Create a WAF override](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/create)
 
-  - `"desc"`
+Deprecated
 
-- `match: optional "any" or "all"`
+POST/zones/{zone\_id}/firewall/waf/overrides
 
-  Defines the search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
+##### [Update WAF override](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/update)
 
-  - `"any"`
+Deprecated
 
-  - `"all"`
+PUT/zones/{zone\_id}/firewall/waf/overrides/{overrides\_id}
 
-- `mode: optional "block" or "challenge" or "whitelist" or 2 more`
+##### [Delete a WAF override](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides/methods/delete)
 
-  The action to apply to a matched request.
+Deprecated
 
-  - `"block"`
+DELETE/zones/{zone\_id}/firewall/waf/overrides/{overrides\_id}
 
-  - `"challenge"`
+##### ModelsExpand Collapse
 
-  - `"whitelist"`
+<details>
 
-  - `"js_challenge"`
+<summary>
 
-  - `"managed_challenge"`
+Override object {id, description, groups, 5 more }
 
-- `notes: optional string`
+</summary>
 
-  Defines the string to search for in the notes of existing IP Access rules.
-  Notes: For example, the string 'attack' would match IP Access rules with notes 'Attack 26/02' and 'Attack 27/02'. The search is case insensitive.
+id: optional string
 
-- `order: optional "configuration.target" or "configuration.value" or "mode"`
+The unique identifier of the WAF override.
 
-  Defines the field used to sort returned rules.
+maxLength32
 
-  - `"configuration.target"`
+<a href="#">Link to this property</a>
 
-  - `"configuration.value"`
+description: optional string
 
-  - `"mode"`
+An informative summary of the current URI-based WAF override.
 
-- `page: optional number`
+maxLength1024
 
-  Defines the requested page within paginated list of results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+groups: optional map\[unknown]
 
-  Defines the maximum number of results requested.
+An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually <code>default</code> or <code>disable</code>). When creating a new URI-based WAF override, you must provide a <code>groups</code> object or a <code>rules</code> object.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+paused: optional boolean
 
-  - `code: number`
+When true, indicates that the rule is currently paused.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+priority: optional number
 
-  - `source: optional object { pointer }`
+The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
 
-    - `pointer: optional string`
+maximum1000000000
 
-- `messages: array of ResponseInfo`
+minimum-1000000000
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+rewrite\_action: optional <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20rewrite_action%20%3E%20(schema)">RewriteAction</a> { block, challenge, default, 2 more }
 
-  - `documentation_url: optional string`
+Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, allowed_modes, configuration, 5 more }`
+rules: optional <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20waf_rule%20%3E%20(schema)">WAFRule</a> { , , , 2 more }
 
-  - `id: string`
+An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a <code>groups</code> object or a <code>rules</code> object.
 
-    The unique identifier of the IP Access rule.
+<a href="#">Link to this property</a>
 
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
+urls: optional array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20override_url%20%3E%20(schema)">OverrideURL</a>
 
-    The available actions that a rule can apply to a matched request.
+The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+</details>
 
-    - `"whitelist"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20override%20%3E%20(schema)>)
 
-    - `"js_challenge"`
+OverrideURL = string
 
-    - `"managed_challenge"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20override_url%20%3E%20(schema)>)
 
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+<details>
 
-    The rule configuration.
+<summary>
 
-    - `AccessRuleIPConfiguration object { target, value }`
+RewriteAction object {block, challenge, default, 2 more }
 
-      - `target: optional "ip"`
+Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+</summary>
 
-        - `"ip"`
+<details>
 
-      - `value: optional string`
+<summary>
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+block: optional "challenge"or "block"or "simulate"or 2 more
 
-    - `IPV6Configuration object { target, value }`
+The WAF rule action to apply.
 
-      - `target: optional "ip6"`
+</summary>
 
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+One of the following:
 
-        - `"ip6"`
+"challenge"
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IPv6 address to match.
+"block"
 
-    - `AccessRuleCIDRConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "ip_range"`
+"simulate"
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+<a href="#">Link to this property</a>
 
-        - `"ip_range"`
+"disable"
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+"default"
 
-    - `ASNConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "asn"`
+</details>
 
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+<a href="#">Link to this property</a>
 
-        - `"asn"`
+<details>
 
-      - `value: optional string`
+<summary>
 
-        The AS number to match.
+challenge: optional "challenge"or "block"or "simulate"or 2 more
 
-    - `CountryConfiguration object { target, value }`
+The WAF rule action to apply.
 
-      - `target: optional "country"`
+</summary>
 
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
+One of the following:
 
-        - `"country"`
+"challenge"
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+"block"
 
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request.
+"simulate"
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+"disable"
 
-    - `"whitelist"`
+<a href="#">Link to this property</a>
 
-    - `"js_challenge"`
+"default"
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+</details>
 
-    The timestamp of when the rule was created.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+<details>
 
-    The timestamp of when the rule was last modified.
+<summary>
 
-  - `notes: optional string`
+default: optional "challenge"or "block"or "simulate"or 2 more
 
-    An informative summary of the rule, typically used as a reminder or explanation.
+The WAF rule action to apply.
 
-  - `scope: optional object { id, email, type }`
+</summary>
 
-    All zones owned by the user will have the rule applied.
+One of the following:
 
-    - `id: optional string`
+"challenge"
 
-      Defines an identifier.
+<a href="#">Link to this property</a>
 
-    - `email: optional string`
+"block"
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `type: optional "user" or "organization"`
+"simulate"
 
-      Defines the scope of the rule.
+<a href="#">Link to this property</a>
 
-      - `"user"`
+"disable"
 
-      - `"organization"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"default"
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Defines the total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+disable: optional "challenge"or "block"or "simulate"or 2 more
 
-    Defines the current page within paginated list of results.
+The WAF rule action to apply.
 
-  - `per_page: optional number`
+</summary>
 
-    Defines the number of results per page of results.
+One of the following:
 
-  - `total_count: optional number`
+"challenge"
 
-    Defines the total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+"block"
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/firewall/access_rules/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"simulate"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "92f17202ed8bd63d69a66b86a49a8f6b",
-      "allowed_modes": [
-        "whitelist",
-        "block",
-        "challenge",
-        "js_challenge",
-        "managed_challenge"
-      ],
-      "configuration": {
-        "target": "ip",
-        "value": "198.51.100.4"
-      },
-      "mode": "challenge",
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "modified_on": "2014-01-01T05:20:00.12345Z",
-      "notes": "This rule is enabled because of an event that occurred on date X.",
-      "scope": {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "email": "user@example.com",
-        "type": "user"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get an IP Access rule
+"disable"
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/firewall/access_rules/rules/{rule_id}`
+<a href="#">Link to this property</a>
 
-Fetches the details of an IP Access rule defined.
+"default"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+</details>
 
-  Unique identifier for a rule.
+<a href="#">Link to this property</a>
 
-- `account_id: optional string`
+<details>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<summary>
 
-- `zone_id: optional string`
+simulate: optional "challenge"or "block"or "simulate"or 2 more
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+The WAF rule action to apply.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"challenge"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"block"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"simulate"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"disable"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"default"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { id, allowed_modes, configuration, 5 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the IP Access rule.
+</details>
 
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20rewrite_action%20%3E%20(schema)>)
 
-    The available actions that a rule can apply to a matched request.
+<details>
 
-    - `"block"`
+<summary>
 
-    - `"challenge"`
+WAFRule = map\["challenge"or "block"or "simulate"or 2 more]
 
-    - `"whitelist"`
+An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a <code>groups</code> object or a <code>rules</code> object.
 
-    - `"js_challenge"`
+</summary>
 
-    - `"managed_challenge"`
+One of the following:
 
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+"challenge"
 
-    The rule configuration.
+<a href="#">Link to this property</a>
 
-    - `AccessRuleIPConfiguration object { target, value }`
+"block"
 
-      - `target: optional "ip"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+"simulate"
 
-        - `"ip"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+"disable"
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+<a href="#">Link to this property</a>
 
-    - `IPV6Configuration object { target, value }`
+"default"
 
-      - `target: optional "ip6"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+</details>
 
-        - `"ip6"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20waf_rule%20%3E%20(schema)>)
 
-      - `value: optional string`
+<details>
 
-        The IPv6 address to match.
+<summary>
 
-    - `AccessRuleCIDRConfiguration object { target, value }`
+OverrideDeleteResponse object {id }
 
-      - `target: optional "ip_range"`
+</summary>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+id: optional string
 
-        - `"ip_range"`
+The unique identifier of the WAF override.
 
-      - `value: optional string`
+maxLength32
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+<a href="#">Link to this property</a>
 
-    - `ASNConfiguration object { target, value }`
+</details>
 
-      - `target: optional "asn"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(model)%20override_delete_response%20%3E%20(schema)>)
 
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+#### FirewallWAFPackages
 
-        - `"asn"`
+##### [List WAF packages](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/methods/list)
 
-      - `value: optional string`
+Deprecated
 
-        The AS number to match.
+GET/zones/{zone\_id}/firewall/waf/packages
 
-    - `CountryConfiguration object { target, value }`
+##### [Get a WAF package](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/methods/get)
 
-      - `target: optional "country"`
+Deprecated
 
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}
 
-        - `"country"`
+##### ModelsExpand Collapse
 
-      - `value: optional string`
+PackageListResponse = unknown
 
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(model)%20package_list_response%20%3E%20(schema)>)
 
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
+<details>
 
-    The action to apply to a matched request.
+<summary>
 
-    - `"block"`
+PackageGetResponse = object {errors, messages, result, success } or object {result }
 
-    - `"challenge"`
+</summary>
 
-    - `"whitelist"`
+One of the following:
 
-    - `"js_challenge"`
+<details>
 
-    - `"managed_challenge"`
+<summary>
 
-  - `created_on: optional string`
+FirewallAPIResponseSingle object {errors, messages, result, success }
 
-    The timestamp of when the rule was created.
+</summary>
 
-  - `modified_on: optional string`
+<details>
 
-    The timestamp of when the rule was last modified.
+<summary>
 
-  - `notes: optional string`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    An informative summary of the rule, typically used as a reminder or explanation.
+</summary>
 
-  - `scope: optional object { id, email, type }`
+code: number
 
-    All zones owned by the user will have the rule applied.
+minimum1000
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Defines an identifier.
+message: string
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+documentation\_url: optional string
 
-    - `type: optional "user" or "organization"`
+<a href="#">Link to this property</a>
 
-      Defines the scope of the rule.
+<details>
 
-      - `"user"`
+<summary>
 
-      - `"organization"`
+source: optional object {pointer }
 
-- `success: true`
+</summary>
 
-  Defines whether the API call was successful.
+pointer: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/firewall/access_rules/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "92f17202ed8bd63d69a66b86a49a8f6b",
-    "allowed_modes": [
-      "whitelist",
-      "block",
-      "challenge",
-      "js_challenge",
-      "managed_challenge"
-    ],
-    "configuration": {
-      "target": "ip",
-      "value": "198.51.100.4"
-    },
-    "mode": "challenge",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "notes": "This rule is enabled because of an event that occurred on date X.",
-    "scope": {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "email": "user@example.com",
-      "type": "user"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create an IP Access rule
+<details>
 
-**post** `/{accounts_or_zones}/{account_or_zone_id}/firewall/access_rules/rules`
+<summary>
 
-Creates a new IP Access rule for an account or zone. The rule will apply to all zones in the account or zone.
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-Note: To create an IP Access rule that applies to a single zone, refer to the [IP Access rules for a zone](#ip-access-rules-for-a-zone) endpoints.
+</summary>
 
-### Path Parameters
+code: number
 
-- `account_id: optional string`
+minimum1000
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<a href="#">Link to this property</a>
 
-- `zone_id: optional string`
+message: string
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+documentation\_url: optional string
 
-- `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+<a href="#">Link to this property</a>
 
-  The rule configuration.
+<details>
 
-  - `AccessRuleIPConfiguration object { target, value }`
+<summary>
 
-    - `target: optional "ip"`
+source: optional object {pointer }
 
-      The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+</summary>
 
-      - `"ip"`
+pointer: optional string
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The IP address to match. This address will be compared to the IP address of incoming requests.
+</details>
 
-  - `IPV6Configuration object { target, value }`
+<a href="#">Link to this property</a>
 
-    - `target: optional "ip6"`
+</details>
 
-      The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+<a href="#">Link to this property</a>
 
-      - `"ip6"`
+<details>
 
-    - `value: optional string`
+<summary>
 
-      The IPv6 address to match.
+result: unknownor string
 
-  - `AccessRuleCIDRConfiguration object { target, value }`
+</summary>
 
-    - `target: optional "ip_range"`
+One of the following:
 
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+unknown
 
-      - `"ip_range"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+string
 
-      The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+<a href="#">Link to this property</a>
 
-  - `ASNConfiguration object { target, value }`
+</details>
 
-    - `target: optional "asn"`
+<a href="#">Link to this property</a>
 
-      The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+success: true
 
-      - `"asn"`
+Defines whether the API call was successful.
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      The AS number to match.
+</details>
 
-  - `CountryConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-    - `target: optional "country"`
+<details>
 
-      The configuration target. You must set the target to `country` when specifying a country code in the rule.
+<summary>
 
-      - `"country"`
+Result object {result }
 
-    - `value: optional string`
+</summary>
 
-      The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+result: optional unknown
 
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
+<a href="#">Link to this property</a>
 
-  The action to apply to a matched request.
+</details>
 
-  - `"block"`
+<a href="#">Link to this property</a>
 
-  - `"challenge"`
+</details>
 
-  - `"whitelist"`
+[Link to this property](#)%20firewall.waf.packages%20%3E%20(model)%20package_get_response%20%3E%20(schema)>)
 
-  - `"js_challenge"`
+#### FirewallWAFPackagesGroups
 
-  - `"managed_challenge"`
+##### [List WAF rule groups](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/list)
 
-- `notes: optional string`
+Deprecated
 
-  An informative summary of the rule, typically used as a reminder or explanation.
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups
 
-### Returns
+##### [Get a WAF rule group](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/get)
 
-- `errors: array of ResponseInfo`
+Deprecated
 
-  - `code: number`
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups/{group\_id}
 
-  - `message: string`
+##### [Update a WAF rule group](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/groups/methods/edit)
 
-  - `documentation_url: optional string`
+Deprecated
 
-  - `source: optional object { pointer }`
+PATCH/zones/{zone\_id}/firewall/waf/packages/{package\_id}/groups/{group\_id}
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+Group object {id, description, mode, 5 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-- `result: object { id, allowed_modes, configuration, 5 more }`
+Defines the unique identifier of the rule group.
 
-  - `id: string`
+maxLength32
 
-    The unique identifier of the IP Access rule.
+<a href="#">Link to this property</a>
 
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
+description: string
 
-    The available actions that a rule can apply to a matched request.
+Defines an informative summary of what the rule group does.
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+<details>
 
-    - `"whitelist"`
+<summary>
 
-    - `"js_challenge"`
+mode: "on"or "off"
 
-    - `"managed_challenge"`
+Defines the state of the rules contained in the rule group. When <code>on</code>, the rules in the group are configurable/usable.
 
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+</summary>
 
-    The rule configuration.
+One of the following:
 
-    - `AccessRuleIPConfiguration object { target, value }`
+"on"
 
-      - `target: optional "ip"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+"off"
 
-        - `"ip"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+</details>
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+<a href="#">Link to this property</a>
 
-    - `IPV6Configuration object { target, value }`
+name: string
 
-      - `target: optional "ip6"`
+Defines the name of the rule group.
 
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+<a href="#">Link to this property</a>
 
-        - `"ip6"`
+rules\_count: number
 
-      - `value: optional string`
+Defines the number of rules in the current rule group.
 
-        The IPv6 address to match.
+<a href="#">Link to this property</a>
 
-    - `AccessRuleCIDRConfiguration object { target, value }`
+<details>
 
-      - `target: optional "ip_range"`
+<summary>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+allowed\_modes: optional array of "on"or "off"
 
-        - `"ip_range"`
+Defines the available states for the rule group.
 
-      - `value: optional string`
+</summary>
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+One of the following:
 
-    - `ASNConfiguration object { target, value }`
+"on"
 
-      - `target: optional "asn"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+"off"
 
-        - `"asn"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+</details>
 
-        The AS number to match.
+<a href="#">Link to this property</a>
 
-    - `CountryConfiguration object { target, value }`
+modified\_rules\_count: optional number
 
-      - `target: optional "country"`
+Defines the number of rules within the group that have been modified from their default configuration.
 
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
+<a href="#">Link to this property</a>
 
-        - `"country"`
+package\_id: optional string
 
-      - `value: optional string`
+Defines the unique identifier of a WAF package.
 
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+maxLength32
 
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request.
+</details>
 
-    - `"block"`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group%20%3E%20(schema)>)
 
-    - `"challenge"`
+<details>
 
-    - `"whitelist"`
+<summary>
 
-    - `"js_challenge"`
+GroupGetResponse = unknownor string
 
-    - `"managed_challenge"`
+</summary>
 
-  - `created_on: optional string`
+One of the following:
 
-    The timestamp of when the rule was created.
+unknown
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The timestamp of when the rule was last modified.
+string
 
-  - `notes: optional string`
+<a href="#">Link to this property</a>
 
-    An informative summary of the rule, typically used as a reminder or explanation.
+</details>
 
-  - `scope: optional object { id, email, type }`
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group_get_response%20%3E%20(schema)>)
 
-    All zones owned by the user will have the rule applied.
+<details>
 
-    - `id: optional string`
+<summary>
 
-      Defines an identifier.
+GroupEditResponse = unknownor string
 
-    - `email: optional string`
+</summary>
 
-      The contact email address of the user.
+One of the following:
 
-    - `type: optional "user" or "organization"`
+unknown
 
-      Defines the scope of the rule.
+<a href="#">Link to this property</a>
 
-      - `"user"`
+string
 
-      - `"organization"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Defines whether the API call was successful.
+[Link to this property](#)%20firewall.waf.packages.groups%20%3E%20(model)%20group_edit_response%20%3E%20(schema)>)
 
-  - `true`
+#### FirewallWAFPackagesRules
 
-### Example
+##### [List WAF rules](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/rules/methods/list)
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/firewall/access_rules/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configuration": {},
-          "mode": "challenge",
-          "notes": "This rule is enabled because of an event that occurred on date X."
-        }'
-```
+Deprecated
 
-#### Response
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/rules
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "92f17202ed8bd63d69a66b86a49a8f6b",
-    "allowed_modes": [
-      "whitelist",
-      "block",
-      "challenge",
-      "js_challenge",
-      "managed_challenge"
-    ],
-    "configuration": {
-      "target": "ip",
-      "value": "198.51.100.4"
-    },
-    "mode": "challenge",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "notes": "This rule is enabled because of an event that occurred on date X.",
-    "scope": {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "email": "user@example.com",
-      "type": "user"
-    }
-  },
-  "success": true
-}
-```
+##### [Get a WAF rule](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/rules/methods/get)
 
-## Update an IP Access rule
+Deprecated
 
-**patch** `/{accounts_or_zones}/{account_or_zone_id}/firewall/access_rules/rules/{rule_id}`
+GET/zones/{zone\_id}/firewall/waf/packages/{package\_id}/rules/{rule\_id}
 
-Updates an IP Access rule defined.
+##### [Update a WAF rule](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/packages/subresources/rules/methods/edit)
 
-Note: This operation will affect all zones in the account or zone.
+Deprecated
 
-### Path Parameters
+PATCH/zones/{zone\_id}/firewall/waf/packages/{package\_id}/rules/{rule\_id}
 
-- `rule_id: string`
+##### ModelsExpand Collapse
 
-  Unique identifier for a rule.
+<details>
 
-- `account_id: optional string`
+<summary>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+AllowedModesAnomaly = "on"or "off"
 
-- `zone_id: optional string`
+Defines the mode anomaly. When set to <code>on</code>, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+</summary>
 
-### Body Parameters
+One of the following:
 
-- `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+"on"
 
-  The rule configuration.
+<a href="#">Link to this property</a>
 
-  - `AccessRuleIPConfiguration object { target, value }`
+"off"
 
-    - `target: optional "ip"`
+<a href="#">Link to this property</a>
 
-      The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+</details>
 
-      - `"ip"`
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)>)
 
-    - `value: optional string`
+<details>
 
-      The IP address to match. This address will be compared to the IP address of incoming requests.
+<summary>
 
-  - `IPV6Configuration object { target, value }`
+WAFRuleGroup object {id, name }
 
-    - `target: optional "ip6"`
+Defines the rule group to which the current WAF rule belongs.
 
-      The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+</summary>
 
-      - `"ip6"`
+id: optional string
 
-    - `value: optional string`
+Defines the unique identifier of the rule group.
 
-      The IPv6 address to match.
+maxLength32
 
-  - `AccessRuleCIDRConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-    - `target: optional "ip_range"`
+name: optional string
 
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+Defines the name of the rule group.
 
-      - `"ip_range"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+</details>
 
-      The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)>)
 
-  - `ASNConfiguration object { target, value }`
+<details>
 
-    - `target: optional "asn"`
+<summary>
 
-      The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+RuleListResponse = object {id, allowed\_modes, description, 4 more } or object {id, allowed\_modes, default\_mode, 5 more } or object {id, allowed\_modes, description, 4 more }
 
-      - `"asn"`
+When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the ‘sensitivity’ property of the WAF package.
 
-    - `value: optional string`
+</summary>
 
-      The AS number to match.
+One of the following:
 
-  - `CountryConfiguration object { target, value }`
+<details>
 
-    - `target: optional "country"`
+<summary>
 
-      The configuration target. You must set the target to `country` when specifying a country code in the rule.
+WAFManagedRulesAnomalyRule object {id, allowed\_modes, description, 4 more }
 
-      - `"country"`
+When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the ‘sensitivity’ property of the WAF package.
 
-    - `value: optional string`
+</summary>
 
-      The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+id: string
 
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
+Defines the unique identifier of the WAF rule.
 
-  The action to apply to a matched request.
+maxLength32
 
-  - `"block"`
+<a href="#">Link to this property</a>
 
-  - `"challenge"`
+<details>
 
-  - `"whitelist"`
+<summary>
 
-  - `"js_challenge"`
+allowed\_modes: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)">AllowedModesAnomaly</a>
 
-  - `"managed_challenge"`
+Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
 
-- `notes: optional string`
+</summary>
 
-  An informative summary of the rule, typically used as a reminder or explanation.
+One of the following:
 
-### Returns
+"on"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"off"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+description: string
 
-- `messages: array of ResponseInfo`
+Defines the public description of the WAF rule.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-  - `documentation_url: optional string`
+Defines the rule group to which the current WAF rule belongs.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { id, allowed_modes, configuration, 5 more }`
+mode: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)">AllowedModesAnomaly</a>
 
-  - `id: string`
+Defines the mode anomaly. When set to <code>on</code>, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
 
-    The unique identifier of the IP Access rule.
+<a href="#">Link to this property</a>
 
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
+package\_id: string
 
-    The available actions that a rule can apply to a matched request.
+Defines the unique identifier of a WAF package.
 
-    - `"block"`
+maxLength32
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"whitelist"`
+priority: string
 
-    - `"js_challenge"`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+</details>
 
-    The rule configuration.
+<a href="#">Link to this property</a>
 
-    - `AccessRuleIPConfiguration object { target, value }`
+<details>
 
-      - `target: optional "ip"`
+<summary>
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+WAFManagedRulesTraditionalDenyRule object {id, allowed\_modes, default\_mode, 5 more }
 
-        - `"ip"`
+When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A ‘deny’ rule will immediately respond to the request based on the configured rule action/mode (for example, ‘block’) and no other rules will be processed.
 
-      - `value: optional string`
+</summary>
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+id: string
 
-    - `IPV6Configuration object { target, value }`
+Defines the unique identifier of the WAF rule.
 
-      - `target: optional "ip6"`
+maxLength32
 
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+<a href="#">Link to this property</a>
 
-        - `"ip6"`
+<details>
 
-      - `value: optional string`
+<summary>
 
-        The IPv6 address to match.
+allowed\_modes: array of "default"or "disable"or "simulate"or 2 more
 
-    - `AccessRuleCIDRConfiguration object { target, value }`
+Defines the list of possible actions of the WAF rule when it is triggered.
 
-      - `target: optional "ip_range"`
+</summary>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+One of the following:
 
-        - `"ip_range"`
+"default"
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+"disable"
 
-    - `ASNConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "asn"`
+"simulate"
 
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+<a href="#">Link to this property</a>
 
-        - `"asn"`
+"block"
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The AS number to match.
+"challenge"
 
-    - `CountryConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "country"`
+</details>
 
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
+<a href="#">Link to this property</a>
 
-        - `"country"`
+<details>
 
-      - `value: optional string`
+<summary>
 
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+default\_mode: "disable"or "simulate"or "block"or "challenge"
 
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
+Defines the default action/mode of a rule.
 
-    The action to apply to a matched request.
+</summary>
 
-    - `"block"`
+One of the following:
 
-    - `"challenge"`
+"disable"
 
-    - `"whitelist"`
+<a href="#">Link to this property</a>
 
-    - `"js_challenge"`
+"simulate"
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+"block"
 
-    The timestamp of when the rule was created.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+"challenge"
 
-    The timestamp of when the rule was last modified.
+<a href="#">Link to this property</a>
 
-  - `notes: optional string`
+</details>
 
-    An informative summary of the rule, typically used as a reminder or explanation.
+<a href="#">Link to this property</a>
 
-  - `scope: optional object { id, email, type }`
+description: string
 
-    All zones owned by the user will have the rule applied.
+Defines the public description of the WAF rule.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Defines an identifier.
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-    - `email: optional string`
+Defines the rule group to which the current WAF rule belongs.
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `type: optional "user" or "organization"`
+<details>
 
-      Defines the scope of the rule.
+<summary>
 
-      - `"user"`
+mode: "default"or "disable"or "simulate"or 2 more
 
-      - `"organization"`
+Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
 
-- `success: true`
+</summary>
 
-  Defines whether the API call was successful.
+One of the following:
 
-  - `true`
+"default"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/firewall/access_rules/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configuration": {},
-          "mode": "challenge",
-          "notes": "This rule is enabled because of an event that occurred on date X."
-        }'
-```
+"disable"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "92f17202ed8bd63d69a66b86a49a8f6b",
-    "allowed_modes": [
-      "whitelist",
-      "block",
-      "challenge",
-      "js_challenge",
-      "managed_challenge"
-    ],
-    "configuration": {
-      "target": "ip",
-      "value": "198.51.100.4"
-    },
-    "mode": "challenge",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "notes": "This rule is enabled because of an event that occurred on date X.",
-    "scope": {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "email": "user@example.com",
-      "type": "user"
-    }
-  },
-  "success": true
-}
-```
+"simulate"
 
-## Delete an IP Access rule
+<a href="#">Link to this property</a>
 
-**delete** `/{accounts_or_zones}/{account_or_zone_id}/firewall/access_rules/rules/{rule_id}`
+"block"
 
-Deletes an existing IP Access rule defined.
+<a href="#">Link to this property</a>
 
-Note: This operation will affect all zones in the account or zone.
+"challenge"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+</details>
 
-  Unique identifier for a rule.
+<a href="#">Link to this property</a>
 
-- `account_id: optional string`
+package\_id: string
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+Defines the unique identifier of a WAF package.
 
-- `zone_id: optional string`
+maxLength32
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+<a href="#">Link to this property</a>
 
-### Returns
+priority: string
 
-- `errors: array of ResponseInfo`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+WAFManagedRulesTraditionalAllowRule object {id, allowed\_modes, description, 4 more }
 
-  - `code: number`
+When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An ‘allow’ rule will immediately allow the request and no other rules will be processed.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Defines the unique identifier of the WAF rule.
 
-- `result: object { id }`
+maxLength32
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Defines an identifier.
+<details>
 
-- `success: true`
+<summary>
 
-  Defines whether the API call was successful.
+allowed\_modes: array of "on"or "off"
 
-  - `true`
+Defines the available modes for the current WAF rule.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/firewall/access_rules/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"on"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"off"
 
-### Access Rule CIDR Configuration
+<a href="#">Link to this property</a>
 
-- `AccessRuleCIDRConfiguration object { target, value }`
+</details>
 
-  - `target: optional "ip_range"`
+<a href="#">Link to this property</a>
 
-    The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+description: string
 
-    - `"ip_range"`
+Defines the public description of the WAF rule.
 
-  - `value: optional string`
+<a href="#">Link to this property</a>
 
-    The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-### Access Rule IP Configuration
+Defines the rule group to which the current WAF rule belongs.
 
-- `AccessRuleIPConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-  - `target: optional "ip"`
+<details>
 
-    The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+<summary>
 
-    - `"ip"`
+mode: "on"or "off"
 
-  - `value: optional string`
+When set to <code>on</code>, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
 
-    The IP address to match. This address will be compared to the IP address of incoming requests.
+</summary>
 
-### ASN Configuration
+One of the following:
 
-- `ASNConfiguration object { target, value }`
+"on"
 
-  - `target: optional "asn"`
+<a href="#">Link to this property</a>
 
-    The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+"off"
 
-    - `"asn"`
+<a href="#">Link to this property</a>
 
-  - `value: optional string`
+</details>
 
-    The AS number to match.
+<a href="#">Link to this property</a>
 
-### Country Configuration
+package\_id: string
 
-- `CountryConfiguration object { target, value }`
+Defines the unique identifier of a WAF package.
 
-  - `target: optional "country"`
+maxLength32
 
-    The configuration target. You must set the target to `country` when specifying a country code in the rule.
+<a href="#">Link to this property</a>
 
-    - `"country"`
+priority: string
 
-  - `value: optional string`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-    The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+<a href="#">Link to this property</a>
 
-### IPV6 Configuration
+</details>
 
-- `IPV6Configuration object { target, value }`
+<a href="#">Link to this property</a>
 
-  - `target: optional "ip6"`
+</details>
 
-    The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-    - `"ip6"`
+<details>
 
-  - `value: optional string`
+<summary>
 
-    The IPv6 address to match.
+RuleGetResponse = unknownor string
 
-### Access Rule List Response
+</summary>
 
-- `AccessRuleListResponse object { id, allowed_modes, configuration, 5 more }`
+One of the following:
 
-  - `id: string`
+unknown
 
-    The unique identifier of the IP Access rule.
+<a href="#">Link to this property</a>
 
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
+string
 
-    The available actions that a rule can apply to a matched request.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+</details>
 
-    - `"challenge"`
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20rule_get_response%20%3E%20(schema)>)
 
-    - `"whitelist"`
+<details>
 
-    - `"js_challenge"`
+<summary>
 
-    - `"managed_challenge"`
+RuleEditResponse = object {id, allowed\_modes, description, 4 more } or object {id, allowed\_modes, default\_mode, 5 more } or object {id, allowed\_modes, description, 4 more }
 
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the ‘sensitivity’ property of the WAF package.
 
-    The rule configuration.
+</summary>
 
-    - `AccessRuleIPConfiguration object { target, value }`
+One of the following:
 
-      - `target: optional "ip"`
+<details>
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+<summary>
 
-        - `"ip"`
+WAFManagedRulesAnomalyRule object {id, allowed\_modes, description, 4 more }
 
-      - `value: optional string`
+When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the ‘sensitivity’ property of the WAF package.
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+</summary>
 
-    - `IPV6Configuration object { target, value }`
+id: string
 
-      - `target: optional "ip6"`
+Defines the unique identifier of the WAF rule.
 
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+maxLength32
 
-        - `"ip6"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+<details>
 
-        The IPv6 address to match.
+<summary>
 
-    - `AccessRuleCIDRConfiguration object { target, value }`
+allowed\_modes: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)">AllowedModesAnomaly</a>
 
-      - `target: optional "ip_range"`
+Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+</summary>
 
-        - `"ip_range"`
+One of the following:
 
-      - `value: optional string`
+"on"
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+<a href="#">Link to this property</a>
 
-    - `ASNConfiguration object { target, value }`
+"off"
 
-      - `target: optional "asn"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+</details>
 
-        - `"asn"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+description: string
 
-        The AS number to match.
+Defines the public description of the WAF rule.
 
-    - `CountryConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "country"`
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
+Defines the rule group to which the current WAF rule belongs.
 
-        - `"country"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+mode: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20allowed_modes_anomaly%20%3E%20(schema)">AllowedModesAnomaly</a>
 
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+Defines the mode anomaly. When set to <code>on</code>, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
 
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request.
+package\_id: string
 
-    - `"block"`
+Defines the unique identifier of a WAF package.
 
-    - `"challenge"`
+maxLength32
 
-    - `"whitelist"`
+<a href="#">Link to this property</a>
 
-    - `"js_challenge"`
+priority: string
 
-    - `"managed_challenge"`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    The timestamp of when the rule was created.
+</details>
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The timestamp of when the rule was last modified.
+<details>
 
-  - `notes: optional string`
+<summary>
 
-    An informative summary of the rule, typically used as a reminder or explanation.
+WAFManagedRulesTraditionalDenyRule object {id, allowed\_modes, default\_mode, 5 more }
 
-  - `scope: optional object { id, email, type }`
+When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A ‘deny’ rule will immediately respond to the request based on the configured rule action/mode (for example, ‘block’) and no other rules will be processed.
 
-    All zones owned by the user will have the rule applied.
+</summary>
 
-    - `id: optional string`
+id: string
 
-      Defines an identifier.
+Defines the unique identifier of the WAF rule.
 
-    - `email: optional string`
+maxLength32
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `type: optional "user" or "organization"`
+<details>
 
-      Defines the scope of the rule.
+<summary>
 
-      - `"user"`
+allowed\_modes: array of "default"or "disable"or "simulate"or 2 more
 
-      - `"organization"`
+Defines the list of possible actions of the WAF rule when it is triggered.
 
-### Access Rule Get Response
+</summary>
 
-- `AccessRuleGetResponse object { id, allowed_modes, configuration, 5 more }`
+One of the following:
 
-  - `id: string`
+"default"
 
-    The unique identifier of the IP Access rule.
+<a href="#">Link to this property</a>
 
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
+"disable"
 
-    The available actions that a rule can apply to a matched request.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+"simulate"
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"whitelist"`
+"block"
 
-    - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-    - `"managed_challenge"`
+"challenge"
 
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+<a href="#">Link to this property</a>
 
-    The rule configuration.
+</details>
 
-    - `AccessRuleIPConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "ip"`
+<details>
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+<summary>
 
-        - `"ip"`
+default\_mode: "disable"or "simulate"or "block"or "challenge"
 
-      - `value: optional string`
+Defines the default action/mode of a rule.
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+</summary>
 
-    - `IPV6Configuration object { target, value }`
+One of the following:
 
-      - `target: optional "ip6"`
+"disable"
 
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+<a href="#">Link to this property</a>
 
-        - `"ip6"`
+"simulate"
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IPv6 address to match.
+"block"
 
-    - `AccessRuleCIDRConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "ip_range"`
+"challenge"
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+<a href="#">Link to this property</a>
 
-        - `"ip_range"`
+</details>
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+description: string
 
-    - `ASNConfiguration object { target, value }`
+Defines the public description of the WAF rule.
 
-      - `target: optional "asn"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-        - `"asn"`
+Defines the rule group to which the current WAF rule belongs.
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The AS number to match.
+<details>
 
-    - `CountryConfiguration object { target, value }`
+<summary>
 
-      - `target: optional "country"`
+mode: "default"or "disable"or "simulate"or 2 more
 
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
+Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
 
-        - `"country"`
+</summary>
 
-      - `value: optional string`
+One of the following:
 
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+"default"
 
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
+<a href="#">Link to this property</a>
 
-    The action to apply to a matched request.
+"disable"
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"challenge"`
+"simulate"
 
-    - `"whitelist"`
+<a href="#">Link to this property</a>
 
-    - `"js_challenge"`
+"block"
 
-    - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+"challenge"
 
-    The timestamp of when the rule was created.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+</details>
 
-    The timestamp of when the rule was last modified.
+<a href="#">Link to this property</a>
 
-  - `notes: optional string`
+package\_id: string
 
-    An informative summary of the rule, typically used as a reminder or explanation.
+Defines the unique identifier of a WAF package.
 
-  - `scope: optional object { id, email, type }`
+maxLength32
 
-    All zones owned by the user will have the rule applied.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+priority: string
 
-      Defines an identifier.
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+</details>
 
-    - `type: optional "user" or "organization"`
+<a href="#">Link to this property</a>
 
-      Defines the scope of the rule.
+<details>
 
-      - `"user"`
+<summary>
 
-      - `"organization"`
+WAFManagedRulesTraditionalAllowRule object {id, allowed\_modes, description, 4 more }
 
-### Access Rule Create Response
+When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An ‘allow’ rule will immediately allow the request and no other rules will be processed.
 
-- `AccessRuleCreateResponse object { id, allowed_modes, configuration, 5 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-    The unique identifier of the IP Access rule.
+Defines the unique identifier of the WAF rule.
 
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
+maxLength32
 
-    The available actions that a rule can apply to a matched request.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+<details>
 
-    - `"challenge"`
+<summary>
 
-    - `"whitelist"`
+allowed\_modes: array of "on"or "off"
 
-    - `"js_challenge"`
+Defines the available modes for the current WAF rule.
 
-    - `"managed_challenge"`
+</summary>
 
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
+One of the following:
 
-    The rule configuration.
+"on"
 
-    - `AccessRuleIPConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "ip"`
+"off"
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
+<a href="#">Link to this property</a>
 
-        - `"ip"`
+</details>
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+description: string
 
-    - `IPV6Configuration object { target, value }`
+Defines the public description of the WAF rule.
 
-      - `target: optional "ip6"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
+group: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.packages.rules%20%3E%20(model)%20waf_rule_group%20%3E%20(schema)">WAFRuleGroup</a> { id, name }
 
-        - `"ip6"`
+Defines the rule group to which the current WAF rule belongs.
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IPv6 address to match.
+<details>
 
-    - `AccessRuleCIDRConfiguration object { target, value }`
+<summary>
 
-      - `target: optional "ip_range"`
+mode: "on"or "off"
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
+When set to <code>on</code>, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
 
-        - `"ip_range"`
+</summary>
 
-      - `value: optional string`
+One of the following:
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
+"on"
 
-    - `ASNConfiguration object { target, value }`
+<a href="#">Link to this property</a>
 
-      - `target: optional "asn"`
+"off"
 
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
+<a href="#">Link to this property</a>
 
-        - `"asn"`
+</details>
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The AS number to match.
+package\_id: string
 
-    - `CountryConfiguration object { target, value }`
+Defines the unique identifier of a WAF package.
 
-      - `target: optional "country"`
+maxLength32
 
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
+<a href="#">Link to this property</a>
 
-        - `"country"`
+priority: string
 
-      - `value: optional string`
+Defines the order in which the individual WAF rule is executed within its rule group.
 
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
+<a href="#">Link to this property</a>
 
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
+</details>
 
-    The action to apply to a matched request.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+</details>
 
-    - `"challenge"`
-
-    - `"whitelist"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `created_on: optional string`
-
-    The timestamp of when the rule was created.
-
-  - `modified_on: optional string`
-
-    The timestamp of when the rule was last modified.
-
-  - `notes: optional string`
-
-    An informative summary of the rule, typically used as a reminder or explanation.
-
-  - `scope: optional object { id, email, type }`
-
-    All zones owned by the user will have the rule applied.
-
-    - `id: optional string`
-
-      Defines an identifier.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `type: optional "user" or "organization"`
-
-      Defines the scope of the rule.
-
-      - `"user"`
-
-      - `"organization"`
-
-### Access Rule Edit Response
-
-- `AccessRuleEditResponse object { id, allowed_modes, configuration, 5 more }`
-
-  - `id: string`
-
-    The unique identifier of the IP Access rule.
-
-  - `allowed_modes: array of "block" or "challenge" or "whitelist" or 2 more`
-
-    The available actions that a rule can apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"whitelist"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
-
-    The rule configuration.
-
-    - `AccessRuleIPConfiguration object { target, value }`
-
-      - `target: optional "ip"`
-
-        The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
-
-        - `"ip"`
-
-      - `value: optional string`
-
-        The IP address to match. This address will be compared to the IP address of incoming requests.
-
-    - `IPV6Configuration object { target, value }`
-
-      - `target: optional "ip6"`
-
-        The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
-
-        - `"ip6"`
-
-      - `value: optional string`
-
-        The IPv6 address to match.
-
-    - `AccessRuleCIDRConfiguration object { target, value }`
-
-      - `target: optional "ip_range"`
-
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
-
-        - `"ip_range"`
-
-      - `value: optional string`
-
-        The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
-
-    - `ASNConfiguration object { target, value }`
-
-      - `target: optional "asn"`
-
-        The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
-
-        - `"asn"`
-
-      - `value: optional string`
-
-        The AS number to match.
-
-    - `CountryConfiguration object { target, value }`
-
-      - `target: optional "country"`
-
-        The configuration target. You must set the target to `country` when specifying a country code in the rule.
-
-        - `"country"`
-
-      - `value: optional string`
-
-        The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
-
-  - `mode: "block" or "challenge" or "whitelist" or 2 more`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"whitelist"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `created_on: optional string`
-
-    The timestamp of when the rule was created.
-
-  - `modified_on: optional string`
-
-    The timestamp of when the rule was last modified.
-
-  - `notes: optional string`
-
-    An informative summary of the rule, typically used as a reminder or explanation.
-
-  - `scope: optional object { id, email, type }`
-
-    All zones owned by the user will have the rule applied.
-
-    - `id: optional string`
-
-      Defines an identifier.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `type: optional "user" or "organization"`
-
-      Defines the scope of the rule.
-
-      - `"user"`
-
-      - `"organization"`
-
-### Access Rule Delete Response
-
-- `AccessRuleDeleteResponse object { id }`
-
-  - `id: string`
-
-    Defines an identifier.
-
-# UA Rules
-
-## List User Agent Blocking rules
-
-**get** `/zones/{zone_id}/firewall/ua_rules`
-
-Fetches User Agent Blocking rules in a zone. You can filter the results using several optional parameters.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Query Parameters
-
-- `description: optional string`
-
-  A string to search for in the description of existing rules.
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `paused: optional boolean`
-
-  When true, indicates that the rule is currently paused.
-
-- `per_page: optional number`
-
-  The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
-
-- `user_agent: optional string`
-
-  A string to search for in the user agent values of existing rules.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b59",
-      "configuration": {
-        "target": "ua",
-        "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-      },
-      "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-      "mode": "js_challenge",
-      "paused": false
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a User Agent Blocking rule
-
-**get** `/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}`
-
-Fetches the details of a User Agent Blocking rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `ua_rule_id: string`
-
-  The unique identifier of the User Agent Blocking rule.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules/$UA_RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configuration": {
-      "target": "ua",
-      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-    },
-    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-    "mode": "js_challenge",
-    "paused": false
-  },
-  "success": true
-}
-```
-
-## Create a User Agent Blocking rule
-
-**post** `/zones/{zone_id}/firewall/ua_rules`
-
-Creates a new User Agent Blocking rule in a zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Body Parameters
-
-- `configuration: object { target, value }`
-
-  - `target: optional "ua"`
-
-    The configuration target. You must set the target to `ua` when specifying a user agent in the rule.
-
-    - `"ua"`
-
-  - `value: optional string`
-
-    the user agent to exactly match
-
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
-
-  The action to apply to a matched request.
-
-  - `"block"`
-
-  - `"challenge"`
-
-  - `"whitelist"`
-
-  - `"js_challenge"`
-
-  - `"managed_challenge"`
-
-- `description: optional string`
-
-  An informative summary of the rule. This value is sanitized and any tags will be removed.
-
-- `paused: optional boolean`
-
-  When true, indicates that the rule is currently paused.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configuration": {},
-          "mode": "challenge",
-          "description": "Prevent multiple login failures to mitigate brute force attacks"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configuration": {
-      "target": "ua",
-      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-    },
-    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-    "mode": "js_challenge",
-    "paused": false
-  },
-  "success": true
-}
-```
-
-## Update a User Agent Blocking rule
-
-**put** `/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}`
-
-Updates an existing User Agent Blocking rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `ua_rule_id: string`
-
-  The unique identifier of the User Agent Blocking rule.
-
-### Body Parameters
-
-- `configuration: AccessRuleIPConfiguration or IPV6Configuration or AccessRuleCIDRConfiguration or 2 more`
-
-  The rule configuration.
-
-  - `AccessRuleIPConfiguration object { target, value }`
-
-    - `target: optional "ip"`
-
-      The configuration target. You must set the target to `ip` when specifying an IP address in the rule.
-
-      - `"ip"`
-
-    - `value: optional string`
-
-      The IP address to match. This address will be compared to the IP address of incoming requests.
-
-  - `IPV6Configuration object { target, value }`
-
-    - `target: optional "ip6"`
-
-      The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.
-
-      - `"ip6"`
-
-    - `value: optional string`
-
-      The IPv6 address to match.
-
-  - `AccessRuleCIDRConfiguration object { target, value }`
-
-    - `target: optional "ip_range"`
-
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.
-
-      - `"ip_range"`
-
-    - `value: optional string`
-
-      The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.
-
-  - `ASNConfiguration object { target, value }`
-
-    - `target: optional "asn"`
-
-      The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.
-
-      - `"asn"`
-
-    - `value: optional string`
-
-      The AS number to match.
-
-  - `CountryConfiguration object { target, value }`
-
-    - `target: optional "country"`
-
-      The configuration target. You must set the target to `country` when specifying a country code in the rule.
-
-      - `"country"`
-
-    - `value: optional string`
-
-      The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).
-
-- `mode: "block" or "challenge" or "whitelist" or 2 more`
-
-  The action to apply to a matched request.
-
-  - `"block"`
-
-  - `"challenge"`
-
-  - `"whitelist"`
-
-  - `"js_challenge"`
-
-  - `"managed_challenge"`
-
-- `description: optional string`
-
-  An informative summary of the rule. This value is sanitized and any tags will be removed.
-
-- `paused: optional boolean`
-
-  When true, indicates that the rule is currently paused.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules/$UA_RULE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configuration": {},
-          "mode": "challenge",
-          "description": "Prevent multiple login failures to mitigate brute force attacks"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configuration": {
-      "target": "ua",
-      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-    },
-    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-    "mode": "js_challenge",
-    "paused": false
-  },
-  "success": true
-}
-```
-
-## Delete a User Agent Blocking rule
-
-**delete** `/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}`
-
-Deletes an existing User Agent Blocking rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `ua_rule_id: string`
-
-  The unique identifier of the User Agent Blocking rule.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules/$UA_RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configuration": {
-      "target": "ua",
-      "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
-    },
-    "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
-    "mode": "js_challenge",
-    "paused": false
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### UA Rule List Response
-
-- `UARuleListResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-### UA Rule Get Response
-
-- `UARuleGetResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-### UA Rule Create Response
-
-- `UARuleCreateResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-### UA Rule Update Response
-
-- `UARuleUpdateResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-### UA Rule Delete Response
-
-- `UARuleDeleteResponse object { id, configuration, description, 2 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the User Agent Blocking rule.
-
-  - `configuration: optional object { target, value }`
-
-    The configuration object for the current rule.
-
-    - `target: optional string`
-
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
-
-    - `value: optional string`
-
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
-
-  - `description: optional string`
-
-    An informative summary of the rule.
-
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
-
-    The action to apply to a matched request.
-
-    - `"block"`
-
-    - `"challenge"`
-
-    - `"js_challenge"`
-
-    - `"managed_challenge"`
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-# WAF
-
-# Overrides
-
-## List WAF overrides
-
-**get** `/zones/{zone_id}/firewall/waf/overrides`
-
-Fetches the URI-based WAF overrides in a zone.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Query Parameters
-
-- `page: optional number`
-
-  The page number of paginated results.
-
-- `per_page: optional number`
-
-  The number of WAF overrides per page.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of Override`
-
-  - `id: optional string`
-
-    The unique identifier of the WAF override.
-
-  - `description: optional string`
-
-    An informative summary of the current URI-based WAF override.
-
-  - `groups: optional map[unknown]`
-
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `priority: optional number`
-
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
-
-  - `rewrite_action: optional RewriteAction`
-
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
-
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-  - `rules: optional WAFRule`
-
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `urls: optional array of OverrideURL`
-
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "de677e5818985db1285d0e80225f06e5",
-      "description": "Enable Cloudflare Magento ruleset for shop.example.com",
-      "groups": {
-        "ea8687e59929c1fd05ba97574ad43f77": "bar"
-      },
-      "paused": true,
-      "priority": 1,
-      "rewrite_action": {
-        "block": "challenge",
-        "challenge": "challenge",
-        "default": "challenge",
-        "disable": "challenge",
-        "simulate": "challenge"
-      },
-      "rules": {
-        "100015": "disable"
-      },
-      "urls": [
-        "shop.example.com/*"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a WAF override
-
-**get** `/zones/{zone_id}/firewall/waf/overrides/{overrides_id}`
-
-Fetches the details of a URI-based WAF override.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `overrides_id: string`
-
-  The unique identifier of the WAF override.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Override`
-
-  - `id: optional string`
-
-    The unique identifier of the WAF override.
-
-  - `description: optional string`
-
-    An informative summary of the current URI-based WAF override.
-
-  - `groups: optional map[unknown]`
-
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `priority: optional number`
-
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
-
-  - `rewrite_action: optional RewriteAction`
-
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
-
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-  - `rules: optional WAFRule`
-
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `urls: optional array of OverrideURL`
-
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides/$OVERRIDES_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "de677e5818985db1285d0e80225f06e5",
-    "description": "Enable Cloudflare Magento ruleset for shop.example.com",
-    "groups": {
-      "ea8687e59929c1fd05ba97574ad43f77": "bar"
-    },
-    "paused": true,
-    "priority": 1,
-    "rewrite_action": {
-      "block": "challenge",
-      "challenge": "challenge",
-      "default": "challenge",
-      "disable": "challenge",
-      "simulate": "challenge"
-    },
-    "rules": {
-      "100015": "disable"
-    },
-    "urls": [
-      "shop.example.com/*"
-    ]
-  },
-  "success": true
-}
-```
-
-## Create a WAF override
-
-**post** `/zones/{zone_id}/firewall/waf/overrides`
-
-Creates a URI-based WAF override for a zone.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Body Parameters
-
-- `urls: array of OverrideURL`
-
-  The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Override`
-
-  - `id: optional string`
-
-    The unique identifier of the WAF override.
-
-  - `description: optional string`
-
-    An informative summary of the current URI-based WAF override.
-
-  - `groups: optional map[unknown]`
-
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `priority: optional number`
-
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
-
-  - `rewrite_action: optional RewriteAction`
-
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
-
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-  - `rules: optional WAFRule`
-
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `urls: optional array of OverrideURL`
-
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "urls": [
-            "shop.example.com/*"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "de677e5818985db1285d0e80225f06e5",
-    "description": "Enable Cloudflare Magento ruleset for shop.example.com",
-    "groups": {
-      "ea8687e59929c1fd05ba97574ad43f77": "bar"
-    },
-    "paused": true,
-    "priority": 1,
-    "rewrite_action": {
-      "block": "challenge",
-      "challenge": "challenge",
-      "default": "challenge",
-      "disable": "challenge",
-      "simulate": "challenge"
-    },
-    "rules": {
-      "100015": "disable"
-    },
-    "urls": [
-      "shop.example.com/*"
-    ]
-  },
-  "success": true
-}
-```
-
-## Update WAF override
-
-**put** `/zones/{zone_id}/firewall/waf/overrides/{overrides_id}`
-
-Updates an existing URI-based WAF override.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `overrides_id: string`
-
-  The unique identifier of the WAF override.
-
-### Body Parameters
-
-- `id: string`
-
-  Defines an identifier.
-
-- `rewrite_action: RewriteAction`
-
-  Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
-
-  - `block: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `default: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `disable: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-- `rules: WAFRule`
-
-  An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-  - `"challenge"`
-
-  - `"block"`
-
-  - `"simulate"`
-
-  - `"disable"`
-
-  - `"default"`
-
-- `urls: array of OverrideURL`
-
-  The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Override`
-
-  - `id: optional string`
-
-    The unique identifier of the WAF override.
-
-  - `description: optional string`
-
-    An informative summary of the current URI-based WAF override.
-
-  - `groups: optional map[unknown]`
-
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `priority: optional number`
-
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
-
-  - `rewrite_action: optional RewriteAction`
-
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
-
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-  - `rules: optional WAFRule`
-
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `urls: optional array of OverrideURL`
-
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides/$OVERRIDES_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "rewrite_action": {},
-          "rules": {
-            "100015": "disable"
-          },
-          "urls": [
-            "shop.example.com/*"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "de677e5818985db1285d0e80225f06e5",
-    "description": "Enable Cloudflare Magento ruleset for shop.example.com",
-    "groups": {
-      "ea8687e59929c1fd05ba97574ad43f77": "bar"
-    },
-    "paused": true,
-    "priority": 1,
-    "rewrite_action": {
-      "block": "challenge",
-      "challenge": "challenge",
-      "default": "challenge",
-      "disable": "challenge",
-      "simulate": "challenge"
-    },
-    "rules": {
-      "100015": "disable"
-    },
-    "urls": [
-      "shop.example.com/*"
-    ]
-  },
-  "success": true
-}
-```
-
-## Delete a WAF override
-
-**delete** `/zones/{zone_id}/firewall/waf/overrides/{overrides_id}`
-
-Deletes an existing URI-based WAF override.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `overrides_id: string`
-
-  The unique identifier of the WAF override.
-
-### Returns
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    The unique identifier of the WAF override.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides/$OVERRIDES_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "de677e5818985db1285d0e80225f06e5"
-  }
-}
-```
-
-## Domain Types
-
-### Override
-
-- `Override object { id, description, groups, 5 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the WAF override.
-
-  - `description: optional string`
-
-    An informative summary of the current URI-based WAF override.
-
-  - `groups: optional map[unknown]`
-
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-  - `paused: optional boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `priority: optional number`
-
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
-
-  - `rewrite_action: optional RewriteAction`
-
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
-
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
-
-      The WAF rule action to apply.
-
-      - `"challenge"`
-
-      - `"block"`
-
-      - `"simulate"`
-
-      - `"disable"`
-
-      - `"default"`
-
-  - `rules: optional WAFRule`
-
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `urls: optional array of OverrideURL`
-
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-### Override URL
-
-- `OverrideURL = string`
-
-### Rewrite Action
-
-- `RewriteAction object { block, challenge, default, 2 more }`
-
-  Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
-
-  - `block: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `default: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `disable: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-  - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
-
-    The WAF rule action to apply.
-
-    - `"challenge"`
-
-    - `"block"`
-
-    - `"simulate"`
-
-    - `"disable"`
-
-    - `"default"`
-
-### WAF Rule
-
-- `WAFRule = map["challenge" or "block" or "simulate" or 2 more]`
-
-  An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
-
-  - `"challenge"`
-
-  - `"block"`
-
-  - `"simulate"`
-
-  - `"disable"`
-
-  - `"default"`
-
-### Override Delete Response
-
-- `OverrideDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    The unique identifier of the WAF override.
-
-# Packages
-
-## List WAF packages
-
-**get** `/zones/{zone_id}/firewall/waf/packages`
-
-Fetches WAF packages for a zone.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Query Parameters
-
-- `direction: optional "asc" or "desc"`
-
-  The direction used to sort returned packages.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `match: optional "any" or "all"`
-
-  When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
-
-  - `"any"`
-
-  - `"all"`
-
-- `name: optional string`
-
-  The name of the WAF package.
-
-- `order: optional "name"`
-
-  The field used to sort returned packages.
-
-  - `"name"`
-
-- `page: optional number`
-
-  The page number of paginated results.
-
-- `per_page: optional number`
-
-  The number of packages per page.
-
-### Returns
-
-- `FirewallAPIResponseCollection object { errors, messages, result, 2 more }`
-
-  - `errors: array of ResponseInfo`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of ResponseInfo`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-  - `result: array of unknown`
-
-  - `success: true`
-
-    Defines whether the API call was successful.
-
-    - `true`
-
-  - `result_info: optional object { count, page, per_page, total_count }`
-
-    - `count: optional number`
-
-      Defines the total number of results for the requested service.
-
-    - `page: optional number`
-
-      Defines the current page within paginated list of results.
-
-    - `per_page: optional number`
-
-      Defines the number of results per page of results.
-
-    - `total_count: optional number`
-
-      Defines the total results available without any search parameters.
-
-- `Result object { result }`
-
-  - `result: optional array of object { id, description, detection_mode, 3 more }  or object { id, description, detection_mode, 5 more }`
-
-    - `FirewallPackageDefinition object { id, description, detection_mode, 3 more }`
-
-      - `id: string`
-
-        Defines an identifier.
-
-      - `description: string`
-
-        A summary of the purpose/function of the WAF package.
-
-      - `detection_mode: "anomaly" or "traditional"`
-
-        The mode that defines how rules within the package are evaluated during the course of a request. When a package uses anomaly detection mode (`anomaly` value), each rule is given a score when triggered. If the total score of all triggered rules exceeds the sensitivity defined in the WAF package, the action configured in the package will be performed. Traditional detection mode (`traditional` value) will decide the action to take when it is triggered by the request. If multiple rules are triggered, the action providing the highest protection will be applied (for example, a 'block' action will win over a 'challenge' action).
-
-        - `"anomaly"`
-
-        - `"traditional"`
-
-      - `name: string`
-
-        The name of the WAF package.
-
-      - `zone_id: string`
-
-        Defines an identifier.
-
-      - `status: optional "active"`
-
-        When set to `active`, indicates that the WAF package will be applied to the zone.
-
-        - `"active"`
-
-    - `FirewallAnomalyPackage object { id, description, detection_mode, 5 more }`
-
-      - `id: string`
-
-        Defines an identifier.
-
-      - `description: string`
-
-        A summary of the purpose/function of the WAF package.
-
-      - `detection_mode: "anomaly" or "traditional"`
-
-        When a WAF package uses anomaly detection, each rule is given a score when triggered. If the total score of all triggered rules exceeds the sensitivity defined on the WAF package, the action defined on the package will be taken.
-
-        - `"anomaly"`
-
-        - `"traditional"`
-
-      - `name: string`
-
-        The name of the WAF package.
-
-      - `zone_id: string`
-
-        Defines an identifier.
-
-      - `action_mode: optional "simulate" or "block" or "challenge"`
-
-        The default action performed by the rules in the WAF package.
-
-        - `"simulate"`
-
-        - `"block"`
-
-        - `"challenge"`
-
-      - `sensitivity: optional "high" or "medium" or "low" or "off"`
-
-        The sensitivity of the WAF package.
-
-        - `"high"`
-
-        - `"medium"`
-
-        - `"low"`
-
-        - `"off"`
-
-      - `status: optional "active"`
-
-        When set to `active`, indicates that the WAF package will be applied to the zone.
-
-        - `"active"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {}
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a WAF package
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}`
-
-Fetches the details of a WAF package.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `package_id: string`
-
-  Defines a package identifier.
-
-### Returns
-
-- `FirewallAPIResponseSingle object { errors, messages, result, success }`
-
-  - `errors: array of ResponseInfo`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of ResponseInfo`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-  - `result: unknown or string`
-
-    - `unknown`
-
-    - `string`
-
-  - `success: true`
-
-    Defines whether the API call was successful.
-
-    - `true`
-
-- `Result object { result }`
-
-  - `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Package List Response
-
-- `PackageListResponse = unknown`
-
-### Package Get Response
-
-- `PackageGetResponse = object { errors, messages, result, success }  or object { result }`
-
-  - `FirewallAPIResponseSingle object { errors, messages, result, success }`
-
-    - `errors: array of ResponseInfo`
-
-      - `code: number`
-
-      - `message: string`
-
-      - `documentation_url: optional string`
-
-      - `source: optional object { pointer }`
-
-        - `pointer: optional string`
-
-    - `messages: array of ResponseInfo`
-
-      - `code: number`
-
-      - `message: string`
-
-      - `documentation_url: optional string`
-
-      - `source: optional object { pointer }`
-
-    - `result: unknown or string`
-
-      - `unknown`
-
-      - `string`
-
-    - `success: true`
-
-      Defines whether the API call was successful.
-
-      - `true`
-
-  - `Result object { result }`
-
-    - `result: optional unknown`
-
-# Groups
-
-## List WAF rule groups
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups`
-
-Fetches the WAF rule groups in a WAF package.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Query Parameters
-
-- `direction: optional "asc" or "desc"`
-
-  Defines the direction used to sort returned rule groups.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `match: optional "any" or "all"`
-
-  Defines the condition for search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
-
-  - `"any"`
-
-  - `"all"`
-
-- `mode: optional "on" or "off"`
-
-  Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-  - `"on"`
-
-  - `"off"`
-
-- `name: optional string`
-
-  Defines the name of the rule group.
-
-- `order: optional "mode" or "rules_count"`
-
-  Defines the field used to sort returned rule groups.
-
-  - `"mode"`
-
-  - `"rules_count"`
-
-- `page: optional number`
-
-  Defines the page number of paginated results.
-
-- `per_page: optional number`
-
-  Defines the number of rule groups per page.
-
-- `rules_count: optional number`
-
-  Defines the number of rules in the current rule group.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of Group`
-
-  - `id: string`
-
-    Defines the unique identifier of the rule group.
-
-  - `description: string`
-
-    Defines an informative summary of what the rule group does.
-
-  - `mode: "on" or "off"`
-
-    Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `name: string`
-
-    Defines the name of the rule group.
-
-  - `rules_count: number`
-
-    Defines the number of rules in the current rule group.
-
-  - `allowed_modes: optional array of "on" or "off"`
-
-    Defines the available states for the rule group.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_rules_count: optional number`
-
-    Defines the number of rules within the group that have been modified from their default configuration.
-
-  - `package_id: optional string`
-
-    Defines the unique identifier of a WAF package.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "de677e5818985db1285d0e80225f06e5",
-      "description": "Group designed to protect against IP addresses that are a threat and typically used to launch DDoS attacks",
-      "mode": "on",
-      "name": "Project Honey Pot",
-      "rules_count": 10,
-      "allowed_modes": [
-        "on",
-        "off"
-      ],
-      "modified_rules_count": 2,
-      "package_id": "a25a9a7e9c00afc1fb2e0245519d725b"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a WAF rule group
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups/{group_id}`
-
-Fetches the details of a WAF rule group.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `group_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups/$GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Update a WAF rule group
-
-**patch** `/zones/{zone_id}/firewall/waf/packages/{package_id}/groups/{group_id}`
-
-Updates a WAF rule group. You can update the state (`mode` parameter) of a rule group.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `group_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Body Parameters
-
-- `mode: optional "on" or "off"`
-
-  Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-  - `"on"`
-
-  - `"off"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/groups/$GROUP_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Group
-
-- `Group object { id, description, mode, 5 more }`
-
-  - `id: string`
-
-    Defines the unique identifier of the rule group.
-
-  - `description: string`
-
-    Defines an informative summary of what the rule group does.
-
-  - `mode: "on" or "off"`
-
-    Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `name: string`
-
-    Defines the name of the rule group.
-
-  - `rules_count: number`
-
-    Defines the number of rules in the current rule group.
-
-  - `allowed_modes: optional array of "on" or "off"`
-
-    Defines the available states for the rule group.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_rules_count: optional number`
-
-    Defines the number of rules within the group that have been modified from their default configuration.
-
-  - `package_id: optional string`
-
-    Defines the unique identifier of a WAF package.
-
-### Group Get Response
-
-- `GroupGetResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-### Group Edit Response
-
-- `GroupEditResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-# Rules
-
-## List WAF rules
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/rules`
-
-Fetches WAF rules in a WAF package.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Query Parameters
-
-- `description: optional string`
-
-  Defines the public description of the WAF rule.
-
-- `direction: optional "asc" or "desc"`
-
-  Defines the direction used to sort returned rules.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `group_id: optional string`
-
-  Defines the unique identifier of the rule group.
-
-- `match: optional "any" or "all"`
-
-  Defines the search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.
-
-  - `"any"`
-
-  - `"all"`
-
-- `mode: optional "DIS" or "CHL" or "BLK" or "SIM"`
-
-  Defines the action/mode a rule has been overridden to perform.
-
-  - `"DIS"`
-
-  - `"CHL"`
-
-  - `"BLK"`
-
-  - `"SIM"`
-
-- `order: optional "priority" or "group_id" or "description"`
-
-  Defines the field used to sort returned rules.
-
-  - `"priority"`
-
-  - `"group_id"`
-
-  - `"description"`
-
-- `page: optional number`
-
-  Defines the page number of paginated results.
-
-- `per_page: optional number`
-
-  Defines the number of rules per page.
-
-- `priority: optional string`
-
-  Defines the order in which the individual WAF rule is executed within its rule group.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id, allowed_modes, description, 4 more }  or object { id, allowed_modes, default_mode, 5 more }  or object { id, allowed_modes, description, 4 more }`
-
-  - `WAFManagedRulesAnomalyRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of AllowedModesAnomaly`
-
-      Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-      - `id: optional string`
-
-        Defines the unique identifier of the rule group.
-
-      - `name: optional string`
-
-        Defines the name of the rule group.
-
-    - `mode: AllowedModesAnomaly`
-
-      Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalDenyRule object { id, allowed_modes, default_mode, 5 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A 'deny' rule will immediately respond to the request based on the configured rule action/mode (for example, 'block') and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "default" or "disable" or "simulate" or 2 more`
-
-      Defines the list of possible actions of the WAF rule when it is triggered.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `default_mode: "disable" or "simulate" or "block" or "challenge"`
-
-      Defines the default action/mode of a rule.
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "default" or "disable" or "simulate" or 2 more`
-
-      Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalAllowRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An 'allow' rule will immediately allow the request and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "on" or "off"`
-
-      Defines the available modes for the current WAF rule.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "on" or "off"`
-
-      When set to `on`, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Defines the total number of results for the requested service.
-
-  - `page: optional number`
-
-    Defines the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Defines the number of results per page of results.
-
-  - `total_count: optional number`
-
-    Defines the total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f939de3be84e66e757adcdcb87908023",
-      "allowed_modes": [
-        "on",
-        "off"
-      ],
-      "description": "SQL injection prevention for SELECT statements",
-      "group": {
-        "id": "de677e5818985db1285d0e80225f06e5",
-        "name": "Project Honey Pot"
-      },
-      "mode": "on",
-      "package_id": "a25a9a7e9c00afc1fb2e0245519d725b",
-      "priority": "priority"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a WAF rule
-
-**get** `/zones/{zone_id}/firewall/waf/packages/{package_id}/rules/{rule_id}`
-
-Fetches the details of a WAF rule in a WAF package.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `rule_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Update a WAF rule
-
-**patch** `/zones/{zone_id}/firewall/waf/packages/{package_id}/rules/{rule_id}`
-
-Updates a WAF rule. You can only update the mode/action of the rule.
-
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier of a schema.
-
-- `package_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-- `rule_id: string`
-
-  Defines the unique identifier of a WAF package.
-
-### Body Parameters
-
-- `mode: optional "default" or "disable" or "simulate" or 4 more`
-
-  Defines the mode/action of the rule when triggered. You must use a value from the `allowed_modes` array of the current rule.
-
-  - `"default"`
-
-  - `"disable"`
-
-  - `"simulate"`
-
-  - `"block"`
-
-  - `"challenge"`
-
-  - `"on"`
-
-  - `"off"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, allowed_modes, description, 4 more }  or object { id, allowed_modes, default_mode, 5 more }  or object { id, allowed_modes, description, 4 more }`
-
-  When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-  - `WAFManagedRulesAnomalyRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of AllowedModesAnomaly`
-
-      Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-      - `id: optional string`
-
-        Defines the unique identifier of the rule group.
-
-      - `name: optional string`
-
-        Defines the name of the rule group.
-
-    - `mode: AllowedModesAnomaly`
-
-      Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalDenyRule object { id, allowed_modes, default_mode, 5 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A 'deny' rule will immediately respond to the request based on the configured rule action/mode (for example, 'block') and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "default" or "disable" or "simulate" or 2 more`
-
-      Defines the list of possible actions of the WAF rule when it is triggered.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `default_mode: "disable" or "simulate" or "block" or "challenge"`
-
-      Defines the default action/mode of a rule.
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "default" or "disable" or "simulate" or 2 more`
-
-      Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalAllowRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An 'allow' rule will immediately allow the request and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "on" or "off"`
-
-      Defines the available modes for the current WAF rule.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "on" or "off"`
-
-      When set to `on`, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/packages/$PACKAGE_ID/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "mode": "on"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f939de3be84e66e757adcdcb87908023",
-    "allowed_modes": [
-      "on",
-      "off"
-    ],
-    "description": "SQL injection prevention for SELECT statements",
-    "group": {
-      "id": "de677e5818985db1285d0e80225f06e5",
-      "name": "Project Honey Pot"
-    },
-    "mode": "on",
-    "package_id": "a25a9a7e9c00afc1fb2e0245519d725b",
-    "priority": "priority"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Allowed Modes Anomaly
-
-- `AllowedModesAnomaly = "on" or "off"`
-
-  Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-  - `"on"`
-
-  - `"off"`
-
-### WAF Rule Group
-
-- `WAFRuleGroup object { id, name }`
-
-  Defines the rule group to which the current WAF rule belongs.
-
-  - `id: optional string`
-
-    Defines the unique identifier of the rule group.
-
-  - `name: optional string`
-
-    Defines the name of the rule group.
-
-### Rule List Response
-
-- `RuleListResponse = object { id, allowed_modes, description, 4 more }  or object { id, allowed_modes, default_mode, 5 more }  or object { id, allowed_modes, description, 4 more }`
-
-  When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-  - `WAFManagedRulesAnomalyRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of AllowedModesAnomaly`
-
-      Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-      - `id: optional string`
-
-        Defines the unique identifier of the rule group.
-
-      - `name: optional string`
-
-        Defines the name of the rule group.
-
-    - `mode: AllowedModesAnomaly`
-
-      Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalDenyRule object { id, allowed_modes, default_mode, 5 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A 'deny' rule will immediately respond to the request based on the configured rule action/mode (for example, 'block') and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "default" or "disable" or "simulate" or 2 more`
-
-      Defines the list of possible actions of the WAF rule when it is triggered.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `default_mode: "disable" or "simulate" or "block" or "challenge"`
-
-      Defines the default action/mode of a rule.
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "default" or "disable" or "simulate" or 2 more`
-
-      Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalAllowRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An 'allow' rule will immediately allow the request and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "on" or "off"`
-
-      Defines the available modes for the current WAF rule.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "on" or "off"`
-
-      When set to `on`, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-### Rule Get Response
-
-- `RuleGetResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-### Rule Edit Response
-
-- `RuleEditResponse = object { id, allowed_modes, description, 4 more }  or object { id, allowed_modes, default_mode, 5 more }  or object { id, allowed_modes, description, 4 more }`
-
-  When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-  - `WAFManagedRulesAnomalyRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, anomaly detection WAF rules contribute to an overall threat score that will determine if a request is considered malicious. You can configure the total scoring threshold through the 'sensitivity' property of the WAF package.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of AllowedModesAnomaly`
-
-      Defines the available modes for the current WAF rule. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-      - `id: optional string`
-
-        Defines the unique identifier of the rule group.
-
-      - `name: optional string`
-
-        Defines the name of the rule group.
-
-    - `mode: AllowedModesAnomaly`
-
-      Defines the mode anomaly. When set to `on`, the current WAF rule will be used when evaluating the request. Applies to anomaly detection WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalDenyRule object { id, allowed_modes, default_mode, 5 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act upon the request based on the configuration of the rule. A 'deny' rule will immediately respond to the request based on the configured rule action/mode (for example, 'block') and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "default" or "disable" or "simulate" or 2 more`
-
-      Defines the list of possible actions of the WAF rule when it is triggered.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `default_mode: "disable" or "simulate" or "block" or "challenge"`
-
-      Defines the default action/mode of a rule.
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "default" or "disable" or "simulate" or 2 more`
-
-      Defines the action that the current WAF rule will perform when triggered. Applies to traditional (deny) WAF rules.
-
-      - `"default"`
-
-      - `"disable"`
-
-      - `"simulate"`
-
-      - `"block"`
-
-      - `"challenge"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
-
-  - `WAFManagedRulesTraditionalAllowRule object { id, allowed_modes, description, 4 more }`
-
-    When triggered, traditional WAF rules cause the firewall to immediately act on the request based on the rule configuration. An 'allow' rule will immediately allow the request and no other rules will be processed.
-
-    - `id: string`
-
-      Defines the unique identifier of the WAF rule.
-
-    - `allowed_modes: array of "on" or "off"`
-
-      Defines the available modes for the current WAF rule.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `description: string`
-
-      Defines the public description of the WAF rule.
-
-    - `group: WAFRuleGroup`
-
-      Defines the rule group to which the current WAF rule belongs.
-
-    - `mode: "on" or "off"`
-
-      When set to `on`, the current rule will be used when evaluating the request. Applies to traditional (allow) WAF rules.
-
-      - `"on"`
-
-      - `"off"`
-
-    - `package_id: string`
-
-      Defines the unique identifier of a WAF package.
-
-    - `priority: string`
-
-      Defines the order in which the individual WAF rule is executed within its rule group.
+[Link to this property](#)%20firewall.waf.packages.rules%20%3E%20(model)%20rule_edit_response%20%3E%20(schema)>)

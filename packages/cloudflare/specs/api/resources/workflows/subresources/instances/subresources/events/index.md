@@ -1,100 +1,51 @@
+---
+title: Events
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workflows](https://developers.cloudflare.com/api/resources/workflows)
+
+[Instances](https://developers.cloudflare.com/api/resources/workflows/subresources/instances)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Events
 
-## Send event to instance
+##### [Send event to instance](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/subresources/events/methods/create)
 
-**post** `/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/events/{event_type}`
+POST/accounts/{account\_id}/workflows/{workflow\_name}/instances/{instance\_id}/events/{event\_type}
 
-Sends an event to a running workflow instance to trigger state transitions.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `workflow_name: string`
+EventCreateResponse object {instanceId, timestamp }
 
-- `instance_id: string`
+</summary>
 
-  Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.
+instanceId: string
 
-- `event_type: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+timestamp: string
 
-- `body: optional unknown`
+Accepts ISO 8601 with no timezone offsets and in UTC.
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `success: true`
-
-  - `true`
-
-- `result: optional unknown`
-
-- `result_info: optional object { count, per_page, total_count, 3 more }`
-
-  - `count: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-  - `cursor: optional string`
-
-  - `page: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/$INSTANCE_ID/events/$EVENT_TYPE \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "success": true,
-  "result": {},
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
-
-## Domain Types
-
-### Event Create Response
-
-- `EventCreateResponse = unknown`
+[Link to this property](#)%20workflows.instances.events%20%3E%20(model)%20event_create_response%20%3E%20(schema)>)

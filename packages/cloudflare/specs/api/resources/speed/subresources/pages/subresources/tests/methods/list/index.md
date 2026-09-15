@@ -1,277 +1,947 @@
-## List page test history
+---
+title: List page test history
+---
 
-**get** `/zones/{zone_id}/speed_api/pages/{url}/tests`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Speed](https://developers.cloudflare.com/api/resources/speed)
+
+[Pages](https://developers.cloudflare.com/api/resources/speed/subresources/pages)
+
+[Tests](https://developers.cloudflare.com/api/resources/speed/subresources/pages/subresources/tests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List page test history
+
+GET/zones/{zone\_id}/speed\_api/pages/{url}/tests
 
 Test history (list of tests) for a specific webpage.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `url: string`
 
-  A URL.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `per_page: optional number`
+</details>
 
-- `region: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+<details>
 
-  A test region.
+<summary>API Email + API Key</summary>
 
-  - `"asia-east1"`
 
-  - `"asia-northeast1"`
 
-  - `"asia-northeast2"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"asia-south1"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"asia-southeast1"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"australia-southeast1"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"europe-north1"`
+</details>
 
-  - `"europe-southwest1"`
+##### Accepted Permissions (at least one required)
 
-  - `"europe-west1"`
+`Zone Settings Write``Zone Settings Read`
 
-  - `"europe-west2"`
+##### P ath ParametersExpand Collapse
 
-  - `"europe-west3"`
+zone\_id: string
 
-  - `"europe-west4"`
+Identifier.
 
-  - `"europe-west8"`
+maxLength32
 
-  - `"europe-west9"`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `"me-west1"`
+url: string
 
-  - `"southamerica-east1"`
+A URL.
 
-  - `"us-central1"`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20url%20%3E%20(schema)>)
 
-  - `"us-east1"`
+##### Q uery ParametersExpand Collapse
 
-  - `"us-east4"`
+page: optional number
 
-  - `"us-south1"`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `"us-west1"`
+per\_page: optional number
 
-### Returns
+maximum50
 
-- `errors: array of ResponseInfo`
+minimum5
 
-  - `code: number`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+region: optional "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
 
-    - `pointer: optional string`
+A test region.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"asia-east1"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"asia-northeast1"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"asia-northeast2"
 
-- `result: optional array of Test`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"asia-south1"
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `date: optional string`
+"asia-southeast1"
 
-  - `desktopReport: optional LighthouseReport`
+<a href="#">Link to this property</a>
 
-    The Lighthouse report.
+"australia-southeast1"
 
-    - `cls: optional number`
+<a href="#">Link to this property</a>
 
-      Cumulative Layout Shift.
+"europe-north1"
 
-    - `deviceType: optional "DESKTOP" or "MOBILE"`
+<a href="#">Link to this property</a>
 
-      The type of device.
+"europe-southwest1"
 
-      - `"DESKTOP"`
+<a href="#">Link to this property</a>
 
-      - `"MOBILE"`
+"europe-west1"
 
-    - `error: optional object { code, detail, finalDisplayedUrl }`
+<a href="#">Link to this property</a>
 
-      - `code: optional "NOT_REACHABLE" or "DNS_FAILURE" or "NOT_HTML" or 2 more`
+"europe-west2"
 
-        The error code of the Lighthouse result.
+<a href="#">Link to this property</a>
 
-        - `"NOT_REACHABLE"`
+"europe-west3"
 
-        - `"DNS_FAILURE"`
+<a href="#">Link to this property</a>
 
-        - `"NOT_HTML"`
+"europe-west4"
 
-        - `"LIGHTHOUSE_TIMEOUT"`
+<a href="#">Link to this property</a>
 
-        - `"UNKNOWN"`
+"europe-west8"
 
-      - `detail: optional string`
+<a href="#">Link to this property</a>
 
-        Detailed error message.
+"europe-west9"
 
-      - `finalDisplayedUrl: optional string`
+<a href="#">Link to this property</a>
 
-        The final URL displayed to the user.
+"me-west1"
 
-    - `fcp: optional number`
+<a href="#">Link to this property</a>
 
-      First Contentful Paint.
+"southamerica-east1"
 
-    - `jsonReportUrl: optional string`
+<a href="#">Link to this property</a>
 
-      The URL to the full Lighthouse JSON report.
+"us-central1"
 
-    - `lcp: optional number`
+<a href="#">Link to this property</a>
 
-      Largest Contentful Paint.
+"us-east1"
 
-    - `performanceScore: optional number`
+<a href="#">Link to this property</a>
 
-      The Lighthouse performance score.
+"us-east4"
 
-    - `si: optional number`
+<a href="#">Link to this property</a>
 
-      Speed Index.
+"us-south1"
 
-    - `state: optional "RUNNING" or "COMPLETE" or "FAILED"`
+<a href="#">Link to this property</a>
 
-      The state of the Lighthouse report.
+"us-west1"
 
-      - `"RUNNING"`
+<a href="#">Link to this property</a>
 
-      - `"COMPLETE"`
+</details>
 
-      - `"FAILED"`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20region%20%3E%20(schema)>)
 
-    - `tbt: optional number`
+##### ReturnsExpand Collapse
 
-      Total Blocking Time.
+<details>
 
-    - `ttfb: optional number`
+<summary>
 
-      Time To First Byte.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `tti: optional number`
+</summary>
 
-      Time To Interactive.
+code: number
 
-  - `mobileReport: optional LighthouseReport`
+minimum1000
 
-    The Lighthouse report.
+<a href="#">Link to this property</a>
 
-  - `region: optional LabeledRegion`
+message: string
 
-    A test region with a label.
+<a href="#">Link to this property</a>
 
-    - `label: optional string`
+documentation\_url: optional string
 
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+<a href="#">Link to this property</a>
 
-      A test region.
+<details>
 
-      - `"asia-east1"`
+<summary>
 
-      - `"asia-northeast1"`
+source: optional object {pointer }
 
-      - `"asia-northeast2"`
+</summary>
 
-      - `"asia-south1"`
+pointer: optional string
 
-      - `"asia-southeast1"`
+<a href="#">Link to this property</a>
 
-      - `"australia-southeast1"`
+</details>
 
-      - `"europe-north1"`
+<a href="#">Link to this property</a>
 
-      - `"europe-southwest1"`
+</details>
 
-      - `"europe-west1"`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `"europe-west2"`
+<details>
 
-      - `"europe-west3"`
+<summary>
 
-      - `"europe-west4"`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `"europe-west8"`
+</summary>
 
-      - `"europe-west9"`
+code: number
 
-      - `"me-west1"`
+minimum1000
 
-      - `"southamerica-east1"`
+<a href="#">Link to this property</a>
 
-      - `"us-central1"`
+message: string
 
-      - `"us-east1"`
+<a href="#">Link to this property</a>
 
-      - `"us-east4"`
+documentation\_url: optional string
 
-      - `"us-south1"`
+<a href="#">Link to this property</a>
 
-      - `"us-west1"`
+<details>
 
-  - `scheduleFrequency: optional "DAILY" or "WEEKLY"`
+<summary>
 
-    The frequency of the test.
+source: optional object {pointer }
 
-    - `"DAILY"`
+</summary>
 
-    - `"WEEKLY"`
+pointer: optional string
 
-  - `url: optional string`
+<a href="#">Link to this property</a>
 
-    A URL.
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  - `per_page: optional number`
+success: boolean
 
-  - `total_count: optional number`
+Whether the API call was successful.
 
-### Example
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-```http
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed.pages.tests%20%3E%20(model)%20test%20%3E%20(schema)">Test</a> { id, date, desktopReport, 4 more }
+
+</summary>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+date: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+desktopReport: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20lighthouse_report%20%3E%20(schema)">LighthouseReport</a> { cls, deviceType, error, 9 more }
+
+The Lighthouse report.
+
+</summary>
+
+cls: optional number
+
+Cumulative Layout Shift.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+deviceType: optional "DESKTOP"or "MOBILE"
+
+The type of device.
+
+</summary>
+
+One of the following:
+
+"DESKTOP"
+
+<a href="#">Link to this property</a>
+
+"MOBILE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+error: optional object {code, detail, finalDisplayedUrl }
+
+</summary>
+
+<details>
+
+<summary>
+
+code: optional "NOT\_REACHABLE"or "DNS\_FAILURE"or "NOT\_HTML"or 2 more
+
+The error code of the Lighthouse result.
+
+</summary>
+
+One of the following:
+
+"NOT\_REACHABLE"
+
+<a href="#">Link to this property</a>
+
+"DNS\_FAILURE"
+
+<a href="#">Link to this property</a>
+
+"NOT\_HTML"
+
+<a href="#">Link to this property</a>
+
+"LIGHTHOUSE\_TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: optional string
+
+Detailed error message.
+
+<a href="#">Link to this property</a>
+
+finalDisplayedUrl: optional string
+
+The final URL displayed to the user.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+fcp: optional number
+
+First Contentful Paint.
+
+<a href="#">Link to this property</a>
+
+jsonReportUrl: optional string
+
+The URL to the full Lighthouse JSON report.
+
+<a href="#">Link to this property</a>
+
+lcp: optional number
+
+Largest Contentful Paint.
+
+<a href="#">Link to this property</a>
+
+performanceScore: optional number
+
+The Lighthouse performance score.
+
+<a href="#">Link to this property</a>
+
+si: optional number
+
+Speed Index.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: optional "RUNNING"or "COMPLETE"or "FAILED"
+
+The state of the Lighthouse report.
+
+</summary>
+
+One of the following:
+
+"RUNNING"
+
+<a href="#">Link to this property</a>
+
+"COMPLETE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tbt: optional number
+
+Total Blocking Time.
+
+<a href="#">Link to this property</a>
+
+ttfb: optional number
+
+Time To First Byte.
+
+<a href="#">Link to this property</a>
+
+tti: optional number
+
+Time To Interactive.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mobileReport: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20lighthouse_report%20%3E%20(schema)">LighthouseReport</a> { cls, deviceType, error, 9 more }
+
+The Lighthouse report.
+
+</summary>
+
+cls: optional number
+
+Cumulative Layout Shift.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+deviceType: optional "DESKTOP"or "MOBILE"
+
+The type of device.
+
+</summary>
+
+One of the following:
+
+"DESKTOP"
+
+<a href="#">Link to this property</a>
+
+"MOBILE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+error: optional object {code, detail, finalDisplayedUrl }
+
+</summary>
+
+<details>
+
+<summary>
+
+code: optional "NOT\_REACHABLE"or "DNS\_FAILURE"or "NOT\_HTML"or 2 more
+
+The error code of the Lighthouse result.
+
+</summary>
+
+One of the following:
+
+"NOT\_REACHABLE"
+
+<a href="#">Link to this property</a>
+
+"DNS\_FAILURE"
+
+<a href="#">Link to this property</a>
+
+"NOT\_HTML"
+
+<a href="#">Link to this property</a>
+
+"LIGHTHOUSE\_TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detail: optional string
+
+Detailed error message.
+
+<a href="#">Link to this property</a>
+
+finalDisplayedUrl: optional string
+
+The final URL displayed to the user.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+fcp: optional number
+
+First Contentful Paint.
+
+<a href="#">Link to this property</a>
+
+jsonReportUrl: optional string
+
+The URL to the full Lighthouse JSON report.
+
+<a href="#">Link to this property</a>
+
+lcp: optional number
+
+Largest Contentful Paint.
+
+<a href="#">Link to this property</a>
+
+performanceScore: optional number
+
+The Lighthouse performance score.
+
+<a href="#">Link to this property</a>
+
+si: optional number
+
+Speed Index.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: optional "RUNNING"or "COMPLETE"or "FAILED"
+
+The state of the Lighthouse report.
+
+</summary>
+
+One of the following:
+
+"RUNNING"
+
+<a href="#">Link to this property</a>
+
+"COMPLETE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tbt: optional number
+
+Total Blocking Time.
+
+<a href="#">Link to this property</a>
+
+ttfb: optional number
+
+Time To First Byte.
+
+<a href="#">Link to this property</a>
+
+tti: optional number
+
+Time To Interactive.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+region: optional <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
+
+A test region with a label.
+
+</summary>
+
+label: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
+
+A test region.
+
+</summary>
+
+One of the following:
+
+"asia-east1"
+
+<a href="#">Link to this property</a>
+
+"asia-northeast1"
+
+<a href="#">Link to this property</a>
+
+"asia-northeast2"
+
+<a href="#">Link to this property</a>
+
+"asia-south1"
+
+<a href="#">Link to this property</a>
+
+"asia-southeast1"
+
+<a href="#">Link to this property</a>
+
+"australia-southeast1"
+
+<a href="#">Link to this property</a>
+
+"europe-north1"
+
+<a href="#">Link to this property</a>
+
+"europe-southwest1"
+
+<a href="#">Link to this property</a>
+
+"europe-west1"
+
+<a href="#">Link to this property</a>
+
+"europe-west2"
+
+<a href="#">Link to this property</a>
+
+"europe-west3"
+
+<a href="#">Link to this property</a>
+
+"europe-west4"
+
+<a href="#">Link to this property</a>
+
+"europe-west8"
+
+<a href="#">Link to this property</a>
+
+"europe-west9"
+
+<a href="#">Link to this property</a>
+
+"me-west1"
+
+<a href="#">Link to this property</a>
+
+"southamerica-east1"
+
+<a href="#">Link to this property</a>
+
+"us-central1"
+
+<a href="#">Link to this property</a>
+
+"us-east1"
+
+<a href="#">Link to this property</a>
+
+"us-east4"
+
+<a href="#">Link to this property</a>
+
+"us-south1"
+
+<a href="#">Link to this property</a>
+
+"us-west1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scheduleFrequency: optional "DAILY"or "WEEKLY"
+
+The frequency of the test.
+
+</summary>
+
+One of the following:
+
+"DAILY"
+
+<a href="#">Link to this property</a>
+
+"WEEKLY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+A URL.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List page test history
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages/$URL/tests \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "date": "2014-01-01T05:20:00.12345Z",
+      "desktopReport": {
+        "cls": 100,
+        "deviceType": "DESKTOP",
+        "error": {
+          "code": "NOT_REACHABLE",
+          "detail": "Details: net::ERR_CONNECTION_CLOSED",
+          "finalDisplayedUrl": "example.com"
+        },
+        "fcp": 100,
+        "jsonReportUrl": "jsonReportUrl",
+        "lcp": 100,
+        "performanceScore": 90,
+        "si": 100,
+        "state": "COMPLETE",
+        "tbt": 100,
+        "ttfb": 100,
+        "tti": 100
+      },
+      "mobileReport": {
+        "cls": 100,
+        "deviceType": "DESKTOP",
+        "error": {
+          "code": "NOT_REACHABLE",
+          "detail": "Details: net::ERR_CONNECTION_CLOSED",
+          "finalDisplayedUrl": "example.com"
+        },
+        "fcp": 100,
+        "jsonReportUrl": "jsonReportUrl",
+        "lcp": 100,
+        "performanceScore": 90,
+        "si": 100,
+        "state": "COMPLETE",
+        "tbt": 100,
+        "ttfb": 100,
+        "tti": 100
+      },
+      "region": {
+        "label": "Iowa, USA",
+        "value": "us-central1"
+      },
+      "scheduleFrequency": "DAILY",
+      "url": "example.com"
+    }
+  ],
+  "result_info": {
+    "count": 5,
+    "page": 1,
+    "per_page": 5,
+    "total_count": 3
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

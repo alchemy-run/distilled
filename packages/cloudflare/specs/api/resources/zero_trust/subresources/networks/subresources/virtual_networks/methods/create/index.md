@@ -1,92 +1,264 @@
-## Create a virtual network
+---
+title: Create a virtual network
+---
 
-**post** `/accounts/{account_id}/teamnet/virtual_networks`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks)
+
+[Virtual Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a virtual network
+
+POST/accounts/{account\_id}/teamnet/virtual\_networks
 
 Adds a new virtual network to an account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `name: string`
 
-  A user-friendly name for the virtual network.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `comment: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Optional remark describing the virtual network.
+</details>
 
-- `is_default: optional boolean`
+<details>
 
-  If `true`, this virtual network is the default for the account.
+<summary>API Email + API Key</summary>
 
-- `is_default_network: optional boolean`
 
-  If `true`, this virtual network is the default for the account.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Cloudflare One Networks Write``Cloudflare Tunnel Write`
 
-- `messages: array of ResponseInfo`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+Cloudflare account ID
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `result: VirtualNetwork`
+##### Body ParametersJSONExpand Collapse
 
-  - `id: string`
+name: string
 
-    UUID of the virtual network.
+A user-friendly name for the virtual network.
 
-  - `comment: string`
+maxLength256
 
-    Optional remark describing the virtual network.
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `created_at: string`
+comment: optional string
 
-    Timestamp of when the resource was created.
+Optional remark describing the virtual network.
 
-  - `is_default_network: boolean`
+maxLength256
 
-    If `true`, this virtual network is the default for the account.
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20comment%20%3E%20(schema)>)
 
-  - `name: string`
+Deprecatedis\_default: optional boolean
 
-    A user-friendly name for the virtual network.
+Use the is\_default\_network property instead.
 
-  - `deleted_at: optional string`
+If `true`, this virtual network is the default for the account.
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_default%20%3E%20(schema)>)
 
-- `success: true`
+is\_default\_network: optional boolean
 
-  Whether the API call was successful
+If `true`, this virtual network is the default for the account.
 
-  - `true`
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20is_default_network%20%3E%20(schema)>)
 
-### Example
+##### ReturnsExpand Collapse
 
-```http
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.networks.virtual_networks%20%3E%20(model)%20virtual_network%20%3E%20(schema)">VirtualNetwork</a> { id, comment, created\_at, 3 more }
+
+</summary>
+
+id: string
+
+UUID of the virtual network.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comment: string
+
+Optional remark describing the virtual network.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Timestamp of when the resource was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_default\_network: boolean
+
+If <code>true</code>, this virtual network is the default for the account.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+A user-friendly name for the virtual network.
+
+maxLength256
+
+<a href="#">Link to this property</a>
+
+deleted\_at: optional string
+
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a virtual network
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -97,9 +269,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_n
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -127,7 +299,45 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_n
     "created_at": "2021-01-25T18:22:34.317854Z",
     "is_default_network": true,
     "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
+    "deleted_at": "2009-11-10T23:00:00Z"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "comment": "Staging VPC for data science",
+    "created_at": "2021-01-25T18:22:34.317854Z",
+    "is_default_network": true,
+    "name": "us-east-1-vpc",
+    "deleted_at": "2009-11-10T23:00:00Z"
   },
   "success": true
 }

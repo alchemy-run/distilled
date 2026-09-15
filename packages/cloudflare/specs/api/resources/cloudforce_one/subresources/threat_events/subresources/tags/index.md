@@ -1,431 +1,3749 @@
+---
+title: Tags
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tags
 
-## Creates a new tag
+##### [Lists all tags (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/methods/list)
 
-**post** `/accounts/{account_id}/cloudforce-one/events/tags/create`
+GET/accounts/{account\_id}/cloudforce-one/events/tags
 
-Creates a new tag to be used accross threat events.
+##### [Creates a new tag](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/cloudforce-one/events/tags/create
 
-- `account_id: string`
+##### [Updates a tag (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/methods/edit)
 
-  Account ID.
+PATCH/accounts/{account\_id}/cloudforce-one/events/tags/{tag\_uuid}
 
-### Body Parameters
+##### [Deletes a tag (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/methods/delete)
 
-- `value: string`
+DELETE/accounts/{account\_id}/cloudforce-one/events/tags/{tag\_uuid}
 
-- `activeDuration: optional string`
+##### ModelsExpand Collapse
 
-- `actorCategory: optional string`
+<details>
 
-  Actor variety. Allowed values: Activist, Competitor, Customer, Crime Syndicate, Former Employee, Nation State, Organized Crime, Nation State Affiliated, Terrorist, Unaffiliated.
+<summary>
 
-- `actorCategoryConfidence: optional number`
+TagListResponse object {pagination, tags }
 
-  Confidence (1-10) in the actor variety (actorCategory). CFONE-only: stripped from responses to non-CFONE accounts.
+</summary>
 
-- `aliases: optional array of object { value, confidence, tlp }`
+<details>
 
-  Structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: stripped from responses to non-CFONE accounts.
+<summary>
 
-  - `value: string`
+pagination: object {page, pageSize, totalCount, totalPages }
 
-  - `confidence: optional number`
+</summary>
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+page: number
 
-    - `"red"`
+<a href="#">Link to this property</a>
 
-    - `"amber"`
+pageSize: number
 
-    - `"green"`
+<a href="#">Link to this property</a>
 
-    - `"white"`
+totalCount: number
 
-- `aliasGroupNames: optional array of string`
+<a href="#">Link to this property</a>
 
-- `aliasGroupNamesInternal: optional array of string`
+totalPages: number
 
-- `analyticPriority: optional number`
+<a href="#">Link to this property</a>
 
-- `attributionConfidence: optional string`
+</details>
 
-- `attributionConfidenceScore: optional number`
+<a href="#">Link to this property</a>
 
-- `attributionOrganization: optional string`
+<details>
 
-- `categoryUuid: optional string`
+<summary>
 
-- `dateOfDiscovery: optional string`
+tags: array of object {uuid, value, activeDuration, 34 more }
 
-  Date the actor was discovered (ISO YYYY-MM-DD).
+</summary>
 
-- `externalReferenceLinks: optional array of string`
+uuid: string
 
-- `externalReferences: optional array of object { url, description }`
+<a href="#">Link to this property</a>
 
-  Structured external references ({ url, description }). Public: returned to all accounts.
+value: string
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+activeDuration: optional string
 
-- `internalAliases: optional array of object { value, confidence, tlp }`
+<a href="#">Link to this property</a>
 
-  Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+<details>
 
-  - `value: string`
+<summary>
 
-  - `confidence: optional number`
+activeDuration\_annotated: optional object {value, tlp }
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+</summary>
 
-    - `"red"`
+value: string
 
-    - `"amber"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+<details>
 
-    - `"white"`
+<summary>
 
-- `internalDescription: optional string`
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
 
-- `motive: optional string`
+</summary>
 
-  Actor motive. Allowed values: Convenience, Fear, Fun, Financial, Grudge, Ideology, Espionage.
+One of the following:
 
-- `motiveConfidence: optional number`
+"red"
 
-  Confidence (1-10) in the actor motive. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-- `opsecLevel: optional string`
+"amber"
 
-- `originCountryConfidence: optional number`
+<a href="#">Link to this property</a>
 
-  Confidence (1-10) in the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+"amber-strict"
 
-- `originCountryISO: optional string`
+<a href="#">Link to this property</a>
 
-- `originCountryTlp: optional "red" or "amber" or "green" or "white"`
+"green"
 
-  TLP marking for the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-  - `"red"`
+"clear"
 
-  - `"amber"`
+<a href="#">Link to this property</a>
 
-  - `"green"`
+"purple"
 
-  - `"white"`
+<a href="#">Link to this property</a>
 
-- `priority: optional number`
+"amber+strict"
 
-- `sophisticationLevel: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `uuid: string`
+<a href="#">Link to this property</a>
 
-- `value: string`
+</details>
 
-- `activeDuration: optional string`
+<a href="#">Link to this property</a>
 
-- `actorCategory: optional string`
+actorCategory: optional string
 
-- `actorCategoryConfidence: optional number`
+<a href="#">Link to this property</a>
 
-  Confidence (1-10) in the actor variety (actorCategory). CFONE-only: stripped from responses to non-CFONE accounts.
+<details>
 
-- `aliases: optional array of object { value, confidence, tlp }`
+<summary>
 
-  Structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: stripped from responses to non-CFONE accounts.
+actorCategory\_annotated: optional object {value, confidence, tlp }
 
-  - `value: string`
+</summary>
 
-  - `confidence: optional number`
+value: string
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+<a href="#">Link to this property</a>
 
-    - `"red"`
+confidence: optional number
 
-    - `"amber"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+<details>
 
-    - `"white"`
+<summary>
 
-- `aliasGroupNames: optional array of string`
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
 
-- `aliasGroupNamesInternal: optional array of string`
+</summary>
 
-- `analyticPriority: optional number`
+One of the following:
 
-- `attributionConfidence: optional string`
+"red"
 
-- `attributionConfidenceScore: optional number`
+<a href="#">Link to this property</a>
 
-- `attributionOrganization: optional string`
+"amber"
 
-- `categoryName: optional string`
+<a href="#">Link to this property</a>
 
-- `categoryUuid: optional string`
+"amber-strict"
 
-- `dateOfDiscovery: optional string`
+<a href="#">Link to this property</a>
 
-- `externalReferenceLinks: optional array of string`
+"green"
 
-- `externalReferences: optional array of object { url, description }`
+<a href="#">Link to this property</a>
 
-  Structured external references ({ url, description }). Public: returned to all accounts.
+"clear"
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+"purple"
 
-- `internalAliases: optional array of object { value, confidence, tlp }`
+<a href="#">Link to this property</a>
 
-  Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+"amber+strict"
 
-  - `value: string`
+<a href="#">Link to this property</a>
 
-  - `confidence: optional number`
+</details>
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+<a href="#">Link to this property</a>
 
-    - `"red"`
+</details>
 
-    - `"amber"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+<details>
 
-    - `"white"`
+<summary>
 
-- `internalDescription: optional string`
+aliases: optional array of object {value, confidence, tlp }
 
-- `motive: optional string`
+Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts).
 
-- `motiveConfidence: optional number`
+</summary>
 
-  Confidence (1-10) in the actor motive. CFONE-only: stripped from responses to non-CFONE accounts.
+value: string
 
-- `opsecLevel: optional string`
+<a href="#">Link to this property</a>
 
-- `originCountryConfidence: optional number`
+confidence: optional number
 
-  Confidence (1-10) in the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+maximum10
 
-- `originCountryISO: optional string`
+minimum1
 
-- `originCountryISOAlpha3: optional string`
+<a href="#">Link to this property</a>
 
-- `originCountryTlp: optional "red" or "amber" or "green" or "white"`
+<details>
 
-  TLP marking for the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+<summary>
 
-  - `"red"`
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
 
-  - `"amber"`
+</summary>
 
-  - `"green"`
+One of the following:
 
-  - `"white"`
+"red"
 
-- `priority: optional number`
+<a href="#">Link to this property</a>
 
-- `sophisticationLevel: optional string`
+"amber"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/tags/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "APT28",
-          "actorCategory": "Nation State",
-          "actorCategoryConfidence": 7,
-          "attributionConfidenceScore": 7,
-          "categoryUuid": "12345678-1234-1234-1234-1234567890ab",
-          "dateOfDiscovery": "2024-01-15",
-          "motive": "Espionage",
-          "motiveConfidence": 7,
-          "originCountryConfidence": 7,
-          "originCountryTlp": "amber"
-        }'
-```
+"amber-strict"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "value": "APT28",
-  "activeDuration": "activeDuration",
-  "actorCategory": "actorCategory",
-  "actorCategoryConfidence": 7,
-  "aliases": [
-    {
-      "value": "Fancy Bear",
-      "confidence": 8,
-      "tlp": "amber"
-    }
-  ],
-  "aliasGroupNames": [
-    "string"
-  ],
-  "aliasGroupNamesInternal": [
-    "string"
-  ],
-  "analyticPriority": 0,
-  "attributionConfidence": "attributionConfidence",
-  "attributionConfidenceScore": 7,
-  "attributionOrganization": "attributionOrganization",
-  "categoryName": "Nation State",
-  "categoryUuid": "12345678-1234-1234-1234-1234567890ab",
-  "dateOfDiscovery": "2024-01-15",
-  "externalReferenceLinks": [
-    "string"
-  ],
-  "externalReferences": [
-    {
-      "url": "https://example.com/report",
-      "description": "Vendor threat report"
-    }
-  ],
-  "internalAliases": [
-    {
-      "value": "Fancy Bear",
-      "confidence": 8,
-      "tlp": "amber"
-    }
-  ],
-  "internalDescription": "internalDescription",
-  "motive": "motive",
-  "motiveConfidence": 7,
-  "opsecLevel": "opsecLevel",
-  "originCountryConfidence": 7,
-  "originCountryISO": "originCountryISO",
-  "originCountryISOAlpha3": "IRN",
-  "originCountryTlp": "amber",
-  "priority": 0,
-  "sophisticationLevel": "sophisticationLevel"
-}
-```
+"green"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Tag Create Response
+"clear"
 
-- `TagCreateResponse object { uuid, value, activeDuration, 25 more }`
+<a href="#">Link to this property</a>
 
-  - `uuid: string`
+"purple"
 
-  - `value: string`
+<a href="#">Link to this property</a>
 
-  - `activeDuration: optional string`
+"amber+strict"
 
-  - `actorCategory: optional string`
+<a href="#">Link to this property</a>
 
-  - `actorCategoryConfidence: optional number`
+</details>
 
-    Confidence (1-10) in the actor variety (actorCategory). CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-  - `aliases: optional array of object { value, confidence, tlp }`
+</details>
 
-    Structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-    - `value: string`
+aliasGroupNames: optional array of string
 
-    - `confidence: optional number`
+<a href="#">Link to this property</a>
 
-    - `tlp: optional "red" or "amber" or "green" or "white"`
+aliasGroupNamesInternal: optional array of string
 
-      - `"red"`
+<a href="#">Link to this property</a>
 
-      - `"amber"`
+attributionOrganization: optional string
 
-      - `"green"`
+<a href="#">Link to this property</a>
 
-      - `"white"`
+<details>
 
-  - `aliasGroupNames: optional array of string`
+<summary>
 
-  - `aliasGroupNamesInternal: optional array of string`
+attributionOrganization\_annotated: optional object {value, confidence, tlp }
 
-  - `analyticPriority: optional number`
+</summary>
 
-  - `attributionConfidence: optional string`
+value: string
 
-  - `attributionConfidenceScore: optional number`
+<a href="#">Link to this property</a>
 
-  - `attributionOrganization: optional string`
+confidence: optional number
 
-  - `categoryName: optional string`
+<a href="#">Link to this property</a>
 
-  - `categoryUuid: optional string`
+<details>
 
-  - `dateOfDiscovery: optional string`
+<summary>
 
-  - `externalReferenceLinks: optional array of string`
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
 
-  - `externalReferences: optional array of object { url, description }`
+</summary>
 
-    Structured external references ({ url, description }). Public: returned to all accounts.
+One of the following:
 
-    - `url: string`
+"red"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-  - `internalAliases: optional array of object { value, confidence, tlp }`
+"amber"
 
-    Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-    - `value: string`
+"amber-strict"
 
-    - `confidence: optional number`
+<a href="#">Link to this property</a>
 
-    - `tlp: optional "red" or "amber" or "green" or "white"`
+"green"
 
-      - `"red"`
+<a href="#">Link to this property</a>
 
-      - `"amber"`
+"clear"
 
-      - `"green"`
+<a href="#">Link to this property</a>
 
-      - `"white"`
+"purple"
 
-  - `internalDescription: optional string`
+<a href="#">Link to this property</a>
 
-  - `motive: optional string`
+"amber+strict"
 
-  - `motiveConfidence: optional number`
+<a href="#">Link to this property</a>
 
-    Confidence (1-10) in the actor motive. CFONE-only: stripped from responses to non-CFONE accounts.
+</details>
 
-  - `opsecLevel: optional string`
+<a href="#">Link to this property</a>
 
-  - `originCountryConfidence: optional number`
+</details>
 
-    Confidence (1-10) in the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-  - `originCountryISO: optional string`
+categoryName: optional string
 
-  - `originCountryISOAlpha3: optional string`
+<a href="#">Link to this property</a>
 
-  - `originCountryTlp: optional "red" or "amber" or "green" or "white"`
+categoryUuid: optional string
 
-    TLP marking for the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-    - `"red"`
+confidence: optional number
 
-    - `"amber"`
+Overall tag confidence (1-10).
 
-    - `"green"`
+maximum10
 
-    - `"white"`
+minimum1
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-  - `sophisticationLevel: optional string`
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+dateOfDiscovery: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+externalReferenceLinks: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences: optional array of object {url, description }
+
+Structured external references ({ url, description }). Public: returned to all accounts.
+
+</summary>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences\_annotated: optional array of object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+internalAliases: optional array of object {value, confidence, tlp }
+
+Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+internalDescription: optional string
+
+<a href="#">Link to this property</a>
+
+lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+motive: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+motive\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+opsecLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+opsecLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+originCountryISO: optional string
+
+ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+originCountryISO\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+priority\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Parsed custom field values. Null when the tag has no custom fields.
+
+<a href="#">Link to this property</a>
+
+sophisticationLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sophisticationLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+Tag-level TLP handling marking.
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TagCreateResponse object {uuid, value, activeDuration, 34 more }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+activeDuration: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+activeDuration\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+actorCategory: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actorCategory\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+aliases: optional array of object {value, confidence, tlp }
+
+Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts).
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+aliasGroupNames: optional array of string
+
+<a href="#">Link to this property</a>
+
+aliasGroupNamesInternal: optional array of string
+
+<a href="#">Link to this property</a>
+
+attributionOrganization: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+attributionOrganization\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+categoryUuid: optional string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+Overall tag confidence (1-10).
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+dateOfDiscovery: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+externalReferenceLinks: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences: optional array of object {url, description }
+
+Structured external references ({ url, description }). Public: returned to all accounts.
+
+</summary>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences\_annotated: optional array of object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+internalAliases: optional array of object {value, confidence, tlp }
+
+Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+internalDescription: optional string
+
+<a href="#">Link to this property</a>
+
+lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+motive: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+motive\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+opsecLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+opsecLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+originCountryISO: optional string
+
+ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+originCountryISO\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+priority\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Parsed custom field values. Null when the tag has no custom fields.
+
+<a href="#">Link to this property</a>
+
+sophisticationLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sophisticationLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+Tag-level TLP handling marking.
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TagEditResponse object {uuid, value, activeDuration, 34 more }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+activeDuration: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+activeDuration\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+actorCategory: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+actorCategory\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+aliases: optional array of object {value, confidence, tlp }
+
+Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts).
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+aliasGroupNames: optional array of string
+
+<a href="#">Link to this property</a>
+
+aliasGroupNamesInternal: optional array of string
+
+<a href="#">Link to this property</a>
+
+attributionOrganization: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+attributionOrganization\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+categoryUuid: optional string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+Overall tag confidence (1-10).
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+dateOfDiscovery: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+externalReferenceLinks: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences: optional array of object {url, description }
+
+Structured external references ({ url, description }). Public: returned to all accounts.
+
+</summary>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+externalReferences\_annotated: optional array of object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+internalAliases: optional array of object {value, confidence, tlp }
+
+Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+internalDescription: optional string
+
+<a href="#">Link to this property</a>
+
+lastSeen: optional string
+
+<a href="#">Link to this property</a>
+
+motive: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+motive\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+opsecLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+opsecLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+originCountryISO: optional string
+
+ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+originCountryISO\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+priority\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Parsed custom field values. Null when the tag has no custom fields.
+
+<a href="#">Link to this property</a>
+
+sophisticationLevel: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sophisticationLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+Tag-level TLP handling marking.
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TagDeleteResponse object {uuid }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_delete_response%20%3E%20(schema)>)
+
+#### TagsCategories
+
+##### [Lists all tag categories (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/categories/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/tags/categories
+
+##### [Creates a new tag category (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/categories/methods/create)
+
+POST/accounts/{account\_id}/cloudforce-one/events/tags/categories/create
+
+##### [Updates a tag category (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/categories/methods/edit)
+
+PATCH/accounts/{account\_id}/cloudforce-one/events/tags/categories/{category\_uuid}
+
+##### [Deletes a tag category (SoT)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/categories/methods/delete)
+
+DELETE/accounts/{account\_id}/cloudforce-one/events/tags/categories/{category\_uuid}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+CategoryListResponse object {categories }
+
+</summary>
+
+<details>
+
+<summary>
+
+categories: array of object {name, uuid, createdAt, 3 more }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: optional array of object {key, kind, allowedValues, 11 more }
+
+Parsed FieldDefinition\[] defining custom fields for this category, or null if none.
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: "string"or "number"or "enum"or 3 more
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"enum"
+
+<a href="#">Link to this property</a>
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"array"
+
+<a href="#">Link to this property</a>
+
+"object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+allowedValues: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+annotations: optional object {confidence, tlp }
+
+</summary>
+
+confidence: optional boolean
+
+<a href="#">Link to this property</a>
+
+tlp: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+deprecated: optional boolean
+
+Marks a field as unavailable for new values while retaining its definition for historical values.
+
+<a href="#">Link to this property</a>
+
+deprecatedValues: optional array of string
+
+Enum values unavailable for new writes but retained in allowedValues for historical display.
+
+<a href="#">Link to this property</a>
+
+element: optional unknown
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enforcement: optional "error"or "warn"or "off"
+
+</summary>
+
+One of the following:
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"warn"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+format: optional "date"or "url"or "duration"or "country"
+
+</summary>
+
+One of the following:
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"url"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"country"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+label: optional string
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+maxLength: optional number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+numberConstraint: optional object {integer, max, min }
+
+</summary>
+
+integer: optional boolean
+
+<a href="#">Link to this property</a>
+
+max: optional number
+
+<a href="#">Link to this property</a>
+
+min: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Map of property key to FieldDefinition for object fields. Required when kind is ‘object’. See FieldDefinition (recursive).
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryCreateResponse object {name, uuid, createdAt, 3 more }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: optional array of object {key, kind, allowedValues, 11 more }
+
+Parsed FieldDefinition\[] defining custom fields for this category, or null if none.
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: "string"or "number"or "enum"or 3 more
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"enum"
+
+<a href="#">Link to this property</a>
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"array"
+
+<a href="#">Link to this property</a>
+
+"object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+allowedValues: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+annotations: optional object {confidence, tlp }
+
+</summary>
+
+confidence: optional boolean
+
+<a href="#">Link to this property</a>
+
+tlp: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+deprecated: optional boolean
+
+Marks a field as unavailable for new values while retaining its definition for historical values.
+
+<a href="#">Link to this property</a>
+
+deprecatedValues: optional array of string
+
+Enum values unavailable for new writes but retained in allowedValues for historical display.
+
+<a href="#">Link to this property</a>
+
+element: optional unknown
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enforcement: optional "error"or "warn"or "off"
+
+</summary>
+
+One of the following:
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"warn"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+format: optional "date"or "url"or "duration"or "country"
+
+</summary>
+
+One of the following:
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"url"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"country"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+label: optional string
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+maxLength: optional number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+numberConstraint: optional object {integer, max, min }
+
+</summary>
+
+integer: optional boolean
+
+<a href="#">Link to this property</a>
+
+max: optional number
+
+<a href="#">Link to this property</a>
+
+min: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Map of property key to FieldDefinition for object fields. Required when kind is ‘object’. See FieldDefinition (recursive).
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.categories%20%3E%20(model)%20category_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryEditResponse object {name, uuid, createdAt, 3 more }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+createdAt: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: optional array of object {key, kind, allowedValues, 11 more }
+
+Parsed FieldDefinition\[] defining custom fields for this category, or null if none.
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: "string"or "number"or "enum"or 3 more
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"enum"
+
+<a href="#">Link to this property</a>
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"array"
+
+<a href="#">Link to this property</a>
+
+"object"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+allowedValues: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+annotations: optional object {confidence, tlp }
+
+</summary>
+
+confidence: optional boolean
+
+<a href="#">Link to this property</a>
+
+tlp: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+deprecated: optional boolean
+
+Marks a field as unavailable for new values while retaining its definition for historical values.
+
+<a href="#">Link to this property</a>
+
+deprecatedValues: optional array of string
+
+Enum values unavailable for new writes but retained in allowedValues for historical display.
+
+<a href="#">Link to this property</a>
+
+element: optional unknown
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enforcement: optional "error"or "warn"or "off"
+
+</summary>
+
+One of the following:
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"warn"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+format: optional "date"or "url"or "duration"or "country"
+
+</summary>
+
+One of the following:
+
+"date"
+
+<a href="#">Link to this property</a>
+
+"url"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"country"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+label: optional string
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+maxLength: optional number
+
+exclusiveMinimum
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+numberConstraint: optional object {integer, max, min }
+
+</summary>
+
+integer: optional boolean
+
+<a href="#">Link to this property</a>
+
+max: optional number
+
+<a href="#">Link to this property</a>
+
+min: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+properties: optional map\[unknown]
+
+Map of property key to FieldDefinition for object fields. Required when kind is ‘object’. See FieldDefinition (recursive).
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updatedAt: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.categories%20%3E%20(model)%20category_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CategoryDeleteResponse object {uuid }
+
+</summary>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.categories%20%3E%20(model)%20category_delete_response%20%3E%20(schema)>)
+
+#### TagsIndicators
+
+##### [List indicators related to a tag](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/indicators/methods/list)
+
+GET/accounts/{account\_id}/cloudforce-one/events/tags/{tag\_uuid}/indicators
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+IndicatorListResponse object {indicators, pagination }
+
+</summary>
+
+<details>
+
+<summary>
+
+indicators: array of object {createdAt, indicatorType, updatedAt, 6 more }
+
+</summary>
+
+createdAt: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+indicatorType: string
+
+<a href="#">Link to this property</a>
+
+updatedAt: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+datasetId: optional string
+
+The dataset ID this indicator belongs to. Included in list responses.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+relatedEvents: optional array of object {datasetId, eventId, eventDate }
+
+</summary>
+
+datasetId: string
+
+<a href="#">Link to this property</a>
+
+eventId: string
+
+<a href="#">Link to this property</a>
+
+eventDate: optional string
+
+ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tags: optional array of object {categoryId, categoryName, uuid, value }
+
+</summary>
+
+categoryId: optional string
+
+The UUID of the tag category, or null when the tag is uncategorized.
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+uuid: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tlp: optional string
+
+Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pagination: object {page, pageSize, totalCount, totalPages }
+
+</summary>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+pageSize: number
+
+<a href="#">Link to this property</a>
+
+totalCount: number
+
+<a href="#">Link to this property</a>
+
+totalPages: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.indicators%20%3E%20(model)%20indicator_list_response%20%3E%20(schema)>)
+
+#### TagsIndicatorsBy Dataset
+
+##### [List indicators related to a tag within a dataset (deprecated)](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags/subresources/indicators/subresources/by_dataset/methods/list)
+
+Deprecated
+
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/tags/{tag\_uuid}/indicators
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ByDatasetListResponse object {indicators, pagination }
+
+</summary>
+
+<details>
+
+<summary>
+
+indicators: array of object {createdAt, indicatorType, updatedAt, 6 more }
+
+</summary>
+
+createdAt: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+indicatorType: string
+
+<a href="#">Link to this property</a>
+
+updatedAt: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+datasetId: optional string
+
+The dataset ID this indicator belongs to. Included in list responses.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+relatedEvents: optional array of object {datasetId, eventId, eventDate }
+
+</summary>
+
+datasetId: string
+
+<a href="#">Link to this property</a>
+
+eventId: string
+
+<a href="#">Link to this property</a>
+
+eventDate: optional string
+
+ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tags: optional array of object {categoryId, categoryName, uuid, value }
+
+</summary>
+
+categoryId: optional string
+
+The UUID of the tag category, or null when the tag is uncategorized.
+
+<a href="#">Link to this property</a>
+
+categoryName: optional string
+
+<a href="#">Link to this property</a>
+
+uuid: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tlp: optional string
+
+Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pagination: object {page, pageSize, totalCount, totalPages }
+
+</summary>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+pageSize: number
+
+<a href="#">Link to this property</a>
+
+totalCount: number
+
+<a href="#">Link to this property</a>
+
+totalPages: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags.indicators.by_dataset%20%3E%20(model)%20by_dataset_list_response%20%3E%20(schema)>)

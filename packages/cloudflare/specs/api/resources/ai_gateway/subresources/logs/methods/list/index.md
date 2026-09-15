@@ -1,253 +1,696 @@
-## List Gateway Logs
+---
+title: List Gateway Logs
+---
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs`
+[Skip to content](#_top)
 
-List Gateway Logs
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
 
-- `account_id: string`
+[Logs](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/logs)
 
-- `gateway_id: string`
+Copy Markdown
 
-  gateway id
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Query Parameters
+---
 
-- `cached: optional boolean`
+**Copy Markdown****View as Markdown**
 
-- `direction: optional "asc" or "desc"`
+# List Gateway Logs
 
-  - `"asc"`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/logs
 
-  - `"desc"`
+Lists request/response log entries for the AI gateway with filtering and pagination.
 
-- `end_date: optional string`
+##### Security
 
-- `feedback: optional 0 or 1`
+<details>
 
-  - `0`
+<summary>API Token</summary>
 
-  - `1`
 
-- `filters: optional array of object { key, operator, value }`
 
-  - `key: "id" or "created_at" or "request_content_type" or 21 more`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `"id"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `"created_at"`
+</details>
 
-    - `"request_content_type"`
+<details>
 
-    - `"response_content_type"`
+<summary>API Email + API Key</summary>
 
-    - `"request_type"`
 
-    - `"success"`
 
-    - `"cached"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `"provider"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `"model"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"model_type"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"cost"`
+</details>
 
-    - `"tokens"`
+##### Accepted Permissions (at least one required)
 
-    - `"tokens_in"`
+`AI Gateway Write``AI Gateway Read`
 
-    - `"tokens_out"`
+##### P ath ParametersExpand Collapse
 
-    - `"duration"`
+account\_id: string
 
-    - `"feedback"`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `"event_id"`
+gateway\_id: string
 
-    - `"metadata.key"`
+gateway id
 
-    - `"metadata.value"`
+maxLength64
 
-    - `"authentication"`
+minLength1
 
-    - `"wholesale"`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20gateway_id%20%3E%20(schema)>)
 
-    - `"compatibilityMode"`
+##### Q uery ParametersExpand Collapse
 
-    - `"dlp_action"`
+Deprecatedcached: optional boolean
 
-    - `"user_agent"`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cached%20%3E%20(schema)>)
 
-  - `operator: "eq" or "neq" or "contains" or 2 more`
+<details>
 
-    - `"eq"`
+<summary>
 
-    - `"neq"`
+Deprecateddirection: optional "asc"or "desc"
 
-    - `"contains"`
+</summary>
 
-    - `"lt"`
+One of the following:
 
-    - `"gt"`
+"asc"
 
-  - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-    - `string`
+"desc"
 
-    - `number`
+<a href="#">Link to this property</a>
 
-    - `boolean`
+</details>
 
-- `max_cost: optional number`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-- `max_duration: optional number`
+Deprecatedend\_date: optional string
 
-- `max_tokens_in: optional number`
+formatdate-time
 
-- `max_tokens_out: optional number`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20end_date%20%3E%20(schema)>)
 
-- `max_total_tokens: optional number`
+<details>
 
-- `meta_info: optional boolean`
+<summary>
 
-- `min_cost: optional number`
+Deprecatedfeedback: optional 0or 1
 
-- `min_duration: optional number`
+</summary>
 
-- `min_tokens_in: optional number`
+One of the following:
 
-- `min_tokens_out: optional number`
+0
 
-- `min_total_tokens: optional number`
+<a href="#">Link to this property</a>
 
-- `model: optional string`
+1
 
-- `model_type: optional string`
+<a href="#">Link to this property</a>
 
-- `order_by: optional "created_at" or "provider" or "model" or 3 more`
+</details>
 
-  - `"created_at"`
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20feedback%20%3E%20(schema)>)
 
-  - `"provider"`
+<details>
 
-  - `"model"`
+<summary>
 
-  - `"model_type"`
+filters: optional array of object {key, operator, value }
 
-  - `"success"`
+</summary>
 
-  - `"cached"`
+<details>
 
-- `order_by_direction: optional "asc" or "desc"`
+<summary>
 
-  - `"asc"`
+key: "id"or "created\_at"or "request\_content\_type"or 21 more
 
-  - `"desc"`
+</summary>
 
-- `page: optional number`
+One of the following:
 
-- `per_page: optional number`
+"id"
 
-- `provider: optional string`
+<a href="#">Link to this property</a>
 
-- `request_content_type: optional string`
+"created\_at"
 
-- `response_content_type: optional string`
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+"request\_content\_type"
 
-- `start_date: optional string`
+<a href="#">Link to this property</a>
 
-- `success: optional boolean`
+"response\_content\_type"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, cached, created_at, 16 more }`
+"request\_type"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `cached: boolean`
+"success"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `duration: number`
+"cached"
 
-  - `model: string`
+<a href="#">Link to this property</a>
 
-  - `path: string`
+"provider"
 
-  - `provider: string`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+"model"
 
-  - `tokens_in: number`
+<a href="#">Link to this property</a>
 
-  - `tokens_out: number`
+"model\_type"
 
-  - `cost: optional number`
+<a href="#">Link to this property</a>
 
-  - `custom_cost: optional boolean`
+"cost"
 
-  - `metadata: optional string`
+<a href="#">Link to this property</a>
 
-  - `model_type: optional string`
+"tokens"
 
-  - `request_content_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `request_type: optional string`
+"tokens\_in"
 
-  - `response_content_type: optional string`
+<a href="#">Link to this property</a>
 
-  - `status_code: optional number`
+"tokens\_out"
 
-  - `step: optional number`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, max_cost, max_duration, 11 more }`
+"duration"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-  - `max_cost: optional number`
+"feedback"
 
-  - `max_duration: optional number`
+<a href="#">Link to this property</a>
 
-  - `max_tokens_in: optional number`
+"event\_id"
 
-  - `max_tokens_out: optional number`
+<a href="#">Link to this property</a>
 
-  - `max_total_tokens: optional number`
+"metadata.key"
 
-  - `min_cost: optional number`
+<a href="#">Link to this property</a>
 
-  - `min_duration: optional number`
+"metadata.value"
 
-  - `min_tokens_in: optional number`
+<a href="#">Link to this property</a>
 
-  - `min_tokens_out: optional number`
+"authentication"
 
-  - `min_total_tokens: optional number`
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"wholesale"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+"compatibilityMode"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"dlp\_action"
 
-```http
+<a href="#">Link to this property</a>
+
+"user\_agent"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "eq"or "neq"or "contains"or 2 more
+
+</summary>
+
+One of the following:
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: array of stringor numberor boolean
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20filters%20%3E%20(schema)>)
+
+Deprecatedmax\_cost: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20max_cost%20%3E%20(schema)>)
+
+Deprecatedmax\_duration: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20max_duration%20%3E%20(schema)>)
+
+Deprecatedmax\_tokens\_in: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20max_tokens_in%20%3E%20(schema)>)
+
+Deprecatedmax\_tokens\_out: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20max_tokens_out%20%3E%20(schema)>)
+
+Deprecatedmax\_total\_tokens: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20max_total_tokens%20%3E%20(schema)>)
+
+meta\_info: optional boolean
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20meta_info%20%3E%20(schema)>)
+
+Deprecatedmin\_cost: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20min_cost%20%3E%20(schema)>)
+
+Deprecatedmin\_duration: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20min_duration%20%3E%20(schema)>)
+
+Deprecatedmin\_tokens\_in: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20min_tokens_in%20%3E%20(schema)>)
+
+Deprecatedmin\_tokens\_out: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20min_tokens_out%20%3E%20(schema)>)
+
+Deprecatedmin\_total\_tokens: optional number
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20min_total_tokens%20%3E%20(schema)>)
+
+Deprecatedmodel: optional string
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20model%20%3E%20(schema)>)
+
+Deprecatedmodel\_type: optional string
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20model_type%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+order\_by: optional "created\_at"or "provider"or "model"or 3 more
+
+</summary>
+
+One of the following:
+
+"created\_at"
+
+<a href="#">Link to this property</a>
+
+"provider"
+
+<a href="#">Link to this property</a>
+
+"model"
+
+<a href="#">Link to this property</a>
+
+"model\_type"
+
+<a href="#">Link to this property</a>
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"cached"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order_by%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+order\_by\_direction: optional "asc"or "desc"
+
+</summary>
+
+One of the following:
+
+"asc"
+
+<a href="#">Link to this property</a>
+
+"desc"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order_by_direction%20%3E%20(schema)>)
+
+page: optional number
+
+minimum1
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
+
+per\_page: optional number
+
+maximum50
+
+minimum1
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
+
+Deprecatedprovider: optional string
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20provider%20%3E%20(schema)>)
+
+Deprecatedrequest\_content\_type: optional string
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20request_content_type%20%3E%20(schema)>)
+
+Deprecatedresponse\_content\_type: optional string
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20response_content_type%20%3E%20(schema)>)
+
+search: optional string
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
+
+Deprecatedstart\_date: optional string
+
+formatdate-time
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20start_date%20%3E%20(schema)>)
+
+Deprecatedsuccess: optional boolean
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20success%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: array of object {id, cached, created\_at, 16 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+cached: boolean
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+duration: number
+
+<a href="#">Link to this property</a>
+
+model: string
+
+<a href="#">Link to this property</a>
+
+path: string
+
+<a href="#">Link to this property</a>
+
+provider: string
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+tokens\_in: number
+
+<a href="#">Link to this property</a>
+
+tokens\_out: number
+
+<a href="#">Link to this property</a>
+
+cost: optional number
+
+<a href="#">Link to this property</a>
+
+custom\_cost: optional boolean
+
+<a href="#">Link to this property</a>
+
+metadata: optional string
+
+<a href="#">Link to this property</a>
+
+model\_type: optional string
+
+<a href="#">Link to this property</a>
+
+request\_content\_type: optional string
+
+<a href="#">Link to this property</a>
+
+request\_type: optional string
+
+<a href="#">Link to this property</a>
+
+response\_content\_type: optional string
+
+<a href="#">Link to this property</a>
+
+status\_code: optional number
+
+<a href="#">Link to this property</a>
+
+step: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {count, max\_cost, max\_duration, 11 more }
+
+</summary>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+max\_cost: optional number
+
+<a href="#">Link to this property</a>
+
+max\_duration: optional number
+
+<a href="#">Link to this property</a>
+
+max\_tokens\_in: optional number
+
+<a href="#">Link to this property</a>
+
+max\_tokens\_out: optional number
+
+<a href="#">Link to this property</a>
+
+max\_total\_tokens: optional number
+
+<a href="#">Link to this property</a>
+
+min\_cost: optional number
+
+<a href="#">Link to this property</a>
+
+min\_duration: optional number
+
+<a href="#">Link to this property</a>
+
+min\_tokens\_in: optional number
+
+<a href="#">Link to this property</a>
+
+min\_tokens\_out: optional number
+
+<a href="#">Link to this property</a>
+
+min\_total\_tokens: optional number
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: boolean
+
+[Link to this property](#)%20ai_gateway.logs%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Gateway Logs
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/logs \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": [
+    {
+      "id": "id",
+      "cached": true,
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "duration": 0,
+      "model": "model",
+      "path": "path",
+      "provider": "provider",
+      "success": true,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost": 0,
+      "custom_cost": true,
+      "metadata": "metadata",
+      "model_type": "model_type",
+      "request_content_type": "request_content_type",
+      "request_type": "request_type",
+      "response_content_type": "response_content_type",
+      "status_code": 0,
+      "step": 0
+    }
+  ],
+  "result_info": {
+    "count": 0,
+    "max_cost": 0,
+    "max_duration": 0,
+    "max_tokens_in": 0,
+    "max_tokens_out": 0,
+    "max_total_tokens": 0,
+    "min_cost": 0,
+    "min_duration": 0,
+    "min_tokens_in": 0,
+    "min_tokens_out": 0,
+    "min_total_tokens": 0,
+    "page": 0,
+    "per_page": 0,
+    "total_count": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": [
     {

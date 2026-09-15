@@ -1,112 +1,341 @@
-## Delete all page tests
+---
+title: Delete all page tests
+---
 
-**delete** `/zones/{zone_id}/speed_api/pages/{url}/tests`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Speed](https://developers.cloudflare.com/api/resources/speed)
+
+[Pages](https://developers.cloudflare.com/api/resources/speed/subresources/pages)
+
+[Tests](https://developers.cloudflare.com/api/resources/speed/subresources/pages/subresources/tests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete all page tests
+
+DELETE/zones/{zone\_id}/speed\_api/pages/{url}/tests
 
 Deletes all tests for a specific webpage from a specific region. Deleted tests are still counted as part of the quota.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `url: string`
 
-  A URL.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `region: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  A test region.
+</details>
 
-  - `"asia-east1"`
+<details>
 
-  - `"asia-northeast1"`
+<summary>API Email + API Key</summary>
 
-  - `"asia-northeast2"`
 
-  - `"asia-south1"`
 
-  - `"asia-southeast1"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"australia-southeast1"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"europe-north1"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"europe-southwest1"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"europe-west1"`
+</details>
 
-  - `"europe-west2"`
+##### Accepted Permissions (at least one required)
 
-  - `"europe-west3"`
+`Zone Settings Write`
 
-  - `"europe-west4"`
+##### P ath ParametersExpand Collapse
 
-  - `"europe-west8"`
+zone\_id: string
 
-  - `"europe-west9"`
+Identifier.
 
-  - `"me-west1"`
+maxLength32
 
-  - `"southamerica-east1"`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `"us-central1"`
+url: string
 
-  - `"us-east1"`
+A URL.
 
-  - `"us-east4"`
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20url%20%3E%20(schema)>)
 
-  - `"us-south1"`
+##### Q uery ParametersExpand Collapse
 
-  - `"us-west1"`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+region: optional "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
 
-  - `code: number`
+A test region.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"asia-east1"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"asia-northeast1"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"asia-northeast2"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"asia-south1"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"asia-southeast1"
 
-- `result: optional object { count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+"australia-southeast1"
 
-    Number of items affected.
+<a href="#">Link to this property</a>
 
-### Example
+"europe-north1"
 
-```http
+<a href="#">Link to this property</a>
+
+"europe-southwest1"
+
+<a href="#">Link to this property</a>
+
+"europe-west1"
+
+<a href="#">Link to this property</a>
+
+"europe-west2"
+
+<a href="#">Link to this property</a>
+
+"europe-west3"
+
+<a href="#">Link to this property</a>
+
+"europe-west4"
+
+<a href="#">Link to this property</a>
+
+"europe-west8"
+
+<a href="#">Link to this property</a>
+
+"europe-west9"
+
+<a href="#">Link to this property</a>
+
+"me-west1"
+
+<a href="#">Link to this property</a>
+
+"southamerica-east1"
+
+<a href="#">Link to this property</a>
+
+"us-central1"
+
+<a href="#">Link to this property</a>
+
+"us-east1"
+
+<a href="#">Link to this property</a>
+
+"us-east4"
+
+<a href="#">Link to this property</a>
+
+"us-south1"
+
+<a href="#">Link to this property</a>
+
+"us-west1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20region%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {count }
+
+</summary>
+
+count: optional number
+
+Number of items affected.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.pages.tests%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete all page tests
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/pages/$URL/tests \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "count": 1
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

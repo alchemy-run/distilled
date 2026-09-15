@@ -1,134 +1,71 @@
+---
+title: Snapshots
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+[Indicator Feeds](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Snapshots
 
-## Update indicator feed data
+##### [Update indicator feed data](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/snapshots/methods/update)
 
-**put** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}/snapshot`
+PUT/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}/snapshot
 
-Revises the raw data entries in a custom threat indicator feed.
+##### ModelsExpand Collapse
 
-Accepts both plain and gzipped STIX2/CRDF bodies. Gzip is
-detected by RFC 1952 magic bytes (`0x1f 0x8b`) and/or a `.gz`
-filename suffix (case-insensitive) — either signal alone is
-sufficient to trigger the gzip path; if the body is not valid
-gzip, the upload fails fast. Customers are encouraged to gzip
-larger uploads — the api-gateway 500 MB body cap applies to
-the on-the-wire (compressed) size, so gzip lets a single
-upload carry several GiB of decompressed STIX.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+SnapshotUpdateResponse object {file\_id, filename, poll\_url, 2 more }
 
-  Identifier
+</summary>
 
-- `feed_id: number`
+file\_id: optional number
 
-  Indicator feed ID
+Feed id
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+filename: optional string
 
-  - `code: number`
+Name of the file unified in our system
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+poll\_url: optional string
 
-  - `source: optional object { pointer }`
+Account-relative polling path. Prepend <code>/accounts/{account_id}</code> using the same account identifier and API host as the upload request. The path omits the account segment because the service does not have your account identifier in this context.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+status: optional string
 
-  - `code: number`
+Current status of the upload at the moment the request returned. This is NOT a terminal state: the file is unified inline, but the durable loader has only accepted it, so the upload is still <code>Unifying</code>. Poll <code>poll_url</code> until the status reaches a terminal value (<code>Unified</code> or <code>Error</code>).
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+upload\_id: optional number
 
-  - `source: optional object { pointer }`
+Identifier of the upload row, for polling this upload to a terminal state via <code>poll_url</code>.
 
-    - `pointer: optional string`
+formatint64
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
-
-- `result: optional object { file_id, filename, status }`
-
-  - `file_id: optional number`
-
-    Feed id
-
-  - `filename: optional string`
-
-    Name of the file unified in our system
-
-  - `status: optional string`
-
-    Current status of upload, should be unified
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID/snapshot \
-    -X PUT \
-    -H 'Content-Type: multipart/form-data' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -F source=@/Users/me/test.stix2.gz
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "file_id": 1,
-    "filename": "snapshot_file.unified",
-    "status": "unified"
-  }
-}
-```
-
-## Domain Types
-
-### Snapshot Update Response
-
-- `SnapshotUpdateResponse object { file_id, filename, status }`
-
-  - `file_id: optional number`
-
-    Feed id
-
-  - `filename: optional string`
-
-    Name of the file unified in our system
-
-  - `status: optional string`
-
-    Current status of upload, should be unified
+[Link to this property](#)%20intel.indicator_feeds.snapshots%20%3E%20(model)%20snapshot_update_response%20%3E%20(schema)>)

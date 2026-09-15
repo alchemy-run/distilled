@@ -1,91 +1,272 @@
-## List certificate authorities
+---
+title: List certificate authorities
+---
 
-**get** `/radar/ct/authorities`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[CT](https://developers.cloudflare.com/api/resources/radar/subresources/ct)
+
+[Authorities](https://developers.cloudflare.com/api/resources/radar/subresources/ct/subresources/authorities)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List certificate authorities
+
+GET/radar/ct/authorities
 
 Retrieves a list of certificate authorities.
 
-### Query Parameters
+##### Security
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>API Token</summary>
 
-  - `"JSON"`
 
-  - `"CSV"`
 
-- `limit: optional number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Limits the number of objects returned in the response.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `offset: optional number`
+</details>
 
-  Skips the specified number of objects before fetching the results.
+<details>
 
-### Returns
+<summary>API Email + API Key</summary>
 
-- `result: object { certificateAuthorities }`
 
-  - `certificateAuthorities: array of object { certificateRecordType, country, countryName, 6 more }`
 
-    - `certificateRecordType: "ROOT_CERTIFICATE" or "INTERMEDIATE_CERTIFICATE"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      Specifies the type of certificate in the trust chain.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      - `"ROOT_CERTIFICATE"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `"INTERMEDIATE_CERTIFICATE"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `country: string`
+</details>
 
-      The two-letter ISO country code where the CA organization is based.
+##### Accepted Permissions (at least one required)
 
-    - `countryName: string`
+`User Details Write``User Details Read`
 
-      The full country name corresponding to the country code.
+##### Q uery ParametersExpand Collapse
 
-    - `name: string`
+<details>
 
-      The full name of the certificate authority (CA).
+<summary>
 
-    - `owner: string`
+format: optional "JSON"or "CSV"
 
-      The organization that owns and operates the CA.
+Format in which results will be returned.
 
-    - `parentName: string`
+</summary>
 
-      The name of the parent/root certificate authority that issued this intermediate certificate.
+One of the following:
 
-    - `parentSha256Fingerprint: string`
+"JSON"
 
-      The SHA-256 fingerprint of the parent certificate.
+<a href="#">Link to this property</a>
 
-    - `revocationStatus: "NOT_REVOKED" or "REVOKED" or "PARENT_CERT_REVOKED"`
+"CSV"
 
-      The current revocation status of a Certificate Authority (CA) certificate.
+<a href="#">Link to this property</a>
 
-      - `"NOT_REVOKED"`
+</details>
 
-      - `"REVOKED"`
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-      - `"PARENT_CERT_REVOKED"`
+limit: optional number
 
-    - `sha256Fingerprint: string`
+Limits the number of objects returned in the response.
 
-      The SHA-256 fingerprint of the intermediate certificate.
+exclusiveMinimum
 
-- `success: boolean`
+minimum0
 
-### Example
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-```http
+offset: optional number
+
+Skips the specified number of objects before fetching the results.
+
+minimum0
+
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {certificateAuthorities }
+
+</summary>
+
+<details>
+
+<summary>
+
+certificateAuthorities: array of object {certificateRecordType, country, countryName, 6 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+certificateRecordType: "ROOT\_CERTIFICATE"or "INTERMEDIATE\_CERTIFICATE"
+
+Specifies the type of certificate in the trust chain.
+
+</summary>
+
+One of the following:
+
+"ROOT\_CERTIFICATE"
+
+<a href="#">Link to this property</a>
+
+"INTERMEDIATE\_CERTIFICATE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+country: string
+
+The two-letter ISO country code where the CA organization is based.
+
+<a href="#">Link to this property</a>
+
+countryName: string
+
+The full country name corresponding to the country code.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The full name of the certificate authority (CA).
+
+<a href="#">Link to this property</a>
+
+owner: string
+
+The organization that owns and operates the CA.
+
+<a href="#">Link to this property</a>
+
+parentName: string
+
+The name of the parent/root certificate authority that issued this intermediate certificate.
+
+<a href="#">Link to this property</a>
+
+parentSha256Fingerprint: string
+
+The SHA-256 fingerprint of the parent certificate.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+revocationStatus: "NOT\_REVOKED"or "REVOKED"or "PARENT\_CERT\_REVOKED"
+
+The current revocation status of a Certificate Authority (CA) certificate.
+
+</summary>
+
+One of the following:
+
+"NOT\_REVOKED"
+
+<a href="#">Link to this property</a>
+
+"REVOKED"
+
+<a href="#">Link to this property</a>
+
+"PARENT\_CERT\_REVOKED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+sha256Fingerprint: string
+
+The SHA-256 fingerprint of the intermediate certificate.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.ct.authorities%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List certificate authorities
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/ct/authorities \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "certificateAuthorities": [
+      {
+        "certificateRecordType": "ROOT_CERTIFICATE",
+        "country": "PT",
+        "countryName": "Portugal",
+        "name": "MULTICERT Advanced Certification Authority 005",
+        "owner": "MULTICERT",
+        "parentName": "MULTICERT Root Certification Authority 01",
+        "parentSha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3",
+        "revocationStatus": "NOT_REVOKED",
+        "sha256Fingerprint": "24EDD4E503A8D3FDB5FFB4AF66C887359901CBE687A5A0760D10A08EED99A7C3"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "certificateAuthorities": [

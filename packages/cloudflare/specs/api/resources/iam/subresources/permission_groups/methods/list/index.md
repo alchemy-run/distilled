@@ -1,117 +1,361 @@
-## List Account Permission Groups
+---
+title: List Account Permission Groups
+---
 
-**get** `/accounts/{account_id}/iam/permission_groups`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+[Permission Groups](https://developers.cloudflare.com/api/resources/iam/subresources/permission_groups)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Account Permission Groups
+
+GET/accounts/{account\_id}/iam/permission\_groups
 
 List all the permissions groups for an account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `id: optional string`
 
-  ID of the permission group to be fetched.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `label: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Label of the permission group to be fetched.
+</details>
 
-- `name: optional string`
+<details>
 
-  Name of the permission group to be fetched.
+<summary>API Email + API Key</summary>
 
-- `page: optional number`
 
-  Page number of paginated results.
 
-- `per_page: optional number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Maximum number of results per page.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Trust and Safety Write``Trust and Safety Read``DNS View Write``DNS View Read``SCIM Provisioning``Load Balancers Account Write``Load Balancers Account Read``Zero Trust: PII Read``DDoS Botnet Feed Write``DDoS Botnet Feed Read``Workers R2 Storage Write``Workers R2 Storage Read``DDoS Protection Write``DDoS Protection Read``Workers Tail Read``Workers KV Storage Write``Workers KV Storage Read``Workers Scripts Write``Workers Scripts Read``Load Balancing: Monitors and Pools Write``Load Balancing: Monitors and Pools Read``Account Firewall Access Rules Write``Account Firewall Access Rules Read``DNS Firewall Write``DNS Firewall Read``Billing Write``Billing Read``Account Settings Write``Account Settings Read`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Account identifier tag.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+minLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Q uery ParametersExpand Collapse
 
-    - `pointer: optional string`
+id: optional string
 
-- `success: true`
+ID of the permission group to be fetched.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+minLength32
 
-- `result: optional array of object { id, meta, name }`
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-  A set of permission groups that are specified to the policy.
+label: optional string
 
-  - `id: string`
+Label of the permission group to be fetched.
 
-    Identifier of the permission group.
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20label%20%3E%20(schema)>)
 
-  - `meta: optional object { key, value }`
+name: optional string
 
-    Attributes associated to the permission group.
+Name of the permission group to be fetched.
 
-    - `key: optional string`
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    - `value: optional string`
+page: optional number
 
-  - `name: optional string`
+Page number of paginated results.
 
-    Name of the permission group.
+minimum1
 
-- `result_info: optional object { count, page, per_page, total_count }`
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `count: optional number`
+per\_page: optional number
 
-    Total number of results for the requested service
+Maximum number of results per page.
 
-  - `page: optional number`
+maximum50
 
-    Current page within paginated list of results
+minimum5
 
-  - `per_page: optional number`
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    Number of results per page of results
+##### ReturnsExpand Collapse
 
-  - `total_count: optional number`
+<details>
 
-    Total results available without any search parameters
+<summary>
 
-### Example
+errors: array of object {code, message, documentation\_url, source }
 
-```http
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, meta, name }
+
+A set of permission groups that are specified to the policy.
+
+</summary>
+
+id: string
+
+Identifier of the permission group.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {key, value }
+
+Attributes associated to the permission group.
+
+</summary>
+
+key: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the permission group.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.permission_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Account Permission Groups
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/permission_groups \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "c8fed203ed3043cba015a93ad1616f1f",
+      "meta": {
+        "key": "key",
+        "value": "value"
+      },
+      "name": "Zone Read"
+    },
+    {
+      "id": "82e64a83756745bbbb1c9c2701bf816b",
+      "meta": {
+        "key": "key",
+        "value": "value"
+      },
+      "name": "Magic Network Monitoring"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

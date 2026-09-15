@@ -1,298 +1,814 @@
-## Create PCAP request
+---
+title: Create PCAP request
+---
 
-**post** `/accounts/{account_id}/pcaps`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[PCAPs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/pcaps)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create PCAP request
+
+POST/accounts/{account\_id}/pcaps
 
 Create new PCAP request for account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `body: object { packet_limit, system, time_limit, 3 more }  or object { colo_name, destination_conf, system, 5 more }`
 
-  - `MagicVisibilityPCAPsPCAPsRequestSimple object { packet_limit, system, time_limit, 3 more }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `packet_limit: number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-      The limit of packets contained in a packet capture.
+</details>
 
-    - `system: "magic-transit"`
+<details>
 
-      The system used to collect packet captures.
+<summary>API Email + API Key</summary>
 
-      - `"magic-transit"`
 
-    - `time_limit: number`
 
-      The packet capture duration in seconds.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `type: "simple" or "full"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `"simple"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `"full"`
+</details>
 
-    - `filter_v1: optional PCAPFilter`
+##### Accepted Permissions (at least one required)
 
-      The packet capture filter. When this field is empty, all packets are captured.
+`Magic Firewall Packet Captures - Write PCAPs API`
 
-      - `destination_address: optional string`
+##### P ath ParametersExpand Collapse
 
-        The destination IP address of the packet.
+account\_id: string
 
-      - `destination_port: optional number`
+Identifier.
 
-        The destination port of the packet.
+maxLength32
 
-      - `protocol: optional number`
+[Link to this property](#)%20magic_transit.pcaps%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        The protocol number of the packet.
+##### Body ParametersJSONExpand Collapse
 
-      - `source_address: optional string`
+<details>
 
-        The source IP address of the packet.
+<summary>
 
-      - `source_port: optional number`
+body: object {packet\_limit, system, time\_limit, 3 more } or object {colo\_name, destination\_conf, system, 5 more }
 
-        The source port of the packet.
+</summary>
 
-    - `offset_time: optional string`
+One of the following:
 
-      The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request.
+<details>
 
-  - `MagicVisibilityPCAPsPCAPsRequestFull object { colo_name, destination_conf, system, 5 more }`
+<summary>
 
-    - `colo_name: string`
+MagicVisibilityPCAPsPCAPsRequestSimple object {packet\_limit, system, time\_limit, 3 more }
 
-      The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to `full` packet captures.
+</summary>
 
-    - `destination_conf: string`
+packet\_limit: number
 
-      The full URI for the bucket. This field only applies to `full` packet captures.
+The limit of packets contained in a packet capture.
 
-    - `system: "magic-transit"`
+maximum10000
 
-      The system used to collect packet captures.
+minimum1
 
-      - `"magic-transit"`
+<a href="#">Link to this property</a>
 
-    - `time_limit: number`
+system: "magic-transit"
 
-      The packet capture duration in seconds.
+The system used to collect packet captures.
 
-    - `type: "simple" or "full"`
+<a href="#">Link to this property</a>
 
-      The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets.
+time\_limit: number
 
-      - `"simple"`
+The packet capture duration in seconds.
 
-      - `"full"`
+maximum300
 
-    - `byte_limit: optional number`
+minimum1
 
-      The maximum number of bytes to capture. This field only applies to `full` packet captures.
+<a href="#">Link to this property</a>
 
-    - `filter_v1: optional PCAPFilter`
+<details>
 
-      The packet capture filter. When this field is empty, all packets are captured.
+<summary>
 
-    - `packet_limit: optional number`
+type: "simple"or "full"
 
-      The limit of packets contained in a packet capture.
+The type of packet capture. <code>Simple</code> captures sampled packets, and <code>full</code> captures entire payloads and non-sampled packets.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"simple"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"full"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+filter\_v1: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.pcaps%20%3E%20(model)%20pcap_filter%20%3E%20(schema)">PCAPFilter</a> { destination\_address, destination\_port, protocol, 2 more }
 
-  - `source: optional object { pointer }`
+The packet capture filter. When this field is empty, all packets are captured.
 
-- `result: PCAP or object { id, byte_limit, colo_name, 10 more }`
+</summary>
 
-  - `PCAP object { id, filter_v1, offset_time, 5 more }`
+destination\_address: optional string
 
-    - `id: optional string`
+The destination IP address of the packet.
 
-      The ID for the packet capture.
+<a href="#">Link to this property</a>
 
-    - `filter_v1: optional PCAPFilter`
+destination\_port: optional number
 
-      The packet capture filter. When this field is empty, all packets are captured.
+The destination port of the packet.
 
-      - `destination_address: optional string`
+<a href="#">Link to this property</a>
 
-        The destination IP address of the packet.
+protocol: optional number
 
-      - `destination_port: optional number`
+The protocol number of the packet.
 
-        The destination port of the packet.
+<a href="#">Link to this property</a>
 
-      - `protocol: optional number`
+source\_address: optional string
 
-        The protocol number of the packet.
+The source IP address of the packet.
 
-      - `source_address: optional string`
+<a href="#">Link to this property</a>
 
-        The source IP address of the packet.
+source\_port: optional number
 
-      - `source_port: optional number`
+The source port of the packet.
 
-        The source port of the packet.
+<a href="#">Link to this property</a>
 
-    - `offset_time: optional string`
+</details>
 
-      The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request.
+<a href="#">Link to this property</a>
 
-    - `status: optional "unknown" or "success" or "pending" or 5 more`
+offset\_time: optional string
 
-      The status of the packet capture request.
+The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request.
 
-      - `"unknown"`
+formatdate-time
 
-      - `"success"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"running"`
+<a href="#">Link to this property</a>
 
-      - `"conversion_pending"`
+<details>
 
-      - `"conversion_running"`
+<summary>
 
-      - `"complete"`
+MagicVisibilityPCAPsPCAPsRequestFull object {colo\_name, destination\_conf, system, 5 more }
 
-      - `"failed"`
+</summary>
 
-    - `submitted: optional string`
+colo\_name: string
 
-      The RFC 3339 timestamp when the packet capture was created.
+The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to <code>full</code> packet captures.
 
-    - `system: optional "magic-transit"`
+<a href="#">Link to this property</a>
 
-      The system used to collect packet captures.
+destination\_conf: string
 
-      - `"magic-transit"`
+The full URI for the bucket. This field only applies to <code>full</code> packet captures.
 
-    - `time_limit: optional number`
+<a href="#">Link to this property</a>
 
-      The packet capture duration in seconds.
+system: "magic-transit"
 
-    - `type: optional "simple" or "full"`
+The system used to collect packet captures.
 
-      The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets.
+<a href="#">Link to this property</a>
 
-      - `"simple"`
+time\_limit: number
 
-      - `"full"`
+The packet capture duration in seconds.
 
-  - `MagicVisibilityPCAPsPCAPsResponseFull object { id, byte_limit, colo_name, 10 more }`
+maximum86400
 
-    - `id: optional string`
+minimum1
 
-      The ID for the packet capture.
+<a href="#">Link to this property</a>
 
-    - `byte_limit: optional number`
+<details>
 
-      The maximum number of bytes to capture. This field only applies to `full` packet captures.
+<summary>
 
-    - `colo_name: optional string`
+type: "simple"or "full"
 
-      The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to `full` packet captures.
+The type of packet capture. <code>Simple</code> captures sampled packets, and <code>full</code> captures entire payloads and non-sampled packets.
 
-    - `destination_conf: optional string`
+</summary>
 
-      The full URI for the bucket. This field only applies to `full` packet captures.
+One of the following:
 
-    - `error_message: optional string`
+"simple"
 
-      An error message that describes why the packet capture failed. This field only applies to `full` packet captures.
+<a href="#">Link to this property</a>
 
-    - `filter_v1: optional PCAPFilter`
+"full"
 
-      The packet capture filter. When this field is empty, all packets are captured.
+<a href="#">Link to this property</a>
 
-    - `packets_captured: optional number`
+</details>
 
-      The number of packets captured.
+<a href="#">Link to this property</a>
 
-    - `status: optional "unknown" or "success" or "pending" or 5 more`
+byte\_limit: optional number
 
-      The status of the packet capture request.
+The maximum number of bytes to capture. This field only applies to <code>full</code> packet captures.
 
-      - `"unknown"`
+maximum1000000000
 
-      - `"success"`
+minimum1
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"running"`
+<details>
 
-      - `"conversion_pending"`
+<summary>
 
-      - `"conversion_running"`
+filter\_v1: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.pcaps%20%3E%20(model)%20pcap_filter%20%3E%20(schema)">PCAPFilter</a> { destination\_address, destination\_port, protocol, 2 more }
 
-      - `"complete"`
+The packet capture filter. When this field is empty, all packets are captured.
 
-      - `"failed"`
+</summary>
 
-    - `stop_requested: optional string`
+destination\_address: optional string
 
-      The RFC 3339 timestamp when stopping the packet capture was requested. This field only applies to `full` packet captures.
+The destination IP address of the packet.
 
-    - `submitted: optional string`
+<a href="#">Link to this property</a>
 
-      The RFC 3339 timestamp when the packet capture was created.
+destination\_port: optional number
 
-    - `system: optional "magic-transit"`
+The destination port of the packet.
 
-      The system used to collect packet captures.
+<a href="#">Link to this property</a>
 
-      - `"magic-transit"`
+protocol: optional number
 
-    - `time_limit: optional number`
+The protocol number of the packet.
 
-      The packet capture duration in seconds.
+<a href="#">Link to this property</a>
 
-    - `type: optional "simple" or "full"`
+source\_address: optional string
 
-      The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets.
+The source IP address of the packet.
 
-      - `"simple"`
+<a href="#">Link to this property</a>
 
-      - `"full"`
+source\_port: optional number
 
-- `success: true`
+The source port of the packet.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+packet\_limit: optional number
+
+The limit of packets contained in a packet capture.
+
+maximum10000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.pcaps%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.pcaps%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.pcaps%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.pcaps%20%3E%20(model)%20pcap%20%3E%20(schema)">PCAP</a> { id, filter\_v1, offset\_time, 5 more } or object {id, byte\_limit, colo\_name, 10 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+PCAP object {id, filter\_v1, offset\_time, 5 more }
+
+</summary>
+
+id: optional string
+
+The ID for the packet capture.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+filter\_v1: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.pcaps%20%3E%20(model)%20pcap_filter%20%3E%20(schema)">PCAPFilter</a> { destination\_address, destination\_port, protocol, 2 more }
+
+The packet capture filter. When this field is empty, all packets are captured.
+
+</summary>
+
+destination\_address: optional string
+
+The destination IP address of the packet.
+
+<a href="#">Link to this property</a>
+
+destination\_port: optional number
+
+The destination port of the packet.
+
+<a href="#">Link to this property</a>
+
+protocol: optional number
+
+The protocol number of the packet.
+
+<a href="#">Link to this property</a>
+
+source\_address: optional string
+
+The source IP address of the packet.
+
+<a href="#">Link to this property</a>
+
+source\_port: optional number
+
+The source port of the packet.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+offset\_time: optional string
+
+The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "unknown"or "success"or "pending"or 5 more
+
+The status of the packet capture request.
+
+</summary>
+
+One of the following:
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"running"
+
+<a href="#">Link to this property</a>
+
+"conversion\_pending"
+
+<a href="#">Link to this property</a>
+
+"conversion\_running"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+submitted: optional string
+
+The RFC 3339 timestamp when the packet capture was created.
+
+<a href="#">Link to this property</a>
+
+system: optional "magic-transit"
+
+The system used to collect packet captures.
+
+<a href="#">Link to this property</a>
+
+time\_limit: optional number
+
+The packet capture duration in seconds.
+
+maximum300
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "simple"or "full"
+
+The type of packet capture. <code>Simple</code> captures sampled packets, and <code>full</code> captures entire payloads and non-sampled packets.
+
+</summary>
+
+One of the following:
+
+"simple"
+
+<a href="#">Link to this property</a>
+
+"full"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MagicVisibilityPCAPsPCAPsResponseFull object {id, byte\_limit, colo\_name, 10 more }
+
+</summary>
+
+id: optional string
+
+The ID for the packet capture.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+byte\_limit: optional number
+
+The maximum number of bytes to capture. This field only applies to <code>full</code> packet captures.
+
+maximum1000000000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+colo\_name: optional string
+
+The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to <code>full</code> packet captures.
+
+<a href="#">Link to this property</a>
+
+destination\_conf: optional string
+
+The full URI for the bucket. This field only applies to <code>full</code> packet captures.
+
+<a href="#">Link to this property</a>
+
+error\_message: optional string
+
+An error message that describes why the packet capture failed. This field only applies to <code>full</code> packet captures.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+filter\_v1: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.pcaps%20%3E%20(model)%20pcap_filter%20%3E%20(schema)">PCAPFilter</a> { destination\_address, destination\_port, protocol, 2 more }
+
+The packet capture filter. When this field is empty, all packets are captured.
+
+</summary>
+
+destination\_address: optional string
+
+The destination IP address of the packet.
+
+<a href="#">Link to this property</a>
+
+destination\_port: optional number
+
+The destination port of the packet.
+
+<a href="#">Link to this property</a>
+
+protocol: optional number
+
+The protocol number of the packet.
+
+<a href="#">Link to this property</a>
+
+source\_address: optional string
+
+The source IP address of the packet.
+
+<a href="#">Link to this property</a>
+
+source\_port: optional number
+
+The source port of the packet.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+packets\_captured: optional number
+
+The number of packets captured.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "unknown"or "success"or "pending"or 5 more
+
+The status of the packet capture request.
+
+</summary>
+
+One of the following:
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+"success"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"running"
+
+<a href="#">Link to this property</a>
+
+"conversion\_pending"
+
+<a href="#">Link to this property</a>
+
+"conversion\_running"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+stop\_requested: optional string
+
+The RFC 3339 timestamp when stopping the packet capture was requested. This field only applies to <code>full</code> packet captures.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+submitted: optional string
+
+The RFC 3339 timestamp when the packet capture was created.
+
+<a href="#">Link to this property</a>
+
+system: optional "magic-transit"
+
+The system used to collect packet captures.
+
+<a href="#">Link to this property</a>
+
+time\_limit: optional number
+
+The packet capture duration in seconds.
+
+maximum86400
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "simple"or "full"
+
+The type of packet capture. <code>Simple</code> captures sampled packets, and <code>full</code> captures entire payloads and non-sampled packets.
+
+</summary>
+
+One of the following:
+
+"simple"
+
+<a href="#">Link to this property</a>
+
+"full"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.pcaps%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20magic_transit.pcaps%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create PCAP request
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pcaps \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -305,9 +821,55 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pcaps \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "66802ca5668e47a2b82c2e6746e45037",
+    "filter_v1": {
+      "destination_address": "1.2.3.4",
+      "destination_port": 80,
+      "protocol": 6,
+      "source_address": "1.2.3.4",
+      "source_port": 123
+    },
+    "offset_time": "2020-01-01T08:00:00Z",
+    "status": "success",
+    "submitted": "2020-01-01T08:00:00Z",
+    "system": "magic-transit",
+    "time_limit": 300,
+    "type": "simple"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

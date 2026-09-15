@@ -1,103 +1,332 @@
-## List rules in Web Analytics ruleset
+---
+title: List rules in Web Analytics ruleset
+---
 
-**get** `/accounts/{account_id}/rum/v2/{ruleset_id}/rules`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[RUM](https://developers.cloudflare.com/api/resources/rum)
+
+[Rules](https://developers.cloudflare.com/api/resources/rum/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List rules in Web Analytics ruleset
+
+GET/accounts/{account\_id}/rum/v2/{ruleset\_id}/rules
 
 Lists all the rules in a Web Analytics ruleset.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `ruleset_id: string`
 
-  The Web Analytics ruleset identifier.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `success: boolean`
+##### P ath ParametersExpand Collapse
 
-  Whether the API call was successful.
+account\_id: string
 
-- `result: optional object { rules, ruleset }`
+Identifier.
 
-  - `rules: optional array of RUMRule`
+maxLength32
 
-    A list of rules.
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `id: optional string`
+ruleset\_id: string
 
-      The Web Analytics rule identifier.
+The Web Analytics ruleset identifier.
 
-    - `created: optional string`
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ruleset_id%20%3E%20(schema)>)
 
-    - `host: optional string`
+##### ReturnsExpand Collapse
 
-      The hostname the rule will be applied to.
+<details>
 
-    - `inclusive: optional boolean`
+<summary>
 
-      Whether the rule includes or excludes traffic from being measured.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `is_paused: optional boolean`
+</summary>
 
-      Whether the rule is paused or not.
+code: number
 
-    - `paths: optional array of string`
+minimum1000
 
-      The paths the rule will be applied to.
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+message: string
 
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+documentation\_url: optional string
 
-      The Web Analytics ruleset identifier.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+<details>
 
-      Whether the ruleset is enabled.
+<summary>
 
-    - `zone_name: optional string`
+source: optional object {pointer }
 
-    - `zone_tag: optional string`
+</summary>
 
-      The zone identifier.
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {rules, ruleset }
+
+</summary>
+
+<details>
+
+<summary>
+
+rules: optional array of <a href="https://developers.cloudflare.com/api/resources/rum#(resource)%20rum.rules%20%3E%20(model)%20rum_rule%20%3E%20(schema)">RUMRule</a> { id, created, host, 4 more }
+
+A list of rules.
+
+</summary>
+
+id: optional string
+
+The Web Analytics rule identifier.
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+The hostname the rule will be applied to.
+
+<a href="#">Link to this property</a>
+
+inclusive: optional boolean
+
+Whether the rule includes or excludes traffic from being measured.
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the rule is paused or not.
+
+<a href="#">Link to this property</a>
+
+paths: optional array of string
+
+The paths the rule will be applied to.
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ruleset: optional object {id, enabled, zone\_name, zone\_tag }
+
+</summary>
+
+id: optional string
+
+The Web Analytics ruleset identifier.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether the ruleset is enabled.
+
+<a href="#">Link to this property</a>
+
+zone\_name: optional string
+
+<a href="#">Link to this property</a>
+
+zone\_tag: optional string
+
+The zone identifier.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List rules in Web Analytics ruleset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/v2/$RULESET_ID/rules \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "rules": [
+      {
+        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+        "created": "2014-01-01T05:20:00.12345Z",
+        "host": "example.com",
+        "inclusive": true,
+        "is_paused": false,
+        "paths": [
+          "*"
+        ],
+        "priority": 1000
+      }
+    ],
+    "ruleset": {
+      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "enabled": true,
+      "zone_name": "example.com",
+      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,261 +1,115 @@
+---
+title: Categories
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Resource Library](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Categories
 
-## List application categories
+##### [List application categories](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/categories/methods/list)
 
-**get** `/accounts/{account_id}/resource-library/categories`
+GET/accounts/{account\_id}/resource-library/categories
 
-List application categories.
+##### [Get application category](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/categories/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/resource-library/categories/{id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `limit: optional number`
+<summary>
 
-  Limit of number of results to return.
+CategoryListResponse object {id, created\_at, description, name }
 
-- `offset: optional number`
+</summary>
 
-  Offset of results to return.
+id: number
 
-### Returns
+Returns the category ID.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatint64
 
-  - `code: number`
+maximum4294967295
 
-  - `message: string`
+minimum1
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+Returns the category creation time.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+description: string
 
-  - `message: string`
+Returns the category description.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: string
 
-    - `pointer: optional string`
+Returns the category name.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(model)%20category_list_response%20%3E%20(schema)>)
 
-- `result: optional array of object { id, created_at, description, name }`
+<details>
 
-  Returns the list of categories.
+<summary>
 
-  - `id: string`
+CategoryGetResponse object {id, created\_at, description, name }
 
-    Returns the category ID.
+</summary>
 
-  - `created_at: string`
+id: number
 
-    Returns the category creation time.
+Returns the category ID.
 
-  - `description: string`
+formatint64
 
-    Returns the category description.
+maximum4294967295
 
-  - `name: string`
+minimum1
 
-    Returns the category name.
+<a href="#">Link to this property</a>
 
-### Example
+created\_at: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/categories \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Returns the category creation time.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "12345678-1234-1234-1234-123456789012",
-      "created_at": "2025-01-01T00:00:00Z",
-      "description": "Category description",
-      "name": "Category name"
-    }
-  ]
-}
-```
+description: string
 
-## Get application category
+Returns the category description.
 
-**get** `/accounts/{account_id}/resource-library/categories/{id}`
+<a href="#">Link to this property</a>
 
-Get application category by ID.
+name: string
 
-### Path Parameters
+Returns the category name.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+</details>
 
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Indicates whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, description, name }`
-
-  - `id: string`
-
-    Returns the category ID.
-
-  - `created_at: string`
-
-    Returns the category creation time.
-
-  - `description: string`
-
-    Returns the category description.
-
-  - `name: string`
-
-    Returns the category name.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/categories/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "12345678-1234-1234-1234-123456789012",
-    "created_at": "2025-01-01T00:00:00Z",
-    "description": "Category description",
-    "name": "Category name"
-  }
-}
-```
-
-## Domain Types
-
-### Category List Response
-
-- `CategoryListResponse object { id, created_at, description, name }`
-
-  - `id: string`
-
-    Returns the category ID.
-
-  - `created_at: string`
-
-    Returns the category creation time.
-
-  - `description: string`
-
-    Returns the category description.
-
-  - `name: string`
-
-    Returns the category name.
-
-### Category Get Response
-
-- `CategoryGetResponse object { id, created_at, description, name }`
-
-  - `id: string`
-
-    Returns the category ID.
-
-  - `created_at: string`
-
-    Returns the category creation time.
-
-  - `description: string`
-
-    Returns the category description.
-
-  - `name: string`
-
-    Returns the category name.
+[Link to this property](#)%20zero_trust.resource_library.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)>)

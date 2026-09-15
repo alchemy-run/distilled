@@ -1,133 +1,430 @@
-## Search Resources
+---
+title: Search Resources
+---
 
-**get** `/accounts/{account_id}/load_balancers/search`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+[Searches](https://developers.cloudflare.com/api/resources/load_balancers/subresources/searches)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Search Resources
+
+GET/accounts/{account\_id}/load\_balancers/search
 
 Search for Load Balancing resources.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `page: optional number`
 
-- `per_page: optional number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `query: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Search query term.
+</details>
 
-- `references: optional "" or "*" or "referral" or "referrer"`
+<details>
 
-  The type of references to include. "*" to include both referral and referrer references. "" to not include any reference information.
+<summary>API Email + API Key</summary>
 
-  - `""`
 
-  - `"*"`
 
-  - `"referral"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"referrer"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Load Balancing: Monitors and Pools Write``Load Balancing: Monitors and Pools Read`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `messages: array of ResponseInfo`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### Q uery ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+page: optional number
 
-- `result: object { resources }`
+minimum1
 
-  - `resources: optional array of object { reference_type, references, resource_id, 2 more }`
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    A list of resources matching the search query.
+per\_page: optional number
 
-    - `reference_type: optional "referral" or "referrer"`
+maximum1000
 
-      When listed as a reference, the type (direction) of the reference.
+minimum1
 
-      - `"referral"`
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-      - `"referrer"`
+query: optional string
 
-    - `references: optional array of unknown`
+Search query term.
 
-      A list of references to (referrer) or from (referral) this resource.
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20query%20%3E%20(schema)>)
 
-    - `resource_id: optional string`
+<details>
 
-    - `resource_name: optional string`
+<summary>
 
-      The human-identifiable name of the resource.
+references: optional ""or "\*"or "referral"or "referrer"
 
-    - `resource_type: optional "load_balancer" or "monitor" or "pool"`
+The type of references to include. ”\*” to include both referral and referrer references. "" to not include any reference information.
 
-      The type of the resource.
+</summary>
 
-      - `"load_balancer"`
+One of the following:
 
-      - `"monitor"`
+""
 
-      - `"pool"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"\*"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"referral"
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+"referrer"
 
-    Total number of results on the current page.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results.
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20references%20%3E%20(schema)>)
 
-  - `per_page: optional number`
+##### ReturnsExpand Collapse
 
-    Number of results per page.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `total_pages: optional number`
+</summary>
 
-    Total number of pages available.
+code: number
 
-### Example
+minimum1000
 
-```http
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {resources }
+
+</summary>
+
+<details>
+
+<summary>
+
+resources: optional array of object {reference\_type, references, resource\_id, 2 more }
+
+A list of resources matching the search query.
+
+</summary>
+
+<details>
+
+<summary>
+
+reference\_type: optional "referral"or "referrer"
+
+When listed as a reference, the type (direction) of the reference.
+
+</summary>
+
+One of the following:
+
+"referral"
+
+<a href="#">Link to this property</a>
+
+"referrer"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+references: optional array of unknown
+
+A list of references to (referrer) or from (referral) this resource.
+
+<a href="#">Link to this property</a>
+
+resource\_id: optional string
+
+<a href="#">Link to this property</a>
+
+resource\_name: optional string
+
+The human-identifiable name of the resource.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: optional "load\_balancer"or "monitor"or "pool"
+
+The type of the resource.
+
+</summary>
+
+One of the following:
+
+"load\_balancer"
+
+<a href="#">Link to this property</a>
+
+"monitor"
+
+<a href="#">Link to this property</a>
+
+"pool"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results on the current page.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+Total number of pages available.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.searches%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Search Resources
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/search \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "resources": [
+      {
+        "reference_type": "referral",
+        "references": [
+          {
+            "reference_type": "referrer",
+            "resource_id": "699d98642c564d2e855e9661899b7252",
+            "resource_name": "www.example.com",
+            "resource_type": "load_balancer"
+          },
+          {
+            "reference_type": "referral",
+            "resource_id": "f1aba936b94213e5b8dca0c0dbf1f9cc",
+            "resource_name": "Login page monitor",
+            "resource_type": "monitor"
+          }
+        ],
+        "resource_id": "17b5962d775c646f3f9725cbc7a53df4",
+        "resource_name": "primary-dc-1",
+        "resource_type": "pool"
+      }
+    ]
+  },
+  "success": true,
+  "result_info": {
+    "count": 20,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

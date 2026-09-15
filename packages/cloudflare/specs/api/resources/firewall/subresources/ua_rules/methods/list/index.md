@@ -1,133 +1,395 @@
-## List User Agent Blocking rules
+---
+title: List User Agent Blocking rules
+---
 
-**get** `/zones/{zone_id}/firewall/ua_rules`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[UA Rules](https://developers.cloudflare.com/api/resources/firewall/subresources/ua_rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List User Agent Blocking rules
+
+GET/zones/{zone\_id}/firewall/ua\_rules
 
 Fetches User Agent Blocking rules in a zone. You can filter the results using several optional parameters.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `description: optional string`
 
-  A string to search for in the description of existing rules.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Page number of paginated results.
+</details>
 
-- `paused: optional boolean`
+<details>
 
-  When true, indicates that the rule is currently paused.
+<summary>API Email + API Key</summary>
 
-- `per_page: optional number`
 
-  The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
 
-- `user_agent: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  A string to search for in the user agent values of existing rules.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Firewall Services Write``Firewall Services Read`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+zone\_id: string
 
-- `messages: array of ResponseInfo`
+Defines an identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### Q uery ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+description: optional string
 
-- `result: array of object { id, configuration, description, 2 more }`
+A string to search for in the description of existing rules.
 
-  - `id: optional string`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    The unique identifier of the User Agent Blocking rule.
+page: optional number
 
-  - `configuration: optional object { target, value }`
+Page number of paginated results.
 
-    The configuration object for the current rule.
+minimum1
 
-    - `target: optional string`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-      The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules.
+paused: optional boolean
 
-    - `value: optional string`
+When true, indicates that the rule is currently paused.
 
-      The exact user agent string to match. This value will be compared to the received `User-Agent` HTTP header value.
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20paused%20%3E%20(schema)>)
 
-  - `description: optional string`
+per\_page: optional number
 
-    An informative summary of the rule.
+The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
 
-  - `mode: optional "block" or "challenge" or "js_challenge" or "managed_challenge"`
+maximum1000
 
-    The action to apply to a matched request.
+minimum1
 
-    - `"block"`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `"challenge"`
+user\_agent: optional string
 
-    - `"js_challenge"`
+A string to search for in the user agent values of existing rules.
 
-    - `"managed_challenge"`
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20user_agent%20%3E%20(schema)>)
 
-  - `paused: optional boolean`
+##### ReturnsExpand Collapse
 
-    When true, indicates that the rule is currently paused.
+<details>
 
-- `success: true`
+<summary>
 
-  Defines whether the API call was successful.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+code: number
 
-  - `count: optional number`
+minimum1000
 
-    Defines the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+message: string
 
-    Defines the current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+documentation\_url: optional string
 
-    Defines the number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+<details>
 
-    Defines the total results available without any search parameters.
+<summary>
 
-### Example
+source: optional object {pointer }
 
-```http
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {id, configuration, description, 2 more }
+
+</summary>
+
+id: optional string
+
+The unique identifier of the User Agent Blocking rule.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+configuration: optional object {target, value }
+
+The configuration object for the current rule.
+
+</summary>
+
+target: optional string
+
+The configuration target for this rule. You must set the target to <code>ua</code> for User Agent Blocking rules.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The exact user agent string to match. This value will be compared to the received <code>User-Agent</code> HTTP header value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An informative summary of the rule.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mode: optional "block"or "challenge"or "js\_challenge"or "managed\_challenge"
+
+The action to apply to a matched request.
+
+maxLength12
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"js\_challenge"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+When true, indicates that the rule is currently paused.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Defines the total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Defines the current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Defines the number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Defines the total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.ua_rules%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List User Agent Blocking rules
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/ua_rules \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "372e67954025e0ba6aaa6d586b9e0b59",
+      "configuration": {
+        "target": "ua",
+        "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
+      },
+      "description": "Prevent access from abusive clients identified by this User Agent to mitigate a DDoS attack",
+      "mode": "js_challenge",
+      "paused": false
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

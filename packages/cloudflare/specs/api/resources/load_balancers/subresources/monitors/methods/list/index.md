@@ -1,161 +1,442 @@
-## List Monitors
+---
+title: List Monitors
+---
 
-**get** `/accounts/{account_id}/load_balancers/monitors`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+[Monitors](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitors)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Monitors
+
+GET/accounts/{account\_id}/load\_balancers/monitors
 
 List configured monitors for an account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `result: array of Monitor`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `id: optional string`
+</details>
 
-  - `allow_insecure: optional boolean`
+##### Accepted Permissions (at least one required)
 
-    Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors.
+`Load Balancing: Monitors and Pools Write``Load Balancing: Monitors and Pools Read`
 
-  - `consecutive_down: optional number`
+##### P ath ParametersExpand Collapse
 
-    To be marked unhealthy the monitored origin must fail this healthcheck N consecutive times.
+account\_id: string
 
-  - `consecutive_up: optional number`
+Identifier.
 
-    To be marked healthy the monitored origin must pass this healthcheck N consecutive times.
+maxLength32
 
-  - `created_on: optional string`
+[Link to this property](#)%20load_balancers.monitors%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `description: optional string`
+##### ReturnsExpand Collapse
 
-    Object description.
+<details>
 
-  - `expected_body: optional string`
+<summary>
 
-    A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `expected_codes: optional string`
+</summary>
 
-    The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors.
+code: number
 
-  - `follow_redirects: optional boolean`
+minimum1000
 
-    Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.
+<a href="#">Link to this property</a>
 
-  - `header: optional map[array of string]`
+message: string
 
-    The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors.
+<a href="#">Link to this property</a>
 
-  - `interval: optional number`
+documentation\_url: optional string
 
-    The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations.
+<a href="#">Link to this property</a>
 
-  - `method: optional string`
+<details>
 
-    The method to use for the health check. This defaults to 'GET' for HTTP/HTTPS based checks and 'connection_established' for TCP based health checks.
+<summary>
 
-  - `modified_on: optional string`
+source: optional object {pointer }
 
-  - `path: optional string`
+</summary>
 
-    The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors.
+pointer: optional string
 
-  - `port: optional number`
+<a href="#">Link to this property</a>
 
-    The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default 80, HTTPS: default 443).
+</details>
 
-  - `probe_zone: optional string`
+<a href="#">Link to this property</a>
 
-    Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors.
+</details>
 
-  - `retries: optional number`
+[Link to this property](#)%20load_balancers.monitors%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
+<details>
 
-  - `timeout: optional number`
+<summary>
 
-    The timeout (in seconds) before marking the health check as failed.
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `type: optional "http" or "https" or "tcp" or 3 more`
+</summary>
 
-    The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS', 'TCP', 'ICMP-PING', 'UDP-ICMP', and 'SMTP'.
+code: number
 
-    - `"http"`
+minimum1000
 
-    - `"https"`
+<a href="#">Link to this property</a>
 
-    - `"tcp"`
+message: string
 
-    - `"udp_icmp"`
+<a href="#">Link to this property</a>
 
-    - `"icmp_ping"`
+documentation\_url: optional string
 
-    - `"smtp"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+source: optional object {pointer }
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: optional number`
+pointer: optional string
 
-    Total number of results on the current page.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page.
+[Link to this property](#)%20load_balancers.monitors%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  - `total_count: optional number`
+<details>
 
-    Total results available without any search parameters.
+<summary>
 
-  - `total_pages: optional number`
+result: array of <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers.monitors%20%3E%20(model)%20monitor%20%3E%20(schema)">Monitor</a> { id, allow\_insecure, consecutive\_down, 16 more }
 
-    Total number of pages available.
+</summary>
 
-### Example
+id: optional string
 
-```http
+<a href="#">Link to this property</a>
+
+allow\_insecure: optional boolean
+
+Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors.
+
+<a href="#">Link to this property</a>
+
+consecutive\_down: optional number
+
+To be marked unhealthy the monitored origin must fail this healthcheck N consecutive times.
+
+<a href="#">Link to this property</a>
+
+consecutive\_up: optional number
+
+To be marked healthy the monitored origin must pass this healthcheck N consecutive times.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Object description.
+
+<a href="#">Link to this property</a>
+
+expected\_body: optional string
+
+A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.
+
+<a href="#">Link to this property</a>
+
+expected\_codes: optional string
+
+The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors.
+
+<a href="#">Link to this property</a>
+
+follow\_redirects: optional boolean
+
+Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.
+
+<a href="#">Link to this property</a>
+
+header: optional map\[array of string]
+
+The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors.
+
+<a href="#">Link to this property</a>
+
+interval: optional number
+
+The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations.
+
+<a href="#">Link to this property</a>
+
+method: optional string
+
+The method to use for the health check. This defaults to ‘GET’ for HTTP/HTTPS based checks and ‘connection\_established’ for TCP based health checks.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default 80, HTTPS: default 443).
+
+<a href="#">Link to this property</a>
+
+probe\_zone: optional string
+
+Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors.
+
+<a href="#">Link to this property</a>
+
+retries: optional number
+
+The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
+
+<a href="#">Link to this property</a>
+
+timeout: optional number
+
+The timeout (in seconds) before marking the health check as failed.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "http"or "https"or "tcp"or 3 more
+
+The protocol to use for the health check. Currently supported protocols are ‘HTTP’,‘HTTPS’, ‘TCP’, ‘ICMP-PING’, ‘UDP-ICMP’, and ‘SMTP’.
+
+</summary>
+
+One of the following:
+
+"http"
+
+<a href="#">Link to this property</a>
+
+"https"
+
+<a href="#">Link to this property</a>
+
+"tcp"
+
+<a href="#">Link to this property</a>
+
+"udp\_icmp"
+
+<a href="#">Link to this property</a>
+
+"icmp\_ping"
+
+<a href="#">Link to this property</a>
+
+"smtp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.monitors%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20load_balancers.monitors%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results on the current page.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+Total number of pages available.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.monitors%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Monitors
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitors \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "f1aba936b94213e5b8dca0c0dbf1f9cc",
+      "allow_insecure": true,
+      "consecutive_down": 0,
+      "consecutive_up": 0,
+      "created_on": "2014-01-01T05:20:00.12345Z",
+      "description": "Login page monitor",
+      "expected_body": "alive",
+      "expected_codes": "2xx",
+      "follow_redirects": true,
+      "header": {
+        "Host": [
+          "example.com"
+        ],
+        "X-App-ID": [
+          "abc123"
+        ]
+      },
+      "interval": 0,
+      "method": "GET",
+      "modified_on": "2014-01-01T05:20:00.12345Z",
+      "path": "/health",
+      "port": 0,
+      "probe_zone": "example.com",
+      "retries": 0,
+      "timeout": 0,
+      "type": "https"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 20,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

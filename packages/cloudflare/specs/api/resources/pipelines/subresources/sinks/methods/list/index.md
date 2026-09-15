@@ -1,425 +1,1057 @@
-## List Sinks
+---
+title: List Sinks
+---
 
-**get** `/accounts/{account_id}/pipelines/v1/sinks`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Pipelines](https://developers.cloudflare.com/api/resources/pipelines)
+
+[Sinks](https://developers.cloudflare.com/api/resources/pipelines/subresources/sinks)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Sinks
+
+GET/accounts/{account\_id}/pipelines/v1/sinks
 
 List/Filter Sinks in Account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Specifies the public ID of the account.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `name: optional string`
 
-  Filters sinks by name (case-insensitive substring).
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `per_page: optional number`
+</details>
 
-- `pipeline_id: optional string`
+<details>
 
-### Returns
+<summary>API Email + API Key</summary>
 
-- `result: array of object { id, created_at, modified_at, 5 more }`
 
-  - `id: string`
 
-    Indicates a unique identifier for this sink.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `created_at: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `modified_at: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `name: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Defines the name of the Sink.
+</details>
 
-  - `type: "r2" or "r2_data_catalog"`
+##### Accepted Permissions (at least one required)
 
-    Specifies the type of sink.
+`Pipelines Write``Pipelines Read`
 
-    - `"r2"`
+##### P ath ParametersExpand Collapse
 
-    - `"r2_data_catalog"`
+account\_id: string
 
-  - `config: optional object { account_id, bucket, file_naming, 4 more }  or object { account_id, bucket, table_name, 2 more }`
+Specifies the public ID of the account.
 
-    Defines the configuration of the R2 Sink.
+[Link to this property](#)%20pipelines.sinks%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `CloudflarePipelinesR2TablePublic object { account_id, bucket, file_naming, 4 more }`
+##### Q uery ParametersExpand Collapse
 
-      R2 Sink public configuration.
+name: optional string
 
-      - `account_id: string`
+Filters sinks by name (case-insensitive substring).
 
-        Cloudflare Account ID for the bucket
+maxLength128
 
-      - `bucket: string`
+minLength1
 
-        R2 Bucket to write to
+[Link to this property](#)%20pipelines.sinks%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      - `file_naming: optional object { prefix, strategy, suffix }`
+page: optional number
 
-        Controls filename prefix/suffix and strategy.
+[Link to this property](#)%20pipelines.sinks%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-        - `prefix: optional string`
+per\_page: optional number
 
-          The prefix to use in file name. i.e prefix-<uuid>.parquet
+[Link to this property](#)%20pipelines.sinks%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-        - `strategy: optional "serial" or "uuid" or "uuid_v7" or "ulid"`
+pipeline\_id: optional string
 
-          Filename generation strategy.
+[Link to this property](#)%20pipelines.sinks%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20pipeline_id%20%3E%20(schema)>)
 
-          - `"serial"`
+##### ReturnsExpand Collapse
 
-          - `"uuid"`
+<details>
 
-          - `"uuid_v7"`
+<summary>
 
-          - `"ulid"`
+result: array of object {id, created\_at, modified\_at, 5 more }
 
-        - `suffix: optional string`
+</summary>
 
-          This will overwrite the default file suffix. i.e .parquet, use with caution
+id: string
 
-      - `jurisdiction: optional string`
+Indicates a unique identifier for this sink.
 
-        Jurisdiction this bucket is hosted in
+<a href="#">Link to this property</a>
 
-      - `partitioning: optional object { time_pattern }`
+created\_at: string
 
-        Data-layout partitioning for sinks.
+formatdate-time
 
-        - `time_pattern: optional string`
+<a href="#">Link to this property</a>
 
-          The pattern of the date string
+modified\_at: string
 
-      - `path: optional string`
+formatdate-time
 
-        Subpath within the bucket to write to
+<a href="#">Link to this property</a>
 
-      - `rolling_policy: optional object { file_size_bytes, inactivity_seconds, interval_seconds }`
+name: string
 
-        Rolling policy for file sinks (when & why to close a file and open a new one).
+Defines the name of the Sink.
 
-        - `file_size_bytes: optional number`
+maxLength128
 
-          Files will be rolled after reaching this number of bytes
+minLength1
 
-        - `inactivity_seconds: optional number`
+<a href="#">Link to this property</a>
 
-          Number of seconds of inactivity to wait before rolling over to a new file
+<details>
 
-        - `interval_seconds: optional number`
+<summary>
 
-          Number of seconds to wait before rolling over to a new file
+type: "r2"or "r2\_data\_catalog"
 
-    - `CloudflarePipelinesR2DataCatalogTablePublic object { account_id, bucket, table_name, 2 more }`
+Specifies the type of sink.
 
-      R2 Data Catalog Sink public configuration.
+</summary>
 
-      - `account_id: string`
+One of the following:
 
-        Cloudflare Account ID
+"r2"
 
-      - `bucket: string`
+<a href="#">Link to this property</a>
 
-        The R2 Bucket that hosts this catalog
+"r2\_data\_catalog"
 
-      - `table_name: string`
+<a href="#">Link to this property</a>
 
-        Table name
+</details>
 
-      - `namespace: optional string`
+<a href="#">Link to this property</a>
 
-        Table namespace
+<details>
 
-      - `rolling_policy: optional object { file_size_bytes, inactivity_seconds, interval_seconds }`
+<summary>
 
-        Rolling policy for file sinks (when & why to close a file and open a new one).
+config: optional object {account\_id, bucket, file\_naming, 4 more } or object {account\_id, bucket, table\_name, 2 more }
 
-        - `file_size_bytes: optional number`
+Defines the configuration of the R2 Sink.
 
-          Files will be rolled after reaching this number of bytes
+</summary>
 
-        - `inactivity_seconds: optional number`
+One of the following:
 
-          Number of seconds of inactivity to wait before rolling over to a new file
+<details>
 
-        - `interval_seconds: optional number`
+<summary>
 
-          Number of seconds to wait before rolling over to a new file
+CloudflarePipelinesR2TablePublic object {account\_id, bucket, file\_naming, 4 more }
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+R2 Sink public configuration.
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+</summary>
 
-      - `type: "json"`
+account\_id: string
 
-        - `"json"`
+Cloudflare Account ID for the bucket
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+<a href="#">Link to this property</a>
 
-        - `"number"`
+bucket: string
 
-        - `"string"`
+R2 Bucket to write to
 
-        - `"bytes"`
+<a href="#">Link to this property</a>
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<details>
 
-        - `"rfc3339"`
+<summary>
 
-        - `"unix_millis"`
+file\_naming: optional object {prefix, strategy, suffix }
 
-      - `unstructured: optional boolean`
+Controls filename prefix/suffix and strategy.
 
-    - `Parquet object { type, compression, row_group_bytes }`
+</summary>
 
-      - `type: "parquet"`
+prefix: optional string
 
-        - `"parquet"`
+The prefix to use in file name. i.e prefix-.parquet
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<a href="#">Link to this property</a>
 
-        - `"uncompressed"`
+<details>
 
-        - `"snappy"`
+<summary>
 
-        - `"gzip"`
+strategy: optional "serial"or "uuid"or "uuid\_v7"or "ulid"
 
-        - `"zstd"`
+Filename generation strategy.
 
-        - `"lz4"`
+</summary>
 
-      - `row_group_bytes: optional number`
+One of the following:
 
-  - `schema: optional object { fields, format, inferred }`
+"serial"
 
-    - `fields: optional array of object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or object { type, metadata_key, name, 2 more }  or 8 more`
+<a href="#">Link to this property</a>
 
-      - `Int32 object { type, metadata_key, name, 2 more }`
+"uuid"
 
-        - `type: "int32"`
+<a href="#">Link to this property</a>
 
-          - `"int32"`
+"uuid\_v7"
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+"ulid"
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+</details>
 
-      - `Int64 object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "int64"`
+suffix: optional string
 
-          - `"int64"`
+This will overwrite the default file suffix. i.e .parquet, use with caution
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+</details>
 
-        - `required: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `sql_name: optional string`
+jurisdiction: optional string
 
-      - `Float32 object { type, metadata_key, name, 2 more }`
+Jurisdiction this bucket is hosted in
 
-        - `type: "float32"`
+<a href="#">Link to this property</a>
 
-          - `"float32"`
+<details>
 
-        - `metadata_key: optional string`
+<summary>
 
-        - `name: optional string`
+partitioning: optional object {time\_pattern }
 
-        - `required: optional boolean`
+Data-layout partitioning for sinks.
 
-        - `sql_name: optional string`
+</summary>
 
-      - `Float64 object { type, metadata_key, name, 2 more }`
+time\_pattern: optional string
 
-        - `type: "float64"`
+The pattern of the date string
 
-          - `"float64"`
+<a href="#">Link to this property</a>
 
-        - `metadata_key: optional string`
+</details>
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-        - `required: optional boolean`
+path: optional string
 
-        - `sql_name: optional string`
+Subpath within the bucket to write to
 
-      - `Bool object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "bool"`
+<details>
 
-          - `"bool"`
+<summary>
 
-        - `metadata_key: optional string`
+rolling\_policy: optional object {file\_size\_bytes, inactivity\_seconds, interval\_seconds }
 
-        - `name: optional string`
+Rolling policy for file sinks (when &amp; why to close a file and open a new one).
 
-        - `required: optional boolean`
+</summary>
 
-        - `sql_name: optional string`
+file\_size\_bytes: optional number
 
-      - `String object { type, metadata_key, name, 2 more }`
+Files will be rolled after reaching this number of bytes
 
-        - `type: "string"`
+formatuint64
 
-          - `"string"`
+minimum0
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+inactivity\_seconds: optional number
 
-        - `required: optional boolean`
+Number of seconds of inactivity to wait before rolling over to a new file
 
-        - `sql_name: optional string`
+formatuint64
 
-      - `Binary object { type, metadata_key, name, 2 more }`
+minimum1
 
-        - `type: "binary"`
+<a href="#">Link to this property</a>
 
-          - `"binary"`
+interval\_seconds: optional number
 
-        - `metadata_key: optional string`
+Number of seconds to wait before rolling over to a new file
 
-        - `name: optional string`
+formatuint64
 
-        - `required: optional boolean`
+minimum1
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Timestamp object { type, metadata_key, name, 3 more }`
+</details>
 
-        - `type: "timestamp"`
+<a href="#">Link to this property</a>
 
-          - `"timestamp"`
+</details>
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+<details>
 
-        - `required: optional boolean`
+<summary>
 
-        - `sql_name: optional string`
+CloudflarePipelinesR2DataCatalogTablePublic object {account\_id, bucket, table\_name, 2 more }
 
-        - `unit: optional "second" or "millisecond" or "microsecond" or "nanosecond"`
+R2 Data Catalog Sink public configuration.
 
-          - `"second"`
+</summary>
 
-          - `"millisecond"`
+account\_id: string
 
-          - `"microsecond"`
+Cloudflare Account ID
 
-          - `"nanosecond"`
+formaturi
 
-      - `Json object { type, metadata_key, name, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "json"`
+bucket: string
 
-          - `"json"`
+The R2 Bucket that hosts this catalog
 
-        - `metadata_key: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+table\_name: string
 
-        - `required: optional boolean`
+Table name
 
-        - `sql_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `Struct =`
+namespace: optional string
 
-      - `List =`
+Table namespace
 
-    - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+<a href="#">Link to this property</a>
 
-      - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+<details>
 
-        - `type: "json"`
+<summary>
 
-          - `"json"`
+rolling\_policy: optional object {file\_size\_bytes, inactivity\_seconds, interval\_seconds }
 
-        - `decimal_encoding: optional "number" or "string" or "bytes"`
+Rolling policy for file sinks (when &amp; why to close a file and open a new one).
 
-          - `"number"`
+</summary>
 
-          - `"string"`
+file\_size\_bytes: optional number
 
-          - `"bytes"`
+Files will be rolled after reaching this number of bytes
 
-        - `timestamp_format: optional "rfc3339" or "unix_millis"`
+formatuint64
 
-          - `"rfc3339"`
+minimum0
 
-          - `"unix_millis"`
+<a href="#">Link to this property</a>
 
-        - `unstructured: optional boolean`
+inactivity\_seconds: optional number
 
-      - `Parquet object { type, compression, row_group_bytes }`
+Number of seconds of inactivity to wait before rolling over to a new file
 
-        - `type: "parquet"`
+formatuint64
 
-          - `"parquet"`
+minimum1
 
-        - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+<a href="#">Link to this property</a>
 
-          - `"uncompressed"`
+interval\_seconds: optional number
 
-          - `"snappy"`
+Number of seconds to wait before rolling over to a new file
 
-          - `"gzip"`
+formatuint64
 
-          - `"zstd"`
+minimum1
 
-          - `"lz4"`
+<a href="#">Link to this property</a>
 
-        - `row_group_bytes: optional number`
+</details>
 
-    - `inferred: optional boolean`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, total_count }`
+</details>
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-    Indicates the number of items on current page.
+</details>
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-    Indicates the current page number.
+<details>
 
-  - `per_page: number`
+<summary>
 
-    Indicates the number of items per page.
+format: optional object {type, compression, decimal\_encoding, 2 more } or object {type, compression, row\_group\_bytes }
 
-  - `total_count: number`
+Defines the output data format of a sink.
 
-    Indicates the total number of items.
+</summary>
 
-- `success: boolean`
+One of the following:
 
-  Indicates whether the API call was successful.
+<details>
 
-### Example
+<summary>
 
-```http
+Json object {type, compression, decimal\_encoding, 2 more }
+
+</summary>
+
+type: "json"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+compression: optional "uncompressed"or "gzip"
+
+Specifies the compression applied to JSON sink output.
+
+</summary>
+
+One of the following:
+
+"uncompressed"
+
+<a href="#">Link to this property</a>
+
+"gzip"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+decimal\_encoding: optional "number"or "string"or "bytes"
+
+</summary>
+
+One of the following:
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"bytes"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+timestamp\_format: optional "rfc3339"or "unix\_millis"
+
+</summary>
+
+One of the following:
+
+"rfc3339"
+
+<a href="#">Link to this property</a>
+
+"unix\_millis"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+unstructured: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Parquet object {type, compression, row\_group\_bytes }
+
+</summary>
+
+type: "parquet"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+compression: optional "uncompressed"or "snappy"or "gzip"or 2 more
+
+</summary>
+
+One of the following:
+
+"uncompressed"
+
+<a href="#">Link to this property</a>
+
+"snappy"
+
+<a href="#">Link to this property</a>
+
+"gzip"
+
+<a href="#">Link to this property</a>
+
+"zstd"
+
+<a href="#">Link to this property</a>
+
+"lz4"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+row\_group\_bytes: optional number
+
+formatint64
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: optional object {fields, inferred }
+
+Defines the schema of the events in the data stream.
+
+</summary>
+
+<details>
+
+<summary>
+
+fields: optional array of <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20source_field%20%3E%20(schema)">SourceField</a>
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Int32 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "int32"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Int64 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "int64"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Float32 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "float32"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Float64 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "float64"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Bool object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "bool"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+String object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "string"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Binary object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "binary"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Timestamp object {type, metadata\_key, name, 3 more }
+
+</summary>
+
+type: "timestamp"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+unit: optional "second"or "millisecond"or "microsecond"or "nanosecond"
+
+</summary>
+
+One of the following:
+
+"second"
+
+<a href="#">Link to this property</a>
+
+"millisecond"
+
+<a href="#">Link to this property</a>
+
+"microsecond"
+
+<a href="#">Link to this property</a>
+
+"nanosecond"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Json object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "json"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Struct = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20struct_field%20%3E%20(schema)">StructField</a> { fields, name }
+
+</summary>
+
+type: "struct"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+List = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20list_field%20%3E%20(schema)">ListField</a> { items }
+
+</summary>
+
+type: "list"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+inferred: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pipelines.sinks%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: number
+
+Indicates the number of items on current page.
+
+<a href="#">Link to this property</a>
+
+page: number
+
+Indicates the current page number.
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+Indicates the number of items per page.
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+Indicates the total number of items.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pipelines.sinks%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: boolean
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20pipelines.sinks%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Sinks
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/sinks \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": [
     {
@@ -449,6 +1081,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/sink
       },
       "format": {
         "type": "json",
+        "compression": "uncompressed",
         "decimal_encoding": "number",
         "timestamp_format": "rfc3339",
         "unstructured": true
@@ -463,12 +1096,69 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/sink
             "sql_name": "sql_name"
           }
         ],
-        "format": {
-          "type": "json",
-          "decimal_encoding": "number",
-          "timestamp_format": "rfc3339",
-          "unstructured": true
+        "inferred": true
+      }
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 0,
+    "per_page": 10,
+    "total_count": 1
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": [
+    {
+      "id": "01234567890123457689012345678901",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "modified_at": "2019-12-27T18:11:19.117Z",
+      "name": "my_sink",
+      "type": "r2",
+      "config": {
+        "account_id": "account_id",
+        "bucket": "bucket",
+        "file_naming": {
+          "prefix": "prefix",
+          "strategy": "serial",
+          "suffix": "suffix"
         },
+        "jurisdiction": "jurisdiction",
+        "partitioning": {
+          "time_pattern": "year=%Y/month=%m/day=%d/hour=%H"
+        },
+        "path": "path",
+        "rolling_policy": {
+          "file_size_bytes": 0,
+          "inactivity_seconds": 1,
+          "interval_seconds": 1
+        }
+      },
+      "format": {
+        "type": "json",
+        "compression": "uncompressed",
+        "decimal_encoding": "number",
+        "timestamp_format": "rfc3339",
+        "unstructured": true
+      },
+      "schema": {
+        "fields": [
+          {
+            "type": "int32",
+            "metadata_key": "metadata_key",
+            "name": "name",
+            "required": true,
+            "sql_name": "sql_name"
+          }
+        ],
         "inferred": true
       }
     }

@@ -1,942 +1,487 @@
+---
+title: Impersonation Registry
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Impersonation Registry
 
-## List entries in impersonation registry
+##### [List entries in impersonation registry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/list)
 
-**get** `/accounts/{account_id}/email-security/settings/impersonation_registry`
+GET/accounts/{account\_id}/email-security/settings/impersonation\_registry
 
-Returns a paginated list of protected identities in the impersonation registry. These entries define identities and email addresses to protect from impersonation attacks. Can be manually added or automatically synced from directory integrations.
+##### [Get an impersonation registry entry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/email-security/settings/impersonation\_registry/{impersonation\_registry\_id}
 
-- `account_id: string`
+##### [Create impersonation registry entry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/email-security/settings/impersonation\_registry
 
-### Query Parameters
+##### [Update an impersonation registry entry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/edit)
 
-- `direction: optional "asc" or "desc"`
+PATCH/accounts/{account\_id}/email-security/settings/impersonation\_registry/{impersonation\_registry\_id}
 
-  The sorting direction.
+##### [Delete an impersonation registry entry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/email-security/settings/impersonation\_registry/{impersonation\_registry\_id}
 
-  - `"desc"`
+##### ModelsExpand Collapse
 
-- `order: optional "name" or "email" or "created_at"`
+<details>
 
-  Field to sort by.
+<summary>
 
-  - `"name"`
+ImpersonationRegistryListResponse object {id, comments, created\_at, 9 more }
 
-  - `"email"`
+An impersonation registry entry.
 
-  - `"created_at"`
+</summary>
 
-- `page: optional number`
+id: optional string
 
-  Current page within paginated list of results.
+Impersonation registry entry identifier.
 
-- `per_page: optional number`
+formatuuid
 
-  The number of results per page. Maximum value is 1000.
+<a href="#">Link to this property</a>
 
-- `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+comments: optional string
 
-  - `"A1S_INTERNAL"`
+<a href="#">Link to this property</a>
 
-  - `"SNOOPY-CASB_OFFICE_365"`
+created\_at: optional string
 
-  - `"SNOOPY-OFFICE_365"`
+formatdate-time
 
-  - `"SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+directory\_id: optional number
 
-  Search term for filtering records. Behavior may change.
+<a href="#">Link to this property</a>
 
-### Returns
+directory\_node\_id: optional number
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+email: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedexternal\_directory\_node\_id: optional string
 
-  - `source: optional object { pointer }`
+This field is deprecated.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+is\_email\_regex: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+Deprecatedlast\_modified: optional string
 
-  - `documentation_url: optional string`
+Use <code>modified_at</code> instead.
 
-  - `source: optional object { pointer }`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+modified\_at: optional string
 
-  - `true`
+formatdate-time
 
-- `result: optional array of object { id, comments, created_at, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+name: optional string
 
-    Impersonation registry entry identifier
+maxLength1024
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+<details>
 
-  - `directory_id: optional number`
+<summary>
 
-  - `directory_node_id: optional number`
+provenance: optional "A1S\_INTERNAL"or "SNOOPY-CASB\_OFFICE\_365"or "SNOOPY-OFFICE\_365"or "SNOOPY-GOOGLE\_DIRECTORY"
 
-  - `email: optional string`
+</summary>
 
-  - `external_directory_node_id: optional string`
+One of the following:
 
-  - `is_email_regex: optional boolean`
+"A1S\_INTERNAL"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"SNOOPY-CASB\_OFFICE\_365"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+"SNOOPY-OFFICE\_365"
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-    - `"A1S_INTERNAL"`
+"SNOOPY-GOOGLE\_DIRECTORY"
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-OFFICE_365"`
+</details>
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_list_response%20%3E%20(schema)>)
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+ImpersonationRegistryGetResponse object {id, comments, created\_at, 9 more }
 
-  - `per_page: optional number`
+An impersonation registry entry.
 
-    Number of results per page of results.
+</summary>
 
-  - `total_count: optional number`
+id: optional string
 
-    Total results available without any search parameters.
+Impersonation registry entry identifier.
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+comments: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "comments": "comments",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "directory_id": 0,
-      "directory_node_id": 0,
-      "email": "john.doe@example.com",
-      "external_directory_node_id": "external_directory_node_id",
-      "is_email_regex": false,
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "name": "John Doe",
-      "provenance": "A1S_INTERNAL"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get an impersonation registry entry
+created\_at: optional string
 
-**get** `/accounts/{account_id}/email-security/settings/impersonation_registry/{impersonation_registry_id}`
+formatdate-time
 
-Retrieves details for a specific impersonation registry entry including the protected identity, email pattern, and synchronization source if directory-synced.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+directory\_id: optional number
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+directory\_node\_id: optional number
 
-- `impersonation_registry_id: string`
+<a href="#">Link to this property</a>
 
-  Impersonation registry entry identifier
+email: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+Deprecatedexternal\_directory\_node\_id: optional string
 
-  - `code: number`
+This field is deprecated.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+is\_email\_regex: optional boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+Deprecatedlast\_modified: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Use <code>modified_at</code> instead.
 
-  - `code: number`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_at: optional string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+name: optional string
 
-  - `true`
+maxLength1024
 
-- `result: optional object { id, comments, created_at, 9 more }`
+<a href="#">Link to this property</a>
 
-  An impersonation registry entry
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Impersonation registry entry identifier
+provenance: optional "A1S\_INTERNAL"or "SNOOPY-CASB\_OFFICE\_365"or "SNOOPY-OFFICE\_365"or "SNOOPY-GOOGLE\_DIRECTORY"
 
-  - `comments: optional string`
+</summary>
 
-  - `created_at: optional string`
+One of the following:
 
-  - `directory_id: optional number`
+"A1S\_INTERNAL"
 
-  - `directory_node_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+"SNOOPY-CASB\_OFFICE\_365"
 
-  - `external_directory_node_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_email_regex: optional boolean`
+"SNOOPY-OFFICE\_365"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"SNOOPY-GOOGLE\_DIRECTORY"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-    - `"A1S_INTERNAL"`
+</details>
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_get_response%20%3E%20(schema)>)
 
-    - `"SNOOPY-OFFICE_365"`
+<details>
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+<summary>
 
-### Example
+ImpersonationRegistryCreateResponse object {id, comments, created\_at, 9 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry/$IMPERSONATION_REGISTRY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+An impersonation registry entry.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "comments",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "directory_id": 0,
-    "directory_node_id": 0,
-    "email": "john.doe@example.com",
-    "external_directory_node_id": "external_directory_node_id",
-    "is_email_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "name": "John Doe",
-    "provenance": "A1S_INTERNAL"
-  }
-}
-```
+id: optional string
 
-## Create impersonation registry entry
+Impersonation registry entry identifier.
 
-**post** `/accounts/{account_id}/email-security/settings/impersonation_registry`
+formatuuid
 
-Creates a new entry in the impersonation registry to protect against impersonation. Emails attempting to impersonate this identity will be flagged. Supports regex patterns for flexible email matching.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+comments: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+created\_at: optional string
 
-### Body Parameters
+formatdate-time
 
-- `email: string`
+<a href="#">Link to this property</a>
 
-- `is_email_regex: boolean`
+directory\_id: optional number
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `comments: optional string`
+directory\_node\_id: optional number
 
-- `directory_id: optional number`
+<a href="#">Link to this property</a>
 
-- `directory_node_id: optional number`
+email: optional string
 
-- `external_directory_node_id: optional string`
+<a href="#">Link to this property</a>
 
-- `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+Deprecatedexternal\_directory\_node\_id: optional string
 
-  - `"A1S_INTERNAL"`
+This field is deprecated.
 
-  - `"SNOOPY-CASB_OFFICE_365"`
+<a href="#">Link to this property</a>
 
-  - `"SNOOPY-OFFICE_365"`
+is\_email\_regex: optional boolean
 
-  - `"SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-### Returns
+Deprecatedlast\_modified: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Use <code>modified_at</code> instead.
 
-  - `code: number`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_at: optional string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: optional string
 
-  - `message: string`
+maxLength1024
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+provenance: optional "A1S\_INTERNAL"or "SNOOPY-CASB\_OFFICE\_365"or "SNOOPY-OFFICE\_365"or "SNOOPY-GOOGLE\_DIRECTORY"
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional object { id, comments, created_at, 9 more }`
+"A1S\_INTERNAL"
 
-  An impersonation registry entry
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"SNOOPY-CASB\_OFFICE\_365"
 
-    Impersonation registry entry identifier
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+"SNOOPY-OFFICE\_365"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `directory_id: optional number`
+"SNOOPY-GOOGLE\_DIRECTORY"
 
-  - `directory_node_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+</details>
 
-  - `external_directory_node_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_email_regex: optional boolean`
+</details>
 
-  - `last_modified: optional string`
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_create_response%20%3E%20(schema)>)
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<details>
 
-  - `modified_at: optional string`
+<summary>
 
-  - `name: optional string`
+ImpersonationRegistryEditResponse object {id, comments, created\_at, 9 more }
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+An impersonation registry entry.
 
-    - `"A1S_INTERNAL"`
+</summary>
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+id: optional string
 
-    - `"SNOOPY-OFFICE_365"`
+Impersonation registry entry identifier.
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+formatuuid
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email": "john.doe@example.com",
-          "is_email_regex": false,
-          "name": "John Doe"
-        }'
-```
+comments: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "comments",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "directory_id": 0,
-    "directory_node_id": 0,
-    "email": "john.doe@example.com",
-    "external_directory_node_id": "external_directory_node_id",
-    "is_email_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "name": "John Doe",
-    "provenance": "A1S_INTERNAL"
-  }
-}
-```
+created\_at: optional string
 
-## Update an impersonation registry entry
+formatdate-time
 
-**patch** `/accounts/{account_id}/email-security/settings/impersonation_registry/{impersonation_registry_id}`
+<a href="#">Link to this property</a>
 
-Updates an existing impersonation registry entry. Only provided fields will be modified. Directory-synced entries can't be updated.
+directory\_id: optional number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+directory\_node\_id: optional number
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `impersonation_registry_id: string`
+email: optional string
 
-  Impersonation registry entry identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+Deprecatedexternal\_directory\_node\_id: optional string
 
-- `comments: optional string`
+This field is deprecated.
 
-- `directory_id: optional number`
+<a href="#">Link to this property</a>
 
-- `directory_node_id: optional number`
+is\_email\_regex: optional boolean
 
-- `email: optional string`
+<a href="#">Link to this property</a>
 
-- `external_directory_node_id: optional string`
+Deprecatedlast\_modified: optional string
 
-- `is_email_regex: optional boolean`
+Use <code>modified_at</code> instead.
 
-- `name: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+formatdate-time
 
-  - `"A1S_INTERNAL"`
+<a href="#">Link to this property</a>
 
-  - `"SNOOPY-CASB_OFFICE_365"`
+modified\_at: optional string
 
-  - `"SNOOPY-OFFICE_365"`
+formatdate-time
 
-  - `"SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-### Returns
+name: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength1024
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+provenance: optional "A1S\_INTERNAL"or "SNOOPY-CASB\_OFFICE\_365"or "SNOOPY-OFFICE\_365"or "SNOOPY-GOOGLE\_DIRECTORY"
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"A1S\_INTERNAL"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"SNOOPY-CASB\_OFFICE\_365"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"SNOOPY-OFFICE\_365"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"SNOOPY-GOOGLE\_DIRECTORY"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comments, created_at, 9 more }`
+</details>
 
-  An impersonation registry entry
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    Impersonation registry entry identifier
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_edit_response%20%3E%20(schema)>)
 
-  - `comments: optional string`
+<details>
 
-  - `created_at: optional string`
+<summary>
 
-  - `directory_id: optional number`
+ImpersonationRegistryDeleteResponse object {id }
 
-  - `directory_node_id: optional number`
+</summary>
 
-  - `email: optional string`
+id: string
 
-  - `external_directory_node_id: optional string`
+Impersonation registry entry identifier.
 
-  - `is_email_regex: optional boolean`
+formatuuid
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</details>
 
-  - `modified_at: optional string`
-
-  - `name: optional string`
-
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
-
-    - `"A1S_INTERNAL"`
-
-    - `"SNOOPY-CASB_OFFICE_365"`
-
-    - `"SNOOPY-OFFICE_365"`
-
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry/$IMPERSONATION_REGISTRY_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email": "john.doe@example.com",
-          "name": "John Doe"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "comments",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "directory_id": 0,
-    "directory_node_id": 0,
-    "email": "john.doe@example.com",
-    "external_directory_node_id": "external_directory_node_id",
-    "is_email_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "name": "John Doe",
-    "provenance": "A1S_INTERNAL"
-  }
-}
-```
-
-## Delete an impersonation registry entry
-
-**delete** `/accounts/{account_id}/email-security/settings/impersonation_registry/{impersonation_registry_id}`
-
-Removes an entry from the impersonation registry. After deletion, this identity will no longer be protected from impersonation.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `impersonation_registry_id: string`
-
-  Impersonation registry entry identifier
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Impersonation registry entry identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry/$IMPERSONATION_REGISTRY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
-
-## Domain Types
-
-### Impersonation Registry List Response
-
-- `ImpersonationRegistryListResponse object { id, comments, created_at, 9 more }`
-
-  An impersonation registry entry
-
-  - `id: optional string`
-
-    Impersonation registry entry identifier
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `directory_id: optional number`
-
-  - `directory_node_id: optional number`
-
-  - `email: optional string`
-
-  - `external_directory_node_id: optional string`
-
-  - `is_email_regex: optional boolean`
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-  - `name: optional string`
-
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
-
-    - `"A1S_INTERNAL"`
-
-    - `"SNOOPY-CASB_OFFICE_365"`
-
-    - `"SNOOPY-OFFICE_365"`
-
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
-
-### Impersonation Registry Get Response
-
-- `ImpersonationRegistryGetResponse object { id, comments, created_at, 9 more }`
-
-  An impersonation registry entry
-
-  - `id: optional string`
-
-    Impersonation registry entry identifier
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `directory_id: optional number`
-
-  - `directory_node_id: optional number`
-
-  - `email: optional string`
-
-  - `external_directory_node_id: optional string`
-
-  - `is_email_regex: optional boolean`
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-  - `name: optional string`
-
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
-
-    - `"A1S_INTERNAL"`
-
-    - `"SNOOPY-CASB_OFFICE_365"`
-
-    - `"SNOOPY-OFFICE_365"`
-
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
-
-### Impersonation Registry Create Response
-
-- `ImpersonationRegistryCreateResponse object { id, comments, created_at, 9 more }`
-
-  An impersonation registry entry
-
-  - `id: optional string`
-
-    Impersonation registry entry identifier
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `directory_id: optional number`
-
-  - `directory_node_id: optional number`
-
-  - `email: optional string`
-
-  - `external_directory_node_id: optional string`
-
-  - `is_email_regex: optional boolean`
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-  - `name: optional string`
-
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
-
-    - `"A1S_INTERNAL"`
-
-    - `"SNOOPY-CASB_OFFICE_365"`
-
-    - `"SNOOPY-OFFICE_365"`
-
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
-
-### Impersonation Registry Edit Response
-
-- `ImpersonationRegistryEditResponse object { id, comments, created_at, 9 more }`
-
-  An impersonation registry entry
-
-  - `id: optional string`
-
-    Impersonation registry entry identifier
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `directory_id: optional number`
-
-  - `directory_node_id: optional number`
-
-  - `email: optional string`
-
-  - `external_directory_node_id: optional string`
-
-  - `is_email_regex: optional boolean`
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-  - `name: optional string`
-
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
-
-    - `"A1S_INTERNAL"`
-
-    - `"SNOOPY-CASB_OFFICE_365"`
-
-    - `"SNOOPY-OFFICE_365"`
-
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
-
-### Impersonation Registry Delete Response
-
-- `ImpersonationRegistryDeleteResponse object { id }`
-
-  - `id: string`
-
-    Impersonation registry entry identifier
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_delete_response%20%3E%20(schema)>)

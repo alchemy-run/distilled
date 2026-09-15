@@ -1,550 +1,535 @@
+---
+title: Detections
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Detections
 
-## Get message detection details
+##### [Get message detection details](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/detections/methods/get)
 
-**get** `/accounts/{account_id}/email-security/investigate/{investigate_id}/detections`
+GET/accounts/{account\_id}/email-security/investigate/{investigate\_id}/detections
 
-Returns detection details such as threat categories and sender information for non-benign messages.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+DetectionGetResponse object {action, attachments, findings, 6 more }
 
-- `investigate_id: string`
+</summary>
 
-  Unique identifier for a message retrieved from investigation
+action: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+attachments: array of object {size, content\_type, detection, 6 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+size: number
 
-    - `pointer: optional string`
+Size of the attachment in bytes.
 
-- `messages: array of object { code, message, documentation_url, source }`
+minimum0
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+content\_type: optional string
 
-  - `documentation_url: optional string`
+MIME type of the attachment.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `result: object { action, attachments, findings, 6 more }`
+<summary>
 
-  - `action: string`
+detection: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  - `attachments: array of object { size, content_type, detection, 6 more }`
+Detection result for this attachment.
 
-    - `size: number`
+</summary>
 
-      Size of the attachment in bytes
+One of the following:
 
-    - `content_type: optional string`
+"MALICIOUS"
 
-      MIME type of the attachment
+<a href="#">Link to this property</a>
 
-    - `detection: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+"MALICIOUS-BEC"
 
-      Detection result for this attachment
+<a href="#">Link to this property</a>
 
-      - `"MALICIOUS"`
+"SUSPICIOUS"
 
-      - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-      - `"SUSPICIOUS"`
+"SPOOF"
 
-      - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-      - `"SPAM"`
+"SPAM"
 
-      - `"BULK"`
+<a href="#">Link to this property</a>
 
-      - `"ENCRYPTED"`
+"BULK"
 
-      - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-      - `"UNKNOWN"`
+"ENCRYPTED"
 
-      - `"NONE"`
+<a href="#">Link to this property</a>
 
-    - `encrypted: optional boolean`
+"EXTERNAL"
 
-      Whether the attachment is encrypted
+<a href="#">Link to this property</a>
 
-    - `filename: optional string`
+"UNKNOWN"
 
-      Name of the attached file
+<a href="#">Link to this property</a>
 
-    - `md5: optional string`
+"NONE"
 
-      MD5 hash of the attachment
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      Attachment name (alternative to filename)
+<a href="#">Link to this property</a>
 
-    - `sha1: optional string`
+encrypted: optional boolean
 
-      SHA1 hash of the attachment
+Whether the attachment is encrypted.
 
-    - `sha256: optional string`
+<a href="#">Link to this property</a>
 
-      SHA256 hash of the attachment
+filename: optional string
 
-  - `findings: array of object { attachment, detail, detection, 6 more }`
+Name of the attached file.
 
-    - `attachment: optional string`
+<a href="#">Link to this property</a>
 
-    - `detail: optional string`
+md5: optional string
 
-    - `detection: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+MD5 hash of the attachment.
 
-      - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-      - `"MALICIOUS-BEC"`
+name: optional string
 
-      - `"SUSPICIOUS"`
+Attachment name (alternative to filename).
 
-      - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-      - `"SPAM"`
+sha1: optional string
 
-      - `"BULK"`
+SHA1 hash of the attachment.
 
-      - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-      - `"EXTERNAL"`
+sha256: optional string
 
-      - `"UNKNOWN"`
+SHA256 hash of the attachment.
 
-      - `"NONE"`
+<a href="#">Link to this property</a>
 
-    - `field: optional string`
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `portion: optional string`
+<details>
 
-    - `reason: optional string`
+<summary>
 
-    - `score: optional number`
+findings: array of object {attachment, detail, detection, 6 more }
 
-    - `value: optional string`
+</summary>
 
-  - `headers: array of object { name, value }`
+attachment: optional string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `value: string`
+detail: optional string
 
-  - `links: array of object { href, text }`
+<a href="#">Link to this property</a>
 
-    - `href: string`
+<details>
 
-    - `text: optional string`
+<summary>
 
-  - `sender_info: object { as_name, as_number, geo, 2 more }`
+detection: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-    - `as_name: optional string`
+Detection result associated with this finding.
 
-      The name of the autonomous system.
+</summary>
 
-    - `as_number: optional number`
+One of the following:
 
-      The number of the autonomous system.
+"MALICIOUS"
 
-    - `geo: optional string`
+<a href="#">Link to this property</a>
 
-    - `ip: optional string`
+"MALICIOUS-BEC"
 
-    - `pld: optional string`
+<a href="#">Link to this property</a>
 
-  - `threat_categories: array of object { id, description, name }`
+"SUSPICIOUS"
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"SPOOF"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-  - `validation: object { comment, dkim, dmarc, spf }`
+"SPAM"
 
-    - `comment: optional string`
+<a href="#">Link to this property</a>
 
-    - `dkim: optional "pass" or "neutral" or "fail" or 2 more`
+"BULK"
 
-      - `"pass"`
+<a href="#">Link to this property</a>
 
-      - `"neutral"`
+"ENCRYPTED"
 
-      - `"fail"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"EXTERNAL"
 
-      - `"none"`
+<a href="#">Link to this property</a>
 
-    - `dmarc: optional "pass" or "neutral" or "fail" or 2 more`
+"UNKNOWN"
 
-      - `"pass"`
+<a href="#">Link to this property</a>
 
-      - `"neutral"`
+"NONE"
 
-      - `"fail"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+</details>
 
-      - `"none"`
+<a href="#">Link to this property</a>
 
-    - `spf: optional "pass" or "neutral" or "fail" or 2 more`
+field: optional string
 
-      - `"pass"`
+<a href="#">Link to this property</a>
 
-      - `"neutral"`
+name: optional string
 
-      - `"fail"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+portion: optional string
 
-      - `"none"`
+<a href="#">Link to this property</a>
 
-  - `final_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+reason: optional string
 
-    - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS-BEC"`
+score: optional number
 
-    - `"SUSPICIOUS"`
+formatdouble
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+value: optional string
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+</details>
 
-    - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+<details>
 
-    - `"NONE"`
+<summary>
 
-- `success: true`
+headers: array of object {name, value }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+name: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/$INVESTIGATE_ID/detections \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "action": "action",
-    "attachments": [
-      {
-        "size": 0,
-        "content_type": "content_type",
-        "detection": "MALICIOUS",
-        "encrypted": true,
-        "filename": "filename",
-        "md5": "md5",
-        "name": "name",
-        "sha1": "sha1",
-        "sha256": "sha256"
-      }
-    ],
-    "findings": [
-      {
-        "attachment": "attachment",
-        "detail": "detail",
-        "detection": "MALICIOUS",
-        "field": "field",
-        "name": "name",
-        "portion": "portion",
-        "reason": "reason",
-        "score": 0,
-        "value": "value"
-      }
-    ],
-    "headers": [
-      {
-        "name": "name",
-        "value": "value"
-      }
-    ],
-    "links": [
-      {
-        "href": "href",
-        "text": "text"
-      }
-    ],
-    "sender_info": {
-      "as_name": "as_name",
-      "as_number": 0,
-      "geo": "geo",
-      "ip": "ip",
-      "pld": "pld"
-    },
-    "threat_categories": [
-      {
-        "id": 0,
-        "description": "description",
-        "name": "name"
-      }
-    ],
-    "validation": {
-      "comment": "comment",
-      "dkim": "pass",
-      "dmarc": "pass",
-      "spf": "pass"
-    },
-    "final_disposition": "MALICIOUS"
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Detection Get Response
+<details>
 
-- `DetectionGetResponse object { action, attachments, findings, 6 more }`
+<summary>
 
-  - `action: string`
+links: array of object {href, text }
 
-  - `attachments: array of object { size, content_type, detection, 6 more }`
+</summary>
 
-    - `size: number`
+href: string
 
-      Size of the attachment in bytes
+<a href="#">Link to this property</a>
 
-    - `content_type: optional string`
+text: optional string
 
-      MIME type of the attachment
+<a href="#">Link to this property</a>
 
-    - `detection: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+</details>
 
-      Detection result for this attachment
+<a href="#">Link to this property</a>
 
-      - `"MALICIOUS"`
+<details>
 
-      - `"MALICIOUS-BEC"`
+<summary>
 
-      - `"SUSPICIOUS"`
+sender\_info: object {as\_name, as\_number, geo, 2 more }
 
-      - `"SPOOF"`
+</summary>
 
-      - `"SPAM"`
+as\_name: optional string
 
-      - `"BULK"`
+The name of the autonomous system.
 
-      - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-      - `"EXTERNAL"`
+as\_number: optional number
 
-      - `"UNKNOWN"`
+The number of the autonomous system.
 
-      - `"NONE"`
+<a href="#">Link to this property</a>
 
-    - `encrypted: optional boolean`
+geo: optional string
 
-      Whether the attachment is encrypted
+<a href="#">Link to this property</a>
 
-    - `filename: optional string`
+ip: optional string
 
-      Name of the attached file
+<a href="#">Link to this property</a>
 
-    - `md5: optional string`
+pld: optional string
 
-      MD5 hash of the attachment
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      Attachment name (alternative to filename)
+<a href="#">Link to this property</a>
 
-    - `sha1: optional string`
+<details>
 
-      SHA1 hash of the attachment
+<summary>
 
-    - `sha256: optional string`
+threat\_categories: array of object {id, description, name }
 
-      SHA256 hash of the attachment
+</summary>
 
-  - `findings: array of object { attachment, detail, detection, 6 more }`
+id: optional number
 
-    - `attachment: optional string`
+<a href="#">Link to this property</a>
 
-    - `detail: optional string`
+description: optional string
 
-    - `detection: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-      - `"MALICIOUS"`
+name: optional string
 
-      - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-      - `"SUSPICIOUS"`
+</details>
 
-      - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-      - `"SPAM"`
+<details>
 
-      - `"BULK"`
+<summary>
 
-      - `"ENCRYPTED"`
+validation: object {comment, dkim, dmarc, spf }
 
-      - `"EXTERNAL"`
+</summary>
 
-      - `"UNKNOWN"`
+comment: optional string
 
-      - `"NONE"`
+<a href="#">Link to this property</a>
 
-    - `field: optional string`
+<details>
 
-    - `name: optional string`
+<summary>
 
-    - `portion: optional string`
+dkim: optional "pass"or "neutral"or "fail"or 2 more
 
-    - `reason: optional string`
+</summary>
 
-    - `score: optional number`
+One of the following:
 
-    - `value: optional string`
+"pass"
 
-  - `headers: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"neutral"
 
-    - `value: string`
+<a href="#">Link to this property</a>
 
-  - `links: array of object { href, text }`
+"fail"
 
-    - `href: string`
+<a href="#">Link to this property</a>
 
-    - `text: optional string`
+"error"
 
-  - `sender_info: object { as_name, as_number, geo, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `as_name: optional string`
+"none"
 
-      The name of the autonomous system.
+<a href="#">Link to this property</a>
 
-    - `as_number: optional number`
+</details>
 
-      The number of the autonomous system.
+<a href="#">Link to this property</a>
 
-    - `geo: optional string`
+<details>
 
-    - `ip: optional string`
+<summary>
 
-    - `pld: optional string`
+dmarc: optional "pass"or "neutral"or "fail"or 2 more
 
-  - `threat_categories: array of object { id, description, name }`
+</summary>
 
-    - `id: optional number`
+One of the following:
 
-    - `description: optional string`
+"pass"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-  - `validation: object { comment, dkim, dmarc, spf }`
+"neutral"
 
-    - `comment: optional string`
+<a href="#">Link to this property</a>
 
-    - `dkim: optional "pass" or "neutral" or "fail" or 2 more`
+"fail"
 
-      - `"pass"`
+<a href="#">Link to this property</a>
 
-      - `"neutral"`
+"error"
 
-      - `"fail"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"none"
 
-      - `"none"`
+<a href="#">Link to this property</a>
 
-    - `dmarc: optional "pass" or "neutral" or "fail" or 2 more`
+</details>
 
-      - `"pass"`
+<a href="#">Link to this property</a>
 
-      - `"neutral"`
+<details>
 
-      - `"fail"`
+<summary>
 
-      - `"error"`
+spf: optional "pass"or "neutral"or "fail"or 2 more
 
-      - `"none"`
+</summary>
 
-    - `spf: optional "pass" or "neutral" or "fail" or 2 more`
+One of the following:
 
-      - `"pass"`
+"pass"
 
-      - `"neutral"`
+<a href="#">Link to this property</a>
 
-      - `"fail"`
+"neutral"
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-      - `"none"`
+"fail"
 
-  - `final_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS"`
+"error"
 
-    - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+"none"
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+</details>
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+</details>
 
-    - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+<details>
 
-    - `"NONE"`
+<summary>
+
+final\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.detections%20%3E%20(model)%20detection_get_response%20%3E%20(schema)>)

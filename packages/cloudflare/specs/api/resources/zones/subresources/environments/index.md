@@ -1,914 +1,369 @@
+---
+title: Environments
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zones](https://developers.cloudflare.com/api/resources/zones)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Environments
 
-## List zone environments
+##### [List zone environments](https://developers.cloudflare.com/api/resources/zones/subresources/environments/methods/list)
 
-**get** `/zones/{zone_id}/environments`
+GET/zones/{zone\_id}/environments
 
-List zone environments
+##### [Create zone environments](https://developers.cloudflare.com/api/resources/zones/subresources/environments/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/environments
 
-- `zone_id: string`
+##### [Upsert zone environments](https://developers.cloudflare.com/api/resources/zones/subresources/environments/methods/update)
 
-### Returns
+PUT/zones/{zone\_id}/environments
 
-- `errors: array of ResponseInfo`
+##### [Partially update zone environments](https://developers.cloudflare.com/api/resources/zones/subresources/environments/methods/edit)
 
-  - `code: number`
+PATCH/zones/{zone\_id}/environments
 
-  - `message: string`
+##### [Delete zone environment](https://developers.cloudflare.com/api/resources/zones/subresources/environments/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/zones/{zone\_id}/environments/{environment\_id}
 
-  - `source: optional object { pointer }`
+##### [Roll back zone environment](https://developers.cloudflare.com/api/resources/zones/subresources/environments/methods/rollback)
 
-    - `pointer: optional string`
+POST/zones/{zone\_id}/environments/{environment\_id}/rollback
 
-- `messages: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+EnvironmentListResponse object {environments }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: object { environments }`
+<details>
 
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
+<summary>
 
-    - `expression: string`
+environments: array of object {expression, locked\_on\_deployment, name, 4 more }
 
-    - `locked_on_deployment: boolean`
+</summary>
 
-    - `name: string`
+expression: string
 
-    - `position: ListCursor`
+<a href="#">Link to this property</a>
 
-      - `after: optional string`
+locked\_on\_deployment: boolean
 
-      - `before: optional string`
+<a href="#">Link to this property</a>
 
-    - `ref: string`
+name: string
 
-    - `version: number`
+<a href="#">Link to this property</a>
 
-    - `http_application_id: optional string`
+position: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)">ListCursor</a> { after, before }
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+ref: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/environments \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+version: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "environments": [
-      {
-        "expression": "expression",
-        "locked_on_deployment": true,
-        "name": "name",
-        "position": {
-          "after": "yyy",
-          "before": "xxx"
-        },
-        "ref": "ref",
-        "version": 0,
-        "http_application_id": "http_application_id"
-      }
-    ]
-  },
-  "success": true
-}
-```
+formatint64
 
-## Create zone environments
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/environments`
+http\_application\_id: optional string
 
-Create zone environments
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `environments: array of object { expression, locked_on_deployment, name, 4 more }`
+[Link to this property](#)%20zones.environments%20%3E%20(model)%20environment_list_response%20%3E%20(schema)>)
 
-  - `expression: string`
+<details>
 
-  - `locked_on_deployment: boolean`
+<summary>
 
-  - `name: string`
+EnvironmentCreateResponse object {environments }
 
-  - `position: ListCursor`
+</summary>
 
-    - `after: optional string`
+<details>
 
-    - `before: optional string`
+<summary>
 
-  - `ref: string`
+environments: array of object {expression, locked\_on\_deployment, name, 4 more }
 
-  - `version: number`
+</summary>
 
-  - `http_application_id: optional string`
+expression: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+locked\_on\_deployment: boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+position: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)">ListCursor</a> { after, before }
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+ref: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+version: number
 
-  - `documentation_url: optional string`
+formatint64
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { environments }`
+http\_application\_id: optional string
 
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `expression: string`
+</details>
 
-    - `locked_on_deployment: boolean`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `position: ListCursor`
+[Link to this property](#)%20zones.environments%20%3E%20(model)%20environment_create_response%20%3E%20(schema)>)
 
-      - `after: optional string`
+<details>
 
-      - `before: optional string`
+<summary>
 
-    - `ref: string`
+EnvironmentUpdateResponse object {environments }
 
-    - `version: number`
+</summary>
 
-    - `http_application_id: optional string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+environments: array of object {expression, locked\_on\_deployment, name, 4 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/environments \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "environments": [
-            {
-              "expression": "expression",
-              "locked_on_deployment": true,
-              "name": "name",
-              "position": {},
-              "ref": "ref",
-              "version": 0
-            }
-          ]
-        }'
-```
+</summary>
 
-#### Response
+expression: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "environments": [
-      {
-        "expression": "expression",
-        "locked_on_deployment": true,
-        "name": "name",
-        "position": {
-          "after": "yyy",
-          "before": "xxx"
-        },
-        "ref": "ref",
-        "version": 0,
-        "http_application_id": "http_application_id"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Upsert zone environments
+locked\_on\_deployment: boolean
 
-**put** `/zones/{zone_id}/environments`
+<a href="#">Link to this property</a>
 
-Upsert zone environments
+name: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+position: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)">ListCursor</a> { after, before }
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `environments: array of object { expression, locked_on_deployment, name, 4 more }`
+ref: string
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-  - `locked_on_deployment: boolean`
+version: number
 
-  - `name: string`
+formatint64
 
-  - `position: ListCursor`
+<a href="#">Link to this property</a>
 
-    - `after: optional string`
+http\_application\_id: optional string
 
-    - `before: optional string`
+<a href="#">Link to this property</a>
 
-  - `ref: string`
+</details>
 
-  - `version: number`
+<a href="#">Link to this property</a>
 
-  - `http_application_id: optional string`
+</details>
 
-### Returns
+[Link to this property](#)%20zones.environments%20%3E%20(model)%20environment_update_response%20%3E%20(schema)>)
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+EnvironmentEditResponse object {environments }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+environments: array of object {expression, locked\_on\_deployment, name, 4 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+expression: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+locked\_on\_deployment: boolean
 
-- `result: object { environments }`
+<a href="#">Link to this property</a>
 
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
+name: string
 
-    - `expression: string`
+<a href="#">Link to this property</a>
 
-    - `locked_on_deployment: boolean`
+position: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)">ListCursor</a> { after, before }
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `position: ListCursor`
+ref: string
 
-      - `after: optional string`
+<a href="#">Link to this property</a>
 
-      - `before: optional string`
+version: number
 
-    - `ref: string`
+formatint64
 
-    - `version: number`
+<a href="#">Link to this property</a>
 
-    - `http_application_id: optional string`
+http\_application\_id: optional string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/environments \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "environments": [
-            {
-              "expression": "expression",
-              "locked_on_deployment": true,
-              "name": "name",
-              "position": {},
-              "ref": "ref",
-              "version": 0
-            }
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "environments": [
-      {
-        "expression": "expression",
-        "locked_on_deployment": true,
-        "name": "name",
-        "position": {
-          "after": "yyy",
-          "before": "xxx"
-        },
-        "ref": "ref",
-        "version": 0,
-        "http_application_id": "http_application_id"
-      }
-    ]
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20zones.environments%20%3E%20(model)%20environment_edit_response%20%3E%20(schema)>)
 
-## Partially update zone environments
+<details>
 
-**patch** `/zones/{zone_id}/environments`
+<summary>
 
-Partially update zone environments
+EnvironmentDeleteResponse object {environments }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `environments: array of object { expression, locked_on_deployment, name, 4 more }`
+environments: array of object {expression, locked\_on\_deployment, name, 4 more }
 
-  - `expression: string`
+</summary>
 
-  - `locked_on_deployment: boolean`
+expression: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `position: ListCursor`
+locked\_on\_deployment: boolean
 
-    - `after: optional string`
+<a href="#">Link to this property</a>
 
-    - `before: optional string`
+name: string
 
-  - `ref: string`
+<a href="#">Link to this property</a>
 
-  - `version: number`
+position: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)">ListCursor</a> { after, before }
 
-  - `http_application_id: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+ref: string
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+version: number
 
-  - `message: string`
+formatint64
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+http\_application\_id: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zones.environments%20%3E%20(model)%20environment_delete_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: object { environments }`
+<summary>
 
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
+EnvironmentRollbackResponse object {environments }
 
-    - `expression: string`
+</summary>
 
-    - `locked_on_deployment: boolean`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `position: ListCursor`
+environments: array of object {expression, locked\_on\_deployment, name, 4 more }
 
-      - `after: optional string`
+</summary>
 
-      - `before: optional string`
+expression: string
 
-    - `ref: string`
+<a href="#">Link to this property</a>
 
-    - `version: number`
+locked\_on\_deployment: boolean
 
-    - `http_application_id: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+name: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/environments \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "environments": [
-            {
-              "expression": "expression",
-              "locked_on_deployment": true,
-              "name": "name",
-              "position": {},
-              "ref": "ref",
-              "version": 0
-            }
-          ]
-        }'
-```
+position: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)">ListCursor</a> { after, before }
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "environments": [
-      {
-        "expression": "expression",
-        "locked_on_deployment": true,
-        "name": "name",
-        "position": {
-          "after": "yyy",
-          "before": "xxx"
-        },
-        "ref": "ref",
-        "version": 0,
-        "http_application_id": "http_application_id"
-      }
-    ]
-  },
-  "success": true
-}
-```
+ref: string
 
-## Delete zone environment
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/environments/{environment_id}`
+version: number
 
-Delete zone environment
+formatint64
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+http\_application\_id: optional string
 
-- `environment_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { environments }`
-
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
-
-    - `expression: string`
-
-    - `locked_on_deployment: boolean`
-
-    - `name: string`
-
-    - `position: ListCursor`
-
-      - `after: optional string`
-
-      - `before: optional string`
-
-    - `ref: string`
-
-    - `version: number`
-
-    - `http_application_id: optional string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/environments/$ENVIRONMENT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "environments": [
-      {
-        "expression": "expression",
-        "locked_on_deployment": true,
-        "name": "name",
-        "position": {
-          "after": "yyy",
-          "before": "xxx"
-        },
-        "ref": "ref",
-        "version": 0,
-        "http_application_id": "http_application_id"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Roll back zone environment
-
-**post** `/zones/{zone_id}/environments/{environment_id}/rollback`
-
-Roll back zone environment
-
-### Path Parameters
-
-- `zone_id: string`
-
-- `environment_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { environments }`
-
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
-
-    - `expression: string`
-
-    - `locked_on_deployment: boolean`
-
-    - `name: string`
-
-    - `position: ListCursor`
-
-      - `after: optional string`
-
-      - `before: optional string`
-
-    - `ref: string`
-
-    - `version: number`
-
-    - `http_application_id: optional string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/environments/$ENVIRONMENT_ID/rollback \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "environments": [
-      {
-        "expression": "expression",
-        "locked_on_deployment": true,
-        "name": "name",
-        "position": {
-          "after": "yyy",
-          "before": "xxx"
-        },
-        "ref": "ref",
-        "version": 0,
-        "http_application_id": "http_application_id"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Environment List Response
-
-- `EnvironmentListResponse object { environments }`
-
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
-
-    - `expression: string`
-
-    - `locked_on_deployment: boolean`
-
-    - `name: string`
-
-    - `position: ListCursor`
-
-      - `after: optional string`
-
-      - `before: optional string`
-
-    - `ref: string`
-
-    - `version: number`
-
-    - `http_application_id: optional string`
-
-### Environment Create Response
-
-- `EnvironmentCreateResponse object { environments }`
-
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
-
-    - `expression: string`
-
-    - `locked_on_deployment: boolean`
-
-    - `name: string`
-
-    - `position: ListCursor`
-
-      - `after: optional string`
-
-      - `before: optional string`
-
-    - `ref: string`
-
-    - `version: number`
-
-    - `http_application_id: optional string`
-
-### Environment Update Response
-
-- `EnvironmentUpdateResponse object { environments }`
-
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
-
-    - `expression: string`
-
-    - `locked_on_deployment: boolean`
-
-    - `name: string`
-
-    - `position: ListCursor`
-
-      - `after: optional string`
-
-      - `before: optional string`
-
-    - `ref: string`
-
-    - `version: number`
-
-    - `http_application_id: optional string`
-
-### Environment Edit Response
-
-- `EnvironmentEditResponse object { environments }`
-
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
-
-    - `expression: string`
-
-    - `locked_on_deployment: boolean`
-
-    - `name: string`
-
-    - `position: ListCursor`
-
-      - `after: optional string`
-
-      - `before: optional string`
-
-    - `ref: string`
-
-    - `version: number`
-
-    - `http_application_id: optional string`
-
-### Environment Delete Response
-
-- `EnvironmentDeleteResponse object { environments }`
-
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
-
-    - `expression: string`
-
-    - `locked_on_deployment: boolean`
-
-    - `name: string`
-
-    - `position: ListCursor`
-
-      - `after: optional string`
-
-      - `before: optional string`
-
-    - `ref: string`
-
-    - `version: number`
-
-    - `http_application_id: optional string`
-
-### Environment Rollback Response
-
-- `EnvironmentRollbackResponse object { environments }`
-
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
-
-    - `expression: string`
-
-    - `locked_on_deployment: boolean`
-
-    - `name: string`
-
-    - `position: ListCursor`
-
-      - `after: optional string`
-
-      - `before: optional string`
-
-    - `ref: string`
-
-    - `version: number`
-
-    - `http_application_id: optional string`
+[Link to this property](#)%20zones.environments%20%3E%20(model)%20environment_rollback_response%20%3E%20(schema)>)

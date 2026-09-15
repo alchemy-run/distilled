@@ -1,295 +1,85 @@
+---
+title: Spending Limit
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Billing](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Spending Limit
 
-## Get spending limit
+##### [Get spending limit](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/get)
 
-**get** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
+GET/accounts/{account\_id}/ai-gateway/billing/spending-limit
 
-Retrieve the current spending limit configuration for the account.
+##### [Set spending limit (deprecated)](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/create)
 
-### Path Parameters
+Deprecated
 
-- `account_id: string`
+POST/accounts/{account\_id}/ai-gateway/billing/spending-limit
 
-### Returns
+##### [Delete spending limit](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/billing/subresources/spending_limit/methods/delete)
 
-- `errors: array of object { code, message }`
+DELETE/accounts/{account\_id}/ai-gateway/billing/spending-limit
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-- `messages: array of object { code, message }`
+<summary>
 
-  - `code: number`
+SpendingLimitGetResponse object {config, enabled }
 
-  - `message: string`
+</summary>
 
-- `result: object { config, enabled }`
+<details>
 
-  - `config: object { amount, duration, strategy }`
+<summary>
 
-    - `amount: number`
+config: object {amount, duration, strategy }
 
-    - `duration: string`
+</summary>
 
-    - `strategy: string`
+amount: number
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-- `success: true`
+duration: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { has_more, page, per_page, total_count }`
+strategy: string
 
-  - `has_more: boolean`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+</details>
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+enabled: boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "config": {
-      "amount": 0,
-      "duration": "duration",
-      "strategy": "strategy"
-    },
-    "enabled": true
-  },
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
+SpendingLimitCreateResponse = unknown
 
-## Set spending limit (deprecated)
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_create_response%20%3E%20(schema)>)
 
-**post** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
+SpendingLimitDeleteResponse = unknown
 
-Deprecated: spending limits can no longer be created, enabled, or modified and this endpoint always responds 403. Use the new AI Gateway spend limits instead: https://developers.cloudflare.com/ai-gateway/features/spend-limits/. Existing limits can be removed via DELETE /spending-limit.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `amount: number`
-
-  Spending limit amount in cents (min 100).
-
-- `duration: "daily" or "weekly" or "monthly"`
-
-  Spending limit duration.
-
-  - `"daily"`
-
-  - `"weekly"`
-
-  - `"monthly"`
-
-- `strategy: "fixed" or "sliding"`
-
-  Spending limit strategy.
-
-  - `"fixed"`
-
-  - `"sliding"`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "amount": 10000,
-          "duration": "monthly",
-          "strategy": "fixed"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Delete spending limit
-
-**delete** `/accounts/{account_id}/ai-gateway/billing/spending-limit`
-
-Remove the spending limit for the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `result: unknown`
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { has_more, page, per_page, total_count }`
-
-  - `has_more: boolean`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/billing/spending-limit \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {},
-  "success": true,
-  "result_info": {
-    "has_more": true,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  }
-}
-```
-
-## Domain Types
-
-### Spending Limit Get Response
-
-- `SpendingLimitGetResponse object { config, enabled }`
-
-  - `config: object { amount, duration, strategy }`
-
-    - `amount: number`
-
-    - `duration: string`
-
-    - `strategy: string`
-
-  - `enabled: boolean`
-
-### Spending Limit Create Response
-
-- `SpendingLimitCreateResponse = unknown`
-
-### Spending Limit Delete Response
-
-- `SpendingLimitDeleteResponse = unknown`
+[Link to this property](#)%20ai_gateway.billing.spending_limit%20%3E%20(model)%20spending_limit_delete_response%20%3E%20(schema)>)

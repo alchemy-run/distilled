@@ -1,4019 +1,815 @@
-# Networks
+---
+title: Networks
+---
 
-# Routes
+[Skip to content](#_top)
 
-## List tunnel routes
+[API Reference](https://developers.cloudflare.com/api)
 
-**get** `/accounts/{account_id}/teamnet/routes`
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-Lists and filters private network routes in an account.
+Copy Markdown
 
-### Path Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `account_id: string`
+---
 
-  Cloudflare account ID
-
-### Query Parameters
-
-- `comment: optional string`
-
-  Optional remark describing the route.
-
-- `existed_at: optional string`
-
-  If provided, include only resources that were created (and not deleted) before this time. URL encoded.
-
-- `is_deleted: optional boolean`
-
-  If `true`, only include deleted routes. If `false`, exclude deleted routes. If empty, all routes will be included.
-
-- `network_subset: optional string`
-
-  If set, only list routes that are contained within this IP range.
-
-- `network_superset: optional string`
-
-  If set, only list routes that contain this IP range.
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Number of results to display.
-
-- `route_id: optional string`
-
-  UUID of the route.
-
-- `tun_types: optional array of "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-  The types of tunnels to filter by, separated by commas.
-
-  - `"cfd_tunnel"`
-
-  - `"warp_connector"`
-
-  - `"warp"`
-
-  - `"magic"`
-
-  - `"ip_sec"`
-
-  - `"gre"`
-
-  - `"cni"`
-
-- `tunnel_id: optional string`
-
-  UUID of the tunnel.
-
-- `virtual_network_id: optional string`
-
-  UUID of the virtual network.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of Teamnet`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-  - `virtual_network_name: optional string`
-
-    A user-friendly name for the virtual network.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "comment": "Example comment for this route.",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "deleted_at": "2009-11-10T23:00:00.000000Z",
-      "network": "172.16.0.0/16",
-      "tun_type": "cfd_tunnel",
-      "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "tunnel_name": "blog",
-      "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "virtual_network_name": "us-east-1-vpc"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get tunnel route
-
-**get** `/accounts/{account_id}/teamnet/routes/{route_id}`
-
-Get a private network route in an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `route_id: string`
-
-  UUID of the route.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Route`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/$ROUTE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Example comment for this route.",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "network": "172.16.0.0/16",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
-
-## Create a tunnel route
-
-**post** `/accounts/{account_id}/teamnet/routes`
-
-Routes a private network through a Cloudflare Tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Body Parameters
-
-- `network: string`
-
-  The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-- `tunnel_id: string`
-
-  UUID of the tunnel.
-
-- `comment: optional string`
-
-  Optional remark describing the route.
-
-- `virtual_network_id: optional string`
-
-  UUID of the virtual network.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Route`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "network": "172.16.0.0/16",
-          "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-          "comment": "Example comment for this route.",
-          "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Example comment for this route.",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "network": "172.16.0.0/16",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
-
-## Update a tunnel route
-
-**patch** `/accounts/{account_id}/teamnet/routes/{route_id}`
-
-Updates an existing private network route in an account. The fields that are meant to be updated should be provided in the body of the request.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `route_id: string`
-
-  UUID of the route.
-
-### Body Parameters
-
-- `comment: optional string`
-
-  Optional remark describing the route.
-
-- `network: optional string`
-
-  The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-- `tunnel_id: optional string`
-
-  UUID of the tunnel.
-
-- `virtual_network_id: optional string`
-
-  UUID of the virtual network.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Route`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/$ROUTE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "Example comment for this route.",
-          "network": "172.16.0.0/16",
-          "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-          "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Example comment for this route.",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "network": "172.16.0.0/16",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
-
-## Delete a tunnel route
-
-**delete** `/accounts/{account_id}/teamnet/routes/{route_id}`
-
-Deletes a private network route from an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `route_id: string`
-
-  UUID of the route.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Route`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/$ROUTE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Example comment for this route.",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "network": "172.16.0.0/16",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Network Route
-
-- `NetworkRoute object { id, comment, created_at, 4 more }`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-### Route
-
-- `Route object { id, comment, created_at, 4 more }`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-### Teamnet
-
-- `Teamnet object { id, comment, created_at, 7 more }`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-  - `virtual_network_name: optional string`
-
-    A user-friendly name for the virtual network.
-
-# IPs
-
-## Get tunnel route by IP
-
-**get** `/accounts/{account_id}/teamnet/routes/ip/{ip}`
-
-Fetches routes that contain the given IP address.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `ip: string`
-
-### Query Parameters
-
-- `default_virtual_network_fallback: optional boolean`
-
-  When the virtual_network_id parameter is not provided the request filter will default search routes that are in the default virtual network for the account. If this parameter is set to false, the search will include routes that do not have a virtual network.
-
-- `virtual_network_id: optional string`
-
-  UUID of the virtual network.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Teamnet`
-
-  - `id: optional string`
-
-    UUID of the route.
-
-  - `comment: optional string`
-
-    Optional remark describing the route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-  - `virtual_network_id: optional string`
-
-    UUID of the virtual network.
-
-  - `virtual_network_name: optional string`
-
-    A user-friendly name for the virtual network.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/ip/$IP \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Example comment for this route.",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "network": "172.16.0.0/16",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "blog",
-    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "virtual_network_name": "us-east-1-vpc"
-  },
-  "success": true
-}
-```
+**Copy Markdown****View as Markdown**
 
 # Networks
 
-## Create a tunnel route (CIDR Endpoint)
+#### NetworksRoutes
 
-**post** `/accounts/{account_id}/teamnet/routes/network/{ip_network_encoded}`
+##### [List tunnel routes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/methods/list)
 
-Routes a private network through a Cloudflare Tunnel. The CIDR in `ip_network_encoded` must be written in URL-encoded format.
+GET/accounts/{account\_id}/teamnet/routes
 
-### Path Parameters
+##### [Get tunnel route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/methods/get)
 
-- `account_id: string`
+GET/accounts/{account\_id}/teamnet/routes/{route\_id}
 
-  Cloudflare account ID
+##### [Create a tunnel route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/methods/create)
 
-- `ip_network_encoded: string`
+POST/accounts/{account\_id}/teamnet/routes
 
-  IP/CIDR range in URL-encoded format
+##### [Update a tunnel route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/methods/edit)
 
-### Body Parameters
+PATCH/accounts/{account\_id}/teamnet/routes/{route\_id}
 
-- `tunnel_id: string`
+##### [Delete a tunnel route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/methods/delete)
 
-  UUID of the tunnel.
+DELETE/accounts/{account\_id}/teamnet/routes/{route\_id}
 
-- `comment: optional string`
+##### ModelsExpand Collapse
 
-  Optional remark describing the route.
+<details>
 
-- `virtual_network_id: optional string`
+<summary>
 
-  UUID of the virtual network.
+NetworkRoute object {id, comment, created\_at, 4 more }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+id: optional string
 
-  - `code: number`
+UUID of the route.
 
-  - `message: string`
+maxLength36
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+comment: optional string
 
-    - `pointer: optional string`
+Optional remark describing the route.
 
-- `messages: array of ResponseInfo`
+maxLength100
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_at: optional string
 
-  - `documentation_url: optional string`
+Timestamp of when the resource was created.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-- `result: Route`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+deleted\_at: optional string
 
-    UUID of the route.
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-  - `comment: optional string`
+formatdate-time
 
-    Optional remark describing the route.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+network: optional string
 
-    Timestamp of when the resource was created.
+The private IPv4 or IPv6 range connected by the route, in CIDR notation.
 
-  - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+tunnel\_id: optional string
 
-  - `network: optional string`
+UUID of the tunnel.
 
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
+formatuuid
 
-  - `tunnel_id: optional string`
+maxLength36
 
-    UUID of the tunnel.
+<a href="#">Link to this property</a>
 
-  - `virtual_network_id: optional string`
+virtual\_network\_id: optional string
 
-    UUID of the virtual network.
+UUID of the virtual network.
 
-- `success: true`
+formatuuid
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(model)%20network_route%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/network/$IP_NETWORK_ENCODED \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-          "comment": "Example comment for this route.",
-          "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Example comment for this route.",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "network": "172.16.0.0/16",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
+Route object {id, comment, created\_at, 4 more }
 
-## Update a tunnel route (CIDR Endpoint)
+</summary>
 
-**patch** `/accounts/{account_id}/teamnet/routes/network/{ip_network_encoded}`
+id: optional string
 
-Updates an existing private network route in an account. The CIDR in `ip_network_encoded` must be written in URL-encoded format.
+UUID of the route.
 
-### Path Parameters
+maxLength36
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Cloudflare account ID
+comment: optional string
 
-- `ip_network_encoded: string`
+Optional remark describing the route.
 
-  IP/CIDR range in URL-encoded format
+maxLength100
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+created\_at: optional string
 
-  - `code: number`
+Timestamp of when the resource was created.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+deleted\_at: optional string
 
-    - `pointer: optional string`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+network: optional string
 
-  - `documentation_url: optional string`
+The private IPv4 or IPv6 range connected by the route, in CIDR notation.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: Route`
+tunnel\_id: optional string
 
-  - `id: optional string`
+UUID of the tunnel.
 
-    UUID of the route.
+formatuuid
 
-  - `comment: optional string`
+maxLength36
 
-    Optional remark describing the route.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+virtual\_network\_id: optional string
 
-    Timestamp of when the resource was created.
+UUID of the virtual network.
 
-  - `deleted_at: optional string`
+formatuuid
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+<a href="#">Link to this property</a>
 
-  - `network: optional string`
+</details>
 
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(model)%20route%20%3E%20(schema)>)
 
-  - `tunnel_id: optional string`
+<details>
 
-    UUID of the tunnel.
+<summary>
 
-  - `virtual_network_id: optional string`
+Teamnet object {id, comment, created\_at, 7 more }
 
-    UUID of the virtual network.
+</summary>
 
-- `success: true`
+id: optional string
 
-  Whether the API call was successful
+UUID of the route.
 
-  - `true`
+maxLength36
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/network/$IP_NETWORK_ENCODED \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+comment: optional string
 
-#### Response
+Optional remark describing the route.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Example comment for this route.",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "network": "172.16.0.0/16",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
+maxLength100
 
-## Delete a tunnel route (CIDR Endpoint)
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/teamnet/routes/network/{ip_network_encoded}`
+created\_at: optional string
 
-Deletes a private network route from an account. The CIDR in `ip_network_encoded` must be written in URL-encoded format. If no virtual_network_id is provided it will delete the route from the default vnet. If no tun_type is provided it will fetch the type from the tunnel_id or if that is missing it will assume Cloudflare Tunnel as default. If tunnel_id is provided it will delete the route from that tunnel, otherwise it will delete the route based on the vnet and tun_type.
+Timestamp of when the resource was created.
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Cloudflare account ID
+deleted\_at: optional string
 
-- `ip_network_encoded: string`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-  IP/CIDR range in URL-encoded format
+formatdate-time
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+network: optional string
 
-  The type of tunnel.
+The private IPv4 or IPv6 range connected by the route, in CIDR notation.
 
-  - `"cfd_tunnel"`
+<a href="#">Link to this property</a>
 
-  - `"warp_connector"`
+<details>
 
-  - `"warp"`
+<summary>
 
-  - `"magic"`
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-  - `"ip_sec"`
+The type of tunnel.
 
-  - `"gre"`
+</summary>
 
-  - `"cni"`
+One of the following:
 
-- `tunnel_id: optional string`
+"cfd\_tunnel"
 
-  UUID of the tunnel.
+<a href="#">Link to this property</a>
 
-- `virtual_network_id: optional string`
+"warp\_connector"
 
-  UUID of the virtual network.
+<a href="#">Link to this property</a>
 
-### Returns
+"warp"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"magic"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"ip\_sec"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"gre"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"cni"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: Route`
+tunnel\_id: optional string
 
-  - `id: optional string`
+UUID of the tunnel.
 
-    UUID of the route.
+formatuuid
 
-  - `comment: optional string`
+maxLength36
 
-    Optional remark describing the route.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+tunnel\_name: optional string
 
-    Timestamp of when the resource was created.
+A user-friendly name for a tunnel.
 
-  - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+virtual\_network\_id: optional string
 
-  - `network: optional string`
+UUID of the virtual network.
 
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
+formatuuid
 
-  - `tunnel_id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID of the tunnel.
+virtual\_network\_name: optional string
 
-  - `virtual_network_id: optional string`
+A user-friendly name for the virtual network.
 
-    UUID of the virtual network.
+maxLength256
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+</details>
 
-  - `true`
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(model)%20teamnet%20%3E%20(schema)>)
 
-### Example
+#### NetworksRoutesIPs
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/network/$IP_NETWORK_ENCODED \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Get tunnel route by IP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/subresources/ips/methods/get)
 
-#### Response
+GET/accounts/{account\_id}/teamnet/routes/ip/{ip}
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Example comment for this route.",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "network": "172.16.0.0/16",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
+#### NetworksRoutesNetworks
 
-# Virtual Networks
+##### [Create a tunnel route (CIDR Endpoint)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/subresources/networks/methods/create)
 
-## List virtual networks
+Deprecated
 
-**get** `/accounts/{account_id}/teamnet/virtual_networks`
+POST/accounts/{account\_id}/teamnet/routes/network/{ip\_network\_encoded}
 
-Lists and filters virtual networks in an account.
+##### [Update a tunnel route (CIDR Endpoint)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/subresources/networks/methods/edit)
 
-### Path Parameters
+Deprecated
 
-- `account_id: string`
+PATCH/accounts/{account\_id}/teamnet/routes/network/{ip\_network\_encoded}
 
-  Cloudflare account ID
+##### [Delete a tunnel route (CIDR Endpoint)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/subresources/networks/methods/delete)
 
-### Query Parameters
+Deprecated
 
-- `id: optional string`
+DELETE/accounts/{account\_id}/teamnet/routes/network/{ip\_network\_encoded}
 
-  UUID of the virtual network.
+#### NetworksVirtual Networks
 
-- `is_default: optional boolean`
+##### [List virtual networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/list)
 
-  If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.
+GET/accounts/{account\_id}/teamnet/virtual\_networks
 
-- `is_default_network: optional boolean`
+##### [Get a virtual network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/get)
 
-  If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.
+GET/accounts/{account\_id}/teamnet/virtual\_networks/{virtual\_network\_id}
 
-- `is_deleted: optional boolean`
+##### [Create a virtual network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/create)
 
-  If `true`, only include deleted virtual networks. If `false`, exclude deleted virtual networks. If empty, all virtual networks will be included.
+POST/accounts/{account\_id}/teamnet/virtual\_networks
 
-- `name: optional string`
+##### [Update a virtual network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/edit)
 
-  A user-friendly name for the virtual network.
+PATCH/accounts/{account\_id}/teamnet/virtual\_networks/{virtual\_network\_id}
 
-### Returns
+##### [Delete a virtual network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/delete)
 
-- `errors: array of ResponseInfo`
+DELETE/accounts/{account\_id}/teamnet/virtual\_networks/{virtual\_network\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+VirtualNetwork object {id, comment, created\_at, 3 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: string
 
-  - `code: number`
+UUID of the virtual network.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+comment: string
 
-- `result: array of VirtualNetwork`
+Optional remark describing the virtual network.
 
-  - `id: string`
+maxLength256
 
-    UUID of the virtual network.
+<a href="#">Link to this property</a>
 
-  - `comment: string`
+created\_at: string
 
-    Optional remark describing the virtual network.
+Timestamp of when the resource was created.
 
-  - `created_at: string`
+formatdate-time
 
-    Timestamp of when the resource was created.
+<a href="#">Link to this property</a>
 
-  - `is_default_network: boolean`
+is\_default\_network: boolean
 
-    If `true`, this virtual network is the default for the account.
+If <code>true</code>, this virtual network is the default for the account.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for the virtual network.
+name: string
 
-  - `deleted_at: optional string`
+A user-friendly name for the virtual network.
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+maxLength256
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+deleted\_at: optional string
 
-  - `true`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+formatdate-time
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(model)%20virtual_network%20%3E%20(schema)>)
 
-    Current page within paginated list of results
+#### NetworksSubnets
 
-  - `per_page: optional number`
+##### [List Subnets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/methods/list)
 
-    Number of results per page of results
+GET/accounts/{account\_id}/zerotrust/subnets
 
-  - `total_count: optional number`
+#### NetworksSubnetsWARP
 
-    Total results available without any search parameters
+##### [Create WARP IP subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp/methods/create)
 
-### Example
+POST/accounts/{account\_id}/zerotrust/subnets/warp
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Get WARP IP subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp/methods/get)
 
-#### Response
+GET/accounts/{account\_id}/zerotrust/subnets/warp/{subnet\_id}
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "comment": "Staging VPC for data science",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "is_default_network": true,
-      "name": "us-east-1-vpc",
-      "deleted_at": "2009-11-10T23:00:00.000000Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+##### [Update WARP IP subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp/methods/edit)
 
-## Get a virtual network
+PATCH/accounts/{account\_id}/zerotrust/subnets/warp/{subnet\_id}
 
-**get** `/accounts/{account_id}/teamnet/virtual_networks/{virtual_network_id}`
+##### [Delete WARP IP subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp/methods/delete)
 
-Get a virtual network.
+DELETE/accounts/{account\_id}/zerotrust/subnets/warp/{subnet\_id}
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID
+<summary>
 
-- `virtual_network_id: string`
+Subnet object {id, capacity, comment, 6 more }
 
-  UUID of the virtual network.
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of ResponseInfo`
+The UUID of the subnet.
 
-  - `code: number`
+formatuuid
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+capacity: optional object {total, used }
 
-- `messages: array of ResponseInfo`
+IP capacity information for the subnet.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+total: optional number
 
-  - `documentation_url: optional string`
+Total number of assignable IPs in the subnet.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: VirtualNetwork`
+used: optional number
 
-  - `id: string`
+Number of assigned IPs in the subnet.
 
-    UUID of the virtual network.
+<a href="#">Link to this property</a>
 
-  - `comment: string`
+</details>
 
-    Optional remark describing the virtual network.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+comment: optional string
 
-    Timestamp of when the resource was created.
+An optional description of the subnet.
 
-  - `is_default_network: boolean`
+<a href="#">Link to this property</a>
 
-    If `true`, this virtual network is the default for the account.
+created\_at: optional string
 
-  - `name: string`
+Timestamp of when the resource was created.
 
-    A user-friendly name for the virtual network.
+formatdate-time
 
-  - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+deleted\_at: optional string
 
-- `success: true`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-  Whether the API call was successful
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+is\_default\_network: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks/$VIRTUAL_NETWORK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+If <code>true</code>, this is the default subnet for the account. There can only be one default subnet per account.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Staging VPC for data science",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "is_default_network": true,
-    "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
-  },
-  "success": true
-}
-```
+name: optional string
 
-## Create a virtual network
+A user-friendly name for the subnet.
 
-**post** `/accounts/{account_id}/teamnet/virtual_networks`
+<a href="#">Link to this property</a>
 
-Adds a new virtual network to an account.
+network: optional string
 
-### Path Parameters
+The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Cloudflare account ID
+<details>
 
-### Body Parameters
+<summary>
 
-- `name: string`
+subnet\_type: optional "cloudflare\_source"or "initial\_resolved\_ip"or "warp"
 
-  A user-friendly name for the virtual network.
+The type of subnet.
 
-- `comment: optional string`
+</summary>
 
-  Optional remark describing the virtual network.
+One of the following:
 
-- `is_default: optional boolean`
+"cloudflare\_source"
 
-  If `true`, this virtual network is the default for the account.
+<a href="#">Link to this property</a>
 
-- `is_default_network: optional boolean`
+"initial\_resolved\_ip"
 
-  If `true`, this virtual network is the default for the account.
+<a href="#">Link to this property</a>
 
-### Returns
+"warp"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(model)%20subnet%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+WARPDeleteResponse object {id, capacity, comment, 6 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+The UUID of the subnet.
 
-- `result: VirtualNetwork`
+formatuuid
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    UUID of the virtual network.
+<details>
 
-  - `comment: string`
+<summary>
 
-    Optional remark describing the virtual network.
+capacity: optional object {total, used }
 
-  - `created_at: string`
+IP capacity information for the subnet.
 
-    Timestamp of when the resource was created.
+</summary>
 
-  - `is_default_network: boolean`
+total: optional number
 
-    If `true`, this virtual network is the default for the account.
+Total number of assignable IPs in the subnet.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for the virtual network.
+used: optional number
 
-  - `deleted_at: optional string`
+Number of assigned IPs in the subnet.
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+comment: optional string
 
-### Example
+An optional description of the subnet.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "us-east-1-vpc",
-          "comment": "Staging VPC for data science",
-          "is_default": true
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_at: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Staging VPC for data science",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "is_default_network": true,
-    "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
-  },
-  "success": true
-}
-```
+Timestamp of when the resource was created.
 
-## Update a virtual network
+formatdate-time
 
-**patch** `/accounts/{account_id}/teamnet/virtual_networks/{virtual_network_id}`
+<a href="#">Link to this property</a>
 
-Updates an existing virtual network.
+deleted\_at: optional string
 
-### Path Parameters
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-- `account_id: string`
+formatdate-time
 
-  Cloudflare account ID
+<a href="#">Link to this property</a>
 
-- `virtual_network_id: string`
+is\_default\_network: optional boolean
 
-  UUID of the virtual network.
+If <code>true</code>, this is the default subnet for the account. There can only be one default subnet per account.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `comment: optional string`
+name: optional string
 
-  Optional remark describing the virtual network.
+A user-friendly name for the subnet.
 
-- `is_default_network: optional boolean`
+<a href="#">Link to this property</a>
 
-  If `true`, this virtual network is the default for the account.
+network: optional string
 
-- `name: optional string`
+The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
 
-  A user-friendly name for the virtual network.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+subnet\_type: optional "cloudflare\_source"or "initial\_resolved\_ip"or "warp"
 
-  - `message: string`
+The type of subnet.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"cloudflare\_source"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"initial\_resolved\_ip"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"warp"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: VirtualNetwork`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    UUID of the virtual network.
+</details>
 
-  - `comment: string`
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(model)%20warp_delete_response%20%3E%20(schema)>)
 
-    Optional remark describing the virtual network.
+#### NetworksSubnetsCloudflare Source
 
-  - `created_at: string`
+##### [Update Cloudflare Source Subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/cloudflare_source/methods/update)
 
-    Timestamp of when the resource was created.
+PATCH/accounts/{account\_id}/zerotrust/subnets/cloudflare\_source/{address\_family}
 
-  - `is_default_network: boolean`
+#### NetworksSubnetsInitial Resolved IP
 
-    If `true`, this virtual network is the default for the account.
+##### [Get Initial Resolved IP Subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/initial_resolved_ip/methods/get)
 
-  - `name: string`
+GET/accounts/{account\_id}/zerotrust/subnets/initial\_resolved\_ip/{address\_family}
 
-    A user-friendly name for the virtual network.
+##### [Update Initial Resolved IP Subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/initial_resolved_ip/methods/update)
 
-  - `deleted_at: optional string`
+PUT/accounts/{account\_id}/zerotrust/subnets/initial\_resolved\_ip/{address\_family}
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+#### NetworksHostname Routes
 
-- `success: true`
+##### [List hostname routes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/list)
 
-  Whether the API call was successful
+GET/accounts/{account\_id}/zerotrust/routes/hostname
 
-  - `true`
+##### [Get hostname route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/get)
 
-### Example
+GET/accounts/{account\_id}/zerotrust/routes/hostname/{hostname\_route\_id}
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks/$VIRTUAL_NETWORK_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "Staging VPC for data science",
-          "name": "us-east-1-vpc"
-        }'
-```
+##### [Create hostname route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/create)
 
-#### Response
+POST/accounts/{account\_id}/zerotrust/routes/hostname
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Staging VPC for data science",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "is_default_network": true,
-    "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
-  },
-  "success": true
-}
-```
+##### [Update hostname route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/edit)
 
-## Delete a virtual network
+PATCH/accounts/{account\_id}/zerotrust/routes/hostname/{hostname\_route\_id}
 
-**delete** `/accounts/{account_id}/teamnet/virtual_networks/{virtual_network_id}`
+##### [Delete hostname route](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/hostname_routes/methods/delete)
 
-Deletes an existing virtual network.
+DELETE/accounts/{account\_id}/zerotrust/routes/hostname/{hostname\_route\_id}
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID
+<summary>
 
-- `virtual_network_id: string`
+HostnameRoute object {id, comment, created\_at, 5 more }
 
-  UUID of the virtual network.
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of ResponseInfo`
+The hostname route ID.
 
-  - `code: number`
+formatuuid
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+comment: optional string
 
-  - `source: optional object { pointer }`
+An optional description of the hostname route.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+created\_at: optional string
 
-  - `code: number`
+Timestamp of when the resource was created.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+deleted\_at: optional string
 
-- `result: VirtualNetwork`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-  - `id: string`
+formatdate-time
 
-    UUID of the virtual network.
+<a href="#">Link to this property</a>
 
-  - `comment: string`
+hostname: optional string
 
-    Optional remark describing the virtual network.
+The hostname of the route.
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was created.
+<details>
 
-  - `is_default_network: boolean`
+<summary>
 
-    If `true`, this virtual network is the default for the account.
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-  - `name: string`
+The type of tunnel.
 
-    A user-friendly name for the virtual network.
+</summary>
 
-  - `deleted_at: optional string`
+One of the following:
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+"cfd\_tunnel"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+"warp\_connector"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"warp"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks/$VIRTUAL_NETWORK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"magic"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Staging VPC for data science",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "is_default_network": true,
-    "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"ip\_sec"
 
-### Virtual Network
+<a href="#">Link to this property</a>
 
-- `VirtualNetwork object { id, comment, created_at, 3 more }`
+"gre"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    UUID of the virtual network.
+"cni"
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    Optional remark describing the virtual network.
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was created.
+tunnel\_id: optional string
 
-  - `is_default_network: boolean`
+UUID of the tunnel.
 
-    If `true`, this virtual network is the default for the account.
+formatuuid
 
-  - `name: string`
+maxLength36
 
-    A user-friendly name for the virtual network.
+<a href="#">Link to this property</a>
 
-  - `deleted_at: optional string`
+tunnel\_name: optional string
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+A user-friendly name for a tunnel.
 
-# Subnets
+<a href="#">Link to this property</a>
 
-## List Subnets
+</details>
 
-**get** `/accounts/{account_id}/zerotrust/subnets`
-
-Lists and filters subnets in an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Query Parameters
-
-- `address_family: optional "v4" or "v6"`
-
-  If set, only include subnets in the given address family - `v4` or `v6`
-
-  - `"v4"`
-
-  - `"v6"`
-
-- `comment: optional string`
-
-  If set, only list subnets with the given comment.
-
-- `existed_at: optional string`
-
-  If provided, include only resources that were created (and not deleted) before this time. URL encoded.
-
-- `is_default_network: optional boolean`
-
-  If `true`, only include default subnets. If `false`, exclude default subnets subnets. If not set, all subnets will be included.
-
-- `is_deleted: optional boolean`
-
-  If `true`, only include deleted subnets. If `false`, exclude deleted subnets. If not set, all subnets will be included.
-
-- `name: optional string`
-
-  If set, only list subnets with the given name
-
-- `network: optional string`
-
-  If set, only list the subnet whose network exactly matches the given CIDR.
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Number of results to display.
-
-- `sort_order: optional "asc" or "desc"`
-
-  Sort order of the results. `asc` means oldest to newest, `desc` means newest to oldest. If not set, they will not be in any particular order.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `subnet_types: optional "cloudflare_source" or "warp"`
-
-  If set, the types of subnets to include, separated by comma.
-
-  - `"cloudflare_source"`
-
-  - `"warp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of Subnet`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "comment": "example comment",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "deleted_at": "2009-11-10T23:00:00.000000Z",
-      "is_default_network": true,
-      "name": "IPv4 Cloudflare Source IPs",
-      "network": "100.64.0.0/12",
-      "subnet_type": "cloudflare_source"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-# WARP
-
-## Create WARP IP subnet
-
-**post** `/accounts/{account_id}/zerotrust/subnets/warp`
-
-Create a WARP IP assignment subnet. Currently, only IPv4 subnets can be created.
-
-**Network constraints:**
-
-- The network must be within one of the following private IP ranges:
-  - `10.0.0.0/8` (RFC 1918)
-  - `172.16.0.0/12` (RFC 1918)
-  - `192.168.0.0/16` (RFC 1918)
-  - `100.64.0.0/10` (RFC 6598 - CGNAT)
-- The subnet must have a prefix length of `/24` or larger (e.g., `/16`, `/20`, `/24` are valid; `/25`, `/28` are not)
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Body Parameters
-
-- `name: string`
-
-  A user-friendly name for the subnet.
-
-- `network: string`
-
-  The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-- `comment: optional string`
-
-  An optional description of the subnet.
-
-- `is_default_network: optional boolean`
-
-  If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Subnet`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "IPv4 Cloudflare Source IPs",
-          "network": "100.64.0.0/12",
-          "comment": "example comment"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
-
-## Get WARP IP subnet
-
-**get** `/accounts/{account_id}/zerotrust/subnets/warp/{subnet_id}`
-
-Get a WARP IP assignment subnet.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `subnet_id: string`
-
-  The UUID of the subnet.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Subnet`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp/$SUBNET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
-
-## Update WARP IP subnet
-
-**patch** `/accounts/{account_id}/zerotrust/subnets/warp/{subnet_id}`
-
-Updates a WARP IP assignment subnet.
-
-**Update constraints:**
-
-- The `network` field cannot be modified for WARP subnets. Only `name`, `comment`, and `is_default_network` can be updated.
-- IPv6 subnets cannot be updated
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `subnet_id: string`
-
-  The UUID of the subnet.
-
-### Body Parameters
-
-- `comment: optional string`
-
-  An optional description of the subnet.
-
-- `is_default_network: optional boolean`
-
-  If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-- `name: optional string`
-
-  A user-friendly name for the subnet.
-
-- `network: optional string`
-
-  The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Subnet`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp/$SUBNET_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "example comment",
-          "name": "IPv4 Cloudflare Source IPs",
-          "network": "100.64.0.0/12"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
-
-## Delete WARP IP subnet
-
-**delete** `/accounts/{account_id}/zerotrust/subnets/warp/{subnet_id}`
-
-Delete a WARP IP assignment subnet. This operation is idempotent - deleting an already-deleted or non-existent subnet will return success with a null result.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `subnet_id: string`
-
-  The UUID of the subnet.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, comment, created_at, 5 more }`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp/$SUBNET_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Subnet
-
-- `Subnet object { id, comment, created_at, 5 more }`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-### WARP Delete Response
-
-- `WARPDeleteResponse object { id, comment, created_at, 5 more }`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-# Cloudflare Source
-
-## Update Cloudflare Source Subnet
-
-**patch** `/accounts/{account_id}/zerotrust/subnets/cloudflare_source/{address_family}`
-
-Updates the Cloudflare Source subnet of the given address family
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `address_family: "v4" or "v6"`
-
-  IP address family, either `v4` (IPv4) or `v6` (IPv6)
-
-  - `"v4"`
-
-  - `"v6"`
-
-### Body Parameters
-
-- `comment: optional string`
-
-  An optional description of the subnet.
-
-- `name: optional string`
-
-  A user-friendly name for the subnet.
-
-- `network: optional string`
-
-  The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Subnet`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/cloudflare_source/$ADDRESS_FAMILY \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "example comment",
-          "name": "IPv4 Cloudflare Source IPs",
-          "network": "100.64.0.0/12"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
-
-# Hostname Routes
-
-## List hostname routes
-
-**get** `/accounts/{account_id}/zerotrust/routes/hostname`
-
-Lists and filters hostname routes in an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Query Parameters
-
-- `id: optional string`
-
-  The hostname route ID.
-
-- `comment: optional string`
-
-  If set, only list hostname routes with the given comment.
-
-- `existed_at: optional string`
-
-  If provided, include only resources that were created (and not deleted) before this time. URL encoded.
-
-- `hostname: optional string`
-
-  If set, only list hostname routes that contain a substring of the given value, the filter is case-insensitive.
-
-- `is_deleted: optional boolean`
-
-  If `true`, only return deleted hostname routes. If `false`, exclude deleted hostname routes.
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Number of results to display.
-
-- `tunnel_id: optional string`
-
-  If set, only list hostname routes that point to a specific tunnel.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "comment": "example comment",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "deleted_at": "2009-11-10T23:00:00.000000Z",
-      "hostname": "office-1.local",
-      "tun_type": "cfd_tunnel",
-      "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "tunnel_name": "api-tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get hostname route
-
-**get** `/accounts/{account_id}/zerotrust/routes/hostname/{hostname_route_id}`
-
-Get a hostname route.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `hostname_route_id: string`
-
-  The hostname route ID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname/$HOSTNAME_ROUTE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "hostname": "office-1.local",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "api-tunnel"
-  },
-  "success": true
-}
-```
-
-## Create hostname route
-
-**post** `/accounts/{account_id}/zerotrust/routes/hostname`
-
-Create a hostname route.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Body Parameters
-
-- `comment: optional string`
-
-  An optional description of the hostname route.
-
-- `hostname: optional string`
-
-  The hostname of the route.
-
-- `tunnel_id: optional string`
-
-  UUID of the tunnel.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "example comment",
-          "hostname": "office-1.local",
-          "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "hostname": "office-1.local",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "api-tunnel"
-  },
-  "success": true
-}
-```
-
-## Update hostname route
-
-**patch** `/accounts/{account_id}/zerotrust/routes/hostname/{hostname_route_id}`
-
-Updates a hostname route.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `hostname_route_id: string`
-
-  The hostname route ID.
-
-### Body Parameters
-
-- `comment: optional string`
-
-  An optional description of the hostname route.
-
-- `hostname: optional string`
-
-  The hostname of the route.
-
-- `tunnel_id: optional string`
-
-  UUID of the tunnel.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname/$HOSTNAME_ROUTE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "example comment",
-          "hostname": "office-1.local",
-          "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "hostname": "office-1.local",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "api-tunnel"
-  },
-  "success": true
-}
-```
-
-## Delete hostname route
-
-**delete** `/accounts/{account_id}/zerotrust/routes/hostname/{hostname_route_id}`
-
-Delete a hostname route.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `hostname_route_id: string`
-
-  The hostname route ID.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: HostnameRoute`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/routes/hostname/$HOSTNAME_ROUTE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "hostname": "office-1.local",
-    "tun_type": "cfd_tunnel",
-    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "tunnel_name": "api-tunnel"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Hostname Route
-
-- `HostnameRoute object { id, comment, created_at, 5 more }`
-
-  - `id: optional string`
-
-    The hostname route ID.
-
-  - `comment: optional string`
-
-    An optional description of the hostname route.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `hostname: optional string`
-
-    The hostname of the route.
-
-  - `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
-
-    The type of tunnel.
-
-    - `"cfd_tunnel"`
-
-    - `"warp_connector"`
-
-    - `"warp"`
-
-    - `"magic"`
-
-    - `"ip_sec"`
-
-    - `"gre"`
-
-    - `"cni"`
-
-  - `tunnel_id: optional string`
-
-    UUID of the tunnel.
-
-  - `tunnel_name: optional string`
-
-    A user-friendly name for a tunnel.
+[Link to this property](#)%20zero_trust.networks.hostname_routes%20%3E%20(model)%20hostname_route%20%3E%20(schema)>)

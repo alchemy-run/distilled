@@ -1,3441 +1,2675 @@
+---
+title: BGP
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # BGP
 
-## Get BGP time series
+##### [Get BGP time series](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/methods/timeseries)
 
-**get** `/radar/bgp/timeseries`
+GET/radar/bgp/timeseries
 
-Retrieves BGP updates over time. When requesting updates for an autonomous system, only BGP updates of type announcement are returned.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `aggInterval: optional "15m" or "1h" or "1d" or "1w"`
+<summary>
 
-  Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+BGPTimeseriesResponse object {meta, serie\_0 }
 
-  - `"15m"`
+</summary>
 
-  - `"1h"`
+<details>
 
-  - `"1d"`
+<summary>
 
-  - `"1w"`
+meta: object {aggInterval, confidenceInfo, dateRange, lastUpdated }
 
-- `asn: optional array of string`
+</summary>
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+<details>
 
-- `dateEnd: optional array of string`
+<summary>
 
-  End of the date range (inclusive).
+aggInterval: "15m"or "1h"or "1d"or "1w"
 
-- `dateRange: optional array of string`
+</summary>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+One of the following:
 
-- `dateStart: optional array of string`
+"15m"
 
-  Start of the date range.
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+"1h"
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+"1d"
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `name: optional array of string`
+"1w"
 
-  Array of names used to label the series in the response.
+<a href="#">Link to this property</a>
 
-- `prefix: optional array of string`
+</details>
 
-  Filters results by BGP network prefix.
+<a href="#">Link to this property</a>
 
-- `updateType: optional array of "ANNOUNCEMENT" or "WITHDRAWAL"`
+<details>
 
-  Filters results by BGP update type.
+<summary>
 
-  - `"ANNOUNCEMENT"`
+confidenceInfo: object {annotations, level }
 
-  - `"WITHDRAWAL"`
+</summary>
 
-### Returns
+<details>
 
-- `result: object { meta, serie_0 }`
+<summary>
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, lastUpdated }`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-    - `aggInterval: "15m" or "1h" or "1d" or "1w"`
+</summary>
 
-      - `"15m"`
+<details>
 
-      - `"1h"`
+<summary>
 
-      - `"1d"`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-      - `"1w"`
+Data source for annotations.
 
-    - `confidenceInfo: object { annotations, level }`
+</summary>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+One of the following:
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+"ALL"
 
-          Data source for annotations.
+<a href="#">Link to this property</a>
 
-          - `"ALL"`
+"AI\_BOTS"
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+"AI\_GATEWAY"
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+"BGP"
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+"BOTS"
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+"CONNECTION\_ANOMALY"
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+"CT"
 
-          - `"EMAIL_ROUTING"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_SECURITY"`
+"DNS"
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+"DNS\_MAGNITUDE"
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+"DNS\_AS112"
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+"DOS"
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+"EMAIL\_ROUTING"
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+"EMAIL\_SECURITY"
 
-          - `"SPEED"`
+<a href="#">Link to this property</a>
 
-          - `"WORKERS_AI"`
+"FW"
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `endDate: string`
+"FW\_PG"
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+"HTTP"
 
-          - `"EVENT"`
+<a href="#">Link to this property</a>
 
-          - `"GENERAL"`
+"HTTP\_CONTROL"
 
-          - `"OUTAGE"`
+<a href="#">Link to this property</a>
 
-          - `"PARTIAL_PROJECTION"`
+"HTTP\_CRAWLER\_REFERER"
 
-          - `"PIPELINE"`
+<a href="#">Link to this property</a>
 
-          - `"TRAFFIC_ANOMALY"`
+"HTTP\_ORIGINS"
 
-        - `isInstantaneous: boolean`
+<a href="#">Link to this property</a>
 
-          Whether event is a single point in time or a time range.
+"IQI"
 
-        - `linkedUrl: string`
+<a href="#">Link to this property</a>
 
-        - `startDate: string`
+"LEAKED\_CREDENTIALS"
 
-        - `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `level: number`
+"NET"
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+"ROBOTS\_TXT"
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+"SPEED"
 
-      - `startTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted start of date range.
+"WORKERS\_AI"
 
-    - `lastUpdated: string`
+<a href="#">Link to this property</a>
 
-  - `serie_0: object { timestamps, values }`
+</details>
 
-    - `timestamps: array of string`
+<a href="#">Link to this property</a>
 
-    - `values: array of string`
+description: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+endDate: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/timeseries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "aggInterval": "15m",
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z"
-    },
-    "serie_0": {
-      "timestamps": [
-        "2019-12-27T18:11:19.117Z"
-      ],
-      "values": [
-        "10"
-      ]
-    }
-  },
-  "success": true
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### BGP Timeseries Response
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-- `BGPTimeseriesResponse object { meta, serie_0 }`
+Event type for annotations.
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, lastUpdated }`
+</summary>
 
-    - `aggInterval: "15m" or "1h" or "1d" or "1w"`
+One of the following:
 
-      - `"15m"`
+"GENERAL"
 
-      - `"1h"`
+<a href="#">Link to this property</a>
 
-      - `"1d"`
+"OUTAGE"
 
-      - `"1w"`
+<a href="#">Link to this property</a>
 
-    - `confidenceInfo: object { annotations, level }`
+"PARTIAL\_PROJECTION"
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+"PIPELINE"
 
-          Data source for annotations.
+<a href="#">Link to this property</a>
 
-          - `"ALL"`
+"TRAFFIC\_ANOMALY"
 
-          - `"AI_BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"AI_GATEWAY"`
+</details>
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+isInstantaneous: boolean
 
-          - `"CONNECTION_ANOMALY"`
+Whether event is a single point in time or a time range.
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+linkedUrl: string
 
-          - `"DNS_MAGNITUDE"`
+formaturi
 
-          - `"DNS_AS112"`
+<a href="#">Link to this property</a>
 
-          - `"DOS"`
+startDate: string
 
-          - `"EMAIL_ROUTING"`
+formatdate-time
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+tags: optional array of string
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+</details>
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+level: number
 
-          - `"HTTP_ORIGINS"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+</details>
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+<details>
 
-          - `"SPEED"`
+<summary>
 
-          - `"WORKERS_AI"`
+dateRange: array of object {endTime, startTime }
 
-        - `description: string`
+</summary>
 
-        - `endDate: string`
+endTime: string
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+Adjusted end of date range.
 
-          Event type for annotations.
+formatdate-time
 
-          - `"EVENT"`
+<a href="#">Link to this property</a>
 
-          - `"GENERAL"`
+startTime: string
 
-          - `"OUTAGE"`
+Adjusted start of date range.
 
-          - `"PARTIAL_PROJECTION"`
+formatdate-time
 
-          - `"PIPELINE"`
+<a href="#">Link to this property</a>
 
-          - `"TRAFFIC_ANOMALY"`
+</details>
 
-        - `isInstantaneous: boolean`
+<a href="#">Link to this property</a>
 
-          Whether event is a single point in time or a time range.
+lastUpdated: string
 
-        - `linkedUrl: string`
+formatdate-time
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+</details>
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<details>
 
-    - `dateRange: array of object { endTime, startTime }`
+<summary>
 
-      - `endTime: string`
+serie\_0: object {timestamps, values }
 
-        Adjusted end of date range.
+</summary>
 
-      - `startTime: string`
+timestamps: array of string
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+values: array of string
 
-  - `serie_0: object { timestamps, values }`
+<a href="#">Link to this property</a>
 
-    - `timestamps: array of string`
+</details>
 
-    - `values: array of string`
+<a href="#">Link to this property</a>
 
-# Leaks
+</details>
 
-# Events
+[Link to this property](#)%20radar.bgp%20%3E%20(model)%20bgp_timeseries_response%20%3E%20(schema)>)
 
-## Get BGP route leak events
+#### BGPLeaks
 
-**get** `/radar/bgp/leaks/events`
+#### BGPLeaksEvents
 
-Retrieves the BGP route leak events.
+##### [Get BGP route leak events](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/leaks/subresources/events/methods/list)
 
-### Query Parameters
+GET/radar/bgp/leaks/events
 
-- `dateEnd: optional string`
+##### ModelsExpand Collapse
 
-  End of the date range (inclusive).
+<details>
 
-- `dateRange: optional string`
+<summary>
 
-  Filters results by date range.
+EventListResponse object {asn\_info, events }
 
-- `dateStart: optional string`
+</summary>
 
-  Start of the date range (inclusive).
+<details>
 
-- `eventId: optional number`
+<summary>
 
-  The unique identifier of a event.
+asn\_info: array of object {asn, country\_code, org\_name }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+asn: number
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+country\_code: string
 
-- `involvedAsn: optional number`
+<a href="#">Link to this property</a>
 
-  ASN that is causing or affected by a route leak event.
+org\_name: string
 
-- `involvedCountry: optional string`
+<a href="#">Link to this property</a>
 
-  Country code of a involved ASN in a route leak event.
+</details>
 
-- `leakAsn: optional number`
+<a href="#">Link to this property</a>
 
-  The leaking AS of a route leak event.
+<details>
 
-- `page: optional number`
+<summary>
 
-  Current page number, starting from 1.
+events: array of object {id, countries, detected\_ts, 10 more }
 
-- `per_page: optional number`
+</summary>
 
-  Number of entries per page.
+id: number
 
-- `sortBy: optional "ID" or "LEAKS" or "PEERS" or 3 more`
+<a href="#">Link to this property</a>
 
-  Sorts results by the specified field.
+countries: array of string
 
-  - `"ID"`
+<a href="#">Link to this property</a>
 
-  - `"LEAKS"`
+detected\_ts: string
 
-  - `"PEERS"`
+<a href="#">Link to this property</a>
 
-  - `"PREFIXES"`
+finished: boolean
 
-  - `"ORIGINS"`
+<a href="#">Link to this property</a>
 
-  - `"TIME"`
+leak\_asn: number
 
-- `sortOrder: optional "ASC" or "DESC"`
+<a href="#">Link to this property</a>
 
-  Sort order.
+leak\_count: number
 
-  - `"ASC"`
+<a href="#">Link to this property</a>
 
-  - `"DESC"`
+leak\_seg: array of number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { asn_info, events }`
+leak\_type: number
 
-  - `asn_info: array of object { asn, country_code, org_name }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+max\_ts: string
 
-    - `country_code: string`
+<a href="#">Link to this property</a>
 
-    - `org_name: string`
+min\_ts: string
 
-  - `events: array of object { id, countries, detected_ts, 10 more }`
+<a href="#">Link to this property</a>
 
-    - `id: number`
+origin\_count: number
 
-    - `countries: array of string`
+<a href="#">Link to this property</a>
 
-    - `detected_ts: string`
+peer\_count: number
 
-    - `finished: boolean`
+<a href="#">Link to this property</a>
 
-    - `leak_asn: number`
+prefix\_count: number
 
-    - `leak_count: number`
+<a href="#">Link to this property</a>
 
-    - `leak_seg: array of number`
+</details>
 
-    - `leak_type: number`
+<a href="#">Link to this property</a>
 
-    - `max_ts: string`
+</details>
 
-    - `min_ts: string`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(model)%20event_list_response%20%3E%20(schema)>)
 
-    - `origin_count: number`
+#### BGPTop
 
-    - `peer_count: number`
+##### [Get top prefixes by BGP updates](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/top/methods/prefixes)
 
-    - `prefix_count: number`
+GET/radar/bgp/top/prefixes
 
-- `result_info: object { count, page, per_page, total_count }`
+##### ModelsExpand Collapse
 
-  - `count: number`
+<details>
 
-  - `page: number`
+<summary>
 
-  - `per_page: number`
+TopPrefixesResponse object {meta, top\_0 }
 
-  - `total_count: number`
+</summary>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/leaks/events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+meta: object {dateRange }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": {
-    "asn_info": [
-      {
-        "asn": 0,
-        "country_code": "country_code",
-        "org_name": "org_name"
-      }
-    ],
-    "events": [
-      {
-        "id": 0,
-        "countries": [
-          "string"
-        ],
-        "detected_ts": "detected_ts",
-        "finished": true,
-        "leak_asn": 0,
-        "leak_count": 0,
-        "leak_seg": [
-          0
-        ],
-        "leak_type": 0,
-        "max_ts": "max_ts",
-        "min_ts": "min_ts",
-        "origin_count": 0,
-        "peer_count": 0,
-        "prefix_count": 0
-      }
-    ]
-  },
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Event List Response
+dateRange: array of object {endTime, startTime }
 
-- `EventListResponse object { asn_info, events }`
+</summary>
 
-  - `asn_info: array of object { asn, country_code, org_name }`
+endTime: string
 
-    - `asn: number`
+Adjusted end of date range.
 
-    - `country_code: string`
+formatdate-time
 
-    - `org_name: string`
+<a href="#">Link to this property</a>
 
-  - `events: array of object { id, countries, detected_ts, 10 more }`
+startTime: string
 
-    - `id: number`
+Adjusted start of date range.
 
-    - `countries: array of string`
+formatdate-time
 
-    - `detected_ts: string`
+<a href="#">Link to this property</a>
 
-    - `finished: boolean`
+</details>
 
-    - `leak_asn: number`
+<a href="#">Link to this property</a>
 
-    - `leak_count: number`
+</details>
 
-    - `leak_seg: array of number`
+<a href="#">Link to this property</a>
 
-    - `leak_type: number`
+<details>
 
-    - `max_ts: string`
+<summary>
 
-    - `min_ts: string`
+top\_0: array of object {prefix, value }
 
-    - `origin_count: number`
+</summary>
 
-    - `peer_count: number`
+prefix: string
 
-    - `prefix_count: number`
+<a href="#">Link to this property</a>
 
-# Top
+value: string
 
-## Get top prefixes by BGP updates
+A numeric string.
 
-**get** `/radar/bgp/top/prefixes`
+<a href="#">Link to this property</a>
 
-Retrieves the top network prefixes by BGP updates.
+</details>
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `asn: optional array of string`
+</details>
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+[Link to this property](#)%20radar.bgp.top%20%3E%20(model)%20top_prefixes_response%20%3E%20(schema)>)
 
-- `dateEnd: optional array of string`
+#### BGPTopAses
 
-  End of the date range (inclusive).
+##### [Get top ASes by BGP updates](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/top/subresources/ases/methods/get)
 
-- `dateRange: optional array of string`
+GET/radar/bgp/top/ases
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+##### [Get top ASes by prefix count](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/top/subresources/ases/methods/prefixes)
 
-- `dateStart: optional array of string`
+GET/radar/bgp/top/ases/prefixes
 
-  Start of the date range.
+##### ModelsExpand Collapse
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>
 
-  - `"JSON"`
+AseGetResponse object {meta, top\_0 }
 
-  - `"CSV"`
+</summary>
 
-- `limit: optional number`
+<details>
 
-  Limits the number of objects returned in the response.
+<summary>
 
-- `name: optional array of string`
+meta: object {dateRange }
 
-  Array of names used to label the series in the response.
+</summary>
 
-- `updateType: optional array of "ANNOUNCEMENT" or "WITHDRAWAL"`
+<details>
 
-  Filters results by BGP update type.
+<summary>
 
-  - `"ANNOUNCEMENT"`
+dateRange: array of object {endTime, startTime }
 
-  - `"WITHDRAWAL"`
+</summary>
 
-### Returns
+endTime: string
 
-- `result: object { meta, top_0 }`
+Adjusted end of date range.
 
-  - `meta: object { dateRange }`
+formatdate-time
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+startTime: string
 
-        Adjusted end of date range.
+Adjusted start of date range.
 
-      - `startTime: string`
+formatdate-time
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-  - `top_0: array of object { prefix, value }`
+</details>
 
-    - `prefix: string`
+<a href="#">Link to this property</a>
 
-    - `value: string`
+</details>
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/top/prefixes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+top\_0: array of object {asn, ASName, value }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": {
-    "meta": {
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ]
-    },
-    "top_0": [
-      {
-        "prefix": "2804:77cc:8000::/33",
-        "value": "10"
-      }
-    ]
-  },
-  "success": true
-}
-```
+asn: number
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Top Prefixes Response
+ASName: string
 
-- `TopPrefixesResponse object { meta, top_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { dateRange }`
+value: string
 
-    - `dateRange: array of object { endTime, startTime }`
+Percentage of updates by this AS out of the total updates by all autonomous systems.
 
-      - `endTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted end of date range.
+</details>
 
-      - `startTime: string`
+<a href="#">Link to this property</a>
 
-        Adjusted start of date range.
+</details>
 
-  - `top_0: array of object { prefix, value }`
+[Link to this property](#)%20radar.bgp.top.ases%20%3E%20(model)%20ase_get_response%20%3E%20(schema)>)
 
-    - `prefix: string`
+<details>
 
-    - `value: string`
+<summary>
 
-      A numeric string.
+AsePrefixesResponse object {asns, meta }
 
-# Ases
+</summary>
 
-## Get top ASes by BGP updates
+<details>
 
-**get** `/radar/bgp/top/ases`
+<summary>
 
-Retrieves the top autonomous systems by BGP updates (announcements only).
+asns: array of object {asn, country, name, pfxs\_count }
 
-### Query Parameters
+</summary>
 
-- `asn: optional array of string`
+asn: number
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+<a href="#">Link to this property</a>
 
-- `dateEnd: optional array of string`
+country: string
 
-  End of the date range (inclusive).
+<a href="#">Link to this property</a>
 
-- `dateRange: optional array of string`
+name: string
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+<a href="#">Link to this property</a>
 
-- `dateStart: optional array of string`
+pfxs\_count: number
 
-  Start of the date range.
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+</details>
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `limit: optional number`
+meta: object {data\_time, query\_time, total\_peers }
 
-  Limits the number of objects returned in the response.
+</summary>
 
-- `name: optional array of string`
+data\_time: string
 
-  Array of names used to label the series in the response.
+<a href="#">Link to this property</a>
 
-- `prefix: optional array of string`
+query\_time: string
 
-  Filters results by BGP network prefix.
+<a href="#">Link to this property</a>
 
-- `updateType: optional array of "ANNOUNCEMENT" or "WITHDRAWAL"`
+total\_peers: number
 
-  Filters results by BGP update type.
+<a href="#">Link to this property</a>
 
-  - `"ANNOUNCEMENT"`
+</details>
 
-  - `"WITHDRAWAL"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { meta, top_0 }`
+[Link to this property](#)%20radar.bgp.top.ases%20%3E%20(model)%20ase_prefixes_response%20%3E%20(schema)>)
 
-  - `meta: object { dateRange }`
+#### BGPHijacks
 
-    - `dateRange: array of object { endTime, startTime }`
+#### BGPHijacksEvents
 
-      - `endTime: string`
+##### [Get BGP hijack events](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/hijacks/subresources/events/methods/list)
 
-        Adjusted end of date range.
+GET/radar/bgp/hijacks/events
 
-      - `startTime: string`
+##### ModelsExpand Collapse
 
-        Adjusted start of date range.
+<details>
 
-  - `top_0: array of object { asn, ASName, value }`
+<summary>
 
-    - `asn: number`
+EventListResponse object {asn\_info, events, total\_monitors }
 
-    - `ASName: string`
+</summary>
 
-    - `value: string`
+<details>
 
-      Percentage of updates by this AS out of the total updates by all autonomous systems.
+<summary>
 
-- `success: boolean`
+asn\_info: array of object {asn, country\_code, org\_name }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/top/ases \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+asn: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ]
-    },
-    "top_0": [
-      {
-        "asn": 714,
-        "ASName": "Apple-Engineering",
-        "value": "0.73996"
-      }
-    ]
-  },
-  "success": true
-}
-```
+country\_code: string
 
-## Get top ASes by prefix count
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/top/ases/prefixes`
+org\_name: string
 
-Retrieves the full list of autonomous systems on the global routing table ordered by announced prefixes count. The data comes from public BGP MRT data archives and updates every 2 hours.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `country: optional string`
+<a href="#">Link to this property</a>
 
-  Alpha-2 country code.
+<details>
 
-- `format: optional "JSON" or "CSV"`
+<summary>
 
-  Format in which results will be returned.
+events: array of object {id, confidence\_score, duration, 15 more }
 
-  - `"JSON"`
+</summary>
 
-  - `"CSV"`
+id: number
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  Maximum number of ASes to return.
+confidence\_score: number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { asns, meta }`
+duration: number
 
-  - `asns: array of object { asn, country, name, pfxs_count }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+event\_type: number
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+hijack\_msgs\_count: number
 
-    - `pfxs_count: number`
+<a href="#">Link to this property</a>
 
-  - `meta: object { data_time, query_time, total_peers }`
+hijacker\_asn: number
 
-    - `data_time: string`
+<a href="#">Link to this property</a>
 
-    - `query_time: string`
+hijacker\_country: string
 
-    - `total_peers: number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+is\_stale: boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/top/ases/prefixes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+max\_hijack\_ts: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "asns": [
-      {
-        "asn": 0,
-        "country": "country",
-        "name": "name",
-        "pfxs_count": 0
-      }
-    ],
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    }
-  },
-  "success": true
-}
-```
+max\_msg\_ts: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Ase Get Response
+min\_hijack\_ts: string
 
-- `AseGetResponse object { meta, top_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { dateRange }`
+on\_going\_count: number
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+peer\_asns: array of number
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+peer\_ip\_count: number
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-  - `top_0: array of object { asn, ASName, value }`
+prefixes: array of string
 
-    - `asn: number`
+<a href="#">Link to this property</a>
 
-    - `ASName: string`
+<details>
 
-    - `value: string`
+<summary>
 
-      Percentage of updates by this AS out of the total updates by all autonomous systems.
+tags: array of object {name, score }
 
-### Ase Prefixes Response
+</summary>
 
-- `AsePrefixesResponse object { asns, meta }`
+name: string
 
-  - `asns: array of object { asn, country, name, pfxs_count }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+score: number
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-    - `pfxs_count: number`
+<a href="#">Link to this property</a>
 
-  - `meta: object { data_time, query_time, total_peers }`
+victim\_asns: array of number
 
-    - `data_time: string`
+<a href="#">Link to this property</a>
 
-    - `query_time: string`
+victim\_countries: array of string
 
-    - `total_peers: number`
+<a href="#">Link to this property</a>
 
-# Hijacks
+</details>
 
-# Events
+<a href="#">Link to this property</a>
 
-## Get BGP hijack events
+total\_monitors: number
 
-**get** `/radar/bgp/hijacks/events`
+<a href="#">Link to this property</a>
 
-Retrieves the BGP hijack events.
+</details>
 
-### Query Parameters
+[Link to this property](#)%20radar.bgp.hijacks.events%20%3E%20(model)%20event_list_response%20%3E%20(schema)>)
 
-- `dateEnd: optional string`
+#### BGPRoutes
 
-  End of the date range (inclusive).
+##### [Get Multi-Origin AS (MOAS) prefixes](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/moas)
 
-- `dateRange: optional string`
+GET/radar/bgp/routes/moas
 
-  Filters results by date range.
+##### [Get prefix-to-ASN mapping](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/pfx2as)
 
-- `dateStart: optional string`
+GET/radar/bgp/routes/pfx2as
 
-  Start of the date range (inclusive).
+##### [Get BGP routing table stats](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/stats)
 
-- `eventId: optional number`
+GET/radar/bgp/routes/stats
 
-  The unique identifier of a event.
+##### [List ASes from global routing tables](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/ases)
 
-- `format: optional "JSON" or "CSV"`
+GET/radar/bgp/routes/ases
 
-  Format in which results will be returned.
+##### [Get real-time BGP routes for a prefix](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/methods/realtime)
 
-  - `"JSON"`
+GET/radar/bgp/routes/realtime
 
-  - `"CSV"`
+##### ModelsExpand Collapse
 
-- `hijackerAsn: optional number`
+<details>
 
-  The potential hijacker AS of a BGP hijack event.
+<summary>
 
-- `involvedAsn: optional number`
+RouteMoasResponse object {meta, moas }
 
-  The potential hijacker or victim AS of a BGP hijack event.
+</summary>
 
-- `involvedCountry: optional string`
+<details>
 
-  The country code of the potential hijacker or victim AS of a BGP hijack event.
+<summary>
 
-- `maxConfidence: optional number`
+meta: object {data\_time, query\_time, total\_peers }
 
-  Filters events by maximum confidence score (1-4 low, 5-7 mid, 8+ high).
+</summary>
 
-- `minConfidence: optional number`
+data\_time: string
 
-  Filters events by minimum confidence score (1-4 low, 5-7 mid, 8+ high).
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+query\_time: string
 
-  Current page number, starting from 1.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+total\_peers: number
 
-  Number of entries per page.
+<a href="#">Link to this property</a>
 
-- `prefix: optional string`
+</details>
 
-- `sortBy: optional "ID" or "TIME" or "CONFIDENCE"`
+<a href="#">Link to this property</a>
 
-  Sorts results by the specified field.
+<details>
 
-  - `"ID"`
+<summary>
 
-  - `"TIME"`
+moas: array of object {origins, prefix }
 
-  - `"CONFIDENCE"`
+</summary>
 
-- `sortOrder: optional "ASC" or "DESC"`
+<details>
 
-  Sort order.
+<summary>
 
-  - `"ASC"`
+origins: array of object {origin, peer\_count, rpki\_validation }
 
-  - `"DESC"`
+</summary>
 
-- `victimAsn: optional number`
+origin: number
 
-  The potential victim AS of a BGP hijack event.
+<a href="#">Link to this property</a>
 
-### Returns
+peer\_count: number
 
-- `result: object { asn_info, events, total_monitors }`
+<a href="#">Link to this property</a>
 
-  - `asn_info: array of object { asn, country_code, org_name }`
+rpki\_validation: string
 
-    - `asn: number`
+<a href="#">Link to this property</a>
 
-    - `country_code: string`
+</details>
 
-    - `org_name: string`
+<a href="#">Link to this property</a>
 
-  - `events: array of object { id, confidence_score, duration, 15 more }`
+prefix: string
 
-    - `id: number`
+<a href="#">Link to this property</a>
 
-    - `confidence_score: number`
+</details>
 
-    - `duration: number`
+<a href="#">Link to this property</a>
 
-    - `event_type: number`
+</details>
 
-    - `hijack_msgs_count: number`
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_moas_response%20%3E%20(schema)>)
 
-    - `hijacker_asn: number`
+<details>
 
-    - `hijacker_country: string`
+<summary>
 
-    - `is_stale: boolean`
+RoutePfx2asResponse object {meta, prefix\_origins }
 
-    - `max_hijack_ts: string`
+</summary>
 
-    - `max_msg_ts: string`
+<details>
 
-    - `min_hijack_ts: string`
+<summary>
 
-    - `on_going_count: number`
+meta: object {data\_time, query\_time, total\_peers }
 
-    - `peer_asns: array of number`
+</summary>
 
-    - `peer_ip_count: number`
+data\_time: string
 
-    - `prefixes: array of string`
+<a href="#">Link to this property</a>
 
-    - `tags: array of object { name, score }`
+query\_time: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `score: number`
+total\_peers: number
 
-    - `victim_asns: array of number`
+<a href="#">Link to this property</a>
 
-    - `victim_countries: array of string`
+</details>
 
-  - `total_monitors: number`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, total_count }`
+<details>
 
-  - `count: number`
+<summary>
 
-  - `page: number`
+prefix\_origins: array of object {origin, peer\_count, prefix, rpki\_validation }
 
-  - `per_page: number`
+</summary>
 
-  - `total_count: number`
+origin: number
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+peer\_count: number
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/hijacks/events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+prefix: string
 
-```json
-{
-  "result": {
-    "asn_info": [
-      {
-        "asn": 0,
-        "country_code": "country_code",
-        "org_name": "org_name"
-      }
-    ],
-    "events": [
-      {
-        "id": 0,
-        "confidence_score": 0,
-        "duration": 0,
-        "event_type": 0,
-        "hijack_msgs_count": 0,
-        "hijacker_asn": 0,
-        "hijacker_country": "hijacker_country",
-        "is_stale": true,
-        "max_hijack_ts": "max_hijack_ts",
-        "max_msg_ts": "max_msg_ts",
-        "min_hijack_ts": "min_hijack_ts",
-        "on_going_count": 0,
-        "peer_asns": [
-          0
-        ],
-        "peer_ip_count": 0,
-        "prefixes": [
-          "string"
-        ],
-        "tags": [
-          {
-            "name": "name",
-            "score": 0
-          }
-        ],
-        "victim_asns": [
-          0
-        ],
-        "victim_countries": [
-          "string"
-        ]
-      }
-    ],
-    "total_monitors": 0
-  },
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+rpki\_validation: string
 
-### Event List Response
+<a href="#">Link to this property</a>
 
-- `EventListResponse object { asn_info, events, total_monitors }`
+</details>
 
-  - `asn_info: array of object { asn, country_code, org_name }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+</details>
 
-    - `country_code: string`
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_pfx2as_response%20%3E%20(schema)>)
 
-    - `org_name: string`
+<details>
 
-  - `events: array of object { id, confidence_score, duration, 15 more }`
+<summary>
 
-    - `id: number`
+RouteStatsResponse object {meta, stats }
 
-    - `confidence_score: number`
+</summary>
 
-    - `duration: number`
+<details>
 
-    - `event_type: number`
+<summary>
 
-    - `hijack_msgs_count: number`
+meta: object {data\_time, query\_time, total\_peers }
 
-    - `hijacker_asn: number`
+</summary>
 
-    - `hijacker_country: string`
+data\_time: string
 
-    - `is_stale: boolean`
+<a href="#">Link to this property</a>
 
-    - `max_hijack_ts: string`
+query\_time: string
 
-    - `max_msg_ts: string`
+<a href="#">Link to this property</a>
 
-    - `min_hijack_ts: string`
+total\_peers: number
 
-    - `on_going_count: number`
+<a href="#">Link to this property</a>
 
-    - `peer_asns: array of number`
+</details>
 
-    - `peer_ip_count: number`
+<a href="#">Link to this property</a>
 
-    - `prefixes: array of string`
+<details>
 
-    - `tags: array of object { name, score }`
+<summary>
 
-      - `name: string`
+stats: object {distinct\_origins, distinct\_origins\_ipv4, distinct\_origins\_ipv6, 15 more }
 
-      - `score: number`
+</summary>
 
-    - `victim_asns: array of number`
+distinct\_origins: number
 
-    - `victim_countries: array of string`
+<a href="#">Link to this property</a>
 
-  - `total_monitors: number`
+distinct\_origins\_ipv4: number
 
-# Routes
+<a href="#">Link to this property</a>
 
-## Get Multi-Origin AS (MOAS) prefixes
+distinct\_origins\_ipv6: number
 
-**get** `/radar/bgp/routes/moas`
+<a href="#">Link to this property</a>
 
-Retrieves all Multi-Origin AS (MOAS) prefixes in the global routing tables.
+distinct\_prefixes: number
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+distinct\_prefixes\_ipv4: number
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+distinct\_prefixes\_ipv6: number
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `invalid_only: optional boolean`
+routes\_invalid: number
 
-  Lookup only RPKI invalid MOASes.
+<a href="#">Link to this property</a>
 
-- `origin: optional number`
+routes\_invalid\_ipv4: number
 
-  Lookup MOASes originated by the given ASN.
+<a href="#">Link to this property</a>
 
-- `prefix: optional string`
+routes\_invalid\_ipv6: number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, moas }`
+routes\_total: number
 
-  - `meta: object { data_time, query_time, total_peers }`
+<a href="#">Link to this property</a>
 
-    - `data_time: string`
+routes\_total\_ipv4: number
 
-    - `query_time: string`
+<a href="#">Link to this property</a>
 
-    - `total_peers: number`
+routes\_total\_ipv6: number
 
-  - `moas: array of object { origins, prefix }`
+<a href="#">Link to this property</a>
 
-    - `origins: array of object { origin, peer_count, rpki_validation }`
+routes\_unknown: number
 
-      - `origin: number`
+<a href="#">Link to this property</a>
 
-      - `peer_count: number`
+routes\_unknown\_ipv4: number
 
-      - `rpki_validation: string`
+<a href="#">Link to this property</a>
 
-    - `prefix: string`
+routes\_unknown\_ipv6: number
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+routes\_valid: number
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/moas \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+routes\_valid\_ipv4: number
 
-```json
-{
-  "result": {
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    },
-    "moas": [
-      {
-        "origins": [
-          {
-            "origin": 0,
-            "peer_count": 0,
-            "rpki_validation": "rpki_validation"
-          }
-        ],
-        "prefix": "prefix"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get prefix-to-ASN mapping
+routes\_valid\_ipv6: number
 
-**get** `/radar/bgp/routes/pfx2as`
+<a href="#">Link to this property</a>
 
-Retrieves the prefix-to-ASN mapping from global routing tables.
+</details>
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+</details>
 
-  Format in which results will be returned.
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_stats_response%20%3E%20(schema)>)
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `longestPrefixMatch: optional boolean`
+RouteAsesResponse object {asns, meta }
 
-  Return only results with the longest prefix match for the given prefix. For example, specify a /32 prefix to lookup the origin ASN for an IPv4 address.
+</summary>
 
-- `origin: optional number`
+<details>
 
-  Lookup prefixes originated by the given ASN.
+<summary>
 
-- `prefix: optional string`
+asns: array of object {asn, coneSize, country, 7 more }
 
-- `rpkiStatus: optional "VALID" or "INVALID" or "UNKNOWN"`
+</summary>
 
-  Return only results with matching rpki status: valid, invalid or unknown.
+asn: number
 
-  - `"VALID"`
+<a href="#">Link to this property</a>
 
-  - `"INVALID"`
+coneSize: number
 
-  - `"UNKNOWN"`
+AS’s customer cone size.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, prefix_origins }`
+country: string
 
-  - `meta: object { data_time, query_time, total_peers }`
+Alpha-2 code for the AS’s registration country.
 
-    - `data_time: string`
+<a href="#">Link to this property</a>
 
-    - `query_time: string`
+ipv4Count: number
 
-    - `total_peers: number`
+Number of IPv4 addresses originated by the AS.
 
-  - `prefix_origins: array of object { origin, peer_count, prefix, rpki_validation }`
+<a href="#">Link to this property</a>
 
-    - `origin: number`
+ipv6Count: string
 
-    - `peer_count: number`
+Number of IPv6 addresses originated by the AS.
 
-    - `prefix: string`
+<a href="#">Link to this property</a>
 
-    - `rpki_validation: string`
+name: string
 
-- `success: boolean`
+Name of the AS.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/pfx2as \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+pfxsCount: number
 
-#### Response
+Number of total IP prefixes originated by the AS.
 
-```json
-{
-  "result": {
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    },
-    "prefix_origins": [
-      {
-        "origin": 0,
-        "peer_count": 0,
-        "prefix": "prefix",
-        "rpki_validation": "rpki_validation"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get BGP routing table stats 
+rpkiInvalid: number
 
-**get** `/radar/bgp/routes/stats`
+Number of RPKI invalid prefixes originated by the AS.
 
-Retrieves the BGP routing table stats.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+rpkiUnknown: number
 
-- `asn: optional number`
+Number of RPKI unknown prefixes originated by the AS.
 
-  Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer.
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+rpkiValid: number
 
-  Format in which results will be returned.
+Number of RPKI valid prefixes originated by the AS.
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+</details>
 
-- `location: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by location. Specify an alpha-2 location code.
+<details>
 
-### Returns
+<summary>
 
-- `result: object { meta, stats }`
+meta: object {dataTime, queryTime, totalPeers }
 
-  - `meta: object { data_time, query_time, total_peers }`
+</summary>
 
-    - `data_time: string`
+dataTime: string
 
-    - `query_time: string`
+The timestamp of when the data is generated.
 
-    - `total_peers: number`
+<a href="#">Link to this property</a>
 
-  - `stats: object { distinct_origins, distinct_origins_ipv4, distinct_origins_ipv6, 15 more }`
+queryTime: string
 
-    - `distinct_origins: number`
+The timestamp of the query.
 
-    - `distinct_origins_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `distinct_origins_ipv6: number`
+totalPeers: number
 
-    - `distinct_prefixes: number`
+Total number of route collector peers used to generate this data.
 
-    - `distinct_prefixes_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `distinct_prefixes_ipv6: number`
+</details>
 
-    - `routes_invalid: number`
+<a href="#">Link to this property</a>
 
-    - `routes_invalid_ipv4: number`
+</details>
 
-    - `routes_invalid_ipv6: number`
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_ases_response%20%3E%20(schema)>)
 
-    - `routes_total: number`
+<details>
 
-    - `routes_total_ipv4: number`
+<summary>
 
-    - `routes_total_ipv6: number`
+RouteRealtimeResponse object {meta, routes }
 
-    - `routes_unknown: number`
+</summary>
 
-    - `routes_unknown_ipv4: number`
+<details>
 
-    - `routes_unknown_ipv6: number`
+<summary>
 
-    - `routes_valid: number`
+meta: object {asn\_info, collectors, data\_time, 2 more }
 
-    - `routes_valid_ipv4: number`
+</summary>
 
-    - `routes_valid_ipv6: number`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+asn\_info: array of object {as\_name, asn, country\_code, 2 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/stats \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+as\_name: string
 
-```json
-{
-  "result": {
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    },
-    "stats": {
-      "distinct_origins": 0,
-      "distinct_origins_ipv4": 0,
-      "distinct_origins_ipv6": 0,
-      "distinct_prefixes": 0,
-      "distinct_prefixes_ipv4": 0,
-      "distinct_prefixes_ipv6": 0,
-      "routes_invalid": 0,
-      "routes_invalid_ipv4": 0,
-      "routes_invalid_ipv6": 0,
-      "routes_total": 0,
-      "routes_total_ipv4": 0,
-      "routes_total_ipv6": 0,
-      "routes_unknown": 0,
-      "routes_unknown_ipv4": 0,
-      "routes_unknown_ipv6": 0,
-      "routes_valid": 0,
-      "routes_valid_ipv4": 0,
-      "routes_valid_ipv6": 0
-    }
-  },
-  "success": true
-}
-```
+Name of the autonomous system.
 
-## List ASes from global routing tables
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/routes/ases`
+asn: number
 
-Retrieves all ASes in the current global routing tables with routing statistics.
+AS number.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+country\_code: string
 
-  Format in which results will be returned.
+Alpha-2 code for the AS’s registration country.
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+org\_id: string
 
-- `limit: optional number`
+Organization ID.
 
-  Limits the number of objects returned in the response.
+<a href="#">Link to this property</a>
 
-- `location: optional string`
+org\_name: string
 
-  Filters results by location. Specify an alpha-2 location code.
+Organization name.
 
-- `sortBy: optional "cone" or "pfxs" or "ipv4" or 4 more`
+<a href="#">Link to this property</a>
 
-  Sorts results by the specified field.
+</details>
 
-  - `"cone"`
+<a href="#">Link to this property</a>
 
-  - `"pfxs"`
+<details>
 
-  - `"ipv4"`
+<summary>
 
-  - `"ipv6"`
+collectors: array of object {collector, latest\_realtime\_ts, latest\_rib\_ts, 4 more }
 
-  - `"rpki_valid"`
+</summary>
 
-  - `"rpki_invalid"`
+collector: string
 
-  - `"rpki_unknown"`
+Public route collector ID.
 
-- `sortOrder: optional "ASC" or "DESC"`
+<a href="#">Link to this property</a>
 
-  Sort order.
+latest\_realtime\_ts: string
 
-  - `"ASC"`
+Latest real-time stream timestamp for this collector.
 
-  - `"DESC"`
+<a href="#">Link to this property</a>
 
-### Returns
+latest\_rib\_ts: string
 
-- `result: object { asns, meta }`
+Latest RIB dump MRT file timestamp for this collector.
 
-  - `asns: array of object { asn, coneSize, country, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+latest\_updates\_ts: string
 
-    - `coneSize: number`
+Latest BGP updates MRT file timestamp for this collector.
 
-      AS's customer cone size.
+<a href="#">Link to this property</a>
 
-    - `country: string`
+peers\_count: number
 
-      Alpha-2 code for the AS's registration country.
+Total number of collector peers used from this collector.
 
-    - `ipv4Count: number`
+<a href="#">Link to this property</a>
 
-      Number of IPv4 addresses originated by the AS.
+peers\_v4\_count: number
 
-    - `ipv6Count: string`
+Total number of collector peers used from this collector for IPv4 prefixes.
 
-      Number of IPv6 addresses originated by the AS.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+peers\_v6\_count: number
 
-      Name of the AS.
+Total number of collector peers used from this collector for IPv6 prefixes.
 
-    - `pfxsCount: number`
+<a href="#">Link to this property</a>
 
-      Number of total IP prefixes originated by the AS.
+</details>
 
-    - `rpkiInvalid: number`
+<a href="#">Link to this property</a>
 
-      Number of RPKI invalid prefixes originated by the AS.
+data\_time: string
 
-    - `rpkiUnknown: number`
+The most recent data timestamp for from the real-time sources.
 
-      Number of RPKI unknown prefixes originated by the AS.
+<a href="#">Link to this property</a>
 
-    - `rpkiValid: number`
+<details>
 
-      Number of RPKI valid prefixes originated by the AS.
+<summary>
 
-  - `meta: object { dataTime, queryTime, totalPeers }`
+prefix\_origins: array of object {origin, prefix, rpki\_validation, 3 more }
 
-    - `dataTime: string`
+</summary>
 
-      The timestamp of when the data is generated.
+origin: number
 
-    - `queryTime: string`
+Origin ASN.
 
-      The timestamp of the query.
+<a href="#">Link to this property</a>
 
-    - `totalPeers: number`
+prefix: string
 
-      Total number of route collector peers used to generate this data.
+IP prefix of this query.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+rpki\_validation: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/ases \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Prefix-origin RPKI validation: valid, invalid, unknown.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "asns": [
-      {
-        "asn": 0,
-        "coneSize": 0,
-        "country": "US",
-        "ipv4Count": 0,
-        "ipv6Count": "1.21e24",
-        "name": "name",
-        "pfxsCount": 0,
-        "rpkiInvalid": 0,
-        "rpkiUnknown": 0,
-        "rpkiValid": 0
-      }
-    ],
-    "meta": {
-      "dataTime": "2024-06-03T14:00:00",
-      "queryTime": "2024-06-03T14:00:00",
-      "totalPeers": 0
-    }
-  },
-  "success": true
-}
-```
+total\_peers: number
 
-## Get real-time BGP routes for a prefix
+Total number of peers.
 
-**get** `/radar/bgp/routes/realtime`
+<a href="#">Link to this property</a>
 
-Retrieves real-time BGP routes for a prefix, using public real-time data collectors (RouteViews and RIPE RIS).
+total\_visible: number
 
-### Query Parameters
+Total number of peers seeing this prefix.
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+visibility: number
 
-  - `"JSON"`
+Ratio of peers seeing this prefix to total number of peers.
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `prefix: optional string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, routes }`
+query\_time: string
 
-  - `meta: object { asn_info, collectors, data_time, 2 more }`
+The timestamp of this query.
 
-    - `asn_info: array of object { as_name, asn, country_code, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `as_name: string`
+</details>
 
-        Name of the autonomous system.
+<a href="#">Link to this property</a>
 
-      - `asn: number`
+<details>
 
-        AS number.
+<summary>
 
-      - `country_code: string`
+routes: array of object {as\_path, collector, communities, 2 more }
 
-        Alpha-2 code for the AS's registration country.
+</summary>
 
-      - `org_id: string`
+as\_path: array of number
 
-        Organization ID.
+AS-level path for this route, from collector to origin.
 
-      - `org_name: string`
+<a href="#">Link to this property</a>
 
-        Organization name.
+collector: string
 
-    - `collectors: array of object { collector, latest_realtime_ts, latest_rib_ts, 4 more }`
+Public collector ID for this route.
 
-      - `collector: string`
+<a href="#">Link to this property</a>
 
-        Public route collector ID.
+communities: array of string
 
-      - `latest_realtime_ts: string`
+BGP community values.
 
-        Latest real-time stream timestamp for this collector.
+<a href="#">Link to this property</a>
 
-      - `latest_rib_ts: string`
+prefix: string
 
-        Latest RIB dump MRT file timestamp for this collector.
+IP prefix of this query.
 
-      - `latest_updates_ts: string`
+<a href="#">Link to this property</a>
 
-        Latest BGP updates MRT file timestamp for this collector.
+timestamp: string
 
-      - `peers_count: number`
+Latest timestamp of change for this route.
 
-        Total number of collector peers used from this collector.
+<a href="#">Link to this property</a>
 
-      - `peers_v4_count: number`
+</details>
 
-        Total number of collector peers used from this collector for IPv4 prefixes.
+<a href="#">Link to this property</a>
 
-      - `peers_v6_count: number`
+</details>
 
-        Total number of collector peers used from this collector for IPv6 prefixes.
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(model)%20route_realtime_response%20%3E%20(schema)>)
 
-    - `data_time: string`
+#### BGPRoutesUpstreams
 
-      The most recent data timestamp for from the real-time sources.
+##### [Get upstream composition time series for an AS](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/subresources/upstreams/methods/timeseries)
 
-    - `prefix_origins: array of object { origin, prefix, rpki_validation, 3 more }`
+GET/radar/bgp/routes/upstreams/{asn}/timeseries
 
-      - `origin: number`
+##### ModelsExpand Collapse
 
-        Origin ASN.
+<details>
 
-      - `prefix: string`
+<summary>
 
-        IP prefix of this query.
+UpstreamTimeseriesResponse object {meta, serie\_0 }
 
-      - `rpki_validation: string`
+</summary>
 
-        Prefix-origin RPKI validation: valid, invalid, unknown.
+<details>
 
-      - `total_peers: number`
+<summary>
 
-        Total number of peers.
+meta: object {dataTime, effectiveCollector, queryTime, stale }
 
-      - `total_visible: number`
+</summary>
 
-        Total number of peers seeing this prefix.
+dataTime: string
 
-      - `visibility: number`
+Timestamp of the underlying RIB data.
 
-        Ratio of peers seeing this prefix to total number of peers.
+formatdate-time
 
-    - `query_time: string`
+<a href="#">Link to this property</a>
 
-      The timestamp of this query.
+effectiveCollector: string
 
-  - `routes: array of object { as_path, collector, communities, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `as_path: array of number`
+queryTime: string
 
-      AS-level path for this route, from collector to origin.
+Timestamp when the query was executed.
 
-    - `collector: string`
+formatdate-time
 
-      Public collector ID for this route.
+<a href="#">Link to this property</a>
 
-    - `communities: array of string`
+stale: boolean
 
-      BGP community values.
+<a href="#">Link to this property</a>
 
-    - `prefix: string`
+</details>
 
-      IP prefix of this query.
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+<details>
 
-      Latest timestamp of change for this route.
+<summary>
 
-- `success: boolean`
+serie\_0: object {timestamps }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/routes/realtime \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+timestamps: array of string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "meta": {
-      "asn_info": [
-        {
-          "as_name": "as_name",
-          "asn": 0,
-          "country_code": "country_code",
-          "org_id": "org_id",
-          "org_name": "org_name"
-        }
-      ],
-      "collectors": [
-        {
-          "collector": "collector",
-          "latest_realtime_ts": "latest_realtime_ts",
-          "latest_rib_ts": "latest_rib_ts",
-          "latest_updates_ts": "latest_updates_ts",
-          "peers_count": 0,
-          "peers_v4_count": 0,
-          "peers_v6_count": 0
-        }
-      ],
-      "data_time": "data_time",
-      "prefix_origins": [
-        {
-          "origin": 0,
-          "prefix": "prefix",
-          "rpki_validation": "rpki_validation",
-          "total_peers": 0,
-          "total_visible": 0,
-          "visibility": 0
-        }
-      ],
-      "query_time": "query_time"
-    },
-    "routes": [
-      {
-        "as_path": [
-          0
-        ],
-        "collector": "collector",
-        "communities": [
-          "string"
-        ],
-        "prefix": "prefix",
-        "timestamp": "timestamp"
-      }
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Route Moas Response
+</details>
 
-- `RouteMoasResponse object { meta, moas }`
+[Link to this property](#)%20radar.bgp.routes.upstreams%20%3E%20(model)%20upstream_timeseries_response%20%3E%20(schema)>)
 
-  - `meta: object { data_time, query_time, total_peers }`
+#### BGPRoutesPaths
 
-    - `data_time: string`
+##### [Get tier-1 path segments for an AS](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes/subresources/paths/methods/list)
 
-    - `query_time: string`
+GET/radar/bgp/routes/paths/{asn}
 
-    - `total_peers: number`
+##### ModelsExpand Collapse
 
-  - `moas: array of object { origins, prefix }`
+<details>
 
-    - `origins: array of object { origin, peer_count, rpki_validation }`
+<summary>
 
-      - `origin: number`
+PathListResponse object {asnInfo, collectors, meta, paths }
 
-      - `peer_count: number`
+</summary>
 
-      - `rpki_validation: string`
+<details>
 
-    - `prefix: string`
+<summary>
 
-### Route Pfx2as Response
+asnInfo: map\[object {asn, country, name } ]
 
-- `RoutePfx2asResponse object { meta, prefix_origins }`
+</summary>
 
-  - `meta: object { data_time, query_time, total_peers }`
+asn: number
 
-    - `data_time: string`
+ASN number.
 
-    - `query_time: string`
+<a href="#">Link to this property</a>
 
-    - `total_peers: number`
+country: string
 
-  - `prefix_origins: array of object { origin, peer_count, prefix, rpki_validation }`
+Alpha-2 country code.
 
-    - `origin: number`
+<a href="#">Link to this property</a>
 
-    - `peer_count: number`
+name: string
 
-    - `prefix: string`
+AS name.
 
-    - `rpki_validation: string`
+<a href="#">Link to this property</a>
 
-### Route Stats Response
+</details>
 
-- `RouteStatsResponse object { meta, stats }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { data_time, query_time, total_peers }`
+collectors: array of string
 
-    - `data_time: string`
+<a href="#">Link to this property</a>
 
-    - `query_time: string`
+<details>
 
-    - `total_peers: number`
+<summary>
 
-  - `stats: object { distinct_origins, distinct_origins_ipv4, distinct_origins_ipv6, 15 more }`
+meta: object {dataTime, effectiveCollector, queryTime, stale }
 
-    - `distinct_origins: number`
+</summary>
 
-    - `distinct_origins_ipv4: number`
+dataTime: string
 
-    - `distinct_origins_ipv6: number`
+Timestamp of the underlying RIB data.
 
-    - `distinct_prefixes: number`
+formatdate-time
 
-    - `distinct_prefixes_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `distinct_prefixes_ipv6: number`
+effectiveCollector: string
 
-    - `routes_invalid: number`
+<a href="#">Link to this property</a>
 
-    - `routes_invalid_ipv4: number`
+queryTime: string
 
-    - `routes_invalid_ipv6: number`
+Timestamp when the query was executed.
 
-    - `routes_total: number`
+formatdate-time
 
-    - `routes_total_ipv4: number`
+<a href="#">Link to this property</a>
 
-    - `routes_total_ipv6: number`
+stale: boolean
 
-    - `routes_unknown: number`
+<a href="#">Link to this property</a>
 
-    - `routes_unknown_ipv4: number`
+</details>
 
-    - `routes_unknown_ipv6: number`
+<a href="#">Link to this property</a>
 
-    - `routes_valid: number`
+<details>
 
-    - `routes_valid_ipv4: number`
+<summary>
 
-    - `routes_valid_ipv6: number`
+paths: array of object {collectors, pathsCount, peersCount, segment }
 
-### Route Ases Response
+</summary>
 
-- `RouteAsesResponse object { asns, meta }`
+collectors: array of string
 
-  - `asns: array of object { asn, coneSize, country, 7 more }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+pathsCount: number
 
-    - `coneSize: number`
+<a href="#">Link to this property</a>
 
-      AS's customer cone size.
+peersCount: number
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-      Alpha-2 code for the AS's registration country.
+segment: array of number
 
-    - `ipv4Count: number`
+<a href="#">Link to this property</a>
 
-      Number of IPv4 addresses originated by the AS.
+</details>
 
-    - `ipv6Count: string`
+<a href="#">Link to this property</a>
 
-      Number of IPv6 addresses originated by the AS.
+</details>
 
-    - `name: string`
+[Link to this property](#)%20radar.bgp.routes.paths%20%3E%20(model)%20path_list_response%20%3E%20(schema)>)
 
-      Name of the AS.
+#### BGPIPs
 
-    - `pfxsCount: number`
+##### [Get announced IP address space time series](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/ips/methods/timeseries)
 
-      Number of total IP prefixes originated by the AS.
+GET/radar/bgp/ips/timeseries
 
-    - `rpkiInvalid: number`
+##### ModelsExpand Collapse
 
-      Number of RPKI invalid prefixes originated by the AS.
+<details>
 
-    - `rpkiUnknown: number`
+<summary>
 
-      Number of RPKI unknown prefixes originated by the AS.
+IPTimeseriesResponse object {meta, serie\_0 }
 
-    - `rpkiValid: number`
+</summary>
 
-      Number of RPKI valid prefixes originated by the AS.
+<details>
 
-  - `meta: object { dataTime, queryTime, totalPeers }`
+<summary>
 
-    - `dataTime: string`
+meta: object {aggInterval, confidenceInfo, dateRange, 4 more }
 
-      The timestamp of when the data is generated.
+Metadata for the results.
 
-    - `queryTime: string`
+</summary>
 
-      The timestamp of the query.
+<details>
 
-    - `totalPeers: number`
+<summary>
 
-      Total number of route collector peers used to generate this data.
+aggInterval: "FIFTEEN\_MINUTES"or "ONE\_HOUR"or "ONE\_DAY"or 2 more
 
-### Route Realtime Response
+Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to <a href="https://developers.cloudflare.com/radar/concepts/aggregation-intervals/">Aggregation intervals</a>.
 
-- `RouteRealtimeResponse object { meta, routes }`
+</summary>
 
-  - `meta: object { asn_info, collectors, data_time, 2 more }`
+One of the following:
 
-    - `asn_info: array of object { as_name, asn, country_code, 2 more }`
+"FIFTEEN\_MINUTES"
 
-      - `as_name: string`
+<a href="#">Link to this property</a>
 
-        Name of the autonomous system.
+"ONE\_HOUR"
 
-      - `asn: number`
+<a href="#">Link to this property</a>
 
-        AS number.
+"ONE\_DAY"
 
-      - `country_code: string`
+<a href="#">Link to this property</a>
 
-        Alpha-2 code for the AS's registration country.
+"ONE\_WEEK"
 
-      - `org_id: string`
+<a href="#">Link to this property</a>
 
-        Organization ID.
+"ONE\_MONTH"
 
-      - `org_name: string`
+<a href="#">Link to this property</a>
 
-        Organization name.
+</details>
 
-    - `collectors: array of object { collector, latest_realtime_ts, latest_rib_ts, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `collector: string`
+<details>
 
-        Public route collector ID.
+<summary>
 
-      - `latest_realtime_ts: string`
+confidenceInfo: object {annotations, level }
 
-        Latest real-time stream timestamp for this collector.
+</summary>
 
-      - `latest_rib_ts: string`
+<details>
 
-        Latest RIB dump MRT file timestamp for this collector.
+<summary>
 
-      - `latest_updates_ts: string`
+annotations: array of object {dataSource, description, endDate, 5 more }
 
-        Latest BGP updates MRT file timestamp for this collector.
+</summary>
 
-      - `peers_count: number`
+<details>
 
-        Total number of collector peers used from this collector.
+<summary>
 
-      - `peers_v4_count: number`
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
 
-        Total number of collector peers used from this collector for IPv4 prefixes.
+Data source for annotations.
 
-      - `peers_v6_count: number`
+</summary>
 
-        Total number of collector peers used from this collector for IPv6 prefixes.
+One of the following:
 
-    - `data_time: string`
+"ALL"
 
-      The most recent data timestamp for from the real-time sources.
+<a href="#">Link to this property</a>
 
-    - `prefix_origins: array of object { origin, prefix, rpki_validation, 3 more }`
+"AI\_BOTS"
 
-      - `origin: number`
+<a href="#">Link to this property</a>
 
-        Origin ASN.
+"AI\_GATEWAY"
 
-      - `prefix: string`
+<a href="#">Link to this property</a>
 
-        IP prefix of this query.
+"BGP"
 
-      - `rpki_validation: string`
+<a href="#">Link to this property</a>
 
-        Prefix-origin RPKI validation: valid, invalid, unknown.
+"BOTS"
 
-      - `total_peers: number`
+<a href="#">Link to this property</a>
 
-        Total number of peers.
+"CONNECTION\_ANOMALY"
 
-      - `total_visible: number`
+<a href="#">Link to this property</a>
 
-        Total number of peers seeing this prefix.
+"CT"
 
-      - `visibility: number`
+<a href="#">Link to this property</a>
 
-        Ratio of peers seeing this prefix to total number of peers.
+"DNS"
 
-    - `query_time: string`
+<a href="#">Link to this property</a>
 
-      The timestamp of this query.
+"DNS\_MAGNITUDE"
 
-  - `routes: array of object { as_path, collector, communities, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `as_path: array of number`
+"DNS\_AS112"
 
-      AS-level path for this route, from collector to origin.
+<a href="#">Link to this property</a>
 
-    - `collector: string`
+"DOS"
 
-      Public collector ID for this route.
+<a href="#">Link to this property</a>
 
-    - `communities: array of string`
+"EMAIL\_ROUTING"
 
-      BGP community values.
+<a href="#">Link to this property</a>
 
-    - `prefix: string`
+"EMAIL\_SECURITY"
 
-      IP prefix of this query.
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+"FW"
 
-      Latest timestamp of change for this route.
+<a href="#">Link to this property</a>
 
-# IPs
+"FW\_PG"
 
-## Get announced IP address space time series
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/ips/timeseries`
+"HTTP"
 
-Retrieves time series data for the announced IP space count, represented as the number of IPv4 /24s and IPv6 /48s, for a given ASN.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+"HTTP\_CONTROL"
 
-- `asn: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+"HTTP\_CRAWLER\_REFERER"
 
-- `dateEnd: optional array of string`
+<a href="#">Link to this property</a>
 
-  End of the date range (inclusive).
+"HTTP\_ORIGINS"
 
-- `dateRange: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+"IQI"
 
-- `dateStart: optional array of string`
+<a href="#">Link to this property</a>
 
-  Start of the date range.
+"LEAKED\_CREDENTIALS"
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+"NET"
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+"ROBOTS\_TXT"
 
-- `includeDelay: optional boolean`
+<a href="#">Link to this property</a>
 
-  Includes data delay meta information.
+"SPEED"
 
-- `ipVersion: optional array of "IPv4" or "IPv6"`
+<a href="#">Link to this property</a>
 
-  Filters results by IP version (Ipv4 vs. IPv6).
+"WORKERS\_AI"
 
-  - `"IPv4"`
+<a href="#">Link to this property</a>
 
-  - `"IPv6"`
+</details>
 
-- `location: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
+description: string
 
-- `name: optional array of string`
+<a href="#">Link to this property</a>
 
-  Array of names used to label the series in the response.
+endDate: string
 
-### Returns
+formatdate-time
 
-- `result: object { meta, serie_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, 4 more }`
+<details>
 
-    Metadata for the results.
+<summary>
 
-    - `aggInterval: "FIFTEEN_MINUTES" or "ONE_HOUR" or "ONE_DAY" or 2 more`
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
 
-      Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+Event type for annotations.
 
-      - `"FIFTEEN_MINUTES"`
+</summary>
 
-      - `"ONE_HOUR"`
+One of the following:
 
-      - `"ONE_DAY"`
+"GENERAL"
 
-      - `"ONE_WEEK"`
+<a href="#">Link to this property</a>
 
-      - `"ONE_MONTH"`
+"OUTAGE"
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"PARTIAL\_PROJECTION"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+"PIPELINE"
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+"TRAFFIC\_ANOMALY"
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+</details>
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+isInstantaneous: boolean
 
-          - `"CT"`
+Whether event is a single point in time or a time range.
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+linkedUrl: string
 
-          - `"DNS_AS112"`
+formaturi
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+startDate: string
 
-          - `"EMAIL_SECURITY"`
+formatdate-time
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+tags: optional array of string
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+</details>
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+level: number
 
-          - `"IQI"`
+Provides an indication of how much confidence Cloudflare has in the data.
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+</details>
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+<details>
 
-          - `"WORKERS_AI"`
+<summary>
 
-        - `description: string`
+dateRange: array of object {endTime, startTime }
 
-        - `endDate: string`
+</summary>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+endTime: string
 
-          Event type for annotations.
+Adjusted end of date range.
 
-          - `"EVENT"`
+formatdate-time
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+startTime: string
 
-          - `"PARTIAL_PROJECTION"`
+Adjusted start of date range.
 
-          - `"PIPELINE"`
+formatdate-time
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+</details>
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+lastUpdated: string
 
-        - `startDate: string`
+Timestamp of the last dataset update.
 
-        - `tags: optional array of string`
+formatdate-time
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+<details>
 
-    - `dateRange: array of object { endTime, startTime }`
+<summary>
 
-      - `endTime: string`
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
 
-        Adjusted end of date range.
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
 
-      - `startTime: string`
+</summary>
 
-        Adjusted start of date range.
+One of the following:
 
-    - `lastUpdated: string`
+"PERCENTAGE"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"MIN0\_MAX"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"MIN\_MAX"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+"RAW\_VALUES"
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+"PERCENTAGE\_CHANGE"
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+"ROLLING\_AVERAGE"
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+"OVERLAPPED\_PERCENTAGE"
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"RATIO"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-    - `delay: optional object { asn_data, country_data, healthy, nowTs }`
+</details>
 
-      - `asn_data: object { delaySecs, delayStr, healthy, latest }`
+<a href="#">Link to this property</a>
 
-        - `delaySecs: number`
+<details>
 
-        - `delayStr: string`
+<summary>
 
-        - `healthy: boolean`
+units: array of object {name, value }
 
-        - `latest: object { entries_count, path, timestamp }`
+Measurement units for the results.
 
-          - `entries_count: number`
+</summary>
 
-          - `path: string`
+name: string
 
-          - `timestamp: number`
+<a href="#">Link to this property</a>
 
-      - `country_data: object { delaySecs, delayStr, healthy, latest }`
+value: string
 
-        - `delaySecs: number`
+<a href="#">Link to this property</a>
 
-        - `delayStr: string`
+</details>
 
-        - `healthy: boolean`
+<a href="#">Link to this property</a>
 
-        - `latest: object { count, timestamp }`
+<details>
 
-          - `count: number`
+<summary>
 
-          - `timestamp: number`
+delay: optional object {asn\_data, country\_data, healthy, nowTs }
 
-      - `healthy: boolean`
+</summary>
 
-      - `nowTs: number`
+<details>
 
-  - `serie_0: object { ipv4, ipv6, timestamps }`
+<summary>
 
-    - `ipv4: array of string`
+asn\_data: object {delaySecs, delayStr, healthy, latest }
 
-    - `ipv6: array of string`
+</summary>
 
-    - `timestamps: array of string`
+delaySecs: number
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+delayStr: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/ips/timeseries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+healthy: boolean
 
-```json
-{
-  "result": {
-    "meta": {
-      "aggInterval": "FIFTEEN_MINUTES",
-      "confidenceInfo": {
-        "annotations": [
-          {
-            "dataSource": "ALL",
-            "description": "Cable cut in Tonga",
-            "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
-            "isInstantaneous": true,
-            "linkedUrl": "https://example.com",
-            "startDate": "2019-12-27T18:11:19.117Z",
-            "tags": [
-              "BOT_CLASS"
-            ]
-          }
-        ],
-        "level": 0
-      },
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ],
-      "lastUpdated": "2019-12-27T18:11:19.117Z",
-      "normalization": "PERCENTAGE",
-      "units": [
-        {
-          "name": "*",
-          "value": "requests"
-        }
-      ],
-      "delay": {
-        "asn_data": {
-          "delaySecs": 0,
-          "delayStr": "delayStr",
-          "healthy": true,
-          "latest": {
-            "entries_count": 0,
-            "path": "path",
-            "timestamp": 0
-          }
-        },
-        "country_data": {
-          "delaySecs": 0,
-          "delayStr": "delayStr",
-          "healthy": true,
-          "latest": {
-            "count": 0,
-            "timestamp": 0
-          }
-        },
-        "healthy": true,
-        "nowTs": 0
-      }
-    },
-    "serie_0": {
-      "ipv4": [
-        "10"
-      ],
-      "ipv6": [
-        "10"
-      ],
-      "timestamps": [
-        "2019-12-27T18:11:19.117Z"
-      ]
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### IP Timeseries Response
+<summary>
 
-- `IPTimeseriesResponse object { meta, serie_0 }`
+latest: object {entries\_count, path, timestamp }
 
-  - `meta: object { aggInterval, confidenceInfo, dateRange, 4 more }`
+</summary>
 
-    Metadata for the results.
+entries\_count: number
 
-    - `aggInterval: "FIFTEEN_MINUTES" or "ONE_HOUR" or "ONE_DAY" or 2 more`
+<a href="#">Link to this property</a>
 
-      Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/).
+path: string
 
-      - `"FIFTEEN_MINUTES"`
+<a href="#">Link to this property</a>
 
-      - `"ONE_HOUR"`
+timestamp: number
 
-      - `"ONE_DAY"`
+<a href="#">Link to this property</a>
 
-      - `"ONE_WEEK"`
+</details>
 
-      - `"ONE_MONTH"`
+<a href="#">Link to this property</a>
 
-    - `confidenceInfo: object { annotations, level }`
+</details>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+<a href="#">Link to this property</a>
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<details>
 
-          Data source for annotations.
+<summary>
 
-          - `"ALL"`
+country\_data: object {delaySecs, delayStr, healthy, latest }
 
-          - `"AI_BOTS"`
+</summary>
 
-          - `"AI_GATEWAY"`
+delaySecs: number
 
-          - `"BGP"`
+<a href="#">Link to this property</a>
 
-          - `"BOTS"`
+delayStr: string
 
-          - `"CONNECTION_ANOMALY"`
+<a href="#">Link to this property</a>
 
-          - `"CT"`
+healthy: boolean
 
-          - `"DNS"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_MAGNITUDE"`
+<details>
 
-          - `"DNS_AS112"`
+<summary>
 
-          - `"DOS"`
+latest: object {count, timestamp }
 
-          - `"EMAIL_ROUTING"`
+</summary>
 
-          - `"EMAIL_SECURITY"`
+count: number
 
-          - `"FW"`
+<a href="#">Link to this property</a>
 
-          - `"FW_PG"`
+timestamp: number
 
-          - `"HTTP"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CONTROL"`
+</details>
 
-          - `"HTTP_CRAWLER_REFERER"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_ORIGINS"`
+</details>
 
-          - `"IQI"`
+<a href="#">Link to this property</a>
 
-          - `"LEAKED_CREDENTIALS"`
+healthy: boolean
 
-          - `"NET"`
+<a href="#">Link to this property</a>
 
-          - `"ROBOTS_TXT"`
+nowTs: number
 
-          - `"SPEED"`
+<a href="#">Link to this property</a>
 
-          - `"WORKERS_AI"`
+</details>
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `endDate: string`
+</details>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+<a href="#">Link to this property</a>
 
-          Event type for annotations.
+<details>
 
-          - `"EVENT"`
+<summary>
 
-          - `"GENERAL"`
+serie\_0: object {ipv4, ipv6, timestamps }
 
-          - `"OUTAGE"`
+</summary>
 
-          - `"PARTIAL_PROJECTION"`
+ipv4: array of string
 
-          - `"PIPELINE"`
+<a href="#">Link to this property</a>
 
-          - `"TRAFFIC_ANOMALY"`
+ipv6: array of string
 
-        - `isInstantaneous: boolean`
+<a href="#">Link to this property</a>
 
-          Whether event is a single point in time or a time range.
+timestamps: array of string
 
-        - `linkedUrl: string`
+<a href="#">Link to this property</a>
 
-        - `startDate: string`
+</details>
 
-        - `tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      - `level: number`
+</details>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+[Link to this property](#)%20radar.bgp.ips%20%3E%20(model)%20ip_timeseries_response%20%3E%20(schema)>)
 
-    - `dateRange: array of object { endTime, startTime }`
+#### BGPIPsTop
 
-      - `endTime: string`
+##### [Get top ASes by announced IP space](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/ips/subresources/top/methods/ases)
 
-        Adjusted end of date range.
+GET/radar/bgp/ips/top/ases
 
-      - `startTime: string`
+##### ModelsExpand Collapse
 
-        Adjusted start of date range.
+<details>
 
-    - `lastUpdated: string`
+<summary>
 
-      Timestamp of the last dataset update.
+TopAsesResponse object {anchorTs, asns, country, metric }
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+</summary>
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+anchorTs: string
 
-      - `"PERCENTAGE"`
+formatdate-time
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+<details>
 
-      - `"RAW_VALUES"`
+<summary>
 
-      - `"PERCENTAGE_CHANGE"`
+asns: array of object {asn, v4\_24s, v6\_48s }
 
-      - `"ROLLING_AVERAGE"`
+</summary>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+asn: number
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+v4\_24s: number
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+v6\_48s: number
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-    - `delay: optional object { asn_data, country_data, healthy, nowTs }`
+</details>
 
-      - `asn_data: object { delaySecs, delayStr, healthy, latest }`
+<a href="#">Link to this property</a>
 
-        - `delaySecs: number`
+country: string
 
-        - `delayStr: string`
+<a href="#">Link to this property</a>
 
-        - `healthy: boolean`
+metric: string
 
-        - `latest: object { entries_count, path, timestamp }`
+<a href="#">Link to this property</a>
 
-          - `entries_count: number`
+</details>
 
-          - `path: string`
+[Link to this property](#)%20radar.bgp.ips.top%20%3E%20(model)%20top_ases_response%20%3E%20(schema)>)
 
-          - `timestamp: number`
+#### BGPRPKI
 
-      - `country_data: object { delaySecs, delayStr, healthy, latest }`
+#### BGPRPKIASPA
 
-        - `delaySecs: number`
+##### [Get ASPA objects snapshot](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki/subresources/aspa/methods/snapshot)
 
-        - `delayStr: string`
+GET/radar/bgp/rpki/aspa/snapshot
 
-        - `healthy: boolean`
+##### [Get ASPA changes over time](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki/subresources/aspa/methods/changes)
 
-        - `latest: object { count, timestamp }`
+GET/radar/bgp/rpki/aspa/changes
 
-          - `count: number`
+##### [Get ASPA count time series](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki/subresources/aspa/methods/timeseries)
 
-          - `timestamp: number`
+GET/radar/bgp/rpki/aspa/timeseries
 
-      - `healthy: boolean`
+##### ModelsExpand Collapse
 
-      - `nowTs: number`
+<details>
 
-  - `serie_0: object { ipv4, ipv6, timestamps }`
+<summary>
 
-    - `ipv4: array of string`
+ASPASnapshotResponse object {asnInfo, aspaObjects, meta }
 
-    - `ipv6: array of string`
+</summary>
 
-    - `timestamps: array of string`
+<details>
 
-# Top
+<summary>
 
-## Get top ASes by announced IP space
+asnInfo: object {"13335" }
 
-**get** `/radar/bgp/ips/top/ases`
+</summary>
 
-Returns the top-N autonomous systems by announced IP space at the nearest 8-hour RIB boundary at or before the requested date. The snapped boundary is returned as `anchor_ts`.
+<details>
 
-### Query Parameters
+<summary>
 
-- `country: optional string`
+"13335": object {asn, country, name }
 
-  Optional ISO 3166-1 alpha-2 country filter. Omit for global top-N.
+</summary>
 
-- `date: optional string`
+asn: number
 
-  Filters results by the specified datetime (ISO 8601).
+ASN number.
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+country: string
 
-  - `"JSON"`
+Alpha-2 country code.
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+name: string
 
-  Limits the number of objects returned in the response.
+AS name.
 
-- `metric: optional "v4_24s" or "v6_48s"`
+<a href="#">Link to this property</a>
 
-  Ranking metric: IPv4 /24 count or IPv6 /48 count.
+</details>
 
-  - `"v4_24s"`
+<a href="#">Link to this property</a>
 
-  - `"v6_48s"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { anchorTs, asns, country, metric }`
+<details>
 
-  - `anchorTs: string`
+<summary>
 
-  - `asns: array of object { asn, v4_24s, v6_48s }`
+aspaObjects: array of object {customerAsn, providers }
 
-    - `asn: number`
+</summary>
 
-    - `v4_24s: number`
+customerAsn: number
 
-    - `v6_48s: number`
+The customer ASN publishing the ASPA object.
 
-  - `country: string`
+<a href="#">Link to this property</a>
 
-  - `metric: string`
+providers: array of number
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/ips/top/ases \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "result": {
-    "anchorTs": "2026-04-18T16:00:00.000Z",
-    "asns": [
-      {
-        "asn": 749,
-        "v4_24s": 875649,
-        "v6_48s": 0
-      }
-    ],
-    "country": "US",
-    "metric": "v4_24s"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+meta: object {dataTime, queryTime, totalCount }
 
-### Top Ases Response
+</summary>
 
-- `TopAsesResponse object { anchorTs, asns, country, metric }`
+dataTime: string
 
-  - `anchorTs: string`
+Timestamp of the underlying data.
 
-  - `asns: array of object { asn, v4_24s, v6_48s }`
+formatdate-time
 
-    - `asn: number`
+<a href="#">Link to this property</a>
 
-    - `v4_24s: number`
+queryTime: string
 
-    - `v6_48s: number`
+Timestamp when the query was executed.
 
-  - `country: string`
+formatdate-time
 
-  - `metric: string`
+<a href="#">Link to this property</a>
 
-# RPKI
+totalCount: number
 
-# ASPA
+Total number of ASPA objects.
 
-## Get ASPA objects snapshot
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/rpki/aspa/snapshot`
+</details>
 
-Retrieves current or historical ASPA (Autonomous System Provider Authorization) objects. ASPA objects define which ASNs are authorized upstream providers for a customer ASN.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `customerAsn: optional number`
+[Link to this property](#)%20radar.bgp.rpki.aspa%20%3E%20(model)%20aspa_snapshot_response%20%3E%20(schema)>)
 
-  Filter by customer ASN (the ASN publishing the ASPA object).
+<details>
 
-- `date: optional string`
+<summary>
 
-  Filters results by the specified datetime (ISO 8601).
+ASPAChangesResponse object {asnInfo, changes, meta }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+<details>
 
-  - `"JSON"`
+<summary>
 
-  - `"CSV"`
+asnInfo: object {"13335" }
 
-- `includeAsnInfo: optional boolean`
+</summary>
 
-  Include ASN metadata (name, country) in response.
+<details>
 
-- `providerAsn: optional number`
+<summary>
 
-  Filter by provider ASN (an authorized upstream provider in ASPA objects).
+"13335": object {asn, country, name }
 
-### Returns
+</summary>
 
-- `result: object { asnInfo, aspaObjects, meta }`
+asn: number
 
-  - `asnInfo: object { "13335" }`
+ASN number.
 
-    - `"13335": object { asn, country, name }`
+<a href="#">Link to this property</a>
 
-      - `asn: number`
+country: string
 
-        ASN number.
+Alpha-2 country code.
 
-      - `country: string`
+<a href="#">Link to this property</a>
 
-        Alpha-2 country code.
+name: string
 
-      - `name: string`
+AS name.
 
-        AS name.
+<a href="#">Link to this property</a>
 
-  - `aspaObjects: array of object { customerAsn, providers }`
+</details>
 
-    - `customerAsn: number`
+<a href="#">Link to this property</a>
 
-      The customer ASN publishing the ASPA object.
+</details>
 
-    - `providers: array of number`
+<a href="#">Link to this property</a>
 
-  - `meta: object { dataTime, queryTime, totalCount }`
+<details>
 
-    - `dataTime: string`
+<summary>
 
-      Timestamp of the underlying data.
+changes: array of object {customersAdded, customersRemoved, date, 4 more }
 
-    - `queryTime: string`
+</summary>
 
-      Timestamp when the query was executed.
+customersAdded: number
 
-    - `totalCount: number`
+Number of new ASPA objects created.
 
-      Total number of ASPA objects.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+customersRemoved: number
 
-### Example
+Number of ASPA objects deleted.
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/rpki/aspa/snapshot \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+date: string
 
-```json
-{
-  "result": {
-    "asnInfo": {
-      "13335": {
-        "asn": 0,
-        "country": "country",
-        "name": "name"
-      }
-    },
-    "aspaObjects": [
-      {
-        "customerAsn": 0,
-        "providers": [
-          0
-        ]
-      }
-    ],
-    "meta": {
-      "dataTime": "2019-12-27T18:11:19.117Z",
-      "queryTime": "2019-12-27T18:11:19.117Z",
-      "totalCount": 0
-    }
-  },
-  "success": true
-}
-```
+Date of the changes in ISO 8601 format.
 
-## Get ASPA changes over time
+formatdate-time
 
-**get** `/radar/bgp/rpki/aspa/changes`
+<a href="#">Link to this property</a>
 
-Retrieves ASPA (Autonomous System Provider Authorization) changes over time. Returns daily aggregated changes including additions, removals, and modifications of ASPA objects.
+<details>
 
-### Query Parameters
+<summary>
 
-- `asn: optional number`
+entries: array of object {customerAsn, providers, type }
 
-  Filter changes involving this ASN (as customer or provider).
+</summary>
 
-- `dateEnd: optional string`
+customerAsn: number
 
-  End of the date range (inclusive).
+The customer ASN affected.
 
-- `dateStart: optional string`
+<a href="#">Link to this property</a>
 
-  Start of the date range (inclusive).
+providers: array of number
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+<details>
 
-  - `"JSON"`
+<summary>
 
-  - `"CSV"`
+type: "CustomerAdded"or "CustomerRemoved"or "ProvidersAdded"or "ProvidersRemoved"
 
-- `includeAsnInfo: optional boolean`
+</summary>
 
-  Include ASN metadata (name, country) in response.
+One of the following:
 
-### Returns
+"CustomerAdded"
 
-- `result: object { asnInfo, changes, meta }`
+<a href="#">Link to this property</a>
 
-  - `asnInfo: object { "13335" }`
+"CustomerRemoved"
 
-    - `"13335": object { asn, country, name }`
+<a href="#">Link to this property</a>
 
-      - `asn: number`
+"ProvidersAdded"
 
-        ASN number.
+<a href="#">Link to this property</a>
 
-      - `country: string`
+"ProvidersRemoved"
 
-        Alpha-2 country code.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        AS name.
+<a href="#">Link to this property</a>
 
-  - `changes: array of object { customersAdded, customersRemoved, date, 4 more }`
+</details>
 
-    - `customersAdded: number`
+<a href="#">Link to this property</a>
 
-      Number of new ASPA objects created.
+providersAdded: number
 
-    - `customersRemoved: number`
+Number of providers added to existing objects.
 
-      Number of ASPA objects deleted.
+<a href="#">Link to this property</a>
 
-    - `date: string`
+providersRemoved: number
 
-      Date of the changes in ISO 8601 format.
+Number of providers removed from existing objects.
 
-    - `entries: array of object { customerAsn, providers, type }`
+<a href="#">Link to this property</a>
 
-      - `customerAsn: number`
+totalCount: number
 
-        The customer ASN affected.
+Running total of active ASPA objects after this day.
 
-      - `providers: array of number`
+<a href="#">Link to this property</a>
 
-      - `type: "CustomerAdded" or "CustomerRemoved" or "ProvidersAdded" or "ProvidersRemoved"`
+</details>
 
-        - `"CustomerAdded"`
+<a href="#">Link to this property</a>
 
-        - `"CustomerRemoved"`
+<details>
 
-        - `"ProvidersAdded"`
+<summary>
 
-        - `"ProvidersRemoved"`
+meta: object {dataTime, queryTime }
 
-    - `providersAdded: number`
+</summary>
 
-      Number of providers added to existing objects.
+dataTime: string
 
-    - `providersRemoved: number`
+Timestamp of the underlying data.
 
-      Number of providers removed from existing objects.
+formatdate-time
 
-    - `totalCount: number`
+<a href="#">Link to this property</a>
 
-      Running total of active ASPA objects after this day.
+queryTime: string
 
-  - `meta: object { dataTime, queryTime }`
+Timestamp when the query was executed.
 
-    - `dataTime: string`
+formatdate-time
 
-      Timestamp of the underlying data.
+<a href="#">Link to this property</a>
 
-    - `queryTime: string`
+</details>
 
-      Timestamp when the query was executed.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+[Link to this property](#)%20radar.bgp.rpki.aspa%20%3E%20(model)%20aspa_changes_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/rpki/aspa/changes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "result": {
-    "asnInfo": {
-      "13335": {
-        "asn": 0,
-        "country": "country",
-        "name": "name"
-      }
-    },
-    "changes": [
-      {
-        "customersAdded": 0,
-        "customersRemoved": 0,
-        "date": "2019-12-27T18:11:19.117Z",
-        "entries": [
-          {
-            "customerAsn": 0,
-            "providers": [
-              0
-            ],
-            "type": "CustomerAdded"
-          }
-        ],
-        "providersAdded": 0,
-        "providersRemoved": 0,
-        "totalCount": 0
-      }
-    ],
-    "meta": {
-      "dataTime": "2019-12-27T18:11:19.117Z",
-      "queryTime": "2019-12-27T18:11:19.117Z"
-    }
-  },
-  "success": true
-}
-```
+ASPATimeseriesResponse object {meta, serie\_0 }
 
-## Get ASPA count time series
+</summary>
 
-**get** `/radar/bgp/rpki/aspa/timeseries`
+<details>
 
-Retrieves ASPA (Autonomous System Provider Authorization) object count over time. Supports filtering by RIR or location (country code) to generate multiple named series. If no RIR or location filter is specified, returns total count.
+<summary>
 
-### Query Parameters
+meta: object {dataTime, queryTime }
 
-- `dateEnd: optional string`
+</summary>
 
-  End of the date range (inclusive).
+dataTime: string
 
-- `dateStart: optional string`
+Timestamp of the underlying data.
 
-  Start of the date range (inclusive).
+formatdate-time
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+queryTime: string
 
-  - `"JSON"`
+Timestamp when the query was executed.
 
-  - `"CSV"`
+formatdate-time
 
-- `location: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
+</details>
 
-- `name: optional array of string`
+<a href="#">Link to this property</a>
 
-  Array of names used to label the series in the response.
+<details>
 
-- `rir: optional array of "RIPE_NCC" or "ARIN" or "APNIC" or 2 more`
+<summary>
 
-  Filter by Regional Internet Registry (RIR). Multiple RIRs generate multiple series.
+serie\_0: object {timestamps, values }
 
-  - `"RIPE_NCC"`
+</summary>
 
-  - `"ARIN"`
+timestamps: array of string
 
-  - `"APNIC"`
+<a href="#">Link to this property</a>
 
-  - `"LACNIC"`
+values: array of string
 
-  - `"AFRINIC"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { meta, serie_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { dataTime, queryTime }`
+</details>
 
-    - `dataTime: string`
+[Link to this property](#)%20radar.bgp.rpki.aspa%20%3E%20(model)%20aspa_timeseries_response%20%3E%20(schema)>)
 
-      Timestamp of the underlying data.
+#### BGPRPKIRoas
 
-    - `queryTime: string`
+##### [Get RPKI ROA deployment time series](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki/subresources/roas/methods/timeseries)
 
-      Timestamp when the query was executed.
+GET/radar/bgp/rpki/roas/timeseries
 
-  - `serie_0: object { timestamps, values }`
+##### ModelsExpand Collapse
 
-    - `timestamps: array of string`
+<details>
 
-    - `values: array of string`
+<summary>
 
-- `success: boolean`
+RoaTimeseriesResponse object {meta, serie\_0 }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/rpki/aspa/timeseries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "result": {
-    "meta": {
-      "dataTime": "2019-12-27T18:11:19.117Z",
-      "queryTime": "2019-12-27T18:11:19.117Z"
-    },
-    "serie_0": {
-      "timestamps": [
-        "2019-12-27T18:11:19.117Z"
-      ],
-      "values": [
-        "10"
-      ]
-    }
-  },
-  "success": true
-}
-```
+meta: object {dataTime, queryTime }
 
-## Domain Types
+</summary>
 
-### ASPA Snapshot Response
+dataTime: string
 
-- `ASPASnapshotResponse object { asnInfo, aspaObjects, meta }`
+Timestamp of the underlying data.
 
-  - `asnInfo: object { "13335" }`
+formatdate-time
 
-    - `"13335": object { asn, country, name }`
+<a href="#">Link to this property</a>
 
-      - `asn: number`
+queryTime: string
 
-        ASN number.
+Timestamp when the query was executed.
 
-      - `country: string`
+formatdate-time
 
-        Alpha-2 country code.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        AS name.
+<a href="#">Link to this property</a>
 
-  - `aspaObjects: array of object { customerAsn, providers }`
+<details>
 
-    - `customerAsn: number`
+<summary>
 
-      The customer ASN publishing the ASPA object.
+serie\_0: object {timestamps, values }
 
-    - `providers: array of number`
+</summary>
 
-  - `meta: object { dataTime, queryTime, totalCount }`
+timestamps: array of string
 
-    - `dataTime: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the underlying data.
+values: array of string
 
-    - `queryTime: string`
+<a href="#">Link to this property</a>
 
-      Timestamp when the query was executed.
+</details>
 
-    - `totalCount: number`
+<a href="#">Link to this property</a>
 
-      Total number of ASPA objects.
+</details>
 
-### ASPA Changes Response
-
-- `ASPAChangesResponse object { asnInfo, changes, meta }`
-
-  - `asnInfo: object { "13335" }`
-
-    - `"13335": object { asn, country, name }`
-
-      - `asn: number`
-
-        ASN number.
-
-      - `country: string`
-
-        Alpha-2 country code.
-
-      - `name: string`
-
-        AS name.
-
-  - `changes: array of object { customersAdded, customersRemoved, date, 4 more }`
-
-    - `customersAdded: number`
-
-      Number of new ASPA objects created.
-
-    - `customersRemoved: number`
-
-      Number of ASPA objects deleted.
-
-    - `date: string`
-
-      Date of the changes in ISO 8601 format.
-
-    - `entries: array of object { customerAsn, providers, type }`
-
-      - `customerAsn: number`
-
-        The customer ASN affected.
-
-      - `providers: array of number`
-
-      - `type: "CustomerAdded" or "CustomerRemoved" or "ProvidersAdded" or "ProvidersRemoved"`
-
-        - `"CustomerAdded"`
-
-        - `"CustomerRemoved"`
-
-        - `"ProvidersAdded"`
-
-        - `"ProvidersRemoved"`
-
-    - `providersAdded: number`
-
-      Number of providers added to existing objects.
-
-    - `providersRemoved: number`
-
-      Number of providers removed from existing objects.
-
-    - `totalCount: number`
-
-      Running total of active ASPA objects after this day.
-
-  - `meta: object { dataTime, queryTime }`
-
-    - `dataTime: string`
-
-      Timestamp of the underlying data.
-
-    - `queryTime: string`
-
-      Timestamp when the query was executed.
-
-### ASPA Timeseries Response
-
-- `ASPATimeseriesResponse object { meta, serie_0 }`
-
-  - `meta: object { dataTime, queryTime }`
-
-    - `dataTime: string`
-
-      Timestamp of the underlying data.
-
-    - `queryTime: string`
-
-      Timestamp when the query was executed.
-
-  - `serie_0: object { timestamps, values }`
-
-    - `timestamps: array of string`
-
-    - `values: array of string`
-
-# Roas
-
-## Get RPKI ROA deployment time series
-
-**get** `/radar/bgp/rpki/roas/timeseries`
-
-Retrieves RPKI ROA (Route Origin Authorization) validation ratios over time. Returns the selected metric as a time series. Supports filtering by ASN or location (country code) — multiple values of the same filter type produce one series per value. If no ASN or location is specified, returns the global aggregate.
-
-### Query Parameters
-
-- `asn: optional array of string`
-
-  Filters results by Autonomous System Number. Specify one or more ASNs. Multiple values generate one series per ASN.
-
-- `dateEnd: optional string`
-
-  End of the date range (inclusive).
-
-- `dateStart: optional string`
-
-  Start of the date range (inclusive).
-
-- `format: optional "JSON" or "CSV"`
-
-  Format in which results will be returned.
-
-  - `"JSON"`
-
-  - `"CSV"`
-
-- `location: optional array of string`
-
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
-
-- `metric: optional "validPfxsRatio" or "validPfxsV4Ratio" or "validPfxsV6Ratio" or 3 more`
-
-  Which RPKI ROA validation metric to return. validPfxsRatio = ratio of RPKI-valid prefixes (IPv4+IPv6 combined). validPfxsV4Ratio / validPfxsV6Ratio = same, split by IP version. validIpsRatio = ratio of RPKI-valid address space (IPv4 /24s + IPv6 /48s). validIpsV4Ratio / validIpsV6Ratio = same, split by IP version.
-
-  - `"validPfxsRatio"`
-
-  - `"validPfxsV4Ratio"`
-
-  - `"validPfxsV6Ratio"`
-
-  - `"validIpsRatio"`
-
-  - `"validIpsV4Ratio"`
-
-  - `"validIpsV6Ratio"`
-
-- `name: optional array of string`
-
-  Array of names used to label the series in the response.
-
-### Returns
-
-- `result: object { meta, serie_0 }`
-
-  - `meta: object { dataTime, queryTime }`
-
-    - `dataTime: string`
-
-      Timestamp of the underlying data.
-
-    - `queryTime: string`
-
-      Timestamp when the query was executed.
-
-  - `serie_0: object { timestamps, values }`
-
-    - `timestamps: array of string`
-
-    - `values: array of string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/rpki/roas/timeseries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "meta": {
-      "dataTime": "2019-12-27T18:11:19.117Z",
-      "queryTime": "2019-12-27T18:11:19.117Z"
-    },
-    "serie_0": {
-      "timestamps": [
-        "2019-12-27T18:11:19.117Z"
-      ],
-      "values": [
-        "10"
-      ]
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Roa Timeseries Response
-
-- `RoaTimeseriesResponse object { meta, serie_0 }`
-
-  - `meta: object { dataTime, queryTime }`
-
-    - `dataTime: string`
-
-      Timestamp of the underlying data.
-
-    - `queryTime: string`
-
-      Timestamp when the query was executed.
-
-  - `serie_0: object { timestamps, values }`
-
-    - `timestamps: array of string`
-
-    - `values: array of string`
+[Link to this property](#)%20radar.bgp.rpki.roas%20%3E%20(model)%20roa_timeseries_response%20%3E%20(schema)>)

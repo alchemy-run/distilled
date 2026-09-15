@@ -1,974 +1,305 @@
+---
+title: Outgoing
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+[Zone Transfers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Outgoing
 
-## Primary Zone Configuration Details
+##### [Primary Zone Configuration Details](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/get)
 
-**get** `/zones/{zone_id}/secondary_dns/outgoing`
+GET/zones/{zone\_id}/secondary\_dns/outgoing
 
-Get primary zone configuration for outgoing zone transfers.
+##### [Create Primary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/secondary\_dns/outgoing
 
-- `zone_id: string`
+##### [Update Primary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/update)
 
-### Returns
+PUT/zones/{zone\_id}/secondary\_dns/outgoing
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Delete Primary Zone Configuration](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/delete)
 
-  - `code: number`
+DELETE/zones/{zone\_id}/secondary\_dns/outgoing
 
-  - `message: string`
+##### [Disable Outgoing Zone Transfers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/disable)
 
-  - `documentation_url: optional string`
+POST/zones/{zone\_id}/secondary\_dns/outgoing/disable
 
-  - `source: optional object { pointer }`
+##### [Enable Outgoing Zone Transfers](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/enable)
 
-    - `pointer: optional string`
+POST/zones/{zone\_id}/secondary\_dns/outgoing/enable
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### [Force DNS NOTIFY](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/methods/force_notify)
 
-  - `code: number`
+POST/zones/{zone\_id}/secondary\_dns/outgoing/force\_notify
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+DisableTransfer = string
 
-  - `source: optional object { pointer }`
+The zone transfer status of a primary zone.
 
-    - `pointer: optional string`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20disable_transfer%20%3E%20(schema)>)
 
-- `success: true`
+EnableTransfer = string
 
-  Whether the API call was successful.
+The zone transfer status of a primary zone.
 
-  - `true`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20enable_transfer%20%3E%20(schema)>)
 
-- `result: optional object { id, checked_time, created_time, 4 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-  - `checked_time: optional string`
+Outgoing object {id, checked\_time, created\_time, 4 more }
 
-    The time for a specific event.
+</summary>
 
-  - `created_time: optional string`
+id: optional string
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `last_transferred_time: optional string`
+checked\_time: optional string
 
-    The time for a specific event.
+The time for a specific event.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Zone name.
+created\_time: optional string
 
-  - `peers: optional array of string`
+The time for a specific event.
 
-    A list of peer tags.
+<a href="#">Link to this property</a>
 
-  - `soa_serial: optional number`
+last\_transferred\_time: optional string
 
-    The serial number of the SOA for the given zone.
+The time for a specific event.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: optional string
 
-#### Response
+Zone name.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "last_transferred_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Primary Zone Configuration
+peers: optional array of string
 
-**post** `/zones/{zone_id}/secondary_dns/outgoing`
+A list of peer tags.
 
-Create primary zone configuration for outgoing zone transfers.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+soa\_serial: optional number
 
-- `zone_id: string`
+The serial number of the SOA for the given zone.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `name: string`
+</details>
 
-  Zone name.
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing%20%3E%20(schema)>)
 
-- `peers: array of string`
+OutgoingStatus = string
 
-  A list of peer tags.
+The zone transfer status of a primary zone.
 
-### Returns
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_status%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+OutgoingGetResponse object {id, checked\_time, created\_time, 4 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+checked\_time: optional string
 
-  - `code: number`
+The time for a specific event.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_time: optional string
 
-  - `source: optional object { pointer }`
+The time for a specific event.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+last\_transferred\_time: optional string
 
-  Whether the API call was successful.
+The time for a specific event.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, checked_time, created_time, 4 more }`
+name: optional string
 
-  - `id: optional string`
+Zone name.
 
-  - `checked_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+peers: optional array of string
 
-  - `created_time: optional string`
+A list of peer tags.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `last_transferred_time: optional string`
+soa\_serial: optional number
 
-    The time for a specific event.
+The serial number of the SOA for the given zone.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Zone name.
+</details>
 
-  - `peers: optional array of string`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_get_response%20%3E%20(schema)>)
 
-    A list of peer tags.
+<details>
 
-  - `soa_serial: optional number`
+<summary>
 
-    The serial number of the SOA for the given zone.
+OutgoingCreateResponse object {id, checked\_time, created\_time, 4 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "www.example.com.",
-          "peers": [
-            "23ff594956f20c2a721606e94745a8aa",
-            "00920f38ce07c2e2f4df50b1f61d4194"
-          ]
-        }'
-```
+id: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "last_transferred_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+checked\_time: optional string
 
-## Update Primary Zone Configuration
+The time for a specific event.
 
-**put** `/zones/{zone_id}/secondary_dns/outgoing`
+<a href="#">Link to this property</a>
 
-Update primary zone configuration for outgoing zone transfers.
+created\_time: optional string
 
-### Path Parameters
+The time for a specific event.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+last\_transferred\_time: optional string
 
-- `name: string`
+The time for a specific event.
 
-  Zone name.
+<a href="#">Link to this property</a>
 
-- `peers: array of string`
+name: optional string
 
-  A list of peer tags.
+Zone name.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+peers: optional array of string
 
-  - `code: number`
+A list of peer tags.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+soa\_serial: optional number
 
-  - `source: optional object { pointer }`
+The serial number of the SOA for the given zone.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_create_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+OutgoingUpdateResponse object {id, checked\_time, created\_time, 4 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+id: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+checked\_time: optional string
 
-- `result: optional object { id, checked_time, created_time, 4 more }`
+The time for a specific event.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `checked_time: optional string`
+created\_time: optional string
 
-    The time for a specific event.
+The time for a specific event.
 
-  - `created_time: optional string`
+<a href="#">Link to this property</a>
 
-    The time for a specific event.
+last\_transferred\_time: optional string
 
-  - `last_transferred_time: optional string`
+The time for a specific event.
 
-    The time for a specific event.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+name: optional string
 
-    Zone name.
+Zone name.
 
-  - `peers: optional array of string`
+<a href="#">Link to this property</a>
 
-    A list of peer tags.
+peers: optional array of string
 
-  - `soa_serial: optional number`
+A list of peer tags.
 
-    The serial number of the SOA for the given zone.
+<a href="#">Link to this property</a>
 
-### Example
+soa\_serial: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "www.example.com.",
-          "peers": [
-            "23ff594956f20c2a721606e94745a8aa",
-            "00920f38ce07c2e2f4df50b1f61d4194"
-          ]
-        }'
-```
+The serial number of the SOA for the given zone.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20",
-    "checked_time": "2019-10-24T17:09:42.883908+01:00",
-    "created_time": "2019-10-24T17:09:42.883908+01:00",
-    "last_transferred_time": "2019-10-24T17:09:42.883908+01:00",
-    "name": "www.example.com.",
-    "peers": [
-      "23ff594956f20c2a721606e94745a8aa",
-      "00920f38ce07c2e2f4df50b1f61d4194"
-    ],
-    "soa_serial": 2019102400
-  }
-}
-```
+</details>
 
-## Delete Primary Zone Configuration
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_update_response%20%3E%20(schema)>)
 
-**delete** `/zones/{zone_id}/secondary_dns/outgoing`
+<details>
 
-Delete primary zone configuration for outgoing zone transfers.
+<summary>
 
-### Path Parameters
+OutgoingDeleteResponse object {id }
 
-- `zone_id: string`
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_delete_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+OutgoingForceNotifyResponse = string
 
-  - `source: optional object { pointer }`
+When force\_notify query parameter is set to true, the response is a simple string.
 
-    - `pointer: optional string`
+[Link to this property](#)%20dns.zone_transfers.outgoing%20%3E%20(model)%20outgoing_force_notify_response%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+#### OutgoingStatus
 
-  - `code: number`
+##### [Get Outgoing Zone Transfer Status](https://developers.cloudflare.com/api/resources/dns/subresources/zone_transfers/subresources/outgoing/subresources/status/methods/get)
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "269d8f4853475ca241c4e730be286b20"
-  }
-}
-```
-
-## Disable Outgoing Zone Transfers
-
-**post** `/zones/{zone_id}/secondary_dns/outgoing/disable`
-
-Disable outgoing zone transfers for primary zone and clears IXFR backlog of primary zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional DisableTransfer`
-
-  The zone transfer status of a primary zone.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing/disable \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "Disabled"
-}
-```
-
-## Enable Outgoing Zone Transfers
-
-**post** `/zones/{zone_id}/secondary_dns/outgoing/enable`
-
-Enable outgoing zone transfers for primary zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional EnableTransfer`
-
-  The zone transfer status of a primary zone.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing/enable \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "Enabled"
-}
-```
-
-## Force DNS NOTIFY
-
-**post** `/zones/{zone_id}/secondary_dns/outgoing/force_notify`
-
-Notifies the secondary nameserver(s) and clears IXFR backlog of primary zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-  When force_notify query parameter is set to true, the response is a simple string.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing/force_notify \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "OK"
-}
-```
-
-## Domain Types
-
-### Disable Transfer
-
-- `DisableTransfer = string`
-
-  The zone transfer status of a primary zone.
-
-### Enable Transfer
-
-- `EnableTransfer = string`
-
-  The zone transfer status of a primary zone.
-
-### Outgoing
-
-- `Outgoing object { id, checked_time, created_time, 4 more }`
-
-  - `id: optional string`
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `last_transferred_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Outgoing Status
-
-- `OutgoingStatus = string`
-
-  The zone transfer status of a primary zone.
-
-### Outgoing Get Response
-
-- `OutgoingGetResponse object { id, checked_time, created_time, 4 more }`
-
-  - `id: optional string`
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `last_transferred_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Outgoing Create Response
-
-- `OutgoingCreateResponse object { id, checked_time, created_time, 4 more }`
-
-  - `id: optional string`
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `last_transferred_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Outgoing Update Response
-
-- `OutgoingUpdateResponse object { id, checked_time, created_time, 4 more }`
-
-  - `id: optional string`
-
-  - `checked_time: optional string`
-
-    The time for a specific event.
-
-  - `created_time: optional string`
-
-    The time for a specific event.
-
-  - `last_transferred_time: optional string`
-
-    The time for a specific event.
-
-  - `name: optional string`
-
-    Zone name.
-
-  - `peers: optional array of string`
-
-    A list of peer tags.
-
-  - `soa_serial: optional number`
-
-    The serial number of the SOA for the given zone.
-
-### Outgoing Delete Response
-
-- `OutgoingDeleteResponse object { id }`
-
-  - `id: optional string`
-
-### Outgoing Force Notify Response
-
-- `OutgoingForceNotifyResponse = string`
-
-  When force_notify query parameter is set to true, the response is a simple string.
-
-# Status
-
-## Get Outgoing Zone Transfer Status
-
-**get** `/zones/{zone_id}/secondary_dns/outgoing/status`
-
-Get primary zone transfer status.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional EnableTransfer`
-
-  The zone transfer status of a primary zone.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/secondary_dns/outgoing/status \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "Enabled"
-}
-```
+GET/zones/{zone\_id}/secondary\_dns/outgoing/status

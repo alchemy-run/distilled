@@ -1,37 +1,102 @@
-## Read matches for logo queries by ID
+---
+title: Read matches for logo queries by ID
+---
 
-**get** `/accounts/{account_id}/brand-protection/logo-matches`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+[Logo Matches](https://developers.cloudflare.com/api/resources/brand_protection/subresources/logo_matches)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Read matches for logo queries by ID
+
+GET/accounts/{account\_id}/brand-protection/logo-matches
 
 Return matches for logo queries based on ID
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `limit: optional string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `logo_id: optional array of string`
+##### Accepted Permissions (at least one required)
 
-- `offset: optional string`
+`Intel Write``Intel Read`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `matches: optional array of map[unknown]`
+account\_id: string
 
-- `total: optional number`
+minLength1
 
-### Example
+[Link to this property](#)%20brand_protection.logo_matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-```http
+##### Q uery ParametersExpand Collapse
+
+limit: optional string
+
+[Link to this property](#)%20brand_protection.logo_matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+logo\_id: optional array of string
+
+[Link to this property](#)%20brand_protection.logo_matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20logo_id%20%3E%20(schema)>)
+
+offset: optional string
+
+[Link to this property](#)%20brand_protection.logo_matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+matches: optional array of map\[unknown]
+
+[Link to this property](#)%20brand_protection.logo_matches%20%3E%20(model)%20logo_match_get_response%20%3E%20(schema)%20%3E%20(property)%20matches>)
+
+total: optional number
+
+[Link to this property](#)%20brand_protection.logo_matches%20%3E%20(model)%20logo_match_get_response%20%3E%20(schema)%20%3E%20(property)%20total>)
+
+### Read matches for logo queries by ID
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/logo-matches \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "matches": [
+    {
+      "foo": "bar"
+    }
+  ],
+  "total": 0
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "matches": [
     {

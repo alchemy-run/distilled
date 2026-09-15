@@ -1,575 +1,273 @@
+---
+title: Assets
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Requests](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Assets
 
-## Get a Request Asset
+##### [Get a Request Asset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/assets/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}`
+GET/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/asset/{asset\_id}
 
-Retrieves an asset attached to a Cloudforce One intelligence request.
+##### [List Request Assets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/assets/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/asset
 
-- `account_id: string`
+##### [Update a Request Asset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/assets/methods/update)
 
-  Identifier.
+PUT/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/asset/{asset\_id}
 
-- `request_id: string`
+##### [Delete a Request Asset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests/subresources/assets/methods/delete)
 
-  UUID.
+DELETE/accounts/{account\_id}/cloudforce-one/requests/{request\_id}/asset/{asset\_id}
 
-- `asset_id: string`
+##### ModelsExpand Collapse
 
-  UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+AssetGetResponse object {id, name, created, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: number
 
-  - `documentation_url: optional string`
+Asset ID.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Asset name.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created: optional string
 
-  - `documentation_url: optional string`
+Defines the asset creation time.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+description: optional string
 
-  Whether the API call was successful.
+Asset description.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, name, created, 2 more }`
+file\_type: optional string
 
-  - `id: number`
+Asset file type.
 
-    Asset ID.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Asset name.
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(model)%20asset_get_response%20%3E%20(schema)>)
 
-  - `created: optional string`
+<details>
 
-    Defines the asset creation time.
+<summary>
 
-  - `description: optional string`
+AssetCreateResponse object {id, name, created, 2 more }
 
-    Asset description.
+</summary>
 
-  - `file_type: optional string`
+id: number
 
-    Asset file type.
+Asset ID.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/asset/$ASSET_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+name: string
 
-#### Response
+Asset name.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 0,
-      "name": "example.docx",
-      "created": "2022-01-01T00:00:00Z",
-      "description": "example description",
-      "file_type": "docx"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## List Request Assets
+created: optional string
 
-**post** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset`
+Defines the asset creation time.
 
-Lists assets attached to a Cloudforce One intelligence request.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-  Identifier.
+Asset description.
 
-- `request_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+file\_type: optional string
 
-### Body Parameters
+Asset file type.
 
-- `page: number`
+<a href="#">Link to this property</a>
 
-  Page number of results.
+</details>
 
-- `per_page: number`
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(model)%20asset_create_response%20%3E%20(schema)>)
 
-  Number of results per page.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+AssetUpdateResponse object {id, name, created, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: number
 
-  - `documentation_url: optional string`
+Asset ID.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Asset name.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created: optional string
 
-  - `documentation_url: optional string`
+Defines the asset creation time.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+description: optional string
 
-  Whether the API call was successful.
+Asset description.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, name, created, 2 more }`
+file\_type: optional string
 
-  - `id: number`
+Asset file type.
 
-    Asset ID.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Asset name.
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(model)%20asset_update_response%20%3E%20(schema)>)
 
-  - `created: optional string`
+<details>
 
-    Defines the asset creation time.
+<summary>
 
-  - `description: optional string`
+AssetDeleteResponse object {errors, messages, success }
 
-    Asset description.
+</summary>
 
-  - `file_type: optional string`
+<details>
 
-    Asset file type.
+<summary>
 
-### Example
+errors: array of object {code, message, documentation\_url, source }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/asset \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "page": 0,
-          "per_page": 10
-        }'
-```
+</summary>
 
-#### Response
+code: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 0,
-      "name": "example.docx",
-      "created": "2022-01-01T00:00:00Z",
-      "description": "example description",
-      "file_type": "docx"
-    }
-  ]
-}
-```
+minimum1000
 
-## Update a Request Asset
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}`
+message: string
 
-Updates an asset in a Cloudforce One intelligence request.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+documentation\_url: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `request_id: string`
+<summary>
 
-  UUID.
+source: optional object {pointer }
 
-- `asset_id: string`
+</summary>
 
-  UUID.
+pointer: optional string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `source: optional string`
+</details>
 
-  Asset file to upload.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+code: number
 
-- `messages: array of object { code, message, documentation_url, source }`
+minimum1000
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+message: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+documentation\_url: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+source: optional object {pointer }
 
-- `result: optional object { id, name, created, 2 more }`
+</summary>
 
-  - `id: number`
+pointer: optional string
 
-    Asset ID.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Asset name.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+</details>
 
-    Defines the asset creation time.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+success: true
 
-    Asset description.
+Whether the API call was successful.
 
-  - `file_type: optional string`
+<a href="#">Link to this property</a>
 
-    Asset file type.
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/asset/$ASSET_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "source": "@/Users/me/example.docx"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 0,
-    "name": "example.docx",
-    "created": "2022-01-01T00:00:00Z",
-    "description": "example description",
-    "file_type": "docx"
-  }
-}
-```
-
-## Delete a Request Asset
-
-**delete** `/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}`
-
-Removes an asset from a Cloudforce One intelligence request.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `request_id: string`
-
-  UUID.
-
-- `asset_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests/$REQUEST_ID/asset/$ASSET_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Asset Get Response
-
-- `AssetGetResponse object { id, name, created, 2 more }`
-
-  - `id: number`
-
-    Asset ID.
-
-  - `name: string`
-
-    Asset name.
-
-  - `created: optional string`
-
-    Defines the asset creation time.
-
-  - `description: optional string`
-
-    Asset description.
-
-  - `file_type: optional string`
-
-    Asset file type.
-
-### Asset Create Response
-
-- `AssetCreateResponse object { id, name, created, 2 more }`
-
-  - `id: number`
-
-    Asset ID.
-
-  - `name: string`
-
-    Asset name.
-
-  - `created: optional string`
-
-    Defines the asset creation time.
-
-  - `description: optional string`
-
-    Asset description.
-
-  - `file_type: optional string`
-
-    Asset file type.
-
-### Asset Update Response
-
-- `AssetUpdateResponse object { id, name, created, 2 more }`
-
-  - `id: number`
-
-    Asset ID.
-
-  - `name: string`
-
-    Asset name.
-
-  - `created: optional string`
-
-    Defines the asset creation time.
-
-  - `description: optional string`
-
-    Asset description.
-
-  - `file_type: optional string`
-
-    Asset file type.
-
-### Asset Delete Response
-
-- `AssetDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20cloudforce_one.requests.assets%20%3E%20(model)%20asset_delete_response%20%3E%20(schema)>)

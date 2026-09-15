@@ -1,42 +1,100 @@
-## Updates an existing dataset
+---
+title: Updates an existing dataset
+---
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}`
+[Skip to content](#_top)
 
-Updates an existing dataset
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
 
-  Account ID.
+[Datasets](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets)
 
-- `dataset_id: string`
+Copy Markdown
 
-  Dataset ID.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `isPublic: boolean`
+**Copy Markdown****View as Markdown**
 
-  If true, then anyone can search the dataset. If false, then its limited to the account.
+# Updates an existing dataset
 
-- `name: string`
+PATCH/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}
 
-  Used to describe the dataset within the account context.
+Partially updates a threat event dataset in Cloudforce One, modifying specific fields without replacing the entire dataset configuration.
 
-### Returns
+##### Security
 
-- `isPublic: boolean`
+API Token
 
-- `name: string`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `uuid: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `deletedAt: optional string`
+##### Accepted Permissions (at least one required)
 
-### Example
+`Cloudforce One Write`
 
-```http
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account ID.
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+dataset\_id: string
+
+Dataset ID.
+
+formatuuid
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20dataset_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+isPublic: boolean
+
+If true, then anyone can search the dataset. If false, then its limited to the account.
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20isPublic%20%3E%20(schema)>)
+
+name: string
+
+Used to describe the dataset within the account context.
+
+minLength1
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+isAnalytics: boolean
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_edit_response%20%3E%20(schema)%20%3E%20(property)%20isAnalytics>)
+
+isPublic: boolean
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_edit_response%20%3E%20(schema)%20%3E%20(property)%20isPublic>)
+
+name: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_edit_response%20%3E%20(schema)%20%3E%20(property)%20name>)
+
+uuid: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_edit_response%20%3E%20(schema)%20%3E%20(property)%20uuid>)
+
+### Updates an existing dataset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset/$DATASET_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -47,13 +105,26 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/ev
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
+  "isAnalytics": true,
   "isPublic": true,
   "name": "friendly dataset name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "deletedAt": "deletedAt"
+  "uuid": "12345678-1234-1234-1234-1234567890ab"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "isAnalytics": true,
+  "isPublic": true,
+  "name": "friendly dataset name",
+  "uuid": "12345678-1234-1234-1234-1234567890ab"
 }
 ```

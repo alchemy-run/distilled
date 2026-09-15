@@ -1,720 +1,1662 @@
-## Submit an abuse report
+---
+title: Submit an abuse report
+---
 
-**post** `/accounts/{account_id}/abuse-reports/{report_param}`
+[Skip to content](#_top)
 
-Submit the Abuse Report of a particular type
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Abuse Reports](https://developers.cloudflare.com/api/resources/abuse_reports)
 
-- `account_id: string`
+Copy Markdown
 
-- `report_param: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  The report type for submitted reports.
+---
 
-### Body Parameters
+**Copy Markdown****View as Markdown**
 
-- `body: object { act, address1, agent_name, 18 more }  or object { act, email, email2, 14 more }  or object { act, email, email2, 14 more }  or 5 more`
+# Submit an abuse report
 
-  - `AbuseDmca object { act, address1, agent_name, 18 more }`
+POST/accounts/{account\_id}/abuse-reports/{report\_param}
 
-    - `act: "abuse_dmca"`
+Submit an abuse report of a particular type.
 
-      The report type for submitted reports.
+Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Account > Abuse Reports > Edit` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below).
 
-      - `"abuse_dmca"`
+##### Security
 
-    - `address1: string`
+API Token
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-    - `agent_name: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-      The name of the copyright holder. Text not exceeding 60 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+##### P ath ParametersExpand Collapse
 
-    - `agree: 1`
+account\_id: string
 
-      Can be `0` for false or `1` for true. Must be value: 1 for DMCA reports
+maxLength32
 
-      - `1`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `city: string`
+report\_param: string
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+The report type for submitted reports.
 
-    - `country: string`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20report_param%20%3E%20(schema)>)
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+##### Body ParametersJSONExpand Collapse
 
-    - `email: string`
+<details>
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<summary>
 
-    - `email2: string`
+body: object {act, address1, agent\_name, 18 more } or object {act, email, email2, 14 more } or object {act, email, email2, 14 more } or 5 more
 
-      Should match the value provided in `email`
+</summary>
 
-    - `host_notification: "send"`
+One of the following:
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<details>
 
-      - `"send"`
+<summary>
 
-    - `name: string`
+AbuseDmca object {act, address1, agent\_name, 18 more }
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</summary>
 
-    - `original_work: string`
+act: "abuse\_dmca"
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+The report type for submitted reports.
 
-    - `owner_notification: "send"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+address1: string
 
-      - `"send"`
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `signature: string`
+maxLength100
 
-      Required for DMCA reports, should be same as Name. An affirmation that all information in the report is true and accurate while agreeing to the policies of Cloudflare's abuse reports
+minLength1
 
-    - `state: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+agent\_name: string
 
-    - `urls: string`
+The name of the copyright holder. Text not exceeding 60 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+maxLength60
 
-    - `comments: optional string`
+minLength1
 
-      Any additional comments about the infringement not exceeding 2000 characters
+<a href="#">Link to this property</a>
 
-    - `company: optional string`
+agree: 1
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+Can be <code>0</code> for false or <code>1</code> for true. Must be value: 1 for DMCA reports
 
-    - `reported_country: optional string`
+<a href="#">Link to this property</a>
 
-      Text containing 2 characters
+city: string
 
-    - `reported_user_agent: optional string`
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      Text not exceeding 255 characters
+maxLength255
 
-    - `tele: optional string`
+minLength1
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+country: string
 
-      Text not exceeding 255 characters
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-  - `AbuseTrademark object { act, email, email2, 14 more }`
+maxLength255
 
-    - `act: "abuse_trademark"`
+minLength1
 
-      The report type for submitted reports.
+<a href="#">Link to this property</a>
 
-      - `"abuse_trademark"`
+email: string
 
-    - `email: string`
+A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `email2: string`
+email2: string
 
-      Should match the value provided in `email`
+Should match the value provided in <code>email</code>
 
-    - `host_notification: "send"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+host\_notification: "send"
 
-      - `"send"`
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
 
-    - `justification: string`
+<a href="#">Link to this property</a>
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+name: string
 
-    - `name: string`
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+maxLength255
 
-    - `owner_notification: "send"`
+minLength1
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<a href="#">Link to this property</a>
 
-      - `"send"`
+original\_work: string
 
-    - `trademark_number: string`
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      Text not exceeding 1000 characters
+maxLength255
 
-    - `trademark_office: string`
+minLength1
 
-      Text not exceeding 1000 characters
+<a href="#">Link to this property</a>
 
-    - `trademark_symbol: string`
+owner\_notification: "send"
 
-      Text not exceeding 1000 characters
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
 
-    - `urls: string`
+<a href="#">Link to this property</a>
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+signature: string
 
-    - `comments: optional string`
+Required for DMCA reports, should be same as Name. An affirmation that all information in the report is true and accurate while agreeing to the policies of Cloudflare’s abuse reports
 
-      Any additional comments about the infringement not exceeding 2000 characters
+<a href="#">Link to this property</a>
 
-    - `company: optional string`
+state: string
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `reported_country: optional string`
+maxLength255
 
-      Text containing 2 characters
+minLength1
 
-    - `reported_user_agent: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+urls: string
 
-    - `tele: optional string`
+A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+comments: optional string
 
-      Text not exceeding 255 characters
+Any additional comments about the infringement not exceeding 2000 characters
 
-  - `AbuseGeneral object { act, email, email2, 14 more }`
+maxLength2000
 
-    - `act: "abuse_general"`
+minLength1
 
-      The report type for submitted reports.
+<a href="#">Link to this property</a>
 
-      - `"abuse_general"`
+company: optional string
 
-    - `email: string`
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+maxLength100
 
-    - `email2: string`
+minLength1
 
-      Should match the value provided in `email`
+<a href="#">Link to this property</a>
 
-    - `host_notification: "send" or "send-anon"`
+reported\_country: optional string
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+Text containing 2 characters
 
-      - `"send"`
+maxLength2
 
-      - `"send-anon"`
+minLength2
 
-    - `justification: string`
+<a href="#">Link to this property</a>
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+reported\_user\_agent: optional string
 
-    - `name: string`
+Text not exceeding 255 characters
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+maxLength255
 
-    - `owner_notification: "send" or "send-anon"`
+minLength1
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<a href="#">Link to this property</a>
 
-      - `"send"`
+tele: optional string
 
-      - `"send-anon"`
+Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `urls: string`
+maxLength20
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+minLength1
 
-    - `comments: optional string`
+<a href="#">Link to this property</a>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+title: optional string
 
-    - `company: optional string`
+Text not exceeding 255 characters
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+maxLength255
 
-    - `destination_ips: optional string`
+minLength1
 
-      A list of IP addresses separated by ‘\n’ (new line character). The list of destination IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique.
+<a href="#">Link to this property</a>
 
-    - `ports_protocols: optional string`
+</details>
 
-      A comma separated list of ports and protocols e.g. 80/TCP, 22/UDP. The total size of the field should not exceed 2000 characters. Each individual port/protocol should not exceed 100 characters. The list should not have more than 30 unique ports and protocols.
+<a href="#">Link to this property</a>
 
-    - `reported_country: optional string`
+<details>
 
-      Text containing 2 characters
+<summary>
 
-    - `reported_user_agent: optional string`
+AbuseTrademark object {act, email, email2, 14 more }
 
-      Text not exceeding 255 characters
+</summary>
 
-    - `source_ips: optional string`
+act: "abuse\_trademark"
 
-      A list of IP addresses separated by ‘\n’ (new line character). The list of source IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique.
+The report type for submitted reports.
 
-    - `tele: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+email: string
 
-    - `title: optional string`
+A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      Text not exceeding 255 characters
+<a href="#">Link to this property</a>
 
-  - `AbusePhishing object { act, email, email2, 12 more }`
+email2: string
 
-    - `act: "abuse_phishing"`
+Should match the value provided in <code>email</code>
 
-      The report type for submitted reports.
+<a href="#">Link to this property</a>
 
-      - `"abuse_phishing"`
+host\_notification: "send"
 
-    - `email: string`
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `email2: string`
+justification: string
 
-      Should match the value provided in `email`
+A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
 
-    - `host_notification: "send" or "send-anon"`
+maxLength5000
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+minLength1
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-      - `"send-anon"`
+name: string
 
-    - `justification: string`
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+maxLength255
 
-    - `name: string`
+minLength1
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `owner_notification: "send" or "send-anon"`
+owner\_notification: "send"
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-      - `"send-anon"`
+trademark\_number: string
 
-    - `urls: string`
+Text not exceeding 1000 characters
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+maxLength1000
 
-    - `comments: optional string`
+minLength1
 
-      Any additional comments about the infringement not exceeding 2000 characters
+<a href="#">Link to this property</a>
 
-    - `company: optional string`
+trademark\_office: string
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+Text not exceeding 1000 characters
 
-    - `original_work: optional string`
+maxLength1000
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+minLength1
 
-    - `reported_country: optional string`
+<a href="#">Link to this property</a>
 
-      Text containing 2 characters
+trademark\_symbol: string
 
-    - `reported_user_agent: optional string`
+Text not exceeding 1000 characters
 
-      Text not exceeding 255 characters
+maxLength1000
 
-    - `tele: optional string`
+minLength1
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+urls: string
 
-      Text not exceeding 255 characters
+A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-  - `AbuseChildren object { act, email, email2, 13 more }`
+<a href="#">Link to this property</a>
 
-    - `act: "abuse_children"`
+comments: optional string
 
-      The report type for submitted reports.
+Any additional comments about the infringement not exceeding 2000 characters
 
-      - `"abuse_children"`
+maxLength2000
 
-    - `email: string`
+minLength1
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `email2: string`
+company: optional string
 
-      Should match the value provided in `email`
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `host_notification: "send" or "send-anon"`
+maxLength100
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+minLength1
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-      - `"send-anon"`
+reported\_country: optional string
 
-    - `justification: string`
+Text containing 2 characters
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+maxLength2
 
-    - `name: string`
+minLength2
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `ncmec_notification: "send" or "send-anon"`
+reported\_user\_agent: optional string
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+Text not exceeding 255 characters
 
-      - `"send"`
+maxLength255
 
-      - `"send-anon"`
+minLength1
 
-    - `owner_notification: "send" or "send-anon" or "none"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+tele: optional string
 
-      - `"send"`
+Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      - `"send-anon"`
+maxLength20
 
-      - `"none"`
+minLength1
 
-    - `urls: string`
+<a href="#">Link to this property</a>
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+title: optional string
 
-    - `comments: optional string`
+Text not exceeding 255 characters
 
-      Any additional comments about the infringement not exceeding 2000 characters
+maxLength255
 
-    - `company: optional string`
+minLength1
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `country: optional string`
+</details>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `reported_country: optional string`
+<details>
 
-      Text containing 2 characters
+<summary>
 
-    - `reported_user_agent: optional string`
+AbuseGeneral object {act, email, email2, 14 more }
 
-      Text not exceeding 255 characters
+</summary>
 
-    - `tele: optional string`
+act: "abuse\_general"
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+The report type for submitted reports.
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+email: string
 
-  - `AbuseThreat object { act, email, email2, 11 more }`
+A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `act: "abuse_threat"`
+<a href="#">Link to this property</a>
 
-      The report type for submitted reports.
+email2: string
 
-      - `"abuse_threat"`
+Should match the value provided in <code>email</code>
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<details>
 
-    - `email2: string`
+<summary>
 
-      Should match the value provided in `email`
+host\_notification: "send"or "send-anon"
 
-    - `host_notification: "send" or "send-anon"`
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+</summary>
 
-      - `"send"`
+One of the following:
 
-      - `"send-anon"`
+"send"
 
-    - `justification: string`
+<a href="#">Link to this property</a>
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+"send-anon"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</details>
 
-    - `owner_notification: "send" or "send-anon"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+justification: string
 
-      - `"send"`
+A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
 
-      - `"send-anon"`
+maxLength5000
 
-    - `urls: string`
+minLength1
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `comments: optional string`
+name: string
 
-      Any additional comments about the infringement not exceeding 2000 characters
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `company: optional string`
+maxLength255
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+minLength1
 
-    - `reported_country: optional string`
+<a href="#">Link to this property</a>
 
-      Text containing 2 characters
+<details>
 
-    - `reported_user_agent: optional string`
+<summary>
 
-      Text not exceeding 255 characters
+owner\_notification: "send"or "send-anon"
 
-    - `tele: optional string`
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</summary>
 
-    - `title: optional string`
+One of the following:
 
-      Text not exceeding 255 characters
+"send"
 
-  - `AbuseRegistrarWhois object { act, email, email2, 10 more }`
+<a href="#">Link to this property</a>
 
-    - `act: "abuse_registrar_whois"`
+"send-anon"
 
-      The report type for submitted reports.
+<a href="#">Link to this property</a>
 
-      - `"abuse_registrar_whois"`
+</details>
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+urls: string
 
-    - `email2: string`
+A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-      Should match the value provided in `email`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+comments: optional string
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+Any additional comments about the infringement not exceeding 2000 characters
 
-    - `owner_notification: "send" or "send-anon" or "none"`
+maxLength2000
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+minLength1
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-      - `"send-anon"`
+company: optional string
 
-      - `"none"`
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `urls: string`
+maxLength100
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+minLength1
 
-    - `comments: optional string`
+<a href="#">Link to this property</a>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+destination\_ips: optional string
 
-    - `company: optional string`
+A list of IP addresses separated by ‘\\n’ (new line character). The list of destination IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique.
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `reg_who_request: optional object { reg_who_good_faith_affirmation, reg_who_lawful_processing_agreement, reg_who_legal_basis, 4 more }`
+ports\_protocols: optional string
 
-      RDP-mandated fields for registrar WHOIS data disclosure requests.
+A comma separated list of ports and protocols e.g. 80/TCP, 22/UDP. The total size of the field should not exceed 2000 characters. Each individual port/protocol should not exceed 100 characters. The list should not have more than 30 unique ports and protocols.
 
-      - `reg_who_good_faith_affirmation: boolean`
+<a href="#">Link to this property</a>
 
-        Affirmation that the request is made in good faith per RDP 10.2.4. Must be true.
+reported\_country: optional string
 
-      - `reg_who_lawful_processing_agreement: boolean`
+Text containing 2 characters
 
-        Agreement to process data lawfully per RDP 10.2.5. Must be true.
+maxLength2
 
-      - `reg_who_legal_basis: string`
+minLength2
 
-        Legal rights and rationale for the request per RDP 10.2.3. Required for all WHOIS requests.
+<a href="#">Link to this property</a>
 
-      - `reg_who_request_type: "disclosure" or "invalid_whois"`
+reported\_user\_agent: optional string
 
-        The type of WHOIS data request per RDP procedure.
+Text not exceeding 255 characters
 
-        - `"disclosure"`
+maxLength255
 
-        - `"invalid_whois"`
+minLength1
 
-      - `reg_who_requested_data_elements: array of "registrant_name" or "registrant_organization" or "registrant_email" or 14 more`
+<a href="#">Link to this property</a>
 
-        The specific WHOIS data elements being requested per RDP 10.2.2. Required for all WHOIS requests.
+source\_ips: optional string
 
-        - `"registrant_name"`
+A list of IP addresses separated by ‘\\n’ (new line character). The list of source IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique.
 
-        - `"registrant_organization"`
+<a href="#">Link to this property</a>
 
-        - `"registrant_email"`
+tele: optional string
 
-        - `"registrant_phone"`
+Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-        - `"registrant_address"`
+maxLength20
 
-        - `"registrant_address_country"`
+minLength1
 
-        - `"registrant_address_postal_code"`
+<a href="#">Link to this property</a>
 
-        - `"admin_name"`
+title: optional string
 
-        - `"admin_organization"`
+Text not exceeding 255 characters
 
-        - `"admin_email"`
+maxLength255
 
-        - `"admin_phone"`
+minLength1
 
-        - `"admin_address"`
+<a href="#">Link to this property</a>
 
-        - `"tech_name"`
+</details>
 
-        - `"tech_organization"`
+<a href="#">Link to this property</a>
 
-        - `"tech_email"`
+<details>
 
-        - `"tech_phone"`
+<summary>
 
-        - `"tech_address"`
+AbusePhishing object {act, email, email2, 12 more }
 
-      - `reg_who_authorization_statement: optional string`
+</summary>
 
-        Optional authorization statement or power of attorney per RDP 10.2.1.3.
+act: "abuse\_phishing"
 
-      - `reg_who_requestor_type: optional "government" or "corporation" or "individual"`
+The report type for submitted reports.
 
-        The nature of the requestor per RDP 10.2.1.2.
+<a href="#">Link to this property</a>
 
-        - `"government"`
+email: string
 
-        - `"corporation"`
+A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-        - `"individual"`
+<a href="#">Link to this property</a>
 
-    - `reported_country: optional string`
+email2: string
 
-      Text containing 2 characters
+Should match the value provided in <code>email</code>
 
-    - `reported_user_agent: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+<details>
 
-    - `tele: optional string`
+<summary>
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+host\_notification: "send"or "send-anon"
 
-    - `title: optional string`
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
 
-      Text not exceeding 255 characters
+</summary>
 
-  - `AbuseNcsei object { act, email, email2, 12 more }`
+One of the following:
 
-    - `act: "abuse_ncsei"`
+"send"
 
-      The report type for submitted reports.
+<a href="#">Link to this property</a>
 
-      - `"abuse_ncsei"`
+"send-anon"
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</details>
 
-    - `email2: string`
+<a href="#">Link to this property</a>
 
-      Should match the value provided in `email`
+justification: string
 
-    - `host_notification: "send" or "send-anon"`
+A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+maxLength5000
 
-      - `"send"`
+minLength20
 
-      - `"send-anon"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+name: string
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `ncsei_subject_representation: boolean`
+maxLength255
 
-      If the submitter is the target of NCSEI in the URLs of the abuse report.
+minLength1
 
-    - `owner_notification: "send" or "send-anon" or "none"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<details>
 
-      - `"send"`
+<summary>
 
-      - `"send-anon"`
+owner\_notification: "send"or "send-anon"
 
-      - `"none"`
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
 
-    - `urls: string`
+</summary>
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+One of the following:
 
-    - `comments: optional string`
+"send"
 
-      Any additional comments about the infringement not exceeding 2000 characters
+<a href="#">Link to this property</a>
 
-    - `company: optional string`
+"send-anon"
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `country: optional string`
+</details>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `reported_country: optional string`
+urls: string
 
-      Text containing 2 characters
+A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-    - `reported_user_agent: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+comments: optional string
 
-    - `tele: optional string`
+Any additional comments about the infringement not exceeding 2000 characters
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+maxLength2000
 
-    - `title: optional string`
+minLength1
 
-      Text not exceeding 255 characters
+<a href="#">Link to this property</a>
 
-### Returns
+company: optional string
 
-- `abuse_rand: string`
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-  The identifier for the submitted abuse report.
+maxLength100
 
-- `request: object { act }`
+minLength1
 
-  - `act: string`
+<a href="#">Link to this property</a>
 
-    The report type for submitted reports.
+original\_work: optional string
 
-- `result: string`
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
 
-  The result should be 'success' for successful response
+maxLength255
 
-### Example
+minLength1
 
-```http
+<a href="#">Link to this property</a>
+
+reported\_country: optional string
+
+Text containing 2 characters
+
+maxLength2
+
+minLength2
+
+<a href="#">Link to this property</a>
+
+reported\_user\_agent: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+tele: optional string
+
+Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength20
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AbuseChildren object {act, email, email2, 13 more }
+
+</summary>
+
+act: "abuse\_children"
+
+The report type for submitted reports.
+
+<a href="#">Link to this property</a>
+
+email: string
+
+A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+<a href="#">Link to this property</a>
+
+email2: string
+
+Should match the value provided in <code>email</code>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+host\_notification: "send"or "send-anon"
+
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+
+</summary>
+
+One of the following:
+
+"send"
+
+<a href="#">Link to this property</a>
+
+"send-anon"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+justification: string
+
+A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+
+maxLength5000
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ncmec\_notification: "send"or "send-anon"
+
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+
+</summary>
+
+One of the following:
+
+"send"
+
+<a href="#">Link to this property</a>
+
+"send-anon"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+owner\_notification: "send"or "send-anon"or "none"
+
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+
+</summary>
+
+One of the following:
+
+"send"
+
+<a href="#">Link to this property</a>
+
+"send-anon"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+urls: string
+
+A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Any additional comments about the infringement not exceeding 2000 characters
+
+maxLength2000
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+company: optional string
+
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength100
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+country: optional string
+
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+reported\_country: optional string
+
+Text containing 2 characters
+
+maxLength2
+
+minLength2
+
+<a href="#">Link to this property</a>
+
+reported\_user\_agent: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+tele: optional string
+
+Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength20
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AbuseThreat object {act, email, email2, 11 more }
+
+</summary>
+
+act: "abuse\_threat"
+
+The report type for submitted reports.
+
+<a href="#">Link to this property</a>
+
+email: string
+
+A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+<a href="#">Link to this property</a>
+
+email2: string
+
+Should match the value provided in <code>email</code>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+host\_notification: "send"or "send-anon"
+
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+
+</summary>
+
+One of the following:
+
+"send"
+
+<a href="#">Link to this property</a>
+
+"send-anon"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+justification: string
+
+A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+
+maxLength5000
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+owner\_notification: "send"or "send-anon"
+
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+
+</summary>
+
+One of the following:
+
+"send"
+
+<a href="#">Link to this property</a>
+
+"send-anon"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+urls: string
+
+A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Any additional comments about the infringement not exceeding 2000 characters
+
+maxLength2000
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+company: optional string
+
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength100
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+reported\_country: optional string
+
+Text containing 2 characters
+
+maxLength2
+
+minLength2
+
+<a href="#">Link to this property</a>
+
+reported\_user\_agent: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+tele: optional string
+
+Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength20
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AbuseRegistrarWhois object {act, email, email2, 10 more }
+
+</summary>
+
+act: "abuse\_registrar\_whois"
+
+The report type for submitted reports.
+
+<a href="#">Link to this property</a>
+
+email: string
+
+A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+<a href="#">Link to this property</a>
+
+email2: string
+
+Should match the value provided in <code>email</code>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+owner\_notification: "send"or "send-anon"or "none"
+
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+
+</summary>
+
+One of the following:
+
+"send"
+
+<a href="#">Link to this property</a>
+
+"send-anon"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+urls: string
+
+A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Any additional comments about the infringement not exceeding 2000 characters
+
+maxLength2000
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+company: optional string
+
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength100
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+reg\_who\_request: optional object {reg\_who\_good\_faith\_affirmation, reg\_who\_lawful\_processing\_agreement, reg\_who\_legal\_basis, 4 more }
+
+RDP-mandated fields for registrar WHOIS data disclosure requests.
+
+</summary>
+
+reg\_who\_good\_faith\_affirmation: boolean
+
+Affirmation that the request is made in good faith per RDP 10.2.4. Must be true.
+
+<a href="#">Link to this property</a>
+
+reg\_who\_lawful\_processing\_agreement: boolean
+
+Agreement to process data lawfully per RDP 10.2.5. Must be true.
+
+<a href="#">Link to this property</a>
+
+reg\_who\_legal\_basis: string
+
+Legal rights and rationale for the request per RDP 10.2.3. Required for all WHOIS requests.
+
+maxLength5000
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+reg\_who\_request\_type: "disclosure"or "invalid\_whois"
+
+The type of WHOIS data request per RDP procedure.
+
+</summary>
+
+One of the following:
+
+"disclosure"
+
+<a href="#">Link to this property</a>
+
+"invalid\_whois"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+reg\_who\_requested\_data\_elements: array of "registrant\_name"or "registrant\_organization"or "registrant\_email"or 14 more
+
+The specific WHOIS data elements being requested per RDP 10.2.2. Required for all WHOIS requests.
+
+</summary>
+
+One of the following:
+
+"registrant\_name"
+
+<a href="#">Link to this property</a>
+
+"registrant\_organization"
+
+<a href="#">Link to this property</a>
+
+"registrant\_email"
+
+<a href="#">Link to this property</a>
+
+"registrant\_phone"
+
+<a href="#">Link to this property</a>
+
+"registrant\_address"
+
+<a href="#">Link to this property</a>
+
+"registrant\_address\_country"
+
+<a href="#">Link to this property</a>
+
+"registrant\_address\_postal\_code"
+
+<a href="#">Link to this property</a>
+
+"admin\_name"
+
+<a href="#">Link to this property</a>
+
+"admin\_organization"
+
+<a href="#">Link to this property</a>
+
+"admin\_email"
+
+<a href="#">Link to this property</a>
+
+"admin\_phone"
+
+<a href="#">Link to this property</a>
+
+"admin\_address"
+
+<a href="#">Link to this property</a>
+
+"tech\_name"
+
+<a href="#">Link to this property</a>
+
+"tech\_organization"
+
+<a href="#">Link to this property</a>
+
+"tech\_email"
+
+<a href="#">Link to this property</a>
+
+"tech\_phone"
+
+<a href="#">Link to this property</a>
+
+"tech\_address"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+reg\_who\_authorization\_statement: optional string
+
+Optional authorization statement or power of attorney per RDP 10.2.1.3.
+
+maxLength5000
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+reg\_who\_requestor\_type: optional "government"or "corporation"or "individual"
+
+The nature of the requestor per RDP 10.2.1.2.
+
+</summary>
+
+One of the following:
+
+"government"
+
+<a href="#">Link to this property</a>
+
+"corporation"
+
+<a href="#">Link to this property</a>
+
+"individual"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+reported\_country: optional string
+
+Text containing 2 characters
+
+maxLength2
+
+minLength2
+
+<a href="#">Link to this property</a>
+
+reported\_user\_agent: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+tele: optional string
+
+Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength20
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+AbuseNcsei object {act, email, email2, 12 more }
+
+</summary>
+
+act: "abuse\_ncsei"
+
+The report type for submitted reports.
+
+<a href="#">Link to this property</a>
+
+email: string
+
+A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+<a href="#">Link to this property</a>
+
+email2: string
+
+Should match the value provided in <code>email</code>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+host\_notification: "send"or "send-anon"
+
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+
+</summary>
+
+One of the following:
+
+"send"
+
+<a href="#">Link to this property</a>
+
+"send-anon"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+ncsei\_subject\_representation: boolean
+
+If the submitter is the target of NCSEI in the URLs of the abuse report.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+owner\_notification: "send"or "send-anon"or "none"
+
+Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+
+</summary>
+
+One of the following:
+
+"send"
+
+<a href="#">Link to this property</a>
+
+"send-anon"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+urls: string
+
+A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Any additional comments about the infringement not exceeding 2000 characters
+
+maxLength2000
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+company: optional string
+
+Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength100
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+country: optional string
+
+Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+reported\_country: optional string
+
+Text containing 2 characters
+
+maxLength2
+
+minLength2
+
+<a href="#">Link to this property</a>
+
+reported\_user\_agent: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+tele: optional string
+
+Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (<a href="https://lumendatabase.org/">https://lumendatabase.org/</a>).
+
+maxLength20
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+Text not exceeding 255 characters
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+abuse\_rand: string
+
+The identifier for the submitted abuse report.
+
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20abuse_rand>)
+
+<details>
+
+<summary>
+
+request: object {act }
+
+</summary>
+
+act: string
+
+The report type for submitted reports.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20request>)
+
+result: string
+
+The result should be ‘success’ for successful response
+
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Submit an abuse report
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_PARAM \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -737,9 +1679,23 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$RE
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "abuse_rand": "abuse_rand",
+  "request": {
+    "act": "act"
+  },
+  "result": "result"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "abuse_rand": "abuse_rand",
   "request": {

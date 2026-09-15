@@ -1,354 +1,976 @@
-## Create a bulk action job
+---
+title: Create a bulk action job
+---
 
-**post** `/accounts/{account_id}/email-security/investigate/bulk`
+[Skip to content](#_top)
 
-Create a bulk action job
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
 
-- `account_id: string`
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
 
-  Identifier.
+[Bulk](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/bulk)
 
-### Body Parameters
+Copy Markdown
 
-- `action: "MOVE" or "RELEASE"`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `"MOVE"`
+---
 
-  - `"RELEASE"`
+**Copy Markdown****View as Markdown**
 
-- `search_params: object { action_log, alert_id, delivery_status, 14 more }`
+# Create a bulk action job
 
-  - `action_log: optional boolean`
+POST/accounts/{account\_id}/email-security/investigate/bulk
 
-    Deprecated, use `GET /investigate/{investigate_id}/action_log` instead. End of life: November 1, 2026.
+Creates a new bulk action job to move or release messages that match the provided search parameters.
 
-  - `alert_id: optional string`
+##### Security
 
-  - `delivery_status: optional "delivered" or "moved" or "quarantined" or 4 more`
+<details>
 
-    Delivery status of the message.
+<summary>API Token</summary>
 
-    - `"delivered"`
 
-    - `"moved"`
 
-    - `"quarantined"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `"rejected"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `"deferred"`
+</details>
 
-    - `"bounced"`
+<details>
 
-    - `"queued"`
+<summary>API Email + API Key</summary>
 
-  - `detections_only: optional boolean`
 
-  - `domain: optional string`
 
-  - `end: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    End of search date range
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `exact_subject: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `final_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"MALICIOUS"`
+</details>
 
-    - `"MALICIOUS-BEC"`
+##### Accepted Permissions (at least one required)
 
-    - `"SUSPICIOUS"`
+`Cloud Email Security: Write`
 
-    - `"SPOOF"`
+##### P ath ParametersExpand Collapse
 
-    - `"SPAM"`
+account\_id: string
 
-    - `"BULK"`
+Identifier.
 
-    - `"ENCRYPTED"`
+maxLength32
 
-    - `"EXTERNAL"`
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `"UNKNOWN"`
+##### Body ParametersJSONExpand Collapse
 
-    - `"NONE"`
+<details>
 
-  - `message_action: optional "PREVIEW" or "QUARANTINE_RELEASED" or "MOVED"`
+<summary>
 
-    - `"PREVIEW"`
+action: "MOVE"or "RELEASE"
 
-    - `"QUARANTINE_RELEASED"`
+</summary>
 
-    - `"MOVED"`
+One of the following:
 
-  - `message_id: optional string`
+"MOVE"
 
-  - `metric: optional string`
+<a href="#">Link to this property</a>
 
-  - `query: optional string`
+"RELEASE"
 
-  - `recipient: optional string`
+<a href="#">Link to this property</a>
 
-  - `sender: optional string`
+</details>
 
-  - `start: optional string`
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20action%20%3E%20(schema)>)
 
-    Beginning of search date range
+<details>
 
-  - `subject: optional string`
+<summary>
 
-  - `submissions: optional boolean`
+search\_params: object {action\_log, alert\_id, delivery\_status, 15 more }
 
-- `comment: optional string`
+</summary>
 
-- `destination: optional "Inbox" or "JunkEmail" or "DeletedItems" or 2 more`
+Deprecatedaction\_log: optional boolean
 
-  - `"Inbox"`
+Use GET /investigate/{investigate\_id}/action\_log instead.
 
-  - `"JunkEmail"`
+Deprecated, use <code>GET /investigate/{investigate_id}/action_log</code> instead. End of life: November 1, 2026.
 
-  - `"DeletedItems"`
+<a href="#">Link to this property</a>
 
-  - `"RecoverableItemsDeletions"`
+alert\_id: optional string
 
-  - `"RecoverableItemsPurges"`
+<a href="#">Link to this property</a>
 
-- `expected_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<details>
 
-  - `"MALICIOUS"`
+<summary>
 
-  - `"MALICIOUS-BEC"`
+delivery\_status: optional "delivered"or "moved"or "quarantined"or 5 more
 
-  - `"SUSPICIOUS"`
+Delivery status of the message.
 
-  - `"SPOOF"`
+</summary>
 
-  - `"SPAM"`
+One of the following:
 
-  - `"BULK"`
+"delivered"
 
-  - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-  - `"EXTERNAL"`
+"moved"
 
-  - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  - `"NONE"`
+"quarantined"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"rejected"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"deferred"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"bounced"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"queued"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"move\_failed"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { action_params, action_type, created_at, 11 more }`
+detections\_only: optional boolean
 
-  - `action_params: object { destination, type, expected_disposition }  or object { type }`
+<a href="#">Link to this property</a>
 
-    - `Move object { destination, type, expected_disposition }`
+domain: optional string
 
-      - `destination: "Inbox" or "JunkEmail" or "DeletedItems" or 2 more`
+<a href="#">Link to this property</a>
 
-        - `"Inbox"`
+end: optional string
 
-        - `"JunkEmail"`
+End of search date range.
 
-        - `"DeletedItems"`
+formatdate-time
 
-        - `"RecoverableItemsDeletions"`
+<a href="#">Link to this property</a>
 
-        - `"RecoverableItemsPurges"`
+exact\_subject: optional string
 
-      - `type: "MOVE"`
+<a href="#">Link to this property</a>
 
-        - `"MOVE"`
+<details>
 
-      - `expected_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<summary>
 
-        - `"MALICIOUS"`
+final\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-        - `"MALICIOUS-BEC"`
+</summary>
 
-        - `"SUSPICIOUS"`
+One of the following:
 
-        - `"SPOOF"`
+"MALICIOUS"
 
-        - `"SPAM"`
+<a href="#">Link to this property</a>
 
-        - `"BULK"`
+"MALICIOUS-BEC"
 
-        - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-        - `"EXTERNAL"`
+"SUSPICIOUS"
 
-        - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-        - `"NONE"`
+"SPOOF"
 
-    - `Release object { type }`
+<a href="#">Link to this property</a>
 
-      - `type: "RELEASE"`
+"SPAM"
 
-        - `"RELEASE"`
+<a href="#">Link to this property</a>
 
-  - `action_type: "MOVE" or "RELEASE"`
+"BULK"
 
-    - `"MOVE"`
+<a href="#">Link to this property</a>
 
-    - `"RELEASE"`
+"ENCRYPTED"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `job_id: string`
+"EXTERNAL"
 
-  - `messages_failed: number`
+<a href="#">Link to this property</a>
 
-  - `messages_pending: number`
+"UNKNOWN"
 
-  - `messages_successful: number`
+<a href="#">Link to this property</a>
 
-  - `search_params: object { action_log, alert_id, delivery_status, 14 more }`
+"NONE"
 
-    - `action_log: optional boolean`
+<a href="#">Link to this property</a>
 
-      Deprecated, use `GET /investigate/{investigate_id}/action_log` instead. End of life: November 1, 2026.
+</details>
 
-    - `alert_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `delivery_status: optional "delivered" or "moved" or "quarantined" or 4 more`
+<details>
 
-      Delivery status of the message.
+<summary>
 
-      - `"delivered"`
+message\_action: optional "PREVIEW"or "QUARANTINE\_RELEASED"or "MOVED"
 
-      - `"moved"`
+</summary>
 
-      - `"quarantined"`
+One of the following:
 
-      - `"rejected"`
+"PREVIEW"
 
-      - `"deferred"`
+<a href="#">Link to this property</a>
 
-      - `"bounced"`
+"QUARANTINE\_RELEASED"
 
-      - `"queued"`
+<a href="#">Link to this property</a>
 
-    - `detections_only: optional boolean`
+"MOVED"
 
-    - `domain: optional string`
+<a href="#">Link to this property</a>
 
-    - `end: optional string`
+</details>
 
-      End of search date range
+<a href="#">Link to this property</a>
 
-    - `exact_subject: optional string`
+message\_id: optional string
 
-    - `final_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-      - `"MALICIOUS"`
+metric: optional string
 
-      - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-      - `"SUSPICIOUS"`
+query: optional string
 
-      - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-      - `"SPAM"`
+recipient: optional string
 
-      - `"BULK"`
+<a href="#">Link to this property</a>
 
-      - `"ENCRYPTED"`
+sender: optional string
 
-      - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-      - `"UNKNOWN"`
+smtp\_helo\_ip: optional string
 
-      - `"NONE"`
+Matches messages whose SMTP HELO server IP address equals this value.
 
-    - `message_action: optional "PREVIEW" or "QUARANTINE_RELEASED" or "MOVED"`
+<a href="#">Link to this property</a>
 
-      - `"PREVIEW"`
+start: optional string
 
-      - `"QUARANTINE_RELEASED"`
+Beginning of search date range.
 
-      - `"MOVED"`
+formatdate-time
 
-    - `message_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `metric: optional string`
+subject: optional string
 
-    - `query: optional string`
+<a href="#">Link to this property</a>
 
-    - `recipient: optional string`
+submissions: optional boolean
 
-    - `sender: optional string`
+<a href="#">Link to this property</a>
 
-    - `start: optional string`
+</details>
 
-      Beginning of search date range
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20search_params%20%3E%20(schema)>)
 
-    - `subject: optional string`
+comment: optional string
 
-    - `submissions: optional boolean`
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20comment%20%3E%20(schema)>)
 
-  - `status: "PENDING" or "DISCOVERING" or "PROCESSING" or 4 more`
+<details>
 
-    - `"PENDING"`
+<summary>
 
-    - `"DISCOVERING"`
+destination: optional "Inbox"or "JunkEmail"or "DeletedItems"or 2 more
 
-    - `"PROCESSING"`
+</summary>
 
-    - `"COMPLETED"`
+One of the following:
 
-    - `"FAILED"`
+"Inbox"
 
-    - `"CANCELLED"`
+<a href="#">Link to this property</a>
 
-    - `"SKIPPED"`
+"JunkEmail"
 
-  - `total_messages_discovered: number`
+<a href="#">Link to this property</a>
 
-  - `comment: optional string`
+"DeletedItems"
 
-  - `completed_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `started_at: optional string`
+"RecoverableItemsDeletions"
 
-  - `status_message: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"RecoverableItemsPurges"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20destination%20%3E%20(schema)>)
 
-```http
+<details>
+
+<summary>
+
+expected\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20expected_disposition%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {action\_params, action\_type, created\_at, 11 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+action\_params: object {destination, type, expected\_disposition } or object {type }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Move object {destination, type, expected\_disposition }
+
+</summary>
+
+<details>
+
+<summary>
+
+destination: "Inbox"or "JunkEmail"or "DeletedItems"or 2 more
+
+</summary>
+
+One of the following:
+
+"Inbox"
+
+<a href="#">Link to this property</a>
+
+"JunkEmail"
+
+<a href="#">Link to this property</a>
+
+"DeletedItems"
+
+<a href="#">Link to this property</a>
+
+"RecoverableItemsDeletions"
+
+<a href="#">Link to this property</a>
+
+"RecoverableItemsPurges"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "MOVE"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+expected\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Release object {type }
+
+</summary>
+
+type: "RELEASE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+action\_type: "MOVE"or "RELEASE"
+
+</summary>
+
+One of the following:
+
+"MOVE"
+
+<a href="#">Link to this property</a>
+
+"RELEASE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+job\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+messages\_failed: number
+
+<a href="#">Link to this property</a>
+
+messages\_pending: number
+
+<a href="#">Link to this property</a>
+
+messages\_successful: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+search\_params: object {action\_log, alert\_id, delivery\_status, 15 more }
+
+</summary>
+
+Deprecatedaction\_log: optional boolean
+
+Use GET /investigate/{investigate\_id}/action\_log instead.
+
+Deprecated, use <code>GET /investigate/{investigate_id}/action_log</code> instead. End of life: November 1, 2026.
+
+<a href="#">Link to this property</a>
+
+alert\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+delivery\_status: optional "delivered"or "moved"or "quarantined"or 5 more
+
+Delivery status of the message.
+
+</summary>
+
+One of the following:
+
+"delivered"
+
+<a href="#">Link to this property</a>
+
+"moved"
+
+<a href="#">Link to this property</a>
+
+"quarantined"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+"deferred"
+
+<a href="#">Link to this property</a>
+
+"bounced"
+
+<a href="#">Link to this property</a>
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"move\_failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+detections\_only: optional boolean
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+<a href="#">Link to this property</a>
+
+end: optional string
+
+End of search date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+exact\_subject: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+final\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+message\_action: optional "PREVIEW"or "QUARANTINE\_RELEASED"or "MOVED"
+
+</summary>
+
+One of the following:
+
+"PREVIEW"
+
+<a href="#">Link to this property</a>
+
+"QUARANTINE\_RELEASED"
+
+<a href="#">Link to this property</a>
+
+"MOVED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message\_id: optional string
+
+<a href="#">Link to this property</a>
+
+metric: optional string
+
+<a href="#">Link to this property</a>
+
+query: optional string
+
+<a href="#">Link to this property</a>
+
+recipient: optional string
+
+<a href="#">Link to this property</a>
+
+sender: optional string
+
+<a href="#">Link to this property</a>
+
+smtp\_helo\_ip: optional string
+
+Matches messages whose SMTP HELO server IP address equals this value.
+
+<a href="#">Link to this property</a>
+
+start: optional string
+
+Beginning of search date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+subject: optional string
+
+<a href="#">Link to this property</a>
+
+submissions: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "PENDING"or "DISCOVERING"or "PROCESSING"or 4 more
+
+</summary>
+
+One of the following:
+
+"PENDING"
+
+<a href="#">Link to this property</a>
+
+"DISCOVERING"
+
+<a href="#">Link to this property</a>
+
+"PROCESSING"
+
+<a href="#">Link to this property</a>
+
+"COMPLETED"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+"CANCELLED"
+
+<a href="#">Link to this property</a>
+
+"SKIPPED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+total\_messages\_discovered: number
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+<a href="#">Link to this property</a>
+
+completed\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+started\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_security.investigate.bulk%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a bulk action job
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/bulk \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -358,9 +980,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/in
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -409,6 +1031,76 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/in
       "query": "query",
       "recipient": "recipient",
       "sender": "sender",
+      "smtp_helo_ip": "smtp_helo_ip",
+      "start": "2022-06-25T14:30:00Z",
+      "subject": "subject",
+      "submissions": true
+    },
+    "status": "PENDING",
+    "total_messages_discovered": 0,
+    "comment": "comment",
+    "completed_at": "2019-12-27T18:11:19.117Z",
+    "started_at": "2019-12-27T18:11:19.117Z",
+    "status_message": "status_message"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "action_params": {
+      "destination": "Inbox",
+      "type": "MOVE",
+      "expected_disposition": "MALICIOUS"
+    },
+    "action_type": "MOVE",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "job_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "messages_failed": 0,
+    "messages_pending": 0,
+    "messages_successful": 0,
+    "search_params": {
+      "action_log": true,
+      "alert_id": "alert_id",
+      "delivery_status": "delivered",
+      "detections_only": true,
+      "domain": "domain",
+      "end": "2022-07-25T14:30:00Z",
+      "exact_subject": "exact_subject",
+      "final_disposition": "MALICIOUS",
+      "message_action": "PREVIEW",
+      "message_id": "message_id",
+      "metric": "metric",
+      "query": "query",
+      "recipient": "recipient",
+      "sender": "sender",
+      "smtp_helo_ip": "smtp_helo_ip",
       "start": "2022-06-25T14:30:00Z",
       "subject": "subject",
       "submissions": true

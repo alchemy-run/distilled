@@ -1,1024 +1,463 @@
+---
+title: Destinations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Destinations
 
-# Eligible
+#### DestinationsEligible
 
-## Get delivery mechanism eligibility
+##### [Get delivery mechanism eligibility](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/eligible/methods/get)
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/eligible`
+GET/accounts/{account\_id}/alerting/v3/destinations/eligible
 
-Get a list of all delivery mechanism types for which an account is eligible.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account id
+EligibleGetResponse = map\[array of object {eligible, ready, type } ]
 
-### Returns
+</summary>
 
-- `errors: array of object { message, code }`
+eligible: optional boolean
 
-  - `message: string`
+Determines whether or not the account is eligible for the delivery mechanism.
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+ready: optional boolean
 
-  - `message: string`
+Beta flag. Users can create a policy with a mechanism that is not ready, but we cannot guarantee successful delivery of notifications.
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+type: optional "email"or "pagerduty"or "webhook"
 
-- `result: optional map[array of object { eligible, ready, type } ]`
+Determines type of delivery mechanism.
 
-  - `eligible: optional boolean`
+</summary>
 
-    Determines whether or not the account is eligible for the delivery mechanism.
+One of the following:
 
-  - `ready: optional boolean`
+"email"
 
-    Beta flag. Users can create a policy with a mechanism that is not ready, but we cannot guarantee successful delivery of notifications.
+<a href="#">Link to this property</a>
 
-  - `type: optional "email" or "pagerduty" or "webhook"`
+"pagerduty"
 
-    Determines type of delivery mechanism.
+<a href="#">Link to this property</a>
 
-    - `"email"`
+"webhook"
 
-    - `"pagerduty"`
+<a href="#">Link to this property</a>
 
-    - `"webhook"`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/eligible \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20alerting.destinations.eligible%20%3E%20(model)%20eligible_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "foo": [
-      {
-        "eligible": true,
-        "ready": true,
-        "type": "email"
-      }
-    ]
-  }
-}
-```
+#### DestinationsPagerduty
 
-## Domain Types
+##### [List PagerDuty services](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty/methods/get)
 
-### Eligible Get Response
+GET/accounts/{account\_id}/alerting/v3/destinations/pagerduty
 
-- `EligibleGetResponse = map[array of object { eligible, ready, type } ]`
+##### [Create PagerDuty integration token](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty/methods/create)
 
-  - `eligible: optional boolean`
+POST/accounts/{account\_id}/alerting/v3/destinations/pagerduty/connect
 
-    Determines whether or not the account is eligible for the delivery mechanism.
+##### [Delete PagerDuty Services](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty/methods/delete)
 
-  - `ready: optional boolean`
+DELETE/accounts/{account\_id}/alerting/v3/destinations/pagerduty
 
-    Beta flag. Users can create a policy with a mechanism that is not ready, but we cannot guarantee successful delivery of notifications.
+##### [Connect PagerDuty](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty/methods/link)
 
-  - `type: optional "email" or "pagerduty" or "webhook"`
+GET/accounts/{account\_id}/alerting/v3/destinations/pagerduty/connect/{token\_id}
 
-    Determines type of delivery mechanism.
+##### ModelsExpand Collapse
 
-    - `"email"`
+<details>
 
-    - `"pagerduty"`
+<summary>
 
-    - `"webhook"`
+Pagerduty object {id, name }
 
-# Pagerduty
+</summary>
 
-## List PagerDuty services
+id: optional string
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/pagerduty`
+UUID
 
-Get a list of all configured PagerDuty services.
+maxLength32
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: optional string
 
-  The account id
+The name of the pagerduty service.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message, code }`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty%20%3E%20(schema)>)
 
-  - `code: optional number`
+<details>
 
-- `messages: array of object { message, code }`
+<summary>
 
-  - `message: string`
+PagerdutyCreateResponse object {id }
 
-  - `code: optional number`
+</summary>
 
-- `success: true`
+id: optional string
 
-  Whether the API call was successful
+token in form of UUID
 
-  - `true`
+maxLength32
 
-- `result: optional array of Pagerduty`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    UUID
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty_create_response%20%3E%20(schema)>)
 
-  - `name: optional string`
+<details>
 
-    The name of the pagerduty service.
+<summary>
 
-### Example
+PagerdutyDeleteResponse object {errors, messages, success }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90afafe4643bbbc4a0ed4fc8415",
-      "name": "My PagerDuty Service"
-    }
-  ]
-}
-```
+<summary>
 
-## Create PagerDuty integration token
+errors: array of object {message, code }
 
-**post** `/accounts/{account_id}/alerting/v3/destinations/pagerduty/connect`
+</summary>
 
-Creates a new token for integrating with PagerDuty.
+message: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+code: optional number
 
-  The account id
+minimum1000
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message, code }`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+<details>
 
-- `messages: array of object { message, code }`
+<summary>
 
-  - `message: string`
+messages: array of object {message, code }
 
-  - `code: optional number`
+</summary>
 
-- `success: true`
+message: string
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+code: optional number
 
-- `result: optional object { id }`
+minimum1000
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    token in form of UUID
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty/connect \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+success: true
 
-#### Response
+Whether the API call was successful
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a313ba7d3e464c0ea40808fafbc3816a"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete PagerDuty Services
+</details>
 
-**delete** `/accounts/{account_id}/alerting/v3/destinations/pagerduty`
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty_delete_response%20%3E%20(schema)>)
 
-Deletes all the PagerDuty Services connected to the account.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+PagerdutyLinkResponse object {id }
 
-  The account id
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of object { message, code }`
+UUID
 
-  - `message: string`
+maxLength32
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty_link_response%20%3E%20(schema)>)
 
-  - `code: optional number`
+#### DestinationsWebhooks
 
-- `success: true`
+##### [List webhooks](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/list)
 
-  Whether the API call was successful
+GET/accounts/{account\_id}/alerting/v3/destinations/webhooks
 
-  - `true`
+##### [Get a webhook](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/get)
 
-### Example
+GET/accounts/{account\_id}/alerting/v3/destinations/webhooks/{webhook\_id}
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Create a webhook](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/create)
 
-#### Response
+POST/accounts/{account\_id}/alerting/v3/destinations/webhooks
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true
-}
-```
+##### [Update a webhook](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/update)
 
-## Connect PagerDuty
+PUT/accounts/{account\_id}/alerting/v3/destinations/webhooks/{webhook\_id}
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/pagerduty/connect/{token_id}`
+##### [Delete a webhook](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/webhooks/methods/delete)
 
-Links PagerDuty with the account using the integration token.
+DELETE/accounts/{account\_id}/alerting/v3/destinations/webhooks/{webhook\_id}
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-  The account id
+<summary>
 
-- `token_id: string`
+Webhooks object {id, created\_at, last\_failure, 5 more }
 
-  The token integration key
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of object { message, code }`
+The unique identifier of a webhook
 
-  - `message: string`
+maxLength32
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+created\_at: optional string
 
-  - `message: string`
+Timestamp of when the webhook destination was created.
 
-  - `code: optional number`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+last\_failure: optional string
 
-  - `true`
+Timestamp of the last time an attempt to dispatch a notification to this webhook failed.
 
-- `result: optional object { id }`
+formatdate-time
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID
+last\_success: optional string
 
-### Example
+Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty/connect/$TOKEN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90afafe4643bbbc4a0ed4fc8415"
-  }
-}
-```
+name: optional string
 
-## Domain Types
+The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
 
-### Pagerduty
+<a href="#">Link to this property</a>
 
-- `Pagerduty object { id, name }`
+secret: optional string
 
-  - `id: optional string`
+Optional secret that will be passed in the <code>cf-webhook-auth</code> header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
 
-    UUID
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+<details>
 
-    The name of the pagerduty service.
+<summary>
 
-### Pagerduty Create Response
+type: optional "datadog"or "discord"or "feishu"or 5 more
 
-- `PagerdutyCreateResponse object { id }`
+Type of webhook endpoint.
 
-  - `id: optional string`
+</summary>
 
-    token in form of UUID
+One of the following:
 
-### Pagerduty Delete Response
+"datadog"
 
-- `PagerdutyDeleteResponse object { errors, messages, success }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { message, code }`
+"discord"
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `code: optional number`
+"feishu"
 
-  - `messages: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+"gchat"
 
-    - `code: optional number`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+"generic"
 
-    Whether the API call was successful
+<a href="#">Link to this property</a>
 
-    - `true`
+"opsgenie"
 
-### Pagerduty Link Response
+<a href="#">Link to this property</a>
 
-- `PagerdutyLinkResponse object { id }`
+"slack"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    UUID
+"splunk"
 
-# Webhooks
+<a href="#">Link to this property</a>
 
-## List webhooks
+</details>
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/webhooks`
+<a href="#">Link to this property</a>
 
-Gets a list of all configured webhook destinations.
+url: optional string
 
-### Path Parameters
+The POST endpoint to call when dispatching a notification.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account id
+</details>
 
-### Returns
+[Link to this property](#)%20alerting.destinations.webhooks%20%3E%20(model)%20webhooks%20%3E%20(schema)>)
 
-- `errors: array of object { message, code }`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `code: optional number`
+WebhookCreateResponse object {id }
 
-- `messages: array of object { message, code }`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `code: optional number`
+UUID
 
-- `success: true`
+maxLength32
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional array of Webhooks`
+[Link to this property](#)%20alerting.destinations.webhooks%20%3E%20(model)%20webhook_create_response%20%3E%20(schema)>)
 
-  - `id: optional string`
+<details>
 
-    The unique identifier of a webhook
+<summary>
 
-  - `created_at: optional string`
+WebhookUpdateResponse object {id }
 
-    Timestamp of when the webhook destination was created.
+</summary>
 
-  - `last_failure: optional string`
+id: optional string
 
-    Timestamp of the last time an attempt to dispatch a notification to this webhook failed.
+UUID
 
-  - `last_success: optional string`
+maxLength32
 
-    Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
+[Link to this property](#)%20alerting.destinations.webhooks%20%3E%20(model)%20webhook_update_response%20%3E%20(schema)>)
 
-  - `secret: optional string`
+<details>
 
-    Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
+<summary>
 
-  - `type: optional "datadog" or "discord" or "feishu" or 5 more`
+WebhookDeleteResponse object {errors, messages, success }
 
-    Type of webhook endpoint.
+</summary>
 
-    - `"datadog"`
+<details>
 
-    - `"discord"`
+<summary>
 
-    - `"feishu"`
+errors: array of object {message, code }
 
-    - `"gchat"`
+</summary>
 
-    - `"generic"`
+message: string
 
-    - `"opsgenie"`
+<a href="#">Link to this property</a>
 
-    - `"slack"`
+code: optional number
 
-    - `"splunk"`
+minimum1000
 
-  - `url: optional string`
+<a href="#">Link to this property</a>
 
-    The POST endpoint to call when dispatching a notification.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "b115d5ec15c641ee8b7692c449b5227b",
-      "created_at": "2020-10-26T18:25:04.532316Z",
-      "last_failure": "2020-10-26T18:25:04.532316Z",
-      "last_success": "2020-10-26T18:25:04.532316Z",
-      "name": "Slack Webhook",
-      "type": "slack",
-      "url": "https://hooks.slack.com/services/Ds3fdBFbV/456464Gdd"
-    }
-  ]
-}
-```
+messages: array of object {message, code }
 
-## Get a webhook
+</summary>
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}`
+message: string
 
-Get details for a single webhooks destination.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+code: optional number
 
-- `account_id: string`
+minimum1000
 
-  The account id
+<a href="#">Link to this property</a>
 
-- `webhook_id: string`
+</details>
 
-  The unique identifier of a webhook
+<a href="#">Link to this property</a>
 
-### Returns
+success: true
 
-- `errors: array of object { message, code }`
+Whether the API call was successful
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `code: optional number`
+</details>
 
-- `messages: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result: optional Webhooks`
-
-  - `id: optional string`
-
-    The unique identifier of a webhook
-
-  - `created_at: optional string`
-
-    Timestamp of when the webhook destination was created.
-
-  - `last_failure: optional string`
-
-    Timestamp of the last time an attempt to dispatch a notification to this webhook failed.
-
-  - `last_success: optional string`
-
-    Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook.
-
-  - `name: optional string`
-
-    The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
-
-  - `secret: optional string`
-
-    Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
-
-  - `type: optional "datadog" or "discord" or "feishu" or 5 more`
-
-    Type of webhook endpoint.
-
-    - `"datadog"`
-
-    - `"discord"`
-
-    - `"feishu"`
-
-    - `"gchat"`
-
-    - `"generic"`
-
-    - `"opsgenie"`
-
-    - `"slack"`
-
-    - `"splunk"`
-
-  - `url: optional string`
-
-    The POST endpoint to call when dispatching a notification.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks/$WEBHOOK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "b115d5ec15c641ee8b7692c449b5227b",
-    "created_at": "2020-10-26T18:25:04.532316Z",
-    "last_failure": "2020-10-26T18:25:04.532316Z",
-    "last_success": "2020-10-26T18:25:04.532316Z",
-    "name": "Slack Webhook",
-    "type": "slack",
-    "url": "https://hooks.slack.com/services/Ds3fdBFbV/456464Gdd"
-  }
-}
-```
-
-## Create a webhook
-
-**post** `/accounts/{account_id}/alerting/v3/destinations/webhooks`
-
-Creates a new webhook destination.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account id
-
-### Body Parameters
-
-- `name: string`
-
-  The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
-
-- `url: string`
-
-  The POST endpoint to call when dispatching a notification.
-
-- `secret: optional string`
-
-  Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `messages: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    UUID
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Slack Webhook",
-          "url": "https://hooks.slack.com/services/Ds3fdBFbV/456464Gdd"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90afafe4643bbbc4a0ed4fc8415"
-  }
-}
-```
-
-## Update a webhook
-
-**put** `/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}`
-
-Update a webhook destination.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account id
-
-- `webhook_id: string`
-
-  The unique identifier of a webhook
-
-### Body Parameters
-
-- `name: string`
-
-  The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
-
-- `url: string`
-
-  The POST endpoint to call when dispatching a notification.
-
-- `secret: optional string`
-
-  Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `messages: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    UUID
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks/$WEBHOOK_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Slack Webhook",
-          "url": "https://hooks.slack.com/services/Ds3fdBFbV/456464Gdd"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90afafe4643bbbc4a0ed4fc8415"
-  }
-}
-```
-
-## Delete a webhook
-
-**delete** `/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}`
-
-Delete a configured webhook destination.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account id
-
-- `webhook_id: string`
-
-  The unique identifier of a webhook
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `messages: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/webhooks/$WEBHOOK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Webhooks
-
-- `Webhooks object { id, created_at, last_failure, 5 more }`
-
-  - `id: optional string`
-
-    The unique identifier of a webhook
-
-  - `created_at: optional string`
-
-    Timestamp of when the webhook destination was created.
-
-  - `last_failure: optional string`
-
-    Timestamp of the last time an attempt to dispatch a notification to this webhook failed.
-
-  - `last_success: optional string`
-
-    Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook.
-
-  - `name: optional string`
-
-    The name of the webhook destination. This will be included in the request body when you receive a webhook notification.
-
-  - `secret: optional string`
-
-    Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.
-
-  - `type: optional "datadog" or "discord" or "feishu" or 5 more`
-
-    Type of webhook endpoint.
-
-    - `"datadog"`
-
-    - `"discord"`
-
-    - `"feishu"`
-
-    - `"gchat"`
-
-    - `"generic"`
-
-    - `"opsgenie"`
-
-    - `"slack"`
-
-    - `"splunk"`
-
-  - `url: optional string`
-
-    The POST endpoint to call when dispatching a notification.
-
-### Webhook Create Response
-
-- `WebhookCreateResponse object { id }`
-
-  - `id: optional string`
-
-    UUID
-
-### Webhook Update Response
-
-- `WebhookUpdateResponse object { id }`
-
-  - `id: optional string`
-
-    UUID
-
-### Webhook Delete Response
-
-- `WebhookDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `messages: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `success: true`
-
-    Whether the API call was successful
-
-    - `true`
+[Link to this property](#)%20alerting.destinations.webhooks%20%3E%20(model)%20webhook_delete_response%20%3E%20(schema)>)

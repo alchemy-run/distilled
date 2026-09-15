@@ -1,89 +1,31 @@
+---
+title: Queries
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Queries
 
-## Create new saved string queries
+##### [Create new saved string queries](https://developers.cloudflare.com/api/resources/brand_protection/subresources/queries/methods/create)
 
-**post** `/accounts/{account_id}/brand-protection/queries`
+POST/accounts/{account\_id}/brand-protection/queries
 
-Return a success message after creating new saved string queries
+##### [Delete saved string queries by ID](https://developers.cloudflare.com/api/resources/brand_protection/subresources/queries/methods/delete)
 
-### Path Parameters
+DELETE/accounts/{account\_id}/brand-protection/queries
 
-- `account_id: string`
+##### [Create new saved string queries in bulk](https://developers.cloudflare.com/api/resources/brand_protection/subresources/queries/methods/bulk)
 
-### Query Parameters
-
-- `id: optional string`
-
-- `scan: optional boolean`
-
-- `tag: optional string`
-
-### Body Parameters
-
-- `max_time: optional string`
-
-- `min_time: optional string`
-
-- `scan: optional boolean`
-
-- `string_matches: optional unknown`
-
-- `tag: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/queries \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-## Delete saved string queries by ID
-
-**delete** `/accounts/{account_id}/brand-protection/queries`
-
-Return a success message after deleting saved string queries by ID
-
-### Path Parameters
-
-- `account_id: string`
-
-### Query Parameters
-
-- `id: optional string`
-
-- `scan: optional boolean`
-
-- `tag: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/queries \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Create new saved string queries in bulk
-
-**post** `/accounts/{account_id}/brand-protection/queries/bulk`
-
-Return a success message after creating new saved string queries in bulk
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `queries: optional array of map[unknown]`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/queries/bulk \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+POST/accounts/{account\_id}/brand-protection/queries/bulk

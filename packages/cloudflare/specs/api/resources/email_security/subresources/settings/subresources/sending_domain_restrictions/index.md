@@ -1,783 +1,311 @@
+---
+title: Sending Domain Restrictions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Sending Domain Restrictions
 
-## List sending domain restrictions
+##### [List sending domain restrictions](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/list)
 
-**get** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions`
+GET/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions
 
-Returns a paginated list of sending domain restrictions. These restrictions enforce TLS requirements for emails from specific domains. Mail without TLS from restricted domains will be dropped unless the subdomain is in the exclude list. Supports sorting and searching.
+##### [Get a sending domain restriction](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions/{sending\_domain\_restriction\_id}
 
-- `account_id: string`
+##### [Create a sending domain restriction](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions
 
-### Query Parameters
+##### [Update a sending domain restriction](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/edit)
 
-- `direction: optional "asc" or "desc"`
+PATCH/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions/{sending\_domain\_restriction\_id}
 
-  The sorting direction.
+##### [Delete a sending domain restriction](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions/{sending\_domain\_restriction\_id}
 
-  - `"desc"`
+##### ModelsExpand Collapse
 
-- `order: optional "domain" or "created_at"`
+<details>
 
-  Field to sort by.
+<summary>
 
-  - `"domain"`
+SendingDomainRestrictionListResponse object {id, comments, created\_at, 4 more }
 
-  - `"created_at"`
+A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, the system drops mail without TLS from the specified domain.
 
-- `page: optional number`
+</summary>
 
-  Current page within paginated list of results.
+id: optional string
 
-- `per_page: optional number`
+Sending domain restriction identifier.
 
-  The number of results per page. Maximum value is 1000.
+formatuuid
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-  Search term for filtering records. Behavior may change.
+comments: optional string
 
-### Returns
+maxLength1024
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+domain: optional string
 
-    - `pointer: optional string`
+Domain that requires TLS enforcement.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+exclude: optional array of string
 
-  - `message: string`
+Subdomains to exempt from TLS requirements.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+Deprecatedlast\_modified: optional string
 
-    - `pointer: optional string`
+Use <code>modified_at</code> instead.
 
-- `success: true`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, comments, created_at, 4 more }`
+modified\_at: optional string
 
-  - `id: optional string`
+formatdate-time
 
-    Sending domain restriction identifier.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+</details>
 
-  - `created_at: optional string`
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_list_response%20%3E%20(schema)>)
 
-  - `domain: optional string`
+<details>
 
-    Domain that requires TLS enforcement.
+<summary>
 
-  - `exclude: optional array of string`
+SendingDomainRestrictionGetResponse object {id, comments, created\_at, 4 more }
 
-    Excluded subdomains that are exempt from TLS requirements.
+A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, the system drops mail without TLS from the specified domain.
 
-  - `last_modified: optional string`
+</summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+id: optional string
 
-  - `modified_at: optional string`
+Sending domain restriction identifier.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+formatuuid
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+comments: optional string
 
-  - `page: optional number`
+maxLength1024
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+created\_at: optional string
 
-    Number of results per page of results.
+formatdate-time
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+domain: optional string
 
-### Example
+Domain that requires TLS enforcement.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+exclude: optional array of string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "comments": "Enforce TLS for all mail from this domain",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "domain": "example.com",
-      "exclude": [
-        "subdomain.example.com"
-      ],
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+Subdomains to exempt from TLS requirements.
 
-## Get a sending domain restriction
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions/{sending_domain_restriction_id}`
+Deprecatedlast\_modified: optional string
 
-Retrieves details for a specific sending domain restriction including the domain requiring TLS and any excluded subdomains exempt from the TLS requirement.
+Use <code>modified_at</code> instead.
 
-### Path Parameters
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `account_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `sending_domain_restriction_id: string`
+modified\_at: optional string
 
-  Sending domain restriction identifier.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_get_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+SendingDomainRestrictionCreateResponse object {id, comments, created\_at, 4 more }
 
-    - `pointer: optional string`
+A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, the system drops mail without TLS from the specified domain.
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+Sending domain restriction identifier.
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+comments: optional string
 
-- `success: true`
+maxLength1024
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+created\_at: optional string
 
-- `result: optional object { id, comments, created_at, 4 more }`
+formatdate-time
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+domain: optional string
 
-    Sending domain restriction identifier.
+Domain that requires TLS enforcement.
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+exclude: optional array of string
 
-  - `domain: optional string`
+Subdomains to exempt from TLS requirements.
 
-    Domain that requires TLS enforcement.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of string`
+Deprecatedlast\_modified: optional string
 
-    Excluded subdomains that are exempt from TLS requirements.
+Use <code>modified_at</code> instead.
 
-  - `last_modified: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+formatdate-time
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+modified\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions/$SENDING_DOMAIN_RESTRICTION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Enforce TLS for all mail from this domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "domain": "example.com",
-    "exclude": [
-      "subdomain.example.com"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+</details>
 
-## Create a sending domain restriction
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_create_response%20%3E%20(schema)>)
 
-**post** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions`
+<details>
 
-Creates a new sending domain restriction to enforce TLS requirements for a domain. Emails without TLS from this domain will be dropped unless the subdomain is in the exclude list.
+<summary>
 
-### Path Parameters
+SendingDomainRestrictionEditResponse object {id, comments, created\_at, 4 more }
 
-- `account_id: string`
+A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, the system drops mail without TLS from the specified domain.
 
-  Identifier.
+</summary>
 
-### Body Parameters
+id: optional string
 
-- `domain: string`
+Sending domain restriction identifier.
 
-  Domain that requires TLS enforcement.
+formatuuid
 
-- `exclude: array of string`
+<a href="#">Link to this property</a>
 
-  Excluded subdomains that are exempt from TLS requirements.
+comments: optional string
 
-- `comments: optional string`
+maxLength1024
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+created\_at: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+domain: optional string
 
-  - `source: optional object { pointer }`
+Domain that requires TLS enforcement.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+exclude: optional array of string
 
-  - `code: number`
+Subdomains to exempt from TLS requirements.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedlast\_modified: optional string
 
-  - `source: optional object { pointer }`
+Use <code>modified_at</code> instead.
 
-    - `pointer: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+modified\_at: optional string
 
-- `result: optional object { id, comments, created_at, 4 more }`
+formatdate-time
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    Sending domain restriction identifier.
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_edit_response%20%3E%20(schema)>)
 
-  - `comments: optional string`
+<details>
 
-  - `created_at: optional string`
+<summary>
 
-  - `domain: optional string`
+SendingDomainRestrictionDeleteResponse object {id }
 
-    Domain that requires TLS enforcement.
+</summary>
 
-  - `exclude: optional array of string`
+id: string
 
-    Excluded subdomains that are exempt from TLS requirements.
+Sending domain restriction identifier.
 
-  - `last_modified: optional string`
+formatuuid
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "domain": "example.com",
-          "exclude": [
-            "subdomain.example.com"
-          ],
-          "comments": "Enforce TLS for all mail from this domain"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Enforce TLS for all mail from this domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "domain": "example.com",
-    "exclude": [
-      "subdomain.example.com"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update a sending domain restriction
-
-**patch** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions/{sending_domain_restriction_id}`
-
-Updates an existing sending domain restriction. Only provided fields will be modified. Changes affect which domains require TLS and which subdomains are excluded.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `sending_domain_restriction_id: string`
-
-  Sending domain restriction identifier.
-
-### Body Parameters
-
-- `comments: optional string`
-
-- `domain: optional string`
-
-  Domain that requires TLS enforcement.
-
-- `exclude: optional array of string`
-
-  Excluded subdomains that are exempt from TLS requirements.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, comments, created_at, 4 more }`
-
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
-
-  - `id: optional string`
-
-    Sending domain restriction identifier.
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `domain: optional string`
-
-    Domain that requires TLS enforcement.
-
-  - `exclude: optional array of string`
-
-    Excluded subdomains that are exempt from TLS requirements.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions/$SENDING_DOMAIN_RESTRICTION_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Enforce TLS for all mail from this domain",
-          "domain": "example.com",
-          "exclude": [
-            "subdomain.example.com"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Enforce TLS for all mail from this domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "domain": "example.com",
-    "exclude": [
-      "subdomain.example.com"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Delete a sending domain restriction
-
-**delete** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions/{sending_domain_restriction_id}`
-
-Removes a sending domain restriction. After deletion, TLS will no longer be enforced for emails from this domain.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `sending_domain_restriction_id: string`
-
-  Sending domain restriction identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Sending domain restriction identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions/$SENDING_DOMAIN_RESTRICTION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
-
-## Domain Types
-
-### Sending Domain Restriction List Response
-
-- `SendingDomainRestrictionListResponse object { id, comments, created_at, 4 more }`
-
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
-
-  - `id: optional string`
-
-    Sending domain restriction identifier.
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `domain: optional string`
-
-    Domain that requires TLS enforcement.
-
-  - `exclude: optional array of string`
-
-    Excluded subdomains that are exempt from TLS requirements.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### Sending Domain Restriction Get Response
-
-- `SendingDomainRestrictionGetResponse object { id, comments, created_at, 4 more }`
-
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
-
-  - `id: optional string`
-
-    Sending domain restriction identifier.
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `domain: optional string`
-
-    Domain that requires TLS enforcement.
-
-  - `exclude: optional array of string`
-
-    Excluded subdomains that are exempt from TLS requirements.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### Sending Domain Restriction Create Response
-
-- `SendingDomainRestrictionCreateResponse object { id, comments, created_at, 4 more }`
-
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
-
-  - `id: optional string`
-
-    Sending domain restriction identifier.
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `domain: optional string`
-
-    Domain that requires TLS enforcement.
-
-  - `exclude: optional array of string`
-
-    Excluded subdomains that are exempt from TLS requirements.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### Sending Domain Restriction Edit Response
-
-- `SendingDomainRestrictionEditResponse object { id, comments, created_at, 4 more }`
-
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
-
-  - `id: optional string`
-
-    Sending domain restriction identifier.
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `domain: optional string`
-
-    Domain that requires TLS enforcement.
-
-  - `exclude: optional array of string`
-
-    Excluded subdomains that are exempt from TLS requirements.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### Sending Domain Restriction Delete Response
-
-- `SendingDomainRestrictionDeleteResponse object { id }`
-
-  - `id: string`
-
-    Sending domain restriction identifier.
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_delete_response%20%3E%20(schema)>)

@@ -1,1065 +1,375 @@
+---
+title: Attack Surface Report
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Attack Surface Report
 
-# Issue Types
+#### Attack Surface ReportIssue Types
 
-## Retrieves Security Center Issues Types
+##### [Retrieves Security Center Issues Types](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issue_types/methods/get)
 
-**get** `/accounts/{account_id}/intel/attack-surface-report/issue-types`
+GET/accounts/{account\_id}/intel/attack-surface-report/issue-types
 
-Lists all available issue types in Security Center, describing categories of security issues.
+##### ModelsExpand Collapse
 
-### Path Parameters
+IssueTypeGetResponse = string
 
-- `account_id: string`
+[Link to this property](#)%20intel.attack_surface_report.issue_types%20%3E%20(model)%20issue_type_get_response%20%3E%20(schema)>)
 
-  Identifier.
+#### Attack Surface ReportIssues
 
-### Returns
+##### [Retrieves Security Center Issues](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issues/methods/list)
 
-- `errors: array of object { code, message, documentation_url, source }`
+Deprecated
 
-  - `code: number`
+GET/accounts/{account\_id}/intel/attack-surface-report/issues
 
-  - `message: string`
+##### [Retrieves Security Center Issue Counts by Class](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issues/methods/class)
 
-  - `documentation_url: optional string`
+Deprecated
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/intel/attack-surface-report/issues/class
 
-    - `pointer: optional string`
+##### [Retrieves Security Center Issue Counts by Severity](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issues/methods/severity)
 
-- `messages: array of object { code, message, documentation_url, source }`
+Deprecated
 
-  - `code: number`
+GET/accounts/{account\_id}/intel/attack-surface-report/issues/severity
 
-  - `message: string`
+##### [Retrieves Security Center Issue Counts by Type](https://developers.cloudflare.com/api/resources/intel/subresources/attack_surface_report/subresources/issues/methods/type)
 
-  - `documentation_url: optional string`
+Deprecated
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/intel/attack-surface-report/issues/type
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+IssueType = "compliance\_violation"or "email\_security"or "exposed\_infrastructure"or 3 more
 
-- `result: optional array of string`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issue-types \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"compliance\_violation"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    "string"
-  ]
-}
-```
+"email\_security"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Issue Type Get Response
+"exposed\_infrastructure"
 
-- `IssueTypeGetResponse = string`
+<a href="#">Link to this property</a>
 
-# Issues
+"insecure\_configuration"
 
-## Retrieves Security Center Issues
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/intel/attack-surface-report/issues`
+"weak\_authentication"
 
-Lists all Security Center issues for the account, showing active security problems requiring attention.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"configuration\_suggestion"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Query Parameters
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type%20%3E%20(schema)>)
 
-- `dismissed: optional boolean`
+<details>
 
-- `issue_class: optional array of string`
+<summary>
 
-- `"issue_class~neq": optional array of string`
+SeverityQueryParam = "low"or "moderate"or "critical"
 
-- `issue_type: optional array of IssueType`
+</summary>
 
-  - `"compliance_violation"`
+One of the following:
 
-  - `"email_security"`
+"low"
 
-  - `"exposed_infrastructure"`
+<a href="#">Link to this property</a>
 
-  - `"insecure_configuration"`
+"moderate"
 
-  - `"weak_authentication"`
+<a href="#">Link to this property</a>
 
-  - `"configuration_suggestion"`
+"critical"
 
-- `"issue_type~neq": optional array of IssueType`
+<a href="#">Link to this property</a>
 
-  - `"compliance_violation"`
+</details>
 
-  - `"email_security"`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20severity_query_param%20%3E%20(schema)>)
 
-  - `"exposed_infrastructure"`
+<details>
 
-  - `"insecure_configuration"`
+<summary>
 
-  - `"weak_authentication"`
+IssueListResponse object {count, issues, page, per\_page }
 
-  - `"configuration_suggestion"`
+</summary>
 
-- `page: optional number`
+count: optional number
 
-  Specifies the current page within paginated list of results.
+Indicates the total number of results.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Sets the number of results per page of results.
+<details>
 
-- `product: optional array of string`
+<summary>
 
-- `"product~neq": optional array of string`
+issues: optional array of object {id, dismissed, has\_extended\_context, 11 more }
 
-- `severity: optional array of SeverityQueryParam`
+</summary>
 
-  - `"low"`
+id: optional string
 
-  - `"moderate"`
+<a href="#">Link to this property</a>
 
-  - `"critical"`
+dismissed: optional boolean
 
-- `"severity~neq": optional array of SeverityQueryParam`
+<a href="#">Link to this property</a>
 
-  - `"low"`
+has\_extended\_context: optional boolean
 
-  - `"moderate"`
+Indicates whether the insight has a large payload that requires fetching via the context endpoint.
 
-  - `"critical"`
+<a href="#">Link to this property</a>
 
-- `subject: optional array of string`
+issue\_class: optional string
 
-- `"subject~neq": optional array of string`
+<a href="#">Link to this property</a>
 
-### Returns
+issue\_type: optional <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type%20%3E%20(schema)">IssueType</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+payload: optional object {detection\_method, zone\_tag }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+detection\_method: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Describes the method used to detect insight.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+zone\_tag: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+resolve\_link: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+resolve\_text: optional string
 
-- `result: optional object { count, issues, page, per_page }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Indicates the total number of results.
+<summary>
 
-  - `issues: optional array of object { id, dismissed, has_extended_context, 11 more }`
+severity: optional "Low"or "Moderate"or "Critical"
 
-    - `id: optional string`
+</summary>
 
-    - `dismissed: optional boolean`
+One of the following:
 
-    - `has_extended_context: optional boolean`
+"Low"
 
-      Indicates whether the insight has a large payload that requires fetching via the context endpoint.
+<a href="#">Link to this property</a>
 
-    - `issue_class: optional string`
+"Moderate"
 
-    - `issue_type: optional IssueType`
+<a href="#">Link to this property</a>
 
-      - `"compliance_violation"`
+"Critical"
 
-      - `"email_security"`
+<a href="#">Link to this property</a>
 
-      - `"exposed_infrastructure"`
+</details>
 
-      - `"insecure_configuration"`
+<a href="#">Link to this property</a>
 
-      - `"weak_authentication"`
+since: optional string
 
-      - `"configuration_suggestion"`
+formatdate-time
 
-    - `payload: optional object { detection_method, zone_tag }`
+<a href="#">Link to this property</a>
 
-      - `detection_method: optional string`
+<details>
 
-        Describes the method used to detect insight.
+<summary>
 
-      - `zone_tag: optional string`
+status: optional "active"or "resolved"
 
-    - `resolve_link: optional string`
+The current status of the insight.
 
-    - `resolve_text: optional string`
+</summary>
 
-    - `severity: optional "Low" or "Moderate" or "Critical"`
+One of the following:
 
-      - `"Low"`
+"active"
 
-      - `"Moderate"`
+<a href="#">Link to this property</a>
 
-      - `"Critical"`
+"resolved"
 
-    - `since: optional string`
+<a href="#">Link to this property</a>
 
-    - `status: optional "active" or "resolved"`
+</details>
 
-      The current status of the insight.
+<a href="#">Link to this property</a>
 
-      - `"active"`
+subject: optional string
 
-      - `"resolved"`
+<a href="#">Link to this property</a>
 
-    - `subject: optional string`
+timestamp: optional string
 
-    - `timestamp: optional string`
+formatdate-time
 
-    - `user_classification: optional "false_positive" or "accept_risk" or "other"`
+<a href="#">Link to this property</a>
 
-      User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
+<details>
 
-      - `"false_positive"`
+<summary>
 
-      - `"accept_risk"`
+user\_classification: optional "false\_positive"or "accept\_risk"or "other"
 
-      - `"other"`
+User-defined classification for the insight. Can be ‘false\_positive’, ‘accept\_risk’, ‘other’, or null.
 
-  - `page: optional number`
+</summary>
 
-    Specifies the current page within paginated list of results.
+One of the following:
 
-  - `per_page: optional number`
+"false\_positive"
 
-    Sets the number of results per page of results.
+<a href="#">Link to this property</a>
 
-### Example
+"accept\_risk"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issues \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"other"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "count": 1,
-    "issues": [
-      {
-        "id": "id",
-        "dismissed": false,
-        "has_extended_context": false,
-        "issue_class": "always_use_https_not_enabled",
-        "issue_type": "compliance_violation",
-        "payload": {
-          "detection_method": "We detected security rules referencing multiple IP addresses directly in the rules.",
-          "zone_tag": "zone_tag"
-        },
-        "resolve_link": "resolve_link",
-        "resolve_text": "resolve_text",
-        "severity": "Low",
-        "since": "2019-12-27T18:11:19.117Z",
-        "status": "active",
-        "subject": "example.com",
-        "timestamp": "2019-12-27T18:11:19.117Z",
-        "user_classification": "false_positive"
-      }
-    ],
-    "page": 1,
-    "per_page": 25
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Retrieves Security Center Issue Counts by Class
+</details>
 
-**get** `/accounts/{account_id}/intel/attack-surface-report/issues/class`
+<a href="#">Link to this property</a>
 
-Retrieves Security Center issue counts aggregated by classification class.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+page: optional number
 
-  Identifier.
+Specifies the current page within paginated list of results.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `dismissed: optional boolean`
+per\_page: optional number
 
-- `issue_class: optional array of string`
+Sets the number of results per page of results.
 
-- `"issue_class~neq": optional array of string`
+maximum1000
 
-- `issue_type: optional array of IssueType`
+minimum1
 
-  - `"compliance_violation"`
+<a href="#">Link to this property</a>
 
-  - `"email_security"`
+</details>
 
-  - `"exposed_infrastructure"`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_list_response%20%3E%20(schema)>)
 
-  - `"insecure_configuration"`
+<details>
 
-  - `"weak_authentication"`
+<summary>
 
-  - `"configuration_suggestion"`
+IssueClassResponse = array of object {count, value }
 
-- `"issue_type~neq": optional array of IssueType`
+</summary>
 
-  - `"compliance_violation"`
+count: optional number
 
-  - `"email_security"`
+<a href="#">Link to this property</a>
 
-  - `"exposed_infrastructure"`
+value: optional string
 
-  - `"insecure_configuration"`
+<a href="#">Link to this property</a>
 
-  - `"weak_authentication"`
+</details>
 
-  - `"configuration_suggestion"`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_class_response%20%3E%20(schema)>)
 
-- `product: optional array of string`
+<details>
 
-- `"product~neq": optional array of string`
+<summary>
 
-- `severity: optional array of SeverityQueryParam`
+IssueSeverityResponse = array of object {count, value }
 
-  - `"low"`
+</summary>
 
-  - `"moderate"`
+count: optional number
 
-  - `"critical"`
+<a href="#">Link to this property</a>
 
-- `"severity~neq": optional array of SeverityQueryParam`
+value: optional string
 
-  - `"low"`
+<a href="#">Link to this property</a>
 
-  - `"moderate"`
+</details>
 
-  - `"critical"`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_severity_response%20%3E%20(schema)>)
 
-- `subject: optional array of string`
+<details>
 
-- `"subject~neq": optional array of string`
+<summary>
 
-### Returns
+IssueTypeResponse = array of object {count, value }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+count: optional number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issues/class \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
-
-## Retrieves Security Center Issue Counts by Severity
-
-**get** `/accounts/{account_id}/intel/attack-surface-report/issues/severity`
-
-Retrieves Security Center issue counts aggregated by severity level.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `dismissed: optional boolean`
-
-- `issue_class: optional array of string`
-
-- `"issue_class~neq": optional array of string`
-
-- `issue_type: optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `"issue_type~neq": optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `product: optional array of string`
-
-- `"product~neq": optional array of string`
-
-- `severity: optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `"severity~neq": optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `subject: optional array of string`
-
-- `"subject~neq": optional array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issues/severity \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
-
-## Retrieves Security Center Issue Counts by Type
-
-**get** `/accounts/{account_id}/intel/attack-surface-report/issues/type`
-
-Retrieves Security Center issue counts aggregated by issue type.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `dismissed: optional boolean`
-
-- `issue_class: optional array of string`
-
-- `"issue_class~neq": optional array of string`
-
-- `issue_type: optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `"issue_type~neq": optional array of IssueType`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-- `product: optional array of string`
-
-- `"product~neq": optional array of string`
-
-- `severity: optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `"severity~neq": optional array of SeverityQueryParam`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-- `subject: optional array of string`
-
-- `"subject~neq": optional array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/issues/type \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "count": 1,
-      "value": "value"
-    }
-  ]
-}
-```
-
-## Archives Security Center Insight
-
-**put** `/accounts/{account_id}/intel/attack-surface-report/{issue_id}/dismiss`
-
-Deprecated endpoint for archiving Security Center insights. Use the newer archive-security-center-insight endpoint instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `issue_id: string`
-
-### Body Parameters
-
-- `dismiss: optional boolean`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/attack-surface-report/$ISSUE_ID/dismiss \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Issue Type
-
-- `IssueType = "compliance_violation" or "email_security" or "exposed_infrastructure" or 3 more`
-
-  - `"compliance_violation"`
-
-  - `"email_security"`
-
-  - `"exposed_infrastructure"`
-
-  - `"insecure_configuration"`
-
-  - `"weak_authentication"`
-
-  - `"configuration_suggestion"`
-
-### Severity Query Param
-
-- `SeverityQueryParam = "low" or "moderate" or "critical"`
-
-  - `"low"`
-
-  - `"moderate"`
-
-  - `"critical"`
-
-### Issue List Response
-
-- `IssueListResponse object { count, issues, page, per_page }`
-
-  - `count: optional number`
-
-    Indicates the total number of results.
-
-  - `issues: optional array of object { id, dismissed, has_extended_context, 11 more }`
-
-    - `id: optional string`
-
-    - `dismissed: optional boolean`
-
-    - `has_extended_context: optional boolean`
-
-      Indicates whether the insight has a large payload that requires fetching via the context endpoint.
-
-    - `issue_class: optional string`
-
-    - `issue_type: optional IssueType`
-
-      - `"compliance_violation"`
-
-      - `"email_security"`
-
-      - `"exposed_infrastructure"`
-
-      - `"insecure_configuration"`
-
-      - `"weak_authentication"`
-
-      - `"configuration_suggestion"`
-
-    - `payload: optional object { detection_method, zone_tag }`
-
-      - `detection_method: optional string`
-
-        Describes the method used to detect insight.
-
-      - `zone_tag: optional string`
-
-    - `resolve_link: optional string`
-
-    - `resolve_text: optional string`
-
-    - `severity: optional "Low" or "Moderate" or "Critical"`
-
-      - `"Low"`
-
-      - `"Moderate"`
-
-      - `"Critical"`
-
-    - `since: optional string`
-
-    - `status: optional "active" or "resolved"`
-
-      The current status of the insight.
-
-      - `"active"`
-
-      - `"resolved"`
-
-    - `subject: optional string`
-
-    - `timestamp: optional string`
-
-    - `user_classification: optional "false_positive" or "accept_risk" or "other"`
-
-      User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
-
-      - `"false_positive"`
-
-      - `"accept_risk"`
-
-      - `"other"`
-
-  - `page: optional number`
-
-    Specifies the current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Sets the number of results per page of results.
-
-### Issue Class Response
-
-- `IssueClassResponse = array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Issue Severity Response
-
-- `IssueSeverityResponse = array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Issue Type Response
-
-- `IssueTypeResponse = array of object { count, value }`
-
-  - `count: optional number`
-
-  - `value: optional string`
-
-### Issue Dismiss Response
-
-- `IssueDismissResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20intel.attack_surface_report.issues%20%3E%20(model)%20issue_type_response%20%3E%20(schema)>)

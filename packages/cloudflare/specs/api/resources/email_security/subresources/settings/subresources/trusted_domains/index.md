@@ -1,831 +1,611 @@
+---
+title: Trusted Domains
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Trusted Domains
 
-## List trusted email domains
+##### [List trusted email domains](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/list)
 
-**get** `/accounts/{account_id}/email-security/settings/trusted_domains`
+GET/accounts/{account\_id}/email-security/settings/trusted\_domains
 
-Returns a paginated list of trusted domain patterns. Trusted domains prevent false positives for recently registered domains and lookalike domain detections. Patterns can use regular expressions for flexible matching.
+##### [Get a trusted email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/email-security/settings/trusted\_domains/{trusted\_domain\_id}
 
-- `account_id: string`
+##### [Create trusted email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/email-security/settings/trusted\_domains
 
-### Query Parameters
+##### [Update a trusted email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/edit)
 
-- `direction: optional "asc" or "desc"`
+PATCH/accounts/{account\_id}/email-security/settings/trusted\_domains/{trusted\_domain\_id}
 
-  The sorting direction.
+##### [Delete a trusted email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/email-security/settings/trusted\_domains/{trusted\_domain\_id}
 
-  - `"desc"`
+##### [Batch trusted domains operations](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/batch)
 
-- `is_recent: optional boolean`
+POST/accounts/{account\_id}/email-security/settings/trusted\_domains/batch
 
-  Filter to show only recently registered domains that are trusted to prevent triggering Suspicious or Malicious dispositions.
+##### ModelsExpand Collapse
 
-- `is_similarity: optional boolean`
+<details>
 
-  Filter to show only proximity domains (partner or approved domains with similar spelling to connected domains) that prevent Spoof dispositions.
+<summary>
 
-- `order: optional "pattern" or "created_at"`
+TrustedDomainListResponse object {id, comments, created\_at, 6 more }
 
-  Field to sort by.
+A trusted email domain.
 
-  - `"pattern"`
+</summary>
 
-  - `"created_at"`
+id: optional string
 
-- `page: optional number`
+Trusted domain identifier.
 
-  Current page within paginated list of results.
+formatuuid
 
-- `pattern: optional string`
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+comments: optional string
 
-  The number of results per page. Maximum value is 1000.
+maxLength1024
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-  Search term for filtering records. Behavior may change.
+created\_at: optional string
 
-### Returns
+formatdate-time
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+is\_recent: optional boolean
 
-  - `message: string`
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_regex: optional boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+is\_similarity: optional boolean
 
-  - `code: number`
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedlast\_modified: optional string
 
-  - `source: optional object { pointer }`
+Use <code>modified_at</code> instead.
 
-    - `pointer: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+modified\_at: optional string
 
-- `result: optional array of object { id, comments, created_at, 6 more }`
+formatdate-time
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+pattern: optional string
 
-  - `comments: optional string`
+maxLength1024
 
-  - `created_at: optional string`
+minLength1
 
-  - `is_recent: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+</details>
 
-  - `is_regex: optional boolean`
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_list_response%20%3E%20(schema)>)
 
-  - `is_similarity: optional boolean`
+<details>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<summary>
 
-  - `last_modified: optional string`
+TrustedDomainGetResponse object {id, comments, created\_at, 6 more }
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+A trusted email domain.
 
-  - `modified_at: optional string`
+</summary>
 
-  - `pattern: optional string`
+id: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+Trusted domain identifier.
 
-  - `count: optional number`
+formatuuid
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+comments: optional string
 
-    Current page within paginated list of results.
+maxLength1024
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+created\_at: optional string
 
-  - `total_count: optional number`
+formatdate-time
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+is\_recent: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "comments": "Trusted partner domain",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "is_recent": true,
-      "is_regex": false,
-      "is_similarity": false,
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "pattern": "example.com"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+is\_regex: optional boolean
 
-## Get a trusted email domain
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/email-security/settings/trusted_domains/{trusted_domain_id}`
+is\_similarity: optional boolean
 
-Retrieves details for a specific trusted domain pattern including its pattern value, whether it uses regex matching, and which detection types it affects.
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+Deprecatedlast\_modified: optional string
 
-  Identifier.
+Use <code>modified_at</code> instead.
 
-- `trusted_domain_id: string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  Trusted domain identifier
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+modified\_at: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+pattern: optional string
 
-  - `source: optional object { pointer }`
+maxLength1024
 
-    - `pointer: optional string`
+minLength1
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_get_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+TrustedDomainCreateResponse object {id, comments, created\_at, 6 more }
 
-- `success: true`
+A trusted email domain.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+id: optional string
 
-- `result: optional object { id, comments, created_at, 6 more }`
+Trusted domain identifier.
 
-  A trusted email domain
+formatuuid
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+comments: optional string
 
-  - `comments: optional string`
+maxLength1024
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_recent: optional boolean`
+created\_at: optional string
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+formatdate-time
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_similarity: optional boolean`
+is\_recent: optional boolean
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+is\_regex: optional boolean
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+is\_similarity: optional boolean
 
-### Example
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains/$TRUSTED_DOMAIN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+Deprecatedlast\_modified: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Trusted partner domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_recent": true,
-    "is_regex": false,
-    "is_similarity": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "example.com"
-  }
-}
-```
+Use <code>modified_at</code> instead.
 
-## Create trusted email domain
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-**post** `/accounts/{account_id}/email-security/settings/trusted_domains`
+formatdate-time
 
-Creates a new trusted domain pattern. Use for partner domains or approved senders that should bypass recent domain registration and similarity checks. Configure whether it prevents recent domain or spoof dispositions.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+modified\_at: optional string
 
-- `account_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+pattern: optional string
 
-- `is_recent: boolean`
+maxLength1024
 
-  Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+minLength1
 
-- `is_regex: boolean`
+<a href="#">Link to this property</a>
 
-- `is_similarity: boolean`
+</details>
 
-  Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_create_response%20%3E%20(schema)>)
 
-- `pattern: string`
+<details>
 
-- `comments: optional string`
+<summary>
 
-### Returns
+TrustedDomainEditResponse object {id, comments, created\_at, 6 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+A trusted email domain.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+Trusted domain identifier.
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+comments: optional string
 
-  - `code: number`
+maxLength1024
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_at: optional string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+is\_recent: optional boolean
 
-  Whether the API call was successful.
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comments, created_at, 6 more }`
+is\_regex: optional boolean
 
-  A trusted email domain
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+is\_similarity: optional boolean
 
-    Trusted domain identifier
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+Deprecatedlast\_modified: optional string
 
-  - `is_recent: optional boolean`
+Use <code>modified_at</code> instead.
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `is_regex: optional boolean`
+formatdate-time
 
-  - `is_similarity: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+modified\_at: optional string
 
-  - `last_modified: optional string`
+formatdate-time
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+pattern: optional string
 
-  - `pattern: optional string`
+maxLength1024
 
-### Example
+minLength1
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "is_recent": true,
-          "is_regex": false,
-          "is_similarity": false,
-          "pattern": "example.com",
-          "comments": "Trusted partner domain"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Trusted partner domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_recent": true,
-    "is_regex": false,
-    "is_similarity": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "example.com"
-  }
-}
-```
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_edit_response%20%3E%20(schema)>)
 
-## Update a trusted email domain
+<details>
 
-**patch** `/accounts/{account_id}/email-security/settings/trusted_domains/{trusted_domain_id}`
+<summary>
 
-Updates an existing trusted domain pattern. Only provided fields will be modified. Changes take effect for new emails matching the pattern.
+TrustedDomainDeleteResponse object {id }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: string
 
-  Identifier.
+Trusted domain identifier.
 
-- `trusted_domain_id: string`
+formatuuid
 
-  Trusted domain identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `comments: optional string`
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_delete_response%20%3E%20(schema)>)
 
-- `is_recent: optional boolean`
+<details>
 
-  Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+<summary>
 
-- `is_regex: optional boolean`
+TrustedDomainBatchResponse object {deletes, patches, posts, puts }
 
-- `is_similarity: optional boolean`
+</summary>
 
-  Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<details>
 
-- `pattern: optional string`
+<summary>
 
-### Returns
+deletes: optional array of object {id }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+Trusted domain identifier.
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+patches: optional array of object {id, comments, created\_at, 6 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: optional string
 
-- `success: true`
+Trusted domain identifier.
 
-  Whether the API call was successful.
+formatuuid
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comments, created_at, 6 more }`
+comments: optional string
 
-  A trusted email domain
+maxLength1024
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+created\_at: optional string
 
-  - `comments: optional string`
+formatdate-time
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_recent: optional boolean`
+is\_recent: optional boolean
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_similarity: optional boolean`
+is\_regex: optional boolean
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+is\_similarity: optional boolean
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+Deprecatedlast\_modified: optional string
 
-### Example
+Use <code>modified_at</code> instead.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains/$TRUSTED_DOMAIN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Trusted partner domain",
-          "is_recent": true,
-          "pattern": "example.com"
-        }'
-```
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Trusted partner domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_recent": true,
-    "is_regex": false,
-    "is_similarity": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "example.com"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a trusted email domain
+modified\_at: optional string
 
-**delete** `/accounts/{account_id}/email-security/settings/trusted_domains/{trusted_domain_id}`
+formatdate-time
 
-Removes a trusted domain pattern. After deletion, emails from this domain will be subject to normal recent domain and similarity checks.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+pattern: optional string
 
-- `account_id: string`
+maxLength1024
 
-  Identifier.
+minLength1
 
-- `trusted_domain_id: string`
+<a href="#">Link to this property</a>
 
-  Trusted domain identifier
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+posts: optional array of object {id, comments, created\_at, 6 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+Trusted domain identifier.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatuuid
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+comments: optional string
 
-  - `documentation_url: optional string`
+maxLength1024
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_at: optional string
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+is\_recent: optional boolean
 
-- `result: optional object { id }`
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+is\_regex: optional boolean
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains/$TRUSTED_DOMAIN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+is\_similarity: optional boolean
 
-#### Response
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+Deprecatedlast\_modified: optional string
 
-### Trusted Domain List Response
+Use <code>modified_at</code> instead.
 
-- `TrustedDomainListResponse object { id, comments, created_at, 6 more }`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  A trusted email domain
+formatdate-time
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+modified\_at: optional string
 
-  - `comments: optional string`
+formatdate-time
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_recent: optional boolean`
+pattern: optional string
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+maxLength1024
 
-  - `is_regex: optional boolean`
+minLength1
 
-  - `is_similarity: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+</details>
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<details>
 
-  - `modified_at: optional string`
+<summary>
 
-  - `pattern: optional string`
+puts: optional array of object {id, comments, created\_at, 6 more }
 
-### Trusted Domain Get Response
+</summary>
 
-- `TrustedDomainGetResponse object { id, comments, created_at, 6 more }`
+id: optional string
 
-  A trusted email domain
+Trusted domain identifier.
 
-  - `id: optional string`
+formatuuid
 
-    Trusted domain identifier
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+comments: optional string
 
-  - `created_at: optional string`
+maxLength1024
 
-  - `is_recent: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+created\_at: optional string
 
-  - `is_regex: optional boolean`
+formatdate-time
 
-  - `is_similarity: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+is\_recent: optional boolean
 
-  - `last_modified: optional string`
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+is\_regex: optional boolean
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-### Trusted Domain Create Response
+is\_similarity: optional boolean
 
-- `TrustedDomainCreateResponse object { id, comments, created_at, 6 more }`
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
 
-  A trusted email domain
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+Deprecatedlast\_modified: optional string
 
-    Trusted domain identifier
+Use <code>modified_at</code> instead.
 
-  - `comments: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `created_at: optional string`
+formatdate-time
 
-  - `is_recent: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+modified\_at: optional string
 
-  - `is_regex: optional boolean`
+formatdate-time
 
-  - `is_similarity: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+pattern: optional string
 
-  - `last_modified: optional string`
+maxLength1024
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+minLength1
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+</details>
 
-### Trusted Domain Edit Response
+<a href="#">Link to this property</a>
 
-- `TrustedDomainEditResponse object { id, comments, created_at, 6 more }`
+</details>
 
-  A trusted email domain
-
-  - `id: optional string`
-
-    Trusted domain identifier
-
-  - `comments: optional string`
-
-  - `created_at: optional string`
-
-  - `is_recent: optional boolean`
-
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
-
-  - `is_regex: optional boolean`
-
-  - `is_similarity: optional boolean`
-
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-  - `pattern: optional string`
-
-### Trusted Domain Delete Response
-
-- `TrustedDomainDeleteResponse object { id }`
-
-  - `id: string`
-
-    Trusted domain identifier
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_batch_response%20%3E%20(schema)>)

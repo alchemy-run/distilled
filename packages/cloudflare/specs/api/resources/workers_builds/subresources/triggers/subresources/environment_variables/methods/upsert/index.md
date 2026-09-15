@@ -1,64 +1,210 @@
-## Upsert environment variables
+---
+title: Set build variables
+---
 
-**patch** `/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables`
+[Skip to content](#_top)
 
-Create or update environment variables for a trigger
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
 
-- `account_id: string`
+[Triggers](https://developers.cloudflare.com/api/resources/workers_builds/subresources/triggers)
 
-  Account identifier.
+[Environment Variables](https://developers.cloudflare.com/api/resources/workers_builds/subresources/triggers/subresources/environment_variables)
 
-- `trigger_uuid: string`
+Copy Markdown
 
-  Trigger UUID.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `body: map[object { is_secret, value } ]`
+**Copy Markdown****View as Markdown**
 
-  - `is_secret: boolean`
+# Set build variables
 
-  - `value: optional string`
+PATCH/accounts/{account\_id}/builds/triggers/{trigger\_uuid}/environment\_variables
 
-### Returns
+Add or replace build-time variables and secrets without changing unspecified keys.
 
-- `errors: array of object { code, message }`
+##### Security
 
-  - `code: optional number`
+<details>
 
-  - `message: optional string`
+<summary>API Token</summary>
 
-- `messages: array of string`
 
-- `result: map[object { created_on, is_secret, value } ]`
 
-  - `created_on: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `is_secret: boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `value: optional string`
+</details>
 
-    Value is null for secret environment variables
+<details>
 
-- `success: boolean`
+<summary>API Email + API Key</summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
 
-  - `count: optional number`
 
-  - `page: optional number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `per_page: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `total_count: optional number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `total_pages: optional number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Example
+</details>
 
-```http
+##### Accepted Permissions (at least one required)
+
+`Workers CI Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account identifier.
+
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(method)%20upsert%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+trigger\_uuid: string
+
+Trigger UUID.
+
+formatuuid
+
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(method)%20upsert%20%3E%20(params)%20default%20%3E%20(param)%20trigger_uuid%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+<details>
+
+<summary>
+
+body: map\[object {is\_secret, value } ]
+
+Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores.
+
+</summary>
+
+is\_secret: boolean
+
+Whether to hide the value after it is saved. Secret values remain available to builds but appear as <code>null</code> when you list variables; non-secret values remain visible.
+
+<a href="#">Link to this property</a>
+
+value: string
+
+Value made available to the build. Maximum length is 5000 characters.
+
+maxLength5000
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(method)%20upsert%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(method)%20upsert%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(method)%20upsert%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: map\[object {created\_on, is\_secret, value } ]
+
+</summary>
+
+created\_on: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_secret: boolean
+
+Whether to hide the value after it is saved. Secret values remain available to builds but appear as <code>null</code> when you list variables; non-secret values remain visible.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+Value is null for secret environment variables
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(method)%20upsert%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(method)%20upsert%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(method)%20upsert%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Set build variables
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/triggers/$TRIGGER_UUID/environment_variables \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -75,9 +221,13 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/triggers/$
         }'
 ```
 
-#### Response
+200 example
 
-```json
+401 example
+
+404 example
+
+```
 {
   "errors": [
     {
@@ -108,5 +258,103 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/triggers/$
     "total_count": 150,
     "total_pages": 3
   }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12005,
+      "message": "Missing token from authorization header"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+401 example
+
+404 example
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "API_KEY": {
+      "created_on": "2023-01-01T00:00:00Z",
+      "is_secret": true,
+      "value": null
+    },
+    "NODE_ENV": {
+      "created_on": "2023-01-01T00:00:00Z",
+      "is_secret": false,
+      "value": "production"
+    }
+  },
+  "success": true,
+  "result_info": {
+    "count": 25,
+    "page": 1,
+    "per_page": 50,
+    "total_count": 150,
+    "total_pages": 3
+  }
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12005,
+      "message": "Missing token from authorization header"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 12000,
+      "message": "Not found"
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

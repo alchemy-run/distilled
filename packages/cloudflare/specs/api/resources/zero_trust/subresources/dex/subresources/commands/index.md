@@ -1,902 +1,323 @@
+---
+title: Commands
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Commands
 
-## List account commands
+##### [List account commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/methods/list)
 
-**get** `/accounts/{account_id}/dex/commands`
+GET/accounts/{account\_id}/dex/commands
 
-Retrieves a paginated list of commands issued to devices under the specified account, optionally filtered by time range, device, or other parameters
+##### [Create account commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/dex/commands
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Unique identifier linked to an account.
+<details>
 
-### Query Parameters
+<summary>
 
-- `page: number`
+CommandListResponse object {commands }
 
-  Page number of paginated results.
+</summary>
 
-- `per_page: number`
+<details>
 
-  Number of results per page.
+<summary>
 
-- `command_type: optional "pcap" or "speed-test" or "warp-diag"`
+commands: optional array of object {id, completed\_date, created\_date, 6 more }
 
-  Optionally filter executed commands by command type.
+</summary>
 
-  - `"pcap"`
+id: optional string
 
-  - `"speed-test"`
+<a href="#">Link to this property</a>
 
-  - `"warp-diag"`
+completed\_date: optional string
 
-- `device_id: optional string`
+formatdate-time
 
-  Unique identifier for a device.
+<a href="#">Link to this property</a>
 
-- `from: optional string`
+created\_date: optional string
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+formatdate-time
 
-- `status: optional "PENDING_EXEC" or "PENDING_UPLOAD" or "SUCCESS" or "FAILED"`
+<a href="#">Link to this property</a>
 
-  Optionally filter executed commands by status.
+device\_id: optional string
 
-  - `"PENDING_EXEC"`
+<a href="#">Link to this property</a>
 
-  - `"PENDING_UPLOAD"`
+filename: optional string
 
-  - `"SUCCESS"`
+<a href="#">Link to this property</a>
 
-  - `"FAILED"`
+registration\_id: optional string
 
-- `to: optional string`
+Unique identifier for the device registration
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+<a href="#">Link to this property</a>
 
-- `user_email: optional string`
+status: optional string
 
-  Email tied to the device.
+<a href="#">Link to this property</a>
 
-### Returns
+type: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+user\_email: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(model)%20command_list_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+CommandCreateResponse object {commands }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+commands: optional array of object {id, args, device\_id, 3 more }
 
-  - `true`
+List of created commands
 
-- `result: optional object { commands }`
+</summary>
 
-  - `commands: optional array of object { id, completed_date, created_date, 6 more }`
+id: optional string
 
-    - `id: optional string`
+Unique identifier for the command
 
-    - `completed_date: optional string`
+<a href="#">Link to this property</a>
 
-    - `created_date: optional string`
+args: optional map\[string]
 
-    - `device_id: optional string`
+Command arguments
 
-    - `filename: optional string`
+<a href="#">Link to this property</a>
 
-    - `registration_id: optional string`
+device\_id: optional string
 
-      Unique identifier for the device registration
+Identifier for the device associated with the command
 
-    - `status: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: optional string`
+registration\_id: optional string
 
-    - `user_email: optional string`
+Unique identifier for the device registration
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+status: optional "PENDING\_EXEC"or "PENDING\_UPLOAD"or "SUCCESS"or "FAILED"
 
-    Current page within paginated list of results.
+Current status of the command
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+One of the following:
 
-  - `total_count: optional number`
+"PENDING\_EXEC"
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+"PENDING\_UPLOAD"
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+"SUCCESS"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"FAILED"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "commands": [
-      {
-        "id": "id",
-        "completed_date": "2019-12-27T18:11:19.117Z",
-        "created_date": "2019-12-27T18:11:19.117Z",
-        "device_id": "device_id",
-        "filename": "filename",
-        "registration_id": "registration_id",
-        "status": "status",
-        "type": "type",
-        "user_email": "user_email"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create account commands
+</details>
 
-**post** `/accounts/{account_id}/dex/commands`
+<a href="#">Link to this property</a>
 
-Initiate commands for up to 10 devices per account.
+type: optional string
 
-### Path Parameters
+Type of the command (e.g., “pcap”, “speed-test”, or “warp-diag”)
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `commands: array of object { device_id, type, user_email, 2 more }`
+</details>
 
-  List of device-level commands to execute
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(model)%20command_create_response%20%3E%20(schema)>)
 
-  - `device_id: string`
+#### CommandsDevices
 
-    Unique identifier for the physical device
+##### [List devices eligible for remote captures](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/devices/methods/list)
 
-  - `type: "pcap" or "speed-test" or "warp-diag"`
+GET/accounts/{account\_id}/dex/commands/devices
 
-    Type of command to execute on the device
+##### ModelsExpand Collapse
 
-    - `"pcap"`
+<details>
 
-    - `"speed-test"`
+<summary>
 
-    - `"warp-diag"`
+DeviceListResponse object {devices }
 
-  - `user_email: string`
+</summary>
 
-    Email tied to the device
+<details>
 
-  - `args: optional object { "test-all-routes" }  or object { "max-file-size-mb", "packet-size-bytes", "time-limit-min" }  or object { interfaces }`
+<summary>
 
-    Command arguments. Allowed fields depend on `type`.
+devices: optional array of object {deviceId, deviceName, eligible, 7 more }
 
-    - `WARPDiagArgs object { "test-all-routes" }`
+List of eligible devices
 
-      - `"test-all-routes": optional boolean`
+</summary>
 
-        Test an IP address from all included or excluded ranges. Essentially the same as running 'route get <ip>' and collecting the results. This option may increase the time taken to collect the warp-diag.
+deviceId: optional string
 
-    - `PCAPArgs object { "max-file-size-mb", "packet-size-bytes", "time-limit-min" }`
+Device identifier (UUID v4)
 
-      - `"max-file-size-mb": optional number`
+<a href="#">Link to this property</a>
 
-        Maximum file size (in MB) for the capture file. If the capture artifact exceeds the specified max file size, it will NOT be uploaded.
+deviceName: optional string
 
-      - `"packet-size-bytes": optional number`
+Device identifier (human readable)
 
-        Maximum number of bytes to save for each packet
+<a href="#">Link to this property</a>
 
-      - `"time-limit-min": optional number`
+eligible: optional boolean
 
-        Limit on capture duration (in minutes)
+Whether the device is eligible for remote captures
 
-    - `SpeedTestArgs object { interfaces }`
+<a href="#">Link to this property</a>
 
-      - `interfaces: optional array of "default" or "tunnel"`
+ineligibleReason: optional string
 
-        List of interfaces to run the speed test on
+If the device is not eligible, the reason why.
 
-        - `"default"`
+<a href="#">Link to this property</a>
 
-        - `"tunnel"`
+personEmail: optional string
 
-  - `registration_id: optional string`
+User contact email address
 
-    Unique identifier for the device registration. Required for multi-user devices to target the correct user session.
+<a href="#">Link to this property</a>
 
-### Returns
+platform: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Operating system.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+registrationId: optional string
 
-  - `documentation_url: optional string`
+Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user’s registration on the device.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+status: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Network status.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+timestamp: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+version: optional string
 
-    - `pointer: optional string`
+WARP client version.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { commands }`
+</details>
 
-  - `commands: optional array of object { id, args, device_id, 3 more }`
+[Link to this property](#)%20zero_trust.dex.commands.devices%20%3E%20(model)%20device_list_response%20%3E%20(schema)>)
 
-    List of created commands
+#### CommandsDownloads
 
-    - `id: optional string`
+##### [Download command output file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/downloads/methods/get)
 
-      Unique identifier for the command
+GET/accounts/{account\_id}/dex/commands/{command\_id}/downloads/{filename}
 
-    - `args: optional map[string]`
+#### CommandsQuota
 
-      Command arguments
+##### [Returns account commands usage, quota, and reset time](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/quota/methods/get)
 
-    - `device_id: optional string`
+GET/accounts/{account\_id}/dex/commands/quota
 
-      Identifier for the device associated with the command
+##### ModelsExpand Collapse
 
-    - `registration_id: optional string`
+<details>
 
-      Unique identifier for the device registration
+<summary>
 
-    - `status: optional "PENDING_EXEC" or "PENDING_UPLOAD" or "SUCCESS" or "FAILED"`
+QuotaGetResponse object {quota, quota\_usage, reset\_time }
 
-      Current status of the command
+</summary>
 
-      - `"PENDING_EXEC"`
+quota: number
 
-      - `"PENDING_UPLOAD"`
+The total number of commands that can be initiated for an account.
 
-      - `"SUCCESS"`
+<a href="#">Link to this property</a>
 
-      - `"FAILED"`
+quota\_usage: number
 
-    - `type: optional string`
+The number of commands that have been initiated for an account.
 
-      Type of the command (e.g., "pcap", "speed-test", or "warp-diag")
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+reset\_time: string
 
-  - `count: optional number`
+The time when the quota resets.
 
-    Total number of results for the requested service.
+formatdate-time
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "commands": [
-            {
-              "device_id": "device_id",
-              "type": "pcap",
-              "user_email": "user_email"
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "commands": [
-      {
-        "id": "id",
-        "args": {
-          "foo": "string"
-        },
-        "device_id": "device_id",
-        "registration_id": "registration_id",
-        "status": "PENDING_EXEC",
-        "type": "type"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Command List Response
-
-- `CommandListResponse object { commands }`
-
-  - `commands: optional array of object { id, completed_date, created_date, 6 more }`
-
-    - `id: optional string`
-
-    - `completed_date: optional string`
-
-    - `created_date: optional string`
-
-    - `device_id: optional string`
-
-    - `filename: optional string`
-
-    - `registration_id: optional string`
-
-      Unique identifier for the device registration
-
-    - `status: optional string`
-
-    - `type: optional string`
-
-    - `user_email: optional string`
-
-### Command Create Response
-
-- `CommandCreateResponse object { commands }`
-
-  - `commands: optional array of object { id, args, device_id, 3 more }`
-
-    List of created commands
-
-    - `id: optional string`
-
-      Unique identifier for the command
-
-    - `args: optional map[string]`
-
-      Command arguments
-
-    - `device_id: optional string`
-
-      Identifier for the device associated with the command
-
-    - `registration_id: optional string`
-
-      Unique identifier for the device registration
-
-    - `status: optional "PENDING_EXEC" or "PENDING_UPLOAD" or "SUCCESS" or "FAILED"`
-
-      Current status of the command
-
-      - `"PENDING_EXEC"`
-
-      - `"PENDING_UPLOAD"`
-
-      - `"SUCCESS"`
-
-      - `"FAILED"`
-
-    - `type: optional string`
-
-      Type of the command (e.g., "pcap", "speed-test", or "warp-diag")
-
-# Devices
-
-## List devices eligible for remote captures
-
-**get** `/accounts/{account_id}/dex/commands/devices`
-
-List devices with WARP client support for remote captures which have been connected in the last 1 hour.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-### Query Parameters
-
-- `page: number`
-
-  Page number of paginated results.
-
-- `per_page: number`
-
-  Number of results per page.
-
-- `search: optional string`
-
-  Filter devices by name or email.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { devices }`
-
-  - `devices: optional array of object { deviceId, deviceName, eligible, 7 more }`
-
-    List of eligible devices
-
-    - `deviceId: optional string`
-
-      Device identifier (UUID v4)
-
-    - `deviceName: optional string`
-
-      Device identifier (human readable)
-
-    - `eligible: optional boolean`
-
-      Whether the device is eligible for remote captures
-
-    - `ineligibleReason: optional string`
-
-      If the device is not eligible, the reason why.
-
-    - `personEmail: optional string`
-
-      User contact email address
-
-    - `platform: optional string`
-
-      Operating system.
-
-    - `registrationId: optional string`
-
-      Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
-
-    - `status: optional string`
-
-      Network status.
-
-    - `timestamp: optional string`
-
-    - `version: optional string`
-
-      WARP client version.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "devices": [
-      {
-        "deviceId": "deviceId",
-        "deviceName": "deviceName",
-        "eligible": true,
-        "ineligibleReason": "ineligibleReason",
-        "personEmail": "personEmail",
-        "platform": "windows",
-        "registrationId": "registrationId",
-        "status": "connected",
-        "timestamp": "2023-10-11 00:00:00+00",
-        "version": "1.0.0"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Device List Response
-
-- `DeviceListResponse object { devices }`
-
-  - `devices: optional array of object { deviceId, deviceName, eligible, 7 more }`
-
-    List of eligible devices
-
-    - `deviceId: optional string`
-
-      Device identifier (UUID v4)
-
-    - `deviceName: optional string`
-
-      Device identifier (human readable)
-
-    - `eligible: optional boolean`
-
-      Whether the device is eligible for remote captures
-
-    - `ineligibleReason: optional string`
-
-      If the device is not eligible, the reason why.
-
-    - `personEmail: optional string`
-
-      User contact email address
-
-    - `platform: optional string`
-
-      Operating system.
-
-    - `registrationId: optional string`
-
-      Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
-
-    - `status: optional string`
-
-      Network status.
-
-    - `timestamp: optional string`
-
-    - `version: optional string`
-
-      WARP client version.
-
-# Downloads
-
-## Download command output file
-
-**get** `/accounts/{account_id}/dex/commands/{command_id}/downloads/{filename}`
-
-Downloads artifacts for an executed command. Bulk downloads are not supported
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `command_id: string`
-
-  Unique identifier for a command
-
-- `filename: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/$COMMAND_ID/downloads/$FILENAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-# Quota
-
-## Returns account commands usage, quota, and reset time
-
-**get** `/accounts/{account_id}/dex/commands/quota`
-
-Retrieves the current quota usage and limits for device commands within a specific account, including the time when the quota will reset
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { quota, quota_usage, reset_time }`
-
-  - `quota: number`
-
-    The total number of commands that can be initiated for an account.
-
-  - `quota_usage: number`
-
-    The number of commands that have been initiated for an account.
-
-  - `reset_time: string`
-
-    The time when the quota resets.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/quota \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "quota": 0,
-    "quota_usage": 0,
-    "reset_time": "2019-12-27T18:11:19.117Z"
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Quota Get Response
-
-- `QuotaGetResponse object { quota, quota_usage, reset_time }`
-
-  - `quota: number`
-
-    The total number of commands that can be initiated for an account.
-
-  - `quota_usage: number`
-
-    The number of commands that have been initiated for an account.
-
-  - `reset_time: string`
-
-    The time when the quota resets.
+[Link to this property](#)%20zero_trust.dex.commands.quota%20%3E%20(model)%20quota_get_response%20%3E%20(schema)>)

@@ -1,139 +1,51 @@
+---
+title: Regions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Regional Hostnames](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Regions
 
-## List Regions
+##### [List Regions](https://developers.cloudflare.com/api/resources/addressing/subresources/regional_hostnames/subresources/regions/methods/list)
 
-**get** `/accounts/{account_id}/addressing/regional_hostnames/regions`
+GET/accounts/{account\_id}/addressing/regional\_hostnames/regions
 
-List all Regional Services regions available for use by this account.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+RegionListResponse object {key, label }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+key: optional string
 
-  - `code: number`
+Identifying key for the region
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+label: optional string
 
-  - `source: optional object { pointer }`
+Human-readable text label for the region
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { key, label }`
-
-  - `key: optional string`
-
-    Identifying key for the region
-
-  - `label: optional string`
-
-    Human-readable text label for the region
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/regional_hostnames/regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "key": "ca",
-      "label": "Canada"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Region List Response
-
-- `RegionListResponse object { key, label }`
-
-  - `key: optional string`
-
-    Identifying key for the region
-
-  - `label: optional string`
-
-    Human-readable text label for the region
+[Link to this property](#)%20addressing.regional_hostnames.regions%20%3E%20(model)%20region_list_response%20%3E%20(schema)>)

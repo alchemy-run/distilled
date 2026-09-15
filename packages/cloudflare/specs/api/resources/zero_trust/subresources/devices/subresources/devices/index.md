@@ -1,883 +1,467 @@
+---
+title: Devices
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Devices
 
-## List devices
+##### [List devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices/methods/list)
 
-**get** `/accounts/{account_id}/devices/physical-devices`
+GET/accounts/{account\_id}/devices/physical-devices
 
-Lists WARP devices.
+##### [Get device](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/devices/physical-devices/{device\_id}
 
-- `account_id: string`
+##### [Delete device](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices/methods/delete)
 
-### Query Parameters
+DELETE/accounts/{account\_id}/devices/physical-devices/{device\_id}
 
-- `id: optional array of string`
+##### [Revoke device registrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices/methods/revoke)
 
-  Filter by a one or more device IDs.
+POST/accounts/{account\_id}/devices/physical-devices/{device\_id}/revoke
 
-- `active_registrations: optional "include" or "only" or "exclude"`
+##### ModelsExpand Collapse
 
-  Include or exclude devices with active registrations. The default is "only" - return only devices with active registrations.
+<details>
 
-  - `"include"`
+<summary>
 
-  - `"only"`
+DeviceListResponse object {id, active\_registrations, created\_at, 16 more }
 
-  - `"exclude"`
+A WARP Device.
 
-- `cursor: optional string`
+</summary>
 
-  Opaque token indicating the starting position when requesting the next set of records. A cursor value can be obtained from the result_info.cursor field in the response.
+id: string
 
-- `include: optional string`
+The unique ID of the device.
 
-  Comma-separated list of additional information that should be included in the device response. Supported values are: "last_seen_registration.policy".
+<a href="#">Link to this property</a>
 
-- `last_seen_user: optional object { email }`
+active\_registrations: number
 
-  - `email: optional string`
+The number of active registrations for the device. Active registrations are those which haven’t been revoked or deleted.
 
-    Filter by the last seen user's email.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+created\_at: string
 
-  The maximum number of devices to return in a single response.
+The RFC3339 timestamp when the device was created.
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-  Search by device details.
+last\_seen\_at: string
 
-- `seen_after: optional string`
+The RFC3339 timestamp when the device was last seen.
 
-  Filter by the last_seen timestamp - returns only devices last seen after this timestamp.
+<a href="#">Link to this property</a>
 
-- `seen_before: optional string`
+name: string
 
-  Filter by the last_seen timestamp - returns only devices last seen before this timestamp.
+The name of the device.
 
-- `sort_by: optional "name" or "id" or "client_version" or 4 more`
+<a href="#">Link to this property</a>
 
-  The device field to order results by.
+updated\_at: string
 
-  - `"name"`
+The RFC3339 timestamp when the device was last updated.
 
-  - `"id"`
+<a href="#">Link to this property</a>
 
-  - `"client_version"`
+client\_version: optional string
 
-  - `"last_seen_user.email"`
+Version of the WARP client.
 
-  - `"last_seen_at"`
+<a href="#">Link to this property</a>
 
-  - `"active_registrations"`
+deleted\_at: optional string
 
-  - `"created_at"`
+The RFC3339 timestamp when the device was deleted.
 
-- `sort_order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  Sort direction.
+device\_type: optional string
 
-  - `"asc"`
+The device operating system.
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-### Returns
+hardware\_id: optional string
 
-- `errors: array of object { code, message }`
+A string that uniquely identifies the hardware or virtual machine (VM).
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-- `messages: array of object { code, message }`
+<summary>
 
-  - `code: number`
+last\_seen\_registration: optional object {policy }
 
-  - `message: string`
+The last seen registration for the device.
 
-- `result: array of object { id, active_registrations, created_at, 16 more }`
+</summary>
 
-  - `id: string`
+<details>
 
-    The unique ID of the device.
+<summary>
 
-  - `active_registrations: number`
+policy: optional object {id, default, deleted, 2 more }
 
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
+A summary of the device profile evaluated for the registration.
 
-  - `created_at: string`
+</summary>
 
-    The RFC3339 timestamp when the device was created.
+id: string
 
-  - `last_seen_at: string`
+The ID of the device settings profile.
 
-    The RFC3339 timestamp when the device was last seen.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+default: boolean
 
-    The name of the device.
+Whether the device settings profile is the default profile for the account.
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the device was last updated.
+deleted: boolean
 
-  - `client_version: optional string`
+Whether the device settings profile was deleted.
 
-    Version of the WARP client.
+<a href="#">Link to this property</a>
 
-  - `deleted_at: optional string`
+name: string
 
-    The RFC3339 timestamp when the device was deleted.
+The name of the device settings profile.
 
-  - `device_type: optional string`
+<a href="#">Link to this property</a>
 
-    The device operating system.
+updated\_at: string
 
-  - `hardware_id: optional string`
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
 
-    A string that uniquely identifies the hardware or virtual machine (VM).
+<a href="#">Link to this property</a>
 
-  - `last_seen_registration: optional object { policy }`
+</details>
 
-    The last seen registration for the device.
+<a href="#">Link to this property</a>
 
-    - `policy: optional object { id, default, deleted, 2 more }`
+</details>
 
-      A summary of the device profile evaluated for the registration.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-        The ID of the device settings profile.
+<summary>
 
-      - `default: boolean`
+last\_seen\_user: optional object {id, email, name }
 
-        Whether the device settings profile is the default profile for the account.
+The last user to use the WARP device.
 
-      - `deleted: boolean`
+</summary>
 
-        Whether the device settings profile was deleted.
+id: optional string
 
-      - `name: string`
+UUID.
 
-        The name of the device settings profile.
+maxLength36
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
+email: optional string
 
-  - `last_seen_user: optional object { id, email, name }`
+The contact email address of the user.
 
-    The last user to use the WARP device.
+maxLength90
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+name: optional string
 
-    - `email: optional string`
+The enrolled device user’s name.
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-      The enrolled device user's name.
+<a href="#">Link to this property</a>
 
-  - `mac_address: optional string`
+mac\_address: optional string
 
-    The device MAC address.
+The device MAC address.
 
-  - `manufacturer: optional string`
+<a href="#">Link to this property</a>
 
-    The device manufacturer.
+manufacturer: optional string
 
-  - `model: optional string`
+The device manufacturer.
 
-    The model name of the device.
+<a href="#">Link to this property</a>
 
-  - `os_version: optional string`
+model: optional string
 
-    The device operating system version number.
+The model name of the device.
 
-  - `os_version_extra: optional string`
+<a href="#">Link to this property</a>
 
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+os\_version: optional string
 
-  - `public_ip: optional string`
+The device operating system version number.
 
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
+<a href="#">Link to this property</a>
 
-  - `serial_number: optional string`
+os\_version\_extra: optional string
 
-    The device serial number.
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+Deprecatedpublic\_ip: optional string
 
-- `result_info: optional object { count, cursor, per_page, total_count }`
+**Deprecated**: IP information is provided by DEX - see <a href="https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/">https://developers.cloudflare.com/api/resources/zero\_trust/subresources/dex/subresources/fleet\_status/subresources/devices/methods/list/</a>
 
-  V4 public API Pagination/Cursor info.
+<a href="#">Link to this property</a>
 
-  - `count: number`
+serial\_number: optional string
 
-    Number of records in the response.
+The device serial number.
 
-  - `cursor: string`
+<a href="#">Link to this property</a>
 
-    Opaque token to request the next set of records.
+</details>
 
-  - `per_page: number`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(model)%20device_list_response%20%3E%20(schema)>)
 
-    The limit for the number of records in the response.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total number of records available.
+DeviceGetResponse object {id, active\_registrations, created\_at, 16 more }
 
-### Example
+A WARP Device.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "fc9ab6ab-3b94-4319-9941-459462b3d73e",
-      "active_registrations": 1,
-      "created_at": "2025-02-14T13:17:00Z",
-      "last_seen_at": "2025-02-14T13:17:00Z",
-      "name": "My Device",
-      "updated_at": "2025-02-14T13:17:00Z",
-      "client_version": "1.0.0",
-      "deleted_at": "2025-02-14T13:17:00Z",
-      "device_type": "linux",
-      "hardware_id": "hardware_id",
-      "last_seen_registration": {
-        "policy": {
-          "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-          "default": true,
-          "deleted": true,
-          "name": "name",
-          "updated_at": "2025-02-14T13:17:00Z"
-        }
-      },
-      "last_seen_user": {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "email": "user@example.com",
-        "name": "John Appleseed"
-      },
-      "mac_address": "f5:01:73:cf:12:23",
-      "manufacturer": "ACME",
-      "model": "Mark VII",
-      "os_version": "os_version",
-      "os_version_extra": "os_version_extra",
-      "public_ip": "1.1.1.1",
-      "serial_number": "ABS765ASD8A"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "cursor": "ais86dftf.asdf7ba8",
-    "per_page": 10,
-    "total_count": null
-  }
-}
-```
+The unique ID of the device.
 
-## Get device
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/devices/physical-devices/{device_id}`
+active\_registrations: number
 
-Fetches a single WARP device.
+The number of active registrations for the device. Active registrations are those which haven’t been revoked or deleted.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created\_at: string
 
-- `device_id: string`
+The RFC3339 timestamp when the device was created.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `include: optional string`
+last\_seen\_at: string
 
-  Comma-separated list of additional information that should be included in the device response. Supported values are: "last_seen_registration.policy".
+The RFC3339 timestamp when the device was last seen.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+name: string
 
-  - `code: number`
+The name of the device.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+updated\_at: string
 
-  - `code: number`
+The RFC3339 timestamp when the device was last updated.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, active_registrations, created_at, 16 more }`
+client\_version: optional string
 
-  A WARP Device.
+Version of the WARP client.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the device.
+deleted\_at: optional string
 
-  - `active_registrations: number`
+The RFC3339 timestamp when the device was deleted.
 
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+device\_type: optional string
 
-    The RFC3339 timestamp when the device was created.
+The device operating system.
 
-  - `last_seen_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339 timestamp when the device was last seen.
+hardware\_id: optional string
 
-  - `name: string`
+A string that uniquely identifies the hardware or virtual machine (VM).
 
-    The name of the device.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+<details>
 
-    The RFC3339 timestamp when the device was last updated.
+<summary>
 
-  - `client_version: optional string`
+last\_seen\_registration: optional object {policy }
 
-    Version of the WARP client.
+The last seen registration for the device.
 
-  - `deleted_at: optional string`
+</summary>
 
-    The RFC3339 timestamp when the device was deleted.
+<details>
 
-  - `device_type: optional string`
+<summary>
 
-    The device operating system.
+policy: optional object {id, default, deleted, 2 more }
 
-  - `hardware_id: optional string`
+A summary of the device profile evaluated for the registration.
 
-    A string that uniquely identifies the hardware or virtual machine (VM).
+</summary>
 
-  - `last_seen_registration: optional object { policy }`
+id: string
 
-    The last seen registration for the device.
+The ID of the device settings profile.
 
-    - `policy: optional object { id, default, deleted, 2 more }`
+<a href="#">Link to this property</a>
 
-      A summary of the device profile evaluated for the registration.
+default: boolean
 
-      - `id: string`
+Whether the device settings profile is the default profile for the account.
 
-        The ID of the device settings profile.
+<a href="#">Link to this property</a>
 
-      - `default: boolean`
+deleted: boolean
 
-        Whether the device settings profile is the default profile for the account.
+Whether the device settings profile was deleted.
 
-      - `deleted: boolean`
+<a href="#">Link to this property</a>
 
-        Whether the device settings profile was deleted.
+name: string
 
-      - `name: string`
+The name of the device settings profile.
 
-        The name of the device settings profile.
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+updated\_at: string
 
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
 
-  - `last_seen_user: optional object { id, email, name }`
+<a href="#">Link to this property</a>
 
-    The last user to use the WARP device.
+</details>
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+</details>
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+<details>
 
-    - `name: optional string`
+<summary>
 
-      The enrolled device user's name.
+last\_seen\_user: optional object {id, email, name }
 
-  - `mac_address: optional string`
+The last user to use the WARP device.
 
-    The device MAC address.
+</summary>
 
-  - `manufacturer: optional string`
+id: optional string
 
-    The device manufacturer.
+UUID.
 
-  - `model: optional string`
+maxLength36
 
-    The model name of the device.
+<a href="#">Link to this property</a>
 
-  - `os_version: optional string`
+email: optional string
 
-    The device operating system version number.
+The contact email address of the user.
 
-  - `os_version_extra: optional string`
+maxLength90
 
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+<a href="#">Link to this property</a>
 
-  - `public_ip: optional string`
+name: optional string
 
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
+The enrolled device user’s name.
 
-  - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    The device serial number.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+mac\_address: optional string
 
-### Example
+The device MAC address.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices/$DEVICE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+manufacturer: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "id": "fc9ab6ab-3b94-4319-9941-459462b3d73e",
-    "active_registrations": 1,
-    "created_at": "2025-02-14T13:17:00Z",
-    "last_seen_at": "2025-02-14T13:17:00Z",
-    "name": "My Device",
-    "updated_at": "2025-02-14T13:17:00Z",
-    "client_version": "1.0.0",
-    "deleted_at": "2025-02-14T13:17:00Z",
-    "device_type": "linux",
-    "hardware_id": "hardware_id",
-    "last_seen_registration": {
-      "policy": {
-        "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
-        "default": true,
-        "deleted": true,
-        "name": "name",
-        "updated_at": "2025-02-14T13:17:00Z"
-      }
-    },
-    "last_seen_user": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "email": "user@example.com",
-      "name": "John Appleseed"
-    },
-    "mac_address": "f5:01:73:cf:12:23",
-    "manufacturer": "ACME",
-    "model": "Mark VII",
-    "os_version": "os_version",
-    "os_version_extra": "os_version_extra",
-    "public_ip": "1.1.1.1",
-    "serial_number": "ABS765ASD8A"
-  },
-  "success": true
-}
-```
+The device manufacturer.
 
-## Delete device
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/devices/physical-devices/{device_id}`
+model: optional string
 
-Deletes a WARP device.
+The model name of the device.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+os\_version: optional string
 
-- `device_id: string`
+The device operating system version number.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+os\_version\_extra: optional string
 
-  - `code: number`
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+Deprecatedpublic\_ip: optional string
 
-  - `code: number`
+**Deprecated**: IP information is provided by DEX - see <a href="https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/">https://developers.cloudflare.com/api/resources/zero\_trust/subresources/dex/subresources/fleet\_status/subresources/devices/methods/list/</a>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+serial\_number: optional string
 
-  Whether the API call was successful.
+The device serial number.
 
-- `result: optional unknown`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices/$DEVICE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(model)%20device_get_response%20%3E%20(schema)>)
 
-#### Response
+DeviceDeleteResponse = unknown
 
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(model)%20device_delete_response%20%3E%20(schema)>)
 
-## Revoke device registrations
+DeviceRevokeResponse = unknown
 
-**post** `/accounts/{account_id}/devices/physical-devices/{device_id}/revoke`
-
-Revokes all WARP registrations associated with the specified device.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `device_id: string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `messages: array of object { code, message }`
-
-  - `code: number`
-
-  - `message: string`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices/$DEVICE_ID/revoke \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Device List Response
-
-- `DeviceListResponse object { id, active_registrations, created_at, 16 more }`
-
-  A WARP Device.
-
-  - `id: string`
-
-    The unique ID of the device.
-
-  - `active_registrations: number`
-
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
-
-  - `created_at: string`
-
-    The RFC3339 timestamp when the device was created.
-
-  - `last_seen_at: string`
-
-    The RFC3339 timestamp when the device was last seen.
-
-  - `name: string`
-
-    The name of the device.
-
-  - `updated_at: string`
-
-    The RFC3339 timestamp when the device was last updated.
-
-  - `client_version: optional string`
-
-    Version of the WARP client.
-
-  - `deleted_at: optional string`
-
-    The RFC3339 timestamp when the device was deleted.
-
-  - `device_type: optional string`
-
-    The device operating system.
-
-  - `hardware_id: optional string`
-
-    A string that uniquely identifies the hardware or virtual machine (VM).
-
-  - `last_seen_registration: optional object { policy }`
-
-    The last seen registration for the device.
-
-    - `policy: optional object { id, default, deleted, 2 more }`
-
-      A summary of the device profile evaluated for the registration.
-
-      - `id: string`
-
-        The ID of the device settings profile.
-
-      - `default: boolean`
-
-        Whether the device settings profile is the default profile for the account.
-
-      - `deleted: boolean`
-
-        Whether the device settings profile was deleted.
-
-      - `name: string`
-
-        The name of the device settings profile.
-
-      - `updated_at: string`
-
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
-
-  - `last_seen_user: optional object { id, email, name }`
-
-    The last user to use the WARP device.
-
-    - `id: optional string`
-
-      UUID.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `name: optional string`
-
-      The enrolled device user's name.
-
-  - `mac_address: optional string`
-
-    The device MAC address.
-
-  - `manufacturer: optional string`
-
-    The device manufacturer.
-
-  - `model: optional string`
-
-    The model name of the device.
-
-  - `os_version: optional string`
-
-    The device operating system version number.
-
-  - `os_version_extra: optional string`
-
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-  - `public_ip: optional string`
-
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
-
-  - `serial_number: optional string`
-
-    The device serial number.
-
-### Device Get Response
-
-- `DeviceGetResponse object { id, active_registrations, created_at, 16 more }`
-
-  A WARP Device.
-
-  - `id: string`
-
-    The unique ID of the device.
-
-  - `active_registrations: number`
-
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
-
-  - `created_at: string`
-
-    The RFC3339 timestamp when the device was created.
-
-  - `last_seen_at: string`
-
-    The RFC3339 timestamp when the device was last seen.
-
-  - `name: string`
-
-    The name of the device.
-
-  - `updated_at: string`
-
-    The RFC3339 timestamp when the device was last updated.
-
-  - `client_version: optional string`
-
-    Version of the WARP client.
-
-  - `deleted_at: optional string`
-
-    The RFC3339 timestamp when the device was deleted.
-
-  - `device_type: optional string`
-
-    The device operating system.
-
-  - `hardware_id: optional string`
-
-    A string that uniquely identifies the hardware or virtual machine (VM).
-
-  - `last_seen_registration: optional object { policy }`
-
-    The last seen registration for the device.
-
-    - `policy: optional object { id, default, deleted, 2 more }`
-
-      A summary of the device profile evaluated for the registration.
-
-      - `id: string`
-
-        The ID of the device settings profile.
-
-      - `default: boolean`
-
-        Whether the device settings profile is the default profile for the account.
-
-      - `deleted: boolean`
-
-        Whether the device settings profile was deleted.
-
-      - `name: string`
-
-        The name of the device settings profile.
-
-      - `updated_at: string`
-
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
-
-  - `last_seen_user: optional object { id, email, name }`
-
-    The last user to use the WARP device.
-
-    - `id: optional string`
-
-      UUID.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `name: optional string`
-
-      The enrolled device user's name.
-
-  - `mac_address: optional string`
-
-    The device MAC address.
-
-  - `manufacturer: optional string`
-
-    The device manufacturer.
-
-  - `model: optional string`
-
-    The model name of the device.
-
-  - `os_version: optional string`
-
-    The device operating system version number.
-
-  - `os_version_extra: optional string`
-
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
-
-  - `public_ip: optional string`
-
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
-
-  - `serial_number: optional string`
-
-    The device serial number.
-
-### Device Delete Response
-
-- `DeviceDeleteResponse = unknown`
-
-### Device Revoke Response
-
-- `DeviceRevokeResponse = unknown`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(model)%20device_revoke_response%20%3E%20(schema)>)

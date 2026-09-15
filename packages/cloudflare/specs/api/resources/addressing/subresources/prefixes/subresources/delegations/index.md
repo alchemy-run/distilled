@@ -1,407 +1,109 @@
+---
+title: Delegations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Delegations
 
-## List Prefix Delegations
+##### [List Prefix Delegations](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/list)
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations`
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations
 
-List all delegations for a given account IP prefix.
+##### [Create Prefix Delegation](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations
 
-- `account_id: string`
+##### [Delete Prefix Delegation](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/delegations/methods/delete)
 
-  Identifier of a Cloudflare account.
+DELETE/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/delegations/{delegation\_id}
 
-- `prefix_id: string`
+##### ModelsExpand Collapse
 
-  Identifier of an IP Prefix.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+Delegations object {id, cidr, created\_at, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+Identifier of a Delegation.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+cidr: optional string
 
-  - `code: number`
+IP Prefix in Classless Inter-Domain Routing format.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_at: optional string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+delegated\_account\_id: optional string
 
-  Whether the API call was successful.
+Account identifier for the account to which prefix is being delegated.
 
-  - `true`
+maxLength32
 
-- `result: optional array of Delegations`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+modified\_at: optional string
 
-    Identifier of a Delegation.
+formatdate-time
 
-  - `cidr: optional string`
+<a href="#">Link to this property</a>
 
-    IP Prefix in Classless Inter-Domain Routing format.
+parent\_prefix\_id: optional string
 
-  - `created_at: optional string`
+Identifier of an IP Prefix.
 
-  - `delegated_account_id: optional string`
+maxLength32
 
-    Account identifier for the account to which prefix is being delegated.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+</details>
 
-  - `parent_prefix_id: optional string`
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(model)%20delegations%20%3E%20(schema)>)
 
-    Identifier of an IP Prefix.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+DelegationDeleteResponse object {id }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+id: optional string
 
-    Current page within paginated list of results.
+Identifier of a Delegation.
 
-  - `per_page: optional number`
+maxLength32
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "d933b1530bc56c9953cf8ce166da8004",
-      "cidr": "192.0.2.0/24",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "delegated_account_id": "b1946ac92492d2347c6235b4d2611184",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "parent_prefix_id": "2af39739cc4e3b5910c918468bb89828"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Create Prefix Delegation
-
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations`
-
-Create a new account delegation for a given IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `cidr: string`
-
-  IP Prefix in Classless Inter-Domain Routing format.
-
-- `delegated_account_id: string`
-
-  Account identifier for the account to which prefix is being delegated.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Delegations`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegated_account_id: optional string`
-
-    Account identifier for the account to which prefix is being delegated.
-
-  - `modified_at: optional string`
-
-  - `parent_prefix_id: optional string`
-
-    Identifier of an IP Prefix.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "cidr": "192.0.2.0/24",
-          "delegated_account_id": "b1946ac92492d2347c6235b4d2611184"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "d933b1530bc56c9953cf8ce166da8004",
-    "cidr": "192.0.2.0/24",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "delegated_account_id": "b1946ac92492d2347c6235b4d2611184",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "parent_prefix_id": "2af39739cc4e3b5910c918468bb89828"
-  }
-}
-```
-
-## Delete Prefix Delegation
-
-**delete** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/delegations/{delegation_id}`
-
-Delete an account delegation for a given IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-- `delegation_id: string`
-
-  Identifier of a Delegation.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/delegations/$DELEGATION_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "d933b1530bc56c9953cf8ce166da8004"
-  }
-}
-```
-
-## Domain Types
-
-### Delegations
-
-- `Delegations object { id, cidr, created_at, 3 more }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
-
-  - `cidr: optional string`
-
-    IP Prefix in Classless Inter-Domain Routing format.
-
-  - `created_at: optional string`
-
-  - `delegated_account_id: optional string`
-
-    Account identifier for the account to which prefix is being delegated.
-
-  - `modified_at: optional string`
-
-  - `parent_prefix_id: optional string`
-
-    Identifier of an IP Prefix.
-
-### Delegation Delete Response
-
-- `DelegationDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier of a Delegation.
+[Link to this property](#)%20addressing.prefixes.delegations%20%3E%20(model)%20delegation_delete_response%20%3E%20(schema)>)

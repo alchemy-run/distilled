@@ -1,102 +1,337 @@
-## Get a Page Shield cookie
+---
+title: Get a detected cookie
+---
 
-**get** `/zones/{zone_id}/page_shield/cookies/{cookie_id}`
+[Skip to content](#_top)
 
-Fetches a cookie collected by Page Shield by cookie ID.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Page Shield](https://developers.cloudflare.com/api/resources/page_shield)
 
-- `zone_id: string`
+[Cookies](https://developers.cloudflare.com/api/resources/page_shield/subresources/cookies)
 
-  Identifier
+Copy Markdown
 
-- `cookie_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Identifier
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `result: object { id, first_seen_at, host, 11 more }`
+# Get a detected cookie
 
-  - `id: string`
+GET/zones/{zone\_id}/page\_shield/cookies/{cookie\_id}
 
-    Identifier
+Returns a cookie detected on the zone by cookie ID.
 
-  - `first_seen_at: string`
+##### Security
 
-  - `host: string`
+API Email + API Key
 
-  - `last_seen_at: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `name: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `type: "first_party" or "unknown"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"first_party"`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-    - `"unknown"`
+##### Accepted Permissions (at least one required)
 
-  - `domain_attribute: optional string`
+`Page Shield``Domain Page Shield Read``Domain Page Shield``Page Shield Read``Zone Settings Write``Zone Settings Read`
 
-  - `expires_attribute: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `http_only_attribute: optional boolean`
+zone\_id: string
 
-  - `max_age_attribute: optional number`
+Identifier
 
-  - `page_urls: optional array of string`
+maxLength32
 
-  - `path_attribute: optional string`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `same_site_attribute: optional "lax" or "strict" or "none"`
+cookie\_id: string
 
-    - `"lax"`
+Identifier
 
-    - `"strict"`
+maxLength32
 
-    - `"none"`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20cookie_id%20%3E%20(schema)>)
 
-  - `secure_attribute: optional boolean`
+##### ReturnsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+result: object {id, first\_seen\_at, host, 11 more }
 
-- `errors: optional array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+Identifier
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+first\_seen\_at: string
 
-- `messages: optional array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+host: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+last\_seen\_at: string
 
-### Example
+formatdate-time
 
-```http
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "first\_party"or "unknown"
+
+</summary>
+
+One of the following:
+
+"first\_party"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain\_attribute: optional string
+
+<a href="#">Link to this property</a>
+
+expires\_attribute: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+http\_only\_attribute: optional boolean
+
+<a href="#">Link to this property</a>
+
+max\_age\_attribute: optional number
+
+<a href="#">Link to this property</a>
+
+page\_urls: optional array of string
+
+<a href="#">Link to this property</a>
+
+path\_attribute: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+same\_site\_attribute: optional "lax"or "strict"or "none"
+
+</summary>
+
+One of the following:
+
+"lax"
+
+<a href="#">Link to this property</a>
+
+"strict"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+secure\_attribute: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.cookies%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+### Get a detected cookie
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/cookies/$COOKIE_ID \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "first_seen_at": "2021-08-18T10:51:08Z",
+    "host": "blog.cloudflare.com",
+    "last_seen_at": "2021-09-02T09:57:54Z",
+    "name": "session_id",
+    "type": "first_party",
+    "domain_attribute": "cloudflare.com",
+    "expires_attribute": "2021-10-02T09:57:54Z",
+    "http_only_attribute": true,
+    "max_age_attribute": 3600,
+    "page_urls": [
+      "blog.cloudflare.com/page1",
+      "blog.cloudflare.com/page2"
+    ],
+    "path_attribute": "/",
+    "same_site_attribute": "strict",
+    "secure_attribute": true
+  },
+  "success": true,
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "023e105f4ecef8ad9ca31a8372d0c353",

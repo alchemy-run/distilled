@@ -1,336 +1,183 @@
+---
+title: Managed
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
+
+[Labels](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Managed
 
-## Retrieve managed label
+##### [Get a managed operation label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/managed/methods/get)
 
-**get** `/zones/{zone_id}/api_gateway/labels/managed/{name}`
+GET/zones/{zone\_id}/api\_gateway/labels/managed/{name}
 
-Retrieve managed label
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+ManagedGetResponse object {created\_at, description, last\_updated, 4 more }
 
-- `name: string`
+</summary>
 
-  The name of the label
+created\_at: string
 
-### Query Parameters
+formatdate-time
 
-- `with_mapped_resource_counts: optional boolean`
+<a href="#">Link to this property</a>
 
-  Include `mapped_resources` for each label
+description: string
 
-### Returns
+The description of the label
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+last\_updated: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+metadata: unknown
 
-    - `pointer: optional string`
+Metadata for the label
 
-- `messages: Message`
+<a href="#">Link to this property</a>
 
-- `result: object { created_at, description, last_updated, 4 more }`
+name: string
 
-  - `created_at: string`
+The name of the label
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    The description of the label
+<details>
 
-  - `last_updated: string`
+<summary>
 
-  - `metadata: unknown`
+source: "user"or "managed"
 
-    Metadata for the label
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-  - `name: string`
+</summary>
 
-    The name of the label
+One of the following:
 
-  - `source: "user" or "managed"`
+"user"
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+<a href="#">Link to this property</a>
 
-    - `"user"`
+"managed"
 
-    - `"managed"`
+<a href="#">Link to this property</a>
 
-  - `mapped_resources: optional unknown`
+</details>
 
-    Provides counts of what resources are linked to this label
+<a href="#">Link to this property</a>
 
-- `success: true`
+mapped\_resources: optional unknown
 
-  Whether the API call was successful.
+Provides counts of what resources are linked to this label
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/managed/$NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20api_gateway.labels.managed%20%3E%20(model)%20managed_get_response%20%3E%20(schema)>)
 
-#### Response
+#### ManagedResources
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "managed",
-    "mapped_resources": {
-      "operations": 29
-    }
-  },
-  "success": true
-}
-```
+#### ManagedResourcesOperation
 
-## Domain Types
+##### [Replace operations attached to a managed label](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/managed/subresources/resources/subresources/operation/methods/update)
 
-### Managed Get Response
+PUT/zones/{zone\_id}/api\_gateway/labels/managed/{name}/resources/operation
 
-- `ManagedGetResponse object { created_at, description, last_updated, 4 more }`
+##### ModelsExpand Collapse
 
-  - `created_at: string`
+<details>
 
-  - `description: string`
+<summary>
 
-    The description of the label
+OperationUpdateResponse object {created\_at, description, last\_updated, 4 more }
 
-  - `last_updated: string`
+</summary>
 
-  - `metadata: unknown`
+created\_at: string
 
-    Metadata for the label
+formatdate-time
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the label
+description: string
 
-  - `source: "user" or "managed"`
+The description of the label
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+<a href="#">Link to this property</a>
 
-    - `"user"`
+last\_updated: string
 
-    - `"managed"`
+formatdate-time
 
-  - `mapped_resources: optional unknown`
+<a href="#">Link to this property</a>
 
-    Provides counts of what resources are linked to this label
+metadata: unknown
 
-# Resources
+Metadata for the label
 
-# Operation
+<a href="#">Link to this property</a>
 
-## Replace operation(s) attached to a managed label
+name: string
 
-**put** `/zones/{zone_id}/api_gateway/labels/managed/{name}/resources/operation`
+The name of the label
 
-Replace all operations(s) attached to a managed label
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+source: "user"or "managed"
 
-- `name: string`
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
 
-  The name of the label
+</summary>
 
-### Body Parameters
+One of the following:
 
-- `selector: object { include }`
+"user"
 
-  Operation IDs selector
+<a href="#">Link to this property</a>
 
-  - `include: object { operation_ids }`
+"managed"
 
-    - `operation_ids: array of string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: Message`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+mapped\_resources: optional unknown
 
-  - `message: string`
+Provides counts of what resources are linked to this label
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { created_at, description, last_updated, 4 more }`
-
-  - `created_at: string`
-
-  - `description: string`
-
-    The description of the label
-
-  - `last_updated: string`
-
-  - `metadata: unknown`
-
-    Metadata for the label
-
-  - `name: string`
-
-    The name of the label
-
-  - `source: "user" or "managed"`
-
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
-
-    - `"user"`
-
-    - `"managed"`
-
-  - `mapped_resources: optional unknown`
-
-    Provides counts of what resources are linked to this label
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/managed/$NAME/resources/operation \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "selector": {
-            "include": {
-              "operation_ids": [
-                "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-              ]
-            }
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "description": "All endpoints that deal with logins",
-    "last_updated": "2014-01-01T05:20:00.12345Z",
-    "metadata": {
-      "foo": "bar"
-    },
-    "name": "login",
-    "source": "managed",
-    "mapped_resources": {
-      "operations": 29
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Operation Update Response
-
-- `OperationUpdateResponse object { created_at, description, last_updated, 4 more }`
-
-  - `created_at: string`
-
-  - `description: string`
-
-    The description of the label
-
-  - `last_updated: string`
-
-  - `metadata: unknown`
-
-    Metadata for the label
-
-  - `name: string`
-
-    The name of the label
-
-  - `source: "user" or "managed"`
-
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
-
-    - `"user"`
-
-    - `"managed"`
-
-  - `mapped_resources: optional unknown`
-
-    Provides counts of what resources are linked to this label
+[Link to this property](#)%20api_gateway.labels.managed.resources.operation%20%3E%20(model)%20operation_update_response%20%3E%20(schema)>)

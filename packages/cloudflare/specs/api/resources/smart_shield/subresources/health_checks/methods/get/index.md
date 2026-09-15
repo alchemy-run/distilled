@@ -1,211 +1,570 @@
-## Health Check Details
+---
+title: Health Check Details
+---
 
-**get** `/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Smart Shield](https://developers.cloudflare.com/api/resources/smart_shield)
+
+[Health Checks](https://developers.cloudflare.com/api/resources/smart_shield/subresources/health_checks)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Health Check Details
+
+GET/zones/{zone\_id}/smart\_shield/healthchecks/{healthcheck\_id}
 
 Fetch a single configured health check.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `healthcheck_id: string`
 
-  Identifier.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { id, address, check_regions, 15 more }`
+##### Accepted Permissions (at least one required)
 
-  - `id: optional string`
+`Health Checks Write``Health Checks Read`
 
-    Identifier.
+##### P ath ParametersExpand Collapse
 
-  - `address: optional string`
+zone\_id: string
 
-    The hostname or IP address of the origin server to run health checks on.
+Identifier.
 
-  - `check_regions: optional array of "WNAM" or "ENAM" or "WEU" or 11 more`
+maxLength32
 
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
+[Link to this property](#)%20smart_shield.health_checks%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `"WNAM"`
+healthcheck\_id: string
 
-    - `"ENAM"`
+Identifier.
 
-    - `"WEU"`
+maxLength32
 
-    - `"EEU"`
+[Link to this property](#)%20smart_shield.health_checks%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20healthcheck_id%20%3E%20(schema)>)
 
-    - `"NSAM"`
+##### ReturnsExpand Collapse
 
-    - `"SSAM"`
+<details>
 
-    - `"OC"`
+<summary>
 
-    - `"ME"`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"NAF"`
+</summary>
 
-    - `"SAF"`
+code: number
 
-    - `"IN"`
+minimum1000
 
-    - `"SEAS"`
+<a href="#">Link to this property</a>
 
-    - `"NEAS"`
+message: string
 
-    - `"ALL_REGIONS"`
+<a href="#">Link to this property</a>
 
-  - `consecutive_fails: optional number`
+documentation\_url: optional string
 
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
+<a href="#">Link to this property</a>
 
-  - `consecutive_successes: optional number`
+<details>
 
-    The number of consecutive successes required from a health check before changing the health to healthy.
+<summary>
 
-  - `created_on: optional string`
+source: optional object {pointer }
 
-  - `description: optional string`
+</summary>
 
-    A human-readable description of the health check.
+pointer: optional string
 
-  - `failure_reason: optional string`
+<a href="#">Link to this property</a>
 
-    The current failure reason if status is unhealthy.
+</details>
 
-  - `http_config: optional object { allow_insecure, expected_body, expected_codes, 5 more }`
+<a href="#">Link to this property</a>
 
-    Parameters specific to an HTTP or HTTPS health check.
+</details>
 
-    - `allow_insecure: optional boolean`
+[Link to this property](#)%20smart_shield.health_checks%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      Do not validate the certificate when the health check uses HTTPS.
+<details>
 
-    - `expected_body: optional string`
+<summary>
 
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `expected_codes: optional array of string`
+</summary>
 
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
+code: number
 
-    - `follow_redirects: optional boolean`
+minimum1000
 
-      Follow redirects if the origin returns a 3xx status code.
+<a href="#">Link to this property</a>
 
-    - `header: optional map[array of string]`
+message: string
 
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
+<a href="#">Link to this property</a>
 
-    - `method: optional "GET" or "HEAD"`
+documentation\_url: optional string
 
-      The HTTP method to use for the health check.
+<a href="#">Link to this property</a>
 
-      - `"GET"`
+<details>
 
-      - `"HEAD"`
+<summary>
 
-    - `path: optional string`
+source: optional object {pointer }
 
-      The endpoint path to health check against.
+</summary>
 
-    - `port: optional number`
+pointer: optional string
 
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
+<a href="#">Link to this property</a>
 
-  - `interval: optional number`
+</details>
 
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+</details>
 
-  - `name: optional string`
+[Link to this property](#)%20smart_shield.health_checks%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
+<details>
 
-  - `retries: optional number`
+<summary>
 
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
+result: object {id, address, check\_regions, 15 more }
 
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
+</summary>
 
-    The current status of the origin server according to the health check.
+id: optional string
 
-    - `"unknown"`
+Identifier.
 
-    - `"healthy"`
+maxLength32
 
-    - `"unhealthy"`
+<a href="#">Link to this property</a>
 
-    - `"suspended"`
+address: optional string
 
-  - `suspended: optional boolean`
+The hostname or IP address of the origin server to run health checks on.
 
-    If suspended, no health checks are sent to the origin.
+<a href="#">Link to this property</a>
 
-  - `tcp_config: optional object { method, port }`
+<details>
 
-    Parameters specific to TCP health check.
+<summary>
 
-    - `method: optional "connection_established"`
+check\_regions: optional array of "WNAM"or "ENAM"or "WEU"or 11 more
 
-      The TCP connection method to use for the health check.
+A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
 
-      - `"connection_established"`
+</summary>
 
-    - `port: optional number`
+One of the following:
 
-      Port number to connect to for the health check. Defaults to 80.
+"WNAM"
 
-  - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-    The timeout (in seconds) before marking the health check as failed.
+"ENAM"
 
-  - `type: optional string`
+<a href="#">Link to this property</a>
 
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
+"WEU"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"EEU"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"NSAM"
 
-```http
+<a href="#">Link to this property</a>
+
+"SSAM"
+
+<a href="#">Link to this property</a>
+
+"OC"
+
+<a href="#">Link to this property</a>
+
+"ME"
+
+<a href="#">Link to this property</a>
+
+"NAF"
+
+<a href="#">Link to this property</a>
+
+"SAF"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"SEAS"
+
+<a href="#">Link to this property</a>
+
+"NEAS"
+
+<a href="#">Link to this property</a>
+
+"ALL\_REGIONS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+consecutive\_fails: optional number
+
+The number of consecutive fails required from a health check before changing the health to unhealthy.
+
+<a href="#">Link to this property</a>
+
+consecutive\_successes: optional number
+
+The number of consecutive successes required from a health check before changing the health to healthy.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A human-readable description of the health check.
+
+<a href="#">Link to this property</a>
+
+failure\_reason: optional string
+
+The current failure reason if status is unhealthy.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+http\_config: optional object {allow\_insecure, expected\_body, expected\_codes, 5 more }
+
+Parameters specific to an HTTP or HTTPS health check.
+
+</summary>
+
+allow\_insecure: optional boolean
+
+Do not validate the certificate when the health check uses HTTPS.
+
+<a href="#">Link to this property</a>
+
+expected\_body: optional string
+
+A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
+
+<a href="#">Link to this property</a>
+
+expected\_codes: optional array of string
+
+The expected HTTP response codes (e.g. “200”) or code ranges (e.g. “2xx” for all codes starting with 2) of the health check.
+
+<a href="#">Link to this property</a>
+
+follow\_redirects: optional boolean
+
+Follow redirects if the origin returns a 3xx status code.
+
+<a href="#">Link to this property</a>
+
+header: optional map\[array of string]
+
+The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+method: optional "GET"or "HEAD"
+
+The HTTP method to use for the health check.
+
+</summary>
+
+One of the following:
+
+"GET"
+
+<a href="#">Link to this property</a>
+
+"HEAD"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+The endpoint path to health check against.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+interval: optional number
+
+The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
+
+<a href="#">Link to this property</a>
+
+retries: optional number
+
+The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "unknown"or "healthy"or "unhealthy"or "suspended"
+
+The current status of the origin server according to the health check.
+
+</summary>
+
+One of the following:
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+"healthy"
+
+<a href="#">Link to this property</a>
+
+"unhealthy"
+
+<a href="#">Link to this property</a>
+
+"suspended"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+suspended: optional boolean
+
+If suspended, no health checks are sent to the origin.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tcp\_config: optional object {method, port }
+
+Parameters specific to TCP health check.
+
+</summary>
+
+method: optional "connection\_established"
+
+The TCP connection method to use for the health check.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+Port number to connect to for the health check. Defaults to 80.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+timeout: optional number
+
+The timeout (in seconds) before marking the health check as failed.
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+The protocol to use for the health check. Currently supported protocols are ‘HTTP’, ‘HTTPS’ and ‘TCP’.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20smart_shield.health_checks%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20smart_shield.health_checks%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Health Check Details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/smart_shield/healthchecks/$HEALTHCHECK_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "address": "www.example.com",
+    "check_regions": [
+      "WEU",
+      "ENAM"
+    ],
+    "consecutive_fails": 0,
+    "consecutive_successes": 0,
+    "created_on": "2014-01-01T05:20:00.12345Z",
+    "description": "Health check for www.example.com",
+    "failure_reason": "",
+    "http_config": {
+      "allow_insecure": true,
+      "expected_body": "success",
+      "expected_codes": [
+        "2xx",
+        "302"
+      ],
+      "follow_redirects": true,
+      "header": {
+        "Host": [
+          "example.com"
+        ],
+        "X-App-ID": [
+          "abc123"
+        ]
+      },
+      "method": "GET",
+      "path": "/health",
+      "port": 0
+    },
+    "interval": 0,
+    "modified_on": "2014-01-01T05:20:00.12345Z",
+    "name": "server-1",
+    "retries": 0,
+    "status": "healthy",
+    "suspended": true,
+    "tcp_config": {
+      "method": "connection_established",
+      "port": 0
+    },
+    "timeout": 0,
+    "type": "HTTPS"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

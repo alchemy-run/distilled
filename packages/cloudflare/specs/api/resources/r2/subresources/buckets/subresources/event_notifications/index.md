@@ -1,629 +1,271 @@
+---
+title: Event Notifications
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Event Notifications
 
-## List Event Notification Rules
+##### [List Event Notification Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications/methods/list)
 
-**get** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration`
+GET/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration
 
-List all event notification rules for a bucket.
+##### [Get Event Notification Rule](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration/queues/{queue\_id}
 
-- `account_id: string`
+##### [Create Event Notification Rule](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications/methods/update)
 
-  Account ID.
+PUT/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration/queues/{queue\_id}
 
-- `bucket_name: string`
+##### [Delete Event Notification Rules](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/event_notifications/methods/delete)
 
-  Name of the bucket.
+DELETE/accounts/{account\_id}/event\_notifications/r2/{bucket\_name}/configuration/queues/{queue\_id}
 
-### Header Parameters
+##### ModelsExpand Collapse
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<details>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<summary>
 
-  - `"default"`
+EventNotificationListResponse object {bucketName, queues }
 
-  - `"eu"`
+</summary>
 
-  - `"fedramp"`
+bucketName: optional string
 
-### Returns
+Name of the bucket.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+queues: optional array of object {queueId, queueName, rules }
 
-  - `source: optional object { pointer }`
+List of queues associated with the bucket.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of string`
+queueId: optional string
 
-- `result: object { bucketName, queues }`
+Queue ID.
 
-  - `bucketName: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the bucket.
+queueName: optional string
 
-  - `queues: optional array of object { queueId, queueName, rules }`
+Name of the queue.
 
-    List of queues associated with the bucket.
+<a href="#">Link to this property</a>
 
-    - `queueId: optional string`
+<details>
 
-      Queue ID.
+<summary>
 
-    - `queueName: optional string`
+rules: optional array of object {actions, createdAt, description, 3 more }
 
-      Name of the queue.
+</summary>
 
-    - `rules: optional array of object { actions, createdAt, description, 3 more }`
+<details>
 
-      - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
+<summary>
 
-        Array of R2 object actions that will trigger notifications.
+actions: array of "PutObject"or "CopyObject"or "DeleteObject"or 2 more
 
-        - `"PutObject"`
+Array of R2 object actions that will trigger notifications.
 
-        - `"CopyObject"`
+</summary>
 
-        - `"DeleteObject"`
+One of the following:
 
-        - `"CompleteMultipartUpload"`
+"PutObject"
 
-        - `"LifecycleDeletion"`
+<a href="#">Link to this property</a>
 
-      - `createdAt: optional string`
+"CopyObject"
 
-        Timestamp when the rule was created.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+"DeleteObject"
 
-        A description that can be used to identify the event notification rule after creation.
+<a href="#">Link to this property</a>
 
-      - `prefix: optional string`
+"CompleteMultipartUpload"
 
-        Notifications will be sent only for objects with this prefix.
+<a href="#">Link to this property</a>
 
-      - `ruleId: optional string`
+"LifecycleDeletion"
 
-        Rule ID.
+<a href="#">Link to this property</a>
 
-      - `suffix: optional string`
+</details>
 
-        Notifications will be sent only for objects with this suffix.
+<a href="#">Link to this property</a>
 
-- `success: true`
+createdAt: optional string
 
-  Whether the API call was successful.
+Timestamp when the rule was created.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+description: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+A description that can be used to identify the event notification rule after creation.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "bucketName": "bucketName",
-    "queues": [
-      {
-        "queueId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
-        "queueName": "first-queue",
-        "rules": [
-          {
-            "actions": [
-              "PutObject",
-              "CopyObject"
-            ],
-            "createdAt": "2024-09-19T21:54:48.405Z",
-            "description": "Notifications from source bucket to queue",
-            "prefix": "img/",
-            "ruleId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
-            "suffix": ".jpeg"
-          }
-        ]
-      }
-    ]
-  },
-  "success": true
-}
-```
+prefix: optional string
 
-## Get Event Notification Rule
+Notifications will be sent only for objects with this prefix.
 
-**get** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}`
+<a href="#">Link to this property</a>
 
-Get a single event notification rule.
+ruleId: optional string
 
-### Path Parameters
+Rule ID.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+suffix: optional string
 
-- `bucket_name: string`
+Notifications will be sent only for objects with this suffix.
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-- `queue_id: string`
+</details>
 
-  Queue ID.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+</details>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-  The bucket jurisdiction.
+</details>
 
-  - `"default"`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(model)%20event_notification_list_response%20%3E%20(schema)>)
 
-  - `"eu"`
+<details>
 
-  - `"fedramp"`
+<summary>
 
-### Returns
+EventNotificationGetResponse object {queueId, queueName, rules }
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+queueId: optional string
 
-  - `message: string`
+Queue ID.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+queueName: optional string
 
-    - `pointer: optional string`
+Name of the queue.
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: object { queueId, queueName, rules }`
+<details>
 
-  - `queueId: optional string`
+<summary>
 
-    Queue ID.
+rules: optional array of object {actions, createdAt, description, 3 more }
 
-  - `queueName: optional string`
+</summary>
 
-    Name of the queue.
+<details>
 
-  - `rules: optional array of object { actions, createdAt, description, 3 more }`
+<summary>
 
-    - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
+actions: array of "PutObject"or "CopyObject"or "DeleteObject"or 2 more
 
-      Array of R2 object actions that will trigger notifications.
+Array of R2 object actions that will trigger notifications.
 
-      - `"PutObject"`
+</summary>
 
-      - `"CopyObject"`
+One of the following:
 
-      - `"DeleteObject"`
+"PutObject"
 
-      - `"CompleteMultipartUpload"`
+<a href="#">Link to this property</a>
 
-      - `"LifecycleDeletion"`
+"CopyObject"
 
-    - `createdAt: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp when the rule was created.
+"DeleteObject"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      A description that can be used to identify the event notification rule after creation.
+"CompleteMultipartUpload"
 
-    - `prefix: optional string`
+<a href="#">Link to this property</a>
 
-      Notifications will be sent only for objects with this prefix.
+"LifecycleDeletion"
 
-    - `ruleId: optional string`
+<a href="#">Link to this property</a>
 
-      Rule ID.
+</details>
 
-    - `suffix: optional string`
+<a href="#">Link to this property</a>
 
-      Notifications will be sent only for objects with this suffix.
+createdAt: optional string
 
-- `success: true`
+Timestamp when the rule was created.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+description: optional string
 
-### Example
+A description that can be used to identify the event notification rule after creation.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration/queues/$QUEUE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+prefix: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "queueId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
-    "queueName": "first-queue",
-    "rules": [
-      {
-        "actions": [
-          "PutObject",
-          "CopyObject"
-        ],
-        "createdAt": "2024-09-19T21:54:48.405Z",
-        "description": "Notifications from source bucket to queue",
-        "prefix": "img/",
-        "ruleId": "11111aa1-11aa-111a-a1a1-a1a111a11a11",
-        "suffix": ".jpeg"
-      }
-    ]
-  },
-  "success": true
-}
-```
+Notifications will be sent only for objects with this prefix.
 
-## Create Event Notification Rule
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}`
+ruleId: optional string
 
-Create event notification rule.
+Rule ID.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+suffix: optional string
 
-  Account ID.
+Notifications will be sent only for objects with this suffix.
 
-- `bucket_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the bucket.
+</details>
 
-- `queue_id: string`
+<a href="#">Link to this property</a>
 
-  Queue ID.
+</details>
 
-### Header Parameters
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(model)%20event_notification_get_response%20%3E%20(schema)>)
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+EventNotificationUpdateResponse = unknown
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(model)%20event_notification_update_response%20%3E%20(schema)>)
 
-  - `"default"`
+EventNotificationDeleteResponse = unknown
 
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Body Parameters
-
-- `rules: array of object { actions, description, prefix, suffix }`
-
-  Array of rules to drive notifications.
-
-  - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
-
-    Array of R2 object actions that will trigger notifications.
-
-    - `"PutObject"`
-
-    - `"CopyObject"`
-
-    - `"DeleteObject"`
-
-    - `"CompleteMultipartUpload"`
-
-    - `"LifecycleDeletion"`
-
-  - `description: optional string`
-
-    A description that can be used to identify the event notification rule after creation.
-
-  - `prefix: optional string`
-
-    Notifications will be sent only for objects with this prefix.
-
-  - `suffix: optional string`
-
-    Notifications will be sent only for objects with this suffix.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration/queues/$QUEUE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "rules": [
-            {
-              "actions": [
-                "PutObject",
-                "CopyObject"
-              ]
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Delete Event Notification Rules
-
-**delete** `/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}`
-
-Delete an event notification rule. **If no body is provided, all rules for specified queue will be deleted**.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `bucket_name: string`
-
-  Name of the bucket.
-
-- `queue_id: string`
-
-  Queue ID.
-
-### Header Parameters
-
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
-
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
-
-  - `"default"`
-
-  - `"eu"`
-
-  - `"fedramp"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_notifications/r2/$BUCKET_NAME/configuration/queues/$QUEUE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Event Notification List Response
-
-- `EventNotificationListResponse object { bucketName, queues }`
-
-  - `bucketName: optional string`
-
-    Name of the bucket.
-
-  - `queues: optional array of object { queueId, queueName, rules }`
-
-    List of queues associated with the bucket.
-
-    - `queueId: optional string`
-
-      Queue ID.
-
-    - `queueName: optional string`
-
-      Name of the queue.
-
-    - `rules: optional array of object { actions, createdAt, description, 3 more }`
-
-      - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
-
-        Array of R2 object actions that will trigger notifications.
-
-        - `"PutObject"`
-
-        - `"CopyObject"`
-
-        - `"DeleteObject"`
-
-        - `"CompleteMultipartUpload"`
-
-        - `"LifecycleDeletion"`
-
-      - `createdAt: optional string`
-
-        Timestamp when the rule was created.
-
-      - `description: optional string`
-
-        A description that can be used to identify the event notification rule after creation.
-
-      - `prefix: optional string`
-
-        Notifications will be sent only for objects with this prefix.
-
-      - `ruleId: optional string`
-
-        Rule ID.
-
-      - `suffix: optional string`
-
-        Notifications will be sent only for objects with this suffix.
-
-### Event Notification Get Response
-
-- `EventNotificationGetResponse object { queueId, queueName, rules }`
-
-  - `queueId: optional string`
-
-    Queue ID.
-
-  - `queueName: optional string`
-
-    Name of the queue.
-
-  - `rules: optional array of object { actions, createdAt, description, 3 more }`
-
-    - `actions: array of "PutObject" or "CopyObject" or "DeleteObject" or 2 more`
-
-      Array of R2 object actions that will trigger notifications.
-
-      - `"PutObject"`
-
-      - `"CopyObject"`
-
-      - `"DeleteObject"`
-
-      - `"CompleteMultipartUpload"`
-
-      - `"LifecycleDeletion"`
-
-    - `createdAt: optional string`
-
-      Timestamp when the rule was created.
-
-    - `description: optional string`
-
-      A description that can be used to identify the event notification rule after creation.
-
-    - `prefix: optional string`
-
-      Notifications will be sent only for objects with this prefix.
-
-    - `ruleId: optional string`
-
-      Rule ID.
-
-    - `suffix: optional string`
-
-      Notifications will be sent only for objects with this suffix.
-
-### Event Notification Update Response
-
-- `EventNotificationUpdateResponse = unknown`
-
-### Event Notification Delete Response
-
-- `EventNotificationDeleteResponse = unknown`
+[Link to this property](#)%20r2.buckets.event_notifications%20%3E%20(model)%20event_notification_delete_response%20%3E%20(schema)>)

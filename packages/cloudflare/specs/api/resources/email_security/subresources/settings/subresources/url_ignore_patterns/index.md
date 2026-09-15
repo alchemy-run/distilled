@@ -1,725 +1,311 @@
+---
+title: URL Ignore Patterns
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # URL Ignore Patterns
 
-## List URL ignore patterns
+##### [List URL ignore patterns](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/list)
 
-**get** `/accounts/{account_id}/email-security/settings/url_ignore_patterns`
+GET/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns
 
-Returns a paginated list of URL rewrite ignore patterns for the account. URLs matching these patterns will not be rewritten.
+##### [Get a URL ignore pattern](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns/{pattern\_id}
 
-- `account_id: string`
+##### [Create a URL ignore pattern](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns
 
-### Query Parameters
+##### [Update a URL ignore pattern](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/edit)
 
-- `page: optional number`
+PATCH/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns/{pattern\_id}
 
-  Current page within paginated list of results.
+##### [Delete a URL ignore pattern](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/delete)
 
-- `per_page: optional number`
+DELETE/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns/{pattern\_id}
 
-  The number of results per page. Maximum value is 1000.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+URLIgnorePatternListResponse object {id, created\_at, pattern, 3 more }
 
-  - `message: string`
+A URL ignore pattern that exempts matching URLs from Email Security’s URL rewriting.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+URL ignore pattern identifier.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatuuid
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_at: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+pattern: string
 
-- `success: true`
+Regular expression identifying URLs to exempt from rewriting.
 
-  Whether the API call was successful.
+maxLength1024
 
-  - `true`
+minLength1
 
-- `result: optional array of object { id, created_at, pattern, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+comments: optional string
 
-    URL ignore pattern identifier
+Optional note describing the reason for the ignore pattern.
 
-  - `created_at: string`
+maxLength1024
 
-  - `pattern: string`
+<a href="#">Link to this property</a>
 
-    Regular expression matching URLs that should not be rewritten.
+Deprecatedlast\_modified: optional string
 
-  - `comments: optional string`
+Use <code>modified_at</code> instead.
 
-    Optional note describing the reason for the ignore pattern.
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `last_modified: optional string`
+formatdate-time
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+modified\_at: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+formatdate-time
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_list_response%20%3E%20(schema)>)
 
-    Current page within paginated list of results.
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    Number of results per page of results.
+URLIgnorePatternGetResponse object {id, created\_at, pattern, 3 more }
 
-  - `total_count: optional number`
+A URL ignore pattern that exempts matching URLs from Email Security’s URL rewriting.
 
-    Total results available without any search parameters.
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+URL ignore pattern identifier.
 
-#### Response
+formatuuid
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "pattern": "https://example\\.com/.*",
-      "comments": "Trusted internal redirect service",
-      "last_modified": "2019-12-27T18:11:19.117Z",
-      "modified_at": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get a URL ignore pattern
+created\_at: string
 
-**get** `/accounts/{account_id}/email-security/settings/url_ignore_patterns/{pattern_id}`
+formatdate-time
 
-Returns a single URL rewrite ignore pattern by its identifier.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+pattern: string
 
-- `account_id: string`
+Regular expression identifying URLs to exempt from rewriting.
 
-  Identifier.
+maxLength1024
 
-- `pattern_id: string`
+minLength1
 
-  URL ignore pattern identifier
+<a href="#">Link to this property</a>
 
-### Returns
+comments: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Optional note describing the reason for the ignore pattern.
 
-  - `code: number`
+maxLength1024
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+Deprecatedlast\_modified: optional string
 
-  - `source: optional object { pointer }`
+Use <code>modified_at</code> instead.
 
-    - `pointer: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_at: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_get_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id, created_at, pattern, 3 more }`
+URLIgnorePatternCreateResponse object {id, created\_at, pattern, 3 more }
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+A URL ignore pattern that exempts matching URLs from Email Security’s URL rewriting.
 
-  - `id: string`
+</summary>
 
-    URL ignore pattern identifier
+id: string
 
-  - `created_at: string`
+URL ignore pattern identifier.
 
-  - `pattern: string`
+formatuuid
 
-    Regular expression matching URLs that should not be rewritten.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+created\_at: string
 
-    Optional note describing the reason for the ignore pattern.
+formatdate-time
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+pattern: string
 
-  - `modified_at: optional string`
+Regular expression identifying URLs to exempt from rewriting.
 
-### Example
+maxLength1024
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns/$PATTERN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+minLength1
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "pattern": "https://example\\.com/.*",
-    "comments": "Trusted internal redirect service",
-    "last_modified": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+comments: optional string
 
-## Create a URL ignore pattern
+Optional note describing the reason for the ignore pattern.
 
-**post** `/accounts/{account_id}/email-security/settings/url_ignore_patterns`
+maxLength1024
 
-Creates a new URL rewrite ignore pattern. URLs matching this pattern will not be rewritten.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+Deprecatedlast\_modified: optional string
 
-- `account_id: string`
+Use <code>modified_at</code> instead.
 
-  Identifier.
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-### Body Parameters
+formatdate-time
 
-- `pattern: string`
+<a href="#">Link to this property</a>
 
-  Regular expression matching URLs that should not be rewritten.
+modified\_at: optional string
 
-- `comments: optional string`
+formatdate-time
 
-  Optional note describing the reason for the ignore pattern.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_create_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+URLIgnorePatternEditResponse object {id, created\_at, pattern, 3 more }
 
-  - `source: optional object { pointer }`
+A URL ignore pattern that exempts matching URLs from Email Security’s URL rewriting.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+URL ignore pattern identifier.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+pattern: string
 
-  - `true`
+Regular expression identifying URLs to exempt from rewriting.
 
-- `result: optional object { id, created_at, pattern, 3 more }`
+maxLength1024
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+minLength1
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    URL ignore pattern identifier
+comments: optional string
 
-  - `created_at: string`
+Optional note describing the reason for the ignore pattern.
 
-  - `pattern: string`
+maxLength1024
 
-    Regular expression matching URLs that should not be rewritten.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+Deprecatedlast\_modified: optional string
 
-    Optional note describing the reason for the ignore pattern.
+Use <code>modified_at</code> instead.
 
-  - `last_modified: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+formatdate-time
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+modified\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "pattern": "https://example\\\\.com/.*",
-          "comments": "Trusted internal redirect service"
-        }'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "pattern": "https://example\\.com/.*",
-    "comments": "Trusted internal redirect service",
-    "last_modified": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+</details>
 
-## Update a URL ignore pattern
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_edit_response%20%3E%20(schema)>)
 
-**patch** `/accounts/{account_id}/email-security/settings/url_ignore_patterns/{pattern_id}`
+<details>
 
-Updates an existing URL rewrite ignore pattern. Only provided fields will be modified.
+<summary>
 
-### Path Parameters
+URLIgnorePatternDeleteResponse object {id }
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+id: string
 
-- `pattern_id: string`
+URL ignore pattern identifier.
 
-  URL ignore pattern identifier
+formatuuid
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `comments: optional string`
+</details>
 
-  Optional note describing the reason for the ignore pattern.
-
-- `pattern: optional string`
-
-  Regular expression matching URLs that should not be rewritten.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, pattern, 3 more }`
-
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
-
-  - `id: string`
-
-    URL ignore pattern identifier
-
-  - `created_at: string`
-
-  - `pattern: string`
-
-    Regular expression matching URLs that should not be rewritten.
-
-  - `comments: optional string`
-
-    Optional note describing the reason for the ignore pattern.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns/$PATTERN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Trusted internal redirect service",
-          "pattern": "https://example\\\\.com/.*"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "pattern": "https://example\\.com/.*",
-    "comments": "Trusted internal redirect service",
-    "last_modified": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
-
-## Delete a URL ignore pattern
-
-**delete** `/accounts/{account_id}/email-security/settings/url_ignore_patterns/{pattern_id}`
-
-Removes a URL rewrite ignore pattern. After deletion, URLs matching this pattern will be rewritten again.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `pattern_id: string`
-
-  URL ignore pattern identifier
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    URL ignore pattern identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns/$PATTERN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
-
-## Domain Types
-
-### URL Ignore Pattern List Response
-
-- `URLIgnorePatternListResponse object { id, created_at, pattern, 3 more }`
-
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
-
-  - `id: string`
-
-    URL ignore pattern identifier
-
-  - `created_at: string`
-
-  - `pattern: string`
-
-    Regular expression matching URLs that should not be rewritten.
-
-  - `comments: optional string`
-
-    Optional note describing the reason for the ignore pattern.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### URL Ignore Pattern Get Response
-
-- `URLIgnorePatternGetResponse object { id, created_at, pattern, 3 more }`
-
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
-
-  - `id: string`
-
-    URL ignore pattern identifier
-
-  - `created_at: string`
-
-  - `pattern: string`
-
-    Regular expression matching URLs that should not be rewritten.
-
-  - `comments: optional string`
-
-    Optional note describing the reason for the ignore pattern.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### URL Ignore Pattern Create Response
-
-- `URLIgnorePatternCreateResponse object { id, created_at, pattern, 3 more }`
-
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
-
-  - `id: string`
-
-    URL ignore pattern identifier
-
-  - `created_at: string`
-
-  - `pattern: string`
-
-    Regular expression matching URLs that should not be rewritten.
-
-  - `comments: optional string`
-
-    Optional note describing the reason for the ignore pattern.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### URL Ignore Pattern Edit Response
-
-- `URLIgnorePatternEditResponse object { id, created_at, pattern, 3 more }`
-
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
-
-  - `id: string`
-
-    URL ignore pattern identifier
-
-  - `created_at: string`
-
-  - `pattern: string`
-
-    Regular expression matching URLs that should not be rewritten.
-
-  - `comments: optional string`
-
-    Optional note describing the reason for the ignore pattern.
-
-  - `last_modified: optional string`
-
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
-
-  - `modified_at: optional string`
-
-### URL Ignore Pattern Delete Response
-
-- `URLIgnorePatternDeleteResponse object { id }`
-
-  - `id: string`
-
-    URL ignore pattern identifier
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_delete_response%20%3E%20(schema)>)

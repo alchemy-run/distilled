@@ -1,1562 +1,707 @@
+---
+title: Rules
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Rules
 
-## Get routing rule
+##### [List account or zone routing rules](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/list)
 
-**get** `/zones/{zone_id}/email/routing/rules/{rule_identifier}`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/email/routing/rules
 
-Get information for a specific routing rule already created.
+##### [Get routing rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/email/routing/rules/{rule\_identifier}
 
-- `zone_id: string`
+##### [Create routing rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/email/routing/rules
 
-- `rule_identifier: string`
+##### [Update routing rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/update)
 
-  Routing rule identifier.
+PUT/zones/{zone\_id}/email/routing/rules/{rule\_identifier}
 
-### Returns
+##### [Delete routing rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/zones/{zone\_id}/email/routing/rules/{rule\_identifier}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+Action object {type, value }
 
-    - `pointer: optional string`
+Actions pattern.
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+type: "drop"or "forward"or "worker"
 
-  - `source: optional object { pointer }`
+Type of supported action.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"drop"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional EmailRoutingRule`
+"forward"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Routing rule identifier.
+"worker"
 
-  - `actions: optional array of Action`
+<a href="#">Link to this property</a>
 
-    List actions patterns.
+</details>
 
-    - `type: "drop" or "forward" or "worker"`
+<a href="#">Link to this property</a>
 
-      Type of supported action.
+value: optional array of string
 
-      - `"drop"`
+<a href="#">Link to this property</a>
 
-      - `"forward"`
+</details>
 
-      - `"worker"`
+[Link to this property](#)%20email_routing.rules%20%3E%20(model)%20action%20%3E%20(schema)>)
 
-    - `value: optional array of string`
+<details>
 
-  - `enabled: optional true or false`
+<summary>
 
-    Routing rule status.
+EmailRoutingRule object {id, actions, enabled, 5 more }
 
-    - `true`
+</summary>
 
-    - `false`
+id: optional string
 
-  - `matchers: optional array of Matcher`
+Routing rule identifier.
 
-    Matching patterns to forward to your actions.
+maxLength32
 
-    - `type: "all" or "literal"`
+<a href="#">Link to this property</a>
 
-      Type of matcher.
+<details>
 
-      - `"all"`
+<summary>
 
-      - `"literal"`
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20action%20%3E%20(schema)">Action</a> { type, value }
 
-    - `field: optional "to"`
+List actions patterns.
 
-      Field for type matcher.
+</summary>
 
-      - `"to"`
+<details>
 
-    - `value: optional string`
+<summary>
 
-      Value for matcher.
+type: "drop"or "forward"or "worker"
 
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `priority: optional number`
-
-    Priority of the routing rule.
+Type of supported action.
 
-  - `source: optional "api" or "wrangler"`
+</summary>
 
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
+One of the following:
 
-    - `"api"`
+"drop"
 
-    - `"wrangler"`
+<a href="#">Link to this property</a>
 
-  - `tag: optional string`
+"forward"
 
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+<a href="#">Link to this property</a>
 
-### Example
+"worker"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/$RULE_IDENTIFIER \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "literal",
-        "field": "to",
-        "value": "test@example.com"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "priority": 0,
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create routing rule
+value: optional array of string
 
-**post** `/zones/{zone_id}/email/routing/rules`
+<a href="#">Link to this property</a>
 
-Rules consist of a set of criteria for matching emails (such as an email being sent to a specific custom email address) plus a set of actions to take on the email (like forwarding it to a specific destination address). Forward actions require all destination addresses to be verified.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+enabled: optional trueor false
 
-- `actions: array of Action`
+Routing rule status.
 
-  List actions patterns.
+</summary>
 
-  - `type: "drop" or "forward" or "worker"`
+One of the following:
 
-    Type of supported action.
+true
 
-    - `"drop"`
+<a href="#">Link to this property</a>
 
-    - `"forward"`
+false
 
-    - `"worker"`
+<a href="#">Link to this property</a>
 
-  - `value: optional array of string`
+</details>
 
-- `matchers: array of Matcher`
+<a href="#">Link to this property</a>
 
-  Matching patterns to forward to your actions.
+<details>
 
-  - `type: "all" or "literal"`
+<summary>
 
-    Type of matcher.
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules%20%3E%20(model)%20matcher%20%3E%20(schema)">Matcher</a> { type, field, value }
 
-    - `"all"`
+Matching patterns to forward to your actions.
 
-    - `"literal"`
+</summary>
 
-  - `field: optional "to"`
+<details>
 
-    Field for type matcher.
+<summary>
 
-    - `"to"`
+type: "all"or "literal"
 
-  - `value: optional string`
+Type of matcher.
 
-    Value for matcher.
+</summary>
 
-- `enabled: optional true or false`
+One of the following:
 
-  Routing rule status.
+"all"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-  - `false`
+"literal"
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  Routing rule name.
+</details>
 
-- `owner_worker_tag: optional string`
+<a href="#">Link to this property</a>
 
-  Public tag (script_tag) of the Worker that owns this rule. Required when
-  `source` is `wrangler`.
+field: optional "to"
 
-- `priority: optional number`
+Field for type matcher.
 
-  Priority of the routing rule.
+<a href="#">Link to this property</a>
 
-- `source: optional "api" or "wrangler"`
+value: optional string
 
-  Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-  `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-  to `api` when omitted on write.
+Value for matcher.
 
-  - `"api"`
+maxLength90
 
-  - `"wrangler"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: optional string
 
-  - `message: string`
+Routing rule name.
 
-  - `documentation_url: optional string`
+maxLength256
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+priority: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+Priority of the routing rule.
 
-  - `code: number`
+minimum0
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+source: optional "api"or "wrangler"
 
-- `success: true`
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional EmailRoutingRule`
+"api"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Routing rule identifier.
+"wrangler"
 
-  - `actions: optional array of Action`
+<a href="#">Link to this property</a>
 
-    List actions patterns.
+</details>
 
-    - `type: "drop" or "forward" or "worker"`
+<a href="#">Link to this property</a>
 
-      Type of supported action.
+Deprecatedtag: optional string
 
-      - `"drop"`
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-      - `"forward"`
+maxLength32
 
-      - `"worker"`
+<a href="#">Link to this property</a>
 
-    - `value: optional array of string`
+</details>
 
-  - `enabled: optional true or false`
+[Link to this property](#)%20email_routing.rules%20%3E%20(model)%20email_routing_rule%20%3E%20(schema)>)
 
-    Routing rule status.
+<details>
 
-    - `true`
+<summary>
 
-    - `false`
+Matcher object {type, field, value }
 
-  - `matchers: optional array of Matcher`
+Matching pattern to forward your actions.
 
-    Matching patterns to forward to your actions.
+</summary>
 
-    - `type: "all" or "literal"`
+<details>
 
-      Type of matcher.
+<summary>
 
-      - `"all"`
+type: "all"or "literal"
 
-      - `"literal"`
+Type of matcher.
 
-    - `field: optional "to"`
+</summary>
 
-      Field for type matcher.
+One of the following:
 
-      - `"to"`
+"all"
 
-    - `value: optional string`
+<a href="#">Link to this property</a>
 
-      Value for matcher.
+"literal"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Routing rule name.
+</details>
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    Priority of the routing rule.
+field: optional "to"
 
-  - `source: optional "api" or "wrangler"`
+Field for type matcher.
 
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
+<a href="#">Link to this property</a>
 
-    - `"api"`
+value: optional string
 
-    - `"wrangler"`
+Value for matcher.
 
-  - `tag: optional string`
+maxLength90
 
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "actions": [
-            {
-              "type": "forward"
-            }
-          ],
-          "matchers": [
-            {
-              "type": "literal"
-            }
-          ],
-          "enabled": true,
-          "name": "Send to user@example.net rule.",
-          "owner_worker_tag": "a7e6fb77503c41d8a7f3113c6918f10c",
-          "source": "api"
-        }'
-```
+[Link to this property](#)%20email_routing.rules%20%3E%20(model)%20matcher%20%3E%20(schema)>)
 
-#### Response
+#### RulesCatch Alls
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "literal",
-        "field": "to",
-        "value": "test@example.com"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "priority": 0,
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
+##### [Get catch-all rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/subresources/catch_alls/methods/get)
 
-## Update routing rule
+GET/zones/{zone\_id}/email/routing/rules/catch\_all
 
-**put** `/zones/{zone_id}/email/routing/rules/{rule_identifier}`
+##### [Update catch-all rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/subresources/catch_alls/methods/update)
 
-Update actions and matches, or enable/disable specific routing rules. Forward actions require all destination addresses to be verified.
+PUT/zones/{zone\_id}/email/routing/rules/catch\_all
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `rule_identifier: string`
+CatchAllAction object {type, value }
 
-  Routing rule identifier.
+Action for the catch-all routing rule.
 
-### Body Parameters
+</summary>
 
-- `actions: array of Action`
+<details>
 
-  List actions patterns.
+<summary>
 
-  - `type: "drop" or "forward" or "worker"`
+type: "drop"or "forward"or "worker"
 
-    Type of supported action.
+Type of action for catch-all rule.
 
-    - `"drop"`
+</summary>
 
-    - `"forward"`
+One of the following:
 
-    - `"worker"`
+"drop"
 
-  - `value: optional array of string`
+<a href="#">Link to this property</a>
 
-- `matchers: array of Matcher`
+"forward"
 
-  Matching patterns to forward to your actions.
+<a href="#">Link to this property</a>
 
-  - `type: "all" or "literal"`
+"worker"
 
-    Type of matcher.
+<a href="#">Link to this property</a>
 
-    - `"all"`
+</details>
 
-    - `"literal"`
+<a href="#">Link to this property</a>
 
-  - `field: optional "to"`
+value: optional array of string
 
-    Field for type matcher.
+<a href="#">Link to this property</a>
 
-    - `"to"`
+</details>
 
-  - `value: optional string`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)>)
 
-    Value for matcher.
+<details>
 
-- `enabled: optional true or false`
+<summary>
 
-  Routing rule status.
+CatchAllMatcher object {type }
 
-  - `true`
+Matcher for catch-all routing rule.
 
-  - `false`
+</summary>
 
-- `name: optional string`
+type: "all"
 
-  Routing rule name.
+Type of matcher. Default is ‘all’.
 
-- `owner_worker_tag: optional string`
+<a href="#">Link to this property</a>
 
-  Public tag (script_tag) of the Worker that owns this rule. Required when
-  `source` is `wrangler`.
+</details>
 
-- `priority: optional number`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)>)
 
-  Priority of the routing rule.
+<details>
 
-- `source: optional "api" or "wrangler"`
+<summary>
 
-  Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-  `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-  to `api` when omitted on write.
+CatchAllGetResponse object {id, actions, enabled, 4 more }
 
-  - `"api"`
+</summary>
 
-  - `"wrangler"`
+id: optional string
 
-### Returns
+Routing rule identifier.
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)">CatchAllAction</a> { type, value }
 
-    - `pointer: optional string`
+List actions for the catch-all routing rule.
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+type: "drop"or "forward"or "worker"
 
-  - `source: optional object { pointer }`
+Type of action for catch-all rule.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"drop"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional EmailRoutingRule`
+"forward"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Routing rule identifier.
+"worker"
 
-  - `actions: optional array of Action`
+<a href="#">Link to this property</a>
 
-    List actions patterns.
+</details>
 
-    - `type: "drop" or "forward" or "worker"`
+<a href="#">Link to this property</a>
 
-      Type of supported action.
+value: optional array of string
 
-      - `"drop"`
+<a href="#">Link to this property</a>
 
-      - `"forward"`
+</details>
 
-      - `"worker"`
+<a href="#">Link to this property</a>
 
-    - `value: optional array of string`
+<details>
 
-  - `enabled: optional true or false`
+<summary>
 
-    Routing rule status.
+enabled: optional trueor false
 
-    - `true`
+Routing rule status.
 
-    - `false`
+</summary>
 
-  - `matchers: optional array of Matcher`
+One of the following:
 
-    Matching patterns to forward to your actions.
+true
 
-    - `type: "all" or "literal"`
+<a href="#">Link to this property</a>
 
-      Type of matcher.
+false
 
-      - `"all"`
+<a href="#">Link to this property</a>
 
-      - `"literal"`
+</details>
 
-    - `field: optional "to"`
+<a href="#">Link to this property</a>
 
-      Field for type matcher.
+<details>
 
-      - `"to"`
+<summary>
 
-    - `value: optional string`
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)">CatchAllMatcher</a> { type }
 
-      Value for matcher.
+List of matchers for the catch-all routing rule.
 
-  - `name: optional string`
+</summary>
 
-    Routing rule name.
+type: "all"
 
-  - `priority: optional number`
+Type of matcher. Default is ‘all’.
 
-    Priority of the routing rule.
+<a href="#">Link to this property</a>
 
-  - `source: optional "api" or "wrangler"`
+</details>
 
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
+<a href="#">Link to this property</a>
 
-    - `"api"`
+name: optional string
 
-    - `"wrangler"`
+Routing rule name.
 
-  - `tag: optional string`
+maxLength256
 
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/$RULE_IDENTIFIER \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "actions": [
-            {
-              "type": "forward"
-            }
-          ],
-          "matchers": [
-            {
-              "type": "literal"
-            }
-          ],
-          "enabled": true,
-          "name": "Send to user@example.net rule.",
-          "owner_worker_tag": "a7e6fb77503c41d8a7f3113c6918f10c",
-          "source": "api"
-        }'
-```
+<summary>
 
-#### Response
+source: optional "api"or "wrangler"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "literal",
-        "field": "to",
-        "value": "test@example.com"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "priority": 0,
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-## Delete routing rule
+</summary>
 
-**delete** `/zones/{zone_id}/email/routing/rules/{rule_identifier}`
+One of the following:
 
-Delete a specific routing rule.
+"api"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"wrangler"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `rule_identifier: string`
+</details>
 
-  Routing rule identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+Deprecatedtag: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_get_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+CatchAllUpdateResponse object {id, actions, enabled, 4 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+Routing rule identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional EmailRoutingRule`
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)">CatchAllAction</a> { type, value }
 
-  - `id: optional string`
+List actions for the catch-all routing rule.
 
-    Routing rule identifier.
+</summary>
 
-  - `actions: optional array of Action`
+<details>
 
-    List actions patterns.
+<summary>
 
-    - `type: "drop" or "forward" or "worker"`
+type: "drop"or "forward"or "worker"
 
-      Type of supported action.
+Type of action for catch-all rule.
 
-      - `"drop"`
+</summary>
 
-      - `"forward"`
+One of the following:
 
-      - `"worker"`
+"drop"
 
-    - `value: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional true or false`
+"forward"
 
-    Routing rule status.
+<a href="#">Link to this property</a>
 
-    - `true`
+"worker"
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `matchers: optional array of Matcher`
+</details>
 
-    Matching patterns to forward to your actions.
+<a href="#">Link to this property</a>
 
-    - `type: "all" or "literal"`
+value: optional array of string
 
-      Type of matcher.
+<a href="#">Link to this property</a>
 
-      - `"all"`
+</details>
 
-      - `"literal"`
+<a href="#">Link to this property</a>
 
-    - `field: optional "to"`
+<details>
 
-      Field for type matcher.
+<summary>
 
-      - `"to"`
+enabled: optional trueor false
 
-    - `value: optional string`
+Routing rule status.
 
-      Value for matcher.
+</summary>
 
-  - `name: optional string`
+One of the following:
 
-    Routing rule name.
+true
 
-  - `priority: optional number`
+<a href="#">Link to this property</a>
 
-    Priority of the routing rule.
+false
 
-  - `source: optional "api" or "wrangler"`
+<a href="#">Link to this property</a>
 
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
+</details>
 
-    - `"api"`
+<a href="#">Link to this property</a>
 
-    - `"wrangler"`
+<details>
 
-  - `tag: optional string`
+<summary>
 
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)">CatchAllMatcher</a> { type }
 
-### Example
+List of matchers for the catch-all routing rule.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/$RULE_IDENTIFIER \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</summary>
 
-#### Response
+type: "all"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "literal",
-        "field": "to",
-        "value": "test@example.com"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "priority": 0,
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
+Type of matcher. Default is ‘all’.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Action
+</details>
 
-- `Action object { type, value }`
+<a href="#">Link to this property</a>
 
-  Actions pattern.
+name: optional string
 
-  - `type: "drop" or "forward" or "worker"`
+Routing rule name.
 
-    Type of supported action.
+maxLength256
 
-    - `"drop"`
+<a href="#">Link to this property</a>
 
-    - `"forward"`
+<details>
 
-    - `"worker"`
+<summary>
 
-  - `value: optional array of string`
+source: optional "api"or "wrangler"
 
-### Email Routing Rule
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-- `EmailRoutingRule object { id, actions, enabled, 5 more }`
+</summary>
 
-  - `id: optional string`
+One of the following:
 
-    Routing rule identifier.
+"api"
 
-  - `actions: optional array of Action`
+<a href="#">Link to this property</a>
 
-    List actions patterns.
+"wrangler"
 
-    - `type: "drop" or "forward" or "worker"`
+<a href="#">Link to this property</a>
 
-      Type of supported action.
+</details>
 
-      - `"drop"`
+<a href="#">Link to this property</a>
 
-      - `"forward"`
+Deprecatedtag: optional string
 
-      - `"worker"`
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-    - `value: optional array of string`
+maxLength32
 
-  - `enabled: optional true or false`
+<a href="#">Link to this property</a>
 
-    Routing rule status.
+</details>
 
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of Matcher`
-
-    Matching patterns to forward to your actions.
-
-    - `type: "all" or "literal"`
-
-      Type of matcher.
-
-      - `"all"`
-
-      - `"literal"`
-
-    - `field: optional "to"`
-
-      Field for type matcher.
-
-      - `"to"`
-
-    - `value: optional string`
-
-      Value for matcher.
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `priority: optional number`
-
-    Priority of the routing rule.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Matcher
-
-- `Matcher object { type, field, value }`
-
-  Matching pattern to forward your actions.
-
-  - `type: "all" or "literal"`
-
-    Type of matcher.
-
-    - `"all"`
-
-    - `"literal"`
-
-  - `field: optional "to"`
-
-    Field for type matcher.
-
-    - `"to"`
-
-  - `value: optional string`
-
-    Value for matcher.
-
-# Catch Alls
-
-## Get catch-all rule
-
-**get** `/zones/{zone_id}/email/routing/rules/catch_all`
-
-Get information on the default catch-all routing rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, actions, enabled, 4 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of CatchAllAction`
-
-    List actions for the catch-all routing rule.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of action for catch-all rule.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/catch_all \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "all"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
-
-## Update catch-all rule
-
-**put** `/zones/{zone_id}/email/routing/rules/catch_all`
-
-Enable or disable catch-all routing rule, or change action to forward to specific destination address. Forward actions require all destination addresses to be verified.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `actions: array of CatchAllAction`
-
-  List actions for the catch-all routing rule.
-
-  - `type: "drop" or "forward" or "worker"`
-
-    Type of action for catch-all rule.
-
-    - `"drop"`
-
-    - `"forward"`
-
-    - `"worker"`
-
-  - `value: optional array of string`
-
-- `matchers: array of CatchAllMatcher`
-
-  List of matchers for the catch-all routing rule.
-
-  - `type: "all"`
-
-    Type of matcher. Default is 'all'.
-
-    - `"all"`
-
-- `enabled: optional true or false`
-
-  Routing rule status.
-
-  - `true`
-
-  - `false`
-
-- `name: optional string`
-
-  Routing rule name.
-
-- `owner_worker_tag: optional string`
-
-  Public tag (script_tag) of the Worker that owns this rule. Required when
-  `source` is `wrangler`.
-
-- `source: optional "api" or "wrangler"`
-
-  Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-  `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-  to `api` when omitted on write.
-
-  - `"api"`
-
-  - `"wrangler"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, actions, enabled, 4 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of CatchAllAction`
-
-    List actions for the catch-all routing rule.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of action for catch-all rule.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/catch_all \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "actions": [
-            {
-              "type": "forward"
-            }
-          ],
-          "matchers": [
-            {
-              "type": "all"
-            }
-          ],
-          "enabled": true,
-          "name": "Send to user@example.net rule.",
-          "owner_worker_tag": "a7e6fb77503c41d8a7f3113c6918f10c",
-          "source": "api"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "all"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
-
-## Domain Types
-
-### Catch All Action
-
-- `CatchAllAction object { type, value }`
-
-  Action for the catch-all routing rule.
-
-  - `type: "drop" or "forward" or "worker"`
-
-    Type of action for catch-all rule.
-
-    - `"drop"`
-
-    - `"forward"`
-
-    - `"worker"`
-
-  - `value: optional array of string`
-
-### Catch All Matcher
-
-- `CatchAllMatcher object { type }`
-
-  Matcher for catch-all routing rule.
-
-  - `type: "all"`
-
-    Type of matcher. Default is 'all'.
-
-    - `"all"`
-
-### Catch All Get Response
-
-- `CatchAllGetResponse object { id, actions, enabled, 4 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of CatchAllAction`
-
-    List actions for the catch-all routing rule.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of action for catch-all rule.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
-
-### Catch All Update Response
-
-- `CatchAllUpdateResponse object { id, actions, enabled, 4 more }`
-
-  - `id: optional string`
-
-    Routing rule identifier.
-
-  - `actions: optional array of CatchAllAction`
-
-    List actions for the catch-all routing rule.
-
-    - `type: "drop" or "forward" or "worker"`
-
-      Type of action for catch-all rule.
-
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_update_response%20%3E%20(schema)>)

@@ -1,869 +1,393 @@
+---
+title: AutoRAG
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # AutoRAG
 
-## AI Search
+##### [AI Search](https://developers.cloudflare.com/api/resources/autorag/methods/ai_search)
 
-**post** `/accounts/{account_id}/autorag/rags/{id}/ai-search`
+Deprecated
 
-AI Search
+POST/accounts/{account\_id}/autorag/rags/{id}/ai-search
 
-### Path Parameters
+##### [Search](https://developers.cloudflare.com/api/resources/autorag/methods/search)
 
-- `account_id: string`
+Deprecated
 
-- `id: string`
+POST/accounts/{account\_id}/autorag/rags/{id}/search
 
-  rag id
+##### [Sync](https://developers.cloudflare.com/api/resources/autorag/methods/sync)
 
-### Body Parameters
+Deprecated
 
-- `query: string`
+PATCH/accounts/{account\_id}/autorag/rags/{id}/sync
 
-- `filters: optional object { key, type, value }  or object { filters, type }`
+##### [Files](https://developers.cloudflare.com/api/resources/autorag/methods/files)
 
-  - `object { key, type, value }`
+Deprecated
 
-    - `key: string`
+GET/accounts/{account\_id}/autorag/rags/{id}/files
 
-    - `type: "eq" or "ne" or "gt" or 3 more`
+##### ModelsExpand Collapse
 
-      - `"eq"`
+<details>
 
-      - `"ne"`
+<summary>
 
-      - `"gt"`
+AutoRAGAISearchResponse object {response, search\_query, data, 3 more }
 
-      - `"gte"`
+</summary>
 
-      - `"lt"`
+response: string
 
-      - `"lte"`
+<a href="#">Link to this property</a>
 
-    - `value: string or number or boolean`
+search\_query: string
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+<details>
 
-      - `boolean`
+<summary>
 
-  - `object { filters, type }`
+data: optional array of object {score, attributes, content, 2 more }
 
-    - `filters: array of object { key, type, value }`
+</summary>
 
-      - `key: string`
+score: number
 
-      - `type: "eq" or "ne" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+attributes: optional unknown
 
-        - `"ne"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+<details>
 
-        - `"gte"`
+<summary>
 
-        - `"lt"`
+content: optional array of object {text, type }
 
-        - `"lte"`
+</summary>
 
-      - `value: string or number or boolean`
+text: optional string
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+type: optional string
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-    - `type: "and" or "or"`
+</details>
 
-      - `"and"`
+<a href="#">Link to this property</a>
 
-      - `"or"`
+file\_id: optional string
 
-- `max_num_results: optional number`
+<a href="#">Link to this property</a>
 
-- `model: optional "@cf/meta/llama-3.3-70b-instruct-fp8-fast" or "@cf/meta/llama-3.1-8b-instruct-fast" or "@cf/meta/llama-3.1-8b-instruct-fp8" or 23 more`
+filename: optional string
 
-  - `"@cf/meta/llama-3.3-70b-instruct-fp8-fast"`
+<a href="#">Link to this property</a>
 
-  - `"@cf/meta/llama-3.1-8b-instruct-fast"`
+</details>
 
-  - `"@cf/meta/llama-3.1-8b-instruct-fp8"`
+<a href="#">Link to this property</a>
 
-  - `"@cf/meta/llama-4-scout-17b-16e-instruct"`
+has\_more: optional boolean
 
-  - `"@cf/qwen/qwen3-30b-a3b-fp8"`
+<a href="#">Link to this property</a>
 
-  - `"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"`
+next\_page: optional string
 
-  - `"@cf/moonshotai/kimi-k2-instruct"`
+<a href="#">Link to this property</a>
 
-  - `"anthropic/claude-3-7-sonnet"`
+object: optional string
 
-  - `"anthropic/claude-sonnet-4"`
+<a href="#">Link to this property</a>
 
-  - `"anthropic/claude-opus-4"`
+</details>
 
-  - `"anthropic/claude-3-5-haiku"`
+[Link to this property](#)%20autorag%20%3E%20(model)%20autorag_ai_search_response%20%3E%20(schema)>)
 
-  - `"cerebras/qwen-3-235b-a22b-instruct"`
+<details>
 
-  - `"cerebras/qwen-3-235b-a22b-thinking"`
+<summary>
 
-  - `"cerebras/llama-3.3-70b"`
+AutoRAGSearchResponse object {search\_query, data, has\_more, 2 more }
 
-  - `"cerebras/llama-4-maverick-17b-128e-instruct"`
+</summary>
 
-  - `"cerebras/llama-4-scout-17b-16e-instruct"`
+search\_query: string
 
-  - `"cerebras/gpt-oss-120b"`
+<a href="#">Link to this property</a>
 
-  - `"google-ai-studio/gemini-2.5-flash"`
+<details>
 
-  - `"google-ai-studio/gemini-2.5-pro"`
+<summary>
 
-  - `"grok/grok-4"`
+data: optional array of object {score, attributes, content, 2 more }
 
-  - `"groq/llama-3.3-70b-versatile"`
+</summary>
 
-  - `"groq/llama-3.1-8b-instant"`
+score: number
 
-  - `"openai/gpt-5"`
+<a href="#">Link to this property</a>
 
-  - `"openai/gpt-5-mini"`
+attributes: optional unknown
 
-  - `"openai/gpt-5-nano"`
+<a href="#">Link to this property</a>
 
-  - `""`
+<details>
 
-- `ranking_options: optional object { ranker, score_threshold }`
+<summary>
 
-  - `ranker: optional string`
+content: optional array of object {text, type }
 
-  - `score_threshold: optional number`
+</summary>
 
-- `reranking: optional object { enabled, model }`
+text: optional string
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `model: optional "@cf/baai/bge-reranker-base" or ""`
+type: optional string
 
-    - `"@cf/baai/bge-reranker-base"`
+<a href="#">Link to this property</a>
 
-    - `""`
+</details>
 
-- `rewrite_query: optional boolean`
+<a href="#">Link to this property</a>
 
-- `stream: optional boolean`
+file\_id: optional string
 
-- `system_prompt: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+filename: optional string
 
-- `result: object { response, search_query, data, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `response: string`
+</details>
 
-  - `search_query: string`
+<a href="#">Link to this property</a>
 
-  - `data: optional array of object { score, attributes, content, 2 more }`
+has\_more: optional boolean
 
-    - `score: number`
+<a href="#">Link to this property</a>
 
-    - `attributes: optional unknown`
+next\_page: optional string
 
-    - `content: optional array of object { text, type }`
+<a href="#">Link to this property</a>
 
-      - `text: optional string`
+object: optional string
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-    - `file_id: optional string`
+</details>
 
-    - `filename: optional string`
+[Link to this property](#)%20autorag%20%3E%20(model)%20autorag_search_response%20%3E%20(schema)>)
 
-  - `has_more: optional boolean`
+<details>
 
-  - `next_page: optional string`
+<summary>
 
-  - `object: optional string`
+AutoRAGSyncResponse object {job\_id }
 
-- `success: boolean`
+</summary>
 
-### Example
+job\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/ai-search \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "query": "query"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "response": "response",
-    "search_query": "search_query",
-    "data": [
-      {
-        "score": 0,
-        "attributes": {},
-        "content": [
-          {
-            "text": "text",
-            "type": "type"
-          }
-        ],
-        "file_id": "file_id",
-        "filename": "filename"
-      }
-    ],
-    "has_more": true,
-    "next_page": "next_page",
-    "object": "object"
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20autorag%20%3E%20(model)%20autorag_sync_response%20%3E%20(schema)>)
 
-## Search
+<details>
 
-**post** `/accounts/{account_id}/autorag/rags/{id}/search`
+<summary>
 
-Search
+AutoRAGFilesResponse = array of object {error, key }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+error: string
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  rag id
+key: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `query: string`
+</details>
 
-- `filters: optional object { key, type, value }  or object { filters, type }`
+[Link to this property](#)%20autorag%20%3E%20(model)%20autorag_files_response%20%3E%20(schema)>)
 
-  - `object { key, type, value }`
+#### AutoRAGJobs
 
-    - `key: string`
+##### [List Jobs](https://developers.cloudflare.com/api/resources/autorag/subresources/jobs/methods/list)
 
-    - `type: "eq" or "ne" or "gt" or 3 more`
+Deprecated
 
-      - `"eq"`
+GET/accounts/{account\_id}/autorag/rags/{id}/jobs
 
-      - `"ne"`
+##### [Get a Job Details](https://developers.cloudflare.com/api/resources/autorag/subresources/jobs/methods/get)
 
-      - `"gt"`
+Deprecated
 
-      - `"gte"`
+GET/accounts/{account\_id}/autorag/rags/{id}/jobs/{job\_id}
 
-      - `"lt"`
+##### [List Job Logs](https://developers.cloudflare.com/api/resources/autorag/subresources/jobs/methods/logs)
 
-      - `"lte"`
+Deprecated
 
-    - `value: string or number or boolean`
+GET/accounts/{account\_id}/autorag/rags/{id}/jobs/{job\_id}/logs
 
-      - `string`
+##### ModelsExpand Collapse
 
-      - `number`
+<details>
 
-      - `boolean`
+<summary>
 
-  - `object { filters, type }`
+JobListResponse object {id, source, end\_reason, 3 more }
 
-    - `filters: array of object { key, type, value }`
+</summary>
 
-      - `key: string`
+id: string
 
-      - `type: "eq" or "ne" or "gt" or 3 more`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+<details>
 
-        - `"ne"`
+<summary>
 
-        - `"gt"`
+source: "user"or "schedule"
 
-        - `"gte"`
+</summary>
 
-        - `"lt"`
+One of the following:
 
-        - `"lte"`
+"user"
 
-      - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+"schedule"
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+</details>
 
-    - `type: "and" or "or"`
+<a href="#">Link to this property</a>
 
-      - `"and"`
+end\_reason: optional string
 
-      - `"or"`
+<a href="#">Link to this property</a>
 
-- `max_num_results: optional number`
+ended\_at: optional string
 
-- `ranking_options: optional object { ranker, score_threshold }`
+<a href="#">Link to this property</a>
 
-  - `ranker: optional string`
+last\_seen\_at: optional string
 
-  - `score_threshold: optional number`
+<a href="#">Link to this property</a>
 
-- `reranking: optional object { enabled, model }`
+started\_at: optional string
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `model: optional "@cf/baai/bge-reranker-base" or ""`
+</details>
 
-    - `"@cf/baai/bge-reranker-base"`
+[Link to this property](#)%20autorag.jobs%20%3E%20(model)%20job_list_response%20%3E%20(schema)>)
 
-    - `""`
+<details>
 
-- `rewrite_query: optional boolean`
+<summary>
 
-### Returns
+JobGetResponse object {id, source, end\_reason, 3 more }
 
-- `result: object { search_query, data, has_more, 2 more }`
+</summary>
 
-  - `search_query: string`
+id: string
 
-  - `data: optional array of object { score, attributes, content, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `score: number`
+<details>
 
-    - `attributes: optional unknown`
+<summary>
 
-    - `content: optional array of object { text, type }`
+source: "user"or "schedule"
 
-      - `text: optional string`
+</summary>
 
-      - `type: optional string`
+One of the following:
 
-    - `file_id: optional string`
+"user"
 
-    - `filename: optional string`
+<a href="#">Link to this property</a>
 
-  - `has_more: optional boolean`
+"schedule"
 
-  - `next_page: optional string`
+<a href="#">Link to this property</a>
 
-  - `object: optional string`
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+end\_reason: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/search \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "query": "query"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+ended\_at: optional string
 
-```json
-{
-  "result": {
-    "search_query": "search_query",
-    "data": [
-      {
-        "score": 0,
-        "attributes": {},
-        "content": [
-          {
-            "text": "text",
-            "type": "type"
-          }
-        ],
-        "file_id": "file_id",
-        "filename": "filename"
-      }
-    ],
-    "has_more": true,
-    "next_page": "next_page",
-    "object": "object"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Sync
+last\_seen\_at: optional string
 
-**patch** `/accounts/{account_id}/autorag/rags/{id}/sync`
+<a href="#">Link to this property</a>
 
-Sync
+started\_at: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-- `id: string`
+[Link to this property](#)%20autorag.jobs%20%3E%20(model)%20job_get_response%20%3E%20(schema)>)
 
-  rag id
+<details>
 
-### Returns
+<summary>
 
-- `result: object { job_id }`
+JobLogsResponse = array of object {id, created\_at, message, message\_type }
 
-  - `job_id: string`
+</summary>
 
-- `success: boolean`
+id: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/sync \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+created\_at: number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "job_id": "job_id"
-  },
-  "success": true
-}
-```
+message: string
 
-## Files
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/autorag/rags/{id}/files`
+message\_type: number
 
-Files
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
-
-- `id: string`
-
-  rag id
-
-### Query Parameters
-
-- `page: optional number`
-
-- `per_page: optional number`
-
-- `search: optional string`
-
-- `status: optional "completed" or "queued" or "running" or "error"`
-
-  - `"completed"`
-
-  - `"queued"`
-
-  - `"running"`
-
-  - `"error"`
-
-### Returns
-
-- `result: array of object { error, key }`
-
-  - `error: string`
-
-  - `key: string`
-
-- `result_info: object { count, page, total_count, per_page }`
-
-  - `count: number`
-
-  - `page: number`
-
-  - `total_count: number`
-
-  - `per_page: optional number`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/files \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "error": "error",
-      "key": "key"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "total_count": 0,
-    "per_page": 5
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### AutoRAG AI Search Response
-
-- `AutoRAGAISearchResponse object { response, search_query, data, 3 more }`
-
-  - `response: string`
-
-  - `search_query: string`
-
-  - `data: optional array of object { score, attributes, content, 2 more }`
-
-    - `score: number`
-
-    - `attributes: optional unknown`
-
-    - `content: optional array of object { text, type }`
-
-      - `text: optional string`
-
-      - `type: optional string`
-
-    - `file_id: optional string`
-
-    - `filename: optional string`
-
-  - `has_more: optional boolean`
-
-  - `next_page: optional string`
-
-  - `object: optional string`
-
-### AutoRAG Search Response
-
-- `AutoRAGSearchResponse object { search_query, data, has_more, 2 more }`
-
-  - `search_query: string`
-
-  - `data: optional array of object { score, attributes, content, 2 more }`
-
-    - `score: number`
-
-    - `attributes: optional unknown`
-
-    - `content: optional array of object { text, type }`
-
-      - `text: optional string`
-
-      - `type: optional string`
-
-    - `file_id: optional string`
-
-    - `filename: optional string`
-
-  - `has_more: optional boolean`
-
-  - `next_page: optional string`
-
-  - `object: optional string`
-
-### AutoRAG Sync Response
-
-- `AutoRAGSyncResponse object { job_id }`
-
-  - `job_id: string`
-
-### AutoRAG Files Response
-
-- `AutoRAGFilesResponse = array of object { error, key }`
-
-  - `error: string`
-
-  - `key: string`
-
-# Jobs
-
-## List Jobs
-
-**get** `/accounts/{account_id}/autorag/rags/{id}/jobs`
-
-List Jobs
-
-### Path Parameters
-
-- `account_id: string`
-
-- `id: string`
-
-  rag id
-
-### Query Parameters
-
-- `page: optional number`
-
-- `per_page: optional number`
-
-### Returns
-
-- `result: array of object { id, source, end_reason, 3 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-- `result_info: object { count, page, per_page, total_count }`
-
-  - `count: number`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/jobs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "source": "user",
-      "end_reason": "end_reason",
-      "ended_at": "ended_at",
-      "last_seen_at": "last_seen_at",
-      "started_at": "started_at"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
-
-## Get a Job Details
-
-**get** `/accounts/{account_id}/autorag/rags/{id}/jobs/{job_id}`
-
-Get a Job Details
-
-### Path Parameters
-
-- `account_id: string`
-
-- `id: string`
-
-  rag id
-
-- `job_id: string`
-
-### Returns
-
-- `result: object { id, source, end_reason, 3 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/jobs/$JOB_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "id",
-    "source": "user",
-    "end_reason": "end_reason",
-    "ended_at": "ended_at",
-    "last_seen_at": "last_seen_at",
-    "started_at": "started_at"
-  },
-  "success": true
-}
-```
-
-## List Job Logs
-
-**get** `/accounts/{account_id}/autorag/rags/{id}/jobs/{job_id}/logs`
-
-List Job Logs
-
-### Path Parameters
-
-- `account_id: string`
-
-- `id: string`
-
-  rag id
-
-- `job_id: string`
-
-### Query Parameters
-
-- `page: optional number`
-
-- `per_page: optional number`
-
-### Returns
-
-- `result: array of object { id, created_at, message, message_type }`
-
-  - `id: number`
-
-  - `created_at: number`
-
-  - `message: string`
-
-  - `message_type: number`
-
-- `result_info: object { count, page, per_page, total_count }`
-
-  - `count: number`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/jobs/$JOB_ID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "id": 0,
-      "created_at": 0,
-      "message": "message",
-      "message_type": 0
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Job List Response
-
-- `JobListResponse object { id, source, end_reason, 3 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-### Job Get Response
-
-- `JobGetResponse object { id, source, end_reason, 3 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-### Job Logs Response
-
-- `JobLogsResponse = array of object { id, created_at, message, message_type }`
-
-  - `id: number`
-
-  - `created_at: number`
-
-  - `message: string`
-
-  - `message_type: number`
+[Link to this property](#)%20autorag.jobs%20%3E%20(model)%20job_logs_response%20%3E%20(schema)>)

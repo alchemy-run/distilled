@@ -1,147 +1,73 @@
+---
+title: Currents
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Spectrum](https://developers.cloudflare.com/api/resources/spectrum)
+
+[Analytics](https://developers.cloudflare.com/api/resources/spectrum/subresources/analytics)
+
+[Aggregates](https://developers.cloudflare.com/api/resources/spectrum/subresources/analytics/subresources/aggregates)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Currents
 
-## Get current aggregated analytics
+##### [Get current aggregated analytics](https://developers.cloudflare.com/api/resources/spectrum/subresources/analytics/subresources/aggregates/subresources/currents/methods/get)
 
-**get** `/zones/{zone_id}/spectrum/analytics/aggregate/current`
+GET/zones/{zone\_id}/spectrum/analytics/aggregate/current
 
-Retrieves analytics aggregated from the last minute of usage on Spectrum applications underneath a given zone.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+CurrentGetResponse = array of object {appID, bytesEgress, bytesIngress, 2 more }
 
-### Query Parameters
+</summary>
 
-- `appID: optional string`
+appID: string
 
-  Comma-delimited list of Spectrum Application Id(s). If provided, the response will be limited to Spectrum Application Id(s) that match.
+Application identifier.
 
-- `colo_name: optional string`
+maxLength32
 
-  Co-location identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+bytesEgress: number
 
-- `errors: array of object { code, message, documentation_url, source }`
+Number of bytes sent.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+bytesIngress: number
 
-  - `documentation_url: optional string`
+Number of bytes received.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+connections: number
 
-- `messages: array of object { code, message, documentation_url, source }`
+Number of connections.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+durationAvg: number
 
-  - `documentation_url: optional string`
+Average duration of connections.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { appID, bytesEgress, bytesIngress, 2 more }`
-
-  - `appID: string`
-
-    Application identifier.
-
-  - `bytesEgress: number`
-
-    Number of bytes sent.
-
-  - `bytesIngress: number`
-
-    Number of bytes received.
-
-  - `connections: number`
-
-    Number of connections.
-
-  - `durationAvg: number`
-
-    Average duration of connections.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/spectrum/analytics/aggregate/current \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "appID": "023e105f4ecef8ad9ca31a8372d0c353",
-      "bytesEgress": 0,
-      "bytesIngress": 0,
-      "connections": 0,
-      "durationAvg": 0
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Current Get Response
-
-- `CurrentGetResponse = array of object { appID, bytesEgress, bytesIngress, 2 more }`
-
-  - `appID: string`
-
-    Application identifier.
-
-  - `bytesEgress: number`
-
-    Number of bytes sent.
-
-  - `bytesIngress: number`
-
-    Number of bytes received.
-
-  - `connections: number`
-
-    Number of connections.
-
-  - `durationAvg: number`
-
-    Average duration of connections.
+[Link to this property](#)%20spectrum.analytics.aggregates.currents%20%3E%20(model)%20current_get_response%20%3E%20(schema)>)

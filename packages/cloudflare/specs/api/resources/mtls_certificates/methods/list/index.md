@@ -1,139 +1,400 @@
-## List mTLS certificates
+---
+title: List mTLS certificates
+---
 
-**get** `/accounts/{account_id}/mtls_certificates`
+[Skip to content](#_top)
 
-Lists all mTLS certificates uploaded to your account, such as Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the Cloudflare managed CA, use the [List Client Certificates endpoint](/api/resources/client_certificates/methods/list/).
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[MTLS Certificates](https://developers.cloudflare.com/api/resources/mtls_certificates)
 
-- `account_id: string`
+Copy Markdown
 
-  Identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Query Parameters
+---
 
-- `type: optional array of "custom" or "gateway_managed" or "access_managed"`
+**Copy Markdown****View as Markdown**
 
-  Filters results by certificate type. Multiple types can be comma-separated.
+# List mTLS certificates
 
-  - `"custom"`
+GET/accounts/{account\_id}/mtls\_certificates
 
-  - `"gateway_managed"`
+Lists all mTLS certificates uploaded to your account, such as Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the Cloudflare managed CA, use the [List Client Certificates endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/list/).
 
-  - `"access_managed"`
+##### Security
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>API Token</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `source: optional object { pointer }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `success: true`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Whether the API call was successful.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `true`
+</details>
 
-- `result: optional array of MTLSCertificate`
+##### Accepted Permissions (at least one required)
 
-  - `id: optional string`
+`Account: SSL and Certificates Read``Account: SSL and Certificates Write`
 
-    Identifier.
+##### P ath ParametersExpand Collapse
 
-  - `ca: optional boolean`
+account\_id: string
 
-    Indicates whether the certificate is a CA or leaf certificate.
+Identifier.
 
-  - `certificates: optional string`
+maxLength32
 
-    The uploaded root CA certificate.
+[Link to this property](#)%20mtls_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `expires_on: optional string`
+##### Q uery ParametersExpand Collapse
 
-    When the certificate expires.
+<details>
 
-  - `issuer: optional string`
+<summary>
 
-    The certificate authority that issued the certificate.
+type: optional array of "custom"or "gateway\_managed"or "access\_managed"
 
-  - `name: optional string`
+Filters results by certificate type. Multiple types can be comma-separated.
 
-    Optional unique name for the certificate. Only used for human readability.
+</summary>
 
-  - `serial_number: optional string`
+One of the following:
 
-    The certificate serial number.
+"custom"
 
-  - `signature: optional string`
+<a href="#">Link to this property</a>
 
-    The type of hash used for the certificate.
+"gateway\_managed"
 
-  - `type: optional "custom" or "gateway_managed" or "access_managed"`
+<a href="#">Link to this property</a>
 
-    The type of the certificate, indicating how it was created and who manages it.
+"access\_managed"
 
-    - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `"gateway_managed"`
+</details>
 
-    - `"access_managed"`
+[Link to this property](#)%20mtls_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-  - `uploaded_on: optional string`
+##### ReturnsExpand Collapse
 
-    This is the time the certificate was uploaded.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+errors: array of object {code, message, documentation\_url, source }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+code: number
 
-    Current page within paginated list of results.
+minimum1000
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+message: string
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+documentation\_url: optional string
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    Total pages available of results.
+<details>
 
-### Example
+<summary>
 
-```http
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20mtls_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20mtls_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20mtls_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/mtls_certificates#(resource)%20mtls_certificates%20%3E%20(model)%20mtls_certificate%20%3E%20(schema)">MTLSCertificate</a> { id, ca, certificates, 7 more }
+
+</summary>
+
+id: optional string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+ca: optional boolean
+
+Indicates whether the certificate is a CA or leaf certificate.
+
+<a href="#">Link to this property</a>
+
+certificates: optional string
+
+The uploaded root CA certificate.
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+When the certificate expires.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+issuer: optional string
+
+The certificate authority that issued the certificate.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Optional unique name for the certificate. Only used for human readability.
+
+<a href="#">Link to this property</a>
+
+serial\_number: optional string
+
+The certificate serial number.
+
+<a href="#">Link to this property</a>
+
+signature: optional string
+
+The type of hash used for the certificate.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "custom"or "gateway\_managed"or "access\_managed"
+
+The type of the certificate, indicating how it was created and who manages it.
+
+</summary>
+
+One of the following:
+
+"custom"
+
+<a href="#">Link to this property</a>
+
+"gateway\_managed"
+
+<a href="#">Link to this property</a>
+
+"access\_managed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uploaded\_on: optional string
+
+This is the time the certificate was uploaded.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20mtls_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+Total pages available of results.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20mtls_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List mTLS certificates
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mtls_certificates \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "ca": true,
+      "certificates": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQEL\nBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNV\nBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIx\nNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgM\nDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4\nYW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwg\nJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kC\nM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZ\nCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9\nK3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1Mx\nuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcL\nypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7\nz2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7\nNDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ711\n1Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTi\ni7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG\n+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomo\nShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4\nJhqeoTewsxndhDDE\n-----END CERTIFICATE-----",
+      "expires_on": "2122-10-29T16:59:47Z",
+      "issuer": "O=Example Inc.,L=California,ST=San Francisco,C=US",
+      "name": "example_ca_cert",
+      "serial_number": "235217144297995885180570755458463043449861756659",
+      "signature": "SHA256WithRSA",
+      "type": "custom",
+      "uploaded_on": "2022-11-22T17:32:30.467938Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 50,
+    "total_count": 1,
+    "total_pages": 1
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

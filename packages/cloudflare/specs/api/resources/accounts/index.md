@@ -1,6917 +1,2925 @@
+---
+title: Accounts
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Accounts
 
-## List Accounts
+##### [List Accounts](https://developers.cloudflare.com/api/resources/accounts/methods/list)
 
-**get** `/accounts`
+GET/accounts
 
-List all accounts you have ownership or verified access to.
+##### [Account Details](https://developers.cloudflare.com/api/resources/accounts/methods/get)
 
-### Query Parameters
+GET/accounts/{account\_id}
 
-- `direction: optional "asc" or "desc"`
+##### [Create an account](https://developers.cloudflare.com/api/resources/accounts/methods/create)
 
-  Direction to order results.
+POST/accounts
 
-  - `"asc"`
+##### [Update Account](https://developers.cloudflare.com/api/resources/accounts/methods/update)
 
-  - `"desc"`
+PUT/accounts/{account\_id}
 
-- `name: optional string`
+##### [Delete a specific account](https://developers.cloudflare.com/api/resources/accounts/methods/delete)
 
-  Name of the account.
+DELETE/accounts/{account\_id}
 
-- `page: optional number`
+##### ModelsExpand Collapse
 
-  Page number of paginated results.
+<details>
 
-- `per_page: optional number`
+<summary>
 
-  Maximum number of results per page.
+Account object {id, name, type, 3 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+Identifier
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+minLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Account name
 
-  - `code: number`
+maxLength100
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+type: "standard"or "enterprise"
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+One of the following:
 
-  - `true`
+"standard"
 
-- `result: optional array of Account`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"enterprise"
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Account name
+<a href="#">Link to this property</a>
 
-  - `type: "standard" or "enterprise"`
+created\_on: optional string
 
-    - `"standard"`
+Timestamp for the creation of the account
 
-    - `"enterprise"`
+formatdate-time
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the account
+<details>
 
-  - `managed_by: optional object { parent_org_id, parent_org_name }`
+<summary>
 
-    Parent container details
+managed\_by: optional object {parent\_org\_id, parent\_org\_name }
 
-    - `parent_org_id: optional string`
+Parent container details
 
-      ID of the parent Organization, if one exists
+</summary>
 
-    - `parent_org_name: optional string`
+parent\_org\_id: optional string
 
-      Name of the parent Organization, if one exists
+ID of the parent Organization, if one exists
 
-  - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+maxLength32
 
-    Account settings
+<a href="#">Link to this property</a>
 
-    - `abuse_contact_email: optional string`
+parent\_org\_name: optional string
 
-      Sets an abuse contact email to notify for abuse reports.
+Name of the parent Organization, if one exists
 
-    - `enforce_twofactor: optional boolean`
-
-      Indicates whether membership in this account requires that
-      Two-Factor Authentication is enabled
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results
+settings: optional object {abuse\_contact\_email, enforce\_twofactor }
 
-  - `per_page: optional number`
+Account settings
 
-    Number of results per page of results
+</summary>
 
-  - `total_count: optional number`
+abuse\_contact\_email: optional string
 
-    Total results available without any search parameters
+Sets an abuse contact email to notify for abuse reports.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+enforce\_twofactor: optional boolean
 
-#### Response
+Indicates whether membership in this account requires that Two-Factor Authentication is enabled
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "name": "Demo Account",
-      "type": "standard",
-      "created_on": "2014-03-01T12:21:02.0000Z",
-      "managed_by": {
-        "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
-        "parent_org_name": "Demo Parent Organization"
-      },
-      "settings": {
-        "abuse_contact_email": "abuse_contact_email",
-        "enforce_twofactor": true
-      }
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Account Details
+</details>
 
-**get** `/accounts/{account_id}`
+<a href="#">Link to this property</a>
 
-Get information about a specific account that you are a member of.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20accounts%20%3E%20(model)%20account%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>
 
-### Returns
+AccountDeleteResponse object {id }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+Identifier
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+minLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20accounts%20%3E%20(model)%20account_delete_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### AccountsAccount Organizations
 
-  - `documentation_url: optional string`
+##### [Move account](https://developers.cloudflare.com/api/resources/accounts/subresources/account_organizations/methods/create)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/move
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+AccountOrganizationCreateResponse object {account\_id, destination\_organization\_id, source\_organization\_id }
 
-- `result: optional Account`
+</summary>
 
-  - `id: string`
+account\_id: string
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `name: string`
+destination\_organization\_id: string
 
-    Account name
+<a href="#">Link to this property</a>
 
-  - `type: "standard" or "enterprise"`
+source\_organization\_id: string
 
-    - `"standard"`
+<a href="#">Link to this property</a>
 
-    - `"enterprise"`
+</details>
 
-  - `created_on: optional string`
+[Link to this property](#)%20accounts.account_organizations%20%3E%20(model)%20account_organization_create_response%20%3E%20(schema)>)
 
-    Timestamp for the creation of the account
+#### AccountsAccount Profile
 
-  - `managed_by: optional object { parent_org_id, parent_org_name }`
+##### [Get account profile](https://developers.cloudflare.com/api/resources/accounts/subresources/account_profile/methods/get)
 
-    Parent container details
+GET/accounts/{account\_id}/profile
 
-    - `parent_org_id: optional string`
+##### [Modify account profile](https://developers.cloudflare.com/api/resources/accounts/subresources/account_profile/methods/update)
 
-      ID of the parent Organization, if one exists
+PUT/accounts/{account\_id}/profile
 
-    - `parent_org_name: optional string`
+##### ModelsExpand Collapse
 
-      Name of the parent Organization, if one exists
+<details>
 
-  - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+<summary>
 
-    Account settings
+AccountProfile object {business\_address, business\_email, business\_name, 2 more }
 
-    - `abuse_contact_email: optional string`
+</summary>
 
-      Sets an abuse contact email to notify for abuse reports.
+business\_address: string
 
-    - `enforce_twofactor: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates whether membership in this account requires that
-      Two-Factor Authentication is enabled
+business\_email: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+business\_name: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "name": "Demo Account",
-    "type": "standard",
-    "created_on": "2014-03-01T12:21:02.0000Z",
-    "managed_by": {
-      "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
-      "parent_org_name": "Demo Parent Organization"
-    },
-    "settings": {
-      "abuse_contact_email": "abuse_contact_email",
-      "enforce_twofactor": true
-    }
-  }
-}
-```
+business\_phone: string
 
-## Create an account
+<a href="#">Link to this property</a>
 
-**post** `/accounts`
+external\_metadata: string
 
-Create an account (only available for tenant admins at this time)
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `name: string`
+[Link to this property](#)%20accounts.account_profile%20%3E%20(model)%20account_profile%20%3E%20(schema)>)
 
-  Account name
+#### AccountsMembers
 
-- `type: optional "standard" or "enterprise"`
+##### [List Members](https://developers.cloudflare.com/api/resources/accounts/subresources/members/methods/list)
 
-  - `"standard"`
+GET/accounts/{account\_id}/members
 
-  - `"enterprise"`
+##### [Member Details](https://developers.cloudflare.com/api/resources/accounts/subresources/members/methods/get)
 
-- `unit: optional object { id }`
+GET/accounts/{account\_id}/members/{member\_id}
 
-  information related to the tenant unit, and optionally, an id of the unit to create the account on. see https://developers.cloudflare.com/tenant/how-to/manage-accounts/
+##### [Add Member](https://developers.cloudflare.com/api/resources/accounts/subresources/members/methods/create)
 
-  - `id: optional string`
+POST/accounts/{account\_id}/members
 
-    Tenant unit ID
+##### [Update Member](https://developers.cloudflare.com/api/resources/accounts/subresources/members/methods/update)
 
-### Returns
+PUT/accounts/{account\_id}/members/{member\_id}
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Remove Member](https://developers.cloudflare.com/api/resources/accounts/subresources/members/methods/delete)
 
-  - `code: number`
+DELETE/accounts/{account\_id}/members/{member\_id}
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+Status = "member"or "invited"
 
-- `messages: array of object { code, message, documentation_url, source }`
+Whether the user is a member of the organization or has an invitation pending.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"member"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"invited"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20accounts.members%20%3E%20(model)%20status%20%3E%20(schema)>)
 
-- `result: optional Account`
+<details>
 
-  - `id: string`
+<summary>
 
-    Identifier
+MemberDeleteResponse object {id }
 
-  - `name: string`
+</summary>
 
-    Account name
+id: string
 
-  - `type: "standard" or "enterprise"`
+Identifier
 
-    - `"standard"`
+maxLength32
 
-    - `"enterprise"`
+minLength32
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the account
+</details>
 
-  - `managed_by: optional object { parent_org_id, parent_org_name }`
+[Link to this property](#)%20accounts.members%20%3E%20(model)%20member_delete_response%20%3E%20(schema)>)
 
-    Parent container details
+#### AccountsRoles
 
-    - `parent_org_id: optional string`
+##### [List Roles](https://developers.cloudflare.com/api/resources/accounts/subresources/roles/methods/list)
 
-      ID of the parent Organization, if one exists
+Deprecated
 
-    - `parent_org_name: optional string`
+GET/accounts/{account\_id}/roles
 
-      Name of the parent Organization, if one exists
+##### [Role Details](https://developers.cloudflare.com/api/resources/accounts/subresources/roles/methods/get)
 
-  - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+Deprecated
 
-    Account settings
+GET/accounts/{account\_id}/roles/{role\_id}
 
-    - `abuse_contact_email: optional string`
+#### AccountsSubscriptions
 
-      Sets an abuse contact email to notify for abuse reports.
+##### [List Subscriptions](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get)
 
-    - `enforce_twofactor: optional boolean`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/subscriptions
 
-      Indicates whether membership in this account requires that
-      Two-Factor Authentication is enabled
+##### [Get Subscription](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get_by_identifier)
 
-### Example
+GET/accounts/{account\_id}/subscriptions/{subscription\_identifier}
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "name": "name"
-        }'
-```
+##### [Create Subscription](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/create)
 
-#### Response
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/subscriptions
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "name": "Demo Account",
-    "type": "standard",
-    "created_on": "2014-03-01T12:21:02.0000Z",
-    "managed_by": {
-      "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
-      "parent_org_name": "Demo Parent Organization"
-    },
-    "settings": {
-      "abuse_contact_email": "abuse_contact_email",
-      "enforce_twofactor": true
-    }
-  }
-}
-```
+##### [Update Subscription](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/update)
 
-## Update Account
+PUT/accounts/{account\_id}/subscriptions/{subscription\_identifier}
 
-**put** `/accounts/{account_id}`
+##### [Delete Subscription](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/delete)
 
-Update an existing account.
+DELETE/accounts/{account\_id}/subscriptions/{subscription\_identifier}
 
-### Path Parameters
+##### [Cancel Delayed Downgrade](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/cancel_downgrade)
 
-- `account_id: string`
+POST/accounts/{account\_id}/subscriptions/cancel-downgrade
 
-  Account identifier tag.
+##### ModelsExpand Collapse
 
-### Body Parameters
+<details>
 
-- `id: string`
+<summary>
 
-  Identifier
+SubscriptionDeleteResponse object {subscription\_id }
 
-- `name: string`
+</summary>
 
-  Account name
+subscription\_id: optional string
 
-- `type: "standard" or "enterprise"`
+Subscription identifier tag.
 
-  - `"standard"`
+maxLength32
 
-  - `"enterprise"`
+<a href="#">Link to this property</a>
 
-- `managed_by: optional object { parent_org_id, parent_org_name }`
+</details>
 
-  Parent container details
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(model)%20subscription_delete_response%20%3E%20(schema)>)
 
-  - `parent_org_id: optional string`
+<details>
 
-    ID of the parent Organization, if one exists
+<summary>
 
-  - `parent_org_name: optional string`
+SubscriptionCancelDowngradeResponse = unknownor string
 
-    Name of the parent Organization, if one exists
+</summary>
 
-- `settings: optional object { abuse_contact_email, enforce_twofactor }`
+One of the following:
 
-  Account settings
+unknown
 
-  - `abuse_contact_email: optional string`
+<a href="#">Link to this property</a>
 
-    Sets an abuse contact email to notify for abuse reports.
+string
 
-  - `enforce_twofactor: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether membership in this account requires that
-    Two-Factor Authentication is enabled
+</details>
 
-### Returns
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(model)%20subscription_cancel_downgrade_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+#### AccountsSubscriptionsCancel Reason
 
-  - `code: number`
+##### [Create Cancel Reason](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/subresources/cancel_reason/methods/create)
 
-  - `message: string`
+POST/accounts/{account\_id}/subscriptions/{subscription\_identifier}/cancel-reason
 
-  - `documentation_url: optional string`
+##### [Get Cancel Reason](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/subresources/cancel_reason/methods/get)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/subscriptions/{subscription\_identifier}/cancel-reason
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+CancelReasonCreateResponse object {id, other, reason\_code, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+The cancel reason identifier.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+other: optional string
 
-  - `true`
+Additional cancellation details.
 
-- `result: optional Account`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+reason\_code: optional array of string
 
-    Identifier
+The cancellation reason codes.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Account name
+submitted: optional string
 
-  - `type: "standard" or "enterprise"`
+When the cancel reason was submitted.
 
-    - `"standard"`
+formatdate-time
 
-    - `"enterprise"`
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+subscription\_id: optional string
 
-    Timestamp for the creation of the account
+The subscription identifier.
 
-  - `managed_by: optional object { parent_org_id, parent_org_name }`
+<a href="#">Link to this property</a>
 
-    Parent container details
+</details>
 
-    - `parent_org_id: optional string`
+[Link to this property](#)%20accounts.subscriptions.cancel_reason%20%3E%20(model)%20cancel_reason_create_response%20%3E%20(schema)>)
 
-      ID of the parent Organization, if one exists
+<details>
 
-    - `parent_org_name: optional string`
+<summary>
 
-      Name of the parent Organization, if one exists
+CancelReasonGetResponse object {id, other, reason\_code, 2 more }
 
-  - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+</summary>
 
-    Account settings
+id: optional string
 
-    - `abuse_contact_email: optional string`
+The cancel reason identifier.
 
-      Sets an abuse contact email to notify for abuse reports.
+<a href="#">Link to this property</a>
 
-    - `enforce_twofactor: optional boolean`
+other: optional string
 
-      Indicates whether membership in this account requires that
-      Two-Factor Authentication is enabled
+Additional cancellation details.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "name": "Demo Account",
-          "type": "standard"
-        }'
-```
+reason\_code: optional array of string
 
-#### Response
+The cancellation reason codes.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "name": "Demo Account",
-    "type": "standard",
-    "created_on": "2014-03-01T12:21:02.0000Z",
-    "managed_by": {
-      "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
-      "parent_org_name": "Demo Parent Organization"
-    },
-    "settings": {
-      "abuse_contact_email": "abuse_contact_email",
-      "enforce_twofactor": true
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a specific account
+submitted: optional string
 
-**delete** `/accounts/{account_id}`
+When the cancel reason was submitted.
 
-Delete a specific account (only available for tenant admins at this time). This is a permanent operation that will delete any zones or other resources under the account
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+subscription\_id: optional string
 
-  The account ID of the account to be deleted
+The subscription identifier.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20accounts.subscriptions.cancel_reason%20%3E%20(model)%20cancel_reason_get_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### AccountsSubscriptionsActions
 
-  - `documentation_url: optional string`
+##### [Append Subscription Action](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/subresources/actions/methods/append)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/subscriptions/{subscription\_identifier}/action/append
 
-    - `pointer: optional string`
+#### AccountsSubscriptionsBulk
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### [Create Subscriptions](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/subresources/bulk/methods/create)
 
-  - `code: number`
+POST/accounts/{account\_id}/bulk/subscriptions
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+BulkCreateResponse = array of unknown
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20accounts.subscriptions.bulk%20%3E%20(model)%20bulk_create_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+#### AccountsTokens
 
-- `success: true`
+##### [List Tokens](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/list)
 
-  Whether the API call was successful.
+GET/accounts/{account\_id}/tokens
 
-  - `true`
+##### [Token Details](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/get)
 
-- `result: optional object { id }`
+GET/accounts/{account\_id}/tokens/{token\_id}
 
-  - `id: string`
+##### [Create Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/create)
 
-    Identifier
+POST/accounts/{account\_id}/tokens
 
-### Example
+##### [Update Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/update)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+PUT/accounts/{account\_id}/tokens/{token\_id}
 
-#### Response
+##### [Delete Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/delete)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+DELETE/accounts/{account\_id}/tokens/{token\_id}
 
-## Domain Types
+##### [Verify Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/verify)
 
-### Account
+GET/accounts/{account\_id}/tokens/verify
 
-- `Account object { id, name, type, 3 more }`
+##### ModelsExpand Collapse
 
-  - `id: string`
+<details>
 
-    Identifier
+<summary>
 
-  - `name: string`
+TokenCreateResponse object {id, condition, expires\_on, 8 more }
 
-    Account name
+</summary>
 
-  - `type: "standard" or "enterprise"`
+id: optional string
 
-    - `"standard"`
+Token identifier tag.
 
-    - `"enterprise"`
+maxLength32
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp for the creation of the account
+<details>
 
-  - `managed_by: optional object { parent_org_id, parent_org_name }`
+<summary>
 
-    Parent container details
+condition: optional object {request\_ip }
 
-    - `parent_org_id: optional string`
+</summary>
 
-      ID of the parent Organization, if one exists
+<details>
 
-    - `parent_org_name: optional string`
+<summary>
 
-      Name of the parent Organization, if one exists
+request\_ip: optional object {in, not\_in }
 
-  - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+Client IP restrictions.
 
-    Account settings
+</summary>
 
-    - `abuse_contact_email: optional string`
+in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
 
-      Sets an abuse contact email to notify for abuse reports.
+List of IPv4/IPv6 CIDR addresses.
 
-    - `enforce_twofactor: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates whether membership in this account requires that
-      Two-Factor Authentication is enabled
+not\_in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
 
-### Account Delete Response
+List of IPv4/IPv6 CIDR addresses.
 
-- `AccountDeleteResponse object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Identifier
+<a href="#">Link to this property</a>
 
-# Account Organizations
+</details>
 
-## Move account
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/move`
+expires\_on: optional string
 
-Move an account within an organization hierarchy or an account outside an organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+issued\_on: optional string
 
-- `destination_organization_id: string`
+The time on which the token was created.
 
-### Returns
+formatdate-time
 
-- `errors: array of unknown`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+last\_used\_on: optional string
 
-  - `code: number`
+Last time the token was used.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+modified\_on: optional string
 
-    - `pointer: optional string`
+Last time the token was modified.
 
-- `result: object { account_id, destination_organization_id, source_organization_id }`
+formatdate-time
 
-  - `account_id: string`
+<a href="#">Link to this property</a>
 
-  - `destination_organization_id: string`
+name: optional string
 
-  - `source_organization_id: string`
+Token name.
 
-- `success: true`
+maxLength120
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+not\_before: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/move \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "destination_organization_id": "destination_organization_id"
-        }'
-```
+The time before which the token MUST NOT be accepted for processing.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_id": "account_id",
-    "destination_organization_id": "destination_organization_id",
-    "source_organization_id": "source_organization_id"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Account Organization Create Response
+<summary>
 
-- `AccountOrganizationCreateResponse object { account_id, destination_organization_id, source_organization_id }`
+policies: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_policy%20%3E%20(schema)">TokenPolicy</a> { id, effect, permission\_groups, resources }
 
-  - `account_id: string`
+List of access policies assigned to the token.
 
-  - `destination_organization_id: string`
+</summary>
 
-  - `source_organization_id: string`
+id: string
 
-# Account Profile
+Policy identifier.
 
-## Get account profile
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/profile`
+<details>
 
-Retrieves the profile information for a specific Cloudflare account, including organization details, settings, and metadata. This endpoint is commonly used to verify account access and retrieve account-level configuration.
+<summary>
 
-### Path Parameters
+effect: "allow"or "deny"
 
-- `account_id: string`
+Allow or deny operations against the resources.
 
-### Returns
+</summary>
 
-- `errors: array of unknown`
+One of the following:
 
-- `messages: array of ResponseInfo`
+"allow"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"deny"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: AccountProfile`
+<details>
 
-  - `business_address: string`
+<summary>
 
-  - `business_email: string`
+permission\_groups: array of object {id, meta, name }
 
-  - `business_name: string`
+A set of permission groups that are specified to the policy.
 
-  - `business_phone: string`
+</summary>
 
-  - `external_metadata: string`
+id: string
 
-- `success: true`
+Identifier of the permission group.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/profile \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<summary>
 
-#### Response
+meta: optional object {key, value }
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "business_address": "business_address",
-    "business_email": "business_email",
-    "business_name": "business_name",
-    "business_phone": "business_phone",
-    "external_metadata": "external_metadata"
-  },
-  "success": true
-}
-```
+Attributes associated to the permission group.
 
-## Modify account profile
+</summary>
 
-**put** `/accounts/{account_id}/profile`
+key: optional string
 
-Updates the profile information for a Cloudflare account. Allows modification of account-level settings and organizational details. Requires Account Settings Write permission.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+value: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `business_address: string`
+<a href="#">Link to this property</a>
 
-- `business_email: string`
+name: optional string
 
-- `business_name: string`
+Name of the permission group.
 
-- `business_phone: string`
+<a href="#">Link to this property</a>
 
-- `external_metadata: string`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/profile \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "business_address": "business_address",
-          "business_email": "business_email",
-          "business_name": "business_name",
-          "business_phone": "business_phone",
-          "external_metadata": "external_metadata"
-        }'
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Account Profile
+resources: map\[string]or map\[map\[string]]
 
-- `AccountProfile object { business_address, business_email, business_name, 2 more }`
+A list of resource names that the policy applies to.
 
-  - `business_address: string`
+</summary>
 
-  - `business_email: string`
+One of the following:
 
-  - `business_name: string`
+IAMResourcesTypeObjectString = map\[string]
 
-  - `business_phone: string`
+Map of simple string resource permissions
 
-  - `external_metadata: string`
+<a href="#">Link to this property</a>
 
-# Members
+IAMResourcesTypeObjectNested = map\[map\[string]]
 
-## List Members
+Map of nested resource permissions
 
-**get** `/accounts/{account_id}/members`
+<a href="#">Link to this property</a>
 
-List all members of an account.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+<details>
 
-- `direction: optional "asc" or "desc"`
+<summary>
 
-  Direction to order results.
+status: optional "active"or "disabled"or "expired"
 
-  - `"asc"`
+Status of the token.
 
-  - `"desc"`
+</summary>
 
-- `order: optional "user.first_name" or "user.last_name" or "user.email" or "status"`
+One of the following:
 
-  Field to order results by.
+"active"
 
-  - `"user.first_name"`
+<a href="#">Link to this property</a>
 
-  - `"user.last_name"`
+"disabled"
 
-  - `"user.email"`
+<a href="#">Link to this property</a>
 
-  - `"status"`
+"expired"
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Page number of paginated results.
+</details>
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Maximum number of results per page.
+value: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_value%20%3E%20(schema)">TokenValue</a>
 
-- `status: optional "accepted" or "pending" or "rejected"`
+The token value.
 
-  A member's status in the account.
+maxLength80
 
-  - `"accepted"`
+minLength40
 
-  - `"pending"`
+<a href="#">Link to this property</a>
 
-  - `"rejected"`
+</details>
 
-### Returns
+[Link to this property](#)%20accounts.tokens%20%3E%20(model)%20token_create_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+TokenDeleteResponse object {id }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+Identifier
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+minLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20accounts.tokens%20%3E%20(model)%20token_delete_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+TokenVerifyResponse object {id, status, expires\_on, not\_before }
 
-  - `true`
+</summary>
 
-- `result: optional array of Member`
+id: string
 
-  - `id: optional string`
+Token identifier tag.
 
-    Membership identifier tag.
+maxLength32
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The contact email address of the user.
+<details>
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<summary>
 
-    Access policy for the membership
+status: "active"or "disabled"or "expired"
 
-    - `id: optional string`
+Status of the token.
 
-      Policy identifier.
+</summary>
 
-    - `access: optional "allow" or "deny"`
+One of the following:
 
-      Allow or deny operations against the resources.
+"active"
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+"disabled"
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+"expired"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the permission group.
+</details>
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+expires\_on: optional string
 
-        - `key: optional string`
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
 
-        - `value: optional string`
+formatdate-time
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the permission group.
+not\_before: optional string
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+The time before which the token MUST NOT be accepted for processing.
 
-      A list of resource groups that the policy applies to.
+formatdate-time
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the resource group.
+</details>
 
-      - `scope: array of object { key, objects }`
+[Link to this property](#)%20accounts.tokens%20%3E%20(model)%20token_verify_response%20%3E%20(schema)>)
 
-        The scope associated to the resource group
+#### AccountsTokensPermission Groups
 
-        - `key: string`
+##### [List Permission Groups](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/permission_groups/methods/list)
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+GET/accounts/{account\_id}/tokens/permission\_groups
 
-        - `objects: array of object { key }`
+##### [List Permission Groups](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/permission_groups/methods/get)
 
-          A list of scope objects for additional context.
+GET/accounts/{account\_id}/tokens/permission\_groups
 
-          - `key: string`
+##### ModelsExpand Collapse
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<details>
 
-      - `meta: optional object { key, value }`
+<summary>
 
-        Attributes associated to the resource group.
+PermissionGroupListResponse object {id, category, name, scopes }
 
-        - `key: optional string`
+</summary>
 
-        - `value: optional string`
+id: optional string
 
-      - `name: optional string`
+Public ID.
 
-        Name of the resource group.
+<a href="#">Link to this property</a>
 
-  - `roles: optional array of Role`
+<details>
 
-    Roles assigned to this Member.
+<summary>
 
-    - `id: string`
+category: optional "developer\_platform"or "ai\_and\_machine\_learning"or "dns\_and\_zones"or 10 more
 
-      Role identifier tag.
+Product category that this permission group belongs to.
 
-    - `description: string`
+</summary>
 
-      Description of role's permissions.
+One of the following:
 
-    - `name: string`
+"developer\_platform"
 
-      Role name.
+<a href="#">Link to this property</a>
 
-    - `permissions: object { analytics, billing, cache_purge, 9 more }`
+"ai\_and\_machine\_learning"
 
-      - `analytics: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-        - `read: optional boolean`
+"dns\_and\_zones"
 
-        - `write: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `billing: optional PermissionGrant`
+"app\_security"
 
-      - `cache_purge: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `dns: optional PermissionGrant`
+"rules\_and\_configuration"
 
-      - `dns_records: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `lb: optional PermissionGrant`
+"cloudflare\_one\_and\_zero\_trust"
 
-      - `logs: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `organization: optional PermissionGrant`
+"analytics\_and\_logs"
 
-      - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `waf: optional PermissionGrant`
+"network\_services"
 
-      - `zone_settings: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `zones: optional PermissionGrant`
+"media"
 
-  - `status: optional "accepted" or "pending"`
+<a href="#">Link to this property</a>
 
-    A member's status in the account.
+"email\_and\_messaging"
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"cache\_and\_performance"
 
-  - `user: optional object { email, id, first_name, 2 more }`
+<a href="#">Link to this property</a>
 
-    Details of the user associated to the membership.
+"account\_and\_billing"
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+"other"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+</details>
 
-    - `first_name: optional string`
+<a href="#">Link to this property</a>
 
-      User's first name
+name: optional string
 
-    - `last_name: optional string`
+Permission Group Name
 
-      User's last name
+<a href="#">Link to this property</a>
 
-    - `two_factor_authentication_enabled: optional boolean`
+<details>
 
-      Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+<summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+scopes: optional array of "com.cloudflare.api.account"or "com.cloudflare.api.account.zone"or "com.cloudflare.api.user"or "com.cloudflare.edge.r2.bucket"
 
-  - `count: optional number`
+Resources to which the Permission Group is scoped
 
-    Total number of results for the requested service
+</summary>
 
-  - `page: optional number`
+One of the following:
 
-    Current page within paginated list of results
+"com.cloudflare.api.account"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+"com.cloudflare.api.account.zone"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters
+"com.cloudflare.api.user"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/members \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+"com.cloudflare.edge.r2.bucket"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4536bcfad5faccb111b47003c79917fa",
-      "email": "user@example.com",
-      "policies": [
-        {
-          "id": "f267e341f3dd4697bd3b9f71dd96247f",
-          "access": "allow",
-          "permission_groups": [
-            {
-              "id": "c8fed203ed3043cba015a93ad1616f1f",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Zone Read"
-            },
-            {
-              "id": "82e64a83756745bbbb1c9c2701bf816b",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Magic Network Monitoring"
-            }
-          ],
-          "resource_groups": [
-            {
-              "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-              "scope": [
-                {
-                  "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                  "objects": [
-                    {
-                      "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                    }
-                  ]
-                }
-              ],
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-            }
-          ]
-        }
-      ],
-      "roles": [
-        {
-          "id": "3536bcfad5faccb999b47003c79917fb",
-          "description": "Administrative access to the entire Account",
-          "name": "Account Administrator",
-          "permissions": {
-            "analytics": {
-              "read": true,
-              "write": false
-            },
-            "billing": {
-              "read": true,
-              "write": false
-            },
-            "cache_purge": {
-              "read": true,
-              "write": false
-            },
-            "dns": {
-              "read": true,
-              "write": false
-            },
-            "dns_records": {
-              "read": true,
-              "write": false
-            },
-            "lb": {
-              "read": true,
-              "write": false
-            },
-            "logs": {
-              "read": true,
-              "write": false
-            },
-            "organization": {
-              "read": true,
-              "write": false
-            },
-            "ssl": {
-              "read": true,
-              "write": false
-            },
-            "waf": {
-              "read": true,
-              "write": false
-            },
-            "zone_settings": {
-              "read": true,
-              "write": false
-            },
-            "zones": {
-              "read": true,
-              "write": true
-            }
-          }
-        }
-      ],
-      "status": "accepted",
-      "user": {
-        "email": "user@example.com",
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "first_name": "John",
-        "last_name": "Appleseed",
-        "two_factor_authentication_enabled": true
-      }
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+</details>
 
-## Member Details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/members/{member_id}`
+</details>
 
-Get information about a specific member of an account.
+[Link to this property](#)%20accounts.tokens.permission_groups%20%3E%20(model)%20permission_group_list_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier tag.
+PermissionGroupGetResponse = array of object {id, category, name, scopes }
 
-- `member_id: string`
+</summary>
 
-  Membership identifier tag.
+id: optional string
 
-### Returns
+Public ID.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+category: optional "developer\_platform"or "ai\_and\_machine\_learning"or "dns\_and\_zones"or 10 more
 
-  - `source: optional object { pointer }`
+Product category that this permission group belongs to.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"developer\_platform"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"ai\_and\_machine\_learning"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"dns\_and\_zones"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"app\_security"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Member`
+"rules\_and\_configuration"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Membership identifier tag.
+"cloudflare\_one\_and\_zero\_trust"
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The contact email address of the user.
+"analytics\_and\_logs"
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Access policy for the membership
+"network\_services"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+"media"
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+"email\_and\_messaging"
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+"cache\_and\_performance"
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+"account\_and\_billing"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the permission group.
+"other"
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+</details>
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+name: optional string
 
-      - `name: optional string`
+Permission Group Name
 
-        Name of the permission group.
+<a href="#">Link to this property</a>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<details>
 
-      A list of resource groups that the policy applies to.
+<summary>
 
-      - `id: string`
+scopes: optional array of "com.cloudflare.api.account"or "com.cloudflare.api.account.zone"or "com.cloudflare.api.user"or "com.cloudflare.edge.r2.bucket"
 
-        Identifier of the resource group.
+Resources to which the Permission Group is scoped
 
-      - `scope: array of object { key, objects }`
+</summary>
 
-        The scope associated to the resource group
+One of the following:
 
-        - `key: string`
+"com.cloudflare.api.account"
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+<a href="#">Link to this property</a>
 
-        - `objects: array of object { key }`
+"com.cloudflare.api.account.zone"
 
-          A list of scope objects for additional context.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+"com.cloudflare.api.user"
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-      - `meta: optional object { key, value }`
+"com.cloudflare.edge.r2.bucket"
 
-        Attributes associated to the resource group.
+<a href="#">Link to this property</a>
 
-        - `key: optional string`
+</details>
 
-        - `value: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        Name of the resource group.
+[Link to this property](#)%20accounts.tokens.permission_groups%20%3E%20(model)%20permission_group_get_response%20%3E%20(schema)>)
 
-  - `roles: optional array of Role`
+#### AccountsTokensValue
 
-    Roles assigned to this Member.
+##### [Roll Token](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/value/methods/update)
 
-    - `id: string`
+PUT/accounts/{account\_id}/tokens/{token\_id}/value
 
-      Role identifier tag.
+#### AccountsLogs
 
-    - `description: string`
+#### AccountsLogsAudit
 
-      Description of role's permissions.
+##### [Get account audit logs (Version 2)](https://developers.cloudflare.com/api/resources/accounts/subresources/logs/subresources/audit/methods/list)
 
-    - `name: string`
+GET/accounts/{account\_id}/logs/audit
 
-      Role name.
+##### [Get resource change history from an account audit log entry (Version 2)](https://developers.cloudflare.com/api/resources/accounts/subresources/logs/subresources/audit/methods/history)
 
-    - `permissions: object { analytics, billing, cache_purge, 9 more }`
+GET/accounts/{account\_id}/logs/audit/{id}/history
 
-      - `analytics: optional PermissionGrant`
+##### [List account audit log product categories (Version 2)](https://developers.cloudflare.com/api/resources/accounts/subresources/logs/subresources/audit/methods/product_categories)
 
-        - `read: optional boolean`
+GET/accounts/{account\_id}/logs/audit/product\_categories
 
-        - `write: optional boolean`
+##### ModelsExpand Collapse
 
-      - `billing: optional PermissionGrant`
+<details>
 
-      - `cache_purge: optional PermissionGrant`
+<summary>
 
-      - `dns: optional PermissionGrant`
+AuditListResponse object {id, account, action, 4 more }
 
-      - `dns_records: optional PermissionGrant`
+</summary>
 
-      - `lb: optional PermissionGrant`
+id: optional string
 
-      - `logs: optional PermissionGrant`
+A unique identifier for the audit log entry.
 
-      - `organization: optional PermissionGrant`
+maxLength32
 
-      - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `waf: optional PermissionGrant`
+<details>
 
-      - `zone_settings: optional PermissionGrant`
+<summary>
 
-      - `zones: optional PermissionGrant`
+account: optional object {id, name }
 
-  - `status: optional "accepted" or "pending"`
+Contains account related information.
 
-    A member's status in the account.
+</summary>
 
-    - `"accepted"`
+id: optional string
 
-    - `"pending"`
+A unique identifier for the account.
 
-  - `user: optional object { email, id, first_name, 2 more }`
+<a href="#">Link to this property</a>
 
-    Details of the user associated to the membership.
+name: optional string
 
-    - `email: string`
+A string that identifies the account name.
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `first_name: optional string`
+<details>
 
-      User's first name
+<summary>
 
-    - `last_name: optional string`
+action: optional object {description, result, time, type }
 
-      User's last name
+Provides information about the action performed.
 
-    - `two_factor_authentication_enabled: optional boolean`
+</summary>
 
-      Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+description: optional string
 
-### Example
+A short description of the action performed.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/members/$MEMBER_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+result: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4536bcfad5faccb111b47003c79917fa",
-    "email": "user@example.com",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ],
-    "roles": [
-      {
-        "id": "3536bcfad5faccb999b47003c79917fb",
-        "description": "Administrative access to the entire Account",
-        "name": "Account Administrator",
-        "permissions": {
-          "analytics": {
-            "read": true,
-            "write": false
-          },
-          "billing": {
-            "read": true,
-            "write": false
-          },
-          "cache_purge": {
-            "read": true,
-            "write": false
-          },
-          "dns": {
-            "read": true,
-            "write": false
-          },
-          "dns_records": {
-            "read": true,
-            "write": false
-          },
-          "lb": {
-            "read": true,
-            "write": false
-          },
-          "logs": {
-            "read": true,
-            "write": false
-          },
-          "organization": {
-            "read": true,
-            "write": false
-          },
-          "ssl": {
-            "read": true,
-            "write": false
-          },
-          "waf": {
-            "read": true,
-            "write": false
-          },
-          "zone_settings": {
-            "read": true,
-            "write": false
-          },
-          "zones": {
-            "read": true,
-            "write": true
-          }
-        }
-      }
-    ],
-    "status": "accepted",
-    "user": {
-      "email": "user@example.com",
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "first_name": "John",
-      "last_name": "Appleseed",
-      "two_factor_authentication_enabled": true
-    }
-  }
-}
-```
+The result of the action, indicating success or failure.
 
-## Add Member
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/members`
+time: optional string
 
-Add a user to the list of members for this account.
+A timestamp indicating when the action was logged.
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+type: optional string
 
-### Body Parameters
+A short string that describes the action that was performed.
 
-- `body: object { email, roles, status }  or object { email, policies, status }`
+<a href="#">Link to this property</a>
 
-  - `IAMCreateMemberWithRoles object { email, roles, status }`
+</details>
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-      The contact email address of the user.
+<details>
 
-    - `roles: array of string`
+<summary>
 
-      Array of roles associated with this member.
+actor: optional object {id, context, email, 4 more }
 
-    - `status: optional "accepted" or "pending"`
+Provides details about the actor who performed the action.
 
-      Status of the member invitation. If not provided during creation, defaults to 'pending'.
-      Changing from 'accepted' back to 'pending' will trigger a replacement of the member resource in Terraform.
+</summary>
 
-      - `"accepted"`
+id: optional string
 
-      - `"pending"`
+The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
 
-  - `IAMCreateMemberWithPolicies object { email, policies, status }`
+<a href="#">Link to this property</a>
 
-    - `email: string`
+<details>
 
-      The contact email address of the user.
+<summary>
 
-    - `policies: array of object { id, access, permission_groups, resource_groups }`
+context: optional "api"or "api\_key"or "api\_token"or 3 more
 
-      Array of policies associated with this member.
+The context in which the action was initiated.
 
-      - `id: string`
+- <code>api</code>: The action was performed through the API. The specific credential type was not recorded.
+- <code>api_key</code>: The action was authenticated with a Cloudflare Global API Key.
+- <code>api_token</code>: The action was authenticated with an API token.
+- <code>dash</code>: The action was performed through the Cloudflare dashboard.
+- <code>oauth</code>: The action was authenticated with an OAuth token.
+- <code>origin_ca_key</code>: The action was authenticated with an Origin CA key.
 
-        Policy identifier.
+</summary>
 
-      - `access: "allow" or "deny"`
+One of the following:
 
-        Allow or deny operations against the resources.
+"api"
 
-        - `"allow"`
+<a href="#">Link to this property</a>
 
-        - `"deny"`
+"api\_key"
 
-      - `permission_groups: array of object { id }`
+<a href="#">Link to this property</a>
 
-        A set of permission groups that are specified to the policy.
+"api\_token"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          Identifier of the group.
+"dash"
 
-      - `resource_groups: array of object { id }`
+<a href="#">Link to this property</a>
 
-        A list of resource groups that the policy applies to.
+"oauth"
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          Identifier of the group.
+"origin\_ca\_key"
 
-    - `status: optional "accepted" or "pending"`
+<a href="#">Link to this property</a>
 
-      Status of the member invitation. If not provided during creation, defaults to 'pending'.
-      Changing from 'accepted' back to 'pending' will trigger a replacement of the member resource in Terraform.
+</details>
 
-      - `"accepted"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+email: optional string
 
-### Returns
+The email of the actor who performed the action.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatemail
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+ip\_address: optional string
 
-  - `documentation_url: optional string`
+The IP address of the request that performed the action.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+token\_id: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The API token ID when the actor context is an api\_token or oauth.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+token\_name: optional string
 
-  - `documentation_url: optional string`
+The API token name when the actor context is an api\_token or oauth.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+type: optional "account"or "cloudflare\_admin"or "delegated\_service"or 2 more
 
-  - `true`
+The type of actor.
 
-- `result: optional Member`
+</summary>
 
-  - `id: optional string`
+One of the following:
 
-    Membership identifier tag.
+"account"
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The contact email address of the user.
+"cloudflare\_admin"
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Access policy for the membership
+"delegated\_service"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+"system"
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+"user"
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+</details>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the permission group.
+<details>
 
-      - `meta: optional object { key, value }`
+<summary>
 
-        Attributes associated to the permission group.
+raw: optional object {cf\_ray\_id, method, status\_code, 2 more }
 
-        - `key: optional string`
+Provides raw information about the request and response.
 
-        - `value: optional string`
+</summary>
 
-      - `name: optional string`
+cf\_ray\_id: optional string
 
-        Name of the permission group.
+The Cloudflare Ray ID for the request.
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-      A list of resource groups that the policy applies to.
+method: optional string
 
-      - `id: string`
+The HTTP method of the request.
 
-        Identifier of the resource group.
+<a href="#">Link to this property</a>
 
-      - `scope: array of object { key, objects }`
+status\_code: optional number
 
-        The scope associated to the resource group
+The HTTP response status code returned by the API.
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+uri: optional string
 
-        - `objects: array of object { key }`
+The URI of the request.
 
-          A list of scope objects for additional context.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+user\_agent: optional string
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+The client’s user agent string sent with the request.
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the resource group.
+</details>
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+<details>
 
-      - `name: optional string`
+<summary>
 
-        Name of the resource group.
+resource: optional object {id, product, request, 3 more }
 
-  - `roles: optional array of Role`
+Provides details about the affected resource.
 
-    Roles assigned to this Member.
+</summary>
 
-    - `id: string`
+id: optional string
 
-      Role identifier tag.
+The unique identifier for the affected resource.
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      Description of role's permissions.
+product: optional string
 
-    - `name: string`
+The Cloudflare product associated with the resource.
 
-      Role name.
+<a href="#">Link to this property</a>
 
-    - `permissions: object { analytics, billing, cache_purge, 9 more }`
+request: optional unknown
 
-      - `analytics: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-        - `read: optional boolean`
+response: optional unknown
 
-        - `write: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `billing: optional PermissionGrant`
+scope: optional unknown
 
-      - `cache_purge: optional PermissionGrant`
+The scope of the resource.
 
-      - `dns: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `dns_records: optional PermissionGrant`
+type: optional string
 
-      - `lb: optional PermissionGrant`
+The type of the resource.
 
-      - `logs: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `organization: optional PermissionGrant`
+</details>
 
-      - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `waf: optional PermissionGrant`
+<details>
 
-      - `zone_settings: optional PermissionGrant`
+<summary>
 
-      - `zones: optional PermissionGrant`
+zone: optional object {id, name }
 
-  - `status: optional "accepted" or "pending"`
+Provides details about the zone affected by the action.
 
-    A member's status in the account.
+</summary>
 
-    - `"accepted"`
+id: optional string
 
-    - `"pending"`
+A string that identifies the zone id.
 
-  - `user: optional object { email, id, first_name, 2 more }`
+<a href="#">Link to this property</a>
 
-    Details of the user associated to the membership.
+name: optional string
 
-    - `email: string`
+A string that identifies the zone name.
 
-      The contact email address of the user.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `first_name: optional string`
+</details>
 
-      User's first name
+[Link to this property](#)%20accounts.logs.audit%20%3E%20(model)%20audit_list_response%20%3E%20(schema)>)
 
-    - `last_name: optional string`
+<details>
 
-      User's last name
+<summary>
 
-    - `two_factor_authentication_enabled: optional boolean`
+AuditHistoryResponse = array of object {id, account, action, 4 more }
 
-      Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+</summary>
 
-### Example
+id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/members \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "email": "user@example.com",
-          "roles": [
-            "3536bcfad5faccb999b47003c79917fb"
-          ]
-        }'
-```
+A unique identifier for the audit log entry.
 
-#### Response
+maxLength32
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4536bcfad5faccb111b47003c79917fa",
-    "email": "user@example.com",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ],
-    "roles": [
-      {
-        "id": "3536bcfad5faccb999b47003c79917fb",
-        "description": "Administrative access to the entire Account",
-        "name": "Account Administrator",
-        "permissions": {
-          "analytics": {
-            "read": true,
-            "write": false
-          },
-          "billing": {
-            "read": true,
-            "write": false
-          },
-          "cache_purge": {
-            "read": true,
-            "write": false
-          },
-          "dns": {
-            "read": true,
-            "write": false
-          },
-          "dns_records": {
-            "read": true,
-            "write": false
-          },
-          "lb": {
-            "read": true,
-            "write": false
-          },
-          "logs": {
-            "read": true,
-            "write": false
-          },
-          "organization": {
-            "read": true,
-            "write": false
-          },
-          "ssl": {
-            "read": true,
-            "write": false
-          },
-          "waf": {
-            "read": true,
-            "write": false
-          },
-          "zone_settings": {
-            "read": true,
-            "write": false
-          },
-          "zones": {
-            "read": true,
-            "write": true
-          }
-        }
-      }
-    ],
-    "status": "accepted",
-    "user": {
-      "email": "user@example.com",
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "first_name": "John",
-      "last_name": "Appleseed",
-      "two_factor_authentication_enabled": true
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Member
+<details>
 
-**put** `/accounts/{account_id}/members/{member_id}`
+<summary>
 
-Modify an account member.
+account: optional object {id, name }
 
-### Path Parameters
+Contains account related information.
 
-- `account_id: string`
+</summary>
 
-  Account identifier tag.
+id: optional string
 
-- `member_id: string`
+A unique identifier for the account.
 
-  Membership identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+name: optional string
 
-- `body: object { id, roles, status, user }  or object { policies }`
+A string that identifies the account name.
 
-  - `IAMUpdateMemberWithRoles object { id, roles, status, user }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      Membership identifier tag.
+<a href="#">Link to this property</a>
 
-    - `roles: optional array of Role`
+<details>
 
-      Roles assigned to this member.
+<summary>
 
-      - `id: string`
+action: optional object {description, result, time, type }
 
-        Role identifier tag.
+Provides information about the action performed.
 
-      - `description: string`
+</summary>
 
-        Description of role's permissions.
+description: optional string
 
-      - `name: string`
+A short description of the action performed.
 
-        Role name.
+<a href="#">Link to this property</a>
 
-      - `permissions: object { analytics, billing, cache_purge, 9 more }`
+result: optional string
 
-        - `analytics: optional PermissionGrant`
+The result of the action, indicating success or failure.
 
-          - `read: optional boolean`
+<a href="#">Link to this property</a>
 
-          - `write: optional boolean`
+time: optional string
 
-        - `billing: optional PermissionGrant`
+A timestamp indicating when the action was logged.
 
-        - `cache_purge: optional PermissionGrant`
+formatdate-time
 
-        - `dns: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-        - `dns_records: optional PermissionGrant`
+type: optional string
 
-        - `lb: optional PermissionGrant`
+A short string that describes the action that was performed.
 
-        - `logs: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-        - `organization: optional PermissionGrant`
+</details>
 
-        - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-        - `waf: optional PermissionGrant`
+<details>
 
-        - `zone_settings: optional PermissionGrant`
+<summary>
 
-        - `zones: optional PermissionGrant`
+actor: optional object {id, context, email, 4 more }
 
-    - `status: optional "accepted" or "pending"`
+Provides details about the actor who performed the action.
 
-      A member's status in the account.
+</summary>
 
-      - `"accepted"`
+id: optional string
 
-      - `"pending"`
+The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
 
-    - `user: optional object { email, id, first_name, 2 more }`
+<a href="#">Link to this property</a>
 
-      Details of the user associated to the membership.
+<details>
 
-      - `email: string`
+<summary>
 
-        The contact email address of the user.
+context: optional "api"or "api\_key"or "api\_token"or 3 more
 
-      - `id: optional string`
+The context in which the action was initiated.
 
-        Identifier
+- <code>api</code>: The action was performed through the API. The specific credential type was not recorded.
+- <code>api_key</code>: The action was authenticated with a Cloudflare Global API Key.
+- <code>api_token</code>: The action was authenticated with an API token.
+- <code>dash</code>: The action was performed through the Cloudflare dashboard.
+- <code>oauth</code>: The action was authenticated with an OAuth token.
+- <code>origin_ca_key</code>: The action was authenticated with an Origin CA key.
 
-      - `first_name: optional string`
+</summary>
 
-        User's first name
+One of the following:
 
-      - `last_name: optional string`
+"api"
 
-        User's last name
+<a href="#">Link to this property</a>
 
-      - `two_factor_authentication_enabled: optional boolean`
+"api\_key"
 
-        Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+<a href="#">Link to this property</a>
 
-  - `IAMUpdateMemberWithPolicies object { policies }`
+"api\_token"
 
-    - `policies: array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-      Array of policies associated with this member.
+"dash"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Policy identifier.
+"oauth"
 
-      - `access: "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-        Allow or deny operations against the resources.
+"origin\_ca\_key"
 
-        - `"allow"`
+<a href="#">Link to this property</a>
 
-        - `"deny"`
+</details>
 
-      - `permission_groups: array of object { id }`
+<a href="#">Link to this property</a>
 
-        A set of permission groups that are specified to the policy.
+email: optional string
 
-        - `id: string`
+The email of the actor who performed the action.
 
-          Identifier of the group.
+formatemail
 
-      - `resource_groups: array of object { id }`
+<a href="#">Link to this property</a>
 
-        A list of resource groups that the policy applies to.
+ip\_address: optional string
 
-        - `id: string`
+The IP address of the request that performed the action.
 
-          Identifier of the group.
+<a href="#">Link to this property</a>
 
-### Returns
+token\_id: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The API token ID when the actor context is an api\_token or oauth.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+token\_name: optional string
 
-  - `documentation_url: optional string`
+The API token name when the actor context is an api\_token or oauth.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+type: optional "account"or "cloudflare\_admin"or "delegated\_service"or 2 more
 
-  - `message: string`
+The type of actor.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"account"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"cloudflare\_admin"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Member`
+"delegated\_service"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Membership identifier tag.
+"system"
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The contact email address of the user.
+"user"
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Access policy for the membership
+</details>
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+</details>
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+<details>
 
-      - `"allow"`
+<summary>
 
-      - `"deny"`
+raw: optional object {cf\_ray\_id, method, status\_code, 2 more }
 
-    - `permission_groups: optional array of object { id, meta, name }`
+Provides raw information about the request and response.
 
-      A set of permission groups that are specified to the policy.
+</summary>
 
-      - `id: string`
+cf\_ray\_id: optional string
 
-        Identifier of the permission group.
+The Cloudflare Ray ID for the request.
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+method: optional string
 
-        - `key: optional string`
+The HTTP method of the request.
 
-        - `value: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+status\_code: optional number
 
-        Name of the permission group.
+The HTTP response status code returned by the API.
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-      A list of resource groups that the policy applies to.
+uri: optional string
 
-      - `id: string`
+The URI of the request.
 
-        Identifier of the resource group.
+<a href="#">Link to this property</a>
 
-      - `scope: array of object { key, objects }`
+user\_agent: optional string
 
-        The scope associated to the resource group
+The client’s user agent string sent with the request.
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+</details>
 
-        - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-          A list of scope objects for additional context.
+<details>
 
-          - `key: string`
+<summary>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+resource: optional object {id, product, request, 3 more }
 
-      - `meta: optional object { key, value }`
+Provides details about the affected resource.
 
-        Attributes associated to the resource group.
+</summary>
 
-        - `key: optional string`
+id: optional string
 
-        - `value: optional string`
+The unique identifier for the affected resource.
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the resource group.
+product: optional string
 
-  - `roles: optional array of Role`
+The Cloudflare product associated with the resource.
 
-    Roles assigned to this Member.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+request: optional unknown
 
-      Role identifier tag.
+<a href="#">Link to this property</a>
 
-    - `description: string`
+response: optional unknown
 
-      Description of role's permissions.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+scope: optional unknown
 
-      Role name.
+The scope of the resource.
 
-    - `permissions: object { analytics, billing, cache_purge, 9 more }`
+<a href="#">Link to this property</a>
 
-      - `analytics: optional PermissionGrant`
+type: optional string
 
-        - `read: optional boolean`
+The type of the resource.
 
-        - `write: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `billing: optional PermissionGrant`
+</details>
 
-      - `cache_purge: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `dns: optional PermissionGrant`
+<details>
 
-      - `dns_records: optional PermissionGrant`
+<summary>
 
-      - `lb: optional PermissionGrant`
+zone: optional object {id, name }
 
-      - `logs: optional PermissionGrant`
+Provides details about the zone affected by the action.
 
-      - `organization: optional PermissionGrant`
+</summary>
 
-      - `ssl: optional PermissionGrant`
+id: optional string
 
-      - `waf: optional PermissionGrant`
+A string that identifies the zone id.
 
-      - `zone_settings: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `zones: optional PermissionGrant`
+name: optional string
 
-  - `status: optional "accepted" or "pending"`
+A string that identifies the zone name.
 
-    A member's status in the account.
+<a href="#">Link to this property</a>
 
-    - `"accepted"`
+</details>
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-  - `user: optional object { email, id, first_name, 2 more }`
+</details>
 
-    Details of the user associated to the membership.
+[Link to this property](#)%20accounts.logs.audit%20%3E%20(model)%20audit_history_response%20%3E%20(schema)>)
 
-    - `email: string`
+<details>
 
-      The contact email address of the user.
+<summary>
 
-    - `id: optional string`
+AuditProductCategoriesResponse object {label, products, value }
 
-      Identifier
+A predefined product category and the resource products it expands to.
 
-    - `first_name: optional string`
+</summary>
 
-      User's first name
+label: optional string
 
-    - `last_name: optional string`
+A human-readable label for the product category.
 
-      User's last name
+<a href="#">Link to this property</a>
 
-    - `two_factor_authentication_enabled: optional boolean`
+<details>
 
-      Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+<summary>
 
-### Example
+products: optional array of object {label, value }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/members/$MEMBER_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+The resource products that the product category expands to.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4536bcfad5faccb111b47003c79917fa",
-    "email": "user@example.com",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ],
-    "roles": [
-      {
-        "id": "3536bcfad5faccb999b47003c79917fb",
-        "description": "Administrative access to the entire Account",
-        "name": "Account Administrator",
-        "permissions": {
-          "analytics": {
-            "read": true,
-            "write": false
-          },
-          "billing": {
-            "read": true,
-            "write": false
-          },
-          "cache_purge": {
-            "read": true,
-            "write": false
-          },
-          "dns": {
-            "read": true,
-            "write": false
-          },
-          "dns_records": {
-            "read": true,
-            "write": false
-          },
-          "lb": {
-            "read": true,
-            "write": false
-          },
-          "logs": {
-            "read": true,
-            "write": false
-          },
-          "organization": {
-            "read": true,
-            "write": false
-          },
-          "ssl": {
-            "read": true,
-            "write": false
-          },
-          "waf": {
-            "read": true,
-            "write": false
-          },
-          "zone_settings": {
-            "read": true,
-            "write": false
-          },
-          "zones": {
-            "read": true,
-            "write": true
-          }
-        }
-      }
-    ],
-    "status": "accepted",
-    "user": {
-      "email": "user@example.com",
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "first_name": "John",
-      "last_name": "Appleseed",
-      "two_factor_authentication_enabled": true
-    }
-  }
-}
-```
+label: optional string
 
-## Remove Member
+A human-readable label for the product.
 
-**delete** `/accounts/{account_id}/members/{member_id}`
+<a href="#">Link to this property</a>
 
-Remove a member from an account.
+value: optional string
 
-### Path Parameters
+The resource\_product value that the product category expands to.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+</details>
 
-- `member_id: string`
+<a href="#">Link to this property</a>
 
-  Membership identifier tag.
+value: optional string
 
-### Returns
+The product category identifier used with the product\_category filter.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20accounts.logs.audit%20%3E%20(model)%20audit_product_categories_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+#### AccountsSpeed Settings
 
-  - `source: optional object { pointer }`
+#### AccountsSpeed SettingsTransformations
 
-    - `pointer: optional string`
+##### [List Image Resizing configurations for account](https://developers.cloudflare.com/api/resources/accounts/subresources/speed_settings/subresources/transformations/methods/get)
 
-- `messages: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/settings/transformations
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+TransformationsConfig object {id, cf\_zone\_tag, editable, 2 more }
 
-    - `pointer: optional string`
+A configuration item for a specific zone and feature.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: optional string
 
-  - `true`
+Feature identifier.
 
-- `result: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+cf\_zone\_tag: optional string
 
-    Identifier
+Zone tag identifier.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/members/$MEMBER_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+editable: optional boolean
 
-#### Response
+Whether this setting can be modified.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+modified\_on: optional string
 
-### Status
+When this setting was last modified.
 
-- `Status = "member" or "invited"`
+formatdate-time
 
-  Whether the user is a member of the organization or has an invitation pending.
+<a href="#">Link to this property</a>
 
-  - `"member"`
+value: optional string
 
-  - `"invited"`
+Current value of the feature setting.
 
-### Member Delete Response
+<a href="#">Link to this property</a>
 
-- `MemberDeleteResponse object { id }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20accounts.speed_settings.transformations%20%3E%20(model)%20transformations_config%20%3E%20(schema)>)
 
-    Identifier
+#### AccountsPayment Methods
 
-# Roles
+##### [List Payment Methods](https://developers.cloudflare.com/api/resources/accounts/subresources/payment_methods/methods/list)
 
-## List Roles
+GET/accounts/{account\_id}/payment-methods
 
-**get** `/accounts/{account_id}/roles`
+##### [Create Payment Method](https://developers.cloudflare.com/api/resources/accounts/subresources/payment_methods/methods/create)
 
-Get all available roles for an account.
+POST/accounts/{account\_id}/payment-methods
 
-### Path Parameters
+##### [Get Payment Method](https://developers.cloudflare.com/api/resources/accounts/subresources/payment_methods/methods/get)
 
-- `account_id: string`
+GET/accounts/{account\_id}/payment-methods/{payment\_method\_id}
 
-  Account identifier tag.
+##### [Update Payment Method](https://developers.cloudflare.com/api/resources/accounts/subresources/payment_methods/methods/update)
 
-### Query Parameters
+PUT/accounts/{account\_id}/payment-methods/{payment\_method\_id}
 
-- `page: optional number`
+##### [Delete Payment Method](https://developers.cloudflare.com/api/resources/accounts/subresources/payment_methods/methods/delete)
 
-  Page number of paginated results.
+DELETE/accounts/{account\_id}/payment-methods/{payment\_method\_id}
 
-- `per_page: optional number`
+##### [Set Default Payment Method](https://developers.cloudflare.com/api/resources/accounts/subresources/payment_methods/methods/set_as_default)
 
-  Number of roles per page.
+POST/accounts/{account\_id}/payment-methods/{payment\_method\_id}/set-as-default
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+PaymentMethodListResponse object {id, address, address2, 22 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+Payment method identifier.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+address: optional string
 
-  - `message: string`
+Billing address line 1.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+address2: optional string
 
-    - `pointer: optional string`
+Billing address line 2.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+bank\_account\_type: optional string
 
-  - `true`
+Bank account type.
 
-- `result: optional array of Role`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+bank\_code: optional string
 
-    Role identifier tag.
+Bank code.
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    Description of role's permissions.
+bank\_country: optional string
 
-  - `name: string`
+Bank country.
 
-    Role name.
+<a href="#">Link to this property</a>
 
-  - `permissions: object { analytics, billing, cache_purge, 9 more }`
+bank\_name: optional string
 
-    - `analytics: optional PermissionGrant`
+Bank name for bank-based payment methods.
 
-      - `read: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `write: optional boolean`
+bank\_routing\_number: optional string
 
-    - `billing: optional PermissionGrant`
+Bank routing number.
 
-    - `cache_purge: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `dns: optional PermissionGrant`
+cashapp\_cash\_tag: optional string
 
-    - `dns_records: optional PermissionGrant`
+Cash App cash tag.
 
-    - `lb: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `logs: optional PermissionGrant`
+city: optional string
 
-    - `organization: optional PermissionGrant`
+Billing city.
 
-    - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `waf: optional PermissionGrant`
+country: optional string
 
-    - `zone_settings: optional PermissionGrant`
+Billing country.
 
-    - `zones: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+default: optional boolean
 
-  - `count: optional number`
+Whether this is the default payment method.
 
-    Total number of results for the requested service
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+device\_data: optional string
 
-    Current page within paginated list of results
+Device data for fraud prevention.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+expiration\_date: optional string
 
-  - `total_count: optional number`
+Card expiration date.
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+first\_name: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/roles \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Billing first name.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "3536bcfad5faccb999b47003c79917fb",
-      "description": "Administrative access to the entire Account",
-      "name": "Account Administrator",
-      "permissions": {
-        "analytics": {
-          "read": true,
-          "write": false
-        },
-        "billing": {
-          "read": true,
-          "write": false
-        },
-        "cache_purge": {
-          "read": true,
-          "write": false
-        },
-        "dns": {
-          "read": true,
-          "write": false
-        },
-        "dns_records": {
-          "read": true,
-          "write": false
-        },
-        "lb": {
-          "read": true,
-          "write": false
-        },
-        "logs": {
-          "read": true,
-          "write": false
-        },
-        "organization": {
-          "read": true,
-          "write": false
-        },
-        "ssl": {
-          "read": true,
-          "write": false
-        },
-        "waf": {
-          "read": true,
-          "write": false
-        },
-        "zone_settings": {
-          "read": true,
-          "write": false
-        },
-        "zones": {
-          "read": true,
-          "write": true
-        }
-      }
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+last\_four: optional string
 
-## Role Details
+Last four digits of the card number.
 
-**get** `/accounts/{account_id}/roles/{role_id}`
+<a href="#">Link to this property</a>
 
-Get information about a specific role for an account.
+last\_name: optional string
 
-### Path Parameters
+Billing last name.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+nick\_name: optional string
 
-- `role_id: string`
+A nickname for the payment method.
 
-  Role identifier tag.
+<a href="#">Link to this property</a>
 
-### Returns
+payment\_account\_email: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Email associated with the payment account.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+payment\_email: optional string
 
-  - `documentation_url: optional string`
+Payment email address.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+payment\_gateway: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The payment gateway used.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+payment\_nonce: optional string
 
-  - `documentation_url: optional string`
+Payment nonce for tokenized payments.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+state: optional string
 
-- `success: true`
+Billing state.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional Role`
+<summary>
 
-  - `id: string`
+type: optional "CREDIT\_CARD"or "PAYPAL"or "CASHAPP"or 3 more
 
-    Role identifier tag.
+The payment method type.
 
-  - `description: string`
+</summary>
 
-    Description of role's permissions.
+One of the following:
 
-  - `name: string`
+"CREDIT\_CARD"
 
-    Role name.
+<a href="#">Link to this property</a>
 
-  - `permissions: object { analytics, billing, cache_purge, 9 more }`
+"PAYPAL"
 
-    - `analytics: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `read: optional boolean`
+"CASHAPP"
 
-      - `write: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `billing: optional PermissionGrant`
+"SEPA\_DEBIT"
 
-    - `cache_purge: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `dns: optional PermissionGrant`
+"LINK"
 
-    - `dns_records: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `lb: optional PermissionGrant`
+"ACH\_DIRECT\_DEBIT"
 
-    - `logs: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `organization: optional PermissionGrant`
+</details>
 
-    - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `waf: optional PermissionGrant`
+zipcode: optional string
 
-    - `zone_settings: optional PermissionGrant`
+Billing zip code.
 
-    - `zones: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/roles/$ROLE_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+[Link to this property](#)%20accounts.payment_methods%20%3E%20(model)%20payment_method_list_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "3536bcfad5faccb999b47003c79917fb",
-    "description": "Administrative access to the entire Account",
-    "name": "Account Administrator",
-    "permissions": {
-      "analytics": {
-        "read": true,
-        "write": false
-      },
-      "billing": {
-        "read": true,
-        "write": false
-      },
-      "cache_purge": {
-        "read": true,
-        "write": false
-      },
-      "dns": {
-        "read": true,
-        "write": false
-      },
-      "dns_records": {
-        "read": true,
-        "write": false
-      },
-      "lb": {
-        "read": true,
-        "write": false
-      },
-      "logs": {
-        "read": true,
-        "write": false
-      },
-      "organization": {
-        "read": true,
-        "write": false
-      },
-      "ssl": {
-        "read": true,
-        "write": false
-      },
-      "waf": {
-        "read": true,
-        "write": false
-      },
-      "zone_settings": {
-        "read": true,
-        "write": false
-      },
-      "zones": {
-        "read": true,
-        "write": true
-      }
-    }
-  }
-}
-```
+<summary>
 
-# Subscriptions
+PaymentMethodCreateResponse object {id, address, address2, 22 more }
 
-## List Subscriptions
+</summary>
 
-**get** `/accounts/{account_id}/subscriptions`
+id: optional string
 
-Lists all of an account's subscriptions.
+Payment method identifier.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+address: optional string
 
-  Identifier
+Billing address line 1.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+address2: optional string
 
-  - `code: number`
+Billing address line 2.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+bank\_account\_type: optional string
 
-  - `source: optional object { pointer }`
+Bank account type.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+bank\_code: optional string
 
-  - `code: number`
+Bank code.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+bank\_country: optional string
 
-  - `source: optional object { pointer }`
+Bank country.
 
-- `result: array of Subscription`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+bank\_name: optional string
 
-    Subscription identifier tag.
+Bank name for bank-based payment methods.
 
-  - `currency: optional string`
+<a href="#">Link to this property</a>
 
-    The monetary unit in which pricing information is displayed.
+bank\_routing\_number: optional string
 
-  - `current_period_end: optional string`
+Bank routing number.
 
-    The end of the current period and also when the next billing is due.
+<a href="#">Link to this property</a>
 
-  - `current_period_start: optional string`
+cashapp\_cash\_tag: optional string
 
-    When the current billing period started. May match initial_period_start if this is the first period.
+Cash App cash tag.
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+<a href="#">Link to this property</a>
 
-    How often the subscription is renewed automatically.
+city: optional string
 
-    - `"weekly"`
+Billing city.
 
-    - `"monthly"`
+<a href="#">Link to this property</a>
 
-    - `"quarterly"`
+country: optional string
 
-    - `"yearly"`
+Billing country.
 
-  - `price: optional number`
+<a href="#">Link to this property</a>
 
-    The price of the subscription that will be billed, in US dollars.
+default: optional boolean
 
-  - `rate_plan: optional RatePlan`
+Whether this is the default payment method.
 
-    The rate plan applied to the subscription.
+<a href="#">Link to this property</a>
 
-    - `id: optional "free" or "lite" or "pro" or 7 more`
+device\_data: optional string
 
-      The ID of the rate plan.
+Device data for fraud prevention.
 
-      - `"free"`
+<a href="#">Link to this property</a>
 
-      - `"lite"`
+expiration\_date: optional string
 
-      - `"pro"`
+Card expiration date.
 
-      - `"pro_plus"`
+<a href="#">Link to this property</a>
 
-      - `"business"`
+first\_name: optional string
 
-      - `"enterprise"`
+Billing first name.
 
-      - `"partners_free"`
+<a href="#">Link to this property</a>
 
-      - `"partners_pro"`
+last\_four: optional string
 
-      - `"partners_business"`
+Last four digits of the card number.
 
-      - `"partners_enterprise"`
+<a href="#">Link to this property</a>
 
-    - `currency: optional string`
+last\_name: optional string
 
-      The currency applied to the rate plan subscription.
+Billing last name.
 
-    - `externally_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether this rate plan is managed externally from Cloudflare.
+nick\_name: optional string
 
-    - `is_contract: optional boolean`
+A nickname for the payment method.
 
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
+<a href="#">Link to this property</a>
 
-    - `public_name: optional string`
+payment\_account\_email: optional string
 
-      The full name of the rate plan.
+Email associated with the payment account.
 
-    - `scope: optional string`
+<a href="#">Link to this property</a>
 
-      The scope that this rate plan applies to.
+payment\_email: optional string
 
-    - `sets: optional array of string`
+Payment email address.
 
-      The list of sets this rate plan applies to. Returns array of strings.
+<a href="#">Link to this property</a>
 
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
+payment\_gateway: optional string
 
-    The state that the subscription is in.
+The payment gateway used.
 
-    - `"Trial"`
+<a href="#">Link to this property</a>
 
-    - `"Provisioned"`
+payment\_nonce: optional string
 
-    - `"Paid"`
+Payment nonce for tokenized payments.
 
-    - `"AwaitingPayment"`
+<a href="#">Link to this property</a>
 
-    - `"Cancelled"`
+state: optional string
 
-    - `"Failed"`
+Billing state.
 
-    - `"Expired"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+type: optional "CREDIT\_CARD"or "PAYPAL"or "CASHAPP"or 3 more
 
-- `result_info: optional object { count, page, per_page, total_count }`
+The payment method type.
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service
+One of the following:
 
-  - `page: optional number`
+"CREDIT\_CARD"
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"PAYPAL"
 
-    Number of results per page of results
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+"CASHAPP"
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+"SEPA\_DEBIT"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"LINK"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "506e3185e9c882d175a2d0cb0093d9f2",
-      "currency": "USD",
-      "current_period_end": "2014-03-31T12:20:00Z",
-      "current_period_start": "2014-05-11T12:20:00Z",
-      "frequency": "monthly",
-      "price": 20,
-      "rate_plan": {
-        "id": "free",
-        "currency": "USD",
-        "externally_managed": false,
-        "is_contract": false,
-        "public_name": "Business Plan",
-        "scope": "zone",
-        "sets": [
-          "string"
-        ]
-      },
-      "state": "Paid"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Subscription
+"ACH\_DIRECT\_DEBIT"
 
-**post** `/accounts/{account_id}/subscriptions`
+<a href="#">Link to this property</a>
 
-Creates an account subscription.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+zipcode: optional string
 
-  Identifier
+Billing zip code.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+</details>
 
-  How often the subscription is renewed automatically.
+[Link to this property](#)%20accounts.payment_methods%20%3E%20(model)%20payment_method_create_response%20%3E%20(schema)>)
 
-  - `"weekly"`
+<details>
 
-  - `"monthly"`
+<summary>
 
-  - `"quarterly"`
+PaymentMethodGetResponse object {id, address, address2, 22 more }
 
-  - `"yearly"`
+</summary>
 
-- `rate_plan: optional RatePlan`
+id: optional string
 
-  The rate plan applied to the subscription.
+Payment method identifier.
 
-  - `id: optional "free" or "lite" or "pro" or 7 more`
+<a href="#">Link to this property</a>
 
-    The ID of the rate plan.
+address: optional string
 
-    - `"free"`
+Billing address line 1.
 
-    - `"lite"`
+<a href="#">Link to this property</a>
 
-    - `"pro"`
+address2: optional string
 
-    - `"pro_plus"`
+Billing address line 2.
 
-    - `"business"`
+<a href="#">Link to this property</a>
 
-    - `"enterprise"`
+bank\_account\_type: optional string
 
-    - `"partners_free"`
+Bank account type.
 
-    - `"partners_pro"`
+<a href="#">Link to this property</a>
 
-    - `"partners_business"`
+bank\_code: optional string
 
-    - `"partners_enterprise"`
+Bank code.
 
-  - `currency: optional string`
+<a href="#">Link to this property</a>
 
-    The currency applied to the rate plan subscription.
+bank\_country: optional string
 
-  - `externally_managed: optional boolean`
+Bank country.
 
-    Whether this rate plan is managed externally from Cloudflare.
+<a href="#">Link to this property</a>
 
-  - `is_contract: optional boolean`
+bank\_name: optional string
 
-    Whether a rate plan is enterprise-based (or newly adopted term contract).
+Bank name for bank-based payment methods.
 
-  - `public_name: optional string`
+<a href="#">Link to this property</a>
 
-    The full name of the rate plan.
+bank\_routing\_number: optional string
 
-  - `scope: optional string`
+Bank routing number.
 
-    The scope that this rate plan applies to.
+<a href="#">Link to this property</a>
 
-  - `sets: optional array of string`
+cashapp\_cash\_tag: optional string
 
-    The list of sets this rate plan applies to. Returns array of strings.
+Cash App cash tag.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+city: optional string
 
-  - `code: number`
+Billing city.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+country: optional string
 
-  - `source: optional object { pointer }`
+Billing country.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+default: optional boolean
 
-  - `code: number`
+Whether this is the default payment method.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+device\_data: optional string
 
-  - `source: optional object { pointer }`
+Device data for fraud prevention.
 
-- `result: Subscription`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+expiration\_date: optional string
 
-    Subscription identifier tag.
+Card expiration date.
 
-  - `currency: optional string`
+<a href="#">Link to this property</a>
 
-    The monetary unit in which pricing information is displayed.
+first\_name: optional string
 
-  - `current_period_end: optional string`
+Billing first name.
 
-    The end of the current period and also when the next billing is due.
+<a href="#">Link to this property</a>
 
-  - `current_period_start: optional string`
+last\_four: optional string
 
-    When the current billing period started. May match initial_period_start if this is the first period.
+Last four digits of the card number.
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+<a href="#">Link to this property</a>
 
-    How often the subscription is renewed automatically.
+last\_name: optional string
 
-    - `"weekly"`
+Billing last name.
 
-    - `"monthly"`
+<a href="#">Link to this property</a>
 
-    - `"quarterly"`
+nick\_name: optional string
 
-    - `"yearly"`
+A nickname for the payment method.
 
-  - `price: optional number`
+<a href="#">Link to this property</a>
 
-    The price of the subscription that will be billed, in US dollars.
+payment\_account\_email: optional string
 
-  - `rate_plan: optional RatePlan`
+Email associated with the payment account.
 
-    The rate plan applied to the subscription.
+<a href="#">Link to this property</a>
 
-    - `id: optional "free" or "lite" or "pro" or 7 more`
+payment\_email: optional string
 
-      The ID of the rate plan.
+Payment email address.
 
-      - `"free"`
+<a href="#">Link to this property</a>
 
-      - `"lite"`
+payment\_gateway: optional string
 
-      - `"pro"`
+The payment gateway used.
 
-      - `"pro_plus"`
+<a href="#">Link to this property</a>
 
-      - `"business"`
+payment\_nonce: optional string
 
-      - `"enterprise"`
+Payment nonce for tokenized payments.
 
-      - `"partners_free"`
+<a href="#">Link to this property</a>
 
-      - `"partners_pro"`
+state: optional string
 
-      - `"partners_business"`
+Billing state.
 
-      - `"partners_enterprise"`
+<a href="#">Link to this property</a>
 
-    - `currency: optional string`
+<details>
 
-      The currency applied to the rate plan subscription.
+<summary>
 
-    - `externally_managed: optional boolean`
+type: optional "CREDIT\_CARD"or "PAYPAL"or "CASHAPP"or 3 more
 
-      Whether this rate plan is managed externally from Cloudflare.
+The payment method type.
 
-    - `is_contract: optional boolean`
+</summary>
 
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
+One of the following:
 
-    - `public_name: optional string`
+"CREDIT\_CARD"
 
-      The full name of the rate plan.
+<a href="#">Link to this property</a>
 
-    - `scope: optional string`
+"PAYPAL"
 
-      The scope that this rate plan applies to.
+<a href="#">Link to this property</a>
 
-    - `sets: optional array of string`
+"CASHAPP"
 
-      The list of sets this rate plan applies to. Returns array of strings.
+<a href="#">Link to this property</a>
 
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
+"SEPA\_DEBIT"
 
-    The state that the subscription is in.
+<a href="#">Link to this property</a>
 
-    - `"Trial"`
+"LINK"
 
-    - `"Provisioned"`
+<a href="#">Link to this property</a>
 
-    - `"Paid"`
+"ACH\_DIRECT\_DEBIT"
 
-    - `"AwaitingPayment"`
+<a href="#">Link to this property</a>
 
-    - `"Cancelled"`
+</details>
 
-    - `"Failed"`
+<a href="#">Link to this property</a>
 
-    - `"Expired"`
+zipcode: optional string
 
-- `success: true`
+Billing zip code.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20accounts.payment_methods%20%3E%20(model)%20payment_method_get_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "frequency": "monthly"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "506e3185e9c882d175a2d0cb0093d9f2",
-    "currency": "USD",
-    "current_period_end": "2014-03-31T12:20:00Z",
-    "current_period_start": "2014-05-11T12:20:00Z",
-    "frequency": "monthly",
-    "price": 20,
-    "rate_plan": {
-      "id": "free",
-      "currency": "USD",
-      "externally_managed": false,
-      "is_contract": false,
-      "public_name": "Business Plan",
-      "scope": "zone",
-      "sets": [
-        "string"
-      ]
-    },
-    "state": "Paid"
-  },
-  "success": true
-}
-```
+PaymentMethodUpdateResponse object {id, address, address2, 22 more }
 
-## Update Subscription
+</summary>
 
-**put** `/accounts/{account_id}/subscriptions/{subscription_identifier}`
+id: optional string
 
-Updates an account subscription.
+Payment method identifier.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+address: optional string
 
-  Identifier
+Billing address line 1.
 
-- `subscription_identifier: string`
+<a href="#">Link to this property</a>
 
-  Subscription identifier tag.
+address2: optional string
 
-### Body Parameters
+Billing address line 2.
 
-- `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+<a href="#">Link to this property</a>
 
-  How often the subscription is renewed automatically.
+bank\_account\_type: optional string
 
-  - `"weekly"`
+Bank account type.
 
-  - `"monthly"`
+<a href="#">Link to this property</a>
 
-  - `"quarterly"`
+bank\_code: optional string
 
-  - `"yearly"`
+Bank code.
 
-- `rate_plan: optional RatePlan`
+<a href="#">Link to this property</a>
 
-  The rate plan applied to the subscription.
+bank\_country: optional string
 
-  - `id: optional "free" or "lite" or "pro" or 7 more`
+Bank country.
 
-    The ID of the rate plan.
+<a href="#">Link to this property</a>
 
-    - `"free"`
+bank\_name: optional string
 
-    - `"lite"`
+Bank name for bank-based payment methods.
 
-    - `"pro"`
+<a href="#">Link to this property</a>
 
-    - `"pro_plus"`
+bank\_routing\_number: optional string
 
-    - `"business"`
+Bank routing number.
 
-    - `"enterprise"`
+<a href="#">Link to this property</a>
 
-    - `"partners_free"`
+cashapp\_cash\_tag: optional string
 
-    - `"partners_pro"`
+Cash App cash tag.
 
-    - `"partners_business"`
+<a href="#">Link to this property</a>
 
-    - `"partners_enterprise"`
+city: optional string
 
-  - `currency: optional string`
+Billing city.
 
-    The currency applied to the rate plan subscription.
+<a href="#">Link to this property</a>
 
-  - `externally_managed: optional boolean`
+country: optional string
 
-    Whether this rate plan is managed externally from Cloudflare.
+Billing country.
 
-  - `is_contract: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether a rate plan is enterprise-based (or newly adopted term contract).
+default: optional boolean
 
-  - `public_name: optional string`
+Whether this is the default payment method.
 
-    The full name of the rate plan.
+<a href="#">Link to this property</a>
 
-  - `scope: optional string`
+device\_data: optional string
 
-    The scope that this rate plan applies to.
+Device data for fraud prevention.
 
-  - `sets: optional array of string`
+<a href="#">Link to this property</a>
 
-    The list of sets this rate plan applies to. Returns array of strings.
+expiration\_date: optional string
 
-### Returns
+Card expiration date.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+first\_name: optional string
 
-  - `message: string`
+Billing first name.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+last\_four: optional string
 
-    - `pointer: optional string`
+Last four digits of the card number.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+last\_name: optional string
 
-  - `message: string`
+Billing last name.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+nick\_name: optional string
 
-- `result: Subscription`
+A nickname for the payment method.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Subscription identifier tag.
+payment\_account\_email: optional string
 
-  - `currency: optional string`
+Email associated with the payment account.
 
-    The monetary unit in which pricing information is displayed.
+<a href="#">Link to this property</a>
 
-  - `current_period_end: optional string`
+payment\_email: optional string
 
-    The end of the current period and also when the next billing is due.
+Payment email address.
 
-  - `current_period_start: optional string`
+<a href="#">Link to this property</a>
 
-    When the current billing period started. May match initial_period_start if this is the first period.
+payment\_gateway: optional string
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+The payment gateway used.
 
-    How often the subscription is renewed automatically.
+<a href="#">Link to this property</a>
 
-    - `"weekly"`
+payment\_nonce: optional string
 
-    - `"monthly"`
+Payment nonce for tokenized payments.
 
-    - `"quarterly"`
+<a href="#">Link to this property</a>
 
-    - `"yearly"`
+state: optional string
 
-  - `price: optional number`
+Billing state.
 
-    The price of the subscription that will be billed, in US dollars.
+<a href="#">Link to this property</a>
 
-  - `rate_plan: optional RatePlan`
+<details>
 
-    The rate plan applied to the subscription.
+<summary>
 
-    - `id: optional "free" or "lite" or "pro" or 7 more`
+type: optional "CREDIT\_CARD"or "PAYPAL"or "CASHAPP"or 3 more
 
-      The ID of the rate plan.
+The payment method type.
 
-      - `"free"`
+</summary>
 
-      - `"lite"`
+One of the following:
 
-      - `"pro"`
+"CREDIT\_CARD"
 
-      - `"pro_plus"`
+<a href="#">Link to this property</a>
 
-      - `"business"`
+"PAYPAL"
 
-      - `"enterprise"`
+<a href="#">Link to this property</a>
 
-      - `"partners_free"`
+"CASHAPP"
 
-      - `"partners_pro"`
+<a href="#">Link to this property</a>
 
-      - `"partners_business"`
+"SEPA\_DEBIT"
 
-      - `"partners_enterprise"`
+<a href="#">Link to this property</a>
 
-    - `currency: optional string`
+"LINK"
 
-      The currency applied to the rate plan subscription.
+<a href="#">Link to this property</a>
 
-    - `externally_managed: optional boolean`
+"ACH\_DIRECT\_DEBIT"
 
-      Whether this rate plan is managed externally from Cloudflare.
+<a href="#">Link to this property</a>
 
-    - `is_contract: optional boolean`
+</details>
 
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
+<a href="#">Link to this property</a>
 
-    - `public_name: optional string`
+zipcode: optional string
 
-      The full name of the rate plan.
+Billing zip code.
 
-    - `scope: optional string`
+<a href="#">Link to this property</a>
 
-      The scope that this rate plan applies to.
+</details>
 
-    - `sets: optional array of string`
+[Link to this property](#)%20accounts.payment_methods%20%3E%20(model)%20payment_method_update_response%20%3E%20(schema)>)
 
-      The list of sets this rate plan applies to. Returns array of strings.
+<details>
 
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
+<summary>
 
-    The state that the subscription is in.
+PaymentMethodDeleteResponse = unknownor string
 
-    - `"Trial"`
+</summary>
 
-    - `"Provisioned"`
+One of the following:
 
-    - `"Paid"`
+unknown
 
-    - `"AwaitingPayment"`
+<a href="#">Link to this property</a>
 
-    - `"Cancelled"`
+string
 
-    - `"Failed"`
+<a href="#">Link to this property</a>
 
-    - `"Expired"`
+</details>
 
-- `success: true`
+[Link to this property](#)%20accounts.payment_methods%20%3E%20(model)%20payment_method_delete_response%20%3E%20(schema)>)
 
-  Whether the API call was successful
+<details>
 
-  - `true`
+<summary>
 
-### Example
+PaymentMethodSetAsDefaultResponse = unknownor string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions/$SUBSCRIPTION_IDENTIFIER \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "frequency": "monthly"
-        }'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "506e3185e9c882d175a2d0cb0093d9f2",
-    "currency": "USD",
-    "current_period_end": "2014-03-31T12:20:00Z",
-    "current_period_start": "2014-05-11T12:20:00Z",
-    "frequency": "monthly",
-    "price": 20,
-    "rate_plan": {
-      "id": "free",
-      "currency": "USD",
-      "externally_managed": false,
-      "is_contract": false,
-      "public_name": "Business Plan",
-      "scope": "zone",
-      "sets": [
-        "string"
-      ]
-    },
-    "state": "Paid"
-  },
-  "success": true
-}
-```
+unknown
 
-## Delete Subscription
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/subscriptions/{subscription_identifier}`
+string
 
-Deletes an account's subscription.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20accounts.payment_methods%20%3E%20(model)%20payment_method_set_as_default_response%20%3E%20(schema)>)
 
-  Identifier
+#### AccountsPay Invoice
 
-- `subscription_identifier: string`
+##### [Pay Invoice](https://developers.cloudflare.com/api/resources/accounts/subresources/pay_invoice/methods/create)
 
-  Subscription identifier tag.
+POST/accounts/{account\_id}/pay-invoice
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+PayInvoiceCreateResponse object {client\_secret }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+client\_secret: optional string
 
-    - `pointer: optional string`
+The Stripe client secret for frontend payment confirmation.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20accounts.pay_invoice%20%3E%20(model)%20pay_invoice_create_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+#### AccountsPay Bad Debt
 
-  - `source: optional object { pointer }`
+##### [Pay Bad Debt](https://developers.cloudflare.com/api/resources/accounts/subresources/pay_bad_debt/methods/create)
 
-- `result: object { subscription_id }`
+POST/accounts/{account\_id}/pay-bad-debt
 
-  - `subscription_id: optional string`
+##### ModelsExpand Collapse
 
-    Subscription identifier tag.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+PayBadDebtCreateResponse object {client\_secret }
 
-  - `true`
+</summary>
 
-### Example
+client\_secret: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions/$SUBSCRIPTION_IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The Stripe client secret for frontend payment confirmation.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "subscription_id": "506e3185e9c882d175a2d0cb0093d9f2"
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)%20accounts.pay_bad_debt%20%3E%20(model)%20pay_bad_debt_create_response%20%3E%20(schema)>)
 
-### Subscription Delete Response
+#### AccountsReceipts
 
-- `SubscriptionDeleteResponse object { subscription_id }`
+##### [Get Receipt PDF](https://developers.cloudflare.com/api/resources/accounts/subresources/receipts/methods/pdf)
 
-  - `subscription_id: optional string`
+GET/accounts/{account\_id}/receipts/{receipt\_id}/pdf
 
-    Subscription identifier tag.
+#### AccountsInvoices
 
-# Tokens
+##### [Toggle PDF Invoices](https://developers.cloudflare.com/api/resources/accounts/subresources/invoices/methods/edit)
 
-## List Tokens
+PATCH/accounts/{account\_id}/invoices
 
-**get** `/accounts/{account_id}/tokens`
+##### ModelsExpand Collapse
 
-List all Account Owned API tokens created for this account.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+InvoiceEditResponse = unknownor string
 
-  Account identifier tag.
+</summary>
 
-### Query Parameters
+One of the following:
 
-- `direction: optional "asc" or "desc"`
+unknown
 
-  Direction to order results.
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+string
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+</details>
 
-  Page number of paginated results.
+[Link to this property](#)%20accounts.invoices%20%3E%20(model)%20invoice_edit_response%20%3E%20(schema)>)
 
-- `per_page: optional number`
+#### AccountsClient Secret
 
-  Maximum number of results per page.
+##### [Create Setup Intent](https://developers.cloudflare.com/api/resources/accounts/subresources/client_secret/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/client-secret
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ClientSecretCreateResponse object {client\_secret }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+client\_secret: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The Stripe client secret for frontend payment confirmation.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Token`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "ed17574386854bf78a67040be0a770b0",
-      "condition": {
-        "request_ip": {
-          "in": [
-            "123.123.123.0/24",
-            "2606:4700::/32"
-          ],
-          "not_in": [
-            "123.123.123.100/24",
-            "2606:4700:4700::/48"
-          ]
-        }
-      },
-      "expires_on": "2020-01-01T00:00:00Z",
-      "issued_on": "2018-07-01T05:20:00Z",
-      "last_used_on": "2020-01-02T12:34:00Z",
-      "modified_on": "2018-07-02T05:20:00Z",
-      "name": "readonly token",
-      "not_before": "2018-07-01T05:20:00Z",
-      "policies": [
-        {
-          "id": "f267e341f3dd4697bd3b9f71dd96247f",
-          "effect": "allow",
-          "permission_groups": [
-            {
-              "id": "c8fed203ed3043cba015a93ad1616f1f",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Zone Read"
-            },
-            {
-              "id": "82e64a83756745bbbb1c9c2701bf816b",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Magic Network Monitoring"
-            }
-          ],
-          "resources": {
-            "foo": "string"
-          }
-        }
-      ],
-      "status": "active"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Token Details
-
-**get** `/accounts/{account_id}/tokens/{token_id}`
-
-Get information about a specific Account Owned API token.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Token`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active"
-  }
-}
-```
-
-## Create Token
-
-**post** `/accounts/{account_id}/tokens`
-
-Create a new Account Owned API token.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Body Parameters
-
-- `name: string`
-
-  Token name.
-
-- `policies: array of TokenPolicy`
-
-  List of access policies assigned to the token.
-
-  - `id: string`
-
-    Policy identifier.
-
-  - `effect: "allow" or "deny"`
-
-    Allow or deny operations against the resources.
-
-    - `"allow"`
-
-    - `"deny"`
-
-  - `permission_groups: array of object { id, meta, name }`
-
-    A set of permission groups that are specified to the policy.
-
-    - `id: string`
-
-      Identifier of the permission group.
-
-    - `meta: optional object { key, value }`
-
-      Attributes associated to the permission group.
-
-      - `key: optional string`
-
-      - `value: optional string`
-
-    - `name: optional string`
-
-      Name of the permission group.
-
-  - `resources: map[string] or map[map[string]]`
-
-    A list of resource names that the policy applies to.
-
-    - `IAMResourcesTypeObjectString = map[string]`
-
-      Map of simple string resource permissions
-
-    - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-      Map of nested resource permissions
-
-- `condition: optional object { request_ip }`
-
-  - `request_ip: optional object { in, not_in }`
-
-    Client IP restrictions.
-
-    - `in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-    - `not_in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-- `expires_on: optional string`
-
-  The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-- `not_before: optional string`
-
-  The time before which the token MUST NOT be accepted for processing.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, condition, expires_on, 8 more }`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `value: optional TokenValue`
-
-    The token value.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "readonly token",
-          "policies": [
-            {
-              "effect": "allow",
-              "permission_groups": [
-                {
-                  "id": "c8fed203ed3043cba015a93ad1616f1f",
-                  "meta": {}
-                },
-                {
-                  "id": "82e64a83756745bbbb1c9c2701bf816b",
-                  "meta": {}
-                }
-              ],
-              "resources": {
-                "foo": "string"
-              }
-            }
-          ],
-          "expires_on": "2020-01-01T00:00:00Z",
-          "not_before": "2018-07-01T05:20:00Z"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active",
-    "value": "8M7wS6hCpXVc-DoRnPPY_UCWPgy8aea4Wy6kCe5T"
-  }
-}
-```
-
-## Update Token
-
-**put** `/accounts/{account_id}/tokens/{token_id}`
-
-Update an existing token.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Body Parameters
-
-- `name: string`
-
-  Token name.
-
-- `policies: array of TokenPolicy`
-
-  List of access policies assigned to the token.
-
-  - `id: string`
-
-    Policy identifier.
-
-  - `effect: "allow" or "deny"`
-
-    Allow or deny operations against the resources.
-
-    - `"allow"`
-
-    - `"deny"`
-
-  - `permission_groups: array of object { id, meta, name }`
-
-    A set of permission groups that are specified to the policy.
-
-    - `id: string`
-
-      Identifier of the permission group.
-
-    - `meta: optional object { key, value }`
-
-      Attributes associated to the permission group.
-
-      - `key: optional string`
-
-      - `value: optional string`
-
-    - `name: optional string`
-
-      Name of the permission group.
-
-  - `resources: map[string] or map[map[string]]`
-
-    A list of resource names that the policy applies to.
-
-    - `IAMResourcesTypeObjectString = map[string]`
-
-      Map of simple string resource permissions
-
-    - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-      Map of nested resource permissions
-
-- `condition: optional object { request_ip }`
-
-  - `request_ip: optional object { in, not_in }`
-
-    Client IP restrictions.
-
-    - `in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-    - `not_in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-- `expires_on: optional string`
-
-  The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-- `not_before: optional string`
-
-  The time before which the token MUST NOT be accepted for processing.
-
-- `status: optional "active" or "disabled" or "expired"`
-
-  Status of the token.
-
-  - `"active"`
-
-  - `"disabled"`
-
-  - `"expired"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Token`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "readonly token",
-          "policies": [
-            {
-              "effect": "allow",
-              "permission_groups": [
-                {
-                  "id": "c8fed203ed3043cba015a93ad1616f1f",
-                  "meta": {}
-                },
-                {
-                  "id": "82e64a83756745bbbb1c9c2701bf816b",
-                  "meta": {}
-                }
-              ],
-              "resources": {
-                "foo": "string"
-              }
-            }
-          ],
-          "expires_on": "2020-01-01T00:00:00Z",
-          "not_before": "2018-07-01T05:20:00Z",
-          "status": "active"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active"
-  }
-}
-```
-
-## Delete Token
-
-**delete** `/accounts/{account_id}/tokens/{token_id}`
-
-Destroy an Account Owned API token.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Verify Token
-
-**get** `/accounts/{account_id}/tokens/verify`
-
-Test whether a token works.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, status, expires_on, not_before }`
-
-  - `id: string`
-
-    Token identifier tag.
-
-  - `status: "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/verify \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "status": "active",
-    "expires_on": "2020-01-01T00:00:00Z",
-    "not_before": "2018-07-01T05:20:00Z"
-  }
-}
-```
-
-## Domain Types
-
-### Token Create Response
-
-- `TokenCreateResponse object { id, condition, expires_on, 8 more }`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `value: optional TokenValue`
-
-    The token value.
-
-### Token Delete Response
-
-- `TokenDeleteResponse object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Token Verify Response
-
-- `TokenVerifyResponse object { id, status, expires_on, not_before }`
-
-  - `id: string`
-
-    Token identifier tag.
-
-  - `status: "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-# Permission Groups
-
-## List Permission Groups
-
-**get** `/accounts/{account_id}/tokens/permission_groups`
-
-Find all available permission groups for Account Owned API Tokens
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Query Parameters
-
-- `name: optional string`
-
-  Filter by the name of the permission group.
-  The value must be URL-encoded.
-
-- `scope: optional string`
-
-  Filter by the scope of the permission group.
-  The value must be URL-encoded.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7cf72faf220841aabcfdfab81c43c4f6",
-      "category": "account_and_billing",
-      "name": "Billing Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "9d24387c6e8544e2bc4024a03991339f",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "d2a1802cc9a34e30852f8b33869b2f3c",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "8b47d2786a534c08a1f94ee8f9f599ef",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "f7f0eda5697f475c90846e879bab8666",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "1a71c399035b4950a1bd1466bbe4f420",
-      "category": "developer_platform",
-      "name": "Workers Scripts Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "e086da7e2179491d91ee5f35b3ca210a",
-      "category": "developer_platform",
-      "name": "Workers Scripts Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## List Permission Groups
-
-**get** `/accounts/{account_id}/tokens/permission_groups`
-
-Find all available permission groups for Account Owned API Tokens
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-### Query Parameters
-
-- `name: optional string`
-
-  Filter by the name of the permission group.
-  The value must be URL-encoded.
-
-- `scope: optional string`
-
-  Filter by the scope of the permission group.
-  The value must be URL-encoded.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7cf72faf220841aabcfdfab81c43c4f6",
-      "category": "account_and_billing",
-      "name": "Billing Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "9d24387c6e8544e2bc4024a03991339f",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "d2a1802cc9a34e30852f8b33869b2f3c",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "8b47d2786a534c08a1f94ee8f9f599ef",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "f7f0eda5697f475c90846e879bab8666",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "1a71c399035b4950a1bd1466bbe4f420",
-      "category": "developer_platform",
-      "name": "Workers Scripts Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "e086da7e2179491d91ee5f35b3ca210a",
-      "category": "developer_platform",
-      "name": "Workers Scripts Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### Permission Group List Response
-
-- `PermissionGroupListResponse object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-### Permission Group Get Response
-
-- `PermissionGroupGetResponse = array of object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-# Value
-
-## Roll Token
-
-**put** `/accounts/{account_id}/tokens/{token_id}/value`
-
-Roll the Account Owned API token secret.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TokenValue`
-
-  The token value.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/$TOKEN_ID/value \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "8M7wS6hCpXVc-DoRnPPY_UCWPgy8aea4Wy6kCe5T"
-}
-```
-
-# Logs
-
-# Audit
-
-## Get account audit logs (Version 2)
-
-**get** `/accounts/{account_id}/logs/audit`
-
-Gets a list of audit logs for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The unique id that identifies the account.
-
-### Query Parameters
-
-- `before: string`
-
-  Limits the returned results to logs older than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339.
-
-- `since: string`
-
-  Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339.
-
-- `id: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by their IDs.
-
-- `account_name: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the account name.
-
-- `action_result: optional object { not }`
-
-  - `not: optional array of "success" or "failure"`
-
-    Filters out audit logs by whether the action was successful or not.
-
-    - `"success"`
-
-    - `"failure"`
-
-- `action_type: optional object { not }`
-
-  - `not: optional array of "create" or "delete" or "view" or "update"`
-
-    Filters out audit logs by the action type.
-
-    - `"create"`
-
-    - `"delete"`
-
-    - `"view"`
-
-    - `"update"`
-
-- `actor_context: optional object { not }`
-
-  - `not: optional array of "api_key" or "api_token" or "dash" or 2 more`
-
-    Filters out audit logs by the actor context.
-
-    - `"api_key"`
-
-    - `"api_token"`
-
-    - `"dash"`
-
-    - `"oauth"`
-
-    - `"origin_ca_key"`
-
-- `actor_email: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the actor's email address.
-
-- `actor_id: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the actor ID. This can be either the Account ID or User ID.
-
-- `actor_ip_address: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs IP address where the action was initiated.
-
-- `actor_token_id: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the API token ID when the actor context is an api_token or oauth.
-
-- `actor_token_name: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the API token name when the actor context is an api_token or oauth.
-
-- `actor_type: optional object { not }`
-
-  - `not: optional array of "account" or "cloudflare_admin" or "system" or "user"`
-
-    Filters out audit logs by the actor type.
-
-    - `"account"`
-
-    - `"cloudflare_admin"`
-
-    - `"system"`
-
-    - `"user"`
-
-- `audit_log_id: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by their IDs.
-
-- `cursor: optional string`
-
-  The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response.
-
-- `direction: optional "desc" or "asc"`
-
-  Sets sorting order.
-
-  - `"desc"`
-
-  - `"asc"`
-
-- `limit: optional number`
-
-  The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit.
-
-- `product_category: optional array of string`
-
-  Filters audit logs by one or more predefined product categories. Each product category expands into a curated set of resource_product values and is unioned with any explicit resource_product filter. Matched case-insensitively; unknown product categories return 400. Repeatable. Use the audit log product categories endpoint to discover the available values.
-
-- `raw_cf_ray_id: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the response CF Ray ID.
-
-- `raw_method: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the HTTP method for the API call.
-
-- `raw_status_code: optional object { not }`
-
-  - `not: optional array of number`
-
-    Filters out audit logs by the response status code that was returned.
-
-- `raw_uri: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the request URI.
-
-- `resource_id: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the resource ID.
-
-- `resource_product: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the Cloudflare product associated with the changed resource.
-
-- `resource_scope: optional object { not }`
-
-  - `not: optional array of "accounts" or "user" or "zones" or "memberships"`
-
-    Filters out audit logs by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership.
-
-    - `"accounts"`
-
-    - `"user"`
-
-    - `"zones"`
-
-    - `"memberships"`
-
-- `resource_type: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs based on the unique type of resource changed by the action.
-
-- `zone_id: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the zone ID.
-
-- `zone_name: optional object { not }`
-
-  - `not: optional array of string`
-
-    Filters out audit logs by the zone name associated with the change.
-
-### Returns
-
-- `errors: optional array of object { message }`
-
-  - `message: string`
-
-- `result: optional array of object { id, account, action, 4 more }`
-
-  - `id: optional string`
-
-    A unique identifier for the audit log entry.
-
-  - `account: optional object { id, name }`
-
-    Contains account related information.
-
-    - `id: optional string`
-
-      A unique identifier for the account.
-
-    - `name: optional string`
-
-      A string that identifies the account name.
-
-  - `action: optional object { description, result, time, type }`
-
-    Provides information about the action performed.
-
-    - `description: optional string`
-
-      A short description of the action performed.
-
-    - `result: optional string`
-
-      The result of the action, indicating success or failure.
-
-    - `time: optional string`
-
-      A timestamp indicating when the action was logged.
-
-    - `type: optional string`
-
-      A short string that describes the action that was performed.
-
-  - `actor: optional object { id, context, email, 4 more }`
-
-    Provides details about the actor who performed the action.
-
-    - `id: optional string`
-
-      The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
-
-    - `context: optional "api_key" or "api_token" or "dash" or 2 more`
-
-      - `"api_key"`
-
-      - `"api_token"`
-
-      - `"dash"`
-
-      - `"oauth"`
-
-      - `"origin_ca_key"`
-
-    - `email: optional string`
-
-      The email of the actor who performed the action.
-
-    - `ip_address: optional string`
-
-      The IP address of the request that performed the action.
-
-    - `token_id: optional string`
-
-      The API token ID when the actor context is an api_token or oauth.
-
-    - `token_name: optional string`
-
-      The API token name when the actor context is an api_token or oauth.
-
-    - `type: optional "account" or "cloudflare_admin" or "system" or "user"`
-
-      The type of actor.
-
-      - `"account"`
-
-      - `"cloudflare_admin"`
-
-      - `"system"`
-
-      - `"user"`
-
-  - `raw: optional object { cf_ray_id, method, status_code, 2 more }`
-
-    Provides raw information about the request and response.
-
-    - `cf_ray_id: optional string`
-
-      The Cloudflare Ray ID for the request.
-
-    - `method: optional string`
-
-      The HTTP method of the request.
-
-    - `status_code: optional number`
-
-      The HTTP response status code returned by the API.
-
-    - `uri: optional string`
-
-      The URI of the request.
-
-    - `user_agent: optional string`
-
-      The client's user agent string sent with the request.
-
-  - `resource: optional object { id, product, request, 3 more }`
-
-    Provides details about the affected resource.
-
-    - `id: optional string`
-
-      The unique identifier for the affected resource.
-
-    - `product: optional string`
-
-      The Cloudflare product associated with the resource.
-
-    - `request: optional unknown`
-
-    - `response: optional unknown`
-
-    - `scope: optional unknown`
-
-      The scope of the resource.
-
-    - `type: optional string`
-
-      The type of the resource.
-
-  - `zone: optional object { id, name }`
-
-    Provides details about the zone affected by the action.
-
-    - `id: optional string`
-
-      A string that identifies the zone id.
-
-    - `name: optional string`
-
-      A string that identifies the zone name.
-
-- `result_info: optional object { count, cursor }`
-
-  Provides information about the result of the request, including count and cursor.
-
-  - `count: optional string`
-
-    The number of records returned in the response.
-
-  - `cursor: optional string`
-
-    The cursor token used for pagination.
-
-- `success: optional true`
-
-  Indicates whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/logs/audit \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "account": {
-        "id": "4bb334f7c94c4a29a045f03944f072e5",
-        "name": "Example Account"
-      },
-      "action": {
-        "description": "Add Member",
-        "result": "success",
-        "time": "2024-04-26T17:31:07Z",
-        "type": "create"
-      },
-      "actor": {
-        "id": "f6b5de0326bb5182b8a4840ee01ec774",
-        "context": "dash",
-        "email": "alice@example.com",
-        "ip_address": "198.41.129.166",
-        "token_id": "token_id",
-        "token_name": "token_name",
-        "type": "user"
-      },
-      "raw": {
-        "cf_ray_id": "8e9b1c60ef9e1c9a",
-        "method": "POST",
-        "status_code": 200,
-        "uri": "/accounts/4bb334f7c94c4a29a045f03944f072e5/members",
-        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15"
-      },
-      "resource": {
-        "id": "id",
-        "product": "members",
-        "request": {},
-        "response": {},
-        "scope": {},
-        "type": "type"
-      },
-      "zone": {
-        "id": "id",
-        "name": "example.com"
-      }
-    }
-  ],
-  "result_info": {
-    "count": "1",
-    "cursor": "ASqdKd7dKgxh-aZ8bm0mZos1BtW4BdEqifCzNkEeGRzi_5SN_-362Y8sF-C1TRn60_6rd3z2dIajf9EAPyQ_NmIeAMkacmaJPXipqvP7PLU4t72wyqBeJfjmjdE="
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Audit List Response
-
-- `AuditListResponse object { id, account, action, 4 more }`
-
-  - `id: optional string`
-
-    A unique identifier for the audit log entry.
-
-  - `account: optional object { id, name }`
-
-    Contains account related information.
-
-    - `id: optional string`
-
-      A unique identifier for the account.
-
-    - `name: optional string`
-
-      A string that identifies the account name.
-
-  - `action: optional object { description, result, time, type }`
-
-    Provides information about the action performed.
-
-    - `description: optional string`
-
-      A short description of the action performed.
-
-    - `result: optional string`
-
-      The result of the action, indicating success or failure.
-
-    - `time: optional string`
-
-      A timestamp indicating when the action was logged.
-
-    - `type: optional string`
-
-      A short string that describes the action that was performed.
-
-  - `actor: optional object { id, context, email, 4 more }`
-
-    Provides details about the actor who performed the action.
-
-    - `id: optional string`
-
-      The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
-
-    - `context: optional "api_key" or "api_token" or "dash" or 2 more`
-
-      - `"api_key"`
-
-      - `"api_token"`
-
-      - `"dash"`
-
-      - `"oauth"`
-
-      - `"origin_ca_key"`
-
-    - `email: optional string`
-
-      The email of the actor who performed the action.
-
-    - `ip_address: optional string`
-
-      The IP address of the request that performed the action.
-
-    - `token_id: optional string`
-
-      The API token ID when the actor context is an api_token or oauth.
-
-    - `token_name: optional string`
-
-      The API token name when the actor context is an api_token or oauth.
-
-    - `type: optional "account" or "cloudflare_admin" or "system" or "user"`
-
-      The type of actor.
-
-      - `"account"`
-
-      - `"cloudflare_admin"`
-
-      - `"system"`
-
-      - `"user"`
-
-  - `raw: optional object { cf_ray_id, method, status_code, 2 more }`
-
-    Provides raw information about the request and response.
-
-    - `cf_ray_id: optional string`
-
-      The Cloudflare Ray ID for the request.
-
-    - `method: optional string`
-
-      The HTTP method of the request.
-
-    - `status_code: optional number`
-
-      The HTTP response status code returned by the API.
-
-    - `uri: optional string`
-
-      The URI of the request.
-
-    - `user_agent: optional string`
-
-      The client's user agent string sent with the request.
-
-  - `resource: optional object { id, product, request, 3 more }`
-
-    Provides details about the affected resource.
-
-    - `id: optional string`
-
-      The unique identifier for the affected resource.
-
-    - `product: optional string`
-
-      The Cloudflare product associated with the resource.
-
-    - `request: optional unknown`
-
-    - `response: optional unknown`
-
-    - `scope: optional unknown`
-
-      The scope of the resource.
-
-    - `type: optional string`
-
-      The type of the resource.
-
-  - `zone: optional object { id, name }`
-
-    Provides details about the zone affected by the action.
-
-    - `id: optional string`
-
-      A string that identifies the zone id.
-
-    - `name: optional string`
-
-      A string that identifies the zone name.
+[Link to this property](#)%20accounts.client_secret%20%3E%20(model)%20client_secret_create_response%20%3E%20(schema)>)

@@ -1,1791 +1,725 @@
+---
+title: Rate Limits
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Rate Limits
 
-## List rate limits
+##### [List rate limits](https://developers.cloudflare.com/api/resources/rate_limits/methods/list)
 
-**get** `/zones/{zone_id}/rate_limits`
+Deprecated
 
-Fetches the rate limits for a zone.
+GET/zones/{zone\_id}/rate\_limits
 
-### Path Parameters
+##### [Get a rate limit](https://developers.cloudflare.com/api/resources/rate_limits/methods/get)
 
-- `zone_id: string`
+Deprecated
 
-  Defines an identifier.
+GET/zones/{zone\_id}/rate\_limits/{rate\_limit\_id}
 
-### Query Parameters
+##### [Create a rate limit](https://developers.cloudflare.com/api/resources/rate_limits/methods/create)
 
-- `page: optional number`
+Deprecated
 
-  Defines the page number of paginated results.
+POST/zones/{zone\_id}/rate\_limits
 
-- `per_page: optional number`
+##### [Update a rate limit](https://developers.cloudflare.com/api/resources/rate_limits/methods/edit)
 
-  Defines the maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
+Deprecated
 
-### Returns
+PUT/zones/{zone\_id}/rate\_limits/{rate\_limit\_id}
 
-- `errors: array of ResponseInfo`
+##### [Delete a rate limit](https://developers.cloudflare.com/api/resources/rate_limits/methods/delete)
 
-  - `code: number`
+Deprecated
 
-  - `message: string`
+DELETE/zones/{zone\_id}/rate\_limits/{rate\_limit\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+Action = "block"or "challenge"or "js\_challenge"or 4 more
 
-  - `code: number`
+The action to apply to a matched request. The <code>log</code> action is only available on an Enterprise plan.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"block"
 
-- `result: array of RateLimit`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"challenge"
 
-    The unique identifier of the rate limit.
+<a href="#">Link to this property</a>
 
-  - `action: optional object { mode, response, timeout }`
+"js\_challenge"
 
-    The action to perform when the threshold of matched traffic within the configured period is exceeded.
+<a href="#">Link to this property</a>
 
-    - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
+"managed\_challenge"
 
-      The action to perform.
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+"allow"
 
-      - `"ban"`
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+"log"
 
-      - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-      - `"managed_challenge"`
+"bypass"
 
-    - `response: optional object { body, content_type }`
+<a href="#">Link to this property</a>
 
-      A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-      Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
+</details>
 
-      - `body: optional string`
+[Link to this property](#)%20rate_limits%20%3E%20(model)%20action%20%3E%20(schema)>)
 
-        The response body to return. The value must conform to the configured content type.
+<details>
 
-      - `content_type: optional string`
+<summary>
 
-        The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
+RateLimit object {id, action, bypass, 5 more }
 
-    - `timeout: optional number`
+</summary>
 
-      The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-      Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
+id: optional string
 
-  - `bypass: optional array of object { name, value }`
+The unique identifier of the rate limit.
 
-    Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
+maxLength32
 
-    - `name: optional "url"`
+<a href="#">Link to this property</a>
 
-      - `"url"`
+<details>
 
-    - `value: optional string`
+<summary>
 
-      The URL to bypass.
+action: optional object {mode, response, timeout }
 
-  - `description: optional string`
+The action to perform when the threshold of matched traffic within the configured period is exceeded.
 
-    An informative summary of the rule. This value is sanitized and any tags will be removed.
+</summary>
 
-  - `disabled: optional boolean`
+<details>
 
-    When true, indicates that the rate limit is currently disabled.
+<summary>
 
-  - `match: optional object { headers, request, response }`
+mode: optional "simulate"or "ban"or "challenge"or 2 more
 
-    Determines which traffic the rate limit counts towards the threshold.
+The action to perform.
 
-    - `headers: optional array of object { name, op, value }`
+</summary>
 
-      - `name: optional string`
+One of the following:
 
-        The name of the response header to match.
+"simulate"
 
-      - `op: optional "eq" or "ne"`
+<a href="#">Link to this property</a>
 
-        The operator used when matching: `eq` means "equal" and `ne` means "not equal".
+"ban"
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"ne"`
+"challenge"
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The value of the response header, which must match exactly.
+"js\_challenge"
 
-    - `request: optional object { methods, schemes, url }`
+<a href="#">Link to this property</a>
 
-      - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
+"managed\_challenge"
 
-        The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
+<a href="#">Link to this property</a>
 
-        - `"GET"`
+</details>
 
-        - `"POST"`
+<a href="#">Link to this property</a>
 
-        - `"PUT"`
+<details>
 
-        - `"DELETE"`
+<summary>
 
-        - `"PATCH"`
+response: optional object {body, content\_type }
 
-        - `"HEAD"`
+A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If “mode” is “challenge”, “managed\_challenge”, or “js\_challenge”, Cloudflare will use the zone challenge pages and you should not provide the “response” object.
 
-        - `"_ALL_"`
+</summary>
 
-      - `schemes: optional array of string`
+body: optional string
 
-        The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
+The response body to return. The value must conform to the configured content type.
 
-      - `url: optional string`
+maxLength10240
 
-        The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
+<a href="#">Link to this property</a>
 
-    - `response: optional object { origin_traffic }`
+content\_type: optional string
 
-      - `origin_traffic: optional boolean`
+The content type of the body. Must be one of the following: <code>text/plain</code>, <code>text/xml</code>, or <code>application/json</code>.
 
-        When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-        Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
+maxLength50
 
-  - `period: optional number`
+<a href="#">Link to this property</a>
 
-    The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
+</details>
 
-  - `threshold: optional number`
+<a href="#">Link to this property</a>
 
-    The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
+timeout: optional number
 
-- `success: true`
+The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If “mode” is “challenge”, “managed\_challenge”, or “js\_challenge”, Cloudflare will use the zone’s Challenge Passage time and you should not provide this value.
 
-  Defines whether the API call was successful.
+maximum86400
 
-  - `true`
+minimum1
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Defines the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+<details>
 
-    Defines the current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+bypass: optional array of object {name, value }
 
-    Defines the number of results per page of results.
+Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
 
-  - `total_count: optional number`
+</summary>
 
-    Defines the total results available without any search parameters.
+name: optional "url"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/rate_limits \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: optional string
 
-#### Response
+The URL to bypass.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b59",
-      "action": {
-        "mode": "challenge",
-        "response": {
-          "body": "<error>This request has been rate-limited.</error>",
-          "content_type": "text/xml"
-        },
-        "timeout": 86400
-      },
-      "bypass": [
-        {
-          "name": "url",
-          "value": "api.example.com/*"
-        }
-      ],
-      "description": "Prevent multiple login failures to mitigate brute force attacks",
-      "disabled": false,
-      "match": {
-        "headers": [
-          {
-            "name": "Cf-Cache-Status",
-            "op": "ne",
-            "value": "HIT"
-          }
-        ],
-        "request": {
-          "methods": [
-            "GET",
-            "POST"
-          ],
-          "schemes": [
-            "HTTP",
-            "HTTPS"
-          ],
-          "url": "*.example.org/path*"
-        },
-        "response": {
-          "origin_traffic": true
-        }
-      },
-      "period": 900,
-      "threshold": 60
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get a rate limit
+</details>
 
-**get** `/zones/{zone_id}/rate_limits/{rate_limit_id}`
+<a href="#">Link to this property</a>
 
-Fetches the details of a rate limit.
+description: optional string
 
-### Path Parameters
+An informative summary of the rule. This value is sanitized and any tags will be removed.
 
-- `zone_id: string`
+maxLength1024
 
-  Defines an identifier.
+<a href="#">Link to this property</a>
 
-- `rate_limit_id: string`
+disabled: optional boolean
 
-  Defines the unique identifier of the rate limit.
+When true, indicates that the rate limit is currently disabled.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+match: optional object {headers, request, response }
 
-  - `documentation_url: optional string`
+Determines which traffic the rate limit counts towards the threshold.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+headers: optional array of object {name, op, value }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+name: optional string
 
-  - `source: optional object { pointer }`
+The name of the response header to match.
 
-- `result: RateLimit`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    The unique identifier of the rate limit.
+<summary>
 
-  - `action: optional object { mode, response, timeout }`
+op: optional "eq"or "ne"
 
-    The action to perform when the threshold of matched traffic within the configured period is exceeded.
+The operator used when matching: <code>eq</code> means “equal” and <code>ne</code> means “not equal”.
 
-    - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
+</summary>
 
-      The action to perform.
+One of the following:
 
-      - `"simulate"`
+"eq"
 
-      - `"ban"`
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+"ne"
 
-      - `"js_challenge"`
+<a href="#">Link to this property</a>
 
-      - `"managed_challenge"`
+</details>
 
-    - `response: optional object { body, content_type }`
+<a href="#">Link to this property</a>
 
-      A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-      Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
+value: optional string
 
-      - `body: optional string`
+The value of the response header, which must match exactly.
 
-        The response body to return. The value must conform to the configured content type.
+<a href="#">Link to this property</a>
 
-      - `content_type: optional string`
+</details>
 
-        The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
+<a href="#">Link to this property</a>
 
-    - `timeout: optional number`
+<details>
 
-      The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-      Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
+<summary>
 
-  - `bypass: optional array of object { name, value }`
+request: optional object {methods, schemes, url }
 
-    Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
+</summary>
 
-    - `name: optional "url"`
+<details>
 
-      - `"url"`
+<summary>
 
-    - `value: optional string`
+methods: optional array of "GET"or "POST"or "PUT"or 4 more
 
-      The URL to bypass.
+The HTTP methods to match. You can specify a subset (for example, <code>['POST','PUT']</code>) or all methods (<code>['_ALL_']</code>). This field is optional when creating a rate limit.
 
-  - `description: optional string`
+</summary>
 
-    An informative summary of the rule. This value is sanitized and any tags will be removed.
+One of the following:
 
-  - `disabled: optional boolean`
+"GET"
 
-    When true, indicates that the rate limit is currently disabled.
+<a href="#">Link to this property</a>
 
-  - `match: optional object { headers, request, response }`
+"POST"
 
-    Determines which traffic the rate limit counts towards the threshold.
+<a href="#">Link to this property</a>
 
-    - `headers: optional array of object { name, op, value }`
+"PUT"
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        The name of the response header to match.
+"DELETE"
 
-      - `op: optional "eq" or "ne"`
+<a href="#">Link to this property</a>
 
-        The operator used when matching: `eq` means "equal" and `ne` means "not equal".
+"PATCH"
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"ne"`
+"HEAD"
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The value of the response header, which must match exactly.
+"\_ALL\_"
 
-    - `request: optional object { methods, schemes, url }`
+<a href="#">Link to this property</a>
 
-      - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
+</details>
 
-        The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
+<a href="#">Link to this property</a>
 
-        - `"GET"`
+schemes: optional array of string
 
-        - `"POST"`
+The HTTP schemes to match. You can specify one scheme (<code>['HTTPS']</code>), both schemes (<code>['HTTP','HTTPS']</code>), or all schemes (<code>['_ALL_']</code>). This field is optional.
 
-        - `"PUT"`
+<a href="#">Link to this property</a>
 
-        - `"DELETE"`
+url: optional string
 
-        - `"PATCH"`
+The URL pattern to match, composed of a host and a path such as <code>example.org/path*</code>. Normalization is applied before the pattern is matched. <code>*</code> wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to <code>*</code> to match all traffic to your zone.
 
-        - `"HEAD"`
+maxLength1024
 
-        - `"_ALL_"`
+<a href="#">Link to this property</a>
 
-      - `schemes: optional array of string`
+</details>
 
-        The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+<details>
 
-        The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
+<summary>
 
-    - `response: optional object { origin_traffic }`
+response: optional object {origin\_traffic }
 
-      - `origin_traffic: optional boolean`
+</summary>
 
-        When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-        Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
+origin\_traffic: optional boolean
 
-  - `period: optional number`
+When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set “origin\_traffic” to “false” to avoid legacy behaviour interacting with the “response\_headers” property.
 
-    The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
+<a href="#">Link to this property</a>
 
-  - `threshold: optional number`
+</details>
 
-    The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+period: optional number
 
-### Example
+The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/rate_limits/$RATE_LIMIT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maximum86400
 
-#### Response
+minimum10
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "action": {
-      "mode": "challenge",
-      "response": {
-        "body": "<error>This request has been rate-limited.</error>",
-        "content_type": "text/xml"
-      },
-      "timeout": 86400
-    },
-    "bypass": [
-      {
-        "name": "url",
-        "value": "api.example.com/*"
-      }
-    ],
-    "description": "Prevent multiple login failures to mitigate brute force attacks",
-    "disabled": false,
-    "match": {
-      "headers": [
-        {
-          "name": "Cf-Cache-Status",
-          "op": "ne",
-          "value": "HIT"
-        }
-      ],
-      "request": {
-        "methods": [
-          "GET",
-          "POST"
-        ],
-        "schemes": [
-          "HTTP",
-          "HTTPS"
-        ],
-        "url": "*.example.org/path*"
-      },
-      "response": {
-        "origin_traffic": true
-      }
-    },
-    "period": 900,
-    "threshold": 60
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a rate limit
+threshold: optional number
 
-**post** `/zones/{zone_id}/rate_limits`
+The threshold that will trigger the configured mitigation action. Configure this value along with the <code>period</code> property to establish a threshold per period.
 
-Creates a new rate limit for a zone. Refer to the object definition for a list of required attributes.
+minimum1
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Defines an identifier.
+[Link to this property](#)%20rate_limits%20%3E%20(model)%20rate_limit%20%3E%20(schema)>)
 
-### Body Parameters
+<details>
 
-- `action: object { mode, response, timeout }`
+<summary>
 
-  The action to perform when the threshold of matched traffic within the configured period is exceeded.
+RateLimitDeleteResponse object {id, action, bypass, 5 more }
 
-  - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
+</summary>
 
-    The action to perform.
+id: optional string
 
-    - `"simulate"`
+The unique identifier of the rate limit.
 
-    - `"ban"`
+maxLength32
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"js_challenge"`
+<details>
 
-    - `"managed_challenge"`
+<summary>
 
-  - `response: optional object { body, content_type }`
+action: optional object {mode, response, timeout }
 
-    A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-    Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
+The action to perform when the threshold of matched traffic within the configured period is exceeded.
 
-    - `body: optional string`
+</summary>
 
-      The response body to return. The value must conform to the configured content type.
+<details>
 
-    - `content_type: optional string`
+<summary>
 
-      The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
+mode: optional "simulate"or "ban"or "challenge"or 2 more
 
-  - `timeout: optional number`
+The action to perform.
 
-    The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-    Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
+</summary>
 
-- `match: object { headers, request, response }`
+One of the following:
 
-  Determines which traffic the rate limit counts towards the threshold.
+"simulate"
 
-  - `headers: optional array of object { name, op, value }`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"ban"
 
-      The name of the response header to match.
+<a href="#">Link to this property</a>
 
-    - `op: optional "eq" or "ne"`
+"challenge"
 
-      The operator used when matching: `eq` means "equal" and `ne` means "not equal".
+<a href="#">Link to this property</a>
 
-      - `"eq"`
+"js\_challenge"
 
-      - `"ne"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+"managed\_challenge"
 
-      The value of the response header, which must match exactly.
+<a href="#">Link to this property</a>
 
-  - `request: optional object { methods, schemes, url }`
+</details>
 
-    - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
+<a href="#">Link to this property</a>
 
-      The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
+<details>
 
-      - `"GET"`
+<summary>
 
-      - `"POST"`
+response: optional object {body, content\_type }
 
-      - `"PUT"`
+A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If “mode” is “challenge”, “managed\_challenge”, or “js\_challenge”, Cloudflare will use the zone challenge pages and you should not provide the “response” object.
 
-      - `"DELETE"`
+</summary>
 
-      - `"PATCH"`
+body: optional string
 
-      - `"HEAD"`
+The response body to return. The value must conform to the configured content type.
 
-      - `"_ALL_"`
+maxLength10240
 
-    - `schemes: optional array of string`
+<a href="#">Link to this property</a>
 
-      The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
+content\_type: optional string
 
-    - `url: optional string`
+The content type of the body. Must be one of the following: <code>text/plain</code>, <code>text/xml</code>, or <code>application/json</code>.
 
-      The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
+maxLength50
 
-  - `response: optional object { origin_traffic }`
+<a href="#">Link to this property</a>
 
-    - `origin_traffic: optional boolean`
+</details>
 
-      When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-      Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
+<a href="#">Link to this property</a>
 
-- `period: number`
+timeout: optional number
 
-  The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
+The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If “mode” is “challenge”, “managed\_challenge”, or “js\_challenge”, Cloudflare will use the zone’s Challenge Passage time and you should not provide this value.
 
-- `threshold: number`
+maximum86400
 
-  The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
+minimum1
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+bypass: optional array of object {name, value }
 
-    - `pointer: optional string`
+Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+name: optional "url"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+The URL to bypass.
 
-- `result: RateLimit`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    The unique identifier of the rate limit.
+<a href="#">Link to this property</a>
 
-  - `action: optional object { mode, response, timeout }`
+description: optional string
 
-    The action to perform when the threshold of matched traffic within the configured period is exceeded.
+An informative summary of the rule. This value is sanitized and any tags will be removed.
 
-    - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
+maxLength1024
 
-      The action to perform.
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+disabled: optional boolean
 
-      - `"ban"`
+When true, indicates that the rate limit is currently disabled.
 
-      - `"challenge"`
+<a href="#">Link to this property</a>
 
-      - `"js_challenge"`
+<details>
 
-      - `"managed_challenge"`
+<summary>
 
-    - `response: optional object { body, content_type }`
+match: optional object {headers, request, response }
 
-      A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-      Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
+Determines which traffic the rate limit counts towards the threshold.
 
-      - `body: optional string`
+</summary>
 
-        The response body to return. The value must conform to the configured content type.
+<details>
 
-      - `content_type: optional string`
+<summary>
 
-        The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
+headers: optional array of object {name, op, value }
 
-    - `timeout: optional number`
+</summary>
 
-      The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-      Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
+name: optional string
 
-  - `bypass: optional array of object { name, value }`
+The name of the response header to match.
 
-    Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
+<a href="#">Link to this property</a>
 
-    - `name: optional "url"`
+<details>
 
-      - `"url"`
+<summary>
 
-    - `value: optional string`
+op: optional "eq"or "ne"
 
-      The URL to bypass.
+The operator used when matching: <code>eq</code> means “equal” and <code>ne</code> means “not equal”.
 
-  - `description: optional string`
+</summary>
 
-    An informative summary of the rule. This value is sanitized and any tags will be removed.
+One of the following:
 
-  - `disabled: optional boolean`
+"eq"
 
-    When true, indicates that the rate limit is currently disabled.
+<a href="#">Link to this property</a>
 
-  - `match: optional object { headers, request, response }`
+"ne"
 
-    Determines which traffic the rate limit counts towards the threshold.
+<a href="#">Link to this property</a>
 
-    - `headers: optional array of object { name, op, value }`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        The name of the response header to match.
+value: optional string
 
-      - `op: optional "eq" or "ne"`
+The value of the response header, which must match exactly.
 
-        The operator used when matching: `eq` means "equal" and `ne` means "not equal".
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+</details>
 
-        - `"ne"`
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+<details>
 
-        The value of the response header, which must match exactly.
+<summary>
 
-    - `request: optional object { methods, schemes, url }`
+request: optional object {methods, schemes, url }
 
-      - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
+</summary>
 
-        The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
+<details>
 
-        - `"GET"`
+<summary>
 
-        - `"POST"`
+methods: optional array of "GET"or "POST"or "PUT"or 4 more
 
-        - `"PUT"`
+The HTTP methods to match. You can specify a subset (for example, <code>['POST','PUT']</code>) or all methods (<code>['_ALL_']</code>). This field is optional when creating a rate limit.
 
-        - `"DELETE"`
+</summary>
 
-        - `"PATCH"`
+One of the following:
 
-        - `"HEAD"`
+"GET"
 
-        - `"_ALL_"`
+<a href="#">Link to this property</a>
 
-      - `schemes: optional array of string`
+"POST"
 
-        The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+"PUT"
 
-        The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
+<a href="#">Link to this property</a>
 
-    - `response: optional object { origin_traffic }`
+"DELETE"
 
-      - `origin_traffic: optional boolean`
+<a href="#">Link to this property</a>
 
-        When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-        Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
+"PATCH"
 
-  - `period: optional number`
+<a href="#">Link to this property</a>
 
-    The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
+"HEAD"
 
-  - `threshold: optional number`
+<a href="#">Link to this property</a>
 
-    The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
+"\_ALL\_"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+schemes: optional array of string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/rate_limits \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": {},
-          "match": {},
-          "period": 900,
-          "threshold": 60
-        }'
-```
+The HTTP schemes to match. You can specify one scheme (<code>['HTTPS']</code>), both schemes (<code>['HTTP','HTTPS']</code>), or all schemes (<code>['_ALL_']</code>). This field is optional.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "action": {
-      "mode": "challenge",
-      "response": {
-        "body": "<error>This request has been rate-limited.</error>",
-        "content_type": "text/xml"
-      },
-      "timeout": 86400
-    },
-    "bypass": [
-      {
-        "name": "url",
-        "value": "api.example.com/*"
-      }
-    ],
-    "description": "Prevent multiple login failures to mitigate brute force attacks",
-    "disabled": false,
-    "match": {
-      "headers": [
-        {
-          "name": "Cf-Cache-Status",
-          "op": "ne",
-          "value": "HIT"
-        }
-      ],
-      "request": {
-        "methods": [
-          "GET",
-          "POST"
-        ],
-        "schemes": [
-          "HTTP",
-          "HTTPS"
-        ],
-        "url": "*.example.org/path*"
-      },
-      "response": {
-        "origin_traffic": true
-      }
-    },
-    "period": 900,
-    "threshold": 60
-  },
-  "success": true
-}
-```
+url: optional string
 
-## Update a rate limit
+The URL pattern to match, composed of a host and a path such as <code>example.org/path*</code>. Normalization is applied before the pattern is matched. <code>*</code> wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to <code>*</code> to match all traffic to your zone.
 
-**put** `/zones/{zone_id}/rate_limits/{rate_limit_id}`
+maxLength1024
 
-Updates an existing rate limit.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Defines an identifier.
+<details>
 
-- `rate_limit_id: string`
+<summary>
 
-  Defines the unique identifier of the rate limit.
+response: optional object {origin\_traffic }
 
-### Body Parameters
+</summary>
 
-- `action: object { mode, response, timeout }`
+origin\_traffic: optional boolean
 
-  The action to perform when the threshold of matched traffic within the configured period is exceeded.
+When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set “origin\_traffic” to “false” to avoid legacy behaviour interacting with the “response\_headers” property.
 
-  - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
+<a href="#">Link to this property</a>
 
-    The action to perform.
+</details>
 
-    - `"simulate"`
+<a href="#">Link to this property</a>
 
-    - `"ban"`
+</details>
 
-    - `"challenge"`
+<a href="#">Link to this property</a>
 
-    - `"js_challenge"`
+period: optional number
 
-    - `"managed_challenge"`
+The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
 
-  - `response: optional object { body, content_type }`
+maximum86400
 
-    A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-    Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
+minimum10
 
-    - `body: optional string`
+<a href="#">Link to this property</a>
 
-      The response body to return. The value must conform to the configured content type.
+threshold: optional number
 
-    - `content_type: optional string`
+The threshold that will trigger the configured mitigation action. Configure this value along with the <code>period</code> property to establish a threshold per period.
 
-      The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
+minimum1
 
-  - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-    The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-    Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
+</details>
 
-- `match: object { headers, request, response }`
-
-  Determines which traffic the rate limit counts towards the threshold.
-
-  - `headers: optional array of object { name, op, value }`
-
-    - `name: optional string`
-
-      The name of the response header to match.
-
-    - `op: optional "eq" or "ne"`
-
-      The operator used when matching: `eq` means "equal" and `ne` means "not equal".
-
-      - `"eq"`
-
-      - `"ne"`
-
-    - `value: optional string`
-
-      The value of the response header, which must match exactly.
-
-  - `request: optional object { methods, schemes, url }`
-
-    - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
-
-      The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
-
-      - `"GET"`
-
-      - `"POST"`
-
-      - `"PUT"`
-
-      - `"DELETE"`
-
-      - `"PATCH"`
-
-      - `"HEAD"`
-
-      - `"_ALL_"`
-
-    - `schemes: optional array of string`
-
-      The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
-
-    - `url: optional string`
-
-      The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
-
-  - `response: optional object { origin_traffic }`
-
-    - `origin_traffic: optional boolean`
-
-      When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-      Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
-
-- `period: number`
-
-  The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
-
-- `threshold: number`
-
-  The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: RateLimit`
-
-  - `id: optional string`
-
-    The unique identifier of the rate limit.
-
-  - `action: optional object { mode, response, timeout }`
-
-    The action to perform when the threshold of matched traffic within the configured period is exceeded.
-
-    - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
-
-      The action to perform.
-
-      - `"simulate"`
-
-      - `"ban"`
-
-      - `"challenge"`
-
-      - `"js_challenge"`
-
-      - `"managed_challenge"`
-
-    - `response: optional object { body, content_type }`
-
-      A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-      Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
-
-      - `body: optional string`
-
-        The response body to return. The value must conform to the configured content type.
-
-      - `content_type: optional string`
-
-        The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
-
-    - `timeout: optional number`
-
-      The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-      Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
-
-  - `bypass: optional array of object { name, value }`
-
-    Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
-
-    - `name: optional "url"`
-
-      - `"url"`
-
-    - `value: optional string`
-
-      The URL to bypass.
-
-  - `description: optional string`
-
-    An informative summary of the rule. This value is sanitized and any tags will be removed.
-
-  - `disabled: optional boolean`
-
-    When true, indicates that the rate limit is currently disabled.
-
-  - `match: optional object { headers, request, response }`
-
-    Determines which traffic the rate limit counts towards the threshold.
-
-    - `headers: optional array of object { name, op, value }`
-
-      - `name: optional string`
-
-        The name of the response header to match.
-
-      - `op: optional "eq" or "ne"`
-
-        The operator used when matching: `eq` means "equal" and `ne` means "not equal".
-
-        - `"eq"`
-
-        - `"ne"`
-
-      - `value: optional string`
-
-        The value of the response header, which must match exactly.
-
-    - `request: optional object { methods, schemes, url }`
-
-      - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
-
-        The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
-
-        - `"GET"`
-
-        - `"POST"`
-
-        - `"PUT"`
-
-        - `"DELETE"`
-
-        - `"PATCH"`
-
-        - `"HEAD"`
-
-        - `"_ALL_"`
-
-      - `schemes: optional array of string`
-
-        The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
-
-      - `url: optional string`
-
-        The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
-
-    - `response: optional object { origin_traffic }`
-
-      - `origin_traffic: optional boolean`
-
-        When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-        Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
-
-  - `period: optional number`
-
-    The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
-
-  - `threshold: optional number`
-
-    The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/rate_limits/$RATE_LIMIT_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": {},
-          "match": {},
-          "period": 900,
-          "threshold": 60
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "action": {
-      "mode": "challenge",
-      "response": {
-        "body": "<error>This request has been rate-limited.</error>",
-        "content_type": "text/xml"
-      },
-      "timeout": 86400
-    },
-    "bypass": [
-      {
-        "name": "url",
-        "value": "api.example.com/*"
-      }
-    ],
-    "description": "Prevent multiple login failures to mitigate brute force attacks",
-    "disabled": false,
-    "match": {
-      "headers": [
-        {
-          "name": "Cf-Cache-Status",
-          "op": "ne",
-          "value": "HIT"
-        }
-      ],
-      "request": {
-        "methods": [
-          "GET",
-          "POST"
-        ],
-        "schemes": [
-          "HTTP",
-          "HTTPS"
-        ],
-        "url": "*.example.org/path*"
-      },
-      "response": {
-        "origin_traffic": true
-      }
-    },
-    "period": 900,
-    "threshold": 60
-  },
-  "success": true
-}
-```
-
-## Delete a rate limit
-
-**delete** `/zones/{zone_id}/rate_limits/{rate_limit_id}`
-
-Deletes an existing rate limit.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `rate_limit_id: string`
-
-  Defines the unique identifier of the rate limit.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, action, bypass, 5 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the rate limit.
-
-  - `action: optional object { mode, response, timeout }`
-
-    The action to perform when the threshold of matched traffic within the configured period is exceeded.
-
-    - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
-
-      The action to perform.
-
-      - `"simulate"`
-
-      - `"ban"`
-
-      - `"challenge"`
-
-      - `"js_challenge"`
-
-      - `"managed_challenge"`
-
-    - `response: optional object { body, content_type }`
-
-      A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-      Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
-
-      - `body: optional string`
-
-        The response body to return. The value must conform to the configured content type.
-
-      - `content_type: optional string`
-
-        The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
-
-    - `timeout: optional number`
-
-      The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-      Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
-
-  - `bypass: optional array of object { name, value }`
-
-    Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
-
-    - `name: optional "url"`
-
-      - `"url"`
-
-    - `value: optional string`
-
-      The URL to bypass.
-
-  - `description: optional string`
-
-    An informative summary of the rule. This value is sanitized and any tags will be removed.
-
-  - `disabled: optional boolean`
-
-    When true, indicates that the rate limit is currently disabled.
-
-  - `match: optional object { headers, request, response }`
-
-    Determines which traffic the rate limit counts towards the threshold.
-
-    - `headers: optional array of object { name, op, value }`
-
-      - `name: optional string`
-
-        The name of the response header to match.
-
-      - `op: optional "eq" or "ne"`
-
-        The operator used when matching: `eq` means "equal" and `ne` means "not equal".
-
-        - `"eq"`
-
-        - `"ne"`
-
-      - `value: optional string`
-
-        The value of the response header, which must match exactly.
-
-    - `request: optional object { methods, schemes, url }`
-
-      - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
-
-        The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
-
-        - `"GET"`
-
-        - `"POST"`
-
-        - `"PUT"`
-
-        - `"DELETE"`
-
-        - `"PATCH"`
-
-        - `"HEAD"`
-
-        - `"_ALL_"`
-
-      - `schemes: optional array of string`
-
-        The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
-
-      - `url: optional string`
-
-        The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
-
-    - `response: optional object { origin_traffic }`
-
-      - `origin_traffic: optional boolean`
-
-        When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-        Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
-
-  - `period: optional number`
-
-    The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
-
-  - `threshold: optional number`
-
-    The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/rate_limits/$RATE_LIMIT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "action": {
-      "mode": "challenge",
-      "response": {
-        "body": "<error>This request has been rate-limited.</error>",
-        "content_type": "text/xml"
-      },
-      "timeout": 86400
-    },
-    "bypass": [
-      {
-        "name": "url",
-        "value": "api.example.com/*"
-      }
-    ],
-    "description": "Prevent multiple login failures to mitigate brute force attacks",
-    "disabled": false,
-    "match": {
-      "headers": [
-        {
-          "name": "Cf-Cache-Status",
-          "op": "ne",
-          "value": "HIT"
-        }
-      ],
-      "request": {
-        "methods": [
-          "GET",
-          "POST"
-        ],
-        "schemes": [
-          "HTTP",
-          "HTTPS"
-        ],
-        "url": "*.example.org/path*"
-      },
-      "response": {
-        "origin_traffic": true
-      }
-    },
-    "period": 900,
-    "threshold": 60
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Action
-
-- `Action = "block" or "challenge" or "js_challenge" or 4 more`
-
-  The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
-
-  - `"block"`
-
-  - `"challenge"`
-
-  - `"js_challenge"`
-
-  - `"managed_challenge"`
-
-  - `"allow"`
-
-  - `"log"`
-
-  - `"bypass"`
-
-### Rate Limit
-
-- `RateLimit object { id, action, bypass, 5 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the rate limit.
-
-  - `action: optional object { mode, response, timeout }`
-
-    The action to perform when the threshold of matched traffic within the configured period is exceeded.
-
-    - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
-
-      The action to perform.
-
-      - `"simulate"`
-
-      - `"ban"`
-
-      - `"challenge"`
-
-      - `"js_challenge"`
-
-      - `"managed_challenge"`
-
-    - `response: optional object { body, content_type }`
-
-      A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-      Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
-
-      - `body: optional string`
-
-        The response body to return. The value must conform to the configured content type.
-
-      - `content_type: optional string`
-
-        The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
-
-    - `timeout: optional number`
-
-      The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-      Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
-
-  - `bypass: optional array of object { name, value }`
-
-    Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
-
-    - `name: optional "url"`
-
-      - `"url"`
-
-    - `value: optional string`
-
-      The URL to bypass.
-
-  - `description: optional string`
-
-    An informative summary of the rule. This value is sanitized and any tags will be removed.
-
-  - `disabled: optional boolean`
-
-    When true, indicates that the rate limit is currently disabled.
-
-  - `match: optional object { headers, request, response }`
-
-    Determines which traffic the rate limit counts towards the threshold.
-
-    - `headers: optional array of object { name, op, value }`
-
-      - `name: optional string`
-
-        The name of the response header to match.
-
-      - `op: optional "eq" or "ne"`
-
-        The operator used when matching: `eq` means "equal" and `ne` means "not equal".
-
-        - `"eq"`
-
-        - `"ne"`
-
-      - `value: optional string`
-
-        The value of the response header, which must match exactly.
-
-    - `request: optional object { methods, schemes, url }`
-
-      - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
-
-        The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
-
-        - `"GET"`
-
-        - `"POST"`
-
-        - `"PUT"`
-
-        - `"DELETE"`
-
-        - `"PATCH"`
-
-        - `"HEAD"`
-
-        - `"_ALL_"`
-
-      - `schemes: optional array of string`
-
-        The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
-
-      - `url: optional string`
-
-        The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
-
-    - `response: optional object { origin_traffic }`
-
-      - `origin_traffic: optional boolean`
-
-        When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-        Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
-
-  - `period: optional number`
-
-    The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
-
-  - `threshold: optional number`
-
-    The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
-
-### Rate Limit Delete Response
-
-- `RateLimitDeleteResponse object { id, action, bypass, 5 more }`
-
-  - `id: optional string`
-
-    The unique identifier of the rate limit.
-
-  - `action: optional object { mode, response, timeout }`
-
-    The action to perform when the threshold of matched traffic within the configured period is exceeded.
-
-    - `mode: optional "simulate" or "ban" or "challenge" or 2 more`
-
-      The action to perform.
-
-      - `"simulate"`
-
-      - `"ban"`
-
-      - `"challenge"`
-
-      - `"js_challenge"`
-
-      - `"managed_challenge"`
-
-    - `response: optional object { body, content_type }`
-
-      A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional.
-      Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object.
-
-      - `body: optional string`
-
-        The response body to return. The value must conform to the configured content type.
-
-      - `content_type: optional string`
-
-        The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`.
-
-    - `timeout: optional number`
-
-      The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period.
-      Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value.
-
-  - `bypass: optional array of object { name, value }`
-
-    Criteria specifying when the current rate limit should be bypassed. You can specify that the rate limit should not apply to one or more URLs.
-
-    - `name: optional "url"`
-
-      - `"url"`
-
-    - `value: optional string`
-
-      The URL to bypass.
-
-  - `description: optional string`
-
-    An informative summary of the rule. This value is sanitized and any tags will be removed.
-
-  - `disabled: optional boolean`
-
-    When true, indicates that the rate limit is currently disabled.
-
-  - `match: optional object { headers, request, response }`
-
-    Determines which traffic the rate limit counts towards the threshold.
-
-    - `headers: optional array of object { name, op, value }`
-
-      - `name: optional string`
-
-        The name of the response header to match.
-
-      - `op: optional "eq" or "ne"`
-
-        The operator used when matching: `eq` means "equal" and `ne` means "not equal".
-
-        - `"eq"`
-
-        - `"ne"`
-
-      - `value: optional string`
-
-        The value of the response header, which must match exactly.
-
-    - `request: optional object { methods, schemes, url }`
-
-      - `methods: optional array of "GET" or "POST" or "PUT" or 4 more`
-
-        The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit.
-
-        - `"GET"`
-
-        - `"POST"`
-
-        - `"PUT"`
-
-        - `"DELETE"`
-
-        - `"PATCH"`
-
-        - `"HEAD"`
-
-        - `"_ALL_"`
-
-      - `schemes: optional array of string`
-
-        The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional.
-
-      - `url: optional string`
-
-        The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone.
-
-    - `response: optional object { origin_traffic }`
-
-      - `origin_traffic: optional boolean`
-
-        When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional.
-        Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property.
-
-  - `period: optional number`
-
-    The time in seconds (an integer value) to count matching traffic. If the count exceeds the configured threshold within this period, Cloudflare will perform the configured action.
-
-  - `threshold: optional number`
-
-    The threshold that will trigger the configured mitigation action. Configure this value along with the `period` property to establish a threshold per period.
+[Link to this property](#)%20rate_limits%20%3E%20(model)%20rate_limit_delete_response%20%3E%20(schema)>)

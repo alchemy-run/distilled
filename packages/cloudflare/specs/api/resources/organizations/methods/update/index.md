@@ -1,113 +1,310 @@
-## Modify organization.
+---
+title: Modify organization.
+---
 
-**put** `/organizations/{organization_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Organizations](https://developers.cloudflare.com/api/resources/organizations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Modify organization.
+
+PUT/organizations/{organization\_id}
 
 Modify organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
 
-### Path Parameters
+##### Security
 
-- `organization_id: string`
+API Email + API Key
 
-### Body Parameters
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `name: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-- `parent: optional object { id, name }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `id: string`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `name: string`
+##### P ath ParametersExpand Collapse
 
-- `profile: optional AccountProfile`
+organization\_id: string
 
-  - `business_address: string`
+[Link to this property](#)%20organizations%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20organization_id%20%3E%20(schema)>)
 
-  - `business_email: string`
+##### Body ParametersJSONExpand Collapse
 
-  - `business_name: string`
+name: string
 
-  - `business_phone: string`
+[Link to this property](#)%20organizations%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `external_metadata: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of unknown`
+parent: optional object {id, name }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `result: Organization`
+[Link to this property](#)%20organizations%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20parent%20%3E%20(schema)>)
 
-  References an Organization in the Cloudflare data model.
+<details>
 
-  - `id: string`
+<summary>
 
-  - `create_time: string`
+profile: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts.account_profile%20%3E%20(model)%20account_profile%20%3E%20(schema)">AccountProfile</a> { business\_address, business\_email, business\_name, 2 more }
 
-  - `meta: object { flags, hierarchy_tags, managed_by }`
+</summary>
 
-    - `flags: optional object { account_creation, account_deletion, account_migration, 2 more }`
+business\_address: string
 
-      Enable features for Organizations.
+<a href="#">Link to this property</a>
 
-      - `account_creation: string`
+business\_email: string
 
-      - `account_deletion: string`
+<a href="#">Link to this property</a>
 
-      - `account_migration: string`
+business\_name: string
 
-      - `account_mobility: string`
+<a href="#">Link to this property</a>
 
-      - `sub_org_creation: string`
+business\_phone: string
 
-    - `hierarchy_tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      Ordered chain of organization tags from the root organization down to
-      (and including) this organization itself. Root organizations return a
-      single-element array containing their own tag; sub-organizations return
-      `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for
-      constructing authorization scopes that need to cover every ancestor
-      in the hierarchy.
+external\_metadata: string
 
-    - `managed_by: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `parent: optional object { id, name }`
+[Link to this property](#)%20organizations%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20profile%20%3E%20(schema)>)
 
-    - `id: string`
+##### ReturnsExpand Collapse
 
-    - `name: string`
+errors: array of unknown
 
-  - `profile: optional AccountProfile`
+[Link to this property](#)%20organizations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `business_address: string`
+<details>
 
-    - `business_email: string`
+<summary>
 
-    - `business_name: string`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `business_phone: string`
+</summary>
 
-    - `external_metadata: string`
+code: number
 
-- `success: true`
+minimum1000
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+message: string
 
-```http
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20organizations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/organizations#(resource)%20organizations%20%3E%20(model)%20organization%20%3E%20(schema)">Organization</a> { id, create\_time, meta, 3 more }
+
+References an Organization in the Cloudflare data model.
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+create\_time: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: object {hierarchy\_tags, managed\_by, tenant\_flags }
+
+</summary>
+
+hierarchy\_tags: optional array of string
+
+Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return <code>[rootTag, ...intermediateTags, parentTag, selfTag]</code>. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy.
+
+<a href="#">Link to this property</a>
+
+managed\_by: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tenant\_flags: optional object {account\_creation, account\_creation\_applies\_tenant\_defaults, account\_deletion, 5 more }
+
+Enable features for Organizations.
+
+</summary>
+
+account\_creation: string
+
+<a href="#">Link to this property</a>
+
+account\_creation\_applies\_tenant\_defaults: string
+
+<a href="#">Link to this property</a>
+
+account\_deletion: string
+
+<a href="#">Link to this property</a>
+
+account\_migration: string
+
+<a href="#">Link to this property</a>
+
+account\_mobility: string
+
+<a href="#">Link to this property</a>
+
+enterprise\_capability: string
+
+<a href="#">Link to this property</a>
+
+member\_management: string
+
+<a href="#">Link to this property</a>
+
+sub\_org\_creation: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parent: optional object {id, name }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+profile: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts.account_profile%20%3E%20(model)%20account_profile%20%3E%20(schema)">AccountProfile</a> { business\_address, business\_email, business\_name, 2 more }
+
+</summary>
+
+business\_address: string
+
+<a href="#">Link to this property</a>
+
+business\_email: string
+
+<a href="#">Link to this property</a>
+
+business\_name: string
+
+<a href="#">Link to this property</a>
+
+business\_phone: string
+
+<a href="#">Link to this property</a>
+
+external\_metadata: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20organizations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20organizations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Modify organization.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -118,9 +315,9 @@ curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [],
   "messages": [
@@ -134,24 +331,80 @@ curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID \
     }
   ],
   "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
+    "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
     "create_time": "2019-12-27T18:11:19.117Z",
     "meta": {
-      "flags": {
-        "account_creation": "account_creation",
-        "account_deletion": "account_deletion",
-        "account_migration": "account_migration",
-        "account_mobility": "account_mobility",
-        "sub_org_creation": "sub_org_creation"
-      },
       "hierarchy_tags": [
         "string"
       ],
-      "managed_by": "managed_by"
+      "managed_by": "managed_by",
+      "tenant_flags": {
+        "account_creation": "account_creation",
+        "account_creation_applies_tenant_defaults": "account_creation_applies_tenant_defaults",
+        "account_deletion": "account_deletion",
+        "account_migration": "account_migration",
+        "account_mobility": "account_mobility",
+        "enterprise_capability": "enterprise_capability",
+        "member_management": "member_management",
+        "sub_org_creation": "sub_org_creation"
+      }
     },
     "name": "name",
     "parent": {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
+      "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
+      "name": "name"
+    },
+    "profile": {
+      "business_address": "business_address",
+      "business_email": "business_email",
+      "business_name": "business_name",
+      "business_phone": "business_phone",
+      "external_metadata": "external_metadata"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
+    "create_time": "2019-12-27T18:11:19.117Z",
+    "meta": {
+      "hierarchy_tags": [
+        "string"
+      ],
+      "managed_by": "managed_by",
+      "tenant_flags": {
+        "account_creation": "account_creation",
+        "account_creation_applies_tenant_defaults": "account_creation_applies_tenant_defaults",
+        "account_deletion": "account_deletion",
+        "account_migration": "account_migration",
+        "account_mobility": "account_mobility",
+        "enterprise_capability": "enterprise_capability",
+        "member_management": "member_management",
+        "sub_org_creation": "sub_org_creation"
+      }
+    },
+    "name": "name",
+    "parent": {
+      "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
       "name": "name"
     },
     "profile": {

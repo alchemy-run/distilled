@@ -1,102 +1,298 @@
-## Add Tenant Custom Nameserver
+---
+title: Add Tenant Custom Nameserver
+---
 
-**post** `/tenants/{tenant_tag}/custom_ns`
+[Skip to content](#_top)
 
-Add Tenant Custom Nameserver
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Tenant Custom Nameservers](https://developers.cloudflare.com/api/resources/tenant_custom_nameservers)
 
-- `tenant_tag: string`
+Copy Markdown
 
-  Tenant identifier tag.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `ns_name: string`
+**Copy Markdown****View as Markdown**
 
-  The FQDN of the name server.
+# Add Tenant Custom Nameserver
 
-- `ns_set: optional number`
+POST/tenants/{tenant\_tag}/custom\_ns
 
-  The number of the set that this name server belongs to.
+Adds a custom nameserver for a tenant.
 
-### Returns
+##### Security
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `pointer: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Email + API Key</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `success: true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result: optional object { dns_records, ns_name, status, 2 more }`
+</details>
 
-  A single tenant custom nameserver.
+##### P ath ParametersExpand Collapse
 
-  - `dns_records: array of object { type, value }`
+tenant\_tag: string
 
-    A and AAAA records associated with the nameserver.
+Tenant identifier tag.
 
-    - `type: optional "A" or "AAAA"`
+maxLength32
 
-      DNS record type.
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20tenant_tag%20%3E%20(schema)>)
 
-      - `"A"`
+##### Body ParametersJSONExpand Collapse
 
-      - `"AAAA"`
+ns\_name: string
 
-    - `value: optional string`
+The FQDN of the name server.
 
-      DNS record contents (an IPv4 or IPv6 address).
+formathostname
 
-  - `ns_name: string`
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20ns_name%20%3E%20(schema)>)
 
-    The FQDN of the name server.
+ns\_set: optional number
 
-  - `status: "moved" or "pending" or "verified"`
+The number of the set that this name server belongs to.
 
-    Verification status of the nameserver.
+maximum5
 
-    - `"moved"`
+minimum1
 
-    - `"pending"`
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20ns_set%20%3E%20(schema)>)
 
-    - `"verified"`
+##### ReturnsExpand Collapse
 
-  - `zone_tag: string`
+<details>
 
-    Identifier.
+<summary>
 
-  - `ns_set: optional number`
+errors: array of object {code, message, documentation\_url, source }
 
-    The number of the set that this name server belongs to.
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {dns\_records, ns\_name, status, 2 more }
+
+A single tenant custom nameserver.
+
+</summary>
+
+<details>
+
+<summary>
+
+dns\_records: array of object {type, value }
+
+A and AAAA records associated with the nameserver.
+
+</summary>
+
+<details>
+
+<summary>
+
+type: optional "A"or "AAAA"
+
+DNS record type.
+
+</summary>
+
+One of the following:
+
+"A"
+
+<a href="#">Link to this property</a>
+
+"AAAA"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+DNS record contents (an IPv4 or IPv6 address).
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ns\_name: string
+
+The FQDN of the name server.
+
+formathostname
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedstatus: "moved"or "pending"or "verified"
+
+Verification status of the nameserver.
+
+</summary>
+
+One of the following:
+
+"moved"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"verified"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+zone\_tag: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+ns\_set: optional number
+
+The number of the set that this name server belongs to.
+
+maximum5
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20tenant_custom_nameservers%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Add Tenant Custom Nameserver
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/tenants/$TENANT_TAG/custom_ns \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -106,9 +302,51 @@ curl https://api.cloudflare.com/client/v4/tenants/$TENANT_TAG/custom_ns \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "dns_records": [
+      {
+        "type": "A",
+        "value": "1.1.1.1"
+      }
+    ],
+    "ns_name": "ns1.example.com",
+    "status": "verified",
+    "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353",
+    "ns_set": 1
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

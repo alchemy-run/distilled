@@ -1,260 +1,362 @@
-## Email Routing - DNS settings
+---
+title: Email Routing - DNS settings
+---
 
-**get** `/zones/{zone_id}/email/routing/dns`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
+
+[DNS](https://developers.cloudflare.com/api/resources/email_routing/subresources/dns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Email Routing - DNS settings
+
+GET/zones/{zone\_id}/email/routing/dns
 
 Show the DNS records needed to configure your Email Routing zone.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Query Parameters
+**Example:**`X-Auth-Email: user@example.com`
 
-- `subdomain: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Domain of your zone.
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-### Returns
+##### Accepted Permissions (at least one required)
 
-- `EmailEmailRoutingDNSQueryResponse object { errors, messages, success, 2 more }`
+`Zone Settings Write``Zone Settings Read`
 
-  - `errors: array of object { code, message, documentation_url, source }`
+##### P ath ParametersExpand Collapse
 
-    - `code: number`
+zone\_id: string
 
-    - `message: string`
+Identifier.
 
-    - `documentation_url: optional string`
+maxLength32
 
-    - `source: optional object { pointer }`
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-      - `pointer: optional string`
+##### Q uery ParametersExpand Collapse
 
-  - `messages: array of object { code, message, documentation_url, source }`
+subdomain: optional string
 
-    - `code: number`
+Deprecated. When supplied, the response shape differs from the documented default and is not modeled in generated SDKs. Do not rely on this parameter.
 
-    - `message: string`
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20subdomain%20%3E%20(schema)>)
 
-    - `documentation_url: optional string`
+##### ReturnsExpand Collapse
 
-    - `source: optional object { pointer }`
+<details>
 
-      - `pointer: optional string`
+<summary>
 
-  - `success: true`
+errors: array of object {code, message, documentation\_url, source }
 
-    Whether the API call was successful.
+</summary>
 
-    - `true`
+code: number
 
-  - `result: optional object { errors, record }`
+minimum1000
 
-    - `errors: optional array of object { code, missing }`
+<a href="#">Link to this property</a>
 
-      - `code: optional string`
+message: string
 
-      - `missing: optional DNSRecord`
+<a href="#">Link to this property</a>
 
-        List of records needed to enable an Email Routing zone.
+documentation\_url: optional string
 
-        - `content: optional string`
+<a href="#">Link to this property</a>
 
-          DNS record content.
+<details>
 
-        - `name: optional string`
+<summary>
 
-          DNS record name (or @ for the zone apex).
+source: optional object {pointer }
 
-        - `priority: optional number`
+</summary>
 
-          Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+pointer: optional string
 
-        - `ttl: optional number or 1`
+<a href="#">Link to this property</a>
 
-          Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+</details>
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `1`
+</details>
 
-            Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-            - `1`
+<details>
 
-        - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+<summary>
 
-          DNS record type.
+messages: array of object {code, message, documentation\_url, source }
 
-          - `"A"`
+</summary>
 
-          - `"AAAA"`
+code: number
 
-          - `"CNAME"`
+minimum1000
 
-          - `"HTTPS"`
+<a href="#">Link to this property</a>
 
-          - `"TXT"`
+message: string
 
-          - `"SRV"`
+<a href="#">Link to this property</a>
 
-          - `"LOC"`
+documentation\_url: optional string
 
-          - `"MX"`
+<a href="#">Link to this property</a>
 
-          - `"NS"`
+<details>
 
-          - `"CERT"`
+<summary>
 
-          - `"DNSKEY"`
+source: optional object {pointer }
 
-          - `"DS"`
+</summary>
 
-          - `"NAPTR"`
+pointer: optional string
 
-          - `"SMIMEA"`
+<a href="#">Link to this property</a>
 
-          - `"SSHFP"`
+</details>
 
-          - `"SVCB"`
+<a href="#">Link to this property</a>
 
-          - `"TLSA"`
+</details>
 
-          - `"URI"`
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `record: optional array of DNSRecord`
+success: true
 
-      - `content: optional string`
+Whether the API call was successful.
 
-        DNS record content.
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      - `name: optional string`
+<details>
 
-        DNS record name (or @ for the zone apex).
+<summary>
 
-      - `priority: optional number`
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.dns%20%3E%20(model)%20dns_record%20%3E%20(schema)">DNSRecord</a> { content, name, priority, 2 more }
 
-        Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+</summary>
 
-      - `ttl: optional number or 1`
+content: optional string
 
-        Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+DNS record content.
 
-      - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+<a href="#">Link to this property</a>
 
-        DNS record type.
+name: optional string
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+DNS record name (or @ for the zone apex).
 
-    - `count: optional number`
+maxLength255
 
-      Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-    - `page: optional number`
+priority: optional number
 
-      Current page within paginated list of results.
+Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
 
-    - `per_page: optional number`
+maximum65535
 
-      Number of results per page of results.
+minimum0
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-      Total results available without any search parameters.
+<details>
 
-    - `total_pages: optional number`
+<summary>
 
-      The number of total pages in the entire result set.
+ttl: optional numberor 1
 
-- `EmailDNSSettingsResponseCollection object { errors, messages, success, 2 more }`
+Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for ‘automatic’.
 
-  - `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-    - `code: number`
+One of the following:
 
-    - `message: string`
+number
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+1
 
-      - `pointer: optional string`
+Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for ‘automatic’.
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+</details>
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+<details>
 
-    - `source: optional object { pointer }`
+<summary>
 
-      - `pointer: optional string`
+type: optional "A"or "AAAA"or "CNAME"or 15 more
 
-  - `success: true`
+DNS record type.
 
-    Whether the API call was successful.
+</summary>
 
-    - `true`
+One of the following:
 
-  - `result: optional array of DNSRecord`
+"A"
 
-    - `content: optional string`
+<a href="#">Link to this property</a>
 
-      DNS record content.
+"AAAA"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      DNS record name (or @ for the zone apex).
+"CNAME"
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+"HTTPS"
 
-    - `ttl: optional number or 1`
+<a href="#">Link to this property</a>
 
-      Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+"TXT"
 
-    - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+<a href="#">Link to this property</a>
 
-      DNS record type.
+"SRV"
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `count: optional number`
+"LOC"
 
-      Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-    - `page: optional number`
+"MX"
 
-      Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-    - `per_page: optional number`
+"NS"
 
-      Number of results per page of results.
+<a href="#">Link to this property</a>
 
-    - `total_count: optional number`
+"CERT"
 
-      Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-    - `total_pages: optional number`
+"DNSKEY"
 
-      The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+"DS"
 
-```http
+<a href="#">Link to this property</a>
+
+"NAPTR"
+
+<a href="#">Link to this property</a>
+
+"SMIMEA"
+
+<a href="#">Link to this property</a>
+
+"SSHFP"
+
+<a href="#">Link to this property</a>
+
+"SVCB"
+
+<a href="#">Link to this property</a>
+
+"TLSA"
+
+<a href="#">Link to this property</a>
+
+"URI"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Email Routing - DNS settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/dns \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -277,29 +379,61 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/dns \
     }
   ],
   "success": true,
-  "result": {
-    "errors": [
-      {
-        "code": "code",
-        "missing": {
-          "content": "route1.mx.cloudflare.net",
-          "name": "example.com",
-          "priority": 12,
-          "ttl": 1,
-          "type": "NS"
-        }
+  "result": [
+    {
+      "content": "route1.mx.cloudflare.net",
+      "name": "example.com",
+      "priority": 12,
+      "ttl": 1,
+      "type": "NS"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
       }
-    ],
-    "record": [
-      {
-        "content": "route1.mx.cloudflare.net",
-        "name": "example.com",
-        "priority": 12,
-        "ttl": 1,
-        "type": "NS"
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
       }
-    ]
-  },
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "content": "route1.mx.cloudflare.net",
+      "name": "example.com",
+      "priority": 12,
+      "ttl": 1,
+      "type": "NS"
+    }
+  ],
   "result_info": {
     "count": 1,
     "page": 1,

@@ -1,66 +1,241 @@
-## Delete Subscription
+---
+title: Delete Subscription
+---
 
-**delete** `/accounts/{account_id}/subscriptions/{subscription_identifier}`
+[Skip to content](#_top)
 
-Deletes an account's subscription.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
 
-- `account_id: string`
+[Subscriptions](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions)
 
-  Identifier
+Copy Markdown
 
-- `subscription_identifier: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Subscription identifier tag.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `errors: array of ResponseInfo`
+# Delete Subscription
 
-  - `code: number`
+DELETE/accounts/{account\_id}/subscriptions/{subscription\_identifier}
 
-  - `message: string`
+Deletes an account’s subscription.
 
-  - `documentation_url: optional string`
+##### Security
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Token</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `documentation_url: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { subscription_id }`
+<details>
 
-  - `subscription_id: optional string`
+<summary>API Email + API Key</summary>
 
-    Subscription identifier tag.
 
-- `success: true`
 
-  Whether the API call was successful
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Example
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-```http
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Billing Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Identifier
+
+maxLength32
+
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+subscription\_identifier: string
+
+Subscription identifier tag.
+
+maxLength32
+
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20subscription_identifier%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {subscription\_id }
+
+</summary>
+
+subscription\_id: optional string
+
+Subscription identifier tag.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete Subscription
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions/$SUBSCRIPTION_IDENTIFIER \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "subscription_id": "506e3185e9c882d175a2d0cb0093d9f2"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,1202 +1,1197 @@
+---
+title: Evaluations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Evaluations
 
-## List Evaluations
+##### [List Evaluations](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluations/methods/list)
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations`
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/evaluations
 
-Lists all AI Gateway evaluator types configured for the account.
+##### [Fetch a Evaluation](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluations/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/evaluations/{id}
 
-- `account_id: string`
+##### [Create a new Evaluation](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluations/methods/create)
 
-- `gateway_id: string`
+POST/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/evaluations
 
-  gateway id
+##### [Delete a Evaluation](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/evaluations/methods/delete)
 
-### Query Parameters
+DELETE/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/evaluations/{id}
 
-- `name: optional string`
+##### ModelsExpand Collapse
 
-- `page: optional number`
+<details>
 
-- `per_page: optional number`
+<summary>
 
-- `processed: optional boolean`
+EvaluationListResponse object {id, created\_at, datasets, 6 more }
 
-- `search: optional string`
+</summary>
 
-  Search by id, name
+id: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, created_at, datasets, 6 more }`
+created\_at: string
 
-  - `id: string`
+formatdate-time
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `account_id: string`
+datasets: array of object {id, account\_id, account\_tag, 6 more }
 
-    - `account_tag: string`
+</summary>
 
-    - `created_at: string`
+id: string
 
-    - `enable: boolean`
+<a href="#">Link to this property</a>
 
-    - `filters: array of object { key, operator, value }`
+account\_id: string
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+account\_tag: string
 
-        - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"response_content_type"`
+created\_at: string
 
-        - `"success"`
+formatdate-time
 
-        - `"cached"`
+<a href="#">Link to this property</a>
 
-        - `"provider"`
+enable: boolean
 
-        - `"model"`
+<a href="#">Link to this property</a>
 
-        - `"cost"`
+<details>
 
-        - `"tokens"`
+<summary>
 
-        - `"tokens_in"`
+filters: array of object {key, operator, value }
 
-        - `"tokens_out"`
+</summary>
 
-        - `"duration"`
+<details>
 
-        - `"feedback"`
+<summary>
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-        - `"eq"`
+</summary>
 
-        - `"contains"`
+One of the following:
 
-        - `"lt"`
+"created\_at"
 
-        - `"gt"`
+<a href="#">Link to this property</a>
 
-      - `value: array of string or number or boolean`
+"request\_content\_type"
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+"response\_content\_type"
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-    - `gateway_id: string`
+"success"
 
-      gateway id
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
-
-    - `name: string`
-
-  - `gateway_id: string`
-
-    gateway id
+"cached"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"provider"
 
-  - `processed: boolean`
+<a href="#">Link to this property</a>
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+"model"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"cost"
 
-    - `evaluation_id: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_type_id: string`
+"tokens"
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `result: string`
+"tokens\_in"
 
-    - `status: number`
+<a href="#">Link to this property</a>
 
-    - `status_description: string`
+"tokens\_out"
 
-    - `total_logs: number`
+<a href="#">Link to this property</a>
 
-  - `total_logs: number`
+"duration"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"feedback"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/evaluations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "datasets": [
-        {
-          "id": "id",
-          "account_id": "account_id",
-          "account_tag": "account_tag",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "enable": true,
-          "filters": [
-            {
-              "key": "created_at",
-              "operator": "eq",
-              "value": [
-                "string"
-              ]
-            }
-          ],
-          "gateway_id": "my-gateway",
-          "modified_at": "2019-12-27T18:11:19.117Z",
-          "name": "name"
-        }
-      ],
-      "gateway_id": "my-gateway",
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "processed": true,
-      "results": [
-        {
-          "id": "id",
-          "created_at": "2019-12-27T18:11:19.117Z",
-          "evaluation_id": "evaluation_id",
-          "evaluation_type_id": "evaluation_type_id",
-          "modified_at": "2019-12-27T18:11:19.117Z",
-          "result": "result",
-          "status": 0,
-          "status_description": "status_description",
-          "total_logs": 0
-        }
-      ],
-      "total_logs": 0
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Fetch a Evaluation
+<details>
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations/{id}`
+<summary>
 
-Retrieves details for a specific AI Gateway dataset.
+operator: "eq"or "contains"or "lt"or "gt"
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-- `gateway_id: string`
+"eq"
 
-  gateway id
+<a href="#">Link to this property</a>
 
-- `id: string`
+"contains"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, created_at, datasets, 6 more }`
+"lt"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"gt"
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `account_id: string`
+<a href="#">Link to this property</a>
 
-    - `account_tag: string`
+<details>
 
-    - `created_at: string`
+<summary>
 
-    - `enable: boolean`
+value: array of stringor numberor boolean
 
-    - `filters: array of object { key, operator, value }`
+</summary>
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+One of the following:
 
-        - `"created_at"`
+string
 
-        - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"response_content_type"`
+number
 
-        - `"success"`
+<a href="#">Link to this property</a>
 
-        - `"cached"`
+boolean
 
-        - `"provider"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+</details>
 
-        - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `"tokens"`
+</details>
 
-        - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_out"`
+gateway\_id: string
 
-        - `"duration"`
+gateway id
 
-        - `"feedback"`
+maxLength64
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+minLength1
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"contains"`
+modified\_at: string
 
-        - `"lt"`
+formatdate-time
 
-        - `"gt"`
+<a href="#">Link to this property</a>
 
-      - `value: array of string or number or boolean`
+name: string
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+</details>
 
-        - `boolean`
+<a href="#">Link to this property</a>
 
-    - `gateway_id: string`
+gateway\_id: string
 
-      gateway id
+gateway id
 
-    - `modified_at: string`
+maxLength64
 
-    - `name: string`
+minLength1
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+modified\_at: string
 
-  - `modified_at: string`
+formatdate-time
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `processed: boolean`
+name: string
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+processed: boolean
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_id: string`
+<details>
 
-    - `evaluation_type_id: string`
+<summary>
 
-    - `modified_at: string`
+results: array of object {id, created\_at, evaluation\_id, 6 more }
 
-    - `result: string`
+</summary>
 
-    - `status: number`
+id: string
 
-    - `status_description: string`
+<a href="#">Link to this property</a>
 
-    - `total_logs: number`
+created\_at: string
 
-  - `total_logs: number`
+formatdate-time
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+evaluation\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/evaluations/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+evaluation\_type\_id: string
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "datasets": [
-      {
-        "id": "id",
-        "account_id": "account_id",
-        "account_tag": "account_tag",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enable": true,
-        "filters": [
-          {
-            "key": "created_at",
-            "operator": "eq",
-            "value": [
-              "string"
-            ]
-          }
-        ],
-        "gateway_id": "my-gateway",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "name": "name"
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "processed": true,
-    "results": [
-      {
-        "id": "id",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "evaluation_id": "evaluation_id",
-        "evaluation_type_id": "evaluation_type_id",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "result": "result",
-        "status": 0,
-        "status_description": "status_description",
-        "total_logs": 0
-      }
-    ],
-    "total_logs": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new Evaluation
+modified\_at: string
 
-**post** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations`
+formatdate-time
 
-Creates a new AI Gateway.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+result: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `gateway_id: string`
+status: number
 
-  gateway id
+<a href="#">Link to this property</a>
 
-### Body Parameters
+status\_description: string
 
-- `dataset_ids: array of string`
+<a href="#">Link to this property</a>
 
-- `evaluation_type_ids: array of string`
+total\_logs: number
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { id, created_at, datasets, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+total\_logs: number
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+</details>
 
-    - `id: string`
+[Link to this property](#)%20ai_gateway.evaluations%20%3E%20(model)%20evaluation_list_response%20%3E%20(schema)>)
 
-    - `account_id: string`
+<details>
 
-    - `account_tag: string`
+<summary>
 
-    - `created_at: string`
+EvaluationGetResponse object {id, created\_at, datasets, 6 more }
 
-    - `enable: boolean`
+</summary>
 
-    - `filters: array of object { key, operator, value }`
+id: string
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+created\_at: string
 
-        - `"request_content_type"`
+formatdate-time
 
-        - `"response_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"success"`
+<details>
 
-        - `"cached"`
+<summary>
 
-        - `"provider"`
+datasets: array of object {id, account\_id, account\_tag, 6 more }
 
-        - `"model"`
+</summary>
 
-        - `"cost"`
+id: string
 
-        - `"tokens"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_in"`
+account\_id: string
 
-        - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-        - `"duration"`
+account\_tag: string
 
-        - `"feedback"`
+<a href="#">Link to this property</a>
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+created\_at: string
 
-        - `"eq"`
+formatdate-time
 
-        - `"contains"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+enable: boolean
 
-        - `"gt"`
+<a href="#">Link to this property</a>
 
-      - `value: array of string or number or boolean`
+<details>
 
-        - `string`
+<summary>
 
-        - `number`
+filters: array of object {key, operator, value }
 
-        - `boolean`
+</summary>
 
-    - `gateway_id: string`
+<details>
 
-      gateway id
+<summary>
 
-    - `modified_at: string`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-    - `name: string`
+</summary>
 
-  - `gateway_id: string`
+One of the following:
 
-    gateway id
+"created\_at"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"request\_content\_type"
 
-  - `processed: boolean`
+<a href="#">Link to this property</a>
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+"response\_content\_type"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"success"
 
-    - `evaluation_id: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_type_id: string`
+"cached"
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `result: string`
+"provider"
 
-    - `status: number`
+<a href="#">Link to this property</a>
 
-    - `status_description: string`
+"model"
 
-    - `total_logs: number`
+<a href="#">Link to this property</a>
 
-  - `total_logs: number`
+"cost"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"tokens"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/evaluations \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "dataset_ids": [
-            "string"
-          ],
-          "evaluation_type_ids": [
-            "string"
-          ],
-          "name": "name"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"tokens\_in"
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "datasets": [
-      {
-        "id": "id",
-        "account_id": "account_id",
-        "account_tag": "account_tag",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enable": true,
-        "filters": [
-          {
-            "key": "created_at",
-            "operator": "eq",
-            "value": [
-              "string"
-            ]
-          }
-        ],
-        "gateway_id": "my-gateway",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "name": "name"
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "processed": true,
-    "results": [
-      {
-        "id": "id",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "evaluation_id": "evaluation_id",
-        "evaluation_type_id": "evaluation_type_id",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "result": "result",
-        "status": 0,
-        "status_description": "status_description",
-        "total_logs": 0
-      }
-    ],
-    "total_logs": 0
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a Evaluation
+"tokens\_out"
 
-**delete** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations/{id}`
+<a href="#">Link to this property</a>
 
-Deletes an AI Gateway dataset.
+"duration"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"feedback"
 
-- `gateway_id: string`
+<a href="#">Link to this property</a>
 
-  gateway id
+</details>
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `result: object { id, created_at, datasets, 6 more }`
+<summary>
 
-  - `id: string`
+operator: "eq"or "contains"or "lt"or "gt"
 
-  - `created_at: string`
+</summary>
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+One of the following:
 
-    - `id: string`
+"eq"
 
-    - `account_id: string`
+<a href="#">Link to this property</a>
 
-    - `account_tag: string`
+"contains"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enable: boolean`
+"lt"
 
-    - `filters: array of object { key, operator, value }`
+<a href="#">Link to this property</a>
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+"gt"
 
-        - `"created_at"`
+<a href="#">Link to this property</a>
 
-        - `"request_content_type"`
+</details>
 
-        - `"response_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"success"`
+<details>
 
-        - `"cached"`
+<summary>
 
-        - `"provider"`
+value: array of stringor numberor boolean
 
-        - `"model"`
+</summary>
 
-        - `"cost"`
+One of the following:
 
-        - `"tokens"`
+string
 
-        - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_out"`
+number
 
-        - `"duration"`
+<a href="#">Link to this property</a>
 
-        - `"feedback"`
+boolean
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+</details>
 
-        - `"contains"`
+<a href="#">Link to this property</a>
 
-        - `"lt"`
+</details>
 
-        - `"gt"`
+<a href="#">Link to this property</a>
 
-      - `value: array of string or number or boolean`
+gateway\_id: string
 
-        - `string`
+gateway id
 
-        - `number`
+maxLength64
 
-        - `boolean`
+minLength1
 
-    - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-      gateway id
+modified\_at: string
 
-    - `modified_at: string`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+name: string
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `processed: boolean`
+gateway\_id: string
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+gateway id
 
-    - `id: string`
+maxLength64
 
-    - `created_at: string`
+minLength1
 
-    - `evaluation_id: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_type_id: string`
+modified\_at: string
 
-    - `modified_at: string`
+formatdate-time
 
-    - `result: string`
+<a href="#">Link to this property</a>
 
-    - `status: number`
+name: string
 
-    - `status_description: string`
+<a href="#">Link to this property</a>
 
-    - `total_logs: number`
+processed: boolean
 
-  - `total_logs: number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/evaluations/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+results: array of object {id, created\_at, evaluation\_id, 6 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "datasets": [
-      {
-        "id": "id",
-        "account_id": "account_id",
-        "account_tag": "account_tag",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "enable": true,
-        "filters": [
-          {
-            "key": "created_at",
-            "operator": "eq",
-            "value": [
-              "string"
-            ]
-          }
-        ],
-        "gateway_id": "my-gateway",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "name": "name"
-      }
-    ],
-    "gateway_id": "my-gateway",
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "processed": true,
-    "results": [
-      {
-        "id": "id",
-        "created_at": "2019-12-27T18:11:19.117Z",
-        "evaluation_id": "evaluation_id",
-        "evaluation_type_id": "evaluation_type_id",
-        "modified_at": "2019-12-27T18:11:19.117Z",
-        "result": "result",
-        "status": 0,
-        "status_description": "status_description",
-        "total_logs": 0
-      }
-    ],
-    "total_logs": 0
-  },
-  "success": true
-}
-```
+id: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Evaluation List Response
+created\_at: string
 
-- `EvaluationListResponse object { id, created_at, datasets, 6 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+evaluation\_id: string
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+evaluation\_type\_id: string
 
-    - `account_id: string`
+<a href="#">Link to this property</a>
 
-    - `account_tag: string`
+modified\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `enable: boolean`
+<a href="#">Link to this property</a>
 
-    - `filters: array of object { key, operator, value }`
+result: string
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+status: number
 
-        - `"request_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"response_content_type"`
+status\_description: string
 
-        - `"success"`
+<a href="#">Link to this property</a>
 
-        - `"cached"`
+total\_logs: number
 
-        - `"provider"`
+<a href="#">Link to this property</a>
 
-        - `"model"`
+</details>
 
-        - `"cost"`
+<a href="#">Link to this property</a>
 
-        - `"tokens"`
+total\_logs: number
 
-        - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_out"`
+</details>
 
-        - `"duration"`
+[Link to this property](#)%20ai_gateway.evaluations%20%3E%20(model)%20evaluation_get_response%20%3E%20(schema)>)
 
-        - `"feedback"`
+<details>
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+<summary>
 
-        - `"eq"`
+EvaluationCreateResponse object {id, created\_at, datasets, 6 more }
 
-        - `"contains"`
+</summary>
 
-        - `"lt"`
+id: string
 
-        - `"gt"`
+<a href="#">Link to this property</a>
 
-      - `value: array of string or number or boolean`
+created\_at: string
 
-        - `string`
+formatdate-time
 
-        - `number`
+<a href="#">Link to this property</a>
 
-        - `boolean`
+<details>
 
-    - `gateway_id: string`
+<summary>
 
-      gateway id
+datasets: array of object {id, account\_id, account\_tag, 6 more }
 
-    - `modified_at: string`
+</summary>
 
-    - `name: string`
+id: string
 
-  - `gateway_id: string`
+<a href="#">Link to this property</a>
 
-    gateway id
+account\_id: string
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+account\_tag: string
 
-  - `processed: boolean`
+<a href="#">Link to this property</a>
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+created\_at: string
 
-    - `id: string`
+formatdate-time
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_id: string`
+enable: boolean
 
-    - `evaluation_type_id: string`
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+<details>
 
-    - `result: string`
+<summary>
 
-    - `status: number`
+filters: array of object {key, operator, value }
 
-    - `status_description: string`
+</summary>
 
-    - `total_logs: number`
+<details>
 
-  - `total_logs: number`
+<summary>
 
-### Evaluation Get Response
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-- `EvaluationGetResponse object { id, created_at, datasets, 6 more }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-  - `created_at: string`
+"created\_at"
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"request\_content\_type"
 
-    - `account_id: string`
+<a href="#">Link to this property</a>
 
-    - `account_tag: string`
+"response\_content\_type"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `enable: boolean`
+"success"
 
-    - `filters: array of object { key, operator, value }`
+<a href="#">Link to this property</a>
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+"cached"
 
-        - `"created_at"`
+<a href="#">Link to this property</a>
 
-        - `"request_content_type"`
+"provider"
 
-        - `"response_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"success"`
+"model"
 
-        - `"cached"`
+<a href="#">Link to this property</a>
 
-        - `"provider"`
+"cost"
 
-        - `"model"`
+<a href="#">Link to this property</a>
 
-        - `"cost"`
+"tokens"
 
-        - `"tokens"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_in"`
+"tokens\_in"
 
-        - `"tokens_out"`
+<a href="#">Link to this property</a>
 
-        - `"duration"`
+"tokens\_out"
 
-        - `"feedback"`
+<a href="#">Link to this property</a>
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+"duration"
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"contains"`
+"feedback"
 
-        - `"lt"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+</details>
 
-      - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+<details>
 
-        - `number`
+<summary>
 
-        - `boolean`
+operator: "eq"or "contains"or "lt"or "gt"
 
-    - `gateway_id: string`
+</summary>
 
-      gateway id
+One of the following:
 
-    - `modified_at: string`
+"eq"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+"contains"
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+"lt"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `processed: boolean`
+"gt"
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_id: string`
+<details>
 
-    - `evaluation_type_id: string`
+<summary>
 
-    - `modified_at: string`
+value: array of stringor numberor boolean
 
-    - `result: string`
+</summary>
 
-    - `status: number`
+One of the following:
 
-    - `status_description: string`
+string
 
-    - `total_logs: number`
+<a href="#">Link to this property</a>
 
-  - `total_logs: number`
+number
 
-### Evaluation Create Response
+<a href="#">Link to this property</a>
 
-- `EvaluationCreateResponse object { id, created_at, datasets, 6 more }`
+boolean
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `account_id: string`
+<a href="#">Link to this property</a>
 
-    - `account_tag: string`
+gateway\_id: string
 
-    - `created_at: string`
+gateway id
 
-    - `enable: boolean`
+maxLength64
 
-    - `filters: array of object { key, operator, value }`
+minLength1
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+<a href="#">Link to this property</a>
 
-        - `"created_at"`
+modified\_at: string
 
-        - `"request_content_type"`
+formatdate-time
 
-        - `"response_content_type"`
+<a href="#">Link to this property</a>
 
-        - `"success"`
+name: string
 
-        - `"cached"`
+<a href="#">Link to this property</a>
 
-        - `"provider"`
+</details>
 
-        - `"model"`
+<a href="#">Link to this property</a>
 
-        - `"cost"`
+gateway\_id: string
 
-        - `"tokens"`
+gateway id
 
-        - `"tokens_in"`
+maxLength64
 
-        - `"tokens_out"`
+minLength1
 
-        - `"duration"`
+<a href="#">Link to this property</a>
 
-        - `"feedback"`
+modified\_at: string
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+formatdate-time
 
-        - `"eq"`
+<a href="#">Link to this property</a>
 
-        - `"contains"`
+name: string
 
-        - `"lt"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+processed: boolean
 
-      - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+<details>
 
-        - `number`
+<summary>
 
-        - `boolean`
+results: array of object {id, created\_at, evaluation\_id, 6 more }
 
-    - `gateway_id: string`
+</summary>
 
-      gateway id
+id: string
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+created\_at: string
 
-  - `gateway_id: string`
+formatdate-time
 
-    gateway id
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+evaluation\_id: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `processed: boolean`
+evaluation\_type\_id: string
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+modified\_at: string
 
-    - `created_at: string`
+formatdate-time
 
-    - `evaluation_id: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_type_id: string`
+result: string
 
-    - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    - `result: string`
+status: number
 
-    - `status: number`
+<a href="#">Link to this property</a>
 
-    - `status_description: string`
+status\_description: string
 
-    - `total_logs: number`
+<a href="#">Link to this property</a>
 
-  - `total_logs: number`
+total\_logs: number
 
-### Evaluation Delete Response
+<a href="#">Link to this property</a>
 
-- `EvaluationDeleteResponse object { id, created_at, datasets, 6 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+total\_logs: number
 
-  - `datasets: array of object { id, account_id, account_tag, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `account_id: string`
+[Link to this property](#)%20ai_gateway.evaluations%20%3E%20(model)%20evaluation_create_response%20%3E%20(schema)>)
 
-    - `account_tag: string`
+<details>
 
-    - `created_at: string`
+<summary>
 
-    - `enable: boolean`
+EvaluationDeleteResponse object {id, created\_at, datasets, 6 more }
 
-    - `filters: array of object { key, operator, value }`
+</summary>
 
-      - `key: "created_at" or "request_content_type" or "response_content_type" or 10 more`
+id: string
 
-        - `"created_at"`
+<a href="#">Link to this property</a>
 
-        - `"request_content_type"`
+created\_at: string
 
-        - `"response_content_type"`
+formatdate-time
 
-        - `"success"`
+<a href="#">Link to this property</a>
 
-        - `"cached"`
+<details>
 
-        - `"provider"`
+<summary>
 
-        - `"model"`
+datasets: array of object {id, account\_id, account\_tag, 6 more }
 
-        - `"cost"`
+</summary>
 
-        - `"tokens"`
+id: string
 
-        - `"tokens_in"`
+<a href="#">Link to this property</a>
 
-        - `"tokens_out"`
+account\_id: string
 
-        - `"duration"`
+<a href="#">Link to this property</a>
 
-        - `"feedback"`
+account\_tag: string
 
-      - `operator: "eq" or "contains" or "lt" or "gt"`
+<a href="#">Link to this property</a>
 
-        - `"eq"`
+created\_at: string
 
-        - `"contains"`
+formatdate-time
 
-        - `"lt"`
+<a href="#">Link to this property</a>
 
-        - `"gt"`
+enable: boolean
 
-      - `value: array of string or number or boolean`
+<a href="#">Link to this property</a>
 
-        - `string`
+<details>
 
-        - `number`
+<summary>
 
-        - `boolean`
+filters: array of object {key, operator, value }
 
-    - `gateway_id: string`
+</summary>
 
-      gateway id
+<details>
 
-    - `modified_at: string`
+<summary>
 
-    - `name: string`
+key: "created\_at"or "request\_content\_type"or "response\_content\_type"or 10 more
 
-  - `gateway_id: string`
+</summary>
 
-    gateway id
+One of the following:
 
-  - `modified_at: string`
+"created\_at"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `processed: boolean`
+"request\_content\_type"
 
-  - `results: array of object { id, created_at, evaluation_id, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"response\_content\_type"
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-    - `evaluation_id: string`
+"success"
 
-    - `evaluation_type_id: string`
+<a href="#">Link to this property</a>
 
-    - `modified_at: string`
+"cached"
 
-    - `result: string`
+<a href="#">Link to this property</a>
 
-    - `status: number`
+"provider"
 
-    - `status_description: string`
+<a href="#">Link to this property</a>
 
-    - `total_logs: number`
+"model"
 
-  - `total_logs: number`
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+"tokens"
+
+<a href="#">Link to this property</a>
+
+"tokens\_in"
+
+<a href="#">Link to this property</a>
+
+"tokens\_out"
+
+<a href="#">Link to this property</a>
+
+"duration"
+
+<a href="#">Link to this property</a>
+
+"feedback"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "eq"or "contains"or "lt"or "gt"
+
+</summary>
+
+One of the following:
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"contains"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: array of stringor numberor boolean
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+gateway id
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+gateway id
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+processed: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+results: array of object {id, created\_at, evaluation\_id, 6 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+evaluation\_id: string
+
+<a href="#">Link to this property</a>
+
+evaluation\_type\_id: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+result: string
+
+<a href="#">Link to this property</a>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+status\_description: string
+
+<a href="#">Link to this property</a>
+
+total\_logs: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+total\_logs: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.evaluations%20%3E%20(model)%20evaluation_delete_response%20%3E%20(schema)>)

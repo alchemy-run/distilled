@@ -1,527 +1,473 @@
+---
+title: Geolocations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Geolocations
 
-## List Geolocations
+##### [List Geolocations](https://developers.cloudflare.com/api/resources/radar/subresources/geolocations/methods/list)
 
-**get** `/radar/geolocations`
+GET/radar/geolocations
 
-Retrieves a list of geolocations. Geolocation names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`).
+##### [Get Geolocation details](https://developers.cloudflare.com/api/resources/radar/subresources/geolocations/methods/get)
 
-### Query Parameters
+GET/radar/geolocations/{geo\_id}
 
-- `format: optional "JSON" or "CSV"`
+##### ModelsExpand Collapse
 
-  Format in which results will be returned.
+<details>
 
-  - `"JSON"`
+<summary>
 
-  - `"CSV"`
+GeolocationListResponse object {geolocations }
 
-- `geoId: optional string`
+</summary>
 
-  Filters results by geolocation. Specify a comma-separated list of GeoNames IDs.
+<details>
 
-- `limit: optional number`
+<summary>
 
-  Limits the number of objects returned in the response.
+geolocations: array of object {geoId, latitude, longitude, 5 more }
 
-- `location: optional string`
+</summary>
 
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
+geoId: string
 
-- `offset: optional number`
+<a href="#">Link to this property</a>
 
-  Skips the specified number of objects before fetching the results.
+latitude: string
 
-### Returns
+A numeric string.
 
-- `result: object { geolocations }`
+<a href="#">Link to this property</a>
 
-  - `geolocations: array of object { geoId, latitude, longitude, 5 more }`
+longitude: string
 
-    - `geoId: string`
+A numeric string.
 
-    - `latitude: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+name: string
 
-    - `longitude: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+<details>
 
-    - `name: string`
+<summary>
 
-    - `parent: object { geoId, latitude, longitude, 5 more }`
+parent: object {geoId, latitude, longitude, 5 more }
 
-      - `geoId: string`
+</summary>
 
-      - `latitude: string`
+geoId: string
 
-        A numeric string.
+<a href="#">Link to this property</a>
 
-      - `longitude: string`
+latitude: string
 
-        A numeric string.
+A numeric string.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `parent: object { geoId, latitude, longitude, 4 more }`
+longitude: string
 
-        - `geoId: string`
+A numeric string.
 
-        - `latitude: string`
+<a href="#">Link to this property</a>
 
-          A numeric string.
+name: string
 
-        - `longitude: string`
+<a href="#">Link to this property</a>
 
-          A numeric string.
+<details>
 
-        - `name: string`
+<summary>
 
-        - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+parent: object {geoId, latitude, longitude, 4 more }
 
-          The type of the geolocation.
+</summary>
 
-          - `"CONTINENT"`
+geoId: string
 
-          - `"COUNTRY"`
+<a href="#">Link to this property</a>
 
-          - `"ADM1"`
+latitude: string
 
-        - `code: optional string`
+A numeric string.
 
-        - `locale: optional string`
+<a href="#">Link to this property</a>
 
-          BCP 47 locale code used for the geolocation name translation
+longitude: string
 
-      - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+A numeric string.
 
-        The type of the geolocation.
+<a href="#">Link to this property</a>
 
-        - `"CONTINENT"`
+name: string
 
-        - `"COUNTRY"`
+<a href="#">Link to this property</a>
 
-        - `"ADM1"`
+<details>
 
-      - `code: optional string`
+<summary>
 
-      - `locale: optional string`
+type: "CONTINENT"or "COUNTRY"or "ADM1"
 
-        BCP 47 locale code used for the geolocation name translation
+The type of the geolocation.
 
-    - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+</summary>
 
-      The type of the geolocation.
+One of the following:
 
-      - `"CONTINENT"`
+"CONTINENT"
 
-      - `"COUNTRY"`
+<a href="#">Link to this property</a>
 
-      - `"ADM1"`
+"COUNTRY"
 
-    - `code: optional string`
+<a href="#">Link to this property</a>
 
-    - `locale: optional string`
+"ADM1"
 
-      BCP 47 locale code used for the geolocation name translation
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/geolocations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+code: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "geolocations": [
-      {
-        "geoId": "2267056",
-        "latitude": "10",
-        "longitude": "10",
-        "name": "Lisbon",
-        "parent": {
-          "geoId": "2267056",
-          "latitude": "10",
-          "longitude": "10",
-          "name": "Lisbon",
-          "parent": {
-            "geoId": "2267056",
-            "latitude": "10",
-            "longitude": "10",
-            "name": "Lisbon",
-            "type": "CONTINENT",
-            "code": "PT-11",
-            "locale": "pt-PT"
-          },
-          "type": "CONTINENT",
-          "code": "PT-11",
-          "locale": "pt-PT"
-        },
-        "type": "CONTINENT",
-        "code": "PT-11",
-        "locale": "pt-PT"
-      }
-    ]
-  },
-  "success": true
-}
-```
+locale: optional string
 
-## Get Geolocation details
+BCP 47 locale code used for the geolocation name translation
 
-**get** `/radar/geolocations/{geo_id}`
+<a href="#">Link to this property</a>
 
-Retrieves the requested Geolocation information. Geolocation names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`).
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `geo_id: string`
+<details>
 
-  Geolocation ID. Refer to [GeoNames](https://download.geonames.org/export/dump/readme.txt)
+<summary>
 
-### Query Parameters
+type: "CONTINENT"or "COUNTRY"or "ADM1"
 
-- `format: optional "JSON" or "CSV"`
+The type of the geolocation.
 
-  Format in which results will be returned.
+</summary>
 
-  - `"JSON"`
+One of the following:
 
-  - `"CSV"`
+"CONTINENT"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { geolocation }`
+"COUNTRY"
 
-  - `geolocation: object { geoId, latitude, longitude, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `geoId: string`
+"ADM1"
 
-    - `latitude: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+</details>
 
-    - `longitude: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+code: optional string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `parent: object { geoId, latitude, longitude, 5 more }`
+locale: optional string
 
-      - `geoId: string`
+BCP 47 locale code used for the geolocation name translation
 
-      - `latitude: string`
+<a href="#">Link to this property</a>
 
-        A numeric string.
+</details>
 
-      - `longitude: string`
+<a href="#">Link to this property</a>
 
-        A numeric string.
+<details>
 
-      - `name: string`
+<summary>
 
-      - `parent: object { geoId, latitude, longitude, 4 more }`
+type: "CONTINENT"or "COUNTRY"or "ADM1"
 
-        - `geoId: string`
+The type of the geolocation.
 
-        - `latitude: string`
+</summary>
 
-          A numeric string.
+One of the following:
 
-        - `longitude: string`
+"CONTINENT"
 
-          A numeric string.
+<a href="#">Link to this property</a>
 
-        - `name: string`
+"COUNTRY"
 
-        - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+<a href="#">Link to this property</a>
 
-          The type of the geolocation.
+"ADM1"
 
-          - `"CONTINENT"`
+<a href="#">Link to this property</a>
 
-          - `"COUNTRY"`
+</details>
 
-          - `"ADM1"`
+<a href="#">Link to this property</a>
 
-        - `code: optional string`
+code: optional string
 
-        - `locale: optional string`
+<a href="#">Link to this property</a>
 
-          BCP 47 locale code used for the geolocation name translation
+locale: optional string
 
-      - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+BCP 47 locale code used for the geolocation name translation
 
-        The type of the geolocation.
+<a href="#">Link to this property</a>
 
-        - `"CONTINENT"`
+</details>
 
-        - `"COUNTRY"`
+<a href="#">Link to this property</a>
 
-        - `"ADM1"`
+</details>
 
-      - `code: optional string`
+[Link to this property](#)%20radar.geolocations%20%3E%20(model)%20geolocation_list_response%20%3E%20(schema)>)
 
-      - `locale: optional string`
+<details>
 
-        BCP 47 locale code used for the geolocation name translation
+<summary>
 
-    - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+GeolocationGetResponse object {geolocation }
 
-      The type of the geolocation.
+</summary>
 
-      - `"CONTINENT"`
+<details>
 
-      - `"COUNTRY"`
+<summary>
 
-      - `"ADM1"`
+geolocation: object {geoId, latitude, longitude, 5 more }
 
-    - `code: optional string`
+</summary>
 
-    - `locale: optional string`
+geoId: string
 
-      BCP 47 locale code used for the geolocation name translation
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+latitude: string
 
-### Example
+A numeric string.
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/geolocations/$GEO_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+longitude: string
 
-```json
-{
-  "result": {
-    "geolocation": {
-      "geoId": "2267056",
-      "latitude": "10",
-      "longitude": "10",
-      "name": "Lisbon",
-      "parent": {
-        "geoId": "2267056",
-        "latitude": "10",
-        "longitude": "10",
-        "name": "Lisbon",
-        "parent": {
-          "geoId": "2267056",
-          "latitude": "10",
-          "longitude": "10",
-          "name": "Lisbon",
-          "type": "CONTINENT",
-          "code": "PT-11",
-          "locale": "pt-PT"
-        },
-        "type": "CONTINENT",
-        "code": "PT-11",
-        "locale": "pt-PT"
-      },
-      "type": "CONTINENT",
-      "code": "PT-11",
-      "locale": "pt-PT"
-    }
-  },
-  "success": true
-}
-```
+A numeric string.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Geolocation List Response
+name: string
 
-- `GeolocationListResponse object { geolocations }`
+<a href="#">Link to this property</a>
 
-  - `geolocations: array of object { geoId, latitude, longitude, 5 more }`
+<details>
 
-    - `geoId: string`
+<summary>
 
-    - `latitude: string`
+parent: object {geoId, latitude, longitude, 5 more }
 
-      A numeric string.
+</summary>
 
-    - `longitude: string`
+geoId: string
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+latitude: string
 
-    - `parent: object { geoId, latitude, longitude, 5 more }`
+A numeric string.
 
-      - `geoId: string`
+<a href="#">Link to this property</a>
 
-      - `latitude: string`
+longitude: string
 
-        A numeric string.
+A numeric string.
 
-      - `longitude: string`
+<a href="#">Link to this property</a>
 
-        A numeric string.
+name: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `parent: object { geoId, latitude, longitude, 4 more }`
+<details>
 
-        - `geoId: string`
+<summary>
 
-        - `latitude: string`
+parent: object {geoId, latitude, longitude, 4 more }
 
-          A numeric string.
+</summary>
 
-        - `longitude: string`
+geoId: string
 
-          A numeric string.
+<a href="#">Link to this property</a>
 
-        - `name: string`
+latitude: string
 
-        - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+A numeric string.
 
-          The type of the geolocation.
+<a href="#">Link to this property</a>
 
-          - `"CONTINENT"`
+longitude: string
 
-          - `"COUNTRY"`
+A numeric string.
 
-          - `"ADM1"`
+<a href="#">Link to this property</a>
 
-        - `code: optional string`
+name: string
 
-        - `locale: optional string`
+<a href="#">Link to this property</a>
 
-          BCP 47 locale code used for the geolocation name translation
+<details>
 
-      - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+<summary>
 
-        The type of the geolocation.
+type: "CONTINENT"or "COUNTRY"or "ADM1"
 
-        - `"CONTINENT"`
+The type of the geolocation.
 
-        - `"COUNTRY"`
+</summary>
 
-        - `"ADM1"`
+One of the following:
 
-      - `code: optional string`
+"CONTINENT"
 
-      - `locale: optional string`
+<a href="#">Link to this property</a>
 
-        BCP 47 locale code used for the geolocation name translation
+"COUNTRY"
 
-    - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+<a href="#">Link to this property</a>
 
-      The type of the geolocation.
+"ADM1"
 
-      - `"CONTINENT"`
+<a href="#">Link to this property</a>
 
-      - `"COUNTRY"`
+</details>
 
-      - `"ADM1"`
+<a href="#">Link to this property</a>
 
-    - `code: optional string`
+code: optional string
 
-    - `locale: optional string`
+<a href="#">Link to this property</a>
 
-      BCP 47 locale code used for the geolocation name translation
+locale: optional string
 
-### Geolocation Get Response
+BCP 47 locale code used for the geolocation name translation
 
-- `GeolocationGetResponse object { geolocation }`
+<a href="#">Link to this property</a>
 
-  - `geolocation: object { geoId, latitude, longitude, 5 more }`
+</details>
 
-    - `geoId: string`
+<a href="#">Link to this property</a>
 
-    - `latitude: string`
+<details>
 
-      A numeric string.
+<summary>
 
-    - `longitude: string`
+type: "CONTINENT"or "COUNTRY"or "ADM1"
 
-      A numeric string.
+The type of the geolocation.
 
-    - `name: string`
+</summary>
 
-    - `parent: object { geoId, latitude, longitude, 5 more }`
+One of the following:
 
-      - `geoId: string`
+"CONTINENT"
 
-      - `latitude: string`
+<a href="#">Link to this property</a>
 
-        A numeric string.
+"COUNTRY"
 
-      - `longitude: string`
+<a href="#">Link to this property</a>
 
-        A numeric string.
+"ADM1"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `parent: object { geoId, latitude, longitude, 4 more }`
+</details>
 
-        - `geoId: string`
+<a href="#">Link to this property</a>
 
-        - `latitude: string`
+code: optional string
 
-          A numeric string.
+<a href="#">Link to this property</a>
 
-        - `longitude: string`
+locale: optional string
 
-          A numeric string.
+BCP 47 locale code used for the geolocation name translation
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+</details>
 
-          The type of the geolocation.
+<a href="#">Link to this property</a>
 
-          - `"CONTINENT"`
+<details>
 
-          - `"COUNTRY"`
+<summary>
 
-          - `"ADM1"`
+type: "CONTINENT"or "COUNTRY"or "ADM1"
 
-        - `code: optional string`
+The type of the geolocation.
 
-        - `locale: optional string`
+</summary>
 
-          BCP 47 locale code used for the geolocation name translation
+One of the following:
 
-      - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+"CONTINENT"
 
-        The type of the geolocation.
+<a href="#">Link to this property</a>
 
-        - `"CONTINENT"`
+"COUNTRY"
 
-        - `"COUNTRY"`
+<a href="#">Link to this property</a>
 
-        - `"ADM1"`
+"ADM1"
 
-      - `code: optional string`
+<a href="#">Link to this property</a>
 
-      - `locale: optional string`
+</details>
 
-        BCP 47 locale code used for the geolocation name translation
+<a href="#">Link to this property</a>
 
-    - `type: "CONTINENT" or "COUNTRY" or "ADM1"`
+code: optional string
 
-      The type of the geolocation.
+<a href="#">Link to this property</a>
 
-      - `"CONTINENT"`
+locale: optional string
 
-      - `"COUNTRY"`
+BCP 47 locale code used for the geolocation name translation
 
-      - `"ADM1"`
+<a href="#">Link to this property</a>
 
-    - `code: optional string`
+</details>
 
-    - `locale: optional string`
+<a href="#">Link to this property</a>
 
-      BCP 47 locale code used for the geolocation name translation
+</details>
+
+[Link to this property](#)%20radar.geolocations%20%3E%20(model)%20geolocation_get_response%20%3E%20(schema)>)

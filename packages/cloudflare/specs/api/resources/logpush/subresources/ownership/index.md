@@ -1,230 +1,69 @@
+---
+title: Ownership
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Logpush](https://developers.cloudflare.com/api/resources/logpush)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Ownership
 
-## Get ownership challenge
+##### [Get ownership challenge](https://developers.cloudflare.com/api/resources/logpush/subresources/ownership/methods/create)
 
-**post** `/{accounts_or_zones}/{account_or_zone_id}/logpush/ownership`
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/ownership
 
-Gets a new ownership challenge sent to your destination.
+##### [Validate ownership challenge](https://developers.cloudflare.com/api/resources/logpush/subresources/ownership/methods/validate)
 
-### Path Parameters
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/ownership/validate
 
-- `account_id: optional string`
+##### ModelsExpand Collapse
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<details>
 
-- `zone_id: optional string`
+<summary>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+OwnershipValidation object {valid }
 
-### Body Parameters
+</summary>
 
-- `destination_conf: string`
+valid: optional boolean
 
-  Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20logpush.ownership%20%3E%20(model)%20ownership_validation%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+OwnershipCreateResponse object {filename, message, valid }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+filename: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+message: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+valid: optional boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { filename, message, valid }`
-
-  - `filename: optional string`
-
-  - `message: optional string`
-
-  - `valid: optional boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/ownership \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "destination_conf": "s3://mybucket/logs?region=us-west-2"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "filename": "logs/challenge-filename.txt",
-    "message": "",
-    "valid": true
-  }
-}
-```
-
-## Validate ownership challenge
-
-**post** `/{accounts_or_zones}/{account_or_zone_id}/logpush/ownership/validate`
-
-Validates ownership challenge of the destination.
-
-### Path Parameters
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Body Parameters
-
-- `destination_conf: string`
-
-  Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
-
-- `ownership_challenge: string`
-
-  Ownership challenge token to prove destination ownership.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional OwnershipValidation`
-
-  - `valid: optional boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/ownership/validate \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "destination_conf": "s3://mybucket/logs?region=us-west-2",
-          "ownership_challenge": "00000000000000000000"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "valid": true
-  }
-}
-```
-
-## Domain Types
-
-### Ownership Validation
-
-- `OwnershipValidation object { valid }`
-
-  - `valid: optional boolean`
-
-### Ownership Create Response
-
-- `OwnershipCreateResponse object { filename, message, valid }`
-
-  - `filename: optional string`
-
-  - `message: optional string`
-
-  - `valid: optional boolean`
+[Link to this property](#)%20logpush.ownership%20%3E%20(model)%20ownership_create_response%20%3E%20(schema)>)

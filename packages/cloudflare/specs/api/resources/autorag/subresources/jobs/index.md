@@ -1,274 +1,175 @@
+---
+title: Jobs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AutoRAG](https://developers.cloudflare.com/api/resources/autorag)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Jobs
 
-## List Jobs
+##### [List Jobs](https://developers.cloudflare.com/api/resources/autorag/subresources/jobs/methods/list)
 
-**get** `/accounts/{account_id}/autorag/rags/{id}/jobs`
+Deprecated
 
-List Jobs
+GET/accounts/{account\_id}/autorag/rags/{id}/jobs
 
-### Path Parameters
+##### [Get a Job Details](https://developers.cloudflare.com/api/resources/autorag/subresources/jobs/methods/get)
 
-- `account_id: string`
+Deprecated
 
-- `id: string`
+GET/accounts/{account\_id}/autorag/rags/{id}/jobs/{job\_id}
 
-  rag id
+##### [List Job Logs](https://developers.cloudflare.com/api/resources/autorag/subresources/jobs/methods/logs)
 
-### Query Parameters
+Deprecated
 
-- `page: optional number`
+GET/accounts/{account\_id}/autorag/rags/{id}/jobs/{job\_id}/logs
 
-- `per_page: optional number`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `result: array of object { id, source, end_reason, 3 more }`
+<summary>
 
-  - `id: string`
+JobListResponse object {id, source, end\_reason, 3 more }
 
-  - `source: "user" or "schedule"`
+</summary>
 
-    - `"user"`
+id: string
 
-    - `"schedule"`
+<a href="#">Link to this property</a>
 
-  - `end_reason: optional string`
+<details>
 
-  - `ended_at: optional string`
+<summary>
 
-  - `last_seen_at: optional string`
+source: "user"or "schedule"
 
-  - `started_at: optional string`
+</summary>
 
-- `result_info: object { count, page, per_page, total_count }`
+One of the following:
 
-  - `count: number`
+"user"
 
-  - `page: number`
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+"schedule"
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/jobs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+end\_reason: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "id": "id",
-      "source": "user",
-      "end_reason": "end_reason",
-      "ended_at": "ended_at",
-      "last_seen_at": "last_seen_at",
-      "started_at": "started_at"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+ended\_at: optional string
 
-## Get a Job Details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/autorag/rags/{id}/jobs/{job_id}`
+last\_seen\_at: optional string
 
-Get a Job Details
+<a href="#">Link to this property</a>
 
-### Path Parameters
+started\_at: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+</details>
 
-  rag id
+[Link to this property](#)%20autorag.jobs%20%3E%20(model)%20job_list_response%20%3E%20(schema)>)
 
-- `job_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `result: object { id, source, end_reason, 3 more }`
+JobGetResponse object {id, source, end\_reason, 3 more }
 
-  - `id: string`
+</summary>
 
-  - `source: "user" or "schedule"`
+id: string
 
-    - `"user"`
+<a href="#">Link to this property</a>
 
-    - `"schedule"`
+<details>
 
-  - `end_reason: optional string`
+<summary>
 
-  - `ended_at: optional string`
+source: "user"or "schedule"
 
-  - `last_seen_at: optional string`
+</summary>
 
-  - `started_at: optional string`
+One of the following:
 
-- `success: boolean`
+"user"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/jobs/$JOB_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"schedule"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "id",
-    "source": "user",
-    "end_reason": "end_reason",
-    "ended_at": "ended_at",
-    "last_seen_at": "last_seen_at",
-    "started_at": "started_at"
-  },
-  "success": true
-}
-```
+</details>
 
-## List Job Logs
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/autorag/rags/{id}/jobs/{job_id}/logs`
+end\_reason: optional string
 
-List Job Logs
+<a href="#">Link to this property</a>
 
-### Path Parameters
+ended\_at: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+last\_seen\_at: optional string
 
-  rag id
+<a href="#">Link to this property</a>
 
-- `job_id: string`
+started\_at: optional string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+</details>
 
-- `per_page: optional number`
+[Link to this property](#)%20autorag.jobs%20%3E%20(model)%20job_get_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `result: array of object { id, created_at, message, message_type }`
+<summary>
 
-  - `id: number`
+JobLogsResponse = array of object {id, created\_at, message, message\_type }
 
-  - `created_at: number`
+</summary>
 
-  - `message: string`
+id: number
 
-  - `message_type: number`
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, total_count }`
+created\_at: number
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+message: string
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+message\_type: number
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/autorag/rags/$ID/jobs/$JOB_ID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "id": 0,
-      "created_at": 0,
-      "message": "message",
-      "message_type": 0
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Job List Response
-
-- `JobListResponse object { id, source, end_reason, 3 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-### Job Get Response
-
-- `JobGetResponse object { id, source, end_reason, 3 more }`
-
-  - `id: string`
-
-  - `source: "user" or "schedule"`
-
-    - `"user"`
-
-    - `"schedule"`
-
-  - `end_reason: optional string`
-
-  - `ended_at: optional string`
-
-  - `last_seen_at: optional string`
-
-  - `started_at: optional string`
-
-### Job Logs Response
-
-- `JobLogsResponse = array of object { id, created_at, message, message_type }`
-
-  - `id: number`
-
-  - `created_at: number`
-
-  - `message: string`
-
-  - `message_type: number`
+[Link to this property](#)%20autorag.jobs%20%3E%20(model)%20job_logs_response%20%3E%20(schema)>)

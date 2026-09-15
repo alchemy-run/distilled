@@ -1,109 +1,342 @@
-## List Zaraz historical configuration records
+---
+title: List Zaraz historical configuration records
+---
 
-**get** `/zones/{zone_id}/settings/zaraz/history`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zaraz](https://developers.cloudflare.com/api/resources/zaraz)
+
+[History](https://developers.cloudflare.com/api/resources/zaraz/subresources/history)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Zaraz historical configuration records
+
+GET/zones/{zone\_id}/settings/zaraz/history
 
 Lists a history of published Zaraz configuration records for a zone.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `limit: optional number`
 
-  Maximum amount of results to list. Default value is 10.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `offset: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Ordinal number to start listing the results with. Default value is 0.
+</details>
 
-- `sortField: optional "id" or "user_id" or "description" or 2 more`
+<details>
 
-  The field to sort by. Default is updated_at.
+<summary>API Email + API Key</summary>
 
-  - `"id"`
 
-  - `"user_id"`
 
-  - `"description"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"created_at"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"updated_at"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `sortOrder: optional "DESC" or "ASC"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Sorting order. Default is DESC.
+</details>
 
-  - `"DESC"`
+##### Accepted Permissions (at least one required)
 
-  - `"ASC"`
+`Zaraz Edit``Zaraz Read``Zaraz Admin`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+zone\_id: string
 
-  - `code: number`
+Identifier.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Q uery ParametersExpand Collapse
 
-    - `pointer: optional string`
+limit: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+Maximum amount of results to list. Default value is 10.
 
-  - `code: number`
+minimum1
 
-  - `message: string`
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+offset: optional number
 
-  - `source: optional object { pointer }`
+Ordinal number to start listing the results with. Default value is 0.
 
-    - `pointer: optional string`
+minimum0
 
-- `result: array of object { id, createdAt, description, 2 more }`
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-  - `id: number`
+<details>
 
-    ID of the configuration.
+<summary>
 
-  - `createdAt: string`
+sortField: optional "id"or "user\_id"or "description"or 2 more
 
-    Date and time the configuration was created.
+The field to sort by. Default is updated\_at.
 
-  - `description: string`
+</summary>
 
-    Configuration description provided by the user who published this configuration.
+One of the following:
 
-  - `updatedAt: string`
+"id"
 
-    Date and time the configuration was last updated.
+<a href="#">Link to this property</a>
 
-  - `userId: string`
+"user\_id"
 
-    Alpha-numeric ID of the account user who published the configuration.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"description"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-### Example
+"created\_at"
 
-```http
+<a href="#">Link to this property</a>
+
+"updated\_at"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sortField%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+sortOrder: optional "DESC"or "ASC"
+
+Sorting order. Default is DESC.
+
+</summary>
+
+One of the following:
+
+"DESC"
+
+<a href="#">Link to this property</a>
+
+"ASC"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sortOrder%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {id, createdAt, description, 2 more }
+
+</summary>
+
+id: number
+
+ID of the configuration.
+
+<a href="#">Link to this property</a>
+
+createdAt: string
+
+Date and time the configuration was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: string
+
+Configuration description provided by the user who published this configuration.
+
+<a href="#">Link to this property</a>
+
+updatedAt: string
+
+Date and time the configuration was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+userId: string
+
+Alpha-numeric ID of the account user who published the configuration.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zaraz.history%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Zaraz historical configuration records
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/zaraz/history \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": 0,
+      "createdAt": "2019-12-27T18:11:19.117Z",
+      "description": "description",
+      "updatedAt": "2019-12-27T18:11:19.117Z",
+      "userId": "userId"
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,34 +1,92 @@
-## Adds a tag to an event
+---
+title: Adds a tag to an event
+---
 
-**post** `/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}/create`
+[Skip to content](#_top)
 
-Adds a tag to an event
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
 
-  Account ID.
+[Event Tags](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/event_tags)
 
-- `event_id: string`
+Copy Markdown
 
-  Event UUID.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `tags: array of string`
+**Copy Markdown****View as Markdown**
 
-### Returns
+# Adds a tag to an event
 
-- `result: object { success }`
+POST/accounts/{account\_id}/cloudforce-one/events/event\_tag/{event\_id}/create
 
-  - `success: boolean`
+Adds a tag to a threat event in Cloudforce One for classification and filtering.
 
-- `success: boolean`
+##### Security
 
-### Example
+API Token
 
-```http
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
+
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
+
+##### Accepted Permissions (at least one required)
+
+`Cloudforce One Write``Cloudforce One Read`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account ID.
+
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+event\_id: string
+
+Event UUID.
+
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20event_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+tags: array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20tags%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {success }
+
+</summary>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20cloudforce_one.threat_events.event_tags%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Adds a tag to an event
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/event_tag/$EVENT_ID/create \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -39,9 +97,22 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/ev
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "success": true
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "success": true

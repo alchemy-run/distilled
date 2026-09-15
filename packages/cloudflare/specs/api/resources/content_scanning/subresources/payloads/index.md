@@ -1,343 +1,149 @@
+---
+title: Payloads
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Content Scanning](https://developers.cloudflare.com/api/resources/content_scanning)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Payloads
 
-## List Existing Custom Scan Expressions
+##### [List the Content Scanning custom expressions of a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/payloads/methods/list)
 
-**get** `/zones/{zone_id}/content-upload-scan/payloads`
+GET/zones/{zone\_id}/content-upload-scan/payloads
 
-Get a list of existing custom scan expressions for Content Scanning.
+##### [Create Content Scanning custom expressions for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/payloads/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/content-upload-scan/payloads
 
-- `zone_id: string`
+##### [Delete a Content Scanning custom expression from a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/payloads/methods/delete)
 
-  Defines an identifier.
+DELETE/zones/{zone\_id}/content-upload-scan/payloads/{expression\_id}
 
-### Returns
+##### [Update a Content Scanning custom expression for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/payloads/methods/update)
 
-- `errors: array of ResponseInfo`
+PATCH/zones/{zone\_id}/content-upload-scan/payloads/{expression\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+PayloadListResponse object {id, payload }
 
-    - `pointer: optional string`
+Defines a Content Scanning custom expression.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+Defines the unique ID for this Content Scanning custom expression.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, payload }`
+payload: optional string
 
-  - `id: optional string`
+Defines the custom content extraction expression used to reach content objects in the request.
 
-    defines the unique ID for this custom scan expression.
+<a href="#">Link to this property</a>
 
-  - `payload: optional string`
+</details>
 
-    Defines the ruleset expression to use in matching content objects.
+[Link to this property](#)%20content_scanning.payloads%20%3E%20(model)%20payload_list_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+PayloadCreateResponse object {id, payload }
 
-### Example
+Defines a Content Scanning custom expression.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/payloads \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a350a054caa840c9becd89c3b4f0195b",
-      "payload": "lookup_json_string(http.request.body.raw, \"file\")"
-    }
-  ],
-  "success": true
-}
-```
+Defines the unique ID for this Content Scanning custom expression.
 
-## Add Custom Scan Expressions
+maxLength32
 
-**post** `/zones/{zone_id}/content-upload-scan/payloads`
+<a href="#">Link to this property</a>
 
-Add custom scan expressions for Content Scanning.
+payload: optional string
 
-### Path Parameters
+Defines the custom content extraction expression used to reach content objects in the request.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Defines an identifier.
+</details>
 
-### Body Parameters
+[Link to this property](#)%20content_scanning.payloads%20%3E%20(model)%20payload_create_response%20%3E%20(schema)>)
 
-- `body: array of object { payload }`
+<details>
 
-  - `payload: string`
+<summary>
 
-    Defines the ruleset expression to use in matching content objects.
+PayloadDeleteResponse object {id, payload }
 
-### Returns
+Defines a Content Scanning custom expression.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+Defines the unique ID for this Content Scanning custom expression.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+payload: optional string
 
-- `messages: array of ResponseInfo`
+Defines the custom content extraction expression used to reach content objects in the request.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20content_scanning.payloads%20%3E%20(model)%20payload_delete_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: array of object { id, payload }`
+<summary>
 
-  - `id: optional string`
+PayloadUpdateResponse object {id, payload }
 
-    defines the unique ID for this custom scan expression.
+Defines a Content Scanning custom expression.
 
-  - `payload: optional string`
+</summary>
 
-    Defines the ruleset expression to use in matching content objects.
+id: optional string
 
-- `success: true`
+Defines the unique ID for this Content Scanning custom expression.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+payload: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/payloads \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "payload": "lookup_json_string(http.request.body.raw, \\"file\\")"
-          }
-        ]'
-```
+Defines the custom content extraction expression used to reach content objects in the request.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a350a054caa840c9becd89c3b4f0195b",
-      "payload": "lookup_json_string(http.request.body.raw, \"file\")"
-    }
-  ],
-  "success": true
-}
-```
+</details>
 
-## Delete a Custom Scan Expression
-
-**delete** `/zones/{zone_id}/content-upload-scan/payloads/{expression_id}`
-
-Delete a Content Scan Custom Expression.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `expression_id: string`
-
-  defines the unique ID for this custom scan expression.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id, payload }`
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/payloads/$EXPRESSION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a350a054caa840c9becd89c3b4f0195b",
-      "payload": "lookup_json_string(http.request.body.raw, \"file\")"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Payload List Response
-
-- `PayloadListResponse object { id, payload }`
-
-  Defines a custom scan expression to match Content Scanning on.
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-### Payload Create Response
-
-- `PayloadCreateResponse object { id, payload }`
-
-  Defines a custom scan expression to match Content Scanning on.
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-### Payload Delete Response
-
-- `PayloadDeleteResponse object { id, payload }`
-
-  Defines a custom scan expression to match Content Scanning on.
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
+[Link to this property](#)%20content_scanning.payloads%20%3E%20(model)%20payload_update_response%20%3E%20(schema)>)

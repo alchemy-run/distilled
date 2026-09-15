@@ -1,2126 +1,587 @@
+---
+title: Jobs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Logpush](https://developers.cloudflare.com/api/resources/logpush)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Jobs
 
-## List Logpush jobs
+##### [List Logpush jobs](https://developers.cloudflare.com/api/resources/logpush/subresources/jobs/methods/list)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/logpush/jobs`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/jobs
 
-Lists Logpush jobs for an account or zone.
+##### [Get Logpush job details](https://developers.cloudflare.com/api/resources/logpush/subresources/jobs/methods/get)
 
-### Path Parameters
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/jobs/{job\_id}
 
-- `account_id: optional string`
+##### [Create Logpush job](https://developers.cloudflare.com/api/resources/logpush/subresources/jobs/methods/create)
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/jobs
 
-- `zone_id: optional string`
+##### [Update Logpush job](https://developers.cloudflare.com/api/resources/logpush/subresources/jobs/methods/update)
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+PUT/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/jobs/{job\_id}
 
-### Returns
+##### [Delete Logpush job](https://developers.cloudflare.com/api/resources/logpush/subresources/jobs/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/{accounts\_or\_zones}/{account\_or\_zone\_id}/logpush/jobs/{job\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+LogpushJob object {id, dataset, destination\_conf, 13 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: optional number
 
-  - `code: number`
+Unique id of the job.
 
-  - `message: string`
+minimum1
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+dataset: optional "access\_requests"or "account\_abuse\_protection\_events"or "audit\_logs"or 34 more
 
-  Whether the API call was successful.
+Name of the dataset. A list of supported datasets can be found on the <a href="https://developers.cloudflare.com/logs/reference/log-fields/">Developer Docs</a>.
 
-  - `true`
+</summary>
 
-- `result: optional array of LogpushJob`
+One of the following:
 
-  - `id: optional number`
+"access\_requests"
 
-    Unique id of the job.
+<a href="#">Link to this property</a>
 
-  - `dataset: optional "access_requests" or "audit_logs" or "audit_logs_v2" or 32 more`
+"account\_abuse\_protection\_events"
 
-    Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
+<a href="#">Link to this property</a>
 
-    - `"access_requests"`
+"audit\_logs"
 
-    - `"audit_logs"`
+<a href="#">Link to this property</a>
 
-    - `"audit_logs_v2"`
+"audit\_logs\_v2"
 
-    - `"biso_user_actions"`
+<a href="#">Link to this property</a>
 
-    - `"casb_findings"`
+"biso\_user\_actions"
 
-    - `"device_posture_results"`
+<a href="#">Link to this property</a>
 
-    - `"dex_application_tests"`
+"casb\_findings"
 
-    - `"dex_device_state_events"`
+<a href="#">Link to this property</a>
 
-    - `"dlp_forensic_copies"`
+"device\_posture\_results"
 
-    - `"dns_firewall_logs"`
+<a href="#">Link to this property</a>
 
-    - `"dns_logs"`
+"dex\_application\_tests"
 
-    - `"email_security_alerts"`
+<a href="#">Link to this property</a>
 
-    - `"email_security_post_delivery_events"`
+"dex\_device\_state\_events"
 
-    - `"firewall_events"`
+<a href="#">Link to this property</a>
 
-    - `"gateway_dns"`
+"dlp\_forensic\_copies"
 
-    - `"gateway_http"`
+<a href="#">Link to this property</a>
 
-    - `"gateway_network"`
+"dns\_firewall\_logs"
 
-    - `"http_requests"`
+<a href="#">Link to this property</a>
 
-    - `"ipsec_logs"`
+"dns\_logs"
 
-    - `"magic_ids_detections"`
+<a href="#">Link to this property</a>
 
-    - `"mcp_portal_logs"`
+"email\_security\_alerts"
 
-    - `"mnm_flow_logs"`
+<a href="#">Link to this property</a>
 
-    - `"nel_reports"`
+"email\_security\_post\_delivery\_events"
 
-    - `"network_analytics_logs"`
+<a href="#">Link to this property</a>
 
-    - `"page_shield_events"`
+"firewall\_events"
 
-    - `"sinkhole_http_logs"`
+<a href="#">Link to this property</a>
 
-    - `"spectrum_events"`
+"gateway\_dns"
 
-    - `"ssh_logs"`
+<a href="#">Link to this property</a>
 
-    - `"turnstile_events"`
+"gateway\_http"
 
-    - `"warp_config_changes"`
+<a href="#">Link to this property</a>
 
-    - `"warp_toggle_changes"`
+"gateway\_network"
 
-    - `"websocket_analytics"`
+<a href="#">Link to this property</a>
 
-    - `"workers_trace_events"`
+"http\_requests"
 
-    - `"zaraz_events"`
+<a href="#">Link to this property</a>
 
-    - `"zero_trust_network_sessions"`
+"ipsec\_logs"
 
-  - `destination_conf: optional string`
+<a href="#">Link to this property</a>
 
-    Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
+"magic\_bgp\_logs"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Flag that indicates if the job is enabled.
+"magic\_ids\_detections"
 
-  - `error_message: optional string`
+<a href="#">Link to this property</a>
 
-    If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null.
+"mcp\_portal\_logs"
 
-  - `frequency: optional "high" or "low"`
+<a href="#">Link to this property</a>
 
-    This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.
+"mnm\_flow\_logs"
 
-    - `"high"`
+<a href="#">Link to this property</a>
 
-    - `"low"`
+"nel\_reports"
 
-  - `kind: optional "" or "edge"`
+<a href="#">Link to this property</a>
 
-    The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
+"network\_analytics\_logs"
 
-    - `""`
+<a href="#">Link to this property</a>
 
-    - `"edge"`
+"page\_shield\_events"
 
-  - `last_complete: optional string`
+<a href="#">Link to this property</a>
 
-    Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty.
+"sinkhole\_http\_logs"
 
-  - `last_error: optional string`
+<a href="#">Link to this property</a>
 
-    Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field.
+"spectrum\_events"
 
-  - `logpull_options: optional string`
+<a href="#">Link to this property</a>
 
-    This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
+"ssh\_logs"
 
-  - `max_upload_bytes: optional 0 or number`
+<a href="#">Link to this property</a>
 
-    The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
+"turnstile\_events"
 
-    - `0`
+<a href="#">Link to this property</a>
 
-      The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
+"warp\_config\_changes"
 
-      - `0`
+<a href="#">Link to this property</a>
 
-    - `number`
+"warp\_toggle\_changes"
 
-  - `max_upload_interval_seconds: optional 0 or number`
+<a href="#">Link to this property</a>
 
-    The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
+"websocket\_analytics"
 
-    - `0`
+<a href="#">Link to this property</a>
 
-      The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
+"workers\_trace\_events"
 
-      - `0`
+<a href="#">Link to this property</a>
 
-    - `number`
+"zaraz\_events"
 
-  - `max_upload_records: optional 0 or number`
+<a href="#">Link to this property</a>
 
-    The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
+"zero\_trust\_network\_sessions"
 
-    - `0`
+<a href="#">Link to this property</a>
 
-      The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
+</details>
 
-      - `0`
+<a href="#">Link to this property</a>
 
-    - `number`
+destination\_conf: optional string
 
-  - `name: optional string`
+Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
 
-    Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.
+formaturi
 
-  - `output_options: optional OutputOptions`
+maxLength4096
 
-    The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored.
+<a href="#">Link to this property</a>
 
-    - `batch_prefix: optional string`
+enabled: optional boolean
 
-      String to be prepended before each batch.
+Flag that indicates if the job is enabled.
 
-    - `batch_suffix: optional string`
+<a href="#">Link to this property</a>
 
-      String to be appended after each batch.
+error\_message: optional string
 
-    - `"CVE-2021-44228": optional boolean`
+If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error\_message and last\_error are set to null.
 
-      If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.
+<a href="#">Link to this property</a>
 
-    - `field_delimiter: optional string`
+filter\_attack\_traffic: optional boolean
 
-      String to join fields. This field be ignored when `record_template` is set.
+When true, excludes DDoS attack traffic from logs. This option is supported for the <code>http_requests</code>, <code>firewall_events</code>, and <code>network_analytics_logs</code> datasets.
 
-    - `field_names: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
+<details>
 
-    - `merge_subrequests: optional boolean`
+<summary>
 
-      If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.
+Deprecatedfrequency: optional "high"or "low"
 
-    - `output_type: optional "ndjson" or "csv"`
+This field is deprecated. Please use <code>max_upload_*</code> parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.
 
-      Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
+</summary>
 
-      - `"ndjson"`
+One of the following:
 
-      - `"csv"`
+"high"
 
-    - `record_delimiter: optional string`
+<a href="#">Link to this property</a>
 
-      String to be inserted in-between the records as separator.
+"low"
 
-    - `record_prefix: optional string`
+<a href="#">Link to this property</a>
 
-      String to be prepended before each record.
+</details>
 
-    - `record_suffix: optional string`
+<a href="#">Link to this property</a>
 
-      String to be appended after each record.
+<details>
 
-    - `record_template: optional string`
+<summary>
 
-      String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.
+kind: optional ""or "edge"
 
-    - `sample_rate: optional number`
+The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
 
-      Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.
+</summary>
 
-    - `timestamp_format: optional "unixnano" or "unix" or "rfc3339" or 2 more`
+One of the following:
 
-      String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
+""
 
-      - `"unixnano"`
+<a href="#">Link to this property</a>
 
-      - `"unix"`
+"edge"
 
-      - `"rfc3339"`
+<a href="#">Link to this property</a>
 
-      - `"rfc3339ms"`
+</details>
 
-      - `"rfc3339ns"`
+<a href="#">Link to this property</a>
 
-### Example
+last\_complete: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/jobs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn’t run yet then the field will be empty.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": [
-    {
-      "dataset": "gateway_dns",
-      "destination_conf": "s3://mybucket/logs?region=us-west-2",
-      "enabled": false,
-      "error_message": null,
-      "filter": "{\"where\":{\"and\":[{\"key\":\"ClientRequestPath\",\"operator\":\"contains\",\"value\":\"/static\"},{\"key\":\"ClientRequestHost\",\"operator\":\"eq\",\"value\":\"example.com\"}]}}",
-      "id": 1,
-      "kind": "",
-      "last_complete": null,
-      "last_error": null,
-      "max_upload_bytes": 5000000,
-      "max_upload_interval_seconds": 30,
-      "max_upload_records": 1000,
-      "name": "example.com",
-      "output_options": {
-        "CVE-2021-44228": false,
-        "batch_prefix": "",
-        "batch_suffix": "",
-        "field_delimiter": ",",
-        "field_names": [
-          "Datetime",
-          "DstIP",
-          "SrcIP"
-        ],
-        "output_type": "ndjson",
-        "record_delimiter": "",
-        "record_prefix": "{",
-        "record_suffix": "}\n",
-        "sample_rate": 1,
-        "timestamp_format": "unixnano"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get Logpush job details
+last\_error: optional string
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/logpush/jobs/{job_id}`
+Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error\_message field.
 
-Gets the details of a Logpush job.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `job_id: number`
+Deprecatedlogpull\_options: optional string
 
-  Unique id of the job.
+This field is deprecated. Use <code>output_options</code> instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
 
-- `account_id: optional string`
+formaturi-reference
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+maxLength4096
 
-- `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+max\_upload\_bytes: optional 0or number
 
-  - `code: number`
+The maximum uncompressed file size of a batch of logs. This setting value must be between <code>5 MB</code> and <code>1 GB</code>, or <code>0</code> to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+0
 
-    - `pointer: optional string`
+The maximum uncompressed file size of a batch of logs. This setting value must be between <code>5 MB</code> and <code>1 GB</code>, or <code>0</code> to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+max\_upload\_interval\_seconds: optional 0or number
 
-  - `true`
+The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or <code>0</code> to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
 
-- `result: optional LogpushJob`
+</summary>
 
-  - `id: optional number`
+One of the following:
 
-    Unique id of the job.
+0
 
-  - `dataset: optional "access_requests" or "audit_logs" or "audit_logs_v2" or 32 more`
+The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or <code>0</code> to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
 
-    Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
+<a href="#">Link to this property</a>
 
-    - `"access_requests"`
+number
 
-    - `"audit_logs"`
+<a href="#">Link to this property</a>
 
-    - `"audit_logs_v2"`
+</details>
 
-    - `"biso_user_actions"`
+<a href="#">Link to this property</a>
 
-    - `"casb_findings"`
+<details>
 
-    - `"device_posture_results"`
+<summary>
 
-    - `"dex_application_tests"`
+max\_upload\_records: optional 0or number
 
-    - `"dex_device_state_events"`
+The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or <code>0</code> to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
 
-    - `"dlp_forensic_copies"`
+</summary>
 
-    - `"dns_firewall_logs"`
+One of the following:
 
-    - `"dns_logs"`
+0
 
-    - `"email_security_alerts"`
+The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or <code>0</code> to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
 
-    - `"email_security_post_delivery_events"`
+<a href="#">Link to this property</a>
 
-    - `"firewall_events"`
+number
 
-    - `"gateway_dns"`
+<a href="#">Link to this property</a>
 
-    - `"gateway_http"`
+</details>
 
-    - `"gateway_network"`
+<a href="#">Link to this property</a>
 
-    - `"http_requests"`
+name: optional string
 
-    - `"ipsec_logs"`
+Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.
 
-    - `"magic_ids_detections"`
+maxLength512
 
-    - `"mcp_portal_logs"`
+<a href="#">Link to this property</a>
 
-    - `"mnm_flow_logs"`
+output\_options: optional <a href="https://developers.cloudflare.com/api/resources/logpush#(resource)%20logpush.jobs%20%3E%20(model)%20output_options%20%3E%20(schema)">OutputOptions</a> { batch\_prefix, batch\_suffix, CVE-2021-44228, 10 more }
 
-    - `"nel_reports"`
+The structured replacement for <code>logpull_options</code>. When including this field, the <code>logpull_option</code> field will be ignored.
 
-    - `"network_analytics_logs"`
+<a href="#">Link to this property</a>
 
-    - `"page_shield_events"`
+</details>
 
-    - `"sinkhole_http_logs"`
+[Link to this property](#)%20logpush.jobs%20%3E%20(model)%20logpush_job%20%3E%20(schema)>)
 
-    - `"spectrum_events"`
+<details>
 
-    - `"ssh_logs"`
+<summary>
 
-    - `"turnstile_events"`
+OutputOptions object {batch\_prefix, batch\_suffix, "CVE-2021-44228", 10 more }
 
-    - `"warp_config_changes"`
+The structured replacement for <code>logpull_options</code>. When including this field, the <code>logpull_option</code> field will be ignored.
 
-    - `"warp_toggle_changes"`
+</summary>
 
-    - `"websocket_analytics"`
+batch\_prefix: optional string
 
-    - `"workers_trace_events"`
+String to be prepended before each batch.
 
-    - `"zaraz_events"`
+<a href="#">Link to this property</a>
 
-    - `"zero_trust_network_sessions"`
+batch\_suffix: optional string
 
-  - `destination_conf: optional string`
+String to be appended after each batch.
 
-    Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+"CVE-2021-44228": optional boolean
 
-    Flag that indicates if the job is enabled.
+If set to true, will cause all occurrences of <code>${</code> in the generated files to be replaced with <code>x{</code>.
 
-  - `error_message: optional string`
+<a href="#">Link to this property</a>
 
-    If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null.
+field\_delimiter: optional string
 
-  - `frequency: optional "high" or "low"`
+String to join fields. This field be ignored when <code>record_template</code> is set.
 
-    This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.
+<a href="#">Link to this property</a>
 
-    - `"high"`
+field\_names: optional array of string
 
-    - `"low"`
+List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
 
-  - `kind: optional "" or "edge"`
+<a href="#">Link to this property</a>
 
-    The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
+merge\_subrequests: optional boolean
 
-    - `""`
+If set to true, subrequests will be merged into the parent request. Only supported for the <code>http_requests</code> dataset.
 
-    - `"edge"`
+<a href="#">Link to this property</a>
 
-  - `last_complete: optional string`
+<details>
 
-    Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty.
+<summary>
 
-  - `last_error: optional string`
+output\_type: optional "ndjson"or "csv"
 
-    Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field.
+Specifies the output type, such as <code>ndjson</code> or <code>csv</code>. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
 
-  - `logpull_options: optional string`
+</summary>
 
-    This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
+One of the following:
 
-  - `max_upload_bytes: optional 0 or number`
+"ndjson"
 
-    The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
+<a href="#">Link to this property</a>
 
-    - `0`
+"csv"
 
-      The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
+<a href="#">Link to this property</a>
 
-      - `0`
+</details>
 
-    - `number`
+<a href="#">Link to this property</a>
 
-  - `max_upload_interval_seconds: optional 0 or number`
+record\_delimiter: optional string
 
-    The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
+String to be inserted in-between the records as separator.
 
-    - `0`
+<a href="#">Link to this property</a>
 
-      The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
+record\_prefix: optional string
 
-      - `0`
+String to be prepended before each record.
 
-    - `number`
+<a href="#">Link to this property</a>
 
-  - `max_upload_records: optional 0 or number`
+record\_suffix: optional string
 
-    The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
+String to be appended after each record.
 
-    - `0`
+<a href="#">Link to this property</a>
 
-      The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
+record\_template: optional string
 
-      - `0`
+String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in <code>field_names</code> as well, otherwise they will end up as null. Format as a Go <code>text/template</code> without any standard functions, like conditionals, loops, sub-templates, etc.
 
-    - `number`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+sample\_rate: optional number
 
-    Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.
+Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current <code>sample_interval</code> of the data.
 
-  - `output_options: optional OutputOptions`
+formatfloat
 
-    The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored.
+exclusiveMinimum
 
-    - `batch_prefix: optional string`
+maximum1
 
-      String to be prepended before each batch.
+minimum0
 
-    - `batch_suffix: optional string`
+<a href="#">Link to this property</a>
 
-      String to be appended after each batch.
+<details>
 
-    - `"CVE-2021-44228": optional boolean`
+<summary>
 
-      If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.
+timestamp\_format: optional "unixnano"or "unix"or "rfc3339"or 2 more
 
-    - `field_delimiter: optional string`
+String to specify the format for timestamps, such as <code>unixnano</code>, <code>unix</code>, <code>rfc3339</code>, <code>rfc3339ms</code> or <code>rfc3339ns</code>.
 
-      String to join fields. This field be ignored when `record_template` is set.
+</summary>
 
-    - `field_names: optional array of string`
+One of the following:
 
-      List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
+"unixnano"
 
-    - `merge_subrequests: optional boolean`
+<a href="#">Link to this property</a>
 
-      If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.
+"unix"
 
-    - `output_type: optional "ndjson" or "csv"`
+<a href="#">Link to this property</a>
 
-      Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
+"rfc3339"
 
-      - `"ndjson"`
+<a href="#">Link to this property</a>
 
-      - `"csv"`
+"rfc3339ms"
 
-    - `record_delimiter: optional string`
+<a href="#">Link to this property</a>
 
-      String to be inserted in-between the records as separator.
+"rfc3339ns"
 
-    - `record_prefix: optional string`
+<a href="#">Link to this property</a>
 
-      String to be prepended before each record.
+</details>
 
-    - `record_suffix: optional string`
+<a href="#">Link to this property</a>
 
-      String to be appended after each record.
+</details>
 
-    - `record_template: optional string`
+[Link to this property](#)%20logpush.jobs%20%3E%20(model)%20output_options%20%3E%20(schema)>)
 
-      String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.
+<details>
 
-    - `sample_rate: optional number`
+<summary>
 
-      Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.
+JobDeleteResponse object {id }
 
-    - `timestamp_format: optional "unixnano" or "unix" or "rfc3339" or 2 more`
+</summary>
 
-      String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
+id: optional number
 
-      - `"unixnano"`
+Unique id of the job.
 
-      - `"unix"`
+minimum1
 
-      - `"rfc3339"`
+<a href="#">Link to this property</a>
 
-      - `"rfc3339ms"`
+</details>
 
-      - `"rfc3339ns"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/jobs/$JOB_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "dataset": "gateway_dns",
-    "destination_conf": "s3://mybucket/logs?region=us-west-2",
-    "enabled": false,
-    "error_message": null,
-    "filter": "{\"where\":{\"and\":[{\"key\":\"ClientRequestPath\",\"operator\":\"contains\",\"value\":\"/static\"},{\"key\":\"ClientRequestHost\",\"operator\":\"eq\",\"value\":\"example.com\"}]}}",
-    "id": 1,
-    "kind": "",
-    "last_complete": null,
-    "last_error": null,
-    "max_upload_bytes": 5000000,
-    "max_upload_interval_seconds": 30,
-    "max_upload_records": 1000,
-    "name": "example.com",
-    "output_options": {
-      "CVE-2021-44228": false,
-      "batch_prefix": "",
-      "batch_suffix": "",
-      "field_delimiter": ",",
-      "field_names": [
-        "Datetime",
-        "DstIP",
-        "SrcIP"
-      ],
-      "output_type": "ndjson",
-      "record_delimiter": "",
-      "record_prefix": "{",
-      "record_suffix": "}\n",
-      "sample_rate": 1,
-      "timestamp_format": "unixnano"
-    }
-  },
-  "success": true
-}
-```
-
-## Create Logpush job
-
-**post** `/{accounts_or_zones}/{account_or_zone_id}/logpush/jobs`
-
-Creates a new Logpush job for an account or zone.
-
-### Path Parameters
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Body Parameters
-
-- `destination_conf: string`
-
-  Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
-
-- `dataset: optional "access_requests" or "audit_logs" or "audit_logs_v2" or 32 more`
-
-  Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
-
-  - `"access_requests"`
-
-  - `"audit_logs"`
-
-  - `"audit_logs_v2"`
-
-  - `"biso_user_actions"`
-
-  - `"casb_findings"`
-
-  - `"device_posture_results"`
-
-  - `"dex_application_tests"`
-
-  - `"dex_device_state_events"`
-
-  - `"dlp_forensic_copies"`
-
-  - `"dns_firewall_logs"`
-
-  - `"dns_logs"`
-
-  - `"email_security_alerts"`
-
-  - `"email_security_post_delivery_events"`
-
-  - `"firewall_events"`
-
-  - `"gateway_dns"`
-
-  - `"gateway_http"`
-
-  - `"gateway_network"`
-
-  - `"http_requests"`
-
-  - `"ipsec_logs"`
-
-  - `"magic_ids_detections"`
-
-  - `"mcp_portal_logs"`
-
-  - `"mnm_flow_logs"`
-
-  - `"nel_reports"`
-
-  - `"network_analytics_logs"`
-
-  - `"page_shield_events"`
-
-  - `"sinkhole_http_logs"`
-
-  - `"spectrum_events"`
-
-  - `"ssh_logs"`
-
-  - `"turnstile_events"`
-
-  - `"warp_config_changes"`
-
-  - `"warp_toggle_changes"`
-
-  - `"websocket_analytics"`
-
-  - `"workers_trace_events"`
-
-  - `"zaraz_events"`
-
-  - `"zero_trust_network_sessions"`
-
-- `enabled: optional boolean`
-
-  Flag that indicates if the job is enabled.
-
-- `filter: optional string`
-
-  The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/).
-
-- `frequency: optional "high" or "low"`
-
-  This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.
-
-  - `"high"`
-
-  - `"low"`
-
-- `kind: optional "" or "edge"`
-
-  The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
-
-  - `""`
-
-  - `"edge"`
-
-- `logpull_options: optional string`
-
-  This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
-
-- `max_upload_bytes: optional 0 or number`
-
-  The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-  - `0`
-
-    The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-    - `0`
-
-  - `number`
-
-- `max_upload_interval_seconds: optional 0 or number`
-
-  The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-  - `0`
-
-    The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-    - `0`
-
-  - `number`
-
-- `max_upload_records: optional 0 or number`
-
-  The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-  - `0`
-
-    The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-    - `0`
-
-  - `number`
-
-- `name: optional string`
-
-  Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.
-
-- `output_options: optional OutputOptions`
-
-  The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored.
-
-  - `batch_prefix: optional string`
-
-    String to be prepended before each batch.
-
-  - `batch_suffix: optional string`
-
-    String to be appended after each batch.
-
-  - `"CVE-2021-44228": optional boolean`
-
-    If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.
-
-  - `field_delimiter: optional string`
-
-    String to join fields. This field be ignored when `record_template` is set.
-
-  - `field_names: optional array of string`
-
-    List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
-
-  - `merge_subrequests: optional boolean`
-
-    If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.
-
-  - `output_type: optional "ndjson" or "csv"`
-
-    Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
-
-    - `"ndjson"`
-
-    - `"csv"`
-
-  - `record_delimiter: optional string`
-
-    String to be inserted in-between the records as separator.
-
-  - `record_prefix: optional string`
-
-    String to be prepended before each record.
-
-  - `record_suffix: optional string`
-
-    String to be appended after each record.
-
-  - `record_template: optional string`
-
-    String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.
-
-  - `sample_rate: optional number`
-
-    Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.
-
-  - `timestamp_format: optional "unixnano" or "unix" or "rfc3339" or 2 more`
-
-    String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
-
-    - `"unixnano"`
-
-    - `"unix"`
-
-    - `"rfc3339"`
-
-    - `"rfc3339ms"`
-
-    - `"rfc3339ns"`
-
-- `ownership_challenge: optional string`
-
-  Ownership challenge token to prove destination ownership.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional LogpushJob`
-
-  - `id: optional number`
-
-    Unique id of the job.
-
-  - `dataset: optional "access_requests" or "audit_logs" or "audit_logs_v2" or 32 more`
-
-    Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
-
-    - `"access_requests"`
-
-    - `"audit_logs"`
-
-    - `"audit_logs_v2"`
-
-    - `"biso_user_actions"`
-
-    - `"casb_findings"`
-
-    - `"device_posture_results"`
-
-    - `"dex_application_tests"`
-
-    - `"dex_device_state_events"`
-
-    - `"dlp_forensic_copies"`
-
-    - `"dns_firewall_logs"`
-
-    - `"dns_logs"`
-
-    - `"email_security_alerts"`
-
-    - `"email_security_post_delivery_events"`
-
-    - `"firewall_events"`
-
-    - `"gateway_dns"`
-
-    - `"gateway_http"`
-
-    - `"gateway_network"`
-
-    - `"http_requests"`
-
-    - `"ipsec_logs"`
-
-    - `"magic_ids_detections"`
-
-    - `"mcp_portal_logs"`
-
-    - `"mnm_flow_logs"`
-
-    - `"nel_reports"`
-
-    - `"network_analytics_logs"`
-
-    - `"page_shield_events"`
-
-    - `"sinkhole_http_logs"`
-
-    - `"spectrum_events"`
-
-    - `"ssh_logs"`
-
-    - `"turnstile_events"`
-
-    - `"warp_config_changes"`
-
-    - `"warp_toggle_changes"`
-
-    - `"websocket_analytics"`
-
-    - `"workers_trace_events"`
-
-    - `"zaraz_events"`
-
-    - `"zero_trust_network_sessions"`
-
-  - `destination_conf: optional string`
-
-    Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
-
-  - `enabled: optional boolean`
-
-    Flag that indicates if the job is enabled.
-
-  - `error_message: optional string`
-
-    If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null.
-
-  - `frequency: optional "high" or "low"`
-
-    This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.
-
-    - `"high"`
-
-    - `"low"`
-
-  - `kind: optional "" or "edge"`
-
-    The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
-
-    - `""`
-
-    - `"edge"`
-
-  - `last_complete: optional string`
-
-    Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty.
-
-  - `last_error: optional string`
-
-    Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field.
-
-  - `logpull_options: optional string`
-
-    This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
-
-  - `max_upload_bytes: optional 0 or number`
-
-    The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-    - `0`
-
-      The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-      - `0`
-
-    - `number`
-
-  - `max_upload_interval_seconds: optional 0 or number`
-
-    The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-    - `0`
-
-      The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-      - `0`
-
-    - `number`
-
-  - `max_upload_records: optional 0 or number`
-
-    The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-    - `0`
-
-      The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-      - `0`
-
-    - `number`
-
-  - `name: optional string`
-
-    Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.
-
-  - `output_options: optional OutputOptions`
-
-    The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored.
-
-    - `batch_prefix: optional string`
-
-      String to be prepended before each batch.
-
-    - `batch_suffix: optional string`
-
-      String to be appended after each batch.
-
-    - `"CVE-2021-44228": optional boolean`
-
-      If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.
-
-    - `field_delimiter: optional string`
-
-      String to join fields. This field be ignored when `record_template` is set.
-
-    - `field_names: optional array of string`
-
-      List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
-
-    - `merge_subrequests: optional boolean`
-
-      If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.
-
-    - `output_type: optional "ndjson" or "csv"`
-
-      Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
-
-      - `"ndjson"`
-
-      - `"csv"`
-
-    - `record_delimiter: optional string`
-
-      String to be inserted in-between the records as separator.
-
-    - `record_prefix: optional string`
-
-      String to be prepended before each record.
-
-    - `record_suffix: optional string`
-
-      String to be appended after each record.
-
-    - `record_template: optional string`
-
-      String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.
-
-    - `sample_rate: optional number`
-
-      Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.
-
-    - `timestamp_format: optional "unixnano" or "unix" or "rfc3339" or 2 more`
-
-      String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
-
-      - `"unixnano"`
-
-      - `"unix"`
-
-      - `"rfc3339"`
-
-      - `"rfc3339ms"`
-
-      - `"rfc3339ns"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/jobs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "destination_conf": "s3://mybucket/logs?region=us-west-2",
-          "dataset": "gateway_dns",
-          "filter": "{\\"where\\":{\\"and\\":[{\\"key\\":\\"ClientRequestPath\\",\\"operator\\":\\"contains\\",\\"value\\":\\"/static\\"},{\\"key\\":\\"ClientRequestHost\\",\\"operator\\":\\"eq\\",\\"value\\":\\"example.com\\"}]}}",
-          "frequency": "high",
-          "logpull_options": "fields=RayID,ClientIP,EdgeStartTimestamp&timestamps=rfc3339",
-          "max_upload_bytes": 5000000,
-          "max_upload_interval_seconds": 30,
-          "max_upload_records": 1000,
-          "name": "example.com",
-          "ownership_challenge": "00000000000000000000"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "dataset": "gateway_dns",
-    "destination_conf": "s3://mybucket/logs?region=us-west-2",
-    "enabled": false,
-    "error_message": null,
-    "filter": "{\"where\":{\"and\":[{\"key\":\"ClientRequestPath\",\"operator\":\"contains\",\"value\":\"/static\"},{\"key\":\"ClientRequestHost\",\"operator\":\"eq\",\"value\":\"example.com\"}]}}",
-    "id": 1,
-    "kind": "",
-    "last_complete": null,
-    "last_error": null,
-    "max_upload_bytes": 5000000,
-    "max_upload_interval_seconds": 30,
-    "max_upload_records": 1000,
-    "name": "example.com",
-    "output_options": {
-      "CVE-2021-44228": false,
-      "batch_prefix": "",
-      "batch_suffix": "",
-      "field_delimiter": ",",
-      "field_names": [
-        "Datetime",
-        "DstIP",
-        "SrcIP"
-      ],
-      "output_type": "ndjson",
-      "record_delimiter": "",
-      "record_prefix": "{",
-      "record_suffix": "}\n",
-      "sample_rate": 1,
-      "timestamp_format": "unixnano"
-    }
-  },
-  "success": true
-}
-```
-
-## Update Logpush job
-
-**put** `/{accounts_or_zones}/{account_or_zone_id}/logpush/jobs/{job_id}`
-
-Updates a Logpush job.
-
-### Path Parameters
-
-- `job_id: number`
-
-  Unique id of the job.
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Body Parameters
-
-- `destination_conf: optional string`
-
-  Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
-
-- `enabled: optional boolean`
-
-  Flag that indicates if the job is enabled.
-
-- `filter: optional string`
-
-  The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/).
-
-- `frequency: optional "high" or "low"`
-
-  This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.
-
-  - `"high"`
-
-  - `"low"`
-
-- `kind: optional "" or "edge"`
-
-  The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
-
-  - `""`
-
-  - `"edge"`
-
-- `logpull_options: optional string`
-
-  This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
-
-- `max_upload_bytes: optional 0 or number`
-
-  The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-  - `0`
-
-    The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-    - `0`
-
-  - `number`
-
-- `max_upload_interval_seconds: optional 0 or number`
-
-  The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-  - `0`
-
-    The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-    - `0`
-
-  - `number`
-
-- `max_upload_records: optional 0 or number`
-
-  The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-  - `0`
-
-    The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-    - `0`
-
-  - `number`
-
-- `name: optional string`
-
-  Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.
-
-- `output_options: optional OutputOptions`
-
-  The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored.
-
-  - `batch_prefix: optional string`
-
-    String to be prepended before each batch.
-
-  - `batch_suffix: optional string`
-
-    String to be appended after each batch.
-
-  - `"CVE-2021-44228": optional boolean`
-
-    If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.
-
-  - `field_delimiter: optional string`
-
-    String to join fields. This field be ignored when `record_template` is set.
-
-  - `field_names: optional array of string`
-
-    List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
-
-  - `merge_subrequests: optional boolean`
-
-    If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.
-
-  - `output_type: optional "ndjson" or "csv"`
-
-    Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
-
-    - `"ndjson"`
-
-    - `"csv"`
-
-  - `record_delimiter: optional string`
-
-    String to be inserted in-between the records as separator.
-
-  - `record_prefix: optional string`
-
-    String to be prepended before each record.
-
-  - `record_suffix: optional string`
-
-    String to be appended after each record.
-
-  - `record_template: optional string`
-
-    String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.
-
-  - `sample_rate: optional number`
-
-    Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.
-
-  - `timestamp_format: optional "unixnano" or "unix" or "rfc3339" or 2 more`
-
-    String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
-
-    - `"unixnano"`
-
-    - `"unix"`
-
-    - `"rfc3339"`
-
-    - `"rfc3339ms"`
-
-    - `"rfc3339ns"`
-
-- `ownership_challenge: optional string`
-
-  Ownership challenge token to prove destination ownership.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional LogpushJob`
-
-  - `id: optional number`
-
-    Unique id of the job.
-
-  - `dataset: optional "access_requests" or "audit_logs" or "audit_logs_v2" or 32 more`
-
-    Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
-
-    - `"access_requests"`
-
-    - `"audit_logs"`
-
-    - `"audit_logs_v2"`
-
-    - `"biso_user_actions"`
-
-    - `"casb_findings"`
-
-    - `"device_posture_results"`
-
-    - `"dex_application_tests"`
-
-    - `"dex_device_state_events"`
-
-    - `"dlp_forensic_copies"`
-
-    - `"dns_firewall_logs"`
-
-    - `"dns_logs"`
-
-    - `"email_security_alerts"`
-
-    - `"email_security_post_delivery_events"`
-
-    - `"firewall_events"`
-
-    - `"gateway_dns"`
-
-    - `"gateway_http"`
-
-    - `"gateway_network"`
-
-    - `"http_requests"`
-
-    - `"ipsec_logs"`
-
-    - `"magic_ids_detections"`
-
-    - `"mcp_portal_logs"`
-
-    - `"mnm_flow_logs"`
-
-    - `"nel_reports"`
-
-    - `"network_analytics_logs"`
-
-    - `"page_shield_events"`
-
-    - `"sinkhole_http_logs"`
-
-    - `"spectrum_events"`
-
-    - `"ssh_logs"`
-
-    - `"turnstile_events"`
-
-    - `"warp_config_changes"`
-
-    - `"warp_toggle_changes"`
-
-    - `"websocket_analytics"`
-
-    - `"workers_trace_events"`
-
-    - `"zaraz_events"`
-
-    - `"zero_trust_network_sessions"`
-
-  - `destination_conf: optional string`
-
-    Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
-
-  - `enabled: optional boolean`
-
-    Flag that indicates if the job is enabled.
-
-  - `error_message: optional string`
-
-    If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null.
-
-  - `frequency: optional "high" or "low"`
-
-    This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.
-
-    - `"high"`
-
-    - `"low"`
-
-  - `kind: optional "" or "edge"`
-
-    The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
-
-    - `""`
-
-    - `"edge"`
-
-  - `last_complete: optional string`
-
-    Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty.
-
-  - `last_error: optional string`
-
-    Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field.
-
-  - `logpull_options: optional string`
-
-    This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
-
-  - `max_upload_bytes: optional 0 or number`
-
-    The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-    - `0`
-
-      The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-      - `0`
-
-    - `number`
-
-  - `max_upload_interval_seconds: optional 0 or number`
-
-    The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-    - `0`
-
-      The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-      - `0`
-
-    - `number`
-
-  - `max_upload_records: optional 0 or number`
-
-    The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-    - `0`
-
-      The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-      - `0`
-
-    - `number`
-
-  - `name: optional string`
-
-    Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.
-
-  - `output_options: optional OutputOptions`
-
-    The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored.
-
-    - `batch_prefix: optional string`
-
-      String to be prepended before each batch.
-
-    - `batch_suffix: optional string`
-
-      String to be appended after each batch.
-
-    - `"CVE-2021-44228": optional boolean`
-
-      If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.
-
-    - `field_delimiter: optional string`
-
-      String to join fields. This field be ignored when `record_template` is set.
-
-    - `field_names: optional array of string`
-
-      List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
-
-    - `merge_subrequests: optional boolean`
-
-      If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.
-
-    - `output_type: optional "ndjson" or "csv"`
-
-      Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
-
-      - `"ndjson"`
-
-      - `"csv"`
-
-    - `record_delimiter: optional string`
-
-      String to be inserted in-between the records as separator.
-
-    - `record_prefix: optional string`
-
-      String to be prepended before each record.
-
-    - `record_suffix: optional string`
-
-      String to be appended after each record.
-
-    - `record_template: optional string`
-
-      String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.
-
-    - `sample_rate: optional number`
-
-      Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.
-
-    - `timestamp_format: optional "unixnano" or "unix" or "rfc3339" or 2 more`
-
-      String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
-
-      - `"unixnano"`
-
-      - `"unix"`
-
-      - `"rfc3339"`
-
-      - `"rfc3339ms"`
-
-      - `"rfc3339ns"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/jobs/$JOB_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "destination_conf": "s3://mybucket/logs?region=us-west-2",
-          "filter": "{\\"where\\":{\\"and\\":[{\\"key\\":\\"ClientRequestPath\\",\\"operator\\":\\"contains\\",\\"value\\":\\"/static\\"},{\\"key\\":\\"ClientRequestHost\\",\\"operator\\":\\"eq\\",\\"value\\":\\"example.com\\"}]}}",
-          "frequency": "high",
-          "logpull_options": "fields=RayID,ClientIP,EdgeStartTimestamp&timestamps=rfc3339",
-          "max_upload_bytes": 5000000,
-          "max_upload_interval_seconds": 30,
-          "max_upload_records": 1000,
-          "name": "example.com",
-          "ownership_challenge": "00000000000000000000"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "dataset": "gateway_dns",
-    "destination_conf": "s3://mybucket/logs?region=us-west-2",
-    "enabled": false,
-    "error_message": null,
-    "filter": "{\"where\":{\"and\":[{\"key\":\"ClientRequestPath\",\"operator\":\"contains\",\"value\":\"/static\"},{\"key\":\"ClientRequestHost\",\"operator\":\"eq\",\"value\":\"example.com\"}]}}",
-    "id": 1,
-    "kind": "",
-    "last_complete": null,
-    "last_error": null,
-    "max_upload_bytes": 5000000,
-    "max_upload_interval_seconds": 30,
-    "max_upload_records": 1000,
-    "name": "example.com",
-    "output_options": {
-      "CVE-2021-44228": false,
-      "batch_prefix": "",
-      "batch_suffix": "",
-      "field_delimiter": ",",
-      "field_names": [
-        "Datetime",
-        "DstIP",
-        "SrcIP"
-      ],
-      "output_type": "ndjson",
-      "record_delimiter": "",
-      "record_prefix": "{",
-      "record_suffix": "}\n",
-      "sample_rate": 1,
-      "timestamp_format": "unixnano"
-    }
-  },
-  "success": true
-}
-```
-
-## Delete Logpush job
-
-**delete** `/{accounts_or_zones}/{account_or_zone_id}/logpush/jobs/{job_id}`
-
-Deletes a Logpush job.
-
-### Path Parameters
-
-- `job_id: number`
-
-  Unique id of the job.
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional number`
-
-    Unique id of the job.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/logpush/jobs/$JOB_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 1
-  }
-}
-```
-
-## Domain Types
-
-### Logpush Job
-
-- `LogpushJob object { id, dataset, destination_conf, 12 more }`
-
-  - `id: optional number`
-
-    Unique id of the job.
-
-  - `dataset: optional "access_requests" or "audit_logs" or "audit_logs_v2" or 32 more`
-
-    Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
-
-    - `"access_requests"`
-
-    - `"audit_logs"`
-
-    - `"audit_logs_v2"`
-
-    - `"biso_user_actions"`
-
-    - `"casb_findings"`
-
-    - `"device_posture_results"`
-
-    - `"dex_application_tests"`
-
-    - `"dex_device_state_events"`
-
-    - `"dlp_forensic_copies"`
-
-    - `"dns_firewall_logs"`
-
-    - `"dns_logs"`
-
-    - `"email_security_alerts"`
-
-    - `"email_security_post_delivery_events"`
-
-    - `"firewall_events"`
-
-    - `"gateway_dns"`
-
-    - `"gateway_http"`
-
-    - `"gateway_network"`
-
-    - `"http_requests"`
-
-    - `"ipsec_logs"`
-
-    - `"magic_ids_detections"`
-
-    - `"mcp_portal_logs"`
-
-    - `"mnm_flow_logs"`
-
-    - `"nel_reports"`
-
-    - `"network_analytics_logs"`
-
-    - `"page_shield_events"`
-
-    - `"sinkhole_http_logs"`
-
-    - `"spectrum_events"`
-
-    - `"ssh_logs"`
-
-    - `"turnstile_events"`
-
-    - `"warp_config_changes"`
-
-    - `"warp_toggle_changes"`
-
-    - `"websocket_analytics"`
-
-    - `"workers_trace_events"`
-
-    - `"zaraz_events"`
-
-    - `"zero_trust_network_sessions"`
-
-  - `destination_conf: optional string`
-
-    Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.
-
-  - `enabled: optional boolean`
-
-    Flag that indicates if the job is enabled.
-
-  - `error_message: optional string`
-
-    If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null.
-
-  - `frequency: optional "high" or "low"`
-
-    This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.
-
-    - `"high"`
-
-    - `"low"`
-
-  - `kind: optional "" or "edge"`
-
-    The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
-
-    - `""`
-
-    - `"edge"`
-
-  - `last_complete: optional string`
-
-    Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty.
-
-  - `last_error: optional string`
-
-    Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field.
-
-  - `logpull_options: optional string`
-
-    This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.
-
-  - `max_upload_bytes: optional 0 or number`
-
-    The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-    - `0`
-
-      The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.
-
-      - `0`
-
-    - `number`
-
-  - `max_upload_interval_seconds: optional 0 or number`
-
-    The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-    - `0`
-
-      The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.
-
-      - `0`
-
-    - `number`
-
-  - `max_upload_records: optional 0 or number`
-
-    The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-    - `0`
-
-      The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.
-
-      - `0`
-
-    - `number`
-
-  - `name: optional string`
-
-    Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.
-
-  - `output_options: optional OutputOptions`
-
-    The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored.
-
-    - `batch_prefix: optional string`
-
-      String to be prepended before each batch.
-
-    - `batch_suffix: optional string`
-
-      String to be appended after each batch.
-
-    - `"CVE-2021-44228": optional boolean`
-
-      If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.
-
-    - `field_delimiter: optional string`
-
-      String to join fields. This field be ignored when `record_template` is set.
-
-    - `field_names: optional array of string`
-
-      List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
-
-    - `merge_subrequests: optional boolean`
-
-      If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.
-
-    - `output_type: optional "ndjson" or "csv"`
-
-      Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
-
-      - `"ndjson"`
-
-      - `"csv"`
-
-    - `record_delimiter: optional string`
-
-      String to be inserted in-between the records as separator.
-
-    - `record_prefix: optional string`
-
-      String to be prepended before each record.
-
-    - `record_suffix: optional string`
-
-      String to be appended after each record.
-
-    - `record_template: optional string`
-
-      String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.
-
-    - `sample_rate: optional number`
-
-      Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.
-
-    - `timestamp_format: optional "unixnano" or "unix" or "rfc3339" or 2 more`
-
-      String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
-
-      - `"unixnano"`
-
-      - `"unix"`
-
-      - `"rfc3339"`
-
-      - `"rfc3339ms"`
-
-      - `"rfc3339ns"`
-
-### Output Options
-
-- `OutputOptions object { batch_prefix, batch_suffix, "CVE-2021-44228", 10 more }`
-
-  The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored.
-
-  - `batch_prefix: optional string`
-
-    String to be prepended before each batch.
-
-  - `batch_suffix: optional string`
-
-    String to be appended after each batch.
-
-  - `"CVE-2021-44228": optional boolean`
-
-    If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.
-
-  - `field_delimiter: optional string`
-
-    String to join fields. This field be ignored when `record_template` is set.
-
-  - `field_names: optional array of string`
-
-    List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.
-
-  - `merge_subrequests: optional boolean`
-
-    If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.
-
-  - `output_type: optional "ndjson" or "csv"`
-
-    Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.
-
-    - `"ndjson"`
-
-    - `"csv"`
-
-  - `record_delimiter: optional string`
-
-    String to be inserted in-between the records as separator.
-
-  - `record_prefix: optional string`
-
-    String to be prepended before each record.
-
-  - `record_suffix: optional string`
-
-    String to be appended after each record.
-
-  - `record_template: optional string`
-
-    String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.
-
-  - `sample_rate: optional number`
-
-    Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.
-
-  - `timestamp_format: optional "unixnano" or "unix" or "rfc3339" or 2 more`
-
-    String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
-
-    - `"unixnano"`
-
-    - `"unix"`
-
-    - `"rfc3339"`
-
-    - `"rfc3339ms"`
-
-    - `"rfc3339ns"`
-
-### Job Delete Response
-
-- `JobDeleteResponse object { id }`
-
-  - `id: optional number`
-
-    Unique id of the job.
+[Link to this property](#)%20logpush.jobs%20%3E%20(model)%20job_delete_response%20%3E%20(schema)>)

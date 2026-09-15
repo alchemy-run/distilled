@@ -1,277 +1,713 @@
-## Create Event Subscription
+---
+title: Create Event Subscription
+---
 
-**post** `/accounts/{account_id}/event_subscriptions/subscriptions`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Queues](https://developers.cloudflare.com/api/resources/queues)
+
+[Subscriptions](https://developers.cloudflare.com/api/resources/queues/subresources/subscriptions)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create Event Subscription
+
+POST/accounts/{account\_id}/event\_subscriptions/subscriptions
 
 Create a new event subscription for a queue
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  A Resource identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `destination: optional object { queue_id, type }`
 
-  Destination configuration for the subscription
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `queue_id: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    ID of the target queue
+</details>
 
-  - `type: "queues.queue"`
+<details>
 
-    Type of destination
+<summary>API Email + API Key</summary>
 
-    - `"queues.queue"`
 
-- `enabled: optional boolean`
 
-  Whether the subscription is active
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `events: optional array of string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  List of event types this subscription handles
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `name: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Name of the subscription
+</details>
 
-- `source: optional object { type }  or object { type }  or object { type }  or 5 more`
+##### Accepted Permissions (at least one required)
 
-  Source configuration for the subscription
+`Queues Write``Workers Scripts Write`
 
-  - `MqEventSourceImages object { type }`
+##### P ath ParametersExpand Collapse
 
-    - `type: optional "images"`
+account\_id: string
 
-      Type of source
+A Resource identifier.
 
-      - `"images"`
+maxLength32
 
-  - `MqEventSourceKV object { type }`
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `type: optional "kv"`
+##### Body ParametersJSONExpand Collapse
 
-      Type of source
+<details>
 
-      - `"kv"`
+<summary>
 
-  - `MqEventSourceR2 object { type }`
+destination: optional object {queue\_id, type }
 
-    - `type: optional "r2"`
+Destination configuration for the subscription
 
-      Type of source
+</summary>
 
-      - `"r2"`
+queue\_id: string
 
-  - `MqEventSourceSuperSlurper object { type }`
+ID of the target queue
 
-    - `type: optional "superSlurper"`
+<a href="#">Link to this property</a>
 
-      Type of source
+type: "queues.queue"
 
-      - `"superSlurper"`
+Type of destination
 
-  - `MqEventSourceVectorize object { type }`
+<a href="#">Link to this property</a>
 
-    - `type: optional "vectorize"`
+</details>
 
-      Type of source
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20destination%20%3E%20(schema)>)
 
-      - `"vectorize"`
+enabled: optional boolean
 
-  - `MqEventSourceWorkersAIModel object { model_name, type }`
+Whether the subscription is active
 
-    - `model_name: optional string`
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-      Name of the Workers AI model
+events: optional array of string
 
-    - `type: optional "workersAi.model"`
+List of event types this subscription handles
 
-      Type of source
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20events%20%3E%20(schema)>)
 
-      - `"workersAi.model"`
+name: optional string
 
-  - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
+Name of the subscription
 
-    - `type: optional "workersBuilds.worker"`
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      Type of source
+<details>
 
-      - `"workersBuilds.worker"`
+<summary>
 
-    - `worker_name: optional string`
+source: optional object {type } or object {type } or object {type } or 6 more
 
-      Name of the worker
+Source configuration for the subscription
 
-  - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
+</summary>
 
-    - `type: optional "workflows.workflow"`
+One of the following:
 
-      Type of source
+<details>
 
-      - `"workflows.workflow"`
+<summary>
 
-    - `workflow_name: optional string`
+MqEventSourceImages object {type }
 
-      Name of the workflow
+</summary>
 
-### Returns
+type: optional "images"
 
-- `errors: optional array of ResponseInfo`
+Type of source
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: optional array of string`
+MqEventSourceKV object {type }
 
-- `result: optional object { id, created_at, destination, 5 more }`
+</summary>
 
-  - `id: string`
+type: optional "kv"
 
-    Unique identifier for the subscription
+Type of source
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    When the subscription was created
+</details>
 
-  - `destination: object { queue_id, type }`
+<a href="#">Link to this property</a>
 
-    Destination configuration for the subscription
+<details>
 
-    - `queue_id: string`
+<summary>
 
-      ID of the target queue
+MqEventSourceR2 object {type }
 
-    - `type: "queues.queue"`
+</summary>
 
-      Type of destination
+type: optional "r2"
 
-      - `"queues.queue"`
+Type of source
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the subscription is active
+</details>
 
-  - `events: array of string`
+<a href="#">Link to this property</a>
 
-    List of event types this subscription handles
+<details>
 
-  - `modified_at: string`
+<summary>
 
-    When the subscription was last modified
+MqEventSourceSuperSlurper object {type }
 
-  - `name: string`
+</summary>
 
-    Name of the subscription
+type: optional "superSlurper"
 
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
+Type of source
 
-    Source configuration for the subscription
+<a href="#">Link to this property</a>
 
-    - `MqEventSourceImages object { type }`
+</details>
 
-      - `type: optional "images"`
+<a href="#">Link to this property</a>
 
-        Type of source
+<details>
 
-        - `"images"`
+<summary>
 
-    - `MqEventSourceKV object { type }`
+MqEventSourceVectorize object {type }
 
-      - `type: optional "kv"`
+</summary>
 
-        Type of source
+type: optional "vectorize"
 
-        - `"kv"`
+Type of source
 
-    - `MqEventSourceR2 object { type }`
+<a href="#">Link to this property</a>
 
-      - `type: optional "r2"`
+</details>
 
-        Type of source
+<a href="#">Link to this property</a>
 
-        - `"r2"`
+<details>
 
-    - `MqEventSourceSuperSlurper object { type }`
+<summary>
 
-      - `type: optional "superSlurper"`
+MqEventSourceWorkersAIModel object {model\_name, type }
 
-        Type of source
+</summary>
 
-        - `"superSlurper"`
+model\_name: optional string
 
-    - `MqEventSourceVectorize object { type }`
+Name of the Workers AI model
 
-      - `type: optional "vectorize"`
+<a href="#">Link to this property</a>
 
-        Type of source
+type: optional "workersAi.model"
 
-        - `"vectorize"`
+Type of source
 
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
+<a href="#">Link to this property</a>
 
-      - `model_name: optional string`
+</details>
 
-        Name of the Workers AI model
+<a href="#">Link to this property</a>
 
-      - `type: optional "workersAi.model"`
+<details>
 
-        Type of source
+<summary>
 
-        - `"workersAi.model"`
+MqEventSourceWorkersBuildsWorker object {type, worker\_name }
 
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
+</summary>
 
-      - `type: optional "workersBuilds.worker"`
+type: optional "workersBuilds.worker"
 
-        Type of source
+Type of source
 
-        - `"workersBuilds.worker"`
+<a href="#">Link to this property</a>
 
-      - `worker_name: optional string`
+worker\_name: optional string
 
-        Name of the worker
+Name of the worker
 
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
+<a href="#">Link to this property</a>
 
-      - `type: optional "workflows.workflow"`
+</details>
 
-        Type of source
+<a href="#">Link to this property</a>
 
-        - `"workflows.workflow"`
+<details>
 
-      - `workflow_name: optional string`
+<summary>
 
-        Name of the workflow
+MqEventSourceWorkersScript object {script\_tag, type }
 
-- `success: optional true`
+</summary>
 
-  Indicates if the API call was successful or not.
+script\_tag: optional string
 
-  - `true`
+Tag of the Worker script
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+type: optional "workers.script"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceWorkflowsWorkflow object {type, workflow\_name }
+
+</summary>
+
+type: optional "workflows.workflow"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+workflow\_name: optional string
+
+Name of the workflow
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20source%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+minLength1
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: optional array of string
+
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, destination, 5 more }
+
+</summary>
+
+id: string
+
+Unique identifier for the subscription
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the subscription was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+destination: object {queue\_id, type }
+
+Destination configuration for the subscription
+
+</summary>
+
+queue\_id: string
+
+ID of the target queue
+
+<a href="#">Link to this property</a>
+
+type: "queues.queue"
+
+Type of destination
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether the subscription is active
+
+<a href="#">Link to this property</a>
+
+events: array of string
+
+List of event types this subscription handles
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+When the subscription was last modified
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the subscription
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: object {type } or object {type } or object {type } or 6 more
+
+Source configuration for the subscription
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+MqEventSourceImages object {type }
+
+</summary>
+
+type: optional "images"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceKV object {type }
+
+</summary>
+
+type: optional "kv"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceR2 object {type }
+
+</summary>
+
+type: optional "r2"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceSuperSlurper object {type }
+
+</summary>
+
+type: optional "superSlurper"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceVectorize object {type }
+
+</summary>
+
+type: optional "vectorize"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceWorkersAIModel object {model\_name, type }
+
+</summary>
+
+model\_name: optional string
+
+Name of the Workers AI model
+
+<a href="#">Link to this property</a>
+
+type: optional "workersAi.model"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceWorkersBuildsWorker object {type, worker\_name }
+
+</summary>
+
+type: optional "workersBuilds.worker"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+worker\_name: optional string
+
+Name of the worker
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceWorkersScript object {script\_tag, type }
+
+</summary>
+
+script\_tag: optional string
+
+Tag of the Worker script
+
+<a href="#">Link to this property</a>
+
+type: optional "workers.script"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+MqEventSourceWorkflowsWorkflow object {type, workflow\_name }
+
+</summary>
+
+type: optional "workflows.workflow"
+
+Type of source
+
+<a href="#">Link to this property</a>
+
+workflow\_name: optional string
+
+Name of the workflow
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: optional true
+
+Indicates if the API call was successful or not.
+
+[Link to this property](#)%20queues.subscriptions%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create Event Subscription
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_subscriptions/subscriptions \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 7003,
+      "message": "No route for the URI",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "id": "id",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "destination": {
+      "queue_id": "queue_id",
+      "type": "queues.queue"
+    },
+    "enabled": true,
+    "events": [
+      "string"
+    ],
+    "modified_at": "2019-12-27T18:11:19.117Z",
+    "name": "name",
+    "source": {
+      "type": "images"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

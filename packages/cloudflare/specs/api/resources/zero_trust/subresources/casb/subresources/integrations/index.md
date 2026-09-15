@@ -1,1184 +1,721 @@
+---
+title: Integrations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Casb](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Integrations
 
-## List integrations
+##### [List integrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/list)
 
-**get** `/accounts/{account_id}/one/integrations`
+GET/accounts/{account\_id}/one/integrations
 
-Returns a paginated list of integrations for the account.
+##### [Get integration details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/one/integrations/{id}
 
-- `account_id: string`
+##### [Create integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/one/integrations
 
-- `application: optional string`
+##### [Update integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/update)
 
-  Filter by application/vendor (e.g., GOOGLE_WORKSPACE, MICROSOFT_INTERNAL).
+PATCH/accounts/{account\_id}/one/integrations/{id}
 
-- `direction: optional "asc" or "desc"`
+##### [Delete integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/delete)
 
-  Direction to order results.
+DELETE/accounts/{account\_id}/one/integrations/{id}
 
-  - `"asc"`
+##### [Pause integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/pause)
 
-  - `"desc"`
+POST/accounts/{account\_id}/one/integrations/{id}/pause
 
-- `dlp_enabled: optional boolean`
+##### [Resume integration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/casb/subresources/integrations/methods/resume)
 
-  Filter by DLP enabled status (true/false).
+POST/accounts/{account\_id}/one/integrations/{id}/resume
 
-- `order: optional "application" or "created" or "name" or "status"`
+##### ModelsExpand Collapse
 
-  Field to order results by.
+<details>
 
-  - `"application"`
+<summary>
 
-  - `"created"`
+IntegrationListResponse object {id, application, created, 4 more }
 
-  - `"name"`
+Serializer for v2 integration list responses.
 
-  - `"status"`
+</summary>
 
-- `page: optional number`
+id: string
 
-  Page number within the paginated result set.
+Integration ID.
 
-- `page_size: optional number`
+formatuuid
 
-  Number of results per page.
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+application: map\[string]
 
-  Search integrations by name or application.
+<a href="#">Link to this property</a>
 
-- `status: optional "Healthy" or "Initializing" or "Offline" or "Unhealthy"`
+created: string
 
-  Filter by integration status.
+When the integration was created.
 
-  - `"Healthy"`
+formatdate-time
 
-  - `"Initializing"`
+<a href="#">Link to this property</a>
 
-  - `"Offline"`
+is\_paused: boolean
 
-  - `"Unhealthy"`
+Whether the user paused the integration.
 
-- `use_cases: optional string`
+<a href="#">Link to this property</a>
 
-  Filter by enabled use cases (e.g., casb, ces). Matches integrations enrolled in any of the specified values. Can be specified multiple times.
+name: string
 
-### Example
+Name of the integration.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+status: string
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": [
-    {
-      "application": {
-        "category": "Productivity",
-        "display_name": "Google Workspace",
-        "logo": "https://onprem.cloudflare.com/static/google_workspace.png"
-      },
-      "created": "2025-01-15T10:00:00Z",
-      "id": "019d2e6a-d995-7185-afbd-4feead9e42ec",
-      "is_paused": false,
-      "name": "My Google Workspace",
-      "status": "Healthy",
-      "updated": "2025-04-10T08:30:00Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "next": null,
-    "page": 1,
-    "per_page": 10,
-    "previous": null,
-    "total_count": 1
-  },
-  "success": true
-}
-```
+Integration status.
 
-## Get integration details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/one/integrations/{id}`
+updated: string
 
-Returns full integration details including use cases and permissions.
+When the integration was last updated.
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+</details>
 
-### Returns
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_list_response%20%3E%20(schema)>)
 
-- `id: string`
+<details>
 
-  Integration ID.
+<summary>
 
-- `application: map[string]`
+IntegrationGetResponse object {id, application, auth\_method, 11 more }
 
-- `auth_method: map[string]`
+The requested item.
 
-  The integration's authentication method.
+</summary>
 
-- `authorization_link: object { components, link }`
+id: string
 
-  Authorization link for the integration.
+Integration ID.
 
-  - `components: map[unknown]`
+formatuuid
 
-  - `link: string`
+<a href="#">Link to this property</a>
 
-- `created: string`
+application: map\[string]
 
-  When the integration was created.
+<a href="#">Link to this property</a>
 
-- `credentials_expiry: string`
+auth\_method: map\[string]
 
-  Credentials expiry time.
+The integration’s authentication method.
 
-- `dlp_profiles: array of string`
+<a href="#">Link to this property</a>
 
-  DLP Profiles enabled for the integration.
+<details>
 
-- `health_details: array of map[unknown]`
+<summary>
 
-  Health details with remediation hints.
+authorization\_link: object {components, link }
 
-- `is_paused: boolean`
+Authorization link for the integration.
 
-  Whether the user paused the integration.
+</summary>
 
-- `last_hydrated: string`
+components: map\[unknown]
 
-  Last time the integration was hydrated.
+<a href="#">Link to this property</a>
 
-- `name: string`
+link: string
 
-  Name of the integration.
+<a href="#">Link to this property</a>
 
-- `organization_id: number`
+</details>
 
-  Organization ID.
+<a href="#">Link to this property</a>
 
-- `status: string`
+created: string
 
-  Integration status.
+When the integration was created.
 
-- `updated: string`
+formatdate-time
 
-  When the integration was last updated.
+<a href="#">Link to this property</a>
 
-- `use_cases: array of map[unknown]`
+credentials\_expiry: string
 
-  Use cases enabled for the integration.
+Credentials expiry time.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+dlp\_profiles: array of string
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+DLP Profiles enabled for the integration.
 
-## Create integration
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/one/integrations`
+health\_details: array of map\[unknown]
 
-Creates a new integration for the specified application.
+Health details with remediation hints.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+is\_paused: boolean
 
-### Body Parameters
+Whether the user paused the integration.
 
-- `application: "GITHUB" or "GOOGLE_WORKSPACE" or "MICROSOFT_INTERNAL" or 2 more`
+<a href="#">Link to this property</a>
 
-  Vendor/application slug (e.g., GOOGLE_WORKSPACE).
+last\_hydrated: string
 
-  * `GITHUB` - GITHUB
-  * `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE
-  * `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL
-  * `SALESFORCE` - SALESFORCE
-  * `SLACK` - SLACK
+Last time the integration was hydrated.
 
-  - `"GITHUB"`
+formatdate-time
 
-  - `"GOOGLE_WORKSPACE"`
+<a href="#">Link to this property</a>
 
-  - `"MICROSOFT_INTERNAL"`
+name: string
 
-  - `"SALESFORCE"`
+Name of the integration.
 
-  - `"SLACK"`
+<a href="#">Link to this property</a>
 
-- `credentials: map[unknown]`
+status: string
 
-  Credentials for the integration.
+Integration status.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Name of the integration.
+updated: string
 
-- `auth_method: optional string`
+When the integration was last updated.
 
-  Authentication method slug (uses default if omitted).
+formatdate-time
 
-- `dlp_profiles: optional array of string`
+<a href="#">Link to this property</a>
 
-  List of DLP profile IDs to associate.
+use\_cases: array of map\[unknown]
 
-- `permissions: optional array of string`
+Use cases enabled for the integration.
 
-  List of permission scopes (uses policy defaults if empty).
+<a href="#">Link to this property</a>
 
-- `use_cases: optional array of "casb" or "ces" or "auto_remediation"`
+</details>
 
-  List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation']).
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_get_response%20%3E%20(schema)>)
 
-  - `"casb"`
+<details>
 
-  - `"ces"`
+<summary>
 
-  - `"auto_remediation"`
+IntegrationCreateResponse object {id, application, auth\_method, 11 more }
 
-### Returns
+The requested item.
 
-- `id: string`
+</summary>
 
-  Integration ID.
+id: string
 
-- `application: map[string]`
+Integration ID.
 
-- `auth_method: map[string]`
+formatuuid
 
-  The integration's authentication method.
+<a href="#">Link to this property</a>
 
-- `authorization_link: object { components, link }`
+application: map\[string]
 
-  Authorization link for the integration.
+<a href="#">Link to this property</a>
 
-  - `components: map[unknown]`
+auth\_method: map\[string]
 
-  - `link: string`
+The integration’s authentication method.
 
-- `created: string`
+<a href="#">Link to this property</a>
 
-  When the integration was created.
+<details>
 
-- `credentials_expiry: string`
+<summary>
 
-  Credentials expiry time.
+authorization\_link: object {components, link }
 
-- `dlp_profiles: array of string`
+Authorization link for the integration.
 
-  DLP Profiles enabled for the integration.
+</summary>
 
-- `health_details: array of map[unknown]`
+components: map\[unknown]
 
-  Health details with remediation hints.
+<a href="#">Link to this property</a>
 
-- `is_paused: boolean`
+link: string
 
-  Whether the user paused the integration.
+<a href="#">Link to this property</a>
 
-- `last_hydrated: string`
+</details>
 
-  Last time the integration was hydrated.
+<a href="#">Link to this property</a>
 
-- `name: string`
+created: string
 
-  Name of the integration.
+When the integration was created.
 
-- `organization_id: number`
+formatdate-time
 
-  Organization ID.
+<a href="#">Link to this property</a>
 
-- `status: string`
+credentials\_expiry: string
 
-  Integration status.
+Credentials expiry time.
 
-- `updated: string`
+formatdate-time
 
-  When the integration was last updated.
+<a href="#">Link to this property</a>
 
-- `use_cases: array of map[unknown]`
+dlp\_profiles: array of string
 
-  Use cases enabled for the integration.
+DLP Profiles enabled for the integration.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "application": "GOOGLE_WORKSPACE",
-          "credentials": {
-            "admin_email": "bar"
-          },
-          "name": "My Google Workspace"
-        }'
-```
+health\_details: array of map\[unknown]
 
-#### Response
+Health details with remediation hints.
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Update integration
+is\_paused: boolean
 
-**patch** `/accounts/{account_id}/one/integrations/{id}`
+Whether the user paused the integration.
 
-Updates an integration's name, permissions, DLP profiles, use cases, or credentials.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+last\_hydrated: string
 
-- `account_id: string`
+Last time the integration was hydrated.
 
-- `id: string`
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `credentials: optional map[unknown]`
+name: string
 
-  Partial credential fields to merge with existing.
+Name of the integration.
 
-- `dlp_profiles: optional array of string`
+<a href="#">Link to this property</a>
 
-  List of DLP profile IDs to associate with the integration.
+status: string
 
-- `name: optional string`
+Integration status.
 
-  Name of the integration.
+<a href="#">Link to this property</a>
 
-- `permissions: optional array of string`
+updated: string
 
-  List of permission scopes granted to the integration.
+When the integration was last updated.
 
-- `use_cases: optional array of "casb" or "ces" or "auto_remediation"`
+formatdate-time
 
-  List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation']).
+<a href="#">Link to this property</a>
 
-  - `"casb"`
+use\_cases: array of map\[unknown]
 
-  - `"ces"`
+Use cases enabled for the integration.
 
-  - `"auto_remediation"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `id: string`
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_create_response%20%3E%20(schema)>)
 
-  Integration ID.
+<details>
 
-- `application: map[string]`
+<summary>
 
-- `auth_method: map[string]`
+IntegrationUpdateResponse object {id, application, auth\_method, 11 more }
 
-  The integration's authentication method.
+The requested item.
 
-- `authorization_link: object { components, link }`
+</summary>
 
-  Authorization link for the integration.
+id: string
 
-  - `components: map[unknown]`
+Integration ID.
 
-  - `link: string`
+formatuuid
 
-- `created: string`
+<a href="#">Link to this property</a>
 
-  When the integration was created.
+application: map\[string]
 
-- `credentials_expiry: string`
+<a href="#">Link to this property</a>
 
-  Credentials expiry time.
+auth\_method: map\[string]
 
-- `dlp_profiles: array of string`
+The integration’s authentication method.
 
-  DLP Profiles enabled for the integration.
+<a href="#">Link to this property</a>
 
-- `health_details: array of map[unknown]`
+<details>
 
-  Health details with remediation hints.
+<summary>
 
-- `is_paused: boolean`
+authorization\_link: object {components, link }
 
-  Whether the user paused the integration.
+Authorization link for the integration.
 
-- `last_hydrated: string`
+</summary>
 
-  Last time the integration was hydrated.
+components: map\[unknown]
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Name of the integration.
+link: string
 
-- `organization_id: number`
+<a href="#">Link to this property</a>
 
-  Organization ID.
+</details>
 
-- `status: string`
+<a href="#">Link to this property</a>
 
-  Integration status.
+created: string
 
-- `updated: string`
+When the integration was created.
 
-  When the integration was last updated.
+formatdate-time
 
-- `use_cases: array of map[unknown]`
+<a href="#">Link to this property</a>
 
-  Use cases enabled for the integration.
+credentials\_expiry: string
 
-### Example
+Credentials expiry time.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+dlp\_profiles: array of string
 
-## Delete integration
+DLP Profiles enabled for the integration.
 
-**delete** `/accounts/{account_id}/one/integrations/{id}`
+<a href="#">Link to this property</a>
 
-Delete an integration by soft-deleting it.
+health\_details: array of map\[unknown]
 
-### Path Parameters
+Health details with remediation hints.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `id: string`
+is\_paused: boolean
 
-### Example
+Whether the user paused the integration.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-## Pause integration
+last\_hydrated: string
 
-**post** `/accounts/{account_id}/one/integrations/{id}/pause`
+Last time the integration was hydrated.
 
-Pauses an integration, stopping all crawlers.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: string
 
-- `id: string`
+Name of the integration.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+status: string
 
-  Integration ID.
+Integration status.
 
-- `application: map[string]`
+<a href="#">Link to this property</a>
 
-- `auth_method: map[string]`
+updated: string
 
-  The integration's authentication method.
+When the integration was last updated.
 
-- `authorization_link: object { components, link }`
+formatdate-time
 
-  Authorization link for the integration.
+<a href="#">Link to this property</a>
 
-  - `components: map[unknown]`
+use\_cases: array of map\[unknown]
 
-  - `link: string`
+Use cases enabled for the integration.
 
-- `created: string`
+<a href="#">Link to this property</a>
 
-  When the integration was created.
+</details>
 
-- `credentials_expiry: string`
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_update_response%20%3E%20(schema)>)
 
-  Credentials expiry time.
+<details>
 
-- `dlp_profiles: array of string`
+<summary>
 
-  DLP Profiles enabled for the integration.
+IntegrationPauseResponse object {id, application, auth\_method, 11 more }
 
-- `health_details: array of map[unknown]`
+The requested item.
 
-  Health details with remediation hints.
+</summary>
 
-- `is_paused: boolean`
+id: string
 
-  Whether the user paused the integration.
+Integration ID.
 
-- `last_hydrated: string`
+formatuuid
 
-  Last time the integration was hydrated.
+<a href="#">Link to this property</a>
 
-- `name: string`
+application: map\[string]
 
-  Name of the integration.
+<a href="#">Link to this property</a>
 
-- `organization_id: number`
+auth\_method: map\[string]
 
-  Organization ID.
+The integration’s authentication method.
 
-- `status: string`
+<a href="#">Link to this property</a>
 
-  Integration status.
+<details>
 
-- `updated: string`
+<summary>
 
-  When the integration was last updated.
+authorization\_link: object {components, link }
 
-- `use_cases: array of map[unknown]`
+Authorization link for the integration.
 
-  Use cases enabled for the integration.
+</summary>
 
-### Example
+components: map\[unknown]
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID/pause \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+link: string
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Resume integration
+</details>
 
-**post** `/accounts/{account_id}/one/integrations/{id}/resume`
+<a href="#">Link to this property</a>
 
-Resumes a paused integration, restarting crawlers.
+created: string
 
-### Path Parameters
+When the integration was created.
 
-- `account_id: string`
+formatdate-time
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+credentials\_expiry: string
 
-- `id: string`
+Credentials expiry time.
 
-  Integration ID.
+formatdate-time
 
-- `application: map[string]`
+<a href="#">Link to this property</a>
 
-- `auth_method: map[string]`
+dlp\_profiles: array of string
 
-  The integration's authentication method.
+DLP Profiles enabled for the integration.
 
-- `authorization_link: object { components, link }`
+<a href="#">Link to this property</a>
 
-  Authorization link for the integration.
+health\_details: array of map\[unknown]
 
-  - `components: map[unknown]`
+Health details with remediation hints.
 
-  - `link: string`
+<a href="#">Link to this property</a>
 
-- `created: string`
+is\_paused: boolean
 
-  When the integration was created.
+Whether the user paused the integration.
 
-- `credentials_expiry: string`
+<a href="#">Link to this property</a>
 
-  Credentials expiry time.
+last\_hydrated: string
 
-- `dlp_profiles: array of string`
+Last time the integration was hydrated.
 
-  DLP Profiles enabled for the integration.
+formatdate-time
 
-- `health_details: array of map[unknown]`
+<a href="#">Link to this property</a>
 
-  Health details with remediation hints.
+name: string
 
-- `is_paused: boolean`
+Name of the integration.
 
-  Whether the user paused the integration.
+<a href="#">Link to this property</a>
 
-- `last_hydrated: string`
+status: string
 
-  Last time the integration was hydrated.
+Integration status.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Name of the integration.
+updated: string
 
-- `organization_id: number`
+When the integration was last updated.
 
-  Organization ID.
+formatdate-time
 
-- `status: string`
+<a href="#">Link to this property</a>
 
-  Integration status.
+use\_cases: array of map\[unknown]
 
-- `updated: string`
+Use cases enabled for the integration.
 
-  When the integration was last updated.
+<a href="#">Link to this property</a>
 
-- `use_cases: array of map[unknown]`
+</details>
 
-  Use cases enabled for the integration.
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_pause_response%20%3E%20(schema)>)
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/one/integrations/$ID/resume \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+IntegrationResumeResponse object {id, application, auth\_method, 11 more }
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "application": {
-    "foo": "string"
-  },
-  "auth_method": {
-    "foo": "string"
-  },
-  "authorization_link": {
-    "components": {
-      "foo": "bar"
-    },
-    "link": "link"
-  },
-  "created": "2019-12-27T18:11:19.117Z",
-  "credentials_expiry": "2019-12-27T18:11:19.117Z",
-  "dlp_profiles": [
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  ],
-  "health_details": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "is_paused": true,
-  "last_hydrated": "2019-12-27T18:11:19.117Z",
-  "name": "name",
-  "organization_id": 0,
-  "status": "status",
-  "updated": "2019-12-27T18:11:19.117Z",
-  "use_cases": [
-    {
-      "foo": "bar"
-    }
-  ]
-}
-```
+The requested item.
 
-## Domain Types
+</summary>
 
-### Integration List Response
+id: string
 
-- `IntegrationListResponse = unknown`
+Integration ID.
 
-### Integration Get Response
+formatuuid
 
-- `IntegrationGetResponse object { id, application, auth_method, 12 more }`
+<a href="#">Link to this property</a>
 
-  Serializer for v2 integration detail response with use cases.
+application: map\[string]
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Integration ID.
+auth\_method: map\[string]
 
-  - `application: map[string]`
+The integration’s authentication method.
 
-  - `auth_method: map[string]`
+<a href="#">Link to this property</a>
 
-    The integration's authentication method.
+<details>
 
-  - `authorization_link: object { components, link }`
+<summary>
 
-    Authorization link for the integration.
+authorization\_link: object {components, link }
 
-    - `components: map[unknown]`
+Authorization link for the integration.
 
-    - `link: string`
+</summary>
 
-  - `created: string`
+components: map\[unknown]
 
-    When the integration was created.
+<a href="#">Link to this property</a>
 
-  - `credentials_expiry: string`
+link: string
 
-    Credentials expiry time.
+<a href="#">Link to this property</a>
 
-  - `dlp_profiles: array of string`
+</details>
 
-    DLP Profiles enabled for the integration.
+<a href="#">Link to this property</a>
 
-  - `health_details: array of map[unknown]`
+created: string
 
-    Health details with remediation hints.
+When the integration was created.
 
-  - `is_paused: boolean`
+formatdate-time
 
-    Whether the user paused the integration.
+<a href="#">Link to this property</a>
 
-  - `last_hydrated: string`
+credentials\_expiry: string
 
-    Last time the integration was hydrated.
+Credentials expiry time.
 
-  - `name: string`
+formatdate-time
 
-    Name of the integration.
+<a href="#">Link to this property</a>
 
-  - `organization_id: number`
+dlp\_profiles: array of string
 
-    Organization ID.
+DLP Profiles enabled for the integration.
 
-  - `status: string`
+<a href="#">Link to this property</a>
 
-    Integration status.
+health\_details: array of map\[unknown]
 
-  - `updated: string`
+Health details with remediation hints.
 
-    When the integration was last updated.
+<a href="#">Link to this property</a>
 
-  - `use_cases: array of map[unknown]`
+is\_paused: boolean
 
-    Use cases enabled for the integration.
+Whether the user paused the integration.
 
-### Integration Create Response
+<a href="#">Link to this property</a>
 
-- `IntegrationCreateResponse object { id, application, auth_method, 12 more }`
+last\_hydrated: string
 
-  Serializer for v2 integration detail response with use cases.
+Last time the integration was hydrated.
 
-  - `id: string`
+formatdate-time
 
-    Integration ID.
+<a href="#">Link to this property</a>
 
-  - `application: map[string]`
+name: string
 
-  - `auth_method: map[string]`
+Name of the integration.
 
-    The integration's authentication method.
+<a href="#">Link to this property</a>
 
-  - `authorization_link: object { components, link }`
+status: string
 
-    Authorization link for the integration.
+Integration status.
 
-    - `components: map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `link: string`
+updated: string
 
-  - `created: string`
+When the integration was last updated.
 
-    When the integration was created.
+formatdate-time
 
-  - `credentials_expiry: string`
+<a href="#">Link to this property</a>
 
-    Credentials expiry time.
+use\_cases: array of map\[unknown]
 
-  - `dlp_profiles: array of string`
+Use cases enabled for the integration.
 
-    DLP Profiles enabled for the integration.
+<a href="#">Link to this property</a>
 
-  - `health_details: array of map[unknown]`
+</details>
 
-    Health details with remediation hints.
-
-  - `is_paused: boolean`
-
-    Whether the user paused the integration.
-
-  - `last_hydrated: string`
-
-    Last time the integration was hydrated.
-
-  - `name: string`
-
-    Name of the integration.
-
-  - `organization_id: number`
-
-    Organization ID.
-
-  - `status: string`
-
-    Integration status.
-
-  - `updated: string`
-
-    When the integration was last updated.
-
-  - `use_cases: array of map[unknown]`
-
-    Use cases enabled for the integration.
-
-### Integration Update Response
-
-- `IntegrationUpdateResponse object { id, application, auth_method, 12 more }`
-
-  Serializer for v2 integration detail response with use cases.
-
-  - `id: string`
-
-    Integration ID.
-
-  - `application: map[string]`
-
-  - `auth_method: map[string]`
-
-    The integration's authentication method.
-
-  - `authorization_link: object { components, link }`
-
-    Authorization link for the integration.
-
-    - `components: map[unknown]`
-
-    - `link: string`
-
-  - `created: string`
-
-    When the integration was created.
-
-  - `credentials_expiry: string`
-
-    Credentials expiry time.
-
-  - `dlp_profiles: array of string`
-
-    DLP Profiles enabled for the integration.
-
-  - `health_details: array of map[unknown]`
-
-    Health details with remediation hints.
-
-  - `is_paused: boolean`
-
-    Whether the user paused the integration.
-
-  - `last_hydrated: string`
-
-    Last time the integration was hydrated.
-
-  - `name: string`
-
-    Name of the integration.
-
-  - `organization_id: number`
-
-    Organization ID.
-
-  - `status: string`
-
-    Integration status.
-
-  - `updated: string`
-
-    When the integration was last updated.
-
-  - `use_cases: array of map[unknown]`
-
-    Use cases enabled for the integration.
-
-### Integration Pause Response
-
-- `IntegrationPauseResponse object { id, application, auth_method, 12 more }`
-
-  Serializer for v2 integration detail response with use cases.
-
-  - `id: string`
-
-    Integration ID.
-
-  - `application: map[string]`
-
-  - `auth_method: map[string]`
-
-    The integration's authentication method.
-
-  - `authorization_link: object { components, link }`
-
-    Authorization link for the integration.
-
-    - `components: map[unknown]`
-
-    - `link: string`
-
-  - `created: string`
-
-    When the integration was created.
-
-  - `credentials_expiry: string`
-
-    Credentials expiry time.
-
-  - `dlp_profiles: array of string`
-
-    DLP Profiles enabled for the integration.
-
-  - `health_details: array of map[unknown]`
-
-    Health details with remediation hints.
-
-  - `is_paused: boolean`
-
-    Whether the user paused the integration.
-
-  - `last_hydrated: string`
-
-    Last time the integration was hydrated.
-
-  - `name: string`
-
-    Name of the integration.
-
-  - `organization_id: number`
-
-    Organization ID.
-
-  - `status: string`
-
-    Integration status.
-
-  - `updated: string`
-
-    When the integration was last updated.
-
-  - `use_cases: array of map[unknown]`
-
-    Use cases enabled for the integration.
-
-### Integration Resume Response
-
-- `IntegrationResumeResponse object { id, application, auth_method, 12 more }`
-
-  Serializer for v2 integration detail response with use cases.
-
-  - `id: string`
-
-    Integration ID.
-
-  - `application: map[string]`
-
-  - `auth_method: map[string]`
-
-    The integration's authentication method.
-
-  - `authorization_link: object { components, link }`
-
-    Authorization link for the integration.
-
-    - `components: map[unknown]`
-
-    - `link: string`
-
-  - `created: string`
-
-    When the integration was created.
-
-  - `credentials_expiry: string`
-
-    Credentials expiry time.
-
-  - `dlp_profiles: array of string`
-
-    DLP Profiles enabled for the integration.
-
-  - `health_details: array of map[unknown]`
-
-    Health details with remediation hints.
-
-  - `is_paused: boolean`
-
-    Whether the user paused the integration.
-
-  - `last_hydrated: string`
-
-    Last time the integration was hydrated.
-
-  - `name: string`
-
-    Name of the integration.
-
-  - `organization_id: number`
-
-    Organization ID.
-
-  - `status: string`
-
-    Integration status.
-
-  - `updated: string`
-
-    When the integration was last updated.
-
-  - `use_cases: array of map[unknown]`
-
-    Use cases enabled for the integration.
+[Link to this property](#)%20zero_trust.casb.integrations%20%3E%20(model)%20integration_resume_response%20%3E%20(schema)>)

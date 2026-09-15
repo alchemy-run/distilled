@@ -1,401 +1,201 @@
+---
+title: Repos
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Repos
 
-# Connections
+#### ReposConnections
 
-## Create or update repository connection
+##### [Create or update a repository connection](https://developers.cloudflare.com/api/resources/workers_builds/subresources/repos/subresources/connections/methods/upsert)
 
-**put** `/accounts/{account_id}/builds/repos/connections`
+PUT/accounts/{account\_id}/builds/repos/connections
 
-Upsert a repository connection for CI/CD integration
+##### [Delete a repository connection](https://developers.cloudflare.com/api/resources/workers_builds/subresources/repos/subresources/connections/methods/delete)
 
-### Path Parameters
+DELETE/accounts/{account\_id}/builds/repos/connections/{repo\_connection\_uuid}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account identifier.
+<details>
 
-### Body Parameters
+<summary>
 
-- `provider_account_id: string`
+ConnectionUpsertResponse object {created\_on, deleted\_on, modified\_on, 6 more }
 
-  Provider account identifier.
+</summary>
 
-- `provider_account_name: string`
+created\_on: optional string
 
-- `provider_type: "github" or "gitlab" or "gitlab_internal"`
+formatdate-time
 
-  - `"github"`
+<a href="#">Link to this property</a>
 
-  - `"gitlab"`
+deleted\_on: optional string
 
-  - `"gitlab_internal"`
+formatdate-time
 
-- `repo_id: string`
+<a href="#">Link to this property</a>
 
-  Repository identifier.
+modified\_on: optional string
 
-- `repo_name: string`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+provider\_account\_id: optional string
 
-  - `code: optional number`
+Provider-specific identifier of the account or namespace that owns the repository.
 
-  - `message: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+provider\_account\_name: optional string
 
-- `result: object { created_on, deleted_on, modified_on, 6 more }`
+Human-readable name of the account or namespace that owns the repository.
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `deleted_on: optional string`
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-  - `provider_account_id: optional string`
+provider\_type: optional "github"or "gitlab"or "gitlab\_internal"or "origin"
 
-    Provider account identifier.
+Source control provider.
 
-  - `provider_account_name: optional string`
+</summary>
 
-  - `provider_type: optional "github" or "gitlab" or "gitlab_internal"`
+One of the following:
 
-    - `"github"`
+"github"
 
-    - `"gitlab"`
+<a href="#">Link to this property</a>
 
-    - `"gitlab_internal"`
+"gitlab"
 
-  - `repo_connection_uuid: optional string`
+<a href="#">Link to this property</a>
 
-    Repository connection UUID.
+"gitlab\_internal"
 
-  - `repo_id: optional string`
+<a href="#">Link to this property</a>
 
-    Repository identifier.
+"origin"
 
-  - `repo_name: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+repo\_connection\_uuid: optional string
 
-  - `page: optional number`
+Repository connection UUID.
 
-  - `per_page: optional number`
+formatuuid
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+repo\_id: optional string
 
-### Example
+Provider-specific repository identifier.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/repos/connections \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "provider_account_id": "cloudflare",
-          "provider_account_name": "Cloudflare",
-          "provider_type": "github",
-          "repo_id": "workers-sdk",
-          "repo_name": "workers-sdk"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+repo\_name: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "deleted_on": "2019-12-27T18:11:19.117Z",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "provider_account_id": "cloudflare",
-    "provider_account_name": "Cloudflare",
-    "provider_type": "github",
-    "repo_connection_uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "repo_id": "workers-sdk",
-    "repo_name": "workers-sdk"
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
+Human-readable repository name.
 
-## Delete repository connection
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/builds/repos/connections/{repo_connection_uuid}`
+</details>
 
-Remove a repository connection
+[Link to this property](#)%20workers_builds.repos.connections%20%3E%20(model)%20connection_upsert_response%20%3E%20(schema)>)
 
-### Path Parameters
+ConnectionDeleteResponse = unknown
 
-- `account_id: string`
+[Link to this property](#)%20workers_builds.repos.connections%20%3E%20(model)%20connection_delete_response%20%3E%20(schema)>)
 
-  Account identifier.
+#### ReposConfig Autofill
 
-- `repo_connection_uuid: string`
+##### [Get repository configuration autofill](https://developers.cloudflare.com/api/resources/workers_builds/subresources/repos/subresources/config_autofill/methods/get)
 
-  Repository connection UUID.
+GET/accounts/{account\_id}/builds/repos/{provider\_type}/{provider\_account\_id}/{repo\_id}/config\_autofill
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message }`
+<details>
 
-  - `code: optional number`
+<summary>
 
-  - `message: optional string`
+ConfigAutofillGetResponse object {config\_file, default\_worker\_name, env\_worker\_names, 2 more }
 
-- `messages: array of string`
+</summary>
 
-- `result: unknown`
+config\_file: optional string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+default\_worker\_name: optional string
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+env\_worker\_names: optional map\[string]
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-### Example
+package\_manager: optional "npm"or "yarn"or "pnpm"or 2 more
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/repos/connections/$REPO_CONNECTION_UUID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Package manager inferred from repository lockfiles; defaults to npm when none is detected.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": null,
-  "success": true
-}
-```
+One of the following:
 
-## Domain Types
+"npm"
 
-### Connection Upsert Response
+<a href="#">Link to this property</a>
 
-- `ConnectionUpsertResponse object { created_on, deleted_on, modified_on, 6 more }`
+"yarn"
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `deleted_on: optional string`
+"pnpm"
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `provider_account_id: optional string`
+"bun"
 
-    Provider account identifier.
+<a href="#">Link to this property</a>
 
-  - `provider_account_name: optional string`
+"uv"
 
-  - `provider_type: optional "github" or "gitlab" or "gitlab_internal"`
+<a href="#">Link to this property</a>
 
-    - `"github"`
+</details>
 
-    - `"gitlab"`
+<a href="#">Link to this property</a>
 
-    - `"gitlab_internal"`
+scripts: optional map\[string]
 
-  - `repo_connection_uuid: optional string`
+<a href="#">Link to this property</a>
 
-    Repository connection UUID.
+</details>
 
-  - `repo_id: optional string`
-
-    Repository identifier.
-
-  - `repo_name: optional string`
-
-### Connection Delete Response
-
-- `ConnectionDeleteResponse = unknown`
-
-# Config Autofill
-
-## Get repository configuration autofill
-
-**get** `/accounts/{account_id}/builds/repos/{provider_type}/{provider_account_id}/{repo_id}/config_autofill`
-
-Analyze repository for automatic configuration detection
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier.
-
-- `provider_type: "github" or "gitlab" or "gitlab_internal"`
-
-  - `"github"`
-
-  - `"gitlab"`
-
-  - `"gitlab_internal"`
-
-- `provider_account_id: string`
-
-  Provider account identifier.
-
-- `repo_id: string`
-
-  Repository identifier.
-
-### Query Parameters
-
-- `branch: string`
-
-  Git branch name.
-
-- `root_directory: optional string`
-
-  Root directory path.
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: optional number`
-
-  - `message: optional string`
-
-- `messages: array of string`
-
-- `result: object { config_file, default_worker_name, env_worker_names, 2 more }`
-
-  - `config_file: optional string`
-
-  - `default_worker_name: optional string`
-
-  - `env_worker_names: optional map[string]`
-
-  - `package_manager: optional "npm" or "yarn" or "pnpm" or 2 more`
-
-    - `"npm"`
-
-    - `"yarn"`
-
-    - `"pnpm"`
-
-    - `"bun"`
-
-    - `"uv"`
-
-  - `scripts: optional map[string]`
-
-- `success: boolean`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-  - `page: optional number`
-
-  - `per_page: optional number`
-
-  - `total_count: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/repos/$PROVIDER_TYPE/$PROVIDER_ACCOUNT_ID/$REPO_ID/config_autofill \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "config_file": "wrangler.toml",
-    "default_worker_name": "my-worker",
-    "env_worker_names": {
-      "production": "my-worker-prod",
-      "staging": "my-worker-staging"
-    },
-    "package_manager": "npm",
-    "scripts": {
-      "build": "npm run build",
-      "test": "npm test"
-    }
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
-
-## Domain Types
-
-### Config Autofill Get Response
-
-- `ConfigAutofillGetResponse object { config_file, default_worker_name, env_worker_names, 2 more }`
-
-  - `config_file: optional string`
-
-  - `default_worker_name: optional string`
-
-  - `env_worker_names: optional map[string]`
-
-  - `package_manager: optional "npm" or "yarn" or "pnpm" or 2 more`
-
-    - `"npm"`
-
-    - `"yarn"`
-
-    - `"pnpm"`
-
-    - `"bun"`
-
-    - `"uv"`
-
-  - `scripts: optional map[string]`
+[Link to this property](#)%20workers_builds.repos.config_autofill%20%3E%20(model)%20config_autofill_get_response%20%3E%20(schema)>)

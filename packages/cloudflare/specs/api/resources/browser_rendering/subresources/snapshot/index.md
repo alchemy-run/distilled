@@ -1,889 +1,227 @@
+---
+title: Snapshot
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Snapshot
 
-## Get HTML content and screenshot.
+##### [Get HTML content and screenshot.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/snapshot/methods/create)
 
-**post** `/accounts/{account_id}/browser-rendering/snapshot`
+POST/accounts/{account\_id}/browser-rendering/snapshot
 
-Returns the page's HTML content and screenshot. Control page loading with `gotoOptions` and `waitFor*` options. Customize screenshots with `viewport`, `fullPage`, `clip` and others.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+SnapshotCreateResponse object {accessibilityTree, content, markdown, screenshot }
 
-### Query Parameters
+</summary>
 
-- `cacheTTL: optional number`
+<details>
 
-  Cache TTL default is 5s. Set to 0 to disable.
+<summary>
 
-### Body Parameters
+accessibilityTree: optional object {role, autocomplete, checked, 23 more }
 
-- `body: object { html, actionTimeout, addScriptTag, 18 more }  or object { url, actionTimeout, addScriptTag, 18 more }`
+Accessibility tree node
 
-  - `object { html, actionTimeout, addScriptTag, 18 more }`
+</summary>
 
-    - `html: string`
+role: string
 
-      Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set.
+<a href="#">Link to this property</a>
 
-    - `actionTimeout: optional number`
+autocomplete: optional string
 
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
+<a href="#">Link to this property</a>
 
-    - `addScriptTag: optional array of object { id, content, type, url }`
+<details>
 
-      Adds a `<script>` tag into the page with the desired URL or content.
+<summary>
 
-      - `id: optional string`
+checked: optional booleanor "mixed"
 
-      - `content: optional string`
+</summary>
 
-      - `type: optional string`
+One of the following:
 
-      - `url: optional string`
+boolean
 
-    - `addStyleTag: optional array of object { content, url }`
+<a href="#">Link to this property</a>
 
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
+"mixed"
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+</details>
 
-    - `allowRequestPattern: optional array of string`
+<a href="#">Link to this property</a>
 
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
+children: optional array of unknown
 
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+<a href="#">Link to this property</a>
 
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
+description: optional string
 
-      - `"document"`
+<a href="#">Link to this property</a>
 
-      - `"stylesheet"`
+disabled: optional boolean
 
-      - `"image"`
+<a href="#">Link to this property</a>
 
-      - `"media"`
+expanded: optional boolean
 
-      - `"font"`
+<a href="#">Link to this property</a>
 
-      - `"script"`
+focused: optional boolean
 
-      - `"texttrack"`
+<a href="#">Link to this property</a>
 
-      - `"xhr"`
+haspopup: optional string
 
-      - `"fetch"`
+<a href="#">Link to this property</a>
 
-      - `"prefetch"`
+invalid: optional string
 
-      - `"eventsource"`
+<a href="#">Link to this property</a>
 
-      - `"websocket"`
+keyshortcuts: optional string
 
-      - `"manifest"`
+<a href="#">Link to this property</a>
 
-      - `"signedexchange"`
+level: optional number
 
-      - `"ping"`
+<a href="#">Link to this property</a>
 
-      - `"cspviolationreport"`
+modal: optional boolean
 
-      - `"preflight"`
+<a href="#">Link to this property</a>
 
-      - `"other"`
+multiline: optional boolean
 
-    - `authenticate: optional object { password, username }`
+<a href="#">Link to this property</a>
 
-      Provide credentials for HTTP authentication.
+multiselectable: optional boolean
 
-      - `password: string`
+<a href="#">Link to this property</a>
 
-      - `username: string`
+name: optional string
 
-    - `bestAttempt: optional boolean`
+<a href="#">Link to this property</a>
 
-      Attempt to proceed when 'awaited' events fail or timeout.
+orientation: optional string
 
-    - `cookies: optional array of object { name, value, domain, 11 more }`
+<a href="#">Link to this property</a>
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
+<details>
 
-      - `name: string`
+<summary>
 
-        Cookie name.
+pressed: optional booleanor "mixed"
 
-      - `value: string`
+</summary>
 
-      - `domain: optional string`
+One of the following:
 
-      - `expires: optional number`
+boolean
 
-      - `httpOnly: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `partitionKey: optional string`
+"mixed"
 
-      - `path: optional string`
+<a href="#">Link to this property</a>
 
-      - `priority: optional "Low" or "Medium" or "High"`
+</details>
 
-        - `"Low"`
+<a href="#">Link to this property</a>
 
-        - `"Medium"`
+readonly: optional boolean
 
-        - `"High"`
+<a href="#">Link to this property</a>
 
-      - `sameParty: optional boolean`
+required: optional boolean
 
-      - `sameSite: optional "Strict" or "Lax" or "None"`
+<a href="#">Link to this property</a>
 
-        - `"Strict"`
+roledescription: optional string
 
-        - `"Lax"`
+<a href="#">Link to this property</a>
 
-        - `"None"`
+selected: optional boolean
 
-      - `secure: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `sourcePort: optional number`
+<details>
 
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
+<summary>
 
-        - `"Unset"`
+value: optional stringor number
 
-        - `"NonSecure"`
+</summary>
 
-        - `"Secure"`
+One of the following:
 
-      - `url: optional string`
+string
 
-    - `emulateMediaType: optional string`
+<a href="#">Link to this property</a>
 
-    - `formats: optional array of "content" or "screenshot" or "markdown" or "accessibilityTree"`
+number
 
-      - `"content"`
+<a href="#">Link to this property</a>
 
-      - `"screenshot"`
+</details>
 
-      - `"markdown"`
+<a href="#">Link to this property</a>
 
-      - `"accessibilityTree"`
+valuemax: optional number
 
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
+<a href="#">Link to this property</a>
 
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
+valuemin: optional number
 
-      - `referer: optional string`
+<a href="#">Link to this property</a>
 
-      - `referrerPolicy: optional string`
+valuetext: optional string
 
-      - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+</details>
 
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+<a href="#">Link to this property</a>
 
-          - `"load"`
+content: optional string
 
-          - `"domcontentloaded"`
+HTML content.
 
-          - `"networkidle0"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle2"`
+markdown: optional string
 
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+Markdown content. Prefixed with YAML frontmatter (e.g. <code>title</code>) when the page provides that metadata.
 
-          - `"load"`
+<a href="#">Link to this property</a>
 
-          - `"domcontentloaded"`
+screenshot: optional string
 
-          - `"networkidle0"`
+Base64 encoded image.
 
-          - `"networkidle2"`
+<a href="#">Link to this property</a>
 
-    - `rejectRequestPattern: optional array of string`
+</details>
 
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
-
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
-
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
-
-      - `"document"`
-
-      - `"stylesheet"`
-
-      - `"image"`
-
-      - `"media"`
-
-      - `"font"`
-
-      - `"script"`
-
-      - `"texttrack"`
-
-      - `"xhr"`
-
-      - `"fetch"`
-
-      - `"prefetch"`
-
-      - `"eventsource"`
-
-      - `"websocket"`
-
-      - `"manifest"`
-
-      - `"signedexchange"`
-
-      - `"ping"`
-
-      - `"cspviolationreport"`
-
-      - `"preflight"`
-
-      - `"other"`
-
-    - `screenshotOptions: optional object { captureBeyondViewport, clip, fromSurface, 5 more }`
-
-      - `captureBeyondViewport: optional boolean`
-
-      - `clip: optional object { height, width, x, 2 more }`
-
-        - `height: number`
-
-        - `width: number`
-
-        - `x: number`
-
-        - `y: number`
-
-        - `scale: optional number`
-
-      - `fromSurface: optional boolean`
-
-      - `fullPage: optional boolean`
-
-      - `omitBackground: optional boolean`
-
-      - `optimizeForSpeed: optional boolean`
-
-      - `quality: optional number`
-
-      - `type: optional "png" or "jpeg" or "webp"`
-
-        - `"png"`
-
-        - `"jpeg"`
-
-        - `"webp"`
-
-    - `setExtraHTTPHeaders: optional map[string]`
-
-    - `setJavaScriptEnabled: optional boolean`
-
-    - `userAgent: optional string`
-
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
-
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
-
-      - `height: number`
-
-      - `width: number`
-
-      - `deviceScaleFactor: optional number`
-
-      - `hasTouch: optional boolean`
-
-      - `isLandscape: optional boolean`
-
-      - `isMobile: optional boolean`
-
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
-
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
-
-      - `selector: string`
-
-      - `hidden: optional true`
-
-        - `true`
-
-      - `timeout: optional number`
-
-      - `visible: optional true`
-
-        - `true`
-
-    - `waitForTimeout: optional number`
-
-      Waits for a specified timeout before continuing.
-
-  - `object { url, actionTimeout, addScriptTag, 18 more }`
-
-    - `url: string`
-
-      URL to navigate to, eg. `https://example.com`.
-
-    - `actionTimeout: optional number`
-
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
-
-    - `addScriptTag: optional array of object { id, content, type, url }`
-
-      Adds a `<script>` tag into the page with the desired URL or content.
-
-      - `id: optional string`
-
-      - `content: optional string`
-
-      - `type: optional string`
-
-      - `url: optional string`
-
-    - `addStyleTag: optional array of object { content, url }`
-
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
-
-      - `content: optional string`
-
-      - `url: optional string`
-
-    - `allowRequestPattern: optional array of string`
-
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
-
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
-
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
-
-      - `"document"`
-
-      - `"stylesheet"`
-
-      - `"image"`
-
-      - `"media"`
-
-      - `"font"`
-
-      - `"script"`
-
-      - `"texttrack"`
-
-      - `"xhr"`
-
-      - `"fetch"`
-
-      - `"prefetch"`
-
-      - `"eventsource"`
-
-      - `"websocket"`
-
-      - `"manifest"`
-
-      - `"signedexchange"`
-
-      - `"ping"`
-
-      - `"cspviolationreport"`
-
-      - `"preflight"`
-
-      - `"other"`
-
-    - `authenticate: optional object { password, username }`
-
-      Provide credentials for HTTP authentication.
-
-      - `password: string`
-
-      - `username: string`
-
-    - `bestAttempt: optional boolean`
-
-      Attempt to proceed when 'awaited' events fail or timeout.
-
-    - `cookies: optional array of object { name, value, domain, 11 more }`
-
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
-
-      - `name: string`
-
-        Cookie name.
-
-      - `value: string`
-
-      - `domain: optional string`
-
-      - `expires: optional number`
-
-      - `httpOnly: optional boolean`
-
-      - `partitionKey: optional string`
-
-      - `path: optional string`
-
-      - `priority: optional "Low" or "Medium" or "High"`
-
-        - `"Low"`
-
-        - `"Medium"`
-
-        - `"High"`
-
-      - `sameParty: optional boolean`
-
-      - `sameSite: optional "Strict" or "Lax" or "None"`
-
-        - `"Strict"`
-
-        - `"Lax"`
-
-        - `"None"`
-
-      - `secure: optional boolean`
-
-      - `sourcePort: optional number`
-
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
-
-        - `"Unset"`
-
-        - `"NonSecure"`
-
-        - `"Secure"`
-
-      - `url: optional string`
-
-    - `emulateMediaType: optional string`
-
-    - `formats: optional array of "content" or "screenshot" or "markdown" or "accessibilityTree"`
-
-      - `"content"`
-
-      - `"screenshot"`
-
-      - `"markdown"`
-
-      - `"accessibilityTree"`
-
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
-
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
-
-      - `referer: optional string`
-
-      - `referrerPolicy: optional string`
-
-      - `timeout: optional number`
-
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-          - `"load"`
-
-          - `"domcontentloaded"`
-
-          - `"networkidle0"`
-
-          - `"networkidle2"`
-
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-          - `"load"`
-
-          - `"domcontentloaded"`
-
-          - `"networkidle0"`
-
-          - `"networkidle2"`
-
-    - `rejectRequestPattern: optional array of string`
-
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
-
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
-
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
-
-      - `"document"`
-
-      - `"stylesheet"`
-
-      - `"image"`
-
-      - `"media"`
-
-      - `"font"`
-
-      - `"script"`
-
-      - `"texttrack"`
-
-      - `"xhr"`
-
-      - `"fetch"`
-
-      - `"prefetch"`
-
-      - `"eventsource"`
-
-      - `"websocket"`
-
-      - `"manifest"`
-
-      - `"signedexchange"`
-
-      - `"ping"`
-
-      - `"cspviolationreport"`
-
-      - `"preflight"`
-
-      - `"other"`
-
-    - `screenshotOptions: optional object { captureBeyondViewport, clip, fromSurface, 5 more }`
-
-      - `captureBeyondViewport: optional boolean`
-
-      - `clip: optional object { height, width, x, 2 more }`
-
-        - `height: number`
-
-        - `width: number`
-
-        - `x: number`
-
-        - `y: number`
-
-        - `scale: optional number`
-
-      - `fromSurface: optional boolean`
-
-      - `fullPage: optional boolean`
-
-      - `omitBackground: optional boolean`
-
-      - `optimizeForSpeed: optional boolean`
-
-      - `quality: optional number`
-
-      - `type: optional "png" or "jpeg" or "webp"`
-
-        - `"png"`
-
-        - `"jpeg"`
-
-        - `"webp"`
-
-    - `setExtraHTTPHeaders: optional map[string]`
-
-    - `setJavaScriptEnabled: optional boolean`
-
-    - `userAgent: optional string`
-
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
-
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
-
-      - `height: number`
-
-      - `width: number`
-
-      - `deviceScaleFactor: optional number`
-
-      - `hasTouch: optional boolean`
-
-      - `isLandscape: optional boolean`
-
-      - `isMobile: optional boolean`
-
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
-
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
-
-      - `selector: string`
-
-      - `hidden: optional true`
-
-        - `true`
-
-      - `timeout: optional number`
-
-      - `visible: optional true`
-
-        - `true`
-
-    - `waitForTimeout: optional number`
-
-      Waits for a specified timeout before continuing.
-
-### Returns
-
-- `meta: object { status, title }`
-
-  - `status: optional number`
-
-  - `title: optional string`
-
-- `success: boolean`
-
-  Response status.
-
-- `errors: optional array of object { code, message }`
-
-  - `code: number`
-
-    Error code.
-
-  - `message: string`
-
-    Error message.
-
-- `result: optional object { accessibilityTree, content, markdown, screenshot }`
-
-  - `accessibilityTree: optional object { role, autocomplete, checked, 23 more }`
-
-    Accessibility tree node
-
-    - `role: string`
-
-    - `autocomplete: optional string`
-
-    - `checked: optional boolean or "mixed"`
-
-      - `boolean`
-
-      - `"mixed"`
-
-        - `"mixed"`
-
-    - `children: optional array of unknown`
-
-    - `description: optional string`
-
-    - `disabled: optional boolean`
-
-    - `expanded: optional boolean`
-
-    - `focused: optional boolean`
-
-    - `haspopup: optional string`
-
-    - `invalid: optional string`
-
-    - `keyshortcuts: optional string`
-
-    - `level: optional number`
-
-    - `modal: optional boolean`
-
-    - `multiline: optional boolean`
-
-    - `multiselectable: optional boolean`
-
-    - `name: optional string`
-
-    - `orientation: optional string`
-
-    - `pressed: optional boolean or "mixed"`
-
-      - `boolean`
-
-      - `"mixed"`
-
-        - `"mixed"`
-
-    - `readonly: optional boolean`
-
-    - `required: optional boolean`
-
-    - `roledescription: optional string`
-
-    - `selected: optional boolean`
-
-    - `value: optional string or number`
-
-      - `string`
-
-      - `number`
-
-    - `valuemax: optional number`
-
-    - `valuemin: optional number`
-
-    - `valuetext: optional string`
-
-  - `content: optional string`
-
-    HTML content.
-
-  - `markdown: optional string`
-
-    Markdown content.
-
-  - `screenshot: optional string`
-
-    Base64 encoded image.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/snapshot \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "html": "<h1>Hello World!</h1>"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "meta": {
-    "status": 0,
-    "title": "title"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "accessibilityTree": {
-      "role": "role",
-      "autocomplete": "autocomplete",
-      "checked": "mixed",
-      "children": [
-        {}
-      ],
-      "description": "description",
-      "disabled": true,
-      "expanded": true,
-      "focused": true,
-      "haspopup": "haspopup",
-      "invalid": "invalid",
-      "keyshortcuts": "keyshortcuts",
-      "level": 0,
-      "modal": true,
-      "multiline": true,
-      "multiselectable": true,
-      "name": "name",
-      "orientation": "orientation",
-      "pressed": "mixed",
-      "readonly": true,
-      "required": true,
-      "roledescription": "roledescription",
-      "selected": true,
-      "value": "string",
-      "valuemax": 0,
-      "valuemin": 0,
-      "valuetext": "valuetext"
-    },
-    "content": "content",
-    "markdown": "markdown",
-    "screenshot": "screenshot"
-  }
-}
-```
-
-## Domain Types
-
-### Snapshot Create Response
-
-- `SnapshotCreateResponse object { accessibilityTree, content, markdown, screenshot }`
-
-  - `accessibilityTree: optional object { role, autocomplete, checked, 23 more }`
-
-    Accessibility tree node
-
-    - `role: string`
-
-    - `autocomplete: optional string`
-
-    - `checked: optional boolean or "mixed"`
-
-      - `boolean`
-
-      - `"mixed"`
-
-        - `"mixed"`
-
-    - `children: optional array of unknown`
-
-    - `description: optional string`
-
-    - `disabled: optional boolean`
-
-    - `expanded: optional boolean`
-
-    - `focused: optional boolean`
-
-    - `haspopup: optional string`
-
-    - `invalid: optional string`
-
-    - `keyshortcuts: optional string`
-
-    - `level: optional number`
-
-    - `modal: optional boolean`
-
-    - `multiline: optional boolean`
-
-    - `multiselectable: optional boolean`
-
-    - `name: optional string`
-
-    - `orientation: optional string`
-
-    - `pressed: optional boolean or "mixed"`
-
-      - `boolean`
-
-      - `"mixed"`
-
-        - `"mixed"`
-
-    - `readonly: optional boolean`
-
-    - `required: optional boolean`
-
-    - `roledescription: optional string`
-
-    - `selected: optional boolean`
-
-    - `value: optional string or number`
-
-      - `string`
-
-      - `number`
-
-    - `valuemax: optional number`
-
-    - `valuemin: optional number`
-
-    - `valuetext: optional string`
-
-  - `content: optional string`
-
-    HTML content.
-
-  - `markdown: optional string`
-
-    Markdown content.
-
-  - `screenshot: optional string`
-
-    Base64 encoded image.
+[Link to this property](#)%20browser_rendering.snapshot%20%3E%20(model)%20snapshot_create_response%20%3E%20(schema)>)

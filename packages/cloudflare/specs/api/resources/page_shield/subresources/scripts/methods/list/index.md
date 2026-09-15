@@ -1,216 +1,549 @@
-## List Page Shield scripts
+---
+title: List detected scripts
+---
 
-**get** `/zones/{zone_id}/page_shield/scripts`
+[Skip to content](#_top)
 
-Lists all scripts detected by Page Shield.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Page Shield](https://developers.cloudflare.com/api/resources/page_shield)
 
-- `zone_id: string`
+[Scripts](https://developers.cloudflare.com/api/resources/page_shield/subresources/scripts)
 
-  Identifier
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `direction: optional "asc" or "desc"`
+---
 
-  The direction used to sort returned scripts.
+**Copy Markdown****View as Markdown**
 
-  - `"asc"`
+# List detected scripts
 
-  - `"desc"`
+GET/zones/{zone\_id}/page\_shield/scripts
 
-- `exclude_cdn_cgi: optional boolean`
+Lists scripts detected on webpages in the zone, with filtering and pagination.
 
-  When true, excludes scripts seen in a `/cdn-cgi` path from the returned scripts. The default value is true.
+##### Security
 
-- `exclude_duplicates: optional boolean`
+API Email + API Key
 
-  When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript
-  content matches and they share the same url host and zone hostname. In such case, we return the most
-  recent script for the URL host and zone hostname combination.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `exclude_urls: optional string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  Excludes scripts whose URL contains one of the URL-encoded URLs separated by commas.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `export: optional "csv"`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  Export the list of scripts as a file, limited to 50000 entries.
+##### Accepted Permissions (at least one required)
 
-  - `"csv"`
+`Page Shield``Domain Page Shield Read``Domain Page Shield``Page Shield Read``Zone Settings Write``Zone Settings Read`
 
-- `hosts: optional string`
+##### P ath ParametersExpand Collapse
 
-  Includes scripts that match one or more URL-encoded hostnames separated by commas.
+zone\_id: string
 
-  Wildcards are supported at the start and end of each hostname to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+Identifier
 
-- `order_by: optional "first_seen_at" or "last_seen_at"`
+maxLength32
 
-  The field used to sort returned scripts.
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `"first_seen_at"`
+##### Q uery ParametersExpand Collapse
 
-  - `"last_seen_at"`
+<details>
 
-- `page: optional string`
+<summary>
 
-  The current page number of the paginated results.
+direction: optional "asc"or "desc"
 
-  We additionally support a special value "all". When "all" is used, the API will return all the scripts
-  with the applied filters in a single page. This feature is best-effort and it may only work for zones with
-  a low number of scripts
+The direction used to sort returned scripts.
 
-- `page_url: optional string`
+</summary>
 
-  Includes scripts that match one or more page URLs (separated by commas) where they were last seen
+One of the following:
 
-  Wildcards are supported at the start and end of each page URL to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+"asc"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The number of results per page.
+"desc"
 
-- `prioritize_malicious: optional boolean`
+<a href="#">Link to this property</a>
 
-  When true, malicious scripts appear first in the returned scripts.
+</details>
 
-- `status: optional string`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-  Filters the returned scripts using a comma-separated list of scripts statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`.
+exclude\_cdn\_cgi: optional boolean
 
-- `urls: optional string`
+When true, excludes scripts seen in a `/cdn-cgi` path from the returned scripts. The default value is true.
 
-  Includes scripts whose URL contain one or more URL-encoded URLs separated by commas.
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20exclude_cdn_cgi%20%3E%20(schema)>)
 
-### Returns
+exclude\_duplicates: optional boolean
 
-- `result: array of Script`
+When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript content matches and they share the same url host and zone hostname. In such case, we return the most recent script for the URL host and zone hostname combination.
 
-  - `id: string`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20exclude_duplicates%20%3E%20(schema)>)
 
-    Identifier
+exclude\_urls: optional string
 
-  - `added_at: string`
+Excludes scripts whose URL contains one of the URL-encoded URLs separated by commas.
 
-  - `first_seen_at: string`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20exclude_urls%20%3E%20(schema)>)
 
-  - `host: string`
+export: optional "csv"
 
-  - `last_seen_at: string`
+Export the list of scripts as a file, limited to 50000 entries.
 
-  - `url: string`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20export%20%3E%20(schema)>)
 
-  - `url_contains_cdn_cgi_path: boolean`
+hosts: optional string
 
-  - `cryptomining_score: optional number`
+Includes scripts that match one or more URL-encoded hostnames separated by commas.
 
-    The cryptomining score of the JavaScript content.
+Wildcards are supported at the start and end of each hostname to support starts with, ends with and contains. If no wildcards are used, results will be filtered by exact match
 
-  - `dataflow_score: optional number`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20hosts%20%3E%20(schema)>)
 
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+<details>
 
-  - `domain_reported_malicious: optional boolean`
+<summary>
 
-  - `fetched_at: optional string`
+order\_by: optional "first\_seen\_at"or "last\_seen\_at"
 
-    The timestamp of when the script was last fetched.
+The field used to sort returned scripts.
 
-  - `first_page_url: optional string`
+</summary>
 
-  - `hash: optional string`
+One of the following:
 
-    The computed hash of the analyzed script.
+"first\_seen\_at"
 
-  - `js_integrity_score: optional number`
+<a href="#">Link to this property</a>
 
-    The integrity score of the JavaScript content.
+"last\_seen\_at"
 
-  - `magecart_score: optional number`
+<a href="#">Link to this property</a>
 
-    The magecart score of the JavaScript content.
+</details>
 
-  - `malicious_domain_categories: optional array of string`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order_by%20%3E%20(schema)>)
 
-  - `malicious_url_categories: optional array of string`
+page: optional string
 
-  - `malware_score: optional number`
+The current page number of the paginated results.
 
-    The malware score of the JavaScript content.
+We additionally support a special value “all”. When “all” is used, the API will return all the scripts with the applied filters in a single page. This feature is best-effort and it may only work for zones with a low number of scripts
 
-  - `obfuscation_score: optional number`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+page\_url: optional string
 
-  - `page_urls: optional array of string`
+Includes scripts that match one or more page URLs (separated by commas) where they were last seen
 
-  - `url_reported_malicious: optional boolean`
+Wildcards are supported at the start and end of each page URL to support starts with, ends with and contains. If no wildcards are used, results will be filtered by exact match
 
-- `result_info: object { count, page, per_page, 2 more }`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page_url%20%3E%20(schema)>)
 
-  - `count: number`
+per\_page: optional number
 
-    Total number of results for the requested service
+The number of results per page.
 
-  - `page: number`
+maximum100
 
-    Current page within paginated list of results
+minimum1
 
-  - `per_page: number`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    Number of results per page of results
+prioritize\_malicious: optional boolean
 
-  - `total_count: number`
+When true, malicious scripts appear first in the returned scripts.
 
-    Total results available without any search parameters
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20prioritize_malicious%20%3E%20(schema)>)
 
-  - `total_pages: number`
+status: optional string
 
-    Total number of pages
+Filters the returned scripts using a comma-separated list of scripts statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`.
 
-- `success: true`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-  Whether the API call was successful
+urls: optional string
 
-  - `true`
+Includes scripts whose URL contain one or more URL-encoded URLs separated by commas.
 
-- `errors: optional array of ResponseInfo`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20urls%20%3E%20(schema)>)
 
-  - `code: number`
+##### ReturnsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+result: array of object {id, added\_at, first\_seen\_at, 18 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: optional array of ResponseInfo`
+id: string
 
-  - `code: number`
+Identifier
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+added\_at: string
 
-### Example
+formatdate-time
 
-```http
+<a href="#">Link to this property</a>
+
+first\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+host: string
+
+<a href="#">Link to this property</a>
+
+last\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+url\_contains\_cdn\_cgi\_path: boolean
+
+<a href="#">Link to this property</a>
+
+cryptomining\_score: optional number
+
+The cryptomining score of the JavaScript content.
+
+maximum99
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+Deprecateddataflow\_score: optional number
+
+The dataflow score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
+
+maximum99
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+domain\_reported\_malicious: optional boolean
+
+<a href="#">Link to this property</a>
+
+fetched\_at: optional string
+
+The timestamp of when the script was last fetched.
+
+<a href="#">Link to this property</a>
+
+first\_page\_url: optional string
+
+<a href="#">Link to this property</a>
+
+hash: optional string
+
+The computed hash of the analyzed script.
+
+maxLength64
+
+minLength64
+
+<a href="#">Link to this property</a>
+
+js\_integrity\_score: optional number
+
+The integrity score of the JavaScript content.
+
+maximum99
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+magecart\_score: optional number
+
+The magecart score of the JavaScript content.
+
+maximum99
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+malicious\_domain\_categories: optional array of string
+
+<a href="#">Link to this property</a>
+
+malicious\_url\_categories: optional array of string
+
+<a href="#">Link to this property</a>
+
+malware\_score: optional number
+
+The malware score of the JavaScript content.
+
+maximum99
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+Deprecatedobfuscation\_score: optional number
+
+The obfuscation score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
+
+maximum99
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+page\_urls: optional array of string
+
+<a href="#">Link to this property</a>
+
+url\_reported\_malicious: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: number
+
+Total number of results for the requested service
+
+<a href="#">Link to this property</a>
+
+page: number
+
+Current page within paginated list of results
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+Number of results per page of results
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+Total results available without any search parameters
+
+<a href="#">Link to this property</a>
+
+total\_pages: number
+
+Total number of pages
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20page_shield.scripts%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+### List detected scripts
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/scripts \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "added_at": "2021-08-18T10:51:10.09615Z",
+      "first_seen_at": "2021-08-18T10:51:08Z",
+      "host": "blog.cloudflare.com",
+      "last_seen_at": "2021-09-02T09:57:54Z",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
+      "url_contains_cdn_cgi_path": false,
+      "cryptomining_score": 1,
+      "dataflow_score": 1,
+      "domain_reported_malicious": false,
+      "fetched_at": "fetched_at",
+      "first_page_url": "blog.cloudflare.com/page",
+      "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "js_integrity_score": 1,
+      "magecart_score": 1,
+      "malicious_domain_categories": [
+        "Malware"
+      ],
+      "malicious_url_categories": [
+        "Malware"
+      ],
+      "malware_score": 1,
+      "obfuscation_score": 1,
+      "page_urls": [
+        "blog.cloudflare.com/page1",
+        "blog.cloudflare.com/page2"
+      ],
+      "url_reported_malicious": false
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  },
+  "success": true,
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": [
     {

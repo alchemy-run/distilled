@@ -1,81 +1,199 @@
-## List sessions.
+---
+title: List sessions.
+---
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/session`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+[Devtools](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools)
+
+[Session](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/session)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List sessions.
+
+GET/accounts/{account\_id}/browser-rendering/devtools/session
 
 List active browser sessions.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `limit: optional number`
 
-- `offset: optional number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Returns
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `sessionId: string`
+</details>
 
-  Session ID.
+<details>
 
-- `closeReason: optional string`
+<summary>API Email + API Key</summary>
 
-  Reason for session closure.
 
-- `closeReasonText: optional string`
 
-  Human-readable close reason.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `connectionEndTime: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Connection end time.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `connectionId: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Connection ID.
+</details>
 
-- `connectionStartTime: optional number`
+##### Accepted Permissions (at least one required)
 
-  Connection start time.
+`Browser Rendering Write``Browser Rendering Read`
 
-- `devtoolsFrontendUrl: optional string`
+##### P ath ParametersExpand Collapse
 
-  DevTools frontend URL.
+account\_id: string
 
-- `endTime: optional number`
+Account ID.
 
-  Session end time.
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `lastUpdated: optional number`
+##### Q uery ParametersExpand Collapse
 
-  Last updated timestamp.
+limit: optional number
 
-- `startTime: optional number`
+maximum200
 
-  Session start time.
+minimum1
 
-- `webSocketDebuggerUrl: optional string`
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-  WebSocket URL for debugging this target.
+offset: optional number
 
-### Example
+minimum0
 
-```http
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+sessionId: string
+
+Session ID.
+
+formatuuid
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20sessionId>)
+
+closeReason: optional number
+
+Reason code for session closure.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20closeReason>)
+
+closeReasonText: optional string
+
+Human-readable close reason.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20closeReasonText>)
+
+connectionEndTime: optional number
+
+Connection end time.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20connectionEndTime>)
+
+connectionId: optional string
+
+Connection ID.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20connectionId>)
+
+connectionStartTime: optional number
+
+Connection start time.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20connectionStartTime>)
+
+devtoolsFrontendUrl: optional string
+
+DevTools frontend URL.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20devtoolsFrontendUrl>)
+
+endTime: optional number
+
+Session end time.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20endTime>)
+
+lastUpdated: optional number
+
+Last updated timestamp.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20lastUpdated>)
+
+startTime: optional number
+
+Session start time.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20startTime>)
+
+webSocketDebuggerUrl: optional string
+
+WebSocket URL for debugging this target.
+
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)%20%3E%20(items)%20%3E%20(property)%20webSocketDebuggerUrl>)
+
+### List sessions.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/session \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 [
   {
     "sessionId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "closeReason": "closeReason",
+    "closeReason": 0,
+    "closeReasonText": "closeReasonText",
+    "connectionEndTime": 0,
+    "connectionId": "connectionId",
+    "connectionStartTime": 0,
+    "devtoolsFrontendUrl": "devtoolsFrontendUrl",
+    "endTime": 0,
+    "lastUpdated": 0,
+    "startTime": 0,
+    "webSocketDebuggerUrl": "webSocketDebuggerUrl"
+  }
+]
+```
+
+##### Returns Examples
+
+200 example
+
+```
+[
+  {
+    "sessionId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "closeReason": 0,
     "closeReasonText": "closeReasonText",
     "connectionEndTime": 0,
     "connectionId": "connectionId",

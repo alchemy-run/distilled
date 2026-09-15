@@ -1,659 +1,269 @@
+---
+title: WARP
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks)
+
+[Subnets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # WARP
 
-## Create WARP IP subnet
+##### [Create WARP IP subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp/methods/create)
 
-**post** `/accounts/{account_id}/zerotrust/subnets/warp`
+POST/accounts/{account\_id}/zerotrust/subnets/warp
 
-Create a WARP IP assignment subnet. Currently, only IPv4 subnets can be created.
+##### [Get WARP IP subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp/methods/get)
 
-**Network constraints:**
+GET/accounts/{account\_id}/zerotrust/subnets/warp/{subnet\_id}
 
-- The network must be within one of the following private IP ranges:
-  - `10.0.0.0/8` (RFC 1918)
-  - `172.16.0.0/12` (RFC 1918)
-  - `192.168.0.0/16` (RFC 1918)
-  - `100.64.0.0/10` (RFC 6598 - CGNAT)
-- The subnet must have a prefix length of `/24` or larger (e.g., `/16`, `/20`, `/24` are valid; `/25`, `/28` are not)
+##### [Update WARP IP subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/zerotrust/subnets/warp/{subnet\_id}
 
-- `account_id: string`
+##### [Delete WARP IP subnet](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/subnets/subresources/warp/methods/delete)
 
-  Cloudflare account ID
+DELETE/accounts/{account\_id}/zerotrust/subnets/warp/{subnet\_id}
 
-### Body Parameters
+##### ModelsExpand Collapse
 
-- `name: string`
+<details>
 
-  A user-friendly name for the subnet.
+<summary>
 
-- `network: string`
+Subnet object {id, capacity, comment, 6 more }
 
-  The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
+</summary>
 
-- `comment: optional string`
+id: optional string
 
-  An optional description of the subnet.
+The UUID of the subnet.
 
-- `is_default_network: optional boolean`
+formatuuid
 
-  If `true`, this is the default subnet for the account. There can only be one default subnet per account.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+capacity: optional object {total, used }
 
-  - `message: string`
+IP capacity information for the subnet.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+total: optional number
 
-    - `pointer: optional string`
+Total number of assignable IPs in the subnet.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+used: optional number
 
-  - `message: string`
+Number of assigned IPs in the subnet.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: Subnet`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+comment: optional string
 
-    The UUID of the subnet.
+An optional description of the subnet.
 
-  - `comment: optional string`
+<a href="#">Link to this property</a>
 
-    An optional description of the subnet.
+created\_at: optional string
 
-  - `created_at: optional string`
+Timestamp of when the resource was created.
 
-    Timestamp of when the resource was created.
+formatdate-time
 
-  - `deleted_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+deleted\_at: optional string
 
-  - `is_default_network: optional boolean`
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
+formatdate-time
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for the subnet.
+is\_default\_network: optional boolean
 
-  - `network: optional string`
+If <code>true</code>, this is the default subnet for the account. There can only be one default subnet per account.
 
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
+<a href="#">Link to this property</a>
 
-  - `subnet_type: optional "cloudflare_source" or "warp"`
+name: optional string
 
-    The type of subnet.
+A user-friendly name for the subnet.
 
-    - `"cloudflare_source"`
+<a href="#">Link to this property</a>
 
-    - `"warp"`
+network: optional string
 
-- `success: true`
+The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "IPv4 Cloudflare Source IPs",
-          "network": "100.64.0.0/12",
-          "comment": "example comment"
-        }'
-```
+subnet\_type: optional "cloudflare\_source"or "initial\_resolved\_ip"or "warp"
 
-#### Response
+The type of subnet.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Get WARP IP subnet
+One of the following:
 
-**get** `/accounts/{account_id}/zerotrust/subnets/warp/{subnet_id}`
+"cloudflare\_source"
 
-Get a WARP IP assignment subnet.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"initial\_resolved\_ip"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Cloudflare account ID
+"warp"
 
-- `subnet_id: string`
+<a href="#">Link to this property</a>
 
-  The UUID of the subnet.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(model)%20subnet%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+WARPDeleteResponse object {id, capacity, comment, 6 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+id: optional string
 
-  - `code: number`
+The UUID of the subnet.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: Subnet`
+<summary>
 
-  - `id: optional string`
+capacity: optional object {total, used }
 
-    The UUID of the subnet.
+IP capacity information for the subnet.
 
-  - `comment: optional string`
+</summary>
 
-    An optional description of the subnet.
+total: optional number
 
-  - `created_at: optional string`
+Total number of assignable IPs in the subnet.
 
-    Timestamp of when the resource was created.
+<a href="#">Link to this property</a>
 
-  - `deleted_at: optional string`
+used: optional number
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+Number of assigned IPs in the subnet.
 
-  - `is_default_network: optional boolean`
+<a href="#">Link to this property</a>
 
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for the subnet.
+comment: optional string
 
-  - `network: optional string`
+An optional description of the subnet.
 
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
+<a href="#">Link to this property</a>
 
-  - `subnet_type: optional "cloudflare_source" or "warp"`
+created\_at: optional string
 
-    The type of subnet.
+Timestamp of when the resource was created.
 
-    - `"cloudflare_source"`
+formatdate-time
 
-    - `"warp"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+deleted\_at: optional string
 
-  Whether the API call was successful
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-  - `true`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp/$SUBNET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+is\_default\_network: optional boolean
 
-#### Response
+If <code>true</code>, this is the default subnet for the account. There can only be one default subnet per account.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update WARP IP subnet
+name: optional string
 
-**patch** `/accounts/{account_id}/zerotrust/subnets/warp/{subnet_id}`
+A user-friendly name for the subnet.
 
-Updates a WARP IP assignment subnet.
+<a href="#">Link to this property</a>
 
-**Update constraints:**
+network: optional string
 
-- The `network` field cannot be modified for WARP subnets. Only `name`, `comment`, and `is_default_network` can be updated.
-- IPv6 subnets cannot be updated
+The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID
+<summary>
 
-- `subnet_id: string`
+subnet\_type: optional "cloudflare\_source"or "initial\_resolved\_ip"or "warp"
 
-  The UUID of the subnet.
+The type of subnet.
 
-### Body Parameters
+</summary>
 
-- `comment: optional string`
+One of the following:
 
-  An optional description of the subnet.
+"cloudflare\_source"
 
-- `is_default_network: optional boolean`
+<a href="#">Link to this property</a>
 
-  If `true`, this is the default subnet for the account. There can only be one default subnet per account.
+"initial\_resolved\_ip"
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  A user-friendly name for the subnet.
+"warp"
 
-- `network: optional string`
+<a href="#">Link to this property</a>
 
-  The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Subnet`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp/$SUBNET_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "example comment",
-          "name": "IPv4 Cloudflare Source IPs",
-          "network": "100.64.0.0/12"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
-
-## Delete WARP IP subnet
-
-**delete** `/accounts/{account_id}/zerotrust/subnets/warp/{subnet_id}`
-
-Delete a WARP IP assignment subnet. This operation is idempotent - deleting an already-deleted or non-existent subnet will return success with a null result.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `subnet_id: string`
-
-  The UUID of the subnet.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, comment, created_at, 5 more }`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/subnets/warp/$SUBNET_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "example comment",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
-    "is_default_network": true,
-    "name": "IPv4 Cloudflare Source IPs",
-    "network": "100.64.0.0/12",
-    "subnet_type": "cloudflare_source"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Subnet
-
-- `Subnet object { id, comment, created_at, 5 more }`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
-
-### WARP Delete Response
-
-- `WARPDeleteResponse object { id, comment, created_at, 5 more }`
-
-  - `id: optional string`
-
-    The UUID of the subnet.
-
-  - `comment: optional string`
-
-    An optional description of the subnet.
-
-  - `created_at: optional string`
-
-    Timestamp of when the resource was created.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-  - `is_default_network: optional boolean`
-
-    If `true`, this is the default subnet for the account. There can only be one default subnet per account.
-
-  - `name: optional string`
-
-    A user-friendly name for the subnet.
-
-  - `network: optional string`
-
-    The private IPv4 or IPv6 range defining the subnet, in CIDR notation.
-
-  - `subnet_type: optional "cloudflare_source" or "warp"`
-
-    The type of subnet.
-
-    - `"cloudflare_source"`
-
-    - `"warp"`
+[Link to this property](#)%20zero_trust.networks.subnets.warp%20%3E%20(model)%20warp_delete_response%20%3E%20(schema)>)

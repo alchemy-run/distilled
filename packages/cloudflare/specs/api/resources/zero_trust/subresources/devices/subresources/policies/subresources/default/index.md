@@ -1,2209 +1,865 @@
+---
+title: Default
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[Policies](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Default
 
-## Get the default device settings profile
+##### [Get the default device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/methods/get)
 
-**get** `/accounts/{account_id}/devices/policy`
+GET/accounts/{account\_id}/devices/policy
 
-Fetches the default device settings profile for an account.
+##### [Update the default device settings profile](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/devices/policy
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+DefaultGetResponse object {allow\_mode\_switch, allow\_updates, allowed\_to\_leave, 21 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+allow\_mode\_switch: optional boolean
 
-  - `source: optional object { pointer }`
+Whether to allow the user to switch WARP between modes.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+allow\_updates: optional boolean
 
-  - `code: number`
+Whether to receive update notifications when a new version of the client is available.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+allowed\_to\_leave: optional boolean
 
-  - `source: optional object { pointer }`
+Whether to allow devices to leave the organization.
 
-- `result: object { allow_mode_switch, allow_updates, allowed_to_leave, 20 more }`
+<a href="#">Link to this property</a>
 
-  - `allow_mode_switch: optional boolean`
+auto\_connect: optional number
 
-    Whether to allow the user to switch WARP between modes.
+The amount of time in seconds to reconnect after having been disabled.
 
-  - `allow_updates: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to receive update notifications when a new version of the client is available.
+captive\_portal: optional number
 
-  - `allowed_to_leave: optional boolean`
+Turn on the captive portal after the specified amount of time.
 
-    Whether to allow devices to leave the organization.
+<a href="#">Link to this property</a>
 
-  - `auto_connect: optional number`
+default: optional boolean
 
-    The amount of time in seconds to reconnect after having been disabled.
+Whether the policy will be applied to matching devices.
 
-  - `captive_portal: optional number`
+<a href="#">Link to this property</a>
 
-    Turn on the captive portal after the specified amount of time.
+disable\_auto\_fallback: optional boolean
 
-  - `default: optional boolean`
+If the <code>dns_server</code> field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to <code>true</code>.
 
-    Whether the policy will be applied to matching devices.
+<a href="#">Link to this property</a>
 
-  - `disable_auto_fallback: optional boolean`
+<details>
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+<summary>
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+dns\_search\_suffixes: optional array of object {suffix, description }
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
 
-    - `suffix: string`
+</summary>
 
-      The DNS search suffix to append when resolving short hostnames.
+suffix: string
 
-    - `description: optional string`
+The DNS search suffix to append when resolving short hostnames.
 
-      A description of the DNS search suffix.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+description: optional string
 
-    Whether the policy will be applied to matching devices.
+A description of the DNS search suffix.
 
-  - `exclude: optional array of SplitTunnelExclude`
+<a href="#">Link to this property</a>
 
-    List of routes excluded in the WARP client's tunnel.
+</details>
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-      - `address: string`
+enabled: optional boolean
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+Whether the policy will be applied to matching devices.
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<details>
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+<summary>
 
-      - `host: string`
+exclude: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_exclude%20%3E%20(schema)">SplitTunnelExclude</a>
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+List of routes excluded in the WARP client’s tunnel.
 
-      - `description: optional string`
+</summary>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+One of the following:
 
-  - `exclude_office_ips: optional boolean`
+<details>
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+<summary>
 
-  - `fallback_domains: optional array of FallbackDomain`
+TeamsDevicesExcludeSplitTunnelWithAddress object {address, description }
 
-    - `suffix: string`
+</summary>
 
-      The domain suffix to match when resolving locally.
+address: string
 
-    - `description: optional string`
+The address in CIDR format to exclude from the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-      A description of the fallback domain, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `dns_server: optional array of string`
+description: optional string
 
-      A list of IP addresses to handle domain resolution.
+A description of the Split Tunnel item, displayed in the client UI.
 
-  - `gateway_unique_id: optional string`
+maxLength100
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+<a href="#">Link to this property</a>
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+</details>
 
-    - `api_endpoints: array of string`
+<a href="#">Link to this property</a>
 
-      IP:port entries for the API endpoints.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Global acceleration settings are used only when "enabled".
+TeamsDevicesExcludeSplitTunnelWithHost object {host, description }
 
-    - `masque_endpoints: array of string`
+</summary>
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+host: string
 
-    - `wireguard_endpoints: array of string`
+The domain name to exclude from the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+<a href="#">Link to this property</a>
 
-  - `include: optional array of SplitTunnelInclude`
+description: optional string
 
-    List of routes included in the WARP client's tunnel.
+A description of the Split Tunnel item, displayed in the client UI.
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+maxLength100
 
-      - `address: string`
+<a href="#">Link to this property</a>
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+</details>
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+</details>
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+<a href="#">Link to this property</a>
 
-      - `host: string`
+exclude\_office\_ips: optional boolean
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+Whether to add Microsoft IPs to Split Tunnel exclusions.
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<details>
 
-  - `policy_id: optional string`
+<summary>
 
-  - `register_interface_ip_with_dns: optional boolean`
+fallback\_domains: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20fallback_domain%20%3E%20(schema)">FallbackDomain</a> { suffix, description, dns\_server }
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+</summary>
 
-  - `sccm_vpn_boundary_support: optional boolean`
+suffix: string
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+The domain suffix to match when resolving locally.
 
-  - `service_mode_v2: optional object { mode, port }`
+<a href="#">Link to this property</a>
 
-    - `mode: optional string`
+description: optional string
 
-      The mode to run the WARP client under.
+A description of the fallback domain, displayed in the client UI.
 
-    - `port: optional number`
+maxLength100
 
-      The port number when used with proxy mode.
+<a href="#">Link to this property</a>
 
-  - `support_url: optional string`
+dns\_server: optional array of string
 
-    The URL to launch when the Send Feedback button is clicked.
+A list of IP addresses to handle domain resolution.
 
-  - `switch_locked: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+</details>
 
-  - `tunnel_protocol: optional string`
+<a href="#">Link to this property</a>
 
-    Determines which tunnel protocol to use.
+gateway\_unique\_id: optional string
 
-  - `virtual_networks: optional object { allowed, default }`
+<a href="#">Link to this property</a>
 
-    Virtual network access settings for the device.
+<details>
 
-    - `allowed: array of string`
+<summary>
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+global\_acceleration: optional object {api\_endpoints, enabled, masque\_endpoints, wireguard\_endpoints }
 
-    - `default: string`
+Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See <a href="https://developers.cloudflare.com/china-network/concepts/global-acceleration/">https://developers.cloudflare.com/china-network/concepts/global-acceleration/</a>.
 
-      The default virtual network ID. Must be included in the `allowed` list.
+</summary>
 
-- `success: true`
+api\_endpoints: array of string
 
-  Whether the API call was successful.
+IP:port entries for the API endpoints.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+enabled: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Global acceleration settings are used only when “enabled”.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_mode_switch": true,
-    "allow_updates": true,
-    "allowed_to_leave": true,
-    "auto_connect": 0,
-    "captive_portal": 180,
-    "default": true,
-    "disable_auto_fallback": true,
-    "dns_search_suffixes": [
-      {
-        "suffix": "internal.corp",
-        "description": "Example internal domains"
-      }
-    ],
-    "enabled": true,
-    "exclude": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Exclude testing domains from the tunnel"
-      }
-    ],
-    "exclude_office_ips": true,
-    "fallback_domains": [
-      {
-        "suffix": "example.com",
-        "description": "Domain bypass for local development",
-        "dns_server": [
-          "1.1.1.1"
-        ]
-      }
-    ],
-    "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-    "global_acceleration": {
-      "api_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "enabled": true,
-      "masque_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "wireguard_endpoints": [
-        "198.51.100.1:2408"
-      ]
-    },
-    "include": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Include testing domains in the tunnel"
-      }
-    ],
-    "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "register_interface_ip_with_dns": true,
-    "sccm_vpn_boundary_support": false,
-    "service_mode_v2": {
-      "mode": "proxy",
-      "port": 3000
-    },
-    "support_url": "https://1.1.1.1/help",
-    "switch_locked": true,
-    "tunnel_protocol": "wireguard",
-    "virtual_networks": {
-      "allowed": [
-        "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      ],
-      "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  },
-  "success": true
-}
-```
+masque\_endpoints: array of string
 
-## Update the default device settings profile
+IP:port entries for the MASQUE tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-**patch** `/accounts/{account_id}/devices/policy`
+<a href="#">Link to this property</a>
 
-Updates the default device settings profile for an account.
+wireguard\_endpoints: array of string
 
-### Path Parameters
+IP:port entries for the WireGuard tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `allow_mode_switch: optional boolean`
+<a href="#">Link to this property</a>
 
-  Whether to allow the user to switch WARP between modes.
+<details>
 
-- `allow_updates: optional boolean`
+<summary>
 
-  Whether to receive update notifications when a new version of the client is available.
+include: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_include%20%3E%20(schema)">SplitTunnelInclude</a>
 
-- `allowed_to_leave: optional boolean`
+List of routes included in the WARP client’s tunnel.
 
-  Whether to allow devices to leave the organization.
+</summary>
 
-- `auto_connect: optional number`
+One of the following:
 
-  The amount of time in seconds to reconnect after having been disabled.
+<details>
 
-- `captive_portal: optional number`
+<summary>
 
-  Turn on the captive portal after the specified amount of time.
+TeamsDevicesIncludeSplitTunnelWithAddress object {address, description }
 
-- `disable_auto_fallback: optional boolean`
+</summary>
 
-  If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+address: string
 
-- `dns_search_suffixes: optional array of object { suffix, description }`
+The address in CIDR format to include in the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-  List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+<a href="#">Link to this property</a>
 
-  - `suffix: string`
+description: optional string
 
-    The DNS search suffix to append when resolving short hostnames.
+A description of the Split Tunnel item, displayed in the client UI.
 
-  - `description: optional string`
+maxLength100
 
-    A description of the DNS search suffix.
+<a href="#">Link to this property</a>
 
-- `exclude: optional array of SplitTunnelExclude`
+</details>
 
-  List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request.
+<a href="#">Link to this property</a>
 
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+<details>
 
-    - `address: string`
+<summary>
 
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+TeamsDevicesIncludeSplitTunnelWithHost object {host, description }
 
-    - `description: optional string`
+</summary>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+host: string
 
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+The domain name to include in the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+description: optional string
 
-    - `description: optional string`
+A description of the Split Tunnel item, displayed in the client UI.
 
-      A description of the Split Tunnel item, displayed in the client UI.
+maxLength100
 
-- `exclude_office_ips: optional boolean`
+<a href="#">Link to this property</a>
 
-  Whether to add Microsoft IPs to Split Tunnel exclusions.
+</details>
 
-- `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+<a href="#">Link to this property</a>
 
-  Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+</details>
 
-  - `api_endpoints: array of string`
+<a href="#">Link to this property</a>
 
-    IP:port entries for the API endpoints.
+policy\_id: optional string
 
-  - `enabled: boolean`
+maxLength36
 
-    Global acceleration settings are used only when "enabled".
+<a href="#">Link to this property</a>
 
-  - `masque_endpoints: array of string`
+register\_interface\_ip\_with\_dns: optional boolean
 
-    IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+Determines if the operating system will register WARP’s local interface IP with your on-premises DNS server.
 
-  - `wireguard_endpoints: array of string`
+<a href="#">Link to this property</a>
 
-    IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+sccm\_vpn\_boundary\_support: optional boolean
 
-- `include: optional array of SplitTunnelInclude`
+Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
 
-  List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request.
+<a href="#">Link to this property</a>
 
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+<details>
 
-    - `address: string`
+<summary>
 
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+service\_mode\_v2: optional object {mode, port }
 
-    - `description: optional string`
+</summary>
 
-      A description of the Split Tunnel item, displayed in the client UI.
+mode: optional string
 
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+The mode to run the WARP client under.
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+port: optional number
 
-    - `description: optional string`
+The port number when used with proxy mode.
 
-      A description of the Split Tunnel item, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-- `lan_allow_minutes: optional number`
+</details>
 
-  The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset.
+<a href="#">Link to this property</a>
 
-- `lan_allow_subnet_size: optional number`
+support\_url: optional string
 
-  The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset.
+The URL to launch when the Send Feedback button is clicked.
 
-- `register_interface_ip_with_dns: optional boolean`
+<a href="#">Link to this property</a>
 
-  Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+switch\_locked: optional boolean
 
-- `sccm_vpn_boundary_support: optional boolean`
+Whether to allow the user to turn off the WARP switch and disconnect the client.
 
-  Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+<a href="#">Link to this property</a>
 
-- `service_mode_v2: optional object { mode, port }`
+tunnel\_protocol: optional string
 
-  - `mode: optional string`
+Determines which tunnel protocol to use.
 
-    The mode to run the WARP client under.
+<a href="#">Link to this property</a>
 
-  - `port: optional number`
+uninstall\_protection: optional boolean
 
-    The port number when used with proxy mode.
+Determines whether uninstalling the WARP client requires an override code. (Windows only).
 
-- `support_url: optional string`
+<a href="#">Link to this property</a>
 
-  The URL to launch when the Send Feedback button is clicked.
+<details>
 
-- `switch_locked: optional boolean`
+<summary>
 
-  Whether to allow the user to turn off the WARP switch and disconnect the client.
+virtual\_networks: optional object {allowed, default }
 
-- `tunnel_protocol: optional string`
+Virtual network access settings for the device.
 
-  Determines which tunnel protocol to use.
+</summary>
 
-- `virtual_networks: optional object { allowed, default }`
+allowed: array of string
 
-  Virtual network access settings for the device.
+List of virtual network IDs the device is allowed to access. When virtual\_networks is set, at least one entry is required.
 
-  - `allowed: array of string`
+<a href="#">Link to this property</a>
 
-    List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+default: string
 
-  - `default: string`
+The default virtual network ID. Must be included in the <code>allowed</code> list.
 
-    The default virtual network ID. Must be included in the `allowed` list.
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.devices.policies.default%20%3E%20(model)%20default_get_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+DefaultEditResponse object {allow\_mode\_switch, allow\_updates, allowed\_to\_leave, 21 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+allow\_mode\_switch: optional boolean
 
-  - `documentation_url: optional string`
+Whether to allow the user to switch WARP between modes.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { allow_mode_switch, allow_updates, allowed_to_leave, 20 more }`
+allow\_updates: optional boolean
 
-  - `allow_mode_switch: optional boolean`
+Whether to receive update notifications when a new version of the client is available.
 
-    Whether to allow the user to switch WARP between modes.
+<a href="#">Link to this property</a>
 
-  - `allow_updates: optional boolean`
+allowed\_to\_leave: optional boolean
 
-    Whether to receive update notifications when a new version of the client is available.
+Whether to allow devices to leave the organization.
 
-  - `allowed_to_leave: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to allow devices to leave the organization.
+auto\_connect: optional number
 
-  - `auto_connect: optional number`
+The amount of time in seconds to reconnect after having been disabled.
 
-    The amount of time in seconds to reconnect after having been disabled.
+<a href="#">Link to this property</a>
 
-  - `captive_portal: optional number`
+captive\_portal: optional number
 
-    Turn on the captive portal after the specified amount of time.
+Turn on the captive portal after the specified amount of time.
 
-  - `default: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy will be applied to matching devices.
+default: optional boolean
 
-  - `disable_auto_fallback: optional boolean`
+Whether the policy will be applied to matching devices.
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+<a href="#">Link to this property</a>
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+disable\_auto\_fallback: optional boolean
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+If the <code>dns_server</code> field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to <code>true</code>.
 
-    - `suffix: string`
+<a href="#">Link to this property</a>
 
-      The DNS search suffix to append when resolving short hostnames.
+<details>
 
-    - `description: optional string`
+<summary>
 
-      A description of the DNS search suffix.
+dns\_search\_suffixes: optional array of object {suffix, description }
 
-  - `enabled: optional boolean`
+List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
 
-    Whether the policy will be applied to matching devices.
+</summary>
 
-  - `exclude: optional array of SplitTunnelExclude`
+suffix: string
 
-    List of routes excluded in the WARP client's tunnel.
+The DNS search suffix to append when resolving short hostnames.
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+<a href="#">Link to this property</a>
 
-      - `address: string`
+description: optional string
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+A description of the DNS search suffix.
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+</details>
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+<a href="#">Link to this property</a>
 
-      - `host: string`
+enabled: optional boolean
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+Whether the policy will be applied to matching devices.
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<details>
 
-  - `exclude_office_ips: optional boolean`
+<summary>
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+exclude: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_exclude%20%3E%20(schema)">SplitTunnelExclude</a>
 
-  - `fallback_domains: optional array of FallbackDomain`
+List of routes excluded in the WARP client’s tunnel.
 
-    - `suffix: string`
+</summary>
 
-      The domain suffix to match when resolving locally.
+One of the following:
 
-    - `description: optional string`
+<details>
 
-      A description of the fallback domain, displayed in the client UI.
+<summary>
 
-    - `dns_server: optional array of string`
+TeamsDevicesExcludeSplitTunnelWithAddress object {address, description }
 
-      A list of IP addresses to handle domain resolution.
+</summary>
 
-  - `gateway_unique_id: optional string`
+address: string
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+The address in CIDR format to exclude from the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+<a href="#">Link to this property</a>
 
-    - `api_endpoints: array of string`
+description: optional string
 
-      IP:port entries for the API endpoints.
+A description of the Split Tunnel item, displayed in the client UI.
 
-    - `enabled: boolean`
+maxLength100
 
-      Global acceleration settings are used only when "enabled".
+<a href="#">Link to this property</a>
 
-    - `masque_endpoints: array of string`
+</details>
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+<a href="#">Link to this property</a>
 
-    - `wireguard_endpoints: array of string`
+<details>
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+<summary>
 
-  - `include: optional array of SplitTunnelInclude`
+TeamsDevicesExcludeSplitTunnelWithHost object {host, description }
 
-    List of routes included in the WARP client's tunnel.
+</summary>
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+host: string
 
-      - `address: string`
+The domain name to exclude from the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+description: optional string
 
-        A description of the Split Tunnel item, displayed in the client UI.
+A description of the Split Tunnel item, displayed in the client UI.
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+maxLength100
 
-      - `host: string`
+<a href="#">Link to this property</a>
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+</details>
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+</details>
 
-  - `policy_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `register_interface_ip_with_dns: optional boolean`
+exclude\_office\_ips: optional boolean
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+Whether to add Microsoft IPs to Split Tunnel exclusions.
 
-  - `sccm_vpn_boundary_support: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+<details>
 
-  - `service_mode_v2: optional object { mode, port }`
+<summary>
 
-    - `mode: optional string`
+fallback\_domains: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20fallback_domain%20%3E%20(schema)">FallbackDomain</a> { suffix, description, dns\_server }
 
-      The mode to run the WARP client under.
+</summary>
 
-    - `port: optional number`
+suffix: string
 
-      The port number when used with proxy mode.
+The domain suffix to match when resolving locally.
 
-  - `support_url: optional string`
+<a href="#">Link to this property</a>
 
-    The URL to launch when the Send Feedback button is clicked.
+description: optional string
 
-  - `switch_locked: optional boolean`
+A description of the fallback domain, displayed in the client UI.
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+maxLength100
 
-  - `tunnel_protocol: optional string`
+<a href="#">Link to this property</a>
 
-    Determines which tunnel protocol to use.
+dns\_server: optional array of string
 
-  - `virtual_networks: optional object { allowed, default }`
+A list of IP addresses to handle domain resolution.
 
-    Virtual network access settings for the device.
+<a href="#">Link to this property</a>
 
-    - `allowed: array of string`
+</details>
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+<a href="#">Link to this property</a>
 
-    - `default: string`
+gateway\_unique\_id: optional string
 
-      The default virtual network ID. Must be included in the `allowed` list.
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+global\_acceleration: optional object {api\_endpoints, enabled, masque\_endpoints, wireguard\_endpoints }
 
-### Example
+Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See <a href="https://developers.cloudflare.com/china-network/concepts/global-acceleration/">https://developers.cloudflare.com/china-network/concepts/global-acceleration/</a>.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allow_mode_switch": true,
-          "allow_updates": true,
-          "allowed_to_leave": true,
-          "captive_portal": 180,
-          "disable_auto_fallback": true,
-          "exclude_office_ips": true,
-          "lan_allow_minutes": 30,
-          "lan_allow_subnet_size": 24,
-          "register_interface_ip_with_dns": true,
-          "support_url": "https://1.1.1.1/help",
-          "switch_locked": true,
-          "tunnel_protocol": "wireguard"
-        }'
-```
+</summary>
 
-#### Response
+api\_endpoints: array of string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_mode_switch": true,
-    "allow_updates": true,
-    "allowed_to_leave": true,
-    "auto_connect": 0,
-    "captive_portal": 180,
-    "default": true,
-    "disable_auto_fallback": true,
-    "dns_search_suffixes": [
-      {
-        "suffix": "internal.corp",
-        "description": "Example internal domains"
-      }
-    ],
-    "enabled": true,
-    "exclude": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Exclude testing domains from the tunnel"
-      }
-    ],
-    "exclude_office_ips": true,
-    "fallback_domains": [
-      {
-        "suffix": "example.com",
-        "description": "Domain bypass for local development",
-        "dns_server": [
-          "1.1.1.1"
-        ]
-      }
-    ],
-    "gateway_unique_id": "699d98642c564d2e855e9661899b7252",
-    "global_acceleration": {
-      "api_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "enabled": true,
-      "masque_endpoints": [
-        "198.51.100.1:443"
-      ],
-      "wireguard_endpoints": [
-        "198.51.100.1:2408"
-      ]
-    },
-    "include": [
-      {
-        "address": "192.0.2.0/24",
-        "description": "Include testing domains in the tunnel"
-      }
-    ],
-    "policy_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "register_interface_ip_with_dns": true,
-    "sccm_vpn_boundary_support": false,
-    "service_mode_v2": {
-      "mode": "proxy",
-      "port": 3000
-    },
-    "support_url": "https://1.1.1.1/help",
-    "switch_locked": true,
-    "tunnel_protocol": "wireguard",
-    "virtual_networks": {
-      "allowed": [
-        "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      ],
-      "default": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  },
-  "success": true
-}
-```
+IP:port entries for the API endpoints.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Default Get Response
+enabled: boolean
 
-- `DefaultGetResponse object { allow_mode_switch, allow_updates, allowed_to_leave, 20 more }`
+Global acceleration settings are used only when “enabled”.
 
-  - `allow_mode_switch: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to allow the user to switch WARP between modes.
+masque\_endpoints: array of string
 
-  - `allow_updates: optional boolean`
+IP:port entries for the MASQUE tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-    Whether to receive update notifications when a new version of the client is available.
+<a href="#">Link to this property</a>
 
-  - `allowed_to_leave: optional boolean`
+wireguard\_endpoints: array of string
 
-    Whether to allow devices to leave the organization.
+IP:port entries for the WireGuard tunnel endpoints. Either wireguard\_endpoints or masque\_endpoints must be provided.
 
-  - `auto_connect: optional number`
+<a href="#">Link to this property</a>
 
-    The amount of time in seconds to reconnect after having been disabled.
+</details>
 
-  - `captive_portal: optional number`
+<a href="#">Link to this property</a>
 
-    Turn on the captive portal after the specified amount of time.
+<details>
 
-  - `default: optional boolean`
+<summary>
 
-    Whether the policy will be applied to matching devices.
+include: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.policies%20%3E%20(model)%20split_tunnel_include%20%3E%20(schema)">SplitTunnelInclude</a>
 
-  - `disable_auto_fallback: optional boolean`
+List of routes included in the WARP client’s tunnel.
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+</summary>
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+One of the following:
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+<details>
 
-    - `suffix: string`
+<summary>
 
-      The DNS search suffix to append when resolving short hostnames.
+TeamsDevicesIncludeSplitTunnelWithAddress object {address, description }
 
-    - `description: optional string`
+</summary>
 
-      A description of the DNS search suffix.
+address: string
 
-  - `enabled: optional boolean`
+The address in CIDR format to include in the tunnel. If <code>address</code> is present, <code>host</code> must not be present.
 
-    Whether the policy will be applied to matching devices.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of SplitTunnelExclude`
+description: optional string
 
-    List of routes excluded in the WARP client's tunnel.
+A description of the Split Tunnel item, displayed in the client UI.
 
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
+maxLength100
 
-      - `address: string`
+<a href="#">Link to this property</a>
 
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
+</details>
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        A description of the Split Tunnel item, displayed in the client UI.
+<details>
 
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
+<summary>
 
-      - `host: string`
+TeamsDevicesIncludeSplitTunnelWithHost object {host, description }
 
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
+</summary>
 
-      - `description: optional string`
+host: string
 
-        A description of the Split Tunnel item, displayed in the client UI.
+The domain name to include in the tunnel. If <code>host</code> is present, <code>address</code> must not be present.
 
-  - `exclude_office_ips: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
+description: optional string
 
-  - `fallback_domains: optional array of FallbackDomain`
+A description of the Split Tunnel item, displayed in the client UI.
 
-    - `suffix: string`
+maxLength100
 
-      The domain suffix to match when resolving locally.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      A description of the fallback domain, displayed in the client UI.
+<a href="#">Link to this property</a>
 
-    - `dns_server: optional array of string`
+</details>
 
-      A list of IP addresses to handle domain resolution.
+<a href="#">Link to this property</a>
 
-  - `gateway_unique_id: optional string`
+policy\_id: optional string
 
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
+maxLength36
 
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
+<a href="#">Link to this property</a>
 
-    - `api_endpoints: array of string`
+register\_interface\_ip\_with\_dns: optional boolean
 
-      IP:port entries for the API endpoints.
+Determines if the operating system will register WARP’s local interface IP with your on-premises DNS server.
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Global acceleration settings are used only when "enabled".
+sccm\_vpn\_boundary\_support: optional boolean
 
-    - `masque_endpoints: array of string`
+Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
 
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+<a href="#">Link to this property</a>
 
-    - `wireguard_endpoints: array of string`
+<details>
 
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
+<summary>
 
-  - `include: optional array of SplitTunnelInclude`
+service\_mode\_v2: optional object {mode, port }
 
-    List of routes included in the WARP client's tunnel.
+</summary>
 
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
+mode: optional string
 
-      - `address: string`
+The mode to run the WARP client under.
 
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+port: optional number
 
-        A description of the Split Tunnel item, displayed in the client UI.
+The port number when used with proxy mode.
 
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
+<a href="#">Link to this property</a>
 
-      - `host: string`
+</details>
 
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+support\_url: optional string
 
-        A description of the Split Tunnel item, displayed in the client UI.
+The URL to launch when the Send Feedback button is clicked.
 
-  - `policy_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `register_interface_ip_with_dns: optional boolean`
+switch\_locked: optional boolean
 
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
+Whether to allow the user to turn off the WARP switch and disconnect the client.
 
-  - `sccm_vpn_boundary_support: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
+tunnel\_protocol: optional string
 
-  - `service_mode_v2: optional object { mode, port }`
+Determines which tunnel protocol to use.
 
-    - `mode: optional string`
+<a href="#">Link to this property</a>
 
-      The mode to run the WARP client under.
+uninstall\_protection: optional boolean
 
-    - `port: optional number`
+Determines whether uninstalling the WARP client requires an override code. (Windows only).
 
-      The port number when used with proxy mode.
+<a href="#">Link to this property</a>
 
-  - `support_url: optional string`
+<details>
 
-    The URL to launch when the Send Feedback button is clicked.
+<summary>
 
-  - `switch_locked: optional boolean`
+virtual\_networks: optional object {allowed, default }
 
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
+Virtual network access settings for the device.
 
-  - `tunnel_protocol: optional string`
+</summary>
 
-    Determines which tunnel protocol to use.
+allowed: array of string
 
-  - `virtual_networks: optional object { allowed, default }`
+List of virtual network IDs the device is allowed to access. When virtual\_networks is set, at least one entry is required.
 
-    Virtual network access settings for the device.
+<a href="#">Link to this property</a>
 
-    - `allowed: array of string`
+default: string
 
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
+The default virtual network ID. Must be included in the <code>allowed</code> list.
 
-    - `default: string`
+formatuuid
 
-      The default virtual network ID. Must be included in the `allowed` list.
+<a href="#">Link to this property</a>
 
-### Default Edit Response
+</details>
 
-- `DefaultEditResponse object { allow_mode_switch, allow_updates, allowed_to_leave, 20 more }`
+<a href="#">Link to this property</a>
 
-  - `allow_mode_switch: optional boolean`
+</details>
 
-    Whether to allow the user to switch WARP between modes.
+[Link to this property](#)%20zero_trust.devices.policies.default%20%3E%20(model)%20default_edit_response%20%3E%20(schema)>)
 
-  - `allow_updates: optional boolean`
+#### DefaultExcludes
 
-    Whether to receive update notifications when a new version of the client is available.
+##### [Get the Split Tunnel exclude list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/excludes/methods/get)
 
-  - `allowed_to_leave: optional boolean`
+GET/accounts/{account\_id}/devices/policy/exclude
 
-    Whether to allow devices to leave the organization.
+##### [Set the Split Tunnel exclude list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/excludes/methods/update)
 
-  - `auto_connect: optional number`
+PUT/accounts/{account\_id}/devices/policy/exclude
 
-    The amount of time in seconds to reconnect after having been disabled.
+#### DefaultIncludes
 
-  - `captive_portal: optional number`
+##### [Get the Split Tunnel include list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/includes/methods/get)
 
-    Turn on the captive portal after the specified amount of time.
+GET/accounts/{account\_id}/devices/policy/include
 
-  - `default: optional boolean`
+##### [Set the Split Tunnel include list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/includes/methods/update)
 
-    Whether the policy will be applied to matching devices.
+PUT/accounts/{account\_id}/devices/policy/include
 
-  - `disable_auto_fallback: optional boolean`
+#### DefaultFallback Domains
 
-    If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.
+##### [Get your Local Domain Fallback list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/fallback_domains/methods/get)
 
-  - `dns_search_suffixes: optional array of object { suffix, description }`
+GET/accounts/{account\_id}/devices/policy/fallback\_domains
 
-    List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear.
+##### [Set your Local Domain Fallback list](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/fallback_domains/methods/update)
 
-    - `suffix: string`
+PUT/accounts/{account\_id}/devices/policy/fallback\_domains
 
-      The DNS search suffix to append when resolving short hostnames.
+#### DefaultCertificates
 
-    - `description: optional string`
+##### [Get device certificate provisioning status](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/certificates/methods/get)
 
-      A description of the DNS search suffix.
+GET/zones/{zone\_id}/devices/policy/certificates
 
-  - `enabled: optional boolean`
+##### [Update device certificate provisioning status](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/policies/subresources/default/subresources/certificates/methods/edit)
 
-    Whether the policy will be applied to matching devices.
-
-  - `exclude: optional array of SplitTunnelExclude`
-
-    List of routes excluded in the WARP client's tunnel.
-
-    - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `exclude_office_ips: optional boolean`
-
-    Whether to add Microsoft IPs to Split Tunnel exclusions.
-
-  - `fallback_domains: optional array of FallbackDomain`
-
-    - `suffix: string`
-
-      The domain suffix to match when resolving locally.
-
-    - `description: optional string`
-
-      A description of the fallback domain, displayed in the client UI.
-
-    - `dns_server: optional array of string`
-
-      A list of IP addresses to handle domain resolution.
-
-  - `gateway_unique_id: optional string`
-
-  - `global_acceleration: optional object { api_endpoints, enabled, masque_endpoints, wireguard_endpoints }`
-
-    Global Acceleration settings for China. When configured, WARP clients connect to the Global Accelerator addresses instead of the default ones. Please contact your account representative to enable this feature on your account. See https://developers.cloudflare.com/china-network/concepts/global-acceleration/.
-
-    - `api_endpoints: array of string`
-
-      IP:port entries for the API endpoints.
-
-    - `enabled: boolean`
-
-      Global acceleration settings are used only when "enabled".
-
-    - `masque_endpoints: array of string`
-
-      IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-    - `wireguard_endpoints: array of string`
-
-      IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided.
-
-  - `include: optional array of SplitTunnelInclude`
-
-    List of routes included in the WARP client's tunnel.
-
-    - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-      - `address: string`
-
-        The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-    - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-      - `host: string`
-
-        The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-      - `description: optional string`
-
-        A description of the Split Tunnel item, displayed in the client UI.
-
-  - `policy_id: optional string`
-
-  - `register_interface_ip_with_dns: optional boolean`
-
-    Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.
-
-  - `sccm_vpn_boundary_support: optional boolean`
-
-    Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).
-
-  - `service_mode_v2: optional object { mode, port }`
-
-    - `mode: optional string`
-
-      The mode to run the WARP client under.
-
-    - `port: optional number`
-
-      The port number when used with proxy mode.
-
-  - `support_url: optional string`
-
-    The URL to launch when the Send Feedback button is clicked.
-
-  - `switch_locked: optional boolean`
-
-    Whether to allow the user to turn off the WARP switch and disconnect the client.
-
-  - `tunnel_protocol: optional string`
-
-    Determines which tunnel protocol to use.
-
-  - `virtual_networks: optional object { allowed, default }`
-
-    Virtual network access settings for the device.
-
-    - `allowed: array of string`
-
-      List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required.
-
-    - `default: string`
-
-      The default virtual network ID. Must be included in the `allowed` list.
-
-# Excludes
-
-## Get the Split Tunnel exclude list
-
-**get** `/accounts/{account_id}/devices/policy/exclude`
-
-Fetches the list of routes excluded from the WARP client's tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SplitTunnelExclude`
-
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/exclude \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Exclude testing domains from the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Set the Split Tunnel exclude list
-
-**put** `/accounts/{account_id}/devices/policy/exclude`
-
-Sets the list of routes excluded from the WARP client's tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `body: array of SplitTunnelExclude`
-
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SplitTunnelExclude`
-
-  - `TeamsDevicesExcludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to exclude from the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesExcludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to exclude from the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/exclude \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "address": "192.0.2.0/24",
-            "description": "Exclude testing domains from the tunnel"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Exclude testing domains from the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-# Includes
-
-## Get the Split Tunnel include list
-
-**get** `/accounts/{account_id}/devices/policy/include`
-
-Fetches the list of routes included in the WARP client's tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SplitTunnelInclude`
-
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/include \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Include testing domains in the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Set the Split Tunnel include list
-
-**put** `/accounts/{account_id}/devices/policy/include`
-
-Sets the list of routes included in the WARP client's tunnel.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `body: array of SplitTunnelInclude`
-
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of SplitTunnelInclude`
-
-  - `TeamsDevicesIncludeSplitTunnelWithAddress object { address, description }`
-
-    - `address: string`
-
-      The address in CIDR format to include in the tunnel. If `address` is present, `host` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-  - `TeamsDevicesIncludeSplitTunnelWithHost object { host, description }`
-
-    - `host: string`
-
-      The domain name to include in the tunnel. If `host` is present, `address` must not be present.
-
-    - `description: optional string`
-
-      A description of the Split Tunnel item, displayed in the client UI.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/include \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "address": "192.0.2.0/24",
-            "description": "Include testing domains in the tunnel"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "address": "192.0.2.0/24",
-      "description": "Include testing domains in the tunnel"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-# Fallback Domains
-
-## Get your Local Domain Fallback list
-
-**get** `/accounts/{account_id}/devices/policy/fallback_domains`
-
-Fetches a list of domains to bypass Gateway DNS resolution. These domains will use the specified local DNS resolver instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of FallbackDomain`
-
-  - `suffix: string`
-
-    The domain suffix to match when resolving locally.
-
-  - `description: optional string`
-
-    A description of the fallback domain, displayed in the client UI.
-
-  - `dns_server: optional array of string`
-
-    A list of IP addresses to handle domain resolution.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/fallback_domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "suffix": "example.com",
-      "description": "Domain bypass for local development",
-      "dns_server": [
-        "1.1.1.1"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Set your Local Domain Fallback list
-
-**put** `/accounts/{account_id}/devices/policy/fallback_domains`
-
-Sets the list of domains to bypass Gateway DNS resolution. These domains will use the specified local DNS resolver instead.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `domains: array of FallbackDomain`
-
-  - `suffix: string`
-
-    The domain suffix to match when resolving locally.
-
-  - `description: optional string`
-
-    A description of the fallback domain, displayed in the client UI.
-
-  - `dns_server: optional array of string`
-
-    A list of IP addresses to handle domain resolution.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of FallbackDomain`
-
-  - `suffix: string`
-
-    The domain suffix to match when resolving locally.
-
-  - `description: optional string`
-
-    A description of the fallback domain, displayed in the client UI.
-
-  - `dns_server: optional array of string`
-
-    A list of IP addresses to handle domain resolution.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/policy/fallback_domains \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "suffix": "example.com",
-            "description": "Domain bypass for local development",
-            "dns_server": [
-              "1.1.1.1"
-            ]
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "suffix": "example.com",
-      "description": "Domain bypass for local development",
-      "dns_server": [
-        "1.1.1.1"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-# Certificates
-
-## Get device certificate provisioning status
-
-**get** `/zones/{zone_id}/devices/policy/certificates`
-
-Fetches device certificate provisioning.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DevicePolicyCertificates`
-
-  - `enabled: boolean`
-
-    The current status of the device policy certificate provisioning feature for WARP clients.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/devices/policy/certificates \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true
-  },
-  "success": true
-}
-```
-
-## Update device certificate provisioning status
-
-**patch** `/zones/{zone_id}/devices/policy/certificates`
-
-Enable Zero Trust Clients to provision a certificate, containing a x509 subject, and referenced by Access device posture policies when the client visits MTLS protected domains. This facilitates device posture without a WARP session.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  The current status of the device policy certificate provisioning feature for WARP clients.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: DevicePolicyCertificates`
-
-  - `enabled: boolean`
-
-    The current status of the device policy certificate provisioning feature for WARP clients.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/devices/policy/certificates \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true
-  },
-  "success": true
-}
-```
+PATCH/zones/{zone\_id}/devices/policy/certificates

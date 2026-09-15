@@ -1,156 +1,438 @@
-## Raw D1 Database query
+---
+title: Raw D1 Database query
+---
 
-**post** `/accounts/{account_id}/d1/database/{database_id}/raw`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[D1](https://developers.cloudflare.com/api/resources/d1)
+
+[Database](https://developers.cloudflare.com/api/resources/d1/subresources/database)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Raw D1 Database query
+
+POST/accounts/{account\_id}/d1/database/{database\_id}/raw
 
 Returns the query result rows as arrays rather than objects. This is a performance-optimized version of the /query endpoint.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>API Token</summary>
 
-- `database_id: string`
 
-  D1 database identifier (UUID).
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `body: object { sql, params }  or object { batch }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  A single query object or a batch query object
+</details>
 
-  - `D1SingleQuery object { sql, params }`
+<details>
 
-    A single query with or without parameters
+<summary>API Email + API Key</summary>
 
-    - `sql: string`
 
-      Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.
 
-    - `params: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `MultipleQueries object { batch }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `batch: array of object { sql, params }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `sql: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-        Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.
+</details>
 
-      - `params: optional array of string`
+##### Accepted Permissions (at least one required)
 
-### Returns
+`D1 Read``D1 Write`
 
-- `errors: array of ResponseInfo`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+Account identifier tag.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20raw%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+database\_id: string
 
-- `messages: array of ResponseInfo`
+D1 database identifier (UUID).
 
-  - `code: number`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20raw%20%3E%20(params)%200%20%3E%20(param)%20database_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### Body ParametersJSONExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-- `result: array of object { meta, results, success }`
+body: object {sql, params } or object {batch }
 
-  - `meta: optional object { changed_db, changes, duration, 8 more }`
+A single query object or a batch query object
 
-    - `changed_db: optional boolean`
+</summary>
 
-      Denotes if the database has been altered in some way, like deleting rows.
+One of the following:
 
-    - `changes: optional number`
+<details>
 
-      Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`.
+<summary>
 
-    - `duration: optional number`
+D1SingleQuery object {sql, params }
 
-      The duration of the SQL query execution inside the database. Does not include any network communication.
+A single query with or without parameters
 
-    - `last_row_id: optional number`
+</summary>
 
-      The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this.
+sql: string
 
-    - `rows_read: optional number`
+Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.
 
-      Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
+<a href="#">Link to this property</a>
 
-    - `rows_written: optional number`
+params: optional array of string
 
-      Number of rows written during the SQL query execution, including indices.
+<a href="#">Link to this property</a>
 
-    - `served_by_colo: optional string`
+</details>
 
-      The three letters airport code of the colo that handled the query.
+<a href="#">Link to this property</a>
 
-    - `served_by_primary: optional boolean`
+<details>
 
-      Denotes if the query has been handled by the database primary instance.
+<summary>
 
-    - `served_by_region: optional "WNAM" or "ENAM" or "WEUR" or 3 more`
+MultipleQueries object {batch }
 
-      Region location hint of the database instance that handled the query.
+</summary>
 
-      - `"WNAM"`
+<details>
 
-      - `"ENAM"`
+<summary>
 
-      - `"WEUR"`
+batch: array of object {sql, params }
 
-      - `"EEUR"`
+</summary>
 
-      - `"APAC"`
+sql: string
 
-      - `"OC"`
+Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.
 
-    - `size_after: optional number`
+<a href="#">Link to this property</a>
 
-      Size of the database after the query committed, in bytes.
+params: optional array of string
 
-    - `timings: optional object { sql_duration_ms }`
+<a href="#">Link to this property</a>
 
-      Various durations for the query.
+</details>
 
-      - `sql_duration_ms: optional number`
+<a href="#">Link to this property</a>
 
-        The duration of the SQL query execution inside the database. Does not include any network communication.
+</details>
 
-  - `results: optional object { columns, rows }`
+<a href="#">Link to this property</a>
 
-    - `columns: optional array of string`
+</details>
 
-    - `rows: optional array of array of number or string or unknown`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20raw%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
 
-      - `number`
+##### ReturnsExpand Collapse
 
-      - `string`
+<details>
 
-      - `unknown`
+<summary>
 
-  - `success: optional boolean`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+code: number
 
-  - `true`
+minimum1000
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20raw%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20raw%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {meta, results, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+meta: optional object {changed\_db, changes, duration, 8 more }
+
+</summary>
+
+changed\_db: optional boolean
+
+Denotes if the database has been altered in some way, like deleting rows.
+
+<a href="#">Link to this property</a>
+
+changes: optional number
+
+Rough indication of how many rows were modified by the query, as provided by SQLite’s <code>sqlite3_total_changes()</code>.
+
+<a href="#">Link to this property</a>
+
+duration: optional number
+
+The duration of the SQL query execution inside the database. Does not include any network communication.
+
+<a href="#">Link to this property</a>
+
+last\_row\_id: optional number
+
+The row ID of the last inserted row in a table with an <code>INTEGER PRIMARY KEY</code> as provided by SQLite. Tables created with <code>WITHOUT ROWID</code> do not populate this.
+
+<a href="#">Link to this property</a>
+
+rows\_read: optional number
+
+Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
+
+<a href="#">Link to this property</a>
+
+rows\_written: optional number
+
+Number of rows written during the SQL query execution, including indices.
+
+<a href="#">Link to this property</a>
+
+served\_by\_colo: optional string
+
+The three letters airport code of the colo that handled the query.
+
+<a href="#">Link to this property</a>
+
+served\_by\_primary: optional boolean
+
+Denotes if the query has been handled by the database primary instance.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+served\_by\_region: optional "WNAM"or "ENAM"or "WEUR"or 3 more
+
+Region location hint of the database instance that handled the query.
+
+</summary>
+
+One of the following:
+
+"WNAM"
+
+<a href="#">Link to this property</a>
+
+"ENAM"
+
+<a href="#">Link to this property</a>
+
+"WEUR"
+
+<a href="#">Link to this property</a>
+
+"EEUR"
+
+<a href="#">Link to this property</a>
+
+"APAC"
+
+<a href="#">Link to this property</a>
+
+"OC"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+size\_after: optional number
+
+Size of the database after the query committed, in bytes.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+timings: optional object {sql\_duration\_ms }
+
+Various durations for the query.
+
+</summary>
+
+sql\_duration\_ms: optional number
+
+The duration of the SQL query execution inside the database. Does not include any network communication.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+results: optional object {columns, rows }
+
+</summary>
+
+columns: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rows: optional array of array of numberor stringor unknown
+
+</summary>
+
+One of the following:
+
+number
+
+<a href="#">Link to this property</a>
+
+string
+
+<a href="#">Link to this property</a>
+
+unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20raw%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20raw%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Raw D1 Database query
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/raw \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -163,9 +445,69 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATA
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "meta": {
+        "changed_db": true,
+        "changes": 0,
+        "duration": 0,
+        "last_row_id": 0,
+        "rows_read": 0,
+        "rows_written": 0,
+        "served_by_colo": "LHR",
+        "served_by_primary": true,
+        "served_by_region": "EEUR",
+        "size_after": 0,
+        "timings": {
+          "sql_duration_ms": 0
+        }
+      },
+      "results": {
+        "columns": [
+          "string"
+        ],
+        "rows": [
+          [
+            0
+          ]
+        ]
+      },
+      "success": true
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

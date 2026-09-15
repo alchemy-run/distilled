@@ -1,241 +1,175 @@
+---
+title: Ases
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[Top](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/top)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Ases
 
-## Get top ASes by BGP updates
+##### [Get top ASes by BGP updates](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/top/subresources/ases/methods/get)
 
-**get** `/radar/bgp/top/ases`
+GET/radar/bgp/top/ases
 
-Retrieves the top autonomous systems by BGP updates (announcements only).
+##### [Get top ASes by prefix count](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/top/subresources/ases/methods/prefixes)
 
-### Query Parameters
+GET/radar/bgp/top/ases/prefixes
 
-- `asn: optional array of string`
+##### ModelsExpand Collapse
 
-  Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.
+<details>
 
-- `dateEnd: optional array of string`
+<summary>
 
-  End of the date range (inclusive).
+AseGetResponse object {meta, top\_0 }
 
-- `dateRange: optional array of string`
+</summary>
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+<details>
 
-- `dateStart: optional array of string`
+<summary>
 
-  Start of the date range.
+meta: object {dateRange }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+<details>
 
-  - `"JSON"`
+<summary>
 
-  - `"CSV"`
+dateRange: array of object {endTime, startTime }
 
-- `limit: optional number`
+</summary>
 
-  Limits the number of objects returned in the response.
+endTime: string
 
-- `name: optional array of string`
+Adjusted end of date range.
 
-  Array of names used to label the series in the response.
+formatdate-time
 
-- `prefix: optional array of string`
+<a href="#">Link to this property</a>
 
-  Filters results by BGP network prefix.
+startTime: string
 
-- `updateType: optional array of "ANNOUNCEMENT" or "WITHDRAWAL"`
+Adjusted start of date range.
 
-  Filters results by BGP update type.
+formatdate-time
 
-  - `"ANNOUNCEMENT"`
+<a href="#">Link to this property</a>
 
-  - `"WITHDRAWAL"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, top_0 }`
+</details>
 
-  - `meta: object { dateRange }`
+<a href="#">Link to this property</a>
 
-    - `dateRange: array of object { endTime, startTime }`
+<details>
 
-      - `endTime: string`
+<summary>
 
-        Adjusted end of date range.
+top\_0: array of object {asn, ASName, value }
 
-      - `startTime: string`
+</summary>
 
-        Adjusted start of date range.
+asn: number
 
-  - `top_0: array of object { asn, ASName, value }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+ASName: string
 
-    - `ASName: string`
+<a href="#">Link to this property</a>
 
-    - `value: string`
+value: string
 
-      Percentage of updates by this AS out of the total updates by all autonomous systems.
+Percentage of updates by this AS out of the total updates by all autonomous systems.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/top/ases \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "meta": {
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ]
-    },
-    "top_0": [
-      {
-        "asn": 714,
-        "ASName": "Apple-Engineering",
-        "value": "0.73996"
-      }
-    ]
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20radar.bgp.top.ases%20%3E%20(model)%20ase_get_response%20%3E%20(schema)>)
 
-## Get top ASes by prefix count
+<details>
 
-**get** `/radar/bgp/top/ases/prefixes`
+<summary>
 
-Retrieves the full list of autonomous systems on the global routing table ordered by announced prefixes count. The data comes from public BGP MRT data archives and updates every 2 hours.
+AsePrefixesResponse object {asns, meta }
 
-### Query Parameters
+</summary>
 
-- `country: optional string`
+<details>
 
-  Alpha-2 country code.
+<summary>
 
-- `format: optional "JSON" or "CSV"`
+asns: array of object {asn, country, name, pfxs\_count }
 
-  Format in which results will be returned.
+</summary>
 
-  - `"JSON"`
+asn: number
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+country: string
 
-  Maximum number of ASes to return.
+<a href="#">Link to this property</a>
 
-### Returns
+name: string
 
-- `result: object { asns, meta }`
+<a href="#">Link to this property</a>
 
-  - `asns: array of object { asn, country, name, pfxs_count }`
+pfxs\_count: number
 
-    - `asn: number`
+<a href="#">Link to this property</a>
 
-    - `country: string`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `pfxs_count: number`
+<details>
 
-  - `meta: object { data_time, query_time, total_peers }`
+<summary>
 
-    - `data_time: string`
+meta: object {data\_time, query\_time, total\_peers }
 
-    - `query_time: string`
+</summary>
 
-    - `total_peers: number`
+data\_time: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+query\_time: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/top/ases/prefixes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+total\_peers: number
 
-```json
-{
-  "result": {
-    "asns": [
-      {
-        "asn": 0,
-        "country": "country",
-        "name": "name",
-        "pfxs_count": 0
-      }
-    ],
-    "meta": {
-      "data_time": "data_time",
-      "query_time": "query_time",
-      "total_peers": 0
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Ase Get Response
+<a href="#">Link to this property</a>
 
-- `AseGetResponse object { meta, top_0 }`
+</details>
 
-  - `meta: object { dateRange }`
-
-    - `dateRange: array of object { endTime, startTime }`
-
-      - `endTime: string`
-
-        Adjusted end of date range.
-
-      - `startTime: string`
-
-        Adjusted start of date range.
-
-  - `top_0: array of object { asn, ASName, value }`
-
-    - `asn: number`
-
-    - `ASName: string`
-
-    - `value: string`
-
-      Percentage of updates by this AS out of the total updates by all autonomous systems.
-
-### Ase Prefixes Response
-
-- `AsePrefixesResponse object { asns, meta }`
-
-  - `asns: array of object { asn, country, name, pfxs_count }`
-
-    - `asn: number`
-
-    - `country: string`
-
-    - `name: string`
-
-    - `pfxs_count: number`
-
-  - `meta: object { data_time, query_time, total_peers }`
-
-    - `data_time: string`
-
-    - `query_time: string`
-
-    - `total_peers: number`
+[Link to this property](#)%20radar.bgp.top.ases%20%3E%20(model)%20ase_prefixes_response%20%3E%20(schema)>)

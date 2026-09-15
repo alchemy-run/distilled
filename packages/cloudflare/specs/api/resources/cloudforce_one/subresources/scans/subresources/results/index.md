@@ -1,89 +1,87 @@
+---
+title: Results
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Scans](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Results
 
-## Get the Latest Scan Result
+##### [Get the Latest Scan Result](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans/subresources/results/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/scans/results/{config_id}`
+GET/accounts/{account\_id}/cloudforce-one/scans/results/{config\_id}
 
-Get the Latest Scan Result
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Defines the Account ID.
+ScanResult object {number, proto, status }
 
-- `config_id: string`
+</summary>
 
-  Defines the Config ID.
+number: optional number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of string`
+proto: optional string
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: object { "1.1.1.1" }`
+status: optional string
 
-  - `"1.1.1.1": array of ScanResult`
+<a href="#">Link to this property</a>
 
-    - `number: optional number`
+</details>
 
-    - `proto: optional string`
+[Link to this property](#)%20cloudforce_one.scans.results%20%3E%20(model)%20scan_result%20%3E%20(schema)>)
 
-    - `status: optional string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+ResultGetResponse object {"1.1.1.1" }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/scans/results/$CONFIG_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    "string"
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "1.1.1.1": [
-      {
-        "number": 8080,
-        "proto": "tcp",
-        "status": "open"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+"1.1.1.1": array of <a href="https://developers.cloudflare.com/api/resources/cloudforce_one#(resource)%20cloudforce_one.scans.results%20%3E%20(model)%20scan_result%20%3E%20(schema)">ScanResult</a> { number, proto, status }
 
-### Scan Result
+</summary>
 
-- `ScanResult object { number, proto, status }`
+number: optional number
 
-  - `number: optional number`
+<a href="#">Link to this property</a>
 
-  - `proto: optional string`
+proto: optional string
 
-  - `status: optional string`
+<a href="#">Link to this property</a>
 
-### Result Get Response
+status: optional string
 
-- `ResultGetResponse object { "1.1.1.1" }`
+<a href="#">Link to this property</a>
 
-  - `"1.1.1.1": array of ScanResult`
+</details>
 
-    - `number: optional number`
+<a href="#">Link to this property</a>
 
-    - `proto: optional string`
+</details>
 
-    - `status: optional string`
+[Link to this property](#)%20cloudforce_one.scans.results%20%3E%20(model)%20result_get_response%20%3E%20(schema)>)

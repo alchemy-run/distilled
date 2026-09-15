@@ -1,184 +1,97 @@
+---
+title: Models
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Models
 
-## Model Search
+##### [Model Search](https://developers.cloudflare.com/api/resources/ai/subresources/models/methods/list)
 
-**get** `/accounts/{account_id}/ai/models/search`
+GET/accounts/{account\_id}/ai/models/search
 
-Searches Workers AI models by name or description.
+##### ModelsExpand Collapse
 
-### Path Parameters
+ModelListResponse = unknown
 
-- `account_id: string`
+[Link to this property](#)%20ai.models%20%3E%20(model)%20model_list_response%20%3E%20(schema)>)
 
-### Query Parameters
+#### ModelsSchema
 
-- `author: optional string`
+##### [Get Model Schema](https://developers.cloudflare.com/api/resources/ai/subresources/models/subresources/schema/methods/get)
 
-  Filter by Author
+GET/accounts/{account\_id}/ai/models/schema
 
-- `format: optional "openrouter"`
+##### ModelsExpand Collapse
 
-  If set, return models in the requested marketplace format instead of the default response.
+<details>
 
-  - `"openrouter"`
+<summary>
 
-- `hide_experimental: optional boolean`
+SchemaGetResponse object {input, output }
 
-  Filter to hide experimental models
+</summary>
 
-- `include_deprecated: optional boolean`
+<details>
 
-  If true, include models whose planned_deprecation_date is in the past — but only within a three-month grace window after that date. Models whose planned_deprecation_date is more than three months in the past remain hidden regardless of this flag. Future planned-deprecation dates are always included regardless of this flag. Defaults to false, preserving the existing behavior of hiding all past-dated deprecations.
+<summary>
 
-- `page: optional number`
+input: object {additionalProperties, description, type }
 
-- `per_page: optional number`
+</summary>
 
-- `search: optional string`
+additionalProperties: boolean
 
-  Search
+<a href="#">Link to this property</a>
 
-- `source: optional number`
+description: string
 
-  Filter by Source Id
+<a href="#">Link to this property</a>
 
-- `task: optional string`
+type: string
 
-  Filter by Task Name
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `object { errors, messages, result, success }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of unknown`
+<details>
 
-  - `messages: array of string`
+<summary>
 
-  - `result: array of unknown`
+output: object {additionalProperties, description, type }
 
-  - `success: boolean`
+</summary>
 
-- `Data object { data }`
+additionalProperties: boolean
 
-  Marketplace-format response. See https://openrouter.ai/docs/guides/get-started/for-providers
+<a href="#">Link to this property</a>
 
-  - `data: array of unknown`
+description: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/models/search \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+type: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {}
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {}
-  ],
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Model List Response
+</details>
 
-- `ModelListResponse = unknown`
-
-# Schema
-
-## Get Model Schema
-
-**get** `/accounts/{account_id}/ai/models/schema`
-
-Retrieves the input and output JSON schema definition for a Workers AI model.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Query Parameters
-
-- `model: string`
-
-  Model Name
-
-### Returns
-
-- `result: object { input, output }`
-
-  - `input: object { additionalProperties, description, type }`
-
-    - `additionalProperties: boolean`
-
-    - `description: string`
-
-    - `type: string`
-
-  - `output: object { additionalProperties, description, type }`
-
-    - `additionalProperties: boolean`
-
-    - `description: string`
-
-    - `type: string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/models/schema \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "input": {
-      "additionalProperties": true,
-      "description": "JSON Schema definition for the model's input parameters",
-      "type": "object"
-    },
-    "output": {
-      "additionalProperties": true,
-      "description": "JSON Schema definition for the model's output format",
-      "type": "object"
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Schema Get Response
-
-- `SchemaGetResponse object { input, output }`
-
-  - `input: object { additionalProperties, description, type }`
-
-    - `additionalProperties: boolean`
-
-    - `description: string`
-
-    - `type: string`
-
-  - `output: object { additionalProperties, description, type }`
-
-    - `additionalProperties: boolean`
-
-    - `description: string`
-
-    - `type: string`
+[Link to this property](#)%20ai.models.schema%20%3E%20(model)%20schema_get_response%20%3E%20(schema)>)

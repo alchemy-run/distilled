@@ -1,132 +1,61 @@
+---
+title: Organization Profile
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Organizations](https://developers.cloudflare.com/api/resources/organizations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Organization Profile
 
-## Get organization profile
+##### [Get organization profile](https://developers.cloudflare.com/api/resources/organizations/subresources/organization_profile/methods/get)
 
-**get** `/organizations/{organization_id}/profile`
+GET/organizations/{organization\_id}/profile
 
-Get an organizations profile if it exists. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+##### [Modify organization profile.](https://developers.cloudflare.com/api/resources/organizations/subresources/organization_profile/methods/update)
 
-### Path Parameters
+PUT/organizations/{organization\_id}/profile
 
-- `organization_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of unknown`
+<summary>
 
-- `messages: array of ResponseInfo`
+OrganizationProfile object {business\_address, business\_email, business\_name, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+business\_address: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+business\_email: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: AccountProfile`
+business\_name: string
 
-  - `business_address: string`
+<a href="#">Link to this property</a>
 
-  - `business_email: string`
+business\_phone: string
 
-  - `business_name: string`
+<a href="#">Link to this property</a>
 
-  - `business_phone: string`
+external\_metadata: string
 
-  - `external_metadata: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/profile \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "business_address": "business_address",
-    "business_email": "business_email",
-    "business_name": "business_name",
-    "business_phone": "business_phone",
-    "external_metadata": "external_metadata"
-  },
-  "success": true
-}
-```
-
-## Modify organization profile.
-
-**put** `/organizations/{organization_id}/profile`
-
-Modify organization profile. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
-
-### Path Parameters
-
-- `organization_id: string`
-
-### Body Parameters
-
-- `business_address: string`
-
-- `business_email: string`
-
-- `business_name: string`
-
-- `business_phone: string`
-
-- `external_metadata: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/profile \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "business_address": "business_address",
-          "business_email": "business_email",
-          "business_name": "business_name",
-          "business_phone": "business_phone",
-          "external_metadata": "external_metadata"
-        }'
-```
-
-## Domain Types
-
-### Organization Profile
-
-- `OrganizationProfile object { business_address, business_email, business_name, 2 more }`
-
-  - `business_address: string`
-
-  - `business_email: string`
-
-  - `business_name: string`
-
-  - `business_phone: string`
-
-  - `external_metadata: string`
+[Link to this property](#)%20organizations.organization_profile%20%3E%20(model)%20organization_profile%20%3E%20(schema)>)

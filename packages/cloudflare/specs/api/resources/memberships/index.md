@@ -1,1806 +1,793 @@
+---
+title: Memberships
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Memberships
 
-## List Memberships
+##### [List Memberships](https://developers.cloudflare.com/api/resources/memberships/methods/list)
 
-**get** `/memberships`
+GET/memberships
 
-List memberships of accounts the user can access.
+##### [Membership Details](https://developers.cloudflare.com/api/resources/memberships/methods/get)
 
-### Query Parameters
+GET/memberships/{membership\_id}
 
-- `account: optional object { name }`
+##### [Update Membership](https://developers.cloudflare.com/api/resources/memberships/methods/update)
 
-  - `name: optional string`
+PUT/memberships/{membership\_id}
 
-    Account name
+##### [Delete Membership](https://developers.cloudflare.com/api/resources/memberships/methods/delete)
 
-- `direction: optional "asc" or "desc"`
+DELETE/memberships/{membership\_id}
 
-  Direction to order memberships.
+##### ModelsExpand Collapse
 
-  - `"asc"`
+<details>
 
-  - `"desc"`
+<summary>
 
-- `name: optional string`
+Membership object {id, account, api\_access\_enabled, 3 more }
 
-  Account name
+</summary>
 
-- `order: optional "id" or "account.name" or "status"`
+id: optional string
 
-  Field to order memberships by.
+Membership identifier tag.
 
-  - `"id"`
+maxLength32
 
-  - `"account.name"`
+<a href="#">Link to this property</a>
 
-  - `"status"`
+account: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts%20%3E%20(model)%20account%20%3E%20(schema)">Account</a> { id, name, type, 3 more }
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Page number of paginated results.
+api\_access\_enabled: optional boolean
 
-- `per_page: optional number`
+Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
 
-  Number of memberships per page.
+<a href="#">Link to this property</a>
 
-- `status: optional "accepted" or "pending" or "rejected"`
+<details>
 
-  Status of this membership.
+<summary>
 
-  - `"accepted"`
+permissions: optional object {analytics, billing, cache\_purge, 9 more }
 
-  - `"pending"`
+All access permissions for the user at the account.
 
-  - `"rejected"`
+</summary>
 
-### Returns
+analytics: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-- `IAMCollectionMembershipResponse object { errors, messages, success, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+billing: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+cache\_purge: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+dns: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+dns\_records: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+lb: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+logs: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+organization: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+ssl: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-  - `result: optional array of Membership`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+waf: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      Membership identifier tag.
+<a href="#">Link to this property</a>
 
-    - `account: optional Account`
+zone\_settings: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier
+zones: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        Account name
+</details>
 
-      - `type: "standard" or "enterprise"`
+<a href="#">Link to this property</a>
 
-        - `"standard"`
+roles: optional array of string
 
-        - `"enterprise"`
+List of role names the membership has for this account.
 
-      - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-        Timestamp for the creation of the account
+<details>
 
-      - `managed_by: optional object { parent_org_id, parent_org_name }`
+<summary>
 
-        Parent container details
+status: optional "accepted"or "pending"or "rejected"
 
-        - `parent_org_id: optional string`
+Status of this membership.
 
-          ID of the parent Organization, if one exists
+</summary>
 
-        - `parent_org_name: optional string`
+One of the following:
 
-          Name of the parent Organization, if one exists
+"accepted"
 
-      - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+<a href="#">Link to this property</a>
 
-        Account settings
+"pending"
 
-        - `abuse_contact_email: optional string`
+<a href="#">Link to this property</a>
 
-          Sets an abuse contact email to notify for abuse reports.
+"rejected"
 
-        - `enforce_twofactor: optional boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether membership in this account requires that
-          Two-Factor Authentication is enabled
+</details>
 
-    - `api_access_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
+</details>
 
-    - `permissions: optional object { analytics, billing, cache_purge, 9 more }`
+[Link to this property](#)%20memberships%20%3E%20(model)%20membership%20%3E%20(schema)>)
 
-      All access permissions for the user at the account.
+<details>
 
-      - `analytics: optional PermissionGrant`
+<summary>
 
-        - `read: optional boolean`
+MembershipGetResponse object {id, account, api\_access\_enabled, 4 more }
 
-        - `write: optional boolean`
+</summary>
 
-      - `billing: optional PermissionGrant`
+id: optional string
 
-      - `cache_purge: optional PermissionGrant`
+Membership identifier tag.
 
-      - `dns: optional PermissionGrant`
+maxLength32
 
-      - `dns_records: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `lb: optional PermissionGrant`
+account: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts%20%3E%20(model)%20account%20%3E%20(schema)">Account</a> { id, name, type, 3 more }
 
-      - `logs: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `organization: optional PermissionGrant`
+api\_access\_enabled: optional boolean
 
-      - `ssl: optional PermissionGrant`
+Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
 
-      - `waf: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `zone_settings: optional PermissionGrant`
+<details>
 
-      - `zones: optional PermissionGrant`
+<summary>
 
-    - `roles: optional array of string`
+permissions: optional object {analytics, billing, cache\_purge, 9 more }
 
-      List of role names the membership has for this account.
+All access permissions for the user at the account.
 
-    - `status: optional "accepted" or "pending" or "rejected"`
+</summary>
 
-      Status of this membership.
+analytics: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `"accepted"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+billing: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `"rejected"`
+<a href="#">Link to this property</a>
 
-  - `result_info: optional object { count, page, per_page, total_count }`
+cache\_purge: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of results for the requested service
+dns: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `page: optional number`
+<a href="#">Link to this property</a>
 
-      Current page within paginated list of results
+dns\_records: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-      Number of results per page of results
+lb: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-      Total results available without any search parameters
+logs: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-- `IAMCollectionMembershipResponseWithPolicies object { errors, messages, success, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+organization: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+ssl: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+waf: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+zone\_settings: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+zones: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+<details>
 
-    Whether the API call was successful.
+<summary>
 
-    - `true`
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-  - `result: optional array of object { id, account, api_access_enabled, 4 more }`
+Access policy for the membership
 
-    - `id: optional string`
+</summary>
 
-      Membership identifier tag.
+id: optional string
 
-    - `account: optional Account`
+Policy identifier.
 
-    - `api_access_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
+<details>
 
-    - `permissions: optional object { analytics, billing, cache_purge, 9 more }`
+<summary>
 
-      All access permissions for the user at the account.
+access: optional "allow"or "deny"
 
-      - `analytics: optional PermissionGrant`
+Allow or deny operations against the resources.
 
-      - `billing: optional PermissionGrant`
+</summary>
 
-      - `cache_purge: optional PermissionGrant`
+One of the following:
 
-      - `dns: optional PermissionGrant`
+"allow"
 
-      - `dns_records: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `lb: optional PermissionGrant`
+"deny"
 
-      - `logs: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `organization: optional PermissionGrant`
+</details>
 
-      - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `waf: optional PermissionGrant`
+<details>
 
-      - `zone_settings: optional PermissionGrant`
+<summary>
 
-      - `zones: optional PermissionGrant`
+permission\_groups: optional array of object {id, meta, name }
 
-    - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+A set of permission groups that are specified to the policy.
 
-      Access policy for the membership
+</summary>
 
-      - `id: optional string`
+id: string
 
-        Policy identifier.
+Identifier of the permission group.
 
-      - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-        Allow or deny operations against the resources.
+<details>
 
-        - `"allow"`
+<summary>
 
-        - `"deny"`
+meta: optional object {key, value }
 
-      - `permission_groups: optional array of object { id, meta, name }`
+Attributes associated to the permission group.
 
-        A set of permission groups that are specified to the policy.
+</summary>
 
-        - `id: string`
+key: optional string
 
-          Identifier of the permission group.
+<a href="#">Link to this property</a>
 
-        - `meta: optional object { key, value }`
+value: optional string
 
-          Attributes associated to the permission group.
+<a href="#">Link to this property</a>
 
-          - `key: optional string`
+</details>
 
-          - `value: optional string`
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+name: optional string
 
-          Name of the permission group.
+Name of the permission group.
 
-      - `resource_groups: optional array of object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-        A list of resource groups that the policy applies to.
+</details>
 
-        - `id: string`
+<a href="#">Link to this property</a>
 
-          Identifier of the resource group.
+<details>
 
-        - `scope: array of object { key, objects }`
+<summary>
 
-          The scope associated to the resource group
+resource\_groups: optional array of object {id, scope, meta, name }
 
-          - `key: string`
+A list of resource groups that the policy applies to.
 
-            This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+</summary>
 
-          - `objects: array of object { key }`
+id: string
 
-            A list of scope objects for additional context.
+Identifier of the resource group.
 
-            - `key: string`
+<a href="#">Link to this property</a>
 
-              This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<details>
 
-        - `meta: optional object { key, value }`
+<summary>
 
-          Attributes associated to the resource group.
+scope: object {key, objects }
 
-          - `key: optional string`
+A scope is a combination of scope objects which provides additional context.
 
-          - `value: optional string`
+</summary>
 
-        - `name: optional string`
+key: string
 
-          Name of the resource group.
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-    - `roles: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of role names the membership has for this account.
+<details>
 
-    - `status: optional "accepted" or "pending" or "rejected"`
+<summary>
 
-      Status of this membership.
+objects: array of object {key }
 
-      - `"accepted"`
+A list of scope objects for additional context.
 
-      - `"pending"`
+</summary>
 
-      - `"rejected"`
+key: string
 
-  - `result_info: optional object { count, page, per_page, total_count }`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-    - `count: optional number`
+<a href="#">Link to this property</a>
 
-      Total number of results for the requested service
+</details>
 
-    - `page: optional number`
+<a href="#">Link to this property</a>
 
-      Current page within paginated list of results
+</details>
 
-    - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-      Number of results per page of results
+<details>
 
-    - `total_count: optional number`
+<summary>
 
-      Total results available without any search parameters
+meta: optional object {key, value }
 
-### Example
+Attributes associated to the resource group.
 
-```http
-curl https://api.cloudflare.com/client/v4/memberships \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</summary>
 
-#### Response
+key: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4536bcfad5faccb111b47003c79917fa",
-      "account": {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "name": "Demo Account",
-        "type": "standard",
-        "created_on": "2014-03-01T12:21:02.0000Z",
-        "managed_by": {
-          "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
-          "parent_org_name": "Demo Parent Organization"
-        },
-        "settings": {
-          "abuse_contact_email": "abuse_contact_email",
-          "enforce_twofactor": true
-        }
-      },
-      "api_access_enabled": true,
-      "permissions": {
-        "analytics": {
-          "read": true,
-          "write": false
-        },
-        "billing": {
-          "read": true,
-          "write": false
-        },
-        "cache_purge": {
-          "read": true,
-          "write": false
-        },
-        "dns": {
-          "read": true,
-          "write": false
-        },
-        "dns_records": {
-          "read": true,
-          "write": false
-        },
-        "lb": {
-          "read": true,
-          "write": false
-        },
-        "logs": {
-          "read": true,
-          "write": false
-        },
-        "organization": {
-          "read": true,
-          "write": false
-        },
-        "ssl": {
-          "read": true,
-          "write": false
-        },
-        "waf": {
-          "read": true,
-          "write": false
-        },
-        "zone_settings": {
-          "read": true,
-          "write": false
-        },
-        "zones": {
-          "read": true,
-          "write": true
-        }
-      },
-      "roles": [
-        "Account Administrator"
-      ],
-      "status": "accepted"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Membership Details
+value: optional string
 
-**get** `/memberships/{membership_id}`
+<a href="#">Link to this property</a>
 
-Get a specific membership.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `membership_id: string`
+name: optional string
 
-  Membership identifier tag.
+Name of the resource group.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+roles: optional array of string
 
-    - `pointer: optional string`
+List of role names the membership has for this account.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+status: optional "accepted"or "pending"or "rejected"
 
-  - `source: optional object { pointer }`
+Status of this membership.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"accepted"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, account, api_access_enabled, 4 more }`
+"pending"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Membership identifier tag.
+"rejected"
 
-  - `account: optional Account`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      Account name
+[Link to this property](#)%20memberships%20%3E%20(model)%20membership_get_response%20%3E%20(schema)>)
 
-    - `type: "standard" or "enterprise"`
+<details>
 
-      - `"standard"`
+<summary>
 
-      - `"enterprise"`
+MembershipUpdateResponse object {id, account, api\_access\_enabled, 4 more }
 
-    - `created_on: optional string`
+</summary>
 
-      Timestamp for the creation of the account
+id: optional string
 
-    - `managed_by: optional object { parent_org_id, parent_org_name }`
+Membership identifier tag.
 
-      Parent container details
+maxLength32
 
-      - `parent_org_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the parent Organization, if one exists
+account: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts%20%3E%20(model)%20account%20%3E%20(schema)">Account</a> { id, name, type, 3 more }
 
-      - `parent_org_name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the parent Organization, if one exists
+api\_access\_enabled: optional boolean
 
-    - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
 
-      Account settings
+<a href="#">Link to this property</a>
 
-      - `abuse_contact_email: optional string`
+<details>
 
-        Sets an abuse contact email to notify for abuse reports.
+<summary>
 
-      - `enforce_twofactor: optional boolean`
+permissions: optional object {analytics, billing, cache\_purge, 9 more }
 
-        Indicates whether membership in this account requires that
-        Two-Factor Authentication is enabled
+All access permissions for the user at the account.
 
-  - `api_access_enabled: optional boolean`
+</summary>
 
-    Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
+analytics: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-  - `permissions: optional object { analytics, billing, cache_purge, 9 more }`
+<a href="#">Link to this property</a>
 
-    All access permissions for the user at the account.
+billing: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `analytics: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-      - `read: optional boolean`
+cache\_purge: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `write: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `billing: optional PermissionGrant`
+dns: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `cache_purge: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `dns: optional PermissionGrant`
+dns\_records: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `dns_records: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `lb: optional PermissionGrant`
+lb: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `logs: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `organization: optional PermissionGrant`
+logs: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `waf: optional PermissionGrant`
+organization: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `zone_settings: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `zones: optional PermissionGrant`
+ssl: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Access policy for the membership
+waf: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+zone\_settings: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+zones: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+</details>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+<details>
 
-      - `id: string`
+<summary>
 
-        Identifier of the permission group.
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-      - `meta: optional object { key, value }`
+Access policy for the membership
 
-        Attributes associated to the permission group.
+</summary>
 
-        - `key: optional string`
+id: optional string
 
-        - `value: optional string`
+Policy identifier.
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the permission group.
+<details>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<summary>
 
-      A list of resource groups that the policy applies to.
+access: optional "allow"or "deny"
 
-      - `id: string`
+Allow or deny operations against the resources.
 
-        Identifier of the resource group.
+</summary>
 
-      - `scope: array of object { key, objects }`
+One of the following:
 
-        The scope associated to the resource group
+"allow"
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+"deny"
 
-        - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-          A list of scope objects for additional context.
+</details>
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<details>
 
-      - `meta: optional object { key, value }`
+<summary>
 
-        Attributes associated to the resource group.
+permission\_groups: optional array of object {id, meta, name }
 
-        - `key: optional string`
+A set of permission groups that are specified to the policy.
 
-        - `value: optional string`
+</summary>
 
-      - `name: optional string`
+id: string
 
-        Name of the resource group.
+Identifier of the permission group.
 
-  - `roles: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of role names the membership has for this account.
+<details>
 
-  - `status: optional "accepted" or "pending" or "rejected"`
+<summary>
 
-    Status of this membership.
+meta: optional object {key, value }
 
-    - `"accepted"`
+Attributes associated to the permission group.
 
-    - `"pending"`
+</summary>
 
-    - `"rejected"`
+key: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/memberships/$MEMBERSHIP_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+value: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4536bcfad5faccb111b47003c79917fa",
-    "account": {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "name": "Demo Account",
-      "type": "standard",
-      "created_on": "2014-03-01T12:21:02.0000Z",
-      "managed_by": {
-        "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
-        "parent_org_name": "Demo Parent Organization"
-      },
-      "settings": {
-        "abuse_contact_email": "abuse_contact_email",
-        "enforce_twofactor": true
-      }
-    },
-    "api_access_enabled": true,
-    "permissions": {
-      "analytics": {
-        "read": true,
-        "write": false
-      },
-      "billing": {
-        "read": true,
-        "write": false
-      },
-      "cache_purge": {
-        "read": true,
-        "write": false
-      },
-      "dns": {
-        "read": true,
-        "write": false
-      },
-      "dns_records": {
-        "read": true,
-        "write": false
-      },
-      "lb": {
-        "read": true,
-        "write": false
-      },
-      "logs": {
-        "read": true,
-        "write": false
-      },
-      "organization": {
-        "read": true,
-        "write": false
-      },
-      "ssl": {
-        "read": true,
-        "write": false
-      },
-      "waf": {
-        "read": true,
-        "write": false
-      },
-      "zone_settings": {
-        "read": true,
-        "write": false
-      },
-      "zones": {
-        "read": true,
-        "write": true
-      }
-    },
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ],
-    "roles": [
-      "Account Administrator"
-    ],
-    "status": "accepted"
-  }
-}
-```
+</details>
 
-## Update Membership
+<a href="#">Link to this property</a>
 
-**put** `/memberships/{membership_id}`
+name: optional string
 
-Accept or reject this account invitation.
+Name of the permission group.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `membership_id: string`
+</details>
 
-  Membership identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `status: "accepted" or "rejected"`
+<summary>
 
-  Whether to accept or reject this account invitation.
+resource\_groups: optional array of object {id, scope, meta, name }
 
-  - `"accepted"`
+A list of resource groups that the policy applies to.
 
-  - `"rejected"`
+</summary>
 
-### Returns
+id: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Identifier of the resource group.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+scope: object {key, objects }
 
-    - `pointer: optional string`
+A scope is a combination of scope objects which provides additional context.
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+key: string
 
-  - `message: string`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+objects: array of object {key }
 
-  Whether the API call was successful.
+A list of scope objects for additional context.
 
-  - `true`
+</summary>
 
-- `result: optional object { id, account, api_access_enabled, 4 more }`
+key: string
 
-  - `id: optional string`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-    Membership identifier tag.
+<a href="#">Link to this property</a>
 
-  - `account: optional Account`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifier
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Account name
+<details>
 
-    - `type: "standard" or "enterprise"`
+<summary>
 
-      - `"standard"`
+meta: optional object {key, value }
 
-      - `"enterprise"`
+Attributes associated to the resource group.
 
-    - `created_on: optional string`
+</summary>
 
-      Timestamp for the creation of the account
+key: optional string
 
-    - `managed_by: optional object { parent_org_id, parent_org_name }`
+<a href="#">Link to this property</a>
 
-      Parent container details
+value: optional string
 
-      - `parent_org_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the parent Organization, if one exists
+</details>
 
-      - `parent_org_name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the parent Organization, if one exists
+name: optional string
 
-    - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+Name of the resource group.
 
-      Account settings
+<a href="#">Link to this property</a>
 
-      - `abuse_contact_email: optional string`
+</details>
 
-        Sets an abuse contact email to notify for abuse reports.
+<a href="#">Link to this property</a>
 
-      - `enforce_twofactor: optional boolean`
+</details>
 
-        Indicates whether membership in this account requires that
-        Two-Factor Authentication is enabled
+<a href="#">Link to this property</a>
 
-  - `api_access_enabled: optional boolean`
+roles: optional array of string
 
-    Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
+List of role names the membership has for this account.
 
-  - `permissions: optional object { analytics, billing, cache_purge, 9 more }`
+<a href="#">Link to this property</a>
 
-    All access permissions for the user at the account.
+<details>
 
-    - `analytics: optional PermissionGrant`
+<summary>
 
-      - `read: optional boolean`
+status: optional "accepted"or "pending"or "rejected"
 
-      - `write: optional boolean`
+Status of this membership.
 
-    - `billing: optional PermissionGrant`
+</summary>
 
-    - `cache_purge: optional PermissionGrant`
+One of the following:
 
-    - `dns: optional PermissionGrant`
+"accepted"
 
-    - `dns_records: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `lb: optional PermissionGrant`
+"pending"
 
-    - `logs: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `organization: optional PermissionGrant`
+"rejected"
 
-    - `ssl: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `waf: optional PermissionGrant`
+</details>
 
-    - `zone_settings: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `zones: optional PermissionGrant`
+</details>
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+[Link to this property](#)%20memberships%20%3E%20(model)%20membership_update_response%20%3E%20(schema)>)
 
-    Access policy for the membership
+<details>
 
-    - `id: optional string`
+<summary>
 
-      Policy identifier.
+MembershipDeleteResponse object {id }
 
-    - `access: optional "allow" or "deny"`
+</summary>
 
-      Allow or deny operations against the resources.
+id: optional string
 
-      - `"allow"`
+Membership identifier tag.
 
-      - `"deny"`
+maxLength32
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+</details>
 
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resource_groups: optional array of object { id, scope, meta, name }`
-
-      A list of resource groups that the policy applies to.
-
-      - `id: string`
-
-        Identifier of the resource group.
-
-      - `scope: array of object { key, objects }`
-
-        The scope associated to the resource group
-
-        - `key: string`
-
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-
-        - `objects: array of object { key }`
-
-          A list of scope objects for additional context.
-
-          - `key: string`
-
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the resource group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the resource group.
-
-  - `roles: optional array of string`
-
-    List of role names the membership has for this account.
-
-  - `status: optional "accepted" or "pending" or "rejected"`
-
-    Status of this membership.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-    - `"rejected"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/memberships/$MEMBERSHIP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "status": "accepted"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4536bcfad5faccb111b47003c79917fa",
-    "account": {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "name": "Demo Account",
-      "type": "standard",
-      "created_on": "2014-03-01T12:21:02.0000Z",
-      "managed_by": {
-        "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
-        "parent_org_name": "Demo Parent Organization"
-      },
-      "settings": {
-        "abuse_contact_email": "abuse_contact_email",
-        "enforce_twofactor": true
-      }
-    },
-    "api_access_enabled": true,
-    "permissions": {
-      "analytics": {
-        "read": true,
-        "write": false
-      },
-      "billing": {
-        "read": true,
-        "write": false
-      },
-      "cache_purge": {
-        "read": true,
-        "write": false
-      },
-      "dns": {
-        "read": true,
-        "write": false
-      },
-      "dns_records": {
-        "read": true,
-        "write": false
-      },
-      "lb": {
-        "read": true,
-        "write": false
-      },
-      "logs": {
-        "read": true,
-        "write": false
-      },
-      "organization": {
-        "read": true,
-        "write": false
-      },
-      "ssl": {
-        "read": true,
-        "write": false
-      },
-      "waf": {
-        "read": true,
-        "write": false
-      },
-      "zone_settings": {
-        "read": true,
-        "write": false
-      },
-      "zones": {
-        "read": true,
-        "write": true
-      }
-    },
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ],
-    "roles": [
-      "Account Administrator"
-    ],
-    "status": "accepted"
-  }
-}
-```
-
-## Delete Membership
-
-**delete** `/memberships/{membership_id}`
-
-Remove the associated member from an account.
-
-### Path Parameters
-
-- `membership_id: string`
-
-  Membership identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    Membership identifier tag.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/memberships/$MEMBERSHIP_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4536bcfad5faccb111b47003c79917fa"
-  }
-}
-```
-
-## Domain Types
-
-### Membership
-
-- `Membership object { id, account, api_access_enabled, 3 more }`
-
-  - `id: optional string`
-
-    Membership identifier tag.
-
-  - `account: optional Account`
-
-    - `id: string`
-
-      Identifier
-
-    - `name: string`
-
-      Account name
-
-    - `type: "standard" or "enterprise"`
-
-      - `"standard"`
-
-      - `"enterprise"`
-
-    - `created_on: optional string`
-
-      Timestamp for the creation of the account
-
-    - `managed_by: optional object { parent_org_id, parent_org_name }`
-
-      Parent container details
-
-      - `parent_org_id: optional string`
-
-        ID of the parent Organization, if one exists
-
-      - `parent_org_name: optional string`
-
-        Name of the parent Organization, if one exists
-
-    - `settings: optional object { abuse_contact_email, enforce_twofactor }`
-
-      Account settings
-
-      - `abuse_contact_email: optional string`
-
-        Sets an abuse contact email to notify for abuse reports.
-
-      - `enforce_twofactor: optional boolean`
-
-        Indicates whether membership in this account requires that
-        Two-Factor Authentication is enabled
-
-  - `api_access_enabled: optional boolean`
-
-    Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
-
-  - `permissions: optional object { analytics, billing, cache_purge, 9 more }`
-
-    All access permissions for the user at the account.
-
-    - `analytics: optional PermissionGrant`
-
-      - `read: optional boolean`
-
-      - `write: optional boolean`
-
-    - `billing: optional PermissionGrant`
-
-    - `cache_purge: optional PermissionGrant`
-
-    - `dns: optional PermissionGrant`
-
-    - `dns_records: optional PermissionGrant`
-
-    - `lb: optional PermissionGrant`
-
-    - `logs: optional PermissionGrant`
-
-    - `organization: optional PermissionGrant`
-
-    - `ssl: optional PermissionGrant`
-
-    - `waf: optional PermissionGrant`
-
-    - `zone_settings: optional PermissionGrant`
-
-    - `zones: optional PermissionGrant`
-
-  - `roles: optional array of string`
-
-    List of role names the membership has for this account.
-
-  - `status: optional "accepted" or "pending" or "rejected"`
-
-    Status of this membership.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-    - `"rejected"`
-
-### Membership Get Response
-
-- `MembershipGetResponse object { id, account, api_access_enabled, 4 more }`
-
-  - `id: optional string`
-
-    Membership identifier tag.
-
-  - `account: optional Account`
-
-    - `id: string`
-
-      Identifier
-
-    - `name: string`
-
-      Account name
-
-    - `type: "standard" or "enterprise"`
-
-      - `"standard"`
-
-      - `"enterprise"`
-
-    - `created_on: optional string`
-
-      Timestamp for the creation of the account
-
-    - `managed_by: optional object { parent_org_id, parent_org_name }`
-
-      Parent container details
-
-      - `parent_org_id: optional string`
-
-        ID of the parent Organization, if one exists
-
-      - `parent_org_name: optional string`
-
-        Name of the parent Organization, if one exists
-
-    - `settings: optional object { abuse_contact_email, enforce_twofactor }`
-
-      Account settings
-
-      - `abuse_contact_email: optional string`
-
-        Sets an abuse contact email to notify for abuse reports.
-
-      - `enforce_twofactor: optional boolean`
-
-        Indicates whether membership in this account requires that
-        Two-Factor Authentication is enabled
-
-  - `api_access_enabled: optional boolean`
-
-    Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
-
-  - `permissions: optional object { analytics, billing, cache_purge, 9 more }`
-
-    All access permissions for the user at the account.
-
-    - `analytics: optional PermissionGrant`
-
-      - `read: optional boolean`
-
-      - `write: optional boolean`
-
-    - `billing: optional PermissionGrant`
-
-    - `cache_purge: optional PermissionGrant`
-
-    - `dns: optional PermissionGrant`
-
-    - `dns_records: optional PermissionGrant`
-
-    - `lb: optional PermissionGrant`
-
-    - `logs: optional PermissionGrant`
-
-    - `organization: optional PermissionGrant`
-
-    - `ssl: optional PermissionGrant`
-
-    - `waf: optional PermissionGrant`
-
-    - `zone_settings: optional PermissionGrant`
-
-    - `zones: optional PermissionGrant`
-
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
-
-    Access policy for the membership
-
-    - `id: optional string`
-
-      Policy identifier.
-
-    - `access: optional "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: optional array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resource_groups: optional array of object { id, scope, meta, name }`
-
-      A list of resource groups that the policy applies to.
-
-      - `id: string`
-
-        Identifier of the resource group.
-
-      - `scope: array of object { key, objects }`
-
-        The scope associated to the resource group
-
-        - `key: string`
-
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-
-        - `objects: array of object { key }`
-
-          A list of scope objects for additional context.
-
-          - `key: string`
-
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the resource group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the resource group.
-
-  - `roles: optional array of string`
-
-    List of role names the membership has for this account.
-
-  - `status: optional "accepted" or "pending" or "rejected"`
-
-    Status of this membership.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-    - `"rejected"`
-
-### Membership Update Response
-
-- `MembershipUpdateResponse object { id, account, api_access_enabled, 4 more }`
-
-  - `id: optional string`
-
-    Membership identifier tag.
-
-  - `account: optional Account`
-
-    - `id: string`
-
-      Identifier
-
-    - `name: string`
-
-      Account name
-
-    - `type: "standard" or "enterprise"`
-
-      - `"standard"`
-
-      - `"enterprise"`
-
-    - `created_on: optional string`
-
-      Timestamp for the creation of the account
-
-    - `managed_by: optional object { parent_org_id, parent_org_name }`
-
-      Parent container details
-
-      - `parent_org_id: optional string`
-
-        ID of the parent Organization, if one exists
-
-      - `parent_org_name: optional string`
-
-        Name of the parent Organization, if one exists
-
-    - `settings: optional object { abuse_contact_email, enforce_twofactor }`
-
-      Account settings
-
-      - `abuse_contact_email: optional string`
-
-        Sets an abuse contact email to notify for abuse reports.
-
-      - `enforce_twofactor: optional boolean`
-
-        Indicates whether membership in this account requires that
-        Two-Factor Authentication is enabled
-
-  - `api_access_enabled: optional boolean`
-
-    Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
-
-  - `permissions: optional object { analytics, billing, cache_purge, 9 more }`
-
-    All access permissions for the user at the account.
-
-    - `analytics: optional PermissionGrant`
-
-      - `read: optional boolean`
-
-      - `write: optional boolean`
-
-    - `billing: optional PermissionGrant`
-
-    - `cache_purge: optional PermissionGrant`
-
-    - `dns: optional PermissionGrant`
-
-    - `dns_records: optional PermissionGrant`
-
-    - `lb: optional PermissionGrant`
-
-    - `logs: optional PermissionGrant`
-
-    - `organization: optional PermissionGrant`
-
-    - `ssl: optional PermissionGrant`
-
-    - `waf: optional PermissionGrant`
-
-    - `zone_settings: optional PermissionGrant`
-
-    - `zones: optional PermissionGrant`
-
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
-
-    Access policy for the membership
-
-    - `id: optional string`
-
-      Policy identifier.
-
-    - `access: optional "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: optional array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resource_groups: optional array of object { id, scope, meta, name }`
-
-      A list of resource groups that the policy applies to.
-
-      - `id: string`
-
-        Identifier of the resource group.
-
-      - `scope: array of object { key, objects }`
-
-        The scope associated to the resource group
-
-        - `key: string`
-
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-
-        - `objects: array of object { key }`
-
-          A list of scope objects for additional context.
-
-          - `key: string`
-
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the resource group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the resource group.
-
-  - `roles: optional array of string`
-
-    List of role names the membership has for this account.
-
-  - `status: optional "accepted" or "pending" or "rejected"`
-
-    Status of this membership.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-    - `"rejected"`
-
-### Membership Delete Response
-
-- `MembershipDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Membership identifier tag.
+[Link to this property](#)%20memberships%20%3E%20(model)%20membership_delete_response%20%3E%20(schema)>)

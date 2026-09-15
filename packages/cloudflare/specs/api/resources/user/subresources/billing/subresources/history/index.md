@@ -1,214 +1,109 @@
+---
+title: History
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[User](https://developers.cloudflare.com/api/resources/user)
+
+[Billing](https://developers.cloudflare.com/api/resources/user/subresources/billing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # History
 
-## Billing History Details
+##### [Billing History Details](https://developers.cloudflare.com/api/resources/user/subresources/billing/subresources/history/methods/list)
 
-**get** `/user/billing/history`
+Deprecated
 
-Accesses your billing history object.
+GET/user/billing/history
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `action: optional string`
+<details>
 
-  The billing item action.
+<summary>
 
-- `occurred_at: optional string`
+BillingHistory object {id, action, amount, 5 more }
 
-  When the billing item was created.
+</summary>
 
-- `order: optional "type" or "occurred_at" or "action"`
+id: string
 
-  Field to order billing history by.
+Billing item identifier tag.
 
-  - `"type"`
+maxLength32
 
-  - `"occurred_at"`
+<a href="#">Link to this property</a>
 
-  - `"action"`
+action: string
 
-- `page: optional number`
+The billing item action.
 
-  Page number of paginated results.
+maxLength30
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of items per page.
+amount: number
 
-- `type: optional string`
+The amount associated with this billing item.
 
-  The billing item type.
+<a href="#">Link to this property</a>
 
-### Returns
+currency: string
 
-- `errors: array of ResponseInfo`
+The monetary unit in which pricing information is displayed.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: string
 
-  - `documentation_url: optional string`
+The billing item description.
 
-  - `source: optional object { pointer }`
+maxLength255
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+occurred\_at: string
 
-  - `code: number`
+When the billing item was created.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+type: string
 
-- `result: array of BillingHistory`
+The billing item type.
 
-  - `id: string`
+maxLength30
 
-    Billing item identifier tag.
+<a href="#">Link to this property</a>
 
-  - `action: string`
+<details>
 
-    The billing item action.
+<summary>
 
-  - `amount: number`
+zone: object {name }
 
-    The amount associated with this billing item.
+</summary>
 
-  - `currency: string`
+name: optional string
 
-    The monetary unit in which pricing information is displayed.
+<a href="#">Link to this property</a>
 
-  - `description: string`
+</details>
 
-    The billing item description.
+<a href="#">Link to this property</a>
 
-  - `occurred_at: string`
+</details>
 
-    When the billing item was created.
-
-  - `type: string`
-
-    The billing item type.
-
-  - `zone: object { name }`
-
-    - `name: optional string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/billing/history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "b69a9f3492637782896352daae219e7d",
-      "action": "subscription",
-      "amount": 20.99,
-      "currency": "USD",
-      "description": "The billing item description",
-      "occurred_at": "2014-03-01T12:21:59.3456Z",
-      "type": "charge",
-      "zone": {
-        "name": "name"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### Billing History
-
-- `BillingHistory object { id, action, amount, 5 more }`
-
-  - `id: string`
-
-    Billing item identifier tag.
-
-  - `action: string`
-
-    The billing item action.
-
-  - `amount: number`
-
-    The amount associated with this billing item.
-
-  - `currency: string`
-
-    The monetary unit in which pricing information is displayed.
-
-  - `description: string`
-
-    The billing item description.
-
-  - `occurred_at: string`
-
-    When the billing item was created.
-
-  - `type: string`
-
-    The billing item type.
-
-  - `zone: object { name }`
-
-    - `name: optional string`
+[Link to this property](#)%20user.billing.history%20%3E%20(model)%20billing_history%20%3E%20(schema)>)

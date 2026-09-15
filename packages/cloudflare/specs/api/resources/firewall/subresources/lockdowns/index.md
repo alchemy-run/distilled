@@ -1,940 +1,239 @@
+---
+title: Lockdowns
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Lockdowns
 
-## List Zone Lockdown rules
+##### [List Zone Lockdown rules](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/list)
 
-**get** `/zones/{zone_id}/firewall/lockdowns`
+GET/zones/{zone\_id}/firewall/lockdowns
 
-Fetches Zone Lockdown rules. You can filter the results using several optional parameters.
+##### [Get a Zone Lockdown rule](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/firewall/lockdowns/{lock\_downs\_id}
 
-- `zone_id: string`
+##### [Create a Zone Lockdown rule](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/create)
 
-  Defines an identifier.
+POST/zones/{zone\_id}/firewall/lockdowns
 
-### Query Parameters
+##### [Update a Zone Lockdown rule](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/update)
 
-- `created_on: optional string`
+PUT/zones/{zone\_id}/firewall/lockdowns/{lock\_downs\_id}
 
-  The timestamp of when the rule was created.
+##### [Delete a Zone Lockdown rule](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns/methods/delete)
 
-- `description: optional string`
+DELETE/zones/{zone\_id}/firewall/lockdowns/{lock\_downs\_id}
 
-  A string to search for in the description of existing rules.
+##### ModelsExpand Collapse
 
-- `description_search: optional string`
+<details>
 
-  A string to search for in the description of existing rules.
+<summary>
 
-- `ip: optional string`
+Configuration = array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown_ip_configuration%20%3E%20(schema)">LockdownIPConfiguration</a> { target, value } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown_cidr_configuration%20%3E%20(schema)">LockdownCIDRConfiguration</a> { target, value }
 
-  A single IP address to search for in existing rules.
+A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of <code>ip</code> or <code>ip_range</code> configurations.
 
-- `ip_range_search: optional string`
+</summary>
 
-  A single IP address range to search for in existing rules.
+One of the following:
 
-- `ip_search: optional string`
+<details>
 
-  A single IP address to search for in existing rules.
+<summary>
 
-- `modified_on: optional string`
+LockdownIPConfiguration object {target, value }
 
-  The timestamp of when the rule was last modified.
+</summary>
 
-- `page: optional number`
+target: optional "ip"
 
-  Page number of paginated results.
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the Zone Lockdown rule.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
+value: optional string
 
-- `priority: optional number`
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-  The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority.
+<a href="#">Link to this property</a>
 
-- `uri_search: optional string`
+</details>
 
-  A single URI to search for in the list of URLs of existing rules.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+LockdownCIDRConfiguration object {target, value }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+target: optional "ip\_range"
 
-  - `source: optional object { pointer }`
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the Zone Lockdown rule.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+value: optional string
 
-  - `code: number`
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code>.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of Lockdown`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20configuration%20%3E%20(schema)>)
 
-    The unique identifier of the Zone Lockdown rule.
+<details>
 
-  - `configurations: Configuration`
+<summary>
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+Lockdown object {id, configurations, created\_on, 4 more }
 
-    - `LockdownIPConfiguration object { target, value }`
+</summary>
 
-      - `target: optional "ip"`
+id: string
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+The unique identifier of the Zone Lockdown rule.
 
-        - `"ip"`
+maxLength32
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+configurations: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20configuration%20%3E%20(schema)">Configuration</a> { , }
 
-    - `LockdownCIDRConfiguration object { target, value }`
+A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of <code>ip</code> or <code>ip_range</code> configurations.
 
-      - `target: optional "ip_range"`
+<a href="#">Link to this property</a>
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+created\_on: string
 
-        - `"ip_range"`
+The timestamp of when the rule was created.
 
-      - `value: optional string`
+formatdate-time
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+description: string
 
-    The timestamp of when the rule was created.
+An informative summary of the rule.
 
-  - `description: string`
+maxLength1024
 
-    An informative summary of the rule.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+modified\_on: string
 
-    The timestamp of when the rule was last modified.
+The timestamp of when the rule was last modified.
 
-  - `paused: boolean`
+formatdate-time
 
-    When true, indicates that the rule is currently paused.
+<a href="#">Link to this property</a>
 
-  - `urls: array of LockdownURL`
+paused: boolean
 
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+When true, indicates that the rule is currently paused.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+urls: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown_url%20%3E%20(schema)">LockdownURL</a>
 
-  - `true`
+The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Defines the total number of results for the requested service.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown%20%3E%20(schema)>)
 
-  - `page: optional number`
+<details>
 
-    Defines the current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+LockdownCIDRConfiguration object {target, value }
 
-    Defines the number of results per page of results.
+</summary>
 
-  - `total_count: optional number`
+target: optional "ip\_range"
 
-    Defines the total results available without any search parameters.
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the Zone Lockdown rule.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: optional string
 
-#### Response
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code>.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "372e67954025e0ba6aaa6d586b9e0b59",
-      "configurations": [
-        {
-          "target": "ip",
-          "value": "198.51.100.4"
-        }
-      ],
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "description": "Restrict access to these endpoints to requests from a known IP address",
-      "modified_on": "2014-01-01T05:20:00.12345Z",
-      "paused": false,
-      "urls": [
-        "api.mysite.com/some/endpoint*"
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get a Zone Lockdown rule
+</details>
 
-**get** `/zones/{zone_id}/firewall/lockdowns/{lock_downs_id}`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown_cidr_configuration%20%3E%20(schema)>)
 
-Fetches the details of a Zone Lockdown rule.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+LockdownIPConfiguration object {target, value }
 
-  Defines an identifier.
+</summary>
 
-- `lock_downs_id: string`
+target: optional "ip"
 
-  The unique identifier of the Zone Lockdown rule.
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the Zone Lockdown rule.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+value: optional string
 
-  - `code: number`
+The IP address to match. This address will be compared to the IP address of incoming requests.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown_ip_configuration%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+LockdownURL = string
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown_url%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+LockdownDeleteResponse object {id }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: Lockdown`
+id: optional string
 
-  - `id: string`
+The unique identifier of the Zone Lockdown rule.
 
-    The unique identifier of the Zone Lockdown rule.
+maxLength32
 
-  - `configurations: Configuration`
+<a href="#">Link to this property</a>
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+</details>
 
-    - `LockdownIPConfiguration object { target, value }`
-
-      - `target: optional "ip"`
-
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
-
-        - `"ip"`
-
-      - `value: optional string`
-
-        The IP address to match. This address will be compared to the IP address of incoming requests.
-
-    - `LockdownCIDRConfiguration object { target, value }`
-
-      - `target: optional "ip_range"`
-
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
-
-        - `"ip_range"`
-
-      - `value: optional string`
-
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
-
-  - `created_on: string`
-
-    The timestamp of when the rule was created.
-
-  - `description: string`
-
-    An informative summary of the rule.
-
-  - `modified_on: string`
-
-    The timestamp of when the rule was last modified.
-
-  - `paused: boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `urls: array of LockdownURL`
-
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns/$LOCK_DOWNS_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configurations": [
-      {
-        "target": "ip",
-        "value": "198.51.100.4"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Restrict access to these endpoints to requests from a known IP address",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "paused": false,
-    "urls": [
-      "api.mysite.com/some/endpoint*"
-    ]
-  },
-  "success": true
-}
-```
-
-## Create a Zone Lockdown rule
-
-**post** `/zones/{zone_id}/firewall/lockdowns`
-
-Creates a new Zone Lockdown rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Body Parameters
-
-- `configurations: Configuration`
-
-  A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
-
-  - `LockdownIPConfiguration object { target, value }`
-
-    - `target: optional "ip"`
-
-      The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
-
-      - `"ip"`
-
-    - `value: optional string`
-
-      The IP address to match. This address will be compared to the IP address of incoming requests.
-
-  - `LockdownCIDRConfiguration object { target, value }`
-
-    - `target: optional "ip_range"`
-
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
-
-      - `"ip_range"`
-
-    - `value: optional string`
-
-      The IP address range to match. You can only use prefix lengths `/16` and `/24`.
-
-- `urls: array of OverrideURL`
-
-  The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-- `description: optional string`
-
-  An informative summary of the rule. This value is sanitized and any tags will be removed.
-
-- `paused: optional boolean`
-
-  When true, indicates that the rule is currently paused.
-
-- `priority: optional number`
-
-  The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Lockdown`
-
-  - `id: string`
-
-    The unique identifier of the Zone Lockdown rule.
-
-  - `configurations: Configuration`
-
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
-
-    - `LockdownIPConfiguration object { target, value }`
-
-      - `target: optional "ip"`
-
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
-
-        - `"ip"`
-
-      - `value: optional string`
-
-        The IP address to match. This address will be compared to the IP address of incoming requests.
-
-    - `LockdownCIDRConfiguration object { target, value }`
-
-      - `target: optional "ip_range"`
-
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
-
-        - `"ip_range"`
-
-      - `value: optional string`
-
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
-
-  - `created_on: string`
-
-    The timestamp of when the rule was created.
-
-  - `description: string`
-
-    An informative summary of the rule.
-
-  - `modified_on: string`
-
-    The timestamp of when the rule was last modified.
-
-  - `paused: boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `urls: array of LockdownURL`
-
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configurations": [
-            {}
-          ],
-          "urls": [
-            "shop.example.com/*"
-          ],
-          "description": "Prevent multiple login failures to mitigate brute force attacks",
-          "priority": 5
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configurations": [
-      {
-        "target": "ip",
-        "value": "198.51.100.4"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Restrict access to these endpoints to requests from a known IP address",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "paused": false,
-    "urls": [
-      "api.mysite.com/some/endpoint*"
-    ]
-  },
-  "success": true
-}
-```
-
-## Update a Zone Lockdown rule
-
-**put** `/zones/{zone_id}/firewall/lockdowns/{lock_downs_id}`
-
-Updates an existing Zone Lockdown rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `lock_downs_id: string`
-
-  The unique identifier of the Zone Lockdown rule.
-
-### Body Parameters
-
-- `configurations: Configuration`
-
-  A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
-
-  - `LockdownIPConfiguration object { target, value }`
-
-    - `target: optional "ip"`
-
-      The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
-
-      - `"ip"`
-
-    - `value: optional string`
-
-      The IP address to match. This address will be compared to the IP address of incoming requests.
-
-  - `LockdownCIDRConfiguration object { target, value }`
-
-    - `target: optional "ip_range"`
-
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
-
-      - `"ip_range"`
-
-    - `value: optional string`
-
-      The IP address range to match. You can only use prefix lengths `/16` and `/24`.
-
-- `urls: array of OverrideURL`
-
-  The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Lockdown`
-
-  - `id: string`
-
-    The unique identifier of the Zone Lockdown rule.
-
-  - `configurations: Configuration`
-
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
-
-    - `LockdownIPConfiguration object { target, value }`
-
-      - `target: optional "ip"`
-
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
-
-        - `"ip"`
-
-      - `value: optional string`
-
-        The IP address to match. This address will be compared to the IP address of incoming requests.
-
-    - `LockdownCIDRConfiguration object { target, value }`
-
-      - `target: optional "ip_range"`
-
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
-
-        - `"ip_range"`
-
-      - `value: optional string`
-
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
-
-  - `created_on: string`
-
-    The timestamp of when the rule was created.
-
-  - `description: string`
-
-    An informative summary of the rule.
-
-  - `modified_on: string`
-
-    The timestamp of when the rule was last modified.
-
-  - `paused: boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `urls: array of LockdownURL`
-
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns/$LOCK_DOWNS_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "configurations": [
-            {}
-          ],
-          "urls": [
-            "shop.example.com/*"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59",
-    "configurations": [
-      {
-        "target": "ip",
-        "value": "198.51.100.4"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Restrict access to these endpoints to requests from a known IP address",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "paused": false,
-    "urls": [
-      "api.mysite.com/some/endpoint*"
-    ]
-  },
-  "success": true
-}
-```
-
-## Delete a Zone Lockdown rule
-
-**delete** `/zones/{zone_id}/firewall/lockdowns/{lock_downs_id}`
-
-Deletes an existing Zone Lockdown rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `lock_downs_id: string`
-
-  The unique identifier of the Zone Lockdown rule.
-
-### Returns
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    The unique identifier of the Zone Lockdown rule.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns/$LOCK_DOWNS_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "372e67954025e0ba6aaa6d586b9e0b59"
-  }
-}
-```
-
-## Domain Types
-
-### Configuration
-
-- `Configuration = array of LockdownIPConfiguration or LockdownCIDRConfiguration`
-
-  A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
-
-  - `LockdownIPConfiguration object { target, value }`
-
-    - `target: optional "ip"`
-
-      The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
-
-      - `"ip"`
-
-    - `value: optional string`
-
-      The IP address to match. This address will be compared to the IP address of incoming requests.
-
-  - `LockdownCIDRConfiguration object { target, value }`
-
-    - `target: optional "ip_range"`
-
-      The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
-
-      - `"ip_range"`
-
-    - `value: optional string`
-
-      The IP address range to match. You can only use prefix lengths `/16` and `/24`.
-
-### Lockdown
-
-- `Lockdown object { id, configurations, created_on, 4 more }`
-
-  - `id: string`
-
-    The unique identifier of the Zone Lockdown rule.
-
-  - `configurations: Configuration`
-
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
-
-    - `LockdownIPConfiguration object { target, value }`
-
-      - `target: optional "ip"`
-
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
-
-        - `"ip"`
-
-      - `value: optional string`
-
-        The IP address to match. This address will be compared to the IP address of incoming requests.
-
-    - `LockdownCIDRConfiguration object { target, value }`
-
-      - `target: optional "ip_range"`
-
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
-
-        - `"ip_range"`
-
-      - `value: optional string`
-
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
-
-  - `created_on: string`
-
-    The timestamp of when the rule was created.
-
-  - `description: string`
-
-    An informative summary of the rule.
-
-  - `modified_on: string`
-
-    The timestamp of when the rule was last modified.
-
-  - `paused: boolean`
-
-    When true, indicates that the rule is currently paused.
-
-  - `urls: array of LockdownURL`
-
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
-
-### Lockdown CIDR Configuration
-
-- `LockdownCIDRConfiguration object { target, value }`
-
-  - `target: optional "ip_range"`
-
-    The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
-
-    - `"ip_range"`
-
-  - `value: optional string`
-
-    The IP address range to match. You can only use prefix lengths `/16` and `/24`.
-
-### Lockdown IP Configuration
-
-- `LockdownIPConfiguration object { target, value }`
-
-  - `target: optional "ip"`
-
-    The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
-
-    - `"ip"`
-
-  - `value: optional string`
-
-    The IP address to match. This address will be compared to the IP address of incoming requests.
-
-### Lockdown URL
-
-- `LockdownURL = string`
-
-### Lockdown Delete Response
-
-- `LockdownDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    The unique identifier of the Zone Lockdown rule.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(model)%20lockdown_delete_response%20%3E%20(schema)>)

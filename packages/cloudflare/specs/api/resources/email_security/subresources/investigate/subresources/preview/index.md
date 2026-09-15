@@ -1,209 +1,67 @@
+---
+title: Preview
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Preview
 
-## Get email preview
+##### [Get email preview](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/preview/methods/get)
 
-**get** `/accounts/{account_id}/email-security/investigate/{investigate_id}/preview`
+GET/accounts/{account\_id}/email-security/investigate/{investigate\_id}/preview
 
-Returns a preview of the message body as a base64 encoded PNG image for non-benign messages.
+##### [Preview for non-detection messages](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/preview/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/email-security/investigate/preview
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `investigate_id: string`
+<summary>
 
-  Unique identifier for a message retrieved from investigation
+PreviewGetResponse object {screenshot }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+screenshot: string
 
-  - `code: number`
+A base64 encoded PNG image of the email.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20email_security.investigate.preview%20%3E%20(model)%20preview_get_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+PreviewCreateResponse object {screenshot }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+screenshot: string
 
-  - `source: optional object { pointer }`
+A base64 encoded PNG image of the email.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { screenshot }`
+</details>
 
-  - `screenshot: string`
-
-    A base64 encoded PNG image of the email.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/$INVESTIGATE_ID/preview \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "screenshot": "screenshot"
-  },
-  "success": true
-}
-```
-
-## Preview for non-detection messages
-
-**post** `/accounts/{account_id}/email-security/investigate/preview`
-
-Generates a preview image for a message that was not flagged as a detection. Useful for investigating benign messages. Returns a base64-encoded PNG screenshot of the email body.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `postfix_id: string`
-
-  The identifier of the message
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { screenshot }`
-
-  - `screenshot: string`
-
-    A base64 encoded PNG image of the email.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/preview \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "postfix_id": "4Njp3P0STMz2c02Q"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "screenshot": "screenshot"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Preview Get Response
-
-- `PreviewGetResponse object { screenshot }`
-
-  - `screenshot: string`
-
-    A base64 encoded PNG image of the email.
-
-### Preview Create Response
-
-- `PreviewCreateResponse object { screenshot }`
-
-  - `screenshot: string`
-
-    A base64 encoded PNG image of the email.
+[Link to this property](#)%20email_security.investigate.preview%20%3E%20(model)%20preview_create_response%20%3E%20(schema)>)

@@ -1,256 +1,173 @@
+---
+title: Categories
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Categories
 
-## List categories
+##### [List categories](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/categories/methods/list)
 
-**get** `/accounts/{account_id}/gateway/categories`
+GET/accounts/{account\_id}/gateway/categories
 
-List all categories.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Provide the identifier string.
+Category object {id, beta, class, 3 more }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+id: optional number
 
-  - `code: number`
+Identify this category. Only one category per ID.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+beta: optional boolean
 
-  - `source: optional object { pointer }`
+Indicate whether the category is in beta and subject to change.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+class: optional "free"or "premium"or "blocked"or 2 more
 
-  - `documentation_url: optional string`
+Specify which account types can create policies for this category. <code>blocked</code> Blocks unconditionally for all accounts. <code>removalPending</code> Allows removal from policies but disables addition. <code>noBlock</code> Prevents blocking.
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Indicate whether the API call was successful.
+"free"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of Category`
+"premium"
 
-  - `id: optional number`
+<a href="#">Link to this property</a>
 
-    Identify this category. Only one category per ID.
+"blocked"
 
-  - `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicate whether the category is in beta and subject to change.
+"removalPending"
 
-  - `class: optional "free" or "premium" or "blocked" or 2 more`
+<a href="#">Link to this property</a>
 
-    Specify which account types can create policies for this category. `blocked` Blocks unconditionally for all accounts. `removalPending` Allows removal from policies but disables addition. `noBlock` Prevents blocking.
+"noBlock"
 
-    - `"free"`
+<a href="#">Link to this property</a>
 
-    - `"premium"`
+</details>
 
-    - `"blocked"`
+<a href="#">Link to this property</a>
 
-    - `"removalPending"`
+description: optional string
 
-    - `"noBlock"`
+Provide a short summary of domains in the category.
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Provide a short summary of domains in the category.
+name: optional string
 
-  - `name: optional string`
+Specify the category name.
 
-    Specify the category name.
+<a href="#">Link to this property</a>
 
-  - `subcategories: optional array of object { id, beta, class, 2 more }`
+<details>
 
-    Provide all subcategories for this category.
+<summary>
 
-    - `id: optional number`
+subcategories: optional array of object {id, beta, class, 2 more }
 
-      Identify this category. Only one category per ID.
+Provide all subcategories for this category.
 
-    - `beta: optional boolean`
+</summary>
 
-      Indicate whether the category is in beta and subject to change.
+id: optional number
 
-    - `class: optional "free" or "premium" or "blocked" or 2 more`
+Identify this category. Only one category per ID.
 
-      Specify which account types can create policies for this category. `blocked` Blocks unconditionally for all accounts. `removalPending` Allows removal from policies but disables addition. `noBlock` Prevents blocking.
+<a href="#">Link to this property</a>
 
-      - `"free"`
+beta: optional boolean
 
-      - `"premium"`
+Indicate whether the category is in beta and subject to change.
 
-      - `"blocked"`
+<a href="#">Link to this property</a>
 
-      - `"removalPending"`
+<details>
 
-      - `"noBlock"`
+<summary>
 
-    - `description: optional string`
-
-      Provide a short summary of domains in the category.
+class: optional "free"or "premium"or "blocked"or 2 more
 
-    - `name: optional string`
+Specify which account types can create policies for this category. <code>blocked</code> Blocks unconditionally for all accounts. <code>removalPending</code> Allows removal from policies but disables addition. <code>noBlock</code> Prevents blocking.
 
-      Specify the category name.
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+One of the following:
 
-  - `count: optional number`
+"free"
 
-    Indicate the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"premium"
 
-    Indicate the current page within a paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"blocked"
 
-    Indicate the number of results per page.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+"removalPending"
 
-    Indicate the total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+"noBlock"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/categories \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 0,
-      "beta": false,
-      "class": "premium",
-      "description": "Sites related to educational content that are not included in other categories such as Science, Technology or Educational institutions.",
-      "name": "Education",
-      "subcategories": [
-        {
-          "id": 0,
-          "beta": false,
-          "class": "premium",
-          "description": "Sites related to educational content that are not included in other categories such as Science, Technology or Educational institutions.",
-          "name": "Education"
-        }
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+description: optional string
 
-### Category
+Provide a short summary of domains in the category.
 
-- `Category object { id, beta, class, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional number`
+name: optional string
 
-    Identify this category. Only one category per ID.
+Specify the category name.
 
-  - `beta: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicate whether the category is in beta and subject to change.
+</details>
 
-  - `class: optional "free" or "premium" or "blocked" or 2 more`
+<a href="#">Link to this property</a>
 
-    Specify which account types can create policies for this category. `blocked` Blocks unconditionally for all accounts. `removalPending` Allows removal from policies but disables addition. `noBlock` Prevents blocking.
+</details>
 
-    - `"free"`
-
-    - `"premium"`
-
-    - `"blocked"`
-
-    - `"removalPending"`
-
-    - `"noBlock"`
-
-  - `description: optional string`
-
-    Provide a short summary of domains in the category.
-
-  - `name: optional string`
-
-    Specify the category name.
-
-  - `subcategories: optional array of object { id, beta, class, 2 more }`
-
-    Provide all subcategories for this category.
-
-    - `id: optional number`
-
-      Identify this category. Only one category per ID.
-
-    - `beta: optional boolean`
-
-      Indicate whether the category is in beta and subject to change.
-
-    - `class: optional "free" or "premium" or "blocked" or 2 more`
-
-      Specify which account types can create policies for this category. `blocked` Blocks unconditionally for all accounts. `removalPending` Allows removal from policies but disables addition. `noBlock` Prevents blocking.
-
-      - `"free"`
-
-      - `"premium"`
-
-      - `"blocked"`
-
-      - `"removalPending"`
-
-      - `"noBlock"`
-
-    - `description: optional string`
-
-      Provide a short summary of domains in the category.
-
-    - `name: optional string`
-
-      Specify the category name.
+[Link to this property](#)%20zero_trust.gateway.categories%20%3E%20(model)%20category%20%3E%20(schema)>)

@@ -1,245 +1,87 @@
+---
+title: Advertisement Status
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Advertisement Status
 
-## Get Advertisement Status
+##### [Get Advertisement Status](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/advertisement_status/methods/get)
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/status`
+Deprecated
 
-View the current advertisement state for a prefix.
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/status
 
-**Deprecated:** Prefer the BGP Prefixes endpoints, which additionally allow for advertising and withdrawing
-subnets of an IP prefix.
+##### [Update Prefix Dynamic Advertisement Status](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/advertisement_status/methods/edit)
 
-### Path Parameters
+Deprecated
 
-- `account_id: string`
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/status
 
-  Identifier of a Cloudflare account.
+##### ModelsExpand Collapse
 
-- `prefix_id: string`
+<details>
 
-  Identifier of an IP Prefix.
+<summary>
 
-### Returns
+AdvertisementStatusGetResponse object {advertised, advertised\_modified\_at }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+advertised: optional boolean
 
-  - `message: string`
+Advertisement status of the prefix. If <code>true</code>, the BGP route for the prefix is advertised to the Internet. If <code>false</code>, the BGP route is withdrawn.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+advertised\_modified\_at: optional string
 
-    - `pointer: optional string`
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(model)%20advertisement_status_get_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+AdvertisementStatusEditResponse object {advertised, advertised\_modified\_at }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+advertised: optional boolean
 
-- `result: optional object { advertised, advertised_modified_at }`
+Advertisement status of the prefix. If <code>true</code>, the BGP route for the prefix is advertised to the Internet. If <code>false</code>, the BGP route is withdrawn.
 
-  - `advertised: optional boolean`
+<a href="#">Link to this property</a>
 
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
+advertised\_modified\_at: optional string
 
-  - `advertised_modified_at: optional string`
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
 
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/status \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update Prefix Dynamic Advertisement Status
-
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/status`
-
-Advertise or withdraw the BGP route for a prefix.
-
-**Deprecated:** Prefer the BGP Prefixes endpoints, which additionally allow for advertising and withdrawing
-subnets of an IP prefix.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `prefix_id: string`
-
-  Identifier of an IP Prefix.
-
-### Body Parameters
-
-- `advertised: boolean`
-
-  Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-  `false`, the BGP route is withdrawn.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/status \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "advertised": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "advertised": true,
-    "advertised_modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Advertisement Status Get Response
-
-- `AdvertisementStatusGetResponse object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
-
-### Advertisement Status Edit Response
-
-- `AdvertisementStatusEditResponse object { advertised, advertised_modified_at }`
-
-  - `advertised: optional boolean`
-
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
-
-  - `advertised_modified_at: optional string`
-
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(model)%20advertisement_status_edit_response%20%3E%20(schema)>)

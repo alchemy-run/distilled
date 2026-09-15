@@ -1,128 +1,322 @@
-## Create a Route
+---
+title: Create a Route
+---
 
-**post** `/accounts/{account_id}/magic/routes`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Routes](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a Route
+
+POST/accounts/{account\_id}/magic/routes
 
 Creates a new Magic static route. Use `?validate_only=true` as an optional query parameter to run validation only without persisting changes.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `nexthop: string`
 
-  The next-hop IP Address for the static route.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `prefix: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  IP Prefix in Classless Inter-Domain Routing format.
+</details>
 
-- `priority: number`
+<details>
 
-  Priority of the static route.
+<summary>API Email + API Key</summary>
 
-- `description: optional string`
 
-  An optional human provided description of the static route.
 
-- `scope: optional Scope`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Used only for ECMP routes.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `colo_names: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    List of colo names for the ECMP scope.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `colo_regions: optional array of string`
+</details>
 
-    List of colo regions for the ECMP scope.
+##### Accepted Permissions (at least one required)
 
-- `weight: optional number`
+`Magic WAN Write``Magic Transit Write`
 
-  Optional weight of the ECMP scope - if provided.
+##### P ath ParametersExpand Collapse
 
-### Returns
+account\_id: string
 
-- `errors: array of ResponseInfo`
+Identifier
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### Body ParametersJSONExpand Collapse
 
-  - `source: optional object { pointer }`
+nexthop: string
 
-    - `pointer: optional string`
+The next-hop IP Address for the static route.
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20nexthop%20%3E%20(schema)>)
 
-  - `code: number`
+prefix: string
 
-  - `message: string`
+IP Prefix in Classless Inter-Domain Routing format.
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20prefix%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+priority: number
 
-- `result: object { id, nexthop, prefix, 6 more }`
+Priority of the static route.
 
-  - `id: string`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20priority%20%3E%20(schema)>)
 
-    Identifier
+description: optional string
 
-  - `nexthop: string`
+An optional human provided description of the static route.
 
-    The next-hop IP Address for the static route.
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-  - `prefix: string`
+<details>
 
-    IP Prefix in Classless Inter-Domain Routing format.
+<summary>
 
-  - `priority: number`
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
 
-    Priority of the static route.
+Used only for ECMP routes.
 
-  - `created_on: optional string`
+</summary>
 
-    When the route was created.
+colo\_names: optional array of string
 
-  - `description: optional string`
+List of colo names for the ECMP scope.
 
-    An optional human provided description of the static route.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+colo\_regions: optional array of string
 
-    When the route was last modified.
+List of colo regions for the ECMP scope.
 
-  - `scope: optional Scope`
+<a href="#">Link to this property</a>
 
-    Used only for ECMP routes.
+</details>
 
-    - `colo_names: optional array of string`
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20scope%20%3E%20(schema)>)
 
-      List of colo names for the ECMP scope.
+weight: optional number
 
-    - `colo_regions: optional array of string`
+Optional weight of the ECMP scope - if provided.
 
-      List of colo regions for the ECMP scope.
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20weight%20%3E%20(schema)>)
 
-  - `weight: optional number`
+##### ReturnsExpand Collapse
 
-    Optional weight of the ECMP scope - if provided.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, nexthop, prefix, 6 more }
+
+</summary>
+
+id: string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+nexthop: string
+
+The next-hop IP Address for the static route.
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+IP Prefix in Classless Inter-Domain Routing format.
+
+<a href="#">Link to this property</a>
+
+priority: number
+
+Priority of the static route.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+When the route was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An optional human provided description of the static route.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+When the route was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
+
+Used only for ECMP routes.
+
+</summary>
+
+colo\_names: optional array of string
+
+List of colo names for the ECMP scope.
+
+<a href="#">Link to this property</a>
+
+colo\_regions: optional array of string
+
+List of colo regions for the ECMP scope.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+weight: optional number
+
+Optional weight of the ECMP scope - if provided.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a Route
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -134,9 +328,57 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "nexthop": "203.0.113.1",
+    "prefix": "192.0.2.0/24",
+    "priority": 0,
+    "created_on": "2017-06-14T00:00:00Z",
+    "description": "New route for new prefix 203.0.113.1",
+    "modified_on": "2017-06-14T05:20:00Z",
+    "scope": {
+      "colo_names": [
+        "den01"
+      ],
+      "colo_regions": [
+        "APAC"
+      ]
+    },
+    "weight": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,261 +1,81 @@
+---
+title: Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Settings
 
-## Update Access application settings
+##### [Update Access application settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/settings/methods/update)
 
-**put** `/{accounts_or_zones}/{account_or_zone_id}/access/apps/{app_id}/settings`
+PUT/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/apps/{app\_id}/settings
 
-Updates Access application settings.
+##### [Update Access application settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/settings/methods/edit)
 
-### Path Parameters
+PATCH/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/apps/{app\_id}/settings
 
-- `app_id: AppID`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `account_id: optional string`
+<summary>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+SettingUpdateResponse object {allow\_iframe, skip\_interstitial }
 
-- `zone_id: optional string`
+</summary>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+allow\_iframe: optional boolean
 
-### Body Parameters
+Enables loading application content in an iFrame.
 
-- `allow_iframe: optional boolean`
+<a href="#">Link to this property</a>
 
-  Enables loading application content in an iFrame.
+skip\_interstitial: optional boolean
 
-- `skip_interstitial: optional boolean`
+Enables automatic authentication through cloudflared.
 
-  Enables automatic authentication through cloudflared.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.access.applications.settings%20%3E%20(model)%20setting_update_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+SettingEditResponse object {allow\_iframe, skip\_interstitial }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+allow\_iframe: optional boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Enables loading application content in an iFrame.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+skip\_interstitial: optional boolean
 
-  - `documentation_url: optional string`
+Enables automatic authentication through cloudflared.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { allow_iframe, skip_interstitial }`
-
-  - `allow_iframe: optional boolean`
-
-    Enables loading application content in an iFrame.
-
-  - `skip_interstitial: optional boolean`
-
-    Enables automatic authentication through cloudflared.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/apps/$APP_ID/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allow_iframe": true,
-          "skip_interstitial": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allow_iframe": true,
-    "skip_interstitial": true
-  }
-}
-```
-
-## Update Access application settings
-
-**patch** `/{accounts_or_zones}/{account_or_zone_id}/access/apps/{app_id}/settings`
-
-Updates Access application settings.
-
-### Path Parameters
-
-- `app_id: AppID`
-
-  Identifier.
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Body Parameters
-
-- `allow_iframe: optional boolean`
-
-  Enables loading application content in an iFrame.
-
-- `skip_interstitial: optional boolean`
-
-  Enables automatic authentication through cloudflared.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { allow_iframe, skip_interstitial }`
-
-  - `allow_iframe: optional boolean`
-
-    Enables loading application content in an iFrame.
-
-  - `skip_interstitial: optional boolean`
-
-    Enables automatic authentication through cloudflared.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/apps/$APP_ID/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allow_iframe": true,
-          "skip_interstitial": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allow_iframe": true,
-    "skip_interstitial": true
-  }
-}
-```
-
-## Domain Types
-
-### Setting Update Response
-
-- `SettingUpdateResponse object { allow_iframe, skip_interstitial }`
-
-  - `allow_iframe: optional boolean`
-
-    Enables loading application content in an iFrame.
-
-  - `skip_interstitial: optional boolean`
-
-    Enables automatic authentication through cloudflared.
-
-### Setting Edit Response
-
-- `SettingEditResponse object { allow_iframe, skip_interstitial }`
-
-  - `allow_iframe: optional boolean`
-
-    Enables loading application content in an iFrame.
-
-  - `skip_interstitial: optional boolean`
-
-    Enables automatic authentication through cloudflared.
+[Link to this property](#)%20zero_trust.access.applications.settings%20%3E%20(model)%20setting_edit_response%20%3E%20(schema)>)

@@ -1,225 +1,77 @@
+---
+title: Connectivity Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Connectivity Settings
 
-## Get Zero Trust Connectivity Settings
+##### [Get Zero Trust Connectivity Settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/connectivity_settings/methods/get)
 
-**get** `/accounts/{account_id}/zerotrust/connectivity_settings`
+GET/accounts/{account\_id}/zerotrust/connectivity\_settings
 
-Gets the Zero Trust Connectivity Settings for the given account.
+##### [Updates the Zero Trust Connectivity Settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/connectivity_settings/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/zerotrust/connectivity\_settings
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Cloudflare account ID
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+ConnectivitySettingGetResponse object {icmp\_proxy\_enabled, offramp\_warp\_enabled }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+icmp\_proxy\_enabled: optional boolean
 
-  - `documentation_url: optional string`
+A flag to enable the ICMP proxy for the account network.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+offramp\_warp\_enabled: optional boolean
 
-- `messages: array of ResponseInfo`
+A flag to enable WARP to WARP traffic.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.connectivity_settings%20%3E%20(model)%20connectivity_setting_get_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: object { icmp_proxy_enabled, offramp_warp_enabled }`
+<summary>
 
-  - `icmp_proxy_enabled: optional boolean`
+ConnectivitySettingEditResponse object {icmp\_proxy\_enabled, offramp\_warp\_enabled }
 
-    A flag to enable the ICMP proxy for the account network.
+</summary>
 
-  - `offramp_warp_enabled: optional boolean`
+icmp\_proxy\_enabled: optional boolean
 
-    A flag to enable WARP to WARP traffic.
+A flag to enable the ICMP proxy for the account network.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+offramp\_warp\_enabled: optional boolean
 
-  - `true`
+A flag to enable WARP to WARP traffic.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/connectivity_settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "icmp_proxy_enabled": true,
-    "offramp_warp_enabled": true
-  },
-  "success": true
-}
-```
-
-## Updates the Zero Trust Connectivity Settings
-
-**patch** `/accounts/{account_id}/zerotrust/connectivity_settings`
-
-Updates the Zero Trust Connectivity Settings for the given account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Body Parameters
-
-- `icmp_proxy_enabled: optional boolean`
-
-  A flag to enable the ICMP proxy for the account network.
-
-- `offramp_warp_enabled: optional boolean`
-
-  A flag to enable WARP to WARP traffic.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { icmp_proxy_enabled, offramp_warp_enabled }`
-
-  - `icmp_proxy_enabled: optional boolean`
-
-    A flag to enable the ICMP proxy for the account network.
-
-  - `offramp_warp_enabled: optional boolean`
-
-    A flag to enable WARP to WARP traffic.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zerotrust/connectivity_settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "icmp_proxy_enabled": true,
-          "offramp_warp_enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "icmp_proxy_enabled": true,
-    "offramp_warp_enabled": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Connectivity Setting Get Response
-
-- `ConnectivitySettingGetResponse object { icmp_proxy_enabled, offramp_warp_enabled }`
-
-  - `icmp_proxy_enabled: optional boolean`
-
-    A flag to enable the ICMP proxy for the account network.
-
-  - `offramp_warp_enabled: optional boolean`
-
-    A flag to enable WARP to WARP traffic.
-
-### Connectivity Setting Edit Response
-
-- `ConnectivitySettingEditResponse object { icmp_proxy_enabled, offramp_warp_enabled }`
-
-  - `icmp_proxy_enabled: optional boolean`
-
-    A flag to enable the ICMP proxy for the account network.
-
-  - `offramp_warp_enabled: optional boolean`
-
-    A flag to enable WARP to WARP traffic.
+[Link to this property](#)%20zero_trust.connectivity_settings%20%3E%20(model)%20connectivity_setting_edit_response%20%3E%20(schema)>)

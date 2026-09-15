@@ -1,118 +1,304 @@
-## Export D1 Database as SQL
+---
+title: Export D1 Database as SQL
+---
 
-**post** `/accounts/{account_id}/d1/database/{database_id}/export`
+[Skip to content](#_top)
 
-Returns a URL where the SQL contents of your D1 can be downloaded. Note: this process may take
-some time for larger DBs, during which your D1 will be unavailable to serve queries. To avoid
-blocking your DB unnecessarily, an in-progress export must be continually polled or will automatically cancel.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[D1](https://developers.cloudflare.com/api/resources/d1)
 
-- `account_id: string`
+[Database](https://developers.cloudflare.com/api/resources/d1/subresources/database)
 
-  Account identifier tag.
+Copy Markdown
 
-- `database_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  D1 database identifier (UUID).
+---
 
-### Body Parameters
+**Copy Markdown****View as Markdown**
 
-- `output_format: "polling"`
+# Export D1 Database as SQL
 
-  Specifies that you will poll this endpoint until the export completes
+POST/accounts/{account\_id}/d1/database/{database\_id}/export
 
-  - `"polling"`
+Returns a URL where the SQL contents of your D1 can be downloaded. Note: this process may take some time for larger DBs, during which your D1 will be unavailable to serve queries. To avoid blocking your DB unnecessarily, an in-progress export must be continually polled or will automatically cancel.
 
-- `current_bookmark: optional string`
+##### Security
 
-  To poll an in-progress export, provide the current bookmark (returned by your first polling response)
+<details>
 
-- `dump_options: optional object { no_data, no_schema, tables }`
+<summary>API Token</summary>
 
-  - `no_data: optional boolean`
 
-    Export only the table definitions, not their contents
 
-  - `no_schema: optional boolean`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    Export only each table's contents, not its definition
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `tables: optional array of string`
+</details>
 
-    Filter the export to just one or more tables. Passing an empty array is the same as not passing anything and means: export all tables.
+<details>
 
-### Returns
+<summary>API Email + API Key</summary>
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-  - `documentation_url: optional string`
+Account identifier tag.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-- `result: object { at_bookmark, error, messages, 4 more }`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `at_bookmark: optional string`
+database\_id: string
 
-    The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the export task.
+D1 database identifier (UUID).
 
-  - `error: optional string`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20database_id%20%3E%20(schema)>)
 
-    Only present when status = 'error'. Contains the error message.
+##### Body ParametersJSONExpand Collapse
 
-  - `messages: optional array of string`
+output\_format: "polling"
 
-    Logs since the last time you polled
+Specifies that you will poll this endpoint until the export completes
 
-  - `result: optional object { filename, signed_url }`
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(params)%200%20%3E%20(param)%20output_format%20%3E%20(schema)>)
 
-    Only present when status = 'complete'
+current\_bookmark: optional string
 
-    - `filename: optional string`
+To poll an in-progress export, provide the current bookmark (returned by your first polling response)
 
-      The generated SQL filename.
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(params)%200%20%3E%20(param)%20current_bookmark%20%3E%20(schema)>)
 
-    - `signed_url: optional string`
+<details>
 
-      The URL to download the exported SQL. Available for one hour.
+<summary>
 
-  - `status: optional "complete" or "error"`
+dump\_options: optional object {no\_data, no\_schema, tables }
 
-    - `"complete"`
+</summary>
 
-    - `"error"`
+no\_data: optional boolean
 
-  - `success: optional boolean`
+Export only the table definitions, not their contents
 
-  - `type: optional "export"`
+<a href="#">Link to this property</a>
 
-    - `"export"`
+no\_schema: optional boolean
 
-- `success: true`
+Export only each table’s contents, not its definition
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+tables: optional array of string
 
-### Example
+Filter the export to just one or more tables. Passing an empty array is the same as not passing anything and means: export all tables.
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(params)%200%20%3E%20(param)%20dump_options%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {at\_bookmark, error, messages, 4 more }
+
+</summary>
+
+at\_bookmark: optional string
+
+The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the export task.
+
+<a href="#">Link to this property</a>
+
+error: optional string
+
+Only present when status = ‘error’. Contains the error message.
+
+<a href="#">Link to this property</a>
+
+messages: optional array of string
+
+Logs since the last time you polled
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+result: optional object {filename, signed\_url }
+
+Only present when status = ‘complete’
+
+</summary>
+
+filename: optional string
+
+The generated SQL filename.
+
+<a href="#">Link to this property</a>
+
+signed\_url: optional string
+
+The URL to download the exported SQL. Available for one hour.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "complete"or "error"
+
+</summary>
+
+One of the following:
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: optional boolean
+
+<a href="#">Link to this property</a>
+
+type: optional "export"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20d1.database%20%3E%20(method)%20export%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Export D1 Database as SQL
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/export \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -121,9 +307,53 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATA
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "at_bookmark": "at_bookmark",
+    "error": "error",
+    "messages": [
+      "string"
+    ],
+    "result": {
+      "filename": "filename",
+      "signed_url": "signed_url"
+    },
+    "status": "complete",
+    "success": true,
+    "type": "export"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

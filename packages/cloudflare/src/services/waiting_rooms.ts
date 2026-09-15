@@ -524,9 +524,9 @@ export interface CreateWaitingRoomRequest {
   sessionDuration?: number;
   /** Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room. */
   suspended?: boolean;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: CreateRequestTurnstileAction | (string & {});
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: CreateRequestTurnstileMode | (string & {});
 }
 export const CreateWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
@@ -753,9 +753,9 @@ export interface CreateWaitingRoomResponse {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: CreateResponseTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: CreateResponseTurnstileMode | null;
 }
 export const CreateWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1284,7 +1284,7 @@ export const GetSettingRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingResponse {
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass: boolean;
 }
 export const GetSettingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1527,9 +1527,9 @@ export interface GetWaitingRoomResponse {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: GetResponseTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: GetResponseTurnstileMode | null;
 }
 export const GetWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1927,9 +1927,9 @@ export interface ListResultItem {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: ListResultItemTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: ListResultItemTurnstileMode | null;
 }
 export const ListResultItem = /*@__PURE__*/ S.suspend(() =>
@@ -2239,7 +2239,7 @@ export type RulesEditRequestAction = "bypass_waiting_room";
 export const RulesEditRequestAction = S.String;
 
 export interface RulesEditRequestPositionIndex {
-  /** Places the rule in the exact position specified by the integer number <POSITION_NUMBER>. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten). */
+  /** Places the rule in the exact position specified by the integer number &lt;POSITION_NUMBER&gt;. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten). */
   index?: number;
 }
 export const RulesEditRequestPositionIndex = /*@__PURE__*/ S.suspend(() =>
@@ -2251,7 +2251,7 @@ export const RulesEditRequestPositionIndex = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RulesEditRequestPositionIndex>;
 
 export interface RulesEditRequestPositionBefore {
-  /** Places the rule before rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the first rule in the ruleset. */
+  /** Places the rule before rule &lt;RULE_ID&gt;. Use this argument with an empty rule ID value ("") to set the rule as the first rule in the ruleset. */
   before?: string;
 }
 export const RulesEditRequestPositionBefore = /*@__PURE__*/ S.suspend(() =>
@@ -2263,7 +2263,7 @@ export const RulesEditRequestPositionBefore = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RulesEditRequestPositionBefore>;
 
 export interface RulesEditRequestPositionAfter {
-  /** Places the rule after rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the last rule in the ruleset. */
+  /** Places the rule after rule &lt;RULE_ID&gt;. Use this argument with an empty rule ID value ("") to set the rule as the last rule in the ruleset. */
   after?: string;
 }
 export const RulesEditRequestPositionAfter = /*@__PURE__*/ S.suspend(() =>
@@ -2377,7 +2377,7 @@ export const PatchRuleResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PatchSettingRequest {
   /** Identifier. */
   zoneId: string;
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass?: boolean;
 }
 export const PatchSettingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2401,7 +2401,7 @@ export const PatchSettingRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingResponse {
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass: boolean;
 }
 export const PatchSettingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2562,9 +2562,9 @@ export interface PatchWaitingRoomRequest {
   sessionDuration?: number;
   /** Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room. */
   suspended?: boolean;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: EditRequestTurnstileAction | (string & {});
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: EditRequestTurnstileMode | (string & {});
 }
 export const PatchWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2782,9 +2782,9 @@ export interface PatchWaitingRoomResponse {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: EditResponseTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: EditResponseTurnstileMode | null;
 }
 export const PatchWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2899,7 +2899,7 @@ export const PreviewPageResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PutSettingRequest {
   /** Identifier. */
   zoneId: string;
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass?: boolean;
 }
 export const PutSettingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2923,7 +2923,7 @@ export const PutSettingRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutSettingResponse {
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass: boolean;
 }
 export const PutSettingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -3378,9 +3378,9 @@ export interface UpdateWaitingRoomRequest {
   sessionDuration?: number;
   /** Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room. */
   suspended?: boolean;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: UpdateRequestTurnstileAction | (string & {});
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: UpdateRequestTurnstileMode | (string & {});
 }
 export const UpdateWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3598,9 +3598,9 @@ export interface UpdateWaitingRoomResponse {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: UpdateResponseTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: UpdateResponseTurnstileMode | null;
 }
 export const UpdateWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
@@ -3840,7 +3840,7 @@ export const getRule: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetSettingError = Forbidden | CloudflareOpError;
-/** Gets the zone-level Waiting Room settings that apply as defaults to all waiting rooms on the zone. */
+/** Get zone-level Waiting Room settings. */
 export const getSetting: API.OperationMethod<
   GetSettingRequest,
   GetSettingResponse,
@@ -3855,7 +3855,7 @@ export const getSetting: API.OperationMethod<
 }));
 
 export type GetStatusError = CloudflareOpError;
-/** Fetches the status of a configured waiting room. Response fields include: 1. `status`: String indicating the status of the waiting room. The possible status are: - **not\_queueing** indicates that the configured thresholds have not been met and all users are going through to the origin. - **queueing** indicates that the thresholds have been met and some users are held in the waiting room. - **event\_prequeueing** indicates that an event is active and is currently prequeueing users before it starts. - **suspended** indicates that the room is suspended. 1. `event_id`: String of the current event's `id` if an event is active, otherwise an empty string. 1. `estimated_queued_users`: Integer of the estimated number of users currently waiting in the queue. 1. `estimated_total_active_users`: Integer of the estimated number of users currently active on the origin. 1. `max_estimated_time_minutes`: Integer of the maximum estimated time currently presented to the users. */
+/** Fetches the status of a configured waiting room. Response fields include: 1. `status`: String indicating the status of the waiting room. The possible status are: - **not_queueing** indicates that the configured thresholds have not been met and all users are going through to the origin. - **queueing** indicates that the thresholds have been met and some users are held in the waiting room. - **event_prequeueing** indicates that an event is active and is currently prequeueing users before it starts. - **suspended** indicates that the room is suspended. 2. `event_id`: String of the current event's `id` if an event is active, otherwise an empty string. 3. `estimated_queued_users`: Integer of the estimated number of users currently waiting in the queue. 4. `estimated_total_active_users`: Integer of the estimated number of users currently active on the origin. 5. `max_estimated_time_minutes`: Integer of the maximum estimated time currently presented to the users. */
 export const getStatus: API.OperationMethod<
   GetStatusRequest,
   GetStatusResponse,
@@ -4006,7 +4006,7 @@ export const patchRule: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchSettingError = CloudflareOpError;
-/** Partially updates zone-level Waiting Room settings using PATCH semantics. */
+/** Patch zone-level Waiting Room settings. */
 export const patchSetting: API.OperationMethod<
   PatchSettingRequest,
   PatchSettingResponse,
@@ -4036,7 +4036,7 @@ export const patchWaitingRoom: API.OperationMethod<
 }));
 
 export type PreviewPageError = CloudflareOpError;
-/** Creates a waiting room page preview. Upload a custom waiting room page for preview. You will receive a preview URL in the form `http://waitingrooms.dev/preview/<uuid>`. You can use the following query parameters to change the state of the preview: 1. `force_queue`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website (also known as queueAll). 1. `queue_is_full`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment. 1. `queueing_method`: The queueing method currently used by the waiting room. - **fifo** indicates a FIFO queue. - **random** indicates a Random queue. - **passthrough** indicates a Passthrough queue. Keep in mind that the waiting room page will only be displayed if `force_queue=true` or `event=prequeueing` — for other cases the request will pass through to the origin. For our preview, this will be a fake origin website returning "Welcome". - **reject** indicates a Reject queue. 1. `event`: Used to preview a waiting room event. - **none** indicates no event is occurring. - **prequeueing** indicates that an event is prequeueing (between `prequeue_start_time` and `event_start_time`). - **started** indicates that an event has started (between `event_start_time` and `event_end_time`). 1. `shuffle_at_event_start`: Boolean indicating if the event will shuffle users in the prequeue when it starts. This can only be set to **true** if an event is active (`event` is not **none**). For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?force_queue=false&queue_is_full=false&queueing_method=random&event=started&shuffle_at_event_start=true` 6. `waitTime`: Non-zero, positive integer indicating the estimated wait time in minutes. The default value is 10 minutes. For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?waitTime=50` to configure the estimated wait time as 50 minutes. */
+/** Creates a waiting room page preview. Upload a custom waiting room page for preview. You will receive a preview URL in the form `http://waitingrooms.dev/preview/<uuid>`. You can use the following query parameters to change the state of the preview: 1. `force_queue`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website (also known as queueAll). 2. `queue_is_full`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment. 3. `queueing_method`: The queueing method currently used by the waiting room. - **fifo** indicates a FIFO queue. - **random** indicates a Random queue. - **passthrough** indicates a Passthrough queue. Keep in mind that the waiting room page will only be displayed if `force_queue=true` or `event=prequeueing` — for other cases the request will pass through to the origin. For our preview, this will be a fake origin website returning "Welcome". - **reject** indicates a Reject queue. 4. `event`: Used to preview a waiting room event. - **none** indicates no event is occurring. - **prequeueing** indicates that an event is prequeueing (between `prequeue_start_time` and `event_start_time`). - **started** indicates that an event has started (between `event_start_time` and `event_end_time`). 5. `shuffle_at_event_start`: Boolean indicating if the event will shuffle users in the prequeue when it starts. This can only be set to **true** if an event is active ( `event` is not **none**). For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?force_queue=false&queue_is_full=false&queueing_method=random&event=started&shuffle_at_event_start=true` 6. `waitTime`: Non-zero, positive integer indicating the estimated wait time in minutes. The default value is 10 minutes. For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?waitTime=50` to configure the estimated wait time as 50 minutes. */
 export const previewPage: API.OperationMethod<
   PreviewPageRequest,
   PreviewPageResponse,
@@ -4051,7 +4051,7 @@ export const previewPage: API.OperationMethod<
 }));
 
 export type PutSettingError = ZoneNotEntitled | Forbidden | CloudflareOpError;
-/** Fully updates zone-level Waiting Room settings, replacing the existing configuration. */
+/** Replace zone-level Waiting Room settings. */
 export const putSetting: API.OperationMethod<
   PutSettingRequest,
   PutSettingResponse,

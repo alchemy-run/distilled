@@ -1,39 +1,108 @@
-## Lists target industries across multiple datasets
+---
+title: Lists target industries across multiple datasets
+---
 
-**get** `/accounts/{account_id}/cloudforce-one/events/targetIndustries`
+[Skip to content](#_top)
 
-Lists target industries across multiple datasets
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
 
-  Account ID.
+[Target Industries](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/target_industries)
 
-### Query Parameters
+Copy Markdown
 
-- `datasetIds: optional array of string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Array of dataset IDs to query target industries from. If not provided, uses the default dataset.
+---
 
-### Returns
+**Copy Markdown****View as Markdown**
 
-- `items: object { type }`
+# Lists target industries across multiple datasets
 
-  - `type: string`
+GET/accounts/{account\_id}/cloudforce-one/events/targetIndustries
 
-- `type: string`
+Retrieves the catalog of industry classifications used in Cloudforce One threat intelligence.
 
-### Example
+##### Security
 
-```http
+API Token
+
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
+
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
+
+##### Accepted Permissions (at least one required)
+
+`Cloudforce One Write``Cloudforce One Read`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account ID.
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+datasetIds: optional array of string
+
+Array of dataset IDs to query target industries from. If not provided, uses the default dataset.
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20datasetIds%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+items: object {type }
+
+</summary>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries%20%3E%20(model)%20target_industry_list_response%20%3E%20(schema)%20%3E%20(property)%20items>)
+
+type: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.target_industries%20%3E%20(model)%20target_industry_list_response%20%3E%20(schema)%20%3E%20(property)%20type>)
+
+### Lists target industries across multiple datasets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/targetIndustries \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "items": {
+    "type": "string"
+  },
+  "type": "array"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "items": {
     "type": "string"

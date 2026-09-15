@@ -1,141 +1,53 @@
+---
+title: Assets
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers/subresources/scripts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Assets
 
-# Upload
+#### AssetsUpload
 
-## Create Assets Upload Session
+##### [Create Assets Upload Session](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/assets/subresources/upload/methods/create)
 
-**post** `/accounts/{account_id}/workers/scripts/{script_name}/assets-upload-session`
+POST/accounts/{account\_id}/workers/scripts/{script\_name}/assets-upload-session
 
-Start uploading a collection of assets for use in a Worker version. To learn more about the direct uploads of assets, see https://developers.cloudflare.com/workers/static-assets/direct-upload/.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+UploadCreateResponse object {buckets, jwt }
 
-- `script_name: string`
+</summary>
 
-  Name of the script, used in URLs and route configuration.
+buckets: optional array of array of string
 
-### Body Parameters
+The requests to make to upload assets.
 
-- `manifest: map[object { hash, size } ]`
+<a href="#">Link to this property</a>
 
-  A manifest ([path]: {hash, size}) map of files to upload. As an example, `/blog/hello-world.html` would be a valid path key.
+jwt: optional string
 
-  - `hash: string`
+A JWT to use as authentication for uploading assets.
 
-    The hash of the file.
+<a href="#">Link to this property</a>
 
-  - `size: number`
+</details>
 
-    The size of the file in bytes.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { buckets, jwt }`
-
-  - `buckets: optional array of array of string`
-
-    The requests to make to upload assets.
-
-  - `jwt: optional string`
-
-    A JWT to use as authentication for uploading assets.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/assets-upload-session \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "manifest": {
-            "foo": {
-              "hash": "hash",
-              "size": 0
-            }
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "buckets": [
-      [
-        "string"
-      ]
-    ],
-    "jwt": "jwt"
-  }
-}
-```
-
-## Domain Types
-
-### Upload Create Response
-
-- `UploadCreateResponse object { buckets, jwt }`
-
-  - `buckets: optional array of array of string`
-
-    The requests to make to upload assets.
-
-  - `jwt: optional string`
-
-    A JWT to use as authentication for uploading assets.
+[Link to this property](#)%20workers.scripts.assets.upload%20%3E%20(model)%20upload_create_response%20%3E%20(schema)>)

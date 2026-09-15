@@ -1,107 +1,69 @@
+---
+title: Logo Matches
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logo Matches
 
-## Read matches for logo queries by ID
+##### [Read matches for logo queries by ID](https://developers.cloudflare.com/api/resources/brand_protection/subresources/logo_matches/methods/get)
 
-**get** `/accounts/{account_id}/brand-protection/logo-matches`
+GET/accounts/{account\_id}/brand-protection/logo-matches
 
-Return matches for logo queries based on ID
+##### [Download matches for logo queries by ID](https://developers.cloudflare.com/api/resources/brand_protection/subresources/logo_matches/methods/download)
 
-### Path Parameters
+GET/accounts/{account\_id}/brand-protection/logo-matches/download
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `limit: optional string`
+<summary>
 
-- `logo_id: optional array of string`
+LogoMatchGetResponse object {matches, total }
 
-- `offset: optional string`
+</summary>
 
-### Returns
+matches: optional array of map\[unknown]
 
-- `matches: optional array of map[unknown]`
+<a href="#">Link to this property</a>
 
-- `total: optional number`
+total: optional number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/logo-matches \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20brand_protection.logo_matches%20%3E%20(model)%20logo_match_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "matches": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "total": 0
-}
-```
+<details>
 
-## Download matches for logo queries by ID
+<summary>
 
-**get** `/accounts/{account_id}/brand-protection/logo-matches/download`
+LogoMatchDownloadResponse object {matches, total }
 
-Return matches as CSV for logo queries based on ID
+</summary>
 
-### Path Parameters
+matches: optional array of map\[unknown]
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+total: optional number
 
-- `limit: optional string`
+<a href="#">Link to this property</a>
 
-- `logo_id: optional array of string`
+</details>
 
-- `offset: optional string`
-
-### Returns
-
-- `matches: optional array of map[unknown]`
-
-- `total: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/brand-protection/logo-matches/download \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "matches": [
-    {
-      "foo": "bar"
-    }
-  ],
-  "total": 0
-}
-```
-
-## Domain Types
-
-### Logo Match Get Response
-
-- `LogoMatchGetResponse object { matches, total }`
-
-  - `matches: optional array of map[unknown]`
-
-  - `total: optional number`
-
-### Logo Match Download Response
-
-- `LogoMatchDownloadResponse object { matches, total }`
-
-  - `matches: optional array of map[unknown]`
-
-  - `total: optional number`
+[Link to this property](#)%20brand_protection.logo_matches%20%3E%20(model)%20logo_match_download_response%20%3E%20(schema)>)

@@ -1,3091 +1,769 @@
+---
+title: Configurations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Configurations
 
-## Get Zero Trust account configuration
+##### [Get Zero Trust account configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations/methods/get)
 
-**get** `/accounts/{account_id}/gateway/configuration`
+GET/accounts/{account\_id}/gateway/configuration
 
-Retrieve the current Zero Trust account configuration.
+##### [Update Zero Trust account configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/gateway/configuration
 
-- `account_id: string`
+##### [Patch Zero Trust account configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations/methods/edit)
 
-### Returns
+PATCH/accounts/{account\_id}/gateway/configuration
 
-- `errors: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ActivityLogSettings object {enabled }
 
-  - `source: optional object { pointer }`
+Specify activity log settings.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+enabled: optional boolean
 
-  - `code: number`
+Specify whether to log activity.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20activity_log_settings%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Indicate whether the API call was successful.
+<summary>
 
-  - `true`
+AntiVirusSettings object {enabled\_download\_phase, enabled\_upload\_phase, fail\_closed, notification\_settings }
 
-- `result: optional object { created_at, settings, updated_at }`
+Specify anti-virus settings.
 
-  Specify account settings.
+</summary>
 
-  - `created_at: optional string`
+enabled\_download\_phase: optional boolean
 
-  - `settings: optional GatewayConfigurationSettings`
+Specify whether to enable anti-virus scanning on downloads.
 
-    Specify account settings.
+<a href="#">Link to this property</a>
 
-    - `activity_log: optional ActivityLogSettings`
+enabled\_upload\_phase: optional boolean
 
-      Specify activity log settings.
+Specify whether to enable anti-virus scanning on uploads.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to log activity.
+fail\_closed: optional boolean
 
-    - `antivirus: optional AntiVirusSettings`
+Specify whether to block requests for unscannable files.
 
-      Specify anti-virus settings.
+<a href="#">Link to this property</a>
 
-      - `enabled_download_phase: optional boolean`
+notification\_settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20notification_settings%20%3E%20(schema)">NotificationSettings</a> { enabled, include\_context, msg, support\_url }
 
-        Specify whether to enable anti-virus scanning on downloads.
+Configure the message the user’s device shows during an antivirus scan.
 
-      - `enabled_upload_phase: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable anti-virus scanning on uploads.
+</details>
 
-      - `fail_closed: optional boolean`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20anti_virus_settings%20%3E%20(schema)>)
 
-        Specify whether to block requests for unscannable files.
+<details>
 
-      - `notification_settings: optional NotificationSettings`
+<summary>
 
-        Configure the message the user's device shows during an antivirus scan.
+BlockPageSettings object {background\_color, enabled, footer\_text, 12 more }
 
-        - `enabled: optional boolean`
+Specify block page layout settings.
 
-          Specify whether to enable notifications.
+</summary>
 
-        - `include_context: optional boolean`
+background\_color: optional string
 
-          Specify whether to include context information as query parameters.
+Specify the block page background color in <code>#rrggbb</code> format when the mode is customized\_block\_page.
 
-        - `msg: optional string`
+<a href="#">Link to this property</a>
 
-          Specify the message to show in the notification.
+enabled: optional boolean
 
-        - `support_url: optional string`
+Specify whether to enable the custom block page.
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+<a href="#">Link to this property</a>
 
-    - `block_page: optional BlockPageSettings`
+footer\_text: optional string
 
-      Specify block page layout settings.
+Specify the block page footer text when the mode is customized\_block\_page.
 
-      - `background_color: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+header\_text: optional string
 
-      - `enabled: optional boolean`
+Specify the block page header text when the mode is customized\_block\_page.
 
-        Specify whether to enable the custom block page.
+<a href="#">Link to this property</a>
 
-      - `footer_text: optional string`
+include\_context: optional boolean
 
-        Specify the block page footer text when the mode is customized_block_page.
+Specify whether to append context to target\_uri as query parameters. This applies only when the mode is redirect\_uri.
 
-      - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the block page header text when the mode is customized_block_page.
+logo\_path: optional string
 
-      - `include_context: optional boolean`
+Specify the full URL to the logo file when the mode is customized\_block\_page.
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+<a href="#">Link to this property</a>
 
-      - `logo_path: optional string`
+mailto\_address: optional string
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+Specify the admin email for users to contact when the mode is customized\_block\_page.
 
-      - `mailto_address: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+mailto\_subject: optional string
 
-      - `mailto_subject: optional string`
+Specify the subject line for emails created from the block page when the mode is customized\_block\_page.
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+<details>
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+<summary>
 
-        - `""`
+mode: optional ""or "customized\_block\_page"or "redirect\_uri"
 
-        - `"customized_block_page"`
+Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
 
-        - `"redirect_uri"`
+</summary>
 
-      - `name: optional string`
+One of the following:
 
-        Specify the block page title when the mode is customized_block_page.
+""
 
-      - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+"customized\_block\_page"
 
-      - `source_account: optional string`
+<a href="#">Link to this property</a>
 
-        Indicate the account tag of the account that shared this setting.
+"redirect\_uri"
 
-      - `suppress_footer: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+</details>
 
-      - `target_uri: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+name: optional string
 
-      - `version: optional number`
+Specify the block page title when the mode is customized\_block\_page.
 
-        Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-    - `body_scanning: optional BodyScanningSettings`
+read\_only: optional boolean
 
-      Specify the DLP inspection mode.
+Indicate that this setting was shared via the Orgs API and read only for the current account.
 
-      - `inspection_mode: optional "deep" or "shallow"`
+<a href="#">Link to this property</a>
 
-        Specify the inspection mode as either `deep` or `shallow`.
+source\_account: optional string
 
-        - `"deep"`
+Indicate the account tag of the account that shared this setting.
 
-        - `"shallow"`
+<a href="#">Link to this property</a>
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+suppress\_footer: optional boolean
 
-      Specify Clientless Browser Isolation settings.
+Specify whether to suppress detailed information at the bottom of the block page when the mode is customized\_block\_page.
 
-      - `non_identity_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+target\_uri: optional string
 
-      - `url_browser_isolation_enabled: optional boolean`
+Specify the URI to redirect users to when the mode is redirect\_uri.
 
-        Specify whether to enable Clientless Browser Isolation.
+formaturi
 
-    - `certificate: optional object { id }`
+<a href="#">Link to this property</a>
 
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+version: optional number
 
-      - `id: string`
+Indicate the version number of the setting.
 
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+<a href="#">Link to this property</a>
 
-    - `custom_certificate: optional CustomCertificateSettings`
+</details>
 
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20block_page_settings%20%3E%20(schema)>)
 
-      - `enabled: boolean`
+<details>
 
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
+<summary>
 
-      - `id: optional string`
+BodyScanningSettings object {inspection\_mode }
 
-        Specify the UUID of the certificate (ID from MTLS certificate store).
+Specify the DLP inspection mode.
 
-      - `binding_status: optional string`
+</summary>
 
-        Indicate the internal certificate status.
+<details>
 
-      - `updated_at: optional string`
+<summary>
 
-    - `extended_email_matching: optional ExtendedEmailMatching`
+inspection\_mode: optional "deep"or "shallow"
 
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+Specify the inspection mode as either <code>deep</code> or <code>shallow</code>.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+One of the following:
 
-      - `read_only: optional boolean`
+"deep"
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<a href="#">Link to this property</a>
 
-      - `source_account: optional string`
+"shallow"
 
-        Indicate the account tag of the account that shared this setting.
+<a href="#">Link to this property</a>
 
-      - `version: optional number`
+</details>
 
-        Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-    - `fips: optional FipsSettings`
+</details>
 
-      Specify FIPS settings.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20body_scanning_settings%20%3E%20(schema)>)
 
-      - `tls: optional boolean`
+<details>
 
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+<summary>
 
-    - `host_selector: optional object { enabled }`
+BrowserIsolationSettings object {non\_identity\_enabled, url\_browser\_isolation\_enabled }
 
-      Enable host selection in egress policies.
+Specify Clientless Browser Isolation settings.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Specify whether to enable filtering via hosts for egress policies.
+non\_identity\_enabled: optional boolean
 
-    - `inspection: optional object { mode }`
+Specify whether to enable non-identity onramp support for Browser Isolation.
 
-      Define the proxy inspection mode.
+<a href="#">Link to this property</a>
 
-      - `mode: optional "static" or "dynamic"`
+url\_browser\_isolation\_enabled: optional boolean
 
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+Specify whether to enable Clientless Browser Isolation.
 
-        - `"static"`
+<a href="#">Link to this property</a>
 
-        - `"dynamic"`
+</details>
 
-    - `max_ttl_secs: optional number`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20browser_isolation_settings%20%3E%20(schema)>)
 
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+<details>
 
-    - `protocol_detection: optional ProtocolDetection`
+<summary>
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+CustomCertificateSettings object {enabled, id, binding\_status, updated\_at }
 
-      - `enabled: optional boolean`
+Specify custom certificate settings for BYO-PKI. This field is deprecated; use <code>certificate</code> instead.
 
-        Specify whether to detect protocols from the initial bytes of client traffic.
+</summary>
 
-    - `sandbox: optional object { enabled, fallback_action }`
+enabled: boolean
 
-      Specify whether to enable the sandbox.
+Specify whether to enable a custom certificate authority for signing Gateway traffic.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable the sandbox.
+id: optional string
 
-      - `fallback_action: optional "allow" or "block"`
+Specify the UUID of the certificate (ID from MTLS certificate store).
 
-        Specify the action to take when the system cannot scan the file.
+<a href="#">Link to this property</a>
 
-        - `"allow"`
+binding\_status: optional string
 
-        - `"block"`
+Indicate the internal certificate status.
 
-    - `tls_decrypt: optional TLSSettings`
+<a href="#">Link to this property</a>
 
-      Specify whether to inspect encrypted HTTP traffic.
+updated\_at: optional string
 
-      - `enabled: optional boolean`
+formatdate-time
 
-        Specify whether to inspect encrypted HTTP traffic.
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+</details>
 
-### Example
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20custom_certificate_settings%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "settings": {
-      "activity_log": {
-        "enabled": true
-      },
-      "antivirus": {
-        "enabled_download_phase": false,
-        "enabled_upload_phase": false,
-        "fail_closed": false,
-        "notification_settings": {
-          "enabled": true,
-          "include_context": true,
-          "msg": "msg",
-          "support_url": "support_url"
-        }
-      },
-      "block_page": {
-        "background_color": "background_color",
-        "enabled": true,
-        "footer_text": "--footer--",
-        "header_text": "--header--",
-        "include_context": true,
-        "logo_path": "https://logos.com/a.png",
-        "mailto_address": "admin@example.com",
-        "mailto_subject": "Blocked User Inquiry",
-        "mode": "",
-        "name": "Cloudflare",
-        "read_only": true,
-        "source_account": "source_account",
-        "suppress_footer": false,
-        "target_uri": "https://example.com",
-        "version": 1
-      },
-      "body_scanning": {
-        "inspection_mode": "deep"
-      },
-      "browser_isolation": {
-        "non_identity_enabled": true,
-        "url_browser_isolation_enabled": true
-      },
-      "certificate": {
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f"
-      },
-      "custom_certificate": {
-        "enabled": true,
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
-        "binding_status": "pending_deployment",
-        "updated_at": "2019-12-27T18:11:19.117Z"
-      },
-      "extended_email_matching": {
-        "enabled": true,
-        "read_only": true,
-        "source_account": "source_account",
-        "version": 1
-      },
-      "fips": {
-        "tls": true
-      },
-      "host_selector": {
-        "enabled": false
-      },
-      "inspection": {
-        "mode": "static"
-      },
-      "max_ttl_secs": 3600,
-      "protocol_detection": {
-        "enabled": true
-      },
-      "sandbox": {
-        "enabled": true,
-        "fallback_action": "allow"
-      },
-      "tls_decrypt": {
-        "enabled": true
-      }
-    },
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+ExtendedEmailMatching object {enabled, read\_only, source\_account, version }
 
-## Update Zero Trust account configuration
+Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses <code>.</code> or <code>+</code> modifiers.
 
-**put** `/accounts/{account_id}/gateway/configuration`
+</summary>
 
-Update the current Zero Trust account configuration.
+enabled: optional boolean
 
-### Path Parameters
+Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+read\_only: optional boolean
 
-- `settings: optional GatewayConfigurationSettings`
+Indicate that this setting was shared via the Orgs API and read only for the current account.
 
-  Specify account settings.
+<a href="#">Link to this property</a>
 
-  - `activity_log: optional ActivityLogSettings`
+source\_account: optional string
 
-    Specify activity log settings.
+Indicate the account tag of the account that shared this setting.
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to log activity.
+version: optional number
 
-  - `antivirus: optional AntiVirusSettings`
+Indicate the version number of the setting.
 
-    Specify anti-virus settings.
+<a href="#">Link to this property</a>
 
-    - `enabled_download_phase: optional boolean`
+</details>
 
-      Specify whether to enable anti-virus scanning on downloads.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20extended_email_matching%20%3E%20(schema)>)
 
-    - `enabled_upload_phase: optional boolean`
+<details>
 
-      Specify whether to enable anti-virus scanning on uploads.
+<summary>
 
-    - `fail_closed: optional boolean`
+FipsSettings object {tls }
 
-      Specify whether to block requests for unscannable files.
+Specify FIPS settings.
 
-    - `notification_settings: optional NotificationSettings`
+</summary>
 
-      Configure the message the user's device shows during an antivirus scan.
+tls: optional boolean
 
-      - `enabled: optional boolean`
+Enforce cipher suites and TLS versions compliant with FIPS 140-2.
 
-        Specify whether to enable notifications.
+<a href="#">Link to this property</a>
 
-      - `include_context: optional boolean`
+</details>
 
-        Specify whether to include context information as query parameters.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20fips_settings%20%3E%20(schema)>)
 
-      - `msg: optional string`
+<details>
 
-        Specify the message to show in the notification.
+<summary>
 
-      - `support_url: optional string`
+GatewayConfigurationSettings object {activity\_log, antivirus, block\_page, 12 more }
 
-        Specify a URL that directs users to more information. If unset, the notification opens a block page.
+Specify account settings.
 
-  - `block_page: optional BlockPageSettings`
+</summary>
 
-    Specify block page layout settings.
+activity\_log: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20activity_log_settings%20%3E%20(schema)">ActivityLogSettings</a> { enabled }
 
-    - `background_color: optional string`
+Specify activity log settings.
 
-      Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+antivirus: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20anti_virus_settings%20%3E%20(schema)">AntiVirusSettings</a> { enabled\_download\_phase, enabled\_upload\_phase, fail\_closed, notification\_settings }
 
-      Specify whether to enable the custom block page.
+Specify anti-virus settings.
 
-    - `footer_text: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the block page footer text when the mode is customized_block_page.
+block\_page: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20block_page_settings%20%3E%20(schema)">BlockPageSettings</a> { background\_color, enabled, footer\_text, 12 more }
 
-    - `header_text: optional string`
+Specify block page layout settings.
 
-      Specify the block page header text when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-    - `include_context: optional boolean`
+body\_scanning: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20body_scanning_settings%20%3E%20(schema)">BodyScanningSettings</a> { inspection\_mode }
 
-      Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+Specify the DLP inspection mode.
 
-    - `logo_path: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the full URL to the logo file when the mode is customized_block_page.
+browser\_isolation: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20browser_isolation_settings%20%3E%20(schema)">BrowserIsolationSettings</a> { non\_identity\_enabled, url\_browser\_isolation\_enabled }
 
-    - `mailto_address: optional string`
+Specify Clientless Browser Isolation settings.
 
-      Specify the admin email for users to contact when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-    - `mailto_subject: optional string`
+<details>
 
-      Specify the subject line for emails created from the block page when the mode is customized_block_page.
+<summary>
 
-    - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+certificate: optional object {id }
 
-      Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
 
-      - `""`
+</summary>
 
-      - `"customized_block_page"`
+id: string
 
-      - `"redirect_uri"`
+Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called ‘active’). A nil UUID directs Cloudflare to use the Root CA.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the block page title when the mode is customized_block_page.
+</details>
 
-    - `read_only: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+Deprecatedcustom\_certificate: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20custom_certificate_settings%20%3E%20(schema)">CustomCertificateSettings</a> { enabled, id, binding\_status, updated\_at }
 
-    - `source_account: optional string`
+Specify custom certificate settings for BYO-PKI. This field is deprecated; use <code>certificate</code> instead.
 
-      Indicate the account tag of the account that shared this setting.
+<a href="#">Link to this property</a>
 
-    - `suppress_footer: optional boolean`
+extended\_email\_matching: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20extended_email_matching%20%3E%20(schema)">ExtendedEmailMatching</a> { enabled, read\_only, source\_account, version }
 
-      Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses <code>.</code> or <code>+</code> modifiers.
 
-    - `target_uri: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the URI to redirect users to when the mode is redirect_uri.
+fips: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20fips_settings%20%3E%20(schema)">FipsSettings</a> { tls }
 
-    - `version: optional number`
+Specify FIPS settings.
 
-      Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-  - `body_scanning: optional BodyScanningSettings`
+<details>
 
-    Specify the DLP inspection mode.
+<summary>
 
-    - `inspection_mode: optional "deep" or "shallow"`
+host\_selector: optional object {enabled }
 
-      Specify the inspection mode as either `deep` or `shallow`.
+Enable host selection in egress policies.
 
-      - `"deep"`
+</summary>
 
-      - `"shallow"`
+enabled: optional boolean
 
-  - `browser_isolation: optional BrowserIsolationSettings`
+Specify whether to enable filtering via hosts for egress policies.
 
-    Specify Clientless Browser Isolation settings.
+<a href="#">Link to this property</a>
 
-    - `non_identity_enabled: optional boolean`
+</details>
 
-      Specify whether to enable non-identity onramp support for Browser Isolation.
+<a href="#">Link to this property</a>
 
-    - `url_browser_isolation_enabled: optional boolean`
+<details>
 
-      Specify whether to enable Clientless Browser Isolation.
+<summary>
 
-  - `certificate: optional object { id }`
+inspection: optional object {mode }
 
-    Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+Define the proxy inspection mode.
 
-    - `id: string`
+</summary>
 
-      Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+<details>
 
-  - `custom_certificate: optional CustomCertificateSettings`
+<summary>
 
-    Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+mode: optional "static"or "dynamic"
 
-    - `enabled: boolean`
+Define the proxy inspection mode. 1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443). 2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
 
-      Specify whether to enable a custom certificate authority for signing Gateway traffic.
+</summary>
 
-    - `id: optional string`
+One of the following:
 
-      Specify the UUID of the certificate (ID from MTLS certificate store).
+"static"
 
-    - `binding_status: optional string`
+<a href="#">Link to this property</a>
 
-      Indicate the internal certificate status.
+"dynamic"
 
-    - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `extended_email_matching: optional ExtendedEmailMatching`
+</details>
 
-    Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+</details>
 
-      Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+max\_ttl\_secs: optional number
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location <code>max_ttl</code> setting.
 
-    - `source_account: optional string`
+maximum36000
 
-      Indicate the account tag of the account that shared this setting.
+minimum60
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      Indicate the version number of the setting.
+protocol\_detection: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20protocol_detection%20%3E%20(schema)">ProtocolDetection</a> { enabled }
 
-  - `fips: optional FipsSettings`
+Specify whether to detect protocols from the initial bytes of client traffic.
 
-    Specify FIPS settings.
+<a href="#">Link to this property</a>
 
-    - `tls: optional boolean`
+<details>
 
-      Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+<summary>
 
-  - `host_selector: optional object { enabled }`
+sandbox: optional object {enabled, fallback\_action }
 
-    Enable host selection in egress policies.
+Specify whether to enable the sandbox.
 
-    - `enabled: optional boolean`
+</summary>
 
-      Specify whether to enable filtering via hosts for egress policies.
+enabled: optional boolean
 
-  - `inspection: optional object { mode }`
+Specify whether to enable the sandbox.
 
-    Define the proxy inspection mode.
+<a href="#">Link to this property</a>
 
-    - `mode: optional "static" or "dynamic"`
+<details>
 
-      Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+<summary>
 
-      - `"static"`
+fallback\_action: optional "allow"or "block"
 
-      - `"dynamic"`
+Specify the action to take when the system cannot scan the file.
 
-  - `max_ttl_secs: optional number`
+</summary>
 
-    Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+One of the following:
 
-  - `protocol_detection: optional ProtocolDetection`
+"allow"
 
-    Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+"block"
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-  - `sandbox: optional object { enabled, fallback_action }`
+</details>
 
-    Specify whether to enable the sandbox.
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+</details>
 
-      Specify whether to enable the sandbox.
+<a href="#">Link to this property</a>
 
-    - `fallback_action: optional "allow" or "block"`
+tls\_decrypt: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20tls_settings%20%3E%20(schema)">TLSSettings</a> { enabled }
 
-      Specify the action to take when the system cannot scan the file.
+Specify whether to inspect encrypted HTTP traffic.
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-  - `tls_decrypt: optional TLSSettings`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)>)
 
-    Specify whether to inspect encrypted HTTP traffic.
+<details>
 
-    - `enabled: optional boolean`
+<summary>
 
-      Specify whether to inspect encrypted HTTP traffic.
+NotificationSettings object {enabled, include\_context, msg, support\_url }
 
-### Returns
+Configure the message the user’s device shows during an antivirus scan.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+enabled: optional boolean
 
-  - `message: string`
+Specify whether to enable notifications.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+include\_context: optional boolean
 
-    - `pointer: optional string`
+Specify whether to include context information as query parameters.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+msg: optional string
 
-  - `message: string`
+Specify the message to show in the notification.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+support\_url: optional string
 
-- `success: true`
+Specify a URL that directs users to more information. If unset, the notification opens a block page.
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { created_at, settings, updated_at }`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20notification_settings%20%3E%20(schema)>)
 
-  Specify account settings.
+<details>
 
-  - `created_at: optional string`
+<summary>
 
-  - `settings: optional GatewayConfigurationSettings`
+ProtocolDetection object {enabled }
 
-    Specify account settings.
+Specify whether to detect protocols from the initial bytes of client traffic.
 
-    - `activity_log: optional ActivityLogSettings`
+</summary>
 
-      Specify activity log settings.
+enabled: optional boolean
 
-      - `enabled: optional boolean`
+Specify whether to detect protocols from the initial bytes of client traffic.
 
-        Specify whether to log activity.
+<a href="#">Link to this property</a>
 
-    - `antivirus: optional AntiVirusSettings`
+</details>
 
-      Specify anti-virus settings.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20protocol_detection%20%3E%20(schema)>)
 
-      - `enabled_download_phase: optional boolean`
+<details>
 
-        Specify whether to enable anti-virus scanning on downloads.
+<summary>
 
-      - `enabled_upload_phase: optional boolean`
+TLSSettings object {enabled }
 
-        Specify whether to enable anti-virus scanning on uploads.
+Specify whether to inspect encrypted HTTP traffic.
 
-      - `fail_closed: optional boolean`
+</summary>
 
-        Specify whether to block requests for unscannable files.
+enabled: optional boolean
 
-      - `notification_settings: optional NotificationSettings`
+Specify whether to inspect encrypted HTTP traffic.
 
-        Configure the message the user's device shows during an antivirus scan.
+<a href="#">Link to this property</a>
 
-        - `enabled: optional boolean`
+</details>
 
-          Specify whether to enable notifications.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20tls_settings%20%3E%20(schema)>)
 
-        - `include_context: optional boolean`
+<details>
 
-          Specify whether to include context information as query parameters.
+<summary>
 
-        - `msg: optional string`
+ConfigurationGetResponse object {created\_at, settings, updated\_at }
 
-          Specify the message to show in the notification.
+Specify account settings.
 
-        - `support_url: optional string`
+</summary>
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+created\_at: optional string
 
-    - `block_page: optional BlockPageSettings`
+formatdate-time
 
-      Specify block page layout settings.
+<a href="#">Link to this property</a>
 
-      - `background_color: optional string`
+settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)">GatewayConfigurationSettings</a> { activity\_log, antivirus, block\_page, 12 more }
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+Specify account settings.
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable the custom block page.
+updated\_at: optional string
 
-      - `footer_text: optional string`
+formatdate-time
 
-        Specify the block page footer text when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `header_text: optional string`
+</details>
 
-        Specify the block page header text when the mode is customized_block_page.
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20configuration_get_response%20%3E%20(schema)>)
 
-      - `include_context: optional boolean`
+<details>
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+<summary>
 
-      - `logo_path: optional string`
+ConfigurationUpdateResponse object {created\_at, settings, updated\_at }
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+Specify account settings.
 
-      - `mailto_address: optional string`
+</summary>
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+created\_at: optional string
 
-      - `mailto_subject: optional string`
+formatdate-time
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)">GatewayConfigurationSettings</a> { activity\_log, antivirus, block\_page, 12 more }
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+Specify account settings.
 
-        - `""`
+<a href="#">Link to this property</a>
 
-        - `"customized_block_page"`
+updated\_at: optional string
 
-        - `"redirect_uri"`
+formatdate-time
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the block page title when the mode is customized_block_page.
+</details>
 
-      - `read_only: optional boolean`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20configuration_update_response%20%3E%20(schema)>)
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<details>
 
-      - `source_account: optional string`
+<summary>
 
-        Indicate the account tag of the account that shared this setting.
+ConfigurationEditResponse object {created\_at, settings, updated\_at }
 
-      - `suppress_footer: optional boolean`
+Specify account settings.
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+</summary>
 
-      - `target_uri: optional string`
+created\_at: optional string
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+formatdate-time
 
-      - `version: optional number`
+<a href="#">Link to this property</a>
 
-        Indicate the version number of the setting.
+settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)">GatewayConfigurationSettings</a> { activity\_log, antivirus, block\_page, 12 more }
 
-    - `body_scanning: optional BodyScanningSettings`
+Specify account settings.
 
-      Specify the DLP inspection mode.
+<a href="#">Link to this property</a>
 
-      - `inspection_mode: optional "deep" or "shallow"`
+updated\_at: optional string
 
-        Specify the inspection mode as either `deep` or `shallow`.
+formatdate-time
 
-        - `"deep"`
+<a href="#">Link to this property</a>
 
-        - `"shallow"`
+</details>
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(model)%20configuration_edit_response%20%3E%20(schema)>)
 
-      Specify Clientless Browser Isolation settings.
+#### ConfigurationsCustom Certificate
 
-      - `non_identity_enabled: optional boolean`
+##### [Get Zero Trust certificate configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations/subresources/custom_certificate/methods/get)
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+Deprecated
 
-      - `url_browser_isolation_enabled: optional boolean`
-
-        Specify whether to enable Clientless Browser Isolation.
-
-    - `certificate: optional object { id }`
-
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
-
-      - `id: string`
-
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
-
-    - `custom_certificate: optional CustomCertificateSettings`
-
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-      - `enabled: boolean`
-
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-      - `id: optional string`
-
-        Specify the UUID of the certificate (ID from MTLS certificate store).
-
-      - `binding_status: optional string`
-
-        Indicate the internal certificate status.
-
-      - `updated_at: optional string`
-
-    - `extended_email_matching: optional ExtendedEmailMatching`
-
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
-
-      - `enabled: optional boolean`
-
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `fips: optional FipsSettings`
-
-      Specify FIPS settings.
-
-      - `tls: optional boolean`
-
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
-
-    - `host_selector: optional object { enabled }`
-
-      Enable host selection in egress policies.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable filtering via hosts for egress policies.
-
-    - `inspection: optional object { mode }`
-
-      Define the proxy inspection mode.
-
-      - `mode: optional "static" or "dynamic"`
-
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
-
-        - `"static"`
-
-        - `"dynamic"`
-
-    - `max_ttl_secs: optional number`
-
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
-
-    - `protocol_detection: optional ProtocolDetection`
-
-      Specify whether to detect protocols from the initial bytes of client traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to detect protocols from the initial bytes of client traffic.
-
-    - `sandbox: optional object { enabled, fallback_action }`
-
-      Specify whether to enable the sandbox.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the sandbox.
-
-      - `fallback_action: optional "allow" or "block"`
-
-        Specify the action to take when the system cannot scan the file.
-
-        - `"allow"`
-
-        - `"block"`
-
-    - `tls_decrypt: optional TLSSettings`
-
-      Specify whether to inspect encrypted HTTP traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to inspect encrypted HTTP traffic.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "settings": {
-      "activity_log": {
-        "enabled": true
-      },
-      "antivirus": {
-        "enabled_download_phase": false,
-        "enabled_upload_phase": false,
-        "fail_closed": false,
-        "notification_settings": {
-          "enabled": true,
-          "include_context": true,
-          "msg": "msg",
-          "support_url": "support_url"
-        }
-      },
-      "block_page": {
-        "background_color": "background_color",
-        "enabled": true,
-        "footer_text": "--footer--",
-        "header_text": "--header--",
-        "include_context": true,
-        "logo_path": "https://logos.com/a.png",
-        "mailto_address": "admin@example.com",
-        "mailto_subject": "Blocked User Inquiry",
-        "mode": "",
-        "name": "Cloudflare",
-        "read_only": true,
-        "source_account": "source_account",
-        "suppress_footer": false,
-        "target_uri": "https://example.com",
-        "version": 1
-      },
-      "body_scanning": {
-        "inspection_mode": "deep"
-      },
-      "browser_isolation": {
-        "non_identity_enabled": true,
-        "url_browser_isolation_enabled": true
-      },
-      "certificate": {
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f"
-      },
-      "custom_certificate": {
-        "enabled": true,
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
-        "binding_status": "pending_deployment",
-        "updated_at": "2019-12-27T18:11:19.117Z"
-      },
-      "extended_email_matching": {
-        "enabled": true,
-        "read_only": true,
-        "source_account": "source_account",
-        "version": 1
-      },
-      "fips": {
-        "tls": true
-      },
-      "host_selector": {
-        "enabled": false
-      },
-      "inspection": {
-        "mode": "static"
-      },
-      "max_ttl_secs": 3600,
-      "protocol_detection": {
-        "enabled": true
-      },
-      "sandbox": {
-        "enabled": true,
-        "fallback_action": "allow"
-      },
-      "tls_decrypt": {
-        "enabled": true
-      }
-    },
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Patch Zero Trust account configuration
-
-**patch** `/accounts/{account_id}/gateway/configuration`
-
-Update (PATCH) a single subcollection of settings such as `antivirus`, `tls_decrypt`, `activity_log`, `block_page`, `browser_isolation`, `fips`, `body_scanning`, `certificate`, or `max_ttl_secs` without updating the entire configuration object. This endpoint returns an error if any settings collection lacks proper configuration.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `settings: optional GatewayConfigurationSettings`
-
-  Specify account settings.
-
-  - `activity_log: optional ActivityLogSettings`
-
-    Specify activity log settings.
-
-    - `enabled: optional boolean`
-
-      Specify whether to log activity.
-
-  - `antivirus: optional AntiVirusSettings`
-
-    Specify anti-virus settings.
-
-    - `enabled_download_phase: optional boolean`
-
-      Specify whether to enable anti-virus scanning on downloads.
-
-    - `enabled_upload_phase: optional boolean`
-
-      Specify whether to enable anti-virus scanning on uploads.
-
-    - `fail_closed: optional boolean`
-
-      Specify whether to block requests for unscannable files.
-
-    - `notification_settings: optional NotificationSettings`
-
-      Configure the message the user's device shows during an antivirus scan.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable notifications.
-
-      - `include_context: optional boolean`
-
-        Specify whether to include context information as query parameters.
-
-      - `msg: optional string`
-
-        Specify the message to show in the notification.
-
-      - `support_url: optional string`
-
-        Specify a URL that directs users to more information. If unset, the notification opens a block page.
-
-  - `block_page: optional BlockPageSettings`
-
-    Specify block page layout settings.
-
-    - `background_color: optional string`
-
-      Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
-
-    - `enabled: optional boolean`
-
-      Specify whether to enable the custom block page.
-
-    - `footer_text: optional string`
-
-      Specify the block page footer text when the mode is customized_block_page.
-
-    - `header_text: optional string`
-
-      Specify the block page header text when the mode is customized_block_page.
-
-    - `include_context: optional boolean`
-
-      Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
-
-    - `logo_path: optional string`
-
-      Specify the full URL to the logo file when the mode is customized_block_page.
-
-    - `mailto_address: optional string`
-
-      Specify the admin email for users to contact when the mode is customized_block_page.
-
-    - `mailto_subject: optional string`
-
-      Specify the subject line for emails created from the block page when the mode is customized_block_page.
-
-    - `mode: optional "" or "customized_block_page" or "redirect_uri"`
-
-      Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
-
-      - `""`
-
-      - `"customized_block_page"`
-
-      - `"redirect_uri"`
-
-    - `name: optional string`
-
-      Specify the block page title when the mode is customized_block_page.
-
-    - `read_only: optional boolean`
-
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-    - `source_account: optional string`
-
-      Indicate the account tag of the account that shared this setting.
-
-    - `suppress_footer: optional boolean`
-
-      Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
-
-    - `target_uri: optional string`
-
-      Specify the URI to redirect users to when the mode is redirect_uri.
-
-    - `version: optional number`
-
-      Indicate the version number of the setting.
-
-  - `body_scanning: optional BodyScanningSettings`
-
-    Specify the DLP inspection mode.
-
-    - `inspection_mode: optional "deep" or "shallow"`
-
-      Specify the inspection mode as either `deep` or `shallow`.
-
-      - `"deep"`
-
-      - `"shallow"`
-
-  - `browser_isolation: optional BrowserIsolationSettings`
-
-    Specify Clientless Browser Isolation settings.
-
-    - `non_identity_enabled: optional boolean`
-
-      Specify whether to enable non-identity onramp support for Browser Isolation.
-
-    - `url_browser_isolation_enabled: optional boolean`
-
-      Specify whether to enable Clientless Browser Isolation.
-
-  - `certificate: optional object { id }`
-
-    Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
-
-    - `id: string`
-
-      Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
-
-  - `custom_certificate: optional CustomCertificateSettings`
-
-    Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-    - `enabled: boolean`
-
-      Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-    - `id: optional string`
-
-      Specify the UUID of the certificate (ID from MTLS certificate store).
-
-    - `binding_status: optional string`
-
-      Indicate the internal certificate status.
-
-    - `updated_at: optional string`
-
-  - `extended_email_matching: optional ExtendedEmailMatching`
-
-    Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
-
-    - `enabled: optional boolean`
-
-      Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
-
-    - `read_only: optional boolean`
-
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-    - `source_account: optional string`
-
-      Indicate the account tag of the account that shared this setting.
-
-    - `version: optional number`
-
-      Indicate the version number of the setting.
-
-  - `fips: optional FipsSettings`
-
-    Specify FIPS settings.
-
-    - `tls: optional boolean`
-
-      Enforce cipher suites and TLS versions compliant with FIPS 140-2.
-
-  - `host_selector: optional object { enabled }`
-
-    Enable host selection in egress policies.
-
-    - `enabled: optional boolean`
-
-      Specify whether to enable filtering via hosts for egress policies.
-
-  - `inspection: optional object { mode }`
-
-    Define the proxy inspection mode.
-
-    - `mode: optional "static" or "dynamic"`
-
-      Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
-
-      - `"static"`
-
-      - `"dynamic"`
-
-  - `max_ttl_secs: optional number`
-
-    Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
-
-  - `protocol_detection: optional ProtocolDetection`
-
-    Specify whether to detect protocols from the initial bytes of client traffic.
-
-    - `enabled: optional boolean`
-
-      Specify whether to detect protocols from the initial bytes of client traffic.
-
-  - `sandbox: optional object { enabled, fallback_action }`
-
-    Specify whether to enable the sandbox.
-
-    - `enabled: optional boolean`
-
-      Specify whether to enable the sandbox.
-
-    - `fallback_action: optional "allow" or "block"`
-
-      Specify the action to take when the system cannot scan the file.
-
-      - `"allow"`
-
-      - `"block"`
-
-  - `tls_decrypt: optional TLSSettings`
-
-    Specify whether to inspect encrypted HTTP traffic.
-
-    - `enabled: optional boolean`
-
-      Specify whether to inspect encrypted HTTP traffic.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { created_at, settings, updated_at }`
-
-  Specify account settings.
-
-  - `created_at: optional string`
-
-  - `settings: optional GatewayConfigurationSettings`
-
-    Specify account settings.
-
-    - `activity_log: optional ActivityLogSettings`
-
-      Specify activity log settings.
-
-      - `enabled: optional boolean`
-
-        Specify whether to log activity.
-
-    - `antivirus: optional AntiVirusSettings`
-
-      Specify anti-virus settings.
-
-      - `enabled_download_phase: optional boolean`
-
-        Specify whether to enable anti-virus scanning on downloads.
-
-      - `enabled_upload_phase: optional boolean`
-
-        Specify whether to enable anti-virus scanning on uploads.
-
-      - `fail_closed: optional boolean`
-
-        Specify whether to block requests for unscannable files.
-
-      - `notification_settings: optional NotificationSettings`
-
-        Configure the message the user's device shows during an antivirus scan.
-
-        - `enabled: optional boolean`
-
-          Specify whether to enable notifications.
-
-        - `include_context: optional boolean`
-
-          Specify whether to include context information as query parameters.
-
-        - `msg: optional string`
-
-          Specify the message to show in the notification.
-
-        - `support_url: optional string`
-
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
-
-    - `block_page: optional BlockPageSettings`
-
-      Specify block page layout settings.
-
-      - `background_color: optional string`
-
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the custom block page.
-
-      - `footer_text: optional string`
-
-        Specify the block page footer text when the mode is customized_block_page.
-
-      - `header_text: optional string`
-
-        Specify the block page header text when the mode is customized_block_page.
-
-      - `include_context: optional boolean`
-
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
-
-      - `logo_path: optional string`
-
-        Specify the full URL to the logo file when the mode is customized_block_page.
-
-      - `mailto_address: optional string`
-
-        Specify the admin email for users to contact when the mode is customized_block_page.
-
-      - `mailto_subject: optional string`
-
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
-
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
-
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
-
-        - `""`
-
-        - `"customized_block_page"`
-
-        - `"redirect_uri"`
-
-      - `name: optional string`
-
-        Specify the block page title when the mode is customized_block_page.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `suppress_footer: optional boolean`
-
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
-
-      - `target_uri: optional string`
-
-        Specify the URI to redirect users to when the mode is redirect_uri.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `body_scanning: optional BodyScanningSettings`
-
-      Specify the DLP inspection mode.
-
-      - `inspection_mode: optional "deep" or "shallow"`
-
-        Specify the inspection mode as either `deep` or `shallow`.
-
-        - `"deep"`
-
-        - `"shallow"`
-
-    - `browser_isolation: optional BrowserIsolationSettings`
-
-      Specify Clientless Browser Isolation settings.
-
-      - `non_identity_enabled: optional boolean`
-
-        Specify whether to enable non-identity onramp support for Browser Isolation.
-
-      - `url_browser_isolation_enabled: optional boolean`
-
-        Specify whether to enable Clientless Browser Isolation.
-
-    - `certificate: optional object { id }`
-
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
-
-      - `id: string`
-
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
-
-    - `custom_certificate: optional CustomCertificateSettings`
-
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-      - `enabled: boolean`
-
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-      - `id: optional string`
-
-        Specify the UUID of the certificate (ID from MTLS certificate store).
-
-      - `binding_status: optional string`
-
-        Indicate the internal certificate status.
-
-      - `updated_at: optional string`
-
-    - `extended_email_matching: optional ExtendedEmailMatching`
-
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
-
-      - `enabled: optional boolean`
-
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `fips: optional FipsSettings`
-
-      Specify FIPS settings.
-
-      - `tls: optional boolean`
-
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
-
-    - `host_selector: optional object { enabled }`
-
-      Enable host selection in egress policies.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable filtering via hosts for egress policies.
-
-    - `inspection: optional object { mode }`
-
-      Define the proxy inspection mode.
-
-      - `mode: optional "static" or "dynamic"`
-
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
-
-        - `"static"`
-
-        - `"dynamic"`
-
-    - `max_ttl_secs: optional number`
-
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
-
-    - `protocol_detection: optional ProtocolDetection`
-
-      Specify whether to detect protocols from the initial bytes of client traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to detect protocols from the initial bytes of client traffic.
-
-    - `sandbox: optional object { enabled, fallback_action }`
-
-      Specify whether to enable the sandbox.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the sandbox.
-
-      - `fallback_action: optional "allow" or "block"`
-
-        Specify the action to take when the system cannot scan the file.
-
-        - `"allow"`
-
-        - `"block"`
-
-    - `tls_decrypt: optional TLSSettings`
-
-      Specify whether to inspect encrypted HTTP traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to inspect encrypted HTTP traffic.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "settings": {
-      "activity_log": {
-        "enabled": true
-      },
-      "antivirus": {
-        "enabled_download_phase": false,
-        "enabled_upload_phase": false,
-        "fail_closed": false,
-        "notification_settings": {
-          "enabled": true,
-          "include_context": true,
-          "msg": "msg",
-          "support_url": "support_url"
-        }
-      },
-      "block_page": {
-        "background_color": "background_color",
-        "enabled": true,
-        "footer_text": "--footer--",
-        "header_text": "--header--",
-        "include_context": true,
-        "logo_path": "https://logos.com/a.png",
-        "mailto_address": "admin@example.com",
-        "mailto_subject": "Blocked User Inquiry",
-        "mode": "",
-        "name": "Cloudflare",
-        "read_only": true,
-        "source_account": "source_account",
-        "suppress_footer": false,
-        "target_uri": "https://example.com",
-        "version": 1
-      },
-      "body_scanning": {
-        "inspection_mode": "deep"
-      },
-      "browser_isolation": {
-        "non_identity_enabled": true,
-        "url_browser_isolation_enabled": true
-      },
-      "certificate": {
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f"
-      },
-      "custom_certificate": {
-        "enabled": true,
-        "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
-        "binding_status": "pending_deployment",
-        "updated_at": "2019-12-27T18:11:19.117Z"
-      },
-      "extended_email_matching": {
-        "enabled": true,
-        "read_only": true,
-        "source_account": "source_account",
-        "version": 1
-      },
-      "fips": {
-        "tls": true
-      },
-      "host_selector": {
-        "enabled": false
-      },
-      "inspection": {
-        "mode": "static"
-      },
-      "max_ttl_secs": 3600,
-      "protocol_detection": {
-        "enabled": true
-      },
-      "sandbox": {
-        "enabled": true,
-        "fallback_action": "allow"
-      },
-      "tls_decrypt": {
-        "enabled": true
-      }
-    },
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Activity Log Settings
-
-- `ActivityLogSettings object { enabled }`
-
-  Specify activity log settings.
-
-  - `enabled: optional boolean`
-
-    Specify whether to log activity.
-
-### Anti Virus Settings
-
-- `AntiVirusSettings object { enabled_download_phase, enabled_upload_phase, fail_closed, notification_settings }`
-
-  Specify anti-virus settings.
-
-  - `enabled_download_phase: optional boolean`
-
-    Specify whether to enable anti-virus scanning on downloads.
-
-  - `enabled_upload_phase: optional boolean`
-
-    Specify whether to enable anti-virus scanning on uploads.
-
-  - `fail_closed: optional boolean`
-
-    Specify whether to block requests for unscannable files.
-
-  - `notification_settings: optional NotificationSettings`
-
-    Configure the message the user's device shows during an antivirus scan.
-
-    - `enabled: optional boolean`
-
-      Specify whether to enable notifications.
-
-    - `include_context: optional boolean`
-
-      Specify whether to include context information as query parameters.
-
-    - `msg: optional string`
-
-      Specify the message to show in the notification.
-
-    - `support_url: optional string`
-
-      Specify a URL that directs users to more information. If unset, the notification opens a block page.
-
-### Block Page Settings
-
-- `BlockPageSettings object { background_color, enabled, footer_text, 12 more }`
-
-  Specify block page layout settings.
-
-  - `background_color: optional string`
-
-    Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
-
-  - `enabled: optional boolean`
-
-    Specify whether to enable the custom block page.
-
-  - `footer_text: optional string`
-
-    Specify the block page footer text when the mode is customized_block_page.
-
-  - `header_text: optional string`
-
-    Specify the block page header text when the mode is customized_block_page.
-
-  - `include_context: optional boolean`
-
-    Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
-
-  - `logo_path: optional string`
-
-    Specify the full URL to the logo file when the mode is customized_block_page.
-
-  - `mailto_address: optional string`
-
-    Specify the admin email for users to contact when the mode is customized_block_page.
-
-  - `mailto_subject: optional string`
-
-    Specify the subject line for emails created from the block page when the mode is customized_block_page.
-
-  - `mode: optional "" or "customized_block_page" or "redirect_uri"`
-
-    Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
-
-    - `""`
-
-    - `"customized_block_page"`
-
-    - `"redirect_uri"`
-
-  - `name: optional string`
-
-    Specify the block page title when the mode is customized_block_page.
-
-  - `read_only: optional boolean`
-
-    Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-  - `source_account: optional string`
-
-    Indicate the account tag of the account that shared this setting.
-
-  - `suppress_footer: optional boolean`
-
-    Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
-
-  - `target_uri: optional string`
-
-    Specify the URI to redirect users to when the mode is redirect_uri.
-
-  - `version: optional number`
-
-    Indicate the version number of the setting.
-
-### Body Scanning Settings
-
-- `BodyScanningSettings object { inspection_mode }`
-
-  Specify the DLP inspection mode.
-
-  - `inspection_mode: optional "deep" or "shallow"`
-
-    Specify the inspection mode as either `deep` or `shallow`.
-
-    - `"deep"`
-
-    - `"shallow"`
-
-### Browser Isolation Settings
-
-- `BrowserIsolationSettings object { non_identity_enabled, url_browser_isolation_enabled }`
-
-  Specify Clientless Browser Isolation settings.
-
-  - `non_identity_enabled: optional boolean`
-
-    Specify whether to enable non-identity onramp support for Browser Isolation.
-
-  - `url_browser_isolation_enabled: optional boolean`
-
-    Specify whether to enable Clientless Browser Isolation.
-
-### Custom Certificate Settings
-
-- `CustomCertificateSettings object { enabled, id, binding_status, updated_at }`
-
-  Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-  - `enabled: boolean`
-
-    Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-  - `id: optional string`
-
-    Specify the UUID of the certificate (ID from MTLS certificate store).
-
-  - `binding_status: optional string`
-
-    Indicate the internal certificate status.
-
-  - `updated_at: optional string`
-
-### Extended Email Matching
-
-- `ExtendedEmailMatching object { enabled, read_only, source_account, version }`
-
-  Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
-
-  - `enabled: optional boolean`
-
-    Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
-
-  - `read_only: optional boolean`
-
-    Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-  - `source_account: optional string`
-
-    Indicate the account tag of the account that shared this setting.
-
-  - `version: optional number`
-
-    Indicate the version number of the setting.
-
-### Fips Settings
-
-- `FipsSettings object { tls }`
-
-  Specify FIPS settings.
-
-  - `tls: optional boolean`
-
-    Enforce cipher suites and TLS versions compliant with FIPS 140-2.
-
-### Gateway Configuration Settings
-
-- `GatewayConfigurationSettings object { activity_log, antivirus, block_page, 12 more }`
-
-  Specify account settings.
-
-  - `activity_log: optional ActivityLogSettings`
-
-    Specify activity log settings.
-
-    - `enabled: optional boolean`
-
-      Specify whether to log activity.
-
-  - `antivirus: optional AntiVirusSettings`
-
-    Specify anti-virus settings.
-
-    - `enabled_download_phase: optional boolean`
-
-      Specify whether to enable anti-virus scanning on downloads.
-
-    - `enabled_upload_phase: optional boolean`
-
-      Specify whether to enable anti-virus scanning on uploads.
-
-    - `fail_closed: optional boolean`
-
-      Specify whether to block requests for unscannable files.
-
-    - `notification_settings: optional NotificationSettings`
-
-      Configure the message the user's device shows during an antivirus scan.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable notifications.
-
-      - `include_context: optional boolean`
-
-        Specify whether to include context information as query parameters.
-
-      - `msg: optional string`
-
-        Specify the message to show in the notification.
-
-      - `support_url: optional string`
-
-        Specify a URL that directs users to more information. If unset, the notification opens a block page.
-
-  - `block_page: optional BlockPageSettings`
-
-    Specify block page layout settings.
-
-    - `background_color: optional string`
-
-      Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
-
-    - `enabled: optional boolean`
-
-      Specify whether to enable the custom block page.
-
-    - `footer_text: optional string`
-
-      Specify the block page footer text when the mode is customized_block_page.
-
-    - `header_text: optional string`
-
-      Specify the block page header text when the mode is customized_block_page.
-
-    - `include_context: optional boolean`
-
-      Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
-
-    - `logo_path: optional string`
-
-      Specify the full URL to the logo file when the mode is customized_block_page.
-
-    - `mailto_address: optional string`
-
-      Specify the admin email for users to contact when the mode is customized_block_page.
-
-    - `mailto_subject: optional string`
-
-      Specify the subject line for emails created from the block page when the mode is customized_block_page.
-
-    - `mode: optional "" or "customized_block_page" or "redirect_uri"`
-
-      Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
-
-      - `""`
-
-      - `"customized_block_page"`
-
-      - `"redirect_uri"`
-
-    - `name: optional string`
-
-      Specify the block page title when the mode is customized_block_page.
-
-    - `read_only: optional boolean`
-
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-    - `source_account: optional string`
-
-      Indicate the account tag of the account that shared this setting.
-
-    - `suppress_footer: optional boolean`
-
-      Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
-
-    - `target_uri: optional string`
-
-      Specify the URI to redirect users to when the mode is redirect_uri.
-
-    - `version: optional number`
-
-      Indicate the version number of the setting.
-
-  - `body_scanning: optional BodyScanningSettings`
-
-    Specify the DLP inspection mode.
-
-    - `inspection_mode: optional "deep" or "shallow"`
-
-      Specify the inspection mode as either `deep` or `shallow`.
-
-      - `"deep"`
-
-      - `"shallow"`
-
-  - `browser_isolation: optional BrowserIsolationSettings`
-
-    Specify Clientless Browser Isolation settings.
-
-    - `non_identity_enabled: optional boolean`
-
-      Specify whether to enable non-identity onramp support for Browser Isolation.
-
-    - `url_browser_isolation_enabled: optional boolean`
-
-      Specify whether to enable Clientless Browser Isolation.
-
-  - `certificate: optional object { id }`
-
-    Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
-
-    - `id: string`
-
-      Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
-
-  - `custom_certificate: optional CustomCertificateSettings`
-
-    Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-    - `enabled: boolean`
-
-      Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-    - `id: optional string`
-
-      Specify the UUID of the certificate (ID from MTLS certificate store).
-
-    - `binding_status: optional string`
-
-      Indicate the internal certificate status.
-
-    - `updated_at: optional string`
-
-  - `extended_email_matching: optional ExtendedEmailMatching`
-
-    Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
-
-    - `enabled: optional boolean`
-
-      Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
-
-    - `read_only: optional boolean`
-
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-    - `source_account: optional string`
-
-      Indicate the account tag of the account that shared this setting.
-
-    - `version: optional number`
-
-      Indicate the version number of the setting.
-
-  - `fips: optional FipsSettings`
-
-    Specify FIPS settings.
-
-    - `tls: optional boolean`
-
-      Enforce cipher suites and TLS versions compliant with FIPS 140-2.
-
-  - `host_selector: optional object { enabled }`
-
-    Enable host selection in egress policies.
-
-    - `enabled: optional boolean`
-
-      Specify whether to enable filtering via hosts for egress policies.
-
-  - `inspection: optional object { mode }`
-
-    Define the proxy inspection mode.
-
-    - `mode: optional "static" or "dynamic"`
-
-      Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
-
-      - `"static"`
-
-      - `"dynamic"`
-
-  - `max_ttl_secs: optional number`
-
-    Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
-
-  - `protocol_detection: optional ProtocolDetection`
-
-    Specify whether to detect protocols from the initial bytes of client traffic.
-
-    - `enabled: optional boolean`
-
-      Specify whether to detect protocols from the initial bytes of client traffic.
-
-  - `sandbox: optional object { enabled, fallback_action }`
-
-    Specify whether to enable the sandbox.
-
-    - `enabled: optional boolean`
-
-      Specify whether to enable the sandbox.
-
-    - `fallback_action: optional "allow" or "block"`
-
-      Specify the action to take when the system cannot scan the file.
-
-      - `"allow"`
-
-      - `"block"`
-
-  - `tls_decrypt: optional TLSSettings`
-
-    Specify whether to inspect encrypted HTTP traffic.
-
-    - `enabled: optional boolean`
-
-      Specify whether to inspect encrypted HTTP traffic.
-
-### Notification Settings
-
-- `NotificationSettings object { enabled, include_context, msg, support_url }`
-
-  Configure the message the user's device shows during an antivirus scan.
-
-  - `enabled: optional boolean`
-
-    Specify whether to enable notifications.
-
-  - `include_context: optional boolean`
-
-    Specify whether to include context information as query parameters.
-
-  - `msg: optional string`
-
-    Specify the message to show in the notification.
-
-  - `support_url: optional string`
-
-    Specify a URL that directs users to more information. If unset, the notification opens a block page.
-
-### Protocol Detection
-
-- `ProtocolDetection object { enabled }`
-
-  Specify whether to detect protocols from the initial bytes of client traffic.
-
-  - `enabled: optional boolean`
-
-    Specify whether to detect protocols from the initial bytes of client traffic.
-
-### TLS Settings
-
-- `TLSSettings object { enabled }`
-
-  Specify whether to inspect encrypted HTTP traffic.
-
-  - `enabled: optional boolean`
-
-    Specify whether to inspect encrypted HTTP traffic.
-
-### Configuration Get Response
-
-- `ConfigurationGetResponse object { created_at, settings, updated_at }`
-
-  Specify account settings.
-
-  - `created_at: optional string`
-
-  - `settings: optional GatewayConfigurationSettings`
-
-    Specify account settings.
-
-    - `activity_log: optional ActivityLogSettings`
-
-      Specify activity log settings.
-
-      - `enabled: optional boolean`
-
-        Specify whether to log activity.
-
-    - `antivirus: optional AntiVirusSettings`
-
-      Specify anti-virus settings.
-
-      - `enabled_download_phase: optional boolean`
-
-        Specify whether to enable anti-virus scanning on downloads.
-
-      - `enabled_upload_phase: optional boolean`
-
-        Specify whether to enable anti-virus scanning on uploads.
-
-      - `fail_closed: optional boolean`
-
-        Specify whether to block requests for unscannable files.
-
-      - `notification_settings: optional NotificationSettings`
-
-        Configure the message the user's device shows during an antivirus scan.
-
-        - `enabled: optional boolean`
-
-          Specify whether to enable notifications.
-
-        - `include_context: optional boolean`
-
-          Specify whether to include context information as query parameters.
-
-        - `msg: optional string`
-
-          Specify the message to show in the notification.
-
-        - `support_url: optional string`
-
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
-
-    - `block_page: optional BlockPageSettings`
-
-      Specify block page layout settings.
-
-      - `background_color: optional string`
-
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the custom block page.
-
-      - `footer_text: optional string`
-
-        Specify the block page footer text when the mode is customized_block_page.
-
-      - `header_text: optional string`
-
-        Specify the block page header text when the mode is customized_block_page.
-
-      - `include_context: optional boolean`
-
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
-
-      - `logo_path: optional string`
-
-        Specify the full URL to the logo file when the mode is customized_block_page.
-
-      - `mailto_address: optional string`
-
-        Specify the admin email for users to contact when the mode is customized_block_page.
-
-      - `mailto_subject: optional string`
-
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
-
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
-
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
-
-        - `""`
-
-        - `"customized_block_page"`
-
-        - `"redirect_uri"`
-
-      - `name: optional string`
-
-        Specify the block page title when the mode is customized_block_page.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `suppress_footer: optional boolean`
-
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
-
-      - `target_uri: optional string`
-
-        Specify the URI to redirect users to when the mode is redirect_uri.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `body_scanning: optional BodyScanningSettings`
-
-      Specify the DLP inspection mode.
-
-      - `inspection_mode: optional "deep" or "shallow"`
-
-        Specify the inspection mode as either `deep` or `shallow`.
-
-        - `"deep"`
-
-        - `"shallow"`
-
-    - `browser_isolation: optional BrowserIsolationSettings`
-
-      Specify Clientless Browser Isolation settings.
-
-      - `non_identity_enabled: optional boolean`
-
-        Specify whether to enable non-identity onramp support for Browser Isolation.
-
-      - `url_browser_isolation_enabled: optional boolean`
-
-        Specify whether to enable Clientless Browser Isolation.
-
-    - `certificate: optional object { id }`
-
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
-
-      - `id: string`
-
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
-
-    - `custom_certificate: optional CustomCertificateSettings`
-
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-      - `enabled: boolean`
-
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-      - `id: optional string`
-
-        Specify the UUID of the certificate (ID from MTLS certificate store).
-
-      - `binding_status: optional string`
-
-        Indicate the internal certificate status.
-
-      - `updated_at: optional string`
-
-    - `extended_email_matching: optional ExtendedEmailMatching`
-
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
-
-      - `enabled: optional boolean`
-
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `fips: optional FipsSettings`
-
-      Specify FIPS settings.
-
-      - `tls: optional boolean`
-
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
-
-    - `host_selector: optional object { enabled }`
-
-      Enable host selection in egress policies.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable filtering via hosts for egress policies.
-
-    - `inspection: optional object { mode }`
-
-      Define the proxy inspection mode.
-
-      - `mode: optional "static" or "dynamic"`
-
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
-
-        - `"static"`
-
-        - `"dynamic"`
-
-    - `max_ttl_secs: optional number`
-
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
-
-    - `protocol_detection: optional ProtocolDetection`
-
-      Specify whether to detect protocols from the initial bytes of client traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to detect protocols from the initial bytes of client traffic.
-
-    - `sandbox: optional object { enabled, fallback_action }`
-
-      Specify whether to enable the sandbox.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the sandbox.
-
-      - `fallback_action: optional "allow" or "block"`
-
-        Specify the action to take when the system cannot scan the file.
-
-        - `"allow"`
-
-        - `"block"`
-
-    - `tls_decrypt: optional TLSSettings`
-
-      Specify whether to inspect encrypted HTTP traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to inspect encrypted HTTP traffic.
-
-  - `updated_at: optional string`
-
-### Configuration Update Response
-
-- `ConfigurationUpdateResponse object { created_at, settings, updated_at }`
-
-  Specify account settings.
-
-  - `created_at: optional string`
-
-  - `settings: optional GatewayConfigurationSettings`
-
-    Specify account settings.
-
-    - `activity_log: optional ActivityLogSettings`
-
-      Specify activity log settings.
-
-      - `enabled: optional boolean`
-
-        Specify whether to log activity.
-
-    - `antivirus: optional AntiVirusSettings`
-
-      Specify anti-virus settings.
-
-      - `enabled_download_phase: optional boolean`
-
-        Specify whether to enable anti-virus scanning on downloads.
-
-      - `enabled_upload_phase: optional boolean`
-
-        Specify whether to enable anti-virus scanning on uploads.
-
-      - `fail_closed: optional boolean`
-
-        Specify whether to block requests for unscannable files.
-
-      - `notification_settings: optional NotificationSettings`
-
-        Configure the message the user's device shows during an antivirus scan.
-
-        - `enabled: optional boolean`
-
-          Specify whether to enable notifications.
-
-        - `include_context: optional boolean`
-
-          Specify whether to include context information as query parameters.
-
-        - `msg: optional string`
-
-          Specify the message to show in the notification.
-
-        - `support_url: optional string`
-
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
-
-    - `block_page: optional BlockPageSettings`
-
-      Specify block page layout settings.
-
-      - `background_color: optional string`
-
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the custom block page.
-
-      - `footer_text: optional string`
-
-        Specify the block page footer text when the mode is customized_block_page.
-
-      - `header_text: optional string`
-
-        Specify the block page header text when the mode is customized_block_page.
-
-      - `include_context: optional boolean`
-
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
-
-      - `logo_path: optional string`
-
-        Specify the full URL to the logo file when the mode is customized_block_page.
-
-      - `mailto_address: optional string`
-
-        Specify the admin email for users to contact when the mode is customized_block_page.
-
-      - `mailto_subject: optional string`
-
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
-
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
-
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
-
-        - `""`
-
-        - `"customized_block_page"`
-
-        - `"redirect_uri"`
-
-      - `name: optional string`
-
-        Specify the block page title when the mode is customized_block_page.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `suppress_footer: optional boolean`
-
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
-
-      - `target_uri: optional string`
-
-        Specify the URI to redirect users to when the mode is redirect_uri.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `body_scanning: optional BodyScanningSettings`
-
-      Specify the DLP inspection mode.
-
-      - `inspection_mode: optional "deep" or "shallow"`
-
-        Specify the inspection mode as either `deep` or `shallow`.
-
-        - `"deep"`
-
-        - `"shallow"`
-
-    - `browser_isolation: optional BrowserIsolationSettings`
-
-      Specify Clientless Browser Isolation settings.
-
-      - `non_identity_enabled: optional boolean`
-
-        Specify whether to enable non-identity onramp support for Browser Isolation.
-
-      - `url_browser_isolation_enabled: optional boolean`
-
-        Specify whether to enable Clientless Browser Isolation.
-
-    - `certificate: optional object { id }`
-
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
-
-      - `id: string`
-
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
-
-    - `custom_certificate: optional CustomCertificateSettings`
-
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-      - `enabled: boolean`
-
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-      - `id: optional string`
-
-        Specify the UUID of the certificate (ID from MTLS certificate store).
-
-      - `binding_status: optional string`
-
-        Indicate the internal certificate status.
-
-      - `updated_at: optional string`
-
-    - `extended_email_matching: optional ExtendedEmailMatching`
-
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
-
-      - `enabled: optional boolean`
-
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `fips: optional FipsSettings`
-
-      Specify FIPS settings.
-
-      - `tls: optional boolean`
-
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
-
-    - `host_selector: optional object { enabled }`
-
-      Enable host selection in egress policies.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable filtering via hosts for egress policies.
-
-    - `inspection: optional object { mode }`
-
-      Define the proxy inspection mode.
-
-      - `mode: optional "static" or "dynamic"`
-
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
-
-        - `"static"`
-
-        - `"dynamic"`
-
-    - `max_ttl_secs: optional number`
-
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
-
-    - `protocol_detection: optional ProtocolDetection`
-
-      Specify whether to detect protocols from the initial bytes of client traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to detect protocols from the initial bytes of client traffic.
-
-    - `sandbox: optional object { enabled, fallback_action }`
-
-      Specify whether to enable the sandbox.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the sandbox.
-
-      - `fallback_action: optional "allow" or "block"`
-
-        Specify the action to take when the system cannot scan the file.
-
-        - `"allow"`
-
-        - `"block"`
-
-    - `tls_decrypt: optional TLSSettings`
-
-      Specify whether to inspect encrypted HTTP traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to inspect encrypted HTTP traffic.
-
-  - `updated_at: optional string`
-
-### Configuration Edit Response
-
-- `ConfigurationEditResponse object { created_at, settings, updated_at }`
-
-  Specify account settings.
-
-  - `created_at: optional string`
-
-  - `settings: optional GatewayConfigurationSettings`
-
-    Specify account settings.
-
-    - `activity_log: optional ActivityLogSettings`
-
-      Specify activity log settings.
-
-      - `enabled: optional boolean`
-
-        Specify whether to log activity.
-
-    - `antivirus: optional AntiVirusSettings`
-
-      Specify anti-virus settings.
-
-      - `enabled_download_phase: optional boolean`
-
-        Specify whether to enable anti-virus scanning on downloads.
-
-      - `enabled_upload_phase: optional boolean`
-
-        Specify whether to enable anti-virus scanning on uploads.
-
-      - `fail_closed: optional boolean`
-
-        Specify whether to block requests for unscannable files.
-
-      - `notification_settings: optional NotificationSettings`
-
-        Configure the message the user's device shows during an antivirus scan.
-
-        - `enabled: optional boolean`
-
-          Specify whether to enable notifications.
-
-        - `include_context: optional boolean`
-
-          Specify whether to include context information as query parameters.
-
-        - `msg: optional string`
-
-          Specify the message to show in the notification.
-
-        - `support_url: optional string`
-
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
-
-    - `block_page: optional BlockPageSettings`
-
-      Specify block page layout settings.
-
-      - `background_color: optional string`
-
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the custom block page.
-
-      - `footer_text: optional string`
-
-        Specify the block page footer text when the mode is customized_block_page.
-
-      - `header_text: optional string`
-
-        Specify the block page header text when the mode is customized_block_page.
-
-      - `include_context: optional boolean`
-
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
-
-      - `logo_path: optional string`
-
-        Specify the full URL to the logo file when the mode is customized_block_page.
-
-      - `mailto_address: optional string`
-
-        Specify the admin email for users to contact when the mode is customized_block_page.
-
-      - `mailto_subject: optional string`
-
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
-
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
-
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
-
-        - `""`
-
-        - `"customized_block_page"`
-
-        - `"redirect_uri"`
-
-      - `name: optional string`
-
-        Specify the block page title when the mode is customized_block_page.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `suppress_footer: optional boolean`
-
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
-
-      - `target_uri: optional string`
-
-        Specify the URI to redirect users to when the mode is redirect_uri.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `body_scanning: optional BodyScanningSettings`
-
-      Specify the DLP inspection mode.
-
-      - `inspection_mode: optional "deep" or "shallow"`
-
-        Specify the inspection mode as either `deep` or `shallow`.
-
-        - `"deep"`
-
-        - `"shallow"`
-
-    - `browser_isolation: optional BrowserIsolationSettings`
-
-      Specify Clientless Browser Isolation settings.
-
-      - `non_identity_enabled: optional boolean`
-
-        Specify whether to enable non-identity onramp support for Browser Isolation.
-
-      - `url_browser_isolation_enabled: optional boolean`
-
-        Specify whether to enable Clientless Browser Isolation.
-
-    - `certificate: optional object { id }`
-
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
-
-      - `id: string`
-
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
-
-    - `custom_certificate: optional CustomCertificateSettings`
-
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-      - `enabled: boolean`
-
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-      - `id: optional string`
-
-        Specify the UUID of the certificate (ID from MTLS certificate store).
-
-      - `binding_status: optional string`
-
-        Indicate the internal certificate status.
-
-      - `updated_at: optional string`
-
-    - `extended_email_matching: optional ExtendedEmailMatching`
-
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
-
-      - `enabled: optional boolean`
-
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
-
-      - `read_only: optional boolean`
-
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
-
-      - `source_account: optional string`
-
-        Indicate the account tag of the account that shared this setting.
-
-      - `version: optional number`
-
-        Indicate the version number of the setting.
-
-    - `fips: optional FipsSettings`
-
-      Specify FIPS settings.
-
-      - `tls: optional boolean`
-
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
-
-    - `host_selector: optional object { enabled }`
-
-      Enable host selection in egress policies.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable filtering via hosts for egress policies.
-
-    - `inspection: optional object { mode }`
-
-      Define the proxy inspection mode.
-
-      - `mode: optional "static" or "dynamic"`
-
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
-
-        - `"static"`
-
-        - `"dynamic"`
-
-    - `max_ttl_secs: optional number`
-
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
-
-    - `protocol_detection: optional ProtocolDetection`
-
-      Specify whether to detect protocols from the initial bytes of client traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to detect protocols from the initial bytes of client traffic.
-
-    - `sandbox: optional object { enabled, fallback_action }`
-
-      Specify whether to enable the sandbox.
-
-      - `enabled: optional boolean`
-
-        Specify whether to enable the sandbox.
-
-      - `fallback_action: optional "allow" or "block"`
-
-        Specify the action to take when the system cannot scan the file.
-
-        - `"allow"`
-
-        - `"block"`
-
-    - `tls_decrypt: optional TLSSettings`
-
-      Specify whether to inspect encrypted HTTP traffic.
-
-      - `enabled: optional boolean`
-
-        Specify whether to inspect encrypted HTTP traffic.
-
-  - `updated_at: optional string`
-
-# Custom Certificate
-
-## Get Zero Trust certificate configuration
-
-**get** `/accounts/{account_id}/gateway/configuration/custom_certificate`
-
-Retrieve the current Zero Trust certificate configuration.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `CustomCertificateSettings object { enabled, id, binding_status, updated_at }`
-
-  Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
-
-  - `enabled: boolean`
-
-    Specify whether to enable a custom certificate authority for signing Gateway traffic.
-
-  - `id: optional string`
-
-    Specify the UUID of the certificate (ID from MTLS certificate store).
-
-  - `binding_status: optional string`
-
-    Indicate the internal certificate status.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration/custom_certificate \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "enabled": true,
-  "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
-  "binding_status": "pending_deployment",
-  "updated_at": "2019-12-27T18:11:19.117Z"
-}
-```
+GET/accounts/{account\_id}/gateway/configuration/custom\_certificate

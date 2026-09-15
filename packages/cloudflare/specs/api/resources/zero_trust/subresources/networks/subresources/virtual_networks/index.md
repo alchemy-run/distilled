@@ -1,691 +1,101 @@
+---
+title: Virtual Networks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Virtual Networks
 
-## List virtual networks
+##### [List virtual networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/list)
 
-**get** `/accounts/{account_id}/teamnet/virtual_networks`
+GET/accounts/{account\_id}/teamnet/virtual\_networks
 
-Lists and filters virtual networks in an account.
+##### [Get a virtual network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/teamnet/virtual\_networks/{virtual\_network\_id}
 
-- `account_id: string`
+##### [Create a virtual network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/create)
 
-  Cloudflare account ID
+POST/accounts/{account\_id}/teamnet/virtual\_networks
 
-### Query Parameters
+##### [Update a virtual network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/edit)
 
-- `id: optional string`
+PATCH/accounts/{account\_id}/teamnet/virtual\_networks/{virtual\_network\_id}
 
-  UUID of the virtual network.
+##### [Delete a virtual network](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/delete)
 
-- `is_default: optional boolean`
+DELETE/accounts/{account\_id}/teamnet/virtual\_networks/{virtual\_network\_id}
 
-  If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.
+##### ModelsExpand Collapse
 
-- `is_default_network: optional boolean`
+<details>
 
-  If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.
+<summary>
 
-- `is_deleted: optional boolean`
+VirtualNetwork object {id, comment, created\_at, 3 more }
 
-  If `true`, only include deleted virtual networks. If `false`, exclude deleted virtual networks. If empty, all virtual networks will be included.
+</summary>
 
-- `name: optional string`
+id: string
 
-  A user-friendly name for the virtual network.
+UUID of the virtual network.
 
-### Returns
+formatuuid
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+comment: string
 
-  - `message: string`
+Optional remark describing the virtual network.
 
-  - `documentation_url: optional string`
+maxLength256
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_at: string
 
-- `messages: array of ResponseInfo`
+Timestamp of when the resource was created.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+is\_default\_network: boolean
 
-  - `source: optional object { pointer }`
+If <code>true</code>, this virtual network is the default for the account.
 
-- `result: array of VirtualNetwork`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+name: string
 
-    UUID of the virtual network.
+A user-friendly name for the virtual network.
 
-  - `comment: string`
+maxLength256
 
-    Optional remark describing the virtual network.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+deleted\_at: optional string
 
-    Timestamp of when the resource was created.
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
 
-  - `is_default_network: boolean`
+formatdate-time
 
-    If `true`, this virtual network is the default for the account.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    A user-friendly name for the virtual network.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-      "comment": "Staging VPC for data science",
-      "created_at": "2021-01-25T18:22:34.317854Z",
-      "is_default_network": true,
-      "name": "us-east-1-vpc",
-      "deleted_at": "2009-11-10T23:00:00.000000Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get a virtual network
-
-**get** `/accounts/{account_id}/teamnet/virtual_networks/{virtual_network_id}`
-
-Get a virtual network.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `virtual_network_id: string`
-
-  UUID of the virtual network.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: VirtualNetwork`
-
-  - `id: string`
-
-    UUID of the virtual network.
-
-  - `comment: string`
-
-    Optional remark describing the virtual network.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `is_default_network: boolean`
-
-    If `true`, this virtual network is the default for the account.
-
-  - `name: string`
-
-    A user-friendly name for the virtual network.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks/$VIRTUAL_NETWORK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Staging VPC for data science",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "is_default_network": true,
-    "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
-  },
-  "success": true
-}
-```
-
-## Create a virtual network
-
-**post** `/accounts/{account_id}/teamnet/virtual_networks`
-
-Adds a new virtual network to an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-### Body Parameters
-
-- `name: string`
-
-  A user-friendly name for the virtual network.
-
-- `comment: optional string`
-
-  Optional remark describing the virtual network.
-
-- `is_default: optional boolean`
-
-  If `true`, this virtual network is the default for the account.
-
-- `is_default_network: optional boolean`
-
-  If `true`, this virtual network is the default for the account.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: VirtualNetwork`
-
-  - `id: string`
-
-    UUID of the virtual network.
-
-  - `comment: string`
-
-    Optional remark describing the virtual network.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `is_default_network: boolean`
-
-    If `true`, this virtual network is the default for the account.
-
-  - `name: string`
-
-    A user-friendly name for the virtual network.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "us-east-1-vpc",
-          "comment": "Staging VPC for data science",
-          "is_default": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Staging VPC for data science",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "is_default_network": true,
-    "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
-  },
-  "success": true
-}
-```
-
-## Update a virtual network
-
-**patch** `/accounts/{account_id}/teamnet/virtual_networks/{virtual_network_id}`
-
-Updates an existing virtual network.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `virtual_network_id: string`
-
-  UUID of the virtual network.
-
-### Body Parameters
-
-- `comment: optional string`
-
-  Optional remark describing the virtual network.
-
-- `is_default_network: optional boolean`
-
-  If `true`, this virtual network is the default for the account.
-
-- `name: optional string`
-
-  A user-friendly name for the virtual network.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: VirtualNetwork`
-
-  - `id: string`
-
-    UUID of the virtual network.
-
-  - `comment: string`
-
-    Optional remark describing the virtual network.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `is_default_network: boolean`
-
-    If `true`, this virtual network is the default for the account.
-
-  - `name: string`
-
-    A user-friendly name for the virtual network.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks/$VIRTUAL_NETWORK_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "Staging VPC for data science",
-          "name": "us-east-1-vpc"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Staging VPC for data science",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "is_default_network": true,
-    "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
-  },
-  "success": true
-}
-```
-
-## Delete a virtual network
-
-**delete** `/accounts/{account_id}/teamnet/virtual_networks/{virtual_network_id}`
-
-Deletes an existing virtual network.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Cloudflare account ID
-
-- `virtual_network_id: string`
-
-  UUID of the virtual network.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: VirtualNetwork`
-
-  - `id: string`
-
-    UUID of the virtual network.
-
-  - `comment: string`
-
-    Optional remark describing the virtual network.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `is_default_network: boolean`
-
-    If `true`, this virtual network is the default for the account.
-
-  - `name: string`
-
-    A user-friendly name for the virtual network.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/virtual_networks/$VIRTUAL_NETWORK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
-    "comment": "Staging VPC for data science",
-    "created_at": "2021-01-25T18:22:34.317854Z",
-    "is_default_network": true,
-    "name": "us-east-1-vpc",
-    "deleted_at": "2009-11-10T23:00:00.000000Z"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Virtual Network
-
-- `VirtualNetwork object { id, comment, created_at, 3 more }`
-
-  - `id: string`
-
-    UUID of the virtual network.
-
-  - `comment: string`
-
-    Optional remark describing the virtual network.
-
-  - `created_at: string`
-
-    Timestamp of when the resource was created.
-
-  - `is_default_network: boolean`
-
-    If `true`, this virtual network is the default for the account.
-
-  - `name: string`
-
-    A user-friendly name for the virtual network.
-
-  - `deleted_at: optional string`
-
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+[Link to this property](#)%20zero_trust.networks.virtual_networks%20%3E%20(model)%20virtual_network%20%3E%20(schema)>)

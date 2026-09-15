@@ -1,330 +1,259 @@
+---
+title: Feedback
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Bot Management](https://developers.cloudflare.com/api/resources/bot_management)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Feedback
 
-## List zone feedback reports
+##### [List zone feedback reports](https://developers.cloudflare.com/api/resources/bot_management/subresources/feedback/methods/list)
 
-**get** `/zones/{zone_id}/bot_management/feedback`
+GET/zones/{zone\_id}/bot\_management/feedback
 
-Returns all feedback reports previously submitted for the specified zone. Feedback reports help improve detection by sharing samples of traffic that were misclassified as bots or humans.
+##### [Submit a feedback report](https://developers.cloudflare.com/api/resources/bot_management/subresources/feedback/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/bot\_management/feedback
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `description: string`
+FeedbackReport object {description, expression, first\_request\_seen\_at, 8 more }
 
-- `expression: string`
+</summary>
 
-  Wirefilter expression describing the traffic being reported.
+description: string
 
-- `first_request_seen_at: string`
+<a href="#">Link to this property</a>
 
-- `last_request_seen_at: string`
+expression: string
 
-- `requests: number`
+Wirefilter expression describing the traffic being reported.
 
-- `requests_by_attribute: RequestsByAttribute`
+<a href="#">Link to this property</a>
 
-  Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+first\_request\_seen\_at: string
 
-  - `metric: string`
+formatdate-time
 
-  - `requests: number`
+<a href="#">Link to this property</a>
 
-- `requests_by_score: RequestsByScore`
+last\_request\_seen\_at: string
 
-  Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+formatdate-time
 
-- `requests_by_score_src: RequestsByScoreSrc`
+<a href="#">Link to this property</a>
 
-  Map of score source to request counts. Sum must equal `requests`.
+requests: number
 
-- `type: FeedbackType`
+formatint64
 
-  Type of feedback report.
+<a href="#">Link to this property</a>
 
-  - `"false_positive"`
+requests\_by\_attribute: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_attribute%20%3E%20(schema)">RequestsByAttribute</a> { metric, requests }
 
-  - `"false_negative"`
+Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
 
-- `created_at: optional string`
+<a href="#">Link to this property</a>
 
-- `subtype: optional string`
+requests\_by\_score: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_score%20%3E%20(schema)">RequestsByScore</a>
 
-### Example
+Map of bot scores (1-99) to request counts. Sum must equal <code>requests</code>.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/bot_management/feedback \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+requests\_by\_score\_src: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_score_src%20%3E%20(schema)">RequestsByScoreSrc</a>
 
-```json
-[
-  {
-    "created_at": "2025-10-01T12:00:00Z",
-    "description": "Legitimate checkout traffic was blocked as bots",
-    "expression": "(http.host eq 'shop.example.com' and http.request.uri.path starts_with '/checkout') and cf.bot_management.score lt 5",
-    "first_request_seen_at": "2025-09-30T08:00:00Z",
-    "last_request_seen_at": "2025-09-30T09:00:00Z",
-    "requests": 1200,
-    "requests_by_attribute": {
-      "topIPs": [
-        {
-          "metric": "203.0.113.10",
-          "requests": 180
-        },
-        {
-          "metric": "203.0.113.11",
-          "requests": 150
-        }
-      ],
-      "topPaths": [
-        {
-          "metric": "/checkout",
-          "requests": 1000
-        }
-      ]
-    },
-    "requests_by_score": {
-      "1": 200,
-      "2": 300,
-      "3": 400,
-      "4": 300
-    },
-    "requests_by_score_src": {
-      "heuristics": 200,
-      "machine_learning": 1000
-    },
-    "subtype": "Spamming",
-    "type": "false_positive"
-  }
-]
-```
+Map of score source to request counts. Sum must equal <code>requests</code>.
 
-## Submit a feedback report
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/bot_management/feedback`
+type: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20feedback_type%20%3E%20(schema)">FeedbackType</a>
 
-Submit a feedback report for the specified zone. Use `type` to indicate whether the report is a false positive (good traffic flagged as bot) or a false negative (bot traffic missed). Furthermore, you can also use `expression` as a wirefilter to identify the affected traffic sample.
+Type of feedback report.
 
-See more accepted API fields and expression types at https://developers.cloudflare.com/bots/concepts/feedback-loop/#api-fields and https://developers.cloudflare.com/bots/concepts/feedback-loop/#expression-fields, respectively.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+created\_at: optional string
 
-- `zone_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+subtype: optional string
 
-- `description: string`
+<a href="#">Link to this property</a>
 
-- `expression: string`
+</details>
 
-  Wirefilter expression describing the traffic being reported.
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20feedback_report%20%3E%20(schema)>)
 
-- `first_request_seen_at: string`
+<details>
 
-- `last_request_seen_at: string`
+<summary>
 
-- `requests: number`
+FeedbackType = "false\_positive"or "false\_negative"
 
-- `requests_by_attribute: RequestsByAttribute`
+Type of feedback report.
 
-  Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+</summary>
 
-  - `metric: string`
+One of the following:
 
-  - `requests: number`
+"false\_positive"
 
-- `requests_by_score: RequestsByScore`
+<a href="#">Link to this property</a>
 
-  Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+"false\_negative"
 
-- `requests_by_score_src: RequestsByScoreSrc`
+<a href="#">Link to this property</a>
 
-  Map of score source to request counts. Sum must equal `requests`.
+</details>
 
-- `type: FeedbackType`
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20feedback_type%20%3E%20(schema)>)
 
-  Type of feedback report.
+<details>
 
-  - `"false_positive"`
+<summary>
 
-  - `"false_negative"`
+MetricRequests object {metric, requests }
 
-- `subtype: optional string`
+</summary>
 
-### Example
+metric: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/bot_management/feedback \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d "{
-          \"description\": \"Automated scraping missed by detections\",
-          \"expression\": \"http.host eq 'www.example.com' and http.request.uri.path starts_with '/products' and cf.bot_management.score gt 25\",
-          \"first_request_seen_at\": \"2025-09-29T00:00:00Z\",
-          \"last_request_seen_at\": \"2025-09-29T06:00:00Z\",
-          \"requests\": 2000,
-          \"requests_by_attribute\": {
-            \"topIPs\": [
-              {
-                \"metric\": \"203.0.113.55\",
-                \"requests\": 400
-              }
-            ],
-            \"topJA3Hashes\": [
-              {
-                \"metric\": \"ab12cd34ef56...\",
-                \"requests\": 900
-              }
-            ]
-          },
-          \"requests_by_score\": {
-            \"30\": 800,
-            \"40\": 700,
-            \"50\": 500
-          },
-          \"requests_by_score_src\": {
-            \"heuristics\": 200,
-            \"ml\": 1800
-          },
-          \"type\": \"false_negative\"
-        }"
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+requests: number
 
-### Feedback Report
+formatint64
 
-- `FeedbackReport object { description, expression, first_request_seen_at, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+</details>
 
-  - `expression: string`
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20metric_requests%20%3E%20(schema)>)
 
-    Wirefilter expression describing the traffic being reported.
+<details>
 
-  - `first_request_seen_at: string`
+<summary>
 
-  - `last_request_seen_at: string`
+RequestsByAttribute = map\[array of <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20metric_requests%20%3E%20(schema)">MetricRequests</a> { metric, requests } ]
 
-  - `requests: number`
+Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
 
-  - `requests_by_attribute: RequestsByAttribute`
+</summary>
 
-    Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+metric: string
 
-    - `metric: string`
+<a href="#">Link to this property</a>
 
-    - `requests: number`
+requests: number
 
-  - `requests_by_score: RequestsByScore`
+formatint64
 
-    Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+<a href="#">Link to this property</a>
 
-  - `requests_by_score_src: RequestsByScoreSrc`
+</details>
 
-    Map of score source to request counts. Sum must equal `requests`.
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20requests_by_attribute%20%3E%20(schema)>)
 
-  - `type: FeedbackType`
+RequestsByScore = map\[number]
 
-    Type of feedback report.
+Map of bot scores (1-99) to request counts. Sum must equal `requests`.
 
-    - `"false_positive"`
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20requests_by_score%20%3E%20(schema)>)
 
-    - `"false_negative"`
+RequestsByScoreSrc = map\[number]
 
-  - `created_at: optional string`
+Map of score source to request counts. Sum must equal `requests`.
 
-  - `subtype: optional string`
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20requests_by_score_src%20%3E%20(schema)>)
 
-### Feedback Type
+<details>
 
-- `FeedbackType = "false_positive" or "false_negative"`
+<summary>
 
-  Type of feedback report.
+FeedbackListResponse = array of <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20feedback_report%20%3E%20(schema)">FeedbackReport</a> { description, expression, first\_request\_seen\_at, 8 more }
 
-  - `"false_positive"`
+</summary>
 
-  - `"false_negative"`
+description: string
 
-### Metric Requests
+<a href="#">Link to this property</a>
 
-- `MetricRequests object { metric, requests }`
+expression: string
 
-  - `metric: string`
+Wirefilter expression describing the traffic being reported.
 
-  - `requests: number`
+<a href="#">Link to this property</a>
 
-### Requests By Attribute
+first\_request\_seen\_at: string
 
-- `RequestsByAttribute = map[array of MetricRequests]`
+formatdate-time
 
-  Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+<a href="#">Link to this property</a>
 
-  - `metric: string`
+last\_request\_seen\_at: string
 
-  - `requests: number`
+formatdate-time
 
-### Requests By Score
+<a href="#">Link to this property</a>
 
-- `RequestsByScore = map[number]`
+requests: number
 
-  Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+formatint64
 
-### Requests By Score Src
+<a href="#">Link to this property</a>
 
-- `RequestsByScoreSrc = map[number]`
+requests\_by\_attribute: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_attribute%20%3E%20(schema)">RequestsByAttribute</a> { metric, requests }
 
-  Map of score source to request counts. Sum must equal `requests`.
+Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
 
-### Feedback List Response
+<a href="#">Link to this property</a>
 
-- `FeedbackListResponse = array of FeedbackReport`
+requests\_by\_score: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_score%20%3E%20(schema)">RequestsByScore</a>
 
-  - `description: string`
+Map of bot scores (1-99) to request counts. Sum must equal <code>requests</code>.
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    Wirefilter expression describing the traffic being reported.
+requests\_by\_score\_src: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_score_src%20%3E%20(schema)">RequestsByScoreSrc</a>
 
-  - `first_request_seen_at: string`
+Map of score source to request counts. Sum must equal <code>requests</code>.
 
-  - `last_request_seen_at: string`
+<a href="#">Link to this property</a>
 
-  - `requests: number`
+type: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20feedback_type%20%3E%20(schema)">FeedbackType</a>
 
-  - `requests_by_attribute: RequestsByAttribute`
+Type of feedback report.
 
-    Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+<a href="#">Link to this property</a>
 
-    - `metric: string`
+created\_at: optional string
 
-    - `requests: number`
+formatdate-time
 
-  - `requests_by_score: RequestsByScore`
+<a href="#">Link to this property</a>
 
-    Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+subtype: optional string
 
-  - `requests_by_score_src: RequestsByScoreSrc`
+<a href="#">Link to this property</a>
 
-    Map of score source to request counts. Sum must equal `requests`.
+</details>
 
-  - `type: FeedbackType`
-
-    Type of feedback report.
-
-    - `"false_positive"`
-
-    - `"false_negative"`
-
-  - `created_at: optional string`
-
-  - `subtype: optional string`
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20feedback_list_response%20%3E%20(schema)>)

@@ -1,357 +1,143 @@
+---
+title: Keys
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Keys
 
-## Get the Access key configuration
+##### [Get the Access key configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/keys/methods/get)
 
-**get** `/accounts/{account_id}/access/keys`
+GET/accounts/{account\_id}/access/keys
 
-Gets the Access key rotation settings for an account.
+##### [Update the Access key configuration](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/keys/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/access/keys
 
-- `account_id: string`
+##### [Rotate Access keys](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/keys/methods/rotate)
 
-  Identifier.
+POST/accounts/{account\_id}/access/keys/rotate
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+KeyGetResponse object {days\_until\_next\_rotation, key\_rotation\_interval\_days, last\_key\_rotation\_at }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+days\_until\_next\_rotation: optional number
 
-    - `pointer: optional string`
+The number of days until the next key rotation.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+key\_rotation\_interval\_days: optional number
 
-  - `message: string`
+The number of days between key rotations.
 
-  - `documentation_url: optional string`
+maximum365
 
-  - `source: optional object { pointer }`
+minimum21
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+last\_key\_rotation\_at: optional string
 
-  Whether the API call was successful.
+The timestamp of the previous key rotation.
 
-  - `true`
+formatdate-time
 
-- `result: optional object { days_until_next_rotation, key_rotation_interval_days, last_key_rotation_at }`
+<a href="#">Link to this property</a>
 
-  - `days_until_next_rotation: optional number`
+</details>
 
-    The number of days until the next key rotation.
+[Link to this property](#)%20zero_trust.access.keys%20%3E%20(model)%20key_get_response%20%3E%20(schema)>)
 
-  - `key_rotation_interval_days: optional number`
+<details>
 
-    The number of days between key rotations.
+<summary>
 
-  - `last_key_rotation_at: optional string`
+KeyUpdateResponse object {days\_until\_next\_rotation, key\_rotation\_interval\_days, last\_key\_rotation\_at }
 
-    The timestamp of the previous key rotation.
+</summary>
 
-### Example
+days\_until\_next\_rotation: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/keys \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The number of days until the next key rotation.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "days_until_next_rotation": 1,
-    "key_rotation_interval_days": 30,
-    "last_key_rotation_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+key\_rotation\_interval\_days: optional number
 
-## Update the Access key configuration
+The number of days between key rotations.
 
-**put** `/accounts/{account_id}/access/keys`
+maximum365
 
-Updates the Access key rotation settings for an account.
+minimum21
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+last\_key\_rotation\_at: optional string
 
-  Identifier.
+The timestamp of the previous key rotation.
 
-### Body Parameters
+formatdate-time
 
-- `key_rotation_interval_days: number`
+<a href="#">Link to this property</a>
 
-  The number of days between key rotations.
+</details>
 
-### Returns
+[Link to this property](#)%20zero_trust.access.keys%20%3E%20(model)%20key_update_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+KeyRotateResponse object {days\_until\_next\_rotation, key\_rotation\_interval\_days, last\_key\_rotation\_at }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+days\_until\_next\_rotation: optional number
 
-    - `pointer: optional string`
+The number of days until the next key rotation.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+key\_rotation\_interval\_days: optional number
 
-  - `message: string`
+The number of days between key rotations.
 
-  - `documentation_url: optional string`
+maximum365
 
-  - `source: optional object { pointer }`
+minimum21
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+last\_key\_rotation\_at: optional string
 
-  Whether the API call was successful.
+The timestamp of the previous key rotation.
 
-  - `true`
+formatdate-time
 
-- `result: optional object { days_until_next_rotation, key_rotation_interval_days, last_key_rotation_at }`
+<a href="#">Link to this property</a>
 
-  - `days_until_next_rotation: optional number`
+</details>
 
-    The number of days until the next key rotation.
-
-  - `key_rotation_interval_days: optional number`
-
-    The number of days between key rotations.
-
-  - `last_key_rotation_at: optional string`
-
-    The timestamp of the previous key rotation.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/keys \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "key_rotation_interval_days": 30
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "days_until_next_rotation": 1,
-    "key_rotation_interval_days": 30,
-    "last_key_rotation_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Rotate Access keys
-
-**post** `/accounts/{account_id}/access/keys/rotate`
-
-Perfoms a key rotation for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { days_until_next_rotation, key_rotation_interval_days, last_key_rotation_at }`
-
-  - `days_until_next_rotation: optional number`
-
-    The number of days until the next key rotation.
-
-  - `key_rotation_interval_days: optional number`
-
-    The number of days between key rotations.
-
-  - `last_key_rotation_at: optional string`
-
-    The timestamp of the previous key rotation.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/keys/rotate \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "days_until_next_rotation": 1,
-    "key_rotation_interval_days": 30,
-    "last_key_rotation_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Key Get Response
-
-- `KeyGetResponse object { days_until_next_rotation, key_rotation_interval_days, last_key_rotation_at }`
-
-  - `days_until_next_rotation: optional number`
-
-    The number of days until the next key rotation.
-
-  - `key_rotation_interval_days: optional number`
-
-    The number of days between key rotations.
-
-  - `last_key_rotation_at: optional string`
-
-    The timestamp of the previous key rotation.
-
-### Key Update Response
-
-- `KeyUpdateResponse object { days_until_next_rotation, key_rotation_interval_days, last_key_rotation_at }`
-
-  - `days_until_next_rotation: optional number`
-
-    The number of days until the next key rotation.
-
-  - `key_rotation_interval_days: optional number`
-
-    The number of days between key rotations.
-
-  - `last_key_rotation_at: optional string`
-
-    The timestamp of the previous key rotation.
-
-### Key Rotate Response
-
-- `KeyRotateResponse object { days_until_next_rotation, key_rotation_interval_days, last_key_rotation_at }`
-
-  - `days_until_next_rotation: optional number`
-
-    The number of days until the next key rotation.
-
-  - `key_rotation_interval_days: optional number`
-
-    The number of days between key rotations.
-
-  - `last_key_rotation_at: optional string`
-
-    The timestamp of the previous key rotation.
+[Link to this property](#)%20zero_trust.access.keys%20%3E%20(model)%20key_rotate_response%20%3E%20(schema)>)

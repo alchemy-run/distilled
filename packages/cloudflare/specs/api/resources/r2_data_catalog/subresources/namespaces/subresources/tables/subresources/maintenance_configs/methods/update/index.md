@@ -1,174 +1,493 @@
-## Update table maintenance configuration
+---
+title: Update table maintenance configuration
+---
 
-**post** `/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs`
+[Skip to content](#_top)
 
-Update the maintenance configuration for a specific table. This allows you to
-enable or disable compaction and adjust target file sizes for optimization.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[R2 Data Catalog](https://developers.cloudflare.com/api/resources/r2_data_catalog)
 
-- `account_id: string`
+[Namespaces](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces)
 
-  Use this to identify the account.
+[Tables](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces/subresources/tables)
 
-- `bucket_name: string`
+[Maintenance Configs](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces/subresources/tables/subresources/maintenance_configs)
 
-  Specifies the R2 bucket name.
+Copy Markdown
 
-- `namespace: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `table_name: string`
+---
 
-### Body Parameters
+**Copy Markdown****View as Markdown**
 
-- `compaction: optional object { state, target_size_mb }`
+# Update table maintenance configuration
 
-  Updates compaction configuration (all fields optional).
+POST/accounts/{account\_id}/r2-catalog/{bucket\_name}/namespaces/{namespace}/tables/{table\_name}/maintenance-configs
 
-  - `state: optional "enabled" or "disabled"`
+Update the maintenance configuration for a specific table. This allows you to enable or disable compaction and adjust target file sizes for optimization.
 
-    Updates the state optionally.
+##### Security
 
-    - `"enabled"`
+<details>
 
-    - `"disabled"`
+<summary>API Token</summary>
 
-  - `target_size_mb: optional "64" or "128" or "256" or "512"`
 
-    Updates the target file size optionally.
 
-    - `"64"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `"128"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `"256"`
+</details>
 
-    - `"512"`
+<details>
 
-- `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<summary>API Email + API Key</summary>
 
-  Updates snapshot expiration configuration (all fields optional).
 
-  - `max_snapshot_age: optional string`
 
-    Updates the maximum age for snapshots optionally.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `min_snapshots_to_keep: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Updates the minimum number of snapshots to retain optionally.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `state: optional "enabled" or "disabled"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Updates the state optionally.
+</details>
 
-    - `"enabled"`
+##### Accepted Permissions (at least one required)
 
-    - `"disabled"`
+`Workers R2 Data Catalog Write`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `errors: array of object { code, message }`
+account\_id: string
 
-  Contains errors if the API call was unsuccessful.
+Use this to identify the account.
 
-  - `code: number`
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    Specifies the error code.
+bucket\_name: string
 
-  - `message: string`
+Specifies the R2 bucket name.
 
-    Describes the error.
+maxLength63
 
-- `messages: array of object { code, message }`
+minLength3
 
-  Contains informational messages.
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20bucket_name%20%3E%20(schema)>)
 
-  - `code: number`
+namespace: string
 
-    Specifies the message code.
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20namespace%20%3E%20(schema)>)
 
-  - `message: string`
+table\_name: string
 
-    Contains the message text.
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20table_name%20%3E%20(schema)>)
 
-- `success: boolean`
+##### Body ParametersJSONExpand Collapse
 
-  Indicates whether the API call was successful.
+<details>
 
-- `result: optional object { compaction, snapshot_expiration }`
+<summary>
 
-  Configures maintenance for the table.
+compaction: optional object {state, target\_size\_mb }
 
-  - `compaction: optional object { state, target_size_mb }`
+Updates table compaction configuration; all fields are optional.
 
-    Configures compaction settings for table optimization.
+</summary>
 
-    - `state: "enabled" or "disabled"`
+<details>
 
-      Specifies the state of maintenance operations.
+<summary>
 
-      - `"enabled"`
+state: optional "enabled"or "disabled"
 
-      - `"disabled"`
+Specifies the state of maintenance operations.
 
-    - `target_size_mb: "64" or "128" or "256" or "512"`
+</summary>
 
-      Sets the target file size for compaction in megabytes. Defaults to "128".
+One of the following:
 
-      - `"64"`
+"enabled"
 
-      - `"128"`
+<a href="#">Link to this property</a>
 
-      - `"256"`
+"disabled"
 
-      - `"512"`
+<a href="#">Link to this property</a>
 
-  - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+</details>
 
-    Configures snapshot expiration settings.
+<a href="#">Link to this property</a>
 
-    - `max_snapshot_age: string`
+<details>
 
-      Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-      Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-      Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-      Defaults to "7d".
+<summary>
 
-    - `min_snapshots_to_keep: number`
+target\_size\_mb: optional "64"or "128"or "256"or "512"
 
-      Specifies the minimum number of snapshots to retain. Defaults to 100.
+Sets the target file size for compaction in megabytes. Defaults to “128”.
 
-    - `state: "enabled" or "disabled"`
+</summary>
 
-      Specifies the state of maintenance operations.
+One of the following:
 
-      - `"enabled"`
+"64"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-### Example
+"128"
 
-```http
+<a href="#">Link to this property</a>
+
+"256"
+
+<a href="#">Link to this property</a>
+
+"512"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20compaction%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state }
+
+Updates snapshot expiration configuration (all fields optional).
+
+</summary>
+
+max\_snapshot\_age: optional string
+
+Updates the maximum age for snapshots optionally.
+
+<a href="#">Link to this property</a>
+
+min\_snapshots\_to\_keep: optional number
+
+Updates the minimum number of snapshots to retain optionally.
+
+formatint64
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: optional "enabled"or "disabled"
+
+Updates the state optionally.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20snapshot_expiration%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+Contains errors if the API call was unsuccessful.
+
+</summary>
+
+code: number
+
+Specifies the error code.
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Describes the error.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+Contains informational messages.
+
+</summary>
+
+code: number
+
+Specifies the message code.
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Contains the message text.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {compaction, interval, snapshot\_expiration }
+
+Configures maintenance for the table.
+
+</summary>
+
+<details>
+
+<summary>
+
+compaction: optional object {state, target\_size\_mb, next\_eligible\_at }
+
+Configures compaction settings for table optimization.
+
+</summary>
+
+<details>
+
+<summary>
+
+state: "enabled"or "disabled"
+
+Specifies the state of maintenance operations.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+target\_size\_mb: "64"or "128"or "256"or "512"
+
+Sets the target file size for compaction in megabytes. Defaults to “128”.
+
+</summary>
+
+One of the following:
+
+"64"
+
+<a href="#">Link to this property</a>
+
+"128"
+
+<a href="#">Link to this property</a>
+
+"256"
+
+<a href="#">Link to this property</a>
+
+"512"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+next\_eligible\_at: optional string
+
+Earliest time when the scheduler can claim this operation. Null when disabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+interval: optional string
+
+Scheduling interval between normal table maintenance runs.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state, next\_eligible\_at }
+
+</summary>
+
+max\_snapshot\_age: string
+
+Specifies the maximum age for snapshots.
+
+<a href="#">Link to this property</a>
+
+min\_snapshots\_to\_keep: number
+
+Specifies the minimum number of snapshots to retain. Defaults to 100.
+
+formatint64
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: "enabled"or "disabled"
+
+Specifies the state of maintenance operations.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+next\_eligible\_at: optional string
+
+Earliest time when the scheduler can claim this operation. Null when disabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update table maintenance configuration
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/namespaces/$NAMESPACE/tables/$TABLE_NAME/maintenance-configs \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [],
   "messages": [],
   "result": {
     "compaction": {
+      "next_eligible_at": "2026-09-01T12:00:00Z",
       "state": "enabled",
       "target_size_mb": "256"
     },
+    "interval": "1h",
     "snapshot_expiration": {
       "max_snapshot_age": "14d",
       "min_snapshots_to_keep": 5,
+      "next_eligible_at": "2026-09-01T12:00:00Z",
+      "state": "enabled"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "compaction": {
+      "next_eligible_at": "2026-09-01T12:00:00Z",
+      "state": "enabled",
+      "target_size_mb": "256"
+    },
+    "interval": "1h",
+    "snapshot_expiration": {
+      "max_snapshot_age": "14d",
+      "min_snapshots_to_keep": 5,
+      "next_eligible_at": "2026-09-01T12:00:00Z",
       "state": "enabled"
     }
   },

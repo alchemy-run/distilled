@@ -1,330 +1,385 @@
+---
+title: Datasets
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Datasets
 
-## Lists all datasets in an account
+##### [Lists all datasets in an account](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list)
 
-**get** `/accounts/{account_id}/cloudforce-one/events/dataset`
+GET/accounts/{account\_id}/cloudforce-one/events/dataset
 
-Lists all datasets in an account
+##### [Reads a dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}
 
-- `account_id: string`
+##### [Creates a dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/create)
 
-  Account ID.
+POST/accounts/{account\_id}/cloudforce-one/events/dataset/create
 
-### Query Parameters
+##### [Updates an existing dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/edit)
 
-- `includeDeleted: optional boolean`
+PATCH/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}
 
-  When true, include soft-deleted datasets in the response. Each item includes a `deletedAt` field (ISO 8601 or null). Default: false.
+##### [Delete a dataset](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/delete)
 
-### Returns
+DELETE/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}
 
-- `isPublic: boolean`
+##### [Reads raw data for an event by UUID](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/raw)
 
-- `name: string`
+GET/accounts/{account\_id}/cloudforce-one/events/raw/{dataset\_id}/{event\_id}
 
-- `uuid: string`
+##### ModelsExpand Collapse
 
-- `deletedAt: optional string`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+DatasetListResponse = array of object {indicatorWriteMode, isAnalytics, isPublic, 3 more }
 
-#### Response
+</summary>
 
-```json
-[
-  {
-    "isPublic": true,
-    "name": "friendly dataset name",
-    "uuid": "12345678-1234-1234-1234-1234567890ab",
-    "deletedAt": "deletedAt"
-  }
-]
-```
+<details>
 
-## Reads a dataset
+<summary>
 
-**get** `/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}`
+indicatorWriteMode: "read\_only"or "create\_only"or "full"
 
-Reads a dataset
+Effective indicator mutation capability after account/dataset authorization and dataset storage capability are applied. API Gateway method permissions are separate and must also allow the requested operation.
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-  Account ID.
+"read\_only"
 
-- `dataset_id: string`
+<a href="#">Link to this property</a>
 
-  Dataset ID.
+"create\_only"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `isPublic: boolean`
+"full"
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+</details>
 
-- `deletedAt: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+isAnalytics: boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset/$DATASET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+isPublic: boolean
 
-```json
-{
-  "isPublic": true,
-  "name": "friendly dataset name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "deletedAt": "deletedAt"
-}
-```
+<a href="#">Link to this property</a>
 
-## Creates a dataset
+name: string
 
-**post** `/accounts/{account_id}/cloudforce-one/events/dataset/create`
+<a href="#">Link to this property</a>
 
-Creates a dataset
+uuid: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+deletedAt: optional string
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `isPublic: boolean`
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_list_response%20%3E%20(schema)>)
 
-  If true, then anyone can search the dataset. If false, then its limited to the account.
+<details>
 
-- `name: string`
+<summary>
 
-  Used to describe the dataset within the account context.
+DatasetGetResponse object {isAnalytics, isPublic, name, uuid }
 
-### Returns
+</summary>
 
-- `isPublic: boolean`
+isAnalytics: boolean
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `uuid: string`
+isPublic: boolean
 
-- `deletedAt: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+name: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset/create \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "isPublic": true,
-          "name": "x"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+uuid: string
 
-```json
-{
-  "isPublic": true,
-  "name": "friendly dataset name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "deletedAt": "deletedAt"
-}
-```
+<a href="#">Link to this property</a>
 
-## Updates an existing dataset
+</details>
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}`
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_get_response%20%3E%20(schema)>)
 
-Updates an existing dataset
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+DatasetCreateResponse object {isAnalytics, isPublic, name, uuid }
 
-  Account ID.
+</summary>
 
-- `dataset_id: string`
+isAnalytics: boolean
 
-  Dataset ID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+isPublic: boolean
 
-- `isPublic: boolean`
+<a href="#">Link to this property</a>
 
-  If true, then anyone can search the dataset. If false, then its limited to the account.
+name: string
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Used to describe the dataset within the account context.
+uuid: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `isPublic: boolean`
+</details>
 
-- `name: string`
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_create_response%20%3E%20(schema)>)
 
-- `uuid: string`
+<details>
 
-- `deletedAt: optional string`
+<summary>
 
-### Example
+DatasetEditResponse object {isAnalytics, isPublic, name, uuid }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/dataset/$DATASET_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "isPublic": true,
-          "name": "x"
-        }'
-```
+</summary>
 
-#### Response
+isAnalytics: boolean
 
-```json
-{
-  "isPublic": true,
-  "name": "friendly dataset name",
-  "uuid": "12345678-1234-1234-1234-1234567890ab",
-  "deletedAt": "deletedAt"
-}
-```
+<a href="#">Link to this property</a>
 
-## Reads raw data for an event by UUID
+isPublic: boolean
 
-**get** `/accounts/{account_id}/cloudforce-one/events/raw/{dataset_id}/{event_id}`
+<a href="#">Link to this property</a>
 
-Retrieves the raw data associated with an event. Searches across all shards in the dataset.
+name: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+uuid: string
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `dataset_id: string`
+</details>
 
-  Dataset ID.
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_edit_response%20%3E%20(schema)>)
 
-- `event_id: string`
+<details>
 
-  Event ID.
+<summary>
 
-### Returns
+DatasetDeleteResponse object {name, uuid }
 
-- `id: number`
+</summary>
 
-- `accountId: number`
+name: string
 
-- `created: string`
+<a href="#">Link to this property</a>
 
-- `data: string`
+uuid: string
 
-- `source: string`
+<a href="#">Link to this property</a>
 
-- `tlp: string`
+</details>
 
-### Example
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_delete_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/raw/$DATASET_ID/$EVENT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "id": 1,
-  "accountId": 1234,
-  "created": "1970-01-01T00:00:00.000Z",
-  "data": "{\"foo\": \"bar\"}",
-  "source": "https://example.com",
-  "tlp": "amber"
-}
-```
+DatasetRawResponse object {id, accountId, created, 3 more }
 
-## Domain Types
+</summary>
 
-### Dataset List Response
+id: number
 
-- `DatasetListResponse = array of object { isPublic, name, uuid, deletedAt }`
+<a href="#">Link to this property</a>
 
-  - `isPublic: boolean`
+accountId: number
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `uuid: string`
+created: string
 
-  - `deletedAt: optional string`
+<a href="#">Link to this property</a>
 
-### Dataset Get Response
+data: string
 
-- `DatasetGetResponse object { isPublic, name, uuid, deletedAt }`
+<a href="#">Link to this property</a>
 
-  - `isPublic: boolean`
+source: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `uuid: string`
+tlp: string
 
-  - `deletedAt: optional string`
+<a href="#">Link to this property</a>
 
-### Dataset Create Response
+</details>
 
-- `DatasetCreateResponse object { isPublic, name, uuid, deletedAt }`
+[Link to this property](#)%20cloudforce_one.threat_events.datasets%20%3E%20(model)%20dataset_raw_response%20%3E%20(schema)>)
 
-  - `isPublic: boolean`
+#### DatasetsHealth
 
-  - `name: string`
+#### DatasetsEvents
 
-  - `uuid: string`
+##### [Reads an event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/subresources/events/methods/get)
 
-  - `deletedAt: optional string`
+GET/accounts/{account\_id}/cloudforce-one/events/dataset/{dataset\_id}/events/{event\_id}
 
-### Dataset Edit Response
+##### ModelsExpand Collapse
 
-- `DatasetEditResponse object { isPublic, name, uuid, deletedAt }`
+<details>
 
-  - `isPublic: boolean`
+<summary>
 
-  - `name: string`
+EventGetResponse object {attacker, attackerCountry, attackerCountryAlpha3, 26 more }
 
-  - `uuid: string`
+</summary>
 
-  - `deletedAt: optional string`
+attacker: string
 
-### Dataset Raw Response
+<a href="#">Link to this property</a>
 
-- `DatasetRawResponse object { id, accountId, created, 3 more }`
+attackerCountry: string
 
-  - `id: number`
+<a href="#">Link to this property</a>
 
-  - `accountId: number`
+attackerCountryAlpha3: string
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-  - `data: string`
+category: string
 
-  - `source: string`
+<a href="#">Link to this property</a>
 
-  - `tlp: string`
+datasetId: string
 
-# Health
+<a href="#">Link to this property</a>
+
+date: string
+
+<a href="#">Link to this property</a>
+
+event: string
+
+<a href="#">Link to this property</a>
+
+hasChildren: boolean
+
+<a href="#">Link to this property</a>
+
+indicator: string
+
+<a href="#">Link to this property</a>
+
+indicatorType: string
+
+<a href="#">Link to this property</a>
+
+indicatorTypeId: number
+
+<a href="#">Link to this property</a>
+
+killChain: number
+
+<a href="#">Link to this property</a>
+
+mitreAttack: array of string
+
+<a href="#">Link to this property</a>
+
+mitreCapec: array of string
+
+<a href="#">Link to this property</a>
+
+numReferenced: number
+
+<a href="#">Link to this property</a>
+
+numReferences: number
+
+<a href="#">Link to this property</a>
+
+rawId: string
+
+<a href="#">Link to this property</a>
+
+referenced: array of string
+
+<a href="#">Link to this property</a>
+
+referencedIds: array of number
+
+<a href="#">Link to this property</a>
+
+references: array of string
+
+<a href="#">Link to this property</a>
+
+referencesIds: array of number
+
+<a href="#">Link to this property</a>
+
+tags: array of string
+
+<a href="#">Link to this property</a>
+
+targetCountry: string
+
+<a href="#">Link to this property</a>
+
+targetCountryAlpha3: string
+
+<a href="#">Link to this property</a>
+
+targetIndustry: string
+
+<a href="#">Link to this property</a>
+
+tlp: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+insight: optional string
+
+<a href="#">Link to this property</a>
+
+releasabilityId: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.datasets.events%20%3E%20(model)%20event_get_response%20%3E%20(schema)>)

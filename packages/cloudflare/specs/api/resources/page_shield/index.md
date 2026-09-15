@@ -1,2606 +1,1219 @@
+---
+title: Page Shield
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Page Shield
 
-## Get Page Shield settings
+##### [Get client-side security settings](https://developers.cloudflare.com/api/resources/page_shield/methods/get)
 
-**get** `/zones/{zone_id}/page_shield`
+GET/zones/{zone\_id}/page\_shield
 
-Fetches the Page Shield settings.
+##### [Update client-side security settings](https://developers.cloudflare.com/api/resources/page_shield/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/page\_shield
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier
+<details>
 
-### Returns
+<summary>
 
-- `success: true`
+PageShieldGetResponse object {enabled, updated\_at, use\_cloudflare\_reporting\_endpoint, use\_connection\_url\_path }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+enabled: boolean
 
-- `errors: optional array of ResponseInfo`
+When true, indicates that Client-Side Security is enabled.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+updated\_at: string
 
-  - `documentation_url: optional string`
+The timestamp of when Client-Side Security was last updated.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+use\_cloudflare\_reporting\_endpoint: boolean
 
-- `messages: optional array of ResponseInfo`
+When true, CSP reports will be sent to <a href="https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report">https://csp-reporting.cloudflare.com/cdn-cgi/script\_monitor/report</a>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+use\_connection\_url\_path: boolean
 
-  - `documentation_url: optional string`
+When true, the paths associated with connections URLs will also be analyzed.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: optional Setting`
+</details>
 
-  - `enabled: boolean`
+[Link to this property](#)%20page_shield%20%3E%20(model)%20page_shield_get_response%20%3E%20(schema)>)
 
-    When true, indicates that Page Shield is enabled.
+<details>
 
-  - `updated_at: string`
+<summary>
 
-    The timestamp of when Page Shield was last updated.
+PageShieldUpdateResponse object {enabled, updated\_at, use\_cloudflare\_reporting\_endpoint, use\_connection\_url\_path }
 
-  - `use_cloudflare_reporting_endpoint: boolean`
+</summary>
 
-    When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report
+enabled: boolean
 
-  - `use_connection_url_path: boolean`
+When true, indicates that Client-Side Security is enabled.
 
-    When true, the paths associated with connections URLs will also be analyzed.
+<a href="#">Link to this property</a>
 
-### Example
+updated\_at: string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+The timestamp of when Client-Side Security was last updated.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true,
-    "updated_at": "2022-10-12T17:56:52.083582+01:00",
-    "use_cloudflare_reporting_endpoint": true,
-    "use_connection_url_path": true
-  }
-}
-```
+use\_cloudflare\_reporting\_endpoint: boolean
 
-## Update Page Shield settings
+When true, CSP reports will be sent to <a href="https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report">https://csp-reporting.cloudflare.com/cdn-cgi/script\_monitor/report</a>
 
-**put** `/zones/{zone_id}/page_shield`
+<a href="#">Link to this property</a>
 
-Updates Page Shield settings.
+use\_connection\_url\_path: boolean
 
-### Path Parameters
+When true, the paths associated with connections URLs will also be analyzed.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+</details>
 
-### Body Parameters
+[Link to this property](#)%20page_shield%20%3E%20(model)%20page_shield_update_response%20%3E%20(schema)>)
 
-- `enabled: optional boolean`
+#### Page ShieldPolicies
 
-  When true, indicates that Page Shield is enabled.
+##### [List content security rules](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/list)
 
-- `use_cloudflare_reporting_endpoint: optional boolean`
+GET/zones/{zone\_id}/page\_shield/policies
 
-  When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report
+##### [Get a content security rule](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/get)
 
-- `use_connection_url_path: optional boolean`
+GET/zones/{zone\_id}/page\_shield/policies/{policy\_id}
 
-  When true, the paths associated with connections URLs will also be analyzed.
+##### [Create a content security rule](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/create)
 
-### Returns
+POST/zones/{zone\_id}/page\_shield/policies
 
-- `success: true`
+##### [Update a content security rule](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/update)
 
-  Whether the API call was successful
+PUT/zones/{zone\_id}/page\_shield/policies/{policy\_id}
 
-  - `true`
+##### [Delete a content security rule](https://developers.cloudflare.com/api/resources/page_shield/subresources/policies/methods/delete)
 
-- `errors: optional array of ResponseInfo`
+DELETE/zones/{zone\_id}/page\_shield/policies/{policy\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+PolicyListResponse object {id, action, description, 3 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: optional array of ResponseInfo`
+id: string
 
-  - `code: number`
+Identifier
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: optional object { enabled, updated_at, use_cloudflare_reporting_endpoint, use_connection_url_path }`
+<summary>
 
-  - `enabled: boolean`
+action: "allow"or "log"or "add\_reporting\_directives"
 
-    When true, indicates that Page Shield is enabled.
+The action to take if the expression matches
 
-  - `updated_at: string`
+</summary>
 
-    The timestamp of when Page Shield was last updated.
+One of the following:
 
-  - `use_cloudflare_reporting_endpoint: boolean`
+"allow"
 
-    When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report
+<a href="#">Link to this property</a>
 
-  - `use_connection_url_path: boolean`
+"log"
 
-    When true, the paths associated with connections URLs will also be analyzed.
+<a href="#">Link to this property</a>
 
-### Example
+"add\_reporting\_directives"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "enabled": true,
-          "use_cloudflare_reporting_endpoint": true,
-          "use_connection_url_path": true
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true,
-    "updated_at": "2022-10-12T17:56:52.083582+01:00",
-    "use_cloudflare_reporting_endpoint": true,
-    "use_connection_url_path": true
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+description: string
 
-### Setting
+A description for the policy
 
-- `Setting object { enabled, updated_at, use_cloudflare_reporting_endpoint, use_connection_url_path }`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+enabled: boolean
 
-    When true, indicates that Page Shield is enabled.
+Whether the policy is enabled
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The timestamp of when Page Shield was last updated.
+expression: string
 
-  - `use_cloudflare_reporting_endpoint: boolean`
+The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
 
-    When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report
+<a href="#">Link to this property</a>
 
-  - `use_connection_url_path: boolean`
+value: string
 
-    When true, the paths associated with connections URLs will also be analyzed.
+The policy which will be applied
 
-### Page Shield Update Response
+<a href="#">Link to this property</a>
 
-- `PageShieldUpdateResponse object { enabled, updated_at, use_cloudflare_reporting_endpoint, use_connection_url_path }`
+</details>
 
-  - `enabled: boolean`
+[Link to this property](#)%20page_shield.policies%20%3E%20(model)%20policy_list_response%20%3E%20(schema)>)
 
-    When true, indicates that Page Shield is enabled.
+<details>
 
-  - `updated_at: string`
+<summary>
 
-    The timestamp of when Page Shield was last updated.
+PolicyGetResponse object {id, action, description, 3 more }
 
-  - `use_cloudflare_reporting_endpoint: boolean`
+</summary>
 
-    When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report
+id: string
 
-  - `use_connection_url_path: boolean`
+Identifier
 
-    When true, the paths associated with connections URLs will also be analyzed.
+maxLength32
 
-# Policies
+<a href="#">Link to this property</a>
 
-## List Page Shield policies
+<details>
 
-**get** `/zones/{zone_id}/page_shield/policies`
+<summary>
 
-Lists all Page Shield policies.
+action: "allow"or "log"or "add\_reporting\_directives"
 
-### Path Parameters
+The action to take if the expression matches
 
-- `zone_id: string`
+</summary>
 
-  Identifier
+One of the following:
 
-### Returns
+"allow"
 
-- `result: array of object { id, action, description, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"log"
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+"add\_reporting\_directives"
 
-    The action to take if the expression matches
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+</details>
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"add_reporting_directives"`
+description: string
 
-  - `description: string`
+A description for the policy
 
-    A description for the policy
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+enabled: boolean
 
-    Whether the policy is enabled
+Whether the policy is enabled
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+expression: string
 
-  - `value: string`
+The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
 
-    The policy which will be applied
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, 2 more }`
+value: string
 
-  - `count: number`
+The policy which will be applied
 
-    Total number of results for the requested service
+<a href="#">Link to this property</a>
 
-  - `page: number`
+</details>
 
-    Current page within paginated list of results
+[Link to this property](#)%20page_shield.policies%20%3E%20(model)%20policy_get_response%20%3E%20(schema)>)
 
-  - `per_page: number`
+<details>
 
-    Number of results per page of results
+<summary>
 
-  - `total_count: number`
+PolicyCreateResponse object {id, action, description, 3 more }
 
-    Total results available without any search parameters
+</summary>
 
-  - `total_pages: number`
+id: string
 
-    Total number of pages
+Identifier
 
-- `success: true`
+maxLength32
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `errors: optional array of ResponseInfo`
+<summary>
 
-  - `code: number`
+action: "allow"or "log"or "add\_reporting\_directives"
 
-  - `message: string`
+The action to take if the expression matches
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"allow"
 
-- `messages: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"log"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"add\_reporting\_directives"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+description: string
 
-```json
-{
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "action": "allow",
-      "description": "Checkout page CSP policy",
-      "enabled": true,
-      "expression": "ends_with(http.request.uri.path, \"/checkout\")",
-      "value": "script-src 'none';"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+A description for the policy
 
-## Get a Page Shield policy
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/page_shield/policies/{policy_id}`
+enabled: boolean
 
-Fetches a Page Shield policy by ID.
+Whether the policy is enabled
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+expression: string
 
-  Identifier
+The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
 
-- `policy_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+value: string
 
-### Returns
+The policy which will be applied
 
-- `result: object { id, action, description, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Identifier
+[Link to this property](#)%20page_shield.policies%20%3E%20(model)%20policy_create_response%20%3E%20(schema)>)
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+<details>
 
-    The action to take if the expression matches
+<summary>
 
-    - `"allow"`
+PolicyUpdateResponse object {id, action, description, 3 more }
 
-    - `"log"`
+</summary>
 
-    - `"add_reporting_directives"`
+id: string
 
-  - `description: string`
+Identifier
 
-    A description for the policy
+maxLength32
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy is enabled
+<details>
 
-  - `expression: string`
+<summary>
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+action: "allow"or "log"or "add\_reporting\_directives"
 
-  - `value: string`
+The action to take if the expression matches
 
-    The policy which will be applied
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful
+"allow"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+"log"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"add\_reporting\_directives"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of ResponseInfo`
+description: string
 
-  - `code: number`
+A description for the policy
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+enabled: boolean
 
-  - `source: optional object { pointer }`
+Whether the policy is enabled
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies/$POLICY_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+expression: string
 
-#### Response
+The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
 
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "action": "allow",
-    "description": "Checkout page CSP policy",
-    "enabled": true,
-    "expression": "ends_with(http.request.uri.path, \"/checkout\")",
-    "value": "script-src 'none';"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a Page Shield policy
+value: string
 
-**post** `/zones/{zone_id}/page_shield/policies`
+The policy which will be applied
 
-Create a Page Shield policy.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+[Link to this property](#)%20page_shield.policies%20%3E%20(model)%20policy_update_response%20%3E%20(schema)>)
 
-  Identifier
+#### Page ShieldConnections
 
-### Body Parameters
+##### [List detected connections](https://developers.cloudflare.com/api/resources/page_shield/subresources/connections/methods/list)
 
-- `action: "allow" or "log" or "add_reporting_directives"`
+GET/zones/{zone\_id}/page\_shield/connections
 
-  The action to take if the expression matches
+##### [Get a detected connection](https://developers.cloudflare.com/api/resources/page_shield/subresources/connections/methods/get)
 
-  - `"allow"`
+GET/zones/{zone\_id}/page\_shield/connections/{connection\_id}
 
-  - `"log"`
+##### ModelsExpand Collapse
 
-  - `"add_reporting_directives"`
+<details>
 
-- `description: string`
+<summary>
 
-  A description for the policy
+ConnectionListResponse object {id, added\_at, first\_seen\_at, 10 more }
 
-- `enabled: boolean`
+</summary>
 
-  Whether the policy is enabled
+id: string
 
-- `expression: string`
+Identifier
 
-  The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+maxLength32
 
-- `value: string`
+<a href="#">Link to this property</a>
 
-  The policy which will be applied
+added\_at: string
 
-### Returns
+formatdate-time
 
-- `result: object { id, action, description, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+first\_seen\_at: string
 
-    Identifier
+formatdate-time
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-    The action to take if the expression matches
+host: string
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"log"`
+last\_seen\_at: string
 
-    - `"add_reporting_directives"`
+formatdate-time
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    A description for the policy
+url: string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy is enabled
+url\_contains\_cdn\_cgi\_path: boolean
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+domain\_reported\_malicious: optional boolean
 
-  - `value: string`
+<a href="#">Link to this property</a>
 
-    The policy which will be applied
+first\_page\_url: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+malicious\_domain\_categories: optional array of string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+malicious\_url\_categories: optional array of string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+page\_urls: optional array of string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+url\_reported\_malicious: optional boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20page_shield.connections%20%3E%20(model)%20connection_list_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ConnectionGetResponse object {id, added\_at, first\_seen\_at, 10 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"action\": \"allow\",
-          \"description\": \"Checkout page CSP policy\",
-          \"enabled\": true,
-          \"expression\": \"ends_with(http.request.uri.path, \\\"/checkout\\\")\",
-          \"value\": \"script-src 'none';\"
-        }"
-```
+id: string
 
-#### Response
+Identifier
 
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "action": "allow",
-    "description": "Checkout page CSP policy",
-    "enabled": true,
-    "expression": "ends_with(http.request.uri.path, \"/checkout\")",
-    "value": "script-src 'none';"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+maxLength32
 
-## Update a Page Shield policy
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/page_shield/policies/{policy_id}`
+added\_at: string
 
-Update a Page Shield policy by ID.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+first\_seen\_at: string
 
-  Identifier
+formatdate-time
 
-- `policy_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+host: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `action: optional "allow" or "log" or "add_reporting_directives"`
+last\_seen\_at: string
 
-  The action to take if the expression matches
+formatdate-time
 
-  - `"allow"`
+<a href="#">Link to this property</a>
 
-  - `"log"`
+url: string
 
-  - `"add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+url\_contains\_cdn\_cgi\_path: boolean
 
-  A description for the policy
+<a href="#">Link to this property</a>
 
-- `enabled: optional boolean`
+domain\_reported\_malicious: optional boolean
 
-  Whether the policy is enabled
+<a href="#">Link to this property</a>
 
-- `expression: optional string`
+first\_page\_url: optional string
 
-  The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+<a href="#">Link to this property</a>
 
-- `value: optional string`
+malicious\_domain\_categories: optional array of string
 
-  The policy which will be applied
+<a href="#">Link to this property</a>
 
-### Returns
+malicious\_url\_categories: optional array of string
 
-- `result: object { id, action, description, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+page\_urls: optional array of string
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+url\_reported\_malicious: optional boolean
 
-    The action to take if the expression matches
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+</details>
 
-    - `"log"`
+[Link to this property](#)%20page_shield.connections%20%3E%20(model)%20connection_get_response%20%3E%20(schema)>)
 
-    - `"add_reporting_directives"`
+#### Page ShieldScripts
 
-  - `description: string`
+##### [List detected scripts](https://developers.cloudflare.com/api/resources/page_shield/subresources/scripts/methods/list)
 
-    A description for the policy
+GET/zones/{zone\_id}/page\_shield/scripts
 
-  - `enabled: boolean`
+##### [Get a detected script](https://developers.cloudflare.com/api/resources/page_shield/subresources/scripts/methods/get)
 
-    Whether the policy is enabled
+GET/zones/{zone\_id}/page\_shield/scripts/{script\_id}
 
-  - `expression: string`
+##### ModelsExpand Collapse
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+<details>
 
-  - `value: string`
+<summary>
 
-    The policy which will be applied
+ScriptListResponse object {id, added\_at, first\_seen\_at, 18 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+id: string
 
-  - `true`
+Identifier
 
-- `errors: optional array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+added\_at: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+first\_seen\_at: string
 
-- `messages: optional array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+host: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+last\_seen\_at: string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies/$POLICY_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"action\": \"allow\",
-          \"description\": \"Checkout page CSP policy\",
-          \"enabled\": true,
-          \"expression\": \"ends_with(http.request.uri.path, \\\"/checkout\\\")\",
-          \"value\": \"script-src 'none';\"
-        }"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+url: string
 
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "action": "allow",
-    "description": "Checkout page CSP policy",
-    "enabled": true,
-    "expression": "ends_with(http.request.uri.path, \"/checkout\")",
-    "value": "script-src 'none';"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a Page Shield policy
+url\_contains\_cdn\_cgi\_path: boolean
 
-**delete** `/zones/{zone_id}/page_shield/policies/{policy_id}`
+<a href="#">Link to this property</a>
 
-Delete a Page Shield policy by ID.
+cryptomining\_score: optional number
 
-### Path Parameters
+The cryptomining score of the JavaScript content.
 
-- `zone_id: string`
+maximum99
 
-  Identifier
+minimum1
 
-- `policy_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+Deprecateddataflow\_score: optional number
 
-### Example
+The dataflow score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/policies/$POLICY_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+maximum99
 
-## Domain Types
+minimum1
 
-### Policy
+<a href="#">Link to this property</a>
 
-- `Policy object { action, description, enabled, 2 more }`
+domain\_reported\_malicious: optional boolean
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-    The action to take if the expression matches
+fetched\_at: optional string
 
-    - `"allow"`
+The timestamp of when the script was last fetched.
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"add_reporting_directives"`
+first\_page\_url: optional string
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    A description for the policy
+hash: optional string
 
-  - `enabled: boolean`
+The computed hash of the analyzed script.
 
-    Whether the policy is enabled
+maxLength64
 
-  - `expression: string`
+minLength64
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+<a href="#">Link to this property</a>
 
-  - `value: string`
+js\_integrity\_score: optional number
 
-    The policy which will be applied
+The integrity score of the JavaScript content.
 
-### Policy List Response
+maximum99
 
-- `PolicyListResponse object { id, action, description, 3 more }`
+minimum1
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier
+magecart\_score: optional number
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+The magecart score of the JavaScript content.
 
-    The action to take if the expression matches
+maximum99
 
-    - `"allow"`
+minimum1
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"add_reporting_directives"`
+malicious\_domain\_categories: optional array of string
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    A description for the policy
+malicious\_url\_categories: optional array of string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy is enabled
+malware\_score: optional number
 
-  - `expression: string`
+The malware score of the JavaScript content.
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+maximum99
 
-  - `value: string`
+minimum1
 
-    The policy which will be applied
+<a href="#">Link to this property</a>
 
-### Policy Get Response
+Deprecatedobfuscation\_score: optional number
 
-- `PolicyGetResponse object { id, action, description, 3 more }`
+The obfuscation score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-  - `id: string`
+maximum99
 
-    Identifier
+minimum1
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-    The action to take if the expression matches
+page\_urls: optional array of string
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"log"`
+url\_reported\_malicious: optional boolean
 
-    - `"add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+</details>
 
-    A description for the policy
+[Link to this property](#)%20page_shield.scripts%20%3E%20(model)%20script_list_response%20%3E%20(schema)>)
 
-  - `enabled: boolean`
+<details>
 
-    Whether the policy is enabled
+<summary>
 
-  - `expression: string`
+ScriptGetResponse object {id, added\_at, first\_seen\_at, 19 more }
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+</summary>
 
-  - `value: string`
+id: string
 
-    The policy which will be applied
+Identifier
 
-### Policy Create Response
+maxLength32
 
-- `PolicyCreateResponse object { id, action, description, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+added\_at: string
 
-    Identifier
+formatdate-time
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-    The action to take if the expression matches
+first\_seen\_at: string
 
-    - `"allow"`
+formatdate-time
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"add_reporting_directives"`
+host: string
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    A description for the policy
+last\_seen\_at: string
 
-  - `enabled: boolean`
+formatdate-time
 
-    Whether the policy is enabled
+<a href="#">Link to this property</a>
 
-  - `expression: string`
+url: string
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+<a href="#">Link to this property</a>
 
-  - `value: string`
+url\_contains\_cdn\_cgi\_path: boolean
 
-    The policy which will be applied
+<a href="#">Link to this property</a>
 
-### Policy Update Response
+cryptomining\_score: optional number
 
-- `PolicyUpdateResponse object { id, action, description, 3 more }`
+The cryptomining score of the JavaScript content.
 
-  - `id: string`
+maximum99
 
-    Identifier
+minimum1
 
-  - `action: "allow" or "log" or "add_reporting_directives"`
+<a href="#">Link to this property</a>
 
-    The action to take if the expression matches
+Deprecateddataflow\_score: optional number
 
-    - `"allow"`
+The dataflow score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-    - `"log"`
+maximum99
 
-    - `"add_reporting_directives"`
+minimum1
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    A description for the policy
+domain\_reported\_malicious: optional boolean
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the policy is enabled
+fetched\_at: optional string
 
-  - `expression: string`
+The timestamp of when the script was last fetched.
 
-    The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax
+<a href="#">Link to this property</a>
 
-  - `value: string`
+first\_page\_url: optional string
 
-    The policy which will be applied
+<a href="#">Link to this property</a>
 
-# Connections
+hash: optional string
 
-## List Page Shield connections
+The computed hash of the analyzed script.
 
-**get** `/zones/{zone_id}/page_shield/connections`
+maxLength64
 
-Lists all connections detected by Page Shield.
+minLength64
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+js\_integrity\_score: optional number
 
-  Identifier
+The integrity score of the JavaScript content.
 
-### Query Parameters
+maximum99
 
-- `direction: optional "asc" or "desc"`
+minimum1
 
-  The direction used to sort returned connections.
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+magecart\_score: optional number
 
-  - `"desc"`
+The magecart score of the JavaScript content.
 
-- `exclude_cdn_cgi: optional boolean`
+maximum99
 
-  When true, excludes connections seen in a `/cdn-cgi` path from the returned connections. The default value is true.
+minimum1
 
-- `exclude_urls: optional string`
+<a href="#">Link to this property</a>
 
-  Excludes connections whose URL contains one of the URL-encoded URLs separated by commas.
+malicious\_domain\_categories: optional array of string
 
-- `export: optional "csv"`
+<a href="#">Link to this property</a>
 
-  Export the list of connections as a file, limited to 50000 entries.
+malicious\_url\_categories: optional array of string
 
-  - `"csv"`
+<a href="#">Link to this property</a>
 
-- `hosts: optional string`
+malware\_score: optional number
 
-  Includes connections that match one or more URL-encoded hostnames separated by commas.
+The malware score of the JavaScript content.
 
-  Wildcards are supported at the start and end of each hostname to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+maximum99
 
-- `order_by: optional "first_seen_at" or "last_seen_at"`
+minimum1
 
-  The field used to sort returned connections.
+<a href="#">Link to this property</a>
 
-  - `"first_seen_at"`
+Deprecatedobfuscation\_score: optional number
 
-  - `"last_seen_at"`
+The obfuscation score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-- `page: optional string`
+maximum99
 
-  The current page number of the paginated results.
+minimum1
 
-  We additionally support a special value "all". When "all" is used, the API will return all the connections
-  with the applied filters in a single page. This feature is best-effort and it may only work for zones with
-  a low number of connections
+<a href="#">Link to this property</a>
 
-- `page_url: optional string`
+page\_urls: optional array of string
 
-  Includes connections that match one or more page URLs (separated by commas) where they were last seen
+<a href="#">Link to this property</a>
 
-  Wildcards are supported at the start and end of each page URL to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+url\_reported\_malicious: optional boolean
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The number of results per page.
+<details>
 
-- `prioritize_malicious: optional boolean`
+<summary>
 
-  When true, malicious connections appear first in the returned connections.
+versions: optional array of object {cryptomining\_score, dataflow\_score, fetched\_at, 5 more }
 
-- `status: optional string`
+</summary>
 
-  Filters the returned connections using a comma-separated list of connection statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`.
+cryptomining\_score: optional number
 
-- `urls: optional string`
+The cryptomining score of the JavaScript content.
 
-  Includes connections whose URL contain one or more URL-encoded URLs separated by commas.
+maximum99
 
-### Returns
+minimum1
 
-- `result_info: object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+Deprecateddataflow\_score: optional number
 
-    Total number of results for the requested service
+The dataflow score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-  - `page: number`
+maximum99
 
-    Current page within paginated list of results
+minimum1
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+fetched\_at: optional string
 
-  - `total_count: number`
+The timestamp of when the script was last fetched.
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-  - `total_pages: number`
+hash: optional string
 
-    Total number of pages
+The computed hash of the analyzed script.
 
-- `success: true`
+maxLength64
 
-  Whether the API call was successful
+minLength64
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+js\_integrity\_score: optional number
 
-  - `code: number`
+The integrity score of the JavaScript content.
 
-  - `message: string`
+maximum99
 
-  - `documentation_url: optional string`
+minimum1
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+magecart\_score: optional number
 
-- `messages: optional array of ResponseInfo`
+The magecart score of the JavaScript content.
 
-  - `code: number`
+maximum99
 
-  - `message: string`
+minimum1
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+malware\_score: optional number
 
-- `result: optional array of Connection`
+The malware score of the JavaScript content.
 
-  - `id: string`
+maximum99
 
-    Identifier
+minimum1
 
-  - `added_at: string`
+<a href="#">Link to this property</a>
 
-  - `first_seen_at: string`
+Deprecatedobfuscation\_score: optional number
 
-  - `host: string`
+The obfuscation score of the JavaScript content. This field has been deprecated in favour of js\_integrity\_score.
 
-  - `last_seen_at: string`
+maximum99
 
-  - `url: string`
+minimum1
 
-  - `url_contains_cdn_cgi_path: boolean`
+<a href="#">Link to this property</a>
 
-  - `domain_reported_malicious: optional boolean`
+</details>
 
-  - `first_page_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `malicious_domain_categories: optional array of string`
+</details>
 
-  - `malicious_url_categories: optional array of string`
+[Link to this property](#)%20page_shield.scripts%20%3E%20(model)%20script_get_response%20%3E%20(schema)>)
 
-  - `page_urls: optional array of string`
+#### Page ShieldCookies
 
-  - `url_reported_malicious: optional boolean`
+##### [List detected cookies](https://developers.cloudflare.com/api/resources/page_shield/subresources/cookies/methods/list)
 
-### Example
+GET/zones/{zone\_id}/page\_shield/cookies
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/connections \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+##### [Get a detected cookie](https://developers.cloudflare.com/api/resources/page_shield/subresources/cookies/methods/get)
 
-#### Response
+GET/zones/{zone\_id}/page\_shield/cookies/{cookie\_id}
 
-```json
-{
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "added_at": "2021-08-18T10:51:10.09615Z",
-      "first_seen_at": "2021-08-18T10:51:08Z",
-      "host": "blog.cloudflare.com",
-      "last_seen_at": "2021-09-02T09:57:54Z",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
-      "url_contains_cdn_cgi_path": false,
-      "domain_reported_malicious": false,
-      "first_page_url": "blog.cloudflare.com/page",
-      "malicious_domain_categories": [
-        "Malware"
-      ],
-      "malicious_url_categories": [
-        "Malware"
-      ],
-      "page_urls": [
-        "blog.cloudflare.com/page1",
-        "blog.cloudflare.com/page2"
-      ],
-      "url_reported_malicious": false
-    }
-  ]
-}
-```
+##### ModelsExpand Collapse
 
-## Get a Page Shield connection
+<details>
 
-**get** `/zones/{zone_id}/page_shield/connections/{connection_id}`
+<summary>
 
-Fetches a connection detected by Page Shield by connection ID.
+CookieListResponse object {id, first\_seen\_at, host, 11 more }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: string
 
-  Identifier
+Identifier
 
-- `connection_id: string`
+maxLength32
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Returns
+first\_seen\_at: string
 
-- `result: Connection`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier
+host: string
 
-  - `added_at: string`
+<a href="#">Link to this property</a>
 
-  - `first_seen_at: string`
+last\_seen\_at: string
 
-  - `host: string`
+formatdate-time
 
-  - `last_seen_at: string`
+<a href="#">Link to this property</a>
 
-  - `url: string`
+name: string
 
-  - `url_contains_cdn_cgi_path: boolean`
+<a href="#">Link to this property</a>
 
-  - `domain_reported_malicious: optional boolean`
+<details>
 
-  - `first_page_url: optional string`
+<summary>
 
-  - `malicious_domain_categories: optional array of string`
+type: "first\_party"or "unknown"
 
-  - `malicious_url_categories: optional array of string`
+</summary>
 
-  - `page_urls: optional array of string`
+One of the following:
 
-  - `url_reported_malicious: optional boolean`
+"first\_party"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+"unknown"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+domain\_attribute: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+expires\_attribute: optional string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+http\_only\_attribute: optional boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+max\_age\_attribute: optional number
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-### Example
+page\_urls: optional array of string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/connections/$CONNECTION_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+path\_attribute: optional string
 
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "added_at": "2021-08-18T10:51:10.09615Z",
-    "first_seen_at": "2021-08-18T10:51:08Z",
-    "host": "blog.cloudflare.com",
-    "last_seen_at": "2021-09-02T09:57:54Z",
-    "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
-    "url_contains_cdn_cgi_path": false,
-    "domain_reported_malicious": false,
-    "first_page_url": "blog.cloudflare.com/page",
-    "malicious_domain_categories": [
-      "Malware"
-    ],
-    "malicious_url_categories": [
-      "Malware"
-    ],
-    "page_urls": [
-      "blog.cloudflare.com/page1",
-      "blog.cloudflare.com/page2"
-    ],
-    "url_reported_malicious": false
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Connection
+<summary>
 
-- `Connection object { id, added_at, first_seen_at, 10 more }`
+same\_site\_attribute: optional "lax"or "strict"or "none"
 
-  - `id: string`
+</summary>
 
-    Identifier
+One of the following:
 
-  - `added_at: string`
+"lax"
 
-  - `first_seen_at: string`
+<a href="#">Link to this property</a>
 
-  - `host: string`
+"strict"
 
-  - `last_seen_at: string`
+<a href="#">Link to this property</a>
 
-  - `url: string`
+"none"
 
-  - `url_contains_cdn_cgi_path: boolean`
+<a href="#">Link to this property</a>
 
-  - `domain_reported_malicious: optional boolean`
+</details>
 
-  - `first_page_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `malicious_domain_categories: optional array of string`
+secure\_attribute: optional boolean
 
-  - `malicious_url_categories: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `page_urls: optional array of string`
+</details>
 
-  - `url_reported_malicious: optional boolean`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(model)%20cookie_list_response%20%3E%20(schema)>)
 
-# Scripts
+<details>
 
-## List Page Shield scripts
+<summary>
 
-**get** `/zones/{zone_id}/page_shield/scripts`
+CookieGetResponse object {id, first\_seen\_at, host, 11 more }
 
-Lists all scripts detected by Page Shield.
+</summary>
 
-### Path Parameters
+id: string
 
-- `zone_id: string`
+Identifier
 
-  Identifier
+maxLength32
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `direction: optional "asc" or "desc"`
+first\_seen\_at: string
 
-  The direction used to sort returned scripts.
+formatdate-time
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+host: string
 
-- `exclude_cdn_cgi: optional boolean`
+<a href="#">Link to this property</a>
 
-  When true, excludes scripts seen in a `/cdn-cgi` path from the returned scripts. The default value is true.
+last\_seen\_at: string
 
-- `exclude_duplicates: optional boolean`
+formatdate-time
 
-  When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript
-  content matches and they share the same url host and zone hostname. In such case, we return the most
-  recent script for the URL host and zone hostname combination.
+<a href="#">Link to this property</a>
 
-- `exclude_urls: optional string`
+name: string
 
-  Excludes scripts whose URL contains one of the URL-encoded URLs separated by commas.
+<a href="#">Link to this property</a>
 
-- `export: optional "csv"`
+<details>
 
-  Export the list of scripts as a file, limited to 50000 entries.
+<summary>
 
-  - `"csv"`
+type: "first\_party"or "unknown"
 
-- `hosts: optional string`
+</summary>
 
-  Includes scripts that match one or more URL-encoded hostnames separated by commas.
+One of the following:
 
-  Wildcards are supported at the start and end of each hostname to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+"first\_party"
 
-- `order_by: optional "first_seen_at" or "last_seen_at"`
+<a href="#">Link to this property</a>
 
-  The field used to sort returned scripts.
+"unknown"
 
-  - `"first_seen_at"`
+<a href="#">Link to this property</a>
 
-  - `"last_seen_at"`
+</details>
 
-- `page: optional string`
+<a href="#">Link to this property</a>
 
-  The current page number of the paginated results.
+domain\_attribute: optional string
 
-  We additionally support a special value "all". When "all" is used, the API will return all the scripts
-  with the applied filters in a single page. This feature is best-effort and it may only work for zones with
-  a low number of scripts
+<a href="#">Link to this property</a>
 
-- `page_url: optional string`
+expires\_attribute: optional string
 
-  Includes scripts that match one or more page URLs (separated by commas) where they were last seen
+formatdate-time
 
-  Wildcards are supported at the start and end of each page URL to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+http\_only\_attribute: optional boolean
 
-  The number of results per page.
+<a href="#">Link to this property</a>
 
-- `prioritize_malicious: optional boolean`
+max\_age\_attribute: optional number
 
-  When true, malicious scripts appear first in the returned scripts.
+<a href="#">Link to this property</a>
 
-- `status: optional string`
+page\_urls: optional array of string
 
-  Filters the returned scripts using a comma-separated list of scripts statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`.
+<a href="#">Link to this property</a>
 
-- `urls: optional string`
+path\_attribute: optional string
 
-  Includes scripts whose URL contain one or more URL-encoded URLs separated by commas.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `result: array of Script`
+<summary>
 
-  - `id: string`
+same\_site\_attribute: optional "lax"or "strict"or "none"
 
-    Identifier
+</summary>
 
-  - `added_at: string`
+One of the following:
 
-  - `first_seen_at: string`
+"lax"
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+"strict"
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-  - `url_contains_cdn_cgi_path: boolean`
+"none"
 
-  - `cryptomining_score: optional number`
+<a href="#">Link to this property</a>
 
-    The cryptomining score of the JavaScript content.
+</details>
 
-  - `dataflow_score: optional number`
+<a href="#">Link to this property</a>
 
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
+secure\_attribute: optional boolean
 
-  - `domain_reported_malicious: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `fetched_at: optional string`
+</details>
 
-    The timestamp of when the script was last fetched.
-
-  - `first_page_url: optional string`
-
-  - `hash: optional string`
-
-    The computed hash of the analyzed script.
-
-  - `js_integrity_score: optional number`
-
-    The integrity score of the JavaScript content.
-
-  - `magecart_score: optional number`
-
-    The magecart score of the JavaScript content.
-
-  - `malicious_domain_categories: optional array of string`
-
-  - `malicious_url_categories: optional array of string`
-
-  - `malware_score: optional number`
-
-    The malware score of the JavaScript content.
-
-  - `obfuscation_score: optional number`
-
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
-
-- `result_info: object { count, page, per_page, 2 more }`
-
-  - `count: number`
-
-    Total number of results for the requested service
-
-  - `page: number`
-
-    Current page within paginated list of results
-
-  - `per_page: number`
-
-    Number of results per page of results
-
-  - `total_count: number`
-
-    Total results available without any search parameters
-
-  - `total_pages: number`
-
-    Total number of pages
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/scripts \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "added_at": "2021-08-18T10:51:10.09615Z",
-      "first_seen_at": "2021-08-18T10:51:08Z",
-      "host": "blog.cloudflare.com",
-      "last_seen_at": "2021-09-02T09:57:54Z",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
-      "url_contains_cdn_cgi_path": false,
-      "cryptomining_score": 1,
-      "dataflow_score": 1,
-      "domain_reported_malicious": false,
-      "fetched_at": "fetched_at",
-      "first_page_url": "blog.cloudflare.com/page",
-      "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-      "js_integrity_score": 1,
-      "magecart_score": 1,
-      "malicious_domain_categories": [
-        "Malware"
-      ],
-      "malicious_url_categories": [
-        "Malware"
-      ],
-      "malware_score": 1,
-      "obfuscation_score": 1,
-      "page_urls": [
-        "blog.cloudflare.com/page1",
-        "blog.cloudflare.com/page2"
-      ],
-      "url_reported_malicious": false
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Get a Page Shield script
-
-**get** `/zones/{zone_id}/page_shield/scripts/{script_id}`
-
-Fetches a script detected by Page Shield by script ID.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `script_id: string`
-
-  Identifier
-
-### Returns
-
-- `result: object { id, added_at, first_seen_at, 19 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `added_at: string`
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `url: string`
-
-  - `url_contains_cdn_cgi_path: boolean`
-
-  - `cryptomining_score: optional number`
-
-    The cryptomining score of the JavaScript content.
-
-  - `dataflow_score: optional number`
-
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `domain_reported_malicious: optional boolean`
-
-  - `fetched_at: optional string`
-
-    The timestamp of when the script was last fetched.
-
-  - `first_page_url: optional string`
-
-  - `hash: optional string`
-
-    The computed hash of the analyzed script.
-
-  - `js_integrity_score: optional number`
-
-    The integrity score of the JavaScript content.
-
-  - `magecart_score: optional number`
-
-    The magecart score of the JavaScript content.
-
-  - `malicious_domain_categories: optional array of string`
-
-  - `malicious_url_categories: optional array of string`
-
-  - `malware_score: optional number`
-
-    The malware score of the JavaScript content.
-
-  - `obfuscation_score: optional number`
-
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
-
-  - `versions: optional array of object { cryptomining_score, dataflow_score, fetched_at, 5 more }`
-
-    - `cryptomining_score: optional number`
-
-      The cryptomining score of the JavaScript content.
-
-    - `dataflow_score: optional number`
-
-      The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-    - `fetched_at: optional string`
-
-      The timestamp of when the script was last fetched.
-
-    - `hash: optional string`
-
-      The computed hash of the analyzed script.
-
-    - `js_integrity_score: optional number`
-
-      The integrity score of the JavaScript content.
-
-    - `magecart_score: optional number`
-
-      The magecart score of the JavaScript content.
-
-    - `malware_score: optional number`
-
-      The malware score of the JavaScript content.
-
-    - `obfuscation_score: optional number`
-
-      The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/scripts/$SCRIPT_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "added_at": "2021-08-18T10:51:10.09615Z",
-    "first_seen_at": "2021-08-18T10:51:08Z",
-    "host": "blog.cloudflare.com",
-    "last_seen_at": "2021-09-02T09:57:54Z",
-    "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
-    "url_contains_cdn_cgi_path": false,
-    "cryptomining_score": 1,
-    "dataflow_score": 1,
-    "domain_reported_malicious": false,
-    "fetched_at": "fetched_at",
-    "first_page_url": "blog.cloudflare.com/page",
-    "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "js_integrity_score": 1,
-    "magecart_score": 1,
-    "malicious_domain_categories": [
-      "Malware"
-    ],
-    "malicious_url_categories": [
-      "Malware"
-    ],
-    "malware_score": 1,
-    "obfuscation_score": 1,
-    "page_urls": [
-      "blog.cloudflare.com/page1",
-      "blog.cloudflare.com/page2"
-    ],
-    "url_reported_malicious": false,
-    "versions": [
-      {
-        "cryptomining_score": 20,
-        "dataflow_score": 1,
-        "fetched_at": "2021-08-18T10:51:08Z",
-        "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b423",
-        "js_integrity_score": 2,
-        "magecart_score": 10,
-        "malware_score": 5,
-        "obfuscation_score": 1
-      }
-    ]
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Script
-
-- `Script object { id, added_at, first_seen_at, 18 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `added_at: string`
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `url: string`
-
-  - `url_contains_cdn_cgi_path: boolean`
-
-  - `cryptomining_score: optional number`
-
-    The cryptomining score of the JavaScript content.
-
-  - `dataflow_score: optional number`
-
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `domain_reported_malicious: optional boolean`
-
-  - `fetched_at: optional string`
-
-    The timestamp of when the script was last fetched.
-
-  - `first_page_url: optional string`
-
-  - `hash: optional string`
-
-    The computed hash of the analyzed script.
-
-  - `js_integrity_score: optional number`
-
-    The integrity score of the JavaScript content.
-
-  - `magecart_score: optional number`
-
-    The magecart score of the JavaScript content.
-
-  - `malicious_domain_categories: optional array of string`
-
-  - `malicious_url_categories: optional array of string`
-
-  - `malware_score: optional number`
-
-    The malware score of the JavaScript content.
-
-  - `obfuscation_score: optional number`
-
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
-
-### Script Get Response
-
-- `ScriptGetResponse object { id, added_at, first_seen_at, 19 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `added_at: string`
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `url: string`
-
-  - `url_contains_cdn_cgi_path: boolean`
-
-  - `cryptomining_score: optional number`
-
-    The cryptomining score of the JavaScript content.
-
-  - `dataflow_score: optional number`
-
-    The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `domain_reported_malicious: optional boolean`
-
-  - `fetched_at: optional string`
-
-    The timestamp of when the script was last fetched.
-
-  - `first_page_url: optional string`
-
-  - `hash: optional string`
-
-    The computed hash of the analyzed script.
-
-  - `js_integrity_score: optional number`
-
-    The integrity score of the JavaScript content.
-
-  - `magecart_score: optional number`
-
-    The magecart score of the JavaScript content.
-
-  - `malicious_domain_categories: optional array of string`
-
-  - `malicious_url_categories: optional array of string`
-
-  - `malware_score: optional number`
-
-    The malware score of the JavaScript content.
-
-  - `obfuscation_score: optional number`
-
-    The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
-
-  - `versions: optional array of object { cryptomining_score, dataflow_score, fetched_at, 5 more }`
-
-    - `cryptomining_score: optional number`
-
-      The cryptomining score of the JavaScript content.
-
-    - `dataflow_score: optional number`
-
-      The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-    - `fetched_at: optional string`
-
-      The timestamp of when the script was last fetched.
-
-    - `hash: optional string`
-
-      The computed hash of the analyzed script.
-
-    - `js_integrity_score: optional number`
-
-      The integrity score of the JavaScript content.
-
-    - `magecart_score: optional number`
-
-      The magecart score of the JavaScript content.
-
-    - `malware_score: optional number`
-
-      The malware score of the JavaScript content.
-
-    - `obfuscation_score: optional number`
-
-      The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score.
-
-# Cookies
-
-## List Page Shield Cookies
-
-**get** `/zones/{zone_id}/page_shield/cookies`
-
-Lists all cookies collected by Page Shield.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-### Query Parameters
-
-- `direction: optional "asc" or "desc"`
-
-  The direction used to sort returned cookies.'
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `domain: optional string`
-
-  Filters the returned cookies that match the specified domain attribute
-
-- `export: optional "csv"`
-
-  Export the list of cookies as a file, limited to 50000 entries.
-
-  - `"csv"`
-
-- `hosts: optional string`
-
-  Includes cookies that match one or more URL-encoded hostnames separated by commas.
-
-  Wildcards are supported at the start and end of each hostname to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
-
-- `http_only: optional boolean`
-
-  Filters the returned cookies that are set with HttpOnly
-
-- `name: optional string`
-
-  Filters the returned cookies that match the specified name.
-  Wildcards are supported at the start and end to support starts with, ends with
-  and contains. e.g. session*
-
-- `order_by: optional "first_seen_at" or "last_seen_at"`
-
-  The field used to sort returned cookies.
-
-  - `"first_seen_at"`
-
-  - `"last_seen_at"`
-
-- `page: optional string`
-
-  The current page number of the paginated results.
-
-  We additionally support a special value "all". When "all" is used, the API will return all the cookies
-  with the applied filters in a single page. This feature is best-effort and it may only work for zones with
-  a low number of cookies
-
-- `page_url: optional string`
-
-  Includes connections that match one or more page URLs (separated by commas) where they were last seen
-
-  Wildcards are supported at the start and end of each page URL to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
-
-- `path: optional string`
-
-  Filters the returned cookies that match the specified path attribute
-
-- `per_page: optional number`
-
-  The number of results per page.
-
-- `same_site: optional "lax" or "strict" or "none"`
-
-  Filters the returned cookies that match the specified same_site attribute
-
-  - `"lax"`
-
-  - `"strict"`
-
-  - `"none"`
-
-- `secure: optional boolean`
-
-  Filters the returned cookies that are set with Secure
-
-- `type: optional "first_party" or "unknown"`
-
-  Filters the returned cookies that match the specified type attribute
-
-  - `"first_party"`
-
-  - `"unknown"`
-
-### Returns
-
-- `result: array of object { id, first_seen_at, host, 11 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `name: string`
-
-  - `type: "first_party" or "unknown"`
-
-    - `"first_party"`
-
-    - `"unknown"`
-
-  - `domain_attribute: optional string`
-
-  - `expires_attribute: optional string`
-
-  - `http_only_attribute: optional boolean`
-
-  - `max_age_attribute: optional number`
-
-  - `page_urls: optional array of string`
-
-  - `path_attribute: optional string`
-
-  - `same_site_attribute: optional "lax" or "strict" or "none"`
-
-    - `"lax"`
-
-    - `"strict"`
-
-    - `"none"`
-
-  - `secure_attribute: optional boolean`
-
-- `result_info: object { count, page, per_page, 2 more }`
-
-  - `count: number`
-
-    Total number of results for the requested service
-
-  - `page: number`
-
-    Current page within paginated list of results
-
-  - `per_page: number`
-
-    Number of results per page of results
-
-  - `total_count: number`
-
-    Total results available without any search parameters
-
-  - `total_pages: number`
-
-    Total number of pages
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/cookies \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "first_seen_at": "2021-08-18T10:51:08Z",
-      "host": "blog.cloudflare.com",
-      "last_seen_at": "2021-09-02T09:57:54Z",
-      "name": "session_id",
-      "type": "first_party",
-      "domain_attribute": "cloudflare.com",
-      "expires_attribute": "2021-10-02T09:57:54Z",
-      "http_only_attribute": true,
-      "max_age_attribute": 3600,
-      "page_urls": [
-        "blog.cloudflare.com/page1",
-        "blog.cloudflare.com/page2"
-      ],
-      "path_attribute": "/",
-      "same_site_attribute": "strict",
-      "secure_attribute": true
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Get a Page Shield cookie
-
-**get** `/zones/{zone_id}/page_shield/cookies/{cookie_id}`
-
-Fetches a cookie collected by Page Shield by cookie ID.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `cookie_id: string`
-
-  Identifier
-
-### Returns
-
-- `result: object { id, first_seen_at, host, 11 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `name: string`
-
-  - `type: "first_party" or "unknown"`
-
-    - `"first_party"`
-
-    - `"unknown"`
-
-  - `domain_attribute: optional string`
-
-  - `expires_attribute: optional string`
-
-  - `http_only_attribute: optional boolean`
-
-  - `max_age_attribute: optional number`
-
-  - `page_urls: optional array of string`
-
-  - `path_attribute: optional string`
-
-  - `same_site_attribute: optional "lax" or "strict" or "none"`
-
-    - `"lax"`
-
-    - `"strict"`
-
-    - `"none"`
-
-  - `secure_attribute: optional boolean`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/cookies/$COOKIE_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "first_seen_at": "2021-08-18T10:51:08Z",
-    "host": "blog.cloudflare.com",
-    "last_seen_at": "2021-09-02T09:57:54Z",
-    "name": "session_id",
-    "type": "first_party",
-    "domain_attribute": "cloudflare.com",
-    "expires_attribute": "2021-10-02T09:57:54Z",
-    "http_only_attribute": true,
-    "max_age_attribute": 3600,
-    "page_urls": [
-      "blog.cloudflare.com/page1",
-      "blog.cloudflare.com/page2"
-    ],
-    "path_attribute": "/",
-    "same_site_attribute": "strict",
-    "secure_attribute": true
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Cookie List Response
-
-- `CookieListResponse object { id, first_seen_at, host, 11 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `name: string`
-
-  - `type: "first_party" or "unknown"`
-
-    - `"first_party"`
-
-    - `"unknown"`
-
-  - `domain_attribute: optional string`
-
-  - `expires_attribute: optional string`
-
-  - `http_only_attribute: optional boolean`
-
-  - `max_age_attribute: optional number`
-
-  - `page_urls: optional array of string`
-
-  - `path_attribute: optional string`
-
-  - `same_site_attribute: optional "lax" or "strict" or "none"`
-
-    - `"lax"`
-
-    - `"strict"`
-
-    - `"none"`
-
-  - `secure_attribute: optional boolean`
-
-### Cookie Get Response
-
-- `CookieGetResponse object { id, first_seen_at, host, 11 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `name: string`
-
-  - `type: "first_party" or "unknown"`
-
-    - `"first_party"`
-
-    - `"unknown"`
-
-  - `domain_attribute: optional string`
-
-  - `expires_attribute: optional string`
-
-  - `http_only_attribute: optional boolean`
-
-  - `max_age_attribute: optional number`
-
-  - `page_urls: optional array of string`
-
-  - `path_attribute: optional string`
-
-  - `same_site_attribute: optional "lax" or "strict" or "none"`
-
-    - `"lax"`
-
-    - `"strict"`
-
-    - `"none"`
-
-  - `secure_attribute: optional boolean`
+[Link to this property](#)%20page_shield.cookies%20%3E%20(model)%20cookie_get_response%20%3E%20(schema)>)

@@ -1,594 +1,279 @@
+---
+title: SAML Certificates
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # SAML Certificates
 
-## List SAML certificate sets
+##### [List SAML certificate sets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/saml_certificates/methods/list)
 
-**get** `/accounts/{account_id}/access/saml_certificates`
+GET/accounts/{account\_id}/access/saml\_certificates
 
-Returns a paginated list of the organization's SAML encryption certificate sets.
-Each certificate set includes the current and (if present) previous certificates.
+##### [Get SAML certificate set](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/saml_certificates/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/access/saml\_certificates/{saml\_cert\_set\_id}
 
-- `account_id: string`
+##### [Rotate SAML certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/saml_certificates/methods/rotate)
 
-  Identifier.
+POST/accounts/{account\_id}/access/saml\_certificates/{saml\_cert\_set\_id}/rotate
 
-### Query Parameters
+##### [Download current certificate in PEM format](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/saml_certificates/methods/get_pem)
 
-- `id: optional string`
+GET/accounts/{account\_id}/access/saml\_certificates/{saml\_cert\_set\_id}/pem
 
-  Filter by SAML certificate set UID. Accepts a comma-separated list of UIDs.
+##### ModelsExpand Collapse
 
-- `page: optional number`
+<details>
 
-  Page number of paginated results.
+<summary>
 
-- `per_page: optional number`
+SAMLCertificateListResponse object {created\_at, uid, updated\_at, 2 more }
 
-  Maximum number of results per page.
+</summary>
 
-### Returns
+created\_at: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+When the certificate set was created
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+uid: string
 
-  - `source: optional object { pointer }`
+Unique identifier for the certificate set
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+updated\_at: string
 
-  - `code: number`
+When the certificate set was last updated
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
 
-  Whether the API call was successful.
+The current active certificate
 
-  - `true`
+</summary>
 
-- `result: optional array of object { created_at, uid, updated_at, 2 more }`
+is\_current: boolean
 
-  - `created_at: string`
+Indicates whether the certificate can be used for IdP configuration.
 
-    When the certificate set was created
+<a href="#">Link to this property</a>
 
-  - `uid: string`
+not\_after: string
 
-    Unique identifier for the certificate set
+Certificate expiration date
 
-  - `updated_at: string`
+formatdate-time
 
-    When the certificate set was last updated
+<a href="#">Link to this property</a>
 
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+public\_certificate: string
 
-    The current active certificate
+The public certificate in PEM format
 
-    - `is_current: boolean`
+<a href="#">Link to this property</a>
 
-      Indicates whether the certificate can be used for IdP configuration.
+uid: string
 
-    - `not_after: string`
+Unique identifier for the certificate
 
-      Certificate expiration date
+<a href="#">Link to this property</a>
 
-    - `public_certificate: string`
+</details>
 
-      The public certificate in PEM format
+<a href="#">Link to this property</a>
 
-    - `uid: string`
+previous\_certificate: optional unknown
 
-      Unique identifier for the certificate
+The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
 
-  - `previous_certificate: optional unknown`
+<a href="#">Link to this property</a>
 
-    The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of `saml_certificate`.
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(model)%20saml_certificate_list_response%20%3E%20(schema)>)
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+SAMLCertificateGetResponse object {created\_at, uid, updated\_at, 2 more }
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+created\_at: string
 
-    Number of results per page of results.
+When the certificate set was created
 
-  - `total_count: optional number`
+formatdate-time
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+uid: string
 
-    The number of total pages in the entire result set.
+Unique identifier for the certificate set
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/saml_certificates \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+updated\_at: string
 
-#### Response
+When the certificate set was last updated
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created_at": "2024-03-21T10:30:00Z",
-      "uid": "a5bb4b3f-c2d1-4e6a-8f9b-1d3e4f5a6b7c",
-      "updated_at": "2024-03-21T10:30:00Z",
-      "current_certificate": {
-        "is_current": true,
-        "not_after": "2027-03-21T12:00:00Z",
-        "public_certificate": "-----BEGIN CERTIFICATE-----\nMIIGAjCCA+qgAwIBAgIJAI7kymlF7CWT...\n...certificate content...\n-----END CERTIFICATE-----\n",
-        "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-      },
-      "previous_certificate": {}
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+formatdate-time
 
-## Get SAML certificate set
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/access/saml_certificates/{saml_cert_set_id}`
+<details>
 
-Retrieves a specific SAML encryption certificate set by its UID, including both current and previous certificates if available.
+<summary>
 
-### Path Parameters
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
 
-- `account_id: string`
+The current active certificate
 
-  Identifier.
+</summary>
 
-- `saml_cert_set_id: string`
+is\_current: boolean
 
-  UUID.
+Indicates whether the certificate can be used for IdP configuration.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+not\_after: string
 
-  - `code: number`
+Certificate expiration date
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+public\_certificate: string
 
-    - `pointer: optional string`
+The public certificate in PEM format
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+uid: string
 
-  - `message: string`
+Unique identifier for the certificate
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+previous\_certificate: optional unknown
 
-  Whether the API call was successful.
+The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { created_at, uid, updated_at, 2 more }`
+</details>
 
-  - `created_at: string`
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(model)%20saml_certificate_get_response%20%3E%20(schema)>)
 
-    When the certificate set was created
+<details>
 
-  - `uid: string`
+<summary>
 
-    Unique identifier for the certificate set
+SAMLCertificateRotateResponse object {created\_at, uid, updated\_at, 2 more }
 
-  - `updated_at: string`
+</summary>
 
-    When the certificate set was last updated
+created\_at: string
 
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+When the certificate set was created
 
-    The current active certificate
+formatdate-time
 
-    - `is_current: boolean`
+<a href="#">Link to this property</a>
 
-      Indicates whether the certificate can be used for IdP configuration.
+uid: string
 
-    - `not_after: string`
+Unique identifier for the certificate set
 
-      Certificate expiration date
+<a href="#">Link to this property</a>
 
-    - `public_certificate: string`
+updated\_at: string
 
-      The public certificate in PEM format
+When the certificate set was last updated
 
-    - `uid: string`
+formatdate-time
 
-      Unique identifier for the certificate
+<a href="#">Link to this property</a>
 
-  - `previous_certificate: optional unknown`
+<details>
 
-    The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of `saml_certificate`.
+<summary>
 
-### Example
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/saml_certificates/$SAML_CERT_SET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The current active certificate
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2024-03-21T10:30:00Z",
-    "uid": "a5bb4b3f-c2d1-4e6a-8f9b-1d3e4f5a6b7c",
-    "updated_at": "2024-03-21T10:30:00Z",
-    "current_certificate": {
-      "is_current": true,
-      "not_after": "2027-03-21T12:00:00Z",
-      "public_certificate": "-----BEGIN CERTIFICATE-----\nMIIGAjCCA+qgAwIBAgIJAI7kymlF7CWT...\n...certificate content...\n-----END CERTIFICATE-----\n",
-      "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    },
-    "previous_certificate": {}
-  }
-}
-```
+is\_current: boolean
 
-## Rotate SAML certificate
+Indicates whether the certificate can be used for IdP configuration.
 
-**post** `/accounts/{account_id}/access/saml_certificates/{saml_cert_set_id}/rotate`
+<a href="#">Link to this property</a>
 
-Rotates the SAML encryption certificates within the specified certificate set. This generates a new
-certificate and moves the current certificate to the previous slot. If a previous certificate exists,
-it will be deactivated and removed.
+not\_after: string
 
-This endpoint ensures zero-downtime rotation by maintaining both current and previous certificates
-during the transition period, allowing IdPs time to update their configurations. Automated rotation
-happens 30 days before a current certificate's expiration.
+Certificate expiration date
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+public\_certificate: string
 
-- `saml_cert_set_id: string`
+The public certificate in PEM format
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+uid: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Unique identifier for the certificate
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+previous\_certificate: optional unknown
 
-    - `pointer: optional string`
+The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { created_at, uid, updated_at, 2 more }`
-
-  - `created_at: string`
-
-    When the certificate set was created
-
-  - `uid: string`
-
-    Unique identifier for the certificate set
-
-  - `updated_at: string`
-
-    When the certificate set was last updated
-
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
-
-    The current active certificate
-
-    - `is_current: boolean`
-
-      Indicates whether the certificate can be used for IdP configuration.
-
-    - `not_after: string`
-
-      Certificate expiration date
-
-    - `public_certificate: string`
-
-      The public certificate in PEM format
-
-    - `uid: string`
-
-      Unique identifier for the certificate
-
-  - `previous_certificate: optional unknown`
-
-    The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of `saml_certificate`.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/saml_certificates/$SAML_CERT_SET_ID/rotate \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2024-03-21T10:30:00Z",
-    "uid": "a5bb4b3f-c2d1-4e6a-8f9b-1d3e4f5a6b7c",
-    "updated_at": "2024-03-21T10:30:00Z",
-    "current_certificate": {
-      "is_current": true,
-      "not_after": "2027-03-21T12:00:00Z",
-      "public_certificate": "-----BEGIN CERTIFICATE-----\nMIIGAjCCA+qgAwIBAgIJAI7kymlF7CWT...\n...certificate content...\n-----END CERTIFICATE-----\n",
-      "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    },
-    "previous_certificate": {}
-  }
-}
-```
-
-## Download current certificate in PEM format
-
-**get** `/accounts/{account_id}/access/saml_certificates/{saml_cert_set_id}/pem`
-
-Downloads the current SAML encryption certificate's public key in PEM format for the specified certificate set. This endpoint is useful for providing the certificate to Identity Providers for SAML assertion encryption configuration.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `saml_cert_set_id: string`
-
-  UUID.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/saml_certificates/$SAML_CERT_SET_ID/pem \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### SAML Certificate List Response
-
-- `SAMLCertificateListResponse object { created_at, uid, updated_at, 2 more }`
-
-  - `created_at: string`
-
-    When the certificate set was created
-
-  - `uid: string`
-
-    Unique identifier for the certificate set
-
-  - `updated_at: string`
-
-    When the certificate set was last updated
-
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
-
-    The current active certificate
-
-    - `is_current: boolean`
-
-      Indicates whether the certificate can be used for IdP configuration.
-
-    - `not_after: string`
-
-      Certificate expiration date
-
-    - `public_certificate: string`
-
-      The public certificate in PEM format
-
-    - `uid: string`
-
-      Unique identifier for the certificate
-
-  - `previous_certificate: optional unknown`
-
-    The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of `saml_certificate`.
-
-### SAML Certificate Get Response
-
-- `SAMLCertificateGetResponse object { created_at, uid, updated_at, 2 more }`
-
-  - `created_at: string`
-
-    When the certificate set was created
-
-  - `uid: string`
-
-    Unique identifier for the certificate set
-
-  - `updated_at: string`
-
-    When the certificate set was last updated
-
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
-
-    The current active certificate
-
-    - `is_current: boolean`
-
-      Indicates whether the certificate can be used for IdP configuration.
-
-    - `not_after: string`
-
-      Certificate expiration date
-
-    - `public_certificate: string`
-
-      The public certificate in PEM format
-
-    - `uid: string`
-
-      Unique identifier for the certificate
-
-  - `previous_certificate: optional unknown`
-
-    The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of `saml_certificate`.
-
-### SAML Certificate Rotate Response
-
-- `SAMLCertificateRotateResponse object { created_at, uid, updated_at, 2 more }`
-
-  - `created_at: string`
-
-    When the certificate set was created
-
-  - `uid: string`
-
-    Unique identifier for the certificate set
-
-  - `updated_at: string`
-
-    When the certificate set was last updated
-
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
-
-    The current active certificate
-
-    - `is_current: boolean`
-
-      Indicates whether the certificate can be used for IdP configuration.
-
-    - `not_after: string`
-
-      Certificate expiration date
-
-    - `public_certificate: string`
-
-      The public certificate in PEM format
-
-    - `uid: string`
-
-      Unique identifier for the certificate
-
-  - `previous_certificate: optional unknown`
-
-    The previous certificate (maintained during rotation period). May be null when no rotation has occurred. Mirrors the structure of `saml_certificate`.
+[Link to this property](#)%20zero_trust.access.saml_certificates%20%3E%20(model)%20saml_certificate_rotate_response%20%3E%20(schema)>)

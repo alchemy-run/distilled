@@ -1,129 +1,427 @@
-## Get job details
+---
+title: Get job details
+---
 
-**get** `/accounts/{account_id}/slurper/jobs/{job_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Super Slurper](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper)
+
+[Jobs](https://developers.cloudflare.com/api/resources/r2/subresources/super_slurper/subresources/jobs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get job details
+
+GET/accounts/{account\_id}/slurper/jobs/{job\_id}
 
 Retrieves detailed status and configuration for a specific R2 Super Slurper migration job.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `job_id: string`
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: optional array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: optional array of string`
 
-- `result: optional object { id, createdAt, finishedAt, 4 more }`
 
-  - `id: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `createdAt: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `finishedAt: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `overwrite: optional boolean`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { bucket, endpoint, keys, 2 more }  or object { bucket, keys, pathPrefix, vendor }  or object { bucket, jurisdiction, keys, 2 more }`
+</details>
 
-    - `S3SourceResponseSchema object { bucket, endpoint, keys, 2 more }`
+##### P ath ParametersExpand Collapse
 
-      - `bucket: optional string`
+account\_id: string
 
-      - `endpoint: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `keys: optional array of string`
+job\_id: string
 
-      - `pathPrefix: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20job_id%20%3E%20(schema)>)
 
-      - `vendor: optional "s3"`
+##### ReturnsExpand Collapse
 
-        - `"s3"`
+<details>
 
-    - `GcsSourceResponseSchema object { bucket, keys, pathPrefix, vendor }`
+<summary>
 
-      - `bucket: optional string`
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `keys: optional array of string`
+minLength1
 
-      - `pathPrefix: optional string`
+</summary>
 
-      - `vendor: optional "gcs"`
+code: number
 
-        - `"gcs"`
+minimum1000
 
-    - `R2SourceResponseSchema object { bucket, jurisdiction, keys, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `bucket: optional string`
+message: string
 
-      - `jurisdiction: optional "default" or "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-        - `"default"`
+documentation\_url: optional string
 
-        - `"eu"`
+<a href="#">Link to this property</a>
 
-        - `"fedramp"`
+<details>
 
-      - `keys: optional array of string`
+<summary>
 
-      - `pathPrefix: optional string`
+source: optional object {pointer }
 
-      - `vendor: optional Provider`
+</summary>
 
-        - `"r2"`
+pointer: optional string
 
-  - `status: optional "running" or "paused" or "aborted" or "completed"`
+<a href="#">Link to this property</a>
 
-    - `"running"`
+</details>
 
-    - `"paused"`
+<a href="#">Link to this property</a>
 
-    - `"aborted"`
+</details>
 
-    - `"completed"`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `target: optional object { bucket, jurisdiction, vendor }`
+messages: optional array of string
 
-    - `bucket: optional string`
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `jurisdiction: optional "default" or "eu" or "fedramp"`
+<details>
 
-      - `"default"`
+<summary>
 
-      - `"eu"`
+result: optional object {id, createdAt, finishedAt, 4 more }
 
-      - `"fedramp"`
+</summary>
 
-    - `vendor: optional Provider`
+id: optional string
 
-- `success: optional true`
+<a href="#">Link to this property</a>
 
-  Indicates if the API call was successful or not.
+createdAt: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+finishedAt: optional string
 
-```http
+<a href="#">Link to this property</a>
+
+overwrite: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {bucket, endpoint, keys, 2 more } or object {bucket, keys, pathPrefix, vendor } or object {bucket, jurisdiction, keys, 2 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+S3SourceResponseSchema object {bucket, endpoint, keys, 2 more }
+
+</summary>
+
+bucket: optional string
+
+<a href="#">Link to this property</a>
+
+endpoint: optional string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+keys: optional array of string
+
+<a href="#">Link to this property</a>
+
+pathPrefix: optional string
+
+<a href="#">Link to this property</a>
+
+vendor: optional "s3"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+GcsSourceResponseSchema object {bucket, keys, pathPrefix, vendor }
+
+</summary>
+
+bucket: optional string
+
+<a href="#">Link to this property</a>
+
+keys: optional array of string
+
+<a href="#">Link to this property</a>
+
+pathPrefix: optional string
+
+<a href="#">Link to this property</a>
+
+vendor: optional "gcs"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+R2SourceResponseSchema object {bucket, jurisdiction, keys, 2 more }
+
+</summary>
+
+bucket: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+jurisdiction: optional "default"or "eu"or "us"or "fedramp"
+
+</summary>
+
+One of the following:
+
+"default"
+
+<a href="#">Link to this property</a>
+
+"eu"
+
+<a href="#">Link to this property</a>
+
+"us"
+
+<a href="#">Link to this property</a>
+
+"fedramp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+keys: optional array of string
+
+<a href="#">Link to this property</a>
+
+pathPrefix: optional string
+
+<a href="#">Link to this property</a>
+
+vendor: optional <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)">Provider</a>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "running"or "paused"or "aborted"or "completed"
+
+</summary>
+
+One of the following:
+
+"running"
+
+<a href="#">Link to this property</a>
+
+"paused"
+
+<a href="#">Link to this property</a>
+
+"aborted"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+target: optional object {bucket, jurisdiction, vendor }
+
+</summary>
+
+bucket: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+jurisdiction: optional "default"or "eu"or "us"or "fedramp"
+
+</summary>
+
+One of the following:
+
+"default"
+
+<a href="#">Link to this property</a>
+
+"eu"
+
+<a href="#">Link to this property</a>
+
+"us"
+
+<a href="#">Link to this property</a>
+
+"fedramp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+vendor: optional <a href="https://developers.cloudflare.com/api/resources/r2#(resource)%20r2.buckets.sippy%20%3E%20(model)%20provider%20%3E%20(schema)">Provider</a>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: optional true
+
+Indicates if the API call was successful or not.
+
+[Link to this property](#)%20r2.super_slurper.jobs%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get job details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/slurper/jobs/$JOB_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 7003,
+      "message": "No route for the URI",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "id": "id",
+    "createdAt": "createdAt",
+    "finishedAt": "finishedAt",
+    "overwrite": true,
+    "source": {
+      "bucket": "bucket",
+      "endpoint": "https://example.com",
+      "keys": [
+        "string"
+      ],
+      "pathPrefix": "pathPrefix",
+      "vendor": "s3"
+    },
+    "status": "running",
+    "target": {
+      "bucket": "bucket",
+      "jurisdiction": "default",
+      "vendor": "r2"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

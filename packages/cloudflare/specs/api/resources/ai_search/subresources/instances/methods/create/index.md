@@ -1,868 +1,1858 @@
-## Create new instance.
+---
+title: Create an AI Search instance.
+---
 
-**post** `/accounts/{account_id}/ai-search/instances`
+[Skip to content](#_top)
 
-Create a new instance.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
 
-- `account_id: string`
+[Instances](https://developers.cloudflare.com/api/resources/ai_search/subresources/instances)
 
-### Body Parameters
+Copy Markdown
 
-- `id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+---
 
-- `ai_gateway_id: optional string`
+**Copy Markdown****View as Markdown**
 
-- `ai_search_model: optional "@cf/meta/llama-3.3-70b-instruct-fp8-fast" or "@cf/zai-org/glm-4.7-flash" or "@cf/meta/llama-3.1-8b-instruct-fast" or 27 more`
+# Create an AI Search instance.
 
-  - `"@cf/meta/llama-3.3-70b-instruct-fp8-fast"`
+POST/accounts/{account\_id}/ai-search/instances
 
-  - `"@cf/zai-org/glm-4.7-flash"`
+Create a new AI Search instance with the given configuration.
 
-  - `"@cf/meta/llama-3.1-8b-instruct-fast"`
+##### Security
 
-  - `"@cf/meta/llama-3.1-8b-instruct-fp8"`
+<details>
 
-  - `"@cf/meta/llama-4-scout-17b-16e-instruct"`
+<summary>API Token</summary>
 
-  - `"@cf/qwen/qwen3-30b-a3b-fp8"`
 
-  - `"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"`
 
-  - `"@cf/moonshotai/kimi-k2-instruct"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"@cf/google/gemma-3-12b-it"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"@cf/google/gemma-4-26b-a4b-it"`
+</details>
 
-  - `"@cf/moonshotai/kimi-k2.5"`
+<details>
 
-  - `"anthropic/claude-3-7-sonnet"`
+<summary>API Email + API Key</summary>
 
-  - `"anthropic/claude-sonnet-4"`
 
-  - `"anthropic/claude-opus-4"`
 
-  - `"anthropic/claude-3-5-haiku"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"cerebras/qwen-3-235b-a22b-instruct"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"cerebras/qwen-3-235b-a22b-thinking"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"cerebras/llama-3.3-70b"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"cerebras/llama-4-maverick-17b-128e-instruct"`
+</details>
 
-  - `"cerebras/llama-4-scout-17b-16e-instruct"`
+##### P ath ParametersExpand Collapse
 
-  - `"cerebras/gpt-oss-120b"`
+account\_id: string
 
-  - `"google-ai-studio/gemini-2.5-flash"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"google-ai-studio/gemini-2.5-pro"`
+##### Body ParametersJSONExpand Collapse
 
-  - `"grok/grok-4"`
+id: string
 
-  - `"groq/llama-3.3-70b-versatile"`
+AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
 
-  - `"groq/llama-3.1-8b-instant"`
+maxLength64
 
-  - `"openai/gpt-5"`
+minLength1
 
-  - `"openai/gpt-5-mini"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-  - `"openai/gpt-5-nano"`
+ai\_gateway\_id: optional string
 
-  - `""`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20ai_gateway_id%20%3E%20(schema)>)
 
-- `cache: optional boolean`
+ai\_search\_model: optional string
 
-- `cache_threshold: optional "super_strict_match" or "close_enough" or "flexible_friend" or "anything_goes"`
+A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model.
 
-  - `"super_strict_match"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20ai_search_model%20%3E%20(schema)>)
 
-  - `"close_enough"`
+cache: optional boolean
 
-  - `"flexible_friend"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20cache%20%3E%20(schema)>)
 
-  - `"anything_goes"`
+<details>
 
-- `cache_ttl: optional 600 or 1800 or 3600 or 7 more`
+<summary>
 
-  Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d).
+cache\_threshold: optional "super\_strict\_match"or "close\_enough"or "flexible\_friend"or "anything\_goes"
 
-  - `600`
+</summary>
 
-  - `1800`
+One of the following:
 
-  - `3600`
+"super\_strict\_match"
 
-  - `7200`
+<a href="#">Link to this property</a>
 
-  - `21600`
+"close\_enough"
 
-  - `43200`
+<a href="#">Link to this property</a>
 
-  - `86400`
+"flexible\_friend"
 
-  - `172800`
+<a href="#">Link to this property</a>
 
-  - `259200`
+"anything\_goes"
 
-  - `518400`
+<a href="#">Link to this property</a>
 
-- `chunk: optional boolean`
+</details>
 
-- `chunk_overlap: optional number`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20cache_threshold%20%3E%20(schema)>)
 
-- `chunk_size: optional number`
+<details>
 
-- `custom_metadata: optional array of object { data_type, field_name }`
+<summary>
 
-  - `data_type: "text" or "number" or "boolean" or "datetime"`
+cache\_ttl: optional 600or 1800or 3600or 7 more
 
-    - `"text"`
+Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d).
 
-    - `"number"`
+</summary>
 
-    - `"boolean"`
+One of the following:
 
-    - `"datetime"`
+600
 
-  - `field_name: string`
+<a href="#">Link to this property</a>
 
-- `embedding_model: optional "@cf/qwen/qwen3-embedding-0.6b" or "@cf/qwen/qwen3-vl-embedding-2b" or "@cf/baai/bge-m3" or 8 more`
+1800
 
-  - `"@cf/qwen/qwen3-embedding-0.6b"`
+<a href="#">Link to this property</a>
 
-  - `"@cf/qwen/qwen3-vl-embedding-2b"`
+3600
 
-  - `"@cf/baai/bge-m3"`
+<a href="#">Link to this property</a>
 
-  - `"@cf/baai/bge-large-en-v1.5"`
+7200
 
-  - `"@cf/google/embeddinggemma-300m"`
+<a href="#">Link to this property</a>
 
-  - `"google-ai-studio/gemini-embedding-001"`
+21600
 
-  - `"google-ai-studio/gemini-embedding-2-preview"`
+<a href="#">Link to this property</a>
 
-  - `"google-ai-studio/gemini-embedding-2"`
+43200
 
-  - `"openai/text-embedding-3-small"`
+<a href="#">Link to this property</a>
 
-  - `"openai/text-embedding-3-large"`
+86400
 
-  - `""`
+<a href="#">Link to this property</a>
 
-- `fusion_method: optional "max" or "rrf"`
+172800
 
-  - `"max"`
+<a href="#">Link to this property</a>
 
-  - `"rrf"`
+259200
 
-- `hybrid_search_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  Deprecated — use index_method instead.
+518400
 
-- `index_method: optional object { keyword, vector }`
+<a href="#">Link to this property</a>
 
-  Controls which storage backends are used during indexing. Defaults to vector-only.
+</details>
 
-  - `keyword: boolean`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20cache_ttl%20%3E%20(schema)>)
 
-    Enable keyword (BM25) storage backend.
+chunk: optional boolean
 
-  - `vector: boolean`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20chunk%20%3E%20(schema)>)
 
-    Enable vector (embedding) storage backend.
+chunk\_overlap: optional number
 
-- `indexing_options: optional object { keyword_tokenizer }`
+maximum30
 
-  - `keyword_tokenizer: optional "porter" or "trigram"`
+minimum0
 
-    Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter.
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20chunk_overlap%20%3E%20(schema)>)
 
-    - `"porter"`
+chunk\_size: optional number
 
-    - `"trigram"`
+minimum64
 
-- `max_num_results: optional number`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20chunk_size%20%3E%20(schema)>)
 
-- `metadata: optional object { created_from_aisearch_wizard, worker_domain }`
+<details>
 
-  - `created_from_aisearch_wizard: optional boolean`
+<summary>
 
-  - `worker_domain: optional string`
+custom\_metadata: optional array of object {data\_type, field\_name }
 
-- `public_endpoint_params: optional object { authorized_hosts, chat_completions_endpoint, custom_domains, 4 more }`
+</summary>
 
-  - `authorized_hosts: optional array of string`
+<details>
 
-  - `chat_completions_endpoint: optional object { disabled }`
+<summary>
 
-    - `disabled: optional boolean`
+data\_type: "text"or "number"or "boolean"or "datetime"
 
-      Disable chat completions endpoint for this public endpoint
+</summary>
 
-  - `custom_domains: optional array of string`
+One of the following:
 
-    Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged).
+"text"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `mcp: optional object { description, disabled }`
+"number"
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-    - `disabled: optional boolean`
+"boolean"
 
-      Disable MCP endpoint for this public endpoint
+<a href="#">Link to this property</a>
 
-  - `rate_limit: optional object { period_ms, requests, technique }`
+"datetime"
 
-    - `period_ms: optional number`
+<a href="#">Link to this property</a>
 
-    - `requests: optional number`
+</details>
 
-    - `technique: optional "fixed" or "sliding"`
+<a href="#">Link to this property</a>
 
-      - `"fixed"`
+field\_name: string
 
-      - `"sliding"`
+maxLength64
 
-  - `search_endpoint: optional object { disabled }`
+minLength1
 
-    - `disabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Disable search endpoint for this public endpoint
+</details>
 
-- `reranking: optional boolean`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20custom_metadata%20%3E%20(schema)>)
 
-- `reranking_model: optional "@cf/baai/bge-reranker-base" or ""`
+embedding\_model: optional string
 
-  - `"@cf/baai/bge-reranker-base"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20embedding_model%20%3E%20(schema)>)
 
-  - `""`
+<details>
 
-- `retrieval_options: optional object { boost_by, keyword_match_mode }`
+<summary>
 
-  - `boost_by: optional array of object { field, direction }`
+fusion\_method: optional "max"or "rrf"
 
-    Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field.
+</summary>
 
-    - `field: string`
+One of the following:
 
-      Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists.
+"max"
 
-    - `direction: optional "asc" or "desc" or "exists" or "not_exists"`
+<a href="#">Link to this property</a>
 
-      Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional — defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields.
+"rrf"
 
-      - `"asc"`
+<a href="#">Link to this property</a>
 
-      - `"desc"`
+</details>
 
-      - `"exists"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20fusion_method%20%3E%20(schema)>)
 
-      - `"not_exists"`
+Deprecatedhybrid\_search\_enabled: optional boolean
 
-  - `keyword_match_mode: optional "and" or "or"`
+Deprecated — use index\_method instead.
 
-    Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. Defaults to 'and'.
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20hybrid_search_enabled%20%3E%20(schema)>)
 
-    - `"and"`
+<details>
 
-    - `"or"`
+<summary>
 
-- `rewrite_model: optional "@cf/meta/llama-3.3-70b-instruct-fp8-fast" or "@cf/zai-org/glm-4.7-flash" or "@cf/meta/llama-3.1-8b-instruct-fast" or 27 more`
+index\_method: optional object {keyword, vector }
 
-  - `"@cf/meta/llama-3.3-70b-instruct-fp8-fast"`
+Controls which storage backends are used during indexing. Defaults to vector-only.
 
-  - `"@cf/zai-org/glm-4.7-flash"`
+</summary>
 
-  - `"@cf/meta/llama-3.1-8b-instruct-fast"`
+keyword: boolean
 
-  - `"@cf/meta/llama-3.1-8b-instruct-fp8"`
+Enable keyword (BM25) storage backend.
 
-  - `"@cf/meta/llama-4-scout-17b-16e-instruct"`
+<a href="#">Link to this property</a>
 
-  - `"@cf/qwen/qwen3-30b-a3b-fp8"`
+vector: boolean
 
-  - `"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"`
+Enable vector (embedding) storage backend.
 
-  - `"@cf/moonshotai/kimi-k2-instruct"`
+<a href="#">Link to this property</a>
 
-  - `"@cf/google/gemma-3-12b-it"`
+</details>
 
-  - `"@cf/google/gemma-4-26b-a4b-it"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20index_method%20%3E%20(schema)>)
 
-  - `"@cf/moonshotai/kimi-k2.5"`
+<details>
 
-  - `"anthropic/claude-3-7-sonnet"`
+<summary>
 
-  - `"anthropic/claude-sonnet-4"`
+indexing\_options: optional object {keyword\_tokenizer, use\_ocr }
 
-  - `"anthropic/claude-opus-4"`
+</summary>
 
-  - `"anthropic/claude-3-5-haiku"`
+<details>
 
-  - `"cerebras/qwen-3-235b-a22b-instruct"`
+<summary>
 
-  - `"cerebras/qwen-3-235b-a22b-thinking"`
+keyword\_tokenizer: optional "porter"or "trigram"
 
-  - `"cerebras/llama-3.3-70b"`
+Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter.
 
-  - `"cerebras/llama-4-maverick-17b-128e-instruct"`
+</summary>
 
-  - `"cerebras/llama-4-scout-17b-16e-instruct"`
+One of the following:
 
-  - `"cerebras/gpt-oss-120b"`
+"porter"
 
-  - `"google-ai-studio/gemini-2.5-flash"`
+<a href="#">Link to this property</a>
 
-  - `"google-ai-studio/gemini-2.5-pro"`
+"trigram"
 
-  - `"grok/grok-4"`
+<a href="#">Link to this property</a>
 
-  - `"groq/llama-3.3-70b-versatile"`
+</details>
 
-  - `"groq/llama-3.1-8b-instant"`
+<a href="#">Link to this property</a>
 
-  - `"openai/gpt-5"`
+use\_ocr: optional boolean
 
-  - `"openai/gpt-5-mini"`
+Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false.
 
-  - `"openai/gpt-5-nano"`
+<a href="#">Link to this property</a>
 
-  - `""`
+</details>
 
-- `rewrite_query: optional boolean`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20indexing_options%20%3E%20(schema)>)
 
-- `score_threshold: optional number`
+max\_num\_results: optional number
 
-- `source: optional string`
+maximum50
 
-- `source_params: optional object { exclude_items, include_items, prefix, 2 more }`
+minimum1
 
-  - `exclude_items: optional array of string`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20max_num_results%20%3E%20(schema)>)
 
-    List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced)
+<details>
 
-  - `include_items: optional array of string`
+<summary>
 
-    List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post)
+metadata: optional object {created\_from\_aisearch\_wizard, worker\_domain }
 
-  - `prefix: optional string`
+</summary>
 
-  - `r2_jurisdiction: optional string`
+created\_from\_aisearch\_wizard: optional boolean
 
-  - `web_crawler: optional object { parse_options, parse_type }`
+<a href="#">Link to this property</a>
 
-    - `parse_options: optional object { content_selector, include_headers, include_images, 2 more }`
+worker\_domain: optional string
 
-      - `content_selector: optional array of object { path, selector }`
+<a href="#">Link to this property</a>
 
-        List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. Only the matched HTML fragment is stored and indexed. Omit the field to disable content selection — empty arrays are rejected.
+</details>
 
-        - `path: string`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20metadata%20%3E%20(schema)>)
 
-          Glob pattern to match against the page URL path. Uses standard glob syntax: * matches within a segment, ** crosses directories.
+<details>
 
-        - `selector: string`
+<summary>
 
-          CSS selector to extract content from pages matching the path pattern. Must not contain disallowed characters (;, `, $, {, }, ). Must target a single element; if multiple elements match, the selector is ignored and the full page is used.
+public\_endpoint\_params: optional object {authorized\_hosts, chat\_completions\_endpoint, custom\_domains, 5 more }
 
-      - `include_headers: optional map[string]`
+</summary>
 
-        Up to 5 custom HTTP headers sent with each crawl request. Names must be RFC-7230 token characters (no spaces, colons, or control characters); values must be HTAB + printable ASCII (no CR/LF).
+authorized\_hosts: optional array of string
 
-      - `include_images: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `specific_sitemaps: optional array of string`
+<details>
 
-        List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'.
+<summary>
 
-      - `use_browser_rendering: optional boolean`
+chat\_completions\_endpoint: optional object {disabled }
 
-    - `parse_type: optional "sitemap" or "crawl"`
+</summary>
 
-      - `"sitemap"`
+disabled: optional boolean
 
-      - `"crawl"`
+Disable chat completions endpoint for this public endpoint
 
-- `sync_interval: optional 900 or 1800 or 3600 or 5 more`
+<a href="#">Link to this property</a>
 
-  Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).
+</details>
 
-  - `900`
+<a href="#">Link to this property</a>
 
-  - `1800`
+custom\_domains: optional array of string
 
-  - `3600`
+Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged).
 
-  - `7200`
+<a href="#">Link to this property</a>
 
-  - `14400`
+default\_domain\_enabled: optional boolean
 
-  - `21600`
+When false, the instance is reachable only via a registered custom domain and the default &lt;public\_endpoint\_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public\_endpoint\_params is replaced wholesale on update, so resend default\_domain\_enabled on every update to keep the default host off — omitting it resets to true.
 
-  - `43200`
+<a href="#">Link to this property</a>
 
-  - `86400`
+enabled: optional boolean
 
-- `token_id: optional string`
+<a href="#">Link to this property</a>
 
-- `type: optional "r2" or "web-crawler"`
+<details>
 
-  - `"r2"`
+<summary>
 
-  - `"web-crawler"`
+mcp: optional object {description, disabled }
 
-### Returns
+</summary>
 
-- `result: object { id, created_at, modified_at, 36 more }`
+description: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+disabled: optional boolean
 
-  - `created_at: string`
+Disable MCP endpoint for this public endpoint
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `ai_gateway_id: optional string`
+</details>
 
-  - `ai_search_model: optional "@cf/meta/llama-3.3-70b-instruct-fp8-fast" or "@cf/zai-org/glm-4.7-flash" or "@cf/meta/llama-3.1-8b-instruct-fast" or 27 more`
+<a href="#">Link to this property</a>
 
-    - `"@cf/meta/llama-3.3-70b-instruct-fp8-fast"`
+<details>
 
-    - `"@cf/zai-org/glm-4.7-flash"`
+<summary>
 
-    - `"@cf/meta/llama-3.1-8b-instruct-fast"`
+rate\_limit: optional object {period\_ms, requests, technique }
 
-    - `"@cf/meta/llama-3.1-8b-instruct-fp8"`
+</summary>
 
-    - `"@cf/meta/llama-4-scout-17b-16e-instruct"`
+period\_ms: optional number
 
-    - `"@cf/qwen/qwen3-30b-a3b-fp8"`
+maximum3600000
 
-    - `"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"`
+minimum60000
 
-    - `"@cf/moonshotai/kimi-k2-instruct"`
+<a href="#">Link to this property</a>
 
-    - `"@cf/google/gemma-3-12b-it"`
+requests: optional number
 
-    - `"@cf/google/gemma-4-26b-a4b-it"`
+minimum1
 
-    - `"@cf/moonshotai/kimi-k2.5"`
+<a href="#">Link to this property</a>
 
-    - `"anthropic/claude-3-7-sonnet"`
+<details>
 
-    - `"anthropic/claude-sonnet-4"`
+<summary>
 
-    - `"anthropic/claude-opus-4"`
+technique: optional "fixed"or "sliding"
 
-    - `"anthropic/claude-3-5-haiku"`
+</summary>
 
-    - `"cerebras/qwen-3-235b-a22b-instruct"`
+One of the following:
 
-    - `"cerebras/qwen-3-235b-a22b-thinking"`
+"fixed"
 
-    - `"cerebras/llama-3.3-70b"`
+<a href="#">Link to this property</a>
 
-    - `"cerebras/llama-4-maverick-17b-128e-instruct"`
+"sliding"
 
-    - `"cerebras/llama-4-scout-17b-16e-instruct"`
+<a href="#">Link to this property</a>
 
-    - `"cerebras/gpt-oss-120b"`
+</details>
 
-    - `"google-ai-studio/gemini-2.5-flash"`
+<a href="#">Link to this property</a>
 
-    - `"google-ai-studio/gemini-2.5-pro"`
+</details>
 
-    - `"grok/grok-4"`
+<a href="#">Link to this property</a>
 
-    - `"groq/llama-3.3-70b-versatile"`
+<details>
 
-    - `"groq/llama-3.1-8b-instant"`
+<summary>
 
-    - `"openai/gpt-5"`
+search\_endpoint: optional object {disabled }
 
-    - `"openai/gpt-5-mini"`
+</summary>
 
-    - `"openai/gpt-5-nano"`
+disabled: optional boolean
 
-    - `""`
+Disable search endpoint for this public endpoint
 
-  - `cache: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `cache_threshold: optional "super_strict_match" or "close_enough" or "flexible_friend" or "anything_goes"`
+</details>
 
-    - `"super_strict_match"`
+<a href="#">Link to this property</a>
 
-    - `"close_enough"`
+</details>
 
-    - `"flexible_friend"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20public_endpoint_params%20%3E%20(schema)>)
 
-    - `"anything_goes"`
+reranking: optional boolean
 
-  - `cache_ttl: optional 600 or 1800 or 3600 or 7 more`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20reranking%20%3E%20(schema)>)
 
-    Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d).
+reranking\_model: optional string
 
-    - `600`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20reranking_model%20%3E%20(schema)>)
 
-    - `1800`
+<details>
 
-    - `3600`
+<summary>
 
-    - `7200`
+retrieval\_options: optional object {boost\_by, keyword\_match\_mode }
 
-    - `21600`
+</summary>
 
-    - `43200`
+<details>
 
-    - `86400`
+<summary>
 
-    - `172800`
+boost\_by: optional array of object {field, direction }
 
-    - `259200`
+Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to ‘asc’ for numeric/datetime fields and ‘exists’ for text/boolean fields. Fields must match ‘timestamp’ or a defined custom\_metadata field.
 
-    - `518400`
+</summary>
 
-  - `chunk_overlap: optional number`
+field: string
 
-  - `chunk_size: optional number`
+Metadata field name to boost by. Use ‘timestamp’ for document freshness, or any custom\_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not\_exists); text/boolean fields only support exists/not\_exists.
 
-  - `created_by: optional string`
+maxLength64
 
-  - `custom_metadata: optional array of object { data_type, field_name }`
+minLength1
 
-    - `data_type: "text" or "number" or "boolean" or "datetime"`
+<a href="#">Link to this property</a>
 
-      - `"text"`
+<details>
 
-      - `"number"`
+<summary>
 
-      - `"boolean"`
+direction: optional "asc"or "desc"or "exists"or "not\_exists"
 
-      - `"datetime"`
+Boost direction. ‘desc’ = higher values rank higher (e.g. newer timestamps). ‘asc’ = lower values rank higher. ‘exists’ = boost chunks that have the field. ‘not\_exists’ = boost chunks that lack the field. Optional — defaults to ‘asc’ for numeric/datetime fields, ‘exists’ for text/boolean fields.
 
-    - `field_name: string`
+</summary>
 
-  - `embedding_model: optional "@cf/qwen/qwen3-embedding-0.6b" or "@cf/qwen/qwen3-vl-embedding-2b" or "@cf/baai/bge-m3" or 8 more`
+One of the following:
 
-    - `"@cf/qwen/qwen3-embedding-0.6b"`
+"asc"
 
-    - `"@cf/qwen/qwen3-vl-embedding-2b"`
+<a href="#">Link to this property</a>
 
-    - `"@cf/baai/bge-m3"`
+"desc"
 
-    - `"@cf/baai/bge-large-en-v1.5"`
+<a href="#">Link to this property</a>
 
-    - `"@cf/google/embeddinggemma-300m"`
+"exists"
 
-    - `"google-ai-studio/gemini-embedding-001"`
+<a href="#">Link to this property</a>
 
-    - `"google-ai-studio/gemini-embedding-2-preview"`
+"not\_exists"
 
-    - `"google-ai-studio/gemini-embedding-2"`
+<a href="#">Link to this property</a>
 
-    - `"openai/text-embedding-3-small"`
+</details>
 
-    - `"openai/text-embedding-3-large"`
+<a href="#">Link to this property</a>
 
-    - `""`
+</details>
 
-  - `enable: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `engine_version: optional number`
+<details>
 
-  - `fusion_method: optional "max" or "rrf"`
+<summary>
 
-    - `"max"`
+keyword\_match\_mode: optional "and"or "or"
 
-    - `"rrf"`
+Controls which documents are candidates for BM25 scoring. ‘and’ restricts candidates to documents containing all query terms; ‘or’ includes any document containing at least one term, ranked by BM25 relevance. When omitted on an update, the existing stored value is preserved; when never set, search falls back to ‘and’.
 
-  - `hybrid_search_enabled: optional boolean`
+</summary>
 
-    Deprecated — use index_method instead.
+One of the following:
 
-  - `index_method: optional object { keyword, vector }`
+"and"
 
-    Controls which storage backends are used during indexing. Defaults to vector-only.
+<a href="#">Link to this property</a>
 
-    - `keyword: boolean`
+"or"
 
-      Enable keyword (BM25) storage backend.
+<a href="#">Link to this property</a>
 
-    - `vector: boolean`
+</details>
 
-      Enable vector (embedding) storage backend.
+<a href="#">Link to this property</a>
 
-  - `indexing_options: optional object { keyword_tokenizer }`
+</details>
 
-    - `keyword_tokenizer: optional "porter" or "trigram"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20retrieval_options%20%3E%20(schema)>)
 
-      Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter.
+rewrite\_model: optional string
 
-      - `"porter"`
+A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model.
 
-      - `"trigram"`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20rewrite_model%20%3E%20(schema)>)
 
-  - `last_activity: optional string`
+rewrite\_query: optional boolean
 
-  - `max_num_results: optional number`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20rewrite_query%20%3E%20(schema)>)
 
-  - `metadata: optional object { created_from_aisearch_wizard, worker_domain }`
+score\_threshold: optional number
 
-    - `created_from_aisearch_wizard: optional boolean`
+maximum1
 
-    - `worker_domain: optional string`
+minimum0
 
-  - `modified_by: optional string`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20score_threshold%20%3E%20(schema)>)
 
-  - `namespace: optional string`
+source: optional string
 
-  - `paused: optional boolean`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20source%20%3E%20(schema)>)
 
-  - `public_endpoint_id: optional string`
+<details>
 
-  - `public_endpoint_params: optional object { authorized_hosts, chat_completions_endpoint, custom_domains, 4 more }`
+<summary>
 
-    - `authorized_hosts: optional array of string`
+source\_params: optional object {exclude\_items, include\_items, prefix, 2 more }
 
-    - `chat_completions_endpoint: optional object { disabled }`
+</summary>
 
-      - `disabled: optional boolean`
+exclude\_items: optional array of string
 
-        Disable chat completions endpoint for this public endpoint
+List of path patterns to exclude. Uses micromatch glob syntax: \* matches within a path segment, \*\* matches across path segments (e.g., /admin/\*\* matches /admin/users and /admin/settings/advanced). Most accounts are limited to 10 rules; contact support to raise it.
 
-    - `custom_domains: optional array of string`
+<a href="#">Link to this property</a>
 
-      Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged).
+include\_items: optional array of string
 
-    - `enabled: optional boolean`
+List of path patterns to include. Uses micromatch glob syntax: \* matches within a path segment, \*\* matches across path segments (e.g., /blog/\*\* matches /blog/post and /blog/2024/post). Most accounts are limited to 10 rules; contact support to raise it.
 
-    - `mcp: optional object { description, disabled }`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+prefix: optional string
 
-      - `disabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Disable MCP endpoint for this public endpoint
+r2\_jurisdiction: optional string
 
-    - `rate_limit: optional object { period_ms, requests, technique }`
+<a href="#">Link to this property</a>
 
-      - `period_ms: optional number`
+<details>
 
-      - `requests: optional number`
+<summary>
 
-      - `technique: optional "fixed" or "sliding"`
+web\_crawler: optional object {discover\_options, parse\_options, parse\_type }
 
-        - `"fixed"`
+</summary>
 
-        - `"sliding"`
+<details>
 
-    - `search_endpoint: optional object { disabled }`
+<summary>
 
-      - `disabled: optional boolean`
+discover\_options: optional object {depth, include\_external\_links, include\_subdomains, 3 more }
 
-        Disable search endpoint for this public endpoint
+Options for parse\_type ‘discover’, where Browser Run discovers URLs by link following and sitemaps. Ignored for ‘sitemap’.
 
-  - `reranking: optional boolean`
+</summary>
 
-  - `reranking_model: optional "@cf/baai/bge-reranker-base" or ""`
+depth: optional number
 
-    - `"@cf/baai/bge-reranker-base"`
+Maximum link-follow depth from the seed URL.
 
-    - `""`
+maximum100000
 
-  - `retrieval_options: optional object { boost_by, keyword_match_mode }`
+minimum1
 
-    - `boost_by: optional array of object { field, direction }`
+<a href="#">Link to this property</a>
 
-      Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field.
+include\_external\_links: optional boolean
 
-      - `field: string`
+Follow links that point outside the source domain. Must stay <code>false</code> — discover crawls are restricted to the zone you own.
 
-        Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists.
+<a href="#">Link to this property</a>
 
-      - `direction: optional "asc" or "desc" or "exists" or "not_exists"`
+include\_subdomains: optional boolean
 
-        Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional — defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields.
+Follow links to subdomains of the source host.
 
-        - `"asc"`
+<a href="#">Link to this property</a>
 
-        - `"desc"`
+limit: optional number
 
-        - `"exists"`
+Maximum number of pages to crawl (1-100000).
 
-        - `"not_exists"`
+maximum100000
 
-    - `keyword_match_mode: optional "and" or "or"`
+minimum1
 
-      Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. Defaults to 'and'.
+<a href="#">Link to this property</a>
 
-      - `"and"`
+max\_age: optional number
 
-      - `"or"`
+Maximum content age in seconds to accept (0–604800).
 
-  - `rewrite_model: optional "@cf/meta/llama-3.3-70b-instruct-fp8-fast" or "@cf/zai-org/glm-4.7-flash" or "@cf/meta/llama-3.1-8b-instruct-fast" or 27 more`
+maximum604800
 
-    - `"@cf/meta/llama-3.3-70b-instruct-fp8-fast"`
+minimum0
 
-    - `"@cf/zai-org/glm-4.7-flash"`
+<a href="#">Link to this property</a>
 
-    - `"@cf/meta/llama-3.1-8b-instruct-fast"`
+<details>
 
-    - `"@cf/meta/llama-3.1-8b-instruct-fp8"`
+<summary>
 
-    - `"@cf/meta/llama-4-scout-17b-16e-instruct"`
+source: optional "all"or "sitemaps"or "links"
 
-    - `"@cf/qwen/qwen3-30b-a3b-fp8"`
+Where the crawler looks for URLs: ‘sitemaps’ reads sitemap XML only, ‘links’ follows page links only, ‘all’ does both.
 
-    - `"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"`
+</summary>
 
-    - `"@cf/moonshotai/kimi-k2-instruct"`
+One of the following:
 
-    - `"@cf/google/gemma-3-12b-it"`
+"all"
 
-    - `"@cf/google/gemma-4-26b-a4b-it"`
+<a href="#">Link to this property</a>
 
-    - `"@cf/moonshotai/kimi-k2.5"`
+"sitemaps"
 
-    - `"anthropic/claude-3-7-sonnet"`
+<a href="#">Link to this property</a>
 
-    - `"anthropic/claude-sonnet-4"`
+"links"
 
-    - `"anthropic/claude-opus-4"`
+<a href="#">Link to this property</a>
 
-    - `"anthropic/claude-3-5-haiku"`
+</details>
 
-    - `"cerebras/qwen-3-235b-a22b-instruct"`
+<a href="#">Link to this property</a>
 
-    - `"cerebras/qwen-3-235b-a22b-thinking"`
+</details>
 
-    - `"cerebras/llama-3.3-70b"`
+<a href="#">Link to this property</a>
 
-    - `"cerebras/llama-4-maverick-17b-128e-instruct"`
+<details>
 
-    - `"cerebras/llama-4-scout-17b-16e-instruct"`
+<summary>
 
-    - `"cerebras/gpt-oss-120b"`
+parse\_options: optional object {content\_selector, include\_headers, include\_images, 2 more }
 
-    - `"google-ai-studio/gemini-2.5-flash"`
+</summary>
 
-    - `"google-ai-studio/gemini-2.5-pro"`
+<details>
 
-    - `"grok/grok-4"`
+<summary>
 
-    - `"groq/llama-3.3-70b-versatile"`
+content\_selector: optional array of object {path, selector }
 
-    - `"groq/llama-3.1-8b-instant"`
+List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. Only the matched HTML fragment is stored and indexed. Omit the field to disable content selection — empty arrays are rejected.
 
-    - `"openai/gpt-5"`
+</summary>
 
-    - `"openai/gpt-5-mini"`
+path: string
 
-    - `"openai/gpt-5-nano"`
+Glob pattern to match against the page URL path. Uses standard glob syntax: \* matches within a segment, \*\* crosses directories.
 
-    - `""`
+maxLength200
 
-  - `rewrite_query: optional boolean`
+minLength1
 
-  - `score_threshold: optional number`
+<a href="#">Link to this property</a>
 
-  - `source: optional string`
+selector: string
 
-  - `source_params: optional object { exclude_items, include_items, prefix, 2 more }`
+CSS selector to extract content from pages matching the path pattern. Must not contain disallowed characters (;, \`, $, {, }, ). Must target a single element; if multiple elements match, the selector is ignored and the full page is used.
 
-    - `exclude_items: optional array of string`
+maxLength200
 
-      List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced)
+minLength1
 
-    - `include_items: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post)
+</details>
 
-    - `prefix: optional string`
+<a href="#">Link to this property</a>
 
-    - `r2_jurisdiction: optional string`
+include\_headers: optional map\[string]
 
-    - `web_crawler: optional object { parse_options, parse_type }`
+Up to 5 custom HTTP headers sent with each crawl request. Names must be RFC-7230 token characters (no spaces, colons, or control characters); values must be HTAB + printable ASCII (no CR/LF).
 
-      - `parse_options: optional object { content_selector, include_headers, include_images, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `content_selector: optional array of object { path, selector }`
+include\_images: optional boolean
 
-          List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. Only the matched HTML fragment is stored and indexed. Omit the field to disable content selection — empty arrays are rejected.
+<a href="#">Link to this property</a>
 
-          - `path: string`
+specific\_sitemaps: optional array of string
 
-            Glob pattern to match against the page URL path. Uses standard glob syntax: * matches within a segment, ** crosses directories.
+List of specific sitemap URLs to use for crawling. Only valid when parse\_type is ‘sitemap’.
 
-          - `selector: string`
+<a href="#">Link to this property</a>
 
-            CSS selector to extract content from pages matching the path pattern. Must not contain disallowed characters (;, `, $, {, }, ). Must target a single element; if multiple elements match, the selector is ignored and the full page is used.
+use\_browser\_rendering: optional boolean
 
-        - `include_headers: optional map[string]`
+<a href="#">Link to this property</a>
 
-          Up to 5 custom HTTP headers sent with each crawl request. Names must be RFC-7230 token characters (no spaces, colons, or control characters); values must be HTAB + printable ASCII (no CR/LF).
+</details>
 
-        - `include_images: optional boolean`
+<a href="#">Link to this property</a>
 
-        - `specific_sitemaps: optional array of string`
+<details>
 
-          List of specific sitemap URLs to use for crawling. Only valid when parse_type is 'sitemap'.
+<summary>
 
-        - `use_browser_rendering: optional boolean`
+parse\_type: optional "sitemap"or "discover"
 
-      - `parse_type: optional "sitemap" or "crawl"`
+How URLs are discovered. ‘sitemap’ reads XML sitemaps; ‘discover’ follows links recursively and requires the source to be a Verified zone on this account.
 
-        - `"sitemap"`
+</summary>
 
-        - `"crawl"`
+One of the following:
 
-  - `status: optional string`
+"sitemap"
 
-  - `sync_interval: optional 900 or 1800 or 3600 or 5 more`
+<a href="#">Link to this property</a>
 
-    Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).
+"discover"
 
-    - `900`
+<a href="#">Link to this property</a>
 
-    - `1800`
+</details>
 
-    - `3600`
+<a href="#">Link to this property</a>
 
-    - `7200`
+</details>
 
-    - `14400`
+<a href="#">Link to this property</a>
 
-    - `21600`
+</details>
 
-    - `43200`
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20source_params%20%3E%20(schema)>)
 
-    - `86400`
+<details>
 
-  - `token_id: optional string`
+<summary>
 
-  - `type: optional "r2" or "web-crawler"`
+sync\_interval: optional 900or 1800or 3600or 5 more
 
-    - `"r2"`
+Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).
 
-    - `"web-crawler"`
+</summary>
 
-- `success: boolean`
+One of the following:
 
-### Example
+900
 
-```http
+<a href="#">Link to this property</a>
+
+1800
+
+<a href="#">Link to this property</a>
+
+3600
+
+<a href="#">Link to this property</a>
+
+7200
+
+<a href="#">Link to this property</a>
+
+14400
+
+<a href="#">Link to this property</a>
+
+21600
+
+<a href="#">Link to this property</a>
+
+43200
+
+<a href="#">Link to this property</a>
+
+86400
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20sync_interval%20%3E%20(schema)>)
+
+token\_id: optional string
+
+formatuuid
+
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20token_id%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+type: optional "r2"or "web-crawler"
+
+</summary>
+
+One of the following:
+
+"r2"
+
+<a href="#">Link to this property</a>
+
+"web-crawler"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20type%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {id, created\_at, modified\_at, 36 more }
+
+</summary>
+
+id: string
+
+AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+ai\_gateway\_id: optional string
+
+<a href="#">Link to this property</a>
+
+ai\_search\_model: optional string
+
+A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model.
+
+<a href="#">Link to this property</a>
+
+cache: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cache\_threshold: optional "super\_strict\_match"or "close\_enough"or "flexible\_friend"or "anything\_goes"
+
+</summary>
+
+One of the following:
+
+"super\_strict\_match"
+
+<a href="#">Link to this property</a>
+
+"close\_enough"
+
+<a href="#">Link to this property</a>
+
+"flexible\_friend"
+
+<a href="#">Link to this property</a>
+
+"anything\_goes"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cache\_ttl: optional 600or 1800or 3600or 7 more
+
+Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d).
+
+</summary>
+
+One of the following:
+
+600
+
+<a href="#">Link to this property</a>
+
+1800
+
+<a href="#">Link to this property</a>
+
+3600
+
+<a href="#">Link to this property</a>
+
+7200
+
+<a href="#">Link to this property</a>
+
+21600
+
+<a href="#">Link to this property</a>
+
+43200
+
+<a href="#">Link to this property</a>
+
+86400
+
+<a href="#">Link to this property</a>
+
+172800
+
+<a href="#">Link to this property</a>
+
+259200
+
+<a href="#">Link to this property</a>
+
+518400
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+chunk\_overlap: optional number
+
+maximum30
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+chunk\_size: optional number
+
+minimum64
+
+<a href="#">Link to this property</a>
+
+created\_by: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+custom\_metadata: optional array of object {data\_type, field\_name }
+
+</summary>
+
+<details>
+
+<summary>
+
+data\_type: "text"or "number"or "boolean"or "datetime"
+
+</summary>
+
+One of the following:
+
+"text"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+"datetime"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+field\_name: string
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+embedding\_model: optional string
+
+<a href="#">Link to this property</a>
+
+enable: optional boolean
+
+<a href="#">Link to this property</a>
+
+engine\_version: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fusion\_method: optional "max"or "rrf"
+
+</summary>
+
+One of the following:
+
+"max"
+
+<a href="#">Link to this property</a>
+
+"rrf"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedhybrid\_search\_enabled: optional boolean
+
+Deprecated — use index\_method instead.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+index\_method: optional object {keyword, vector }
+
+Controls which storage backends are used during indexing. Defaults to vector-only.
+
+</summary>
+
+keyword: boolean
+
+Enable keyword (BM25) storage backend.
+
+<a href="#">Link to this property</a>
+
+vector: boolean
+
+Enable vector (embedding) storage backend.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+indexing\_options: optional object {keyword\_tokenizer, use\_ocr }
+
+</summary>
+
+<details>
+
+<summary>
+
+keyword\_tokenizer: optional "porter"or "trigram"
+
+Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter.
+
+</summary>
+
+One of the following:
+
+"porter"
+
+<a href="#">Link to this property</a>
+
+"trigram"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+use\_ocr: optional boolean
+
+Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+last\_activity: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+max\_num\_results: optional number
+
+maximum50
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+metadata: optional object {created\_from\_aisearch\_wizard, worker\_domain }
+
+</summary>
+
+created\_from\_aisearch\_wizard: optional boolean
+
+<a href="#">Link to this property</a>
+
+worker\_domain: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_by: optional string
+
+<a href="#">Link to this property</a>
+
+namespace: optional string
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+<a href="#">Link to this property</a>
+
+public\_endpoint\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+public\_endpoint\_params: optional object {authorized\_hosts, chat\_completions\_endpoint, custom\_domains, 5 more }
+
+</summary>
+
+authorized\_hosts: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+chat\_completions\_endpoint: optional object {disabled }
+
+</summary>
+
+disabled: optional boolean
+
+Disable chat completions endpoint for this public endpoint
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+custom\_domains: optional array of string
+
+Custom domain hostnames that alias this public endpoint. GET and create responses return the current set; on update (PUT) this field is only echoed back when supplied in the request body, otherwise it is null (omit it to leave domains unchanged).
+
+<a href="#">Link to this property</a>
+
+default\_domain\_enabled: optional boolean
+
+When false, the instance is reachable only via a registered custom domain and the default &lt;public\_endpoint\_id&gt;.search.ai.cloudflare.com host returns 404. Requires at least one custom domain. Defaults to true. public\_endpoint\_params is replaced wholesale on update, so resend default\_domain\_enabled on every update to keep the default host off — omitting it resets to true.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mcp: optional object {description, disabled }
+
+</summary>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+disabled: optional boolean
+
+Disable MCP endpoint for this public endpoint
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rate\_limit: optional object {period\_ms, requests, technique }
+
+</summary>
+
+period\_ms: optional number
+
+maximum3600000
+
+minimum60000
+
+<a href="#">Link to this property</a>
+
+requests: optional number
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+technique: optional "fixed"or "sliding"
+
+</summary>
+
+One of the following:
+
+"fixed"
+
+<a href="#">Link to this property</a>
+
+"sliding"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+search\_endpoint: optional object {disabled }
+
+</summary>
+
+disabled: optional boolean
+
+Disable search endpoint for this public endpoint
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+reranking: optional boolean
+
+<a href="#">Link to this property</a>
+
+reranking\_model: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+retrieval\_options: optional object {boost\_by, keyword\_match\_mode }
+
+</summary>
+
+<details>
+
+<summary>
+
+boost\_by: optional array of object {field, direction }
+
+Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to ‘asc’ for numeric/datetime fields and ‘exists’ for text/boolean fields. Fields must match ‘timestamp’ or a defined custom\_metadata field.
+
+</summary>
+
+field: string
+
+Metadata field name to boost by. Use ‘timestamp’ for document freshness, or any custom\_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not\_exists); text/boolean fields only support exists/not\_exists.
+
+maxLength64
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+direction: optional "asc"or "desc"or "exists"or "not\_exists"
+
+Boost direction. ‘desc’ = higher values rank higher (e.g. newer timestamps). ‘asc’ = lower values rank higher. ‘exists’ = boost chunks that have the field. ‘not\_exists’ = boost chunks that lack the field. Optional — defaults to ‘asc’ for numeric/datetime fields, ‘exists’ for text/boolean fields.
+
+</summary>
+
+One of the following:
+
+"asc"
+
+<a href="#">Link to this property</a>
+
+"desc"
+
+<a href="#">Link to this property</a>
+
+"exists"
+
+<a href="#">Link to this property</a>
+
+"not\_exists"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+keyword\_match\_mode: optional "and"or "or"
+
+Controls which documents are candidates for BM25 scoring. ‘and’ restricts candidates to documents containing all query terms; ‘or’ includes any document containing at least one term, ranked by BM25 relevance. When omitted on an update, the existing stored value is preserved; when never set, search falls back to ‘and’.
+
+</summary>
+
+One of the following:
+
+"and"
+
+<a href="#">Link to this property</a>
+
+"or"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+rewrite\_model: optional string
+
+A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model.
+
+<a href="#">Link to this property</a>
+
+rewrite\_query: optional boolean
+
+<a href="#">Link to this property</a>
+
+score\_threshold: optional number
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+source: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source\_params: optional object {exclude\_items, include\_items, prefix, 2 more }
+
+</summary>
+
+exclude\_items: optional array of string
+
+List of path patterns to exclude. Uses micromatch glob syntax: \* matches within a path segment, \*\* matches across path segments (e.g., /admin/\*\* matches /admin/users and /admin/settings/advanced). Most accounts are limited to 10 rules; contact support to raise it.
+
+<a href="#">Link to this property</a>
+
+include\_items: optional array of string
+
+List of path patterns to include. Uses micromatch glob syntax: \* matches within a path segment, \*\* matches across path segments (e.g., /blog/\*\* matches /blog/post and /blog/2024/post). Most accounts are limited to 10 rules; contact support to raise it.
+
+<a href="#">Link to this property</a>
+
+prefix: optional string
+
+<a href="#">Link to this property</a>
+
+r2\_jurisdiction: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+web\_crawler: optional object {discover\_options, parse\_options, parse\_type }
+
+</summary>
+
+<details>
+
+<summary>
+
+discover\_options: optional object {depth, include\_external\_links, include\_subdomains, 3 more }
+
+Options for parse\_type ‘discover’, where Browser Run discovers URLs by link following and sitemaps. Ignored for ‘sitemap’.
+
+</summary>
+
+depth: optional number
+
+Maximum link-follow depth from the seed URL.
+
+maximum100000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+include\_external\_links: optional boolean
+
+Follow links that point outside the source domain. Must stay <code>false</code> — discover crawls are restricted to the zone you own.
+
+<a href="#">Link to this property</a>
+
+include\_subdomains: optional boolean
+
+Follow links to subdomains of the source host.
+
+<a href="#">Link to this property</a>
+
+limit: optional number
+
+Maximum number of pages to crawl (1-100000).
+
+maximum100000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+max\_age: optional number
+
+Maximum content age in seconds to accept (0–604800).
+
+maximum604800
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional "all"or "sitemaps"or "links"
+
+Where the crawler looks for URLs: ‘sitemaps’ reads sitemap XML only, ‘links’ follows page links only, ‘all’ does both.
+
+</summary>
+
+One of the following:
+
+"all"
+
+<a href="#">Link to this property</a>
+
+"sitemaps"
+
+<a href="#">Link to this property</a>
+
+"links"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parse\_options: optional object {content\_selector, include\_headers, include\_images, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+content\_selector: optional array of object {path, selector }
+
+List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. Only the matched HTML fragment is stored and indexed. Omit the field to disable content selection — empty arrays are rejected.
+
+</summary>
+
+path: string
+
+Glob pattern to match against the page URL path. Uses standard glob syntax: \* matches within a segment, \*\* crosses directories.
+
+maxLength200
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+selector: string
+
+CSS selector to extract content from pages matching the path pattern. Must not contain disallowed characters (;, \`, $, {, }, ). Must target a single element; if multiple elements match, the selector is ignored and the full page is used.
+
+maxLength200
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+include\_headers: optional map\[string]
+
+Up to 5 custom HTTP headers sent with each crawl request. Names must be RFC-7230 token characters (no spaces, colons, or control characters); values must be HTAB + printable ASCII (no CR/LF).
+
+<a href="#">Link to this property</a>
+
+include\_images: optional boolean
+
+<a href="#">Link to this property</a>
+
+specific\_sitemaps: optional array of string
+
+List of specific sitemap URLs to use for crawling. Only valid when parse\_type is ‘sitemap’.
+
+<a href="#">Link to this property</a>
+
+use\_browser\_rendering: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+parse\_type: optional "sitemap"or "discover"
+
+How URLs are discovered. ‘sitemap’ reads XML sitemaps; ‘discover’ follows links recursively and requires the source to be a Verified zone on this account.
+
+</summary>
+
+One of the following:
+
+"sitemap"
+
+<a href="#">Link to this property</a>
+
+"discover"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sync\_interval: optional 900or 1800or 3600or 5 more
+
+Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).
+
+</summary>
+
+One of the following:
+
+900
+
+<a href="#">Link to this property</a>
+
+1800
+
+<a href="#">Link to this property</a>
+
+3600
+
+<a href="#">Link to this property</a>
+
+7200
+
+<a href="#">Link to this property</a>
+
+14400
+
+<a href="#">Link to this property</a>
+
+21600
+
+<a href="#">Link to this property</a>
+
+43200
+
+<a href="#">Link to this property</a>
+
+86400
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+token\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "r2"or "web-crawler"
+
+</summary>
+
+One of the following:
+
+"r2"
+
+<a href="#">Link to this property</a>
+
+"web-crawler"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_search.instances%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create an AI Search instance.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instances \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -871,16 +1861,16 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instanc
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "id": "my-ai-search",
     "created_at": "2019-12-27T18:11:19.117Z",
     "modified_at": "2019-12-27T18:11:19.117Z",
     "ai_gateway_id": "ai_gateway_id",
-    "ai_search_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "ai_search_model": "ai_search_model",
     "cache": true,
     "cache_threshold": "super_strict_match",
     "cache_ttl": 600,
@@ -893,7 +1883,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instanc
         "field_name": "x"
       }
     ],
-    "embedding_model": "@cf/qwen/qwen3-embedding-0.6b",
+    "embedding_model": "embedding_model",
     "enable": true,
     "engine_version": 0,
     "fusion_method": "max",
@@ -903,7 +1893,8 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instanc
       "vector": true
     },
     "indexing_options": {
-      "keyword_tokenizer": "porter"
+      "keyword_tokenizer": "porter",
+      "use_ocr": true
     },
     "last_activity": "2019-12-27T18:11:19.117Z",
     "max_num_results": 1,
@@ -925,6 +1916,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instanc
       "custom_domains": [
         "search.example.com"
       ],
+      "default_domain_enabled": true,
       "enabled": true,
       "mcp": {
         "description": "description",
@@ -940,7 +1932,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instanc
       }
     },
     "reranking": true,
-    "reranking_model": "@cf/baai/bge-reranker-base",
+    "reranking_model": "reranking_model",
     "retrieval_options": {
       "boost_by": [
         {
@@ -950,7 +1942,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instanc
       ],
       "keyword_match_mode": "and"
     },
-    "rewrite_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "rewrite_model": "rewrite_model",
     "rewrite_query": true,
     "score_threshold": 0,
     "source": "source",
@@ -968,6 +1960,156 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/instanc
       "prefix": "prefix",
       "r2_jurisdiction": "r2_jurisdiction",
       "web_crawler": {
+        "discover_options": {
+          "depth": 5,
+          "include_external_links": false,
+          "include_subdomains": false,
+          "limit": 10000,
+          "max_age": 86400,
+          "source": "all"
+        },
+        "parse_options": {
+          "content_selector": [
+            {
+              "path": "**/blog/**",
+              "selector": "article div.post-body"
+            },
+            {
+              "path": "**/docs/**",
+              "selector": "main"
+            }
+          ],
+          "include_headers": {
+            "cache-control": "no-cache, no-store"
+          },
+          "include_images": true,
+          "specific_sitemaps": [
+            "https://example.com/sitemap.xml",
+            "https://example.com/blog-sitemap.xml"
+          ],
+          "use_browser_rendering": true
+        },
+        "parse_type": "sitemap"
+      }
+    },
+    "status": "status",
+    "sync_interval": 900,
+    "token_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "type": "r2"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "id": "my-ai-search",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "modified_at": "2019-12-27T18:11:19.117Z",
+    "ai_gateway_id": "ai_gateway_id",
+    "ai_search_model": "ai_search_model",
+    "cache": true,
+    "cache_threshold": "super_strict_match",
+    "cache_ttl": 600,
+    "chunk_overlap": 0,
+    "chunk_size": 64,
+    "created_by": "created_by",
+    "custom_metadata": [
+      {
+        "data_type": "text",
+        "field_name": "x"
+      }
+    ],
+    "embedding_model": "embedding_model",
+    "enable": true,
+    "engine_version": 0,
+    "fusion_method": "max",
+    "hybrid_search_enabled": true,
+    "index_method": {
+      "keyword": true,
+      "vector": true
+    },
+    "indexing_options": {
+      "keyword_tokenizer": "porter",
+      "use_ocr": true
+    },
+    "last_activity": "2019-12-27T18:11:19.117Z",
+    "max_num_results": 1,
+    "metadata": {
+      "created_from_aisearch_wizard": true,
+      "worker_domain": "worker_domain"
+    },
+    "modified_by": "modified_by",
+    "namespace": "namespace",
+    "paused": true,
+    "public_endpoint_id": "public_endpoint_id",
+    "public_endpoint_params": {
+      "authorized_hosts": [
+        "string"
+      ],
+      "chat_completions_endpoint": {
+        "disabled": true
+      },
+      "custom_domains": [
+        "search.example.com"
+      ],
+      "default_domain_enabled": true,
+      "enabled": true,
+      "mcp": {
+        "description": "description",
+        "disabled": true
+      },
+      "rate_limit": {
+        "period_ms": 60000,
+        "requests": 1,
+        "technique": "fixed"
+      },
+      "search_endpoint": {
+        "disabled": true
+      }
+    },
+    "reranking": true,
+    "reranking_model": "reranking_model",
+    "retrieval_options": {
+      "boost_by": [
+        {
+          "field": "timestamp",
+          "direction": "desc"
+        }
+      ],
+      "keyword_match_mode": "and"
+    },
+    "rewrite_model": "rewrite_model",
+    "rewrite_query": true,
+    "score_threshold": 0,
+    "source": "source",
+    "source_params": {
+      "exclude_items": [
+        "/admin/**",
+        "/private/**",
+        "**\\temp\\**"
+      ],
+      "include_items": [
+        "/blog/**",
+        "/docs/**/*.html",
+        "**\\blog\\**.html"
+      ],
+      "prefix": "prefix",
+      "r2_jurisdiction": "r2_jurisdiction",
+      "web_crawler": {
+        "discover_options": {
+          "depth": 5,
+          "include_external_links": false,
+          "include_subdomains": false,
+          "limit": 10000,
+          "max_age": 86400,
+          "source": "all"
+        },
         "parse_options": {
           "content_selector": [
             {

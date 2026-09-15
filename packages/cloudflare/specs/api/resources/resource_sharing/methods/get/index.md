@@ -1,182 +1,481 @@
-## Get account share by ID
+---
+title: Get account share by ID
+---
 
-**get** `/accounts/{account_id}/shares/{share_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Resource Sharing](https://developers.cloudflare.com/api/resources/resource_sharing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get account share by ID
+
+GET/accounts/{account\_id}/shares/{share\_id}
 
 Fetches share by ID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Account identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `share_id: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  Share identifier tag.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Query Parameters
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `include_recipient_counts: optional boolean`
+##### P ath ParametersExpand Collapse
 
-  Include recipient counts in the response.
+account\_id: string
 
-- `include_resources: optional boolean`
+Account identifier.
 
-  Include resources in the response.
+maxLength32
 
-### Returns
+[Link to this property](#)%20resource_sharing%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `errors: array of ResponseInfo`
+share\_id: string
 
-  - `code: number`
+Share identifier tag.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20resource_sharing%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20share_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Q uery ParametersExpand Collapse
 
-    - `pointer: optional string`
+include\_recipient\_counts: optional boolean
 
-- `success: boolean`
+Include recipient counts in the response.
 
-  Whether the API call was successful.
+[Link to this property](#)%20resource_sharing%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20include_recipient_counts%20%3E%20(schema)>)
 
-- `result: optional object { id, account_id, account_name, 12 more }`
+include\_resources: optional boolean
 
-  - `id: string`
+Include resources in the response.
 
-    Share identifier tag.
+[Link to this property](#)%20resource_sharing%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20include_resources%20%3E%20(schema)>)
 
-  - `account_id: string`
+##### ReturnsExpand Collapse
 
-    Account identifier.
+<details>
 
-  - `account_name: string`
+<summary>
 
-    The display name of an account.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `created: string`
+</summary>
 
-    When the share was created.
+code: number
 
-  - `modified: string`
+minimum1000
 
-    When the share was modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+message: string
 
-    The name of the share.
+<a href="#">Link to this property</a>
 
-  - `organization_id: string`
+documentation\_url: optional string
 
-    Organization identifier.
+<a href="#">Link to this property</a>
 
-  - `status: "active" or "deleting" or "deleted"`
+<details>
 
-    - `"active"`
+<summary>
 
-    - `"deleting"`
+source: optional object {pointer }
 
-    - `"deleted"`
+</summary>
 
-  - `target_type: "account" or "organization"`
+pointer: optional string
 
-    - `"account"`
+<a href="#">Link to this property</a>
 
-    - `"organization"`
+</details>
 
-  - `associated_recipient_count: optional number`
+<a href="#">Link to this property</a>
 
-    The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter.
+</details>
 
-  - `associating_recipient_count: optional number`
+[Link to this property](#)%20resource_sharing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter.
+success: boolean
 
-  - `disassociated_recipient_count: optional number`
+Whether the API call was successful.
 
-    The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter.
+[Link to this property](#)%20resource_sharing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-  - `disassociating_recipient_count: optional number`
+<details>
 
-    The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter.
+<summary>
 
-  - `kind: optional "sent" or "received"`
+result: optional object {id, account\_id, account\_name, 12 more }
 
-    - `"sent"`
+</summary>
 
-    - `"received"`
+id: string
 
-  - `resources: optional array of object { id, created, meta, 6 more }`
+Share identifier tag.
 
-    A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter.
+maxLength32
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Share Resource identifier.
+account\_id: string
 
-    - `created: string`
+Account identifier.
 
-      When the share was created.
+maxLength32
 
-    - `meta: unknown`
+<a href="#">Link to this property</a>
 
-      Resource Metadata.
+account\_name: string
 
-    - `modified: string`
+The display name of an account.
 
-      When the share was modified.
+<a href="#">Link to this property</a>
 
-    - `resource_account_id: string`
+created: string
 
-      Account identifier.
+When the share was created.
 
-    - `resource_id: string`
+formatdate-time
 
-      Share Resource identifier.
+<a href="#">Link to this property</a>
 
-    - `resource_type: "custom-ruleset" or "gateway-policy" or "gateway-destination-ip" or 3 more`
+modified: string
 
-      Resource Type.
+When the share was modified.
 
-      - `"custom-ruleset"`
+formatdate-time
 
-      - `"gateway-policy"`
+<a href="#">Link to this property</a>
 
-      - `"gateway-destination-ip"`
+name: string
 
-      - `"gateway-block-page-settings"`
+The name of the share.
 
-      - `"gateway-extended-email-matching"`
+<a href="#">Link to this property</a>
 
-      - `"idp-federation-grant"`
+organization\_id: string
 
-    - `resource_version: number`
+Organization identifier.
 
-      Resource Version.
+maxLength32
 
-    - `status: "active" or "deleting" or "deleted"`
+<a href="#">Link to this property</a>
 
-      Resource Status.
+<details>
 
-      - `"active"`
+<summary>
 
-      - `"deleting"`
+status: "active"or "deleting"or "deleted"
 
-      - `"deleted"`
+</summary>
 
-### Example
+One of the following:
 
-```http
+"active"
+
+<a href="#">Link to this property</a>
+
+"deleting"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+target\_type: "account"or "organization"
+
+</summary>
+
+One of the following:
+
+"account"
+
+<a href="#">Link to this property</a>
+
+"organization"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+associated\_recipient\_count: optional number
+
+The number of recipients in the ‘associated’ state. This field is only included when requested via the ‘include\_recipient\_counts’ parameter.
+
+<a href="#">Link to this property</a>
+
+associating\_recipient\_count: optional number
+
+The number of recipients in the ‘associating’ state. This field is only included when requested via the ‘include\_recipient\_counts’ parameter.
+
+<a href="#">Link to this property</a>
+
+disassociated\_recipient\_count: optional number
+
+The number of recipients in the ‘disassociated’ state. This field is only included when requested via the ‘include\_recipient\_counts’ parameter.
+
+<a href="#">Link to this property</a>
+
+disassociating\_recipient\_count: optional number
+
+The number of recipients in the ‘disassociating’ state. This field is only included when requested via the ‘include\_recipient\_counts’ parameter.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: optional "sent"or "received"
+
+</summary>
+
+One of the following:
+
+"sent"
+
+<a href="#">Link to this property</a>
+
+"received"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resources: optional array of object {id, created, meta, 6 more }
+
+A list of resources that are part of the share. This field is only included when requested via the ‘include\_resources’ parameter.
+
+</summary>
+
+id: string
+
+Share Resource identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created: string
+
+When the share was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+meta: unknown
+
+Resource Metadata.
+
+<a href="#">Link to this property</a>
+
+modified: string
+
+When the share was modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+resource\_account\_id: string
+
+Account identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+resource\_id: string
+
+Share Resource identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_type: "custom-ruleset"or "gateway-policy"or "gateway-destination-ip"or 4 more
+
+Resource Type.
+
+</summary>
+
+One of the following:
+
+"custom-ruleset"
+
+<a href="#">Link to this property</a>
+
+"gateway-policy"
+
+<a href="#">Link to this property</a>
+
+"gateway-destination-ip"
+
+<a href="#">Link to this property</a>
+
+"gateway-block-page-settings"
+
+<a href="#">Link to this property</a>
+
+"gateway-extended-email-matching"
+
+<a href="#">Link to this property</a>
+
+"idp-federation-grant"
+
+<a href="#">Link to this property</a>
+
+"trust-grant"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+resource\_version: number
+
+Resource Version.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "active"or "deleting"or "deleted"
+
+Resource Status.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"deleting"
+
+<a href="#">Link to this property</a>
+
+"deleted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20resource_sharing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get account share by ID
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/shares/$SHARE_ID \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "3fd85f74b32742f1bff64a85009dda07",
+    "account_id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "account_name": "Account A",
+    "created": "2023-09-21T18:56:32.624632Z",
+    "modified": "2023-09-21T18:56:32.624632Z",
+    "name": "My Shared WAF Managed Rule",
+    "organization_id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "status": "active",
+    "target_type": "account",
+    "associated_recipient_count": 10,
+    "associating_recipient_count": 1,
+    "disassociated_recipient_count": 0,
+    "disassociating_recipient_count": 0,
+    "kind": "sent",
+    "resources": [
+      {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "created": "2023-09-21T18:56:32.624632Z",
+        "meta": {},
+        "modified": "2023-09-21T18:56:32.624632Z",
+        "resource_account_id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "resource_id": "023e105f4ecef8ad9ca31a8372d0c353",
+        "resource_type": "custom-ruleset",
+        "resource_version": 0,
+        "status": "active"
+      }
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

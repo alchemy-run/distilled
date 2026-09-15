@@ -1,601 +1,302 @@
+---
+title: Discovery
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Discovery
 
-## Retrieve discovered operations on a zone rendered as OpenAPI schemas
-
-**get** `/zones/{zone_id}/api_gateway/discovery`
-
-Retrieve the most up to date view of discovered operations, rendered as OpenAPI schemas
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
+##### [Export discovered API operations as OpenAPI schemas](https://developers.cloudflare.com/api/resources/api_gateway/subresources/discovery/methods/get)
 
-    - `pointer: optional string`
+GET/zones/{zone\_id}/api\_gateway/discovery
 
-- `messages: Message`
+##### ModelsExpand Collapse
 
-- `result: object { schemas, timestamp }`
+<details>
 
-  - `schemas: array of unknown`
+<summary>
 
-  - `timestamp: string`
+DiscoveryOperation object {id, endpoint, host, 5 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: string
 
-  - `true`
+UUID.
 
-### Example
+maxLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/discovery \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+minLength36
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "schemas": [
-      {
-        "info": {
-          "title": "OpenAPI JSON schema for www.example.com",
-          "version": "1.0"
-        },
-        "openapi": "3.0.0",
-        "paths": {
-          "... Further paths ...": {},
-          "/api/v1/users/{var1}": {
-            "get": {
-              "parameters": [
-                {
-                  "in": "path",
-                  "name": "var1",
-                  "required": true,
-                  "schema": {
-                    "type": "string"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        "servers": [
-          {
-            "url": "www.example.com"
-          }
-        ]
-      }
-    ],
-    "timestamp": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
+endpoint: string
 
-## Domain Types
+The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: <a href="https://developers.cloudflare.com/rules/normalization/how-it-works/">https://developers.cloudflare.com/rules/normalization/how-it-works/</a>.
 
-### Discovery Operation
+formaturi-template
 
-- `DiscoveryOperation object { id, endpoint, host, 5 more }`
+maxLength4096
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+host: string
 
-  - `endpoint: string`
+RFC3986-compliant host.
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+formathostname
 
-  - `host: string`
+maxLength255
 
-    RFC3986-compliant host.
+<a href="#">Link to this property</a>
 
-  - `last_updated: string`
+last\_updated: string
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+formatdate-time
 
-    The HTTP method used to access the endpoint.
+<a href="#">Link to this property</a>
 
-    - `"GET"`
+<details>
 
-    - `"POST"`
+<summary>
 
-    - `"HEAD"`
+method: "GET"or "POST"or "HEAD"or 6 more
 
-    - `"OPTIONS"`
+The HTTP method used to access the endpoint.
 
-    - `"PUT"`
+</summary>
 
-    - `"DELETE"`
+One of the following:
 
-    - `"CONNECT"`
+"GET"
 
-    - `"PATCH"`
+<a href="#">Link to this property</a>
 
-    - `"TRACE"`
+"POST"
 
-  - `origin: array of "ML" or "SessionIdentifier" or "LabelDiscovery"`
+<a href="#">Link to this property</a>
 
-    API discovery engine(s) that discovered this operation
+"HEAD"
 
-    - `"ML"`
+<a href="#">Link to this property</a>
 
-    - `"SessionIdentifier"`
+"OPTIONS"
 
-    - `"LabelDiscovery"`
+<a href="#">Link to this property</a>
 
-  - `state: "review" or "saved" or "ignored"`
+"PUT"
 
-    State of operation in API Discovery
+<a href="#">Link to this property</a>
 
-    * `review` - Operation is not saved into API Shield Endpoint Management
-    * `saved` - Operation is saved into API Shield Endpoint Management
-    * `ignored` - Operation is marked as ignored
+"DELETE"
 
-    - `"review"`
+<a href="#">Link to this property</a>
 
-    - `"saved"`
+"CONNECT"
 
-    - `"ignored"`
+<a href="#">Link to this property</a>
 
-  - `features: optional object { traffic_stats }`
+"PATCH"
 
-    - `traffic_stats: optional object { last_updated, period_seconds, requests }`
+<a href="#">Link to this property</a>
 
-      - `last_updated: string`
+"TRACE"
 
-      - `period_seconds: number`
+<a href="#">Link to this property</a>
 
-        The period in seconds these statistics were computed over
+</details>
 
-      - `requests: number`
+<a href="#">Link to this property</a>
 
-        The average number of requests seen during this period
+<details>
 
-### Discovery Get Response
+<summary>
 
-- `DiscoveryGetResponse object { schemas, timestamp }`
+origin: array of "ML"or "SessionIdentifier"or "LabelDiscovery"
 
-  - `schemas: array of unknown`
+API discovery engine(s) that discovered this operation
 
-  - `timestamp: string`
+</summary>
 
-# Operations
+One of the following:
 
-## Retrieve discovered operations on a zone
+"ML"
 
-**get** `/zones/{zone_id}/api_gateway/discovery/operations`
+<a href="#">Link to this property</a>
 
-Retrieve the most up to date view of discovered operations
+"SessionIdentifier"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"LabelDiscovery"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `diff: optional boolean`
+<a href="#">Link to this property</a>
 
-  When `true`, only return API Discovery results that are not saved into API Shield Endpoint Management
+<details>
 
-- `direction: optional "asc" or "desc"`
+<summary>
 
-  Direction to order results.
+state: "review"or "saved"or "ignored"
 
-  - `"asc"`
+State of operation in API Discovery
 
-  - `"desc"`
+- <code>review</code> - Operation is not saved into API Shield Endpoint Management
+- <code>saved</code> - Operation is saved into API Shield Endpoint Management
+- <code>ignored</code> - Operation is marked as ignored
 
-- `endpoint: optional string`
+</summary>
 
-  Filter results to only include endpoints containing this pattern.
+One of the following:
 
-- `host: optional array of string`
+"review"
 
-  Filter results to only include the specified hosts.
+<a href="#">Link to this property</a>
 
-- `method: optional array of string`
+"saved"
 
-  Filter results to only include the specified HTTP methods.
+<a href="#">Link to this property</a>
 
-- `order: optional "host" or "method" or "endpoint" or 2 more`
+"ignored"
 
-  Field to order by
+<a href="#">Link to this property</a>
 
-  - `"host"`
+</details>
 
-  - `"method"`
+<a href="#">Link to this property</a>
 
-  - `"endpoint"`
+<details>
 
-  - `"traffic_stats.requests"`
+<summary>
 
-  - `"traffic_stats.last_updated"`
+features: optional object {traffic\_stats }
 
-- `origin: optional "ML" or "SessionIdentifier" or "LabelDiscovery"`
+</summary>
 
-  Filter results to only include discovery results sourced from a particular discovery engine
+<details>
 
-  * `ML` - Discovered operations that were sourced using ML API Discovery
-  * `SessionIdentifier` - Discovered operations that were sourced using Session Identifier API Discovery
+<summary>
 
-  - `"ML"`
+traffic\_stats: optional object {last\_updated, period\_seconds, requests }
 
-  - `"SessionIdentifier"`
+</summary>
 
-  - `"LabelDiscovery"`
+last\_updated: string
 
-- `page: optional number`
+formatdate-time
 
-  Page number of paginated results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+period\_seconds: number
 
-  Maximum number of results per page.
+The period in seconds these statistics were computed over
 
-- `state: optional "review" or "saved" or "ignored"`
+<a href="#">Link to this property</a>
 
-  Filter results to only include discovery results in a particular state. States are as follows
+requests: number
 
-  * `review` - Discovered operations that are not saved into API Shield Endpoint Management
-  * `saved` - Discovered operations that are already saved into API Shield Endpoint Management
-  * `ignored` - Discovered operations that have been marked as ignored
+The average number of requests seen during this period
 
-  - `"review"`
+formatfloat
 
-  - `"saved"`
+<a href="#">Link to this property</a>
 
-  - `"ignored"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20api_gateway.discovery%20%3E%20(model)%20discovery_operation%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: Message`
+DiscoveryGetResponse object {schemas, timestamp }
 
-- `result: array of DiscoveryOperation`
+</summary>
 
-  - `id: string`
+schemas: array of unknown
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+timestamp: string
 
-    The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.
+formatdate-time
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-    RFC3986-compliant host.
+</details>
 
-  - `last_updated: string`
+[Link to this property](#)%20api_gateway.discovery%20%3E%20(model)%20discovery_get_response%20%3E%20(schema)>)
 
-  - `method: "GET" or "POST" or "HEAD" or 6 more`
+#### DiscoveryOperations
 
-    The HTTP method used to access the endpoint.
+##### [List discovered web and API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/discovery/subresources/operations/methods/list)
 
-    - `"GET"`
+GET/zones/{zone\_id}/api\_gateway/discovery/operations
 
-    - `"POST"`
+##### [Edit discovered web and API operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/discovery/subresources/operations/methods/bulk_edit)
 
-    - `"HEAD"`
+PATCH/zones/{zone\_id}/api\_gateway/discovery/operations
 
-    - `"OPTIONS"`
+##### ModelsExpand Collapse
 
-    - `"PUT"`
+<details>
 
-    - `"DELETE"`
+<summary>
 
-    - `"CONNECT"`
+OperationBulkEditResponse = map\[object {state } ]
 
-    - `"PATCH"`
+</summary>
 
-    - `"TRACE"`
+<details>
 
-  - `origin: array of "ML" or "SessionIdentifier" or "LabelDiscovery"`
+<summary>
 
-    API discovery engine(s) that discovered this operation
+state: optional "review"or "ignored"
 
-    - `"ML"`
+Mark state of operation in API Discovery
 
-    - `"SessionIdentifier"`
+- <code>review</code> - Mark operation as for review
+- <code>ignored</code> - Mark operation as ignored
 
-    - `"LabelDiscovery"`
+</summary>
 
-  - `state: "review" or "saved" or "ignored"`
+One of the following:
 
-    State of operation in API Discovery
+"review"
 
-    * `review` - Operation is not saved into API Shield Endpoint Management
-    * `saved` - Operation is saved into API Shield Endpoint Management
-    * `ignored` - Operation is marked as ignored
+<a href="#">Link to this property</a>
 
-    - `"review"`
+"ignored"
 
-    - `"saved"`
+<a href="#">Link to this property</a>
 
-    - `"ignored"`
+</details>
 
-  - `features: optional object { traffic_stats }`
+<a href="#">Link to this property</a>
 
-    - `traffic_stats: optional object { last_updated, period_seconds, requests }`
+</details>
 
-      - `last_updated: string`
-
-      - `period_seconds: number`
-
-        The period in seconds these statistics were computed over
-
-      - `requests: number`
-
-        The average number of requests seen during this period
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/discovery/operations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "endpoint": "/api/v1/users/{var1}",
-      "host": "www.example.com",
-      "last_updated": "2014-01-01T05:20:00.12345Z",
-      "method": "GET",
-      "origin": [
-        "ML"
-      ],
-      "state": "review",
-      "features": {
-        "traffic_stats": {
-          "last_updated": "2014-01-01T05:20:00.12345Z",
-          "period_seconds": 3600,
-          "requests": 1987.06
-        }
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Patch discovered operations
-
-**patch** `/zones/{zone_id}/api_gateway/discovery/operations`
-
-Update the `state` on one or more discovered operations
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `body: map[object { state } ]`
-
-  - `state: optional "review" or "ignored"`
-
-    Mark state of operation in API Discovery
-
-    * `review` - Mark operation as for review
-    * `ignored` - Mark operation as ignored
-
-    - `"review"`
-
-    - `"ignored"`
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: map[object { state } ]`
-
-  - `state: optional "review" or "ignored"`
-
-    Mark state of operation in API Discovery
-
-    * `review` - Mark operation as for review
-    * `ignored` - Mark operation as ignored
-
-    - `"review"`
-
-    - `"ignored"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/discovery/operations \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "3818d821-5901-4147-a474-f5f5aec1d54e": {
-            "state": "ignored"
-          },
-          "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-            "state": "review"
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "3818d821-5901-4147-a474-f5f5aec1d54e": {
-      "state": "ignored"
-    },
-    "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-      "state": "review"
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Operation Bulk Edit Response
-
-- `OperationBulkEditResponse = map[object { state } ]`
-
-  - `state: optional "review" or "ignored"`
-
-    Mark state of operation in API Discovery
-
-    * `review` - Mark operation as for review
-    * `ignored` - Mark operation as ignored
-
-    - `"review"`
-
-    - `"ignored"`
+[Link to this property](#)%20api_gateway.discovery.operations%20%3E%20(model)%20operation_bulk_edit_response%20%3E%20(schema)>)

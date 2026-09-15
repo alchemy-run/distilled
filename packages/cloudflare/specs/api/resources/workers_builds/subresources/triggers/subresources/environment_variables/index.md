@@ -1,302 +1,99 @@
+---
+title: Environment Variables
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
+
+[Triggers](https://developers.cloudflare.com/api/resources/workers_builds/subresources/triggers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Environment Variables
 
-## List environment variables
+##### [List build variables](https://developers.cloudflare.com/api/resources/workers_builds/subresources/triggers/subresources/environment_variables/methods/list)
 
-**get** `/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables`
+GET/accounts/{account\_id}/builds/triggers/{trigger\_uuid}/environment\_variables
 
-Get all environment variables for a trigger
+##### [Set build variables](https://developers.cloudflare.com/api/resources/workers_builds/subresources/triggers/subresources/environment_variables/methods/upsert)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/builds/triggers/{trigger\_uuid}/environment\_variables
 
-- `account_id: string`
+##### [Delete a build variable](https://developers.cloudflare.com/api/resources/workers_builds/subresources/triggers/subresources/environment_variables/methods/delete)
 
-  Account identifier.
+DELETE/accounts/{account\_id}/builds/triggers/{trigger\_uuid}/environment\_variables/{environment\_variable\_key}
 
-- `trigger_uuid: string`
+##### ModelsExpand Collapse
 
-  Trigger UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message }`
+EnvironmentVariableListResponse = map\[object {created\_on, is\_secret, value } ]
 
-  - `code: optional number`
+</summary>
 
-  - `message: optional string`
+created\_on: string
 
-- `messages: array of string`
+formatdate-time
 
-- `result: map[object { created_on, is_secret, value } ]`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+is\_secret: boolean
 
-  - `is_secret: boolean`
+Whether to hide the value after it is saved. Secret values remain available to builds but appear as <code>null</code> when you list variables; non-secret values remain visible.
 
-  - `value: optional string`
+<a href="#">Link to this property</a>
 
-    Value is null for secret environment variables
+value: optional string
 
-- `success: boolean`
+Value is null for secret environment variables
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(model)%20environment_variable_list_response%20%3E%20(schema)>)
 
-  - `per_page: optional number`
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-  - `total_pages: optional number`
+EnvironmentVariableUpsertResponse = map\[object {created\_on, is\_secret, value } ]
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/triggers/$TRIGGER_UUID/environment_variables \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+created\_on: string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "API_KEY": {
-      "created_on": "2023-01-01T00:00:00Z",
-      "is_secret": true,
-      "value": null
-    },
-    "NODE_ENV": {
-      "created_on": "2023-01-01T00:00:00Z",
-      "is_secret": false,
-      "value": "production"
-    }
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Upsert environment variables
+is\_secret: boolean
 
-**patch** `/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables`
+Whether to hide the value after it is saved. Secret values remain available to builds but appear as <code>null</code> when you list variables; non-secret values remain visible.
 
-Create or update environment variables for a trigger
+<a href="#">Link to this property</a>
 
-### Path Parameters
+value: optional string
 
-- `account_id: string`
+Value is null for secret environment variables
 
-  Account identifier.
+<a href="#">Link to this property</a>
 
-- `trigger_uuid: string`
+</details>
 
-  Trigger UUID.
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(model)%20environment_variable_upsert_response%20%3E%20(schema)>)
 
-### Body Parameters
+EnvironmentVariableDeleteResponse = unknown
 
-- `body: map[object { is_secret, value } ]`
-
-  - `is_secret: boolean`
-
-  - `value: optional string`
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: optional number`
-
-  - `message: optional string`
-
-- `messages: array of string`
-
-- `result: map[object { created_on, is_secret, value } ]`
-
-  - `created_on: string`
-
-  - `is_secret: boolean`
-
-  - `value: optional string`
-
-    Value is null for secret environment variables
-
-- `success: boolean`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-  - `page: optional number`
-
-  - `per_page: optional number`
-
-  - `total_count: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/triggers/$TRIGGER_UUID/environment_variables \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "API_KEY": {
-            "is_secret": true,
-            "value": "secret-key"
-          },
-          "NODE_ENV": {
-            "is_secret": false,
-            "value": "production"
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "API_KEY": {
-      "created_on": "2023-01-01T00:00:00Z",
-      "is_secret": true,
-      "value": null
-    },
-    "NODE_ENV": {
-      "created_on": "2023-01-01T00:00:00Z",
-      "is_secret": false,
-      "value": "production"
-    }
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
-
-## Delete environment variable
-
-**delete** `/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables/{environment_variable_key}`
-
-Remove a specific environment variable from a trigger
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier.
-
-- `trigger_uuid: string`
-
-  Trigger UUID.
-
-- `environment_variable_key: string`
-
-  Environment variable key.
-
-### Returns
-
-- `errors: array of object { code, message }`
-
-  - `code: optional number`
-
-  - `message: optional string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: boolean`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-  - `page: optional number`
-
-  - `per_page: optional number`
-
-  - `total_count: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/triggers/$TRIGGER_UUID/environment_variables/$ENVIRONMENT_VARIABLE_KEY \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": null,
-  "success": true
-}
-```
-
-## Domain Types
-
-### Environment Variable List Response
-
-- `EnvironmentVariableListResponse = map[object { created_on, is_secret, value } ]`
-
-  - `created_on: string`
-
-  - `is_secret: boolean`
-
-  - `value: optional string`
-
-    Value is null for secret environment variables
-
-### Environment Variable Upsert Response
-
-- `EnvironmentVariableUpsertResponse = map[object { created_on, is_secret, value } ]`
-
-  - `created_on: string`
-
-  - `is_secret: boolean`
-
-  - `value: optional string`
-
-    Value is null for secret environment variables
-
-### Environment Variable Delete Response
-
-- `EnvironmentVariableDeleteResponse = unknown`
+[Link to this property](#)%20workers_builds.triggers.environment_variables%20%3E%20(model)%20environment_variable_delete_response%20%3E%20(schema)>)

@@ -1,564 +1,443 @@
+---
+title: Whois
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Whois
 
-## Get WHOIS Record
+##### [Get WHOIS Record](https://developers.cloudflare.com/api/resources/intel/subresources/whois/methods/get)
 
-**get** `/accounts/{account_id}/intel/whois`
+GET/accounts/{account\_id}/intel/whois
 
-Retrieves WHOIS registration data for a domain, including registrant and nameserver information.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Use to uniquely identify or reference the resource.
+Whois object {created\_date, domain, nameservers, 6 more }
 
-### Query Parameters
+</summary>
 
-- `domain: optional string`
+created\_date: optional string
 
-### Returns
+formatdate
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+domain: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+nameservers: optional array of string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+registrant: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+registrant\_country: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+registrant\_email: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+registrant\_org: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Returns a boolean for the success/failure of the API call.
+registrar: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { dnssec, domain, extension, 84 more }`
+updated\_date: optional string
 
-  - `dnssec: boolean`
+formatdate
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-  - `extension: string`
+</details>
 
-  - `found: boolean`
+[Link to this property](#)%20intel.whois%20%3E%20(model)%20whois%20%3E%20(schema)>)
 
-  - `nameservers: array of string`
+<details>
 
-  - `punycode: string`
+<summary>
 
-  - `registrant: string`
+WhoisGetResponse object {dnssec, domain, extension, 84 more }
 
-  - `registrar: string`
+</summary>
 
-  - `id: optional string`
+dnssec: boolean
 
-  - `administrative_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_country: optional string`
+domain: string
 
-  - `administrative_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_fax: optional string`
+extension: string
 
-  - `administrative_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_id: optional string`
+found: boolean
 
-  - `administrative_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_org: optional string`
+nameservers: array of string
 
-  - `administrative_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_phone_ext: optional string`
+punycode: string
 
-  - `administrative_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_province: optional string`
+registrant: string
 
-  - `administrative_referral_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_street: optional string`
+registrar: string
 
-  - `billing_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_country: optional string`
+id: optional string
 
-  - `billing_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_fax: optional string`
+administrative\_city: optional string
 
-  - `billing_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_id: optional string`
+administrative\_country: optional string
 
-  - `billing_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_org: optional string`
+administrative\_email: optional string
 
-  - `billing_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_phone_ext: optional string`
+administrative\_fax: optional string
 
-  - `billing_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_province: optional string`
+administrative\_fax\_ext: optional string
 
-  - `billing_referral_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_street: optional string`
+administrative\_id: optional string
 
-  - `created_date: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_date_raw: optional string`
+administrative\_name: optional string
 
-  - `expiration_date: optional string`
+<a href="#">Link to this property</a>
 
-  - `expiration_date_raw: optional string`
+administrative\_org: optional string
 
-  - `registrant_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_country: optional string`
+administrative\_phone: optional string
 
-  - `registrant_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_fax: optional string`
+administrative\_phone\_ext: optional string
 
-  - `registrant_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_id: optional string`
+administrative\_postal\_code: optional string
 
-  - `registrant_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_org: optional string`
+administrative\_province: optional string
 
-  - `registrant_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_phone_ext: optional string`
+administrative\_referral\_url: optional string
 
-  - `registrant_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_province: optional string`
+administrative\_street: optional string
 
-  - `registrant_referral_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_street: optional string`
+billing\_city: optional string
 
-  - `registrar_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_country: optional string`
+billing\_country: optional string
 
-  - `registrar_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_fax: optional string`
+billing\_email: optional string
 
-  - `registrar_fax_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_id: optional string`
+billing\_fax: optional string
 
-  - `registrar_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_org: optional string`
+billing\_fax\_ext: optional string
 
-  - `registrar_phone: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_phone_ext: optional string`
+billing\_id: optional string
 
-  - `registrar_postal_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_province: optional string`
+billing\_name: optional string
 
-  - `registrar_referral_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_street: optional string`
+billing\_org: optional string
 
-  - `status: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `technical_city: optional string`
+billing\_phone: optional string
 
-  - `technical_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_email: optional string`
+billing\_phone\_ext: optional string
 
-  - `technical_fax: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_fax_ext: optional string`
+billing\_postal\_code: optional string
 
-  - `technical_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_name: optional string`
+billing\_province: optional string
 
-  - `technical_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_phone: optional string`
+billing\_referral\_url: optional string
 
-  - `technical_phone_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_postal_code: optional string`
+billing\_street: optional string
 
-  - `technical_province: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_referral_url: optional string`
+created\_date: optional string
 
-  - `technical_street: optional string`
+formatdate-time
 
-  - `updated_date: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_date_raw: optional string`
+created\_date\_raw: optional string
 
-  - `whois_server: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+expiration\_date: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/whois \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dnssec": true,
-    "domain": "cloudflare.com",
-    "extension": "com",
-    "found": true,
-    "nameservers": [
-      "ns3.cloudflare.com",
-      "ns4.cloudflare.com",
-      "ns5.cloudflare.com",
-      "ns6.cloudflare.com",
-      "ns7.cloudflare.com"
-    ],
-    "punycode": "cloudflare.com",
-    "registrant": "registrant",
-    "registrar": "Cloudflare, Inc.",
-    "id": "1542998887_DOMAIN_COM-VRSN",
-    "administrative_city": "administrative_city",
-    "administrative_country": "administrative_country",
-    "administrative_email": "administrative_email",
-    "administrative_fax": "administrative_fax",
-    "administrative_fax_ext": "administrative_fax_ext",
-    "administrative_id": "administrative_id",
-    "administrative_name": "administrative_name",
-    "administrative_org": "administrative_org",
-    "administrative_phone": "administrative_phone",
-    "administrative_phone_ext": "administrative_phone_ext",
-    "administrative_postal_code": "administrative_postal_code",
-    "administrative_province": "administrative_province",
-    "administrative_referral_url": "administrative_referral_url",
-    "administrative_street": "administrative_street",
-    "billing_city": "billing_city",
-    "billing_country": "billing_country",
-    "billing_email": "billing_email",
-    "billing_fax": "billing_fax",
-    "billing_fax_ext": "billing_fax_ext",
-    "billing_id": "billing_id",
-    "billing_name": "billing_name",
-    "billing_org": "billing_org",
-    "billing_phone": "billing_phone",
-    "billing_phone_ext": "billing_phone_ext",
-    "billing_postal_code": "billing_postal_code",
-    "billing_province": "billing_province",
-    "billing_referral_url": "billing_referral_url",
-    "billing_street": "billing_street",
-    "created_date": "2009-02-17T22:07:54.000Z",
-    "created_date_raw": "2009-02-17T22:07:54Z",
-    "expiration_date": "2033-02-17T22:07:54.000Z",
-    "expiration_date_raw": "2033-02-17T22:07:54Z",
-    "registrant_city": "registrant_city",
-    "registrant_country": "registrant_country",
-    "registrant_email": "registrant_email",
-    "registrant_fax": "registrant_fax",
-    "registrant_fax_ext": "registrant_fax_ext",
-    "registrant_id": "registrant_id",
-    "registrant_name": "registrant_name",
-    "registrant_org": "registrant_org",
-    "registrant_phone": "registrant_phone",
-    "registrant_phone_ext": "registrant_phone_ext",
-    "registrant_postal_code": "registrant_postal_code",
-    "registrant_province": "registrant_province",
-    "registrant_referral_url": "registrant_referral_url",
-    "registrant_street": "registrant_street",
-    "registrar_city": "registrar_city",
-    "registrar_country": "registrar_country",
-    "registrar_email": "registrar_email",
-    "registrar_fax": "registrar_fax",
-    "registrar_fax_ext": "registrar_fax_ext",
-    "registrar_id": "registrar_id",
-    "registrar_name": "registrar_name",
-    "registrar_org": "registrar_org",
-    "registrar_phone": "registrar_phone",
-    "registrar_phone_ext": "registrar_phone_ext",
-    "registrar_postal_code": "registrar_postal_code",
-    "registrar_province": "registrar_province",
-    "registrar_referral_url": "registrar_referral_url",
-    "registrar_street": "registrar_street",
-    "status": [
-      "clientdeleteprohibited",
-      "clienttransferprohibited",
-      "clientupdateprohibited",
-      "serverdeleteprohibited",
-      "servertransferprohibited",
-      "serverupdateprohibited"
-    ],
-    "technical_city": "technical_city",
-    "technical_country": "technical_country",
-    "technical_email": "technical_email",
-    "technical_fax": "technical_fax",
-    "technical_fax_ext": "technical_fax_ext",
-    "technical_id": "technical_id",
-    "technical_name": "technical_name",
-    "technical_org": "technical_org",
-    "technical_phone": "technical_phone",
-    "technical_phone_ext": "technical_phone_ext",
-    "technical_postal_code": "technical_postal_code",
-    "technical_province": "technical_province",
-    "technical_referral_url": "technical_referral_url",
-    "technical_street": "technical_street",
-    "updated_date": "2024-01-09T16:45:28.000Z",
-    "updated_date_raw": "2024-01-09T16:45:28Z",
-    "whois_server": "whois.cloudflare.com"
-  }
-}
-```
+expiration\_date\_raw: optional string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Whois
+registrant\_city: optional string
 
-- `Whois object { created_date, domain, nameservers, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `created_date: optional string`
+registrant\_country: optional string
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `nameservers: optional array of string`
+registrant\_email: optional string
 
-  - `registrant: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_country: optional string`
+registrant\_fax: optional string
 
-  - `registrant_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_org: optional string`
+registrant\_fax\_ext: optional string
 
-  - `registrar: optional string`
+<a href="#">Link to this property</a>
 
-  - `updated_date: optional string`
+registrant\_id: optional string
 
-### Whois Get Response
+<a href="#">Link to this property</a>
 
-- `WhoisGetResponse object { dnssec, domain, extension, 84 more }`
+registrant\_name: optional string
 
-  - `dnssec: boolean`
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+registrant\_org: optional string
 
-  - `extension: string`
+<a href="#">Link to this property</a>
 
-  - `found: boolean`
+registrant\_phone: optional string
 
-  - `nameservers: array of string`
+<a href="#">Link to this property</a>
 
-  - `punycode: string`
+registrant\_phone\_ext: optional string
 
-  - `registrant: string`
+<a href="#">Link to this property</a>
 
-  - `registrar: string`
+registrant\_postal\_code: optional string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_city: optional string`
+registrant\_province: optional string
 
-  - `administrative_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_email: optional string`
+registrant\_referral\_url: optional string
 
-  - `administrative_fax: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_fax_ext: optional string`
+registrant\_street: optional string
 
-  - `administrative_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_name: optional string`
+registrar\_city: optional string
 
-  - `administrative_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_phone: optional string`
+registrar\_country: optional string
 
-  - `administrative_phone_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_postal_code: optional string`
+registrar\_email: optional string
 
-  - `administrative_province: optional string`
+<a href="#">Link to this property</a>
 
-  - `administrative_referral_url: optional string`
+registrar\_fax: optional string
 
-  - `administrative_street: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_city: optional string`
+registrar\_fax\_ext: optional string
 
-  - `billing_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_email: optional string`
+registrar\_id: optional string
 
-  - `billing_fax: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_fax_ext: optional string`
+registrar\_name: optional string
 
-  - `billing_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_name: optional string`
+registrar\_org: optional string
 
-  - `billing_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_phone: optional string`
+registrar\_phone: optional string
 
-  - `billing_phone_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_postal_code: optional string`
+registrar\_phone\_ext: optional string
 
-  - `billing_province: optional string`
+<a href="#">Link to this property</a>
 
-  - `billing_referral_url: optional string`
+registrar\_postal\_code: optional string
 
-  - `billing_street: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_date: optional string`
+registrar\_province: optional string
 
-  - `created_date_raw: optional string`
+<a href="#">Link to this property</a>
 
-  - `expiration_date: optional string`
+registrar\_referral\_url: optional string
 
-  - `expiration_date_raw: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_city: optional string`
+registrar\_street: optional string
 
-  - `registrant_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_email: optional string`
+status: optional array of string
 
-  - `registrant_fax: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_fax_ext: optional string`
+technical\_city: optional string
 
-  - `registrant_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_name: optional string`
+technical\_country: optional string
 
-  - `registrant_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_phone: optional string`
+technical\_email: optional string
 
-  - `registrant_phone_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_postal_code: optional string`
+technical\_fax: optional string
 
-  - `registrant_province: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrant_referral_url: optional string`
+technical\_fax\_ext: optional string
 
-  - `registrant_street: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_city: optional string`
+technical\_id: optional string
 
-  - `registrar_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_email: optional string`
+technical\_name: optional string
 
-  - `registrar_fax: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_fax_ext: optional string`
+technical\_org: optional string
 
-  - `registrar_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_name: optional string`
+technical\_phone: optional string
 
-  - `registrar_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_phone: optional string`
+technical\_phone\_ext: optional string
 
-  - `registrar_phone_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_postal_code: optional string`
+technical\_postal\_code: optional string
 
-  - `registrar_province: optional string`
+<a href="#">Link to this property</a>
 
-  - `registrar_referral_url: optional string`
+technical\_province: optional string
 
-  - `registrar_street: optional string`
+<a href="#">Link to this property</a>
 
-  - `status: optional array of string`
+technical\_referral\_url: optional string
 
-  - `technical_city: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_country: optional string`
+technical\_street: optional string
 
-  - `technical_email: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_fax: optional string`
+updated\_date: optional string
 
-  - `technical_fax_ext: optional string`
+formatdate-time
 
-  - `technical_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_name: optional string`
+updated\_date\_raw: optional string
 
-  - `technical_org: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_phone: optional string`
+whois\_server: optional string
 
-  - `technical_phone_ext: optional string`
+<a href="#">Link to this property</a>
 
-  - `technical_postal_code: optional string`
+</details>
 
-  - `technical_province: optional string`
-
-  - `technical_referral_url: optional string`
-
-  - `technical_street: optional string`
-
-  - `updated_date: optional string`
-
-  - `updated_date_raw: optional string`
-
-  - `whois_server: optional string`
+[Link to this property](#)%20intel.whois%20%3E%20(model)%20whois_get_response%20%3E%20(schema)>)

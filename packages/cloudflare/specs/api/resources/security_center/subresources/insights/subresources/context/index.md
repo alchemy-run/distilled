@@ -1,93 +1,31 @@
+---
+title: Context
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Security Center](https://developers.cloudflare.com/api/resources/security_center)
+
+[Insights](https://developers.cloudflare.com/api/resources/security_center/subresources/insights)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Context
 
-## Retrieves Security Center Insight Context
+##### [Retrieves Security Center Insight Context](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/context/methods/get)
 
-**get** `/accounts/{account_id}/security-center/insights/{issue_id}/context`
+GET/accounts/{account\_id}/security-center/insights/{issue\_id}/context
 
-Returns the full context payload for an insight. This endpoint is used for insights with large payloads that are not included inline in the list response.
+##### ModelsExpand Collapse
 
-### Path Parameters
+ContextGetResponse = map\[unknown]
 
-- `account_id: string`
-
-  Identifier.
-
-- `issue_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional map[unknown]`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/security-center/insights/$ISSUE_ID/context \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "foo": "bar"
-  }
-}
-```
-
-## Domain Types
-
-### Context Get Response
-
-- `ContextGetResponse = map[unknown]`
+[Link to this property](#)%20security_center.insights.context%20%3E%20(model)%20context_get_response%20%3E%20(schema)>)

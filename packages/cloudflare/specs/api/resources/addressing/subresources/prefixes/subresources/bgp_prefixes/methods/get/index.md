@@ -1,120 +1,370 @@
-## Fetch BGP Prefix
+---
+title: Fetch BGP Prefix
+---
 
-**get** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes)
+
+[BGP Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Fetch BGP Prefix
+
+GET/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/prefixes/{bgp\_prefix\_id}
 
 Retrieve a single BGP Prefix according to its identifier
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>API Token</summary>
 
-- `prefix_id: string`
 
-  Identifier of an IP Prefix.
 
-- `bgp_prefix_id: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Identifier of BGP Prefix.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### Accepted Permissions (at least one required)
 
-  - `source: optional object { pointer }`
+`Magic Transit Read``Magic Transit Write``IP Prefixes: Write``IP Prefixes: Read``IP Prefixes: BGP On Demand Write``IP Prefixes: BGP On Demand Read`
 
-    - `pointer: optional string`
+##### P ath ParametersExpand Collapse
 
-- `success: true`
+account\_id: string
 
-  Whether the API call was successful.
+Identifier of a Cloudflare account.
 
-  - `true`
+maxLength32
 
-- `result: optional BGPPrefix`
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `id: optional string`
+prefix\_id: string
 
-    Identifier of BGP Prefix.
+Identifier of an IP Prefix.
 
-  - `asn: optional number`
+maxLength32
 
-    Autonomous System Number (ASN) the prefix will be advertised under.
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20prefix_id%20%3E%20(schema)>)
 
-  - `asn_prepend_count: optional number`
+bgp\_prefix\_id: string
 
-    Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
+Identifier of BGP Prefix.
 
-  - `auto_advertise_withdraw: optional boolean`
+maxLength32
 
-    Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20bgp_prefix_id%20%3E%20(schema)>)
 
-  - `bgp_signal_opts: optional object { enabled, modified_at }`
+##### ReturnsExpand Collapse
 
-    - `enabled: optional boolean`
+<details>
 
-      Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
+<summary>
 
-    - `modified_at: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-      Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
+</summary>
 
-  - `cidr: optional string`
+code: number
 
-    IP Prefix in Classless Inter-Domain Routing format.
+minimum1000
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+message: string
 
-  - `on_demand: optional object { advertised, advertised_modified_at, on_demand_enabled, on_demand_locked }`
+<a href="#">Link to this property</a>
 
-    - `advertised: optional boolean`
+documentation\_url: optional string
 
-      Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled.
+<a href="#">Link to this property</a>
 
-    - `advertised_modified_at: optional string`
+<details>
 
-      Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+<summary>
 
-    - `on_demand_enabled: optional boolean`
+source: optional object {pointer }
 
-      Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+</summary>
 
-    - `on_demand_locked: optional boolean`
+pointer: optional string
 
-      Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/addressing#(resource)%20addressing.prefixes.bgp_prefixes%20%3E%20(model)%20bgp_prefix%20%3E%20(schema)">BGPPrefix</a> { id, asn, asn\_prepend\_count, 6 more }
+
+</summary>
+
+id: optional string
+
+Identifier of BGP Prefix.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+asn: optional number
+
+Autonomous System Number (ASN) the prefix will be advertised under.
+
+<a href="#">Link to this property</a>
+
+asn\_prepend\_count: optional number
+
+Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute
+
+maximum3
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+auto\_advertise\_withdraw: optional boolean
+
+Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+bgp\_signal\_opts: optional object {enabled, modified\_at }
+
+</summary>
+
+enabled: optional boolean
+
+Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+cidr: optional string
+
+IP Prefix in Classless Inter-Domain Routing format.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+on\_demand: optional object {advertised, advertised\_modified\_at, on\_demand\_enabled, on\_demand\_locked }
+
+</summary>
+
+advertised: optional boolean
+
+Prefix advertisement status to the Internet. This field is only not ‘null’ if on demand is enabled.
+
+<a href="#">Link to this property</a>
+
+advertised\_modified\_at: optional string
+
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+on\_demand\_enabled: optional boolean
+
+Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled.
+
+<a href="#">Link to this property</a>
+
+on\_demand\_locked: optional boolean
+
+Whether the advertisement status of the prefix is locked, meaning it cannot be changed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.bgp_prefixes%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Fetch BGP Prefix
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/prefixes/$BGP_PREFIX_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "7009ba364c7a5760798ceb430e603b74",
+    "asn": 13335,
+    "asn_prepend_count": 2,
+    "auto_advertise_withdraw": true,
+    "bgp_signal_opts": {
+      "enabled": false,
+      "modified_at": "2014-01-01T05:20:00.12345Z"
+    },
+    "cidr": "192.0.2.0/24",
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "modified_at": "2014-01-01T05:20:00.12345Z",
+    "on_demand": {
+      "advertised": true,
+      "advertised_modified_at": "2014-01-01T05:20:00.12345Z",
+      "on_demand_enabled": true,
+      "on_demand_locked": false
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

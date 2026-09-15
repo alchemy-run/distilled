@@ -1,110 +1,332 @@
-## List Address Maps
+---
+title: List Address Maps
+---
 
-**get** `/accounts/{account_id}/addressing/address_maps`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Address Maps](https://developers.cloudflare.com/api/resources/addressing/subresources/address_maps)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Address Maps
+
+GET/accounts/{account\_id}/addressing/address\_maps
 
 List all address maps owned by the account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+##### Accepted Permissions (at least one required)
 
-  - `true`
+`Address Maps Write``Address Maps Read`
 
-- `result: optional array of AddressMap`
+##### P ath ParametersExpand Collapse
 
-  - `id: optional string`
+account\_id: string
 
-    Identifier of an Address Map.
+Identifier of a Cloudflare account.
 
-  - `can_delete: optional boolean`
+maxLength32
 
-    If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+[Link to this property](#)%20addressing.address_maps%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `can_modify_ips: optional boolean`
+##### ReturnsExpand Collapse
 
-    If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+<details>
 
-  - `created_at: optional string`
+<summary>
 
-  - `default_sni: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-    If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+</summary>
 
-  - `description: optional string`
+code: number
 
-    An optional description field which may be used to describe the types of IPs or zones on the map.
+minimum1000
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.
+message: string
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+documentation\_url: optional string
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+source: optional object {pointer }
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+pointer: optional string
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+</details>
 
-### Example
+[Link to this property](#)%20addressing.address_maps%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-```http
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.address_maps%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20addressing.address_maps%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/addressing#(resource)%20addressing.address_maps%20%3E%20(model)%20address_map%20%3E%20(schema)">AddressMap</a> { id, can\_delete, can\_modify\_ips, 5 more }
+
+</summary>
+
+id: optional string
+
+Identifier of an Address Map.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+can\_delete: optional boolean
+
+If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
+
+<a href="#">Link to this property</a>
+
+can\_modify\_ips: optional boolean
+
+If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+default\_sni: optional string
+
+If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An optional description field which may be used to describe the types of IPs or zones on the map.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether the Address Map is enabled or not. Cloudflare’s DNS will not respond with IP addresses on an Address Map until the map is enabled.
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.address_maps%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.address_maps%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Address Maps
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/address_maps \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "055817b111884e0227e1be16a0be6ee0",
+      "can_delete": true,
+      "can_modify_ips": true,
+      "created_at": "2014-01-01T05:20:00.12345Z",
+      "default_sni": "*.example.com",
+      "description": "My Ecommerce zones",
+      "enabled": true,
+      "modified_at": "2014-01-01T05:20:00.12345Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

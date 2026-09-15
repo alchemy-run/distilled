@@ -1,245 +1,862 @@
-## List Workers VPC connectivity services
+---
+title: List Workers VPC connectivity services
+---
 
-**get** `/accounts/{account_id}/connectivity/directory/services`
+[Skip to content](#_top)
 
-List Workers VPC connectivity services
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Connectivity](https://developers.cloudflare.com/api/resources/connectivity)
 
-- `account_id: string`
+[Directory](https://developers.cloudflare.com/api/resources/connectivity/subresources/directory)
 
-  Account identifier
+[Services](https://developers.cloudflare.com/api/resources/connectivity/subresources/directory/subresources/services)
 
-### Query Parameters
+Copy Markdown
 
-- `page: optional number`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Current page in the response
+---
 
-- `per_page: optional number`
+**Copy Markdown****View as Markdown**
 
-  Max amount of entries returned per page
+# List Workers VPC connectivity services
 
-- `type: optional "tcp" or "http"`
+GET/accounts/{account\_id}/connectivity/directory/services
 
-  - `"tcp"`
+Lists the Workers VPC connectivity services in the account.
 
-  - `"http"`
+##### Security
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>API Token</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `source: optional object { pointer }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `success: true`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Whether the API call was successful.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `true`
+</details>
 
-- `result: optional array of object { host, name, type, 6 more }  or object { host, name, type, 6 more }`
+##### P ath ParametersExpand Collapse
 
-  - `InfraHTTPServiceConfig object { host, name, type, 6 more }`
+account\_id: string
 
-    - `host: object { ipv4, network }  or object { ipv6, network }  or object { ipv4, ipv6, network }  or object { hostname, resolver_network }`
+Account identifier
 
-      - `InfraIPv4Host object { ipv4, network }`
+maxLength32
 
-        - `ipv4: string`
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        - `network: object { tunnel_id }`
+##### Q uery ParametersExpand Collapse
 
-          - `tunnel_id: string`
+page: optional number
 
-      - `InfraIPv6Host object { ipv6, network }`
+Current page in the response
 
-        - `ipv6: string`
+formatint32
 
-        - `network: object { tunnel_id }`
+minimum1
 
-          - `tunnel_id: string`
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-      - `InfraDualStackHost object { ipv4, ipv6, network }`
+per\_page: optional number
 
-        - `ipv4: string`
+Max amount of entries returned per page
 
-        - `ipv6: string`
+formatint32
 
-        - `network: object { tunnel_id }`
+maximum1000
 
-          - `tunnel_id: string`
+minimum1
 
-      - `InfraHostnameHost object { hostname, resolver_network }`
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-        - `hostname: string`
+<details>
 
-        - `resolver_network: object { tunnel_id, resolver_ips }`
+<summary>
 
-          - `tunnel_id: string`
+type: optional "tcp"or "http"
 
-          - `resolver_ips: optional array of string`
+</summary>
 
-    - `name: string`
+One of the following:
 
-    - `type: "tcp" or "http"`
+"tcp"
 
-      - `"tcp"`
+<a href="#">Link to this property</a>
 
-      - `"http"`
+"http"
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `http_port: optional number`
+</details>
 
-    - `https_port: optional number`
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-    - `service_id: optional string`
+##### ReturnsExpand Collapse
 
-    - `tls_settings: optional object { cert_verification_mode }`
+<details>
 
-      TLS settings for a connectivity service.
+<summary>
 
-      If omitted, the default mode (`verify_full`) is used.
+errors: array of object {code, message, documentation\_url, source }
 
-      - `cert_verification_mode: string`
+</summary>
 
-        TLS certificate verification mode for the connection to the origin.
+code: number
 
-        - `"verify_full"` — verify certificate chain and hostname (default)
-        - `"verify_ca"` — verify certificate chain only, skip hostname check
-        - `"disabled"` — do not verify the server certificate at all
+minimum1000
 
-    - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `InfraTCPServiceConfig object { host, name, type, 6 more }`
+message: string
 
-    - `host: object { ipv4, network }  or object { ipv6, network }  or object { ipv4, ipv6, network }  or object { hostname, resolver_network }`
+<a href="#">Link to this property</a>
 
-      - `InfraIPv4Host object { ipv4, network }`
+documentation\_url: optional string
 
-        - `ipv4: string`
+<a href="#">Link to this property</a>
 
-        - `network: object { tunnel_id }`
+<details>
 
-          - `tunnel_id: string`
+<summary>
 
-      - `InfraIPv6Host object { ipv6, network }`
+source: optional object {pointer }
 
-        - `ipv6: string`
+</summary>
 
-        - `network: object { tunnel_id }`
+pointer: optional string
 
-          - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-      - `InfraDualStackHost object { ipv4, ipv6, network }`
+</details>
 
-        - `ipv4: string`
+<a href="#">Link to this property</a>
 
-        - `ipv6: string`
+</details>
 
-        - `network: object { tunnel_id }`
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-          - `tunnel_id: string`
+<details>
 
-      - `InfraHostnameHost object { hostname, resolver_network }`
+<summary>
 
-        - `hostname: string`
+messages: array of object {code, message, documentation\_url, source }
 
-        - `resolver_network: object { tunnel_id, resolver_ips }`
+</summary>
 
-          - `tunnel_id: string`
+code: number
 
-          - `resolver_ips: optional array of string`
+minimum1000
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `type: "tcp" or "http"`
+message: string
 
-      - `"tcp"`
+<a href="#">Link to this property</a>
 
-      - `"http"`
+documentation\_url: optional string
 
-    - `app_protocol: optional "postgresql" or "mysql"`
+<a href="#">Link to this property</a>
 
-      - `"postgresql"`
+<details>
 
-      - `"mysql"`
+<summary>
 
-    - `created_at: optional string`
+source: optional object {pointer }
 
-    - `service_id: optional string`
+</summary>
 
-    - `tcp_port: optional number`
+pointer: optional string
 
-    - `tls_settings: optional object { cert_verification_mode }`
+<a href="#">Link to this property</a>
 
-      TLS settings for a connectivity service.
+</details>
 
-      If omitted, the default mode (`verify_full`) is used.
+<a href="#">Link to this property</a>
 
-      - `cert_verification_mode: string`
+</details>
 
-        TLS certificate verification mode for the connection to the origin.
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-        - `"verify_full"` — verify certificate chain and hostname (default)
-        - `"verify_ca"` — verify certificate chain only, skip hostname check
-        - `"disabled"` — do not verify the server certificate at all
+success: true
 
-    - `updated_at: optional string`
+Whether the API call was successful.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+result: optional array of object {host, name, type, 6 more } or object {host, name, type, 6 more }
 
-    Current page within paginated list of results.
+</summary>
 
-  - `per_page: optional number`
+One of the following:
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+InfraHTTPServiceConfig object {host, name, type, 6 more }
 
-  - `total_pages: optional number`
+</summary>
 
-    The number of total pages in the entire result set.
+<details>
 
-### Example
+<summary>
 
-```http
+host: object {ipv4, network } or object {ipv6, network } or object {ipv4, ipv6, network } or object {hostname, resolver\_network }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+InfraIPv4Host object {ipv4, network }
+
+</summary>
+
+ipv4: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+network: object {tunnel\_id }
+
+</summary>
+
+tunnel\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+InfraIPv6Host object {ipv6, network }
+
+</summary>
+
+ipv6: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+network: object {tunnel\_id }
+
+</summary>
+
+tunnel\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+InfraDualStackHost object {ipv4, ipv6, network }
+
+</summary>
+
+ipv4: string
+
+<a href="#">Link to this property</a>
+
+ipv6: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+network: object {tunnel\_id }
+
+</summary>
+
+tunnel\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+InfraHostnameHost object {hostname, resolver\_network }
+
+</summary>
+
+hostname: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resolver\_network: object {tunnel\_id, resolver\_ips }
+
+</summary>
+
+tunnel\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+resolver\_ips: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "tcp"or "http"
+
+</summary>
+
+One of the following:
+
+"tcp"
+
+<a href="#">Link to this property</a>
+
+"http"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+http\_port: optional number
+
+formatint32
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+https\_port: optional number
+
+formatint32
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+service\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tls\_settings: optional object {cert\_verification\_mode }
+
+TLS settings for a connectivity service.
+
+If omitted, the default mode (<code>verify_full</code>) is used.
+
+</summary>
+
+cert\_verification\_mode: string
+
+TLS certificate verification mode for the connection to the origin.
+
+- <code>"verify_full"</code> — verify certificate chain and hostname (default)
+- <code>"verify_ca"</code> — verify certificate chain only, skip hostname check
+- <code>"disabled"</code> — do not verify the server certificate at all
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+InfraTCPServiceConfig object {host, name, type, 6 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+host: object {ipv4, network } or object {ipv6, network } or object {ipv4, ipv6, network } or object {hostname, resolver\_network }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+InfraIPv4Host object {ipv4, network }
+
+</summary>
+
+ipv4: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+network: object {tunnel\_id }
+
+</summary>
+
+tunnel\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+InfraIPv6Host object {ipv6, network }
+
+</summary>
+
+ipv6: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+network: object {tunnel\_id }
+
+</summary>
+
+tunnel\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+InfraDualStackHost object {ipv4, ipv6, network }
+
+</summary>
+
+ipv4: string
+
+<a href="#">Link to this property</a>
+
+ipv6: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+network: object {tunnel\_id }
+
+</summary>
+
+tunnel\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+InfraHostnameHost object {hostname, resolver\_network }
+
+</summary>
+
+hostname: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resolver\_network: object {tunnel\_id, resolver\_ips }
+
+</summary>
+
+tunnel\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+resolver\_ips: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "tcp"or "http"
+
+</summary>
+
+One of the following:
+
+"tcp"
+
+<a href="#">Link to this property</a>
+
+"http"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+app\_protocol: optional "postgresql"or "mysql"
+
+</summary>
+
+One of the following:
+
+"postgresql"
+
+<a href="#">Link to this property</a>
+
+"mysql"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+service\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+tcp\_port: optional number
+
+formatint32
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tls\_settings: optional object {cert\_verification\_mode }
+
+TLS settings for a connectivity service.
+
+If omitted, the default mode (<code>verify_full</code>) is used.
+
+</summary>
+
+cert\_verification\_mode: string
+
+TLS certificate verification mode for the connection to the origin.
+
+- <code>"verify_full"</code> — verify certificate chain and hostname (default)
+- <code>"verify_ca"</code> — verify certificate chain only, skip hostname check
+- <code>"disabled"</code> — do not verify the server certificate at all
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20connectivity.directory.services%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Workers VPC connectivity services
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/connectivity/directory/services \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "host": {
+        "ipv4": "10.0.0.1",
+        "network": {
+          "tunnel_id": "0191dce4-9ab4-7fce-b660-8e5dec5172da"
+        }
+      },
+      "name": "web-app",
+      "type": "http",
+      "created_at": "2024-01-15T09:30:00Z",
+      "http_port": 8080,
+      "https_port": 8443,
+      "service_id": "550e8400-e29b-41d4-a716-446655440000",
+      "tls_settings": {
+        "cert_verification_mode": "verify_full"
+      },
+      "updated_at": "2024-01-15T10:45:00Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

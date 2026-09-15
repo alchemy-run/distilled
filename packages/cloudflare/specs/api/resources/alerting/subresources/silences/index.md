@@ -1,590 +1,321 @@
+---
+title: Silences
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Silences
 
-## List Silences
+##### [List Silences](https://developers.cloudflare.com/api/resources/alerting/subresources/silences/methods/list)
 
-**get** `/accounts/{account_id}/alerting/v3/silences`
+GET/accounts/{account\_id}/alerting/v3/silences
 
-Gets a list of silences for an account.
+##### [Get Silence](https://developers.cloudflare.com/api/resources/alerting/subresources/silences/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/alerting/v3/silences/{silence\_id}
 
-- `account_id: string`
+##### [Create Silences](https://developers.cloudflare.com/api/resources/alerting/subresources/silences/methods/create)
 
-  The account id
+POST/accounts/{account\_id}/alerting/v3/silences
 
-### Returns
+##### [Update Silences](https://developers.cloudflare.com/api/resources/alerting/subresources/silences/methods/update)
 
-- `errors: array of object { message, code }`
+PUT/accounts/{account\_id}/alerting/v3/silences
 
-  - `message: string`
+##### [Delete Silence](https://developers.cloudflare.com/api/resources/alerting/subresources/silences/methods/delete)
 
-  - `code: optional number`
+DELETE/accounts/{account\_id}/alerting/v3/silences/{silence\_id}
 
-- `messages: array of object { message, code }`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `code: optional number`
+<summary>
 
-- `success: true`
+SilenceListResponse object {id, created\_at, end\_time, 3 more }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+id: optional string
 
-- `result: optional array of object { id, created_at, end_time, 3 more }`
+Silence ID
 
-  - `id: optional string`
+maxLength32
 
-    Silence ID
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+created\_at: optional string
 
-    When the silence was created.
+When the silence was created.
 
-  - `end_time: optional string`
+<a href="#">Link to this property</a>
 
-    When the silence ends.
+end\_time: optional string
 
-  - `policy_id: optional string`
+When the silence ends.
 
-    The unique identifier of a notification policy
+<a href="#">Link to this property</a>
 
-  - `start_time: optional string`
+policy\_id: optional string
 
-    When the silence starts.
+The unique identifier of a notification policy
 
-  - `updated_at: optional string`
+maxLength32
 
-    When the silence was modified.
+<a href="#">Link to this property</a>
 
-### Example
+start\_time: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/silences \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+When the silence starts.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f878e90c23f44126ae3cfc399f646977",
-      "created_at": "2022-01-01T00:00:00Z",
-      "end_time": "2022-01-01T00:00:00Z",
-      "policy_id": "0da2b59ef118439d8097bdfb215203c9",
-      "start_time": "2022-01-01T00:00:00Z",
-      "updated_at": "2022-01-01T00:00:00Z"
-    }
-  ]
-}
-```
+updated\_at: optional string
 
-## Get Silence
+When the silence was modified.
 
-**get** `/accounts/{account_id}/alerting/v3/silences/{silence_id}`
+<a href="#">Link to this property</a>
 
-Gets a specific silence for an account.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20alerting.silences%20%3E%20(model)%20silence_list_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  The account id
+<summary>
 
-- `silence_id: string`
+SilenceGetResponse object {id, created\_at, end\_time, 3 more }
 
-  Silence ID
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of object { message, code }`
+Silence ID
 
-  - `message: string`
+maxLength32
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+created\_at: optional string
 
-  - `message: string`
+When the silence was created.
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+end\_time: optional string
 
-  Whether the API call was successful
+When the silence ends.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, end_time, 3 more }`
+policy\_id: optional string
 
-  - `id: optional string`
+The unique identifier of a notification policy
 
-    Silence ID
+maxLength32
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    When the silence was created.
+start\_time: optional string
 
-  - `end_time: optional string`
+When the silence starts.
 
-    When the silence ends.
+<a href="#">Link to this property</a>
 
-  - `policy_id: optional string`
+updated\_at: optional string
 
-    The unique identifier of a notification policy
+When the silence was modified.
 
-  - `start_time: optional string`
+<a href="#">Link to this property</a>
 
-    When the silence starts.
+</details>
 
-  - `updated_at: optional string`
+[Link to this property](#)%20alerting.silences%20%3E%20(model)%20silence_get_response%20%3E%20(schema)>)
 
-    When the silence was modified.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/silences/$SILENCE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+SilenceCreateResponse object {errors, messages, success }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f878e90c23f44126ae3cfc399f646977",
-    "created_at": "2022-01-01T00:00:00Z",
-    "end_time": "2022-01-01T00:00:00Z",
-    "policy_id": "0da2b59ef118439d8097bdfb215203c9",
-    "start_time": "2022-01-01T00:00:00Z",
-    "updated_at": "2022-01-01T00:00:00Z"
-  }
-}
-```
+<details>
 
-## Create Silences
+<summary>
 
-**post** `/accounts/{account_id}/alerting/v3/silences`
+errors: array of object {message, code }
 
-Creates a new silence for an account.
+</summary>
 
-### Path Parameters
+message: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account id
+code: optional number
 
-### Body Parameters
+minimum1000
 
-- `body: array of object { end_time, policy_id, start_time }`
+<a href="#">Link to this property</a>
 
-  - `end_time: optional string`
+</details>
 
-    When the silence ends.
+<a href="#">Link to this property</a>
 
-  - `policy_id: optional string`
+<details>
 
-    The unique identifier of a notification policy
+<summary>
 
-  - `start_time: optional string`
+messages: array of object {message, code }
 
-    When the silence starts.
+</summary>
 
-### Returns
+message: string
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+code: optional number
 
-  - `code: optional number`
+minimum1000
 
-- `messages: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+success: true
 
-  Whether the API call was successful
+Whether the API call was successful
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/silences \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "end_time": "2022-01-01T00:00:00Z",
-            "policy_id": "0da2b59ef118439d8097bdfb215203c9",
-            "start_time": "2022-01-01T00:00:00Z"
-          }
-        ]'
-```
+[Link to this property](#)%20alerting.silences%20%3E%20(model)%20silence_create_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true
-}
-```
+<summary>
 
-## Update Silences
+SilenceUpdateResponse object {id, created\_at, end\_time, 3 more }
 
-**put** `/accounts/{account_id}/alerting/v3/silences`
+</summary>
 
-Updates existing silences for an account.
+id: optional string
 
-### Path Parameters
+Silence ID
 
-- `account_id: string`
+maxLength32
 
-  The account id
+<a href="#">Link to this property</a>
 
-### Body Parameters
+created\_at: optional string
 
-- `body: array of object { id, end_time, start_time }`
+When the silence was created.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Silence ID
+end\_time: optional string
 
-  - `end_time: optional string`
+When the silence ends.
 
-    When the silence ends.
+<a href="#">Link to this property</a>
 
-  - `start_time: optional string`
+policy\_id: optional string
 
-    When the silence starts.
+The unique identifier of a notification policy
 
-### Returns
+maxLength32
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+start\_time: optional string
 
-  - `code: optional number`
+When the silence starts.
 
-- `messages: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+updated\_at: optional string
 
-  - `code: optional number`
+When the silence was modified.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+</details>
 
-  - `true`
+[Link to this property](#)%20alerting.silences%20%3E%20(model)%20silence_update_response%20%3E%20(schema)>)
 
-- `result: optional array of object { id, created_at, end_time, 3 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Silence ID
+SilenceDeleteResponse object {errors, messages, success }
 
-  - `created_at: optional string`
+</summary>
 
-    When the silence was created.
+<details>
 
-  - `end_time: optional string`
+<summary>
 
-    When the silence ends.
+errors: array of object {message, code }
 
-  - `policy_id: optional string`
+</summary>
 
-    The unique identifier of a notification policy
+message: string
 
-  - `start_time: optional string`
+<a href="#">Link to this property</a>
 
-    When the silence starts.
+code: optional number
 
-  - `updated_at: optional string`
+minimum1000
 
-    When the silence was modified.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/silences \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "id": "f878e90c23f44126ae3cfc399f646977",
-            "end_time": "2022-01-01T00:00:00Z",
-            "start_time": "2022-01-01T00:00:00Z"
-          }
-        ]'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f878e90c23f44126ae3cfc399f646977",
-      "created_at": "2022-01-01T00:00:00Z",
-      "end_time": "2022-01-01T00:00:00Z",
-      "policy_id": "0da2b59ef118439d8097bdfb215203c9",
-      "start_time": "2022-01-01T00:00:00Z",
-      "updated_at": "2022-01-01T00:00:00Z"
-    }
-  ]
-}
-```
+<summary>
 
-## Delete Silence
+messages: array of object {message, code }
 
-**delete** `/accounts/{account_id}/alerting/v3/silences/{silence_id}`
+</summary>
 
-Deletes an existing silence for an account.
+message: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+code: optional number
 
-  The account id
+minimum1000
 
-- `silence_id: string`
+<a href="#">Link to this property</a>
 
-  Silence ID
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message, code }`
+success: true
 
-  - `message: string`
+Whether the API call was successful
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+</details>
 
-  - `message: string`
-
-  - `code: optional number`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/silences/$SILENCE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Silence List Response
-
-- `SilenceListResponse object { id, created_at, end_time, 3 more }`
-
-  - `id: optional string`
-
-    Silence ID
-
-  - `created_at: optional string`
-
-    When the silence was created.
-
-  - `end_time: optional string`
-
-    When the silence ends.
-
-  - `policy_id: optional string`
-
-    The unique identifier of a notification policy
-
-  - `start_time: optional string`
-
-    When the silence starts.
-
-  - `updated_at: optional string`
-
-    When the silence was modified.
-
-### Silence Get Response
-
-- `SilenceGetResponse object { id, created_at, end_time, 3 more }`
-
-  - `id: optional string`
-
-    Silence ID
-
-  - `created_at: optional string`
-
-    When the silence was created.
-
-  - `end_time: optional string`
-
-    When the silence ends.
-
-  - `policy_id: optional string`
-
-    The unique identifier of a notification policy
-
-  - `start_time: optional string`
-
-    When the silence starts.
-
-  - `updated_at: optional string`
-
-    When the silence was modified.
-
-### Silence Create Response
-
-- `SilenceCreateResponse object { errors, messages, success }`
-
-  - `errors: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `messages: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `success: true`
-
-    Whether the API call was successful
-
-    - `true`
-
-### Silence Update Response
-
-- `SilenceUpdateResponse object { id, created_at, end_time, 3 more }`
-
-  - `id: optional string`
-
-    Silence ID
-
-  - `created_at: optional string`
-
-    When the silence was created.
-
-  - `end_time: optional string`
-
-    When the silence ends.
-
-  - `policy_id: optional string`
-
-    The unique identifier of a notification policy
-
-  - `start_time: optional string`
-
-    When the silence starts.
-
-  - `updated_at: optional string`
-
-    When the silence was modified.
-
-### Silence Delete Response
-
-- `SilenceDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `messages: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `success: true`
-
-    Whether the API call was successful
-
-    - `true`
+[Link to this property](#)%20alerting.silences%20%3E%20(model)%20silence_delete_response%20%3E%20(schema)>)

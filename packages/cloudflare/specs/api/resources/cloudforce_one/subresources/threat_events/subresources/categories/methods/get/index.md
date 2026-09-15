@@ -1,43 +1,118 @@
-## Reads a category
+---
+title: Reads a category
+---
 
-**get** `/accounts/{account_id}/cloudforce-one/events/categories/{category_id}`
+[Skip to content](#_top)
 
-Reads a category
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
 
-- `account_id: string`
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
 
-  Account ID.
+[Categories](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/categories)
 
-- `category_id: string`
+Copy Markdown
 
-  Category UUID.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `killChain: number`
+**Copy Markdown****View as Markdown**
 
-- `name: string`
+# Reads a category
 
-- `uuid: string`
+GET/accounts/{account\_id}/cloudforce-one/events/categories/{category\_id}
 
-- `mitreAttack: optional array of string`
+Retrieves details for a specific threat event category.
 
-- `mitreCapec: optional array of string`
+##### Security
 
-- `shortname: optional string`
+API Token
 
-### Example
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-```http
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
+
+##### Accepted Permissions (at least one required)
+
+`Cloudforce One Write``Cloudforce One Read`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account ID.
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+category\_id: string
+
+Category UUID.
+
+formatuuid
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20category_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+killChain: number
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)%20%3E%20(property)%20killChain>)
+
+name: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)%20%3E%20(property)%20name>)
+
+uuid: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)%20%3E%20(property)%20uuid>)
+
+mitreAttack: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)%20%3E%20(property)%20mitreAttack>)
+
+mitreCapec: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)%20%3E%20(property)%20mitreCapec>)
+
+shortname: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.categories%20%3E%20(model)%20category_get_response%20%3E%20(schema)%20%3E%20(property)%20shortname>)
+
+### Reads a category
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/categories/$CATEGORY_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "killChain": 0,
+  "name": "name",
+  "uuid": "12345678-1234-1234-1234-1234567890ab",
+  "mitreAttack": [
+    "T1234"
+  ],
+  "mitreCapec": [
+    "123"
+  ],
+  "shortname": "shortname"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "killChain": 0,
   "name": "name",

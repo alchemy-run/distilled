@@ -1,141 +1,421 @@
-## Get BGP route leak events
+---
+title: Get BGP route leak events
+---
 
-**get** `/radar/bgp/leaks/events`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[Leaks](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/leaks)
+
+[Events](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/leaks/subresources/events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get BGP route leak events
+
+GET/radar/bgp/leaks/events
 
 Retrieves the BGP route leak events.
 
-### Query Parameters
+##### Security
 
-- `dateEnd: optional string`
+<details>
 
-  End of the date range (inclusive).
+<summary>API Token</summary>
 
-- `dateRange: optional string`
 
-  Filters results by date range.
 
-- `dateStart: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Start of the date range (inclusive).
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `eventId: optional number`
+</details>
 
-  The unique identifier of a event.
+<details>
 
-- `format: optional "JSON" or "CSV"`
+<summary>API Email + API Key</summary>
 
-  Format in which results will be returned.
 
-  - `"JSON"`
 
-  - `"CSV"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `involvedAsn: optional number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  ASN that is causing or affected by a route leak event.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `involvedCountry: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Country code of a involved ASN in a route leak event.
+</details>
 
-- `leakAsn: optional number`
+##### Accepted Permissions (at least one required)
 
-  The leaking AS of a route leak event.
+`User Details Write``User Details Read`
 
-- `page: optional number`
+##### Q uery ParametersExpand Collapse
 
-  Current page number, starting from 1.
+dateEnd: optional string
 
-- `per_page: optional number`
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.
 
-  Number of entries per page.
+formatdate-time
 
-- `sortBy: optional "ID" or "LEAKS" or "PEERS" or 3 more`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-  Sorts results by the specified field.
+dateRange: optional string
 
-  - `"ID"`
+Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`.
 
-  - `"LEAKS"`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
 
-  - `"PEERS"`
+dateStart: optional string
 
-  - `"PREFIXES"`
+Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.
 
-  - `"ORIGINS"`
+formatdate-time
 
-  - `"TIME"`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
 
-- `sortOrder: optional "ASC" or "DESC"`
+eventId: optional number
 
-  Sort order.
+The unique identifier of a event.
 
-  - `"ASC"`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20eventId%20%3E%20(schema)>)
 
-  - `"DESC"`
+<details>
 
-### Returns
+<summary>
 
-- `result: object { asn_info, events }`
+format: optional "JSON"or "CSV"
 
-  - `asn_info: array of object { asn, country_code, org_name }`
+Format in which results will be returned.
 
-    - `asn: number`
+</summary>
 
-    - `country_code: string`
+One of the following:
 
-    - `org_name: string`
+"JSON"
 
-  - `events: array of object { id, countries, detected_ts, 10 more }`
+<a href="#">Link to this property</a>
 
-    - `id: number`
+"CSV"
 
-    - `countries: array of string`
+<a href="#">Link to this property</a>
 
-    - `detected_ts: string`
+</details>
 
-    - `finished: boolean`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-    - `leak_asn: number`
+involvedAsn: optional number
 
-    - `leak_count: number`
+ASN that is causing or affected by a route leak event.
 
-    - `leak_seg: array of number`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20involvedAsn%20%3E%20(schema)>)
 
-    - `leak_type: number`
+involvedCountry: optional string
 
-    - `max_ts: string`
+Country code of a involved ASN in a route leak event.
 
-    - `min_ts: string`
+maxLength2
 
-    - `origin_count: number`
+minLength2
 
-    - `peer_count: number`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20involvedCountry%20%3E%20(schema)>)
 
-    - `prefix_count: number`
+leakAsn: optional number
 
-- `result_info: object { count, page, per_page, total_count }`
+The leaking AS of a route leak event.
 
-  - `count: number`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20leakAsn%20%3E%20(schema)>)
 
-  - `page: number`
+page: optional number
 
-  - `per_page: number`
+Current page number, starting from 1.
 
-  - `total_count: number`
+exclusiveMinimum
 
-- `success: boolean`
+minimum0
 
-### Example
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-```http
+per\_page: optional number
+
+Number of entries per page.
+
+exclusiveMinimum
+
+minimum0
+
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+sortBy: optional "ID"or "LEAKS"or "PEERS"or 3 more
+
+Sorts results by the specified field.
+
+</summary>
+
+One of the following:
+
+"ID"
+
+<a href="#">Link to this property</a>
+
+"LEAKS"
+
+<a href="#">Link to this property</a>
+
+"PEERS"
+
+<a href="#">Link to this property</a>
+
+"PREFIXES"
+
+<a href="#">Link to this property</a>
+
+"ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"TIME"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sortBy%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+sortOrder: optional "ASC"or "DESC"
+
+Sort order.
+
+</summary>
+
+One of the following:
+
+"ASC"
+
+<a href="#">Link to this property</a>
+
+"DESC"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sortOrder%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {asn\_info, events }
+
+</summary>
+
+<details>
+
+<summary>
+
+asn\_info: array of object {asn, country\_code, org\_name }
+
+</summary>
+
+asn: number
+
+<a href="#">Link to this property</a>
+
+country\_code: string
+
+<a href="#">Link to this property</a>
+
+org\_name: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+events: array of object {id, countries, detected\_ts, 10 more }
+
+</summary>
+
+id: number
+
+<a href="#">Link to this property</a>
+
+countries: array of string
+
+<a href="#">Link to this property</a>
+
+detected\_ts: string
+
+<a href="#">Link to this property</a>
+
+finished: boolean
+
+<a href="#">Link to this property</a>
+
+leak\_asn: number
+
+<a href="#">Link to this property</a>
+
+leak\_count: number
+
+<a href="#">Link to this property</a>
+
+leak\_seg: array of number
+
+<a href="#">Link to this property</a>
+
+leak\_type: number
+
+<a href="#">Link to this property</a>
+
+max\_ts: string
+
+<a href="#">Link to this property</a>
+
+min\_ts: string
+
+<a href="#">Link to this property</a>
+
+origin\_count: number
+
+<a href="#">Link to this property</a>
+
+peer\_count: number
+
+<a href="#">Link to this property</a>
+
+prefix\_count: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: boolean
+
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get BGP route leak events
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/bgp/leaks/events \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "asn_info": [
+      {
+        "asn": 0,
+        "country_code": "country_code",
+        "org_name": "org_name"
+      }
+    ],
+    "events": [
+      {
+        "id": 0,
+        "countries": [
+          "string"
+        ],
+        "detected_ts": "detected_ts",
+        "finished": true,
+        "leak_asn": 0,
+        "leak_count": 0,
+        "leak_seg": [
+          0
+        ],
+        "leak_type": 0,
+        "max_ts": "max_ts",
+        "min_ts": "min_ts",
+        "origin_count": 0,
+        "peer_count": 0,
+        "prefix_count": 0
+      }
+    ]
+  },
+  "result_info": {
+    "count": 0,
+    "page": 0,
+    "per_page": 0,
+    "total_count": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "asn_info": [

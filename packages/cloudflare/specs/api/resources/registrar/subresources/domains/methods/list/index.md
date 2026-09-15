@@ -1,247 +1,588 @@
-## List domains
+---
+title: List domains
+---
 
-**get** `/accounts/{account_id}/registrar/domains`
+[Skip to content](#_top)
 
-List domains handled by Registrar.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Registrar](https://developers.cloudflare.com/api/resources/registrar)
 
-- `account_id: string`
+[Domains](https://developers.cloudflare.com/api/resources/registrar/subresources/domains)
 
-  Identifier
+Copy Markdown
 
-### Returns
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `errors: array of ResponseInfo`
+---
 
-  - `code: number`
+**Copy Markdown****View as Markdown**
 
-  - `message: string`
+# List domains
 
-  - `documentation_url: optional string`
+Deprecated: This operation is deprecated and will reach end of life on September 27, 2026. Use the new Registrar API endpoints (domain-search, domain-check, registrations) instead. Refer to https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ for details.
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/registrar/domains
 
-    - `pointer: optional string`
+Lists domains handled by Registrar.
 
-- `messages: array of ResponseInfo`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-- `result: array of Domain`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `id: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    Domain identifier.
+</details>
 
-  - `available: optional boolean`
+<details>
 
-    Shows if a domain is available for transferring into Cloudflare Registrar.
+<summary>API Email + API Key</summary>
 
-  - `can_register: optional boolean`
 
-    Indicates if the domain can be registered as a new domain.
 
-  - `created_at: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    Shows time of creation.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `current_registrar: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Shows name of current registrar.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `expires_at: optional string`
+</details>
 
-    Shows when domain name registration expires.
+##### P ath ParametersExpand Collapse
 
-  - `locked: optional boolean`
+account\_id: string
 
-    Shows whether a registrar lock is in place for a domain.
+Identifier.
 
-  - `registrant_contact: optional object { address, city, country, 10 more }`
+maxLength32
 
-    Shows contact information for domain registrant.
+[Link to this property](#)%20registrar.domains%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `address: string`
+##### ReturnsExpand Collapse
 
-      Address.
+<details>
 
-    - `city: string`
+<summary>
 
-      City.
+errors: array of object {code, message, source }
 
-    - `country: string`
+</summary>
 
-      The country in which the user lives.
+code: number
 
-    - `first_name: string`
+minimum1000
 
-      User's first name
+<a href="#">Link to this property</a>
 
-    - `last_name: string`
+message: string
 
-      User's last name
+<a href="#">Link to this property</a>
 
-    - `organization: string`
+<details>
 
-      Name of organization.
+<summary>
 
-    - `phone: string`
+source: optional object {pointer }
 
-      User's telephone number
+Location of the invalid value that caused the error.
 
-    - `state: string`
+</summary>
 
-      State.
+pointer: string
 
-    - `zip: string`
+JSON Pointer to the invalid or missing request value.
 
-      The zipcode or postal code where the user lives.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      Contact Identifier.
+<a href="#">Link to this property</a>
 
-    - `address2: optional string`
+</details>
 
-      Optional address line for unit, floor, suite, etc.
+[Link to this property](#)%20registrar.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `email: optional string`
+<details>
 
-      The contact email address of the user.
+<summary>
 
-    - `fax: optional string`
+messages: array of object {code, message, source }
 
-      Contact fax number.
+</summary>
 
-  - `registry_statuses: optional string`
+code: number
 
-    A comma-separated list of registry status codes. A full list of status codes can be found at [EPP Status Codes](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en).
+minimum1000
 
-  - `supported_tld: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether a particular TLD is currently supported by Cloudflare Registrar. Refer to [TLD Policies](https://www.cloudflare.com/tld-policies/) for a list of supported TLDs.
+message: string
 
-  - `transfer_in: optional object { accept_foa, approve_transfer, can_cancel_transfer, 3 more }`
+<a href="#">Link to this property</a>
 
-    Statuses for domain transfers into Cloudflare Registrar.
+<details>
 
-    - `accept_foa: optional "needed" or "ok"`
+<summary>
 
-      Form of authorization has been accepted by the registrant.
+source: optional object {pointer }
 
-      - `"needed"`
+Location of the invalid value that caused the error.
 
-      - `"ok"`
+</summary>
 
-    - `approve_transfer: optional "needed" or "ok" or "pending" or 3 more`
+pointer: string
 
-      Shows transfer status with the registry.
+JSON Pointer to the invalid or missing request value.
 
-      - `"needed"`
+<a href="#">Link to this property</a>
 
-      - `"ok"`
+</details>
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"trying"`
+</details>
 
-      - `"rejected"`
+[Link to this property](#)%20registrar.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-      - `"unknown"`
+<details>
 
-    - `can_cancel_transfer: optional boolean`
+<summary>
 
-      Indicates if cancellation is still possible.
+result: array of <a href="https://developers.cloudflare.com/api/resources/registrar#(resource)%20registrar.domains%20%3E%20(model)%20domain%20%3E%20(schema)">Domain</a> { id, available, can\_register, 9 more }
 
-    - `disable_privacy: optional "needed" or "ok" or "unknown"`
+</summary>
 
-      Privacy guards are disabled at the foreign registrar.
+id: optional string
 
-      - `"needed"`
+Domain identifier.
 
-      - `"ok"`
+maxLength32
 
-      - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `enter_auth_code: optional "needed" or "ok" or "pending" or 2 more`
+available: optional boolean
 
-      Auth code has been entered and verified.
+Shows if a domain is available for transferring into Cloudflare Registrar.
 
-      - `"needed"`
+<a href="#">Link to this property</a>
 
-      - `"ok"`
+can\_register: optional boolean
 
-      - `"pending"`
+Indicates eligibility to register the domain as a new domain.
 
-      - `"trying"`
+<a href="#">Link to this property</a>
 
-      - `"rejected"`
+created\_at: optional string
 
-    - `unlock_domain: optional "needed" or "ok" or "pending" or 2 more`
+Shows time of creation.
 
-      Domain is unlocked at the foreign registrar.
+formatdate-time
 
-      - `"needed"`
+<a href="#">Link to this property</a>
 
-      - `"ok"`
+current\_registrar: optional string
 
-      - `"pending"`
+Shows name of current registrar.
 
-      - `"trying"`
+<a href="#">Link to this property</a>
 
-      - `"unknown"`
+expires\_at: optional string
 
-  - `updated_at: optional string`
+Shows when domain name registration expires.
 
-    Last updated.
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+locked: optional boolean
 
-  - `true`
+Shows whether a registrar lock is in place for a domain.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service
+<summary>
 
-  - `page: optional number`
+registrant\_contact: optional object {address, city, country, 10 more }
 
-    Current page within paginated list of results
+Shows contact information for domain registrant.
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results
+address: string
 
-  - `total_count: optional number`
+Address.
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+city: string
 
-```http
+City.
+
+<a href="#">Link to this property</a>
+
+country: string
+
+The country in which the user lives.
+
+maxLength30
+
+<a href="#">Link to this property</a>
+
+first\_name: string
+
+User’s first name.
+
+maxLength60
+
+<a href="#">Link to this property</a>
+
+last\_name: string
+
+User’s last name.
+
+maxLength60
+
+<a href="#">Link to this property</a>
+
+organization: string
+
+Name of organization.
+
+<a href="#">Link to this property</a>
+
+phone: string
+
+User’s telephone number.
+
+maxLength20
+
+<a href="#">Link to this property</a>
+
+state: string
+
+State.
+
+<a href="#">Link to this property</a>
+
+zip: string
+
+The zipcode or postal code where the user lives.
+
+maxLength20
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Contact Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+address2: optional string
+
+Optional address line for unit, floor, suite, etc.
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+The contact email address of the user.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+fax: optional string
+
+Contact fax number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+registry\_statuses: optional string
+
+A comma-separated list of registry status codes. Refer to <a href="https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en">EPP Status Codes</a> for the full list.
+
+<a href="#">Link to this property</a>
+
+supported\_tld: optional boolean
+
+Indicates whether Cloudflare Registrar currently supports a particular TLD. Refer to <a href="https://www.cloudflare.com/tld-policies/">TLD Policies</a> for a list of supported TLDs.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+transfer\_in: optional object {accept\_foa, approve\_transfer, can\_cancel\_transfer, 3 more }
+
+Statuses for domain transfers into Cloudflare Registrar.
+
+</summary>
+
+<details>
+
+<summary>
+
+accept\_foa: optional "needed"or "ok"
+
+Status of the registrant authorization step.
+
+</summary>
+
+One of the following:
+
+"needed"
+
+<a href="#">Link to this property</a>
+
+"ok"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+approve\_transfer: optional "needed"or "ok"or "pending"or 3 more
+
+Status of the registry transfer-approval step.
+
+</summary>
+
+One of the following:
+
+"needed"
+
+<a href="#">Link to this property</a>
+
+"ok"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"trying"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+can\_cancel\_transfer: optional boolean
+
+Indicates if cancellation is still possible.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+disable\_privacy: optional "needed"or "ok"or "unknown"
+
+Status of the privacy-guard disabling step at the foreign registrar.
+
+</summary>
+
+One of the following:
+
+"needed"
+
+<a href="#">Link to this property</a>
+
+"ok"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enter\_auth\_code: optional "needed"or "ok"or "pending"or 2 more
+
+Status of the auth-code entry and verification step.
+
+</summary>
+
+One of the following:
+
+"needed"
+
+<a href="#">Link to this property</a>
+
+"ok"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"trying"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+unlock\_domain: optional "needed"or "ok"or "pending"or 2 more
+
+Status of the domain-unlock step at the foreign registrar.
+
+</summary>
+
+One of the following:
+
+"needed"
+
+<a href="#">Link to this property</a>
+
+"ok"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"trying"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+Last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20registrar.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20registrar.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20registrar.domains%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List domains
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/registrar/domains \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
       "code": 1000,
       "message": "message",
-      "documentation_url": "documentation_url",
       "source": {
         "pointer": "pointer"
       }
@@ -251,7 +592,77 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/registrar/domains
     {
       "code": 1000,
       "message": "message",
-      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "ea95132c15732412d22c1476fa83f27a",
+      "available": false,
+      "can_register": false,
+      "created_at": "2018-08-28T17:26:26Z",
+      "current_registrar": "Cloudflare",
+      "expires_at": "2019-08-28T23:59:59Z",
+      "locked": false,
+      "registrant_contact": {
+        "address": "123 Sesame St.",
+        "city": "Austin",
+        "country": "US",
+        "first_name": "John",
+        "last_name": "Appleseed",
+        "organization": "Cloudflare, Inc.",
+        "phone": "+1 123-123-1234",
+        "state": "TX",
+        "zip": "12345",
+        "id": "ea95132c15732412d22c1476fa83f27a",
+        "address2": "Suite 430",
+        "email": "user@example.com",
+        "fax": "123-867-5309"
+      },
+      "registry_statuses": "ok,serverTransferProhibited",
+      "supported_tld": true,
+      "transfer_in": {
+        "accept_foa": "needed",
+        "approve_transfer": "unknown",
+        "can_cancel_transfer": true,
+        "disable_privacy": "ok",
+        "enter_auth_code": "needed",
+        "unlock_domain": "ok"
+      },
+      "updated_at": "2018-08-28T17:26:26Z"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
       "source": {
         "pointer": "pointer"
       }

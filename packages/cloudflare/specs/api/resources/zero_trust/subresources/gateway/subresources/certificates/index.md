@@ -1,1259 +1,827 @@
+---
+title: Certificates
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Certificates
 
-## List Zero Trust certificates
+##### [List Zero Trust certificates](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/list)
 
-**get** `/accounts/{account_id}/gateway/certificates`
+GET/accounts/{account\_id}/gateway/certificates
 
-List all Zero Trust certificates for an account.
+##### [Get Zero Trust certificate details](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/gateway/certificates/{certificate\_id}
 
-- `account_id: string`
+##### [Create Zero Trust certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/gateway/certificates
 
-- `errors: array of ResponseInfo`
+##### [Delete Zero Trust certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/delete)
 
-  - `code: number`
+DELETE/accounts/{account\_id}/gateway/certificates/{certificate\_id}
 
-  - `message: string`
+##### [Activate a Zero Trust certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/activate)
 
-  - `documentation_url: optional string`
+POST/accounts/{account\_id}/gateway/certificates/{certificate\_id}/activate
 
-  - `source: optional object { pointer }`
+##### [Deactivate a Zero Trust certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/certificates/methods/deactivate)
 
-    - `pointer: optional string`
+POST/accounts/{account\_id}/gateway/certificates/{certificate\_id}/deactivate
 
-- `messages: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+CertificateListResponse object {id, binding\_status, certificate, 9 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `success: true`
+id: optional string
 
-  Indicate whether the API call was successful.
+Identify the certificate with a UUID.
 
-  - `true`
+maxLength36
 
-- `result: optional array of object { id, binding_status, certificate, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Identify the certificate with a UUID.
+<summary>
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-    - `"pending_deployment"`
+</summary>
 
-    - `"available"`
+One of the following:
 
-    - `"pending_deletion"`
+"pending\_deployment"
 
-    - `"inactive"`
+<a href="#">Link to this property</a>
 
-  - `certificate: optional string`
+"available"
 
-    Provide the CA certificate (read-only).
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"pending\_deletion"
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `fingerprint: optional string`
+"inactive"
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
+<a href="#">Link to this property</a>
 
-  - `in_use: optional boolean`
+</details>
 
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
+<a href="#">Link to this property</a>
 
-  - `issuer_org: optional string`
+certificate: optional string
 
-    Indicate the organization that issued the certificate (read-only).
+Provide the CA certificate (read-only).
 
-  - `issuer_raw: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the entire issuer field of the certificate (read-only).
+created\_at: optional string
 
-  - `type: optional "custom" or "gateway_managed"`
+formatdate-time
 
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
+<a href="#">Link to this property</a>
 
-    - `"custom"`
+expires\_on: optional string
 
-    - `"gateway_managed"`
+formatdate-time
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `uploaded_on: optional string`
+fingerprint: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Indicate the total number of results for the requested service.
+in\_use: optional boolean
 
-  - `page: optional number`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-    Indicate the current page within a paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+issuer\_org: optional string
 
-    Indicate the number of results per page.
+Indicate the organization that issued the certificate (read-only).
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Indicate the total results available without any search parameters.
+issuer\_raw: optional string
 
-### Example
+Provide the entire issuer field of the certificate (read-only).
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "binding_status": "pending_deployment",
-      "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "expires_on": "2014-01-01T05:20:00.12345Z",
-      "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-      "in_use": true,
-      "issuer_org": "Example Inc.",
-      "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-      "type": "gateway_managed",
-      "updated_at": "2014-01-01T05:20:00.12345Z",
-      "uploaded_on": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<summary>
 
-## Get Zero Trust certificate details
+type: optional "custom"or "gateway\_managed"
 
-**get** `/accounts/{account_id}/gateway/certificates/{certificate_id}`
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-Get a single Zero Trust certificate.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"custom"
 
-- `certificate_id: string`
+<a href="#">Link to this property</a>
 
-  Identify the certificate with a UUID.
+"gateway\_managed"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+updated\_at: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+uploaded\_on: optional string
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_list_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-- `success: true`
+<summary>
 
-  Indicate whether the API call was successful.
+CertificateGetResponse object {id, binding\_status, certificate, 9 more }
 
-  - `true`
+</summary>
 
-- `result: optional object { id, binding_status, certificate, 9 more }`
+id: optional string
 
-  - `id: optional string`
+Identify the certificate with a UUID.
 
-    Identify the certificate with a UUID.
+maxLength36
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+<a href="#">Link to this property</a>
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+<details>
 
-    - `"pending_deployment"`
+<summary>
 
-    - `"available"`
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-    - `"pending_deletion"`
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-    - `"inactive"`
+</summary>
 
-  - `certificate: optional string`
+One of the following:
 
-    Provide the CA certificate (read-only).
+"pending\_deployment"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+"available"
 
-  - `fingerprint: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
+"pending\_deletion"
 
-  - `in_use: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
+"inactive"
 
-  - `issuer_org: optional string`
+<a href="#">Link to this property</a>
 
-    Indicate the organization that issued the certificate (read-only).
+</details>
 
-  - `issuer_raw: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the entire issuer field of the certificate (read-only).
+certificate: optional string
 
-  - `type: optional "custom" or "gateway_managed"`
+Provide the CA certificate (read-only).
 
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
+<a href="#">Link to this property</a>
 
-    - `"custom"`
+created\_at: optional string
 
-    - `"gateway_managed"`
+formatdate-time
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `uploaded_on: optional string`
+expires\_on: optional string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates/$CERTIFICATE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+fingerprint: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-## Create Zero Trust certificate
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/gateway/certificates`
+in\_use: optional boolean
 
-Create a new Zero Trust certificate.
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+issuer\_org: optional string
 
-### Body Parameters
+Indicate the organization that issued the certificate (read-only).
 
-- `validity_period_days: optional number`
+<a href="#">Link to this property</a>
 
-  Sets the certificate validity period in days (range: 1-10,950 days / ~30 years). Defaults to 1,825 days (5 years). **Important**: This field is only settable during the certificate creation.  Certificates becomes immutable after creation - use the `/activate` and `/deactivate` endpoints to manage certificate lifecycle.
+issuer\_raw: optional string
 
-### Returns
+Provide the entire issuer field of the certificate (read-only).
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+type: optional "custom"or "gateway\_managed"
 
-  - `source: optional object { pointer }`
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"custom"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"gateway\_managed"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+updated\_at: optional string
 
-- `result: optional object { id, binding_status, certificate, 9 more }`
+formatdate-time
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identify the certificate with a UUID.
+uploaded\_on: optional string
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+formatdate-time
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+<a href="#">Link to this property</a>
 
-    - `"pending_deployment"`
+</details>
 
-    - `"available"`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_get_response%20%3E%20(schema)>)
 
-    - `"pending_deletion"`
+<details>
 
-    - `"inactive"`
+<summary>
 
-  - `certificate: optional string`
+CertificateCreateResponse object {id, binding\_status, certificate, 9 more }
 
-    Provide the CA certificate (read-only).
+</summary>
 
-  - `created_at: optional string`
+id: optional string
 
-  - `expires_on: optional string`
+Identify the certificate with a UUID.
 
-  - `fingerprint: optional string`
+maxLength36
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
+<a href="#">Link to this property</a>
 
-  - `in_use: optional boolean`
+<details>
 
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
+<summary>
 
-  - `issuer_org: optional string`
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-    Indicate the organization that issued the certificate (read-only).
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-  - `issuer_raw: optional string`
+</summary>
 
-    Provide the entire issuer field of the certificate (read-only).
+One of the following:
 
-  - `type: optional "custom" or "gateway_managed"`
+"pending\_deployment"
 
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
+<a href="#">Link to this property</a>
 
-    - `"custom"`
+"available"
 
-    - `"gateway_managed"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+"pending\_deletion"
 
-  - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"inactive"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete Zero Trust certificate
+certificate: optional string
 
-**delete** `/accounts/{account_id}/gateway/certificates/{certificate_id}`
+Provide the CA certificate (read-only).
 
-Delete a gateway-managed Zero Trust certificate. You must deactivate the certificate from the edge (inactive) before deleting it.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+created\_at: optional string
 
-- `account_id: string`
+formatdate-time
 
-- `certificate_id: string`
+<a href="#">Link to this property</a>
 
-  Identify the certificate with a UUID.
+expires\_on: optional string
 
-### Returns
+formatdate-time
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+fingerprint: optional string
 
-  - `message: string`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+in\_use: optional boolean
 
-    - `pointer: optional string`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+issuer\_org: optional string
 
-  - `message: string`
+Indicate the organization that issued the certificate (read-only).
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+issuer\_raw: optional string
 
-- `success: true`
+Provide the entire issuer field of the certificate (read-only).
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { id, binding_status, certificate, 9 more }`
+<summary>
 
-  - `id: optional string`
+type: optional "custom"or "gateway\_managed"
 
-    Identify the certificate with a UUID.
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+</summary>
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+One of the following:
 
-    - `"pending_deployment"`
+"custom"
 
-    - `"available"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+"gateway\_managed"
 
-    - `"inactive"`
+<a href="#">Link to this property</a>
 
-  - `certificate: optional string`
+</details>
 
-    Provide the CA certificate (read-only).
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+updated\_at: optional string
 
-  - `expires_on: optional string`
+formatdate-time
 
-  - `fingerprint: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
+uploaded\_on: optional string
 
-  - `in_use: optional boolean`
+formatdate-time
 
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
+<a href="#">Link to this property</a>
 
-  - `issuer_org: optional string`
+</details>
 
-    Indicate the organization that issued the certificate (read-only).
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_create_response%20%3E%20(schema)>)
 
-  - `issuer_raw: optional string`
+<details>
 
-    Provide the entire issuer field of the certificate (read-only).
+<summary>
 
-  - `type: optional "custom" or "gateway_managed"`
+CertificateDeleteResponse object {id, binding\_status, certificate, 9 more }
 
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
+</summary>
 
-    - `"custom"`
+id: optional string
 
-    - `"gateway_managed"`
+Identify the certificate with a UUID.
 
-  - `updated_at: optional string`
+maxLength36
 
-  - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates/$CERTIFICATE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-## Activate a Zero Trust certificate
+</summary>
 
-**post** `/accounts/{account_id}/gateway/certificates/{certificate_id}/activate`
+One of the following:
 
-Bind a single Zero Trust certificate to the edge.
+"pending\_deployment"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"available"
 
-- `certificate_id: string`
+<a href="#">Link to this property</a>
 
-  Identify the certificate with a UUID.
+"pending\_deletion"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: unknown`
+"inactive"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+certificate: optional string
 
-  - `documentation_url: optional string`
+Provide the CA certificate (read-only).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_at: optional string
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+expires\_on: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+fingerprint: optional string
 
-  Indicate whether the API call was successful.
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, binding_status, certificate, 9 more }`
+in\_use: optional boolean
 
-  - `id: optional string`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-    Identify the certificate with a UUID.
+<a href="#">Link to this property</a>
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+issuer\_org: optional string
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+Indicate the organization that issued the certificate (read-only).
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"available"`
+issuer\_raw: optional string
 
-    - `"pending_deletion"`
+Provide the entire issuer field of the certificate (read-only).
 
-    - `"inactive"`
+<a href="#">Link to this property</a>
 
-  - `certificate: optional string`
+<details>
 
-    Provide the CA certificate (read-only).
+<summary>
 
-  - `created_at: optional string`
+type: optional "custom"or "gateway\_managed"
 
-  - `expires_on: optional string`
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-  - `fingerprint: optional string`
+</summary>
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
+One of the following:
 
-  - `in_use: optional boolean`
+"custom"
 
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
+<a href="#">Link to this property</a>
 
-  - `issuer_org: optional string`
+"gateway\_managed"
 
-    Indicate the organization that issued the certificate (read-only).
+<a href="#">Link to this property</a>
 
-  - `issuer_raw: optional string`
+</details>
 
-    Provide the entire issuer field of the certificate (read-only).
+<a href="#">Link to this property</a>
 
-  - `type: optional "custom" or "gateway_managed"`
+updated\_at: optional string
 
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
+formatdate-time
 
-    - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `"gateway_managed"`
+uploaded\_on: optional string
 
-  - `updated_at: optional string`
+formatdate-time
 
-  - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates/$CERTIFICATE_ID/activate \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_delete_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<summary>
 
-## Deactivate a Zero Trust certificate
+CertificateActivateResponse object {id, binding\_status, certificate, 9 more }
 
-**post** `/accounts/{account_id}/gateway/certificates/{certificate_id}/deactivate`
+</summary>
 
-Unbind a single Zero Trust certificate from the edge.
+id: optional string
 
-### Path Parameters
+Identify the certificate with a UUID.
 
-- `account_id: string`
+maxLength36
 
-- `certificate_id: string`
+<a href="#">Link to this property</a>
 
-  Identify the certificate with a UUID.
+<details>
 
-### Body Parameters
+<summary>
 
-- `body: unknown`
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-### Returns
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"pending\_deployment"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"available"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"pending\_deletion"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"inactive"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Indicate whether the API call was successful.
+certificate: optional string
 
-  - `true`
+Provide the CA certificate (read-only).
 
-- `result: optional object { id, binding_status, certificate, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+created\_at: optional string
 
-    Identify the certificate with a UUID.
+formatdate-time
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+<a href="#">Link to this property</a>
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+expires\_on: optional string
 
-    - `"pending_deployment"`
+formatdate-time
 
-    - `"available"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+fingerprint: optional string
 
-    - `"inactive"`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  - `certificate: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the CA certificate (read-only).
+in\_use: optional boolean
 
-  - `created_at: optional string`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `fingerprint: optional string`
+issuer\_org: optional string
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
+Indicate the organization that issued the certificate (read-only).
 
-  - `in_use: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
+issuer\_raw: optional string
 
-  - `issuer_org: optional string`
+Provide the entire issuer field of the certificate (read-only).
 
-    Indicate the organization that issued the certificate (read-only).
+<a href="#">Link to this property</a>
 
-  - `issuer_raw: optional string`
+<details>
 
-    Provide the entire issuer field of the certificate (read-only).
+<summary>
 
-  - `type: optional "custom" or "gateway_managed"`
+type: optional "custom"or "gateway\_managed"
 
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-    - `"custom"`
+</summary>
 
-    - `"gateway_managed"`
+One of the following:
 
-  - `updated_at: optional string`
+"custom"
 
-  - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"gateway\_managed"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/certificates/$CERTIFICATE_ID/deactivate \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "binding_status": "pending_deployment",
-    "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDmDCCAoCgAwIBAgIUKTOAZNjcXVZRj4oQt0SHsl1c1vMwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjAgFw0yMjExMjIxNjU5NDdaGA8yMTIyMTAyOTE2NTk0N1owUTELMAkGA1UEBhMCVVMxFjAUBgNVBAgMDVNhbiBGcmFuY2lzY28xEzARBgNVBAcMCkNhbGlmb3JuaWExFTATBgNVBAoMDEV4YW1wbGUgSW5jLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRcORwgJFTdcG/2GKI+cFYiOBNDKjCZUXEOvXWY42BkH9wxiMT869CO+enA1w5pIrXow6kCM1sQspHHaVmJUlotEMJxyoLFfA/8Kt1EKFyobOjuZs2SwyVyJ2sStvQuUQEosULZCNGZEqoH5g6zhMPxaxm7ZLrrsDZ9maNGVqo7EWLWHrZ57Q/5MtTrbxQL+eXjUmJ9K3kS+3uEwMdqR6Z3BluU1ivanpPc1CN2GNhdO0/hSY4YkGEnuLsqJyDd3cIiB1MxuCBJ4ZaqOd2viV1WcP3oU3dxVPm4MWyfYIldMWB14FahScxLhWdRnM9YZ/i9IFcLypXsuz7DjrJPtPUCAwEAAaNmMGQwHQYDVR0OBBYEFP5JzLUawNF+c3AXsYTEWHh7z2czMB8GA1UdIwQYMBaAFP5JzLUawNF+c3AXsYTEWHh7z2czMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMA0GCSqGSIb3DQEBCwUAA4IBAQBc+Be7NDhpE09y7hLPZGRPl1cSKBw4RI0XIv6rlbSTFs5EebpTGjhx/whNxwEZhB9HZ7111Oa1YlT8xkI9DshB78mjAHCKBAJ76moK8tkG0aqdYpJ4ZcJTVBB7l98Rvgc7zfTii7WemTy72deBbSeiEtXavm4EF0mWjHhQ5Nxpnp00Bqn5g1x8CyTDypgmugnep+xG+iFzNmTdsz7WI9T/7kDMXqB7M/FPWBORyS98OJqNDswCLF8bIZYwUBEe+bRHFomoShMzaC3tvim7WCb16noDkSTMlfKO4pnvKhpcVdSgwcruATV7y+W+Lvmz2OT/Gui4JhqeoTewsxndhDDE\\n-----END CERTIFICATE-----\\n",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "expires_on": "2014-01-01T05:20:00.12345Z",
-    "fingerprint": "E9:19:49:AA:DD:D8:1E:C1:20:2A:D8:22:BF:A5:F8:FC:1A:F7:10:9F:C7:5B:69:AB:0:31:91:8B:61:B4:BF:1C",
-    "in_use": true,
-    "issuer_org": "Example Inc.",
-    "issuer_raw": "O=Example Inc.,L=California,ST=San Francisco,C=US",
-    "type": "gateway_managed",
-    "updated_at": "2014-01-01T05:20:00.12345Z",
-    "uploaded_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+updated\_at: optional string
 
-### Certificate List Response
+formatdate-time
 
-- `CertificateListResponse object { id, binding_status, certificate, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+uploaded\_on: optional string
 
-    Identify the certificate with a UUID.
+formatdate-time
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+<a href="#">Link to this property</a>
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+</details>
 
-    - `"pending_deployment"`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_activate_response%20%3E%20(schema)>)
 
-    - `"available"`
+<details>
 
-    - `"pending_deletion"`
+<summary>
 
-    - `"inactive"`
+CertificateDeactivateResponse object {id, binding\_status, certificate, 9 more }
 
-  - `certificate: optional string`
+</summary>
 
-    Provide the CA certificate (read-only).
+id: optional string
 
-  - `created_at: optional string`
+Identify the certificate with a UUID.
 
-  - `expires_on: optional string`
+maxLength36
 
-  - `fingerprint: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
+<details>
 
-  - `in_use: optional boolean`
+<summary>
 
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
+binding\_status: optional "pending\_deployment"or "available"or "pending\_deletion"or "inactive"
 
-  - `issuer_org: optional string`
+Indicate the read-only deployment status of the certificate on Cloudflare’s edge. Gateway TLS interception can use certificates in the ‘available’ (previously called ‘active’) state.
 
-    Indicate the organization that issued the certificate (read-only).
+</summary>
 
-  - `issuer_raw: optional string`
+One of the following:
 
-    Provide the entire issuer field of the certificate (read-only).
+"pending\_deployment"
 
-  - `type: optional "custom" or "gateway_managed"`
+<a href="#">Link to this property</a>
 
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
+"available"
 
-    - `"custom"`
+<a href="#">Link to this property</a>
 
-    - `"gateway_managed"`
+"pending\_deletion"
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `uploaded_on: optional string`
+"inactive"
 
-### Certificate Get Response
+<a href="#">Link to this property</a>
 
-- `CertificateGetResponse object { id, binding_status, certificate, 9 more }`
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identify the certificate with a UUID.
+certificate: optional string
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+Provide the CA certificate (read-only).
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+<a href="#">Link to this property</a>
 
-    - `"pending_deployment"`
+created\_at: optional string
 
-    - `"available"`
+formatdate-time
 
-    - `"pending_deletion"`
+<a href="#">Link to this property</a>
 
-    - `"inactive"`
+expires\_on: optional string
 
-  - `certificate: optional string`
+formatdate-time
 
-    Provide the CA certificate (read-only).
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+fingerprint: optional string
 
-  - `expires_on: optional string`
+Provide the SHA256 fingerprint of the certificate (read-only).
 
-  - `fingerprint: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
+in\_use: optional boolean
 
-  - `in_use: optional boolean`
+Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named <code>certificate</code> (read-only).
 
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
+<a href="#">Link to this property</a>
 
-  - `issuer_org: optional string`
+issuer\_org: optional string
 
-    Indicate the organization that issued the certificate (read-only).
+Indicate the organization that issued the certificate (read-only).
 
-  - `issuer_raw: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the entire issuer field of the certificate (read-only).
+issuer\_raw: optional string
 
-  - `type: optional "custom" or "gateway_managed"`
+Provide the entire issuer field of the certificate (read-only).
 
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
+<a href="#">Link to this property</a>
 
-    - `"custom"`
+<details>
 
-    - `"gateway_managed"`
+<summary>
 
-  - `updated_at: optional string`
+type: optional "custom"or "gateway\_managed"
 
-  - `uploaded_on: optional string`
+Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 
-### Certificate Create Response
+</summary>
 
-- `CertificateCreateResponse object { id, binding_status, certificate, 9 more }`
+One of the following:
 
-  - `id: optional string`
+"custom"
 
-    Identify the certificate with a UUID.
+<a href="#">Link to this property</a>
 
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
+"gateway\_managed"
 
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
+<a href="#">Link to this property</a>
 
-    - `"pending_deployment"`
+</details>
 
-    - `"available"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+updated\_at: optional string
 
-    - `"inactive"`
+formatdate-time
 
-  - `certificate: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the CA certificate (read-only).
+uploaded\_on: optional string
 
-  - `created_at: optional string`
+formatdate-time
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `fingerprint: optional string`
+</details>
 
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Certificate Delete Response
-
-- `CertificateDeleteResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Certificate Activate Response
-
-- `CertificateActivateResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
-
-### Certificate Deactivate Response
-
-- `CertificateDeactivateResponse object { id, binding_status, certificate, 9 more }`
-
-  - `id: optional string`
-
-    Identify the certificate with a UUID.
-
-  - `binding_status: optional "pending_deployment" or "available" or "pending_deletion" or "inactive"`
-
-    Indicate the read-only deployment status of the certificate on Cloudflare's edge. Gateway TLS interception can use certificates in the 'available' (previously called 'active') state.
-
-    - `"pending_deployment"`
-
-    - `"available"`
-
-    - `"pending_deletion"`
-
-    - `"inactive"`
-
-  - `certificate: optional string`
-
-    Provide the CA certificate (read-only).
-
-  - `created_at: optional string`
-
-  - `expires_on: optional string`
-
-  - `fingerprint: optional string`
-
-    Provide the SHA256 fingerprint of the certificate (read-only).
-
-  - `in_use: optional boolean`
-
-    Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, use the Gateway configuration setting named `certificate` (read-only).
-
-  - `issuer_org: optional string`
-
-    Indicate the organization that issued the certificate (read-only).
-
-  - `issuer_raw: optional string`
-
-    Provide the entire issuer field of the certificate (read-only).
-
-  - `type: optional "custom" or "gateway_managed"`
-
-    Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
-
-    - `"custom"`
-
-    - `"gateway_managed"`
-
-  - `updated_at: optional string`
-
-  - `uploaded_on: optional string`
+[Link to this property](#)%20zero_trust.gateway.certificates%20%3E%20(model)%20certificate_deactivate_response%20%3E%20(schema)>)

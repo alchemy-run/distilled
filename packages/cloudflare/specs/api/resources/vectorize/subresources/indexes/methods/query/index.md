@@ -1,102 +1,288 @@
-## Query Vectors
+---
+title: Query Vectors
+---
 
-**post** `/accounts/{account_id}/vectorize/v2/indexes/{index_name}/query`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Vectorize](https://developers.cloudflare.com/api/resources/vectorize)
+
+[Indexes](https://developers.cloudflare.com/api/resources/vectorize/subresources/indexes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Query Vectors
+
+POST/accounts/{account\_id}/vectorize/v2/indexes/{index\_name}/query
 
 Finds vectors closest to a given vector in an index.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-- `index_name: string`
 
-### Body Parameters
 
-- `vector: array of number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  The search vector that will be used to find the nearest neighbors.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `filter: optional unknown`
+</details>
 
-  A metadata filter expression used to limit nearest neighbor results.
+<details>
 
-- `returnMetadata: optional "none" or "indexed" or "all"`
+<summary>API Email + API Key</summary>
 
-  Whether to return no metadata, indexed metadata or all metadata associated with the closest vectors.
 
-  - `"none"`
 
-  - `"indexed"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"all"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `returnValues: optional boolean`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Whether to return the values associated with the closest vectors.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `topK: optional number`
+</details>
 
-  The number of nearest neighbors to find.
+##### Accepted Permissions (at least one required)
 
-### Returns
+`Vectorize Write``Vectorize Read`
 
-- `errors: array of ResponseInfo`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+Identifier
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+index\_name: string
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(params)%20default%20%3E%20(param)%20index_name%20%3E%20(schema)>)
 
-  - `code: number`
+##### Body ParametersJSONExpand Collapse
 
-  - `message: string`
+vector: array of number
 
-  - `documentation_url: optional string`
+The search vector that will be used to find the nearest neighbors.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(params)%200%20%3E%20(param)%20vector%20%3E%20(schema)>)
 
-- `result: object { count, matches }`
+filter: optional unknown
 
-  - `count: optional number`
+A metadata filter expression used to limit nearest neighbor results.
 
-    Specifies the count of vectors returned by the search
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(params)%200%20%3E%20(param)%20filter%20%3E%20(schema)>)
 
-  - `matches: optional array of object { id, metadata, namespace, 2 more }`
+<details>
 
-    Array of vectors matched by the search
+<summary>
 
-    - `id: optional string`
+returnMetadata: optional "none"or "indexed"or "all"
 
-      Identifier for a Vector
+Whether to return no metadata, indexed metadata or all metadata associated with the closest vectors.
 
-    - `metadata: optional unknown`
+</summary>
 
-    - `namespace: optional string`
+One of the following:
 
-    - `score: optional number`
+"none"
 
-      The score of the vector according to the index's distance metric
+<a href="#">Link to this property</a>
 
-    - `values: optional array of number`
+"indexed"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+"all"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(params)%200%20%3E%20(param)%20returnMetadata%20%3E%20(schema)>)
+
+returnValues: optional boolean
+
+Whether to return the values associated with the closest vectors.
+
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(params)%200%20%3E%20(param)%20returnValues%20%3E%20(schema)>)
+
+topK: optional number
+
+The number of nearest neighbors to find.
+
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(params)%200%20%3E%20(param)%20topK%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {count, matches }
+
+</summary>
+
+count: optional number
+
+Specifies the count of vectors returned by the search
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+matches: optional array of object {id, metadata, namespace, 2 more }
+
+Array of vectors matched by the search
+
+</summary>
+
+id: optional string
+
+Identifier for a Vector
+
+maxLength64
+
+<a href="#">Link to this property</a>
+
+metadata: optional unknown
+
+<a href="#">Link to this property</a>
+
+namespace: optional string
+
+<a href="#">Link to this property</a>
+
+score: optional number
+
+The score of the vector according to the index’s distance metric
+
+<a href="#">Link to this property</a>
+
+values: optional array of number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20vectorize.indexes%20%3E%20(method)%20query%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Query Vectors
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/vectorize/v2/indexes/$INDEX_NAME/query \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -116,9 +302,53 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/vectorize/v2/inde
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "count": 0,
+    "matches": [
+      {
+        "id": "some-vector-id-023e105f4ecef8ad9ca31a8372d0c353",
+        "metadata": {},
+        "namespace": "namespace",
+        "score": 0,
+        "values": [
+          0
+        ]
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

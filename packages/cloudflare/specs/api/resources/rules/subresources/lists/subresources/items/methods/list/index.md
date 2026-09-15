@@ -1,199 +1,572 @@
-## Get list items
+---
+title: Get list items
+---
 
-**get** `/accounts/{account_id}/rules/lists/{list_id}/items`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Rules Lists](https://developers.cloudflare.com/api/resources/rules)
+
+[Lists](https://developers.cloudflare.com/api/resources/rules/subresources/lists)
+
+[Items](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/items)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get list items
+
+GET/accounts/{account\_id}/rules/lists/{list\_id}/items
 
 Fetches all the items in the list.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  The Account ID for this resource.
+<summary>API Token</summary>
 
-- `list_id: string`
 
-  The unique ID of the list.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `cursor: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The pagination cursor. An opaque string token indicating the position from which to continue when requesting the next/previous set of records. Cursor values are provided under `result_info.cursors` in the response. You should make no assumptions about a cursor's content or length.
+</details>
 
-- `per_page: optional number`
+<details>
 
-  Amount of results to include in each paginated response. A non-negative 32 bit integer.
+<summary>API Email + API Key</summary>
 
-- `search: optional string`
 
-  A search query to filter returned items. Its meaning depends on the list type: IP addresses must start with the provided string, hostnames and bulk redirects must contain the string, and ASNs must match the string exactly.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Account Filter Lists Edit``Account Filter Lists Read`
 
-- `messages: array of ResponseInfo`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+The Account ID for this resource.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+minLength32
 
-- `result: array of object { id, created_on, ip, 2 more }  or object { id, created_on, hostname, 2 more }  or object { id, created_on, modified_on, 2 more }  or object { id, asn, created_on, 2 more }`
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `ListsListItemIPFull object { id, created_on, ip, 2 more }`
+list\_id: string
 
-    - `id: string`
+The unique ID of the list.
 
-      Defines the unique ID of the item in the List.
+maxLength32
 
-    - `created_on: string`
+minLength32
 
-      The RFC 3339 timestamp of when the list was created.
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20list_id%20%3E%20(schema)>)
 
-    - `ip: string`
+##### Q uery ParametersExpand Collapse
 
-      An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
+cursor: optional string
 
-    - `modified_on: string`
+The pagination cursor. An opaque string token that indicates where to continue when requesting the next/previous set of records. The response provides cursor values under `result_info.cursors`. You should make no assumptions about a cursor’s content or length.
 
-      The RFC 3339 timestamp of when the list was last modified.
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cursor%20%3E%20(schema)>)
 
-    - `comment: optional string`
+per\_page: optional number
 
-      Defines an informative summary of the list item.
+Amount of results to include in each paginated response. A non-negative 32 bit integer.
 
-  - `ListsListItemHostnameFull object { id, created_on, hostname, 2 more }`
+maximum500
 
-    - `id: string`
+minimum1
 
-      Defines the unique ID of the item in the List.
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `created_on: string`
+search: optional string
 
-      The RFC 3339 timestamp of when the list was created.
+A search query to filter returned items. Its meaning depends on the list type: IP addresses must start with the provided string, hostnames and bulk redirects must contain the string, and ASNs must match the string exactly.
 
-    - `hostname: Hostname`
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
 
-      Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).
+##### ReturnsExpand Collapse
 
-      - `url_hostname: string`
+<details>
 
-      - `exclude_exact_hostname: optional boolean`
+<summary>
 
-        Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `modified_on: string`
+</summary>
 
-      The RFC 3339 timestamp of when the list was last modified.
+code: number
 
-    - `comment: optional string`
+minimum1000
 
-      Defines an informative summary of the list item.
+<a href="#">Link to this property</a>
 
-  - `ListsListItemRedirectFull object { id, created_on, modified_on, 2 more }`
+message: string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Defines the unique ID of the item in the List.
+documentation\_url: optional string
 
-    - `created_on: string`
+<a href="#">Link to this property</a>
 
-      The RFC 3339 timestamp of when the list was created.
+<details>
 
-    - `modified_on: string`
+<summary>
 
-      The RFC 3339 timestamp of when the list was last modified.
+source: optional object {pointer }
 
-    - `redirect: Redirect`
+</summary>
 
-      The definition of the redirect.
+pointer: optional string
 
-      - `source_url: string`
+<a href="#">Link to this property</a>
 
-      - `target_url: string`
+</details>
 
-      - `include_subdomains: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `preserve_path_suffix: optional boolean`
+</details>
 
-      - `preserve_query_string: optional boolean`
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `status_code: optional 301 or 302 or 307 or 308`
+<details>
 
-        - `301`
+<summary>
 
-        - `302`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-        - `307`
+</summary>
 
-        - `308`
+code: number
 
-      - `subpath_matching: optional boolean`
+minimum1000
 
-    - `comment: optional string`
+<a href="#">Link to this property</a>
 
-      Defines an informative summary of the list item.
+message: string
 
-  - `ListsListItemASNFull object { id, asn, created_on, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+documentation\_url: optional string
 
-      Defines the unique ID of the item in the List.
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+<details>
 
-      Defines a non-negative 32 bit integer.
+<summary>
 
-    - `created_on: string`
+source: optional object {pointer }
 
-      The RFC 3339 timestamp of when the list was created.
+</summary>
 
-    - `modified_on: string`
+pointer: optional string
 
-      The RFC 3339 timestamp of when the list was last modified.
+<a href="#">Link to this property</a>
 
-    - `comment: optional string`
+</details>
 
-      Defines an informative summary of the list item.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Defines whether the API call was successful.
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  - `true`
+<details>
 
-- `result_info: optional object { cursors }`
+<summary>
 
-  - `cursors: optional ListCursor`
+result: array of object {id, created\_on, ip, 2 more } or object {id, created\_on, hostname, 2 more } or object {id, created\_on, modified\_on, 2 more } or object {id, asn, created\_on, 2 more }
 
-    - `after: optional string`
+</summary>
 
-    - `before: optional string`
+One of the following:
 
-### Example
+<details>
 
-```http
+<summary>
+
+ListsListItemIPFull object {id, created\_on, ip, 2 more }
+
+</summary>
+
+id: string
+
+Defines the unique ID of the item in the List.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The RFC 3339 timestamp of when the list was created.
+
+<a href="#">Link to this property</a>
+
+ip: string
+
+An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR.
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The RFC 3339 timestamp of when the list was last modified.
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Defines an informative summary of the list item.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ListsListItemHostnameFull object {id, created\_on, hostname, 2 more }
+
+</summary>
+
+id: string
+
+Defines the unique ID of the item in the List.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The RFC 3339 timestamp of when the list was created.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+hostname: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists%20%3E%20(model)%20hostname%20%3E%20(schema)">Hostname</a> { url\_hostname, exclude\_exact\_hostname }
+
+Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (\*), and the hyphen (-).
+
+</summary>
+
+url\_hostname: string
+
+<a href="#">Link to this property</a>
+
+exclude\_exact\_hostname: optional boolean
+
+Only applies to wildcard hostnames (e.g., \*.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The RFC 3339 timestamp of when the list was last modified.
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Defines an informative summary of the list item.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ListsListItemRedirectFull object {id, created\_on, modified\_on, 2 more }
+
+</summary>
+
+id: string
+
+Defines the unique ID of the item in the List.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The RFC 3339 timestamp of when the list was created.
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The RFC 3339 timestamp of when the list was last modified.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+redirect: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists%20%3E%20(model)%20redirect%20%3E%20(schema)">Redirect</a> { source\_url, target\_url, include\_subdomains, 4 more }
+
+The definition of the redirect.
+
+</summary>
+
+source\_url: string
+
+<a href="#">Link to this property</a>
+
+target\_url: string
+
+<a href="#">Link to this property</a>
+
+include\_subdomains: optional boolean
+
+<a href="#">Link to this property</a>
+
+preserve\_path\_suffix: optional boolean
+
+<a href="#">Link to this property</a>
+
+preserve\_query\_string: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status\_code: optional 301or 302or 307or 308
+
+</summary>
+
+One of the following:
+
+301
+
+<a href="#">Link to this property</a>
+
+302
+
+<a href="#">Link to this property</a>
+
+307
+
+<a href="#">Link to this property</a>
+
+308
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+subpath\_matching: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Defines an informative summary of the list item.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ListsListItemASNFull object {id, asn, created\_on, 2 more }
+
+</summary>
+
+id: string
+
+Defines the unique ID of the item in the List.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+asn: number
+
+Defines a non-negative 32 bit integer.
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The RFC 3339 timestamp of when the list was created.
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The RFC 3339 timestamp of when the list was last modified.
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Defines an informative summary of the list item.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {cursors }
+
+</summary>
+
+<details>
+
+<summary>
+
+cursors: optional <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)">ListCursor</a> { after, before }
+
+</summary>
+
+after: optional string
+
+<a href="#">Link to this property</a>
+
+before: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rules.lists.items%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get list items
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/$LIST_ID/items \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "34b12448945f11eaa1b71c4d701ab86e",
+      "created_on": "2020-01-01T08:00:00Z",
+      "ip": "10.0.0.1",
+      "modified_on": "2020-01-10T14:00:00Z",
+      "comment": "Private IP address"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "cursors": {
+      "after": "yyy",
+      "before": "xxx"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

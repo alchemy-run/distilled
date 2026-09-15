@@ -1,196 +1,103 @@
+---
+title: Percentiles
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[HTTP Tests](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/http_tests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Percentiles
 
-## Get percentiles for an http test
+##### [Get percentiles for an http test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/http_tests/subresources/percentiles/methods/get)
 
-**get** `/accounts/{account_id}/dex/http-tests/{test_id}/percentiles`
+GET/accounts/{account\_id}/dex/http-tests/{test\_id}/percentiles
 
-Get percentiles for an http test for a given time period between 1 hour and 7 days.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+HTTPDetailsPercentiles object {dnsResponseTimeMs, resourceFetchTimeMs, serverResponseTimeMs }
 
-- `test_id: string`
+</summary>
 
-  API Resource UUID tag.
+dnsResponseTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `from: string`
+resourceFetchTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+<a href="#">Link to this property</a>
 
-- `to: string`
+serverResponseTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+<a href="#">Link to this property</a>
 
-- `colo: optional string`
+</details>
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+[Link to this property](#)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20http_details_percentiles%20%3E%20(schema)>)
 
-- `deviceId: optional array of string`
+<details>
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+<summary>
 
-### Returns
+TestStatOverTime object {slots, avg, max, min }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+slots: array of object {timestamp, value }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+timestamp: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+value: number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+avg: optional number
 
-- `success: true`
+average observed in the time period.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+max: optional number
 
-- `result: optional HTTPDetailsPercentiles`
+highest observed in the time period.
 
-  - `dnsResponseTimeMs: optional Percentiles`
+<a href="#">Link to this property</a>
 
-    - `p50: optional number`
+min: optional number
 
-      p50 observed in the time period.
+lowest observed in the time period.
 
-    - `p90: optional number`
+<a href="#">Link to this property</a>
 
-      p90 observed in the time period.
+</details>
 
-    - `p95: optional number`
-
-      p95 observed in the time period.
-
-    - `p99: optional number`
-
-      p99 observed in the time period.
-
-  - `resourceFetchTimeMs: optional Percentiles`
-
-  - `serverResponseTimeMs: optional Percentiles`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/http-tests/$TEST_ID/percentiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dnsResponseTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "resourceFetchTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "serverResponseTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    }
-  }
-}
-```
-
-## Domain Types
-
-### HTTP Details Percentiles
-
-- `HTTPDetailsPercentiles object { dnsResponseTimeMs, resourceFetchTimeMs, serverResponseTimeMs }`
-
-  - `dnsResponseTimeMs: optional Percentiles`
-
-    - `p50: optional number`
-
-      p50 observed in the time period.
-
-    - `p90: optional number`
-
-      p90 observed in the time period.
-
-    - `p95: optional number`
-
-      p95 observed in the time period.
-
-    - `p99: optional number`
-
-      p99 observed in the time period.
-
-  - `resourceFetchTimeMs: optional Percentiles`
-
-  - `serverResponseTimeMs: optional Percentiles`
-
-### Test Stat Over Time
-
-- `TestStatOverTime object { slots, avg, max, min }`
-
-  - `slots: array of object { timestamp, value }`
-
-    - `timestamp: string`
-
-    - `value: number`
-
-  - `avg: optional number`
-
-    average observed in the time period.
-
-  - `max: optional number`
-
-    highest observed in the time period.
-
-  - `min: optional number`
-
-    lowest observed in the time period.
+[Link to this property](#)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)>)

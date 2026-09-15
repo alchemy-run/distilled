@@ -1,2994 +1,2067 @@
+---
+title: GRE Tunnels
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # GRE Tunnels
 
-## List GRE tunnels
+##### [List GRE tunnels](https://developers.cloudflare.com/api/resources/magic_transit/subresources/gre_tunnels/methods/list)
 
-**get** `/accounts/{account_id}/magic/gre_tunnels`
+GET/accounts/{account\_id}/magic/gre\_tunnels
 
-Lists GRE tunnels associated with an account.
+##### [List GRE Tunnel Details](https://developers.cloudflare.com/api/resources/magic_transit/subresources/gre_tunnels/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/gre\_tunnels/{gre\_tunnel\_id}
 
-- `account_id: string`
+##### [Create a GRE tunnel](https://developers.cloudflare.com/api/resources/magic_transit/subresources/gre_tunnels/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/magic/gre\_tunnels
 
-### Header Parameters
+##### [Update GRE Tunnel](https://developers.cloudflare.com/api/resources/magic_transit/subresources/gre_tunnels/methods/update)
 
-- `"x-magic-new-hc-target": optional boolean`
+PUT/accounts/{account\_id}/magic/gre\_tunnels/{gre\_tunnel\_id}
 
-### Returns
+##### [Delete GRE Tunnel](https://developers.cloudflare.com/api/resources/magic_transit/subresources/gre_tunnels/methods/delete)
 
-- `errors: array of ResponseInfo`
+DELETE/accounts/{account\_id}/magic/gre\_tunnels/{gre\_tunnel\_id}
 
-  - `code: number`
+##### [Update multiple GRE tunnels](https://developers.cloudflare.com/api/resources/magic_transit/subresources/gre_tunnels/methods/bulk_update)
 
-  - `message: string`
+PUT/accounts/{account\_id}/magic/gre\_tunnels
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+GRETunnelListResponse object {gre\_tunnels }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+gre\_tunnels: optional array of object {id, cloudflare\_gre\_endpoint, customer\_gre\_endpoint, 12 more }
 
-- `result: object { gre_tunnels }`
+</summary>
 
-  - `gre_tunnels: optional array of object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+id: string
 
-    - `id: string`
+Identifier
 
-      Identifier
+maxLength32
 
-    - `cloudflare_gre_endpoint: string`
+<a href="#">Link to this property</a>
 
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
+cloudflare\_gre\_endpoint: string
 
-    - `customer_gre_endpoint: string`
+The IP address assigned to the Cloudflare side of the GRE tunnel.
 
-      The IP address assigned to the customer side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-    - `interface_address: string`
+customer\_gre\_endpoint: string
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+The IP address assigned to the customer side of the GRE tunnel.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+interface\_address: string
 
-    - `automatic_return_routing: optional boolean`
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+name: string
 
-      - `customer_asn: number`
+The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
 
-        ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-      - `export_filter_id: optional string`
+automatic\_return\_routing: optional boolean
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-      - `extra_prefixes: optional array of string`
+<a href="#">Link to this property</a>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<details>
 
-      - `import_filter_id: optional string`
+<summary>
 
-        ID of the BGP filter profile applied to routes received from the customer.
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-      - `md5_key: optional string`
+</summary>
 
-        MD5 key to use for session authentication.
+customer\_asn: number
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+ASN used on the customer end of the BGP session
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+formatint32
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+minimum0
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+export\_filter\_id: optional string
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-        - `"BGP_DOWN"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_UP"`
+extra\_prefixes: optional array of string
 
-        - `"BGP_ESTABLISHING"`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-      - `tcp_established: boolean`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+import\_filter\_id: optional string
 
-      - `bgp_state: optional string`
+ID of the BGP filter profile applied to routes received from the customer.
 
-      - `cf_speaker_ip: optional string`
+<a href="#">Link to this property</a>
 
-      - `cf_speaker_port: optional number`
+md5\_key: optional string
 
-      - `customer_speaker_ip: optional string`
+MD5 key to use for session authentication.
 
-      - `customer_speaker_port: optional number`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-    - `created_on: optional string`
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-      The date and time the tunnel was created.
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-    - `description: optional string`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-      An optional description of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+</details>
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+<a href="#">Link to this property</a>
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+<details>
 
-        - `"unidirectional"`
+<summary>
 
-        - `"bidirectional"`
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-      - `enabled: optional boolean`
+</summary>
 
-        Determines whether to run healthchecks for a tunnel.
+<details>
 
-      - `rate: optional HealthCheckRate`
+<summary>
 
-        How frequent the health check is run. The default value is `mid`.
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-        - `"low"`
+</summary>
 
-        - `"mid"`
+One of the following:
 
-        - `"high"`
+"BGP\_DOWN"
 
-      - `target: optional object { effective, saved }  or string`
+<a href="#">Link to this property</a>
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+"BGP\_UP"
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+<a href="#">Link to this property</a>
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+"BGP\_ESTABLISHING"
 
-          - `effective: optional string`
+<a href="#">Link to this property</a>
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+</details>
 
-          - `saved: optional string`
+<a href="#">Link to this property</a>
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+tcp\_established: boolean
 
-        - `string`
+<a href="#">Link to this property</a>
 
-      - `type: optional HealthCheckType`
+updated\_at: string
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+formatdate-time
 
-        - `"reply"`
+<a href="#">Link to this property</a>
 
-        - `"request"`
+bgp\_state: optional string
 
-    - `interface_address6: optional string`
+<a href="#">Link to this property</a>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+cf\_speaker\_ip: optional string
 
-    - `modified_on: optional string`
+formatipv4
 
-      The date and time the tunnel was last modified.
+<a href="#">Link to this property</a>
 
-    - `mtu: optional number`
+cf\_speaker\_port: optional number
 
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+maximum65535
 
-    - `ttl: optional number`
+minimum1
 
-      Time To Live (TTL) in number of hops of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-- `success: true`
+customer\_speaker\_ip: optional string
 
-  Whether the API call was successful
+formatipv4
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+customer\_speaker\_port: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/gre_tunnels \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maximum65535
 
-#### Response
+minimum1
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "gre_tunnels": [
-      {
-        "id": "c4a7362d577a6c3019a474fd6f485821",
-        "cloudflare_gre_endpoint": "203.0.113.1",
-        "customer_gre_endpoint": "203.0.113.1",
-        "interface_address": "192.0.2.0/31",
-        "name": "GRE_1",
-        "automatic_return_routing": true,
-        "bgp": {
-          "customer_asn": 0,
-          "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-          "extra_prefixes": [
-            "string"
-          ],
-          "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-          "md5_key": "md5_key"
-        },
-        "bgp_status": {
-          "state": "BGP_DOWN",
-          "tcp_established": true,
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "bgp_state": "bgp_state",
-          "cf_speaker_ip": "192.168.1.1",
-          "cf_speaker_port": 1,
-          "customer_speaker_ip": "192.168.1.1",
-          "customer_speaker_port": 1
-        },
-        "created_on": "2017-06-14T00:00:00Z",
-        "description": "Tunnel for ISP X",
-        "health_check": {
-          "direction": "bidirectional",
-          "enabled": true,
-          "rate": "low",
-          "target": {
-            "effective": "203.0.113.1",
-            "saved": "203.0.113.1"
-          },
-          "type": "request"
-        },
-        "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-        "modified_on": "2017-06-14T05:20:00Z",
-        "mtu": 0,
-        "ttl": 0
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## List GRE Tunnel Details
+</details>
 
-**get** `/accounts/{account_id}/magic/gre_tunnels/{gre_tunnel_id}`
+<a href="#">Link to this property</a>
 
-Lists informtion for a specific GRE tunnel.
+created\_on: optional string
 
-### Path Parameters
+The date and time the tunnel was created.
 
-- `account_id: string`
+formatdate-time
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `gre_tunnel_id: string`
+description: optional string
 
-  Identifier
+An optional description of the GRE tunnel.
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"x-magic-new-hc-target": optional boolean`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+direction: optional "unidirectional"or "bidirectional"
 
-    - `pointer: optional string`
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"unidirectional"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"bidirectional"
 
-- `result: object { gre_tunnel }`
+<a href="#">Link to this property</a>
 
-  - `gre_tunnel: optional object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifier
+enabled: optional boolean
 
-    - `cloudflare_gre_endpoint: string`
+Determines whether to run healthchecks for a tunnel.
 
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-    - `customer_gre_endpoint: string`
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-      The IP address assigned to the customer side of the GRE tunnel.
+How frequent the health check is run. The default value is <code>mid</code>.
 
-    - `interface_address: string`
+<a href="#">Link to this property</a>
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+<details>
 
-    - `name: string`
+<summary>
 
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+target: optional object {effective, saved } or string
 
-    - `automatic_return_routing: optional boolean`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+</summary>
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+One of the following:
 
-      - `customer_asn: number`
+<details>
 
-        ASN used on the customer end of the BGP session
+<summary>
 
-      - `export_filter_id: optional string`
+MagicHealthCheckTarget object {effective, saved }
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-      - `extra_prefixes: optional array of string`
+</summary>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+effective: optional string
 
-      - `import_filter_id: optional string`
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-        ID of the BGP filter profile applied to routes received from the customer.
+<a href="#">Link to this property</a>
 
-      - `md5_key: optional string`
+saved: optional string
 
-        MD5 key to use for session authentication.
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+</details>
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+string
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+<a href="#">Link to this property</a>
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+</details>
 
-        - `"BGP_DOWN"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_UP"`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-        - `"BGP_ESTABLISHING"`
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-      - `tcp_established: boolean`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+</details>
 
-      - `bgp_state: optional string`
+<a href="#">Link to this property</a>
 
-      - `cf_speaker_ip: optional string`
+interface\_address6: optional string
 
-      - `cf_speaker_port: optional number`
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-      - `customer_speaker_ip: optional string`
+<a href="#">Link to this property</a>
 
-      - `customer_speaker_port: optional number`
+modified\_on: optional string
 
-    - `created_on: optional string`
+The date and time the tunnel was last modified.
 
-      The date and time the tunnel was created.
+formatdate-time
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      An optional description of the GRE tunnel.
+mtu: optional number
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+<a href="#">Link to this property</a>
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+ttl: optional number
 
-        - `"unidirectional"`
+Time To Live (TTL) in number of hops of the GRE tunnel.
 
-        - `"bidirectional"`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Determines whether to run healthchecks for a tunnel.
+<a href="#">Link to this property</a>
 
-      - `rate: optional HealthCheckRate`
+</details>
 
-        How frequent the health check is run. The default value is `mid`.
+[Link to this property](#)%20magic_transit.gre_tunnels%20%3E%20(model)%20gre_tunnel_list_response%20%3E%20(schema)>)
 
-        - `"low"`
+<details>
 
-        - `"mid"`
+<summary>
 
-        - `"high"`
+GRETunnelGetResponse object {gre\_tunnel }
 
-      - `target: optional object { effective, saved }  or string`
+</summary>
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+<details>
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+<summary>
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+gre\_tunnel: optional object {id, cloudflare\_gre\_endpoint, customer\_gre\_endpoint, 12 more }
 
-          - `effective: optional string`
+</summary>
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+id: string
 
-          - `saved: optional string`
+Identifier
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+maxLength32
 
-        - `string`
+<a href="#">Link to this property</a>
 
-      - `type: optional HealthCheckType`
+cloudflare\_gre\_endpoint: string
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+The IP address assigned to the Cloudflare side of the GRE tunnel.
 
-        - `"reply"`
+<a href="#">Link to this property</a>
 
-        - `"request"`
+customer\_gre\_endpoint: string
 
-    - `interface_address6: optional string`
+The IP address assigned to the customer side of the GRE tunnel.
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+<a href="#">Link to this property</a>
 
-    - `modified_on: optional string`
+interface\_address: string
 
-      The date and time the tunnel was last modified.
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-    - `mtu: optional number`
+<a href="#">Link to this property</a>
 
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+name: string
 
-    - `ttl: optional number`
+The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
 
-      Time To Live (TTL) in number of hops of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-- `success: true`
+automatic\_return\_routing: optional boolean
 
-  Whether the API call was successful
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/gre_tunnels/$GRE_TUNNEL_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "gre_tunnel": {
-      "id": "c4a7362d577a6c3019a474fd6f485821",
-      "cloudflare_gre_endpoint": "203.0.113.1",
-      "customer_gre_endpoint": "203.0.113.1",
-      "interface_address": "192.0.2.0/31",
-      "name": "GRE_1",
-      "automatic_return_routing": true,
-      "bgp": {
-        "customer_asn": 0,
-        "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "extra_prefixes": [
-          "string"
-        ],
-        "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "md5_key": "md5_key"
-      },
-      "bgp_status": {
-        "state": "BGP_DOWN",
-        "tcp_established": true,
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "bgp_state": "bgp_state",
-        "cf_speaker_ip": "192.168.1.1",
-        "cf_speaker_port": 1,
-        "customer_speaker_ip": "192.168.1.1",
-        "customer_speaker_port": 1
-      },
-      "created_on": "2017-06-14T00:00:00Z",
-      "description": "Tunnel for ISP X",
-      "health_check": {
-        "direction": "bidirectional",
-        "enabled": true,
-        "rate": "low",
-        "target": {
-          "effective": "203.0.113.1",
-          "saved": "203.0.113.1"
-        },
-        "type": "request"
-      },
-      "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "mtu": 0,
-      "ttl": 0
-    }
-  },
-  "success": true
-}
-```
+</summary>
 
-## Create a GRE tunnel
+customer\_asn: number
 
-**post** `/accounts/{account_id}/magic/gre_tunnels`
+ASN used on the customer end of the BGP session
 
-Creates a new GRE tunnel. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.
+formatint32
 
-### Path Parameters
+minimum0
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+export\_filter\_id: optional string
 
-### Header Parameters
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-- `"x-magic-new-hc-target": optional boolean`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+extra\_prefixes: optional array of string
 
-- `cloudflare_gre_endpoint: string`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-  The IP address assigned to the Cloudflare side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-- `customer_gre_endpoint: string`
+import\_filter\_id: optional string
 
-  The IP address assigned to the customer side of the GRE tunnel.
+ID of the BGP filter profile applied to routes received from the customer.
 
-- `interface_address: string`
+<a href="#">Link to this property</a>
 
-  A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+md5\_key: optional string
 
-- `name: string`
+MD5 key to use for session authentication.
 
-  The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-- `automatic_return_routing: optional boolean`
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-  True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-- `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-  - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-    ASN used on the customer end of the BGP session
+</details>
 
-  - `export_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-    ID of the BGP filter profile applied to routes advertised to the customer.
+<details>
 
-  - `extra_prefixes: optional array of string`
+<summary>
 
-    Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-  - `import_filter_id: optional string`
+</summary>
 
-    ID of the BGP filter profile applied to routes received from the customer.
+<details>
 
-  - `md5_key: optional string`
+<summary>
 
-    MD5 key to use for session authentication.
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+</summary>
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+One of the following:
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+"BGP\_DOWN"
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+"BGP\_UP"
 
-  An optional description of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-- `health_check: optional object { direction, enabled, rate, 2 more }`
+"BGP\_ESTABLISHING"
 
-  - `direction: optional "unidirectional" or "bidirectional"`
+<a href="#">Link to this property</a>
 
-    The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+</details>
 
-    - `"unidirectional"`
+<a href="#">Link to this property</a>
 
-    - `"bidirectional"`
+tcp\_established: boolean
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether to run healthchecks for a tunnel.
+updated\_at: string
 
-  - `rate: optional HealthCheckRate`
+formatdate-time
 
-    How frequent the health check is run. The default value is `mid`.
+<a href="#">Link to this property</a>
 
-    - `"low"`
+bgp\_state: optional string
 
-    - `"mid"`
+<a href="#">Link to this property</a>
 
-    - `"high"`
+cf\_speaker\_ip: optional string
 
-  - `target: optional object { effective, saved }  or string`
+formatipv4
 
-    The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+<a href="#">Link to this property</a>
 
-    - `MagicHealthCheckTarget object { effective, saved }`
+cf\_speaker\_port: optional number
 
-      The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+maximum65535
 
-      - `effective: optional string`
+minimum1
 
-        The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+<a href="#">Link to this property</a>
 
-      - `saved: optional string`
+customer\_speaker\_ip: optional string
 
-        The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+formatipv4
 
-    - `string`
+<a href="#">Link to this property</a>
 
-  - `type: optional HealthCheckType`
+customer\_speaker\_port: optional number
 
-    The type of healthcheck to run, reply or request. The default value is `reply`.
+maximum65535
 
-    - `"reply"`
+minimum1
 
-    - `"request"`
+<a href="#">Link to this property</a>
 
-- `interface_address6: optional string`
+</details>
 
-  A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+<a href="#">Link to this property</a>
 
-- `mtu: optional number`
+created\_on: optional string
 
-  Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+The date and time the tunnel was created.
 
-- `ttl: optional number`
+formatdate-time
 
-  Time To Live (TTL) in number of hops of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-### Returns
+description: optional string
 
-- `errors: array of ResponseInfo`
+An optional description of the GRE tunnel.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+direction: optional "unidirectional"or "bidirectional"
 
-  - `documentation_url: optional string`
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+One of the following:
 
-  - `id: string`
+"unidirectional"
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `cloudflare_gre_endpoint: string`
+"bidirectional"
 
-    The IP address assigned to the Cloudflare side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-  - `customer_gre_endpoint: string`
+</details>
 
-    The IP address assigned to the customer side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-  - `interface_address: string`
+enabled: optional boolean
 
-    A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+Determines whether to run healthchecks for a tunnel.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-  - `automatic_return_routing: optional boolean`
+How frequent the health check is run. The default value is <code>mid</code>.
 
-    True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<a href="#">Link to this property</a>
 
-  - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+<details>
 
-    - `customer_asn: number`
+<summary>
 
-      ASN used on the customer end of the BGP session
+target: optional object {effective, saved } or string
 
-    - `export_filter_id: optional string`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-      ID of the BGP filter profile applied to routes advertised to the customer.
+</summary>
 
-    - `extra_prefixes: optional array of string`
+One of the following:
 
-      Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<details>
 
-    - `import_filter_id: optional string`
+<summary>
 
-      ID of the BGP filter profile applied to routes received from the customer.
+MagicHealthCheckTarget object {effective, saved }
 
-    - `md5_key: optional string`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-      MD5 key to use for session authentication.
+</summary>
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+effective: optional string
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+saved: optional string
 
-  - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-    - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+<a href="#">Link to this property</a>
 
-      - `"BGP_DOWN"`
+</details>
 
-      - `"BGP_UP"`
+<a href="#">Link to this property</a>
 
-      - `"BGP_ESTABLISHING"`
+string
 
-    - `tcp_established: boolean`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-    - `bgp_state: optional string`
+<a href="#">Link to this property</a>
 
-    - `cf_speaker_ip: optional string`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-    - `cf_speaker_port: optional number`
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-    - `customer_speaker_ip: optional string`
+<a href="#">Link to this property</a>
 
-    - `customer_speaker_port: optional number`
+</details>
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the tunnel was created.
+interface\_address6: optional string
 
-  - `description: optional string`
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-    An optional description of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-  - `health_check: optional object { direction, enabled, rate, 2 more }`
+modified\_on: optional string
 
-    - `direction: optional "unidirectional" or "bidirectional"`
+The date and time the tunnel was last modified.
 
-      The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+formatdate-time
 
-      - `"unidirectional"`
+<a href="#">Link to this property</a>
 
-      - `"bidirectional"`
+mtu: optional number
 
-    - `enabled: optional boolean`
+Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
 
-      Determines whether to run healthchecks for a tunnel.
+<a href="#">Link to this property</a>
 
-    - `rate: optional HealthCheckRate`
+ttl: optional number
 
-      How frequent the health check is run. The default value is `mid`.
+Time To Live (TTL) in number of hops of the GRE tunnel.
 
-      - `"low"`
+<a href="#">Link to this property</a>
 
-      - `"mid"`
+</details>
 
-      - `"high"`
+<a href="#">Link to this property</a>
 
-    - `target: optional object { effective, saved }  or string`
+</details>
 
-      The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+[Link to this property](#)%20magic_transit.gre_tunnels%20%3E%20(model)%20gre_tunnel_get_response%20%3E%20(schema)>)
 
-      - `MagicHealthCheckTarget object { effective, saved }`
+<details>
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<summary>
 
-        - `effective: optional string`
+GRETunnelCreateResponse object {id, cloudflare\_gre\_endpoint, customer\_gre\_endpoint, 12 more }
 
-          The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+</summary>
 
-        - `saved: optional string`
+id: string
 
-          The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+Identifier
 
-      - `string`
+maxLength32
 
-    - `type: optional HealthCheckType`
+<a href="#">Link to this property</a>
 
-      The type of healthcheck to run, reply or request. The default value is `reply`.
+cloudflare\_gre\_endpoint: string
 
-      - `"reply"`
+The IP address assigned to the Cloudflare side of the GRE tunnel.
 
-      - `"request"`
+<a href="#">Link to this property</a>
 
-  - `interface_address6: optional string`
+customer\_gre\_endpoint: string
 
-    A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+The IP address assigned to the customer side of the GRE tunnel.
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the tunnel was last modified.
+interface\_address: string
 
-  - `mtu: optional number`
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-    Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+<a href="#">Link to this property</a>
 
-  - `ttl: optional number`
+name: string
 
-    Time To Live (TTL) in number of hops of the GRE tunnel.
+The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+automatic\_return\_routing: optional boolean
 
-  - `true`
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/gre_tunnels \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cloudflare_gre_endpoint": "203.0.113.1",
-          "customer_gre_endpoint": "203.0.113.1",
-          "interface_address": "192.0.2.0/31",
-          "name": "GRE_1",
-          "automatic_return_routing": true,
-          "description": "Tunnel for ISP X",
-          "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "c4a7362d577a6c3019a474fd6f485821",
-    "cloudflare_gre_endpoint": "203.0.113.1",
-    "customer_gre_endpoint": "203.0.113.1",
-    "interface_address": "192.0.2.0/31",
-    "name": "GRE_1",
-    "automatic_return_routing": true,
-    "bgp": {
-      "customer_asn": 0,
-      "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-      "extra_prefixes": [
-        "string"
-      ],
-      "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-      "md5_key": "md5_key"
-    },
-    "bgp_status": {
-      "state": "BGP_DOWN",
-      "tcp_established": true,
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "bgp_state": "bgp_state",
-      "cf_speaker_ip": "192.168.1.1",
-      "cf_speaker_port": 1,
-      "customer_speaker_ip": "192.168.1.1",
-      "customer_speaker_port": 1
-    },
-    "created_on": "2017-06-14T00:00:00Z",
-    "description": "Tunnel for ISP X",
-    "health_check": {
-      "direction": "bidirectional",
-      "enabled": true,
-      "rate": "low",
-      "target": {
-        "effective": "203.0.113.1",
-        "saved": "203.0.113.1"
-      },
-      "type": "request"
-    },
-    "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-    "modified_on": "2017-06-14T05:20:00Z",
-    "mtu": 0,
-    "ttl": 0
-  },
-  "success": true
-}
-```
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-## Update GRE Tunnel
+</summary>
 
-**put** `/accounts/{account_id}/magic/gre_tunnels/{gre_tunnel_id}`
+customer\_asn: number
 
-Updates a specific GRE tunnel. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.
+ASN used on the customer end of the BGP session
 
-### Path Parameters
+formatint32
 
-- `account_id: string`
+minimum0
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `gre_tunnel_id: string`
+export\_filter\_id: optional string
 
-  Identifier
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"x-magic-new-hc-target": optional boolean`
+extra\_prefixes: optional array of string
 
-### Body Parameters
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-- `cloudflare_gre_endpoint: string`
+<a href="#">Link to this property</a>
 
-  The IP address assigned to the Cloudflare side of the GRE tunnel.
+import\_filter\_id: optional string
 
-- `customer_gre_endpoint: string`
+ID of the BGP filter profile applied to routes received from the customer.
 
-  The IP address assigned to the customer side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-- `interface_address: string`
+md5\_key: optional string
 
-  A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+MD5 key to use for session authentication.
 
-- `name: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-  The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-- `automatic_return_routing: optional boolean`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-  True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-  An optional description of the GRE tunnel.
+</details>
 
-- `health_check: optional object { direction, enabled, rate, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `direction: optional "unidirectional" or "bidirectional"`
+<details>
 
-    The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+<summary>
 
-    - `"unidirectional"`
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-    - `"bidirectional"`
+</summary>
 
-  - `enabled: optional boolean`
+<details>
 
-    Determines whether to run healthchecks for a tunnel.
+<summary>
 
-  - `rate: optional HealthCheckRate`
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-    How frequent the health check is run. The default value is `mid`.
+</summary>
 
-    - `"low"`
+One of the following:
 
-    - `"mid"`
+"BGP\_DOWN"
 
-    - `"high"`
+<a href="#">Link to this property</a>
 
-  - `target: optional object { effective, saved }  or string`
+"BGP\_UP"
 
-    The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+<a href="#">Link to this property</a>
 
-    - `MagicHealthCheckTarget object { effective, saved }`
+"BGP\_ESTABLISHING"
 
-      The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-      - `effective: optional string`
+</details>
 
-        The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+<a href="#">Link to this property</a>
 
-      - `saved: optional string`
+tcp\_established: boolean
 
-        The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+<a href="#">Link to this property</a>
 
-    - `string`
+updated\_at: string
 
-  - `type: optional HealthCheckType`
+formatdate-time
 
-    The type of healthcheck to run, reply or request. The default value is `reply`.
+<a href="#">Link to this property</a>
 
-    - `"reply"`
+bgp\_state: optional string
 
-    - `"request"`
+<a href="#">Link to this property</a>
 
-- `interface_address6: optional string`
+cf\_speaker\_ip: optional string
 
-  A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+formatipv4
 
-- `mtu: optional number`
+<a href="#">Link to this property</a>
 
-  Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+cf\_speaker\_port: optional number
 
-- `ttl: optional number`
+maximum65535
 
-  Time To Live (TTL) in number of hops of the GRE tunnel.
+minimum1
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+customer\_speaker\_ip: optional string
 
-  - `code: number`
+formatipv4
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+customer\_speaker\_port: optional number
 
-  - `source: optional object { pointer }`
+maximum65535
 
-    - `pointer: optional string`
+minimum1
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_on: optional string
 
-  - `source: optional object { pointer }`
+The date and time the tunnel was created.
 
-- `result: object { modified, modified_gre_tunnel }`
+formatdate-time
 
-  - `modified: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `modified_gre_tunnel: optional object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+description: optional string
 
-    - `id: string`
+An optional description of the GRE tunnel.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `cloudflare_gre_endpoint: string`
+<details>
 
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
+<summary>
 
-    - `customer_gre_endpoint: string`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-      The IP address assigned to the customer side of the GRE tunnel.
+</summary>
 
-    - `interface_address: string`
+<details>
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+<summary>
 
-    - `name: string`
+direction: optional "unidirectional"or "bidirectional"
 
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-    - `automatic_return_routing: optional boolean`
+</summary>
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+One of the following:
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+"unidirectional"
 
-      - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-        ASN used on the customer end of the BGP session
+"bidirectional"
 
-      - `export_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+</details>
 
-      - `extra_prefixes: optional array of string`
+<a href="#">Link to this property</a>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+enabled: optional boolean
 
-      - `import_filter_id: optional string`
+Determines whether to run healthchecks for a tunnel.
 
-        ID of the BGP filter profile applied to routes received from the customer.
+<a href="#">Link to this property</a>
 
-      - `md5_key: optional string`
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-        MD5 key to use for session authentication.
+How frequent the health check is run. The default value is <code>mid</code>.
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+<details>
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<summary>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+target: optional object {effective, saved } or string
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+</summary>
 
-        - `"BGP_DOWN"`
+One of the following:
 
-        - `"BGP_UP"`
+<details>
 
-        - `"BGP_ESTABLISHING"`
+<summary>
 
-      - `tcp_established: boolean`
+MagicHealthCheckTarget object {effective, saved }
 
-      - `updated_at: string`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-      - `bgp_state: optional string`
+</summary>
 
-      - `cf_speaker_ip: optional string`
+effective: optional string
 
-      - `cf_speaker_port: optional number`
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-      - `customer_speaker_ip: optional string`
+<a href="#">Link to this property</a>
 
-      - `customer_speaker_port: optional number`
+saved: optional string
 
-    - `created_on: optional string`
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-      The date and time the tunnel was created.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      An optional description of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+string
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+<a href="#">Link to this property</a>
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+</details>
 
-        - `"unidirectional"`
+<a href="#">Link to this property</a>
 
-        - `"bidirectional"`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-      - `enabled: optional boolean`
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-        Determines whether to run healthchecks for a tunnel.
+<a href="#">Link to this property</a>
 
-      - `rate: optional HealthCheckRate`
+</details>
 
-        How frequent the health check is run. The default value is `mid`.
+<a href="#">Link to this property</a>
 
-        - `"low"`
+interface\_address6: optional string
 
-        - `"mid"`
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-        - `"high"`
+<a href="#">Link to this property</a>
 
-      - `target: optional object { effective, saved }  or string`
+modified\_on: optional string
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+The date and time the tunnel was last modified.
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+formatdate-time
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-          - `effective: optional string`
+mtu: optional number
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
 
-          - `saved: optional string`
+<a href="#">Link to this property</a>
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+ttl: optional number
 
-        - `string`
+Time To Live (TTL) in number of hops of the GRE tunnel.
 
-      - `type: optional HealthCheckType`
+<a href="#">Link to this property</a>
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+</details>
 
-        - `"reply"`
+[Link to this property](#)%20magic_transit.gre_tunnels%20%3E%20(model)%20gre_tunnel_create_response%20%3E%20(schema)>)
 
-        - `"request"`
+<details>
 
-    - `interface_address6: optional string`
+<summary>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+GRETunnelUpdateResponse object {modified, modified\_gre\_tunnel }
 
-    - `modified_on: optional string`
+</summary>
 
-      The date and time the tunnel was last modified.
+modified: optional boolean
 
-    - `mtu: optional number`
+<a href="#">Link to this property</a>
 
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+<details>
 
-    - `ttl: optional number`
+<summary>
 
-      Time To Live (TTL) in number of hops of the GRE tunnel.
+modified\_gre\_tunnel: optional object {id, cloudflare\_gre\_endpoint, customer\_gre\_endpoint, 12 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+id: string
 
-  - `true`
+Identifier
 
-### Example
+maxLength32
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/gre_tunnels/$GRE_TUNNEL_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cloudflare_gre_endpoint": "203.0.113.1",
-          "customer_gre_endpoint": "203.0.113.1",
-          "interface_address": "192.0.2.0/31",
-          "name": "GRE_1",
-          "automatic_return_routing": true,
-          "description": "Tunnel for ISP X",
-          "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+cloudflare\_gre\_endpoint: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": true,
-    "modified_gre_tunnel": {
-      "id": "c4a7362d577a6c3019a474fd6f485821",
-      "cloudflare_gre_endpoint": "203.0.113.1",
-      "customer_gre_endpoint": "203.0.113.1",
-      "interface_address": "192.0.2.0/31",
-      "name": "GRE_1",
-      "automatic_return_routing": true,
-      "bgp": {
-        "customer_asn": 0,
-        "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "extra_prefixes": [
-          "string"
-        ],
-        "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "md5_key": "md5_key"
-      },
-      "bgp_status": {
-        "state": "BGP_DOWN",
-        "tcp_established": true,
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "bgp_state": "bgp_state",
-        "cf_speaker_ip": "192.168.1.1",
-        "cf_speaker_port": 1,
-        "customer_speaker_ip": "192.168.1.1",
-        "customer_speaker_port": 1
-      },
-      "created_on": "2017-06-14T00:00:00Z",
-      "description": "Tunnel for ISP X",
-      "health_check": {
-        "direction": "bidirectional",
-        "enabled": true,
-        "rate": "low",
-        "target": {
-          "effective": "203.0.113.1",
-          "saved": "203.0.113.1"
-        },
-        "type": "request"
-      },
-      "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "mtu": 0,
-      "ttl": 0
-    }
-  },
-  "success": true
-}
-```
+The IP address assigned to the Cloudflare side of the GRE tunnel.
 
-## Delete GRE Tunnel
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/magic/gre_tunnels/{gre_tunnel_id}`
+customer\_gre\_endpoint: string
 
-Disables and removes a specific static GRE tunnel. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.
+The IP address assigned to the customer side of the GRE tunnel.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+interface\_address: string
 
-  Identifier
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-- `gre_tunnel_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+name: string
 
-### Header Parameters
+The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
 
-- `"x-magic-new-hc-target": optional boolean`
+<a href="#">Link to this property</a>
 
-### Returns
+automatic\_return\_routing: optional boolean
 
-- `errors: array of ResponseInfo`
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+customer\_asn: number
 
-  - `code: number`
+ASN used on the customer end of the BGP session
 
-  - `message: string`
+formatint32
 
-  - `documentation_url: optional string`
+minimum0
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { deleted, deleted_gre_tunnel }`
+export\_filter\_id: optional string
 
-  - `deleted: optional boolean`
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-  - `deleted_gre_tunnel: optional object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+extra\_prefixes: optional array of string
 
-      Identifier
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-    - `cloudflare_gre_endpoint: string`
+<a href="#">Link to this property</a>
 
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
+import\_filter\_id: optional string
 
-    - `customer_gre_endpoint: string`
+ID of the BGP filter profile applied to routes received from the customer.
 
-      The IP address assigned to the customer side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-    - `interface_address: string`
+md5\_key: optional string
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+MD5 key to use for session authentication.
 
-    - `name: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-    - `automatic_return_routing: optional boolean`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `customer_asn: number`
+</details>
 
-        ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-      - `export_filter_id: optional string`
+<details>
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+<summary>
 
-      - `extra_prefixes: optional array of string`
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+</summary>
 
-      - `import_filter_id: optional string`
+<details>
 
-        ID of the BGP filter profile applied to routes received from the customer.
+<summary>
 
-      - `md5_key: optional string`
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-        MD5 key to use for session authentication.
+</summary>
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+One of the following:
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+"BGP\_DOWN"
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+"BGP\_UP"
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+<a href="#">Link to this property</a>
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+"BGP\_ESTABLISHING"
 
-        - `"BGP_DOWN"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_UP"`
+</details>
 
-        - `"BGP_ESTABLISHING"`
+<a href="#">Link to this property</a>
 
-      - `tcp_established: boolean`
+tcp\_established: boolean
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `bgp_state: optional string`
+updated\_at: string
 
-      - `cf_speaker_ip: optional string`
+formatdate-time
 
-      - `cf_speaker_port: optional number`
+<a href="#">Link to this property</a>
 
-      - `customer_speaker_ip: optional string`
+bgp\_state: optional string
 
-      - `customer_speaker_port: optional number`
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+cf\_speaker\_ip: optional string
 
-      The date and time the tunnel was created.
+formatipv4
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      An optional description of the GRE tunnel.
+cf\_speaker\_port: optional number
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+maximum65535
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+minimum1
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+<a href="#">Link to this property</a>
 
-        - `"unidirectional"`
+customer\_speaker\_ip: optional string
 
-        - `"bidirectional"`
+formatipv4
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Determines whether to run healthchecks for a tunnel.
+customer\_speaker\_port: optional number
 
-      - `rate: optional HealthCheckRate`
+maximum65535
 
-        How frequent the health check is run. The default value is `mid`.
+minimum1
 
-        - `"low"`
+<a href="#">Link to this property</a>
 
-        - `"mid"`
+</details>
 
-        - `"high"`
+<a href="#">Link to this property</a>
 
-      - `target: optional object { effective, saved }  or string`
+created\_on: optional string
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+The date and time the tunnel was created.
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+formatdate-time
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-          - `effective: optional string`
+description: optional string
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+An optional description of the GRE tunnel.
 
-          - `saved: optional string`
+<a href="#">Link to this property</a>
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+<details>
 
-        - `string`
+<summary>
 
-      - `type: optional HealthCheckType`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+</summary>
 
-        - `"reply"`
+<details>
 
-        - `"request"`
+<summary>
 
-    - `interface_address6: optional string`
+direction: optional "unidirectional"or "bidirectional"
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-    - `modified_on: optional string`
+</summary>
 
-      The date and time the tunnel was last modified.
+One of the following:
 
-    - `mtu: optional number`
+"unidirectional"
 
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+<a href="#">Link to this property</a>
 
-    - `ttl: optional number`
+"bidirectional"
 
-      Time To Live (TTL) in number of hops of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+enabled: optional boolean
 
-### Example
+Determines whether to run healthchecks for a tunnel.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/gre_tunnels/$GRE_TUNNEL_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "deleted": true,
-    "deleted_gre_tunnel": {
-      "id": "c4a7362d577a6c3019a474fd6f485821",
-      "cloudflare_gre_endpoint": "203.0.113.1",
-      "customer_gre_endpoint": "203.0.113.1",
-      "interface_address": "192.0.2.0/31",
-      "name": "GRE_1",
-      "automatic_return_routing": true,
-      "bgp": {
-        "customer_asn": 0,
-        "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "extra_prefixes": [
-          "string"
-        ],
-        "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-        "md5_key": "md5_key"
-      },
-      "bgp_status": {
-        "state": "BGP_DOWN",
-        "tcp_established": true,
-        "updated_at": "2019-12-27T18:11:19.117Z",
-        "bgp_state": "bgp_state",
-        "cf_speaker_ip": "192.168.1.1",
-        "cf_speaker_port": 1,
-        "customer_speaker_ip": "192.168.1.1",
-        "customer_speaker_port": 1
-      },
-      "created_on": "2017-06-14T00:00:00Z",
-      "description": "Tunnel for ISP X",
-      "health_check": {
-        "direction": "bidirectional",
-        "enabled": true,
-        "rate": "low",
-        "target": {
-          "effective": "203.0.113.1",
-          "saved": "203.0.113.1"
-        },
-        "type": "request"
-      },
-      "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-      "modified_on": "2017-06-14T05:20:00Z",
-      "mtu": 0,
-      "ttl": 0
-    }
-  },
-  "success": true
-}
-```
+How frequent the health check is run. The default value is <code>mid</code>.
 
-## Update multiple GRE tunnels
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/magic/gre_tunnels`
+<details>
 
-Updates multiple GRE tunnels. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.
+<summary>
 
-### Path Parameters
+target: optional object {effective, saved } or string
 
-- `account_id: string`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-  Identifier
+</summary>
 
-### Header Parameters
+One of the following:
 
-- `"x-magic-new-hc-target": optional boolean`
+<details>
 
-### Body Parameters
+<summary>
 
-- `body: unknown`
+MagicHealthCheckTarget object {effective, saved }
 
-### Returns
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+effective: optional string
 
-  - `message: string`
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+saved: optional string
 
-    - `pointer: optional string`
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { modified, modified_gre_tunnels }`
+</details>
 
-  - `modified: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `modified_gre_tunnels: optional array of object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-    - `id: string`
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `cloudflare_gre_endpoint: string`
+</details>
 
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-    - `customer_gre_endpoint: string`
+interface\_address6: optional string
 
-      The IP address assigned to the customer side of the GRE tunnel.
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-    - `interface_address: string`
+<a href="#">Link to this property</a>
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+modified\_on: optional string
 
-    - `name: string`
+The date and time the tunnel was last modified.
 
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+formatdate-time
 
-    - `automatic_return_routing: optional boolean`
+<a href="#">Link to this property</a>
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+mtu: optional number
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
 
-      - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-        ASN used on the customer end of the BGP session
+ttl: optional number
 
-      - `export_filter_id: optional string`
+Time To Live (TTL) in number of hops of the GRE tunnel.
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+<a href="#">Link to this property</a>
 
-      - `extra_prefixes: optional array of string`
+</details>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+<a href="#">Link to this property</a>
 
-      - `import_filter_id: optional string`
+</details>
 
-        ID of the BGP filter profile applied to routes received from the customer.
+[Link to this property](#)%20magic_transit.gre_tunnels%20%3E%20(model)%20gre_tunnel_update_response%20%3E%20(schema)>)
 
-      - `md5_key: optional string`
+<details>
 
-        MD5 key to use for session authentication.
+<summary>
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+GRETunnelDeleteResponse object {deleted, deleted\_gre\_tunnel }
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+</summary>
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+deleted: optional boolean
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+<details>
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+<summary>
 
-        - `"BGP_DOWN"`
+deleted\_gre\_tunnel: optional object {id, cloudflare\_gre\_endpoint, customer\_gre\_endpoint, 12 more }
 
-        - `"BGP_UP"`
+</summary>
 
-        - `"BGP_ESTABLISHING"`
+id: string
 
-      - `tcp_established: boolean`
+Identifier
 
-      - `updated_at: string`
+maxLength32
 
-      - `bgp_state: optional string`
+<a href="#">Link to this property</a>
 
-      - `cf_speaker_ip: optional string`
+cloudflare\_gre\_endpoint: string
 
-      - `cf_speaker_port: optional number`
+The IP address assigned to the Cloudflare side of the GRE tunnel.
 
-      - `customer_speaker_ip: optional string`
+<a href="#">Link to this property</a>
 
-      - `customer_speaker_port: optional number`
+customer\_gre\_endpoint: string
 
-    - `created_on: optional string`
+The IP address assigned to the customer side of the GRE tunnel.
 
-      The date and time the tunnel was created.
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+interface\_address: string
 
-      An optional description of the GRE tunnel.
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+name: string
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
 
-        - `"unidirectional"`
+<a href="#">Link to this property</a>
 
-        - `"bidirectional"`
+automatic\_return\_routing: optional boolean
 
-      - `enabled: optional boolean`
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-        Determines whether to run healthchecks for a tunnel.
+<a href="#">Link to this property</a>
 
-      - `rate: optional HealthCheckRate`
+<details>
 
-        How frequent the health check is run. The default value is `mid`.
+<summary>
 
-        - `"low"`
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-        - `"mid"`
+</summary>
 
-        - `"high"`
+customer\_asn: number
 
-      - `target: optional object { effective, saved }  or string`
+ASN used on the customer end of the BGP session
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+formatint32
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+minimum0
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-          - `effective: optional string`
+export\_filter\_id: optional string
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-          - `saved: optional string`
+<a href="#">Link to this property</a>
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+extra\_prefixes: optional array of string
 
-        - `string`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-      - `type: optional HealthCheckType`
+<a href="#">Link to this property</a>
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+import\_filter\_id: optional string
 
-        - `"reply"`
+ID of the BGP filter profile applied to routes received from the customer.
 
-        - `"request"`
+<a href="#">Link to this property</a>
 
-    - `interface_address6: optional string`
+md5\_key: optional string
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+MD5 key to use for session authentication.
 
-    - `modified_on: optional string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-      The date and time the tunnel was last modified.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-    - `mtu: optional number`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-    - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-      Time To Live (TTL) in number of hops of the GRE tunnel.
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+<details>
 
-  - `true`
+<summary>
 
-### Example
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/gre_tunnels \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": true,
-    "modified_gre_tunnels": [
-      {
-        "id": "c4a7362d577a6c3019a474fd6f485821",
-        "cloudflare_gre_endpoint": "203.0.113.1",
-        "customer_gre_endpoint": "203.0.113.1",
-        "interface_address": "192.0.2.0/31",
-        "name": "GRE_1",
-        "automatic_return_routing": true,
-        "bgp": {
-          "customer_asn": 0,
-          "export_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-          "extra_prefixes": [
-            "string"
-          ],
-          "import_filter_id": "a1b2c3d4e5f647890a1b2c3d4e5f6789",
-          "md5_key": "md5_key"
-        },
-        "bgp_status": {
-          "state": "BGP_DOWN",
-          "tcp_established": true,
-          "updated_at": "2019-12-27T18:11:19.117Z",
-          "bgp_state": "bgp_state",
-          "cf_speaker_ip": "192.168.1.1",
-          "cf_speaker_port": 1,
-          "customer_speaker_ip": "192.168.1.1",
-          "customer_speaker_port": 1
-        },
-        "created_on": "2017-06-14T00:00:00Z",
-        "description": "Tunnel for ISP X",
-        "health_check": {
-          "direction": "bidirectional",
-          "enabled": true,
-          "rate": "low",
-          "target": {
-            "effective": "203.0.113.1",
-            "saved": "203.0.113.1"
-          },
-          "type": "request"
-        },
-        "interface_address6": "2606:54c1:7:0:a9fe:12d2:1:200/127",
-        "modified_on": "2017-06-14T05:20:00Z",
-        "mtu": 0,
-        "ttl": 0
-      }
-    ]
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-### GRE Tunnel List Response
+</summary>
 
-- `GRETunnelListResponse object { gre_tunnels }`
+One of the following:
 
-  - `gre_tunnels: optional array of object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+"BGP\_DOWN"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifier
+"BGP\_UP"
 
-    - `cloudflare_gre_endpoint: string`
+<a href="#">Link to this property</a>
 
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
+"BGP\_ESTABLISHING"
 
-    - `customer_gre_endpoint: string`
+<a href="#">Link to this property</a>
 
-      The IP address assigned to the customer side of the GRE tunnel.
+</details>
 
-    - `interface_address: string`
+<a href="#">Link to this property</a>
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+tcp\_established: boolean
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+updated\_at: string
 
-    - `automatic_return_routing: optional boolean`
+formatdate-time
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+bgp\_state: optional string
 
-      - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-        ASN used on the customer end of the BGP session
+cf\_speaker\_ip: optional string
 
-      - `export_filter_id: optional string`
+formatipv4
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+<a href="#">Link to this property</a>
 
-      - `extra_prefixes: optional array of string`
+cf\_speaker\_port: optional number
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+maximum65535
 
-      - `import_filter_id: optional string`
+minimum1
 
-        ID of the BGP filter profile applied to routes received from the customer.
+<a href="#">Link to this property</a>
 
-      - `md5_key: optional string`
+customer\_speaker\_ip: optional string
 
-        MD5 key to use for session authentication.
+formatipv4
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+customer\_speaker\_port: optional number
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+maximum65535
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+minimum1
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+<a href="#">Link to this property</a>
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+</details>
 
-        - `"BGP_DOWN"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_UP"`
+created\_on: optional string
 
-        - `"BGP_ESTABLISHING"`
+The date and time the tunnel was created.
 
-      - `tcp_established: boolean`
+formatdate-time
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `bgp_state: optional string`
+description: optional string
 
-      - `cf_speaker_ip: optional string`
+An optional description of the GRE tunnel.
 
-      - `cf_speaker_port: optional number`
+<a href="#">Link to this property</a>
 
-      - `customer_speaker_ip: optional string`
+<details>
 
-      - `customer_speaker_port: optional number`
+<summary>
 
-    - `created_on: optional string`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-      The date and time the tunnel was created.
+</summary>
 
-    - `description: optional string`
+<details>
 
-      An optional description of the GRE tunnel.
+<summary>
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+direction: optional "unidirectional"or "bidirectional"
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+</summary>
 
-        - `"unidirectional"`
+One of the following:
 
-        - `"bidirectional"`
+"unidirectional"
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Determines whether to run healthchecks for a tunnel.
+"bidirectional"
 
-      - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-        How frequent the health check is run. The default value is `mid`.
+</details>
 
-        - `"low"`
+<a href="#">Link to this property</a>
 
-        - `"mid"`
+enabled: optional boolean
 
-        - `"high"`
+Determines whether to run healthchecks for a tunnel.
 
-      - `target: optional object { effective, saved }  or string`
+<a href="#">Link to this property</a>
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+How frequent the health check is run. The default value is <code>mid</code>.
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+<a href="#">Link to this property</a>
 
-          - `effective: optional string`
+<details>
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+<summary>
 
-          - `saved: optional string`
+target: optional object {effective, saved } or string
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-        - `string`
+</summary>
 
-      - `type: optional HealthCheckType`
+One of the following:
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+<details>
 
-        - `"reply"`
+<summary>
 
-        - `"request"`
+MagicHealthCheckTarget object {effective, saved }
 
-    - `interface_address6: optional string`
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+</summary>
 
-    - `modified_on: optional string`
+effective: optional string
 
-      The date and time the tunnel was last modified.
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-    - `mtu: optional number`
+<a href="#">Link to this property</a>
 
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+saved: optional string
 
-    - `ttl: optional number`
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-      Time To Live (TTL) in number of hops of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-### GRE Tunnel Get Response
+</details>
 
-- `GRETunnelGetResponse object { gre_tunnel }`
+<a href="#">Link to this property</a>
 
-  - `gre_tunnel: optional object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Identifier
+</details>
 
-    - `cloudflare_gre_endpoint: string`
+<a href="#">Link to this property</a>
 
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-    - `customer_gre_endpoint: string`
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-      The IP address assigned to the customer side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-    - `interface_address: string`
+</details>
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+interface\_address6: optional string
 
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-    - `automatic_return_routing: optional boolean`
+<a href="#">Link to this property</a>
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+modified\_on: optional string
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+The date and time the tunnel was last modified.
 
-      - `customer_asn: number`
+formatdate-time
 
-        ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-      - `export_filter_id: optional string`
+mtu: optional number
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
 
-      - `extra_prefixes: optional array of string`
+<a href="#">Link to this property</a>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+ttl: optional number
 
-      - `import_filter_id: optional string`
+Time To Live (TTL) in number of hops of the GRE tunnel.
 
-        ID of the BGP filter profile applied to routes received from the customer.
+<a href="#">Link to this property</a>
 
-      - `md5_key: optional string`
+</details>
 
-        MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+</details>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+[Link to this property](#)%20magic_transit.gre_tunnels%20%3E%20(model)%20gre_tunnel_delete_response%20%3E%20(schema)>)
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<details>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+<summary>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+GRETunnelBulkUpdateResponse object {modified, modified\_gre\_tunnels }
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+</summary>
 
-        - `"BGP_DOWN"`
+modified: optional boolean
 
-        - `"BGP_UP"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_ESTABLISHING"`
+<details>
 
-      - `tcp_established: boolean`
+<summary>
 
-      - `updated_at: string`
+modified\_gre\_tunnels: optional array of object {id, cloudflare\_gre\_endpoint, customer\_gre\_endpoint, 12 more }
 
-      - `bgp_state: optional string`
+</summary>
 
-      - `cf_speaker_ip: optional string`
+id: string
 
-      - `cf_speaker_port: optional number`
+Identifier
 
-      - `customer_speaker_ip: optional string`
+maxLength32
 
-      - `customer_speaker_port: optional number`
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+cloudflare\_gre\_endpoint: string
 
-      The date and time the tunnel was created.
+The IP address assigned to the Cloudflare side of the GRE tunnel.
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-      An optional description of the GRE tunnel.
+customer\_gre\_endpoint: string
 
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
+The IP address assigned to the customer side of the GRE tunnel.
 
-      - `direction: optional "unidirectional" or "bidirectional"`
+<a href="#">Link to this property</a>
 
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+interface\_address: string
 
-        - `"unidirectional"`
+A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
 
-        - `"bidirectional"`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+name: string
 
-        Determines whether to run healthchecks for a tunnel.
+The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
 
-      - `rate: optional HealthCheckRate`
+<a href="#">Link to this property</a>
 
-        How frequent the health check is run. The default value is `mid`.
+automatic\_return\_routing: optional boolean
 
-        - `"low"`
+True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the <code>coupler_integration</code> account flag to be enabled; requests setting this to <code>true</code> without that flag will be rejected.
 
-        - `"mid"`
+<a href="#">Link to this property</a>
 
-        - `"high"`
+<details>
 
-      - `target: optional object { effective, saved }  or string`
+<summary>
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+bgp: optional object {customer\_asn, export\_filter\_id, extra\_prefixes, 2 more }
 
-        - `MagicHealthCheckTarget object { effective, saved }`
+</summary>
 
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+customer\_asn: number
 
-          - `effective: optional string`
+ASN used on the customer end of the BGP session
 
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+formatint32
 
-          - `saved: optional string`
+minimum0
 
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+<a href="#">Link to this property</a>
 
-        - `string`
+export\_filter\_id: optional string
 
-      - `type: optional HealthCheckType`
+ID of the BGP filter profile applied to routes advertised to the customer.
 
-        The type of healthcheck to run, reply or request. The default value is `reply`.
+<a href="#">Link to this property</a>
 
-        - `"reply"`
+extra\_prefixes: optional array of string
 
-        - `"request"`
+Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
 
-    - `interface_address6: optional string`
+<a href="#">Link to this property</a>
 
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+import\_filter\_id: optional string
 
-    - `modified_on: optional string`
+ID of the BGP filter profile applied to routes received from the customer.
 
-      The date and time the tunnel was last modified.
+<a href="#">Link to this property</a>
 
-    - `mtu: optional number`
+md5\_key: optional string
 
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+MD5 key to use for session authentication.
 
-    - `ttl: optional number`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-      Time To Live (TTL) in number of hops of the GRE tunnel.
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-### GRE Tunnel Create Response
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-- `GRETunnelCreateResponse object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier
+</details>
 
-  - `cloudflare_gre_endpoint: string`
+<a href="#">Link to this property</a>
 
-    The IP address assigned to the Cloudflare side of the GRE tunnel.
+<details>
 
-  - `customer_gre_endpoint: string`
+<summary>
 
-    The IP address assigned to the customer side of the GRE tunnel.
+bgp\_status: optional object {state, tcp\_established, updated\_at, 5 more }
 
-  - `interface_address: string`
+</summary>
 
-    A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+state: "BGP\_DOWN"or "BGP\_UP"or "BGP\_ESTABLISHING"
 
-  - `automatic_return_routing: optional boolean`
+</summary>
 
-    True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+One of the following:
 
-  - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+"BGP\_DOWN"
 
-    - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-      ASN used on the customer end of the BGP session
+"BGP\_UP"
 
-    - `export_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the BGP filter profile applied to routes advertised to the customer.
+"BGP\_ESTABLISHING"
 
-    - `extra_prefixes: optional array of string`
+<a href="#">Link to this property</a>
 
-      Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+</details>
 
-    - `import_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the BGP filter profile applied to routes received from the customer.
+tcp\_established: boolean
 
-    - `md5_key: optional string`
+<a href="#">Link to this property</a>
 
-      MD5 key to use for session authentication.
+updated\_at: string
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+formatdate-time
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+<a href="#">Link to this property</a>
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+bgp\_state: optional string
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-  - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+cf\_speaker\_ip: optional string
 
-    - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+formatipv4
 
-      - `"BGP_DOWN"`
+<a href="#">Link to this property</a>
 
-      - `"BGP_UP"`
+cf\_speaker\_port: optional number
 
-      - `"BGP_ESTABLISHING"`
+maximum65535
 
-    - `tcp_established: boolean`
+minimum1
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `bgp_state: optional string`
+customer\_speaker\_ip: optional string
 
-    - `cf_speaker_ip: optional string`
+formatipv4
 
-    - `cf_speaker_port: optional number`
+<a href="#">Link to this property</a>
 
-    - `customer_speaker_ip: optional string`
+customer\_speaker\_port: optional number
 
-    - `customer_speaker_port: optional number`
+maximum65535
 
-  - `created_on: optional string`
+minimum1
 
-    The date and time the tunnel was created.
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    An optional description of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-  - `health_check: optional object { direction, enabled, rate, 2 more }`
+created\_on: optional string
 
-    - `direction: optional "unidirectional" or "bidirectional"`
+The date and time the tunnel was created.
 
-      The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
+formatdate-time
 
-      - `"unidirectional"`
+<a href="#">Link to this property</a>
 
-      - `"bidirectional"`
+description: optional string
 
-    - `enabled: optional boolean`
+An optional description of the GRE tunnel.
 
-      Determines whether to run healthchecks for a tunnel.
+<a href="#">Link to this property</a>
 
-    - `rate: optional HealthCheckRate`
+<details>
 
-      How frequent the health check is run. The default value is `mid`.
+<summary>
 
-      - `"low"`
+health\_check: optional object {direction, enabled, rate, 2 more }
 
-      - `"mid"`
+</summary>
 
-      - `"high"`
+<details>
 
-    - `target: optional object { effective, saved }  or string`
+<summary>
 
-      The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
+direction: optional "unidirectional"or "bidirectional"
 
-      - `MagicHealthCheckTarget object { effective, saved }`
+The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
 
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
+</summary>
 
-        - `effective: optional string`
+One of the following:
 
-          The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
+"unidirectional"
 
-        - `saved: optional string`
+<a href="#">Link to this property</a>
 
-          The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
+"bidirectional"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-    - `type: optional HealthCheckType`
+</details>
 
-      The type of healthcheck to run, reply or request. The default value is `reply`.
+<a href="#">Link to this property</a>
 
-      - `"reply"`
+enabled: optional boolean
 
-      - `"request"`
+Determines whether to run healthchecks for a tunnel.
 
-  - `interface_address6: optional string`
+<a href="#">Link to this property</a>
 
-    A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
+rate: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_rate%20%3E%20(schema)">HealthCheckRate</a>
 
-  - `modified_on: optional string`
+How frequent the health check is run. The default value is <code>mid</code>.
 
-    The date and time the tunnel was last modified.
+<a href="#">Link to this property</a>
 
-  - `mtu: optional number`
+<details>
 
-    Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
+<summary>
 
-  - `ttl: optional number`
+target: optional object {effective, saved } or string
 
-    Time To Live (TTL) in number of hops of the GRE tunnel.
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
 
-### GRE Tunnel Update Response
+</summary>
 
-- `GRETunnelUpdateResponse object { modified, modified_gre_tunnel }`
+One of the following:
 
-  - `modified: optional boolean`
+<details>
 
-  - `modified_gre_tunnel: optional object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
+<summary>
 
-    - `id: string`
+MagicHealthCheckTarget object {effective, saved }
 
-      Identifier
+The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to <code>customer_gre_endpoint address</code>. This field is ignored for bidirectional healthchecks as the interface\_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
 
-    - `cloudflare_gre_endpoint: string`
+</summary>
 
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
+effective: optional string
 
-    - `customer_gre_endpoint: string`
+The effective health check target. If ‘saved’ is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
 
-      The IP address assigned to the customer side of the GRE tunnel.
+<a href="#">Link to this property</a>
 
-    - `interface_address: string`
+saved: optional string
 
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
+The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
+</details>
 
-    - `automatic_return_routing: optional boolean`
+<a href="#">Link to this property</a>
 
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
+string
 
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `customer_asn: number`
+</details>
 
-        ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-      - `export_filter_id: optional string`
+type: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit%20%3E%20(model)%20health_check_type%20%3E%20(schema)">HealthCheckType</a>
 
-        ID of the BGP filter profile applied to routes advertised to the customer.
+The type of healthcheck to run, reply or request. The default value is <code>reply</code>.
 
-      - `extra_prefixes: optional array of string`
+<a href="#">Link to this property</a>
 
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
+</details>
 
-      - `import_filter_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the BGP filter profile applied to routes received from the customer.
+interface\_address6: optional string
 
-      - `md5_key: optional string`
+A 127 bit IPV6 prefix from within the virtual\_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual\_subnet6. Eg if virtual\_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface\_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
 
-        MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+modified\_on: optional string
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+The date and time the tunnel was last modified.
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+formatdate-time
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
+mtu: optional number
 
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
+Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
 
-        - `"BGP_DOWN"`
+<a href="#">Link to this property</a>
 
-        - `"BGP_UP"`
+ttl: optional number
 
-        - `"BGP_ESTABLISHING"`
+Time To Live (TTL) in number of hops of the GRE tunnel.
 
-      - `tcp_established: boolean`
+<a href="#">Link to this property</a>
 
-      - `updated_at: string`
+</details>
 
-      - `bgp_state: optional string`
+<a href="#">Link to this property</a>
 
-      - `cf_speaker_ip: optional string`
+</details>
 
-      - `cf_speaker_port: optional number`
-
-      - `customer_speaker_ip: optional string`
-
-      - `customer_speaker_port: optional number`
-
-    - `created_on: optional string`
-
-      The date and time the tunnel was created.
-
-    - `description: optional string`
-
-      An optional description of the GRE tunnel.
-
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
-
-      - `direction: optional "unidirectional" or "bidirectional"`
-
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
-
-        - `"unidirectional"`
-
-        - `"bidirectional"`
-
-      - `enabled: optional boolean`
-
-        Determines whether to run healthchecks for a tunnel.
-
-      - `rate: optional HealthCheckRate`
-
-        How frequent the health check is run. The default value is `mid`.
-
-        - `"low"`
-
-        - `"mid"`
-
-        - `"high"`
-
-      - `target: optional object { effective, saved }  or string`
-
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
-
-        - `MagicHealthCheckTarget object { effective, saved }`
-
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
-
-          - `effective: optional string`
-
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
-
-          - `saved: optional string`
-
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
-
-        - `string`
-
-      - `type: optional HealthCheckType`
-
-        The type of healthcheck to run, reply or request. The default value is `reply`.
-
-        - `"reply"`
-
-        - `"request"`
-
-    - `interface_address6: optional string`
-
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
-
-    - `modified_on: optional string`
-
-      The date and time the tunnel was last modified.
-
-    - `mtu: optional number`
-
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
-
-    - `ttl: optional number`
-
-      Time To Live (TTL) in number of hops of the GRE tunnel.
-
-### GRE Tunnel Delete Response
-
-- `GRETunnelDeleteResponse object { deleted, deleted_gre_tunnel }`
-
-  - `deleted: optional boolean`
-
-  - `deleted_gre_tunnel: optional object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `cloudflare_gre_endpoint: string`
-
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
-
-    - `customer_gre_endpoint: string`
-
-      The IP address assigned to the customer side of the GRE tunnel.
-
-    - `interface_address: string`
-
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
-
-    - `name: string`
-
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
-
-    - `automatic_return_routing: optional boolean`
-
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
-
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
-
-      - `customer_asn: number`
-
-        ASN used on the customer end of the BGP session
-
-      - `export_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes advertised to the customer.
-
-      - `extra_prefixes: optional array of string`
-
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
-
-      - `import_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes received from the customer.
-
-      - `md5_key: optional string`
-
-        MD5 key to use for session authentication.
-
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
-
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
-
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
-
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
-
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
-
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
-
-        - `"BGP_DOWN"`
-
-        - `"BGP_UP"`
-
-        - `"BGP_ESTABLISHING"`
-
-      - `tcp_established: boolean`
-
-      - `updated_at: string`
-
-      - `bgp_state: optional string`
-
-      - `cf_speaker_ip: optional string`
-
-      - `cf_speaker_port: optional number`
-
-      - `customer_speaker_ip: optional string`
-
-      - `customer_speaker_port: optional number`
-
-    - `created_on: optional string`
-
-      The date and time the tunnel was created.
-
-    - `description: optional string`
-
-      An optional description of the GRE tunnel.
-
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
-
-      - `direction: optional "unidirectional" or "bidirectional"`
-
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
-
-        - `"unidirectional"`
-
-        - `"bidirectional"`
-
-      - `enabled: optional boolean`
-
-        Determines whether to run healthchecks for a tunnel.
-
-      - `rate: optional HealthCheckRate`
-
-        How frequent the health check is run. The default value is `mid`.
-
-        - `"low"`
-
-        - `"mid"`
-
-        - `"high"`
-
-      - `target: optional object { effective, saved }  or string`
-
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
-
-        - `MagicHealthCheckTarget object { effective, saved }`
-
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
-
-          - `effective: optional string`
-
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
-
-          - `saved: optional string`
-
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
-
-        - `string`
-
-      - `type: optional HealthCheckType`
-
-        The type of healthcheck to run, reply or request. The default value is `reply`.
-
-        - `"reply"`
-
-        - `"request"`
-
-    - `interface_address6: optional string`
-
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
-
-    - `modified_on: optional string`
-
-      The date and time the tunnel was last modified.
-
-    - `mtu: optional number`
-
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
-
-    - `ttl: optional number`
-
-      Time To Live (TTL) in number of hops of the GRE tunnel.
-
-### GRE Tunnel Bulk Update Response
-
-- `GRETunnelBulkUpdateResponse object { modified, modified_gre_tunnels }`
-
-  - `modified: optional boolean`
-
-  - `modified_gre_tunnels: optional array of object { id, cloudflare_gre_endpoint, customer_gre_endpoint, 12 more }`
-
-    - `id: string`
-
-      Identifier
-
-    - `cloudflare_gre_endpoint: string`
-
-      The IP address assigned to the Cloudflare side of the GRE tunnel.
-
-    - `customer_gre_endpoint: string`
-
-      The IP address assigned to the customer side of the GRE tunnel.
-
-    - `interface_address: string`
-
-      A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.
-
-    - `name: string`
-
-      The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel.
-
-    - `automatic_return_routing: optional boolean`
-
-      True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.
-
-    - `bgp: optional object { customer_asn, export_filter_id, extra_prefixes, 2 more }`
-
-      - `customer_asn: number`
-
-        ASN used on the customer end of the BGP session
-
-      - `export_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes advertised to the customer.
-
-      - `extra_prefixes: optional array of string`
-
-        Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.
-
-      - `import_filter_id: optional string`
-
-        ID of the BGP filter profile applied to routes received from the customer.
-
-      - `md5_key: optional string`
-
-        MD5 key to use for session authentication.
-
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
-
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
-
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
-
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
-
-    - `bgp_status: optional object { state, tcp_established, updated_at, 5 more }`
-
-      - `state: "BGP_DOWN" or "BGP_UP" or "BGP_ESTABLISHING"`
-
-        - `"BGP_DOWN"`
-
-        - `"BGP_UP"`
-
-        - `"BGP_ESTABLISHING"`
-
-      - `tcp_established: boolean`
-
-      - `updated_at: string`
-
-      - `bgp_state: optional string`
-
-      - `cf_speaker_ip: optional string`
-
-      - `cf_speaker_port: optional number`
-
-      - `customer_speaker_ip: optional string`
-
-      - `customer_speaker_port: optional number`
-
-    - `created_on: optional string`
-
-      The date and time the tunnel was created.
-
-    - `description: optional string`
-
-      An optional description of the GRE tunnel.
-
-    - `health_check: optional object { direction, enabled, rate, 2 more }`
-
-      - `direction: optional "unidirectional" or "bidirectional"`
-
-        The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.
-
-        - `"unidirectional"`
-
-        - `"bidirectional"`
-
-      - `enabled: optional boolean`
-
-        Determines whether to run healthchecks for a tunnel.
-
-      - `rate: optional HealthCheckRate`
-
-        How frequent the health check is run. The default value is `mid`.
-
-        - `"low"`
-
-        - `"mid"`
-
-        - `"high"`
-
-      - `target: optional object { effective, saved }  or string`
-
-        The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false.
-
-        - `MagicHealthCheckTarget object { effective, saved }`
-
-          The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target.
-
-          - `effective: optional string`
-
-            The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests.
-
-          - `saved: optional string`
-
-            The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.
-
-        - `string`
-
-      - `type: optional HealthCheckType`
-
-        The type of healthcheck to run, reply or request. The default value is `reply`.
-
-        - `"reply"`
-
-        - `"request"`
-
-    - `interface_address6: optional string`
-
-      A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127
-
-    - `modified_on: optional string`
-
-      The date and time the tunnel was last modified.
-
-    - `mtu: optional number`
-
-      Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.
-
-    - `ttl: optional number`
-
-      Time To Live (TTL) in number of hops of the GRE tunnel.
+[Link to this property](#)%20magic_transit.gre_tunnels%20%3E%20(model)%20gre_tunnel_bulk_update_response%20%3E%20(schema)>)

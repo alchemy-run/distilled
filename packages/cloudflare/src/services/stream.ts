@@ -196,9 +196,9 @@ export const CreateCaptionLanguageResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateCaptionLanguageResponse",
 }) as any as S.Schema<CreateCaptionLanguageResponse>;
 
-export type ClipCreateRequestAllowedOriginsList = Array<unknown>;
+export type ClipCreateRequestAllowedOriginsList = Array<string>;
 export const ClipCreateRequestAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<ClipCreateRequestAllowedOriginsList>;
 
 export interface ClipCreateRequestWatermark {
@@ -271,9 +271,9 @@ export const CreateClipRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateClipRequest",
 }) as any as S.Schema<CreateClipRequest>;
 
-export type ClipCreateResponseAllowedOriginsList = Array<unknown>;
+export type ClipCreateResponseAllowedOriginsList = Array<string>;
 export const ClipCreateResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<ClipCreateResponseAllowedOriginsList>;
 
 export interface ClipCreateResponseInput {
@@ -371,7 +371,7 @@ export interface ClipCreateResponseWatermark {
   padding?: number | null;
   /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
   position?: string | null;
-  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video. */
+  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0` fills the entire video. */
   scale?: number | null;
   /** The size of the image in bytes. */
   size?: number | null;
@@ -483,9 +483,9 @@ export const CreateClipResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateClipResponse",
 }) as any as S.Schema<CreateClipResponse>;
 
-export type CopyCreateRequestAllowedOriginsList = Array<unknown>;
+export type CopyCreateRequestAllowedOriginsList = Array<string>;
 export const CopyCreateRequestAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<CopyCreateRequestAllowedOriginsList>;
 
 export type CopyCreateRequestWatermark = ClipCreateRequestWatermark;
@@ -543,9 +543,9 @@ export const CreateCopyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateCopyRequest",
 }) as any as S.Schema<CreateCopyRequest>;
 
-export type CopyCreateResponseAllowedOriginsList = Array<unknown>;
+export type CopyCreateResponseAllowedOriginsList = Array<string>;
 export const CopyCreateResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<CopyCreateResponseAllowedOriginsList>;
 
 export type CopyCreateResponseInput = ClipCreateResponseInput;
@@ -676,10 +676,10 @@ export const CreateCopyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateCopyResponse",
 }) as any as S.Schema<CreateCopyResponse>;
 
-export type DirectUploadCreateRequestAllowedOriginsList = Array<unknown>;
+export type DirectUploadCreateRequestAllowedOriginsList = Array<string>;
 export const DirectUploadCreateRequestAllowedOriginsList =
   /*@__PURE__*/ S.Array(
-    S.Unknown,
+    S.String,
   ) as any as S.Schema<DirectUploadCreateRequestAllowedOriginsList>;
 
 export type DirectUploadCreateRequestWatermark = ClipCreateRequestWatermark;
@@ -960,6 +960,21 @@ export const CreateLiveInputRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateLiveInputRequest",
 }) as any as S.Schema<CreateLiveInputRequest>;
 
+export interface LiveInputsCreateResponsePlayback {
+  /** The DASH manifest URL used to play live video, referencing the live input ID. */
+  dash: string;
+  /** The HLS manifest URL used to play live video, referencing the live input ID. */
+  hls: string;
+}
+export const LiveInputsCreateResponsePlayback = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dash: S.String,
+    hls: S.String,
+  }),
+).annotate({
+  identifier: "LiveInputsCreateResponsePlayback",
+}) as any as S.Schema<LiveInputsCreateResponsePlayback>;
+
 export type LiveInputsCreateResponseRecordingAllowedOriginsList = Array<string>;
 export const LiveInputsCreateResponseRecordingAllowedOriginsList =
   /*@__PURE__*/ S.Array(
@@ -1112,6 +1127,8 @@ export interface CreateLiveInputResponse {
   meta?: unknown | null;
   /** The date and time the live input was last modified. */
   modified?: string | null;
+  /** Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID. */
+  playback?: LiveInputsCreateResponsePlayback | null;
   /** When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility. */
   preferLowLatency?: boolean | null;
   /** Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied. */
@@ -1141,6 +1158,7 @@ export const CreateLiveInputResponse = /*@__PURE__*/ S.suspend(() =>
     keysRotatedAt: S.optional(S.NullOr(S.String)),
     meta: S.optional(S.NullOr(S.Unknown)),
     modified: S.optional(S.NullOr(S.String)),
+    playback: S.optional(S.NullOr(LiveInputsCreateResponsePlayback)),
     preferLowLatency: S.optional(S.NullOr(S.Boolean)),
     recording: S.optional(S.NullOr(LiveInputsCreateResponseRecording)),
     rtmps: S.optional(S.NullOr(LiveInputsCreateResponseRtmps)),
@@ -1220,13 +1238,13 @@ export interface CreateStreamRequest {
   accountId: string;
   /** Provisions a URL to let your end users upload videos directly to Cloudflare Stream without exposing your API token to clients. */
   directUser?: boolean;
-  /** Specifies the TUS protocol version. This value must be included in every upload request. */
+  /** Specifies the TUS protocol version. This value must be included in every upload request. Notes: The only supported version of TUS protocol is 1.0.0. */
   tusResumable: CreateRequestTusResumable | (string & {});
   /** Indicates the size of the entire upload in bytes. The value must be a non-negative integer. */
   uploadLength: number;
   /** A user-defined identifier for the media creator. */
   uploadCreator?: string;
-  /** Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded. */
+  /** Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded. Supported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`. */
   uploadMetadata?: string;
 }
 export const CreateStreamRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1384,7 +1402,7 @@ export interface CreateWatermarkRequest {
   padding?: number;
   /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
   position?: string;
-  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video. */
+  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0` fills the entire video. */
   scale?: number;
   /** URL of the watermark image to copy. */
   url?: string;
@@ -1427,7 +1445,7 @@ export interface CreateWatermarkResponse {
   padding?: number | null;
   /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
   position?: string | null;
-  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video. */
+  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0` fills the entire video. */
   scale?: number | null;
   /** The size of the image in bytes. */
   size?: number | null;
@@ -1730,9 +1748,9 @@ export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWebhookResponse",
 }) as any as S.Schema<DeleteWebhookResponse>;
 
-export type EditRequestAllowedOriginsList = Array<unknown>;
+export type EditRequestAllowedOriginsList = Array<string>;
 export const EditRequestAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<EditRequestAllowedOriginsList>;
 
 export interface EditRequestPublicDetails {
@@ -1805,9 +1823,9 @@ export const EditStreamRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "EditStreamRequest",
 }) as any as S.Schema<EditStreamRequest>;
 
-export type EditResponseAllowedOriginsList = Array<unknown>;
+export type EditResponseAllowedOriginsList = Array<string>;
 export const EditResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<EditResponseAllowedOriginsList>;
 
 export type EditResponseInput = ClipCreateResponseInput;
@@ -2352,6 +2370,9 @@ export const GetLiveInputRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetLiveInputRequest",
 }) as any as S.Schema<GetLiveInputRequest>;
 
+export type LiveInputsGetResponsePlayback = LiveInputsCreateResponsePlayback;
+export const LiveInputsGetResponsePlayback = LiveInputsCreateResponsePlayback;
+
 export type LiveInputsGetResponseRecordingAllowedOriginsList = Array<string>;
 export const LiveInputsGetResponseRecordingAllowedOriginsList =
   /*@__PURE__*/ S.Array(
@@ -2436,6 +2457,8 @@ export interface GetLiveInputResponse {
   meta?: unknown | null;
   /** The date and time the live input was last modified. */
   modified?: string | null;
+  /** Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID. */
+  playback?: LiveInputsCreateResponsePlayback | null;
   /** When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility. */
   preferLowLatency?: boolean | null;
   /** Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied. */
@@ -2465,6 +2488,7 @@ export const GetLiveInputResponse = /*@__PURE__*/ S.suspend(() =>
     keysRotatedAt: S.optional(S.NullOr(S.String)),
     meta: S.optional(S.NullOr(S.Unknown)),
     modified: S.optional(S.NullOr(S.String)),
+    playback: S.optional(S.NullOr(LiveInputsCreateResponsePlayback)),
     preferLowLatency: S.optional(S.NullOr(S.Boolean)),
     recording: S.optional(S.NullOr(LiveInputsGetResponseRecording)),
     rtmps: S.optional(S.NullOr(LiveInputsCreateResponseRtmps)),
@@ -2505,9 +2529,9 @@ export const GetStreamRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetStreamRequest",
 }) as any as S.Schema<GetStreamRequest>;
 
-export type GetResponseAllowedOriginsList = Array<unknown>;
+export type GetResponseAllowedOriginsList = Array<string>;
 export const GetResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<GetResponseAllowedOriginsList>;
 
 export type GetResponseInput = ClipCreateResponseInput;
@@ -2677,7 +2701,7 @@ export interface GetWatermarkResponse {
   padding?: number | null;
   /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
   position?: string | null;
-  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video. */
+  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0` fills the entire video. */
   scale?: number | null;
   /** The size of the image in bytes. */
   size?: number | null;
@@ -2958,9 +2982,9 @@ export const ListStreamsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListStreamsRequest",
 }) as any as S.Schema<ListStreamsRequest>;
 
-export type ListResultItemAllowedOriginsList = Array<unknown>;
+export type ListResultItemAllowedOriginsList = Array<string>;
 export const ListResultItemAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<ListResultItemAllowedOriginsList>;
 
 export type ListResultItemInput = ClipCreateResponseInput;
@@ -3302,12 +3326,15 @@ export interface UpdateCaptionLanguageRequest {
   identifier: string;
   /** The language tag in BCP 47 format. */
   language: string;
+  /** The WebVTT file containing the caption or subtitle content. */
+  file: string;
 }
 export const UpdateCaptionLanguageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     identifier: S.String.pipe(T.Label()),
     language: S.String.pipe(T.Label()),
+    file: S.String,
   })
     .pipe(
       T.Http({
@@ -3425,6 +3452,10 @@ export const UpdateLiveInputRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateLiveInputRequest",
 }) as any as S.Schema<UpdateLiveInputRequest>;
 
+export type LiveInputsUpdateResponsePlayback = LiveInputsCreateResponsePlayback;
+export const LiveInputsUpdateResponsePlayback =
+  LiveInputsCreateResponsePlayback;
+
 export type LiveInputsUpdateResponseRecordingAllowedOriginsList = Array<string>;
 export const LiveInputsUpdateResponseRecordingAllowedOriginsList =
   /*@__PURE__*/ S.Array(
@@ -3509,6 +3540,8 @@ export interface UpdateLiveInputResponse {
   meta?: unknown | null;
   /** The date and time the live input was last modified. */
   modified?: string | null;
+  /** Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID. */
+  playback?: LiveInputsCreateResponsePlayback | null;
   /** When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility. */
   preferLowLatency?: boolean | null;
   /** Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied. */
@@ -3538,6 +3571,7 @@ export const UpdateLiveInputResponse = /*@__PURE__*/ S.suspend(() =>
     keysRotatedAt: S.optional(S.NullOr(S.String)),
     meta: S.optional(S.NullOr(S.Unknown)),
     modified: S.optional(S.NullOr(S.String)),
+    playback: S.optional(S.NullOr(LiveInputsCreateResponsePlayback)),
     preferLowLatency: S.optional(S.NullOr(S.Boolean)),
     recording: S.optional(S.NullOr(LiveInputsUpdateResponseRecording)),
     rtmps: S.optional(S.NullOr(LiveInputsCreateResponseRtmps)),
@@ -3667,7 +3701,7 @@ export const createCopy: API.OperationMethod<
 }));
 
 export type CreateDirectUploadError = CloudflareOpError;
-/** Creates a direct upload that allows video uploads without an API key. */
+/** Creates a direct upload endpoint that allows an end-user to upload a video without an API key. */
 export const createDirectUpload: API.OperationMethod<
   CreateDirectUploadRequest,
   CreateDirectUploadResponse,
@@ -3730,7 +3764,7 @@ export type CreateLiveInputOutputError =
   | LiveInputNotFound
   | Forbidden
   | CloudflareOpError;
-/** Creates a new output that can be used to simulcast or restream live video to other RTMP or SRT destinations. Outputs are always linked to a specific live input —&nbsp;one live input can have many outputs. */
+/** Creates a new output that can be used to simulcast or restream live video to other RTMP or SRT destinations. Outputs are always linked to a specific live input — one live input can have many outputs. */
 export const createLiveInputOutput: API.OperationMethod<
   CreateLiveInputOutputRequest,
   CreateLiveInputOutputResponse,
@@ -3871,7 +3905,7 @@ export type DeleteLiveInputError =
   | LiveInputNotFound
   | Forbidden
   | CloudflareOpError;
-/** Prevents a live input from being streamed to and makes the live input inaccessible to any future API calls. */
+/** Permanently delete a live input, making it inaccessible and blocking current and future broadcasts to it. Existing recordings will be retained. */
 export const deleteLiveInput: API.OperationMethod<
   DeleteLiveInputRequest,
   DeleteLiveInputResponse,
@@ -3950,7 +3984,7 @@ export type DeleteWebhookError =
   | WebhookNotFound
   | Forbidden
   | CloudflareOpError;
-/** Deletes a webhook. */
+/** Deletes the on-demand video webhook. */
 export const deleteWebhook: API.OperationMethod<
   DeleteWebhookRequest,
   DeleteWebhookResponse,
@@ -4060,7 +4094,7 @@ export const getDownload: API.OperationMethod<
 }));
 
 export type GetEmbedError = CloudflareOpError;
-/** Fetches an HTML code snippet to embed a video in a web page delivered through Cloudflare. On success, returns an HTML fragment for use on web pages to display a video. On failure, returns a JSON response body. */
+/** Fetches the legacy HTML code snippet to embed a video in a web page delivered through Cloudflare. On success, returns an HTML fragment for use on web pages to display a video. On failure, returns a JSON response body. */
 export const getEmbed: API.OperationMethod<
   GetEmbedRequest,
   GetEmbedResponse,
@@ -4156,7 +4190,7 @@ export const getWatermark: API.OperationMethod<
 }));
 
 export type GetWebhookError = WebhookNotFound | Forbidden | CloudflareOpError;
-/** Retrieves a list of webhooks. */
+/** Retrieve current on-demand webhook information. */
 export const getWebhook: API.OperationMethod<
   GetWebhookRequest,
   GetWebhookResponse,
@@ -4269,7 +4303,7 @@ export const patchAudioTrack: API.OperationMethod<
 }));
 
 export type PutWebhookError = CloudflareOpError;
-/** Creates a webhook notification. */
+/** Create a webhook for notifications about on-demand video uploads. */
 export const putWebhook: API.OperationMethod<
   PutWebhookRequest,
   PutWebhookResponse,

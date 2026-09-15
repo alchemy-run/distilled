@@ -1,681 +1,417 @@
+---
+title: Domains
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Registrar](https://developers.cloudflare.com/api/resources/registrar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Domains
 
-## List domains
+##### [List domains](https://developers.cloudflare.com/api/resources/registrar/subresources/domains/methods/list)
 
-**get** `/accounts/{account_id}/registrar/domains`
+Deprecated
 
-List domains handled by Registrar.
+GET/accounts/{account\_id}/registrar/domains
 
-### Path Parameters
+##### [Get domain](https://developers.cloudflare.com/api/resources/registrar/subresources/domains/methods/get)
 
-- `account_id: string`
+Deprecated
 
-  Identifier
+GET/accounts/{account\_id}/registrar/domains/{domain\_name}
 
-### Returns
+##### [Update domain](https://developers.cloudflare.com/api/resources/registrar/subresources/domains/methods/update)
 
-- `errors: array of ResponseInfo`
+Deprecated
 
-  - `code: number`
+PUT/accounts/{account\_id}/registrar/domains/{domain\_name}
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+Domain object {id, available, can\_register, 9 more }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+Domain identifier.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of Domain`
+available: optional boolean
 
-  - `id: optional string`
+Shows if a domain is available for transferring into Cloudflare Registrar.
 
-    Domain identifier.
+<a href="#">Link to this property</a>
 
-  - `available: optional boolean`
+can\_register: optional boolean
 
-    Shows if a domain is available for transferring into Cloudflare Registrar.
+Indicates eligibility to register the domain as a new domain.
 
-  - `can_register: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates if the domain can be registered as a new domain.
+created\_at: optional string
 
-  - `created_at: optional string`
+Shows time of creation.
 
-    Shows time of creation.
+formatdate-time
 
-  - `current_registrar: optional string`
+<a href="#">Link to this property</a>
 
-    Shows name of current registrar.
+current\_registrar: optional string
 
-  - `expires_at: optional string`
+Shows name of current registrar.
 
-    Shows when domain name registration expires.
+<a href="#">Link to this property</a>
 
-  - `locked: optional boolean`
+expires\_at: optional string
 
-    Shows whether a registrar lock is in place for a domain.
+Shows when domain name registration expires.
 
-  - `registrant_contact: optional object { address, city, country, 10 more }`
+formatdate-time
 
-    Shows contact information for domain registrant.
+<a href="#">Link to this property</a>
 
-    - `address: string`
+locked: optional boolean
 
-      Address.
+Shows whether a registrar lock is in place for a domain.
 
-    - `city: string`
+<a href="#">Link to this property</a>
 
-      City.
+<details>
 
-    - `country: string`
+<summary>
 
-      The country in which the user lives.
+registrant\_contact: optional object {address, city, country, 10 more }
 
-    - `first_name: string`
+Shows contact information for domain registrant.
 
-      User's first name
+</summary>
 
-    - `last_name: string`
+address: string
 
-      User's last name
+Address.
 
-    - `organization: string`
+<a href="#">Link to this property</a>
 
-      Name of organization.
+city: string
 
-    - `phone: string`
+City.
 
-      User's telephone number
+<a href="#">Link to this property</a>
 
-    - `state: string`
+country: string
 
-      State.
+The country in which the user lives.
 
-    - `zip: string`
+maxLength30
 
-      The zipcode or postal code where the user lives.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+first\_name: string
 
-      Contact Identifier.
+User’s first name.
 
-    - `address2: optional string`
+maxLength60
 
-      Optional address line for unit, floor, suite, etc.
+<a href="#">Link to this property</a>
 
-    - `email: optional string`
+last\_name: string
 
-      The contact email address of the user.
+User’s last name.
 
-    - `fax: optional string`
+maxLength60
 
-      Contact fax number.
+<a href="#">Link to this property</a>
 
-  - `registry_statuses: optional string`
+organization: string
 
-    A comma-separated list of registry status codes. A full list of status codes can be found at [EPP Status Codes](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en).
+Name of organization.
 
-  - `supported_tld: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether a particular TLD is currently supported by Cloudflare Registrar. Refer to [TLD Policies](https://www.cloudflare.com/tld-policies/) for a list of supported TLDs.
+phone: string
 
-  - `transfer_in: optional object { accept_foa, approve_transfer, can_cancel_transfer, 3 more }`
+User’s telephone number.
 
-    Statuses for domain transfers into Cloudflare Registrar.
+maxLength20
 
-    - `accept_foa: optional "needed" or "ok"`
+<a href="#">Link to this property</a>
 
-      Form of authorization has been accepted by the registrant.
+state: string
 
-      - `"needed"`
+State.
 
-      - `"ok"`
+<a href="#">Link to this property</a>
 
-    - `approve_transfer: optional "needed" or "ok" or "pending" or 3 more`
+zip: string
 
-      Shows transfer status with the registry.
+The zipcode or postal code where the user lives.
 
-      - `"needed"`
+maxLength20
 
-      - `"ok"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+id: optional string
 
-      - `"trying"`
+Contact Identifier.
 
-      - `"rejected"`
+maxLength32
 
-      - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `can_cancel_transfer: optional boolean`
+address2: optional string
 
-      Indicates if cancellation is still possible.
+Optional address line for unit, floor, suite, etc.
 
-    - `disable_privacy: optional "needed" or "ok" or "unknown"`
+<a href="#">Link to this property</a>
 
-      Privacy guards are disabled at the foreign registrar.
+email: optional string
 
-      - `"needed"`
+The contact email address of the user.
 
-      - `"ok"`
+maxLength90
 
-      - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `enter_auth_code: optional "needed" or "ok" or "pending" or 2 more`
+fax: optional string
 
-      Auth code has been entered and verified.
+Contact fax number.
 
-      - `"needed"`
+<a href="#">Link to this property</a>
 
-      - `"ok"`
+</details>
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"trying"`
+registry\_statuses: optional string
 
-      - `"rejected"`
+A comma-separated list of registry status codes. Refer to <a href="https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en">EPP Status Codes</a> for the full list.
 
-    - `unlock_domain: optional "needed" or "ok" or "pending" or 2 more`
+<a href="#">Link to this property</a>
 
-      Domain is unlocked at the foreign registrar.
+supported\_tld: optional boolean
 
-      - `"needed"`
+Indicates whether Cloudflare Registrar currently supports a particular TLD. Refer to <a href="https://www.cloudflare.com/tld-policies/">TLD Policies</a> for a list of supported TLDs.
 
-      - `"ok"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+<details>
 
-      - `"trying"`
+<summary>
 
-      - `"unknown"`
+transfer\_in: optional object {accept\_foa, approve\_transfer, can\_cancel\_transfer, 3 more }
 
-  - `updated_at: optional string`
+Statuses for domain transfers into Cloudflare Registrar.
 
-    Last updated.
+</summary>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+accept\_foa: optional "needed"or "ok"
 
-- `result_info: optional object { count, page, per_page, total_count }`
+Status of the registrant authorization step.
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service
+One of the following:
 
-  - `page: optional number`
+"needed"
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"ok"
 
-    Number of results per page of results
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/registrar/domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+approve\_transfer: optional "needed"or "ok"or "pending"or 3 more
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "ea95132c15732412d22c1476fa83f27a",
-      "available": false,
-      "can_register": false,
-      "created_at": "2018-08-28T17:26:26Z",
-      "current_registrar": "Cloudflare",
-      "expires_at": "2019-08-28T23:59:59Z",
-      "locked": false,
-      "registrant_contact": {
-        "address": "123 Sesame St.",
-        "city": "Austin",
-        "country": "US",
-        "first_name": "John",
-        "last_name": "Appleseed",
-        "organization": "Cloudflare, Inc.",
-        "phone": "+1 123-123-1234",
-        "state": "TX",
-        "zip": "12345",
-        "id": "ea95132c15732412d22c1476fa83f27a",
-        "address2": "Suite 430",
-        "email": "user@example.com",
-        "fax": "123-867-5309"
-      },
-      "registry_statuses": "ok,serverTransferProhibited",
-      "supported_tld": true,
-      "transfer_in": {
-        "accept_foa": "needed",
-        "approve_transfer": "unknown",
-        "can_cancel_transfer": true,
-        "disable_privacy": "ok",
-        "enter_auth_code": "needed",
-        "unlock_domain": "ok"
-      },
-      "updated_at": "2018-08-28T17:26:26Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+Status of the registry transfer-approval step.
 
-## Get domain
+</summary>
 
-**get** `/accounts/{account_id}/registrar/domains/{domain_name}`
+One of the following:
 
-Show individual domain.
+"needed"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"ok"
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `domain_name: string`
+"pending"
 
-  Fully qualified domain name (FQDN) including the extension
-  (e.g., `example.com`, `mybrand.app`). The domain name uniquely
-  identifies a registration — the same domain cannot be registered
-  twice, making it a natural idempotency key for registration requests.
+<a href="#">Link to this property</a>
 
-### Returns
+"trying"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"rejected"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"unknown"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+can\_cancel\_transfer: optional boolean
 
-  - `message: string`
+Indicates if cancellation is still possible.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: unknown`
+<summary>
 
-- `success: true`
+disable\_privacy: optional "needed"or "ok"or "unknown"
 
-  Whether the API call was successful
+Status of the privacy-guard disabling step at the foreign registrar.
 
-  - `true`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/registrar/domains/$DOMAIN_NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"needed"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+"ok"
 
-## Update domain
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/registrar/domains/{domain_name}`
+"unknown"
 
-Update individual domain.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+<details>
 
-- `domain_name: string`
+<summary>
 
-  Fully qualified domain name (FQDN) including the extension
-  (e.g., `example.com`, `mybrand.app`). The domain name uniquely
-  identifies a registration — the same domain cannot be registered
-  twice, making it a natural idempotency key for registration requests.
+enter\_auth\_code: optional "needed"or "ok"or "pending"or 2 more
 
-### Body Parameters
+Status of the auth-code entry and verification step.
 
-- `auto_renew: optional boolean`
+</summary>
 
-  Auto-renew controls whether subscription is automatically renewed upon domain expiration.
+One of the following:
 
-- `locked: optional boolean`
+"needed"
 
-  Shows whether a registrar lock is in place for a domain.
+<a href="#">Link to this property</a>
 
-- `privacy: optional boolean`
+"ok"
 
-  Privacy option controls redacting WHOIS information.
+<a href="#">Link to this property</a>
 
-### Returns
+"pending"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"trying"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"rejected"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+unlock\_domain: optional "needed"or "ok"or "pending"or 2 more
 
-  - `source: optional object { pointer }`
+Status of the domain-unlock step at the foreign registrar.
 
-- `result: unknown`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful
+"needed"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"ok"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/registrar/domains/$DOMAIN_NAME \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auto_renew": true,
-          "privacy": true
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"pending"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"trying"
 
-### Domain
+<a href="#">Link to this property</a>
 
-- `Domain object { id, available, can_register, 9 more }`
+"unknown"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Domain identifier.
+</details>
 
-  - `available: optional boolean`
+<a href="#">Link to this property</a>
 
-    Shows if a domain is available for transferring into Cloudflare Registrar.
+</details>
 
-  - `can_register: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates if the domain can be registered as a new domain.
+updated\_at: optional string
 
-  - `created_at: optional string`
+Last updated.
 
-    Shows time of creation.
+formatdate-time
 
-  - `current_registrar: optional string`
+<a href="#">Link to this property</a>
 
-    Shows name of current registrar.
+</details>
 
-  - `expires_at: optional string`
+[Link to this property](#)%20registrar.domains%20%3E%20(model)%20domain%20%3E%20(schema)>)
 
-    Shows when domain name registration expires.
+DomainGetResponse = unknown
 
-  - `locked: optional boolean`
+[Link to this property](#)%20registrar.domains%20%3E%20(model)%20domain_get_response%20%3E%20(schema)>)
 
-    Shows whether a registrar lock is in place for a domain.
+DomainUpdateResponse = unknown
 
-  - `registrant_contact: optional object { address, city, country, 10 more }`
-
-    Shows contact information for domain registrant.
-
-    - `address: string`
-
-      Address.
-
-    - `city: string`
-
-      City.
-
-    - `country: string`
-
-      The country in which the user lives.
-
-    - `first_name: string`
-
-      User's first name
-
-    - `last_name: string`
-
-      User's last name
-
-    - `organization: string`
-
-      Name of organization.
-
-    - `phone: string`
-
-      User's telephone number
-
-    - `state: string`
-
-      State.
-
-    - `zip: string`
-
-      The zipcode or postal code where the user lives.
-
-    - `id: optional string`
-
-      Contact Identifier.
-
-    - `address2: optional string`
-
-      Optional address line for unit, floor, suite, etc.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `fax: optional string`
-
-      Contact fax number.
-
-  - `registry_statuses: optional string`
-
-    A comma-separated list of registry status codes. A full list of status codes can be found at [EPP Status Codes](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en).
-
-  - `supported_tld: optional boolean`
-
-    Whether a particular TLD is currently supported by Cloudflare Registrar. Refer to [TLD Policies](https://www.cloudflare.com/tld-policies/) for a list of supported TLDs.
-
-  - `transfer_in: optional object { accept_foa, approve_transfer, can_cancel_transfer, 3 more }`
-
-    Statuses for domain transfers into Cloudflare Registrar.
-
-    - `accept_foa: optional "needed" or "ok"`
-
-      Form of authorization has been accepted by the registrant.
-
-      - `"needed"`
-
-      - `"ok"`
-
-    - `approve_transfer: optional "needed" or "ok" or "pending" or 3 more`
-
-      Shows transfer status with the registry.
-
-      - `"needed"`
-
-      - `"ok"`
-
-      - `"pending"`
-
-      - `"trying"`
-
-      - `"rejected"`
-
-      - `"unknown"`
-
-    - `can_cancel_transfer: optional boolean`
-
-      Indicates if cancellation is still possible.
-
-    - `disable_privacy: optional "needed" or "ok" or "unknown"`
-
-      Privacy guards are disabled at the foreign registrar.
-
-      - `"needed"`
-
-      - `"ok"`
-
-      - `"unknown"`
-
-    - `enter_auth_code: optional "needed" or "ok" or "pending" or 2 more`
-
-      Auth code has been entered and verified.
-
-      - `"needed"`
-
-      - `"ok"`
-
-      - `"pending"`
-
-      - `"trying"`
-
-      - `"rejected"`
-
-    - `unlock_domain: optional "needed" or "ok" or "pending" or 2 more`
-
-      Domain is unlocked at the foreign registrar.
-
-      - `"needed"`
-
-      - `"ok"`
-
-      - `"pending"`
-
-      - `"trying"`
-
-      - `"unknown"`
-
-  - `updated_at: optional string`
-
-    Last updated.
-
-### Domain Get Response
-
-- `DomainGetResponse = unknown`
-
-### Domain Update Response
-
-- `DomainUpdateResponse = unknown`
+[Link to this property](#)%20registrar.domains%20%3E%20(model)%20domain_update_response%20%3E%20(schema)>)

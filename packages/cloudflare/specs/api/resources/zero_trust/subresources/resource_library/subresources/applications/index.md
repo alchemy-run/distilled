@@ -1,631 +1,713 @@
+---
+title: Applications
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Resource Library](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Applications
 
-## List applications
+##### [List applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/applications/methods/list)
 
-**get** `/accounts/{account_id}/resource-library/applications`
+GET/accounts/{account\_id}/resource-library/applications
 
-List applications with different filters.
+##### [Get application](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/applications/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/resource-library/applications/{id}
 
-- `account_id: string`
+##### [Create application](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/applications/methods/create)
 
-### Query Parameters
+POST/accounts/{account\_id}/resource-library/applications
 
-- `filter: optional string`
+##### [Update application](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/applications/methods/update)
 
-  Filter applications using key:value format. Supported filter keys:
+PATCH/accounts/{account\_id}/resource-library/applications/{id}
 
-  - name: Filter by application name (e.g., name:HR)
-  - id: Filter by application ID (e.g., id:0b63249c-95bf-4cc0-a7cc-d7faaaf1dac0)
-  - human_id: Filter by human-readable ID (e.g., human_id:HR)
-  - hostname: Filter by hostname or support domain (e.g., hostname:portal.example.com)
-  - source: Filter by application source name (e.g., source:cloudflare)
-  - ip_subnet: Filter by IP subnet using CIDR containment — returns applications where any stored subnet contains the search value (e.g., ip_subnet:10.0.1.5/32 matches apps with 10.0.0.0/16)
-  - intel_id: Filter by Intel API ID (e.g., intel_id:498). also supports multiple values (e.g., intel_id:498,1001)
-  - category_id: Filter by category ID (e.g., category_id:37f8ec03-8766-49d4-9a15-369b044c842c).
-  - category_name: Filter by category name (e.g., category_name:HR).
-  - supported: Filter by supported Cloudflare product (e.g., supported:ACCESS). Values: GATEWAY, ACCESS, CASB.
-    .
+##### [Delete application](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/applications/methods/delete)
 
-- `limit: optional number`
+DELETE/accounts/{account\_id}/resource-library/applications/{id}
 
-  Limit of number of results to return (max 250).
+##### ModelsExpand Collapse
 
-- `offset: optional number`
+<details>
 
-  Offset of results to return.
+<summary>
 
-- `order_by: optional string`
+ApplicationListResponse object {id, application\_confidence\_score, application\_score\_composition, 16 more }
 
-  Order results by field name and direction (e.g., name:asc). Ignored when search is provided; results are ranked by relevance instead.
+Describes one application in a list response. This endpoint returns every property below unless the <code>fields</code> query parameter narrows the response, so treat all of them except <code>id</code> as optional.
 
-- `search: optional string`
+</summary>
 
-  Fuzzy search across application name and hostnames. Results are ranked by relevance. Must be between 2 and 200 characters. Can be combined with filter parameters.
+id: number
 
-### Returns
+Returns the application ID.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatint64
 
-  - `code: number`
+maximum4294967295
 
-  - `message: string`
+minimum0
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+application\_confidence\_score: optional number
 
-    - `pointer: optional string`
+Confidence score for the application. Returns -1 when no score is available.
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatfloat
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+application\_score\_composition: optional unknown
 
-  - `documentation_url: optional string`
+Returns the score composition breakdown for the application.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+application\_source: optional string
 
-- `success: true`
+Returns the application source.
 
-  Indicates whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+application\_type: optional string
 
-- `result: optional array of object { id, application_confidence_score, application_source, 15 more }`
+Returns the application type.
 
-  Returns the list of applications.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+application\_type\_description: optional string
 
-    Returns the application ID.
+Returns the application type description.
 
-  - `application_confidence_score: number`
+<a href="#">Link to this property</a>
 
-    Confidence score for the application. Returns -1 when no score is available.
+category\_id: optional number
 
-  - `application_source: string`
+Returns the category ID.
 
-    Returns the application source.
+formatint64
 
-  - `application_type: string`
+maximum4294967295
 
-    Returns the application type.
+minimum1
 
-  - `application_type_description: string`
+<a href="#">Link to this property</a>
 
-    Returns the application type description.
+created\_at: optional string
 
-  - `created_at: string`
+Returns the application creation time.
 
-    Returns the application creation time.
+<a href="#">Link to this property</a>
 
-  - `gen_ai_score: number`
+gen\_ai\_score: optional number
 
-    GenAI score for the application. Returns -1 when no score is available.
+GenAI score for the application. Returns -1 when no score is available.
 
-  - `hostnames: array of string`
+formatfloat
 
-    Returns the list of hostnames for the application.
+<a href="#">Link to this property</a>
 
-  - `human_id: string`
+hostnames: optional array of string
 
-    Returns the human readable ID.
+Hostnames matched by the application.
 
-  - `ip_subnets: array of string`
+<a href="#">Link to this property</a>
 
-    Returns the list of IP subnets for the application.
+human\_id: optional string
 
-  - `name: string`
+Returns the human readable ID.
 
-    Returns the application name.
+<a href="#">Link to this property</a>
 
-  - `port_protocols: array of string`
+ip\_subnets: optional array of string
 
-    Returns the list of port protocols for the application.
+IP subnets matched by the application.
 
-  - `support_domains: array of string`
+<a href="#">Link to this property</a>
 
-    Returns the list of support domains for the application.
+name: optional string
 
-  - `supported: array of "GATEWAY" or "ACCESS" or "CASB"`
+Returns the application name.
 
-    Cloudflare products that support this application.
+<a href="#">Link to this property</a>
 
-    - `"GATEWAY"`
+port\_protocols: optional array of string
 
-    - `"ACCESS"`
+Port and protocol pairs matched by the application.
 
-    - `"CASB"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+<details>
 
-    Returns the application update time.
+<summary>
 
-  - `version: string`
+review\_status: optional "approved"or "unapproved"or "in\_review"or "unreviewed"
 
-    Returns the application version.
+The account-specific Gateway review status. Applications with no assigned review status are returned as <code>unreviewed</code>.
 
-  - `application_score_composition: optional unknown`
+</summary>
 
-    Returns the score composition breakdown for the application.
+One of the following:
 
-  - `intel_id: optional number`
+"approved"
 
-    Returns the Intel API ID for the application.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+"unapproved"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Returns the total number of results for the requested service.
+"in\_review"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Returns the current page within paginated list of results.
+"unreviewed"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Returns the number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Returns the total results available without any search parameters.
+support\_domains: optional array of string
 
-### Example
+Support domains matched by the application.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/applications \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "12345678-1234-1234-1234-123456789012",
-      "application_confidence_score": 0.92,
-      "application_source": "cloudflare",
-      "application_type": "Human Resources",
-      "application_type_description": "Applications used to manage employees and workforce tools.",
-      "created_at": "2025-01-01T00:00:00Z",
-      "gen_ai_score": 1.5,
-      "hostnames": [
-        "example.com",
-        "foo.com"
-      ],
-      "human_id": "HR",
-      "ip_subnets": [
-        "192.168.1.0/24",
-        "10.0.0.0/8"
-      ],
-      "name": "HR",
-      "port_protocols": [
-        "tcp/80",
-        "tcp/443"
-      ],
-      "support_domains": [
-        "example.com",
-        "foo.com"
-      ],
-      "supported": [
-        "GATEWAY",
-        "ACCESS"
-      ],
-      "updated_at": "2025-01-01T00:00:00Z",
-      "version": "2025-01-01T00:00:00Z",
-      "application_score_composition": {
-        "categories": [
-          {
-            "confidence": 0.95,
-            "name": "Security"
-          }
-        ],
-        "plan": "free"
-      },
-      "intel_id": 498
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<summary>
 
-## Get application
+supported: optional array of "GATEWAY"or "ACCESS"or "CASB"
 
-**get** `/accounts/{account_id}/resource-library/applications/{id}`
+Cloudflare products that support this application.
 
-Get application by ID.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"GATEWAY"
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"ACCESS"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"CASB"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+updated\_at: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Returns the application update time.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+version: optional string
 
-  - `documentation_url: optional string`
+Returns the application version.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(model)%20application_list_response%20%3E%20(schema)>)
 
-  Indicates whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id, application_confidence_score, application_source, 15 more }`
+ApplicationGetResponse object {id, application\_confidence\_score, application\_source, 15 more }
 
-  - `id: string`
+</summary>
 
-    Returns the application ID.
+id: number
 
-  - `application_confidence_score: number`
+Returns the application ID.
 
-    Confidence score for the application. Returns -1 when no score is available.
+formatint64
 
-  - `application_source: string`
+maximum4294967295
 
-    Returns the application source.
+minimum0
 
-  - `application_type: string`
+<a href="#">Link to this property</a>
 
-    Returns the application type.
+application\_confidence\_score: number
 
-  - `application_type_description: string`
+Confidence score for the application. Returns -1 when no score is available.
 
-    Returns the application type description.
+formatfloat
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Returns the application creation time.
+application\_source: string
 
-  - `gen_ai_score: number`
+Returns the application source.
 
-    GenAI score for the application. Returns -1 when no score is available.
+<a href="#">Link to this property</a>
 
-  - `hostnames: array of string`
+application\_type: string
 
-    Returns the list of hostnames for the application.
+Returns the application type.
 
-  - `human_id: string`
+<a href="#">Link to this property</a>
 
-    Returns the human readable ID.
+application\_type\_description: string
 
-  - `ip_subnets: array of string`
+Returns the application type description.
 
-    Returns the list of IP subnets for the application.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+category\_id: number
 
-    Returns the application name.
+Returns the category ID.
 
-  - `port_protocols: array of string`
+formatint64
 
-    Returns the list of port protocols for the application.
+maximum4294967295
 
-  - `support_domains: array of string`
+minimum1
 
-    Returns the list of support domains for the application.
+<a href="#">Link to this property</a>
 
-  - `supported: array of "GATEWAY" or "ACCESS" or "CASB"`
+created\_at: string
 
-    Cloudflare products that support this application.
+Returns the application creation time.
 
-    - `"GATEWAY"`
+<a href="#">Link to this property</a>
 
-    - `"ACCESS"`
+gen\_ai\_score: number
 
-    - `"CASB"`
+GenAI score for the application. Returns -1 when no score is available.
 
-  - `updated_at: string`
+formatfloat
 
-    Returns the application update time.
+<a href="#">Link to this property</a>
 
-  - `version: string`
+hostnames: array of string
 
-    Returns the application version.
+Hostnames matched by the application.
 
-  - `application_score_composition: optional unknown`
+<a href="#">Link to this property</a>
 
-    Returns the score composition breakdown for the application.
+human\_id: string
 
-  - `intel_id: optional number`
+Returns the human readable ID.
 
-    Returns the Intel API ID for the application.
+<a href="#">Link to this property</a>
 
-### Example
+ip\_subnets: array of string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/applications/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+IP subnets matched by the application.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "12345678-1234-1234-1234-123456789012",
-    "application_confidence_score": 0.92,
-    "application_source": "cloudflare",
-    "application_type": "Human Resources",
-    "application_type_description": "Applications used to manage employees and workforce tools.",
-    "created_at": "2025-01-01T00:00:00Z",
-    "gen_ai_score": 1.5,
-    "hostnames": [
-      "example.com",
-      "foo.com"
-    ],
-    "human_id": "HR",
-    "ip_subnets": [
-      "192.168.1.0/24",
-      "10.0.0.0/8"
-    ],
-    "name": "HR",
-    "port_protocols": [
-      "tcp/80",
-      "tcp/443"
-    ],
-    "support_domains": [
-      "example.com",
-      "foo.com"
-    ],
-    "supported": [
-      "GATEWAY",
-      "ACCESS"
-    ],
-    "updated_at": "2025-01-01T00:00:00Z",
-    "version": "2025-01-01T00:00:00Z",
-    "application_score_composition": {
-      "categories": [
-        {
-          "confidence": 0.95,
-          "name": "Security"
-        }
-      ],
-      "plan": "free"
-    },
-    "intel_id": 498
-  }
-}
-```
+name: string
 
-## Domain Types
+Returns the application name.
 
-### Application List Response
+<a href="#">Link to this property</a>
 
-- `ApplicationListResponse object { id, application_confidence_score, application_source, 15 more }`
+port\_protocols: array of string
 
-  - `id: string`
+Port and protocol pairs matched by the application.
 
-    Returns the application ID.
+<a href="#">Link to this property</a>
 
-  - `application_confidence_score: number`
+support\_domains: array of string
 
-    Confidence score for the application. Returns -1 when no score is available.
+Support domains matched by the application.
 
-  - `application_source: string`
+<a href="#">Link to this property</a>
 
-    Returns the application source.
+<details>
 
-  - `application_type: string`
+<summary>
 
-    Returns the application type.
+supported: array of "GATEWAY"or "ACCESS"or "CASB"
 
-  - `application_type_description: string`
+Cloudflare products that support this application.
 
-    Returns the application type description.
+</summary>
 
-  - `created_at: string`
+One of the following:
 
-    Returns the application creation time.
+"GATEWAY"
 
-  - `gen_ai_score: number`
+<a href="#">Link to this property</a>
 
-    GenAI score for the application. Returns -1 when no score is available.
+"ACCESS"
 
-  - `hostnames: array of string`
+<a href="#">Link to this property</a>
 
-    Returns the list of hostnames for the application.
+"CASB"
 
-  - `human_id: string`
+<a href="#">Link to this property</a>
 
-    Returns the human readable ID.
+</details>
 
-  - `ip_subnets: array of string`
+<a href="#">Link to this property</a>
 
-    Returns the list of IP subnets for the application.
+updated\_at: string
 
-  - `name: string`
+Returns the application update time.
 
-    Returns the application name.
+<a href="#">Link to this property</a>
 
-  - `port_protocols: array of string`
+version: string
 
-    Returns the list of port protocols for the application.
+Returns the application version.
 
-  - `support_domains: array of string`
+<a href="#">Link to this property</a>
 
-    Returns the list of support domains for the application.
+application\_score\_composition: optional unknown
 
-  - `supported: array of "GATEWAY" or "ACCESS" or "CASB"`
+Returns the score composition breakdown for the application.
 
-    Cloudflare products that support this application.
+<a href="#">Link to this property</a>
 
-    - `"GATEWAY"`
+</details>
 
-    - `"ACCESS"`
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(model)%20application_get_response%20%3E%20(schema)>)
 
-    - `"CASB"`
+<details>
 
-  - `updated_at: string`
+<summary>
 
-    Returns the application update time.
+ApplicationCreateResponse object {id, application\_confidence\_score, application\_source, 15 more }
 
-  - `version: string`
+</summary>
 
-    Returns the application version.
+id: number
 
-  - `application_score_composition: optional unknown`
+Returns the application ID.
 
-    Returns the score composition breakdown for the application.
+formatint64
 
-  - `intel_id: optional number`
+maximum4294967295
 
-    Returns the Intel API ID for the application.
+minimum0
 
-### Application Get Response
+<a href="#">Link to this property</a>
 
-- `ApplicationGetResponse object { id, application_confidence_score, application_source, 15 more }`
+application\_confidence\_score: number
 
-  - `id: string`
+Confidence score for the application. Returns -1 when no score is available.
 
-    Returns the application ID.
+formatfloat
 
-  - `application_confidence_score: number`
+<a href="#">Link to this property</a>
 
-    Confidence score for the application. Returns -1 when no score is available.
+application\_source: string
 
-  - `application_source: string`
+Returns the application source.
 
-    Returns the application source.
+<a href="#">Link to this property</a>
 
-  - `application_type: string`
+application\_type: string
 
-    Returns the application type.
+Returns the application type.
 
-  - `application_type_description: string`
+<a href="#">Link to this property</a>
 
-    Returns the application type description.
+application\_type\_description: string
 
-  - `created_at: string`
+Returns the application type description.
 
-    Returns the application creation time.
+<a href="#">Link to this property</a>
 
-  - `gen_ai_score: number`
+category\_id: number
 
-    GenAI score for the application. Returns -1 when no score is available.
+Returns the category ID.
 
-  - `hostnames: array of string`
+formatint64
 
-    Returns the list of hostnames for the application.
+maximum4294967295
 
-  - `human_id: string`
+minimum1
 
-    Returns the human readable ID.
+<a href="#">Link to this property</a>
 
-  - `ip_subnets: array of string`
+created\_at: string
 
-    Returns the list of IP subnets for the application.
+Returns the application creation time.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Returns the application name.
+gen\_ai\_score: number
 
-  - `port_protocols: array of string`
+GenAI score for the application. Returns -1 when no score is available.
 
-    Returns the list of port protocols for the application.
+formatfloat
 
-  - `support_domains: array of string`
+<a href="#">Link to this property</a>
 
-    Returns the list of support domains for the application.
+hostnames: array of string
 
-  - `supported: array of "GATEWAY" or "ACCESS" or "CASB"`
+Hostnames matched by the application.
 
-    Cloudflare products that support this application.
+<a href="#">Link to this property</a>
 
-    - `"GATEWAY"`
+human\_id: string
 
-    - `"ACCESS"`
+Returns the human readable ID.
 
-    - `"CASB"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+ip\_subnets: array of string
 
-    Returns the application update time.
+IP subnets matched by the application.
 
-  - `version: string`
+<a href="#">Link to this property</a>
 
-    Returns the application version.
+name: string
 
-  - `application_score_composition: optional unknown`
+Returns the application name.
 
-    Returns the score composition breakdown for the application.
+<a href="#">Link to this property</a>
 
-  - `intel_id: optional number`
+port\_protocols: array of string
 
-    Returns the Intel API ID for the application.
+Port and protocol pairs matched by the application.
+
+<a href="#">Link to this property</a>
+
+support\_domains: array of string
+
+Support domains matched by the application.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+supported: array of "GATEWAY"or "ACCESS"or "CASB"
+
+Cloudflare products that support this application.
+
+</summary>
+
+One of the following:
+
+"GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"ACCESS"
+
+<a href="#">Link to this property</a>
+
+"CASB"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Returns the application update time.
+
+<a href="#">Link to this property</a>
+
+version: string
+
+Returns the application version.
+
+<a href="#">Link to this property</a>
+
+application\_score\_composition: optional unknown
+
+Returns the score composition breakdown for the application.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(model)%20application_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ApplicationUpdateResponse object {id, application\_confidence\_score, application\_source, 15 more }
+
+</summary>
+
+id: number
+
+Returns the application ID.
+
+formatint64
+
+maximum4294967295
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+application\_confidence\_score: number
+
+Confidence score for the application. Returns -1 when no score is available.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+application\_source: string
+
+Returns the application source.
+
+<a href="#">Link to this property</a>
+
+application\_type: string
+
+Returns the application type.
+
+<a href="#">Link to this property</a>
+
+application\_type\_description: string
+
+Returns the application type description.
+
+<a href="#">Link to this property</a>
+
+category\_id: number
+
+Returns the category ID.
+
+formatint64
+
+maximum4294967295
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Returns the application creation time.
+
+<a href="#">Link to this property</a>
+
+gen\_ai\_score: number
+
+GenAI score for the application. Returns -1 when no score is available.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+hostnames: array of string
+
+Hostnames matched by the application.
+
+<a href="#">Link to this property</a>
+
+human\_id: string
+
+Returns the human readable ID.
+
+<a href="#">Link to this property</a>
+
+ip\_subnets: array of string
+
+IP subnets matched by the application.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Returns the application name.
+
+<a href="#">Link to this property</a>
+
+port\_protocols: array of string
+
+Port and protocol pairs matched by the application.
+
+<a href="#">Link to this property</a>
+
+support\_domains: array of string
+
+Support domains matched by the application.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+supported: array of "GATEWAY"or "ACCESS"or "CASB"
+
+Cloudflare products that support this application.
+
+</summary>
+
+One of the following:
+
+"GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"ACCESS"
+
+<a href="#">Link to this property</a>
+
+"CASB"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Returns the application update time.
+
+<a href="#">Link to this property</a>
+
+version: string
+
+Returns the application version.
+
+<a href="#">Link to this property</a>
+
+application\_score\_composition: optional unknown
+
+Returns the score composition breakdown for the application.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(model)%20application_update_response%20%3E%20(schema)>)
+
+ApplicationDeleteResponse = unknown
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(model)%20application_delete_response%20%3E%20(schema)>)

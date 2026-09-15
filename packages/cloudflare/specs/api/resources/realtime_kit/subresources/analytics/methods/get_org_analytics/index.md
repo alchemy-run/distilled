@@ -1,97 +1,251 @@
-## Fetch day-wise session and recording analytics data for an App
+---
+title: Fetch day-wise session and recording analytics data for an App
+---
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/daywise`
+[Skip to content](#_top)
 
-Returns day-wise session and recording analytics data of an App for the specified time range start_date to end_date. If start_date and end_date are not provided, the default time range is set from 30 days ago to the current date.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
 
-- `account_id: string`
+[Analytics](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/analytics)
 
-  The account identifier tag.
+Copy Markdown
 
-- `app_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  The app identifier tag.
+---
 
-### Query Parameters
+**Copy Markdown****View as Markdown**
 
-- `end_date: optional string`
+# Fetch day-wise session and recording analytics data for an App
 
-  end date in YYYY-MM-DD format
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/analytics/daywise
 
-- `start_date: optional string`
+Returns day-wise session and recording analytics data of an App for the specified time range start\_date to end\_date. If start\_date and end\_date are not provided, the default time range is set from 30 days ago to the current date.
 
-  start date in YYYY-MM-DD format
+##### Security
 
-### Returns
+API Token
 
-- `data: optional object { recording_stats, session_stats }`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-  - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-    Recording statistics of an App during the range specified
+##### Accepted Permissions (at least one required)
 
-    - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+`Realtime Admin``Realtime`
 
-      Day wise recording stats
+##### P ath ParametersExpand Collapse
 
-      - `day: optional string`
+account\_id: string
 
-      - `total_recording_minutes: optional number`
+The account identifier tag.
 
-        Total recording minutes for a specific day
+maxLength32
 
-      - `total_recordings: optional number`
+[Link to this property](#)%20realtime_kit.analytics%20%3E%20(method)%20get_org_analytics%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        Total number of recordings for a specific day
+app\_id: string
 
-    - `recording_count: optional number`
+The app identifier tag.
 
-      Total number of recordings during the range specified
+maxLength32
 
-    - `recording_minutes_consumed: optional number`
+[Link to this property](#)%20realtime_kit.analytics%20%3E%20(method)%20get_org_analytics%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
 
-      Total recording minutes during the range specified
+##### Q uery ParametersExpand Collapse
 
-  - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+end\_date: optional string
 
-    Session statistics of an App during the range specified
+end date in YYYY-MM-DD format
 
-    - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+[Link to this property](#)%20realtime_kit.analytics%20%3E%20(method)%20get_org_analytics%20%3E%20(params)%20default%20%3E%20(param)%20end_date%20%3E%20(schema)>)
 
-      Day wise session stats
+start\_date: optional string
 
-      - `day: optional string`
+start date in YYYY-MM-DD format
 
-      - `total_session_minutes: optional number`
+[Link to this property](#)%20realtime_kit.analytics%20%3E%20(method)%20get_org_analytics%20%3E%20(params)%20default%20%3E%20(param)%20start_date%20%3E%20(schema)>)
 
-        Total session minutes for a specific day
+##### ReturnsExpand Collapse
 
-      - `total_sessions: optional number`
+<details>
 
-        Total number of sessions for a specific day
+<summary>
 
-    - `sessions_count: optional number`
+data: optional object {recording\_stats, session\_stats }
 
-      Total number of sessions during the range specified
+</summary>
 
-    - `sessions_minutes_consumed: optional number`
+<details>
 
-      Total session minutes during the range specified
+<summary>
 
-- `success: optional boolean`
+recording\_stats: optional object {day\_stats, recording\_count, recording\_minutes\_consumed }
 
-### Example
+Recording statistics of an App during the range specified
 
-```http
+</summary>
+
+<details>
+
+<summary>
+
+day\_stats: optional array of object {day, total\_recording\_minutes, total\_recordings }
+
+Day wise recording stats
+
+</summary>
+
+day: optional string
+
+<a href="#">Link to this property</a>
+
+total\_recording\_minutes: optional number
+
+Total recording minutes for a specific day
+
+<a href="#">Link to this property</a>
+
+total\_recordings: optional number
+
+Total number of recordings for a specific day
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+recording\_count: optional number
+
+Total number of recordings during the range specified
+
+<a href="#">Link to this property</a>
+
+recording\_minutes\_consumed: optional number
+
+Total recording minutes during the range specified
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+session\_stats: optional object {day\_stats, sessions\_count, sessions\_minutes\_consumed }
+
+Session statistics of an App during the range specified
+
+</summary>
+
+<details>
+
+<summary>
+
+day\_stats: optional array of object {day, total\_session\_minutes, total\_sessions }
+
+Day wise session stats
+
+</summary>
+
+day: optional string
+
+<a href="#">Link to this property</a>
+
+total\_session\_minutes: optional number
+
+Total session minutes for a specific day
+
+<a href="#">Link to this property</a>
+
+total\_sessions: optional number
+
+Total number of sessions for a specific day
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+sessions\_count: optional number
+
+Total number of sessions during the range specified
+
+<a href="#">Link to this property</a>
+
+sessions\_minutes\_consumed: optional number
+
+Total session minutes during the range specified
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.analytics%20%3E%20(model)%20analytics_get_org_analytics_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+success: optional boolean
+
+[Link to this property](#)%20realtime_kit.analytics%20%3E%20(model)%20analytics_get_org_analytics_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Fetch day-wise session and recording analytics data for an App
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/daywise \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "data": {
+    "recording_stats": {
+      "day_stats": [
+        {
+          "day": "day",
+          "total_recording_minutes": 0,
+          "total_recordings": 0
+        }
+      ],
+      "recording_count": 0,
+      "recording_minutes_consumed": 0
+    },
+    "session_stats": {
+      "day_stats": [
+        {
+          "day": "day",
+          "total_session_minutes": 0,
+          "total_sessions": 0
+        }
+      ],
+      "sessions_count": 0,
+      "sessions_minutes_consumed": 0
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "data": {
     "recording_stats": {

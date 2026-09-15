@@ -1,531 +1,285 @@
+---
+title: Cache Reserve
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cache](https://developers.cloudflare.com/api/resources/cache)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Cache Reserve
 
-## Get Cache Reserve setting
+##### [Get Cache Reserve setting](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve/methods/get)
 
-**get** `/zones/{zone_id}/cache/cache_reserve`
+GET/zones/{zone\_id}/cache/cache\_reserve
 
-Increase cache lifetimes by automatically storing all cacheable files into Cloudflare's persistent object storage buckets. Requires Cache Reserve subscription. Note: using Tiered Cache with Cache Reserve is highly recommended to reduce Reserve operations costs. See the [developer docs](https://developers.cloudflare.com/cache/about/cache-reserve) for more information.
+##### [Change Cache Reserve setting](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/cache/cache\_reserve
 
-- `zone_id: string`
+##### [Get Cache Reserve Clear](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve/methods/status)
 
-  Identifier.
+GET/zones/{zone\_id}/cache/cache\_reserve\_clear
 
-### Returns
+##### [Start Cache Reserve Clear](https://developers.cloudflare.com/api/resources/cache/subresources/cache_reserve/methods/clear)
 
-- `errors: array of ResponseInfo`
+POST/zones/{zone\_id}/cache/cache\_reserve\_clear
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+CacheReserve = "cache\_reserve"
 
-  - `documentation_url: optional string`
+The identifier of the caching setting.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+CacheReserveClear = "cache\_reserve\_clear"
 
-- `messages: array of ResponseInfo`
+ID of the zone setting.
 
-  - `code: number`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+State = "In-progress"or "Completed"
 
-- `success: true`
+The current state of the Cache Reserve Clear operation.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional object { id, editable, value, modified_on }`
+"In-progress"
 
-  - `id: CacheReserve`
+<a href="#">Link to this property</a>
 
-    The identifier of the caching setting.
+"Completed"
 
-    - `"cache_reserve"`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+</details>
 
-    Whether the setting is editable.
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20state%20%3E%20(schema)>)
 
-  - `value: "on" or "off"`
+<details>
 
-    Value of the Cache Reserve zone setting.
+<summary>
 
-    - `"on"`
+CacheReserveGetResponse object {id, editable, value, modified\_on }
 
-    - `"off"`
+</summary>
 
-  - `modified_on: optional string`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve%20%3E%20(schema)">CacheReserve</a>
 
-    Last time this setting was modified.
+The identifier of the caching setting.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+editable: boolean
 
-#### Response
+Whether the setting is editable.
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "cache_reserve",
-    "value": "off"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Change Cache Reserve setting
+<details>
 
-**patch** `/zones/{zone_id}/cache/cache_reserve`
+<summary>
 
-Increase cache lifetimes by automatically storing all cacheable files into Cloudflare's persistent object storage buckets. Requires Cache Reserve subscription. Note: using Tiered Cache with Cache Reserve is highly recommended to reduce Reserve operations costs. See the [developer docs](https://developers.cloudflare.com/cache/about/cache-reserve) for more information.
+value: "on"or "off"
 
-### Path Parameters
+Value of the Cache Reserve zone setting.
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+One of the following:
 
-### Body Parameters
+"on"
 
-- `value: "on" or "off"`
+<a href="#">Link to this property</a>
 
-  Value of the Cache Reserve zone setting.
+"off"
 
-  - `"on"`
+<a href="#">Link to this property</a>
 
-  - `"off"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+modified\_on: optional string
 
-  - `code: number`
+Last time this setting was modified.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_get_response%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+CacheReserveEditResponse object {id, editable, value, modified\_on }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve%20%3E%20(schema)">CacheReserve</a>
 
-- `success: true`
+The identifier of the caching setting.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+editable: boolean
 
-- `result: optional object { id, editable, value, modified_on }`
+Whether the setting is editable.
 
-  - `id: CacheReserve`
+<a href="#">Link to this property</a>
 
-    The identifier of the caching setting.
+<details>
 
-    - `"cache_reserve"`
+<summary>
 
-  - `editable: boolean`
+value: "on"or "off"
 
-    Whether the setting is editable.
+Value of the Cache Reserve zone setting.
 
-  - `value: "on" or "off"`
+</summary>
 
-    Value of the Cache Reserve zone setting.
+One of the following:
 
-    - `"on"`
+"on"
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+"off"
 
-    Last time this setting was modified.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+modified\_on: optional string
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "cache_reserve",
-    "value": "on"
-  },
-  "success": true
-}
-```
+Last time this setting was modified.
 
-## Get Cache Reserve Clear
+formatdate-time
 
-**get** `/zones/{zone_id}/cache/cache_reserve_clear`
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+CacheReserveStatusResponse object {id, start\_ts, state, 2 more }
 
 You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)">CacheReserveClear</a>
 
-  Identifier.
+ID of the zone setting.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+start\_ts: string
 
-  - `code: number`
+The time that the latest Cache Reserve Clear operation started.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+state: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20state%20%3E%20(schema)">State</a>
 
-    - `pointer: optional string`
+The current state of the Cache Reserve Clear operation.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+end\_ts: optional string
 
-  - `message: string`
+The time that the latest Cache Reserve Clear operation completed.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+modified\_on: optional string
 
-  Whether the API call was successful.
+Last time this setting was modified.
 
-  - `true`
+formatdate-time
 
-- `result: optional object { id, start_ts, state, 2 more }`
+<a href="#">Link to this property</a>
 
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
+</details>
 
-  - `id: CacheReserveClear`
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_status_response%20%3E%20(schema)>)
 
-    ID of the zone setting.
+<details>
 
-    - `"cache_reserve_clear"`
+<summary>
 
-  - `start_ts: string`
-
-    The time that the latest Cache Reserve Clear operation started.
-
-  - `state: State`
-
-    The current state of the Cache Reserve Clear operation.
-
-    - `"In-progress"`
-
-    - `"Completed"`
-
-  - `end_ts: optional string`
-
-    The time that the latest Cache Reserve Clear operation completed.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve_clear \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "end_ts": "2023-10-02T12:00:00.12345Z",
-    "id": "cache_reserve_clear",
-    "start_ts": "2023-10-02T10:00:00.12345Z",
-    "state": "Completed"
-  },
-  "success": true
-}
-```
-
-## Start Cache Reserve Clear
-
-**post** `/zones/{zone_id}/cache/cache_reserve_clear`
+CacheReserveClearResponse object {id, start\_ts, state, 2 more }
 
 You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear%20%3E%20(schema)">CacheReserveClear</a>
 
-  Identifier.
+ID of the zone setting.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: unknown`
+start\_ts: string
 
-### Returns
+The time that the latest Cache Reserve Clear operation started.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+state: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.cache_reserve%20%3E%20(model)%20state%20%3E%20(schema)">State</a>
 
-  - `documentation_url: optional string`
+The current state of the Cache Reserve Clear operation.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+end\_ts: optional string
 
-- `messages: array of ResponseInfo`
+The time that the latest Cache Reserve Clear operation completed.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: optional string
 
-  - `source: optional object { pointer }`
+Last time this setting was modified.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id, start_ts, state, 2 more }`
-
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
-
-  - `id: CacheReserveClear`
-
-    ID of the zone setting.
-
-    - `"cache_reserve_clear"`
-
-  - `start_ts: string`
-
-    The time that the latest Cache Reserve Clear operation started.
-
-  - `state: State`
-
-    The current state of the Cache Reserve Clear operation.
-
-    - `"In-progress"`
-
-    - `"Completed"`
-
-  - `end_ts: optional string`
-
-    The time that the latest Cache Reserve Clear operation completed.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/cache_reserve_clear \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "id": "cache_reserve_clear",
-    "start_ts": "2023-10-02T10:00:00.12345Z",
-    "state": "In-progress"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Cache Reserve
-
-- `CacheReserve = "cache_reserve"`
-
-  The identifier of the caching setting.
-
-  - `"cache_reserve"`
-
-### Cache Reserve Clear
-
-- `CacheReserveClear = "cache_reserve_clear"`
-
-  ID of the zone setting.
-
-  - `"cache_reserve_clear"`
-
-### State
-
-- `State = "In-progress" or "Completed"`
-
-  The current state of the Cache Reserve Clear operation.
-
-  - `"In-progress"`
-
-  - `"Completed"`
-
-### Cache Reserve Get Response
-
-- `CacheReserveGetResponse object { id, editable, value, modified_on }`
-
-  - `id: CacheReserve`
-
-    The identifier of the caching setting.
-
-    - `"cache_reserve"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Cache Reserve zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Cache Reserve Edit Response
-
-- `CacheReserveEditResponse object { id, editable, value, modified_on }`
-
-  - `id: CacheReserve`
-
-    The identifier of the caching setting.
-
-    - `"cache_reserve"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Cache Reserve zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Cache Reserve Status Response
-
-- `CacheReserveStatusResponse object { id, start_ts, state, 2 more }`
-
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
-
-  - `id: CacheReserveClear`
-
-    ID of the zone setting.
-
-    - `"cache_reserve_clear"`
-
-  - `start_ts: string`
-
-    The time that the latest Cache Reserve Clear operation started.
-
-  - `state: State`
-
-    The current state of the Cache Reserve Clear operation.
-
-    - `"In-progress"`
-
-    - `"Completed"`
-
-  - `end_ts: optional string`
-
-    The time that the latest Cache Reserve Clear operation completed.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Cache Reserve Clear Response
-
-- `CacheReserveClearResponse object { id, start_ts, state, 2 more }`
-
-  You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation.
-
-  - `id: CacheReserveClear`
-
-    ID of the zone setting.
-
-    - `"cache_reserve_clear"`
-
-  - `start_ts: string`
-
-    The time that the latest Cache Reserve Clear operation started.
-
-  - `state: State`
-
-    The current state of the Cache Reserve Clear operation.
-
-    - `"In-progress"`
-
-    - `"Completed"`
-
-  - `end_ts: optional string`
-
-    The time that the latest Cache Reserve Clear operation completed.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20cache.cache_reserve%20%3E%20(model)%20cache_reserve_clear_response%20%3E%20(schema)>)

@@ -1,139 +1,401 @@
-## Get Smart Shield Settings
+---
+title: Get Smart Shield Settings
+---
 
-**get** `/zones/{zone_id}/smart_shield`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Smart Shield](https://developers.cloudflare.com/api/resources/smart_shield)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Smart Shield Settings
+
+GET/zones/{zone\_id}/smart\_shield
 
 Retrieve Smart Shield Settings.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `result: object { cache_reserve, healthchecks_count, regional_tiered_cache, 2 more }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  A consolidated object containing settings from multiple APIs for partial updates.
+</details>
 
-  - `cache_reserve: object { id, editable, value }`
+##### Accepted Permissions (at least one required)
 
-    - `id: optional string`
+`Zone Settings Write``Zone Settings Read``Zone Read``Zone Write`
 
-      The id of the Cache Reserve setting.
+##### P ath ParametersExpand Collapse
 
-    - `editable: optional boolean`
+zone\_id: string
 
-      Whether the setting is editable.
+Identifier.
 
-    - `value: optional "on" or "off"`
+maxLength32
 
-      Specifies the enablement value of Cache Reserve.
+[Link to this property](#)%20smart_shield%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-      - `"on"`
+##### ReturnsExpand Collapse
 
-      - `"off"`
+<details>
 
-  - `healthchecks_count: number`
+<summary>
 
-    The total number of health checks associated with the zone.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `regional_tiered_cache: object { id, editable, value }`
+</summary>
 
-    - `id: optional string`
+code: number
 
-      The id of the Regional Tiered Cache setting.
+minimum1000
 
-    - `editable: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the setting is editable.
+message: string
 
-    - `value: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-      Specifies the enablement value of Cache Reserve.
+documentation\_url: optional string
 
-      - `"on"`
+<a href="#">Link to this property</a>
 
-      - `"off"`
+<details>
 
-  - `smart_routing: object { id, editable, value }`
+<summary>
 
-    - `id: optional string`
+source: optional object {pointer }
 
-      The id of the Smart Routing setting.
+</summary>
 
-    - `editable: optional boolean`
+pointer: optional string
 
-      Whether the setting is editable.
+<a href="#">Link to this property</a>
 
-    - `value: optional "on" or "off"`
+</details>
 
-      Specifies the enablement value of Argo Smart Routing.
+<a href="#">Link to this property</a>
 
-      - `"on"`
+</details>
 
-      - `"off"`
+[Link to this property](#)%20smart_shield%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `smart_tiered_cache: object { id, editable, modified_on, value }`
+<details>
 
-    - `id: optional string`
+<summary>
 
-      The id of the Smart Tiered Cache setting.
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `editable: optional boolean`
+</summary>
 
-      Whether the setting is editable.
+code: number
 
-    - `modified_on: optional string`
+minimum1000
 
-      The last time the setting was modified.
+<a href="#">Link to this property</a>
 
-    - `value: optional "on" or "off"`
+message: string
 
-      Specifies the enablement value of Tiered Cache.
+<a href="#">Link to this property</a>
 
-      - `"on"`
+documentation\_url: optional string
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+source: optional object {pointer }
 
-### Example
+</summary>
 
-```http
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20smart_shield%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {cache\_reserve, healthchecks\_count, regional\_tiered\_cache, 2 more }
+
+A consolidated object containing settings from multiple APIs for partial updates.
+
+</summary>
+
+<details>
+
+<summary>
+
+cache\_reserve: object {id, editable, value }
+
+</summary>
+
+id: optional string
+
+The id of the Cache Reserve setting.
+
+<a href="#">Link to this property</a>
+
+editable: optional boolean
+
+Whether the setting is editable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+Specifies the enablement value of Cache Reserve.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+healthchecks\_count: number
+
+The total number of health checks associated with the zone.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+regional\_tiered\_cache: object {id, editable, value }
+
+</summary>
+
+id: optional string
+
+The id of the Regional Tiered Cache setting.
+
+<a href="#">Link to this property</a>
+
+editable: optional boolean
+
+Whether the setting is editable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+Specifies the enablement value of Cache Reserve.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+smart\_routing: object {id, editable, value }
+
+</summary>
+
+id: optional string
+
+The id of the Smart Routing setting.
+
+<a href="#">Link to this property</a>
+
+editable: optional boolean
+
+Whether the setting is editable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+Specifies the enablement value of Argo Smart Routing.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+smart\_tiered\_cache: object {id, editable, modified\_on, value }
+
+</summary>
+
+id: optional string
+
+The id of the Smart Tiered Cache setting.
+
+<a href="#">Link to this property</a>
+
+editable: optional boolean
+
+Whether the setting is editable.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+The last time the setting was modified.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "on"or "off"
+
+Specifies the enablement value of Tiered Cache.
+
+</summary>
+
+One of the following:
+
+"on"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20smart_shield%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20smart_shield%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get Smart Shield Settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/smart_shield \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+500 example
+
+502 example
+
+4XX example
+
+```
 {
   "errors": [
     {
@@ -180,5 +442,213 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/smart_shield \
     }
   },
   "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1137,
+      "message": "Unable to process request. Internal error."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1016,
+      "message": "Unable to retrieve smart_tiered_cache."
+    },
+    {
+      "code": 1016,
+      "message": "Unable to retrieve cache_reserve."
+    },
+    {
+      "code": 1016,
+      "message": "Unable to retrieve smart_routing."
+    },
+    {
+      "code": 1016,
+      "message": "Unable to retrieve regional_tiered_cache."
+    },
+    {
+      "code": 1016,
+      "message": "Unable to retrieve healthchecks_count."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock smart_tiered_cache."
+    },
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock argo_smart_routing."
+    },
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock regional_tiered_cache."
+    },
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock cache_reserve."
+    },
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock healthchecks_count."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+##### Returns Examples
+
+200 example
+
+500 example
+
+502 example
+
+4XX example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "cache_reserve": {
+      "id": "cache_reserve",
+      "editable": true,
+      "value": "off"
+    },
+    "healthchecks_count": 5,
+    "regional_tiered_cache": {
+      "id": "regional_tiered_cache",
+      "editable": true,
+      "value": "off"
+    },
+    "smart_routing": {
+      "id": "smart_routing",
+      "editable": true,
+      "value": "off"
+    },
+    "smart_tiered_cache": {
+      "id": "smart_tiered_cache",
+      "editable": true,
+      "modified_on": "2025-09-10T22:53:22.946098Z",
+      "value": "on"
+    }
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1137,
+      "message": "Unable to process request. Internal error."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1016,
+      "message": "Unable to retrieve smart_tiered_cache."
+    },
+    {
+      "code": 1016,
+      "message": "Unable to retrieve cache_reserve."
+    },
+    {
+      "code": 1016,
+      "message": "Unable to retrieve smart_routing."
+    },
+    {
+      "code": 1016,
+      "message": "Unable to retrieve regional_tiered_cache."
+    },
+    {
+      "code": 1016,
+      "message": "Unable to retrieve healthchecks_count."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
+}
+```
+
+```
+{
+  "errors": [
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock smart_tiered_cache."
+    },
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock argo_smart_routing."
+    },
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock regional_tiered_cache."
+    },
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock cache_reserve."
+    },
+    {
+      "code": 1034,
+      "message": "Upgrade Smart Shield to unlock healthchecks_count."
+    }
+  ],
+  "messages": [],
+  "result": null,
+  "success": false
 }
 ```

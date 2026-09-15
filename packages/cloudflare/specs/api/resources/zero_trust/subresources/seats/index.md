@@ -1,183 +1,69 @@
+---
+title: Seats
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Seats
 
-## Update a user seat
+##### [Update a user seat](https://developers.cloudflare.com/api/resources/zero_trust/subresources/seats/methods/edit)
 
-**patch** `/accounts/{account_id}/access/seats`
+PATCH/accounts/{account\_id}/access/seats
 
-Removes a user from a Zero Trust seat when both `access_seat` and `gateway_seat` are set to false.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+Seat object {access\_seat, created\_at, gateway\_seat, 2 more }
 
-### Body Parameters
+</summary>
 
-- `body: array of object { access_seat, gateway_seat, seat_uid }`
+access\_seat: optional boolean
 
-  - `access_seat: boolean`
+True if the seat is part of Access.
 
-    True if the seat is part of Access.
+<a href="#">Link to this property</a>
 
-  - `gateway_seat: boolean`
+created\_at: optional string
 
-    True if the seat is part of Gateway.
+formatdate-time
 
-  - `seat_uid: string`
+<a href="#">Link to this property</a>
 
-    The unique API identifier for the Zero Trust seat.
+gateway\_seat: optional boolean
 
-### Returns
+True if the seat is part of Gateway.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+seat\_uid: optional string
 
-  - `message: string`
+The unique API identifier for the Zero Trust seat.
 
-  - `documentation_url: optional string`
+maxLength36
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+updated\_at: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Seat`
-
-  - `access_seat: optional boolean`
-
-    True if the seat is part of Access.
-
-  - `created_at: optional string`
-
-  - `gateway_seat: optional boolean`
-
-    True if the seat is part of Gateway.
-
-  - `seat_uid: optional string`
-
-    The unique API identifier for the Zero Trust seat.
-
-  - `updated_at: optional string`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/seats \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "access_seat": false,
-            "gateway_seat": false,
-            "seat_uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "access_seat": false,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "gateway_seat": false,
-      "seat_uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "updated_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Seat
-
-- `Seat object { access_seat, created_at, gateway_seat, 2 more }`
-
-  - `access_seat: optional boolean`
-
-    True if the seat is part of Access.
-
-  - `created_at: optional string`
-
-  - `gateway_seat: optional boolean`
-
-    True if the seat is part of Gateway.
-
-  - `seat_uid: optional string`
-
-    The unique API identifier for the Zero Trust seat.
-
-  - `updated_at: optional string`
+[Link to this property](#)%20zero_trust.seats%20%3E%20(model)%20seat%20%3E%20(schema)>)

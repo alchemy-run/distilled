@@ -1,424 +1,243 @@
+---
+title: Items
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[Allowlist](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Items
 
-## Get allowlist prefix.
+##### [Get allowlist prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/subresources/items/methods/get)
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist/{prefix\_id}
 
-Get an allowlist prefix specified by the given UUID.
+##### [Update allowlist prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/subresources/items/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist/{prefix\_id}
 
-- `account_id: string`
+##### [Delete allowlist prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/subresources/items/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist/{prefix\_id}
 
-- `prefix_id: string`
+##### ModelsExpand Collapse
 
-  UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ItemGetResponse object {id, comment, created\_on, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique ID of the allowlist prefix.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+comment: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+An optional comment describing the allowlist prefix.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+The creation timestamp of the allowlist prefix.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+enabled: boolean
 
-  Whether the API call was successful.
+Whether to enable the allowlist prefix into effect. Defaults to false.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+modified\_on: string
 
-  - `id: string`
+The last modification timestamp of the allowlist prefix.
 
-    The unique ID of the allowlist prefix.
+formatdate-time
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    An optional comment describing the allowlist prefix.
+prefix: string
 
-  - `created_on: string`
+The allowlist prefix in CIDR format.
 
-    The creation timestamp of the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-  - `modified_on: string`
+<details>
 
-    The last modification timestamp of the allowlist prefix.
+<summary>
 
-  - `prefix: string`
+ItemEditResponse object {id, comment, created\_on, 3 more }
 
-    The allowlist prefix in CIDR format.
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist/$PREFIX_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The unique ID of the allowlist prefix.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "prefix"
-  }
-}
-```
+comment: string
 
-## Update allowlist prefix.
+An optional comment describing the allowlist prefix.
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}`
+<a href="#">Link to this property</a>
 
-Update an allowlist prefix specified by the given UUID.
+created\_on: string
 
-### Path Parameters
+The creation timestamp of the allowlist prefix.
 
-- `account_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `prefix_id: string`
+enabled: boolean
 
-  UUID.
+Whether to enable the allowlist prefix into effect. Defaults to false.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `comment: optional string`
+modified\_on: string
 
-  A comment describing the allowlist prefix. Optional.
+The last modification timestamp of the allowlist prefix.
 
-- `enabled: optional boolean`
+formatdate-time
 
-  Whether to enable the allowlist prefix into effect. Optional.
+<a href="#">Link to this property</a>
 
-### Returns
+prefix: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The allowlist prefix in CIDR format.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+ItemDeleteResponse object {errors, messages, success }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+code: number
 
-  Whether the API call was successful.
+minimum1000
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+message: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the allowlist prefix.
+documentation\_url: optional string
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    An optional comment describing the allowlist prefix.
+<details>
 
-  - `created_on: string`
+<summary>
 
-    The creation timestamp of the allowlist prefix.
+source: optional object {pointer }
 
-  - `enabled: boolean`
+</summary>
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+pointer: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the allowlist prefix.
+</details>
 
-  - `prefix: string`
+<a href="#">Link to this property</a>
 
-    The allowlist prefix in CIDR format.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist/$PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "prefix"
-  }
-}
-```
+messages: array of object {code, message, documentation\_url, source }
 
-## Delete allowlist prefix.
+</summary>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}`
+code: number
 
-Delete the allowlist prefix for an account given a UUID.
+minimum1000
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+message: string
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `prefix_id: string`
+documentation\_url: optional string
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+source: optional object {pointer }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+pointer: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+success: true
 
-  - `source: optional object { pointer }`
+Whether the API call was successful.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist/$PREFIX_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Item Get Response
-
-- `ItemGetResponse object { id, comment, created_on, 3 more }`
-
-  - `id: string`
-
-    The unique ID of the allowlist prefix.
-
-  - `comment: string`
-
-    An optional comment describing the allowlist prefix.
-
-  - `created_on: string`
-
-    The creation timestamp of the allowlist prefix.
-
-  - `enabled: boolean`
-
-    Whether to enable the allowlist prefix into effect. Defaults to false.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the allowlist prefix.
-
-  - `prefix: string`
-
-    The allowlist prefix in CIDR format.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, comment, created_on, 3 more }`
-
-  - `id: string`
-
-    The unique ID of the allowlist prefix.
-
-  - `comment: string`
-
-    An optional comment describing the allowlist prefix.
-
-  - `created_on: string`
-
-    The creation timestamp of the allowlist prefix.
-
-  - `enabled: boolean`
-
-    Whether to enable the allowlist prefix into effect. Defaults to false.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the allowlist prefix.
-
-  - `prefix: string`
-
-    The allowlist prefix in CIDR format.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)

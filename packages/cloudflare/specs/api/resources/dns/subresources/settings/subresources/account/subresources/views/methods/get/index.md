@@ -1,83 +1,282 @@
-## DNS Internal View Details
+---
+title: DNS Internal View Details
+---
 
-**get** `/accounts/{account_id}/dns_settings/views/{view_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+[Settings](https://developers.cloudflare.com/api/resources/dns/subresources/settings)
+
+[Account](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account)
+
+[Views](https://developers.cloudflare.com/api/resources/dns/subresources/settings/subresources/account/subresources/views)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# DNS Internal View Details
+
+GET/accounts/{account\_id}/dns\_settings/views/{view\_id}
 
 Get DNS Internal View
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `view_id: string`
 
-  Identifier.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `success: true`
+`DNS View Write``DNS View Read`
 
-  Whether the API call was successful.
+##### P ath ParametersExpand Collapse
 
-  - `true`
+account\_id: string
 
-- `result: optional object { id, created_time, modified_time, 2 more }`
+Identifier.
 
-  - `id: string`
+maxLength32
 
-    Identifier.
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `created_time: string`
+view\_id: string
 
-    When the view was created.
+Identifier.
 
-  - `modified_time: string`
+maxLength32
 
-    When the view was last modified.
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20view_id%20%3E%20(schema)>)
 
-  - `name: string`
+##### ReturnsExpand Collapse
 
-    The name of the view.
+<details>
 
-  - `zones: array of string`
+<summary>
 
-    The list of zones linked to this view.
+errors: array of object {code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_time, modified\_time, 2 more }
+
+</summary>
+
+id: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_time: string
+
+When the view was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_time: string
+
+When the view was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the view.
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+zones: array of string
+
+The list of zones linked to this view.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns.settings.account.views%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### DNS Internal View Details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_settings/views/$VIEW_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "created_time": "2014-01-01T05:20:00.12345Z",
+    "modified_time": "2014-01-01T05:20:00.12345Z",
+    "name": "my view",
+    "zones": [
+      "372e67954025e0ba6aaa6d586b9e0b59"
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

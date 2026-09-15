@@ -1,154 +1,385 @@
-## Request review on mitigations
+---
+title: Request review on mitigations
+---
 
-**post** `/accounts/{account_id}/abuse-reports/{report_id}/mitigations/appeal`
+[Skip to content](#_top)
 
-Request a review for mitigations on an account.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Abuse Reports](https://developers.cloudflare.com/api/resources/abuse_reports)
 
-- `account_id: string`
+[Mitigations](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/mitigations)
 
-- `report_id: string`
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `appeals: array of object { id, reason }`
+---
 
-  List of mitigations to appeal.
+**Copy Markdown****View as Markdown**
 
-  - `id: string`
+# Request review on mitigations
 
-    ID of the mitigation to appeal.
+POST/accounts/{account\_id}/abuse-reports/{report\_id}/mitigations/appeal
 
-  - `reason: "removed" or "misclassified"`
+Request a review for mitigations on an account. Repeating a request for a mitigation with an unresolved appeal is idempotent and returns that mitigation in the in-review state.
 
-    Reason why the customer is appealing.
+##### Security
 
-    - `"removed"`
+API Token
 
-    - `"misclassified"`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Returns
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `result_info: object { count, page, per_page, 2 more }`
+##### Accepted Permissions (at least one required)
 
-  - `count: number`
+`Trust and Safety Write`
 
-  - `page: number`
+##### P ath ParametersExpand Collapse
 
-  - `per_page: number`
+account\_id: string
 
-  - `total_count: number`
+maxLength32
 
-  - `total_pages: number`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: boolean`
+report\_id: string
 
-- `errors: optional array of object { message }`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(params)%20default%20%3E%20(param)%20report_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### Body ParametersJSONExpand Collapse
 
-- `messages: optional array of object { message }`
+<details>
 
-  - `message: string`
+<summary>
 
-- `result: optional array of object { id, effective_date, entity_id, 3 more }`
+appeals: optional array of object {id, reason }
 
-  - `id: string`
+List of mitigations to appeal.
 
-    ID of remediation.
+</summary>
 
-  - `effective_date: string`
+id: string
 
-    Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+ID of the mitigation to appeal.
 
-  - `entity_id: string`
+<a href="#">Link to this property</a>
 
-  - `entity_type: "url_pattern" or "account" or "zone"`
+<details>
 
-    The type of entity targeted by a mitigation.
+<summary>
 
-    - `"url_pattern"`
+reason: "removed"or "misclassified"
 
-    - `"account"`
+Reason why the customer is appealing.
 
-    - `"zone"`
+</summary>
 
-  - `status: "pending" or "active" or "in_review" or 2 more`
+One of the following:
 
-    The status of a mitigation
+"removed"
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"misclassified"
 
-    - `"in_review"`
+<a href="#">Link to this property</a>
 
-    - `"cancelled"`
+</details>
 
-    - `"removed"`
+<a href="#">Link to this property</a>
 
-  - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
+</details>
 
-    The type of mitigation applied to a reported entity.
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(params)%200%20%3E%20(param)%20appeals%20%3E%20(schema)>)
 
-    - `"account_suspend"`
+<details>
 
-    - `"copyright_interstitial"`
+<summary>
 
-    - `"geo_block"`
+data: optional object {city, country, email, 11 more }
 
-    - `"legal_block"`
+Counter-notice details supporting an appeal.
 
-    - `"malware_interstitial"`
+</summary>
 
-    - `"misleading_interstitial"`
+city: string
 
-    - `"network_block"`
+<a href="#">Link to this property</a>
 
-    - `"phishing_interstitial"`
+country: string
 
-    - `"playfairite_enforce"`
+<a href="#">Link to this property</a>
 
-    - `"r2_takedown_account"`
+email: string
 
-    - `"r2_takedown_bucket"`
+formatemail
 
-    - `"r2_takedown_object"`
+<a href="#">Link to this property</a>
 
-    - `"rate_limit_cache"`
+full\_name: string
 
-    - `"redirect_video_stream"`
+<a href="#">Link to this property</a>
 
-    - `"registrar_freeze"`
+jurisdiction\_consent: boolean
 
-    - `"registrar_parking"`
+<a href="#">Link to this property</a>
 
-    - `"stream_block_account"`
+perjury\_attestation: boolean
 
-    - `"user_suspend"`
+<a href="#">Link to this property</a>
 
-    - `"workers_takedown_by_zone_id"`
+phone\_number: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+signature: string
+
+<a href="#">Link to this property</a>
+
+state: string
+
+<a href="#">Link to this property</a>
+
+street\_address: string
+
+<a href="#">Link to this property</a>
+
+urls: array of string
+
+<a href="#">Link to this property</a>
+
+zip\_code: string
+
+<a href="#">Link to this property</a>
+
+company: optional string
+
+<a href="#">Link to this property</a>
+
+counter\_notice\_response: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(params)%200%20%3E%20(param)%20data%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+type: optional "counter\_notice"or "content\_removed"
+
+The type of appeal being submitted.
+
+</summary>
+
+One of the following:
+
+"counter\_notice"
+
+<a href="#">Link to this property</a>
+
+"content\_removed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(params)%200%20%3E%20(param)%20type%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result\_info: object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+total\_pages: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: boolean
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: optional array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, effective\_date, entity\_id, 3 more }
+
+</summary>
+
+id: string
+
+ID of remediation.
+
+<a href="#">Link to this property</a>
+
+effective\_date: string
+
+Date when the mitigation will become active. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
+
+<a href="#">Link to this property</a>
+
+entity\_id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+entity\_type: "url\_pattern"or "account"or "zone"or "custom\_expression"
+
+The type of entity targeted by a mitigation.
+
+</summary>
+
+One of the following:
+
+"url\_pattern"
+
+<a href="#">Link to this property</a>
+
+"account"
+
+<a href="#">Link to this property</a>
+
+"zone"
+
+<a href="#">Link to this property</a>
+
+"custom\_expression"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "pending"or "active"or "in\_review"or 2 more
+
+The status of a mitigation
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"in\_review"
+
+<a href="#">Link to this property</a>
+
+"cancelled"
+
+<a href="#">Link to this property</a>
+
+"removed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: string
+
+The type of mitigation applied to a reported entity.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(method)%20review%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Request review on mitigations
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_ID/mitigations/appeal \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{
-          "appeals": [
-            {
-              "id": "id",
-              "reason": "misclassified"
-            }
-          ]
+          "type": "counter_notice"
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result_info": {
     "count": 0,
@@ -175,7 +406,44 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$RE
       "entity_id": "entity_id",
       "entity_type": "url_pattern",
       "status": "pending",
-      "type": "account_suspend"
+      "type": "type"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result_info": {
+    "count": 0,
+    "page": 0,
+    "per_page": 0,
+    "total_count": 0,
+    "total_pages": 0
+  },
+  "success": true,
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "message"
+    }
+  ],
+  "result": [
+    {
+      "id": "id",
+      "effective_date": "2009-11-10T23:00:00Z",
+      "entity_id": "entity_id",
+      "entity_type": "url_pattern",
+      "status": "pending",
+      "type": "type"
     }
   ]
 }

@@ -1,542 +1,397 @@
+---
+title: Catch Alls
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
+
+[Rules](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Catch Alls
 
-## Get catch-all rule
+##### [Get catch-all rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/subresources/catch_alls/methods/get)
 
-**get** `/zones/{zone_id}/email/routing/rules/catch_all`
+GET/zones/{zone\_id}/email/routing/rules/catch\_all
 
-Get information on the default catch-all routing rule.
+##### [Update catch-all rule](https://developers.cloudflare.com/api/resources/email_routing/subresources/rules/subresources/catch_alls/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/email/routing/rules/catch\_all
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+CatchAllAction object {type, value }
 
-  - `code: number`
+Action for the catch-all routing rule.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+type: "drop"or "forward"or "worker"
 
-- `messages: array of object { code, message, documentation_url, source }`
+Type of action for catch-all rule.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"drop"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"forward"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"worker"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, actions, enabled, 4 more }`
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Routing rule identifier.
+value: optional array of string
 
-  - `actions: optional array of CatchAllAction`
+<a href="#">Link to this property</a>
 
-    List actions for the catch-all routing rule.
+</details>
 
-    - `type: "drop" or "forward" or "worker"`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)>)
 
-      Type of action for catch-all rule.
+<details>
 
-      - `"drop"`
+<summary>
 
-      - `"forward"`
+CatchAllMatcher object {type }
 
-      - `"worker"`
+Matcher for catch-all routing rule.
 
-    - `value: optional array of string`
+</summary>
 
-  - `enabled: optional true or false`
+type: "all"
 
-    Routing rule status.
+Type of matcher. Default is ‘all’.
 
-    - `true`
+<a href="#">Link to this property</a>
 
-    - `false`
+</details>
 
-  - `matchers: optional array of CatchAllMatcher`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)>)
 
-    List of matchers for the catch-all routing rule.
+<details>
 
-    - `type: "all"`
+<summary>
 
-      Type of matcher. Default is 'all'.
+CatchAllGetResponse object {id, actions, enabled, 4 more }
 
-      - `"all"`
+</summary>
 
-  - `name: optional string`
+id: optional string
 
-    Routing rule name.
+Routing rule identifier.
 
-  - `source: optional "api" or "wrangler"`
+maxLength32
 
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
+<a href="#">Link to this property</a>
 
-    - `"api"`
+<details>
 
-    - `"wrangler"`
+<summary>
 
-  - `tag: optional string`
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)">CatchAllAction</a> { type, value }
 
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+List actions for the catch-all routing rule.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/catch_all \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "all"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
+type: "drop"or "forward"or "worker"
 
-## Update catch-all rule
+Type of action for catch-all rule.
 
-**put** `/zones/{zone_id}/email/routing/rules/catch_all`
+</summary>
 
-Enable or disable catch-all routing rule, or change action to forward to specific destination address. Forward actions require all destination addresses to be verified.
+One of the following:
 
-### Path Parameters
+"drop"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"forward"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `actions: array of CatchAllAction`
+"worker"
 
-  List actions for the catch-all routing rule.
+<a href="#">Link to this property</a>
 
-  - `type: "drop" or "forward" or "worker"`
+</details>
 
-    Type of action for catch-all rule.
+<a href="#">Link to this property</a>
 
-    - `"drop"`
+value: optional array of string
 
-    - `"forward"`
+<a href="#">Link to this property</a>
 
-    - `"worker"`
+</details>
 
-  - `value: optional array of string`
+<a href="#">Link to this property</a>
 
-- `matchers: array of CatchAllMatcher`
+<details>
 
-  List of matchers for the catch-all routing rule.
+<summary>
 
-  - `type: "all"`
+enabled: optional trueor false
 
-    Type of matcher. Default is 'all'.
+Routing rule status.
 
-    - `"all"`
+</summary>
 
-- `enabled: optional true or false`
+One of the following:
 
-  Routing rule status.
+true
 
-  - `true`
+<a href="#">Link to this property</a>
 
-  - `false`
+false
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  Routing rule name.
+</details>
 
-- `owner_worker_tag: optional string`
+<a href="#">Link to this property</a>
 
-  Public tag (script_tag) of the Worker that owns this rule. Required when
-  `source` is `wrangler`.
+<details>
 
-- `source: optional "api" or "wrangler"`
+<summary>
 
-  Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-  `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-  to `api` when omitted on write.
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)">CatchAllMatcher</a> { type }
 
-  - `"api"`
+List of matchers for the catch-all routing rule.
 
-  - `"wrangler"`
+</summary>
 
-### Returns
+type: "all"
 
-- `errors: array of object { code, message, documentation_url, source }`
+Type of matcher. Default is ‘all’.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+Routing rule name.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength256
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+source: optional "api"or "wrangler"
 
-    - `pointer: optional string`
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+One of the following:
 
-  - `true`
+"api"
 
-- `result: optional object { id, actions, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"wrangler"
 
-    Routing rule identifier.
+<a href="#">Link to this property</a>
 
-  - `actions: optional array of CatchAllAction`
+</details>
 
-    List actions for the catch-all routing rule.
+<a href="#">Link to this property</a>
 
-    - `type: "drop" or "forward" or "worker"`
+Deprecatedtag: optional string
 
-      Type of action for catch-all rule.
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-      - `"drop"`
+maxLength32
 
-      - `"forward"`
+<a href="#">Link to this property</a>
 
-      - `"worker"`
+</details>
 
-    - `value: optional array of string`
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_get_response%20%3E%20(schema)>)
 
-  - `enabled: optional true or false`
+<details>
 
-    Routing rule status.
+<summary>
 
-    - `true`
+CatchAllUpdateResponse object {id, actions, enabled, 4 more }
 
-    - `false`
+</summary>
 
-  - `matchers: optional array of CatchAllMatcher`
+id: optional string
 
-    List of matchers for the catch-all routing rule.
+Routing rule identifier.
 
-    - `type: "all"`
+maxLength32
 
-      Type of matcher. Default is 'all'.
+<a href="#">Link to this property</a>
 
-      - `"all"`
+<details>
 
-  - `name: optional string`
+<summary>
 
-    Routing rule name.
+actions: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_action%20%3E%20(schema)">CatchAllAction</a> { type, value }
 
-  - `source: optional "api" or "wrangler"`
+List actions for the catch-all routing rule.
 
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
+</summary>
 
-    - `"api"`
+<details>
 
-    - `"wrangler"`
+<summary>
 
-  - `tag: optional string`
+type: "drop"or "forward"or "worker"
 
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+Type of action for catch-all rule.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules/catch_all \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "actions": [
-            {
-              "type": "forward"
-            }
-          ],
-          "matchers": [
-            {
-              "type": "all"
-            }
-          ],
-          "enabled": true,
-          "name": "Send to user@example.net rule.",
-          "owner_worker_tag": "a7e6fb77503c41d8a7f3113c6918f10c",
-          "source": "api"
-        }'
-```
+One of the following:
 
-#### Response
+"drop"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a7e6fb77503c41d8a7f3113c6918f10c",
-    "actions": [
-      {
-        "type": "forward",
-        "value": [
-          "destinationaddress@example.net"
-        ]
-      }
-    ],
-    "enabled": true,
-    "matchers": [
-      {
-        "type": "all"
-      }
-    ],
-    "name": "Send to user@example.net rule.",
-    "source": "api",
-    "tag": "a7e6fb77503c41d8a7f3113c6918f10c"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"forward"
 
-### Catch All Action
+<a href="#">Link to this property</a>
 
-- `CatchAllAction object { type, value }`
+"worker"
 
-  Action for the catch-all routing rule.
+<a href="#">Link to this property</a>
 
-  - `type: "drop" or "forward" or "worker"`
+</details>
 
-    Type of action for catch-all rule.
+<a href="#">Link to this property</a>
 
-    - `"drop"`
+value: optional array of string
 
-    - `"forward"`
+<a href="#">Link to this property</a>
 
-    - `"worker"`
+</details>
 
-  - `value: optional array of string`
+<a href="#">Link to this property</a>
 
-### Catch All Matcher
+<details>
 
-- `CatchAllMatcher object { type }`
+<summary>
 
-  Matcher for catch-all routing rule.
+enabled: optional trueor false
 
-  - `type: "all"`
+Routing rule status.
 
-    Type of matcher. Default is 'all'.
+</summary>
 
-    - `"all"`
+One of the following:
 
-### Catch All Get Response
+true
 
-- `CatchAllGetResponse object { id, actions, enabled, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+false
 
-    Routing rule identifier.
+<a href="#">Link to this property</a>
 
-  - `actions: optional array of CatchAllAction`
+</details>
 
-    List actions for the catch-all routing rule.
+<a href="#">Link to this property</a>
 
-    - `type: "drop" or "forward" or "worker"`
+<details>
 
-      Type of action for catch-all rule.
+<summary>
 
-      - `"drop"`
+matchers: optional array of <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_matcher%20%3E%20(schema)">CatchAllMatcher</a> { type }
 
-      - `"forward"`
+List of matchers for the catch-all routing rule.
 
-      - `"worker"`
+</summary>
 
-    - `value: optional array of string`
+type: "all"
 
-  - `enabled: optional true or false`
+Type of matcher. Default is ‘all’.
 
-    Routing rule status.
+<a href="#">Link to this property</a>
 
-    - `true`
+</details>
 
-    - `false`
+<a href="#">Link to this property</a>
 
-  - `matchers: optional array of CatchAllMatcher`
+name: optional string
 
-    List of matchers for the catch-all routing rule.
+Routing rule name.
 
-    - `type: "all"`
+maxLength256
 
-      Type of matcher. Default is 'all'.
+<a href="#">Link to this property</a>
 
-      - `"all"`
+<details>
 
-  - `name: optional string`
+<summary>
 
-    Routing rule name.
+source: optional "api"or "wrangler"
 
-  - `source: optional "api" or "wrangler"`
+Who manages the rule. <code>api</code> covers dashboard, generic API, and Terraform; <code>wrangler</code> means the rule is managed by a Worker’s wrangler.jsonc. Defaults to <code>api</code> when omitted on write.
 
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
+</summary>
 
-    - `"api"`
+One of the following:
 
-    - `"wrangler"`
+"api"
 
-  - `tag: optional string`
+<a href="#">Link to this property</a>
 
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+"wrangler"
 
-### Catch All Update Response
+<a href="#">Link to this property</a>
 
-- `CatchAllUpdateResponse object { id, actions, enabled, 4 more }`
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Routing rule identifier.
+Deprecatedtag: optional string
 
-  - `actions: optional array of CatchAllAction`
+Routing rule tag. (Deprecated, replaced by routing rule identifier)
 
-    List actions for the catch-all routing rule.
+maxLength32
 
-    - `type: "drop" or "forward" or "worker"`
+<a href="#">Link to this property</a>
 
-      Type of action for catch-all rule.
+</details>
 
-      - `"drop"`
-
-      - `"forward"`
-
-      - `"worker"`
-
-    - `value: optional array of string`
-
-  - `enabled: optional true or false`
-
-    Routing rule status.
-
-    - `true`
-
-    - `false`
-
-  - `matchers: optional array of CatchAllMatcher`
-
-    List of matchers for the catch-all routing rule.
-
-    - `type: "all"`
-
-      Type of matcher. Default is 'all'.
-
-      - `"all"`
-
-  - `name: optional string`
-
-    Routing rule name.
-
-  - `source: optional "api" or "wrangler"`
-
-    Who manages the rule. `api` covers dashboard, generic API, and Terraform;
-    `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults
-    to `api` when omitted on write.
-
-    - `"api"`
-
-    - `"wrangler"`
-
-  - `tag: optional string`
-
-    Routing rule tag. (Deprecated, replaced by routing rule identifier)
+[Link to this property](#)%20email_routing.rules.catch_alls%20%3E%20(model)%20catch_all_update_response%20%3E%20(schema)>)

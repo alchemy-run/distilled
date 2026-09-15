@@ -1,225 +1,119 @@
+---
+title: Searches
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Searches
 
-## Search Resources
+##### [Search Resources](https://developers.cloudflare.com/api/resources/load_balancers/subresources/searches/methods/list)
 
-**get** `/accounts/{account_id}/load_balancers/search`
+GET/accounts/{account\_id}/load\_balancers/search
 
-Search for Load Balancing resources.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+SearchListResponse object {resources }
 
-### Query Parameters
+</summary>
 
-- `page: optional number`
+<details>
 
-- `per_page: optional number`
+<summary>
 
-- `query: optional string`
+resources: optional array of object {reference\_type, references, resource\_id, 2 more }
 
-  Search query term.
+A list of resources matching the search query.
 
-- `references: optional "" or "*" or "referral" or "referrer"`
+</summary>
 
-  The type of references to include. "*" to include both referral and referrer references. "" to not include any reference information.
+<details>
 
-  - `""`
+<summary>
 
-  - `"*"`
+reference\_type: optional "referral"or "referrer"
 
-  - `"referral"`
+When listed as a reference, the type (direction) of the reference.
 
-  - `"referrer"`
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of ResponseInfo`
+"referral"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"referrer"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+references: optional array of unknown
 
-  - `code: number`
+A list of references to (referrer) or from (referral) this resource.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+resource\_id: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { resources }`
+resource\_name: optional string
 
-  - `resources: optional array of object { reference_type, references, resource_id, 2 more }`
+The human-identifiable name of the resource.
 
-    A list of resources matching the search query.
+<a href="#">Link to this property</a>
 
-    - `reference_type: optional "referral" or "referrer"`
+<details>
 
-      When listed as a reference, the type (direction) of the reference.
+<summary>
 
-      - `"referral"`
+resource\_type: optional "load\_balancer"or "monitor"or "pool"
 
-      - `"referrer"`
+The type of the resource.
 
-    - `references: optional array of unknown`
+</summary>
 
-      A list of references to (referrer) or from (referral) this resource.
+One of the following:
 
-    - `resource_id: optional string`
+"load\_balancer"
 
-    - `resource_name: optional string`
+<a href="#">Link to this property</a>
 
-      The human-identifiable name of the resource.
+"monitor"
 
-    - `resource_type: optional "load_balancer" or "monitor" or "pool"`
+<a href="#">Link to this property</a>
 
-      The type of the resource.
+"pool"
 
-      - `"load_balancer"`
+<a href="#">Link to this property</a>
 
-      - `"monitor"`
+</details>
 
-      - `"pool"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results on the current page.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    Total number of pages available.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/search \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "resources": [
-      {
-        "reference_type": "referral",
-        "references": [
-          {
-            "reference_type": "referrer",
-            "resource_id": "699d98642c564d2e855e9661899b7252",
-            "resource_name": "www.example.com",
-            "resource_type": "load_balancer"
-          },
-          {
-            "reference_type": "referral",
-            "resource_id": "f1aba936b94213e5b8dca0c0dbf1f9cc",
-            "resource_name": "Login page monitor",
-            "resource_type": "monitor"
-          }
-        ],
-        "resource_id": "17b5962d775c646f3f9725cbc7a53df4",
-        "resource_name": "primary-dc-1",
-        "resource_type": "pool"
-      }
-    ]
-  },
-  "success": true,
-  "result_info": {
-    "count": 20,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Search List Response
-
-- `SearchListResponse object { resources }`
-
-  - `resources: optional array of object { reference_type, references, resource_id, 2 more }`
-
-    A list of resources matching the search query.
-
-    - `reference_type: optional "referral" or "referrer"`
-
-      When listed as a reference, the type (direction) of the reference.
-
-      - `"referral"`
-
-      - `"referrer"`
-
-    - `references: optional array of unknown`
-
-      A list of references to (referrer) or from (referral) this resource.
-
-    - `resource_id: optional string`
-
-    - `resource_name: optional string`
-
-      The human-identifiable name of the resource.
-
-    - `resource_type: optional "load_balancer" or "monitor" or "pool"`
-
-      The type of the resource.
-
-      - `"load_balancer"`
-
-      - `"monitor"`
-
-      - `"pool"`
+[Link to this property](#)%20load_balancers.searches%20%3E%20(model)%20search_list_response%20%3E%20(schema)>)

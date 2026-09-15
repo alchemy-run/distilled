@@ -1,189 +1,663 @@
-## Get an AI Gateway Dynamic Route.
+---
+title: Get an AI Gateway Dynamic Route.
+---
 
-**get** `/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Dynamic Routing](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/dynamic_routing)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get an AI Gateway Dynamic Route.
+
+GET/accounts/{account\_id}/ai-gateway/gateways/{gateway\_id}/routes/{id}
 
 Get an AI Gateway Dynamic Route.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `gateway_id: string`
+<summary>API Token</summary>
 
-- `id: string`
 
-### Returns
 
-- `result: object { id, created_at, deployment, 5 more }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `id: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `created_at: string`
+</details>
 
-  - `deployment: object { created_at, deployment_id, version_id }`
+<details>
 
-    - `created_at: string`
+<summary>API Email + API Key</summary>
 
-    - `deployment_id: string`
 
-    - `version_id: string`
 
-  - `elements: array of object { id, outputs, type }  or object { id, outputs, properties, type }  or object { id, outputs, type }  or 3 more`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `object { id, outputs, type }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      - `id: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `outputs: object { next }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-        - `next: object { elementId }`
+</details>
 
-          - `elementId: string`
+##### Accepted Permissions (at least one required)
 
-      - `type: "start"`
+`AI Gateway Write``AI Gateway Read`
 
-        - `"start"`
+##### P ath ParametersExpand Collapse
 
-    - `object { id, outputs, properties, type }`
+account\_id: string
 
-      - `id: string`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `outputs: object { false, true }`
+gateway\_id: string
 
-        - `false: object { elementId }`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20gateway_id%20%3E%20(schema)>)
 
-          - `elementId: string`
+id: string
 
-        - `true: object { elementId }`
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-          - `elementId: string`
+##### ReturnsExpand Collapse
 
-      - `properties: object { conditions }`
+<details>
 
-        - `conditions: optional unknown`
+<summary>
 
-      - `type: "conditional"`
+result: object {id, created\_at, deployment, 5 more }
 
-        - `"conditional"`
+</summary>
 
-    - `object { id, outputs, type }`
+id: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: map[object { elementId } ]`
+created\_at: string
 
-        - `elementId: string`
+formatdate-time
 
-      - `type: "percentage"`
+<a href="#">Link to this property</a>
 
-        - `"percentage"`
+<details>
 
-    - `object { id, outputs, properties, type }`
+<summary>
 
-      - `id: string`
+deployment: object {created\_at, deployment\_id, version\_id }
 
-      - `outputs: object { fallback, success }`
+</summary>
 
-        - `fallback: object { elementId }`
+created\_at: string
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-        - `success: object { elementId }`
+deployment\_id: string
 
-          - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `properties: object { key, limit, limitType, window }`
+version\_id: string
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-        - `limit: number`
+</details>
 
-        - `limitType: "count" or "cost"`
+<a href="#">Link to this property</a>
 
-          - `"count"`
+<details>
 
-          - `"cost"`
+<summary>
 
-        - `window: number`
+elements: array of object {id, outputs, type } or object {id, outputs, properties, type } or object {id, outputs, type } or 3 more
 
-      - `type: "rate"`
+</summary>
 
-        - `"rate"`
+One of the following:
 
-    - `object { id, outputs, properties, type }`
+<details>
 
-      - `id: string`
+<summary>
 
-      - `outputs: object { fallback, success }`
+object {id, outputs, type }
 
-        - `fallback: object { elementId }`
+</summary>
 
-          - `elementId: string`
+id: string
 
-        - `success: object { elementId }`
+<a href="#">Link to this property</a>
 
-          - `elementId: string`
+<details>
 
-      - `properties: object { model, provider, retries, timeout }`
+<summary>
 
-        - `model: string`
+outputs: object {next }
 
-        - `provider: string`
+</summary>
 
-        - `retries: number`
+<details>
 
-        - `timeout: number`
+<summary>
 
-      - `type: "model"`
+next: object {elementId }
 
-        - `"model"`
+</summary>
 
-    - `object { id, outputs, type }`
+elementId: string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `outputs: map[object { elementId } ]`
+</details>
 
-        - `elementId: string`
+<a href="#">Link to this property</a>
 
-      - `type: "end"`
+</details>
 
-        - `"end"`
+<a href="#">Link to this property</a>
 
-  - `gateway_id: string`
+type: "start"
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `version: object { active, created_at, data, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `active: "true" or "false"`
+<details>
 
-      - `"true"`
+<summary>
 
-      - `"false"`
+object {id, outputs, properties, type }
 
-    - `created_at: string`
+</summary>
 
-    - `data: string`
+id: string
 
-    - `version_id: string`
+<a href="#">Link to this property</a>
 
-    - `is_valid: optional boolean`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+outputs: object {false, true }
 
-```http
+</summary>
+
+<details>
+
+<summary>
+
+false: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+true: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {conditions }
+
+</summary>
+
+conditions: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "conditional"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "percentage"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {key, limit, limitType, window }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+limitType: "count"or "cost"
+
+</summary>
+
+One of the following:
+
+"count"
+
+<a href="#">Link to this property</a>
+
+"cost"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+window: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "rate"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, properties, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: object {fallback, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+fallback: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+success: object {elementId }
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {model, provider, retries, timeout }
+
+</summary>
+
+model: string
+
+<a href="#">Link to this property</a>
+
+provider: string
+
+<a href="#">Link to this property</a>
+
+retries: number
+
+<a href="#">Link to this property</a>
+
+timeout: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "model"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {id, outputs, type }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+outputs: map\[object {elementId } ]
+
+</summary>
+
+elementId: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "end"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+gateway\_id: string
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+version: object {active, created\_at, data, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+active: "true"or "false"
+
+</summary>
+
+One of the following:
+
+"true"
+
+<a href="#">Link to this property</a>
+
+"false"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+<a href="#">Link to this property</a>
+
+data: string
+
+<a href="#">Link to this property</a>
+
+version\_id: string
+
+<a href="#">Link to this property</a>
+
+is\_valid: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_gateway.dynamic_routing%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get an AI Gateway Dynamic Route.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/gateways/$GATEWAY_ID/routes/$ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "id",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "deployment": {
+      "created_at": "created_at",
+      "deployment_id": "deployment_id",
+      "version_id": "version_id"
+    },
+    "elements": [
+      {
+        "id": "id",
+        "outputs": {
+          "next": {
+            "elementId": "elementId"
+          }
+        },
+        "type": "start"
+      }
+    ],
+    "gateway_id": "gateway_id",
+    "modified_at": "2019-12-27T18:11:19.117Z",
+    "name": "name",
+    "version": {
+      "active": "true",
+      "created_at": "created_at",
+      "data": "data",
+      "version_id": "version_id",
+      "is_valid": true
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "id",

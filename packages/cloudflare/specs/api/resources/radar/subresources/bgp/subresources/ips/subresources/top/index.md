@@ -1,104 +1,79 @@
+---
+title: Top
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[IPs](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/ips)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Top
 
-## Get top ASes by announced IP space
+##### [Get top ASes by announced IP space](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/ips/subresources/top/methods/ases)
 
-**get** `/radar/bgp/ips/top/ases`
+GET/radar/bgp/ips/top/ases
 
-Returns the top-N autonomous systems by announced IP space at the nearest 8-hour RIB boundary at or before the requested date. The snapped boundary is returned as `anchor_ts`.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `country: optional string`
+<summary>
 
-  Optional ISO 3166-1 alpha-2 country filter. Omit for global top-N.
+TopAsesResponse object {anchorTs, asns, country, metric }
 
-- `date: optional string`
+</summary>
 
-  Filters results by the specified datetime (ISO 8601).
+anchorTs: string
 
-- `format: optional "JSON" or "CSV"`
+formatdate-time
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `limit: optional number`
+asns: array of object {asn, v4\_24s, v6\_48s }
 
-  Limits the number of objects returned in the response.
+</summary>
 
-- `metric: optional "v4_24s" or "v6_48s"`
+asn: number
 
-  Ranking metric: IPv4 /24 count or IPv6 /48 count.
+<a href="#">Link to this property</a>
 
-  - `"v4_24s"`
+v4\_24s: number
 
-  - `"v6_48s"`
+<a href="#">Link to this property</a>
 
-### Returns
+v6\_48s: number
 
-- `result: object { anchorTs, asns, country, metric }`
+<a href="#">Link to this property</a>
 
-  - `anchorTs: string`
+</details>
 
-  - `asns: array of object { asn, v4_24s, v6_48s }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+country: string
 
-    - `v4_24s: number`
+<a href="#">Link to this property</a>
 
-    - `v6_48s: number`
+metric: string
 
-  - `country: string`
+<a href="#">Link to this property</a>
 
-  - `metric: string`
+</details>
 
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/ips/top/ases \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "anchorTs": "2026-04-18T16:00:00.000Z",
-    "asns": [
-      {
-        "asn": 749,
-        "v4_24s": 875649,
-        "v6_48s": 0
-      }
-    ],
-    "country": "US",
-    "metric": "v4_24s"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Top Ases Response
-
-- `TopAsesResponse object { anchorTs, asns, country, metric }`
-
-  - `anchorTs: string`
-
-  - `asns: array of object { asn, v4_24s, v6_48s }`
-
-    - `asn: number`
-
-    - `v4_24s: number`
-
-    - `v6_48s: number`
-
-  - `country: string`
-
-  - `metric: string`
+[Link to this property](#)%20radar.bgp.ips.top%20%3E%20(model)%20top_ases_response%20%3E%20(schema)>)

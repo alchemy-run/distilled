@@ -1,336 +1,880 @@
-## List values
+---
+title: List values
+---
 
-**post** `/accounts/{account_id}/workers/observability/telemetry/values`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Observability](https://developers.cloudflare.com/api/resources/workers/subresources/observability)
+
+[Telemetry](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/telemetry)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List values
+
+POST/accounts/{account\_id}/workers/observability/telemetry/values
 
 List unique values found in your events.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Email + API Key</summary>
 
-- `datasets: array of string`
 
-  Leave this empty to use the default datasets
 
-- `key: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `timeframe: object { from, to }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `from: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `to: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `type: "string" or "boolean" or "number"`
+</details>
 
-  - `"string"`
+<details>
 
-  - `"boolean"`
+<summary>API Token</summary>
 
-  - `"number"`
 
-- `filters: optional array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
 
-  Apply filters before listing values. Supports nested groups via kind: 'group'. Maximum nesting depth is 4.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `object { filterCombination, filters, kind }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `filterCombination: "and" or "or" or "AND" or "OR"`
+</details>
 
-      - `"and"`
+<details>
 
-      - `"or"`
+<summary>User Service Key</summary>
 
-      - `"AND"`
 
-      - `"OR"`
 
-    - `filters: array of object { filterCombination, filters, kind }  or object { key, operation, type, 2 more }`
+Used when interacting with the Origin CA certificates API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/ca-keys/#viewchange-your-origin-ca-keys">View/change your key</a>.
 
-      - `object { filterCombination, filters, kind }`
+**Example:**<code>X-Auth-User-Service-Key: v1.0-144c9defac04969c7bfad8ef-631a41d003a32d25fe878081ef365c49503f7fada600da935e2851a1c7326084b85cbf6429c4b859de8475731dc92a9c329631e6d59e6c73da7b198497172b4cefe071d90d0f5d2719</code>
 
-        - `filterCombination: "and" or "or" or "AND" or "OR"`
+</details>
 
-          - `"and"`
+##### Accepted Permissions (at least one required)
 
-          - `"or"`
+`Workers Observability Write`
 
-          - `"AND"`
+##### P ath ParametersExpand Collapse
 
-          - `"OR"`
+account\_id: string
 
-        - `filters: array of unknown`
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        - `kind: "group"`
+##### Body ParametersJSONExpand Collapse
 
-          - `"group"`
+datasets: array of string
 
-      - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+Leave this empty to use the default datasets
 
-        A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(params)%200%20%3E%20(param)%20datasets%20%3E%20(schema)>)
 
-        - `key: string`
+key: string
 
-          Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(params)%200%20%3E%20(param)%20key%20%3E%20(schema)>)
 
-        - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+<details>
 
-          Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+<summary>
 
-          - `"includes"`
+timeframe: object {from, to }
 
-          - `"not_includes"`
+</summary>
 
-          - `"starts_with"`
+from: number
 
-          - `"ends_with"`
+<a href="#">Link to this property</a>
 
-          - `"regex"`
+to: number
 
-          - `"exists"`
+<a href="#">Link to this property</a>
 
-          - `"is_null"`
+</details>
 
-          - `"in"`
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(params)%200%20%3E%20(param)%20timeframe%20%3E%20(schema)>)
 
-          - `"not_in"`
+<details>
 
-          - `"eq"`
+<summary>
 
-          - `"neq"`
+type: "string"or "boolean"or "number"
 
-          - `"gt"`
+</summary>
 
-          - `"gte"`
+One of the following:
 
-          - `"lt"`
+"string"
 
-          - `"lte"`
+<a href="#">Link to this property</a>
 
-          - `"="`
+"boolean"
 
-          - `"!="`
+<a href="#">Link to this property</a>
 
-          - `">"`
+"number"
 
-          - `">="`
+<a href="#">Link to this property</a>
 
-          - `"<"`
+</details>
 
-          - `"<="`
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(params)%200%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-          - `"INCLUDES"`
+<details>
 
-          - `"DOES_NOT_INCLUDE"`
+<summary>
 
-          - `"MATCH_REGEX"`
+filters: optional array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
 
-          - `"EXISTS"`
+Apply filters before listing values. Supports nested groups via kind: ‘group’. Maximum nesting depth is 4.
 
-          - `"DOES_NOT_EXIST"`
+</summary>
 
-          - `"IN"`
+One of the following:
 
-          - `"NOT_IN"`
+<details>
 
-          - `"STARTS_WITH"`
+<summary>
 
-          - `"ENDS_WITH"`
+object {filterCombination, filters, kind }
 
-        - `type: "string" or "number" or "boolean"`
+</summary>
 
-          Data type of the filter field. Must match the actual type of the key being filtered.
+<details>
 
-          - `"string"`
+<summary>
 
-          - `"number"`
+filterCombination: "and"or "or"or "AND"or "OR"
 
-          - `"boolean"`
+</summary>
 
-        - `kind: optional "filter"`
+One of the following:
 
-          Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+"and"
 
-          - `"filter"`
+<a href="#">Link to this property</a>
 
-        - `value: optional string or number or boolean`
+"or"
 
-          Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+<a href="#">Link to this property</a>
 
-          - `string`
+"AND"
 
-          - `number`
+<a href="#">Link to this property</a>
 
-          - `boolean`
+"OR"
 
-    - `kind: "group"`
+<a href="#">Link to this property</a>
 
-      - `"group"`
+</details>
 
-  - `WorkersObservabilityFilterLeaf object { key, operation, type, 2 more }`
+<a href="#">Link to this property</a>
 
-    A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+<details>
 
-    - `key: string`
+<summary>
 
-      Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+filters: array of object {filterCombination, filters, kind } or object {key, operation, type, 2 more }
 
-    - `operation: "includes" or "not_includes" or "starts_with" or 27 more`
+</summary>
 
-      Comparison operator. String operators: includes, not_includes, starts_with, ends_with, regex. Existence: exists, is_null. Set membership: in, not_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+One of the following:
 
-      - `"includes"`
+<details>
 
-      - `"not_includes"`
+<summary>
 
-      - `"starts_with"`
+object {filterCombination, filters, kind }
 
-      - `"ends_with"`
+</summary>
 
-      - `"regex"`
+<details>
 
-      - `"exists"`
+<summary>
 
-      - `"is_null"`
+filterCombination: "and"or "or"or "AND"or "OR"
 
-      - `"in"`
+</summary>
 
-      - `"not_in"`
+One of the following:
 
-      - `"eq"`
+"and"
 
-      - `"neq"`
+<a href="#">Link to this property</a>
 
-      - `"gt"`
+"or"
 
-      - `"gte"`
+<a href="#">Link to this property</a>
 
-      - `"lt"`
+"AND"
 
-      - `"lte"`
+<a href="#">Link to this property</a>
 
-      - `"="`
+"OR"
 
-      - `"!="`
+<a href="#">Link to this property</a>
 
-      - `">"`
+</details>
 
-      - `">="`
+<a href="#">Link to this property</a>
 
-      - `"<"`
+filters: array of unknown
 
-      - `"<="`
+<a href="#">Link to this property</a>
 
-      - `"INCLUDES"`
+kind: "group"
 
-      - `"DOES_NOT_INCLUDE"`
+<a href="#">Link to this property</a>
 
-      - `"MATCH_REGEX"`
+</details>
 
-      - `"EXISTS"`
+<a href="#">Link to this property</a>
 
-      - `"DOES_NOT_EXIST"`
+<details>
 
-      - `"IN"`
+<summary>
 
-      - `"NOT_IN"`
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
 
-      - `"STARTS_WITH"`
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
 
-      - `"ENDS_WITH"`
+</summary>
 
-    - `type: "string" or "number" or "boolean"`
+key: string
 
-      Data type of the filter field. Must match the actual type of the key being filtered.
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
 
-      - `"string"`
+<a href="#">Link to this property</a>
 
-      - `"number"`
+<details>
 
-      - `"boolean"`
+<summary>
 
-    - `kind: optional "filter"`
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
 
-      Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted.
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
 
-      - `"filter"`
+</summary>
 
-    - `value: optional string or number or boolean`
+One of the following:
 
-      Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+"includes"
 
-      - `string`
+<a href="#">Link to this property</a>
 
-      - `number`
+"not\_includes"
 
-      - `boolean`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+"starts\_with"
 
-- `needle: optional object { value, isRegex, matchCase }`
+<a href="#">Link to this property</a>
 
-  Full-text search expression to match events containing the specified text or pattern.
+"ends\_with"
 
-  - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-    The text or pattern to search for.
+"regex"
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+"exists"
 
-    - `boolean`
+<a href="#">Link to this property</a>
 
-  - `isRegex: optional boolean`
+"is\_null"
 
-    When true, treats the value as a regular expression (RE2 syntax).
+<a href="#">Link to this property</a>
 
-  - `matchCase: optional boolean`
+"in"
 
-    When true, performs a case-sensitive search. Defaults to case-insensitive.
+<a href="#">Link to this property</a>
 
-### Returns
+"not\_in"
 
-- `errors: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"eq"
 
-- `messages: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: "Successful request"`
+"neq"
 
-    - `"Successful request"`
+<a href="#">Link to this property</a>
 
-- `result: array of object { dataset, key, type, value }`
+"gt"
 
-  - `dataset: string`
+<a href="#">Link to this property</a>
 
-  - `key: string`
+"gte"
 
-  - `type: "string" or "boolean" or "number"`
+<a href="#">Link to this property</a>
 
-    - `"string"`
+"lt"
 
-    - `"boolean"`
+<a href="#">Link to this property</a>
 
-    - `"number"`
+"lte"
 
-  - `value: string or number or boolean`
+<a href="#">Link to this property</a>
 
-    - `string`
+"="
 
-    - `number`
+<a href="#">Link to this property</a>
 
-    - `boolean`
+"!="
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+"&gt;"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"INCLUDES"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_INCLUDE"
+
+<a href="#">Link to this property</a>
+
+"MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"EXISTS"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_EXIST"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"NOT\_IN"
+
+<a href="#">Link to this property</a>
+
+"STARTS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"ENDS\_WITH"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "string"or "number"or "boolean"
+
+Data type of the filter field. Must match the actual type of the key being filtered.
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+kind: optional "filter"
+
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional stringor numberor boolean
+
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+kind: "group"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WorkersObservabilityFilterLeaf object {key, operation, type, 2 more }
+
+A filter condition applied to query results. Use the keys and values endpoints to discover available fields and their values before constructing filters.
+
+</summary>
+
+key: string
+
+Filter field name. Use verified keys from previous query results or the keys endpoint. Common keys include $metadata.service, $metadata.origin, $metadata.trigger, $metadata.message, and $metadata.error.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operation: "includes"or "not\_includes"or "starts\_with"or 27 more
+
+Comparison operator. String operators: includes, not\_includes, starts\_with, ends\_with, regex. Existence: exists, is\_null. Set membership: in, not\_in (comma-separated values). Numeric: eq, neq, gt, gte, lt, lte.
+
+</summary>
+
+One of the following:
+
+"includes"
+
+<a href="#">Link to this property</a>
+
+"not\_includes"
+
+<a href="#">Link to this property</a>
+
+"starts\_with"
+
+<a href="#">Link to this property</a>
+
+"ends\_with"
+
+<a href="#">Link to this property</a>
+
+"regex"
+
+<a href="#">Link to this property</a>
+
+"exists"
+
+<a href="#">Link to this property</a>
+
+"is\_null"
+
+<a href="#">Link to this property</a>
+
+"in"
+
+<a href="#">Link to this property</a>
+
+"not\_in"
+
+<a href="#">Link to this property</a>
+
+"eq"
+
+<a href="#">Link to this property</a>
+
+"neq"
+
+<a href="#">Link to this property</a>
+
+"gt"
+
+<a href="#">Link to this property</a>
+
+"gte"
+
+<a href="#">Link to this property</a>
+
+"lt"
+
+<a href="#">Link to this property</a>
+
+"lte"
+
+<a href="#">Link to this property</a>
+
+"="
+
+<a href="#">Link to this property</a>
+
+"!="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"INCLUDES"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_INCLUDE"
+
+<a href="#">Link to this property</a>
+
+"MATCH\_REGEX"
+
+<a href="#">Link to this property</a>
+
+"EXISTS"
+
+<a href="#">Link to this property</a>
+
+"DOES\_NOT\_EXIST"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"NOT\_IN"
+
+<a href="#">Link to this property</a>
+
+"STARTS\_WITH"
+
+<a href="#">Link to this property</a>
+
+"ENDS\_WITH"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "string"or "number"or "boolean"
+
+Data type of the filter field. Must match the actual type of the key being filtered.
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+kind: optional "filter"
+
+Discriminator for leaf filter nodes. Always ‘filter’ when present; may be omitted.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional stringor numberor boolean
+
+Comparison value. Must match actual values in your data — verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds).
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(params)%200%20%3E%20(param)%20filters%20%3E%20(schema)>)
+
+limit: optional number
+
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(params)%200%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+needle: optional object {value, isRegex, matchCase }
+
+Full-text search expression to match events containing the specified text or pattern.
+
+</summary>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+The text or pattern to search for.
+
+maxLength1000
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isRegex: optional boolean
+
+When true, treats the value as a regular expression (RE2 syntax).
+
+<a href="#">Link to this property</a>
+
+matchCase: optional boolean
+
+When true, performs a case-sensitive search. Defaults to case-insensitive.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(params)%200%20%3E%20(param)%20needle%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message }
+
+</summary>
+
+message: "Successful request"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {dataset, key, type, value }
+
+</summary>
+
+dataset: string
+
+<a href="#">Link to this property</a>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "string"or "boolean"or "number"
+
+</summary>
+
+One of the following:
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"boolean"
+
+<a href="#">Link to this property</a>
+
+"number"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: stringor numberor boolean
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20workers.observability.telemetry%20%3E%20(method)%20values%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List values
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/telemetry/values \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -348,9 +892,37 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observabi
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "Successful request"
+    }
+  ],
+  "result": [
+    {
+      "dataset": "dataset",
+      "key": "key",
+      "type": "string",
+      "value": "string"
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

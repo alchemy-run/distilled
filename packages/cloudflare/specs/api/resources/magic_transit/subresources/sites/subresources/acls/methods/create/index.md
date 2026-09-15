@@ -1,158 +1,474 @@
-## Create a new Site ACL
+---
+title: Create a new Site ACL
+---
 
-**post** `/accounts/{account_id}/magic/sites/{site_id}/acls`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites)
+
+[ACLs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/acls)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a new Site ACL
+
+POST/accounts/{account\_id}/magic/sites/{site\_id}/acls
 
 Creates a new Site ACL.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-- `site_id: string`
 
-  Identifier
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `lan_1: ACLConfiguration`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `lan_id: string`
+</details>
 
-    The identifier for the LAN you want to create an ACL policy with.
+<details>
 
-  - `lan_name: optional string`
+<summary>API Email + API Key</summary>
 
-    The name of the LAN based on the provided lan_id.
 
-  - `port_ranges: optional array of string`
 
-    Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `ports: optional array of number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `subnets: optional array of Subnet`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
+</details>
 
-- `lan_2: ACLConfiguration`
+##### Accepted Permissions (at least one required)
 
-- `name: string`
+`Magic WAN Write``Magic Transit Write`
 
-  The name of the ACL.
+##### P ath ParametersExpand Collapse
 
-- `description: optional string`
+account\_id: string
 
-  Description for the ACL.
+Identifier
 
-- `forward_locally: optional boolean`
+maxLength32
 
-  The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `protocols: optional array of AllowedProtocol`
+site\_id: string
 
-  - `"tcp"`
+Identifier
 
-  - `"udp"`
+maxLength32
 
-  - `"icmp"`
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20site_id%20%3E%20(schema)>)
 
-- `unidirectional: optional boolean`
+##### Body ParametersJSONExpand Collapse
 
-  The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+lan\_1: <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20acl_configuration%20%3E%20(schema)">ACLConfiguration</a> { lan\_id, lan\_name, port\_ranges, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+lan\_id: string
 
-  - `documentation_url: optional string`
+The identifier for the LAN you want to create an ACL policy with.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+lan\_name: optional string
 
-- `messages: array of ResponseInfo`
+The name of the LAN based on the provided lan\_id.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+port\_ranges: optional array of string
 
-  - `documentation_url: optional string`
+Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: ACL`
+ports: optional array of number
 
-  Bidirectional ACL policy for network traffic within a site.
+Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier
+subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20subnet%20%3E%20(schema)">Subnet</a>
 
-  - `description: optional string`
+Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
 
-    Description for the ACL.
+<a href="#">Link to this property</a>
 
-  - `forward_locally: optional boolean`
+</details>
 
-    The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20lan_1%20%3E%20(schema)>)
 
-  - `lan_1: optional ACLConfiguration`
+<details>
 
-    - `lan_id: string`
+<summary>
 
-      The identifier for the LAN you want to create an ACL policy with.
+lan\_2: <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20acl_configuration%20%3E%20(schema)">ACLConfiguration</a> { lan\_id, lan\_name, port\_ranges, 2 more }
 
-    - `lan_name: optional string`
+</summary>
 
-      The name of the LAN based on the provided lan_id.
+lan\_id: string
 
-    - `port_ranges: optional array of string`
+The identifier for the LAN you want to create an ACL policy with.
 
-      Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
+<a href="#">Link to this property</a>
 
-    - `ports: optional array of number`
+lan\_name: optional string
 
-      Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
+The name of the LAN based on the provided lan\_id.
 
-    - `subnets: optional array of Subnet`
+<a href="#">Link to this property</a>
 
-      Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
+port\_ranges: optional array of string
 
-  - `lan_2: optional ACLConfiguration`
+Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the ACL.
+ports: optional array of number
 
-  - `protocols: optional array of AllowedProtocol`
+Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
 
-    - `"tcp"`
+<a href="#">Link to this property</a>
 
-    - `"udp"`
+subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20subnet%20%3E%20(schema)">Subnet</a>
 
-    - `"icmp"`
+Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
 
-  - `unidirectional: optional boolean`
+<a href="#">Link to this property</a>
 
-    The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false.
+</details>
 
-- `success: true`
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20lan_2%20%3E%20(schema)>)
 
-  Whether the API call was successful
+name: string
 
-  - `true`
+The name of the ACL.
 
-### Example
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-```http
+description: optional string
+
+Description for the ACL.
+
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+forward\_locally: optional boolean
+
+The desired forwarding action for this ACL policy. If set to “false”, the policy will forward traffic to Cloudflare. If set to “true”, the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
+
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20forward_locally%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+protocols: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20allowed_protocol%20%3E%20(schema)">AllowedProtocol</a>
+
+</summary>
+
+One of the following:
+
+"tcp"
+
+<a href="#">Link to this property</a>
+
+"udp"
+
+<a href="#">Link to this property</a>
+
+"icmp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20protocols%20%3E%20(schema)>)
+
+unidirectional: optional boolean
+
+The desired traffic direction for this ACL policy. If set to “false”, the policy will allow bidirectional traffic. If set to “true”, the policy will only allow traffic in one direction. If not included in request, will default to false.
+
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20unidirectional%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20acl%20%3E%20(schema)">ACL</a> { id, description, forward\_locally, 5 more }
+
+Bidirectional ACL policy for network traffic within a site.
+
+</summary>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Description for the ACL.
+
+<a href="#">Link to this property</a>
+
+forward\_locally: optional boolean
+
+The desired forwarding action for this ACL policy. If set to “false”, the policy will forward traffic to Cloudflare. If set to “true”, the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+lan\_1: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20acl_configuration%20%3E%20(schema)">ACLConfiguration</a> { lan\_id, lan\_name, port\_ranges, 2 more }
+
+</summary>
+
+lan\_id: string
+
+The identifier for the LAN you want to create an ACL policy with.
+
+<a href="#">Link to this property</a>
+
+lan\_name: optional string
+
+The name of the LAN based on the provided lan\_id.
+
+<a href="#">Link to this property</a>
+
+port\_ranges: optional array of string
+
+Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
+
+<a href="#">Link to this property</a>
+
+ports: optional array of number
+
+Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
+
+<a href="#">Link to this property</a>
+
+subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20subnet%20%3E%20(schema)">Subnet</a>
+
+Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+lan\_2: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20acl_configuration%20%3E%20(schema)">ACLConfiguration</a> { lan\_id, lan\_name, port\_ranges, 2 more }
+
+</summary>
+
+lan\_id: string
+
+The identifier for the LAN you want to create an ACL policy with.
+
+<a href="#">Link to this property</a>
+
+lan\_name: optional string
+
+The name of the LAN based on the provided lan\_id.
+
+<a href="#">Link to this property</a>
+
+port\_ranges: optional array of string
+
+Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed.
+
+<a href="#">Link to this property</a>
+
+ports: optional array of number
+
+Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed.
+
+<a href="#">Link to this property</a>
+
+subnets: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20subnet%20%3E%20(schema)">Subnet</a>
+
+Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the ACL.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+protocols: optional array of <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.sites.acls%20%3E%20(model)%20allowed_protocol%20%3E%20(schema)">AllowedProtocol</a>
+
+</summary>
+
+One of the following:
+
+"tcp"
+
+<a href="#">Link to this property</a>
+
+"udp"
+
+<a href="#">Link to this property</a>
+
+"icmp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+unidirectional: optional boolean
+
+The desired traffic direction for this ACL policy. If set to “false”, the policy will allow bidirectional traffic. If set to “true”, the policy will only allow traffic in one direction. If not included in request, will default to false.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20magic_transit.sites.acls%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a new Site ACL
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/acls \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -168,9 +484,75 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "description": "Allows local traffic between PIN pads and cash register.",
+    "forward_locally": true,
+    "lan_1": {
+      "lan_id": "lan_id",
+      "lan_name": "lan_name",
+      "port_ranges": [
+        "8080-9000"
+      ],
+      "ports": [
+        1
+      ],
+      "subnets": [
+        "192.0.2.1"
+      ]
+    },
+    "lan_2": {
+      "lan_id": "lan_id",
+      "lan_name": "lan_name",
+      "port_ranges": [
+        "8080-9000"
+      ],
+      "ports": [
+        1
+      ],
+      "subnets": [
+        "192.0.2.1"
+      ]
+    },
+    "name": "PIN Pad - Cash Register",
+    "protocols": [
+      "tcp"
+    ],
+    "unidirectional": true
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,118 +1,318 @@
-## Update a custom page
+---
+title: Update a custom page
+---
 
-**put** `/{accounts_or_zones}/{account_or_zone_id}/custom_pages/{identifier}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Custom Pages](https://developers.cloudflare.com/api/resources/custom_pages)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a custom page
+
+PUT/{accounts\_or\_zones}/{account\_or\_zone\_id}/custom\_pages/{identifier}
 
 Updates the configuration of an existing custom page.
 
-### Path Parameters
+##### Security
 
-- `identifier: "1000_errors" or "500_errors" or "basic_challenge" or 7 more`
+API Email + API Key
 
-  Error Page Types
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"1000_errors"`
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `"500_errors"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"basic_challenge"`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `"country_challenge"`
+##### Accepted Permissions (at least one required)
 
-  - `"ip_block"`
+`Account Custom Pages Write``Account Settings Write`
 
-  - `"managed_challenge"`
+##### P ath ParametersExpand Collapse
 
-  - `"ratelimit_block"`
+<details>
 
-  - `"under_attack"`
+<summary>
 
-  - `"waf_block"`
+identifier: "1000\_errors"or "500\_errors"or "basic\_challenge"or 7 more
 
-  - `"waf_challenge"`
+Error Page Types
 
-- `account_id: optional string`
+</summary>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+One of the following:
 
-- `zone_id: optional string`
+"1000\_errors"
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"500\_errors"
 
-- `state: "default" or "customized"`
+<a href="#">Link to this property</a>
 
-  The custom page state.
+"basic\_challenge"
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"customized"`
+"country\_challenge"
 
-- `url: string`
+<a href="#">Link to this property</a>
 
-  The URL associated with the custom page.
+"ip\_block"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"managed\_challenge"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"ratelimit\_block"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"under\_attack"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"waf\_block"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"waf\_challenge"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20identifier%20%3E%20(schema)>)
 
-- `success: true`
+account\_id: optional string
 
-  Whether the API call was successful.
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-  - `true`
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `result: optional object { id, created_on, description, 5 more }`
+zone\_id: optional string
 
-  - `id: optional string`
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-  - `created_on: optional string`
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `description: optional string`
+##### Body ParametersJSONExpand Collapse
 
-  - `modified_on: optional string`
+<details>
 
-  - `preview_target: optional string`
+<summary>
 
-  - `required_tokens: optional array of string`
+state: "default"or "customized"
 
-  - `state: optional "default" or "customized"`
+The custom page state.
 
-    The custom page state.
+</summary>
 
-    - `"default"`
+One of the following:
 
-    - `"customized"`
+"default"
 
-  - `url: optional string`
+<a href="#">Link to this property</a>
 
-    The URL associated with the custom page.
+"customized"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20state%20%3E%20(schema)>)
+
+url: string
+
+The URL associated with the custom page.
+
+formaturi
+
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20url%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_on, description, 5 more }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+preview\_target: optional string
+
+<a href="#">Link to this property</a>
+
+required\_tokens: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: optional "default"or "customized"
+
+The custom page state.
+
+</summary>
+
+One of the following:
+
+"default"
+
+<a href="#">Link to this property</a>
+
+"customized"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The URL associated with the custom page.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a custom page
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/custom_pages/$IDENTIFIER \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -124,9 +324,51 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "basic_challenge",
+    "created_on": "2014-01-01T05:20:00.12345Z",
+    "description": "Basic Challenge",
+    "modified_on": "2014-01-01T05:20:00.12345Z",
+    "preview_target": "block:basic-sec-captcha",
+    "required_tokens": [
+      "::CAPTCHA_BOX::"
+    ],
+    "state": "default",
+    "url": "http://www.example.com"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

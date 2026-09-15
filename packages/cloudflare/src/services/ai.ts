@@ -137,11 +137,17 @@ export const CreateFinetuneResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreateFinetuneAssetRequest {
   accountId: string;
   finetuneId: string;
+  /** File to upload. */
+  file: unknown;
+  /** Name of the file (adapter_config.json or adapter_model.safetensors). */
+  fileName: string;
 }
 export const CreateFinetuneAssetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     finetuneId: S.String.pipe(T.Label("finetune_id")),
+    file: S.Unknown,
+    fileName: S.String.pipe(T.Body("file_name")),
   })
     .pipe(
       T.Http({
@@ -257,11 +263,11 @@ export const ListAuthorsResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListFinetunePublicsRequest {
   accountId: string;
-  /** Pagination Limit */
+  /** Pagination Limit. */
   limit?: number;
-  /** Pagination Offset */
+  /** Pagination Offset. */
   offset?: number;
-  /** Order By Column Name */
+  /** Order By Column Name. */
   orderBy?: string;
 }
 export const ListFinetunePublicsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -373,21 +379,21 @@ export const ModelsListRequestFormat = S.String;
 
 export interface ListModelsRequest {
   accountId: string;
-  /** Filter by Author */
+  /** Filter by Author. */
   author?: string;
   /** If set, return models in the requested marketplace format instead of the default response. */
   format?: ModelsListRequestFormat | (string & {});
-  /** Filter to hide experimental models */
+  /** Filter to hide experimental models. */
   hideExperimental?: boolean;
-  /** If true, include models whose planned_deprecation_date is in the past — but only within a three-month grace window after that date. Models whose planned_deprecation_date is more than three months in the past remain hidden regardless of this flag. Future planned-deprecation dates are always included regardless of this flag. Defaults to false, preserving the existing behavior of hiding all past-dated deprecations. */
+  /** If true, include models for up to three months after their deprecation date. Defaults to false. */
   includeDeprecated?: boolean;
   page?: number;
   perPage?: number;
-  /** Search */
+  /** Search. */
   search?: string;
-  /** Filter by Source Id */
+  /** Filter by Source Id. */
   source?: number;
-  /** Filter by Task Name */
+  /** Filter by Task Name. */
   task?: string;
 }
 export const ListModelsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -577,7 +583,7 @@ export const RunRequestMessagesTextGenerationList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RunRequestMessagesTextGenerationList>;
 
 export interface RunRequestMessagesImageTextToTextItemContentCase1ItemImageUrl {
-  /** Image URI with data (e.g. data:image/jpeg;base64,/9j/...). */
+  /** Image URI with data (e.g. data:image/jpeg;base64,/9j/…). */
   url: string;
 }
 export const RunRequestMessagesImageTextToTextItemContentCase1ItemImageUrl =
@@ -1333,12 +1339,30 @@ export const SupportedToMarkdownResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SupportedToMarkdownResponse",
 }) as any as S.Schema<SupportedToMarkdownResponse>;
 
+export type ToMarkdownTransformRequestFileFilesList = Array<string>;
+export const ToMarkdownTransformRequestFileFilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ToMarkdownTransformRequestFileFilesList>;
+
+export interface ToMarkdownTransformRequestFile {
+  files: ToMarkdownTransformRequestFileFilesList;
+}
+export const ToMarkdownTransformRequestFile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    files: ToMarkdownTransformRequestFileFilesList,
+  }),
+).annotate({
+  identifier: "ToMarkdownTransformRequestFile",
+}) as any as S.Schema<ToMarkdownTransformRequestFile>;
+
 export interface TransformToMarkdownRequest {
   accountId: string;
+  file: ToMarkdownTransformRequestFile;
 }
 export const TransformToMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    file: ToMarkdownTransformRequestFile,
   })
     .pipe(
       T.Http({

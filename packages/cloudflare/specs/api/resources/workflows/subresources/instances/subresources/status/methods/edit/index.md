@@ -1,143 +1,433 @@
-## Change status of instance
+---
+title: Change status of instance
+---
 
-**patch** `/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/status`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workflows](https://developers.cloudflare.com/api/resources/workflows)
+
+[Instances](https://developers.cloudflare.com/api/resources/workflows/subresources/instances)
+
+[Status](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/subresources/status)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Change status of instance
+
+PATCH/accounts/{account\_id}/workflows/{workflow\_name}/instances/{instance\_id}/status
 
 Changes the execution status of a workflow instance (e.g., pause, resume, terminate).
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `workflow_name: string`
+<summary>API Token</summary>
 
-- `instance_id: string`
 
-  Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `body: optional object { status }  or object { status }  or object { status, rollback }  or object { status, from }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `Status object { status }`
+</details>
 
-    - `status: "pause"`
+<details>
 
-      - `"pause"`
+<summary>API Email + API Key</summary>
 
-  - `Status object { status }`
 
-    - `status: "resume"`
 
-      - `"resume"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `object { status, rollback }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `status: "terminate"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `"terminate"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `rollback: optional boolean`
+</details>
 
-      Run rollback before terminating.
+##### Accepted Permissions (at least one required)
 
-  - `object { status, from }`
+`Workers Scripts Write`
 
-    - `status: "restart"`
+##### P ath ParametersExpand Collapse
 
-      - `"restart"`
+account\_id: string
 
-    - `from: optional object { name, count, type }`
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      Step to restart from.
+workflow\_name: string
 
-      - `name: string`
+maxLength64
 
-      - `count: optional number`
+minLength1
 
-      - `type: optional "do" or "sleep" or "waitForEvent"`
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20workflow_name%20%3E%20(schema)>)
 
-        - `"do"`
+instance\_id: string
 
-        - `"sleep"`
+maxLength271
 
-        - `"waitForEvent"`
+minLength1
 
-### Returns
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20instance_id%20%3E%20(schema)>)
 
-- `errors: array of object { code, message }`
+##### Body ParametersJSONExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-- `messages: array of object { code, message }`
+body: object {status } or object {status } or object {status, rollback } or object {status, from }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-- `result: object { status, timestamp }`
+<details>
 
-  - `status: "queued" or "running" or "paused" or 6 more`
+<summary>
 
-    - `"queued"`
+Status object {status }
 
-    - `"running"`
+</summary>
 
-    - `"paused"`
+status: "pause"
 
-    - `"errored"`
+<a href="#">Link to this property</a>
 
-    - `"terminated"`
+</details>
 
-    - `"complete"`
+<a href="#">Link to this property</a>
 
-    - `"waitingForPause"`
+<details>
 
-    - `"waiting"`
+<summary>
 
-    - `"rollingBack"`
+Status object {status }
 
-  - `timestamp: string`
+</summary>
 
-    Accepts ISO 8601 with no timezone offsets and in UTC.
+status: "resume"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, per_page, total_count, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+<details>
 
-  - `per_page: number`
+<summary>
 
-  - `total_count: number`
+object {status, rollback }
 
-  - `cursor: optional string`
+</summary>
 
-  - `page: optional number`
+status: "terminate"
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+rollback: optional boolean
 
-```http
+Run rollback before terminating.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {status, from }
+
+</summary>
+
+status: "restart"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+from: optional object {name, count, type }
+
+Step to restart from.
+
+</summary>
+
+name: string
+
+maxLength256
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+count: optional number
+
+exclusiveMinimum
+
+maximum9007199254740991
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "do"or "sleep"or "waitForEvent"
+
+</summary>
+
+One of the following:
+
+"do"
+
+<a href="#">Link to this property</a>
+
+"sleep"
+
+<a href="#">Link to this property</a>
+
+"waitForEvent"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {status, timestamp }
+
+</summary>
+
+<details>
+
+<summary>
+
+status: "queued"or "running"or "paused"or 6 more
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"running"
+
+<a href="#">Link to this property</a>
+
+"paused"
+
+<a href="#">Link to this property</a>
+
+"errored"
+
+<a href="#">Link to this property</a>
+
+"terminated"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+"waitingForPause"
+
+<a href="#">Link to this property</a>
+
+"waiting"
+
+<a href="#">Link to this property</a>
+
+"rollingBack"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+Accepts ISO 8601 with no timezone offsets and in UTC.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, per\_page, total\_count, 3 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+cursor: optional string
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workflows.instances.status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Change status of instance
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/$INSTANCE_ID/status \
     -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
+    -H 'Content-Type: application/json' \
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+    -d '{
+          "status": "pause"
+        }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
-  "errors": [
+  "errors": [],
+  "messages": [
     {
       "code": 0,
       "message": "message"
     }
   ],
+  "result": {
+    "status": "queued",
+    "timestamp": "2019-12-27T18:11:19.117Z"
+  },
+  "success": true,
+  "result_info": {
+    "count": 0,
+    "per_page": 0,
+    "total_count": 0,
+    "cursor": "cursor",
+    "page": 0,
+    "total_pages": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
   "messages": [
     {
       "code": 0,

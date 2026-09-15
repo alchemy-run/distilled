@@ -1,174 +1,127 @@
+---
+title: Miscategorizations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Miscategorizations
 
-## Create Miscategorization
+##### [Create Miscategorization](https://developers.cloudflare.com/api/resources/intel/subresources/miscategorizations/methods/create)
 
-**post** `/accounts/{account_id}/intel/miscategorization`
+POST/accounts/{account\_id}/intel/miscategorization
 
-Allows you to submit requests to change a domain’s category.
+##### ModelsExpand Collapse
 
-Requests that include category `169` (New Domains) or category `177` (Newly Seen)
-in any of `content_adds`, `content_removes`, `security_adds`, or `security_removes`
-will be rejected with a `400 Bad Request`. These categories are automatically
-managed and fall off 30 days after they are applied.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+MiscategorizationCreateResponse object {errors, messages, success }
 
-  Identifier.
+</summary>
 
-### Body Parameters
+<details>
 
-- `content_adds: optional array of number`
+<summary>
 
-  Content category IDs to add.
+errors: array of object {code, message, documentation\_url, source }
 
-- `content_removes: optional array of number`
+</summary>
 
-  Content category IDs to remove.
+code: number
 
-- `indicator_type: optional "domain" or "ipv4" or "ipv6" or "url"`
+minimum1000
 
-  - `"domain"`
+<a href="#">Link to this property</a>
 
-  - `"ipv4"`
+message: string
 
-  - `"ipv6"`
+<a href="#">Link to this property</a>
 
-  - `"url"`
+documentation\_url: optional string
 
-- `ip: optional string`
+<a href="#">Link to this property</a>
 
-  Provide only if indicator_type is `ipv4` or `ipv6`.
+<details>
 
-- `security_adds: optional array of number`
+<summary>
 
-  Security category IDs to add.
+source: optional object {pointer }
 
-- `security_removes: optional array of number`
+</summary>
 
-  Security category IDs to remove.
+pointer: optional string
 
-- `url: optional string`
+<a href="#">Link to this property</a>
 
-  Provide only if indicator_type is `domain` or `url`. Example if indicator_type is `domain`: `example.com`. Example if indicator_type is `url`: `https://example.com/news/`.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+code: number
 
-  - `code: number`
+minimum1000
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+message: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+documentation\_url: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+source: optional object {pointer }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/miscategorization \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "content_adds": [
-            82
-          ],
-          "content_removes": [
-            155
-          ],
-          "indicator_type": "domain",
-          "security_adds": [
-            117,
-            131
-          ],
-          "security_removes": [
-            83
-          ]
-        }'
-```
+</summary>
 
-#### Response
+pointer: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Miscategorization Create Response
+<a href="#">Link to this property</a>
 
-- `MiscategorizationCreateResponse object { errors, messages, success }`
+</details>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+success: true
 
-    - `message: string`
+Whether the API call was successful.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20intel.miscategorizations%20%3E%20(model)%20miscategorization_create_response%20%3E%20(schema)>)

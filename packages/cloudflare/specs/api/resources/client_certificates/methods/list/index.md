@@ -1,197 +1,513 @@
-## List Client Certificates
+---
+title: List Client Certificates
+---
 
-**get** `/zones/{zone_id}/client_certificates`
+[Skip to content](#_top)
 
-List all of your Zone's API Shield mTLS Client Certificates by Status and/or using Pagination.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Client Certificates](https://developers.cloudflare.com/api/resources/client_certificates)
 
-- `zone_id: string`
+Copy Markdown
 
-  Identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Query Parameters
+---
 
-- `limit: optional number`
+**Copy Markdown****View as Markdown**
 
-  Limit to the number of records returned.
+# List Client Certificates
 
-- `offset: optional number`
+GET/zones/{zone\_id}/client\_certificates
 
-  Offset the results.
+List all of your Zone’s API Shield mTLS Client Certificates by Status and/or using Pagination.
 
-- `page: optional number`
+##### Security
 
-  Page number of paginated results.
+<details>
 
-- `per_page: optional number`
+<summary>API Token</summary>
 
-  Number of records per page.
 
-- `status: optional "all" or "active" or "pending_reactivation" or 2 more`
 
-  Client Certitifcate Status to filter results by.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"all"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"active"`
+</details>
 
-  - `"pending_reactivation"`
+<details>
 
-  - `"pending_revocation"`
+<summary>API Email + API Key</summary>
 
-  - `"revoked"`
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`SSL and Certificates Write``SSL and Certificates Read`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+zone\_id: string
 
-  - `documentation_url: optional string`
+Identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `success: true`
+##### Q uery ParametersExpand Collapse
 
-  Whether the API call was successful.
+limit: optional number
 
-  - `true`
+Limit to the number of records returned.
 
-- `result: optional array of ClientCertificate`
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-  - `id: optional string`
+offset: optional number
 
-    Identifier.
+Offset the results.
 
-  - `certificate: optional string`
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-    The Client Certificate PEM.
+page: optional number
 
-  - `certificate_authority: optional object { id, name }`
+Page number of paginated results.
 
-    Certificate Authority used to issue the Client Certificate.
+minimum1
 
-    - `id: optional string`
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `name: optional string`
+per\_page: optional number
 
-  - `common_name: optional string`
+Number of records per page.
 
-    Common Name of the Client Certificate.
+maximum50
 
-  - `country: optional string`
+minimum5
 
-    Country, provided by the CSR.
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `csr: optional string`
+<details>
 
-    The Certificate Signing Request (CSR). Must be newline-encoded.
+<summary>
 
-  - `expires_on: optional string`
+status: optional "all"or "active"or "pending\_reactivation"or 2 more
 
-    Date that the Client Certificate expires.
+Client Certitifcate Status to filter results by.
 
-  - `fingerprint_sha256: optional string`
+</summary>
 
-    Unique identifier of the Client Certificate.
+One of the following:
 
-  - `issued_on: optional string`
+"all"
 
-    Date that the Client Certificate was issued by the Certificate Authority.
+<a href="#">Link to this property</a>
 
-  - `location: optional string`
+"active"
 
-    Location, provided by the CSR.
+<a href="#">Link to this property</a>
 
-  - `organization: optional string`
+"pending\_reactivation"
 
-    Organization, provided by the CSR.
+<a href="#">Link to this property</a>
 
-  - `organizational_unit: optional string`
+"pending\_revocation"
 
-    Organizational Unit, provided by the CSR.
+<a href="#">Link to this property</a>
 
-  - `serial_number: optional string`
+"revoked"
 
-    The serial number on the created Client Certificate.
+<a href="#">Link to this property</a>
 
-  - `signature: optional string`
+</details>
 
-    The type of hash used for the Client Certificate..
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-  - `ski: optional string`
+##### ReturnsExpand Collapse
 
-    Subject Key Identifier.
+<details>
 
-  - `state: optional string`
+<summary>
 
-    State, provided by the CSR.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `status: optional Status`
+</summary>
 
-    Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions.
+code: number
 
-    - `"active"`
+minimum1000
 
-    - `"pending_reactivation"`
+<a href="#">Link to this property</a>
 
-    - `"pending_revocation"`
+message: string
 
-    - `"revoked"`
+<a href="#">Link to this property</a>
 
-  - `validity_days: optional number`
+documentation\_url: optional string
 
-    The number of days the Client Certificate will be valid after the issued_on date.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service.
+source: optional object {pointer }
 
-  - `page: optional number`
+</summary>
 
-    Current page within paginated list of results.
+pointer: optional string
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    The number of total pages in the entire result set.
+<details>
 
-### Example
+<summary>
 
-```http
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/client_certificates#(resource)%20client_certificates%20%3E%20(model)%20client_certificate%20%3E%20(schema)">ClientCertificate</a> { id, certificate, certificate\_authority, 15 more }
+
+</summary>
+
+id: optional string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+certificate: optional string
+
+The Client Certificate PEM.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+certificate\_authority: optional object {id, name }
+
+Certificate Authority used to issue the Client Certificate.
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+common\_name: optional string
+
+Common Name of the Client Certificate.
+
+<a href="#">Link to this property</a>
+
+country: optional string
+
+Country, provided by the CSR.
+
+<a href="#">Link to this property</a>
+
+csr: optional string
+
+The Certificate Signing Request (CSR). Must be newline-encoded.
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+Date that the Client Certificate expires.
+
+<a href="#">Link to this property</a>
+
+fingerprint\_sha256: optional string
+
+Unique identifier of the Client Certificate.
+
+<a href="#">Link to this property</a>
+
+issued\_on: optional string
+
+Date that the Client Certificate was issued by the Certificate Authority.
+
+<a href="#">Link to this property</a>
+
+location: optional string
+
+Location, provided by the CSR.
+
+<a href="#">Link to this property</a>
+
+organization: optional string
+
+Organization, provided by the CSR.
+
+<a href="#">Link to this property</a>
+
+organizational\_unit: optional string
+
+Organizational Unit, provided by the CSR.
+
+<a href="#">Link to this property</a>
+
+serial\_number: optional string
+
+The serial number on the created Client Certificate.
+
+<a href="#">Link to this property</a>
+
+signature: optional string
+
+The type of hash used for the Client Certificate..
+
+<a href="#">Link to this property</a>
+
+ski: optional string
+
+Subject Key Identifier.
+
+<a href="#">Link to this property</a>
+
+state: optional string
+
+State, provided by the CSR.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "active"or "pending\_reactivation"or "pending\_revocation"or "revoked"
+
+Client Certificates may be active or revoked, and the pending\_reactivation or pending\_revocation represent in-progress asynchronous transitions.
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"pending\_reactivation"
+
+<a href="#">Link to this property</a>
+
+"pending\_revocation"
+
+<a href="#">Link to this property</a>
+
+"revoked"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+validity\_days: optional number
+
+The number of days the Client Certificate will be valid after the issued\_on date.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20client_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Client Certificates
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/client_certificates \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "certificate": "-----BEGIN CERTIFICATE-----\nMIIDmDCCAoC...dhDDE\n-----END CERTIFICATE-----",
+      "certificate_authority": {
+        "id": "568b6b74-7b0c-4755-8840-4e3b8c24adeb",
+        "name": "Cloudflare Managed CA for account"
+      },
+      "common_name": "Cloudflare",
+      "country": "US",
+      "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICY....\n-----END CERTIFICATE REQUEST-----",
+      "expires_on": "2033-02-20T23:18:00Z",
+      "fingerprint_sha256": "256c24690243359fb8cf139a125bd05ebf1d968b71e4caf330718e9f5c8a89ea",
+      "issued_on": "2023-02-23T23:18:00Z",
+      "location": "Somewhere",
+      "organization": "Organization",
+      "organizational_unit": "Organizational Unit",
+      "serial_number": "3bb94ff144ac567b9f75ad664b6c55f8d5e48182",
+      "signature": "SHA256WithRSA",
+      "ski": "8e375af1389a069a0f921f8cc8e1eb12d784b949",
+      "state": "CA",
+      "status": "active",
+      "validity_days": 3650
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

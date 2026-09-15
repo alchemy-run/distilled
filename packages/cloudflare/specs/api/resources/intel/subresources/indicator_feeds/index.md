@@ -1,1483 +1,629 @@
+---
+title: Indicator Feeds
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Indicator Feeds
 
-## Get indicator feeds owned by this account
+##### [Get indicator feeds owned by this account](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/list)
 
-**get** `/accounts/{account_id}/intel/indicator-feeds`
+GET/accounts/{account\_id}/intel/indicator-feeds
 
-Retrieves details for all accessible custom threat indicator feeds.
+##### [Get indicator feed metadata](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}
 
-- `account_id: string`
+##### [Create new indicator feed](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/create)
 
-  Identifier
+POST/accounts/{account\_id}/intel/indicator-feeds
 
-### Returns
+##### [Update indicator feed metadata](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/update)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PUT/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}
 
-  - `code: number`
+##### [Get indicator feed data](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/methods/data)
 
-  - `message: string`
+GET/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}/data
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+IndicatorFeedListResponse object {id, created\_on, description, 5 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional number
 
-  - `documentation_url: optional string`
+The unique identifier for the indicator feed
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: optional string
 
-- `success: true`
+The date and time when the data entry was created
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_on, description, 5 more }`
+description: optional string
 
-  - `id: optional number`
+The description of the example test
 
-    The unique identifier for the indicator feed
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+is\_attributable: optional boolean
 
-    The date and time when the data entry was created
+Whether the indicator feed can be attributed to a provider
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    The description of the example test
+is\_downloadable: optional boolean
 
-  - `is_attributable: optional boolean`
+Whether the indicator feed can be downloaded
 
-    Whether the indicator feed can be attributed to a provider
+<a href="#">Link to this property</a>
 
-  - `is_downloadable: optional boolean`
+is\_public: optional boolean
 
-    Whether the indicator feed can be downloaded
+Whether the indicator feed is exposed to customers
 
-  - `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed is exposed to customers
+modified\_on: optional string
 
-  - `modified_on: optional string`
+The date and time when the data entry was last modified
 
-    The date and time when the data entry was last modified
+formatdate-time
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the indicator feed
+name: optional string
 
-### Example
+The name of the indicator feed
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 1,
-      "created_on": "2023-05-12T12:21:56.777653Z",
-      "description": "user specified description 1",
-      "is_attributable": false,
-      "is_downloadable": false,
-      "is_public": false,
-      "modified_on": "2023-06-18T03:13:34.123321Z",
-      "name": "user_specified_name_1"
-    },
-    {
-      "id": 2,
-      "created_on": "2023-05-21T21:43:52.867525Z",
-      "description": "User specified description 2",
-      "is_attributable": false,
-      "is_downloadable": false,
-      "is_public": false,
-      "modified_on": "2023-06-28T18:46:18.764425Z",
-      "name": "user_specified_name_2"
-    }
-  ]
-}
-```
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_list_response%20%3E%20(schema)>)
 
-## Get indicator feed metadata
+<details>
 
-**get** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}`
+<summary>
 
-Retrieves details for a specific custom threat indicator feed.
+IndicatorFeedGetResponse object {id, created\_on, description, 10 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: optional number
 
-  Identifier
+The unique identifier for the indicator feed
 
-- `feed_id: number`
+<a href="#">Link to this property</a>
 
-  Indicator feed ID
+created\_on: optional string
 
-### Returns
+The date and time when the data entry was created
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+The description of the example test
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+is\_attributable: optional boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Whether the indicator feed can be attributed to a provider
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+is\_downloadable: optional boolean
 
-  - `documentation_url: optional string`
+Whether the indicator feed can be downloaded
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+is\_public: optional boolean
 
-- `success: true`
+Whether the indicator feed is exposed to customers
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { id, created_on, description, 10 more }`
+<summary>
 
-  - `id: optional number`
+last\_upload\_summary: optional object {persisted, skipped, uploaded }
 
-    The unique identifier for the indicator feed
+Summary of indicator counts from the last successful upload to this feed. Populated by the custom-threat-feeds loader at the end of each successful load. Absent (omitted) when no upload has completed successfully or the upload errored before the summary write. Surfaces silent-failure paths so operators can see when their indicators were dropped (popularity allowlist, expired valid\_until, etc.) without reading loader logs.
 
-  - `created_on: optional string`
+</summary>
 
-    The date and time when the data entry was created
+<details>
 
-  - `description: optional string`
+<summary>
 
-    The description of the example test
+persisted: optional object {domains\_added, domains\_removed, ips\_added, 3 more }
 
-  - `is_attributable: optional boolean`
+Net delta applied to feed indicators by this upload. Snapshot uploads emit both \*\_added and \*\_removed; delta-add emits only \*\_added; delta-remove emits only \*\_removed.
 
-    Whether the indicator feed can be attributed to a provider
+</summary>
 
-  - `is_downloadable: optional boolean`
+domains\_added: optional number
 
-    Whether the indicator feed can be downloaded
+<a href="#">Link to this property</a>
 
-  - `is_public: optional boolean`
+domains\_removed: optional number
 
-    Whether the indicator feed is exposed to customers
+<a href="#">Link to this property</a>
 
-  - `last_upload_summary: optional object { persisted, skipped, uploaded }`
+ips\_added: optional number
 
-    Summary of indicator counts from the last successful upload to this
-    feed. Populated by the custom-threat-feeds loader at the end of each
-    successful load. Absent (omitted) when no upload has completed
-    successfully or the upload errored before the summary write.
-    Surfaces silent-failure paths so operators can see when their
-    indicators were dropped (popularity allowlist, expired valid_until,
-    etc.) without reading loader logs.
+<a href="#">Link to this property</a>
 
-    - `persisted: optional object { domains_added, domains_removed, ips_added, 3 more }`
+ips\_removed: optional number
 
-      Net delta applied to feed indicators by this upload. Snapshot
-      uploads emit both *_added and *_removed; delta-add emits only
-      \*_added; delta-remove emits only *_removed.
+<a href="#">Link to this property</a>
 
-      - `domains_added: optional number`
+urls\_added: optional number
 
-      - `domains_removed: optional number`
+<a href="#">Link to this property</a>
 
-      - `ips_added: optional number`
+urls\_removed: optional number
 
-      - `ips_removed: optional number`
+<a href="#">Link to this property</a>
 
-      - `urls_added: optional number`
+</details>
 
-      - `urls_removed: optional number`
+<a href="#">Link to this property</a>
 
-    - `skipped: optional object { allowlisted_domains, expired_indicators, invalid_indicators }`
+<details>
 
-      Counts of indicators that were uploaded but did not reach
-      QuickSilver, broken down by reason.
+<summary>
 
-      - `allowlisted_domains: optional number`
+skipped: optional object {allowlisted\_domains, expired\_indicators, invalid\_indicators }
 
-        Domains filtered by the global popularity allowlist at QS
-        provisioning time. Popular domains (bing.com, naver.com,
-        etc.) are protected from custom-threat-feed enforcement.
+Counts of indicators that were uploaded but did not reach QuickSilver, broken down by reason.
 
-      - `expired_indicators: optional number`
+</summary>
 
-        Indicators in the upload whose valid_until is already in
-        the past. These are not added to QS; the expiration cron
-        handles cleanup.
+allowlisted\_domains: optional number
 
-      - `invalid_indicators: optional number`
+Domains filtered by the global popularity allowlist at QS provisioning time. Popular domains (bing.com, naver.com, etc.) are protected from custom-threat-feed enforcement.
 
-        Reserved for future use. Currently always 0 — the unifier
-        aborts the entire upload on a single bad indicator.
+<a href="#">Link to this property</a>
 
-    - `uploaded: optional object { domains, ips, urls }`
+expired\_indicators: optional number
 
-      Indicator counts from the unified file the loader received
+Indicators in the upload whose valid\_until is already in the past. These are not added to QS; the expiration cron handles cleanup.
 
-      - `domains: optional number`
+<a href="#">Link to this property</a>
 
-        Number of domain indicators in the upload
+invalid\_indicators: optional number
 
-      - `ips: optional number`
+Reserved for future use. Currently always 0 — the unifier aborts the entire upload on a single bad indicator.
 
-        Number of IP indicators in the upload
+<a href="#">Link to this property</a>
 
-      - `urls: optional number`
+</details>
 
-        Number of URL indicators in the upload
+<a href="#">Link to this property</a>
 
-  - `latest_upload_error: optional string`
+<details>
 
-    Human-readable error message describing why the latest upload
-    failed. Populated only when `latest_upload_status` is `Error`.
-    Returns one of a small fixed set of category-level messages
-    (invalid domain / IP / URL entries, malformed row or header,
-    invalid valid_until timestamp, etc.) or the generic
-    `Upload failed` for unknown or infrastructure-level errors.
-    Never echoes raw error text from the underlying loader.
-    Intel accounts receive the verbatim loader/API error text
-    (including specific offending values) instead of these
-    category-level messages.
+<summary>
 
-  - `latest_upload_status: optional "Mirroring" or "Unifying" or "Loading" or 3 more`
+uploaded: optional object {domains, ips, urls }
 
-    Status of the latest snapshot uploaded
+Indicator counts from the unified file the loader received
 
-    - `"Mirroring"`
+</summary>
 
-    - `"Unifying"`
+domains: optional number
 
-    - `"Loading"`
+Number of domain indicators in the upload
 
-    - `"Provisioning"`
+<a href="#">Link to this property</a>
 
-    - `"Complete"`
+ips: optional number
 
-    - `"Error"`
+Number of IP indicators in the upload
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was last modified
+urls: optional number
 
-  - `name: optional string`
+Number of URL indicators in the upload
 
-    The name of the indicator feed
+<a href="#">Link to this property</a>
 
-  - `provider_id: optional number`
+</details>
 
-    The unique identifier for the provider
+<a href="#">Link to this property</a>
 
-  - `provider_name: optional string`
+</details>
 
-    The provider of the indicator feed
+<a href="#">Link to this property</a>
 
-### Example
+latest\_upload\_error: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Human-readable error message describing why the latest upload failed. Populated only when <code>latest_upload_status</code> is <code>Error</code>. Returns one of a small fixed set of category-level messages (invalid domain / IP / URL entries, malformed row or header, invalid valid\_until timestamp, etc.) or the generic <code>Upload failed</code> for unknown or infrastructure-level errors. Never echoes raw error text from the underlying loader. Intel accounts receive the verbatim loader/API error text (including specific offending values) instead of these category-level messages.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 1,
-    "created_on": "2023-05-12T12:21:56.777653Z",
-    "description": "example feed description",
-    "is_attributable": false,
-    "is_downloadable": false,
-    "is_public": false,
-    "last_upload_summary": {
-      "persisted": {
-        "domains_added": 2,
-        "domains_removed": 1,
-        "ips_added": 0,
-        "ips_removed": 0,
-        "urls_added": 0,
-        "urls_removed": 0
-      },
-      "skipped": {
-        "allowlisted_domains": 1,
-        "expired_indicators": 0,
-        "invalid_indicators": 0
-      },
-      "uploaded": {
-        "domains": 3,
-        "ips": 0,
-        "urls": 0
-      }
-    },
-    "latest_upload_error": "Feed contains one or more invalid domain entries. Check your feed for wildcards or other values that are not valid DNS names.",
-    "latest_upload_status": "Complete",
-    "modified_on": "2023-06-18T03:13:34.123321Z",
-    "name": "example_feed_1",
-    "provider_id": 1,
-    "provider_name": "provider_name"
-  }
-}
-```
+<details>
 
-## Create new indicator feed
+<summary>
 
-**post** `/accounts/{account_id}/intel/indicator-feeds`
+latest\_upload\_status: optional "Mirroring"or "Unifying"or "Loading"or 3 more
 
-Creates a new custom threat indicator feed for sharing threat intelligence data.
+Status of the latest snapshot uploaded
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-  Identifier
+"Mirroring"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+"Unifying"
 
-  The description of the example test
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+"Loading"
 
-  The name of the indicator feed
+<a href="#">Link to this property</a>
 
-### Returns
+"Provisioning"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"Complete"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"Error"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_on: optional string
 
-  - `message: string`
+The date and time when the data entry was last modified
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: optional string
 
-- `success: true`
+The name of the indicator feed
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+provider\_id: optional number
 
-- `result: optional object { id, created_on, description, 5 more }`
+The unique identifier for the provider
 
-  - `id: optional number`
+<a href="#">Link to this property</a>
 
-    The unique identifier for the indicator feed
+provider\_name: optional string
 
-  - `created_on: optional string`
+The provider of the indicator feed
 
-    The date and time when the data entry was created
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+</details>
 
-    The description of the example test
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_get_response%20%3E%20(schema)>)
 
-  - `is_attributable: optional boolean`
+<details>
 
-    Whether the indicator feed can be attributed to a provider
+<summary>
 
-  - `is_downloadable: optional boolean`
+IndicatorFeedCreateResponse object {id, created\_on, description, 5 more }
 
-    Whether the indicator feed can be downloaded
+</summary>
 
-  - `is_public: optional boolean`
+id: optional number
 
-    Whether the indicator feed is exposed to customers
+The unique identifier for the indicator feed
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was last modified
+created\_on: optional string
 
-  - `name: optional string`
+The date and time when the data entry was created
 
-    The name of the indicator feed
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
+description: optional string
 
-#### Response
+The description of the example test
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 1,
-    "created_on": "2023-05-12T12:21:56.777653Z",
-    "description": "example feed description",
-    "is_attributable": false,
-    "is_downloadable": false,
-    "is_public": false,
-    "modified_on": "2023-06-18T03:13:34.123321Z",
-    "name": "example_feed_1"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update indicator feed metadata
+is\_attributable: optional boolean
 
-**put** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}`
+Whether the indicator feed can be attributed to a provider
 
-Revises details for a specific custom threat indicator feed.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+is\_downloadable: optional boolean
 
-- `account_id: string`
+Whether the indicator feed can be downloaded
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `feed_id: number`
+is\_public: optional boolean
 
-  Indicator feed ID
+Whether the indicator feed is exposed to customers
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+modified\_on: optional string
 
-  The new description of the feed
+The date and time when the data entry was last modified
 
-- `is_attributable: optional boolean`
+formatdate-time
 
-  The new is_attributable value of the feed
+<a href="#">Link to this property</a>
 
-- `is_downloadable: optional boolean`
+name: optional string
 
-  The new is_downloadable value of the feed
+The name of the indicator feed
 
-- `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-  The new is_public value of the feed
+</details>
 
-- `name: optional string`
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_create_response%20%3E%20(schema)>)
 
-  The new name of the feed
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+IndicatorFeedUpdateResponse object {id, created\_on, description, 5 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional number
 
-  - `documentation_url: optional string`
+The unique identifier for the indicator feed
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The date and time when the data entry was created
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+description: optional string
 
-  - `source: optional object { pointer }`
+The description of the example test
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+is\_attributable: optional boolean
 
-  Whether the API call was successful.
+Whether the indicator feed can be attributed to a provider
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, description, 5 more }`
+is\_downloadable: optional boolean
 
-  - `id: optional number`
+Whether the indicator feed can be downloaded
 
-    The unique identifier for the indicator feed
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+is\_public: optional boolean
 
-    The date and time when the data entry was created
+Whether the indicator feed is exposed to customers
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    The description of the example test
+modified\_on: optional string
 
-  - `is_attributable: optional boolean`
+The date and time when the data entry was last modified
 
-    Whether the indicator feed can be attributed to a provider
+formatdate-time
 
-  - `is_downloadable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be downloaded
+name: optional string
 
-  - `is_public: optional boolean`
+The name of the indicator feed
 
-    Whether the indicator feed is exposed to customers
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+</details>
 
-    The date and time when the data entry was last modified
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_update_response%20%3E%20(schema)>)
 
-  - `name: optional string`
+IndicatorFeedDataResponse = string
 
-    The name of the indicator feed
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(model)%20indicator_feed_data_response%20%3E%20(schema)>)
 
-### Example
+#### Indicator FeedsSnapshots
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "description": "This is an example description",
-          "is_attributable": true,
-          "is_downloadable": true,
-          "is_public": true,
-          "name": "indicator_list"
-        }'
-```
+##### [Update indicator feed data](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/snapshots/methods/update)
 
-#### Response
+PUT/accounts/{account\_id}/intel/indicator-feeds/{feed\_id}/snapshot
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": 1,
-    "created_on": "2023-05-12T12:21:56.777653Z",
-    "description": "example feed description",
-    "is_attributable": false,
-    "is_downloadable": false,
-    "is_public": false,
-    "modified_on": "2023-06-18T03:13:34.123321Z",
-    "name": "example_feed_1"
-  }
-}
-```
+##### ModelsExpand Collapse
 
-## Get indicator feed data
+<details>
 
-**get** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}/data`
+<summary>
 
-Retrieves the raw data entries in a custom threat indicator feed.
+SnapshotUpdateResponse object {file\_id, filename, poll\_url, 2 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+file\_id: optional number
 
-  Identifier
+Feed id
 
-- `feed_id: number`
+<a href="#">Link to this property</a>
 
-  Indicator feed ID
+filename: optional string
 
-### Example
+Name of the file unified in our system
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID/data \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+poll\_url: optional string
 
-### Indicator Feed List Response
+Account-relative polling path. Prepend <code>/accounts/{account_id}</code> using the same account identifier and API host as the upload request. The path omits the account segment because the service does not have your account identifier in this context.
 
-- `IndicatorFeedListResponse object { id, created_on, description, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional number`
+status: optional string
 
-    The unique identifier for the indicator feed
+Current status of the upload at the moment the request returned. This is NOT a terminal state: the file is unified inline, but the durable loader has only accepted it, so the upload is still <code>Unifying</code>. Poll <code>poll_url</code> until the status reaches a terminal value (<code>Unified</code> or <code>Error</code>).
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was created
+upload\_id: optional number
 
-  - `description: optional string`
+Identifier of the upload row, for polling this upload to a terminal state via <code>poll_url</code>.
 
-    The description of the example test
+formatint64
 
-  - `is_attributable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be attributed to a provider
+</details>
 
-  - `is_downloadable: optional boolean`
+[Link to this property](#)%20intel.indicator_feeds.snapshots%20%3E%20(model)%20snapshot_update_response%20%3E%20(schema)>)
 
-    Whether the indicator feed can be downloaded
+#### Indicator FeedsPermissions
 
-  - `is_public: optional boolean`
+##### [List indicator feed permissions](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/list)
 
-    Whether the indicator feed is exposed to customers
+GET/accounts/{account\_id}/intel/indicator-feeds/permissions/view
 
-  - `modified_on: optional string`
+##### [Grant permission to indicator feed](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/create)
 
-    The date and time when the data entry was last modified
+PUT/accounts/{account\_id}/intel/indicator-feeds/permissions/add
 
-  - `name: optional string`
+##### [Revoke permission to indicator feed](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds/subresources/permissions/methods/delete)
 
-    The name of the indicator feed
+PUT/accounts/{account\_id}/intel/indicator-feeds/permissions/remove
 
-### Indicator Feed Get Response
+##### ModelsExpand Collapse
 
-- `IndicatorFeedGetResponse object { id, created_on, description, 10 more }`
+<details>
 
-  - `id: optional number`
+<summary>
 
-    The unique identifier for the indicator feed
+PermissionListResponse = array of object {id, description, is\_attributable, 3 more }
 
-  - `created_on: optional string`
+</summary>
 
-    The date and time when the data entry was created
+id: optional number
 
-  - `description: optional string`
+The unique identifier for the indicator feed
 
-    The description of the example test
+<a href="#">Link to this property</a>
 
-  - `is_attributable: optional boolean`
+description: optional string
 
-    Whether the indicator feed can be attributed to a provider
+The description of the example test
 
-  - `is_downloadable: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed can be downloaded
+is\_attributable: optional boolean
 
-  - `is_public: optional boolean`
+Whether the indicator feed can be attributed to a provider
 
-    Whether the indicator feed is exposed to customers
+<a href="#">Link to this property</a>
 
-  - `last_upload_summary: optional object { persisted, skipped, uploaded }`
+is\_downloadable: optional boolean
 
-    Summary of indicator counts from the last successful upload to this
-    feed. Populated by the custom-threat-feeds loader at the end of each
-    successful load. Absent (omitted) when no upload has completed
-    successfully or the upload errored before the summary write.
-    Surfaces silent-failure paths so operators can see when their
-    indicators were dropped (popularity allowlist, expired valid_until,
-    etc.) without reading loader logs.
+Whether the indicator feed can be downloaded
 
-    - `persisted: optional object { domains_added, domains_removed, ips_added, 3 more }`
+<a href="#">Link to this property</a>
 
-      Net delta applied to feed indicators by this upload. Snapshot
-      uploads emit both *_added and *_removed; delta-add emits only
-      \*_added; delta-remove emits only *_removed.
+is\_public: optional boolean
 
-      - `domains_added: optional number`
+Whether the indicator feed is exposed to customers
 
-      - `domains_removed: optional number`
+<a href="#">Link to this property</a>
 
-      - `ips_added: optional number`
+name: optional string
 
-      - `ips_removed: optional number`
+The name of the indicator feed
 
-      - `urls_added: optional number`
+<a href="#">Link to this property</a>
 
-      - `urls_removed: optional number`
+</details>
 
-    - `skipped: optional object { allowlisted_domains, expired_indicators, invalid_indicators }`
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_list_response%20%3E%20(schema)>)
 
-      Counts of indicators that were uploaded but did not reach
-      QuickSilver, broken down by reason.
+<details>
 
-      - `allowlisted_domains: optional number`
+<summary>
 
-        Domains filtered by the global popularity allowlist at QS
-        provisioning time. Popular domains (bing.com, naver.com,
-        etc.) are protected from custom-threat-feed enforcement.
+PermissionCreateResponse object {success }
 
-      - `expired_indicators: optional number`
+</summary>
 
-        Indicators in the upload whose valid_until is already in
-        the past. These are not added to QS; the expiration cron
-        handles cleanup.
+success: optional boolean
 
-      - `invalid_indicators: optional number`
+Whether the update succeeded or not
 
-        Reserved for future use. Currently always 0 — the unifier
-        aborts the entire upload on a single bad indicator.
+<a href="#">Link to this property</a>
 
-    - `uploaded: optional object { domains, ips, urls }`
+</details>
 
-      Indicator counts from the unified file the loader received
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_create_response%20%3E%20(schema)>)
 
-      - `domains: optional number`
+<details>
 
-        Number of domain indicators in the upload
+<summary>
 
-      - `ips: optional number`
+PermissionDeleteResponse object {success }
 
-        Number of IP indicators in the upload
+</summary>
 
-      - `urls: optional number`
+success: optional boolean
 
-        Number of URL indicators in the upload
+Whether the update succeeded or not
 
-  - `latest_upload_error: optional string`
+<a href="#">Link to this property</a>
 
-    Human-readable error message describing why the latest upload
-    failed. Populated only when `latest_upload_status` is `Error`.
-    Returns one of a small fixed set of category-level messages
-    (invalid domain / IP / URL entries, malformed row or header,
-    invalid valid_until timestamp, etc.) or the generic
-    `Upload failed` for unknown or infrastructure-level errors.
-    Never echoes raw error text from the underlying loader.
-    Intel accounts receive the verbatim loader/API error text
-    (including specific offending values) instead of these
-    category-level messages.
+</details>
 
-  - `latest_upload_status: optional "Mirroring" or "Unifying" or "Loading" or 3 more`
+[Link to this property](#)%20intel.indicator_feeds.permissions%20%3E%20(model)%20permission_delete_response%20%3E%20(schema)>)
 
-    Status of the latest snapshot uploaded
-
-    - `"Mirroring"`
-
-    - `"Unifying"`
-
-    - `"Loading"`
-
-    - `"Provisioning"`
-
-    - `"Complete"`
-
-    - `"Error"`
-
-  - `modified_on: optional string`
-
-    The date and time when the data entry was last modified
-
-  - `name: optional string`
-
-    The name of the indicator feed
-
-  - `provider_id: optional number`
-
-    The unique identifier for the provider
-
-  - `provider_name: optional string`
-
-    The provider of the indicator feed
-
-### Indicator Feed Create Response
-
-- `IndicatorFeedCreateResponse object { id, created_on, description, 5 more }`
-
-  - `id: optional number`
-
-    The unique identifier for the indicator feed
-
-  - `created_on: optional string`
-
-    The date and time when the data entry was created
-
-  - `description: optional string`
-
-    The description of the example test
-
-  - `is_attributable: optional boolean`
-
-    Whether the indicator feed can be attributed to a provider
-
-  - `is_downloadable: optional boolean`
-
-    Whether the indicator feed can be downloaded
-
-  - `is_public: optional boolean`
-
-    Whether the indicator feed is exposed to customers
-
-  - `modified_on: optional string`
-
-    The date and time when the data entry was last modified
-
-  - `name: optional string`
-
-    The name of the indicator feed
-
-### Indicator Feed Update Response
-
-- `IndicatorFeedUpdateResponse object { id, created_on, description, 5 more }`
-
-  - `id: optional number`
-
-    The unique identifier for the indicator feed
-
-  - `created_on: optional string`
-
-    The date and time when the data entry was created
-
-  - `description: optional string`
-
-    The description of the example test
-
-  - `is_attributable: optional boolean`
-
-    Whether the indicator feed can be attributed to a provider
-
-  - `is_downloadable: optional boolean`
-
-    Whether the indicator feed can be downloaded
-
-  - `is_public: optional boolean`
-
-    Whether the indicator feed is exposed to customers
-
-  - `modified_on: optional string`
-
-    The date and time when the data entry was last modified
-
-  - `name: optional string`
-
-    The name of the indicator feed
-
-### Indicator Feed Data Response
-
-- `IndicatorFeedDataResponse = string`
-
-# Snapshots
-
-## Update indicator feed data
-
-**put** `/accounts/{account_id}/intel/indicator-feeds/{feed_id}/snapshot`
-
-Revises the raw data entries in a custom threat indicator feed.
-
-Accepts both plain and gzipped STIX2/CRDF bodies. Gzip is
-detected by RFC 1952 magic bytes (`0x1f 0x8b`) and/or a `.gz`
-filename suffix (case-insensitive) — either signal alone is
-sufficient to trigger the gzip path; if the body is not valid
-gzip, the upload fails fast. Customers are encouraged to gzip
-larger uploads — the api-gateway 500 MB body cap applies to
-the on-the-wire (compressed) size, so gzip lets a single
-upload carry several GiB of decompressed STIX.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `feed_id: number`
-
-  Indicator feed ID
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { file_id, filename, status }`
-
-  - `file_id: optional number`
-
-    Feed id
-
-  - `filename: optional string`
-
-    Name of the file unified in our system
-
-  - `status: optional string`
-
-    Current status of upload, should be unified
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/$FEED_ID/snapshot \
-    -X PUT \
-    -H 'Content-Type: multipart/form-data' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -F source=@/Users/me/test.stix2.gz
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "file_id": 1,
-    "filename": "snapshot_file.unified",
-    "status": "unified"
-  }
-}
-```
-
-## Domain Types
-
-### Snapshot Update Response
-
-- `SnapshotUpdateResponse object { file_id, filename, status }`
-
-  - `file_id: optional number`
-
-    Feed id
-
-  - `filename: optional string`
-
-    Name of the file unified in our system
-
-  - `status: optional string`
-
-    Current status of upload, should be unified
-
-# Permissions
-
-## List indicator feed permissions
-
-**get** `/accounts/{account_id}/intel/indicator-feeds/permissions/view`
-
-Lists current access permissions for custom threat indicator feeds.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, description, is_attributable, 3 more }`
-
-  - `id: optional number`
-
-    The unique identifier for the indicator feed
-
-  - `description: optional string`
-
-    The description of the example test
-
-  - `is_attributable: optional boolean`
-
-    Whether the indicator feed can be attributed to a provider
-
-  - `is_downloadable: optional boolean`
-
-    Whether the indicator feed can be downloaded
-
-  - `is_public: optional boolean`
-
-    Whether the indicator feed is exposed to customers
-
-  - `name: optional string`
-
-    The name of the indicator feed
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/view \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": 1,
-      "description": "An important indicator list",
-      "is_attributable": false,
-      "is_downloadable": false,
-      "is_public": false,
-      "name": "indicator_list_1"
-    },
-    {
-      "id": 2,
-      "description": "An even more important indicator list",
-      "is_attributable": true,
-      "is_downloadable": false,
-      "is_public": true,
-      "name": "indicator_list_2"
-    }
-  ]
-}
-```
-
-## Grant permission to indicator feed
-
-**put** `/accounts/{account_id}/intel/indicator-feeds/permissions/add`
-
-Grants access permissions for a custom threat indicator feed to other accounts.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `account_tag: optional string`
-
-  The Cloudflare account tag of the account to change permissions on
-
-- `feed_id: optional number`
-
-  The ID of the feed to add/remove permissions on
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { success }`
-
-  - `success: optional boolean`
-
-    Whether the update succeeded or not
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/add \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "account_tag": "823f45f16fd2f7e21e1e054aga4d2859",
-          "feed_id": 1
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "success": true
-  }
-}
-```
-
-## Revoke permission to indicator feed
-
-**put** `/accounts/{account_id}/intel/indicator-feeds/permissions/remove`
-
-Revokes access permissions for a custom threat indicator feed.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `account_tag: optional string`
-
-  The Cloudflare account tag of the account to change permissions on
-
-- `feed_id: optional number`
-
-  The ID of the feed to add/remove permissions on
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { success }`
-
-  - `success: optional boolean`
-
-    Whether the update succeeded or not
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds/permissions/remove \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "account_tag": "823f45f16fd2f7e21e1e054aga4d2859",
-          "feed_id": 1
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "success": true
-  }
-}
-```
-
-## Domain Types
-
-### Permission List Response
-
-- `PermissionListResponse = array of object { id, description, is_attributable, 3 more }`
-
-  - `id: optional number`
-
-    The unique identifier for the indicator feed
-
-  - `description: optional string`
-
-    The description of the example test
-
-  - `is_attributable: optional boolean`
-
-    Whether the indicator feed can be attributed to a provider
-
-  - `is_downloadable: optional boolean`
-
-    Whether the indicator feed can be downloaded
-
-  - `is_public: optional boolean`
-
-    Whether the indicator feed is exposed to customers
-
-  - `name: optional string`
-
-    The name of the indicator feed
-
-### Permission Create Response
-
-- `PermissionCreateResponse object { success }`
-
-  - `success: optional boolean`
-
-    Whether the update succeeded or not
-
-### Permission Delete Response
-
-- `PermissionDeleteResponse object { success }`
-
-  - `success: optional boolean`
-
-    Whether the update succeeded or not
-
-# Downloads
+#### Indicator FeedsDownloads

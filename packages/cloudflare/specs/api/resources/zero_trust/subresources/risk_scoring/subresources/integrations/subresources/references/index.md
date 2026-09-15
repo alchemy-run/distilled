@@ -1,166 +1,91 @@
+---
+title: References
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Risk Scoring](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring)
+
+[Integrations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/integrations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # References
 
-## Get risk score integration by reference id.
+##### [Get risk score integration by reference id.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/risk_scoring/subresources/integrations/subresources/references/methods/get)
 
-**get** `/accounts/{account_id}/zt_risk_scoring/integrations/reference_id/{reference_id}`
+GET/accounts/{account\_id}/zt\_risk\_scoring/integrations/reference\_id/{reference\_id}
 
-Retrieves a Zero Trust risk score integration using its external reference ID.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `reference_id: string`
+ReferenceGetResponse object {id, account\_tag, active, 5 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+The id of the integration, a UUIDv4.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+account\_tag: string
 
-    - `pointer: optional string`
+The Cloudflare account tag.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+active: boolean
 
-  - `message: string`
+Whether this integration is enabled and should export changes in risk score.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+When the integration was created in RFC3339 format.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+integration\_type: "Okta"
 
-- `result: optional object { id, account_tag, active, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+reference\_id: string
 
-    The id of the integration, a UUIDv4.
+A reference ID defined by the client. Should be set to the Access-Okta IDP integration ID. Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
 
-  - `account_tag: string`
+<a href="#">Link to this property</a>
 
-    The Cloudflare account tag.
+tenant\_url: string
 
-  - `active: boolean`
+The base URL for the tenant. E.g. “<a href="https://tenant.okta.com">https://tenant.okta.com</a>”.
 
-    Whether this integration is enabled and should export changes in risk score.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+well\_known\_url: string
 
-    When the integration was created in RFC3339 format.
+The URL for the Shared Signals Framework configuration, e.g. “/.well-known/sse-configuration/{integration\_uuid}/”. <a href="https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1">https://openid.net/specs/openid-sse-framework-1\_0.html#rfc.section.6.2.1</a>.
 
-  - `integration_type: "Okta"`
+<a href="#">Link to this property</a>
 
-    - `"Okta"`
+</details>
 
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/zt_risk_scoring/integrations/reference_id/$REFERENCE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "account_tag": "account_tag",
-    "active": true,
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "integration_type": "Okta",
-    "reference_id": "reference_id",
-    "tenant_url": "tenant_url",
-    "well_known_url": "well_known_url"
-  }
-}
-```
-
-## Domain Types
-
-### Reference Get Response
-
-- `ReferenceGetResponse object { id, account_tag, active, 5 more }`
-
-  - `id: string`
-
-    The id of the integration, a UUIDv4.
-
-  - `account_tag: string`
-
-    The Cloudflare account tag.
-
-  - `active: boolean`
-
-    Whether this integration is enabled and should export changes in risk score.
-
-  - `created_at: string`
-
-    When the integration was created in RFC3339 format.
-
-  - `integration_type: "Okta"`
-
-    - `"Okta"`
-
-  - `reference_id: string`
-
-    A reference ID defined by the client.
-    Should be set to the Access-Okta IDP integration ID.
-    Useful when the risk-score integration needs to be associated with a secondary asset and recalled using that ID.
-
-  - `tenant_url: string`
-
-    The base URL for the tenant. E.g. "https://tenant.okta.com".
-
-  - `well_known_url: string`
-
-    The URL for the Shared Signals Framework configuration, e.g. "/.well-known/sse-configuration/{integration_uuid}/". https://openid.net/specs/openid-sse-framework-1_0.html#rfc.section.6.2.1.
+[Link to this property](#)%20zero_trust.risk_scoring.integrations.references%20%3E%20(model)%20reference_get_response%20%3E%20(schema)>)

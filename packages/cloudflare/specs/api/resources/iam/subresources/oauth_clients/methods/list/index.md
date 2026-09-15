@@ -1,189 +1,481 @@
-## List OAuth Clients
+---
+title: List OAuth Clients
+---
 
-**get** `/accounts/{account_id}/oauth_clients`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+[OAuth Clients](https://developers.cloudflare.com/api/resources/iam/subresources/oauth_clients)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List OAuth Clients
+
+GET/accounts/{account\_id}/oauth\_clients
 
 List all OAuth clients for an account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+##### Accepted Permissions (at least one required)
 
-  - `true`
+`OAuth Client Read`
 
-- `result: optional array of object { client_id, visibility, allowed_cors_origins, 16 more }`
+##### P ath ParametersExpand Collapse
 
-  - `client_id: string`
+account\_id: string
 
-    The unique identifier for an OAuth client.
+Account identifier tag.
 
-  - `visibility: "public" or "private"`
+maxLength32
 
-    Visibility of the OAuth client.
+minLength32
 
-    - `"public"`
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `"private"`
+##### ReturnsExpand Collapse
 
-  - `allowed_cors_origins: optional array of string`
+<details>
 
-    Array of allowed CORS origins.
+<summary>
 
-  - `client_name: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-    Human-readable name of the OAuth client.
+</summary>
 
-  - `client_uri: optional string`
+code: number
 
-    URL of the home page of the client.
+minimum1000
 
-  - `client_uri_verification: optional object { status, text }`
+<a href="#">Link to this property</a>
 
-    Client URI domain control verification state.
+message: string
 
-    - `status: optional "pending" or "in_progress" or "verified" or "failed"`
+<a href="#">Link to this property</a>
 
-      Current verification status for the client URI host.
+documentation\_url: optional string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"in_progress"`
+<details>
 
-      - `"verified"`
+<summary>
 
-      - `"failed"`
+source: optional object {pointer }
 
-    - `text: optional string`
+</summary>
 
-      Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
+pointer: optional string
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp when the OAuth client was created.
+</details>
 
-  - `grant_types: optional array of "authorization_code" or "refresh_token"`
+<a href="#">Link to this property</a>
 
-    Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
+</details>
 
-    - `"authorization_code"`
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"refresh_token"`
+<details>
 
-  - `has_rotated_secret: optional boolean`
+<summary>
 
-    Indicates whether the client has a rotated secret that has not yet been deleted.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `logo_uri: optional string`
+</summary>
 
-    URL of the client's logo.
+code: number
 
-  - `policy_uri: optional string`
+minimum1000
 
-    URL that points to a privacy policy document.
+<a href="#">Link to this property</a>
 
-  - `post_logout_redirect_uris: optional array of string`
+message: string
 
-    Array of allowed post-logout redirect URIs.
+<a href="#">Link to this property</a>
 
-  - `promoted_at: optional string`
+documentation\_url: optional string
 
-    Timestamp when the OAuth client was promoted to public visibility.
+<a href="#">Link to this property</a>
 
-  - `redirect_uris: optional array of string`
+<details>
 
-    Array of allowed redirect URIs for the client.
+<summary>
 
-  - `response_types: optional array of "token" or "id_token" or "code"`
+source: optional object {pointer }
 
-    Array of OAuth response types the client is allowed to use.
+</summary>
 
-    - `"token"`
+pointer: optional string
 
-    - `"id_token"`
+<a href="#">Link to this property</a>
 
-    - `"code"`
+</details>
 
-  - `scopes: optional array of string`
+<a href="#">Link to this property</a>
 
-    Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.
+</details>
 
-  - `token_endpoint_auth_method: optional "none" or "client_secret_basic" or "client_secret_post"`
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    The authentication method the client uses at the token endpoint.
+success: true
 
-    - `"none"`
+Whether the API call was successful.
 
-    - `"client_secret_basic"`
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-    - `"client_secret_post"`
+<details>
 
-  - `tos_uri: optional string`
+<summary>
 
-    URL that points to a terms of service document.
+result: optional array of object {client\_id, visibility, allowed\_cors\_origins, 17 more }
 
-  - `updated_at: optional string`
+</summary>
 
-    Timestamp when the OAuth client was last updated.
+client\_id: string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+The unique identifier for an OAuth client.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results
+visibility: "public"or "private"
 
-  - `per_page: optional number`
+Visibility of the OAuth client.
 
-    Number of results per page of results
+</summary>
 
-  - `total_count: optional number`
+One of the following:
 
-    Total results available without any search parameters
+"public"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"private"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+allowed\_cors\_origins: optional array of string
+
+Array of allowed CORS origins.
+
+<a href="#">Link to this property</a>
+
+client\_name: optional string
+
+Human-readable name of the OAuth client.
+
+<a href="#">Link to this property</a>
+
+client\_uri: optional string
+
+URL of the home page of the client.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+client\_uri\_verification: optional object {status, text }
+
+Client URI domain control verification state.
+
+</summary>
+
+<details>
+
+<summary>
+
+status: optional "pending"or "in\_progress"or "verified"or "failed"
+
+Current verification status for the client URI host.
+
+</summary>
+
+One of the following:
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"in\_progress"
+
+<a href="#">Link to this property</a>
+
+"verified"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+text: optional string
+
+Exact TXT record value that must be added to DNS to prove ownership of the client URI host.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+Timestamp when the OAuth client was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+grant\_types: optional array of "authorization\_code"or "refresh\_token"
+
+Array of OAuth grant types the client is allowed to use. <code>authorization_code</code> is required; <code>refresh_token</code> may be included optionally.
+
+</summary>
+
+One of the following:
+
+"authorization\_code"
+
+<a href="#">Link to this property</a>
+
+"refresh\_token"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+has\_rotated\_secret: optional boolean
+
+Indicates whether the client has a rotated secret that has not yet been deleted.
+
+<a href="#">Link to this property</a>
+
+logo\_uri: optional string
+
+URL of the client’s logo.
+
+<a href="#">Link to this property</a>
+
+optional\_scopes: optional array of string
+
+Scopes that the authorizing user may decline during consent. Each value must also appear in <code>scopes</code>. The scopes <code>openid</code>, <code>offline</code>, and <code>offline_access</code> cannot be optional.
+
+<a href="#">Link to this property</a>
+
+policy\_uri: optional string
+
+URL that points to a privacy policy document.
+
+<a href="#">Link to this property</a>
+
+post\_logout\_redirect\_uris: optional array of string
+
+Array of allowed post-logout redirect URIs.
+
+<a href="#">Link to this property</a>
+
+promoted\_at: optional string
+
+Timestamp when the OAuth client was promoted to public visibility.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+redirect\_uris: optional array of string
+
+Array of allowed redirect URIs for the client.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response\_types: optional array of "token"or "id\_token"or "code"
+
+Array of OAuth response types the client is allowed to use.
+
+</summary>
+
+One of the following:
+
+"token"
+
+<a href="#">Link to this property</a>
+
+"id\_token"
+
+<a href="#">Link to this property</a>
+
+"code"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+scopes: optional array of string
+
+Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes <code>offline_access</code> and <code>openid</code> are added or removed automatically based on <code>grant_types</code> and <code>response_types</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+token\_endpoint\_auth\_method: optional "none"or "client\_secret\_basic"or "client\_secret\_post"
+
+The authentication method the client uses at the token endpoint.
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"client\_secret\_basic"
+
+<a href="#">Link to this property</a>
+
+"client\_secret\_post"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tos\_uri: optional string
+
+URL that points to a terms of service document.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+Timestamp when the OAuth client was last updated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20iam.oauth_clients%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List OAuth Clients
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -226,6 +518,87 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients \
       ],
       "has_rotated_secret": false,
       "logo_uri": "https://example.com/logo.png",
+      "optional_scopes": [
+        "account.write"
+      ],
+      "policy_uri": "https://example.com/privacy",
+      "post_logout_redirect_uris": [
+        "https://example.com/logout"
+      ],
+      "promoted_at": "2026-05-13T12:00:00Z",
+      "redirect_uris": [
+        "https://example.com/callback"
+      ],
+      "response_types": [
+        "code"
+      ],
+      "scopes": [
+        "account.read"
+      ],
+      "token_endpoint_auth_method": "client_secret_post",
+      "tos_uri": "https://example.com/tos",
+      "updated_at": "2025-01-01T00:00:00Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "client_id": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
+      "visibility": "private",
+      "allowed_cors_origins": [
+        "https://example.com"
+      ],
+      "client_name": "My OAuth App",
+      "client_uri": "https://example.com",
+      "client_uri_verification": {
+        "status": "in_progress",
+        "text": "cloudflare_oauth_client_publisher=example"
+      },
+      "created_at": "2025-01-01T00:00:00Z",
+      "grant_types": [
+        "authorization_code",
+        "refresh_token"
+      ],
+      "has_rotated_secret": false,
+      "logo_uri": "https://example.com/logo.png",
+      "optional_scopes": [
+        "account.write"
+      ],
       "policy_uri": "https://example.com/privacy",
       "post_logout_redirect_uris": [
         "https://example.com/logout"

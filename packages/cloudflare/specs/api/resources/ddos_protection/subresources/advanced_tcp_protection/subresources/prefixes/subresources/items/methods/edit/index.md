@@ -1,90 +1,250 @@
-## Update prefix.
+---
+title: Update prefix.
+---
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/{prefix_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes)
+
+[Items](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/subresources/items)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update prefix.
+
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/{prefix\_id}
 
 Update a prefix specified by the given UUID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `prefix_id: string`
 
-  UUID.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `comment: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  A new comment for the prefix. Optional.
+</details>
 
-- `excluded: optional boolean`
+<details>
 
-  Whether to exclude the prefix from protection. Optional.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`DDoS Protection Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Identifier.
 
-    - `pointer: optional string`
+maxLength32
 
-- `success: true`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+prefix\_id: string
 
-  - `true`
+UUID.
 
-- `result: optional object { id, comment, created_on, 3 more }`
+maxLength36
 
-  - `id: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20prefix_id%20%3E%20(schema)>)
 
-    The unique ID of the prefix.
+##### Body ParametersJSONExpand Collapse
 
-  - `comment: string`
+comment: optional string
 
-    A comment describing the prefix.
+A new comment for the prefix. Optional.
 
-  - `created_on: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20comment%20%3E%20(schema)>)
 
-    The creation timestamp of the prefix.
+excluded: optional boolean
 
-  - `excluded: boolean`
+Whether to exclude the prefix from protection. Optional.
 
-    Whether to exclude the prefix from protection.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20excluded%20%3E%20(schema)>)
 
-  - `modified_on: string`
+##### ReturnsExpand Collapse
 
-    The last modification timestamp of the prefix.
+<details>
 
-  - `prefix: string`
+<summary>
 
-    The prefix in CIDR format.
+errors: array of object {code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, comment, created\_on, 3 more }
+
+</summary>
+
+id: string
+
+The unique ID of the prefix.
+
+<a href="#">Link to this property</a>
+
+comment: string
+
+A comment describing the prefix.
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The creation timestamp of the prefix.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+excluded: boolean
+
+Whether to exclude the prefix from protection.
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The last modification timestamp of the prefix.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+The prefix in CIDR format.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update prefix.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/$PREFIX_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -92,9 +252,47 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tc
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "id",
+    "comment": "comment",
+    "created_on": "2019-12-27T18:11:19.117Z",
+    "excluded": true,
+    "modified_on": "2019-12-27T18:11:19.117Z",
+    "prefix": "192.0.2.0/24"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

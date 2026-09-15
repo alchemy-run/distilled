@@ -1,282 +1,73 @@
+---
+title: Google Tag Gateway
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Google Tag Gateway
 
-# Config
+#### Google Tag GatewayConfig
 
-## Get Google Tag Gateway configuration
+##### [Get Google Tag Gateway configuration](https://developers.cloudflare.com/api/resources/google_tag_gateway/subresources/config/methods/get)
 
-**get** `/zones/{zone_id}/settings/google-tag-gateway/config`
+GET/zones/{zone\_id}/settings/google-tag-gateway/config
 
-Gets the Google Tag Gateway configuration for a zone.
+##### [Update Google Tag Gateway configuration](https://developers.cloudflare.com/api/resources/google_tag_gateway/subresources/config/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/settings/google-tag-gateway/config
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+Config object {enabled, endpoint, hideOriginalIp, 2 more }
 
-  - `code: number`
+Google Tag Gateway configuration for a zone.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+enabled: boolean
 
-  - `source: optional object { pointer }`
+Enables or disables Google Tag Gateway for this zone.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+endpoint: string
 
-  - `code: number`
+Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with ’/’, with no nested paths and alphanumeric characters only (e.g. /metrics).
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+hideOriginalIp: boolean
 
-  - `source: optional object { pointer }`
+Hides the original client IP address from Google when enabled.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+measurementId: string
 
-  Whether the API call was successful.
+Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Config`
+setUpTag: optional boolean
 
-  Google Tag Gateway configuration for a zone.
+Set up the associated Google Tag on the zone automatically when enabled.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Enables or disables Google Tag Gateway for this zone.
+</details>
 
-  - `endpoint: string`
-
-    Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics).
-
-  - `hideOriginalIp: boolean`
-
-    Hides the original client IP address from Google when enabled.
-
-  - `measurementId: string`
-
-    Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX).
-
-  - `setUpTag: optional boolean`
-
-    Set up the associated Google Tag on the zone automatically when enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/google-tag-gateway/config \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true,
-    "endpoint": "/metrics",
-    "hideOriginalIp": true,
-    "measurementId": "GTM-P2F3N47Q",
-    "setUpTag": true
-  }
-}
-```
-
-## Update Google Tag Gateway configuration
-
-**put** `/zones/{zone_id}/settings/google-tag-gateway/config`
-
-Updates the Google Tag Gateway configuration for a zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  Enables or disables Google Tag Gateway for this zone.
-
-- `endpoint: string`
-
-  Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics).
-
-- `hideOriginalIp: boolean`
-
-  Hides the original client IP address from Google when enabled.
-
-- `measurementId: string`
-
-  Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX).
-
-- `setUpTag: optional boolean`
-
-  Set up the associated Google Tag on the zone automatically when enabled.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Config`
-
-  Google Tag Gateway configuration for a zone.
-
-  - `enabled: boolean`
-
-    Enables or disables Google Tag Gateway for this zone.
-
-  - `endpoint: string`
-
-    Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics).
-
-  - `hideOriginalIp: boolean`
-
-    Hides the original client IP address from Google when enabled.
-
-  - `measurementId: string`
-
-    Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX).
-
-  - `setUpTag: optional boolean`
-
-    Set up the associated Google Tag on the zone automatically when enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/google-tag-gateway/config \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "endpoint": "/metrics",
-          "hideOriginalIp": true,
-          "measurementId": "GTM-P2F3N47Q",
-          "setUpTag": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true,
-    "endpoint": "/metrics",
-    "hideOriginalIp": true,
-    "measurementId": "GTM-P2F3N47Q",
-    "setUpTag": true
-  }
-}
-```
-
-## Domain Types
-
-### Config
-
-- `Config object { enabled, endpoint, hideOriginalIp, 2 more }`
-
-  Google Tag Gateway configuration for a zone.
-
-  - `enabled: boolean`
-
-    Enables or disables Google Tag Gateway for this zone.
-
-  - `endpoint: string`
-
-    Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics).
-
-  - `hideOriginalIp: boolean`
-
-    Hides the original client IP address from Google when enabled.
-
-  - `measurementId: string`
-
-    Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX).
-
-  - `setUpTag: optional boolean`
-
-    Set up the associated Google Tag on the zone automatically when enabled.
+[Link to this property](#)%20google_tag_gateway.config%20%3E%20(model)%20config%20%3E%20(schema)>)

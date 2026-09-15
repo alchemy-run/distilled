@@ -1,171 +1,449 @@
-## List DNS Firewall Clusters
+---
+title: List DNS Firewall Clusters
+---
 
-**get** `/accounts/{account_id}/dns_firewall`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS Firewall](https://developers.cloudflare.com/api/resources/dns_firewall)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List DNS Firewall Clusters
+
+GET/accounts/{account\_id}/dns\_firewall
 
 List DNS Firewall clusters for an account
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `page: optional number`
 
-  Page number of paginated results
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `per_page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Number of clusters per page
+</details>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>API Email + API Key</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `messages: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`DNS Firewall Write``DNS Firewall Read`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `success: true`
+Identifier.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `result: optional array of object { id, deprecate_any_requests, dns_firewall_ips, 10 more }`
+##### Q uery ParametersExpand Collapse
 
-  - `id: string`
+page: optional number
 
-    Identifier.
+Page number of paginated results
 
-  - `deprecate_any_requests: boolean`
+minimum1
 
-    Whether to refuse to answer queries for the ANY type
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `dns_firewall_ips: array of FirewallIPs`
+per\_page: optional number
 
-  - `ecs_fallback: boolean`
+Number of clusters per page
 
-    Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent
+maximum100
 
-  - `maximum_cache_ttl: number`
+minimum1
 
-    By default, Cloudflare attempts to cache responses for as long as
-    indicated by the TTL received from upstream nameservers. This setting
-    sets an upper bound on this duration. For caching purposes, higher TTLs
-    will be decreased to the maximum value defined by this setting.
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    This setting does not affect the TTL value in the DNS response
-    Cloudflare returns to clients. Cloudflare will always forward the TTL
-    value received from upstream nameservers.
+##### ReturnsExpand Collapse
 
-  - `minimum_cache_ttl: number`
+<details>
 
-    By default, Cloudflare attempts to cache responses for as long as
-    indicated by the TTL received from upstream nameservers. This setting
-    sets a lower bound on this duration. For caching purposes, lower TTLs
-    will be increased to the minimum value defined by this setting.
+<summary>
 
-    This setting does not affect the TTL value in the DNS response
-    Cloudflare returns to clients. Cloudflare will always forward the TTL
-    value received from upstream nameservers.
+errors: array of object {code, message, documentation\_url, source }
 
-    Note that, even with this setting, there is no guarantee that a
-    response will be cached for at least the specified duration. Cached
-    responses may be removed earlier for capacity or other operational
-    reasons.
+</summary>
 
-  - `modified_on: string`
+code: number
 
-    Last modification of DNS Firewall cluster
+minimum1000
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    DNS Firewall cluster name
+message: string
 
-  - `negative_cache_ttl: number`
+<a href="#">Link to this property</a>
 
-    This setting controls how long DNS Firewall should cache negative
-    responses (e.g., NXDOMAIN) from the upstream servers.
+documentation\_url: optional string
 
-    This setting does not affect the TTL value in the DNS response
-    Cloudflare returns to clients. Cloudflare will always forward the TTL
-    value received from upstream nameservers.
+<a href="#">Link to this property</a>
 
-  - `ratelimit: number`
+<details>
 
-    Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting.
+<summary>
 
-  - `retries: number`
+source: optional object {pointer }
 
-    Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt)
+</summary>
 
-  - `upstream_ips: array of UpstreamIPs`
+pointer: optional string
 
-  - `attack_mitigation: optional AttackMitigation`
+<a href="#">Link to this property</a>
 
-    Attack mitigation settings
+</details>
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      When enabled, automatically mitigate random-prefix attacks to protect upstream DNS servers
+</details>
 
-    - `only_when_upstream_unhealthy: optional boolean`
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      Only mitigate attacks when upstream servers seem unhealthy
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+messages: array of object {code, message, documentation\_url, source }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+code: number
 
-    Current page within paginated list of results.
+minimum1000
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+message: string
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+documentation\_url: optional string
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+<details>
 
-### Example
+<summary>
 
-```http
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, deprecate\_any\_requests, dns\_firewall\_ips, 10 more }
+
+</summary>
+
+id: string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+deprecate\_any\_requests: boolean
+
+Whether to refuse to answer queries for the ANY type
+
+<a href="#">Link to this property</a>
+
+dns\_firewall\_ips: array of <a href="https://developers.cloudflare.com/api/resources/dns_firewall#(resource)%20dns_firewall%20%3E%20(model)%20firewall_ips%20%3E%20(schema)">FirewallIPs</a>
+
+<a href="#">Link to this property</a>
+
+ecs\_fallback: boolean
+
+Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent
+
+<a href="#">Link to this property</a>
+
+maximum\_cache\_ttl: number
+
+By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting.
+
+This setting does not affect the TTL value in the DNS response Cloudflare returns to clients. Cloudflare will always forward the TTL value received from upstream nameservers.
+
+maximum36000
+
+minimum30
+
+<a href="#">Link to this property</a>
+
+minimum\_cache\_ttl: number
+
+By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting.
+
+This setting does not affect the TTL value in the DNS response Cloudflare returns to clients. Cloudflare will always forward the TTL value received from upstream nameservers.
+
+Note that, even with this setting, there is no guarantee that a response will be cached for at least the specified duration. Cached responses may be removed earlier for capacity or other operational reasons.
+
+maximum36000
+
+minimum30
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+Last modification of DNS Firewall cluster
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+DNS Firewall cluster name
+
+maxLength160
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+negative\_cache\_ttl: number
+
+This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.
+
+This setting does not affect the TTL value in the DNS response Cloudflare returns to clients. Cloudflare will always forward the TTL value received from upstream nameservers.
+
+maximum36000
+
+minimum30
+
+<a href="#">Link to this property</a>
+
+ratelimit: number
+
+Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting.
+
+maximum1000000000
+
+minimum100
+
+<a href="#">Link to this property</a>
+
+retries: number
+
+Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt)
+
+maximum2
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+upstream\_ips: array of <a href="https://developers.cloudflare.com/api/resources/dns_firewall#(resource)%20dns_firewall%20%3E%20(model)%20upstream_ips%20%3E%20(schema)">UpstreamIPs</a>
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+attack\_mitigation: optional <a href="https://developers.cloudflare.com/api/resources/dns_firewall#(resource)%20dns_firewall%20%3E%20(model)%20attack_mitigation%20%3E%20(schema)">AttackMitigation</a> { enabled, only\_when\_upstream\_unhealthy }
+
+Attack mitigation settings
+
+</summary>
+
+enabled: optional boolean
+
+When enabled, automatically mitigate random-prefix attacks to protect upstream DNS servers
+
+<a href="#">Link to this property</a>
+
+only\_when\_upstream\_unhealthy: optional boolean
+
+Only mitigate attacks when upstream servers seem unhealthy
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dns_firewall%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List DNS Firewall Clusters
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_firewall \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "deprecate_any_requests": true,
+      "dns_firewall_ips": [
+        "203.0.113.1",
+        "203.0.113.254",
+        "2001:DB8:AB::CF",
+        "2001:DB8:CD::CF"
+      ],
+      "ecs_fallback": false,
+      "maximum_cache_ttl": 900,
+      "minimum_cache_ttl": 60,
+      "modified_on": "2014-01-01T05:20:00.12345Z",
+      "name": "My Awesome DNS Firewall cluster",
+      "negative_cache_ttl": 900,
+      "ratelimit": 600,
+      "retries": 2,
+      "upstream_ips": [
+        "192.0.2.1",
+        "198.51.100.1",
+        "2001:DB8:100::CF"
+      ],
+      "attack_mitigation": {
+        "enabled": true,
+        "only_when_upstream_unhealthy": false
+      }
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

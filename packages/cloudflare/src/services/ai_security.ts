@@ -220,7 +220,7 @@ export type GetAiSecurityError =
   | ZoneNotAuthorized
   | Forbidden
   | CloudflareOpError;
-/** Get whether AI Security for Apps is enabled or disabled for a zone. */
+/** Get the current AI Security for Apps status for the zone. While enabled, Cloudflare scans prompts sent to endpoints labeled `cf-llm` for personally identifiable information, unsafe topics, and prompt injection attempts. */
 export const getAiSecurity: API.OperationMethod<
   GetAiSecurityRequest,
   GetAiSecurityResponse,
@@ -245,7 +245,7 @@ export type GetCustomTopicError =
   | ZoneNotAuthorized
   | Forbidden
   | CloudflareOpError;
-/** Get the AI Security for Apps custom topic categories for a zone. */
+/** Get the custom topic categories defined for the zone. While AI Security for Apps is enabled, it scores every incoming prompt against these topics and writes the scores to the `cf.llm.prompt.custom_topic_categories` field, keyed by topic label. Topics can be configured while the detection is disabled, but no prompt is scored until you enable it. */
 export const getCustomTopic: API.OperationMethod<
   GetCustomTopicRequest,
   GetCustomTopicResponse,
@@ -270,7 +270,7 @@ export type PutAiSecurityError =
   | ZoneNotAuthorized
   | Forbidden
   | CloudflareOpError;
-/** Enable or disable AI Security for Apps for a zone. Changes can take up to a minute to propagate to the zone. */
+/** Update the AI Security for Apps status for the zone, enabling or disabling the detection. The detection results are exposed as `cf.llm.prompt.*` fields for use in custom rules and rate limiting rules; changes can take up to a minute to propagate. */
 export const putAiSecurity: API.OperationMethod<
   PutAiSecurityRequest,
   PutAiSecurityResponse,
@@ -295,7 +295,7 @@ export type PutCustomTopicError =
   | ZoneNotAuthorized
   | Forbidden
   | CloudflareOpError;
-/** Set the AI Security for Apps custom topic categories for a zone. A maximum of 20 custom topics can be configured per zone. Each topic label must be 2–20 characters using only lowercase letters (a–z), digits (0–9), and hyphens. Each topic description must be 2–50 printable ASCII characters. Changes can take up to a minute to propagate to the zone. */
+/** Update the custom topic list of the zone, overwriting it entirely with the topics in the request, so include every topic you want to keep. Changes can take up to a minute to propagate. Each entry has a `label`, used to reference the topic in rule expressions and analytics, and a `topic` description, which the classifier scores prompts against while AI Security for Apps is enabled. The following rules apply: - A zone can hold at most 20 topics. - `label` must be 2–20 characters, using only lowercase letters (a–z), digits (0–9), and hyphens. - `topic` must be 2–50 printable ASCII characters. - Labels must be unique within the zone, and so must topic descriptions. */
 export const putCustomTopic: API.OperationMethod<
   PutCustomTopicRequest,
   PutCustomTopicResponse,

@@ -1,74 +1,294 @@
-## Delete zone environment
+---
+title: Delete zone environment
+---
 
-**delete** `/zones/{zone_id}/environments/{environment_id}`
+[Skip to content](#_top)
 
-Delete zone environment
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zones](https://developers.cloudflare.com/api/resources/zones)
 
-- `zone_id: string`
+[Environments](https://developers.cloudflare.com/api/resources/zones/subresources/environments)
 
-- `environment_id: string`
+Copy Markdown
 
-### Returns
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `errors: array of ResponseInfo`
+---
 
-  - `code: number`
+**Copy Markdown****View as Markdown**
 
-  - `message: string`
+# Delete zone environment
 
-  - `documentation_url: optional string`
+DELETE/zones/{zone\_id}/environments/{environment\_id}
 
-  - `source: optional object { pointer }`
+Deletes a zone environment by reference identifier.
 
-    - `pointer: optional string`
+##### Security
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `result: object { environments }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `environments: array of object { expression, locked_on_deployment, name, 4 more }`
+</details>
 
-    - `expression: string`
+<details>
 
-    - `locked_on_deployment: boolean`
+<summary>API Email + API Key</summary>
 
-    - `name: string`
 
-    - `position: ListCursor`
 
-      - `after: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      - `before: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `ref: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `version: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `http_application_id: optional string`
+</details>
 
-- `success: boolean`
+##### Accepted Permissions (at least one required)
 
-### Example
+`Zone Versioning Write`
 
-```http
+##### P ath ParametersExpand Collapse
+
+zone\_id: string
+
+[Link to this property](#)%20zones.environments%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+environment\_id: string
+
+[Link to this property](#)%20zones.environments%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20environment_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.environments%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.environments%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {environments }
+
+</summary>
+
+<details>
+
+<summary>
+
+environments: array of object {expression, locked\_on\_deployment, name, 4 more }
+
+</summary>
+
+expression: string
+
+<a href="#">Link to this property</a>
+
+locked\_on\_deployment: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+position: <a href="https://developers.cloudflare.com/api/resources/rules#(resource)%20rules.lists.items%20%3E%20(model)%20list_cursor%20%3E%20(schema)">ListCursor</a> { after, before }
+
+</summary>
+
+after: optional string
+
+<a href="#">Link to this property</a>
+
+before: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ref: string
+
+<a href="#">Link to this property</a>
+
+version: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+http\_application\_id: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.environments%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20zones.environments%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete zone environment
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/environments/$ENVIRONMENT_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "environments": [
+      {
+        "expression": "expression",
+        "locked_on_deployment": true,
+        "name": "name",
+        "position": {
+          "after": "yyy",
+          "before": "xxx"
+        },
+        "ref": "ref",
+        "version": 0,
+        "http_application_id": "http_application_id"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,455 +1,1035 @@
-## Get AS112 summary by dimension
+---
+title: Get AS112 summary by dimension
+---
 
-**get** `/radar/as112/summary/{dimension}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[AS112](https://developers.cloudflare.com/api/resources/radar/subresources/as112)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get AS112 summary by dimension
+
+GET/radar/as112/summary/{dimension}
 
 Retrieves the distribution of AS112 queries by the specified dimension.
 
-### Path Parameters
+##### Security
 
-- `dimension: "DNSSEC" or "EDNS" or "IP_VERSION" or 3 more`
+<details>
 
-  Specifies the attribute by which to group the results.
+<summary>API Token</summary>
 
-  - `"DNSSEC"`
 
-  - `"EDNS"`
 
-  - `"IP_VERSION"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"PROTOCOL"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"QUERY_TYPE"`
+</details>
 
-  - `"RESPONSE_CODE"`
+<details>
 
-### Query Parameters
+<summary>API Email + API Key</summary>
 
-- `continent: optional array of string`
 
-  Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
 
-- `dateEnd: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  End of the date range (inclusive).
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `dateRange: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `dateStart: optional array of string`
+</details>
 
-  Start of the date range.
+##### Accepted Permissions (at least one required)
 
-- `format: optional "JSON" or "CSV"`
+`User Details Write``User Details Read`
 
-  Format in which results will be returned.
+##### P ath ParametersExpand Collapse
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `limitPerGroup: optional number`
+dimension: "DNSSEC"or "EDNS"or "IP\_VERSION"or 3 more
 
-  Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category.
+Specifies the attribute by which to group the results.
 
-- `location: optional array of string`
+</summary>
 
-  Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
+One of the following:
 
-- `name: optional array of string`
+"DNSSEC"
 
-  Array of names used to label the series in the response.
+<a href="#">Link to this property</a>
 
-- `protocol: optional array of "UDP" or "TCP" or "HTTPS" or "TLS"`
+"EDNS"
 
-  Filters results by DNS transport protocol.
+<a href="#">Link to this property</a>
 
-  - `"UDP"`
+"IP\_VERSION"
 
-  - `"TCP"`
+<a href="#">Link to this property</a>
 
-  - `"HTTPS"`
+"PROTOCOL"
 
-  - `"TLS"`
+<a href="#">Link to this property</a>
 
-- `queryType: optional array of "A" or "AAAA" or "A6" or 85 more`
+"QUERY\_TYPE"
 
-  Filters results by DNS query type.
+<a href="#">Link to this property</a>
 
-  - `"A"`
+"RESPONSE\_CODE"
 
-  - `"AAAA"`
+<a href="#">Link to this property</a>
 
-  - `"A6"`
+</details>
 
-  - `"AFSDB"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20dimension%20%3E%20(schema)>)
 
-  - `"ANY"`
+##### Q uery ParametersExpand Collapse
 
-  - `"APL"`
+continent: optional array of string
 
-  - `"ATMA"`
+Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.
 
-  - `"AXFR"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20continent%20%3E%20(schema)>)
 
-  - `"CAA"`
+dateEnd: optional array of string
 
-  - `"CDNSKEY"`
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-  - `"CDS"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-  - `"CERT"`
+dateRange: optional array of string
 
-  - `"CNAME"`
+Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).
 
-  - `"CSYNC"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
 
-  - `"DHCID"`
+dateStart: optional array of string
 
-  - `"DLV"`
+Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.
 
-  - `"DNAME"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
 
-  - `"DNSKEY"`
+<details>
 
-  - `"DOA"`
+<summary>
 
-  - `"DS"`
+format: optional "JSON"or "CSV"
 
-  - `"EID"`
+Format in which results will be returned.
 
-  - `"EUI48"`
+</summary>
 
-  - `"EUI64"`
+One of the following:
 
-  - `"GPOS"`
+"JSON"
 
-  - `"GID"`
+<a href="#">Link to this property</a>
 
-  - `"HINFO"`
+"CSV"
 
-  - `"HIP"`
+<a href="#">Link to this property</a>
 
-  - `"HTTPS"`
+</details>
 
-  - `"IPSECKEY"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-  - `"ISDN"`
+limitPerGroup: optional number
 
-  - `"IXFR"`
+Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an “other” category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2.
 
-  - `"KEY"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20limitPerGroup%20%3E%20(schema)>)
 
-  - `"KX"`
+location: optional array of string
 
-  - `"L32"`
+Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.
 
-  - `"L64"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20location%20%3E%20(schema)>)
 
-  - `"LOC"`
+name: optional array of string
 
-  - `"LP"`
+Array of names used to label the series in the response.
 
-  - `"MAILA"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `"MAILB"`
+<details>
 
-  - `"MB"`
+<summary>
 
-  - `"MD"`
+protocol: optional array of "UDP"or "TCP"or "HTTPS"or "TLS"
 
-  - `"MF"`
+Filters results by DNS transport protocol.
 
-  - `"MG"`
+</summary>
 
-  - `"MINFO"`
+One of the following:
 
-  - `"MR"`
+"UDP"
 
-  - `"MX"`
+<a href="#">Link to this property</a>
 
-  - `"NAPTR"`
+"TCP"
 
-  - `"NB"`
+<a href="#">Link to this property</a>
 
-  - `"NBSTAT"`
+"HTTPS"
 
-  - `"NID"`
+<a href="#">Link to this property</a>
 
-  - `"NIMLOC"`
+"TLS"
 
-  - `"NINFO"`
+<a href="#">Link to this property</a>
 
-  - `"NS"`
+</details>
 
-  - `"NSAP"`
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20protocol%20%3E%20(schema)>)
 
-  - `"NSEC"`
+<details>
 
-  - `"NSEC3"`
+<summary>
 
-  - `"NSEC3PARAM"`
+queryType: optional array of "A"or "AAAA"or "A6"or 85 more
 
-  - `"NULL"`
+Filters results by DNS query type.
 
-  - `"NXT"`
+</summary>
 
-  - `"OPENPGPKEY"`
+One of the following:
 
-  - `"OPT"`
+"A"
 
-  - `"PTR"`
+<a href="#">Link to this property</a>
 
-  - `"PX"`
+"AAAA"
 
-  - `"RKEY"`
+<a href="#">Link to this property</a>
 
-  - `"RP"`
+"A6"
 
-  - `"RRSIG"`
+<a href="#">Link to this property</a>
 
-  - `"RT"`
+"AFSDB"
 
-  - `"SIG"`
+<a href="#">Link to this property</a>
 
-  - `"SINK"`
+"ANY"
 
-  - `"SMIMEA"`
+<a href="#">Link to this property</a>
 
-  - `"SOA"`
+"APL"
 
-  - `"SPF"`
+<a href="#">Link to this property</a>
 
-  - `"SRV"`
+"ATMA"
 
-  - `"SSHFP"`
+<a href="#">Link to this property</a>
 
-  - `"SVCB"`
+"AXFR"
 
-  - `"TA"`
+<a href="#">Link to this property</a>
 
-  - `"TALINK"`
+"CAA"
 
-  - `"TKEY"`
+<a href="#">Link to this property</a>
 
-  - `"TLSA"`
+"CDNSKEY"
 
-  - `"TSIG"`
+<a href="#">Link to this property</a>
 
-  - `"TXT"`
+"CDS"
 
-  - `"UINFO"`
+<a href="#">Link to this property</a>
 
-  - `"UID"`
+"CERT"
 
-  - `"UNSPEC"`
+<a href="#">Link to this property</a>
 
-  - `"URI"`
+"CNAME"
 
-  - `"WKS"`
+<a href="#">Link to this property</a>
 
-  - `"X25"`
+"CSYNC"
 
-  - `"ZONEMD"`
+<a href="#">Link to this property</a>
 
-- `responseCode: optional array of "NOERROR" or "FORMERR" or "SERVFAIL" or 16 more`
+"DHCID"
 
-  Filters results by DNS response code.
+<a href="#">Link to this property</a>
 
-  - `"NOERROR"`
+"DLV"
 
-  - `"FORMERR"`
+<a href="#">Link to this property</a>
 
-  - `"SERVFAIL"`
+"DNAME"
 
-  - `"NXDOMAIN"`
+<a href="#">Link to this property</a>
 
-  - `"NOTIMP"`
+"DNSKEY"
 
-  - `"REFUSED"`
+<a href="#">Link to this property</a>
 
-  - `"YXDOMAIN"`
+"DOA"
 
-  - `"YXRRSET"`
+<a href="#">Link to this property</a>
 
-  - `"NXRRSET"`
+"DS"
 
-  - `"NOTAUTH"`
+<a href="#">Link to this property</a>
 
-  - `"NOTZONE"`
+"EID"
 
-  - `"BADSIG"`
+<a href="#">Link to this property</a>
 
-  - `"BADKEY"`
+"EUI48"
 
-  - `"BADTIME"`
+<a href="#">Link to this property</a>
 
-  - `"BADMODE"`
+"EUI64"
 
-  - `"BADNAME"`
+<a href="#">Link to this property</a>
 
-  - `"BADALG"`
+"GPOS"
 
-  - `"BADTRUNC"`
+<a href="#">Link to this property</a>
 
-  - `"BADCOOKIE"`
+"GID"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { meta, summary_0 }`
+"HINFO"
 
-  - `meta: object { confidenceInfo, dateRange, lastUpdated, 2 more }`
+<a href="#">Link to this property</a>
 
-    Metadata for the results.
+"HIP"
 
-    - `confidenceInfo: object { annotations, level }`
+<a href="#">Link to this property</a>
 
-      - `annotations: array of object { dataSource, description, endDate, 5 more }`
+"HTTPS"
 
-        - `dataSource: "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+<a href="#">Link to this property</a>
 
-          Data source for annotations.
+"IPSECKEY"
 
-          - `"ALL"`
+<a href="#">Link to this property</a>
 
-          - `"AI_BOTS"`
+"ISDN"
 
-          - `"AI_GATEWAY"`
+<a href="#">Link to this property</a>
 
-          - `"BGP"`
+"IXFR"
 
-          - `"BOTS"`
+<a href="#">Link to this property</a>
 
-          - `"CONNECTION_ANOMALY"`
+"KEY"
 
-          - `"CT"`
+<a href="#">Link to this property</a>
 
-          - `"DNS"`
+"KX"
 
-          - `"DNS_MAGNITUDE"`
+<a href="#">Link to this property</a>
 
-          - `"DNS_AS112"`
+"L32"
 
-          - `"DOS"`
+<a href="#">Link to this property</a>
 
-          - `"EMAIL_ROUTING"`
+"L64"
 
-          - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-          - `"FW"`
+"LOC"
 
-          - `"FW_PG"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP"`
+"LP"
 
-          - `"HTTP_CONTROL"`
+<a href="#">Link to this property</a>
 
-          - `"HTTP_CRAWLER_REFERER"`
+"MAILA"
 
-          - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-          - `"IQI"`
+"MAILB"
 
-          - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-          - `"NET"`
+"MB"
 
-          - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-          - `"SPEED"`
+"MD"
 
-          - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-        - `description: string`
+"MF"
 
-        - `endDate: string`
+<a href="#">Link to this property</a>
 
-        - `eventType: "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+"MG"
 
-          Event type for annotations.
+<a href="#">Link to this property</a>
 
-          - `"EVENT"`
+"MINFO"
 
-          - `"GENERAL"`
+<a href="#">Link to this property</a>
 
-          - `"OUTAGE"`
+"MR"
 
-          - `"PARTIAL_PROJECTION"`
+<a href="#">Link to this property</a>
 
-          - `"PIPELINE"`
+"MX"
 
-          - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-        - `isInstantaneous: boolean`
+"NAPTR"
 
-          Whether event is a single point in time or a time range.
+<a href="#">Link to this property</a>
 
-        - `linkedUrl: string`
+"NB"
 
-        - `startDate: string`
+<a href="#">Link to this property</a>
 
-        - `tags: optional array of string`
+"NBSTAT"
 
-      - `level: number`
+<a href="#">Link to this property</a>
 
-        Provides an indication of how much confidence Cloudflare has in the data.
+"NID"
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+"NIMLOC"
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+"NINFO"
 
-        Adjusted start of date range.
+<a href="#">Link to this property</a>
 
-    - `lastUpdated: string`
+"NS"
 
-      Timestamp of the last dataset update.
+<a href="#">Link to this property</a>
 
-    - `normalization: "PERCENTAGE" or "MIN0_MAX" or "MIN_MAX" or 5 more`
+"NSAP"
 
-      Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE"`
+"NSEC"
 
-      - `"MIN0_MAX"`
+<a href="#">Link to this property</a>
 
-      - `"MIN_MAX"`
+"NSEC3"
 
-      - `"RAW_VALUES"`
+<a href="#">Link to this property</a>
 
-      - `"PERCENTAGE_CHANGE"`
+"NSEC3PARAM"
 
-      - `"ROLLING_AVERAGE"`
+<a href="#">Link to this property</a>
 
-      - `"OVERLAPPED_PERCENTAGE"`
+"NULL"
 
-      - `"RATIO"`
+<a href="#">Link to this property</a>
 
-    - `units: array of object { name, value }`
+"NXT"
 
-      Measurement units for the results.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"OPENPGPKEY"
 
-      - `value: string`
+<a href="#">Link to this property</a>
 
-  - `summary_0: map[string]`
+"OPT"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"PTR"
 
-```http
+<a href="#">Link to this property</a>
+
+"PX"
+
+<a href="#">Link to this property</a>
+
+"RKEY"
+
+<a href="#">Link to this property</a>
+
+"RP"
+
+<a href="#">Link to this property</a>
+
+"RRSIG"
+
+<a href="#">Link to this property</a>
+
+"RT"
+
+<a href="#">Link to this property</a>
+
+"SIG"
+
+<a href="#">Link to this property</a>
+
+"SINK"
+
+<a href="#">Link to this property</a>
+
+"SMIMEA"
+
+<a href="#">Link to this property</a>
+
+"SOA"
+
+<a href="#">Link to this property</a>
+
+"SPF"
+
+<a href="#">Link to this property</a>
+
+"SRV"
+
+<a href="#">Link to this property</a>
+
+"SSHFP"
+
+<a href="#">Link to this property</a>
+
+"SVCB"
+
+<a href="#">Link to this property</a>
+
+"TA"
+
+<a href="#">Link to this property</a>
+
+"TALINK"
+
+<a href="#">Link to this property</a>
+
+"TKEY"
+
+<a href="#">Link to this property</a>
+
+"TLSA"
+
+<a href="#">Link to this property</a>
+
+"TSIG"
+
+<a href="#">Link to this property</a>
+
+"TXT"
+
+<a href="#">Link to this property</a>
+
+"UINFO"
+
+<a href="#">Link to this property</a>
+
+"UID"
+
+<a href="#">Link to this property</a>
+
+"UNSPEC"
+
+<a href="#">Link to this property</a>
+
+"URI"
+
+<a href="#">Link to this property</a>
+
+"WKS"
+
+<a href="#">Link to this property</a>
+
+"X25"
+
+<a href="#">Link to this property</a>
+
+"ZONEMD"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20queryType%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+responseCode: optional array of "NOERROR"or "FORMERR"or "SERVFAIL"or 16 more
+
+Filters results by DNS response code.
+
+</summary>
+
+One of the following:
+
+"NOERROR"
+
+<a href="#">Link to this property</a>
+
+"FORMERR"
+
+<a href="#">Link to this property</a>
+
+"SERVFAIL"
+
+<a href="#">Link to this property</a>
+
+"NXDOMAIN"
+
+<a href="#">Link to this property</a>
+
+"NOTIMP"
+
+<a href="#">Link to this property</a>
+
+"REFUSED"
+
+<a href="#">Link to this property</a>
+
+"YXDOMAIN"
+
+<a href="#">Link to this property</a>
+
+"YXRRSET"
+
+<a href="#">Link to this property</a>
+
+"NXRRSET"
+
+<a href="#">Link to this property</a>
+
+"NOTAUTH"
+
+<a href="#">Link to this property</a>
+
+"NOTZONE"
+
+<a href="#">Link to this property</a>
+
+"BADSIG"
+
+<a href="#">Link to this property</a>
+
+"BADKEY"
+
+<a href="#">Link to this property</a>
+
+"BADTIME"
+
+<a href="#">Link to this property</a>
+
+"BADMODE"
+
+<a href="#">Link to this property</a>
+
+"BADNAME"
+
+<a href="#">Link to this property</a>
+
+"BADALG"
+
+<a href="#">Link to this property</a>
+
+"BADTRUNC"
+
+<a href="#">Link to this property</a>
+
+"BADCOOKIE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(params)%20default%20%3E%20(param)%20responseCode%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {meta, summary\_0 }
+
+</summary>
+
+<details>
+
+<summary>
+
+meta: object {confidenceInfo, dateRange, lastUpdated, 2 more }
+
+Metadata for the results.
+
+</summary>
+
+<details>
+
+<summary>
+
+confidenceInfo: object {annotations, level }
+
+</summary>
+
+<details>
+
+<summary>
+
+annotations: array of object {dataSource, description, endDate, 5 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+dataSource: "ALL"or "AI\_BOTS"or "AI\_GATEWAY"or 22 more
+
+Data source for annotations.
+
+</summary>
+
+One of the following:
+
+"ALL"
+
+<a href="#">Link to this property</a>
+
+"AI\_BOTS"
+
+<a href="#">Link to this property</a>
+
+"AI\_GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"BGP"
+
+<a href="#">Link to this property</a>
+
+"BOTS"
+
+<a href="#">Link to this property</a>
+
+"CONNECTION\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+"CT"
+
+<a href="#">Link to this property</a>
+
+"DNS"
+
+<a href="#">Link to this property</a>
+
+"DNS\_MAGNITUDE"
+
+<a href="#">Link to this property</a>
+
+"DNS\_AS112"
+
+<a href="#">Link to this property</a>
+
+"DOS"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_ROUTING"
+
+<a href="#">Link to this property</a>
+
+"EMAIL\_SECURITY"
+
+<a href="#">Link to this property</a>
+
+"FW"
+
+<a href="#">Link to this property</a>
+
+"FW\_PG"
+
+<a href="#">Link to this property</a>
+
+"HTTP"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CONTROL"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_CRAWLER\_REFERER"
+
+<a href="#">Link to this property</a>
+
+"HTTP\_ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"IQI"
+
+<a href="#">Link to this property</a>
+
+"LEAKED\_CREDENTIALS"
+
+<a href="#">Link to this property</a>
+
+"NET"
+
+<a href="#">Link to this property</a>
+
+"ROBOTS\_TXT"
+
+<a href="#">Link to this property</a>
+
+"SPEED"
+
+<a href="#">Link to this property</a>
+
+"WORKERS\_AI"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+endDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+eventType: "GENERAL"or "OUTAGE"or "PARTIAL\_PROJECTION"or 2 more
+
+Event type for annotations.
+
+</summary>
+
+One of the following:
+
+"GENERAL"
+
+<a href="#">Link to this property</a>
+
+"OUTAGE"
+
+<a href="#">Link to this property</a>
+
+"PARTIAL\_PROJECTION"
+
+<a href="#">Link to this property</a>
+
+"PIPELINE"
+
+<a href="#">Link to this property</a>
+
+"TRAFFIC\_ANOMALY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+isInstantaneous: boolean
+
+Whether event is a single point in time or a time range.
+
+<a href="#">Link to this property</a>
+
+linkedUrl: string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+startDate: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+level: number
+
+Provides an indication of how much confidence Cloudflare has in the data.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dateRange: array of object {endTime, startTime }
+
+</summary>
+
+endTime: string
+
+Adjusted end of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+startTime: string
+
+Adjusted start of date range.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+lastUpdated: string
+
+Timestamp of the last dataset update.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+normalization: "PERCENTAGE"or "MIN0\_MAX"or "MIN\_MAX"or 5 more
+
+Normalization method applied to the results. Refer to <a href="https://developers.cloudflare.com/radar/concepts/normalization/">Normalization methods</a>.
+
+</summary>
+
+One of the following:
+
+"PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"MIN0\_MAX"
+
+<a href="#">Link to this property</a>
+
+"MIN\_MAX"
+
+<a href="#">Link to this property</a>
+
+"RAW\_VALUES"
+
+<a href="#">Link to this property</a>
+
+"PERCENTAGE\_CHANGE"
+
+<a href="#">Link to this property</a>
+
+"ROLLING\_AVERAGE"
+
+<a href="#">Link to this property</a>
+
+"OVERLAPPED\_PERCENTAGE"
+
+<a href="#">Link to this property</a>
+
+"RATIO"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+units: array of object {name, value }
+
+Measurement units for the results.
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+summary\_0: map\[string]
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.as112%20%3E%20(method)%20summary_v2%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get AS112 summary by dimension
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/as112/summary/$DIMENSION \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "meta": {
@@ -459,7 +1039,56 @@ curl https://api.cloudflare.com/client/v4/radar/as112/summary/$DIMENSION \
             "dataSource": "ALL",
             "description": "Cable cut in Tonga",
             "endDate": "2019-12-27T18:11:19.117Z",
-            "eventType": "EVENT",
+            "eventType": "GENERAL",
+            "isInstantaneous": true,
+            "linkedUrl": "https://example.com",
+            "startDate": "2019-12-27T18:11:19.117Z",
+            "tags": [
+              "BOT_CLASS"
+            ]
+          }
+        ],
+        "level": 0
+      },
+      "dateRange": [
+        {
+          "endTime": "2022-09-17T10:22:57.555Z",
+          "startTime": "2022-09-16T10:22:57.555Z"
+        }
+      ],
+      "lastUpdated": "2019-12-27T18:11:19.117Z",
+      "normalization": "PERCENTAGE",
+      "units": [
+        {
+          "name": "*",
+          "value": "requests"
+        }
+      ]
+    },
+    "summary_0": {
+      "IPv4": "50.168733",
+      "IPv6": "25.084366"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "meta": {
+      "confidenceInfo": {
+        "annotations": [
+          {
+            "dataSource": "ALL",
+            "description": "Cable cut in Tonga",
+            "endDate": "2019-12-27T18:11:19.117Z",
+            "eventType": "GENERAL",
             "isInstantaneous": true,
             "linkedUrl": "https://example.com",
             "startDate": "2019-12-27T18:11:19.117Z",

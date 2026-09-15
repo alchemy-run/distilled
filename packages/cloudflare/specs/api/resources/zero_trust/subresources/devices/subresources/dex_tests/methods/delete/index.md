@@ -1,127 +1,333 @@
-## Delete Device DEX test
+---
+title: Delete Device DEX test
+---
 
-**delete** `/accounts/{account_id}/dex/devices/dex_tests/{dex_test_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[DEX Tests](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/dex_tests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete Device DEX test
+
+DELETE/accounts/{account\_id}/dex/devices/dex\_tests/{dex\_test\_id}
 
 Delete a Device DEX test. Returns the remaining device dex tests for the account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Unique identifier linked to an account.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `dex_test_id: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  API Resource UUID tag.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Returns
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Cloudflare DEX Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+Unique identifier linked to an account.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+dex\_test\_id: string
 
-  - `message: string`
+API Resource UUID tag.
 
-  - `documentation_url: optional string`
+maxLength36
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20dex_test_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### ReturnsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+errors: array of object {code, message, documentation\_url, source }
 
-- `result: optional object { dex_tests }`
+</summary>
 
-  - `dex_tests: optional array of object { data, enabled, interval, 5 more }`
+code: number
 
-    - `data: object { host, kind, method }`
+minimum1000
 
-      The configuration object which contains the details for the WARP client to conduct the test.
+<a href="#">Link to this property</a>
 
-      - `host: string`
+message: string
 
-        The desired endpoint to test.
+<a href="#">Link to this property</a>
 
-      - `kind: "http" or "traceroute"`
+documentation\_url: optional string
 
-        The type of test.
+<a href="#">Link to this property</a>
 
-        - `"http"`
+<details>
 
-        - `"traceroute"`
+<summary>
 
-      - `method: optional "GET"`
+source: optional object {pointer }
 
-        The HTTP request method type.
+</summary>
 
-        - `"GET"`
+pointer: optional string
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Determines whether or not the test is active.
+</details>
 
-    - `interval: string`
+<a href="#">Link to this property</a>
 
-      How often the test will run.
+</details>
 
-    - `name: string`
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      The name of the DEX test. Must be unique.
+<details>
 
-    - `description: optional string`
+<summary>
 
-      Additional details about the test.
+messages: array of object {code, message, documentation\_url, source }
 
-    - `target_policies: optional array of object { id, default, name }`
+</summary>
 
-      DEX rules targeted by this test
+code: number
 
-      - `id: string`
+minimum1000
 
-        The id of the DEX rule.
+<a href="#">Link to this property</a>
 
-      - `default: optional boolean`
+message: string
 
-        Whether the DEX rule is the account default.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+documentation\_url: optional string
 
-        The name of the DEX rule.
+<a href="#">Link to this property</a>
 
-    - `targeted: optional boolean`
+<details>
 
-    - `test_id: optional string`
+<summary>
 
-      The unique identifier for the test.
+source: optional object {pointer }
 
-### Example
+</summary>
 
-```http
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {dex\_tests }
+
+</summary>
+
+<details>
+
+<summary>
+
+dex\_tests: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_http%20%3E%20(schema)">SchemaHTTP</a> { data, enabled, interval, 7 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
+
+The configuration object which contains the details for the WARP client to conduct the test.
+
+</summary>
+
+host: string
+
+The desired endpoint to test.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+kind: "http"or "traceroute"
+
+The type of test.
+
+</summary>
+
+One of the following:
+
+"http"
+
+<a href="#">Link to this property</a>
+
+"traceroute"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+method: optional "GET"
+
+The HTTP request method type.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Determines whether or not the test is active.
+
+<a href="#">Link to this property</a>
+
+interval: string
+
+How often the test will run.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the DEX test. Must be unique.
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+Date the test was created, in RFC 3339 format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Additional details about the test.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+target\_policies: optional array of object {id, default, name }
+
+DEX rules targeted by this test
+
+</summary>
+
+id: string
+
+The id of the DEX rule.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+default: optional boolean
+
+Whether the DEX rule is the account default.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the DEX rule.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+targeted: optional boolean
+
+<a href="#">Link to this property</a>
+
+test\_id: optional string
+
+The unique identifier for the test.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+updated: optional string
+
+Date the test was last updated, in RFC 3339 format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.dex_tests%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete Device DEX test
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_tests/$DEX_TEST_ID \
     -X DELETE \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -155,6 +361,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_t
         "enabled": true,
         "interval": "30m",
         "name": "HTTP dash health check",
+        "created": "2023-10-11T00:00:00Z",
         "description": "Checks the dash endpoint every 30 minutes",
         "target_policies": [
           {
@@ -164,7 +371,64 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/dex_t
           }
         ],
         "targeted": true,
-        "test_id": "372e67954025e0ba6aaa6d586b9e0b59"
+        "test_id": "372e67954025e0ba6aaa6d586b9e0b59",
+        "updated": "2023-10-11T00:00:00Z"
+      }
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "dex_tests": [
+      {
+        "data": {
+          "host": "https://dash.cloudflare.com",
+          "kind": "http",
+          "method": "GET"
+        },
+        "enabled": true,
+        "interval": "30m",
+        "name": "HTTP dash health check",
+        "created": "2023-10-11T00:00:00Z",
+        "description": "Checks the dash endpoint every 30 minutes",
+        "target_policies": [
+          {
+            "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+            "default": true,
+            "name": "name"
+          }
+        ],
+        "targeted": true,
+        "test_id": "372e67954025e0ba6aaa6d586b9e0b59",
+        "updated": "2023-10-11T00:00:00Z"
       }
     ]
   }

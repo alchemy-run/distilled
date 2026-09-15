@@ -1,406 +1,1636 @@
-## Start recording a meeting
+---
+title: Start recording a meeting
+---
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/recordings`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+[Recordings](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/recordings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Start recording a meeting
+
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/recordings
 
 Starts recording a meeting. The meeting can be started by an App admin directly, or a participant with permissions to start a recording, based on the type of authorization used.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  The account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `app_id: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  The app identifier tag.
+##### Accepted Permissions (at least one required)
 
-### Body Parameters
+`Realtime Admin``Realtime`
 
-- `meeting_id: string`
+##### P ath ParametersExpand Collapse
 
-  ID of the meeting to record.
+account\_id: string
 
-- `allow_multiple_recordings: optional boolean`
+The account identifier tag.
 
-  By default, a meeting allows only one recording to run at a time. Enabling the `allow_multiple_recordings` parameter to true allows you to initiate multiple recordings concurrently in the same meeting. This allows you to record separate videos of the same meeting with different configurations, such as portrait mode or landscape mode.
+maxLength32
 
-- `audio_config: optional object { channel, codec, export_file }`
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Object containing configuration regarding the audio that is being recorded.
+app\_id: string
 
-  - `channel: optional "mono" or "stereo"`
+The app identifier tag.
 
-    Audio signal pathway within an audio file that carries a specific sound source.
+maxLength32
 
-    - `"mono"`
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
 
-    - `"stereo"`
+##### Body ParametersJSONExpand Collapse
 
-  - `codec: optional "MP3" or "AAC"`
+meeting\_id: string
 
-    Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+ID of the meeting to record.
 
-    - `"MP3"`
+formatuuid
 
-    - `"AAC"`
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20meeting_id%20%3E%20(schema)>)
 
-  - `export_file: optional boolean`
+allow\_multiple\_recordings: optional boolean
 
-    Controls whether to export audio file seperately
+By default, a meeting allows only one recording to run at a time. Enabling the `allow_multiple_recordings` parameter to true allows you to initiate multiple recordings concurrently in the same meeting. This allows you to record separate videos of the same meeting with different configurations, such as portrait mode or landscape mode.
 
-- `file_name_prefix: optional string`
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20allow_multiple_recordings%20%3E%20(schema)>)
 
-  Update the recording file name.
+<details>
 
-- `interactive_config: optional object { type }`
+<summary>
 
-  Allows you to add timed metadata to your recordings, which are digital markers inserted into a video file to provide contextual information at specific points in the content range. The ID3 tags containing this information are available to clients on the playback timeline in HLS format. The output files are generated in a compressed .tar format.
+audio\_config: optional object {channel, codec, export\_file }
 
-  - `type: optional "ID3"`
+Object containing configuration regarding the audio that is being recorded.
 
-    The metadata is presented in the form of ID3 tags.
+</summary>
 
-    - `"ID3"`
+<details>
 
-- `max_seconds: optional number`
+<summary>
 
-  Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+channel: optional "mono"or "stereo"
 
-- `realtimekit_bucket_config: optional object { enabled }`
+Audio signal pathway within an audio file that carries a specific sound source.
 
-  - `enabled: boolean`
+</summary>
 
-    Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+One of the following:
 
-- `rtmp_out_config: optional object { rtmp_url }`
+"mono"
 
-  - `rtmp_url: optional string`
+<a href="#">Link to this property</a>
 
-    RTMP URL to stream to
+"stereo"
 
-- `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `type: "aws" or "azure" or "digitalocean" or 2 more`
+</details>
 
-    Type of storage media.
+<a href="#">Link to this property</a>
 
-    - `"aws"`
+<details>
 
-    - `"azure"`
+<summary>
 
-    - `"digitalocean"`
+codec: optional "MP3"or "AAC"
 
-    - `"gcs"`
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-    - `"sftp"`
+</summary>
 
-  - `access_key: optional string`
+One of the following:
 
-    Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+"MP3"
 
-    Note that this field is not readable by clients, only writeable.
+<a href="#">Link to this property</a>
 
-  - `auth_method: optional "KEY" or "PASSWORD"`
+"AAC"
 
-    Authentication method used for "sftp" type storage medium
+<a href="#">Link to this property</a>
 
-    - `"KEY"`
+</details>
 
-    - `"PASSWORD"`
+<a href="#">Link to this property</a>
 
-  - `bucket: optional string`
+export\_file: optional boolean
 
-    Name of the storage medium's bucket.
+Controls whether to export audio file seperately
 
-  - `host: optional string`
+<a href="#">Link to this property</a>
 
-    SSH destination server host for SFTP type storage medium
+</details>
 
-  - `password: optional string`
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20audio_config%20%3E%20(schema)>)
 
-    SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+file\_name\_prefix: optional string
 
-  - `path: optional string`
+Update the recording file name.
 
-    Path relative to the bucket root at which the recording will be placed.
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20file_name_prefix%20%3E%20(schema)>)
 
-  - `port: optional number`
+<details>
 
-    SSH destination server port for SFTP type storage medium
+<summary>
 
-  - `private_key: optional string`
+interactive\_config: optional object {type }
 
-    Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+Allows you to add timed metadata to your recordings, which are digital markers inserted into a video file to provide contextual information at specific points in the content range. The ID3 tags containing this information are available to clients on the playback timeline in HLS format. The output files are generated in a compressed .tar format.
 
-  - `region: optional string`
+</summary>
 
-    Region of the storage medium.
+type: optional "ID3"
 
-  - `secret: optional string`
+The metadata is presented in the form of ID3 tags.
 
-    Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<a href="#">Link to this property</a>
 
-  - `username: optional string`
+</details>
 
-    SSH destination server username for SFTP type storage medium
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20interactive_config%20%3E%20(schema)>)
 
-- `url: optional string`
+max\_seconds: optional number
 
-  Pass a custom url to record arbitary screen
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-- `video_config: optional object { codec, export_file, height, 2 more }`
+maximum86400
 
-  - `codec: optional "H264" or "VP8"`
+minimum60
 
-    Codec using which the recording will be encoded.
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20max_seconds%20%3E%20(schema)>)
 
-    - `"H264"`
+<details>
 
-    - `"VP8"`
+<summary>
 
-  - `export_file: optional boolean`
+realtimekit\_bucket\_config: optional object {enabled }
 
-    Controls whether to export video file seperately
+</summary>
 
-  - `height: optional number`
+enabled: boolean
 
-    Height of the recording video in pixels
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, <code>download_url</code>, <code>audio_download_url</code>, <code>download_url_expiry</code> won’t be generated for a recording.
 
-  - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-    Watermark to be added to the recording
+</details>
 
-    - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20realtimekit_bucket_config%20%3E%20(schema)>)
 
-      Position of the watermark
+<details>
 
-      - `"left top"`
+<summary>
 
-      - `"right top"`
+rtmp\_out\_config: optional object {rtmp\_url }
 
-      - `"left bottom"`
+</summary>
 
-      - `"right bottom"`
+rtmp\_url: optional string
 
-    - `size: optional object { height, width }`
+RTMP URL to stream to
 
-      Size of the watermark
+formaturi
 
-      - `height: optional number`
+<a href="#">Link to this property</a>
 
-        Height of the watermark in px
+</details>
 
-      - `width: optional number`
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20rtmp_out_config%20%3E%20(schema)>)
 
-        Width of the watermark in px
+<details>
 
-    - `url: optional string`
+<summary>
 
-      URL of the watermark image
+storage\_config: optional object {access\_key, auth\_method, bucket, 9 more } or object {access\_key, region, auth\_method, 9 more } or object {private\_key, access\_key, auth\_method, 9 more } or object {password, access\_key, auth\_method, 9 more }
 
-  - `width: optional number`
+</summary>
 
-    Width of the recording video in pixels
+One of the following:
 
-### Returns
+<details>
 
-- `success: boolean`
+<summary>
 
-  Success status of the operation
+object {access\_key, auth\_method, bucket, 9 more }
 
-- `data: optional object { id, audio_download_url, download_url, 12 more }`
+</summary>
 
-  Data returned by the operation
+access\_key: optional string
 
-  - `id: string`
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-    ID of the recording
+Note that this field is not readable by clients, only writeable.
 
-  - `audio_download_url: string`
+<a href="#">Link to this property</a>
 
-    If the audio_config is passed, the URL for downloading the audio recording is returned.
+<details>
 
-  - `download_url: string`
+<summary>
 
-    URL where the recording can be downloaded.
+auth\_method: optional "KEY"or "PASSWORD"
 
-  - `download_url_expiry: string`
+Authentication method used for “sftp” type storage medium
 
-    Timestamp when the download URL expires.
+</summary>
 
-  - `file_size: number`
+One of the following:
 
-    File size of the recording, in bytes.
+"KEY"
 
-  - `invoked_time: string`
+<a href="#">Link to this property</a>
 
-    Timestamp when this recording was invoked.
+"PASSWORD"
 
-  - `output_file_name: string`
+<a href="#">Link to this property</a>
 
-    File name of the recording.
+</details>
 
-  - `session_id: string`
+<a href="#">Link to this property</a>
 
-    ID of the meeting session this recording is for.
+bucket: optional string
 
-  - `started_time: string`
+Name of the storage medium’s bucket.
 
-    Timestamp when this recording actually started after being invoked. Usually a few seconds after `invoked_time`.
+<a href="#">Link to this property</a>
 
-  - `status: "INVOKED" or "RECORDING" or "UPLOADING" or 3 more`
+host: optional string
 
-    Current status of the recording.
+SSH destination server host for SFTP type storage medium
 
-    - `"INVOKED"`
+<a href="#">Link to this property</a>
 
-    - `"RECORDING"`
+password: optional string
 
-    - `"UPLOADING"`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-    - `"UPLOADED"`
+<a href="#">Link to this property</a>
 
-    - `"ERRORED"`
+path: optional string
 
-    - `"PAUSED"`
+Path relative to the bucket root at which the recording will be placed.
 
-  - `stopped_time: string`
+<a href="#">Link to this property</a>
 
-    Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+port: optional number
 
-  - `recording_duration: optional number`
+SSH destination server port for SFTP type storage medium
 
-    Total recording time in seconds.
+<a href="#">Link to this property</a>
 
-  - `start_reason: optional object { caller, reason }`
+private\_key: optional string
 
-    - `caller: optional object { name, type, user_Id }`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the user who started the recording.
+region: optional string
 
-      - `type: optional "ORGANIZATION" or "USER"`
+Region of the storage medium.
 
-        The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+<a href="#">Link to this property</a>
 
-        - `"ORGANIZATION"`
+secret: optional string
 
-        - `"USER"`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-      - `user_Id: optional string`
+<a href="#">Link to this property</a>
 
-        The user ID of the person who started the recording.
+type: optional "gcs"
 
-    - `reason: optional "API_CALL" or "RECORD_ON_START"`
+<a href="#">Link to this property</a>
 
-      Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API.
+username: optional string
 
-      If the recording is initiated using the "RECORD_ON_START" parameter, the user details will not be populated.
+SSH destination server username for SFTP type storage medium
 
-      - `"API_CALL"`
+<a href="#">Link to this property</a>
 
-      - `"RECORD_ON_START"`
+</details>
 
-  - `stop_reason: optional object { caller, reason }`
+<a href="#">Link to this property</a>
 
-    - `caller: optional object { name, type, user_Id }`
+<details>
 
-      - `name: optional string`
+<summary>
 
-        Name of the user who stopped the recording.
+object {access\_key, region, auth\_method, 9 more }
 
-      - `type: optional "ORGANIZATION" or "USER"`
+</summary>
 
-        The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned.
+access\_key: unknown
 
-        - `"ORGANIZATION"`
+minLength1
 
-        - `"USER"`
+<a href="#">Link to this property</a>
 
-      - `user_Id: optional string`
+region: unknown
 
-        The user ID of the person who stopped the recording.
+minLength1
 
-    - `reason: optional "API_CALL" or "INTERNAL_ERROR" or "ALL_PEERS_LEFT"`
+<a href="#">Link to this property</a>
 
-      Specifies the reason why the recording stopped.
+<details>
 
-      - `"API_CALL"`
+<summary>
 
-      - `"INTERNAL_ERROR"`
+auth\_method: optional "KEY"or "PASSWORD"
 
-      - `"ALL_PEERS_LEFT"`
+Authentication method used for “sftp” type storage medium
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+</summary>
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+One of the following:
 
-      Type of storage media.
+"KEY"
 
-      - `"aws"`
+<a href="#">Link to this property</a>
 
-      - `"azure"`
+"PASSWORD"
 
-      - `"digitalocean"`
+<a href="#">Link to this property</a>
 
-      - `"gcs"`
+</details>
 
-      - `"sftp"`
+<a href="#">Link to this property</a>
 
-    - `access_key: optional string`
+bucket: optional string
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+Name of the storage medium’s bucket.
 
-      Note that this field is not readable by clients, only writeable.
+<a href="#">Link to this property</a>
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+host: optional string
 
-      Authentication method used for "sftp" type storage medium
+SSH destination server host for SFTP type storage medium
 
-      - `"KEY"`
+<a href="#">Link to this property</a>
 
-      - `"PASSWORD"`
+password: optional string
 
-    - `bucket: optional string`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-      Name of the storage medium's bucket.
+<a href="#">Link to this property</a>
 
-    - `host: optional string`
+path: optional string
 
-      SSH destination server host for SFTP type storage medium
+Path relative to the bucket root at which the recording will be placed.
 
-    - `password: optional string`
+<a href="#">Link to this property</a>
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+port: optional number
 
-    - `path: optional string`
+SSH destination server port for SFTP type storage medium
 
-      Path relative to the bucket root at which the recording will be placed.
+<a href="#">Link to this property</a>
 
-    - `port: optional number`
+private\_key: optional string
 
-      SSH destination server port for SFTP type storage medium
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-    - `private_key: optional string`
+<a href="#">Link to this property</a>
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+secret: optional string
 
-    - `region: optional string`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-      Region of the storage medium.
+<a href="#">Link to this property</a>
 
-    - `secret: optional string`
+<details>
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<summary>
 
-    - `username: optional string`
+type: optional "aws"or "azure"or "digitalocean"
 
-      SSH destination server username for SFTP type storage medium
+</summary>
 
-### Example
+One of the following:
 
-```http
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {private\_key, access\_key, auth\_method, 9 more }
+
+</summary>
+
+private\_key: string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+access\_key: optional string
+
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+<a href="#">Link to this property</a>
+
+auth\_method: optional "KEY"
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Region of the storage medium.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "aws"or "azure"or "digitalocean"or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+"gcs"
+
+<a href="#">Link to this property</a>
+
+"sftp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {password, access\_key, auth\_method, 9 more }
+
+</summary>
+
+password: string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+access\_key: optional string
+
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+<a href="#">Link to this property</a>
+
+auth\_method: optional "PASSWORD"
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+private\_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Region of the storage medium.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "aws"or "azure"or "digitalocean"or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+"gcs"
+
+<a href="#">Link to this property</a>
+
+"sftp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20storage_config%20%3E%20(schema)>)
+
+url: optional string
+
+Pass a custom url to record arbitary screen
+
+formaturi
+
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20url%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+video\_config: optional object {codec, export\_file, height, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+codec: optional "H264"or "VP8"or "VP9"
+
+Codec using which the recording will be encoded.
+
+</summary>
+
+One of the following:
+
+"H264"
+
+<a href="#">Link to this property</a>
+
+"VP8"
+
+<a href="#">Link to this property</a>
+
+"VP9"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+export\_file: optional boolean
+
+Controls whether to export video file seperately
+
+<a href="#">Link to this property</a>
+
+height: optional number
+
+Height of the recording video in pixels
+
+maximum1920
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+watermark: optional object {position, size, url }
+
+Watermark to be added to the recording
+
+</summary>
+
+<details>
+
+<summary>
+
+position: optional "left top"or "right top"or "left bottom"or "right bottom"
+
+Position of the watermark
+
+</summary>
+
+One of the following:
+
+"left top"
+
+<a href="#">Link to this property</a>
+
+"right top"
+
+<a href="#">Link to this property</a>
+
+"left bottom"
+
+<a href="#">Link to this property</a>
+
+"right bottom"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+size: optional object {height, width }
+
+Size of the watermark
+
+</summary>
+
+height: optional number
+
+Height of the watermark in px
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+width: optional number
+
+Width of the watermark in px
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+URL of the watermark image
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+width: optional number
+
+Width of the recording video in pixels
+
+maximum1920
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(method)%20start_recordings%20%3E%20(params)%200%20%3E%20(param)%20video_config%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+success: boolean
+
+Success status of the operation
+
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(model)%20recording_start_recordings_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+data: optional object {id, audio\_download\_url, download\_url, 12 more }
+
+Data returned by the operation
+
+</summary>
+
+id: string
+
+ID of the recording
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+audio\_download\_url: string
+
+If the audio\_config is passed, the URL for downloading the audio recording is returned.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+download\_url: string
+
+URL where the recording can be downloaded.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+download\_url\_expiry: string
+
+Timestamp when the download URL expires.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+file\_size: number
+
+File size of the recording, in bytes.
+
+<a href="#">Link to this property</a>
+
+invoked\_time: string
+
+Timestamp when this recording was invoked.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+output\_file\_name: string
+
+File name of the recording.
+
+<a href="#">Link to this property</a>
+
+session\_id: string
+
+ID of the meeting session this recording is for.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+started\_time: string
+
+Timestamp when this recording actually started after being invoked. Usually a few seconds after <code>invoked_time</code>.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "INVOKED"or "RECORDING"or "UPLOADING"or 3 more
+
+Current status of the recording.
+
+</summary>
+
+One of the following:
+
+"INVOKED"
+
+<a href="#">Link to this property</a>
+
+"RECORDING"
+
+<a href="#">Link to this property</a>
+
+"UPLOADING"
+
+<a href="#">Link to this property</a>
+
+"UPLOADED"
+
+<a href="#">Link to this property</a>
+
+"ERRORED"
+
+<a href="#">Link to this property</a>
+
+"PAUSED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+stopped\_time: string
+
+Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+recording\_duration: optional number
+
+Total recording time in seconds.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+start\_reason: optional object {caller, reason }
+
+</summary>
+
+<details>
+
+<summary>
+
+caller: optional object {name, type, user\_Id }
+
+</summary>
+
+name: optional string
+
+Name of the user who started the recording.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "ORGANIZATION"or "USER"
+
+The type can be an App or a user. If the type is <code>user</code>, then only the <code>user_Id</code> and <code>name</code> are returned.
+
+</summary>
+
+One of the following:
+
+"ORGANIZATION"
+
+<a href="#">Link to this property</a>
+
+"USER"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user\_Id: optional string
+
+The user ID of the person who started the recording.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+reason: optional "API\_CALL"or "RECORD\_ON\_START"
+
+Specifies if the recording was started using the “Start a Recording”API or using the parameter RECORD\_ON\_START in the “Create a meeting” API.
+
+If the recording is initiated using the “RECORD\_ON\_START” parameter, the user details will not be populated.
+
+</summary>
+
+One of the following:
+
+"API\_CALL"
+
+<a href="#">Link to this property</a>
+
+"RECORD\_ON\_START"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stop\_reason: optional object {caller, reason }
+
+</summary>
+
+<details>
+
+<summary>
+
+caller: optional object {name, type, user\_Id }
+
+</summary>
+
+name: optional string
+
+Name of the user who stopped the recording.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "ORGANIZATION"or "USER"
+
+The type can be an App or a user. If the type is <code>user</code>, then only the <code>user_Id</code> and <code>name</code> are returned.
+
+</summary>
+
+One of the following:
+
+"ORGANIZATION"
+
+<a href="#">Link to this property</a>
+
+"USER"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+user\_Id: optional string
+
+The user ID of the person who stopped the recording.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+reason: optional "API\_CALL"or "INTERNAL\_ERROR"or "ALL\_PEERS\_LEFT"
+
+Specifies the reason why the recording stopped.
+
+</summary>
+
+One of the following:
+
+"API\_CALL"
+
+<a href="#">Link to this property</a>
+
+"INTERNAL\_ERROR"
+
+<a href="#">Link to this property</a>
+
+"ALL\_PEERS\_LEFT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+storage\_config: optional object {access\_key, auth\_method, bucket, 9 more } or object {access\_key, region, auth\_method, 9 more } or object {private\_key, access\_key, auth\_method, 9 more } or object {password, access\_key, auth\_method, 9 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {access\_key, auth\_method, bucket, 9 more }
+
+</summary>
+
+access\_key: optional string
+
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+auth\_method: optional "KEY"or "PASSWORD"
+
+Authentication method used for “sftp” type storage medium
+
+</summary>
+
+One of the following:
+
+"KEY"
+
+<a href="#">Link to this property</a>
+
+"PASSWORD"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+private\_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Region of the storage medium.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+type: optional "gcs"
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {access\_key, region, auth\_method, 9 more }
+
+</summary>
+
+access\_key: unknown
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+region: unknown
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+auth\_method: optional "KEY"or "PASSWORD"
+
+Authentication method used for “sftp” type storage medium
+
+</summary>
+
+One of the following:
+
+"KEY"
+
+<a href="#">Link to this property</a>
+
+"PASSWORD"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+private\_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "aws"or "azure"or "digitalocean"
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {private\_key, access\_key, auth\_method, 9 more }
+
+</summary>
+
+private\_key: string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+access\_key: optional string
+
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+<a href="#">Link to this property</a>
+
+auth\_method: optional "KEY"
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Region of the storage medium.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "aws"or "azure"or "digitalocean"or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+"gcs"
+
+<a href="#">Link to this property</a>
+
+"sftp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {password, access\_key, auth\_method, 9 more }
+
+</summary>
+
+password: string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+access\_key: optional string
+
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+<a href="#">Link to this property</a>
+
+auth\_method: optional "PASSWORD"
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+private\_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Region of the storage medium.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "aws"or "azure"or "digitalocean"or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+"gcs"
+
+<a href="#">Link to this property</a>
+
+"sftp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.recordings%20%3E%20(model)%20recording_start_recordings_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+### Start recording a meeting
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/recordings \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -409,9 +1639,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "success": true,
   "data": {
@@ -444,16 +1674,63 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP
       "reason": "API_CALL"
     },
     "storage_config": {
-      "type": "aws",
       "auth_method": "KEY",
       "bucket": "bucket",
       "host": "host",
-      "password": "password",
       "path": "path",
       "port": 0,
-      "private_key": "private_key",
       "region": "us-east-1",
-      "secret": "secret",
+      "type": "gcs",
+      "username": "username"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "success": true,
+  "data": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "audio_download_url": "https://example.com",
+    "download_url": "https://example.com",
+    "download_url_expiry": "2019-12-27T18:11:19.117Z",
+    "file_size": 0,
+    "invoked_time": "2019-12-27T18:11:19.117Z",
+    "output_file_name": "output_file_name",
+    "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "started_time": "2019-12-27T18:11:19.117Z",
+    "status": "INVOKED",
+    "stopped_time": "2019-12-27T18:11:19.117Z",
+    "recording_duration": 0,
+    "start_reason": {
+      "caller": {
+        "name": "RealtimeKit_test",
+        "type": "ORGANIZATION",
+        "user_Id": "d61f6956-e68f-4375-bf10-c38a704d1bec"
+      },
+      "reason": "API_CALL"
+    },
+    "stop_reason": {
+      "caller": {
+        "name": "RealtimeKit_test",
+        "type": "ORGANIZATION",
+        "user_Id": "d61f6956-e68f-4375-bf10-c38a704d1bec"
+      },
+      "reason": "API_CALL"
+    },
+    "storage_config": {
+      "auth_method": "KEY",
+      "bucket": "bucket",
+      "host": "host",
+      "path": "path",
+      "port": 0,
+      "region": "us-east-1",
+      "type": "gcs",
       "username": "username"
     }
   }

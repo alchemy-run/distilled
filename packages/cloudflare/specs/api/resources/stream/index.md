@@ -1,7721 +1,1909 @@
+---
+title: Stream
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Stream
 
-## List videos
+##### [List videos](https://developers.cloudflare.com/api/resources/stream/methods/list)
 
-**get** `/accounts/{account_id}/stream`
+GET/accounts/{account\_id}/stream
 
-Lists up to 1000 videos from a single request. For a specific range, refer to the optional parameters.
+##### [Retrieve video details](https://developers.cloudflare.com/api/resources/stream/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/stream/{identifier}
 
-- `account_id: string`
+##### [Initiate video uploads using TUS](https://developers.cloudflare.com/api/resources/stream/methods/create)
 
-  The account identifier tag.
+POST/accounts/{account\_id}/stream
 
-### Query Parameters
+##### [Edit video details](https://developers.cloudflare.com/api/resources/stream/methods/edit)
 
-- `id: optional string`
+POST/accounts/{account\_id}/stream/{identifier}
 
-  Filter by video ID(s). Can be a single ID or a comma-separated list of IDs.
+##### [Delete video](https://developers.cloudflare.com/api/resources/stream/methods/delete)
 
-- `after: optional string`
+DELETE/accounts/{account\_id}/stream/{identifier}
 
-  Alias for 'start'. Returns videos created after this date/time (RFC 3339 format).
+##### ModelsExpand Collapse
 
-- `asc: optional boolean`
+AllowedOrigins = string
 
-  Lists videos in ascending order of creation.
+[Link to this property](#)%20stream%20%3E%20(model)%20allowed_origins%20%3E%20(schema)>)
 
-- `before: optional string`
+<details>
 
-  Alias for 'end'. Returns videos created before this date/time (RFC 3339 format).
+<summary>
 
-- `creator: optional string`
+Video object {allowedOrigins, clippedFrom, created, 23 more }
 
-  A user-defined identifier for the media creator.
+</summary>
 
-- `end: optional string`
+allowedOrigins: optional array of <a href="https://developers.cloudflare.com/api/resources/stream#(resource)%20stream%20%3E%20(model)%20allowed_origins%20%3E%20(schema)">AllowedOrigins</a>
 
-  Lists videos created before the specified date.
+Lists the origins allowed to display the video. Enter allowed origin domains in an array and use <code>*</code> for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
 
-- `include_counts: optional boolean`
+<a href="#">Link to this property</a>
 
-  Includes the total number of videos associated with the submitted query parameters.
+clippedFrom: optional string
 
-- `limit: optional number`
+The unique identifier of the source video this video was clipped from.
 
-  Maximum number of videos to return (default 1000, max 1000).
+<a href="#">Link to this property</a>
 
-- `live_input_id: optional string`
+created: optional string
 
-  Filter by live input ID to find videos associated with a specific live stream.
+The date and time the media item was created.
 
-- `name: optional string`
+formatdate-time
 
-  Filter by video name/UID(s). Can be a single name or a comma-separated list.
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+creator: optional string
 
-  Provides a partial word match of the `name` key in the `meta` field. Slow for medium to large video libraries. May be unavailable for very large libraries.
+A user-defined identifier for the media creator.
 
-- `start: optional string`
+maxLength64
 
-  Lists videos created after the specified date.
+<a href="#">Link to this property</a>
 
-- `status: optional "pendingupload" or "downloading" or "queued" or 4 more`
+duration: optional number
 
-  Specifies the processing status for all quality levels for a video.
+The duration of the video in seconds. A value of <code>-1</code> means the duration is unknown. The duration becomes available after the upload and before the video is ready.
 
-  - `"pendingupload"`
+<a href="#">Link to this property</a>
 
-  - `"downloading"`
+<details>
 
-  - `"queued"`
+<summary>
 
-  - `"inprogress"`
+input: optional object {height, width }
 
-  - `"ready"`
+</summary>
 
-  - `"error"`
+height: optional number
 
-  - `"live-inprogress"`
+The video height in pixels. A value of <code>-1</code> means the height is unknown. The value becomes available after the upload and before the video is ready.
 
-- `type: optional string`
+<a href="#">Link to this property</a>
 
-  Specifies whether the video is `vod` or `live`.
+width: optional number
 
-- `video_name: optional string`
+The video width in pixels. A value of <code>-1</code> means the width is unknown. The value becomes available after the upload and before the video is ready.
 
-  Provides a fast, exact string match on the `name` key in the `meta` field.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+liveInput: optional string
 
-  - `message: string`
+The live input ID used to upload a video with Stream Live.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+maxDurationSeconds: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of <code>-1</code> means the value is unknown.
 
-  - `code: number`
+maximum36000
 
-  - `message: string`
+minimum1
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+maxSizeBytes: optional number
 
-    - `pointer: optional string`
+The maximum size in bytes for the video upload.
 
-- `success: true`
+formatint64
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+meta: optional unknown
 
-- `range: optional number`
+A user modifiable key-value store used to reference other systems of record for managing videos.
 
-  The total number of remaining videos based on cursor position.
+<a href="#">Link to this property</a>
 
-- `result: optional array of Video`
+modified: optional string
 
-  - `allowedOrigins: optional array of AllowedOrigins`
+The date and time the media item was last modified.
 
-    Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+formatdate-time
 
-  - `clippedFrom: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the source video this video was clipped from.
+<details>
 
-  - `created: optional string`
+<summary>
 
-    The date and time the media item was created.
+playback: optional object {dash, hls }
 
-  - `creator: optional string`
+</summary>
 
-    A user-defined identifier for the media creator.
+dash: optional string
 
-  - `duration: optional number`
+DASH Media Presentation Description for the video.
 
-    The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready.
+<a href="#">Link to this property</a>
 
-  - `input: optional object { height, width }`
+hls: optional string
 
-    - `height: optional number`
+The HLS manifest for the video.
 
-      The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready.
+<a href="#">Link to this property</a>
 
-    - `width: optional number`
+</details>
 
-      The video width in pixels. A value of `-1` means the width is unknown. The value becomes available after the upload and before the video is ready.
+<a href="#">Link to this property</a>
 
-  - `liveInput: optional string`
+preview: optional string
 
-    The live input ID used to upload a video with Stream Live.
+The video’s preview page URI. This field is omitted until encoding is complete.
 
-  - `maxDurationSeconds: optional number`
+formaturi
 
-    The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
+<a href="#">Link to this property</a>
 
-  - `maxSizeBytes: optional number`
+<details>
 
-    The maximum size in bytes for the video upload.
+<summary>
 
-  - `meta: optional unknown`
+publicDetails: optional object {channel\_link, logo, media\_id, 2 more }
 
-    A user modifiable key-value store used to reference other systems of record for managing videos.
+Public details for the video including title, share link, channel link, and logo.
 
-  - `modified: optional string`
+</summary>
 
-    The date and time the media item was last modified.
+channel\_link: optional string
 
-  - `playback: optional object { dash, hls }`
+<a href="#">Link to this property</a>
 
-    - `dash: optional string`
+logo: optional string
 
-      DASH Media Presentation Description for the video.
+<a href="#">Link to this property</a>
 
-    - `hls: optional string`
+media\_id: optional number
 
-      The HLS manifest for the video.
+<a href="#">Link to this property</a>
 
-  - `preview: optional string`
+share\_link: optional string
 
-    The video's preview page URI. This field is omitted until encoding is complete.
+<a href="#">Link to this property</a>
 
-  - `publicDetails: optional object { channel_link, logo, media_id, 2 more }`
+title: optional string
 
-    Public details for the video including title, share link, channel link, and logo.
+<a href="#">Link to this property</a>
 
-    - `channel_link: optional string`
+</details>
 
-    - `logo: optional string`
+<a href="#">Link to this property</a>
 
-    - `media_id: optional number`
+readyToStream: optional boolean
 
-    - `share_link: optional string`
+Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-  - `readyToStream: optional boolean`
+readyToStreamAt: optional string
 
-    Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
 
-  - `readyToStreamAt: optional string`
+formatdate-time
 
-    Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+<a href="#">Link to this property</a>
 
-  - `requireSignedURLs: optional boolean`
+requireSignedURLs: optional boolean
 
-    Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+Indicates whether the video can be a accessed using the UID. When set to <code>true</code>, a signed token must be generated with a signing key to view the video.
 
-  - `scheduledDeletion: optional string`
+<a href="#">Link to this property</a>
 
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+scheduledDeletion: optional string
 
-  - `size: optional number`
+Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a <code>null</code> value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
 
-    The size of the media item in bytes.
+formatdate-time
 
-  - `status: optional object { errorReasonCode, errorReasonText, pctComplete, state }`
+<a href="#">Link to this property</a>
 
-    Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details.
+size: optional number
 
-    - `errorReasonCode: optional string`
+The size of the media item in bytes.
 
-      Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use.
+<a href="#">Link to this property</a>
 
-    - `errorReasonText: optional string`
+<details>
 
-      Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state.
+<summary>
 
-    - `pctComplete: optional string`
+status: optional object {errorReasonCode, errorReasonText, pctComplete, state }
 
-      Indicates the progress as a percentage between 0 and 100.
+Specifies a detailed status for a video. If the <code>state</code> is <code>inprogress</code> or <code>error</code>, the <code>step</code> field returns <code>encoding</code> or <code>manifest</code>. If the <code>state</code> is <code>inprogress</code>, <code>pctComplete</code> returns a number between 0 and 100 to indicate the approximate percent of completion. If the <code>state</code> is <code>error</code>, <code>errorReasonCode</code> and <code>errorReasonText</code> provide additional details.
 
-    - `state: optional "pendingupload" or "downloading" or "queued" or 4 more`
+</summary>
 
-      Specifies the processing status for all quality levels for a video.
+errorReasonCode: optional string
 
-      - `"pendingupload"`
+Specifies why the video failed to encode. This field is empty if the video is not in an <code>error</code> state. Preferred for programmatic use.
 
-      - `"downloading"`
+<a href="#">Link to this property</a>
 
-      - `"queued"`
+errorReasonText: optional string
 
-      - `"inprogress"`
+Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an <code>error</code> state.
 
-      - `"ready"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+pctComplete: optional string
 
-      - `"live-inprogress"`
+Indicates the progress as a percentage between 0 and 100.
 
-  - `thumbnail: optional string`
+<a href="#">Link to this property</a>
 
-    The media item's thumbnail URI. This field is omitted until encoding is complete.
+<details>
 
-  - `thumbnailTimestampPct: optional number`
+<summary>
 
-    The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
+state: optional "pendingupload"or "downloading"or "queued"or 4 more
 
-  - `uid: optional string`
+Specifies the processing status for all quality levels for a video.
 
-    A Cloudflare-generated unique identifier for a media item.
+</summary>
 
-  - `uploaded: optional string`
+One of the following:
 
-    The date and time the media item was uploaded.
+"pendingupload"
 
-  - `uploadExpiry: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the video upload URL is no longer valid for direct user uploads.
+"downloading"
 
-  - `watermark: optional Watermark`
+<a href="#">Link to this property</a>
 
-    - `created: optional string`
+"queued"
 
-      The date and a time a watermark profile was created.
+<a href="#">Link to this property</a>
 
-    - `downloadedFrom: optional string`
+"inprogress"
 
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
+<a href="#">Link to this property</a>
 
-    - `height: optional number`
+"ready"
 
-      The height of the image in pixels.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"error"
 
-      A short description of the watermark profile.
+<a href="#">Link to this property</a>
 
-    - `opacity: optional number`
+"live-inprogress"
 
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
+<a href="#">Link to this property</a>
 
-    - `padding: optional number`
+</details>
 
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
+<a href="#">Link to this property</a>
 
-    - `position: optional string`
+</details>
 
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
+<a href="#">Link to this property</a>
 
-    - `scale: optional number`
+thumbnail: optional string
 
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
+The media item’s thumbnail URI. This field is omitted until encoding is complete.
 
-    - `size: optional number`
+formaturi
 
-      The size of the image in bytes.
+<a href="#">Link to this property</a>
 
-    - `uid: optional string`
+thumbnailTimestampPct: optional number
 
-      The unique identifier for a watermark profile.
+The timestamp for a thumbnail image calculated as a percentage value of the video’s duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video.
 
-    - `width: optional number`
+maximum1
 
-      The width of the image in pixels.
+minimum0
 
-- `total: optional number`
+<a href="#">Link to this property</a>
 
-  The total number of videos that match the provided filters.
+uid: optional string
 
-### Example
+A Cloudflare-generated unique identifier for a media item.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "range": 1000,
-  "result": [
-    {
-      "allowedOrigins": [
-        "example.com"
-      ],
-      "clippedFrom": "ea95132c15732412d22c1476fa83f27a",
-      "created": "2014-01-02T02:20:00Z",
-      "creator": "creator-id_abcde12345",
-      "duration": 0,
-      "input": {
-        "height": 0,
-        "width": 0
-      },
-      "liveInput": "fc0a8dc887b16759bfd9ad922230a014",
-      "maxDurationSeconds": 1,
-      "maxSizeBytes": 0,
-      "meta": {
-        "name": "video12345.mp4"
-      },
-      "modified": "2014-01-02T02:20:00Z",
-      "playback": {
-        "dash": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.mpd",
-        "hls": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.m3u8"
-      },
-      "preview": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/watch",
-      "publicDetails": {
-        "channel_link": "channel_link",
-        "logo": "logo",
-        "media_id": 0,
-        "share_link": "share_link",
-        "title": "title"
-      },
-      "readyToStream": true,
-      "readyToStreamAt": "2014-01-02T02:20:00Z",
-      "requireSignedURLs": true,
-      "scheduledDeletion": "2014-01-02T02:20:00Z",
-      "size": 4190963,
-      "status": {
-        "errorReasonCode": "ERR_NON_VIDEO",
-        "errorReasonText": "The file was not recognized as a valid video file.",
-        "pctComplete": "45",
-        "state": "inprogress"
-      },
-      "thumbnail": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/thumbnails/thumbnail.jpg",
-      "thumbnailTimestampPct": 0.529241,
-      "uid": "ea95132c15732412d22c1476fa83f27a",
-      "uploaded": "2014-01-02T02:20:00Z",
-      "uploadExpiry": "2014-01-02T02:20:00Z",
-      "watermark": {
-        "created": "2014-01-02T02:20:00Z",
-        "downloadedFrom": "https://company.com/logo.png",
-        "height": 0,
-        "name": "Marketing Videos",
-        "opacity": 0.75,
-        "padding": 0.1,
-        "position": "center",
-        "scale": 0.1,
-        "size": 29472,
-        "uid": "ea95132c15732412d22c1476fa83f27a",
-        "width": 0
-      }
-    }
-  ],
-  "total": 35586
-}
-```
+uploaded: optional string
 
-## Retrieve video details
+The date and time the media item was uploaded.
 
-**get** `/accounts/{account_id}/stream/{identifier}`
+formatdate-time
 
-Fetches details for a single video.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+uploadExpiry: optional string
 
-- `account_id: string`
+The date and time when the video upload URL is no longer valid for direct user uploads.
 
-  The account identifier tag.
+formatdate-time
 
-- `identifier: string`
+<a href="#">Link to this property</a>
 
-  A Cloudflare-generated unique identifier for a media item.
+watermark: optional <a href="https://developers.cloudflare.com/api/resources/stream#(resource)%20stream.watermarks%20%3E%20(model)%20watermark%20%3E%20(schema)">Watermark</a> { created, downloadedFrom, height, 8 more }
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20stream%20%3E%20(model)%20video%20%3E%20(schema)>)
 
-  - `message: string`
+#### StreamAudio Tracks
 
-  - `documentation_url: optional string`
+##### [List additional audio tracks on a video](https://developers.cloudflare.com/api/resources/stream/subresources/audio_tracks/methods/get)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/stream/{identifier}/audio
 
-    - `pointer: optional string`
+##### [Edit additional audio tracks on a video](https://developers.cloudflare.com/api/resources/stream/subresources/audio_tracks/methods/edit)
 
-- `messages: array of object { code, message, documentation_url, source }`
+PATCH/accounts/{account\_id}/stream/{identifier}/audio/{audio\_identifier}
 
-  - `code: number`
+##### [Delete additional audio tracks on a video](https://developers.cloudflare.com/api/resources/stream/subresources/audio_tracks/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/stream/{identifier}/audio/{audio\_identifier}
 
-  - `documentation_url: optional string`
+##### [Add audio tracks to a video](https://developers.cloudflare.com/api/resources/stream/subresources/audio_tracks/methods/copy)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/stream/{identifier}/audio/copy
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+Audio object {default, label, status, uid }
 
-- `result: optional Video`
+</summary>
 
-  - `allowedOrigins: optional array of AllowedOrigins`
+default: optional boolean
 
-    Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+Denotes whether the audio track will be played by default in a player.
 
-  - `clippedFrom: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of the source video this video was clipped from.
+label: optional string
 
-  - `created: optional string`
+A string to uniquely identify the track amongst other audio track labels for the specified video.
 
-    The date and time the media item was created.
+<a href="#">Link to this property</a>
 
-  - `creator: optional string`
+<details>
 
-    A user-defined identifier for the media creator.
+<summary>
 
-  - `duration: optional number`
+status: optional "queued"or "ready"or "error"
 
-    The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready.
+Specifies the processing status of the video.
 
-  - `input: optional object { height, width }`
+</summary>
 
-    - `height: optional number`
+One of the following:
 
-      The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready.
+"queued"
 
-    - `width: optional number`
+<a href="#">Link to this property</a>
 
-      The video width in pixels. A value of `-1` means the width is unknown. The value becomes available after the upload and before the video is ready.
+"ready"
 
-  - `liveInput: optional string`
+<a href="#">Link to this property</a>
 
-    The live input ID used to upload a video with Stream Live.
+"error"
 
-  - `maxDurationSeconds: optional number`
+<a href="#">Link to this property</a>
 
-    The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
+</details>
 
-  - `maxSizeBytes: optional number`
+<a href="#">Link to this property</a>
 
-    The maximum size in bytes for the video upload.
+uid: optional string
 
-  - `meta: optional unknown`
+A Cloudflare-generated unique identifier for a media item.
 
-    A user modifiable key-value store used to reference other systems of record for managing videos.
+maxLength32
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the media item was last modified.
+</details>
 
-  - `playback: optional object { dash, hls }`
+[Link to this property](#)%20stream.audio_tracks%20%3E%20(model)%20audio%20%3E%20(schema)>)
 
-    - `dash: optional string`
+<details>
 
-      DASH Media Presentation Description for the video.
+<summary>
 
-    - `hls: optional string`
+AudioTrackGetResponse object {audio }
 
-      The HLS manifest for the video.
+</summary>
 
-  - `preview: optional string`
+<details>
 
-    The video's preview page URI. This field is omitted until encoding is complete.
+<summary>
 
-  - `publicDetails: optional object { channel_link, logo, media_id, 2 more }`
+audio: optional array of <a href="https://developers.cloudflare.com/api/resources/stream#(resource)%20stream.audio_tracks%20%3E%20(model)%20audio%20%3E%20(schema)">Audio</a> { default, label, status, uid }
 
-    Public details for the video including title, share link, channel link, and logo.
+Array of audio tracks for the video.
 
-    - `channel_link: optional string`
+</summary>
 
-    - `logo: optional string`
+default: optional boolean
 
-    - `media_id: optional number`
+Denotes whether the audio track will be played by default in a player.
 
-    - `share_link: optional string`
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+label: optional string
 
-  - `readyToStream: optional boolean`
+A string to uniquely identify the track amongst other audio track labels for the specified video.
 
-    Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+<a href="#">Link to this property</a>
 
-  - `readyToStreamAt: optional string`
+<details>
 
-    Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+<summary>
 
-  - `requireSignedURLs: optional boolean`
+status: optional "queued"or "ready"or "error"
 
-    Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+Specifies the processing status of the video.
 
-  - `scheduledDeletion: optional string`
+</summary>
 
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+One of the following:
 
-  - `size: optional number`
+"queued"
 
-    The size of the media item in bytes.
+<a href="#">Link to this property</a>
 
-  - `status: optional object { errorReasonCode, errorReasonText, pctComplete, state }`
+"ready"
 
-    Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details.
+<a href="#">Link to this property</a>
 
-    - `errorReasonCode: optional string`
+"error"
 
-      Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use.
+<a href="#">Link to this property</a>
 
-    - `errorReasonText: optional string`
+</details>
 
-      Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state.
+<a href="#">Link to this property</a>
 
-    - `pctComplete: optional string`
+uid: optional string
 
-      Indicates the progress as a percentage between 0 and 100.
+A Cloudflare-generated unique identifier for a media item.
 
-    - `state: optional "pendingupload" or "downloading" or "queued" or 4 more`
+maxLength32
 
-      Specifies the processing status for all quality levels for a video.
+<a href="#">Link to this property</a>
 
-      - `"pendingupload"`
+</details>
 
-      - `"downloading"`
+<a href="#">Link to this property</a>
 
-      - `"queued"`
+</details>
 
-      - `"inprogress"`
+[Link to this property](#)%20stream.audio_tracks%20%3E%20(model)%20audio_track_get_response%20%3E%20(schema)>)
 
-      - `"ready"`
+AudioTrackDeleteResponse = string
 
-      - `"error"`
+[Link to this property](#)%20stream.audio_tracks%20%3E%20(model)%20audio_track_delete_response%20%3E%20(schema)>)
 
-      - `"live-inprogress"`
+#### StreamVideos
 
-  - `thumbnail: optional string`
+##### [Storage use](https://developers.cloudflare.com/api/resources/stream/subresources/videos/methods/storage_usage)
 
-    The media item's thumbnail URI. This field is omitted until encoding is complete.
+GET/accounts/{account\_id}/stream/storage-usage
 
-  - `thumbnailTimestampPct: optional number`
+##### ModelsExpand Collapse
 
-    The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
+<details>
 
-  - `uid: optional string`
+<summary>
 
-    A Cloudflare-generated unique identifier for a media item.
+VideoStorageUsageResponse object {creator, totalStorageMinutes, totalStorageMinutesLimit, videoCount }
 
-  - `uploaded: optional string`
+</summary>
 
-    The date and time the media item was uploaded.
+creator: optional string
 
-  - `uploadExpiry: optional string`
+A user-defined identifier for the media creator.
 
-    The date and time when the video upload URL is no longer valid for direct user uploads.
+maxLength64
 
-  - `watermark: optional Watermark`
+<a href="#">Link to this property</a>
 
-    - `created: optional string`
+totalStorageMinutes: optional number
 
-      The date and a time a watermark profile was created.
+The total minutes of video content stored in the account. May contain decimal values.
 
-    - `downloadedFrom: optional string`
+formatfloat
 
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
+<a href="#">Link to this property</a>
 
-    - `height: optional number`
+totalStorageMinutesLimit: optional number
 
-      The height of the image in pixels.
+The storage capacity alloted for the account.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      A short description of the watermark profile.
+videoCount: optional number
 
-    - `opacity: optional number`
+The total count of videos associated with the account.
 
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
+<a href="#">Link to this property</a>
 
-    - `padding: optional number`
+</details>
 
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
+[Link to this property](#)%20stream.videos%20%3E%20(model)%20video_storage_usage_response%20%3E%20(schema)>)
 
-    - `position: optional string`
+#### StreamClip
 
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
+##### [Clip videos given a start and end time](https://developers.cloudflare.com/api/resources/stream/subresources/clip/methods/create)
 
-    - `scale: optional number`
+POST/accounts/{account\_id}/stream/clip
 
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
+#### StreamCopy
 
-    - `size: optional number`
+##### [Upload videos from a URL](https://developers.cloudflare.com/api/resources/stream/subresources/copy/methods/create)
 
-      The size of the image in bytes.
+POST/accounts/{account\_id}/stream/copy
 
-    - `uid: optional string`
+#### StreamDirect Upload
 
-      The unique identifier for a watermark profile.
+##### [Upload videos via direct upload URLs](https://developers.cloudflare.com/api/resources/stream/subresources/direct_upload/methods/create)
 
-    - `width: optional number`
+POST/accounts/{account\_id}/stream/direct\_upload
 
-      The width of the image in pixels.
+##### ModelsExpand Collapse
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+DirectUploadCreateResponse object {scheduledDeletion, uid, uploadURL, watermark }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allowedOrigins": [
-      "example.com"
-    ],
-    "clippedFrom": "ea95132c15732412d22c1476fa83f27a",
-    "created": "2014-01-02T02:20:00Z",
-    "creator": "creator-id_abcde12345",
-    "duration": 0,
-    "input": {
-      "height": 0,
-      "width": 0
-    },
-    "liveInput": "fc0a8dc887b16759bfd9ad922230a014",
-    "maxDurationSeconds": 1,
-    "maxSizeBytes": 0,
-    "meta": {
-      "name": "video12345.mp4"
-    },
-    "modified": "2014-01-02T02:20:00Z",
-    "playback": {
-      "dash": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.mpd",
-      "hls": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.m3u8"
-    },
-    "preview": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/watch",
-    "publicDetails": {
-      "channel_link": "channel_link",
-      "logo": "logo",
-      "media_id": 0,
-      "share_link": "share_link",
-      "title": "title"
-    },
-    "readyToStream": true,
-    "readyToStreamAt": "2014-01-02T02:20:00Z",
-    "requireSignedURLs": true,
-    "scheduledDeletion": "2014-01-02T02:20:00Z",
-    "size": 4190963,
-    "status": {
-      "errorReasonCode": "ERR_NON_VIDEO",
-      "errorReasonText": "The file was not recognized as a valid video file.",
-      "pctComplete": "45",
-      "state": "inprogress"
-    },
-    "thumbnail": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/thumbnails/thumbnail.jpg",
-    "thumbnailTimestampPct": 0.529241,
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "uploaded": "2014-01-02T02:20:00Z",
-    "uploadExpiry": "2014-01-02T02:20:00Z",
-    "watermark": {
-      "created": "2014-01-02T02:20:00Z",
-      "downloadedFrom": "https://company.com/logo.png",
-      "height": 0,
-      "name": "Marketing Videos",
-      "opacity": 0.75,
-      "padding": 0.1,
-      "position": "center",
-      "scale": 0.1,
-      "size": 29472,
-      "uid": "ea95132c15732412d22c1476fa83f27a",
-      "width": 0
-    }
-  }
-}
-```
+</summary>
 
-## Initiate video uploads using TUS
+scheduledDeletion: optional string
 
-**post** `/accounts/{account_id}/stream`
+Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a <code>null</code> value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
 
-Initiates a video upload using the TUS protocol. On success, the server responds with a status code 201 (created) and includes a `location` header to indicate where the content should be uploaded. Refer to https://tus.io for protocol details.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+uid: optional string
 
-  The account identifier tag.
+A Cloudflare-generated unique identifier for a media item.
 
-### Query Parameters
+maxLength32
 
-- `direct_user: optional boolean`
+<a href="#">Link to this property</a>
 
-  Provisions a URL to let your end users upload videos directly to Cloudflare Stream without exposing your API token to clients.
+uploadURL: optional string
 
-### Header Parameters
+The URL an unauthenticated upload can use for a single <code>HTTP POST multipart/form-data</code> request.
 
-- `"Tus-Resumable": "1.0.0"`
+<a href="#">Link to this property</a>
 
-  Specifies the TUS protocol version. This value must be included in every upload request.
-  Notes: The only supported version of TUS protocol is 1.0.0.
+watermark: optional <a href="https://developers.cloudflare.com/api/resources/stream#(resource)%20stream.watermarks%20%3E%20(model)%20watermark%20%3E%20(schema)">Watermark</a> { created, downloadedFrom, height, 8 more }
 
-  - `"1.0.0"`
+<a href="#">Link to this property</a>
 
-- `"Upload-Length": number`
+</details>
 
-  Indicates the size of the entire upload in bytes. The value must be a non-negative integer.
+[Link to this property](#)%20stream.direct_upload%20%3E%20(model)%20direct_upload_create_response%20%3E%20(schema)>)
 
-- `"Upload-Creator": optional string`
+#### StreamKeys
 
-  A user-defined identifier for the media creator.
+##### [List signing keys](https://developers.cloudflare.com/api/resources/stream/subresources/keys/methods/get)
 
-- `"Upload-Metadata": optional string`
+GET/accounts/{account\_id}/stream/keys
 
-  Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded.
-  Supported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`.
+##### [Create signing keys](https://developers.cloudflare.com/api/resources/stream/subresources/keys/methods/create)
 
-### Example
+POST/accounts/{account\_id}/stream/keys
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Delete signing keys](https://developers.cloudflare.com/api/resources/stream/subresources/keys/methods/delete)
 
-## Edit video details
+DELETE/accounts/{account\_id}/stream/keys/{identifier}
 
-**post** `/accounts/{account_id}/stream/{identifier}`
+##### ModelsExpand Collapse
 
-Edit details for a single video.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+Keys object {id, created, jwk, pem }
 
-  The account identifier tag.
+</summary>
 
-- `identifier: string`
+id: optional string
 
-  A Cloudflare-generated unique identifier for a media item.
+Identifier.
 
-### Body Parameters
+maxLength32
 
-- `allowedOrigins: optional array of AllowedOrigins`
+<a href="#">Link to this property</a>
 
-  Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+created: optional string
 
-- `creator: optional string`
+The date and time a signing key was created.
 
-  A user-defined identifier for the media creator.
+formatdate-time
 
-- `maxDurationSeconds: optional number`
+<a href="#">Link to this property</a>
 
-  The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
+jwk: optional string
 
-- `meta: optional unknown`
+The signing key in JWK format.
 
-  A user modifiable key-value store used to reference other systems of record for managing videos.
+<a href="#">Link to this property</a>
 
-- `publicDetails: optional object { channel_link, logo, share_link, title }`
+pem: optional string
 
-  Public details for the video including title, share link, channel link, and logo.
+The signing key in PEM format.
 
-  - `channel_link: optional string`
+<a href="#">Link to this property</a>
 
-  - `logo: optional string`
+</details>
 
-  - `share_link: optional string`
+[Link to this property](#)%20stream.keys%20%3E%20(model)%20keys%20%3E%20(schema)>)
 
-  - `title: optional string`
+<details>
 
-- `requireSignedURLs: optional boolean`
+<summary>
 
-  Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+KeyGetResponse object {id, created, key\_id }
 
-- `scheduledDeletion: optional string`
+</summary>
 
-  Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+id: optional string
 
-- `thumbnailTimestampPct: optional number`
+Identifier.
 
-  The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
+maxLength32
 
-- `uid: optional string`
+<a href="#">Link to this property</a>
 
-  The unique identifier for the video. Can be used to verify the video being updated.
+created: optional string
 
-- `uploadExpiry: optional string`
+The date and time a signing key was created.
 
-  The date and time when the video upload URL is no longer valid for direct user uploads.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+key\_id: optional string
 
-  - `code: number`
+The unique identifier for the signing key.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20stream.keys%20%3E%20(model)%20key_get_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+KeyDeleteResponse = string
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20stream.keys%20%3E%20(model)%20key_delete_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### StreamLive Inputs
 
-  - `message: string`
+##### [List live inputs](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/methods/list)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/stream/live\_inputs
 
-  - `source: optional object { pointer }`
+##### [Retrieve a live input](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/methods/get)
 
-    - `pointer: optional string`
+GET/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}
 
-- `success: true`
+##### [Create a live input](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/methods/create)
 
-  Whether the API call was successful.
+POST/accounts/{account\_id}/stream/live\_inputs
 
-  - `true`
+##### [Update a live input](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/methods/update)
 
-- `result: optional Video`
+PUT/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}
 
-  - `allowedOrigins: optional array of AllowedOrigins`
+##### [Delete a live input](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/methods/delete)
 
-    Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+DELETE/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}
 
-  - `clippedFrom: optional string`
+##### ModelsExpand Collapse
 
-    The unique identifier of the source video this video was clipped from.
+<details>
 
-  - `created: optional string`
+<summary>
 
-    The date and time the media item was created.
+LiveInput object {created, deleteRecordingAfterDays, enabled, 14 more }
 
-  - `creator: optional string`
+Details about a live input.
 
-    A user-defined identifier for the media creator.
+</summary>
 
-  - `duration: optional number`
+created: optional string
 
-    The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready.
+The date and time the live input was created.
 
-  - `input: optional object { height, width }`
+formatdate-time
 
-    - `height: optional number`
+<a href="#">Link to this property</a>
 
-      The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready.
+deleteRecordingAfterDays: optional number
 
-    - `width: optional number`
+Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a <code>null</code> value to remove an existing scheduled deletion.
 
-      The video width in pixels. A value of `-1` means the width is unknown. The value becomes available after the upload and before the video is ready.
+minimum30
 
-  - `liveInput: optional string`
+<a href="#">Link to this property</a>
 
-    The live input ID used to upload a video with Stream Live.
+enabled: optional boolean
 
-  - `maxDurationSeconds: optional number`
+Indicates whether the live input is enabled and can accept streams.
 
-    The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
+<a href="#">Link to this property</a>
 
-  - `maxSizeBytes: optional number`
+keysRotatedAt: optional string
 
-    The maximum size in bytes for the video upload.
+The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
 
-  - `meta: optional unknown`
+formatdate-time
 
-    A user modifiable key-value store used to reference other systems of record for managing videos.
+<a href="#">Link to this property</a>
 
-  - `modified: optional string`
+meta: optional unknown
 
-    The date and time the media item was last modified.
+A user modifiable key-value store used to reference other systems of record for managing live inputs.
 
-  - `playback: optional object { dash, hls }`
+<a href="#">Link to this property</a>
 
-    - `dash: optional string`
+modified: optional string
 
-      DASH Media Presentation Description for the video.
+The date and time the live input was last modified.
 
-    - `hls: optional string`
+formatdate-time
 
-      The HLS manifest for the video.
+<a href="#">Link to this property</a>
 
-  - `preview: optional string`
+<details>
 
-    The video's preview page URI. This field is omitted until encoding is complete.
+<summary>
 
-  - `publicDetails: optional object { channel_link, logo, media_id, 2 more }`
+playback: optional object {dash, hls }
 
-    Public details for the video including title, share link, channel link, and logo.
+Details for playing a live input’s broadcast using the HLS or DASH manifests. URLs reference the live input ID.
 
-    - `channel_link: optional string`
+</summary>
 
-    - `logo: optional string`
+dash: string
 
-    - `media_id: optional number`
+The DASH manifest URL used to play live video, referencing the live input ID.
 
-    - `share_link: optional string`
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+hls: string
 
-  - `readyToStream: optional boolean`
+The HLS manifest URL used to play live video, referencing the live input ID.
 
-    Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+<a href="#">Link to this property</a>
 
-  - `readyToStreamAt: optional string`
+</details>
 
-    Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+<a href="#">Link to this property</a>
 
-  - `requireSignedURLs: optional boolean`
+preferLowLatency: optional boolean
 
-    Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
 
-  - `scheduledDeletion: optional string`
+<a href="#">Link to this property</a>
 
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+<details>
 
-  - `size: optional number`
+<summary>
 
-    The size of the media item in bytes.
+recording: optional object {allowedOrigins, hideLiveViewerCount, mode, 2 more }
 
-  - `status: optional object { errorReasonCode, errorReasonText, pctComplete, state }`
+Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
 
-    Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details.
+</summary>
 
-    - `errorReasonCode: optional string`
+allowedOrigins: optional array of string
 
-      Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use.
+Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use <code>*</code> for wildcard subdomains. An empty array allows videos to be viewed on any origin.
 
-    - `errorReasonText: optional string`
+<a href="#">Link to this property</a>
 
-      Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state.
+hideLiveViewerCount: optional boolean
 
-    - `pctComplete: optional string`
+Disables reporting the number of live viewers when this property is set to <code>true</code>.
 
-      Indicates the progress as a percentage between 0 and 100.
+<a href="#">Link to this property</a>
 
-    - `state: optional "pendingupload" or "downloading" or "queued" or 4 more`
+<details>
 
-      Specifies the processing status for all quality levels for a video.
+<summary>
 
-      - `"pendingupload"`
+mode: optional "off"or "automatic"
 
-      - `"downloading"`
+Specifies the recording behavior for the live input. Set this value to <code>off</code> to prevent a recording. Set the value to <code>automatic</code> to begin a recording and transition to on-demand after Stream Live stops receiving input.
 
-      - `"queued"`
+</summary>
 
-      - `"inprogress"`
+One of the following:
 
-      - `"ready"`
+"off"
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-      - `"live-inprogress"`
+"automatic"
 
-  - `thumbnail: optional string`
+<a href="#">Link to this property</a>
 
-    The media item's thumbnail URI. This field is omitted until encoding is complete.
+</details>
 
-  - `thumbnailTimestampPct: optional number`
+<a href="#">Link to this property</a>
 
-    The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
+requireSignedURLs: optional boolean
 
-  - `uid: optional string`
+Indicates if a video using the live input has the <code>requireSignedURLs</code> property set. Also enforces access controls on any video recording of the livestream with the live input.
 
-    A Cloudflare-generated unique identifier for a media item.
+<a href="#">Link to this property</a>
 
-  - `uploaded: optional string`
+timeoutSeconds: optional number
 
-    The date and time the media item was uploaded.
+Determines the amount of time a live input configured in <code>automatic</code> mode should wait before a recording transitions from live to on-demand. <code>0</code> is recommended for most use cases and indicates the platform default should be used.
 
-  - `uploadExpiry: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the video upload URL is no longer valid for direct user uploads.
+</details>
 
-  - `watermark: optional Watermark`
+<a href="#">Link to this property</a>
 
-    - `created: optional string`
+<details>
 
-      The date and a time a watermark profile was created.
+<summary>
 
-    - `downloadedFrom: optional string`
+rtmps: optional object {streamKey, url }
 
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
+Details for streaming to an live input using RTMPS.
 
-    - `height: optional number`
+</summary>
 
-      The height of the image in pixels.
+streamKey: optional string
 
-    - `name: optional string`
+The secret key to use when streaming via RTMPS to a live input.
 
-      A short description of the watermark profile.
+<a href="#">Link to this property</a>
 
-    - `opacity: optional number`
+url: optional string
 
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
+The RTMPS URL you provide to the broadcaster, which they stream live video to.
 
-    - `padding: optional number`
+<a href="#">Link to this property</a>
 
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
+</details>
 
-    - `position: optional string`
+<a href="#">Link to this property</a>
 
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
+<details>
 
-    - `scale: optional number`
+<summary>
 
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
+rtmpsPlayback: optional object {streamKey, url }
 
-    - `size: optional number`
+Details for playback from an live input using RTMPS.
 
-      The size of the image in bytes.
+</summary>
 
-    - `uid: optional string`
+streamKey: optional string
 
-      The unique identifier for a watermark profile.
+The secret key to use for playback via RTMPS.
 
-    - `width: optional number`
+<a href="#">Link to this property</a>
 
-      The width of the image in pixels.
+url: optional string
 
-### Example
+The URL used to play live video over RTMPS.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allowedOrigins": [
-            "example.com"
-          ],
-          "creator": "creator-id_abcde12345",
-          "meta": {
-            "name": "video12345.mp4"
-          },
-          "requireSignedURLs": true,
-          "scheduledDeletion": "2014-01-02T02:20:00Z",
-          "thumbnailTimestampPct": 0.529241,
-          "uid": "ea95132c15732412d22c1476fa83f27a",
-          "uploadExpiry": "2014-01-02T02:20:00Z"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allowedOrigins": [
-      "example.com"
-    ],
-    "clippedFrom": "ea95132c15732412d22c1476fa83f27a",
-    "created": "2014-01-02T02:20:00Z",
-    "creator": "creator-id_abcde12345",
-    "duration": 0,
-    "input": {
-      "height": 0,
-      "width": 0
-    },
-    "liveInput": "fc0a8dc887b16759bfd9ad922230a014",
-    "maxDurationSeconds": 1,
-    "maxSizeBytes": 0,
-    "meta": {
-      "name": "video12345.mp4"
-    },
-    "modified": "2014-01-02T02:20:00Z",
-    "playback": {
-      "dash": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.mpd",
-      "hls": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.m3u8"
-    },
-    "preview": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/watch",
-    "publicDetails": {
-      "channel_link": "channel_link",
-      "logo": "logo",
-      "media_id": 0,
-      "share_link": "share_link",
-      "title": "title"
-    },
-    "readyToStream": true,
-    "readyToStreamAt": "2014-01-02T02:20:00Z",
-    "requireSignedURLs": true,
-    "scheduledDeletion": "2014-01-02T02:20:00Z",
-    "size": 4190963,
-    "status": {
-      "errorReasonCode": "ERR_NON_VIDEO",
-      "errorReasonText": "The file was not recognized as a valid video file.",
-      "pctComplete": "45",
-      "state": "inprogress"
-    },
-    "thumbnail": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/thumbnails/thumbnail.jpg",
-    "thumbnailTimestampPct": 0.529241,
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "uploaded": "2014-01-02T02:20:00Z",
-    "uploadExpiry": "2014-01-02T02:20:00Z",
-    "watermark": {
-      "created": "2014-01-02T02:20:00Z",
-      "downloadedFrom": "https://company.com/logo.png",
-      "height": 0,
-      "name": "Marketing Videos",
-      "opacity": 0.75,
-      "padding": 0.1,
-      "position": "center",
-      "scale": 0.1,
-      "size": 29472,
-      "uid": "ea95132c15732412d22c1476fa83f27a",
-      "width": 0
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete video
+<details>
 
-**delete** `/accounts/{account_id}/stream/{identifier}`
+<summary>
 
-Deletes a video and its copies from Cloudflare Stream.
+srt: optional object {passphrase, streamId, url }
 
-### Path Parameters
+Details for streaming to a live input using SRT.
 
-- `account_id: string`
+</summary>
 
-  The account identifier tag.
+passphrase: optional string
 
-- `identifier: string`
+The secret key to use when streaming via SRT to a live input.
 
-  A Cloudflare-generated unique identifier for a media item.
+<a href="#">Link to this property</a>
 
-### Example
+streamId: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The identifier of the live input to use when streaming via SRT.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Allowed Origins
+url: optional string
 
-- `AllowedOrigins = string`
+The SRT URL you provide to the broadcaster, which they stream live video to.
 
-### Video
+<a href="#">Link to this property</a>
 
-- `Video object { allowedOrigins, clippedFrom, created, 23 more }`
+</details>
 
-  - `allowedOrigins: optional array of AllowedOrigins`
+<a href="#">Link to this property</a>
 
-    Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+<details>
 
-  - `clippedFrom: optional string`
+<summary>
 
-    The unique identifier of the source video this video was clipped from.
+srtPlayback: optional object {passphrase, streamId, url }
 
-  - `created: optional string`
+Details for playback from an live input using SRT.
 
-    The date and time the media item was created.
+</summary>
 
-  - `creator: optional string`
+passphrase: optional string
 
-    A user-defined identifier for the media creator.
+The secret key to use for playback via SRT.
 
-  - `duration: optional number`
+<a href="#">Link to this property</a>
 
-    The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready.
+streamId: optional string
 
-  - `input: optional object { height, width }`
+The identifier of the live input to use for playback via SRT.
 
-    - `height: optional number`
+<a href="#">Link to this property</a>
 
-      The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready.
+url: optional string
 
-    - `width: optional number`
+The URL used to play live video over SRT.
 
-      The video width in pixels. A value of `-1` means the width is unknown. The value becomes available after the upload and before the video is ready.
+<a href="#">Link to this property</a>
 
-  - `liveInput: optional string`
+</details>
 
-    The live input ID used to upload a video with Stream Live.
+<a href="#">Link to this property</a>
 
-  - `maxDurationSeconds: optional number`
+<details>
 
-    The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
+<summary>
 
-  - `maxSizeBytes: optional number`
+status: optional "connected"or "reconnected"or "reconnecting"or 5 more
 
-    The maximum size in bytes for the video upload.
+The connection status of a live input.
 
-  - `meta: optional unknown`
+</summary>
 
-    A user modifiable key-value store used to reference other systems of record for managing videos.
+One of the following:
 
-  - `modified: optional string`
+"connected"
 
-    The date and time the media item was last modified.
+<a href="#">Link to this property</a>
 
-  - `playback: optional object { dash, hls }`
+"reconnected"
 
-    - `dash: optional string`
+<a href="#">Link to this property</a>
 
-      DASH Media Presentation Description for the video.
+"reconnecting"
 
-    - `hls: optional string`
+<a href="#">Link to this property</a>
 
-      The HLS manifest for the video.
+"client\_disconnect"
 
-  - `preview: optional string`
+<a href="#">Link to this property</a>
 
-    The video's preview page URI. This field is omitted until encoding is complete.
+"ttl\_exceeded"
 
-  - `publicDetails: optional object { channel_link, logo, media_id, 2 more }`
+<a href="#">Link to this property</a>
 
-    Public details for the video including title, share link, channel link, and logo.
+"failed\_to\_connect"
 
-    - `channel_link: optional string`
+<a href="#">Link to this property</a>
 
-    - `logo: optional string`
+"failed\_to\_reconnect"
 
-    - `media_id: optional number`
+<a href="#">Link to this property</a>
 
-    - `share_link: optional string`
+"new\_configuration\_accepted"
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-  - `readyToStream: optional boolean`
+</details>
 
-    Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+<a href="#">Link to this property</a>
 
-  - `readyToStreamAt: optional string`
+uid: optional string
 
-    Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+A unique identifier for a live input.
 
-  - `requireSignedURLs: optional boolean`
+maxLength32
 
-    Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+<a href="#">Link to this property</a>
 
-  - `scheduledDeletion: optional string`
+<details>
 
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+<summary>
 
-  - `size: optional number`
+webRTC: optional object {url }
 
-    The size of the media item in bytes.
+Details for streaming to a live input using WebRTC.
 
-  - `status: optional object { errorReasonCode, errorReasonText, pctComplete, state }`
+</summary>
 
-    Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details.
+url: optional string
 
-    - `errorReasonCode: optional string`
+The WebRTC URL you provide to the broadcaster, which they stream live video to.
 
-      Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use.
+<a href="#">Link to this property</a>
 
-    - `errorReasonText: optional string`
+</details>
 
-      Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state.
+<a href="#">Link to this property</a>
 
-    - `pctComplete: optional string`
+<details>
 
-      Indicates the progress as a percentage between 0 and 100.
+<summary>
 
-    - `state: optional "pendingupload" or "downloading" or "queued" or 4 more`
+webRTCPlayback: optional object {url }
 
-      Specifies the processing status for all quality levels for a video.
+Details for playback from a live input using WebRTC.
 
-      - `"pendingupload"`
+</summary>
 
-      - `"downloading"`
+url: optional string
 
-      - `"queued"`
+The URL used to play live video over WebRTC.
 
-      - `"inprogress"`
+<a href="#">Link to this property</a>
 
-      - `"ready"`
+</details>
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-      - `"live-inprogress"`
+</details>
 
-  - `thumbnail: optional string`
+[Link to this property](#)%20stream.live_inputs%20%3E%20(model)%20live_input%20%3E%20(schema)>)
 
-    The media item's thumbnail URI. This field is omitted until encoding is complete.
+<details>
 
-  - `thumbnailTimestampPct: optional number`
+<summary>
 
-    The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
+LiveInputListResponse object {liveInputs, range, total }
 
-  - `uid: optional string`
+</summary>
 
-    A Cloudflare-generated unique identifier for a media item.
+<details>
 
-  - `uploaded: optional string`
+<summary>
 
-    The date and time the media item was uploaded.
+liveInputs: optional array of object {created, deleteRecordingAfterDays, enabled, 3 more }
 
-  - `uploadExpiry: optional string`
+</summary>
 
-    The date and time when the video upload URL is no longer valid for direct user uploads.
+created: optional string
 
-  - `watermark: optional Watermark`
+The date and time the live input was created.
 
-    - `created: optional string`
+formatdate-time
 
-      The date and a time a watermark profile was created.
+<a href="#">Link to this property</a>
 
-    - `downloadedFrom: optional string`
+deleteRecordingAfterDays: optional number
 
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
+Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a <code>null</code> value to remove an existing scheduled deletion.
 
-    - `height: optional number`
+minimum30
 
-      The height of the image in pixels.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+enabled: optional boolean
 
-      A short description of the watermark profile.
+Indicates whether the live input is enabled and can accept streams.
 
-    - `opacity: optional number`
+<a href="#">Link to this property</a>
 
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
+meta: optional unknown
 
-    - `padding: optional number`
+A user modifiable key-value store used to reference other systems of record for managing live inputs.
 
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
+<a href="#">Link to this property</a>
 
-    - `position: optional string`
+modified: optional string
 
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
+The date and time the live input was last modified.
 
-    - `scale: optional number`
+formatdate-time
 
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
+<a href="#">Link to this property</a>
 
-    - `size: optional number`
+uid: optional string
 
-      The size of the image in bytes.
+A unique identifier for a live input.
 
-    - `uid: optional string`
+maxLength32
 
-      The unique identifier for a watermark profile.
+<a href="#">Link to this property</a>
 
-    - `width: optional number`
+</details>
 
-      The width of the image in pixels.
+<a href="#">Link to this property</a>
 
-# Audio Tracks
+range: optional number
 
-## List additional audio tracks on a video
+The total number of remaining live inputs based on cursor position.
 
-**get** `/accounts/{account_id}/stream/{identifier}/audio`
+<a href="#">Link to this property</a>
 
-Lists additional audio tracks on a video. Note this API will not return information for audio attached to the video upload.
+total: optional number
 
-### Path Parameters
+The total number of live inputs that match the provided filters.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+</details>
 
-- `identifier: string`
+[Link to this property](#)%20stream.live_inputs%20%3E%20(model)%20live_input_list_response%20%3E%20(schema)>)
 
-  A Cloudflare-generated unique identifier for a media item.
+#### StreamLive InputsOutputs
 
-### Returns
+##### [List all outputs associated with a specified live input](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/subresources/outputs/methods/list)
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}/outputs
 
-  - `code: number`
+##### [Create a new output, connected to a live input](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/subresources/outputs/methods/create)
 
-  - `message: string`
+POST/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}/outputs
 
-  - `documentation_url: optional string`
+##### [Update an output](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/subresources/outputs/methods/update)
 
-  - `source: optional object { pointer }`
+PUT/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}/outputs/{output\_identifier}
 
-    - `pointer: optional string`
+##### [Delete an output](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/subresources/outputs/methods/delete)
 
-- `messages: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}/outputs/{output\_identifier}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+Output object {enabled, streamKey, uid, url }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+enabled: optional boolean
 
-  Whether the API call was successful.
+When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { audio }`
+streamKey: optional string
 
-  - `audio: optional array of Audio`
+The streamKey used to authenticate against an output’s target.
 
-    Array of audio tracks for the video.
+<a href="#">Link to this property</a>
 
-    - `default: optional boolean`
+uid: optional string
 
-      Denotes whether the audio track will be played by default in a player.
+A unique identifier for the output.
 
-    - `label: optional string`
+maxLength32
 
-      A string to uniquely identify the track amongst other audio track labels for the specified video.
+<a href="#">Link to this property</a>
 
-    - `status: optional "queued" or "ready" or "error"`
+url: optional string
 
-      Specifies the processing status of the video.
+The URL an output uses to restream.
 
-      - `"queued"`
+<a href="#">Link to this property</a>
 
-      - `"ready"`
+</details>
 
-      - `"error"`
+[Link to this property](#)%20stream.live_inputs.outputs%20%3E%20(model)%20output%20%3E%20(schema)>)
 
-    - `uid: optional string`
+#### StreamWatermarks
 
-      A Cloudflare-generated unique identifier for a media item.
+##### [List watermark profiles](https://developers.cloudflare.com/api/resources/stream/subresources/watermarks/methods/list)
 
-### Example
+GET/accounts/{account\_id}/stream/watermarks
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/audio \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Watermark profile details](https://developers.cloudflare.com/api/resources/stream/subresources/watermarks/methods/get)
 
-#### Response
+GET/accounts/{account\_id}/stream/watermarks/{identifier}
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "audio": [
-      {
-        "default": true,
-        "label": "director commentary",
-        "status": "queued",
-        "uid": "ea95132c15732412d22c1476fa83f27a"
-      }
-    ]
-  }
-}
-```
+##### [Create watermark profiles via basic upload](https://developers.cloudflare.com/api/resources/stream/subresources/watermarks/methods/create)
 
-## Edit additional audio tracks on a video
+POST/accounts/{account\_id}/stream/watermarks
 
-**patch** `/accounts/{account_id}/stream/{identifier}/audio/{audio_identifier}`
+##### [Delete watermark profiles](https://developers.cloudflare.com/api/resources/stream/subresources/watermarks/methods/delete)
 
-Edits additional audio tracks on a video. Editing the default status of an audio track to `true` will mark all other audio tracks on the video default status to `false`.
+DELETE/accounts/{account\_id}/stream/watermarks/{identifier}
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>
 
-- `identifier: string`
+Watermark object {created, downloadedFrom, height, 8 more }
 
-  A Cloudflare-generated unique identifier for a media item.
+</summary>
 
-- `audio_identifier: string`
+created: optional string
 
-  The unique identifier for an additional audio track.
+The date and a time a watermark profile was created.
 
-### Body Parameters
+formatdate-time
 
-- `default: optional boolean`
+<a href="#">Link to this property</a>
 
-  Denotes whether the audio track will be played by default in a player.
+downloadedFrom: optional string
 
-- `label: optional string`
+The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
 
-  A string to uniquely identify the track amongst other audio track labels for the specified video.
+<a href="#">Link to this property</a>
 
-### Returns
+height: optional number
 
-- `errors: array of object { code, message, documentation_url, source }`
+The height of the image in pixels.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+A short description of the watermark profile.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+opacity: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+The translucency of the image. A value of <code>0.0</code> makes the image completely transparent, and <code>1.0</code> makes the image completely opaque. Note that if the image is already semi-transparent, setting this to <code>1.0</code> will not make the image completely opaque.
 
-  - `code: number`
+maximum1
 
-  - `message: string`
+minimum0
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+padding: optional number
 
-    - `pointer: optional string`
+The whitespace between the adjacent edges (determined by position) of the video and the image. <code>0.0</code> indicates no padding, and <code>1.0</code> indicates a fully padded video width or length, as determined by the algorithm.
 
-- `success: true`
+maximum1
 
-  Whether the API call was successful.
+minimum0
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Audio`
+position: optional string
 
-  - `default: optional boolean`
+The location of the image. Valid positions are: <code>upperRight</code>, <code>upperLeft</code>, <code>lowerLeft</code>, <code>lowerRight</code>, and <code>center</code>. Note that <code>center</code> ignores the <code>padding</code> parameter.
 
-    Denotes whether the audio track will be played by default in a player.
+<a href="#">Link to this property</a>
 
-  - `label: optional string`
+scale: optional number
 
-    A string to uniquely identify the track amongst other audio track labels for the specified video.
+The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. <code>0.0</code> indicates no scaling (use the size of the image as-is), and <code>1.0</code> fills the entire video.
 
-  - `status: optional "queued" or "ready" or "error"`
+maximum1
 
-    Specifies the processing status of the video.
+minimum0
 
-    - `"queued"`
+<a href="#">Link to this property</a>
 
-    - `"ready"`
+size: optional number
 
-    - `"error"`
+The size of the image in bytes.
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    A Cloudflare-generated unique identifier for a media item.
+uid: optional string
 
-### Example
+The unique identifier for a watermark profile.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/audio/$AUDIO_IDENTIFIER \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "label": "director commentary"
-        }'
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "default": true,
-    "label": "director commentary",
-    "status": "queued",
-    "uid": "ea95132c15732412d22c1476fa83f27a"
-  }
-}
-```
+width: optional number
 
-## Delete additional audio tracks on a video
+The width of the image in pixels.
 
-**delete** `/accounts/{account_id}/stream/{identifier}/audio/{audio_identifier}`
+<a href="#">Link to this property</a>
 
-Deletes additional audio tracks on a video. Deleting a default audio track is not allowed. You must assign another audio track as default prior to deletion.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20stream.watermarks%20%3E%20(model)%20watermark%20%3E%20(schema)>)
 
-- `account_id: string`
+WatermarkDeleteResponse = string
 
-  The account identifier tag.
+[Link to this property](#)%20stream.watermarks%20%3E%20(model)%20watermark_delete_response%20%3E%20(schema)>)
 
-- `identifier: string`
+#### StreamWebhooks
 
-  A Cloudflare-generated unique identifier for a media item.
+##### [View webhook](https://developers.cloudflare.com/api/resources/stream/subresources/webhooks/methods/get)
 
-- `audio_identifier: string`
+GET/accounts/{account\_id}/stream/webhook
 
-  The unique identifier for an additional audio track.
+##### [Create VOD webhooks](https://developers.cloudflare.com/api/resources/stream/subresources/webhooks/methods/update)
 
-### Returns
+PUT/accounts/{account\_id}/stream/webhook
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Delete webhooks](https://developers.cloudflare.com/api/resources/stream/subresources/webhooks/methods/delete)
 
-  - `code: number`
+DELETE/accounts/{account\_id}/stream/webhook
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+WebhookGetResponse object {modified, notification\_url, notificationUrl, secret }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+modified: optional string
 
-  - `message: string`
+The date and time the webhook was last modified.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+notification\_url: optional string
 
-- `success: true`
+The URL where webhooks will be sent.
 
-  Whether the API call was successful.
+formaturi
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional string`
+notificationUrl: optional string
 
-### Example
+The URL where webhooks will be sent.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/audio/$AUDIO_IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formaturi
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "ok"
-}
-```
+secret: optional string
 
-## Add audio tracks to a video
+The secret used to verify webhook signatures.
 
-**post** `/accounts/{account_id}/stream/{identifier}/audio/copy`
+<a href="#">Link to this property</a>
 
-Adds an additional audio track to a video using the provided audio track URL.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20stream.webhooks%20%3E%20(model)%20webhook_get_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>
 
-- `identifier: string`
+WebhookUpdateResponse object {modified, notification\_url, notificationUrl, secret }
 
-  A Cloudflare-generated unique identifier for a media item.
+</summary>
 
-### Body Parameters
+modified: optional string
 
-- `label: string`
+The date and time the webhook was last modified.
 
-  A string to uniquely identify the track amongst other audio track labels for the specified video.
+formatdate-time
 
-- `url: optional string`
+<a href="#">Link to this property</a>
 
-  An audio track URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file.
+notification\_url: optional string
 
-### Returns
+The URL where webhooks will be sent.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formaturi
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+notificationUrl: optional string
 
-  - `documentation_url: optional string`
+The URL where webhooks will be sent.
 
-  - `source: optional object { pointer }`
+formaturi
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+secret: optional string
 
-  - `code: number`
+The secret used to verify webhook signatures.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20stream.webhooks%20%3E%20(model)%20webhook_update_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+WebhookDeleteResponse = string
 
-- `success: true`
+[Link to this property](#)%20stream.webhooks%20%3E%20(model)%20webhook_delete_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+#### StreamCaptions
 
-  - `true`
+##### [List captions or subtitles](https://developers.cloudflare.com/api/resources/stream/subresources/captions/methods/get)
 
-- `result: optional Audio`
+GET/accounts/{account\_id}/stream/{identifier}/captions
 
-  - `default: optional boolean`
+##### ModelsExpand Collapse
 
-    Denotes whether the audio track will be played by default in a player.
+<details>
 
-  - `label: optional string`
+<summary>
 
-    A string to uniquely identify the track amongst other audio track labels for the specified video.
+Caption object {generated, label, language, status }
 
-  - `status: optional "queued" or "ready" or "error"`
+</summary>
 
-    Specifies the processing status of the video.
+generated: optional boolean
 
-    - `"queued"`
+Whether the caption was generated via AI.
 
-    - `"ready"`
+<a href="#">Link to this property</a>
 
-    - `"error"`
+label: optional string
 
-  - `uid: optional string`
+The language label displayed in the native language to users.
 
-    A Cloudflare-generated unique identifier for a media item.
+<a href="#">Link to this property</a>
 
-### Example
+language: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/audio/copy \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "label": "director commentary",
-          "url": "https://www.examplestorage.com/audio_file.mp3"
-        }'
-```
+The language tag in BCP 47 format.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "default": true,
-    "label": "director commentary",
-    "status": "queued",
-    "uid": "ea95132c15732412d22c1476fa83f27a"
-  }
-}
-```
+<details>
 
-## Domain Types
+<summary>
 
-### Audio
+status: optional "ready"or "inprogress"or "error"
 
-- `Audio object { default, label, status, uid }`
+The status of a generated caption.
 
-  - `default: optional boolean`
+</summary>
 
-    Denotes whether the audio track will be played by default in a player.
+One of the following:
 
-  - `label: optional string`
+"ready"
 
-    A string to uniquely identify the track amongst other audio track labels for the specified video.
+<a href="#">Link to this property</a>
 
-  - `status: optional "queued" or "ready" or "error"`
+"inprogress"
 
-    Specifies the processing status of the video.
+<a href="#">Link to this property</a>
 
-    - `"queued"`
+"error"
 
-    - `"ready"`
+<a href="#">Link to this property</a>
 
-    - `"error"`
+</details>
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    A Cloudflare-generated unique identifier for a media item.
+</details>
 
-### Audio Track Get Response
+[Link to this property](#)%20stream.captions%20%3E%20(model)%20caption%20%3E%20(schema)>)
 
-- `AudioTrackGetResponse object { audio }`
+#### StreamCaptionsLanguage
 
-  - `audio: optional array of Audio`
+##### [List captions or subtitles for a provided language](https://developers.cloudflare.com/api/resources/stream/subresources/captions/subresources/language/methods/get)
 
-    Array of audio tracks for the video.
+GET/accounts/{account\_id}/stream/{identifier}/captions/{language}
 
-    - `default: optional boolean`
+##### [Generate captions or subtitles for a provided language via AI](https://developers.cloudflare.com/api/resources/stream/subresources/captions/subresources/language/methods/create)
 
-      Denotes whether the audio track will be played by default in a player.
+POST/accounts/{account\_id}/stream/{identifier}/captions/{language}/generate
 
-    - `label: optional string`
+##### [Upload captions or subtitles](https://developers.cloudflare.com/api/resources/stream/subresources/captions/subresources/language/methods/update)
 
-      A string to uniquely identify the track amongst other audio track labels for the specified video.
+PUT/accounts/{account\_id}/stream/{identifier}/captions/{language}
 
-    - `status: optional "queued" or "ready" or "error"`
+##### [Delete captions or subtitles](https://developers.cloudflare.com/api/resources/stream/subresources/captions/subresources/language/methods/delete)
 
-      Specifies the processing status of the video.
+DELETE/accounts/{account\_id}/stream/{identifier}/captions/{language}
 
-      - `"queued"`
+##### ModelsExpand Collapse
 
-      - `"ready"`
+LanguageDeleteResponse = string
 
-      - `"error"`
+[Link to this property](#)%20stream.captions.language%20%3E%20(model)%20language_delete_response%20%3E%20(schema)>)
 
-    - `uid: optional string`
+#### StreamCaptionsLanguageVtt
 
-      A Cloudflare-generated unique identifier for a media item.
+##### [Return WebVTT captions for a provided language](https://developers.cloudflare.com/api/resources/stream/subresources/captions/subresources/language/subresources/vtt/methods/get)
 
-### Audio Track Delete Response
+GET/accounts/{account\_id}/stream/{identifier}/captions/{language}/vtt
 
-- `AudioTrackDeleteResponse = string`
+##### ModelsExpand Collapse
 
-# Videos
+VttGetResponse = string
 
-## Storage use
+[Link to this property](#)%20stream.captions.language.vtt%20%3E%20(model)%20vtt_get_response%20%3E%20(schema)>)
 
-**get** `/accounts/{account_id}/stream/storage-usage`
+#### StreamDownloads
 
-Returns information about an account's storage use.
+##### [List downloads](https://developers.cloudflare.com/api/resources/stream/subresources/downloads/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/stream/{identifier}/downloads
 
-- `account_id: string`
+##### [Create downloads](https://developers.cloudflare.com/api/resources/stream/subresources/downloads/methods/create)
 
-  The account identifier tag.
+POST/accounts/{account\_id}/stream/{identifier}/downloads
 
-### Query Parameters
+##### [Delete downloads](https://developers.cloudflare.com/api/resources/stream/subresources/downloads/methods/delete)
 
-- `creator: optional string`
+DELETE/accounts/{account\_id}/stream/{identifier}/downloads
 
-  A user-defined identifier for the media creator.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+DownloadGetResponse object {audio, default }
 
-  - `message: string`
+An object with download type keys. Each key is optional and only present if that download type has been created.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+audio: optional object {percentComplete, status, url }
 
-  - `code: number`
+The audio-only download. Only present if this download type has been created.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+percentComplete: number
 
-  - `source: optional object { pointer }`
+Indicates the progress as a percentage between 0 and 100.
 
-    - `pointer: optional string`
+maximum100
 
-- `success: true`
+minimum0
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { creator, totalStorageMinutes, totalStorageMinutesLimit, videoCount }`
+<summary>
 
-  - `creator: optional string`
+status: "ready"or "inprogress"or "error"
 
-    A user-defined identifier for the media creator.
+The status of a generated download.
 
-  - `totalStorageMinutes: optional number`
+</summary>
 
-    The total minutes of video content stored in the account. May contain decimal values.
+One of the following:
 
-  - `totalStorageMinutesLimit: optional number`
+"ready"
 
-    The storage capacity alloted for the account.
+<a href="#">Link to this property</a>
 
-  - `videoCount: optional number`
+"inprogress"
 
-    The total count of videos associated with the account.
+<a href="#">Link to this property</a>
 
-### Example
+"error"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/storage-usage \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "creator": "creator-id_abcde12345",
-    "totalStorageMinutes": 0,
-    "totalStorageMinutesLimit": 0,
-    "videoCount": 0
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+url: optional string
 
-### Video Storage Usage Response
+The URL to access the generated download.
 
-- `VideoStorageUsageResponse object { creator, totalStorageMinutes, totalStorageMinutesLimit, videoCount }`
+formaturi
 
-  - `creator: optional string`
+<a href="#">Link to this property</a>
 
-    A user-defined identifier for the media creator.
+</details>
 
-  - `totalStorageMinutes: optional number`
+<a href="#">Link to this property</a>
 
-    The total minutes of video content stored in the account. May contain decimal values.
+<details>
 
-  - `totalStorageMinutesLimit: optional number`
+<summary>
 
-    The storage capacity alloted for the account.
+default: optional object {percentComplete, status, url }
 
-  - `videoCount: optional number`
+The default video download. Only present if this download type has been created.
 
-    The total count of videos associated with the account.
+</summary>
 
-# Clip
+percentComplete: number
 
-## Clip videos given a start and end time
+Indicates the progress as a percentage between 0 and 100.
 
-**post** `/accounts/{account_id}/stream/clip`
+maximum100
 
-Clips a video based on the specified start and end times provided in seconds.
+minimum0
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>
 
-### Body Parameters
+status: "ready"or "inprogress"or "error"
 
-- `clippedFromVideoUID: string`
+The status of a generated download.
 
-  The unique video identifier (UID).
+</summary>
 
-- `endTimeSeconds: number`
+One of the following:
 
-  Specifies the end time for the video clip in seconds.
+"ready"
 
-- `startTimeSeconds: number`
+<a href="#">Link to this property</a>
 
-  Specifies the start time for the video clip in seconds.
+"inprogress"
 
-- `allowedOrigins: optional array of AllowedOrigins`
+<a href="#">Link to this property</a>
 
-  Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+"error"
 
-- `creator: optional string`
+<a href="#">Link to this property</a>
 
-  A user-defined identifier for the media creator.
+</details>
 
-- `input: optional string`
+<a href="#">Link to this property</a>
 
-  A video's URL. Preferred over 'url'.
+url: optional string
 
-- `meta: optional unknown`
+The URL to access the generated download.
 
-  A user modifiable key-value store used to reference other systems of record for managing videos.
+formaturi
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  A name for the video.
+</details>
 
-- `requireSignedURLs: optional boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+</details>
 
-- `scheduledDeletion: optional string`
+[Link to this property](#)%20stream.downloads%20%3E%20(model)%20download_get_response%20%3E%20(schema)>)
 
-  Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+<details>
 
-- `thumbnailTimestampPct: optional number`
+<summary>
 
-  The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
+DownloadCreateResponse object {audio, default }
 
-- `url: optional string`
+An object with download type keys. Each key is optional and only present if that download type has been created.
 
-  A video's URL (legacy field, use 'input' instead).
+</summary>
 
-- `watermark: optional object { uid }`
+<details>
 
-  - `uid: optional string`
+<summary>
 
-    The unique identifier for the watermark profile.
+audio: optional object {percentComplete, status, url }
 
-### Returns
+The audio-only download. Only present if this download type has been created.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+percentComplete: number
 
-  - `message: string`
+Indicates the progress as a percentage between 0 and 100.
 
-  - `documentation_url: optional string`
+maximum100
 
-  - `source: optional object { pointer }`
+minimum0
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+status: "ready"or "inprogress"or "error"
 
-  - `documentation_url: optional string`
+The status of a generated download.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `success: true`
+"ready"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"inprogress"
 
-- `result: optional Video`
+<a href="#">Link to this property</a>
 
-  - `allowedOrigins: optional array of AllowedOrigins`
+"error"
 
-    Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+<a href="#">Link to this property</a>
 
-  - `clippedFrom: optional string`
+</details>
 
-    The unique identifier of the source video this video was clipped from.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+url: optional string
 
-    The date and time the media item was created.
+The URL to access the generated download.
 
-  - `creator: optional string`
+formaturi
 
-    A user-defined identifier for the media creator.
+<a href="#">Link to this property</a>
 
-  - `duration: optional number`
+</details>
 
-    The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready.
+<a href="#">Link to this property</a>
 
-  - `input: optional object { height, width }`
+<details>
 
-    - `height: optional number`
+<summary>
 
-      The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready.
+default: optional object {percentComplete, status, url }
 
-    - `width: optional number`
+The default video download. Only present if this download type has been created.
 
-      The video width in pixels. A value of `-1` means the width is unknown. The value becomes available after the upload and before the video is ready.
+</summary>
 
-  - `liveInput: optional string`
+percentComplete: number
 
-    The live input ID used to upload a video with Stream Live.
+Indicates the progress as a percentage between 0 and 100.
 
-  - `maxDurationSeconds: optional number`
+maximum100
 
-    The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
+minimum0
 
-  - `maxSizeBytes: optional number`
+<a href="#">Link to this property</a>
 
-    The maximum size in bytes for the video upload.
+<details>
 
-  - `meta: optional unknown`
+<summary>
 
-    A user modifiable key-value store used to reference other systems of record for managing videos.
+status: "ready"or "inprogress"or "error"
 
-  - `modified: optional string`
+The status of a generated download.
 
-    The date and time the media item was last modified.
+</summary>
 
-  - `playback: optional object { dash, hls }`
+One of the following:
 
-    - `dash: optional string`
+"ready"
 
-      DASH Media Presentation Description for the video.
+<a href="#">Link to this property</a>
 
-    - `hls: optional string`
+"inprogress"
 
-      The HLS manifest for the video.
+<a href="#">Link to this property</a>
 
-  - `preview: optional string`
+"error"
 
-    The video's preview page URI. This field is omitted until encoding is complete.
+<a href="#">Link to this property</a>
 
-  - `publicDetails: optional object { channel_link, logo, media_id, 2 more }`
+</details>
 
-    Public details for the video including title, share link, channel link, and logo.
+<a href="#">Link to this property</a>
 
-    - `channel_link: optional string`
+url: optional string
 
-    - `logo: optional string`
+The URL to access the generated download.
 
-    - `media_id: optional number`
+formaturi
 
-    - `share_link: optional string`
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+</details>
 
-  - `readyToStream: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+</details>
 
-  - `readyToStreamAt: optional string`
+[Link to this property](#)%20stream.downloads%20%3E%20(model)%20download_create_response%20%3E%20(schema)>)
 
-    Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+DownloadDeleteResponse = string
 
-  - `requireSignedURLs: optional boolean`
+[Link to this property](#)%20stream.downloads%20%3E%20(model)%20download_delete_response%20%3E%20(schema)>)
 
-    Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+#### StreamEmbed
 
-  - `scheduledDeletion: optional string`
+##### [Deprecated: Retrieve legacy embed code HTML](https://developers.cloudflare.com/api/resources/stream/subresources/embed/methods/get)
 
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+GET/accounts/{account\_id}/stream/{identifier}/embed
 
-  - `size: optional number`
+##### ModelsExpand Collapse
 
-    The size of the media item in bytes.
+EmbedGetResponse = string
 
-  - `status: optional object { errorReasonCode, errorReasonText, pctComplete, state }`
+[Link to this property](#)%20stream.embed%20%3E%20(model)%20embed_get_response%20%3E%20(schema)>)
 
-    Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details.
+#### StreamToken
 
-    - `errorReasonCode: optional string`
+##### [Create signed URL tokens for videos](https://developers.cloudflare.com/api/resources/stream/subresources/token/methods/create)
 
-      Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use.
+POST/accounts/{account\_id}/stream/{identifier}/token
 
-    - `errorReasonText: optional string`
+##### ModelsExpand Collapse
 
-      Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state.
+<details>
 
-    - `pctComplete: optional string`
+<summary>
 
-      Indicates the progress as a percentage between 0 and 100.
+TokenCreateResponse object {token }
 
-    - `state: optional "pendingupload" or "downloading" or "queued" or 4 more`
+</summary>
 
-      Specifies the processing status for all quality levels for a video.
+token: optional string
 
-      - `"pendingupload"`
+The signed token used with the signed URLs feature.
 
-      - `"downloading"`
+<a href="#">Link to this property</a>
 
-      - `"queued"`
+</details>
 
-      - `"inprogress"`
-
-      - `"ready"`
-
-      - `"error"`
-
-      - `"live-inprogress"`
-
-  - `thumbnail: optional string`
-
-    The media item's thumbnail URI. This field is omitted until encoding is complete.
-
-  - `thumbnailTimestampPct: optional number`
-
-    The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a media item.
-
-  - `uploaded: optional string`
-
-    The date and time the media item was uploaded.
-
-  - `uploadExpiry: optional string`
-
-    The date and time when the video upload URL is no longer valid for direct user uploads.
-
-  - `watermark: optional Watermark`
-
-    - `created: optional string`
-
-      The date and a time a watermark profile was created.
-
-    - `downloadedFrom: optional string`
-
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-    - `height: optional number`
-
-      The height of the image in pixels.
-
-    - `name: optional string`
-
-      A short description of the watermark profile.
-
-    - `opacity: optional number`
-
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-    - `padding: optional number`
-
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-    - `position: optional string`
-
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-    - `scale: optional number`
-
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-    - `size: optional number`
-
-      The size of the image in bytes.
-
-    - `uid: optional string`
-
-      The unique identifier for a watermark profile.
-
-    - `width: optional number`
-
-      The width of the image in pixels.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/clip \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "clippedFromVideoUID": "023e105f4ecef8ad9ca31a8372d0c353",
-          "endTimeSeconds": 0,
-          "startTimeSeconds": 0,
-          "allowedOrigins": [
-            "example.com"
-          ],
-          "creator": "creator-id_abcde12345",
-          "input": "https://example.com/myvideo.mp4",
-          "meta": {
-            "name": "video12345.mp4"
-          },
-          "name": "myvideo.mp4",
-          "requireSignedURLs": true,
-          "scheduledDeletion": "2014-01-02T02:20:00Z",
-          "thumbnailTimestampPct": 0.529241,
-          "url": "https://example.com/myvideo.mp4"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allowedOrigins": [
-      "example.com"
-    ],
-    "clippedFrom": "ea95132c15732412d22c1476fa83f27a",
-    "created": "2014-01-02T02:20:00Z",
-    "creator": "creator-id_abcde12345",
-    "duration": 0,
-    "input": {
-      "height": 0,
-      "width": 0
-    },
-    "liveInput": "fc0a8dc887b16759bfd9ad922230a014",
-    "maxDurationSeconds": 1,
-    "maxSizeBytes": 0,
-    "meta": {
-      "name": "video12345.mp4"
-    },
-    "modified": "2014-01-02T02:20:00Z",
-    "playback": {
-      "dash": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.mpd",
-      "hls": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.m3u8"
-    },
-    "preview": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/watch",
-    "publicDetails": {
-      "channel_link": "channel_link",
-      "logo": "logo",
-      "media_id": 0,
-      "share_link": "share_link",
-      "title": "title"
-    },
-    "readyToStream": true,
-    "readyToStreamAt": "2014-01-02T02:20:00Z",
-    "requireSignedURLs": true,
-    "scheduledDeletion": "2014-01-02T02:20:00Z",
-    "size": 4190963,
-    "status": {
-      "errorReasonCode": "ERR_NON_VIDEO",
-      "errorReasonText": "The file was not recognized as a valid video file.",
-      "pctComplete": "45",
-      "state": "inprogress"
-    },
-    "thumbnail": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/thumbnails/thumbnail.jpg",
-    "thumbnailTimestampPct": 0.529241,
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "uploaded": "2014-01-02T02:20:00Z",
-    "uploadExpiry": "2014-01-02T02:20:00Z",
-    "watermark": {
-      "created": "2014-01-02T02:20:00Z",
-      "downloadedFrom": "https://company.com/logo.png",
-      "height": 0,
-      "name": "Marketing Videos",
-      "opacity": 0.75,
-      "padding": 0.1,
-      "position": "center",
-      "scale": 0.1,
-      "size": 29472,
-      "uid": "ea95132c15732412d22c1476fa83f27a",
-      "width": 0
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Clip
-
-- `Clip object { allowedOrigins, clippedFromVideoUID, created, 12 more }`
-
-  - `allowedOrigins: optional array of AllowedOrigins`
-
-    Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
-
-  - `clippedFromVideoUID: optional string`
-
-    The unique video identifier (UID).
-
-  - `created: optional string`
-
-    The date and time the clip was created.
-
-  - `creator: optional string`
-
-    A user-defined identifier for the media creator.
-
-  - `endTimeSeconds: optional number`
-
-    Specifies the end time for the video clip in seconds.
-
-  - `maxDurationSeconds: optional number`
-
-    The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
-
-  - `meta: optional unknown`
-
-    A user modifiable key-value store used to reference other systems of record for managing videos.
-
-  - `modified: optional string`
-
-    The date and time the live input was last modified.
-
-  - `playback: optional object { dash, hls }`
-
-    - `dash: optional string`
-
-      DASH Media Presentation Description for the video.
-
-    - `hls: optional string`
-
-      The HLS manifest for the video.
-
-  - `preview: optional string`
-
-    The video's preview page URI. This field is omitted until encoding is complete.
-
-  - `requireSignedURLs: optional boolean`
-
-    Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
-
-  - `startTimeSeconds: optional number`
-
-    Specifies the start time for the video clip in seconds.
-
-  - `status: optional "pendingupload" or "downloading" or "queued" or 4 more`
-
-    Specifies the processing status for all quality levels for a video.
-
-    - `"pendingupload"`
-
-    - `"downloading"`
-
-    - `"queued"`
-
-    - `"inprogress"`
-
-    - `"ready"`
-
-    - `"error"`
-
-    - `"live-inprogress"`
-
-  - `thumbnailTimestampPct: optional number`
-
-    The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
-
-  - `watermark: optional object { uid }`
-
-    - `uid: optional string`
-
-      The unique identifier for the watermark profile.
-
-# Copy
-
-## Upload videos from a URL
-
-**post** `/accounts/{account_id}/stream/copy`
-
-Uploads a video to Stream from a provided URL.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Header Parameters
-
-- `"Upload-Creator": optional string`
-
-  A user-defined identifier for the media creator.
-
-### Body Parameters
-
-- `allowedOrigins: optional array of AllowedOrigins`
-
-  Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
-
-- `creator: optional string`
-
-  A user-defined identifier for the media creator.
-
-- `input: optional string`
-
-  A video's URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file. This is the preferred field over `url`.
-
-- `meta: optional unknown`
-
-  A user modifiable key-value store used to reference other systems of record for managing videos.
-
-- `name: optional string`
-
-  A video's name. Used for legacy compatibility.
-
-- `requireSignedURLs: optional boolean`
-
-  Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
-
-- `scheduledDeletion: optional string`
-
-  Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
-
-- `thumbnailTimestampPct: optional number`
-
-  The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
-
-- `url: optional string`
-
-  A video's URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file. This field is deprecated in favor of `input`.
-
-- `watermark: optional object { uid }`
-
-  - `uid: optional string`
-
-    The unique identifier for the watermark profile.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Video`
-
-  - `allowedOrigins: optional array of AllowedOrigins`
-
-    Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
-
-  - `clippedFrom: optional string`
-
-    The unique identifier of the source video this video was clipped from.
-
-  - `created: optional string`
-
-    The date and time the media item was created.
-
-  - `creator: optional string`
-
-    A user-defined identifier for the media creator.
-
-  - `duration: optional number`
-
-    The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready.
-
-  - `input: optional object { height, width }`
-
-    - `height: optional number`
-
-      The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready.
-
-    - `width: optional number`
-
-      The video width in pixels. A value of `-1` means the width is unknown. The value becomes available after the upload and before the video is ready.
-
-  - `liveInput: optional string`
-
-    The live input ID used to upload a video with Stream Live.
-
-  - `maxDurationSeconds: optional number`
-
-    The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
-
-  - `maxSizeBytes: optional number`
-
-    The maximum size in bytes for the video upload.
-
-  - `meta: optional unknown`
-
-    A user modifiable key-value store used to reference other systems of record for managing videos.
-
-  - `modified: optional string`
-
-    The date and time the media item was last modified.
-
-  - `playback: optional object { dash, hls }`
-
-    - `dash: optional string`
-
-      DASH Media Presentation Description for the video.
-
-    - `hls: optional string`
-
-      The HLS manifest for the video.
-
-  - `preview: optional string`
-
-    The video's preview page URI. This field is omitted until encoding is complete.
-
-  - `publicDetails: optional object { channel_link, logo, media_id, 2 more }`
-
-    Public details for the video including title, share link, channel link, and logo.
-
-    - `channel_link: optional string`
-
-    - `logo: optional string`
-
-    - `media_id: optional number`
-
-    - `share_link: optional string`
-
-    - `title: optional string`
-
-  - `readyToStream: optional boolean`
-
-    Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
-
-  - `readyToStreamAt: optional string`
-
-    Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
-
-  - `requireSignedURLs: optional boolean`
-
-    Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
-
-  - `scheduledDeletion: optional string`
-
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
-
-  - `size: optional number`
-
-    The size of the media item in bytes.
-
-  - `status: optional object { errorReasonCode, errorReasonText, pctComplete, state }`
-
-    Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details.
-
-    - `errorReasonCode: optional string`
-
-      Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use.
-
-    - `errorReasonText: optional string`
-
-      Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state.
-
-    - `pctComplete: optional string`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `state: optional "pendingupload" or "downloading" or "queued" or 4 more`
-
-      Specifies the processing status for all quality levels for a video.
-
-      - `"pendingupload"`
-
-      - `"downloading"`
-
-      - `"queued"`
-
-      - `"inprogress"`
-
-      - `"ready"`
-
-      - `"error"`
-
-      - `"live-inprogress"`
-
-  - `thumbnail: optional string`
-
-    The media item's thumbnail URI. This field is omitted until encoding is complete.
-
-  - `thumbnailTimestampPct: optional number`
-
-    The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a media item.
-
-  - `uploaded: optional string`
-
-    The date and time the media item was uploaded.
-
-  - `uploadExpiry: optional string`
-
-    The date and time when the video upload URL is no longer valid for direct user uploads.
-
-  - `watermark: optional Watermark`
-
-    - `created: optional string`
-
-      The date and a time a watermark profile was created.
-
-    - `downloadedFrom: optional string`
-
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-    - `height: optional number`
-
-      The height of the image in pixels.
-
-    - `name: optional string`
-
-      A short description of the watermark profile.
-
-    - `opacity: optional number`
-
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-    - `padding: optional number`
-
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-    - `position: optional string`
-
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-    - `scale: optional number`
-
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-    - `size: optional number`
-
-      The size of the image in bytes.
-
-    - `uid: optional string`
-
-      The unique identifier for a watermark profile.
-
-    - `width: optional number`
-
-      The width of the image in pixels.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/copy \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "allowedOrigins": [
-            "example.com"
-          ],
-          "creator": "creator-id_abcde12345",
-          "input": "https://example.com/myvideo.mp4",
-          "meta": {
-            "name": "video12345.mp4"
-          },
-          "name": "myvideo.mp4",
-          "requireSignedURLs": true,
-          "scheduledDeletion": "2014-01-02T02:20:00Z",
-          "thumbnailTimestampPct": 0.529241,
-          "url": "https://example.com/myvideo.mp4"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "allowedOrigins": [
-      "example.com"
-    ],
-    "clippedFrom": "ea95132c15732412d22c1476fa83f27a",
-    "created": "2014-01-02T02:20:00Z",
-    "creator": "creator-id_abcde12345",
-    "duration": 0,
-    "input": {
-      "height": 0,
-      "width": 0
-    },
-    "liveInput": "fc0a8dc887b16759bfd9ad922230a014",
-    "maxDurationSeconds": 1,
-    "maxSizeBytes": 0,
-    "meta": {
-      "name": "video12345.mp4"
-    },
-    "modified": "2014-01-02T02:20:00Z",
-    "playback": {
-      "dash": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.mpd",
-      "hls": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.m3u8"
-    },
-    "preview": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/watch",
-    "publicDetails": {
-      "channel_link": "channel_link",
-      "logo": "logo",
-      "media_id": 0,
-      "share_link": "share_link",
-      "title": "title"
-    },
-    "readyToStream": true,
-    "readyToStreamAt": "2014-01-02T02:20:00Z",
-    "requireSignedURLs": true,
-    "scheduledDeletion": "2014-01-02T02:20:00Z",
-    "size": 4190963,
-    "status": {
-      "errorReasonCode": "ERR_NON_VIDEO",
-      "errorReasonText": "The file was not recognized as a valid video file.",
-      "pctComplete": "45",
-      "state": "inprogress"
-    },
-    "thumbnail": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/thumbnails/thumbnail.jpg",
-    "thumbnailTimestampPct": 0.529241,
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "uploaded": "2014-01-02T02:20:00Z",
-    "uploadExpiry": "2014-01-02T02:20:00Z",
-    "watermark": {
-      "created": "2014-01-02T02:20:00Z",
-      "downloadedFrom": "https://company.com/logo.png",
-      "height": 0,
-      "name": "Marketing Videos",
-      "opacity": 0.75,
-      "padding": 0.1,
-      "position": "center",
-      "scale": 0.1,
-      "size": 29472,
-      "uid": "ea95132c15732412d22c1476fa83f27a",
-      "width": 0
-    }
-  }
-}
-```
-
-# Direct Upload
-
-## Upload videos via direct upload URLs
-
-**post** `/accounts/{account_id}/stream/direct_upload`
-
-Creates a direct upload that allows video uploads without an API key.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Header Parameters
-
-- `"Upload-Creator": optional string`
-
-  A user-defined identifier for the media creator.
-
-### Body Parameters
-
-- `maxDurationSeconds: number`
-
-  The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
-
-- `allowedOrigins: optional array of AllowedOrigins`
-
-  Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
-
-- `creator: optional string`
-
-  A user-defined identifier for the media creator.
-
-- `expiry: optional string`
-
-  The date and time after upload when videos will not be accepted.
-
-- `meta: optional unknown`
-
-  A user modifiable key-value store used to reference other systems of record for managing videos.
-
-- `requireSignedURLs: optional boolean`
-
-  Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
-
-- `scheduledDeletion: optional string`
-
-  Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
-
-- `thumbnailTimestampPct: optional number`
-
-  The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
-
-- `watermark: optional object { uid }`
-
-  - `uid: optional string`
-
-    The unique identifier for the watermark profile.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { scheduledDeletion, uid, uploadURL, watermark }`
-
-  - `scheduledDeletion: optional string`
-
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a media item.
-
-  - `uploadURL: optional string`
-
-    The URL an unauthenticated upload can use for a single `HTTP POST multipart/form-data` request.
-
-  - `watermark: optional Watermark`
-
-    - `created: optional string`
-
-      The date and a time a watermark profile was created.
-
-    - `downloadedFrom: optional string`
-
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-    - `height: optional number`
-
-      The height of the image in pixels.
-
-    - `name: optional string`
-
-      A short description of the watermark profile.
-
-    - `opacity: optional number`
-
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-    - `padding: optional number`
-
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-    - `position: optional string`
-
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-    - `scale: optional number`
-
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-    - `size: optional number`
-
-      The size of the image in bytes.
-
-    - `uid: optional string`
-
-      The unique identifier for a watermark profile.
-
-    - `width: optional number`
-
-      The width of the image in pixels.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/direct_upload \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "maxDurationSeconds": 1,
-          "allowedOrigins": [
-            "example.com"
-          ],
-          "creator": "creator-id_abcde12345",
-          "expiry": "2021-01-02T02:20:00Z",
-          "meta": {
-            "name": "video12345.mp4"
-          },
-          "requireSignedURLs": true,
-          "scheduledDeletion": "2014-01-02T02:20:00Z",
-          "thumbnailTimestampPct": 0.529241
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "scheduledDeletion": "2014-01-02T02:20:00Z",
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "uploadURL": "www.example.com/samplepath",
-    "watermark": {
-      "created": "2014-01-02T02:20:00Z",
-      "downloadedFrom": "https://company.com/logo.png",
-      "height": 0,
-      "name": "Marketing Videos",
-      "opacity": 0.75,
-      "padding": 0.1,
-      "position": "center",
-      "scale": 0.1,
-      "size": 29472,
-      "uid": "ea95132c15732412d22c1476fa83f27a",
-      "width": 0
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Direct Upload Create Response
-
-- `DirectUploadCreateResponse object { scheduledDeletion, uid, uploadURL, watermark }`
-
-  - `scheduledDeletion: optional string`
-
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
-
-  - `uid: optional string`
-
-    A Cloudflare-generated unique identifier for a media item.
-
-  - `uploadURL: optional string`
-
-    The URL an unauthenticated upload can use for a single `HTTP POST multipart/form-data` request.
-
-  - `watermark: optional Watermark`
-
-    - `created: optional string`
-
-      The date and a time a watermark profile was created.
-
-    - `downloadedFrom: optional string`
-
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-    - `height: optional number`
-
-      The height of the image in pixels.
-
-    - `name: optional string`
-
-      A short description of the watermark profile.
-
-    - `opacity: optional number`
-
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-    - `padding: optional number`
-
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-    - `position: optional string`
-
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-    - `scale: optional number`
-
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-    - `size: optional number`
-
-      The size of the image in bytes.
-
-    - `uid: optional string`
-
-      The unique identifier for a watermark profile.
-
-    - `width: optional number`
-
-      The width of the image in pixels.
-
-# Keys
-
-## List signing keys
-
-**get** `/accounts/{account_id}/stream/keys`
-
-Lists the video ID and creation date and time when a signing key was created.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created, key_id }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `created: optional string`
-
-    The date and time a signing key was created.
-
-  - `key_id: optional string`
-
-    The unique identifier for the signing key.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/keys \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created": "2014-01-02T02:20:00Z",
-      "key_id": "e9db990a82666dd571c77f944a5c5c8d"
-    }
-  ]
-}
-```
-
-## Create signing keys
-
-**post** `/accounts/{account_id}/stream/keys`
-
-Creates an RSA private key in PEM and JWK formats. Key files are only displayed once after creation. Keys are created, used, and deleted independently of videos, and every key can sign any video.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Keys`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `created: optional string`
-
-    The date and time a signing key was created.
-
-  - `jwk: optional string`
-
-    The signing key in JWK format.
-
-  - `pem: optional string`
-
-    The signing key in PEM format.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/keys \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created": "2014-01-02T02:20:00Z",
-    "jwk": "eyJ1c2UiOiJzaWciLCJrdHkiOiJSU0EiLCJraWQiOiI1MjEzY2ZhMTIxZjcwYjhjMTM4MDY4NmZmYzM3MWJhMyIsImFsZyI6IlJTMjU2IiwibiI6IjBUandqT2laV21KNDN2ZjNUbzREb1htWFd0SkdOR3lYZmh5dHRMYUJnRjEtRVFXUURLaG9LYm9hS21xakNBc21za3V0YkxVN1BVOGRrUU5ER1p3S3VWczA4elNaNGt4aTR0RWdQUFp5dDdkWEMtbFlSWW95ckFHRjRBWGh5MzI5YkhDUDFJbHJCQl9Ba0dnbmRMQWd1bnhZMHJSZ2N2T3ppYXc2S0p4Rm5jMlVLMFdVOGIwcDRLS0hHcDFLTDlkazBXVDhkVllxYmVSaUpqQ2xVRW1oOHl2OUNsT1ZhUzRLeGlYNnhUUTREWnc2RGFKZklWM1F0Tmd2cG1ieWxOSmFQSG5zc3JodDJHS1A5NjJlS2poUVJsaWd2SFhKTE9uSm9KZkxlSUVIWi1peFdmY1RETUg5MnNHdm93MURPanhMaUNOMXpISy1oN2JMb1hUaUxnYzRrdyIsImUiOiJBUUFCIiwiZCI6IndpQWEwaU5mWnNYSGNOcVMxSWhnUmdzVHJHay1TcFlYV2lReDZHTU9kWlJKekhGazN0bkRERFJvNHNKZTBxX0dEOWkzNlEyZkVadS15elpEcEJkc3U5OHNtaHhNU19Ta0s5X3VFYUo1Zm96V2IyN3JRRnFoLVliUU9MUThkUnNPRHZmQl9Hb2txWWJzblJDR3kzWkFaOGZJZ25ocXBUNEpiOHdsaWxpMUgxeFpzM3RnTWtkTEluTm1yMFAtcTYxZEtNd3JYZVRoSWNEc0kyb2Z1LTFtRm1MWndQb2ZGbmxaTW9QN1pfRU5pUGNfWGtWNzFhaHBOZE9pcW5ablZtMHBCNE5QS1UweDRWTjQyYlAzWEhMUmpkV2hJOGt3SC1BdXhqb3BLaHJ0R2tvcG1jZFRkM1ZRdElaOGRpZHByMXpBaEpvQi16ZVlIaTFUel9ZSFFld0FRUSIsInAiOiIyVTZFVUJka3U3TndDYXoyNzZuWGMxRXgwVHpNZjU4U0UtU2M2eUNaYWk2TkwzVURpWi1mNHlIdkRLYnFGUXdLWDNwZ0l2aVE3Y05QYUpkbE9NeS1mU21GTXU3V3hlbVZYamFlTjJCMkRDazhQY0NEOVgxU2hhR3E1ZUdSSHNObVUtSDNxTG1FRGpjLWliazRHZ0RNb2lVYjQ2OGxFZHAwU2pIOXdsOUdsYTgiLCJxIjoiOW5ucXg5ZnNNY2dIZ29DemhfVjJmaDhoRUxUSUM5aFlIOVBCTG9aQjZIaE1TWG1ja1BSazVnUlpPWlFEN002TzlMaWZjNmFDVXdEbjBlQzU2YkFDNUNrcWxjODJsVDhzTWlMeWJyTjh3bWotcjNjSTBGQTlfSGQySEY1ZkgycnJmenVqd0NWM3czb09Ud3p4d1g3c2xKbklRanphel91SzEyWEtucVZZcUYwIiwiZHAiOiJxQklTUTlfVUNWaV9Ucng0UU9VYnZoVU9jc2FUWkNHajJiNzNudU9YeElnOHFuZldSSnN4RG5zd2FKaXdjNWJjYnZ3M1h0VGhRd1BNWnhpeE1UMHFGNlFGWVY5WXZibnJ6UEp4YkdNdTZqajZYc2lIUjFlbWU3U09lVDM4Xzg0aFZyOXV6UkN2RWstb0R0MHlodW9YVzFGWVFNRTE2cGtMV0ZkUjdRUERsQUUiLCJkcSI6Im5zQUp3eXZFbW8tdW5wU01qYjVBMHB6MExCRjBZNFMxeGRJYXNfLVBSYzd0dThsVFdWMl8teExEOFR6dmhqX0lmY0RJR3JJZGNKNjlzVVZnR1M3ZnZkcng3Y21uNjFyai1XcmU0UVJFRC1lV1dxZDlpc2FVRmg5UGVKZ2tCbFZVVnYtdnladVlWdFF2a1NUU05ZR3RtVXl2V2xKZDBPWEFHRm9jdGlfak9aVSIsInFpIjoib0dYaWxLQ2NKRXNFdEE1eG54WUdGQW5UUjNwdkZLUXR5S0F0UGhHaHkybm5ya2VzN1RRaEFxMGhLRWZtU1RzaE1hNFhfd05aMEstX1F0dkdoNDhpeHdTTDVLTEwxZnFsY0k2TF9XUnF0cFQxS21LRERlUHR2bDVCUzFGbjgwSGFwR215cmZRWUU4S09QR2UwUl82S1BOZE1vc3dYQ3Nfd0RYMF92ZzNoNUxRIn0=",
-    "pem": "LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcGdJQkFBS0NBUUVBMFRqd2pPaVpXbUo0M3ZmM1RvNERvWG1YV3RKR05HeVhmaHl0dExhQmdGMStFUVdRCkRLaG9LYm9hS21xakNBc21za3V0YkxVN1BVOGRrUU5ER1p3S3VWczA4elNaNGt4aTR0RWdQUFp5dDdkWEMrbFkKUllveXJBR0Y0QVhoeTMyOWJIQ1AxSWxyQkIvQWtHZ25kTEFndW54WTByUmdjdk96aWF3NktKeEZuYzJVSzBXVQo4YjBwNEtLSEdwMUtMOWRrMFdUOGRWWXFiZVJpSmpDbFVFbWg4eXY5Q2xPVmFTNEt4aVg2eFRRNERadzZEYUpmCklWM1F0Tmd2cG1ieWxOSmFQSG5zc3JodDJHS1A5NjJlS2poUVJsaWd2SFhKTE9uSm9KZkxlSUVIWitpeFdmY1QKRE1IOTJzR3ZvdzFET2p4TGlDTjF6SEsraDdiTG9YVGlMZ2M0a3dJREFRQUJBb0lCQVFEQ0lCclNJMTlteGNkdwoycExVaUdCR0N4T3NhVDVLbGhkYUpESG9ZdzUxbEVuTWNXVGUyY01NTkdqaXdsN1NyOFlQMkxmcERaOFJtNzdMCk5rT2tGMnk3M3l5YUhFeEw5S1FyMys0Um9ubCtqTlp2YnV0QVdxSDVodEE0dER4MUd3NE85OEg4YWlTcGh1eWQKRUliTGRrQm54OGlDZUdxbFBnbHZ6Q1dLV0xVZlhGbXplMkF5UjBzaWMyYXZRLzZyclYwb3pDdGQ1T0Vod093agphaCs3N1dZV1l0bkEraDhXZVZreWcvdG44UTJJOXo5ZVJYdlZxR2sxMDZLcWRtZFdiU2tIZzA4cFRUSGhVM2paCnMvZGNjdEdOMWFFanlUQWY0QzdHT2lrcUd1MGFTaW1aeDFOM2RWQzBobngySjJtdlhNQ0VtZ0g3TjVnZUxWUFAKOWdkQjdBQkJBb0dCQU5sT2hGQVhaTHV6Y0Ftczl1K3AxM05STWRFOHpIK2ZFaFBrbk9zZ21Xb3VqUzkxQTRtZgpuK01oN3d5bTZoVU1DbDk2WUNMNGtPM0RUMmlYWlRqTXZuMHBoVEx1MXNYcGxWNDJuamRnZGd3cFBEM0FnL1Y5ClVvV2hxdVhoa1I3RFpsUGg5Nmk1aEE0M1BvbTVPQm9BektJbEcrT3ZKUkhhZEVveC9jSmZScFd2QW9HQkFQWjUKNnNmWDdESElCNEtBczRmMWRuNGZJUkMweUF2WVdCL1R3UzZHUWVoNFRFbDVuSkQwWk9ZRVdUbVVBK3pPanZTNApuM09tZ2xNQTU5SGd1ZW13QXVRcEtwWFBOcFUvTERJaThtNnpmTUpvL3E5M0NOQlFQZngzZGh4ZVh4OXE2Mzg3Cm84QWxkOE42RGs4TThjRis3SlNaeUVJODJzLzdpdGRseXA2bFdLaGRBb0dCQUtnU0VrUGYxQWxZdjA2OGVFRGwKRzc0VkRuTEdrMlFobzltKzk1N2psOFNJUEtwMzFrU2JNUTU3TUdpWXNIT1czRzc4TjE3VTRVTUR6R2NZc1RFOQpLaGVrQldGZldMMjU2OHp5Y1d4akx1bzQrbDdJaDBkWHBudTBqbms5L1AvT0lWYS9iczBRcnhKUHFBN2RNb2JxCkYxdFJXRURCTmVxWkMxaFhVZTBEdzVRQkFvR0JBSjdBQ2NNcnhKcVBycDZVakkyK1FOS2M5Q3dSZEdPRXRjWFMKR3JQL2owWE83YnZKVTFsZHYvc1N3L0U4NzRZL3lIM0F5QnF5SFhDZXZiRkZZQmt1MzczYThlM0pwK3RhNC9scQozdUVFUkEvbmxscW5mWXJHbEJZZlQzaVlKQVpWVkZiL3I4bWJtRmJVTDVFazBqV0JyWmxNcjFwU1hkRGx3QmhhCkhMWXY0em1WQW9HQkFLQmw0cFNnbkNSTEJMUU9jWjhXQmhRSjAwZDZieFNrTGNpZ0xUNFJvY3RwNTY1SHJPMDAKSVFLdElTaEg1a2s3SVRHdUYvOERXZEN2djBMYnhvZVBJc2NFaStTaXk5WDZwWENPaS8xa2FyYVU5U3BpZ3czago3YjVlUVV0UlovTkIycVJwc3EzMEdCUENqanhudEVmK2lqelhUS0xNRndyUDhBMTlQNzRONGVTMAotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo="
-  }
-}
-```
-
-## Delete signing keys
-
-**delete** `/accounts/{account_id}/stream/keys/{identifier}`
-
-Deletes signing keys and revokes all signed URLs generated with the key.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/keys/$IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "ok"
-}
-```
-
-## Domain Types
-
-### Keys
-
-- `Keys object { id, created, jwk, pem }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `created: optional string`
-
-    The date and time a signing key was created.
-
-  - `jwk: optional string`
-
-    The signing key in JWK format.
-
-  - `pem: optional string`
-
-    The signing key in PEM format.
-
-### Key Get Response
-
-- `KeyGetResponse object { id, created, key_id }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `created: optional string`
-
-    The date and time a signing key was created.
-
-  - `key_id: optional string`
-
-    The unique identifier for the signing key.
-
-### Key Delete Response
-
-- `KeyDeleteResponse = string`
-
-# Live Inputs
-
-## List live inputs
-
-**get** `/accounts/{account_id}/stream/live_inputs`
-
-Lists the live inputs created for an account. To get the credentials needed to stream to a specific live input, request a single live input.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `include_counts: optional boolean`
-
-  Includes the total number of videos associated with the submitted query parameters.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { liveInputs, range, total }`
-
-  - `liveInputs: optional array of object { created, deleteRecordingAfterDays, enabled, 3 more }`
-
-    - `created: optional string`
-
-      The date and time the live input was created.
-
-    - `deleteRecordingAfterDays: optional number`
-
-      Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
-
-    - `enabled: optional boolean`
-
-      Indicates whether the live input is enabled and can accept streams.
-
-    - `meta: optional unknown`
-
-      A user modifiable key-value store used to reference other systems of record for managing live inputs.
-
-    - `modified: optional string`
-
-      The date and time the live input was last modified.
-
-    - `uid: optional string`
-
-      A unique identifier for a live input.
-
-  - `range: optional number`
-
-    The total number of remaining live inputs based on cursor position.
-
-  - `total: optional number`
-
-    The total number of live inputs that match the provided filters.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "liveInputs": [
-      {
-        "created": "2014-01-02T02:20:00Z",
-        "deleteRecordingAfterDays": 45,
-        "enabled": true,
-        "meta": {
-          "name": "test stream 1"
-        },
-        "modified": "2014-01-02T02:20:00Z",
-        "uid": "66be4bf738797e01e1fca35a7bdecdcd"
-      }
-    ],
-    "range": 1000,
-    "total": 35586
-  }
-}
-```
-
-## Retrieve a live input
-
-**get** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}`
-
-Retrieves details of an existing live input.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `live_input_identifier: string`
-
-  A unique identifier for a live input.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional LiveInput`
-
-  Details about a live input.
-
-  - `created: optional string`
-
-    The date and time the live input was created.
-
-  - `deleteRecordingAfterDays: optional number`
-
-    Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
-
-  - `enabled: optional boolean`
-
-    Indicates whether the live input is enabled and can accept streams.
-
-  - `keysRotatedAt: optional string`
-
-    The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
-
-  - `meta: optional unknown`
-
-    A user modifiable key-value store used to reference other systems of record for managing live inputs.
-
-  - `modified: optional string`
-
-    The date and time the live input was last modified.
-
-  - `preferLowLatency: optional boolean`
-
-    When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
-
-  - `recording: optional object { allowedOrigins, hideLiveViewerCount, mode, 2 more }`
-
-    Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
-
-    - `allowedOrigins: optional array of string`
-
-      Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.
-
-    - `hideLiveViewerCount: optional boolean`
-
-      Disables reporting the number of live viewers when this property is set to `true`.
-
-    - `mode: optional "off" or "automatic"`
-
-      Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.
-
-      - `"off"`
-
-      - `"automatic"`
-
-    - `requireSignedURLs: optional boolean`
-
-      Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.
-
-    - `timeoutSeconds: optional number`
-
-      Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.
-
-  - `rtmps: optional object { streamKey, url }`
-
-    Details for streaming to an live input using RTMPS.
-
-    - `streamKey: optional string`
-
-      The secret key to use when streaming via RTMPS to a live input.
-
-    - `url: optional string`
-
-      The RTMPS URL you provide to the broadcaster, which they stream live video to.
-
-  - `rtmpsPlayback: optional object { streamKey, url }`
-
-    Details for playback from an live input using RTMPS.
-
-    - `streamKey: optional string`
-
-      The secret key to use for playback via RTMPS.
-
-    - `url: optional string`
-
-      The URL used to play live video over RTMPS.
-
-  - `srt: optional object { passphrase, streamId, url }`
-
-    Details for streaming to a live input using SRT.
-
-    - `passphrase: optional string`
-
-      The secret key to use when streaming via SRT to a live input.
-
-    - `streamId: optional string`
-
-      The identifier of the live input to use when streaming via SRT.
-
-    - `url: optional string`
-
-      The SRT URL you provide to the broadcaster, which they stream live video to.
-
-  - `srtPlayback: optional object { passphrase, streamId, url }`
-
-    Details for playback from an live input using SRT.
-
-    - `passphrase: optional string`
-
-      The secret key to use for playback via SRT.
-
-    - `streamId: optional string`
-
-      The identifier of the live input to use for playback via SRT.
-
-    - `url: optional string`
-
-      The URL used to play live video over SRT.
-
-  - `status: optional "connected" or "reconnected" or "reconnecting" or 5 more`
-
-    The connection status of a live input.
-
-    - `"connected"`
-
-    - `"reconnected"`
-
-    - `"reconnecting"`
-
-    - `"client_disconnect"`
-
-    - `"ttl_exceeded"`
-
-    - `"failed_to_connect"`
-
-    - `"failed_to_reconnect"`
-
-    - `"new_configuration_accepted"`
-
-  - `uid: optional string`
-
-    A unique identifier for a live input.
-
-  - `webRTC: optional object { url }`
-
-    Details for streaming to a live input using WebRTC.
-
-    - `url: optional string`
-
-      The WebRTC URL you provide to the broadcaster, which they stream live video to.
-
-  - `webRTCPlayback: optional object { url }`
-
-    Details for playback from a live input using WebRTC.
-
-    - `url: optional string`
-
-      The URL used to play live video over WebRTC.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "deleteRecordingAfterDays": 45,
-    "enabled": true,
-    "keysRotatedAt": "2014-01-02T02:20:00Z",
-    "meta": {
-      "name": "test stream 1"
-    },
-    "modified": "2014-01-02T02:20:00Z",
-    "preferLowLatency": true,
-    "recording": {
-      "allowedOrigins": [
-        "example.com"
-      ],
-      "hideLiveViewerCount": false,
-      "mode": "off",
-      "requireSignedURLs": false,
-      "timeoutSeconds": 0
-    },
-    "rtmps": {
-      "streamKey": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "rtmpsPlayback": {
-      "streamKey": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "srt": {
-      "passphrase": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "streamId": "f256e6ea9341d51eea64c9454659e576",
-      "url": "srt://live.cloudflare.com:778"
-    },
-    "srtPlayback": {
-      "passphrase": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "streamId": "f256e6ea9341d51eea64c9454659e576",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "status": "connected",
-    "uid": "66be4bf738797e01e1fca35a7bdecdcd",
-    "webRTC": {
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/b236bde30eb07b9d01318940e5fc3edake34a3efb3896e18f2dc277ce6cc993ad/webRTC/publish"
-    },
-    "webRTCPlayback": {
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/b236bde30eb07b9d01318940e5fc3edake34a3efb3896e18f2dc277ce6cc993ad/webRTC/play"
-    }
-  }
-}
-```
-
-## Create a live input
-
-**post** `/accounts/{account_id}/stream/live_inputs`
-
-Creates a live input, and returns credentials that you or your users can use to stream live video to Cloudflare Stream.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `defaultCreator: optional string`
-
-  Sets the creator ID asssociated with this live input.
-
-- `deleteRecordingAfterDays: optional number`
-
-  Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
-
-- `enabled: optional boolean`
-
-  Indicates whether the live input is enabled and can accept streams.
-
-- `meta: optional unknown`
-
-  A user modifiable key-value store used to reference other systems of record for managing live inputs.
-
-- `preferLowLatency: optional boolean`
-
-  When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
-
-- `recording: optional object { allowedOrigins, hideLiveViewerCount, mode, 2 more }`
-
-  Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
-
-  - `allowedOrigins: optional array of string`
-
-    Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.
-
-  - `hideLiveViewerCount: optional boolean`
-
-    Disables reporting the number of live viewers when this property is set to `true`.
-
-  - `mode: optional "off" or "automatic"`
-
-    Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.
-
-    - `"off"`
-
-    - `"automatic"`
-
-  - `requireSignedURLs: optional boolean`
-
-    Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.
-
-  - `timeoutSeconds: optional number`
-
-    Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional LiveInput`
-
-  Details about a live input.
-
-  - `created: optional string`
-
-    The date and time the live input was created.
-
-  - `deleteRecordingAfterDays: optional number`
-
-    Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
-
-  - `enabled: optional boolean`
-
-    Indicates whether the live input is enabled and can accept streams.
-
-  - `keysRotatedAt: optional string`
-
-    The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
-
-  - `meta: optional unknown`
-
-    A user modifiable key-value store used to reference other systems of record for managing live inputs.
-
-  - `modified: optional string`
-
-    The date and time the live input was last modified.
-
-  - `preferLowLatency: optional boolean`
-
-    When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
-
-  - `recording: optional object { allowedOrigins, hideLiveViewerCount, mode, 2 more }`
-
-    Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
-
-    - `allowedOrigins: optional array of string`
-
-      Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.
-
-    - `hideLiveViewerCount: optional boolean`
-
-      Disables reporting the number of live viewers when this property is set to `true`.
-
-    - `mode: optional "off" or "automatic"`
-
-      Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.
-
-      - `"off"`
-
-      - `"automatic"`
-
-    - `requireSignedURLs: optional boolean`
-
-      Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.
-
-    - `timeoutSeconds: optional number`
-
-      Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.
-
-  - `rtmps: optional object { streamKey, url }`
-
-    Details for streaming to an live input using RTMPS.
-
-    - `streamKey: optional string`
-
-      The secret key to use when streaming via RTMPS to a live input.
-
-    - `url: optional string`
-
-      The RTMPS URL you provide to the broadcaster, which they stream live video to.
-
-  - `rtmpsPlayback: optional object { streamKey, url }`
-
-    Details for playback from an live input using RTMPS.
-
-    - `streamKey: optional string`
-
-      The secret key to use for playback via RTMPS.
-
-    - `url: optional string`
-
-      The URL used to play live video over RTMPS.
-
-  - `srt: optional object { passphrase, streamId, url }`
-
-    Details for streaming to a live input using SRT.
-
-    - `passphrase: optional string`
-
-      The secret key to use when streaming via SRT to a live input.
-
-    - `streamId: optional string`
-
-      The identifier of the live input to use when streaming via SRT.
-
-    - `url: optional string`
-
-      The SRT URL you provide to the broadcaster, which they stream live video to.
-
-  - `srtPlayback: optional object { passphrase, streamId, url }`
-
-    Details for playback from an live input using SRT.
-
-    - `passphrase: optional string`
-
-      The secret key to use for playback via SRT.
-
-    - `streamId: optional string`
-
-      The identifier of the live input to use for playback via SRT.
-
-    - `url: optional string`
-
-      The URL used to play live video over SRT.
-
-  - `status: optional "connected" or "reconnected" or "reconnecting" or 5 more`
-
-    The connection status of a live input.
-
-    - `"connected"`
-
-    - `"reconnected"`
-
-    - `"reconnecting"`
-
-    - `"client_disconnect"`
-
-    - `"ttl_exceeded"`
-
-    - `"failed_to_connect"`
-
-    - `"failed_to_reconnect"`
-
-    - `"new_configuration_accepted"`
-
-  - `uid: optional string`
-
-    A unique identifier for a live input.
-
-  - `webRTC: optional object { url }`
-
-    Details for streaming to a live input using WebRTC.
-
-    - `url: optional string`
-
-      The WebRTC URL you provide to the broadcaster, which they stream live video to.
-
-  - `webRTCPlayback: optional object { url }`
-
-    Details for playback from a live input using WebRTC.
-
-    - `url: optional string`
-
-      The URL used to play live video over WebRTC.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "deleteRecordingAfterDays": 45,
-          "enabled": true,
-          "meta": {
-            "name": "test stream 1"
-          },
-          "preferLowLatency": true,
-          "recording": {
-            "hideLiveViewerCount": false,
-            "mode": "off",
-            "requireSignedURLs": false,
-            "timeoutSeconds": 0
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "deleteRecordingAfterDays": 45,
-    "enabled": true,
-    "keysRotatedAt": "2014-01-02T02:20:00Z",
-    "meta": {
-      "name": "test stream 1"
-    },
-    "modified": "2014-01-02T02:20:00Z",
-    "preferLowLatency": true,
-    "recording": {
-      "allowedOrigins": [
-        "example.com"
-      ],
-      "hideLiveViewerCount": false,
-      "mode": "off",
-      "requireSignedURLs": false,
-      "timeoutSeconds": 0
-    },
-    "rtmps": {
-      "streamKey": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "rtmpsPlayback": {
-      "streamKey": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "srt": {
-      "passphrase": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "streamId": "f256e6ea9341d51eea64c9454659e576",
-      "url": "srt://live.cloudflare.com:778"
-    },
-    "srtPlayback": {
-      "passphrase": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "streamId": "f256e6ea9341d51eea64c9454659e576",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "status": "connected",
-    "uid": "66be4bf738797e01e1fca35a7bdecdcd",
-    "webRTC": {
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/b236bde30eb07b9d01318940e5fc3edake34a3efb3896e18f2dc277ce6cc993ad/webRTC/publish"
-    },
-    "webRTCPlayback": {
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/b236bde30eb07b9d01318940e5fc3edake34a3efb3896e18f2dc277ce6cc993ad/webRTC/play"
-    }
-  }
-}
-```
-
-## Update a live input
-
-**put** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}`
-
-Updates a specified live input.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `live_input_identifier: string`
-
-  A unique identifier for a live input.
-
-### Body Parameters
-
-- `defaultCreator: optional string`
-
-  Sets the creator ID asssociated with this live input.
-
-- `deleteRecordingAfterDays: optional number`
-
-  Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
-
-- `enabled: optional boolean`
-
-  Indicates whether the live input is enabled and can accept streams.
-
-- `meta: optional unknown`
-
-  A user modifiable key-value store used to reference other systems of record for managing live inputs.
-
-- `preferLowLatency: optional boolean`
-
-  When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
-
-- `recording: optional object { allowedOrigins, hideLiveViewerCount, mode, 2 more }`
-
-  Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
-
-  - `allowedOrigins: optional array of string`
-
-    Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.
-
-  - `hideLiveViewerCount: optional boolean`
-
-    Disables reporting the number of live viewers when this property is set to `true`.
-
-  - `mode: optional "off" or "automatic"`
-
-    Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.
-
-    - `"off"`
-
-    - `"automatic"`
-
-  - `requireSignedURLs: optional boolean`
-
-    Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.
-
-  - `timeoutSeconds: optional number`
-
-    Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional LiveInput`
-
-  Details about a live input.
-
-  - `created: optional string`
-
-    The date and time the live input was created.
-
-  - `deleteRecordingAfterDays: optional number`
-
-    Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
-
-  - `enabled: optional boolean`
-
-    Indicates whether the live input is enabled and can accept streams.
-
-  - `keysRotatedAt: optional string`
-
-    The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
-
-  - `meta: optional unknown`
-
-    A user modifiable key-value store used to reference other systems of record for managing live inputs.
-
-  - `modified: optional string`
-
-    The date and time the live input was last modified.
-
-  - `preferLowLatency: optional boolean`
-
-    When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
-
-  - `recording: optional object { allowedOrigins, hideLiveViewerCount, mode, 2 more }`
-
-    Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
-
-    - `allowedOrigins: optional array of string`
-
-      Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.
-
-    - `hideLiveViewerCount: optional boolean`
-
-      Disables reporting the number of live viewers when this property is set to `true`.
-
-    - `mode: optional "off" or "automatic"`
-
-      Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.
-
-      - `"off"`
-
-      - `"automatic"`
-
-    - `requireSignedURLs: optional boolean`
-
-      Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.
-
-    - `timeoutSeconds: optional number`
-
-      Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.
-
-  - `rtmps: optional object { streamKey, url }`
-
-    Details for streaming to an live input using RTMPS.
-
-    - `streamKey: optional string`
-
-      The secret key to use when streaming via RTMPS to a live input.
-
-    - `url: optional string`
-
-      The RTMPS URL you provide to the broadcaster, which they stream live video to.
-
-  - `rtmpsPlayback: optional object { streamKey, url }`
-
-    Details for playback from an live input using RTMPS.
-
-    - `streamKey: optional string`
-
-      The secret key to use for playback via RTMPS.
-
-    - `url: optional string`
-
-      The URL used to play live video over RTMPS.
-
-  - `srt: optional object { passphrase, streamId, url }`
-
-    Details for streaming to a live input using SRT.
-
-    - `passphrase: optional string`
-
-      The secret key to use when streaming via SRT to a live input.
-
-    - `streamId: optional string`
-
-      The identifier of the live input to use when streaming via SRT.
-
-    - `url: optional string`
-
-      The SRT URL you provide to the broadcaster, which they stream live video to.
-
-  - `srtPlayback: optional object { passphrase, streamId, url }`
-
-    Details for playback from an live input using SRT.
-
-    - `passphrase: optional string`
-
-      The secret key to use for playback via SRT.
-
-    - `streamId: optional string`
-
-      The identifier of the live input to use for playback via SRT.
-
-    - `url: optional string`
-
-      The URL used to play live video over SRT.
-
-  - `status: optional "connected" or "reconnected" or "reconnecting" or 5 more`
-
-    The connection status of a live input.
-
-    - `"connected"`
-
-    - `"reconnected"`
-
-    - `"reconnecting"`
-
-    - `"client_disconnect"`
-
-    - `"ttl_exceeded"`
-
-    - `"failed_to_connect"`
-
-    - `"failed_to_reconnect"`
-
-    - `"new_configuration_accepted"`
-
-  - `uid: optional string`
-
-    A unique identifier for a live input.
-
-  - `webRTC: optional object { url }`
-
-    Details for streaming to a live input using WebRTC.
-
-    - `url: optional string`
-
-      The WebRTC URL you provide to the broadcaster, which they stream live video to.
-
-  - `webRTCPlayback: optional object { url }`
-
-    Details for playback from a live input using WebRTC.
-
-    - `url: optional string`
-
-      The URL used to play live video over WebRTC.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "deleteRecordingAfterDays": 45,
-          "enabled": true,
-          "meta": {
-            "name": "test stream 1"
-          },
-          "preferLowLatency": true,
-          "recording": {
-            "hideLiveViewerCount": false,
-            "mode": "off",
-            "requireSignedURLs": false,
-            "timeoutSeconds": 0
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "deleteRecordingAfterDays": 45,
-    "enabled": true,
-    "keysRotatedAt": "2014-01-02T02:20:00Z",
-    "meta": {
-      "name": "test stream 1"
-    },
-    "modified": "2014-01-02T02:20:00Z",
-    "preferLowLatency": true,
-    "recording": {
-      "allowedOrigins": [
-        "example.com"
-      ],
-      "hideLiveViewerCount": false,
-      "mode": "off",
-      "requireSignedURLs": false,
-      "timeoutSeconds": 0
-    },
-    "rtmps": {
-      "streamKey": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "rtmpsPlayback": {
-      "streamKey": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "srt": {
-      "passphrase": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "streamId": "f256e6ea9341d51eea64c9454659e576",
-      "url": "srt://live.cloudflare.com:778"
-    },
-    "srtPlayback": {
-      "passphrase": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
-      "streamId": "f256e6ea9341d51eea64c9454659e576",
-      "url": "rtmps://live.cloudflare.com:443/live/"
-    },
-    "status": "connected",
-    "uid": "66be4bf738797e01e1fca35a7bdecdcd",
-    "webRTC": {
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/b236bde30eb07b9d01318940e5fc3edake34a3efb3896e18f2dc277ce6cc993ad/webRTC/publish"
-    },
-    "webRTCPlayback": {
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/b236bde30eb07b9d01318940e5fc3edake34a3efb3896e18f2dc277ce6cc993ad/webRTC/play"
-    }
-  }
-}
-```
-
-## Delete a live input
-
-**delete** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}`
-
-Prevents a live input from being streamed to and makes the live input inaccessible to any future API calls.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `live_input_identifier: string`
-
-  A unique identifier for a live input.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{}
-```
-
-## Domain Types
-
-### Live Input
-
-- `LiveInput object { created, deleteRecordingAfterDays, enabled, 13 more }`
-
-  Details about a live input.
-
-  - `created: optional string`
-
-    The date and time the live input was created.
-
-  - `deleteRecordingAfterDays: optional number`
-
-    Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
-
-  - `enabled: optional boolean`
-
-    Indicates whether the live input is enabled and can accept streams.
-
-  - `keysRotatedAt: optional string`
-
-    The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
-
-  - `meta: optional unknown`
-
-    A user modifiable key-value store used to reference other systems of record for managing live inputs.
-
-  - `modified: optional string`
-
-    The date and time the live input was last modified.
-
-  - `preferLowLatency: optional boolean`
-
-    When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
-
-  - `recording: optional object { allowedOrigins, hideLiveViewerCount, mode, 2 more }`
-
-    Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
-
-    - `allowedOrigins: optional array of string`
-
-      Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.
-
-    - `hideLiveViewerCount: optional boolean`
-
-      Disables reporting the number of live viewers when this property is set to `true`.
-
-    - `mode: optional "off" or "automatic"`
-
-      Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.
-
-      - `"off"`
-
-      - `"automatic"`
-
-    - `requireSignedURLs: optional boolean`
-
-      Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.
-
-    - `timeoutSeconds: optional number`
-
-      Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.
-
-  - `rtmps: optional object { streamKey, url }`
-
-    Details for streaming to an live input using RTMPS.
-
-    - `streamKey: optional string`
-
-      The secret key to use when streaming via RTMPS to a live input.
-
-    - `url: optional string`
-
-      The RTMPS URL you provide to the broadcaster, which they stream live video to.
-
-  - `rtmpsPlayback: optional object { streamKey, url }`
-
-    Details for playback from an live input using RTMPS.
-
-    - `streamKey: optional string`
-
-      The secret key to use for playback via RTMPS.
-
-    - `url: optional string`
-
-      The URL used to play live video over RTMPS.
-
-  - `srt: optional object { passphrase, streamId, url }`
-
-    Details for streaming to a live input using SRT.
-
-    - `passphrase: optional string`
-
-      The secret key to use when streaming via SRT to a live input.
-
-    - `streamId: optional string`
-
-      The identifier of the live input to use when streaming via SRT.
-
-    - `url: optional string`
-
-      The SRT URL you provide to the broadcaster, which they stream live video to.
-
-  - `srtPlayback: optional object { passphrase, streamId, url }`
-
-    Details for playback from an live input using SRT.
-
-    - `passphrase: optional string`
-
-      The secret key to use for playback via SRT.
-
-    - `streamId: optional string`
-
-      The identifier of the live input to use for playback via SRT.
-
-    - `url: optional string`
-
-      The URL used to play live video over SRT.
-
-  - `status: optional "connected" or "reconnected" or "reconnecting" or 5 more`
-
-    The connection status of a live input.
-
-    - `"connected"`
-
-    - `"reconnected"`
-
-    - `"reconnecting"`
-
-    - `"client_disconnect"`
-
-    - `"ttl_exceeded"`
-
-    - `"failed_to_connect"`
-
-    - `"failed_to_reconnect"`
-
-    - `"new_configuration_accepted"`
-
-  - `uid: optional string`
-
-    A unique identifier for a live input.
-
-  - `webRTC: optional object { url }`
-
-    Details for streaming to a live input using WebRTC.
-
-    - `url: optional string`
-
-      The WebRTC URL you provide to the broadcaster, which they stream live video to.
-
-  - `webRTCPlayback: optional object { url }`
-
-    Details for playback from a live input using WebRTC.
-
-    - `url: optional string`
-
-      The URL used to play live video over WebRTC.
-
-### Live Input List Response
-
-- `LiveInputListResponse object { liveInputs, range, total }`
-
-  - `liveInputs: optional array of object { created, deleteRecordingAfterDays, enabled, 3 more }`
-
-    - `created: optional string`
-
-      The date and time the live input was created.
-
-    - `deleteRecordingAfterDays: optional number`
-
-      Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
-
-    - `enabled: optional boolean`
-
-      Indicates whether the live input is enabled and can accept streams.
-
-    - `meta: optional unknown`
-
-      A user modifiable key-value store used to reference other systems of record for managing live inputs.
-
-    - `modified: optional string`
-
-      The date and time the live input was last modified.
-
-    - `uid: optional string`
-
-      A unique identifier for a live input.
-
-  - `range: optional number`
-
-    The total number of remaining live inputs based on cursor position.
-
-  - `total: optional number`
-
-    The total number of live inputs that match the provided filters.
-
-# Outputs
-
-## List all outputs associated with a specified live input
-
-**get** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}/outputs`
-
-Retrieves all outputs associated with a specified live input.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `live_input_identifier: string`
-
-  A unique identifier for a live input.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Output`
-
-  - `enabled: optional boolean`
-
-    When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.
-
-  - `streamKey: optional string`
-
-    The streamKey used to authenticate against an output's target.
-
-  - `uid: optional string`
-
-    A unique identifier for the output.
-
-  - `url: optional string`
-
-    The URL an output uses to restream.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER/outputs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "enabled": true,
-      "streamKey": "uzya-f19y-g2g9-a2ee-51j2",
-      "uid": "baea4d9c515887b80289d5c33cf01145",
-      "url": "rtmp://a.rtmp.youtube.com/live2"
-    }
-  ]
-}
-```
-
-## Create a new output, connected to a live input
-
-**post** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}/outputs`
-
-Creates a new output that can be used to simulcast or restream live video to other RTMP or SRT destinations. Outputs are always linked to a specific live input —&nbsp;one live input can have many outputs.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `live_input_identifier: string`
-
-  A unique identifier for a live input.
-
-### Body Parameters
-
-- `streamKey: string`
-
-  The streamKey used to authenticate against an output's target.
-
-- `url: string`
-
-  The URL an output uses to restream.
-
-- `enabled: optional boolean`
-
-  When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Output`
-
-  - `enabled: optional boolean`
-
-    When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.
-
-  - `streamKey: optional string`
-
-    The streamKey used to authenticate against an output's target.
-
-  - `uid: optional string`
-
-    A unique identifier for the output.
-
-  - `url: optional string`
-
-    The URL an output uses to restream.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER/outputs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "streamKey": "uzya-f19y-g2g9-a2ee-51j2",
-          "url": "rtmp://a.rtmp.youtube.com/live2",
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true,
-    "streamKey": "uzya-f19y-g2g9-a2ee-51j2",
-    "uid": "baea4d9c515887b80289d5c33cf01145",
-    "url": "rtmp://a.rtmp.youtube.com/live2"
-  }
-}
-```
-
-## Update an output
-
-**put** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}/outputs/{output_identifier}`
-
-Updates the state of an output.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `live_input_identifier: string`
-
-  A unique identifier for a live input.
-
-- `output_identifier: string`
-
-  A unique identifier for the output.
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Output`
-
-  - `enabled: optional boolean`
-
-    When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.
-
-  - `streamKey: optional string`
-
-    The streamKey used to authenticate against an output's target.
-
-  - `uid: optional string`
-
-    A unique identifier for the output.
-
-  - `url: optional string`
-
-    The URL an output uses to restream.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER/outputs/$OUTPUT_IDENTIFIER \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true,
-    "streamKey": "uzya-f19y-g2g9-a2ee-51j2",
-    "uid": "baea4d9c515887b80289d5c33cf01145",
-    "url": "rtmp://a.rtmp.youtube.com/live2"
-  }
-}
-```
-
-## Delete an output
-
-**delete** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}/outputs/{output_identifier}`
-
-Deletes an output and removes it from the associated live input.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `live_input_identifier: string`
-
-  A unique identifier for a live input.
-
-- `output_identifier: string`
-
-  A unique identifier for the output.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER/outputs/$OUTPUT_IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{}
-```
-
-## Domain Types
-
-### Output
-
-- `Output object { enabled, streamKey, uid, url }`
-
-  - `enabled: optional boolean`
-
-    When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.
-
-  - `streamKey: optional string`
-
-    The streamKey used to authenticate against an output's target.
-
-  - `uid: optional string`
-
-    A unique identifier for the output.
-
-  - `url: optional string`
-
-    The URL an output uses to restream.
-
-# Watermarks
-
-## List watermark profiles
-
-**get** `/accounts/{account_id}/stream/watermarks`
-
-Lists all watermark profiles for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Watermark`
-
-  - `created: optional string`
-
-    The date and a time a watermark profile was created.
-
-  - `downloadedFrom: optional string`
-
-    The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-  - `height: optional number`
-
-    The height of the image in pixels.
-
-  - `name: optional string`
-
-    A short description of the watermark profile.
-
-  - `opacity: optional number`
-
-    The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-  - `padding: optional number`
-
-    The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-  - `position: optional string`
-
-    The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-  - `scale: optional number`
-
-    The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-  - `size: optional number`
-
-    The size of the image in bytes.
-
-  - `uid: optional string`
-
-    The unique identifier for a watermark profile.
-
-  - `width: optional number`
-
-    The width of the image in pixels.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/watermarks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created": "2014-01-02T02:20:00Z",
-      "downloadedFrom": "https://company.com/logo.png",
-      "height": 0,
-      "name": "Marketing Videos",
-      "opacity": 0.75,
-      "padding": 0.1,
-      "position": "center",
-      "scale": 0.1,
-      "size": 29472,
-      "uid": "ea95132c15732412d22c1476fa83f27a",
-      "width": 0
-    }
-  ]
-}
-```
-
-## Watermark profile details
-
-**get** `/accounts/{account_id}/stream/watermarks/{identifier}`
-
-Retrieves details for a single watermark profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-- `identifier: string`
-
-  The unique identifier for a watermark profile.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Watermark`
-
-  - `created: optional string`
-
-    The date and a time a watermark profile was created.
-
-  - `downloadedFrom: optional string`
-
-    The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-  - `height: optional number`
-
-    The height of the image in pixels.
-
-  - `name: optional string`
-
-    A short description of the watermark profile.
-
-  - `opacity: optional number`
-
-    The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-  - `padding: optional number`
-
-    The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-  - `position: optional string`
-
-    The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-  - `scale: optional number`
-
-    The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-  - `size: optional number`
-
-    The size of the image in bytes.
-
-  - `uid: optional string`
-
-    The unique identifier for a watermark profile.
-
-  - `width: optional number`
-
-    The width of the image in pixels.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/watermarks/$IDENTIFIER \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "downloadedFrom": "https://company.com/logo.png",
-    "height": 0,
-    "name": "Marketing Videos",
-    "opacity": 0.75,
-    "padding": 0.1,
-    "position": "center",
-    "scale": 0.1,
-    "size": 29472,
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "width": 0
-  }
-}
-```
-
-## Create watermark profiles via basic upload
-
-**post** `/accounts/{account_id}/stream/watermarks`
-
-Creates watermark profiles using a single `HTTP POST multipart/form-data` request.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Body Parameters
-
-- `name: optional string`
-
-  A short description of the watermark profile.
-
-- `opacity: optional number`
-
-  The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-- `padding: optional number`
-
-  The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-- `position: optional string`
-
-  The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-- `scale: optional number`
-
-  The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-- `url: optional string`
-
-  URL of the watermark image to copy.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Watermark`
-
-  - `created: optional string`
-
-    The date and a time a watermark profile was created.
-
-  - `downloadedFrom: optional string`
-
-    The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-  - `height: optional number`
-
-    The height of the image in pixels.
-
-  - `name: optional string`
-
-    A short description of the watermark profile.
-
-  - `opacity: optional number`
-
-    The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-  - `padding: optional number`
-
-    The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-  - `position: optional string`
-
-    The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-  - `scale: optional number`
-
-    The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-  - `size: optional number`
-
-    The size of the image in bytes.
-
-  - `uid: optional string`
-
-    The unique identifier for a watermark profile.
-
-  - `width: optional number`
-
-    The width of the image in pixels.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/watermarks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Marketing Videos",
-          "opacity": 0.75,
-          "padding": 0.1,
-          "position": "center",
-          "scale": 0.1
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created": "2014-01-02T02:20:00Z",
-    "downloadedFrom": "https://company.com/logo.png",
-    "height": 0,
-    "name": "Marketing Videos",
-    "opacity": 0.75,
-    "padding": 0.1,
-    "position": "center",
-    "scale": 0.1,
-    "size": 29472,
-    "uid": "ea95132c15732412d22c1476fa83f27a",
-    "width": 0
-  }
-}
-```
-
-## Delete watermark profiles
-
-**delete** `/accounts/{account_id}/stream/watermarks/{identifier}`
-
-Deletes a watermark profile.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-- `identifier: string`
-
-  The unique identifier for a watermark profile.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/watermarks/$IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": ""
-}
-```
-
-## Domain Types
-
-### Watermark
-
-- `Watermark object { created, downloadedFrom, height, 8 more }`
-
-  - `created: optional string`
-
-    The date and a time a watermark profile was created.
-
-  - `downloadedFrom: optional string`
-
-    The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
-
-  - `height: optional number`
-
-    The height of the image in pixels.
-
-  - `name: optional string`
-
-    A short description of the watermark profile.
-
-  - `opacity: optional number`
-
-    The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
-
-  - `padding: optional number`
-
-    The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
-
-  - `position: optional string`
-
-    The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
-
-  - `scale: optional number`
-
-    The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
-
-  - `size: optional number`
-
-    The size of the image in bytes.
-
-  - `uid: optional string`
-
-    The unique identifier for a watermark profile.
-
-  - `width: optional number`
-
-    The width of the image in pixels.
-
-### Watermark Delete Response
-
-- `WatermarkDeleteResponse = string`
-
-# Webhooks
-
-## View webhooks
-
-**get** `/accounts/{account_id}/stream/webhook`
-
-Retrieves a list of webhooks.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { modified, notification_url, notificationUrl, secret }`
-
-  - `modified: optional string`
-
-    The date and time the webhook was last modified.
-
-  - `notification_url: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `notificationUrl: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `secret: optional string`
-
-    The secret used to verify webhook signatures.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "modified": "2014-01-02T02:20:00Z",
-    "notification_url": "https://example.com",
-    "notificationUrl": "https://example.com",
-    "secret": "secret"
-  }
-}
-```
-
-## Create webhooks
-
-**put** `/accounts/{account_id}/stream/webhook`
-
-Creates a webhook notification.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Body Parameters
-
-- `notification_url: optional string`
-
-  The URL where webhooks will be sent.
-
-- `notificationUrl: optional string`
-
-  The URL where webhooks will be sent.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { modified, notification_url, notificationUrl, secret }`
-
-  - `modified: optional string`
-
-    The date and time the webhook was last modified.
-
-  - `notification_url: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `notificationUrl: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `secret: optional string`
-
-    The secret used to verify webhook signatures.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "notification_url": "https://example.com",
-          "notificationUrl": "https://example.com"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "modified": "2014-01-02T02:20:00Z",
-    "notification_url": "https://example.com",
-    "notificationUrl": "https://example.com",
-    "secret": "secret"
-  }
-}
-```
-
-## Delete webhooks
-
-**delete** `/accounts/{account_id}/stream/webhook`
-
-Deletes a webhook.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/webhook \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "ok"
-}
-```
-
-## Domain Types
-
-### Webhook Get Response
-
-- `WebhookGetResponse object { modified, notification_url, notificationUrl, secret }`
-
-  - `modified: optional string`
-
-    The date and time the webhook was last modified.
-
-  - `notification_url: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `notificationUrl: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `secret: optional string`
-
-    The secret used to verify webhook signatures.
-
-### Webhook Update Response
-
-- `WebhookUpdateResponse object { modified, notification_url, notificationUrl, secret }`
-
-  - `modified: optional string`
-
-    The date and time the webhook was last modified.
-
-  - `notification_url: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `notificationUrl: optional string`
-
-    The URL where webhooks will be sent.
-
-  - `secret: optional string`
-
-    The secret used to verify webhook signatures.
-
-### Webhook Delete Response
-
-- `WebhookDeleteResponse = string`
-
-# Captions
-
-## List captions or subtitles
-
-**get** `/accounts/{account_id}/stream/{identifier}/captions`
-
-Lists the available captions or subtitles for a specific video.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Caption`
-
-  - `generated: optional boolean`
-
-    Whether the caption was generated via AI.
-
-  - `label: optional string`
-
-    The language label displayed in the native language to users.
-
-  - `language: optional string`
-
-    The language tag in BCP 47 format.
-
-  - `status: optional "ready" or "inprogress" or "error"`
-
-    The status of a generated caption.
-
-    - `"ready"`
-
-    - `"inprogress"`
-
-    - `"error"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/captions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "generated": true,
-      "label": "Türkçe",
-      "language": "tr",
-      "status": "ready"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Caption
-
-- `Caption object { generated, label, language, status }`
-
-  - `generated: optional boolean`
-
-    Whether the caption was generated via AI.
-
-  - `label: optional string`
-
-    The language label displayed in the native language to users.
-
-  - `language: optional string`
-
-    The language tag in BCP 47 format.
-
-  - `status: optional "ready" or "inprogress" or "error"`
-
-    The status of a generated caption.
-
-    - `"ready"`
-
-    - `"inprogress"`
-
-    - `"error"`
-
-# Language
-
-## List captions or subtitles for a provided language
-
-**get** `/accounts/{account_id}/stream/{identifier}/captions/{language}`
-
-Lists the captions or subtitles for provided language.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-- `language: string`
-
-  The language tag in BCP 47 format.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Caption`
-
-  - `generated: optional boolean`
-
-    Whether the caption was generated via AI.
-
-  - `label: optional string`
-
-    The language label displayed in the native language to users.
-
-  - `language: optional string`
-
-    The language tag in BCP 47 format.
-
-  - `status: optional "ready" or "inprogress" or "error"`
-
-    The status of a generated caption.
-
-    - `"ready"`
-
-    - `"inprogress"`
-
-    - `"error"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/captions/$LANGUAGE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "generated": true,
-    "label": "Türkçe",
-    "language": "tr",
-    "status": "ready"
-  }
-}
-```
-
-## Generate captions or subtitles for a provided language via AI
-
-**post** `/accounts/{account_id}/stream/{identifier}/captions/{language}/generate`
-
-Generate captions or subtitles for provided language via AI.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-- `language: string`
-
-  The language tag in BCP 47 format.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Caption`
-
-  - `generated: optional boolean`
-
-    Whether the caption was generated via AI.
-
-  - `label: optional string`
-
-    The language label displayed in the native language to users.
-
-  - `language: optional string`
-
-    The language tag in BCP 47 format.
-
-  - `status: optional "ready" or "inprogress" or "error"`
-
-    The status of a generated caption.
-
-    - `"ready"`
-
-    - `"inprogress"`
-
-    - `"error"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/captions/$LANGUAGE/generate \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "generated": true,
-    "label": "Türkçe",
-    "language": "tr",
-    "status": "ready"
-  }
-}
-```
-
-## Upload captions or subtitles
-
-**put** `/accounts/{account_id}/stream/{identifier}/captions/{language}`
-
-Uploads the caption or subtitle file to the endpoint for a specific BCP47 language. One caption or subtitle file per language is allowed.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-- `language: string`
-
-  The language tag in BCP 47 format.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Caption`
-
-  - `generated: optional boolean`
-
-    Whether the caption was generated via AI.
-
-  - `label: optional string`
-
-    The language label displayed in the native language to users.
-
-  - `language: optional string`
-
-    The language tag in BCP 47 format.
-
-  - `status: optional "ready" or "inprogress" or "error"`
-
-    The status of a generated caption.
-
-    - `"ready"`
-
-    - `"inprogress"`
-
-    - `"error"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/captions/$LANGUAGE \
-    -X PUT \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F file=@/Users/kyle/Desktop/tr.vtt
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "generated": true,
-    "label": "Türkçe",
-    "language": "tr",
-    "status": "ready"
-  }
-}
-```
-
-## Delete captions or subtitles
-
-**delete** `/accounts/{account_id}/stream/{identifier}/captions/{language}`
-
-Removes the captions or subtitles from a video.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-- `language: string`
-
-  The language tag in BCP 47 format.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/captions/$LANGUAGE \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": ""
-}
-```
-
-## Domain Types
-
-### Language Delete Response
-
-- `LanguageDeleteResponse = string`
-
-# Vtt
-
-## Return WebVTT captions for a provided language
-
-**get** `/accounts/{account_id}/stream/{identifier}/captions/{language}/vtt`
-
-Return WebVTT captions for a provided language.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-- `language: string`
-
-  The language tag in BCP 47 format.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/captions/$LANGUAGE/vtt \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### Vtt Get Response
-
-- `VttGetResponse = string`
-
-# Downloads
-
-## List downloads
-
-**get** `/accounts/{account_id}/stream/{identifier}/downloads`
-
-Lists the downloads created for a video.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { audio, default }`
-
-  An object with download type keys. Each key is optional and only present if that download type has been created.
-
-  - `audio: optional object { percentComplete, status, url }`
-
-    The audio-only download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-  - `default: optional object { percentComplete, status, url }`
-
-    The default video download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/downloads \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "audio": {
-      "percentComplete": 0,
-      "status": "ready",
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
-    },
-    "default": {
-      "percentComplete": 0,
-      "status": "ready",
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
-    }
-  }
-}
-```
-
-## Create downloads
-
-**post** `/accounts/{account_id}/stream/{identifier}/downloads`
-
-Creates a download for a video when a video is ready to view. Use `/downloads/{download_type}` instead for type-specific downloads. Available types are `default` and `audio`.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { audio, default }`
-
-  An object with download type keys. Each key is optional and only present if that download type has been created.
-
-  - `audio: optional object { percentComplete, status, url }`
-
-    The audio-only download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-  - `default: optional object { percentComplete, status, url }`
-
-    The default video download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/downloads \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "audio": {
-      "percentComplete": 0,
-      "status": "ready",
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
-    },
-    "default": {
-      "percentComplete": 0,
-      "status": "ready",
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
-    }
-  }
-}
-```
-
-## Delete downloads
-
-**delete** `/accounts/{account_id}/stream/{identifier}/downloads`
-
-Delete the downloads for a video. Use `/downloads/{download_type}` instead for type-specific downloads. Available types are `default` and `audio`.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/downloads \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "ok"
-}
-```
-
-## Domain Types
-
-### Download Get Response
-
-- `DownloadGetResponse object { audio, default }`
-
-  An object with download type keys. Each key is optional and only present if that download type has been created.
-
-  - `audio: optional object { percentComplete, status, url }`
-
-    The audio-only download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-  - `default: optional object { percentComplete, status, url }`
-
-    The default video download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-### Download Create Response
-
-- `DownloadCreateResponse object { audio, default }`
-
-  An object with download type keys. Each key is optional and only present if that download type has been created.
-
-  - `audio: optional object { percentComplete, status, url }`
-
-    The audio-only download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-  - `default: optional object { percentComplete, status, url }`
-
-    The default video download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-### Download Delete Response
-
-- `DownloadDeleteResponse = string`
-
-# Embed
-
-## Retrieve embed Code HTML
-
-**get** `/accounts/{account_id}/stream/{identifier}/embed`
-
-Fetches an HTML code snippet to embed a video in a web page delivered through Cloudflare. On success, returns an HTML fragment for use on web pages to display a video. On failure, returns a JSON response body.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/embed \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### Embed Get Response
-
-- `EmbedGetResponse = string`
-
-# Token
-
-## Create signed URL tokens for videos
-
-**post** `/accounts/{account_id}/stream/{identifier}/token`
-
-Creates a signed URL token for a video. If a body is not provided in the request, a token is created with default values.
-
-### Path Parameters
-
-- `account_id: string`
-
-  The account identifier tag.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-### Body Parameters
-
-- `id: optional string`
-
-  The optional ID of a Stream signing key. If present, the `pem` field is also required.
-
-- `accessRules: optional array of object { action, country, ip, type }`
-
-  The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rule matches, the associated action is applied and no further rules are evaluated.
-
-  - `action: optional "allow" or "block"`
-
-    The action to take when a request matches a rule. If the action is `block`, the signed token blocks views for viewers matching the rule.
-
-    - `"allow"`
-
-    - `"block"`
-
-  - `country: optional array of string`
-
-    An array of 2-letter country codes in ISO 3166-1 Alpha-2 format used to match requests.
-
-  - `ip: optional array of string`
-
-    An array of IPv4 or IPV6 addresses or CIDRs used to match requests.
-
-  - `type: optional "any" or "ip.src" or "ip.geoip.country"`
-
-    Lists available rule types to match for requests. An `any` type matches all requests and can be used as a wildcard to apply default actions after other rules.
-
-    - `"any"`
-
-    - `"ip.src"`
-
-    - `"ip.geoip.country"`
-
-- `downloadable: optional boolean`
-
-  The optional boolean value that enables using signed tokens to access MP4 download links for a video.
-
-- `exp: optional number`
-
-  The optional unix epoch timestamp that specficies the time after a token is not accepted. The maximum time specification is 24 hours from issuing time. If this field is not set, the default is one hour after issuing.
-
-- `flags: optional object { original }`
-
-  Optional flags for the signed token.
-
-  - `original: optional boolean`
-
-    Whether to return the original video without transformations.
-
-- `nbf: optional number`
-
-  The optional unix epoch timestamp that specifies the time before a the token is not accepted. If this field is not set, the default is one hour before issuing.
-
-- `pem: optional string`
-
-  The optional base64 encoded private key in PEM format associated with a Stream signing key. If present, the `id` field is also required.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { token }`
-
-  - `token: optional string`
-
-    The signed token used with the signed URLs feature.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/token \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "ab0d4ef71g4425f8dcba9041231813000",
-          "accessRules": [
-            {
-              "action": "block",
-              "country": [
-                "US",
-                "MX"
-              ],
-              "type": "ip.geoip.country"
-            },
-            {
-              "action": "allow",
-              "ip": [
-                "93.184.216.0/24",
-                "2400:cb00::/32"
-              ],
-              "type": "ip.src"
-            },
-            {
-              "action": "block",
-              "type": "any"
-            }
-          ],
-          "pem": "LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBc284dnBvOFpEWXRkOUgzbWlPaW1qYXAzVXlVM0oyZ3kwTUYvN1R4blJuRnkwRHpDCkxqUk9naFZsQ0hPQmxsd3NVaE9GU0lyYnN4K05tUTdBeS90TFpXSGxuVGF3UWJ5WGZGOStJeDhVSnNlSHBGV1oKNVF5Z1JYd2liSjh1MVVsZ2xlcmZHMkpueldjVXpZTzEySktZN3doSkw1ajROMWgxZFJNUXQ5Q1pkZFlCQWRzOQpCdk02cjRFMDcxQkhQekhWeDMrUTI1VWtubGdUNXIwS3FiM1E1Y0dlTlBXY1JreW1ybkJEWWR0OXR4eFFMb1dPCllzNXdsMnVYWFVYL0VGcDMwajU0Nmp6czllWExLYlNDbjJjTDZFVE96Y2x3aG9DRGx2a2VQT05rUE9LMDVKNUMKTm1TdFdhMG9hV1VGRzM0MFl3cVVrWGt4OU9tNndXd1JldU1uU1FJREFRQUJBb0lCQUFJOHo1ck5kOEdtOGJBMgo1S3pxQjI1R2lOVENwbUNJeW53NXRJWHZTQmNHcEdydUcvdlN2WG9kVlFVSVY0TWdHQkVXUEFrVzdsNWVBcHI4CnA1ZFd5SkRXYTNkdklFSE9vSEpYU3dBYksxZzZEMTNVa2NkZ1EyRGpoNVhuWDhHZCtBY2c2SmRTQWgxOWtYSHEKMk54RUtBVDB6Ri83a1g2MkRkREFBcWxmQkpGSXJodVIvZUdEVWh4L2piTTRhQ2JCcFdiM0pnRE9OYm5tS1ZoMwpxS2ZwZmRZZENZU1lzWUxrNTlxRDF2VFNwUVFUQ0VadW9VKzNzRVNhdkJzaUs1bU0vTzY5ZkRMRXNURG1MeTVQCmhEK3BMQXI0SlhNNjFwRGVBS0l3cUVqWWJybXlDRHRXTUdJNnZzZ0E1eXQzUUJaME9vV2w5QUkwdWxoZ3p4dXQKZ2ZFNTRRRUNnWUVBN0F3a0lhVEEzYmQ4Nk9jSVZnNFlrWGk1cm5aNDdsM1k4V24zcjIzUmVISXhLdkllRUtSbgp5bUlFNDFtRVBBSmlGWFpLK1VPTXdkeS9EcnFJUithT1JiT2NiV01jWUg2QzgvbG1wdVJFaXE3SW1Ub3VWcnA4CnlnUkprMWprVDA4cTIvNmg4eTBEdjJqMitsaHFXNzRNOUt0cmwxcTRlWmZRUFREL01tR1NnTWtDZ1lFQXdhY04KaSttN1p6dnJtL3NuekF2VlZ5SEtwZHVUUjNERk1naC9maC9tZ0ZHZ1RwZWtUOVV5b3FleGNYQXdwMVlhL01iQQoyNTVJVDZRbXZZTm5yNXp6Wmxic2tMV0hsYllvbWhmWnVXTHhXR3hRaEFORWdaMFVVdUVTRGMvbWx2UXZHbEtSCkZoaGhBUWlVSmdDamhPaHk1SlBiNGFldGRKd0UxK09lVWRFaE1vRUNnWUVBNG8yZ25CM1o4ck5xa3NzemlBek4KYmNuMlJVbDJOaW9pejBwS3JMaDFaT29NNE5BekpQdjJsaHRQMzdtS0htS1hLMHczRjFqTEgwSTBxZmxFVmVZbQpSU1huakdHazJjUnpBYUVzOGgrQzNheDE0Z01pZUtGU3BqNUpNOEFNbVVZOXQ1cUVhN2FYc3o0V1ZoOUlMYmVTCkRiNzlhKzVwd21LQVBrcnBsTHhyZFdrQ2dZQlNNSHVBWVdBbmJYZ1BDS2FZWklGVWJNUWNacmY0ZnpWQ2lmYksKYWZHampvRlNPZXdEOGdGK3BWdWJRTGwxbkFieU44ek1xVDRaaHhybUhpcFlqMjJDaHV2NmN3RXJtbGRiSnpwQwpBMnRaVXdkTk1ESFlMUG5lUHlZeGRJWnlsUXFVeW14SGkydElUQUxNcWtLOGV3ZWdXZHpkeGhQSlJScU5JazhrCmZIVHhnUUtCZ1FEUFc2UXIxY3F3QjNUdnVWdWR4WGRqUTdIcDFodXhrNEVWaEFJZllKNFhSTW1NUE5YS28wdHUKdUt6LzE0QW14R0dvSWJxYVc1bDMzeFNteUxhem84clNUN0tSTjVKME9JSHcrZkR5SFgxdHpVSjZCTldDcEFTcwpjbWdNK0htSzVON0w2bkNaZFJQY2IwU1hGaVRQUGhCUG1PVWFDUnpER0ZMK2JYM1VwajJKbWc9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo="
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImU5ZGI5OTBhODI2NjZkZDU3MWM3N2Y5NDRhNWM1YzhkIn0.eyJzdWIiOiJlYTk1MTMyYzE1NzMyNDEyZDIyYzE0NzZmYTgzZjI3YSIsImtpZCI6ImU5ZGI5OTBhODI2NjZkZDU3MWM3N2Y5NDRhNWM1YzhkIiwiZXhwIjoiMTUzNzQ2MDM2NSIsIm5iZiI6IjE1Mzc0NTMxNjUifQ.OZhqOARADn1iubK6GKcn25hN3nU-hCFF5q9w2C4yup0C4diG7aMIowiRpP-eDod8dbAJubsiFuTKrqPcmyCKWYsiv0TQueukqbQlF7HCO1TV-oF6El5-7ldJ46eD-ZQ0XgcIYEKrQOYFF8iDQbqPm3REWd6BnjKZdeVrLzuRaiSnZ9qqFpGu5dfxIY9-nZKDubJHqCr3Imtb211VIG_b9MdtO92JjvkDS-rxT_pkEfTZSafl1OU-98A7KBGtPSJHz2dHORIrUiTA6on4eIXTj9aFhGiir4rSn-rn0OjPRTtJMWIDMoQyE_fwrSYzB7MPuzL2t82BWaEbHZTfixBm5A"
-  }
-}
-```
-
-## Domain Types
-
-### Token Create Response
-
-- `TokenCreateResponse object { token }`
-
-  - `token: optional string`
-
-    The signed token used with the signed URLs feature.
+[Link to this property](#)%20stream.token%20%3E%20(model)%20token_create_response%20%3E%20(schema)>)

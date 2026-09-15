@@ -1,247 +1,596 @@
-## List devices
+---
+title: List devices
+---
 
-**get** `/accounts/{account_id}/devices/physical-devices`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/devices)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List devices
+
+GET/accounts/{account\_id}/devices/physical-devices
 
 Lists WARP devices.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `id: optional array of string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  Filter by a one or more device IDs.
+##### P ath ParametersExpand Collapse
 
-- `active_registrations: optional "include" or "only" or "exclude"`
+account\_id: string
 
-  Include or exclude devices with active registrations. The default is "only" - return only devices with active registrations.
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"include"`
+##### Q uery ParametersExpand Collapse
 
-  - `"only"`
+id: optional array of string
 
-  - `"exclude"`
+Filter by a one or more device IDs.
 
-- `cursor: optional string`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-  Opaque token indicating the starting position when requesting the next set of records. A cursor value can be obtained from the result_info.cursor field in the response.
+<details>
 
-- `include: optional string`
+<summary>
 
-  Comma-separated list of additional information that should be included in the device response. Supported values are: "last_seen_registration.policy".
+active\_registrations: optional "include"or "only"or "exclude"
 
-- `last_seen_user: optional object { email }`
+Include or exclude devices with active registrations. The default is “only” - return only devices with active registrations.
 
-  - `email: optional string`
+</summary>
 
-    Filter by the last seen user's email.
+One of the following:
 
-- `per_page: optional number`
+"include"
 
-  The maximum number of devices to return in a single response.
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+"only"
 
-  Search by device details.
+<a href="#">Link to this property</a>
 
-- `seen_after: optional string`
+"exclude"
 
-  Filter by the last_seen timestamp - returns only devices last seen after this timestamp.
+<a href="#">Link to this property</a>
 
-- `seen_before: optional string`
+</details>
 
-  Filter by the last_seen timestamp - returns only devices last seen before this timestamp.
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20active_registrations%20%3E%20(schema)>)
 
-- `sort_by: optional "name" or "id" or "client_version" or 4 more`
+cursor: optional string
 
-  The device field to order results by.
+Opaque token indicating the starting position when requesting the next set of records. A cursor value can be obtained from the result\_info.cursor field in the response.
 
-  - `"name"`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cursor%20%3E%20(schema)>)
 
-  - `"id"`
+include: optional string
 
-  - `"client_version"`
+Comma-separated list of additional information that should be included in the device response. Supported values are: “last\_seen\_registration.policy”.
 
-  - `"last_seen_user.email"`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20include%20%3E%20(schema)>)
 
-  - `"last_seen_at"`
+<details>
 
-  - `"active_registrations"`
+<summary>
 
-  - `"created_at"`
+last\_seen\_registration: optional object {policy }
 
-- `sort_order: optional "asc" or "desc"`
+</summary>
 
-  Sort direction.
+policy: optional string
 
-  - `"asc"`
+Filter by the ID of the device settings profile assigned to the device registration.
 
-  - `"desc"`
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20last_seen_registration%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-- `messages: array of object { code, message }`
+<summary>
 
-  - `code: number`
+last\_seen\_user: optional object {email }
 
-  - `message: string`
+</summary>
 
-- `result: array of object { id, active_registrations, created_at, 16 more }`
+email: optional string
 
-  - `id: string`
+Filter by the last seen user’s email.
 
-    The unique ID of the device.
+<a href="#">Link to this property</a>
 
-  - `active_registrations: number`
+</details>
 
-    The number of active registrations for the device. Active registrations are those which haven't been revoked or deleted.
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20last_seen_user%20%3E%20(schema)>)
 
-  - `created_at: string`
+per\_page: optional number
 
-    The RFC3339 timestamp when the device was created.
+The maximum number of devices to return in a single response.
 
-  - `last_seen_at: string`
+formatuint64
 
-    The RFC3339 timestamp when the device was last seen.
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `name: string`
+search: optional string
 
-    The name of the device.
+Search by device details.
 
-  - `updated_at: string`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
 
-    The RFC3339 timestamp when the device was last updated.
+seen\_after: optional string
 
-  - `client_version: optional string`
+Filter by the last\_seen timestamp - returns only devices last seen after this timestamp.
 
-    Version of the WARP client.
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20seen_after%20%3E%20(schema)>)
 
-  - `deleted_at: optional string`
+seen\_before: optional string
 
-    The RFC3339 timestamp when the device was deleted.
+Filter by the last\_seen timestamp - returns only devices last seen before this timestamp.
 
-  - `device_type: optional string`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20seen_before%20%3E%20(schema)>)
 
-    The device operating system.
+<details>
 
-  - `hardware_id: optional string`
+<summary>
 
-    A string that uniquely identifies the hardware or virtual machine (VM).
+sort\_by: optional "name"or "id"or "client\_version"or 4 more
 
-  - `last_seen_registration: optional object { policy }`
+The device field to order results by.
 
-    The last seen registration for the device.
+</summary>
 
-    - `policy: optional object { id, default, deleted, 2 more }`
+One of the following:
 
-      A summary of the device profile evaluated for the registration.
+"name"
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        The ID of the device settings profile.
+"id"
 
-      - `default: boolean`
+<a href="#">Link to this property</a>
 
-        Whether the device settings profile is the default profile for the account.
+"client\_version"
 
-      - `deleted: boolean`
+<a href="#">Link to this property</a>
 
-        Whether the device settings profile was deleted.
+"last\_seen\_user.email"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        The name of the device settings profile.
+"last\_seen\_at"
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-        The RFC3339 timestamp of when the device settings profile last changed for the registration.
+"active\_registrations"
 
-  - `last_seen_user: optional object { id, email, name }`
+<a href="#">Link to this property</a>
 
-    The last user to use the WARP device.
+"created\_at"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID.
+</details>
 
-    - `email: optional string`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sort_by%20%3E%20(schema)>)
 
-      The contact email address of the user.
+<details>
 
-    - `name: optional string`
+<summary>
 
-      The enrolled device user's name.
+sort\_order: optional "asc"or "desc"
 
-  - `mac_address: optional string`
+Sort direction.
 
-    The device MAC address.
+</summary>
 
-  - `manufacturer: optional string`
+One of the following:
 
-    The device manufacturer.
+"asc"
 
-  - `model: optional string`
+<a href="#">Link to this property</a>
 
-    The model name of the device.
+"desc"
 
-  - `os_version: optional string`
+<a href="#">Link to this property</a>
 
-    The device operating system version number.
+</details>
 
-  - `os_version_extra: optional string`
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sort_order%20%3E%20(schema)>)
 
-    Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+##### ReturnsExpand Collapse
 
-  - `public_ip: optional string`
+<details>
 
-    **Deprecated**: IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/
+<summary>
 
-  - `serial_number: optional string`
+errors: array of object {code, message }
 
-    The device serial number.
+</summary>
 
-- `success: boolean`
+code: number
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, cursor, per_page, total_count }`
+message: string
 
-  V4 public API Pagination/Cursor info.
+<a href="#">Link to this property</a>
 
-  - `count: number`
+</details>
 
-    Number of records in the response.
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `cursor: string`
+<details>
 
-    Opaque token to request the next set of records.
+<summary>
 
-  - `per_page: number`
+messages: array of object {code, message }
 
-    The limit for the number of records in the response.
+</summary>
 
-  - `total_count: optional number`
+code: number
 
-    Total number of records available.
+<a href="#">Link to this property</a>
 
-### Example
+message: string
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {id, active\_registrations, created\_at, 16 more }
+
+</summary>
+
+id: string
+
+The unique ID of the device.
+
+<a href="#">Link to this property</a>
+
+active\_registrations: number
+
+The number of active registrations for the device. Active registrations are those which haven’t been revoked or deleted.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+The RFC3339 timestamp when the device was created.
+
+<a href="#">Link to this property</a>
+
+last\_seen\_at: string
+
+The RFC3339 timestamp when the device was last seen.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the device.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+The RFC3339 timestamp when the device was last updated.
+
+<a href="#">Link to this property</a>
+
+client\_version: optional string
+
+Version of the WARP client.
+
+<a href="#">Link to this property</a>
+
+deleted\_at: optional string
+
+The RFC3339 timestamp when the device was deleted.
+
+<a href="#">Link to this property</a>
+
+device\_type: optional string
+
+The device operating system.
+
+<a href="#">Link to this property</a>
+
+hardware\_id: optional string
+
+A string that uniquely identifies the hardware or virtual machine (VM).
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+last\_seen\_registration: optional object {policy }
+
+The last seen registration for the device.
+
+</summary>
+
+<details>
+
+<summary>
+
+policy: optional object {id, default, deleted, 2 more }
+
+A summary of the device profile evaluated for the registration.
+
+</summary>
+
+id: string
+
+The ID of the device settings profile.
+
+<a href="#">Link to this property</a>
+
+default: boolean
+
+Whether the device settings profile is the default profile for the account.
+
+<a href="#">Link to this property</a>
+
+deleted: boolean
+
+Whether the device settings profile was deleted.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the device settings profile.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+The RFC3339 timestamp of when the device settings profile last changed for the registration.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+last\_seen\_user: optional object {id, email, name }
+
+The last user to use the WARP device.
+
+</summary>
+
+id: optional string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+The contact email address of the user.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The enrolled device user’s name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+mac\_address: optional string
+
+The device MAC address.
+
+<a href="#">Link to this property</a>
+
+manufacturer: optional string
+
+The device manufacturer.
+
+<a href="#">Link to this property</a>
+
+model: optional string
+
+The model name of the device.
+
+<a href="#">Link to this property</a>
+
+os\_version: optional string
+
+The device operating system version number.
+
+<a href="#">Link to this property</a>
+
+os\_version\_extra: optional string
+
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+
+<a href="#">Link to this property</a>
+
+Deprecatedpublic\_ip: optional string
+
+**Deprecated**: IP information is provided by DEX - see <a href="https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list/">https://developers.cloudflare.com/api/resources/zero\_trust/subresources/dex/subresources/fleet\_status/subresources/devices/methods/list/</a>
+
+<a href="#">Link to this property</a>
+
+serial\_number: optional string
+
+The device serial number.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, cursor, per\_page, total\_count }
+
+V4 public API Pagination/Cursor info.
+
+</summary>
+
+count: number
+
+Number of records in the response.
+
+<a href="#">Link to this property</a>
+
+cursor: string
+
+Opaque token to request the next set of records.
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+The limit for the number of records in the response.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total number of records available.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.devices%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List devices
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/physical-devices \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": [
+    {
+      "id": "fc9ab6ab-3b94-4319-9941-459462b3d73e",
+      "active_registrations": 1,
+      "created_at": "2025-02-14T13:17:00Z",
+      "last_seen_at": "2025-02-14T13:17:00Z",
+      "name": "My Device",
+      "updated_at": "2025-02-14T13:17:00Z",
+      "client_version": "1.0.0",
+      "deleted_at": "2025-02-14T13:17:00Z",
+      "device_type": "linux",
+      "hardware_id": "hardware_id",
+      "last_seen_registration": {
+        "policy": {
+          "id": "11ffb86f-3f0c-4306-b4a2-e62f872b166a",
+          "default": true,
+          "deleted": true,
+          "name": "name",
+          "updated_at": "2025-02-14T13:17:00Z"
+        }
+      },
+      "last_seen_user": {
+        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+        "email": "user@example.com",
+        "name": "John Appleseed"
+      },
+      "mac_address": "f5:01:73:cf:12:23",
+      "manufacturer": "ACME",
+      "model": "Mark VII",
+      "os_version": "os_version",
+      "os_version_extra": "os_version_extra",
+      "public_ip": "1.1.1.1",
+      "serial_number": "ABS765ASD8A"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "cursor": "ais86dftf.asdf7ba8",
+    "per_page": 10,
+    "total_count": null
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,5307 +1,2555 @@
+---
+title: Queues
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Queues
 
-## List Queues
+##### [List Queues](https://developers.cloudflare.com/api/resources/queues/methods/list)
 
-**get** `/accounts/{account_id}/queues`
+GET/accounts/{account\_id}/queues
 
-Returns the queues owned by an account.
+##### [Get Queue](https://developers.cloudflare.com/api/resources/queues/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/queues/{queue\_id}
 
-- `account_id: string`
+##### [Get Queue Metrics](https://developers.cloudflare.com/api/resources/queues/methods/get_metrics)
 
-  A Resource identifier.
+GET/accounts/{account\_id}/queues/{queue\_id}/metrics
 
-### Returns
+##### [Create Queue](https://developers.cloudflare.com/api/resources/queues/methods/create)
 
-- `errors: optional array of ResponseInfo`
+POST/accounts/{account\_id}/queues
 
-  - `code: number`
+##### [Update Queue](https://developers.cloudflare.com/api/resources/queues/methods/update)
 
-  - `message: string`
+PUT/accounts/{account\_id}/queues/{queue\_id}
 
-  - `documentation_url: optional string`
+##### [Update Queue](https://developers.cloudflare.com/api/resources/queues/methods/edit)
 
-  - `source: optional object { pointer }`
+PATCH/accounts/{account\_id}/queues/{queue\_id}
 
-    - `pointer: optional string`
+##### [Delete Queue](https://developers.cloudflare.com/api/resources/queues/methods/delete)
 
-- `messages: optional array of string`
+DELETE/accounts/{account\_id}/queues/{queue\_id}
 
-- `result: optional array of Queue`
+##### ModelsExpand Collapse
 
-  - `consumers: optional array of Consumer`
+<details>
 
-    - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+<summary>
 
-      - `consumer_id: optional string`
+Queue object {consumers, consumers\_total\_count, created\_on, 7 more }
 
-        A Resource identifier.
+</summary>
 
-      - `created_on: optional string`
+<details>
 
-      - `dead_letter_queue: optional string`
+<summary>
 
-        Name of the dead letter queue, or empty string if not configured
+consumers: optional array of <a href="https://developers.cloudflare.com/api/resources/queues#(resource)%20queues.consumers%20%3E%20(model)%20consumer%20%3E%20(schema)">Consumer</a>
 
-      - `queue_name: optional string`
+</summary>
 
-      - `script_name: optional string`
+One of the following:
 
-        Name of a Worker
+<details>
 
-      - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+<summary>
 
-        - `batch_size: optional number`
+Worker object {consumer\_id, created\_on, dead\_letter\_queue, 4 more }
 
-          The maximum number of messages to include in a batch.
+</summary>
 
-        - `max_concurrency: optional number`
+consumer\_id: optional string
 
-          Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+A Resource identifier.
 
-        - `max_retries: optional number`
+maxLength32
 
-          The maximum number of retries
+<a href="#">Link to this property</a>
 
-        - `max_wait_time_ms: optional number`
+created\_on: optional string
 
-          The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+formatdate-time
 
-        - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-          The number of seconds to delay before making the message available for another attempt.
+dead\_letter\_queue: optional string
 
-      - `type: optional "worker"`
+Name of the dead letter queue, or empty string if not configured
 
-        - `"worker"`
+<a href="#">Link to this property</a>
 
-    - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+queue\_name: optional string
 
-      - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-        A Resource identifier.
+script\_name: optional string
 
-      - `created_on: optional string`
+Name of a Worker
 
-      - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the dead letter queue, or empty string if not configured
+<details>
 
-      - `queue_name: optional string`
+<summary>
 
-      - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+settings: optional object {batch\_size, max\_concurrency, max\_retries, 2 more }
 
-        - `batch_size: optional number`
+</summary>
 
-          The maximum number of messages to include in a batch.
+batch\_size: optional number
 
-        - `max_retries: optional number`
+The maximum number of messages to include in a batch.
 
-          The maximum number of retries
+<a href="#">Link to this property</a>
 
-        - `retry_delay: optional number`
+max\_concurrency: optional number
 
-          The number of seconds to delay before making the message available for another attempt.
+Maximum number of concurrent consumers that may consume from this Queue. Set to <code>null</code> to automatically opt in to the platform’s maximum (recommended).
 
-        - `visibility_timeout_ms: optional number`
+<a href="#">Link to this property</a>
 
-          The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+max\_retries: optional number
 
-      - `type: optional "http_pull"`
+The maximum number of retries
 
-        - `"http_pull"`
+<a href="#">Link to this property</a>
 
-  - `consumers_total_count: optional number`
+max\_wait\_time\_ms: optional number
 
-  - `created_on: optional string`
+The number of milliseconds to wait for a batch to fill up before attempting to deliver it
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `producers: optional array of object { script, type }  or object { bucket_name, type }`
+retry\_delay: optional number
 
-    - `MqWorkerProducer object { script, type }`
+The number of seconds to delay before making the message available for another attempt.
 
-      - `script: optional string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "worker"`
+</details>
 
-        - `"worker"`
+<a href="#">Link to this property</a>
 
-    - `MqR2Producer object { bucket_name, type }`
+type: optional "worker"
 
-      - `bucket_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "r2_bucket"`
+</details>
 
-        - `"r2_bucket"`
+<a href="#">Link to this property</a>
 
-  - `producers_total_count: optional number`
+<details>
 
-  - `queue_id: optional string`
+<summary>
 
-  - `queue_name: optional string`
+HTTPPull object {consumer\_id, created\_on, dead\_letter\_queue, 3 more }
 
-  - `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+</summary>
 
-    - `delivery_delay: optional number`
+consumer\_id: optional string
 
-      Number of seconds to delay delivery of all messages to consumers.
+A Resource identifier.
 
-    - `delivery_paused: optional boolean`
+maxLength32
 
-      Indicates if message delivery to consumers is currently paused.
+<a href="#">Link to this property</a>
 
-    - `message_retention_period: optional number`
+created\_on: optional string
 
-      Number of seconds after which an unconsumed message will be delayed.
+formatdate-time
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+dead\_letter\_queue: optional string
 
-    Total number of queues
+Name of the dead letter queue, or empty string if not configured
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of queues
+queue\_name: optional string
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of queues per page
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total queues available without any search parameters
+settings: optional object {batch\_size, max\_retries, retry\_delay, visibility\_timeout\_ms }
 
-  - `total_pages: optional number`
+</summary>
 
-    Total pages available without any search parameters
+batch\_size: optional number
 
-- `success: optional true`
+The maximum number of messages to include in a batch.
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+max\_retries: optional number
 
-### Example
+The maximum number of retries
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+retry\_delay: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "consumers": [
-        {
-          "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-          "created_on": "2019-12-27T18:11:19.117Z",
-          "dead_letter_queue": "dead_letter_queue",
-          "queue_name": "example-queue",
-          "script_name": "my-consumer-worker",
-          "settings": {
-            "batch_size": 50,
-            "max_concurrency": 10,
-            "max_retries": 3,
-            "max_wait_time_ms": 5000,
-            "retry_delay": 10
-          },
-          "type": "worker"
-        }
-      ],
-      "consumers_total_count": 0,
-      "created_on": "created_on",
-      "modified_on": "modified_on",
-      "producers": [
-        {
-          "script": "script",
-          "type": "worker"
-        }
-      ],
-      "producers_total_count": 0,
-      "queue_id": "queue_id",
-      "queue_name": "example-queue",
-      "settings": {
-        "delivery_delay": 5,
-        "delivery_paused": true,
-        "message_retention_period": 345600
-      }
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  },
-  "success": true
-}
-```
+The number of seconds to delay before making the message available for another attempt.
 
-## Get Queue
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/queues/{queue_id}`
+visibility\_timeout\_ms: optional number
 
-Get details about a specific queue.
+The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-- `queue_id: string`
+type: optional "http\_pull"
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+consumers\_total\_count: optional number
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: optional string
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional Queue`
+<details>
 
-  - `consumers: optional array of Consumer`
+<summary>
 
-    - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+jurisdiction: optional "eu"or "us"or "fedramp"
 
-      - `consumer_id: optional string`
+</summary>
 
-        A Resource identifier.
+One of the following:
 
-      - `created_on: optional string`
+"eu"
 
-      - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the dead letter queue, or empty string if not configured
+"us"
 
-      - `queue_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `script_name: optional string`
+"fedramp"
 
-        Name of a Worker
+<a href="#">Link to this property</a>
 
-      - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+</details>
 
-        - `batch_size: optional number`
+<a href="#">Link to this property</a>
 
-          The maximum number of messages to include in a batch.
+modified\_on: optional string
 
-        - `max_concurrency: optional number`
+<a href="#">Link to this property</a>
 
-          Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+<details>
 
-        - `max_retries: optional number`
+<summary>
 
-          The maximum number of retries
+producers: optional array of object {script, type } or object {bucket\_name, type }
 
-        - `max_wait_time_ms: optional number`
+</summary>
 
-          The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+One of the following:
 
-        - `retry_delay: optional number`
+<details>
 
-          The number of seconds to delay before making the message available for another attempt.
+<summary>
 
-      - `type: optional "worker"`
+MqWorkerProducer object {script, type }
 
-        - `"worker"`
+</summary>
 
-    - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+script: optional string
 
-      - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-        A Resource identifier.
+type: optional "worker"
 
-      - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-      - `dead_letter_queue: optional string`
+</details>
 
-        Name of the dead letter queue, or empty string if not configured
+<a href="#">Link to this property</a>
 
-      - `queue_name: optional string`
+<details>
 
-      - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<summary>
 
-        - `batch_size: optional number`
+MqR2Producer object {bucket\_name, type }
 
-          The maximum number of messages to include in a batch.
+</summary>
 
-        - `max_retries: optional number`
+bucket\_name: optional string
 
-          The maximum number of retries
+<a href="#">Link to this property</a>
 
-        - `retry_delay: optional number`
+type: optional "r2\_bucket"
 
-          The number of seconds to delay before making the message available for another attempt.
+<a href="#">Link to this property</a>
 
-        - `visibility_timeout_ms: optional number`
+</details>
 
-          The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+<a href="#">Link to this property</a>
 
-      - `type: optional "http_pull"`
+</details>
 
-        - `"http_pull"`
+<a href="#">Link to this property</a>
 
-  - `consumers_total_count: optional number`
+producers\_total\_count: optional number
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+queue\_id: optional string
 
-  - `producers: optional array of object { script, type }  or object { bucket_name, type }`
+<a href="#">Link to this property</a>
 
-    - `MqWorkerProducer object { script, type }`
+queue\_name: optional string
 
-      - `script: optional string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "worker"`
+<details>
 
-        - `"worker"`
+<summary>
 
-    - `MqR2Producer object { bucket_name, type }`
+settings: optional object {delivery\_delay, delivery\_paused, message\_retention\_period }
 
-      - `bucket_name: optional string`
+</summary>
 
-      - `type: optional "r2_bucket"`
+delivery\_delay: optional number
 
-        - `"r2_bucket"`
+Number of seconds to delay delivery of all messages to consumers.
 
-  - `producers_total_count: optional number`
+<a href="#">Link to this property</a>
 
-  - `queue_id: optional string`
+delivery\_paused: optional boolean
 
-  - `queue_name: optional string`
+Indicates if message delivery to consumers is currently paused.
 
-  - `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+<a href="#">Link to this property</a>
 
-    - `delivery_delay: optional number`
+message\_retention\_period: optional number
 
-      Number of seconds to delay delivery of all messages to consumers.
+Number of seconds after which an unconsumed message will be delayed.
 
-    - `delivery_paused: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates if message delivery to consumers is currently paused.
+</details>
 
-    - `message_retention_period: optional number`
+<a href="#">Link to this property</a>
 
-      Number of seconds after which an unconsumed message will be delayed.
+</details>
 
-- `success: optional true`
+[Link to this property](#)%20queues%20%3E%20(model)%20queue%20%3E%20(schema)>)
 
-  Indicates if the API call was successful or not.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+QueueGetMetricsResponse object {backlog\_bytes, backlog\_count, oldest\_message\_timestamp\_ms }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "consumers": [
-      {
-        "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "created_on": "2019-12-27T18:11:19.117Z",
-        "dead_letter_queue": "dead_letter_queue",
-        "queue_name": "example-queue",
-        "script_name": "my-consumer-worker",
-        "settings": {
-          "batch_size": 50,
-          "max_concurrency": 10,
-          "max_retries": 3,
-          "max_wait_time_ms": 5000,
-          "retry_delay": 10
-        },
-        "type": "worker"
-      }
-    ],
-    "consumers_total_count": 0,
-    "created_on": "created_on",
-    "modified_on": "modified_on",
-    "producers": [
-      {
-        "script": "script",
-        "type": "worker"
-      }
-    ],
-    "producers_total_count": 0,
-    "queue_id": "queue_id",
-    "queue_name": "example-queue",
-    "settings": {
-      "delivery_delay": 5,
-      "delivery_paused": true,
-      "message_retention_period": 345600
-    }
-  },
-  "success": true
-}
-```
+backlog\_bytes: number
 
-## Get Queue Metrics
+The size in bytes of unacknowledged messages in the queue.
 
-**get** `/accounts/{account_id}/queues/{queue_id}/metrics`
+<a href="#">Link to this property</a>
 
-Return best-effort metrics for a queue. Values may be approximate due to the distributed nature of queues.
+backlog\_count: number
 
-### Path Parameters
+The number of unacknowledged messages in the queue.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+oldest\_message\_timestamp\_ms: number
 
-- `queue_id: string`
+Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: optional array of ResponseInfo`
+[Link to this property](#)%20queues%20%3E%20(model)%20queue_get_metrics_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+QueueDeleteResponse object {errors, messages, success }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: optional array of string`
+<summary>
 
-- `result: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+minLength1
 
-  - `backlog_bytes: number`
+</summary>
 
-    The size in bytes of unacknowledged messages in the queue.
+code: number
 
-  - `backlog_count: number`
+minimum1000
 
-    The number of unacknowledged messages in the queue.
+<a href="#">Link to this property</a>
 
-  - `oldest_message_timestamp_ms: number`
+message: string
 
-    Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+<a href="#">Link to this property</a>
 
-- `success: optional true`
+documentation\_url: optional string
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/metrics \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+source: optional object {pointer }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "backlog_bytes": 1024,
-    "backlog_count": 5,
-    "oldest_message_timestamp_ms": 1710950954154
-  },
-  "success": true
-}
-```
+pointer: optional string
 
-## Create Queue
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/queues`
+</details>
 
-Create a new queue
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+messages: optional array of string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `queue_name: string`
+success: optional true
 
-### Returns
+Indicates if the API call was successful or not.
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20queues%20%3E%20(model)%20queue_delete_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+#### QueuesMessages
 
-  - `source: optional object { pointer }`
+##### [Push Message](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/push)
 
-    - `pointer: optional string`
+POST/accounts/{account\_id}/queues/{queue\_id}/messages
 
-- `messages: optional array of string`
+##### [Acknowledge + Retry Queue Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/ack)
 
-- `result: optional Queue`
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/ack
 
-  - `consumers: optional array of Consumer`
+##### [Pull Queue Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/pull)
 
-    - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/pull
 
-      - `consumer_id: optional string`
+##### [Push Message Batch](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/bulk_push)
 
-        A Resource identifier.
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/batch
 
-      - `created_on: optional string`
+##### [Peek Queue Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/peek)
 
-      - `dead_letter_queue: optional string`
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/peek
 
-        Name of the dead letter queue, or empty string if not configured
+##### [Purge Peeked Queue Messages](https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/purge)
 
-      - `queue_name: optional string`
+POST/accounts/{account\_id}/queues/{queue\_id}/messages/purge
 
-      - `script_name: optional string`
+##### ModelsExpand Collapse
 
-        Name of a Worker
+<details>
 
-      - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+<summary>
 
-        - `batch_size: optional number`
+MessagePushResponse object {metadata }
 
-          The maximum number of messages to include in a batch.
+</summary>
 
-        - `max_concurrency: optional number`
+<details>
 
-          Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+<summary>
 
-        - `max_retries: optional number`
+metadata: optional object {metrics }
 
-          The maximum number of retries
+</summary>
 
-        - `max_wait_time_ms: optional number`
+<details>
 
-          The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+<summary>
 
-        - `retry_delay: optional number`
+metrics: optional object {backlog\_bytes, backlog\_count, oldest\_message\_timestamp\_ms }
 
-          The number of seconds to delay before making the message available for another attempt.
+Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
 
-      - `type: optional "worker"`
+</summary>
 
-        - `"worker"`
+backlog\_bytes: number
 
-    - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+The size in bytes of unacknowledged messages in the queue.
 
-      - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-        A Resource identifier.
+backlog\_count: number
 
-      - `created_on: optional string`
+The number of unacknowledged messages in the queue.
 
-      - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the dead letter queue, or empty string if not configured
+oldest\_message\_timestamp\_ms: number
 
-      - `queue_name: optional string`
+Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
-      - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<a href="#">Link to this property</a>
 
-        - `batch_size: optional number`
+</details>
 
-          The maximum number of messages to include in a batch.
+<a href="#">Link to this property</a>
 
-        - `max_retries: optional number`
+</details>
 
-          The maximum number of retries
+<a href="#">Link to this property</a>
 
-        - `retry_delay: optional number`
+</details>
 
-          The number of seconds to delay before making the message available for another attempt.
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_push_response%20%3E%20(schema)>)
 
-        - `visibility_timeout_ms: optional number`
+<details>
 
-          The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+<summary>
 
-      - `type: optional "http_pull"`
+MessageAckResponse object {ackCount, retryCount, warnings }
 
-        - `"http_pull"`
+</summary>
 
-  - `consumers_total_count: optional number`
+ackCount: optional number
 
-  - `created_on: optional string`
+The number of messages that were succesfully acknowledged.
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `producers: optional array of object { script, type }  or object { bucket_name, type }`
+retryCount: optional number
 
-    - `MqWorkerProducer object { script, type }`
+The number of messages that were succesfully retried.
 
-      - `script: optional string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "worker"`
+warnings: optional map\[string]
 
-        - `"worker"`
+Map of lease IDs to warning messages encountered during acknowledgement.
 
-    - `MqR2Producer object { bucket_name, type }`
+<a href="#">Link to this property</a>
 
-      - `bucket_name: optional string`
+</details>
 
-      - `type: optional "r2_bucket"`
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_ack_response%20%3E%20(schema)>)
 
-        - `"r2_bucket"`
+<details>
 
-  - `producers_total_count: optional number`
+<summary>
 
-  - `queue_id: optional string`
+MessagePullResponse object {message\_backlog\_count, messages, metadata }
 
-  - `queue_name: optional string`
+</summary>
 
-  - `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+message\_backlog\_count: optional number
 
-    - `delivery_delay: optional number`
+The number of unacknowledged messages in the queue.
 
-      Number of seconds to delay delivery of all messages to consumers.
+<a href="#">Link to this property</a>
 
-    - `delivery_paused: optional boolean`
+<details>
 
-      Indicates if message delivery to consumers is currently paused.
+<summary>
 
-    - `message_retention_period: optional number`
+messages: optional array of object {id, attempts, body, 3 more }
 
-      Number of seconds after which an unconsumed message will be delayed.
+</summary>
 
-- `success: optional true`
+id: optional string
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+attempts: optional number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "queue_name": "example-queue"
-        }'
-```
+body: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "consumers": [
-      {
-        "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "created_on": "2019-12-27T18:11:19.117Z",
-        "dead_letter_queue": "dead_letter_queue",
-        "queue_name": "example-queue",
-        "script_name": "my-consumer-worker",
-        "settings": {
-          "batch_size": 50,
-          "max_concurrency": 10,
-          "max_retries": 3,
-          "max_wait_time_ms": 5000,
-          "retry_delay": 10
-        },
-        "type": "worker"
-      }
-    ],
-    "consumers_total_count": 0,
-    "created_on": "created_on",
-    "modified_on": "modified_on",
-    "producers": [
-      {
-        "script": "script",
-        "type": "worker"
-      }
-    ],
-    "producers_total_count": 0,
-    "queue_id": "queue_id",
-    "queue_name": "example-queue",
-    "settings": {
-      "delivery_delay": 5,
-      "delivery_paused": true,
-      "message_retention_period": 345600
-    }
-  },
-  "success": true
-}
-```
+lease\_id: optional string
 
-## Update Queue
+An ID that represents an “in-flight” message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
 
-**put** `/accounts/{account_id}/queues/{queue_id}`
+<a href="#">Link to this property</a>
 
-Updates a Queue. Note that this endpoint does not support partial updates. If successful, the Queue's configuration is overwritten with the supplied configuration.
+metadata: optional unknown
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+timestamp\_ms: optional number
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-- `queue_id: string`
+</details>
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `queue_name: optional string`
+<summary>
 
-- `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+metadata: optional object {metrics }
 
-  - `delivery_delay: optional number`
+</summary>
 
-    Number of seconds to delay delivery of all messages to consumers.
+<details>
 
-  - `delivery_paused: optional boolean`
+<summary>
 
-    Indicates if message delivery to consumers is currently paused.
+metrics: optional object {backlog\_bytes, backlog\_count, oldest\_message\_timestamp\_ms }
 
-  - `message_retention_period: optional number`
+Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
 
-    Number of seconds after which an unconsumed message will be delayed.
+</summary>
 
-### Returns
+backlog\_bytes: number
 
-- `errors: optional array of ResponseInfo`
+The size in bytes of unacknowledged messages in the queue.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+backlog\_count: number
 
-  - `documentation_url: optional string`
+The number of unacknowledged messages in the queue.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+oldest\_message\_timestamp\_ms: number
 
-- `messages: optional array of string`
+Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
-- `result: optional Queue`
+<a href="#">Link to this property</a>
 
-  - `consumers: optional array of Consumer`
+</details>
 
-    - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+<a href="#">Link to this property</a>
 
-      - `consumer_id: optional string`
+</details>
 
-        A Resource identifier.
+<a href="#">Link to this property</a>
 
-      - `created_on: optional string`
+</details>
 
-      - `dead_letter_queue: optional string`
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_pull_response%20%3E%20(schema)>)
 
-        Name of the dead letter queue, or empty string if not configured
+<details>
 
-      - `queue_name: optional string`
+<summary>
 
-      - `script_name: optional string`
+MessageBulkPushResponse object {metadata }
 
-        Name of a Worker
+</summary>
 
-      - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+<details>
 
-        - `batch_size: optional number`
+<summary>
 
-          The maximum number of messages to include in a batch.
+metadata: optional object {metrics }
 
-        - `max_concurrency: optional number`
+</summary>
 
-          Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+<details>
 
-        - `max_retries: optional number`
+<summary>
 
-          The maximum number of retries
+metrics: optional object {backlog\_bytes, backlog\_count, oldest\_message\_timestamp\_ms }
 
-        - `max_wait_time_ms: optional number`
+Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
 
-          The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+</summary>
 
-        - `retry_delay: optional number`
+backlog\_bytes: number
 
-          The number of seconds to delay before making the message available for another attempt.
+The size in bytes of unacknowledged messages in the queue.
 
-      - `type: optional "worker"`
+<a href="#">Link to this property</a>
 
-        - `"worker"`
+backlog\_count: number
 
-    - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+The number of unacknowledged messages in the queue.
 
-      - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-        A Resource identifier.
+oldest\_message\_timestamp\_ms: number
 
-      - `created_on: optional string`
+Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
-      - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the dead letter queue, or empty string if not configured
+</details>
 
-      - `queue_name: optional string`
+<a href="#">Link to this property</a>
 
-      - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+</details>
 
-        - `batch_size: optional number`
+<a href="#">Link to this property</a>
 
-          The maximum number of messages to include in a batch.
+</details>
 
-        - `max_retries: optional number`
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_bulk_push_response%20%3E%20(schema)>)
 
-          The maximum number of retries
+<details>
 
-        - `retry_delay: optional number`
+<summary>
 
-          The number of seconds to delay before making the message available for another attempt.
+MessagePeekResponse object {messages }
 
-        - `visibility_timeout_ms: optional number`
+</summary>
 
-          The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+<details>
 
-      - `type: optional "http_pull"`
+<summary>
 
-        - `"http_pull"`
+messages: optional array of object {id, attempts, body, 3 more }
 
-  - `consumers_total_count: optional number`
+</summary>
 
-  - `created_on: optional string`
+id: optional string
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `producers: optional array of object { script, type }  or object { bucket_name, type }`
+attempts: optional number
 
-    - `MqWorkerProducer object { script, type }`
+<a href="#">Link to this property</a>
 
-      - `script: optional string`
+body: optional string
 
-      - `type: optional "worker"`
+<a href="#">Link to this property</a>
 
-        - `"worker"`
+metadata: optional unknown
 
-    - `MqR2Producer object { bucket_name, type }`
+<a href="#">Link to this property</a>
 
-      - `bucket_name: optional string`
+ref: optional string
 
-      - `type: optional "r2_bucket"`
+An opaque reference to a peeked message. You must hold on to this value and use it to purge the message.
 
-        - `"r2_bucket"`
+<a href="#">Link to this property</a>
 
-  - `producers_total_count: optional number`
+timestamp\_ms: optional number
 
-  - `queue_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `queue_name: optional string`
+</details>
 
-  - `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+<a href="#">Link to this property</a>
 
-    - `delivery_delay: optional number`
+</details>
 
-      Number of seconds to delay delivery of all messages to consumers.
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_peek_response%20%3E%20(schema)>)
 
-    - `delivery_paused: optional boolean`
+<details>
 
-      Indicates if message delivery to consumers is currently paused.
+<summary>
 
-    - `message_retention_period: optional number`
+MessagePurgeResponse object {errors, warnings }
 
-      Number of seconds after which an unconsumed message will be delayed.
+</summary>
 
-- `success: optional true`
+<details>
 
-  Indicates if the API call was successful or not.
+<summary>
 
-  - `true`
+errors: optional array of object {message }
 
-### Example
+Errors encountered while purging messages.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+message: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "consumers": [
-      {
-        "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "created_on": "2019-12-27T18:11:19.117Z",
-        "dead_letter_queue": "dead_letter_queue",
-        "queue_name": "example-queue",
-        "script_name": "my-consumer-worker",
-        "settings": {
-          "batch_size": 50,
-          "max_concurrency": 10,
-          "max_retries": 3,
-          "max_wait_time_ms": 5000,
-          "retry_delay": 10
-        },
-        "type": "worker"
-      }
-    ],
-    "consumers_total_count": 0,
-    "created_on": "created_on",
-    "modified_on": "modified_on",
-    "producers": [
-      {
-        "script": "script",
-        "type": "worker"
-      }
-    ],
-    "producers_total_count": 0,
-    "queue_id": "queue_id",
-    "queue_name": "example-queue",
-    "settings": {
-      "delivery_delay": 5,
-      "delivery_paused": true,
-      "message_retention_period": 345600
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Queue
+</details>
 
-**patch** `/accounts/{account_id}/queues/{queue_id}`
+<a href="#">Link to this property</a>
 
-Updates a Queue.
+warnings: optional map\[string]
 
-### Path Parameters
+Map of refs to warning messages encountered during purge.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+</details>
 
-- `queue_id: string`
+[Link to this property](#)%20queues.messages%20%3E%20(model)%20message_purge_response%20%3E%20(schema)>)
 
-  A Resource identifier.
+#### QueuesPurge
 
-### Body Parameters
+##### [Get Queue Purge Status](https://developers.cloudflare.com/api/resources/queues/subresources/purge/methods/status)
 
-- `queue_name: optional string`
+GET/accounts/{account\_id}/queues/{queue\_id}/purge
 
-- `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+##### [Purge Queue](https://developers.cloudflare.com/api/resources/queues/subresources/purge/methods/start)
 
-  - `delivery_delay: optional number`
+POST/accounts/{account\_id}/queues/{queue\_id}/purge
 
-    Number of seconds to delay delivery of all messages to consumers.
+##### ModelsExpand Collapse
 
-  - `delivery_paused: optional boolean`
+<details>
 
-    Indicates if message delivery to consumers is currently paused.
+<summary>
 
-  - `message_retention_period: optional number`
+PurgeStatusResponse object {completed, started\_at }
 
-    Number of seconds after which an unconsumed message will be delayed.
+</summary>
 
-### Returns
+completed: optional string
 
-- `errors: optional array of ResponseInfo`
+Indicates if the last purge operation completed successfully.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+started\_at: optional string
 
-  - `documentation_url: optional string`
+Timestamp when the last purge operation started.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: optional array of string`
+[Link to this property](#)%20queues.purge%20%3E%20(model)%20purge_status_response%20%3E%20(schema)>)
 
-- `result: optional Queue`
+#### QueuesConsumers
 
-  - `consumers: optional array of Consumer`
+##### [List Queue Consumers](https://developers.cloudflare.com/api/resources/queues/subresources/consumers/methods/list)
 
-    - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+GET/accounts/{account\_id}/queues/{queue\_id}/consumers
 
-      - `consumer_id: optional string`
+##### [Get Queue Consumer](https://developers.cloudflare.com/api/resources/queues/subresources/consumers/methods/get)
 
-        A Resource identifier.
+GET/accounts/{account\_id}/queues/{queue\_id}/consumers/{consumer\_id}
 
-      - `created_on: optional string`
+##### [Create a Queue Consumer](https://developers.cloudflare.com/api/resources/queues/subresources/consumers/methods/create)
 
-      - `dead_letter_queue: optional string`
+POST/accounts/{account\_id}/queues/{queue\_id}/consumers
 
-        Name of the dead letter queue, or empty string if not configured
+##### [Update Queue Consumer](https://developers.cloudflare.com/api/resources/queues/subresources/consumers/methods/update)
 
-      - `queue_name: optional string`
+PUT/accounts/{account\_id}/queues/{queue\_id}/consumers/{consumer\_id}
 
-      - `script_name: optional string`
+##### [Delete Queue Consumer](https://developers.cloudflare.com/api/resources/queues/subresources/consumers/methods/delete)
 
-        Name of a Worker
+DELETE/accounts/{account\_id}/queues/{queue\_id}/consumers/{consumer\_id}
 
-      - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+##### ModelsExpand Collapse
 
-        - `batch_size: optional number`
+<details>
 
-          The maximum number of messages to include in a batch.
+<summary>
 
-        - `max_concurrency: optional number`
+Consumer = object {consumer\_id, created\_on, dead\_letter\_queue, 4 more } or object {consumer\_id, created\_on, dead\_letter\_queue, 3 more }
 
-          Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+Response body representing a consumer
 
-        - `max_retries: optional number`
+</summary>
 
-          The maximum number of retries
+One of the following:
 
-        - `max_wait_time_ms: optional number`
+<details>
 
-          The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+<summary>
 
-        - `retry_delay: optional number`
+Worker object {consumer\_id, created\_on, dead\_letter\_queue, 4 more }
 
-          The number of seconds to delay before making the message available for another attempt.
+</summary>
 
-      - `type: optional "worker"`
+consumer\_id: optional string
 
-        - `"worker"`
+A Resource identifier.
 
-    - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+maxLength32
 
-      - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-        A Resource identifier.
+created\_on: optional string
 
-      - `created_on: optional string`
+formatdate-time
 
-      - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the dead letter queue, or empty string if not configured
+dead\_letter\_queue: optional string
 
-      - `queue_name: optional string`
+Name of the dead letter queue, or empty string if not configured
 
-      - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<a href="#">Link to this property</a>
 
-        - `batch_size: optional number`
+queue\_name: optional string
 
-          The maximum number of messages to include in a batch.
+<a href="#">Link to this property</a>
 
-        - `max_retries: optional number`
+script\_name: optional string
 
-          The maximum number of retries
+Name of a Worker
 
-        - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-          The number of seconds to delay before making the message available for another attempt.
+<details>
 
-        - `visibility_timeout_ms: optional number`
+<summary>
 
-          The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+settings: optional object {batch\_size, max\_concurrency, max\_retries, 2 more }
 
-      - `type: optional "http_pull"`
+</summary>
 
-        - `"http_pull"`
+batch\_size: optional number
 
-  - `consumers_total_count: optional number`
+The maximum number of messages to include in a batch.
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+max\_concurrency: optional number
 
-  - `producers: optional array of object { script, type }  or object { bucket_name, type }`
+Maximum number of concurrent consumers that may consume from this Queue. Set to <code>null</code> to automatically opt in to the platform’s maximum (recommended).
 
-    - `MqWorkerProducer object { script, type }`
+<a href="#">Link to this property</a>
 
-      - `script: optional string`
+max\_retries: optional number
 
-      - `type: optional "worker"`
+The maximum number of retries
 
-        - `"worker"`
+<a href="#">Link to this property</a>
 
-    - `MqR2Producer object { bucket_name, type }`
+max\_wait\_time\_ms: optional number
 
-      - `bucket_name: optional string`
+The number of milliseconds to wait for a batch to fill up before attempting to deliver it
 
-      - `type: optional "r2_bucket"`
+<a href="#">Link to this property</a>
 
-        - `"r2_bucket"`
+retry\_delay: optional number
 
-  - `producers_total_count: optional number`
+The number of seconds to delay before making the message available for another attempt.
 
-  - `queue_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `queue_name: optional string`
+</details>
 
-  - `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+<a href="#">Link to this property</a>
 
-    - `delivery_delay: optional number`
+type: optional "worker"
 
-      Number of seconds to delay delivery of all messages to consumers.
+<a href="#">Link to this property</a>
 
-    - `delivery_paused: optional boolean`
+</details>
 
-      Indicates if message delivery to consumers is currently paused.
+<a href="#">Link to this property</a>
 
-    - `message_retention_period: optional number`
+<details>
 
-      Number of seconds after which an unconsumed message will be delayed.
+<summary>
 
-- `success: optional true`
+HTTPPull object {consumer\_id, created\_on, dead\_letter\_queue, 3 more }
 
-  Indicates if the API call was successful or not.
+</summary>
 
-  - `true`
+consumer\_id: optional string
 
-### Example
+A Resource identifier.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "consumers": [
-      {
-        "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "created_on": "2019-12-27T18:11:19.117Z",
-        "dead_letter_queue": "dead_letter_queue",
-        "queue_name": "example-queue",
-        "script_name": "my-consumer-worker",
-        "settings": {
-          "batch_size": 50,
-          "max_concurrency": 10,
-          "max_retries": 3,
-          "max_wait_time_ms": 5000,
-          "retry_delay": 10
-        },
-        "type": "worker"
-      }
-    ],
-    "consumers_total_count": 0,
-    "created_on": "created_on",
-    "modified_on": "modified_on",
-    "producers": [
-      {
-        "script": "script",
-        "type": "worker"
-      }
-    ],
-    "producers_total_count": 0,
-    "queue_id": "queue_id",
-    "queue_name": "example-queue",
-    "settings": {
-      "delivery_delay": 5,
-      "delivery_paused": true,
-      "message_retention_period": 345600
-    }
-  },
-  "success": true
-}
-```
+created\_on: optional string
 
-## Delete Queue
+formatdate-time
 
-**delete** `/accounts/{account_id}/queues/{queue_id}`
+<a href="#">Link to this property</a>
 
-Deletes a queue
+dead\_letter\_queue: optional string
 
-### Path Parameters
+Name of the dead letter queue, or empty string if not configured
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+queue\_name: optional string
 
-- `queue_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: optional array of ResponseInfo`
+settings: optional object {batch\_size, max\_retries, retry\_delay, visibility\_timeout\_ms }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+batch\_size: optional number
 
-  - `documentation_url: optional string`
+The maximum number of messages to include in a batch.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+max\_retries: optional number
 
-- `messages: optional array of string`
+The maximum number of retries
 
-- `success: optional true`
+<a href="#">Link to this property</a>
 
-  Indicates if the API call was successful or not.
+retry\_delay: optional number
 
-  - `true`
+The number of seconds to delay before making the message available for another attempt.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+visibility\_timeout\_ms: optional number
 
-#### Response
+The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Queue
+<a href="#">Link to this property</a>
 
-- `Queue object { consumers, consumers_total_count, created_on, 6 more }`
+type: optional "http\_pull"
 
-  - `consumers: optional array of Consumer`
+<a href="#">Link to this property</a>
 
-    - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+</details>
 
-      - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-        A Resource identifier.
+</details>
 
-      - `created_on: optional string`
+[Link to this property](#)%20queues.consumers%20%3E%20(model)%20consumer%20%3E%20(schema)>)
 
-      - `dead_letter_queue: optional string`
+<details>
 
-        Name of the dead letter queue, or empty string if not configured
+<summary>
 
-      - `queue_name: optional string`
+ConsumerDeleteResponse object {errors, messages, success }
 
-      - `script_name: optional string`
+</summary>
 
-        Name of a Worker
+<details>
 
-      - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+<summary>
 
-        - `batch_size: optional number`
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-          The maximum number of messages to include in a batch.
+minLength1
 
-        - `max_concurrency: optional number`
+</summary>
 
-          Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+code: number
 
-        - `max_retries: optional number`
+minimum1000
 
-          The maximum number of retries
+<a href="#">Link to this property</a>
 
-        - `max_wait_time_ms: optional number`
+message: string
 
-          The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+<a href="#">Link to this property</a>
 
-        - `retry_delay: optional number`
+documentation\_url: optional string
 
-          The number of seconds to delay before making the message available for another attempt.
+<a href="#">Link to this property</a>
 
-      - `type: optional "worker"`
+<details>
 
-        - `"worker"`
+<summary>
 
-    - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+source: optional object {pointer }
 
-      - `consumer_id: optional string`
+</summary>
 
-        A Resource identifier.
+pointer: optional string
 
-      - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-      - `dead_letter_queue: optional string`
+</details>
 
-        Name of the dead letter queue, or empty string if not configured
+<a href="#">Link to this property</a>
 
-      - `queue_name: optional string`
+</details>
 
-      - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<a href="#">Link to this property</a>
 
-        - `batch_size: optional number`
+messages: optional array of string
 
-          The maximum number of messages to include in a batch.
+<a href="#">Link to this property</a>
 
-        - `max_retries: optional number`
+success: optional true
 
-          The maximum number of retries
+Indicates if the API call was successful or not.
 
-        - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-          The number of seconds to delay before making the message available for another attempt.
+</details>
 
-        - `visibility_timeout_ms: optional number`
+[Link to this property](#)%20queues.consumers%20%3E%20(model)%20consumer_delete_response%20%3E%20(schema)>)
 
-          The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+#### QueuesSubscriptions
 
-      - `type: optional "http_pull"`
+##### [List Event Subscriptions](https://developers.cloudflare.com/api/resources/queues/subresources/subscriptions/methods/list)
 
-        - `"http_pull"`
+GET/accounts/{account\_id}/event\_subscriptions/subscriptions
 
-  - `consumers_total_count: optional number`
+##### [Get Event Subscription](https://developers.cloudflare.com/api/resources/queues/subresources/subscriptions/methods/get)
 
-  - `created_on: optional string`
+GET/accounts/{account\_id}/event\_subscriptions/subscriptions/{subscription\_id}
 
-  - `modified_on: optional string`
+##### [Create Event Subscription](https://developers.cloudflare.com/api/resources/queues/subresources/subscriptions/methods/create)
 
-  - `producers: optional array of object { script, type }  or object { bucket_name, type }`
+POST/accounts/{account\_id}/event\_subscriptions/subscriptions
 
-    - `MqWorkerProducer object { script, type }`
+##### [Update Event Subscription](https://developers.cloudflare.com/api/resources/queues/subresources/subscriptions/methods/update)
 
-      - `script: optional string`
+PATCH/accounts/{account\_id}/event\_subscriptions/subscriptions/{subscription\_id}
 
-      - `type: optional "worker"`
+##### [Delete Event Subscription](https://developers.cloudflare.com/api/resources/queues/subresources/subscriptions/methods/delete)
 
-        - `"worker"`
+DELETE/accounts/{account\_id}/event\_subscriptions/subscriptions/{subscription\_id}
 
-    - `MqR2Producer object { bucket_name, type }`
+##### ModelsExpand Collapse
 
-      - `bucket_name: optional string`
+<details>
 
-      - `type: optional "r2_bucket"`
+<summary>
 
-        - `"r2_bucket"`
+SubscriptionListResponse object {id, created\_at, destination, 5 more }
 
-  - `producers_total_count: optional number`
+</summary>
 
-  - `queue_id: optional string`
+id: string
 
-  - `queue_name: optional string`
+Unique identifier for the subscription
 
-  - `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+<a href="#">Link to this property</a>
 
-    - `delivery_delay: optional number`
+created\_at: string
 
-      Number of seconds to delay delivery of all messages to consumers.
+When the subscription was created
 
-    - `delivery_paused: optional boolean`
+formatdate-time
 
-      Indicates if message delivery to consumers is currently paused.
+<a href="#">Link to this property</a>
 
-    - `message_retention_period: optional number`
+<details>
 
-      Number of seconds after which an unconsumed message will be delayed.
+<summary>
 
-### Queue Get Metrics Response
+destination: object {queue\_id, type }
 
-- `QueueGetMetricsResponse object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+Destination configuration for the subscription
 
-  Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+</summary>
 
-  - `backlog_bytes: number`
+queue\_id: string
 
-    The size in bytes of unacknowledged messages in the queue.
+ID of the target queue
 
-  - `backlog_count: number`
+<a href="#">Link to this property</a>
 
-    The number of unacknowledged messages in the queue.
+type: "queues.queue"
 
-  - `oldest_message_timestamp_ms: number`
+Type of destination
 
-    Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+<a href="#">Link to this property</a>
 
-### Queue Delete Response
+</details>
 
-- `QueueDeleteResponse object { errors, messages, success }`
+<a href="#">Link to this property</a>
 
-  - `errors: optional array of ResponseInfo`
+enabled: boolean
 
-    - `code: number`
+Whether the subscription is active
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+events: array of string
 
-    - `source: optional object { pointer }`
+List of event types this subscription handles
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: optional array of string`
+modified\_at: string
 
-  - `success: optional true`
+When the subscription was last modified
 
-    Indicates if the API call was successful or not.
+formatdate-time
 
-    - `true`
+<a href="#">Link to this property</a>
 
-# Messages
+name: string
 
-## Push Message
+Name of the subscription
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages`
+<a href="#">Link to this property</a>
 
-Push a message to a Queue
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+source: object {type } or object {type } or object {type } or 6 more
 
-  A Resource identifier.
+Source configuration for the subscription
 
-- `queue_id: string`
+</summary>
 
-  A Resource identifier.
+One of the following:
 
-### Body Parameters
+<details>
 
-- `body: optional object { body, content_type, delay_seconds }  or object { body, content_type, delay_seconds }`
+<summary>
 
-  - `MqQueueMessageText object { body, content_type, delay_seconds }`
+MqEventSourceImages object {type }
 
-    - `body: optional string`
+</summary>
 
-    - `content_type: optional "text"`
+type: optional "images"
 
-      - `"text"`
+Type of source
 
-    - `delay_seconds: optional number`
+<a href="#">Link to this property</a>
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+</details>
 
-  - `MqQueueMessageJson object { body, content_type, delay_seconds }`
+<a href="#">Link to this property</a>
 
-    - `body: optional unknown`
+<details>
 
-    - `content_type: optional "json"`
+<summary>
 
-      - `"json"`
+MqEventSourceKV object {type }
 
-    - `delay_seconds: optional number`
+</summary>
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+type: optional "kv"
 
-### Returns
+Type of source
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+MqEventSourceR2 object {type }
 
-- `messages: optional array of string`
+</summary>
 
-- `result: optional object { metadata }`
+type: optional "r2"
 
-  - `metadata: optional object { metrics }`
+Type of source
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+<a href="#">Link to this property</a>
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+</details>
 
-      - `backlog_bytes: number`
+<a href="#">Link to this property</a>
 
-        The size in bytes of unacknowledged messages in the queue.
+<details>
 
-      - `backlog_count: number`
+<summary>
 
-        The number of unacknowledged messages in the queue.
+MqEventSourceSuperSlurper object {type }
 
-      - `oldest_message_timestamp_ms: number`
+</summary>
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+type: optional "superSlurper"
 
-- `success: optional true`
+Type of source
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "metadata": {
-      "metrics": {
-        "backlog_bytes": 1024,
-        "backlog_count": 5,
-        "oldest_message_timestamp_ms": 1710950954154
-      }
-    }
-  },
-  "success": true
-}
-```
+MqEventSourceVectorize object {type }
 
-## Acknowledge + Retry Queue Messages
+</summary>
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages/ack`
+type: optional "vectorize"
 
-Acknowledge + Retry messages from a Queue
+Type of source
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-- `queue_id: string`
+<details>
 
-  A Resource identifier.
+<summary>
 
-### Body Parameters
+MqEventSourceWorkersAIModel object {model\_name, type }
 
-- `acks: optional array of object { lease_id }`
+</summary>
 
-  - `lease_id: optional string`
+model\_name: optional string
 
-    An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
+Name of the Workers AI model
 
-- `retries: optional array of object { delay_seconds, lease_id }`
+<a href="#">Link to this property</a>
 
-  - `delay_seconds: optional number`
+type: optional "workersAi.model"
 
-    The number of seconds to delay before making the message available for another attempt.
+Type of source
 
-  - `lease_id: optional string`
+<a href="#">Link to this property</a>
 
-    An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+MqEventSourceWorkersBuildsWorker object {type, worker\_name }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+type: optional "workersBuilds.worker"
 
-    - `pointer: optional string`
+Type of source
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional object { ackCount, retryCount, warnings }`
+worker\_name: optional string
 
-  - `ackCount: optional number`
+Name of the worker
 
-    The number of messages that were succesfully acknowledged.
+<a href="#">Link to this property</a>
 
-  - `retryCount: optional number`
+</details>
 
-    The number of messages that were succesfully retried.
+<a href="#">Link to this property</a>
 
-  - `warnings: optional map[string]`
+<details>
 
-    Map of lease IDs to warning messages encountered during acknowledgement.
+<summary>
 
-- `success: optional true`
+MqEventSourceWorkersScript object {script\_tag, type }
 
-  Indicates if the API call was successful or not.
+</summary>
 
-  - `true`
+script\_tag: optional string
 
-### Example
+Tag of the Worker script
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages/ack \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+type: optional "workers.script"
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "ackCount": 5,
-    "retryCount": 5,
-    "warnings": {
-      "foo": "string"
-    }
-  },
-  "success": true
-}
-```
+Type of source
 
-## Pull Queue Messages
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages/pull`
+</details>
 
-Pull a batch of messages from a Queue
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  A Resource identifier.
+MqEventSourceWorkflowsWorkflow object {type, workflow\_name }
 
-- `queue_id: string`
+</summary>
 
-  A Resource identifier.
+type: optional "workflows.workflow"
 
-### Body Parameters
+Type of source
 
-- `batch_size: optional number`
+<a href="#">Link to this property</a>
 
-  The maximum number of messages to include in a batch.
+workflow\_name: optional string
 
-- `visibility_timeout_ms: optional number`
+Name of the workflow
 
-  The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20queues.subscriptions%20%3E%20(model)%20subscription_list_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: optional array of string`
+<summary>
 
-- `result: optional object { message_backlog_count, messages, metadata }`
+SubscriptionGetResponse object {id, created\_at, destination, 5 more }
 
-  - `message_backlog_count: optional number`
+</summary>
 
-    The number of unacknowledged messages in the queue.
+id: string
 
-  - `messages: optional array of object { id, attempts, body, 3 more }`
+Unique identifier for the subscription
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `attempts: optional number`
+created\_at: string
 
-    - `body: optional string`
+When the subscription was created
 
-    - `lease_id: optional string`
+formatdate-time
 
-      An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
+<a href="#">Link to this property</a>
 
-    - `metadata: optional unknown`
+<details>
 
-    - `timestamp_ms: optional number`
+<summary>
 
-  - `metadata: optional object { metrics }`
+destination: object {queue\_id, type }
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+Destination configuration for the subscription
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+</summary>
 
-      - `backlog_bytes: number`
+queue\_id: string
 
-        The size in bytes of unacknowledged messages in the queue.
+ID of the target queue
 
-      - `backlog_count: number`
+<a href="#">Link to this property</a>
 
-        The number of unacknowledged messages in the queue.
+type: "queues.queue"
 
-      - `oldest_message_timestamp_ms: number`
+Type of destination
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+<a href="#">Link to this property</a>
 
-- `success: optional true`
+</details>
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+enabled: boolean
 
-### Example
+Whether the subscription is active
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages/pull \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+events: array of string
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "message_backlog_count": 5,
-    "messages": [
-      {
-        "id": "b01b5594f784d0165c2985833f5660dd",
-        "attempts": 1,
-        "body": "hello world",
-        "lease_id": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..Q8p21d7dceR6vUfwftONdQ.JVqZgAS-Zk7MqmqccYtTHeeMElNHaOMigeWdb8LyMOg.T2_HV99CYzGaQuhTyW8RsgbnpTRZHRM6N7UoSaAKeK0",
-        "metadata": {
-          "CF-Content-Type": "text",
-          "CF-sourceMessageSource": "dash"
-        },
-        "timestamp_ms": 1710950954154
-      }
-    ],
-    "metadata": {
-      "metrics": {
-        "backlog_bytes": 1024,
-        "backlog_count": 5,
-        "oldest_message_timestamp_ms": 1710950954154
-      }
-    }
-  },
-  "success": true
-}
-```
+List of event types this subscription handles
 
-## Push Message Batch
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/queues/{queue_id}/messages/batch`
+modified\_at: string
 
-Push a batch of message to a Queue
+When the subscription was last modified
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+name: string
 
-- `queue_id: string`
+Name of the subscription
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `delay_seconds: optional number`
+<summary>
 
-  The number of seconds to wait for attempting to deliver this batch to consumers
+source: object {type } or object {type } or object {type } or 6 more
 
-- `messages: optional array of object { body, content_type, delay_seconds }  or object { body, content_type, delay_seconds }`
+Source configuration for the subscription
 
-  - `MqQueueMessageText object { body, content_type, delay_seconds }`
+</summary>
 
-    - `body: optional string`
+One of the following:
 
-    - `content_type: optional "text"`
+<details>
 
-      - `"text"`
+<summary>
 
-    - `delay_seconds: optional number`
+MqEventSourceImages object {type }
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+</summary>
 
-  - `MqQueueMessageJson object { body, content_type, delay_seconds }`
+type: optional "images"
 
-    - `body: optional unknown`
+Type of source
 
-    - `content_type: optional "json"`
+<a href="#">Link to this property</a>
 
-      - `"json"`
+</details>
 
-    - `delay_seconds: optional number`
+<a href="#">Link to this property</a>
 
-      The number of seconds to wait for attempting to deliver this message to consumers
+<details>
 
-### Returns
+<summary>
 
-- `errors: optional array of ResponseInfo`
+MqEventSourceKV object {type }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+type: optional "kv"
 
-  - `documentation_url: optional string`
+Type of source
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional object { metadata }`
+<details>
 
-  - `metadata: optional object { metrics }`
+<summary>
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+MqEventSourceR2 object {type }
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+</summary>
 
-      - `backlog_bytes: number`
+type: optional "r2"
 
-        The size in bytes of unacknowledged messages in the queue.
+Type of source
 
-      - `backlog_count: number`
+<a href="#">Link to this property</a>
 
-        The number of unacknowledged messages in the queue.
+</details>
 
-      - `oldest_message_timestamp_ms: number`
+<a href="#">Link to this property</a>
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+<details>
 
-- `success: optional true`
+<summary>
 
-  Indicates if the API call was successful or not.
+MqEventSourceSuperSlurper object {type }
 
-  - `true`
+</summary>
 
-### Example
+type: optional "superSlurper"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/messages/batch \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Type of source
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "metadata": {
-      "metrics": {
-        "backlog_bytes": 1024,
-        "backlog_count": 5,
-        "oldest_message_timestamp_ms": 1710950954154
-      }
-    }
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Message Push Response
+<details>
 
-- `MessagePushResponse object { metadata }`
+<summary>
 
-  - `metadata: optional object { metrics }`
+MqEventSourceVectorize object {type }
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+</summary>
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+type: optional "vectorize"
 
-      - `backlog_bytes: number`
+Type of source
 
-        The size in bytes of unacknowledged messages in the queue.
+<a href="#">Link to this property</a>
 
-      - `backlog_count: number`
+</details>
 
-        The number of unacknowledged messages in the queue.
+<a href="#">Link to this property</a>
 
-      - `oldest_message_timestamp_ms: number`
+<details>
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+<summary>
 
-### Message Ack Response
+MqEventSourceWorkersAIModel object {model\_name, type }
 
-- `MessageAckResponse object { ackCount, retryCount, warnings }`
+</summary>
 
-  - `ackCount: optional number`
+model\_name: optional string
 
-    The number of messages that were succesfully acknowledged.
+Name of the Workers AI model
 
-  - `retryCount: optional number`
+<a href="#">Link to this property</a>
 
-    The number of messages that were succesfully retried.
+type: optional "workersAi.model"
 
-  - `warnings: optional map[string]`
+Type of source
 
-    Map of lease IDs to warning messages encountered during acknowledgement.
+<a href="#">Link to this property</a>
 
-### Message Pull Response
+</details>
 
-- `MessagePullResponse object { message_backlog_count, messages, metadata }`
+<a href="#">Link to this property</a>
 
-  - `message_backlog_count: optional number`
+<details>
 
-    The number of unacknowledged messages in the queue.
+<summary>
 
-  - `messages: optional array of object { id, attempts, body, 3 more }`
+MqEventSourceWorkersBuildsWorker object {type, worker\_name }
 
-    - `id: optional string`
+</summary>
 
-    - `attempts: optional number`
+type: optional "workersBuilds.worker"
 
-    - `body: optional string`
+Type of source
 
-    - `lease_id: optional string`
+<a href="#">Link to this property</a>
 
-      An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message.
+worker\_name: optional string
 
-    - `metadata: optional unknown`
+Name of the worker
 
-    - `timestamp_ms: optional number`
+<a href="#">Link to this property</a>
 
-  - `metadata: optional object { metrics }`
+</details>
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+<a href="#">Link to this property</a>
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+<details>
 
-      - `backlog_bytes: number`
+<summary>
 
-        The size in bytes of unacknowledged messages in the queue.
+MqEventSourceWorkersScript object {script\_tag, type }
 
-      - `backlog_count: number`
+</summary>
 
-        The number of unacknowledged messages in the queue.
+script\_tag: optional string
 
-      - `oldest_message_timestamp_ms: number`
+Tag of the Worker script
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+<a href="#">Link to this property</a>
 
-### Message Bulk Push Response
+type: optional "workers.script"
 
-- `MessageBulkPushResponse object { metadata }`
+Type of source
 
-  - `metadata: optional object { metrics }`
+<a href="#">Link to this property</a>
 
-    - `metrics: optional object { backlog_bytes, backlog_count, oldest_message_timestamp_ms }`
+</details>
 
-      Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues.
+<a href="#">Link to this property</a>
 
-      - `backlog_bytes: number`
+<details>
 
-        The size in bytes of unacknowledged messages in the queue.
+<summary>
 
-      - `backlog_count: number`
+MqEventSourceWorkflowsWorkflow object {type, workflow\_name }
 
-        The number of unacknowledged messages in the queue.
+</summary>
 
-      - `oldest_message_timestamp_ms: number`
+type: optional "workflows.workflow"
 
-        Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
+Type of source
 
-# Purge
+<a href="#">Link to this property</a>
 
-## Get Queue Purge Status
+workflow\_name: optional string
 
-**get** `/accounts/{account_id}/queues/{queue_id}/purge`
+Name of the workflow
 
-Get details about a Queue's purge status.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+</details>
 
-- `queue_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+</details>
 
-### Returns
+[Link to this property](#)%20queues.subscriptions%20%3E%20(model)%20subscription_get_response%20%3E%20(schema)>)
 
-- `errors: optional array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+SubscriptionCreateResponse object {id, created\_at, destination, 5 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+Unique identifier for the subscription
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional object { completed, started_at }`
+created\_at: string
 
-  - `completed: optional string`
+When the subscription was created
 
-    Indicates if the last purge operation completed successfully.
+formatdate-time
 
-  - `started_at: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp when the last purge operation started.
+<details>
 
-- `success: optional true`
+<summary>
 
-  Indicates if the API call was successful or not.
+destination: object {queue\_id, type }
 
-  - `true`
+Destination configuration for the subscription
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/purge \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+queue\_id: string
 
-#### Response
+ID of the target queue
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "completed": "completed",
-    "started_at": "started_at"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Purge Queue
+type: "queues.queue"
 
-**post** `/accounts/{account_id}/queues/{queue_id}/purge`
+Type of destination
 
-Deletes all messages from the Queue.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+enabled: boolean
 
-- `queue_id: string`
+Whether the subscription is active
 
-  A Resource identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+events: array of string
 
-- `delete_messages_permanently: optional boolean`
+List of event types this subscription handles
 
-  Confimation that all messages will be deleted permanently.
+<a href="#">Link to this property</a>
 
-### Returns
+modified\_at: string
 
-- `errors: optional array of ResponseInfo`
+When the subscription was last modified
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: string
 
-  - `source: optional object { pointer }`
+Name of the subscription
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of string`
+<details>
 
-- `result: optional Queue`
+<summary>
 
-  - `consumers: optional array of Consumer`
+source: object {type } or object {type } or object {type } or 6 more
 
-    - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+Source configuration for the subscription
 
-      - `consumer_id: optional string`
+</summary>
 
-        A Resource identifier.
+One of the following:
 
-      - `created_on: optional string`
+<details>
 
-      - `dead_letter_queue: optional string`
+<summary>
 
-        Name of the dead letter queue, or empty string if not configured
+MqEventSourceImages object {type }
 
-      - `queue_name: optional string`
+</summary>
 
-      - `script_name: optional string`
+type: optional "images"
 
-        Name of a Worker
+Type of source
 
-      - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `batch_size: optional number`
+</details>
 
-          The maximum number of messages to include in a batch.
+<a href="#">Link to this property</a>
 
-        - `max_concurrency: optional number`
+<details>
 
-          Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+<summary>
 
-        - `max_retries: optional number`
+MqEventSourceKV object {type }
 
-          The maximum number of retries
+</summary>
 
-        - `max_wait_time_ms: optional number`
+type: optional "kv"
 
-          The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+Type of source
 
-        - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-          The number of seconds to delay before making the message available for another attempt.
+</details>
 
-      - `type: optional "worker"`
+<a href="#">Link to this property</a>
 
-        - `"worker"`
+<details>
 
-    - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+<summary>
 
-      - `consumer_id: optional string`
+MqEventSourceR2 object {type }
 
-        A Resource identifier.
+</summary>
 
-      - `created_on: optional string`
+type: optional "r2"
 
-      - `dead_letter_queue: optional string`
+Type of source
 
-        Name of the dead letter queue, or empty string if not configured
+<a href="#">Link to this property</a>
 
-      - `queue_name: optional string`
+</details>
 
-      - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<a href="#">Link to this property</a>
 
-        - `batch_size: optional number`
+<details>
 
-          The maximum number of messages to include in a batch.
+<summary>
 
-        - `max_retries: optional number`
+MqEventSourceSuperSlurper object {type }
 
-          The maximum number of retries
+</summary>
 
-        - `retry_delay: optional number`
+type: optional "superSlurper"
 
-          The number of seconds to delay before making the message available for another attempt.
+Type of source
 
-        - `visibility_timeout_ms: optional number`
+<a href="#">Link to this property</a>
 
-          The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+</details>
 
-      - `type: optional "http_pull"`
+<a href="#">Link to this property</a>
 
-        - `"http_pull"`
+<details>
 
-  - `consumers_total_count: optional number`
+<summary>
 
-  - `created_on: optional string`
+MqEventSourceVectorize object {type }
 
-  - `modified_on: optional string`
+</summary>
 
-  - `producers: optional array of object { script, type }  or object { bucket_name, type }`
+type: optional "vectorize"
 
-    - `MqWorkerProducer object { script, type }`
+Type of source
 
-      - `script: optional string`
+<a href="#">Link to this property</a>
 
-      - `type: optional "worker"`
+</details>
 
-        - `"worker"`
+<a href="#">Link to this property</a>
 
-    - `MqR2Producer object { bucket_name, type }`
+<details>
 
-      - `bucket_name: optional string`
+<summary>
 
-      - `type: optional "r2_bucket"`
+MqEventSourceWorkersAIModel object {model\_name, type }
 
-        - `"r2_bucket"`
+</summary>
 
-  - `producers_total_count: optional number`
+model\_name: optional string
 
-  - `queue_id: optional string`
+Name of the Workers AI model
 
-  - `queue_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `settings: optional object { delivery_delay, delivery_paused, message_retention_period }`
+type: optional "workersAi.model"
 
-    - `delivery_delay: optional number`
+Type of source
 
-      Number of seconds to delay delivery of all messages to consumers.
+<a href="#">Link to this property</a>
 
-    - `delivery_paused: optional boolean`
+</details>
 
-      Indicates if message delivery to consumers is currently paused.
+<a href="#">Link to this property</a>
 
-    - `message_retention_period: optional number`
+<details>
 
-      Number of seconds after which an unconsumed message will be delayed.
+<summary>
 
-- `success: optional true`
+MqEventSourceWorkersBuildsWorker object {type, worker\_name }
 
-  Indicates if the API call was successful or not.
+</summary>
 
-  - `true`
+type: optional "workersBuilds.worker"
 
-### Example
+Type of source
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/purge \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+worker\_name: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "consumers": [
-      {
-        "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "created_on": "2019-12-27T18:11:19.117Z",
-        "dead_letter_queue": "dead_letter_queue",
-        "queue_name": "example-queue",
-        "script_name": "my-consumer-worker",
-        "settings": {
-          "batch_size": 50,
-          "max_concurrency": 10,
-          "max_retries": 3,
-          "max_wait_time_ms": 5000,
-          "retry_delay": 10
-        },
-        "type": "worker"
-      }
-    ],
-    "consumers_total_count": 0,
-    "created_on": "created_on",
-    "modified_on": "modified_on",
-    "producers": [
-      {
-        "script": "script",
-        "type": "worker"
-      }
-    ],
-    "producers_total_count": 0,
-    "queue_id": "queue_id",
-    "queue_name": "example-queue",
-    "settings": {
-      "delivery_delay": 5,
-      "delivery_paused": true,
-      "message_retention_period": 345600
-    }
-  },
-  "success": true
-}
-```
+Name of the worker
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Purge Status Response
+</details>
 
-- `PurgeStatusResponse object { completed, started_at }`
+<a href="#">Link to this property</a>
 
-  - `completed: optional string`
+<details>
 
-    Indicates if the last purge operation completed successfully.
+<summary>
 
-  - `started_at: optional string`
+MqEventSourceWorkersScript object {script\_tag, type }
 
-    Timestamp when the last purge operation started.
+</summary>
 
-# Consumers
+script\_tag: optional string
 
-## List Queue Consumers
+Tag of the Worker script
 
-**get** `/accounts/{account_id}/queues/{queue_id}/consumers`
+<a href="#">Link to this property</a>
 
-Returns the consumers for a Queue
+type: optional "workers.script"
 
-### Path Parameters
+Type of source
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+</details>
 
-- `queue_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: optional array of ResponseInfo`
+MqEventSourceWorkflowsWorkflow object {type, workflow\_name }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+type: optional "workflows.workflow"
 
-  - `documentation_url: optional string`
+Type of source
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+workflow\_name: optional string
 
-- `messages: optional array of string`
+Name of the workflow
 
-- `result: optional array of Consumer`
+<a href="#">Link to this property</a>
 
-  - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+</details>
 
-    - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-      A Resource identifier.
+</details>
 
-    - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    - `dead_letter_queue: optional string`
+</details>
 
-      Name of the dead letter queue, or empty string if not configured
+[Link to this property](#)%20queues.subscriptions%20%3E%20(model)%20subscription_create_response%20%3E%20(schema)>)
 
-    - `queue_name: optional string`
+<details>
 
-    - `script_name: optional string`
+<summary>
 
-      Name of a Worker
+SubscriptionUpdateResponse object {id, created\_at, destination, 5 more }
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+</summary>
 
-      - `batch_size: optional number`
+id: string
 
-        The maximum number of messages to include in a batch.
+Unique identifier for the subscription
 
-      - `max_concurrency: optional number`
+<a href="#">Link to this property</a>
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+created\_at: string
 
-      - `max_retries: optional number`
+When the subscription was created
 
-        The maximum number of retries
+formatdate-time
 
-      - `max_wait_time_ms: optional number`
+<a href="#">Link to this property</a>
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+<details>
 
-      - `retry_delay: optional number`
+<summary>
 
-        The number of seconds to delay before making the message available for another attempt.
+destination: object {queue\_id, type }
 
-    - `type: optional "worker"`
+Destination configuration for the subscription
 
-      - `"worker"`
+</summary>
 
-  - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+queue\_id: string
 
-    - `consumer_id: optional string`
+ID of the target queue
 
-      A Resource identifier.
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+type: "queues.queue"
 
-    - `dead_letter_queue: optional string`
+Type of destination
 
-      Name of the dead letter queue, or empty string if not configured
+<a href="#">Link to this property</a>
 
-    - `queue_name: optional string`
+</details>
 
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<a href="#">Link to this property</a>
 
-      - `batch_size: optional number`
+enabled: boolean
 
-        The maximum number of messages to include in a batch.
+Whether the subscription is active
 
-      - `max_retries: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of retries
+events: array of string
 
-      - `retry_delay: optional number`
+List of event types this subscription handles
 
-        The number of seconds to delay before making the message available for another attempt.
+<a href="#">Link to this property</a>
 
-      - `visibility_timeout_ms: optional number`
+modified\_at: string
 
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+When the subscription was last modified
 
-    - `type: optional "http_pull"`
+formatdate-time
 
-      - `"http_pull"`
+<a href="#">Link to this property</a>
 
-- `success: optional true`
+name: string
 
-  Indicates if the API call was successful or not.
+Name of the subscription
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/consumers \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+source: object {type } or object {type } or object {type } or 6 more
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "dead_letter_queue": "dead_letter_queue",
-      "queue_name": "example-queue",
-      "script_name": "my-consumer-worker",
-      "settings": {
-        "batch_size": 50,
-        "max_concurrency": 10,
-        "max_retries": 3,
-        "max_wait_time_ms": 5000,
-        "retry_delay": 10
-      },
-      "type": "worker"
-    }
-  ],
-  "success": true
-}
-```
+Source configuration for the subscription
 
-## Get Queue Consumer
+</summary>
 
-**get** `/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}`
+One of the following:
 
-Fetches the consumer for a queue by consumer id
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+MqEventSourceImages object {type }
 
-  A Resource identifier.
+</summary>
 
-- `queue_id: string`
+type: optional "images"
 
-  A Resource identifier.
+Type of source
 
-- `consumer_id: string`
+<a href="#">Link to this property</a>
 
-  A Resource identifier.
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+MqEventSourceKV object {type }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+type: optional "kv"
 
-    - `pointer: optional string`
+Type of source
 
-- `messages: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result: optional Consumer`
+</details>
 
-  Response body representing a consumer
+<a href="#">Link to this property</a>
 
-  - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+<details>
 
-    - `consumer_id: optional string`
+<summary>
 
-      A Resource identifier.
+MqEventSourceR2 object {type }
 
-    - `created_on: optional string`
+</summary>
 
-    - `dead_letter_queue: optional string`
+type: optional "r2"
 
-      Name of the dead letter queue, or empty string if not configured
+Type of source
 
-    - `queue_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `script_name: optional string`
+</details>
 
-      Name of a Worker
+<a href="#">Link to this property</a>
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+<details>
 
-      - `batch_size: optional number`
+<summary>
 
-        The maximum number of messages to include in a batch.
+MqEventSourceSuperSlurper object {type }
 
-      - `max_concurrency: optional number`
+</summary>
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+type: optional "superSlurper"
 
-      - `max_retries: optional number`
+Type of source
 
-        The maximum number of retries
+<a href="#">Link to this property</a>
 
-      - `max_wait_time_ms: optional number`
+</details>
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+<a href="#">Link to this property</a>
 
-      - `retry_delay: optional number`
+<details>
 
-        The number of seconds to delay before making the message available for another attempt.
+<summary>
 
-    - `type: optional "worker"`
+MqEventSourceVectorize object {type }
 
-      - `"worker"`
+</summary>
 
-  - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+type: optional "vectorize"
 
-    - `consumer_id: optional string`
+Type of source
 
-      A Resource identifier.
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+</details>
 
-    - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the dead letter queue, or empty string if not configured
+<details>
 
-    - `queue_name: optional string`
+<summary>
 
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+MqEventSourceWorkersAIModel object {model\_name, type }
 
-      - `batch_size: optional number`
+</summary>
 
-        The maximum number of messages to include in a batch.
+model\_name: optional string
 
-      - `max_retries: optional number`
+Name of the Workers AI model
 
-        The maximum number of retries
+<a href="#">Link to this property</a>
 
-      - `retry_delay: optional number`
+type: optional "workersAi.model"
 
-        The number of seconds to delay before making the message available for another attempt.
+Type of source
 
-      - `visibility_timeout_ms: optional number`
+<a href="#">Link to this property</a>
 
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+</details>
 
-    - `type: optional "http_pull"`
+<a href="#">Link to this property</a>
 
-      - `"http_pull"`
+<details>
 
-- `success: optional true`
+<summary>
 
-  Indicates if the API call was successful or not.
+MqEventSourceWorkersBuildsWorker object {type, worker\_name }
 
-  - `true`
+</summary>
 
-### Example
+type: optional "workersBuilds.worker"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/consumers/$CONSUMER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Type of source
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "dead_letter_queue": "dead_letter_queue",
-    "queue_name": "example-queue",
-    "script_name": "my-consumer-worker",
-    "settings": {
-      "batch_size": 50,
-      "max_concurrency": 10,
-      "max_retries": 3,
-      "max_wait_time_ms": 5000,
-      "retry_delay": 10
-    },
-    "type": "worker"
-  },
-  "success": true
-}
-```
+worker\_name: optional string
 
-## Create a Queue Consumer
+Name of the worker
 
-**post** `/accounts/{account_id}/queues/{queue_id}/consumers`
+<a href="#">Link to this property</a>
 
-Creates a new consumer for a Queue
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  A Resource identifier.
+<summary>
 
-- `queue_id: string`
+MqEventSourceWorkersScript object {script\_tag, type }
 
-  A Resource identifier.
+</summary>
 
-### Body Parameters
+script\_tag: optional string
 
-- `body: object { script_name, type, dead_letter_queue, settings }  or object { type, dead_letter_queue, settings }`
+Tag of the Worker script
 
-  Request body for creating or updating a consumer
+<a href="#">Link to this property</a>
 
-  - `Worker object { script_name, type, dead_letter_queue, settings }`
+type: optional "workers.script"
 
-    - `script_name: string`
+Type of source
 
-      Name of a Worker
+<a href="#">Link to this property</a>
 
-    - `type: "worker"`
+</details>
 
-      - `"worker"`
+<a href="#">Link to this property</a>
 
-    - `dead_letter_queue: optional string`
+<details>
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+<summary>
 
-      - `batch_size: optional number`
+MqEventSourceWorkflowsWorkflow object {type, workflow\_name }
 
-        The maximum number of messages to include in a batch.
+</summary>
 
-      - `max_concurrency: optional number`
+type: optional "workflows.workflow"
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+Type of source
 
-      - `max_retries: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of retries
+workflow\_name: optional string
 
-      - `max_wait_time_ms: optional number`
+Name of the workflow
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+<a href="#">Link to this property</a>
 
-      - `retry_delay: optional number`
+</details>
 
-        The number of seconds to delay before making the message available for another attempt.
+<a href="#">Link to this property</a>
 
-  - `HTTPPull object { type, dead_letter_queue, settings }`
+</details>
 
-    - `type: "http_pull"`
+<a href="#">Link to this property</a>
 
-      - `"http_pull"`
+</details>
 
-    - `dead_letter_queue: optional string`
+[Link to this property](#)%20queues.subscriptions%20%3E%20(model)%20subscription_update_response%20%3E%20(schema)>)
 
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<details>
 
-      - `batch_size: optional number`
+<summary>
 
-        The maximum number of messages to include in a batch.
+SubscriptionDeleteResponse object {id, created\_at, destination, 5 more }
 
-      - `max_retries: optional number`
+</summary>
 
-        The maximum number of retries
+id: string
 
-      - `retry_delay: optional number`
+Unique identifier for the subscription
 
-        The number of seconds to delay before making the message available for another attempt.
+<a href="#">Link to this property</a>
 
-      - `visibility_timeout_ms: optional number`
+created\_at: string
 
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+When the subscription was created
 
-### Returns
+formatdate-time
 
-- `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+destination: object {queue\_id, type }
 
-  - `source: optional object { pointer }`
+Destination configuration for the subscription
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: optional array of string`
+queue\_id: string
 
-- `result: optional Consumer`
+ID of the target queue
 
-  Response body representing a consumer
+<a href="#">Link to this property</a>
 
-  - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+type: "queues.queue"
 
-    - `consumer_id: optional string`
+Type of destination
 
-      A Resource identifier.
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+</details>
 
-    - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the dead letter queue, or empty string if not configured
+enabled: boolean
 
-    - `queue_name: optional string`
+Whether the subscription is active
 
-    - `script_name: optional string`
+<a href="#">Link to this property</a>
 
-      Name of a Worker
+events: array of string
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+List of event types this subscription handles
 
-      - `batch_size: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of messages to include in a batch.
+modified\_at: string
 
-      - `max_concurrency: optional number`
+When the subscription was last modified
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+formatdate-time
 
-      - `max_retries: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of retries
+name: string
 
-      - `max_wait_time_ms: optional number`
+Name of the subscription
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+<a href="#">Link to this property</a>
 
-      - `retry_delay: optional number`
+<details>
 
-        The number of seconds to delay before making the message available for another attempt.
+<summary>
 
-    - `type: optional "worker"`
+source: object {type } or object {type } or object {type } or 6 more
 
-      - `"worker"`
+Source configuration for the subscription
 
-  - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+</summary>
 
-    - `consumer_id: optional string`
+One of the following:
 
-      A Resource identifier.
+<details>
 
-    - `created_on: optional string`
+<summary>
 
-    - `dead_letter_queue: optional string`
+MqEventSourceImages object {type }
 
-      Name of the dead letter queue, or empty string if not configured
+</summary>
 
-    - `queue_name: optional string`
+type: optional "images"
 
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+Type of source
 
-      - `batch_size: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of messages to include in a batch.
+</details>
 
-      - `max_retries: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of retries
+<details>
 
-      - `retry_delay: optional number`
+<summary>
 
-        The number of seconds to delay before making the message available for another attempt.
+MqEventSourceKV object {type }
 
-      - `visibility_timeout_ms: optional number`
+</summary>
 
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+type: optional "kv"
 
-    - `type: optional "http_pull"`
+Type of source
 
-      - `"http_pull"`
+<a href="#">Link to this property</a>
 
-- `success: optional true`
+</details>
 
-  Indicates if the API call was successful or not.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/consumers \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "script_name": "my-consumer-worker",
-          "type": "worker",
-          "dead_letter_queue": "example-queue"
-        }'
-```
+MqEventSourceR2 object {type }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "dead_letter_queue": "dead_letter_queue",
-    "queue_name": "example-queue",
-    "script_name": "my-consumer-worker",
-    "settings": {
-      "batch_size": 50,
-      "max_concurrency": 10,
-      "max_retries": 3,
-      "max_wait_time_ms": 5000,
-      "retry_delay": 10
-    },
-    "type": "worker"
-  },
-  "success": true
-}
-```
+type: optional "r2"
 
-## Update Queue Consumer
+Type of source
 
-**put** `/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}`
+<a href="#">Link to this property</a>
 
-Updates the consumer for a queue, or creates one if it does not exist.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  A Resource identifier.
+<summary>
 
-- `queue_id: string`
+MqEventSourceSuperSlurper object {type }
 
-  A Resource identifier.
+</summary>
 
-- `consumer_id: string`
+type: optional "superSlurper"
 
-  A Resource identifier.
+Type of source
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: object { script_name, type, dead_letter_queue, settings }  or object { type, dead_letter_queue, settings }`
+</details>
 
-  Request body for creating or updating a consumer
+<a href="#">Link to this property</a>
 
-  - `Worker object { script_name, type, dead_letter_queue, settings }`
+<details>
 
-    - `script_name: string`
+<summary>
 
-      Name of a Worker
+MqEventSourceVectorize object {type }
 
-    - `type: "worker"`
+</summary>
 
-      - `"worker"`
+type: optional "vectorize"
 
-    - `dead_letter_queue: optional string`
+Type of source
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `batch_size: optional number`
+</details>
 
-        The maximum number of messages to include in a batch.
+<a href="#">Link to this property</a>
 
-      - `max_concurrency: optional number`
+<details>
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+<summary>
 
-      - `max_retries: optional number`
+MqEventSourceWorkersAIModel object {model\_name, type }
 
-        The maximum number of retries
+</summary>
 
-      - `max_wait_time_ms: optional number`
+model\_name: optional string
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+Name of the Workers AI model
 
-      - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-        The number of seconds to delay before making the message available for another attempt.
+type: optional "workersAi.model"
 
-  - `HTTPPull object { type, dead_letter_queue, settings }`
+Type of source
 
-    - `type: "http_pull"`
+<a href="#">Link to this property</a>
 
-      - `"http_pull"`
+</details>
 
-    - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+<details>
 
-      - `batch_size: optional number`
+<summary>
 
-        The maximum number of messages to include in a batch.
+MqEventSourceWorkersBuildsWorker object {type, worker\_name }
 
-      - `max_retries: optional number`
+</summary>
 
-        The maximum number of retries
+type: optional "workersBuilds.worker"
 
-      - `retry_delay: optional number`
+Type of source
 
-        The number of seconds to delay before making the message available for another attempt.
+<a href="#">Link to this property</a>
 
-      - `visibility_timeout_ms: optional number`
+worker\_name: optional string
 
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+Name of the worker
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+MqEventSourceWorkersScript object {script\_tag, type }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: optional array of string`
+script\_tag: optional string
 
-- `result: optional Consumer`
+Tag of the Worker script
 
-  Response body representing a consumer
+<a href="#">Link to this property</a>
 
-  - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+type: optional "workers.script"
 
-    - `consumer_id: optional string`
+Type of source
 
-      A Resource identifier.
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+</details>
 
-    - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the dead letter queue, or empty string if not configured
+<details>
 
-    - `queue_name: optional string`
+<summary>
 
-    - `script_name: optional string`
+MqEventSourceWorkflowsWorkflow object {type, workflow\_name }
 
-      Name of a Worker
+</summary>
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+type: optional "workflows.workflow"
 
-      - `batch_size: optional number`
+Type of source
 
-        The maximum number of messages to include in a batch.
+<a href="#">Link to this property</a>
 
-      - `max_concurrency: optional number`
+workflow\_name: optional string
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+Name of the workflow
 
-      - `max_retries: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of retries
+</details>
 
-      - `max_wait_time_ms: optional number`
+<a href="#">Link to this property</a>
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+</details>
 
-      - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-        The number of seconds to delay before making the message available for another attempt.
+</details>
 
-    - `type: optional "worker"`
-
-      - `"worker"`
-
-  - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
-
-    - `consumer_id: optional string`
-
-      A Resource identifier.
-
-    - `created_on: optional string`
-
-    - `dead_letter_queue: optional string`
-
-      Name of the dead letter queue, or empty string if not configured
-
-    - `queue_name: optional string`
-
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
-
-      - `batch_size: optional number`
-
-        The maximum number of messages to include in a batch.
-
-      - `max_retries: optional number`
-
-        The maximum number of retries
-
-      - `retry_delay: optional number`
-
-        The number of seconds to delay before making the message available for another attempt.
-
-      - `visibility_timeout_ms: optional number`
-
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
-
-    - `type: optional "http_pull"`
-
-      - `"http_pull"`
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/consumers/$CONSUMER_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "script_name": "my-consumer-worker",
-          "type": "worker",
-          "dead_letter_queue": "example-queue"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "dead_letter_queue": "dead_letter_queue",
-    "queue_name": "example-queue",
-    "script_name": "my-consumer-worker",
-    "settings": {
-      "batch_size": 50,
-      "max_concurrency": 10,
-      "max_retries": 3,
-      "max_wait_time_ms": 5000,
-      "retry_delay": 10
-    },
-    "type": "worker"
-  },
-  "success": true
-}
-```
-
-## Delete Queue Consumer
-
-**delete** `/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}`
-
-Deletes the consumer for a queue.
-
-### Path Parameters
-
-- `account_id: string`
-
-  A Resource identifier.
-
-- `queue_id: string`
-
-  A Resource identifier.
-
-- `consumer_id: string`
-
-  A Resource identifier.
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/consumers/$CONSUMER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Consumer
-
-- `Consumer = object { consumer_id, created_on, dead_letter_queue, 4 more }  or object { consumer_id, created_on, dead_letter_queue, 3 more }`
-
-  Response body representing a consumer
-
-  - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
-
-    - `consumer_id: optional string`
-
-      A Resource identifier.
-
-    - `created_on: optional string`
-
-    - `dead_letter_queue: optional string`
-
-      Name of the dead letter queue, or empty string if not configured
-
-    - `queue_name: optional string`
-
-    - `script_name: optional string`
-
-      Name of a Worker
-
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
-
-      - `batch_size: optional number`
-
-        The maximum number of messages to include in a batch.
-
-      - `max_concurrency: optional number`
-
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
-
-      - `max_retries: optional number`
-
-        The maximum number of retries
-
-      - `max_wait_time_ms: optional number`
-
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
-
-      - `retry_delay: optional number`
-
-        The number of seconds to delay before making the message available for another attempt.
-
-    - `type: optional "worker"`
-
-      - `"worker"`
-
-  - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
-
-    - `consumer_id: optional string`
-
-      A Resource identifier.
-
-    - `created_on: optional string`
-
-    - `dead_letter_queue: optional string`
-
-      Name of the dead letter queue, or empty string if not configured
-
-    - `queue_name: optional string`
-
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
-
-      - `batch_size: optional number`
-
-        The maximum number of messages to include in a batch.
-
-      - `max_retries: optional number`
-
-        The maximum number of retries
-
-      - `retry_delay: optional number`
-
-        The number of seconds to delay before making the message available for another attempt.
-
-      - `visibility_timeout_ms: optional number`
-
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
-
-    - `type: optional "http_pull"`
-
-      - `"http_pull"`
-
-### Consumer Delete Response
-
-- `ConsumerDeleteResponse object { errors, messages, success }`
-
-  - `errors: optional array of ResponseInfo`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: optional array of string`
-
-  - `success: optional true`
-
-    Indicates if the API call was successful or not.
-
-    - `true`
-
-# Subscriptions
-
-## List Event Subscriptions
-
-**get** `/accounts/{account_id}/event_subscriptions/subscriptions`
-
-Get a paginated list of event subscriptions with optional sorting and filtering
-
-### Path Parameters
-
-- `account_id: string`
-
-  A Resource identifier.
-
-### Query Parameters
-
-- `direction: optional "asc" or "desc"`
-
-  Sort direction
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `order: optional "created_at" or "name" or "enabled" or "source"`
-
-  Field to sort by
-
-  - `"created_at"`
-
-  - `"name"`
-
-  - `"enabled"`
-
-  - `"source"`
-
-- `page: optional number`
-
-  Page number for pagination
-
-- `per_page: optional number`
-
-  Number of items per page
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional array of object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: number`
-
-    Number of items in current page
-
-  - `page: number`
-
-    Current page number
-
-  - `per_page: number`
-
-    Items per page
-
-  - `total_count: number`
-
-    Total number of items
-
-  - `total_pages: number`
-
-    Total number of pages
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_subscriptions/subscriptions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": [
-    {
-      "id": "id",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "destination": {
-        "queue_id": "queue_id",
-        "type": "queues.queue"
-      },
-      "enabled": true,
-      "events": [
-        "string"
-      ],
-      "modified_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "source": {
-        "type": "images"
-      }
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "total_pages": 0
-  },
-  "success": true
-}
-```
-
-## Get Event Subscription
-
-**get** `/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}`
-
-Get details about an existing event subscription
-
-### Path Parameters
-
-- `account_id: string`
-
-  A Resource identifier.
-
-- `subscription_id: string`
-
-  A Resource identifier.
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_subscriptions/subscriptions/$SUBSCRIPTION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "destination": {
-      "queue_id": "queue_id",
-      "type": "queues.queue"
-    },
-    "enabled": true,
-    "events": [
-      "string"
-    ],
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "source": {
-      "type": "images"
-    }
-  },
-  "success": true
-}
-```
-
-## Create Event Subscription
-
-**post** `/accounts/{account_id}/event_subscriptions/subscriptions`
-
-Create a new event subscription for a queue
-
-### Path Parameters
-
-- `account_id: string`
-
-  A Resource identifier.
-
-### Body Parameters
-
-- `destination: optional object { queue_id, type }`
-
-  Destination configuration for the subscription
-
-  - `queue_id: string`
-
-    ID of the target queue
-
-  - `type: "queues.queue"`
-
-    Type of destination
-
-    - `"queues.queue"`
-
-- `enabled: optional boolean`
-
-  Whether the subscription is active
-
-- `events: optional array of string`
-
-  List of event types this subscription handles
-
-- `name: optional string`
-
-  Name of the subscription
-
-- `source: optional object { type }  or object { type }  or object { type }  or 5 more`
-
-  Source configuration for the subscription
-
-  - `MqEventSourceImages object { type }`
-
-    - `type: optional "images"`
-
-      Type of source
-
-      - `"images"`
-
-  - `MqEventSourceKV object { type }`
-
-    - `type: optional "kv"`
-
-      Type of source
-
-      - `"kv"`
-
-  - `MqEventSourceR2 object { type }`
-
-    - `type: optional "r2"`
-
-      Type of source
-
-      - `"r2"`
-
-  - `MqEventSourceSuperSlurper object { type }`
-
-    - `type: optional "superSlurper"`
-
-      Type of source
-
-      - `"superSlurper"`
-
-  - `MqEventSourceVectorize object { type }`
-
-    - `type: optional "vectorize"`
-
-      Type of source
-
-      - `"vectorize"`
-
-  - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-    - `model_name: optional string`
-
-      Name of the Workers AI model
-
-    - `type: optional "workersAi.model"`
-
-      Type of source
-
-      - `"workersAi.model"`
-
-  - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-    - `type: optional "workersBuilds.worker"`
-
-      Type of source
-
-      - `"workersBuilds.worker"`
-
-    - `worker_name: optional string`
-
-      Name of the worker
-
-  - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-    - `type: optional "workflows.workflow"`
-
-      Type of source
-
-      - `"workflows.workflow"`
-
-    - `workflow_name: optional string`
-
-      Name of the workflow
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_subscriptions/subscriptions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "destination": {
-      "queue_id": "queue_id",
-      "type": "queues.queue"
-    },
-    "enabled": true,
-    "events": [
-      "string"
-    ],
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "source": {
-      "type": "images"
-    }
-  },
-  "success": true
-}
-```
-
-## Update Event Subscription
-
-**patch** `/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}`
-
-Update an existing event subscription
-
-### Path Parameters
-
-- `account_id: string`
-
-  A Resource identifier.
-
-- `subscription_id: string`
-
-  A Resource identifier.
-
-### Body Parameters
-
-- `destination: optional object { queue_id, type }`
-
-  Destination configuration for the subscription
-
-  - `queue_id: string`
-
-    ID of the target queue
-
-  - `type: "queues.queue"`
-
-    Type of destination
-
-    - `"queues.queue"`
-
-- `enabled: optional boolean`
-
-  Whether the subscription is active
-
-- `events: optional array of string`
-
-  List of event types this subscription handles
-
-- `name: optional string`
-
-  Name of the subscription
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_subscriptions/subscriptions/$SUBSCRIPTION_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "destination": {
-      "queue_id": "queue_id",
-      "type": "queues.queue"
-    },
-    "enabled": true,
-    "events": [
-      "string"
-    ],
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "source": {
-      "type": "images"
-    }
-  },
-  "success": true
-}
-```
-
-## Delete Event Subscription
-
-**delete** `/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}`
-
-Delete an existing event subscription
-
-### Path Parameters
-
-- `account_id: string`
-
-  A Resource identifier.
-
-- `subscription_id: string`
-
-  A Resource identifier.
-
-### Returns
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of string`
-
-- `result: optional object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-- `success: optional true`
-
-  Indicates if the API call was successful or not.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/event_subscriptions/subscriptions/$SUBSCRIPTION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 7003,
-      "message": "No route for the URI",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "id": "id",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "destination": {
-      "queue_id": "queue_id",
-      "type": "queues.queue"
-    },
-    "enabled": true,
-    "events": [
-      "string"
-    ],
-    "modified_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "source": {
-      "type": "images"
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Subscription List Response
-
-- `SubscriptionListResponse object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-### Subscription Get Response
-
-- `SubscriptionGetResponse object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-### Subscription Create Response
-
-- `SubscriptionCreateResponse object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-### Subscription Update Response
-
-- `SubscriptionUpdateResponse object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
-
-### Subscription Delete Response
-
-- `SubscriptionDeleteResponse object { id, created_at, destination, 5 more }`
-
-  - `id: string`
-
-    Unique identifier for the subscription
-
-  - `created_at: string`
-
-    When the subscription was created
-
-  - `destination: object { queue_id, type }`
-
-    Destination configuration for the subscription
-
-    - `queue_id: string`
-
-      ID of the target queue
-
-    - `type: "queues.queue"`
-
-      Type of destination
-
-      - `"queues.queue"`
-
-  - `enabled: boolean`
-
-    Whether the subscription is active
-
-  - `events: array of string`
-
-    List of event types this subscription handles
-
-  - `modified_at: string`
-
-    When the subscription was last modified
-
-  - `name: string`
-
-    Name of the subscription
-
-  - `source: object { type }  or object { type }  or object { type }  or 5 more`
-
-    Source configuration for the subscription
-
-    - `MqEventSourceImages object { type }`
-
-      - `type: optional "images"`
-
-        Type of source
-
-        - `"images"`
-
-    - `MqEventSourceKV object { type }`
-
-      - `type: optional "kv"`
-
-        Type of source
-
-        - `"kv"`
-
-    - `MqEventSourceR2 object { type }`
-
-      - `type: optional "r2"`
-
-        Type of source
-
-        - `"r2"`
-
-    - `MqEventSourceSuperSlurper object { type }`
-
-      - `type: optional "superSlurper"`
-
-        Type of source
-
-        - `"superSlurper"`
-
-    - `MqEventSourceVectorize object { type }`
-
-      - `type: optional "vectorize"`
-
-        Type of source
-
-        - `"vectorize"`
-
-    - `MqEventSourceWorkersAIModel object { model_name, type }`
-
-      - `model_name: optional string`
-
-        Name of the Workers AI model
-
-      - `type: optional "workersAi.model"`
-
-        Type of source
-
-        - `"workersAi.model"`
-
-    - `MqEventSourceWorkersBuildsWorker object { type, worker_name }`
-
-      - `type: optional "workersBuilds.worker"`
-
-        Type of source
-
-        - `"workersBuilds.worker"`
-
-      - `worker_name: optional string`
-
-        Name of the worker
-
-    - `MqEventSourceWorkflowsWorkflow object { type, workflow_name }`
-
-      - `type: optional "workflows.workflow"`
-
-        Type of source
-
-        - `"workflows.workflow"`
-
-      - `workflow_name: optional string`
-
-        Name of the workflow
+[Link to this property](#)%20queues.subscriptions%20%3E%20(model)%20subscription_delete_response%20%3E%20(schema)>)

@@ -1,206 +1,65 @@
+---
+title: Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Origin TLS Client Auth](https://developers.cloudflare.com/api/resources/origin_tls_client_auth)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Settings
 
-## Get Enablement Setting for Zone
+##### [Get Enablement Setting for Zone](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/settings/methods/get)
 
-**get** `/zones/{zone_id}/origin_tls_client_auth/settings`
+GET/zones/{zone\_id}/origin\_tls\_client\_auth/settings
 
-Get whether zone-level authenticated origin pulls is enabled or not. It is false by default.
+##### [Set Enablement for Zone](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/settings/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/origin\_tls\_client\_auth/settings
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+SettingGetResponse object {enabled }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+enabled: optional boolean
 
-  - `documentation_url: optional string`
+Indicates whether zone-level authenticated origin pulls is enabled.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20origin_tls_client_auth.settings%20%3E%20(model)%20setting_get_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+SettingUpdateResponse object {enabled }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+enabled: optional boolean
 
-- `success: true`
+Indicates whether zone-level authenticated origin pulls is enabled.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { enabled }`
-
-  - `enabled: optional boolean`
-
-    Indicates whether zone-level authenticated origin pulls is enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true
-  }
-}
-```
-
-## Set Enablement for Zone
-
-**put** `/zones/{zone_id}/origin_tls_client_auth/settings`
-
-Enable or disable zone-level authenticated origin pulls. 'enabled' should be set true either before/after the certificate is uploaded to see the certificate in use.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  Indicates whether zone-level authenticated origin pulls is enabled.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { enabled }`
-
-  - `enabled: optional boolean`
-
-    Indicates whether zone-level authenticated origin pulls is enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true
-  }
-}
-```
-
-## Domain Types
-
-### Setting Get Response
-
-- `SettingGetResponse object { enabled }`
-
-  - `enabled: optional boolean`
-
-    Indicates whether zone-level authenticated origin pulls is enabled.
-
-### Setting Update Response
-
-- `SettingUpdateResponse object { enabled }`
-
-  - `enabled: optional boolean`
-
-    Indicates whether zone-level authenticated origin pulls is enabled.
+[Link to this property](#)%20origin_tls_client_auth.settings%20%3E%20(model)%20setting_update_response%20%3E%20(schema)>)

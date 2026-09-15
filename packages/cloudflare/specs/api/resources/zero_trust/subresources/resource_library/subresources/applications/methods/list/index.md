@@ -1,189 +1,466 @@
-## List applications
+---
+title: List applications
+---
 
-**get** `/accounts/{account_id}/resource-library/applications`
+[Skip to content](#_top)
 
-List applications with different filters.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[Resource Library](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library)
 
-### Query Parameters
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/resource_library/subresources/applications)
 
-- `filter: optional string`
+Copy Markdown
 
-  Filter applications using key:value format. Supported filter keys:
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - name: Filter by application name (e.g., name:HR)
-  - id: Filter by application ID (e.g., id:0b63249c-95bf-4cc0-a7cc-d7faaaf1dac0)
-  - human_id: Filter by human-readable ID (e.g., human_id:HR)
-  - hostname: Filter by hostname or support domain (e.g., hostname:portal.example.com)
-  - source: Filter by application source name (e.g., source:cloudflare)
-  - ip_subnet: Filter by IP subnet using CIDR containment — returns applications where any stored subnet contains the search value (e.g., ip_subnet:10.0.1.5/32 matches apps with 10.0.0.0/16)
-  - intel_id: Filter by Intel API ID (e.g., intel_id:498). also supports multiple values (e.g., intel_id:498,1001)
-  - category_id: Filter by category ID (e.g., category_id:37f8ec03-8766-49d4-9a15-369b044c842c).
-  - category_name: Filter by category name (e.g., category_name:HR).
-  - supported: Filter by supported Cloudflare product (e.g., supported:ACCESS). Values: GATEWAY, ACCESS, CASB.
-    .
+---
 
-- `limit: optional number`
+**Copy Markdown****View as Markdown**
 
-  Limit of number of results to return (max 250).
+# List applications
 
-- `offset: optional number`
+GET/accounts/{account\_id}/resource-library/applications
 
-  Offset of results to return.
+List the applications available to an account, both the applications Cloudflare curates and the custom applications the account has defined.
 
-- `order_by: optional string`
+Results are paginated. Use `filter` and `search` to narrow the list, `order_by` to sort it, and `fields` to reduce each result to only the properties you need.
 
-  Order results by field name and direction (e.g., name:asc). Ignored when search is provided; results are ranked by relevance instead.
+The authenticated principal must have access to the account identified by `account_id`.
 
-- `search: optional string`
+##### Security
 
-  Fuzzy search across application name and hostnames. Results are ranked by relevance. Must be between 2 and 200 characters. Can be combined with filter parameters.
+<details>
 
-### Returns
+<summary>API Token</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `documentation_url: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>API Email + API Key</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `success: true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Indicates whether the API call was successful.
+</details>
 
-  - `true`
+##### P ath ParametersExpand Collapse
 
-- `result: optional array of object { id, application_confidence_score, application_source, 15 more }`
+account\_id: string
 
-  Returns the list of applications.
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `id: string`
+##### Q uery ParametersExpand Collapse
 
-    Returns the application ID.
+fields: optional string
 
-  - `application_confidence_score: number`
+Return only the listed properties on each application, as a comma-separated list. Use this to keep responses small when you only need part of each application — for example populating a picker with `fields=id,name` instead of downloading every hostname and IP subnet.
 
-    Confidence score for the application. Returns -1 when no score is available.
+Omit this parameter to receive the full application object.
 
-  - `application_source: string`
+`id` is always returned.
 
-    Returns the application source.
+Selectable properties: `id`, `name`, `human_id`, `version`, `hostnames`, `support_domains`, `ip_subnets`, `port_protocols`, `supported`, `gen_ai_score`, `application_confidence_score`, `created_at`, `updated_at`, `review_status`.
 
-  - `application_type: string`
+Unknown or empty property names return `400`.
 
-    Returns the application type.
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20fields%20%3E%20(schema)>)
 
-  - `application_type_description: string`
+filter: optional string
 
-    Returns the application type description.
+Filter applications using key:value format. Supported filter keys:
 
-  - `created_at: string`
+- name: Filter by application name (e.g., name:HR)
+- id: Filter by application ID (e.g., id:498)
+- human\_id: Filter by human-readable ID (e.g., human\_id:HR)
+- hostname: Filter by hostname or support domain (e.g., hostname:portal.example.com)
+- source: Filter by application source name (e.g., source:cloudflare)
+- ip\_subnet: Filter by IP subnet using CIDR containment — returns applications where any stored subnet contains the search value (e.g., ip\_subnet:10.0.1.5/32 matches apps with 10.0.0.0/16)
+- category\_id: Filter by category ID (e.g., category\_id:12).
+- category\_name: Filter by category name (e.g., category\_name:HR).
+- supported: Filter by supported Cloudflare product (e.g., supported:ACCESS). Values: GATEWAY, ACCESS, CASB.
+- review\_status: Filter by the account’s Gateway review status. Values: approved, unapproved, in\_review, unreviewed. .
 
-    Returns the application creation time.
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20filter%20%3E%20(schema)>)
 
-  - `gen_ai_score: number`
+limit: optional number
 
-    GenAI score for the application. Returns -1 when no score is available.
+Limit of number of results to return (max 250).
 
-  - `hostnames: array of string`
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-    Returns the list of hostnames for the application.
+offset: optional number
 
-  - `human_id: string`
+Offset of results to return.
 
-    Returns the human readable ID.
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-  - `ip_subnets: array of string`
+order\_by: optional string
 
-    Returns the list of IP subnets for the application.
+Order results using field:direction format. Supported fields are name, id, human\_id, category\_id, application\_type, application\_confidence\_score, and gen\_ai\_score. Supported directions are asc and desc. Ignored when search is provided; results are ranked by relevance instead.
 
-  - `name: string`
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order_by%20%3E%20(schema)>)
 
-    Returns the application name.
+search: optional string
 
-  - `port_protocols: array of string`
+Fuzzy search across application name and hostnames. Results are ranked by relevance. Must be between 2 and 200 characters. Can be combined with filter parameters.
 
-    Returns the list of port protocols for the application.
+maxLength200
 
-  - `support_domains: array of string`
+minLength2
 
-    Returns the list of support domains for the application.
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
 
-  - `supported: array of "GATEWAY" or "ACCESS" or "CASB"`
+##### ReturnsExpand Collapse
 
-    Cloudflare products that support this application.
+<details>
 
-    - `"GATEWAY"`
+<summary>
 
-    - `"ACCESS"`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `"CASB"`
+</summary>
 
-  - `updated_at: string`
+code: number
 
-    Returns the application update time.
+minimum1000
 
-  - `version: string`
+<a href="#">Link to this property</a>
 
-    Returns the application version.
+message: string
 
-  - `application_score_composition: optional unknown`
+<a href="#">Link to this property</a>
 
-    Returns the score composition breakdown for the application.
+documentation\_url: optional string
 
-  - `intel_id: optional number`
+<a href="#">Link to this property</a>
 
-    Returns the Intel API ID for the application.
+<details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<summary>
 
-  - `count: optional number`
+source: optional object {pointer }
 
-    Returns the total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+pointer: optional string
 
-    Returns the current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Returns the number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Returns the total results available without any search parameters.
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-### Example
+<details>
 
-```http
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, application\_confidence\_score, application\_score\_composition, 16 more }
+
+Returns the list of applications.
+
+</summary>
+
+id: number
+
+Returns the application ID.
+
+formatint64
+
+maximum4294967295
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+application\_confidence\_score: optional number
+
+Confidence score for the application. Returns -1 when no score is available.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+application\_score\_composition: optional unknown
+
+Returns the score composition breakdown for the application.
+
+<a href="#">Link to this property</a>
+
+application\_source: optional string
+
+Returns the application source.
+
+<a href="#">Link to this property</a>
+
+application\_type: optional string
+
+Returns the application type.
+
+<a href="#">Link to this property</a>
+
+application\_type\_description: optional string
+
+Returns the application type description.
+
+<a href="#">Link to this property</a>
+
+category\_id: optional number
+
+Returns the category ID.
+
+formatint64
+
+maximum4294967295
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+Returns the application creation time.
+
+<a href="#">Link to this property</a>
+
+gen\_ai\_score: optional number
+
+GenAI score for the application. Returns -1 when no score is available.
+
+formatfloat
+
+<a href="#">Link to this property</a>
+
+hostnames: optional array of string
+
+Hostnames matched by the application.
+
+<a href="#">Link to this property</a>
+
+human\_id: optional string
+
+Returns the human readable ID.
+
+<a href="#">Link to this property</a>
+
+ip\_subnets: optional array of string
+
+IP subnets matched by the application.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Returns the application name.
+
+<a href="#">Link to this property</a>
+
+port\_protocols: optional array of string
+
+Port and protocol pairs matched by the application.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+review\_status: optional "approved"or "unapproved"or "in\_review"or "unreviewed"
+
+The account-specific Gateway review status. Applications with no assigned review status are returned as <code>unreviewed</code>.
+
+</summary>
+
+One of the following:
+
+"approved"
+
+<a href="#">Link to this property</a>
+
+"unapproved"
+
+<a href="#">Link to this property</a>
+
+"in\_review"
+
+<a href="#">Link to this property</a>
+
+"unreviewed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+support\_domains: optional array of string
+
+Support domains matched by the application.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+supported: optional array of "GATEWAY"or "ACCESS"or "CASB"
+
+Cloudflare products that support this application.
+
+</summary>
+
+One of the following:
+
+"GATEWAY"
+
+<a href="#">Link to this property</a>
+
+"ACCESS"
+
+<a href="#">Link to this property</a>
+
+"CASB"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+Returns the application update time.
+
+<a href="#">Link to this property</a>
+
+version: optional string
+
+Returns the application version.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Returns the total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Returns the current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Returns the number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Returns the total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.resource_library.applications%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List applications
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/applications \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -208,11 +485,21 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/
   "success": true,
   "result": [
     {
-      "id": "12345678-1234-1234-1234-123456789012",
+      "id": 498,
       "application_confidence_score": 0.92,
+      "application_score_composition": {
+        "categories": [
+          {
+            "confidence": 0.95,
+            "name": "Security"
+          }
+        ],
+        "plan": "free"
+      },
       "application_source": "cloudflare",
       "application_type": "Human Resources",
       "application_type_description": "Applications used to manage employees and workforce tools.",
+      "category_id": 12,
       "created_at": "2025-01-01T00:00:00Z",
       "gen_ai_score": 1.5,
       "hostnames": [
@@ -229,6 +516,7 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/
         "tcp/80",
         "tcp/443"
       ],
+      "review_status": "approved",
       "support_domains": [
         "example.com",
         "foo.com"
@@ -238,7 +526,49 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/
         "ACCESS"
       ],
       "updated_at": "2025-01-01T00:00:00Z",
-      "version": "2025-01-01T00:00:00Z",
+      "version": "2025-01-01T00:00:00Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": 498,
+      "application_confidence_score": 0.92,
       "application_score_composition": {
         "categories": [
           {
@@ -248,7 +578,37 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/resource-library/
         ],
         "plan": "free"
       },
-      "intel_id": 498
+      "application_source": "cloudflare",
+      "application_type": "Human Resources",
+      "application_type_description": "Applications used to manage employees and workforce tools.",
+      "category_id": 12,
+      "created_at": "2025-01-01T00:00:00Z",
+      "gen_ai_score": 1.5,
+      "hostnames": [
+        "example.com",
+        "foo.com"
+      ],
+      "human_id": "HR",
+      "ip_subnets": [
+        "192.168.1.0/24",
+        "10.0.0.0/8"
+      ],
+      "name": "HR",
+      "port_protocols": [
+        "tcp/80",
+        "tcp/443"
+      ],
+      "review_status": "approved",
+      "support_domains": [
+        "example.com",
+        "foo.com"
+      ],
+      "supported": [
+        "GATEWAY",
+        "ACCESS"
+      ],
+      "updated_at": "2025-01-01T00:00:00Z",
+      "version": "2025-01-01T00:00:00Z"
     }
   ],
   "result_info": {

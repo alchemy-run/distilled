@@ -1,78 +1,265 @@
-## Bulk edit per-operation schema validation settings
+---
+title: Bulk edit per-operation schema validation settings
+---
 
-**patch** `/zones/{zone_id}/schema_validation/settings/operations`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Schema Validation](https://developers.cloudflare.com/api/resources/schema_validation)
+
+[Settings](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings)
+
+[Operations](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/subresources/operations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Bulk edit per-operation schema validation settings
+
+PATCH/zones/{zone\_id}/schema\_validation/settings/operations
 
 Updates schema validation settings for multiple API operations in a single request. Efficient for applying consistent validation rules across endpoints.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `body: map[object { mitigation_action } ]`
 
-  - `mitigation_action: optional "none" or "log" or "block"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    Mitigation actions are as follows:
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    * `log` - log request when request does not conform to schema * `block` - deny access to the site when request does not conform to schema * `none` - skip running schema validation * null - clears any existing per-operation setting
+</details>
 
-    - `"none"`
+<details>
 
-    - `"log"`
+<summary>API Email + API Key</summary>
 
-    - `"block"`
 
-### Returns
 
-- `errors: Message`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: Message`
+`Account API Gateway``Domain API Gateway`
 
-- `result: map[object { mitigation_action, operation_id } ]`
+##### P ath ParametersExpand Collapse
 
-  Operation ID to per operation setting mapping
+zone\_id: string
 
-  - `mitigation_action: "log" or "block" or "none"`
+Identifier.
 
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
+maxLength32
 
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20bulk_edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `"log"`
+##### Body ParametersJSONExpand Collapse
 
-    - `"block"`
+<details>
 
-    - `"none"`
+<summary>
 
-  - `operation_id: string`
+body: map\[object {mitigation\_action } ]
 
-    UUID.
+</summary>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+mitigation\_action: optional "none"or "log"or "block"
 
-### Example
+Mitigation actions are as follows:
 
-```http
+- <code>log</code> - log request when request does not conform to schema \* <code>block</code> - deny access to the site when request does not conform to schema \* <code>none</code> - skip running schema validation \* null - clears any existing per-operation setting
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"log"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20bulk_edit%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: map\[object {mitigation\_action } ]
+
+Operation ID to updated mitigation action mapping
+
+</summary>
+
+<details>
+
+<summary>
+
+mitigation\_action: optional "log"or "block"or "none"
+
+When set, this applies a mitigation action to this operation
+
+- <code>"log"</code> - log request when request does not conform to schema for this operation
+- <code>"block"</code> - deny access to the site when request does not conform to schema for this operation
+- <code>"none"</code> - will skip mitigation for this operation
+- <code>null</code> - clears any mitigation action
+
+</summary>
+
+One of the following:
+
+"log"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(method)%20bulk_edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Bulk edit per-operation schema validation settings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings/operations \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -87,9 +274,9 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/setti
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -113,8 +300,42 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/setti
   ],
   "result": {
     "foo": {
-      "mitigation_action": "block",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+      "mitigation_action": "block"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "foo": {
+      "mitigation_action": "block"
     }
   },
   "success": true

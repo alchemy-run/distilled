@@ -1,40 +1,43 @@
+---
+title: Fields
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Logs](https://developers.cloudflare.com/api/resources/logs)
+
+[Received](https://developers.cloudflare.com/api/resources/logs/subresources/received)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Fields
 
-## List fields
+##### [List fields](https://developers.cloudflare.com/api/resources/logs/subresources/received/subresources/fields/methods/get)
 
-**get** `/zones/{zone_id}/logs/received/fields`
+GET/zones/{zone\_id}/logs/received/fields
 
-Lists all fields available. The response is json object with key-value pairs, where keys are field names, and values are descriptions.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+FieldGetResponse object {key }
 
-### Returns
+</summary>
 
-- `key: optional string`
+key: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/logs/received/fields \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "key": "value"
-}
-```
-
-## Domain Types
-
-### Field Get Response
-
-- `FieldGetResponse object { key }`
-
-  - `key: optional string`
+[Link to this property](#)%20logs.received.fields%20%3E%20(model)%20field_get_response%20%3E%20(schema)>)

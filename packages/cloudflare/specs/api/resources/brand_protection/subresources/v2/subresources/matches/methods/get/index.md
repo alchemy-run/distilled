@@ -1,101 +1,279 @@
-## List saved query matches
+---
+title: List saved query matches
+---
 
-**get** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/matches`
+[Skip to content](#_top)
 
-Get paginated list of domain matches for one or more brand protection queries. When multiple query_ids are provided (comma-separated), matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and individual dismissed state.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
 
-- `account_id: string`
+[V2](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2)
 
-### Query Parameters
+[Matches](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/matches)
 
-- `query_id: array of string`
+Copy Markdown
 
-  Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and dismissed state.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `domain_search: optional string`
+---
 
-  Filter matches by domain name (substring match)
+**Copy Markdown****View as Markdown**
 
-- `include_dismissed: optional string`
+# List saved query matches
 
-- `include_domain_id: optional string`
+GET/accounts/{account\_id}/cloudforce-one/v2/brand-protection/domain/matches
 
-- `limit: optional string`
+Get paginated list of domain matches for one or more brand protection queries. When multiple query\_ids are provided (comma-separated), matches are deduplicated across queries and each match includes a match\_details array with per-match query metadata and individual dismissed state.
 
-- `offset: optional string`
+##### Security
 
-- `order: optional "asc" or "desc"`
+API Token
 
-  Sort order. Options: 'asc' (ascending) or 'desc' (descending)
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-  - `"asc"`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  - `"desc"`
+##### Accepted Permissions (at least one required)
 
-- `orderBy: optional "domain" or "first_seen" or "registrar"`
+`Cloudforce One Write``Cloudforce One Read`
 
-  Column to sort by. Options: 'domain', 'first_seen', or 'registrar'
+##### P ath ParametersExpand Collapse
 
-  - `"domain"`
+account\_id: string
 
-  - `"first_seen"`
+minLength1
 
-  - `"registrar"`
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-### Returns
+##### Q uery ParametersExpand Collapse
 
-- `matches: array of object { domain, first_seen, public_scans, 6 more }`
+query\_id: array of string
 
-  - `domain: string`
+Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match\_details array with per-match query metadata and dismissed state.
 
-  - `first_seen: string`
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20query_id%20%3E%20(schema)>)
 
-  - `public_scans: object { submission_id }`
+domain\_search: optional string
 
-    - `submission_id: string`
+Filter matches by domain name (substring match)
 
-  - `registrar: string`
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20domain_search%20%3E%20(schema)>)
 
-  - `scan_status: string`
+include\_dismissed: optional string
 
-  - `scan_submission_id: number`
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20include_dismissed%20%3E%20(schema)>)
 
-  - `source: string`
+include\_domain\_id: optional string
 
-  - `dismissed: optional boolean`
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20include_domain_id%20%3E%20(schema)>)
 
-    Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match_details entry.
+limit: optional string
 
-  - `match_details: optional array of object { dismissed, match_id, query_id, query_tag }`
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-    Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query_ids are requested.
+offset: optional string
 
-    - `dismissed: boolean`
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-      Individual dismissed state for this specific match.
+<details>
 
-    - `match_id: number`
+<summary>
 
-    - `query_id: number`
+order: optional "asc"or "desc"
 
-    - `query_tag: string`
+Sort order. Options: ‘asc’ (ascending) or ‘desc’ (descending)
 
-      Tag associated with the query, if one exists.
+</summary>
 
-- `total: number`
+One of the following:
 
-### Example
+"asc"
 
-```http
+<a href="#">Link to this property</a>
+
+"desc"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+orderBy: optional "domain"or "first\_seen"or "registrar"
+
+Column to sort by. Options: ‘domain’, ‘first\_seen’, or ‘registrar’
+
+</summary>
+
+One of the following:
+
+"domain"
+
+<a href="#">Link to this property</a>
+
+"first\_seen"
+
+<a href="#">Link to this property</a>
+
+"registrar"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20orderBy%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+matches: array of object {domain, first\_seen, public\_scans, 6 more }
+
+</summary>
+
+domain: string
+
+<a href="#">Link to this property</a>
+
+first\_seen: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+public\_scans: object {submission\_id }
+
+</summary>
+
+submission\_id: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+registrar: string
+
+<a href="#">Link to this property</a>
+
+scan\_status: string
+
+<a href="#">Link to this property</a>
+
+scan\_submission\_id: number
+
+<a href="#">Link to this property</a>
+
+source: string
+
+<a href="#">Link to this property</a>
+
+dismissed: optional boolean
+
+Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match\_details entry.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+match\_details: optional array of object {dismissed, match\_id, query\_id, query\_tag }
+
+Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query\_ids are requested.
+
+</summary>
+
+dismissed: boolean
+
+Individual dismissed state for this specific match.
+
+<a href="#">Link to this property</a>
+
+match\_id: number
+
+<a href="#">Link to this property</a>
+
+query\_id: number
+
+<a href="#">Link to this property</a>
+
+query\_tag: string
+
+Tag associated with the query, if one exists.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(model)%20match_get_response%20%3E%20(schema)%20%3E%20(property)%20matches>)
+
+total: number
+
+minimum0
+
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(model)%20match_get_response%20%3E%20(schema)%20%3E%20(property)%20total>)
+
+### List saved query matches
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/domain/matches \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "matches": [
+    {
+      "domain": "domain",
+      "first_seen": "first_seen",
+      "public_scans": {
+        "submission_id": "submission_id"
+      },
+      "registrar": "registrar",
+      "scan_status": "scan_status",
+      "scan_submission_id": 0,
+      "source": "source",
+      "dismissed": true,
+      "match_details": [
+        {
+          "dismissed": true,
+          "match_id": 0,
+          "query_id": 0,
+          "query_tag": "query_tag"
+        }
+      ]
+    }
+  ],
+  "total": 0
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "matches": [
     {

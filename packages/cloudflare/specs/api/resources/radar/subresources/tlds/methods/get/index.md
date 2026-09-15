@@ -1,55 +1,180 @@
-## Get TLD details
+---
+title: Get TLD details
+---
 
-**get** `/radar/tlds/{tld}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[TLDs](https://developers.cloudflare.com/api/resources/radar/subresources/tlds)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get TLD details
+
+GET/radar/tlds/{tld}
 
 Retrieves the requested TLD information.
 
-### Path Parameters
+##### Security
 
-- `tld: string`
+<details>
 
-  Top-level domain.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `format: optional "JSON" or "CSV"`
 
-  Format in which results will be returned.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"JSON"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"CSV"`
+</details>
 
-### Returns
+<details>
 
-- `result: object { tld }`
+<summary>API Email + API Key</summary>
 
-  - `tld: object { manager, tld, type }`
 
-    - `manager: string`
 
-      The organization that manages the TLD.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `tld: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      The actual TLD.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `type: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      The type of TLD.
+</details>
 
-- `success: boolean`
+##### Accepted Permissions (at least one required)
 
-### Example
+`User Details Write``User Details Read`
 
-```http
+##### P ath ParametersExpand Collapse
+
+tld: string
+
+Top-level domain.
+
+maxLength63
+
+minLength2
+
+[Link to this property](#)%20radar.tlds%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20tld%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+<details>
+
+<summary>
+
+format: optional "JSON"or "CSV"
+
+Format in which results will be returned.
+
+</summary>
+
+One of the following:
+
+"JSON"
+
+<a href="#">Link to this property</a>
+
+"CSV"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.tlds%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {tld }
+
+</summary>
+
+<details>
+
+<summary>
+
+tld: object {manager, tld, type }
+
+</summary>
+
+manager: string
+
+The organization that manages the TLD.
+
+<a href="#">Link to this property</a>
+
+tld: string
+
+The actual TLD.
+
+<a href="#">Link to this property</a>
+
+type: string
+
+The type of TLD.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.tlds%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.tlds%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get TLD details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/tlds/$TLD \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "tld": {
+      "manager": "VeriSign Global Registry Services",
+      "tld": "com",
+      "type": "GENERIC"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "tld": {

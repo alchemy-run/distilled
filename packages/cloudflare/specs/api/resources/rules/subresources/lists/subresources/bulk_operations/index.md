@@ -1,196 +1,149 @@
+---
+title: Bulk Operations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Rules Lists](https://developers.cloudflare.com/api/resources/rules)
+
+[Lists](https://developers.cloudflare.com/api/resources/rules/subresources/lists)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Bulk Operations
 
-## Get bulk operation status
+##### [Get bulk operation status](https://developers.cloudflare.com/api/resources/rules/subresources/lists/subresources/bulk_operations/methods/get)
 
-**get** `/accounts/{account_id}/rules/lists/bulk_operations/{operation_id}`
+GET/accounts/{account\_id}/rules/lists/bulk\_operations/{operation\_id}
 
-Gets the current status of an asynchronous operation on a list.
+##### ModelsExpand Collapse
 
-The `status` property can have one of the following values: `pending`, `running`, `completed`, or `failed`. If the status is `failed`, the `error` property will contain a message describing the error.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+BulkOperationGetResponse = object {id, status } or object {id, completed, status } or object {id, completed, error, status }
 
-  The Account ID for this resource.
+</summary>
 
-- `operation_id: string`
+One of the following:
 
-  The unique operation ID of the asynchronous action.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+ListsBulkOperationPendingOrRunning object {id, status }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique operation ID of the asynchronous action.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+status: "pending"or "running"
 
-  - `message: string`
+The current status of the asynchronous operation.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-- `result: object { id, status }  or object { id, completed, status }  or object { id, completed, error, status }`
+"pending"
 
-  - `ListsBulkOperationPendingOrRunning object { id, status }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"running"
 
-      The unique operation ID of the asynchronous action.
+<a href="#">Link to this property</a>
 
-    - `status: "pending" or "running"`
+</details>
 
-      The current status of the asynchronous operation.
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"running"`
+<a href="#">Link to this property</a>
 
-  - `ListsBulkOperationCompleted object { id, completed, status }`
+<details>
 
-    - `id: string`
+<summary>
 
-      The unique operation ID of the asynchronous action.
+ListsBulkOperationCompleted object {id, completed, status }
 
-    - `completed: string`
+</summary>
 
-      The RFC 3339 timestamp of when the operation was completed.
+id: string
 
-    - `status: "completed"`
+The unique operation ID of the asynchronous action.
 
-      The current status of the asynchronous operation.
+<a href="#">Link to this property</a>
 
-      - `"completed"`
+completed: string
 
-  - `ListsBulkOperationFailed object { id, completed, error, status }`
+The RFC 3339 timestamp of when the operation was completed.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      The unique operation ID of the asynchronous action.
+status: "completed"
 
-    - `completed: string`
+The current status of the asynchronous operation.
 
-      The RFC 3339 timestamp of when the operation was completed.
+<a href="#">Link to this property</a>
 
-    - `error: string`
+</details>
 
-      A message describing the error when the status is `failed`.
+<a href="#">Link to this property</a>
 
-    - `status: "failed"`
+<details>
 
-      The current status of the asynchronous operation.
+<summary>
 
-      - `"failed"`
+ListsBulkOperationFailed object {id, completed, error, status }
 
-- `success: true`
+</summary>
 
-  Defines whether the API call was successful.
+id: string
 
-  - `true`
+The unique operation ID of the asynchronous action.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rules/lists/bulk_operations/$OPERATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+completed: string
 
-#### Response
+The RFC 3339 timestamp of when the operation was completed.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "4da8780eeb215e6cb7f48dd981c4ea02",
-    "status": "pending"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+error: string
 
-### Bulk Operation Get Response
+A message describing the error when the status is <code>failed</code>.
 
-- `BulkOperationGetResponse = object { id, status }  or object { id, completed, status }  or object { id, completed, error, status }`
+<a href="#">Link to this property</a>
 
-  - `ListsBulkOperationPendingOrRunning object { id, status }`
+status: "failed"
 
-    - `id: string`
+The current status of the asynchronous operation.
 
-      The unique operation ID of the asynchronous action.
+<a href="#">Link to this property</a>
 
-    - `status: "pending" or "running"`
+</details>
 
-      The current status of the asynchronous operation.
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"running"`
-
-  - `ListsBulkOperationCompleted object { id, completed, status }`
-
-    - `id: string`
-
-      The unique operation ID of the asynchronous action.
-
-    - `completed: string`
-
-      The RFC 3339 timestamp of when the operation was completed.
-
-    - `status: "completed"`
-
-      The current status of the asynchronous operation.
-
-      - `"completed"`
-
-  - `ListsBulkOperationFailed object { id, completed, error, status }`
-
-    - `id: string`
-
-      The unique operation ID of the asynchronous action.
-
-    - `completed: string`
-
-      The RFC 3339 timestamp of when the operation was completed.
-
-    - `error: string`
-
-      A message describing the error when the status is `failed`.
-
-    - `status: "failed"`
-
-      The current status of the asynchronous operation.
-
-      - `"failed"`
+[Link to this property](#)%20rules.lists.bulk_operations%20%3E%20(model)%20bulk_operation_get_response%20%3E%20(schema)>)

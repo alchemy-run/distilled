@@ -1,480 +1,95 @@
+---
+title: CAs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Applications](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # CAs
 
-## List short-lived certificate CAs
+##### [List short-lived certificate CAs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/cas/methods/list)
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/access/apps/ca`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/apps/ca
 
-Lists short-lived certificate CAs and their public keys.
+##### [Get a short-lived certificate CA](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/cas/methods/get)
 
-### Path Parameters
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/apps/{app\_id}/ca
 
-- `account_id: optional string`
+##### [Create a short-lived certificate CA](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/cas/methods/create)
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/apps/{app\_id}/ca
 
-- `zone_id: optional string`
+##### [Delete a short-lived certificate CA](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/applications/subresources/cas/methods/delete)
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+DELETE/{accounts\_or\_zones}/{account\_or\_zone\_id}/access/apps/{app\_id}/ca
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `page: optional number`
+<details>
 
-  Page number of results.
+<summary>
 
-- `per_page: optional number`
+CA object {id, aud, public\_key }
 
-  Number of results per page.
+</summary>
 
-### Returns
+id: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The ID of the CA.
 
-  - `code: number`
+maxLength48
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+aud: optional string
 
-  - `source: optional object { pointer }`
+The Application Audience (AUD) tag. Identifies the application associated with the CA.
 
-    - `pointer: optional string`
+maxLength64
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+public\_key: optional string
 
-  - `message: string`
+The public key to add to your SSH server configuration.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.access.applications.cas%20%3E%20(model)%20ca%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+CADeleteResponse object {id }
 
-- `result: optional array of CA`
+</summary>
 
-  - `id: optional string`
+id: optional string
 
-    The ID of the CA.
+The ID of the CA.
 
-  - `aud: optional string`
+maxLength48
 
-    The Application Audience (AUD) tag. Identifies the application associated with the CA.
+<a href="#">Link to this property</a>
 
-  - `public_key: optional string`
+</details>
 
-    The public key to add to your SSH server configuration.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/apps/ca \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7eddae4619b50ab1361ba8ae9bd72269a432fea041529ed9",
-      "aud": "737646a56ab1df6ec9bddc7e5ca84eaf3b0768850f3ffb5d74f1534911fe3893",
-      "public_key": "ecdsa-sha2-nistp256 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx= open-ssh-ca@cloudflareaccess.org"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Get a short-lived certificate CA
-
-**get** `/{accounts_or_zones}/{account_or_zone_id}/access/apps/{app_id}/ca`
-
-Fetches a short-lived certificate CA and its public key.
-
-### Path Parameters
-
-- `app_id: string`
-
-  UUID.
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CA`
-
-  - `id: optional string`
-
-    The ID of the CA.
-
-  - `aud: optional string`
-
-    The Application Audience (AUD) tag. Identifies the application associated with the CA.
-
-  - `public_key: optional string`
-
-    The public key to add to your SSH server configuration.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/apps/$APP_ID/ca \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7eddae4619b50ab1361ba8ae9bd72269a432fea041529ed9",
-    "aud": "737646a56ab1df6ec9bddc7e5ca84eaf3b0768850f3ffb5d74f1534911fe3893",
-    "public_key": "ecdsa-sha2-nistp256 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx= open-ssh-ca@cloudflareaccess.org"
-  }
-}
-```
-
-## Create a short-lived certificate CA
-
-**post** `/{accounts_or_zones}/{account_or_zone_id}/access/apps/{app_id}/ca`
-
-Generates a new short-lived certificate CA and public key.
-
-### Path Parameters
-
-- `app_id: string`
-
-  UUID.
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CA`
-
-  - `id: optional string`
-
-    The ID of the CA.
-
-  - `aud: optional string`
-
-    The Application Audience (AUD) tag. Identifies the application associated with the CA.
-
-  - `public_key: optional string`
-
-    The public key to add to your SSH server configuration.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/apps/$APP_ID/ca \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7eddae4619b50ab1361ba8ae9bd72269a432fea041529ed9",
-    "aud": "737646a56ab1df6ec9bddc7e5ca84eaf3b0768850f3ffb5d74f1534911fe3893",
-    "public_key": "ecdsa-sha2-nistp256 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx= open-ssh-ca@cloudflareaccess.org"
-  }
-}
-```
-
-## Delete a short-lived certificate CA
-
-**delete** `/{accounts_or_zones}/{account_or_zone_id}/access/apps/{app_id}/ca`
-
-Deletes a short-lived certificate CA.
-
-### Path Parameters
-
-- `app_id: string`
-
-  UUID.
-
-- `account_id: optional string`
-
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
-
-- `zone_id: optional string`
-
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    The ID of the CA.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/access/apps/$APP_ID/ca \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "7eddae4619b50ab1361ba8ae9bd72269a432fea041529ed9"
-  }
-}
-```
-
-## Domain Types
-
-### CA
-
-- `CA object { id, aud, public_key }`
-
-  - `id: optional string`
-
-    The ID of the CA.
-
-  - `aud: optional string`
-
-    The Application Audience (AUD) tag. Identifies the application associated with the CA.
-
-  - `public_key: optional string`
-
-    The public key to add to your SSH server configuration.
-
-### CA Delete Response
-
-- `CADeleteResponse object { id }`
-
-  - `id: optional string`
-
-    The ID of the CA.
+[Link to this property](#)%20zero_trust.access.applications.cas%20%3E%20(model)%20ca_delete_response%20%3E%20(schema)>)

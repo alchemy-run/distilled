@@ -1,157 +1,389 @@
-## List Web Analytics sites
+---
+title: List Web Analytics sites
+---
 
-**get** `/accounts/{account_id}/rum/site_info/list`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[RUM](https://developers.cloudflare.com/api/resources/rum)
+
+[Site Info](https://developers.cloudflare.com/api/resources/rum/subresources/site_info)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Web Analytics sites
+
+GET/accounts/{account\_id}/rum/site\_info/list
 
 Lists all Web Analytics sites of an account.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `order_by: optional "host" or "created"`
 
-  The property used to sort the list of results.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"host"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"created"`
+</details>
 
-- `page: optional number`
+<details>
 
-  Current page within the paginated list of results.
+<summary>API Email + API Key</summary>
 
-- `per_page: optional number`
 
-  Number of items to return per page of results.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Account Settings Read`
 
-- `messages: array of ResponseInfo`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+Identifier.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: boolean`
+##### Q uery ParametersExpand Collapse
 
-  Whether the API call was successful.
+<details>
 
-- `result: optional array of Site`
+<summary>
 
-  - `auto_install: optional boolean`
+order\_by: optional "host"or "created"
 
-    If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
+The property used to sort the list of results.
 
-  - `created: optional string`
+</summary>
 
-  - `rules: optional array of RUMRule`
+One of the following:
 
-    A list of rules.
+"host"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      The Web Analytics rule identifier.
+"created"
 
-    - `created: optional string`
+<a href="#">Link to this property</a>
 
-    - `host: optional string`
+</details>
 
-      The hostname the rule will be applied to.
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20order_by%20%3E%20(schema)>)
 
-    - `inclusive: optional boolean`
+page: optional number
 
-      Whether the rule includes or excludes traffic from being measured.
+Current page within the paginated list of results.
 
-    - `is_paused: optional boolean`
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-      Whether the rule is paused or not.
+per\_page: optional number
 
-    - `paths: optional array of string`
+Number of items to return per page of results.
 
-      The paths the rule will be applied to.
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `priority: optional number`
+##### ReturnsExpand Collapse
 
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
+<details>
 
-    - `id: optional string`
+<summary>
 
-      The Web Analytics ruleset identifier.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `enabled: optional boolean`
+</summary>
 
-      Whether the ruleset is enabled.
+code: number
 
-    - `zone_name: optional string`
+minimum1000
 
-    - `zone_tag: optional string`
+<a href="#">Link to this property</a>
 
-      The zone identifier.
+message: string
 
-  - `site_tag: optional string`
+<a href="#">Link to this property</a>
 
-    The Web Analytics site identifier.
+documentation\_url: optional string
 
-  - `site_token: optional string`
+<a href="#">Link to this property</a>
 
-    The Web Analytics site token.
+<details>
 
-  - `snippet: optional string`
+<summary>
 
-    Encoded JavaScript snippet.
+source: optional object {pointer }
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: optional number`
+pointer: optional string
 
-    The total number of items on the current page.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within the paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    The maximum number of items to return per page of results.
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `total_count: optional number`
+<details>
 
-    The total number of items.
+<summary>
 
-  - `total_pages: optional number`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    The total number of pages.
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/rum#(resource)%20rum.site_info%20%3E%20(model)%20site%20%3E%20(schema)">Site</a> { auto\_install, created, rules, 4 more }
+
+</summary>
+
+auto\_install: optional boolean
+
+If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rules: optional array of <a href="https://developers.cloudflare.com/api/resources/rum#(resource)%20rum.rules%20%3E%20(model)%20rum_rule%20%3E%20(schema)">RUMRule</a> { id, created, host, 4 more }
+
+A list of rules.
+
+</summary>
+
+id: optional string
+
+The Web Analytics rule identifier.
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+The hostname the rule will be applied to.
+
+<a href="#">Link to this property</a>
+
+inclusive: optional boolean
+
+Whether the rule includes or excludes traffic from being measured.
+
+<a href="#">Link to this property</a>
+
+is\_paused: optional boolean
+
+Whether the rule is paused or not.
+
+<a href="#">Link to this property</a>
+
+paths: optional array of string
+
+The paths the rule will be applied to.
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ruleset: optional object {id, enabled, zone\_name, zone\_tag }
+
+</summary>
+
+id: optional string
+
+The Web Analytics ruleset identifier.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether the ruleset is enabled.
+
+<a href="#">Link to this property</a>
+
+zone\_name: optional string
+
+<a href="#">Link to this property</a>
+
+zone\_tag: optional string
+
+The zone identifier.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+site\_tag: optional string
+
+The Web Analytics site identifier.
+
+<a href="#">Link to this property</a>
+
+site\_token: optional string
+
+The Web Analytics site token.
+
+<a href="#">Link to this property</a>
+
+snippet: optional string
+
+Encoded JavaScript snippet.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+The total number of items on the current page.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within the paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+The maximum number of items to return per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+The total number of items.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The total number of pages.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20rum.site_info%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Web Analytics sites
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/site_info/list \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -199,7 +431,72 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/site_info/lis
       },
       "site_tag": "023e105f4ecef8ad9ca31a8372d0c353",
       "site_token": "023e105f4ecef8ad9ca31a8372d0c353",
-      "snippet": "<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"bc40a2d1b5834453aba85c1b9a3054da\"}'></script><!-- End Cloudflare Web Analytics -->"
+      "snippet": "<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"bc40a2d1b5834453aba85c1b9a3054da\"}'></script><!-- End Cloudflare Web Analytics -->"
+    }
+  ],
+  "result_info": {
+    "count": 10,
+    "page": 1,
+    "per_page": 10,
+    "total_count": 25,
+    "total_pages": 3
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "auto_install": true,
+      "created": "2014-01-01T05:20:00.12345Z",
+      "rules": [
+        {
+          "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+          "created": "2014-01-01T05:20:00.12345Z",
+          "host": "example.com",
+          "inclusive": true,
+          "is_paused": false,
+          "paths": [
+            "*"
+          ],
+          "priority": 1000
+        }
+      ],
+      "ruleset": {
+        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+        "enabled": true,
+        "zone_name": "example.com",
+        "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
+      },
+      "site_tag": "023e105f4ecef8ad9ca31a8372d0c353",
+      "site_token": "023e105f4ecef8ad9ca31a8372d0c353",
+      "snippet": "<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"bc40a2d1b5834453aba85c1b9a3054da\"}'></script><!-- End Cloudflare Web Analytics -->"
     }
   ],
   "result_info": {

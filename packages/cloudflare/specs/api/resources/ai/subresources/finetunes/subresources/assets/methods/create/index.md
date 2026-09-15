@@ -1,22 +1,102 @@
-## Upload a Finetune Asset
+---
+title: Upload a Finetune Asset
+---
 
-**post** `/accounts/{account_id}/ai/finetunes/{finetune_id}/finetune-assets`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+[Finetunes](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes)
+
+[Assets](https://developers.cloudflare.com/api/resources/ai/subresources/finetunes/subresources/assets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Upload a Finetune Asset
+
+POST/accounts/{account\_id}/ai/finetunes/{finetune\_id}/finetune-assets
 
 Uploads training data assets for a Workers AI fine-tuning job.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `finetune_id: string`
+<summary>API Token</summary>
 
-### Returns
 
-- `success: boolean`
 
-### Example
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-```http
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
+
+</details>
+
+<details>
+
+<summary>API Email + API Key</summary>
+
+
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Workers AI Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+[Link to this property](#)%20ai.finetunes.assets%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+finetune\_id: string
+
+[Link to this property](#)%20ai.finetunes.assets%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20finetune_id%20%3E%20(schema)>)
+
+##### Body ParametersForm DataExpand Collapse
+
+file: file
+
+File to upload.
+
+[Link to this property](#)%20ai.finetunes.assets%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20file%20%3E%20(schema)>)
+
+file\_name: string
+
+Name of the file (adapter\_config.json or adapter\_model.safetensors).
+
+[Link to this property](#)%20ai.finetunes.assets%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20file_name%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+success: boolean
+
+[Link to this property](#)%20ai.finetunes.assets%20%3E%20(model)%20asset_create_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Upload a Finetune Asset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes/$FINETUNE_ID/finetune-assets \
     -H 'Content-Type: multipart/form-data' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -24,9 +104,19 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/finetunes/$FIN
     -F file_name=file_name
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "success": true
 }

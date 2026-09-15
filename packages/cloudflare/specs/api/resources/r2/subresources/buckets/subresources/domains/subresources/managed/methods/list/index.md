@@ -1,77 +1,227 @@
-## Get r2.dev Domain of Bucket
+---
+title: Get r2.dev Domain of Bucket
+---
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed`
+[Skip to content](#_top)
 
-Gets state of public access over the bucket's R2-managed (r2.dev) domain.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[R2](https://developers.cloudflare.com/api/resources/r2)
 
-- `account_id: string`
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
 
-  Account ID.
+[Domains](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains)
 
-- `bucket_name: string`
+[Managed](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/managed)
 
-  Name of the bucket.
+Copy Markdown
 
-### Header Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+---
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+**Copy Markdown****View as Markdown**
 
-  - `"default"`
+# Get r2.dev Domain of Bucket
 
-  - `"eu"`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/managed
 
-  - `"fedramp"`
+Gets state of public access over the bucket’s R2-managed (r2.dev) domain.
 
-### Returns
+##### Security
 
-- `errors: array of ResponseInfo`
+API Token
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-  - `message: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  - `documentation_url: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+account\_id: string
 
-    - `pointer: optional string`
+Account ID.
 
-- `messages: array of string`
+maxLength32
 
-- `result: object { bucketId, domain, enabled }`
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `bucketId: string`
+bucket\_name: string
 
-    Bucket ID.
+Name of the bucket.
 
-  - `domain: string`
+maxLength64
 
-    Domain name of the bucket's r2.dev domain.
+minLength3
 
-  - `enabled: boolean`
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20bucket_name%20%3E%20(schema)>)
 
-    Whether this bucket is publicly accessible at the r2.dev domain.
+##### H eader ParametersExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+"cf-r2-jurisdiction": optional "default"or "eu"or "us"or 2 more
 
-### Example
+Jurisdiction where objects in this bucket are guaranteed to be stored.
 
-```http
+</summary>
+
+One of the following:
+
+"default"
+
+<a href="#">Link to this property</a>
+
+"eu"
+
+<a href="#">Link to this property</a>
+
+"us"
+
+<a href="#">Link to this property</a>
+
+"fedramp"
+
+<a href="#">Link to this property</a>
+
+"fedramp-high"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20jurisdiction%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+messages: array of string
+
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {bucketId, domain, enabled }
+
+</summary>
+
+bucketId: string
+
+Bucket ID.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+domain: string
+
+Domain name of the bucket’s r2.dev domain.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether this bucket is publicly accessible at the r2.dev domain.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20r2.buckets.domains.managed%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get r2.dev Domain of Bucket
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/managed \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": {
+    "bucketId": "0113a9e4549cf9b1ff1bf56e04da0cef",
+    "domain": "pub-0113a9e4549cf9b1ff1bf56e04da0cef.r2.dev",
+    "enabled": true
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

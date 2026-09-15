@@ -1,79 +1,227 @@
-## Get bot details
+---
+title: Get bot details
+---
 
-**get** `/radar/bots/{bot_slug}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Bots](https://developers.cloudflare.com/api/resources/radar/subresources/bots)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get bot details
+
+GET/radar/bots/{bot\_slug}
 
 Retrieves the requested bot information.
 
-### Path Parameters
+##### Security
 
-- `bot_slug: string`
+<details>
 
-  Bot slug.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `format: optional "JSON" or "CSV"`
 
-  Format in which results will be returned.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"JSON"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"CSV"`
+</details>
 
-### Returns
+<details>
 
-- `result: object { bot }`
+<summary>API Email + API Key</summary>
 
-  - `bot: object { category, description, kind, 7 more }`
 
-    - `category: string`
 
-      The category of the bot.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `description: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      A summary for the bot (e.g., purpose).
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `kind: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      The kind of the bot.
+</details>
 
-    - `name: string`
+##### Accepted Permissions (at least one required)
 
-      The name of the bot.
+`User Details Write``User Details Read`
 
-    - `operator: string`
+##### P ath ParametersExpand Collapse
 
-      The organization that owns and operates the bot.
+bot\_slug: string
 
-    - `operatorUrl: string`
+Bot slug.
 
-      The link to the bot documentation.
+maxLength100
 
-    - `slug: string`
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20bot_slug%20%3E%20(schema)>)
 
-      A kebab-case identifier derived from the bot name.
+##### Q uery ParametersExpand Collapse
 
-    - `userAgentPatterns: array of string`
+<details>
 
-    - `userAgents: array of string`
+<summary>
 
-    - `signatureAgentUrl: optional string`
+format: optional "JSON"or "CSV"
 
-      The URL of the agent's [Web Bot Auth](https://blog.cloudflare.com/web-bot-auth/) resource. Null for bots not verified via request signature.
+Format in which results will be returned.
 
-- `success: boolean`
+</summary>
 
-### Example
+One of the following:
 
-```http
+"JSON"
+
+<a href="#">Link to this property</a>
+
+"CSV"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {bot }
+
+</summary>
+
+<details>
+
+<summary>
+
+bot: object {category, description, kind, 7 more }
+
+</summary>
+
+category: string
+
+The category of the bot.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+A summary for the bot (e.g., purpose).
+
+<a href="#">Link to this property</a>
+
+Deprecatedkind: string
+
+The kind of the bot.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the bot.
+
+<a href="#">Link to this property</a>
+
+operator: string
+
+The organization that owns and operates the bot.
+
+<a href="#">Link to this property</a>
+
+operatorUrl: string
+
+The link to the bot documentation.
+
+<a href="#">Link to this property</a>
+
+slug: string
+
+A kebab-case identifier derived from the bot name.
+
+<a href="#">Link to this property</a>
+
+userAgentPatterns: array of string
+
+<a href="#">Link to this property</a>
+
+userAgents: array of string
+
+<a href="#">Link to this property</a>
+
+signatureAgentUrl: optional string
+
+The URL of the agent’s <a href="https://blog.cloudflare.com/web-bot-auth/">Web Bot Auth</a> resource. Null for bots not verified via request signature.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get bot details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/bots/$BOT_SLUG \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "bot": {
+      "category": "AI_CRAWLER",
+      "description": "OpenAI/ChatGPT's web crawler",
+      "kind": "AGENT",
+      "name": "GPTBot",
+      "operator": "OpenAI",
+      "operatorUrl": "https://platform.openai.com/docs/bots",
+      "slug": "gptbot",
+      "userAgentPatterns": [
+        "GPTBot"
+      ],
+      "userAgents": [
+        "GPTBot"
+      ],
+      "signatureAgentUrl": "https://example.com/signature-agent"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "bot": {

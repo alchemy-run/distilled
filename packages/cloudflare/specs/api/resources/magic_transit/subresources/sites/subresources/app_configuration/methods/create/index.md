@@ -1,148 +1,406 @@
-## Create a new App Config
+---
+title: Create a new App Config
+---
 
-**post** `/accounts/{account_id}/magic/sites/{site_id}/app_configs`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites)
+
+[App Configuration](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a new App Config
+
+POST/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs
 
 Creates a new App Config for a site
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-- `site_id: string`
 
-  Identifier
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `body: object { account_app_id, breakout, preferred_wans, priority }  or object { managed_app_id, breakout, preferred_wans, priority }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `AccountApp object { account_app_id, breakout, preferred_wans, priority }`
+</details>
 
-    - `account_app_id: string`
+<details>
 
-      Magic account app ID.
+<summary>API Email + API Key</summary>
 
-    - `breakout: optional boolean`
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
 
-    - `preferred_wans: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `priority: optional number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `ManagedApp object { managed_app_id, breakout, preferred_wans, priority }`
+</details>
 
-    - `managed_app_id: string`
+##### Accepted Permissions (at least one required)
 
-      Managed app ID.
+`Magic WAN Write``Magic Transit Write`
 
-    - `breakout: optional boolean`
+##### P ath ParametersExpand Collapse
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+account\_id: string
 
-    - `preferred_wans: optional array of string`
+Identifier
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+maxLength32
 
-    - `priority: optional number`
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+site\_id: string
 
-### Returns
+Identifier
 
-- `errors: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20site_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### Body ParametersJSONExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+body: object {account\_app\_id, breakout, preferred\_wans, priority } or object {managed\_app\_id, breakout, preferred\_wans, priority }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+AccountApp object {account\_app\_id, breakout, preferred\_wans, priority }
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+</summary>
 
-  Traffic decision configuration for an app.
+account\_app\_id: string
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+Magic account app ID.
 
-    - `account_app_id: string`
+<a href="#">Link to this property</a>
 
-      Magic account app ID.
+breakout: optional boolean
 
-    - `id: optional string`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `breakout: optional boolean`
+preferred\_wans: optional array of string
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-    - `preferred_wans: optional array of string`
+<a href="#">Link to this property</a>
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+priority: optional number
 
-    - `priority: optional number`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+maximum1
 
-    - `site_id: optional string`
+minimum0
 
-      Identifier
+<a href="#">Link to this property</a>
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+</details>
 
-    - `managed_app_id: string`
+<a href="#">Link to this property</a>
 
-      Managed app ID.
+<details>
 
-    - `id: optional string`
+<summary>
 
-      Identifier
+ManagedApp object {managed\_app\_id, breakout, preferred\_wans, priority }
 
-    - `breakout: optional boolean`
+</summary>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+managed\_app\_id: string
 
-    - `preferred_wans: optional array of string`
+Managed app ID.
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+breakout: optional boolean
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-    - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+preferred\_wans: optional array of string
 
-- `success: true`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+priority: optional number
 
-### Example
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-```http
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
+
+Traffic decision configuration for an app.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+AccountApp object {account\_app\_id, id, breakout, 3 more }
+
+</summary>
+
+account\_app\_id: string
+
+Magic account app ID.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+breakout: optional boolean
+
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
+
+<a href="#">Link to this property</a>
+
+preferred\_wans: optional array of string
+
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+site\_id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
+
+</summary>
+
+managed\_app\_id: string
+
+Managed app ID.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+breakout: optional boolean
+
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
+
+<a href="#">Link to this property</a>
+
+preferred\_wans: optional array of string
+
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+site\_id: optional string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create a new App Config
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -152,9 +410,49 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "breakout": true,
+    "preferred_wans": [
+      "023e105f4ecef8ad9ca31a8372d0c353"
+    ],
+    "priority": 0,
+    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

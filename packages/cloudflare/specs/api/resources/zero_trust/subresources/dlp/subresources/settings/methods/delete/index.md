@@ -1,93 +1,304 @@
-## Delete (reset) DLP account-level settings to initial values.
+---
+title: Delete (reset) DLP account-level settings to initial values.
+---
 
-**delete** `/accounts/{account_id}/dlp/settings`
+[Skip to content](#_top)
 
-Delete (reset) DLP account-level settings to initial values.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-### Returns
+[Settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/settings)
 
-- `errors: array of object { code, message, documentation_url, source }`
+Copy Markdown
 
-  - `code: number`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `message: string`
+---
 
-  - `documentation_url: optional string`
+**Copy Markdown****View as Markdown**
 
-  - `source: optional object { pointer }`
+# Delete (reset) DLP account-level settings to initial values.
 
-    - `pointer: optional string`
+DELETE/accounts/{account\_id}/dlp/settings
 
-- `messages: array of object { code, message, documentation_url, source }`
+Deletes account-level DLP settings and returns the initial values.
 
-  - `code: number`
+##### Security
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Token</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `success: true`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Whether the API call was successful.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `true`
+</details>
 
-- `result: optional DLPSettings`
+<details>
 
-  DLP account-level settings response.
+<summary>API Email + API Key</summary>
 
-  - `ai_context_analysis: boolean`
 
-    Whether AI context analysis is enabled at the account level.
 
-  - `ocr: boolean`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    Whether OCR is enabled at the account level.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `payload_logging: object { updated_at, masking_level, public_key }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `updated_at: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `masking_level: optional "full" or "partial" or "clear" or "default"`
+</details>
 
-      Masking level for payload logs.
+##### Accepted Permissions (at least one required)
 
-      - `full`: The entire payload is masked.
-      - `partial`: Only partial payload content is masked.
-      - `clear`: No masking is applied to the payload content.
-      - `default`: DLP uses its default masking behavior.
+`Zero Trust Write`
 
-      - `"full"`
+##### P ath ParametersExpand Collapse
 
-      - `"partial"`
+account\_id: string
 
-      - `"clear"`
+[Link to this property](#)%20zero_trust.dlp.settings%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `"default"`
+##### ReturnsExpand Collapse
 
-    - `public_key: optional string`
+<details>
 
-      Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+<summary>
 
-### Example
+errors: array of object {code, message, documentation\_url, source }
 
-```http
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.settings%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.settings%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.settings%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.settings%20%3E%20(model)%20dlp_settings%20%3E%20(schema)">DLPSettings</a> { ai\_context\_analysis, ocr, payload\_logging }
+
+DLP account-level settings response.
+
+</summary>
+
+ai\_context\_analysis: boolean
+
+Whether AI context analysis is enabled at the account level.
+
+<a href="#">Link to this property</a>
+
+ocr: boolean
+
+Whether OCR is enabled at the account level.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+payload\_logging: object {updated\_at, masking\_level, public\_key }
+
+</summary>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+masking\_level: optional "full"or "partial"or "clear"or "default"
+
+Masking level for payload logs.
+
+- <code>full</code>: The entire payload is masked.
+- <code>partial</code>: Only partial payload content is masked.
+- <code>clear</code>: No masking is applied to the payload content.
+- <code>default</code>: DLP uses its default masking behavior.
+
+</summary>
+
+One of the following:
+
+"full"
+
+<a href="#">Link to this property</a>
+
+"partial"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"default"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+public\_key: optional string
+
+Base64-encoded public key for encrypting payload logs. Null when payload logging is disabled.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.settings%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete (reset) DLP account-level settings to initial values.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/settings \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "ai_context_analysis": true,
+    "ocr": true,
+    "payload_logging": {
+      "updated_at": "2019-12-27T18:11:19.117Z",
+      "masking_level": "full",
+      "public_key": "public_key"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

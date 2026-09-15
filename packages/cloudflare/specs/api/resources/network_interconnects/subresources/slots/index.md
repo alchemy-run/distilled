@@ -1,214 +1,175 @@
+---
+title: Slots
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Network Interconnects](https://developers.cloudflare.com/api/resources/network_interconnects)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Slots
 
-## Retrieve a list of all slots matching the specified parameters
+##### [Retrieve a list of all slots matching the specified parameters](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/slots/methods/list)
 
-**get** `/accounts/{account_id}/cni/slots`
+GET/accounts/{account\_id}/cni/slots
 
-Retrieve a list of all slots matching the specified parameters
+##### [Get information about the specified slot](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/slots/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/cni/slots/{slot}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Customer account tag
+<details>
 
-### Query Parameters
+<summary>
 
-- `address_contains: optional string`
+SlotListResponse object {items, next }
 
-  If specified, only show slots with the given text in their address field
+</summary>
 
-- `cursor: optional number`
+<details>
 
-- `limit: optional number`
+<summary>
 
-- `occupied: optional boolean`
+items: array of object {id, facility, occupied, 4 more }
 
-  If specified, only show slots with a specific occupied/unoccupied state
+</summary>
 
-- `site: optional string`
+id: string
 
-  If specified, only show slots located at the given site
+Slot ID
 
-- `speed: optional string`
+formatuuid
 
-  If specified, only show slots that support the given speed
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `items: array of object { id, facility, occupied, 3 more }`
+<summary>
 
-  - `id: string`
+facility: object {address, name }
 
-    Slot ID
+</summary>
 
-  - `facility: object { address, name }`
+address: array of string
 
-    - `address: array of string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+name: string
 
-  - `occupied: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the slot is occupied or not
+</details>
 
-  - `site: string`
+<a href="#">Link to this property</a>
 
-  - `speed: string`
+occupied: boolean
 
-  - `account: optional string`
+Whether the slot is occupied or not
 
-    Customer account tag
+<a href="#">Link to this property</a>
 
-- `next: optional number`
+site: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/slots \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+speed: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "items": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "facility": {
-        "address": [
-          "string"
-        ],
-        "name": "name"
-      },
-      "occupied": true,
-      "site": "site",
-      "speed": "speed",
-      "account": "account"
-    }
-  ],
-  "next": 0
-}
-```
+account: optional string
 
-## Get information about the specified slot
+Customer account tag
 
-**get** `/accounts/{account_id}/cni/slots/{slot}`
+<a href="#">Link to this property</a>
 
-Get information about the specified slot
+ccr\_device\_name: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `slot: string`
+next: optional number
 
-### Returns
+formatint32
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-  Slot ID
+</details>
 
-- `facility: object { address, name }`
+[Link to this property](#)%20network_interconnects.slots%20%3E%20(model)%20slot_list_response%20%3E%20(schema)>)
 
-  - `address: array of string`
+<details>
 
-  - `name: string`
+<summary>
 
-- `occupied: boolean`
+SlotGetResponse object {id, facility, occupied, 4 more }
 
-  Whether the slot is occupied or not
+</summary>
 
-- `site: string`
+id: string
 
-- `speed: string`
+Slot ID
 
-- `account: optional string`
+formatuuid
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/slots/$SLOT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+facility: object {address, name }
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "facility": {
-    "address": [
-      "string"
-    ],
-    "name": "name"
-  },
-  "occupied": true,
-  "site": "site",
-  "speed": "speed",
-  "account": "account"
-}
-```
+</summary>
 
-## Domain Types
+address: array of string
 
-### Slot List Response
+<a href="#">Link to this property</a>
 
-- `SlotListResponse object { items, next }`
+name: string
 
-  - `items: array of object { id, facility, occupied, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Slot ID
+<a href="#">Link to this property</a>
 
-    - `facility: object { address, name }`
+occupied: boolean
 
-      - `address: array of string`
+Whether the slot is occupied or not
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `occupied: boolean`
+site: string
 
-      Whether the slot is occupied or not
+<a href="#">Link to this property</a>
 
-    - `site: string`
+speed: string
 
-    - `speed: string`
+<a href="#">Link to this property</a>
 
-    - `account: optional string`
+account: optional string
 
-      Customer account tag
+Customer account tag
 
-  - `next: optional number`
+<a href="#">Link to this property</a>
 
-### Slot Get Response
+ccr\_device\_name: optional string
 
-- `SlotGetResponse object { id, facility, occupied, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Slot ID
-
-  - `facility: object { address, name }`
-
-    - `address: array of string`
-
-    - `name: string`
-
-  - `occupied: boolean`
-
-    Whether the slot is occupied or not
-
-  - `site: string`
-
-  - `speed: string`
-
-  - `account: optional string`
-
-    Customer account tag
+[Link to this property](#)%20network_interconnects.slots%20%3E%20(model)%20slot_get_response%20%3E%20(schema)>)

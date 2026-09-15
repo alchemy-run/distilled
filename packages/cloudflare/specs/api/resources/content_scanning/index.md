@@ -1,979 +1,291 @@
+---
+title: Content Scanning
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Content Scanning
 
-## Enable Content Scanning
+##### [Enable Content Scanning for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/methods/enable)
 
-**post** `/zones/{zone_id}/content-upload-scan/enable`
+POST/zones/{zone\_id}/content-upload-scan/enable
 
-Enable Content Scanning.
+##### [Disable Content Scanning for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/methods/disable)
 
-### Path Parameters
+POST/zones/{zone\_id}/content-upload-scan/disable
 
-- `zone_id: string`
+##### [Update the Content Scanning status for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/methods/create)
 
-  Defines an identifier.
+PUT/zones/{zone\_id}/content-upload-scan/settings
 
-### Returns
+##### [Update the Content Scanning status for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/methods/update)
 
-- `errors: array of ResponseInfo`
+PUT/zones/{zone\_id}/content-upload-scan/settings
 
-  - `code: number`
+##### [Get the Content Scanning status for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/methods/get)
 
-  - `message: string`
+GET/zones/{zone\_id}/content-upload-scan/settings
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+ContentScanningEnableResponse = unknown
 
-    - `pointer: optional string`
+[Link to this property](#)%20content_scanning%20%3E%20(model)%20content_scanning_enable_response%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+ContentScanningDisableResponse = unknown
 
-  - `code: number`
+[Link to this property](#)%20content_scanning%20%3E%20(model)%20content_scanning_disable_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ContentScanningCreateResponse object {modified, value }
 
-- `result: unknown`
+Defines the status for Content Scanning.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+modified: optional string
 
-  - `true`
+Defines the last modification date (ISO 8601) of the Content Scanning status.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/enable \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: optional string
 
-#### Response
+Defines the status of Content Scanning.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Disable Content Scanning
+</details>
 
-**post** `/zones/{zone_id}/content-upload-scan/disable`
+[Link to this property](#)%20content_scanning%20%3E%20(model)%20content_scanning_create_response%20%3E%20(schema)>)
 
-Disable Content Scanning.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+ContentScanningUpdateResponse object {modified, value }
 
-  Defines an identifier.
+Defines the status for Content Scanning.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+modified: optional string
 
-  - `code: number`
+Defines the last modification date (ISO 8601) of the Content Scanning status.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+Defines the status of Content Scanning.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20content_scanning%20%3E%20(model)%20content_scanning_update_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ContentScanningGetResponse object {modified, value }
 
-- `result: unknown`
+Defines the status for Content Scanning.
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+modified: optional string
 
-  - `true`
+Defines the last modification date (ISO 8601) of the Content Scanning status.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/disable \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: optional string
 
-#### Response
+Defines the status of Content Scanning.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Content Scanning Status
+</details>
 
-**put** `/zones/{zone_id}/content-upload-scan/settings`
+[Link to this property](#)%20content_scanning%20%3E%20(model)%20content_scanning_get_response%20%3E%20(schema)>)
 
-Update the Content Scanning status.
+#### Content ScanningPayloads
 
-### Path Parameters
+##### [List the Content Scanning custom expressions of a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/payloads/methods/list)
 
-- `zone_id: string`
+GET/zones/{zone\_id}/content-upload-scan/payloads
 
-  Defines an identifier.
+##### [Create Content Scanning custom expressions for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/payloads/methods/create)
 
-### Body Parameters
+POST/zones/{zone\_id}/content-upload-scan/payloads
 
-- `value: "enabled" or "disabled"`
+##### [Delete a Content Scanning custom expression from a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/payloads/methods/delete)
 
-  The status value for Content Scanning.
+DELETE/zones/{zone\_id}/content-upload-scan/payloads/{expression\_id}
 
-  - `"enabled"`
+##### [Update a Content Scanning custom expression for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/payloads/methods/update)
 
-  - `"disabled"`
+PATCH/zones/{zone\_id}/content-upload-scan/payloads/{expression\_id}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+PayloadListResponse object {id, payload }
 
-  - `documentation_url: optional string`
+Defines a Content Scanning custom expression.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: optional string
 
-- `messages: array of ResponseInfo`
+Defines the unique ID for this Content Scanning custom expression.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+payload: optional string
 
-  - `source: optional object { pointer }`
+Defines the custom content extraction expression used to reach content objects in the request.
 
-- `result: object { modified, value }`
+<a href="#">Link to this property</a>
 
-  Defines the status for Content Scanning.
+</details>
 
-  - `modified: optional string`
+[Link to this property](#)%20content_scanning.payloads%20%3E%20(model)%20payload_list_response%20%3E%20(schema)>)
 
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
+<details>
 
-  - `value: optional string`
+<summary>
 
-    Defines the status of Content Scanning.
+PayloadCreateResponse object {id, payload }
 
-- `success: true`
+Defines a Content Scanning custom expression.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+id: optional string
 
-### Example
+Defines the unique ID for this Content Scanning custom expression.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "enabled"
-        }'
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": "2024-12-02T09:57:23.150259Z",
-    "value": "enabled"
-  },
-  "success": true
-}
-```
+payload: optional string
 
-## Update Content Scanning Status
+Defines the custom content extraction expression used to reach content objects in the request.
 
-**put** `/zones/{zone_id}/content-upload-scan/settings`
+<a href="#">Link to this property</a>
 
-Update the Content Scanning status.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20content_scanning.payloads%20%3E%20(model)%20payload_create_response%20%3E%20(schema)>)
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>
 
-### Body Parameters
+PayloadDeleteResponse object {id, payload }
 
-- `value: "enabled" or "disabled"`
+Defines a Content Scanning custom expression.
 
-  The status value for Content Scanning.
+</summary>
 
-  - `"enabled"`
+id: optional string
 
-  - `"disabled"`
+Defines the unique ID for this Content Scanning custom expression.
 
-### Returns
+maxLength32
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+payload: optional string
 
-  - `message: string`
+Defines the custom content extraction expression used to reach content objects in the request.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20content_scanning.payloads%20%3E%20(model)%20payload_delete_response%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+PayloadUpdateResponse object {id, payload }
 
-  - `documentation_url: optional string`
+Defines a Content Scanning custom expression.
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: object { modified, value }`
+id: optional string
 
-  Defines the status for Content Scanning.
+Defines the unique ID for this Content Scanning custom expression.
 
-  - `modified: optional string`
+maxLength32
 
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
+<a href="#">Link to this property</a>
 
-  - `value: optional string`
+payload: optional string
 
-    Defines the status of Content Scanning.
+Defines the custom content extraction expression used to reach content objects in the request.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20content_scanning.payloads%20%3E%20(model)%20payload_update_response%20%3E%20(schema)>)
 
-### Example
+#### Content ScanningSettings
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "enabled"
-        }'
-```
+##### [Get the Content Scanning status for a zone.](https://developers.cloudflare.com/api/resources/content_scanning/subresources/settings/methods/get)
 
-#### Response
+GET/zones/{zone\_id}/content-upload-scan/settings
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": "2024-12-02T09:57:23.150259Z",
-    "value": "enabled"
-  },
-  "success": true
-}
-```
+##### ModelsExpand Collapse
 
-## Get Content Scanning Status
+<details>
 
-**get** `/zones/{zone_id}/content-upload-scan/settings`
+<summary>
 
-Retrieve the current status of Content Scanning.
+SettingGetResponse object {modified, value }
 
-### Path Parameters
+Defines the status for Content Scanning.
 
-- `zone_id: string`
+</summary>
 
-  Defines an identifier.
+modified: optional string
 
-### Returns
+Defines the last modification date (ISO 8601) of the Content Scanning status.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+value: optional string
 
-  - `message: string`
+Defines the status of Content Scanning.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { modified, value }`
-
-  Defines the status for Content Scanning.
-
-  - `modified: optional string`
-
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
-
-  - `value: optional string`
-
-    Defines the status of Content Scanning.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": "2024-12-02T09:57:23.150259Z",
-    "value": "enabled"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Content Scanning Enable Response
-
-- `ContentScanningEnableResponse = unknown`
-
-### Content Scanning Disable Response
-
-- `ContentScanningDisableResponse = unknown`
-
-### Content Scanning Create Response
-
-- `ContentScanningCreateResponse object { modified, value }`
-
-  Defines the status for Content Scanning.
-
-  - `modified: optional string`
-
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
-
-  - `value: optional string`
-
-    Defines the status of Content Scanning.
-
-### Content Scanning Update Response
-
-- `ContentScanningUpdateResponse object { modified, value }`
-
-  Defines the status for Content Scanning.
-
-  - `modified: optional string`
-
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
-
-  - `value: optional string`
-
-    Defines the status of Content Scanning.
-
-### Content Scanning Get Response
-
-- `ContentScanningGetResponse object { modified, value }`
-
-  Defines the status for Content Scanning.
-
-  - `modified: optional string`
-
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
-
-  - `value: optional string`
-
-    Defines the status of Content Scanning.
-
-# Payloads
-
-## List Existing Custom Scan Expressions
-
-**get** `/zones/{zone_id}/content-upload-scan/payloads`
-
-Get a list of existing custom scan expressions for Content Scanning.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id, payload }`
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/payloads \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a350a054caa840c9becd89c3b4f0195b",
-      "payload": "lookup_json_string(http.request.body.raw, \"file\")"
-    }
-  ],
-  "success": true
-}
-```
-
-## Add Custom Scan Expressions
-
-**post** `/zones/{zone_id}/content-upload-scan/payloads`
-
-Add custom scan expressions for Content Scanning.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Body Parameters
-
-- `body: array of object { payload }`
-
-  - `payload: string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id, payload }`
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/payloads \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "payload": "lookup_json_string(http.request.body.raw, \\"file\\")"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a350a054caa840c9becd89c3b4f0195b",
-      "payload": "lookup_json_string(http.request.body.raw, \"file\")"
-    }
-  ],
-  "success": true
-}
-```
-
-## Delete a Custom Scan Expression
-
-**delete** `/zones/{zone_id}/content-upload-scan/payloads/{expression_id}`
-
-Delete a Content Scan Custom Expression.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `expression_id: string`
-
-  defines the unique ID for this custom scan expression.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { id, payload }`
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/payloads/$EXPRESSION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a350a054caa840c9becd89c3b4f0195b",
-      "payload": "lookup_json_string(http.request.body.raw, \"file\")"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Payload List Response
-
-- `PayloadListResponse object { id, payload }`
-
-  Defines a custom scan expression to match Content Scanning on.
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-### Payload Create Response
-
-- `PayloadCreateResponse object { id, payload }`
-
-  Defines a custom scan expression to match Content Scanning on.
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-### Payload Delete Response
-
-- `PayloadDeleteResponse object { id, payload }`
-
-  Defines a custom scan expression to match Content Scanning on.
-
-  - `id: optional string`
-
-    defines the unique ID for this custom scan expression.
-
-  - `payload: optional string`
-
-    Defines the ruleset expression to use in matching content objects.
-
-# Settings
-
-## Get Content Scanning Status
-
-**get** `/zones/{zone_id}/content-upload-scan/settings`
-
-Retrieve the current status of Content Scanning.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { modified, value }`
-
-  Defines the status for Content Scanning.
-
-  - `modified: optional string`
-
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
-
-  - `value: optional string`
-
-    Defines the status of Content Scanning.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/content-upload-scan/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "modified": "2024-12-02T09:57:23.150259Z",
-    "value": "enabled"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Setting Get Response
-
-- `SettingGetResponse object { modified, value }`
-
-  Defines the status for Content Scanning.
-
-  - `modified: optional string`
-
-    Defines the last modification date (ISO 8601) of the Content Scanning status.
-
-  - `value: optional string`
-
-    Defines the status of Content Scanning.
+[Link to this property](#)%20content_scanning.settings%20%3E%20(model)%20setting_get_response%20%3E%20(schema)>)

@@ -1,390 +1,1090 @@
-## Get message details
+---
+title: Get message details
+---
 
-**get** `/accounts/{account_id}/email-security/investigate/{investigate_id}`
+[Skip to content](#_top)
 
-Retrieves comprehensive details for a specific email message including headers, recipients, sender information, and current quarantine status. Use the investigate_id from search results to fetch detailed information.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
 
-- `account_id: string`
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
 
-  Identifier.
+Copy Markdown
 
-- `investigate_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  Unique identifier for a message retrieved from investigation
+---
 
-### Query Parameters
+**Copy Markdown****View as Markdown**
 
-- `submission: optional boolean`
+# Get message details
 
-  When true, search the submissions datastore only. When false or omitted, search the
-  regular datastore only.
+GET/accounts/{account\_id}/email-security/investigate/{investigate\_id}
 
-### Returns
+Retrieves comprehensive details for a specific email message including headers, recipients, sender information, and current quarantine status. Use the investigate\_id from search results to fetch detailed information.
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `messages: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `result: object { id, action_log, client_recipients, 32 more }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `id: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Unique identifier for a message retrieved from investigation
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `action_log: array of object { completed_at, operation, completed_timestamp, 2 more }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Deprecated, use `GET /investigate/{investigate_id}/action_log` instead. End of life: November 1, 2026.
+</details>
 
-    - `completed_at: string`
+##### Accepted Permissions (at least one required)
 
-      Timestamp when action completed
+`Cloud Email Security: Write``Cloud Email Security: Read`
 
-    - `operation: "MOVE" or "RELEASE" or "RECLASSIFY" or 3 more`
+##### P ath ParametersExpand Collapse
 
-      Type of action performed
+account\_id: string
 
-      - `"MOVE"`
+Identifier.
 
-      - `"RELEASE"`
+maxLength32
 
-      - `"RECLASSIFY"`
+[Link to this property](#)%20email_security.investigate%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `"SUBMISSION"`
+investigate\_id: string
 
-      - `"QUARANTINE_RELEASE"`
+Unique identifier for a message retrieved from investigation.
 
-      - `"PREVIEW"`
+[Link to this property](#)%20email_security.investigate%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20investigate_id%20%3E%20(schema)>)
 
-    - `completed_timestamp: optional string`
+##### Q uery ParametersExpand Collapse
 
-      Deprecated, use `completed_at` instead. End of life: November 1, 2026.
+submission: optional boolean
 
-    - `properties: optional object { folder, requested_by }`
+When true, search the submissions datastore only. When false or omitted, search the regular datastore only.
 
-      Additional properties for the action
+[Link to this property](#)%20email_security.investigate%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20submission%20%3E%20(schema)>)
 
-      - `folder: optional string`
+##### ReturnsExpand Collapse
 
-        Target folder for move operations
+<details>
 
-      - `requested_by: optional string`
+<summary>
 
-        User who requested the action
+errors: array of object {code, message, documentation\_url, source }
 
-    - `status: optional string`
+</summary>
 
-      Status of the action
+code: number
 
-  - `client_recipients: array of string`
+minimum1000
 
-  - `detection_reasons: array of string`
+<a href="#">Link to this property</a>
 
-  - `is_phish_submission: boolean`
+message: string
 
-  - `is_quarantined: boolean`
+<a href="#">Link to this property</a>
 
-  - `postfix_id: string`
+documentation\_url: optional string
 
-    The identifier of the message
+<a href="#">Link to this property</a>
 
-  - `properties: object { allowlisted_pattern, allowlisted_pattern_type, blocklisted_message, 2 more }`
+<details>
 
-    Message processing properties
+<summary>
 
-    - `allowlisted_pattern: optional string`
+source: optional object {pointer }
 
-      Pattern that allowlisted this message
+</summary>
 
-    - `allowlisted_pattern_type: optional "quarantine_release" or "acceptable_sender" or "allowed_sender" or 5 more`
+pointer: optional string
 
-      Type of allowlist pattern
+<a href="#">Link to this property</a>
 
-      - `"quarantine_release"`
+</details>
 
-      - `"acceptable_sender"`
+<a href="#">Link to this property</a>
 
-      - `"allowed_sender"`
+</details>
 
-      - `"allowed_recipient"`
+[Link to this property](#)%20email_security.investigate%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `"domain_similarity"`
+<details>
 
-      - `"domain_recency"`
+<summary>
 
-      - `"managed_acceptable_sender"`
+messages: array of object {code, message, documentation\_url, source }
 
-      - `"outbound_ndr"`
+</summary>
 
-    - `blocklisted_message: optional boolean`
+code: number
 
-      Whether message was blocklisted
+minimum1000
 
-    - `blocklisted_pattern: optional string`
+<a href="#">Link to this property</a>
 
-      Pattern that blocklisted this message
+message: string
 
-    - `whitelisted_pattern_type: optional "quarantine_release" or "acceptable_sender" or "allowed_sender" or 5 more`
+<a href="#">Link to this property</a>
 
-      Legacy field for allowlist pattern type
+documentation\_url: optional string
 
-      - `"quarantine_release"`
+<a href="#">Link to this property</a>
 
-      - `"acceptable_sender"`
+<details>
 
-      - `"allowed_sender"`
+<summary>
 
-      - `"allowed_recipient"`
+source: optional object {pointer }
 
-      - `"domain_similarity"`
+</summary>
 
-      - `"domain_recency"`
+pointer: optional string
 
-      - `"managed_acceptable_sender"`
+<a href="#">Link to this property</a>
 
-      - `"outbound_ndr"`
+</details>
 
-  - `ts: string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `scanned_at` instead. End of life: November 1, 2026.
+</details>
 
-  - `alert_id: optional string`
+[Link to this property](#)%20email_security.investigate%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  - `delivery_mode: optional "DIRECT" or "BCC" or "JOURNAL" or 8 more`
+<details>
 
-    - `"DIRECT"`
+<summary>
 
-    - `"BCC"`
+result: object {id, action\_log, client\_recipients, 32 more }
 
-    - `"JOURNAL"`
+</summary>
 
-    - `"REVIEW_SUBMISSION"`
+id: string
 
-    - `"DMARC_UNVERIFIED"`
+Unique identifier for a message retrieved from investigation.
 
-    - `"DMARC_FAILURE_REPORT"`
+<a href="#">Link to this property</a>
 
-    - `"DMARC_AGGREGATE_REPORT"`
+<details>
 
-    - `"THREAT_INTEL_SUBMISSION"`
+<summary>
 
-    - `"SIMULATION_SUBMISSION"`
+Deprecatedaction\_log: array of object {completed\_at, operation, completed\_timestamp, 2 more }
 
-    - `"API"`
+Use GET /investigate/{investigate\_id}/action\_log instead.
 
-    - `"RETRO_SCAN"`
+Deprecated, use <code>GET /investigate/{investigate_id}/action_log</code> instead. End of life: November 1, 2026.
 
-  - `delivery_status: optional array of "delivered" or "moved" or "quarantined" or 4 more`
+</summary>
 
-    - `"delivered"`
+completed\_at: string
 
-    - `"moved"`
+Timestamp when action completed.
 
-    - `"quarantined"`
+formatdate-time
 
-    - `"rejected"`
+<a href="#">Link to this property</a>
 
-    - `"deferred"`
+<details>
 
-    - `"bounced"`
+<summary>
 
-    - `"queued"`
+operation: "MOVE"or "RELEASE"or "RECLASSIFY"or 3 more
 
-  - `edf_hash: optional string`
+Type of action performed.
 
-  - `envelope_from: optional string`
+</summary>
 
-  - `envelope_to: optional array of string`
+One of the following:
 
-  - `final_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+"MOVE"
 
-    - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS-BEC"`
+"RELEASE"
 
-    - `"SUSPICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SPOOF"`
+"RECLASSIFY"
 
-    - `"SPAM"`
+<a href="#">Link to this property</a>
 
-    - `"BULK"`
+"SUBMISSION"
 
-    - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-    - `"EXTERNAL"`
+"QUARANTINE\_RELEASE"
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-    - `"NONE"`
+"PREVIEW"
 
-  - `findings: optional array of object { attachment, detail, detection, 6 more }`
+<a href="#">Link to this property</a>
 
-    Deprecated, use the `findings` field from `GET /investigate/{investigate_id}/detections` instead. End of life: November 1, 2026. Detection findings for this message.
+</details>
 
-    - `attachment: optional string`
+<a href="#">Link to this property</a>
 
-    - `detail: optional string`
+Deprecatedcompleted\_timestamp: optional string
 
-    - `detection: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+Use <code>completed_at</code> instead.
 
-      - `"MALICIOUS"`
+Deprecated, use <code>completed_at</code> instead. End of life: November 1, 2026.
 
-      - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-      - `"SUSPICIOUS"`
+<details>
 
-      - `"SPOOF"`
+<summary>
 
-      - `"SPAM"`
+properties: optional object {folder, requested\_by }
 
-      - `"BULK"`
+Additional properties for the action.
 
-      - `"ENCRYPTED"`
+</summary>
 
-      - `"EXTERNAL"`
+folder: optional string
 
-      - `"UNKNOWN"`
+Target folder for move operations.
 
-      - `"NONE"`
+<a href="#">Link to this property</a>
 
-    - `field: optional string`
+requested\_by: optional string
 
-    - `name: optional string`
+User who requested the action.
 
-    - `portion: optional string`
+<a href="#">Link to this property</a>
 
-    - `reason: optional string`
+</details>
 
-    - `score: optional number`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+status: optional string
 
-  - `from: optional string`
+Status of the action.
 
-  - `from_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `htmltext_structure_hash: optional string`
+</details>
 
-  - `message_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `post_delivery_operations: optional array of "PREVIEW" or "QUARANTINE_RELEASE" or "SUBMISSION" or "MOVE"`
+client\_recipients: array of string
 
-    Post-delivery operations performed on this message
+<a href="#">Link to this property</a>
 
-    - `"PREVIEW"`
+detection\_reasons: array of string
 
-    - `"QUARANTINE_RELEASE"`
+<a href="#">Link to this property</a>
 
-    - `"SUBMISSION"`
+is\_phish\_submission: boolean
 
-    - `"MOVE"`
+<a href="#">Link to this property</a>
 
-  - `postfix_id_outbound: optional string`
+is\_quarantined: boolean
 
-  - `replyto: optional string`
+<a href="#">Link to this property</a>
 
-  - `scanned_at: optional string`
+postfix\_id: string
 
-    When the message was scanned (UTC)
+The identifier of the message.
 
-  - `sent_at: optional string`
+<a href="#">Link to this property</a>
 
-    When the message was sent (UTC)
+<details>
 
-  - `sent_date: optional string`
+<summary>
 
-  - `smtp_helo_server_ip: optional string`
+properties: object {allowlisted\_pattern, allowlisted\_pattern\_type, blocklisted\_message, 2 more }
 
-  - `smtp_previous_hop_ip: optional string`
+Message processing properties.
 
-  - `subject: optional string`
+</summary>
 
-  - `threat_categories: optional array of string`
+allowlisted\_pattern: optional string
 
-  - `to: optional array of string`
+Pattern that allowlisted this message.
 
-  - `to_name: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `validation: optional object { comment, dkim, dmarc, spf }`
+<details>
 
-    - `comment: optional string`
+<summary>
 
-    - `dkim: optional "pass" or "neutral" or "fail" or 2 more`
+allowlisted\_pattern\_type: optional "quarantine\_release"or "acceptable\_sender"or "allowed\_sender"or 5 more
 
-      - `"pass"`
+Type of allowlist pattern.
 
-      - `"neutral"`
+</summary>
 
-      - `"fail"`
+One of the following:
 
-      - `"error"`
+"quarantine\_release"
 
-      - `"none"`
+<a href="#">Link to this property</a>
 
-    - `dmarc: optional "pass" or "neutral" or "fail" or 2 more`
+"acceptable\_sender"
 
-      - `"pass"`
+<a href="#">Link to this property</a>
 
-      - `"neutral"`
+"allowed\_sender"
 
-      - `"fail"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"allowed\_recipient"
 
-      - `"none"`
+<a href="#">Link to this property</a>
 
-    - `spf: optional "pass" or "neutral" or "fail" or 2 more`
+"domain\_similarity"
 
-      - `"pass"`
+<a href="#">Link to this property</a>
 
-      - `"neutral"`
+"domain\_recency"
 
-      - `"fail"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"managed\_acceptable\_sender"
 
-      - `"none"`
+<a href="#">Link to this property</a>
 
-  - `x_originating_ip: optional string`
+"outbound\_ndr"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+blocklisted\_message: optional boolean
 
-```http
+Whether message was blocklisted.
+
+<a href="#">Link to this property</a>
+
+blocklisted\_pattern: optional string
+
+Pattern that blocklisted this message.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+whitelisted\_pattern\_type: optional "quarantine\_release"or "acceptable\_sender"or "allowed\_sender"or 5 more
+
+Legacy field for allowlist pattern type.
+
+</summary>
+
+One of the following:
+
+"quarantine\_release"
+
+<a href="#">Link to this property</a>
+
+"acceptable\_sender"
+
+<a href="#">Link to this property</a>
+
+"allowed\_sender"
+
+<a href="#">Link to this property</a>
+
+"allowed\_recipient"
+
+<a href="#">Link to this property</a>
+
+"domain\_similarity"
+
+<a href="#">Link to this property</a>
+
+"domain\_recency"
+
+<a href="#">Link to this property</a>
+
+"managed\_acceptable\_sender"
+
+<a href="#">Link to this property</a>
+
+"outbound\_ndr"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedts: string
+
+Use <code>scanned_at</code> instead.
+
+Deprecated, use <code>scanned_at</code> instead. End of life: November 1, 2026.
+
+<a href="#">Link to this property</a>
+
+alert\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+delivery\_mode: optional "DIRECT"or "BCC"or "JOURNAL"or 8 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"REVIEW\_SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"DMARC\_UNVERIFIED"
+
+<a href="#">Link to this property</a>
+
+"DMARC\_FAILURE\_REPORT"
+
+<a href="#">Link to this property</a>
+
+"DMARC\_AGGREGATE\_REPORT"
+
+<a href="#">Link to this property</a>
+
+"THREAT\_INTEL\_SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"SIMULATION\_SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+delivery\_status: optional array of "delivered"or "moved"or "quarantined"or 5 more
+
+</summary>
+
+One of the following:
+
+"delivered"
+
+<a href="#">Link to this property</a>
+
+"moved"
+
+<a href="#">Link to this property</a>
+
+"quarantined"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+"deferred"
+
+<a href="#">Link to this property</a>
+
+"bounced"
+
+<a href="#">Link to this property</a>
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"move\_failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+edf\_hash: optional string
+
+<a href="#">Link to this property</a>
+
+envelope\_from: optional string
+
+<a href="#">Link to this property</a>
+
+envelope\_to: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+final\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedfindings: optional array of object {attachment, detail, detection, 6 more }
+
+Use the <code>findings</code> field from GET /investigate/{investigate\_id}/detections instead.
+
+Deprecated, use the <code>findings</code> field from <code>GET /investigate/{investigate_id}/detections</code> instead. End of life: November 1, 2026. Detection findings for this message.
+
+</summary>
+
+attachment: optional string
+
+<a href="#">Link to this property</a>
+
+detail: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+detection: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+field: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+portion: optional string
+
+<a href="#">Link to this property</a>
+
+reason: optional string
+
+<a href="#">Link to this property</a>
+
+score: optional number
+
+formatdouble
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+from: optional string
+
+<a href="#">Link to this property</a>
+
+from\_name: optional string
+
+<a href="#">Link to this property</a>
+
+htmltext\_structure\_hash: optional string
+
+<a href="#">Link to this property</a>
+
+message\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+post\_delivery\_operations: optional array of "PREVIEW"or "QUARANTINE\_RELEASE"or "SUBMISSION"or "MOVE"
+
+Post-delivery operations performed on this message.
+
+</summary>
+
+One of the following:
+
+"PREVIEW"
+
+<a href="#">Link to this property</a>
+
+"QUARANTINE\_RELEASE"
+
+<a href="#">Link to this property</a>
+
+"SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"MOVE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+postfix\_id\_outbound: optional string
+
+<a href="#">Link to this property</a>
+
+replyto: optional string
+
+<a href="#">Link to this property</a>
+
+scanned\_at: optional string
+
+When the message was scanned (UTC).
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+sent\_at: optional string
+
+When the message was sent (UTC).
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+sent\_date: optional string
+
+<a href="#">Link to this property</a>
+
+smtp\_helo\_server\_ip: optional string
+
+<a href="#">Link to this property</a>
+
+smtp\_previous\_hop\_ip: optional string
+
+<a href="#">Link to this property</a>
+
+subject: optional string
+
+<a href="#">Link to this property</a>
+
+threat\_categories: optional array of string
+
+<a href="#">Link to this property</a>
+
+to: optional array of string
+
+<a href="#">Link to this property</a>
+
+to\_name: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+validation: optional object {comment, dkim, dmarc, spf }
+
+</summary>
+
+comment: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dkim: optional "pass"or "neutral"or "fail"or 2 more
+
+</summary>
+
+One of the following:
+
+"pass"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"fail"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc: optional "pass"or "neutral"or "fail"or 2 more
+
+</summary>
+
+One of the following:
+
+"pass"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"fail"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf: optional "pass"or "neutral"or "fail"or 2 more
+
+</summary>
+
+One of the following:
+
+"pass"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"fail"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+x\_originating\_ip: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_security.investigate%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get message details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/$INVESTIGATE_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678",
+    "action_log": [
+      {
+        "completed_at": "2019-12-27T18:11:19.117Z",
+        "operation": "MOVE",
+        "completed_timestamp": "completed_timestamp",
+        "properties": {
+          "folder": "folder",
+          "requested_by": "requested_by"
+        },
+        "status": "status"
+      }
+    ],
+    "client_recipients": [
+      "string"
+    ],
+    "detection_reasons": [
+      "string"
+    ],
+    "is_phish_submission": true,
+    "is_quarantined": true,
+    "postfix_id": "4Njp3P0STMz2c02Q",
+    "properties": {
+      "allowlisted_pattern": "allowlisted_pattern",
+      "allowlisted_pattern_type": "quarantine_release",
+      "blocklisted_message": true,
+      "blocklisted_pattern": "blocklisted_pattern",
+      "whitelisted_pattern_type": "quarantine_release"
+    },
+    "ts": "ts",
+    "alert_id": "alert_id",
+    "delivery_mode": "DIRECT",
+    "delivery_status": [
+      "delivered"
+    ],
+    "edf_hash": "edf_hash",
+    "envelope_from": "envelope_from",
+    "envelope_to": [
+      "string"
+    ],
+    "final_disposition": "MALICIOUS",
+    "findings": [
+      {
+        "attachment": "attachment",
+        "detail": "detail",
+        "detection": "MALICIOUS",
+        "field": "field",
+        "name": "name",
+        "portion": "portion",
+        "reason": "reason",
+        "score": 0,
+        "value": "value"
+      }
+    ],
+    "from": "from",
+    "from_name": "from_name",
+    "htmltext_structure_hash": "htmltext_structure_hash",
+    "message_id": "message_id",
+    "post_delivery_operations": [
+      "PREVIEW"
+    ],
+    "postfix_id_outbound": "postfix_id_outbound",
+    "replyto": "replyto",
+    "scanned_at": "2019-12-27T18:11:19.117Z",
+    "sent_at": "2019-12-27T18:11:19.117Z",
+    "sent_date": "sent_date",
+    "smtp_helo_server_ip": "smtp_helo_server_ip",
+    "smtp_previous_hop_ip": "smtp_previous_hop_ip",
+    "subject": "subject",
+    "threat_categories": [
+      "string"
+    ],
+    "to": [
+      "string"
+    ],
+    "to_name": [
+      "string"
+    ],
+    "validation": {
+      "comment": "comment",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "spf": "pass"
+    },
+    "x_originating_ip": "x_originating_ip"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

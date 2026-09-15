@@ -214,6 +214,29 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.intel#AttackSurfaceReportIssuesClassRequestSource": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        },
+        "RISKRECON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riskrecon"
+          }
+        }
+      }
+    },
+    "com.cloudflare.intel#AttackSurfaceReportIssuesClassRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.intel#AttackSurfaceReportIssuesClassRequestSource"
+      }
+    },
     "com.cloudflare.intel#AttackSurfaceReportIssuesClassRequestSubjectList": {
       "type": "list",
       "member": {
@@ -289,6 +312,29 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.intel#AttackSurfaceReportIssuesListRequestSource": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        },
+        "RISKRECON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riskrecon"
+          }
+        }
+      }
+    },
+    "com.cloudflare.intel#AttackSurfaceReportIssuesListRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.intel#AttackSurfaceReportIssuesListRequestSource"
       }
     },
     "com.cloudflare.intel#AttackSurfaceReportIssuesListRequestSubjectList": {
@@ -531,6 +577,29 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.intel#AttackSurfaceReportIssuesSeverityRequestSource": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        },
+        "RISKRECON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riskrecon"
+          }
+        }
+      }
+    },
+    "com.cloudflare.intel#AttackSurfaceReportIssuesSeverityRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.intel#AttackSurfaceReportIssuesSeverityRequestSource"
+      }
+    },
     "com.cloudflare.intel#AttackSurfaceReportIssuesSeverityRequestSubjectList": {
       "type": "list",
       "member": {
@@ -606,6 +675,29 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.intel#AttackSurfaceReportIssuesTypeRequestSource": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        },
+        "RISKRECON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riskrecon"
+          }
+        }
+      }
+    },
+    "com.cloudflare.intel#AttackSurfaceReportIssuesTypeRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.intel#AttackSurfaceReportIssuesTypeRequestSource"
       }
     },
     "com.cloudflare.intel#AttackSurfaceReportIssuesTypeRequestSubjectList": {
@@ -1055,19 +1147,19 @@
         "allowlisted_domains": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Domains filtered by the global popularity allowlist at QS"
+            "smithy.api#documentation": "Domains filtered by the global popularity allowlist at QS provisioning time. Popular domains (bing.com, naver.com, etc.) are protected from custom-threat-feed enforcement."
           }
         },
         "expired_indicators": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Indicators in the upload whose valid_until is already in"
+            "smithy.api#documentation": "Indicators in the upload whose valid_until is already in the past. These are not added to QS; the expiration cron handles cleanup."
           }
         },
         "invalid_indicators": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Reserved for future use. Currently always 0 — the unifier"
+            "smithy.api#documentation": "Reserved for future use. Currently always 0 — the unifier aborts the entire upload on a single bad indicator."
           }
         }
       }
@@ -1101,13 +1193,13 @@
         "persisted": {
           "target": "com.cloudflare.intel#IndicatorFeedsGetResponseLastUploadSummaryPersisted",
           "traits": {
-            "smithy.api#documentation": "Net delta applied to feed indicators by this upload. Snapshot"
+            "smithy.api#documentation": "Net delta applied to feed indicators by this upload. Snapshot uploads emit both *_added and *_removed; delta-add emits only *_added; delta-remove emits only *_removed."
           }
         },
         "skipped": {
           "target": "com.cloudflare.intel#IndicatorFeedsGetResponseLastUploadSummarySkipped",
           "traits": {
-            "smithy.api#documentation": "Counts of indicators that were uploaded but did not reach"
+            "smithy.api#documentation": "Counts of indicators that were uploaded but did not reach QuickSilver, broken down by reason."
           }
         },
         "uploaded": {
@@ -1265,6 +1357,17 @@
         "target": "com.cloudflare.intel#IndicatorFeedsPermissionsListResultItem"
       }
     },
+    "com.cloudflare.intel#IndicatorFeedsSnapshotsUpdateRequestCfAsyncUpload": {
+      "type": "enum",
+      "members": {
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1"
+          }
+        }
+      }
+    },
     "com.cloudflare.intel#IpsGetResultItemBelongsToRefType": {
       "type": "enum",
       "members": {
@@ -1407,6 +1510,263 @@
         "target": "smithy.api#Double"
       }
     },
+    "com.cloudflare.intel#CreateSinkholeRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier for the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the sinkhole.",
+            "smithy.api#required": {}
+          }
+        },
+        "r2_bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the R2 bucket to store results. Required if you want to store large request bodies in R2."
+          }
+        },
+        "r2_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The id of the R2 instance. Required if you want to store large request bodies in R2."
+          }
+        },
+        "r2_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The secret key for the R2 API token. Required if you want to store large request bodies in R2."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#CreateSinkholeResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the sinkhole."
+          }
+        },
+        "account_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account tag that owns this sinkhole."
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the sinkhole was created."
+          }
+        },
+        "modified_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the sinkhole was last modified."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the sinkhole."
+          }
+        },
+        "r2_bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the R2 bucket to store results."
+          }
+        },
+        "r2_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The id of the R2 instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.intel#CreateSinkhole": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#CreateSinkholeRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#CreateSinkholeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/intel/sinkholes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new sinkhole. Logs of large request bodies will be truncated, but the full request body can be recorded in R2. If you wish to record large request bodies in R2, include the R2 key ID, key secret, and bucket name in the request body."
+      }
+    },
+    "com.cloudflare.intel#DeleteSinkholeRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier for the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#DeleteSinkholeResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.intel#DeleteSinkhole": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#DeleteSinkholeRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#DeleteSinkholeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/intel/sinkholes/{sinkhole_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete the specified sinkhole. The sinkhole must not have any active ingress rules defined. A 409 response code indicates that this condition is not met.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.intel#GetSinkholeRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier for the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#GetSinkholeResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the sinkhole."
+          }
+        },
+        "account_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account tag that owns this sinkhole."
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the sinkhole was created."
+          }
+        },
+        "modified_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the sinkhole was last modified."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the sinkhole."
+          }
+        },
+        "r2_bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the R2 bucket to store results."
+          }
+        },
+        "r2_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The id of the R2 instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.intel#GetSinkhole": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#GetSinkholeRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#GetSinkholeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/intel/sinkholes/{sinkhole_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the specified sinkhole by its unique identifier.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.intel#SinkholesListResultItem": {
       "type": "structure",
       "members": {
@@ -1460,6 +1820,537 @@
         "target": "com.cloudflare.intel#SinkholesListResultItem"
       }
     },
+    "com.cloudflare.intel#UpdateSinkholeRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier for the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the sinkhole.",
+            "smithy.api#required": {}
+          }
+        },
+        "r2_bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the R2 bucket to store results. Required if you want to store large request bodies in R2."
+          }
+        },
+        "r2_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The id of the R2 instance. Required if you want to store large request bodies in R2."
+          }
+        },
+        "r2_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The secret key for the R2 API token. Required if you want to store large request bodies in R2."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#UpdateSinkholeResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.intel#UpdateSinkhole": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#UpdateSinkholeRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#UpdateSinkholeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/accounts/{account_id}/intel/sinkholes/{sinkhole_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replaces the name or R2 configuration of the specified sinkhole. This is a full replacement. All fields, including r2_secret, must be re-supplied. Omitting r2_secret overwrites the stored value with an empty string.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.intel#CreateSinkholesIngressRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier for the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Provide a Cloudflare BYOIP CIDR that your account owns.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#CreateSinkholesIngressResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the ingress rule."
+          }
+        },
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The CIDR block for the ingress rule."
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the ingress rule was created."
+          }
+        },
+        "modified_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the ingress rule was last modified."
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sinkhole this ingress rule belongs to."
+          }
+        },
+        "zone_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone tag associated with this ingress rule."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.intel#CreateSinkholesIngress": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#CreateSinkholesIngressRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#CreateSinkholesIngressResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/zones/{zone_id}/intel/sinkholes/{sinkhole_id}/ingresses",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new ingress rule for the specified sinkhole. The CIDR block must be a Cloudflare BYOIP associated with your account. The zone_id must be a zone with the ability to create Spectrum Apps. The sinkhole must belong to the same account as the zone."
+      }
+    },
+    "com.cloudflare.intel#DeleteSinkholesIngressRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier for the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ingress_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#DeleteSinkholesIngressResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.intel#DeleteSinkholesIngress": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#DeleteSinkholesIngressRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#DeleteSinkholesIngressResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/zones/{zone_id}/intel/sinkholes/{sinkhole_id}/ingresses/{ingress_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete the specified ingress rule. The sinkhole must belong to the same account as the zone.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.intel#GetSinkholesIngressRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier for the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ingress_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#GetSinkholesIngressResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the ingress rule."
+          }
+        },
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The CIDR block for the ingress rule."
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the ingress rule was created."
+          }
+        },
+        "modified_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the ingress rule was last modified."
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sinkhole this ingress rule belongs to."
+          }
+        },
+        "zone_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone tag associated with this ingress rule."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.intel#GetSinkholesIngress": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#GetSinkholesIngressRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#GetSinkholesIngressResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/intel/sinkholes/{sinkhole_id}/ingresses/{ingress_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the specified ingress rule associated with a sinkhole. The sinkhole must belong to the same account as the zone.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.intel#UpdateSinkholesIngressRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier for the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "sinkhole_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ingress_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Provide a Cloudflare BYOIP CIDR that your account owns.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#UpdateSinkholesIngressResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.intel#UpdateSinkholesIngress": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#UpdateSinkholesIngressRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#UpdateSinkholesIngressResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/zones/{zone_id}/intel/sinkholes/{sinkhole_id}/ingresses/{ingress_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replaces the specified ingress rule. The sinkhole must belong to the same account as the zone.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.intel#GetUrlRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to look up.",
+            "smithy.api#httpQuery": "url",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.intel#GetUrlResponseContentCategoriesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "source_id": {
+          "target": "smithy.api#Double"
+        },
+        "super_category_id": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.cloudflare.intel#GetUrlResponseContentCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.intel#GetUrlResponseContentCategoriesItem"
+      }
+    },
+    "com.cloudflare.intel#GetUrlResponseRiskTypeItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "source_id": {
+          "target": "smithy.api#Double"
+        },
+        "super_category_id": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.cloudflare.intel#GetUrlResponseRiskTypeList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.intel#GetUrlResponseRiskTypeItem"
+      }
+    },
+    "com.cloudflare.intel#GetUrlResponse": {
+      "type": "structure",
+      "members": {
+        "content_categories": {
+          "target": "com.cloudflare.intel#GetUrlResponseContentCategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Content categories associated with this URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "full_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full URL that was looked up.",
+            "smithy.api#required": {}
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The hostname of the URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "risk_type": {
+          "target": "com.cloudflare.intel#GetUrlResponseRiskTypeList",
+          "traits": {
+            "smithy.api#documentation": "Security risk types associated with this URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "url_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The path component of the URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.intel#GetUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.intel#GetUrlRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.intel#GetUrlResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/intel/url",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets security information about a URL, including content categories and risk types. The URL must be provided as a query parameter.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.intel#WhoisGetResponseNameserversList": {
       "type": "list",
       "member": {
@@ -1476,6 +2367,33 @@
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.intel#CreateSinkhole"
+        },
+        {
+          "target": "com.cloudflare.intel#DeleteSinkhole"
+        },
+        {
+          "target": "com.cloudflare.intel#GetSinkhole"
+        },
+        {
+          "target": "com.cloudflare.intel#UpdateSinkhole"
+        },
+        {
+          "target": "com.cloudflare.intel#CreateSinkholesIngress"
+        },
+        {
+          "target": "com.cloudflare.intel#DeleteSinkholesIngress"
+        },
+        {
+          "target": "com.cloudflare.intel#GetSinkholesIngress"
+        },
+        {
+          "target": "com.cloudflare.intel#UpdateSinkholesIngress"
+        },
+        {
+          "target": "com.cloudflare.intel#GetUrl"
+        },
         {
           "target": "com.cloudflare.intel#ClassAttackSurfaceReportIssue"
         },
@@ -1704,6 +2622,12 @@
             "smithy.api#httpQuery": "severity~neq"
           }
         },
+        "source": {
+          "target": "com.cloudflare.intel#AttackSurfaceReportIssuesClassRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
+          }
+        },
         "subject": {
           "target": "com.cloudflare.intel#AttackSurfaceReportIssuesClassRequestSubjectList",
           "traits": {
@@ -1929,7 +2853,7 @@
           "uri": "/accounts/{account_id}/intel/miscategorization",
           "code": 200
         },
-        "smithy.api#documentation": "Allows you to submit requests to change a domain’s category. Requests that include category `169` (New Domains) or category `177` (Newly Seen) in any of `content_adds`, `content_removes`, `security_adds`, or `security_removes` will be rejected with a `400 Bad Request`. These categories are automatically managed and fall off 30 days after they are applied."
+        "smithy.api#documentation": "Allows you to submit requests to change a domain's category. Requests that include category `169` (New Domains) or category `177` (Newly Seen) in any of `content_adds`, `content_removes`, `security_adds`, or `security_removes` will be rejected with a `400 Bad Request`. These categories are automatically managed and fall off 30 days after they are applied."
       }
     },
     "com.cloudflare.intel#CreateMiscategorizationRequest": {
@@ -2373,7 +3297,7 @@
         "skip_ranking": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Skip the domain ranking lookup for faster responses. Defaults to",
+            "smithy.api#documentation": "Skip the domain ranking lookup for faster responses. Defaults to `false` (ranking is included). Set to `true` to opt out — primarily used by callers like Cloudflare Radar that need to avoid a circular dependency when building the domain details page. Note: the bulk endpoint (`/intel/domain/bulk`) uses opposite defaults — see `include_ranking` there.",
             "smithy.api#httpQuery": "skip_ranking"
           }
         }
@@ -2481,14 +3405,14 @@
         "include_ranking": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to include domain ranking data in the response. Defaults to",
+            "smithy.api#documentation": "Whether to include domain ranking data in the response. Defaults to `false` — ranking lookups are expensive at bulk scale and most callers do not need them. Set to `true` to opt in. This parameter replaces the deprecated `skip_ranking` (see below).",
             "smithy.api#httpQuery": "include_ranking"
           }
         },
         "skip_ranking": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "**Deprecated.** Previously controlled whether the ranking lookup",
+            "smithy.api#documentation": "**Deprecated.** Previously controlled whether the ranking lookup was skipped (defaulted to `false`, meaning ranking ran). The endpoint's default behavior is being flipped — ranking is now opt-in via `include_ranking=true` — and this parameter will be silently ignored. Remove it from your callers and use `include_ranking` instead.",
             "smithy.api#httpQuery": "skip_ranking"
           }
         }
@@ -2659,13 +3583,13 @@
         "last_upload_summary": {
           "target": "com.cloudflare.intel#IndicatorFeedsGetResponseLastUploadSummary",
           "traits": {
-            "smithy.api#documentation": "Summary of indicator counts from the last successful upload to this"
+            "smithy.api#documentation": "Summary of indicator counts from the last successful upload to this feed. Populated by the custom-threat-feeds loader at the end of each successful load. Absent (omitted) when no upload has completed successfully or the upload errored before the summary write. Surfaces silent-failure paths so operators can see when their indicators were dropped (popularity allowlist, expired valid_until, etc.) without reading loader logs."
           }
         },
         "latest_upload_error": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human-readable error message describing why the latest upload"
+            "smithy.api#documentation": "Human-readable error message describing why the latest upload failed. Populated only when `latest_upload_status` is `Error`. Returns one of a small fixed set of category-level messages (invalid domain / IP / URL entries, malformed row or header, invalid valid_until timestamp, etc.) or the generic `Upload failed` for unknown or infrastructure-level errors. Never echoes raw error text from the underlying loader. Intel accounts receive the verbatim loader/API error text (including specific offending values) instead of these category-level messages."
           }
         },
         "latest_upload_status": {
@@ -3203,6 +4127,12 @@
             "smithy.api#httpQuery": "severity~neq"
           }
         },
+        "source": {
+          "target": "com.cloudflare.intel#AttackSurfaceReportIssuesListRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
+          }
+        },
         "subject": {
           "target": "com.cloudflare.intel#AttackSurfaceReportIssuesListRequestSubjectList",
           "traits": {
@@ -3490,7 +4420,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "An identifier for the resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -3561,6 +4491,12 @@
             "smithy.api#required": {}
           }
         },
+        "Cf_Async_Upload": {
+          "target": "com.cloudflare.intel#IndicatorFeedsSnapshotsUpdateRequestCfAsyncUpload",
+          "traits": {
+            "smithy.api#httpHeader": "Cf-Async-Upload"
+          }
+        },
         "source": {
           "target": "smithy.api#String",
           "traits": {
@@ -3587,10 +4523,22 @@
             "smithy.api#documentation": "Name of the file unified in our system"
           }
         },
+        "poll_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account-relative polling path. Prepend `/accounts/{account_id}` using the same account identifier and API host as the upload request. The path omits the account segment because the service does not have your account identifier in this context."
+          }
+        },
         "status": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Current status of upload, should be unified"
+            "smithy.api#documentation": "Current status of the upload at the moment the request returned. This is NOT a terminal state: the file is unified inline, but the durable loader has only accepted it, so the upload is still `Unifying`. Poll `poll_url` until the status reaches a terminal value (`Unified` or `Error`)."
+          }
+        },
+        "upload_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the upload row, for polling this upload to a terminal state via `poll_url`."
           }
         }
       },
@@ -3680,6 +4628,12 @@
           "target": "com.cloudflare.intel#AttackSurfaceReportIssuesSeverityRequestSeverityNeqList",
           "traits": {
             "smithy.api#httpQuery": "severity~neq"
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.intel#AttackSurfaceReportIssuesSeverityRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
           }
         },
         "subject": {
@@ -3795,6 +4749,12 @@
           "target": "com.cloudflare.intel#AttackSurfaceReportIssuesTypeRequestSeverityNeqList",
           "traits": {
             "smithy.api#httpQuery": "severity~neq"
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.intel#AttackSurfaceReportIssuesTypeRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
           }
         },
         "subject": {

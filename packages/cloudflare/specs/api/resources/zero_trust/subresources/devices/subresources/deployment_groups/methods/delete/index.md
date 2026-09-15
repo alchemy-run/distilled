@@ -1,50 +1,155 @@
-## Delete deployment group
+---
+title: Delete deployment group
+---
 
-**delete** `/accounts/{account_id}/devices/deployment-groups/{group_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[Deployment Groups](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/deployment_groups)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete deployment group
+
+DELETE/accounts/{account\_id}/devices/deployment-groups/{group\_id}
 
 Deletes a deployment group. Associated policies no longer apply and devices stop receiving version targets. This endpoint is in Beta.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-- `group_id: string`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Returns
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `errors: array of object { code, message }`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `messages: array of object { code, message }`
+group\_id: string
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20group_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### ReturnsExpand Collapse
 
-- `result: object { id }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    The ID of a deleted deployment group.
+errors: array of object {code, message }
 
-- `success: boolean`
+</summary>
 
-  Indicates whether the API call was successful.
+code: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id }
+
+</summary>
+
+id: optional string
+
+The ID of a deleted deployment group.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete deployment group
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/deployment-groups/$GROUP_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": {
+    "id": "550e8400-e29b-41d4-a716-446655440000"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

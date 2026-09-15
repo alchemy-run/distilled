@@ -1,176 +1,149 @@
+---
+title: Domain
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Ranking](https://developers.cloudflare.com/api/resources/radar/subresources/ranking)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Domain
 
-## Get domain rank details
+##### [Get domain rank details](https://developers.cloudflare.com/api/resources/radar/subresources/ranking/subresources/domain/methods/get)
 
-**get** `/radar/ranking/domain/{domain}`
+GET/radar/ranking/domain/{domain}
 
-Retrieves domain rank details. Cloudflare provides an ordered rank for the top 100 domains, but for the remainder it only provides ranking buckets like top 200 thousand, top one million, etc.. These are available through Radar datasets endpoints.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `domain: string`
+<summary>
 
-  Domain name.
+DomainGetResponse object {details\_0, meta }
 
-### Query Parameters
+</summary>
 
-- `date: optional array of string`
+<details>
 
-  Filters results by the specified array of dates.
+<summary>
 
-- `format: optional "JSON" or "CSV"`
+details\_0: object {categories, bucket, rank, top\_locations }
 
-  Format in which results will be returned.
+</summary>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `includeTopLocations: optional boolean`
+categories: array of object {id, name, superCategoryId }
 
-  Includes top locations in the response.
+</summary>
 
-- `limit: optional number`
+id: number
 
-  Limits the number of objects returned in the response.
+<a href="#">Link to this property</a>
 
-- `name: optional array of string`
+name: string
 
-  Array of names used to label the series in the response.
+<a href="#">Link to this property</a>
 
-- `rankingType: optional "POPULAR" or "TRENDING_RISE" or "TRENDING_STEADY"`
+superCategoryId: number
 
-  The ranking type.
+<a href="#">Link to this property</a>
 
-  - `"POPULAR"`
+</details>
 
-  - `"TRENDING_RISE"`
+<a href="#">Link to this property</a>
 
-  - `"TRENDING_STEADY"`
+bucket: optional string
 
-### Returns
+Only available in POPULAR ranking for the most recent ranking.
 
-- `result: object { details_0, meta }`
+<a href="#">Link to this property</a>
 
-  - `details_0: object { categories, bucket, rank, top_locations }`
+rank: optional number
 
-    - `categories: array of object { id, name, superCategoryId }`
+<a href="#">Link to this property</a>
 
-      - `id: number`
+<details>
 
-      - `name: string`
+<summary>
 
-      - `superCategoryId: number`
+top\_locations: optional array of object {locationCode, locationName, rank }
 
-    - `bucket: optional string`
+</summary>
 
-      Only available in POPULAR ranking for the most recent ranking.
+locationCode: string
 
-    - `rank: optional number`
+<a href="#">Link to this property</a>
 
-    - `top_locations: optional array of object { locationCode, locationName, rank }`
+locationName: string
 
-      - `locationCode: string`
+<a href="#">Link to this property</a>
 
-      - `locationName: string`
+rank: number
 
-      - `rank: number`
+<a href="#">Link to this property</a>
 
-  - `meta: object { dateRange }`
+</details>
 
-    - `dateRange: array of object { endTime, startTime }`
+<a href="#">Link to this property</a>
 
-      - `endTime: string`
+</details>
 
-        Adjusted end of date range.
+<a href="#">Link to this property</a>
 
-      - `startTime: string`
+<details>
 
-        Adjusted start of date range.
+<summary>
 
-- `success: boolean`
+meta: object {dateRange }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/ranking/domain/$DOMAIN \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "result": {
-    "details_0": {
-      "categories": [
-        {
-          "id": 81,
-          "name": "Content Servers",
-          "superCategoryId": 26
-        }
-      ],
-      "bucket": "2000",
-      "rank": 3,
-      "top_locations": [
-        {
-          "locationCode": "US",
-          "locationName": "United States",
-          "rank": 1
-        }
-      ]
-    },
-    "meta": {
-      "dateRange": [
-        {
-          "endTime": "2022-09-17T10:22:57.555Z",
-          "startTime": "2022-09-16T10:22:57.555Z"
-        }
-      ]
-    }
-  },
-  "success": true
-}
-```
+dateRange: array of object {endTime, startTime }
 
-## Domain Types
+</summary>
 
-### Domain Get Response
+endTime: string
 
-- `DomainGetResponse object { details_0, meta }`
+Adjusted end of date range.
 
-  - `details_0: object { categories, bucket, rank, top_locations }`
+formatdate-time
 
-    - `categories: array of object { id, name, superCategoryId }`
+<a href="#">Link to this property</a>
 
-      - `id: number`
+startTime: string
 
-      - `name: string`
+Adjusted start of date range.
 
-      - `superCategoryId: number`
+formatdate-time
 
-    - `bucket: optional string`
+<a href="#">Link to this property</a>
 
-      Only available in POPULAR ranking for the most recent ranking.
+</details>
 
-    - `rank: optional number`
+<a href="#">Link to this property</a>
 
-    - `top_locations: optional array of object { locationCode, locationName, rank }`
+</details>
 
-      - `locationCode: string`
+<a href="#">Link to this property</a>
 
-      - `locationName: string`
+</details>
 
-      - `rank: number`
-
-  - `meta: object { dateRange }`
-
-    - `dateRange: array of object { endTime, startTime }`
-
-      - `endTime: string`
-
-        Adjusted end of date range.
-
-      - `startTime: string`
-
-        Adjusted start of date range.
+[Link to this property](#)%20radar.ranking.domain%20%3E%20(model)%20domain_get_response%20%3E%20(schema)>)

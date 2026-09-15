@@ -1,237 +1,107 @@
+---
+title: Usage
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS](https://developers.cloudflare.com/api/resources/dns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Usage
 
-# Zone
+#### UsageZone
 
-## Get DNS Record Usage
+##### [Get DNS Record Usage](https://developers.cloudflare.com/api/resources/dns/subresources/usage/subresources/zone/methods/get)
 
-**get** `/zones/{zone_id}/dns_records/usage`
+GET/zones/{zone\_id}/dns\_records/usage
 
-Get the current DNS record usage for a zone, including the number of records and the quota limit.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+ZoneGetResponse object {record\_quota, record\_usage }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+record\_quota: number
 
-  - `code: number`
+Maximum number of DNS records allowed for the zone. Null if using account-level quota.
 
-  - `message: string`
+minimum0
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+record\_usage: number
 
-    - `pointer: optional string`
+Current number of DNS records in the zone.
 
-- `messages: array of object { code, message, documentation_url, source }`
+minimum0
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20dns.usage.zone%20%3E%20(model)%20zone_get_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+#### UsageAccount
 
-    - `pointer: optional string`
+##### [Get DNS Record Usage for Account](https://developers.cloudflare.com/api/resources/dns/subresources/usage/subresources/account/methods/get)
 
-- `success: true`
+GET/accounts/{account\_id}/dns\_records/usage
 
-  Whether the API call was successful.
+##### ModelsExpand Collapse
 
-  - `true`
+<details>
 
-- `result: optional object { record_quota, record_usage }`
+<summary>
 
-  - `record_quota: number`
+AccountGetResponse object {record\_quota, record\_usage, internal\_record\_quota, internal\_record\_usage }
 
-    Maximum number of DNS records allowed for the zone. Null if using account-level quota.
+</summary>
 
-  - `record_usage: number`
+record\_quota: number
 
-    Current number of DNS records in the zone.
+Maximum number of DNS records allowed across all public zones in the account. Null if using zone-level quota.
 
-### Example
+minimum0
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/usage \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+record\_usage: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "record_quota": 200,
-    "record_usage": 150
-  }
-}
-```
+Current number of DNS records across all public zones in the account.
 
-## Domain Types
+minimum0
 
-### Zone Get Response
+<a href="#">Link to this property</a>
 
-- `ZoneGetResponse object { record_quota, record_usage }`
+internal\_record\_quota: optional number
 
-  - `record_quota: number`
+Maximum number of DNS records allowed across all internal zones in the account. Only present if internal DNS is enabled.
 
-    Maximum number of DNS records allowed for the zone. Null if using account-level quota.
+minimum0
 
-  - `record_usage: number`
+<a href="#">Link to this property</a>
 
-    Current number of DNS records in the zone.
+internal\_record\_usage: optional number
 
-# Account
+Current number of DNS records across all internal zones in the account. Only present if internal DNS is enabled.
 
-## Get DNS Record Usage for Account
+minimum0
 
-**get** `/accounts/{account_id}/dns_records/usage`
+<a href="#">Link to this property</a>
 
-Get the current DNS record usage and quota for an account. May include internal DNS usage and quota.
+</details>
 
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { record_quota, record_usage, internal_record_quota, internal_record_usage }`
-
-  - `record_quota: number`
-
-    Maximum number of DNS records allowed across all public zones in the account. Null if using zone-level quota.
-
-  - `record_usage: number`
-
-    Current number of DNS records across all public zones in the account.
-
-  - `internal_record_quota: optional number`
-
-    Maximum number of DNS records allowed across all internal zones in the account. Only present if internal DNS is enabled.
-
-  - `internal_record_usage: optional number`
-
-    Current number of DNS records across all internal zones in the account. Only present if internal DNS is enabled.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_records/usage \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "record_quota": 1000000,
-    "record_usage": 5000,
-    "internal_record_quota": 1000000,
-    "internal_record_usage": 5000
-  }
-}
-```
-
-## Domain Types
-
-### Account Get Response
-
-- `AccountGetResponse object { record_quota, record_usage, internal_record_quota, internal_record_usage }`
-
-  - `record_quota: number`
-
-    Maximum number of DNS records allowed across all public zones in the account. Null if using zone-level quota.
-
-  - `record_usage: number`
-
-    Current number of DNS records across all public zones in the account.
-
-  - `internal_record_quota: optional number`
-
-    Maximum number of DNS records allowed across all internal zones in the account. Only present if internal DNS is enabled.
-
-  - `internal_record_usage: optional number`
-
-    Current number of DNS records across all internal zones in the account. Only present if internal DNS is enabled.
+[Link to this property](#)%20dns.usage.account%20%3E%20(model)%20account_get_response%20%3E%20(schema)>)

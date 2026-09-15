@@ -1,1153 +1,741 @@
+---
+title: Devtools
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Devtools
 
-# Session
+#### DevtoolsSession
 
-## List sessions.
+##### [List sessions.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/session/methods/list)
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/session`
+GET/accounts/{account\_id}/browser-rendering/devtools/session
 
-List active browser sessions.
+##### [Get session details.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/session/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/browser-rendering/devtools/session/{session\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account ID.
+<details>
 
-### Query Parameters
+<summary>
 
-- `limit: optional number`
+SessionListResponse = array of object {sessionId, closeReason, closeReasonText, 8 more }
 
-- `offset: optional number`
+</summary>
 
-### Returns
+sessionId: string
 
-- `sessionId: string`
+Session ID.
 
-  Session ID.
+formatuuid
 
-- `closeReason: optional string`
+<a href="#">Link to this property</a>
 
-  Reason for session closure.
+closeReason: optional number
 
-- `closeReasonText: optional string`
+Reason code for session closure.
 
-  Human-readable close reason.
+<a href="#">Link to this property</a>
 
-- `connectionEndTime: optional number`
+closeReasonText: optional string
 
-  Connection end time.
+Human-readable close reason.
 
-- `connectionId: optional string`
+<a href="#">Link to this property</a>
 
-  Connection ID.
+connectionEndTime: optional number
 
-- `connectionStartTime: optional number`
+Connection end time.
 
-  Connection start time.
+<a href="#">Link to this property</a>
 
-- `devtoolsFrontendUrl: optional string`
+connectionId: optional string
 
-  DevTools frontend URL.
+Connection ID.
 
-- `endTime: optional number`
+<a href="#">Link to this property</a>
 
-  Session end time.
+connectionStartTime: optional number
 
-- `lastUpdated: optional number`
+Connection start time.
 
-  Last updated timestamp.
+<a href="#">Link to this property</a>
 
-- `startTime: optional number`
+devtoolsFrontendUrl: optional string
 
-  Session start time.
+DevTools frontend URL.
 
-- `webSocketDebuggerUrl: optional string`
+<a href="#">Link to this property</a>
 
-  WebSocket URL for debugging this target.
+endTime: optional number
 
-### Example
+Session end time.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/session \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+lastUpdated: optional number
 
-```json
-[
-  {
-    "sessionId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "closeReason": "closeReason",
-    "closeReasonText": "closeReasonText",
-    "connectionEndTime": 0,
-    "connectionId": "connectionId",
-    "connectionStartTime": 0,
-    "devtoolsFrontendUrl": "devtoolsFrontendUrl",
-    "endTime": 0,
-    "lastUpdated": 0,
-    "startTime": 0,
-    "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-  }
-]
-```
+Last updated timestamp.
 
-## Get session details.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/session/{session_id}`
+startTime: optional number
 
-Get details for a specific browser session.
+Session start time.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+webSocketDebuggerUrl: optional string
 
-  Account ID.
+WebSocket URL for debugging this target.
 
-- `session_id: string`
+<a href="#">Link to this property</a>
 
-  Session ID.
+</details>
 
-### Returns
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_list_response%20%3E%20(schema)>)
 
-- `sessionId: string`
+<details>
 
-  Session ID.
+<summary>
 
-- `closeReason: optional string`
+SessionGetResponse object {sessionId, closeReason, closeReasonText, 8 more }
 
-  Reason for session closure.
+</summary>
 
-- `closeReasonText: optional string`
+sessionId: string
 
-  Human-readable close reason.
+Session ID.
 
-- `connectionEndTime: optional number`
+formatuuid
 
-  Connection end time.
+<a href="#">Link to this property</a>
 
-- `connectionId: optional string`
+closeReason: optional number
 
-  Connection ID.
+Reason code for session closure.
 
-- `connectionStartTime: optional number`
+<a href="#">Link to this property</a>
 
-  Connection start time.
+closeReasonText: optional string
 
-- `devtoolsFrontendUrl: optional string`
+Human-readable close reason.
 
-  DevTools frontend URL.
+<a href="#">Link to this property</a>
 
-- `endTime: optional number`
+connectionEndTime: optional number
 
-  Session end time.
+Connection end time.
 
-- `lastUpdated: optional number`
+<a href="#">Link to this property</a>
 
-  Last updated timestamp.
+connectionId: optional string
 
-- `startTime: optional number`
+Connection ID.
 
-  Session start time.
+<a href="#">Link to this property</a>
 
-- `webSocketDebuggerUrl: optional string`
+connectionStartTime: optional number
 
-  WebSocket URL for debugging this target.
+Connection start time.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/session/$SESSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+devtoolsFrontendUrl: optional string
 
-#### Response
+DevTools frontend URL.
 
-```json
-{
-  "sessionId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "closeReason": "closeReason",
-  "closeReasonText": "closeReasonText",
-  "connectionEndTime": 0,
-  "connectionId": "connectionId",
-  "connectionStartTime": 0,
-  "devtoolsFrontendUrl": "devtoolsFrontendUrl",
-  "endTime": 0,
-  "lastUpdated": 0,
-  "startTime": 0,
-  "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+endTime: optional number
 
-### Session List Response
+Session end time.
 
-- `SessionListResponse = array of object { sessionId, closeReason, closeReasonText, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `sessionId: string`
+lastUpdated: optional number
 
-    Session ID.
+Last updated timestamp.
 
-  - `closeReason: optional string`
+<a href="#">Link to this property</a>
 
-    Reason for session closure.
+startTime: optional number
 
-  - `closeReasonText: optional string`
+Session start time.
 
-    Human-readable close reason.
+<a href="#">Link to this property</a>
 
-  - `connectionEndTime: optional number`
+webSocketDebuggerUrl: optional string
 
-    Connection end time.
+WebSocket URL for debugging this target.
 
-  - `connectionId: optional string`
+<a href="#">Link to this property</a>
 
-    Connection ID.
+</details>
 
-  - `connectionStartTime: optional number`
+[Link to this property](#)%20browser_rendering.devtools.session%20%3E%20(model)%20session_get_response%20%3E%20(schema)>)
 
-    Connection start time.
+#### DevtoolsBrowser
 
-  - `devtoolsFrontendUrl: optional string`
+##### [Get a browser session ID.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/methods/create)
 
-    DevTools frontend URL.
+POST/accounts/{account\_id}/browser-rendering/devtools/browser
 
-  - `endTime: optional number`
+##### [Acquire and connect to browser session.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/methods/launch)
 
-    Session end time.
+GET/accounts/{account\_id}/browser-rendering/devtools/browser
 
-  - `lastUpdated: optional number`
+##### [Connect to browser session.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/methods/connect)
 
-    Last updated timestamp.
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}
 
-  - `startTime: optional number`
+##### [Close browser session.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/methods/delete)
 
-    Session start time.
+DELETE/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}
 
-  - `webSocketDebuggerUrl: optional string`
+##### [Get browser version metadata.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/methods/version)
 
-    WebSocket URL for debugging this target.
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/version
 
-### Session Get Response
+##### [Get Chrome DevTools Protocol schema.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/methods/protocol)
 
-- `SessionGetResponse object { sessionId, closeReason, closeReasonText, 8 more }`
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/protocol
 
-  - `sessionId: string`
+##### ModelsExpand Collapse
 
-    Session ID.
+<details>
 
-  - `closeReason: optional string`
+<summary>
 
-    Reason for session closure.
+BrowserCreateResponse object {sessionId, webSocketDebuggerUrl }
 
-  - `closeReasonText: optional string`
+</summary>
 
-    Human-readable close reason.
+sessionId: string
 
-  - `connectionEndTime: optional number`
+Browser session ID.
 
-    Connection end time.
+<a href="#">Link to this property</a>
 
-  - `connectionId: optional string`
+webSocketDebuggerUrl: optional string
 
-    Connection ID.
+WebSocket URL for the session.
 
-  - `connectionStartTime: optional number`
+<a href="#">Link to this property</a>
 
-    Connection start time.
+</details>
 
-  - `devtoolsFrontendUrl: optional string`
+[Link to this property](#)%20browser_rendering.devtools.browser%20%3E%20(model)%20browser_create_response%20%3E%20(schema)>)
 
-    DevTools frontend URL.
+<details>
 
-  - `endTime: optional number`
+<summary>
 
-    Session end time.
+BrowserDeleteResponse object {status }
 
-  - `lastUpdated: optional number`
+</summary>
 
-    Last updated timestamp.
+<details>
 
-  - `startTime: optional number`
+<summary>
 
-    Session start time.
+status: "closing"or "closed"
 
-  - `webSocketDebuggerUrl: optional string`
+</summary>
 
-    WebSocket URL for debugging this target.
+One of the following:
 
-# Browser
+"closing"
 
-## Get a browser session ID.
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/browser-rendering/devtools/browser`
+"closed"
 
-Acquires a browser and returns its session ID and websocket URL.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+</details>
 
-### Query Parameters
+[Link to this property](#)%20browser_rendering.devtools.browser%20%3E%20(model)%20browser_delete_response%20%3E%20(schema)>)
 
-- `keep_alive: optional number`
+<details>
 
-  Keep-alive time in milliseconds.
+<summary>
 
-- `lab: optional boolean`
+BrowserVersionResponse object {Browser, "Protocol-Version", "User-Agent", 3 more }
 
-  Use experimental browser.
+</summary>
 
-- `liveViewUrlExpiresInMs: optional number`
+Browser: string
 
-  How long the live view URL remains valid, in milliseconds (max 60 minutes). Only used when targets is true.
+Browser name and version.
 
-- `recording: optional boolean`
+<a href="#">Link to this property</a>
 
-- `targets: optional boolean`
+"Protocol-Version": string
 
-  Include browser targets in response.
+Chrome DevTools Protocol version.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `sessionId: string`
+"User-Agent": string
 
-  Browser session ID.
+User agent string.
 
-- `webSocketDebuggerUrl: optional string`
+<a href="#">Link to this property</a>
 
-  WebSocket URL for the session.
+"V8-Version": string
 
-### Example
+V8 JavaScript engine version.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"WebKit-Version": string
 
-```json
-{
-  "sessionId": "sessionId",
-  "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-}
-```
+WebKit version.
 
-## Acquire and connect to browser session.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser`
+webSocketDebuggerUrl: string
 
-Acquires and establishes a WebSocket connection to a browser session.
+WebSocket URL for debugging the browser.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account ID.
+[Link to this property](#)%20browser_rendering.devtools.browser%20%3E%20(model)%20browser_version_response%20%3E%20(schema)>)
 
-### Query Parameters
+<details>
 
-- `keep_alive: optional number`
+<summary>
 
-  Keep-alive time in ms (only valid when acquiring new session).
+BrowserProtocolResponse object {domains, version }
 
-- `lab: optional boolean`
+</summary>
 
-  Use experimental browser.
+<details>
 
-- `recording: optional boolean`
+<summary>
 
-### Example
+domains: array of object {domain, commands, dependencies, 3 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+List of protocol domains.
 
-## Connect to browser session.
+</summary>
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}`
+domain: string
 
-Establishes a WebSocket connection to an existing browser session.
+Domain name.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+commands: optional array of map\[unknown]
 
-  Account ID.
+Available commands.
 
-- `session_id: string`
+<a href="#">Link to this property</a>
 
-  Browser session ID to connect to.
+dependencies: optional array of string
 
-### Query Parameters
+Domain dependencies.
 
-- `keep_alive: optional number`
+<a href="#">Link to this property</a>
 
-  Keep-alive time in ms (only valid when acquiring new session).
+events: optional array of map\[unknown]
 
-- `lab: optional boolean`
+Available events.
 
-  Use experimental browser.
+<a href="#">Link to this property</a>
 
-- `recording: optional boolean`
+experimental: optional boolean
 
-### Example
+Whether this domain is experimental.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-## Close browser session.
+types: optional array of map\[unknown]
 
-**delete** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}`
+Type definitions.
 
-Closes an existing browser session.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+<details>
 
-- `session_id: string`
+<summary>
 
-  Browser session ID to close.
+version: optional object {major, minor }
 
-### Returns
+Protocol version.
 
-- `status: "closing" or "closed"`
+</summary>
 
-  - `"closing"`
+major: string
 
-  - `"closed"`
+Major version.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+minor: string
 
-#### Response
+Minor version.
 
-```json
-{
-  "status": "closing"
-}
-```
+<a href="#">Link to this property</a>
 
-## Get browser version metadata.
+</details>
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/version`
+<a href="#">Link to this property</a>
 
-Get browser version metadata.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20browser_rendering.devtools.browser%20%3E%20(model)%20browser_protocol_response%20%3E%20(schema)>)
 
-- `account_id: string`
+#### DevtoolsBrowserLive View
 
-  Account ID.
+##### [Mint live view URLs for a browser session](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/subresources/live_view/methods/create)
 
-- `session_id: string`
+POST/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/live\_view
 
-  Browser session ID.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `Browser: string`
+<summary>
 
-  Browser name and version.
+LiveViewCreateResponse object {id, devtoolsFrontendUrl, options, webSocketDebuggerUrl }
 
-- `"Protocol-Version": string`
+</summary>
 
-  Chrome DevTools Protocol version.
+id: string
 
-- `"User-Agent": string`
+Target ID
 
-  User agent string.
+<a href="#">Link to this property</a>
 
-- `"V8-Version": string`
+devtoolsFrontendUrl: string
 
-  V8 JavaScript engine version.
+URL to open the live view in a browser
 
-- `"WebKit-Version": string`
+formaturi
 
-  WebKit version.
+<a href="#">Link to this property</a>
 
-- `webSocketDebuggerUrl: string`
+<details>
 
-  WebSocket URL for debugging the browser.
+<summary>
 
-### Example
+options: object {mode, guardrails }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/version \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "Browser": "Browser",
-  "Protocol-Version": "Protocol-Version",
-  "User-Agent": "User-Agent",
-  "V8-Version": "V8-Version",
-  "WebKit-Version": "WebKit-Version",
-  "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-}
-```
+<summary>
 
-## Get Chrome DevTools Protocol schema.
+mode: "devtools"or "tab"or "full"
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/protocol`
+UI mode for the live view
 
-Returns the complete Chrome DevTools Protocol schema including all domains, commands, events, and types. This schema describes the entire CDP API surface.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"devtools"
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `session_id: string`
+"tab"
 
-  Browser session ID.
+<a href="#">Link to this property</a>
 
-### Returns
+"full"
 
-- `domains: array of object { domain, commands, dependencies, 3 more }`
+<a href="#">Link to this property</a>
 
-  List of protocol domains.
+</details>
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-    Domain name.
+<details>
 
-  - `commands: optional array of map[unknown]`
+<summary>
 
-    Available commands.
+guardrails: optional object {mode }
 
-  - `dependencies: optional array of string`
+Connection guardrails applied to this link
 
-    Domain dependencies.
+</summary>
 
-  - `events: optional array of map[unknown]`
+mode: "readonly"
 
-    Available events.
+<a href="#">Link to this property</a>
 
-  - `experimental: optional boolean`
+</details>
 
-    Whether this domain is experimental.
+<a href="#">Link to this property</a>
 
-  - `types: optional array of map[unknown]`
+</details>
 
-    Type definitions.
+<a href="#">Link to this property</a>
 
-- `version: optional object { major, minor }`
+webSocketDebuggerUrl: string
 
-  Protocol version.
+WebSocket URL for CDP connection
 
-  - `major: string`
+formaturi
 
-    Major version.
+<a href="#">Link to this property</a>
 
-  - `minor: string`
+</details>
 
-    Minor version.
+[Link to this property](#)%20browser_rendering.devtools.browser.live_view%20%3E%20(model)%20live_view_create_response%20%3E%20(schema)>)
 
-### Example
+#### DevtoolsBrowserPage
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/protocol \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Connect to a specific Chrome DevTools page.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/subresources/page/methods/get)
 
-#### Response
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/page/{target\_id}
 
-```json
-{
-  "domains": [
-    {
-      "domain": "domain",
-      "commands": [
-        {
-          "foo": {}
-        }
-      ],
-      "dependencies": [
-        "string"
-      ],
-      "events": [
-        {
-          "foo": {}
-        }
-      ],
-      "experimental": true,
-      "types": [
-        {
-          "foo": {}
-        }
-      ]
-    }
-  ],
-  "version": {
-    "major": "major",
-    "minor": "minor"
-  }
-}
-```
+#### DevtoolsBrowserTargets
 
-## Domain Types
+##### [Open a new browser tab.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/subresources/targets/methods/create)
 
-### Browser Create Response
+PUT/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/new
 
-- `BrowserCreateResponse object { sessionId, webSocketDebuggerUrl }`
+##### [List targets.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/subresources/targets/methods/list)
 
-  - `sessionId: string`
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/list
 
-    Browser session ID.
+##### [Get a target by ID.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/subresources/targets/methods/get)
 
-  - `webSocketDebuggerUrl: optional string`
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/list/{target\_id}
 
-    WebSocket URL for the session.
+##### [Activate a browser target.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/subresources/targets/methods/activate)
 
-### Browser Delete Response
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/activate/{target\_id}
 
-- `BrowserDeleteResponse object { status }`
+##### [Close a browser target.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/subresources/targets/methods/close)
 
-  - `status: "closing" or "closed"`
+GET/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/close/{target\_id}
 
-    - `"closing"`
+##### ModelsExpand Collapse
 
-    - `"closed"`
+<details>
 
-### Browser Version Response
+<summary>
 
-- `BrowserVersionResponse object { Browser, "Protocol-Version", "User-Agent", 3 more }`
+TargetCreateResponse object {id, type, url, 4 more }
 
-  - `Browser: string`
+</summary>
 
-    Browser name and version.
+id: string
 
-  - `"Protocol-Version": string`
+Target ID.
 
-    Chrome DevTools Protocol version.
+<a href="#">Link to this property</a>
 
-  - `"User-Agent": string`
+type: string
 
-    User agent string.
+Target type (page, background\_page, worker, etc.).
 
-  - `"V8-Version": string`
+<a href="#">Link to this property</a>
 
-    V8 JavaScript engine version.
+url: string
 
-  - `"WebKit-Version": string`
+URL of the target.
 
-    WebKit version.
+<a href="#">Link to this property</a>
 
-  - `webSocketDebuggerUrl: string`
+description: optional string
 
-    WebSocket URL for debugging the browser.
+Target description.
 
-### Browser Protocol Response
+<a href="#">Link to this property</a>
 
-- `BrowserProtocolResponse object { domains, version }`
+devtoolsFrontendUrl: optional string
 
-  - `domains: array of object { domain, commands, dependencies, 3 more }`
+DevTools frontend URL.
 
-    List of protocol domains.
+<a href="#">Link to this property</a>
 
-    - `domain: string`
+title: optional string
 
-      Domain name.
+Title of the target.
 
-    - `commands: optional array of map[unknown]`
+<a href="#">Link to this property</a>
 
-      Available commands.
+webSocketDebuggerUrl: optional string
 
-    - `dependencies: optional array of string`
+WebSocket URL for debugging this target.
 
-      Domain dependencies.
+<a href="#">Link to this property</a>
 
-    - `events: optional array of map[unknown]`
+</details>
 
-      Available events.
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)>)
 
-    - `experimental: optional boolean`
+<details>
 
-      Whether this domain is experimental.
+<summary>
 
-    - `types: optional array of map[unknown]`
+TargetListResponse = array of object {id, type, url, 4 more }
 
-      Type definitions.
+</summary>
 
-  - `version: optional object { major, minor }`
+id: string
 
-    Protocol version.
+Target ID.
 
-    - `major: string`
+<a href="#">Link to this property</a>
 
-      Major version.
+type: string
 
-    - `minor: string`
+Target type (page, background\_page, worker, etc.).
 
-      Minor version.
+<a href="#">Link to this property</a>
 
-# Page
+url: string
 
-## Connect to a specific Chrome DevTools page.
+URL of the target.
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/page/{target_id}`
+<a href="#">Link to this property</a>
 
-Establishes a WebSocket connection to a specific Chrome DevTools target or page.
+description: optional string
 
-### Path Parameters
+Target description.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+devtoolsFrontendUrl: optional string
 
-- `session_id: string`
+DevTools frontend URL.
 
-  Browser session ID.
+<a href="#">Link to this property</a>
 
-- `target_id: string`
+title: optional string
 
-  Target ID, e.g. page ID.
+Title of the target.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/page/$TARGET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+webSocketDebuggerUrl: optional string
 
-# Targets
+WebSocket URL for debugging this target.
 
-## Open a new browser tab.
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/new`
+</details>
 
-Opens a new tab in the browser. Optionally specify a URL to navigate to.
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_list_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+TargetGetResponse object {id, type, url, 4 more }
 
-- `session_id: string`
+</summary>
 
-  Browser session ID.
+id: string
 
-### Query Parameters
+Target ID.
 
-- `liveViewUrlExpiresInMs: optional number`
+<a href="#">Link to this property</a>
 
-  How long the live view URL remains valid, in milliseconds (max 60 minutes)
+type: string
 
-- `url: optional string`
+Target type (page, background\_page, worker, etc.).
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+url: string
 
-  Target ID.
+URL of the target.
 
-- `type: string`
+<a href="#">Link to this property</a>
 
-  Target type (page, background_page, worker, etc.).
+description: optional string
 
-- `url: string`
+Target description.
 
-  URL of the target.
+<a href="#">Link to this property</a>
 
-- `description: optional string`
+devtoolsFrontendUrl: optional string
 
-  Target description.
+DevTools frontend URL.
 
-- `devtoolsFrontendUrl: optional string`
+<a href="#">Link to this property</a>
 
-  DevTools frontend URL.
+title: optional string
 
-- `title: optional string`
+Title of the target.
 
-  Title of the target.
+<a href="#">Link to this property</a>
 
-- `webSocketDebuggerUrl: optional string`
+webSocketDebuggerUrl: optional string
 
-  WebSocket URL for debugging this target.
+WebSocket URL for debugging this target.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/new \
-    -X PUT \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "id": "id",
-  "type": "type",
-  "url": "url",
-  "description": "description",
-  "devtoolsFrontendUrl": "devtoolsFrontendUrl",
-  "title": "title",
-  "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-}
-```
+<details>
 
-## List targets.
+<summary>
 
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/list`
+TargetActivateResponse object {message }
 
-Returns a list of all debuggable targets including tabs, pages, service workers, and other browser contexts.
+</summary>
 
-### Path Parameters
+message: string
 
-- `account_id: string`
+Target activated.
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `session_id: string`
+</details>
 
-  Browser session ID.
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_activate_response%20%3E%20(schema)>)
 
-### Query Parameters
+<details>
 
-- `liveViewUrlExpiresInMs: optional number`
+<summary>
 
-  How long the live view URLs remain valid, in milliseconds (max 60 minutes)
+TargetCloseResponse object {message }
 
-### Returns
+</summary>
 
-- `id: string`
+message: string
 
-  Target ID.
+Target is closing.
 
-- `type: string`
+<a href="#">Link to this property</a>
 
-  Target type (page, background_page, worker, etc.).
+</details>
 
-- `url: string`
-
-  URL of the target.
-
-- `description: optional string`
-
-  Target description.
-
-- `devtoolsFrontendUrl: optional string`
-
-  DevTools frontend URL.
-
-- `title: optional string`
-
-  Title of the target.
-
-- `webSocketDebuggerUrl: optional string`
-
-  WebSocket URL for debugging this target.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/list \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-[
-  {
-    "id": "id",
-    "type": "type",
-    "url": "url",
-    "description": "description",
-    "devtoolsFrontendUrl": "devtoolsFrontendUrl",
-    "title": "title",
-    "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-  }
-]
-```
-
-## Get a target by ID.
-
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/list/{target_id}`
-
-Returns the debuggable target with the given ID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `session_id: string`
-
-  Browser session ID.
-
-- `target_id: string`
-
-  Target ID.
-
-### Returns
-
-- `id: string`
-
-  Target ID.
-
-- `type: string`
-
-  Target type (page, background_page, worker, etc.).
-
-- `url: string`
-
-  URL of the target.
-
-- `description: optional string`
-
-  Target description.
-
-- `devtoolsFrontendUrl: optional string`
-
-  DevTools frontend URL.
-
-- `title: optional string`
-
-  Title of the target.
-
-- `webSocketDebuggerUrl: optional string`
-
-  WebSocket URL for debugging this target.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/list/$TARGET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "id": "id",
-  "type": "type",
-  "url": "url",
-  "description": "description",
-  "devtoolsFrontendUrl": "devtoolsFrontendUrl",
-  "title": "title",
-  "webSocketDebuggerUrl": "webSocketDebuggerUrl"
-}
-```
-
-## Activate a browser target.
-
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/activate/{target_id}`
-
-Activates (brings to front) a specific browser target by its ID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `session_id: string`
-
-  Browser session ID.
-
-- `target_id: string`
-
-  Target ID to activate.
-
-### Returns
-
-- `message: string`
-
-  Target activated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/activate/$TARGET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "message": "message"
-}
-```
-
-## Close a browser target.
-
-**get** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/close/{target_id}`
-
-Closes a specific browser target (tab, page, etc.) by its ID. Returns 'Target is closing' on success or an error if the target is not found.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account ID.
-
-- `session_id: string`
-
-  Browser session ID.
-
-- `target_id: string`
-
-  Target ID to close.
-
-### Returns
-
-- `message: string`
-
-  Target is closing.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/close/$TARGET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "message": "message"
-}
-```
-
-## Domain Types
-
-### Target Create Response
-
-- `TargetCreateResponse object { id, type, url, 4 more }`
-
-  - `id: string`
-
-    Target ID.
-
-  - `type: string`
-
-    Target type (page, background_page, worker, etc.).
-
-  - `url: string`
-
-    URL of the target.
-
-  - `description: optional string`
-
-    Target description.
-
-  - `devtoolsFrontendUrl: optional string`
-
-    DevTools frontend URL.
-
-  - `title: optional string`
-
-    Title of the target.
-
-  - `webSocketDebuggerUrl: optional string`
-
-    WebSocket URL for debugging this target.
-
-### Target List Response
-
-- `TargetListResponse = array of object { id, type, url, 4 more }`
-
-  - `id: string`
-
-    Target ID.
-
-  - `type: string`
-
-    Target type (page, background_page, worker, etc.).
-
-  - `url: string`
-
-    URL of the target.
-
-  - `description: optional string`
-
-    Target description.
-
-  - `devtoolsFrontendUrl: optional string`
-
-    DevTools frontend URL.
-
-  - `title: optional string`
-
-    Title of the target.
-
-  - `webSocketDebuggerUrl: optional string`
-
-    WebSocket URL for debugging this target.
-
-### Target Get Response
-
-- `TargetGetResponse object { id, type, url, 4 more }`
-
-  - `id: string`
-
-    Target ID.
-
-  - `type: string`
-
-    Target type (page, background_page, worker, etc.).
-
-  - `url: string`
-
-    URL of the target.
-
-  - `description: optional string`
-
-    Target description.
-
-  - `devtoolsFrontendUrl: optional string`
-
-    DevTools frontend URL.
-
-  - `title: optional string`
-
-    Title of the target.
-
-  - `webSocketDebuggerUrl: optional string`
-
-    WebSocket URL for debugging this target.
-
-### Target Activate Response
-
-- `TargetActivateResponse object { message }`
-
-  - `message: string`
-
-    Target activated.
-
-### Target Close Response
-
-- `TargetCloseResponse object { message }`
-
-  - `message: string`
-
-    Target is closing.
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_close_response%20%3E%20(schema)>)

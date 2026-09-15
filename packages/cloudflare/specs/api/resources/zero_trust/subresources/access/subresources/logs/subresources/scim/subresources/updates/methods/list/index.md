@@ -1,214 +1,531 @@
-## List Access SCIM update logs
+---
+title: List Access SCIM update logs
+---
 
-**get** `/accounts/{account_id}/access/logs/scim/updates`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Logs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/logs)
+
+[SCIM](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/logs/subresources/scim)
+
+[Updates](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/logs/subresources/scim/subresources/updates)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Access SCIM update logs
+
+GET/accounts/{account\_id}/access/logs/scim/updates
 
 Lists Access SCIM update logs that maintain a record of updates made to User and Group resources synced to Cloudflare via the System for Cross-domain Identity Management (SCIM).
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `idp_id: array of string`
 
-  The unique Id of the IdP that has SCIM enabled.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `cf_resource_id: optional array of string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The unique Cloudflare-generated Id of the SCIM resource. Pass once for
-  a single lookup (`?cf_resource_id=A`) or repeat the parameter
-  (`?cf_resource_id=A&cf_resource_id=B`) to filter by multiple resources
-  in one request.
+</details>
 
-- `direction: optional "desc" or "asc"`
+<details>
 
-  The chronological order used to sort the logs.
+<summary>API Email + API Key</summary>
 
-  - `"desc"`
 
-  - `"asc"`
 
-- `idp_resource_id: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  The IdP-generated Id of the SCIM resource. Pass once for a single
-  lookup (`?idp_resource_id=A`) or repeat the parameter
-  (`?idp_resource_id=A&idp_resource_id=B`) to filter by multiple
-  resources in one request.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `limit: optional number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  The maximum number of update logs to retrieve.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `page: optional number`
+</details>
 
-  Page number of results.
+##### Accepted Permissions (at least one required)
 
-- `per_page: optional number`
+`Access: SCIM Logs Read`
 
-  Number of results per page.
+##### P ath ParametersExpand Collapse
 
-- `request_method: optional array of "DELETE" or "PATCH" or "POST" or "PUT"`
+account\_id: string
 
-  The request method of the SCIM request.
+Identifier.
 
-  - `"DELETE"`
+maxLength32
 
-  - `"PATCH"`
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"POST"`
+##### Q uery ParametersExpand Collapse
 
-  - `"PUT"`
+idp\_id: array of string
 
-- `resource_group_name: optional array of string`
+The unique Id of the IdP that has SCIM enabled.
 
-  The display name of the SCIM Group resource. Pass once for a single
-  lookup (`?resource_group_name=A`) or repeat the parameter
-  (`?resource_group_name=A&resource_group_name=B`) to filter by multiple
-  group names in one request.
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20idp_id%20%3E%20(schema)>)
 
-- `resource_type: optional array of "USER" or "GROUP"`
+cf\_resource\_id: optional array of string
 
-  The resource type of the SCIM request.
+The unique Cloudflare-generated Id of the SCIM resource. Pass once for a single lookup (`?cf_resource_id=A`) or repeat the parameter (`?cf_resource_id=A&cf_resource_id=B`) to filter by multiple resources in one request.
 
-  - `"USER"`
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cf_resource_id%20%3E%20(schema)>)
 
-  - `"GROUP"`
+<details>
 
-- `resource_user_email: optional array of string`
+<summary>
 
-  The email address of the SCIM User resource. Pass once for a single
-  lookup (`?resource_user_email=A`) or repeat the parameter
-  (`?resource_user_email=A&resource_user_email=B`) to filter by multiple
-  emails in one request.
+direction: optional "desc"or "asc"
 
-- `since: optional string`
+The chronological order used to sort the logs.
 
-  the timestamp of the earliest update log.
+</summary>
 
-- `status: optional array of "FAILURE" or "SUCCESS"`
+One of the following:
 
-  The status of the SCIM request.
+"desc"
 
-  - `"FAILURE"`
+<a href="#">Link to this property</a>
 
-  - `"SUCCESS"`
+"asc"
 
-- `until: optional string`
+<a href="#">Link to this property</a>
 
-  the timestamp of the most-recent update log.
+</details>
 
-### Returns
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20direction%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+idp\_resource\_id: optional array of string
 
-  - `code: number`
+The IdP-generated Id of the SCIM resource. Pass once for a single lookup (`?idp_resource_id=A`) or repeat the parameter (`?idp_resource_id=A&idp_resource_id=B`) to filter by multiple resources in one request.
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20idp_resource_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+limit: optional number
 
-  - `source: optional object { pointer }`
+The maximum number of update logs to retrieve.
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+page: optional number
 
-  - `code: number`
+Page number of results.
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+per\_page: optional number
 
-  - `source: optional object { pointer }`
+Number of results per page.
 
-    - `pointer: optional string`
+maximum1000
 
-- `success: true`
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional array of object { cf_resource_id, error_description, idp_id, 8 more }`
+request\_method: optional array of "DELETE"or "PATCH"or "POST"or "PUT"
 
-  - `cf_resource_id: optional string`
+The request method of the SCIM request.
 
-    The unique Cloudflare-generated Id of the SCIM resource.
+</summary>
 
-  - `error_description: optional string`
+One of the following:
 
-    The error message which is generated when the status of the SCIM request is 'FAILURE'.
+"DELETE"
 
-  - `idp_id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique Id of the IdP that has SCIM enabled.
+"PATCH"
 
-  - `idp_resource_id: optional string`
+<a href="#">Link to this property</a>
 
-    The IdP-generated Id of the SCIM resource.
+"POST"
 
-  - `logged_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `request_body: optional string`
+"PUT"
 
-    The JSON-encoded string body of the SCIM request.
+<a href="#">Link to this property</a>
 
-  - `request_method: optional string`
+</details>
 
-    The request method of the SCIM request.
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20request_method%20%3E%20(schema)>)
 
-  - `resource_group_name: optional string`
+resource\_group\_name: optional array of string
 
-    The display name of the SCIM Group resource if it exists.
+The display name of the SCIM Group resource. Pass once for a single lookup (`?resource_group_name=A`) or repeat the parameter (`?resource_group_name=A&resource_group_name=B`) to filter by multiple group names in one request.
 
-  - `resource_type: optional string`
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20resource_group_name%20%3E%20(schema)>)
 
-    The resource type of the SCIM request.
+<details>
 
-  - `resource_user_email: optional string`
+<summary>
 
-    The email address of the SCIM User resource if it exists.
+resource\_type: optional array of "USER"or "GROUP"
 
-  - `status: optional string`
+The resource type of the SCIM request.
 
-    The status of the SCIM request.
+</summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+One of the following:
 
-  - `count: optional number`
+"USER"
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"GROUP"
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20resource_type%20%3E%20(schema)>)
 
-  - `total_count: optional number`
+resource\_user\_email: optional array of string
 
-    Total results available without any search parameters.
+The email address of the SCIM User resource. Pass once for a single lookup (`?resource_user_email=A`) or repeat the parameter (`?resource_user_email=A&resource_user_email=B`) to filter by multiple emails in one request.
 
-  - `total_pages: optional number`
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20resource_user_email%20%3E%20(schema)>)
 
-    The number of total pages in the entire result set.
+since: optional string
 
-### Example
+the timestamp of the earliest update log.
 
-```http
+formatdate-time
+
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20since%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+status: optional array of "FAILURE"or "SUCCESS"
+
+The status of the SCIM request.
+
+</summary>
+
+One of the following:
+
+"FAILURE"
+
+<a href="#">Link to this property</a>
+
+"SUCCESS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
+
+until: optional string
+
+the timestamp of the most-recent update log.
+
+formatdate-time
+
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20until%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {cf\_resource\_id, error\_description, idp\_id, 8 more }
+
+</summary>
+
+cf\_resource\_id: optional string
+
+The unique Cloudflare-generated Id of the SCIM resource.
+
+<a href="#">Link to this property</a>
+
+error\_description: optional string
+
+The error message which is generated when the status of the SCIM request is ‘FAILURE’.
+
+<a href="#">Link to this property</a>
+
+idp\_id: optional string
+
+The unique Id of the IdP that has SCIM enabled.
+
+<a href="#">Link to this property</a>
+
+idp\_resource\_id: optional string
+
+The IdP-generated Id of the SCIM resource.
+
+<a href="#">Link to this property</a>
+
+logged\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+request\_body: optional string
+
+The JSON-encoded string body of the SCIM request.
+
+<a href="#">Link to this property</a>
+
+request\_method: optional string
+
+The request method of the SCIM request.
+
+<a href="#">Link to this property</a>
+
+resource\_group\_name: optional string
+
+The display name of the SCIM Group resource if it exists.
+
+<a href="#">Link to this property</a>
+
+resource\_type: optional string
+
+The resource type of the SCIM request.
+
+<a href="#">Link to this property</a>
+
+resource\_user\_email: optional string
+
+The email address of the SCIM User resource if it exists.
+
+formatemail
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+The status of the SCIM request.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.logs.scim.updates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Access SCIM update logs
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/logs/scim/updates \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "cf_resource_id": "bd97ef8d-7986-43e3-9ee0-c25dda33e4b0",
+      "error_description": "Invalid JSON body",
+      "idp_id": "df7e2w5f-02b7-4d9d-af26-8d1988fca630",
+      "idp_resource_id": "all_employees",
+      "logged_at": "2014-01-01T05:20:00.12345Z",
+      "request_body": "{}}",
+      "request_method": "DELETE",
+      "resource_group_name": "ALL_EMPLOYEES",
+      "resource_type": "GROUP",
+      "resource_user_email": "john.smith@example.com",
+      "status": "FAILURE"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

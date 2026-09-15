@@ -1,128 +1,75 @@
+---
+title: Logs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers Builds](https://developers.cloudflare.com/api/resources/workers_builds)
+
+[Builds](https://developers.cloudflare.com/api/resources/workers_builds/subresources/builds)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logs
 
-## Get build logs
+##### [Get Workers build logs](https://developers.cloudflare.com/api/resources/workers_builds/subresources/builds/subresources/logs/methods/get)
 
-**get** `/accounts/{account_id}/builds/builds/{build_uuid}/logs`
+GET/accounts/{account\_id}/builds/builds/{build\_uuid}/logs
 
-Retrieve logs for a specific build with cursor-based pagination
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier.
+LogGetResponse object {cursor, lines, truncated }
 
-- `build_uuid: string`
+</summary>
 
-  Build UUID.
+cursor: optional string
 
-### Query Parameters
+Pagination cursor for log retrieval.
 
-- `cursor: optional string`
+<a href="#">Link to this property</a>
 
-  Pagination cursor for log retrieval.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message }`
+lines: optional array of array of numberor string
 
-  - `code: optional number`
+</summary>
 
-  - `message: optional string`
+One of the following:
 
-- `messages: array of string`
+number
 
-- `result: object { cursor, lines, truncated }`
+Unix epoch timestamp
 
-  - `cursor: optional string`
+<a href="#">Link to this property</a>
 
-    Pagination cursor for log retrieval.
+string
 
-  - `lines: optional array of array of number or string`
+Log message
 
-    - `number`
+<a href="#">Link to this property</a>
 
-      Unix epoch timestamp
+</details>
 
-    - `string`
+<a href="#">Link to this property</a>
 
-      Log message
+truncated: optional boolean
 
-  - `truncated: optional boolean`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-  - `page: optional number`
-
-  - `per_page: optional number`
-
-  - `total_count: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/builds/builds/$BUILD_UUID/logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 12000,
-      "message": "Not found"
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "cursor": "eyJsaW5lIjoxMDAsInRpbWVzdGFtcCI6MTYzNjQ3MjQwMH0",
-    "lines": [
-      [
-        1636472400,
-        1636472400
-      ]
-    ],
-    "truncated": false
-  },
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 50,
-    "total_count": 150,
-    "total_pages": 3
-  }
-}
-```
-
-## Domain Types
-
-### Log Get Response
-
-- `LogGetResponse object { cursor, lines, truncated }`
-
-  - `cursor: optional string`
-
-    Pagination cursor for log retrieval.
-
-  - `lines: optional array of array of number or string`
-
-    - `number`
-
-      Unix epoch timestamp
-
-    - `string`
-
-      Log message
-
-  - `truncated: optional boolean`
+[Link to this property](#)%20workers_builds.builds.logs%20%3E%20(model)%20log_get_response%20%3E%20(schema)>)

@@ -1,137 +1,386 @@
-## Update target
+---
+title: Update target
+---
 
-**put** `/accounts/{account_id}/infrastructure/targets/{target_id}`
+[Skip to content](#_top)
 
-Update target
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
 
-  Account identifier
+[Infrastructure](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure)
 
-- `target_id: string`
+[Targets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets)
 
-  Target identifier
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `hostname: string`
+---
 
-  A non-unique field that refers to a target. Case insensitive, maximum
-  length of 255 characters, supports the use of special characters dash
-  and period, does not support spaces, and must start and end with an
-  alphanumeric character.
+**Copy Markdown****View as Markdown**
 
-- `ip: object { ipv4, ipv6 }`
+# Update target
 
-  The IPv4/IPv6 address that identifies where to reach a target
+PUT/accounts/{account\_id}/infrastructure/targets/{target\_id}
 
-  - `ipv4: optional object { ip_addr, virtual_network_id }`
+Updates an existing infrastructure access target by its ID.
 
-    The target's IPv4 address
+##### Security
 
-    - `ip_addr: optional string`
+<details>
 
-      IP address of the target
+<summary>API Token</summary>
 
-    - `virtual_network_id: optional string`
 
-      (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-  - `ipv6: optional object { ip_addr, virtual_network_id }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    The target's IPv6 address
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `ip_addr: optional string`
+</details>
 
-      IP address of the target
+<details>
 
-    - `virtual_network_id: optional string`
+<summary>API Email + API Key</summary>
 
-      (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### P ath ParametersExpand Collapse
 
-- `messages: array of object { code, message, documentation_url, source }`
+account\_id: string
 
-  - `code: number`
+Account identifier
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+target\_id: string
 
-    - `pointer: optional string`
+Target identifier
 
-- `success: true`
+formatuuid
 
-  Whether the API call was successful.
+maxLength36
 
-  - `true`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20target_id%20%3E%20(schema)>)
 
-- `result: optional object { id, created_at, hostname, 2 more }`
+##### Body ParametersJSONExpand Collapse
 
-  - `id: string`
+hostname: string
 
-    Target identifier
+A non-unique field that refers to a target. Case insensitive, maximum length of 255 characters, supports the use of special characters dash and period, does not support spaces, and must start and end with an alphanumeric character.
 
-  - `created_at: string`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20hostname%20%3E%20(schema)>)
 
-    Date and time at which the target was created
+<details>
 
-  - `hostname: string`
+<summary>
 
-    A non-unique field that refers to a target
+ip: object {ipv4, ipv6 }
 
-  - `ip: object { ipv4, ipv6 }`
+The IPv4/IPv6 address that identifies where to reach a target
 
-    The IPv4/IPv6 address that identifies where to reach a target
+</summary>
 
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
+<details>
 
-      The target's IPv4 address
+<summary>
 
-      - `ip_addr: optional string`
+ipv4: optional object {ip\_addr, virtual\_network\_id }
 
-        IP address of the target
+The target’s IPv4 address
 
-      - `virtual_network_id: optional string`
+</summary>
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+ip\_addr: optional string
 
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
+IP address of the target
 
-      The target's IPv6 address
+<a href="#">Link to this property</a>
 
-      - `ip_addr: optional string`
+virtual\_network\_id: optional string
 
-        IP address of the target
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-      - `virtual_network_id: optional string`
+formatuuid
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+<a href="#">Link to this property</a>
 
-  - `modified_at: string`
+</details>
 
-    Date and time at which the target was modified
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+ipv6: optional object {ip\_addr, virtual\_network\_id }
+
+The target’s IPv6 address
+
+</summary>
+
+ip\_addr: optional string
+
+IP address of the target
+
+<a href="#">Link to this property</a>
+
+virtual\_network\_id: optional string
+
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20ip%20%3E%20(schema)>)
+
+tags: optional map\[string]
+
+Optional tags to associate with the target. Keys and values are user-defined strings.
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20tags%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, hostname, 3 more }
+
+</summary>
+
+id: string
+
+Target identifier
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+Date and time at which the target was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+hostname: string
+
+A non-unique field that refers to a target
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ip: object {ipv4, ipv6 }
+
+The IPv4/IPv6 address that identifies where to reach a target
+
+</summary>
+
+<details>
+
+<summary>
+
+ipv4: optional object {ip\_addr, virtual\_network\_id }
+
+The target’s IPv4 address
+
+</summary>
+
+ip\_addr: optional string
+
+IP address of the target
+
+<a href="#">Link to this property</a>
+
+virtual\_network\_id: optional string
+
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ipv6: optional object {ip\_addr, virtual\_network\_id }
+
+The target’s IPv6 address
+
+</summary>
+
+ip\_addr: optional string
+
+IP address of the target
+
+<a href="#">Link to this property</a>
+
+virtual\_network\_id: optional string
+
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+Date and time at which the target was modified
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+tags: optional map\[string]
+
+Tags assigned to the target. Empty when no tags are assigned.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update target
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets/$TARGET_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -142,9 +391,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/ta
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -181,7 +430,59 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/ta
         "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
       }
     },
-    "modified_at": "2019-08-24T14:15:22Z"
+    "modified_at": "2019-08-24T14:15:22Z",
+    "tags": {
+      "foo": "string"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "created_at": "2019-08-24T14:15:22Z",
+    "hostname": "infra-access-target",
+    "ip": {
+      "ipv4": {
+        "ip_addr": "187.26.29.249",
+        "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
+      },
+      "ipv6": {
+        "ip_addr": "64c0:64e8:f0b4:8dbf:7104:72b0:ec8f:f5e0",
+        "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
+      }
+    },
+    "modified_at": "2019-08-24T14:15:22Z",
+    "tags": {
+      "foo": "string"
+    }
   }
 }
 ```

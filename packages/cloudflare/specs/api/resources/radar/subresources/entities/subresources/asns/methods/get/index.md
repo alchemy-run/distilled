@@ -1,91 +1,296 @@
-## Get AS details by ASN
+---
+title: Get AS details by ASN
+---
 
-**get** `/radar/entities/asns/{asn}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Entities](https://developers.cloudflare.com/api/resources/radar/subresources/entities)
+
+[ASNs](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get AS details by ASN
+
+GET/radar/entities/asns/{asn}
 
 Retrieves the requested autonomous system information. (A confidence level below `5` indicates a low level of confidence in the traffic data - normally this happens because Cloudflare has a small amount of traffic from/to this AS). Population estimates come from APNIC (refer to https://labs.apnic.net/?p=526).
 
-### Path Parameters
+##### Security
 
-- `asn: number`
+<details>
 
-  Single Autonomous System Number (ASN) as integer.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `format: optional "JSON" or "CSV"`
 
-  Format in which results will be returned.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"JSON"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"CSV"`
+</details>
 
-### Returns
+<details>
 
-- `result: object { asn }`
+<summary>API Email + API Key</summary>
 
-  - `asn: object { asn, confidenceLevel, country, 8 more }`
 
-    - `asn: number`
 
-    - `confidenceLevel: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `country: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `countryName: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `estimatedUsers: object { locations, estimatedUsers }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `locations: array of object { locationAlpha2, locationName, estimatedUsers }`
+</details>
 
-        - `locationAlpha2: string`
+##### Accepted Permissions (at least one required)
 
-        - `locationName: string`
+`User Details Write``User Details Read`
 
-        - `estimatedUsers: optional number`
+##### P ath ParametersExpand Collapse
 
-          Estimated users per location.
+asn: number
 
-      - `estimatedUsers: optional number`
+Single Autonomous System Number (ASN) as integer.
 
-        Total estimated users.
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20asn%20%3E%20(schema)>)
 
-    - `name: string`
+##### Q uery ParametersExpand Collapse
 
-    - `orgName: string`
+<details>
 
-    - `related: array of object { asn, name, aka, estimatedUsers }`
+<summary>
 
-      - `asn: number`
+format: optional "JSON"or "CSV"
 
-      - `name: string`
+Format in which results will be returned.
 
-      - `aka: optional string`
+</summary>
 
-      - `estimatedUsers: optional number`
+One of the following:
 
-        Total estimated users.
+"JSON"
 
-    - `source: string`
+<a href="#">Link to this property</a>
 
-      Regional Internet Registry.
+"CSV"
 
-    - `website: string`
+<a href="#">Link to this property</a>
 
-    - `aka: optional string`
+</details>
 
-- `success: boolean`
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-### Example
+##### ReturnsExpand Collapse
 
-```http
+<details>
+
+<summary>
+
+result: object {asn }
+
+</summary>
+
+<details>
+
+<summary>
+
+asn: object {asn, confidenceLevel, country, 8 more }
+
+</summary>
+
+asn: number
+
+<a href="#">Link to this property</a>
+
+confidenceLevel: number
+
+<a href="#">Link to this property</a>
+
+country: string
+
+<a href="#">Link to this property</a>
+
+countryName: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+estimatedUsers: object {locations, estimatedUsers }
+
+</summary>
+
+<details>
+
+<summary>
+
+locations: array of object {locationAlpha2, locationName, estimatedUsers }
+
+</summary>
+
+locationAlpha2: string
+
+<a href="#">Link to this property</a>
+
+locationName: string
+
+<a href="#">Link to this property</a>
+
+estimatedUsers: optional number
+
+Estimated users per location.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+estimatedUsers: optional number
+
+Total estimated users.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+orgName: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+related: array of object {asn, name, aka, estimatedUsers }
+
+</summary>
+
+asn: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+aka: optional string
+
+<a href="#">Link to this property</a>
+
+estimatedUsers: optional number
+
+Total estimated users.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+source: string
+
+Regional Internet Registry.
+
+<a href="#">Link to this property</a>
+
+website: string
+
+<a href="#">Link to this property</a>
+
+aka: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get AS details by ASN
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/entities/asns/$ASN \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "asn": {
+      "asn": 714,
+      "confidenceLevel": 5,
+      "country": "GB",
+      "countryName": "United Kingdom",
+      "estimatedUsers": {
+        "locations": [
+          {
+            "locationAlpha2": "US",
+            "locationName": "United States",
+            "estimatedUsers": 16710
+          }
+        ],
+        "estimatedUsers": 86099
+      },
+      "name": "Apple Inc.",
+      "orgName": "orgName",
+      "related": [
+        {
+          "asn": 174,
+          "name": "Cogent-174",
+          "aka": "aka",
+          "estimatedUsers": 65345
+        }
+      ],
+      "source": "RIPE",
+      "website": "https://www.apple.com/support/systemstatus/",
+      "aka": "aka"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "asn": {

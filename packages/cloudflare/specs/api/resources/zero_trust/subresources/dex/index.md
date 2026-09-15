@@ -1,7013 +1,4079 @@
+---
+title: DEX
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # DEX
 
-## Domain Types
+##### ModelsExpand Collapse
 
-### Digital Experience Monitor
+<details>
 
-- `DigitalExperienceMonitor object { id, default, name }`
+<summary>
 
-  - `id: string`
+DigitalExperienceMonitor object {id, default, name }
 
-    API Resource UUID tag.
+</summary>
 
-  - `default: boolean`
+id: string
 
-    Whether the policy is the default for the account.
+API Resource UUID tag.
 
-  - `name: string`
+maxLength36
 
-### Network Path
+<a href="#">Link to this property</a>
 
-- `NetworkPath object { slots, sampling }`
+default: boolean
 
-  - `slots: array of object { id, clientToAppRttMs, clientToCfEgressRttMs, 3 more }`
+Whether the policy is the default for the account.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      API Resource UUID tag.
+name: string
 
-    - `clientToAppRttMs: number`
+<a href="#">Link to this property</a>
 
-      Round trip time in ms of the client to app mile
+</details>
 
-    - `clientToCfEgressRttMs: number`
+[Link to this property](#)%20zero_trust.dex%20%3E%20(model)%20digital_experience_monitor%20%3E%20(schema)>)
 
-      Round trip time in ms of the client to Cloudflare egress mile
+<details>
 
-    - `clientToCfIngressRttMs: number`
+<summary>
 
-      Round trip time in ms of the client to Cloudflare ingress mile
+NetworkPath object {slots, sampling }
 
-    - `timestamp: string`
+</summary>
 
-    - `clientToIspRttMs: optional number`
+<details>
 
-      Round trip time in ms of the client to ISP mile
+<summary>
 
-  - `sampling: optional object { unit, value }`
+slots: array of object {id, clientToAppRttMs, clientToCfEgressRttMs, 3 more }
 
-    Specifies the sampling applied, if any, to the slots response. When sampled, results shown represent the first test run to the start of each sampling interval.
+</summary>
 
-    - `unit: "hours"`
+id: string
 
-      - `"hours"`
+API Resource UUID tag.
 
-    - `value: number`
+maxLength36
 
-### Network Path Response
+<a href="#">Link to this property</a>
 
-- `NetworkPathResponse object { id, deviceName, interval, 4 more }`
+clientToAppRttMs: number
 
-  - `id: string`
+Round trip time in ms of the client to app mile
 
-    API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-  - `deviceName: optional string`
+clientToCfEgressRttMs: number
 
-    Name of the device that ran the test.
+Round trip time in ms of the client to Cloudflare egress mile
 
-  - `interval: optional string`
+<a href="#">Link to this property</a>
 
-    The interval at which the Traceroute synthetic application test is set to run.
+clientToCfIngressRttMs: number
 
-  - `kind: optional "traceroute"`
+Round trip time in ms of the client to Cloudflare ingress mile
 
-    - `"traceroute"`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+timestamp: string
 
-  - `networkPath: optional NetworkPath`
+<a href="#">Link to this property</a>
 
-    - `slots: array of object { id, clientToAppRttMs, clientToCfEgressRttMs, 3 more }`
+clientToIspRttMs: optional number
 
-      - `id: string`
+Round trip time in ms of the client to ISP mile
 
-        API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-      - `clientToAppRttMs: number`
+</details>
 
-        Round trip time in ms of the client to app mile
+<a href="#">Link to this property</a>
 
-      - `clientToCfEgressRttMs: number`
+<details>
 
-        Round trip time in ms of the client to Cloudflare egress mile
+<summary>
 
-      - `clientToCfIngressRttMs: number`
+sampling: optional object {unit, value }
 
-        Round trip time in ms of the client to Cloudflare ingress mile
+Specifies the sampling applied, if any, to the slots response. When sampled, results shown represent the first test run to the start of each sampling interval.
 
-      - `timestamp: string`
+</summary>
 
-      - `clientToIspRttMs: optional number`
+unit: "hours"
 
-        Round trip time in ms of the client to ISP mile
+<a href="#">Link to this property</a>
 
-    - `sampling: optional object { unit, value }`
+value: number
 
-      Specifies the sampling applied, if any, to the slots response. When sampled, results shown represent the first test run to the start of each sampling interval.
+<a href="#">Link to this property</a>
 
-      - `unit: "hours"`
+</details>
 
-        - `"hours"`
+<a href="#">Link to this property</a>
 
-      - `value: number`
+</details>
 
-  - `url: optional string`
+[Link to this property](#)%20zero_trust.dex%20%3E%20(model)%20network_path%20%3E%20(schema)>)
 
-    The host of the Traceroute synthetic application test.
+<details>
 
-### Percentiles
+<summary>
 
-- `Percentiles object { p50, p90, p95, p99 }`
+NetworkPathResponse object {id, deviceName, interval, 4 more }
 
-  - `p50: optional number`
+</summary>
 
-    p50 observed in the time period.
+id: string
 
-  - `p90: optional number`
+API Resource UUID tag.
 
-    p90 observed in the time period.
+maxLength36
 
-  - `p95: optional number`
+<a href="#">Link to this property</a>
 
-    p95 observed in the time period.
+deviceName: optional string
 
-  - `p99: optional number`
+Name of the device that ran the test.
 
-    p99 observed in the time period.
+<a href="#">Link to this property</a>
 
-# WARP Change Events
+interval: optional string
 
-## List WARP change events.
+The interval at which the Traceroute synthetic application test is set to run.
 
-**get** `/accounts/{account_id}/dex/warp-change-events`
+<a href="#">Link to this property</a>
 
-List WARP configuration and enablement toggle change events by device.
+kind: optional "traceroute"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: optional string
 
-  Unique identifier linked to an account.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+networkPath: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20network_path%20%3E%20(schema)">NetworkPath</a> { slots, sampling }
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+url: optional string
 
-- `page: number`
+The host of the Traceroute synthetic application test.
 
-  Page number of paginated results.
+<a href="#">Link to this property</a>
 
-- `per_page: number`
+</details>
 
-  Number of results per page.
+[Link to this property](#)%20zero_trust.dex%20%3E%20(model)%20network_path_response%20%3E%20(schema)>)
 
-- `to: string`
+<details>
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+<summary>
 
-- `account_name: optional string`
+Percentiles object {p50, p90, p95, p99 }
 
-  Filter events by account name.
+</summary>
 
-- `config_name: optional string`
+p50: optional number
 
-  Filter events by WARP configuration name changed from or to. Applicable to type='config' events only.
+p50 observed in the time period.
 
-- `sort_order: optional "ASC" or "DESC"`
+<a href="#">Link to this property</a>
 
-  Sort response by event timestamp.
+p90: optional number
 
-  - `"ASC"`
+p90 observed in the time period.
 
-  - `"DESC"`
+<a href="#">Link to this property</a>
 
-- `toggle: optional "on" or "off"`
+p95: optional number
 
-  Filter events by type toggle value. Applicable to type='toggle' events only.
+p95 observed in the time period.
 
-  - `"on"`
+<a href="#">Link to this property</a>
 
-  - `"off"`
+p99: optional number
 
-- `type: optional "config" or "toggle"`
+p99 observed in the time period.
 
-  Filter events by type 'config' or 'toggle'.
+<a href="#">Link to this property</a>
 
-  - `"config"`
+</details>
 
-  - `"toggle"`
+[Link to this property](#)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)>)
 
-### Returns
+#### DEXWARP Change Events
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [List WARP change events.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/warp_change_events/methods/get)
 
-  - `code: number`
+GET/accounts/{account\_id}/dex/warp-change-events
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+WARPChangeEventGetResponse = array of object {account\_name, account\_tag, device\_id, 7 more } or object {device\_id, device\_registration, from, 6 more }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+DigitalExperienceMonitoringWARPToggleChangeEvent object {account\_name, account\_tag, device\_id, 7 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+account\_name: optional string
 
-  Whether the API call was successful.
+The account name.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { account_name, account_tag, device_id, 7 more }  or object { device_id, device_registration, from, 6 more }`
+account\_tag: optional string
 
-  - `DigitalExperienceMonitoringWARPToggleChangeEvent object { account_name, account_tag, device_id, 7 more }`
+The public account identifier.
 
-    - `account_name: optional string`
+<a href="#">Link to this property</a>
 
-      The account name.
+device\_id: optional string
 
-    - `account_tag: optional string`
+The device ID.
 
-      The public account identifier.
+maxLength36
 
-    - `device_id: optional string`
+<a href="#">Link to this property</a>
 
-      The device ID.
+Deprecateddevice\_registration: optional string
 
-    - `device_registration: optional string`
+Use <code>registration_id</code> instead.
 
-      Deprecated: use registration_id. The device registration ID.
+Deprecated: use registration\_id. The device registration ID.
 
-    - `hostname: optional string`
+maxLength36
 
-      The hostname of the machine the event is from.
+<a href="#">Link to this property</a>
 
-    - `registration_id: optional string`
+hostname: optional string
 
-      The device registration ID.
+The hostname of the machine the event is from.
 
-    - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-      The serial number of the machine the event is from.
+registration\_id: optional string
 
-    - `timestamp: optional string`
+The device registration ID.
 
-      The event time.
+maxLength36
 
-    - `toggle: optional "on" or "off"`
+<a href="#">Link to this property</a>
 
-      The state of the WARP toggle.
+serial\_number: optional string
 
-      - `"on"`
+The serial number of the machine the event is from.
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-    - `user_email: optional string`
+timestamp: optional string
 
-      Email tied to the device.
+The event time.
 
-  - `DigitalExperienceMonitoringWARPConfigChangeEvent object { device_id, device_registration, from, 6 more }`
+formatdate-time
 
-    - `device_id: optional string`
+<a href="#">Link to this property</a>
 
-      The device ID.
+<details>
 
-    - `device_registration: optional string`
+<summary>
 
-      Deprecated: use registration_id. The device registration ID.
+toggle: optional "on"or "off"
 
-    - `from: optional object { account_name, account_tag, config_name }`
+The state of the WARP toggle.
 
-      The details for the WARP configuration that was switched from.
+</summary>
 
-      - `account_name: optional string`
+One of the following:
 
-        The account name.
+"on"
 
-      - `account_tag: optional string`
+<a href="#">Link to this property</a>
 
-        The public account identifier.
+"off"
 
-      - `config_name: optional string`
+<a href="#">Link to this property</a>
 
-        The name of the WARP configuration.
+</details>
 
-    - `hostname: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname of the machine the event is from.
+user\_email: optional string
 
-    - `registration_id: optional string`
+Email tied to the device.
 
-      The device registration ID.
+<a href="#">Link to this property</a>
 
-    - `serial_number: optional string`
+</details>
 
-      The serial number of the machine the event is from.
+<a href="#">Link to this property</a>
 
-    - `timestamp: optional string`
+<details>
 
-      The event time.
+<summary>
 
-    - `to: optional object { account_name, account_tag, config_name }`
+DigitalExperienceMonitoringWARPConfigChangeEvent object {device\_id, device\_registration, from, 6 more }
 
-      The details for the WARP configuration that was switched to.
+</summary>
 
-      - `account_name: optional string`
+device\_id: optional string
 
-        The account name.
+The device ID.
 
-      - `account_tag: optional string`
+maxLength36
 
-        The public account identifier.
+<a href="#">Link to this property</a>
 
-      - `config_name: optional string`
+Deprecateddevice\_registration: optional string
 
-        The name of the WARP configuration.
+Use <code>registration_id</code> instead.
 
-    - `user_email: optional string`
+Deprecated: use registration\_id. The device registration ID.
 
-      Email tied to the device.
+maxLength36
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service.
+<summary>
 
-  - `page: optional number`
+from: optional object {account\_name, account\_tag, config\_name }
 
-    Current page within paginated list of results.
+The details for the WARP configuration that was switched from.
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+account\_name: optional string
 
-  - `total_count: optional number`
+The account name.
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+account\_tag: optional string
 
-    The number of total pages in the entire result set.
+The public account identifier.
 
-### Example
+maxLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/warp-change-events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+config\_name: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "account_name": "account_name",
-      "account_tag": "account_tag",
-      "device_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "device_registration": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "hostname": "hostname",
-      "registration_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "serial_number": "serial_number",
-      "timestamp": "2023-10-11T00:00:00Z",
-      "toggle": "on",
-      "user_email": "user_email"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+The name of the WARP configuration.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### WARP Change Event Get Response
+</details>
 
-- `WARPChangeEventGetResponse = array of object { account_name, account_tag, device_id, 7 more }  or object { device_id, device_registration, from, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `DigitalExperienceMonitoringWARPToggleChangeEvent object { account_name, account_tag, device_id, 7 more }`
+hostname: optional string
 
-    - `account_name: optional string`
+The hostname of the machine the event is from.
 
-      The account name.
+<a href="#">Link to this property</a>
 
-    - `account_tag: optional string`
+registration\_id: optional string
 
-      The public account identifier.
+The device registration ID.
 
-    - `device_id: optional string`
+maxLength36
 
-      The device ID.
+<a href="#">Link to this property</a>
 
-    - `device_registration: optional string`
+serial\_number: optional string
 
-      Deprecated: use registration_id. The device registration ID.
+The serial number of the machine the event is from.
 
-    - `hostname: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname of the machine the event is from.
+timestamp: optional string
 
-    - `registration_id: optional string`
+The event time.
 
-      The device registration ID.
+formatdate-time
 
-    - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-      The serial number of the machine the event is from.
+<details>
 
-    - `timestamp: optional string`
+<summary>
 
-      The event time.
+to: optional object {account\_name, account\_tag, config\_name }
 
-    - `toggle: optional "on" or "off"`
+The details for the WARP configuration that was switched to.
 
-      The state of the WARP toggle.
+</summary>
 
-      - `"on"`
+account\_name: optional string
 
-      - `"off"`
+The account name.
 
-    - `user_email: optional string`
+<a href="#">Link to this property</a>
 
-      Email tied to the device.
+account\_tag: optional string
 
-  - `DigitalExperienceMonitoringWARPConfigChangeEvent object { device_id, device_registration, from, 6 more }`
+The public account identifier.
 
-    - `device_id: optional string`
+maxLength36
 
-      The device ID.
+<a href="#">Link to this property</a>
 
-    - `device_registration: optional string`
+config\_name: optional string
 
-      Deprecated: use registration_id. The device registration ID.
+The name of the WARP configuration.
 
-    - `from: optional object { account_name, account_tag, config_name }`
+<a href="#">Link to this property</a>
 
-      The details for the WARP configuration that was switched from.
+</details>
 
-      - `account_name: optional string`
+<a href="#">Link to this property</a>
 
-        The account name.
+user\_email: optional string
 
-      - `account_tag: optional string`
+Email tied to the device.
 
-        The public account identifier.
+<a href="#">Link to this property</a>
 
-      - `config_name: optional string`
+</details>
 
-        The name of the WARP configuration.
+<a href="#">Link to this property</a>
 
-    - `hostname: optional string`
+</details>
 
-      The hostname of the machine the event is from.
+[Link to this property](#)%20zero_trust.dex.warp_change_events%20%3E%20(model)%20warp_change_event_get_response%20%3E%20(schema)>)
 
-    - `registration_id: optional string`
+#### DEXCommands
 
-      The device registration ID.
+##### [List account commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/methods/list)
 
-    - `serial_number: optional string`
+GET/accounts/{account\_id}/dex/commands
 
-      The serial number of the machine the event is from.
+##### [Create account commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/methods/create)
 
-    - `timestamp: optional string`
+POST/accounts/{account\_id}/dex/commands
 
-      The event time.
+##### ModelsExpand Collapse
 
-    - `to: optional object { account_name, account_tag, config_name }`
+<details>
 
-      The details for the WARP configuration that was switched to.
+<summary>
 
-      - `account_name: optional string`
+CommandListResponse object {commands }
 
-        The account name.
+</summary>
 
-      - `account_tag: optional string`
+<details>
 
-        The public account identifier.
+<summary>
 
-      - `config_name: optional string`
+commands: optional array of object {id, completed\_date, created\_date, 6 more }
 
-        The name of the WARP configuration.
+</summary>
 
-    - `user_email: optional string`
+id: optional string
 
-      Email tied to the device.
+<a href="#">Link to this property</a>
 
-# Commands
+completed\_date: optional string
 
-## List account commands
+formatdate-time
 
-**get** `/accounts/{account_id}/dex/commands`
+<a href="#">Link to this property</a>
 
-Retrieves a paginated list of commands issued to devices under the specified account, optionally filtered by time range, device, or other parameters
+created\_date: optional string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+device\_id: optional string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `page: number`
+filename: optional string
 
-  Page number of paginated results.
+<a href="#">Link to this property</a>
 
-- `per_page: number`
+registration\_id: optional string
 
-  Number of results per page.
+Unique identifier for the device registration
 
-- `command_type: optional "pcap" or "speed-test" or "warp-diag"`
+<a href="#">Link to this property</a>
 
-  Optionally filter executed commands by command type.
+status: optional string
 
-  - `"pcap"`
+<a href="#">Link to this property</a>
 
-  - `"speed-test"`
+type: optional string
 
-  - `"warp-diag"`
+<a href="#">Link to this property</a>
 
-- `device_id: optional string`
+user\_email: optional string
 
-  Unique identifier for a device.
+<a href="#">Link to this property</a>
 
-- `from: optional string`
+</details>
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+<a href="#">Link to this property</a>
 
-- `status: optional "PENDING_EXEC" or "PENDING_UPLOAD" or "SUCCESS" or "FAILED"`
+</details>
 
-  Optionally filter executed commands by status.
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(model)%20command_list_response%20%3E%20(schema)>)
 
-  - `"PENDING_EXEC"`
+<details>
 
-  - `"PENDING_UPLOAD"`
+<summary>
 
-  - `"SUCCESS"`
+CommandCreateResponse object {commands }
 
-  - `"FAILED"`
+</summary>
 
-- `to: optional string`
+<details>
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+<summary>
 
-- `user_email: optional string`
+commands: optional array of object {id, args, device\_id, 3 more }
 
-  Email tied to the device.
+List of created commands
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+Unique identifier for the command
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+args: optional map\[string]
 
-  - `source: optional object { pointer }`
+Command arguments
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+device\_id: optional string
 
-  - `code: number`
+Identifier for the device associated with the command
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+registration\_id: optional string
 
-  - `source: optional object { pointer }`
+Unique identifier for the device registration
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+status: optional "PENDING\_EXEC"or "PENDING\_UPLOAD"or "SUCCESS"or "FAILED"
 
-- `result: optional object { commands }`
+Current status of the command
 
-  - `commands: optional array of object { id, completed_date, created_date, 6 more }`
+</summary>
 
-    - `id: optional string`
+One of the following:
 
-    - `completed_date: optional string`
+"PENDING\_EXEC"
 
-    - `created_date: optional string`
+<a href="#">Link to this property</a>
 
-    - `device_id: optional string`
+"PENDING\_UPLOAD"
 
-    - `filename: optional string`
+<a href="#">Link to this property</a>
 
-    - `registration_id: optional string`
+"SUCCESS"
 
-      Unique identifier for the device registration
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+"FAILED"
 
-    - `type: optional string`
+<a href="#">Link to this property</a>
 
-    - `user_email: optional string`
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+type: optional string
 
-    Total number of results for the requested service.
+Type of the command (e.g., “pcap”, “speed-test”, or “warp-diag”)
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+[Link to this property](#)%20zero_trust.dex.commands%20%3E%20(model)%20command_create_response%20%3E%20(schema)>)
 
-    Total results available without any search parameters.
+#### DEXCommandsDevices
 
-  - `total_pages: optional number`
+##### [List devices eligible for remote captures](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/devices/methods/list)
 
-    The number of total pages in the entire result set.
+GET/accounts/{account\_id}/dex/commands/devices
 
-### Example
+##### ModelsExpand Collapse
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "commands": [
-      {
-        "id": "id",
-        "completed_date": "2019-12-27T18:11:19.117Z",
-        "created_date": "2019-12-27T18:11:19.117Z",
-        "device_id": "device_id",
-        "filename": "filename",
-        "registration_id": "registration_id",
-        "status": "status",
-        "type": "type",
-        "user_email": "user_email"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+DeviceListResponse object {devices }
 
-## Create account commands
+</summary>
 
-**post** `/accounts/{account_id}/dex/commands`
+<details>
 
-Initiate commands for up to 10 devices per account.
+<summary>
 
-### Path Parameters
+devices: optional array of object {deviceId, deviceName, eligible, 7 more }
 
-- `account_id: string`
+List of eligible devices
 
-  Unique identifier linked to an account.
+</summary>
 
-### Body Parameters
+deviceId: optional string
 
-- `commands: array of object { device_id, type, user_email, 2 more }`
+Device identifier (UUID v4)
 
-  List of device-level commands to execute
+<a href="#">Link to this property</a>
 
-  - `device_id: string`
+deviceName: optional string
 
-    Unique identifier for the physical device
+Device identifier (human readable)
 
-  - `type: "pcap" or "speed-test" or "warp-diag"`
+<a href="#">Link to this property</a>
 
-    Type of command to execute on the device
+eligible: optional boolean
 
-    - `"pcap"`
+Whether the device is eligible for remote captures
 
-    - `"speed-test"`
+<a href="#">Link to this property</a>
 
-    - `"warp-diag"`
+ineligibleReason: optional string
 
-  - `user_email: string`
+If the device is not eligible, the reason why.
 
-    Email tied to the device
+<a href="#">Link to this property</a>
 
-  - `args: optional object { "test-all-routes" }  or object { "max-file-size-mb", "packet-size-bytes", "time-limit-min" }  or object { interfaces }`
+personEmail: optional string
 
-    Command arguments. Allowed fields depend on `type`.
+User contact email address
 
-    - `WARPDiagArgs object { "test-all-routes" }`
+<a href="#">Link to this property</a>
 
-      - `"test-all-routes": optional boolean`
+platform: optional string
 
-        Test an IP address from all included or excluded ranges. Essentially the same as running 'route get <ip>' and collecting the results. This option may increase the time taken to collect the warp-diag.
+Operating system.
 
-    - `PCAPArgs object { "max-file-size-mb", "packet-size-bytes", "time-limit-min" }`
+<a href="#">Link to this property</a>
 
-      - `"max-file-size-mb": optional number`
+registrationId: optional string
 
-        Maximum file size (in MB) for the capture file. If the capture artifact exceeds the specified max file size, it will NOT be uploaded.
+Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user’s registration on the device.
 
-      - `"packet-size-bytes": optional number`
+<a href="#">Link to this property</a>
 
-        Maximum number of bytes to save for each packet
+status: optional string
 
-      - `"time-limit-min": optional number`
+Network status.
 
-        Limit on capture duration (in minutes)
+<a href="#">Link to this property</a>
 
-    - `SpeedTestArgs object { interfaces }`
+timestamp: optional string
 
-      - `interfaces: optional array of "default" or "tunnel"`
+<a href="#">Link to this property</a>
 
-        List of interfaces to run the speed test on
+version: optional string
 
-        - `"default"`
+WARP client version.
 
-        - `"tunnel"`
+<a href="#">Link to this property</a>
 
-  - `registration_id: optional string`
+</details>
 
-    Unique identifier for the device registration. Required for multi-user devices to target the correct user session.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dex.commands.devices%20%3E%20(model)%20device_list_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### DEXCommandsDownloads
 
-  - `message: string`
+##### [Download command output file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/downloads/methods/get)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/dex/commands/{command\_id}/downloads/{filename}
 
-  - `source: optional object { pointer }`
+#### DEXCommandsQuota
 
-    - `pointer: optional string`
+##### [Returns account commands usage, quota, and reset time](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/quota/methods/get)
 
-- `messages: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/dex/commands/quota
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+QuotaGetResponse object {quota, quota\_usage, reset\_time }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+quota: number
 
-  Whether the API call was successful.
+The total number of commands that can be initiated for an account.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { commands }`
+quota\_usage: number
 
-  - `commands: optional array of object { id, args, device_id, 3 more }`
+The number of commands that have been initiated for an account.
 
-    List of created commands
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+reset\_time: string
 
-      Unique identifier for the command
+The time when the quota resets.
 
-    - `args: optional map[string]`
+formatdate-time
 
-      Command arguments
+<a href="#">Link to this property</a>
 
-    - `device_id: optional string`
+</details>
 
-      Identifier for the device associated with the command
+[Link to this property](#)%20zero_trust.dex.commands.quota%20%3E%20(model)%20quota_get_response%20%3E%20(schema)>)
 
-    - `registration_id: optional string`
+#### DEXColos
 
-      Unique identifier for the device registration
+##### [List Cloudflare colos](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/colos/methods/list)
 
-    - `status: optional "PENDING_EXEC" or "PENDING_UPLOAD" or "SUCCESS" or "FAILED"`
+GET/accounts/{account\_id}/dex/colos
 
-      Current status of the command
+##### ModelsExpand Collapse
 
-      - `"PENDING_EXEC"`
+<details>
 
-      - `"PENDING_UPLOAD"`
+<summary>
 
-      - `"SUCCESS"`
+ColoListResponse object {airportCode, city, countryCode }
 
-      - `"FAILED"`
+</summary>
 
-    - `type: optional string`
+airportCode: string
 
-      Type of the command (e.g., "pcap", "speed-test", or "warp-diag")
+Airport code
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+city: string
 
-    Total number of results for the requested service.
+City
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+countryCode: string
 
-  - `per_page: optional number`
+Country code
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+[Link to this property](#)%20zero_trust.dex.colos%20%3E%20(model)%20colo_list_response%20%3E%20(schema)>)
 
-  - `total_pages: optional number`
+#### DEXFleet Status
 
-    The number of total pages in the entire result set.
+##### [Get live aggregate device details by dimension](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/methods/live)
 
-### Example
+GET/accounts/{account\_id}/dex/fleet-status/live
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "commands": [
-            {
-              "device_id": "device_id",
-              "type": "pcap",
-              "user_email": "user_email"
-            }
-          ]
-        }'
-```
+##### [Get over time aggregate details for devices by dimension](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/methods/over_time)
 
-#### Response
+GET/accounts/{account\_id}/dex/fleet-status/over-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "commands": [
-      {
-        "id": "id",
-        "args": {
-          "foo": "string"
-        },
-        "device_id": "device_id",
-        "registration_id": "registration_id",
-        "status": "PENDING_EXEC",
-        "type": "type"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+##### ModelsExpand Collapse
 
-## Domain Types
+<details>
 
-### Command List Response
+<summary>
 
-- `CommandListResponse object { commands }`
+LiveStat object {uniqueDevicesTotal, value }
 
-  - `commands: optional array of object { id, completed_date, created_date, 6 more }`
+</summary>
 
-    - `id: optional string`
+uniqueDevicesTotal: optional number
 
-    - `completed_date: optional string`
+Number of unique devices
 
-    - `created_date: optional string`
+<a href="#">Link to this property</a>
 
-    - `device_id: optional string`
+value: optional string
 
-    - `filename: optional string`
+<a href="#">Link to this property</a>
 
-    - `registration_id: optional string`
+</details>
 
-      Unique identifier for the device registration
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)>)
 
-    - `status: optional string`
+<details>
 
-    - `type: optional string`
+<summary>
 
-    - `user_email: optional string`
+FleetStatusLiveResponse object {deviceStats }
 
-### Command Create Response
+</summary>
 
-- `CommandCreateResponse object { commands }`
+<details>
 
-  - `commands: optional array of object { id, args, device_id, 3 more }`
+<summary>
 
-    List of created commands
+deviceStats: optional object {byColo, byMode, byPlatform, 3 more }
 
-    - `id: optional string`
+</summary>
 
-      Unique identifier for the command
+<details>
 
-    - `args: optional map[string]`
+<summary>
 
-      Command arguments
+byColo: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
 
-    - `device_id: optional string`
+</summary>
 
-      Identifier for the device associated with the command
+uniqueDevicesTotal: optional number
 
-    - `registration_id: optional string`
+Number of unique devices
 
-      Unique identifier for the device registration
+<a href="#">Link to this property</a>
 
-    - `status: optional "PENDING_EXEC" or "PENDING_UPLOAD" or "SUCCESS" or "FAILED"`
+value: optional string
 
-      Current status of the command
+<a href="#">Link to this property</a>
 
-      - `"PENDING_EXEC"`
+</details>
 
-      - `"PENDING_UPLOAD"`
+<a href="#">Link to this property</a>
 
-      - `"SUCCESS"`
+<details>
 
-      - `"FAILED"`
+<summary>
 
-    - `type: optional string`
+byMode: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
 
-      Type of the command (e.g., "pcap", "speed-test", or "warp-diag")
+</summary>
 
-# Devices
+uniqueDevicesTotal: optional number
 
-## List devices eligible for remote captures
+Number of unique devices
 
-**get** `/accounts/{account_id}/dex/commands/devices`
+<a href="#">Link to this property</a>
 
-List devices with WARP client support for remote captures which have been connected in the last 1 hour.
+value: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Unique identifier linked to an account.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+<details>
 
-- `page: number`
+<summary>
 
-  Page number of paginated results.
+byPlatform: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
 
-- `per_page: number`
+</summary>
 
-  Number of results per page.
+uniqueDevicesTotal: optional number
 
-- `search: optional string`
+Number of unique devices
 
-  Filter devices by name or email.
+<a href="#">Link to this property</a>
 
-### Returns
+value: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+byStatus: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+uniqueDevicesTotal: optional number
 
-  - `message: string`
+Number of unique devices
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+value: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { devices }`
+<summary>
 
-  - `devices: optional array of object { deviceId, deviceName, eligible, 7 more }`
+byVersion: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.fleet_status%20%3E%20(model)%20live_stat%20%3E%20(schema)">LiveStat</a> { uniqueDevicesTotal, value }
 
-    List of eligible devices
+</summary>
 
-    - `deviceId: optional string`
+uniqueDevicesTotal: optional number
 
-      Device identifier (UUID v4)
+Number of unique devices
 
-    - `deviceName: optional string`
+<a href="#">Link to this property</a>
 
-      Device identifier (human readable)
+value: optional string
 
-    - `eligible: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the device is eligible for remote captures
+</details>
 
-    - `ineligibleReason: optional string`
+<a href="#">Link to this property</a>
 
-      If the device is not eligible, the reason why.
+uniqueDevicesTotal: optional number
 
-    - `personEmail: optional string`
+Number of unique devices
 
-      User contact email address
+<a href="#">Link to this property</a>
 
-    - `platform: optional string`
+</details>
 
-      Operating system.
+<a href="#">Link to this property</a>
 
-    - `registrationId: optional string`
+</details>
 
-      Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(model)%20fleet_status_live_response%20%3E%20(schema)>)
 
-    - `status: optional string`
+<details>
 
-      Network status.
+<summary>
 
-    - `timestamp: optional string`
+FleetStatusOverTimeResponse object {deviceStats }
 
-    - `version: optional string`
+</summary>
 
-      WARP client version.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+deviceStats: optional object {byMode, byStatus, uniqueDevicesTotal }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+<details>
 
-    Current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+byMode: optional array of object {timestamp, uniqueDevicesTotal, value }
 
-    Number of results per page of results.
+</summary>
 
-  - `total_count: optional number`
+timestamp: optional string
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+uniqueDevicesTotal: optional number
 
-    The number of total pages in the entire result set.
+Number of unique devices
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "devices": [
-      {
-        "deviceId": "deviceId",
-        "deviceName": "deviceName",
-        "eligible": true,
-        "ineligibleReason": "ineligibleReason",
-        "personEmail": "personEmail",
-        "platform": "windows",
-        "registrationId": "registrationId",
-        "status": "connected",
-        "timestamp": "2023-10-11 00:00:00+00",
-        "version": "1.0.0"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Device List Response
+<details>
 
-- `DeviceListResponse object { devices }`
+<summary>
 
-  - `devices: optional array of object { deviceId, deviceName, eligible, 7 more }`
+byStatus: optional array of object {timestamp, uniqueDevicesTotal, value }
 
-    List of eligible devices
+</summary>
 
-    - `deviceId: optional string`
+timestamp: optional string
 
-      Device identifier (UUID v4)
+<a href="#">Link to this property</a>
 
-    - `deviceName: optional string`
+uniqueDevicesTotal: optional number
 
-      Device identifier (human readable)
+Number of unique devices
 
-    - `eligible: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the device is eligible for remote captures
+value: optional string
 
-    - `ineligibleReason: optional string`
+<a href="#">Link to this property</a>
 
-      If the device is not eligible, the reason why.
+</details>
 
-    - `personEmail: optional string`
+<a href="#">Link to this property</a>
 
-      User contact email address
+uniqueDevicesTotal: optional number
 
-    - `platform: optional string`
+Number of unique devices
 
-      Operating system.
+<a href="#">Link to this property</a>
 
-    - `registrationId: optional string`
+</details>
 
-      Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+</details>
 
-      Network status.
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(model)%20fleet_status_over_time_response%20%3E%20(schema)>)
 
-    - `timestamp: optional string`
+#### DEXFleet StatusDevices
 
-    - `version: optional string`
+##### [List details of devices using WARP.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/list)
 
-      WARP client version.
+GET/accounts/{account\_id}/dex/fleet-status/devices
 
-# Downloads
+##### ModelsExpand Collapse
 
-## Download command output file
+<details>
 
-**get** `/accounts/{account_id}/dex/commands/{command_id}/downloads/{filename}`
+<summary>
 
-Downloads artifacts for an executed command. Bulk downloads are not supported
+DeviceListResponse object {colo, deviceId, mode, 40 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+colo: string
 
-  Unique identifier linked to an account.
+Cloudflare colo airport code.
 
-- `command_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier for a command
+deviceId: string
 
-- `filename: string`
+Device identifier (UUID v4)
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/$COMMAND_ID/downloads/$FILENAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+mode: string
 
-# Quota
+The mode under which the WARP client is run.
 
-## Returns account commands usage, quota, and reset time
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dex/commands/quota`
+platform: string
 
-Retrieves the current quota usage and limits for device commands within a specific account, including the time when the quota will reset
+Operating system.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+status: string
 
-  Unique identifier linked to an account.
+Network status.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+timestamp: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+version: string
 
-  - `documentation_url: optional string`
+WARP client version.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+alwaysOn: optional boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+batteryCharging: optional boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+batteryCycles: optional number
 
-  - `source: optional object { pointer }`
+formatint64
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+batteryPct: optional number
 
-  Whether the API call was successful.
+formatfloat
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { quota, quota_usage, reset_time }`
+connectionType: optional string
 
-  - `quota: number`
+<a href="#">Link to this property</a>
 
-    The total number of commands that can be initiated for an account.
+cpuPct: optional number
 
-  - `quota_usage: number`
+formatfloat
 
-    The number of commands that have been initiated for an account.
+<a href="#">Link to this property</a>
 
-  - `reset_time: string`
+<details>
 
-    The time when the quota resets.
+<summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+cpuPctByApp: optional array of object {cpu\_pct, name }
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service.
+cpu\_pct: optional number
 
-  - `page: optional number`
+CPU usage percentage, on a scale of 0 to 100.
 
-    Current page within paginated list of results.
+formatfloat
 
-  - `per_page: optional number`
+maximum100
 
-    Number of results per page of results.
+minimum0
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+name: optional string
 
-  - `total_pages: optional number`
+Application name.
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/quota \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "quota": 0,
-    "quota_usage": 0,
-    "reset_time": "2019-12-27T18:11:19.117Z"
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<summary>
 
-## Domain Types
+deviceIpv4: optional object {address, asn, aso, 4 more }
 
-### Quota Get Response
+</summary>
 
-- `QuotaGetResponse object { quota, quota_usage, reset_time }`
+address: optional string
 
-  - `quota: number`
+<a href="#">Link to this property</a>
 
-    The total number of commands that can be initiated for an account.
+asn: optional number
 
-  - `quota_usage: number`
+<a href="#">Link to this property</a>
 
-    The number of commands that have been initiated for an account.
+aso: optional string
 
-  - `reset_time: string`
+<a href="#">Link to this property</a>
 
-    The time when the quota resets.
+<details>
 
-# Colos
+<summary>
 
-## List Cloudflare colos
+location: optional object {city, country\_iso, state\_iso, zip }
 
-**get** `/accounts/{account_id}/dex/colos`
+</summary>
 
-List Cloudflare colos that account's devices were connected to during a time period, sorted by usage starting from the most used colo. Colos without traffic are also returned and sorted alphabetically.
+city: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+country\_iso: optional string
 
-  Unique identifier linked to an account.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+state\_iso: optional string
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start time for connection period in ISO (RFC3339 - ISO 8601) format.
+zip: optional string
 
-- `to: string`
+<a href="#">Link to this property</a>
 
-  End time for connection period in ISO (RFC3339 - ISO 8601) format.
+</details>
 
-- `sortBy: optional "fleet-status-usage" or "application-tests-usage"`
+<a href="#">Link to this property</a>
 
-  Type of usage that colos should be sorted by. If unspecified, returns all Cloudflare colos sorted alphabetically.
+name: optional string
 
-  - `"fleet-status-usage"`
+<a href="#">Link to this property</a>
 
-  - `"application-tests-usage"`
+netmask: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+version: optional number
 
-  - `code: number`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+deviceIpv6: optional object {address, asn, aso, 4 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+address: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+asn: optional number
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+aso: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { airportCode, city, countryCode }`
+<details>
 
-  array of colos.
+<summary>
 
-  - `airportCode: string`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-    Airport code
+</summary>
 
-  - `city: string`
+city: optional string
 
-    City
+<a href="#">Link to this property</a>
 
-  - `countryCode: string`
+country\_iso: optional string
 
-    Country code
+<a href="#">Link to this property</a>
 
-### Example
+state\_iso: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/colos \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+zip: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "airportCode": "SFO",
-      "city": "San Francisco",
-      "countryCode": "US"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Colo List Response
+<a href="#">Link to this property</a>
 
-- `ColoListResponse object { airportCode, city, countryCode }`
+name: optional string
 
-  - `airportCode: string`
+<a href="#">Link to this property</a>
 
-    Airport code
+netmask: optional string
 
-  - `city: string`
+<a href="#">Link to this property</a>
 
-    City
+version: optional number
 
-  - `countryCode: string`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-    Country code
+<a href="#">Link to this property</a>
 
-# Fleet Status
+</details>
 
-## Get live aggregate device details by dimension
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dex/fleet-status/live`
+deviceName: optional string
 
-Get details for live (up to 60 minutes) devices using WARP.
+Device identifier (human readable).
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+DeprecateddeviceRegistration: optional string
 
-  Unique identifier linked to an account.
+Use <code>registrationId</code> instead.
 
-### Query Parameters
+Deprecated: use registrationId. Device registration identifier (UUID).
 
-- `since_minutes: number`
+<a href="#">Link to this property</a>
 
-  Number of minutes before current time.
+diskReadBps: optional number
 
-### Returns
+formatint64
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+diskUsagePct: optional number
 
-  - `message: string`
+formatfloat
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+diskWriteBps: optional number
 
-    - `pointer: optional string`
+formatint64
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+dohSubdomain: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+estimatedLossPct: optional number
 
-  - `source: optional object { pointer }`
+formatfloat
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+firewallEnabled: optional boolean
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { deviceStats }`
+<summary>
 
-  - `deviceStats: optional object { byColo, byMode, byPlatform, 3 more }`
+gatewayIpv4: optional object {address, asn, aso, 4 more }
 
-    - `byColo: optional array of LiveStat`
+</summary>
 
-      - `uniqueDevicesTotal: optional number`
+address: optional string
 
-        Number of unique devices
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+asn: optional number
 
-    - `byMode: optional array of LiveStat`
+<a href="#">Link to this property</a>
 
-      - `uniqueDevicesTotal: optional number`
+aso: optional string
 
-        Number of unique devices
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+<details>
 
-    - `byPlatform: optional array of LiveStat`
+<summary>
 
-      - `uniqueDevicesTotal: optional number`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-        Number of unique devices
+</summary>
 
-      - `value: optional string`
+city: optional string
 
-    - `byStatus: optional array of LiveStat`
+<a href="#">Link to this property</a>
 
-      - `uniqueDevicesTotal: optional number`
+country\_iso: optional string
 
-        Number of unique devices
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+state\_iso: optional string
 
-    - `byVersion: optional array of LiveStat`
+<a href="#">Link to this property</a>
 
-      - `uniqueDevicesTotal: optional number`
+zip: optional string
 
-        Number of unique devices
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+</details>
 
-    - `uniqueDevicesTotal: optional number`
+<a href="#">Link to this property</a>
 
-      Number of unique devices
+name: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/fleet-status/live \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+netmask: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "deviceStats": {
-      "byColo": [
-        {
-          "uniqueDevicesTotal": 0,
-          "value": "value"
-        }
-      ],
-      "byMode": [
-        {
-          "uniqueDevicesTotal": 0,
-          "value": "value"
-        }
-      ],
-      "byPlatform": [
-        {
-          "uniqueDevicesTotal": 0,
-          "value": "value"
-        }
-      ],
-      "byStatus": [
-        {
-          "uniqueDevicesTotal": 0,
-          "value": "value"
-        }
-      ],
-      "byVersion": [
-        {
-          "uniqueDevicesTotal": 0,
-          "value": "value"
-        }
-      ],
-      "uniqueDevicesTotal": 0
-    }
-  }
-}
-```
+version: optional number
 
-## Get over time aggregate details for devices by dimension
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-**get** `/accounts/{account_id}/dex/fleet-status/over-time`
+<a href="#">Link to this property</a>
 
-Get aggregate details for devices using WARP, up to 7 days.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Unique identifier linked to an account.
+<summary>
 
-### Query Parameters
+gatewayIpv6: optional object {address, asn, aso, 4 more }
 
-- `from: string`
+</summary>
 
-  Start of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
+address: optional string
 
-- `to: string`
+<a href="#">Link to this property</a>
 
-  End of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
+asn: optional number
 
-- `colo: optional string`
+<a href="#">Link to this property</a>
 
-  Cloudflare colo airport code.
+aso: optional string
 
-- `device_id: optional string`
+<a href="#">Link to this property</a>
 
-  Device-specific ID, given as UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+city: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+country\_iso: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+state\_iso: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+zip: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+name: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+netmask: optional string
 
-- `result: optional object { deviceStats }`
+<a href="#">Link to this property</a>
 
-  - `deviceStats: optional object { byMode, byStatus, uniqueDevicesTotal }`
+version: optional number
 
-    - `byMode: optional array of object { timestamp, uniqueDevicesTotal, value }`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-      - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-      - `uniqueDevicesTotal: optional number`
+</details>
 
-        Number of unique devices
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+handshakeLatencyMs: optional number
 
-    - `byStatus: optional array of object { timestamp, uniqueDevicesTotal, value }`
+formatint64
 
-      - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-      - `uniqueDevicesTotal: optional number`
+<details>
 
-        Number of unique devices
+<summary>
 
-      - `value: optional string`
+ispIpv4: optional object {address, asn, aso, 4 more }
 
-    - `uniqueDevicesTotal: optional number`
+</summary>
 
-      Number of unique devices
+address: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/fleet-status/over-time \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+asn: optional number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "deviceStats": {
-      "byMode": [
-        {
-          "timestamp": "2023-10-11 00:00:00+00",
-          "uniqueDevicesTotal": 0,
-          "value": "value"
-        }
-      ],
-      "byStatus": [
-        {
-          "timestamp": "2023-10-11 00:00:00+00",
-          "uniqueDevicesTotal": 0,
-          "value": "value"
-        }
-      ],
-      "uniqueDevicesTotal": 0
-    }
-  }
-}
-```
+aso: optional string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Live Stat
+<details>
 
-- `LiveStat object { uniqueDevicesTotal, value }`
+<summary>
 
-  - `uniqueDevicesTotal: optional number`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-    Number of unique devices
+</summary>
 
-  - `value: optional string`
+city: optional string
 
-### Fleet Status Live Response
+<a href="#">Link to this property</a>
 
-- `FleetStatusLiveResponse object { deviceStats }`
+country\_iso: optional string
 
-  - `deviceStats: optional object { byColo, byMode, byPlatform, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `byColo: optional array of LiveStat`
+state\_iso: optional string
 
-      - `uniqueDevicesTotal: optional number`
+<a href="#">Link to this property</a>
 
-        Number of unique devices
+zip: optional string
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-    - `byMode: optional array of LiveStat`
+</details>
 
-      - `uniqueDevicesTotal: optional number`
+<a href="#">Link to this property</a>
 
-        Number of unique devices
+name: optional string
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-    - `byPlatform: optional array of LiveStat`
+netmask: optional string
 
-      - `uniqueDevicesTotal: optional number`
+<a href="#">Link to this property</a>
 
-        Number of unique devices
+version: optional number
 
-      - `value: optional string`
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-    - `byStatus: optional array of LiveStat`
+<a href="#">Link to this property</a>
 
-      - `uniqueDevicesTotal: optional number`
+</details>
 
-        Number of unique devices
+<a href="#">Link to this property</a>
 
-      - `value: optional string`
+<details>
 
-    - `byVersion: optional array of LiveStat`
+<summary>
 
-      - `uniqueDevicesTotal: optional number`
+ispIpv6: optional object {address, asn, aso, 4 more }
 
-        Number of unique devices
+</summary>
 
-      - `value: optional string`
+address: optional string
 
-    - `uniqueDevicesTotal: optional number`
+<a href="#">Link to this property</a>
 
-      Number of unique devices
+asn: optional number
 
-### Fleet Status Over Time Response
+<a href="#">Link to this property</a>
 
-- `FleetStatusOverTimeResponse object { deviceStats }`
+aso: optional string
 
-  - `deviceStats: optional object { byMode, byStatus, uniqueDevicesTotal }`
+<a href="#">Link to this property</a>
 
-    - `byMode: optional array of object { timestamp, uniqueDevicesTotal, value }`
+<details>
 
-      - `timestamp: optional string`
+<summary>
 
-      - `uniqueDevicesTotal: optional number`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-        Number of unique devices
+</summary>
 
-      - `value: optional string`
+city: optional string
 
-    - `byStatus: optional array of object { timestamp, uniqueDevicesTotal, value }`
+<a href="#">Link to this property</a>
 
-      - `timestamp: optional string`
+country\_iso: optional string
 
-      - `uniqueDevicesTotal: optional number`
+<a href="#">Link to this property</a>
 
-        Number of unique devices
+state\_iso: optional string
 
-      - `value: optional string`
+<a href="#">Link to this property</a>
 
-    - `uniqueDevicesTotal: optional number`
+zip: optional string
 
-      Number of unique devices
+<a href="#">Link to this property</a>
 
-# Devices
+</details>
 
-## List details of devices using WARP.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dex/fleet-status/devices`
+name: optional string
 
-List details of devices using WARP.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+netmask: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+version: optional number
 
-### Query Parameters
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
+</details>
 
-- `page: number`
+<a href="#">Link to this property</a>
 
-  Page number of paginated results.
+metal: optional string
 
-- `per_page: number`
+<a href="#">Link to this property</a>
 
-  Number of results per page.
+networkRcvdBps: optional number
 
-- `to: string`
+formatint64
 
-  End of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
+<a href="#">Link to this property</a>
 
-- `colo: optional string`
+networkSentBps: optional number
 
-  Cloudflare colo airport code.
+formatint64
 
-- `device_id: optional string`
+<a href="#">Link to this property</a>
 
-  Device-specific ID, given as UUID.
+networkSsid: optional string
 
-- `mode: optional string`
+<a href="#">Link to this property</a>
 
-  The mode under which the WARP client is run.
+personEmail: optional string
 
-- `platform: optional string`
+User contact email address
 
-  Operating system.
+<a href="#">Link to this property</a>
 
-- `sort_by: optional "colo" or "device_id" or "mode" or 4 more`
+ramAvailableKb: optional number
 
-  Dimension to sort results by.
+formatint64
 
-  - `"colo"`
+<a href="#">Link to this property</a>
 
-  - `"device_id"`
+ramUsedPct: optional number
 
-  - `"mode"`
+formatfloat
 
-  - `"platform"`
+<a href="#">Link to this property</a>
 
-  - `"status"`
+<details>
 
-  - `"timestamp"`
+<summary>
 
-  - `"version"`
+ramUsedPctByApp: optional array of object {name, ram\_used\_pct }
 
-- `source: optional "last_seen" or "hourly" or "raw"`
+</summary>
 
-  Source:
+name: optional string
 
-  * `hourly` - device details aggregated hourly, up to 7 days prior
-  * `last_seen` - device details, up to 60 minutes prior. Time windows exceeding 60 minutes will be rejected from June 1st, 2026. Please use 'hourly' or 'raw' instead for longer time ranges.
-  * `raw` - device details, up to 7 days prior
+Application name.
 
-  - `"last_seen"`
+<a href="#">Link to this property</a>
 
-  - `"hourly"`
+ram\_used\_pct: optional number
 
-  - `"raw"`
+RAM usage percentage, on a scale of 0 to 100.
 
-- `status: optional string`
+formatfloat
 
-  Network status.
+maximum100
 
-- `version: optional string`
+minimum0
 
-  WARP client version.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+registrationId: optional string
 
-  - `message: string`
+Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user’s registration on the device.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+rtt: optional object {minRttUs, rttUs, rttVarUs }
 
-  - `code: number`
+Round-trip time statistics for the WARP tunnel.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+minRttUs: optional object {downstream, upstream }
 
-- `success: true`
+Minimum round-trip time in microseconds.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+downstream: optional number
 
-- `result: optional array of object { colo, deviceId, mode, 40 more }`
+<a href="#">Link to this property</a>
 
-  - `colo: string`
+upstream: optional number
 
-    Cloudflare colo airport code.
+<a href="#">Link to this property</a>
 
-  - `deviceId: string`
+</details>
 
-    Device identifier (UUID v4)
+<a href="#">Link to this property</a>
 
-  - `mode: string`
+<details>
 
-    The mode under which the WARP client is run.
+<summary>
 
-  - `platform: string`
+rttUs: optional object {downstream, upstream }
 
-    Operating system.
+Round-trip time in microseconds.
 
-  - `status: string`
+</summary>
 
-    Network status.
+downstream: optional number
 
-  - `timestamp: string`
+<a href="#">Link to this property</a>
 
-  - `version: string`
+upstream: optional number
 
-    WARP client version.
+<a href="#">Link to this property</a>
 
-  - `alwaysOn: optional boolean`
+</details>
 
-  - `batteryCharging: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `batteryCycles: optional number`
+<details>
 
-  - `batteryPct: optional number`
+<summary>
 
-  - `connectionType: optional string`
+rttVarUs: optional object {downstream, upstream }
 
-  - `cpuPct: optional number`
+Round-trip time variance in microseconds.
 
-  - `cpuPctByApp: optional array of object { cpu_pct, name }`
+</summary>
 
-    - `cpu_pct: optional number`
+downstream: optional number
 
-      CPU usage percentage, on a scale of 0 to 100.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+upstream: optional number
 
-      Application name.
+<a href="#">Link to this property</a>
 
-  - `deviceIpv4: optional object { address, asn, aso, 4 more }`
+</details>
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+</details>
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+switchLocked: optional boolean
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-      - `country_iso: optional string`
+<details>
 
-      - `state_iso: optional string`
+<summary>
 
-      - `zip: optional string`
+tunnelStats: optional object {bytesLost, bytesReceived, bytesRetransmitted, 6 more }
 
-    - `name: optional string`
+WARP tunnel packet and byte counters.
 
-    - `netmask: optional string`
+</summary>
 
-    - `version: optional number`
+<details>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<summary>
 
-  - `deviceIpv6: optional object { address, asn, aso, 4 more }`
+bytesLost: optional object {downstream, upstream }
 
-    - `address: optional string`
+Number of bytes lost, split by direction.
 
-    - `asn: optional number`
+</summary>
 
-    - `aso: optional string`
+downstream: optional number
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+upstream: optional number
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+</details>
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-    - `netmask: optional string`
+<summary>
 
-    - `version: optional number`
+bytesReceived: optional object {downstream, upstream }
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+Number of bytes received, split by direction.
 
-  - `deviceName: optional string`
+</summary>
 
-    Device identifier (human readable).
+downstream: optional number
 
-  - `deviceRegistration: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated: use registrationId. Device registration identifier (UUID).
+upstream: optional number
 
-  - `diskReadBps: optional number`
+<a href="#">Link to this property</a>
 
-  - `diskUsagePct: optional number`
+</details>
 
-  - `diskWriteBps: optional number`
+<a href="#">Link to this property</a>
 
-  - `dohSubdomain: optional string`
+<details>
 
-  - `estimatedLossPct: optional number`
+<summary>
 
-  - `firewallEnabled: optional boolean`
+bytesRetransmitted: optional object {downstream, upstream }
 
-  - `gatewayIpv4: optional object { address, asn, aso, 4 more }`
+Number of bytes retransmitted, split by direction.
 
-    - `address: optional string`
+</summary>
 
-    - `asn: optional number`
+downstream: optional number
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+upstream: optional number
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-      - `country_iso: optional string`
+</details>
 
-      - `state_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `zip: optional string`
+<details>
 
-    - `name: optional string`
+<summary>
 
-    - `netmask: optional string`
+bytesSent: optional object {downstream, upstream }
 
-    - `version: optional number`
+Number of bytes sent, split by direction.
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+</summary>
 
-  - `gatewayIpv6: optional object { address, asn, aso, 4 more }`
+downstream: optional number
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+upstream: optional number
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+</details>
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-      - `country_iso: optional string`
+<details>
 
-      - `state_iso: optional string`
+<summary>
 
-      - `zip: optional string`
+packetsLost: optional object {downstream, upstream }
 
-    - `name: optional string`
+Number of packets lost, split by direction.
 
-    - `netmask: optional string`
+</summary>
 
-    - `version: optional number`
+downstream: optional number
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<a href="#">Link to this property</a>
 
-  - `handshakeLatencyMs: optional number`
+upstream: optional number
 
-  - `ispIpv4: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+</details>
 
-    - `asn: optional number`
+<a href="#">Link to this property</a>
 
-    - `aso: optional string`
+<details>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<summary>
 
-      - `city: optional string`
+packetsReceived: optional object {downstream, upstream }
 
-      - `country_iso: optional string`
+Number of packets received, split by direction.
 
-      - `state_iso: optional string`
+</summary>
 
-      - `zip: optional string`
+downstream: optional number
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+upstream: optional number
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+</details>
 
-  - `ispIpv6: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+<details>
 
-    - `asn: optional number`
+<summary>
 
-    - `aso: optional string`
+packetsRetransmitted: optional object {downstream, upstream }
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+Number of packets retransmitted, split by direction.
 
-      - `city: optional string`
+</summary>
 
-      - `country_iso: optional string`
+downstream: optional number
 
-      - `state_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `zip: optional string`
+upstream: optional number
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+</details>
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<details>
 
-  - `metal: optional string`
+<summary>
 
-  - `networkRcvdBps: optional number`
+packetsSent: optional object {downstream, upstream }
 
-  - `networkSentBps: optional number`
+Number of packets sent, split by direction.
 
-  - `networkSsid: optional string`
+</summary>
 
-  - `personEmail: optional string`
+downstream: optional number
 
-    User contact email address
+<a href="#">Link to this property</a>
 
-  - `ramAvailableKb: optional number`
+upstream: optional number
 
-  - `ramUsedPct: optional number`
+<a href="#">Link to this property</a>
 
-  - `ramUsedPctByApp: optional array of object { name, ram_used_pct }`
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Application name.
+statsWindowMs: optional number
 
-    - `ram_used_pct: optional number`
+The measurement window duration in milliseconds.
 
-      RAM usage percentage, on a scale of 0 to 100.
+<a href="#">Link to this property</a>
 
-  - `registrationId: optional string`
+</details>
 
-    Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
+<a href="#">Link to this property</a>
 
-  - `rtt: optional object { minRttUs, rttUs, rttVarUs }`
+tunnelType: optional string
 
-    Round-trip time statistics for the WARP tunnel.
+<a href="#">Link to this property</a>
 
-    - `minRttUs: optional object { downstream, upstream }`
+wifiStrengthDbm: optional number
 
-      Minimum round-trip time in microseconds.
+formatint64
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+</details>
 
-    - `rttUs: optional object { downstream, upstream }`
+[Link to this property](#)%20zero_trust.dex.fleet_status.devices%20%3E%20(model)%20device_list_response%20%3E%20(schema)>)
 
-      Round-trip time in microseconds.
+#### DEXHTTP Tests
 
-      - `downstream: optional number`
+##### [Get details and aggregate metrics for an http test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/http_tests/methods/get)
 
-      - `upstream: optional number`
+GET/accounts/{account\_id}/dex/http-tests/{test\_id}
 
-    - `rttVarUs: optional object { downstream, upstream }`
+##### ModelsExpand Collapse
 
-      Round-trip time variance in microseconds.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+HTTPDetails object {host, httpStats, httpStatsByColo, 6 more }
 
-  - `switchLocked: optional boolean`
+</summary>
 
-  - `tunnelStats: optional object { bytesLost, bytesReceived, bytesRetransmitted, 6 more }`
+host: optional string
 
-    WARP tunnel packet and byte counters.
+The url of the HTTP synthetic application test.
 
-    - `bytesLost: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Number of bytes lost, split by direction.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+httpStats: optional object {availabilityPct, dnsResponseTimeMs, httpStatusCode, 3 more }
 
-    - `bytesReceived: optional object { downstream, upstream }`
+</summary>
 
-      Number of bytes received, split by direction.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+availabilityPct: object {slots, avg, max, min }
 
-    - `bytesRetransmitted: optional object { downstream, upstream }`
+</summary>
 
-      Number of bytes retransmitted, split by direction.
+<details>
 
-      - `downstream: optional number`
+<summary>
 
-      - `upstream: optional number`
+slots: array of object {timestamp, value }
 
-    - `bytesSent: optional object { downstream, upstream }`
+</summary>
 
-      Number of bytes sent, split by direction.
+timestamp: string
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+value: number
 
-    - `packetsLost: optional object { downstream, upstream }`
+formatfloat
 
-      Number of packets lost, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+</details>
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `packetsReceived: optional object { downstream, upstream }`
+avg: optional number
 
-      Number of packets received, split by direction.
+average observed in the time period.
 
-      - `downstream: optional number`
+formatfloat
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `packetsRetransmitted: optional object { downstream, upstream }`
+max: optional number
 
-      Number of packets retransmitted, split by direction.
+highest observed in the time period.
 
-      - `downstream: optional number`
+formatfloat
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `packetsSent: optional object { downstream, upstream }`
+min: optional number
 
-      Number of packets sent, split by direction.
+lowest observed in the time period.
 
-      - `downstream: optional number`
+formatfloat
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `statsWindowMs: optional number`
+</details>
 
-      The measurement window duration in milliseconds.
+<a href="#">Link to this property</a>
 
-  - `tunnelType: optional string`
+dnsResponseTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-  - `wifiStrengthDbm: optional number`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<details>
 
-  - `count: optional number`
+<summary>
 
-    Total number of results for the requested service.
+httpStatusCode: array of object {status200, status300, status400, 2 more }
 
-  - `page: optional number`
+</summary>
 
-    Current page within paginated list of results.
+status200: number
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+status300: number
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+status400: number
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+status500: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/fleet-status/devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+timestamp: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "colo": "SJC",
-      "deviceId": "deviceId",
-      "mode": "proxy",
-      "platform": "windows",
-      "status": "connected",
-      "timestamp": "2023-10-11 00:00:00+00",
-      "version": "1.0.0",
-      "alwaysOn": true,
-      "batteryCharging": true,
-      "batteryCycles": 0,
-      "batteryPct": 0,
-      "connectionType": "connectionType",
-      "cpuPct": 0,
-      "cpuPctByApp": [
-        {
-          "cpu_pct": 0,
-          "name": "name"
-        }
-      ],
-      "deviceIpv4": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "deviceIpv6": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "deviceName": "deviceName",
-      "deviceRegistration": "deviceRegistration",
-      "diskReadBps": 0,
-      "diskUsagePct": 0,
-      "diskWriteBps": 0,
-      "dohSubdomain": "dohSubdomain",
-      "estimatedLossPct": 0,
-      "firewallEnabled": true,
-      "gatewayIpv4": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "gatewayIpv6": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "handshakeLatencyMs": 0,
-      "ispIpv4": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "ispIpv6": {
-        "address": "address",
-        "asn": 0,
-        "aso": "aso",
-        "location": {
-          "city": "city",
-          "country_iso": "country_iso",
-          "state_iso": "state_iso",
-          "zip": "zip"
-        },
-        "name": "name",
-        "netmask": "netmask",
-        "version": 1
-      },
-      "metal": "metal",
-      "networkRcvdBps": 0,
-      "networkSentBps": 0,
-      "networkSsid": "networkSsid",
-      "personEmail": "personEmail",
-      "ramAvailableKb": 0,
-      "ramUsedPct": 0,
-      "ramUsedPctByApp": [
-        {
-          "name": "name",
-          "ram_used_pct": 0
-        }
-      ],
-      "registrationId": "registrationId",
-      "rtt": {
-        "minRttUs": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "rttUs": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "rttVarUs": {
-          "downstream": 0,
-          "upstream": 0
-        }
-      },
-      "switchLocked": true,
-      "tunnelStats": {
-        "bytesLost": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "bytesReceived": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "bytesRetransmitted": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "bytesSent": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "packetsLost": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "packetsReceived": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "packetsRetransmitted": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "packetsSent": {
-          "downstream": 0,
-          "upstream": 0
-        },
-        "statsWindowMs": 0
-      },
-      "tunnelType": "tunnelType",
-      "wifiStrengthDbm": 0
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Device List Response
+resourceFetchTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-- `DeviceListResponse object { colo, deviceId, mode, 40 more }`
+<a href="#">Link to this property</a>
 
-  - `colo: string`
+serverResponseTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-    Cloudflare colo airport code.
+<a href="#">Link to this property</a>
 
-  - `deviceId: string`
+uniqueDevicesTotal: number
 
-    Device identifier (UUID v4)
+Count of unique devices that have run this test in the given time period.
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The mode under which the WARP client is run.
+</details>
 
-  - `platform: string`
+<a href="#">Link to this property</a>
 
-    Operating system.
+<details>
 
-  - `status: string`
+<summary>
 
-    Network status.
+httpStatsByColo: optional array of object {availabilityPct, colo, dnsResponseTimeMs, 4 more }
 
-  - `timestamp: string`
+</summary>
 
-  - `version: string`
+<details>
 
-    WARP client version.
+<summary>
 
-  - `alwaysOn: optional boolean`
+availabilityPct: object {slots, avg, max, min }
 
-  - `batteryCharging: optional boolean`
+</summary>
 
-  - `batteryCycles: optional number`
+<details>
 
-  - `batteryPct: optional number`
+<summary>
 
-  - `connectionType: optional string`
+slots: array of object {timestamp, value }
 
-  - `cpuPct: optional number`
+</summary>
 
-  - `cpuPctByApp: optional array of object { cpu_pct, name }`
+timestamp: string
 
-    - `cpu_pct: optional number`
+<a href="#">Link to this property</a>
 
-      CPU usage percentage, on a scale of 0 to 100.
+value: number
 
-    - `name: optional string`
+formatfloat
 
-      Application name.
+<a href="#">Link to this property</a>
 
-  - `deviceIpv4: optional object { address, asn, aso, 4 more }`
+</details>
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+avg: optional number
 
-    - `aso: optional string`
+average observed in the time period.
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+formatfloat
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-      - `country_iso: optional string`
+max: optional number
 
-      - `state_iso: optional string`
+highest observed in the time period.
 
-      - `zip: optional string`
+formatfloat
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+min: optional number
 
-    - `version: optional number`
+lowest observed in the time period.
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+formatfloat
 
-  - `deviceIpv6: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+</details>
 
-    - `asn: optional number`
+<a href="#">Link to this property</a>
 
-    - `aso: optional string`
+colo: string
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+dnsResponseTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+<details>
 
-      - `zip: optional string`
+<summary>
 
-    - `name: optional string`
+httpStatusCode: array of object {status200, status300, status400, 2 more }
 
-    - `netmask: optional string`
+</summary>
 
-    - `version: optional number`
+status200: number
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<a href="#">Link to this property</a>
 
-  - `deviceName: optional string`
+status300: number
 
-    Device identifier (human readable).
+<a href="#">Link to this property</a>
 
-  - `deviceRegistration: optional string`
+status400: number
 
-    Deprecated: use registrationId. Device registration identifier (UUID).
+<a href="#">Link to this property</a>
 
-  - `diskReadBps: optional number`
+status500: number
 
-  - `diskUsagePct: optional number`
+<a href="#">Link to this property</a>
 
-  - `diskWriteBps: optional number`
+timestamp: string
 
-  - `dohSubdomain: optional string`
+<a href="#">Link to this property</a>
 
-  - `estimatedLossPct: optional number`
+</details>
 
-  - `firewallEnabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `gatewayIpv4: optional object { address, asn, aso, 4 more }`
+resourceFetchTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-    - `address: optional string`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+serverResponseTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+uniqueDevicesTotal: number
 
-      - `city: optional string`
+Count of unique devices that have run this test in the given time period.
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+</details>
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+interval: optional string
 
-    - `netmask: optional string`
+The interval at which the HTTP synthetic application test is set to run.
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+kind: optional "http"
 
-  - `gatewayIpv6: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+method: optional string
 
-    - `asn: optional number`
+The HTTP method to use when running the test.
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+name: optional string
 
-      - `city: optional string`
+The name of the HTTP synthetic application test.
 
-      - `country_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `state_iso: optional string`
+<details>
 
-      - `zip: optional string`
+<summary>
 
-    - `name: optional string`
+target\_policies: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20digital_experience_monitor%20%3E%20(schema)">DigitalExperienceMonitor</a> { id, default, name }
 
-    - `netmask: optional string`
+</summary>
 
-    - `version: optional number`
+id: string
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+API Resource UUID tag.
 
-  - `handshakeLatencyMs: optional number`
+maxLength36
 
-  - `ispIpv4: optional object { address, asn, aso, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `address: optional string`
+default: boolean
 
-    - `asn: optional number`
+Whether the policy is the default for the account.
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+name: string
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-      - `country_iso: optional string`
+</details>
 
-      - `state_iso: optional string`
+<a href="#">Link to this property</a>
 
-      - `zip: optional string`
+targeted: optional boolean
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `netmask: optional string`
+</details>
 
-    - `version: optional number`
+[Link to this property](#)%20zero_trust.dex.http_tests%20%3E%20(model)%20http_details%20%3E%20(schema)>)
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+#### DEXHTTP TestsPercentiles
 
-  - `ispIpv6: optional object { address, asn, aso, 4 more }`
+##### [Get percentiles for an http test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/http_tests/subresources/percentiles/methods/get)
 
-    - `address: optional string`
+GET/accounts/{account\_id}/dex/http-tests/{test\_id}/percentiles
 
-    - `asn: optional number`
+##### ModelsExpand Collapse
 
-    - `aso: optional string`
+<details>
 
-    - `location: optional object { city, country_iso, state_iso, zip }`
+<summary>
 
-      - `city: optional string`
+HTTPDetailsPercentiles object {dnsResponseTimeMs, resourceFetchTimeMs, serverResponseTimeMs }
 
-      - `country_iso: optional string`
+</summary>
 
-      - `state_iso: optional string`
+dnsResponseTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-      - `zip: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+resourceFetchTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-    - `netmask: optional string`
+<a href="#">Link to this property</a>
 
-    - `version: optional number`
+serverResponseTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-      IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+<a href="#">Link to this property</a>
 
-  - `metal: optional string`
+</details>
 
-  - `networkRcvdBps: optional number`
+[Link to this property](#)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20http_details_percentiles%20%3E%20(schema)>)
 
-  - `networkSentBps: optional number`
+<details>
 
-  - `networkSsid: optional string`
+<summary>
 
-  - `personEmail: optional string`
+TestStatOverTime object {slots, avg, max, min }
 
-    User contact email address
+</summary>
 
-  - `ramAvailableKb: optional number`
+<details>
 
-  - `ramUsedPct: optional number`
+<summary>
 
-  - `ramUsedPctByApp: optional array of object { name, ram_used_pct }`
+slots: array of object {timestamp, value }
 
-    - `name: optional string`
+</summary>
 
-      Application name.
+timestamp: string
 
-    - `ram_used_pct: optional number`
+<a href="#">Link to this property</a>
 
-      RAM usage percentage, on a scale of 0 to 100.
+value: number
 
-  - `registrationId: optional string`
+<a href="#">Link to this property</a>
 
-    Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
+</details>
 
-  - `rtt: optional object { minRttUs, rttUs, rttVarUs }`
+<a href="#">Link to this property</a>
 
-    Round-trip time statistics for the WARP tunnel.
+avg: optional number
 
-    - `minRttUs: optional object { downstream, upstream }`
+average observed in the time period.
 
-      Minimum round-trip time in microseconds.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+max: optional number
 
-      - `upstream: optional number`
+highest observed in the time period.
 
-    - `rttUs: optional object { downstream, upstream }`
+<a href="#">Link to this property</a>
 
-      Round-trip time in microseconds.
+min: optional number
 
-      - `downstream: optional number`
+lowest observed in the time period.
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `rttVarUs: optional object { downstream, upstream }`
+</details>
 
-      Round-trip time variance in microseconds.
+[Link to this property](#)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)>)
 
-      - `downstream: optional number`
+#### DEXTests
 
-      - `upstream: optional number`
+##### [List DEX test analytics](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/tests/methods/list)
 
-  - `switchLocked: optional boolean`
+GET/accounts/{account\_id}/dex/tests/overview
 
-  - `tunnelStats: optional object { bytesLost, bytesReceived, bytesRetransmitted, 6 more }`
+##### ModelsExpand Collapse
 
-    WARP tunnel packet and byte counters.
+<details>
 
-    - `bytesLost: optional object { downstream, upstream }`
+<summary>
 
-      Number of bytes lost, split by direction.
+AggregateTimePeriod object {units, value }
 
-      - `downstream: optional number`
+</summary>
 
-      - `upstream: optional number`
+<details>
 
-    - `bytesReceived: optional object { downstream, upstream }`
+<summary>
 
-      Number of bytes received, split by direction.
+units: "hours"or "days"or "testRuns"
 
-      - `downstream: optional number`
+</summary>
 
-      - `upstream: optional number`
+One of the following:
 
-    - `bytesRetransmitted: optional object { downstream, upstream }`
+"hours"
 
-      Number of bytes retransmitted, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+"days"
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `bytesSent: optional object { downstream, upstream }`
+"testRuns"
 
-      Number of bytes sent, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+</details>
 
-      - `upstream: optional number`
+<a href="#">Link to this property</a>
 
-    - `packetsLost: optional object { downstream, upstream }`
+value: number
 
-      Number of packets lost, split by direction.
+<a href="#">Link to this property</a>
 
-      - `downstream: optional number`
+</details>
 
-      - `upstream: optional number`
+[Link to this property](#)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)>)
 
-    - `packetsReceived: optional object { downstream, upstream }`
+<details>
 
-      Number of packets received, split by direction.
+<summary>
 
-      - `downstream: optional number`
+Tests object {overviewMetrics, tests }
 
-      - `upstream: optional number`
+</summary>
 
-    - `packetsRetransmitted: optional object { downstream, upstream }`
+<details>
 
-      Number of packets retransmitted, split by direction.
+<summary>
 
-      - `downstream: optional number`
+overviewMetrics: object {testsTotal, avgHttpAvailabilityPct, avgTracerouteAvailabilityPct }
 
-      - `upstream: optional number`
+</summary>
 
-    - `packetsSent: optional object { downstream, upstream }`
+testsTotal: number
 
-      Number of packets sent, split by direction.
+number of tests.
 
-      - `downstream: optional number`
+<a href="#">Link to this property</a>
 
-      - `upstream: optional number`
+avgHttpAvailabilityPct: optional number
 
-    - `statsWindowMs: optional number`
+percentage availability for all HTTP test results in response.
 
-      The measurement window duration in milliseconds.
+formatfloat
 
-  - `tunnelType: optional string`
+<a href="#">Link to this property</a>
 
-  - `wifiStrengthDbm: optional number`
+avgTracerouteAvailabilityPct: optional number
 
-# HTTP Tests
+percentage availability for all traceroutes results in response.
 
-## Get details and aggregate metrics for an http test
+formatfloat
 
-**get** `/accounts/{account_id}/dex/http-tests/{test_id}`
+<a href="#">Link to this property</a>
 
-Get test details and aggregate performance metrics for an http test for a given time period between 1 hour and 7 days.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Unique identifier linked to an account.
+<summary>
 
-- `test_id: string`
+tests: array of object {id, created, description, 13 more }
 
-  API Resource UUID tag.
+array of test results objects.
 
-### Query Parameters
+</summary>
 
-- `from: string`
+id: string
 
-  Start time for aggregate metrics in ISO ms.
+API Resource UUID tag.
 
-- `interval: "minute" or "hour"`
+maxLength36
 
-  Time interval for aggregate time slots.
+<a href="#">Link to this property</a>
 
-  - `"minute"`
+created: string
 
-  - `"hour"`
+date the test was created.
 
-- `to: string`
+<a href="#">Link to this property</a>
 
-  End time for aggregate metrics in ISO ms.
+description: string
 
-- `colo: optional string`
+the test description defined during configuration
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+<a href="#">Link to this property</a>
 
-- `deviceId: optional array of string`
+enabled: boolean
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+if true, then the test will run on targeted devices. Else, the test will not run.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+host: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+interval: string
 
-  - `documentation_url: optional string`
+The interval at which the synthetic application test is set to run.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+kind: "http"or "traceroute"
 
-  - `message: string`
+test type, http or traceroute
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"http"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"traceroute"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional HTTPDetails`
+</details>
 
-  - `host: optional string`
+<a href="#">Link to this property</a>
 
-    The url of the HTTP synthetic application test.
+name: string
 
-  - `httpStats: optional object { availabilityPct, dnsResponseTimeMs, httpStatusCode, 3 more }`
+name given to this test
 
-    - `availabilityPct: object { slots, avg, max, min }`
+<a href="#">Link to this property</a>
 
-      - `slots: array of object { timestamp, value }`
+updated: string
 
-        - `timestamp: string`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+<details>
 
-      - `avg: optional number`
+<summary>
 
-        average observed in the time period.
+httpResults: optional object {resourceFetchTime }
 
-      - `max: optional number`
+</summary>
 
-        highest observed in the time period.
+<details>
 
-      - `min: optional number`
+<summary>
 
-        lowest observed in the time period.
+resourceFetchTime: object {history, avgMs, overTime }
 
-    - `dnsResponseTimeMs: TestStatOverTime`
+</summary>
 
-      - `slots: array of object { timestamp, value }`
+<details>
 
-        - `timestamp: string`
+<summary>
 
-        - `value: number`
+history: array of object {timePeriod, avgMs, deltaPct }
 
-      - `avg: optional number`
+</summary>
 
-        average observed in the time period.
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-      - `max: optional number`
+<a href="#">Link to this property</a>
 
-        highest observed in the time period.
+avgMs: optional number
 
-      - `min: optional number`
+<a href="#">Link to this property</a>
 
-        lowest observed in the time period.
+deltaPct: optional number
 
-    - `httpStatusCode: array of object { status200, status300, status400, 2 more }`
+formatfloat
 
-      - `status200: number`
+<a href="#">Link to this property</a>
 
-      - `status300: number`
+</details>
 
-      - `status400: number`
+<a href="#">Link to this property</a>
 
-      - `status500: number`
+avgMs: optional number
 
-      - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `resourceFetchTimeMs: TestStatOverTime`
+<details>
 
-    - `serverResponseTimeMs: TestStatOverTime`
+<summary>
 
-    - `uniqueDevicesTotal: number`
+overTime: optional object {timePeriod, values }
 
-      Count of unique devices that have run this test in the given time period.
+</summary>
 
-  - `httpStatsByColo: optional array of object { availabilityPct, colo, dnsResponseTimeMs, 4 more }`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-    - `availabilityPct: object { slots, avg, max, min }`
+<a href="#">Link to this property</a>
 
-      - `slots: array of object { timestamp, value }`
+<details>
 
-        - `timestamp: string`
+<summary>
 
-        - `value: number`
+values: array of object {avgMs, timestamp }
 
-      - `avg: optional number`
+</summary>
 
-        average observed in the time period.
+avgMs: number
 
-      - `max: optional number`
+<a href="#">Link to this property</a>
 
-        highest observed in the time period.
+timestamp: string
 
-      - `min: optional number`
+<a href="#">Link to this property</a>
 
-        lowest observed in the time period.
+</details>
 
-    - `colo: string`
+<a href="#">Link to this property</a>
 
-    - `dnsResponseTimeMs: TestStatOverTime`
+</details>
 
-    - `httpStatusCode: array of object { status200, status300, status400, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `status200: number`
+</details>
 
-      - `status300: number`
+<a href="#">Link to this property</a>
 
-      - `status400: number`
+</details>
 
-      - `status500: number`
+<a href="#">Link to this property</a>
 
-      - `timestamp: string`
+<details>
 
-    - `resourceFetchTimeMs: TestStatOverTime`
+<summary>
 
-    - `serverResponseTimeMs: TestStatOverTime`
+httpResultsByColo: optional array of object {colo, resourceFetchTime }
 
-    - `uniqueDevicesTotal: number`
+</summary>
 
-      Count of unique devices that have run this test in the given time period.
+colo: string
 
-  - `interval: optional string`
+Cloudflare colo
 
-    The interval at which the HTTP synthetic application test is set to run.
+<a href="#">Link to this property</a>
 
-  - `kind: optional "http"`
+<details>
 
-    - `"http"`
+<summary>
 
-  - `method: optional string`
+resourceFetchTime: object {history, avgMs, overTime }
 
-    The HTTP method to use when running the test.
+</summary>
 
-  - `name: optional string`
+<details>
 
-    The name of the HTTP synthetic application test.
+<summary>
 
-  - `target_policies: optional array of DigitalExperienceMonitor`
+history: array of object {timePeriod, avgMs, deltaPct }
 
-    - `id: string`
+</summary>
 
-      API Resource UUID tag.
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-    - `default: boolean`
+<a href="#">Link to this property</a>
 
-      Whether the policy is the default for the account.
+avgMs: optional number
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `targeted: optional boolean`
+deltaPct: optional number
 
-### Example
+formatfloat
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/http-tests/$TEST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "host": "http://example.com",
-    "httpStats": {
-      "availabilityPct": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "dnsResponseTimeMs": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "httpStatusCode": [
-        {
-          "status200": 0,
-          "status300": 0,
-          "status400": 0,
-          "status500": 0,
-          "timestamp": "2023-07-16 15:00:00+00"
-        }
-      ],
-      "resourceFetchTimeMs": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "serverResponseTimeMs": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "uniqueDevicesTotal": 57
-    },
-    "httpStatsByColo": [
-      {
-        "availabilityPct": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "colo": "DFW",
-        "dnsResponseTimeMs": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "httpStatusCode": [
-          {
-            "status200": 0,
-            "status300": 0,
-            "status400": 0,
-            "status500": 0,
-            "timestamp": "2023-07-16 15:00:00+00"
-          }
-        ],
-        "resourceFetchTimeMs": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "serverResponseTimeMs": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "uniqueDevicesTotal": 57
-      }
-    ],
-    "interval": "0h5m0s",
-    "kind": "http",
-    "method": "GET",
-    "name": "Atlassian Sign In Page",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+avgMs: optional number
 
-### HTTP Details
+<a href="#">Link to this property</a>
 
-- `HTTPDetails object { host, httpStats, httpStatsByColo, 6 more }`
+<details>
 
-  - `host: optional string`
+<summary>
 
-    The url of the HTTP synthetic application test.
+overTime: optional object {timePeriod, values }
 
-  - `httpStats: optional object { availabilityPct, dnsResponseTimeMs, httpStatusCode, 3 more }`
+</summary>
 
-    - `availabilityPct: object { slots, avg, max, min }`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+<details>
 
-        - `value: number`
+<summary>
 
-      - `avg: optional number`
+values: array of object {avgMs, timestamp }
 
-        average observed in the time period.
+</summary>
 
-      - `max: optional number`
+avgMs: number
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+timestamp: string
 
-        lowest observed in the time period.
+<a href="#">Link to this property</a>
 
-    - `dnsResponseTimeMs: TestStatOverTime`
+</details>
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+</details>
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-      - `avg: optional number`
+</details>
 
-        average observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `max: optional number`
+</details>
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+method: optional string
 
-        lowest observed in the time period.
+for HTTP, the method to use when running the test
 
-    - `httpStatusCode: array of object { status200, status300, status400, 2 more }`
+<a href="#">Link to this property</a>
 
-      - `status200: number`
+<details>
 
-      - `status300: number`
+<summary>
 
-      - `status400: number`
+target\_policies: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20digital_experience_monitor%20%3E%20(schema)">DigitalExperienceMonitor</a> { id, default, name }
 
-      - `status500: number`
+</summary>
 
-      - `timestamp: string`
+id: string
 
-    - `resourceFetchTimeMs: TestStatOverTime`
+API Resource UUID tag.
 
-    - `serverResponseTimeMs: TestStatOverTime`
+maxLength36
 
-    - `uniqueDevicesTotal: number`
+<a href="#">Link to this property</a>
 
-      Count of unique devices that have run this test in the given time period.
+default: boolean
 
-  - `httpStatsByColo: optional array of object { availabilityPct, colo, dnsResponseTimeMs, 4 more }`
+Whether the policy is the default for the account.
 
-    - `availabilityPct: object { slots, avg, max, min }`
+<a href="#">Link to this property</a>
 
-      - `slots: array of object { timestamp, value }`
+name: string
 
-        - `timestamp: string`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+</details>
 
-      - `avg: optional number`
+<a href="#">Link to this property</a>
 
-        average observed in the time period.
+targeted: optional boolean
 
-      - `max: optional number`
+<a href="#">Link to this property</a>
 
-        highest observed in the time period.
+<details>
 
-      - `min: optional number`
+<summary>
 
-        lowest observed in the time period.
+tracerouteResults: optional object {roundTripTime }
 
-    - `colo: string`
+</summary>
 
-    - `dnsResponseTimeMs: TestStatOverTime`
+<details>
 
-    - `httpStatusCode: array of object { status200, status300, status400, 2 more }`
+<summary>
 
-      - `status200: number`
+roundTripTime: object {history, avgMs, overTime }
 
-      - `status300: number`
+</summary>
 
-      - `status400: number`
+<details>
 
-      - `status500: number`
+<summary>
 
-      - `timestamp: string`
+history: array of object {timePeriod, avgMs, deltaPct }
 
-    - `resourceFetchTimeMs: TestStatOverTime`
+</summary>
 
-    - `serverResponseTimeMs: TestStatOverTime`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-    - `uniqueDevicesTotal: number`
+<a href="#">Link to this property</a>
 
-      Count of unique devices that have run this test in the given time period.
+avgMs: optional number
 
-  - `interval: optional string`
+<a href="#">Link to this property</a>
 
-    The interval at which the HTTP synthetic application test is set to run.
+deltaPct: optional number
 
-  - `kind: optional "http"`
+formatfloat
 
-    - `"http"`
+<a href="#">Link to this property</a>
 
-  - `method: optional string`
+</details>
 
-    The HTTP method to use when running the test.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+avgMs: optional number
 
-    The name of the HTTP synthetic application test.
+<a href="#">Link to this property</a>
 
-  - `target_policies: optional array of DigitalExperienceMonitor`
+<details>
 
-    - `id: string`
+<summary>
 
-      API Resource UUID tag.
+overTime: optional object {timePeriod, values }
 
-    - `default: boolean`
+</summary>
 
-      Whether the policy is the default for the account.
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `targeted: optional boolean`
+<details>
 
-# Percentiles
+<summary>
 
-## Get percentiles for an http test
+values: array of object {avgMs, timestamp }
 
-**get** `/accounts/{account_id}/dex/http-tests/{test_id}/percentiles`
+</summary>
 
-Get percentiles for an http test for a given time period between 1 hour and 7 days.
+avgMs: number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+timestamp: string
 
-  Unique identifier linked to an account.
+<a href="#">Link to this property</a>
 
-- `test_id: string`
+</details>
 
-  API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+</details>
 
-- `to: string`
+<a href="#">Link to this property</a>
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+</details>
 
-- `colo: optional string`
+<a href="#">Link to this property</a>
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+<details>
 
-- `deviceId: optional array of string`
+<summary>
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+tracerouteResultsByColo: optional array of object {colo, roundTripTime }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+colo: string
 
-  - `code: number`
+Cloudflare colo
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+roundTripTime: object {history, avgMs, overTime }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+history: array of object {timePeriod, avgMs, deltaPct }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+avgMs: optional number
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional HTTPDetailsPercentiles`
+deltaPct: optional number
 
-  - `dnsResponseTimeMs: optional Percentiles`
+formatfloat
 
-    - `p50: optional number`
+<a href="#">Link to this property</a>
 
-      p50 observed in the time period.
+</details>
 
-    - `p90: optional number`
+<a href="#">Link to this property</a>
 
-      p90 observed in the time period.
+avgMs: optional number
 
-    - `p95: optional number`
+<a href="#">Link to this property</a>
 
-      p95 observed in the time period.
+<details>
 
-    - `p99: optional number`
+<summary>
 
-      p99 observed in the time period.
+overTime: optional object {timePeriod, values }
 
-  - `resourceFetchTimeMs: optional Percentiles`
+</summary>
 
-  - `serverResponseTimeMs: optional Percentiles`
+timePeriod: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.tests%20%3E%20(model)%20aggregate_time_period%20%3E%20(schema)">AggregateTimePeriod</a> { units, value }
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/http-tests/$TEST_ID/percentiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dnsResponseTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "resourceFetchTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "serverResponseTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    }
-  }
-}
-```
+values: array of object {avgMs, timestamp }
 
-## Domain Types
+</summary>
 
-### HTTP Details Percentiles
+avgMs: number
 
-- `HTTPDetailsPercentiles object { dnsResponseTimeMs, resourceFetchTimeMs, serverResponseTimeMs }`
+<a href="#">Link to this property</a>
 
-  - `dnsResponseTimeMs: optional Percentiles`
+timestamp: string
 
-    - `p50: optional number`
+<a href="#">Link to this property</a>
 
-      p50 observed in the time period.
+</details>
 
-    - `p90: optional number`
+<a href="#">Link to this property</a>
 
-      p90 observed in the time period.
+</details>
 
-    - `p95: optional number`
+<a href="#">Link to this property</a>
 
-      p95 observed in the time period.
+</details>
 
-    - `p99: optional number`
+<a href="#">Link to this property</a>
 
-      p99 observed in the time period.
+</details>
 
-  - `resourceFetchTimeMs: optional Percentiles`
+<a href="#">Link to this property</a>
 
-  - `serverResponseTimeMs: optional Percentiles`
+</details>
 
-### Test Stat Over Time
+<a href="#">Link to this property</a>
 
-- `TestStatOverTime object { slots, avg, max, min }`
+</details>
 
-  - `slots: array of object { timestamp, value }`
+[Link to this property](#)%20zero_trust.dex.tests%20%3E%20(model)%20tests%20%3E%20(schema)>)
 
-    - `timestamp: string`
+#### DEXTestsUnique Devices
 
-    - `value: number`
+##### [Get count of devices targeted](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/tests/subresources/unique_devices/methods/list)
 
-  - `avg: optional number`
+GET/accounts/{account\_id}/dex/tests/unique-devices
 
-    average observed in the time period.
+##### ModelsExpand Collapse
 
-  - `max: optional number`
+<details>
 
-    highest observed in the time period.
+<summary>
 
-  - `min: optional number`
+UniqueDevices object {uniqueDevicesTotal }
 
-    lowest observed in the time period.
+</summary>
 
-# Tests
+uniqueDevicesTotal: number
 
-## List DEX test analytics
+total number of unique devices
 
-**get** `/accounts/{account_id}/dex/tests/overview`
+<a href="#">Link to this property</a>
 
-List DEX tests with overview metrics.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.dex.tests.unique_devices%20%3E%20(model)%20unique_devices%20%3E%20(schema)>)
 
-- `account_id: string`
+#### DEXTraceroute Test Results
 
-  Unique identifier linked to an account.
+#### DEXTraceroute Test ResultsNetwork Path
 
-### Query Parameters
+##### [Get details for a specific traceroute test run](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_test_results/subresources/network_path/methods/get)
 
-- `colo: optional string`
+GET/accounts/{account\_id}/dex/traceroute-test-results/{test\_result\_id}/network-path
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+##### ModelsExpand Collapse
 
-- `deviceId: optional array of string`
+<details>
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+<summary>
 
-- `kind: optional "http" or "traceroute"`
+NetworkPathGetResponse object {hops, resultId, colo, 6 more }
 
-  Filter by test type.
+</summary>
 
-  - `"http"`
+<details>
 
-  - `"traceroute"`
+<summary>
 
-- `page: optional number`
+hops: array of object {ttl, asn, aso, 6 more }
 
-  Page number of paginated results
+An array of the hops taken by the device to reach the end destination.
 
-- `per_page: optional number`
+</summary>
 
-  Number of items per page
+ttl: number
 
-- `registration_id: optional string`
+<a href="#">Link to this property</a>
 
-  Optionally filter results to a specific device registration. Must be used in combination with a single deviceId.
+asn: optional number
 
-- `testName: optional string`
+<a href="#">Link to this property</a>
 
-  Optionally filter results by test name.
+aso: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ipAddress: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+location: optional object {city, state, zip }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+city: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+state: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+zip: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional Tests`
+<summary>
 
-  - `overviewMetrics: object { testsTotal, avgHttpAvailabilityPct, avgTracerouteAvailabilityPct }`
+mile: optional "client-to-app"or "client-to-cf-egress"or "client-to-cf-ingress"or "client-to-isp"
 
-    - `testsTotal: number`
+</summary>
 
-      number of tests.
+One of the following:
 
-    - `avgHttpAvailabilityPct: optional number`
+"client-to-app"
 
-      percentage availability for all HTTP test results in response.
+<a href="#">Link to this property</a>
 
-    - `avgTracerouteAvailabilityPct: optional number`
+"client-to-cf-egress"
 
-      percentage availability for all traceroutes results in response.
+<a href="#">Link to this property</a>
 
-  - `tests: array of object { id, created, description, 13 more }`
+"client-to-cf-ingress"
 
-    array of test results objects.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"client-to-isp"
 
-      API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-    - `created: string`
+</details>
 
-      date the test was created.
+<a href="#">Link to this property</a>
 
-    - `description: string`
+name: optional string
 
-      the test description defined during configuration
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+packetLossPct: optional number
 
-      if true, then the test will run on targeted devices. Else, the test will not run.
+formatfloat
 
-    - `host: string`
+<a href="#">Link to this property</a>
 
-    - `interval: string`
+rttMs: optional number
 
-      The interval at which the synthetic application test is set to run.
+<a href="#">Link to this property</a>
 
-    - `kind: "http" or "traceroute"`
+</details>
 
-      test type, http or traceroute
+<a href="#">Link to this property</a>
 
-      - `"http"`
+resultId: string
 
-      - `"traceroute"`
+API Resource UUID tag.
 
-    - `name: string`
+maxLength36
 
-      name given to this test
+<a href="#">Link to this property</a>
 
-    - `updated: string`
+colo: optional string
 
-    - `httpResults: optional object { resourceFetchTime }`
+Cloudflare colo airport code.
 
-      - `resourceFetchTime: object { history, avgMs, overTime }`
+<a href="#">Link to this property</a>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+deviceName: optional string
 
-          - `timePeriod: AggregateTimePeriod`
+Name of the device associated with this network path response.
 
-            - `units: "hours" or "days" or "testRuns"`
+<a href="#">Link to this property</a>
 
-              - `"hours"`
+<details>
 
-              - `"days"`
+<summary>
 
-              - `"testRuns"`
+execution\_context: optional "EXECUTION\_CONTEXT\_INVALID"or "OUT\_OF\_TUNNEL"or "IN\_TUNNEL"
 
-            - `value: number`
+Whether the test was run inside or outside of the WARP tunnel.
 
-          - `avgMs: optional number`
+</summary>
 
-          - `deltaPct: optional number`
+One of the following:
 
-        - `avgMs: optional number`
+"EXECUTION\_CONTEXT\_INVALID"
 
-        - `overTime: optional object { timePeriod, values }`
+<a href="#">Link to this property</a>
 
-          - `timePeriod: AggregateTimePeriod`
+"OUT\_OF\_TUNNEL"
 
-          - `values: array of object { avgMs, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `avgMs: number`
+"IN\_TUNNEL"
 
-            - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `httpResultsByColo: optional array of object { colo, resourceFetchTime }`
+</details>
 
-      - `colo: string`
+<a href="#">Link to this property</a>
 
-        Cloudflare colo
+testId: optional string
 
-      - `resourceFetchTime: object { history, avgMs, overTime }`
+API Resource UUID tag.
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+maxLength36
 
-          - `timePeriod: AggregateTimePeriod`
+<a href="#">Link to this property</a>
 
-          - `avgMs: optional number`
+testName: optional string
 
-          - `deltaPct: optional number`
+Name of the traceroute test.
 
-        - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-        - `overTime: optional object { timePeriod, values }`
+time\_start: optional string
 
-          - `timePeriod: AggregateTimePeriod`
+Timestamp indicating when the traceroute test execution began.
 
-          - `values: array of object { avgMs, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `avgMs: number`
+tunnel\_type: optional string
 
-            - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `method: optional string`
+</details>
 
-      for HTTP, the method to use when running the test
+[Link to this property](#)%20zero_trust.dex.traceroute_test_results.network_path%20%3E%20(model)%20network_path_get_response%20%3E%20(schema)>)
 
-    - `target_policies: optional array of DigitalExperienceMonitor`
+#### DEXTraceroute Tests
 
-      - `id: string`
+##### [Get details and aggregate metrics for a traceroute test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_tests/methods/get)
 
-        API Resource UUID tag.
+GET/accounts/{account\_id}/dex/traceroute-tests/{test\_id}
 
-      - `default: boolean`
+##### [Get percentiles for a traceroute test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_tests/methods/percentiles)
 
-        Whether the policy is the default for the account.
+GET/accounts/{account\_id}/dex/traceroute-tests/{test\_id}/percentiles
 
-      - `name: string`
+##### [Get network path breakdown for a traceroute test](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_tests/methods/network_path)
 
-    - `targeted: optional boolean`
+GET/accounts/{account\_id}/dex/traceroute-tests/{test\_id}/network-path
 
-    - `tracerouteResults: optional object { roundTripTime }`
+##### ModelsExpand Collapse
 
-      - `roundTripTime: object { history, avgMs, overTime }`
+<details>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<summary>
 
-          - `timePeriod: AggregateTimePeriod`
+Traceroute object {host, interval, kind, 5 more }
 
-          - `avgMs: optional number`
+</summary>
 
-          - `deltaPct: optional number`
+host: string
 
-        - `avgMs: optional number`
+The host of the Traceroute synthetic application test.
 
-        - `overTime: optional object { timePeriod, values }`
+<a href="#">Link to this property</a>
 
-          - `timePeriod: AggregateTimePeriod`
+interval: string
 
-          - `values: array of object { avgMs, timestamp }`
+The interval at which the Traceroute synthetic application test is set to run.
 
-            - `avgMs: number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: string`
+kind: "traceroute"
 
-    - `tracerouteResultsByColo: optional array of object { colo, roundTripTime }`
+<a href="#">Link to this property</a>
 
-      - `colo: string`
+name: string
 
-        Cloudflare colo
+The name of the Traceroute synthetic application test.
 
-      - `roundTripTime: object { history, avgMs, overTime }`
+<a href="#">Link to this property</a>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<details>
 
-          - `timePeriod: AggregateTimePeriod`
+<summary>
 
-          - `avgMs: optional number`
+target\_policies: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20digital_experience_monitor%20%3E%20(schema)">DigitalExperienceMonitor</a> { id, default, name }
 
-          - `deltaPct: optional number`
+</summary>
 
-        - `avgMs: optional number`
+id: string
 
-        - `overTime: optional object { timePeriod, values }`
+API Resource UUID tag.
 
-          - `timePeriod: AggregateTimePeriod`
+maxLength36
 
-          - `values: array of object { avgMs, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `avgMs: number`
+default: boolean
 
-            - `timestamp: string`
+Whether the policy is the default for the account.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/tests/overview \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+name: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "overviewMetrics": {
-      "testsTotal": 0,
-      "avgHttpAvailabilityPct": 0,
-      "avgTracerouteAvailabilityPct": 0
-    },
-    "tests": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created": "created",
-        "description": "description",
-        "enabled": true,
-        "host": "host",
-        "interval": "interval",
-        "kind": "http",
-        "name": "name",
-        "updated": "updated",
-        "httpResults": {
-          "resourceFetchTime": {
-            "history": [
-              {
-                "timePeriod": {
-                  "units": "hours",
-                  "value": 0
-                },
-                "avgMs": 0,
-                "deltaPct": 0
-              }
-            ],
-            "avgMs": 0,
-            "overTime": {
-              "timePeriod": {
-                "units": "hours",
-                "value": 0
-              },
-              "values": [
-                {
-                  "avgMs": 0,
-                  "timestamp": "timestamp"
-                }
-              ]
-            }
-          }
-        },
-        "httpResultsByColo": [
-          {
-            "colo": "SJC",
-            "resourceFetchTime": {
-              "history": [
-                {
-                  "timePeriod": {
-                    "units": "hours",
-                    "value": 0
-                  },
-                  "avgMs": 0,
-                  "deltaPct": 0
-                }
-              ],
-              "avgMs": 0,
-              "overTime": {
-                "timePeriod": {
-                  "units": "hours",
-                  "value": 0
-                },
-                "values": [
-                  {
-                    "avgMs": 0,
-                    "timestamp": "timestamp"
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "method": "method",
-        "target_policies": [
-          {
-            "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-            "default": true,
-            "name": "name"
-          }
-        ],
-        "targeted": true,
-        "tracerouteResults": {
-          "roundTripTime": {
-            "history": [
-              {
-                "timePeriod": {
-                  "units": "hours",
-                  "value": 0
-                },
-                "avgMs": 0,
-                "deltaPct": 0
-              }
-            ],
-            "avgMs": 0,
-            "overTime": {
-              "timePeriod": {
-                "units": "hours",
-                "value": 0
-              },
-              "values": [
-                {
-                  "avgMs": 0,
-                  "timestamp": "timestamp"
-                }
-              ]
-            }
-          }
-        },
-        "tracerouteResultsByColo": [
-          {
-            "colo": "SJC",
-            "roundTripTime": {
-              "history": [
-                {
-                  "timePeriod": {
-                    "units": "hours",
-                    "value": 0
-                  },
-                  "avgMs": 0,
-                  "deltaPct": 0
-                }
-              ],
-              "avgMs": 0,
-              "overTime": {
-                "timePeriod": {
-                  "units": "hours",
-                  "value": 0
-                },
-                "values": [
-                  {
-                    "avgMs": 0,
-                    "timestamp": "timestamp"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Aggregate Time Period
+targeted: optional boolean
 
-- `AggregateTimePeriod object { units, value }`
+<a href="#">Link to this property</a>
 
-  - `units: "hours" or "days" or "testRuns"`
+<details>
 
-    - `"hours"`
+<summary>
 
-    - `"days"`
+tracerouteStats: optional object {availabilityPct, hopsCount, packetLossPct, 2 more }
 
-    - `"testRuns"`
+</summary>
 
-  - `value: number`
+<details>
 
-### Tests
+<summary>
 
-- `Tests object { overviewMetrics, tests }`
+availabilityPct: object {slots, avg, max, min }
 
-  - `overviewMetrics: object { testsTotal, avgHttpAvailabilityPct, avgTracerouteAvailabilityPct }`
+</summary>
 
-    - `testsTotal: number`
+<details>
 
-      number of tests.
+<summary>
 
-    - `avgHttpAvailabilityPct: optional number`
+slots: array of object {timestamp, value }
 
-      percentage availability for all HTTP test results in response.
+</summary>
 
-    - `avgTracerouteAvailabilityPct: optional number`
+timestamp: string
 
-      percentage availability for all traceroutes results in response.
+<a href="#">Link to this property</a>
 
-  - `tests: array of object { id, created, description, 13 more }`
+value: number
 
-    array of test results objects.
+formatfloat
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      API Resource UUID tag.
+</details>
 
-    - `created: string`
+<a href="#">Link to this property</a>
 
-      date the test was created.
+avg: optional number
 
-    - `description: string`
+average observed in the time period.
 
-      the test description defined during configuration
+formatfloat
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      if true, then the test will run on targeted devices. Else, the test will not run.
+max: optional number
 
-    - `host: string`
+highest observed in the time period.
 
-    - `interval: string`
+formatfloat
 
-      The interval at which the synthetic application test is set to run.
+<a href="#">Link to this property</a>
 
-    - `kind: "http" or "traceroute"`
+min: optional number
 
-      test type, http or traceroute
+lowest observed in the time period.
 
-      - `"http"`
+formatfloat
 
-      - `"traceroute"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      name given to this test
+<a href="#">Link to this property</a>
 
-    - `updated: string`
+hopsCount: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-    - `httpResults: optional object { resourceFetchTime }`
+<a href="#">Link to this property</a>
 
-      - `resourceFetchTime: object { history, avgMs, overTime }`
+<details>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<summary>
 
-          - `timePeriod: AggregateTimePeriod`
+packetLossPct: object {slots, avg, max, min }
 
-            - `units: "hours" or "days" or "testRuns"`
+</summary>
 
-              - `"hours"`
+<details>
 
-              - `"days"`
+<summary>
 
-              - `"testRuns"`
+slots: array of object {timestamp, value }
 
-            - `value: number`
+</summary>
 
-          - `avgMs: optional number`
+timestamp: string
 
-          - `deltaPct: optional number`
+<a href="#">Link to this property</a>
 
-        - `avgMs: optional number`
+value: number
 
-        - `overTime: optional object { timePeriod, values }`
+formatfloat
 
-          - `timePeriod: AggregateTimePeriod`
+<a href="#">Link to this property</a>
 
-          - `values: array of object { avgMs, timestamp }`
+</details>
 
-            - `avgMs: number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: string`
+avg: optional number
 
-    - `httpResultsByColo: optional array of object { colo, resourceFetchTime }`
+average observed in the time period.
 
-      - `colo: string`
+formatfloat
 
-        Cloudflare colo
+<a href="#">Link to this property</a>
 
-      - `resourceFetchTime: object { history, avgMs, overTime }`
+max: optional number
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+highest observed in the time period.
 
-          - `timePeriod: AggregateTimePeriod`
+formatfloat
 
-          - `avgMs: optional number`
+<a href="#">Link to this property</a>
 
-          - `deltaPct: optional number`
+min: optional number
 
-        - `avgMs: optional number`
+lowest observed in the time period.
 
-        - `overTime: optional object { timePeriod, values }`
+formatfloat
 
-          - `timePeriod: AggregateTimePeriod`
+<a href="#">Link to this property</a>
 
-          - `values: array of object { avgMs, timestamp }`
+</details>
 
-            - `avgMs: number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: string`
+roundTripTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-    - `method: optional string`
+<a href="#">Link to this property</a>
 
-      for HTTP, the method to use when running the test
+uniqueDevicesTotal: number
 
-    - `target_policies: optional array of DigitalExperienceMonitor`
+Count of unique devices that have run this test in the given time period.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        API Resource UUID tag.
+</details>
 
-      - `default: boolean`
+<a href="#">Link to this property</a>
 
-        Whether the policy is the default for the account.
+<details>
 
-      - `name: string`
+<summary>
 
-    - `targeted: optional boolean`
+tracerouteStatsByColo: optional array of object {availabilityPct, colo, hopsCount, 3 more }
 
-    - `tracerouteResults: optional object { roundTripTime }`
+</summary>
 
-      - `roundTripTime: object { history, avgMs, overTime }`
+<details>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+<summary>
 
-          - `timePeriod: AggregateTimePeriod`
+availabilityPct: object {slots, avg, max, min }
 
-          - `avgMs: optional number`
+</summary>
 
-          - `deltaPct: optional number`
+<details>
 
-        - `avgMs: optional number`
+<summary>
 
-        - `overTime: optional object { timePeriod, values }`
+slots: array of object {timestamp, value }
 
-          - `timePeriod: AggregateTimePeriod`
+</summary>
 
-          - `values: array of object { avgMs, timestamp }`
+timestamp: string
 
-            - `avgMs: number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: string`
+value: number
 
-    - `tracerouteResultsByColo: optional array of object { colo, roundTripTime }`
+formatfloat
 
-      - `colo: string`
+<a href="#">Link to this property</a>
 
-        Cloudflare colo
+</details>
 
-      - `roundTripTime: object { history, avgMs, overTime }`
+<a href="#">Link to this property</a>
 
-        - `history: array of object { timePeriod, avgMs, deltaPct }`
+avg: optional number
 
-          - `timePeriod: AggregateTimePeriod`
+average observed in the time period.
 
-          - `avgMs: optional number`
+formatfloat
 
-          - `deltaPct: optional number`
+<a href="#">Link to this property</a>
 
-        - `avgMs: optional number`
+max: optional number
 
-        - `overTime: optional object { timePeriod, values }`
+highest observed in the time period.
 
-          - `timePeriod: AggregateTimePeriod`
+formatfloat
 
-          - `values: array of object { avgMs, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `avgMs: number`
+min: optional number
 
-            - `timestamp: string`
+lowest observed in the time period.
 
-# Unique Devices
+formatfloat
 
-## Get count of devices targeted
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dex/tests/unique-devices`
+</details>
 
-Returns unique count of devices that have run synthetic application monitoring tests in the past 7 days.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+colo: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+hopsCount: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `deviceId: optional array of string`
+<details>
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+<summary>
 
-- `testName: optional string`
+packetLossPct: object {slots, avg, max, min }
 
-  Optionally filter results by test name.
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+slots: array of object {timestamp, value }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+timestamp: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+value: number
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatfloat
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+avg: optional number
 
-    - `pointer: optional string`
+average observed in the time period.
 
-- `success: true`
+formatfloat
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+max: optional number
 
-- `result: optional UniqueDevices`
+highest observed in the time period.
 
-  - `uniqueDevicesTotal: number`
+formatfloat
 
-    total number of unique devices
+<a href="#">Link to this property</a>
 
-### Example
+min: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/tests/unique-devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+lowest observed in the time period.
 
-#### Response
+formatfloat
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "uniqueDevicesTotal": 0
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Unique Devices
+<a href="#">Link to this property</a>
 
-- `UniqueDevices object { uniqueDevicesTotal }`
+roundTripTimeMs: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex.http_tests.percentiles%20%3E%20(model)%20test_stat_over_time%20%3E%20(schema)">TestStatOverTime</a> { slots, avg, max, min }
 
-  - `uniqueDevicesTotal: number`
+<a href="#">Link to this property</a>
 
-    total number of unique devices
+uniqueDevicesTotal: number
 
-# Traceroute Test Results
+Count of unique devices that have run this test in the given time period.
 
-# Network Path
+<a href="#">Link to this property</a>
 
-## Get details for a specific traceroute test run
+</details>
 
-**get** `/accounts/{account_id}/dex/traceroute-test-results/{test_result_id}/network-path`
+<a href="#">Link to this property</a>
 
-Get a breakdown of hops and performance metrics for a specific traceroute test run
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(model)%20traceroute%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Unique identifier linked to an account.
+<summary>
 
-- `test_result_id: string`
+TracerouteTestPercentilesResponse object {hopsCount, packetLossPct, roundTripTimeMs }
 
-  API Resource UUID tag.
+</summary>
 
-### Returns
+hopsCount: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+packetLossPct: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+roundTripTimeMs: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dex%20%3E%20(model)%20percentiles%20%3E%20(schema)">Percentiles</a> { p50, p90, p95, p99 }
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dex.traceroute_tests%20%3E%20(model)%20traceroute_test_percentiles_response%20%3E%20(schema)>)
 
-  - `code: number`
+#### DEXRules
 
-  - `message: string`
+##### [Get DEX Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/get)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/dex/rules/{rule\_id}
 
-  - `source: optional object { pointer }`
+##### [Delete a DEX Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/delete)
 
-    - `pointer: optional string`
+DELETE/accounts/{account\_id}/dex/rules/{rule\_id}
 
-- `success: true`
+##### [Update a DEX Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/update)
 
-  Whether the API call was successful.
+PATCH/accounts/{account\_id}/dex/rules/{rule\_id}
 
-  - `true`
+##### [Create a DEX Rule](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/create)
 
-- `result: optional object { hops, resultId, colo, 6 more }`
+POST/accounts/{account\_id}/dex/rules
 
-  - `hops: array of object { ttl, asn, aso, 6 more }`
+##### [List DEX Rules](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/rules/methods/list)
 
-    An array of the hops taken by the device to reach the end destination.
+GET/accounts/{account\_id}/dex/rules
 
-    - `ttl: number`
+##### ModelsExpand Collapse
 
-    - `asn: optional number`
+<details>
 
-    - `aso: optional string`
+<summary>
 
-    - `ipAddress: optional string`
+RuleGetResponse object {id, created\_at, match, 4 more }
 
-    - `location: optional object { city, state, zip }`
+</summary>
 
-      - `city: optional string`
+id: string
 
-      - `state: optional string`
+API Resource UUID tag.
 
-      - `zip: optional string`
+maxLength36
 
-    - `mile: optional "client-to-app" or "client-to-cf-egress" or "client-to-cf-ingress" or "client-to-isp"`
+<a href="#">Link to this property</a>
 
-      - `"client-to-app"`
+created\_at: string
 
-      - `"client-to-cf-egress"`
+<a href="#">Link to this property</a>
 
-      - `"client-to-cf-ingress"`
+match: string
 
-      - `"client-to-isp"`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+name: string
 
-    - `packetLossPct: optional number`
+<a href="#">Link to this property</a>
 
-    - `rttMs: optional number`
+description: optional string
 
-  - `resultId: string`
+<a href="#">Link to this property</a>
 
-    API Resource UUID tag.
+<details>
 
-  - `colo: optional string`
+<summary>
 
-    Cloudflare colo airport code.
+targeted\_tests: optional array of object {data, enabled, name, test\_id }
 
-  - `deviceName: optional string`
+</summary>
 
-    Name of the device associated with this network path response.
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-  - `execution_context: optional "EXECUTION_CONTEXT_INVALID" or "OUT_OF_TUNNEL" or "IN_TUNNEL"`
+The configuration object which contains the details for the WARP client to conduct the test.
 
-    Whether the test was run inside or outside of the WARP tunnel.
+<a href="#">Link to this property</a>
 
-    - `"EXECUTION_CONTEXT_INVALID"`
+enabled: boolean
 
-    - `"OUT_OF_TUNNEL"`
+<a href="#">Link to this property</a>
 
-    - `"IN_TUNNEL"`
+name: string
 
-  - `testId: optional string`
+<a href="#">Link to this property</a>
 
-    API Resource UUID tag.
+test\_id: string
 
-  - `testName: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the traceroute test.
+</details>
 
-  - `time_start: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp indicating when the traceroute test execution began.
+updated\_at: optional string
 
-  - `tunnel_type: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-test-results/$TEST_RESULT_ID/network-path \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_get_response%20%3E%20(schema)>)
 
-#### Response
+RuleDeleteResponse = boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "hops": [
-      {
-        "ttl": 0,
-        "asn": 0,
-        "aso": "aso",
-        "ipAddress": "ipAddress",
-        "location": {
-          "city": "city",
-          "state": "state",
-          "zip": "zip"
-        },
-        "mile": "client-to-app",
-        "name": "name",
-        "packetLossPct": 0,
-        "rttMs": 0
-      }
-    ],
-    "resultId": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "colo": "SJC",
-    "deviceName": "deviceName",
-    "execution_context": "EXECUTION_CONTEXT_INVALID",
-    "testId": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "testName": "testName",
-    "time_start": "2023-07-16 15:00:00+00",
-    "tunnel_type": "tunnel_type"
-  }
-}
-```
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_delete_response%20%3E%20(schema)>)
 
-## Domain Types
+<details>
 
-### Network Path Get Response
+<summary>
 
-- `NetworkPathGetResponse object { hops, resultId, colo, 6 more }`
+RuleUpdateResponse object {id, created\_at, match, 4 more }
 
-  - `hops: array of object { ttl, asn, aso, 6 more }`
+</summary>
 
-    An array of the hops taken by the device to reach the end destination.
+id: string
 
-    - `ttl: number`
+API Resource UUID tag.
 
-    - `asn: optional number`
+maxLength36
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `ipAddress: optional string`
+created\_at: string
 
-    - `location: optional object { city, state, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+match: string
 
-      - `state: optional string`
+<a href="#">Link to this property</a>
 
-      - `zip: optional string`
+name: string
 
-    - `mile: optional "client-to-app" or "client-to-cf-egress" or "client-to-cf-ingress" or "client-to-isp"`
+<a href="#">Link to this property</a>
 
-      - `"client-to-app"`
+description: optional string
 
-      - `"client-to-cf-egress"`
+<a href="#">Link to this property</a>
 
-      - `"client-to-cf-ingress"`
+<details>
 
-      - `"client-to-isp"`
+<summary>
 
-    - `name: optional string`
+targeted\_tests: optional array of object {data, enabled, name, test\_id }
 
-    - `packetLossPct: optional number`
+</summary>
 
-    - `rttMs: optional number`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-  - `resultId: string`
+The configuration object which contains the details for the WARP client to conduct the test.
 
-    API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-  - `colo: optional string`
+enabled: boolean
 
-    Cloudflare colo airport code.
+<a href="#">Link to this property</a>
 
-  - `deviceName: optional string`
+name: string
 
-    Name of the device associated with this network path response.
+<a href="#">Link to this property</a>
 
-  - `execution_context: optional "EXECUTION_CONTEXT_INVALID" or "OUT_OF_TUNNEL" or "IN_TUNNEL"`
+test\_id: string
 
-    Whether the test was run inside or outside of the WARP tunnel.
+<a href="#">Link to this property</a>
 
-    - `"EXECUTION_CONTEXT_INVALID"`
+</details>
 
-    - `"OUT_OF_TUNNEL"`
+<a href="#">Link to this property</a>
 
-    - `"IN_TUNNEL"`
+updated\_at: optional string
 
-  - `testId: optional string`
+<a href="#">Link to this property</a>
 
-    API Resource UUID tag.
+</details>
 
-  - `testName: optional string`
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_update_response%20%3E%20(schema)>)
 
-    Name of the traceroute test.
+<details>
 
-  - `time_start: optional string`
+<summary>
 
-    Timestamp indicating when the traceroute test execution began.
+RuleCreateResponse object {id, created\_at, match, 4 more }
 
-  - `tunnel_type: optional string`
+</summary>
 
-# Traceroute Tests
+id: string
 
-## Get details and aggregate metrics for a traceroute test
+API Resource UUID tag.
 
-**get** `/accounts/{account_id}/dex/traceroute-tests/{test_id}`
+maxLength36
 
-Get test details and aggregate performance metrics for a traceroute test for a given time period between 1 hour and 7 days.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+created\_at: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+match: string
 
-- `test_id: string`
+<a href="#">Link to this property</a>
 
-  API Resource UUID tag.
+name: string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `from: string`
+description: optional string
 
-  Start time for aggregate metrics in ISO ms.
+<a href="#">Link to this property</a>
 
-- `interval: "minute" or "hour"`
+<details>
 
-  Time interval for aggregate time slots.
+<summary>
 
-  - `"minute"`
+targeted\_tests: optional array of object {data, enabled, name, test\_id }
 
-  - `"hour"`
+</summary>
 
-- `to: string`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-  End time for aggregate metrics in ISO ms.
+The configuration object which contains the details for the WARP client to conduct the test.
 
-- `colo: optional string`
+<a href="#">Link to this property</a>
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+enabled: boolean
 
-- `deviceId: optional array of string`
+<a href="#">Link to this property</a>
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+name: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+test\_id: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+updated\_at: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_create_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+RuleListResponse object {rules }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+rules: optional array of object {id, created\_at, match, 4 more }
 
-- `result: optional Traceroute`
+</summary>
 
-  - `host: string`
+id: string
 
-    The host of the Traceroute synthetic application test.
+API Resource UUID tag.
 
-  - `interval: string`
+maxLength36
 
-    The interval at which the Traceroute synthetic application test is set to run.
+<a href="#">Link to this property</a>
 
-  - `kind: "traceroute"`
+created\_at: string
 
-    - `"traceroute"`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+match: string
 
-    The name of the Traceroute synthetic application test.
+<a href="#">Link to this property</a>
 
-  - `target_policies: optional array of DigitalExperienceMonitor`
+name: string
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      API Resource UUID tag.
+description: optional string
 
-    - `default: boolean`
+<a href="#">Link to this property</a>
 
-      Whether the policy is the default for the account.
+<details>
 
-    - `name: string`
+<summary>
 
-  - `targeted: optional boolean`
+targeted\_tests: optional array of object {data, enabled, name, test\_id }
 
-  - `tracerouteStats: optional object { availabilityPct, hopsCount, packetLossPct, 2 more }`
+</summary>
 
-    - `availabilityPct: object { slots, avg, max, min }`
+data: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.dex_tests%20%3E%20(model)%20schema_data%20%3E%20(schema)">SchemaData</a> { host, kind, method }
 
-      - `slots: array of object { timestamp, value }`
+The configuration object which contains the details for the WARP client to conduct the test.
 
-        - `timestamp: string`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+enabled: boolean
 
-      - `avg: optional number`
+<a href="#">Link to this property</a>
 
-        average observed in the time period.
+name: string
 
-      - `max: optional number`
+<a href="#">Link to this property</a>
 
-        highest observed in the time period.
+test\_id: string
 
-      - `min: optional number`
+<a href="#">Link to this property</a>
 
-        lowest observed in the time period.
+</details>
 
-    - `hopsCount: TestStatOverTime`
+<a href="#">Link to this property</a>
 
-      - `slots: array of object { timestamp, value }`
+updated\_at: optional string
 
-        - `timestamp: string`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+</details>
 
-      - `avg: optional number`
+<a href="#">Link to this property</a>
 
-        average observed in the time period.
+</details>
 
-      - `max: optional number`
+[Link to this property](#)%20zero_trust.dex.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-        highest observed in the time period.
+#### DEXDevices
 
-      - `min: optional number`
+#### DEXDevicesISPs
 
-        lowest observed in the time period.
+##### [List device ISPs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/devices/subresources/isps/methods/list)
 
-    - `packetLossPct: object { slots, avg, max, min }`
+GET/accounts/{account\_id}/dex/devices/{device\_id}/isps
 
-      - `slots: array of object { timestamp, value }`
+##### ModelsExpand Collapse
 
-        - `timestamp: string`
+<details>
 
-        - `value: number`
+<summary>
 
-      - `avg: optional number`
+ISPs object {isps }
 
-        average observed in the time period.
+</summary>
 
-      - `max: optional number`
+<details>
 
-        highest observed in the time period.
+<summary>
 
-      - `min: optional number`
+isps: array of object {test\_id, test\_result\_id, time\_start, ip }
 
-        lowest observed in the time period.
+</summary>
 
-    - `roundTripTimeMs: TestStatOverTime`
+test\_id: string
 
-    - `uniqueDevicesTotal: number`
+The test that generated this result.
 
-      Count of unique devices that have run this test in the given time period.
+<a href="#">Link to this property</a>
 
-  - `tracerouteStatsByColo: optional array of object { availabilityPct, colo, hopsCount, 3 more }`
+test\_result\_id: string
 
-    - `availabilityPct: object { slots, avg, max, min }`
+The specific test result.
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+time\_start: string
 
-        - `value: number`
+Timestamp of when the ISP was observed.
 
-      - `avg: optional number`
+formatdate-time
 
-        average observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `max: optional number`
+<details>
 
-        highest observed in the time period.
+<summary>
 
-      - `min: optional number`
+ip: optional object {address, asn, aso, 4 more }
 
-        lowest observed in the time period.
+IP address information for the ISP hop. Fields marked as PII-gated (<code>name</code>, <code>address</code>, <code>netmask</code>, and all <code>location</code> sub-fields) will be returned as the literal string <code>"REDACTED"</code> for callers that do not have the PII permission. <code>asn</code>, <code>aso</code>, and <code>version</code> are always returned regardless of PII access.
 
-    - `colo: string`
+</summary>
 
-    - `hopsCount: TestStatOverTime`
+address: optional string
 
-    - `packetLossPct: object { slots, avg, max, min }`
+IP address. Returned as <code>"REDACTED"</code> without PII permission.
 
-      - `slots: array of object { timestamp, value }`
+<a href="#">Link to this property</a>
 
-        - `timestamp: string`
+asn: optional number
 
-        - `value: number`
+Autonomous System Number.
 
-      - `avg: optional number`
+<a href="#">Link to this property</a>
 
-        average observed in the time period.
+aso: optional string
 
-      - `max: optional number`
+Autonomous System Organization name.
 
-        highest observed in the time period.
+<a href="#">Link to this property</a>
 
-      - `min: optional number`
+<details>
 
-        lowest observed in the time period.
+<summary>
 
-    - `roundTripTimeMs: TestStatOverTime`
+location: optional object {city, country\_iso, state\_iso, zip }
 
-    - `uniqueDevicesTotal: number`
+Geographic location information. All fields are returned as the literal string <code>"REDACTED"</code> for callers that do not have the PII permission.
 
-      Count of unique devices that have run this test in the given time period.
+</summary>
 
-### Example
+city: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-tests/$TEST_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+City name. Returned as <code>"REDACTED"</code> without PII permission.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "host": "1.1.1.1",
-    "interval": "0h5m0s",
-    "kind": "traceroute",
-    "name": "Atlassian Sign In Page",
-    "target_policies": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "default": true,
-        "name": "name"
-      }
-    ],
-    "targeted": true,
-    "tracerouteStats": {
-      "availabilityPct": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "hopsCount": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "packetLossPct": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "roundTripTimeMs": {
-        "slots": [
-          {
-            "timestamp": "2023-07-16 15:00:00+00",
-            "value": 0
-          }
-        ],
-        "avg": 0,
-        "max": 0,
-        "min": 0
-      },
-      "uniqueDevicesTotal": 57
-    },
-    "tracerouteStatsByColo": [
-      {
-        "availabilityPct": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "colo": "DFW",
-        "hopsCount": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "packetLossPct": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "roundTripTimeMs": {
-          "slots": [
-            {
-              "timestamp": "2023-07-16 15:00:00+00",
-              "value": 0
-            }
-          ],
-          "avg": 0,
-          "max": 0,
-          "min": 0
-        },
-        "uniqueDevicesTotal": 57
-      }
-    ]
-  }
-}
-```
+country\_iso: optional string
 
-## Get percentiles for a traceroute test
+Country ISO code. Returned as <code>"REDACTED"</code> without PII permission.
 
-**get** `/accounts/{account_id}/dex/traceroute-tests/{test_id}/percentiles`
+<a href="#">Link to this property</a>
 
-Get percentiles for a traceroute test for a given time period between 1 hour and 7 days.
+state\_iso: optional string
 
-### Path Parameters
+State/province ISO code. Returned as <code>"REDACTED"</code> without PII permission.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier linked to an account.
+zip: optional string
 
-- `test_id: string`
+ZIP/postal code. Returned as <code>"REDACTED"</code> without PII permission.
 
-  API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `from: string`
+<a href="#">Link to this property</a>
 
-  Start time for the query in ISO (RFC3339 - ISO 8601) format.
+name: optional string
 
-- `to: string`
+Named IP address (reverse DNS hostname when available). Returned as <code>"REDACTED"</code> without PII permission.
 
-  End time for the query in ISO (RFC3339 - ISO 8601) format.
+<a href="#">Link to this property</a>
 
-- `colo: optional string`
+netmask: optional string
 
-  Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.
+Network mask. Returned as <code>"REDACTED"</code> without PII permission.
 
-- `deviceId: optional array of string`
+<a href="#">Link to this property</a>
 
-  Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.
+version: optional number
 
-### Returns
+IP version (<code>1</code> for IPv4, <code>2</code> for IPv6, <code>0</code> if unknown).
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { hopsCount, packetLossPct, roundTripTimeMs }`
-
-  - `hopsCount: optional Percentiles`
-
-    - `p50: optional number`
-
-      p50 observed in the time period.
-
-    - `p90: optional number`
-
-      p90 observed in the time period.
-
-    - `p95: optional number`
-
-      p95 observed in the time period.
-
-    - `p99: optional number`
-
-      p99 observed in the time period.
-
-  - `packetLossPct: optional Percentiles`
-
-  - `roundTripTimeMs: optional Percentiles`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-tests/$TEST_ID/percentiles \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "hopsCount": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "packetLossPct": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    },
-    "roundTripTimeMs": {
-      "p50": 0,
-      "p90": 0,
-      "p95": 0,
-      "p99": 0
-    }
-  }
-}
-```
-
-## Get network path breakdown for a traceroute test
-
-**get** `/accounts/{account_id}/dex/traceroute-tests/{test_id}/network-path`
-
-Get a breakdown of metrics by hop for individual traceroute test runs.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `test_id: string`
-
-  API Resource UUID tag.
-
-### Query Parameters
-
-- `deviceId: string`
-
-  Device to filter traceroute result runs to.
-
-- `from: string`
-
-  Start time for aggregate metrics in ISO ms.
-
-- `interval: "minute" or "hour"`
-
-  Time interval for aggregate time slots.
-
-  - `"minute"`
-
-  - `"hour"`
-
-- `to: string`
-
-  End time for aggregate metrics in ISO ms.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional NetworkPathResponse`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `deviceName: optional string`
-
-    Name of the device that ran the test.
-
-  - `interval: optional string`
-
-    The interval at which the Traceroute synthetic application test is set to run.
-
-  - `kind: optional "traceroute"`
-
-    - `"traceroute"`
-
-  - `name: optional string`
-
-  - `networkPath: optional NetworkPath`
-
-    - `slots: array of object { id, clientToAppRttMs, clientToCfEgressRttMs, 3 more }`
-
-      - `id: string`
-
-        API Resource UUID tag.
-
-      - `clientToAppRttMs: number`
-
-        Round trip time in ms of the client to app mile
-
-      - `clientToCfEgressRttMs: number`
-
-        Round trip time in ms of the client to Cloudflare egress mile
-
-      - `clientToCfIngressRttMs: number`
-
-        Round trip time in ms of the client to Cloudflare ingress mile
-
-      - `timestamp: string`
-
-      - `clientToIspRttMs: optional number`
-
-        Round trip time in ms of the client to ISP mile
-
-    - `sampling: optional object { unit, value }`
-
-      Specifies the sampling applied, if any, to the slots response. When sampled, results shown represent the first test run to the start of each sampling interval.
-
-      - `unit: "hours"`
-
-        - `"hours"`
-
-      - `value: number`
-
-  - `url: optional string`
-
-    The host of the Traceroute synthetic application test.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-tests/$TEST_ID/network-path \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "deviceName": "deviceName",
-    "interval": "0h5m0s",
-    "kind": "traceroute",
-    "name": "name",
-    "networkPath": {
-      "slots": [
-        {
-          "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-          "clientToAppRttMs": 0,
-          "clientToCfEgressRttMs": 0,
-          "clientToCfIngressRttMs": 0,
-          "timestamp": "2023-07-16 15:00:00+00",
-          "clientToIspRttMs": 0
-        }
-      ],
-      "sampling": {
-        "unit": "hours",
-        "value": 0
-      }
-    },
-    "url": "1.1.1.1"
-  }
-}
-```
-
-## Domain Types
-
-### Traceroute
-
-- `Traceroute object { host, interval, kind, 5 more }`
-
-  - `host: string`
-
-    The host of the Traceroute synthetic application test.
-
-  - `interval: string`
-
-    The interval at which the Traceroute synthetic application test is set to run.
-
-  - `kind: "traceroute"`
-
-    - `"traceroute"`
-
-  - `name: string`
-
-    The name of the Traceroute synthetic application test.
-
-  - `target_policies: optional array of DigitalExperienceMonitor`
-
-    - `id: string`
-
-      API Resource UUID tag.
-
-    - `default: boolean`
-
-      Whether the policy is the default for the account.
-
-    - `name: string`
-
-  - `targeted: optional boolean`
-
-  - `tracerouteStats: optional object { availabilityPct, hopsCount, packetLossPct, 2 more }`
-
-    - `availabilityPct: object { slots, avg, max, min }`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `hopsCount: TestStatOverTime`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `packetLossPct: object { slots, avg, max, min }`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `roundTripTimeMs: TestStatOverTime`
-
-    - `uniqueDevicesTotal: number`
-
-      Count of unique devices that have run this test in the given time period.
-
-  - `tracerouteStatsByColo: optional array of object { availabilityPct, colo, hopsCount, 3 more }`
-
-    - `availabilityPct: object { slots, avg, max, min }`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `colo: string`
-
-    - `hopsCount: TestStatOverTime`
-
-    - `packetLossPct: object { slots, avg, max, min }`
-
-      - `slots: array of object { timestamp, value }`
-
-        - `timestamp: string`
-
-        - `value: number`
-
-      - `avg: optional number`
-
-        average observed in the time period.
-
-      - `max: optional number`
-
-        highest observed in the time period.
-
-      - `min: optional number`
-
-        lowest observed in the time period.
-
-    - `roundTripTimeMs: TestStatOverTime`
-
-    - `uniqueDevicesTotal: number`
-
-      Count of unique devices that have run this test in the given time period.
-
-### Traceroute Test Percentiles Response
-
-- `TracerouteTestPercentilesResponse object { hopsCount, packetLossPct, roundTripTimeMs }`
-
-  - `hopsCount: optional Percentiles`
-
-    - `p50: optional number`
-
-      p50 observed in the time period.
-
-    - `p90: optional number`
-
-      p90 observed in the time period.
-
-    - `p95: optional number`
-
-      p95 observed in the time period.
-
-    - `p99: optional number`
-
-      p99 observed in the time period.
-
-  - `packetLossPct: optional Percentiles`
-
-  - `roundTripTimeMs: optional Percentiles`
-
-# Rules
-
-## Get DEX Rule
-
-**get** `/accounts/{account_id}/dex/rules/{rule_id}`
-
-Get details for a DEX Rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `rule_id: string`
-
-  API Resource UUID tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2023-07-16 15:00:00+00",
-    "match": "match",
-    "name": "name",
-    "description": "description",
-    "targeted_tests": [
-      {
-        "data": {
-          "host": "https://dash.cloudflare.com",
-          "kind": "http",
-          "method": "GET"
-        },
-        "enabled": true,
-        "name": "name",
-        "test_id": "test_id"
-      }
-    ],
-    "updated_at": "2023-07-16 15:00:00+00"
-  }
-}
-```
-
-## Delete a DEX Rule
-
-**delete** `/accounts/{account_id}/dex/rules/{rule_id}`
-
-Delete a DEX Rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `rule_id: string`
-
-  API Resource UUID tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": true
-}
-```
-
-## Update a DEX Rule
-
-**patch** `/accounts/{account_id}/dex/rules/{rule_id}`
-
-Update a DEX Rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `rule_id: string`
-
-  API Resource UUID tag.
-
-### Body Parameters
-
-- `description: optional string`
-
-- `match: optional string`
-
-  The wirefilter expression to match.
-
-- `name: optional string`
-
-  The name of the Rule.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2023-07-16 15:00:00+00",
-    "match": "match",
-    "name": "name",
-    "description": "description",
-    "targeted_tests": [
-      {
-        "data": {
-          "host": "https://dash.cloudflare.com",
-          "kind": "http",
-          "method": "GET"
-        },
-        "enabled": true,
-        "name": "name",
-        "test_id": "test_id"
-      }
-    ],
-    "updated_at": "2023-07-16 15:00:00+00"
-  }
-}
-```
-
-## Create a DEX Rule
-
-**post** `/accounts/{account_id}/dex/rules`
-
-Create a DEX Rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-### Body Parameters
-
-- `match: string`
-
-  The wirefilter expression to match.
-
-- `name: string`
-
-  The name of the Rule.
-
-- `description: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "match": "match",
-          "name": "name"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2023-07-16 15:00:00+00",
-    "match": "match",
-    "name": "name",
-    "description": "description",
-    "targeted_tests": [
-      {
-        "data": {
-          "host": "https://dash.cloudflare.com",
-          "kind": "http",
-          "method": "GET"
-        },
-        "enabled": true,
-        "name": "name",
-        "test_id": "test_id"
-      }
-    ],
-    "updated_at": "2023-07-16 15:00:00+00"
-  }
-}
-```
-
-## List DEX Rules
-
-**get** `/accounts/{account_id}/dex/rules`
-
-List DEX Rules.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-### Query Parameters
-
-- `page: number`
-
-  Page number of paginated results.
-
-- `per_page: number`
-
-  Number of results per page.
-
-- `name: optional string`
-
-  Filter results by rule name.
-
-- `sort_by: optional "name" or "created_at" or "updated_at"`
-
-  Which property to sort results by.
-
-  - `"name"`
-
-  - `"created_at"`
-
-  - `"updated_at"`
-
-- `sort_order: optional "ASC" or "DESC"`
-
-  Sort direction for sort_by property.
-
-  - `"ASC"`
-
-  - `"DESC"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { rules }`
-
-  - `rules: optional array of object { id, created_at, match, 4 more }`
-
-    - `id: string`
-
-      API Resource UUID tag.
-
-    - `created_at: string`
-
-    - `match: string`
-
-    - `name: string`
-
-    - `description: optional string`
-
-    - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-      - `data: object { host, kind, method }`
-
-        The configuration object which contains the details for the WARP client to conduct the test.
-
-        - `host: string`
-
-          The desired endpoint to test.
-
-        - `kind: "http" or "traceroute"`
-
-          The type of test.
-
-          - `"http"`
-
-          - `"traceroute"`
-
-        - `method: optional "GET"`
-
-          The HTTP request method type.
-
-          - `"GET"`
-
-      - `enabled: boolean`
-
-      - `name: string`
-
-      - `test_id: string`
-
-    - `updated_at: optional string`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "rules": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created_at": "2023-07-16 15:00:00+00",
-        "match": "match",
-        "name": "name",
-        "description": "description",
-        "targeted_tests": [
-          {
-            "data": {
-              "host": "https://dash.cloudflare.com",
-              "kind": "http",
-              "method": "GET"
-            },
-            "enabled": true,
-            "name": "name",
-            "test_id": "test_id"
-          }
-        ],
-        "updated_at": "2023-07-16 15:00:00+00"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Rule Get Response
-
-- `RuleGetResponse object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Rule Delete Response
-
-- `RuleDeleteResponse = boolean`
-
-### Rule Update Response
-
-- `RuleUpdateResponse object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Rule Create Response
-
-- `RuleCreateResponse object { id, created_at, match, 4 more }`
-
-  - `id: string`
-
-    API Resource UUID tag.
-
-  - `created_at: string`
-
-  - `match: string`
-
-  - `name: string`
-
-  - `description: optional string`
-
-  - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-    - `data: object { host, kind, method }`
-
-      The configuration object which contains the details for the WARP client to conduct the test.
-
-      - `host: string`
-
-        The desired endpoint to test.
-
-      - `kind: "http" or "traceroute"`
-
-        The type of test.
-
-        - `"http"`
-
-        - `"traceroute"`
-
-      - `method: optional "GET"`
-
-        The HTTP request method type.
-
-        - `"GET"`
-
-    - `enabled: boolean`
-
-    - `name: string`
-
-    - `test_id: string`
-
-  - `updated_at: optional string`
-
-### Rule List Response
-
-- `RuleListResponse object { rules }`
-
-  - `rules: optional array of object { id, created_at, match, 4 more }`
-
-    - `id: string`
-
-      API Resource UUID tag.
-
-    - `created_at: string`
-
-    - `match: string`
-
-    - `name: string`
-
-    - `description: optional string`
-
-    - `targeted_tests: optional array of object { data, enabled, name, test_id }`
-
-      - `data: object { host, kind, method }`
-
-        The configuration object which contains the details for the WARP client to conduct the test.
-
-        - `host: string`
-
-          The desired endpoint to test.
-
-        - `kind: "http" or "traceroute"`
-
-          The type of test.
-
-          - `"http"`
-
-          - `"traceroute"`
-
-        - `method: optional "GET"`
-
-          The HTTP request method type.
-
-          - `"GET"`
-
-      - `enabled: boolean`
-
-      - `name: string`
-
-      - `test_id: string`
-
-    - `updated_at: optional string`
-
-# Devices
-
-# ISPs
-
-## List device ISPs
-
-**get** `/accounts/{account_id}/dex/devices/{device_id}/isps`
-
-List ISP information observed for a specific device during traceroute tests.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `device_id: string`
-
-  API Resource UUID tag.
-
-### Query Parameters
-
-- `per_page: number`
-
-  Number of items per page
-
-- `cursor: optional string`
-
-  Cursor for cursor-based pagination. Mutually exclusive with page.
-
-- `from: optional string`
-
-  Start time for the query in ISO 8601 format.
-
-- `page: optional number`
-
-  Page number of paginated results. Mutually exclusive with cursor.
-
-- `sort_by: optional "time_start"`
-
-  The field to sort results by.
-
-  - `"time_start"`
-
-- `sort_order: optional "ASC" or "DESC"`
-
-  The order to sort results.
-
-  - `"ASC"`
-
-  - `"DESC"`
-
-- `to: optional string`
-
-  End time for the query in ISO 8601 format.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional ISPs`
-
-  - `isps: array of object { test_id, test_result_id, time_start, ip }`
-
-    - `test_id: string`
-
-      The test that generated this result.
-
-    - `test_result_id: string`
-
-      The specific test result.
-
-    - `time_start: string`
-
-      Timestamp of when the ISP was observed.
-
-    - `ip: optional object { address, asn, aso, 4 more }`
-
-      IP address information for the ISP hop. Fields marked as PII-gated (`name`, `address`, `netmask`, and all `location` sub-fields) will be returned as the literal string `"REDACTED"` for callers that do not have the PII permission. `asn`, `aso`, and `version` are always returned regardless of PII access.
-
-      - `address: optional string`
-
-        IP address. Returned as `"REDACTED"` without PII permission.
-
-      - `asn: optional number`
-
-        Autonomous System Number.
-
-      - `aso: optional string`
-
-        Autonomous System Organization name.
-
-      - `location: optional object { city, country_iso, state_iso, zip }`
-
-        Geographic location information. All fields are returned as the literal string `"REDACTED"` for callers that do not have the PII permission.
-
-        - `city: optional string`
-
-          City name. Returned as `"REDACTED"` without PII permission.
-
-        - `country_iso: optional string`
-
-          Country ISO code. Returned as `"REDACTED"` without PII permission.
-
-        - `state_iso: optional string`
-
-          State/province ISO code. Returned as `"REDACTED"` without PII permission.
-
-        - `zip: optional string`
-
-          ZIP/postal code. Returned as `"REDACTED"` without PII permission.
-
-      - `name: optional string`
-
-        Named IP address (reverse DNS hostname when available). Returned as `"REDACTED"` without PII permission.
-
-      - `netmask: optional string`
-
-        Network mask. Returned as `"REDACTED"` without PII permission.
-
-      - `version: optional number`
-
-        IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/devices/$DEVICE_ID/isps \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "isps": [
-      {
-        "test_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "test_result_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-        "time_start": "2024-06-01T12:00:00Z",
-        "ip": {
-          "address": "203.0.113.1",
-          "asn": 13335,
-          "aso": "CLOUDFLARENET",
-          "location": {
-            "city": "San Francisco",
-            "country_iso": "US",
-            "state_iso": "CA",
-            "zip": "94107"
-          },
-          "name": "isp-gateway.example.com",
-          "netmask": "255.255.255.0",
-          "version": 1
-        }
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### ISPs
-
-- `ISPs object { isps }`
-
-  - `isps: array of object { test_id, test_result_id, time_start, ip }`
-
-    - `test_id: string`
-
-      The test that generated this result.
-
-    - `test_result_id: string`
-
-      The specific test result.
-
-    - `time_start: string`
-
-      Timestamp of when the ISP was observed.
-
-    - `ip: optional object { address, asn, aso, 4 more }`
-
-      IP address information for the ISP hop. Fields marked as PII-gated (`name`, `address`, `netmask`, and all `location` sub-fields) will be returned as the literal string `"REDACTED"` for callers that do not have the PII permission. `asn`, `aso`, and `version` are always returned regardless of PII access.
-
-      - `address: optional string`
-
-        IP address. Returned as `"REDACTED"` without PII permission.
-
-      - `asn: optional number`
-
-        Autonomous System Number.
-
-      - `aso: optional string`
-
-        Autonomous System Organization name.
-
-      - `location: optional object { city, country_iso, state_iso, zip }`
-
-        Geographic location information. All fields are returned as the literal string `"REDACTED"` for callers that do not have the PII permission.
-
-        - `city: optional string`
-
-          City name. Returned as `"REDACTED"` without PII permission.
-
-        - `country_iso: optional string`
-
-          Country ISO code. Returned as `"REDACTED"` without PII permission.
-
-        - `state_iso: optional string`
-
-          State/province ISO code. Returned as `"REDACTED"` without PII permission.
-
-        - `zip: optional string`
-
-          ZIP/postal code. Returned as `"REDACTED"` without PII permission.
-
-      - `name: optional string`
-
-        Named IP address (reverse DNS hostname when available). Returned as `"REDACTED"` without PII permission.
-
-      - `netmask: optional string`
-
-        Network mask. Returned as `"REDACTED"` without PII permission.
-
-      - `version: optional number`
-
-        IP version (`1` for IPv4, `2` for IPv6, `0` if unknown).
+[Link to this property](#)%20zero_trust.dex.devices.isps%20%3E%20(model)%20isps%20%3E%20(schema)>)

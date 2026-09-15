@@ -1,857 +1,557 @@
+---
+title: Hostname Certificates
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Origin TLS Client Auth](https://developers.cloudflare.com/api/resources/origin_tls_client_auth)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Hostname Certificates
 
-## List Certificates
+##### [List Certificates](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/hostname_certificates/methods/list)
 
-**get** `/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates`
+GET/zones/{zone\_id}/origin\_tls\_client\_auth/hostnames/certificates
 
-Lists all client certificates configured for per-hostname authenticated origin pulls on the zone.
+##### [Get the Hostname Client Certificate](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/hostname_certificates/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/origin\_tls\_client\_auth/hostnames/certificates/{certificate\_id}
 
-- `zone_id: string`
+##### [Upload a Hostname Client Certificate](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/hostname_certificates/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/origin\_tls\_client\_auth/hostnames/certificates
 
-### Returns
+##### [Delete Hostname Client Certificate](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/hostname_certificates/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/zones/{zone\_id}/origin\_tls\_client\_auth/hostnames/certificates/{certificate\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+Certificate object {id, certificate, expires\_on, 5 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+Identifier.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+certificate: optional string
 
-    - `pointer: optional string`
+The hostname certificate.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+expires\_on: optional string
 
-  - `true`
+The date when the certificate expires.
 
-- `result: optional array of object { id, certificate, expires_on, 5 more }`
+formatdate-time
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+issuer: optional string
 
-  - `certificate: optional string`
+The certificate authority that issued the certificate.
 
-    The hostname certificate.
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+serial\_number: optional string
 
-    The date when the certificate expires.
+The serial number on the uploaded certificate.
 
-  - `issuer: optional string`
+<a href="#">Link to this property</a>
 
-    The certificate authority that issued the certificate.
+signature: optional string
 
-  - `serial_number: optional string`
+The type of hash used for the certificate.
 
-    The serial number on the uploaded certificate.
+<a href="#">Link to this property</a>
 
-  - `signature: optional string`
+<details>
 
-    The type of hash used for the certificate.
+<summary>
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 4 more
 
-    Status of the certificate or the association.
+Status of the certificate or the association.
 
-    - `"initializing"`
+</summary>
 
-    - `"pending_deployment"`
+One of the following:
 
-    - `"pending_deletion"`
+"initializing"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+"pending\_deployment"
 
-    - `"deployment_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deletion_timed_out"`
+"pending\_deletion"
 
-  - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-    The time when the certificate was uploaded.
+"active"
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+"deleted"
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"deployment\_timed\_out"
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"deletion\_timed\_out"
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+uploaded\_on: optional string
 
-    The number of total pages in the entire result set.
+The time when the certificate was uploaded.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/hostnames/certificates \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "certificate": "-----BEGIN CERTIFICATE-----\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV\nBAYTAkFVMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX\naWRnaXRzIFB0eSBMdGQwHhcNMTYwODI0MTY0MzAxWhcNMTYxMTIyMTY0MzAxWjBF\nMQswCQYDVQQGEwJBVTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50\nZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmGdtcGbg/1\nCGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKnabIRuGvB\nKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpidtnKX/a+5\n0GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+pyFxIXjbEI\ndZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pEewooaeO2\nizNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABo4GnMIGkMB0GA1UdDgQWBBT/LbE4\n9rWf288N6sJA5BRb6FJIGDB1BgNVHSMEbjBsgBT/LbE49rWf288N6sJA5BRb6FJI\nGKFJpEcwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNV\nBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZIIJAMHAwfXZ5/PWMAwGA1UdEwQF\nMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHHFwl0tH0quUYZYO0dZYt4R7SJ0pCm2\n2satiyzHl4OnXcHDpekAo7/a09c6Lz6AU83cKy/+x3/djYHXWba7HpEu0dR3ugQP\nMlr4zrhd9xKZ0KZKiYmtJH+ak4OM4L3FbT0owUZPyjLSlhMtJVcoRp5CJsjAMBUG\nSvD8RX+T01wzox/Qb+lnnNnOlaWpqu8eoOenybxKp1a9ULzIVvN/LAcc+14vioFq\n2swRWtmocBAs8QR9n4uvbpiYvS8eYueDCWMM4fvFfBhaDZ3N9IbtySh3SpFdQDhw\nYbjM2rxXiyLGxB4Bol7QTv4zHif7Zt89FReT/NBy4rzaskDJY5L6xmY=\n-----END CERTIFICATE-----\n",
-      "expires_on": "2100-01-01T05:20:00Z",
-      "issuer": "GlobalSign",
-      "serial_number": "6743787633689793699141714808227354901",
-      "signature": "SHA256WithRSA",
-      "status": "active",
-      "uploaded_on": "2019-10-28T18:11:23.37411Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+[Link to this property](#)%20origin_tls_client_auth.hostname_certificates%20%3E%20(model)%20certificate%20%3E%20(schema)>)
 
-## Get the Hostname Client Certificate
+<details>
 
-**get** `/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates/{certificate_id}`
+<summary>
 
-Get the certificate by ID to be used for client authentication on a hostname.
+HostnameCertificateListResponse object {id, certificate, expires\_on, 5 more }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: optional string
 
-  Identifier.
+Identifier.
 
-- `certificate_id: string`
+maxLength32
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+certificate: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The hostname certificate.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+expires\_on: optional string
 
-  - `documentation_url: optional string`
+The date when the certificate expires.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+issuer: optional string
 
-  - `code: number`
+The certificate authority that issued the certificate.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+serial\_number: optional string
 
-  - `source: optional object { pointer }`
+The serial number on the uploaded certificate.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+signature: optional string
 
-  Whether the API call was successful.
+The type of hash used for the certificate.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, certificate, expires_on, 5 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Identifier.
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 4 more
 
-  - `certificate: optional string`
+Status of the certificate or the association.
 
-    The hostname certificate.
+</summary>
 
-  - `expires_on: optional string`
+One of the following:
 
-    The date when the certificate expires.
+"initializing"
 
-  - `issuer: optional string`
+<a href="#">Link to this property</a>
 
-    The certificate authority that issued the certificate.
+"pending\_deployment"
 
-  - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    The serial number on the uploaded certificate.
+"pending\_deletion"
 
-  - `signature: optional string`
+<a href="#">Link to this property</a>
 
-    The type of hash used for the certificate.
+"active"
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
+<a href="#">Link to this property</a>
 
-    Status of the certificate or the association.
+"deleted"
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deployment"`
+"deployment\_timed\_out"
 
-    - `"pending_deletion"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"deletion\_timed\_out"
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-    - `"deployment_timed_out"`
+</details>
 
-    - `"deletion_timed_out"`
+<a href="#">Link to this property</a>
 
-  - `uploaded_on: optional string`
+uploaded\_on: optional string
 
-    The time when the certificate was uploaded.
+The time when the certificate was uploaded.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/hostnames/certificates/$CERTIFICATE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV\nBAYTAkFVMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX\naWRnaXRzIFB0eSBMdGQwHhcNMTYwODI0MTY0MzAxWhcNMTYxMTIyMTY0MzAxWjBF\nMQswCQYDVQQGEwJBVTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50\nZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmGdtcGbg/1\nCGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKnabIRuGvB\nKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpidtnKX/a+5\n0GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+pyFxIXjbEI\ndZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pEewooaeO2\nizNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABo4GnMIGkMB0GA1UdDgQWBBT/LbE4\n9rWf288N6sJA5BRb6FJIGDB1BgNVHSMEbjBsgBT/LbE49rWf288N6sJA5BRb6FJI\nGKFJpEcwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNV\nBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZIIJAMHAwfXZ5/PWMAwGA1UdEwQF\nMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHHFwl0tH0quUYZYO0dZYt4R7SJ0pCm2\n2satiyzHl4OnXcHDpekAo7/a09c6Lz6AU83cKy/+x3/djYHXWba7HpEu0dR3ugQP\nMlr4zrhd9xKZ0KZKiYmtJH+ak4OM4L3FbT0owUZPyjLSlhMtJVcoRp5CJsjAMBUG\nSvD8RX+T01wzox/Qb+lnnNnOlaWpqu8eoOenybxKp1a9ULzIVvN/LAcc+14vioFq\n2swRWtmocBAs8QR9n4uvbpiYvS8eYueDCWMM4fvFfBhaDZ3N9IbtySh3SpFdQDhw\nYbjM2rxXiyLGxB4Bol7QTv4zHif7Zt89FReT/NBy4rzaskDJY5L6xmY=\n-----END CERTIFICATE-----\n",
-    "expires_on": "2100-01-01T05:20:00Z",
-    "issuer": "GlobalSign",
-    "serial_number": "6743787633689793699141714808227354901",
-    "signature": "SHA256WithRSA",
-    "status": "active",
-    "uploaded_on": "2019-10-28T18:11:23.37411Z"
-  }
-}
-```
+[Link to this property](#)%20origin_tls_client_auth.hostname_certificates%20%3E%20(model)%20hostname_certificate_list_response%20%3E%20(schema)>)
 
-## Upload a Hostname Client Certificate
+<details>
 
-**post** `/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates`
+<summary>
 
-Upload a certificate to be used for client authentication on a hostname. 10 hostname certificates per zone are allowed.
+HostnameCertificateGetResponse object {id, certificate, expires\_on, 5 more }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: optional string
 
-  Identifier.
+Identifier.
 
-### Body Parameters
+maxLength32
 
-- `certificate: string`
+<a href="#">Link to this property</a>
 
-  The hostname certificate.
+certificate: optional string
 
-- `private_key: string`
+The hostname certificate.
 
-  The hostname certificate's private key.
+<a href="#">Link to this property</a>
 
-### Returns
+expires\_on: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The date when the certificate expires.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+issuer: optional string
 
-  - `source: optional object { pointer }`
+The certificate authority that issued the certificate.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+serial\_number: optional string
 
-  - `code: number`
+The serial number on the uploaded certificate.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+signature: optional string
 
-  - `source: optional object { pointer }`
+The type of hash used for the certificate.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 4 more
 
-- `result: optional object { id, certificate, expires_on, 5 more }`
+Status of the certificate or the association.
 
-  - `id: optional string`
+</summary>
 
-    Identifier.
+One of the following:
 
-  - `certificate: optional string`
+"initializing"
 
-    The hostname certificate.
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+"pending\_deployment"
 
-    The date when the certificate expires.
+<a href="#">Link to this property</a>
 
-  - `issuer: optional string`
+"pending\_deletion"
 
-    The certificate authority that issued the certificate.
+<a href="#">Link to this property</a>
 
-  - `serial_number: optional string`
+"active"
 
-    The serial number on the uploaded certificate.
+<a href="#">Link to this property</a>
 
-  - `signature: optional string`
+"deleted"
 
-    The type of hash used for the certificate.
+<a href="#">Link to this property</a>
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
+"deployment\_timed\_out"
 
-    Status of the certificate or the association.
+<a href="#">Link to this property</a>
 
-    - `"initializing"`
+"deletion\_timed\_out"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+</details>
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+uploaded\_on: optional string
 
-    - `"deployment_timed_out"`
+The time when the certificate was uploaded.
 
-    - `"deletion_timed_out"`
+formatdate-time
 
-  - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-    The time when the certificate was uploaded.
+</details>
 
-### Example
+[Link to this property](#)%20origin_tls_client_auth.hostname_certificates%20%3E%20(model)%20hostname_certificate_get_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/hostnames/certificates \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV\\nBAYTAkFVMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX\\naWRnaXRzIFB0eSBMdGQwHhcNMTYwODI0MTY0MzAxWhcNMTYxMTIyMTY0MzAxWjBF\\nMQswCQYDVQQGEwJBVTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50\\nZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\\nCgKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmGdtcGbg/1\\nCGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKnabIRuGvB\\nKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpidtnKX/a+5\\n0GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+pyFxIXjbEI\\ndZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pEewooaeO2\\nizNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABo4GnMIGkMB0GA1UdDgQWBBT/LbE4\\n9rWf288N6sJA5BRb6FJIGDB1BgNVHSMEbjBsgBT/LbE49rWf288N6sJA5BRb6FJI\\nGKFJpEcwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNV\\nBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZIIJAMHAwfXZ5/PWMAwGA1UdEwQF\\nMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHHFwl0tH0quUYZYO0dZYt4R7SJ0pCm2\\n2satiyzHl4OnXcHDpekAo7/a09c6Lz6AU83cKy/+x3/djYHXWba7HpEu0dR3ugQP\\nMlr4zrhd9xKZ0KZKiYmtJH+ak4OM4L3FbT0owUZPyjLSlhMtJVcoRp5CJsjAMBUG\\nSvD8RX+T01wzox/Qb+lnnNnOlaWpqu8eoOenybxKp1a9ULzIVvN/LAcc+14vioFq\\n2swRWtmocBAs8QR9n4uvbpiYvS8eYueDCWMM4fvFfBhaDZ3N9IbtySh3SpFdQDhw\\nYbjM2rxXiyLGxB4Bol7QTv4zHif7Zt89FReT/NBy4rzaskDJY5L6xmY=\\n-----END CERTIFICATE-----\\n",
-          "private_key": "-----BEGIN RSA PRIVATE KEY-----\\nMIIEowIBAAKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmG\\ndtcGbg/1CGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKn\\nabIRuGvBKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpid\\ntnKX/a+50GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+py\\nFxIXjbEIdZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pE\\newooaeO2izNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABAoIBACbhTYXBZYKmYPCb\\nHBR1IBlCQA2nLGf0qRuJNJZg5iEzXows/6tc8YymZkQE7nolapWsQ+upk2y5Xdp/\\naxiuprIs9JzkYK8Ox0r+dlwCG1kSW+UAbX0bQ/qUqlsTvU6muVuMP8vZYHxJ3wmb\\n+ufRBKztPTQ/rYWaYQcgC0RWI20HTFBMxlTAyNxYNWzX7RKFkGVVyB9RsAtmcc8g\\n+j4OdosbfNoJPS0HeIfNpAznDfHKdxDk2Yc1tV6RHBrC1ynyLE9+TaflIAdo2MVv\\nKLMLq51GqYKtgJFIlBRPQqKoyXdz3fGvXrTkf/WY9QNq0J1Vk5ERePZ54mN8iZB7\\n9lwy/AkCgYEA6FXzosxswaJ2wQLeoYc7ceaweX/SwTvxHgXzRyJIIT0eJWgx13Wo\\n/WA3Iziimsjf6qE+SI/8laxPp2A86VMaIt3Z3mJN/CqSVGw8LK2AQst+OwdPyDMu\\niacE8lj/IFGC8mwNUAb9CzGU3JpU4PxxGFjS/eMtGeRXCWkK4NE+G08CgYEA1Kp9\\nN2JrVlqUz+gAX+LPmE9OEMAS9WQSQsfCHGogIFDGGcNf7+uwBM7GAaSJIP01zcoe\\nVAgWdzXCv3FLhsaZoJ6RyLOLay5phbu1iaTr4UNYm5WtYTzMzqh8l1+MFFDl9xDB\\nvULuCIIrglM5MeS/qnSg1uMoH2oVPj9TVst/ir8CgYEAxrI7Ws9Zc4Bt70N1As+U\\nlySjaEVZCMkqvHJ6TCuVZFfQoE0r0whdLdRLU2PsLFP+q7qaeZQqgBaNSKeVcDYR\\n9B+nY/jOmQoPewPVsp/vQTCnE/R81spu0mp0YI6cIheT1Z9zAy322svcc43JaWB7\\nmEbeqyLOP4Z4qSOcmghZBSECgYACvR9Xs0DGn+wCsW4vze/2ei77MD4OQvepPIFX\\ndFZtlBy5ADcgE9z0cuVB6CiL8DbdK5kwY9pGNr8HUCI03iHkW6Zs+0L0YmihfEVe\\nPG19PSzK9CaDdhD9KFZSbLyVFmWfxOt50H7YRTTiPMgjyFpfi5j2q348yVT0tEQS\\nfhRqaQKBgAcWPokmJ7EbYQGeMbS7HC8eWO/RyamlnSffdCdSc7ue3zdVJxpAkQ8W\\nqu80pEIF6raIQfAf8MXiiZ7auFOSnHQTXUbhCpvDLKi0Mwq3G8Pl07l+2s6dQG6T\\nlv6XTQaMyf6n1yjzL+fzDrH3qXMxHMO/b13EePXpDMpY7HQpoLDi\\n-----END RSA PRIVATE KEY-----\\n"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV\nBAYTAkFVMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX\naWRnaXRzIFB0eSBMdGQwHhcNMTYwODI0MTY0MzAxWhcNMTYxMTIyMTY0MzAxWjBF\nMQswCQYDVQQGEwJBVTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50\nZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmGdtcGbg/1\nCGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKnabIRuGvB\nKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpidtnKX/a+5\n0GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+pyFxIXjbEI\ndZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pEewooaeO2\nizNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABo4GnMIGkMB0GA1UdDgQWBBT/LbE4\n9rWf288N6sJA5BRb6FJIGDB1BgNVHSMEbjBsgBT/LbE49rWf288N6sJA5BRb6FJI\nGKFJpEcwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNV\nBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZIIJAMHAwfXZ5/PWMAwGA1UdEwQF\nMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHHFwl0tH0quUYZYO0dZYt4R7SJ0pCm2\n2satiyzHl4OnXcHDpekAo7/a09c6Lz6AU83cKy/+x3/djYHXWba7HpEu0dR3ugQP\nMlr4zrhd9xKZ0KZKiYmtJH+ak4OM4L3FbT0owUZPyjLSlhMtJVcoRp5CJsjAMBUG\nSvD8RX+T01wzox/Qb+lnnNnOlaWpqu8eoOenybxKp1a9ULzIVvN/LAcc+14vioFq\n2swRWtmocBAs8QR9n4uvbpiYvS8eYueDCWMM4fvFfBhaDZ3N9IbtySh3SpFdQDhw\nYbjM2rxXiyLGxB4Bol7QTv4zHif7Zt89FReT/NBy4rzaskDJY5L6xmY=\n-----END CERTIFICATE-----\n",
-    "expires_on": "2100-01-01T05:20:00Z",
-    "issuer": "GlobalSign",
-    "serial_number": "6743787633689793699141714808227354901",
-    "signature": "SHA256WithRSA",
-    "status": "active",
-    "uploaded_on": "2019-10-28T18:11:23.37411Z"
-  }
-}
-```
+HostnameCertificateCreateResponse object {id, certificate, expires\_on, 5 more }
 
-## Delete Hostname Client Certificate
+</summary>
 
-**delete** `/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates/{certificate_id}`
+id: optional string
 
-Removes a client certificate used for authenticated origin pulls on a specific hostname.
-Note: Before deleting the certificate, you must first invalidate the hostname for client authentication by sending a PUT request with `enabled` set to null. After invalidating the association, the certificate can be safely deleted.
+Identifier.
 
-### Path Parameters
+maxLength32
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+certificate: optional string
 
-- `certificate_id: string`
+The hostname certificate.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+expires\_on: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The date when the certificate expires.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+issuer: optional string
 
-  - `source: optional object { pointer }`
+The certificate authority that issued the certificate.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+serial\_number: optional string
 
-  - `code: number`
+The serial number on the uploaded certificate.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+signature: optional string
 
-  - `source: optional object { pointer }`
+The type of hash used for the certificate.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 4 more
 
-- `result: optional object { id, certificate, expires_on, 5 more }`
+Status of the certificate or the association.
 
-  - `id: optional string`
+</summary>
 
-    Identifier.
+One of the following:
 
-  - `certificate: optional string`
+"initializing"
 
-    The hostname certificate.
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+"pending\_deployment"
 
-    The date when the certificate expires.
+<a href="#">Link to this property</a>
 
-  - `issuer: optional string`
+"pending\_deletion"
 
-    The certificate authority that issued the certificate.
+<a href="#">Link to this property</a>
 
-  - `serial_number: optional string`
+"active"
 
-    The serial number on the uploaded certificate.
+<a href="#">Link to this property</a>
 
-  - `signature: optional string`
+"deleted"
 
-    The type of hash used for the certificate.
+<a href="#">Link to this property</a>
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
+"deployment\_timed\_out"
 
-    Status of the certificate or the association.
+<a href="#">Link to this property</a>
 
-    - `"initializing"`
+"deletion\_timed\_out"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+</details>
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+uploaded\_on: optional string
 
-    - `"deployment_timed_out"`
+The time when the certificate was uploaded.
 
-    - `"deletion_timed_out"`
+formatdate-time
 
-  - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-    The time when the certificate was uploaded.
+</details>
 
-### Example
+[Link to this property](#)%20origin_tls_client_auth.hostname_certificates%20%3E%20(model)%20hostname_certificate_create_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/hostnames/certificates/$CERTIFICATE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV\nBAYTAkFVMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX\naWRnaXRzIFB0eSBMdGQwHhcNMTYwODI0MTY0MzAxWhcNMTYxMTIyMTY0MzAxWjBF\nMQswCQYDVQQGEwJBVTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50\nZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmGdtcGbg/1\nCGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKnabIRuGvB\nKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpidtnKX/a+5\n0GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+pyFxIXjbEI\ndZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pEewooaeO2\nizNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABo4GnMIGkMB0GA1UdDgQWBBT/LbE4\n9rWf288N6sJA5BRb6FJIGDB1BgNVHSMEbjBsgBT/LbE49rWf288N6sJA5BRb6FJI\nGKFJpEcwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNV\nBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZIIJAMHAwfXZ5/PWMAwGA1UdEwQF\nMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHHFwl0tH0quUYZYO0dZYt4R7SJ0pCm2\n2satiyzHl4OnXcHDpekAo7/a09c6Lz6AU83cKy/+x3/djYHXWba7HpEu0dR3ugQP\nMlr4zrhd9xKZ0KZKiYmtJH+ak4OM4L3FbT0owUZPyjLSlhMtJVcoRp5CJsjAMBUG\nSvD8RX+T01wzox/Qb+lnnNnOlaWpqu8eoOenybxKp1a9ULzIVvN/LAcc+14vioFq\n2swRWtmocBAs8QR9n4uvbpiYvS8eYueDCWMM4fvFfBhaDZ3N9IbtySh3SpFdQDhw\nYbjM2rxXiyLGxB4Bol7QTv4zHif7Zt89FReT/NBy4rzaskDJY5L6xmY=\n-----END CERTIFICATE-----\n",
-    "expires_on": "2100-01-01T05:20:00Z",
-    "issuer": "GlobalSign",
-    "serial_number": "6743787633689793699141714808227354901",
-    "signature": "SHA256WithRSA",
-    "status": "active",
-    "uploaded_on": "2019-10-28T18:11:23.37411Z"
-  }
-}
-```
+HostnameCertificateDeleteResponse object {id, certificate, expires\_on, 5 more }
 
-## Domain Types
+</summary>
 
-### Certificate
+id: optional string
 
-- `Certificate object { id, certificate, expires_on, 5 more }`
+Identifier.
 
-  - `id: optional string`
+maxLength32
 
-    Identifier.
+<a href="#">Link to this property</a>
 
-  - `certificate: optional string`
+certificate: optional string
 
-    The hostname certificate.
+The hostname certificate.
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date when the certificate expires.
+expires\_on: optional string
 
-  - `issuer: optional string`
+The date when the certificate expires.
 
-    The certificate authority that issued the certificate.
+formatdate-time
 
-  - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    The serial number on the uploaded certificate.
+issuer: optional string
 
-  - `signature: optional string`
+The certificate authority that issued the certificate.
 
-    The type of hash used for the certificate.
+<a href="#">Link to this property</a>
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
+serial\_number: optional string
 
-    Status of the certificate or the association.
+The serial number on the uploaded certificate.
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deployment"`
+signature: optional string
 
-    - `"pending_deletion"`
+The type of hash used for the certificate.
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+<details>
 
-    - `"deployment_timed_out"`
+<summary>
 
-    - `"deletion_timed_out"`
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 4 more
 
-  - `uploaded_on: optional string`
+Status of the certificate or the association.
 
-    The time when the certificate was uploaded.
+</summary>
 
-### Hostname Certificate List Response
+One of the following:
 
-- `HostnameCertificateListResponse object { id, certificate, expires_on, 5 more }`
+"initializing"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+"pending\_deployment"
 
-  - `certificate: optional string`
+<a href="#">Link to this property</a>
 
-    The hostname certificate.
+"pending\_deletion"
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date when the certificate expires.
+"active"
 
-  - `issuer: optional string`
+<a href="#">Link to this property</a>
 
-    The certificate authority that issued the certificate.
+"deleted"
 
-  - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    The serial number on the uploaded certificate.
+"deployment\_timed\_out"
 
-  - `signature: optional string`
+<a href="#">Link to this property</a>
 
-    The type of hash used for the certificate.
+"deletion\_timed\_out"
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
+<a href="#">Link to this property</a>
 
-    Status of the certificate or the association.
+</details>
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deployment"`
+uploaded\_on: optional string
 
-    - `"pending_deletion"`
+The time when the certificate was uploaded.
 
-    - `"active"`
+formatdate-time
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-    - `"deployment_timed_out"`
+</details>
 
-    - `"deletion_timed_out"`
-
-  - `uploaded_on: optional string`
-
-    The time when the certificate was uploaded.
-
-### Hostname Certificate Get Response
-
-- `HostnameCertificateGetResponse object { id, certificate, expires_on, 5 more }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The hostname certificate.
-
-  - `expires_on: optional string`
-
-    The date when the certificate expires.
-
-  - `issuer: optional string`
-
-    The certificate authority that issued the certificate.
-
-  - `serial_number: optional string`
-
-    The serial number on the uploaded certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the certificate.
-
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
-
-    Status of the certificate or the association.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"pending_deletion"`
-
-    - `"active"`
-
-    - `"deleted"`
-
-    - `"deployment_timed_out"`
-
-    - `"deletion_timed_out"`
-
-  - `uploaded_on: optional string`
-
-    The time when the certificate was uploaded.
-
-### Hostname Certificate Create Response
-
-- `HostnameCertificateCreateResponse object { id, certificate, expires_on, 5 more }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The hostname certificate.
-
-  - `expires_on: optional string`
-
-    The date when the certificate expires.
-
-  - `issuer: optional string`
-
-    The certificate authority that issued the certificate.
-
-  - `serial_number: optional string`
-
-    The serial number on the uploaded certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the certificate.
-
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
-
-    Status of the certificate or the association.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"pending_deletion"`
-
-    - `"active"`
-
-    - `"deleted"`
-
-    - `"deployment_timed_out"`
-
-    - `"deletion_timed_out"`
-
-  - `uploaded_on: optional string`
-
-    The time when the certificate was uploaded.
-
-### Hostname Certificate Delete Response
-
-- `HostnameCertificateDeleteResponse object { id, certificate, expires_on, 5 more }`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The hostname certificate.
-
-  - `expires_on: optional string`
-
-    The date when the certificate expires.
-
-  - `issuer: optional string`
-
-    The certificate authority that issued the certificate.
-
-  - `serial_number: optional string`
-
-    The serial number on the uploaded certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the certificate.
-
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
-
-    Status of the certificate or the association.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"pending_deletion"`
-
-    - `"active"`
-
-    - `"deleted"`
-
-    - `"deployment_timed_out"`
-
-    - `"deletion_timed_out"`
-
-  - `uploaded_on: optional string`
-
-    The time when the certificate was uploaded.
+[Link to this property](#)%20origin_tls_client_auth.hostname_certificates%20%3E%20(model)%20hostname_certificate_delete_response%20%3E%20(schema)>)

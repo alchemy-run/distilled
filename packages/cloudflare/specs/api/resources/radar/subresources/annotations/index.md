@@ -1,623 +1,479 @@
+---
+title: Annotations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Annotations
 
-## Get latest annotations
+##### [Get latest annotations](https://developers.cloudflare.com/api/resources/radar/subresources/annotations/methods/list)
 
-**get** `/radar/annotations`
+GET/radar/annotations
 
-Retrieves the latest annotations.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `asn: optional number`
+<summary>
 
-  Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer.
+AnnotationListResponse object {annotations }
 
-- `dataSource: optional "ALL" or "AI_BOTS" or "AI_GATEWAY" or 22 more`
+</summary>
 
-  Filters results by data source.
+<details>
 
-  - `"ALL"`
+<summary>
 
-  - `"AI_BOTS"`
+annotations: array of object {id, asns, asnsDetails, 15 more }
 
-  - `"AI_GATEWAY"`
+</summary>
 
-  - `"BGP"`
+id: string
 
-  - `"BOTS"`
+<a href="#">Link to this property</a>
 
-  - `"CONNECTION_ANOMALY"`
+asns: array of number
 
-  - `"CT"`
+<a href="#">Link to this property</a>
 
-  - `"DNS"`
+<details>
 
-  - `"DNS_MAGNITUDE"`
+<summary>
 
-  - `"DNS_AS112"`
+asnsDetails: array of object {asn, location, name }
 
-  - `"DOS"`
+</summary>
 
-  - `"EMAIL_ROUTING"`
+asn: string
 
-  - `"EMAIL_SECURITY"`
+<a href="#">Link to this property</a>
 
-  - `"FW"`
+<details>
 
-  - `"FW_PG"`
+<summary>
 
-  - `"HTTP"`
+location: object {code, name }
 
-  - `"HTTP_CONTROL"`
+</summary>
 
-  - `"HTTP_CRAWLER_REFERER"`
+code: string
 
-  - `"HTTP_ORIGINS"`
+<a href="#">Link to this property</a>
 
-  - `"IQI"`
+name: string
 
-  - `"LEAKED_CREDENTIALS"`
+<a href="#">Link to this property</a>
 
-  - `"NET"`
+</details>
 
-  - `"ROBOTS_TXT"`
+<a href="#">Link to this property</a>
 
-  - `"SPEED"`
+name: string
 
-  - `"WORKERS_AI"`
+<a href="#">Link to this property</a>
 
-- `dateEnd: optional string`
+</details>
 
-  End of the date range (inclusive).
+<a href="#">Link to this property</a>
 
-- `dateRange: optional string`
+dataSource: string
 
-  Filters results by date range.
+<a href="#">Link to this property</a>
 
-- `dateStart: optional string`
+description: string
 
-  Start of the date range (inclusive).
+<a href="#">Link to this property</a>
 
-- `eventType: optional "EVENT" or "GENERAL" or "OUTAGE" or 3 more`
+endDate: string
 
-  Filters results by event type.
+<a href="#">Link to this property</a>
 
-  - `"EVENT"`
+<details>
 
-  - `"GENERAL"`
+<summary>
 
-  - `"OUTAGE"`
+entities: array of object {entityName, entityType, entityValue }
 
-  - `"PARTIAL_PROJECTION"`
+</summary>
 
-  - `"PIPELINE"`
+entityName: string
 
-  - `"TRAFFIC_ANOMALY"`
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+entityType: string
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+entityValue: string
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+</details>
 
-  Limits the number of objects returned in the response.
+<a href="#">Link to this property</a>
 
-- `location: optional string`
+eventType: string
 
-  Filters results by location. Specify an alpha-2 location code.
+<a href="#">Link to this property</a>
 
-- `offset: optional number`
+geoIds: array of string
 
-  Skips the specified number of objects before fetching the results.
+<a href="#">Link to this property</a>
 
-- `origin: optional string`
+linkedUrl: string
 
-  Filters results by origin.
+<a href="#">Link to this property</a>
 
-### Returns
+locations: array of string
 
-- `result: object { annotations }`
+<a href="#">Link to this property</a>
 
-  - `annotations: array of object { id, asns, asnsDetails, 12 more }`
+<details>
 
-    - `id: string`
+<summary>
 
-    - `asns: array of number`
+locationsDetails: array of object {code, name }
 
-    - `asnsDetails: array of object { asn, name, locations }`
+</summary>
 
-      - `asn: string`
+code: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `locations: optional object { code, name }`
+name: string
 
-        - `code: string`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-    - `dataSource: string`
+<a href="#">Link to this property</a>
 
-    - `eventType: string`
+origins: array of string
 
-    - `locations: array of string`
+<a href="#">Link to this property</a>
 
-    - `locationsDetails: array of object { code, name }`
+<details>
 
-      - `code: string`
+<summary>
 
-      - `name: string`
+originsDetails: array of object {name, origin }
 
-    - `origins: array of string`
+</summary>
 
-    - `originsDetails: array of object { name, origin }`
+name: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `origin: string`
+origin: string
 
-    - `outage: object { outageCause, outageType }`
+<a href="#">Link to this property</a>
 
-      - `outageCause: string`
+</details>
 
-      - `outageType: string`
+<a href="#">Link to this property</a>
 
-    - `startDate: string`
+<details>
 
-    - `description: optional string`
+<summary>
 
-    - `endDate: optional string`
+outage: object {outageCause, outageType }
 
-    - `linkedUrl: optional string`
+</summary>
 
-    - `scope: optional string`
+outageCause: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+outageType: string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/annotations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "annotations": [
-      {
-        "id": "550",
-        "asns": [
-          189
-        ],
-        "asnsDetails": [
-          {
-            "asn": "189",
-            "name": "LUMEN-LEGACY-L3-PARTITION",
-            "locations": {
-              "code": "US",
-              "name": "United States"
-            }
-          }
-        ],
-        "dataSource": "ALL",
-        "eventType": "OUTAGE",
-        "locations": [
-          "US"
-        ],
-        "locationsDetails": [
-          {
-            "code": "US",
-            "name": "United States"
-          }
-        ],
-        "origins": [
-          "amazon-us-east-1"
-        ],
-        "originsDetails": [
-          {
-            "name": "us-east-1 Amazon Web Services",
-            "origin": "amazon-us-east-1"
-          }
-        ],
-        "outage": {
-          "outageCause": "CABLE_CUT",
-          "outageType": "NATIONWIDE"
-        },
-        "startDate": "2022-09-06T10:00:28Z",
-        "description": "example",
-        "endDate": "2022-09-08T10:00:28Z",
-        "linkedUrl": "http://example.com",
-        "scope": "Colima, Michoacán, México"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+scope: string
 
-### Annotation List Response
+<a href="#">Link to this property</a>
 
-- `AnnotationListResponse object { annotations }`
+startDate: string
 
-  - `annotations: array of object { id, asns, asnsDetails, 12 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+tags: array of string
 
-    - `asns: array of number`
+<a href="#">Link to this property</a>
 
-    - `asnsDetails: array of object { asn, name, locations }`
+</details>
 
-      - `asn: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-      - `locations: optional object { code, name }`
+[Link to this property](#)%20radar.annotations%20%3E%20(model)%20annotation_list_response%20%3E%20(schema)>)
 
-        - `code: string`
+#### AnnotationsOutages
 
-        - `name: string`
+##### [Get latest Internet outages and anomalies](https://developers.cloudflare.com/api/resources/radar/subresources/annotations/subresources/outages/methods/get)
 
-    - `dataSource: string`
+GET/radar/annotations/outages
 
-    - `eventType: string`
+##### [Get the number of outages by location](https://developers.cloudflare.com/api/resources/radar/subresources/annotations/subresources/outages/methods/locations)
 
-    - `locations: array of string`
+GET/radar/annotations/outages/locations
 
-    - `locationsDetails: array of object { code, name }`
+##### ModelsExpand Collapse
 
-      - `code: string`
+<details>
 
-      - `name: string`
+<summary>
 
-    - `origins: array of string`
+OutageGetResponse object {annotations }
 
-    - `originsDetails: array of object { name, origin }`
+</summary>
 
-      - `name: string`
+<details>
 
-      - `origin: string`
+<summary>
 
-    - `outage: object { outageCause, outageType }`
+annotations: array of object {id, asns, asnsDetails, 15 more }
 
-      - `outageCause: string`
+</summary>
 
-      - `outageType: string`
+id: string
 
-    - `startDate: string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+asns: array of number
 
-    - `endDate: optional string`
+<a href="#">Link to this property</a>
 
-    - `linkedUrl: optional string`
+<details>
 
-    - `scope: optional string`
+<summary>
 
-# Outages
+asnsDetails: array of object {asn, location, name }
 
-## Get latest Internet outages and anomalies
+</summary>
 
-**get** `/radar/annotations/outages`
+asn: string
 
-Retrieves the latest Internet outages and anomalies.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+<details>
 
-- `asn: optional number`
+<summary>
 
-  Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer.
+location: object {code, name }
 
-- `dateEnd: optional string`
+</summary>
 
-  End of the date range (inclusive).
+code: string
 
-- `dateRange: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by date range.
+name: string
 
-- `dateStart: optional string`
+<a href="#">Link to this property</a>
 
-  Start of the date range (inclusive).
+</details>
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+name: string
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+</details>
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects returned in the response.
+dataSource: string
 
-- `location: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by location. Specify an alpha-2 location code.
+description: string
 
-- `offset: optional number`
+<a href="#">Link to this property</a>
 
-  Skips the specified number of objects before fetching the results.
+endDate: string
 
-- `origin: optional string`
+formatdate-time
 
-  Filters results by origin.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `result: object { annotations }`
+<summary>
 
-  - `annotations: array of object { id, asns, asnsDetails, 12 more }`
+entities: array of object {entityName, entityType, entityValue }
 
-    - `id: string`
+</summary>
 
-    - `asns: array of number`
+entityName: string
 
-    - `asnsDetails: array of object { asn, name, locations }`
+<a href="#">Link to this property</a>
 
-      - `asn: string`
+entityType: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `locations: optional object { code, name }`
+entityValue: string
 
-        - `code: string`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-    - `dataSource: string`
+<a href="#">Link to this property</a>
 
-    - `eventType: string`
+eventType: string
 
-    - `locations: array of string`
+<a href="#">Link to this property</a>
 
-    - `locationsDetails: array of object { code, name }`
+geoIds: array of string
 
-      - `code: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+linkedUrl: string
 
-    - `origins: array of string`
+<a href="#">Link to this property</a>
 
-    - `originsDetails: array of object { name, origin }`
+locations: array of string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `origin: string`
+<details>
 
-    - `outage: object { outageCause, outageType }`
+<summary>
 
-      - `outageCause: string`
+locationsDetails: array of object {code, name }
 
-      - `outageType: string`
+</summary>
 
-    - `startDate: string`
+code: string
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-    - `endDate: optional string`
+name: string
 
-    - `linkedUrl: optional string`
+<a href="#">Link to this property</a>
 
-    - `scope: optional string`
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+origins: array of string
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/annotations/outages \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "result": {
-    "annotations": [
-      {
-        "id": "550",
-        "asns": [
-          189
-        ],
-        "asnsDetails": [
-          {
-            "asn": "189",
-            "name": "LUMEN-LEGACY-L3-PARTITION",
-            "locations": {
-              "code": "US",
-              "name": "United States"
-            }
-          }
-        ],
-        "dataSource": "ALL",
-        "eventType": "OUTAGE",
-        "locations": [
-          "US"
-        ],
-        "locationsDetails": [
-          {
-            "code": "US",
-            "name": "United States"
-          }
-        ],
-        "origins": [
-          "amazon-us-east-1"
-        ],
-        "originsDetails": [
-          {
-            "name": "us-east-1 Amazon Web Services",
-            "origin": "amazon-us-east-1"
-          }
-        ],
-        "outage": {
-          "outageCause": "CABLE_CUT",
-          "outageType": "NATIONWIDE"
-        },
-        "startDate": "2019-12-27T18:11:19.117Z",
-        "description": "example",
-        "endDate": "2019-12-27T18:11:19.117Z",
-        "linkedUrl": "http://example.com",
-        "scope": "Colima, Michoacán, México"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<summary>
 
-## Get the number of outages by location
+originsDetails: array of object {name, origin }
 
-**get** `/radar/annotations/outages/locations`
+</summary>
 
-Retrieves the number of outages by location.
+name: string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `dateEnd: optional string`
+origin: string
 
-  End of the date range (inclusive).
+<a href="#">Link to this property</a>
 
-- `dateRange: optional string`
+</details>
 
-  Filters results by date range.
+<a href="#">Link to this property</a>
 
-- `dateStart: optional string`
+<details>
 
-  Start of the date range (inclusive).
+<summary>
 
-- `format: optional "JSON" or "CSV"`
+outage: object {outageCause, outageType }
 
-  Format in which results will be returned.
+</summary>
 
-  - `"JSON"`
+outageCause: string
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+outageType: string
 
-  Limits the number of objects returned in the response.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { annotations }`
+<a href="#">Link to this property</a>
 
-  - `annotations: array of object { clientCountryAlpha2, clientCountryName, value }`
+scope: string
 
-    - `clientCountryAlpha2: string`
+<a href="#">Link to this property</a>
 
-    - `clientCountryName: string`
+startDate: string
 
-    - `value: string`
+formatdate-time
 
-      A numeric string.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+tags: array of string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/annotations/outages/locations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "annotations": [
-      {
-        "clientCountryAlpha2": "PT",
-        "clientCountryName": "Portugal",
-        "value": "10"
-      }
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)%20radar.annotations.outages%20%3E%20(model)%20outage_get_response%20%3E%20(schema)>)
 
-### Outage Get Response
+<details>
 
-- `OutageGetResponse object { annotations }`
+<summary>
 
-  - `annotations: array of object { id, asns, asnsDetails, 12 more }`
+OutageLocationsResponse object {annotations }
 
-    - `id: string`
+</summary>
 
-    - `asns: array of number`
+<details>
 
-    - `asnsDetails: array of object { asn, name, locations }`
+<summary>
 
-      - `asn: string`
+annotations: array of object {clientCountryAlpha2, clientCountryName, value }
 
-      - `name: string`
+</summary>
 
-      - `locations: optional object { code, name }`
+clientCountryAlpha2: string
 
-        - `code: string`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+clientCountryName: string
 
-    - `dataSource: string`
+<a href="#">Link to this property</a>
 
-    - `eventType: string`
+value: string
 
-    - `locations: array of string`
+A numeric string.
 
-    - `locationsDetails: array of object { code, name }`
+<a href="#">Link to this property</a>
 
-      - `code: string`
+</details>
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `origins: array of string`
+</details>
 
-    - `originsDetails: array of object { name, origin }`
-
-      - `name: string`
-
-      - `origin: string`
-
-    - `outage: object { outageCause, outageType }`
-
-      - `outageCause: string`
-
-      - `outageType: string`
-
-    - `startDate: string`
-
-    - `description: optional string`
-
-    - `endDate: optional string`
-
-    - `linkedUrl: optional string`
-
-    - `scope: optional string`
-
-### Outage Locations Response
-
-- `OutageLocationsResponse object { annotations }`
-
-  - `annotations: array of object { clientCountryAlpha2, clientCountryName, value }`
-
-    - `clientCountryAlpha2: string`
-
-    - `clientCountryName: string`
-
-    - `value: string`
-
-      A numeric string.
+[Link to this property](#)%20radar.annotations.outages%20%3E%20(model)%20outage_locations_response%20%3E%20(schema)>)

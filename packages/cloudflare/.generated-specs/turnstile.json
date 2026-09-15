@@ -231,6 +231,76 @@
         }
       }
     },
+    "com.cloudflare.turnstile#WidgetsCreateResponseDeployedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
+    "com.cloudflare.turnstile#WidgetsCreateResponseLastModifiedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
     "com.cloudflare.turnstile#WidgetsDeleteResponseClearanceLevel": {
       "type": "enum",
       "members": {
@@ -306,6 +376,76 @@
         }
       }
     },
+    "com.cloudflare.turnstile#WidgetsDeleteResponseDeployedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
+    "com.cloudflare.turnstile#WidgetsDeleteResponseLastModifiedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
     "com.cloudflare.turnstile#WidgetsGetResponseClearanceLevel": {
       "type": "enum",
       "members": {
@@ -377,6 +517,76 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "china"
+          }
+        }
+      }
+    },
+    "com.cloudflare.turnstile#WidgetsGetResponseDeployedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
+    "com.cloudflare.turnstile#WidgetsGetResponseLastModifiedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
           }
         }
       }
@@ -508,20 +718,90 @@
         }
       }
     },
+    "com.cloudflare.turnstile#WidgetsListResultItemDeployedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
+    "com.cloudflare.turnstile#WidgetsListResultItemLastModifiedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
     "com.cloudflare.turnstile#WidgetsListResultItem": {
       "type": "structure",
       "members": {
         "bot_fight_mode": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally",
+            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only).",
             "smithy.api#required": {}
           }
         },
         "clearance_level": {
           "target": "com.cloudflare.turnstile#WidgetsListResultItemClearanceLevel",
           "traits": {
-            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,",
+            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set",
             "smithy.api#required": {}
           }
         },
@@ -562,7 +842,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you",
+            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.",
             "smithy.api#required": {}
           }
         },
@@ -585,6 +865,18 @@
           "traits": {
             "smithy.api#documentation": "Widget item identifier tag.",
             "smithy.api#required": {}
+          }
+        },
+        "deployed_via": {
+          "target": "com.cloudflare.turnstile#WidgetsListResultItemDeployedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed."
+          }
+        },
+        "last_modified_via": {
+          "target": "com.cloudflare.turnstile#WidgetsListResultItemLastModifiedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed."
           }
         }
       }
@@ -666,6 +958,76 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "china"
+          }
+        }
+      }
+    },
+    "com.cloudflare.turnstile#WidgetsRotateSecretResponseDeployedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
+    "com.cloudflare.turnstile#WidgetsRotateSecretResponseLastModifiedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
           }
         }
       }
@@ -820,6 +1182,76 @@
         }
       }
     },
+    "com.cloudflare.turnstile#WidgetsUpdateResponseDeployedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
+    "com.cloudflare.turnstile#WidgetsUpdateResponseLastModifiedVia": {
+      "type": "enum",
+      "members": {
+        "WRANGLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrangler"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "SPIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spin"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
     "com.cloudflare.turnstile#Turnstile": {
       "type": "service",
       "version": "4.0",
@@ -931,7 +1363,7 @@
         "filter": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter widgets by field using case-insensitive substring matching.",
+            "smithy.api#documentation": "Filter widgets by field using case-insensitive substring matching. Format: `field:value`",
             "smithy.api#httpQuery": "filter"
           }
         },
@@ -972,20 +1404,20 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you",
+            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.",
             "smithy.api#required": {}
           }
         },
         "bot_fight_mode": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally"
+            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only)."
           }
         },
         "clearance_level": {
           "target": "com.cloudflare.turnstile#WidgetsCreateRequestClearanceLevel",
           "traits": {
-            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,"
+            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set"
           }
         },
         "ephemeral_id": {
@@ -1017,14 +1449,14 @@
         "bot_fight_mode": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally",
+            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only).",
             "smithy.api#required": {}
           }
         },
         "clearance_level": {
           "target": "com.cloudflare.turnstile#WidgetsCreateResponseClearanceLevel",
           "traits": {
-            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,",
+            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set",
             "smithy.api#required": {}
           }
         },
@@ -1065,7 +1497,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you",
+            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.",
             "smithy.api#required": {}
           }
         },
@@ -1095,6 +1527,18 @@
           "traits": {
             "smithy.api#documentation": "Widget item identifier tag.",
             "smithy.api#required": {}
+          }
+        },
+        "deployed_via": {
+          "target": "com.cloudflare.turnstile#WidgetsCreateResponseDeployedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed."
+          }
+        },
+        "last_modified_via": {
+          "target": "com.cloudflare.turnstile#WidgetsCreateResponseLastModifiedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed."
           }
         }
       },
@@ -1159,14 +1603,14 @@
         "bot_fight_mode": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally",
+            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only).",
             "smithy.api#required": {}
           }
         },
         "clearance_level": {
           "target": "com.cloudflare.turnstile#WidgetsDeleteResponseClearanceLevel",
           "traits": {
-            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,",
+            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set",
             "smithy.api#required": {}
           }
         },
@@ -1207,7 +1651,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you",
+            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.",
             "smithy.api#required": {}
           }
         },
@@ -1237,6 +1681,18 @@
           "traits": {
             "smithy.api#documentation": "Widget item identifier tag.",
             "smithy.api#required": {}
+          }
+        },
+        "deployed_via": {
+          "target": "com.cloudflare.turnstile#WidgetsDeleteResponseDeployedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed."
+          }
+        },
+        "last_modified_via": {
+          "target": "com.cloudflare.turnstile#WidgetsDeleteResponseLastModifiedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed."
           }
         }
       },
@@ -1301,14 +1757,14 @@
         "bot_fight_mode": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally",
+            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only).",
             "smithy.api#required": {}
           }
         },
         "clearance_level": {
           "target": "com.cloudflare.turnstile#WidgetsGetResponseClearanceLevel",
           "traits": {
-            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,",
+            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set",
             "smithy.api#required": {}
           }
         },
@@ -1349,7 +1805,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you",
+            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.",
             "smithy.api#required": {}
           }
         },
@@ -1379,6 +1835,18 @@
           "traits": {
             "smithy.api#documentation": "Widget item identifier tag.",
             "smithy.api#required": {}
+          }
+        },
+        "deployed_via": {
+          "target": "com.cloudflare.turnstile#WidgetsGetResponseDeployedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed."
+          }
+        },
+        "last_modified_via": {
+          "target": "com.cloudflare.turnstile#WidgetsGetResponseLastModifiedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed."
           }
         }
       },
@@ -1433,7 +1901,7 @@
         "filter": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter widgets by field using case-insensitive substring matching.",
+            "smithy.api#documentation": "Filter widgets by field using case-insensitive substring matching. Format: `field:value`",
             "smithy.api#httpQuery": "filter"
           }
         },
@@ -1517,7 +1985,7 @@
         "invalidate_immediately": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If `invalidate_immediately` is set to `false`, the previous secret will"
+            "smithy.api#documentation": "If `invalidate_immediately` is set to `false`, the previous secret will remain valid for two hours. Otherwise, the secret is immediately invalidated, and requests using it will be rejected."
           }
         }
       },
@@ -1531,14 +1999,14 @@
         "bot_fight_mode": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally",
+            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only).",
             "smithy.api#required": {}
           }
         },
         "clearance_level": {
           "target": "com.cloudflare.turnstile#WidgetsRotateSecretResponseClearanceLevel",
           "traits": {
-            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,",
+            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set",
             "smithy.api#required": {}
           }
         },
@@ -1579,7 +2047,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you",
+            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.",
             "smithy.api#required": {}
           }
         },
@@ -1609,6 +2077,18 @@
           "traits": {
             "smithy.api#documentation": "Widget item identifier tag.",
             "smithy.api#required": {}
+          }
+        },
+        "deployed_via": {
+          "target": "com.cloudflare.turnstile#WidgetsRotateSecretResponseDeployedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed."
+          }
+        },
+        "last_modified_via": {
+          "target": "com.cloudflare.turnstile#WidgetsRotateSecretResponseLastModifiedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed."
           }
         }
       },
@@ -1670,20 +2150,20 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you",
+            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.",
             "smithy.api#required": {}
           }
         },
         "bot_fight_mode": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally"
+            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only)."
           }
         },
         "clearance_level": {
           "target": "com.cloudflare.turnstile#WidgetsUpdateRequestClearanceLevel",
           "traits": {
-            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,"
+            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set"
           }
         },
         "ephemeral_id": {
@@ -1715,14 +2195,14 @@
         "bot_fight_mode": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally",
+            "smithy.api#documentation": "If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only).",
             "smithy.api#required": {}
           }
         },
         "clearance_level": {
           "target": "com.cloudflare.turnstile#WidgetsUpdateResponseClearanceLevel",
           "traits": {
-            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,",
+            "smithy.api#documentation": "If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set",
             "smithy.api#required": {}
           }
         },
@@ -1763,7 +2243,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you",
+            "smithy.api#documentation": "Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used.",
             "smithy.api#required": {}
           }
         },
@@ -1793,6 +2273,18 @@
           "traits": {
             "smithy.api#documentation": "Widget item identifier tag.",
             "smithy.api#required": {}
+          }
+        },
+        "deployed_via": {
+          "target": "com.cloudflare.turnstile#WidgetsUpdateResponseDeployedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed."
+          }
+        },
+        "last_modified_via": {
+          "target": "com.cloudflare.turnstile#WidgetsUpdateResponseLastModifiedVia",
+          "traits": {
+            "smithy.api#documentation": "Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed."
           }
         }
       },

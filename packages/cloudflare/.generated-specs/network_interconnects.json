@@ -137,6 +137,23 @@
         }
       }
     },
+    "com.cloudflare.network_interconnects#CnisCreateResponseBgpMode": {
+      "type": "enum",
+      "members": {
+        "DYNAMIC_ROUTE_EXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dynamic_route_exchange"
+          }
+        },
+        "ADVERTISE_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertise_only"
+          }
+        }
+      }
+    },
     "com.cloudflare.network_interconnects#CnisGetResponseMagic": {
       "type": "structure",
       "members": {
@@ -187,6 +204,23 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "MD5 key to use for session authentication."
+          }
+        }
+      }
+    },
+    "com.cloudflare.network_interconnects#CnisGetResponseBgpMode": {
+      "type": "enum",
+      "members": {
+        "DYNAMIC_ROUTE_EXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dynamic_route_exchange"
+          }
+        },
+        "ADVERTISE_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertise_only"
           }
         }
       }
@@ -245,6 +279,23 @@
         }
       }
     },
+    "com.cloudflare.network_interconnects#CnisListResponseItemsItemBgpMode": {
+      "type": "enum",
+      "members": {
+        "DYNAMIC_ROUTE_EXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dynamic_route_exchange"
+          }
+        },
+        "ADVERTISE_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertise_only"
+          }
+        }
+      }
+    },
     "com.cloudflare.network_interconnects#CnisListResponseItemsItem": {
       "type": "structure",
       "members": {
@@ -290,6 +341,12 @@
         },
         "bgp": {
           "target": "com.cloudflare.network_interconnects#CnisListResponseItemsItemBgp"
+        },
+        "bgp_mode": {
+          "target": "com.cloudflare.network_interconnects#CnisListResponseItemsItemBgpMode",
+          "traits": {
+            "smithy.api#documentation": "The BGP mode for a CNI."
+          }
         }
       }
     },
@@ -353,6 +410,23 @@
         }
       }
     },
+    "com.cloudflare.network_interconnects#CnisUpdateRequestBgpMode": {
+      "type": "enum",
+      "members": {
+        "DYNAMIC_ROUTE_EXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dynamic_route_exchange"
+          }
+        },
+        "ADVERTISE_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertise_only"
+          }
+        }
+      }
+    },
     "com.cloudflare.network_interconnects#CnisUpdateResponseMagic": {
       "type": "structure",
       "members": {
@@ -403,6 +477,23 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "MD5 key to use for session authentication."
+          }
+        }
+      }
+    },
+    "com.cloudflare.network_interconnects#CnisUpdateResponseBgpMode": {
+      "type": "enum",
+      "members": {
+        "DYNAMIC_ROUTE_EXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dynamic_route_exchange"
+          }
+        },
+        "ADVERTISE_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertise_only"
           }
         }
       }
@@ -553,6 +644,15 @@
             "smithy.api#required": {}
           }
         },
+        "virtual_port_reservation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ccr_device_name": {
+          "target": "smithy.api#String"
+        },
         "owner": {
           "target": "smithy.api#String"
         }
@@ -657,6 +757,12 @@
           }
         },
         "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "virtual_port_reservation_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -776,6 +882,9 @@
           "traits": {
             "smithy.api#documentation": "Customer account tag"
           }
+        },
+        "ccr_device_name": {
+          "target": "smithy.api#String"
         }
       }
     },
@@ -874,7 +983,7 @@
           "uri": "/accounts/{account_id}/cni/cnis",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new CNI object"
+        "smithy.api#documentation": "Creates a new Cloud Network Interconnect (CNI) for private network connectivity between Cloudflare and your infrastructure. CNIs enable dedicated, high-performance network links."
       }
     },
     "com.cloudflare.network_interconnects#CreateCniRequest": {
@@ -960,6 +1069,12 @@
         },
         "bgp": {
           "target": "com.cloudflare.network_interconnects#CnisCreateResponseBgp"
+        },
+        "bgp_mode": {
+          "target": "com.cloudflare.network_interconnects#CnisCreateResponseBgpMode",
+          "traits": {
+            "smithy.api#documentation": "The BGP mode for a CNI."
+          }
         }
       },
       "traits": {
@@ -981,7 +1096,7 @@
           "uri": "/accounts/{account_id}/cni/interconnects",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new interconnect"
+        "smithy.api#documentation": "Creates a new network interconnect for connecting Cloudflare's network to external networks. Interconnects provide dedicated bandwidth and reduced latency for traffic exchange."
       }
     },
     "com.cloudflare.network_interconnects#CreateInterconnectRequest": {
@@ -1052,7 +1167,7 @@
           "uri": "/accounts/{account_id}/cni/cnis/{cni}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a specified CNI object",
+        "smithy.api#documentation": "Permanently removes a Cloud Network Interconnect (CNI) configuration. The private network connection will be terminated.",
         "smithy.api#idempotent": {}
       }
     },
@@ -1093,7 +1208,7 @@
           "uri": "/accounts/{account_id}/cni/interconnects/{icon}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete an interconnect object",
+        "smithy.api#documentation": "Permanently removes a network interconnect configuration. The physical or virtual connection will be terminated.",
         "smithy.api#idempotent": {}
       }
     },
@@ -1134,7 +1249,7 @@
           "uri": "/accounts/{account_id}/cni/cnis/{cni}",
           "code": 200
         },
-        "smithy.api#documentation": "Get information about a CNI object",
+        "smithy.api#documentation": "Retrieves configuration details for a specific Cloud Network Interconnect (CNI), including connection status and parameters.",
         "smithy.api#readonly": {}
       }
     },
@@ -1206,6 +1321,12 @@
         },
         "bgp": {
           "target": "com.cloudflare.network_interconnects#CnisGetResponseBgp"
+        },
+        "bgp_mode": {
+          "target": "com.cloudflare.network_interconnects#CnisGetResponseBgpMode",
+          "traits": {
+            "smithy.api#documentation": "The BGP mode for a CNI."
+          }
         }
       },
       "traits": {
@@ -1227,7 +1348,7 @@
           "uri": "/accounts/{account_id}/cni/interconnects/{icon}",
           "code": 200
         },
-        "smithy.api#documentation": "Get information about an interconnect object",
+        "smithy.api#documentation": "Retrieves configuration and status details for a specific network interconnect.",
         "smithy.api#readonly": {}
       }
     },
@@ -1276,7 +1397,7 @@
           "uri": "/accounts/{account_id}/cni/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Get the current settings for the active account",
+        "smithy.api#documentation": "Retrieves current settings configuration for the specified resource or service.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -1329,7 +1450,7 @@
           "uri": "/accounts/{account_id}/cni/slots/{slot}",
           "code": 200
         },
-        "smithy.api#documentation": "Get information about the specified slot",
+        "smithy.api#documentation": "Gets information about a specific infrastructure slot allocation.",
         "smithy.api#readonly": {}
       }
     },
@@ -1396,6 +1517,9 @@
           "traits": {
             "smithy.api#documentation": "Customer account tag"
           }
+        },
+        "ccr_device_name": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -1417,7 +1541,7 @@
           "uri": "/accounts/{account_id}/cni/cnis",
           "code": 200
         },
-        "smithy.api#documentation": "List existing CNI objects",
+        "smithy.api#documentation": "Lists all Cloud Network Interconnects (CNIs) configured for the account, showing connection status and parameters.",
         "smithy.api#readonly": {}
       }
     },
@@ -1495,7 +1619,7 @@
           "uri": "/accounts/{account_id}/cni/interconnects",
           "code": 200
         },
-        "smithy.api#documentation": "List existing interconnects",
+        "smithy.api#documentation": "Lists all network interconnects configured for the account, including physical and virtual connections.",
         "smithy.api#readonly": {}
       }
     },
@@ -1573,7 +1697,7 @@
           "uri": "/accounts/{account_id}/cni/slots",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve a list of all slots matching the specified parameters",
+        "smithy.api#documentation": "Lists all available infrastructure slots for the account, showing allocation status and capacity.",
         "smithy.api#readonly": {}
       }
     },
@@ -1665,7 +1789,7 @@
           "uri": "/accounts/{account_id}/cni/interconnects/{icon}/loa",
           "code": 200
         },
-        "smithy.api#documentation": "Generate the Letter of Authorization (LOA) for a given interconnect",
+        "smithy.api#documentation": "Downloads the Letter of Authorization (LOA) for a network interconnect, required for physical cross-connect provisioning.",
         "smithy.api#readonly": {}
       }
     },
@@ -1685,6 +1809,13 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom name to use in the LOA instead of the account name (200 Character limit)",
+            "smithy.api#httpQuery": "name"
           }
         }
       },
@@ -1706,7 +1837,7 @@
           "uri": "/accounts/{account_id}/cni/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Update the current settings for the active account",
+        "smithy.api#documentation": "Updates configuration settings for the specified resource or service.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -1762,7 +1893,7 @@
           "uri": "/accounts/{account_id}/cni/interconnects/{icon}/status",
           "code": 200
         },
-        "smithy.api#documentation": "Get the current status of an interconnect object",
+        "smithy.api#documentation": "Gets the current operational status of a network interconnect, including link state and traffic metrics.",
         "smithy.api#readonly": {}
       }
     },
@@ -1811,7 +1942,7 @@
           "uri": "/accounts/{account_id}/cni/cnis/{cni}",
           "code": 200
         },
-        "smithy.api#documentation": "Modify stored information about a CNI object",
+        "smithy.api#documentation": "Updates the configuration of an existing Cloud Network Interconnect (CNI), including connection parameters and routing settings.",
         "smithy.api#idempotent": {}
       }
     },
@@ -1875,6 +2006,12 @@
         },
         "bgp": {
           "target": "com.cloudflare.network_interconnects#CnisUpdateRequestBgp"
+        },
+        "bgp_mode": {
+          "target": "com.cloudflare.network_interconnects#CnisUpdateRequestBgpMode",
+          "traits": {
+            "smithy.api#documentation": "The BGP mode for a CNI."
+          }
         }
       },
       "traits": {
@@ -1926,6 +2063,12 @@
         },
         "bgp": {
           "target": "com.cloudflare.network_interconnects#CnisUpdateResponseBgp"
+        },
+        "bgp_mode": {
+          "target": "com.cloudflare.network_interconnects#CnisUpdateResponseBgpMode",
+          "traits": {
+            "smithy.api#documentation": "The BGP mode for a CNI."
+          }
         }
       },
       "traits": {

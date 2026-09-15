@@ -1,548 +1,415 @@
+---
+title: Active Session
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Active Session
 
-## Fetch details of an active session
+##### [Fetch details of an active session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/active-session/methods/get_active_session)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/active-session
 
-Returns details of an ongoing active session for the given meeting ID.
+##### [Kick participants from an active session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/active-session/methods/kick_participants)
 
-### Path Parameters
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/active-session/kick
 
-- `account_id: string`
+##### [Kick all participants](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/active-session/methods/kick_all_participants)
 
-  The account identifier tag.
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/active-session/kick-all
 
-- `app_id: string`
+##### [Create a poll](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/active-session/methods/create_poll)
 
-  The app identifier tag.
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/active-session/poll
 
-- `meeting_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `data: optional object { id, associated_id, created_at, 11 more }`
+<summary>
 
-  - `id: string`
+ActiveSessionGetActiveSessionResponse object {data, success }
 
-    ID of the session
+</summary>
 
-  - `associated_id: string`
+<details>
 
-    ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+<summary>
 
-  - `created_at: string`
+data: optional object {id, associated\_id, created\_at, 11 more }
 
-    timestamp when session created
+</summary>
 
-  - `live_participants: number`
+id: string
 
-    number of participants currently in the session
+ID of the session
 
-  - `max_concurrent_participants: number`
+<a href="#">Link to this property</a>
 
-    number of maximum participants that were in the session
+associated\_id: string
 
-  - `meeting_display_name: string`
+ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form <code>abcdef-ghijkl</code>
 
-    Title of the meeting this session belongs to
+<a href="#">Link to this property</a>
 
-  - `minutes_consumed: number`
+created\_at: string
 
-    number of minutes consumed since the session started
+timestamp when session created
 
-  - `organization_id: string`
+<a href="#">Link to this property</a>
 
-    App id that hosted this session
+live\_participants: number
 
-  - `started_at: string`
+number of participants currently in the session
 
-    timestamp when session started
+<a href="#">Link to this property</a>
 
-  - `status: "LIVE" or "ENDED"`
+max\_concurrent\_participants: number
 
-    current status of session
+number of maximum participants that were in the session
 
-    - `"LIVE"`
+<a href="#">Link to this property</a>
 
-    - `"ENDED"`
+meeting\_display\_name: string
 
-  - `type: "meeting" or "livestream" or "participant"`
+Title of the meeting this session belongs to
 
-    type of session
+<a href="#">Link to this property</a>
 
-    - `"meeting"`
+minutes\_consumed: number
 
-    - `"livestream"`
+number of minutes consumed since the session started
 
-    - `"participant"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+organization\_id: string
 
-    timestamp when session was last updated
+App id that hosted this session
 
-  - `breakout_rooms: optional array of unknown`
+<a href="#">Link to this property</a>
 
-  - `ended_at: optional string`
+started\_at: string
 
-    timestamp when session ended
+timestamp when session started
 
-- `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+status: "LIVE"or "ENDED"
 
-```json
-{
-  "data": {
-    "id": "id",
-    "associated_id": "associated_id",
-    "created_at": "created_at",
-    "live_participants": 0,
-    "max_concurrent_participants": 0,
-    "meeting_display_name": "meeting_display_name",
-    "minutes_consumed": 0,
-    "organization_id": "organization_id",
-    "started_at": "started_at",
-    "status": "LIVE",
-    "type": "meeting",
-    "updated_at": "updated_at",
-    "breakout_rooms": [
-      {}
-    ],
-    "ended_at": "ended_at"
-  },
-  "success": true
-}
-```
+current status of session
 
-## Kick participants from an active session
+</summary>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/kick`
+One of the following:
 
-Kicks one or more participants from an active session using user ID or custom participant ID.
+"LIVE"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"ENDED"
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+</details>
 
-  The app identifier tag.
+<a href="#">Link to this property</a>
 
-- `meeting_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `custom_participant_ids: array of string`
+type: "meeting"or "livestream"or "participant"
 
-- `participant_ids: array of string`
+type of session
 
-### Returns
+</summary>
 
-- `data: optional object { action, participants }`
+One of the following:
 
-  - `action: optional string`
+"meeting"
 
-  - `participants: optional array of object { id, created_at, updated_at, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"livestream"
 
-      ID of the session participant
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"participant"
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    - `email: optional string`
+</details>
 
-      Email of the session participant.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+updated\_at: string
 
-      Name of the session participant.
+timestamp when session was last updated
 
-    - `picture: optional string`
+<a href="#">Link to this property</a>
 
-      A URL pointing to a picture of the participant.
+breakout\_rooms: optional array of unknown
 
-- `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Example
+ended\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session/kick \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "custom_participant_ids": [
-            "string"
-          ],
-          "participant_ids": [
-            "string"
-          ]
-        }'
-```
+timestamp when session ended
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "data": {
-    "action": "action",
-    "participants": [
-      {
-        "id": "id",
-        "created_at": "created_at",
-        "updated_at": "updated_at",
-        "email": "email",
-        "name": "name",
-        "picture": "picture"
-      }
-    ]
-  },
-  "success": true
-}
-```
+</details>
 
-## Kick all participants
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/kick-all`
+success: optional boolean
 
-Kicks all participants from an active session for the given meeting ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(model)%20active_session_get_active_session_response%20%3E%20(schema)>)
 
-  The account identifier tag.
+<details>
 
-- `app_id: string`
+<summary>
 
-  The app identifier tag.
+ActiveSessionKickParticipantsResponse object {data, success }
 
-- `meeting_id: string`
+</summary>
 
-### Returns
+<details>
 
-- `data: optional object { action, kicked_participants_count }`
+<summary>
 
-  - `action: optional string`
+data: optional object {action, participants }
 
-  - `kicked_participants_count: optional number`
+</summary>
 
-- `success: optional boolean`
+action: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session/kick-all \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "data": {
-    "action": "action",
-    "kicked_participants_count": 0
-  },
-  "success": true
-}
-```
+participants: optional array of object {id, created\_at, updated\_at, 3 more }
 
-## Create a poll
+</summary>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/poll`
+id: string
 
-Creates a new poll in an active session for the given meeting ID.
+ID of the session participant
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created\_at: string
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+updated\_at: string
 
-  The app identifier tag.
+<a href="#">Link to this property</a>
 
-- `meeting_id: string`
+email: optional string
 
-### Body Parameters
+Email of the session participant.
 
-- `options: array of string`
+<a href="#">Link to this property</a>
 
-  Different options for the question
+name: optional string
 
-- `question: string`
+Name of the session participant.
 
-  Question of the poll
+<a href="#">Link to this property</a>
 
-- `anonymous: optional boolean`
+picture: optional string
 
-  if voters on a poll are anonymous
+A URL pointing to a picture of the participant.
 
-- `hide_votes: optional boolean`
+<a href="#">Link to this property</a>
 
-  if votes on an option are visible before a person votes
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: optional object { action, poll }`
+</details>
 
-  - `action: optional string`
+<a href="#">Link to this property</a>
 
-  - `poll: optional object { id, options, question, 4 more }`
+success: optional boolean
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      ID of the poll
+</details>
 
-    - `options: array of object { count, text, votes }`
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(model)%20active_session_kick_participants_response%20%3E%20(schema)>)
 
-      Answer options
+<details>
 
-      - `count: number`
+<summary>
 
-      - `text: string`
+ActiveSessionKickAllParticipantsResponse object {data, success }
 
-        Text of the answer option
+</summary>
 
-      - `votes: array of object { id, name }`
+<details>
 
-        - `id: string`
+<summary>
 
-        - `name: string`
+data: optional object {action, kicked\_participants\_count }
 
-    - `question: string`
+</summary>
 
-      Question asked by the poll
+action: optional string
 
-    - `anonymous: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `created_by: optional string`
+kicked\_participants\_count: optional number
 
-    - `hide_votes: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `voted: optional array of string`
+</details>
 
-- `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Example
+success: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/active-session/poll \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "options": [
-            "string"
-          ],
-          "question": "question"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "data": {
-    "action": "action",
-    "poll": {
-      "id": "id",
-      "options": [
-        {
-          "count": 0,
-          "text": "text",
-          "votes": [
-            {
-              "id": "id",
-              "name": "name"
-            }
-          ]
-        }
-      ],
-      "question": "question",
-      "anonymous": true,
-      "created_by": "created_by",
-      "hide_votes": true,
-      "voted": [
-        "string"
-      ]
-    }
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(model)%20active_session_kick_all_participants_response%20%3E%20(schema)>)
 
-## Domain Types
+<details>
 
-### Active Session Get Active Session Response
+<summary>
 
-- `ActiveSessionGetActiveSessionResponse object { data, success }`
+ActiveSessionCreatePollResponse object {data, success }
 
-  - `data: optional object { id, associated_id, created_at, 11 more }`
+</summary>
 
-    - `id: string`
+<details>
 
-      ID of the session
+<summary>
 
-    - `associated_id: string`
+data: optional object {action, poll }
 
-      ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+</summary>
 
-    - `created_at: string`
+action: optional string
 
-      timestamp when session created
+<a href="#">Link to this property</a>
 
-    - `live_participants: number`
+<details>
 
-      number of participants currently in the session
+<summary>
 
-    - `max_concurrent_participants: number`
+poll: optional object {id, options, question, 4 more }
 
-      number of maximum participants that were in the session
+</summary>
 
-    - `meeting_display_name: string`
+id: string
 
-      Title of the meeting this session belongs to
+ID of the poll
 
-    - `minutes_consumed: number`
+<a href="#">Link to this property</a>
 
-      number of minutes consumed since the session started
+<details>
 
-    - `organization_id: string`
+<summary>
 
-      App id that hosted this session
+options: array of object {count, text, votes }
 
-    - `started_at: string`
+Answer options
 
-      timestamp when session started
+</summary>
 
-    - `status: "LIVE" or "ENDED"`
+count: number
 
-      current status of session
+<a href="#">Link to this property</a>
 
-      - `"LIVE"`
+text: string
 
-      - `"ENDED"`
+Text of the answer option
 
-    - `type: "meeting" or "livestream" or "participant"`
+<a href="#">Link to this property</a>
 
-      type of session
+<details>
 
-      - `"meeting"`
+<summary>
 
-      - `"livestream"`
+votes: array of object {id, name }
 
-      - `"participant"`
+</summary>
 
-    - `updated_at: string`
+id: string
 
-      timestamp when session was last updated
+<a href="#">Link to this property</a>
 
-    - `breakout_rooms: optional array of unknown`
+name: string
 
-    - `ended_at: optional string`
+<a href="#">Link to this property</a>
 
-      timestamp when session ended
+</details>
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Active Session Kick Participants Response
+</details>
 
-- `ActiveSessionKickParticipantsResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: optional object { action, participants }`
+question: string
 
-    - `action: optional string`
+Question asked by the poll
 
-    - `participants: optional array of object { id, created_at, updated_at, 3 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+anonymous: optional boolean
 
-        ID of the session participant
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+created\_by: optional string
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `email: optional string`
+hide\_votes: optional boolean
 
-        Email of the session participant.
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+voted: optional array of string
 
-        Name of the session participant.
+<a href="#">Link to this property</a>
 
-      - `picture: optional string`
+</details>
 
-        A URL pointing to a picture of the participant.
+<a href="#">Link to this property</a>
 
-  - `success: optional boolean`
+</details>
 
-### Active Session Kick All Participants Response
+<a href="#">Link to this property</a>
 
-- `ActiveSessionKickAllParticipantsResponse object { data, success }`
+success: optional boolean
 
-  - `data: optional object { action, kicked_participants_count }`
+<a href="#">Link to this property</a>
 
-    - `action: optional string`
+</details>
 
-    - `kicked_participants_count: optional number`
-
-  - `success: optional boolean`
-
-### Active Session Create Poll Response
-
-- `ActiveSessionCreatePollResponse object { data, success }`
-
-  - `data: optional object { action, poll }`
-
-    - `action: optional string`
-
-    - `poll: optional object { id, options, question, 4 more }`
-
-      - `id: string`
-
-        ID of the poll
-
-      - `options: array of object { count, text, votes }`
-
-        Answer options
-
-        - `count: number`
-
-        - `text: string`
-
-          Text of the answer option
-
-        - `votes: array of object { id, name }`
-
-          - `id: string`
-
-          - `name: string`
-
-      - `question: string`
-
-        Question asked by the poll
-
-      - `anonymous: optional boolean`
-
-      - `created_by: optional string`
-
-      - `hide_votes: optional boolean`
-
-      - `voted: optional array of string`
-
-  - `success: optional boolean`
+[Link to this property](#)%20realtime_kit.active-session%20%3E%20(model)%20active_session_create_poll_response%20%3E%20(schema)>)

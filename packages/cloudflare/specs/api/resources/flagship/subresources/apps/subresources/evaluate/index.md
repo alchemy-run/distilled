@@ -1,105 +1,111 @@
+---
+title: Evaluate
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Flagship](https://developers.cloudflare.com/api/resources/flagship)
+
+[Apps](https://developers.cloudflare.com/api/resources/flagship/subresources/apps)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Evaluate
 
-## Evaluate flag
+##### [Evaluate flag](https://developers.cloudflare.com/api/resources/flagship/subresources/apps/subresources/evaluate/methods/get)
 
-**get** `/accounts/{account_id}/flagship/apps/{app_id}/evaluate`
+GET/accounts/{account\_id}/flagship/apps/{app\_id}/evaluate
 
-Evaluates a flag against the provided context. Pass context attributes as query parameters; boolean and numeric strings are coerced automatically. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Cloudflare account ID.
+EvaluateGetResponse object {flagKey, reason, variant, value }
 
-- `app_id: string`
+</summary>
 
-  App identifier.
+flagKey: string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `flagKey: string`
+<details>
 
-  The flag key to evaluate.
+<summary>
 
-- `targetingKey: optional string`
+reason: "TARGETING\_MATCH"or "DEFAULT"or "DISABLED"or "SPLIT"
 
-  Context targeting key (per OpenFeature spec); used for percentage rollout bucketing.
+</summary>
 
-### Returns
+One of the following:
 
-- `flagKey: string`
+"TARGETING\_MATCH"
 
-- `reason: "TARGETING_MATCH" or "DEFAULT" or "DISABLED" or "SPLIT"`
+<a href="#">Link to this property</a>
 
-  - `"TARGETING_MATCH"`
+"DEFAULT"
 
-  - `"DEFAULT"`
+<a href="#">Link to this property</a>
 
-  - `"DISABLED"`
+"DISABLED"
 
-  - `"SPLIT"`
+<a href="#">Link to this property</a>
 
-- `variant: string`
+"SPLIT"
 
-- `value: optional string or number or boolean or 2 more`
+<a href="#">Link to this property</a>
 
-  - `string`
+</details>
 
-  - `number`
+<a href="#">Link to this property</a>
 
-  - `boolean`
+variant: string
 
-  - `map[unknown]`
+<a href="#">Link to this property</a>
 
-  - `array of unknown`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/flagship/apps/$APP_ID/evaluate \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+value: optional stringor numberor booleanor 2 more
 
-#### Response
+</summary>
 
-```json
-{
-  "flagKey": "flagKey",
-  "reason": "TARGETING_MATCH",
-  "variant": "variant",
-  "value": "string"
-}
-```
+One of the following:
 
-## Domain Types
+string
 
-### Evaluate Get Response
+<a href="#">Link to this property</a>
 
-- `EvaluateGetResponse object { flagKey, reason, variant, value }`
+number
 
-  - `flagKey: string`
+<a href="#">Link to this property</a>
 
-  - `reason: "TARGETING_MATCH" or "DEFAULT" or "DISABLED" or "SPLIT"`
+boolean
 
-    - `"TARGETING_MATCH"`
+<a href="#">Link to this property</a>
 
-    - `"DEFAULT"`
+map\[unknown]
 
-    - `"DISABLED"`
+<a href="#">Link to this property</a>
 
-    - `"SPLIT"`
+array of unknown
 
-  - `variant: string`
+<a href="#">Link to this property</a>
 
-  - `value: optional string or number or boolean or 2 more`
+</details>
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+</details>
 
-    - `boolean`
-
-    - `map[unknown]`
-
-    - `array of unknown`
+[Link to this property](#)%20flagship.apps.evaluate%20%3E%20(model)%20evaluate_get_response%20%3E%20(schema)>)

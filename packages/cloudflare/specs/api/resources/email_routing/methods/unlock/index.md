@@ -1,125 +1,370 @@
-## Unlock Email Routing
+---
+title: Unlock Email Routing
+---
 
-**post** `/zones/{zone_id}/email/routing/unlock`
+[Skip to content](#_top)
 
-Unlock MX records previously locked by Email Routing. Deprecated - use PATCH /zones/{zone_id}/email/routing/dns instead.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
 
-- `zone_id: string`
+Copy Markdown
 
-  Identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `name: optional string`
+**Copy Markdown****View as Markdown**
 
-  Domain of your zone.
+# Unlock Email Routing
 
-### Returns
+Deprecated: This endpoint is deprecated. Use PATCH /zones/{zone\_id}/email/routing/dns instead.
 
-- `errors: array of object { code, message, documentation_url, source }`
+POST/zones/{zone\_id}/email/routing/unlock
 
-  - `code: number`
+Unlock MX records previously locked by Email Routing. Deprecated - use PATCH /zones/{zone\_id}/email/routing/dns instead.
 
-  - `message: string`
+##### Security
 
-  - `documentation_url: optional string`
+API Email + API Key
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**`X-Auth-Email: user@example.com`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Zone Settings Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+zone\_id: string
 
-- `success: true`
+Identifier.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20email_routing%20%3E%20(method)%20unlock%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `result: optional Settings`
+##### Body ParametersJSONExpand Collapse
 
-  - `id: string`
+name: optional string
 
-    Email Routing settings identifier.
+Domain of your zone.
 
-  - `enabled: true or false`
+[Link to this property](#)%20email_routing%20%3E%20(method)%20unlock%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-    State of the zone settings for Email Routing.
+##### ReturnsExpand Collapse
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `name: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    Domain of your zone.
+</summary>
 
-  - `created: optional string`
+code: number
 
-    The date and time the settings have been created.
+minimum1000
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the settings have been modified.
+message: string
 
-  - `skip_wizard: optional true or false`
+<a href="#">Link to this property</a>
 
-    Flag to check if the user skipped the configuration wizard.
+documentation\_url: optional string
 
-    - `true`
+<a href="#">Link to this property</a>
 
-    - `false`
+<details>
 
-  - `status: optional "ready" or "unconfigured" or "misconfigured" or 2 more`
+<summary>
 
-    Show the state of your account, and the type or configuration error.
+source: optional object {pointer }
 
-    - `"ready"`
+</summary>
 
-    - `"unconfigured"`
+pointer: optional string
 
-    - `"misconfigured"`
+<a href="#">Link to this property</a>
 
-    - `"misconfigured/locked"`
+</details>
 
-    - `"unlocked"`
+<a href="#">Link to this property</a>
 
-  - `support_subaddress: optional true or false`
+</details>
 
-    Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+[Link to this property](#)%20email_routing%20%3E%20(method)%20unlock%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `true`
+<details>
 
-    - `false`
+<summary>
 
-  - `tag: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-    Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing%20%3E%20(method)%20unlock%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_routing%20%3E%20(method)%20unlock%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing%20%3E%20(model)%20settings%20%3E%20(schema)">Settings</a> { id, enabled, name, 6 more }
+
+</summary>
+
+id: string
+
+Email Routing settings identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enabled: trueor false
+
+State of the zone settings for Email Routing.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Domain of your zone.
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+The date and time the settings have been created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified: optional string
+
+The date and time the settings have been modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+skip\_wizard: optional trueor false
+
+Flag to check if the user skipped the configuration wizard.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "ready"or "unconfigured"or "misconfigured"or 2 more
+
+Show the state of your account, and the type or configuration error.
+
+</summary>
+
+One of the following:
+
+"ready"
+
+<a href="#">Link to this property</a>
+
+"unconfigured"
+
+<a href="#">Link to this property</a>
+
+"misconfigured"
+
+<a href="#">Link to this property</a>
+
+"misconfigured/locked"
+
+<a href="#">Link to this property</a>
+
+"unlocked"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+support\_subaddress: optional trueor false
+
+Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedtag: optional string
+
+Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing%20%3E%20(method)%20unlock%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Unlock Email Routing
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/unlock \
     -X POST \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "75610dab9e69410a82cf7e400a09ecec",
+    "enabled": true,
+    "name": "example.net",
+    "created": "2014-01-02T02:20:00Z",
+    "modified": "2014-01-02T02:20:00Z",
+    "skip_wizard": true,
+    "status": "ready",
+    "support_subaddress": true,
+    "tag": "75610dab9e69410a82cf7e400a09ecec"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

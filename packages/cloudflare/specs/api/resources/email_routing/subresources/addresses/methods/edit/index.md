@@ -1,90 +1,248 @@
-## Update destination address
+---
+title: Update destination address
+---
 
-**patch** `/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
+
+[Addresses](https://developers.cloudflare.com/api/resources/email_routing/subresources/addresses)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update destination address
+
+PATCH/accounts/{account\_id}/email/routing/addresses/{destination\_address\_identifier}
 
 Updates the status of a specific destination address.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `destination_address_identifier: string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  Destination address identifier.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Body Parameters
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `status: "unverified" or "verified"`
+##### Accepted Permissions (at least one required)
 
-  Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges.
+`Email Routing Addresses Write`
 
-  - `"unverified"`
+##### P ath ParametersExpand Collapse
 
-  - `"verified"`
+account\_id: string
 
-### Returns
+Identifier.
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `message: string`
+destination\_address\_identifier: string
 
-  - `documentation_url: optional string`
+Destination address identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20destination_address_identifier%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Body ParametersJSONExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+status: "unverified"or "verified"
 
-  - `source: optional object { pointer }`
+Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"unverified"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Address`
+"verified"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Destination address identifier.
+</details>
 
-  - `created: optional string`
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-    The date and time the destination address has been created.
+##### ReturnsExpand Collapse
 
-  - `email: optional string`
+<details>
 
-    The contact email address of the user.
+<summary>
 
-  - `modified: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-    The date and time the destination address was last modified.
+</summary>
 
-  - `tag: optional string`
+code: number
 
-    Destination address tag. (Deprecated, replaced by destination address identifier)
+minimum1000
 
-  - `verified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the destination address has been verified. Null means not verified yet.
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing.addresses%20%3E%20(model)%20address%20%3E%20(schema)">Address</a> { id, created, email, 3 more }
+
+</summary>
+
+id: optional string
+
+Destination address identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created: optional string
+
+The date and time the destination address has been created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+The contact email address of the user.
+
+maxLength90
+
+<a href="#">Link to this property</a>
+
+modified: optional string
+
+The date and time the destination address was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+Deprecatedtag: optional string
+
+Destination address tag. (Deprecated, replaced by destination address identifier)
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+verified: optional string
+
+The date and time the destination address has been verified. Null means not verified yet.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.addresses%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update destination address
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/routing/addresses/$DESTINATION_ADDRESS_IDENTIFIER \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -95,9 +253,47 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/routing/add
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "ea95132c15732412d22c1476fa83f27a",
+    "created": "2014-01-02T02:20:00Z",
+    "email": "user@example.com",
+    "modified": "2014-01-02T02:20:00Z",
+    "tag": "ea95132c15732412d22c1476fa83f27a",
+    "verified": "2014-01-02T02:20:00Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

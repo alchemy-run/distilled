@@ -1,281 +1,793 @@
-## Get predefined profile config
+---
+title: Get predefined profile config
+---
 
-**get** `/accounts/{account_id}/dlp/profiles/predefined/{profile_id}/config`
+[Skip to content](#_top)
 
-This is similar to `get_predefined` but only returns entries that are enabled.
-This is needed for our terraform API
-Fetches a predefined DLP profile by id.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-- `profile_id: string`
+[Profiles](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles)
 
-### Returns
+[Predefined](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/predefined)
 
-- `errors: array of object { code, message, documentation_url, source }`
+Copy Markdown
 
-  - `code: number`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `message: string`
+---
 
-  - `documentation_url: optional string`
+**Copy Markdown****View as Markdown**
 
-  - `source: optional object { pointer }`
+# Get predefined profile config
 
-    - `pointer: optional string`
+GET/accounts/{account\_id}/dlp/profiles/predefined/{profile\_id}/config
 
-- `messages: array of object { code, message, documentation_url, source }`
+This is similar to `get_predefined` but only returns entries that are enabled. This is needed for our terraform API Fetches a predefined DLP profile by id.
 
-  - `code: number`
+##### Security
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Token</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `success: true`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Whether the API call was successful.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `true`
+</details>
 
-- `result: optional PredefinedProfile`
+<details>
 
-  - `id: string`
+<summary>API Email + API Key</summary>
 
-    The id of the predefined profile (uuid).
 
-  - `allowed_match_count: number`
 
-  - `confidence_threshold: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `enabled_entries: array of string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Entries to enable for this predefined profile. Any entries not provided will be disabled.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `entries: array of object { id, created_at, enabled, 6 more }  or object { id, created_at, enabled, 4 more }  or object { id, confidence, enabled, 4 more }  or 4 more`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    This field has been deprecated for `enabled_entries`.
+</details>
 
-    - `CustomEntry object { id, created_at, enabled, 6 more }`
+##### Accepted Permissions (at least one required)
 
-      - `id: string`
+`Zero Trust Read``Zero Trust Write`
 
-      - `created_at: string`
+##### P ath ParametersExpand Collapse
 
-      - `enabled: boolean`
+account\_id: string
 
-      - `name: string`
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `pattern: Pattern`
+profile\_id: string
 
-        - `regex: string`
+formatuuid
 
-        - `validation: optional "luhn"`
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20profile_id%20%3E%20(schema)>)
 
-          - `"luhn"`
+##### ReturnsExpand Collapse
 
-      - `type: "custom"`
+<details>
 
-        - `"custom"`
+<summary>
 
-      - `updated_at: string`
+errors: array of object {code, message, documentation\_url, source }
 
-      - `description: optional string`
+</summary>
 
-      - `profile_id: optional string`
+code: number
 
-    - `CustomPromptTopicEntry object { id, created_at, enabled, 4 more }`
+minimum1000
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `created_at: string`
+message: string
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+documentation\_url: optional string
 
-      - `type: "custom_prompt_topic"`
+<a href="#">Link to this property</a>
 
-        - `"custom_prompt_topic"`
+<details>
 
-      - `updated_at: string`
+<summary>
 
-      - `description: optional string`
+source: optional object {pointer }
 
-        The optional description of the custom prompt topic entry.
+</summary>
 
-    - `PredefinedEntry object { id, confidence, enabled, 4 more }`
+pointer: optional string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `confidence: object { ai_context_available, available }`
+</details>
 
-        - `ai_context_available: boolean`
+<a href="#">Link to this property</a>
 
-          Indicates whether this entry has AI remote service validation.
+</details>
 
-        - `available: boolean`
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-          Indicates whether this entry has any form of validation that is not an AI remote service.
+<details>
 
-      - `enabled: boolean`
+<summary>
 
-      - `name: string`
+messages: array of object {code, message, documentation\_url, source }
 
-      - `type: "predefined"`
+</summary>
 
-        - `"predefined"`
+code: number
 
-      - `profile_id: optional string`
+minimum1000
 
-      - `variant: optional object { topic_type, type, description }  or object { type, description }`
+<a href="#">Link to this property</a>
 
-        A Predefined AI prompt classification topic entry.
+message: string
 
-        - `object { topic_type, type, description }`
+<a href="#">Link to this property</a>
 
-          A Predefined AI prompt classification topic entry.
+documentation\_url: optional string
 
-          - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-            - `"Intent"`
+<details>
 
-            - `"Content"`
+<summary>
 
-          - `type: "PromptTopic"`
+source: optional object {pointer }
 
-            - `"PromptTopic"`
+</summary>
 
-          - `description: optional string`
+pointer: optional string
 
-            A customer-facing explanation of what this predefined AI prompt topic represents.
+<a href="#">Link to this property</a>
 
-        - `object { type, description }`
+</details>
 
-          A general predefined entry.
+<a href="#">Link to this property</a>
 
-          - `type: "General"`
+</details>
 
-            - `"General"`
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-          - `description: optional string`
+success: true
 
-            A customer-facing explanation of what this predefined entry represents.
+Whether the API call was successful.
 
-    - `IntegrationEntry object { id, created_at, enabled, 4 more }`
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      - `id: string`
+<details>
 
-      - `created_at: string`
+<summary>
 
-      - `enabled: boolean`
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.predefined%20%3E%20(model)%20predefined_profile%20%3E%20(schema)">PredefinedProfile</a> { id, allowed\_match\_count, confidence\_threshold, 6 more }
 
-      - `name: string`
+</summary>
 
-      - `type: "integration"`
+id: string
 
-        - `"integration"`
+The id of the predefined profile (uuid).
 
-      - `updated_at: string`
+formatuuid
 
-      - `profile_id: optional string`
+<a href="#">Link to this property</a>
 
-    - `ExactDataEntry object { id, case_sensitive, created_at, 6 more }`
+allowed\_match\_count: number
 
-      - `id: string`
+formatint32
 
-      - `case_sensitive: boolean`
+<a href="#">Link to this property</a>
 
-        Only applies to custom word lists.
-        Determines if the words should be matched in a case-sensitive manner
-        Cannot be set to false if secret is true
+confidence\_threshold: string
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+enabled\_entries: array of string
 
-      - `name: string`
+Entries to enable for this predefined profile. Any entries not provided will be disabled.
 
-      - `secret: boolean`
+<a href="#">Link to this property</a>
 
-      - `type: "exact_data"`
+<details>
 
-        - `"exact_data"`
+<summary>
 
-      - `updated_at: string`
+Deprecatedentries: array of object {id, created\_at, enabled, 6 more } or object {id, created\_at, enabled, 4 more } or object {id, confidence, enabled, 5 more } or 4 more
 
-      - `description: optional string`
+This field has been deprecated for <code>enabled_entries</code>.
 
-        The optional description of the exact data entry.
+</summary>
 
-    - `DocumentFingerprintEntry object { id, created_at, enabled, 4 more }`
+One of the following:
 
-      - `id: string`
+<details>
 
-      - `created_at: string`
+<summary>
 
-      - `enabled: boolean`
+CustomEntry object {id, created\_at, enabled, 6 more }
 
-      - `name: string`
+</summary>
 
-      - `type: "document_fingerprint"`
+id: string
 
-        - `"document_fingerprint"`
+formatuuid
 
-      - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+created\_at: string
 
-        The optional description of the document fingerprint entry.
+formatdate-time
 
-    - `WordListEntry object { id, created_at, enabled, 5 more }`
+<a href="#">Link to this property</a>
 
-      - `id: string`
+Deprecatedenabled: boolean
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+name: string
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `type: "word_list"`
+<details>
 
-        - `"word_list"`
+<summary>
 
-      - `updated_at: string`
+pattern: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.profiles.custom%20%3E%20(model)%20pattern%20%3E%20(schema)">Pattern</a> { regex, validation }
 
-      - `word_list: unknown`
+</summary>
 
-      - `profile_id: optional string`
+regex: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the predefined profile.
+Deprecatedvalidation: optional "luhn"
 
-  - `ai_context_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `ocr_enabled: optional boolean`
+</details>
 
-  - `open_access: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether this profile can be accessed by anyone.
+type: "custom"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+Deprecatedprofile\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CustomPromptTopicEntry object {id, created\_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+Deprecatedenabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "custom\_prompt\_topic"
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The optional description of the custom prompt topic entry.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+PredefinedEntry object {id, confidence, enabled, 5 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+confidence: object {ai\_context\_available, available }
+
+</summary>
+
+ai\_context\_available: boolean
+
+Indicates whether this entry has AI remote service validation.
+
+<a href="#">Link to this property</a>
+
+available: boolean
+
+Indicates whether this entry has any form of validation that is not an AI remote service.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "predefined"
+
+<a href="#">Link to this property</a>
+
+deprecated: optional boolean
+
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
+
+<a href="#">Link to this property</a>
+
+Deprecatedprofile\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+variant: optional object {topic\_type, type, description } or object {type, description }
+
+A Predefined AI prompt classification topic entry.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {topic\_type, type, description }
+
+A Predefined AI prompt classification topic entry.
+
+</summary>
+
+<details>
+
+<summary>
+
+topic\_type: "Intent"or "Content"
+
+</summary>
+
+One of the following:
+
+"Intent"
+
+<a href="#">Link to this property</a>
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "PromptTopic"
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A customer-facing explanation of what this predefined AI prompt topic represents.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {type, description }
+
+A general predefined entry.
+
+</summary>
+
+type: "General"
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A customer-facing explanation of what this predefined entry represents.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+IntegrationEntry object {id, created\_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "integration"
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+profile\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ExactDataEntry object {id, case\_sensitive, created\_at, 6 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+case\_sensitive: boolean
+
+Only applies to custom word lists. Determines if the words should be matched in a case-sensitive manner Cannot be set to false if secret is true
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+secret: boolean
+
+<a href="#">Link to this property</a>
+
+type: "exact\_data"
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The optional description of the exact data entry.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DocumentFingerprintEntry object {id, created\_at, enabled, 4 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "document\_fingerprint"
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The optional description of the document fingerprint entry.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WordListEntry object {id, created\_at, enabled, 5 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: "word\_list"
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+word\_list: unknown
+
+<a href="#">Link to this property</a>
+
+profile\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the predefined profile.
+
+<a href="#">Link to this property</a>
+
+ai\_context\_enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+ocr\_enabled: optional boolean
+
+<a href="#">Link to this property</a>
+
+open\_access: optional boolean
+
+Whether this profile can be accessed by anyone.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.profiles.predefined%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get predefined profile config
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/profiles/predefined/$PROFILE_ID/config \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "allowed_match_count": 0,
+    "confidence_threshold": "confidence_threshold",
+    "enabled_entries": [
+      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+    ],
+    "entries": [
+      {
+        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "created_at": "2019-12-27T18:11:19.117Z",
+        "enabled": true,
+        "name": "name",
+        "pattern": {
+          "regex": "regex",
+          "validation": "luhn"
+        },
+        "type": "custom",
+        "updated_at": "2019-12-27T18:11:19.117Z",
+        "description": "description",
+        "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+      }
+    ],
+    "name": "name",
+    "ai_context_enabled": true,
+    "ocr_enabled": true,
+    "open_access": true
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

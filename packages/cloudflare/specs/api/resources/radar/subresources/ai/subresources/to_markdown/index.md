@@ -1,69 +1,61 @@
+---
+title: To Markdown
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[AI](https://developers.cloudflare.com/api/resources/radar/subresources/ai)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # To Markdown
 
-## Convert Files into Markdown
+##### [Convert Files into Markdown](https://developers.cloudflare.com/api/resources/radar/subresources/ai/subresources/to_markdown/methods/create)
 
-**post** `/accounts/{account_id}/ai/tomarkdown`
+Deprecated
 
-Converts uploaded files into Markdown format using Workers AI.
+POST/accounts/{account\_id}/ai/tomarkdown
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `result: array of object { data, format, mimeType, 2 more }`
+ToMarkdownCreateResponse object {data, format, mimeType, 2 more }
 
-  - `data: string`
+</summary>
 
-  - `format: string`
+data: string
 
-  - `mimeType: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+format: string
 
-  - `tokens: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+mimeType: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/tomarkdown \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F files='["Example data"]'
-```
+name: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": [
-    {
-      "data": "data",
-      "format": "format",
-      "mimeType": "mimeType",
-      "name": "name",
-      "tokens": "tokens"
-    }
-  ],
-  "success": true
-}
-```
+tokens: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### To Markdown Create Response
+</details>
 
-- `ToMarkdownCreateResponse object { data, format, mimeType, 2 more }`
-
-  - `data: string`
-
-  - `format: string`
-
-  - `mimeType: string`
-
-  - `name: string`
-
-  - `tokens: string`
+[Link to this property](#)%20radar.ai.to_markdown%20%3E%20(model)%20to_markdown_create_response%20%3E%20(schema)>)

@@ -1,1874 +1,1039 @@
+---
+title: Users
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Users
 
-## Get users
+##### [Get users](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/methods/list)
 
-**get** `/accounts/{account_id}/access/users`
+GET/accounts/{account\_id}/access/users
 
-Gets a list of users for an account.
+##### [Get a user](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/access/users/{user\_id}
 
-- `account_id: string`
+##### [Create a user](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/access/users
 
-### Query Parameters
+##### [Update a user](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/methods/update)
 
-- `email: optional string`
+PUT/accounts/{account\_id}/access/users/{user\_id}
 
-  The email of the user.
+##### [Delete a user](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/methods/delete)
 
-- `name: optional string`
+DELETE/accounts/{account\_id}/access/users/{user\_id}
 
-  The name of the user.
+##### ModelsExpand Collapse
 
-- `page: optional number`
+<details>
 
-  Page number of results.
+<summary>
 
-- `per_page: optional number`
+AccessUser object {id, active, displayName, 4 more }
 
-  Number of results per page.
+</summary>
 
-- `search: optional string`
+id: optional string
 
-  Search for users by other listed query parameters.
+The unique Cloudflare-generated Id of the SCIM resource.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+active: optional boolean
 
-  - `code: number`
+Determines the status of the SCIM User resource.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+displayName: optional string
 
-  - `source: optional object { pointer }`
+The name of the SCIM User resource.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+emails: optional array of object {primary, type, value }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+primary: optional boolean
 
-    - `pointer: optional string`
+Indicates if the email address is the primary email belonging to the SCIM User resource.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+type: optional string
 
-  - `true`
+Indicates the type of the email address.
 
-- `result: optional array of object { id, access_seat, active_device_count, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+value: optional string
 
-    UUID.
+The email address of the SCIM User resource.
 
-  - `access_seat: optional boolean`
+formatemail
 
-    True if the user has authenticated with Cloudflare Access.
+<a href="#">Link to this property</a>
 
-  - `active_device_count: optional number`
+</details>
 
-    The number of active devices registered to the user.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+externalId: optional string
 
-  - `email: optional string`
+The IdP-generated Id of the SCIM resource.
 
-    The email of the user.
+<a href="#">Link to this property</a>
 
-  - `gateway_seat: optional boolean`
+<details>
 
-    True if the user has logged into the WARP client.
+<summary>
 
-  - `last_successful_login: optional string`
+meta: optional object {created, lastModified }
 
-    The time at which the user last successfully logged in.
+The metadata of the SCIM resource.
 
-  - `name: optional string`
+</summary>
 
-    The name of the user.
+created: optional string
 
-  - `seat_uid: optional string`
+The timestamp of when the SCIM resource was created.
 
-    The unique API identifier for the Zero Trust seat.
+formatdate-time
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    The unique API identifier for the user.
+lastModified: optional string
 
-  - `updated_at: optional string`
+The timestamp of when the SCIM resource was last modified.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+formatdate-time
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+</details>
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+schemas: optional array of string
 
-  - `per_page: optional number`
+The list of URIs which indicate the attributes contained within a SCIM resource.
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(model)%20access_user%20%3E%20(schema)>)
 
-  - `total_pages: optional number`
+<details>
 
-    The number of total pages in the entire result set.
+<summary>
 
-### Example
+UserListResponse object {id, access\_seat, active\_device\_count, 8 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "access_seat": false,
-      "active_device_count": 2,
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "email": "jdoe@example.com",
-      "gateway_seat": false,
-      "last_successful_login": "2020-07-01T05:20:00Z",
-      "name": "Jane Doe",
-      "seat_uid": "seat_uid",
-      "uid": "uid",
-      "updated_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 100,
-    "total_count": 1,
-    "total_pages": 100
-  }
-}
-```
+UUID.
 
-## Get a user
+maxLength36
 
-**get** `/accounts/{account_id}/access/users/{user_id}`
+<a href="#">Link to this property</a>
 
-Gets a specific user for an account.
+access\_seat: optional boolean
 
-### Path Parameters
+True if the user has authenticated with Cloudflare Access.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+active\_device\_count: optional number
 
-- `user_id: string`
+The number of active devices registered to the user.
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+created\_at: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+email: optional string
 
-  - `documentation_url: optional string`
+The email of the user.
 
-  - `source: optional object { pointer }`
+formatemail
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+gateway\_seat: optional boolean
 
-  - `code: number`
+True if the user has logged into the WARP client.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+last\_successful\_login: optional string
 
-  - `source: optional object { pointer }`
+The time at which the user last successfully logged in.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+name: optional string
 
-  - `true`
+The name of the user.
 
-- `result: optional object { id, access_seat, active_device_count, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+seat\_uid: optional string
 
-    UUID.
+The unique API identifier for the Zero Trust seat.
 
-  - `access_seat: optional boolean`
+<a href="#">Link to this property</a>
 
-    True if the user has authenticated with Cloudflare Access.
+uid: optional string
 
-  - `active_device_count: optional number`
+The unique API identifier for the user.
 
-    The number of active devices registered to the user.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+updated\_at: optional string
 
-  - `email: optional string`
+formatdate-time
 
-    The email of the user.
+<a href="#">Link to this property</a>
 
-  - `gateway_seat: optional boolean`
+</details>
 
-    True if the user has logged into the WARP client.
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(model)%20user_list_response%20%3E%20(schema)>)
 
-  - `last_successful_login: optional string`
+<details>
 
-    The time at which the user last successfully logged in.
+<summary>
 
-  - `name: optional string`
+UserGetResponse object {id, access\_seat, active\_device\_count, 8 more }
 
-    The name of the user.
+</summary>
 
-  - `seat_uid: optional string`
+id: optional string
 
-    The unique API identifier for the Zero Trust seat.
+UUID.
 
-  - `uid: optional string`
+maxLength36
 
-    The unique API identifier for the user.
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+access\_seat: optional boolean
 
-### Example
+True if the user has authenticated with Cloudflare Access.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+active\_device\_count: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "access_seat": false,
-    "active_device_count": 2,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "email": "jdoe@example.com",
-    "gateway_seat": false,
-    "last_successful_login": "2020-07-01T05:20:00Z",
-    "name": "Jane Doe",
-    "seat_uid": "seat_uid",
-    "uid": "uid",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+The number of active devices registered to the user.
 
-## Create a user
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/access/users`
+created\_at: optional string
 
-Creates a new user.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+email: optional string
 
-  Identifier.
+The email of the user.
 
-### Body Parameters
+formatemail
 
-- `email: string`
+<a href="#">Link to this property</a>
 
-  The email of the user.
+gateway\_seat: optional boolean
 
-- `name: optional string`
+True if the user has logged into the WARP client.
 
-  The name of the user.
+<a href="#">Link to this property</a>
 
-### Returns
+last\_successful\_login: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The time at which the user last successfully logged in.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: optional string
 
-  - `source: optional object { pointer }`
+The name of the user.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+seat\_uid: optional string
 
-  - `code: number`
+The unique API identifier for the Zero Trust seat.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+uid: optional string
 
-  - `source: optional object { pointer }`
+The unique API identifier for the user.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+updated\_at: optional string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, access_seat, active_device_count, 8 more }`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(model)%20user_get_response%20%3E%20(schema)>)
 
-    UUID.
+<details>
 
-  - `access_seat: optional boolean`
+<summary>
 
-    True if the user has authenticated with Cloudflare Access.
+UserCreateResponse object {id, access\_seat, active\_device\_count, 8 more }
 
-  - `active_device_count: optional number`
+</summary>
 
-    The number of active devices registered to the user.
+id: optional string
 
-  - `created_at: optional string`
+UUID.
 
-  - `email: optional string`
+maxLength36
 
-    The email of the user.
+<a href="#">Link to this property</a>
 
-  - `gateway_seat: optional boolean`
+access\_seat: optional boolean
 
-    True if the user has logged into the WARP client.
+True if the user has authenticated with Cloudflare Access.
 
-  - `last_successful_login: optional string`
+<a href="#">Link to this property</a>
 
-    The time at which the user last successfully logged in.
+active\_device\_count: optional number
 
-  - `name: optional string`
+The number of active devices registered to the user.
 
-    The name of the user.
+<a href="#">Link to this property</a>
 
-  - `seat_uid: optional string`
+created\_at: optional string
 
-    The unique API identifier for the Zero Trust seat.
+formatdate-time
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    The unique API identifier for the user.
+email: optional string
 
-  - `updated_at: optional string`
+The email of the user.
 
-### Example
+formatemail
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email": "jdoe@example.com",
-          "name": "Jane Doe"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+gateway\_seat: optional boolean
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "access_seat": false,
-    "active_device_count": 2,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "email": "jdoe@example.com",
-    "gateway_seat": false,
-    "last_successful_login": "2020-07-01T05:20:00Z",
-    "name": "Jane Doe",
-    "seat_uid": "seat_uid",
-    "uid": "uid",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+True if the user has logged into the WARP client.
 
-## Update a user
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/access/users/{user_id}`
+last\_successful\_login: optional string
 
-Updates a specific user's name for an account. Requires the user's current email as confirmation (email cannot be changed).
+The time at which the user last successfully logged in.
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+name: optional string
 
-- `user_id: string`
+The name of the user.
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+seat\_uid: optional string
 
-- `email: string`
+The unique API identifier for the Zero Trust seat.
 
-  The email of the user.
+<a href="#">Link to this property</a>
 
-- `name: string`
+uid: optional string
 
-  The name of the user.
+The unique API identifier for the user.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+updated\_at: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(model)%20user_create_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+UserUpdateResponse object {id, access\_seat, active\_device\_count, 8 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+UUID.
 
-    - `pointer: optional string`
+maxLength36
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+access\_seat: optional boolean
 
-  - `true`
+True if the user has authenticated with Cloudflare Access.
 
-- `result: optional object { id, access_seat, active_device_count, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+active\_device\_count: optional number
 
-    UUID.
+The number of active devices registered to the user.
 
-  - `access_seat: optional boolean`
+<a href="#">Link to this property</a>
 
-    True if the user has authenticated with Cloudflare Access.
+created\_at: optional string
 
-  - `active_device_count: optional number`
+formatdate-time
 
-    The number of active devices registered to the user.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+email: optional string
 
-  - `email: optional string`
+The email of the user.
 
-    The email of the user.
+formatemail
 
-  - `gateway_seat: optional boolean`
+<a href="#">Link to this property</a>
 
-    True if the user has logged into the WARP client.
+gateway\_seat: optional boolean
 
-  - `last_successful_login: optional string`
+True if the user has logged into the WARP client.
 
-    The time at which the user last successfully logged in.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+last\_successful\_login: optional string
 
-    The name of the user.
+The time at which the user last successfully logged in.
 
-  - `seat_uid: optional string`
+formatdate-time
 
-    The unique API identifier for the Zero Trust seat.
+<a href="#">Link to this property</a>
 
-  - `uid: optional string`
+name: optional string
 
-    The unique API identifier for the user.
+The name of the user.
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+seat\_uid: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email": "jdoe@example.com",
-          "name": "Jane Doe"
-        }'
-```
+The unique API identifier for the Zero Trust seat.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "access_seat": false,
-    "active_device_count": 2,
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "email": "jdoe@example.com",
-    "gateway_seat": false,
-    "last_successful_login": "2020-07-01T05:20:00Z",
-    "name": "Jane Doe",
-    "seat_uid": "seat_uid",
-    "uid": "uid",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+uid: optional string
 
-## Delete a user
+The unique API identifier for the user.
 
-**delete** `/accounts/{account_id}/access/users/{user_id}`
+<a href="#">Link to this property</a>
 
-Deletes a specific user for an account. This will also revoke any active seats and tokens for the user.
+updated\_at: optional string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `user_id: string`
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(model)%20user_update_response%20%3E%20(schema)>)
 
-  UUID.
+UserDeleteResponse = unknown
 
-### Returns
+[Link to this property](#)%20zero_trust.access.users%20%3E%20(model)%20user_delete_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+#### UsersActive Sessions
 
-  - `code: number`
+##### [Get active sessions](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/subresources/active_sessions/methods/list)
 
-  - `message: string`
+GET/accounts/{account\_id}/access/users/{user\_id}/active\_sessions
 
-  - `documentation_url: optional string`
+##### [Get single active session](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/subresources/active_sessions/methods/get)
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/access/users/{user\_id}/active\_sessions/{nonce}
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+ActiveSessionListResponse object {expiration, metadata, name }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+expiration: optional number
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+metadata: optional object {apps, expires, iat, 2 more }
 
-- `result: optional unknown`
+</summary>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+apps: optional map\[object {hostname, name, type, uid } ]
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+</summary>
 
-## Domain Types
+hostname: optional string
 
-### Access User
+<a href="#">Link to this property</a>
 
-- `AccessUser object { id, active, displayName, 4 more }`
+name: optional string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique Cloudflare-generated Id of the SCIM resource.
+type: optional string
 
-  - `active: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines the status of the SCIM User resource.
+uid: optional string
 
-  - `displayName: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the SCIM User resource.
+</details>
 
-  - `emails: optional array of object { primary, type, value }`
+<a href="#">Link to this property</a>
 
-    - `primary: optional boolean`
+expires: optional number
 
-      Indicates if the email address is the primary email belonging to the SCIM User resource.
+<a href="#">Link to this property</a>
 
-    - `type: optional string`
+iat: optional number
 
-      Indicates the type of the email address.
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+nonce: optional string
 
-      The email address of the SCIM User resource.
+<a href="#">Link to this property</a>
 
-  - `externalId: optional string`
+ttl: optional number
 
-    The IdP-generated Id of the SCIM resource.
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { created, lastModified }`
+</details>
 
-    The metadata of the SCIM resource.
+<a href="#">Link to this property</a>
 
-    - `created: optional string`
+name: optional string
 
-      The timestamp of when the SCIM resource was created.
+<a href="#">Link to this property</a>
 
-    - `lastModified: optional string`
+</details>
 
-      The timestamp of when the SCIM resource was last modified.
+[Link to this property](#)%20zero_trust.access.users.active_sessions%20%3E%20(model)%20active_session_list_response%20%3E%20(schema)>)
 
-  - `schemas: optional array of string`
+<details>
 
-    The list of URIs which indicate the attributes contained within a SCIM resource.
+<summary>
 
-### User List Response
+ActiveSessionGetResponse object {account\_id, auth\_status, common\_name, 16 more }
 
-- `UserListResponse object { id, access_seat, active_device_count, 8 more }`
+</summary>
 
-  - `id: optional string`
+account\_id: optional string
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `access_seat: optional boolean`
+auth\_status: optional string
 
-    True if the user has authenticated with Cloudflare Access.
+<a href="#">Link to this property</a>
 
-  - `active_device_count: optional number`
+common\_name: optional string
 
-    The number of active devices registered to the user.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+device\_id: optional string
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The email of the user.
+<details>
 
-  - `gateway_seat: optional boolean`
+<summary>
 
-    True if the user has logged into the WARP client.
+device\_sessions: optional map\[object {last\_authenticated } ]
 
-  - `last_successful_login: optional string`
+</summary>
 
-    The time at which the user last successfully logged in.
+last\_authenticated: optional number
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the user.
+</details>
 
-  - `seat_uid: optional string`
+<a href="#">Link to this property</a>
 
-    The unique API identifier for the Zero Trust seat.
+<details>
 
-  - `uid: optional string`
+<summary>
 
-    The unique API identifier for the user.
+devicePosture: optional map\[object {id, check, data, 6 more } ]
 
-  - `updated_at: optional string`
+</summary>
 
-### User Get Response
+id: optional string
 
-- `UserGetResponse object { id, access_seat, active_device_count, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    UUID.
+<summary>
 
-  - `access_seat: optional boolean`
+check: optional object {exists, path }
 
-    True if the user has authenticated with Cloudflare Access.
+</summary>
 
-  - `active_device_count: optional number`
+exists: optional boolean
 
-    The number of active devices registered to the user.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+path: optional string
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The email of the user.
+</details>
 
-  - `gateway_seat: optional boolean`
+<a href="#">Link to this property</a>
 
-    True if the user has logged into the WARP client.
+data: optional unknown
 
-  - `last_successful_login: optional string`
+<a href="#">Link to this property</a>
 
-    The time at which the user last successfully logged in.
+description: optional string
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the user.
+error: optional string
 
-  - `seat_uid: optional string`
+<a href="#">Link to this property</a>
 
-    The unique API identifier for the Zero Trust seat.
+rule\_name: optional string
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    The unique API identifier for the user.
+success: optional boolean
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-### User Create Response
+timestamp: optional string
 
-- `UserCreateResponse object { id, access_seat, active_device_count, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+type: optional string
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `access_seat: optional boolean`
+</details>
 
-    True if the user has authenticated with Cloudflare Access.
+<a href="#">Link to this property</a>
 
-  - `active_device_count: optional number`
+email: optional string
 
-    The number of active devices registered to the user.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+<details>
 
-  - `email: optional string`
+<summary>
 
-    The email of the user.
+geo: optional object {country }
 
-  - `gateway_seat: optional boolean`
+</summary>
 
-    True if the user has logged into the WARP client.
+country: optional string
 
-  - `last_successful_login: optional string`
+<a href="#">Link to this property</a>
 
-    The time at which the user last successfully logged in.
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the user.
+iat: optional number
 
-  - `seat_uid: optional string`
+<a href="#">Link to this property</a>
 
-    The unique API identifier for the Zero Trust seat.
+<details>
 
-  - `uid: optional string`
+<summary>
 
-    The unique API identifier for the user.
+idp: optional object {id, type }
 
-  - `updated_at: optional string`
+</summary>
 
-### User Update Response
+id: optional string
 
-- `UserUpdateResponse object { id, access_seat, active_device_count, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+type: optional string
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `access_seat: optional boolean`
+</details>
 
-    True if the user has authenticated with Cloudflare Access.
+<a href="#">Link to this property</a>
 
-  - `active_device_count: optional number`
+ip: optional string
 
-    The number of active devices registered to the user.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+is\_gateway: optional boolean
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    The email of the user.
+is\_warp: optional boolean
 
-  - `gateway_seat: optional boolean`
+<a href="#">Link to this property</a>
 
-    True if the user has logged into the WARP client.
+isActive: optional boolean
 
-  - `last_successful_login: optional string`
+<a href="#">Link to this property</a>
 
-    The time at which the user last successfully logged in.
+<details>
 
-  - `name: optional string`
+<summary>
 
-    The name of the user.
+mtls\_auth: optional object {auth\_status, cert\_issuer\_dn, cert\_issuer\_ski, 2 more }
 
-  - `seat_uid: optional string`
+</summary>
 
-    The unique API identifier for the Zero Trust seat.
+auth\_status: optional string
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    The unique API identifier for the user.
+cert\_issuer\_dn: optional string
 
-  - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-### User Delete Response
+cert\_issuer\_ski: optional string
 
-- `UserDeleteResponse = unknown`
+<a href="#">Link to this property</a>
 
-# Active Sessions
+cert\_presented: optional boolean
 
-## Get active sessions
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/access/users/{user_id}/active_sessions`
+cert\_serial: optional string
 
-Get active sessions for a single user.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+service\_token\_id: optional string
 
-- `user_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+service\_token\_status: optional boolean
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+user\_uuid: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+version: optional number
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.access.users.active_sessions%20%3E%20(model)%20active_session_get_response%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+#### UsersLast Seen Identity
 
-  - `code: number`
+##### [Get last seen identity](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/subresources/last_seen_identity/methods/get)
 
-  - `message: string`
+GET/accounts/{account\_id}/access/users/{user\_id}/last\_seen\_identity
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+Identity object {account\_id, auth\_status, common\_name, 15 more }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+account\_id: optional string
 
-- `result: optional array of object { expiration, metadata, name }`
+<a href="#">Link to this property</a>
 
-  - `expiration: optional number`
+auth\_status: optional string
 
-  - `metadata: optional object { apps, expires, iat, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `apps: optional map[object { hostname, name, type, uid } ]`
+common\_name: optional string
 
-      - `hostname: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+device\_id: optional string
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-      - `uid: optional string`
+<details>
 
-    - `expires: optional number`
+<summary>
 
-    - `iat: optional number`
+device\_sessions: optional map\[object {last\_authenticated } ]
 
-    - `nonce: optional string`
+</summary>
 
-    - `ttl: optional number`
+last\_authenticated: optional number
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+devicePosture: optional map\[object {id, check, data, 6 more } ]
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+id: optional string
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+check: optional object {exists, path }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID/active_sessions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+exists: optional boolean
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "expiration": 1694813506,
-      "metadata": {
-        "apps": {
-          "foo": {
-            "hostname": "test.example.com",
-            "name": "app name",
-            "type": "self_hosted",
-            "uid": "cc2a8145-0128-4429-87f3-872c4d380c4e"
-          }
-        },
-        "expires": 1694813506,
-        "iat": 1694791905,
-        "nonce": "X1aXj1lFVcqqyoXF",
-        "ttl": 21600
-      },
-      "name": "name"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+path: optional string
 
-## Get single active session
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/access/users/{user_id}/active_sessions/{nonce}`
+</details>
 
-Get an active session for a single user.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+data: optional unknown
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+description: optional string
 
-- `user_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+error: optional string
 
-- `nonce: string`
+<a href="#">Link to this property</a>
 
-### Returns
+rule\_name: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+success: optional boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+timestamp: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+type: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+email: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+geo: optional object {country }
 
-  - `true`
+</summary>
 
-- `result: optional object { account_id, auth_status, common_name, 16 more }`
+country: optional string
 
-  - `account_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `auth_status: optional string`
+</details>
 
-  - `common_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_id: optional string`
+iat: optional number
 
-  - `device_sessions: optional map[object { last_authenticated } ]`
+<a href="#">Link to this property</a>
 
-    - `last_authenticated: optional number`
+<details>
 
-  - `devicePosture: optional map[object { id, check, data, 6 more } ]`
+<summary>
 
-    - `id: optional string`
+idp: optional object {id, type }
 
-    - `check: optional object { exists, path }`
+</summary>
 
-      - `exists: optional boolean`
+id: optional string
 
-      - `path: optional string`
+<a href="#">Link to this property</a>
 
-    - `data: optional unknown`
+type: optional string
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-    - `error: optional string`
+</details>
 
-    - `rule_name: optional string`
+<a href="#">Link to this property</a>
 
-    - `success: optional boolean`
+ip: optional string
 
-    - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: optional string`
+is\_gateway: optional boolean
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-  - `geo: optional object { country }`
+is\_warp: optional boolean
 
-    - `country: optional string`
+<a href="#">Link to this property</a>
 
-  - `iat: optional number`
+<details>
 
-  - `idp: optional object { id, type }`
+<summary>
 
-    - `id: optional string`
+mtls\_auth: optional object {auth\_status, cert\_issuer\_dn, cert\_issuer\_ski, 2 more }
 
-    - `type: optional string`
+</summary>
 
-  - `ip: optional string`
+auth\_status: optional string
 
-  - `is_gateway: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_warp: optional boolean`
+cert\_issuer\_dn: optional string
 
-  - `isActive: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `mtls_auth: optional object { auth_status, cert_issuer_dn, cert_issuer_ski, 2 more }`
+cert\_issuer\_ski: optional string
 
-    - `auth_status: optional string`
+<a href="#">Link to this property</a>
 
-    - `cert_issuer_dn: optional string`
+cert\_presented: optional boolean
 
-    - `cert_issuer_ski: optional string`
+<a href="#">Link to this property</a>
 
-    - `cert_presented: optional boolean`
+cert\_serial: optional string
 
-    - `cert_serial: optional string`
+<a href="#">Link to this property</a>
 
-  - `service_token_id: optional string`
+</details>
 
-  - `service_token_status: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `user_uuid: optional string`
+service\_token\_id: optional string
 
-  - `version: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+service\_token\_status: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID/active_sessions/$NONCE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+user\_uuid: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "account_id": "1234567890",
-    "auth_status": "NONE",
-    "common_name": "",
-    "device_id": "",
-    "device_sessions": {
-      "foo": {
-        "last_authenticated": 1638832687
-      }
-    },
-    "devicePosture": {
-      "foo": {
-        "id": "id",
-        "check": {
-          "exists": true,
-          "path": "path"
-        },
-        "data": {},
-        "description": "description",
-        "error": "error",
-        "rule_name": "rule_name",
-        "success": true,
-        "timestamp": "timestamp",
-        "type": "type"
-      }
-    },
-    "email": "test@cloudflare.com",
-    "geo": {
-      "country": "US"
-    },
-    "iat": 1694791905,
-    "idp": {
-      "id": "id",
-      "type": "type"
-    },
-    "ip": "127.0.0.0",
-    "is_gateway": false,
-    "is_warp": false,
-    "isActive": true,
-    "mtls_auth": {
-      "auth_status": "auth_status",
-      "cert_issuer_dn": "cert_issuer_dn",
-      "cert_issuer_ski": "cert_issuer_ski",
-      "cert_presented": true,
-      "cert_serial": "cert_serial"
-    },
-    "service_token_id": "",
-    "service_token_status": false,
-    "user_uuid": "57cf8cf2-f55a-4588-9ac9-f5e41e9f09b4",
-    "version": 2
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+version: optional number
 
-### Active Session List Response
+<a href="#">Link to this property</a>
 
-- `ActiveSessionListResponse object { expiration, metadata, name }`
+</details>
 
-  - `expiration: optional number`
+[Link to this property](#)%20zero_trust.access.users.last_seen_identity%20%3E%20(model)%20identity%20%3E%20(schema)>)
 
-  - `metadata: optional object { apps, expires, iat, 2 more }`
+#### UsersFailed Logins
 
-    - `apps: optional map[object { hostname, name, type, uid } ]`
+##### [Get failed logins](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/subresources/failed_logins/methods/list)
 
-      - `hostname: optional string`
+GET/accounts/{account\_id}/access/users/{user\_id}/failed\_logins
 
-      - `name: optional string`
+##### ModelsExpand Collapse
 
-      - `type: optional string`
+<details>
 
-      - `uid: optional string`
+<summary>
 
-    - `expires: optional number`
+FailedLoginListResponse object {expiration, metadata }
 
-    - `iat: optional number`
+</summary>
 
-    - `nonce: optional string`
+expiration: optional number
 
-    - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+metadata: optional unknown
 
-### Active Session Get Response
+<a href="#">Link to this property</a>
 
-- `ActiveSessionGetResponse object { account_id, auth_status, common_name, 16 more }`
+</details>
 
-  - `account_id: optional string`
-
-  - `auth_status: optional string`
-
-  - `common_name: optional string`
-
-  - `device_id: optional string`
-
-  - `device_sessions: optional map[object { last_authenticated } ]`
-
-    - `last_authenticated: optional number`
-
-  - `devicePosture: optional map[object { id, check, data, 6 more } ]`
-
-    - `id: optional string`
-
-    - `check: optional object { exists, path }`
-
-      - `exists: optional boolean`
-
-      - `path: optional string`
-
-    - `data: optional unknown`
-
-    - `description: optional string`
-
-    - `error: optional string`
-
-    - `rule_name: optional string`
-
-    - `success: optional boolean`
-
-    - `timestamp: optional string`
-
-    - `type: optional string`
-
-  - `email: optional string`
-
-  - `geo: optional object { country }`
-
-    - `country: optional string`
-
-  - `iat: optional number`
-
-  - `idp: optional object { id, type }`
-
-    - `id: optional string`
-
-    - `type: optional string`
-
-  - `ip: optional string`
-
-  - `is_gateway: optional boolean`
-
-  - `is_warp: optional boolean`
-
-  - `isActive: optional boolean`
-
-  - `mtls_auth: optional object { auth_status, cert_issuer_dn, cert_issuer_ski, 2 more }`
-
-    - `auth_status: optional string`
-
-    - `cert_issuer_dn: optional string`
-
-    - `cert_issuer_ski: optional string`
-
-    - `cert_presented: optional boolean`
-
-    - `cert_serial: optional string`
-
-  - `service_token_id: optional string`
-
-  - `service_token_status: optional boolean`
-
-  - `user_uuid: optional string`
-
-  - `version: optional number`
-
-# Last Seen Identity
-
-## Get last seen identity
-
-**get** `/accounts/{account_id}/access/users/{user_id}/last_seen_identity`
-
-Get last seen identity for a single user.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `user_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Identity`
-
-  - `account_id: optional string`
-
-  - `auth_status: optional string`
-
-  - `common_name: optional string`
-
-  - `device_id: optional string`
-
-  - `device_sessions: optional map[object { last_authenticated } ]`
-
-    - `last_authenticated: optional number`
-
-  - `devicePosture: optional map[object { id, check, data, 6 more } ]`
-
-    - `id: optional string`
-
-    - `check: optional object { exists, path }`
-
-      - `exists: optional boolean`
-
-      - `path: optional string`
-
-    - `data: optional unknown`
-
-    - `description: optional string`
-
-    - `error: optional string`
-
-    - `rule_name: optional string`
-
-    - `success: optional boolean`
-
-    - `timestamp: optional string`
-
-    - `type: optional string`
-
-  - `email: optional string`
-
-  - `geo: optional object { country }`
-
-    - `country: optional string`
-
-  - `iat: optional number`
-
-  - `idp: optional object { id, type }`
-
-    - `id: optional string`
-
-    - `type: optional string`
-
-  - `ip: optional string`
-
-  - `is_gateway: optional boolean`
-
-  - `is_warp: optional boolean`
-
-  - `mtls_auth: optional object { auth_status, cert_issuer_dn, cert_issuer_ski, 2 more }`
-
-    - `auth_status: optional string`
-
-    - `cert_issuer_dn: optional string`
-
-    - `cert_issuer_ski: optional string`
-
-    - `cert_presented: optional boolean`
-
-    - `cert_serial: optional string`
-
-  - `service_token_id: optional string`
-
-  - `service_token_status: optional boolean`
-
-  - `user_uuid: optional string`
-
-  - `version: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID/last_seen_identity \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "account_id": "1234567890",
-    "auth_status": "NONE",
-    "common_name": "",
-    "device_id": "",
-    "device_sessions": {
-      "foo": {
-        "last_authenticated": 1638832687
-      }
-    },
-    "devicePosture": {
-      "foo": {
-        "id": "id",
-        "check": {
-          "exists": true,
-          "path": "path"
-        },
-        "data": {},
-        "description": "description",
-        "error": "error",
-        "rule_name": "rule_name",
-        "success": true,
-        "timestamp": "timestamp",
-        "type": "type"
-      }
-    },
-    "email": "test@cloudflare.com",
-    "geo": {
-      "country": "US"
-    },
-    "iat": 1694791905,
-    "idp": {
-      "id": "id",
-      "type": "type"
-    },
-    "ip": "127.0.0.0",
-    "is_gateway": false,
-    "is_warp": false,
-    "mtls_auth": {
-      "auth_status": "auth_status",
-      "cert_issuer_dn": "cert_issuer_dn",
-      "cert_issuer_ski": "cert_issuer_ski",
-      "cert_presented": true,
-      "cert_serial": "cert_serial"
-    },
-    "service_token_id": "",
-    "service_token_status": false,
-    "user_uuid": "57cf8cf2-f55a-4588-9ac9-f5e41e9f09b4",
-    "version": 2
-  }
-}
-```
-
-## Domain Types
-
-### Identity
-
-- `Identity object { account_id, auth_status, common_name, 15 more }`
-
-  - `account_id: optional string`
-
-  - `auth_status: optional string`
-
-  - `common_name: optional string`
-
-  - `device_id: optional string`
-
-  - `device_sessions: optional map[object { last_authenticated } ]`
-
-    - `last_authenticated: optional number`
-
-  - `devicePosture: optional map[object { id, check, data, 6 more } ]`
-
-    - `id: optional string`
-
-    - `check: optional object { exists, path }`
-
-      - `exists: optional boolean`
-
-      - `path: optional string`
-
-    - `data: optional unknown`
-
-    - `description: optional string`
-
-    - `error: optional string`
-
-    - `rule_name: optional string`
-
-    - `success: optional boolean`
-
-    - `timestamp: optional string`
-
-    - `type: optional string`
-
-  - `email: optional string`
-
-  - `geo: optional object { country }`
-
-    - `country: optional string`
-
-  - `iat: optional number`
-
-  - `idp: optional object { id, type }`
-
-    - `id: optional string`
-
-    - `type: optional string`
-
-  - `ip: optional string`
-
-  - `is_gateway: optional boolean`
-
-  - `is_warp: optional boolean`
-
-  - `mtls_auth: optional object { auth_status, cert_issuer_dn, cert_issuer_ski, 2 more }`
-
-    - `auth_status: optional string`
-
-    - `cert_issuer_dn: optional string`
-
-    - `cert_issuer_ski: optional string`
-
-    - `cert_presented: optional boolean`
-
-    - `cert_serial: optional string`
-
-  - `service_token_id: optional string`
-
-  - `service_token_status: optional boolean`
-
-  - `user_uuid: optional string`
-
-  - `version: optional number`
-
-# Failed Logins
-
-## Get failed logins
-
-**get** `/accounts/{account_id}/access/users/{user_id}/failed_logins`
-
-Get all failed login attempts for a single user.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `user_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { expiration, metadata }`
-
-  - `expiration: optional number`
-
-  - `metadata: optional unknown`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID/failed_logins \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "expiration": 0,
-      "metadata": {
-        "app_name": "Test App",
-        "aud": "39691c1480a2352a18ece567debc2b32552686cbd38eec0887aa18d5d3f00c04",
-        "datetime": "2022-02-02T21:54:34.914Z",
-        "ray_id": "6d76a8a42ead4133",
-        "user_email": "test@cloudflare.com",
-        "user_uuid": "57171132-e453-4ee8-b2a5-8cbaad333207"
-      }
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Failed Login List Response
-
-- `FailedLoginListResponse object { expiration, metadata }`
-
-  - `expiration: optional number`
-
-  - `metadata: optional unknown`
+[Link to this property](#)%20zero_trust.access.users.failed_logins%20%3E%20(model)%20failed_login_list_response%20%3E%20(schema)>)

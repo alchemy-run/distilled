@@ -1,92 +1,278 @@
-## Get indicator feeds owned by this account
+---
+title: Get indicator feeds owned by this account
+---
 
-**get** `/accounts/{account_id}/intel/indicator-feeds`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+[Indicator Feeds](https://developers.cloudflare.com/api/resources/intel/subresources/indicator_feeds)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get indicator feeds owned by this account
+
+GET/accounts/{account\_id}/intel/indicator-feeds
 
 Retrieves details for all accessible custom threat indicator feeds.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Identifier
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Returns
+**Example:**`X-Auth-Email: user@example.com`
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Intel Write``Intel Read`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifier
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### ReturnsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+errors: array of object {code, message, documentation\_url, source }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+code: number
 
-- `result: optional array of object { id, created_on, description, 5 more }`
+minimum1000
 
-  - `id: optional number`
+<a href="#">Link to this property</a>
 
-    The unique identifier for the indicator feed
+message: string
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was created
+documentation\_url: optional string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    The description of the example test
+<details>
 
-  - `is_attributable: optional boolean`
+<summary>
 
-    Whether the indicator feed can be attributed to a provider
+source: optional object {pointer }
 
-  - `is_downloadable: optional boolean`
+</summary>
 
-    Whether the indicator feed can be downloaded
+pointer: optional string
 
-  - `is_public: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the indicator feed is exposed to customers
+</details>
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time when the data entry was last modified
+</details>
 
-  - `name: optional string`
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    The name of the indicator feed
+<details>
 
-### Example
+<summary>
 
-```http
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, created\_on, description, 5 more }
+
+</summary>
+
+id: optional number
+
+The unique identifier for the indicator feed
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+The date and time when the data entry was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The description of the example test
+
+<a href="#">Link to this property</a>
+
+is\_attributable: optional boolean
+
+Whether the indicator feed can be attributed to a provider
+
+<a href="#">Link to this property</a>
+
+is\_downloadable: optional boolean
+
+Whether the indicator feed can be downloaded
+
+<a href="#">Link to this property</a>
+
+is\_public: optional boolean
+
+Whether the indicator feed is exposed to customers
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+The date and time when the data entry was last modified
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the indicator feed
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20intel.indicator_feeds%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get indicator feeds owned by this account
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/indicator-feeds \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": 1,
+      "created_on": "2023-05-12T12:21:56.777653Z",
+      "description": "user specified description 1",
+      "is_attributable": false,
+      "is_downloadable": false,
+      "is_public": false,
+      "modified_on": "2023-06-18T03:13:34.123321Z",
+      "name": "user_specified_name_1"
+    },
+    {
+      "id": 2,
+      "created_on": "2023-05-21T21:43:52.867525Z",
+      "description": "User specified description 2",
+      "is_attributable": false,
+      "is_downloadable": false,
+      "is_public": false,
+      "modified_on": "2023-06-28T18:46:18.764425Z",
+      "name": "user_specified_name_2"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

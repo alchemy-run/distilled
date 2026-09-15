@@ -1,319 +1,196 @@
+---
+title: Schema Validation
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
+
+[Operations](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Schema Validation
 
-## Retrieve operation-level schema validation settings
+##### [Retrieve operation-level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/schema_validation/methods/get)
 
-**get** `/zones/{zone_id}/api_gateway/operations/{operation_id}/schema_validation`
+Deprecated
 
-Retrieves operation-level schema validation settings on the zone
+GET/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/schema\_validation
 
-### Path Parameters
+##### [Update operation-level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/schema_validation/methods/update)
 
-- `zone_id: string`
+Deprecated
 
-  Identifier.
+PUT/zones/{zone\_id}/api\_gateway/operations/{operation\_id}/schema\_validation
 
-- `operation_id: string`
+##### [Update multiple operation-level schema validation settings](https://developers.cloudflare.com/api/resources/api_gateway/subresources/operations/subresources/schema_validation/methods/edit)
 
-  UUID.
+Deprecated
 
-### Returns
+PATCH/zones/{zone\_id}/api\_gateway/operations/schema\_validation
 
-- `mitigation_action: optional "log" or "block" or "none"`
+##### ModelsExpand Collapse
 
-  When set, this applies a mitigation action to this operation
+<details>
 
-  - `log` log request when request does not conform to schema for this operation
-  - `block` deny access to the site when request does not conform to schema for this operation
-  - `none` will skip mitigation for this operation
-  - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+<summary>
 
-  - `"log"`
+SettingsMultipleRequest = map\[object {mitigation\_action } ]
 
-  - `"block"`
+</summary>
 
-  - `"none"`
+<details>
 
-- `operation_id: optional string`
+<summary>
 
-  UUID.
+mitigation\_action: optional "log"or "block"or "none"
 
-### Example
+When set, this applies a mitigation action to this operation
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/schema_validation \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+- <code>log</code> log request when request does not conform to schema for this operation
+- <code>block</code> deny access to the site when request does not conform to schema for this operation
+- <code>none</code> will skip mitigation for this operation
+- <code>null</code> indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
 
-#### Response
+</summary>
 
-```json
-{
-  "mitigation_action": "block",
-  "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-}
-```
+One of the following:
 
-## Update operation-level schema validation settings
+"log"
 
-**put** `/zones/{zone_id}/api_gateway/operations/{operation_id}/schema_validation`
+<a href="#">Link to this property</a>
 
-Updates operation-level schema validation settings on the zone
+"block"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"none"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `operation_id: string`
+</details>
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `mitigation_action: optional "log" or "block" or "none"`
+[Link to this property](#)%20api_gateway.operations.schema_validation%20%3E%20(model)%20settings_multiple_request%20%3E%20(schema)>)
 
-  When set, this applies a mitigation action to this operation
+<details>
 
-  - `log` log request when request does not conform to schema for this operation
-  - `block` deny access to the site when request does not conform to schema for this operation
-  - `none` will skip mitigation for this operation
-  - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+<summary>
 
-  - `"log"`
+SchemaValidationGetResponse object {mitigation\_action, operation\_id }
 
-  - `"block"`
+</summary>
 
-  - `"none"`
+<details>
 
-### Returns
+<summary>
 
-- `mitigation_action: optional "log" or "block" or "none"`
+mitigation\_action: optional "log"or "block"or "none"
 
-  When set, this applies a mitigation action to this operation
+When set, this applies a mitigation action to this operation
 
-  - `log` log request when request does not conform to schema for this operation
-  - `block` deny access to the site when request does not conform to schema for this operation
-  - `none` will skip mitigation for this operation
-  - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+- <code>log</code> log request when request does not conform to schema for this operation
+- <code>block</code> deny access to the site when request does not conform to schema for this operation
+- <code>none</code> will skip mitigation for this operation
+- <code>null</code> indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
 
-  - `"log"`
+</summary>
 
-  - `"block"`
+One of the following:
 
-  - `"none"`
+"log"
 
-- `operation_id: optional string`
+<a href="#">Link to this property</a>
 
-  UUID.
+"block"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/$OPERATION_ID/schema_validation \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "mitigation_action": "block"
-        }'
-```
+"none"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "mitigation_action": "block",
-  "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-}
-```
+</details>
 
-## Update multiple operation-level schema validation settings
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/api_gateway/operations/schema_validation`
+operation\_id: optional string
 
-Updates multiple operation-level schema validation settings on the zone
+UUID.
 
-### Path Parameters
+maxLength36
 
-- `zone_id: string`
+minLength36
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `settings_multiple_request: SettingsMultipleRequest`
+[Link to this property](#)%20api_gateway.operations.schema_validation%20%3E%20(model)%20schema_validation_get_response%20%3E%20(schema)>)
 
-  - `mitigation_action: optional "log" or "block" or "none"`
+<details>
 
-    When set, this applies a mitigation action to this operation
+<summary>
 
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+SchemaValidationUpdateResponse object {mitigation\_action, operation\_id }
 
-    - `"log"`
+</summary>
 
-    - `"block"`
+<details>
 
-    - `"none"`
+<summary>
 
-### Returns
+mitigation\_action: optional "log"or "block"or "none"
 
-- `errors: Message`
+When set, this applies a mitigation action to this operation
 
-  - `code: number`
+- <code>log</code> log request when request does not conform to schema for this operation
+- <code>block</code> deny access to the site when request does not conform to schema for this operation
+- <code>none</code> will skip mitigation for this operation
+- <code>null</code> indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"log"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+"block"
 
-- `result: SettingsMultipleRequest`
+<a href="#">Link to this property</a>
 
-  - `mitigation_action: optional "log" or "block" or "none"`
+"none"
 
-    When set, this applies a mitigation action to this operation
+<a href="#">Link to this property</a>
 
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
+</details>
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+operation\_id: optional string
 
-    - `"none"`
+UUID.
 
-- `success: true`
+maxLength36
 
-  Whether the API call was successful.
+minLength36
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/operations/schema_validation \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "3818d821-5901-4147-a474-f5f5aec1d54e": {
-            "mitigation_action": "log"
-          },
-          "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-            "mitigation_action": "block"
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "3818d821-5901-4147-a474-f5f5aec1d54e": {
-      "mitigation_action": "log"
-    },
-    "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-      "mitigation_action": "block"
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Settings Multiple Request
-
-- `SettingsMultipleRequest = map[object { mitigation_action } ]`
-
-  - `mitigation_action: optional "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation
-
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-### Schema Validation Get Response
-
-- `SchemaValidationGetResponse object { mitigation_action, operation_id }`
-
-  - `mitigation_action: optional "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation
-
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: optional string`
-
-    UUID.
-
-### Schema Validation Update Response
-
-- `SchemaValidationUpdateResponse object { mitigation_action, operation_id }`
-
-  - `mitigation_action: optional "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation
-
-    - `log` log request when request does not conform to schema for this operation
-    - `block` deny access to the site when request does not conform to schema for this operation
-    - `none` will skip mitigation for this operation
-    - `null` indicates that no operation level mitigation is in place, see Zone Level Schema Validation Settings for mitigation action that will be applied
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: optional string`
-
-    UUID.
+[Link to this property](#)%20api_gateway.operations.schema_validation%20%3E%20(model)%20schema_validation_update_response%20%3E%20(schema)>)

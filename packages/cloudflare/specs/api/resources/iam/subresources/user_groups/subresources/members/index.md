@@ -1,799 +1,351 @@
+---
+title: Members
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+[User Groups](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Members
 
-## List User Group Members
+##### [List User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/list)
 
-**get** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
+GET/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-List all the members attached to a user group.
+##### [Get User Group Member](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members/{member\_id}
 
-- `account_id: string`
+##### [Add User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/create)
 
-  Account identifier tag.
+POST/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-- `user_group_id: string`
+##### [Update User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/update)
 
-  User Group identifier tag.
+PUT/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-### Query Parameters
+##### [Remove User Group Member](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/delete)
 
-- `direction: optional "asc" or "desc"`
+DELETE/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members/{member\_id}
 
-  The sort order of returned user group members by email.
+##### ModelsExpand Collapse
 
-  - `"asc"`
+<details>
 
-  - `"desc"`
+<summary>
 
-- `fuzzyEmail: optional string`
+MemberListResponse object {id, email, status }
 
-  A string used for filtering members by partial email match.
+Member attached to a User Group.
 
-- `page: optional number`
+</summary>
 
-  Page number of paginated results.
+id: string
 
-- `per_page: optional number`
+Account member identifier.
 
-  Maximum number of results per page.
+<a href="#">Link to this property</a>
 
-### Returns
+email: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The contact email address of the user.
 
-  - `code: number`
+maxLength90
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+status: optional "accepted"or "pending"
 
-- `messages: array of object { code, message, documentation_url, source }`
+The member’s status in the account.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"accepted"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"pending"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, email, status }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_list_response%20%3E%20(schema)>)
 
-    Account member identifier.
+<details>
 
-  - `email: optional string`
+<summary>
 
-    The contact email address of the user.
+MemberGetResponse object {id, created\_at, email, 2 more }
 
-  - `status: optional "accepted" or "pending"`
+Detailed member information for a User Group member.
 
-    The member's status in the account.
+</summary>
 
-    - `"accepted"`
+id: string
 
-    - `"pending"`
+Account member identifier.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+created\_at: optional string
 
-    Total number of results for the requested service
+When the member was added to the user group.
 
-  - `page: optional number`
+formatdate-time
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+email: optional string
 
-    Number of results per page of results
+The contact email address of the user.
 
-  - `total_count: optional number`
+maxLength90
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<summary>
 
-#### Response
+status: optional "accepted"or "pending"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+The member’s status in the account.
 
-## Get User Group Member
+</summary>
 
-**get** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}`
+One of the following:
 
-Get details of a specific member in a user group.
+"accepted"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"pending"
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `user_group_id: string`
+</details>
 
-  User Group identifier tag.
+<a href="#">Link to this property</a>
 
-- `member_id: string`
+<details>
 
-  The identifier of an existing account Member.
+<summary>
 
-### Returns
+user: optional object {id, email, first\_name, last\_name }
 
-- `errors: array of object { code, message, documentation_url, source }`
+Details of the user associated with this membership.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+User identifier tag.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+email: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The contact email address of the user.
 
-  - `code: number`
+maxLength90
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+first\_name: optional string
 
-  - `source: optional object { pointer }`
+User’s first name.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+last\_name: optional string
 
-  Whether the API call was successful.
+User’s last name.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, email, 2 more }`
+</details>
 
-  Detailed member information for a User Group member.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Account member identifier.
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_get_response%20%3E%20(schema)>)
 
-  - `created_at: optional string`
+<details>
 
-    When the member was added to the user group.
+<summary>
 
-  - `email: optional string`
+MemberCreateResponse object {id, email, status }
 
-    The contact email address of the user.
+Member attached to a User Group.
 
-  - `status: optional "accepted" or "pending"`
+</summary>
 
-    The member's status in the account.
+id: string
 
-    - `"accepted"`
+Account member identifier.
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-  - `user: optional object { id, email, first_name, last_name }`
+email: optional string
 
-    Details of the user associated with this membership.
+The contact email address of the user.
 
-    - `id: optional string`
+maxLength90
 
-      User identifier tag.
+<a href="#">Link to this property</a>
 
-    - `email: optional string`
+<details>
 
-      The contact email address of the user.
+<summary>
 
-    - `first_name: optional string`
+status: optional "accepted"or "pending"
 
-      User's first name.
+The member’s status in the account.
 
-    - `last_name: optional string`
+</summary>
 
-      User's last name.
+One of the following:
 
-### Example
+"accepted"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members/$MEMBER_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"pending"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-    "created_at": "2026-01-15T10:30:00Z",
-    "email": "user@example.com",
-    "status": "accepted",
-    "user": {
-      "id": "7c5dae5552338874e5053f2534d2767a",
-      "email": "user@example.com",
-      "first_name": "Alice",
-      "last_name": "Smith"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Add User Group Members
+</details>
 
-**post** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
+<a href="#">Link to this property</a>
 
-Add members to a User Group.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_create_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>
 
-- `user_group_id: string`
+MemberUpdateResponse object {id, email, status }
 
-  User Group identifier tag.
+Member attached to a User Group.
 
-### Body Parameters
+</summary>
 
-- `members: array of object { id }`
+id: string
 
-  - `id: string`
+Account member identifier.
 
-    The identifier of an existing account Member.
+<a href="#">Link to this property</a>
 
-### Returns
+email: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The contact email address of the user.
 
-  - `code: number`
+maxLength90
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+status: optional "accepted"or "pending"
 
-- `messages: array of object { code, message, documentation_url, source }`
+The member’s status in the account.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"accepted"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"pending"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, email, status }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_update_response%20%3E%20(schema)>)
 
-    Account member identifier.
+<details>
 
-  - `email: optional string`
+<summary>
 
-    The contact email address of the user.
+MemberDeleteResponse object {id, email, status }
 
-  - `status: optional "accepted" or "pending"`
+Member attached to a User Group.
 
-    The member's status in the account.
+</summary>
 
-    - `"accepted"`
+id: string
 
-    - `"pending"`
+Account member identifier.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '[
-          {
-            "id": "023e105f4ecef8ad9ca31a8372d0c353"
-          }
-        ]'
-```
+email: optional string
 
-#### Response
+The contact email address of the user.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ]
-}
-```
+maxLength90
 
-## Update User Group Members
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
+<details>
 
-Replace the set of members attached to a User Group.
+<summary>
 
-### Path Parameters
+status: optional "accepted"or "pending"
 
-- `account_id: string`
+The member’s status in the account.
 
-  Account identifier tag.
+</summary>
 
-- `user_group_id: string`
+One of the following:
 
-  User Group identifier tag.
+"accepted"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `members: array of object { id }`
+"pending"
 
-  Set/Replace members to a user group.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    The identifier of an existing account Member.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, email, status }`
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '[
-          {
-            "id": "023e105f4ecef8ad9ca31a8372d0c353"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ]
-}
-```
-
-## Remove User Group Member
-
-**delete** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}`
-
-Remove a member from User Group
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `user_group_id: string`
-
-  User Group identifier tag.
-
-- `member_id: string`
-
-  The identifier of an existing account Member.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members/$MEMBER_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-    "email": "user@example.com",
-    "status": "accepted"
-  }
-}
-```
-
-## Domain Types
-
-### Member List Response
-
-- `MemberListResponse object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Member Get Response
-
-- `MemberGetResponse object { id, created_at, email, 2 more }`
-
-  Detailed member information for a User Group member.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `created_at: optional string`
-
-    When the member was added to the user group.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-  - `user: optional object { id, email, first_name, last_name }`
-
-    Details of the user associated with this membership.
-
-    - `id: optional string`
-
-      User identifier tag.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `first_name: optional string`
-
-      User's first name.
-
-    - `last_name: optional string`
-
-      User's last name.
-
-### Member Create Response
-
-- `MemberCreateResponse object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Member Update Response
-
-- `MemberUpdateResponse object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Member Delete Response
-
-- `MemberDeleteResponse object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_delete_response%20%3E%20(schema)>)

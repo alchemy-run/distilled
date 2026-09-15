@@ -14,8 +14,18 @@
  * Files mirror the URL path, so the example above lands at:
  *   specs/api/resources/ai/subresources/finetunes/methods/list/index.md
  *
- * A failed download logs a warning and the run continues. A manifest of every
- * page URL → markdown URL → local file is written to specs/_manifest.json.
+ * The Markdown endpoint truncates the largest pages mid-stream (the Access
+ * application schemas, for one): the response ends early, with `<details>`
+ * elements left unclosed. The page's HTML is served complete, so such a page
+ * falls back to downloading the HTML and rendering it as the same Markdown
+ * (see page-html-to-markdown.ts).
+ *
+ * A failed download logs a warning and the run continues, leaving any
+ * previously downloaded copy of that page in place — a page that 404s upstream
+ * is reported, never silently dropped. A manifest of every page URL → markdown
+ * URL → local file is written to specs/_manifest.json, together with the pages
+ * that fell back to HTML, the ones that are missing upstream, and the local
+ * files the sidebar no longer lists.
  *
  * Usage:
  *   bun scripts/download-api-docs.ts
@@ -29,6 +39,7 @@ import { Console, Data, Effect } from "effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import { Argument, Command, Flag } from "effect/unstable/cli";
+import { pageHtmlToMarkdown } from "./page-html-to-markdown.ts";
 
 const ORIGIN = "https://developers.cloudflare.com";
 
@@ -108,35 +119,106 @@ interface PageEntry {
 // Download
 // ============================================================================
 
+/**
+ * Every property carries a deep-link whose href repeats the property's full
+ * path through the schema; on a large page those hrefs are most of the bytes
+ * and none of the API. The marker itself stays — it is what delimits one
+ * property from the next.
+ */
+const compactDeepLinks = (markdown: string): string =>
+  markdown
+    .replace(
+      /\[Link to this property\]\(<?#[^\n]*?>?\)/g,
+      "[Link to this property](#)",
+    )
+    .replace(
+      /<a\s+href="#[^"]*"([^>]*)>Link to this property<\/a>/g,
+      '<a href="#"$1>Link to this property</a>',
+    );
+
+/**
+ * A truncated response stops mid-page, leaving `<details>` elements unclosed.
+ * Both counts match on every complete page.
+ */
+const isTruncatedMarkdown = (markdown: string): boolean => {
+  const opened = markdown.match(/<details\b/g)?.length ?? 0;
+  const closed = markdown.match(/<\/details>/g)?.length ?? 0;
+  return opened !== closed;
+};
+
+const describe = (err: FetchError): string =>
+  err.status !== undefined
+    ? `HTTP ${err.status}`
+    : `${err.cause ?? "network error"}`;
+
+type Outcome = "downloaded" | "fallback" | "skipped" | "missing" | "failed";
+
+/** Render the page's HTML as markdown, for a markdown twin that came up short. */
+const fromPageHtml = (entry: PageEntry, reason: string) =>
+  fetchText(entry.pageUrl).pipe(
+    Effect.map(pageHtmlToMarkdown),
+    Effect.tap((markdown) =>
+      markdown
+        ? Console.log(`   ↩︎  ${entry.pagePath}: ${reason}; used the page HTML`)
+        : Console.warn(
+            `⚠️  ${entry.pageUrl} has no method pane (${reason}) — keeping any existing copy`,
+          ),
+    ),
+    Effect.catch((err) =>
+      Console.warn(
+        `⚠️  ${entry.pageUrl} (${reason}) also failed as HTML (${describe(err)})`,
+      ).pipe(Effect.as(undefined)),
+    ),
+  );
+
 const downloadPage = (entry: PageEntry, force: boolean) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const path = yield* Path.Path;
 
     if (!force && (yield* fs.exists(entry.localPath))) {
-      return true; // already downloaded; skip silently
+      return "skipped" as Outcome; // already downloaded
     }
 
-    const result = yield* fetchText(entry.markdownUrl).pipe(
+    const attempt = yield* fetchText(entry.markdownUrl).pipe(
       Effect.map((text) => ({ ok: true as const, text })),
-      Effect.catch((err) => {
-        const detail =
-          err.status !== undefined
-            ? `HTTP ${err.status}`
-            : `${err.cause ?? "network error"}`;
-        return Console.warn(
-          `⚠️  Failed to download ${entry.markdownUrl} (${detail}) — skipping`,
-        ).pipe(Effect.as({ ok: false as const }));
-      }),
+      Effect.catch((error) => Effect.succeed({ ok: false as const, error })),
     );
 
-    if (!result.ok) {
-      return false;
+    let markdown: string;
+    let outcome: Outcome;
+
+    if (!attempt.ok) {
+      // A 404 on the markdown twin means the page itself is gone rather than
+      // the markdown pass having failed; the HTML request below tells which.
+      if (attempt.error.status !== 404) {
+        yield* Console.warn(
+          `⚠️  ${entry.markdownUrl} (${describe(attempt.error)})`,
+        );
+      }
+      const rendered = yield* fromPageHtml(entry, describe(attempt.error));
+      if (rendered === undefined) {
+        return (attempt.error.status === 404 ? "missing" : "failed") as Outcome;
+      }
+      markdown = rendered;
+      outcome = "fallback";
+    } else if (isTruncatedMarkdown(attempt.text)) {
+      const rendered = yield* fromPageHtml(entry, "markdown truncated");
+      if (rendered === undefined) {
+        yield* Console.warn(
+          `⚠️  ${entry.markdownUrl} is truncated — saving as served`,
+        );
+      }
+      markdown = rendered ?? attempt.text;
+      outcome = rendered ? "fallback" : "downloaded";
+    } else {
+      markdown = attempt.text;
+      outcome = "downloaded";
     }
 
     yield* fs.makeDirectory(path.dirname(entry.localPath), { recursive: true });
-    yield* fs.writeFileString(entry.localPath, result.text);
-    return true;
+    yield* fs.writeFileString(entry.localPath, compactDeepLinks(markdown));
+    return outcome;
   });
 
 // ============================================================================
@@ -212,24 +294,6 @@ const downloadApiDocs = Command.make(
       }
 
       yield* fs.makeDirectory(outDir, { recursive: true });
-      yield* fs.writeFileString(
-        path.join(outDir, "_manifest.json"),
-        JSON.stringify(
-          {
-            source: config.indexUrl,
-            count: entries.length,
-            pages: entries.map((e) => ({
-              page: e.pageUrl,
-              markdown: e.markdownUrl,
-            })),
-          },
-          null,
-          2,
-        ),
-      );
-      yield* Console.log(
-        `   Wrote manifest: ${path.join(outDir, "_manifest.json")}`,
-      );
 
       // 3. Download every markdown page, warning + continuing on failure.
       yield* Console.log(
@@ -242,12 +306,73 @@ const downloadApiDocs = Command.make(
         { concurrency: config.concurrency },
       );
 
-      const ok = results.filter(Boolean).length;
-      const failed = results.length - ok;
+      const count = (outcome: Outcome) =>
+        results.filter((result) => result === outcome).length;
+      const pagesWith = (outcome: Outcome) =>
+        entries.filter((_, i) => results[i] === outcome).map((e) => e.pageUrl);
 
-      yield* Console.log(
-        `\n✅ Done. ${ok} downloaded${failed > 0 ? `, ⚠️  ${failed} failed (see warnings above)` : ""}.`,
+      // 4. Pages that exist locally but no longer hang off the sidebar. They
+      //    are left on disk: a resource dropped from the navigation is not
+      //    evidence that its API is gone.
+      const wanted = new Set(entries.map((e) => e.localPath));
+      const onDisk = yield* fs
+        .readDirectory(outDir, { recursive: true })
+        .pipe(Effect.catch(() => Effect.succeed([] as string[])));
+      const orphans =
+        config.limit > 0
+          ? []
+          : onDisk
+              .filter((name) => name.endsWith("index.md"))
+              .map((name) => path.join(outDir, name))
+              .filter((file) => !wanted.has(file))
+              .sort();
+
+      yield* fs.writeFileString(
+        path.join(outDir, "_manifest.json"),
+        `${JSON.stringify(
+          {
+            source: config.indexUrl,
+            count: entries.length,
+            pages: entries.map((e) => ({
+              page: e.pageUrl,
+              markdown: e.markdownUrl,
+            })),
+            // Served truncated as markdown; rendered from the page HTML.
+            htmlFallback: pagesWith("fallback"),
+            // 404 upstream; any previously downloaded copy was kept.
+            missing: pagesWith("missing"),
+            // Present locally, absent from the sidebar; kept as well.
+            unlisted: orphans.map((file) => path.relative(outDir, file)),
+          },
+          null,
+          2,
+        )}\n`,
       );
+      yield* Console.log(
+        `   Wrote manifest: ${path.join(outDir, "_manifest.json")}`,
+      );
+
+      const summary = [
+        `${count("downloaded")} downloaded`,
+        count("fallback") > 0
+          ? `${count("fallback")} via HTML fallback`
+          : undefined,
+        count("skipped") > 0
+          ? `${count("skipped")} already present`
+          : undefined,
+        count("missing") > 0
+          ? `⚠️  ${count("missing")} missing upstream`
+          : undefined,
+        count("failed") > 0 ? `⚠️  ${count("failed")} failed` : undefined,
+        orphans.length > 0
+          ? `${orphans.length} local pages no longer listed`
+          : undefined,
+      ].filter(Boolean);
+
+      yield* Console.log(`\n✅ Done. ${summary.join(", ")}.`);
+      for (const page of pagesWith("missing")) {
+        yield* Console.log(`   missing upstream: ${page}`);
+      }
       yield* Console.log(`   Output saved under: ${outDir}`);
     }),
 ).pipe(

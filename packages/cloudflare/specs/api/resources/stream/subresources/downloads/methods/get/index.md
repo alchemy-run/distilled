@@ -1,109 +1,363 @@
-## List downloads
+---
+title: List downloads
+---
 
-**get** `/accounts/{account_id}/stream/{identifier}/downloads`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+[Downloads](https://developers.cloudflare.com/api/resources/stream/subresources/downloads)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List downloads
+
+GET/accounts/{account\_id}/stream/{identifier}/downloads
 
 Lists the downloads created for a video.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `identifier: string`
 
-  A Cloudflare-generated unique identifier for a media item.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `success: true`
+`Stream Write``Stream Read`
 
-  Whether the API call was successful.
+##### P ath ParametersExpand Collapse
 
-  - `true`
+account\_id: string
 
-- `result: optional object { audio, default }`
+Identifier.
 
-  An object with download type keys. Each key is optional and only present if that download type has been created.
+maxLength32
 
-  - `audio: optional object { percentComplete, status, url }`
+[Link to this property](#)%20stream.downloads%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    The audio-only download. Only present if this download type has been created.
+identifier: string
 
-    - `percentComplete: number`
+A Cloudflare-generated unique identifier for a media item.
 
-      Indicates the progress as a percentage between 0 and 100.
+maxLength32
 
-    - `status: "ready" or "inprogress" or "error"`
+[Link to this property](#)%20stream.downloads%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20identifier%20%3E%20(schema)>)
 
-      The status of a generated download.
+##### ReturnsExpand Collapse
 
-      - `"ready"`
+<details>
 
-      - `"inprogress"`
+<summary>
 
-      - `"error"`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `url: optional string`
+</summary>
 
-      The URL to access the generated download.
+code: number
 
-  - `default: optional object { percentComplete, status, url }`
+minimum1000
 
-    The default video download. Only present if this download type has been created.
+<a href="#">Link to this property</a>
 
-    - `percentComplete: number`
+message: string
 
-      Indicates the progress as a percentage between 0 and 100.
+<a href="#">Link to this property</a>
 
-    - `status: "ready" or "inprogress" or "error"`
+documentation\_url: optional string
 
-      The status of a generated download.
+<a href="#">Link to this property</a>
 
-      - `"ready"`
+<details>
 
-      - `"inprogress"`
+<summary>
 
-      - `"error"`
+source: optional object {pointer }
 
-    - `url: optional string`
+</summary>
 
-      The URL to access the generated download.
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.downloads%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.downloads%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20stream.downloads%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {audio, default }
+
+An object with download type keys. Each key is optional and only present if that download type has been created.
+
+</summary>
+
+<details>
+
+<summary>
+
+audio: optional object {percentComplete, status, url }
+
+The audio-only download. Only present if this download type has been created.
+
+</summary>
+
+percentComplete: number
+
+Indicates the progress as a percentage between 0 and 100.
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "ready"or "inprogress"or "error"
+
+The status of a generated download.
+
+</summary>
+
+One of the following:
+
+"ready"
+
+<a href="#">Link to this property</a>
+
+"inprogress"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The URL to access the generated download.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+default: optional object {percentComplete, status, url }
+
+The default video download. Only present if this download type has been created.
+
+</summary>
+
+percentComplete: number
+
+Indicates the progress as a percentage between 0 and 100.
+
+maximum100
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "ready"or "inprogress"or "error"
+
+The status of a generated download.
+
+</summary>
+
+One of the following:
+
+"ready"
+
+<a href="#">Link to this property</a>
+
+"inprogress"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The URL to access the generated download.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.downloads%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List downloads
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/downloads \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "audio": {
+      "percentComplete": 0,
+      "status": "ready",
+      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
+    },
+    "default": {
+      "percentComplete": 0,
+      "status": "ready",
+      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,2375 +1,947 @@
+---
+title: D1
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # D1
 
-## Domain Types
+##### ModelsExpand Collapse
 
-### D1
+<details>
 
-- `D1 object { created_at, file_size, jurisdiction, 5 more }`
+<summary>
 
-  The details of the D1 database.
+D1 object {created\_at, file\_size, jurisdiction, 5 more }
 
-  - `created_at: optional string`
+The details of the D1 database.
 
-    Specifies the timestamp the resource was created as an ISO8601 string.
+</summary>
 
-  - `file_size: optional number`
+created\_at: optional string
 
-    The D1 database's size, in bytes.
+Specifies the timestamp the resource was created as an ISO8601 string.
 
-  - `jurisdiction: optional "eu" or "fedramp"`
+formatdate-time
 
-    Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+<a href="#">Link to this property</a>
 
-    - `"eu"`
+file\_size: optional number
 
-    - `"fedramp"`
+The D1 database’s size, in bytes.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    D1 database name.
+<details>
 
-  - `num_tables: optional number`
+<summary>
 
-  - `read_replication: optional object { mode }`
+jurisdiction: optional "eu"or "fedramp"or "us"
 
-    Configuration for D1 read replication.
+Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
 
-    - `mode: "auto" or "disabled"`
+</summary>
 
-      The read replication mode for the database. Mode 'auto' denotes that D1 creates replicas and automatically places them around the world. Mode 'disabled' denotes that no database replicas are used.
+One of the following:
 
-      - `"auto"`
+"eu"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-  - `uuid: optional string`
+"fedramp"
 
-    D1 database identifier (UUID).
+<a href="#">Link to this property</a>
 
-  - `version: optional string`
+"us"
 
-# Database
+<a href="#">Link to this property</a>
 
-## List D1 Databases
+</details>
 
-**get** `/accounts/{account_id}/d1/database`
+<a href="#">Link to this property</a>
 
-Returns a list of D1 databases.
+name: optional string
 
-### Path Parameters
+D1 database name.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+num\_tables: optional number
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+<details>
 
-  a database name to search for.
+<summary>
 
-- `page: optional number`
+read\_replication: optional object {mode }
 
-  Page number of paginated results.
+Configuration for D1 read replication.
 
-- `per_page: optional number`
+</summary>
 
-  Number of items per page.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+mode: "auto"or "disabled"
 
-  - `code: number`
+The read replication mode for the database. Mode ‘auto’ denotes that D1 creates replicas and automatically places them around the world. Mode ‘disabled’ denotes that no database replicas are used.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"auto"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"disabled"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: array of object { created_at, jurisdiction, name, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+uuid: optional string
 
-    Specifies the timestamp the resource was created as an ISO8601 string.
+D1 database identifier (UUID).
 
-  - `jurisdiction: optional "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-    Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+version: optional string
 
-    - `"eu"`
+<a href="#">Link to this property</a>
 
-    - `"fedramp"`
+</details>
 
-  - `name: optional string`
+[Link to this property](#)%20d1%20%3E%20(model)%20d1%20%3E%20(schema)>)
 
-    D1 database name.
+#### D1Database
 
-  - `uuid: optional string`
+##### [List D1 Databases](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/list)
 
-    D1 database identifier (UUID).
+GET/accounts/{account\_id}/d1/database
 
-  - `version: optional string`
+##### [Get D1 Database](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/get)
 
-- `success: true`
+GET/accounts/{account\_id}/d1/database/{database\_id}
 
-  Whether the API call was successful
+##### [Create D1 Database](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/create)
 
-  - `true`
+POST/accounts/{account\_id}/d1/database
 
-- `result_info: optional object { count, page, per_page, total_count }`
+##### [Update D1 Database](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/update)
 
-  - `count: optional number`
+PUT/accounts/{account\_id}/d1/database/{database\_id}
 
-    Total number of results for the requested service
+##### [Update D1 Database partially](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/edit)
 
-  - `page: optional number`
+PATCH/accounts/{account\_id}/d1/database/{database\_id}
 
-    Current page within paginated list of results
+##### [Delete D1 Database](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/delete)
 
-  - `per_page: optional number`
+DELETE/accounts/{account\_id}/d1/database/{database\_id}
 
-    Number of results per page of results
+##### [Query D1 Database](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/query)
 
-  - `total_count: optional number`
+POST/accounts/{account\_id}/d1/database/{database\_id}/query
 
-    Total results available without any search parameters
+##### [Raw D1 Database query](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/raw)
 
-### Example
+POST/accounts/{account\_id}/d1/database/{database\_id}/raw
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Export D1 Database as SQL](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/export)
 
-#### Response
+POST/accounts/{account\_id}/d1/database/{database\_id}/export
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "created_at": "2022-11-15T18:25:44.442097Z",
-      "jurisdiction": "eu",
-      "name": "my-database",
-      "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      "version": "production"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+##### [Import SQL into your D1 Database](https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/import)
 
-## Get D1 Database
+POST/accounts/{account\_id}/d1/database/{database\_id}/import
 
-**get** `/accounts/{account_id}/d1/database/{database_id}`
+##### ModelsExpand Collapse
 
-Returns the specified D1 database.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+QueryResult object {meta, results, success }
 
-  Account identifier tag.
+</summary>
 
-- `database_id: string`
+<details>
 
-  D1 database identifier (UUID).
+<summary>
 
-### Query Parameters
+meta: optional object {changed\_db, changes, duration, 8 more }
 
-- `fields: optional array of "uuid" or "name" or "created_at" or 6 more`
+</summary>
 
-  Comma-separated list of fields to include in the response. When omitted,
-  all fields are returned.
+changed\_db: optional boolean
 
-  - `"uuid"`
+Denotes if the database has been altered in some way, like deleting rows.
 
-  - `"name"`
+<a href="#">Link to this property</a>
 
-  - `"created_at"`
+changes: optional number
 
-  - `"version"`
+Rough indication of how many rows were modified by the query, as provided by SQLite’s <code>sqlite3_total_changes()</code>.
 
-  - `"jurisdiction"`
+<a href="#">Link to this property</a>
 
-  - `"num_tables"`
+duration: optional number
 
-  - `"file_size"`
+The duration of the SQL query execution inside the database. Does not include any network communication.
 
-  - `"running_in_region"`
+<a href="#">Link to this property</a>
 
-  - `"read_replication"`
+last\_row\_id: optional number
 
-### Returns
+The row ID of the last inserted row in a table with an <code>INTEGER PRIMARY KEY</code> as provided by SQLite. Tables created with <code>WITHOUT ROWID</code> do not populate this.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+rows\_read: optional number
 
-  - `message: string`
+Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+rows\_written: optional number
 
-    - `pointer: optional string`
+Number of rows written during the SQL query execution, including indices.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+served\_by\_colo: optional string
 
-  - `message: string`
+The three letters airport code of the colo that handled the query.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+served\_by\_primary: optional boolean
 
-- `result: D1`
+Denotes if the query has been handled by the database primary instance.
 
-  The details of the D1 database.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+<details>
 
-    Specifies the timestamp the resource was created as an ISO8601 string.
+<summary>
 
-  - `file_size: optional number`
+served\_by\_region: optional "WNAM"or "ENAM"or "WEUR"or 3 more
 
-    The D1 database's size, in bytes.
+Region location hint of the database instance that handled the query.
 
-  - `jurisdiction: optional "eu" or "fedramp"`
+</summary>
 
-    Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+One of the following:
 
-    - `"eu"`
+"WNAM"
 
-    - `"fedramp"`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+"ENAM"
 
-    D1 database name.
+<a href="#">Link to this property</a>
 
-  - `num_tables: optional number`
+"WEUR"
 
-  - `read_replication: optional object { mode }`
+<a href="#">Link to this property</a>
 
-    Configuration for D1 read replication.
+"EEUR"
 
-    - `mode: "auto" or "disabled"`
+<a href="#">Link to this property</a>
 
-      The read replication mode for the database. Mode 'auto' denotes that D1 creates replicas and automatically places them around the world. Mode 'disabled' denotes that no database replicas are used.
+"APAC"
 
-      - `"auto"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+"OC"
 
-  - `uuid: optional string`
+<a href="#">Link to this property</a>
 
-    D1 database identifier (UUID).
+</details>
 
-  - `version: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+size\_after: optional number
 
-  Whether the API call was successful
+Size of the database after the query committed, in bytes.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+timings: optional object {sql\_duration\_ms }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2022-11-15T18:25:44.442097Z",
-    "file_size": 12,
-    "jurisdiction": "eu",
-    "name": "my-database",
-    "num_tables": 12,
-    "read_replication": {
-      "mode": "auto"
-    },
-    "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "version": "production"
-  },
-  "success": true
-}
-```
+Various durations for the query.
 
-## Create D1 Database
+</summary>
 
-**post** `/accounts/{account_id}/d1/database`
+sql\_duration\_ms: optional number
 
-Returns the created D1 database.
+The duration of the SQL query execution inside the database. Does not include any network communication.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  D1 database name.
+results: optional array of unknown
 
-- `jurisdiction: optional "eu" or "fedramp"`
+<a href="#">Link to this property</a>
 
-  Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+success: optional boolean
 
-  - `"eu"`
+<a href="#">Link to this property</a>
 
-  - `"fedramp"`
+</details>
 
-- `primary_location_hint: optional "wnam" or "enam" or "weur" or 3 more`
+[Link to this property](#)%20d1.database%20%3E%20(model)%20query_result%20%3E%20(schema)>)
 
-  Specify the region to create the D1 primary, if available. If this option is omitted, the D1 will be created as close as possible to the current user.
+<details>
 
-  - `"wnam"`
+<summary>
 
-  - `"enam"`
+DatabaseListResponse object {created\_at, jurisdiction, name, 2 more }
 
-  - `"weur"`
+</summary>
 
-  - `"eeur"`
+created\_at: optional string
 
-  - `"apac"`
+Specifies the timestamp the resource was created as an ISO8601 string.
 
-  - `"oc"`
+formatdate-time
 
-- `read_replication: optional object { mode }`
+<a href="#">Link to this property</a>
 
-  Configuration for D1 read replication.
+<details>
 
-  - `mode: "auto" or "disabled"`
+<summary>
 
-    The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).
+jurisdiction: optional "eu"or "fedramp"or "us"
 
-    - `"auto"`
+Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
 
-    - `"disabled"`
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of ResponseInfo`
+"eu"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"fedramp"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"us"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: optional string
 
-  - `documentation_url: optional string`
+D1 database name.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: D1`
+uuid: optional string
 
-  The details of the D1 database.
+D1 database identifier (UUID).
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    Specifies the timestamp the resource was created as an ISO8601 string.
+version: optional string
 
-  - `file_size: optional number`
+<a href="#">Link to this property</a>
 
-    The D1 database's size, in bytes.
+</details>
 
-  - `jurisdiction: optional "eu" or "fedramp"`
+[Link to this property](#)%20d1.database%20%3E%20(model)%20database_list_response%20%3E%20(schema)>)
 
-    Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+DatabaseDeleteResponse = unknown
 
-    - `"eu"`
+[Link to this property](#)%20d1.database%20%3E%20(model)%20database_delete_response%20%3E%20(schema)>)
 
-    - `"fedramp"`
+<details>
 
-  - `name: optional string`
+<summary>
 
-    D1 database name.
+DatabaseRawResponse object {meta, results, success }
 
-  - `num_tables: optional number`
+</summary>
 
-  - `read_replication: optional object { mode }`
+<details>
 
-    Configuration for D1 read replication.
+<summary>
 
-    - `mode: "auto" or "disabled"`
+meta: optional object {changed\_db, changes, duration, 8 more }
 
-      The read replication mode for the database. Mode 'auto' denotes that D1 creates replicas and automatically places them around the world. Mode 'disabled' denotes that no database replicas are used.
+</summary>
 
-      - `"auto"`
+changed\_db: optional boolean
 
-      - `"disabled"`
+Denotes if the database has been altered in some way, like deleting rows.
 
-  - `uuid: optional string`
+<a href="#">Link to this property</a>
 
-    D1 database identifier (UUID).
+changes: optional number
 
-  - `version: optional string`
+Rough indication of how many rows were modified by the query, as provided by SQLite’s <code>sqlite3_total_changes()</code>.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+duration: optional number
 
-  - `true`
+The duration of the SQL query execution inside the database. Does not include any network communication.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "my-database",
-          "jurisdiction": "eu",
-          "primary_location_hint": "wnam"
-        }'
-```
+last\_row\_id: optional number
 
-#### Response
+The row ID of the last inserted row in a table with an <code>INTEGER PRIMARY KEY</code> as provided by SQLite. Tables created with <code>WITHOUT ROWID</code> do not populate this.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2022-11-15T18:25:44.442097Z",
-    "file_size": 12,
-    "jurisdiction": "eu",
-    "name": "my-database",
-    "num_tables": 12,
-    "read_replication": {
-      "mode": "auto"
-    },
-    "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "version": "production"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update D1 Database
+rows\_read: optional number
 
-**put** `/accounts/{account_id}/d1/database/{database_id}`
+Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
 
-Updates the specified D1 database.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+rows\_written: optional number
 
-- `account_id: string`
+Number of rows written during the SQL query execution, including indices.
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `database_id: string`
+served\_by\_colo: optional string
 
-  D1 database identifier (UUID).
+The three letters airport code of the colo that handled the query.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `read_replication: object { mode }`
+served\_by\_primary: optional boolean
 
-  Configuration for D1 read replication.
+Denotes if the query has been handled by the database primary instance.
 
-  - `mode: "auto" or "disabled"`
+<a href="#">Link to this property</a>
 
-    The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).
+<details>
 
-    - `"auto"`
+<summary>
 
-    - `"disabled"`
+served\_by\_region: optional "WNAM"or "ENAM"or "WEUR"or 3 more
 
-### Returns
+Region location hint of the database instance that handled the query.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"WNAM"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"ENAM"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"WEUR"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"EEUR"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"APAC"
 
-- `result: D1`
+<a href="#">Link to this property</a>
 
-  The details of the D1 database.
+"OC"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    Specifies the timestamp the resource was created as an ISO8601 string.
+</details>
 
-  - `file_size: optional number`
+<a href="#">Link to this property</a>
 
-    The D1 database's size, in bytes.
+size\_after: optional number
 
-  - `jurisdiction: optional "eu" or "fedramp"`
+Size of the database after the query committed, in bytes.
 
-    Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+<a href="#">Link to this property</a>
 
-    - `"eu"`
+<details>
 
-    - `"fedramp"`
+<summary>
 
-  - `name: optional string`
+timings: optional object {sql\_duration\_ms }
 
-    D1 database name.
+Various durations for the query.
 
-  - `num_tables: optional number`
+</summary>
 
-  - `read_replication: optional object { mode }`
+sql\_duration\_ms: optional number
 
-    Configuration for D1 read replication.
+The duration of the SQL query execution inside the database. Does not include any network communication.
 
-    - `mode: "auto" or "disabled"`
+<a href="#">Link to this property</a>
 
-      The read replication mode for the database. Mode 'auto' denotes that D1 creates replicas and automatically places them around the world. Mode 'disabled' denotes that no database replicas are used.
+</details>
 
-      - `"auto"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+</details>
 
-  - `uuid: optional string`
+<a href="#">Link to this property</a>
 
-    D1 database identifier (UUID).
+<details>
 
-  - `version: optional string`
+<summary>
 
-- `success: true`
+results: optional object {columns, rows }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+columns: optional array of string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "read_replication": {
-            "mode": "auto"
-          }
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2022-11-15T18:25:44.442097Z",
-    "file_size": 12,
-    "jurisdiction": "eu",
-    "name": "my-database",
-    "num_tables": 12,
-    "read_replication": {
-      "mode": "auto"
-    },
-    "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "version": "production"
-  },
-  "success": true
-}
-```
+rows: optional array of array of numberor stringor unknown
 
-## Update D1 Database partially
+</summary>
 
-**patch** `/accounts/{account_id}/d1/database/{database_id}`
+One of the following:
 
-Updates partially the specified D1 database.
+number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+string
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `database_id: string`
+unknown
 
-  D1 database identifier (UUID).
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `read_replication: optional object { mode }`
+<a href="#">Link to this property</a>
 
-  Configuration for D1 read replication.
+</details>
 
-  - `mode: "auto" or "disabled"`
+<a href="#">Link to this property</a>
 
-    The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).
+success: optional boolean
 
-    - `"auto"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+</details>
 
-### Returns
+[Link to this property](#)%20d1.database%20%3E%20(model)%20database_raw_response%20%3E%20(schema)>)
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+DatabaseExportResponse object {at\_bookmark, error, messages, 4 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+at\_bookmark: optional string
 
-    - `pointer: optional string`
+The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the export task.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+error: optional string
 
-  - `message: string`
+Only present when status = ‘error’. Contains the error message.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+messages: optional array of string
 
-- `result: D1`
+Logs since the last time you polled
 
-  The details of the D1 database.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+<details>
 
-    Specifies the timestamp the resource was created as an ISO8601 string.
+<summary>
 
-  - `file_size: optional number`
+result: optional object {filename, signed\_url }
 
-    The D1 database's size, in bytes.
+Only present when status = ‘complete’
 
-  - `jurisdiction: optional "eu" or "fedramp"`
+</summary>
 
-    Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
+filename: optional string
 
-    - `"eu"`
+The generated SQL filename.
 
-    - `"fedramp"`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+signed\_url: optional string
 
-    D1 database name.
+The URL to download the exported SQL. Available for one hour.
 
-  - `num_tables: optional number`
+<a href="#">Link to this property</a>
 
-  - `read_replication: optional object { mode }`
+</details>
 
-    Configuration for D1 read replication.
+<a href="#">Link to this property</a>
 
-    - `mode: "auto" or "disabled"`
+<details>
 
-      The read replication mode for the database. Mode 'auto' denotes that D1 creates replicas and automatically places them around the world. Mode 'disabled' denotes that no database replicas are used.
+<summary>
 
-      - `"auto"`
+status: optional "complete"or "error"
 
-      - `"disabled"`
+</summary>
 
-  - `uuid: optional string`
+One of the following:
 
-    D1 database identifier (UUID).
+"complete"
 
-  - `version: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"error"
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+success: optional boolean
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2022-11-15T18:25:44.442097Z",
-    "file_size": 12,
-    "jurisdiction": "eu",
-    "name": "my-database",
-    "num_tables": 12,
-    "read_replication": {
-      "mode": "auto"
-    },
-    "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "version": "production"
-  },
-  "success": true
-}
-```
+type: optional "export"
 
-## Delete D1 Database
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/d1/database/{database_id}`
+</details>
 
-Deletes the specified D1 database.
+[Link to this property](#)%20d1.database%20%3E%20(model)%20database_export_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier tag.
+DatabaseImportResponse object {at\_bookmark, error, filename, 6 more }
 
-- `database_id: string`
+</summary>
 
-  D1 database identifier (UUID).
+at\_bookmark: optional string
 
-### Returns
+The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the import. Only returned if an import process is currently running or recently finished.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+error: optional string
 
-  - `message: string`
+Only present when status = ‘error’. Contains the error message that prevented the import from succeeding.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+filename: optional string
 
-    - `pointer: optional string`
+Derived from the database ID and etag, to use in avoiding repeated uploads. Only returned when for the ‘init’ action.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+messages: optional array of string
 
-  - `message: string`
+Logs since the last time you polled
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: unknown`
+<summary>
 
-- `success: true`
+result: optional object {final\_bookmark, meta, num\_queries }
 
-  Whether the API call was successful
+Only present when status = ‘complete’
 
-  - `true`
+</summary>
 
-### Example
+final\_bookmark: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The time-travel bookmark if you need restore your D1 to directly after the import succeeded.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+<details>
 
-## Query D1 Database
+<summary>
 
-**post** `/accounts/{account_id}/d1/database/{database_id}/query`
+meta: optional object {changed\_db, changes, duration, 8 more }
 
-Returns the query result as an object.
+</summary>
 
-### Path Parameters
+changed\_db: optional boolean
 
-- `account_id: string`
+Denotes if the database has been altered in some way, like deleting rows.
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `database_id: string`
+changes: optional number
 
-  D1 database identifier (UUID).
+Rough indication of how many rows were modified by the query, as provided by SQLite’s <code>sqlite3_total_changes()</code>.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: object { sql, params }  or object { batch }`
+duration: optional number
 
-  A single query object or a batch query object
+The duration of the SQL query execution inside the database. Does not include any network communication.
 
-  - `D1SingleQuery object { sql, params }`
+<a href="#">Link to this property</a>
 
-    A single query with or without parameters
+last\_row\_id: optional number
 
-    - `sql: string`
+The row ID of the last inserted row in a table with an <code>INTEGER PRIMARY KEY</code> as provided by SQLite. Tables created with <code>WITHOUT ROWID</code> do not populate this.
 
-      Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.
+<a href="#">Link to this property</a>
 
-    - `params: optional array of string`
+rows\_read: optional number
 
-  - `MultipleQueries object { batch }`
+Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
 
-    - `batch: array of object { sql, params }`
+<a href="#">Link to this property</a>
 
-      - `sql: string`
+rows\_written: optional number
 
-        Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.
+Number of rows written during the SQL query execution, including indices.
 
-      - `params: optional array of string`
+<a href="#">Link to this property</a>
 
-### Returns
+served\_by\_colo: optional string
 
-- `errors: array of ResponseInfo`
+The three letters airport code of the colo that handled the query.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+served\_by\_primary: optional boolean
 
-  - `documentation_url: optional string`
+Denotes if the query has been handled by the database primary instance.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+served\_by\_region: optional "WNAM"or "ENAM"or "WEUR"or 3 more
 
-  - `message: string`
+Region location hint of the database instance that handled the query.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-- `result: array of QueryResult`
+"WNAM"
 
-  - `meta: optional object { changed_db, changes, duration, 8 more }`
+<a href="#">Link to this property</a>
 
-    - `changed_db: optional boolean`
+"ENAM"
 
-      Denotes if the database has been altered in some way, like deleting rows.
+<a href="#">Link to this property</a>
 
-    - `changes: optional number`
+"WEUR"
 
-      Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`.
+<a href="#">Link to this property</a>
 
-    - `duration: optional number`
+"EEUR"
 
-      The duration of the SQL query execution inside the database. Does not include any network communication.
+<a href="#">Link to this property</a>
 
-    - `last_row_id: optional number`
+"APAC"
 
-      The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this.
+<a href="#">Link to this property</a>
 
-    - `rows_read: optional number`
+"OC"
 
-      Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
+<a href="#">Link to this property</a>
 
-    - `rows_written: optional number`
+</details>
 
-      Number of rows written during the SQL query execution, including indices.
+<a href="#">Link to this property</a>
 
-    - `served_by_colo: optional string`
+size\_after: optional number
 
-      The three letters airport code of the colo that handled the query.
+Size of the database after the query committed, in bytes.
 
-    - `served_by_primary: optional boolean`
+<a href="#">Link to this property</a>
 
-      Denotes if the query has been handled by the database primary instance.
+<details>
 
-    - `served_by_region: optional "WNAM" or "ENAM" or "WEUR" or 3 more`
+<summary>
 
-      Region location hint of the database instance that handled the query.
+timings: optional object {sql\_duration\_ms }
 
-      - `"WNAM"`
+Various durations for the query.
 
-      - `"ENAM"`
+</summary>
 
-      - `"WEUR"`
+sql\_duration\_ms: optional number
 
-      - `"EEUR"`
+The duration of the SQL query execution inside the database. Does not include any network communication.
 
-      - `"APAC"`
+<a href="#">Link to this property</a>
 
-      - `"OC"`
+</details>
 
-    - `size_after: optional number`
+<a href="#">Link to this property</a>
 
-      Size of the database after the query committed, in bytes.
+</details>
 
-    - `timings: optional object { sql_duration_ms }`
+<a href="#">Link to this property</a>
 
-      Various durations for the query.
+num\_queries: optional number
 
-      - `sql_duration_ms: optional number`
+The total number of queries that were executed during the import.
 
-        The duration of the SQL query execution inside the database. Does not include any network communication.
+<a href="#">Link to this property</a>
 
-  - `results: optional array of unknown`
+</details>
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+status: optional "complete"or "error"
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/query \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "sql": "SELECT * FROM myTable WHERE field = ? OR field = ?;",
-          "params": [
-            "firstParam",
-            "secondParam"
-          ]
-        }'
-```
+One of the following:
 
-#### Response
+"complete"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "meta": {
-        "changed_db": true,
-        "changes": 0,
-        "duration": 0,
-        "last_row_id": 0,
-        "rows_read": 0,
-        "rows_written": 0,
-        "served_by_colo": "LHR",
-        "served_by_primary": true,
-        "served_by_region": "EEUR",
-        "size_after": 0,
-        "timings": {
-          "sql_duration_ms": 0
-        }
-      },
-      "results": [
-        {}
-      ],
-      "success": true
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Raw D1 Database query
+"error"
 
-**post** `/accounts/{account_id}/d1/database/{database_id}/raw`
+<a href="#">Link to this property</a>
 
-Returns the query result rows as arrays rather than objects. This is a performance-optimized version of the /query endpoint.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+success: optional boolean
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `database_id: string`
+type: optional "import"
 
-  D1 database identifier (UUID).
+<a href="#">Link to this property</a>
 
-### Body Parameters
+upload\_url: optional string
 
-- `body: object { sql, params }  or object { batch }`
+The R2 presigned URL to use for uploading. Only returned when for the ‘init’ action.
 
-  A single query object or a batch query object
+<a href="#">Link to this property</a>
 
-  - `D1SingleQuery object { sql, params }`
+</details>
 
-    A single query with or without parameters
+[Link to this property](#)%20d1.database%20%3E%20(model)%20database_import_response%20%3E%20(schema)>)
 
-    - `sql: string`
+#### D1DatabaseTime Travel
 
-      Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.
+##### [Get D1 database bookmark](https://developers.cloudflare.com/api/resources/d1/subresources/database/subresources/time_travel/methods/get_bookmark)
 
-    - `params: optional array of string`
+GET/accounts/{account\_id}/d1/database/{database\_id}/time\_travel/bookmark
 
-  - `MultipleQueries object { batch }`
+##### [Restore D1 Database to a bookmark or point in time](https://developers.cloudflare.com/api/resources/d1/subresources/database/subresources/time_travel/methods/restore)
 
-    - `batch: array of object { sql, params }`
+POST/accounts/{account\_id}/d1/database/{database\_id}/time\_travel/restore
 
-      - `sql: string`
+##### ModelsExpand Collapse
 
-        Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.
+<details>
 
-      - `params: optional array of string`
+<summary>
 
-### Returns
+TimeTravelGetBookmarkResponse object {bookmark }
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+bookmark: optional string
 
-  - `message: string`
+A bookmark representing a specific state of the database at a specific point in time.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20d1.database.time_travel%20%3E%20(model)%20time_travel_get_bookmark_response%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+TimeTravelRestoreResponse object {bookmark, message, previous\_bookmark }
 
-  - `documentation_url: optional string`
+Response from a time travel restore operation.
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: array of object { meta, results, success }`
+bookmark: optional string
 
-  - `meta: optional object { changed_db, changes, duration, 8 more }`
+The new bookmark representing the state of the database after the restore operation.
 
-    - `changed_db: optional boolean`
+<a href="#">Link to this property</a>
 
-      Denotes if the database has been altered in some way, like deleting rows.
+message: optional string
 
-    - `changes: optional number`
+A message describing the result of the restore operation.
 
-      Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`.
+<a href="#">Link to this property</a>
 
-    - `duration: optional number`
+previous\_bookmark: optional string
 
-      The duration of the SQL query execution inside the database. Does not include any network communication.
+The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed.
 
-    - `last_row_id: optional number`
+<a href="#">Link to this property</a>
 
-      The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this.
+</details>
 
-    - `rows_read: optional number`
-
-      Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
-
-    - `rows_written: optional number`
-
-      Number of rows written during the SQL query execution, including indices.
-
-    - `served_by_colo: optional string`
-
-      The three letters airport code of the colo that handled the query.
-
-    - `served_by_primary: optional boolean`
-
-      Denotes if the query has been handled by the database primary instance.
-
-    - `served_by_region: optional "WNAM" or "ENAM" or "WEUR" or 3 more`
-
-      Region location hint of the database instance that handled the query.
-
-      - `"WNAM"`
-
-      - `"ENAM"`
-
-      - `"WEUR"`
-
-      - `"EEUR"`
-
-      - `"APAC"`
-
-      - `"OC"`
-
-    - `size_after: optional number`
-
-      Size of the database after the query committed, in bytes.
-
-    - `timings: optional object { sql_duration_ms }`
-
-      Various durations for the query.
-
-      - `sql_duration_ms: optional number`
-
-        The duration of the SQL query execution inside the database. Does not include any network communication.
-
-  - `results: optional object { columns, rows }`
-
-    - `columns: optional array of string`
-
-    - `rows: optional array of array of number or string or unknown`
-
-      - `number`
-
-      - `string`
-
-      - `unknown`
-
-  - `success: optional boolean`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/raw \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "sql": "SELECT * FROM myTable WHERE field = ? OR field = ?;",
-          "params": [
-            "firstParam",
-            "secondParam"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "meta": {
-        "changed_db": true,
-        "changes": 0,
-        "duration": 0,
-        "last_row_id": 0,
-        "rows_read": 0,
-        "rows_written": 0,
-        "served_by_colo": "LHR",
-        "served_by_primary": true,
-        "served_by_region": "EEUR",
-        "size_after": 0,
-        "timings": {
-          "sql_duration_ms": 0
-        }
-      },
-      "results": {
-        "columns": [
-          "string"
-        ],
-        "rows": [
-          [
-            0
-          ]
-        ]
-      },
-      "success": true
-    }
-  ],
-  "success": true
-}
-```
-
-## Export D1 Database as SQL
-
-**post** `/accounts/{account_id}/d1/database/{database_id}/export`
-
-Returns a URL where the SQL contents of your D1 can be downloaded. Note: this process may take
-some time for larger DBs, during which your D1 will be unavailable to serve queries. To avoid
-blocking your DB unnecessarily, an in-progress export must be continually polled or will automatically cancel.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `database_id: string`
-
-  D1 database identifier (UUID).
-
-### Body Parameters
-
-- `output_format: "polling"`
-
-  Specifies that you will poll this endpoint until the export completes
-
-  - `"polling"`
-
-- `current_bookmark: optional string`
-
-  To poll an in-progress export, provide the current bookmark (returned by your first polling response)
-
-- `dump_options: optional object { no_data, no_schema, tables }`
-
-  - `no_data: optional boolean`
-
-    Export only the table definitions, not their contents
-
-  - `no_schema: optional boolean`
-
-    Export only each table's contents, not its definition
-
-  - `tables: optional array of string`
-
-    Filter the export to just one or more tables. Passing an empty array is the same as not passing anything and means: export all tables.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { at_bookmark, error, messages, 4 more }`
-
-  - `at_bookmark: optional string`
-
-    The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the export task.
-
-  - `error: optional string`
-
-    Only present when status = 'error'. Contains the error message.
-
-  - `messages: optional array of string`
-
-    Logs since the last time you polled
-
-  - `result: optional object { filename, signed_url }`
-
-    Only present when status = 'complete'
-
-    - `filename: optional string`
-
-      The generated SQL filename.
-
-    - `signed_url: optional string`
-
-      The URL to download the exported SQL. Available for one hour.
-
-  - `status: optional "complete" or "error"`
-
-    - `"complete"`
-
-    - `"error"`
-
-  - `success: optional boolean`
-
-  - `type: optional "export"`
-
-    - `"export"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/export \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "output_format": "polling"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "at_bookmark": "at_bookmark",
-    "error": "error",
-    "messages": [
-      "string"
-    ],
-    "result": {
-      "filename": "filename",
-      "signed_url": "signed_url"
-    },
-    "status": "complete",
-    "success": true,
-    "type": "export"
-  },
-  "success": true
-}
-```
-
-## Import SQL into your D1 Database
-
-**post** `/accounts/{account_id}/d1/database/{database_id}/import`
-
-Generates a temporary URL for uploading an SQL file to, then instructing the D1 to import it
-and polling it for status updates. Imports block the D1 for their duration.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `database_id: string`
-
-  D1 database identifier (UUID).
-
-### Body Parameters
-
-- `body: object { action, etag }  or object { action, etag, filename }  or object { action, current_bookmark }`
-
-  - `Init object { action, etag }`
-
-    - `action: "init"`
-
-      Indicates you have a new SQL file to upload.
-
-      - `"init"`
-
-    - `etag: string`
-
-      Required when action is 'init' or 'ingest'. An md5 hash of the file you're uploading. Used to check if it already exists, and validate its contents before ingesting.
-
-  - `Ingest object { action, etag, filename }`
-
-    - `action: "ingest"`
-
-      Indicates you've finished uploading to tell the D1 to start consuming it
-
-      - `"ingest"`
-
-    - `etag: string`
-
-      An md5 hash of the file you're uploading. Used to check if it already exists, and validate its contents before ingesting.
-
-    - `filename: string`
-
-      The filename you have successfully uploaded.
-
-  - `Poll object { action, current_bookmark }`
-
-    - `action: "poll"`
-
-      Indicates you've finished uploading to tell the D1 to start consuming it
-
-      - `"poll"`
-
-    - `current_bookmark: string`
-
-      This identifies the currently-running import, checking its status.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { at_bookmark, error, filename, 6 more }`
-
-  - `at_bookmark: optional string`
-
-    The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the import. Only returned if an import process is currently running or recently finished.
-
-  - `error: optional string`
-
-    Only present when status = 'error'. Contains the error message that prevented the import from succeeding.
-
-  - `filename: optional string`
-
-    Derived from the database ID and etag, to use in avoiding repeated uploads. Only returned when for the 'init' action.
-
-  - `messages: optional array of string`
-
-    Logs since the last time you polled
-
-  - `result: optional object { final_bookmark, meta, num_queries }`
-
-    Only present when status = 'complete'
-
-    - `final_bookmark: optional string`
-
-      The time-travel bookmark if you need restore your D1 to directly after the import succeeded.
-
-    - `meta: optional object { changed_db, changes, duration, 8 more }`
-
-      - `changed_db: optional boolean`
-
-        Denotes if the database has been altered in some way, like deleting rows.
-
-      - `changes: optional number`
-
-        Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`.
-
-      - `duration: optional number`
-
-        The duration of the SQL query execution inside the database. Does not include any network communication.
-
-      - `last_row_id: optional number`
-
-        The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this.
-
-      - `rows_read: optional number`
-
-        Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
-
-      - `rows_written: optional number`
-
-        Number of rows written during the SQL query execution, including indices.
-
-      - `served_by_colo: optional string`
-
-        The three letters airport code of the colo that handled the query.
-
-      - `served_by_primary: optional boolean`
-
-        Denotes if the query has been handled by the database primary instance.
-
-      - `served_by_region: optional "WNAM" or "ENAM" or "WEUR" or 3 more`
-
-        Region location hint of the database instance that handled the query.
-
-        - `"WNAM"`
-
-        - `"ENAM"`
-
-        - `"WEUR"`
-
-        - `"EEUR"`
-
-        - `"APAC"`
-
-        - `"OC"`
-
-      - `size_after: optional number`
-
-        Size of the database after the query committed, in bytes.
-
-      - `timings: optional object { sql_duration_ms }`
-
-        Various durations for the query.
-
-        - `sql_duration_ms: optional number`
-
-          The duration of the SQL query execution inside the database. Does not include any network communication.
-
-    - `num_queries: optional number`
-
-      The total number of queries that were executed during the import.
-
-  - `status: optional "complete" or "error"`
-
-    - `"complete"`
-
-    - `"error"`
-
-  - `success: optional boolean`
-
-  - `type: optional "import"`
-
-    - `"import"`
-
-  - `upload_url: optional string`
-
-    The R2 presigned URL to use for uploading. Only returned when for the 'init' action.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/import \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": "init",
-          "etag": "etag"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "at_bookmark": "at_bookmark",
-    "error": "error",
-    "filename": "filename",
-    "messages": [
-      "string"
-    ],
-    "result": {
-      "final_bookmark": "final_bookmark",
-      "meta": {
-        "changed_db": true,
-        "changes": 0,
-        "duration": 0,
-        "last_row_id": 0,
-        "rows_read": 0,
-        "rows_written": 0,
-        "served_by_colo": "LHR",
-        "served_by_primary": true,
-        "served_by_region": "EEUR",
-        "size_after": 0,
-        "timings": {
-          "sql_duration_ms": 0
-        }
-      },
-      "num_queries": 0
-    },
-    "status": "complete",
-    "success": true,
-    "type": "import",
-    "upload_url": "upload_url"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Query Result
-
-- `QueryResult object { meta, results, success }`
-
-  - `meta: optional object { changed_db, changes, duration, 8 more }`
-
-    - `changed_db: optional boolean`
-
-      Denotes if the database has been altered in some way, like deleting rows.
-
-    - `changes: optional number`
-
-      Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`.
-
-    - `duration: optional number`
-
-      The duration of the SQL query execution inside the database. Does not include any network communication.
-
-    - `last_row_id: optional number`
-
-      The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this.
-
-    - `rows_read: optional number`
-
-      Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
-
-    - `rows_written: optional number`
-
-      Number of rows written during the SQL query execution, including indices.
-
-    - `served_by_colo: optional string`
-
-      The three letters airport code of the colo that handled the query.
-
-    - `served_by_primary: optional boolean`
-
-      Denotes if the query has been handled by the database primary instance.
-
-    - `served_by_region: optional "WNAM" or "ENAM" or "WEUR" or 3 more`
-
-      Region location hint of the database instance that handled the query.
-
-      - `"WNAM"`
-
-      - `"ENAM"`
-
-      - `"WEUR"`
-
-      - `"EEUR"`
-
-      - `"APAC"`
-
-      - `"OC"`
-
-    - `size_after: optional number`
-
-      Size of the database after the query committed, in bytes.
-
-    - `timings: optional object { sql_duration_ms }`
-
-      Various durations for the query.
-
-      - `sql_duration_ms: optional number`
-
-        The duration of the SQL query execution inside the database. Does not include any network communication.
-
-  - `results: optional array of unknown`
-
-  - `success: optional boolean`
-
-### Database List Response
-
-- `DatabaseListResponse object { created_at, jurisdiction, name, 2 more }`
-
-  - `created_at: optional string`
-
-    Specifies the timestamp the resource was created as an ISO8601 string.
-
-  - `jurisdiction: optional "eu" or "fedramp"`
-
-    Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.
-
-    - `"eu"`
-
-    - `"fedramp"`
-
-  - `name: optional string`
-
-    D1 database name.
-
-  - `uuid: optional string`
-
-    D1 database identifier (UUID).
-
-  - `version: optional string`
-
-### Database Delete Response
-
-- `DatabaseDeleteResponse = unknown`
-
-### Database Raw Response
-
-- `DatabaseRawResponse object { meta, results, success }`
-
-  - `meta: optional object { changed_db, changes, duration, 8 more }`
-
-    - `changed_db: optional boolean`
-
-      Denotes if the database has been altered in some way, like deleting rows.
-
-    - `changes: optional number`
-
-      Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`.
-
-    - `duration: optional number`
-
-      The duration of the SQL query execution inside the database. Does not include any network communication.
-
-    - `last_row_id: optional number`
-
-      The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this.
-
-    - `rows_read: optional number`
-
-      Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
-
-    - `rows_written: optional number`
-
-      Number of rows written during the SQL query execution, including indices.
-
-    - `served_by_colo: optional string`
-
-      The three letters airport code of the colo that handled the query.
-
-    - `served_by_primary: optional boolean`
-
-      Denotes if the query has been handled by the database primary instance.
-
-    - `served_by_region: optional "WNAM" or "ENAM" or "WEUR" or 3 more`
-
-      Region location hint of the database instance that handled the query.
-
-      - `"WNAM"`
-
-      - `"ENAM"`
-
-      - `"WEUR"`
-
-      - `"EEUR"`
-
-      - `"APAC"`
-
-      - `"OC"`
-
-    - `size_after: optional number`
-
-      Size of the database after the query committed, in bytes.
-
-    - `timings: optional object { sql_duration_ms }`
-
-      Various durations for the query.
-
-      - `sql_duration_ms: optional number`
-
-        The duration of the SQL query execution inside the database. Does not include any network communication.
-
-  - `results: optional object { columns, rows }`
-
-    - `columns: optional array of string`
-
-    - `rows: optional array of array of number or string or unknown`
-
-      - `number`
-
-      - `string`
-
-      - `unknown`
-
-  - `success: optional boolean`
-
-### Database Export Response
-
-- `DatabaseExportResponse object { at_bookmark, error, messages, 4 more }`
-
-  - `at_bookmark: optional string`
-
-    The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the export task.
-
-  - `error: optional string`
-
-    Only present when status = 'error'. Contains the error message.
-
-  - `messages: optional array of string`
-
-    Logs since the last time you polled
-
-  - `result: optional object { filename, signed_url }`
-
-    Only present when status = 'complete'
-
-    - `filename: optional string`
-
-      The generated SQL filename.
-
-    - `signed_url: optional string`
-
-      The URL to download the exported SQL. Available for one hour.
-
-  - `status: optional "complete" or "error"`
-
-    - `"complete"`
-
-    - `"error"`
-
-  - `success: optional boolean`
-
-  - `type: optional "export"`
-
-    - `"export"`
-
-### Database Import Response
-
-- `DatabaseImportResponse object { at_bookmark, error, filename, 6 more }`
-
-  - `at_bookmark: optional string`
-
-    The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the import. Only returned if an import process is currently running or recently finished.
-
-  - `error: optional string`
-
-    Only present when status = 'error'. Contains the error message that prevented the import from succeeding.
-
-  - `filename: optional string`
-
-    Derived from the database ID and etag, to use in avoiding repeated uploads. Only returned when for the 'init' action.
-
-  - `messages: optional array of string`
-
-    Logs since the last time you polled
-
-  - `result: optional object { final_bookmark, meta, num_queries }`
-
-    Only present when status = 'complete'
-
-    - `final_bookmark: optional string`
-
-      The time-travel bookmark if you need restore your D1 to directly after the import succeeded.
-
-    - `meta: optional object { changed_db, changes, duration, 8 more }`
-
-      - `changed_db: optional boolean`
-
-        Denotes if the database has been altered in some way, like deleting rows.
-
-      - `changes: optional number`
-
-        Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`.
-
-      - `duration: optional number`
-
-        The duration of the SQL query execution inside the database. Does not include any network communication.
-
-      - `last_row_id: optional number`
-
-        The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this.
-
-      - `rows_read: optional number`
-
-        Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned).
-
-      - `rows_written: optional number`
-
-        Number of rows written during the SQL query execution, including indices.
-
-      - `served_by_colo: optional string`
-
-        The three letters airport code of the colo that handled the query.
-
-      - `served_by_primary: optional boolean`
-
-        Denotes if the query has been handled by the database primary instance.
-
-      - `served_by_region: optional "WNAM" or "ENAM" or "WEUR" or 3 more`
-
-        Region location hint of the database instance that handled the query.
-
-        - `"WNAM"`
-
-        - `"ENAM"`
-
-        - `"WEUR"`
-
-        - `"EEUR"`
-
-        - `"APAC"`
-
-        - `"OC"`
-
-      - `size_after: optional number`
-
-        Size of the database after the query committed, in bytes.
-
-      - `timings: optional object { sql_duration_ms }`
-
-        Various durations for the query.
-
-        - `sql_duration_ms: optional number`
-
-          The duration of the SQL query execution inside the database. Does not include any network communication.
-
-    - `num_queries: optional number`
-
-      The total number of queries that were executed during the import.
-
-  - `status: optional "complete" or "error"`
-
-    - `"complete"`
-
-    - `"error"`
-
-  - `success: optional boolean`
-
-  - `type: optional "import"`
-
-    - `"import"`
-
-  - `upload_url: optional string`
-
-    The R2 presigned URL to use for uploading. Only returned when for the 'init' action.
-
-# Time Travel
-
-## Get D1 database bookmark
-
-**get** `/accounts/{account_id}/d1/database/{database_id}/time_travel/bookmark`
-
-Retrieves the current bookmark, or the nearest bookmark at or before a provided timestamp.
-Bookmarks can be used with the restore endpoint to revert the database to a previous point in time.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `database_id: string`
-
-  D1 database identifier (UUID).
-
-### Query Parameters
-
-- `timestamp: optional string`
-
-  An optional ISO 8601 timestamp. If provided, returns the nearest available bookmark at or before this timestamp. If omitted, returns the current bookmark.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { bookmark }`
-
-  - `bookmark: optional string`
-
-    A bookmark representing a specific state of the database at a specific point in time.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/time_travel/bookmark \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "bookmark": "00000001-00000002-00004e2f-0a83ea2fceebc654de0640c422be4653"
-  },
-  "success": true
-}
-```
-
-## Restore D1 Database to a bookmark or point in time
-
-**post** `/accounts/{account_id}/d1/database/{database_id}/time_travel/restore`
-
-Restores a D1 database to a previous point in time either via a bookmark or a timestamp.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `database_id: string`
-
-  D1 database identifier (UUID).
-
-### Query Parameters
-
-- `bookmark: optional string`
-
-  A bookmark to restore the database to. Required if `timestamp` is not provided.
-
-- `timestamp: optional string`
-
-  An ISO 8601 timestamp to restore the database to. Required if `bookmark` is not provided.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { bookmark, message, previous_bookmark }`
-
-  Response from a time travel restore operation.
-
-  - `bookmark: optional string`
-
-    The new bookmark representing the state of the database after the restore operation.
-
-  - `message: optional string`
-
-    A message describing the result of the restore operation.
-
-  - `previous_bookmark: optional string`
-
-    The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/time_travel/restore \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "bookmark": "00000001-00000002-00004e2f-0a83ea2fceebc654de0640c422be4653",
-    "message": "Database restored successfully",
-    "previous_bookmark": "00000001-00000002-00004e2f-0a83ea2fceebc654de0640c422be4653"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Time Travel Get Bookmark Response
-
-- `TimeTravelGetBookmarkResponse object { bookmark }`
-
-  - `bookmark: optional string`
-
-    A bookmark representing a specific state of the database at a specific point in time.
-
-### Time Travel Restore Response
-
-- `TimeTravelRestoreResponse object { bookmark, message, previous_bookmark }`
-
-  Response from a time travel restore operation.
-
-  - `bookmark: optional string`
-
-    The new bookmark representing the state of the database after the restore operation.
-
-  - `message: optional string`
-
-    A message describing the result of the restore operation.
-
-  - `previous_bookmark: optional string`
-
-    The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed.
+[Link to this property](#)%20d1.database.time_travel%20%3E%20(model)%20time_travel_restore_response%20%3E%20(schema)>)

@@ -183,6 +183,12 @@
           "traits": {
             "smithy.api#enumValue": "postpaid"
           }
+        },
+        "UNIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unified"
+          }
         }
       }
     },
@@ -1215,6 +1221,7 @@
         "limit": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -1227,6 +1234,7 @@
         "window": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -1308,6 +1316,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "postpaid"
+          }
+        },
+        "UNIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unified"
           }
         }
       }
@@ -2341,6 +2355,7 @@
         "limit": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -2353,6 +2368,7 @@
         "window": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -2434,6 +2450,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "postpaid"
+          }
+        },
+        "UNIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unified"
           }
         }
       }
@@ -3467,6 +3489,7 @@
         "limit": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -3479,6 +3502,7 @@
         "window": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -3560,6 +3584,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "postpaid"
+          }
+        },
+        "UNIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unified"
           }
         }
       }
@@ -4593,6 +4623,7 @@
         "limit": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -4605,6 +4636,7 @@
         "window": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -4687,6 +4719,12 @@
           "traits": {
             "smithy.api#enumValue": "postpaid"
           }
+        },
+        "UNIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unified"
+          }
         }
       }
     },
@@ -4745,6 +4783,12 @@
         "authentication": {
           "target": "smithy.api#Boolean"
         },
+        "byok_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Requires customer-provided provider credentials and prevents fallback to Unified Billing."
+          }
+        },
         "dlp": {
           "target": "com.cloudflare.ai_gateway#ListResultItemDlp"
         },
@@ -4752,6 +4796,9 @@
           "target": "com.cloudflare.ai_gateway#ListResultItemGuardrails"
         },
         "is_default": {
+          "target": "smithy.api#Boolean"
+        },
+        "log_classification": {
           "target": "smithy.api#Boolean"
         },
         "log_management": {
@@ -4781,7 +4828,7 @@
         "retry_delay": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-5000)"
+            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-60000)"
           }
         },
         "retry_max_attempts": {
@@ -4802,7 +4849,7 @@
         "workers_ai_billing_mode": {
           "target": "com.cloudflare.ai_gateway#ListResultItemWorkersAiBillingMode",
           "traits": {
-            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported."
+            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway."
           }
         },
         "zdr": {
@@ -5845,6 +5892,7 @@
         "limit": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -5857,6 +5905,7 @@
         "window": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -5938,6 +5987,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "postpaid"
+          }
+        },
+        "UNIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unified"
           }
         }
       }
@@ -6971,6 +7026,7 @@
         "limit": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -6983,6 +7039,7 @@
         "window": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
             "smithy.api#required": {}
           }
         },
@@ -7065,6 +7122,12 @@
           "traits": {
             "smithy.api#enumValue": "postpaid"
           }
+        },
+        "UNIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unified"
+          }
         }
       }
     },
@@ -7088,29 +7151,20 @@
             "smithy.api#required": {}
           }
         },
-        "disabledReason": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "error": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "lastFailedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "threshold": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "disabledReason": {
+          "target": "smithy.api#String"
+        },
+        "error": {
+          "target": "smithy.api#String"
+        },
+        "lastFailedAt": {
+          "target": "smithy.api#Double"
         }
       }
     },
@@ -16701,6 +16755,12 @@
         "authentication": {
           "target": "smithy.api#Boolean"
         },
+        "byok_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Requires customer-provided provider credentials and prevents fallback to Unified Billing."
+          }
+        },
         "log_management": {
           "target": "smithy.api#Double"
         },
@@ -16725,7 +16785,7 @@
         "retry_delay": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-5000)"
+            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-60000)"
           }
         },
         "retry_max_attempts": {
@@ -16734,10 +16794,13 @@
             "smithy.api#documentation": "Maximum number of retry attempts for failed requests (1-5)"
           }
         },
+        "store_id": {
+          "target": "smithy.api#String"
+        },
         "workers_ai_billing_mode": {
           "target": "com.cloudflare.ai_gateway#CreateRequestWorkersAiBillingMode",
           "traits": {
-            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported."
+            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway."
           }
         },
         "zdr": {
@@ -16803,6 +16866,12 @@
         "authentication": {
           "target": "smithy.api#Boolean"
         },
+        "byok_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Requires customer-provided provider credentials and prevents fallback to Unified Billing."
+          }
+        },
         "dlp": {
           "target": "com.cloudflare.ai_gateway#CreateResponseDlp"
         },
@@ -16810,6 +16879,9 @@
           "target": "com.cloudflare.ai_gateway#CreateResponseGuardrails"
         },
         "is_default": {
+          "target": "smithy.api#Boolean"
+        },
+        "log_classification": {
           "target": "smithy.api#Boolean"
         },
         "log_management": {
@@ -16839,7 +16911,7 @@
         "retry_delay": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-5000)"
+            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-60000)"
           }
         },
         "retry_max_attempts": {
@@ -16860,7 +16932,7 @@
         "workers_ai_billing_mode": {
           "target": "com.cloudflare.ai_gateway#CreateResponseWorkersAiBillingMode",
           "traits": {
-            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported."
+            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway."
           }
         },
         "zdr": {
@@ -16962,7 +17034,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/billing/topup",
           "code": 200
         },
-        "smithy.api#documentation": "Create a credit top-up via Stripe PaymentIntent for the given account."
+        "smithy.api#documentation": "Create a credit top-up for the given account, charged to the account's default payment method."
       }
     },
     "com.cloudflare.ai_gateway#CreateBillingTopupRequest": {
@@ -18133,6 +18205,12 @@
         "authentication": {
           "target": "smithy.api#Boolean"
         },
+        "byok_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Requires customer-provided provider credentials and prevents fallback to Unified Billing."
+          }
+        },
         "dlp": {
           "target": "com.cloudflare.ai_gateway#DeleteResponseDlp"
         },
@@ -18140,6 +18218,9 @@
           "target": "com.cloudflare.ai_gateway#DeleteResponseGuardrails"
         },
         "is_default": {
+          "target": "smithy.api#Boolean"
+        },
+        "log_classification": {
           "target": "smithy.api#Boolean"
         },
         "log_management": {
@@ -18169,7 +18250,7 @@
         "retry_delay": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-5000)"
+            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-60000)"
           }
         },
         "retry_max_attempts": {
@@ -18190,7 +18271,7 @@
         "workers_ai_billing_mode": {
           "target": "com.cloudflare.ai_gateway#DeleteResponseWorkersAiBillingMode",
           "traits": {
-            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported."
+            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway."
           }
         },
         "zdr": {
@@ -18746,7 +18827,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Delete Gateway Logs",
+        "smithy.api#documentation": "Deletes gateway log entries matching the specified criteria.",
         "smithy.api#idempotent": {}
       }
     },
@@ -18898,6 +18979,12 @@
         "authentication": {
           "target": "smithy.api#Boolean"
         },
+        "byok_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Requires customer-provided provider credentials and prevents fallback to Unified Billing."
+          }
+        },
         "dlp": {
           "target": "com.cloudflare.ai_gateway#GetResponseDlp"
         },
@@ -18905,6 +18992,9 @@
           "target": "com.cloudflare.ai_gateway#GetResponseGuardrails"
         },
         "is_default": {
+          "target": "smithy.api#Boolean"
+        },
+        "log_classification": {
           "target": "smithy.api#Boolean"
         },
         "log_management": {
@@ -18934,7 +19024,7 @@
         "retry_delay": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-5000)"
+            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-60000)"
           }
         },
         "retry_max_attempts": {
@@ -18955,7 +19045,7 @@
         "workers_ai_billing_mode": {
           "target": "com.cloudflare.ai_gateway#GetResponseWorkersAiBillingMode",
           "traits": {
-            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported."
+            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway."
           }
         },
         "zdr": {
@@ -19063,29 +19153,20 @@
             "smithy.api#required": {}
           }
         },
-        "disabledReason": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "error": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "lastFailedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "threshold": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "disabledReason": {
+          "target": "smithy.api#String"
+        },
+        "error": {
+          "target": "smithy.api#String"
+        },
+        "lastFailedAt": {
+          "target": "smithy.api#Double"
         }
       },
       "traits": {
@@ -20544,7 +20625,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/evaluation-types",
           "code": 200
         },
-        "smithy.api#documentation": "List Evaluators",
+        "smithy.api#documentation": "Lists all available evaluator types for scoring AI gateway responses.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20623,7 +20704,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "List Gateway Logs",
+        "smithy.api#documentation": "Lists request/response log entries for the AI gateway with filtering and pagination.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -21356,11 +21437,20 @@
         "authentication": {
           "target": "smithy.api#Boolean"
         },
+        "byok_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Requires customer-provided provider credentials and prevents fallback to Unified Billing."
+          }
+        },
         "dlp": {
           "target": "com.cloudflare.ai_gateway#UpdateRequestDlp"
         },
         "guardrails": {
           "target": "com.cloudflare.ai_gateway#UpdateRequestGuardrails"
+        },
+        "log_classification": {
+          "target": "smithy.api#Boolean"
         },
         "log_management": {
           "target": "smithy.api#Double"
@@ -21389,7 +21479,7 @@
         "retry_delay": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-5000)"
+            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-60000)"
           }
         },
         "retry_max_attempts": {
@@ -21410,7 +21500,7 @@
         "workers_ai_billing_mode": {
           "target": "com.cloudflare.ai_gateway#UpdateRequestWorkersAiBillingMode",
           "traits": {
-            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported."
+            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway."
           }
         },
         "zdr": {
@@ -21476,6 +21566,12 @@
         "authentication": {
           "target": "smithy.api#Boolean"
         },
+        "byok_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Requires customer-provided provider credentials and prevents fallback to Unified Billing."
+          }
+        },
         "dlp": {
           "target": "com.cloudflare.ai_gateway#UpdateResponseDlp"
         },
@@ -21483,6 +21579,9 @@
           "target": "com.cloudflare.ai_gateway#UpdateResponseGuardrails"
         },
         "is_default": {
+          "target": "smithy.api#Boolean"
+        },
+        "log_classification": {
           "target": "smithy.api#Boolean"
         },
         "log_management": {
@@ -21512,7 +21611,7 @@
         "retry_delay": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-5000)"
+            "smithy.api#documentation": "Delay between retry attempts in milliseconds (0-60000)"
           }
         },
         "retry_max_attempts": {
@@ -21533,7 +21632,7 @@
         "workers_ai_billing_mode": {
           "target": "com.cloudflare.ai_gateway#UpdateResponseWorkersAiBillingMode",
           "traits": {
-            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported."
+            "smithy.api#documentation": "Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway."
           }
         },
         "zdr": {

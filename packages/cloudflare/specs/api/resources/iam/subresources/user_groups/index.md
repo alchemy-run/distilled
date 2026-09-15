@@ -1,2314 +1,1299 @@
+---
+title: User Groups
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # User Groups
 
-## List User Groups
+##### [List User Groups](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/list)
 
-**get** `/accounts/{account_id}/iam/user_groups`
+GET/accounts/{account\_id}/iam/user\_groups
 
-List all the user groups for an account.
+##### [User Group Details](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}
 
-- `account_id: string`
+##### [Create User Group](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/create)
 
-  Account identifier tag.
+POST/accounts/{account\_id}/iam/user\_groups
 
-### Query Parameters
+##### [Update User Group](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/update)
 
-- `id: optional string`
+PUT/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}
 
-  ID of the user group to be fetched.
+##### [Remove User Group](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/methods/delete)
 
-- `direction: optional "asc" or "desc"`
+DELETE/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}
 
-  The sort order of returned user groups by name (ascending or descending).
+##### ModelsExpand Collapse
 
-  - `"asc"`
+<details>
 
-  - `"desc"`
+<summary>
 
-- `fuzzyName: optional string`
+UserGroupListResponse object {id, created\_on, modified\_on, 2 more }
 
-  A string used for searching for user groups containing that substring.
+A group of policies resources.
 
-- `name: optional string`
+</summary>
 
-  Name of the user group to be fetched.
+id: string
 
-- `page: optional number`
+User Group identifier tag.
 
-  Page number of paginated results.
+maxLength32
 
-- `per_page: optional number`
+minLength32
 
-  Maximum number of results per page.
+<a href="#">Link to this property</a>
 
-### Returns
+created\_on: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Timestamp for the creation of the user group
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: string
 
-  - `source: optional object { pointer }`
+Last time the user group was modified.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+Name of the user group.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-  Whether the API call was successful.
+Policies attached to the User group
 
-  - `true`
+</summary>
 
-- `result: optional array of object { id, created_on, modified_on, 2 more }`
+id: optional string
 
-  A list of user groups for the account.
+Policy identifier.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    User Group identifier tag.
+<details>
 
-  - `created_on: string`
+<summary>
 
-    Timestamp for the creation of the user group
+access: optional "allow"or "deny"
 
-  - `modified_on: string`
+Allow or deny operations against the resources.
 
-    Last time the user group was modified.
+</summary>
 
-  - `name: string`
+One of the following:
 
-    Name of the user group.
+"allow"
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Policies attached to the User group
+"deny"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Policy identifier.
+</details>
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+<details>
 
-      - `"allow"`
+<summary>
 
-      - `"deny"`
+permission\_groups: optional array of object {id, meta, name }
 
-    - `permission_groups: optional array of object { id, meta, name }`
+A set of permission groups that are specified to the policy.
 
-      A set of permission groups that are specified to the policy.
+</summary>
 
-      - `id: string`
+id: string
 
-        Identifier of the permission group.
+Identifier of the permission group.
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+<details>
 
-        - `key: optional string`
+<summary>
 
-        - `value: optional string`
+meta: optional object {key, value }
 
-      - `name: optional string`
+Attributes associated to the permission group.
 
-        Name of the permission group.
+</summary>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+key: optional string
 
-      A list of resource groups that the policy applies to.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+value: optional string
 
-        Identifier of the resource group.
+<a href="#">Link to this property</a>
 
-      - `scope: array of object { key, objects }`
+</details>
 
-        The scope associated to the resource group
+<a href="#">Link to this property</a>
 
-        - `key: string`
+name: optional string
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+Name of the permission group.
 
-        - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-          A list of scope objects for additional context.
+</details>
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<details>
 
-      - `meta: optional object { key, value }`
+<summary>
 
-        Attributes associated to the resource group.
+resource\_groups: optional array of object {id, scope, meta, name }
 
-        - `key: optional string`
+A list of resource groups that the policy applies to.
 
-        - `value: optional string`
+</summary>
 
-      - `name: optional string`
+id: string
 
-        Name of the resource group.
+Identifier of the resource group.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+<details>
 
-    Total number of results for the requested service
+<summary>
 
-  - `page: optional number`
+scope: object {key, objects }
 
-    Current page within paginated list of results
+A scope is a combination of scope objects which provides additional context.
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results
+key: string
 
-  - `total_count: optional number`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<summary>
 
-#### Response
+objects: array of object {key }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_on": "2024-03-01T12:21:02.0000Z",
-      "modified_on": "2024-03-01T12:21:02.0000Z",
-      "name": "My New User Group",
-      "policies": [
-        {
-          "id": "f267e341f3dd4697bd3b9f71dd96247f",
-          "access": "allow",
-          "permission_groups": [
-            {
-              "id": "c8fed203ed3043cba015a93ad1616f1f",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Zone Read"
-            },
-            {
-              "id": "82e64a83756745bbbb1c9c2701bf816b",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Magic Network Monitoring"
-            }
-          ],
-          "resource_groups": [
-            {
-              "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-              "scope": [
-                {
-                  "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                  "objects": [
-                    {
-                      "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                    }
-                  ]
-                }
-              ],
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+A list of scope objects for additional context.
 
-## User Group Details
+</summary>
 
-**get** `/accounts/{account_id}/iam/user_groups/{user_group_id}`
+key: string
 
-Get information about a specific user group in an account.
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `user_group_id: string`
+</details>
 
-  User Group identifier tag.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+meta: optional object {key, value }
 
-  - `message: string`
+Attributes associated to the resource group.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+key: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+value: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+Name of the resource group.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, modified_on, 2 more }`
+</details>
 
-  A group of policies resources.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    User Group identifier tag.
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_list_response%20%3E%20(schema)>)
 
-  - `created_on: string`
+<details>
 
-    Timestamp for the creation of the user group
+<summary>
 
-  - `modified_on: string`
+UserGroupGetResponse object {id, created\_on, modified\_on, 2 more }
 
-    Last time the user group was modified.
+A group of policies resources.
 
-  - `name: string`
+</summary>
 
-    Name of the user group.
+id: string
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+User Group identifier tag.
 
-    Policies attached to the User group
+maxLength32
 
-    - `id: optional string`
+minLength32
 
-      Policy identifier.
+<a href="#">Link to this property</a>
 
-    - `access: optional "allow" or "deny"`
+created\_on: string
 
-      Allow or deny operations against the resources.
+Timestamp for the creation of the user group
 
-      - `"allow"`
+formatdate-time
 
-      - `"deny"`
+<a href="#">Link to this property</a>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+modified\_on: string
 
-      A set of permission groups that are specified to the policy.
+Last time the user group was modified.
 
-      - `id: string`
+formatdate-time
 
-        Identifier of the permission group.
+<a href="#">Link to this property</a>
 
-      - `meta: optional object { key, value }`
+name: string
 
-        Attributes associated to the permission group.
+Name of the user group.
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+<details>
 
-      - `name: optional string`
+<summary>
 
-        Name of the permission group.
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+Policies attached to the User group
 
-      A list of resource groups that the policy applies to.
+</summary>
 
-      - `id: string`
+id: optional string
 
-        Identifier of the resource group.
+Policy identifier.
 
-      - `scope: array of object { key, objects }`
+<a href="#">Link to this property</a>
 
-        The scope associated to the resource group
+<details>
 
-        - `key: string`
+<summary>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+access: optional "allow"or "deny"
 
-        - `objects: array of object { key }`
+Allow or deny operations against the resources.
 
-          A list of scope objects for additional context.
+</summary>
 
-          - `key: string`
+One of the following:
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+"allow"
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the resource group.
+"deny"
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the resource group.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+permission\_groups: optional array of object {id, meta, name }
 
-#### Response
+A set of permission groups that are specified to the policy.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2024-03-01T12:21:02.0000Z",
-    "modified_on": "2024-03-01T12:21:02.0000Z",
-    "name": "My New User Group",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+</summary>
 
-## Create User Group
+id: string
 
-**post** `/accounts/{account_id}/iam/user_groups`
+Identifier of the permission group.
 
-Create a new user group under the specified account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier tag.
+meta: optional object {key, value }
 
-### Body Parameters
+Attributes associated to the permission group.
 
-- `name: string`
+</summary>
 
-  Name of the User group.
+key: optional string
 
-- `policies: optional array of object { access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-  Policies attached to the User group
+value: optional string
 
-  - `access: "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-    Allow or deny operations against the resources.
+</details>
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"deny"`
+name: optional string
 
-  - `permission_groups: array of object { id }`
+Name of the permission group.
 
-    A set of permission groups that are specified to the policy.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Permission Group identifier tag.
+<a href="#">Link to this property</a>
 
-  - `resource_groups: array of object { id }`
+<details>
 
-    A set of resource groups that are specified to the policy.
+<summary>
 
-    - `id: string`
+resource\_groups: optional array of object {id, scope, meta, name }
 
-      Resource Group identifier tag.
+A list of resource groups that the policy applies to.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+Identifier of the resource group.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+scope: object {key, objects }
 
-- `messages: array of object { code, message, documentation_url, source }`
+A scope is a combination of scope objects which provides additional context.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+key: string
 
-  - `documentation_url: optional string`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+objects: array of object {key }
 
-  - `true`
+A list of scope objects for additional context.
 
-- `result: optional object { id, created_on, modified_on, 2 more }`
+</summary>
 
-  A group of policies resources.
+key: string
 
-  - `id: string`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-    User Group identifier tag.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-    Timestamp for the creation of the user group
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+</details>
 
-    Last time the user group was modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-    Name of the user group.
+<summary>
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+meta: optional object {key, value }
 
-    Policies attached to the User group
+Attributes associated to the resource group.
 
-    - `id: optional string`
+</summary>
 
-      Policy identifier.
+key: optional string
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+value: optional string
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"deny"`
+</details>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+name: optional string
 
-      - `id: string`
+Name of the resource group.
 
-        Identifier of the permission group.
+<a href="#">Link to this property</a>
 
-      - `meta: optional object { key, value }`
+</details>
 
-        Attributes associated to the permission group.
+<a href="#">Link to this property</a>
 
-        - `key: optional string`
+</details>
 
-        - `value: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        Name of the permission group.
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_get_response%20%3E%20(schema)>)
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<details>
 
-      A list of resource groups that the policy applies to.
+<summary>
 
-      - `id: string`
+UserGroupCreateResponse object {id, created\_on, modified\_on, 2 more }
 
-        Identifier of the resource group.
+A group of policies resources.
 
-      - `scope: array of object { key, objects }`
+</summary>
 
-        The scope associated to the resource group
+id: string
 
-        - `key: string`
+User Group identifier tag.
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+maxLength32
 
-        - `objects: array of object { key }`
+minLength32
 
-          A list of scope objects for additional context.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+created\_on: string
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+Timestamp for the creation of the user group
 
-      - `meta: optional object { key, value }`
+formatdate-time
 
-        Attributes associated to the resource group.
+<a href="#">Link to this property</a>
 
-        - `key: optional string`
+modified\_on: string
 
-        - `value: optional string`
+Last time the user group was modified.
 
-      - `name: optional string`
+formatdate-time
 
-        Name of the resource group.
+<a href="#">Link to this property</a>
 
-### Example
+name: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "name": "My New User Group"
-        }'
-```
+Name of the user group.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2024-03-01T12:21:02.0000Z",
-    "modified_on": "2024-03-01T12:21:02.0000Z",
-    "name": "My New User Group",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+<details>
 
-## Update User Group
+<summary>
 
-**put** `/accounts/{account_id}/iam/user_groups/{user_group_id}`
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-Modify an existing user group.
+Policies attached to the User group
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: optional string
 
-  Account identifier tag.
+Policy identifier.
 
-- `user_group_id: string`
+<a href="#">Link to this property</a>
 
-  User Group identifier tag.
+<details>
 
-### Body Parameters
+<summary>
 
-- `name: optional string`
+access: optional "allow"or "deny"
 
-  Name of the User group.
+Allow or deny operations against the resources.
 
-- `policies: optional array of object { id, access, permission_groups, resource_groups }`
+</summary>
 
-  Policies attached to the User group
+One of the following:
 
-  - `id: string`
+"allow"
 
-    Policy identifier.
+<a href="#">Link to this property</a>
 
-  - `access: "allow" or "deny"`
+"deny"
 
-    Allow or deny operations against the resources.
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+</details>
 
-    - `"deny"`
+<a href="#">Link to this property</a>
 
-  - `permission_groups: array of object { id }`
+<details>
 
-    A set of permission groups that are specified to the policy.
+<summary>
 
-    - `id: string`
+permission\_groups: optional array of object {id, meta, name }
 
-      Permission Group identifier tag.
+A set of permission groups that are specified to the policy.
 
-  - `resource_groups: array of object { id }`
+</summary>
 
-    A set of resource groups that are specified to the policy.
+id: string
 
-    - `id: string`
+Identifier of the permission group.
 
-      Resource Group identifier tag.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+meta: optional object {key, value }
 
-  - `message: string`
+Attributes associated to the permission group.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+key: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+value: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+name: optional string
 
-    - `pointer: optional string`
+Name of the permission group.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, modified_on, 2 more }`
+<details>
 
-  A group of policies resources.
+<summary>
 
-  - `id: string`
+resource\_groups: optional array of object {id, scope, meta, name }
 
-    User Group identifier tag.
+A list of resource groups that the policy applies to.
 
-  - `created_on: string`
+</summary>
 
-    Timestamp for the creation of the user group
+id: string
 
-  - `modified_on: string`
+Identifier of the resource group.
 
-    Last time the user group was modified.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-    Name of the user group.
+<summary>
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+scope: object {key, objects }
 
-    Policies attached to the User group
+A scope is a combination of scope objects which provides additional context.
 
-    - `id: optional string`
+</summary>
 
-      Policy identifier.
+key: string
 
-    - `access: optional "allow" or "deny"`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-      Allow or deny operations against the resources.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+<details>
 
-      - `"deny"`
+<summary>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+objects: array of object {key }
 
-      A set of permission groups that are specified to the policy.
+A list of scope objects for additional context.
 
-      - `id: string`
+</summary>
 
-        Identifier of the permission group.
+key: string
 
-      - `meta: optional object { key, value }`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-        Attributes associated to the permission group.
+<a href="#">Link to this property</a>
 
-        - `key: optional string`
+</details>
 
-        - `value: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        Name of the permission group.
+<a href="#">Link to this property</a>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<details>
 
-      A list of resource groups that the policy applies to.
+<summary>
 
-      - `id: string`
+meta: optional object {key, value }
 
-        Identifier of the resource group.
+Attributes associated to the resource group.
 
-      - `scope: array of object { key, objects }`
+</summary>
 
-        The scope associated to the resource group
+key: optional string
 
-        - `key: string`
+<a href="#">Link to this property</a>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+value: optional string
 
-        - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-          A list of scope objects for additional context.
+</details>
 
-          - `key: string`
+<a href="#">Link to this property</a>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+name: optional string
 
-      - `meta: optional object { key, value }`
+Name of the resource group.
 
-        Attributes associated to the resource group.
+<a href="#">Link to this property</a>
 
-        - `key: optional string`
+</details>
 
-        - `value: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        Name of the resource group.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "name": "My New User Group"
-        }'
-```
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_create_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_on": "2024-03-01T12:21:02.0000Z",
-    "modified_on": "2024-03-01T12:21:02.0000Z",
-    "name": "My New User Group",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "access": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resource_groups": [
-          {
-            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+<summary>
 
-## Remove User Group
+UserGroupUpdateResponse object {id, created\_on, modified\_on, 2 more }
 
-**delete** `/accounts/{account_id}/iam/user_groups/{user_group_id}`
+A group of policies resources.
 
-Remove a user group from an account.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+User Group identifier tag.
 
-  Account identifier tag.
+maxLength32
 
-- `user_group_id: string`
+minLength32
 
-  User Group identifier tag.
+<a href="#">Link to this property</a>
 
-### Returns
+created\_on: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Timestamp for the creation of the user group
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: string
 
-  - `source: optional object { pointer }`
+Last time the user group was modified.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+Name of the user group.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
 
-  Whether the API call was successful.
+Policies attached to the User group
 
-  - `true`
+</summary>
 
-- `result: optional object { id }`
+id: optional string
 
-  - `id: string`
+Policy identifier.
 
-    Identifier
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<summary>
 
-#### Response
+access: optional "allow"or "deny"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+Allow or deny operations against the resources.
 
-## Domain Types
+</summary>
 
-### User Group List Response
+One of the following:
 
-- `UserGroupListResponse object { id, created_on, modified_on, 2 more }`
+"allow"
 
-  A group of policies resources.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"deny"
 
-    User Group identifier tag.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-    Timestamp for the creation of the user group
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+<details>
 
-    Last time the user group was modified.
+<summary>
 
-  - `name: string`
+permission\_groups: optional array of object {id, meta, name }
 
-    Name of the user group.
+A set of permission groups that are specified to the policy.
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+</summary>
 
-    Policies attached to the User group
+id: string
 
-    - `id: optional string`
+Identifier of the permission group.
 
-      Policy identifier.
+<a href="#">Link to this property</a>
 
-    - `access: optional "allow" or "deny"`
+<details>
 
-      Allow or deny operations against the resources.
+<summary>
 
-      - `"allow"`
+meta: optional object {key, value }
 
-      - `"deny"`
+Attributes associated to the permission group.
 
-    - `permission_groups: optional array of object { id, meta, name }`
+</summary>
 
-      A set of permission groups that are specified to the policy.
+key: optional string
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the permission group.
+value: optional string
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+</details>
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+name: optional string
 
-      - `name: optional string`
+Name of the permission group.
 
-        Name of the permission group.
+<a href="#">Link to this property</a>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+</details>
 
-      A list of resource groups that the policy applies to.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+<details>
 
-        Identifier of the resource group.
+<summary>
 
-      - `scope: array of object { key, objects }`
+resource\_groups: optional array of object {id, scope, meta, name }
 
-        The scope associated to the resource group
+A list of resource groups that the policy applies to.
 
-        - `key: string`
+</summary>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+id: string
 
-        - `objects: array of object { key }`
+Identifier of the resource group.
 
-          A list of scope objects for additional context.
+<a href="#">Link to this property</a>
 
-          - `key: string`
+<details>
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<summary>
 
-      - `meta: optional object { key, value }`
+scope: object {key, objects }
 
-        Attributes associated to the resource group.
+A scope is a combination of scope objects which provides additional context.
 
-        - `key: optional string`
+</summary>
 
-        - `value: optional string`
+key: string
 
-      - `name: optional string`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-        Name of the resource group.
+<a href="#">Link to this property</a>
 
-### User Group Get Response
+<details>
 
-- `UserGroupGetResponse object { id, created_on, modified_on, 2 more }`
+<summary>
 
-  A group of policies resources.
+objects: array of object {key }
 
-  - `id: string`
+A list of scope objects for additional context.
 
-    User Group identifier tag.
+</summary>
 
-  - `created_on: string`
+key: string
 
-    Timestamp for the creation of the user group
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    Last time the user group was modified.
+</details>
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    Name of the user group.
+</details>
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+<a href="#">Link to this property</a>
 
-    Policies attached to the User group
+<details>
 
-    - `id: optional string`
+<summary>
 
-      Policy identifier.
+meta: optional object {key, value }
 
-    - `access: optional "allow" or "deny"`
+Attributes associated to the resource group.
 
-      Allow or deny operations against the resources.
+</summary>
 
-      - `"allow"`
+key: optional string
 
-      - `"deny"`
+<a href="#">Link to this property</a>
 
-    - `permission_groups: optional array of object { id, meta, name }`
+value: optional string
 
-      A set of permission groups that are specified to the policy.
+<a href="#">Link to this property</a>
 
-      - `id: string`
+</details>
 
-        Identifier of the permission group.
+<a href="#">Link to this property</a>
 
-      - `meta: optional object { key, value }`
+name: optional string
 
-        Attributes associated to the permission group.
+Name of the resource group.
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the permission group.
+</details>
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-      A list of resource groups that the policy applies to.
+</details>
 
-      - `id: string`
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_update_response%20%3E%20(schema)>)
 
-        Identifier of the resource group.
+<details>
 
-      - `scope: array of object { key, objects }`
+<summary>
 
-        The scope associated to the resource group
+UserGroupDeleteResponse object {id }
 
-        - `key: string`
+</summary>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+id: string
 
-        - `objects: array of object { key }`
+Identifier
 
-          A list of scope objects for additional context.
+maxLength32
 
-          - `key: string`
+minLength32
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-      - `meta: optional object { key, value }`
+</details>
 
-        Attributes associated to the resource group.
+[Link to this property](#)%20iam.user_groups%20%3E%20(model)%20user_group_delete_response%20%3E%20(schema)>)
 
-        - `key: optional string`
+#### User GroupsMembers
 
-        - `value: optional string`
+##### [List User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/list)
 
-      - `name: optional string`
+GET/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-        Name of the resource group.
+##### [Get User Group Member](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/get)
 
-### User Group Create Response
+GET/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members/{member\_id}
 
-- `UserGroupCreateResponse object { id, created_on, modified_on, 2 more }`
+##### [Add User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/create)
 
-  A group of policies resources.
+POST/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-  - `id: string`
+##### [Update User Group Members](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/update)
 
-    User Group identifier tag.
+PUT/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members
 
-  - `created_on: string`
+##### [Remove User Group Member](https://developers.cloudflare.com/api/resources/iam/subresources/user_groups/subresources/members/methods/delete)
 
-    Timestamp for the creation of the user group
+DELETE/accounts/{account\_id}/iam/user\_groups/{user\_group\_id}/members/{member\_id}
 
-  - `modified_on: string`
+##### ModelsExpand Collapse
 
-    Last time the user group was modified.
+<details>
 
-  - `name: string`
+<summary>
 
-    Name of the user group.
+MemberListResponse object {id, email, status }
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+Member attached to a User Group.
 
-    Policies attached to the User group
+</summary>
 
-    - `id: optional string`
+id: string
 
-      Policy identifier.
+Account member identifier.
 
-    - `access: optional "allow" or "deny"`
+<a href="#">Link to this property</a>
 
-      Allow or deny operations against the resources.
+email: optional string
 
-      - `"allow"`
+The contact email address of the user.
 
-      - `"deny"`
+maxLength90
 
-    - `permission_groups: optional array of object { id, meta, name }`
+<a href="#">Link to this property</a>
 
-      A set of permission groups that are specified to the policy.
+<details>
 
-      - `id: string`
+<summary>
 
-        Identifier of the permission group.
+status: optional "accepted"or "pending"
 
-      - `meta: optional object { key, value }`
+The member’s status in the account.
 
-        Attributes associated to the permission group.
+</summary>
 
-        - `key: optional string`
+One of the following:
 
-        - `value: optional string`
+"accepted"
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the permission group.
+"pending"
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-      A list of resource groups that the policy applies to.
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        Identifier of the resource group.
+</details>
 
-      - `scope: array of object { key, objects }`
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_list_response%20%3E%20(schema)>)
 
-        The scope associated to the resource group
+<details>
 
-        - `key: string`
+<summary>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+MemberGetResponse object {id, created\_at, email, 2 more }
 
-        - `objects: array of object { key }`
+Detailed member information for a User Group member.
 
-          A list of scope objects for additional context.
+</summary>
 
-          - `key: string`
+id: string
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+Account member identifier.
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the resource group.
+created\_at: optional string
 
-        - `key: optional string`
+When the member was added to the user group.
 
-        - `value: optional string`
+formatdate-time
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the resource group.
+email: optional string
 
-### User Group Update Response
+The contact email address of the user.
 
-- `UserGroupUpdateResponse object { id, created_on, modified_on, 2 more }`
+maxLength90
 
-  A group of policies resources.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    User Group identifier tag.
+<summary>
 
-  - `created_on: string`
+status: optional "accepted"or "pending"
 
-    Timestamp for the creation of the user group
+The member’s status in the account.
 
-  - `modified_on: string`
+</summary>
 
-    Last time the user group was modified.
+One of the following:
 
-  - `name: string`
+"accepted"
 
-    Name of the user group.
+<a href="#">Link to this property</a>
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+"pending"
 
-    Policies attached to the User group
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      Policy identifier.
+<a href="#">Link to this property</a>
 
-    - `access: optional "allow" or "deny"`
+<details>
 
-      Allow or deny operations against the resources.
+<summary>
 
-      - `"allow"`
+user: optional object {id, email, first\_name, last\_name }
 
-      - `"deny"`
+Details of the user associated with this membership.
 
-    - `permission_groups: optional array of object { id, meta, name }`
+</summary>
 
-      A set of permission groups that are specified to the policy.
+id: optional string
 
-      - `id: string`
+User identifier tag.
 
-        Identifier of the permission group.
+<a href="#">Link to this property</a>
 
-      - `meta: optional object { key, value }`
+email: optional string
 
-        Attributes associated to the permission group.
+The contact email address of the user.
 
-        - `key: optional string`
+maxLength90
 
-        - `value: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+first\_name: optional string
 
-        Name of the permission group.
+User’s first name.
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-      A list of resource groups that the policy applies to.
+last\_name: optional string
 
-      - `id: string`
+User’s last name.
 
-        Identifier of the resource group.
+<a href="#">Link to this property</a>
 
-      - `scope: array of object { key, objects }`
+</details>
 
-        The scope associated to the resource group
+<a href="#">Link to this property</a>
 
-        - `key: string`
+</details>
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_get_response%20%3E%20(schema)>)
 
-        - `objects: array of object { key }`
+<details>
 
-          A list of scope objects for additional context.
+<summary>
 
-          - `key: string`
+MemberCreateResponse object {id, email, status }
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+Member attached to a User Group.
 
-      - `meta: optional object { key, value }`
+</summary>
 
-        Attributes associated to the resource group.
+id: string
 
-        - `key: optional string`
+Account member identifier.
 
-        - `value: optional string`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+email: optional string
 
-        Name of the resource group.
+The contact email address of the user.
 
-### User Group Delete Response
+maxLength90
 
-- `UserGroupDeleteResponse object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    Identifier
+<summary>
 
-# Members
+status: optional "accepted"or "pending"
 
-## List User Group Members
+The member’s status in the account.
 
-**get** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
+</summary>
 
-List all the members attached to a user group.
+One of the following:
 
-### Path Parameters
+"accepted"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+"pending"
 
-- `user_group_id: string`
+<a href="#">Link to this property</a>
 
-  User Group identifier tag.
+</details>
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `direction: optional "asc" or "desc"`
+</details>
 
-  The sort order of returned user group members by email.
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_create_response%20%3E%20(schema)>)
 
-  - `"asc"`
+<details>
 
-  - `"desc"`
+<summary>
 
-- `fuzzyEmail: optional string`
+MemberUpdateResponse object {id, email, status }
 
-  A string used for filtering members by partial email match.
+Member attached to a User Group.
 
-- `page: optional number`
+</summary>
 
-  Page number of paginated results.
+id: string
 
-- `per_page: optional number`
+Account member identifier.
 
-  Maximum number of results per page.
+<a href="#">Link to this property</a>
 
-### Returns
+email: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The contact email address of the user.
 
-  - `code: number`
+maxLength90
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+status: optional "accepted"or "pending"
 
-- `messages: array of object { code, message, documentation_url, source }`
+The member’s status in the account.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"accepted"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"pending"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, email, status }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_update_response%20%3E%20(schema)>)
 
-    Account member identifier.
+<details>
 
-  - `email: optional string`
+<summary>
 
-    The contact email address of the user.
+MemberDeleteResponse object {id, email, status }
 
-  - `status: optional "accepted" or "pending"`
+Member attached to a User Group.
 
-    The member's status in the account.
+</summary>
 
-    - `"accepted"`
+id: string
 
-    - `"pending"`
+Account member identifier.
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+email: optional string
 
-    Total number of results for the requested service
+The contact email address of the user.
 
-  - `page: optional number`
+maxLength90
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results
+<summary>
 
-  - `total_count: optional number`
+status: optional "accepted"or "pending"
 
-    Total results available without any search parameters
+The member’s status in the account.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+One of the following:
 
-#### Response
+"accepted"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get User Group Member
+"pending"
 
-**get** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}`
+<a href="#">Link to this property</a>
 
-Get details of a specific member in a user group.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
-
-- `user_group_id: string`
-
-  User Group identifier tag.
-
-- `member_id: string`
-
-  The identifier of an existing account Member.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, email, 2 more }`
-
-  Detailed member information for a User Group member.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `created_at: optional string`
-
-    When the member was added to the user group.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-  - `user: optional object { id, email, first_name, last_name }`
-
-    Details of the user associated with this membership.
-
-    - `id: optional string`
-
-      User identifier tag.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `first_name: optional string`
-
-      User's first name.
-
-    - `last_name: optional string`
-
-      User's last name.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members/$MEMBER_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-    "created_at": "2026-01-15T10:30:00Z",
-    "email": "user@example.com",
-    "status": "accepted",
-    "user": {
-      "id": "7c5dae5552338874e5053f2534d2767a",
-      "email": "user@example.com",
-      "first_name": "Alice",
-      "last_name": "Smith"
-    }
-  }
-}
-```
-
-## Add User Group Members
-
-**post** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
-
-Add members to a User Group.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `user_group_id: string`
-
-  User Group identifier tag.
-
-### Body Parameters
-
-- `members: array of object { id }`
-
-  - `id: string`
-
-    The identifier of an existing account Member.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, email, status }`
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '[
-          {
-            "id": "023e105f4ecef8ad9ca31a8372d0c353"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ]
-}
-```
-
-## Update User Group Members
-
-**put** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members`
-
-Replace the set of members attached to a User Group.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `user_group_id: string`
-
-  User Group identifier tag.
-
-### Body Parameters
-
-- `members: array of object { id }`
-
-  Set/Replace members to a user group.
-
-  - `id: string`
-
-    The identifier of an existing account Member.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, email, status }`
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '[
-          {
-            "id": "023e105f4ecef8ad9ca31a8372d0c353"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "email": "user@example.com",
-      "status": "accepted"
-    }
-  ]
-}
-```
-
-## Remove User Group Member
-
-**delete** `/accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}`
-
-Remove a member from User Group
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `user_group_id: string`
-
-  User Group identifier tag.
-
-- `member_id: string`
-
-  The identifier of an existing account Member.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/user_groups/$USER_GROUP_ID/members/$MEMBER_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-    "email": "user@example.com",
-    "status": "accepted"
-  }
-}
-```
-
-## Domain Types
-
-### Member List Response
-
-- `MemberListResponse object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Member Get Response
-
-- `MemberGetResponse object { id, created_at, email, 2 more }`
-
-  Detailed member information for a User Group member.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `created_at: optional string`
-
-    When the member was added to the user group.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-  - `user: optional object { id, email, first_name, last_name }`
-
-    Details of the user associated with this membership.
-
-    - `id: optional string`
-
-      User identifier tag.
-
-    - `email: optional string`
-
-      The contact email address of the user.
-
-    - `first_name: optional string`
-
-      User's first name.
-
-    - `last_name: optional string`
-
-      User's last name.
-
-### Member Create Response
-
-- `MemberCreateResponse object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Member Update Response
-
-- `MemberUpdateResponse object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
-
-### Member Delete Response
-
-- `MemberDeleteResponse object { id, email, status }`
-
-  Member attached to a User Group.
-
-  - `id: string`
-
-    Account member identifier.
-
-  - `email: optional string`
-
-    The contact email address of the user.
-
-  - `status: optional "accepted" or "pending"`
-
-    The member's status in the account.
-
-    - `"accepted"`
-
-    - `"pending"`
+[Link to this property](#)%20iam.user_groups.members%20%3E%20(model)%20member_delete_response%20%3E%20(schema)>)

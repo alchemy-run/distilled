@@ -1,200 +1,123 @@
+---
+title: Logos
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+[V2](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logos
 
-## Insert logo query
+##### [Insert logo query](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/logos/methods/create)
 
-**post** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries`
+POST/accounts/{account\_id}/cloudforce-one/v2/brand-protection/logo/queries
 
-Create a new saved brand protection logo query for visual similarity matching
+##### [Delete logo query](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/logos/methods/delete)
 
-### Path Parameters
+DELETE/accounts/{account\_id}/cloudforce-one/v2/brand-protection/logo/queries/{query\_id}
 
-- `account_id: string`
+##### [Get logo queries](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/logos/methods/get)
 
-### Body Parameters
+GET/accounts/{account\_id}/cloudforce-one/v2/brand-protection/logo/queries
 
-- `image_data: string`
+##### ModelsExpand Collapse
 
-  Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string.
+<details>
 
-- `similarity_threshold: number`
+<summary>
 
-  Minimum similarity score (0-1) required for visual matches
+LogoCreateResponse object {message, success, query\_id }
 
-- `tag: string`
+</summary>
 
-  Unique identifier for the logo query
+message: string
 
-- `search_lookback: optional boolean`
+<a href="#">Link to this property</a>
 
-  If true, search historic scanned images for matches above the similarity threshold
+success: boolean
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `message: string`
+query\_id: optional number
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `query_id: optional number`
+</details>
 
-### Example
+[Link to this property](#)%20brand_protection.v2.logos%20%3E%20(model)%20logo_create_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/logo/queries \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "image_data": "x",
-          "similarity_threshold": 0,
-          "tag": "x"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "message": "message",
-  "success": true,
-  "query_id": 0
-}
-```
+LogoDeleteResponse object {message, success }
 
-## Delete logo query
+</summary>
 
-**delete** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries/{query_id}`
+message: string
 
-Delete a saved brand protection logo query. Returns 404 if the query ID doesn't exist.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+success: boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `query_id: string`
+</details>
 
-### Returns
+[Link to this property](#)%20brand_protection.v2.logos%20%3E%20(model)%20logo_delete_response%20%3E%20(schema)>)
 
-- `message: string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+LogoGetResponse = array of object {id, r2\_path, similarity\_threshold, 4 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/logo/queries/$QUERY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: number
 
-```json
-{
-  "message": "message",
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get logo queries
+r2\_path: string
 
-**get** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries`
+<a href="#">Link to this property</a>
 
-Get all saved brand protection logo queries for an account. Optionally specify id to get a single query. Set download=true to include base64-encoded image data.
+similarity\_threshold: number
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+tag: string
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `id: optional string`
+uploaded\_at: string
 
-  Optional query ID to retrieve a specific logo query
+<a href="#">Link to this property</a>
 
-- `download: optional string`
+content\_type: optional string
 
-  If true, include base64-encoded image data in the response
+MIME type of the image (only present when download=true)
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: number`
+image\_data: optional string
 
-- `r2_path: string`
+Base64-encoded image data (only present when download=true)
 
-- `similarity_threshold: number`
+<a href="#">Link to this property</a>
 
-- `tag: string`
+</details>
 
-- `uploaded_at: string`
-
-- `content_type: optional string`
-
-  MIME type of the image (only present when download=true)
-
-- `image_data: optional string`
-
-  Base64-encoded image data (only present when download=true)
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/logo/queries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-[
-  {
-    "id": 0,
-    "r2_path": "r2_path",
-    "similarity_threshold": 0,
-    "tag": "tag",
-    "uploaded_at": "uploaded_at",
-    "content_type": "content_type",
-    "image_data": "image_data"
-  }
-]
-```
-
-## Domain Types
-
-### Logo Create Response
-
-- `LogoCreateResponse object { message, success, query_id }`
-
-  - `message: string`
-
-  - `success: boolean`
-
-  - `query_id: optional number`
-
-### Logo Delete Response
-
-- `LogoDeleteResponse object { message, success }`
-
-  - `message: string`
-
-  - `success: boolean`
-
-### Logo Get Response
-
-- `LogoGetResponse = array of object { id, r2_path, similarity_threshold, 4 more }`
-
-  - `id: number`
-
-  - `r2_path: string`
-
-  - `similarity_threshold: number`
-
-  - `tag: string`
-
-  - `uploaded_at: string`
-
-  - `content_type: optional string`
-
-    MIME type of the image (only present when download=true)
-
-  - `image_data: optional string`
-
-    Base64-encoded image data (only present when download=true)
+[Link to this property](#)%20brand_protection.v2.logos%20%3E%20(model)%20logo_get_response%20%3E%20(schema)>)

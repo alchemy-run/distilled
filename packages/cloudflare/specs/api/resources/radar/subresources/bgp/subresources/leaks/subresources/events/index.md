@@ -1,222 +1,129 @@
+---
+title: Events
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[Leaks](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/leaks)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Events
 
-## Get BGP route leak events
+##### [Get BGP route leak events](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/leaks/subresources/events/methods/list)
 
-**get** `/radar/bgp/leaks/events`
+GET/radar/bgp/leaks/events
 
-Retrieves the BGP route leak events.
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `dateEnd: optional string`
+<summary>
 
-  End of the date range (inclusive).
+EventListResponse object {asn\_info, events }
 
-- `dateRange: optional string`
+</summary>
 
-  Filters results by date range.
+<details>
 
-- `dateStart: optional string`
+<summary>
 
-  Start of the date range (inclusive).
+asn\_info: array of object {asn, country\_code, org\_name }
 
-- `eventId: optional number`
+</summary>
 
-  The unique identifier of a event.
+asn: number
 
-- `format: optional "JSON" or "CSV"`
+<a href="#">Link to this property</a>
 
-  Format in which results will be returned.
+country\_code: string
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+org\_name: string
 
-- `involvedAsn: optional number`
+<a href="#">Link to this property</a>
 
-  ASN that is causing or affected by a route leak event.
+</details>
 
-- `involvedCountry: optional string`
+<a href="#">Link to this property</a>
 
-  Country code of a involved ASN in a route leak event.
+<details>
 
-- `leakAsn: optional number`
+<summary>
 
-  The leaking AS of a route leak event.
+events: array of object {id, countries, detected\_ts, 10 more }
 
-- `page: optional number`
+</summary>
 
-  Current page number, starting from 1.
+id: number
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of entries per page.
+countries: array of string
 
-- `sortBy: optional "ID" or "LEAKS" or "PEERS" or 3 more`
+<a href="#">Link to this property</a>
 
-  Sorts results by the specified field.
+detected\_ts: string
 
-  - `"ID"`
+<a href="#">Link to this property</a>
 
-  - `"LEAKS"`
+finished: boolean
 
-  - `"PEERS"`
+<a href="#">Link to this property</a>
 
-  - `"PREFIXES"`
+leak\_asn: number
 
-  - `"ORIGINS"`
+<a href="#">Link to this property</a>
 
-  - `"TIME"`
+leak\_count: number
 
-- `sortOrder: optional "ASC" or "DESC"`
+<a href="#">Link to this property</a>
 
-  Sort order.
+leak\_seg: array of number
 
-  - `"ASC"`
+<a href="#">Link to this property</a>
 
-  - `"DESC"`
+leak\_type: number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { asn_info, events }`
+max\_ts: string
 
-  - `asn_info: array of object { asn, country_code, org_name }`
+<a href="#">Link to this property</a>
 
-    - `asn: number`
+min\_ts: string
 
-    - `country_code: string`
+<a href="#">Link to this property</a>
 
-    - `org_name: string`
+origin\_count: number
 
-  - `events: array of object { id, countries, detected_ts, 10 more }`
+<a href="#">Link to this property</a>
 
-    - `id: number`
+peer\_count: number
 
-    - `countries: array of string`
+<a href="#">Link to this property</a>
 
-    - `detected_ts: string`
+prefix\_count: number
 
-    - `finished: boolean`
+<a href="#">Link to this property</a>
 
-    - `leak_asn: number`
+</details>
 
-    - `leak_count: number`
+<a href="#">Link to this property</a>
 
-    - `leak_seg: array of number`
+</details>
 
-    - `leak_type: number`
-
-    - `max_ts: string`
-
-    - `min_ts: string`
-
-    - `origin_count: number`
-
-    - `peer_count: number`
-
-    - `prefix_count: number`
-
-- `result_info: object { count, page, per_page, total_count }`
-
-  - `count: number`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/leaks/events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "asn_info": [
-      {
-        "asn": 0,
-        "country_code": "country_code",
-        "org_name": "org_name"
-      }
-    ],
-    "events": [
-      {
-        "id": 0,
-        "countries": [
-          "string"
-        ],
-        "detected_ts": "detected_ts",
-        "finished": true,
-        "leak_asn": 0,
-        "leak_count": 0,
-        "leak_seg": [
-          0
-        ],
-        "leak_type": 0,
-        "max_ts": "max_ts",
-        "min_ts": "min_ts",
-        "origin_count": 0,
-        "peer_count": 0,
-        "prefix_count": 0
-      }
-    ]
-  },
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Event List Response
-
-- `EventListResponse object { asn_info, events }`
-
-  - `asn_info: array of object { asn, country_code, org_name }`
-
-    - `asn: number`
-
-    - `country_code: string`
-
-    - `org_name: string`
-
-  - `events: array of object { id, countries, detected_ts, 10 more }`
-
-    - `id: number`
-
-    - `countries: array of string`
-
-    - `detected_ts: string`
-
-    - `finished: boolean`
-
-    - `leak_asn: number`
-
-    - `leak_count: number`
-
-    - `leak_seg: array of number`
-
-    - `leak_type: number`
-
-    - `max_ts: string`
-
-    - `min_ts: string`
-
-    - `origin_count: number`
-
-    - `peer_count: number`
-
-    - `prefix_count: number`
+[Link to this property](#)%20radar.bgp.leaks.events%20%3E%20(model)%20event_list_response%20%3E%20(schema)>)

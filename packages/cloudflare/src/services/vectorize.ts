@@ -153,7 +153,7 @@ export const IndexesCreateRequestConfigVectorizeIndexPresetConfiguration =
 export type IndexesCreateRequestConfig =
   | IndexesCreateRequestConfigIndexDimensionConfiguration
   | IndexesCreateRequestConfigVectorizeIndexPresetConfiguration;
-export const IndexesCreateRequestConfig = S.Unknown.pipe(
+export const IndexesCreateRequestConfig = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([["dimensions", "metric"], ["preset"]]),
 );
 

@@ -1,705 +1,327 @@
+---
+title: Data Classes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Data Classes
 
-## Retrieve all data classes in an account
+##### [Retrieve all data classes in an account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/list)
 
-**get** `/accounts/{account_id}/dlp/data_classes`
+GET/accounts/{account\_id}/dlp/data\_classes
 
-Retrieve all data classes in an account
+##### [Retrieve a specific data class](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dlp/data\_classes/{data\_class\_id}
 
-- `account_id: string`
+##### [Creates a new data class](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/dlp/data\_classes
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### [Update the attributes of a single data class](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/dlp/data\_classes/{data\_class\_id}
 
-  - `message: string`
+##### [Delete a single data class](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/data_classes/methods/delete)
 
-  - `documentation_url: optional string`
+DELETE/accounts/{account\_id}/dlp/data\_classes/{data\_class\_id}
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+DataClassListResponse object {id, created\_at, data\_tags, 5 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+formatuuid
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+created\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_at, data_tags, 5 more }`
+data\_tags: array of string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+expression: string
 
-  - `data_tags: array of string`
+<a href="#">Link to this property</a>
 
-  - `expression: string`
+name: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `sensitivity_levels: array of object { group_id, level_id }`
+<details>
 
-    - `group_id: string`
+<summary>
 
-    - `level_id: string`
+sensitivity\_levels: array of object {group\_id, level\_id }
 
-  - `updated_at: string`
+</summary>
 
-  - `description: optional string`
+group\_id: string
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+level\_id: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "data_tags": [
-        "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      ],
-      "expression": "expression",
-      "name": "name",
-      "sensitivity_levels": [
-        {
-          "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-        }
-      ],
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description"
-    }
-  ]
-}
-```
+formatuuid
 
-## Retrieve a specific data class
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/dlp/data_classes/{data_class_id}`
+</details>
 
-Retrieve a specific data class
+<a href="#">Link to this property</a>
 
-### Path Parameters
+updated\_at: string
 
-- `account_id: string`
+formatdate-time
 
-- `data_class_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+description: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_list_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+DataClassGetResponse object {id, created\_at, data\_tags, 5 more }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+data\_tags: array of string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, data_tags, 5 more }`
+expression: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+name: string
 
-  - `data_tags: array of string`
+<a href="#">Link to this property</a>
 
-  - `expression: string`
+<details>
 
-  - `name: string`
+<summary>
 
-  - `sensitivity_levels: array of object { group_id, level_id }`
+sensitivity\_levels: array of object {group\_id, level\_id }
 
-    - `group_id: string`
+</summary>
 
-    - `level_id: string`
+group\_id: string
 
-  - `updated_at: string`
+formatuuid
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+level\_id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes/$DATA_CLASS_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatuuid
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "expression": "expression",
-    "name": "name",
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+</details>
 
-## Creates a new data class
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dlp/data_classes`
+updated\_at: string
 
-Creates a new data class
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+description: optional string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `data_tags: array of string`
+</details>
 
-- `expression: string`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_get_response%20%3E%20(schema)>)
 
-- `name: string`
+<details>
 
-- `sensitivity_levels: array of object { group_id, level_id }`
+<summary>
 
-  - `group_id: string`
+DataClassCreateResponse object {id, created\_at, data\_tags, 5 more }
 
-  - `level_id: string`
+</summary>
 
-- `description: optional string`
+id: string
 
-### Returns
+formatuuid
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_at: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+data\_tags: array of string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+expression: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+sensitivity\_levels: array of object {group\_id, level\_id }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+group\_id: string
 
-- `result: optional object { id, created_at, data_tags, 5 more }`
+formatuuid
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+level\_id: string
 
-  - `data_tags: array of string`
+formatuuid
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-  - `sensitivity_levels: array of object { group_id, level_id }`
+<a href="#">Link to this property</a>
 
-    - `group_id: string`
+updated\_at: string
 
-    - `level_id: string`
+formatdate-time
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-  - `description: optional string`
+description: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "data_tags": [
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-          ],
-          "expression": "expression",
-          "name": "name",
-          "sensitivity_levels": [
-            {
-              "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-              "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-            }
-          ]
-        }'
-```
+</details>
 
-#### Response
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_create_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "expression": "expression",
-    "name": "name",
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+<details>
 
-## Update the attributes of a single data class
+<summary>
 
-**put** `/accounts/{account_id}/dlp/data_classes/{data_class_id}`
+DataClassUpdateResponse object {id, created\_at, data\_tags, 5 more }
 
-Update the attributes of a single data class
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+formatuuid
 
-- `data_class_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+created\_at: string
 
-- `data_tags: optional array of string`
+formatdate-time
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-- `expression: optional string`
+data\_tags: array of string
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-- `sensitivity_levels: optional array of object { group_id, level_id }`
+expression: string
 
-  - `group_id: string`
+<a href="#">Link to this property</a>
 
-  - `level_id: string`
+name: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+sensitivity\_levels: array of object {group\_id, level\_id }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+group\_id: string
 
-    - `pointer: optional string`
+formatuuid
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+level\_id: string
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+updated\_at: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, data_tags, 5 more }`
+description: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+</details>
 
-  - `data_tags: array of string`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_update_response%20%3E%20(schema)>)
 
-  - `expression: string`
+DataClassDeleteResponse = unknown
 
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes/$DATA_CLASS_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "data_tags": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ],
-    "expression": "expression",
-    "name": "name",
-    "sensitivity_levels": [
-      {
-        "group_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        "level_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-      }
-    ],
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Delete a single data class
-
-**delete** `/accounts/{account_id}/dlp/data_classes/{data_class_id}`
-
-Delete a single data class
-
-### Path Parameters
-
-- `account_id: string`
-
-- `data_class_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/data_classes/$DATA_CLASS_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Data Class List Response
-
-- `DataClassListResponse object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Class Get Response
-
-- `DataClassGetResponse object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Class Create Response
-
-- `DataClassCreateResponse object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Class Update Response
-
-- `DataClassUpdateResponse object { id, created_at, data_tags, 5 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `data_tags: array of string`
-
-  - `expression: string`
-
-  - `name: string`
-
-  - `sensitivity_levels: array of object { group_id, level_id }`
-
-    - `group_id: string`
-
-    - `level_id: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Data Class Delete Response
-
-- `DataClassDeleteResponse = unknown`
+[Link to this property](#)%20zero_trust.dlp.data_classes%20%3E%20(model)%20data_class_delete_response%20%3E%20(schema)>)

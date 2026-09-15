@@ -1,412 +1,840 @@
-## Create a Notification policy
+---
+title: Create a Notification policy
+---
 
-**post** `/accounts/{account_id}/alerting/v3/policies`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+[Policies](https://developers.cloudflare.com/api/resources/alerting/subresources/policies)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create a Notification policy
+
+POST/accounts/{account\_id}/alerting/v3/policies
 
 Creates a new Notification policy.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  The account id
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `alert_type: "abuse_report_alert" or "access_custom_certificate_expiration_type" or "advanced_ddos_attack_l4_alert" or 66 more`
 
-  Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"abuse_report_alert"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"access_custom_certificate_expiration_type"`
+</details>
 
-  - `"advanced_ddos_attack_l4_alert"`
+<details>
 
-  - `"advanced_ddos_attack_l7_alert"`
+<summary>API Email + API Key</summary>
 
-  - `"advanced_http_alert_error"`
 
-  - `"bgp_hijack_notification"`
 
-  - `"billing_usage_alert"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"block_notification_block_removed"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"block_notification_new_block"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"block_notification_review_rejected"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"bot_traffic_basic_alert"`
+</details>
 
-  - `"brand_protection_alert"`
+##### Accepted Permissions (at least one required)
 
-  - `"brand_protection_digest"`
+`Notifications Write``Account Settings Write`
 
-  - `"clickhouse_alert_fw_anomaly"`
+##### P ath ParametersExpand Collapse
 
-  - `"clickhouse_alert_fw_ent_anomaly"`
+account\_id: string
 
-  - `"cloudforce_one_request_notification"`
+The account id
 
-  - `"cni_maintenance_notification"`
+maxLength32
 
-  - `"custom_analytics"`
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"custom_bot_detection_alert"`
+##### Body ParametersJSONExpand Collapse
 
-  - `"custom_ssl_certificate_event_type"`
+<details>
 
-  - `"dedicated_ssl_certificate_event_type"`
+<summary>
 
-  - `"device_connectivity_anomaly_alert"`
+alert\_type: "abuse\_report\_alert"or "access\_custom\_certificate\_expiration\_type"or "advanced\_ddos\_attack\_l4\_alert"or 66 more
 
-  - `"dos_attack_l4"`
+Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values.
 
-  - `"dos_attack_l7"`
+</summary>
 
-  - `"expiring_service_token_alert"`
+One of the following:
 
-  - `"failing_logpush_job_disabled_alert"`
+"abuse\_report\_alert"
 
-  - `"fbm_auto_advertisement"`
+<a href="#">Link to this property</a>
 
-  - `"fbm_dosd_attack"`
+"access\_custom\_certificate\_expiration\_type"
 
-  - `"fbm_volumetric_attack"`
+<a href="#">Link to this property</a>
 
-  - `"health_check_status_notification"`
+"advanced\_ddos\_attack\_l4\_alert"
 
-  - `"hostname_aop_custom_certificate_expiration_type"`
+<a href="#">Link to this property</a>
 
-  - `"http_alert_edge_error"`
+"advanced\_ddos\_attack\_l7\_alert"
 
-  - `"http_alert_origin_error"`
+<a href="#">Link to this property</a>
 
-  - `"image_notification"`
+"advanced\_http\_alert\_error"
 
-  - `"image_resizing_notification"`
+<a href="#">Link to this property</a>
 
-  - `"incident_alert"`
+"bgp\_hijack\_notification"
 
-  - `"load_balancing_health_alert"`
+<a href="#">Link to this property</a>
 
-  - `"load_balancing_pool_enablement_alert"`
+"billing\_usage\_alert"
 
-  - `"logo_match_alert"`
+<a href="#">Link to this property</a>
 
-  - `"magic_tunnel_health_check_event"`
+"block\_notification\_block\_removed"
 
-  - `"magic_wan_tunnel_health"`
+<a href="#">Link to this property</a>
 
-  - `"maintenance_event_notification"`
+"block\_notification\_new\_block"
 
-  - `"mtls_certificate_store_certificate_expiration_type"`
+<a href="#">Link to this property</a>
 
-  - `"pages_event_alert"`
+"block\_notification\_review\_rejected"
 
-  - `"radar_notification"`
+<a href="#">Link to this property</a>
 
-  - `"real_origin_monitoring"`
+"bot\_traffic\_basic\_alert"
 
-  - `"scriptmonitor_alert_new_code_change_detections"`
+<a href="#">Link to this property</a>
 
-  - `"scriptmonitor_alert_new_hosts"`
+"brand\_protection\_alert"
 
-  - `"scriptmonitor_alert_new_malicious_hosts"`
+<a href="#">Link to this property</a>
 
-  - `"scriptmonitor_alert_new_malicious_scripts"`
+"brand\_protection\_digest"
 
-  - `"scriptmonitor_alert_new_malicious_url"`
+<a href="#">Link to this property</a>
 
-  - `"scriptmonitor_alert_new_max_length_resource_url"`
+"clickhouse\_alert\_fw\_anomaly"
 
-  - `"scriptmonitor_alert_new_resources"`
+<a href="#">Link to this property</a>
 
-  - `"secondary_dns_all_primaries_failing"`
+"clickhouse\_alert\_fw\_ent\_anomaly"
 
-  - `"secondary_dns_primaries_failing"`
+<a href="#">Link to this property</a>
 
-  - `"secondary_dns_warning"`
+"cloudforce\_one\_request\_notification"
 
-  - `"secondary_dns_zone_successfully_updated"`
+<a href="#">Link to this property</a>
 
-  - `"secondary_dns_zone_validation_warning"`
+"cni\_maintenance\_notification"
 
-  - `"security_insights_alert"`
+<a href="#">Link to this property</a>
 
-  - `"sentinel_alert"`
+"custom\_analytics"
 
-  - `"stream_live_notifications"`
+<a href="#">Link to this property</a>
 
-  - `"synthetic_test_latency_alert"`
+"custom\_bot\_detection\_alert"
 
-  - `"synthetic_test_low_availability_alert"`
+<a href="#">Link to this property</a>
 
-  - `"traffic_anomalies_alert"`
+"custom\_ssl\_certificate\_event\_type"
 
-  - `"tunnel_health_event"`
+<a href="#">Link to this property</a>
 
-  - `"tunnel_update_event"`
+"dedicated\_ssl\_certificate\_event\_type"
 
-  - `"universal_ssl_event_type"`
+<a href="#">Link to this property</a>
 
-  - `"web_analytics_metrics_update"`
+"device\_connectivity\_anomaly\_alert"
 
-  - `"zone_aop_custom_certificate_expiration_type"`
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+"dos\_attack\_l4"
 
-  Whether or not the Notification policy is enabled.
+<a href="#">Link to this property</a>
 
-- `mechanisms: Mechanism`
+"dos\_attack\_l7"
 
-  List of IDs that will be used when dispatching a notification. IDs for email type will be the email address.
+<a href="#">Link to this property</a>
 
-  - `email: optional array of object { id }`
+"expiring\_service\_token\_alert"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      The email address
+"failing\_logpush\_job\_disabled\_alert"
 
-  - `pagerduty: optional array of object { id }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"fbm\_auto\_advertisement"
 
-      UUID
+<a href="#">Link to this property</a>
 
-  - `webhooks: optional array of object { id }`
+"fbm\_dosd\_attack"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      UUID
+"fbm\_volumetric\_attack"
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Name of the policy.
+"health\_check\_status\_notification"
 
-- `alert_interval: optional string`
+<a href="#">Link to this property</a>
 
-  Optional specification of how often to re-alert from the same incident, not support on all alert types.
+"hostname\_aop\_custom\_certificate\_expiration\_type"
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-  Optional description for the Notification policy.
+"http\_alert\_edge\_error"
 
-- `filters: optional PolicyFilter`
+<a href="#">Link to this property</a>
 
-  Optional filters that allow you to be alerted only on a subset of events for that alert type based on some criteria. This is only available for select alert types. See alert type documentation for more details.
+"http\_alert\_origin\_error"
 
-  - `actions: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"image\_notification"
 
-  - `affected_asns: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring radar_notification
+"image\_resizing\_notification"
 
-  - `affected_components: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring incident_alert
+"incident\_alert"
 
-  - `affected_locations: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring radar_notification
+"load\_balancing\_health\_alert"
 
-  - `airport_code: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring maintenance_event_notification
+"load\_balancing\_pool\_enablement\_alert"
 
-  - `alert_trigger_preferences: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"logo\_match\_alert"
 
-  - `alert_trigger_preferences_value: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"magic\_tunnel\_health\_check\_event"
 
-  - `enabled: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring load_balancing_pool_enablement_alert
+"magic\_wan\_tunnel\_health"
 
-  - `environment: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring pages_event_alert
+"maintenance\_event\_notification"
 
-  - `event: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring pages_event_alert
+"mtls\_certificate\_store\_certificate\_expiration\_type"
 
-  - `event_source: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring load_balancing_health_alert
+"pages\_event\_alert"
 
-  - `event_type: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"radar\_notification"
 
-  - `group_by: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"real\_origin\_monitoring"
 
-  - `health_check_id: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring health_check_status_notification
+"scriptmonitor\_alert\_new\_code\_change\_detections"
 
-  - `incident_impact: optional array of "INCIDENT_IMPACT_NONE" or "INCIDENT_IMPACT_MINOR" or "INCIDENT_IMPACT_MAJOR" or "INCIDENT_IMPACT_CRITICAL"`
+<a href="#">Link to this property</a>
 
-    Used for configuring incident_alert
+"scriptmonitor\_alert\_new\_hosts"
 
-    - `"INCIDENT_IMPACT_NONE"`
+<a href="#">Link to this property</a>
 
-    - `"INCIDENT_IMPACT_MINOR"`
+"scriptmonitor\_alert\_new\_malicious\_hosts"
 
-    - `"INCIDENT_IMPACT_MAJOR"`
+<a href="#">Link to this property</a>
 
-    - `"INCIDENT_IMPACT_CRITICAL"`
+"scriptmonitor\_alert\_new\_malicious\_scripts"
 
-  - `input_id: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring stream_live_notifications
+"scriptmonitor\_alert\_new\_malicious\_url"
 
-  - `insight_class: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring security_insights_alert
+"scriptmonitor\_alert\_new\_max\_length\_resource\_url"
 
-  - `limit: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring billing_usage_alert
+"scriptmonitor\_alert\_new\_resources"
 
-  - `logo_tag: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring logo_match_alert
+"secondary\_dns\_all\_primaries\_failing"
 
-  - `megabits_per_second: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring advanced_ddos_attack_l4_alert
+"secondary\_dns\_primaries\_failing"
 
-  - `new_health: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring load_balancing_health_alert
+"secondary\_dns\_warning"
 
-  - `new_status: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring tunnel_health_event
+"secondary\_dns\_zone\_successfully\_updated"
 
-  - `packets_per_second: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring advanced_ddos_attack_l4_alert
+"secondary\_dns\_zone\_validation\_warning"
 
-  - `pool_id: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"security\_insights\_alert"
 
-  - `pop_names: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"sentinel\_alert"
 
-  - `product: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring billing_usage_alert
+"stream\_live\_notifications"
 
-  - `project_id: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring pages_event_alert
+"synthetic\_test\_latency\_alert"
 
-  - `protocol: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring advanced_ddos_attack_l4_alert
+"synthetic\_test\_low\_availability\_alert"
 
-  - `query_tag: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"traffic\_anomalies\_alert"
 
-  - `requests_per_second: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring advanced_ddos_attack_l7_alert
+"tunnel\_health\_event"
 
-  - `selectors: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"tunnel\_update\_event"
 
-  - `services: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring clickhouse_alert_fw_ent_anomaly
+"universal\_ssl\_event\_type"
 
-  - `slo: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+"web\_analytics\_metrics\_update"
 
-  - `status: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring health_check_status_notification
+"zone\_aop\_custom\_certificate\_expiration\_type"
 
-  - `target_hostname: optional array of string`
+<a href="#">Link to this property</a>
 
-    Used for configuring advanced_ddos_attack_l7_alert
+</details>
 
-  - `target_ip: optional array of string`
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20alert_type%20%3E%20(schema)>)
 
-    Used for configuring advanced_ddos_attack_l4_alert
+enabled: boolean
 
-  - `target_zone_name: optional array of string`
+Whether or not the Notification policy is enabled.
 
-    Used for configuring advanced_ddos_attack_l7_alert
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-  - `traffic_exclusions: optional array of "security_events"`
+<details>
 
-    Used for configuring traffic_anomalies_alert
+<summary>
 
-    - `"security_events"`
+mechanisms: <a href="https://developers.cloudflare.com/api/resources/alerting#(resource)%20alerting.policies%20%3E%20(model)%20mechanism%20%3E%20(schema)">Mechanism</a> { email, pagerduty, webhooks }
 
-  - `tunnel_id: optional array of string`
+List of IDs that will be used when dispatching a notification. IDs for email type will be the email address.
 
-    Used for configuring tunnel_health_event
+</summary>
 
-  - `tunnel_name: optional array of string`
+<details>
 
-    Usage depends on specific alert type
+<summary>
 
-  - `type: optional array of string`
+email: optional array of object {id }
 
-    Usage depends on specific alert type
+</summary>
 
-  - `where: optional array of string`
+id: optional string
 
-    Usage depends on specific alert type
+The email address
 
-  - `zones: optional array of string`
+<a href="#">Link to this property</a>
 
-    Usage depends on specific alert type
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { message, code }`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `code: optional number`
+pagerduty: optional array of object {id }
 
-- `messages: array of object { message, code }`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `code: optional number`
+UUID
 
-- `success: true`
+maxLength32
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    UUID
+<summary>
 
-### Example
+webhooks: optional array of object {id }
 
-```http
+</summary>
+
+id: optional string
+
+UUID
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20mechanisms%20%3E%20(schema)>)
+
+name: string
+
+Name of the policy.
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+alert\_interval: optional string
+
+Optional specification of how often to re-alert from the same incident, not support on all alert types.
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20alert_interval%20%3E%20(schema)>)
+
+description: optional string
+
+Optional description for the Notification policy.
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+filters: optional <a href="https://developers.cloudflare.com/api/resources/alerting#(resource)%20alerting.policies%20%3E%20(model)%20policy_filter%20%3E%20(schema)">PolicyFilter</a> { actions, affected\_asns, affected\_components, 40 more }
+
+Optional filters that allow you to be alerted only on a subset of events for that alert type based on some criteria. This is only available for select alert types. See alert type documentation for more details.
+
+</summary>
+
+actions: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+affected\_asns: optional array of string
+
+Used for configuring radar\_notification
+
+<a href="#">Link to this property</a>
+
+affected\_components: optional array of string
+
+Used for configuring incident\_alert
+
+<a href="#">Link to this property</a>
+
+affected\_locations: optional array of string
+
+Used for configuring radar\_notification
+
+<a href="#">Link to this property</a>
+
+airport\_code: optional array of string
+
+Used for configuring maintenance\_event\_notification
+
+<a href="#">Link to this property</a>
+
+alert\_trigger\_preferences: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+alert\_trigger\_preferences\_value: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+enabled: optional array of string
+
+Used for configuring load\_balancing\_pool\_enablement\_alert
+
+<a href="#">Link to this property</a>
+
+environment: optional array of string
+
+Used for configuring pages\_event\_alert
+
+<a href="#">Link to this property</a>
+
+event: optional array of string
+
+Used for configuring pages\_event\_alert
+
+<a href="#">Link to this property</a>
+
+event\_source: optional array of string
+
+Used for configuring load\_balancing\_health\_alert
+
+<a href="#">Link to this property</a>
+
+event\_type: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+group\_by: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+health\_check\_id: optional array of string
+
+Used for configuring health\_check\_status\_notification
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+incident\_impact: optional array of "INCIDENT\_IMPACT\_NONE"or "INCIDENT\_IMPACT\_MINOR"or "INCIDENT\_IMPACT\_MAJOR"or "INCIDENT\_IMPACT\_CRITICAL"
+
+Used for configuring incident\_alert
+
+</summary>
+
+One of the following:
+
+"INCIDENT\_IMPACT\_NONE"
+
+<a href="#">Link to this property</a>
+
+"INCIDENT\_IMPACT\_MINOR"
+
+<a href="#">Link to this property</a>
+
+"INCIDENT\_IMPACT\_MAJOR"
+
+<a href="#">Link to this property</a>
+
+"INCIDENT\_IMPACT\_CRITICAL"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+input\_id: optional array of string
+
+Used for configuring stream\_live\_notifications
+
+<a href="#">Link to this property</a>
+
+insight\_class: optional array of string
+
+Used for configuring security\_insights\_alert
+
+<a href="#">Link to this property</a>
+
+limit: optional array of string
+
+Used for configuring billing\_usage\_alert
+
+<a href="#">Link to this property</a>
+
+logo\_tag: optional array of string
+
+Used for configuring logo\_match\_alert
+
+<a href="#">Link to this property</a>
+
+megabits\_per\_second: optional array of string
+
+Used for configuring advanced\_ddos\_attack\_l4\_alert
+
+<a href="#">Link to this property</a>
+
+new\_health: optional array of string
+
+Used for configuring load\_balancing\_health\_alert
+
+<a href="#">Link to this property</a>
+
+new\_status: optional array of string
+
+Used for configuring tunnel\_health\_event
+
+<a href="#">Link to this property</a>
+
+packets\_per\_second: optional array of string
+
+Used for configuring advanced\_ddos\_attack\_l4\_alert
+
+<a href="#">Link to this property</a>
+
+pool\_id: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+pop\_names: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+product: optional array of string
+
+Used for configuring billing\_usage\_alert
+
+<a href="#">Link to this property</a>
+
+project\_id: optional array of string
+
+Used for configuring pages\_event\_alert
+
+<a href="#">Link to this property</a>
+
+protocol: optional array of string
+
+Used for configuring advanced\_ddos\_attack\_l4\_alert
+
+<a href="#">Link to this property</a>
+
+query\_tag: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+requests\_per\_second: optional array of string
+
+Used for configuring advanced\_ddos\_attack\_l7\_alert
+
+<a href="#">Link to this property</a>
+
+selectors: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+services: optional array of string
+
+Used for configuring clickhouse\_alert\_fw\_ent\_anomaly
+
+<a href="#">Link to this property</a>
+
+slo: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+status: optional array of string
+
+Used for configuring health\_check\_status\_notification
+
+<a href="#">Link to this property</a>
+
+target\_hostname: optional array of string
+
+Used for configuring advanced\_ddos\_attack\_l7\_alert
+
+<a href="#">Link to this property</a>
+
+target\_ip: optional array of string
+
+Used for configuring advanced\_ddos\_attack\_l4\_alert
+
+<a href="#">Link to this property</a>
+
+target\_zone\_name: optional array of string
+
+Used for configuring advanced\_ddos\_attack\_l7\_alert
+
+<a href="#">Link to this property</a>
+
+traffic\_exclusions: optional array of "security\_events"
+
+Used for configuring traffic\_anomalies\_alert
+
+<a href="#">Link to this property</a>
+
+tunnel\_id: optional array of string
+
+Used for configuring tunnel\_health\_event
+
+<a href="#">Link to this property</a>
+
+tunnel\_name: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+type: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+where: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+zones: optional array of string
+
+Usage depends on specific alert type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20filters%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message, code }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message, code }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id }
+
+</summary>
+
+id: optional string
+
+UUID
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20alerting.policies%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create a Notification policy
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/policies \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -425,9 +853,34 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/polic
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "message",
+      "code": 1000
+    }
+  ],
+  "messages": [
+    {
+      "message": "message",
+      "code": 1000
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "f174e90afafe4643bbbc4a0ed4fc8415"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

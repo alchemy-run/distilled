@@ -1,81 +1,253 @@
-## List Events
+---
+title: List Events
+---
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/events`
+[Skip to content](#_top)
 
-List Events
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
 
-- `account_id: string`
+[Connectors](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors)
 
-  Account identifier
+[Events](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/events)
 
-- `connector_id: string`
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `from: number`
+---
 
-- `to: number`
+**Copy Markdown****View as Markdown**
 
-- `cursor: optional string`
+# List Events
 
-- `k: optional string`
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/events
 
-  Filter by event kind
+Lists Magic WAN Connector Telemetry Events
 
-- `limit: optional number`
+##### Security
 
-### Returns
+<details>
 
-- `result: object { count, items, cursor }`
+<summary>API Token</summary>
 
-  - `count: number`
 
-  - `items: array of object { a, k, n, t }`
 
-    - `a: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-      Time the Event was collected (seconds since the Unix epoch)
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `k: string`
+</details>
 
-      Kind
+<details>
 
-    - `n: number`
+<summary>API Email + API Key</summary>
 
-      Sequence number, used to order events with the same timestamp
 
-    - `t: number`
 
-      Time the Event was recorded (seconds since the Unix epoch)
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `cursor: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `success: boolean`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: optional array of object { code, message }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-- `messages: optional array of object { code, message }`
+`Magic WAN Write``Magic WAN Read`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-### Example
+Account identifier
 
-```http
+maxLength32
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+connector\_id: string
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20connector_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+from: number
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20from%20%3E%20(schema)>)
+
+to: number
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20to%20%3E%20(schema)>)
+
+cursor: optional string
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cursor%20%3E%20(schema)>)
+
+k: optional string
+
+Filter by event kind
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20k%20%3E%20(schema)>)
+
+limit: optional number
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {count, items, cursor }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+items: array of object {a, k, n, t }
+
+</summary>
+
+a: number
+
+Time the Event was collected (seconds since the Unix epoch)
+
+<a href="#">Link to this property</a>
+
+k: string
+
+Kind
+
+<a href="#">Link to this property</a>
+
+n: number
+
+Sequence number, used to order events with the same timestamp
+
+<a href="#">Link to this property</a>
+
+t: number
+
+Time the Event was recorded (seconds since the Unix epoch)
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+cursor: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.events%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+### List Events
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/events \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "count": 0,
+    "items": [
+      {
+        "a": 0,
+        "k": "k",
+        "n": 0,
+        "t": 0
+      }
+    ],
+    "cursor": "cursor"
+  },
+  "success": true,
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "count": 0,

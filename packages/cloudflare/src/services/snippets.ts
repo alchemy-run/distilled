@@ -414,7 +414,7 @@ export type DeleteSnippetError =
   | SnippetNotFound
   | SnippetInUse
   | CloudflareOpError;
-/** Deletes a snippet belonging to the zone. */
+/** Deletes a snippet belonging to the zone. Returns a 4XX response if the zone or snippet no longer exists. */
 export const deleteSnippet: API.OperationMethod<
   DeleteSnippetRequest,
   DeleteSnippetResponse,

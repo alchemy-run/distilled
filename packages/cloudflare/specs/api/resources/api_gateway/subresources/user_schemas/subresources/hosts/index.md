@@ -1,155 +1,69 @@
+---
+title: Hosts
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
+
+[User Schemas](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Hosts
 
-## Retrieve schema hosts in a zone
+##### [Retrieve schema hosts in a zone](https://developers.cloudflare.com/api/resources/api_gateway/subresources/user_schemas/subresources/hosts/methods/list)
 
-**get** `/zones/{zone_id}/api_gateway/user_schemas/hosts`
+Deprecated
 
-Lists all unique hosts found in uploaded OpenAPI schemas for the zone. Useful for understanding which domains have schema coverage.
+GET/zones/{zone\_id}/api\_gateway/user\_schemas/hosts
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Query Parameters
+HostListResponse object {created\_at, hosts, name, schema\_id }
 
-- `page: optional number`
+</summary>
 
-  Page number of paginated results.
+created\_at: string
 
-- `per_page: optional number`
+formatdate-time
 
-  Maximum number of results per page.
+<a href="#">Link to this property</a>
 
-### Returns
+hosts: array of string
 
-- `errors: Message`
+Hosts serving the schema, e.g zone.host.com
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+Name of the schema
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+schema\_id: string
 
-- `messages: Message`
+UUID.
 
-- `success: true`
+maxLength36
 
-  Whether the API call was successful.
+minLength36
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { created_at, hosts, name, schema_id }`
+</details>
 
-  - `created_at: string`
-
-  - `hosts: array of string`
-
-    Hosts serving the schema, e.g zone.host.com
-
-  - `name: string`
-
-    Name of the schema
-
-  - `schema_id: string`
-
-    UUID.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/user_schemas/hosts \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "hosts": [
-        "string"
-      ],
-      "name": "petstore schema",
-      "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Host List Response
-
-- `HostListResponse object { created_at, hosts, name, schema_id }`
-
-  - `created_at: string`
-
-  - `hosts: array of string`
-
-    Hosts serving the schema, e.g zone.host.com
-
-  - `name: string`
-
-    Name of the schema
-
-  - `schema_id: string`
-
-    UUID.
+[Link to this property](#)%20api_gateway.user_schemas.hosts%20%3E%20(model)%20host_list_response%20%3E%20(schema)>)

@@ -1,1314 +1,3274 @@
-## Update a device posture rule
+---
+title: Update a device posture rule
+---
 
-**put** `/accounts/{account_id}/devices/posture/{rule_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[Posture](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/posture)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a device posture rule
+
+PUT/accounts/{account\_id}/devices/posture/{rule\_id}
 
 Updates a device posture rule.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `rule_id: string`
+<summary>API Token</summary>
 
-  API UUID.
 
-### Body Parameters
 
-- `name: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  The name of the device posture rule.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `type: "file" or "application" or "tanium" or 20 more`
+</details>
 
-  The type of device posture rule.
+<details>
 
-  - `"file"`
+<summary>API Email + API Key</summary>
 
-  - `"application"`
 
-  - `"tanium"`
 
-  - `"gateway"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"warp"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"disk_encryption"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"serial_number"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"sentinelone"`
+</details>
 
-  - `"carbonblack"`
+##### Accepted Permissions (at least one required)
 
-  - `"firewall"`
+`Zero Trust Write`
 
-  - `"os_version"`
+##### P ath ParametersExpand Collapse
 
-  - `"domain_joined"`
+account\_id: string
 
-  - `"client_certificate"`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"client_certificate_v2"`
+rule\_id: string
 
-  - `"antivirus"`
+API UUID.
 
-  - `"unique_client_id"`
+maxLength36
 
-  - `"kolide"`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20rule_id%20%3E%20(schema)>)
 
-  - `"tanium_s2s"`
+##### Body ParametersJSONExpand Collapse
 
-  - `"crowdstrike_s2s"`
+name: string
 
-  - `"intune"`
+The name of the device posture rule.
 
-  - `"workspace_one"`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `"sentinelone_s2s"`
+<details>
 
-  - `"custom_s2s"`
+<summary>
 
-- `description: optional string`
+type: "file"or "application"or "tanium"or 20 more
 
-  The description of the device posture rule.
+The type of device posture rule.
 
-- `expiration: optional string`
+</summary>
 
-  Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
+One of the following:
 
-- `input: optional DeviceInput`
+"file"
 
-  The value to be checked against.
+<a href="#">Link to this property</a>
 
-  - `FileInput object { operating_system, path, exists, 2 more }`
+"application"
 
-    - `operating_system: "windows" or "linux" or "mac"`
+<a href="#">Link to this property</a>
 
-      Operating system.
+"tanium"
 
-      - `"windows"`
+<a href="#">Link to this property</a>
 
-      - `"linux"`
+"gateway"
 
-      - `"mac"`
+<a href="#">Link to this property</a>
 
-    - `path: string`
+"warp"
 
-      File path.
+<a href="#">Link to this property</a>
 
-    - `exists: optional boolean`
+"disk\_encryption"
 
-      Whether or not file exists.
+<a href="#">Link to this property</a>
 
-    - `sha256: optional string`
+"serial\_number"
 
-      SHA-256.
+<a href="#">Link to this property</a>
 
-    - `thumbprint: optional string`
+"sentinelone"
 
-      Signing certificate thumbprint.
+<a href="#">Link to this property</a>
 
-  - `UniqueClientIDInput object { id, operating_system }`
+"carbonblack"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      List ID.
+"firewall"
 
-    - `operating_system: "android" or "ios" or "chromeos"`
+<a href="#">Link to this property</a>
 
-      Operating System.
+"os\_version"
 
-      - `"android"`
+<a href="#">Link to this property</a>
 
-      - `"ios"`
+"domain\_joined"
 
-      - `"chromeos"`
+<a href="#">Link to this property</a>
 
-  - `DomainJoinedInput object { operating_system, domain }`
+"client\_certificate"
 
-    - `operating_system: "windows"`
+<a href="#">Link to this property</a>
 
-      Operating System.
+"client\_certificate\_v2"
 
-      - `"windows"`
+<a href="#">Link to this property</a>
 
-    - `domain: optional string`
+"antivirus"
 
-      Domain.
+<a href="#">Link to this property</a>
 
-  - `OSVersionInput object { operating_system, operator, version, 3 more }`
+"unique\_client\_id"
 
-    - `operating_system: "windows"`
+<a href="#">Link to this property</a>
 
-      Operating System.
+"kolide"
 
-      - `"windows"`
+<a href="#">Link to this property</a>
 
-    - `operator: "<" or "<=" or ">" or 2 more`
+"tanium\_s2s"
 
-      Operator.
+<a href="#">Link to this property</a>
 
-      - `"<"`
+"crowdstrike\_s2s"
 
-      - `"<="`
+<a href="#">Link to this property</a>
 
-      - `">"`
+"intune"
 
-      - `">="`
+<a href="#">Link to this property</a>
 
-      - `"=="`
+"workspace\_one"
 
-    - `version: string`
+<a href="#">Link to this property</a>
 
-      Version of OS.
+"sentinelone\_s2s"
 
-    - `os_distro_name: optional string`
+<a href="#">Link to this property</a>
 
-      Operating System Distribution Name (linux only).
+"custom\_s2s"
 
-    - `os_distro_revision: optional string`
+<a href="#">Link to this property</a>
 
-      Version of OS Distribution (linux only).
+</details>
 
-    - `os_version_extra: optional string`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-      Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+description: optional string
 
-  - `FirewallInput object { enabled, operating_system }`
+The description of the device posture rule.
 
-    - `enabled: boolean`
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-      Enabled.
+expiration: optional string
 
-    - `operating_system: "windows" or "mac"`
+Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
 
-      Operating System.
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20expiration%20%3E%20(schema)>)
 
-      - `"windows"`
+<details>
 
-      - `"mac"`
+<summary>
 
-  - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
+input: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20device_input%20%3E%20(schema)">DeviceInput</a>
 
-    - `operating_system: "windows" or "linux" or "mac"`
+The value to be checked against.
 
-      Operating system.
+</summary>
 
-      - `"windows"`
+One of the following:
 
-      - `"linux"`
+<details>
 
-      - `"mac"`
+<summary>
 
-    - `path: string`
+FileInput object {operating\_system, path, exists, 2 more }
 
-      File path.
+</summary>
 
-    - `sha256: optional string`
+<details>
 
-      SHA-256.
+<summary>
 
-    - `thumbprint: optional string`
+operating\_system: "windows"or "linux"or "mac"
 
-      Signing certificate thumbprint.
+Operating system.
 
-  - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
+</summary>
 
-    - `operating_system: "windows" or "linux" or "mac"`
+One of the following:
 
-      Operating system.
+"windows"
 
-      - `"windows"`
+<a href="#">Link to this property</a>
 
-      - `"linux"`
+"linux"
 
-      - `"mac"`
+<a href="#">Link to this property</a>
 
-    - `path: string`
+"mac"
 
-      File path.
+<a href="#">Link to this property</a>
 
-    - `sha256: optional string`
+</details>
 
-      SHA-256.
+<a href="#">Link to this property</a>
 
-    - `thumbprint: optional string`
+path: string
 
-      Signing certificate thumbprint.
+File path.
 
-  - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+exists: optional boolean
 
-      UUID of Access List.
+Whether or not file exists.
 
-  - `DiskEncryptionInput object { checkDisks, requireAll }`
+<a href="#">Link to this property</a>
 
-    - `checkDisks: optional array of CarbonblackInput`
+sha256: optional string
 
-      List of volume names to be checked for encryption.
+SHA-256.
 
-    - `requireAll: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to check all disks for encryption.
+thumbprint: optional string
 
-  - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
+Signing certificate thumbprint.
 
-    - `operating_system: "windows" or "linux" or "mac"`
+<a href="#">Link to this property</a>
 
-      Operating system.
+</details>
 
-      - `"windows"`
+<a href="#">Link to this property</a>
 
-      - `"linux"`
+<details>
 
-      - `"mac"`
+<summary>
 
-    - `path: string`
+UniqueClientIDInput object {id, operating\_system }
 
-      Path for the application.
+</summary>
 
-    - `sha256: optional string`
+id: string
 
-      SHA-256.
+List ID.
 
-    - `thumbprint: optional string`
+<a href="#">Link to this property</a>
 
-      Signing certificate thumbprint.
+<details>
 
-  - `ClientCertificateInput object { certificate_id, cn }`
+<summary>
 
-    - `certificate_id: string`
+operating\_system: "android"or "ios"or "chromeos"
 
-      UUID of Cloudflare managed certificate.
+Operating System.
 
-    - `cn: string`
+</summary>
 
-      Common Name that is protected by the certificate.
+One of the following:
 
-  - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
+"android"
 
-    - `certificate_id: string`
+<a href="#">Link to this property</a>
 
-      UUID of Cloudflare managed certificate.
+"ios"
 
-    - `check_private_key: boolean`
+<a href="#">Link to this property</a>
 
-      Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
+"chromeos"
 
-    - `operating_system: "windows" or "linux" or "mac"`
+<a href="#">Link to this property</a>
 
-      Operating system.
+</details>
 
-      - `"windows"`
+<a href="#">Link to this property</a>
 
-      - `"linux"`
+</details>
 
-      - `"mac"`
+<a href="#">Link to this property</a>
 
-    - `cn: optional string`
+<details>
 
-      Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
+<summary>
 
-    - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
+DomainJoinedInput object {operating\_system, domain }
 
-      List of values indicating purposes for which the certificate public key can be used.
+</summary>
 
-      - `"clientAuth"`
+operating\_system: "windows"
 
-      - `"emailProtection"`
+Operating System.
 
-    - `locations: optional object { paths, trust_stores }`
+<a href="#">Link to this property</a>
 
-      - `paths: optional array of string`
+domain: optional string
 
-        List of paths to check for client certificate on linux.
+Domain.
 
-      - `trust_stores: optional array of "system" or "user"`
+<a href="#">Link to this property</a>
 
-        List of trust stores to check for client certificate.
+</details>
 
-        - `"system"`
+<a href="#">Link to this property</a>
 
-        - `"user"`
+<details>
 
-    - `subject_alternative_names: optional array of string`
+<summary>
 
-      List of certificate Subject Alternative Names.
+OSVersionInput object {operating\_system, operator, version, 3 more }
 
-  - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
+</summary>
 
-    - `update_window_days: optional number`
+operating\_system: "windows"
 
-      Number of days that the antivirus should be updated within.
+Operating System.
 
-  - `WorkspaceOneInput object { compliance_status, connection_id }`
+<a href="#">Link to this property</a>
 
-    - `compliance_status: "compliant" or "noncompliant" or "unknown"`
+<details>
 
-      Compliance Status.
+<summary>
 
-      - `"compliant"`
+operator: "&lt;"or "&lt;="or "&gt;"or 2 more
 
-      - `"noncompliant"`
+Operator.
 
-      - `"unknown"`
+</summary>
 
-    - `connection_id: string`
+One of the following:
 
-      Posture Integration ID.
+"&lt;"
 
-  - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `connection_id: string`
+"&lt;="
 
-      Posture Integration ID.
+<a href="#">Link to this property</a>
 
-    - `last_seen: optional string`
+"&gt;"
 
-      For more details on last seen, please refer to the Crowdstrike documentation.
+<a href="#">Link to this property</a>
 
-    - `operator: optional "<" or "<=" or ">" or 2 more`
+"&gt;="
 
-      Operator.
+<a href="#">Link to this property</a>
 
-      - `"<"`
+"=="
 
-      - `"<="`
+<a href="#">Link to this property</a>
 
-      - `">"`
+</details>
 
-      - `">="`
+<a href="#">Link to this property</a>
 
-      - `"=="`
+version: string
 
-    - `os: optional string`
+Version of OS.
 
-      Os Version.
+<a href="#">Link to this property</a>
 
-    - `overall: optional string`
+os\_distro\_name: optional string
 
-      Overall.
+Operating System Distribution Name (linux only).
 
-    - `sensor_config: optional string`
+<a href="#">Link to this property</a>
 
-      SensorConfig.
+os\_distro\_revision: optional string
 
-    - `state: optional "online" or "offline" or "unknown"`
+Version of OS Distribution (linux only).
 
-      For more details on state, please refer to the Crowdstrike documentation.
+<a href="#">Link to this property</a>
 
-      - `"online"`
+os\_version\_extra: optional string
 
-      - `"offline"`
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
 
-      - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `version: optional string`
+</details>
 
-      Version.
+<a href="#">Link to this property</a>
 
-    - `versionOperator: optional "<" or "<=" or ">" or 2 more`
+<details>
 
-      Version Operator.
+<summary>
 
-      - `"<"`
+FirewallInput object {enabled, operating\_system }
 
-      - `"<="`
+</summary>
 
-      - `">"`
+enabled: boolean
 
-      - `">="`
+Enabled.
 
-      - `"=="`
+<a href="#">Link to this property</a>
 
-  - `IntuneInput object { compliance_status, connection_id }`
+<details>
 
-    - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
+<summary>
 
-      Compliance Status.
+operating\_system: "windows"or "mac"
 
-      - `"compliant"`
+Operating System.
 
-      - `"noncompliant"`
+</summary>
 
-      - `"unknown"`
+One of the following:
 
-      - `"notapplicable"`
+"windows"
 
-      - `"ingraceperiod"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"mac"
 
-    - `connection_id: string`
+<a href="#">Link to this property</a>
 
-      Posture Integration ID.
+</details>
 
-  - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
+<a href="#">Link to this property</a>
 
-    - `connection_id: string`
+</details>
 
-      Posture Integration ID.
+<a href="#">Link to this property</a>
 
-    - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
+<details>
 
-      The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
+<summary>
 
-      - `"Good"`
+SentineloneInput object {operating\_system, path, sha256, thumbprint }
 
-      - `"Notified"`
+</summary>
 
-      - `"Will Block"`
+<details>
 
-      - `"Blocked"`
+<summary>
 
-    - `countOperator: optional "<" or "<=" or ">" or 2 more`
+operating\_system: "windows"or "linux"or "mac"
 
-      Count Operator.
+Operating system.
 
-      - `"<"`
+</summary>
 
-      - `"<="`
+One of the following:
 
-      - `">"`
+"windows"
 
-      - `">="`
+<a href="#">Link to this property</a>
 
-      - `"=="`
+"linux"
 
-    - `issue_count: optional string`
+<a href="#">Link to this property</a>
 
-      The Number of Issues.
+"mac"
 
-  - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `connection_id: string`
+</details>
 
-      Posture Integration ID.
+<a href="#">Link to this property</a>
 
-    - `eid_last_seen: optional string`
+path: string
 
-      For more details on eid last seen, refer to the Tanium documentation.
+File path.
 
-    - `operator: optional "<" or "<=" or ">" or 2 more`
+<a href="#">Link to this property</a>
 
-      Operator to evaluate risk_level or eid_last_seen.
+sha256: optional string
 
-      - `"<"`
+SHA-256.
 
-      - `"<="`
+<a href="#">Link to this property</a>
 
-      - `">"`
+thumbprint: optional string
 
-      - `">="`
+Signing certificate thumbprint.
 
-      - `"=="`
+<a href="#">Link to this property</a>
 
-    - `risk_level: optional "low" or "medium" or "high" or "critical"`
+</details>
 
-      For more details on risk level, refer to the Tanium documentation.
+<a href="#">Link to this property</a>
 
-      - `"low"`
+<details>
 
-      - `"medium"`
+<summary>
 
-      - `"high"`
+TeamsDevicesCarbonblackInputRequest object {operating\_system, path, sha256, thumbprint }
 
-      - `"critical"`
+</summary>
 
-    - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
+<details>
 
-      Score Operator.
+<summary>
 
-      - `"<"`
+operating\_system: "windows"or "linux"or "mac"
 
-      - `"<="`
+Operating system.
 
-      - `">"`
+</summary>
 
-      - `">="`
+One of the following:
 
-      - `"=="`
+"windows"
 
-    - `total_score: optional number`
+<a href="#">Link to this property</a>
 
-      For more details on total score, refer to the Tanium documentation.
+"linux"
 
-  - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `connection_id: string`
+"mac"
 
-      Posture Integration ID.
+<a href="#">Link to this property</a>
 
-    - `active_threats: optional number`
+</details>
 
-      The Number of active threats.
+<a href="#">Link to this property</a>
 
-    - `infected: optional boolean`
+path: string
 
-      Whether device is infected.
+File path.
 
-    - `is_active: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether device is active.
+sha256: optional string
 
-    - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
+SHA-256.
 
-      Network status of device.
+<a href="#">Link to this property</a>
 
-      - `"connected"`
+thumbprint: optional string
 
-      - `"disconnected"`
+Signing certificate thumbprint.
 
-      - `"disconnecting"`
+<a href="#">Link to this property</a>
 
-      - `"connecting"`
+</details>
 
-    - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
+<a href="#">Link to this property</a>
 
-      Agent operational state.
+<details>
 
-      - `"na"`
+<summary>
 
-      - `"partially_disabled"`
+TeamsDevicesAccessSerialNumberListInputRequest object {id }
 
-      - `"auto_fully_disabled"`
+</summary>
 
-      - `"fully_disabled"`
+id: string
 
-      - `"auto_partially_disabled"`
+UUID of Access List.
 
-      - `"disabled_error"`
+maxLength36
 
-      - `"db_corruption"`
+<a href="#">Link to this property</a>
 
-    - `operator: optional "<" or "<=" or ">" or 2 more`
+</details>
 
-      Operator.
+<a href="#">Link to this property</a>
 
-      - `"<"`
+<details>
 
-      - `"<="`
+<summary>
 
-      - `">"`
+DiskEncryptionInput object {checkDisks, requireAll }
 
-      - `">="`
+</summary>
 
-      - `"=="`
+checkDisks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20carbonblack_input%20%3E%20(schema)">CarbonblackInput</a>
 
-  - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
+List of volume names to be checked for encryption.
 
-    - `connection_id: string`
+<a href="#">Link to this property</a>
 
-      Posture Integration ID.
+requireAll: optional boolean
 
-    - `operator: "<" or "<=" or ">" or 2 more`
+Whether to check all disks for encryption.
 
-      Operator.
+<a href="#">Link to this property</a>
 
-      - `"<"`
+</details>
 
-      - `"<="`
+<a href="#">Link to this property</a>
 
-      - `">"`
+<details>
 
-      - `">="`
+<summary>
 
-      - `"=="`
+TeamsDevicesApplicationInputRequest object {operating\_system, path, sha256, thumbprint }
 
-    - `score: number`
+</summary>
 
-      A value between 0-100 assigned to devices set by the 3rd party posture provider.
+<details>
 
-- `match: optional array of DeviceMatch`
+<summary>
 
-  The conditions that the client must match to run the rule.
+operating\_system: "windows"or "linux"or "mac"
 
-  - `platform: optional "windows" or "mac" or "linux" or 3 more`
+Operating system.
 
-    - `"windows"`
+</summary>
 
-    - `"mac"`
+One of the following:
 
-    - `"linux"`
+"windows"
 
-    - `"android"`
+<a href="#">Link to this property</a>
 
-    - `"ios"`
+"linux"
 
-    - `"chromeos"`
+<a href="#">Link to this property</a>
 
-- `schedule: optional string`
+"mac"
 
-  Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+path: string
 
-  - `message: string`
+Path for the application.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+sha256: optional string
 
-    - `pointer: optional string`
+SHA-256.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+thumbprint: optional string
 
-  - `message: string`
+Signing certificate thumbprint.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: DevicePostureRule`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    API UUID.
+<summary>
 
-  - `description: optional string`
+ClientCertificateInput object {certificate\_id, cn }
 
-    The description of the device posture rule.
+</summary>
 
-  - `expiration: optional string`
+certificate\_id: string
 
-    Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
+UUID of Cloudflare managed certificate.
 
-  - `input: optional DeviceInput`
+maxLength36
 
-    The value to be checked against.
+<a href="#">Link to this property</a>
 
-    - `FileInput object { operating_system, path, exists, 2 more }`
+cn: string
 
-      - `operating_system: "windows" or "linux" or "mac"`
+Common Name that is protected by the certificate.
 
-        Operating system.
+<a href="#">Link to this property</a>
 
-        - `"windows"`
+</details>
 
-        - `"linux"`
+<a href="#">Link to this property</a>
 
-        - `"mac"`
+<details>
 
-      - `path: string`
+<summary>
 
-        File path.
+TeamsDevicesClientCertificateV2InputRequest object {certificate\_id, check\_private\_key, operating\_system, 4 more }
 
-      - `exists: optional boolean`
+</summary>
 
-        Whether or not file exists.
+certificate\_id: string
 
-      - `sha256: optional string`
+UUID of Cloudflare managed certificate.
 
-        SHA-256.
+maxLength36
 
-      - `thumbprint: optional string`
+<a href="#">Link to this property</a>
 
-        Signing certificate thumbprint.
+check\_private\_key: boolean
 
-    - `UniqueClientIDInput object { id, operating_system }`
+Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        List ID.
+<details>
 
-      - `operating_system: "android" or "ios" or "chromeos"`
+<summary>
 
-        Operating System.
+operating\_system: "windows"or "linux"or "mac"
 
-        - `"android"`
+Operating system.
 
-        - `"ios"`
+</summary>
 
-        - `"chromeos"`
+One of the following:
 
-    - `DomainJoinedInput object { operating_system, domain }`
+"windows"
 
-      - `operating_system: "windows"`
+<a href="#">Link to this property</a>
 
-        Operating System.
+"linux"
 
-        - `"windows"`
+<a href="#">Link to this property</a>
 
-      - `domain: optional string`
+"mac"
 
-        Domain.
+<a href="#">Link to this property</a>
 
-    - `OSVersionInput object { operating_system, operator, version, 3 more }`
+</details>
 
-      - `operating_system: "windows"`
+<a href="#">Link to this property</a>
 
-        Operating System.
+cn: optional string
 
-        - `"windows"`
+Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial\_number} and ${hostname} are valid variables.
 
-      - `operator: "<" or "<=" or ">" or 2 more`
+<a href="#">Link to this property</a>
 
-        Operator.
+<details>
 
-        - `"<"`
+<summary>
 
-        - `"<="`
+extended\_key\_usage: optional array of "clientAuth"or "emailProtection"
 
-        - `">"`
+List of values indicating purposes for which the certificate public key can be used.
 
-        - `">="`
+</summary>
 
-        - `"=="`
+One of the following:
 
-      - `version: string`
+"clientAuth"
 
-        Version of OS.
+<a href="#">Link to this property</a>
 
-      - `os_distro_name: optional string`
+"emailProtection"
 
-        Operating System Distribution Name (linux only).
+<a href="#">Link to this property</a>
 
-      - `os_distro_revision: optional string`
+</details>
 
-        Version of OS Distribution (linux only).
+<a href="#">Link to this property</a>
 
-      - `os_version_extra: optional string`
+<details>
 
-        Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+<summary>
 
-    - `FirewallInput object { enabled, operating_system }`
+locations: optional object {paths, trust\_stores }
 
-      - `enabled: boolean`
+</summary>
 
-        Enabled.
+paths: optional array of string
 
-      - `operating_system: "windows" or "mac"`
+List of paths to check for client certificate on linux.
 
-        Operating System.
+<a href="#">Link to this property</a>
 
-        - `"windows"`
+<details>
 
-        - `"mac"`
+<summary>
 
-    - `SentineloneInput object { operating_system, path, sha256, thumbprint }`
+trust\_stores: optional array of "system"or "user"
 
-      - `operating_system: "windows" or "linux" or "mac"`
+List of trust stores to check for client certificate.
 
-        Operating system.
+</summary>
 
-        - `"windows"`
+One of the following:
 
-        - `"linux"`
+"system"
 
-        - `"mac"`
+<a href="#">Link to this property</a>
 
-      - `path: string`
+"user"
 
-        File path.
+<a href="#">Link to this property</a>
 
-      - `sha256: optional string`
+</details>
 
-        SHA-256.
+<a href="#">Link to this property</a>
 
-      - `thumbprint: optional string`
+</details>
 
-        Signing certificate thumbprint.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesCarbonblackInputRequest object { operating_system, path, sha256, thumbprint }`
+subject\_alternative\_names: optional array of string
 
-      - `operating_system: "windows" or "linux" or "mac"`
+List of certificate Subject Alternative Names.
 
-        Operating system.
+<a href="#">Link to this property</a>
 
-        - `"windows"`
+</details>
 
-        - `"linux"`
+<a href="#">Link to this property</a>
 
-        - `"mac"`
+<details>
 
-      - `path: string`
+<summary>
 
-        File path.
+TeamsDevicesAntivirusInputRequest object {update\_window\_days }
 
-      - `sha256: optional string`
+</summary>
 
-        SHA-256.
+update\_window\_days: optional number
 
-      - `thumbprint: optional string`
+Number of days that the antivirus should be updated within.
 
-        Signing certificate thumbprint.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesAccessSerialNumberListInputRequest object { id }`
+</details>
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        UUID of Access List.
+<details>
 
-    - `DiskEncryptionInput object { checkDisks, requireAll }`
+<summary>
 
-      - `checkDisks: optional array of CarbonblackInput`
+WorkspaceOneInput object {compliance\_status, connection\_id }
 
-        List of volume names to be checked for encryption.
+</summary>
 
-      - `requireAll: optional boolean`
+<details>
 
-        Whether to check all disks for encryption.
+<summary>
 
-    - `TeamsDevicesApplicationInputRequest object { operating_system, path, sha256, thumbprint }`
+compliance\_status: "compliant"or "noncompliant"or "unknown"
 
-      - `operating_system: "windows" or "linux" or "mac"`
+Compliance Status.
 
-        Operating system.
+</summary>
 
-        - `"windows"`
+One of the following:
 
-        - `"linux"`
+"compliant"
 
-        - `"mac"`
+<a href="#">Link to this property</a>
 
-      - `path: string`
+"noncompliant"
 
-        Path for the application.
+<a href="#">Link to this property</a>
 
-      - `sha256: optional string`
+"unknown"
 
-        SHA-256.
+<a href="#">Link to this property</a>
 
-      - `thumbprint: optional string`
+</details>
 
-        Signing certificate thumbprint.
+<a href="#">Link to this property</a>
 
-    - `ClientCertificateInput object { certificate_id, cn }`
+connection\_id: string
 
-      - `certificate_id: string`
+Posture Integration ID.
 
-        UUID of Cloudflare managed certificate.
+<a href="#">Link to this property</a>
 
-      - `cn: string`
+</details>
 
-        Common Name that is protected by the certificate.
+<a href="#">Link to this property</a>
 
-    - `TeamsDevicesClientCertificateV2InputRequest object { certificate_id, check_private_key, operating_system, 4 more }`
+<details>
 
-      - `certificate_id: string`
+<summary>
 
-        UUID of Cloudflare managed certificate.
+CrowdstrikeInput object {connection\_id, last\_seen, operator, 6 more }
 
-      - `check_private_key: boolean`
+</summary>
 
-        Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
+connection\_id: string
 
-      - `operating_system: "windows" or "linux" or "mac"`
+Posture Integration ID.
 
-        Operating system.
+<a href="#">Link to this property</a>
 
-        - `"windows"`
+last\_seen: optional string
 
-        - `"linux"`
+For more details on last seen, please refer to the Crowdstrike documentation.
 
-        - `"mac"`
+<a href="#">Link to this property</a>
 
-      - `cn: optional string`
+<details>
 
-        Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.
+<summary>
 
-      - `extended_key_usage: optional array of "clientAuth" or "emailProtection"`
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-        List of values indicating purposes for which the certificate public key can be used.
+Operator.
 
-        - `"clientAuth"`
+</summary>
 
-        - `"emailProtection"`
+One of the following:
 
-      - `locations: optional object { paths, trust_stores }`
+"&lt;"
 
-        - `paths: optional array of string`
+<a href="#">Link to this property</a>
 
-          List of paths to check for client certificate on linux.
+"&lt;="
 
-        - `trust_stores: optional array of "system" or "user"`
+<a href="#">Link to this property</a>
 
-          List of trust stores to check for client certificate.
+"&gt;"
 
-          - `"system"`
+<a href="#">Link to this property</a>
 
-          - `"user"`
+"&gt;="
 
-      - `subject_alternative_names: optional array of string`
+<a href="#">Link to this property</a>
 
-        List of certificate Subject Alternative Names.
+"=="
 
-    - `TeamsDevicesAntivirusInputRequest object { update_window_days }`
+<a href="#">Link to this property</a>
 
-      - `update_window_days: optional number`
+</details>
 
-        Number of days that the antivirus should be updated within.
+<a href="#">Link to this property</a>
 
-    - `WorkspaceOneInput object { compliance_status, connection_id }`
+os: optional string
 
-      - `compliance_status: "compliant" or "noncompliant" or "unknown"`
+Os Version.
 
-        Compliance Status.
+<a href="#">Link to this property</a>
 
-        - `"compliant"`
+overall: optional string
 
-        - `"noncompliant"`
+Overall.
 
-        - `"unknown"`
+<a href="#">Link to this property</a>
 
-      - `connection_id: string`
+sensor\_config: optional string
 
-        Posture Integration ID.
+SensorConfig.
 
-    - `CrowdstrikeInput object { connection_id, last_seen, operator, 6 more }`
+<a href="#">Link to this property</a>
 
-      - `connection_id: string`
+<details>
 
-        Posture Integration ID.
+<summary>
 
-      - `last_seen: optional string`
+state: optional "online"or "offline"or "unknown"
 
-        For more details on last seen, please refer to the Crowdstrike documentation.
+For more details on state, please refer to the Crowdstrike documentation.
 
-      - `operator: optional "<" or "<=" or ">" or 2 more`
+</summary>
 
-        Operator.
+One of the following:
 
-        - `"<"`
+"online"
 
-        - `"<="`
+<a href="#">Link to this property</a>
 
-        - `">"`
+"offline"
 
-        - `">="`
+<a href="#">Link to this property</a>
 
-        - `"=="`
+"unknown"
 
-      - `os: optional string`
+<a href="#">Link to this property</a>
 
-        Os Version.
+</details>
 
-      - `overall: optional string`
+<a href="#">Link to this property</a>
 
-        Overall.
+version: optional string
 
-      - `sensor_config: optional string`
+Version.
 
-        SensorConfig.
+<a href="#">Link to this property</a>
 
-      - `state: optional "online" or "offline" or "unknown"`
+<details>
 
-        For more details on state, please refer to the Crowdstrike documentation.
+<summary>
 
-        - `"online"`
+versionOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-        - `"offline"`
+Version Operator.
 
-        - `"unknown"`
+</summary>
 
-      - `version: optional string`
+One of the following:
 
-        Version.
+"&lt;"
 
-      - `versionOperator: optional "<" or "<=" or ">" or 2 more`
+<a href="#">Link to this property</a>
 
-        Version Operator.
+"&lt;="
 
-        - `"<"`
+<a href="#">Link to this property</a>
 
-        - `"<="`
+"&gt;"
 
-        - `">"`
+<a href="#">Link to this property</a>
 
-        - `">="`
+"&gt;="
 
-        - `"=="`
+<a href="#">Link to this property</a>
 
-    - `IntuneInput object { compliance_status, connection_id }`
+"=="
 
-      - `compliance_status: "compliant" or "noncompliant" or "unknown" or 3 more`
+<a href="#">Link to this property</a>
 
-        Compliance Status.
+</details>
 
-        - `"compliant"`
+<a href="#">Link to this property</a>
 
-        - `"noncompliant"`
+</details>
 
-        - `"unknown"`
+<a href="#">Link to this property</a>
 
-        - `"notapplicable"`
+<details>
 
-        - `"ingraceperiod"`
+<summary>
 
-        - `"error"`
+IntuneInput object {compliance\_status, connection\_id }
 
-      - `connection_id: string`
+</summary>
 
-        Posture Integration ID.
+<details>
 
-    - `KolideInput object { connection_id, auth_state, countOperator, issue_count }`
+<summary>
 
-      - `connection_id: string`
+compliance\_status: "compliant"or "noncompliant"or "unknown"or 3 more
 
-        Posture Integration ID.
+Compliance Status.
 
-      - `auth_state: optional array of "Good" or "Notified" or "Will Block" or "Blocked"`
+</summary>
 
-        The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
+One of the following:
 
-        - `"Good"`
+"compliant"
 
-        - `"Notified"`
+<a href="#">Link to this property</a>
 
-        - `"Will Block"`
+"noncompliant"
 
-        - `"Blocked"`
+<a href="#">Link to this property</a>
 
-      - `countOperator: optional "<" or "<=" or ">" or 2 more`
+"unknown"
 
-        Count Operator.
+<a href="#">Link to this property</a>
 
-        - `"<"`
+"notapplicable"
 
-        - `"<="`
+<a href="#">Link to this property</a>
 
-        - `">"`
+"ingraceperiod"
 
-        - `">="`
+<a href="#">Link to this property</a>
 
-        - `"=="`
+"error"
 
-      - `issue_count: optional string`
+<a href="#">Link to this property</a>
 
-        The Number of Issues.
+</details>
 
-    - `TaniumInput object { connection_id, eid_last_seen, operator, 3 more }`
+<a href="#">Link to this property</a>
 
-      - `connection_id: string`
+connection\_id: string
 
-        Posture Integration ID.
+Posture Integration ID.
 
-      - `eid_last_seen: optional string`
+<a href="#">Link to this property</a>
 
-        For more details on eid last seen, refer to the Tanium documentation.
+</details>
 
-      - `operator: optional "<" or "<=" or ">" or 2 more`
+<a href="#">Link to this property</a>
 
-        Operator to evaluate risk_level or eid_last_seen.
+<details>
 
-        - `"<"`
+<summary>
 
-        - `"<="`
+KolideInput object {connection\_id, auth\_state, countOperator, issue\_count }
 
-        - `">"`
+</summary>
 
-        - `">="`
+connection\_id: string
 
-        - `"=="`
+Posture Integration ID.
 
-      - `risk_level: optional "low" or "medium" or "high" or "critical"`
+<a href="#">Link to this property</a>
 
-        For more details on risk level, refer to the Tanium documentation.
+<details>
 
-        - `"low"`
+<summary>
 
-        - `"medium"`
+auth\_state: optional array of "Good"or "Notified"or "Will Block"or "Blocked"
 
-        - `"high"`
+The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
 
-        - `"critical"`
+</summary>
 
-      - `scoreOperator: optional "<" or "<=" or ">" or 2 more`
+One of the following:
 
-        Score Operator.
+"Good"
 
-        - `"<"`
+<a href="#">Link to this property</a>
 
-        - `"<="`
+"Notified"
 
-        - `">"`
+<a href="#">Link to this property</a>
 
-        - `">="`
+"Will Block"
 
-        - `"=="`
+<a href="#">Link to this property</a>
 
-      - `total_score: optional number`
+"Blocked"
 
-        For more details on total score, refer to the Tanium documentation.
+<a href="#">Link to this property</a>
 
-    - `SentineloneS2sInput object { connection_id, active_threats, infected, 4 more }`
+</details>
 
-      - `connection_id: string`
+<a href="#">Link to this property</a>
 
-        Posture Integration ID.
+<details>
 
-      - `active_threats: optional number`
+<summary>
 
-        The Number of active threats.
+countOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-      - `infected: optional boolean`
+Count Operator.
 
-        Whether device is infected.
+</summary>
 
-      - `is_active: optional boolean`
+One of the following:
 
-        Whether device is active.
+"&lt;"
 
-      - `network_status: optional "connected" or "disconnected" or "disconnecting" or "connecting"`
+<a href="#">Link to this property</a>
 
-        Network status of device.
+"&lt;="
 
-        - `"connected"`
+<a href="#">Link to this property</a>
 
-        - `"disconnected"`
+"&gt;"
 
-        - `"disconnecting"`
+<a href="#">Link to this property</a>
 
-        - `"connecting"`
+"&gt;="
 
-      - `operational_state: optional "na" or "partially_disabled" or "auto_fully_disabled" or 4 more`
+<a href="#">Link to this property</a>
 
-        Agent operational state.
+"=="
 
-        - `"na"`
+<a href="#">Link to this property</a>
 
-        - `"partially_disabled"`
+</details>
 
-        - `"auto_fully_disabled"`
+<a href="#">Link to this property</a>
 
-        - `"fully_disabled"`
+issue\_count: optional string
 
-        - `"auto_partially_disabled"`
+The Number of Issues.
 
-        - `"disabled_error"`
+<a href="#">Link to this property</a>
 
-        - `"db_corruption"`
+</details>
 
-      - `operator: optional "<" or "<=" or ">" or 2 more`
+<a href="#">Link to this property</a>
 
-        Operator.
+<details>
 
-        - `"<"`
+<summary>
 
-        - `"<="`
+TaniumInput object {connection\_id, eid\_last\_seen, operator, 3 more }
 
-        - `">"`
+</summary>
 
-        - `">="`
+connection\_id: string
 
-        - `"=="`
+Posture Integration ID.
 
-    - `TeamsDevicesCustomS2sInputRequest object { connection_id, operator, score }`
+<a href="#">Link to this property</a>
 
-      - `connection_id: string`
+eid\_last\_seen: optional string
 
-        Posture Integration ID.
+For more details on eid last seen, refer to the Tanium documentation.
 
-      - `operator: "<" or "<=" or ">" or 2 more`
+<a href="#">Link to this property</a>
 
-        Operator.
+<details>
 
-        - `"<"`
+<summary>
 
-        - `"<="`
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-        - `">"`
+Operator to evaluate risk\_level or eid\_last\_seen.
 
-        - `">="`
+</summary>
 
-        - `"=="`
+One of the following:
 
-      - `score: number`
+"&lt;"
 
-        A value between 0-100 assigned to devices set by the 3rd party posture provider.
+<a href="#">Link to this property</a>
 
-  - `match: optional array of DeviceMatch`
+"&lt;="
 
-    The conditions that the client must match to run the rule.
+<a href="#">Link to this property</a>
 
-    - `platform: optional "windows" or "mac" or "linux" or 3 more`
+"&gt;"
 
-      - `"windows"`
+<a href="#">Link to this property</a>
 
-      - `"mac"`
+"&gt;="
 
-      - `"linux"`
+<a href="#">Link to this property</a>
 
-      - `"android"`
+"=="
 
-      - `"ios"`
+<a href="#">Link to this property</a>
 
-      - `"chromeos"`
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the device posture rule.
+<details>
 
-  - `schedule: optional string`
+<summary>
 
-    Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
+risk\_level: optional "low"or "medium"or "high"or "critical"
 
-  - `type: optional "file" or "application" or "tanium" or 20 more`
+For more details on risk level, refer to the Tanium documentation.
 
-    The type of device posture rule.
+</summary>
 
-    - `"file"`
+One of the following:
 
-    - `"application"`
+"low"
 
-    - `"tanium"`
+<a href="#">Link to this property</a>
 
-    - `"gateway"`
+"medium"
 
-    - `"warp"`
+<a href="#">Link to this property</a>
 
-    - `"disk_encryption"`
+"high"
 
-    - `"serial_number"`
+<a href="#">Link to this property</a>
 
-    - `"sentinelone"`
+"critical"
 
-    - `"carbonblack"`
+<a href="#">Link to this property</a>
 
-    - `"firewall"`
+</details>
 
-    - `"os_version"`
+<a href="#">Link to this property</a>
 
-    - `"domain_joined"`
+<details>
 
-    - `"client_certificate"`
+<summary>
 
-    - `"client_certificate_v2"`
+scoreOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
 
-    - `"antivirus"`
+Score Operator.
 
-    - `"unique_client_id"`
+</summary>
 
-    - `"kolide"`
+One of the following:
 
-    - `"tanium_s2s"`
+"&lt;"
 
-    - `"crowdstrike_s2s"`
+<a href="#">Link to this property</a>
 
-    - `"intune"`
+"&lt;="
 
-    - `"workspace_one"`
+<a href="#">Link to this property</a>
 
-    - `"sentinelone_s2s"`
+"&gt;"
 
-    - `"custom_s2s"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"&gt;="
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"=="
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+total\_score: optional number
+
+For more details on total score, refer to the Tanium documentation.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SentineloneS2sInput object {connection\_id, active\_threats, infected, 4 more }
+
+</summary>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+active\_threats: optional number
+
+The Number of active threats.
+
+<a href="#">Link to this property</a>
+
+infected: optional boolean
+
+Whether device is infected.
+
+<a href="#">Link to this property</a>
+
+is\_active: optional boolean
+
+Whether device is active.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+network\_status: optional "connected"or "disconnected"or "disconnecting"or "connecting"
+
+Network status of device.
+
+</summary>
+
+One of the following:
+
+"connected"
+
+<a href="#">Link to this property</a>
+
+"disconnected"
+
+<a href="#">Link to this property</a>
+
+"disconnecting"
+
+<a href="#">Link to this property</a>
+
+"connecting"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operational\_state: optional "na"or "partially\_disabled"or "auto\_fully\_disabled"or 4 more
+
+Agent operational state.
+
+</summary>
+
+One of the following:
+
+"na"
+
+<a href="#">Link to this property</a>
+
+"partially\_disabled"
+
+<a href="#">Link to this property</a>
+
+"auto\_fully\_disabled"
+
+<a href="#">Link to this property</a>
+
+"fully\_disabled"
+
+<a href="#">Link to this property</a>
+
+"auto\_partially\_disabled"
+
+<a href="#">Link to this property</a>
+
+"disabled\_error"
+
+<a href="#">Link to this property</a>
+
+"db\_corruption"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TeamsDevicesCustomS2sInputRequest object {connection\_id, operator, score }
+
+</summary>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+score: number
+
+A value between 0-100 assigned to devices set by the 3rd party posture provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20input%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+match: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20device_match%20%3E%20(schema)">DeviceMatch</a> { platform }
+
+The conditions that the client must match to run the rule.
+
+</summary>
+
+<details>
+
+<summary>
+
+platform: optional "windows"or "mac"or "linux"or 3 more
+
+</summary>
+
+One of the following:
+
+"windows"
+
+<a href="#">Link to this property</a>
+
+"mac"
+
+<a href="#">Link to this property</a>
+
+"linux"
+
+<a href="#">Link to this property</a>
+
+"android"
+
+<a href="#">Link to this property</a>
+
+"ios"
+
+<a href="#">Link to this property</a>
+
+"chromeos"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20match%20%3E%20(schema)>)
+
+schedule: optional string
+
+Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.
+
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20schedule%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20device_posture_rule%20%3E%20(schema)">DevicePostureRule</a> { id, description, enabled, 6 more }
+
+</summary>
+
+id: optional string
+
+API UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The description of the device posture rule.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Whether the rule is enabled. This is a computed, read-only value. It is false for deprecated Kolide posture rules that still use the issue\_count input, and true otherwise.
+
+<a href="#">Link to this property</a>
+
+expiration: optional string
+
+Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+input: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20device_input%20%3E%20(schema)">DeviceInput</a>
+
+The value to be checked against.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+FileInput object {operating\_system, path, exists, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+operating\_system: "windows"or "linux"or "mac"
+
+Operating system.
+
+</summary>
+
+One of the following:
+
+"windows"
+
+<a href="#">Link to this property</a>
+
+"linux"
+
+<a href="#">Link to this property</a>
+
+"mac"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+path: string
+
+File path.
+
+<a href="#">Link to this property</a>
+
+exists: optional boolean
+
+Whether or not file exists.
+
+<a href="#">Link to this property</a>
+
+sha256: optional string
+
+SHA-256.
+
+<a href="#">Link to this property</a>
+
+thumbprint: optional string
+
+Signing certificate thumbprint.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+UniqueClientIDInput object {id, operating\_system }
+
+</summary>
+
+id: string
+
+List ID.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operating\_system: "android"or "ios"or "chromeos"
+
+Operating System.
+
+</summary>
+
+One of the following:
+
+"android"
+
+<a href="#">Link to this property</a>
+
+"ios"
+
+<a href="#">Link to this property</a>
+
+"chromeos"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DomainJoinedInput object {operating\_system, domain }
+
+</summary>
+
+operating\_system: "windows"
+
+Operating System.
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+Domain.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+OSVersionInput object {operating\_system, operator, version, 3 more }
+
+</summary>
+
+operating\_system: "windows"
+
+Operating System.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+version: string
+
+Version of OS.
+
+<a href="#">Link to this property</a>
+
+os\_distro\_name: optional string
+
+Operating System Distribution Name (linux only).
+
+<a href="#">Link to this property</a>
+
+os\_distro\_revision: optional string
+
+Version of OS Distribution (linux only).
+
+<a href="#">Link to this property</a>
+
+os\_version\_extra: optional string
+
+Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+FirewallInput object {enabled, operating\_system }
+
+</summary>
+
+enabled: boolean
+
+Enabled.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operating\_system: "windows"or "mac"
+
+Operating System.
+
+</summary>
+
+One of the following:
+
+"windows"
+
+<a href="#">Link to this property</a>
+
+"mac"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SentineloneInput object {operating\_system, path, sha256, thumbprint }
+
+</summary>
+
+<details>
+
+<summary>
+
+operating\_system: "windows"or "linux"or "mac"
+
+Operating system.
+
+</summary>
+
+One of the following:
+
+"windows"
+
+<a href="#">Link to this property</a>
+
+"linux"
+
+<a href="#">Link to this property</a>
+
+"mac"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+path: string
+
+File path.
+
+<a href="#">Link to this property</a>
+
+sha256: optional string
+
+SHA-256.
+
+<a href="#">Link to this property</a>
+
+thumbprint: optional string
+
+Signing certificate thumbprint.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TeamsDevicesCarbonblackInputRequest object {operating\_system, path, sha256, thumbprint }
+
+</summary>
+
+<details>
+
+<summary>
+
+operating\_system: "windows"or "linux"or "mac"
+
+Operating system.
+
+</summary>
+
+One of the following:
+
+"windows"
+
+<a href="#">Link to this property</a>
+
+"linux"
+
+<a href="#">Link to this property</a>
+
+"mac"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+path: string
+
+File path.
+
+<a href="#">Link to this property</a>
+
+sha256: optional string
+
+SHA-256.
+
+<a href="#">Link to this property</a>
+
+thumbprint: optional string
+
+Signing certificate thumbprint.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TeamsDevicesAccessSerialNumberListInputRequest object {id }
+
+</summary>
+
+id: string
+
+UUID of Access List.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DiskEncryptionInput object {checkDisks, requireAll }
+
+</summary>
+
+checkDisks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20carbonblack_input%20%3E%20(schema)">CarbonblackInput</a>
+
+List of volume names to be checked for encryption.
+
+<a href="#">Link to this property</a>
+
+requireAll: optional boolean
+
+Whether to check all disks for encryption.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TeamsDevicesApplicationInputRequest object {operating\_system, path, sha256, thumbprint }
+
+</summary>
+
+<details>
+
+<summary>
+
+operating\_system: "windows"or "linux"or "mac"
+
+Operating system.
+
+</summary>
+
+One of the following:
+
+"windows"
+
+<a href="#">Link to this property</a>
+
+"linux"
+
+<a href="#">Link to this property</a>
+
+"mac"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+path: string
+
+Path for the application.
+
+<a href="#">Link to this property</a>
+
+sha256: optional string
+
+SHA-256.
+
+<a href="#">Link to this property</a>
+
+thumbprint: optional string
+
+Signing certificate thumbprint.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ClientCertificateInput object {certificate\_id, cn }
+
+</summary>
+
+certificate\_id: string
+
+UUID of Cloudflare managed certificate.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+cn: string
+
+Common Name that is protected by the certificate.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TeamsDevicesClientCertificateV2InputRequest object {certificate\_id, check\_private\_key, operating\_system, 4 more }
+
+</summary>
+
+certificate\_id: string
+
+UUID of Cloudflare managed certificate.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+check\_private\_key: boolean
+
+Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operating\_system: "windows"or "linux"or "mac"
+
+Operating system.
+
+</summary>
+
+One of the following:
+
+"windows"
+
+<a href="#">Link to this property</a>
+
+"linux"
+
+<a href="#">Link to this property</a>
+
+"mac"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+cn: optional string
+
+Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial\_number} and ${hostname} are valid variables.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+extended\_key\_usage: optional array of "clientAuth"or "emailProtection"
+
+List of values indicating purposes for which the certificate public key can be used.
+
+</summary>
+
+One of the following:
+
+"clientAuth"
+
+<a href="#">Link to this property</a>
+
+"emailProtection"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+locations: optional object {paths, trust\_stores }
+
+</summary>
+
+paths: optional array of string
+
+List of paths to check for client certificate on linux.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+trust\_stores: optional array of "system"or "user"
+
+List of trust stores to check for client certificate.
+
+</summary>
+
+One of the following:
+
+"system"
+
+<a href="#">Link to this property</a>
+
+"user"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+subject\_alternative\_names: optional array of string
+
+List of certificate Subject Alternative Names.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TeamsDevicesAntivirusInputRequest object {update\_window\_days }
+
+</summary>
+
+update\_window\_days: optional number
+
+Number of days that the antivirus should be updated within.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+WorkspaceOneInput object {compliance\_status, connection\_id }
+
+</summary>
+
+<details>
+
+<summary>
+
+compliance\_status: "compliant"or "noncompliant"or "unknown"
+
+Compliance Status.
+
+</summary>
+
+One of the following:
+
+"compliant"
+
+<a href="#">Link to this property</a>
+
+"noncompliant"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+CrowdstrikeInput object {connection\_id, last\_seen, operator, 6 more }
+
+</summary>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+last\_seen: optional string
+
+For more details on last seen, please refer to the Crowdstrike documentation.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+os: optional string
+
+Os Version.
+
+<a href="#">Link to this property</a>
+
+overall: optional string
+
+Overall.
+
+<a href="#">Link to this property</a>
+
+sensor\_config: optional string
+
+SensorConfig.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: optional "online"or "offline"or "unknown"
+
+For more details on state, please refer to the Crowdstrike documentation.
+
+</summary>
+
+One of the following:
+
+"online"
+
+<a href="#">Link to this property</a>
+
+"offline"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+version: optional string
+
+Version.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+versionOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Version Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+IntuneInput object {compliance\_status, connection\_id }
+
+</summary>
+
+<details>
+
+<summary>
+
+compliance\_status: "compliant"or "noncompliant"or "unknown"or 3 more
+
+Compliance Status.
+
+</summary>
+
+One of the following:
+
+"compliant"
+
+<a href="#">Link to this property</a>
+
+"noncompliant"
+
+<a href="#">Link to this property</a>
+
+"unknown"
+
+<a href="#">Link to this property</a>
+
+"notapplicable"
+
+<a href="#">Link to this property</a>
+
+"ingraceperiod"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+KolideInput object {connection\_id, auth\_state, countOperator, issue\_count }
+
+</summary>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+auth\_state: optional array of "Good"or "Notified"or "Will Block"or "Blocked"
+
+The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.
+
+</summary>
+
+One of the following:
+
+"Good"
+
+<a href="#">Link to this property</a>
+
+"Notified"
+
+<a href="#">Link to this property</a>
+
+"Will Block"
+
+<a href="#">Link to this property</a>
+
+"Blocked"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+countOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Count Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+issue\_count: optional string
+
+The Number of Issues.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TaniumInput object {connection\_id, eid\_last\_seen, operator, 3 more }
+
+</summary>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+eid\_last\_seen: optional string
+
+For more details on eid last seen, refer to the Tanium documentation.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Operator to evaluate risk\_level or eid\_last\_seen.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+risk\_level: optional "low"or "medium"or "high"or "critical"
+
+For more details on risk level, refer to the Tanium documentation.
+
+</summary>
+
+One of the following:
+
+"low"
+
+<a href="#">Link to this property</a>
+
+"medium"
+
+<a href="#">Link to this property</a>
+
+"high"
+
+<a href="#">Link to this property</a>
+
+"critical"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scoreOperator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Score Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+total\_score: optional number
+
+For more details on total score, refer to the Tanium documentation.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SentineloneS2sInput object {connection\_id, active\_threats, infected, 4 more }
+
+</summary>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+active\_threats: optional number
+
+The Number of active threats.
+
+<a href="#">Link to this property</a>
+
+infected: optional boolean
+
+Whether device is infected.
+
+<a href="#">Link to this property</a>
+
+is\_active: optional boolean
+
+Whether device is active.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+network\_status: optional "connected"or "disconnected"or "disconnecting"or "connecting"
+
+Network status of device.
+
+</summary>
+
+One of the following:
+
+"connected"
+
+<a href="#">Link to this property</a>
+
+"disconnected"
+
+<a href="#">Link to this property</a>
+
+"disconnecting"
+
+<a href="#">Link to this property</a>
+
+"connecting"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operational\_state: optional "na"or "partially\_disabled"or "auto\_fully\_disabled"or 4 more
+
+Agent operational state.
+
+</summary>
+
+One of the following:
+
+"na"
+
+<a href="#">Link to this property</a>
+
+"partially\_disabled"
+
+<a href="#">Link to this property</a>
+
+"auto\_fully\_disabled"
+
+<a href="#">Link to this property</a>
+
+"fully\_disabled"
+
+<a href="#">Link to this property</a>
+
+"auto\_partially\_disabled"
+
+<a href="#">Link to this property</a>
+
+"disabled\_error"
+
+<a href="#">Link to this property</a>
+
+"db\_corruption"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: optional "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+TeamsDevicesCustomS2sInputRequest object {connection\_id, operator, score }
+
+</summary>
+
+connection\_id: string
+
+Posture Integration ID.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+operator: "&lt;"or "&lt;="or "&gt;"or 2 more
+
+Operator.
+
+</summary>
+
+One of the following:
+
+"&lt;"
+
+<a href="#">Link to this property</a>
+
+"&lt;="
+
+<a href="#">Link to this property</a>
+
+"&gt;"
+
+<a href="#">Link to this property</a>
+
+"&gt;="
+
+<a href="#">Link to this property</a>
+
+"=="
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+score: number
+
+A value between 0-100 assigned to devices set by the 3rd party posture provider.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+match: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.posture%20%3E%20(model)%20device_match%20%3E%20(schema)">DeviceMatch</a> { platform }
+
+The conditions that the client must match to run the rule.
+
+</summary>
+
+<details>
+
+<summary>
+
+platform: optional "windows"or "mac"or "linux"or 3 more
+
+</summary>
+
+One of the following:
+
+"windows"
+
+<a href="#">Link to this property</a>
+
+"mac"
+
+<a href="#">Link to this property</a>
+
+"linux"
+
+<a href="#">Link to this property</a>
+
+"android"
+
+<a href="#">Link to this property</a>
+
+"ios"
+
+<a href="#">Link to this property</a>
+
+"chromeos"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name of the device posture rule.
+
+<a href="#">Link to this property</a>
+
+schedule: optional string
+
+Polling frequency for the WARP client posture check. Default: <code>5m</code> (poll every five minutes). Minimum: <code>1m</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "file"or "application"or "tanium"or 20 more
+
+The type of device posture rule.
+
+</summary>
+
+One of the following:
+
+"file"
+
+<a href="#">Link to this property</a>
+
+"application"
+
+<a href="#">Link to this property</a>
+
+"tanium"
+
+<a href="#">Link to this property</a>
+
+"gateway"
+
+<a href="#">Link to this property</a>
+
+"warp"
+
+<a href="#">Link to this property</a>
+
+"disk\_encryption"
+
+<a href="#">Link to this property</a>
+
+"serial\_number"
+
+<a href="#">Link to this property</a>
+
+"sentinelone"
+
+<a href="#">Link to this property</a>
+
+"carbonblack"
+
+<a href="#">Link to this property</a>
+
+"firewall"
+
+<a href="#">Link to this property</a>
+
+"os\_version"
+
+<a href="#">Link to this property</a>
+
+"domain\_joined"
+
+<a href="#">Link to this property</a>
+
+"client\_certificate"
+
+<a href="#">Link to this property</a>
+
+"client\_certificate\_v2"
+
+<a href="#">Link to this property</a>
+
+"antivirus"
+
+<a href="#">Link to this property</a>
+
+"unique\_client\_id"
+
+<a href="#">Link to this property</a>
+
+"kolide"
+
+<a href="#">Link to this property</a>
+
+"tanium\_s2s"
+
+<a href="#">Link to this property</a>
+
+"crowdstrike\_s2s"
+
+<a href="#">Link to this property</a>
+
+"intune"
+
+<a href="#">Link to this property</a>
+
+"workspace\_one"
+
+<a href="#">Link to this property</a>
+
+"sentinelone\_s2s"
+
+<a href="#">Link to this property</a>
+
+"custom\_s2s"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.devices.posture%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update a device posture rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/$RULE_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -1327,9 +3287,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/$
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -1354,6 +3314,58 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/posture/$
   "result": {
     "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
     "description": "The rule for admin serial numbers",
+    "enabled": true,
+    "expiration": "1h",
+    "input": {
+      "operating_system": "linux",
+      "path": "/bin/cat",
+      "exists": true,
+      "sha256": "https://api.us-2.crowdstrike.com",
+      "thumbprint": "0aabab210bdb998e9cf45da2c9ce352977ab531c681b74cf1e487be1bbe9fe6e"
+    },
+    "match": [
+      {
+        "platform": "windows"
+      }
+    ],
+    "name": "Admin Serial Numbers",
+    "schedule": "1h",
+    "type": "file"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "description": "The rule for admin serial numbers",
+    "enabled": true,
     "expiration": "1h",
     "input": {
       "operating_system": "linux",

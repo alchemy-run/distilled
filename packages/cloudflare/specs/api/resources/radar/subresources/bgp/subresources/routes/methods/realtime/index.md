@@ -1,147 +1,396 @@
-## Get real-time BGP routes for a prefix
+---
+title: Get real-time BGP routes for a prefix
+---
 
-**get** `/radar/bgp/routes/realtime`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[Routes](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/routes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get real-time BGP routes for a prefix
+
+GET/radar/bgp/routes/realtime
 
 Retrieves real-time BGP routes for a prefix, using public real-time data collectors (RouteViews and RIPE RIS).
 
-### Query Parameters
+##### Security
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>API Token</summary>
 
-  - `"JSON"`
 
-  - `"CSV"`
 
-- `prefix: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Returns
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `result: object { meta, routes }`
+</details>
 
-  - `meta: object { asn_info, collectors, data_time, 2 more }`
+<details>
 
-    - `asn_info: array of object { as_name, asn, country_code, 2 more }`
+<summary>API Email + API Key</summary>
 
-      - `as_name: string`
 
-        Name of the autonomous system.
 
-      - `asn: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-        AS number.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      - `country_code: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-        Alpha-2 code for the AS's registration country.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `org_id: string`
+</details>
 
-        Organization ID.
+##### Accepted Permissions (at least one required)
 
-      - `org_name: string`
+`User Details Write``User Details Read`
 
-        Organization name.
+##### Q uery ParametersExpand Collapse
 
-    - `collectors: array of object { collector, latest_realtime_ts, latest_rib_ts, 4 more }`
+<details>
 
-      - `collector: string`
+<summary>
 
-        Public route collector ID.
+format: optional "JSON"or "CSV"
 
-      - `latest_realtime_ts: string`
+Format in which results will be returned.
 
-        Latest real-time stream timestamp for this collector.
+</summary>
 
-      - `latest_rib_ts: string`
+One of the following:
 
-        Latest RIB dump MRT file timestamp for this collector.
+"JSON"
 
-      - `latest_updates_ts: string`
+<a href="#">Link to this property</a>
 
-        Latest BGP updates MRT file timestamp for this collector.
+"CSV"
 
-      - `peers_count: number`
+<a href="#">Link to this property</a>
 
-        Total number of collector peers used from this collector.
+</details>
 
-      - `peers_v4_count: number`
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20realtime%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
 
-        Total number of collector peers used from this collector for IPv4 prefixes.
+prefix: optional string
 
-      - `peers_v6_count: number`
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20realtime%20%3E%20(params)%20default%20%3E%20(param)%20prefix%20%3E%20(schema)>)
 
-        Total number of collector peers used from this collector for IPv6 prefixes.
+##### ReturnsExpand Collapse
 
-    - `data_time: string`
+<details>
 
-      The most recent data timestamp for from the real-time sources.
+<summary>
 
-    - `prefix_origins: array of object { origin, prefix, rpki_validation, 3 more }`
+result: object {meta, routes }
 
-      - `origin: number`
+</summary>
 
-        Origin ASN.
+<details>
 
-      - `prefix: string`
+<summary>
 
-        IP prefix of this query.
+meta: object {asn\_info, collectors, data\_time, 2 more }
 
-      - `rpki_validation: string`
+</summary>
 
-        Prefix-origin RPKI validation: valid, invalid, unknown.
+<details>
 
-      - `total_peers: number`
+<summary>
 
-        Total number of peers.
+asn\_info: array of object {as\_name, asn, country\_code, 2 more }
 
-      - `total_visible: number`
+</summary>
 
-        Total number of peers seeing this prefix.
+as\_name: string
 
-      - `visibility: number`
+Name of the autonomous system.
 
-        Ratio of peers seeing this prefix to total number of peers.
+<a href="#">Link to this property</a>
 
-    - `query_time: string`
+asn: number
 
-      The timestamp of this query.
+AS number.
 
-  - `routes: array of object { as_path, collector, communities, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `as_path: array of number`
+country\_code: string
 
-      AS-level path for this route, from collector to origin.
+Alpha-2 code for the AS’s registration country.
 
-    - `collector: string`
+<a href="#">Link to this property</a>
 
-      Public collector ID for this route.
+org\_id: string
 
-    - `communities: array of string`
+Organization ID.
 
-      BGP community values.
+<a href="#">Link to this property</a>
 
-    - `prefix: string`
+org\_name: string
 
-      IP prefix of this query.
+Organization name.
 
-    - `timestamp: string`
+<a href="#">Link to this property</a>
 
-      Latest timestamp of change for this route.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+collectors: array of object {collector, latest\_realtime\_ts, latest\_rib\_ts, 4 more }
+
+</summary>
+
+collector: string
+
+Public route collector ID.
+
+<a href="#">Link to this property</a>
+
+latest\_realtime\_ts: string
+
+Latest real-time stream timestamp for this collector.
+
+<a href="#">Link to this property</a>
+
+latest\_rib\_ts: string
+
+Latest RIB dump MRT file timestamp for this collector.
+
+<a href="#">Link to this property</a>
+
+latest\_updates\_ts: string
+
+Latest BGP updates MRT file timestamp for this collector.
+
+<a href="#">Link to this property</a>
+
+peers\_count: number
+
+Total number of collector peers used from this collector.
+
+<a href="#">Link to this property</a>
+
+peers\_v4\_count: number
+
+Total number of collector peers used from this collector for IPv4 prefixes.
+
+<a href="#">Link to this property</a>
+
+peers\_v6\_count: number
+
+Total number of collector peers used from this collector for IPv6 prefixes.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+data\_time: string
+
+The most recent data timestamp for from the real-time sources.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+prefix\_origins: array of object {origin, prefix, rpki\_validation, 3 more }
+
+</summary>
+
+origin: number
+
+Origin ASN.
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+IP prefix of this query.
+
+<a href="#">Link to this property</a>
+
+rpki\_validation: string
+
+Prefix-origin RPKI validation: valid, invalid, unknown.
+
+<a href="#">Link to this property</a>
+
+total\_peers: number
+
+Total number of peers.
+
+<a href="#">Link to this property</a>
+
+total\_visible: number
+
+Total number of peers seeing this prefix.
+
+<a href="#">Link to this property</a>
+
+visibility: number
+
+Ratio of peers seeing this prefix to total number of peers.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+query\_time: string
+
+The timestamp of this query.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+routes: array of object {as\_path, collector, communities, 2 more }
+
+</summary>
+
+as\_path: array of number
+
+AS-level path for this route, from collector to origin.
+
+<a href="#">Link to this property</a>
+
+collector: string
+
+Public collector ID for this route.
+
+<a href="#">Link to this property</a>
+
+communities: array of string
+
+BGP community values.
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+IP prefix of this query.
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+Latest timestamp of change for this route.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20realtime%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.bgp.routes%20%3E%20(method)%20realtime%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get real-time BGP routes for a prefix
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/bgp/routes/realtime \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "meta": {
+      "asn_info": [
+        {
+          "as_name": "as_name",
+          "asn": 0,
+          "country_code": "country_code",
+          "org_id": "org_id",
+          "org_name": "org_name"
+        }
+      ],
+      "collectors": [
+        {
+          "collector": "collector",
+          "latest_realtime_ts": "latest_realtime_ts",
+          "latest_rib_ts": "latest_rib_ts",
+          "latest_updates_ts": "latest_updates_ts",
+          "peers_count": 0,
+          "peers_v4_count": 0,
+          "peers_v6_count": 0
+        }
+      ],
+      "data_time": "data_time",
+      "prefix_origins": [
+        {
+          "origin": 0,
+          "prefix": "prefix",
+          "rpki_validation": "rpki_validation",
+          "total_peers": 0,
+          "total_visible": 0,
+          "visibility": 0
+        }
+      ],
+      "query_time": "query_time"
+    },
+    "routes": [
+      {
+        "as_path": [
+          0
+        ],
+        "collector": "collector",
+        "communities": [
+          "string"
+        ],
+        "prefix": "prefix",
+        "timestamp": "timestamp"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "meta": {

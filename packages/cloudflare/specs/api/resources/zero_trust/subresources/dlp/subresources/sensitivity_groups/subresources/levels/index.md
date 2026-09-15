@@ -1,780 +1,249 @@
+---
+title: Levels
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Sensitivity Groups](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Levels
 
-## Retrieve all sensitivity levels in a sensitivity group
+##### [Retrieve all sensitivity levels in a sensitivity group](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/list)
 
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels
 
-Retrieve all sensitivity levels in a sensitivity group
+##### [Retrieve a specific sensitivity level.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels/{sensitivity\_level\_id}
 
-- `account_id: string`
+##### [Creates a new sensitivity level.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/create)
 
-- `sensitivity_group_id: string`
+POST/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels
 
-### Returns
+##### [Update the attributes of a single sensitivity level.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/update)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PUT/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels/{sensitivity\_level\_id}
 
-  - `code: number`
+##### [Delete a single sensitivity level.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/levels/{sensitivity\_level\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+LevelListResponse object {id, created\_at, name, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_at: string
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+name: string
 
-- `result: optional array of object { id, created_at, name, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+updated\_at: string
 
-  - `created_at: string`
+formatdate-time
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+description: optional string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_list_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "description": "description"
-    }
-  ]
-}
-```
+<summary>
 
-## Retrieve a specific sensitivity level.
+LevelGetResponse object {id, created\_at, name, 2 more }
 
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels/{sensitivity_level_id}`
+</summary>
 
-Retrieve a specific sensitivity level.
+id: string
 
-### Path Parameters
+formatuuid
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `sensitivity_group_id: string`
+created\_at: string
 
-- `sensitivity_level_id: string`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+name: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+updated\_at: string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+description: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_get_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+LevelCreateResponse object {id, created\_at, name, 2 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: string
 
-  - `true`
+formatuuid
 
-- `result: optional object { id, created_at, name, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+created\_at: string
 
-  - `created_at: string`
+formatdate-time
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+name: string
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+updated\_at: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels/$SENSITIVITY_LEVEL_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+description: optional string
 
-## Creates a new sensitivity level.
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels`
+</details>
 
-Creates a new sensitivity level.
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_create_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `sensitivity_group_id: string`
+LevelUpdateResponse object {id, created\_at, name, 2 more }
 
-### Body Parameters
+</summary>
 
-- `name: string`
+id: string
 
-- `description: optional string`
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+created\_at: string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+updated\_at: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_update_response%20%3E%20(schema)>)
 
-- `success: true`
+LevelDeleteResponse = unknown
 
-  Whether the API call was successful.
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels%20%3E%20(model)%20level_delete_response%20%3E%20(schema)>)
 
-  - `true`
+#### LevelsOrder
 
-- `result: optional object { id, created_at, name, 2 more }`
+##### [Retrieve the ordered list of level IDs for a sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/subresources/order/methods/get)
 
-  - `id: string`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/level\_order
 
-  - `created_at: string`
+##### [Set the ordering of levels within a sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/subresources/order/methods/update)
 
-  - `name: string`
+PUT/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/level\_order
 
-  - `updated_at: string`
+##### ModelsExpand Collapse
 
-  - `description: optional string`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "name"
-        }'
-```
+OrderGetResponse object {level\_ids }
 
-#### Response
+The ordered list of level IDs for a sensitivity group. Used to get and set the ordering of levels independently of level attributes.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
+</summary>
 
-## Update the attributes of a single sensitivity level.
+level\_ids: array of string
 
-**put** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels/{sensitivity_level_id}`
+<a href="#">Link to this property</a>
 
-Update the attributes of a single sensitivity level.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels.order%20%3E%20(model)%20order_get_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-- `sensitivity_group_id: string`
+<summary>
 
-- `sensitivity_level_id: string`
+OrderUpdateResponse object {level\_ids }
 
-### Body Parameters
+The ordered list of level IDs for a sensitivity group. Used to get and set the ordering of levels independently of level attributes.
 
-- `description: optional string`
+</summary>
 
-- `name: optional string`
+level\_ids: array of string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels/$SENSITIVITY_LEVEL_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "description": "description"
-  }
-}
-```
-
-## Delete a single sensitivity level.
-
-**delete** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/levels/{sensitivity_level_id}`
-
-Delete a single sensitivity level.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-- `sensitivity_level_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/levels/$SENSITIVITY_LEVEL_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Level List Response
-
-- `LevelListResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Level Get Response
-
-- `LevelGetResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Level Create Response
-
-- `LevelCreateResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Level Update Response
-
-- `LevelUpdateResponse object { id, created_at, name, 2 more }`
-
-  - `id: string`
-
-  - `created_at: string`
-
-  - `name: string`
-
-  - `updated_at: string`
-
-  - `description: optional string`
-
-### Level Delete Response
-
-- `LevelDeleteResponse = unknown`
-
-# Order
-
-## Retrieve the ordered list of level IDs for a sensitivity group.
-
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/level_order`
-
-Retrieve the ordered list of level IDs for a sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/level_order \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "level_ids": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ]
-  }
-}
-```
-
-## Set the ordering of levels within a sensitivity group.
-
-**put** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/level_order`
-
-Set the ordering of levels within a sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Body Parameters
-
-- `level_ids: array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/level_order \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "level_ids": [
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "level_ids": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Order Get Response
-
-- `OrderGetResponse object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Order Update Response
-
-- `OrderUpdateResponse object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels.order%20%3E%20(model)%20order_update_response%20%3E%20(schema)>)

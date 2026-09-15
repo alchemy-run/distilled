@@ -1,132 +1,87 @@
+---
+title: Raw
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Raw
 
-## Reads data for a raw event
+##### [Reads data for a raw event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/raw/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}`
+GET/accounts/{account\_id}/cloudforce-one/events/{event\_id}/raw/{raw\_id}
 
-Reads data for a raw event
+##### [Updates a raw event](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/raw/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/cloudforce-one/events/{event\_id}/raw/{raw\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account ID.
+<details>
 
-- `event_id: string`
+<summary>
 
-  Event UUID.
+RawGetResponse object {id, accountId, created, 3 more }
 
-- `raw_id: string`
+</summary>
 
-  Raw Event UUID.
+id: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+accountId: number
 
-- `accountId: number`
+<a href="#">Link to this property</a>
 
-- `created: string`
+created: string
 
-- `data: unknown`
+<a href="#">Link to this property</a>
 
-- `source: string`
+data: unknown
 
-- `tlp: string`
+<a href="#">Link to this property</a>
 
-### Example
+source: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/$EVENT_ID/raw/$RAW_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+tlp: string
 
-```json
-{
-  "id": "1234",
-  "accountId": 1234,
-  "created": "1970-01-01",
-  "data": {},
-  "source": "https://example.com",
-  "tlp": "amber"
-}
-```
+<a href="#">Link to this property</a>
 
-## Updates a raw event
+</details>
 
-**patch** `/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}`
+[Link to this property](#)%20cloudforce_one.threat_events.raw%20%3E%20(model)%20raw_get_response%20%3E%20(schema)>)
 
-Updates a raw event
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+RawEditResponse object {id, data }
 
-  Account ID.
+</summary>
 
-- `event_id: string`
+id: string
 
-  Event UUID.
+<a href="#">Link to this property</a>
 
-- `raw_id: string`
+data: unknown
 
-  Raw Event UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `data: optional unknown`
-
-- `source: optional string`
-
-- `tlp: optional string`
-
-### Returns
-
-- `id: string`
-
-- `data: unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/$EVENT_ID/raw/$RAW_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "id": "1234",
-  "data": {}
-}
-```
-
-## Domain Types
-
-### Raw Get Response
-
-- `RawGetResponse object { id, accountId, created, 3 more }`
-
-  - `id: string`
-
-  - `accountId: number`
-
-  - `created: string`
-
-  - `data: unknown`
-
-  - `source: string`
-
-  - `tlp: string`
-
-### Raw Edit Response
-
-- `RawEditResponse object { id, data }`
-
-  - `id: string`
-
-  - `data: unknown`
+[Link to this property](#)%20cloudforce_one.threat_events.raw%20%3E%20(model)%20raw_edit_response%20%3E%20(schema)>)

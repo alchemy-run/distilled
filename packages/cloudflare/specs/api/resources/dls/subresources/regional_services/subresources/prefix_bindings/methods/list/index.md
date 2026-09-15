@@ -1,91 +1,306 @@
-## List DLS prefix bindings for an account
+---
+title: List DLS prefix bindings for an account
+---
 
-**get** `/accounts/{account_id}/dls/regional_services/prefix_bindings`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Data Localization Suite](https://developers.cloudflare.com/api/resources/dls)
+
+[Regional Services](https://developers.cloudflare.com/api/resources/dls/subresources/regional_services)
+
+[Prefix Bindings](https://developers.cloudflare.com/api/resources/dls/subresources/regional_services/subresources/prefix_bindings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List DLS prefix bindings for an account
+
+GET/accounts/{account\_id}/dls/regional\_services/prefix\_bindings
 
 List DLS prefix bindings for an account
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `cursor: optional string`
 
-  Opaque token for cursor-based pagination. Omit for the first page. Pass the value from a previous response to fetch the next page.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `per_page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+account\_id: string
 
-- `result: array of object { id, cidr, prefix_id, region_key }`
+Identifier of a Cloudflare account.
 
-  - `id: string`
+maxLength32
 
-    The ID of the binding.
+minLength32
 
-  - `cidr: string`
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    The CIDR that is bound.
+##### Q uery ParametersExpand Collapse
 
-  - `prefix_id: string`
+cursor: optional string
 
-    The ID of the parent prefix.
+Opaque token for cursor-based pagination. Omit for the first page. Pass the value from a previous response to fetch the next page.
 
-  - `region_key: string`
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20cursor%20%3E%20(schema)>)
 
-    The region key used for the binding.
+per\_page: optional number
 
-- `result_info: object { count, cursor, per_page }`
+maximum100
 
-  - `count: number`
+minimum1
 
-    Number of items in the current page.
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `cursor: string`
+##### ReturnsExpand Collapse
 
-    Opaque cursor for the next page. Empty string when there are no more results.
+<details>
 
-  - `per_page: number`
+<summary>
 
-    Maximum number of items per page.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-- `success: boolean`
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of object {id, cidr, prefix\_id, region\_key }
+
+</summary>
+
+id: string
+
+The ID of the binding.
+
+<a href="#">Link to this property</a>
+
+cidr: string
+
+The CIDR that is bound.
+
+<a href="#">Link to this property</a>
+
+prefix\_id: string
+
+The ID of the parent prefix.
+
+<a href="#">Link to this property</a>
+
+region\_key: string
+
+The region key used for the binding.
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {count, cursor, per\_page }
+
+</summary>
+
+count: number
+
+Number of items in the current page.
+
+<a href="#">Link to this property</a>
+
+cursor: string
+
+Opaque cursor for the next page. Empty string when there are no more results.
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+Maximum number of items per page.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: boolean
+
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List DLS prefix bindings for an account
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regional_services/prefix_bindings \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "id",
+      "cidr": "cidr",
+      "prefix_id": "prefix_id",
+      "region_key": "x"
+    }
+  ],
+  "result_info": {
+    "count": 0,
+    "cursor": "cursor",
+    "per_page": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

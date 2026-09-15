@@ -1,132 +1,61 @@
+---
+title: Available Alerts
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Available Alerts
 
-## Get Alert Types
+##### [Get Alert Types](https://developers.cloudflare.com/api/resources/alerting/subresources/available_alerts/methods/list)
 
-**get** `/accounts/{account_id}/alerting/v3/available_alerts`
+GET/accounts/{account\_id}/alerting/v3/available\_alerts
 
-Gets a list of all alert types for which an account is eligible.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account id
+AvailableAlertListResponse = map\[array of object {description, display\_name, filter\_options, type } ]
 
-### Returns
+</summary>
 
-- `errors: array of object { message, code }`
+description: optional string
 
-  - `message: string`
+Describes the alert type.
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+display\_name: optional string
 
-  - `message: string`
+Alert type name.
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+filter\_options: optional array of unknown
 
-  Whether the API call was successful
+Format of additional configuration options (filters) for the alert type. Data type of filters during policy creation: Array of strings.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional map[array of object { description, display_name, filter_options, type } ]`
+type: optional string
 
-  - `description: optional string`
+Use this value when creating and updating a notification policy.
 
-    Describes the alert type.
+<a href="#">Link to this property</a>
 
-  - `display_name: optional string`
+</details>
 
-    Alert type name.
-
-  - `filter_options: optional array of unknown`
-
-    Format of additional configuration options (filters) for the alert type. Data type of filters during policy creation: Array of strings.
-
-  - `type: optional string`
-
-    Use this value when creating and updating a notification policy.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/available_alerts \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "Origin Monitoring": [
-      {
-        "description": "High levels of 5xx HTTP errors at your origin.",
-        "display_name": "Origin Error Rate Alert",
-        "filter_options": [
-          {
-            "AvailableValues": null,
-            "ComparisonOperator": "==",
-            "Key": "zones",
-            "Range": "1-n"
-          },
-          {
-            "AvailableValues": [
-              {
-                "Description": "Service-Level Objective of 99.7",
-                "ID": "99.7"
-              },
-              {
-                "Description": "Service-Level Objective of 99.8",
-                "ID": "99.8"
-              }
-            ],
-            "ComparisonOperator": ">=",
-            "Key": "slo",
-            "Range": "0-1"
-          }
-        ],
-        "type": "http_alert_origin_error"
-      }
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Available Alert List Response
-
-- `AvailableAlertListResponse = map[array of object { description, display_name, filter_options, type } ]`
-
-  - `description: optional string`
-
-    Describes the alert type.
-
-  - `display_name: optional string`
-
-    Alert type name.
-
-  - `filter_options: optional array of unknown`
-
-    Format of additional configuration options (filters) for the alert type. Data type of filters during policy creation: Array of strings.
-
-  - `type: optional string`
-
-    Use this value when creating and updating a notification policy.
+[Link to this property](#)%20alerting.available_alerts%20%3E%20(model)%20available_alert_list_response%20%3E%20(schema)>)

@@ -1,71 +1,210 @@
-## Create an IdP federation grant
+---
+title: Create an IdP federation grant
+---
 
-**post** `/accounts/{account_id}/access/idp_federation_grants`
+[Skip to content](#_top)
 
-Creates an IdP federation grant for the specified identity provider, making it
-available for federation to other accounts in the same Cloudflare organization.
+[API Reference](https://developers.cloudflare.com/api)
 
-The account must belong to a Cloudflare organization. One-time pin and
-Cloudflare-managed identity providers cannot be federated. An account
-can federate at most five identity providers at a time.
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-### Path Parameters
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
 
-- `account_id: string`
+[IdP Federation Grants](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/idp_federation_grants)
 
-  Identifier.
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `idp_id: string`
+---
 
-  UID of the identity provider to federate. Must be an existing identity provider in this account. One-time pin and Cloudflare-managed identity providers cannot be federated.
+**Copy Markdown****View as Markdown**
 
-### Returns
+# Create an IdP federation grant
 
-- `errors: array of object { code, message, documentation_url, source }`
+POST/accounts/{account\_id}/access/idp\_federation\_grants
 
-  - `code: number`
+Creates an IdP federation grant for the specified identity provider, making it available for federation to other accounts in the same Cloudflare organization.
 
-  - `message: string`
+The account must belong to a Cloudflare organization. One-time pin and Cloudflare-managed identity providers cannot be federated. An account can federate at most five identity providers at a time.
 
-  - `documentation_url: optional string`
+##### Security
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Token</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `documentation_url: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>API Email + API Key</summary>
 
-  Whether the API call was successful.
 
-  - `true`
 
-- `result: optional IdPFederationGrant`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `id: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    UID of the IdP federation grant.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `idp_id: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    UID of the identity provider being federated.
+</details>
 
-### Example
+##### P ath ParametersExpand Collapse
 
-```http
+account\_id: string
+
+Identifier.
+
+maxLength32
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+idp\_id: string
+
+UID of the identity provider to federate. Must be an existing identity provider in this account. One-time pin and Cloudflare-managed identity providers cannot be federated.
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20idp_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.access.idp_federation_grants%20%3E%20(model)%20idp_federation_grant%20%3E%20(schema)">IdPFederationGrant</a> { id, idp\_id }
+
+</summary>
+
+id: string
+
+UID of the IdP federation grant.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+idp\_id: string
+
+UID of the identity provider being federated.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create an IdP federation grant
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/idp_federation_grants \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -74,9 +213,44 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/idp_federa
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "idp_id": "a79de439-0e7f-4ebb-8a02-222222222222"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

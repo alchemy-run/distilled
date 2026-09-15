@@ -1,108 +1,332 @@
-## Update predefined entry
+---
+title: Update predefined entry
+---
 
-**put** `/accounts/{account_id}/dlp/entries/predefined/{entry_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Entries](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries)
+
+[Predefined](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/entries/subresources/predefined)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update predefined entry
+
+PUT/accounts/{account\_id}/dlp/entries/predefined/{entry\_id}
 
 Updates a DLP entry.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `entry_id: string`
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `enabled: boolean`
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `success: true`
+`Zero Trust Write`
 
-  Whether the API call was successful.
+##### P ath ParametersExpand Collapse
 
-  - `true`
+account\_id: string
 
-- `result: optional object { id, confidence, enabled, 3 more }`
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `id: string`
+entry\_id: string
 
-  - `confidence: object { ai_context_available, available }`
+formatuuid
 
-    - `ai_context_available: boolean`
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20entry_id%20%3E%20(schema)>)
 
-      Indicates whether this entry has AI remote service validation.
+##### Body ParametersJSONExpand Collapse
 
-    - `available: boolean`
+enabled: boolean
 
-      Indicates whether this entry has any form of validation that is not an AI remote service.
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-  - `enabled: boolean`
+##### ReturnsExpand Collapse
 
-  - `name: string`
+<details>
 
-  - `profile_id: optional string`
+<summary>
 
-  - `variant: optional object { topic_type, type, description }  or object { type, description }`
+errors: array of object {code, message, documentation\_url, source }
 
-    A Predefined AI prompt classification topic entry.
+</summary>
 
-    - `object { topic_type, type, description }`
+code: number
 
-      A Predefined AI prompt classification topic entry.
+minimum1000
 
-      - `topic_type: "Intent" or "Content"`
+<a href="#">Link to this property</a>
 
-        - `"Intent"`
+message: string
 
-        - `"Content"`
+<a href="#">Link to this property</a>
 
-      - `type: "PromptTopic"`
+documentation\_url: optional string
 
-        - `"PromptTopic"`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+<details>
 
-        A customer-facing explanation of what this predefined AI prompt topic represents.
+<summary>
 
-    - `object { type, description }`
+source: optional object {pointer }
 
-      A general predefined entry.
+</summary>
 
-      - `type: "General"`
+pointer: optional string
 
-        - `"General"`
+<a href="#">Link to this property</a>
 
-      - `description: optional string`
+</details>
 
-        A customer-facing explanation of what this predefined entry represents.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, confidence, enabled, 4 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+confidence: object {ai\_context\_available, available }
+
+</summary>
+
+ai\_context\_available: boolean
+
+Indicates whether this entry has AI remote service validation.
+
+<a href="#">Link to this property</a>
+
+available: boolean
+
+Indicates whether this entry has any form of validation that is not an AI remote service.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+deprecated: optional boolean
+
+Whether this entry is deprecated for new use. This is computed from the static catalog and emitted only when true.
+
+<a href="#">Link to this property</a>
+
+Deprecatedprofile\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+variant: optional object {topic\_type, type, description } or object {type, description }
+
+A Predefined AI prompt classification topic entry.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {topic\_type, type, description }
+
+A Predefined AI prompt classification topic entry.
+
+</summary>
+
+<details>
+
+<summary>
+
+topic\_type: "Intent"or "Content"
+
+</summary>
+
+One of the following:
+
+"Intent"
+
+<a href="#">Link to this property</a>
+
+"Content"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "PromptTopic"
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A customer-facing explanation of what this predefined AI prompt topic represents.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {type, description }
+
+A general predefined entry.
+
+</summary>
+
+type: "General"
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A customer-facing explanation of what this predefined entry represents.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.entries.predefined%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update predefined entry
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/predefined/$ENTRY_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -112,9 +336,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/prede
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -145,6 +369,53 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/entries/prede
     },
     "enabled": true,
     "name": "name",
+    "deprecated": true,
+    "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "variant": {
+      "topic_type": "Intent",
+      "type": "PromptTopic",
+      "description": "description"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "confidence": {
+      "ai_context_available": true,
+      "available": true
+    },
+    "enabled": true,
+    "name": "name",
+    "deprecated": true,
     "profile_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     "variant": {
       "topic_type": "Intent",

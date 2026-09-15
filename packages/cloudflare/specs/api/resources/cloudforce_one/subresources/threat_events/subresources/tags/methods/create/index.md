@@ -1,268 +1,1876 @@
-## Creates a new tag
+---
+title: Creates a new tag
+---
 
-**post** `/accounts/{account_id}/cloudforce-one/events/tags/create`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+[Tags](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/tags)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Creates a new tag
+
+POST/accounts/{account\_id}/cloudforce-one/events/tags/create
 
 Creates a new tag to be used accross threat events.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account ID.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Body Parameters
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `value: string`
+##### Accepted Permissions (at least one required)
 
-- `activeDuration: optional string`
+`Cloudforce One Write``Cloudforce One Read`
 
-- `actorCategory: optional string`
+##### P ath ParametersExpand Collapse
 
-  Actor variety. Allowed values: Activist, Competitor, Customer, Crime Syndicate, Former Employee, Nation State, Organized Crime, Nation State Affiliated, Terrorist, Unaffiliated.
+account\_id: string
 
-- `actorCategoryConfidence: optional number`
+Account ID.
 
-  Confidence (1-10) in the actor variety (actorCategory). CFONE-only: stripped from responses to non-CFONE accounts.
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `aliases: optional array of object { value, confidence, tlp }`
+##### Body ParametersJSONExpand Collapse
 
-  Structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: stripped from responses to non-CFONE accounts.
+value: string
 
-  - `value: string`
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20value%20%3E%20(schema)>)
 
-  - `confidence: optional number`
+<details>
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+<summary>
 
-    - `"red"`
+activeDuration: optional stringor object {value, confidence, tlp }
 
-    - `"amber"`
+</summary>
 
-    - `"green"`
+One of the following:
 
-    - `"white"`
+string
 
-- `aliasGroupNames: optional array of string`
+<a href="#">Link to this property</a>
 
-- `aliasGroupNamesInternal: optional array of string`
+<details>
 
-- `analyticPriority: optional number`
+<summary>
 
-- `attributionConfidence: optional string`
+object {value, confidence, tlp }
 
-- `attributionConfidenceScore: optional number`
+</summary>
 
-- `attributionOrganization: optional string`
+value: string
 
-- `categoryUuid: optional string`
+<a href="#">Link to this property</a>
 
-- `dateOfDiscovery: optional string`
+confidence: optional number
 
-  Date the actor was discovered (ISO YYYY-MM-DD).
+maximum10
 
-- `externalReferenceLinks: optional array of string`
+minimum1
 
-- `externalReferences: optional array of object { url, description }`
+<a href="#">Link to this property</a>
 
-  Structured external references ({ url, description }). Public: returned to all accounts.
+<details>
 
-  - `url: string`
+<summary>
 
-  - `description: optional string`
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
 
-- `internalAliases: optional array of object { value, confidence, tlp }`
+</summary>
 
-  Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+One of the following:
 
-  - `value: string`
+"red"
 
-  - `confidence: optional number`
+<a href="#">Link to this property</a>
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+"amber"
 
-    - `"red"`
+<a href="#">Link to this property</a>
 
-    - `"amber"`
+"amber-strict"
 
-    - `"green"`
+<a href="#">Link to this property</a>
 
-    - `"white"`
+"green"
 
-- `internalDescription: optional string`
+<a href="#">Link to this property</a>
 
-- `motive: optional string`
+"clear"
 
-  Actor motive. Allowed values: Convenience, Fear, Fun, Financial, Grudge, Ideology, Espionage.
+<a href="#">Link to this property</a>
 
-- `motiveConfidence: optional number`
+"purple"
 
-  Confidence (1-10) in the actor motive. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-- `opsecLevel: optional string`
+"amber+strict"
 
-- `originCountryConfidence: optional number`
+<a href="#">Link to this property</a>
 
-  Confidence (1-10) in the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+</details>
 
-- `originCountryISO: optional string`
+<a href="#">Link to this property</a>
 
-- `originCountryTlp: optional "red" or "amber" or "green" or "white"`
+</details>
 
-  TLP marking for the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-  - `"red"`
+</details>
 
-  - `"amber"`
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20activeDuration%20%3E%20(schema)>)
 
-  - `"green"`
+<details>
 
-  - `"white"`
+<summary>
 
-- `priority: optional number`
+actorCategory: optional stringor object {value, confidence, tlp }
 
-- `sophisticationLevel: optional string`
+</summary>
 
-### Returns
+One of the following:
 
-- `uuid: string`
+string
 
-- `value: string`
+<a href="#">Link to this property</a>
 
-- `activeDuration: optional string`
+<details>
 
-- `actorCategory: optional string`
+<summary>
 
-- `actorCategoryConfidence: optional number`
+object {value, confidence, tlp }
 
-  Confidence (1-10) in the actor variety (actorCategory). CFONE-only: stripped from responses to non-CFONE accounts.
+</summary>
 
-- `aliases: optional array of object { value, confidence, tlp }`
+value: string
 
-  Structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: stripped from responses to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-  - `value: string`
+confidence: optional number
 
-  - `confidence: optional number`
+maximum10
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+minimum1
 
-    - `"red"`
+<a href="#">Link to this property</a>
 
-    - `"amber"`
+<details>
 
-    - `"green"`
+<summary>
 
-    - `"white"`
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
 
-- `aliasGroupNames: optional array of string`
+</summary>
 
-- `aliasGroupNamesInternal: optional array of string`
+One of the following:
 
-- `analyticPriority: optional number`
+"red"
 
-- `attributionConfidence: optional string`
+<a href="#">Link to this property</a>
 
-- `attributionConfidenceScore: optional number`
+"amber"
 
-- `attributionOrganization: optional string`
+<a href="#">Link to this property</a>
 
-- `categoryName: optional string`
+"amber-strict"
 
-- `categoryUuid: optional string`
+<a href="#">Link to this property</a>
 
-- `dateOfDiscovery: optional string`
+"green"
 
-- `externalReferenceLinks: optional array of string`
+<a href="#">Link to this property</a>
 
-- `externalReferences: optional array of object { url, description }`
+"clear"
 
-  Structured external references ({ url, description }). Public: returned to all accounts.
+<a href="#">Link to this property</a>
 
-  - `url: string`
+"purple"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-- `internalAliases: optional array of object { value, confidence, tlp }`
+"amber+strict"
 
-  Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+<a href="#">Link to this property</a>
 
-  - `value: string`
+</details>
 
-  - `confidence: optional number`
+<a href="#">Link to this property</a>
 
-  - `tlp: optional "red" or "amber" or "green" or "white"`
+</details>
 
-    - `"red"`
+<a href="#">Link to this property</a>
 
-    - `"amber"`
+</details>
 
-    - `"green"`
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20actorCategory%20%3E%20(schema)>)
 
-    - `"white"`
+<details>
 
-- `internalDescription: optional string`
+<summary>
 
-- `motive: optional string`
+aliases: optional array of object {value, confidence, tlp }
 
-- `motiveConfidence: optional number`
+Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts).
 
-  Confidence (1-10) in the actor motive. CFONE-only: stripped from responses to non-CFONE accounts.
+</summary>
 
-- `opsecLevel: optional string`
+value: string
 
-- `originCountryConfidence: optional number`
+<a href="#">Link to this property</a>
 
-  Confidence (1-10) in the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+confidence: optional number
 
-- `originCountryISO: optional string`
+maximum10
 
-- `originCountryISOAlpha3: optional string`
+minimum1
 
-- `originCountryTlp: optional "red" or "amber" or "green" or "white"`
+<a href="#">Link to this property</a>
 
-  TLP marking for the origin-country attribution. CFONE-only: stripped from responses to non-CFONE accounts.
+<details>
 
-  - `"red"`
+<summary>
 
-  - `"amber"`
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
 
-  - `"green"`
+</summary>
 
-  - `"white"`
+One of the following:
 
-- `priority: optional number`
+"red"
 
-- `sophisticationLevel: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"amber"
 
-```http
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20aliases%20%3E%20(schema)>)
+
+aliasGroupNames: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20aliasGroupNames%20%3E%20(schema)>)
+
+aliasGroupNamesInternal: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20aliasGroupNamesInternal%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+attributionOrganization: optional stringor object {value, confidence, tlp }
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20attributionOrganization%20%3E%20(schema)>)
+
+categoryUuid: optional string
+
+Tag type (category) UUID. Optional — when present, `properties` is validated against this category’s schema. When absent, the tag is typeless and properties are accepted free-form.
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20categoryUuid%20%3E%20(schema)>)
+
+confidence: optional number
+
+Overall tag confidence (1-10). Optional.
+
+maximum10
+
+minimum1
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20confidence%20%3E%20(schema)>)
+
+dateOfDiscovery: optional string
+
+Date of discovery (ISO YYYY-MM-DD). Optional.
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20dateOfDiscovery%20%3E%20(schema)>)
+
+description: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+externalReferenceLinks: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20externalReferenceLinks%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+externalReferences: optional array of object {url, description }
+
+Structured external references ({ url, description }). Public: returned to all accounts.
+
+</summary>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20externalReferences%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+internalAliases: optional array of object {value, confidence, tlp }
+
+Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20internalAliases%20%3E%20(schema)>)
+
+internalDescription: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20internalDescription%20%3E%20(schema)>)
+
+lastSeen: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20lastSeen%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+motive: optional stringor object {value, confidence, tlp }
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20motive%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+opsecLevel: optional stringor object {value, confidence, tlp }
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20opsecLevel%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+originCountryISO: optional stringor object {value, confidence, tlp }
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20originCountryISO%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+priority: optional numberor object {value, confidence, tlp }
+
+</summary>
+
+One of the following:
+
+number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {value, confidence, tlp }
+
+</summary>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20priority%20%3E%20(schema)>)
+
+properties: optional map\[unknown]
+
+Structured metadata blob. Optional. When `categoryUuid` is given, validated against this category’s schema on write. When typeless, accepted free-form. Use `{}` for a tag with no custom data.
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20properties%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+sophisticationLevel: optional stringor object {value, confidence, tlp }
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20sophisticationLevel%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+Tag-level TLP handling marking. Optional. Allowed values: red, amber, amber-strict, green, clear, purple, amber+strict.
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20tlp%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+uuid: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20uuid>)
+
+value: string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20value>)
+
+activeDuration: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20activeDuration>)
+
+<details>
+
+<summary>
+
+activeDuration\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20activeDuration_annotated>)
+
+actorCategory: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20actorCategory>)
+
+<details>
+
+<summary>
+
+actorCategory\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20actorCategory_annotated>)
+
+<details>
+
+<summary>
+
+aliases: optional array of object {value, confidence, tlp }
+
+Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts).
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20aliases>)
+
+aliasGroupNames: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20aliasGroupNames>)
+
+aliasGroupNamesInternal: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20aliasGroupNamesInternal>)
+
+attributionOrganization: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20attributionOrganization>)
+
+<details>
+
+<summary>
+
+attributionOrganization\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20attributionOrganization_annotated>)
+
+categoryName: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20categoryName>)
+
+categoryUuid: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20categoryUuid>)
+
+confidence: optional number
+
+Overall tag confidence (1-10).
+
+maximum10
+
+minimum1
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20confidence>)
+
+createdAt: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20createdAt>)
+
+dateOfDiscovery: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20dateOfDiscovery>)
+
+description: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20description>)
+
+externalReferenceLinks: optional array of string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20externalReferenceLinks>)
+
+<details>
+
+<summary>
+
+externalReferences: optional array of object {url, description }
+
+Structured external references ({ url, description }). Public: returned to all accounts.
+
+</summary>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20externalReferences>)
+
+<details>
+
+<summary>
+
+externalReferences\_annotated: optional array of object {value, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20externalReferences_annotated>)
+
+<details>
+
+<summary>
+
+internalAliases: optional array of object {value, confidence, tlp }
+
+Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts.
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+maximum10
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20internalAliases>)
+
+internalDescription: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20internalDescription>)
+
+lastSeen: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20lastSeen>)
+
+motive: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20motive>)
+
+<details>
+
+<summary>
+
+motive\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20motive_annotated>)
+
+opsecLevel: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20opsecLevel>)
+
+<details>
+
+<summary>
+
+opsecLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20opsecLevel_annotated>)
+
+originCountryISO: optional string
+
+ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace.
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20originCountryISO>)
+
+<details>
+
+<summary>
+
+originCountryISO\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20originCountryISO_annotated>)
+
+priority: optional number
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20priority>)
+
+<details>
+
+<summary>
+
+priority\_annotated: optional object {value, tlp }
+
+</summary>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20priority_annotated>)
+
+properties: optional map\[unknown]
+
+Parsed custom field values. Null when the tag has no custom fields.
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20properties>)
+
+sophisticationLevel: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20sophisticationLevel>)
+
+<details>
+
+<summary>
+
+sophisticationLevel\_annotated: optional object {value, confidence, tlp }
+
+</summary>
+
+value: string
+
+<a href="#">Link to this property</a>
+
+confidence: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20sophisticationLevel_annotated>)
+
+<details>
+
+<summary>
+
+tlp: optional "red"or "amber"or "amber-strict"or 4 more
+
+Tag-level TLP handling marking.
+
+</summary>
+
+One of the following:
+
+"red"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"purple"
+
+<a href="#">Link to this property</a>
+
+"amber+strict"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20tlp>)
+
+updatedAt: optional string
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20updatedAt>)
+
+version: optional number
+
+[Link to this property](#)%20cloudforce_one.threat_events.tags%20%3E%20(model)%20tag_create_response%20%3E%20(schema)%20%3E%20(property)%20version>)
+
+### Creates a new tag
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/tags/create \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{
           "value": "APT28",
-          "actorCategory": "Nation State",
-          "actorCategoryConfidence": 7,
-          "attributionConfidenceScore": 7,
           "categoryUuid": "12345678-1234-1234-1234-1234567890ab",
-          "dateOfDiscovery": "2024-01-15",
-          "motive": "Espionage",
-          "motiveConfidence": 7,
-          "originCountryConfidence": 7,
-          "originCountryTlp": "amber"
+          "confidence": 8,
+          "dateOfDiscovery": "2024-01-15T00:00:00Z",
+          "description": "A suspected state-sponsored group.",
+          "tlp": "amber"
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "uuid": "12345678-1234-1234-1234-1234567890ab",
   "value": "APT28",
   "activeDuration": "activeDuration",
+  "activeDuration_annotated": {
+    "value": "value",
+    "tlp": "red"
+  },
   "actorCategory": "actorCategory",
-  "actorCategoryConfidence": 7,
+  "actorCategory_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
   "aliases": [
     {
       "value": "Fancy Bear",
@@ -276,13 +1884,18 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/ev
   "aliasGroupNamesInternal": [
     "string"
   ],
-  "analyticPriority": 0,
-  "attributionConfidence": "attributionConfidence",
-  "attributionConfidenceScore": 7,
   "attributionOrganization": "attributionOrganization",
-  "categoryName": "Nation State",
+  "attributionOrganization_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
+  "categoryName": "Actor",
   "categoryUuid": "12345678-1234-1234-1234-1234567890ab",
-  "dateOfDiscovery": "2024-01-15",
+  "confidence": 8,
+  "createdAt": "createdAt",
+  "dateOfDiscovery": "2024-01-15T00:00:00Z",
+  "description": "description",
   "externalReferenceLinks": [
     "string"
   ],
@@ -290,6 +1903,12 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/ev
     {
       "url": "https://example.com/report",
       "description": "Vendor threat report"
+    }
+  ],
+  "externalReferences_annotated": [
+    {
+      "value": "value",
+      "tlp": "red"
     }
   ],
   "internalAliases": [
@@ -300,14 +1919,147 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/ev
     }
   ],
   "internalDescription": "internalDescription",
+  "lastSeen": "lastSeen",
   "motive": "motive",
-  "motiveConfidence": 7,
+  "motive_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
   "opsecLevel": "opsecLevel",
-  "originCountryConfidence": 7,
+  "opsecLevel_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
   "originCountryISO": "originCountryISO",
-  "originCountryISOAlpha3": "IRN",
-  "originCountryTlp": "amber",
+  "originCountryISO_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
   "priority": 0,
-  "sophisticationLevel": "sophisticationLevel"
+  "priority_annotated": {
+    "value": 0,
+    "tlp": "red"
+  },
+  "properties": {
+    "foo": "bar"
+  },
+  "sophisticationLevel": "sophisticationLevel",
+  "sophisticationLevel_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
+  "tlp": "amber",
+  "updatedAt": "updatedAt",
+  "version": 0
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "uuid": "12345678-1234-1234-1234-1234567890ab",
+  "value": "APT28",
+  "activeDuration": "activeDuration",
+  "activeDuration_annotated": {
+    "value": "value",
+    "tlp": "red"
+  },
+  "actorCategory": "actorCategory",
+  "actorCategory_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
+  "aliases": [
+    {
+      "value": "Fancy Bear",
+      "confidence": 8,
+      "tlp": "amber"
+    }
+  ],
+  "aliasGroupNames": [
+    "string"
+  ],
+  "aliasGroupNamesInternal": [
+    "string"
+  ],
+  "attributionOrganization": "attributionOrganization",
+  "attributionOrganization_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
+  "categoryName": "Actor",
+  "categoryUuid": "12345678-1234-1234-1234-1234567890ab",
+  "confidence": 8,
+  "createdAt": "createdAt",
+  "dateOfDiscovery": "2024-01-15T00:00:00Z",
+  "description": "description",
+  "externalReferenceLinks": [
+    "string"
+  ],
+  "externalReferences": [
+    {
+      "url": "https://example.com/report",
+      "description": "Vendor threat report"
+    }
+  ],
+  "externalReferences_annotated": [
+    {
+      "value": "value",
+      "tlp": "red"
+    }
+  ],
+  "internalAliases": [
+    {
+      "value": "Fancy Bear",
+      "confidence": 8,
+      "tlp": "amber"
+    }
+  ],
+  "internalDescription": "internalDescription",
+  "lastSeen": "lastSeen",
+  "motive": "motive",
+  "motive_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
+  "opsecLevel": "opsecLevel",
+  "opsecLevel_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
+  "originCountryISO": "originCountryISO",
+  "originCountryISO_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
+  "priority": 0,
+  "priority_annotated": {
+    "value": 0,
+    "tlp": "red"
+  },
+  "properties": {
+    "foo": "bar"
+  },
+  "sophisticationLevel": "sophisticationLevel",
+  "sophisticationLevel_annotated": {
+    "value": "value",
+    "confidence": 0,
+    "tlp": "red"
+  },
+  "tlp": "amber",
+  "updatedAt": "updatedAt",
+  "version": 0
 }
 ```

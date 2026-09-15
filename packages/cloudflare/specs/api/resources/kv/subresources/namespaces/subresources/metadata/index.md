@@ -1,99 +1,33 @@
+---
+title: Metadata
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[KV](https://developers.cloudflare.com/api/resources/kv)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Metadata
 
-## Read the metadata for a key
+##### [Read the metadata for a key](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/metadata/methods/get)
 
-**get** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/metadata/{key_name}`
+GET/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/metadata/{key\_name}
 
-Returns the metadata associated with the given key in the given namespace. Use URL-encoding to use special characters (for example, `:`, `!`, `%`) in the key name.
+##### ModelsExpand Collapse
 
-### Path Parameters
+MetadataGetResponse = unknown
 
-- `account_id: string`
+Arbitrary JSON that is associated with a key.
 
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-- `key_name: string`
-
-  A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-  Arbitrary JSON that is associated with a key.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/metadata/$KEY_NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Domain Types
-
-### Metadata Get Response
-
-- `MetadataGetResponse = unknown`
-
-  Arbitrary JSON that is associated with a key.
+[Link to this property](#)%20kv.namespaces.metadata%20%3E%20(model)%20metadata_get_response%20%3E%20(schema)>)

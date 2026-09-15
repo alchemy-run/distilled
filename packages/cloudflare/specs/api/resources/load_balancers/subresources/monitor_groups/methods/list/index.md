@@ -1,123 +1,366 @@
-## List Monitor Groups
+---
+title: List Monitor Groups
+---
 
-**get** `/accounts/{account_id}/load_balancers/monitor_groups`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+[Monitor Groups](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitor_groups)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Monitor Groups
+
+GET/accounts/{account\_id}/load\_balancers/monitor\_groups
 
 List configured monitor groups.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `result: array of MonitorGroup`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `id: string`
+</details>
 
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
+##### P ath ParametersExpand Collapse
 
-  - `description: string`
+account\_id: string
 
-    A short description of the monitor group
+Identifier.
 
-  - `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
+maxLength32
 
-    List of monitors in this group
+[Link to this property](#)%20load_balancers.monitor_groups%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `enabled: boolean`
+##### ReturnsExpand Collapse
 
-      Whether this monitor is enabled in the group
+<details>
 
-    - `monitor_id: string`
+<summary>
 
-      The ID of the Monitor to use for checking the health of origins within this pool.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `monitoring_only: boolean`
+</summary>
 
-      Whether this monitor is used for monitoring only (does not affect pool health)
+code: number
 
-    - `must_be_healthy: boolean`
+minimum1000
 
-      Whether this monitor must be healthy for the pool to be considered healthy
+<a href="#">Link to this property</a>
 
-    - `created_at: optional string`
+message: string
 
-      The timestamp of when the monitor was added to the group
+<a href="#">Link to this property</a>
 
-    - `updated_at: optional string`
+documentation\_url: optional string
 
-      The timestamp of when the monitor group member was last updated
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+<details>
 
-    The timestamp of when the monitor group was created
+<summary>
 
-  - `modified_on: optional string`
+source: optional object {pointer }
 
-    The timestamp of when the monitor group was last updated
+</summary>
 
-- `success: true`
+pointer: optional string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results on the current page.
+[Link to this property](#)%20load_balancers.monitor_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `page: optional number`
+<details>
 
-    Current page within paginated list of results.
+<summary>
 
-  - `per_page: optional number`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    Number of results per page.
+</summary>
 
-  - `total_count: optional number`
+code: number
 
-    Total results available without any search parameters.
+minimum1000
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of pages available.
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.monitor_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of <a href="https://developers.cloudflare.com/api/resources/load_balancers#(resource)%20load_balancers.monitor_groups%20%3E%20(model)%20monitor_group%20%3E%20(schema)">MonitorGroup</a> { id, description, members, 2 more }
+
+</summary>
+
+id: string
+
+The ID of the Monitor Group to use for checking the health of origins within this pool.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+A short description of the monitor group
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+members: array of object {enabled, monitor\_id, monitoring\_only, 3 more }
+
+List of monitors in this group
+
+</summary>
+
+enabled: boolean
+
+Whether this monitor is enabled in the group
+
+<a href="#">Link to this property</a>
+
+monitor\_id: string
+
+The ID of the Monitor to use for checking the health of origins within this pool.
+
+<a href="#">Link to this property</a>
+
+monitoring\_only: boolean
+
+Whether this monitor is used for monitoring only (does not affect pool health)
+
+<a href="#">Link to this property</a>
+
+must\_be\_healthy: boolean
+
+Whether this monitor must be healthy for the pool to be considered healthy
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+The timestamp of when the monitor was added to the group
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+The timestamp of when the monitor group member was last updated
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+The timestamp of when the monitor group was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+The timestamp of when the monitor group was last updated
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.monitor_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20load_balancers.monitor_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results on the current page.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+Total number of pages available.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20load_balancers.monitor_groups%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Monitor Groups
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitor_groups \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "id",
+      "description": "Primary datacenter monitors",
+      "members": [
+        {
+          "enabled": true,
+          "monitor_id": "monitor_id",
+          "monitoring_only": false,
+          "must_be_healthy": true,
+          "created_at": "2014-01-01T05:20:00.12345Z",
+          "updated_at": "2014-01-01T05:20:00.12345Z"
+        }
+      ],
+      "created_on": "2014-01-01T05:20:00.12345Z",
+      "modified_on": "2014-01-01T05:20:00.12345Z"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 20,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

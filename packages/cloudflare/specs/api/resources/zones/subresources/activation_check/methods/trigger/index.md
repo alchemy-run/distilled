@@ -1,66 +1,233 @@
-## Rerun the Activation Check
+---
+title: Rerun the Activation Check
+---
 
-**put** `/zones/{zone_id}/activation_check`
+[Skip to content](#_top)
 
-Triggeres a new activation check for a PENDING Zone. This can be
-triggered every 5 min for paygo/ent customers, every hour for FREE
-Zones.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zones](https://developers.cloudflare.com/api/resources/zones)
 
-- `zone_id: string`
+[Activation Check](https://developers.cloudflare.com/api/resources/zones/subresources/activation_check)
 
-  Identifier.
+Copy Markdown
 
-### Returns
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `errors: array of object { code, message, documentation_url, source }`
+---
 
-  - `code: number`
+**Copy Markdown****View as Markdown**
 
-  - `message: string`
+# Rerun the Activation Check
 
-  - `documentation_url: optional string`
+PUT/zones/{zone\_id}/activation\_check
 
-  - `source: optional object { pointer }`
+Triggeres a new activation check for a PENDING Zone. This can be triggered every 5 min for paygo/ent customers, every hour for FREE Zones.
 
-    - `pointer: optional string`
+##### Security
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `pointer: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>API Email + API Key</summary>
 
-- `result: optional object { id }`
 
-  - `id: optional string`
 
-    Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Example
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-```http
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Zone Write`
+
+##### P ath ParametersExpand Collapse
+
+zone\_id: string
+
+Identifier.
+
+maxLength32
+
+[Link to this property](#)%20zones.activation_check%20%3E%20(method)%20trigger%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.activation_check%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.activation_check%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zones.activation_check%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id }
+
+</summary>
+
+id: optional string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zones.activation_check%20%3E%20(method)%20trigger%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Rerun the Activation Check
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/activation_check \
     -X PUT \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

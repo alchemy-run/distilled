@@ -1,62 +1,179 @@
-## Delete zone snippet rules
+---
+title: Delete zone snippet rules
+---
 
-**delete** `/zones/{zone_id}/snippets/snippet_rules`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Snippets](https://developers.cloudflare.com/api/resources/snippets)
+
+[Rules](https://developers.cloudflare.com/api/resources/snippets/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete zone snippet rules
+
+DELETE/zones/{zone\_id}/snippets/snippet\_rules
 
 Deletes all snippet rules belonging to the zone.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Use this field to specify the unique ID of the zone.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of object { message, code }`
 
-  Lists error messages.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    Describes the message text.
+</details>
 
-  - `code: optional number`
+<details>
 
-    Identify the message code.
+<summary>API Email + API Key</summary>
 
-- `messages: array of object { message, code }`
 
-  Contain warning messages.
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    Describes the message text.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: optional number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Identify the message code.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result: unknown`
+</details>
 
-  Contain the response result.
+##### Accepted Permissions (at least one required)
 
-- `success: true`
+`Snippets Write`
 
-  Indicate whether the API call was successful.
+##### P ath ParametersExpand Collapse
 
-  - `true`
+zone\_id: string
 
-### Example
+Use this field to specify the unique ID of the zone.
 
-```http
+[Link to this property](#)%20snippets.rules%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {message, code }
+
+Lists error messages.
+
+</summary>
+
+message: string
+
+Describes the message text.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+Identify the message code.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets.rules%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {message, code }
+
+Contain warning messages.
+
+</summary>
+
+message: string
+
+Describes the message text.
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+code: optional number
+
+Identify the message code.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20snippets.rules%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+result: unknown
+
+Contain the response result.
+
+[Link to this property](#)%20snippets.rules%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Indicate whether the API call was successful.
+
+[Link to this property](#)%20snippets.rules%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete zone snippet rules
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/snippet_rules \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "message": "something bad happened",
+      "code": 10000
+    }
+  ],
+  "messages": [
+    {
+      "message": "something bad happened",
+      "code": 10000
+    }
+  ],
+  "result": {},
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

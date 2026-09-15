@@ -27,6 +27,88 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.cloudflare.logs#LogExplorerDatasetsDeleteForAccountRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logs#LogExplorerDatasetsDeleteForAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteForAccountRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/logs/explorer/datasets/{dataset_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes a Log Explorer dataset for the account or zone. Dataset deletion must not be protected.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.logs#LogExplorerDatasetsDeleteForZoneRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.logs#LogExplorerDatasetsDeleteForZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteForZoneRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/zones/{zone_id}/logs/explorer/datasets/{dataset_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes a Log Explorer dataset for the account or zone. Dataset deletion must not be protected.",
+        "smithy.api#idempotent": {}
+      }
+    },
     "com.cloudflare.logs#RayidGetRequestTimestamps": {
       "type": "enum",
       "members": {
@@ -77,6 +159,12 @@
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteForAccount"
+        },
+        {
+          "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteForZone"
+        },
         {
           "target": "com.cloudflare.logs#CreateControlCmbConfig"
         },
@@ -354,7 +442,7 @@
           "uri": "/accounts/{account_id}/logs/explorer/datasets",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new Log Explorer dataset for the account or zone. Use the `/account or zones/{account or zone_id}/logs/explorer/datasets/available` endpoint to list dataset types you can create along with their available fields. The `fields` property is optional. If not specified, all available fields will be enabled. For zone-level datasets use the zone-scoped endpoint: POST /zones/{zone_id}/logs/explorer/datasets For dataset field definitions, see: https://developers.cloudflare.com/logs/logpush/logpush-job/datasets/"
+        "smithy.api#documentation": "Create a new Log Explorer dataset for the account or zone. List available account or zone datasets to see the dataset types and fields you can use. The `fields` property is optional. If not specified, all available fields will be enabled. For dataset field definitions, see: https://developers.cloudflare.com/logs/logpush/logpush-job/datasets/"
       }
     },
     "com.cloudflare.logs#CreateLogExplorerDatasetForAccountRequest": {
@@ -378,7 +466,13 @@
         "fields": {
           "target": "com.cloudflare.logs#LogExplorerDatasetsCreateRequestFieldsList",
           "traits": {
-            "smithy.api#documentation": "Controls which fields the API ingests. Defaults to all available"
+            "smithy.api#documentation": "Controls which fields the API ingests. Defaults to all available fields when absent."
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. If provided, replaces the dataset's default filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
           }
         }
       },
@@ -400,7 +494,7 @@
           "uri": "/zones/{zone_id}/logs/explorer/datasets",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new Log Explorer dataset for the account or zone. Use the `/account or zones/{account or zone_id}/logs/explorer/datasets/available` endpoint to list dataset types you can create along with their available fields. The `fields` property is optional. If not specified, all available fields will be enabled. For zone-level datasets use the zone-scoped endpoint: POST /zones/{zone_id}/logs/explorer/datasets For dataset field definitions, see: https://developers.cloudflare.com/logs/logpush/logpush-job/datasets/"
+        "smithy.api#documentation": "Create a new Log Explorer dataset for the account or zone. List available account or zone datasets to see the dataset types and fields you can use. The `fields` property is optional. If not specified, all available fields will be enabled. For dataset field definitions, see: https://developers.cloudflare.com/logs/logpush/logpush-job/datasets/"
       }
     },
     "com.cloudflare.logs#CreateLogExplorerDatasetForZoneRequest": {
@@ -424,7 +518,13 @@
         "fields": {
           "target": "com.cloudflare.logs#LogExplorerDatasetsCreateRequestFieldsList",
           "traits": {
-            "smithy.api#documentation": "Controls which fields the API ingests. Defaults to all available"
+            "smithy.api#documentation": "Controls which fields the API ingests. Defaults to all available fields when absent."
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. If provided, replaces the dataset's default filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
           }
         }
       },
@@ -1072,7 +1172,7 @@
           "uri": "/accounts/{account_id}/logs/explorer/query/sql",
           "code": 200
         },
-        "smithy.api#documentation": "Run a SQL query against account or zone-level datasets. Timestamp fields are RFC3339 strings. Filter with: WHERE {timestamp_field} >= now() - INTERVAL '30' DAY WHERE {timestamp_field} >= '2026-04-01T00:00:00Z' WHERE {timestamp_field} BETWEEN '2026-04-01T00:00:00Z' AND '2026-04-30T23:59:59Z' Check /account or zones/{account or zone_id}/logs/explorer/datasets to see enabled account or zone level datasets. Zone-level datasets will not appear here. Check /account or zones/{account or zone_id}/logs/explorer/datasets/available for the schemas, and the name of the timestamp fields. For zone-level datasets use the zone-scoped endpoint: POST /zones/{zone_id}/logs/explorer/query/sql For more information about the datasets, and the meaning of each field, check out https://developers.cloudflare.com/logs/logpush/logpush-job/datasets/",
+        "smithy.api#documentation": "Run a SQL query against account or zone-level datasets. Timestamp fields are RFC3339 strings. Filter with: WHERE {timestamp_field} >= now() - INTERVAL '30' DAY WHERE {timestamp_field} >= '2026-04-01T00:00:00Z' WHERE {timestamp_field} BETWEEN '2026-04-01T00:00:00Z' AND '2026-04-30T23:59:59Z' List configured account or zone datasets to see enabled account or zone-level datasets. Zone-level datasets will not appear here. List available account or zone datasets to inspect their schemas and timestamp fields. For more information about the datasets, and the meaning of each field, check out https://developers.cloudflare.com/logs/logpush/logpush-job/datasets/",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -1109,7 +1209,7 @@
           "uri": "/zones/{zone_id}/logs/explorer/query/sql",
           "code": 200
         },
-        "smithy.api#documentation": "Run a SQL query against account or zone-level datasets. Timestamp fields are RFC3339 strings. Filter with: WHERE {timestamp_field} >= now() - INTERVAL '30' DAY WHERE {timestamp_field} >= '2026-04-01T00:00:00Z' WHERE {timestamp_field} BETWEEN '2026-04-01T00:00:00Z' AND '2026-04-30T23:59:59Z' Check /account or zones/{account or zone_id}/logs/explorer/datasets to see enabled account or zone level datasets. Zone-level datasets will not appear here. Check /account or zones/{account or zone_id}/logs/explorer/datasets/available for the schemas, and the name of the timestamp fields. For zone-level datasets use the zone-scoped endpoint: POST /zones/{zone_id}/logs/explorer/query/sql For more information about the datasets, and the meaning of each field, check out https://developers.cloudflare.com/logs/logpush/logpush-job/datasets/",
+        "smithy.api#documentation": "Run a SQL query against account or zone-level datasets. Timestamp fields are RFC3339 strings. Filter with: WHERE {timestamp_field} >= now() - INTERVAL '30' DAY WHERE {timestamp_field} >= '2026-04-01T00:00:00Z' WHERE {timestamp_field} BETWEEN '2026-04-01T00:00:00Z' AND '2026-04-30T23:59:59Z' List configured account or zone datasets to see enabled account or zone-level datasets. Zone-level datasets will not appear here. List available account or zone datasets to inspect their schemas and timestamp fields. For more information about the datasets, and the meaning of each field, check out https://developers.cloudflare.com/logs/logpush/logpush-job/datasets/",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -1175,10 +1275,22 @@
             "smithy.api#required": {}
           }
         },
+        "deletion_protection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `false` to allow deletion of this dataset."
+          }
+        },
         "fields": {
           "target": "com.cloudflare.logs#LogExplorerDatasetsUpdateRequestFieldsList",
           "traits": {
-            "smithy.api#documentation": "Controls which fields the API ingests after the update. Defaults"
+            "smithy.api#documentation": "Controls which fields the API ingests after the update. Defaults to all available fields when absent."
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. If omitted, the existing filter is left unchanged. Set to an empty string (`\"\"`) to clear the filter. Otherwise, replaces the dataset's filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
           }
         }
       },
@@ -1229,10 +1341,22 @@
             "smithy.api#required": {}
           }
         },
+        "deletion_protection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `false` to allow deletion of this dataset."
+          }
+        },
         "fields": {
           "target": "com.cloudflare.logs#LogExplorerDatasetsUpdateRequestFieldsList",
           "traits": {
-            "smithy.api#documentation": "Controls which fields the API ingests after the update. Defaults"
+            "smithy.api#documentation": "Controls which fields the API ingests after the update. Defaults to all available fields when absent."
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. If omitted, the existing filter is left unchanged. Set to an empty string (`\"\"`) to clear the filter. Otherwise, replaces the dataset's filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
           }
         }
       },
@@ -1292,6 +1416,23 @@
         }
       }
     },
+    "com.cloudflare.logs#LogExplorerDatasetsUpdateResponseObjectType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        }
+      }
+    },
     "com.cloudflare.logs#LogExplorerDatasetsUpdateResponseFieldsItem": {
       "type": "structure",
       "members": {
@@ -1307,23 +1448,6 @@
           "traits": {
             "smithy.api#documentation": "Field name in lowercase.",
             "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.logs#LogExplorerDatasetsUpdateResponseObjectType": {
-      "type": "enum",
-      "members": {
-        "ACCOUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "account"
-          }
-        },
-        "ZONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "zone"
           }
         }
       }
@@ -1364,6 +1488,23 @@
         }
       }
     },
+    "com.cloudflare.logs#LogExplorerDatasetsGetResponseObjectType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        }
+      }
+    },
     "com.cloudflare.logs#LogExplorerDatasetsGetResponseFieldsItem": {
       "type": "structure",
       "members": {
@@ -1383,7 +1524,7 @@
         }
       }
     },
-    "com.cloudflare.logs#LogExplorerDatasetsGetResponseObjectType": {
+    "com.cloudflare.logs#LogExplorerDatasetsDeleteResponseObjectType": {
       "type": "enum",
       "members": {
         "ACCOUNT": {
@@ -1400,7 +1541,7 @@
         }
       }
     },
-    "com.cloudflare.logs#LogExplorerDatasetsCreateResponseFieldsItem": {
+    "com.cloudflare.logs#LogExplorerDatasetsDeleteResponseFieldsItem": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -1432,6 +1573,25 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "zone"
+          }
+        }
+      }
+    },
+    "com.cloudflare.logs#LogExplorerDatasetsCreateResponseFieldsItem": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the API includes this field in log ingest.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Field name in lowercase.",
+            "smithy.api#required": {}
           }
         }
       }
@@ -1511,6 +1671,13 @@
             "smithy.api#required": {}
           }
         },
+        "deletion_protection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether deletion is blocked. Set to `false` before deleting the dataset.",
+            "smithy.api#required": {}
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1545,6 +1712,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.logs#LogExplorerDatasetsGetResponseFieldsItem"
+      }
+    },
+    "com.cloudflare.logs#LogExplorerDatasetsDeleteResponseFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteResponseFieldsItem"
       }
     },
     "com.cloudflare.logs#LogExplorerDatasetsCreateResponseFieldsList": {
@@ -1583,10 +1756,24 @@
             "smithy.api#required": {}
           }
         },
+        "deletion_protection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether deletion is blocked. Set to `false` before deleting the dataset.",
+            "smithy.api#required": {}
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether log ingest is currently active for this dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "fields": {
+          "target": "com.cloudflare.logs#LogExplorerDatasetsUpdateResponseFieldsList",
+          "traits": {
+            "smithy.api#documentation": "The field configuration for this dataset.",
             "smithy.api#required": {}
           }
         },
@@ -1611,10 +1798,10 @@
             "smithy.api#required": {}
           }
         },
-        "fields": {
-          "target": "com.cloudflare.logs#LogExplorerDatasetsUpdateResponseFieldsList",
+        "filter": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The field configuration for this dataset."
+            "smithy.api#documentation": "The Logpush filter predicate applied to this dataset. Omitted when no filter is set."
           }
         }
       },
@@ -1662,10 +1849,24 @@
             "smithy.api#required": {}
           }
         },
+        "deletion_protection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether deletion is blocked. Set to `false` before deleting the dataset.",
+            "smithy.api#required": {}
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether log ingest is currently active for this dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "fields": {
+          "target": "com.cloudflare.logs#LogExplorerDatasetsGetResponseFieldsList",
+          "traits": {
+            "smithy.api#documentation": "The field configuration for this dataset.",
             "smithy.api#required": {}
           }
         },
@@ -1690,10 +1891,10 @@
             "smithy.api#required": {}
           }
         },
-        "fields": {
-          "target": "com.cloudflare.logs#LogExplorerDatasetsGetResponseFieldsList",
+        "filter": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The field configuration for this dataset."
+            "smithy.api#documentation": "The Logpush filter predicate applied to this dataset. Omitted when no filter is set."
           }
         }
       },
@@ -1726,10 +1927,24 @@
             "smithy.api#required": {}
           }
         },
+        "deletion_protection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether deletion is blocked. Set to `false` before deleting the dataset.",
+            "smithy.api#required": {}
+          }
+        },
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether log ingest is currently active for this dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "fields": {
+          "target": "com.cloudflare.logs#LogExplorerDatasetsCreateResponseFieldsList",
+          "traits": {
+            "smithy.api#documentation": "The field configuration for this dataset.",
             "smithy.api#required": {}
           }
         },
@@ -1754,10 +1969,10 @@
             "smithy.api#required": {}
           }
         },
-        "fields": {
-          "target": "com.cloudflare.logs#LogExplorerDatasetsCreateResponseFieldsList",
+        "filter": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The field configuration for this dataset."
+            "smithy.api#documentation": "The Logpush filter predicate applied to this dataset. Omitted when no filter is set."
           }
         }
       },
@@ -1803,6 +2018,84 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.logs#LogExplorerDatasetsListResultItem"
+      }
+    },
+    "com.cloudflare.logs#LogExplorerDatasetsDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RFC3339 timestamp recording when the API created this dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dataset type name (e.g. `http_requests`).",
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique dataset ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletion_protection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether deletion is blocked. Set to `false` before deleting the dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether log ingest is currently active for this dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "fields": {
+          "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteResponseFieldsList",
+          "traits": {
+            "smithy.api#documentation": "The field configuration for this dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "object_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public ID of the account or zone that owns this dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "object_type": {
+          "target": "com.cloudflare.logs#LogExplorerDatasetsDeleteResponseObjectType",
+          "traits": {
+            "smithy.api#documentation": "Whether this dataset belongs to an account or a zone.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RFC3339 timestamp recording when the API last updated this dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Logpush filter predicate applied to this dataset. Omitted when no filter is set."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
       }
     },
     "com.cloudflare.logs#ListLogExplorerDatasetsResponse": {

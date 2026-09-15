@@ -1,184 +1,452 @@
-## List Requests
+---
+title: List Requests
+---
 
-**post** `/accounts/{account_id}/cloudforce-one/requests`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Requests](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/requests)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Requests
+
+POST/accounts/{account\_id}/cloudforce-one/requests
 
 Lists Cloudforce One intelligence requests with filtering and pagination.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Body Parameters
+**Example:**`X-Auth-Email: user@example.com`
 
-- `page: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Page number of results.
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `per_page: number`
+##### Accepted Permissions (at least one required)
 
-  Number of results per page.
+`Cloudforce One Write`
 
-- `completed_after: optional string`
+##### P ath ParametersExpand Collapse
 
-  Retrieve requests completed after this time.
+account\_id: string
 
-- `completed_before: optional string`
+Identifier.
 
-  Retrieve requests completed before this time.
+maxLength32
 
-- `created_after: optional string`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Retrieve requests created after this time.
+##### Body ParametersJSONExpand Collapse
 
-- `created_before: optional string`
+page: number
 
-  Retrieve requests created before this time.
+Page number of results.
 
-- `request_type: optional string`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  Requested information from request.
+per\_page: number
 
-- `sort_by: optional string`
+Number of results per page.
 
-  Field to sort results by.
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-- `sort_order: optional "asc" or "desc"`
+completed\_after: optional string
 
-  Sort order (asc or desc).
+Retrieve requests completed after this time.
 
-  - `"asc"`
+formatdate-time
 
-  - `"desc"`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20completed_after%20%3E%20(schema)>)
 
-- `status: optional "open" or "accepted" or "reported" or 3 more`
+completed\_before: optional string
 
-  Request Status.
+Retrieve requests completed before this time.
 
-  - `"open"`
+formatdate-time
 
-  - `"accepted"`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20completed_before%20%3E%20(schema)>)
 
-  - `"reported"`
+created\_after: optional string
 
-  - `"approved"`
+Retrieve requests created after this time.
 
-  - `"completed"`
+formatdate-time
 
-  - `"declined"`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20created_after%20%3E%20(schema)>)
 
-### Returns
+created\_before: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+Retrieve requests created before this time.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20created_before%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+request\_type: optional string
 
-  - `source: optional object { pointer }`
+Requested information from request.
 
-    - `pointer: optional string`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20request_type%20%3E%20(schema)>)
 
-- `messages: array of object { code, message, documentation_url, source }`
+sort\_by: optional string
 
-  - `code: number`
+Field to sort results by.
 
-  - `message: string`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20sort_by%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+sort\_order: optional "asc"or "desc"
 
-- `success: true`
+Sort order (asc or desc).
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional array of ListItem`
+"asc"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    UUID.
+"desc"
 
-  - `created: string`
+<a href="#">Link to this property</a>
 
-    Request creation time.
+</details>
 
-  - `priority: "routine" or "high" or "urgent"`
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20sort_order%20%3E%20(schema)>)
 
-    - `"routine"`
+<details>
 
-    - `"high"`
+<summary>
 
-    - `"urgent"`
+status: optional "open"or "accepted"or "reported"or 3 more
 
-  - `request: string`
+Request Status.
 
-    Requested information from request.
+</summary>
 
-  - `summary: string`
+One of the following:
 
-    Brief description of the request.
+"open"
 
-  - `tlp: "clear" or "amber" or "amber-strict" or 2 more`
+<a href="#">Link to this property</a>
 
-    The CISA defined Traffic Light Protocol (TLP).
+"accepted"
 
-    - `"clear"`
+<a href="#">Link to this property</a>
 
-    - `"amber"`
+"reported"
 
-    - `"amber-strict"`
+<a href="#">Link to this property</a>
 
-    - `"green"`
+"approved"
 
-    - `"red"`
+<a href="#">Link to this property</a>
 
-  - `updated: string`
+"completed"
 
-    Request last updated time.
+<a href="#">Link to this property</a>
 
-  - `completed: optional string`
+"declined"
 
-    Request completion time.
+<a href="#">Link to this property</a>
 
-  - `message_tokens: optional number`
+</details>
 
-    Tokens for the request messages.
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(params)%200%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-  - `readable_id: optional string`
+##### ReturnsExpand Collapse
 
-    Readable Request ID.
+<details>
 
-  - `status: optional "open" or "accepted" or "reported" or 3 more`
+<summary>
 
-    Request Status.
+errors: array of object {code, message, documentation\_url, source }
 
-    - `"open"`
+</summary>
 
-    - `"accepted"`
+code: number
 
-    - `"reported"`
+minimum1000
 
-    - `"approved"`
+<a href="#">Link to this property</a>
 
-    - `"completed"`
+message: string
 
-    - `"declined"`
+<a href="#">Link to this property</a>
 
-  - `tokens: optional number`
+documentation\_url: optional string
 
-    Tokens for the request.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/cloudforce_one#(resource)%20cloudforce_one.requests%20%3E%20(model)%20list_item%20%3E%20(schema)">ListItem</a> { id, created, priority, 9 more }
+
+</summary>
+
+id: string
+
+UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+created: string
+
+Request creation time.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+priority: "routine"or "high"or "urgent"
+
+</summary>
+
+One of the following:
+
+"routine"
+
+<a href="#">Link to this property</a>
+
+"high"
+
+<a href="#">Link to this property</a>
+
+"urgent"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+request: string
+
+Requested information from request.
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+Brief description of the request.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlp: "clear"or "amber"or "amber-strict"or 2 more
+
+The CISA defined Traffic Light Protocol (TLP).
+
+</summary>
+
+One of the following:
+
+"clear"
+
+<a href="#">Link to this property</a>
+
+"amber"
+
+<a href="#">Link to this property</a>
+
+"amber-strict"
+
+<a href="#">Link to this property</a>
+
+"green"
+
+<a href="#">Link to this property</a>
+
+"red"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated: string
+
+Request last updated time.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+completed: optional string
+
+Request completion time.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+message\_tokens: optional number
+
+Tokens for the request messages.
+
+<a href="#">Link to this property</a>
+
+readable\_id: optional string
+
+Readable Request ID.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "open"or "accepted"or "reported"or 3 more
+
+Request Status.
+
+</summary>
+
+One of the following:
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"accepted"
+
+<a href="#">Link to this property</a>
+
+"reported"
+
+<a href="#">Link to this property</a>
+
+"approved"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"declined"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+tokens: optional number
+
+Tokens for the request.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.requests%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List Requests
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/requests \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -195,9 +463,55 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/re
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "created": "2022-04-01T00:00:00Z",
+      "priority": "routine",
+      "request": "Victomology",
+      "summary": "DoS attack",
+      "tlp": "clear",
+      "updated": "2022-04-01T00:00:00Z",
+      "completed": "2024-01-01T00:00:00Z",
+      "message_tokens": 16,
+      "readable_id": "RFI-2022-000001",
+      "status": "open",
+      "tokens": 0
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

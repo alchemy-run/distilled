@@ -1,260 +1,640 @@
-## Update a live input
+---
+title: Update a live input
+---
 
-**put** `/accounts/{account_id}/stream/live_inputs/{live_input_identifier}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+[Live Inputs](https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a live input
+
+PUT/accounts/{account\_id}/stream/live\_inputs/{live\_input\_identifier}
 
 Updates a specified live input.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `live_input_identifier: string`
 
-  A unique identifier for a live input.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `defaultCreator: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Sets the creator ID asssociated with this live input.
+</details>
 
-- `deleteRecordingAfterDays: optional number`
+<details>
 
-  Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
+<summary>API Email + API Key</summary>
 
-- `enabled: optional boolean`
 
-  Indicates whether the live input is enabled and can accept streams.
 
-- `meta: optional unknown`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  A user modifiable key-value store used to reference other systems of record for managing live inputs.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `preferLowLatency: optional boolean`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `recording: optional object { allowedOrigins, hideLiveViewerCount, mode, 2 more }`
+</details>
 
-  Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
+##### Accepted Permissions (at least one required)
 
-  - `allowedOrigins: optional array of string`
+`Stream Write`
 
-    Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.
+##### P ath ParametersExpand Collapse
 
-  - `hideLiveViewerCount: optional boolean`
+account\_id: string
 
-    Disables reporting the number of live viewers when this property is set to `true`.
+Identifier.
 
-  - `mode: optional "off" or "automatic"`
+maxLength32
 
-    Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `"off"`
+live\_input\_identifier: string
 
-    - `"automatic"`
+A unique identifier for a live input.
 
-  - `requireSignedURLs: optional boolean`
+maxLength32
 
-    Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20live_input_identifier%20%3E%20(schema)>)
 
-  - `timeoutSeconds: optional number`
+##### Body ParametersJSONExpand Collapse
 
-    Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.
+defaultCreator: optional string
 
-### Returns
+Sets the creator ID asssociated with this live input.
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20defaultCreator%20%3E%20(schema)>)
 
-  - `code: number`
+deleteRecordingAfterDays: optional number
 
-  - `message: string`
+Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
 
-  - `documentation_url: optional string`
+minimum30
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20deleteRecordingAfterDays%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+enabled: optional boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Indicates whether the live input is enabled and can accept streams.
 
-  - `code: number`
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-  - `message: string`
+meta: optional unknown
 
-  - `documentation_url: optional string`
+A user modifiable key-value store used to reference other systems of record for managing live inputs.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20meta%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+preferLowLatency: optional boolean
 
-- `success: true`
+When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
 
-  Whether the API call was successful.
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20preferLowLatency%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-- `result: optional LiveInput`
+<summary>
 
-  Details about a live input.
+recording: optional object {allowedOrigins, hideLiveViewerCount, mode, 2 more }
 
-  - `created: optional string`
+Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
 
-    The date and time the live input was created.
+</summary>
 
-  - `deleteRecordingAfterDays: optional number`
+allowedOrigins: optional array of string
 
-    Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.
+Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use <code>*</code> for wildcard subdomains. An empty array allows videos to be viewed on any origin.
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether the live input is enabled and can accept streams.
+hideLiveViewerCount: optional boolean
 
-  - `keysRotatedAt: optional string`
+Disables reporting the number of live viewers when this property is set to <code>true</code>.
 
-    The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
+<a href="#">Link to this property</a>
 
-  - `meta: optional unknown`
+<details>
 
-    A user modifiable key-value store used to reference other systems of record for managing live inputs.
+<summary>
 
-  - `modified: optional string`
+mode: optional "off"or "automatic"
 
-    The date and time the live input was last modified.
+Specifies the recording behavior for the live input. Set this value to <code>off</code> to prevent a recording. Set the value to <code>automatic</code> to begin a recording and transition to on-demand after Stream Live stops receiving input.
 
-  - `preferLowLatency: optional boolean`
+</summary>
 
-    When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
+One of the following:
 
-  - `recording: optional object { allowedOrigins, hideLiveViewerCount, mode, 2 more }`
+"off"
 
-    Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
+<a href="#">Link to this property</a>
 
-    - `allowedOrigins: optional array of string`
+"automatic"
 
-      Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.
+<a href="#">Link to this property</a>
 
-    - `hideLiveViewerCount: optional boolean`
+</details>
 
-      Disables reporting the number of live viewers when this property is set to `true`.
+<a href="#">Link to this property</a>
 
-    - `mode: optional "off" or "automatic"`
+requireSignedURLs: optional boolean
 
-      Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.
+Indicates if a video using the live input has the <code>requireSignedURLs</code> property set. Also enforces access controls on any video recording of the livestream with the live input.
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"automatic"`
+timeoutSeconds: optional number
 
-    - `requireSignedURLs: optional boolean`
+Determines the amount of time a live input configured in <code>automatic</code> mode should wait before a recording transitions from live to on-demand. <code>0</code> is recommended for most use cases and indicates the platform default should be used.
 
-      Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.
+<a href="#">Link to this property</a>
 
-    - `timeoutSeconds: optional number`
+</details>
 
-      Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20recording%20%3E%20(schema)>)
 
-  - `rtmps: optional object { streamKey, url }`
+##### ReturnsExpand Collapse
 
-    Details for streaming to an live input using RTMPS.
+<details>
 
-    - `streamKey: optional string`
+<summary>
 
-      The secret key to use when streaming via RTMPS to a live input.
+errors: array of object {code, message, documentation\_url, source }
 
-    - `url: optional string`
+</summary>
 
-      The RTMPS URL you provide to the broadcaster, which they stream live video to.
+code: number
 
-  - `rtmpsPlayback: optional object { streamKey, url }`
+minimum1000
 
-    Details for playback from an live input using RTMPS.
+<a href="#">Link to this property</a>
 
-    - `streamKey: optional string`
+message: string
 
-      The secret key to use for playback via RTMPS.
+<a href="#">Link to this property</a>
 
-    - `url: optional string`
+documentation\_url: optional string
 
-      The URL used to play live video over RTMPS.
+<a href="#">Link to this property</a>
 
-  - `srt: optional object { passphrase, streamId, url }`
+<details>
 
-    Details for streaming to a live input using SRT.
+<summary>
 
-    - `passphrase: optional string`
+source: optional object {pointer }
 
-      The secret key to use when streaming via SRT to a live input.
+</summary>
 
-    - `streamId: optional string`
+pointer: optional string
 
-      The identifier of the live input to use when streaming via SRT.
+<a href="#">Link to this property</a>
 
-    - `url: optional string`
+</details>
 
-      The SRT URL you provide to the broadcaster, which they stream live video to.
+<a href="#">Link to this property</a>
 
-  - `srtPlayback: optional object { passphrase, streamId, url }`
+</details>
 
-    Details for playback from an live input using SRT.
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `passphrase: optional string`
+<details>
 
-      The secret key to use for playback via SRT.
+<summary>
 
-    - `streamId: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-      The identifier of the live input to use for playback via SRT.
+</summary>
 
-    - `url: optional string`
+code: number
 
-      The URL used to play live video over SRT.
+minimum1000
 
-  - `status: optional "connected" or "reconnected" or "reconnecting" or 5 more`
+<a href="#">Link to this property</a>
 
-    The connection status of a live input.
+message: string
 
-    - `"connected"`
+<a href="#">Link to this property</a>
 
-    - `"reconnected"`
+documentation\_url: optional string
 
-    - `"reconnecting"`
+<a href="#">Link to this property</a>
 
-    - `"client_disconnect"`
+<details>
 
-    - `"ttl_exceeded"`
+<summary>
 
-    - `"failed_to_connect"`
+source: optional object {pointer }
 
-    - `"failed_to_reconnect"`
+</summary>
 
-    - `"new_configuration_accepted"`
+pointer: optional string
 
-  - `uid: optional string`
+<a href="#">Link to this property</a>
 
-    A unique identifier for a live input.
+</details>
 
-  - `webRTC: optional object { url }`
+<a href="#">Link to this property</a>
 
-    Details for streaming to a live input using WebRTC.
+</details>
 
-    - `url: optional string`
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-      The WebRTC URL you provide to the broadcaster, which they stream live video to.
+success: true
 
-  - `webRTCPlayback: optional object { url }`
+Whether the API call was successful.
 
-    Details for playback from a live input using WebRTC.
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-    - `url: optional string`
+<details>
 
-      The URL used to play live video over WebRTC.
+<summary>
 
-### Example
+result: optional <a href="https://developers.cloudflare.com/api/resources/stream#(resource)%20stream.live_inputs%20%3E%20(model)%20live_input%20%3E%20(schema)">LiveInput</a> { created, deleteRecordingAfterDays, enabled, 14 more }
 
-```http
+Details about a live input.
+
+</summary>
+
+created: optional string
+
+The date and time the live input was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleteRecordingAfterDays: optional number
+
+Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a <code>null</code> value to remove an existing scheduled deletion.
+
+minimum30
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Indicates whether the live input is enabled and can accept streams.
+
+<a href="#">Link to this property</a>
+
+keysRotatedAt: optional string
+
+The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+meta: optional unknown
+
+A user modifiable key-value store used to reference other systems of record for managing live inputs.
+
+<a href="#">Link to this property</a>
+
+modified: optional string
+
+The date and time the live input was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+playback: optional object {dash, hls }
+
+Details for playing a live input’s broadcast using the HLS or DASH manifests. URLs reference the live input ID.
+
+</summary>
+
+dash: string
+
+The DASH manifest URL used to play live video, referencing the live input ID.
+
+<a href="#">Link to this property</a>
+
+hls: string
+
+The HLS manifest URL used to play live video, referencing the live input ID.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+preferLowLatency: optional boolean
+
+When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+recording: optional object {allowedOrigins, hideLiveViewerCount, mode, 2 more }
+
+Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied.
+
+</summary>
+
+allowedOrigins: optional array of string
+
+Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use <code>*</code> for wildcard subdomains. An empty array allows videos to be viewed on any origin.
+
+<a href="#">Link to this property</a>
+
+hideLiveViewerCount: optional boolean
+
+Disables reporting the number of live viewers when this property is set to <code>true</code>.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mode: optional "off"or "automatic"
+
+Specifies the recording behavior for the live input. Set this value to <code>off</code> to prevent a recording. Set the value to <code>automatic</code> to begin a recording and transition to on-demand after Stream Live stops receiving input.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"automatic"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+requireSignedURLs: optional boolean
+
+Indicates if a video using the live input has the <code>requireSignedURLs</code> property set. Also enforces access controls on any video recording of the livestream with the live input.
+
+<a href="#">Link to this property</a>
+
+timeoutSeconds: optional number
+
+Determines the amount of time a live input configured in <code>automatic</code> mode should wait before a recording transitions from live to on-demand. <code>0</code> is recommended for most use cases and indicates the platform default should be used.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rtmps: optional object {streamKey, url }
+
+Details for streaming to an live input using RTMPS.
+
+</summary>
+
+streamKey: optional string
+
+The secret key to use when streaming via RTMPS to a live input.
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The RTMPS URL you provide to the broadcaster, which they stream live video to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rtmpsPlayback: optional object {streamKey, url }
+
+Details for playback from an live input using RTMPS.
+
+</summary>
+
+streamKey: optional string
+
+The secret key to use for playback via RTMPS.
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The URL used to play live video over RTMPS.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+srt: optional object {passphrase, streamId, url }
+
+Details for streaming to a live input using SRT.
+
+</summary>
+
+passphrase: optional string
+
+The secret key to use when streaming via SRT to a live input.
+
+<a href="#">Link to this property</a>
+
+streamId: optional string
+
+The identifier of the live input to use when streaming via SRT.
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The SRT URL you provide to the broadcaster, which they stream live video to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+srtPlayback: optional object {passphrase, streamId, url }
+
+Details for playback from an live input using SRT.
+
+</summary>
+
+passphrase: optional string
+
+The secret key to use for playback via SRT.
+
+<a href="#">Link to this property</a>
+
+streamId: optional string
+
+The identifier of the live input to use for playback via SRT.
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The URL used to play live video over SRT.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "connected"or "reconnected"or "reconnecting"or 5 more
+
+The connection status of a live input.
+
+</summary>
+
+One of the following:
+
+"connected"
+
+<a href="#">Link to this property</a>
+
+"reconnected"
+
+<a href="#">Link to this property</a>
+
+"reconnecting"
+
+<a href="#">Link to this property</a>
+
+"client\_disconnect"
+
+<a href="#">Link to this property</a>
+
+"ttl\_exceeded"
+
+<a href="#">Link to this property</a>
+
+"failed\_to\_connect"
+
+<a href="#">Link to this property</a>
+
+"failed\_to\_reconnect"
+
+<a href="#">Link to this property</a>
+
+"new\_configuration\_accepted"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uid: optional string
+
+A unique identifier for a live input.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webRTC: optional object {url }
+
+Details for streaming to a live input using WebRTC.
+
+</summary>
+
+url: optional string
+
+The WebRTC URL you provide to the broadcaster, which they stream live video to.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webRTCPlayback: optional object {url }
+
+Details for playback from a live input using WebRTC.
+
+</summary>
+
+url: optional string
+
+The URL used to play live video over WebRTC.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream.live_inputs%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a live input
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_inputs/$LIVE_INPUT_IDENTIFIER \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -275,9 +655,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_input
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -309,6 +689,90 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/live_input
       "name": "test stream 1"
     },
     "modified": "2014-01-02T02:20:00Z",
+    "playback": {
+      "dash": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/66be4bf738797e01e1fca35a7bdecdcd/manifest/video.mpd",
+      "hls": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/66be4bf738797e01e1fca35a7bdecdcd/manifest/video.m3u8"
+    },
+    "preferLowLatency": true,
+    "recording": {
+      "allowedOrigins": [
+        "example.com"
+      ],
+      "hideLiveViewerCount": false,
+      "mode": "off",
+      "requireSignedURLs": false,
+      "timeoutSeconds": 0
+    },
+    "rtmps": {
+      "streamKey": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
+      "url": "rtmps://live.cloudflare.com:443/live/"
+    },
+    "rtmpsPlayback": {
+      "streamKey": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
+      "url": "rtmps://live.cloudflare.com:443/live/"
+    },
+    "srt": {
+      "passphrase": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
+      "streamId": "f256e6ea9341d51eea64c9454659e576",
+      "url": "srt://live.cloudflare.com:778"
+    },
+    "srtPlayback": {
+      "passphrase": "2fb3cb9f17e68a2568d6ebed8d5505eak3ceaf8c9b1f395e1b76b79332497cada",
+      "streamId": "f256e6ea9341d51eea64c9454659e576",
+      "url": "rtmps://live.cloudflare.com:443/live/"
+    },
+    "status": "connected",
+    "uid": "66be4bf738797e01e1fca35a7bdecdcd",
+    "webRTC": {
+      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/b236bde30eb07b9d01318940e5fc3edake34a3efb3896e18f2dc277ce6cc993ad/webRTC/publish"
+    },
+    "webRTCPlayback": {
+      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/b236bde30eb07b9d01318940e5fc3edake34a3efb3896e18f2dc277ce6cc993ad/webRTC/play"
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "created": "2014-01-02T02:20:00Z",
+    "deleteRecordingAfterDays": 45,
+    "enabled": true,
+    "keysRotatedAt": "2014-01-02T02:20:00Z",
+    "meta": {
+      "name": "test stream 1"
+    },
+    "modified": "2014-01-02T02:20:00Z",
+    "playback": {
+      "dash": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/66be4bf738797e01e1fca35a7bdecdcd/manifest/video.mpd",
+      "hls": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/66be4bf738797e01e1fca35a7bdecdcd/manifest/video.m3u8"
+    },
     "preferLowLatency": true,
     "recording": {
       "allowedOrigins": [

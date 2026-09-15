@@ -1,316 +1,73 @@
+---
+title: Audit SSH Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Audit SSH Settings
 
-## Get Zero Trust SSH settings
+##### [Get Zero Trust SSH settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/audit_ssh_settings/methods/get)
 
-**get** `/accounts/{account_id}/gateway/audit_ssh_settings`
+GET/accounts/{account\_id}/gateway/audit\_ssh\_settings
 
-Retrieve all Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account.
+##### [Update Zero Trust SSH settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/audit_ssh_settings/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/gateway/audit\_ssh\_settings
 
-- `account_id: string`
+##### [Rotate Zero Trust SSH account seed](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/audit_ssh_settings/methods/rotate_seed)
 
-### Returns
+POST/accounts/{account\_id}/gateway/audit\_ssh\_settings/rotate\_seed
 
-- `errors: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+GatewaySettings object {created\_at, public\_key, seed\_id, updated\_at }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+created\_at: optional string
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+public\_key: optional string
 
-  - `documentation_url: optional string`
+Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging">https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging</a>.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+seed\_id: optional string
 
-  Indicate whether the API call was successful.
+Identify the seed ID.
 
-  - `true`
+maxLength36
 
-- `result: optional GatewaySettings`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+updated\_at: optional string
 
-  - `public_key: optional string`
+formatdate-time
 
-    Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
+<a href="#">Link to this property</a>
 
-  - `seed_id: optional string`
+</details>
 
-    Identify the seed ID.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/audit_ssh_settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "public_key": "1pyl6I1tL7xfJuFYVzXlUW8uXXlpxegHXBzGCBKaSFA=",
-    "seed_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Update Zero Trust SSH settings
-
-**put** `/accounts/{account_id}/gateway/audit_ssh_settings`
-
-Update Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `public_key: string`
-
-  Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional GatewaySettings`
-
-  - `created_at: optional string`
-
-  - `public_key: optional string`
-
-    Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
-
-  - `seed_id: optional string`
-
-    Identify the seed ID.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/audit_ssh_settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "public_key": "1pyl6I1tL7xfJuFYVzXlUW8uXXlpxegHXBzGCBKaSFA="
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "public_key": "1pyl6I1tL7xfJuFYVzXlUW8uXXlpxegHXBzGCBKaSFA=",
-    "seed_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Rotate Zero Trust SSH account seed
-
-**post** `/accounts/{account_id}/gateway/audit_ssh_settings/rotate_seed`
-
-Rotate the SSH account seed that generates the host key identity when connecting through the Cloudflare SSH Proxy.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional GatewaySettings`
-
-  - `created_at: optional string`
-
-  - `public_key: optional string`
-
-    Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
-
-  - `seed_id: optional string`
-
-    Identify the seed ID.
-
-  - `updated_at: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/audit_ssh_settings/rotate_seed \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "public_key": "1pyl6I1tL7xfJuFYVzXlUW8uXXlpxegHXBzGCBKaSFA=",
-    "seed_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "updated_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Gateway Settings
-
-- `GatewaySettings object { created_at, public_key, seed_id, updated_at }`
-
-  - `created_at: optional string`
-
-  - `public_key: optional string`
-
-    Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging.
-
-  - `seed_id: optional string`
-
-    Identify the seed ID.
-
-  - `updated_at: optional string`
+[Link to this property](#)%20zero_trust.gateway.audit_ssh_settings%20%3E%20(model)%20gateway_settings%20%3E%20(schema)>)

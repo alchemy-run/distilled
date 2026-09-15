@@ -1,836 +1,651 @@
+---
+title: CNIs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Network Interconnects](https://developers.cloudflare.com/api/resources/network_interconnects)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # CNIs
 
-## List existing CNI objects
+##### [List existing CNI objects](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/list)
 
-**get** `/accounts/{account_id}/cni/cnis`
+GET/accounts/{account\_id}/cni/cnis
 
-List existing CNI objects
+##### [Get information about a CNI object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/cni/cnis/{cni}
 
-- `account_id: string`
+##### [Create a new CNI object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/create)
 
-  Customer account tag
+POST/accounts/{account\_id}/cni/cnis
 
-### Query Parameters
+##### [Modify stored information about a CNI object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/update)
 
-- `cursor: optional number`
+PUT/accounts/{account\_id}/cni/cnis/{cni}
 
-- `limit: optional number`
+##### [Delete a specified CNI object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis/methods/delete)
 
-- `slot: optional string`
+DELETE/accounts/{account\_id}/cni/cnis/{cni}
 
-  If specified, only show CNIs associated with the specified slot
+##### ModelsExpand Collapse
 
-- `tunnel_id: optional string`
+<details>
 
-  If specified, only show cnis associated with the specified tunnel id
+<summary>
 
-### Returns
+CNIListResponse object {items, next }
 
-- `items: array of object { id, account, cust_ip, 4 more }`
+</summary>
 
-  - `id: string`
+<details>
 
-  - `account: string`
+<summary>
 
-    Customer account tag
+items: array of object {id, account, cust\_ip, 5 more }
 
-  - `cust_ip: string`
+</summary>
 
-    Customer end of the point-to-point link
+id: string
 
-    This should always be inside the same prefix as `p2p_ip`.
+formatuuid
 
-  - `interconnect: string`
+<a href="#">Link to this property</a>
 
-    Interconnect identifier hosting this CNI
+account: string
 
-  - `magic: object { conduit_name, description, mtu }`
+Customer account tag
 
-    - `conduit_name: string`
+<a href="#">Link to this property</a>
 
-    - `description: string`
+cust\_ip: string
 
-    - `mtu: number`
+Customer end of the point-to-point link
 
-  - `p2p_ip: string`
+This should always be inside the same prefix as <code>p2p_ip</code>.
 
-    Cloudflare end of the point-to-point link
+formatA.B.C.D/N
 
-  - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<a href="#">Link to this property</a>
 
-    - `customer_asn: number`
+interconnect: string
 
-      ASN used on the customer end of the BGP session
+Interconnect identifier hosting this CNI
 
-    - `extra_prefixes: array of string`
+<a href="#">Link to this property</a>
 
-      Extra set of static prefixes to advertise to the customer's end of the session
+<details>
 
-    - `md5_key: optional string`
+<summary>
 
-      MD5 key to use for session authentication.
+magic: object {conduit\_name, description, mtu }
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+</summary>
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+conduit\_name: string
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+description: string
 
-- `next: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+mtu: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatint32
 
-#### Response
+minimum0
 
-```json
-{
-  "items": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "account": "account",
-      "cust_ip": "192.168.3.4/31",
-      "interconnect": "interconnect",
-      "magic": {
-        "conduit_name": "conduit_name",
-        "description": "description",
-        "mtu": 0
-      },
-      "p2p_ip": "192.168.3.4/31",
-      "bgp": {
-        "customer_asn": 0,
-        "extra_prefixes": [
-          "string"
-        ],
-        "md5_key": "md5_key"
-      }
-    }
-  ],
-  "next": 0
-}
-```
+<a href="#">Link to this property</a>
 
-## Get information about a CNI object
+</details>
 
-**get** `/accounts/{account_id}/cni/cnis/{cni}`
+<a href="#">Link to this property</a>
 
-Get information about a CNI object
+p2p\_ip: string
 
-### Path Parameters
+Cloudflare end of the point-to-point link
 
-- `account_id: string`
+formatA.B.C.D/N
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `cni: string`
+<details>
 
-### Returns
+<summary>
 
-- `id: string`
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
 
-- `account: string`
+</summary>
 
-  Customer account tag
+customer\_asn: number
 
-- `cust_ip: string`
+ASN used on the customer end of the BGP session
 
-  Customer end of the point-to-point link
+formatint32
 
-  This should always be inside the same prefix as `p2p_ip`.
+minimum0
 
-- `interconnect: string`
+<a href="#">Link to this property</a>
 
-  Interconnect identifier hosting this CNI
+extra\_prefixes: array of string
 
-- `magic: object { conduit_name, description, mtu }`
+Extra set of static prefixes to advertise to the customer’s end of the session
 
-  - `conduit_name: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+md5\_key: optional string
 
-  - `mtu: number`
+MD5 key to use for session authentication.
 
-- `p2p_ip: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-  Cloudflare end of the point-to-point link
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-  - `customer_asn: number`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-    ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-  - `extra_prefixes: array of string`
+</details>
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+<a href="#">Link to this property</a>
 
-  - `md5_key: optional string`
+<details>
 
-    MD5 key to use for session authentication.
+<summary>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+The BGP mode for a CNI.
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+Controls the customer-facing data path:
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis/$CNI \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"dynamic\_route\_exchange"
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "account": "account",
-  "cust_ip": "192.168.3.4/31",
-  "interconnect": "interconnect",
-  "magic": {
-    "conduit_name": "conduit_name",
-    "description": "description",
-    "mtu": 0
-  },
-  "p2p_ip": "192.168.3.4/31",
-  "bgp": {
-    "customer_asn": 0,
-    "extra_prefixes": [
-      "string"
-    ],
-    "md5_key": "md5_key"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new CNI object
+"advertise\_only"
 
-**post** `/accounts/{account_id}/cni/cnis`
+<a href="#">Link to this property</a>
 
-Create a new CNI object
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-### Body Parameters
+next: optional number
 
-- `account: string`
+formatint32
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `interconnect: string`
+</details>
 
-- `magic: object { conduit_name, description, mtu }`
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_list_response%20%3E%20(schema)>)
 
-  - `conduit_name: string`
+<details>
 
-  - `description: string`
+<summary>
 
-  - `mtu: number`
+CNIGetResponse object {id, account, cust\_ip, 5 more }
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+</summary>
 
-  - `customer_asn: number`
+id: string
 
-    ASN used on the customer end of the BGP session
+formatuuid
 
-  - `extra_prefixes: array of string`
+<a href="#">Link to this property</a>
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+account: string
 
-  - `md5_key: optional string`
+Customer account tag
 
-    MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+cust\_ip: string
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+Customer end of the point-to-point link
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+This should always be inside the same prefix as <code>p2p_ip</code>.
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+formatA.B.C.D/N
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `id: string`
+interconnect: string
 
-- `account: string`
+Interconnect identifier hosting this CNI
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `cust_ip: string`
+<details>
 
-  Customer end of the point-to-point link
+<summary>
 
-  This should always be inside the same prefix as `p2p_ip`.
+magic: object {conduit\_name, description, mtu }
 
-- `interconnect: string`
+</summary>
 
-  Interconnect identifier hosting this CNI
+conduit\_name: string
 
-- `magic: object { conduit_name, description, mtu }`
+<a href="#">Link to this property</a>
 
-  - `conduit_name: string`
+description: string
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-  - `mtu: number`
+mtu: number
 
-- `p2p_ip: string`
+formatint32
 
-  Cloudflare end of the point-to-point link
+minimum0
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<a href="#">Link to this property</a>
 
-  - `customer_asn: number`
+</details>
 
-    ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-  - `extra_prefixes: array of string`
+p2p\_ip: string
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+Cloudflare end of the point-to-point link
 
-  - `md5_key: optional string`
+formatA.B.C.D/N
 
-    MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+<details>
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+<summary>
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+</summary>
 
-### Example
+customer\_asn: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account": "account",
-          "interconnect": "interconnect",
-          "magic": {
-            "conduit_name": "conduit_name",
-            "description": "description",
-            "mtu": 0
-          }
-        }'
-```
+ASN used on the customer end of the BGP session
 
-#### Response
+formatint32
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "account": "account",
-  "cust_ip": "192.168.3.4/31",
-  "interconnect": "interconnect",
-  "magic": {
-    "conduit_name": "conduit_name",
-    "description": "description",
-    "mtu": 0
-  },
-  "p2p_ip": "192.168.3.4/31",
-  "bgp": {
-    "customer_asn": 0,
-    "extra_prefixes": [
-      "string"
-    ],
-    "md5_key": "md5_key"
-  }
-}
-```
+minimum0
 
-## Modify stored information about a CNI object
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/cni/cnis/{cni}`
+extra\_prefixes: array of string
 
-Modify stored information about a CNI object
+Extra set of static prefixes to advertise to the customer’s end of the session
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+md5\_key: optional string
 
-  Customer account tag
+MD5 key to use for session authentication.
 
-- `cni: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-### Body Parameters
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-- `id: string`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-- `account: string`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `cust_ip: string`
+</details>
 
-  Customer end of the point-to-point link
+<a href="#">Link to this property</a>
 
-  This should always be inside the same prefix as `p2p_ip`.
+<details>
 
-- `interconnect: string`
+<summary>
 
-  Interconnect identifier hosting this CNI
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
 
-- `magic: object { conduit_name, description, mtu }`
+The BGP mode for a CNI.
 
-  - `conduit_name: string`
+Controls the customer-facing data path:
 
-  - `description: string`
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
 
-  - `mtu: number`
+</summary>
 
-- `p2p_ip: string`
+One of the following:
 
-  Cloudflare end of the point-to-point link
+"dynamic\_route\_exchange"
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<a href="#">Link to this property</a>
 
-  - `customer_asn: number`
+"advertise\_only"
 
-    ASN used on the customer end of the BGP session
+<a href="#">Link to this property</a>
 
-  - `extra_prefixes: array of string`
+</details>
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+<a href="#">Link to this property</a>
 
-  - `md5_key: optional string`
+</details>
 
-    MD5 key to use for session authentication.
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)>)
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+<details>
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+<summary>
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+CNICreateResponse object {id, account, cust\_ip, 5 more }
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+</summary>
 
-### Returns
+id: string
 
-- `id: string`
+formatuuid
 
-- `account: string`
+<a href="#">Link to this property</a>
 
-  Customer account tag
+account: string
 
-- `cust_ip: string`
+Customer account tag
 
-  Customer end of the point-to-point link
+<a href="#">Link to this property</a>
 
-  This should always be inside the same prefix as `p2p_ip`.
+cust\_ip: string
 
-- `interconnect: string`
+Customer end of the point-to-point link
 
-  Interconnect identifier hosting this CNI
+This should always be inside the same prefix as <code>p2p_ip</code>.
 
-- `magic: object { conduit_name, description, mtu }`
+formatA.B.C.D/N
 
-  - `conduit_name: string`
+<a href="#">Link to this property</a>
 
-  - `description: string`
+interconnect: string
 
-  - `mtu: number`
+Interconnect identifier hosting this CNI
 
-- `p2p_ip: string`
+<a href="#">Link to this property</a>
 
-  Cloudflare end of the point-to-point link
+<details>
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<summary>
 
-  - `customer_asn: number`
+magic: object {conduit\_name, description, mtu }
 
-    ASN used on the customer end of the BGP session
+</summary>
 
-  - `extra_prefixes: array of string`
+conduit\_name: string
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+<a href="#">Link to this property</a>
 
-  - `md5_key: optional string`
+description: string
 
-    MD5 key to use for session authentication.
+<a href="#">Link to this property</a>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+mtu: number
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+formatint32
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+minimum0
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis/$CNI \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "account": "account",
-          "cust_ip": "192.168.3.4/31",
-          "interconnect": "interconnect",
-          "magic": {
-            "conduit_name": "conduit_name",
-            "description": "description",
-            "mtu": 0
-          },
-          "p2p_ip": "192.168.3.4/31"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+p2p\_ip: string
 
-```json
-{
-  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "account": "account",
-  "cust_ip": "192.168.3.4/31",
-  "interconnect": "interconnect",
-  "magic": {
-    "conduit_name": "conduit_name",
-    "description": "description",
-    "mtu": 0
-  },
-  "p2p_ip": "192.168.3.4/31",
-  "bgp": {
-    "customer_asn": 0,
-    "extra_prefixes": [
-      "string"
-    ],
-    "md5_key": "md5_key"
-  }
-}
-```
+Cloudflare end of the point-to-point link
 
-## Delete a specified CNI object
+formatA.B.C.D/N
 
-**delete** `/accounts/{account_id}/cni/cnis/{cni}`
+<a href="#">Link to this property</a>
 
-Delete a specified CNI object
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
 
-  Customer account tag
+</summary>
 
-- `cni: string`
+customer\_asn: number
 
-### Example
+ASN used on the customer end of the BGP session
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis/$CNI \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatint32
 
-## Domain Types
+minimum0
 
-### CNI List Response
+<a href="#">Link to this property</a>
 
-- `CNIListResponse object { items, next }`
+extra\_prefixes: array of string
 
-  - `items: array of object { id, account, cust_ip, 4 more }`
+Extra set of static prefixes to advertise to the customer’s end of the session
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+md5\_key: optional string
 
-      Customer account tag
+MD5 key to use for session authentication.
 
-    - `cust_ip: string`
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-      Customer end of the point-to-point link
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-      This should always be inside the same prefix as `p2p_ip`.
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-    - `interconnect: string`
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-      Interconnect identifier hosting this CNI
+<a href="#">Link to this property</a>
 
-    - `magic: object { conduit_name, description, mtu }`
+</details>
 
-      - `conduit_name: string`
+<a href="#">Link to this property</a>
 
-      - `description: string`
+<details>
 
-      - `mtu: number`
+<summary>
 
-    - `p2p_ip: string`
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
 
-      Cloudflare end of the point-to-point link
+The BGP mode for a CNI.
 
-    - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+Controls the customer-facing data path:
 
-      - `customer_asn: number`
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
 
-        ASN used on the customer end of the BGP session
+</summary>
 
-      - `extra_prefixes: array of string`
+One of the following:
 
-        Extra set of static prefixes to advertise to the customer's end of the session
+"dynamic\_route\_exchange"
 
-      - `md5_key: optional string`
+<a href="#">Link to this property</a>
 
-        MD5 key to use for session authentication.
+"advertise\_only"
 
-        Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-        key is not treated as a secret value. This is *only* supported for preventing
-        misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-        The MD5 key, if set, must be of non-zero length and consist only of the following types of
-        character:
+</details>
 
-        * ASCII alphanumerics: `[a-zA-Z0-9]`
-        * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-        In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-        quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-        (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-        these disallowed characters will be rejected.
+</details>
 
-  - `next: optional number`
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_create_response%20%3E%20(schema)>)
 
-### CNI Get Response
+<details>
 
-- `CNIGetResponse object { id, account, cust_ip, 4 more }`
+<summary>
 
-  - `id: string`
+CNIUpdateResponse object {id, account, cust\_ip, 5 more }
 
-  - `account: string`
+</summary>
 
-    Customer account tag
+id: string
 
-  - `cust_ip: string`
+formatuuid
 
-    Customer end of the point-to-point link
+<a href="#">Link to this property</a>
 
-    This should always be inside the same prefix as `p2p_ip`.
+account: string
 
-  - `interconnect: string`
+Customer account tag
 
-    Interconnect identifier hosting this CNI
+<a href="#">Link to this property</a>
 
-  - `magic: object { conduit_name, description, mtu }`
+cust\_ip: string
 
-    - `conduit_name: string`
+Customer end of the point-to-point link
 
-    - `description: string`
+This should always be inside the same prefix as <code>p2p_ip</code>.
 
-    - `mtu: number`
+formatA.B.C.D/N
 
-  - `p2p_ip: string`
+<a href="#">Link to this property</a>
 
-    Cloudflare end of the point-to-point link
+interconnect: string
 
-  - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+Interconnect identifier hosting this CNI
 
-    - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-      ASN used on the customer end of the BGP session
+<details>
 
-    - `extra_prefixes: array of string`
+<summary>
 
-      Extra set of static prefixes to advertise to the customer's end of the session
+magic: object {conduit\_name, description, mtu }
 
-    - `md5_key: optional string`
+</summary>
 
-      MD5 key to use for session authentication.
+conduit\_name: string
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+<a href="#">Link to this property</a>
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+description: string
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+<a href="#">Link to this property</a>
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+mtu: number
 
-### CNI Create Response
+formatint32
 
-- `CNICreateResponse object { id, account, cust_ip, 4 more }`
+minimum0
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `account: string`
+</details>
 
-    Customer account tag
+<a href="#">Link to this property</a>
 
-  - `cust_ip: string`
+p2p\_ip: string
 
-    Customer end of the point-to-point link
+Cloudflare end of the point-to-point link
 
-    This should always be inside the same prefix as `p2p_ip`.
+formatA.B.C.D/N
 
-  - `interconnect: string`
+<a href="#">Link to this property</a>
 
-    Interconnect identifier hosting this CNI
+<details>
 
-  - `magic: object { conduit_name, description, mtu }`
+<summary>
 
-    - `conduit_name: string`
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
 
-    - `description: string`
+</summary>
 
-    - `mtu: number`
+customer\_asn: number
 
-  - `p2p_ip: string`
+ASN used on the customer end of the BGP session
 
-    Cloudflare end of the point-to-point link
+formatint32
 
-  - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+minimum0
 
-    - `customer_asn: number`
+<a href="#">Link to this property</a>
 
-      ASN used on the customer end of the BGP session
+extra\_prefixes: array of string
 
-    - `extra_prefixes: array of string`
+Extra set of static prefixes to advertise to the customer’s end of the session
 
-      Extra set of static prefixes to advertise to the customer's end of the session
+<a href="#">Link to this property</a>
 
-    - `md5_key: optional string`
+md5\_key: optional string
 
-      MD5 key to use for session authentication.
+MD5 key to use for session authentication.
 
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
 
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
 
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
 
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
 
-### CNI Update Response
+<a href="#">Link to this property</a>
 
-- `CNIUpdateResponse object { id, account, cust_ip, 4 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `account: string`
+<details>
 
-    Customer account tag
+<summary>
 
-  - `cust_ip: string`
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
 
-    Customer end of the point-to-point link
+The BGP mode for a CNI.
 
-    This should always be inside the same prefix as `p2p_ip`.
+Controls the customer-facing data path:
 
-  - `interconnect: string`
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
 
-    Interconnect identifier hosting this CNI
+</summary>
 
-  - `magic: object { conduit_name, description, mtu }`
+One of the following:
 
-    - `conduit_name: string`
+"dynamic\_route\_exchange"
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-    - `mtu: number`
+"advertise\_only"
 
-  - `p2p_ip: string`
+<a href="#">Link to this property</a>
 
-    Cloudflare end of the point-to-point link
+</details>
 
-  - `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
+<a href="#">Link to this property</a>
 
-    - `customer_asn: number`
+</details>
 
-      ASN used on the customer end of the BGP session
-
-    - `extra_prefixes: array of string`
-
-      Extra set of static prefixes to advertise to the customer's end of the session
-
-    - `md5_key: optional string`
-
-      MD5 key to use for session authentication.
-
-      Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-      key is not treated as a secret value. This is *only* supported for preventing
-      misconfiguration, not for defending against malicious attacks.
-
-      The MD5 key, if set, must be of non-zero length and consist only of the following types of
-      character:
-
-      * ASCII alphanumerics: `[a-zA-Z0-9]`
-      * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
-
-      In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-      quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-      (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-      these disallowed characters will be rejected.
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_update_response%20%3E%20(schema)>)

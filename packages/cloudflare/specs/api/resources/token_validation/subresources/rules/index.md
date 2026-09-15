@@ -1,1572 +1,199 @@
+---
+title: Rules
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Token Validation](https://developers.cloudflare.com/api/resources/token_validation)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Rules
 
-## List token validation rules
+##### [List token validation rules](https://developers.cloudflare.com/api/resources/token_validation/subresources/rules/methods/list)
 
-**get** `/zones/{zone_id}/token_validation/rules`
+GET/zones/{zone\_id}/token\_validation/rules
 
-List token validation rules
+##### [Create a token validation rule](https://developers.cloudflare.com/api/resources/token_validation/subresources/rules/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/token\_validation/rules
 
-- `zone_id: string`
+##### [Create token validation rules](https://developers.cloudflare.com/api/resources/token_validation/subresources/rules/methods/bulk_create)
 
-  Identifier.
+POST/zones/{zone\_id}/token\_validation/rules/bulk
 
-### Query Parameters
+##### [Edit token validation rules](https://developers.cloudflare.com/api/resources/token_validation/subresources/rules/methods/bulk_edit)
 
-- `id: optional string`
+PATCH/zones/{zone\_id}/token\_validation/rules/bulk
 
-  Select rules with these IDs.
+##### [Get a token validation rule](https://developers.cloudflare.com/api/resources/token_validation/subresources/rules/methods/get)
 
-- `action: optional "log" or "block"`
+GET/zones/{zone\_id}/token\_validation/rules/{rule\_id}
 
-  Action to take on requests that match operations included in `selector` and fail `expression`.
+##### [Delete a token validation rule](https://developers.cloudflare.com/api/resources/token_validation/subresources/rules/methods/delete)
 
-  - `"log"`
+DELETE/zones/{zone\_id}/token\_validation/rules/{rule\_id}
 
-  - `"block"`
+##### [Edit a token validation rule](https://developers.cloudflare.com/api/resources/token_validation/subresources/rules/methods/edit)
 
-- `enabled: optional boolean`
+PATCH/zones/{zone\_id}/token\_validation/rules/{rule\_id}
 
-  Toggle rule on or off.
+##### ModelsExpand Collapse
 
-- `host: optional string`
+<details>
 
-  Select rules with this host in `include`.
+<summary>
 
-- `hostname: optional string`
+TokenValidationRule object {action, description, enabled, 6 more }
 
-  Select rules with this host in `include`.
+A Token Validation rule that can enforce security policies using JWT Tokens.
 
-- `page: optional number`
+</summary>
 
-  Page number of paginated results.
+<details>
 
-- `per_page: optional number`
+<summary>
 
-  Maximum number of results per page.
+action: "log"or "block"
 
-- `rule_id: optional string`
+Action to take on requests that match operations included in <code>selector</code> and fail <code>expression</code>.
 
-  Select rules with these IDs.
+</summary>
 
-- `token_configuration: optional array of string`
+One of the following:
 
-  Select rules using any of these token configurations.
+"log"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+"block"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+description: string
 
-    - `pointer: optional string`
+A human-readable description that gives more details than <code>title</code>.
 
-- `messages: Message`
+maxLength500
 
-- `result: array of TokenValidationRule`
+<a href="#">Link to this property</a>
 
-  - `action: "log" or "block"`
+enabled: boolean
 
-    Action to take on requests that match operations included in `selector` and fail `expression`.
+Toggle rule on or off.
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+expression: string
 
-  - `description: string`
+Rule expression. Requests that fail to match this expression will be subject to <code>action</code>.
 
-    A human-readable description that gives more details than `title`.
+For details on expressions, see the <a href="https://developers.cloudflare.com/api-shield/security/jwt-validation/">Cloudflare Docs</a>.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Toggle rule on or off.
+<details>
 
-  - `expression: string`
+<summary>
 
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
+selector: object {exclude, include }
 
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
+Select operations covered by this rule.
 
-  - `selector: object { exclude, include }`
+For details on selectors, see the <a href="https://developers.cloudflare.com/api-shield/security/jwt-validation/">Cloudflare Docs</a>.
 
-    Select operations covered by this rule.
+</summary>
 
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
+<details>
 
-    - `exclude: optional array of object { operation_ids }`
+<summary>
 
-      Ignore operations that were otherwise included by `include`.
+exclude: optional array of object {operation\_ids }
 
-      - `operation_ids: optional array of string`
+Ignore operations that were otherwise included by <code>include</code>.
 
-        Excluded operation IDs.
+</summary>
 
-    - `include: optional array of object { host }`
+operation\_ids: optional array of string
 
-      Select all matching operations.
+Excluded operation IDs.
 
-      - `host: optional array of string`
+<a href="#">Link to this property</a>
 
-        Included hostnames.
+</details>
 
-  - `title: string`
+<a href="#">Link to this property</a>
 
-    A human-readable name for the rule.
+<details>
 
-  - `id: optional string`
+<summary>
 
-    UUID.
+include: optional array of object {host }
 
-  - `created_at: optional string`
-
-  - `last_updated: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
+Select all matching operations.
 
-  - `true`
+</summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+host: optional array of string
 
-  - `count: optional number`
+Included hostnames.
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+title: string
 
-    Total results available without any search parameters.
+A human-readable name for the rule.
 
-  - `total_pages: optional number`
+maxLength50
 
-    The number of total pages in the entire result set.
+<a href="#">Link to this property</a>
 
-### Example
+id: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+UUID.
 
-#### Response
+maxLength36
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "action": "log",
-      "description": "Long description for Token Validation Rule",
-      "enabled": true,
-      "expression": "is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")",
-      "selector": {
-        "exclude": [
-          {
-            "operation_ids": [
-              "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
-              "56828eae-035a-4396-ba07-51c66d680a04"
-            ]
-          }
-        ],
-        "include": [
-          {
-            "host": [
-              "v1.example.com",
-              "v2.example.com"
-            ]
-          }
-        ]
-      },
-      "title": "Example Token Validation Rule",
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "last_updated": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+minLength36
 
-## Create a token validation rule
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/token_validation/rules`
+created\_at: optional string
 
-Create a token validation rule.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+last\_updated: optional string
 
-  Identifier.
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `action: "log" or "block"`
+</details>
 
-  Action to take on requests that match operations included in `selector` and fail `expression`.
+[Link to this property](#)%20token_validation.rules%20%3E%20(model)%20token_validation_rule%20%3E%20(schema)>)
 
-  - `"log"`
+RuleDeleteResponse = unknown
 
-  - `"block"`
-
-- `description: string`
-
-  A human-readable description that gives more details than `title`.
-
-- `enabled: boolean`
-
-  Toggle rule on or off.
-
-- `expression: string`
-
-  Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-- `selector: object { exclude, include }`
-
-  Select operations covered by this rule.
-
-  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `exclude: optional array of object { operation_ids }`
-
-    Ignore operations that were otherwise included by `include`.
-
-    - `operation_ids: optional array of string`
-
-      Excluded operation IDs.
-
-  - `include: optional array of object { host }`
-
-    Select all matching operations.
-
-    - `host: optional array of string`
-
-      Included hostnames.
-
-- `title: string`
-
-  A human-readable name for the rule.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: TokenValidationRule`
-
-  A Token Validation rule that can enforce security policies using JWT Tokens.
-
-  - `action: "log" or "block"`
-
-    Action to take on requests that match operations included in `selector` and fail `expression`.
-
-    - `"log"`
-
-    - `"block"`
-
-  - `description: string`
-
-    A human-readable description that gives more details than `title`.
-
-  - `enabled: boolean`
-
-    Toggle rule on or off.
-
-  - `expression: string`
-
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `selector: object { exclude, include }`
-
-    Select operations covered by this rule.
-
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-    - `exclude: optional array of object { operation_ids }`
-
-      Ignore operations that were otherwise included by `include`.
-
-      - `operation_ids: optional array of string`
-
-        Excluded operation IDs.
-
-    - `include: optional array of object { host }`
-
-      Select all matching operations.
-
-      - `host: optional array of string`
-
-        Included hostnames.
-
-  - `title: string`
-
-    A human-readable name for the rule.
-
-  - `id: optional string`
-
-    UUID.
-
-  - `created_at: optional string`
-
-  - `last_updated: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": "log",
-          "description": "Long description for Token Validation Rule",
-          "enabled": true,
-          "expression": "is_jwt_valid(\\"52973293-cb04-4a97-8f55-e7d2ad1107dd\\") or is_jwt_valid(\\"46eab8d1-6376-45e3-968f-2c649d77d423\\")",
-          "selector": {},
-          "title": "Example Token Validation Rule"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "action": "log",
-    "description": "Long description for Token Validation Rule",
-    "enabled": true,
-    "expression": "is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")",
-    "selector": {
-      "exclude": [
-        {
-          "operation_ids": [
-            "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
-            "56828eae-035a-4396-ba07-51c66d680a04"
-          ]
-        }
-      ],
-      "include": [
-        {
-          "host": [
-            "v1.example.com",
-            "v2.example.com"
-          ]
-        }
-      ]
-    },
-    "title": "Example Token Validation Rule",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "last_updated": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Bulk create token validation rules
-
-**post** `/zones/{zone_id}/token_validation/rules/bulk`
-
-Create zone token validation rules.
-
-A request can create multiple Token Validation Rules.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `body: array of object { action, description, enabled, 3 more }`
-
-  - `action: "log" or "block"`
-
-    Action to take on requests that match operations included in `selector` and fail `expression`.
-
-    - `"log"`
-
-    - `"block"`
-
-  - `description: string`
-
-    A human-readable description that gives more details than `title`.
-
-  - `enabled: boolean`
-
-    Toggle rule on or off.
-
-  - `expression: string`
-
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `selector: object { exclude, include }`
-
-    Select operations covered by this rule.
-
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-    - `exclude: optional array of object { operation_ids }`
-
-      Ignore operations that were otherwise included by `include`.
-
-      - `operation_ids: optional array of string`
-
-        Excluded operation IDs.
-
-    - `include: optional array of object { host }`
-
-      Select all matching operations.
-
-      - `host: optional array of string`
-
-        Included hostnames.
-
-  - `title: string`
-
-    A human-readable name for the rule.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: array of TokenValidationRule`
-
-  - `action: "log" or "block"`
-
-    Action to take on requests that match operations included in `selector` and fail `expression`.
-
-    - `"log"`
-
-    - `"block"`
-
-  - `description: string`
-
-    A human-readable description that gives more details than `title`.
-
-  - `enabled: boolean`
-
-    Toggle rule on or off.
-
-  - `expression: string`
-
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `selector: object { exclude, include }`
-
-    Select operations covered by this rule.
-
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-    - `exclude: optional array of object { operation_ids }`
-
-      Ignore operations that were otherwise included by `include`.
-
-      - `operation_ids: optional array of string`
-
-        Excluded operation IDs.
-
-    - `include: optional array of object { host }`
-
-      Select all matching operations.
-
-      - `host: optional array of string`
-
-        Included hostnames.
-
-  - `title: string`
-
-    A human-readable name for the rule.
-
-  - `id: optional string`
-
-    UUID.
-
-  - `created_at: optional string`
-
-  - `last_updated: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules/bulk \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "action": "log",
-            "description": "Long description for Token Validation Rule",
-            "enabled": true,
-            "expression": "is_jwt_valid(\\"52973293-cb04-4a97-8f55-e7d2ad1107dd\\") or is_jwt_valid(\\"46eab8d1-6376-45e3-968f-2c649d77d423\\")",
-            "selector": {
-              "exclude": [
-                {
-                  "operation_ids": [
-                    "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
-                    "56828eae-035a-4396-ba07-51c66d680a04"
-                  ]
-                }
-              ],
-              "include": [
-                {
-                  "host": [
-                    "v1.example.com",
-                    "v2.example.com"
-                  ]
-                }
-              ]
-            },
-            "title": "Example Token Validation Rule"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "action": "log",
-      "description": "Long description for Token Validation Rule",
-      "enabled": true,
-      "expression": "is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")",
-      "selector": {
-        "exclude": [
-          {
-            "operation_ids": [
-              "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
-              "56828eae-035a-4396-ba07-51c66d680a04"
-            ]
-          }
-        ],
-        "include": [
-          {
-            "host": [
-              "v1.example.com",
-              "v2.example.com"
-            ]
-          }
-        ]
-      },
-      "title": "Example Token Validation Rule",
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "last_updated": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Bulk edit token validation rules
-
-**patch** `/zones/{zone_id}/token_validation/rules/bulk`
-
-Edit token validation rules.
-
-A request can update multiple Token Validation Rules.
-
-Rules can be re-ordered using the `position` field.
-
-Returns all updated rules.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `body: array of object { id, action, description, 5 more }`
-
-  - `id: string`
-
-    Rule ID this patch applies to
-
-  - `action: optional "log" or "block"`
-
-    Action to take on requests that match operations included in `selector` and fail `expression`.
-
-    - `"log"`
-
-    - `"block"`
-
-  - `description: optional string`
-
-    A human-readable description that gives more details than `title`.
-
-  - `enabled: optional boolean`
-
-    Toggle rule on or off.
-
-  - `expression: optional string`
-
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `position: optional object { index }  or object { before }  or object { after }`
-
-    Update rule order among zone rules.
-
-    - `APIShieldIndex object { index }`
-
-      - `index: number`
-
-        Move rule to this position
-
-    - `APIShieldBefore object { before }`
-
-      Move rule to after rule with ID.
-
-      - `before: optional string`
-
-        Move rule to before rule with this ID.
-
-    - `APIShieldAfter object { after }`
-
-      Move rule to before rule with ID.
-
-      - `after: optional string`
-
-        Move rule to after rule with this ID.
-
-  - `selector: optional object { exclude, include }`
-
-    Select operations covered by this rule.
-
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-    - `exclude: optional array of object { operation_ids }`
-
-      Ignore operations that were otherwise included by `include`.
-
-      - `operation_ids: optional array of string`
-
-        Excluded operation IDs.
-
-    - `include: optional array of object { host }`
-
-      Select all matching operations.
-
-      - `host: optional array of string`
-
-        Included hostnames.
-
-  - `title: optional string`
-
-    A human-readable name for the rule.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: array of TokenValidationRule`
-
-  - `action: "log" or "block"`
-
-    Action to take on requests that match operations included in `selector` and fail `expression`.
-
-    - `"log"`
-
-    - `"block"`
-
-  - `description: string`
-
-    A human-readable description that gives more details than `title`.
-
-  - `enabled: boolean`
-
-    Toggle rule on or off.
-
-  - `expression: string`
-
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `selector: object { exclude, include }`
-
-    Select operations covered by this rule.
-
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-    - `exclude: optional array of object { operation_ids }`
-
-      Ignore operations that were otherwise included by `include`.
-
-      - `operation_ids: optional array of string`
-
-        Excluded operation IDs.
-
-    - `include: optional array of object { host }`
-
-      Select all matching operations.
-
-      - `host: optional array of string`
-
-        Included hostnames.
-
-  - `title: string`
-
-    A human-readable name for the rule.
-
-  - `id: optional string`
-
-    UUID.
-
-  - `created_at: optional string`
-
-  - `last_updated: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules/bulk \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "id": "0d9bf70c-92e1-4bb3-9411-34a3bcc59003",
-            "action": "log",
-            "description": "Long description for Token Validation Rule",
-            "enabled": true,
-            "expression": "is_jwt_valid(\\"52973293-cb04-4a97-8f55-e7d2ad1107dd\\") or is_jwt_valid(\\"46eab8d1-6376-45e3-968f-2c649d77d423\\")",
-            "position": {
-              "index": 2
-            },
-            "selector": {
-              "exclude": [
-                {
-                  "operation_ids": [
-                    "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
-                    "56828eae-035a-4396-ba07-51c66d680a04"
-                  ]
-                }
-              ],
-              "include": [
-                {
-                  "host": [
-                    "v1.example.com",
-                    "v2.example.com"
-                  ]
-                }
-              ]
-            },
-            "title": "Example Token Validation Rule"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "action": "log",
-      "description": "Long description for Token Validation Rule",
-      "enabled": true,
-      "expression": "is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")",
-      "selector": {
-        "exclude": [
-          {
-            "operation_ids": [
-              "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
-              "56828eae-035a-4396-ba07-51c66d680a04"
-            ]
-          }
-        ],
-        "include": [
-          {
-            "host": [
-              "v1.example.com",
-              "v2.example.com"
-            ]
-          }
-        ]
-      },
-      "title": "Example Token Validation Rule",
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "last_updated": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Get a zone token validation rule
-
-**get** `/zones/{zone_id}/token_validation/rules/{rule_id}`
-
-Get a zone token validation rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `rule_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: TokenValidationRule`
-
-  A Token Validation rule that can enforce security policies using JWT Tokens.
-
-  - `action: "log" or "block"`
-
-    Action to take on requests that match operations included in `selector` and fail `expression`.
-
-    - `"log"`
-
-    - `"block"`
-
-  - `description: string`
-
-    A human-readable description that gives more details than `title`.
-
-  - `enabled: boolean`
-
-    Toggle rule on or off.
-
-  - `expression: string`
-
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `selector: object { exclude, include }`
-
-    Select operations covered by this rule.
-
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-    - `exclude: optional array of object { operation_ids }`
-
-      Ignore operations that were otherwise included by `include`.
-
-      - `operation_ids: optional array of string`
-
-        Excluded operation IDs.
-
-    - `include: optional array of object { host }`
-
-      Select all matching operations.
-
-      - `host: optional array of string`
-
-        Included hostnames.
-
-  - `title: string`
-
-    A human-readable name for the rule.
-
-  - `id: optional string`
-
-    UUID.
-
-  - `created_at: optional string`
-
-  - `last_updated: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "action": "log",
-    "description": "Long description for Token Validation Rule",
-    "enabled": true,
-    "expression": "is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")",
-    "selector": {
-      "exclude": [
-        {
-          "operation_ids": [
-            "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
-            "56828eae-035a-4396-ba07-51c66d680a04"
-          ]
-        }
-      ],
-      "include": [
-        {
-          "host": [
-            "v1.example.com",
-            "v2.example.com"
-          ]
-        }
-      ]
-    },
-    "title": "Example Token Validation Rule",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "last_updated": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Delete a zone token validation rule
-
-**delete** `/zones/{zone_id}/token_validation/rules/{rule_id}`
-
-Delete a zone token validation rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `rule_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Edit a zone token validation rule
-
-**patch** `/zones/{zone_id}/token_validation/rules/{rule_id}`
-
-Edit a zone token validation rule.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `rule_id: string`
-
-  UUID.
-
-### Body Parameters
-
-- `action: optional "log" or "block"`
-
-  Action to take on requests that match operations included in `selector` and fail `expression`.
-
-  - `"log"`
-
-  - `"block"`
-
-- `description: optional string`
-
-  A human-readable description that gives more details than `title`.
-
-- `enabled: optional boolean`
-
-  Toggle rule on or off.
-
-- `expression: optional string`
-
-  Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-- `position: optional object { index }  or object { before }  or object { after }`
-
-  Update rule order among zone rules.
-
-  - `APIShieldIndex object { index }`
-
-    - `index: number`
-
-      Move rule to this position
-
-  - `APIShieldBefore object { before }`
-
-    Move rule to after rule with ID.
-
-    - `before: optional string`
-
-      Move rule to before rule with this ID.
-
-  - `APIShieldAfter object { after }`
-
-    Move rule to before rule with ID.
-
-    - `after: optional string`
-
-      Move rule to after rule with this ID.
-
-- `selector: optional object { exclude, include }`
-
-  Select operations covered by this rule.
-
-  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `exclude: optional array of object { operation_ids }`
-
-    Ignore operations that were otherwise included by `include`.
-
-    - `operation_ids: optional array of string`
-
-      Excluded operation IDs.
-
-  - `include: optional array of object { host }`
-
-    Select all matching operations.
-
-    - `host: optional array of string`
-
-      Included hostnames.
-
-- `title: optional string`
-
-  A human-readable name for the rule.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: TokenValidationRule`
-
-  A Token Validation rule that can enforce security policies using JWT Tokens.
-
-  - `action: "log" or "block"`
-
-    Action to take on requests that match operations included in `selector` and fail `expression`.
-
-    - `"log"`
-
-    - `"block"`
-
-  - `description: string`
-
-    A human-readable description that gives more details than `title`.
-
-  - `enabled: boolean`
-
-    Toggle rule on or off.
-
-  - `expression: string`
-
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `selector: object { exclude, include }`
-
-    Select operations covered by this rule.
-
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-    - `exclude: optional array of object { operation_ids }`
-
-      Ignore operations that were otherwise included by `include`.
-
-      - `operation_ids: optional array of string`
-
-        Excluded operation IDs.
-
-    - `include: optional array of object { host }`
-
-      Select all matching operations.
-
-      - `host: optional array of string`
-
-        Included hostnames.
-
-  - `title: string`
-
-    A human-readable name for the rule.
-
-  - `id: optional string`
-
-    UUID.
-
-  - `created_at: optional string`
-
-  - `last_updated: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/token_validation/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "action": "log",
-          "description": "Long description for Token Validation Rule",
-          "enabled": true,
-          "expression": "is_jwt_valid(\\"52973293-cb04-4a97-8f55-e7d2ad1107dd\\") or is_jwt_valid(\\"46eab8d1-6376-45e3-968f-2c649d77d423\\")",
-          "title": "Example Token Validation Rule"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "action": "log",
-    "description": "Long description for Token Validation Rule",
-    "enabled": true,
-    "expression": "is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")",
-    "selector": {
-      "exclude": [
-        {
-          "operation_ids": [
-            "f9c5615e-fe15-48ce-bec6-cfc1946f1bec",
-            "56828eae-035a-4396-ba07-51c66d680a04"
-          ]
-        }
-      ],
-      "include": [
-        {
-          "host": [
-            "v1.example.com",
-            "v2.example.com"
-          ]
-        }
-      ]
-    },
-    "title": "Example Token Validation Rule",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "last_updated": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Token Validation Rule
-
-- `TokenValidationRule object { action, description, enabled, 6 more }`
-
-  A Token Validation rule that can enforce security policies using JWT Tokens.
-
-  - `action: "log" or "block"`
-
-    Action to take on requests that match operations included in `selector` and fail `expression`.
-
-    - `"log"`
-
-    - `"block"`
-
-  - `description: string`
-
-    A human-readable description that gives more details than `title`.
-
-  - `enabled: boolean`
-
-    Toggle rule on or off.
-
-  - `expression: string`
-
-    Rule expression. Requests that fail to match this expression will be subject to `action`.
-
-    For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-  - `selector: object { exclude, include }`
-
-    Select operations covered by this rule.
-
-    For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
-
-    - `exclude: optional array of object { operation_ids }`
-
-      Ignore operations that were otherwise included by `include`.
-
-      - `operation_ids: optional array of string`
-
-        Excluded operation IDs.
-
-    - `include: optional array of object { host }`
-
-      Select all matching operations.
-
-      - `host: optional array of string`
-
-        Included hostnames.
-
-  - `title: string`
-
-    A human-readable name for the rule.
-
-  - `id: optional string`
-
-    UUID.
-
-  - `created_at: optional string`
-
-  - `last_updated: optional string`
-
-### Rule Delete Response
-
-- `RuleDeleteResponse = unknown`
+[Link to this property](#)%20token_validation.rules%20%3E%20(model)%20rule_delete_response%20%3E%20(schema)>)

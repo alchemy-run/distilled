@@ -1,84 +1,196 @@
-## Delete a webhook
+---
+title: Delete a webhook
+---
 
-**delete** `/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+[Webhooks](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/webhooks)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete a webhook
+
+DELETE/accounts/{account\_id}/realtime/kit/{app\_id}/webhooks/{webhook\_id}
 
 Removes a webhook for the given webhook ID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  The account identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `app_id: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  The app identifier tag.
+##### Accepted Permissions (at least one required)
 
-- `webhook_id: string`
+`Realtime Admin``Realtime`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `data: object { id, created_at, enabled, 4 more }`
+account\_id: string
 
-  - `id: string`
+The account identifier tag.
 
-    ID of the webhook
+maxLength32
 
-  - `created_at: string`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20delete_webhook%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    Timestamp when this webhook was created
+app\_id: string
 
-  - `enabled: boolean`
+The app identifier tag.
 
-    Set to true if the webhook is active
+maxLength32
 
-  - `events: array of "meeting.started" or "meeting.ended" or "meeting.participantJoined" or 6 more`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20delete_webhook%20%3E%20(params)%20default%20%3E%20(param)%20app_id%20%3E%20(schema)>)
 
-    Events this webhook will send updates for
+webhook\_id: string
 
-    - `"meeting.started"`
+formatuuid
 
-    - `"meeting.ended"`
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(method)%20delete_webhook%20%3E%20(params)%20default%20%3E%20(param)%20webhook_id%20%3E%20(schema)>)
 
-    - `"meeting.participantJoined"`
+##### ReturnsExpand Collapse
 
-    - `"meeting.participantLeft"`
+<details>
 
-    - `"meeting.chatSynced"`
+<summary>
 
-    - `"recording.statusUpdate"`
+data: object {id, created\_at, enabled, 4 more }
 
-    - `"livestreaming.statusUpdate"`
+</summary>
 
-    - `"meeting.transcript"`
+id: string
 
-    - `"meeting.summary"`
+ID of the webhook
 
-  - `name: string`
+formatuuid
 
-    Name of the webhook
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+created\_at: string
 
-    Timestamp when this webhook was updated
+Timestamp when this webhook was created
 
-  - `url: string`
+formatdate-time
 
-    URL the webhook will send events to
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+enabled: boolean
 
-### Example
+Set to true if the webhook is active
 
-```http
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+events: array of "meeting.started"or "meeting.ended"or "meeting.participantJoined"or 6 more
+
+Events this webhook will send updates for
+
+</summary>
+
+One of the following:
+
+"meeting.started"
+
+<a href="#">Link to this property</a>
+
+"meeting.ended"
+
+<a href="#">Link to this property</a>
+
+"meeting.participantJoined"
+
+<a href="#">Link to this property</a>
+
+"meeting.participantLeft"
+
+<a href="#">Link to this property</a>
+
+"meeting.chatSynced"
+
+<a href="#">Link to this property</a>
+
+"recording.statusUpdate"
+
+<a href="#">Link to this property</a>
+
+"livestreaming.statusUpdate"
+
+<a href="#">Link to this property</a>
+
+"meeting.transcript"
+
+<a href="#">Link to this property</a>
+
+"meeting.summary"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Name of the webhook
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when this webhook was updated
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+url: string
+
+URL the webhook will send events to
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_delete_webhook_response%20%3E%20(schema)%20%3E%20(property)%20data>)
+
+success: boolean
+
+[Link to this property](#)%20realtime_kit.webhooks%20%3E%20(model)%20webhook_delete_webhook_response%20%3E%20(schema)%20%3E%20(property)%20success>)
+
+### Delete a webhook
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/webhooks/$WEBHOOK_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+401 example
+
+```
 {
   "data": {
     "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
@@ -101,4 +213,43 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP
   },
   "success": true
 }
+```
+
+```
+"{\n  \"message\": \"Unauthorized\"\n}\n"
+```
+
+##### Returns Examples
+
+200 example
+
+401 example
+
+```
+{
+  "data": {
+    "id": "0d1f069d-43bb-489a-ad8c-7eb95592ba8e",
+    "created_at": "2022-05-28T07:01:53.075Z",
+    "enabled": true,
+    "events": [
+      "meeting.started",
+      "meeting.ended",
+      "meeting.participantJoined",
+      "meeting.participantLeft",
+      "meeting.chatSynced",
+      "recording.statusUpdate",
+      "livestreaming.statusUpdate",
+      "meeting.transcript",
+      "meeting.summary"
+    ],
+    "name": "All events webhook",
+    "updated_at": "2022-05-28T07:01:53.075Z",
+    "url": "https://webhook.site/b23a5bbd-c7b0-4ced-a9e2-78ae7889897e"
+  },
+  "success": true
+}
+```
+
+```
+"{\n  \"message\": \"Unauthorized\"\n}\n"
 ```

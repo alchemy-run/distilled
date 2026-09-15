@@ -58,6 +58,18 @@
         "target": "com.cloudflare.snippets#ListResultItem"
       }
     },
+    "com.cloudflare.snippets#UpdateRequestMetadata": {
+      "type": "structure",
+      "members": {
+        "main_module": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the name of the file that contains the main module of the snippet.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.cloudflare.snippets#RulesUpdateRequestRulesItem": {
       "type": "structure",
       "members": {
@@ -292,7 +304,7 @@
           "uri": "/zones/{zone_id}/snippets/{snippet_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes a snippet belonging to the zone.",
+        "smithy.api#documentation": "Deletes a snippet belonging to the zone. Returns a 4XX response if the zone or snippet no longer exists.",
         "smithy.api#idempotent": {}
       },
       "errors": [

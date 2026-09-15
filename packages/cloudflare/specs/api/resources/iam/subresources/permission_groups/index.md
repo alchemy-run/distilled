@@ -1,321 +1,125 @@
+---
+title: Permission Groups
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Permission Groups
 
-## List Account Permission Groups
+##### [List Account Permission Groups](https://developers.cloudflare.com/api/resources/iam/subresources/permission_groups/methods/list)
 
-**get** `/accounts/{account_id}/iam/permission_groups`
+GET/accounts/{account\_id}/iam/permission\_groups
 
-List all the permissions groups for an account.
+##### [Permission Group Details](https://developers.cloudflare.com/api/resources/iam/subresources/permission_groups/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/iam/permission\_groups/{permission\_group\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account identifier tag.
+<details>
 
-### Query Parameters
+<summary>
 
-- `id: optional string`
+PermissionGroupListResponse object {id, meta, name }
 
-  ID of the permission group to be fetched.
+A named group of permissions that map to a group of operations against resources.
 
-- `label: optional string`
+</summary>
 
-  Label of the permission group to be fetched.
+id: string
 
-- `name: optional string`
+Identifier of the permission group.
 
-  Name of the permission group to be fetched.
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+<details>
 
-  Page number of paginated results.
+<summary>
 
-- `per_page: optional number`
+meta: optional object {key, value }
 
-  Maximum number of results per page.
+Attributes associated to the permission group.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+key: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+value: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+name: optional string
 
-  - `code: number`
+Name of the permission group.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20iam.permission_groups%20%3E%20(model)%20permission_group_list_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+PermissionGroupGetResponse object {id, meta, name }
 
-  - `true`
+A named group of permissions that map to a group of operations against resources.
 
-- `result: optional array of object { id, meta, name }`
+</summary>
 
-  A set of permission groups that are specified to the policy.
+id: string
 
-  - `id: string`
+Identifier of the permission group.
 
-    Identifier of the permission group.
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { key, value }`
+<details>
 
-    Attributes associated to the permission group.
+<summary>
 
-    - `key: optional string`
+meta: optional object {key, value }
 
-    - `value: optional string`
+Attributes associated to the permission group.
 
-  - `name: optional string`
+</summary>
 
-    Name of the permission group.
+key: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+value: optional string
 
-    Total number of results for the requested service
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+name: optional string
 
-    Number of results per page of results
+Name of the permission group.
 
-  - `total_count: optional number`
-
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "c8fed203ed3043cba015a93ad1616f1f",
-      "meta": {
-        "key": "key",
-        "value": "value"
-      },
-      "name": "Zone Read"
-    },
-    {
-      "id": "82e64a83756745bbbb1c9c2701bf816b",
-      "meta": {
-        "key": "key",
-        "value": "value"
-      },
-      "name": "Magic Network Monitoring"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Permission Group Details
-
-**get** `/accounts/{account_id}/iam/permission_groups/{permission_group_id}`
-
-Get information about a specific permission group in an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `permission_group_id: string`
-
-  Permission Group identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, meta, name }`
-
-  A named group of permissions that map to a group of operations against resources.
-
-  - `id: string`
-
-    Identifier of the permission group.
-
-  - `meta: optional object { key, value }`
-
-    Attributes associated to the permission group.
-
-    - `key: optional string`
-
-    - `value: optional string`
-
-  - `name: optional string`
-
-    Name of the permission group.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/permission_groups/$PERMISSION_GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "meta": {
-      "key": "key",
-      "value": "value"
-    },
-    "name": "Load Balancer"
-  }
-}
-```
-
-## Domain Types
-
-### Permission Group List Response
-
-- `PermissionGroupListResponse object { id, meta, name }`
-
-  A named group of permissions that map to a group of operations against resources.
-
-  - `id: string`
-
-    Identifier of the permission group.
-
-  - `meta: optional object { key, value }`
-
-    Attributes associated to the permission group.
-
-    - `key: optional string`
-
-    - `value: optional string`
-
-  - `name: optional string`
-
-    Name of the permission group.
-
-### Permission Group Get Response
-
-- `PermissionGroupGetResponse object { id, meta, name }`
-
-  A named group of permissions that map to a group of operations against resources.
-
-  - `id: string`
-
-    Identifier of the permission group.
-
-  - `meta: optional object { key, value }`
-
-    Attributes associated to the permission group.
-
-    - `key: optional string`
-
-    - `value: optional string`
-
-  - `name: optional string`
-
-    Name of the permission group.
+[Link to this property](#)%20iam.permission_groups%20%3E%20(model)%20permission_group_get_response%20%3E%20(schema)>)

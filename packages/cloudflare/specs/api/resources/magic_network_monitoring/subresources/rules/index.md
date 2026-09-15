@@ -1,1550 +1,277 @@
+---
+title: Rules
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Network Monitoring](https://developers.cloudflare.com/api/resources/magic_network_monitoring)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Rules
 
-## List rules
+##### [List rules](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/list)
 
-**get** `/accounts/{account_id}/mnm/rules`
+GET/accounts/{account\_id}/mnm/rules
 
-Lists network monitoring rules for account.
+##### [Get rule](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/mnm/rules/{rule\_id}
 
-- `account_id: string`
+##### [Create rules](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/create)
 
-### Returns
+POST/accounts/{account\_id}/mnm/rules
 
-- `errors: array of ResponseInfo`
+##### [Update rules](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/update)
 
-  - `code: number`
+PUT/accounts/{account\_id}/mnm/rules
 
-  - `message: string`
+##### [Update rule](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/edit)
 
-  - `documentation_url: optional string`
+PATCH/accounts/{account\_id}/mnm/rules/{rule\_id}
 
-  - `source: optional object { pointer }`
+##### [Delete rule](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/delete)
 
-    - `pointer: optional string`
+DELETE/accounts/{account\_id}/mnm/rules/{rule\_id}
 
-- `messages: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+MagicNetworkMonitoringRule object {id, automatic\_advertisement, name, 8 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `result: array of MagicNetworkMonitoringRule`
+id: string
 
-  - `id: string`
+The id of the rule. Must be unique.
 
-    The id of the rule. Must be unique.
+<a href="#">Link to this property</a>
 
-  - `automatic_advertisement: boolean`
+automatic\_advertisement: boolean
 
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
+Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
+name: string
 
-  - `prefixes: array of string`
+The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (\_), dash (-), period (.), and tilde (\~). You can’t have a space in the rule name. Max 256 characters.
 
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
+<a href="#">Link to this property</a>
 
-    MNM rule type.
+prefixes: array of string
 
-    - `"threshold"`
+<a href="#">Link to this property</a>
 
-    - `"zscore"`
+<details>
 
-    - `"advanced_ddos"`
+<summary>
 
-  - `bandwidth_threshold: optional number`
+type: "threshold"or "zscore"or "advanced\_ddos"
 
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
+MNM rule type.
 
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
+</summary>
 
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
+One of the following:
 
-    - `"1m"`
+"threshold"
 
-    - `"5m"`
+<a href="#">Link to this property</a>
 
-    - `"10m"`
+"zscore"
 
-    - `"15m"`
+<a href="#">Link to this property</a>
 
-    - `"20m"`
+"advanced\_ddos"
 
-    - `"30m"`
+<a href="#">Link to this property</a>
 
-    - `"45m"`
+</details>
 
-    - `"60m"`
+<a href="#">Link to this property</a>
 
-  - `packet_threshold: optional number`
+bandwidth\_threshold: optional number
 
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
+The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
 
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
+minimum1
 
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
+<a href="#">Link to this property</a>
 
-    - `"exact"`
+<details>
 
-    - `"subnet"`
+<summary>
 
-    - `"supernet"`
+duration: optional "1m"or "5m"or "10m"or 5 more
 
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
+The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values \[“1m”,“5m”,“10m”,“15m”,“20m”,“30m”,“45m”,“60m”].
 
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
+</summary>
 
-    - `"medium"`
+One of the following:
 
-    - `"high"`
+"1m"
 
-  - `zscore_target: optional "bits" or "packets"`
+<a href="#">Link to this property</a>
 
-    Target of the zscore rule analysis.
+"5m"
 
-    - `"bits"`
+<a href="#">Link to this property</a>
 
-    - `"packets"`
+"10m"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+"15m"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+"20m"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+"30m"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results
+"45m"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+"60m"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+packet\_threshold: optional number
 
-#### Response
+The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-      "automatic_advertisement": true,
-      "name": "my_rule_1",
-      "prefixes": [
-        "203.0.113.1/32"
-      ],
-      "type": "zscore",
-      "bandwidth_threshold": 1000,
-      "duration": "1m",
-      "packet_threshold": 10000,
-      "prefix_match": "exact",
-      "zscore_sensitivity": "high",
-      "zscore_target": "bits"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+minimum1
 
-## Get rule
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/mnm/rules/{rule_id}`
+<details>
 
-List a single network monitoring rule for account.
+<summary>
 
-### Path Parameters
+prefix\_match: optional "exact"or "subnet"or "supernet"
 
-- `account_id: string`
+Prefix match type to be applied for a prefix auto advertisement when using an advanced\_ddos rule.
 
-- `rule_id: string`
+</summary>
 
-  The id of the rule. Must be unique.
+One of the following:
 
-### Returns
+"exact"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"subnet"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"supernet"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+zscore\_sensitivity: optional "low"or "medium"or "high"
 
-  - `source: optional object { pointer }`
+Level of sensitivity set for zscore rules.
 
-- `result: MagicNetworkMonitoringRule`
+</summary>
 
-  - `id: string`
+One of the following:
 
-    The id of the rule. Must be unique.
+"low"
 
-  - `automatic_advertisement: boolean`
+<a href="#">Link to this property</a>
 
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
+"medium"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
+"high"
 
-  - `prefixes: array of string`
+<a href="#">Link to this property</a>
 
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
+</details>
 
-    MNM rule type.
+<a href="#">Link to this property</a>
 
-    - `"threshold"`
+<details>
 
-    - `"zscore"`
+<summary>
 
-    - `"advanced_ddos"`
+zscore\_target: optional "bits"or "packets"
 
-  - `bandwidth_threshold: optional number`
+Target of the zscore rule analysis.
 
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
+</summary>
 
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
+One of the following:
 
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
+"bits"
 
-    - `"1m"`
+<a href="#">Link to this property</a>
 
-    - `"5m"`
+"packets"
 
-    - `"10m"`
+<a href="#">Link to this property</a>
 
-    - `"15m"`
+</details>
 
-    - `"20m"`
+<a href="#">Link to this property</a>
 
-    - `"30m"`
+</details>
 
-    - `"45m"`
+[Link to this property](#)%20magic_network_monitoring.rules%20%3E%20(model)%20magic_network_monitoring_rule%20%3E%20(schema)>)
 
-    - `"60m"`
+#### RulesAdvertisements
 
-  - `packet_threshold: optional number`
+##### [Update advertisement for rule](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/subresources/advertisements/methods/edit)
 
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
+PATCH/accounts/{account\_id}/mnm/rules/{rule\_id}/advertisement
 
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
+##### ModelsExpand Collapse
 
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
+<details>
 
-    - `"exact"`
+<summary>
 
-    - `"subnet"`
+Advertisement object {automatic\_advertisement }
 
-    - `"supernet"`
+</summary>
 
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
+automatic\_advertisement: boolean
 
-    Level of sensitivity set for zscore rules.
+Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
 
-    - `"low"`
+<a href="#">Link to this property</a>
 
-    - `"medium"`
+</details>
 
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules/$RULE_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Create rules
-
-**post** `/accounts/{account_id}/mnm/rules`
-
-Create network monitoring rules for account. Currently only supports creating a single rule per API request.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `automatic_advertisement: boolean`
-
-  Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-- `name: string`
-
-  The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-- `prefixes: array of string`
-
-- `type: "threshold" or "zscore" or "advanced_ddos"`
-
-  MNM rule type.
-
-  - `"threshold"`
-
-  - `"zscore"`
-
-  - `"advanced_ddos"`
-
-- `bandwidth_threshold: optional number`
-
-  The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-  The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-  - `"1m"`
-
-  - `"5m"`
-
-  - `"10m"`
-
-  - `"15m"`
-
-  - `"20m"`
-
-  - `"30m"`
-
-  - `"45m"`
-
-  - `"60m"`
-
-- `packet_threshold: optional number`
-
-  The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-  Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-  - `"exact"`
-
-  - `"subnet"`
-
-  - `"supernet"`
-
-- `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-  Level of sensitivity set for zscore rules.
-
-  - `"low"`
-
-  - `"medium"`
-
-  - `"high"`
-
-- `zscore_target: optional "bits" or "packets"`
-
-  Target of the zscore rule analysis.
-
-  - `"bits"`
-
-  - `"packets"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "automatic_advertisement": true,
-          "name": "my_rule_1",
-          "prefixes": [
-            "203.0.113.1/32"
-          ],
-          "type": "zscore",
-          "bandwidth_threshold": 1000,
-          "packet_threshold": 10000,
-          "prefix_match": "exact",
-          "zscore_sensitivity": "high",
-          "zscore_target": "bits"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Update rules
-
-**put** `/accounts/{account_id}/mnm/rules`
-
-Update network monitoring rules for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `automatic_advertisement: boolean`
-
-  Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-- `name: string`
-
-  The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-- `prefixes: array of string`
-
-- `type: "threshold" or "zscore" or "advanced_ddos"`
-
-  MNM rule type.
-
-  - `"threshold"`
-
-  - `"zscore"`
-
-  - `"advanced_ddos"`
-
-- `bandwidth_threshold: optional number`
-
-  The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-  The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-  - `"1m"`
-
-  - `"5m"`
-
-  - `"10m"`
-
-  - `"15m"`
-
-  - `"20m"`
-
-  - `"30m"`
-
-  - `"45m"`
-
-  - `"60m"`
-
-- `packet_threshold: optional number`
-
-  The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-  Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-  - `"exact"`
-
-  - `"subnet"`
-
-  - `"supernet"`
-
-- `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-  Level of sensitivity set for zscore rules.
-
-  - `"low"`
-
-  - `"medium"`
-
-  - `"high"`
-
-- `zscore_target: optional "bits" or "packets"`
-
-  Target of the zscore rule analysis.
-
-  - `"bits"`
-
-  - `"packets"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "automatic_advertisement": true,
-          "name": "my_rule_1",
-          "prefixes": [
-            "203.0.113.1/32"
-          ],
-          "type": "zscore",
-          "bandwidth_threshold": 1000,
-          "packet_threshold": 10000,
-          "prefix_match": "exact",
-          "zscore_sensitivity": "high",
-          "zscore_target": "bits"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Update rule
-
-**patch** `/accounts/{account_id}/mnm/rules/{rule_id}`
-
-Update a network monitoring rule for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  The id of the rule. Must be unique.
-
-### Body Parameters
-
-- `automatic_advertisement: boolean`
-
-  Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-- `name: string`
-
-  The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-- `prefixes: array of string`
-
-- `type: "threshold" or "zscore" or "advanced_ddos"`
-
-  MNM rule type.
-
-  - `"threshold"`
-
-  - `"zscore"`
-
-  - `"advanced_ddos"`
-
-- `bandwidth_threshold: optional number`
-
-  The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-  The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-  - `"1m"`
-
-  - `"5m"`
-
-  - `"10m"`
-
-  - `"15m"`
-
-  - `"20m"`
-
-  - `"30m"`
-
-  - `"45m"`
-
-  - `"60m"`
-
-- `packet_threshold: optional number`
-
-  The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-  Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-  - `"exact"`
-
-  - `"subnet"`
-
-  - `"supernet"`
-
-- `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-  Level of sensitivity set for zscore rules.
-
-  - `"low"`
-
-  - `"medium"`
-
-  - `"high"`
-
-- `zscore_target: optional "bits" or "packets"`
-
-  Target of the zscore rule analysis.
-
-  - `"bits"`
-
-  - `"packets"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "automatic_advertisement": true,
-          "name": "my_rule_1",
-          "prefixes": [
-            "203.0.113.1/32"
-          ],
-          "type": "zscore",
-          "bandwidth_threshold": 1000,
-          "packet_threshold": 10000,
-          "prefix_match": "exact",
-          "zscore_sensitivity": "high",
-          "zscore_target": "bits"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Delete rule
-
-**delete** `/accounts/{account_id}/mnm/rules/{rule_id}`
-
-Delete a network monitoring rule for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  The id of the rule. Must be unique.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules/$RULE_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Magic Network Monitoring Rule
-
-- `MagicNetworkMonitoringRule object { id, automatic_advertisement, name, 8 more }`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-# Advertisements
-
-## Update advertisement for rule
-
-**patch** `/accounts/{account_id}/mnm/rules/{rule_id}/advertisement`
-
-Update advertisement for rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  The id of the rule. Must be unique.
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Advertisement`
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules/$RULE_ID/advertisement \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "automatic_advertisement": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Advertisement
-
-- `Advertisement object { automatic_advertisement }`
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
+[Link to this property](#)%20magic_network_monitoring.rules.advertisements%20%3E%20(model)%20advertisement%20%3E%20(schema)>)

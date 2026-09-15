@@ -1,908 +1,357 @@
+---
+title: Apps
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Apps
 
-## List Apps
+##### [List Apps](https://developers.cloudflare.com/api/resources/magic_transit/subresources/apps/methods/list)
 
-**get** `/accounts/{account_id}/magic/apps`
+GET/accounts/{account\_id}/magic/apps
 
-Lists Apps associated with an account.
+##### [Create a new App](https://developers.cloudflare.com/api/resources/magic_transit/subresources/apps/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/magic/apps
 
-- `account_id: string`
+##### [Update an App](https://developers.cloudflare.com/api/resources/magic_transit/subresources/apps/methods/update)
 
-  Identifier
+PUT/accounts/{account\_id}/magic/apps/{account\_app\_id}
 
-### Returns
+##### [Update an App](https://developers.cloudflare.com/api/resources/magic_transit/subresources/apps/methods/edit)
 
-- `errors: array of ResponseInfo`
+PATCH/accounts/{account\_id}/magic/apps/{account\_app\_id}
 
-  - `code: number`
+##### [Delete Account App](https://developers.cloudflare.com/api/resources/magic_transit/subresources/apps/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/magic/apps/{account\_app\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+AppListResponse = object {account\_app\_id, hostnames, ip\_subnets, 3 more } or object {managed\_app\_id, hostnames, ip\_subnets, 3 more }
 
-  - `code: number`
+Collection of Hostnames and/or IP Subnets to associate with traffic decisions.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: array of object { account_app_id, hostnames, ip_subnets, 3 more }  or object { managed_app_id, hostnames, ip_subnets, 3 more }`
+<summary>
 
-  - `MagicAccountApp object { account_app_id, hostnames, ip_subnets, 3 more }`
+MagicAccountApp object {account\_app\_id, hostnames, ip\_subnets, 3 more }
 
-    Custom app defined for an account.
+Custom app defined for an account.
 
-    - `account_app_id: string`
+</summary>
 
-      Magic account app ID.
+account\_app\_id: string
 
-    - `hostnames: optional array of string`
+Magic account app ID.
 
-      FQDNs to associate with traffic decisions.
+<a href="#">Link to this property</a>
 
-    - `ip_subnets: optional array of string`
+hostnames: optional array of string
 
-      IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+FQDNs to associate with traffic decisions.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Display name for the app.
+ip\_subnets: optional array of string
 
-    - `source_subnets: optional array of string`
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-      IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+<a href="#">Link to this property</a>
 
-    - `type: optional string`
+name: optional string
 
-      Category of the app.
+Display name for the app.
 
-  - `MagicManagedApp object { managed_app_id, hostnames, ip_subnets, 3 more }`
+<a href="#">Link to this property</a>
 
-    Managed app defined by Cloudflare.
+source\_subnets: optional array of string
 
-    - `managed_app_id: string`
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-      Managed app ID.
+<a href="#">Link to this property</a>
 
-    - `hostnames: optional array of string`
+type: optional string
 
-      FQDNs to associate with traffic decisions.
+Category of the app.
 
-    - `ip_subnets: optional array of string`
+<a href="#">Link to this property</a>
 
-      IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+</details>
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Display name for the app.
+<details>
 
-    - `source_subnets: optional array of string`
+<summary>
 
-      IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+MagicManagedApp object {managed\_app\_id, hostnames, ip\_subnets, 3 more }
 
-    - `type: optional string`
+Managed app defined by Cloudflare.
 
-      Category of the app.
+</summary>
 
-- `success: true`
+managed\_app\_id: string
 
-  Whether the API call was successful
+Managed app ID.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+hostnames: optional array of string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/apps \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+FQDNs to associate with traffic decisions.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-      "hostnames": [
-        "auth.cloudflare.com"
-      ],
-      "ip_subnets": [
-        "192.0.2.0/24"
-      ],
-      "name": "Cloudflare Dashboard",
-      "source_subnets": [
-        "192.0.2.0/24"
-      ],
-      "type": "Development"
-    }
-  ],
-  "success": true
-}
-```
+ip\_subnets: optional array of string
 
-## Create a new App
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-**post** `/accounts/{account_id}/magic/apps`
+<a href="#">Link to this property</a>
 
-Creates a new App for an account
+name: optional string
 
-### Path Parameters
+Display name for the app.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+source\_subnets: optional array of string
 
-### Body Parameters
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  Display name for the app.
+type: optional string
 
-- `type: string`
+Category of the app.
 
-  Category of the app.
+<a href="#">Link to this property</a>
 
-- `hostnames: optional array of string`
+</details>
 
-  FQDNs to associate with traffic decisions.
+<a href="#">Link to this property</a>
 
-- `ip_subnets: optional array of string`
+</details>
 
-  IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+[Link to this property](#)%20magic_transit.apps%20%3E%20(model)%20app_list_response%20%3E%20(schema)>)
 
-- `source_subnets: optional array of string`
+<details>
 
-  IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+<summary>
 
-### Returns
+AppCreateResponse object {account\_app\_id, hostnames, ip\_subnets, 3 more }
 
-- `errors: array of ResponseInfo`
+Custom app defined for an account.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+account\_app\_id: string
 
-  - `documentation_url: optional string`
+Magic account app ID.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+hostnames: optional array of string
 
-- `messages: array of ResponseInfo`
+FQDNs to associate with traffic decisions.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+ip\_subnets: optional array of string
 
-  - `documentation_url: optional string`
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { account_app_id, hostnames, ip_subnets, 3 more }`
+name: optional string
 
-  Custom app defined for an account.
+Display name for the app.
 
-  - `account_app_id: string`
+<a href="#">Link to this property</a>
 
-    Magic account app ID.
+source\_subnets: optional array of string
 
-  - `hostnames: optional array of string`
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-    FQDNs to associate with traffic decisions.
+<a href="#">Link to this property</a>
 
-  - `ip_subnets: optional array of string`
+type: optional string
 
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+Category of the app.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Display name for the app.
+</details>
 
-  - `source_subnets: optional array of string`
+[Link to this property](#)%20magic_transit.apps%20%3E%20(model)%20app_create_response%20%3E%20(schema)>)
 
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+<details>
 
-  - `type: optional string`
+<summary>
 
-    Category of the app.
+AppUpdateResponse object {account\_app\_id, hostnames, ip\_subnets, 3 more }
 
-- `success: true`
+Custom app defined for an account.
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+account\_app\_id: string
 
-### Example
+Magic account app ID.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/apps \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Cloudflare Dashboard",
-          "type": "Development"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+hostnames: optional array of string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "hostnames": [
-      "auth.cloudflare.com"
-    ],
-    "ip_subnets": [
-      "192.0.2.0/24"
-    ],
-    "name": "Cloudflare Dashboard",
-    "source_subnets": [
-      "192.0.2.0/24"
-    ],
-    "type": "Development"
-  },
-  "success": true
-}
-```
+FQDNs to associate with traffic decisions.
 
-## Update an App
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/magic/apps/{account_app_id}`
+ip\_subnets: optional array of string
 
-Updates an Account App
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: optional string
 
-  Identifier
+Display name for the app.
 
-- `account_app_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+source\_subnets: optional array of string
 
-### Body Parameters
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-- `hostnames: optional array of string`
+<a href="#">Link to this property</a>
 
-  FQDNs to associate with traffic decisions.
+type: optional string
 
-- `ip_subnets: optional array of string`
+Category of the app.
 
-  IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+</details>
 
-  Display name for the app.
+[Link to this property](#)%20magic_transit.apps%20%3E%20(model)%20app_update_response%20%3E%20(schema)>)
 
-- `source_subnets: optional array of string`
+<details>
 
-  IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+<summary>
 
-- `type: optional string`
+AppEditResponse object {account\_app\_id, hostnames, ip\_subnets, 3 more }
 
-  Category of the app.
+Custom app defined for an account.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+account\_app\_id: string
 
-  - `code: number`
+Magic account app ID.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+hostnames: optional array of string
 
-  - `source: optional object { pointer }`
+FQDNs to associate with traffic decisions.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+ip\_subnets: optional array of string
 
-  - `code: number`
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: optional string
 
-  - `source: optional object { pointer }`
+Display name for the app.
 
-- `result: object { account_app_id, hostnames, ip_subnets, 3 more }`
+<a href="#">Link to this property</a>
 
-  Custom app defined for an account.
+source\_subnets: optional array of string
 
-  - `account_app_id: string`
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-    Magic account app ID.
+<a href="#">Link to this property</a>
 
-  - `hostnames: optional array of string`
+type: optional string
 
-    FQDNs to associate with traffic decisions.
+Category of the app.
 
-  - `ip_subnets: optional array of string`
+<a href="#">Link to this property</a>
 
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+</details>
 
-  - `name: optional string`
+[Link to this property](#)%20magic_transit.apps%20%3E%20(model)%20app_edit_response%20%3E%20(schema)>)
 
-    Display name for the app.
+<details>
 
-  - `source_subnets: optional array of string`
+<summary>
 
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
+AppDeleteResponse object {account\_app\_id, hostnames, ip\_subnets, 3 more }
 
-  - `type: optional string`
+Custom app defined for an account.
 
-    Category of the app.
+</summary>
 
-- `success: true`
+account\_app\_id: string
 
-  Whether the API call was successful
+Magic account app ID.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+hostnames: optional array of string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/apps/$ACCOUNT_APP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Cloudflare Dashboard",
-          "type": "Development"
-        }'
-```
+FQDNs to associate with traffic decisions.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "hostnames": [
-      "auth.cloudflare.com"
-    ],
-    "ip_subnets": [
-      "192.0.2.0/24"
-    ],
-    "name": "Cloudflare Dashboard",
-    "source_subnets": [
-      "192.0.2.0/24"
-    ],
-    "type": "Development"
-  },
-  "success": true
-}
-```
+ip\_subnets: optional array of string
 
-## Update an App
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-**patch** `/accounts/{account_id}/magic/apps/{account_app_id}`
+<a href="#">Link to this property</a>
 
-Updates an Account App
+name: optional string
 
-### Path Parameters
+Display name for the app.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+source\_subnets: optional array of string
 
-- `account_app_id: string`
+IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+type: optional string
 
-- `hostnames: optional array of string`
+Category of the app.
 
-  FQDNs to associate with traffic decisions.
+<a href="#">Link to this property</a>
 
-- `ip_subnets: optional array of string`
+</details>
 
-  IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-- `name: optional string`
-
-  Display name for the app.
-
-- `source_subnets: optional array of string`
-
-  IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-- `type: optional string`
-
-  Category of the app.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { account_app_id, hostnames, ip_subnets, 3 more }`
-
-  Custom app defined for an account.
-
-  - `account_app_id: string`
-
-    Magic account app ID.
-
-  - `hostnames: optional array of string`
-
-    FQDNs to associate with traffic decisions.
-
-  - `ip_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `name: optional string`
-
-    Display name for the app.
-
-  - `source_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `type: optional string`
-
-    Category of the app.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/apps/$ACCOUNT_APP_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Cloudflare Dashboard",
-          "type": "Development"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "hostnames": [
-      "auth.cloudflare.com"
-    ],
-    "ip_subnets": [
-      "192.0.2.0/24"
-    ],
-    "name": "Cloudflare Dashboard",
-    "source_subnets": [
-      "192.0.2.0/24"
-    ],
-    "type": "Development"
-  },
-  "success": true
-}
-```
-
-## Delete Account App
-
-**delete** `/accounts/{account_id}/magic/apps/{account_app_id}`
-
-Deletes specific Account App.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `account_app_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { account_app_id, hostnames, ip_subnets, 3 more }`
-
-  Custom app defined for an account.
-
-  - `account_app_id: string`
-
-    Magic account app ID.
-
-  - `hostnames: optional array of string`
-
-    FQDNs to associate with traffic decisions.
-
-  - `ip_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `name: optional string`
-
-    Display name for the app.
-
-  - `source_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `type: optional string`
-
-    Category of the app.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/apps/$ACCOUNT_APP_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "hostnames": [
-      "auth.cloudflare.com"
-    ],
-    "ip_subnets": [
-      "192.0.2.0/24"
-    ],
-    "name": "Cloudflare Dashboard",
-    "source_subnets": [
-      "192.0.2.0/24"
-    ],
-    "type": "Development"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### App List Response
-
-- `AppListResponse = object { account_app_id, hostnames, ip_subnets, 3 more }  or object { managed_app_id, hostnames, ip_subnets, 3 more }`
-
-  Collection of Hostnames and/or IP Subnets to associate with traffic decisions.
-
-  - `MagicAccountApp object { account_app_id, hostnames, ip_subnets, 3 more }`
-
-    Custom app defined for an account.
-
-    - `account_app_id: string`
-
-      Magic account app ID.
-
-    - `hostnames: optional array of string`
-
-      FQDNs to associate with traffic decisions.
-
-    - `ip_subnets: optional array of string`
-
-      IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-    - `name: optional string`
-
-      Display name for the app.
-
-    - `source_subnets: optional array of string`
-
-      IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-    - `type: optional string`
-
-      Category of the app.
-
-  - `MagicManagedApp object { managed_app_id, hostnames, ip_subnets, 3 more }`
-
-    Managed app defined by Cloudflare.
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `hostnames: optional array of string`
-
-      FQDNs to associate with traffic decisions.
-
-    - `ip_subnets: optional array of string`
-
-      IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-    - `name: optional string`
-
-      Display name for the app.
-
-    - `source_subnets: optional array of string`
-
-      IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-    - `type: optional string`
-
-      Category of the app.
-
-### App Create Response
-
-- `AppCreateResponse object { account_app_id, hostnames, ip_subnets, 3 more }`
-
-  Custom app defined for an account.
-
-  - `account_app_id: string`
-
-    Magic account app ID.
-
-  - `hostnames: optional array of string`
-
-    FQDNs to associate with traffic decisions.
-
-  - `ip_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `name: optional string`
-
-    Display name for the app.
-
-  - `source_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `type: optional string`
-
-    Category of the app.
-
-### App Update Response
-
-- `AppUpdateResponse object { account_app_id, hostnames, ip_subnets, 3 more }`
-
-  Custom app defined for an account.
-
-  - `account_app_id: string`
-
-    Magic account app ID.
-
-  - `hostnames: optional array of string`
-
-    FQDNs to associate with traffic decisions.
-
-  - `ip_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `name: optional string`
-
-    Display name for the app.
-
-  - `source_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `type: optional string`
-
-    Category of the app.
-
-### App Edit Response
-
-- `AppEditResponse object { account_app_id, hostnames, ip_subnets, 3 more }`
-
-  Custom app defined for an account.
-
-  - `account_app_id: string`
-
-    Magic account app ID.
-
-  - `hostnames: optional array of string`
-
-    FQDNs to associate with traffic decisions.
-
-  - `ip_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `name: optional string`
-
-    Display name for the app.
-
-  - `source_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `type: optional string`
-
-    Category of the app.
-
-### App Delete Response
-
-- `AppDeleteResponse object { account_app_id, hostnames, ip_subnets, 3 more }`
-
-  Custom app defined for an account.
-
-  - `account_app_id: string`
-
-    Magic account app ID.
-
-  - `hostnames: optional array of string`
-
-    FQDNs to associate with traffic decisions.
-
-  - `ip_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `name: optional string`
-
-    Display name for the app.
-
-  - `source_subnets: optional array of string`
-
-    IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported)
-
-  - `type: optional string`
-
-    Category of the app.
+[Link to this property](#)%20magic_transit.apps%20%3E%20(model)%20app_delete_response%20%3E%20(schema)>)

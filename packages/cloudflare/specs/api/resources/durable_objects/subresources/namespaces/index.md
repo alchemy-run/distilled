@@ -1,315 +1,89 @@
+---
+title: Namespaces
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Durable Objects](https://developers.cloudflare.com/api/resources/durable_objects)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Namespaces
 
-## List Namespaces
+##### [List Namespaces](https://developers.cloudflare.com/api/resources/durable_objects/subresources/namespaces/methods/list)
 
-**get** `/accounts/{account_id}/workers/durable_objects/namespaces`
+GET/accounts/{account\_id}/workers/durable\_objects/namespaces
 
-Returns the Durable Object namespaces owned by an account.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+Namespace object {id, class, name, 2 more }
 
-### Query Parameters
+</summary>
 
-- `page: optional number`
+id: optional string
 
-  Current page.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+class: optional string
 
-  Items per-page.
+<a href="#">Link to this property</a>
 
-### Returns
+name: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+script: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+use\_sqlite: optional boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20durable_objects.namespaces%20%3E%20(model)%20namespace%20%3E%20(schema)>)
 
-  - `code: number`
+#### NamespacesObjects
 
-  - `message: string`
+##### [List Objects](https://developers.cloudflare.com/api/resources/durable_objects/subresources/namespaces/subresources/objects/methods/list)
 
-  - `documentation_url: optional string`
+GET/accounts/{account\_id}/workers/durable\_objects/namespaces/{id}/objects
 
-  - `source: optional object { pointer }`
+##### ModelsExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+DurableObject object {id, hasStoredData }
 
-  - `true`
+</summary>
 
-- `result: optional array of Namespace`
+id: optional string
 
-  - `id: optional string`
+ID of the Durable Object.
 
-  - `class: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+hasStoredData: optional boolean
 
-  - `script: optional string`
+Whether the Durable Object has stored data.
 
-  - `use_sqlite: optional boolean`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</details>
 
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/durable_objects/namespaces \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "class": "class",
-      "name": "name",
-      "script": "script",
-      "use_sqlite": true
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Namespace
-
-- `Namespace object { id, class, name, 2 more }`
-
-  - `id: optional string`
-
-  - `class: optional string`
-
-  - `name: optional string`
-
-  - `script: optional string`
-
-  - `use_sqlite: optional boolean`
-
-# Objects
-
-## List Objects
-
-**get** `/accounts/{account_id}/workers/durable_objects/namespaces/{id}/objects`
-
-Returns the Durable Objects in a given namespace.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `id: string`
-
-  ID of the namespace.
-
-### Query Parameters
-
-- `cursor: optional string`
-
-  Opaque token indicating the position from which to continue when requesting the next set of records. A valid value for the cursor can be obtained from the cursors object in the result_info structure.
-
-- `limit: optional number`
-
-  The number of objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of DurableObject`
-
-  - `id: optional string`
-
-    ID of the Durable Object.
-
-  - `hasStoredData: optional boolean`
-
-    Whether the Durable Object has stored data.
-
-- `result_info: optional object { count, cursor, page, 3 more }`
-
-  - `count: optional number`
-
-    Total results returned based on your list parameters.
-
-  - `cursor: optional string`
-
-    Opaque token indicating the position from which to continue when requesting the next set of records. A valid value for the cursor can be obtained from the cursors object in the result_info structure.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/durable_objects/namespaces/$ID/objects \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "fe7803fc55b964e09d94666545aab688d360c6bda69ba349ced1e5f28d2fc2c8",
-      "hasStoredData": true
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "cursor": "AAAAANuhDN7SjacTnSVsDu3WW1Lvst6dxJGTjRY5BhxPXdf6L6uTcpd_NVtjhn11OUYRsVEykxoUwF-JQU4dn6QylZSKTOJuG0indrdn_MlHpMRtsxgXjs-RPdHYIVm3odE_uvEQ_dTQGFm8oikZMohns34DLBgrQpc",
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Durable Object
-
-- `DurableObject object { id, hasStoredData }`
-
-  - `id: optional string`
-
-    ID of the Durable Object.
-
-  - `hasStoredData: optional boolean`
-
-    Whether the Durable Object has stored data.
+[Link to this property](#)%20durable_objects.namespaces.objects%20%3E%20(model)%20durable_object%20%3E%20(schema)>)

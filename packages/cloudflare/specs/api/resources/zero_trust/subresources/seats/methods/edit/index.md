@@ -1,106 +1,292 @@
-## Update a user seat
+---
+title: Update a user seat
+---
 
-**patch** `/accounts/{account_id}/access/seats`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Seats](https://developers.cloudflare.com/api/resources/zero_trust/subresources/seats)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a user seat
+
+PATCH/accounts/{account\_id}/access/seats
 
 Removes a user from a Zero Trust seat when both `access_seat` and `gateway_seat` are set to false.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `body: array of object { access_seat, gateway_seat, seat_uid }`
 
-  - `access_seat: boolean`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    True if the seat is part of Access.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `gateway_seat: boolean`
+</details>
 
-    True if the seat is part of Gateway.
+<details>
 
-  - `seat_uid: string`
+<summary>API Email + API Key</summary>
 
-    The unique API identifier for the Zero Trust seat.
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `messages: array of object { code, message, documentation_url, source }`
+`Zero Trust: Seats Write`
 
-  - `code: number`
+##### P ath ParametersExpand Collapse
 
-  - `message: string`
+account\_id: string
 
-  - `documentation_url: optional string`
+Identifier.
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+[Link to this property](#)%20zero_trust.seats%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: true`
+##### Body ParametersJSONExpand Collapse
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional array of Seat`
+body: array of object {access\_seat, gateway\_seat, seat\_uid }
 
-  - `access_seat: optional boolean`
+</summary>
 
-    True if the seat is part of Access.
+access\_seat: boolean
 
-  - `created_at: optional string`
+True if the seat is part of Access.
 
-  - `gateway_seat: optional boolean`
+<a href="#">Link to this property</a>
 
-    True if the seat is part of Gateway.
+gateway\_seat: boolean
 
-  - `seat_uid: optional string`
+True if the seat is part of Gateway.
 
-    The unique API identifier for the Zero Trust seat.
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+seat\_uid: string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+The unique API identifier for the Zero Trust seat.
 
-  - `count: optional number`
+maxLength36
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results.
+[Link to this property](#)%20zero_trust.seats%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
 
-  - `per_page: optional number`
+##### ReturnsExpand Collapse
 
-    Number of results per page of results.
+<details>
 
-  - `total_count: optional number`
+<summary>
 
-    Total results available without any search parameters.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `total_pages: optional number`
+</summary>
 
-    The number of total pages in the entire result set.
+code: number
 
-### Example
+minimum1000
 
-```http
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.seats%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.seats%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.seats%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.seats%20%3E%20(model)%20seat%20%3E%20(schema)">Seat</a> { access\_seat, created\_at, gateway\_seat, 2 more }
+
+</summary>
+
+access\_seat: optional boolean
+
+True if the seat is part of Access.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+gateway\_seat: optional boolean
+
+True if the seat is part of Gateway.
+
+<a href="#">Link to this property</a>
+
+seat\_uid: optional string
+
+The unique API identifier for the Zero Trust seat.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.seats%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.seats%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Update a user seat
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/seats \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -114,9 +300,55 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/seats \
         ]'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "access_seat": false,
+      "created_at": "2014-01-01T05:20:00.12345Z",
+      "gateway_seat": false,
+      "seat_uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+      "updated_at": "2014-01-01T05:20:00.12345Z"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

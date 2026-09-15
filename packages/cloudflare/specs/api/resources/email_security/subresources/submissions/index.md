@@ -1,414 +1,299 @@
+---
+title: Submissions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Submissions
 
-## Get reclassify submissions
+##### [Get reclassify submissions](https://developers.cloudflare.com/api/resources/email_security/subresources/submissions/methods/list)
 
-**get** `/accounts/{account_id}/email-security/submissions`
+GET/accounts/{account\_id}/email-security/submissions
 
-Returns information for submissions made to reclassify emails. Shows the status, outcome, and disposition changes for reclassification requests made by users or the security team. Useful for tracking false positive/negative reports.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+SubmissionListResponse object {requested\_at, submission\_id, customer\_status, 15 more }
 
-### Query Parameters
+</summary>
 
-- `end: optional string`
+requested\_at: string
 
-  The end of the search date range. Defaults to `now`.
+When the submission was requested (UTC).
 
-- `escalated_from_user: optional boolean`
+formatdate-time
 
-  When true, return only submissions that were escalated by an end user (vs. by the security team). When false, return only submissions that were not escalated by an end user. When omitted, no filter is applied.
+<a href="#">Link to this property</a>
 
-- `original_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
+submission\_id: string
 
-  - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-  - `"SUSPICIOUS"`
+<details>
 
-  - `"SPOOF"`
+<summary>
 
-  - `"SPAM"`
+customer\_status: optional "escalated"or "reviewed"or "unreviewed"
 
-  - `"BULK"`
+</summary>
 
-  - `"NONE"`
+One of the following:
 
-- `outcome_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
+"escalated"
 
-  - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-  - `"SUSPICIOUS"`
+"reviewed"
 
-  - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-  - `"SPAM"`
+"unreviewed"
 
-  - `"BULK"`
+<a href="#">Link to this property</a>
 
-  - `"NONE"`
+</details>
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Current page within paginated list of results.
+<details>
 
-- `per_page: optional number`
+<summary>
 
-  The number of results per page. Maximum value is 1000.
+escalated\_as: optional "MALICIOUS"or "SUSPICIOUS"or "SPOOF"or 3 more
 
-- `query: optional string`
+</summary>
 
-- `requested_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
+One of the following:
 
-  - `"MALICIOUS"`
+"MALICIOUS"
 
-  - `"SUSPICIOUS"`
+<a href="#">Link to this property</a>
 
-  - `"SPOOF"`
+"SUSPICIOUS"
 
-  - `"SPAM"`
+<a href="#">Link to this property</a>
 
-  - `"BULK"`
+"SPOOF"
 
-  - `"NONE"`
+<a href="#">Link to this property</a>
 
-- `start: optional string`
+"SPAM"
 
-  The beginning of the search date range. Defaults to `now - 30 days`.
+<a href="#">Link to this property</a>
 
-- `status: optional string`
+"BULK"
 
-- `submission_id: optional string`
+<a href="#">Link to this property</a>
 
-- `type: optional "TEAM" or "USER"`
+"NONE"
 
-  - `"TEAM"`
+<a href="#">Link to this property</a>
 
-  - `"USER"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+escalated\_at: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+escalated\_by: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+escalated\_submission\_id: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+original\_disposition: optional "MALICIOUS"or "SUSPICIOUS"or "SPOOF"or 3 more
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `success: true`
+"MALICIOUS"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"SUSPICIOUS"
 
-- `result: optional array of object { requested_at, submission_id, customer_status, 15 more }`
+<a href="#">Link to this property</a>
 
-  - `requested_at: string`
+"SPOOF"
 
-    When the submission was requested (UTC).
+<a href="#">Link to this property</a>
 
-  - `submission_id: string`
+"SPAM"
 
-  - `customer_status: optional "escalated" or "reviewed" or "unreviewed"`
+<a href="#">Link to this property</a>
 
-    - `"escalated"`
+"BULK"
 
-    - `"reviewed"`
+<a href="#">Link to this property</a>
 
-    - `"unreviewed"`
+"NONE"
 
-  - `escalated_as: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS"`
+</details>
 
-    - `"SUSPICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SPOOF"`
+original\_edf\_hash: optional string
 
-    - `"SPAM"`
+<a href="#">Link to this property</a>
 
-    - `"BULK"`
+original\_postfix\_id: optional string
 
-    - `"NONE"`
+The postfix ID of the original message that was submitted.
 
-  - `escalated_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `escalated_by: optional string`
+outcome: optional string
 
-  - `escalated_submission_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `original_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
+<details>
 
-    - `"MALICIOUS"`
+<summary>
 
-    - `"SUSPICIOUS"`
+outcome\_disposition: optional "MALICIOUS"or "SUSPICIOUS"or "SPOOF"or 3 more
 
-    - `"SPOOF"`
+</summary>
 
-    - `"SPAM"`
+One of the following:
 
-    - `"BULK"`
+"MALICIOUS"
 
-    - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `original_edf_hash: optional string`
+"SUSPICIOUS"
 
-  - `original_postfix_id: optional string`
+<a href="#">Link to this property</a>
 
-    The postfix ID of the original message that was submitted
+"SPOOF"
 
-  - `outcome: optional string`
+<a href="#">Link to this property</a>
 
-  - `outcome_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
+"SPAM"
 
-    - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+"BULK"
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+"NONE"
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"NONE"`
+</details>
 
-  - `requested_by: optional string`
+<a href="#">Link to this property</a>
 
-  - `requested_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
+requested\_by: optional string
 
-    - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+<details>
 
-    - `"SPOOF"`
+<summary>
 
-    - `"SPAM"`
+requested\_disposition: optional "MALICIOUS"or "SUSPICIOUS"or "SPOOF"or 3 more
 
-    - `"BULK"`
+</summary>
 
-    - `"NONE"`
+One of the following:
 
-  - `requested_ts: optional string`
+"MALICIOUS"
 
-    Deprecated, use `requested_at` instead
+<a href="#">Link to this property</a>
 
-  - `status: optional string`
+"SUSPICIOUS"
 
-  - `subject: optional string`
+<a href="#">Link to this property</a>
 
-  - `type: optional "Team" or "User"`
+"SPOOF"
 
-    Whether the submission was created by a team member or an end user.
+<a href="#">Link to this property</a>
 
-    - `"Team"`
+"SPAM"
 
-    - `"User"`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+"BULK"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+"NONE"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+Deprecatedrequested\_ts: optional string
 
-  - `total_count: optional number`
+Use <code>requested_at</code> instead.
 
-    Total results available without any search parameters.
+Deprecated, use <code>requested_at</code> instead.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/submissions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+status: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "requested_at": "2019-12-27T18:11:19.117Z",
-      "submission_id": "submission_id",
-      "customer_status": "escalated",
-      "escalated_as": "MALICIOUS",
-      "escalated_at": "2019-12-27T18:11:19.117Z",
-      "escalated_by": "escalated_by",
-      "escalated_submission_id": "escalated_submission_id",
-      "original_disposition": "MALICIOUS",
-      "original_edf_hash": "original_edf_hash",
-      "original_postfix_id": "original_postfix_id",
-      "outcome": "outcome",
-      "outcome_disposition": "MALICIOUS",
-      "requested_by": "requested_by",
-      "requested_disposition": "MALICIOUS",
-      "requested_ts": "requested_ts",
-      "status": "status",
-      "subject": "subject",
-      "type": "Team"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+subject: optional string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Submission List Response
+<details>
 
-- `SubmissionListResponse object { requested_at, submission_id, customer_status, 15 more }`
+<summary>
 
-  - `requested_at: string`
+type: optional "Team"or "User"
 
-    When the submission was requested (UTC).
+Indicates whether a team member or an end user created the submission.
 
-  - `submission_id: string`
+</summary>
 
-  - `customer_status: optional "escalated" or "reviewed" or "unreviewed"`
+One of the following:
 
-    - `"escalated"`
+"Team"
 
-    - `"reviewed"`
+<a href="#">Link to this property</a>
 
-    - `"unreviewed"`
+"User"
 
-  - `escalated_as: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS"`
+</details>
 
-    - `"SUSPICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SPOOF"`
+</details>
 
-    - `"SPAM"`
-
-    - `"BULK"`
-
-    - `"NONE"`
-
-  - `escalated_at: optional string`
-
-  - `escalated_by: optional string`
-
-  - `escalated_submission_id: optional string`
-
-  - `original_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
-
-    - `"MALICIOUS"`
-
-    - `"SUSPICIOUS"`
-
-    - `"SPOOF"`
-
-    - `"SPAM"`
-
-    - `"BULK"`
-
-    - `"NONE"`
-
-  - `original_edf_hash: optional string`
-
-  - `original_postfix_id: optional string`
-
-    The postfix ID of the original message that was submitted
-
-  - `outcome: optional string`
-
-  - `outcome_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
-
-    - `"MALICIOUS"`
-
-    - `"SUSPICIOUS"`
-
-    - `"SPOOF"`
-
-    - `"SPAM"`
-
-    - `"BULK"`
-
-    - `"NONE"`
-
-  - `requested_by: optional string`
-
-  - `requested_disposition: optional "MALICIOUS" or "SUSPICIOUS" or "SPOOF" or 3 more`
-
-    - `"MALICIOUS"`
-
-    - `"SUSPICIOUS"`
-
-    - `"SPOOF"`
-
-    - `"SPAM"`
-
-    - `"BULK"`
-
-    - `"NONE"`
-
-  - `requested_ts: optional string`
-
-    Deprecated, use `requested_at` instead
-
-  - `status: optional string`
-
-  - `subject: optional string`
-
-  - `type: optional "Team" or "User"`
-
-    Whether the submission was created by a team member or an end user.
-
-    - `"Team"`
-
-    - `"User"`
+[Link to this property](#)%20email_security.submissions%20%3E%20(model)%20submission_list_response%20%3E%20(schema)>)

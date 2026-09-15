@@ -1,435 +1,179 @@
+---
+title: Move
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Move
 
-## Move a message
+##### [Move a message](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/move/methods/create)
 
-**post** `/accounts/{account_id}/email-security/investigate/{investigate_id}/move`
+POST/accounts/{account\_id}/email-security/investigate/{investigate\_id}/move
 
-Moves a single message to a specified mailbox folder (Inbox, JunkEmail, DeletedItems, RecoverableItemsDeletions, or RecoverableItemsPurges). Requires active integration.
+##### [Move multiple messages](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/move/methods/bulk)
 
-### Path Parameters
+POST/accounts/{account\_id}/email-security/investigate/move
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `investigate_id: string`
+<summary>
 
-  Unique identifier for a message retrieved from investigation
+MoveCreateResponse object {success, completed\_at, completed\_timestamp, 6 more }
 
-### Body Parameters
+</summary>
 
-- `destination: "Inbox" or "JunkEmail" or "DeletedItems" or 2 more`
+success: boolean
 
-  - `"Inbox"`
+Whether the operation succeeded.
 
-  - `"JunkEmail"`
+<a href="#">Link to this property</a>
 
-  - `"DeletedItems"`
+completed\_at: optional string
 
-  - `"RecoverableItemsDeletions"`
+When the move operation completed (UTC).
 
-  - `"RecoverableItemsPurges"`
+formatdate-time
 
-- `expected_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-  - `"MALICIOUS"`
+Deprecatedcompleted\_timestamp: optional string
 
-  - `"MALICIOUS-BEC"`
+Use <code>completed_at</code> instead.
 
-  - `"SUSPICIOUS"`
+Deprecated, use <code>completed_at</code> instead. End of life: November 1, 2026.
 
-  - `"SPOOF"`
+formatdate-time
 
-  - `"SPAM"`
+<a href="#">Link to this property</a>
 
-  - `"BULK"`
+destination: optional string
 
-  - `"ENCRYPTED"`
+Destination folder for the message.
 
-  - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-  - `"UNKNOWN"`
+Deprecateditem\_count: optional number
 
-  - `"NONE"`
+This field is deprecated.
 
-### Returns
+Number of items moved. End of life: November 1, 2026.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+message\_id: optional string
 
-  - `message: string`
+Message identifier.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+operation: optional string
 
-    - `pointer: optional string`
+Type of operation performed.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+recipient: optional string
 
-  - `message: string`
+Recipient email address.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+status: optional string
 
-    - `pointer: optional string`
+Operation status.
 
-- `result: array of object { success, completed_at, completed_timestamp, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+</details>
 
-    Whether the operation succeeded
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(model)%20move_create_response%20%3E%20(schema)>)
 
-  - `completed_at: optional string`
+<details>
 
-    When the move operation completed (UTC)
+<summary>
 
-  - `completed_timestamp: optional string`
+MoveBulkResponse object {success, completed\_at, completed\_timestamp, 6 more }
 
-    Deprecated, use `completed_at` instead. End of life: November 1, 2026.
+</summary>
 
-  - `destination: optional string`
+success: boolean
 
-    Destination folder for the message
+Whether the operation succeeded.
 
-  - `item_count: optional number`
+<a href="#">Link to this property</a>
 
-    Number of items moved. End of life: November 1, 2026.
+completed\_at: optional string
 
-  - `message_id: optional string`
+When the move operation completed (UTC).
 
-    Message identifier
+formatdate-time
 
-  - `operation: optional string`
+<a href="#">Link to this property</a>
 
-    Type of operation performed
+Deprecatedcompleted\_timestamp: optional string
 
-  - `recipient: optional string`
+Use <code>completed_at</code> instead.
 
-    Recipient email address
+Deprecated, use <code>completed_at</code> instead. End of life: November 1, 2026.
 
-  - `status: optional string`
+formatdate-time
 
-    Operation status
+<a href="#">Link to this property</a>
 
-- `success: true`
+destination: optional string
 
-  Whether the API call was successful.
+Destination folder for the message.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+Deprecateditem\_count: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/$INVESTIGATE_ID/move \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "destination": "Inbox"
-        }'
-```
+This field is deprecated.
 
-#### Response
+Number of items moved. End of life: November 1, 2026.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "success": true,
-      "completed_at": "2019-12-27T18:11:19.117Z",
-      "completed_timestamp": "2019-12-27T18:11:19.117Z",
-      "destination": "destination",
-      "item_count": 0,
-      "message_id": "message_id",
-      "operation": "operation",
-      "recipient": "recipient",
-      "status": "status"
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Move multiple messages
+message\_id: optional string
 
-**post** `/accounts/{account_id}/email-security/investigate/move`
+Message identifier.
 
-Moves multiple messages to a specified mailbox folder (Inbox, JunkEmail, DeletedItems, RecoverableItemsDeletions, or RecoverableItemsPurges). Requires active integration.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+operation: optional string
 
-- `account_id: string`
+Type of operation performed.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+recipient: optional string
 
-- `destination: "Inbox" or "JunkEmail" or "DeletedItems" or 2 more`
+Recipient email address.
 
-  - `"Inbox"`
+<a href="#">Link to this property</a>
 
-  - `"JunkEmail"`
+status: optional string
 
-  - `"DeletedItems"`
+Operation status.
 
-  - `"RecoverableItemsDeletions"`
+<a href="#">Link to this property</a>
 
-  - `"RecoverableItemsPurges"`
+</details>
 
-- `expected_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
-
-  - `"MALICIOUS"`
-
-  - `"MALICIOUS-BEC"`
-
-  - `"SUSPICIOUS"`
-
-  - `"SPOOF"`
-
-  - `"SPAM"`
-
-  - `"BULK"`
-
-  - `"ENCRYPTED"`
-
-  - `"EXTERNAL"`
-
-  - `"UNKNOWN"`
-
-  - `"NONE"`
-
-- `ids: optional array of string`
-
-  List of message IDs to move
-
-- `postfix_ids: optional array of string`
-
-  Deprecated, use `ids` instead. End of life: November 1, 2026. List of message IDs to move.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: array of object { success, completed_at, completed_timestamp, 6 more }`
-
-  - `success: boolean`
-
-    Whether the operation succeeded
-
-  - `completed_at: optional string`
-
-    When the move operation completed (UTC)
-
-  - `completed_timestamp: optional string`
-
-    Deprecated, use `completed_at` instead. End of life: November 1, 2026.
-
-  - `destination: optional string`
-
-    Destination folder for the message
-
-  - `item_count: optional number`
-
-    Number of items moved. End of life: November 1, 2026.
-
-  - `message_id: optional string`
-
-    Message identifier
-
-  - `operation: optional string`
-
-    Type of operation performed
-
-  - `recipient: optional string`
-
-    Recipient email address
-
-  - `status: optional string`
-
-    Operation status
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/move \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "destination": "Inbox"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "success": true,
-      "completed_at": "2019-12-27T18:11:19.117Z",
-      "completed_timestamp": "2019-12-27T18:11:19.117Z",
-      "destination": "destination",
-      "item_count": 0,
-      "message_id": "message_id",
-      "operation": "operation",
-      "recipient": "recipient",
-      "status": "status"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Move Create Response
-
-- `MoveCreateResponse object { success, completed_at, completed_timestamp, 6 more }`
-
-  - `success: boolean`
-
-    Whether the operation succeeded
-
-  - `completed_at: optional string`
-
-    When the move operation completed (UTC)
-
-  - `completed_timestamp: optional string`
-
-    Deprecated, use `completed_at` instead. End of life: November 1, 2026.
-
-  - `destination: optional string`
-
-    Destination folder for the message
-
-  - `item_count: optional number`
-
-    Number of items moved. End of life: November 1, 2026.
-
-  - `message_id: optional string`
-
-    Message identifier
-
-  - `operation: optional string`
-
-    Type of operation performed
-
-  - `recipient: optional string`
-
-    Recipient email address
-
-  - `status: optional string`
-
-    Operation status
-
-### Move Bulk Response
-
-- `MoveBulkResponse object { success, completed_at, completed_timestamp, 6 more }`
-
-  - `success: boolean`
-
-    Whether the operation succeeded
-
-  - `completed_at: optional string`
-
-    When the move operation completed (UTC)
-
-  - `completed_timestamp: optional string`
-
-    Deprecated, use `completed_at` instead. End of life: November 1, 2026.
-
-  - `destination: optional string`
-
-    Destination folder for the message
-
-  - `item_count: optional number`
-
-    Number of items moved. End of life: November 1, 2026.
-
-  - `message_id: optional string`
-
-    Message identifier
-
-  - `operation: optional string`
-
-    Type of operation performed
-
-  - `recipient: optional string`
-
-    Recipient email address
-
-  - `status: optional string`
-
-    Operation status
+[Link to this property](#)%20email_security.investigate.move%20%3E%20(model)%20move_bulk_response%20%3E%20(schema)>)

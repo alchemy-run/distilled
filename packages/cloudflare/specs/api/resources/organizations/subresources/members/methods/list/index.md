@@ -1,114 +1,302 @@
-## List organization members
+---
+title: List organization members
+---
 
-**get** `/organizations/{organization_id}/members`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Organizations](https://developers.cloudflare.com/api/resources/organizations)
+
+[Members](https://developers.cloudflare.com/api/resources/organizations/subresources/members)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List organization members
+
+GET/organizations/{organization\_id}/members
 
 List memberships for an Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
 
-### Path Parameters
+##### Security
 
-- `organization_id: string`
+API Email + API Key
 
-### Query Parameters
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `page_size: optional number`
+**Example:**`X-Auth-Email: user@example.com`
 
-  The amount of items to return. Defaults to 10.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `page_token: optional string`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  An opaque token returned from the last list response that when
-  provided will retrieve the next page.
+##### P ath ParametersExpand Collapse
 
-  Parameters used to filter the retrieved list must remain in subsequent
-  requests with a page token.
+organization\_id: string
 
-- `status: optional array of "active" or "canceled"`
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20organization_id%20%3E%20(schema)>)
 
-  Filter the list of memberships by membership status.
+##### Q uery ParametersExpand Collapse
 
-  - `"active"`
+page\_size: optional number
 
-  - `"canceled"`
+The amount of items to return. Defaults to 10.
 
-- `user: optional object { email }`
+maximum1000
 
-  - `email: optional string`
+minimum0
 
-    Filter the list of memberships for a specific email that ends with a substring.
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page_size%20%3E%20(schema)>)
 
-### Returns
+page\_token: optional string
 
-- `errors: array of unknown`
+An opaque token returned from the last list response that when provided will retrieve the next page.
 
-- `messages: array of ResponseInfo`
+Parameters used to filter the retrieved list must remain in subsequent requests with a page token.
 
-  - `code: number`
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page_token%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+status: optional array of "active"or "pending"or "rejected"or "canceled"
 
-    - `pointer: optional string`
+Filter the list of memberships by membership status.
 
-- `result: array of OrganizationMember`
+</summary>
 
-  - `id: string`
+One of the following:
 
-    Organization Member ID
+"active"
 
-  - `create_time: string`
+<a href="#">Link to this property</a>
 
-  - `meta: map[unknown]`
+"pending"
 
-  - `status: "active" or "canceled"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"rejected"
 
-    - `"canceled"`
+<a href="#">Link to this property</a>
 
-  - `update_time: string`
+"canceled"
 
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `email: string`
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-    - `name: string`
+<details>
 
-    - `two_factor_authentication_enabled: boolean`
+<summary>
 
-- `result_info: object { next_page_token, total_size }`
+user: optional object {email }
 
-  - `next_page_token: optional string`
+</summary>
 
-    Use this opaque token in the next request to retrieve the
-    next page.
+email: optional string
 
-    Parameters used to filter the retrieved list must remain in subsequent
-    requests with a page token.
+Filter the list of memberships for a specific email that ends with a substring.
 
-  - `total_size: optional number`
+<a href="#">Link to this property</a>
 
-    Counts the total amount of items in a list with the applied filters. The API omits next_page_token to indicate no more items in a particular list.
+</details>
 
-- `success: true`
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20user%20%3E%20(schema)>)
 
-  - `true`
+##### ReturnsExpand Collapse
 
-### Example
+errors: array of unknown
 
-```http
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of <a href="https://developers.cloudflare.com/api/resources/organizations#(resource)%20organizations.members%20%3E%20(model)%20organization_member%20%3E%20(schema)">OrganizationMember</a> { id, create\_time, meta, 3 more }
+
+</summary>
+
+id: string
+
+Organization Member ID
+
+<a href="#">Link to this property</a>
+
+create\_time: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+meta: map\[unknown]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "active"or "pending"or "rejected"or "canceled"
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+"canceled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+update\_time: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+user: object {id, email, name, two\_factor\_authentication\_enabled }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+email: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+two\_factor\_authentication\_enabled: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {next\_page\_token, total\_size }
+
+</summary>
+
+next\_page\_token: optional string
+
+Use this opaque token in the next request to retrieve the next page.
+
+Parameters used to filter the retrieved list must remain in subsequent requests with a page token.
+
+<a href="#">Link to this property</a>
+
+total\_size: optional number
+
+Counts the total amount of items in a list with the applied filters. The API omits next\_page\_token to indicate no more items in a particular list.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: true
+
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List organization members
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [],
   "messages": [
@@ -123,7 +311,49 @@ curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members
   ],
   "result": [
     {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
+      "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
+      "create_time": "2019-12-27T18:11:19.117Z",
+      "meta": {
+        "foo": {}
+      },
+      "status": "active",
+      "update_time": "2019-12-27T18:11:19.117Z",
+      "user": {
+        "id": "id",
+        "email": "email",
+        "name": "name",
+        "two_factor_authentication_enabled": true
+      }
+    }
+  ],
+  "result_info": {
+    "next_page_token": "next_page_token",
+    "total_size": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
       "create_time": "2019-12-27T18:11:19.117Z",
       "meta": {
         "foo": {}

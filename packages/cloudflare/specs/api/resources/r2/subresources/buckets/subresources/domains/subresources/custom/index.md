@@ -1,943 +1,537 @@
+---
+title: Custom
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+[Domains](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Custom
 
-## List Custom Domains of Bucket
+##### [List Custom Domains of Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/list)
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom`
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom
 
-Gets a list of all custom domains registered with an existing R2 bucket.
+##### [Get Custom Domain Settings](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom/{domain}
 
-- `account_id: string`
+##### [Attach Custom Domain To Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/create)
 
-  Account ID.
+POST/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom
 
-- `bucket_name: string`
+##### [Configure Custom Domain Settings](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/update)
 
-  Name of the bucket.
+PUT/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom/{domain}
 
-### Header Parameters
+##### [Remove Custom Domain From Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/delete)
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+DELETE/accounts/{account\_id}/r2/buckets/{bucket\_name}/domains/custom/{domain}
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+##### ModelsExpand Collapse
 
-  - `"default"`
+<details>
 
-  - `"eu"`
+<summary>
 
-  - `"fedramp"`
+CustomListResponse object {domains }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+domains: array of object {domain, enabled, status, 4 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+domain: string
 
-    - `pointer: optional string`
+Domain name of the custom domain to be added.
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: object { domains }`
+enabled: boolean
 
-  - `domains: array of object { domain, enabled, status, 4 more }`
+Whether this bucket is publicly accessible at the specified custom domain.
 
-    - `domain: string`
+<a href="#">Link to this property</a>
 
-      Domain name of the custom domain to be added.
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Whether this bucket is publicly accessible at the specified custom domain.
+status: object {ownership, ssl }
 
-    - `status: object { ownership, ssl }`
+</summary>
 
-      - `ownership: "pending" or "active" or "deactivated" or 3 more`
+<details>
 
-        Ownership status of the domain.
+<summary>
 
-        - `"pending"`
+ownership: "pending"or "active"or "deactivated"or 3 more
 
-        - `"active"`
+Ownership status of the domain.
 
-        - `"deactivated"`
+</summary>
 
-        - `"blocked"`
+One of the following:
 
-        - `"error"`
+"pending"
 
-        - `"unknown"`
+<a href="#">Link to this property</a>
 
-      - `ssl: "initializing" or "pending" or "active" or 3 more`
+"active"
 
-        SSL certificate status.
+<a href="#">Link to this property</a>
 
-        - `"initializing"`
+"deactivated"
 
-        - `"pending"`
+<a href="#">Link to this property</a>
 
-        - `"active"`
+"blocked"
 
-        - `"deactivated"`
+<a href="#">Link to this property</a>
 
-        - `"error"`
+"error"
 
-        - `"unknown"`
+<a href="#">Link to this property</a>
 
-    - `ciphers: optional array of string`
+"unknown"
 
-      An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+<a href="#">Link to this property</a>
 
-    - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+</details>
 
-      Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+<a href="#">Link to this property</a>
 
-      - `"1.0"`
+<details>
 
-      - `"1.1"`
-
-      - `"1.2"`
-
-      - `"1.3"`
-
-    - `zoneId: optional string`
+<summary>
 
-      Zone ID of the custom domain resides in.
+ssl: "initializing"or "pending"or "active"or 3 more
 
-    - `zoneName: optional string`
+SSL certificate status.
 
-      Zone that the custom domain resides in.
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"initializing"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"pending"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"active"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domains": [
-      {
-        "domain": "prefix.example-domain.one.com",
-        "enabled": false,
-        "status": {
-          "ownership": "deactivated",
-          "ssl": "pending"
-        },
-        "ciphers": [
-          "string"
-        ],
-        "minTLS": "1.0",
-        "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd",
-        "zoneName": "example-domain.one.com"
-      },
-      {
-        "domain": "prefix.example-domain.two.com",
-        "enabled": true,
-        "status": {
-          "ownership": "active",
-          "ssl": "active"
-        },
-        "ciphers": [
-          "string"
-        ],
-        "minTLS": "1.0",
-        "zoneId": "d9d28585d5f8f5b0f857b055bf574f19",
-        "zoneName": "zoneName"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get Custom Domain Settings
+"deactivated"
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}`
+<a href="#">Link to this property</a>
 
-Get the configuration for a custom domain on an existing R2 bucket.
+"error"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"unknown"
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+</details>
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-- `domain: string`
+</details>
 
-  Name of the custom domain.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+ciphers: optional array of string
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+<a href="#">Link to this property</a>
 
-  - `"default"`
+<details>
 
-  - `"eu"`
+<summary>
 
-  - `"fedramp"`
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
 
-### Returns
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"1.0"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"1.1"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of string`
+"1.2"
 
-- `result: object { domain, enabled, status, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+"1.3"
 
-    Domain name of the custom domain to be added.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+<a href="#">Link to this property</a>
 
-  - `status: object { ownership, ssl }`
+zoneId: optional string
 
-    - `ownership: "pending" or "active" or "deactivated" or 3 more`
+Zone ID of the custom domain resides in.
 
-      Ownership status of the domain.
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+zoneName: optional string
 
-      - `"active"`
+Zone that the custom domain resides in.
 
-      - `"deactivated"`
+<a href="#">Link to this property</a>
 
-      - `"blocked"`
+</details>
 
-      - `"error"`
+<a href="#">Link to this property</a>
 
-      - `"unknown"`
+</details>
 
-    - `ssl: "initializing" or "pending" or "active" or 3 more`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_list_response%20%3E%20(schema)>)
 
-      SSL certificate status.
+<details>
 
-      - `"initializing"`
+<summary>
 
-      - `"pending"`
+CustomGetResponse object {domain, enabled, status, 4 more }
 
-      - `"active"`
+</summary>
 
-      - `"deactivated"`
+domain: string
 
-      - `"error"`
+Domain name of the custom domain to be added.
 
-      - `"unknown"`
+<a href="#">Link to this property</a>
 
-  - `ciphers: optional array of string`
+enabled: boolean
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+Whether this bucket is publicly accessible at the specified custom domain.
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+<a href="#">Link to this property</a>
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+<details>
 
-    - `"1.0"`
+<summary>
 
-    - `"1.1"`
+status: object {ownership, ssl }
 
-    - `"1.2"`
+</summary>
 
-    - `"1.3"`
+<details>
 
-  - `zoneId: optional string`
+<summary>
 
-    Zone ID of the custom domain resides in.
+ownership: "pending"or "active"or "deactivated"or 3 more
 
-  - `zoneName: optional string`
+Ownership status of the domain.
 
-    Zone that the custom domain resides in.
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"pending"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"active"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom/$DOMAIN \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"deactivated"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domain": "prefix.example-domain.one.com",
-    "enabled": false,
-    "status": {
-      "ownership": "deactivated",
-      "ssl": "pending"
-    },
-    "ciphers": [
-      "string"
-    ],
-    "minTLS": "1.0",
-    "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd",
-    "zoneName": "example-domain.one.com"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Attach Custom Domain To Bucket
+"blocked"
 
-**post** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom`
+<a href="#">Link to this property</a>
 
-Register a new custom domain for an existing R2 bucket.
+"error"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"unknown"
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+</details>
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-### Header Parameters
+<details>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+<summary>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+ssl: "initializing"or "pending"or "active"or 3 more
 
-  - `"default"`
+SSL certificate status.
 
-  - `"eu"`
+</summary>
 
-  - `"fedramp"`
+One of the following:
 
-### Body Parameters
+"initializing"
 
-- `domain: string`
+<a href="#">Link to this property</a>
 
-  Name of the custom domain to be added.
+"pending"
 
-- `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  Whether to enable public bucket access at the custom domain. If undefined, the domain will be enabled.
+"active"
 
-- `zoneId: string`
+<a href="#">Link to this property</a>
 
-  Zone ID of the custom domain.
+"deactivated"
 
-- `ciphers: optional array of string`
+<a href="#">Link to this property</a>
 
-  An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+"error"
 
-- `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+<a href="#">Link to this property</a>
 
-  Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+"unknown"
 
-  - `"1.0"`
+<a href="#">Link to this property</a>
 
-  - `"1.1"`
+</details>
 
-  - `"1.2"`
+<a href="#">Link to this property</a>
 
-  - `"1.3"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+ciphers: optional array of string
 
-  - `code: number`
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
 
-- `messages: array of string`
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
 
-- `result: object { domain, enabled, zoneId, 2 more }`
+</summary>
 
-  - `domain: string`
+One of the following:
 
-    Domain name of the affected custom domain.
+"1.0"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+"1.1"
 
-  - `zoneId: string`
+<a href="#">Link to this property</a>
 
-    Zone ID of the custom domain.
+"1.2"
 
-  - `ciphers: optional array of string`
+<a href="#">Link to this property</a>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+"1.3"
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+<a href="#">Link to this property</a>
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+</details>
 
-    - `"1.0"`
+<a href="#">Link to this property</a>
 
-    - `"1.1"`
+zoneId: optional string
 
-    - `"1.2"`
+Zone ID of the custom domain resides in.
 
-    - `"1.3"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+zoneName: optional string
 
-  Whether the API call was successful.
+Zone that the custom domain resides in.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "domain": "prefix.example-domain.com",
-          "enabled": true,
-          "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd"
-        }'
-```
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_get_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domain": "example-domain.com",
-    "enabled": true,
-    "zoneId": "36ca64a6d92827b8a6b90be344bb1bfd",
-    "ciphers": [
-      "string"
-    ],
-    "minTLS": "1.0"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Configure Custom Domain Settings
+CustomCreateResponse object {domain, enabled, zoneId, 2 more }
 
-**put** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}`
+</summary>
 
-Edit the configuration for a custom domain on an existing R2 bucket.
+domain: string
 
-### Path Parameters
+Domain name of the affected custom domain.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account ID.
+enabled: boolean
 
-- `bucket_name: string`
+Whether this bucket is publicly accessible at the specified custom domain.
 
-  Name of the bucket.
+<a href="#">Link to this property</a>
 
-- `domain: string`
+zoneId: string
 
-  Name of the custom domain.
+Zone ID of the custom domain.
 
-### Header Parameters
+<a href="#">Link to this property</a>
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+ciphers: optional array of string
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-  - `"default"`
+<a href="#">Link to this property</a>
 
-  - `"eu"`
+<details>
 
-  - `"fedramp"`
+<summary>
 
-### Body Parameters
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
 
-- `ciphers: optional array of string`
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
 
-  An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+</summary>
 
-- `enabled: optional boolean`
+One of the following:
 
-  Whether to enable public bucket access at the specified custom domain.
+"1.0"
 
-- `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+<a href="#">Link to this property</a>
 
-  Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to previous value.
+"1.1"
 
-  - `"1.0"`
+<a href="#">Link to this property</a>
 
-  - `"1.1"`
+"1.2"
 
-  - `"1.2"`
+<a href="#">Link to this property</a>
 
-  - `"1.3"`
+"1.3"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_create_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of string`
+CustomUpdateResponse object {domain, ciphers, enabled, minTLS }
 
-- `result: object { domain, ciphers, enabled, minTLS }`
+</summary>
 
-  - `domain: string`
+domain: string
 
-    Domain name of the affected custom domain.
+Domain name of the affected custom domain.
 
-  - `ciphers: optional array of string`
+<a href="#">Link to this property</a>
 
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
+ciphers: optional array of string
 
-  - `enabled: optional boolean`
+An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
 
-    Whether this bucket is publicly accessible at the specified custom domain.
+<a href="#">Link to this property</a>
 
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
+enabled: optional boolean
 
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
+Whether this bucket is publicly accessible at the specified custom domain.
 
-    - `"1.0"`
+<a href="#">Link to this property</a>
 
-    - `"1.1"`
+<details>
 
-    - `"1.2"`
+<summary>
 
-    - `"1.3"`
+minTLS: optional "1.0"or "1.1"or "1.2"or "1.3"
 
-- `success: true`
+Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-### Example
+"1.0"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom/$DOMAIN \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"1.1"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domain": "example-domain.com",
-    "ciphers": [
-      "string"
-    ],
-    "enabled": true,
-    "minTLS": "1.0"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Remove Custom Domain From Bucket
+"1.2"
 
-**delete** `/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}`
+<a href="#">Link to this property</a>
 
-Remove custom domain registration from an existing R2 bucket.
+"1.3"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account ID.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+</details>
 
-  Name of the bucket.
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_update_response%20%3E%20(schema)>)
 
-- `domain: string`
+<details>
 
-  Name of the custom domain.
+<summary>
 
-### Header Parameters
+CustomDeleteResponse object {domain }
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+</summary>
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+domain: string
 
-  - `"default"`
+Name of the removed custom domain.
 
-  - `"eu"`
+<a href="#">Link to this property</a>
 
-  - `"fedramp"`
+</details>
 
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of string`
-
-- `result: object { domain }`
-
-  - `domain: string`
-
-    Name of the removed custom domain.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/domains/custom/$DOMAIN \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "domain": "example-domain/custom-domain.com"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Custom List Response
-
-- `CustomListResponse object { domains }`
-
-  - `domains: array of object { domain, enabled, status, 4 more }`
-
-    - `domain: string`
-
-      Domain name of the custom domain to be added.
-
-    - `enabled: boolean`
-
-      Whether this bucket is publicly accessible at the specified custom domain.
-
-    - `status: object { ownership, ssl }`
-
-      - `ownership: "pending" or "active" or "deactivated" or 3 more`
-
-        Ownership status of the domain.
-
-        - `"pending"`
-
-        - `"active"`
-
-        - `"deactivated"`
-
-        - `"blocked"`
-
-        - `"error"`
-
-        - `"unknown"`
-
-      - `ssl: "initializing" or "pending" or "active" or 3 more`
-
-        SSL certificate status.
-
-        - `"initializing"`
-
-        - `"pending"`
-
-        - `"active"`
-
-        - `"deactivated"`
-
-        - `"error"`
-
-        - `"unknown"`
-
-    - `ciphers: optional array of string`
-
-      An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
-
-    - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
-
-      Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
-
-      - `"1.0"`
-
-      - `"1.1"`
-
-      - `"1.2"`
-
-      - `"1.3"`
-
-    - `zoneId: optional string`
-
-      Zone ID of the custom domain resides in.
-
-    - `zoneName: optional string`
-
-      Zone that the custom domain resides in.
-
-### Custom Get Response
-
-- `CustomGetResponse object { domain, enabled, status, 4 more }`
-
-  - `domain: string`
-
-    Domain name of the custom domain to be added.
-
-  - `enabled: boolean`
-
-    Whether this bucket is publicly accessible at the specified custom domain.
-
-  - `status: object { ownership, ssl }`
-
-    - `ownership: "pending" or "active" or "deactivated" or 3 more`
-
-      Ownership status of the domain.
-
-      - `"pending"`
-
-      - `"active"`
-
-      - `"deactivated"`
-
-      - `"blocked"`
-
-      - `"error"`
-
-      - `"unknown"`
-
-    - `ssl: "initializing" or "pending" or "active" or 3 more`
-
-      SSL certificate status.
-
-      - `"initializing"`
-
-      - `"pending"`
-
-      - `"active"`
-
-      - `"deactivated"`
-
-      - `"error"`
-
-      - `"unknown"`
-
-  - `ciphers: optional array of string`
-
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
-
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
-
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
-
-    - `"1.0"`
-
-    - `"1.1"`
-
-    - `"1.2"`
-
-    - `"1.3"`
-
-  - `zoneId: optional string`
-
-    Zone ID of the custom domain resides in.
-
-  - `zoneName: optional string`
-
-    Zone that the custom domain resides in.
-
-### Custom Create Response
-
-- `CustomCreateResponse object { domain, enabled, zoneId, 2 more }`
-
-  - `domain: string`
-
-    Domain name of the affected custom domain.
-
-  - `enabled: boolean`
-
-    Whether this bucket is publicly accessible at the specified custom domain.
-
-  - `zoneId: string`
-
-    Zone ID of the custom domain.
-
-  - `ciphers: optional array of string`
-
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
-
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
-
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
-
-    - `"1.0"`
-
-    - `"1.1"`
-
-    - `"1.2"`
-
-    - `"1.3"`
-
-### Custom Update Response
-
-- `CustomUpdateResponse object { domain, ciphers, enabled, minTLS }`
-
-  - `domain: string`
-
-    Domain name of the affected custom domain.
-
-  - `ciphers: optional array of string`
-
-    An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.
-
-  - `enabled: optional boolean`
-
-    Whether this bucket is publicly accessible at the specified custom domain.
-
-  - `minTLS: optional "1.0" or "1.1" or "1.2" or "1.3"`
-
-    Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.
-
-    - `"1.0"`
-
-    - `"1.1"`
-
-    - `"1.2"`
-
-    - `"1.3"`
-
-### Custom Delete Response
-
-- `CustomDeleteResponse object { domain }`
-
-  - `domain: string`
-
-    Name of the removed custom domain.
+[Link to this property](#)%20r2.buckets.domains.custom%20%3E%20(model)%20custom_delete_response%20%3E%20(schema)>)

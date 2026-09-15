@@ -2564,7 +2564,7 @@
           "uri": "/accounts/{account_id}/connectivity/directory/services",
           "code": 200
         },
-        "smithy.api#documentation": "Create Workers VPC connectivity service"
+        "smithy.api#documentation": "Creates a new Workers VPC connectivity service in the account."
       },
       "errors": [
         {
@@ -2668,7 +2668,7 @@
           "uri": "/accounts/{account_id}/connectivity/directory/services/{service_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete Workers VPC connectivity service",
+        "smithy.api#documentation": "Removes a single Workers VPC connectivity service by its ID. Any Worker bindings referencing this service will stop working.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -2716,7 +2716,7 @@
           "uri": "/accounts/{account_id}/connectivity/directory/services/{service_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get Workers VPC connectivity service",
+        "smithy.api#documentation": "Fetches a single Workers VPC connectivity service by its ID.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -2779,7 +2779,7 @@
           "uri": "/accounts/{account_id}/connectivity/directory/services",
           "code": 200
         },
-        "smithy.api#documentation": "List Workers VPC connectivity services",
+        "smithy.api#documentation": "Lists the Workers VPC connectivity services in the account.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -2860,7 +2860,7 @@
           "uri": "/accounts/{account_id}/connectivity/directory/services/{service_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update Workers VPC connectivity service",
+        "smithy.api#documentation": "Updates an existing Workers VPC connectivity service by its ID.",
         "smithy.api#idempotent": {}
       },
       "errors": [

@@ -1,632 +1,391 @@
+---
+title: Destinations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Observability](https://developers.cloudflare.com/api/resources/workers/subresources/observability)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Destinations
 
-## Get Destinations
+##### [Get Destinations](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/destinations/methods/list)
 
-**get** `/accounts/{account_id}/workers/observability/destinations`
+GET/accounts/{account\_id}/workers/observability/destinations
 
-List your Workers Observability Telemetry Destinations.
+##### [Create Destination](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/destinations/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/workers/observability/destinations
 
-- `account_id: string`
+##### [Update Destination](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/destinations/methods/update)
 
-### Query Parameters
+PATCH/accounts/{account\_id}/workers/observability/destinations/{slug}
 
-- `order: optional "asc" or "desc"`
+##### [Delete Destination](https://developers.cloudflare.com/api/resources/workers/subresources/observability/subresources/destinations/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/workers/observability/destinations/{slug}
 
-  - `"desc"`
+##### ModelsExpand Collapse
 
-- `orderBy: optional "created" or "updated"`
+<details>
 
-  - `"created"`
+<summary>
 
-  - `"updated"`
+DestinationListResponse object {configuration, enabled, name, 2 more }
 
-- `page: optional number`
+</summary>
 
-- `perPage: optional number`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { message }`
+configuration: object {destination\_conf, headers, jobStatus, 3 more }
 
-  - `message: string`
+</summary>
 
-- `messages: array of object { message }`
+destination\_conf: string
 
-  - `message: "Successful request"`
+<a href="#">Link to this property</a>
 
-    - `"Successful request"`
+headers: map\[string]
 
-- `result: array of object { configuration, enabled, name, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `configuration: object { destination_conf, headers, jobStatus, 3 more }`
+<details>
 
-    - `destination_conf: string`
+<summary>
 
-    - `headers: map[string]`
+jobStatus: object {error\_message, last\_complete, last\_error }
 
-    - `jobStatus: object { error_message, last_complete, last_error }`
+</summary>
 
-      - `error_message: string`
+error\_message: string
 
-      - `last_complete: string`
+<a href="#">Link to this property</a>
 
-      - `last_error: string`
+last\_complete: string
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-traces"`
+last\_error: string
 
-      - `"opentelemetry-logs"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-metrics"`
+</details>
 
-    - `type: "logpush"`
+<a href="#">Link to this property</a>
 
-      - `"logpush"`
+<details>
 
-    - `url: string`
+<summary>
 
-  - `enabled: boolean`
+logpushDataset: "opentelemetry-traces"or "opentelemetry-logs"or "opentelemetry-metrics"
 
-  - `name: string`
+</summary>
 
-  - `scripts: array of string`
+One of the following:
 
-  - `slug: string`
+"opentelemetry-traces"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+"opentelemetry-logs"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/destinations \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+"opentelemetry-metrics"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": [
-    {
-      "configuration": {
-        "destination_conf": "destination_conf",
-        "headers": {
-          "foo": "string"
-        },
-        "jobStatus": {
-          "error_message": "error_message",
-          "last_complete": "last_complete",
-          "last_error": "last_error"
-        },
-        "logpushDataset": "opentelemetry-traces",
-        "type": "logpush",
-        "url": "url"
-      },
-      "enabled": true,
-      "name": "name",
-      "scripts": [
-        "string"
-      ],
-      "slug": "slug"
-    }
-  ],
-  "success": true
-}
-```
+</details>
 
-## Create Destination
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/workers/observability/destinations`
+type: "logpush"
 
-Create a new Workers Observability Telemetry Destination.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+url: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `configuration: object { headers, logpushDataset, type, url }`
+<a href="#">Link to this property</a>
 
-  - `headers: map[string]`
+enabled: boolean
 
-  - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-    - `"opentelemetry-traces"`
+name: string
 
-    - `"opentelemetry-logs"`
+<a href="#">Link to this property</a>
 
-    - `"opentelemetry-metrics"`
+scripts: array of string
 
-  - `type: "logpush"`
+<a href="#">Link to this property</a>
 
-    - `"logpush"`
+slug: string
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-- `enabled: boolean`
+</details>
 
-- `name: string`
+[Link to this property](#)%20workers.observability.destinations%20%3E%20(model)%20destination_list_response%20%3E%20(schema)>)
 
-- `skipPreflightCheck: optional boolean`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { message }`
+DestinationCreateResponse object {configuration, enabled, name, 2 more }
 
-  - `message: string`
+</summary>
 
-- `messages: array of object { message }`
+<details>
 
-  - `message: "Resource created"`
+<summary>
 
-    - `"Resource created"`
+configuration: object {destination\_conf, logpushDataset, logpushJob, 2 more }
 
-- `result: object { configuration, enabled, name, 2 more }`
+</summary>
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+destination\_conf: string
 
-    - `destination_conf: string`
+<a href="#">Link to this property</a>
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+<details>
 
-      - `"opentelemetry-traces"`
+<summary>
 
-      - `"opentelemetry-logs"`
+logpushDataset: "opentelemetry-traces"or "opentelemetry-logs"or "opentelemetry-metrics"
 
-      - `"opentelemetry-metrics"`
+</summary>
 
-    - `logpushJob: number`
+One of the following:
 
-    - `type: "logpush"`
+"opentelemetry-traces"
 
-      - `"logpush"`
+<a href="#">Link to this property</a>
 
-    - `url: string`
+"opentelemetry-logs"
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+"opentelemetry-metrics"
 
-  - `scripts: array of string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+logpushJob: number
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/destinations \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "configuration": {
-            "headers": {
-              "foo": "string"
-            },
-            "logpushDataset": "opentelemetry-traces",
-            "type": "logpush",
-            "url": "url"
-          },
-          "enabled": true,
-          "name": "name"
-        }'
-```
+type: "logpush"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Resource created"
-    }
-  ],
-  "result": {
-    "configuration": {
-      "destination_conf": "destination_conf",
-      "logpushDataset": "opentelemetry-traces",
-      "logpushJob": 0,
-      "type": "logpush",
-      "url": "url"
-    },
-    "enabled": true,
-    "name": "name",
-    "scripts": [
-      "string"
-    ],
-    "slug": "slug"
-  },
-  "success": true
-}
-```
+url: string
 
-## Update Destination
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/workers/observability/destinations/{slug}`
+</details>
 
-Update an existing Workers Observability Telemetry Destination.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+enabled: boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `slug: string`
+name: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `configuration: object { headers, type, url }`
+scripts: array of string
 
-  - `headers: map[string]`
+<a href="#">Link to this property</a>
 
-  - `type: "logpush"`
+slug: string
 
-    - `"logpush"`
+<a href="#">Link to this property</a>
 
-  - `url: string`
+</details>
 
-- `enabled: boolean`
+[Link to this property](#)%20workers.observability.destinations%20%3E%20(model)%20destination_create_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { message }`
+<summary>
 
-  - `message: string`
+DestinationUpdateResponse object {configuration, enabled, name, 2 more }
 
-- `messages: array of object { message }`
+</summary>
 
-  - `message: "Successful request"`
+<details>
 
-    - `"Successful request"`
+<summary>
 
-- `result: object { configuration, enabled, name, 2 more }`
+configuration: object {destination\_conf, logpushDataset, logpushJob, 2 more }
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+</summary>
 
-    - `destination_conf: string`
+destination\_conf: string
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-traces"`
+<details>
 
-      - `"opentelemetry-logs"`
+<summary>
 
-      - `"opentelemetry-metrics"`
+logpushDataset: "opentelemetry-traces"or "opentelemetry-logs"or "opentelemetry-metrics"
 
-    - `logpushJob: number`
+</summary>
 
-    - `type: "logpush"`
+One of the following:
 
-      - `"logpush"`
+"opentelemetry-traces"
 
-    - `url: string`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+"opentelemetry-logs"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `scripts: array of string`
+"opentelemetry-metrics"
 
-  - `slug: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+logpushJob: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/destinations/$SLUG \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "configuration": {
-            "headers": {
-              "foo": "string"
-            },
-            "type": "logpush",
-            "url": "url"
-          },
-          "enabled": true
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+type: "logpush"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "result": {
-    "configuration": {
-      "destination_conf": "destination_conf",
-      "logpushDataset": "opentelemetry-traces",
-      "logpushJob": 0,
-      "type": "logpush",
-      "url": "url"
-    },
-    "enabled": true,
-    "name": "name",
-    "scripts": [
-      "string"
-    ],
-    "slug": "slug"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete Destination
+url: string
 
-**delete** `/accounts/{account_id}/workers/observability/destinations/{slug}`
+<a href="#">Link to this property</a>
 
-Delete a Workers Observability Telemetry Destination.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+enabled: boolean
 
-- `slug: string`
+<a href="#">Link to this property</a>
 
-### Returns
+name: string
 
-- `errors: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+scripts: array of string
 
-- `messages: array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: "Successful request"`
+slug: string
 
-    - `"Successful request"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
+[Link to this property](#)%20workers.observability.destinations%20%3E%20(model)%20destination_update_response%20%3E%20(schema)>)
 
-- `result: optional object { configuration, enabled, name, 2 more }`
+<details>
 
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
+<summary>
 
-    - `destination_conf: string`
+DestinationDeleteResponse object {configuration, enabled, name, 2 more }
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+</summary>
 
-      - `"opentelemetry-traces"`
+<details>
 
-      - `"opentelemetry-logs"`
+<summary>
 
-      - `"opentelemetry-metrics"`
+configuration: object {destination\_conf, logpushDataset, logpushJob, 2 more }
 
-    - `logpushJob: number`
+</summary>
 
-    - `type: "logpush"`
+destination\_conf: string
 
-      - `"logpush"`
+<a href="#">Link to this property</a>
 
-    - `url: string`
+<details>
 
-  - `enabled: boolean`
+<summary>
 
-  - `name: string`
+logpushDataset: "opentelemetry-traces"or "opentelemetry-logs"or "opentelemetry-metrics"
 
-  - `scripts: array of string`
+</summary>
 
-  - `slug: string`
+One of the following:
 
-### Example
+"opentelemetry-traces"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/observability/destinations/$SLUG \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"opentelemetry-logs"
 
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "Successful request"
-    }
-  ],
-  "success": true,
-  "result": {
-    "configuration": {
-      "destination_conf": "destination_conf",
-      "logpushDataset": "opentelemetry-traces",
-      "logpushJob": 0,
-      "type": "logpush",
-      "url": "url"
-    },
-    "enabled": true,
-    "name": "name",
-    "scripts": [
-      "string"
-    ],
-    "slug": "slug"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"opentelemetry-metrics"
 
-### Destination List Response
+<a href="#">Link to this property</a>
 
-- `DestinationListResponse object { configuration, enabled, name, 2 more }`
+</details>
 
-  - `configuration: object { destination_conf, headers, jobStatus, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `destination_conf: string`
+logpushJob: number
 
-    - `headers: map[string]`
+<a href="#">Link to this property</a>
 
-    - `jobStatus: object { error_message, last_complete, last_error }`
+type: "logpush"
 
-      - `error_message: string`
+<a href="#">Link to this property</a>
 
-      - `last_complete: string`
+url: string
 
-      - `last_error: string`
+<a href="#">Link to this property</a>
 
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
+</details>
 
-      - `"opentelemetry-traces"`
+<a href="#">Link to this property</a>
 
-      - `"opentelemetry-logs"`
+enabled: boolean
 
-      - `"opentelemetry-metrics"`
+<a href="#">Link to this property</a>
 
-    - `type: "logpush"`
+name: string
 
-      - `"logpush"`
+<a href="#">Link to this property</a>
 
-    - `url: string`
+scripts: array of string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+slug: string
 
-  - `scripts: array of string`
+<a href="#">Link to this property</a>
 
-  - `slug: string`
+</details>
 
-### Destination Create Response
-
-- `DestinationCreateResponse object { configuration, enabled, name, 2 more }`
-
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
-
-    - `destination_conf: string`
-
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
-
-      - `"opentelemetry-traces"`
-
-      - `"opentelemetry-logs"`
-
-      - `"opentelemetry-metrics"`
-
-    - `logpushJob: number`
-
-    - `type: "logpush"`
-
-      - `"logpush"`
-
-    - `url: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `scripts: array of string`
-
-  - `slug: string`
-
-### Destination Update Response
-
-- `DestinationUpdateResponse object { configuration, enabled, name, 2 more }`
-
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
-
-    - `destination_conf: string`
-
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
-
-      - `"opentelemetry-traces"`
-
-      - `"opentelemetry-logs"`
-
-      - `"opentelemetry-metrics"`
-
-    - `logpushJob: number`
-
-    - `type: "logpush"`
-
-      - `"logpush"`
-
-    - `url: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `scripts: array of string`
-
-  - `slug: string`
-
-### Destination Delete Response
-
-- `DestinationDeleteResponse object { configuration, enabled, name, 2 more }`
-
-  - `configuration: object { destination_conf, logpushDataset, logpushJob, 2 more }`
-
-    - `destination_conf: string`
-
-    - `logpushDataset: "opentelemetry-traces" or "opentelemetry-logs" or "opentelemetry-metrics"`
-
-      - `"opentelemetry-traces"`
-
-      - `"opentelemetry-logs"`
-
-      - `"opentelemetry-metrics"`
-
-    - `logpushJob: number`
-
-    - `type: "logpush"`
-
-      - `"logpush"`
-
-    - `url: string`
-
-  - `enabled: boolean`
-
-  - `name: string`
-
-  - `scripts: array of string`
-
-  - `slug: string`
+[Link to this property](#)%20workers.observability.destinations%20%3E%20(model)%20destination_delete_response%20%3E%20(schema)>)

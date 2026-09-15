@@ -1,67 +1,253 @@
-## Images usage statistics
+---
+title: Images usage statistics
+---
 
-**get** `/accounts/{account_id}/images/v1/stats`
+[Skip to content](#_top)
 
-Fetch image statistics details for Cloudflare Images. The returned statistics detail storage usage, including the current image count vs this account's allowance.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Images](https://developers.cloudflare.com/api/resources/images)
 
-- `account_id: string`
+[V1](https://developers.cloudflare.com/api/resources/images/subresources/v1)
 
-  Account identifier tag.
+[Stats](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/stats)
 
-### Returns
+Copy Markdown
 
-- `errors: array of ResponseInfo`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `code: number`
+---
 
-  - `message: string`
+**Copy Markdown****View as Markdown**
 
-  - `documentation_url: optional string`
+# Images usage statistics
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/images/v1/stats
 
-    - `pointer: optional string`
+Fetch image statistics details for Cloudflare Images. The returned statistics detail storage usage, including the current image count vs this account’s allowance.
 
-- `messages: array of ResponseInfo`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-- `result: Stat`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `count: optional object { allowed, current }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `allowed: optional number`
+</details>
 
-      Cloudflare Images allowed usage.
+<details>
 
-    - `current: optional number`
+<summary>API Email + API Key</summary>
 
-      Cloudflare Images current usage.
 
-- `success: true`
 
-  Whether the API call was successful
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Example
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-```http
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Images Read``Images Write`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+Account identifier tag.
+
+maxLength32
+
+[Link to this property](#)%20images.v1.stats%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1.stats%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1.stats%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/images#(resource)%20images.v1.stats%20%3E%20(model)%20stat%20%3E%20(schema)">Stat</a> { count }
+
+</summary>
+
+<details>
+
+<summary>
+
+count: optional object {allowed, current }
+
+</summary>
+
+allowed: optional number
+
+Cloudflare Images allowed usage.
+
+<a href="#">Link to this property</a>
+
+current: optional number
+
+Cloudflare Images current usage.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20images.v1.stats%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20images.v1.stats%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Images usage statistics
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/stats \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "count": {
+      "allowed": 100000,
+      "current": 1000
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

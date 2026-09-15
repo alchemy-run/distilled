@@ -1,181 +1,570 @@
-## Get Zero Trust Gateway location details
+---
+title: Get Zero Trust Gateway location details
+---
 
-**get** `/accounts/{account_id}/gateway/locations/{location_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+[Locations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/locations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Zero Trust Gateway location details
+
+GET/accounts/{account\_id}/gateway/locations/{location\_id}
 
 Get a single Zero Trust Gateway location.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `location_id: string`
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `success: true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Indicate whether the API call was successful.
+</details>
 
-  - `true`
+##### Accepted Permissions (at least one required)
 
-- `result: optional Location`
+`Cloudflare Zero Trust Secure DNS Locations Write``Zero Trust Read``Zero Trust Write`
 
-  - `id: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `client_default: optional boolean`
+account\_id: string
 
-    Indicate whether this location is the default location.
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `created_at: optional string`
+location\_id: string
 
-  - `dns_destination_ips_id: optional string`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20location_id%20%3E%20(schema)>)
 
-    Indicate the identifier of the pair of IPv4 addresses assigned to this location.
+##### ReturnsExpand Collapse
 
-  - `dns_destination_ipv6_block_id: optional string`
+<details>
 
-    Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BYOIPv6) block rather than the standard Cloudflare IPv6 block.
+<summary>
 
-  - `doh_subdomain: optional string`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
+</summary>
 
-  - `ecs_support: optional boolean`
+code: number
 
-    Indicate whether the location must resolve EDNS queries.
+minimum1000
 
-  - `endpoints: optional Endpoint`
+<a href="#">Link to this property</a>
 
-    Configure the destination endpoints for this location.
+message: string
 
-    - `doh: DOHEndpoint`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+documentation\_url: optional string
 
-        Indicate whether the DOH endpoint is enabled for this location.
+<a href="#">Link to this property</a>
 
-      - `networks: optional array of IPNetwork`
+<details>
 
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
+<summary>
 
-        - `network: string`
+source: optional object {pointer }
 
-          Specify the IP address or IP CIDR.
+</summary>
 
-      - `require_token: optional boolean`
+pointer: optional string
 
-        Specify whether the DOH endpoint requires user identity authentication.
+<a href="#">Link to this property</a>
 
-    - `dot: DOTEndpoint`
+</details>
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicate whether the DOT endpoint is enabled for this location.
+</details>
 
-      - `networks: optional array of IPNetwork`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-        Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
+<details>
 
-        - `network: string`
+<summary>
 
-          Specify the IP address or IP CIDR.
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `ipv4: IPV4Endpoint`
+</summary>
 
-      - `enabled: optional boolean`
+code: number
 
-        Indicate whether the IPv4 endpoint is enabled for this location.
+minimum1000
 
-    - `ipv6: IPV6Endpoint`
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+message: string
 
-        Indicate whether the IPV6 endpoint is enabled for this location.
+<a href="#">Link to this property</a>
 
-      - `networks: optional array of IPV6Network`
+documentation\_url: optional string
 
-        Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
+<a href="#">Link to this property</a>
 
-        - `network: string`
+<details>
 
-          Specify the IPv6 address or IPv6 CIDR.
+<summary>
 
-  - `ip: optional string`
+source: optional object {pointer }
 
-    Defines the automatically generated IPv6 destination IP assigned to this location. Gateway counts all DNS requests sent to this IP as requests under this location.
+</summary>
 
-  - `ipv4_destination: optional string`
+pointer: optional string
 
-    Show the primary destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
+<a href="#">Link to this property</a>
 
-  - `ipv4_destination_backup: optional string`
+</details>
 
-    Show the backup destination IPv4 address from the pair identified dns_destination_ips_id. This field read-only.
+<a href="#">Link to this property</a>
 
-  - `max_ttl: optional object { mode, ttl_secs }`
+</details>
 
-    Controls how DNS response TTLs are capped for this location relative to the account `max_ttl_secs` setting. Omitting `max_ttl` on update resets it to `inherit`.
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `mode: "inherit" or "override" or "disabled"`
+success: true
 
-      `inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.
+Indicate whether the API call was successful.
 
-      - `"inherit"`
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      - `"override"`
+<details>
 
-      - `"disabled"`
+<summary>
 
-    - `ttl_secs: optional number`
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20location%20%3E%20(schema)">Location</a> { id, client\_default, created\_at, 12 more }
 
-      Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.
+</summary>
 
-  - `name: optional string`
+id: optional string
 
-    Specify the location name.
+<a href="#">Link to this property</a>
 
-  - `networks: optional array of object { network }`
+client\_default: optional boolean
 
-    Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
+Indicate whether this location is the default location.
 
-    - `network: string`
+<a href="#">Link to this property</a>
 
-      Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
+created\_at: optional string
 
-  - `updated_at: optional string`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+dns\_destination\_ips\_id: optional string
+
+Indicate the identifier of the pair of IPv4 addresses assigned to this location.
+
+<a href="#">Link to this property</a>
+
+dns\_destination\_ipv6\_block\_id: optional string
+
+Specify the UUID of the IPv6 block brought to the gateway so that this location’s IPv6 address is allocated from the Bring Your Own IPv6 (BYOIPv6) block rather than the standard Cloudflare IPv6 block.
+
+<a href="#">Link to this property</a>
+
+doh\_subdomain: optional string
+
+Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
+
+<a href="#">Link to this property</a>
+
+ecs\_support: optional boolean
+
+Indicate whether the location must resolve EDNS queries.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+endpoints: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20endpoint%20%3E%20(schema)">Endpoint</a> { doh, dot, ipv4, ipv6 }
+
+Configure the destination endpoints for this location.
+
+</summary>
+
+<details>
+
+<summary>
+
+doh: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20doh_endpoint%20%3E%20(schema)">DOHEndpoint</a> { enabled, networks, require\_token }
+
+</summary>
+
+enabled: optional boolean
+
+Indicate whether the DOH endpoint is enabled for this location.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+networks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ip_network%20%3E%20(schema)">IPNetwork</a> { network }
+
+Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
+
+</summary>
+
+network: string
+
+Specify the IP address or IP CIDR.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+require\_token: optional boolean
+
+Specify whether the DOH endpoint requires user identity authentication.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dot: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20dot_endpoint%20%3E%20(schema)">DOTEndpoint</a> { enabled, networks }
+
+</summary>
+
+enabled: optional boolean
+
+Indicate whether the DOT endpoint is enabled for this location.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+networks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ip_network%20%3E%20(schema)">IPNetwork</a> { network }
+
+Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
+
+</summary>
+
+network: string
+
+Specify the IP address or IP CIDR.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ipv4: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv4_endpoint%20%3E%20(schema)">IPV4Endpoint</a> { enabled }
+
+</summary>
+
+enabled: optional boolean
+
+Indicate whether the IPv4 endpoint is enabled for this location.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ipv6: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv6_endpoint%20%3E%20(schema)">IPV6Endpoint</a> { enabled, networks }
+
+</summary>
+
+enabled: optional boolean
+
+Indicate whether the IPV6 endpoint is enabled for this location.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+networks: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.locations%20%3E%20(model)%20ipv6_network%20%3E%20(schema)">IPV6Network</a> { network }
+
+Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location.
+
+</summary>
+
+network: string
+
+Specify the IPv6 address or IPv6 CIDR.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ip: optional string
+
+Defines the automatically generated IPv6 destination IP assigned to this location. Gateway counts all DNS requests sent to this IP as requests under this location.
+
+<a href="#">Link to this property</a>
+
+ipv4\_destination: optional string
+
+Show the primary destination IPv4 address from the pair identified dns\_destination\_ips\_id. This field read-only.
+
+<a href="#">Link to this property</a>
+
+ipv4\_destination\_backup: optional string
+
+Show the backup destination IPv4 address from the pair identified dns\_destination\_ips\_id. This field read-only.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+max\_ttl: optional object {mode, ttl\_secs }
+
+Controls how DNS response TTLs are capped for this location relative to the account <code>max_ttl_secs</code> setting. Omitting <code>max_ttl</code> on update resets it to <code>inherit</code>.
+
+</summary>
+
+<details>
+
+<summary>
+
+mode: "inherit"or "override"or "disabled"
+
+<code>inherit</code> uses the account <code>max_ttl_secs</code>. <code>override</code> uses this location’s <code>ttl_secs</code>. <code>disabled</code> leaves returned TTLs unchanged.
+
+</summary>
+
+One of the following:
+
+"inherit"
+
+<a href="#">Link to this property</a>
+
+"override"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ttl\_secs: optional number
+
+Location-specific cap on DNS response TTLs, in seconds. Required when <code>mode</code> is <code>override</code>. Must be omitted when <code>mode</code> is <code>inherit</code> or <code>disabled</code>.
+
+maximum36000
+
+minimum60
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Specify the location name.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+networks: optional array of object {network }
+
+Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location.
+
+</summary>
+
+network: string
+
+Specify the IPv4 address or IPv4 CIDR. Limit IPv4 CIDRs to a maximum of /24.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.locations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get Zero Trust Gateway location details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/locations/$LOCATION_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "ed35569b41ce4d1facfe683550f54086",
+    "client_default": false,
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "dns_destination_ips_id": "0e4a32c6-6fb8-4858-9296-98f51631e8e6",
+    "dns_destination_ipv6_block_id": "b08f7231-d458-495c-98ef-190604c9ee83",
+    "doh_subdomain": "oli3n9zkz5",
+    "ecs_support": false,
+    "endpoints": {
+      "doh": {
+        "enabled": true,
+        "networks": [
+          {
+            "network": "2001:85a3::/64"
+          }
+        ],
+        "require_token": true
+      },
+      "dot": {
+        "enabled": true,
+        "networks": [
+          {
+            "network": "2001:85a3::/64"
+          }
+        ]
+      },
+      "ipv4": {
+        "enabled": true
+      },
+      "ipv6": {
+        "enabled": true,
+        "networks": [
+          {
+            "network": "2001:85a3::/64"
+          }
+        ]
+      }
+    },
+    "ip": "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+    "ipv4_destination": "172.64.36.1",
+    "ipv4_destination_backup": "172.64.36.2",
+    "max_ttl": {
+      "mode": "override",
+      "ttl_secs": 3600
+    },
+    "name": "Austin Office Location",
+    "networks": [
+      {
+        "network": "192.0.2.1/32"
+      }
+    ],
+    "updated_at": "2014-01-01T05:20:00.12345Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

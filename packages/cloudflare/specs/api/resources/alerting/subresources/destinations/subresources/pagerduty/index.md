@@ -1,329 +1,167 @@
+---
+title: Pagerduty
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+[Destinations](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Pagerduty
 
-## List PagerDuty services
+##### [List PagerDuty services](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty/methods/get)
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/pagerduty`
+GET/accounts/{account\_id}/alerting/v3/destinations/pagerduty
 
-Get a list of all configured PagerDuty services.
+##### [Create PagerDuty integration token](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/alerting/v3/destinations/pagerduty/connect
 
-- `account_id: string`
+##### [Delete PagerDuty Services](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty/methods/delete)
 
-  The account id
+DELETE/accounts/{account\_id}/alerting/v3/destinations/pagerduty
 
-### Returns
+##### [Connect PagerDuty](https://developers.cloudflare.com/api/resources/alerting/subresources/destinations/subresources/pagerduty/methods/link)
 
-- `errors: array of object { message, code }`
+GET/accounts/{account\_id}/alerting/v3/destinations/pagerduty/connect/{token\_id}
 
-  - `message: string`
+##### ModelsExpand Collapse
 
-  - `code: optional number`
+<details>
 
-- `messages: array of object { message, code }`
+<summary>
 
-  - `message: string`
+Pagerduty object {id, name }
 
-  - `code: optional number`
+</summary>
 
-- `success: true`
+id: optional string
 
-  Whether the API call was successful
+UUID
 
-  - `true`
+maxLength32
 
-- `result: optional array of Pagerduty`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+name: optional string
 
-    UUID
+The name of the pagerduty service.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the pagerduty service.
+</details>
 
-### Example
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90afafe4643bbbc4a0ed4fc8415",
-      "name": "My PagerDuty Service"
-    }
-  ]
-}
-```
+PagerdutyCreateResponse object {id }
 
-## Create PagerDuty integration token
+</summary>
 
-**post** `/accounts/{account_id}/alerting/v3/destinations/pagerduty/connect`
+id: optional string
 
-Creates a new token for integrating with PagerDuty.
+token in form of UUID
 
-### Path Parameters
+maxLength32
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account id
+</details>
 
-### Returns
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty_create_response%20%3E%20(schema)>)
 
-- `errors: array of object { message, code }`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `code: optional number`
+PagerdutyDeleteResponse object {errors, messages, success }
 
-- `messages: array of object { message, code }`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `code: optional number`
+<summary>
 
-- `success: true`
+errors: array of object {message, code }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+message: string
 
-- `result: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+code: optional number
 
-    token in form of UUID
+minimum1000
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty/connect \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "a313ba7d3e464c0ea40808fafbc3816a"
-  }
-}
-```
+<details>
 
-## Delete PagerDuty Services
+<summary>
 
-**delete** `/accounts/{account_id}/alerting/v3/destinations/pagerduty`
+messages: array of object {message, code }
 
-Deletes all the PagerDuty Services connected to the account.
+</summary>
 
-### Path Parameters
+message: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account id
+code: optional number
 
-### Returns
+minimum1000
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+success: true
 
-  - `message: string`
+Whether the API call was successful
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty_delete_response%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+PagerdutyLinkResponse object {id }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true
-}
-```
+id: optional string
 
-## Connect PagerDuty
+UUID
 
-**get** `/accounts/{account_id}/alerting/v3/destinations/pagerduty/connect/{token_id}`
+maxLength32
 
-Links PagerDuty with the account using the integration token.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
-
-  The account id
-
-- `token_id: string`
-
-  The token integration key
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `messages: array of object { message, code }`
-
-  - `message: string`
-
-  - `code: optional number`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    UUID
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/destinations/pagerduty/connect/$TOKEN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90afafe4643bbbc4a0ed4fc8415"
-  }
-}
-```
-
-## Domain Types
-
-### Pagerduty
-
-- `Pagerduty object { id, name }`
-
-  - `id: optional string`
-
-    UUID
-
-  - `name: optional string`
-
-    The name of the pagerduty service.
-
-### Pagerduty Create Response
-
-- `PagerdutyCreateResponse object { id }`
-
-  - `id: optional string`
-
-    token in form of UUID
-
-### Pagerduty Delete Response
-
-- `PagerdutyDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `messages: array of object { message, code }`
-
-    - `message: string`
-
-    - `code: optional number`
-
-  - `success: true`
-
-    Whether the API call was successful
-
-    - `true`
-
-### Pagerduty Link Response
-
-- `PagerdutyLinkResponse object { id }`
-
-  - `id: optional string`
-
-    UUID
+[Link to this property](#)%20alerting.destinations.pagerduty%20%3E%20(model)%20pagerduty_link_response%20%3E%20(schema)>)

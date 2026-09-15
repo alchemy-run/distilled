@@ -1,36 +1,126 @@
-## Delete event
+---
+title: Delete event
+---
 
-**delete** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Waiting Rooms](https://developers.cloudflare.com/api/resources/waiting_rooms)
+
+[Events](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete event
+
+DELETE/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/events/{event\_id}
 
 Deletes an event for a waiting room.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `waiting_room_id: string`
 
-- `event_id: string`
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `result: object { id }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `id: optional string`
+</details>
 
-### Example
+<details>
 
-```http
+<summary>API Email + API Key</summary>
+
+
+
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
+
+**Example:**<code>X-Auth-Email: user@example.com</code>
+
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
+
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
+
+</details>
+
+##### Accepted Permissions (at least one required)
+
+`Waiting Rooms Write`
+
+##### P ath ParametersExpand Collapse
+
+zone\_id: string
+
+Identifier.
+
+maxLength32
+
+[Link to this property](#)%20waiting_rooms.events%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
+
+waiting\_room\_id: string
+
+[Link to this property](#)%20waiting_rooms.events%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20waiting_room_id%20%3E%20(schema)>)
+
+event\_id: string
+
+[Link to this property](#)%20waiting_rooms.events%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20event_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {id }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20waiting_rooms.events%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Delete event
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/events/$EVENT_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "25756b2dfe6e378a06b033b670413757"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "25756b2dfe6e378a06b033b670413757"

@@ -1,464 +1,269 @@
+---
+title: Items
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[TCP Flow Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection)
+
+[Rules](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Items
 
-## Get TCP Flow Protection rule.
+##### [Get TCP Flow Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/subresources/items/methods/get)
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules/{rule\_id}
 
-Get a TCP Flow Protection rule specified by the given UUID.
+##### [Update TCP Flow Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/subresources/items/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules/{rule\_id}
 
-- `account_id: string`
+##### [Delete TCP Flow Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/subresources/items/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules/{rule\_id}
 
-- `rule_id: string`
+##### ModelsExpand Collapse
 
-  UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ItemGetResponse object {id, burst\_sensitivity, created\_on, 5 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique ID of the TCP Flow Protection rule.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+burst\_sensitivity: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+The creation timestamp of the TCP Flow Protection rule.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+mode: string
 
-  Whether the API call was successful.
+The mode for TCP Flow Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, burst_sensitivity, created_on, 5 more }`
+modified\_on: string
 
-  - `id: string`
+The last modification timestamp of the TCP Flow Protection rule.
 
-    The unique ID of the TCP Flow Protection rule.
+formatdate-time
 
-  - `burst_sensitivity: string`
+<a href="#">Link to this property</a>
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+name: string
 
-  - `created_on: string`
+The name of the TCP Flow Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-    The creation timestamp of the TCP Flow Protection rule.
+<a href="#">Link to this property</a>
 
-  - `mode: string`
+rate\_sensitivity: string
 
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the TCP Flow Protection rule.
+scope: string
 
-  - `name: string`
+The scope for the TCP Flow Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+<a href="#">Link to this property</a>
 
-  - `rate_sensitivity: string`
+</details>
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-  - `scope: string`
+<details>
 
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+<summary>
 
-### Example
+ItemEditResponse object {id, burst\_sensitivity, created\_on, 5 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
+The unique ID of the TCP Flow Protection rule.
 
-## Update TCP Flow Protection rule.
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}`
+burst\_sensitivity: string
 
-Update a TCP Flow Protection rule specified by the given UUID.
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created\_on: string
 
-  Identifier.
+The creation timestamp of the TCP Flow Protection rule.
 
-- `rule_id: string`
+formatdate-time
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+mode: string
 
-- `burst_sensitivity: optional string`
+The mode for TCP Flow Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'.
+<a href="#">Link to this property</a>
 
-- `mode: optional string`
+modified\_on: string
 
-  The new mode for TCP Flow Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.
+The last modification timestamp of the TCP Flow Protection rule.
 
-- `rate_sensitivity: optional string`
+formatdate-time
 
-  The new rate sensitivity. Optional. Must be one of 'low', 'medium', 'high'.
+<a href="#">Link to this property</a>
 
-### Returns
+name: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The name of the TCP Flow Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+rate\_sensitivity: string
 
-  - `documentation_url: optional string`
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+scope: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The scope for the TCP Flow Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+ItemDeleteResponse object {errors, messages, success }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+<details>
 
-- `result: optional object { id, burst_sensitivity, created_on, 5 more }`
+<summary>
 
-  - `id: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    The unique ID of the TCP Flow Protection rule.
+</summary>
 
-  - `burst_sensitivity: string`
+code: number
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+minimum1000
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the TCP Flow Protection rule.
+message: string
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+documentation\_url: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the TCP Flow Protection rule.
+<details>
 
-  - `name: string`
+<summary>
 
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+source: optional object {pointer }
 
-  - `rate_sensitivity: string`
+</summary>
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+pointer: optional string
 
-  - `scope: string`
+<a href="#">Link to this property</a>
 
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
+<details>
 
-## Delete TCP Flow Protection rule.
+<summary>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}`
+messages: array of object {code, message, documentation\_url, source }
 
-Delete a TCP Flow Protection rule specified by the given UUID.
+</summary>
 
-### Path Parameters
+code: number
 
-- `account_id: string`
+minimum1000
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+message: string
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+documentation\_url: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+source: optional object {pointer }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+pointer: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+success: true
 
-- `success: true`
+Whether the API call was successful.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Item Get Response
-
-- `ItemGetResponse object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)

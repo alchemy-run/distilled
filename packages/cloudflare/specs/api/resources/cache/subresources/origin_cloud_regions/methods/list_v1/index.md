@@ -1,97 +1,275 @@
-## List origin cloud region mappings
+---
+title: List origin cloud region mappings
+---
 
-**get** `/zones/{zone_id}/cache/origin_cloud_regions`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cache](https://developers.cloudflare.com/api/resources/cache)
+
+[Origin Cloud Regions](https://developers.cloudflare.com/api/resources/cache/subresources/origin_cloud_regions)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List origin cloud region mappings
+
+Deprecated: Use list instead. Old path /cache/origin\_cloud\_regions will be removed in the future.
+
+GET/zones/{zone\_id}/cache/origin\_cloud\_regions
 
 Returns all IP-to-cloud-region mappings configured for the zone. Each mapping tells Cloudflare which cloud vendor and region hosts the origin at that IP, enabling the edge to route via the nearest Tiered Cache upper-tier co-located with that cloud provider. Returns an empty array when no mappings exist.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>API Email + API Key</summary>
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `success: true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+##### P ath ParametersExpand Collapse
 
-- `result: optional object { id, editable, value, modified_on }`
+zone\_id: string
 
-  Response result for a list of origin cloud region mappings.
+Identifier.
 
-  - `id: "origin_public_cloud_region"`
+maxLength32
 
-    - `"origin_public_cloud_region"`
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(method)%20list_v1%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `editable: boolean`
+##### ReturnsExpand Collapse
 
-    Whether the setting can be modified by the current user.
+<details>
 
-  - `value: array of object { "origin-ip", region, vendor, modified_on }`
+<summary>
 
-    - `"origin-ip": string`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      The origin IP address (IPv4 or IPv6, canonicalized).
+</summary>
 
-    - `region: string`
+code: number
 
-      Cloud vendor region identifier.
+minimum1000
 
-    - `vendor: "aws" or "azure" or "gcp" or "oci"`
+<a href="#">Link to this property</a>
 
-      Cloud vendor hosting the origin.
+message: string
 
-      - `"aws"`
+<a href="#">Link to this property</a>
 
-      - `"azure"`
+documentation\_url: optional string
 
-      - `"gcp"`
+<a href="#">Link to this property</a>
 
-      - `"oci"`
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      Time this mapping was last modified.
+source: optional object {pointer }
 
-  - `modified_on: optional string`
+</summary>
 
-    Time the mapping set was last modified. Null when no mappings exist.
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(method)%20list_v1%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(method)%20list_v1%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(method)%20list_v1%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, editable, value, modified\_on }
+
+Response result for a list of origin cloud region mappings.
+
+</summary>
+
+id: "origin\_public\_cloud\_region"
+
+<a href="#">Link to this property</a>
+
+editable: boolean
+
+Whether the setting can be modified by the current user.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: array of object {"origin-ip", region, vendor, modified\_on }
+
+</summary>
+
+"origin-ip": string
+
+The origin IP address (IPv4 or IPv6, canonicalized).
+
+<a href="#">Link to this property</a>
+
+region: string
+
+Cloud vendor region identifier.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+vendor: "aws"or "azure"or "gcp"or "oci"
+
+Cloud vendor hosting the origin.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"gcp"
+
+<a href="#">Link to this property</a>
+
+"oci"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Time this mapping was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Time the mapping set was last modified. Null when no mappings exist.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cache.origin_cloud_regions%20%3E%20(method)%20list_v1%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### List origin cloud region mappings
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regions \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+200 example
+
+```
 {
   "errors": [],
   "messages": [],
@@ -100,6 +278,80 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_cloud_regi
     "id": "origin_public_cloud_region",
     "modified_on": null,
     "value": []
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "editable": true,
+    "id": "origin_public_cloud_region",
+    "modified_on": "2026-03-01T12:00:00Z",
+    "value": [
+      {
+        "modified_on": "2026-03-01T12:00:00Z",
+        "origin-ip": "192.0.2.1",
+        "region": "us-east-1",
+        "vendor": "aws"
+      },
+      {
+        "modified_on": "2026-03-01T12:00:00Z",
+        "origin-ip": "2001:db8::1",
+        "region": "us-central1",
+        "vendor": "gcp"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "editable": true,
+    "id": "origin_public_cloud_region",
+    "modified_on": null,
+    "value": []
+  },
+  "success": true
+}
+```
+
+```
+{
+  "errors": [],
+  "messages": [],
+  "result": {
+    "editable": true,
+    "id": "origin_public_cloud_region",
+    "modified_on": "2026-03-01T12:00:00Z",
+    "value": [
+      {
+        "modified_on": "2026-03-01T12:00:00Z",
+        "origin-ip": "192.0.2.1",
+        "region": "us-east-1",
+        "vendor": "aws"
+      },
+      {
+        "modified_on": "2026-03-01T12:00:00Z",
+        "origin-ip": "2001:db8::1",
+        "region": "us-central1",
+        "vendor": "gcp"
+      }
+    ]
   },
   "success": true
 }

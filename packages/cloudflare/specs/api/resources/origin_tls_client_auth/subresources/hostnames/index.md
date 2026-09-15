@@ -1,481 +1,269 @@
+---
+title: Hostnames
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Origin TLS Client Auth](https://developers.cloudflare.com/api/resources/origin_tls_client_auth)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Hostnames
 
-## Get the Hostname Status for Client Authentication
+##### [Get the Hostname Status for Client Authentication](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/hostnames/methods/get)
 
-**get** `/zones/{zone_id}/origin_tls_client_auth/hostnames/{hostname}`
+GET/zones/{zone\_id}/origin\_tls\_client\_auth/hostnames/{hostname}
 
-Retrieves the client certificate authentication status for a specific hostname, showing whether authenticated origin pulls are enabled.
+##### [Enable or Disable a Hostname for Client Authentication](https://developers.cloudflare.com/api/resources/origin_tls_client_auth/subresources/hostnames/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/origin\_tls\_client\_auth/hostnames
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `hostname: string`
+<summary>
 
-  The hostname on the origin for which the client certificate uploaded will be used.
+AuthenticatedOriginPull object {cert\_id, cert\_status, cert\_updated\_at, 11 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+cert\_id: optional string
 
-  - `code: number`
+Identifier.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+cert\_status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 4 more
 
-  - `code: number`
+Status of the certificate or the association.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"initializing"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"pending\_deployment"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"pending\_deletion"
 
-- `result: optional AuthenticatedOriginPull`
+<a href="#">Link to this property</a>
 
-  - `cert_id: optional string`
+"active"
 
-    Identifier.
+<a href="#">Link to this property</a>
 
-  - `cert_status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
+"deleted"
 
-    Status of the certificate or the association.
+<a href="#">Link to this property</a>
 
-    - `"initializing"`
+"deployment\_timed\_out"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+"deletion\_timed\_out"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+</details>
 
-    - `"deployment_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deletion_timed_out"`
+cert\_updated\_at: optional string
 
-  - `cert_updated_at: optional string`
+The time when the certificate was updated.
 
-    The time when the certificate was updated.
+formatdate-time
 
-  - `cert_uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-    The time when the certificate was uploaded.
+cert\_uploaded\_on: optional string
 
-  - `certificate: optional string`
+The time when the certificate was uploaded.
 
-    The hostname certificate.
+formatdate-time
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    The time when the certificate was created.
+certificate: optional string
 
-  - `enabled: optional boolean`
+The hostname certificate.
 
-    Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association.
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+created\_at: optional string
 
-    The date when the certificate expires.
+The time when the certificate was created.
 
-  - `hostname: optional string`
+formatdate-time
 
-    The hostname on the origin for which the client certificate uploaded will be used.
+<a href="#">Link to this property</a>
 
-  - `issuer: optional string`
+enabled: optional boolean
 
-    The certificate authority that issued the certificate.
+Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association.
 
-  - `serial_number: optional string`
+<a href="#">Link to this property</a>
 
-    The serial number on the uploaded certificate.
+expires\_on: optional string
 
-  - `signature: optional string`
+The date when the certificate expires.
 
-    The type of hash used for the certificate.
+formatdate-time
 
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
+<a href="#">Link to this property</a>
 
-    Status of the certificate or the association.
+hostname: optional string
 
-    - `"initializing"`
+The hostname on the origin for which the client certificate uploaded will be used.
 
-    - `"pending_deployment"`
+maxLength255
 
-    - `"pending_deletion"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+issuer: optional string
 
-    - `"deleted"`
+The certificate authority that issued the certificate.
 
-    - `"deployment_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deletion_timed_out"`
+serial\_number: optional string
 
-  - `updated_at: optional string`
+The serial number on the uploaded certificate.
 
-    The time when the certificate was updated.
+<a href="#">Link to this property</a>
 
-### Example
+signature: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/hostnames/$HOSTNAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The type of hash used for the certificate.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "cert_id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "cert_status": "active",
-    "cert_updated_at": "2100-01-01T05:20:00Z",
-    "cert_uploaded_on": "2019-10-28T18:11:23.37411Z",
-    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV\nBAYTAkFVMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX\naWRnaXRzIFB0eSBMdGQwHhcNMTYwODI0MTY0MzAxWhcNMTYxMTIyMTY0MzAxWjBF\nMQswCQYDVQQGEwJBVTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50\nZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmGdtcGbg/1\nCGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKnabIRuGvB\nKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpidtnKX/a+5\n0GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+pyFxIXjbEI\ndZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pEewooaeO2\nizNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABo4GnMIGkMB0GA1UdDgQWBBT/LbE4\n9rWf288N6sJA5BRb6FJIGDB1BgNVHSMEbjBsgBT/LbE49rWf288N6sJA5BRb6FJI\nGKFJpEcwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNV\nBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZIIJAMHAwfXZ5/PWMAwGA1UdEwQF\nMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHHFwl0tH0quUYZYO0dZYt4R7SJ0pCm2\n2satiyzHl4OnXcHDpekAo7/a09c6Lz6AU83cKy/+x3/djYHXWba7HpEu0dR3ugQP\nMlr4zrhd9xKZ0KZKiYmtJH+ak4OM4L3FbT0owUZPyjLSlhMtJVcoRp5CJsjAMBUG\nSvD8RX+T01wzox/Qb+lnnNnOlaWpqu8eoOenybxKp1a9ULzIVvN/LAcc+14vioFq\n2swRWtmocBAs8QR9n4uvbpiYvS8eYueDCWMM4fvFfBhaDZ3N9IbtySh3SpFdQDhw\nYbjM2rxXiyLGxB4Bol7QTv4zHif7Zt89FReT/NBy4rzaskDJY5L6xmY=\n-----END CERTIFICATE-----\n",
-    "created_at": "2100-01-01T05:20:00Z",
-    "enabled": true,
-    "expires_on": "2100-01-01T05:20:00Z",
-    "hostname": "app.example.com",
-    "issuer": "GlobalSign",
-    "serial_number": "6743787633689793699141714808227354901",
-    "signature": "SHA256WithRSA",
-    "status": "active",
-    "updated_at": "2100-01-01T05:20:00Z"
-  }
-}
-```
+<details>
 
-## Enable or Disable a Hostname for Client Authentication
+<summary>
 
-**put** `/zones/{zone_id}/origin_tls_client_auth/hostnames`
+status: optional "initializing"or "pending\_deployment"or "pending\_deletion"or 4 more
 
-Associate a hostname to a certificate and enable, disable or invalidate the association. If disabled, client certificate will not be sent to the hostname even if activated at the zone level. 100 maximum associations on a single certificate are allowed. Note: Use a null value for parameter *enabled* to invalidate the association.
+Status of the certificate or the association.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+One of the following:
 
-  Identifier.
+"initializing"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `config: array of object { cert_id, enabled, hostname }`
+"pending\_deployment"
 
-  - `cert_id: optional string`
+<a href="#">Link to this property</a>
 
-    Certificate identifier tag.
+"pending\_deletion"
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association.
+"active"
 
-  - `hostname: optional string`
+<a href="#">Link to this property</a>
 
-    The hostname on the origin for which the client certificate uploaded will be used.
+"deleted"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"deployment\_timed\_out"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"deletion\_timed\_out"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+updated\_at: optional string
 
-  - `code: number`
+The time when the certificate was updated.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20origin_tls_client_auth.hostnames%20%3E%20(model)%20authenticated_origin_pull%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+HostnameUpdateResponse = <a href="https://developers.cloudflare.com/api/resources/origin_tls_client_auth#(resource)%20origin_tls_client_auth.hostnames%20%3E%20(model)%20authenticated_origin_pull%20%3E%20(schema)">AuthenticatedOriginPull</a> { cert\_id, cert\_status, cert\_updated\_at, 11 more }
 
-- `result: optional array of AuthenticatedOriginPull`
+</summary>
 
-  - `id: optional string`
+id: optional string
 
-    Identifier.
+Identifier.
 
-  - `cert_id: optional string`
+maxLength32
 
-    Identifier.
+<a href="#">Link to this property</a>
 
-  - `certificate: optional string`
+cert\_id: optional string
 
-    The hostname certificate.
+Identifier.
 
-  - `enabled: optional boolean`
+maxLength32
 
-    Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association.
+<a href="#">Link to this property</a>
 
-  - `hostname: optional string`
+certificate: optional string
 
-    The hostname on the origin for which the client certificate uploaded will be used.
+The hostname certificate.
 
-  - `private_key: optional string`
+<a href="#">Link to this property</a>
 
-    The hostname certificate's private key.
+enabled: optional boolean
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+hostname: optional string
 
-  - `page: optional number`
+The hostname on the origin for which the client certificate uploaded will be used.
 
-    Current page within paginated list of results.
+maxLength255
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+private\_key: optional string
 
-  - `total_count: optional number`
+The hostname certificate’s private key.
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+</details>
 
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/origin_tls_client_auth/hostnames \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "config": [
-            {}
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "cert_id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "cert_status": "active",
-      "cert_updated_at": "2100-01-01T05:20:00Z",
-      "cert_uploaded_on": "2019-10-28T18:11:23.37411Z",
-      "certificate": "-----BEGIN CERTIFICATE-----\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV\nBAYTAkFVMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX\naWRnaXRzIFB0eSBMdGQwHhcNMTYwODI0MTY0MzAxWhcNMTYxMTIyMTY0MzAxWjBF\nMQswCQYDVQQGEwJBVTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50\nZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmGdtcGbg/1\nCGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKnabIRuGvB\nKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpidtnKX/a+5\n0GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+pyFxIXjbEI\ndZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pEewooaeO2\nizNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABo4GnMIGkMB0GA1UdDgQWBBT/LbE4\n9rWf288N6sJA5BRb6FJIGDB1BgNVHSMEbjBsgBT/LbE49rWf288N6sJA5BRb6FJI\nGKFJpEcwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNV\nBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZIIJAMHAwfXZ5/PWMAwGA1UdEwQF\nMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHHFwl0tH0quUYZYO0dZYt4R7SJ0pCm2\n2satiyzHl4OnXcHDpekAo7/a09c6Lz6AU83cKy/+x3/djYHXWba7HpEu0dR3ugQP\nMlr4zrhd9xKZ0KZKiYmtJH+ak4OM4L3FbT0owUZPyjLSlhMtJVcoRp5CJsjAMBUG\nSvD8RX+T01wzox/Qb+lnnNnOlaWpqu8eoOenybxKp1a9ULzIVvN/LAcc+14vioFq\n2swRWtmocBAs8QR9n4uvbpiYvS8eYueDCWMM4fvFfBhaDZ3N9IbtySh3SpFdQDhw\nYbjM2rxXiyLGxB4Bol7QTv4zHif7Zt89FReT/NBy4rzaskDJY5L6xmY=\n-----END CERTIFICATE-----\n",
-      "created_at": "2100-01-01T05:20:00Z",
-      "enabled": true,
-      "expires_on": "2100-01-01T05:20:00Z",
-      "hostname": "app.example.com",
-      "issuer": "GlobalSign",
-      "serial_number": "6743787633689793699141714808227354901",
-      "signature": "SHA256WithRSA",
-      "status": "active",
-      "updated_at": "2100-01-01T05:20:00Z",
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "private_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmG\ndtcGbg/1CGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKn\nabIRuGvBKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpid\ntnKX/a+50GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+py\nFxIXjbEIdZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pE\newooaeO2izNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABAoIBACbhTYXBZYKmYPCb\nHBR1IBlCQA2nLGf0qRuJNJZg5iEzXows/6tc8YymZkQE7nolapWsQ+upk2y5Xdp/\naxiuprIs9JzkYK8Ox0r+dlwCG1kSW+UAbX0bQ/qUqlsTvU6muVuMP8vZYHxJ3wmb\n+ufRBKztPTQ/rYWaYQcgC0RWI20HTFBMxlTAyNxYNWzX7RKFkGVVyB9RsAtmcc8g\n+j4OdosbfNoJPS0HeIfNpAznDfHKdxDk2Yc1tV6RHBrC1ynyLE9+TaflIAdo2MVv\nKLMLq51GqYKtgJFIlBRPQqKoyXdz3fGvXrTkf/WY9QNq0J1Vk5ERePZ54mN8iZB7\n9lwy/AkCgYEA6FXzosxswaJ2wQLeoYc7ceaweX/SwTvxHgXzRyJIIT0eJWgx13Wo\n/WA3Iziimsjf6qE+SI/8laxPp2A86VMaIt3Z3mJN/CqSVGw8LK2AQst+OwdPyDMu\niacE8lj/IFGC8mwNUAb9CzGU3JpU4PxxGFjS/eMtGeRXCWkK4NE+G08CgYEA1Kp9\nN2JrVlqUz+gAX+LPmE9OEMAS9WQSQsfCHGogIFDGGcNf7+uwBM7GAaSJIP01zcoe\nVAgWdzXCv3FLhsaZoJ6RyLOLay5phbu1iaTr4UNYm5WtYTzMzqh8l1+MFFDl9xDB\nvULuCIIrglM5MeS/qnSg1uMoH2oVPj9TVst/ir8CgYEAxrI7Ws9Zc4Bt70N1As+U\nlySjaEVZCMkqvHJ6TCuVZFfQoE0r0whdLdRLU2PsLFP+q7qaeZQqgBaNSKeVcDYR\n9B+nY/jOmQoPewPVsp/vQTCnE/R81spu0mp0YI6cIheT1Z9zAy322svcc43JaWB7\nmEbeqyLOP4Z4qSOcmghZBSECgYACvR9Xs0DGn+wCsW4vze/2ei77MD4OQvepPIFX\ndFZtlBy5ADcgE9z0cuVB6CiL8DbdK5kwY9pGNr8HUCI03iHkW6Zs+0L0YmihfEVe\nPG19PSzK9CaDdhD9KFZSbLyVFmWfxOt50H7YRTTiPMgjyFpfi5j2q348yVT0tEQS\nfhRqaQKBgAcWPokmJ7EbYQGeMbS7HC8eWO/RyamlnSffdCdSc7ue3zdVJxpAkQ8W\nqu80pEIF6raIQfAf8MXiiZ7auFOSnHQTXUbhCpvDLKi0Mwq3G8Pl07l+2s6dQG6T\nlv6XTQaMyf6n1yjzL+fzDrH3qXMxHMO/b13EePXpDMpY7HQpoLDi\n-----END RSA PRIVATE KEY-----\n"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Authenticated Origin Pull
-
-- `AuthenticatedOriginPull object { cert_id, cert_status, cert_updated_at, 11 more }`
-
-  - `cert_id: optional string`
-
-    Identifier.
-
-  - `cert_status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
-
-    Status of the certificate or the association.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"pending_deletion"`
-
-    - `"active"`
-
-    - `"deleted"`
-
-    - `"deployment_timed_out"`
-
-    - `"deletion_timed_out"`
-
-  - `cert_updated_at: optional string`
-
-    The time when the certificate was updated.
-
-  - `cert_uploaded_on: optional string`
-
-    The time when the certificate was uploaded.
-
-  - `certificate: optional string`
-
-    The hostname certificate.
-
-  - `created_at: optional string`
-
-    The time when the certificate was created.
-
-  - `enabled: optional boolean`
-
-    Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association.
-
-  - `expires_on: optional string`
-
-    The date when the certificate expires.
-
-  - `hostname: optional string`
-
-    The hostname on the origin for which the client certificate uploaded will be used.
-
-  - `issuer: optional string`
-
-    The certificate authority that issued the certificate.
-
-  - `serial_number: optional string`
-
-    The serial number on the uploaded certificate.
-
-  - `signature: optional string`
-
-    The type of hash used for the certificate.
-
-  - `status: optional "initializing" or "pending_deployment" or "pending_deletion" or 4 more`
-
-    Status of the certificate or the association.
-
-    - `"initializing"`
-
-    - `"pending_deployment"`
-
-    - `"pending_deletion"`
-
-    - `"active"`
-
-    - `"deleted"`
-
-    - `"deployment_timed_out"`
-
-    - `"deletion_timed_out"`
-
-  - `updated_at: optional string`
-
-    The time when the certificate was updated.
-
-### Hostname Update Response
-
-- `HostnameUpdateResponse = AuthenticatedOriginPull`
-
-  - `id: optional string`
-
-    Identifier.
-
-  - `cert_id: optional string`
-
-    Identifier.
-
-  - `certificate: optional string`
-
-    The hostname certificate.
-
-  - `enabled: optional boolean`
-
-    Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association.
-
-  - `hostname: optional string`
-
-    The hostname on the origin for which the client certificate uploaded will be used.
-
-  - `private_key: optional string`
-
-    The hostname certificate's private key.
+[Link to this property](#)%20origin_tls_client_auth.hostnames%20%3E%20(model)%20hostname_update_response%20%3E%20(schema)>)

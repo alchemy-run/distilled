@@ -1,2718 +1,4035 @@
+---
+title: Bot Management
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Bot Management
 
-## Get Zone Bot Management Config
+##### [Get Zone Bot Management Config](https://developers.cloudflare.com/api/resources/bot_management/methods/get)
 
-**get** `/zones/{zone_id}/bot_management`
+GET/zones/{zone\_id}/bot\_management
 
-Retrieve a zone's Bot Management Config
+##### [Update Zone Bot Management Config](https://developers.cloudflare.com/api/resources/bot_management/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/bot\_management
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+BotFightModeConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 11 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+ai\_bots\_migration\_opt\_out: optional boolean
 
-  - `documentation_url: optional string`
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
 
-  - `message: string`
+Enable rule to block AI Scrapers and Crawlers.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"block"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"disabled"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional BotFightModeConfiguration or SuperBotFightModeDefinitelyConfiguration or SuperBotFightModeLikelyConfiguration or SubscriptionConfiguration`
+"only\_on\_ad\_pages"
 
-  - `BotFightModeConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+</details>
 
-      Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-      - `"disabled"`
+<summary>
 
-      - `"only_on_ad_pages"`
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+Configure robots.txt policy for AI search bots.
 
-      Specifies the Robots Access Control License variant to use.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"policy_only"`
+"disabled"
 
-    - `content_bots_protection: optional "block" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+"block"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+"only\_on\_ad\_pages"
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+</details>
 
-      - `"enabled"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+<details>
 
-    - `enable_js: optional boolean`
+<summary>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
 
-    - `fight_mode: optional boolean`
+Configure robots.txt policy for AI model training bots.
 
-      Whether to enable Bot Fight Mode.
+</summary>
 
-    - `is_robots_txt_managed: optional boolean`
+One of the following:
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+"disabled"
 
-    - `stale_zone_configuration: optional object { optimize_wordpress, sbfm_definitely_automated, sbfm_likely_automated, 3 more }`
+<a href="#">Link to this property</a>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+"disallow"
 
-      - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+"block"
 
-      - `sbfm_definitely_automated: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+"only\_on\_ad\_pages"
 
-      - `sbfm_likely_automated: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+</details>
 
-      - `sbfm_static_resource_protection: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's static resource protection is turned on.
+<details>
 
-      - `sbfm_verified_bots: optional string`
+<summary>
 
-        Indicates that the zone's verified bot requests are being blocked.
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-      - `suppress_session_score: optional boolean`
+Configure robots.txt policy for AI assistant and agent bots.
 
-        Indicates that the zone's session score tracking is disabled.
+</summary>
 
-    - `using_latest_model: optional boolean`
+One of the following:
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+"disabled"
 
-  - `SuperBotFightModeDefinitelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 9 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+"block"
 
-      Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+"only\_on\_ad\_pages"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-      - `"only_on_ad_pages"`
+</details>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<a href="#">Link to this property</a>
 
-      Specifies the Robots Access Control License variant to use.
+bot\_preference\_sync\_enabled: optional boolean
 
-      - `"off"`
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
 
-      - `"policy_only"`
+<a href="#">Link to this property</a>
 
-    - `content_bots_protection: optional "block" or "disabled"`
+<details>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+<summary>
 
-      - `"block"`
+cf\_robots\_variant: optional "off"or "policy\_only"
 
-      - `"disabled"`
+Specifies the Robots Access Control License variant to use.
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+</summary>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+One of the following:
 
-      - `"enabled"`
+"off"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `enable_js: optional boolean`
+"policy\_only"
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+<a href="#">Link to this property</a>
 
-    - `is_robots_txt_managed: optional boolean`
+</details>
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<a href="#">Link to this property</a>
 
-    - `optimize_wordpress: optional boolean`
+<details>
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+<summary>
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+content\_bots\_protection: optional "block"or "disabled"
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
 
-      - `"allow"`
+</summary>
 
-      - `"block"`
+One of the following:
 
-      - `"managed_challenge"`
+"block"
 
-    - `sbfm_static_resource_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+"disabled"
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+</details>
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-    - `stale_zone_configuration: optional object { fight_mode, sbfm_likely_automated }`
+<summary>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+crawler\_protection: optional "enabled"or "disabled"
 
-      - `fight_mode: optional boolean`
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+</summary>
 
-      - `sbfm_likely_automated: optional string`
+One of the following:
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+"enabled"
 
-    - `using_latest_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+"disabled"
 
-  - `SuperBotFightModeLikelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 10 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+</details>
 
-      Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+enable\_js: optional boolean
 
-      - `"disabled"`
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
 
-      - `"only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+fight\_mode: optional boolean
 
-      Specifies the Robots Access Control License variant to use.
+Whether to enable Bot Fight Mode.
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"policy_only"`
+is\_robots\_txt\_managed: optional boolean
 
-    - `content_bots_protection: optional "block" or "disabled"`
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-      - `"disabled"`
+<summary>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+stale\_zone\_configuration: optional object {optimize\_wordpress, sbfm\_definitely\_automated, sbfm\_likely\_automated, 3 more }
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
 
-      - `"enabled"`
+</summary>
 
-      - `"disabled"`
+optimize\_wordpress: optional boolean
 
-    - `enable_js: optional boolean`
+Indicates that the zone’s wordpress optimization for SBFM is turned on.
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+<a href="#">Link to this property</a>
 
-    - `is_robots_txt_managed: optional boolean`
+sbfm\_definitely\_automated: optional string
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+Indicates that the zone’s definitely automated requests are being blocked or challenged.
 
-    - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+sbfm\_likely\_automated: optional string
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+Indicates that the zone’s likely automated requests are being blocked or challenged.
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+sbfm\_static\_resource\_protection: optional string
 
-      - `"block"`
+Indicates that the zone’s static resource protection is turned on.
 
-      - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-    - `sbfm_likely_automated: optional "allow" or "block" or "managed_challenge"`
+sbfm\_verified\_bots: optional string
 
-      Super Bot Fight Mode (SBFM) action to take on likely automated requests.
+Indicates that the zone’s verified bot requests are being blocked.
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+suppress\_session\_score: optional boolean
 
-      - `"managed_challenge"`
+Indicates that the zone’s session score tracking is disabled.
 
-    - `sbfm_static_resource_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+</details>
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+using\_latest\_model: optional boolean
 
-      - `"allow"`
+A read-only field that indicates whether the zone currently is running the latest ML model.
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-    - `stale_zone_configuration: optional object { fight_mode }`
+</details>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+[Link to this property](#)%20bot_management%20%3E%20(model)%20bot_fight_mode_configuration%20%3E%20(schema)>)
 
-      - `fight_mode: optional boolean`
+<details>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+<summary>
 
-    - `using_latest_model: optional boolean`
+SubscriptionConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 13 more }
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+</summary>
 
-  - `SubscriptionConfiguration object { ai_bots_protection, auto_update_model, bm_cookie_enabled, 8 more }`
+ai\_bots\_migration\_opt\_out: optional boolean
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
 
-      Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-      - `"disabled"`
+<summary>
 
-      - `"only_on_ad_pages"`
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
 
-    - `auto_update_model: optional boolean`
+Enable rule to block AI Scrapers and Crawlers.
 
-      Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes)
+</summary>
 
-    - `bm_cookie_enabled: optional boolean`
+One of the following:
 
-      Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
+"block"
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<a href="#">Link to this property</a>
 
-      Specifies the Robots Access Control License variant to use.
+"disabled"
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"policy_only"`
+"only\_on\_ad\_pages"
 
-    - `content_bots_protection: optional "block" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+</details>
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+<details>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<summary>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-      - `"enabled"`
+Configure robots.txt policy for AI search bots.
 
-      - `"disabled"`
+</summary>
 
-    - `enable_js: optional boolean`
+One of the following:
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+"disabled"
 
-    - `is_robots_txt_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+"block"
 
-    - `stale_zone_configuration: optional object { fight_mode, optimize_wordpress, sbfm_definitely_automated, 3 more }`
+<a href="#">Link to this property</a>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+"only\_on\_ad\_pages"
 
-      - `fight_mode: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+</details>
 
-      - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+<details>
 
-      - `sbfm_definitely_automated: optional string`
+<summary>
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
 
-      - `sbfm_likely_automated: optional string`
+Configure robots.txt policy for AI model training bots.
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+</summary>
 
-      - `sbfm_static_resource_protection: optional string`
+One of the following:
 
-        Indicates that the zone's static resource protection is turned on.
+"disabled"
 
-      - `sbfm_verified_bots: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's verified bot requests are being blocked.
+"disallow"
 
-    - `suppress_session_score: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
+"block"
 
-    - `using_latest_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+"only\_on\_ad\_pages"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/bot_management \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_bots_protection": "block",
-    "cf_robots_variant": "policy_only",
-    "content_bots_protection": "disabled",
-    "crawler_protection": "enabled",
-    "enable_js": true,
-    "fight_mode": true,
-    "is_robots_txt_managed": false,
-    "stale_zone_configuration": {
-      "optimize_wordpress": true,
-      "sbfm_definitely_automated": "sbfm_definitely_automated",
-      "sbfm_likely_automated": "sbfm_likely_automated",
-      "sbfm_static_resource_protection": "sbfm_static_resource_protection",
-      "sbfm_verified_bots": "sbfm_verified_bots",
-      "suppress_session_score": true
-    },
-    "using_latest_model": true
-  }
-}
-```
+<details>
 
-## Update Zone Bot Management Config
+<summary>
 
-**put** `/zones/{zone_id}/bot_management`
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-Updates the Bot Management configuration for a zone.
+Configure robots.txt policy for AI assistant and agent bots.
 
-This API is used to update:
+</summary>
 
-- **Bot Fight Mode**
-- **Super Bot Fight Mode**
-- **Bot Management for Enterprise**
+One of the following:
 
-See [Bot Plans](https://developers.cloudflare.com/bots/plans/) for more information on the different plans
-\
-If you recently upgraded or downgraded your plan, refer to the following examples to clean up old configurations.
-Copy and paste the example body to remove old zone configurations based on your current plan.
+"disabled"
 
-#### Clean up configuration for Bot Fight Mode plan
+<a href="#">Link to this property</a>
 
-```json
-{
-  "sbfm_likely_automated": "allow",
-  "sbfm_definitely_automated": "allow",
-  "sbfm_verified_bots": "allow",
-  "sbfm_static_resource_protection": false,
-  "optimize_wordpress": false,
-  "suppress_session_score": false
-}
-```
+"block"
 
-#### Clean up configuration for SBFM Pro plan
+<a href="#">Link to this property</a>
 
-```json
-{
-  "sbfm_likely_automated": "allow",
-  "fight_mode": false
-}
-```
+"only\_on\_ad\_pages"
 
-#### Clean up configuration for SBFM Biz plan
+<a href="#">Link to this property</a>
 
-```json
-{
-  "fight_mode": false
-}
-```
+</details>
 
-#### Clean up configuration for BM Enterprise Subscription plan
+<a href="#">Link to this property</a>
 
-It is strongly recommended that you ensure you have [custom rules](https://developers.cloudflare.com/waf/custom-rules/) in place to protect your zone before disabling the SBFM rules. Without these protections, your zone is vulnerable to attacks.
+auto\_update\_model: optional boolean
 
-```json
-{
-  "sbfm_likely_automated": "allow",
-  "sbfm_definitely_automated": "allow",
-  "sbfm_verified_bots": "allow",
-  "sbfm_static_resource_protection": false,
-  "optimize_wordpress": false,
-  "fight_mode": false
-}
-```
+Automatically update to the newest bot detection models created by Cloudflare as they are released. <a href="https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes">Learn more.</a>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+bm\_cookie\_enabled: optional boolean
 
-  Identifier.
+Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: BotFightModeConfiguration or SuperBotFightModeDefinitelyConfiguration or SuperBotFightModeLikelyConfiguration or SubscriptionConfiguration`
+bot\_preference\_sync\_enabled: optional boolean
 
-  - `BotFightModeConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 6 more }`
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block AI Scrapers and Crawlers.
+<details>
 
-      - `"block"`
+<summary>
 
-      - `"disabled"`
+cf\_robots\_variant: optional "off"or "policy\_only"
 
-      - `"only_on_ad_pages"`
+Specifies the Robots Access Control License variant to use.
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+</summary>
 
-      Specifies the Robots Access Control License variant to use.
+One of the following:
 
-      - `"off"`
+"off"
 
-      - `"policy_only"`
+<a href="#">Link to this property</a>
 
-    - `content_bots_protection: optional "block" or "disabled"`
+"policy\_only"
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<details>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<summary>
 
-      - `"enabled"`
+content\_bots\_protection: optional "block"or "disabled"
 
-      - `"disabled"`
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
 
-    - `enable_js: optional boolean`
+</summary>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+One of the following:
 
-    - `fight_mode: optional boolean`
+"block"
 
-      Whether to enable Bot Fight Mode.
+<a href="#">Link to this property</a>
 
-    - `is_robots_txt_managed: optional boolean`
+"disabled"
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<a href="#">Link to this property</a>
 
-    - `stale_zone_configuration: optional object { optimize_wordpress, sbfm_definitely_automated, sbfm_likely_automated, 3 more }`
+</details>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+<a href="#">Link to this property</a>
 
-      - `optimize_wordpress: optional boolean`
+<details>
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+<summary>
 
-      - `sbfm_definitely_automated: optional string`
+crawler\_protection: optional "enabled"or "disabled"
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
 
-      - `sbfm_likely_automated: optional string`
+</summary>
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+One of the following:
 
-      - `sbfm_static_resource_protection: optional string`
+"enabled"
 
-        Indicates that the zone's static resource protection is turned on.
+<a href="#">Link to this property</a>
 
-      - `sbfm_verified_bots: optional string`
+"disabled"
 
-        Indicates that the zone's verified bot requests are being blocked.
+<a href="#">Link to this property</a>
 
-      - `suppress_session_score: optional boolean`
+</details>
 
-        Indicates that the zone's session score tracking is disabled.
+<a href="#">Link to this property</a>
 
-    - `using_latest_model: optional boolean`
+enable\_js: optional boolean
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
 
-  - `SuperBotFightModeDefinitelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 9 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+is\_robots\_txt\_managed: optional boolean
 
-      Enable rule to block AI Scrapers and Crawlers.
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+<details>
 
-      - `"only_on_ad_pages"`
+<summary>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+stale\_zone\_configuration: optional object {fight\_mode, optimize\_wordpress, sbfm\_definitely\_automated, 3 more }
 
-      Specifies the Robots Access Control License variant to use.
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
 
-      - `"off"`
+</summary>
 
-      - `"policy_only"`
+fight\_mode: optional boolean
 
-    - `content_bots_protection: optional "block" or "disabled"`
+Indicates that the zone’s Bot Fight Mode is turned on.
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+optimize\_wordpress: optional boolean
 
-      - `"disabled"`
+Indicates that the zone’s wordpress optimization for SBFM is turned on.
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+sbfm\_definitely\_automated: optional string
 
-      - `"enabled"`
+Indicates that the zone’s definitely automated requests are being blocked or challenged.
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `enable_js: optional boolean`
+sbfm\_likely\_automated: optional string
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+Indicates that the zone’s likely automated requests are being blocked or challenged.
 
-    - `is_robots_txt_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+sbfm\_static\_resource\_protection: optional string
 
-    - `optimize_wordpress: optional boolean`
+Indicates that the zone’s static resource protection is turned on.
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+<a href="#">Link to this property</a>
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+sbfm\_verified\_bots: optional string
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+Indicates that the zone’s verified bot requests are being blocked.
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-    - `sbfm_static_resource_protection: optional boolean`
+suppress\_session\_score: optional boolean
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+using\_latest\_model: optional boolean
 
-      - `"allow"`
+A read-only field that indicates whether the zone currently is running the latest ML model.
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-    - `stale_zone_configuration: optional object { fight_mode, sbfm_likely_automated }`
+</details>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+[Link to this property](#)%20bot_management%20%3E%20(model)%20subscription_configuration%20%3E%20(schema)>)
 
-      - `fight_mode: optional boolean`
+<details>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+<summary>
 
-      - `sbfm_likely_automated: optional string`
+SuperBotFightModeDefinitelyConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 14 more }
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+</summary>
 
-    - `using_latest_model: optional boolean`
+ai\_bots\_migration\_opt\_out: optional boolean
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
 
-  - `SuperBotFightModeLikelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 10 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<details>
 
-      Enable rule to block AI Scrapers and Crawlers.
+<summary>
 
-      - `"block"`
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
 
-      - `"disabled"`
+Enable rule to block AI Scrapers and Crawlers.
 
-      - `"only_on_ad_pages"`
+</summary>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+One of the following:
 
-      Specifies the Robots Access Control License variant to use.
+"block"
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"policy_only"`
+"disabled"
 
-    - `content_bots_protection: optional "block" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+"only\_on\_ad\_pages"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+</details>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<details>
 
-      - `"enabled"`
+<summary>
 
-      - `"disabled"`
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-    - `enable_js: optional boolean`
+Configure robots.txt policy for AI search bots.
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+</summary>
 
-    - `is_robots_txt_managed: optional boolean`
+One of the following:
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+"disabled"
 
-    - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+"block"
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+"only\_on\_ad\_pages"
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-    - `sbfm_likely_automated: optional "allow" or "block" or "managed_challenge"`
+<details>
 
-      Super Bot Fight Mode (SBFM) action to take on likely automated requests.
+<summary>
 
-      - `"allow"`
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
 
-      - `"block"`
+Configure robots.txt policy for AI model training bots.
 
-      - `"managed_challenge"`
+</summary>
 
-    - `sbfm_static_resource_protection: optional boolean`
+One of the following:
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+"disabled"
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+"disallow"
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+"block"
 
-    - `stale_zone_configuration: optional object { fight_mode }`
+<a href="#">Link to this property</a>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+"only\_on\_ad\_pages"
 
-      - `fight_mode: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+</details>
 
-    - `using_latest_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+<details>
 
-  - `SubscriptionConfiguration object { ai_bots_protection, auto_update_model, bm_cookie_enabled, 8 more }`
+<summary>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-      Enable rule to block AI Scrapers and Crawlers.
+Configure robots.txt policy for AI assistant and agent bots.
 
-      - `"block"`
+</summary>
 
-      - `"disabled"`
+One of the following:
 
-      - `"only_on_ad_pages"`
+"disabled"
 
-    - `auto_update_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes)
+"block"
 
-    - `bm_cookie_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
+"only\_on\_ad\_pages"
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<a href="#">Link to this property</a>
 
-      Specifies the Robots Access Control License variant to use.
+</details>
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"policy_only"`
+bot\_preference\_sync\_enabled: optional boolean
 
-    - `content_bots_protection: optional "block" or "disabled"`
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-      - `"disabled"`
+<summary>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+cf\_robots\_variant: optional "off"or "policy\_only"
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+Specifies the Robots Access Control License variant to use.
 
-      - `"enabled"`
+</summary>
 
-      - `"disabled"`
+One of the following:
 
-    - `enable_js: optional boolean`
+"off"
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+<a href="#">Link to this property</a>
 
-    - `is_robots_txt_managed: optional boolean`
+"policy\_only"
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<a href="#">Link to this property</a>
 
-    - `stale_zone_configuration: optional object { fight_mode, optimize_wordpress, sbfm_definitely_automated, 3 more }`
+</details>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+<a href="#">Link to this property</a>
 
-      - `fight_mode: optional boolean`
+<details>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+<summary>
 
-      - `optimize_wordpress: optional boolean`
+content\_bots\_protection: optional "block"or "disabled"
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
 
-      - `sbfm_definitely_automated: optional string`
+</summary>
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+One of the following:
 
-      - `sbfm_likely_automated: optional string`
+"block"
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+<a href="#">Link to this property</a>
 
-      - `sbfm_static_resource_protection: optional string`
+"disabled"
 
-        Indicates that the zone's static resource protection is turned on.
+<a href="#">Link to this property</a>
 
-      - `sbfm_verified_bots: optional string`
+</details>
 
-        Indicates that the zone's verified bot requests are being blocked.
+<a href="#">Link to this property</a>
 
-    - `suppress_session_score: optional boolean`
+<details>
 
-      Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
+<summary>
 
-    - `using_latest_model: optional boolean`
+crawler\_protection: optional "enabled"or "disabled"
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"enabled"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"disabled"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+enable\_js: optional boolean
 
-  - `message: string`
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_robots\_txt\_managed: optional boolean
 
-    - `pointer: optional string`
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+optimize\_wordpress: optional boolean
 
-  - `true`
+Whether to optimize Super Bot Fight Mode protections for Wordpress.
 
-- `result: optional BotFightModeConfiguration or SuperBotFightModeDefinitelyConfiguration or SuperBotFightModeLikelyConfiguration or SubscriptionConfiguration`
+<a href="#">Link to this property</a>
 
-  - `BotFightModeConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 6 more }`
+<details>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<summary>
 
-      Enable rule to block AI Scrapers and Crawlers.
+sbfm\_definitely\_automated: optional "allow"or "block"or "managed\_challenge"
 
-      - `"block"`
+Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
 
-      - `"disabled"`
+</summary>
 
-      - `"only_on_ad_pages"`
+One of the following:
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+"allow"
 
-      Specifies the Robots Access Control License variant to use.
+<a href="#">Link to this property</a>
 
-      - `"off"`
+"block"
 
-      - `"policy_only"`
+<a href="#">Link to this property</a>
 
-    - `content_bots_protection: optional "block" or "disabled"`
+"managed\_challenge"
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+sbfm\_static\_resource\_protection: optional boolean
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked.
 
-      - `"enabled"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+<details>
 
-    - `enable_js: optional boolean`
+<summary>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+sbfm\_verified\_bots: optional "allow"or "block"
 
-    - `fight_mode: optional boolean`
+Super Bot Fight Mode (SBFM) action to take on verified bots requests.
 
-      Whether to enable Bot Fight Mode.
+</summary>
 
-    - `is_robots_txt_managed: optional boolean`
+One of the following:
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+"allow"
 
-    - `stale_zone_configuration: optional object { optimize_wordpress, sbfm_definitely_automated, sbfm_likely_automated, 3 more }`
+<a href="#">Link to this property</a>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+"block"
 
-      - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+</details>
 
-      - `sbfm_definitely_automated: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+<details>
 
-      - `sbfm_likely_automated: optional string`
+<summary>
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+stale\_zone\_configuration: optional object {fight\_mode, sbfm\_likely\_automated }
 
-      - `sbfm_static_resource_protection: optional string`
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
 
-        Indicates that the zone's static resource protection is turned on.
+</summary>
 
-      - `sbfm_verified_bots: optional string`
+fight\_mode: optional boolean
 
-        Indicates that the zone's verified bot requests are being blocked.
+Indicates that the zone’s Bot Fight Mode is turned on.
 
-      - `suppress_session_score: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's session score tracking is disabled.
+sbfm\_likely\_automated: optional string
 
-    - `using_latest_model: optional boolean`
+Indicates that the zone’s likely automated requests are being blocked or challenged.
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+<a href="#">Link to this property</a>
 
-  - `SuperBotFightModeDefinitelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 9 more }`
+</details>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block AI Scrapers and Crawlers.
+using\_latest\_model: optional boolean
 
-      - `"block"`
+A read-only field that indicates whether the zone currently is running the latest ML model.
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-      - `"only_on_ad_pages"`
+</details>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+[Link to this property](#)%20bot_management%20%3E%20(model)%20super_bot_fight_mode_definitely_configuration%20%3E%20(schema)>)
 
-      Specifies the Robots Access Control License variant to use.
+<details>
 
-      - `"off"`
+<summary>
 
-      - `"policy_only"`
+SuperBotFightModeLikelyConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 15 more }
 
-    - `content_bots_protection: optional "block" or "disabled"`
+</summary>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+ai\_bots\_migration\_opt\_out: optional boolean
 
-      - `"block"`
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<details>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<summary>
 
-      - `"enabled"`
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
 
-      - `"disabled"`
+Enable rule to block AI Scrapers and Crawlers.
 
-    - `enable_js: optional boolean`
+</summary>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+One of the following:
 
-    - `is_robots_txt_managed: optional boolean`
+"block"
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<a href="#">Link to this property</a>
 
-    - `optimize_wordpress: optional boolean`
+"disabled"
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+<a href="#">Link to this property</a>
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+"only\_on\_ad\_pages"
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+</details>
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"managed_challenge"`
+<details>
 
-    - `sbfm_static_resource_protection: optional boolean`
+<summary>
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+Configure robots.txt policy for AI search bots.
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+</summary>
 
-      - `"allow"`
+One of the following:
 
-      - `"block"`
+"disabled"
 
-    - `stale_zone_configuration: optional object { fight_mode, sbfm_likely_automated }`
+<a href="#">Link to this property</a>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+"block"
 
-      - `fight_mode: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+"only\_on\_ad\_pages"
 
-      - `sbfm_likely_automated: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+</details>
 
-    - `using_latest_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+<details>
 
-  - `SuperBotFightModeLikelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 10 more }`
+<summary>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
 
-      Enable rule to block AI Scrapers and Crawlers.
+Configure robots.txt policy for AI model training bots.
 
-      - `"block"`
+</summary>
 
-      - `"disabled"`
+One of the following:
 
-      - `"only_on_ad_pages"`
+"disabled"
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<a href="#">Link to this property</a>
 
-      Specifies the Robots Access Control License variant to use.
+"disallow"
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"policy_only"`
+"block"
 
-    - `content_bots_protection: optional "block" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+"only\_on\_ad\_pages"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+</details>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<details>
 
-      - `"enabled"`
+<summary>
 
-      - `"disabled"`
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-    - `enable_js: optional boolean`
+Configure robots.txt policy for AI assistant and agent bots.
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+</summary>
 
-    - `is_robots_txt_managed: optional boolean`
+One of the following:
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+"disabled"
 
-    - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+"block"
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+"only\_on\_ad\_pages"
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-    - `sbfm_likely_automated: optional "allow" or "block" or "managed_challenge"`
+bot\_preference\_sync\_enabled: optional boolean
 
-      Super Bot Fight Mode (SBFM) action to take on likely automated requests.
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-      - `"managed_challenge"`
+<summary>
 
-    - `sbfm_static_resource_protection: optional boolean`
+cf\_robots\_variant: optional "off"or "policy\_only"
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+Specifies the Robots Access Control License variant to use.
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+</summary>
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+One of the following:
 
-      - `"allow"`
+"off"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-    - `stale_zone_configuration: optional object { fight_mode }`
+"policy\_only"
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+<a href="#">Link to this property</a>
 
-      - `fight_mode: optional boolean`
+</details>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+<a href="#">Link to this property</a>
 
-    - `using_latest_model: optional boolean`
+<details>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+<summary>
 
-  - `SubscriptionConfiguration object { ai_bots_protection, auto_update_model, bm_cookie_enabled, 8 more }`
+content\_bots\_protection: optional "block"or "disabled"
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
 
-      Enable rule to block AI Scrapers and Crawlers.
+</summary>
 
-      - `"block"`
+One of the following:
 
-      - `"disabled"`
+"block"
 
-      - `"only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-    - `auto_update_model: optional boolean`
+"disabled"
 
-      Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes)
+<a href="#">Link to this property</a>
 
-    - `bm_cookie_enabled: optional boolean`
+</details>
 
-      Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
+<a href="#">Link to this property</a>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<details>
 
-      Specifies the Robots Access Control License variant to use.
+<summary>
 
-      - `"off"`
+crawler\_protection: optional "enabled"or "disabled"
 
-      - `"policy_only"`
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
 
-    - `content_bots_protection: optional "block" or "disabled"`
+</summary>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+One of the following:
 
-      - `"block"`
+"enabled"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+"disabled"
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+</details>
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `enable_js: optional boolean`
+enable\_js: optional boolean
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
 
-    - `is_robots_txt_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+is\_robots\_txt\_managed: optional boolean
 
-    - `stale_zone_configuration: optional object { fight_mode, optimize_wordpress, sbfm_definitely_automated, 3 more }`
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+<a href="#">Link to this property</a>
 
-      - `fight_mode: optional boolean`
+optimize\_wordpress: optional boolean
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+Whether to optimize Super Bot Fight Mode protections for Wordpress.
 
-      - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+<details>
 
-      - `sbfm_definitely_automated: optional string`
+<summary>
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+sbfm\_definitely\_automated: optional "allow"or "block"or "managed\_challenge"
 
-      - `sbfm_likely_automated: optional string`
+Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+</summary>
 
-      - `sbfm_static_resource_protection: optional string`
+One of the following:
 
-        Indicates that the zone's static resource protection is turned on.
+"allow"
 
-      - `sbfm_verified_bots: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's verified bot requests are being blocked.
+"block"
 
-    - `suppress_session_score: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
+"managed\_challenge"
 
-    - `using_latest_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/bot_management \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ai_bots_protection": "block",
-          "cf_robots_variant": "policy_only",
-          "content_bots_protection": "disabled",
-          "crawler_protection": "enabled",
-          "enable_js": true,
-          "fight_mode": true
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ai_bots_protection": "block",
-    "cf_robots_variant": "policy_only",
-    "content_bots_protection": "disabled",
-    "crawler_protection": "enabled",
-    "enable_js": true,
-    "fight_mode": true,
-    "is_robots_txt_managed": false,
-    "stale_zone_configuration": {
-      "optimize_wordpress": true,
-      "sbfm_definitely_automated": "sbfm_definitely_automated",
-      "sbfm_likely_automated": "sbfm_likely_automated",
-      "sbfm_static_resource_protection": "sbfm_static_resource_protection",
-      "sbfm_verified_bots": "sbfm_verified_bots",
-      "suppress_session_score": true
-    },
-    "using_latest_model": true
-  }
-}
-```
+sbfm\_likely\_automated: optional "allow"or "block"or "managed\_challenge"
 
-## Domain Types
+Super Bot Fight Mode (SBFM) action to take on likely automated requests.
 
-### Bot Fight Mode Configuration
+</summary>
 
-- `BotFightModeConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 6 more }`
+One of the following:
 
-  - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+"allow"
 
-    Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+"block"
 
-    - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `"only_on_ad_pages"`
+"managed\_challenge"
 
-  - `cf_robots_variant: optional "off" or "policy_only"`
+<a href="#">Link to this property</a>
 
-    Specifies the Robots Access Control License variant to use.
+</details>
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-    - `"policy_only"`
+sbfm\_static\_resource\_protection: optional boolean
 
-  - `content_bots_protection: optional "block" or "disabled"`
+Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked.
 
-    Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+<details>
 
-    - `"disabled"`
+<summary>
 
-  - `crawler_protection: optional "enabled" or "disabled"`
+sbfm\_verified\_bots: optional "allow"or "block"
 
-    Enable rule to punish AI Scrapers and Crawlers via a link maze.
+Super Bot Fight Mode (SBFM) action to take on verified bots requests.
 
-    - `"enabled"`
+</summary>
 
-    - `"disabled"`
+One of the following:
 
-  - `enable_js: optional boolean`
+"allow"
 
-    Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+<a href="#">Link to this property</a>
 
-  - `fight_mode: optional boolean`
+"block"
 
-    Whether to enable Bot Fight Mode.
+<a href="#">Link to this property</a>
 
-  - `is_robots_txt_managed: optional boolean`
+</details>
 
-    Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<a href="#">Link to this property</a>
 
-  - `stale_zone_configuration: optional object { optimize_wordpress, sbfm_definitely_automated, sbfm_likely_automated, 3 more }`
+<details>
 
-    A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+<summary>
 
-    - `optimize_wordpress: optional boolean`
+stale\_zone\_configuration: optional object {fight\_mode }
 
-      Indicates that the zone's wordpress optimization for SBFM is turned on.
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
 
-    - `sbfm_definitely_automated: optional string`
+</summary>
 
-      Indicates that the zone's definitely automated requests are being blocked or challenged.
+fight\_mode: optional boolean
 
-    - `sbfm_likely_automated: optional string`
+Indicates that the zone’s Bot Fight Mode is turned on.
 
-      Indicates that the zone's likely automated requests are being blocked or challenged.
+<a href="#">Link to this property</a>
 
-    - `sbfm_static_resource_protection: optional string`
+</details>
 
-      Indicates that the zone's static resource protection is turned on.
+<a href="#">Link to this property</a>
 
-    - `sbfm_verified_bots: optional string`
+using\_latest\_model: optional boolean
 
-      Indicates that the zone's verified bot requests are being blocked.
+A read-only field that indicates whether the zone currently is running the latest ML model.
 
-    - `suppress_session_score: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the zone's session score tracking is disabled.
+</details>
 
-  - `using_latest_model: optional boolean`
+[Link to this property](#)%20bot_management%20%3E%20(model)%20super_bot_fight_mode_likely_configuration%20%3E%20(schema)>)
 
-    A read-only field that indicates whether the zone currently is running the latest ML model.
+<details>
 
-### Subscription Configuration
+<summary>
 
-- `SubscriptionConfiguration object { ai_bots_protection, auto_update_model, bm_cookie_enabled, 8 more }`
+BotManagementGetResponse = <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management%20%3E%20(model)%20bot_fight_mode_configuration%20%3E%20(schema)">BotFightModeConfiguration</a> { ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 11 more } or <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management%20%3E%20(model)%20super_bot_fight_mode_definitely_configuration%20%3E%20(schema)">SuperBotFightModeDefinitelyConfiguration</a> { ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 14 more } or <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management%20%3E%20(model)%20super_bot_fight_mode_likely_configuration%20%3E%20(schema)">SuperBotFightModeLikelyConfiguration</a> { ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 15 more } or <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management%20%3E%20(model)%20subscription_configuration%20%3E%20(schema)">SubscriptionConfiguration</a> { ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 13 more }
 
-  - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+</summary>
 
-    Enable rule to block AI Scrapers and Crawlers.
+One of the following:
 
-    - `"block"`
+<details>
 
-    - `"disabled"`
+<summary>
 
-    - `"only_on_ad_pages"`
+BotFightModeConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 11 more }
 
-  - `auto_update_model: optional boolean`
+</summary>
 
-    Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes)
+ai\_bots\_migration\_opt\_out: optional boolean
 
-  - `bm_cookie_enabled: optional boolean`
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
 
-    Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
+<a href="#">Link to this property</a>
 
-  - `cf_robots_variant: optional "off" or "policy_only"`
+<details>
 
-    Specifies the Robots Access Control License variant to use.
+<summary>
 
-    - `"off"`
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
 
-    - `"policy_only"`
+Enable rule to block AI Scrapers and Crawlers.
 
-  - `content_bots_protection: optional "block" or "disabled"`
+</summary>
 
-    Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+One of the following:
 
-    - `"block"`
+"block"
 
-    - `"disabled"`
+<a href="#">Link to this property</a>
 
-  - `crawler_protection: optional "enabled" or "disabled"`
+"disabled"
 
-    Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<a href="#">Link to this property</a>
 
-    - `"enabled"`
+"only\_on\_ad\_pages"
 
-    - `"disabled"`
+<a href="#">Link to this property</a>
 
-  - `enable_js: optional boolean`
+</details>
 
-    Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+<a href="#">Link to this property</a>
 
-  - `is_robots_txt_managed: optional boolean`
+<details>
 
-    Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<summary>
 
-  - `stale_zone_configuration: optional object { fight_mode, optimize_wordpress, sbfm_definitely_automated, 3 more }`
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-    A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+Configure robots.txt policy for AI search bots.
 
-    - `fight_mode: optional boolean`
+</summary>
 
-      Indicates that the zone's Bot Fight Mode is turned on.
+One of the following:
 
-    - `optimize_wordpress: optional boolean`
+"disabled"
 
-      Indicates that the zone's wordpress optimization for SBFM is turned on.
+<a href="#">Link to this property</a>
 
-    - `sbfm_definitely_automated: optional string`
+"block"
 
-      Indicates that the zone's definitely automated requests are being blocked or challenged.
+<a href="#">Link to this property</a>
 
-    - `sbfm_likely_automated: optional string`
+"only\_on\_ad\_pages"
 
-      Indicates that the zone's likely automated requests are being blocked or challenged.
+<a href="#">Link to this property</a>
 
-    - `sbfm_static_resource_protection: optional string`
+</details>
 
-      Indicates that the zone's static resource protection is turned on.
+<a href="#">Link to this property</a>
 
-    - `sbfm_verified_bots: optional string`
+<details>
 
-      Indicates that the zone's verified bot requests are being blocked.
+<summary>
 
-  - `suppress_session_score: optional boolean`
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
 
-    Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
+Configure robots.txt policy for AI model training bots.
 
-  - `using_latest_model: optional boolean`
+</summary>
 
-    A read-only field that indicates whether the zone currently is running the latest ML model.
+One of the following:
 
-### Super Bot Fight Mode Definitely Configuration
+"disabled"
 
-- `SuperBotFightModeDefinitelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 9 more }`
+<a href="#">Link to this property</a>
 
-  - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+"disallow"
 
-    Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-    - `"block"`
+"block"
 
-    - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `"only_on_ad_pages"`
+"only\_on\_ad\_pages"
 
-  - `cf_robots_variant: optional "off" or "policy_only"`
+<a href="#">Link to this property</a>
 
-    Specifies the Robots Access Control License variant to use.
+</details>
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-    - `"policy_only"`
+<details>
 
-  - `content_bots_protection: optional "block" or "disabled"`
+<summary>
 
-    Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-    - `"block"`
+Configure robots.txt policy for AI assistant and agent bots.
 
-    - `"disabled"`
+</summary>
 
-  - `crawler_protection: optional "enabled" or "disabled"`
+One of the following:
 
-    Enable rule to punish AI Scrapers and Crawlers via a link maze.
+"disabled"
 
-    - `"enabled"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+"block"
 
-  - `enable_js: optional boolean`
+<a href="#">Link to this property</a>
 
-    Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+"only\_on\_ad\_pages"
 
-  - `is_robots_txt_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-    Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+</details>
 
-  - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether to optimize Super Bot Fight Mode protections for Wordpress.
+bot\_preference\_sync\_enabled: optional boolean
 
-  - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
 
-    Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+<details>
 
-    - `"block"`
+<summary>
 
-    - `"managed_challenge"`
+cf\_robots\_variant: optional "off"or "policy\_only"
 
-  - `sbfm_static_resource_protection: optional boolean`
+Specifies the Robots Access Control License variant to use.
 
-    Super Bot Fight Mode (SBFM) to enable static resource protection.
-    Enable if static resources on your application need bot protection.
-    Note: Static resource protection can also result in legitimate traffic being blocked.
+</summary>
 
-  - `sbfm_verified_bots: optional "allow" or "block"`
+One of the following:
 
-    Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+"off"
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+"policy\_only"
 
-  - `stale_zone_configuration: optional object { fight_mode, sbfm_likely_automated }`
+<a href="#">Link to this property</a>
 
-    A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+</details>
 
-    - `fight_mode: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the zone's Bot Fight Mode is turned on.
+<details>
 
-    - `sbfm_likely_automated: optional string`
+<summary>
 
-      Indicates that the zone's likely automated requests are being blocked or challenged.
+content\_bots\_protection: optional "block"or "disabled"
 
-  - `using_latest_model: optional boolean`
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
 
-    A read-only field that indicates whether the zone currently is running the latest ML model.
+</summary>
 
-### Super Bot Fight Mode Likely Configuration
+One of the following:
 
-- `SuperBotFightModeLikelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 10 more }`
+"block"
 
-  - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-    Enable rule to block AI Scrapers and Crawlers.
+"disabled"
 
-    - `"block"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+</details>
 
-    - `"only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-  - `cf_robots_variant: optional "off" or "policy_only"`
+<details>
 
-    Specifies the Robots Access Control License variant to use.
+<summary>
 
-    - `"off"`
+crawler\_protection: optional "enabled"or "disabled"
 
-    - `"policy_only"`
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
 
-  - `content_bots_protection: optional "block" or "disabled"`
+</summary>
 
-    Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+One of the following:
 
-    - `"block"`
+"enabled"
 
-    - `"disabled"`
+<a href="#">Link to this property</a>
 
-  - `crawler_protection: optional "enabled" or "disabled"`
+"disabled"
 
-    Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<a href="#">Link to this property</a>
 
-    - `"enabled"`
+</details>
 
-    - `"disabled"`
+<a href="#">Link to this property</a>
 
-  - `enable_js: optional boolean`
+enable\_js: optional boolean
 
-    Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
 
-  - `is_robots_txt_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-    Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+fight\_mode: optional boolean
 
-  - `optimize_wordpress: optional boolean`
+Whether to enable Bot Fight Mode.
 
-    Whether to optimize Super Bot Fight Mode protections for Wordpress.
+<a href="#">Link to this property</a>
 
-  - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+is\_robots\_txt\_managed: optional boolean
 
-    Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
 
-    - `"allow"`
+<a href="#">Link to this property</a>
 
-    - `"block"`
+<details>
 
-    - `"managed_challenge"`
+<summary>
 
-  - `sbfm_likely_automated: optional "allow" or "block" or "managed_challenge"`
+stale\_zone\_configuration: optional object {optimize\_wordpress, sbfm\_definitely\_automated, sbfm\_likely\_automated, 3 more }
 
-    Super Bot Fight Mode (SBFM) action to take on likely automated requests.
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
 
-    - `"allow"`
+</summary>
 
-    - `"block"`
+optimize\_wordpress: optional boolean
 
-    - `"managed_challenge"`
+Indicates that the zone’s wordpress optimization for SBFM is turned on.
 
-  - `sbfm_static_resource_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-    Super Bot Fight Mode (SBFM) to enable static resource protection.
-    Enable if static resources on your application need bot protection.
-    Note: Static resource protection can also result in legitimate traffic being blocked.
+sbfm\_definitely\_automated: optional string
 
-  - `sbfm_verified_bots: optional "allow" or "block"`
+Indicates that the zone’s definitely automated requests are being blocked or challenged.
 
-    Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+<a href="#">Link to this property</a>
 
-    - `"allow"`
+sbfm\_likely\_automated: optional string
 
-    - `"block"`
+Indicates that the zone’s likely automated requests are being blocked or challenged.
 
-  - `stale_zone_configuration: optional object { fight_mode }`
+<a href="#">Link to this property</a>
 
-    A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+sbfm\_static\_resource\_protection: optional string
 
-    - `fight_mode: optional boolean`
+Indicates that the zone’s static resource protection is turned on.
 
-      Indicates that the zone's Bot Fight Mode is turned on.
+<a href="#">Link to this property</a>
 
-  - `using_latest_model: optional boolean`
+sbfm\_verified\_bots: optional string
 
-    A read-only field that indicates whether the zone currently is running the latest ML model.
+Indicates that the zone’s verified bot requests are being blocked.
 
-### Bot Management Get Response
+<a href="#">Link to this property</a>
 
-- `BotManagementGetResponse = BotFightModeConfiguration or SuperBotFightModeDefinitelyConfiguration or SuperBotFightModeLikelyConfiguration or SubscriptionConfiguration`
+suppress\_session\_score: optional boolean
 
-  - `BotFightModeConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 6 more }`
+Indicates that the zone’s session score tracking is disabled.
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block AI Scrapers and Crawlers.
+</details>
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+using\_latest\_model: optional boolean
 
-      - `"only_on_ad_pages"`
+A read-only field that indicates whether the zone currently is running the latest ML model.
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<a href="#">Link to this property</a>
 
-      Specifies the Robots Access Control License variant to use.
+</details>
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"policy_only"`
+<details>
 
-    - `content_bots_protection: optional "block" or "disabled"`
+<summary>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+SuperBotFightModeDefinitelyConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 14 more }
 
-      - `"block"`
+</summary>
 
-      - `"disabled"`
+ai\_bots\_migration\_opt\_out: optional boolean
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+<details>
 
-      - `"disabled"`
+<summary>
 
-    - `enable_js: optional boolean`
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+Enable rule to block AI Scrapers and Crawlers.
 
-    - `fight_mode: optional boolean`
+</summary>
 
-      Whether to enable Bot Fight Mode.
+One of the following:
 
-    - `is_robots_txt_managed: optional boolean`
+"block"
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<a href="#">Link to this property</a>
 
-    - `stale_zone_configuration: optional object { optimize_wordpress, sbfm_definitely_automated, sbfm_likely_automated, 3 more }`
+"disabled"
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+<a href="#">Link to this property</a>
 
-      - `optimize_wordpress: optional boolean`
+"only\_on\_ad\_pages"
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+<a href="#">Link to this property</a>
 
-      - `sbfm_definitely_automated: optional string`
+</details>
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+<a href="#">Link to this property</a>
 
-      - `sbfm_likely_automated: optional string`
+<details>
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+<summary>
 
-      - `sbfm_static_resource_protection: optional string`
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-        Indicates that the zone's static resource protection is turned on.
+Configure robots.txt policy for AI search bots.
 
-      - `sbfm_verified_bots: optional string`
+</summary>
 
-        Indicates that the zone's verified bot requests are being blocked.
+One of the following:
 
-      - `suppress_session_score: optional boolean`
+"disabled"
 
-        Indicates that the zone's session score tracking is disabled.
+<a href="#">Link to this property</a>
 
-    - `using_latest_model: optional boolean`
+"block"
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+<a href="#">Link to this property</a>
 
-  - `SuperBotFightModeDefinitelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 9 more }`
+"only\_on\_ad\_pages"
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block AI Scrapers and Crawlers.
+</details>
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+<details>
 
-      - `"only_on_ad_pages"`
+<summary>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
 
-      Specifies the Robots Access Control License variant to use.
+Configure robots.txt policy for AI model training bots.
 
-      - `"off"`
+</summary>
 
-      - `"policy_only"`
+One of the following:
 
-    - `content_bots_protection: optional "block" or "disabled"`
+"disabled"
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+"disallow"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+"block"
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+"only\_on\_ad\_pages"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `enable_js: optional boolean`
+</details>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+<a href="#">Link to this property</a>
 
-    - `is_robots_txt_managed: optional boolean`
+<details>
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<summary>
 
-    - `optimize_wordpress: optional boolean`
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+Configure robots.txt policy for AI assistant and agent bots.
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+</summary>
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+One of the following:
 
-      - `"allow"`
+"disabled"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"managed_challenge"`
+"block"
 
-    - `sbfm_static_resource_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+"only\_on\_ad\_pages"
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+</details>
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+bot\_preference\_sync\_enabled: optional boolean
 
-    - `stale_zone_configuration: optional object { fight_mode, sbfm_likely_automated }`
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+<a href="#">Link to this property</a>
 
-      - `fight_mode: optional boolean`
+<details>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+<summary>
 
-      - `sbfm_likely_automated: optional string`
+cf\_robots\_variant: optional "off"or "policy\_only"
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+Specifies the Robots Access Control License variant to use.
 
-    - `using_latest_model: optional boolean`
+</summary>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+One of the following:
 
-  - `SuperBotFightModeLikelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 10 more }`
+"off"
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block AI Scrapers and Crawlers.
+"policy\_only"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+</details>
 
-      - `"only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<details>
 
-      Specifies the Robots Access Control License variant to use.
+<summary>
 
-      - `"off"`
+content\_bots\_protection: optional "block"or "disabled"
 
-      - `"policy_only"`
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
 
-    - `content_bots_protection: optional "block" or "disabled"`
+</summary>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+One of the following:
 
-      - `"block"`
+"block"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+"disabled"
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+</details>
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `enable_js: optional boolean`
+<details>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+<summary>
 
-    - `is_robots_txt_managed: optional boolean`
+crawler\_protection: optional "enabled"or "disabled"
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
 
-    - `optimize_wordpress: optional boolean`
+</summary>
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+One of the following:
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+"enabled"
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+"disabled"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"managed_challenge"`
+</details>
 
-    - `sbfm_likely_automated: optional "allow" or "block" or "managed_challenge"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on likely automated requests.
+enable\_js: optional boolean
 
-      - `"allow"`
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"managed_challenge"`
+is\_robots\_txt\_managed: optional boolean
 
-    - `sbfm_static_resource_protection: optional boolean`
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+<a href="#">Link to this property</a>
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+optimize\_wordpress: optional boolean
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+Whether to optimize Super Bot Fight Mode protections for Wordpress.
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-    - `stale_zone_configuration: optional object { fight_mode }`
+<summary>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+sbfm\_definitely\_automated: optional "allow"or "block"or "managed\_challenge"
 
-      - `fight_mode: optional boolean`
+Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+</summary>
 
-    - `using_latest_model: optional boolean`
+One of the following:
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+"allow"
 
-  - `SubscriptionConfiguration object { ai_bots_protection, auto_update_model, bm_cookie_enabled, 8 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+"block"
 
-      Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+"managed\_challenge"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-      - `"only_on_ad_pages"`
+</details>
 
-    - `auto_update_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes)
+sbfm\_static\_resource\_protection: optional boolean
 
-    - `bm_cookie_enabled: optional boolean`
+Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked.
 
-      Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
+<a href="#">Link to this property</a>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<details>
 
-      Specifies the Robots Access Control License variant to use.
+<summary>
 
-      - `"off"`
+sbfm\_verified\_bots: optional "allow"or "block"
 
-      - `"policy_only"`
+Super Bot Fight Mode (SBFM) action to take on verified bots requests.
 
-    - `content_bots_protection: optional "block" or "disabled"`
+</summary>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+One of the following:
 
-      - `"block"`
+"allow"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+"block"
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+</details>
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `enable_js: optional boolean`
+<details>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+<summary>
 
-    - `is_robots_txt_managed: optional boolean`
+stale\_zone\_configuration: optional object {fight\_mode, sbfm\_likely\_automated }
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
 
-    - `stale_zone_configuration: optional object { fight_mode, optimize_wordpress, sbfm_definitely_automated, 3 more }`
+</summary>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+fight\_mode: optional boolean
 
-      - `fight_mode: optional boolean`
+Indicates that the zone’s Bot Fight Mode is turned on.
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+<a href="#">Link to this property</a>
 
-      - `optimize_wordpress: optional boolean`
+sbfm\_likely\_automated: optional string
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+Indicates that the zone’s likely automated requests are being blocked or challenged.
 
-      - `sbfm_definitely_automated: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+</details>
 
-      - `sbfm_likely_automated: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+using\_latest\_model: optional boolean
 
-      - `sbfm_static_resource_protection: optional string`
+A read-only field that indicates whether the zone currently is running the latest ML model.
 
-        Indicates that the zone's static resource protection is turned on.
+<a href="#">Link to this property</a>
 
-      - `sbfm_verified_bots: optional string`
+</details>
 
-        Indicates that the zone's verified bot requests are being blocked.
+<a href="#">Link to this property</a>
 
-    - `suppress_session_score: optional boolean`
+<details>
 
-      Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
+<summary>
 
-    - `using_latest_model: optional boolean`
+SuperBotFightModeLikelyConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 15 more }
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+</summary>
 
-### Bot Management Update Response
+ai\_bots\_migration\_opt\_out: optional boolean
 
-- `BotManagementUpdateResponse = BotFightModeConfiguration or SuperBotFightModeDefinitelyConfiguration or SuperBotFightModeLikelyConfiguration or SubscriptionConfiguration`
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
 
-  - `BotFightModeConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<details>
 
-      Enable rule to block AI Scrapers and Crawlers.
+<summary>
 
-      - `"block"`
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
 
-      - `"disabled"`
+Enable rule to block AI Scrapers and Crawlers.
 
-      - `"only_on_ad_pages"`
+</summary>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+One of the following:
 
-      Specifies the Robots Access Control License variant to use.
+"block"
 
-      - `"off"`
+<a href="#">Link to this property</a>
 
-      - `"policy_only"`
+"disabled"
 
-    - `content_bots_protection: optional "block" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+"only\_on\_ad\_pages"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+</details>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+<details>
 
-      - `"enabled"`
+<summary>
 
-      - `"disabled"`
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-    - `enable_js: optional boolean`
+Configure robots.txt policy for AI search bots.
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+</summary>
 
-    - `fight_mode: optional boolean`
+One of the following:
 
-      Whether to enable Bot Fight Mode.
+"disabled"
 
-    - `is_robots_txt_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+"block"
 
-    - `stale_zone_configuration: optional object { optimize_wordpress, sbfm_definitely_automated, sbfm_likely_automated, 3 more }`
+<a href="#">Link to this property</a>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+"only\_on\_ad\_pages"
 
-      - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+</details>
 
-      - `sbfm_definitely_automated: optional string`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+<details>
 
-      - `sbfm_likely_automated: optional string`
+<summary>
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
 
-      - `sbfm_static_resource_protection: optional string`
+Configure robots.txt policy for AI model training bots.
 
-        Indicates that the zone's static resource protection is turned on.
+</summary>
 
-      - `sbfm_verified_bots: optional string`
+One of the following:
 
-        Indicates that the zone's verified bot requests are being blocked.
+"disabled"
 
-      - `suppress_session_score: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's session score tracking is disabled.
+"disallow"
 
-    - `using_latest_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+"block"
 
-  - `SuperBotFightModeDefinitelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 9 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+"only\_on\_ad\_pages"
 
-      Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+</details>
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-      - `"only_on_ad_pages"`
+<details>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<summary>
 
-      Specifies the Robots Access Control License variant to use.
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-      - `"off"`
+Configure robots.txt policy for AI assistant and agent bots.
 
-      - `"policy_only"`
+</summary>
 
-    - `content_bots_protection: optional "block" or "disabled"`
+One of the following:
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+"disabled"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+"block"
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+"only\_on\_ad\_pages"
 
-      - `"enabled"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+</details>
 
-    - `enable_js: optional boolean`
+<a href="#">Link to this property</a>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+bot\_preference\_sync\_enabled: optional boolean
 
-    - `is_robots_txt_managed: optional boolean`
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+<a href="#">Link to this property</a>
 
-    - `optimize_wordpress: optional boolean`
+<details>
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+<summary>
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+cf\_robots\_variant: optional "off"or "policy\_only"
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+Specifies the Robots Access Control License variant to use.
 
-      - `"allow"`
+</summary>
 
-      - `"block"`
+One of the following:
 
-      - `"managed_challenge"`
+"off"
 
-    - `sbfm_static_resource_protection: optional boolean`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+"policy\_only"
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+<a href="#">Link to this property</a>
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+</details>
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-    - `stale_zone_configuration: optional object { fight_mode, sbfm_likely_automated }`
+<summary>
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+content\_bots\_protection: optional "block"or "disabled"
 
-      - `fight_mode: optional boolean`
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+</summary>
 
-      - `sbfm_likely_automated: optional string`
+One of the following:
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+"block"
 
-    - `using_latest_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+"disabled"
 
-  - `SuperBotFightModeLikelyConfiguration object { ai_bots_protection, cf_robots_variant, content_bots_protection, 10 more }`
+<a href="#">Link to this property</a>
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+</details>
 
-      Enable rule to block AI Scrapers and Crawlers.
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-      - `"disabled"`
+<summary>
 
-      - `"only_on_ad_pages"`
+crawler\_protection: optional "enabled"or "disabled"
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
 
-      Specifies the Robots Access Control License variant to use.
+</summary>
 
-      - `"off"`
+One of the following:
 
-      - `"policy_only"`
+"enabled"
 
-    - `content_bots_protection: optional "block" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+"disabled"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+</details>
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+enable\_js: optional boolean
 
-      - `"enabled"`
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `enable_js: optional boolean`
+is\_robots\_txt\_managed: optional boolean
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
 
-    - `is_robots_txt_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+optimize\_wordpress: optional boolean
 
-    - `optimize_wordpress: optional boolean`
+Whether to optimize Super Bot Fight Mode protections for Wordpress.
 
-      Whether to optimize Super Bot Fight Mode protections for Wordpress.
+<a href="#">Link to this property</a>
 
-    - `sbfm_definitely_automated: optional "allow" or "block" or "managed_challenge"`
+<details>
 
-      Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+<summary>
 
-      - `"allow"`
+sbfm\_definitely\_automated: optional "allow"or "block"or "managed\_challenge"
 
-      - `"block"`
+Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
 
-      - `"managed_challenge"`
+</summary>
 
-    - `sbfm_likely_automated: optional "allow" or "block" or "managed_challenge"`
+One of the following:
 
-      Super Bot Fight Mode (SBFM) action to take on likely automated requests.
+"allow"
 
-      - `"allow"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+"block"
 
-      - `"managed_challenge"`
+<a href="#">Link to this property</a>
 
-    - `sbfm_static_resource_protection: optional boolean`
+"managed\_challenge"
 
-      Super Bot Fight Mode (SBFM) to enable static resource protection.
-      Enable if static resources on your application need bot protection.
-      Note: Static resource protection can also result in legitimate traffic being blocked.
+<a href="#">Link to this property</a>
 
-    - `sbfm_verified_bots: optional "allow" or "block"`
+</details>
 
-      Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+<details>
 
-      - `"block"`
+<summary>
 
-    - `stale_zone_configuration: optional object { fight_mode }`
+sbfm\_likely\_automated: optional "allow"or "block"or "managed\_challenge"
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+Super Bot Fight Mode (SBFM) action to take on likely automated requests.
 
-      - `fight_mode: optional boolean`
+</summary>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+One of the following:
 
-    - `using_latest_model: optional boolean`
+"allow"
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+<a href="#">Link to this property</a>
 
-  - `SubscriptionConfiguration object { ai_bots_protection, auto_update_model, bm_cookie_enabled, 8 more }`
+"block"
 
-    - `ai_bots_protection: optional "block" or "disabled" or "only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-      Enable rule to block AI Scrapers and Crawlers.
+"managed\_challenge"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+</details>
 
-      - `"only_on_ad_pages"`
+<a href="#">Link to this property</a>
 
-    - `auto_update_model: optional boolean`
+sbfm\_static\_resource\_protection: optional boolean
 
-      Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes)
+Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked.
 
-    - `bm_cookie_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
+<details>
 
-    - `cf_robots_variant: optional "off" or "policy_only"`
+<summary>
 
-      Specifies the Robots Access Control License variant to use.
+sbfm\_verified\_bots: optional "allow"or "block"
 
-      - `"off"`
+Super Bot Fight Mode (SBFM) action to take on verified bots requests.
 
-      - `"policy_only"`
+</summary>
 
-    - `content_bots_protection: optional "block" or "disabled"`
+One of the following:
 
-      Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+"allow"
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+"block"
 
-    - `crawler_protection: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-      Enable rule to punish AI Scrapers and Crawlers via a link maze.
+</details>
 
-      - `"enabled"`
+<a href="#">Link to this property</a>
 
-      - `"disabled"`
+<details>
 
-    - `enable_js: optional boolean`
+<summary>
 
-      Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/).
+stale\_zone\_configuration: optional object {fight\_mode }
 
-    - `is_robots_txt_managed: optional boolean`
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
 
-      Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+</summary>
 
-    - `stale_zone_configuration: optional object { fight_mode, optimize_wordpress, sbfm_definitely_automated, 3 more }`
+fight\_mode: optional boolean
 
-      A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+Indicates that the zone’s Bot Fight Mode is turned on.
 
-      - `fight_mode: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's Bot Fight Mode is turned on.
+</details>
 
-      - `optimize_wordpress: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates that the zone's wordpress optimization for SBFM is turned on.
+using\_latest\_model: optional boolean
 
-      - `sbfm_definitely_automated: optional string`
+A read-only field that indicates whether the zone currently is running the latest ML model.
 
-        Indicates that the zone's definitely automated requests are being blocked or challenged.
+<a href="#">Link to this property</a>
 
-      - `sbfm_likely_automated: optional string`
+</details>
 
-        Indicates that the zone's likely automated requests are being blocked or challenged.
+<a href="#">Link to this property</a>
 
-      - `sbfm_static_resource_protection: optional string`
+<details>
 
-        Indicates that the zone's static resource protection is turned on.
+<summary>
 
-      - `sbfm_verified_bots: optional string`
+SubscriptionConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 13 more }
 
-        Indicates that the zone's verified bot requests are being blocked.
+</summary>
 
-    - `suppress_session_score: optional boolean`
+ai\_bots\_migration\_opt\_out: optional boolean
 
-      Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
 
-    - `using_latest_model: optional boolean`
+<a href="#">Link to this property</a>
 
-      A read-only field that indicates whether the zone currently is running the latest ML model.
+<details>
 
-# Feedback
+<summary>
 
-## List zone feedback reports
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
 
-**get** `/zones/{zone_id}/bot_management/feedback`
+Enable rule to block AI Scrapers and Crawlers.
 
-Returns all feedback reports previously submitted for the specified zone. Feedback reports help improve detection by sharing samples of traffic that were misclassified as bots or humans.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `zone_id: string`
+"block"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+"disabled"
 
-- `description: string`
+<a href="#">Link to this property</a>
 
-- `expression: string`
+"only\_on\_ad\_pages"
 
-  Wirefilter expression describing the traffic being reported.
+<a href="#">Link to this property</a>
 
-- `first_request_seen_at: string`
+</details>
 
-- `last_request_seen_at: string`
+<a href="#">Link to this property</a>
 
-- `requests: number`
+<details>
 
-- `requests_by_attribute: RequestsByAttribute`
+<summary>
 
-  Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-  - `metric: string`
+Configure robots.txt policy for AI search bots.
 
-  - `requests: number`
+</summary>
 
-- `requests_by_score: RequestsByScore`
+One of the following:
 
-  Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+"disabled"
 
-- `requests_by_score_src: RequestsByScoreSrc`
+<a href="#">Link to this property</a>
 
-  Map of score source to request counts. Sum must equal `requests`.
+"block"
 
-- `type: FeedbackType`
+<a href="#">Link to this property</a>
 
-  Type of feedback report.
+"only\_on\_ad\_pages"
 
-  - `"false_positive"`
+<a href="#">Link to this property</a>
 
-  - `"false_negative"`
+</details>
 
-- `created_at: optional string`
+<a href="#">Link to this property</a>
 
-- `subtype: optional string`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/bot_management/feedback \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
 
-#### Response
+Configure robots.txt policy for AI model training bots.
 
-```json
-[
-  {
-    "created_at": "2025-10-01T12:00:00Z",
-    "description": "Legitimate checkout traffic was blocked as bots",
-    "expression": "(http.host eq 'shop.example.com' and http.request.uri.path starts_with '/checkout') and cf.bot_management.score lt 5",
-    "first_request_seen_at": "2025-09-30T08:00:00Z",
-    "last_request_seen_at": "2025-09-30T09:00:00Z",
-    "requests": 1200,
-    "requests_by_attribute": {
-      "topIPs": [
-        {
-          "metric": "203.0.113.10",
-          "requests": 180
-        },
-        {
-          "metric": "203.0.113.11",
-          "requests": 150
-        }
-      ],
-      "topPaths": [
-        {
-          "metric": "/checkout",
-          "requests": 1000
-        }
-      ]
-    },
-    "requests_by_score": {
-      "1": 200,
-      "2": 300,
-      "3": 400,
-      "4": 300
-    },
-    "requests_by_score_src": {
-      "heuristics": 200,
-      "machine_learning": 1000
-    },
-    "subtype": "Spamming",
-    "type": "false_positive"
-  }
-]
-```
+</summary>
 
-## Submit a feedback report
+One of the following:
 
-**post** `/zones/{zone_id}/bot_management/feedback`
+"disabled"
 
-Submit a feedback report for the specified zone. Use `type` to indicate whether the report is a false positive (good traffic flagged as bot) or a false negative (bot traffic missed). Furthermore, you can also use `expression` as a wirefilter to identify the affected traffic sample.
+<a href="#">Link to this property</a>
 
-See more accepted API fields and expression types at https://developers.cloudflare.com/bots/concepts/feedback-loop/#api-fields and https://developers.cloudflare.com/bots/concepts/feedback-loop/#expression-fields, respectively.
+"disallow"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"block"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"only\_on\_ad\_pages"
 
-- `description: string`
+<a href="#">Link to this property</a>
 
-- `expression: string`
+</details>
 
-  Wirefilter expression describing the traffic being reported.
+<a href="#">Link to this property</a>
 
-- `first_request_seen_at: string`
+<details>
 
-- `last_request_seen_at: string`
+<summary>
 
-- `requests: number`
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
 
-- `requests_by_attribute: RequestsByAttribute`
+Configure robots.txt policy for AI assistant and agent bots.
 
-  Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+</summary>
 
-  - `metric: string`
+One of the following:
 
-  - `requests: number`
+"disabled"
 
-- `requests_by_score: RequestsByScore`
+<a href="#">Link to this property</a>
 
-  Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+"block"
 
-- `requests_by_score_src: RequestsByScoreSrc`
+<a href="#">Link to this property</a>
 
-  Map of score source to request counts. Sum must equal `requests`.
+"only\_on\_ad\_pages"
 
-- `type: FeedbackType`
+<a href="#">Link to this property</a>
 
-  Type of feedback report.
+</details>
 
-  - `"false_positive"`
+<a href="#">Link to this property</a>
 
-  - `"false_negative"`
+auto\_update\_model: optional boolean
 
-- `subtype: optional string`
+Automatically update to the newest bot detection models created by Cloudflare as they are released. <a href="https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes">Learn more.</a>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/bot_management/feedback \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d "{
-          \"description\": \"Automated scraping missed by detections\",
-          \"expression\": \"http.host eq 'www.example.com' and http.request.uri.path starts_with '/products' and cf.bot_management.score gt 25\",
-          \"first_request_seen_at\": \"2025-09-29T00:00:00Z\",
-          \"last_request_seen_at\": \"2025-09-29T06:00:00Z\",
-          \"requests\": 2000,
-          \"requests_by_attribute\": {
-            \"topIPs\": [
-              {
-                \"metric\": \"203.0.113.55\",
-                \"requests\": 400
-              }
-            ],
-            \"topJA3Hashes\": [
-              {
-                \"metric\": \"ab12cd34ef56...\",
-                \"requests\": 900
-              }
-            ]
-          },
-          \"requests_by_score\": {
-            \"30\": 800,
-            \"40\": 700,
-            \"50\": 500
-          },
-          \"requests_by_score_src\": {
-            \"heuristics\": 200,
-            \"ml\": 1800
-          },
-          \"type\": \"false_negative\"
-        }"
-```
+bm\_cookie\_enabled: optional boolean
 
-## Domain Types
+Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
 
-### Feedback Report
+<a href="#">Link to this property</a>
 
-- `FeedbackReport object { description, expression, first_request_seen_at, 8 more }`
+bot\_preference\_sync\_enabled: optional boolean
 
-  - `description: string`
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    Wirefilter expression describing the traffic being reported.
+<details>
 
-  - `first_request_seen_at: string`
+<summary>
 
-  - `last_request_seen_at: string`
+cf\_robots\_variant: optional "off"or "policy\_only"
 
-  - `requests: number`
+Specifies the Robots Access Control License variant to use.
 
-  - `requests_by_attribute: RequestsByAttribute`
+</summary>
 
-    Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+One of the following:
 
-    - `metric: string`
+"off"
 
-    - `requests: number`
+<a href="#">Link to this property</a>
 
-  - `requests_by_score: RequestsByScore`
+"policy\_only"
 
-    Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+<a href="#">Link to this property</a>
 
-  - `requests_by_score_src: RequestsByScoreSrc`
+</details>
 
-    Map of score source to request counts. Sum must equal `requests`.
+<a href="#">Link to this property</a>
 
-  - `type: FeedbackType`
+<details>
 
-    Type of feedback report.
+<summary>
 
-    - `"false_positive"`
+content\_bots\_protection: optional "block"or "disabled"
 
-    - `"false_negative"`
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
 
-  - `created_at: optional string`
+</summary>
 
-  - `subtype: optional string`
+One of the following:
 
-### Feedback Type
+"block"
 
-- `FeedbackType = "false_positive" or "false_negative"`
+<a href="#">Link to this property</a>
 
-  Type of feedback report.
+"disabled"
 
-  - `"false_positive"`
+<a href="#">Link to this property</a>
 
-  - `"false_negative"`
+</details>
 
-### Metric Requests
+<a href="#">Link to this property</a>
 
-- `MetricRequests object { metric, requests }`
+<details>
 
-  - `metric: string`
+<summary>
 
-  - `requests: number`
+crawler\_protection: optional "enabled"or "disabled"
 
-### Requests By Attribute
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
 
-- `RequestsByAttribute = map[array of MetricRequests]`
+</summary>
 
-  Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+One of the following:
 
-  - `metric: string`
+"enabled"
 
-  - `requests: number`
+<a href="#">Link to this property</a>
 
-### Requests By Score
+"disabled"
 
-- `RequestsByScore = map[number]`
+<a href="#">Link to this property</a>
 
-  Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+</details>
 
-### Requests By Score Src
+<a href="#">Link to this property</a>
 
-- `RequestsByScoreSrc = map[number]`
+enable\_js: optional boolean
 
-  Map of score source to request counts. Sum must equal `requests`.
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
 
-### Feedback List Response
+<a href="#">Link to this property</a>
 
-- `FeedbackListResponse = array of FeedbackReport`
+is\_robots\_txt\_managed: optional boolean
 
-  - `description: string`
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    Wirefilter expression describing the traffic being reported.
+<details>
 
-  - `first_request_seen_at: string`
+<summary>
 
-  - `last_request_seen_at: string`
+stale\_zone\_configuration: optional object {fight\_mode, optimize\_wordpress, sbfm\_definitely\_automated, 3 more }
 
-  - `requests: number`
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
 
-  - `requests_by_attribute: RequestsByAttribute`
+</summary>
 
-    Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+fight\_mode: optional boolean
 
-    - `metric: string`
+Indicates that the zone’s Bot Fight Mode is turned on.
 
-    - `requests: number`
+<a href="#">Link to this property</a>
 
-  - `requests_by_score: RequestsByScore`
+optimize\_wordpress: optional boolean
 
-    Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+Indicates that the zone’s wordpress optimization for SBFM is turned on.
 
-  - `requests_by_score_src: RequestsByScoreSrc`
+<a href="#">Link to this property</a>
 
-    Map of score source to request counts. Sum must equal `requests`.
+sbfm\_definitely\_automated: optional string
 
-  - `type: FeedbackType`
+Indicates that the zone’s definitely automated requests are being blocked or challenged.
 
-    Type of feedback report.
+<a href="#">Link to this property</a>
 
-    - `"false_positive"`
+sbfm\_likely\_automated: optional string
 
-    - `"false_negative"`
+Indicates that the zone’s likely automated requests are being blocked or challenged.
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `subtype: optional string`
+sbfm\_static\_resource\_protection: optional string
+
+Indicates that the zone’s static resource protection is turned on.
+
+<a href="#">Link to this property</a>
+
+sbfm\_verified\_bots: optional string
+
+Indicates that the zone’s verified bot requests are being blocked.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+suppress\_session\_score: optional boolean
+
+Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
+
+<a href="#">Link to this property</a>
+
+using\_latest\_model: optional boolean
+
+A read-only field that indicates whether the zone currently is running the latest ML model.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20bot_management%20%3E%20(model)%20bot_management_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+BotManagementUpdateResponse = <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management%20%3E%20(model)%20bot_fight_mode_configuration%20%3E%20(schema)">BotFightModeConfiguration</a> { ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 11 more } or <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management%20%3E%20(model)%20super_bot_fight_mode_definitely_configuration%20%3E%20(schema)">SuperBotFightModeDefinitelyConfiguration</a> { ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 14 more } or <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management%20%3E%20(model)%20super_bot_fight_mode_likely_configuration%20%3E%20(schema)">SuperBotFightModeLikelyConfiguration</a> { ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 15 more } or <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management%20%3E%20(model)%20subscription_configuration%20%3E%20(schema)">SubscriptionConfiguration</a> { ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 13 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+BotFightModeConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 11 more }
+
+</summary>
+
+ai\_bots\_migration\_opt\_out: optional boolean
+
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
+
+Enable rule to block AI Scrapers and Crawlers.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI search bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI model training bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"disallow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI assistant and agent bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+bot\_preference\_sync\_enabled: optional boolean
+
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cf\_robots\_variant: optional "off"or "policy\_only"
+
+Specifies the Robots Access Control License variant to use.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"policy\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+content\_bots\_protection: optional "block"or "disabled"
+
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+crawler\_protection: optional "enabled"or "disabled"
+
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enable\_js: optional boolean
+
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
+
+<a href="#">Link to this property</a>
+
+fight\_mode: optional boolean
+
+Whether to enable Bot Fight Mode.
+
+<a href="#">Link to this property</a>
+
+is\_robots\_txt\_managed: optional boolean
+
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stale\_zone\_configuration: optional object {optimize\_wordpress, sbfm\_definitely\_automated, sbfm\_likely\_automated, 3 more }
+
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+
+</summary>
+
+optimize\_wordpress: optional boolean
+
+Indicates that the zone’s wordpress optimization for SBFM is turned on.
+
+<a href="#">Link to this property</a>
+
+sbfm\_definitely\_automated: optional string
+
+Indicates that the zone’s definitely automated requests are being blocked or challenged.
+
+<a href="#">Link to this property</a>
+
+sbfm\_likely\_automated: optional string
+
+Indicates that the zone’s likely automated requests are being blocked or challenged.
+
+<a href="#">Link to this property</a>
+
+sbfm\_static\_resource\_protection: optional string
+
+Indicates that the zone’s static resource protection is turned on.
+
+<a href="#">Link to this property</a>
+
+sbfm\_verified\_bots: optional string
+
+Indicates that the zone’s verified bot requests are being blocked.
+
+<a href="#">Link to this property</a>
+
+suppress\_session\_score: optional boolean
+
+Indicates that the zone’s session score tracking is disabled.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+using\_latest\_model: optional boolean
+
+A read-only field that indicates whether the zone currently is running the latest ML model.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SuperBotFightModeDefinitelyConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 14 more }
+
+</summary>
+
+ai\_bots\_migration\_opt\_out: optional boolean
+
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
+
+Enable rule to block AI Scrapers and Crawlers.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI search bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI model training bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"disallow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI assistant and agent bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+bot\_preference\_sync\_enabled: optional boolean
+
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cf\_robots\_variant: optional "off"or "policy\_only"
+
+Specifies the Robots Access Control License variant to use.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"policy\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+content\_bots\_protection: optional "block"or "disabled"
+
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+crawler\_protection: optional "enabled"or "disabled"
+
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enable\_js: optional boolean
+
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
+
+<a href="#">Link to this property</a>
+
+is\_robots\_txt\_managed: optional boolean
+
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+
+<a href="#">Link to this property</a>
+
+optimize\_wordpress: optional boolean
+
+Whether to optimize Super Bot Fight Mode protections for Wordpress.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sbfm\_definitely\_automated: optional "allow"or "block"or "managed\_challenge"
+
+Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+sbfm\_static\_resource\_protection: optional boolean
+
+Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sbfm\_verified\_bots: optional "allow"or "block"
+
+Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stale\_zone\_configuration: optional object {fight\_mode, sbfm\_likely\_automated }
+
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+
+</summary>
+
+fight\_mode: optional boolean
+
+Indicates that the zone’s Bot Fight Mode is turned on.
+
+<a href="#">Link to this property</a>
+
+sbfm\_likely\_automated: optional string
+
+Indicates that the zone’s likely automated requests are being blocked or challenged.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+using\_latest\_model: optional boolean
+
+A read-only field that indicates whether the zone currently is running the latest ML model.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SuperBotFightModeLikelyConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 15 more }
+
+</summary>
+
+ai\_bots\_migration\_opt\_out: optional boolean
+
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
+
+Enable rule to block AI Scrapers and Crawlers.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI search bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI model training bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"disallow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI assistant and agent bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+bot\_preference\_sync\_enabled: optional boolean
+
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cf\_robots\_variant: optional "off"or "policy\_only"
+
+Specifies the Robots Access Control License variant to use.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"policy\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+content\_bots\_protection: optional "block"or "disabled"
+
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+crawler\_protection: optional "enabled"or "disabled"
+
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enable\_js: optional boolean
+
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
+
+<a href="#">Link to this property</a>
+
+is\_robots\_txt\_managed: optional boolean
+
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+
+<a href="#">Link to this property</a>
+
+optimize\_wordpress: optional boolean
+
+Whether to optimize Super Bot Fight Mode protections for Wordpress.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sbfm\_definitely\_automated: optional "allow"or "block"or "managed\_challenge"
+
+Super Bot Fight Mode (SBFM) action to take on definitely automated requests.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sbfm\_likely\_automated: optional "allow"or "block"or "managed\_challenge"
+
+Super Bot Fight Mode (SBFM) action to take on likely automated requests.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+sbfm\_static\_resource\_protection: optional boolean
+
+Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sbfm\_verified\_bots: optional "allow"or "block"
+
+Super Bot Fight Mode (SBFM) action to take on verified bots requests.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stale\_zone\_configuration: optional object {fight\_mode }
+
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+
+</summary>
+
+fight\_mode: optional boolean
+
+Indicates that the zone’s Bot Fight Mode is turned on.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+using\_latest\_model: optional boolean
+
+A read-only field that indicates whether the zone currently is running the latest ML model.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+SubscriptionConfiguration object {ai\_bots\_migration\_opt\_out, ai\_bots\_protection, ai\_search, 13 more }
+
+</summary>
+
+ai\_bots\_migration\_opt\_out: optional boolean
+
+Temporary migration flag tracking zones opted out of AI bots managed-rule updates.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_bots\_protection: optional "block"or "disabled"or "only\_on\_ad\_pages"
+
+Enable rule to block AI Scrapers and Crawlers.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_search: optional "disabled"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI search bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_training: optional "disabled"or "disallow"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI model training bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"disallow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ai\_user: optional "disabled"or "block"or "only\_on\_ad\_pages"
+
+Configure robots.txt policy for AI assistant and agent bots.
+
+</summary>
+
+One of the following:
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"only\_on\_ad\_pages"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+auto\_update\_model: optional boolean
+
+Automatically update to the newest bot detection models created by Cloudflare as they are released. <a href="https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes">Learn more.</a>
+
+<a href="#">Link to this property</a>
+
+bm\_cookie\_enabled: optional boolean
+
+Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true
+
+<a href="#">Link to this property</a>
+
+bot\_preference\_sync\_enabled: optional boolean
+
+Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone’s AI Search, AI User, and AI Training preferences.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cf\_robots\_variant: optional "off"or "policy\_only"
+
+Specifies the Robots Access Control License variant to use.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"policy\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+content\_bots\_protection: optional "block"or "disabled"
+
+Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+crawler\_protection: optional "enabled"or "disabled"
+
+Enable rule to punish AI Scrapers and Crawlers via a link maze.
+
+</summary>
+
+One of the following:
+
+"enabled"
+
+<a href="#">Link to this property</a>
+
+"disabled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+enable\_js: optional boolean
+
+Use lightweight, invisible JavaScript detections to improve Bot Management. <a href="https://developers.cloudflare.com/bots/reference/javascript-detections/">Learn more about JavaScript Detections</a>.
+
+<a href="#">Link to this property</a>
+
+is\_robots\_txt\_managed: optional boolean
+
+Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+stale\_zone\_configuration: optional object {fight\_mode, optimize\_wordpress, sbfm\_definitely\_automated, 3 more }
+
+A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades.
+
+</summary>
+
+fight\_mode: optional boolean
+
+Indicates that the zone’s Bot Fight Mode is turned on.
+
+<a href="#">Link to this property</a>
+
+optimize\_wordpress: optional boolean
+
+Indicates that the zone’s wordpress optimization for SBFM is turned on.
+
+<a href="#">Link to this property</a>
+
+sbfm\_definitely\_automated: optional string
+
+Indicates that the zone’s definitely automated requests are being blocked or challenged.
+
+<a href="#">Link to this property</a>
+
+sbfm\_likely\_automated: optional string
+
+Indicates that the zone’s likely automated requests are being blocked or challenged.
+
+<a href="#">Link to this property</a>
+
+sbfm\_static\_resource\_protection: optional string
+
+Indicates that the zone’s static resource protection is turned on.
+
+<a href="#">Link to this property</a>
+
+sbfm\_verified\_bots: optional string
+
+Indicates that the zone’s verified bot requests are being blocked.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+suppress\_session\_score: optional boolean
+
+Whether to disable tracking the highest bot score for a session in the Bot Management cookie.
+
+<a href="#">Link to this property</a>
+
+using\_latest\_model: optional boolean
+
+A read-only field that indicates whether the zone currently is running the latest ML model.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20bot_management%20%3E%20(model)%20bot_management_update_response%20%3E%20(schema)>)
+
+#### Bot ManagementFeedback
+
+##### [List zone feedback reports](https://developers.cloudflare.com/api/resources/bot_management/subresources/feedback/methods/list)
+
+GET/zones/{zone\_id}/bot\_management/feedback
+
+##### [Submit a feedback report](https://developers.cloudflare.com/api/resources/bot_management/subresources/feedback/methods/create)
+
+POST/zones/{zone\_id}/bot\_management/feedback
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+FeedbackReport object {description, expression, first\_request\_seen\_at, 8 more }
+
+</summary>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+expression: string
+
+Wirefilter expression describing the traffic being reported.
+
+<a href="#">Link to this property</a>
+
+first\_request\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_request\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+requests: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+requests\_by\_attribute: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_attribute%20%3E%20(schema)">RequestsByAttribute</a> { metric, requests }
+
+Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+
+<a href="#">Link to this property</a>
+
+requests\_by\_score: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_score%20%3E%20(schema)">RequestsByScore</a>
+
+Map of bot scores (1-99) to request counts. Sum must equal <code>requests</code>.
+
+<a href="#">Link to this property</a>
+
+requests\_by\_score\_src: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_score_src%20%3E%20(schema)">RequestsByScoreSrc</a>
+
+Map of score source to request counts. Sum must equal <code>requests</code>.
+
+<a href="#">Link to this property</a>
+
+type: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20feedback_type%20%3E%20(schema)">FeedbackType</a>
+
+Type of feedback report.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+subtype: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20feedback_report%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FeedbackType = "false\_positive"or "false\_negative"
+
+Type of feedback report.
+
+</summary>
+
+One of the following:
+
+"false\_positive"
+
+<a href="#">Link to this property</a>
+
+"false\_negative"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20feedback_type%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+MetricRequests object {metric, requests }
+
+</summary>
+
+metric: string
+
+<a href="#">Link to this property</a>
+
+requests: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20metric_requests%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+RequestsByAttribute = map\[array of <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20metric_requests%20%3E%20(schema)">MetricRequests</a> { metric, requests } ]
+
+Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+
+</summary>
+
+metric: string
+
+<a href="#">Link to this property</a>
+
+requests: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20requests_by_attribute%20%3E%20(schema)>)
+
+RequestsByScore = map\[number]
+
+Map of bot scores (1-99) to request counts. Sum must equal `requests`.
+
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20requests_by_score%20%3E%20(schema)>)
+
+RequestsByScoreSrc = map\[number]
+
+Map of score source to request counts. Sum must equal `requests`.
+
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20requests_by_score_src%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+FeedbackListResponse = array of <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20feedback_report%20%3E%20(schema)">FeedbackReport</a> { description, expression, first\_request\_seen\_at, 8 more }
+
+</summary>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+expression: string
+
+Wirefilter expression describing the traffic being reported.
+
+<a href="#">Link to this property</a>
+
+first\_request\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+last\_request\_seen\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+requests: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+requests\_by\_attribute: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_attribute%20%3E%20(schema)">RequestsByAttribute</a> { metric, requests }
+
+Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents.
+
+<a href="#">Link to this property</a>
+
+requests\_by\_score: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_score%20%3E%20(schema)">RequestsByScore</a>
+
+Map of bot scores (1-99) to request counts. Sum must equal <code>requests</code>.
+
+<a href="#">Link to this property</a>
+
+requests\_by\_score\_src: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20requests_by_score_src%20%3E%20(schema)">RequestsByScoreSrc</a>
+
+Map of score source to request counts. Sum must equal <code>requests</code>.
+
+<a href="#">Link to this property</a>
+
+type: <a href="https://developers.cloudflare.com/api/resources/bot_management#(resource)%20bot_management.feedback%20%3E%20(model)%20feedback_type%20%3E%20(schema)">FeedbackType</a>
+
+Type of feedback report.
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+subtype: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20bot_management.feedback%20%3E%20(model)%20feedback_list_response%20%3E%20(schema)>)

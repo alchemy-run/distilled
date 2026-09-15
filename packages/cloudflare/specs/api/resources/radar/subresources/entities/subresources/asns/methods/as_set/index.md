@@ -1,83 +1,235 @@
-## Get IRR AS-SETs that an AS is a member of
+---
+title: Get IRR AS-SETs that an AS is a member of
+---
 
-**get** `/radar/entities/asns/{asn}/as_set`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Entities](https://developers.cloudflare.com/api/resources/radar/subresources/entities)
+
+[ASNs](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/asns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get IRR AS-SETs that an AS is a member of
+
+GET/radar/entities/asns/{asn}/as\_set
 
 Retrieves Internet Routing Registry AS-SETs that an AS is a member of.
 
-### Path Parameters
+##### Security
 
-- `asn: number`
+<details>
 
-  Retrieves all AS-SETs that the given AS is a member of.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `format: optional "JSON" or "CSV"`
 
-  Format in which results will be returned.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"JSON"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"CSV"`
+</details>
 
-### Returns
+<details>
 
-- `result: object { as_sets, paths }`
+<summary>API Email + API Key</summary>
 
-  - `as_sets: array of object { as_members_count, as_set_members_count, as_set_upstreams_count, 6 more }`
 
-    - `as_members_count: number`
 
-      The number of AS members in the AS-SET
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `as_set_members_count: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      The number of AS-SET members in the AS-SET
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `as_set_upstreams_count: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      The number of recursive upstream AS-SETs
+</details>
 
-    - `asn_cone_size: number`
+##### Accepted Permissions (at least one required)
 
-      The number of unique ASNs in the AS-SETs recursive downstream
+`User Details Write``User Details Read`
 
-    - `irr_sources: array of string`
+##### P ath ParametersExpand Collapse
 
-      The IRR sources of the AS-SET
+asn: number
 
-    - `name: string`
+Retrieves all AS-SETs that the given AS is a member of.
 
-      The name of the AS-SET
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20as_set%20%3E%20(params)%20default%20%3E%20(param)%20asn%20%3E%20(schema)>)
 
-    - `hierarchical_asn: optional number`
+##### Q uery ParametersExpand Collapse
 
-      The AS number following hierarchical AS-SET name
+<details>
 
-    - `inferred_asn: optional number`
+<summary>
 
-      The inferred AS number of the AS-SET
+format: optional "JSON"or "CSV"
 
-    - `peeringdb_asn: optional number`
+Format in which results will be returned.
 
-      The AS number matching PeeringDB record
+</summary>
 
-  - `paths: array of array of string`
+One of the following:
 
-    Paths from the AS-SET that include the given AS to its upstreams recursively
+"JSON"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+"CSV"
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20as_set%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {as\_sets, paths }
+
+</summary>
+
+<details>
+
+<summary>
+
+as\_sets: array of object {as\_members\_count, as\_set\_members\_count, as\_set\_upstreams\_count, 6 more }
+
+</summary>
+
+as\_members\_count: number
+
+The number of AS members in the AS-SET
+
+<a href="#">Link to this property</a>
+
+as\_set\_members\_count: number
+
+The number of AS-SET members in the AS-SET
+
+<a href="#">Link to this property</a>
+
+as\_set\_upstreams\_count: number
+
+The number of recursive upstream AS-SETs
+
+<a href="#">Link to this property</a>
+
+asn\_cone\_size: number
+
+The number of unique ASNs in the AS-SETs recursive downstream
+
+<a href="#">Link to this property</a>
+
+irr\_sources: array of string
+
+The IRR sources of the AS-SET
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the AS-SET
+
+<a href="#">Link to this property</a>
+
+hierarchical\_asn: optional number
+
+The AS number following hierarchical AS-SET name
+
+<a href="#">Link to this property</a>
+
+inferred\_asn: optional number
+
+The inferred AS number of the AS-SET
+
+<a href="#">Link to this property</a>
+
+peeringdb\_asn: optional number
+
+The AS number matching PeeringDB record
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+paths: array of array of string
+
+Paths from the AS-SET that include the given AS to its upstreams recursively
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20as_set%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.entities.asns%20%3E%20(method)%20as_set%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get IRR AS-SETs that an AS is a member of
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/entities/asns/$ASN/as_set \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "as_sets": [
+      {
+        "as_members_count": 0,
+        "as_set_members_count": 0,
+        "as_set_upstreams_count": 0,
+        "asn_cone_size": 0,
+        "irr_sources": [
+          "string"
+        ],
+        "name": "name",
+        "hierarchical_asn": 0,
+        "inferred_asn": 0,
+        "peeringdb_asn": 0
+      }
+    ],
+    "paths": [
+      [
+        "string"
+      ]
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "as_sets": [

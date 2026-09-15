@@ -1,563 +1,265 @@
+---
+title: Argo
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Argo
 
-# Smart Routing
+#### ArgoSmart Routing
 
-## Get Argo Smart Routing setting
+##### [Get Argo Smart Routing setting](https://developers.cloudflare.com/api/resources/argo/subresources/smart_routing/methods/get)
 
-**get** `/zones/{zone_id}/argo/smart_routing`
+GET/zones/{zone\_id}/argo/smart\_routing
 
-Retrieves the value of Argo Smart Routing enablement setting.
+##### [Patch Argo Smart Routing setting](https://developers.cloudflare.com/api/resources/argo/subresources/smart_routing/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/argo/smart\_routing
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Specifies the zone associated with the API call.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+SmartRoutingGetResponse object {id, editable, value, modified\_on }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+Specifies the identifier of the Argo Smart Routing setting.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+editable: boolean
 
-- `messages: array of ResponseInfo`
+Specifies if the setting is editable.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+value: "on"or "off"
 
-- `result: object { id, editable, value, modified_on }`
+Specifies the enablement value of Argo Smart Routing.
 
-  - `id: string`
+</summary>
 
-    Specifies the identifier of the Argo Smart Routing setting.
+One of the following:
 
-  - `editable: boolean`
+"on"
 
-    Specifies if the setting is editable.
+<a href="#">Link to this property</a>
 
-  - `value: "on" or "off"`
+"off"
 
-    Specifies the enablement value of Argo Smart Routing.
+<a href="#">Link to this property</a>
 
-    - `"on"`
+</details>
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+modified\_on: optional string
 
-    Specifies the time when the setting was last modified.
+Specifies the time when the setting was last modified.
 
-- `success: true`
+formatdate-time
 
-  Describes a successful API response.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20argo.smart_routing%20%3E%20(model)%20smart_routing_get_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/argo/smart_routing \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+SmartRoutingEditResponse object {id, editable, value, modified\_on }
 
-## Patch Argo Smart Routing setting
+</summary>
 
-**patch** `/zones/{zone_id}/argo/smart_routing`
+id: string
 
-Configures the value of the Argo Smart Routing enablement setting.
+Specifies the identifier of the Argo Smart Routing setting.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+editable: boolean
 
-  Specifies the zone associated with the API call.
+Specifies if the setting is editable.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `value: "on" or "off"`
+<details>
 
-  Specifies the enablement value of Argo Smart Routing.
+<summary>
 
-  - `"on"`
+value: "on"or "off"
 
-  - `"off"`
+Specifies the enablement value of Argo Smart Routing.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"on"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"off"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_on: optional string
 
-  - `message: string`
+Specifies the time when the setting was last modified.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { id, editable, value, modified_on }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20argo.smart_routing%20%3E%20(model)%20smart_routing_edit_response%20%3E%20(schema)>)
 
-    Specifies the identifier of the Argo Smart Routing setting.
+#### ArgoTiered Caching
 
-  - `editable: boolean`
+##### [Get Tiered Caching setting](https://developers.cloudflare.com/api/resources/argo/subresources/tiered_caching/methods/get)
 
-    Specifies if the setting is editable.
+GET/zones/{zone\_id}/argo/tiered\_caching
 
-  - `value: "on" or "off"`
+##### [Patch Tiered Caching setting](https://developers.cloudflare.com/api/resources/argo/subresources/tiered_caching/methods/edit)
 
-    Specifies the enablement value of Argo Smart Routing.
+PATCH/zones/{zone\_id}/argo/tiered\_caching
 
-    - `"on"`
+##### ModelsExpand Collapse
 
-    - `"off"`
+<details>
 
-  - `modified_on: optional string`
+<summary>
 
-    Specifies the time when the setting was last modified.
+TieredCachingGetResponse object {id, editable, value, modified\_on }
 
-- `success: true`
+</summary>
 
-  Describes a successful API response.
+id: "tiered\_caching"
 
-  - `true`
+The identifier of the caching setting.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/argo/smart_routing \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
+editable: boolean
 
-#### Response
+Whether the setting is editable.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Smart Routing Get Response
+<summary>
 
-- `SmartRoutingGetResponse object { id, editable, value, modified_on }`
+value: "on"or "off"
 
-  - `id: string`
+Value of the Tiered Cache zone setting.
 
-    Specifies the identifier of the Argo Smart Routing setting.
+</summary>
 
-  - `editable: boolean`
+One of the following:
 
-    Specifies if the setting is editable.
+"on"
 
-  - `value: "on" or "off"`
+<a href="#">Link to this property</a>
 
-    Specifies the enablement value of Argo Smart Routing.
+"off"
 
-    - `"on"`
+<a href="#">Link to this property</a>
 
-    - `"off"`
+</details>
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    Specifies the time when the setting was last modified.
+modified\_on: optional string
 
-### Smart Routing Edit Response
+Last time this setting was modified.
 
-- `SmartRoutingEditResponse object { id, editable, value, modified_on }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Specifies the identifier of the Argo Smart Routing setting.
+</details>
 
-  - `editable: boolean`
+[Link to this property](#)%20argo.tiered_caching%20%3E%20(model)%20tiered_caching_get_response%20%3E%20(schema)>)
 
-    Specifies if the setting is editable.
+<details>
 
-  - `value: "on" or "off"`
+<summary>
 
-    Specifies the enablement value of Argo Smart Routing.
+TieredCachingEditResponse object {id, editable, value, modified\_on }
 
-    - `"on"`
+</summary>
 
-    - `"off"`
+id: "tiered\_caching"
 
-  - `modified_on: optional string`
+The identifier of the caching setting.
 
-    Specifies the time when the setting was last modified.
+<a href="#">Link to this property</a>
 
-# Tiered Caching
+editable: boolean
 
-## Get Tiered Caching setting
+Whether the setting is editable.
 
-**get** `/zones/{zone_id}/argo/tiered_caching`
+<a href="#">Link to this property</a>
 
-Tiered Cache works by dividing Cloudflare's data centers into a hierarchy of lower-tiers and upper-tiers. If content is not cached in lower-tier data centers (generally the ones closest to a visitor), the lower-tier must ask an upper-tier to see if it has the content. If the upper-tier does not have the content, only the upper-tier can ask the origin for content. This practice improves bandwidth efficiency by limiting the number of data centers that can ask the origin for content, which reduces origin load and makes websites more cost-effective to operate. Additionally, Tiered Cache concentrates connections to origin servers so they come from a small number of data centers rather than the full set of network locations. This results in fewer open connections using server resources.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+value: "on"or "off"
 
-  Identifier.
+Value of the Tiered Cache zone setting.
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"on"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"off"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_on: optional string
 
-  - `message: string`
+Last time this setting was modified.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  - `id: "tiered_caching"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_caching"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/argo/tiered_caching \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_caching",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Patch Tiered Caching setting
-
-**patch** `/zones/{zone_id}/argo/tiered_caching`
-
-Tiered Cache works by dividing Cloudflare's data centers into a hierarchy of lower-tiers and upper-tiers. If content is not cached in lower-tier data centers (generally the ones closest to a visitor), the lower-tier must ask an upper-tier to see if it has the content. If the upper-tier does not have the content, only the upper-tier can ask the origin for content. This practice improves bandwidth efficiency by limiting the number of data centers that can ask the origin for content, which reduces origin load and makes websites more cost-effective to operate. Additionally, Tiered Cache concentrates connections to origin servers so they come from a small number of data centers rather than the full set of network locations. This results in fewer open connections using server resources.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `value: "on" or "off"`
-
-  Enables Tiered Caching.
-
-  - `"on"`
-
-  - `"off"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, value, modified_on }`
-
-  - `id: "tiered_caching"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_caching"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/argo/tiered_caching \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tiered_caching",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Tiered Caching Get Response
-
-- `TieredCachingGetResponse object { id, editable, value, modified_on }`
-
-  - `id: "tiered_caching"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_caching"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Tiered Caching Edit Response
-
-- `TieredCachingEditResponse object { id, editable, value, modified_on }`
-
-  - `id: "tiered_caching"`
-
-    The identifier of the caching setting.
-
-    - `"tiered_caching"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20argo.tiered_caching%20%3E%20(model)%20tiered_caching_edit_response%20%3E%20(schema)>)

@@ -1,150 +1,470 @@
-## Delete a firewall rule
+---
+title: Delete a firewall rule
+---
 
-**delete** `/zones/{zone_id}/firewall/rules/{rule_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[Rules](https://developers.cloudflare.com/api/resources/firewall/subresources/rules)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete a firewall rule
+
+Deprecated: The Firewall Rules API is deprecated in favour of using the Ruleset Engine. See https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api for full details.
+
+DELETE/zones/{zone\_id}/firewall/rules/{rule\_id}
+
+**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.**
 
 Deletes an existing firewall rule.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>API Token</summary>
 
-- `rule_id: string`
 
-  The unique identifier of the firewall rule.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: FirewallRule`
+##### Accepted Permissions (at least one required)
 
-  - `id: optional string`
+`Firewall Services Write`
 
-    The unique identifier of the firewall rule.
+##### P ath ParametersExpand Collapse
 
-  - `action: optional Action`
+zone\_id: string
 
-    The action to apply to a matched request. The `log` action is only available on an Enterprise plan.
+Defines an identifier.
 
-    - `"block"`
+maxLength32
 
-    - `"challenge"`
+[Link to this property](#)%20firewall.rules%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `"js_challenge"`
+rule\_id: string
 
-    - `"managed_challenge"`
+The unique identifier of the firewall rule.
 
-    - `"allow"`
+maxLength32
 
-    - `"log"`
+[Link to this property](#)%20firewall.rules%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20rule_id%20%3E%20(schema)>)
 
-    - `"bypass"`
+##### ReturnsExpand Collapse
 
-  - `description: optional string`
+<details>
 
-    An informative summary of the firewall rule.
+<summary>
 
-  - `filter: optional FirewallFilter or DeletedFilter`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `FirewallFilter object { id, description, expression, 2 more }`
+</summary>
 
-      - `id: optional string`
+code: number
 
-        The unique identifier of the filter.
+minimum1000
 
-      - `description: optional string`
+<a href="#">Link to this property</a>
 
-        An informative summary of the filter.
+message: string
 
-      - `expression: optional string`
+<a href="#">Link to this property</a>
 
-        The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
+documentation\_url: optional string
 
-      - `paused: optional boolean`
+<a href="#">Link to this property</a>
 
-        When true, indicates that the filter is currently paused.
+<details>
 
-      - `ref: optional string`
+<summary>
 
-        A short reference tag. Allows you to select related filters.
+source: optional object {pointer }
 
-    - `DeletedFilter object { id, deleted }`
+</summary>
 
-      - `id: string`
+pointer: optional string
 
-        The unique identifier of the filter.
+<a href="#">Link to this property</a>
 
-      - `deleted: boolean`
+</details>
 
-        When true, indicates that the firewall rule was deleted.
+<a href="#">Link to this property</a>
 
-  - `paused: optional boolean`
+</details>
 
-    When true, indicates that the firewall rule is currently paused.
+[Link to this property](#)%20firewall.rules%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `priority: optional number`
+<details>
 
-    The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+<summary>
 
-  - `products: optional array of Product`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"zoneLockdown"`
+</summary>
 
-    - `"uaBlock"`
+code: number
 
-    - `"bic"`
+minimum1000
 
-    - `"hot"`
+<a href="#">Link to this property</a>
 
-    - `"securityLevel"`
+message: string
 
-    - `"rateLimit"`
+<a href="#">Link to this property</a>
 
-    - `"waf"`
+documentation\_url: optional string
 
-  - `ref: optional string`
+<a href="#">Link to this property</a>
 
-    A short reference tag. Allows you to select related firewall rules.
+<details>
 
-- `success: true`
+<summary>
 
-  Defines whether the API call was successful.
+source: optional object {pointer }
 
-  - `true`
+</summary>
 
-### Example
+pointer: optional string
 
-```http
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.rules%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.rules%20%3E%20(model)%20firewall_rule%20%3E%20(schema)">FirewallRule</a> { id, action, description, 5 more }
+
+</summary>
+
+id: optional string
+
+The unique identifier of the firewall rule.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+action: optional <a href="https://developers.cloudflare.com/api/resources/rate_limits#(resource)%20rate_limits%20%3E%20(model)%20action%20%3E%20(schema)">Action</a>
+
+The action to apply to a matched request. The <code>log</code> action is only available on an Enterprise plan.
+
+</summary>
+
+One of the following:
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"js\_challenge"
+
+<a href="#">Link to this property</a>
+
+"managed\_challenge"
+
+<a href="#">Link to this property</a>
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"log"
+
+<a href="#">Link to this property</a>
+
+"bypass"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An informative summary of the firewall rule.
+
+maxLength500
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+filter: optional <a href="https://developers.cloudflare.com/api/resources/filters#(resource)%20filters%20%3E%20(model)%20firewall_filter%20%3E%20(schema)">FirewallFilter</a> { id, description, expression, 2 more } or <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.rules%20%3E%20(model)%20deleted_filter%20%3E%20(schema)">DeletedFilter</a> { id, deleted }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+FirewallFilter object {id, description, expression, 2 more }
+
+</summary>
+
+id: optional string
+
+The unique identifier of the filter.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An informative summary of the filter.
+
+maxLength500
+
+<a href="#">Link to this property</a>
+
+expression: optional string
+
+The filter expression. For more information, refer to <a href="https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/">Expressions</a>.
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+When true, indicates that the filter is currently paused.
+
+<a href="#">Link to this property</a>
+
+ref: optional string
+
+A short reference tag. Allows you to select related filters.
+
+maxLength50
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+DeletedFilter object {id, deleted }
+
+</summary>
+
+id: string
+
+The unique identifier of the filter.
+
+maxLength32
+
+minLength32
+
+<a href="#">Link to this property</a>
+
+deleted: boolean
+
+When true, indicates that the firewall rule was deleted.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+When true, indicates that the firewall rule is currently paused.
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules without a priority.
+
+maximum2147483647
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+products: optional array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.rules%20%3E%20(model)%20product%20%3E%20(schema)">Product</a>
+
+</summary>
+
+One of the following:
+
+"zoneLockdown"
+
+<a href="#">Link to this property</a>
+
+"uaBlock"
+
+<a href="#">Link to this property</a>
+
+"bic"
+
+<a href="#">Link to this property</a>
+
+"hot"
+
+<a href="#">Link to this property</a>
+
+"securityLevel"
+
+<a href="#">Link to this property</a>
+
+"rateLimit"
+
+<a href="#">Link to this property</a>
+
+"waf"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+ref: optional string
+
+A short reference tag. Allows you to select related firewall rules.
+
+maxLength50
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.rules%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.rules%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete a firewall rule
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/rules/$RULE_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "372e67954025e0ba6aaa6d586b9e0b60",
+    "action": "block",
+    "description": "Blocks traffic identified during investigation for MIR-31",
+    "filter": {
+      "id": "372e67954025e0ba6aaa6d586b9e0b61",
+      "description": "Restrict access from these browsers on this address range.",
+      "expression": "(http.request.uri.path ~ \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.addr ne 172.16.22.155",
+      "paused": false,
+      "ref": "FIL-100"
+    },
+    "paused": false,
+    "priority": 50,
+    "products": [
+      "waf"
+    ],
+    "ref": "MIR-31"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

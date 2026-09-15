@@ -1,1023 +1,1777 @@
-## Get latest Snapshots
+---
+title: Get latest Snapshots
+---
 
-**get** `/accounts/{account_id}/magic/connectors/{connector_id}/telemetry/snapshots/latest`
+[Skip to content](#_top)
 
-Get latest Snapshots
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
 
-- `account_id: string`
+[Connectors](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors)
 
-  Account identifier
+[Snapshots](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/snapshots)
 
-- `connector_id: string`
+[Latest](https://developers.cloudflare.com/api/resources/magic_transit/subresources/connectors/subresources/snapshots/subresources/latest)
 
-### Returns
+Copy Markdown
 
-- `result: object { count, items }`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `count: number`
+---
 
-  - `items: array of object { count_reclaim_failures, count_reclaimed_paths, count_record_failed, 170 more }`
+**Copy Markdown****View as Markdown**
 
-    - `count_reclaim_failures: number`
+# Get latest Snapshots
 
-      Count of failures to reclaim space
+GET/accounts/{account\_id}/magic/connectors/{connector\_id}/telemetry/snapshots/latest
 
-    - `count_reclaimed_paths: number`
+Gets latest Magic WAN Connector Telemetry Snapshots
 
-      Count of reclaimed paths
+##### Security
 
-    - `count_record_failed: number`
+<details>
 
-      Count of failed snapshot recordings
+<summary>API Token</summary>
 
-    - `count_transmit_failures: number`
 
-      Count of failed snapshot transmissions
 
-    - `t: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-      Time the Snapshot was recorded (seconds since the Unix epoch)
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `v: string`
+</details>
 
-      Version
+<details>
 
-    - `bonds: optional array of object { name, status }`
+<summary>API Email + API Key</summary>
 
-      - `name: string`
 
-        Name of the network interface
 
-      - `status: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-        Current status of the network interface
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `cpu_count: optional number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      Count of processors/cores
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `cpu_pressure_10s: optional number`
+</details>
 
-      Percentage of time over a 10 second window that tasks were stalled
+##### Accepted Permissions (at least one required)
 
-    - `cpu_pressure_300s: optional number`
+`Magic WAN Write``Magic WAN Read`
 
-      Percentage of time over a 5 minute window that tasks were stalled
+##### P ath ParametersExpand Collapse
 
-    - `cpu_pressure_60s: optional number`
+account\_id: string
 
-      Percentage of time over a 1 minute window that tasks were stalled
+Account identifier
 
-    - `cpu_pressure_total_us: optional number`
+maxLength32
 
-      Total stall time (microseconds)
+[Link to this property](#)%20magic_transit.connectors.snapshots.latest%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `cpu_time_guest_ms: optional number`
+connector\_id: string
 
-      Time spent running a virtual CPU or guest OS (milliseconds)
+[Link to this property](#)%20magic_transit.connectors.snapshots.latest%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20connector_id%20%3E%20(schema)>)
 
-    - `cpu_time_guest_nice_ms: optional number`
+##### ReturnsExpand Collapse
 
-      Time spent running a niced guest (milliseconds)
+<details>
 
-    - `cpu_time_idle_ms: optional number`
+<summary>
 
-      Time spent in idle state (milliseconds)
+result: object {count, items }
 
-    - `cpu_time_iowait_ms: optional number`
+</summary>
 
-      Time spent wait for I/O to complete (milliseconds)
+count: number
 
-    - `cpu_time_irq_ms: optional number`
+<a href="#">Link to this property</a>
 
-      Time spent servicing interrupts (milliseconds)
+<details>
 
-    - `cpu_time_nice_ms: optional number`
+<summary>
 
-      Time spent in low-priority user mode (milliseconds)
+items: array of object {count\_reclaim\_failures, count\_reclaimed\_paths, count\_record\_failed, 172 more }
 
-    - `cpu_time_softirq_ms: optional number`
+</summary>
 
-      Time spent servicing softirqs (milliseconds)
+count\_reclaim\_failures: number
 
-    - `cpu_time_steal_ms: optional number`
+Count of failures to reclaim space
 
-      Time stolen (milliseconds)
+<a href="#">Link to this property</a>
 
-    - `cpu_time_system_ms: optional number`
+count\_reclaimed\_paths: number
 
-      Time spent in system mode (milliseconds)
+Count of reclaimed paths
 
-    - `cpu_time_user_ms: optional number`
+<a href="#">Link to this property</a>
 
-      Time spent in user mode (milliseconds)
+count\_record\_failed: number
 
-    - `delta: optional number`
+Count of failed snapshot recordings
 
-      Number of network operations applied during state transition
+<a href="#">Link to this property</a>
 
-    - `dhcp_leases: optional array of object { client_id, expiry_time, hostname, 3 more }`
+count\_transmit\_failures: number
 
-      - `client_id: string`
+Count of failed snapshot transmissions
 
-        Client ID of the device the IP Address was leased to
+<a href="#">Link to this property</a>
 
-      - `expiry_time: number`
+t: number
 
-        Expiry time of the DHCP lease (seconds since the Unix epoch)
+Time the Snapshot was recorded (seconds since the Unix epoch)
 
-      - `hostname: string`
+<a href="#">Link to this property</a>
 
-        Hostname of the device the IP Address was leased to
+v: string
 
-      - `interface_name: string`
+Version
 
-        Name of the network interface
+<a href="#">Link to this property</a>
 
-      - `ip_address: string`
+<details>
 
-        IP Address that was leased
+<summary>
 
-      - `mac_address: string`
+bonds: optional array of object {name, status }
 
-        MAC Address of the device the IP Address was leased to
+</summary>
 
-    - `disks: optional array of object { in_progress, major, merged, 17 more }`
+name: string
 
-      - `in_progress: number`
+Name of the network interface
 
-        I/Os currently in progress
+<a href="#">Link to this property</a>
 
-      - `major: number`
+status: string
 
-        Device major number
+Current status of the network interface
 
-      - `merged: number`
+<a href="#">Link to this property</a>
 
-        Reads merged
+</details>
 
-      - `minor: number`
+<a href="#">Link to this property</a>
 
-        Device minor number
+cpu\_count: optional number
 
-      - `name: string`
+Count of processors/cores
 
-        Device name
+<a href="#">Link to this property</a>
 
-      - `reads: number`
+cpu\_pressure\_10s: optional number
 
-        Reads completed successfully
+Percentage of time over a 10 second window that tasks were stalled
 
-      - `sectors_read: number`
+<a href="#">Link to this property</a>
 
-        Sectors read successfully
+cpu\_pressure\_300s: optional number
 
-      - `sectors_written: number`
+Percentage of time over a 5 minute window that tasks were stalled
 
-        Sectors written successfully
+<a href="#">Link to this property</a>
 
-      - `time_in_progress_ms: number`
+cpu\_pressure\_60s: optional number
 
-        Time spent doing I/Os (milliseconds)
+Percentage of time over a 1 minute window that tasks were stalled
 
-      - `time_reading_ms: number`
+<a href="#">Link to this property</a>
 
-        Time spent reading (milliseconds)
+cpu\_pressure\_total\_us: optional number
 
-      - `time_writing_ms: number`
+Total stall time (microseconds)
 
-        Time spent writing (milliseconds)
+<a href="#">Link to this property</a>
 
-      - `weighted_time_in_progress_ms: number`
+cpu\_time\_guest\_ms: optional number
 
-        Weighted time spent doing I/Os (milliseconds)
+Time spent running a virtual CPU or guest OS (milliseconds)
 
-      - `writes: number`
+<a href="#">Link to this property</a>
 
-        Writes completed
+cpu\_time\_guest\_nice\_ms: optional number
 
-      - `writes_merged: number`
+Time spent running a niced guest (milliseconds)
 
-        Writes merged
+<a href="#">Link to this property</a>
 
-      - `discards: optional number`
+cpu\_time\_idle\_ms: optional number
 
-        Discards completed successfully
+Time spent in idle state (milliseconds)
 
-      - `discards_merged: optional number`
+<a href="#">Link to this property</a>
 
-        Discards merged
+cpu\_time\_iowait\_ms: optional number
 
-      - `flushes: optional number`
+Time spent wait for I/O to complete (milliseconds)
 
-        Flushes completed successfully
+<a href="#">Link to this property</a>
 
-      - `sectors_discarded: optional number`
+cpu\_time\_irq\_ms: optional number
 
-        Sectors discarded
+Time spent servicing interrupts (milliseconds)
 
-      - `time_discarding_ms: optional number`
+<a href="#">Link to this property</a>
 
-        Time spent discarding (milliseconds)
+cpu\_time\_nice\_ms: optional number
 
-      - `time_flushing_ms: optional number`
+Time spent in low-priority user mode (milliseconds)
 
-        Time spent flushing (milliseconds)
+<a href="#">Link to this property</a>
 
-    - `epsilon: optional number`
+cpu\_time\_softirq\_ms: optional number
 
-      Simulated number of network operations applied during state transition
+Time spent servicing softirqs (milliseconds)
 
-    - `ha_state: optional string`
+<a href="#">Link to this property</a>
 
-      Name of high availability state
+cpu\_time\_steal\_ms: optional number
 
-    - `ha_value: optional number`
+Time stolen (milliseconds)
 
-      Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
+<a href="#">Link to this property</a>
 
-    - `interfaces: optional array of object { name, operstate, ip_addresses, speed }`
+cpu\_time\_system\_ms: optional number
 
-      - `name: string`
+Time spent in system mode (milliseconds)
 
-        Name of the network interface
+<a href="#">Link to this property</a>
 
-      - `operstate: string`
+cpu\_time\_user\_ms: optional number
 
-        UP/DOWN state of the network interface
+Time spent in user mode (milliseconds)
 
-      - `ip_addresses: optional array of object { interface_name, ip_address }`
+<a href="#">Link to this property</a>
 
-        - `interface_name: string`
+delta: optional number
 
-          Name of the network interface
+Number of network operations applied during state transition
 
-        - `ip_address: string`
+<a href="#">Link to this property</a>
 
-          IP address of the network interface
+<details>
 
-      - `speed: optional number`
+<summary>
 
-        Speed of the network interface (bits per second)
+dhcp\_leases: optional array of object {client\_id, expiry\_time, hostname, 3 more }
 
-    - `io_pressure_full_10s: optional number`
+</summary>
 
-      Percentage of time over a 10 second window that all tasks were stalled
+client\_id: string
 
-    - `io_pressure_full_300s: optional number`
+Client ID of the device the IP Address was leased to
 
-      Percentage of time over a 5 minute window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `io_pressure_full_60s: optional number`
+expiry\_time: number
 
-      Percentage of time over a 1 minute window that all tasks were stalled
+Expiry time of the DHCP lease (seconds since the Unix epoch)
 
-    - `io_pressure_full_total_us: optional number`
+<a href="#">Link to this property</a>
 
-      Total stall time (microseconds)
+hostname: string
 
-    - `io_pressure_some_10s: optional number`
+Hostname of the device the IP Address was leased to
 
-      Percentage of time over a 10 second window that some tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `io_pressure_some_300s: optional number`
+interface\_name: string
 
-      Percentage of time over a 3 minute window that some tasks were stalled
+Name of the network interface
 
-    - `io_pressure_some_60s: optional number`
+<a href="#">Link to this property</a>
 
-      Percentage of time over a 1 minute window that some tasks were stalled
+ip\_address: string
 
-    - `io_pressure_some_total_us: optional number`
+IP Address that was leased
 
-      Total stall time (microseconds)
+<a href="#">Link to this property</a>
 
-    - `kernel_btime: optional number`
+mac\_address: string
 
-      Boot time (seconds since Unix epoch)
+MAC Address of the device the IP Address was leased to
 
-    - `kernel_ctxt: optional number`
+<a href="#">Link to this property</a>
 
-      Number of context switches that the system underwent
+</details>
 
-    - `kernel_processes: optional number`
+<a href="#">Link to this property</a>
 
-      Number of forks since boot
+<details>
 
-    - `kernel_processes_blocked: optional number`
+<summary>
 
-      Number of processes blocked waiting for I/O
+disks: optional array of object {in\_progress, major, merged, 17 more }
 
-    - `kernel_processes_running: optional number`
+</summary>
 
-      Number of processes in runnable state
+in\_progress: number
 
-    - `load_average_15m: optional number`
+I/Os currently in progress
 
-      The fifteen-minute load average
+<a href="#">Link to this property</a>
 
-    - `load_average_1m: optional number`
+major: number
 
-      The one-minute load average
+Device major number
 
-    - `load_average_5m: optional number`
+<a href="#">Link to this property</a>
 
-      The five-minute load average
+merged: number
 
-    - `load_average_cur: optional number`
+Reads merged
 
-      Number of currently runnable kernel scheduling entities
+<a href="#">Link to this property</a>
 
-    - `load_average_max: optional number`
+minor: number
 
-      Number of kernel scheduling entities that currently exist on the system
+Device minor number
 
-    - `memory_active_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Memory that has been used more recently
+name: string
 
-    - `memory_anon_hugepages_bytes: optional number`
+Device name
 
-      Non-file backed huge pages mapped into user-space page tables
+<a href="#">Link to this property</a>
 
-    - `memory_anon_pages_bytes: optional number`
+reads: number
 
-      Non-file backed pages mapped into user-space page tables
+Reads completed successfully
 
-    - `memory_available_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Estimate of how much memory is available for starting new applications
+sectors\_read: number
 
-    - `memory_bounce_bytes: optional number`
+Sectors read successfully
 
-      Memory used for block device bounce buffers
+<a href="#">Link to this property</a>
 
-    - `memory_buffers_bytes: optional number`
+sectors\_written: number
 
-      Relatively temporary storage for raw disk blocks
+Sectors written successfully
 
-    - `memory_cached_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      In-memory cache for files read from the disk
+time\_in\_progress\_ms: number
 
-    - `memory_cma_free_bytes: optional number`
+Time spent doing I/Os (milliseconds)
 
-      Free CMA (Contiguous Memory Allocator) pages
+<a href="#">Link to this property</a>
 
-    - `memory_cma_total_bytes: optional number`
+time\_reading\_ms: number
 
-      Total CMA (Contiguous Memory Allocator) pages
+Time spent reading (milliseconds)
 
-    - `memory_commit_limit_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Total amount of memory currently available to be allocated on the system
+time\_writing\_ms: number
 
-    - `memory_committed_as_bytes: optional number`
+Time spent writing (milliseconds)
 
-      Amount of memory presently allocated on the system
+<a href="#">Link to this property</a>
 
-    - `memory_dirty_bytes: optional number`
+weighted\_time\_in\_progress\_ms: number
 
-      Memory which is waiting to get written back to the disk
+Weighted time spent doing I/Os (milliseconds)
 
-    - `memory_free_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      The sum of LowFree and HighFree
+writes: number
 
-    - `memory_high_free_bytes: optional number`
+Writes completed
 
-      Amount of free highmem
+<a href="#">Link to this property</a>
 
-    - `memory_high_total_bytes: optional number`
+writes\_merged: number
 
-      Total amount of highmem
+Writes merged
 
-    - `memory_hugepages_free: optional number`
+<a href="#">Link to this property</a>
 
-      The number of huge pages in the pool that are not yet allocated
+discards: optional number
 
-    - `memory_hugepages_rsvd: optional number`
+Discards completed successfully
 
-      Number of huge pages for which a commitment has been made, but no allocation has yet been made
+<a href="#">Link to this property</a>
 
-    - `memory_hugepages_surp: optional number`
+discards\_merged: optional number
 
-      Number of huge pages in the pool above the threshold
+Discards merged
 
-    - `memory_hugepages_total: optional number`
+<a href="#">Link to this property</a>
 
-      The size of the pool of huge pages
+flushes: optional number
 
-    - `memory_hugepagesize_bytes: optional number`
+Flushes completed successfully
 
-      The size of huge pages
+<a href="#">Link to this property</a>
 
-    - `memory_inactive_bytes: optional number`
+sectors\_discarded: optional number
 
-      Memory which has been less recently used
+Sectors discarded
 
-    - `memory_k_reclaimable_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Kernel allocations that the kernel will attempt to reclaim under memory pressure
+time\_discarding\_ms: optional number
 
-    - `memory_kernel_stack_bytes: optional number`
+Time spent discarding (milliseconds)
 
-      Amount of memory allocated to kernel stacks
+<a href="#">Link to this property</a>
 
-    - `memory_low_free_bytes: optional number`
+time\_flushing\_ms: optional number
 
-      Amount of free lowmem
+Time spent flushing (milliseconds)
 
-    - `memory_low_total_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Total amount of lowmem
+</details>
 
-    - `memory_mapped_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Files which have been mapped into memory
+epsilon: optional number
 
-    - `memory_page_tables_bytes: optional number`
+Simulated number of network operations applied during state transition
 
-      Amount of memory dedicated to the lowest level of page tables
+<a href="#">Link to this property</a>
 
-    - `memory_per_cpu_bytes: optional number`
+ha\_state: optional string
 
-      Memory allocated to the per-cpu alloctor used to back per-cpu allocations
+Name of high availability state
 
-    - `memory_pressure_full_10s: optional number`
+<a href="#">Link to this property</a>
 
-      Percentage of time over a 10 second window that all tasks were stalled
+ha\_value: optional number
 
-    - `memory_pressure_full_300s: optional number`
+Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
 
-      Percentage of time over a 5 minute window that all tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `memory_pressure_full_60s: optional number`
+<details>
 
-      Percentage of time over a 1 minute window that all tasks were stalled
+<summary>
 
-    - `memory_pressure_full_total_us: optional number`
+interfaces: optional array of object {name, operstate, ip\_addresses, speed }
 
-      Total stall time (microseconds)
+</summary>
 
-    - `memory_pressure_some_10s: optional number`
+name: string
 
-      Percentage of time over a 10 second window that some tasks were stalled
+Name of the network interface
 
-    - `memory_pressure_some_300s: optional number`
+<a href="#">Link to this property</a>
 
-      Percentage of time over a 5 minute window that some tasks were stalled
+operstate: string
 
-    - `memory_pressure_some_60s: optional number`
+UP/DOWN state of the network interface
 
-      Percentage of time over a 1 minute window that some tasks were stalled
+<a href="#">Link to this property</a>
 
-    - `memory_pressure_some_total_us: optional number`
+<details>
 
-      Total stall time (microseconds)
+<summary>
 
-    - `memory_s_reclaimable_bytes: optional number`
+ip\_addresses: optional array of object {interface\_name, ip\_address }
 
-      Part of slab that can be reclaimed on memory pressure
+</summary>
 
-    - `memory_s_unreclaim_bytes: optional number`
+interface\_name: string
 
-      Part of slab that cannot be reclaimed on memory pressure
+Name of the network interface
 
-    - `memory_secondary_page_tables_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Amount of memory dedicated to the lowest level of page tables
+ip\_address: string
 
-    - `memory_shmem_bytes: optional number`
+IP address of the network interface
 
-      Amount of memory consumed by tmpfs
+<a href="#">Link to this property</a>
 
-    - `memory_shmem_hugepages_bytes: optional number`
+</details>
 
-      Memory used by shmem and tmpfs, allocated with huge pages
+<a href="#">Link to this property</a>
 
-    - `memory_shmem_pmd_mapped_bytes: optional number`
+speed: optional number
 
-      Shared memory mapped into user space with huge pages
+Speed of the network interface (bits per second)
 
-    - `memory_slab_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      In-kernel data structures cache
+</details>
 
-    - `memory_swap_cached_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Memory swapped out and back in while still in swap file
+io\_pressure\_full\_10s: optional number
 
-    - `memory_swap_free_bytes: optional number`
+Percentage of time over a 10 second window that all tasks were stalled
 
-      Amount of swap space that is currently unused
+<a href="#">Link to this property</a>
 
-    - `memory_swap_total_bytes: optional number`
+io\_pressure\_full\_300s: optional number
 
-      Total amount of swap space available
+Percentage of time over a 5 minute window that all tasks were stalled
 
-    - `memory_total_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Total usable RAM
+io\_pressure\_full\_60s: optional number
 
-    - `memory_vmalloc_chunk_bytes: optional number`
+Percentage of time over a 1 minute window that all tasks were stalled
 
-      Largest contiguous block of vmalloc area which is free
+<a href="#">Link to this property</a>
 
-    - `memory_vmalloc_total_bytes: optional number`
+io\_pressure\_full\_total\_us: optional number
 
-      Total size of vmalloc memory area
+Total stall time (microseconds)
 
-    - `memory_vmalloc_used_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Amount of vmalloc area which is used
+io\_pressure\_some\_10s: optional number
 
-    - `memory_writeback_bytes: optional number`
+Percentage of time over a 10 second window that some tasks were stalled
 
-      Memory which is actively being written back to the disk
+<a href="#">Link to this property</a>
 
-    - `memory_writeback_tmp_bytes: optional number`
+io\_pressure\_some\_300s: optional number
 
-      Memory used by FUSE for temporary writeback buffers
+Percentage of time over a 3 minute window that some tasks were stalled
 
-    - `memory_z_swap_bytes: optional number`
+<a href="#">Link to this property</a>
 
-      Memory consumed by the zswap backend, compressed
+io\_pressure\_some\_60s: optional number
 
-    - `memory_z_swapped_bytes: optional number`
+Percentage of time over a 1 minute window that some tasks were stalled
 
-      Amount of anonymous memory stored in zswap, uncompressed
+<a href="#">Link to this property</a>
 
-    - `mounts: optional array of object { file_system, kind, mount_point, 7 more }`
+io\_pressure\_some\_total\_us: optional number
 
-      - `file_system: string`
+Total stall time (microseconds)
 
-        File system on disk (EXT4, NTFS, etc.)
+<a href="#">Link to this property</a>
 
-      - `kind: string`
+kernel\_btime: optional number
 
-        Kind of disk (HDD, SSD, etc.)
+Boot time (seconds since Unix epoch)
 
-      - `mount_point: string`
+<a href="#">Link to this property</a>
 
-        Path where disk is mounted
+kernel\_ctxt: optional number
 
-      - `name: string`
+Number of context switches that the system underwent
 
-        Name of the disk mount
+<a href="#">Link to this property</a>
 
-      - `available_bytes: optional number`
+kernel\_processes: optional number
 
-        Available disk size (bytes)
+Number of forks since boot
 
-      - `available_inodes: optional number`
+<a href="#">Link to this property</a>
 
-        Available inodes on filesystem
+kernel\_processes\_blocked: optional number
 
-      - `is_read_only: optional boolean`
+Number of processes blocked waiting for I/O
 
-        Determines whether the disk is read-only
+<a href="#">Link to this property</a>
 
-      - `is_removable: optional boolean`
+kernel\_processes\_running: optional number
 
-        Determines whether the disk is removable
+Number of processes in runnable state
 
-      - `total_bytes: optional number`
+<a href="#">Link to this property</a>
 
-        Total disk size (bytes)
+load\_average\_15m: optional number
 
-      - `total_inodes: optional number`
+The fifteen-minute load average
 
-        Total inodes on filesystem
+<a href="#">Link to this property</a>
 
-    - `netdevs: optional array of object { name, recv_bytes, recv_compressed, 14 more }`
+load\_average\_1m: optional number
 
-      - `name: string`
+The one-minute load average
 
-        Name of the network device
+<a href="#">Link to this property</a>
 
-      - `recv_bytes: number`
+load\_average\_5m: optional number
 
-        Total bytes received
+The five-minute load average
 
-      - `recv_compressed: number`
+<a href="#">Link to this property</a>
 
-        Compressed packets received
+load\_average\_cur: optional number
 
-      - `recv_drop: number`
+Number of currently runnable kernel scheduling entities
 
-        Packets dropped
+<a href="#">Link to this property</a>
 
-      - `recv_errs: number`
+load\_average\_max: optional number
 
-        Bad packets received
+Number of kernel scheduling entities that currently exist on the system
 
-      - `recv_fifo: number`
+<a href="#">Link to this property</a>
 
-        FIFO overruns
+memory\_active\_bytes: optional number
 
-      - `recv_frame: number`
+Memory that has been used more recently
 
-        Frame alignment errors
+<a href="#">Link to this property</a>
 
-      - `recv_multicast: number`
+memory\_anon\_hugepages\_bytes: optional number
 
-        Multicast packets received
+Non-file backed huge pages mapped into user-space page tables
 
-      - `recv_packets: number`
+<a href="#">Link to this property</a>
 
-        Total packets received
+memory\_anon\_pages\_bytes: optional number
 
-      - `sent_bytes: number`
+Non-file backed pages mapped into user-space page tables
 
-        Total bytes transmitted
+<a href="#">Link to this property</a>
 
-      - `sent_carrier: number`
+memory\_available\_bytes: optional number
 
-        Number of packets not sent due to carrier errors
+Estimate of how much memory is available for starting new applications
 
-      - `sent_colls: number`
+<a href="#">Link to this property</a>
 
-        Number of collisions
+memory\_bounce\_bytes: optional number
 
-      - `sent_compressed: number`
+Memory used for block device bounce buffers
 
-        Number of compressed packets transmitted
+<a href="#">Link to this property</a>
 
-      - `sent_drop: number`
+memory\_buffers\_bytes: optional number
 
-        Number of packets dropped during transmission
+Relatively temporary storage for raw disk blocks
 
-      - `sent_errs: number`
+<a href="#">Link to this property</a>
 
-        Number of transmission errors
+memory\_cached\_bytes: optional number
 
-      - `sent_fifo: number`
+In-memory cache for files read from the disk
 
-        FIFO overruns
+<a href="#">Link to this property</a>
 
-      - `sent_packets: number`
+memory\_cma\_free\_bytes: optional number
 
-        Total packets transmitted
+Free CMA (Contiguous Memory Allocator) pages
 
-    - `platform: optional string`
+<a href="#">Link to this property</a>
 
-      Platform identifier
+memory\_cma\_total\_bytes: optional number
 
-    - `snmp_icmp_in_addr_mask_reps: optional number`
+Total CMA (Contiguous Memory Allocator) pages
 
-      Number of ICMP Address Mask Reply messages received
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_in_addr_masks: optional number`
+memory\_commit\_limit\_bytes: optional number
 
-      Number of ICMP Address Mask Request messages received
+Total amount of memory currently available to be allocated on the system
 
-    - `snmp_icmp_in_csum_errors: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP messages received with bad checksums
+memory\_committed\_as\_bytes: optional number
 
-    - `snmp_icmp_in_dest_unreachs: optional number`
+Amount of memory presently allocated on the system
 
-      Number of ICMP Destination Unreachable messages received
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_in_echo_reps: optional number`
+memory\_dirty\_bytes: optional number
 
-      Number of ICMP Echo Reply messages received
+Memory which is waiting to get written back to the disk
 
-    - `snmp_icmp_in_echos: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP Echo (request) messages received
+memory\_free\_bytes: optional number
 
-    - `snmp_icmp_in_errors: optional number`
+The sum of LowFree and HighFree
 
-      Number of ICMP messages received with ICMP-specific errors
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_in_msgs: optional number`
+memory\_high\_free\_bytes: optional number
 
-      Number of ICMP messages received
+Amount of free highmem
 
-    - `snmp_icmp_in_parm_probs: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP Parameter Problem messages received
+memory\_high\_total\_bytes: optional number
 
-    - `snmp_icmp_in_redirects: optional number`
+Total amount of highmem
 
-      Number of ICMP Redirect messages received
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_in_src_quenchs: optional number`
+memory\_hugepages\_free: optional number
 
-      Number of ICMP Source Quench messages received
+The number of huge pages in the pool that are not yet allocated
 
-    - `snmp_icmp_in_time_excds: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP Time Exceeded messages received
+memory\_hugepages\_rsvd: optional number
 
-    - `snmp_icmp_in_timestamp_reps: optional number`
+Number of huge pages for which a commitment has been made, but no allocation has yet been made
 
-      Number of ICMP Address Mask Request messages received
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_in_timestamps: optional number`
+memory\_hugepages\_surp: optional number
 
-      Number of ICMP Timestamp (request) messages received
+Number of huge pages in the pool above the threshold
 
-    - `snmp_icmp_out_addr_mask_reps: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP Address Mask Reply messages sent
+memory\_hugepages\_total: optional number
 
-    - `snmp_icmp_out_addr_masks: optional number`
+The size of the pool of huge pages
 
-      Number of ICMP Address Mask Request messages sent
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_out_dest_unreachs: optional number`
+memory\_hugepagesize\_bytes: optional number
 
-      Number of ICMP Destination Unreachable messages sent
+The size of huge pages
 
-    - `snmp_icmp_out_echo_reps: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP Echo Reply messages sent
+memory\_inactive\_bytes: optional number
 
-    - `snmp_icmp_out_echos: optional number`
+Memory which has been less recently used
 
-      Number of ICMP Echo (request) messages sent
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_out_errors: optional number`
+memory\_k\_reclaimable\_bytes: optional number
 
-      Number of ICMP messages which this entity did not send due to ICMP-specific errors
+Kernel allocations that the kernel will attempt to reclaim under memory pressure
 
-    - `snmp_icmp_out_msgs: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP messages attempted to send
+memory\_kernel\_stack\_bytes: optional number
 
-    - `snmp_icmp_out_parm_probs: optional number`
+Amount of memory allocated to kernel stacks
 
-      Number of ICMP Parameter Problem messages sent
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_out_redirects: optional number`
+memory\_low\_free\_bytes: optional number
 
-      Number of ICMP Redirect messages sent
+Amount of free lowmem
 
-    - `snmp_icmp_out_src_quenchs: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP Source Quench messages sent
+memory\_low\_total\_bytes: optional number
 
-    - `snmp_icmp_out_time_excds: optional number`
+Total amount of lowmem
 
-      Number of ICMP Time Exceeded messages sent
+<a href="#">Link to this property</a>
 
-    - `snmp_icmp_out_timestamp_reps: optional number`
+memory\_mapped\_bytes: optional number
 
-      Number of ICMP Timestamp Reply messages sent
+Files which have been mapped into memory
 
-    - `snmp_icmp_out_timestamps: optional number`
+<a href="#">Link to this property</a>
 
-      Number of ICMP Timestamp (request) messages sent
+memory\_page\_tables\_bytes: optional number
 
-    - `snmp_ip_default_ttl: optional number`
+Amount of memory dedicated to the lowest level of page tables
 
-      Default value of the Time-To-Live field of the IP header
+<a href="#">Link to this property</a>
 
-    - `snmp_ip_forw_datagrams: optional number`
+memory\_per\_cpu\_bytes: optional number
 
-      Number of datagrams forwarded to their final destination
+Memory allocated to the per-cpu alloctor used to back per-cpu allocations
 
-    - `snmp_ip_forwarding_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Set when acting as an IP gateway
+memory\_pressure\_full\_10s: optional number
 
-    - `snmp_ip_frag_creates: optional number`
+Percentage of time over a 10 second window that all tasks were stalled
 
-      Number of datagrams generated by fragmentation
+<a href="#">Link to this property</a>
 
-    - `snmp_ip_frag_fails: optional number`
+memory\_pressure\_full\_300s: optional number
 
-      Number of datagrams discarded because fragmentation failed
+Percentage of time over a 5 minute window that all tasks were stalled
 
-    - `snmp_ip_frag_oks: optional number`
+<a href="#">Link to this property</a>
 
-      Number of datagrams successfully fragmented
+memory\_pressure\_full\_60s: optional number
 
-    - `snmp_ip_in_addr_errors: optional number`
+Percentage of time over a 1 minute window that all tasks were stalled
 
-      Number of input datagrams discarded due to errors in the IP address
+<a href="#">Link to this property</a>
 
-    - `snmp_ip_in_delivers: optional number`
+memory\_pressure\_full\_total\_us: optional number
 
-      Number of input datagrams successfully delivered to IP user-protocols
+Total stall time (microseconds)
 
-    - `snmp_ip_in_discards: optional number`
+<a href="#">Link to this property</a>
 
-      Number of input datagrams otherwise discarded
+memory\_pressure\_some\_10s: optional number
 
-    - `snmp_ip_in_hdr_errors: optional number`
+Percentage of time over a 10 second window that some tasks were stalled
 
-      Number of input datagrams discarded due to errors in the IP header
+<a href="#">Link to this property</a>
 
-    - `snmp_ip_in_receives: optional number`
+memory\_pressure\_some\_300s: optional number
 
-      Number of input datagrams received from interfaces
+Percentage of time over a 5 minute window that some tasks were stalled
 
-    - `snmp_ip_in_unknown_protos: optional number`
+<a href="#">Link to this property</a>
 
-      Number of input datagrams discarded due unknown or unsupported protocol
+memory\_pressure\_some\_60s: optional number
 
-    - `snmp_ip_out_discards: optional number`
+Percentage of time over a 1 minute window that some tasks were stalled
 
-      Number of output datagrams otherwise discarded
+<a href="#">Link to this property</a>
 
-    - `snmp_ip_out_no_routes: optional number`
+memory\_pressure\_some\_total\_us: optional number
 
-      Number of output datagrams discarded because no route matched
+Total stall time (microseconds)
 
-    - `snmp_ip_out_requests: optional number`
+<a href="#">Link to this property</a>
 
-      Number of datagrams supplied for transmission
+memory\_s\_reclaimable\_bytes: optional number
 
-    - `snmp_ip_reasm_fails: optional number`
+Part of slab that can be reclaimed on memory pressure
 
-      Number of failures detected by the reassembly algorithm
+<a href="#">Link to this property</a>
 
-    - `snmp_ip_reasm_oks: optional number`
+memory\_s\_unreclaim\_bytes: optional number
 
-      Number of datagrams successfully reassembled
+Part of slab that cannot be reclaimed on memory pressure
 
-    - `snmp_ip_reasm_reqds: optional number`
+<a href="#">Link to this property</a>
 
-      Number of fragments received which needed to be reassembled
+memory\_secondary\_page\_tables\_bytes: optional number
 
-    - `snmp_ip_reasm_timeout: optional number`
+Amount of memory dedicated to the lowest level of page tables
 
-      Number of seconds fragments are held while awaiting reassembly
+<a href="#">Link to this property</a>
 
-    - `snmp_tcp_active_opens: optional number`
+memory\_shmem\_bytes: optional number
 
-      Number of times TCP transitions to SYN-SENT from CLOSED
+Amount of memory consumed by tmpfs
 
-    - `snmp_tcp_attempt_fails: optional number`
+<a href="#">Link to this property</a>
 
-      Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD
+memory\_shmem\_hugepages\_bytes: optional number
 
-    - `snmp_tcp_curr_estab: optional number`
+Memory used by shmem and tmpfs, allocated with huge pages
 
-      Number of TCP connections in ESTABLISHED or CLOSE-WAIT
+<a href="#">Link to this property</a>
 
-    - `snmp_tcp_estab_resets: optional number`
+memory\_shmem\_pmd\_mapped\_bytes: optional number
 
-      Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT
+Shared memory mapped into user space with huge pages
 
-    - `snmp_tcp_in_csum_errors: optional number`
+<a href="#">Link to this property</a>
 
-      Number of TCP segments received with checksum errors
+memory\_slab\_bytes: optional number
 
-    - `snmp_tcp_in_errs: optional number`
+In-kernel data structures cache
 
-      Number of TCP segments received in error
+<a href="#">Link to this property</a>
 
-    - `snmp_tcp_in_segs: optional number`
+memory\_swap\_cached\_bytes: optional number
 
-      Number of TCP segments received
+Memory swapped out and back in while still in swap file
 
-    - `snmp_tcp_max_conn: optional number`
+<a href="#">Link to this property</a>
 
-      Limit on the total number of TCP connections
+memory\_swap\_free\_bytes: optional number
 
-    - `snmp_tcp_out_rsts: optional number`
+Amount of swap space that is currently unused
 
-      Number of TCP segments sent with RST flag
+<a href="#">Link to this property</a>
 
-    - `snmp_tcp_out_segs: optional number`
+memory\_swap\_total\_bytes: optional number
 
-      Number of TCP segments sent
+Total amount of swap space available
 
-    - `snmp_tcp_passive_opens: optional number`
+<a href="#">Link to this property</a>
 
-      Number of times TCP transitions to SYN-RCVD from LISTEN
+memory\_total\_bytes: optional number
 
-    - `snmp_tcp_retrans_segs: optional number`
+Total usable RAM
 
-      Number of TCP segments retransmitted
+<a href="#">Link to this property</a>
 
-    - `snmp_tcp_rto_max: optional number`
+memory\_vmalloc\_chunk\_bytes: optional number
 
-      Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
+Largest contiguous block of vmalloc area which is free
 
-    - `snmp_tcp_rto_min: optional number`
+<a href="#">Link to this property</a>
 
-      Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
+memory\_vmalloc\_total\_bytes: optional number
 
-    - `snmp_udp_in_datagrams: optional number`
+Total size of vmalloc memory area
 
-      Number of UDP datagrams delivered to UDP applications
+<a href="#">Link to this property</a>
 
-    - `snmp_udp_in_errors: optional number`
+memory\_vmalloc\_used\_bytes: optional number
 
-      Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port
+Amount of vmalloc area which is used
 
-    - `snmp_udp_no_ports: optional number`
+<a href="#">Link to this property</a>
 
-      Number of UDP datagrams received for which there was not application at the destination port
+memory\_writeback\_bytes: optional number
 
-    - `snmp_udp_out_datagrams: optional number`
+Memory which is actively being written back to the disk
 
-      Number of UDP datagrams sent
+<a href="#">Link to this property</a>
 
-    - `system_boot_time_s: optional number`
+memory\_writeback\_tmp\_bytes: optional number
 
-      Boottime of the system (seconds since the Unix epoch)
+Memory used by FUSE for temporary writeback buffers
 
-    - `thermals: optional array of object { label, critical_celcius, current_celcius, max_celcius }`
+<a href="#">Link to this property</a>
 
-      - `label: string`
+memory\_z\_swap\_bytes: optional number
 
-        Sensor identifier for the component
+Memory consumed by the zswap backend, compressed
 
-      - `critical_celcius: optional number`
+<a href="#">Link to this property</a>
 
-        Critical failure temperature of the component (degrees Celsius)
+memory\_z\_swapped\_bytes: optional number
 
-      - `current_celcius: optional number`
+Amount of anonymous memory stored in zswap, uncompressed
 
-        Current temperature of the component (degrees Celsius)
+<a href="#">Link to this property</a>
 
-      - `max_celcius: optional number`
+<details>
 
-        Maximum temperature of the component (degrees Celsius)
+<summary>
 
-    - `tunnels: optional array of object { health_state, health_value, interface_name, 7 more }`
+mounts: optional array of object {file\_system, kind, mount\_point, 7 more }
 
-      - `health_state: string`
+</summary>
 
-        Name of tunnel health state (unknown, healthy, degraded, down)
+file\_system: string
 
-      - `health_value: number`
+File system on disk (EXT4, NTFS, etc.)
 
-        Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
+<a href="#">Link to this property</a>
 
-      - `interface_name: string`
+kind: string
 
-        The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
+Kind of disk (HDD, SSD, etc.)
 
-      - `tunnel_id: string`
+<a href="#">Link to this property</a>
 
-        Tunnel identifier
+mount\_point: string
 
-      - `natd_result: optional string`
+Path where disk is mounted
 
-        Public socket address returned by the NAT detector
+<a href="#">Link to this property</a>
 
-      - `natd_state: optional number`
+name: string
 
-        Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
+Name of the disk mount
 
-      - `natd_target: optional string`
+<a href="#">Link to this property</a>
 
-        Target socket address probed by the NAT detector, using the detector source port
+available\_bytes: optional number
 
-      - `probed_mtu: optional number`
+Available disk size (bytes)
 
-        MTU as measured between the two ends of the tunnel
+<a href="#">Link to this property</a>
 
-      - `recent_healthy_pings: optional number`
+available\_inodes: optional number
 
-        Number of recent healthy pings for this tunnel
+Available inodes on filesystem
 
-      - `recent_unhealthy_pings: optional number`
+<a href="#">Link to this property</a>
 
-        Number of recent unhealthy pings for this tunnel
+is\_read\_only: optional boolean
 
-    - `uptime_idle_ms: optional number`
+Determines whether the disk is read-only
 
-      Sum of how much time each core has spent idle
+<a href="#">Link to this property</a>
 
-    - `uptime_total_ms: optional number`
+is\_removable: optional boolean
 
-      Uptime of the system, including time spent in suspend
+Determines whether the disk is removable
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { code, message }`
+total\_bytes: optional number
 
-  - `code: number`
+Total disk size (bytes)
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of object { code, message }`
+total\_inodes: optional number
 
-  - `code: number`
+Total inodes on filesystem
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+netdevs: optional array of object {name, recv\_bytes, recv\_compressed, 14 more }
+
+</summary>
+
+name: string
+
+Name of the network device
+
+<a href="#">Link to this property</a>
+
+recv\_bytes: number
+
+Total bytes received
+
+<a href="#">Link to this property</a>
+
+recv\_compressed: number
+
+Compressed packets received
+
+<a href="#">Link to this property</a>
+
+recv\_drop: number
+
+Packets dropped
+
+<a href="#">Link to this property</a>
+
+recv\_errs: number
+
+Bad packets received
+
+<a href="#">Link to this property</a>
+
+recv\_fifo: number
+
+FIFO overruns
+
+<a href="#">Link to this property</a>
+
+recv\_frame: number
+
+Frame alignment errors
+
+<a href="#">Link to this property</a>
+
+recv\_multicast: number
+
+Multicast packets received
+
+<a href="#">Link to this property</a>
+
+recv\_packets: number
+
+Total packets received
+
+<a href="#">Link to this property</a>
+
+sent\_bytes: number
+
+Total bytes transmitted
+
+<a href="#">Link to this property</a>
+
+sent\_carrier: number
+
+Number of packets not sent due to carrier errors
+
+<a href="#">Link to this property</a>
+
+sent\_colls: number
+
+Number of collisions
+
+<a href="#">Link to this property</a>
+
+sent\_compressed: number
+
+Number of compressed packets transmitted
+
+<a href="#">Link to this property</a>
+
+sent\_drop: number
+
+Number of packets dropped during transmission
+
+<a href="#">Link to this property</a>
+
+sent\_errs: number
+
+Number of transmission errors
+
+<a href="#">Link to this property</a>
+
+sent\_fifo: number
+
+FIFO overruns
+
+<a href="#">Link to this property</a>
+
+sent\_packets: number
+
+Total packets transmitted
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+platform: optional string
+
+Platform identifier
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+routes: optional array of object {destination, interface\_name, kind, 3 more }
+
+</summary>
+
+destination: string
+
+Route destination as default or an IPv4 CIDR
+
+<a href="#">Link to this property</a>
+
+interface\_name: string
+
+Interface used by the next hop
+
+<a href="#">Link to this property</a>
+
+kind: string
+
+Routing decision type: tunnel, breakout, or lan
+
+<a href="#">Link to this property</a>
+
+metric: number
+
+Route metric; lower metrics are preferred
+
+<a href="#">Link to this property</a>
+
+gateway: optional string
+
+Gateway address for the next hop
+
+<a href="#">Link to this property</a>
+
+weight: optional number
+
+Relative weight within an equal-cost route
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+site\_id: optional string
+
+Site identifier
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_addr\_mask\_reps: optional number
+
+Number of ICMP Address Mask Reply messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_addr\_masks: optional number
+
+Number of ICMP Address Mask Request messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_csum\_errors: optional number
+
+Number of ICMP messages received with bad checksums
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_dest\_unreachs: optional number
+
+Number of ICMP Destination Unreachable messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_echo\_reps: optional number
+
+Number of ICMP Echo Reply messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_echos: optional number
+
+Number of ICMP Echo (request) messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_errors: optional number
+
+Number of ICMP messages received with ICMP-specific errors
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_msgs: optional number
+
+Number of ICMP messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_parm\_probs: optional number
+
+Number of ICMP Parameter Problem messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_redirects: optional number
+
+Number of ICMP Redirect messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_src\_quenchs: optional number
+
+Number of ICMP Source Quench messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_time\_excds: optional number
+
+Number of ICMP Time Exceeded messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_timestamp\_reps: optional number
+
+Number of ICMP Address Mask Request messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_in\_timestamps: optional number
+
+Number of ICMP Timestamp (request) messages received
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_addr\_mask\_reps: optional number
+
+Number of ICMP Address Mask Reply messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_addr\_masks: optional number
+
+Number of ICMP Address Mask Request messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_dest\_unreachs: optional number
+
+Number of ICMP Destination Unreachable messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_echo\_reps: optional number
+
+Number of ICMP Echo Reply messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_echos: optional number
+
+Number of ICMP Echo (request) messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_errors: optional number
+
+Number of ICMP messages which this entity did not send due to ICMP-specific errors
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_msgs: optional number
+
+Number of ICMP messages attempted to send
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_parm\_probs: optional number
+
+Number of ICMP Parameter Problem messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_redirects: optional number
+
+Number of ICMP Redirect messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_src\_quenchs: optional number
+
+Number of ICMP Source Quench messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_time\_excds: optional number
+
+Number of ICMP Time Exceeded messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_timestamp\_reps: optional number
+
+Number of ICMP Timestamp Reply messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_icmp\_out\_timestamps: optional number
+
+Number of ICMP Timestamp (request) messages sent
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_default\_ttl: optional number
+
+Default value of the Time-To-Live field of the IP header
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_forw\_datagrams: optional number
+
+Number of datagrams forwarded to their final destination
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_forwarding\_enabled: optional boolean
+
+Set when acting as an IP gateway
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_frag\_creates: optional number
+
+Number of datagrams generated by fragmentation
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_frag\_fails: optional number
+
+Number of datagrams discarded because fragmentation failed
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_frag\_oks: optional number
+
+Number of datagrams successfully fragmented
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_in\_addr\_errors: optional number
+
+Number of input datagrams discarded due to errors in the IP address
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_in\_delivers: optional number
+
+Number of input datagrams successfully delivered to IP user-protocols
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_in\_discards: optional number
+
+Number of input datagrams otherwise discarded
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_in\_hdr\_errors: optional number
+
+Number of input datagrams discarded due to errors in the IP header
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_in\_receives: optional number
+
+Number of input datagrams received from interfaces
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_in\_unknown\_protos: optional number
+
+Number of input datagrams discarded due unknown or unsupported protocol
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_out\_discards: optional number
+
+Number of output datagrams otherwise discarded
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_out\_no\_routes: optional number
+
+Number of output datagrams discarded because no route matched
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_out\_requests: optional number
+
+Number of datagrams supplied for transmission
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_reasm\_fails: optional number
+
+Number of failures detected by the reassembly algorithm
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_reasm\_oks: optional number
+
+Number of datagrams successfully reassembled
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_reasm\_reqds: optional number
+
+Number of fragments received which needed to be reassembled
+
+<a href="#">Link to this property</a>
+
+snmp\_ip\_reasm\_timeout: optional number
+
+Number of seconds fragments are held while awaiting reassembly
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_active\_opens: optional number
+
+Number of times TCP transitions to SYN-SENT from CLOSED
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_attempt\_fails: optional number
+
+Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_curr\_estab: optional number
+
+Number of TCP connections in ESTABLISHED or CLOSE-WAIT
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_estab\_resets: optional number
+
+Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_in\_csum\_errors: optional number
+
+Number of TCP segments received with checksum errors
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_in\_errs: optional number
+
+Number of TCP segments received in error
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_in\_segs: optional number
+
+Number of TCP segments received
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_max\_conn: optional number
+
+Limit on the total number of TCP connections
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_out\_rsts: optional number
+
+Number of TCP segments sent with RST flag
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_out\_segs: optional number
+
+Number of TCP segments sent
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_passive\_opens: optional number
+
+Number of times TCP transitions to SYN-RCVD from LISTEN
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_retrans\_segs: optional number
+
+Number of TCP segments retransmitted
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_rto\_max: optional number
+
+Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
+
+<a href="#">Link to this property</a>
+
+snmp\_tcp\_rto\_min: optional number
+
+Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds)
+
+<a href="#">Link to this property</a>
+
+snmp\_udp\_in\_datagrams: optional number
+
+Number of UDP datagrams delivered to UDP applications
+
+<a href="#">Link to this property</a>
+
+snmp\_udp\_in\_errors: optional number
+
+Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port
+
+<a href="#">Link to this property</a>
+
+snmp\_udp\_no\_ports: optional number
+
+Number of UDP datagrams received for which there was not application at the destination port
+
+<a href="#">Link to this property</a>
+
+snmp\_udp\_out\_datagrams: optional number
+
+Number of UDP datagrams sent
+
+<a href="#">Link to this property</a>
+
+system\_boot\_time\_s: optional number
+
+Boottime of the system (seconds since the Unix epoch)
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+thermals: optional array of object {label, critical\_celcius, current\_celcius, max\_celcius }
+
+</summary>
+
+label: string
+
+Sensor identifier for the component
+
+<a href="#">Link to this property</a>
+
+critical\_celcius: optional number
+
+Critical failure temperature of the component (degrees Celsius)
+
+<a href="#">Link to this property</a>
+
+current\_celcius: optional number
+
+Current temperature of the component (degrees Celsius)
+
+<a href="#">Link to this property</a>
+
+max\_celcius: optional number
+
+Maximum temperature of the component (degrees Celsius)
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tunnels: optional array of object {health\_state, health\_value, interface\_name, 9 more }
+
+</summary>
+
+health\_state: string
+
+Name of tunnel health state (unknown, healthy, degraded, down)
+
+<a href="#">Link to this property</a>
+
+health\_value: number
+
+Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
+
+<a href="#">Link to this property</a>
+
+interface\_name: string
+
+The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
+
+<a href="#">Link to this property</a>
+
+tunnel\_id: string
+
+Tunnel identifier
+
+<a href="#">Link to this property</a>
+
+jitter\_ms: optional number
+
+Tunnel round-trip latency variation in milliseconds
+
+<a href="#">Link to this property</a>
+
+latency\_ms: optional number
+
+50th percentile tunnel round-trip latency in milliseconds
+
+<a href="#">Link to this property</a>
+
+natd\_result: optional string
+
+Public socket address returned by the NAT detector
+
+<a href="#">Link to this property</a>
+
+natd\_state: optional number
+
+Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
+
+<a href="#">Link to this property</a>
+
+natd\_target: optional string
+
+Target socket address probed by the NAT detector, using the detector source port
+
+<a href="#">Link to this property</a>
+
+probed\_mtu: optional number
+
+MTU as measured between the two ends of the tunnel
+
+<a href="#">Link to this property</a>
+
+recent\_healthy\_pings: optional number
+
+Number of recent healthy pings for this tunnel
+
+<a href="#">Link to this property</a>
+
+recent\_unhealthy\_pings: optional number
+
+Number of recent unhealthy pings for this tunnel
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uptime\_idle\_ms: optional number
+
+Sum of how much time each core has spent idle
+
+<a href="#">Link to this property</a>
+
+uptime\_total\_ms: optional number
+
+Uptime of the system, including time spent in suspend
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.snapshots.latest%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20magic_transit.connectors.snapshots.latest%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.snapshots.latest%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.connectors.snapshots.latest%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+### Get latest Snapshots
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/$CONNECTOR_ID/telemetry/snapshots/latest \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "count": 0,
@@ -1209,6 +1963,17 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/
           }
         ],
         "platform": "platform",
+        "routes": [
+          {
+            "destination": "destination",
+            "interface_name": "interface_name",
+            "kind": "kind",
+            "metric": 0,
+            "gateway": "gateway",
+            "weight": 0
+          }
+        ],
+        "site_id": "site_id",
         "snmp_icmp_in_addr_mask_reps": 0,
         "snmp_icmp_in_addr_masks": 0,
         "snmp_icmp_in_csum_errors": 0,
@@ -1288,6 +2053,325 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/connectors/
             "health_value": 0,
             "interface_name": "interface_name",
             "tunnel_id": "tunnel_id",
+            "jitter_ms": 0,
+            "latency_ms": 0,
+            "natd_result": "natd_result",
+            "natd_state": 0,
+            "natd_target": "natd_target",
+            "probed_mtu": 0,
+            "recent_healthy_pings": 0,
+            "recent_unhealthy_pings": 0
+          }
+        ],
+        "uptime_idle_ms": 0,
+        "uptime_total_ms": 0
+      }
+    ]
+  },
+  "success": true,
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "count": 0,
+    "items": [
+      {
+        "count_reclaim_failures": 0,
+        "count_reclaimed_paths": 0,
+        "count_record_failed": 0,
+        "count_transmit_failures": 0,
+        "t": 0,
+        "v": "v",
+        "bonds": [
+          {
+            "name": "name",
+            "status": "status"
+          }
+        ],
+        "cpu_count": 0,
+        "cpu_pressure_10s": 0,
+        "cpu_pressure_300s": 0,
+        "cpu_pressure_60s": 0,
+        "cpu_pressure_total_us": 0,
+        "cpu_time_guest_ms": 0,
+        "cpu_time_guest_nice_ms": 0,
+        "cpu_time_idle_ms": 0,
+        "cpu_time_iowait_ms": 0,
+        "cpu_time_irq_ms": 0,
+        "cpu_time_nice_ms": 0,
+        "cpu_time_softirq_ms": 0,
+        "cpu_time_steal_ms": 0,
+        "cpu_time_system_ms": 0,
+        "cpu_time_user_ms": 0,
+        "delta": 0,
+        "dhcp_leases": [
+          {
+            "client_id": "client_id",
+            "expiry_time": 0,
+            "hostname": "hostname",
+            "interface_name": "interface_name",
+            "ip_address": "ip_address",
+            "mac_address": "mac_address"
+          }
+        ],
+        "disks": [
+          {
+            "in_progress": 0,
+            "major": 0,
+            "merged": 0,
+            "minor": 0,
+            "name": "name",
+            "reads": 0,
+            "sectors_read": 0,
+            "sectors_written": 0,
+            "time_in_progress_ms": 0,
+            "time_reading_ms": 0,
+            "time_writing_ms": 0,
+            "weighted_time_in_progress_ms": 0,
+            "writes": 0,
+            "writes_merged": 0,
+            "discards": 0,
+            "discards_merged": 0,
+            "flushes": 0,
+            "sectors_discarded": 0,
+            "time_discarding_ms": 0,
+            "time_flushing_ms": 0
+          }
+        ],
+        "epsilon": 0,
+        "ha_state": "ha_state",
+        "ha_value": 0,
+        "interfaces": [
+          {
+            "name": "name",
+            "operstate": "operstate",
+            "ip_addresses": [
+              {
+                "interface_name": "interface_name",
+                "ip_address": "ip_address"
+              }
+            ],
+            "speed": 0
+          }
+        ],
+        "io_pressure_full_10s": 0,
+        "io_pressure_full_300s": 0,
+        "io_pressure_full_60s": 0,
+        "io_pressure_full_total_us": 0,
+        "io_pressure_some_10s": 0,
+        "io_pressure_some_300s": 0,
+        "io_pressure_some_60s": 0,
+        "io_pressure_some_total_us": 0,
+        "kernel_btime": 0,
+        "kernel_ctxt": 0,
+        "kernel_processes": 0,
+        "kernel_processes_blocked": 0,
+        "kernel_processes_running": 0,
+        "load_average_15m": 0,
+        "load_average_1m": 0,
+        "load_average_5m": 0,
+        "load_average_cur": 0,
+        "load_average_max": 0,
+        "memory_active_bytes": 0,
+        "memory_anon_hugepages_bytes": 0,
+        "memory_anon_pages_bytes": 0,
+        "memory_available_bytes": 0,
+        "memory_bounce_bytes": 0,
+        "memory_buffers_bytes": 0,
+        "memory_cached_bytes": 0,
+        "memory_cma_free_bytes": 0,
+        "memory_cma_total_bytes": 0,
+        "memory_commit_limit_bytes": 0,
+        "memory_committed_as_bytes": 0,
+        "memory_dirty_bytes": 0,
+        "memory_free_bytes": 0,
+        "memory_high_free_bytes": 0,
+        "memory_high_total_bytes": 0,
+        "memory_hugepages_free": 0,
+        "memory_hugepages_rsvd": 0,
+        "memory_hugepages_surp": 0,
+        "memory_hugepages_total": 0,
+        "memory_hugepagesize_bytes": 0,
+        "memory_inactive_bytes": 0,
+        "memory_k_reclaimable_bytes": 0,
+        "memory_kernel_stack_bytes": 0,
+        "memory_low_free_bytes": 0,
+        "memory_low_total_bytes": 0,
+        "memory_mapped_bytes": 0,
+        "memory_page_tables_bytes": 0,
+        "memory_per_cpu_bytes": 0,
+        "memory_pressure_full_10s": 0,
+        "memory_pressure_full_300s": 0,
+        "memory_pressure_full_60s": 0,
+        "memory_pressure_full_total_us": 0,
+        "memory_pressure_some_10s": 0,
+        "memory_pressure_some_300s": 0,
+        "memory_pressure_some_60s": 0,
+        "memory_pressure_some_total_us": 0,
+        "memory_s_reclaimable_bytes": 0,
+        "memory_s_unreclaim_bytes": 0,
+        "memory_secondary_page_tables_bytes": 0,
+        "memory_shmem_bytes": 0,
+        "memory_shmem_hugepages_bytes": 0,
+        "memory_shmem_pmd_mapped_bytes": 0,
+        "memory_slab_bytes": 0,
+        "memory_swap_cached_bytes": 0,
+        "memory_swap_free_bytes": 0,
+        "memory_swap_total_bytes": 0,
+        "memory_total_bytes": 0,
+        "memory_vmalloc_chunk_bytes": 0,
+        "memory_vmalloc_total_bytes": 0,
+        "memory_vmalloc_used_bytes": 0,
+        "memory_writeback_bytes": 0,
+        "memory_writeback_tmp_bytes": 0,
+        "memory_z_swap_bytes": 0,
+        "memory_z_swapped_bytes": 0,
+        "mounts": [
+          {
+            "file_system": "file_system",
+            "kind": "kind",
+            "mount_point": "mount_point",
+            "name": "name",
+            "available_bytes": 0,
+            "available_inodes": 0,
+            "is_read_only": true,
+            "is_removable": true,
+            "total_bytes": 0,
+            "total_inodes": 0
+          }
+        ],
+        "netdevs": [
+          {
+            "name": "name",
+            "recv_bytes": 0,
+            "recv_compressed": 0,
+            "recv_drop": 0,
+            "recv_errs": 0,
+            "recv_fifo": 0,
+            "recv_frame": 0,
+            "recv_multicast": 0,
+            "recv_packets": 0,
+            "sent_bytes": 0,
+            "sent_carrier": 0,
+            "sent_colls": 0,
+            "sent_compressed": 0,
+            "sent_drop": 0,
+            "sent_errs": 0,
+            "sent_fifo": 0,
+            "sent_packets": 0
+          }
+        ],
+        "platform": "platform",
+        "routes": [
+          {
+            "destination": "destination",
+            "interface_name": "interface_name",
+            "kind": "kind",
+            "metric": 0,
+            "gateway": "gateway",
+            "weight": 0
+          }
+        ],
+        "site_id": "site_id",
+        "snmp_icmp_in_addr_mask_reps": 0,
+        "snmp_icmp_in_addr_masks": 0,
+        "snmp_icmp_in_csum_errors": 0,
+        "snmp_icmp_in_dest_unreachs": 0,
+        "snmp_icmp_in_echo_reps": 0,
+        "snmp_icmp_in_echos": 0,
+        "snmp_icmp_in_errors": 0,
+        "snmp_icmp_in_msgs": 0,
+        "snmp_icmp_in_parm_probs": 0,
+        "snmp_icmp_in_redirects": 0,
+        "snmp_icmp_in_src_quenchs": 0,
+        "snmp_icmp_in_time_excds": 0,
+        "snmp_icmp_in_timestamp_reps": 0,
+        "snmp_icmp_in_timestamps": 0,
+        "snmp_icmp_out_addr_mask_reps": 0,
+        "snmp_icmp_out_addr_masks": 0,
+        "snmp_icmp_out_dest_unreachs": 0,
+        "snmp_icmp_out_echo_reps": 0,
+        "snmp_icmp_out_echos": 0,
+        "snmp_icmp_out_errors": 0,
+        "snmp_icmp_out_msgs": 0,
+        "snmp_icmp_out_parm_probs": 0,
+        "snmp_icmp_out_redirects": 0,
+        "snmp_icmp_out_src_quenchs": 0,
+        "snmp_icmp_out_time_excds": 0,
+        "snmp_icmp_out_timestamp_reps": 0,
+        "snmp_icmp_out_timestamps": 0,
+        "snmp_ip_default_ttl": 0,
+        "snmp_ip_forw_datagrams": 0,
+        "snmp_ip_forwarding_enabled": true,
+        "snmp_ip_frag_creates": 0,
+        "snmp_ip_frag_fails": 0,
+        "snmp_ip_frag_oks": 0,
+        "snmp_ip_in_addr_errors": 0,
+        "snmp_ip_in_delivers": 0,
+        "snmp_ip_in_discards": 0,
+        "snmp_ip_in_hdr_errors": 0,
+        "snmp_ip_in_receives": 0,
+        "snmp_ip_in_unknown_protos": 0,
+        "snmp_ip_out_discards": 0,
+        "snmp_ip_out_no_routes": 0,
+        "snmp_ip_out_requests": 0,
+        "snmp_ip_reasm_fails": 0,
+        "snmp_ip_reasm_oks": 0,
+        "snmp_ip_reasm_reqds": 0,
+        "snmp_ip_reasm_timeout": 0,
+        "snmp_tcp_active_opens": 0,
+        "snmp_tcp_attempt_fails": 0,
+        "snmp_tcp_curr_estab": 0,
+        "snmp_tcp_estab_resets": 0,
+        "snmp_tcp_in_csum_errors": 0,
+        "snmp_tcp_in_errs": 0,
+        "snmp_tcp_in_segs": 0,
+        "snmp_tcp_max_conn": 0,
+        "snmp_tcp_out_rsts": 0,
+        "snmp_tcp_out_segs": 0,
+        "snmp_tcp_passive_opens": 0,
+        "snmp_tcp_retrans_segs": 0,
+        "snmp_tcp_rto_max": 0,
+        "snmp_tcp_rto_min": 0,
+        "snmp_udp_in_datagrams": 0,
+        "snmp_udp_in_errors": 0,
+        "snmp_udp_no_ports": 0,
+        "snmp_udp_out_datagrams": 0,
+        "system_boot_time_s": 0,
+        "thermals": [
+          {
+            "label": "label",
+            "critical_celcius": 0,
+            "current_celcius": 0,
+            "max_celcius": 0
+          }
+        ],
+        "tunnels": [
+          {
+            "health_state": "health_state",
+            "health_value": 0,
+            "interface_name": "interface_name",
+            "tunnel_id": "tunnel_id",
+            "jitter_ms": 0,
+            "latency_ms": 0,
             "natd_result": "natd_result",
             "natd_state": 0,
             "natd_target": "natd_target",

@@ -271,7 +271,7 @@ export const CreateRequestRateLimitingTechnique = S.String;
 export type CreateRequestRetryBackoff = "constant" | "linear" | "exponential";
 export const CreateRequestRetryBackoff = S.String;
 
-export type CreateRequestWorkersAiBillingMode = "postpaid";
+export type CreateRequestWorkersAiBillingMode = "postpaid" | "unified";
 export const CreateRequestWorkersAiBillingMode = S.String;
 
 export interface CreateAiGatewayRequest {
@@ -284,6 +284,8 @@ export interface CreateAiGatewayRequest {
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
   authentication?: boolean;
+  /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
+  byokOnly?: boolean;
   logManagement?: number;
   logManagementStrategy?: CreateRequestLogManagementStrategy | (string & {});
   logpush?: boolean;
@@ -291,11 +293,12 @@ export interface CreateAiGatewayRequest {
   rateLimitingTechnique?: CreateRequestRateLimitingTechnique | (string & {});
   /** Backoff strategy for retry delays */
   retryBackoff?: CreateRequestRetryBackoff | (string & {});
-  /** Delay between retry attempts in milliseconds (0-5000) */
+  /** Delay between retry attempts in milliseconds (0-60000) */
   retryDelay?: number;
   /** Maximum number of retry attempts for failed requests (1-5) */
   retryMaxAttempts?: number;
-  /** Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported. */
+  storeId?: string;
+  /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
   workersAiBillingMode?: CreateRequestWorkersAiBillingMode | (string & {});
   zdr?: boolean;
 }
@@ -313,6 +316,7 @@ export const CreateAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     rateLimitingLimit: S.NullOr(S.Number).pipe(T.Body("rate_limiting_limit")),
     authentication: S.optional(S.Boolean),
+    byokOnly: S.optional(S.Boolean.pipe(T.Body("byok_only"))),
     logManagement: S.optional(S.Number.pipe(T.Body("log_management"))),
     logManagementStrategy: S.optional(
       CreateRequestLogManagementStrategy.pipe(
@@ -331,6 +335,7 @@ export const CreateAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     retryDelay: S.optional(S.Number.pipe(T.Body("retry_delay"))),
     retryMaxAttempts: S.optional(S.Number.pipe(T.Body("retry_max_attempts"))),
+    storeId: S.optional(S.String.pipe(T.Body("store_id"))),
     workersAiBillingMode: S.optional(
       CreateRequestWorkersAiBillingMode.pipe(T.Body("workers_ai_billing_mode")),
     ),
@@ -771,8 +776,10 @@ export type CreateResponseSpendLimitsRulesItemTechnique = "fixed" | "sliding";
 export const CreateResponseSpendLimitsRulesItemTechnique = S.String;
 
 export interface CreateResponseSpendLimitsRulesItem {
+  /** exclusiveMinimum */
   limit: number;
   limitType: CreateResponseSpendLimitsRulesItemLimitType;
+  /** exclusiveMinimum */
   window: number;
   id?: string | null;
   enabled?: boolean | null;
@@ -850,7 +857,7 @@ export const CreateResponseStripe = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateResponseStripe",
 }) as any as S.Schema<CreateResponseStripe>;
 
-export type CreateResponseWorkersAiBillingMode = "postpaid";
+export type CreateResponseWorkersAiBillingMode = "postpaid" | "unified";
 export const CreateResponseWorkersAiBillingMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -865,9 +872,12 @@ export interface CreateAiGatewayResponse {
   rateLimitingInterval: number;
   rateLimitingLimit: number;
   authentication?: boolean | null;
+  /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
+  byokOnly?: boolean | null;
   dlp?: CreateResponseDlp | null;
   guardrails?: CreateResponseGuardrails | null;
   isDefault?: boolean | null;
+  logClassification?: boolean | null;
   logManagement?: number | null;
   logManagementStrategy?: CreateResponseLogManagementStrategy | null;
   logpush?: boolean | null;
@@ -876,14 +886,14 @@ export interface CreateAiGatewayResponse {
   rateLimitingTechnique?: CreateResponseRateLimitingTechnique | null;
   /** Backoff strategy for retry delays */
   retryBackoff?: CreateResponseRetryBackoff | null;
-  /** Delay between retry attempts in milliseconds (0-5000) */
+  /** Delay between retry attempts in milliseconds (0-60000) */
   retryDelay?: number | null;
   /** Maximum number of retry attempts for failed requests (1-5) */
   retryMaxAttempts?: number | null;
   spendLimits?: CreateResponseSpendLimits | null;
   storeId?: string | null;
   stripe?: CreateResponseStripe | null;
-  /** Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported. */
+  /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
   workersAiBillingMode?: CreateResponseWorkersAiBillingMode | null;
   zdr?: boolean | null;
 }
@@ -900,9 +910,13 @@ export const CreateAiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     rateLimitingInterval: S.Number.pipe(T.Body("rate_limiting_interval")),
     rateLimitingLimit: S.Number.pipe(T.Body("rate_limiting_limit")),
     authentication: S.optional(S.NullOr(S.Boolean)),
+    byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
     dlp: S.optional(S.NullOr(CreateResponseDlp)),
     guardrails: S.optional(S.NullOr(CreateResponseGuardrails)),
     isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
+    logClassification: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("log_classification")),
+    ),
     logManagement: S.optional(
       S.NullOr(S.Number).pipe(T.Body("log_management")),
     ),
@@ -3189,19 +3203,19 @@ export const BillingCreditBalanceResponsePaymentMethod =
 
 export interface BillingCreditBalanceResponseTopupConfig {
   amount: number;
-  disabledReason: string;
-  error: string;
-  lastFailedAt: number;
   threshold: number;
+  disabledReason?: string | null;
+  error?: string | null;
+  lastFailedAt?: number | null;
 }
 export const BillingCreditBalanceResponseTopupConfig = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       amount: S.Number,
-      disabledReason: S.String,
-      error: S.String,
-      lastFailedAt: S.Number,
       threshold: S.Number,
+      disabledReason: S.optional(S.NullOr(S.String)),
+      error: S.optional(S.NullOr(S.String)),
+      lastFailedAt: S.optional(S.NullOr(S.Number)),
     }),
 ).annotate({
   identifier: "BillingCreditBalanceResponseTopupConfig",
@@ -3674,8 +3688,10 @@ export type DeleteResponseSpendLimitsRulesItemTechnique = "fixed" | "sliding";
 export const DeleteResponseSpendLimitsRulesItemTechnique = S.String;
 
 export interface DeleteResponseSpendLimitsRulesItem {
+  /** exclusiveMinimum */
   limit: number;
   limitType: DeleteResponseSpendLimitsRulesItemLimitType;
+  /** exclusiveMinimum */
   window: number;
   id?: string | null;
   enabled?: boolean | null;
@@ -3747,7 +3763,7 @@ export const DeleteResponseStripe = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteResponseStripe",
 }) as any as S.Schema<DeleteResponseStripe>;
 
-export type DeleteResponseWorkersAiBillingMode = "postpaid";
+export type DeleteResponseWorkersAiBillingMode = "postpaid" | "unified";
 export const DeleteResponseWorkersAiBillingMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -3762,9 +3778,12 @@ export interface DeleteAiGatewayResponse {
   rateLimitingInterval: number;
   rateLimitingLimit: number;
   authentication?: boolean | null;
+  /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
+  byokOnly?: boolean | null;
   dlp?: DeleteResponseDlp | null;
   guardrails?: DeleteResponseGuardrails | null;
   isDefault?: boolean | null;
+  logClassification?: boolean | null;
   logManagement?: number | null;
   logManagementStrategy?: DeleteResponseLogManagementStrategy | null;
   logpush?: boolean | null;
@@ -3773,14 +3792,14 @@ export interface DeleteAiGatewayResponse {
   rateLimitingTechnique?: DeleteResponseRateLimitingTechnique | null;
   /** Backoff strategy for retry delays */
   retryBackoff?: DeleteResponseRetryBackoff | null;
-  /** Delay between retry attempts in milliseconds (0-5000) */
+  /** Delay between retry attempts in milliseconds (0-60000) */
   retryDelay?: number | null;
   /** Maximum number of retry attempts for failed requests (1-5) */
   retryMaxAttempts?: number | null;
   spendLimits?: DeleteResponseSpendLimits | null;
   storeId?: string | null;
   stripe?: DeleteResponseStripe | null;
-  /** Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported. */
+  /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
   workersAiBillingMode?: DeleteResponseWorkersAiBillingMode | null;
   zdr?: boolean | null;
 }
@@ -3797,9 +3816,13 @@ export const DeleteAiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     rateLimitingInterval: S.Number.pipe(T.Body("rate_limiting_interval")),
     rateLimitingLimit: S.Number.pipe(T.Body("rate_limiting_limit")),
     authentication: S.optional(S.NullOr(S.Boolean)),
+    byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
     dlp: S.optional(S.NullOr(DeleteResponseDlp)),
     guardrails: S.optional(S.NullOr(DeleteResponseGuardrails)),
     isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
+    logClassification: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("log_classification")),
+    ),
     logManagement: S.optional(
       S.NullOr(S.Number).pipe(T.Body("log_management")),
     ),
@@ -5027,8 +5050,10 @@ export type GetResponseSpendLimitsRulesItemTechnique = "fixed" | "sliding";
 export const GetResponseSpendLimitsRulesItemTechnique = S.String;
 
 export interface GetResponseSpendLimitsRulesItem {
+  /** exclusiveMinimum */
   limit: number;
   limitType: GetResponseSpendLimitsRulesItemLimitType;
+  /** exclusiveMinimum */
   window: number;
   id?: string | null;
   enabled?: boolean | null;
@@ -5096,7 +5121,7 @@ export const GetResponseStripe = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetResponseStripe",
 }) as any as S.Schema<GetResponseStripe>;
 
-export type GetResponseWorkersAiBillingMode = "postpaid";
+export type GetResponseWorkersAiBillingMode = "postpaid" | "unified";
 export const GetResponseWorkersAiBillingMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -5111,9 +5136,12 @@ export interface GetAiGatewayResponse {
   rateLimitingInterval: number;
   rateLimitingLimit: number;
   authentication?: boolean | null;
+  /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
+  byokOnly?: boolean | null;
   dlp?: GetResponseDlp | null;
   guardrails?: GetResponseGuardrails | null;
   isDefault?: boolean | null;
+  logClassification?: boolean | null;
   logManagement?: number | null;
   logManagementStrategy?: GetResponseLogManagementStrategy | null;
   logpush?: boolean | null;
@@ -5122,14 +5150,14 @@ export interface GetAiGatewayResponse {
   rateLimitingTechnique?: GetResponseRateLimitingTechnique | null;
   /** Backoff strategy for retry delays */
   retryBackoff?: GetResponseRetryBackoff | null;
-  /** Delay between retry attempts in milliseconds (0-5000) */
+  /** Delay between retry attempts in milliseconds (0-60000) */
   retryDelay?: number | null;
   /** Maximum number of retry attempts for failed requests (1-5) */
   retryMaxAttempts?: number | null;
   spendLimits?: GetResponseSpendLimits | null;
   storeId?: string | null;
   stripe?: GetResponseStripe | null;
-  /** Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported. */
+  /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
   workersAiBillingMode?: GetResponseWorkersAiBillingMode | null;
   zdr?: boolean | null;
 }
@@ -5146,9 +5174,13 @@ export const GetAiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     rateLimitingInterval: S.Number.pipe(T.Body("rate_limiting_interval")),
     rateLimitingLimit: S.Number.pipe(T.Body("rate_limiting_limit")),
     authentication: S.optional(S.NullOr(S.Boolean)),
+    byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
     dlp: S.optional(S.NullOr(GetResponseDlp)),
     guardrails: S.optional(S.NullOr(GetResponseGuardrails)),
     isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
+    logClassification: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("log_classification")),
+    ),
     logManagement: S.optional(
       S.NullOr(S.Number).pipe(T.Body("log_management")),
     ),
@@ -5261,18 +5293,18 @@ export const GetBillingTopupConfigRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBillingTopupConfigResponse {
   amount: number;
-  disabledReason: string;
-  error: string;
-  lastFailedAt: number;
   threshold: number;
+  disabledReason?: string | null;
+  error?: string | null;
+  lastFailedAt?: number | null;
 }
 export const GetBillingTopupConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     amount: S.Number,
-    disabledReason: S.String,
-    error: S.String,
-    lastFailedAt: S.Number,
     threshold: S.Number,
+    disabledReason: S.optional(S.NullOr(S.String)),
+    error: S.optional(S.NullOr(S.String)),
+    lastFailedAt: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetBillingTopupConfigResponse",
@@ -7055,8 +7087,10 @@ export type ListResultItemSpendLimitsRulesItemTechnique = "fixed" | "sliding";
 export const ListResultItemSpendLimitsRulesItemTechnique = S.String;
 
 export interface ListResultItemSpendLimitsRulesItem {
+  /** exclusiveMinimum */
   limit: number;
   limitType: ListResultItemSpendLimitsRulesItemLimitType;
+  /** exclusiveMinimum */
   window: number;
   id?: string | null;
   enabled?: boolean | null;
@@ -7128,7 +7162,7 @@ export const ListResultItemStripe = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListResultItemStripe",
 }) as any as S.Schema<ListResultItemStripe>;
 
-export type ListResultItemWorkersAiBillingMode = "postpaid";
+export type ListResultItemWorkersAiBillingMode = "postpaid" | "unified";
 export const ListResultItemWorkersAiBillingMode = S.String;
 
 export interface ListResultItem {
@@ -7142,9 +7176,12 @@ export interface ListResultItem {
   rateLimitingInterval: number;
   rateLimitingLimit: number;
   authentication?: boolean | null;
+  /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
+  byokOnly?: boolean | null;
   dlp?: ListResultItemDlp | null;
   guardrails?: ListResultItemGuardrails | null;
   isDefault?: boolean | null;
+  logClassification?: boolean | null;
   logManagement?: number | null;
   logManagementStrategy?: ListResultItemLogManagementStrategy | null;
   logpush?: boolean | null;
@@ -7153,14 +7190,14 @@ export interface ListResultItem {
   rateLimitingTechnique?: ListResultItemRateLimitingTechnique | null;
   /** Backoff strategy for retry delays */
   retryBackoff?: ListResultItemRetryBackoff | null;
-  /** Delay between retry attempts in milliseconds (0-5000) */
+  /** Delay between retry attempts in milliseconds (0-60000) */
   retryDelay?: number | null;
   /** Maximum number of retry attempts for failed requests (1-5) */
   retryMaxAttempts?: number | null;
   spendLimits?: ListResultItemSpendLimits | null;
   storeId?: string | null;
   stripe?: ListResultItemStripe | null;
-  /** Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported. */
+  /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
   workersAiBillingMode?: ListResultItemWorkersAiBillingMode | null;
   zdr?: boolean | null;
 }
@@ -7177,9 +7214,13 @@ export const ListResultItem = /*@__PURE__*/ S.suspend(() =>
     rateLimitingInterval: S.Number.pipe(T.Body("rate_limiting_interval")),
     rateLimitingLimit: S.Number.pipe(T.Body("rate_limiting_limit")),
     authentication: S.optional(S.NullOr(S.Boolean)),
+    byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
     dlp: S.optional(S.NullOr(ListResultItemDlp)),
     guardrails: S.optional(S.NullOr(ListResultItemGuardrails)),
     isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
+    logClassification: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("log_classification")),
+    ),
     logManagement: S.optional(
       S.NullOr(S.Number).pipe(T.Body("log_management")),
     ),
@@ -9385,8 +9426,10 @@ export type UpdateRequestSpendLimitsRulesItemTechnique = "fixed" | "sliding";
 export const UpdateRequestSpendLimitsRulesItemTechnique = S.String;
 
 export interface UpdateRequestSpendLimitsRulesItem {
+  /** exclusiveMinimum */
   limit: number;
   limitType: UpdateRequestSpendLimitsRulesItemLimitType | (string & {});
+  /** exclusiveMinimum */
   window: number;
   id?: string;
   enabled?: boolean;
@@ -9456,7 +9499,7 @@ export const UpdateRequestStripe = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateRequestStripe",
 }) as any as S.Schema<UpdateRequestStripe>;
 
-export type UpdateRequestWorkersAiBillingMode = "postpaid";
+export type UpdateRequestWorkersAiBillingMode = "postpaid" | "unified";
 export const UpdateRequestWorkersAiBillingMode = S.String;
 
 export interface UpdateAiGatewayRequest {
@@ -9469,8 +9512,11 @@ export interface UpdateAiGatewayRequest {
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
   authentication?: boolean;
+  /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
+  byokOnly?: boolean;
   dlp?: UpdateRequestDlp;
   guardrails?: UpdateRequestGuardrails;
+  logClassification?: boolean;
   logManagement?: number;
   logManagementStrategy?: UpdateRequestLogManagementStrategy | (string & {});
   logpush?: boolean;
@@ -9479,14 +9525,14 @@ export interface UpdateAiGatewayRequest {
   rateLimitingTechnique?: UpdateRequestRateLimitingTechnique | (string & {});
   /** Backoff strategy for retry delays */
   retryBackoff?: UpdateRequestRetryBackoff | (string & {});
-  /** Delay between retry attempts in milliseconds (0-5000) */
+  /** Delay between retry attempts in milliseconds (0-60000) */
   retryDelay?: number;
   /** Maximum number of retry attempts for failed requests (1-5) */
   retryMaxAttempts?: number;
   spendLimits?: UpdateRequestSpendLimits;
   storeId?: string;
   stripe?: UpdateRequestStripe;
-  /** Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported. */
+  /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
   workersAiBillingMode?: UpdateRequestWorkersAiBillingMode | (string & {});
   zdr?: boolean;
 }
@@ -9504,8 +9550,10 @@ export const UpdateAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     rateLimitingLimit: S.NullOr(S.Number).pipe(T.Body("rate_limiting_limit")),
     authentication: S.optional(S.Boolean),
+    byokOnly: S.optional(S.Boolean.pipe(T.Body("byok_only"))),
     dlp: S.optional(UpdateRequestDlp),
     guardrails: S.optional(UpdateRequestGuardrails),
+    logClassification: S.optional(S.Boolean.pipe(T.Body("log_classification"))),
     logManagement: S.optional(S.Number.pipe(T.Body("log_management"))),
     logManagementStrategy: S.optional(
       UpdateRequestLogManagementStrategy.pipe(
@@ -9964,8 +10012,10 @@ export type UpdateResponseSpendLimitsRulesItemTechnique = "fixed" | "sliding";
 export const UpdateResponseSpendLimitsRulesItemTechnique = S.String;
 
 export interface UpdateResponseSpendLimitsRulesItem {
+  /** exclusiveMinimum */
   limit: number;
   limitType: UpdateResponseSpendLimitsRulesItemLimitType;
+  /** exclusiveMinimum */
   window: number;
   id?: string | null;
   enabled?: boolean | null;
@@ -10037,7 +10087,7 @@ export const UpdateResponseStripe = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateResponseStripe",
 }) as any as S.Schema<UpdateResponseStripe>;
 
-export type UpdateResponseWorkersAiBillingMode = "postpaid";
+export type UpdateResponseWorkersAiBillingMode = "postpaid" | "unified";
 export const UpdateResponseWorkersAiBillingMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -10052,9 +10102,12 @@ export interface UpdateAiGatewayResponse {
   rateLimitingInterval: number;
   rateLimitingLimit: number;
   authentication?: boolean | null;
+  /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
+  byokOnly?: boolean | null;
   dlp?: UpdateResponseDlp | null;
   guardrails?: UpdateResponseGuardrails | null;
   isDefault?: boolean | null;
+  logClassification?: boolean | null;
   logManagement?: number | null;
   logManagementStrategy?: UpdateResponseLogManagementStrategy | null;
   logpush?: boolean | null;
@@ -10063,14 +10116,14 @@ export interface UpdateAiGatewayResponse {
   rateLimitingTechnique?: UpdateResponseRateLimitingTechnique | null;
   /** Backoff strategy for retry delays */
   retryBackoff?: UpdateResponseRetryBackoff | null;
-  /** Delay between retry attempts in milliseconds (0-5000) */
+  /** Delay between retry attempts in milliseconds (0-60000) */
   retryDelay?: number | null;
   /** Maximum number of retry attempts for failed requests (1-5) */
   retryMaxAttempts?: number | null;
   spendLimits?: UpdateResponseSpendLimits | null;
   storeId?: string | null;
   stripe?: UpdateResponseStripe | null;
-  /** Controls how Workers AI inference calls routed through this gateway are billed. Only 'postpaid' is currently supported. */
+  /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
   workersAiBillingMode?: UpdateResponseWorkersAiBillingMode | null;
   zdr?: boolean | null;
 }
@@ -10087,9 +10140,13 @@ export const UpdateAiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     rateLimitingInterval: S.Number.pipe(T.Body("rate_limiting_interval")),
     rateLimitingLimit: S.Number.pipe(T.Body("rate_limiting_limit")),
     authentication: S.optional(S.NullOr(S.Boolean)),
+    byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
     dlp: S.optional(S.NullOr(UpdateResponseDlp)),
     guardrails: S.optional(S.NullOr(UpdateResponseGuardrails)),
     isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
+    logClassification: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("log_classification")),
+    ),
     logManagement: S.optional(
       S.NullOr(S.Number).pipe(T.Body("log_management")),
     ),
@@ -10410,7 +10467,7 @@ export const createBillingSpendingLimit: API.OperationMethod<
 }));
 
 export type CreateBillingTopupError = CloudflareOpError;
-/** Create a credit top-up via Stripe PaymentIntent for the given account. */
+/** Create a credit top-up for the given account, charged to the account's default payment method. */
 export const createBillingTopup: API.OperationMethod<
   CreateBillingTopupRequest,
   CreateBillingTopupResponse,
@@ -10711,7 +10768,7 @@ export const deleteEvaluation: API.OperationMethod<
 }));
 
 export type DeleteLogError = CloudflareOpError;
-/** Delete Gateway Logs */
+/** Deletes gateway log entries matching the specified criteria. */
 export const deleteLog: API.OperationMethod<
   DeleteLogRequest,
   DeleteLogResponse,
@@ -11064,7 +11121,7 @@ export const listEvaluations: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListEvaluationTypesError = CloudflareOpError;
-/** List Evaluators */
+/** Lists all available evaluator types for scoring AI gateway responses. */
 export const listEvaluationTypes: API.PaginatedOperationMethod<
   ListEvaluationTypesRequest,
   ListEvaluationTypesResponse,
@@ -11090,7 +11147,7 @@ export const listEvaluationTypes: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListLogsError = CloudflareOpError;
-/** List Gateway Logs */
+/** Lists request/response log entries for the AI gateway with filtering and pagination. */
 export const listLogs: API.PaginatedOperationMethod<
   ListLogsRequest,
   ListLogsResponse,

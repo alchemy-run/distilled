@@ -1,65 +1,67 @@
+---
+title: Countries
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Countries
 
-## Retrieves countries information for all countries
+##### [Retrieves countries information for all countries](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/countries/methods/list)
 
-**get** `/accounts/{account_id}/cloudforce-one/events/countries`
+GET/accounts/{account\_id}/cloudforce-one/events/countries
 
-Retrieves countries information for all countries
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+CountryListResponse = array of object {result, success }
 
-### Returns
+</summary>
 
-- `result: array of object { alpha2, alpha3, name }`
+<details>
 
-  - `alpha2: string`
+<summary>
 
-  - `alpha3: string`
+result: array of object {alpha2, alpha3, name }
 
-  - `name: string`
+</summary>
 
-- `success: string`
+alpha2: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/countries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+alpha3: string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-[
-  {
-    "result": [
-      {
-        "alpha2": "AF",
-        "alpha3": "AF",
-        "name": "Afghanistan"
-      }
-    ],
-    "success": "true"
-  }
-]
-```
+name: string
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Country List Response
+</details>
 
-- `CountryListResponse = array of object { result, success }`
+<a href="#">Link to this property</a>
 
-  - `result: array of object { alpha2, alpha3, name }`
+success: string
 
-    - `alpha2: string`
+<a href="#">Link to this property</a>
 
-    - `alpha3: string`
+</details>
 
-    - `name: string`
-
-  - `success: string`
+[Link to this property](#)%20cloudforce_one.threat_events.countries%20%3E%20(model)%20country_list_response%20%3E%20(schema)>)

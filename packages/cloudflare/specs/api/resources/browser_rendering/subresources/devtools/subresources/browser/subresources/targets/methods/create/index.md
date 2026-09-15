@@ -1,68 +1,172 @@
-## Open a new browser tab.
+---
+title: Open a new browser tab.
+---
 
-**put** `/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json/new`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+[Devtools](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools)
+
+[Browser](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser)
+
+[Targets](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/devtools/subresources/browser/subresources/targets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Open a new browser tab.
+
+PUT/accounts/{account\_id}/browser-rendering/devtools/browser/{session\_id}/json/new
 
 Opens a new tab in the browser. Optionally specify a URL to navigate to.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-- `session_id: string`
 
-  Browser session ID.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `liveViewUrlExpiresInMs: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  How long the live view URL remains valid, in milliseconds (max 60 minutes)
+</details>
 
-- `url: optional string`
+<details>
 
-### Returns
+<summary>API Email + API Key</summary>
 
-- `id: string`
 
-  Target ID.
 
-- `type: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Target type (page, background_page, worker, etc.).
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `url: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  URL of the target.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `description: optional string`
+</details>
 
-  Target description.
+##### P ath ParametersExpand Collapse
 
-- `devtoolsFrontendUrl: optional string`
+account\_id: string
 
-  DevTools frontend URL.
+Account ID.
 
-- `title: optional string`
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Title of the target.
+session\_id: string
 
-- `webSocketDebuggerUrl: optional string`
+Browser session ID.
 
-  WebSocket URL for debugging this target.
+formatuuid
 
-### Example
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20session_id%20%3E%20(schema)>)
 
-```http
+##### Q uery ParametersExpand Collapse
+
+liveViewUrlExpiresInMs: optional number
+
+How long the live view URL remains valid, in milliseconds (max 60 minutes)
+
+maximum3600000
+
+minimum60000
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20liveViewUrlExpiresInMs%20%3E%20(schema)>)
+
+url: optional string
+
+formaturi
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20url%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+id: string
+
+Target ID.
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)%20%3E%20(property)%20id>)
+
+type: string
+
+Target type (page, background\_page, worker, etc.).
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)%20%3E%20(property)%20type>)
+
+url: string
+
+URL of the target.
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)%20%3E%20(property)%20url>)
+
+description: optional string
+
+Target description.
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)%20%3E%20(property)%20description>)
+
+devtoolsFrontendUrl: optional string
+
+DevTools frontend URL.
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)%20%3E%20(property)%20devtoolsFrontendUrl>)
+
+title: optional string
+
+Title of the target.
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)%20%3E%20(property)%20title>)
+
+webSocketDebuggerUrl: optional string
+
+WebSocket URL for debugging this target.
+
+[Link to this property](#)%20browser_rendering.devtools.browser.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)%20%3E%20(property)%20webSocketDebuggerUrl>)
+
+### Open a new browser tab.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/devtools/browser/$SESSION_ID/json/new \
     -X PUT \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "id": "id",
+  "type": "type",
+  "url": "url",
+  "description": "description",
+  "devtoolsFrontendUrl": "devtoolsFrontendUrl",
+  "title": "title",
+  "webSocketDebuggerUrl": "webSocketDebuggerUrl"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "id": "id",
   "type": "type",

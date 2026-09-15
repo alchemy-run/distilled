@@ -1,78 +1,244 @@
-## Edit details of a schema to enable validation
+---
+title: Set schema validation state
+---
 
-**patch** `/zones/{zone_id}/schema_validation/schemas/{schema_id}`
+[Skip to content](#_top)
 
-Modifies an existing OpenAPI schema in API Shield, updating the validation rules for associated API operations.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Schema Validation](https://developers.cloudflare.com/api/resources/schema_validation)
 
-- `zone_id: string`
+[Schemas](https://developers.cloudflare.com/api/resources/schema_validation/subresources/schemas)
 
-  Identifier.
+Copy Markdown
 
-- `schema_id: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  UUID.
+---
 
-### Body Parameters
+**Copy Markdown****View as Markdown**
 
-- `validation_enabled: optional boolean`
+# Set schema validation state
 
-  Flag whether schema is enabled for validation.
+PATCH/zones/{zone\_id}/schema\_validation/schemas/{schema\_id}
 
-### Returns
+Enables or disables validation for an uploaded OpenAPI schema without changing the schema document.
 
-- `errors: Message`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `messages: Message`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `result: PublicSchema`
+</details>
 
-  A schema used in schema validation
+<details>
 
-  - `created_at: string`
+<summary>API Email + API Key</summary>
 
-  - `kind: "openapi_v3"`
 
-    The kind of the schema
 
-    - `"openapi_v3"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `name: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    A human-readable name for the schema
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `schema_id: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    A unique identifier of this schema
+</details>
 
-  - `source: string`
+##### Accepted Permissions (at least one required)
 
-    The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
+`Account API Gateway``Domain API Gateway`
 
-  - `validation_enabled: optional boolean`
+##### P ath ParametersExpand Collapse
 
-    An indicator if this schema is enabled
+zone\_id: string
 
-- `success: true`
+Identifier.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-### Example
+schema\_id: string
 
-```http
+UUID.
+
+maxLength36
+
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20schema_id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+validation\_enabled: optional boolean
+
+Flag whether schema is enabled for validation.
+
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20validation_enabled%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/schema_validation#(resource)%20schema_validation.schemas%20%3E%20(model)%20public_schema%20%3E%20(schema)">PublicSchema</a> { created\_at, kind, name, 3 more }
+
+A schema used in schema validation
+
+</summary>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+kind: "openapi\_v3"
+
+The kind of the schema
+
+<a href="#">Link to this property</a>
+
+name: string
+
+A human-readable name for the schema
+
+<a href="#">Link to this property</a>
+
+schema\_id: string
+
+A unique identifier of this schema
+
+maxLength36
+
+minLength36
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+source: string
+
+The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
+
+<a href="#">Link to this property</a>
+
+validation\_enabled: optional boolean
+
+An indicator if this schema is enabled
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Set schema validation state
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/schemas/$SCHEMA_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -80,9 +246,47 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/schem
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "kind": "openapi_v3",
+    "name": "petstore schema",
+    "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "source": "<schema file contents>",
+    "validation_enabled": true
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

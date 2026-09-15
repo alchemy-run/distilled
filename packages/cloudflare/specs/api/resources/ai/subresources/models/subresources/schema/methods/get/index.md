@@ -1,51 +1,181 @@
-## Get Model Schema
+---
+title: Get Model Schema
+---
 
-**get** `/accounts/{account_id}/ai/models/schema`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+[Models](https://developers.cloudflare.com/api/resources/ai/subresources/models)
+
+[Schema](https://developers.cloudflare.com/api/resources/ai/subresources/models/subresources/schema)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Model Schema
+
+GET/accounts/{account\_id}/ai/models/schema
 
 Retrieves the input and output JSON schema definition for a Workers AI model.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Query Parameters
+<summary>API Token</summary>
 
-- `model: string`
 
-  Model Name
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `result: object { input, output }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `input: object { additionalProperties, description, type }`
+</details>
 
-    - `additionalProperties: boolean`
+<details>
 
-    - `description: string`
+<summary>API Email + API Key</summary>
 
-    - `type: string`
 
-  - `output: object { additionalProperties, description, type }`
 
-    - `additionalProperties: boolean`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `description: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `type: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `success: boolean`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Example
+</details>
 
-```http
+##### Accepted Permissions (at least one required)
+
+`Workers AI Write``Workers AI Read`
+
+##### P ath ParametersExpand Collapse
+
+account\_id: string
+
+[Link to this property](#)%20ai.models.schema%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+model: string
+
+Model Name
+
+[Link to this property](#)%20ai.models.schema%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20model%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {input, output }
+
+</summary>
+
+<details>
+
+<summary>
+
+input: object {additionalProperties, description, type }
+
+</summary>
+
+additionalProperties: boolean
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+output: object {additionalProperties, description, type }
+
+</summary>
+
+additionalProperties: boolean
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai.models.schema%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai.models.schema%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get Model Schema
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/models/schema \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "input": {
+      "additionalProperties": true,
+      "description": "JSON Schema definition for the model's input parameters",
+      "type": "object"
+    },
+    "output": {
+      "additionalProperties": true,
+      "description": "JSON Schema definition for the model's output format",
+      "type": "object"
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "input": {

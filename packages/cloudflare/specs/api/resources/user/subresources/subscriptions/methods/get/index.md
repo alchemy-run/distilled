@@ -1,171 +1,493 @@
-## Get User Subscriptions
+---
+title: Get User Subscriptions
+---
 
-**get** `/user/subscriptions`
+[Skip to content](#_top)
 
-Lists all of a user's subscriptions.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Returns
+[User](https://developers.cloudflare.com/api/resources/user)
 
-- `errors: array of ResponseInfo`
+[Subscriptions](https://developers.cloudflare.com/api/resources/user/subresources/subscriptions)
 
-  - `code: number`
+Copy Markdown
 
-  - `message: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `documentation_url: optional string`
+---
 
-  - `source: optional object { pointer }`
+**Copy Markdown****View as Markdown**
 
-    - `pointer: optional string`
+# Get User Subscriptions
 
-- `messages: array of ResponseInfo`
+GET/user/subscriptions
 
-  - `code: number`
+Lists all of a user’s subscriptions.
 
-  - `message: string`
+##### Security
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>API Token</summary>
 
-- `result: array of Subscription`
 
-  - `id: optional string`
 
-    Subscription identifier tag.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `currency: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    The monetary unit in which pricing information is displayed.
+</details>
 
-  - `current_period_end: optional string`
+<details>
 
-    The end of the current period and also when the next billing is due.
+<summary>API Email + API Key</summary>
 
-  - `current_period_start: optional string`
 
-    When the current billing period started. May match initial_period_start if this is the first period.
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    How often the subscription is renewed automatically.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `"weekly"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"monthly"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"quarterly"`
+</details>
 
-    - `"yearly"`
+##### Accepted Permissions (at least one required)
 
-  - `price: optional number`
+`Billing Write``Billing Read`
 
-    The price of the subscription that will be billed, in US dollars.
+##### ReturnsExpand Collapse
 
-  - `rate_plan: optional RatePlan`
+<details>
 
-    The rate plan applied to the subscription.
+<summary>
 
-    - `id: optional "free" or "lite" or "pro" or 7 more`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      The ID of the rate plan.
+</summary>
 
-      - `"free"`
+code: number
 
-      - `"lite"`
+minimum1000
 
-      - `"pro"`
+<a href="#">Link to this property</a>
 
-      - `"pro_plus"`
+message: string
 
-      - `"business"`
+<a href="#">Link to this property</a>
 
-      - `"enterprise"`
+documentation\_url: optional string
 
-      - `"partners_free"`
+<a href="#">Link to this property</a>
 
-      - `"partners_pro"`
+<details>
 
-      - `"partners_business"`
+<summary>
 
-      - `"partners_enterprise"`
+source: optional object {pointer }
 
-    - `currency: optional string`
+</summary>
 
-      The currency applied to the rate plan subscription.
+pointer: optional string
 
-    - `externally_managed: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether this rate plan is managed externally from Cloudflare.
+</details>
 
-    - `is_contract: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
+</details>
 
-    - `public_name: optional string`
+[Link to this property](#)%20user.subscriptions%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      The full name of the rate plan.
+<details>
 
-    - `scope: optional string`
+<summary>
 
-      The scope that this rate plan applies to.
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `sets: optional array of string`
+</summary>
 
-      The list of sets this rate plan applies to. Returns array of strings.
+code: number
 
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
+minimum1000
 
-    The state that the subscription is in.
+<a href="#">Link to this property</a>
 
-    - `"Trial"`
+message: string
 
-    - `"Provisioned"`
+<a href="#">Link to this property</a>
 
-    - `"Paid"`
+documentation\_url: optional string
 
-    - `"AwaitingPayment"`
+<a href="#">Link to this property</a>
 
-    - `"Cancelled"`
+<details>
 
-    - `"Failed"`
+<summary>
 
-    - `"Expired"`
+source: optional object {pointer }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful
+pointer: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20user.subscriptions%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    Current page within paginated list of results
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    Number of results per page of results
+result: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20subscription%20%3E%20(schema)">Subscription</a> { id, currency, current\_period\_end, 5 more }
 
-  - `total_count: optional number`
+</summary>
 
-    Total results available without any search parameters
+id: optional string
 
-### Example
+Subscription identifier tag.
 
-```http
+maxLength32
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The monetary unit in which pricing information is displayed.
+
+<a href="#">Link to this property</a>
+
+current\_period\_end: optional string
+
+The end of the current period and also when the next billing is due.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+current\_period\_start: optional string
+
+When the current billing period started. May match initial\_period\_start if this is the first period.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+frequency: optional "weekly"or "monthly"or "quarterly"or "yearly"
+
+How often the subscription is renewed automatically.
+
+</summary>
+
+One of the following:
+
+"weekly"
+
+<a href="#">Link to this property</a>
+
+"monthly"
+
+<a href="#">Link to this property</a>
+
+"quarterly"
+
+<a href="#">Link to this property</a>
+
+"yearly"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+price: optional number
+
+The price of the subscription that will be billed, in US dollars.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rate\_plan: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20rate_plan%20%3E%20(schema)">RatePlan</a> { id, currency, externally\_managed, 4 more }
+
+The rate plan applied to the subscription.
+
+</summary>
+
+<details>
+
+<summary>
+
+id: optional "free"or "lite"or "pro"or 7 more
+
+The ID of the rate plan.
+
+</summary>
+
+One of the following:
+
+"free"
+
+<a href="#">Link to this property</a>
+
+"lite"
+
+<a href="#">Link to this property</a>
+
+"pro"
+
+<a href="#">Link to this property</a>
+
+"pro\_plus"
+
+<a href="#">Link to this property</a>
+
+"business"
+
+<a href="#">Link to this property</a>
+
+"enterprise"
+
+<a href="#">Link to this property</a>
+
+"partners\_free"
+
+<a href="#">Link to this property</a>
+
+"partners\_pro"
+
+<a href="#">Link to this property</a>
+
+"partners\_business"
+
+<a href="#">Link to this property</a>
+
+"partners\_enterprise"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+currency: optional string
+
+The currency applied to the rate plan subscription.
+
+<a href="#">Link to this property</a>
+
+externally\_managed: optional boolean
+
+Whether this rate plan is managed externally from Cloudflare.
+
+<a href="#">Link to this property</a>
+
+is\_contract: optional boolean
+
+Whether a rate plan is enterprise-based (or newly adopted term contract).
+
+<a href="#">Link to this property</a>
+
+public\_name: optional string
+
+The full name of the rate plan.
+
+<a href="#">Link to this property</a>
+
+scope: optional string
+
+The scope that this rate plan applies to.
+
+<a href="#">Link to this property</a>
+
+sets: optional array of string
+
+The list of sets this rate plan applies to. Returns array of strings.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: optional "Trial"or "Provisioned"or "Paid"or 4 more
+
+The state that the subscription is in.
+
+</summary>
+
+One of the following:
+
+"Trial"
+
+<a href="#">Link to this property</a>
+
+"Provisioned"
+
+<a href="#">Link to this property</a>
+
+"Paid"
+
+<a href="#">Link to this property</a>
+
+"AwaitingPayment"
+
+<a href="#">Link to this property</a>
+
+"Cancelled"
+
+<a href="#">Link to this property</a>
+
+"Failed"
+
+<a href="#">Link to this property</a>
+
+"Expired"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.subscriptions%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20user.subscriptions%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20user.subscriptions%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Get User Subscriptions
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/user/subscriptions \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "506e3185e9c882d175a2d0cb0093d9f2",
+      "currency": "USD",
+      "current_period_end": "2014-03-31T12:20:00Z",
+      "current_period_start": "2014-05-11T12:20:00Z",
+      "frequency": "monthly",
+      "price": 20,
+      "rate_plan": {
+        "id": "free",
+        "currency": "USD",
+        "externally_managed": false,
+        "is_contract": false,
+        "public_name": "Business Plan",
+        "scope": "zone",
+        "sets": [
+          "string"
+        ]
+      },
+      "state": "Paid"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

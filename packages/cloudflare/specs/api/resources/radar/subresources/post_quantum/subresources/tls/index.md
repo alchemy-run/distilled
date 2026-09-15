@@ -1,111 +1,93 @@
+---
+title: TLS
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Post Quantum](https://developers.cloudflare.com/api/resources/radar/subresources/post_quantum)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # TLS
 
-## Check Post-Quantum TLS support
+##### [Check Post-Quantum TLS support](https://developers.cloudflare.com/api/resources/radar/subresources/post_quantum/subresources/tls/methods/support)
 
-**get** `/radar/post_quantum/tls/support`
+GET/radar/post\_quantum/tls/support
 
-Tests whether a hostname or IP address supports Post-Quantum (PQ) TLS key exchange. Returns information about the negotiated key exchange algorithm, whether it uses PQ cryptography, and any detected TLS implementation bugs (Split ClientHello, HRR failure, etc.).
+##### ModelsExpand Collapse
 
-### Query Parameters
+<details>
 
-- `host: string`
+<summary>
 
-  Hostname or IP address to test for Post-Quantum TLS support, optionally with port (defaults to 443).
+TLSSupportResponse object {bugs, host, kex, 2 more }
 
-### Returns
+</summary>
 
-- `result: object { bugs, host, kex, 2 more }`
+<details>
 
-  - `bugs: object { hrrFailure, splitClientHello, unknownKeyshare }`
+<summary>
 
-    - `hrrFailure: boolean`
+bugs: object {hrrFailure, splitClientHello, unknownKeyshare }
 
-      Server sends a HelloRetryRequest but fails to complete the handshake after the client sends the second ClientHello. Often caused by non-compliant TLS 1.3 implementations on shared hosting providers.
+</summary>
 
-    - `splitClientHello: boolean`
+hrrFailure: boolean
 
-      Server rejects fragmented ClientHello caused by large PQ keyshare, but accepts classical (non-PQ) handshakes. Typically caused by middleboxes or firewalls that cannot reassemble split TLS ClientHello messages.
+Server sends a HelloRetryRequest but fails to complete the handshake after the client sends the second ClientHello. Often caused by non-compliant TLS 1.3 implementations on shared hosting providers.
 
-    - `unknownKeyshare: boolean`
+<a href="#">Link to this property</a>
 
-      Server cannot handle an unknown key exchange algorithm in the ClientHello keyshare extension. Compliant servers should respond with HelloRetryRequest for a supported algorithm.
+splitClientHello: boolean
 
-  - `host: string`
+Server rejects fragmented ClientHello caused by large PQ keyshare, but accepts classical (non-PQ) handshakes. Typically caused by middleboxes or firewalls that cannot reassemble split TLS ClientHello messages.
 
-    The host that was tested
+<a href="#">Link to this property</a>
 
-  - `kex: number`
+unknownKeyshare: boolean
 
-    TLS CurveID of the negotiated key exchange
+Server cannot handle an unknown key exchange algorithm in the ClientHello keyshare extension. Compliant servers should respond with HelloRetryRequest for a supported algorithm.
 
-  - `kexName: string`
+<a href="#">Link to this property</a>
 
-    Human-readable name of the key exchange algorithm
+</details>
 
-  - `pq: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the negotiated key exchange uses Post-Quantum cryptography (specifically X25519MLKEM768)
+host: string
 
-- `success: boolean`
+The host that was tested
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/post_quantum/tls/support \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+kex: number
 
-#### Response
+TLS CurveID of the negotiated key exchange
 
-```json
-{
-  "result": {
-    "bugs": {
-      "hrrFailure": true,
-      "splitClientHello": true,
-      "unknownKeyshare": true
-    },
-    "host": "host",
-    "kex": 0,
-    "kexName": "kexName",
-    "pq": true
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+kexName: string
 
-### TLS Support Response
+Human-readable name of the key exchange algorithm
 
-- `TLSSupportResponse object { bugs, host, kex, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `bugs: object { hrrFailure, splitClientHello, unknownKeyshare }`
+pq: boolean
 
-    - `hrrFailure: boolean`
+Whether the negotiated key exchange uses Post-Quantum cryptography (specifically X25519MLKEM768)
 
-      Server sends a HelloRetryRequest but fails to complete the handshake after the client sends the second ClientHello. Often caused by non-compliant TLS 1.3 implementations on shared hosting providers.
+<a href="#">Link to this property</a>
 
-    - `splitClientHello: boolean`
+</details>
 
-      Server rejects fragmented ClientHello caused by large PQ keyshare, but accepts classical (non-PQ) handshakes. Typically caused by middleboxes or firewalls that cannot reassemble split TLS ClientHello messages.
-
-    - `unknownKeyshare: boolean`
-
-      Server cannot handle an unknown key exchange algorithm in the ClientHello keyshare extension. Compliant servers should respond with HelloRetryRequest for a supported algorithm.
-
-  - `host: string`
-
-    The host that was tested
-
-  - `kex: number`
-
-    TLS CurveID of the negotiated key exchange
-
-  - `kexName: string`
-
-    Human-readable name of the key exchange algorithm
-
-  - `pq: boolean`
-
-    Whether the negotiated key exchange uses Post-Quantum cryptography (specifically X25519MLKEM768)
+[Link to this property](#)%20radar.post_quantum.tls%20%3E%20(model)%20tls_support_response%20%3E%20(schema)>)

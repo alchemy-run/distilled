@@ -1,152 +1,356 @@
-## Export Resources
+---
+title: Export Resources
+---
 
-**get** `/accounts/{account_id}/magic/cloud/resources/export`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Cloud Networking](https://developers.cloudflare.com/api/resources/magic_cloud_networking)
+
+[Resources](https://developers.cloudflare.com/api/resources/magic_cloud_networking/subresources/resources)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Export Resources
+
+GET/accounts/{account\_id}/magic/cloud/resources/export
 
 Export resources in the Resource Catalog as a JSON file (Closed Beta).
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Query Parameters
+<summary>API Token</summary>
 
-- `desc: optional boolean`
 
-- `order_by: optional string`
 
-  One of ["id", "resource_type", "region"].
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `provider_id: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `region: optional string`
+</details>
 
-- `resource_group: optional string`
+<details>
 
-- `resource_id: optional array of string`
+<summary>API Email + API Key</summary>
 
-- `resource_type: optional array of "aws_customer_gateway" or "aws_egress_only_internet_gateway" or "aws_internet_gateway" or 54 more`
 
-  - `"aws_customer_gateway"`
 
-  - `"aws_egress_only_internet_gateway"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"aws_internet_gateway"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"aws_instance"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"aws_network_interface"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"aws_route"`
+</details>
 
-  - `"aws_route_table"`
+##### Accepted Permissions (at least one required)
 
-  - `"aws_route_table_association"`
+`Magic WAN Write``Magic WAN Read`
 
-  - `"aws_subnet"`
+##### P ath ParametersExpand Collapse
 
-  - `"aws_vpc"`
+account\_id: string
 
-  - `"aws_vpc_ipv4_cidr_block_association"`
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"aws_vpn_connection"`
+##### Q uery ParametersExpand Collapse
 
-  - `"aws_vpn_connection_route"`
+desc: optional boolean
 
-  - `"aws_vpn_gateway"`
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20desc%20%3E%20(schema)>)
 
-  - `"aws_security_group"`
+order\_by: optional string
 
-  - `"aws_vpc_security_group_ingress_rule"`
+One of \[“id”, “resource\_type”, “region”].
 
-  - `"aws_vpc_security_group_egress_rule"`
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20order_by%20%3E%20(schema)>)
 
-  - `"aws_ec2_managed_prefix_list"`
+provider\_id: optional string
 
-  - `"aws_ec2_transit_gateway"`
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20provider_id%20%3E%20(schema)>)
 
-  - `"aws_ec2_transit_gateway_prefix_list_reference"`
+region: optional string
 
-  - `"aws_ec2_transit_gateway_vpc_attachment"`
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20region%20%3E%20(schema)>)
 
-  - `"azurerm_application_security_group"`
+resource\_group: optional string
 
-  - `"azurerm_lb"`
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20resource_group%20%3E%20(schema)>)
 
-  - `"azurerm_lb_backend_address_pool"`
+resource\_id: optional array of string
 
-  - `"azurerm_lb_nat_pool"`
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20resource_id%20%3E%20(schema)>)
 
-  - `"azurerm_lb_nat_rule"`
+<details>
 
-  - `"azurerm_lb_rule"`
+<summary>
 
-  - `"azurerm_local_network_gateway"`
+resource\_type: optional array of "aws\_customer\_gateway"or "aws\_egress\_only\_internet\_gateway"or "aws\_internet\_gateway"or 54 more
 
-  - `"azurerm_network_interface"`
+</summary>
 
-  - `"azurerm_network_interface_application_security_group_association"`
+One of the following:
 
-  - `"azurerm_network_interface_backend_address_pool_association"`
+"aws\_customer\_gateway"
 
-  - `"azurerm_network_interface_security_group_association"`
+<a href="#">Link to this property</a>
 
-  - `"azurerm_network_security_group"`
+"aws\_egress\_only\_internet\_gateway"
 
-  - `"azurerm_public_ip"`
+<a href="#">Link to this property</a>
 
-  - `"azurerm_route"`
+"aws\_internet\_gateway"
 
-  - `"azurerm_route_table"`
+<a href="#">Link to this property</a>
 
-  - `"azurerm_subnet"`
+"aws\_instance"
 
-  - `"azurerm_subnet_route_table_association"`
+<a href="#">Link to this property</a>
 
-  - `"azurerm_virtual_machine"`
+"aws\_network\_interface"
 
-  - `"azurerm_virtual_network_gateway_connection"`
+<a href="#">Link to this property</a>
 
-  - `"azurerm_virtual_network"`
+"aws\_route"
 
-  - `"azurerm_virtual_network_gateway"`
+<a href="#">Link to this property</a>
 
-  - `"google_compute_network"`
+"aws\_route\_table"
 
-  - `"google_compute_subnetwork"`
+<a href="#">Link to this property</a>
 
-  - `"google_compute_vpn_gateway"`
+"aws\_route\_table\_association"
 
-  - `"google_compute_vpn_tunnel"`
+<a href="#">Link to this property</a>
 
-  - `"google_compute_route"`
+"aws\_subnet"
 
-  - `"google_compute_address"`
+<a href="#">Link to this property</a>
 
-  - `"google_compute_global_address"`
+"aws\_vpc"
 
-  - `"google_compute_router"`
+<a href="#">Link to this property</a>
 
-  - `"google_compute_interconnect_attachment"`
+"aws\_vpc\_ipv4\_cidr\_block\_association"
 
-  - `"google_compute_ha_vpn_gateway"`
+<a href="#">Link to this property</a>
 
-  - `"google_compute_forwarding_rule"`
+"aws\_vpn\_connection"
 
-  - `"google_compute_network_firewall_policy"`
+<a href="#">Link to this property</a>
 
-  - `"google_compute_network_firewall_policy_rule"`
+"aws\_vpn\_connection\_route"
 
-  - `"cloudflare_static_route"`
+<a href="#">Link to this property</a>
 
-  - `"cloudflare_ipsec_tunnel"`
+"aws\_vpn\_gateway"
 
-- `search: optional array of string`
+<a href="#">Link to this property</a>
 
-- `v2: optional boolean`
+"aws\_security\_group"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"aws\_vpc\_security\_group\_ingress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_vpc\_security\_group\_egress\_rule"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_managed\_prefix\_list"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_prefix\_list\_reference"
+
+<a href="#">Link to this property</a>
+
+"aws\_ec2\_transit\_gateway\_vpc\_attachment"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_application\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_backend\_address\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_pool"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_nat\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_lb\_rule"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_local\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_application\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_backend\_address\_pool\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_interface\_security\_group\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_network\_security\_group"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_public\_ip"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_route\_table"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_subnet\_route\_table\_association"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_machine"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway\_connection"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network"
+
+<a href="#">Link to this property</a>
+
+"azurerm\_virtual\_network\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_subnetwork"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_vpn\_tunnel"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_route"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_global\_address"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_router"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_interconnect\_attachment"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_ha\_vpn\_gateway"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_forwarding\_rule"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy"
+
+<a href="#">Link to this property</a>
+
+"google\_compute\_network\_firewall\_policy\_rule"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_static\_route"
+
+<a href="#">Link to this property</a>
+
+"cloudflare\_ipsec\_tunnel"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20resource_type%20%3E%20(schema)>)
+
+search: optional array of string
+
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20search%20%3E%20(schema)>)
+
+v2: optional boolean
+
+[Link to this property](#)%20magic_cloud_networking.resources%20%3E%20(method)%20export%20%3E%20(params)%20default%20%3E%20(param)%20v2%20%3E%20(schema)>)
+
+### Export Resources
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/cloud/resources/export \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
+
+##### Returns Examples

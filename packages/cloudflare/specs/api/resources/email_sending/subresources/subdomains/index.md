@@ -1,837 +1,437 @@
+---
+title: Subdomains
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Sending](https://developers.cloudflare.com/api/resources/email_sending)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Subdomains
 
-## List sending subdomains
+##### [List sending subdomains](https://developers.cloudflare.com/api/resources/email_sending/subresources/subdomains/methods/list)
 
-**get** `/zones/{zone_id}/email/sending/subdomains`
+GET/zones/{zone\_id}/email/sending/subdomains
 
-Lists all sending-enabled subdomains for the zone.
+##### [Get a sending subdomain](https://developers.cloudflare.com/api/resources/email_sending/subresources/subdomains/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/email/sending/subdomains/{subdomain\_id}
 
-- `zone_id: string`
+##### [Create a sending subdomain](https://developers.cloudflare.com/api/resources/email_sending/subresources/subdomains/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/email/sending/subdomains
 
-### Returns
+##### [Update a sending subdomain](https://developers.cloudflare.com/api/resources/email_sending/subresources/subdomains/methods/edit)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PATCH/zones/{zone\_id}/email/sending/subdomains/{subdomain\_id}
 
-  - `code: number`
+##### [Delete a sending subdomain](https://developers.cloudflare.com/api/resources/email_sending/subresources/subdomains/methods/delete)
 
-  - `message: string`
+DELETE/zones/{zone\_id}/email/sending/subdomains/{subdomain\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+SubdomainListResponse object {enabled, name, tag, 6 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+enabled: boolean
 
-  - `documentation_url: optional string`
+Whether Email Sending is enabled on this subdomain.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `success: true`
+The exact domain name or a leftmost wildcard such as <code>*.example.com</code>.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+tag: string
 
-- `result: optional array of object { enabled, name, tag, 5 more }`
+Sending subdomain identifier.
 
-  - `enabled: boolean`
+maxLength32
 
-    Whether Email Sending is enabled on this subdomain.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+created: optional string
 
-    The subdomain domain name.
+The date and time the destination address has been created.
 
-  - `tag: string`
+formatdate-time
 
-    Sending subdomain identifier.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+dkim\_selector: optional string
 
-    The date and time the destination address has been created.
+The DKIM selector used for email signing. Wildcard rows publish the selector and sign with <code>d=&lt;base&gt;</code>.
 
-  - `dkim_selector: optional string`
+<a href="#">Link to this property</a>
 
-    The DKIM selector used for email signing.
+drop\_suppressed\_recipients: optional boolean
 
-  - `modified: optional string`
+Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request.
 
-    The date and time the destination address was last modified.
+<a href="#">Link to this property</a>
 
-  - `preview_enabled: optional boolean`
+modified: optional string
 
-    Whether sent messages from this subdomain can be previewed in the activity log.
+The date and time the destination address was last modified.
 
-  - `return_path_domain: optional string`
+formatdate-time
 
-    The return-path domain used for bounce handling.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+preview\_enabled: optional boolean
 
-  - `count: optional number`
+Whether sent messages from this subdomain can be previewed in the activity log.
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+return\_path\_domain: optional string
 
-    Current page within paginated list of results.
+The return-path domain used for bounce handling. Wildcard rows use <code>cf-bounce.&lt;base&gt;</code>.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+[Link to this property](#)%20email_sending.subdomains%20%3E%20(model)%20subdomain_list_response%20%3E%20(schema)>)
 
-    Total results available without any search parameters.
+<details>
 
-  - `total_pages: optional number`
+<summary>
 
-    The number of total pages in the entire result set.
+SubdomainGetResponse object {enabled, name, tag, 6 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/sending/subdomains \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+enabled: boolean
 
-#### Response
+Whether Email Sending is enabled on this subdomain.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "enabled": true,
-      "name": "sub.example.com",
-      "tag": "aabbccdd11223344aabbccdd11223344",
-      "created": "2014-01-02T02:20:00Z",
-      "dkim_selector": "cf-bounce",
-      "modified": "2014-01-02T02:20:00Z",
-      "preview_enabled": true,
-      "return_path_domain": "cf-bounce.sub.example.com"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get a sending subdomain
+name: string
 
-**get** `/zones/{zone_id}/email/sending/subdomains/{subdomain_id}`
+The exact domain name or a leftmost wildcard such as <code>*.example.com</code>.
 
-Gets information for a specific sending subdomain.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+tag: string
 
-- `zone_id: string`
+Sending subdomain identifier.
 
-  Identifier.
+maxLength32
 
-- `subdomain_id: string`
+<a href="#">Link to this property</a>
 
-  Sending subdomain identifier.
+created: optional string
 
-### Returns
+The date and time the destination address has been created.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+dkim\_selector: optional string
 
-  - `documentation_url: optional string`
+The DKIM selector used for email signing. Wildcard rows publish the selector and sign with <code>d=&lt;base&gt;</code>.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+drop\_suppressed\_recipients: optional boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified: optional string
 
-  - `documentation_url: optional string`
+The date and time the destination address was last modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+preview\_enabled: optional boolean
 
-  Whether the API call was successful.
+Whether sent messages from this subdomain can be previewed in the activity log.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { enabled, name, tag, 5 more }`
+return\_path\_domain: optional string
 
-  - `enabled: boolean`
+The return-path domain used for bounce handling. Wildcard rows use <code>cf-bounce.&lt;base&gt;</code>.
 
-    Whether Email Sending is enabled on this subdomain.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    The subdomain domain name.
+[Link to this property](#)%20email_sending.subdomains%20%3E%20(model)%20subdomain_get_response%20%3E%20(schema)>)
 
-  - `tag: string`
+<details>
 
-    Sending subdomain identifier.
+<summary>
 
-  - `created: optional string`
+SubdomainCreateResponse object {enabled, name, tag, 6 more }
 
-    The date and time the destination address has been created.
+</summary>
 
-  - `dkim_selector: optional string`
+enabled: boolean
 
-    The DKIM selector used for email signing.
+Whether Email Sending is enabled on this subdomain.
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the destination address was last modified.
+name: string
 
-  - `preview_enabled: optional boolean`
+The exact domain name or a leftmost wildcard such as <code>*.example.com</code>.
 
-    Whether sent messages from this subdomain can be previewed in the activity log.
+<a href="#">Link to this property</a>
 
-  - `return_path_domain: optional string`
+tag: string
 
-    The return-path domain used for bounce handling.
+Sending subdomain identifier.
 
-### Example
+maxLength32
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/sending/subdomains/$SUBDOMAIN_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true,
-    "name": "sub.example.com",
-    "tag": "aabbccdd11223344aabbccdd11223344",
-    "created": "2014-01-02T02:20:00Z",
-    "dkim_selector": "cf-bounce",
-    "modified": "2014-01-02T02:20:00Z",
-    "preview_enabled": true,
-    "return_path_domain": "cf-bounce.sub.example.com"
-  }
-}
-```
+The date and time the destination address has been created.
 
-## Create a sending subdomain
+formatdate-time
 
-**post** `/zones/{zone_id}/email/sending/subdomains`
+<a href="#">Link to this property</a>
 
-Creates a new sending subdomain or re-enables sending on an existing subdomain that had it disabled. If zone-level Email Sending has not been enabled yet, the zone flag is automatically set when the entitlement is present.
+dkim\_selector: optional string
 
-### Path Parameters
+The DKIM selector used for email signing. Wildcard rows publish the selector and sign with <code>d=&lt;base&gt;</code>.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+drop\_suppressed\_recipients: optional boolean
 
-### Body Parameters
+Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request.
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  The subdomain name. Must be within the zone.
+modified: optional string
 
-### Returns
+The date and time the destination address was last modified.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+preview\_enabled: optional boolean
 
-  - `documentation_url: optional string`
+Whether sent messages from this subdomain can be previewed in the activity log.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+return\_path\_domain: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The return-path domain used for bounce handling. Wildcard rows use <code>cf-bounce.&lt;base&gt;</code>.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20email_sending.subdomains%20%3E%20(model)%20subdomain_create_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+SubdomainEditResponse object {enabled, name, tag, 6 more }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+enabled: boolean
 
-- `result: optional object { enabled, name, tag, 5 more }`
+Whether Email Sending is enabled on this subdomain.
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether Email Sending is enabled on this subdomain.
+name: string
 
-  - `name: string`
+The exact domain name or a leftmost wildcard such as <code>*.example.com</code>.
 
-    The subdomain domain name.
+<a href="#">Link to this property</a>
 
-  - `tag: string`
+tag: string
 
-    Sending subdomain identifier.
+Sending subdomain identifier.
 
-  - `created: optional string`
+maxLength32
 
-    The date and time the destination address has been created.
+<a href="#">Link to this property</a>
 
-  - `dkim_selector: optional string`
+created: optional string
 
-    The DKIM selector used for email signing.
+The date and time the destination address has been created.
 
-  - `modified: optional string`
+formatdate-time
 
-    The date and time the destination address was last modified.
+<a href="#">Link to this property</a>
 
-  - `preview_enabled: optional boolean`
+dkim\_selector: optional string
 
-    Whether sent messages from this subdomain can be previewed in the activity log.
+The DKIM selector used for email signing. Wildcard rows publish the selector and sign with <code>d=&lt;base&gt;</code>.
 
-  - `return_path_domain: optional string`
+<a href="#">Link to this property</a>
 
-    The return-path domain used for bounce handling.
+drop\_suppressed\_recipients: optional boolean
 
-### Example
+Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/sending/subdomains \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "name": "sub.example.com"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+modified: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true,
-    "name": "sub.example.com",
-    "tag": "aabbccdd11223344aabbccdd11223344",
-    "created": "2014-01-02T02:20:00Z",
-    "dkim_selector": "cf-bounce",
-    "modified": "2014-01-02T02:20:00Z",
-    "preview_enabled": true,
-    "return_path_domain": "cf-bounce.sub.example.com"
-  }
-}
-```
+The date and time the destination address was last modified.
 
-## Delete a sending subdomain
+formatdate-time
 
-**delete** `/zones/{zone_id}/email/sending/subdomains/{subdomain_id}`
+<a href="#">Link to this property</a>
 
-Disables sending on a subdomain and removes its DNS records. If routing is still active on the subdomain, only sending is disabled.
+preview\_enabled: optional boolean
 
-### Path Parameters
+Whether sent messages from this subdomain can be previewed in the activity log.
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+return\_path\_domain: optional string
 
-- `subdomain_id: string`
+The return-path domain used for bounce handling. Wildcard rows use <code>cf-bounce.&lt;base&gt;</code>.
 
-  Sending subdomain identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20email_sending.subdomains%20%3E%20(model)%20subdomain_edit_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+SubdomainDeleteResponse object {errors, messages, success }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+code: number
 
-  - `source: optional object { pointer }`
+minimum1000
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+message: string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+documentation\_url: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/sending/subdomains/$SUBDOMAIN_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+source: optional object {pointer }
 
-## Domain Types
+</summary>
 
-### Subdomain List Response
+pointer: optional string
 
-- `SubdomainListResponse object { enabled, name, tag, 5 more }`
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-    Whether Email Sending is enabled on this subdomain.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    The subdomain domain name.
+<a href="#">Link to this property</a>
 
-  - `tag: string`
+<details>
 
-    Sending subdomain identifier.
+<summary>
 
-  - `created: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-    The date and time the destination address has been created.
+</summary>
 
-  - `dkim_selector: optional string`
+code: number
 
-    The DKIM selector used for email signing.
+minimum1000
 
-  - `modified: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the destination address was last modified.
+message: string
 
-  - `preview_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether sent messages from this subdomain can be previewed in the activity log.
+documentation\_url: optional string
 
-  - `return_path_domain: optional string`
+<a href="#">Link to this property</a>
 
-    The return-path domain used for bounce handling.
+<details>
 
-### Subdomain Get Response
+<summary>
 
-- `SubdomainGetResponse object { enabled, name, tag, 5 more }`
+source: optional object {pointer }
 
-  - `enabled: boolean`
+</summary>
 
-    Whether Email Sending is enabled on this subdomain.
+pointer: optional string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The subdomain domain name.
+</details>
 
-  - `tag: string`
+<a href="#">Link to this property</a>
 
-    Sending subdomain identifier.
+</details>
 
-  - `created: optional string`
+<a href="#">Link to this property</a>
 
-    The date and time the destination address has been created.
+success: true
 
-  - `dkim_selector: optional string`
+Whether the API call was successful.
 
-    The DKIM selector used for email signing.
+<a href="#">Link to this property</a>
 
-  - `modified: optional string`
+</details>
 
-    The date and time the destination address was last modified.
+[Link to this property](#)%20email_sending.subdomains%20%3E%20(model)%20subdomain_delete_response%20%3E%20(schema)>)
 
-  - `preview_enabled: optional boolean`
+#### SubdomainsDNS
 
-    Whether sent messages from this subdomain can be previewed in the activity log.
+##### [Get sending subdomain DNS records](https://developers.cloudflare.com/api/resources/email_sending/subresources/subdomains/subresources/dns/methods/get)
 
-  - `return_path_domain: optional string`
-
-    The return-path domain used for bounce handling.
-
-### Subdomain Create Response
-
-- `SubdomainCreateResponse object { enabled, name, tag, 5 more }`
-
-  - `enabled: boolean`
-
-    Whether Email Sending is enabled on this subdomain.
-
-  - `name: string`
-
-    The subdomain domain name.
-
-  - `tag: string`
-
-    Sending subdomain identifier.
-
-  - `created: optional string`
-
-    The date and time the destination address has been created.
-
-  - `dkim_selector: optional string`
-
-    The DKIM selector used for email signing.
-
-  - `modified: optional string`
-
-    The date and time the destination address was last modified.
-
-  - `preview_enabled: optional boolean`
-
-    Whether sent messages from this subdomain can be previewed in the activity log.
-
-  - `return_path_domain: optional string`
-
-    The return-path domain used for bounce handling.
-
-### Subdomain Delete Response
-
-- `SubdomainDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# DNS
-
-## Get sending subdomain DNS records
-
-**get** `/zones/{zone_id}/email/sending/subdomains/{subdomain_id}/dns`
-
-Returns the expected DNS records for a sending subdomain.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `subdomain_id: string`
-
-  Sending subdomain identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of DNSRecord`
-
-  - `content: optional string`
-
-    DNS record content.
-
-  - `name: optional string`
-
-    DNS record name (or @ for the zone apex).
-
-  - `priority: optional number`
-
-    Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
-
-  - `ttl: optional number or 1`
-
-    Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
-
-    - `number`
-
-    - `1`
-
-      Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
-
-      - `1`
-
-  - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
-
-    DNS record type.
-
-    - `"A"`
-
-    - `"AAAA"`
-
-    - `"CNAME"`
-
-    - `"HTTPS"`
-
-    - `"TXT"`
-
-    - `"SRV"`
-
-    - `"LOC"`
-
-    - `"MX"`
-
-    - `"NS"`
-
-    - `"CERT"`
-
-    - `"DNSKEY"`
-
-    - `"DS"`
-
-    - `"NAPTR"`
-
-    - `"SMIMEA"`
-
-    - `"SSHFP"`
-
-    - `"SVCB"`
-
-    - `"TLSA"`
-
-    - `"URI"`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/sending/subdomains/$SUBDOMAIN_ID/dns \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "content": "route1.mx.cloudflare.net",
-      "name": "example.com",
-      "priority": 12,
-      "ttl": 1,
-      "type": "NS"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+GET/zones/{zone\_id}/email/sending/subdomains/{subdomain\_id}/dns

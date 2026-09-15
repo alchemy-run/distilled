@@ -1,440 +1,874 @@
-## List waiting rooms for account or zone
+---
+title: List waiting rooms for account or zone
+---
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/waiting_rooms`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Waiting Rooms](https://developers.cloudflare.com/api/resources/waiting_rooms)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List waiting rooms for account or zone
+
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/waiting\_rooms
 
 Lists waiting rooms for account or zone.
 
-### Path Parameters
+##### Security
 
-- `account_id: optional string`
+<details>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<summary>API Token</summary>
 
-- `zone_id: optional string`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `page: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Page number of paginated results.
+</details>
 
-- `per_page: optional number`
+<details>
 
-  Maximum number of results per page. Must be a multiple of 5.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Account Waiting Rooms Read`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: optional string
 
-  - `source: optional object { pointer }`
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-    - `pointer: optional string`
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: true`
+zone\_id: optional string
 
-  Whether the API call was successful.
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-  - `true`
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `result: optional array of WaitingRoom`
+##### Q uery ParametersExpand Collapse
 
-  - `id: optional string`
+page: optional number
 
-  - `additional_routes: optional array of AdditionalRoutes`
+Page number of paginated results.
 
-    Only available for the Waiting Room Advanced subscription. Additional hostname and path combinations to which this waiting room will be applied. There is an implied wildcard at the end of the path. The hostname and path combination must be unique to this and all other waiting rooms.
+minimum1
 
-    - `host: optional string`
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-      The hostname to which this waiting room will be applied (no wildcards). The hostname must be the primary domain, subdomain, or custom hostname (if using SSL for SaaS) of this zone. Please do not include the scheme (http:// or https://).
+per\_page: optional number
 
-    - `path: optional string`
+Maximum number of results per page. Must be a multiple of 5.
 
-      Sets the path within the host to enable the waiting room on. The waiting room will be enabled for all subpaths as well. If there are two waiting rooms on the same subpath, the waiting room for the most specific path will be chosen. Wildcards and query parameters are not supported.
+maximum1000
 
-  - `cookie_attributes: optional CookieAttributes`
+minimum5
 
-    Configures cookie attributes for the waiting room cookie. This encrypted cookie stores a user's status in the waiting room, such as queue position.
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `samesite: optional "auto" or "lax" or "none" or "strict"`
+##### ReturnsExpand Collapse
 
-      Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`.
+<details>
 
-      - `"auto"`
+<summary>
 
-      - `"lax"`
+errors: array of object {code, message, documentation\_url, source }
 
-      - `"none"`
+</summary>
 
-      - `"strict"`
+code: number
 
-    - `secure: optional "auto" or "always" or "never"`
+minimum1000
 
-      Configures the Secure attribute on the waiting room cookie. Value `always` indicates that the Secure attribute will be set in the Set-Cookie header, `never` indicates that the Secure attribute will not be set, and `auto` will set the Secure attribute depending if **Always Use HTTPS** is enabled.
+<a href="#">Link to this property</a>
 
-      - `"auto"`
+message: string
 
-      - `"always"`
+<a href="#">Link to this property</a>
 
-      - `"never"`
+documentation\_url: optional string
 
-  - `cookie_suffix: optional string`
+<a href="#">Link to this property</a>
 
-    Appends a '_' + a custom suffix to the end of Cloudflare Waiting Room's cookie name(__cf_waitingroom). If `cookie_suffix` is "abcd", the cookie name will be `__cf_waitingroom_abcd`. This field is required if using `additional_routes`.
+<details>
 
-  - `created_on: optional string`
+<summary>
 
-  - `custom_page_html: optional string`
+source: optional object {pointer }
 
-    Only available for the Waiting Room Advanced subscription. This is a template html file that will be rendered at the edge. If no custom_page_html is provided, the default waiting room will be used. The template is based on mustache ( https://mustache.github.io/ ). There are several variables that are evaluated by the Cloudflare edge:
+</summary>
 
-    1. {{`waitTimeKnown`}} Acts like a boolean value that indicates the behavior to take when wait time is not available, for instance when queue_all is **true**.
-    1. {{`waitTimeFormatted`}} Estimated wait time for the user. For example, five minutes. Alternatively, you can use:
-    1. {{`waitTime`}} Number of minutes of estimated wait for a user.
-    1. {{`waitTimeHours`}} Number of hours of estimated wait for a user (`Math.floor(waitTime/60)`).
-    1. {{`waitTimeHourMinutes`}} Number of minutes above the `waitTimeHours` value (`waitTime%60`).
-    1. {{`queueIsFull`}} Changes to **true** when no more people can be added to the queue.
+pointer: optional string
 
-    To view the full list of variables, look at the `cfWaitingRoom` object described under the `json_response_enabled` property in other Waiting Room API calls.
+<a href="#">Link to this property</a>
 
-  - `default_template_language: optional "en-US" or "es-ES" or "de-DE" or 35 more`
+</details>
 
-    The language of the default page template. If no default_template_language is provided, then `en-US` (English) will be used.
+<a href="#">Link to this property</a>
 
-    - `"en-US"`
+</details>
 
-    - `"es-ES"`
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `"de-DE"`
+<details>
 
-    - `"fr-FR"`
+<summary>
 
-    - `"it-IT"`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `"ja-JP"`
+</summary>
 
-    - `"ko-KR"`
+code: number
 
-    - `"pt-BR"`
+minimum1000
 
-    - `"zh-CN"`
+<a href="#">Link to this property</a>
 
-    - `"zh-TW"`
+message: string
 
-    - `"nl-NL"`
+<a href="#">Link to this property</a>
 
-    - `"pl-PL"`
+documentation\_url: optional string
 
-    - `"id-ID"`
+<a href="#">Link to this property</a>
 
-    - `"tr-TR"`
+<details>
 
-    - `"ar-EG"`
+<summary>
 
-    - `"ru-RU"`
+source: optional object {pointer }
 
-    - `"fa-IR"`
+</summary>
 
-    - `"bg-BG"`
+pointer: optional string
 
-    - `"hr-HR"`
+<a href="#">Link to this property</a>
 
-    - `"cs-CZ"`
+</details>
 
-    - `"da-DK"`
+<a href="#">Link to this property</a>
 
-    - `"fi-FI"`
+</details>
 
-    - `"lt-LT"`
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `"ms-MY"`
+success: true
 
-    - `"nb-NO"`
+Whether the API call was successful.
 
-    - `"ro-RO"`
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-    - `"el-GR"`
+<details>
 
-    - `"he-IL"`
+<summary>
 
-    - `"hi-IN"`
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/waiting_rooms#(resource)%20waiting_rooms%20%3E%20(model)%20waiting_room%20%3E%20(schema)">WaitingRoom</a> { id, additional\_routes, cookie\_attributes, 23 more }
 
-    - `"hu-HU"`
+</summary>
 
-    - `"sr-BA"`
+id: optional string
 
-    - `"sk-SK"`
+<a href="#">Link to this property</a>
 
-    - `"sl-SI"`
+<details>
 
-    - `"sv-SE"`
+<summary>
 
-    - `"tl-PH"`
+additional\_routes: optional array of <a href="https://developers.cloudflare.com/api/resources/waiting_rooms#(resource)%20waiting_rooms%20%3E%20(model)%20additional_routes%20%3E%20(schema)">AdditionalRoutes</a> { host, path }
 
-    - `"th-TH"`
+Only available for the Waiting Room Advanced subscription. Additional hostname and path combinations to which this waiting room will be applied. There is an implied wildcard at the end of the path. The hostname and path combination must be unique to this and all other waiting rooms.
 
-    - `"uk-UA"`
+</summary>
 
-    - `"vi-VN"`
+host: optional string
 
-  - `description: optional string`
+The hostname to which this waiting room will be applied (no wildcards). The hostname must be the primary domain, subdomain, or custom hostname (if using SSL for SaaS) of this zone. Please do not include the scheme (http:// or https://).
 
-    A note that you can use to add more details about the waiting room.
+<a href="#">Link to this property</a>
 
-  - `disable_session_renewal: optional boolean`
+path: optional string
 
-    Only available for the Waiting Room Advanced subscription. Disables automatic renewal of session cookies. If `true`, an accepted user will have session_duration minutes to browse the site. After that, they will have to go through the waiting room again. If `false`, a user's session cookie will be automatically renewed on every request.
+Sets the path within the host to enable the waiting room on. The waiting room will be enabled for all subpaths as well. If there are two waiting rooms on the same subpath, the waiting room for the most specific path will be chosen. Wildcards and query parameters are not supported.
 
-  - `enabled_origin_commands: optional array of "revoke"`
+<a href="#">Link to this property</a>
 
-    A list of enabled origin commands.
+</details>
 
-    - `"revoke"`
+<a href="#">Link to this property</a>
 
-  - `host: optional string`
+<details>
 
-    The host name to which the waiting room will be applied (no wildcards). Please do not include the scheme (http:// or https://). The host and path combination must be unique.
+<summary>
 
-  - `json_response_enabled: optional boolean`
+cookie\_attributes: optional <a href="https://developers.cloudflare.com/api/resources/waiting_rooms#(resource)%20waiting_rooms%20%3E%20(model)%20cookie_attributes%20%3E%20(schema)">CookieAttributes</a> { samesite, secure }
 
-    Only available for the Waiting Room Advanced subscription. If `true`, requests to the waiting room with the header `Accept: application/json` will receive a JSON response object with information on the user's status in the waiting room as opposed to the configured static HTML page. This JSON response object has one property `cfWaitingRoom` which is an object containing the following fields:
+Configures cookie attributes for the waiting room cookie. This encrypted cookie stores a user’s status in the waiting room, such as queue position.
 
-    1. `inWaitingRoom`: Boolean indicating if the user is in the waiting room (always **true**).
-    1. `waitTimeKnown`: Boolean indicating if the current estimated wait times are accurate. If **false**, they are not available.
-    1. `waitTime`: Valid only when `waitTimeKnown` is **true**. Integer indicating the current estimated time in minutes the user will wait in the waiting room. When `queueingMethod` is **random**, this is set to `waitTime50Percentile`.
-    1. `waitTime25Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 25% of users that gain entry the fastest (25th percentile).
-    1. `waitTime50Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 50% of users that gain entry the fastest (50th percentile). In other words, half of the queued users are expected to let into the origin website before `waitTime50Percentile` and half are expected to be let in after it.
-    1. `waitTime75Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 75% of users that gain entry the fastest (75th percentile).
-    1. `waitTimeFormatted`: String displaying the `waitTime` formatted in English for users. If `waitTimeKnown` is **false**, `waitTimeFormatted` will display **unavailable**.
-    1. `queueIsFull`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment.
-    1. `queueAll`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website.
-    1. `lastUpdated`: String displaying the timestamp as an ISO 8601 string of the user's last attempt to leave the waiting room and be let into the origin website. The user is able to make another attempt after `refreshIntervalSeconds` past this time. If the user makes a request too soon, it will be ignored and `lastUpdated` will not change.
-    1. `refreshIntervalSeconds`: Integer indicating the number of seconds after `lastUpdated` until the user is able to make another attempt to leave the waiting room and be let into the origin website. When the `queueingMethod` is `reject`, there is no specified refresh time —_it will always be **zero**.
-    1. `queueingMethod`: The queueing method currently used by the waiting room. It is either **fifo**, **random**, **passthrough**, or **reject**.
-    1. `isFIFOQueue`: Boolean indicating if the waiting room uses a FIFO (First-In-First-Out) queue.
-    1. `isRandomQueue`: Boolean indicating if the waiting room uses a Random queue where users gain access randomly.
-    1. `isPassthroughQueue`: Boolean indicating if the waiting room uses a passthrough queue. Keep in mind that when passthrough is enabled, this JSON response will only exist when `queueAll` is **true** or `isEventPrequeueing` is **true** because in all other cases requests will go directly to the origin.
-    1. `isRejectQueue`: Boolean indicating if the waiting room uses a reject queue.
-    1. `isEventActive`: Boolean indicating if an event is currently occurring. Events are able to change a waiting room's behavior during a specified period of time. For additional information, look at the event properties `prequeue_start_time`, `event_start_time`, and `event_end_time` in the documentation for creating waiting room events. Events are considered active between these start and end times, as well as during the prequeueing period if it exists.
-    1. `isEventPrequeueing`: Valid only when `isEventActive` is **true**. Boolean indicating if an event is currently prequeueing users before it starts.
-    1. `timeUntilEventStart`: Valid only when `isEventPrequeueing` is **true**. Integer indicating the number of minutes until the event starts.
-    1. `timeUntilEventStartFormatted`: String displaying the `timeUntilEventStart` formatted in English for users. If `isEventPrequeueing` is **false**, `timeUntilEventStartFormatted` will display **unavailable**.
-    1. `timeUntilEventEnd`: Valid only when `isEventActive` is **true**. Integer indicating the number of minutes until the event ends.
-    1. `timeUntilEventEndFormatted`: String displaying the `timeUntilEventEnd` formatted in English for users. If `isEventActive` is **false**, `timeUntilEventEndFormatted` will display **unavailable**.
-    1. `shuffleAtEventStart`: Valid only when `isEventActive` is **true**. Boolean indicating if the users in the prequeue are shuffled randomly when the event starts.
-    1. `turnstile`: Empty when turnstile isn't enabled. String displaying an html tag to display the Turnstile widget. Please add the `{{{turnstile}}}` tag to the `custom_html` template to ensure the Turnstile widget appears.
-    1. `infiniteQueue`: Boolean indicating whether the response is for a user in the infinite queue.
+</summary>
 
-    An example cURL to a waiting room could be:
+<details>
 
-    curl -X GET "https://example.com/waitingroom" \
-    -H "Accept: application/json"
+<summary>
 
-    If `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **fifo** and no event is active could be:
+samesite: optional "auto"or "lax"or "none"or "strict"
 
-    {
-    "cfWaitingRoom": {
-    "inWaitingRoom": true,
-    "waitTimeKnown": true,
-    "waitTime": 10,
-    "waitTime25Percentile": 0,
-    "waitTime50Percentile": 0,
-    "waitTime75Percentile": 0,
-    "waitTimeFormatted": "10 minutes",
-    "queueIsFull": false,
-    "queueAll": false,
-    "lastUpdated": "2020-08-03T23:46:00.000Z",
-    "refreshIntervalSeconds": 20,
-    "queueingMethod": "fifo",
-    "isFIFOQueue": true,
-    "isRandomQueue": false,
-    "isPassthroughQueue": false,
-    "isRejectQueue": false,
-    "isEventActive": false,
-    "isEventPrequeueing": false,
-    "timeUntilEventStart": 0,
-    "timeUntilEventStartFormatted": "unavailable",
-    "timeUntilEventEnd": 0,
-    "timeUntilEventEndFormatted": "unavailable",
-    "shuffleAtEventStart": false
-    }
-    }
+Configures the SameSite attribute on the waiting room cookie. Value <code>auto</code> will be translated to <code>lax</code> or <code>none</code> depending if **Always Use HTTPS** is enabled. Note that when using value <code>none</code>, the secure attribute cannot be set to <code>never</code>.
 
-    If `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **random** and an event is active could be:
+</summary>
 
-    {
-    "cfWaitingRoom": {
-    "inWaitingRoom": true,
-    "waitTimeKnown": true,
-    "waitTime": 10,
-    "waitTime25Percentile": 5,
-    "waitTime50Percentile": 10,
-    "waitTime75Percentile": 15,
-    "waitTimeFormatted": "5 minutes to 15 minutes",
-    "queueIsFull": false,
-    "queueAll": false,
-    "lastUpdated": "2020-08-03T23:46:00.000Z",
-    "refreshIntervalSeconds": 20,
-    "queueingMethod": "random",
-    "isFIFOQueue": false,
-    "isRandomQueue": true,
-    "isPassthroughQueue": false,
-    "isRejectQueue": false,
-    "isEventActive": true,
-    "isEventPrequeueing": false,
-    "timeUntilEventStart": 0,
-    "timeUntilEventStartFormatted": "unavailable",
-    "timeUntilEventEnd": 15,
-    "timeUntilEventEndFormatted": "15 minutes",
-    "shuffleAtEventStart": true
-    }
-    }
+One of the following:
 
-  - `modified_on: optional string`
+"auto"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    A unique name to identify the waiting room. Only alphanumeric characters, hyphens and underscores are allowed.
+"lax"
 
-  - `new_users_per_minute: optional number`
+<a href="#">Link to this property</a>
 
-    Sets the number of new users that will be let into the route every minute. This value is used as baseline for the number of users that are let in per minute. So it is possible that there is a little more or little less traffic coming to the route based on the traffic patterns at that time around the world.
+"none"
 
-  - `next_event_prequeue_start_time: optional string`
+<a href="#">Link to this property</a>
 
-    An ISO 8601 timestamp that marks when the next event will begin queueing.
+"strict"
 
-  - `next_event_start_time: optional string`
+<a href="#">Link to this property</a>
 
-    An ISO 8601 timestamp that marks when the next event will start.
+</details>
 
-  - `path: optional string`
+<a href="#">Link to this property</a>
 
-    Sets the path within the host to enable the waiting room on. The waiting room will be enabled for all subpaths as well. If there are two waiting rooms on the same subpath, the waiting room for the most specific path will be chosen. Wildcards and query parameters are not supported.
+<details>
 
-  - `queue_all: optional boolean`
+<summary>
 
-    If queue_all is `true`, all the traffic that is coming to a route will be sent to the waiting room. No new traffic can get to the route once this field is set and estimated time will become unavailable.
+secure: optional "auto"or "always"or "never"
 
-  - `queueing_method: optional "fifo" or "random" or "passthrough" or "reject"`
+Configures the Secure attribute on the waiting room cookie. Value <code>always</code> indicates that the Secure attribute will be set in the Set-Cookie header, <code>never</code> indicates that the Secure attribute will not be set, and <code>auto</code> will set the Secure attribute depending if **Always Use HTTPS** is enabled.
 
-    Sets the queueing method used by the waiting room. Changing this parameter from the **default** queueing method is only available for the Waiting Room Advanced subscription. Regardless of the queueing method, if `queue_all` is enabled or an event is prequeueing, users in the waiting room will not be accepted to the origin. These users will always see a waiting room page that refreshes automatically. The valid queueing methods are:
+</summary>
 
-    1. `fifo` **(default)**: First-In-First-Out queue where customers gain access in the order they arrived.
-    1. `random`: Random queue where customers gain access randomly, regardless of arrival time.
-    1. `passthrough`: Users will pass directly through the waiting room and into the origin website. As a result, any configured limits will not be respected while this is enabled. This method can be used as an alternative to disabling a waiting room (with `suspended`) so that analytics are still reported. This can be used if you wish to allow all traffic normally, but want to restrict traffic during a waiting room event, or vice versa.
-    1. `reject`: Users will be immediately rejected from the waiting room. As a result, no users will reach the origin website while this is enabled. This can be used if you wish to reject all traffic while performing maintenance, block traffic during a specified period of time (an event), or block traffic while events are not occurring. Consider a waiting room used for vaccine distribution that only allows traffic during sign-up events, and otherwise blocks all traffic. For this case, the waiting room uses `reject`, and its events override this with `fifo`, `random`, or `passthrough`. When this queueing method is enabled and neither `queueAll` is enabled nor an event is prequeueing, the waiting room page **will not refresh automatically**.
+One of the following:
 
-    - `"fifo"`
+"auto"
 
-    - `"random"`
+<a href="#">Link to this property</a>
 
-    - `"passthrough"`
+"always"
 
-    - `"reject"`
+<a href="#">Link to this property</a>
 
-  - `queueing_status_code: optional 200 or 202 or 429`
+"never"
 
-    HTTP status code returned to a user while in the queue.
+<a href="#">Link to this property</a>
 
-    - `200`
+</details>
 
-    - `202`
+<a href="#">Link to this property</a>
 
-    - `429`
+</details>
 
-  - `session_duration: optional number`
+<a href="#">Link to this property</a>
 
-    Lifetime of a cookie (in minutes) set by Cloudflare for users who get access to the route. If a user is not seen by Cloudflare again in that time period, they will be treated as a new user that visits the route.
+cookie\_suffix: optional string
 
-  - `suspended: optional boolean`
+Appends a ’\_’ + a custom suffix to the end of Cloudflare Waiting Room’s cookie name(\_\_cf\_waitingroom). If <code>cookie_suffix</code> is “abcd”, the cookie name will be <code>__cf_waitingroom_abcd</code>. This field is required if using <code>additional_routes</code>.
 
-    Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room.
+<a href="#">Link to this property</a>
 
-  - `total_active_users: optional number`
+created\_on: optional string
 
-    Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world.
+formatdate-time
 
-  - `turnstile_action: optional "log" or "infinite_queue"`
+<a href="#">Link to this property</a>
 
-    Which action to take when a bot is detected using Turnstile. `log` will
-    have no impact on queueing behavior, simply keeping track of how many
-    bots are detected in Waiting Room Analytics. `infinite_queue` will send
-    bots to a false queueing state, where they will never reach your
-    origin. `infinite_queue` requires Advanced Waiting Room.
+custom\_page\_html: optional string
 
-    - `"log"`
+Only available for the Waiting Room Advanced subscription. This is a template html file that will be rendered at the edge. If no custom\_page\_html is provided, the default waiting room will be used. The template is based on mustache ( <a href="https://mustache.github.io/">https://mustache.github.io/</a> ). There are several variables that are evaluated by the Cloudflare edge:
 
-    - `"infinite_queue"`
+1. {{<code>waitTimeKnown</code>}} Acts like a boolean value that indicates the behavior to take when wait time is not available, for instance when queue\_all is **true**.
+2. {{<code>waitTimeFormatted</code>}} Estimated wait time for the user. For example, five minutes. Alternatively, you can use:
+3. {{<code>waitTime</code>}} Number of minutes of estimated wait for a user.
+4. {{<code>waitTimeHours</code>}} Number of hours of estimated wait for a user (<code>Math.floor(waitTime/60)</code>).
+5. {{<code>waitTimeHourMinutes</code>}} Number of minutes above the <code>waitTimeHours</code> value (<code>waitTime%60</code>).
+6. {{<code>queueIsFull</code>}} Changes to **true** when no more people can be added to the queue.
 
-  - `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
+To view the full list of variables, look at the <code>cfWaitingRoom</code> object described under the <code>json_response_enabled</code> property in other Waiting Room API calls.
 
-    Which Turnstile widget type to use for detecting bot traffic. See
-    [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types)
-    for the definitions of these widget types. Set to `off` to disable the
-    Turnstile integration entirely. Setting this to anything other than
-    `off` or `invisible` requires Advanced Waiting Room.
+<a href="#">Link to this property</a>
 
-    - `"off"`
+<details>
 
-    - `"invisible"`
+<summary>
 
-    - `"visible_non_interactive"`
+default\_template\_language: optional "en-US"or "es-ES"or "de-DE"or 35 more
 
-    - `"visible_managed"`
+The language of the default page template. If no default\_template\_language is provided, then <code>en-US</code> (English) will be used.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: optional number`
+One of the following:
 
-    Total number of results for the requested service.
+"en-US"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+"es-ES"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+"de-DE"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+"fr-FR"
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+"it-IT"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"ja-JP"
+
+<a href="#">Link to this property</a>
+
+"ko-KR"
+
+<a href="#">Link to this property</a>
+
+"pt-BR"
+
+<a href="#">Link to this property</a>
+
+"zh-CN"
+
+<a href="#">Link to this property</a>
+
+"zh-TW"
+
+<a href="#">Link to this property</a>
+
+"nl-NL"
+
+<a href="#">Link to this property</a>
+
+"pl-PL"
+
+<a href="#">Link to this property</a>
+
+"id-ID"
+
+<a href="#">Link to this property</a>
+
+"tr-TR"
+
+<a href="#">Link to this property</a>
+
+"ar-EG"
+
+<a href="#">Link to this property</a>
+
+"ru-RU"
+
+<a href="#">Link to this property</a>
+
+"fa-IR"
+
+<a href="#">Link to this property</a>
+
+"bg-BG"
+
+<a href="#">Link to this property</a>
+
+"hr-HR"
+
+<a href="#">Link to this property</a>
+
+"cs-CZ"
+
+<a href="#">Link to this property</a>
+
+"da-DK"
+
+<a href="#">Link to this property</a>
+
+"fi-FI"
+
+<a href="#">Link to this property</a>
+
+"lt-LT"
+
+<a href="#">Link to this property</a>
+
+"ms-MY"
+
+<a href="#">Link to this property</a>
+
+"nb-NO"
+
+<a href="#">Link to this property</a>
+
+"ro-RO"
+
+<a href="#">Link to this property</a>
+
+"el-GR"
+
+<a href="#">Link to this property</a>
+
+"he-IL"
+
+<a href="#">Link to this property</a>
+
+"hi-IN"
+
+<a href="#">Link to this property</a>
+
+"hu-HU"
+
+<a href="#">Link to this property</a>
+
+"sr-BA"
+
+<a href="#">Link to this property</a>
+
+"sk-SK"
+
+<a href="#">Link to this property</a>
+
+"sl-SI"
+
+<a href="#">Link to this property</a>
+
+"sv-SE"
+
+<a href="#">Link to this property</a>
+
+"tl-PH"
+
+<a href="#">Link to this property</a>
+
+"th-TH"
+
+<a href="#">Link to this property</a>
+
+"uk-UA"
+
+<a href="#">Link to this property</a>
+
+"vi-VN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+A note that you can use to add more details about the waiting room.
+
+<a href="#">Link to this property</a>
+
+disable\_session\_renewal: optional boolean
+
+Only available for the Waiting Room Advanced subscription. Disables automatic renewal of session cookies. If <code>true</code>, an accepted user will have session\_duration minutes to browse the site. After that, they will have to go through the waiting room again. If <code>false</code>, a user’s session cookie will be automatically renewed on every request.
+
+<a href="#">Link to this property</a>
+
+enabled\_origin\_commands: optional array of "revoke"
+
+A list of enabled origin commands.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+The host name to which the waiting room will be applied (no wildcards). Please do not include the scheme (http:// or https://). The host and path combination must be unique.
+
+<a href="#">Link to this property</a>
+
+json\_response\_enabled: optional boolean
+
+Only available for the Waiting Room Advanced subscription. If <code>true</code>, requests to the waiting room with the header <code>Accept: application/json</code> will receive a JSON response object with information on the user’s status in the waiting room as opposed to the configured static HTML page. This JSON response object has one property <code>cfWaitingRoom</code> which is an object containing the following fields:
+
+1. <code>inWaitingRoom</code>: Boolean indicating if the user is in the waiting room (always **true**).
+2. <code>waitTimeKnown</code>: Boolean indicating if the current estimated wait times are accurate. If **false**, they are not available.
+3. <code>waitTime</code>: Valid only when <code>waitTimeKnown</code> is **true**. Integer indicating the current estimated time in minutes the user will wait in the waiting room. When <code>queueingMethod</code> is **random**, this is set to <code>waitTime50Percentile</code>.
+4. <code>waitTime25Percentile</code>: Valid only when <code>queueingMethod</code> is **random** and <code>waitTimeKnown</code> is **true**. Integer indicating the current estimated maximum wait time for the 25% of users that gain entry the fastest (25th percentile).
+5. <code>waitTime50Percentile</code>: Valid only when <code>queueingMethod</code> is **random** and <code>waitTimeKnown</code> is **true**. Integer indicating the current estimated maximum wait time for the 50% of users that gain entry the fastest (50th percentile). In other words, half of the queued users are expected to let into the origin website before <code>waitTime50Percentile</code> and half are expected to be let in after it.
+6. <code>waitTime75Percentile</code>: Valid only when <code>queueingMethod</code> is **random** and <code>waitTimeKnown</code> is **true**. Integer indicating the current estimated maximum wait time for the 75% of users that gain entry the fastest (75th percentile).
+7. <code>waitTimeFormatted</code>: String displaying the <code>waitTime</code> formatted in English for users. If <code>waitTimeKnown</code> is **false**, <code>waitTimeFormatted</code> will display **unavailable**.
+8. <code>queueIsFull</code>: Boolean indicating if the waiting room’s queue is currently full and not accepting new users at the moment.
+9. <code>queueAll</code>: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website.
+10. <code>lastUpdated</code>: String displaying the timestamp as an ISO 8601 string of the user’s last attempt to leave the waiting room and be let into the origin website. The user is able to make another attempt after <code>refreshIntervalSeconds</code> past this time. If the user makes a request too soon, it will be ignored and <code>lastUpdated</code> will not change.
+11. <code>refreshIntervalSeconds</code>: Integer indicating the number of seconds after <code>lastUpdated</code> until the user is able to make another attempt to leave the waiting room and be let into the origin website. When the <code>queueingMethod</code> is <code>reject</code>, there is no specified refresh time —\_it will always be **zero**.
+12. <code>queueingMethod</code>: The queueing method currently used by the waiting room. It is either **fifo**, **random**, **passthrough**, or **reject**.
+13. <code>isFIFOQueue</code>: Boolean indicating if the waiting room uses a FIFO (First-In-First-Out) queue.
+14. <code>isRandomQueue</code>: Boolean indicating if the waiting room uses a Random queue where users gain access randomly.
+15. <code>isPassthroughQueue</code>: Boolean indicating if the waiting room uses a passthrough queue. Keep in mind that when passthrough is enabled, this JSON response will only exist when <code>queueAll</code> is **true** or <code>isEventPrequeueing</code> is **true** because in all other cases requests will go directly to the origin.
+16. <code>isRejectQueue</code>: Boolean indicating if the waiting room uses a reject queue.
+17. <code>isEventActive</code>: Boolean indicating if an event is currently occurring. Events are able to change a waiting room’s behavior during a specified period of time. For additional information, look at the event properties <code>prequeue_start_time</code>, <code>event_start_time</code>, and <code>event_end_time</code> in the documentation for creating waiting room events. Events are considered active between these start and end times, as well as during the prequeueing period if it exists.
+18. <code>isEventPrequeueing</code>: Valid only when <code>isEventActive</code> is **true**. Boolean indicating if an event is currently prequeueing users before it starts.
+19. <code>timeUntilEventStart</code>: Valid only when <code>isEventPrequeueing</code> is **true**. Integer indicating the number of minutes until the event starts.
+20. <code>timeUntilEventStartFormatted</code>: String displaying the <code>timeUntilEventStart</code> formatted in English for users. If <code>isEventPrequeueing</code> is **false**, <code>timeUntilEventStartFormatted</code> will display **unavailable**.
+21. <code>timeUntilEventEnd</code>: Valid only when <code>isEventActive</code> is **true**. Integer indicating the number of minutes until the event ends.
+22. <code>timeUntilEventEndFormatted</code>: String displaying the <code>timeUntilEventEnd</code> formatted in English for users. If <code>isEventActive</code> is **false**, <code>timeUntilEventEndFormatted</code> will display **unavailable**.
+23. <code>shuffleAtEventStart</code>: Valid only when <code>isEventActive</code> is **true**. Boolean indicating if the users in the prequeue are shuffled randomly when the event starts.
+24. <code>turnstile</code>: Empty when turnstile isn’t enabled. String displaying an html tag to display the Turnstile widget. Please add the <code>{{{turnstile}}}</code> tag to the <code>custom_html</code> template to ensure the Turnstile widget appears.
+25. <code>infiniteQueue</code>: Boolean indicating whether the response is for a user in the infinite queue.
+
+An example cURL to a waiting room could be:
+
+```plaintext
+curl -X GET "https://example.com/waitingroom" \
+	-H "Accept: application/json"
+```
+
+If <code>json_response_enabled</code> is **true** and the request hits the waiting room, an example JSON response when <code>queueingMethod</code> is **fifo** and no event is active could be:
+
+```plaintext
+{
+	"cfWaitingRoom": {
+		"inWaitingRoom": true,
+		"waitTimeKnown": true,
+		"waitTime": 10,
+		"waitTime25Percentile": 0,
+		"waitTime50Percentile": 0,
+		"waitTime75Percentile": 0,
+		"waitTimeFormatted": "10 minutes",
+		"queueIsFull": false,
+		"queueAll": false,
+		"lastUpdated": "2020-08-03T23:46:00.000Z",
+		"refreshIntervalSeconds": 20,
+		"queueingMethod": "fifo",
+		"isFIFOQueue": true,
+		"isRandomQueue": false,
+		"isPassthroughQueue": false,
+		"isRejectQueue": false,
+		"isEventActive": false,
+		"isEventPrequeueing": false,
+		"timeUntilEventStart": 0,
+		"timeUntilEventStartFormatted": "unavailable",
+		"timeUntilEventEnd": 0,
+		"timeUntilEventEndFormatted": "unavailable",
+		"shuffleAtEventStart": false
+	}
+}
+```
+
+If <code>json_response_enabled</code> is **true** and the request hits the waiting room, an example JSON response when <code>queueingMethod</code> is **random** and an event is active could be:
+
+```plaintext
+{
+	"cfWaitingRoom": {
+		"inWaitingRoom": true,
+		"waitTimeKnown": true,
+		"waitTime": 10,
+		"waitTime25Percentile": 5,
+		"waitTime50Percentile": 10,
+		"waitTime75Percentile": 15,
+		"waitTimeFormatted": "5 minutes to 15 minutes",
+		"queueIsFull": false,
+		"queueAll": false,
+		"lastUpdated": "2020-08-03T23:46:00.000Z",
+		"refreshIntervalSeconds": 20,
+		"queueingMethod": "random",
+		"isFIFOQueue": false,
+		"isRandomQueue": true,
+		"isPassthroughQueue": false,
+		"isRejectQueue": false,
+		"isEventActive": true,
+		"isEventPrequeueing": false,
+		"timeUntilEventStart": 0,
+		"timeUntilEventStartFormatted": "unavailable",
+		"timeUntilEventEnd": 15,
+		"timeUntilEventEndFormatted": "15 minutes",
+		"shuffleAtEventStart": true
+	}
+}
+```
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+A unique name to identify the waiting room. Only alphanumeric characters, hyphens and underscores are allowed.
+
+<a href="#">Link to this property</a>
+
+new\_users\_per\_minute: optional number
+
+Sets the number of new users that will be let into the route every minute. This value is used as baseline for the number of users that are let in per minute. So it is possible that there is a little more or little less traffic coming to the route based on the traffic patterns at that time around the world.
+
+maximum2147483647
+
+minimum200
+
+<a href="#">Link to this property</a>
+
+next\_event\_prequeue\_start\_time: optional string
+
+An ISO 8601 timestamp that marks when the next event will begin queueing.
+
+<a href="#">Link to this property</a>
+
+next\_event\_start\_time: optional string
+
+An ISO 8601 timestamp that marks when the next event will start.
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Sets the path within the host to enable the waiting room on. The waiting room will be enabled for all subpaths as well. If there are two waiting rooms on the same subpath, the waiting room for the most specific path will be chosen. Wildcards and query parameters are not supported.
+
+<a href="#">Link to this property</a>
+
+queue\_all: optional boolean
+
+If queue\_all is <code>true</code>, all the traffic that is coming to a route will be sent to the waiting room. No new traffic can get to the route once this field is set and estimated time will become unavailable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+queueing\_method: optional "fifo"or "random"or "passthrough"or "reject"
+
+Sets the queueing method used by the waiting room. Changing this parameter from the **default** queueing method is only available for the Waiting Room Advanced subscription. Regardless of the queueing method, if <code>queue_all</code> is enabled or an event is prequeueing, users in the waiting room will not be accepted to the origin. These users will always see a waiting room page that refreshes automatically. The valid queueing methods are:
+
+1. <code>fifo</code> **(default)**: First-In-First-Out queue where customers gain access in the order they arrived.
+2. <code>random</code>: Random queue where customers gain access randomly, regardless of arrival time.
+3. <code>passthrough</code>: Users will pass directly through the waiting room and into the origin website. As a result, any configured limits will not be respected while this is enabled. This method can be used as an alternative to disabling a waiting room (with <code>suspended</code>) so that analytics are still reported. This can be used if you wish to allow all traffic normally, but want to restrict traffic during a waiting room event, or vice versa.
+4. <code>reject</code>: Users will be immediately rejected from the waiting room. As a result, no users will reach the origin website while this is enabled. This can be used if you wish to reject all traffic while performing maintenance, block traffic during a specified period of time (an event), or block traffic while events are not occurring. Consider a waiting room used for vaccine distribution that only allows traffic during sign-up events, and otherwise blocks all traffic. For this case, the waiting room uses <code>reject</code>, and its events override this with <code>fifo</code>, <code>random</code>, or <code>passthrough</code>. When this queueing method is enabled and neither <code>queueAll</code> is enabled nor an event is prequeueing, the waiting room page **will not refresh automatically**.
+
+</summary>
+
+One of the following:
+
+"fifo"
+
+<a href="#">Link to this property</a>
+
+"random"
+
+<a href="#">Link to this property</a>
+
+"passthrough"
+
+<a href="#">Link to this property</a>
+
+"reject"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+queueing\_status\_code: optional 200or 202or 429
+
+HTTP status code returned to a user while in the queue.
+
+</summary>
+
+One of the following:
+
+200
+
+<a href="#">Link to this property</a>
+
+202
+
+<a href="#">Link to this property</a>
+
+429
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+session\_duration: optional number
+
+Lifetime of a cookie (in minutes) set by Cloudflare for users who get access to the route. If a user is not seen by Cloudflare again in that time period, they will be treated as a new user that visits the route.
+
+maximum30
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+suspended: optional boolean
+
+Suspends or allows traffic going to the waiting room. If set to <code>true</code>, the traffic will not go to the waiting room.
+
+<a href="#">Link to this property</a>
+
+total\_active\_users: optional number
+
+Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world.
+
+maximum2147483647
+
+minimum200
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+turnstile\_action: optional "log"or "infinite\_queue"
+
+Which action to take when a bot is detected using Turnstile. <code>log</code> will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. <code>infinite_queue</code> will send bots to a false queueing state, where they will never reach your origin. <code>infinite_queue</code> requires Advanced Waiting Room.
+
+</summary>
+
+One of the following:
+
+"log"
+
+<a href="#">Link to this property</a>
+
+"infinite\_queue"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+turnstile\_mode: optional "off"or "invisible"or "visible\_non\_interactive"or "visible\_managed"
+
+Which Turnstile widget type to use for detecting bot traffic. See <a href="https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types">the Turnstile documentation</a> for the definitions of these widget types. Set to <code>off</code> to disable the Turnstile integration entirely. Setting this to anything other than <code>off</code> or <code>invisible</code> requires Advanced Waiting Room.
+
+</summary>
+
+One of the following:
+
+"off"
+
+<a href="#">Link to this property</a>
+
+"invisible"
+
+<a href="#">Link to this property</a>
+
+"visible\_non\_interactive"
+
+<a href="#">Link to this property</a>
+
+"visible\_managed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20waiting_rooms%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List waiting rooms for account or zone
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/waiting_rooms \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -484,8 +918,85 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
       "modified_on": "2014-01-01T05:20:00.12345Z",
       "name": "production_webinar",
       "new_users_per_minute": 200,
-      "next_event_prequeue_start_time": "2021-09-28T15:00:00.000Z",
-      "next_event_start_time": "2021-09-28T15:00:00.000Z",
+      "next_event_prequeue_start_time": "2021-09-28T15:00:00Z",
+      "next_event_start_time": "2021-09-28T15:00:00Z",
+      "path": "/shop/checkout",
+      "queue_all": true,
+      "queueing_method": "fifo",
+      "queueing_status_code": 202,
+      "session_duration": 1,
+      "suspended": true,
+      "total_active_users": 200,
+      "turnstile_action": "log",
+      "turnstile_mode": "off"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "699d98642c564d2e855e9661899b7252",
+      "additional_routes": [
+        {
+          "host": "shop2.example.com",
+          "path": "/shop2/checkout"
+        }
+      ],
+      "cookie_attributes": {
+        "samesite": "auto",
+        "secure": "auto"
+      },
+      "cookie_suffix": "abcd",
+      "created_on": "2014-01-01T05:20:00.12345Z",
+      "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Queue all enabled {{/waitTimeKnown}}",
+      "default_template_language": "es-ES",
+      "description": "Production - DO NOT MODIFY",
+      "disable_session_renewal": false,
+      "enabled_origin_commands": [
+        "revoke"
+      ],
+      "host": "shop.example.com",
+      "json_response_enabled": false,
+      "modified_on": "2014-01-01T05:20:00.12345Z",
+      "name": "production_webinar",
+      "new_users_per_minute": 200,
+      "next_event_prequeue_start_time": "2021-09-28T15:00:00Z",
+      "next_event_start_time": "2021-09-28T15:00:00Z",
       "path": "/shop/checkout",
       "queue_all": true,
       "queueing_method": "fifo",

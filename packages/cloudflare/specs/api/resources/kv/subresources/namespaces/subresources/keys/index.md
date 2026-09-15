@@ -1,598 +1,229 @@
+---
+title: Keys
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[KV](https://developers.cloudflare.com/api/resources/kv)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Keys
 
-## List a Namespace's Keys
+##### [List a Namespace's Keys](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/keys/methods/list)
 
-**get** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/keys`
+GET/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/keys
 
-Lists a namespace's keys.
+##### [Write multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/keys/methods/bulk_update)
 
-### Path Parameters
+Deprecated
 
-- `account_id: string`
+PUT/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk
 
-  Identifier.
+##### [Delete multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/keys/methods/bulk_delete)
 
-- `namespace_id: string`
+Deprecated
 
-  Namespace identifier tag.
+POST/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk/delete
 
-### Query Parameters
+##### [Get multiple key-value pairs](https://developers.cloudflare.com/api/resources/kv/subresources/namespaces/subresources/keys/methods/bulk_get)
 
-- `cursor: optional string`
+Deprecated
 
-  Opaque token indicating the position from which to continue when requesting the next set of records if the amount of list results was limited by the limit parameter. A valid value for the cursor can be obtained from the `cursors` object in the `result_info` structure.
+POST/accounts/{account\_id}/storage/kv/namespaces/{namespace\_id}/bulk/get
 
-- `limit: optional number`
+##### ModelsExpand Collapse
 
-  Limits the number of keys returned in the response. The cursor attribute may be used to iterate over the next batch of keys if there are more than the limit.
+<details>
 
-- `prefix: optional string`
+<summary>
 
-  Filters returned keys by a name prefix. Exact matches and any key names that begin with the prefix will be returned.
+Key object {name, expiration, metadata }
 
-### Returns
+A name for a value. A value stored under a given key may be retrieved via the same key.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+A key’s name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
 
-  - `documentation_url: optional string`
+maxLength512
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+expiration: optional number
 
-- `messages: array of ResponseInfo`
+The time, measured in number of seconds since the UNIX epoch, at which the key will expire. This property is omitted for keys that will not expire.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+metadata: optional unknown
 
-  - `documentation_url: optional string`
+Arbitrary JSON that is associated with a key.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20kv.namespaces.keys%20%3E%20(model)%20key%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-- `result: optional array of Key`
+<summary>
 
-  - `name: string`
+KeyBulkUpdateResponse object {successful\_key\_count, unsuccessful\_keys }
 
-    A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
+</summary>
 
-  - `expiration: optional number`
+successful\_key\_count: optional number
 
-    The time, measured in number of seconds since the UNIX epoch, at which the key will expire. This property is omitted for keys that will not expire.
+Number of keys successfully updated.
 
-  - `metadata: optional unknown`
+<a href="#">Link to this property</a>
 
-    Arbitrary JSON that is associated with a key.
+unsuccessful\_keys: optional array of string
 
-- `result_info: optional object { count, cursor }`
+Name of the keys that failed to be fully updated. They should be retried.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results returned based on your list parameters.
+</details>
 
-  - `cursor: optional string`
+[Link to this property](#)%20kv.namespaces.keys%20%3E%20(model)%20key_bulk_update_response%20%3E%20(schema)>)
 
-    Opaque token indicating the position from which to continue when requesting the next set of records if the amount of list results was limited by the limit parameter. A valid value for the cursor can be obtained from the cursors object in the result_info structure.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/keys \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+KeyBulkDeleteResponse object {successful\_key\_count, unsuccessful\_keys }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "name": "My-Key",
-      "expiration": 1577836800,
-      "metadata": {}
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "cursor": "6Ck1la0VxJ0djhidm1MdX2FyDGxLKVeeHZZmORS_8XeSuhz9SjIJRaSa2lnsF01tQOHrfTGAP3R5X1Kv5iVUuMbNKhWNAXHOl6ePB0TUL8nw"
-  }
-}
-```
+successful\_key\_count: optional number
 
-## Write multiple key-value pairs
+Number of keys successfully updated.
 
-**put** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk`
+<a href="#">Link to this property</a>
 
-Write multiple keys and values at once. Body should be an array of up to 10,000 key-value pairs to be stored, along with optional expiration information. Existing values and expirations will be overwritten. If neither `expiration` nor `expiration_ttl` is specified, the key-value pair will never expire. If both are set, `expiration_ttl` is used and `expiration` is ignored. The entire request size must be 100 megabytes or less.
+unsuccessful\_keys: optional array of string
 
-### Path Parameters
+Name of the keys that failed to be fully updated. They should be retried.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `namespace_id: string`
+[Link to this property](#)%20kv.namespaces.keys%20%3E%20(model)%20key_bulk_delete_response%20%3E%20(schema)>)
 
-  Namespace identifier tag.
+<details>
 
-### Body Parameters
+<summary>
 
-- `body: array of object { key, value, base64, 3 more }`
+KeyBulkGetResponse = object {values } or object {values }
 
-  - `key: string`
+</summary>
 
-    A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid.
+One of the following:
 
-  - `value: string`
+<details>
 
-    A UTF-8 encoded string to be stored, up to 25 MiB in length.
+<summary>
 
-  - `base64: optional boolean`
+WorkersKVBulkGetResult object {values }
 
-    Indicates whether or not the server should base64 decode the value before storing it. Useful for writing values that wouldn't otherwise be valid JSON strings, such as images.
+</summary>
 
-  - `expiration: optional number`
+<details>
 
-    Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
+<summary>
 
-  - `expiration_ttl: optional number`
+values: optional map\[stringor numberor booleanor map\[unknown]]
 
-    Expires the key after a number of seconds. Must be at least 60.
+Requested keys are paired with their values in an object.
 
-  - `metadata: optional unknown`
+</summary>
 
-    Arbitrary JSON that is associated with a key.
+One of the following:
 
-### Returns
+string
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+number
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+map\[unknown]
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+WorkersKVBulkGetResultWithMetadata object {values }
 
-- `result: optional object { successful_key_count, unsuccessful_keys }`
+</summary>
 
-  - `successful_key_count: optional number`
+<details>
 
-    Number of keys successfully updated.
+<summary>
 
-  - `unsuccessful_keys: optional array of string`
+values: optional map\[object {metadata, value, expiration } ]
 
-    Name of the keys that failed to be fully updated. They should be retried.
+Requested keys are paired with their values and metadata in an object.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "key": "My-Key",
-            "value": "Some string",
-            "base64": true,
-            "expiration": 1578435000,
-            "expiration_ttl": 300,
-            "metadata": {}
-          }
-        ]'
-```
+metadata: unknown
 
-#### Response
+The metadata associated with the key.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "successful_key_count": 100,
-    "unsuccessful_keys": [
-      "string"
-    ]
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete multiple key-value pairs
+value: unknown
 
-**post** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/delete`
+The value associated with the key.
 
-Remove multiple KV pairs from the namespace. Body should be an array of up to 10,000 keys to be removed.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+expiration: optional number
 
-- `account_id: string`
+Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `namespace_id: string`
+</details>
 
-  Namespace identifier tag.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `body: array of string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk/delete \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          "My-Key"
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "successful_key_count": 100,
-    "unsuccessful_keys": [
-      "string"
-    ]
-  }
-}
-```
-
-## Get multiple key-value pairs
-
-**post** `/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/get`
-
-Retrieve up to 100 KV pairs from the namespace. Keys must contain text-based values. JSON values can optionally be parsed instead of being returned as a string value. Metadata can be included if `withMetadata` is true.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `namespace_id: string`
-
-  Namespace identifier tag.
-
-### Body Parameters
-
-- `keys: array of string`
-
-  Array of keys to retrieve (maximum of 100).
-
-- `type: optional "text" or "json"`
-
-  Whether to parse JSON values in the response.
-
-  - `"text"`
-
-  - `"json"`
-
-- `withMetadata: optional boolean`
-
-  Whether to include metadata in the response.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { values }  or object { values }`
-
-  - `WorkersKVBulkGetResult object { values }`
-
-    - `values: optional map[string or number or boolean or map[unknown]]`
-
-      Requested keys are paired with their values in an object.
-
-      - `string`
-
-      - `number`
-
-      - `boolean`
-
-      - `map[unknown]`
-
-  - `WorkersKVBulkGetResultWithMetadata object { values }`
-
-    - `values: optional map[object { metadata, value, expiration } ]`
-
-      Requested keys are paired with their values and metadata in an object.
-
-      - `metadata: unknown`
-
-        The metadata associated with the key.
-
-      - `value: unknown`
-
-        The value associated with the key.
-
-      - `expiration: optional number`
-
-        Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/storage/kv/namespaces/$NAMESPACE_ID/bulk/get \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "keys": [
-            "My-Key"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "values": {
-      "key1": "value1",
-      "key2": "value2"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Key
-
-- `Key object { name, expiration, metadata }`
-
-  A name for a value. A value stored under a given key may be retrieved via the same key.
-
-  - `name: string`
-
-    A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL.
-
-  - `expiration: optional number`
-
-    The time, measured in number of seconds since the UNIX epoch, at which the key will expire. This property is omitted for keys that will not expire.
-
-  - `metadata: optional unknown`
-
-    Arbitrary JSON that is associated with a key.
-
-### Key Bulk Update Response
-
-- `KeyBulkUpdateResponse object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Key Bulk Delete Response
-
-- `KeyBulkDeleteResponse object { successful_key_count, unsuccessful_keys }`
-
-  - `successful_key_count: optional number`
-
-    Number of keys successfully updated.
-
-  - `unsuccessful_keys: optional array of string`
-
-    Name of the keys that failed to be fully updated. They should be retried.
-
-### Key Bulk Get Response
-
-- `KeyBulkGetResponse = object { values }  or object { values }`
-
-  - `WorkersKVBulkGetResult object { values }`
-
-    - `values: optional map[string or number or boolean or map[unknown]]`
-
-      Requested keys are paired with their values in an object.
-
-      - `string`
-
-      - `number`
-
-      - `boolean`
-
-      - `map[unknown]`
-
-  - `WorkersKVBulkGetResultWithMetadata object { values }`
-
-    - `values: optional map[object { metadata, value, expiration } ]`
-
-      Requested keys are paired with their values and metadata in an object.
-
-      - `metadata: unknown`
-
-        The metadata associated with the key.
-
-      - `value: unknown`
-
-        The value associated with the key.
-
-      - `expiration: optional number`
-
-        Expires the key at a certain time, measured in number of seconds since the UNIX epoch.
+[Link to this property](#)%20kv.namespaces.keys%20%3E%20(model)%20key_bulk_get_response%20%3E%20(schema)>)

@@ -1,144 +1,390 @@
-## Create Zero Trust list
+---
+title: Create Zero Trust list
+---
 
-**post** `/accounts/{account_id}/gateway/lists`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+[Lists](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/lists)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create Zero Trust list
+
+POST/accounts/{account\_id}/gateway/lists
 
 Creates a new Zero Trust list.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `name: string`
 
-  Specify the list name.
 
-- `type: "SERIAL" or "URL" or "DOMAIN" or 6 more`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Specify the list type.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"SERIAL"`
+</details>
 
-  - `"URL"`
+<details>
 
-  - `"DOMAIN"`
+<summary>API Email + API Key</summary>
 
-  - `"EMAIL"`
 
-  - `"IP"`
 
-  - `"CATEGORY"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"LOCATION"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"DEVICE"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"AAGUID"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `description: optional string`
+</details>
 
-  Provide the list description.
+##### P ath ParametersExpand Collapse
 
-- `items: optional array of object { description, value }`
+account\_id: string
 
-  Add items to the list.
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `description: optional string`
+##### Body ParametersJSONExpand Collapse
 
-    Provide the list item description (optional).
+name: string
 
-  - `value: optional string`
+Specify the list name.
 
-    Specify the item value.
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+type: "SERIAL"or "URL"or "DOMAIN"or 6 more
 
-  - `message: string`
+Specify the list type.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"SERIAL"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"URL"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"DOMAIN"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"EMAIL"
 
-  Indicate whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"IP"
 
-- `result: optional object { id, created_at, description, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"CATEGORY"
 
-    Identify the API resource with a UUID.
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"LOCATION"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Provide the list description.
+"DEVICE"
 
-  - `items: optional array of GatewayItem`
+<a href="#">Link to this property</a>
 
-    Provide the list items.
+"AAGUID"
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-      Provide the list item description (optional).
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-    - `value: optional string`
+description: optional string
 
-      Specify the item value.
+Provide the list description.
 
-  - `name: optional string`
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    Specify the list name.
+<details>
 
-  - `type: optional "SERIAL" or "URL" or "DOMAIN" or 6 more`
+<summary>
 
-    Specify the list type.
+items: optional array of object {description, value }
 
-    - `"SERIAL"`
+Add items to the list.
 
-    - `"URL"`
+</summary>
 
-    - `"DOMAIN"`
+description: optional string
 
-    - `"EMAIL"`
+Provide the list item description (optional).
 
-    - `"IP"`
+minimum0
 
-    - `"CATEGORY"`
+<a href="#">Link to this property</a>
 
-    - `"LOCATION"`
+value: optional string
 
-    - `"DEVICE"`
+Specify the item value.
 
-    - `"AAGUID"`
+<a href="#">Link to this property</a>
 
-  - `updated_at: optional string`
+</details>
 
-### Example
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20items%20%3E%20(schema)>)
 
-```http
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Indicate whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, description, 4 more }
+
+</summary>
+
+id: optional string
+
+Identify the API resource with a UUID.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Provide the list description.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+items: optional array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.lists%20%3E%20(model)%20gateway_item%20%3E%20(schema)">GatewayItem</a> { created\_at, description, value }
+
+Provide the list items.
+
+</summary>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Provide the list item description (optional).
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+Specify the item value.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Specify the list name.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "SERIAL"or "URL"or "DOMAIN"or 6 more
+
+Specify the list type.
+
+</summary>
+
+One of the following:
+
+"SERIAL"
+
+<a href="#">Link to this property</a>
+
+"URL"
+
+<a href="#">Link to this property</a>
+
+"DOMAIN"
+
+<a href="#">Link to this property</a>
+
+"EMAIL"
+
+<a href="#">Link to this property</a>
+
+"IP"
+
+<a href="#">Link to this property</a>
+
+"CATEGORY"
+
+<a href="#">Link to this property</a>
+
+"LOCATION"
+
+<a href="#">Link to this property</a>
+
+"DEVICE"
+
+<a href="#">Link to this property</a>
+
+"AAGUID"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.lists%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create Zero Trust list
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -149,9 +395,54 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/lists \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "description": "The serial numbers for administrators",
+    "items": [
+      {
+        "created_at": "2014-01-01T05:20:00.12345Z",
+        "description": "Austin office IP",
+        "value": "8GE8721REF"
+      }
+    ],
+    "name": "Admin Serial Numbers",
+    "type": "SERIAL",
+    "updated_at": "2014-01-01T05:20:00.12345Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

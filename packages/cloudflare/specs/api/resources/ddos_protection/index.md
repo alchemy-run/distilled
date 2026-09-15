@@ -1,5912 +1,2859 @@
+---
+title: DDoS Protection
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # DDoS Protection
 
-# Advanced TCP Protection
+#### DDoS ProtectionAdvanced TCP Protection
 
-# Allowlist
+#### DDoS ProtectionAdvanced TCP ProtectionAllowlist
 
-## List all allowlist prefixes.
+##### [List all allowlist prefixes.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/methods/list)
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist
 
-List all allowlist prefixes for an account.
+##### [Create allowlist prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist
 
-- `account_id: string`
+##### [Delete all allowlist prefixes.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/methods/bulk_delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `direction: optional string`
+<details>
 
-  The direction of ordering (ASC or DESC). Defaults to 'ASC'.
+<summary>
 
-- `order: optional string`
+AllowlistListResponse object {id, comment, created\_on, 3 more }
 
-  The field to order by. Defaults to 'prefix'.
+</summary>
 
-- `page: optional number`
+id: string
 
-  The page number for pagination. Defaults to 1.
+The unique ID of the allowlist prefix.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The number of items per page. Must be between 10 and 1000. Defaults to 25.
+comment: string
 
-### Returns
+An optional comment describing the allowlist prefix.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: string
 
-  - `message: string`
+The creation timestamp of the allowlist prefix.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+enabled: boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Whether to enable the allowlist prefix into effect. Defaults to false.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: string
 
-  - `documentation_url: optional string`
+The last modification timestamp of the allowlist prefix.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+prefix: string
 
-  Whether the API call was successful.
+The allowlist prefix in CIDR format.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, comment, created_on, 3 more }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist%20%3E%20(model)%20allowlist_list_response%20%3E%20(schema)>)
 
-    The unique ID of the allowlist prefix.
+<details>
 
-  - `comment: string`
+<summary>
 
-    An optional comment describing the allowlist prefix.
+AllowlistCreateResponse object {id, comment, created\_on, 3 more }
 
-  - `created_on: string`
+</summary>
 
-    The creation timestamp of the allowlist prefix.
+id: string
 
-  - `enabled: boolean`
+The unique ID of the allowlist prefix.
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+comment: string
 
-    The last modification timestamp of the allowlist prefix.
+An optional comment describing the allowlist prefix.
 
-  - `prefix: string`
+<a href="#">Link to this property</a>
 
-    The allowlist prefix in CIDR format.
+created\_on: string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+The creation timestamp of the allowlist prefix.
 
-  - `count: optional number`
+formatdate-time
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+enabled: boolean
 
-    Current page within paginated list of results.
+Whether to enable the allowlist prefix into effect. Defaults to false.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+modified\_on: string
 
-  - `total_count: optional number`
+The last modification timestamp of the allowlist prefix.
 
-    Total results available without any search parameters.
+formatdate-time
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+prefix: string
 
-### Example
+The allowlist prefix in CIDR format.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "comment": "comment",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "enabled": true,
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "prefix": "prefix"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist%20%3E%20(model)%20allowlist_create_response%20%3E%20(schema)>)
 
-## Create allowlist prefix.
+<details>
 
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist`
+<summary>
 
-Create an allowlist prefix for an account.
+AllowlistBulkDeleteResponse object {errors, messages, success }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-### Body Parameters
+errors: array of object {code, message, documentation\_url, source }
 
-- `comment: string`
+</summary>
 
-  An comment describing the allowlist prefix.
+code: number
 
-- `enabled: boolean`
+minimum1000
 
-  Whether to enable the allowlist prefix into effect.
+<a href="#">Link to this property</a>
 
-- `prefix: string`
+message: string
 
-  The allowlist prefix to add in CIDR format.
+<a href="#">Link to this property</a>
 
-### Returns
+documentation\_url: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+source: optional object {pointer }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+pointer: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+code: number
 
-  - `id: string`
+minimum1000
 
-    The unique ID of the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `comment: string`
+message: string
 
-    An optional comment describing the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+documentation\_url: optional string
 
-    The creation timestamp of the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+<details>
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+<summary>
 
-  - `modified_on: string`
+source: optional object {pointer }
 
-    The last modification timestamp of the allowlist prefix.
+</summary>
 
-  - `prefix: string`
+pointer: optional string
 
-    The allowlist prefix in CIDR format.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "comment",
-          "enabled": true,
-          "prefix": "prefix"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "prefix"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete all allowlist prefixes.
+success: true
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist`
+Whether the API call was successful.
 
-Delete all allowlist prefixes for an account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist%20%3E%20(model)%20allowlist_bulk_delete_response%20%3E%20(schema)>)
 
-  Identifier.
+#### DDoS ProtectionAdvanced TCP ProtectionAllowlistItems
 
-### Returns
+##### [Get allowlist prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/subresources/items/methods/get)
 
-- `errors: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist/{prefix\_id}
 
-  - `code: number`
+##### [Update allowlist prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/subresources/items/methods/edit)
 
-  - `message: string`
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist/{prefix\_id}
 
-  - `documentation_url: optional string`
+##### [Delete allowlist prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/allowlist/subresources/items/methods/delete)
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/allowlist/{prefix\_id}
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+ItemGetResponse object {id, comment, created\_on, 3 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+The unique ID of the allowlist prefix.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+comment: string
 
-  - `true`
+An optional comment describing the allowlist prefix.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+created\_on: string
 
-#### Response
+The creation timestamp of the allowlist prefix.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+formatdate-time
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Allowlist List Response
+enabled: boolean
 
-- `AllowlistListResponse object { id, comment, created_on, 3 more }`
+Whether to enable the allowlist prefix into effect. Defaults to false.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the allowlist prefix.
+modified\_on: string
 
-  - `comment: string`
+The last modification timestamp of the allowlist prefix.
 
-    An optional comment describing the allowlist prefix.
+formatdate-time
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the allowlist prefix.
+prefix: string
 
-  - `enabled: boolean`
+The allowlist prefix in CIDR format.
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+</details>
 
-    The last modification timestamp of the allowlist prefix.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-  - `prefix: string`
+<details>
 
-    The allowlist prefix in CIDR format.
+<summary>
 
-### Allowlist Create Response
+ItemEditResponse object {id, comment, created\_on, 3 more }
 
-- `AllowlistCreateResponse object { id, comment, created_on, 3 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-    The unique ID of the allowlist prefix.
+The unique ID of the allowlist prefix.
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    An optional comment describing the allowlist prefix.
+comment: string
 
-  - `created_on: string`
+An optional comment describing the allowlist prefix.
 
-    The creation timestamp of the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+created\_on: string
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+The creation timestamp of the allowlist prefix.
 
-  - `modified_on: string`
+formatdate-time
 
-    The last modification timestamp of the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `prefix: string`
+enabled: boolean
 
-    The allowlist prefix in CIDR format.
+Whether to enable the allowlist prefix into effect. Defaults to false.
 
-### Allowlist Bulk Delete Response
+<a href="#">Link to this property</a>
 
-- `AllowlistBulkDeleteResponse object { errors, messages, success }`
+modified\_on: string
 
-  - `errors: array of object { code, message, documentation_url, source }`
+The last modification timestamp of the allowlist prefix.
 
-    - `code: number`
+formatdate-time
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+prefix: string
 
-    - `source: optional object { pointer }`
+The allowlist prefix in CIDR format.
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-    - `code: number`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-    - `message: string`
+<details>
 
-    - `documentation_url: optional string`
+<summary>
 
-    - `source: optional object { pointer }`
+ItemDeleteResponse object {errors, messages, success }
 
-      - `pointer: optional string`
+</summary>
 
-  - `success: true`
+<details>
 
-    Whether the API call was successful.
+<summary>
 
-    - `true`
+errors: array of object {code, message, documentation\_url, source }
 
-# Items
+</summary>
 
-## Get allowlist prefix.
+code: number
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}`
+minimum1000
 
-Get an allowlist prefix specified by the given UUID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+message: string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+documentation\_url: optional string
 
-- `prefix_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+source: optional object {pointer }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+pointer: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+code: number
 
-  Whether the API call was successful.
+minimum1000
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+message: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the allowlist prefix.
+documentation\_url: optional string
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    An optional comment describing the allowlist prefix.
+<details>
 
-  - `created_on: string`
+<summary>
 
-    The creation timestamp of the allowlist prefix.
+source: optional object {pointer }
 
-  - `enabled: boolean`
+</summary>
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+pointer: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the allowlist prefix.
+</details>
 
-  - `prefix: string`
+<a href="#">Link to this property</a>
 
-    The allowlist prefix in CIDR format.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist/$PREFIX_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+success: true
 
-#### Response
+Whether the API call was successful.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "prefix"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update allowlist prefix.
+</details>
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.allowlist.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)
 
-Update an allowlist prefix specified by the given UUID.
+#### DDoS ProtectionAdvanced TCP ProtectionPrefixes
 
-### Path Parameters
+##### [List all prefixes.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/methods/list)
 
-- `account_id: string`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes
 
-  Identifier.
+##### [Create prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/methods/create)
 
-- `prefix_id: string`
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes
 
-  UUID.
+##### [Delete all prefixes.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/methods/bulk_delete)
 
-### Body Parameters
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes
 
-- `comment: optional string`
+##### [Create multiple prefixes.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/methods/bulk_create)
 
-  A comment describing the allowlist prefix. Optional.
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/bulk
 
-- `enabled: optional boolean`
+##### ModelsExpand Collapse
 
-  Whether to enable the allowlist prefix into effect. Optional.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+PrefixListResponse object {id, comment, created\_on, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique ID of the prefix.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+comment: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+A comment describing the prefix.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created\_on: string
 
-  - `documentation_url: optional string`
+The creation timestamp of the prefix.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+excluded: boolean
 
-  Whether the API call was successful.
+Whether to exclude the prefix from protection.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+modified\_on: string
 
-  - `id: string`
+The last modification timestamp of the prefix.
 
-    The unique ID of the allowlist prefix.
+formatdate-time
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    An optional comment describing the allowlist prefix.
+prefix: string
 
-  - `created_on: string`
+The prefix in CIDR format.
 
-    The creation timestamp of the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `enabled: boolean`
+</details>
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(model)%20prefix_list_response%20%3E%20(schema)>)
 
-  - `modified_on: string`
+<details>
 
-    The last modification timestamp of the allowlist prefix.
+<summary>
 
-  - `prefix: string`
+PrefixCreateResponse object {id, comment, created\_on, 3 more }
 
-    The allowlist prefix in CIDR format.
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist/$PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+The unique ID of the prefix.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "enabled": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "prefix"
-  }
-}
-```
+comment: string
 
-## Delete allowlist prefix.
+A comment describing the prefix.
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}`
+<a href="#">Link to this property</a>
 
-Delete the allowlist prefix for an account given a UUID.
+created\_on: string
 
-### Path Parameters
+The creation timestamp of the prefix.
 
-- `account_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `prefix_id: string`
+excluded: boolean
 
-  UUID.
+Whether to exclude the prefix from protection.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+modified\_on: string
 
-  - `code: number`
+The last modification timestamp of the prefix.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+prefix: string
 
-    - `pointer: optional string`
+The prefix in CIDR format.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(model)%20prefix_create_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+PrefixBulkDeleteResponse object {errors, messages, success }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+errors: array of object {code, message, documentation\_url, source }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/allowlist/$PREFIX_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+code: number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+minimum1000
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Item Get Response
+message: string
 
-- `ItemGetResponse object { id, comment, created_on, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+documentation\_url: optional string
 
-    The unique ID of the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `comment: string`
+<details>
 
-    An optional comment describing the allowlist prefix.
+<summary>
 
-  - `created_on: string`
+source: optional object {pointer }
 
-    The creation timestamp of the allowlist prefix.
+</summary>
 
-  - `enabled: boolean`
+pointer: optional string
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+</details>
 
-    The last modification timestamp of the allowlist prefix.
+<a href="#">Link to this property</a>
 
-  - `prefix: string`
+</details>
 
-    The allowlist prefix in CIDR format.
+<a href="#">Link to this property</a>
 
-### Item Edit Response
+<details>
 
-- `ItemEditResponse object { id, comment, created_on, 3 more }`
+<summary>
 
-  - `id: string`
+messages: array of object {code, message, documentation\_url, source }
 
-    The unique ID of the allowlist prefix.
+</summary>
 
-  - `comment: string`
+code: number
 
-    An optional comment describing the allowlist prefix.
+minimum1000
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the allowlist prefix.
+message: string
 
-  - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-    Whether to enable the allowlist prefix into effect. Defaults to false.
+documentation\_url: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the allowlist prefix.
+<details>
 
-  - `prefix: string`
+<summary>
 
-    The allowlist prefix in CIDR format.
+source: optional object {pointer }
 
-### Item Delete Response
+</summary>
 
-- `ItemDeleteResponse object { errors, messages, success }`
+pointer: optional string
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+</details>
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+</details>
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+success: true
 
-  - `messages: array of object { code, message, documentation_url, source }`
+Whether the API call was successful.
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+</details>
 
-    - `documentation_url: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(model)%20prefix_bulk_delete_response%20%3E%20(schema)>)
 
-    - `source: optional object { pointer }`
+<details>
 
-      - `pointer: optional string`
+<summary>
 
-  - `success: true`
+PrefixBulkCreateResponse object {id, comment, created\_on, 3 more }
 
-    Whether the API call was successful.
+</summary>
 
-    - `true`
+id: string
 
-# Prefixes
+The unique ID of the prefix.
 
-## List all prefixes.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes`
+comment: string
 
-List all prefixes for an account.
+A comment describing the prefix.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+created\_on: string
 
-  Identifier.
+The creation timestamp of the prefix.
 
-### Query Parameters
+formatdate-time
 
-- `direction: optional string`
+<a href="#">Link to this property</a>
 
-  The direction of ordering (ASC or DESC). Defaults to 'ASC'.
+excluded: boolean
 
-- `order: optional string`
+Whether to exclude the prefix from protection.
 
-  The field to order by. Defaults to 'prefix'.
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+modified\_on: string
 
-  The page number for pagination. Defaults to 1.
+The last modification timestamp of the prefix.
 
-- `per_page: optional number`
+formatdate-time
 
-  The number of items per page. Must be between 10 and 1000. Defaults to 25.
+<a href="#">Link to this property</a>
 
-### Returns
+prefix: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The prefix in CIDR format.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes%20%3E%20(model)%20prefix_bulk_create_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+#### DDoS ProtectionAdvanced TCP ProtectionPrefixesItems
 
-    - `pointer: optional string`
+##### [Get prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/subresources/items/methods/get)
 
-- `messages: array of object { code, message, documentation_url, source }`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/{prefix\_id}
 
-  - `code: number`
+##### [Update prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/subresources/items/methods/edit)
 
-  - `message: string`
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/{prefix\_id}
 
-  - `documentation_url: optional string`
+##### [Delete prefix.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/prefixes/subresources/items/methods/delete)
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/prefixes/{prefix\_id}
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+ItemGetResponse object {id, comment, created\_on, 3 more }
 
-- `result: optional array of object { id, comment, created_on, 3 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-    The unique ID of the prefix.
+The unique ID of the prefix.
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    A comment describing the prefix.
+comment: string
 
-  - `created_on: string`
+A comment describing the prefix.
 
-    The creation timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `excluded: boolean`
+created\_on: string
 
-    Whether to exclude the prefix from protection.
+The creation timestamp of the prefix.
 
-  - `modified_on: string`
+formatdate-time
 
-    The last modification timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `prefix: string`
+excluded: boolean
 
-    The prefix in CIDR format.
+Whether to exclude the prefix from protection.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+modified\_on: string
 
-    Total number of results for the requested service.
+The last modification timestamp of the prefix.
 
-  - `page: optional number`
+formatdate-time
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+prefix: string
 
-    Number of results per page of results.
+The prefix in CIDR format.
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-    The number of total pages in the entire result set.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+ItemEditResponse object {id, comment, created\_on, 3 more }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "comment": "comment",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "excluded": true,
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "prefix": "192.0.2.0/24"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+id: string
 
-## Create prefix.
+The unique ID of the prefix.
 
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes`
+<a href="#">Link to this property</a>
 
-Create a prefix for an account.
+comment: string
 
-### Path Parameters
+A comment describing the prefix.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+created\_on: string
 
-### Body Parameters
+The creation timestamp of the prefix.
 
-- `comment: string`
+formatdate-time
 
-  A comment describing the prefix.
+<a href="#">Link to this property</a>
 
-- `excluded: boolean`
+excluded: boolean
 
-  Whether to exclude the prefix from protection.
+Whether to exclude the prefix from protection.
 
-- `prefix: string`
+<a href="#">Link to this property</a>
 
-  The prefix to add in CIDR format.
+modified\_on: string
 
-### Returns
+The last modification timestamp of the prefix.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+prefix: string
 
-  - `documentation_url: optional string`
+The prefix in CIDR format.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ItemDeleteResponse object {errors, messages, success }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+code: number
 
-  - `id: string`
+minimum1000
 
-    The unique ID of the prefix.
+<a href="#">Link to this property</a>
 
-  - `comment: string`
+message: string
 
-    A comment describing the prefix.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+documentation\_url: optional string
 
-    The creation timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `excluded: boolean`
+<details>
 
-    Whether to exclude the prefix from protection.
+<summary>
 
-  - `modified_on: string`
+source: optional object {pointer }
 
-    The last modification timestamp of the prefix.
+</summary>
 
-  - `prefix: string`
+pointer: optional string
 
-    The prefix in CIDR format.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comment": "comment",
-          "excluded": true,
-          "prefix": "192.0.2.0/24"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "excluded": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "192.0.2.0/24"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete all prefixes.
+<details>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes`
+<summary>
 
-Delete all prefixes for an account.
+messages: array of object {code, message, documentation\_url, source }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+code: number
 
-  Identifier.
+minimum1000
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+message: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+documentation\_url: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+source: optional object {pointer }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+pointer: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+success: true
 
-### Example
+Whether the API call was successful.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.prefixes.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)
 
-## Create multiple prefixes.
+#### DDoS ProtectionAdvanced TCP ProtectionSYN Protection
 
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/bulk`
+#### DDoS ProtectionAdvanced TCP ProtectionSYN ProtectionFilters
 
-Create multiple prefixes for an account.
+##### [List all SYN Protection filters.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/methods/list)
 
-### Path Parameters
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters
 
-- `account_id: string`
+##### [Create a SYN Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters
 
-### Body Parameters
+##### [Delete all SYN Protection filters.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/methods/bulk_delete)
 
-- `body: array of object { comment, excluded, prefix }`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters
 
-  - `comment: string`
+##### ModelsExpand Collapse
 
-    A comment describing the prefix.
+<details>
 
-  - `excluded: boolean`
+<summary>
 
-    Whether to exclude the prefix from protection.
+FilterListResponse object {id, created\_on, expression, 2 more }
 
-  - `prefix: string`
+</summary>
 
-    The prefix to add in CIDR format.
+id: string
 
-### Returns
+The unique ID of the expression filter.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: string
 
-  - `message: string`
+The creation timestamp of the expression filter.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+expression: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The filter expression.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+mode: string
 
-  - `documentation_url: optional string`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+modified\_on: string
 
-- `success: true`
+The last modification timestamp of the expression filter.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, comment, created_on, 3 more }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters%20%3E%20(model)%20filter_list_response%20%3E%20(schema)>)
 
-    The unique ID of the prefix.
+<details>
 
-  - `comment: string`
+<summary>
 
-    A comment describing the prefix.
+FilterCreateResponse object {id, created\_on, expression, 2 more }
 
-  - `created_on: string`
+</summary>
 
-    The creation timestamp of the prefix.
+id: string
 
-  - `excluded: boolean`
+The unique ID of the expression filter.
 
-    Whether to exclude the prefix from protection.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+created\_on: string
 
-    The last modification timestamp of the prefix.
+The creation timestamp of the expression filter.
 
-  - `prefix: string`
+formatdate-time
 
-    The prefix in CIDR format.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+expression: string
 
-  - `count: optional number`
+The filter expression.
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+mode: string
 
-    Current page within paginated list of results.
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+modified\_on: string
 
-  - `total_count: optional number`
+The last modification timestamp of the expression filter.
 
-    Total results available without any search parameters.
+formatdate-time
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+</details>
 
-### Example
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters%20%3E%20(model)%20filter_create_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/bulk \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "comment": "comment",
-            "excluded": true,
-            "prefix": "192.0.2.0/24"
-          }
-        ]'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "comment": "comment",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "excluded": true,
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "prefix": "192.0.2.0/24"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+FilterBulkDeleteResponse object {errors, messages, success }
 
-## Domain Types
+</summary>
 
-### Prefix List Response
+<details>
 
-- `PrefixListResponse object { id, comment, created_on, 3 more }`
+<summary>
 
-  - `id: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    The unique ID of the prefix.
+</summary>
 
-  - `comment: string`
+code: number
 
-    A comment describing the prefix.
+minimum1000
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the prefix.
+message: string
 
-  - `excluded: boolean`
+<a href="#">Link to this property</a>
 
-    Whether to exclude the prefix from protection.
+documentation\_url: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the prefix.
+<details>
 
-  - `prefix: string`
+<summary>
 
-    The prefix in CIDR format.
+source: optional object {pointer }
 
-### Prefix Create Response
+</summary>
 
-- `PrefixCreateResponse object { id, comment, created_on, 3 more }`
+pointer: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the prefix.
+</details>
 
-  - `comment: string`
+<a href="#">Link to this property</a>
 
-    A comment describing the prefix.
+</details>
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the prefix.
+<details>
 
-  - `excluded: boolean`
+<summary>
 
-    Whether to exclude the prefix from protection.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `modified_on: string`
+</summary>
 
-    The last modification timestamp of the prefix.
+code: number
 
-  - `prefix: string`
+minimum1000
 
-    The prefix in CIDR format.
+<a href="#">Link to this property</a>
 
-### Prefix Bulk Delete Response
+message: string
 
-- `PrefixBulkDeleteResponse object { errors, messages, success }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+documentation\_url: optional string
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+<details>
 
-    - `documentation_url: optional string`
+<summary>
 
-    - `source: optional object { pointer }`
+source: optional object {pointer }
 
-      - `pointer: optional string`
+</summary>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+pointer: optional string
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+</details>
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+success: true
 
-    Whether the API call was successful.
+Whether the API call was successful.
 
-    - `true`
+<a href="#">Link to this property</a>
 
-### Prefix Bulk Create Response
+</details>
 
-- `PrefixBulkCreateResponse object { id, comment, created_on, 3 more }`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters%20%3E%20(model)%20filter_bulk_delete_response%20%3E%20(schema)>)
 
-  - `id: string`
+#### DDoS ProtectionAdvanced TCP ProtectionSYN ProtectionFiltersItems
 
-    The unique ID of the prefix.
+##### [Get SYN Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/subresources/items/methods/get)
 
-  - `comment: string`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters/{filter\_id}
 
-    A comment describing the prefix.
+##### [Update SYN Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/subresources/items/methods/edit)
 
-  - `created_on: string`
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters/{filter\_id}
 
-    The creation timestamp of the prefix.
+##### [Delete SYN Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/filters/subresources/items/methods/delete)
 
-  - `excluded: boolean`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/filters/{filter\_id}
 
-    Whether to exclude the prefix from protection.
+##### ModelsExpand Collapse
 
-  - `modified_on: string`
+<details>
 
-    The last modification timestamp of the prefix.
+<summary>
 
-  - `prefix: string`
+ItemGetResponse object {id, created\_on, expression, 2 more }
 
-    The prefix in CIDR format.
+</summary>
 
-# Items
+id: string
 
-## Get prefix.
+The unique ID of the expression filter.
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/{prefix_id}`
+<a href="#">Link to this property</a>
 
-Get a prefix specified by the given UUID.
+created\_on: string
 
-### Path Parameters
+The creation timestamp of the expression filter.
 
-- `account_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `prefix_id: string`
+expression: string
 
-  UUID.
+The filter expression.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+mode: string
 
-  - `code: number`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: string
 
-  - `source: optional object { pointer }`
+The last modification timestamp of the expression filter.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+ItemEditResponse object {id, created\_on, expression, 2 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: string
 
-  - `true`
+The unique ID of the expression filter.
 
-- `result: optional object { id, comment, created_on, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+created\_on: string
 
-    The unique ID of the prefix.
+The creation timestamp of the expression filter.
 
-  - `comment: string`
+formatdate-time
 
-    A comment describing the prefix.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+expression: string
 
-    The creation timestamp of the prefix.
+The filter expression.
 
-  - `excluded: boolean`
+<a href="#">Link to this property</a>
 
-    Whether to exclude the prefix from protection.
+mode: string
 
-  - `modified_on: string`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-    The last modification timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `prefix: string`
+modified\_on: string
 
-    The prefix in CIDR format.
+The last modification timestamp of the expression filter.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/$PREFIX_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "excluded": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "192.0.2.0/24"
-  }
-}
-```
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-## Update prefix.
+<details>
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/{prefix_id}`
+<summary>
 
-Update a prefix specified by the given UUID.
+ItemDeleteResponse object {errors, messages, success }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `prefix_id: string`
+errors: array of object {code, message, documentation\_url, source }
 
-  UUID.
+</summary>
 
-### Body Parameters
+code: number
 
-- `comment: optional string`
+minimum1000
 
-  A new comment for the prefix. Optional.
+<a href="#">Link to this property</a>
 
-- `excluded: optional boolean`
+message: string
 
-  Whether to exclude the prefix from protection. Optional.
+<a href="#">Link to this property</a>
 
-### Returns
+documentation\_url: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+source: optional object {pointer }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+pointer: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-- `result: optional object { id, comment, created_on, 3 more }`
+code: number
 
-  - `id: string`
+minimum1000
 
-    The unique ID of the prefix.
+<a href="#">Link to this property</a>
 
-  - `comment: string`
+message: string
 
-    A comment describing the prefix.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+documentation\_url: optional string
 
-    The creation timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `excluded: boolean`
+<details>
 
-    Whether to exclude the prefix from protection.
+<summary>
 
-  - `modified_on: string`
+source: optional object {pointer }
 
-    The last modification timestamp of the prefix.
+</summary>
 
-  - `prefix: string`
+pointer: optional string
 
-    The prefix in CIDR format.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/$PREFIX_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "comment": "comment",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "excluded": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "prefix": "192.0.2.0/24"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete prefix.
+success: true
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/{prefix_id}`
+Whether the API call was successful.
 
-Delete the prefix for an account given a UUID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.filters.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)
 
-  Identifier.
+#### DDoS ProtectionAdvanced TCP ProtectionSYN ProtectionRules
 
-- `prefix_id: string`
+##### [List all SYN Protection rules.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/methods/list)
 
-  UUID.
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules
 
-### Returns
+##### [Create SYN Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/methods/create)
 
-- `errors: array of object { code, message, documentation_url, source }`
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules
 
-  - `code: number`
+##### [Delete all SYN Protection rules.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/methods/bulk_delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+RuleListResponse object {id, burst\_sensitivity, created\_on, 6 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique ID of the SYN Protection rule.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+burst\_sensitivity: string
 
-- `success: true`
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+created\_on: string
 
-### Example
+The creation timestamp of the SYN Protection rule.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/prefixes/$PREFIX_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+mitigation\_type: string
 
-## Domain Types
+The type of mitigation for SYN Protection. Must be one of ‘challenge’ or ‘retransmit’.
 
-### Item Get Response
+<a href="#">Link to this property</a>
 
-- `ItemGetResponse object { id, comment, created_on, 3 more }`
+mode: string
 
-  - `id: string`
+The mode for SYN Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-    The unique ID of the prefix.
+<a href="#">Link to this property</a>
 
-  - `comment: string`
+modified\_on: string
 
-    A comment describing the prefix.
+The last modification timestamp of the SYN Protection rule.
 
-  - `created_on: string`
+formatdate-time
 
-    The creation timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `excluded: boolean`
+name: string
 
-    Whether to exclude the prefix from protection.
+The name of the SYN Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the prefix.
+rate\_sensitivity: string
 
-  - `prefix: string`
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-    The prefix in CIDR format.
+<a href="#">Link to this property</a>
 
-### Item Edit Response
+scope: string
 
-- `ItemEditResponse object { id, comment, created_on, 3 more }`
+The scope for the SYN Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the prefix.
+</details>
 
-  - `comment: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-    A comment describing the prefix.
+<details>
 
-  - `created_on: string`
+<summary>
 
-    The creation timestamp of the prefix.
+RuleCreateResponse object {id, burst\_sensitivity, created\_on, 6 more }
 
-  - `excluded: boolean`
+</summary>
 
-    Whether to exclude the prefix from protection.
+id: string
 
-  - `modified_on: string`
+The unique ID of the SYN Protection rule.
 
-    The last modification timestamp of the prefix.
+<a href="#">Link to this property</a>
 
-  - `prefix: string`
+burst\_sensitivity: string
 
-    The prefix in CIDR format.
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-### Item Delete Response
+<a href="#">Link to this property</a>
 
-- `ItemDeleteResponse object { errors, messages, success }`
+created\_on: string
 
-  - `errors: array of object { code, message, documentation_url, source }`
+The creation timestamp of the SYN Protection rule.
 
-    - `code: number`
+formatdate-time
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+mitigation\_type: string
 
-    - `source: optional object { pointer }`
+The type of mitigation for SYN Protection. Must be one of ‘challenge’ or ‘retransmit’.
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+mode: string
 
-    - `code: number`
+The mode for SYN Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+modified\_on: string
 
-    - `source: optional object { pointer }`
+The last modification timestamp of the SYN Protection rule.
 
-      - `pointer: optional string`
+formatdate-time
 
-  - `success: true`
+<a href="#">Link to this property</a>
 
-    Whether the API call was successful.
+name: string
 
-    - `true`
+The name of the SYN Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-# SYN Protection
+<a href="#">Link to this property</a>
 
-# Filters
+rate\_sensitivity: string
 
-## List all SYN Protection filters.
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters`
+<a href="#">Link to this property</a>
 
-List all SYN Protection filters for an account.
+scope: string
 
-### Path Parameters
+The scope for the SYN Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Query Parameters
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules%20%3E%20(model)%20rule_create_response%20%3E%20(schema)>)
 
-- `direction: optional string`
+<details>
 
-  The direction of ordering (ASC or DESC). Defaults to 'ASC'.
+<summary>
 
-- `mode: optional string`
+RuleBulkDeleteResponse object {errors, messages, success }
 
-  The mode of the filters to get. Optional. Valid values: 'enabled', 'disabled', 'monitoring'.
+</summary>
 
-- `order: optional string`
+<details>
 
-  The field to order by. Defaults to 'prefix'.
+<summary>
 
-- `page: optional number`
+errors: array of object {code, message, documentation\_url, source }
 
-  The page number for pagination. Defaults to 1.
+</summary>
 
-- `per_page: optional number`
+code: number
 
-  The number of items per page. Must be between 10 and 1000. Defaults to 25.
+minimum1000
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+message: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+documentation\_url: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+source: optional object {pointer }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+pointer: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional array of object { id, created_on, expression, 2 more }`
+<summary>
 
-  - `id: string`
+messages: array of object {code, message, documentation\_url, source }
 
-    The unique ID of the expression filter.
+</summary>
 
-  - `created_on: string`
+code: number
 
-    The creation timestamp of the expression filter.
+minimum1000
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    The filter expression.
+message: string
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+documentation\_url: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the expression filter.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+source: optional object {pointer }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+pointer: optional string
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+success: true
 
-    The number of total pages in the entire result set.
+Whether the API call was successful.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules%20%3E%20(model)%20rule_bulk_delete_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-      "mode": "mode",
-      "modified_on": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+#### DDoS ProtectionAdvanced TCP ProtectionSYN ProtectionRulesItems
 
-## Create a SYN Protection filter.
+##### [Get SYN Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/subresources/items/methods/get)
 
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules/{rule\_id}
 
-Create a SYN Protection filter for an account.
+##### [Update SYN Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/subresources/items/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules/{rule\_id}
 
-- `account_id: string`
+##### [Delete SYN Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/subresources/items/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules/{rule\_id}
 
-### Body Parameters
+##### ModelsExpand Collapse
 
-- `expression: string`
+<details>
 
-  The filter expression.
+<summary>
 
-- `mode: string`
+ItemGetResponse object {id, burst\_sensitivity, created\_on, 6 more }
 
-  The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+</summary>
 
-### Returns
+id: string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The unique ID of the SYN Protection rule.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+burst\_sensitivity: string
 
-  - `documentation_url: optional string`
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The creation timestamp of the SYN Protection rule.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+mitigation\_type: string
 
-  - `source: optional object { pointer }`
+The type of mitigation for SYN Protection. Must be one of ‘challenge’ or ‘retransmit’.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+mode: string
 
-  Whether the API call was successful.
+The mode for SYN Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, expression, 2 more }`
+modified\_on: string
 
-  - `id: string`
+The last modification timestamp of the SYN Protection rule.
 
-    The unique ID of the expression filter.
+formatdate-time
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the expression filter.
+name: string
 
-  - `expression: string`
+The name of the SYN Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-    The filter expression.
+<a href="#">Link to this property</a>
 
-  - `mode: string`
+rate\_sensitivity: string
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the expression filter.
+scope: string
 
-### Example
+The scope for the SYN Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-          "mode": "mode"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-## Delete all SYN Protection filters.
+<details>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters`
+<summary>
 
-Delete all SYN Protection filters for an account.
+ItemEditResponse object {id, burst\_sensitivity, created\_on, 6 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: string
 
-  Identifier.
+The unique ID of the SYN Protection rule.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+burst\_sensitivity: string
 
-  - `code: number`
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_on: string
 
-  - `source: optional object { pointer }`
+The creation timestamp of the SYN Protection rule.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+mitigation\_type: string
 
-  - `message: string`
+The type of mitigation for SYN Protection. Must be one of ‘challenge’ or ‘retransmit’.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+mode: string
 
-    - `pointer: optional string`
+The mode for SYN Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+modified\_on: string
 
-  - `true`
+The last modification timestamp of the SYN Protection rule.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+The name of the SYN Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Filter List Response
+rate\_sensitivity: string
 
-- `FilterListResponse object { id, created_on, expression, 2 more }`
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the expression filter.
+scope: string
 
-  - `created_on: string`
+The scope for the SYN Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-    The creation timestamp of the expression filter.
+<a href="#">Link to this property</a>
 
-  - `expression: string`
+</details>
 
-    The filter expression.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-  - `mode: string`
+<details>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+<summary>
 
-  - `modified_on: string`
+ItemDeleteResponse object {errors, messages, success }
 
-    The last modification timestamp of the expression filter.
+</summary>
 
-### Filter Create Response
+<details>
 
-- `FilterCreateResponse object { id, created_on, expression, 2 more }`
+<summary>
 
-  - `id: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    The unique ID of the expression filter.
+</summary>
 
-  - `created_on: string`
+code: number
 
-    The creation timestamp of the expression filter.
+minimum1000
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    The filter expression.
+message: string
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+documentation\_url: optional string
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the expression filter.
+<details>
 
-### Filter Bulk Delete Response
+<summary>
 
-- `FilterBulkDeleteResponse object { errors, messages, success }`
+source: optional object {pointer }
 
-  - `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-    - `code: number`
+pointer: optional string
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+</details>
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+</details>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+<details>
 
-    - `message: string`
+<summary>
 
-    - `documentation_url: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-    - `source: optional object { pointer }`
+</summary>
 
-      - `pointer: optional string`
+code: number
 
-  - `success: true`
+minimum1000
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+message: string
 
-# Items
+<a href="#">Link to this property</a>
 
-## Get SYN Protection filter.
+documentation\_url: optional string
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}`
+<a href="#">Link to this property</a>
 
-Get a SYN Protection filter specified by the given UUID.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+source: optional object {pointer }
 
-  Identifier.
+</summary>
 
-- `filter_id: string`
+pointer: optional string
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+success: true
 
-  - `source: optional object { pointer }`
+Whether the API call was successful.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### DDoS ProtectionAdvanced TCP ProtectionTCP Flow Protection
 
-  - `documentation_url: optional string`
+#### DDoS ProtectionAdvanced TCP ProtectionTCP Flow ProtectionFilters
 
-  - `source: optional object { pointer }`
+##### [List all TCP Flow Protection filters.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/methods/list)
 
-    - `pointer: optional string`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters
 
-- `success: true`
+##### [Create a TCP Flow Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/methods/create)
 
-  Whether the API call was successful.
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters
 
-  - `true`
+##### [Delete all TCP Flow Protection filters.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/methods/bulk_delete)
 
-- `result: optional object { id, created_on, expression, 2 more }`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters
 
-  - `id: string`
+##### ModelsExpand Collapse
 
-    The unique ID of the expression filter.
+<details>
 
-  - `created_on: string`
+<summary>
 
-    The creation timestamp of the expression filter.
+FilterListResponse object {id, created\_on, expression, 2 more }
 
-  - `expression: string`
+</summary>
 
-    The filter expression.
+id: string
 
-  - `mode: string`
+The unique ID of the expression filter.
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+created\_on: string
 
-    The last modification timestamp of the expression filter.
+The creation timestamp of the expression filter.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters/$FILTER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+expression: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+The filter expression.
 
-## Update SYN Protection filter.
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}`
+mode: string
 
-Update a SYN Protection filter specified by the given UUID.
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+modified\_on: string
 
-  Identifier.
+The last modification timestamp of the expression filter.
 
-- `filter_id: string`
+formatdate-time
 
-  UUID.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `expression: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters%20%3E%20(model)%20filter_list_response%20%3E%20(schema)>)
 
-  The new filter expression. Optional.
+<details>
 
-- `mode: optional string`
+<summary>
 
-  The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.
+FilterCreateResponse object {id, created\_on, expression, 2 more }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+The unique ID of the expression filter.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_on: string
 
-  - `source: optional object { pointer }`
+The creation timestamp of the expression filter.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+expression: string
 
-  - `message: string`
+The filter expression.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+mode: string
 
-    - `pointer: optional string`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+modified\_on: string
 
-  - `true`
+The last modification timestamp of the expression filter.
 
-- `result: optional object { id, created_on, expression, 2 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the expression filter.
+</details>
 
-  - `created_on: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters%20%3E%20(model)%20filter_create_response%20%3E%20(schema)>)
 
-    The creation timestamp of the expression filter.
+<details>
 
-  - `expression: string`
+<summary>
 
-    The filter expression.
+FilterBulkDeleteResponse object {errors, messages, success }
 
-  - `mode: string`
+</summary>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+<details>
 
-  - `modified_on: string`
+<summary>
 
-    The last modification timestamp of the expression filter.
+errors: array of object {code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters/$FILTER_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }"
-        }'
-```
+code: number
 
-#### Response
+minimum1000
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete SYN Protection filter.
+message: string
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}`
+<a href="#">Link to this property</a>
 
-Delete a SYN Protection filter specified by the given UUID.
+documentation\_url: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `filter_id: string`
+source: optional object {pointer }
 
-  UUID.
+</summary>
 
-### Returns
+pointer: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+code: number
 
-  - `source: optional object { pointer }`
+minimum1000
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+message: string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+documentation\_url: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/filters/$FILTER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+source: optional object {pointer }
 
-## Domain Types
+</summary>
 
-### Item Get Response
+pointer: optional string
 
-- `ItemGetResponse object { id, created_on, expression, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    The unique ID of the expression filter.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-    The creation timestamp of the expression filter.
+<a href="#">Link to this property</a>
 
-  - `expression: string`
+success: true
 
-    The filter expression.
+Whether the API call was successful.
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+</details>
 
-  - `modified_on: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters%20%3E%20(model)%20filter_bulk_delete_response%20%3E%20(schema)>)
 
-    The last modification timestamp of the expression filter.
+#### DDoS ProtectionAdvanced TCP ProtectionTCP Flow ProtectionFiltersItems
 
-### Item Edit Response
+##### [Get TCP Flow Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/subresources/items/methods/get)
 
-- `ItemEditResponse object { id, created_on, expression, 2 more }`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters/{filter\_id}
 
-  - `id: string`
+##### [Update TCP Flow Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/subresources/items/methods/edit)
 
-    The unique ID of the expression filter.
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters/{filter\_id}
 
-  - `created_on: string`
+##### [Delete TCP Flow Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/subresources/items/methods/delete)
 
-    The creation timestamp of the expression filter.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters/{filter\_id}
 
-  - `expression: string`
+##### ModelsExpand Collapse
 
-    The filter expression.
+<details>
 
-  - `mode: string`
+<summary>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+ItemGetResponse object {id, created\_on, expression, 2 more }
 
-  - `modified_on: string`
+</summary>
 
-    The last modification timestamp of the expression filter.
+id: string
 
-### Item Delete Response
+The unique ID of the expression filter.
 
-- `ItemDeleteResponse object { errors, messages, success }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+created\_on: string
 
-    - `code: number`
+The creation timestamp of the expression filter.
 
-    - `message: string`
+formatdate-time
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+expression: string
 
-      - `pointer: optional string`
+The filter expression.
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+mode: string
 
-    - `message: string`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+modified\_on: string
 
-      - `pointer: optional string`
+The last modification timestamp of the expression filter.
 
-  - `success: true`
+formatdate-time
 
-    Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-    - `true`
+</details>
 
-# Rules
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-## List all SYN Protection rules.
+<details>
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules`
+<summary>
 
-List all SYN Protection rules for an account.
+ItemEditResponse object {id, created\_on, expression, 2 more }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: string
 
-  Identifier.
+The unique ID of the expression filter.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `direction: optional string`
+created\_on: string
 
-  The direction of ordering (ASC or DESC). Defaults to 'ASC'.
+The creation timestamp of the expression filter.
 
-- `order: optional string`
+formatdate-time
 
-  The field to order by. Defaults to 'prefix'.
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+expression: string
 
-  The page number for pagination. Defaults to 1.
+The filter expression.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The number of items per page. Must be between 10 and 1000. Defaults to 25.
+mode: string
 
-### Returns
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_on: string
 
-  - `message: string`
+The last modification timestamp of the expression filter.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ItemDeleteResponse object {errors, messages, success }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-- `result: optional array of object { id, burst_sensitivity, created_on, 6 more }`
+code: number
 
-  - `id: string`
+minimum1000
 
-    The unique ID of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `burst_sensitivity: string`
+message: string
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+documentation\_url: optional string
 
-    The creation timestamp of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `mitigation_type: string`
+<details>
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+<summary>
 
-  - `mode: string`
+source: optional object {pointer }
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+</summary>
 
-  - `modified_on: string`
+pointer: optional string
 
-    The last modification timestamp of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+<a href="#">Link to this property</a>
 
-  - `rate_sensitivity: string`
+</details>
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+<a href="#">Link to this property</a>
 
-  - `scope: string`
+<details>
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+<summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service.
+code: number
 
-  - `page: optional number`
+minimum1000
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+message: string
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+documentation\_url: optional string
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-  - `total_pages: optional number`
+<details>
 
-    The number of total pages in the entire result set.
+<summary>
 
-### Example
+source: optional object {pointer }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+pointer: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "burst_sensitivity": "burst_sensitivity",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "mitigation_type": "mitigation_type",
-      "mode": "mode",
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "rate_sensitivity": "rate_sensitivity",
-      "scope": "scope"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create SYN Protection rule.
+</details>
 
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules`
+<a href="#">Link to this property</a>
 
-Create a SYN Protection rule for an account.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+success: true
 
-  Identifier.
+Whether the API call was successful.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `burst_sensitivity: string`
+</details>
 
-  The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)
 
-- `mode: string`
+#### DDoS ProtectionAdvanced TCP ProtectionTCP Flow ProtectionRules
 
-  The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+##### [List all TCP Flow Protection rules.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/methods/list)
 
-- `name: string`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules
 
-  The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+##### [Create TCP Flow Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/methods/create)
 
-- `rate_sensitivity: string`
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules
 
-  The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+##### [Delete all TCP Flow Protection rules.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/methods/bulk_delete)
 
-- `scope: string`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules
 
-  The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+##### ModelsExpand Collapse
 
-- `mitigation_type: optional string`
+<details>
 
-  The type of mitigation. Must be one of 'challenge' or 'retransmit'. Optional. Defaults to 'challenge'.
+<summary>
 
-### Returns
+RuleListResponse object {id, burst\_sensitivity, created\_on, 5 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+The unique ID of the TCP Flow Protection rule.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+burst\_sensitivity: string
 
-    - `pointer: optional string`
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_on: string
 
-  - `message: string`
+The creation timestamp of the TCP Flow Protection rule.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+mode: string
 
-- `success: true`
+The mode for TCP Flow Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+modified\_on: string
 
-- `result: optional object { id, burst_sensitivity, created_on, 6 more }`
+The last modification timestamp of the TCP Flow Protection rule.
 
-  - `id: string`
+formatdate-time
 
-    The unique ID of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `burst_sensitivity: string`
+name: string
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+The name of the TCP Flow Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the SYN Protection rule.
+rate\_sensitivity: string
 
-  - `mitigation_type: string`
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+<a href="#">Link to this property</a>
 
-  - `mode: string`
+scope: string
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+The scope for the TCP Flow Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the SYN Protection rule.
+</details>
 
-  - `name: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+<details>
 
-  - `rate_sensitivity: string`
+<summary>
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+RuleCreateResponse object {id, burst\_sensitivity, created\_on, 5 more }
 
-  - `scope: string`
+</summary>
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+id: string
 
-### Example
+The unique ID of the TCP Flow Protection rule.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "burst_sensitivity": "burst_sensitivity",
-          "mode": "mode",
-          "name": "name",
-          "rate_sensitivity": "rate_sensitivity",
-          "scope": "scope"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+burst\_sensitivity: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mitigation_type": "mitigation_type",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-## Delete all SYN Protection rules.
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules`
+created\_on: string
 
-Delete all SYN Protection rules for an account.
+The creation timestamp of the TCP Flow Protection rule.
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+mode: string
 
-### Returns
+The mode for TCP Flow Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_on: string
 
-  - `message: string`
+The last modification timestamp of the TCP Flow Protection rule.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+name: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The name of the TCP Flow Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+rate\_sensitivity: string
 
-  - `documentation_url: optional string`
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+scope: string
 
-- `success: true`
+The scope for the TCP Flow Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules%20%3E%20(model)%20rule_create_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+RuleBulkDeleteResponse object {errors, messages, success }
 
-## Domain Types
+</summary>
 
-### Rule List Response
+<details>
 
-- `RuleListResponse object { id, burst_sensitivity, created_on, 6 more }`
+<summary>
 
-  - `id: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    The unique ID of the SYN Protection rule.
+</summary>
 
-  - `burst_sensitivity: string`
+code: number
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+minimum1000
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the SYN Protection rule.
+message: string
 
-  - `mitigation_type: string`
+<a href="#">Link to this property</a>
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+documentation\_url: optional string
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+<details>
 
-  - `modified_on: string`
+<summary>
 
-    The last modification timestamp of the SYN Protection rule.
+source: optional object {pointer }
 
-  - `name: string`
+</summary>
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+pointer: optional string
 
-  - `rate_sensitivity: string`
+<a href="#">Link to this property</a>
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+</details>
 
-  - `scope: string`
+<a href="#">Link to this property</a>
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+</details>
 
-### Rule Create Response
+<a href="#">Link to this property</a>
 
-- `RuleCreateResponse object { id, burst_sensitivity, created_on, 6 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-    The unique ID of the SYN Protection rule.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `burst_sensitivity: string`
+</summary>
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+code: number
 
-  - `created_on: string`
+minimum1000
 
-    The creation timestamp of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `mitigation_type: string`
+message: string
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+<a href="#">Link to this property</a>
 
-  - `mode: string`
+documentation\_url: optional string
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+<details>
 
-    The last modification timestamp of the SYN Protection rule.
+<summary>
 
-  - `name: string`
+source: optional object {pointer }
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+</summary>
 
-  - `rate_sensitivity: string`
+pointer: optional string
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+<a href="#">Link to this property</a>
 
-  - `scope: string`
+</details>
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+<a href="#">Link to this property</a>
 
-### Rule Bulk Delete Response
+</details>
 
-- `RuleBulkDeleteResponse object { errors, messages, success }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+success: true
 
-    - `code: number`
+Whether the API call was successful.
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+</details>
 
-    - `source: optional object { pointer }`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules%20%3E%20(model)%20rule_bulk_delete_response%20%3E%20(schema)>)
 
-      - `pointer: optional string`
+#### DDoS ProtectionAdvanced TCP ProtectionTCP Flow ProtectionRulesItems
 
-  - `messages: array of object { code, message, documentation_url, source }`
+##### [Get TCP Flow Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/subresources/items/methods/get)
 
-    - `code: number`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules/{rule\_id}
 
-    - `message: string`
+##### [Update TCP Flow Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/subresources/items/methods/edit)
 
-    - `documentation_url: optional string`
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules/{rule\_id}
 
-    - `source: optional object { pointer }`
+##### [Delete TCP Flow Protection rule.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/rules/subresources/items/methods/delete)
 
-      - `pointer: optional string`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/rules/{rule\_id}
 
-  - `success: true`
+##### ModelsExpand Collapse
 
-    Whether the API call was successful.
+<details>
 
-    - `true`
+<summary>
 
-# Items
+ItemGetResponse object {id, burst\_sensitivity, created\_on, 5 more }
 
-## Get SYN Protection rule.
+</summary>
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}`
+id: string
 
-Get a SYN Protection rule specified by the given UUID.
+The unique ID of the TCP Flow Protection rule.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+burst\_sensitivity: string
 
-  Identifier.
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-- `rule_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+created\_on: string
 
-### Returns
+The creation timestamp of the TCP Flow Protection rule.
 
-- `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+mode: string
 
-  - `documentation_url: optional string`
+The mode for TCP Flow Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+modified\_on: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The last modification timestamp of the TCP Flow Protection rule.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+name: string
 
-  - `source: optional object { pointer }`
+The name of the TCP Flow Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+rate\_sensitivity: string
 
-  Whether the API call was successful.
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, burst_sensitivity, created_on, 6 more }`
+scope: string
 
-  - `id: string`
+The scope for the TCP Flow Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-    The unique ID of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `burst_sensitivity: string`
+</details>
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-  - `created_on: string`
+<details>
 
-    The creation timestamp of the SYN Protection rule.
+<summary>
 
-  - `mitigation_type: string`
+ItemEditResponse object {id, burst\_sensitivity, created\_on, 5 more }
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+</summary>
 
-  - `mode: string`
+id: string
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+The unique ID of the TCP Flow Protection rule.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the SYN Protection rule.
+burst\_sensitivity: string
 
-  - `name: string`
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+<a href="#">Link to this property</a>
 
-  - `rate_sensitivity: string`
+created\_on: string
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+The creation timestamp of the TCP Flow Protection rule.
 
-  - `scope: string`
+formatdate-time
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+<a href="#">Link to this property</a>
 
-### Example
+mode: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The mode for TCP Flow Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mitigation_type": "mitigation_type",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
+modified\_on: string
 
-## Update SYN Protection rule.
+The last modification timestamp of the TCP Flow Protection rule.
 
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}`
+formatdate-time
 
-Update a SYN Protection rule specified by the given UUID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+name: string
 
-- `account_id: string`
+The name of the TCP Flow Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `rule_id: string`
+rate\_sensitivity: string
 
-  UUID.
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `burst_sensitivity: optional string`
+scope: string
 
-  The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'.
+The scope for the TCP Flow Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
 
-- `mitigation_type: optional string`
+<a href="#">Link to this property</a>
 
-  The new mitigation type. Optional. Must be one of 'challenge' or 'retransmit'.
+</details>
 
-- `mode: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-  The new mode for SYN Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.
+<details>
 
-- `rate_sensitivity: optional string`
+<summary>
 
-  The new rate sensitivity. Optional. Must be one of 'low', 'medium', 'high'.
+ItemDeleteResponse object {errors, messages, success }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+code: number
 
-    - `pointer: optional string`
+minimum1000
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+message: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+documentation\_url: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+source: optional object {pointer }
 
-  - `true`
+</summary>
 
-- `result: optional object { id, burst_sensitivity, created_on, 6 more }`
+pointer: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The unique ID of the SYN Protection rule.
+</details>
 
-  - `burst_sensitivity: string`
+<a href="#">Link to this property</a>
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+</details>
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the SYN Protection rule.
+<details>
 
-  - `mitigation_type: string`
+<summary>
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `mode: string`
+</summary>
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+code: number
 
-  - `modified_on: string`
+minimum1000
 
-    The last modification timestamp of the SYN Protection rule.
+<a href="#">Link to this property</a>
 
-  - `name: string`
+message: string
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+<a href="#">Link to this property</a>
 
-  - `rate_sensitivity: string`
+documentation\_url: optional string
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+<a href="#">Link to this property</a>
 
-  - `scope: string`
+<details>
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+<summary>
 
-### Example
+source: optional object {pointer }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+</summary>
 
-#### Response
+pointer: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mitigation_type": "mitigation_type",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete SYN Protection rule.
+</details>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}`
+<a href="#">Link to this property</a>
 
-Delete a SYN Protection rule specified by the given UUID.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+success: true
 
-  Identifier.
+Whether the API call was successful.
 
-- `rule_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+</details>
 
-### Returns
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.rules.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+#### DDoS ProtectionAdvanced TCP ProtectionStatus
 
-  - `code: number`
+##### [Get protection status.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/status/methods/get)
 
-  - `message: string`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_protection\_status
 
-  - `documentation_url: optional string`
+##### [Update protection status.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/status/methods/edit)
 
-  - `source: optional object { pointer }`
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_protection\_status
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+StatusGetResponse object {enabled }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+enabled: boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.status%20%3E%20(model)%20status_get_response%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+StatusEditResponse object {enabled }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+enabled: boolean
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Item Get Response
+</details>
 
-- `ItemGetResponse object { id, burst_sensitivity, created_on, 6 more }`
-
-  - `id: string`
-
-    The unique ID of the SYN Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the SYN Protection rule.
-
-  - `mitigation_type: string`
-
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
-
-  - `mode: string`
-
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the SYN Protection rule.
-
-  - `name: string`
-
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, burst_sensitivity, created_on, 6 more }`
-
-  - `id: string`
-
-    The unique ID of the SYN Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the SYN Protection rule.
-
-  - `mitigation_type: string`
-
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
-
-  - `mode: string`
-
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the SYN Protection rule.
-
-  - `name: string`
-
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# TCP Flow Protection
-
-# Filters
-
-## List all TCP Flow Protection filters.
-
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters`
-
-List all TCP Flow Protection filters for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `direction: optional string`
-
-  The direction of ordering (ASC or DESC). Defaults to 'ASC'.
-
-- `mode: optional string`
-
-  The mode of the filters to get. Optional. Valid values: 'enabled', 'disabled', 'monitoring'.
-
-- `order: optional string`
-
-  The field to order by. Defaults to 'prefix'.
-
-- `page: optional number`
-
-  The page number for pagination. Defaults to 1.
-
-- `per_page: optional number`
-
-  The number of items per page. Must be between 10 and 1000. Defaults to 25.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-      "mode": "mode",
-      "modified_on": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Create a TCP Flow Protection filter.
-
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters`
-
-Create a TCP Flow Protection filter for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `expression: string`
-
-  The filter expression.
-
-- `mode: string`
-
-  The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-          "mode": "mode"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
-
-## Delete all TCP Flow Protection filters.
-
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters`
-
-Delete all TCP Flow Protection filters for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Filter List Response
-
-- `FilterListResponse object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Filter Create Response
-
-- `FilterCreateResponse object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Filter Bulk Delete Response
-
-- `FilterBulkDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# Items
-
-## Get TCP Flow Protection filter.
-
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}`
-
-Get a TCP Flow Protection filter specified by the given UUID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `filter_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/$FILTER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
-
-## Update TCP Flow Protection filter.
-
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}`
-
-Update a TCP Flow Protection filter specified by the given UUID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `filter_id: string`
-
-  UUID.
-
-### Body Parameters
-
-- `expression: optional string`
-
-  The new filter expression. Optional.
-
-- `mode: optional string`
-
-  The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/$FILTER_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
-
-## Delete TCP Flow Protection filter.
-
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}`
-
-Delete a TCP Flow Protection filter specified by the given UUID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `filter_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/$FILTER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Item Get Response
-
-- `ItemGetResponse object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# Rules
-
-## List all TCP Flow Protection rules.
-
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules`
-
-List all TCP Flow Protection rules for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `direction: optional string`
-
-  The direction of ordering (ASC or DESC). Defaults to 'ASC'.
-
-- `order: optional string`
-
-  The field to order by. Defaults to 'prefix'.
-
-- `page: optional number`
-
-  The page number for pagination. Defaults to 1.
-
-- `per_page: optional number`
-
-  The number of items per page. Must be between 10 and 1000. Defaults to 25.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "burst_sensitivity": "burst_sensitivity",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "mode": "mode",
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "rate_sensitivity": "rate_sensitivity",
-      "scope": "scope"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Create TCP Flow Protection rule.
-
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules`
-
-Create a TCP Flow Protection rule for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `burst_sensitivity: string`
-
-  The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-- `mode: string`
-
-  The mode for the TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-- `name: string`
-
-  The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-- `rate_sensitivity: string`
-
-  The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-- `scope: string`
-
-  The scope for the TCP Flow Protection rule.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "burst_sensitivity": "burst_sensitivity",
-          "mode": "mode",
-          "name": "name",
-          "rate_sensitivity": "rate_sensitivity",
-          "scope": "scope"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
-
-## Delete all TCP Flow Protection rules.
-
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules`
-
-Delete all TCP Flow Protection rules for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Rule List Response
-
-- `RuleListResponse object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Rule Create Response
-
-- `RuleCreateResponse object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Rule Bulk Delete Response
-
-- `RuleBulkDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# Items
-
-## Get TCP Flow Protection rule.
-
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}`
-
-Get a TCP Flow Protection rule specified by the given UUID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `rule_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/$RULE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
-
-## Update TCP Flow Protection rule.
-
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}`
-
-Update a TCP Flow Protection rule specified by the given UUID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `rule_id: string`
-
-  UUID.
-
-### Body Parameters
-
-- `burst_sensitivity: optional string`
-
-  The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'.
-
-- `mode: optional string`
-
-  The new mode for TCP Flow Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-- `rate_sensitivity: optional string`
-
-  The new rate sensitivity. Optional. Must be one of 'low', 'medium', 'high'.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "burst_sensitivity": "burst_sensitivity",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "rate_sensitivity": "rate_sensitivity",
-    "scope": "scope"
-  }
-}
-```
-
-## Delete TCP Flow Protection rule.
-
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}`
-
-Delete a TCP Flow Protection rule specified by the given UUID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `rule_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/$RULE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Item Get Response
-
-- `ItemGetResponse object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, burst_sensitivity, created_on, 5 more }`
-
-  - `id: string`
-
-    The unique ID of the TCP Flow Protection rule.
-
-  - `burst_sensitivity: string`
-
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `created_on: string`
-
-    The creation timestamp of the TCP Flow Protection rule.
-
-  - `mode: string`
-
-    The mode for TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the TCP Flow Protection rule.
-
-  - `name: string`
-
-    The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
-
-  - `rate_sensitivity: string`
-
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
-
-  - `scope: string`
-
-    The scope for the TCP Flow Protection rule. Must be one of 'global', 'region', or 'datacenter'.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-# Status
-
-## Get protection status.
-
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_protection_status`
-
-Get the protection status of the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { enabled }`
-
-  - `enabled: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_protection_status \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true
-  }
-}
-```
-
-## Update protection status.
-
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_protection_status`
-
-Update the protection status of the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  Enables or disables protection.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { enabled }`
-
-  - `enabled: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_protection_status \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true
-  }
-}
-```
-
-## Domain Types
-
-### Status Get Response
-
-- `StatusGetResponse object { enabled }`
-
-  - `enabled: boolean`
-
-### Status Edit Response
-
-- `StatusEditResponse object { enabled }`
-
-  - `enabled: boolean`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.status%20%3E%20(model)%20status_edit_response%20%3E%20(schema)>)

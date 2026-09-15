@@ -126,6 +126,35 @@ export const CreateCredentialResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateCredentialResponse",
 }) as any as S.Schema<CreateCredentialResponse>;
 
+export interface DeleteRequest {
+  /** Use this to identify the account. */
+  accountId: string;
+  /** Specifies the R2 bucket name. */
+  bucketName: string;
+  /** Remove child metadata before deleting the catalog. */
+  force?: boolean;
+}
+export const DeleteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    bucketName: S.String.pipe(T.Label("bucket_name")),
+    force: S.optional(S.Boolean.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/r2-catalog/{bucket_name}/delete",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "DeleteRequest" }) as any as S.Schema<DeleteRequest>;
+
+export interface DeleteResponse {}
+export const DeleteResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "DeleteResponse" }) as any as S.Schema<DeleteResponse>;
+
 export interface DisableR2DataCatalogRequest {
   /** Use this to identify the account. */
   accountId: string;
@@ -263,7 +292,7 @@ export const MaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpirationSta
   S.String;
 
 export interface MaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration {
-  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. */
+  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. Format: where unit is d (days), h (hours), m (minutes), or s (seconds). Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes). Defaults to "7d". */
   maxSnapshotAge: string;
   /** Specifies the minimum number of snapshots to retain. Defaults to 100. */
   minSnapshotsToKeep: number;
@@ -286,6 +315,8 @@ export const MaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration =
 export interface MaintenanceConfigsGetResponseMaintenanceConfig {
   /** Configures compaction for catalog maintenance. */
   compaction?: MaintenanceConfigsGetResponseMaintenanceConfigCompaction | null;
+  /** Scheduling interval between normal table maintenance runs. */
+  interval?: string | null;
   /** Configures snapshot expiration settings. */
   snapshotExpiration?: MaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration | null;
 }
@@ -295,6 +326,7 @@ export const MaintenanceConfigsGetResponseMaintenanceConfig =
       compaction: S.optional(
         S.NullOr(MaintenanceConfigsGetResponseMaintenanceConfigCompaction),
       ),
+      interval: S.optional(S.NullOr(S.String)),
       snapshotExpiration: S.optional(
         S.NullOr(
           MaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration,
@@ -372,6 +404,8 @@ export interface NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigC
   state: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompactionState;
   /** Sets the target file size for compaction in megabytes. Defaults to "128". */
   targetSizeMb: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompactionTargetSizeMb;
+  /** Earliest time when the scheduler can claim this operation. Null when disabled. */
+  nextEligibleAt?: string | null;
 }
 export const NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompaction =
   /*@__PURE__*/ S.suspend(() =>
@@ -382,6 +416,9 @@ export const NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompa
         NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompactionTargetSizeMb.pipe(
           T.Body("target_size_mb"),
         ),
+      nextEligibleAt: S.optional(
+        S.NullOr(S.String).pipe(T.Body("next_eligible_at")),
+      ),
     }),
   ).annotate({
     identifier:
@@ -395,12 +432,14 @@ export const NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnaps
   S.String;
 
 export interface NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration {
-  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. */
+  /** Specifies the maximum age for snapshots. */
   maxSnapshotAge: string;
   /** Specifies the minimum number of snapshots to retain. Defaults to 100. */
   minSnapshotsToKeep: number;
   /** Specifies the state of maintenance operations. */
   state: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpirationState;
+  /** Earliest time when the scheduler can claim this operation. Null when disabled. */
+  nextEligibleAt?: string | null;
 }
 export const NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration =
   /*@__PURE__*/ S.suspend(() =>
@@ -409,6 +448,9 @@ export const NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnaps
       minSnapshotsToKeep: S.Number.pipe(T.Body("min_snapshots_to_keep")),
       state:
         NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpirationState,
+      nextEligibleAt: S.optional(
+        S.NullOr(S.String).pipe(T.Body("next_eligible_at")),
+      ),
     }),
   ).annotate({
     identifier:
@@ -418,7 +460,8 @@ export const NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnaps
 export interface NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfig {
   /** Configures compaction settings for table optimization. */
   compaction?: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompaction | null;
-  /** Configures snapshot expiration settings. */
+  /** Scheduling interval between normal table maintenance runs. */
+  interval?: string | null;
   snapshotExpiration?: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration | null;
 }
 export const NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfig =
@@ -429,6 +472,7 @@ export const NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfig =
           NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompaction,
         ),
       ),
+      interval: S.optional(S.NullOr(S.String)),
       snapshotExpiration: S.optional(
         S.NullOr(
           NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration,
@@ -522,7 +566,7 @@ export type GetResponseMaintenanceConfigSnapshotExpirationState =
 export const GetResponseMaintenanceConfigSnapshotExpirationState = S.String;
 
 export interface GetResponseMaintenanceConfigSnapshotExpiration {
-  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. */
+  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. Format: where unit is d (days), h (hours), m (minutes), or s (seconds). Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes). Defaults to "7d". */
   maxSnapshotAge: string;
   /** Specifies the minimum number of snapshots to retain. Defaults to 100. */
   minSnapshotsToKeep: number;
@@ -543,12 +587,15 @@ export const GetResponseMaintenanceConfigSnapshotExpiration =
 export interface GetResponseMaintenanceConfig {
   /** Configures compaction for catalog maintenance. */
   compaction?: GetResponseMaintenanceConfigCompaction | null;
+  /** Scheduling interval between normal table maintenance runs. */
+  interval?: string | null;
   /** Configures snapshot expiration settings. */
   snapshotExpiration?: GetResponseMaintenanceConfigSnapshotExpiration | null;
 }
 export const GetResponseMaintenanceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     compaction: S.optional(S.NullOr(GetResponseMaintenanceConfigCompaction)),
+    interval: S.optional(S.NullOr(S.String)),
     snapshotExpiration: S.optional(
       S.NullOr(GetResponseMaintenanceConfigSnapshotExpiration).pipe(
         T.Body("snapshot_expiration"),
@@ -596,15 +643,15 @@ export interface ListNamespacesRequest {
   accountId: string;
   /** Specifies the R2 bucket name. */
   bucketName: string;
-  /** Maximum number of namespaces to return per page. */
+  /** Maximum number of namespaces to return per page. Defaults to 100, maximum 1000. */
   pageSize?: number;
-  /** Opaque pagination token from a previous response. */
+  /** Opaque pagination token from a previous response. Use this to fetch the next page of results. */
   pageToken?: string;
-  /** Parent namespace to filter by. Only returns direct children of this namespace. */
+  /** Parent namespace to filter by. Only returns direct children of this namespace. For nested namespaces, use %1F as separator (e.g., "bronze%1Fanalytics"). Omit this parameter to list top-level namespaces. */
   parent?: string;
-  /** Whether to include additional metadata (timestamps). */
+  /** Whether to include additional metadata (timestamps). When true, response includes created_at and updated_at arrays. */
   returnDetails?: boolean;
-  /** Whether to include namespace UUIDs in the response. */
+  /** Whether to include namespace UUIDs in the response. Set to true to receive the namespace_uuids array. */
   returnUuids?: boolean;
 }
 export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -647,7 +694,7 @@ export const NamespacesListResponseDetailsItemNamespaceList =
   ) as any as S.Schema<NamespacesListResponseDetailsItemNamespaceList>;
 
 export interface NamespacesListResponseDetailsItem {
-  /** Specifies the hierarchical namespace parts as an array of strings. */
+  /** Specifies the hierarchical namespace parts as an array of strings. For example, ["bronze", "analytics"] represents the namespace "bronze.analytics". */
   namespace: NamespacesListResponseDetailsItemNamespaceList;
   /** Contains the UUID that persists across renames. */
   namespaceUuid: string;
@@ -682,11 +729,11 @@ export const NamespacesListResponseNamespaceUuidsList = /*@__PURE__*/ S.Array(
 export interface ListNamespacesResponse {
   /** Lists namespaces in the catalog. */
   namespaces: NamespacesListResponseNamespacesList;
-  /** Contains detailed metadata for each namespace when return_details is true. */
+  /** Contains detailed metadata for each namespace when return_details is true. Each object includes the namespace, UUID, and timestamps. */
   details?: NamespacesListResponseDetailsList | null;
-  /** Contains UUIDs for each namespace when return_uuids is true. */
+  /** Contains UUIDs for each namespace when return_uuids is true. The order corresponds to the namespaces array. */
   namespaceUuids?: NamespacesListResponseNamespaceUuidsList | null;
-  /** Use this opaque token to fetch the next page of results. */
+  /** Use this opaque token to fetch the next page of results. A null or absent value indicates the last page. */
   nextPageToken?: string | null;
 }
 export const ListNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
@@ -712,13 +759,13 @@ export interface ListNamespaceTablesRequest {
   /** Specifies the R2 bucket name. */
   bucketName: string;
   namespace: string;
-  /** Maximum number of tables to return per page. */
+  /** Maximum number of tables to return per page. Defaults to 100, maximum 1000. */
   pageSize?: number;
-  /** Opaque pagination token from a previous response. */
+  /** Opaque pagination token from a previous response. Use this to fetch the next page of results. */
   pageToken?: string;
-  /** Whether to include additional metadata (timestamps, locations). */
+  /** Whether to include additional metadata (timestamps, locations). When true, response includes created_at, updated_at, metadata_locations, and locations arrays. */
   returnDetails?: boolean;
-  /** Whether to include table UUIDs in the response. */
+  /** Whether to include table UUIDs in the response. Set to true to receive the table_uuids array. */
   returnUuids?: boolean;
 }
 export const ListNamespaceTablesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -753,7 +800,7 @@ export const NamespacesTablesListResponseIdentifiersItemNamespaceList =
 export interface NamespacesTablesListResponseIdentifiersItem {
   /** Specifies the table name. */
   name: string;
-  /** Specifies the hierarchical namespace parts as an array of strings. */
+  /** Specifies the hierarchical namespace parts as an array of strings. For example, ["bronze", "analytics"] represents the namespace "bronze.analytics". */
   namespace: NamespacesTablesListResponseIdentifiersItemNamespaceList;
 }
 export const NamespacesTablesListResponseIdentifiersItem =
@@ -783,7 +830,7 @@ export const NamespacesTablesListResponseDetailsItemIdentifierNamespaceList =
 export interface NamespacesTablesListResponseDetailsItemIdentifier {
   /** Specifies the table name. */
   name: string;
-  /** Specifies the hierarchical namespace parts as an array of strings. */
+  /** Specifies the hierarchical namespace parts as an array of strings. For example, ["bronze", "analytics"] represents the namespace "bronze.analytics". */
   namespace: NamespacesTablesListResponseDetailsItemIdentifierNamespaceList;
 }
 export const NamespacesTablesListResponseDetailsItemIdentifier =
@@ -841,11 +888,11 @@ export const NamespacesTablesListResponseTableUuidsList = /*@__PURE__*/ S.Array(
 export interface ListNamespaceTablesResponse {
   /** Lists tables in the namespace. */
   identifiers: NamespacesTablesListResponseIdentifiersList;
-  /** Contains detailed metadata for each table when return_details is true. */
+  /** Contains detailed metadata for each table when return_details is true. Each object includes identifier, UUID, timestamps, and locations. */
   details?: NamespacesTablesListResponseDetailsList | null;
-  /** Use this opaque token to fetch the next page of results. */
+  /** Use this opaque token to fetch the next page of results. A null or absent value indicates the last page. */
   nextPageToken?: string | null;
-  /** Contains UUIDs for each table when return_uuids is true. */
+  /** Contains UUIDs for each table when return_uuids is true. The order corresponds to the identifiers array. */
   tableUuids?: NamespacesTablesListResponseTableUuidsList | null;
 }
 export const ListNamespaceTablesResponse = /*@__PURE__*/ S.suspend(() =>
@@ -931,7 +978,7 @@ export const ListResponseWarehousesItemMaintenanceConfigSnapshotExpirationState 
   S.String;
 
 export interface ListResponseWarehousesItemMaintenanceConfigSnapshotExpiration {
-  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. */
+  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. Format: where unit is d (days), h (hours), m (minutes), or s (seconds). Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes). Defaults to "7d". */
   maxSnapshotAge: string;
   /** Specifies the minimum number of snapshots to retain. Defaults to 100. */
   minSnapshotsToKeep: number;
@@ -952,6 +999,8 @@ export const ListResponseWarehousesItemMaintenanceConfigSnapshotExpiration =
 export interface ListResponseWarehousesItemMaintenanceConfig {
   /** Configures compaction for catalog maintenance. */
   compaction?: ListResponseWarehousesItemMaintenanceConfigCompaction | null;
+  /** Scheduling interval between normal table maintenance runs. */
+  interval?: string | null;
   /** Configures snapshot expiration settings. */
   snapshotExpiration?: ListResponseWarehousesItemMaintenanceConfigSnapshotExpiration | null;
 }
@@ -961,6 +1010,7 @@ export const ListResponseWarehousesItemMaintenanceConfig =
       compaction: S.optional(
         S.NullOr(ListResponseWarehousesItemMaintenanceConfigCompaction),
       ),
+      interval: S.optional(S.NullOr(S.String)),
       snapshotExpiration: S.optional(
         S.NullOr(
           ListResponseWarehousesItemMaintenanceConfigSnapshotExpiration,
@@ -1155,7 +1205,7 @@ export type MaintenanceConfigsUpdateResponseSnapshotExpirationState =
 export const MaintenanceConfigsUpdateResponseSnapshotExpirationState = S.String;
 
 export interface MaintenanceConfigsUpdateResponseSnapshotExpiration {
-  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. */
+  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. Format: where unit is d (days), h (hours), m (minutes), or s (seconds). Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes). Defaults to "7d". */
   maxSnapshotAge: string;
   /** Specifies the minimum number of snapshots to retain. Defaults to 100. */
   minSnapshotsToKeep: number;
@@ -1177,6 +1227,8 @@ export const MaintenanceConfigsUpdateResponseSnapshotExpiration =
 export interface UpdateMaintenanceConfigResponse {
   /** Configures compaction for catalog maintenance. */
   compaction?: MaintenanceConfigsUpdateResponseCompaction | null;
+  /** Scheduling interval between normal table maintenance runs. */
+  interval?: string | null;
   /** Configures snapshot expiration settings. */
   snapshotExpiration?: MaintenanceConfigsUpdateResponseSnapshotExpiration | null;
 }
@@ -1185,6 +1237,7 @@ export const UpdateMaintenanceConfigResponse = /*@__PURE__*/ S.suspend(() =>
     compaction: S.optional(
       S.NullOr(MaintenanceConfigsUpdateResponseCompaction),
     ),
+    interval: S.optional(S.NullOr(S.String)),
     snapshotExpiration: S.optional(
       S.NullOr(MaintenanceConfigsUpdateResponseSnapshotExpiration).pipe(
         T.Body("snapshot_expiration"),
@@ -1210,11 +1263,11 @@ export const NamespacesTablesMaintenanceConfigsUpdateRequestCompactionTargetSize
   S.String;
 
 export interface NamespacesTablesMaintenanceConfigsUpdateRequestCompaction {
-  /** Updates the state optionally. */
+  /** Specifies the state of maintenance operations. */
   state?:
     | NamespacesTablesMaintenanceConfigsUpdateRequestCompactionState
     | (string & {});
-  /** Updates the target file size optionally. */
+  /** Sets the target file size for compaction in megabytes. Defaults to "128". */
   targetSizeMb?:
     | NamespacesTablesMaintenanceConfigsUpdateRequestCompactionTargetSizeMb
     | (string & {});
@@ -1274,7 +1327,7 @@ export interface UpdateNamespaceTableMaintenanceConfigRequest {
   bucketName: string;
   namespace: string;
   tableName: string;
-  /** Updates compaction configuration (all fields optional). */
+  /** Updates table compaction configuration; all fields are optional. */
   compaction?: NamespacesTablesMaintenanceConfigsUpdateRequestCompaction;
   /** Updates snapshot expiration configuration (all fields optional). */
   snapshotExpiration?: NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpiration;
@@ -1326,6 +1379,8 @@ export interface NamespacesTablesMaintenanceConfigsUpdateResponseCompaction {
   state: NamespacesTablesMaintenanceConfigsUpdateResponseCompactionState;
   /** Sets the target file size for compaction in megabytes. Defaults to "128". */
   targetSizeMb: NamespacesTablesMaintenanceConfigsUpdateResponseCompactionTargetSizeMb;
+  /** Earliest time when the scheduler can claim this operation. Null when disabled. */
+  nextEligibleAt?: string | null;
 }
 export const NamespacesTablesMaintenanceConfigsUpdateResponseCompaction =
   /*@__PURE__*/ S.suspend(() =>
@@ -1335,6 +1390,9 @@ export const NamespacesTablesMaintenanceConfigsUpdateResponseCompaction =
         NamespacesTablesMaintenanceConfigsUpdateResponseCompactionTargetSizeMb.pipe(
           T.Body("target_size_mb"),
         ),
+      nextEligibleAt: S.optional(
+        S.NullOr(S.String).pipe(T.Body("next_eligible_at")),
+      ),
     }),
   ).annotate({
     identifier: "NamespacesTablesMaintenanceConfigsUpdateResponseCompaction",
@@ -1347,12 +1405,14 @@ export const NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpirationS
   S.String;
 
 export interface NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpiration {
-  /** Specifies the maximum age for snapshots. The system deletes snapshots older than this age. */
+  /** Specifies the maximum age for snapshots. */
   maxSnapshotAge: string;
   /** Specifies the minimum number of snapshots to retain. Defaults to 100. */
   minSnapshotsToKeep: number;
   /** Specifies the state of maintenance operations. */
   state: NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpirationState;
+  /** Earliest time when the scheduler can claim this operation. Null when disabled. */
+  nextEligibleAt?: string | null;
 }
 export const NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpiration =
   /*@__PURE__*/ S.suspend(() =>
@@ -1361,6 +1421,9 @@ export const NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpiration 
       minSnapshotsToKeep: S.Number.pipe(T.Body("min_snapshots_to_keep")),
       state:
         NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpirationState,
+      nextEligibleAt: S.optional(
+        S.NullOr(S.String).pipe(T.Body("next_eligible_at")),
+      ),
     }),
   ).annotate({
     identifier:
@@ -1371,7 +1434,8 @@ export const NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpiration 
 export interface UpdateNamespaceTableMaintenanceConfigResponse {
   /** Configures compaction settings for table optimization. */
   compaction?: NamespacesTablesMaintenanceConfigsUpdateResponseCompaction | null;
-  /** Configures snapshot expiration settings. */
+  /** Scheduling interval between normal table maintenance runs. */
+  interval?: string | null;
   snapshotExpiration?: NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpiration | null;
 }
 export const UpdateNamespaceTableMaintenanceConfigResponse =
@@ -1380,6 +1444,7 @@ export const UpdateNamespaceTableMaintenanceConfigResponse =
       compaction: S.optional(
         S.NullOr(NamespacesTablesMaintenanceConfigsUpdateResponseCompaction),
       ),
+      interval: S.optional(S.NullOr(S.String)),
       snapshotExpiration: S.optional(
         S.NullOr(
           NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpiration,
@@ -1409,6 +1474,21 @@ export const createCredential: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteError = CloudflareOpError;
+/** Removes the catalog from the control plane without deleting R2 bucket objects. Set force=true to remove catalog namespaces, tables, views, and maintenance metadata. Force deletion is limited to a configured catalog object count. */
+export const Delete: API.OperationMethod<
+  DeleteRequest,
+  DeleteResponse,
+  DeleteError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteRequest,
+  output: DeleteResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

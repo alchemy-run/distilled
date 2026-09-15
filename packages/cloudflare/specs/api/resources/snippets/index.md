@@ -1,872 +1,199 @@
+---
+title: Snippets
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Snippets
 
-## List zone snippets
+##### [List zone snippets](https://developers.cloudflare.com/api/resources/snippets/methods/list)
 
-**get** `/zones/{zone_id}/snippets`
+GET/zones/{zone\_id}/snippets
 
-Fetches all snippets belonging to the zone.
+##### [Get a zone snippet](https://developers.cloudflare.com/api/resources/snippets/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/snippets/{snippet\_name}
 
-- `zone_id: string`
+##### [Update a zone snippet](https://developers.cloudflare.com/api/resources/snippets/methods/update)
 
-  Use this field to specify the unique ID of the zone.
+PUT/zones/{zone\_id}/snippets/{snippet\_name}
 
-### Query Parameters
+##### [Delete a zone snippet](https://developers.cloudflare.com/api/resources/snippets/methods/delete)
 
-- `page: optional number`
+DELETE/zones/{zone\_id}/snippets/{snippet\_name}
 
-  Specifies the current page number.
+##### ModelsExpand Collapse
 
-- `per_page: optional number`
+<details>
 
-  Specifies how many results to return per page.
+<summary>
 
-### Returns
+SnippetListResponse object {created\_on, snippet\_name, modified\_on }
 
-- `errors: array of object { message, code }`
+Define a snippet.
 
-  Lists error messages.
+</summary>
 
-  - `message: string`
+created\_on: string
 
-    Describes the message text.
+Indicates when the snippet was created.
 
-  - `code: optional number`
+formatdate-time
 
-    Identify the message code.
+<a href="#">Link to this property</a>
 
-- `messages: array of object { message, code }`
+snippet\_name: string
 
-  Contain warning messages.
+Identify the snippet.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Describes the message text.
+modified\_on: optional string
 
-  - `code: optional number`
+Indicates when the snippet was last modified.
 
-    Identify the message code.
+formatdate-time
 
-- `result: array of object { created_on, snippet_name, modified_on }`
+<a href="#">Link to this property</a>
 
-  Contain snippets.
+</details>
 
-  - `created_on: string`
+[Link to this property](#)%20snippets%20%3E%20(model)%20snippet_list_response%20%3E%20(schema)>)
 
-    Indicates when the snippet was created.
+<details>
 
-  - `snippet_name: string`
+<summary>
 
-    Identify the snippet.
+SnippetGetResponse object {created\_on, snippet\_name, modified\_on }
 
-  - `modified_on: optional string`
+Contain the response result.
 
-    Indicates when the snippet was last modified.
+</summary>
 
-- `success: true`
+created\_on: string
 
-  Indicate whether the API call was successful.
+Indicates when the snippet was created.
 
-  - `true`
+formatdate-time
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  Additional information to navigate the results.
+snippet\_name: string
 
-  - `count: number`
+Identify the snippet.
 
-    Specify the number of results in the current page.
+<a href="#">Link to this property</a>
 
-  - `page: number`
+modified\_on: optional string
 
-    Specifies the current page number.
+Indicates when the snippet was last modified.
 
-  - `per_page: number`
+formatdate-time
 
-    Specifies how many results to return per page.
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+</details>
 
-    Specify the total number of results.
+[Link to this property](#)%20snippets%20%3E%20(model)%20snippet_get_response%20%3E%20(schema)>)
 
-  - `total_pages: number`
+<details>
 
-    Specify the total number of pages.
+<summary>
 
-### Example
+SnippetUpdateResponse object {created\_on, snippet\_name, modified\_on }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Contain the response result.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "result": [
-    {
-      "created_on": "2000-01-01T00:00:00.000000Z",
-      "snippet_name": "my_snippet",
-      "modified_on": "2000-01-01T00:00:00.000000Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 25,
-    "page": 1,
-    "per_page": 25,
-    "total_count": 100,
-    "total_pages": 10
-  }
-}
-```
+created\_on: string
 
-## Get a zone snippet
+Indicates when the snippet was created.
 
-**get** `/zones/{zone_id}/snippets/{snippet_name}`
+formatdate-time
 
-Fetches a snippet belonging to the zone.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+snippet\_name: string
 
-- `zone_id: string`
+Identify the snippet.
 
-  Use this field to specify the unique ID of the zone.
+<a href="#">Link to this property</a>
 
-- `snippet_name: string`
+modified\_on: optional string
 
-  Identify the snippet.
+Indicates when the snippet was last modified.
 
-### Returns
+formatdate-time
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  Lists error messages.
+</details>
 
-  - `message: string`
+[Link to this property](#)%20snippets%20%3E%20(model)%20snippet_update_response%20%3E%20(schema)>)
 
-    Describes the message text.
+SnippetDeleteResponse = unknown
 
-  - `code: optional number`
+Contain the response result.
 
-    Identify the message code.
+[Link to this property](#)%20snippets%20%3E%20(model)%20snippet_delete_response%20%3E%20(schema)>)
 
-- `messages: array of object { message, code }`
+#### SnippetsContent
 
-  Contain warning messages.
+##### [Get a zone snippet content](https://developers.cloudflare.com/api/resources/snippets/subresources/content/methods/get)
 
-  - `message: string`
+GET/zones/{zone\_id}/snippets/{snippet\_name}/content
 
-    Describes the message text.
+#### SnippetsRules
 
-  - `code: optional number`
+##### [List zone snippet rules](https://developers.cloudflare.com/api/resources/snippets/subresources/rules/methods/get)
 
-    Identify the message code.
+GET/zones/{zone\_id}/snippets/snippet\_rules
 
-- `result: object { created_on, snippet_name, modified_on }`
+##### [List zone snippet rules](https://developers.cloudflare.com/api/resources/snippets/subresources/rules/methods/list)
 
-  Contain the response result.
+GET/zones/{zone\_id}/snippets/snippet\_rules
 
-  - `created_on: string`
+##### [Update zone snippet rules](https://developers.cloudflare.com/api/resources/snippets/subresources/rules/methods/update)
 
-    Indicates when the snippet was created.
+PUT/zones/{zone\_id}/snippets/snippet\_rules
 
-  - `snippet_name: string`
+##### [Delete zone snippet rules](https://developers.cloudflare.com/api/resources/snippets/subresources/rules/methods/delete)
 
-    Identify the snippet.
+DELETE/zones/{zone\_id}/snippets/snippet\_rules
 
-  - `modified_on: optional string`
+##### ModelsExpand Collapse
 
-    Indicates when the snippet was last modified.
+RuleGetResponse = unknown
 
-- `success: true`
+Contain the response result.
 
-  Indicate whether the API call was successful.
+[Link to this property](#)%20snippets.rules%20%3E%20(model)%20rule_get_response%20%3E%20(schema)>)
 
-  - `true`
+RuleListResponse = unknown
 
-### Example
+Contain the response result.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/$SNIPPET_NAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20snippets.rules%20%3E%20(model)%20rule_list_response%20%3E%20(schema)>)
 
-#### Response
+RuleUpdateResponse = unknown
 
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "result": {
-    "created_on": "2000-01-01T00:00:00.000000Z",
-    "snippet_name": "my_snippet",
-    "modified_on": "2000-01-01T00:00:00.000000Z"
-  },
-  "success": true
-}
-```
+Contain the response result.
 
-## Update a zone snippet
+[Link to this property](#)%20snippets.rules%20%3E%20(model)%20rule_update_response%20%3E%20(schema)>)
 
-**put** `/zones/{zone_id}/snippets/{snippet_name}`
+RuleDeleteResponse = unknown
 
-Creates or updates a snippet belonging to the zone.
+Contain the response result.
 
-### Path Parameters
-
-- `zone_id: string`
-
-  Use this field to specify the unique ID of the zone.
-
-- `snippet_name: string`
-
-  Identify the snippet.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  Lists error messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `messages: array of object { message, code }`
-
-  Contain warning messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `result: object { created_on, snippet_name, modified_on }`
-
-  Contain the response result.
-
-  - `created_on: string`
-
-    Indicates when the snippet was created.
-
-  - `snippet_name: string`
-
-    Identify the snippet.
-
-  - `modified_on: optional string`
-
-    Indicates when the snippet was last modified.
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/$SNIPPET_NAME \
-    -X PUT \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F metadata='{"main_module":"main.js"}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "result": {
-    "created_on": "2000-01-01T00:00:00.000000Z",
-    "snippet_name": "my_snippet",
-    "modified_on": "2000-01-01T00:00:00.000000Z"
-  },
-  "success": true
-}
-```
-
-## Delete a zone snippet
-
-**delete** `/zones/{zone_id}/snippets/{snippet_name}`
-
-Deletes a snippet belonging to the zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Use this field to specify the unique ID of the zone.
-
-- `snippet_name: string`
-
-  Identify the snippet.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  Lists error messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `messages: array of object { message, code }`
-
-  Contain warning messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `result: unknown`
-
-  Contain the response result.
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/$SNIPPET_NAME \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Snippet List Response
-
-- `SnippetListResponse object { created_on, snippet_name, modified_on }`
-
-  Define a snippet.
-
-  - `created_on: string`
-
-    Indicates when the snippet was created.
-
-  - `snippet_name: string`
-
-    Identify the snippet.
-
-  - `modified_on: optional string`
-
-    Indicates when the snippet was last modified.
-
-### Snippet Get Response
-
-- `SnippetGetResponse object { created_on, snippet_name, modified_on }`
-
-  Contain the response result.
-
-  - `created_on: string`
-
-    Indicates when the snippet was created.
-
-  - `snippet_name: string`
-
-    Identify the snippet.
-
-  - `modified_on: optional string`
-
-    Indicates when the snippet was last modified.
-
-### Snippet Update Response
-
-- `SnippetUpdateResponse object { created_on, snippet_name, modified_on }`
-
-  Contain the response result.
-
-  - `created_on: string`
-
-    Indicates when the snippet was created.
-
-  - `snippet_name: string`
-
-    Identify the snippet.
-
-  - `modified_on: optional string`
-
-    Indicates when the snippet was last modified.
-
-### Snippet Delete Response
-
-- `SnippetDeleteResponse = unknown`
-
-  Contain the response result.
-
-# Content
-
-## Get a zone snippet content
-
-**get** `/zones/{zone_id}/snippets/{snippet_name}/content`
-
-Fetches the content of a snippet belonging to the zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Use this field to specify the unique ID of the zone.
-
-- `snippet_name: string`
-
-  Identify the snippet.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/$SNIPPET_NAME/content \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-# Rules
-
-## List zone snippet rules
-
-**get** `/zones/{zone_id}/snippets/snippet_rules`
-
-Fetches all snippet rules belonging to the zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Use this field to specify the unique ID of the zone.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  Lists error messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `messages: array of object { message, code }`
-
-  Contain warning messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `result: unknown`
-
-  Contain the response result.
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/snippet_rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## List zone snippet rules
-
-**get** `/zones/{zone_id}/snippets/snippet_rules`
-
-Fetches all snippet rules belonging to the zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Use this field to specify the unique ID of the zone.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  Lists error messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `messages: array of object { message, code }`
-
-  Contain warning messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `result: unknown`
-
-  Contain the response result.
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/snippet_rules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Update zone snippet rules
-
-**put** `/zones/{zone_id}/snippets/snippet_rules`
-
-Updates all snippet rules belonging to the zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Use this field to specify the unique ID of the zone.
-
-### Body Parameters
-
-- `rules: array of object { id, expression, last_updated, 3 more }`
-
-  Lists snippet rules.
-
-  - `id: string`
-
-    Specify the unique ID of the rule.
-
-  - `expression: string`
-
-    Define the expression that determines which traffic matches the rule.
-
-  - `last_updated: string`
-
-    Specify the timestamp of when the rule was last modified.
-
-  - `snippet_name: string`
-
-    Identify the snippet.
-
-  - `description: optional string`
-
-    Provide an informative description of the rule.
-
-  - `enabled: optional boolean`
-
-    Indicate whether to execute the rule.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  Lists error messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `messages: array of object { message, code }`
-
-  Contain warning messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `result: unknown`
-
-  Contain the response result.
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/snippet_rules \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "rules": [
-            {
-              "expression": "ip.src eq 1.1.1.1",
-              "snippet_name": "my_snippet"
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Delete zone snippet rules
-
-**delete** `/zones/{zone_id}/snippets/snippet_rules`
-
-Deletes all snippet rules belonging to the zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Use this field to specify the unique ID of the zone.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  Lists error messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `messages: array of object { message, code }`
-
-  Contain warning messages.
-
-  - `message: string`
-
-    Describes the message text.
-
-  - `code: optional number`
-
-    Identify the message code.
-
-- `result: unknown`
-
-  Contain the response result.
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/snippet_rules \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Rule Get Response
-
-- `RuleGetResponse = unknown`
-
-  Contain the response result.
-
-### Rule List Response
-
-- `RuleListResponse = unknown`
-
-  Contain the response result.
-
-### Rule Update Response
-
-- `RuleUpdateResponse = unknown`
-
-  Contain the response result.
-
-### Rule Delete Response
-
-- `RuleDeleteResponse = unknown`
-
-  Contain the response result.
+[Link to this property](#)%20snippets.rules%20%3E%20(model)%20rule_delete_response%20%3E%20(schema)>)

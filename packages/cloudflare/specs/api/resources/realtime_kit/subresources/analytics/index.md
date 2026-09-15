@@ -1,186 +1,165 @@
+---
+title: Analytics
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Analytics
 
-## Fetch day-wise session and recording analytics data for an App
+##### [Fetch day-wise session and recording analytics data for an App](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/analytics/methods/get_org_analytics)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/analytics/daywise`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/analytics/daywise
 
-Returns day-wise session and recording analytics data of an App for the specified time range start_date to end_date. If start_date and end_date are not provided, the default time range is set from 30 days ago to the current date.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+AnalyticsGetOrgAnalyticsResponse object {data, success }
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+<details>
 
-### Query Parameters
+<summary>
 
-- `end_date: optional string`
+data: optional object {recording\_stats, session\_stats }
 
-  end date in YYYY-MM-DD format
+</summary>
 
-- `start_date: optional string`
+<details>
 
-  start date in YYYY-MM-DD format
+<summary>
 
-### Returns
+recording\_stats: optional object {day\_stats, recording\_count, recording\_minutes\_consumed }
 
-- `data: optional object { recording_stats, session_stats }`
+Recording statistics of an App during the range specified
 
-  - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+</summary>
 
-    Recording statistics of an App during the range specified
+<details>
 
-    - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+<summary>
 
-      Day wise recording stats
+day\_stats: optional array of object {day, total\_recording\_minutes, total\_recordings }
 
-      - `day: optional string`
+Day wise recording stats
 
-      - `total_recording_minutes: optional number`
+</summary>
 
-        Total recording minutes for a specific day
+day: optional string
 
-      - `total_recordings: optional number`
+<a href="#">Link to this property</a>
 
-        Total number of recordings for a specific day
+total\_recording\_minutes: optional number
 
-    - `recording_count: optional number`
+Total recording minutes for a specific day
 
-      Total number of recordings during the range specified
+<a href="#">Link to this property</a>
 
-    - `recording_minutes_consumed: optional number`
+total\_recordings: optional number
 
-      Total recording minutes during the range specified
+Total number of recordings for a specific day
 
-  - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+<a href="#">Link to this property</a>
 
-    Session statistics of an App during the range specified
+</details>
 
-    - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+<a href="#">Link to this property</a>
 
-      Day wise session stats
+recording\_count: optional number
 
-      - `day: optional string`
+Total number of recordings during the range specified
 
-      - `total_session_minutes: optional number`
+<a href="#">Link to this property</a>
 
-        Total session minutes for a specific day
+recording\_minutes\_consumed: optional number
 
-      - `total_sessions: optional number`
+Total recording minutes during the range specified
 
-        Total number of sessions for a specific day
+<a href="#">Link to this property</a>
 
-    - `sessions_count: optional number`
+</details>
 
-      Total number of sessions during the range specified
+<a href="#">Link to this property</a>
 
-    - `sessions_minutes_consumed: optional number`
+<details>
 
-      Total session minutes during the range specified
+<summary>
 
-- `success: optional boolean`
+session\_stats: optional object {day\_stats, sessions\_count, sessions\_minutes\_consumed }
 
-### Example
+Session statistics of an App during the range specified
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/analytics/daywise \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "data": {
-    "recording_stats": {
-      "day_stats": [
-        {
-          "day": "day",
-          "total_recording_minutes": 0,
-          "total_recordings": 0
-        }
-      ],
-      "recording_count": 0,
-      "recording_minutes_consumed": 0
-    },
-    "session_stats": {
-      "day_stats": [
-        {
-          "day": "day",
-          "total_session_minutes": 0,
-          "total_sessions": 0
-        }
-      ],
-      "sessions_count": 0,
-      "sessions_minutes_consumed": 0
-    }
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+day\_stats: optional array of object {day, total\_session\_minutes, total\_sessions }
 
-### Analytics Get Org Analytics Response
+Day wise session stats
 
-- `AnalyticsGetOrgAnalyticsResponse object { data, success }`
+</summary>
 
-  - `data: optional object { recording_stats, session_stats }`
+day: optional string
 
-    - `recording_stats: optional object { day_stats, recording_count, recording_minutes_consumed }`
+<a href="#">Link to this property</a>
 
-      Recording statistics of an App during the range specified
+total\_session\_minutes: optional number
 
-      - `day_stats: optional array of object { day, total_recording_minutes, total_recordings }`
+Total session minutes for a specific day
 
-        Day wise recording stats
+<a href="#">Link to this property</a>
 
-        - `day: optional string`
+total\_sessions: optional number
 
-        - `total_recording_minutes: optional number`
+Total number of sessions for a specific day
 
-          Total recording minutes for a specific day
+<a href="#">Link to this property</a>
 
-        - `total_recordings: optional number`
+</details>
 
-          Total number of recordings for a specific day
+<a href="#">Link to this property</a>
 
-      - `recording_count: optional number`
+sessions\_count: optional number
 
-        Total number of recordings during the range specified
+Total number of sessions during the range specified
 
-      - `recording_minutes_consumed: optional number`
+<a href="#">Link to this property</a>
 
-        Total recording minutes during the range specified
+sessions\_minutes\_consumed: optional number
 
-    - `session_stats: optional object { day_stats, sessions_count, sessions_minutes_consumed }`
+Total session minutes during the range specified
 
-      Session statistics of an App during the range specified
+<a href="#">Link to this property</a>
 
-      - `day_stats: optional array of object { day, total_session_minutes, total_sessions }`
+</details>
 
-        Day wise session stats
+<a href="#">Link to this property</a>
 
-        - `day: optional string`
+</details>
 
-        - `total_session_minutes: optional number`
+<a href="#">Link to this property</a>
 
-          Total session minutes for a specific day
+success: optional boolean
 
-        - `total_sessions: optional number`
+<a href="#">Link to this property</a>
 
-          Total number of sessions for a specific day
+</details>
 
-      - `sessions_count: optional number`
-
-        Total number of sessions during the range specified
-
-      - `sessions_minutes_consumed: optional number`
-
-        Total session minutes during the range specified
-
-  - `success: optional boolean`
+[Link to this property](#)%20realtime_kit.analytics%20%3E%20(model)%20analytics_get_org_analytics_response%20%3E%20(schema)>)

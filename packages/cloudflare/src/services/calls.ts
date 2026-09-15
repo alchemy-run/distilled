@@ -72,23 +72,23 @@ export const CreateSfuRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSfuResponse {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of Calls app, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** Bearer token */
-  secret?: string | null;
+  secret: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const CreateSfuResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    secret: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    modified: S.String,
+    name: S.String,
+    secret: S.String,
+    uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateSfuResponse",
@@ -120,23 +120,23 @@ export const CreateTurnRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTurnResponse {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** Bearer token */
-  key?: string | null;
+  key: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of a TURN key, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const CreateTurnResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    key: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    key: S.String,
+    modified: S.String,
+    name: S.String,
+    uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateTurnResponse",
@@ -168,20 +168,20 @@ export const DeleteSfuRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSfuResponse {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of Calls app, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const DeleteSfuResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    modified: S.String,
+    name: S.String,
+    uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteSfuResponse",
@@ -213,20 +213,20 @@ export const DeleteTurnRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteTurnResponse {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of Calls app, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const DeleteTurnResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    modified: S.String,
+    name: S.String,
+    uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteTurnResponse",
@@ -256,20 +256,20 @@ export const GetSfuRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSfuResponse {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of Calls app, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const GetSfuResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    modified: S.String,
+    name: S.String,
+    uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetSfuResponse" }) as any as S.Schema<GetSfuResponse>;
 
@@ -297,20 +297,20 @@ export const GetTurnRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTurnResponse {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of Calls app, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const GetTurnResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    modified: S.String,
+    name: S.String,
+    uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetTurnResponse",
@@ -338,20 +338,20 @@ export const ListSfusRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface SfuListResultItem {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of Calls app, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const SfuListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    modified: S.String,
+    name: S.String,
+    uid: S.String,
   }),
 ).annotate({
   identifier: "SfuListResultItem",
@@ -449,20 +449,20 @@ export const UpdateSfuRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSfuResponse {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of Calls app, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const UpdateSfuResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    modified: S.String,
+    name: S.String,
+    uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateSfuResponse",
@@ -497,20 +497,20 @@ export const UpdateTurnRequest = /*@__PURE__*/ S.suspend(() =>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTurnResponse {
   /** The date and time the item was created. */
-  created?: string | null;
+  created: string;
   /** The date and time the item was last modified. */
-  modified?: string | null;
+  modified: string;
   /** A short description of Calls app, not shown to end users. */
-  name?: string | null;
+  name: string;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string | null;
+  uid: string;
 }
 export const UpdateTurnResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.NullOr(S.String)),
-    modified: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.NullOr(S.String)),
-    uid: S.optional(S.NullOr(S.String)),
+    created: S.String,
+    modified: S.String,
+    name: S.String,
+    uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateTurnResponse",

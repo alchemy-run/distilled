@@ -1,99 +1,49 @@
+---
+title: Workflow
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zaraz](https://developers.cloudflare.com/api/resources/zaraz)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Workflow
 
-## Get Zaraz workflow
+##### [Get Zaraz workflow](https://developers.cloudflare.com/api/resources/zaraz/subresources/workflow/methods/get)
 
-**get** `/zones/{zone_id}/settings/zaraz/workflow`
+GET/zones/{zone\_id}/settings/zaraz/workflow
 
-Gets Zaraz workflow for a zone.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+Workflow = "realtime"or "preview"
 
-### Returns
+Zaraz workflow.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"realtime"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"preview"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: Workflow`
-
-  Zaraz workflow.
-
-  - `"realtime"`
-
-  - `"preview"`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/zaraz/workflow \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": "realtime",
-  "success": true
-}
-```
-
-## Domain Types
-
-### Workflow
-
-- `Workflow = "realtime" or "preview"`
-
-  Zaraz workflow.
-
-  - `"realtime"`
-
-  - `"preview"`
+[Link to this property](#)%20zaraz.workflow%20%3E%20(model)%20workflow%20%3E%20(schema)>)

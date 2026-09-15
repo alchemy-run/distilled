@@ -1,236 +1,147 @@
+---
+title: Locations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Entities](https://developers.cloudflare.com/api/resources/radar/subresources/entities)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Locations
 
-## List locations
+##### [List locations](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/locations/methods/list)
 
-**get** `/radar/entities/locations`
+GET/radar/entities/locations
 
-Retrieves a list of locations.
+##### [Get location details](https://developers.cloudflare.com/api/resources/radar/subresources/entities/subresources/locations/methods/get)
 
-### Query Parameters
+GET/radar/entities/locations/{location}
 
-- `continent: optional "AF" or "AS" or "EU" or 3 more`
+##### ModelsExpand Collapse
 
-  Filters results by continent code.
+<details>
 
-  - `"AF"`
+<summary>
 
-  - `"AS"`
+LocationListResponse object {locations }
 
-  - `"EU"`
+</summary>
 
-  - `"NA"`
+<details>
 
-  - `"OC"`
+<summary>
 
-  - `"SA"`
+locations: array of object {alpha2, continent, latitude, 4 more }
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+alpha2: string
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+continent: string
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  Limits the number of objects returned in the response.
+latitude: string
 
-- `location: optional string`
+A numeric string.
 
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
+<a href="#">Link to this property</a>
 
-- `offset: optional number`
+longitude: string
 
-  Skips the specified number of objects before fetching the results.
+A numeric string.
 
-- `region: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by region.
+name: string
 
-- `subregion: optional string`
+<a href="#">Link to this property</a>
 
-  Filters results by subregion.
+region: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { locations }`
+subregion: string
 
-  - `locations: array of object { alpha2, continent, latitude, 4 more }`
+<a href="#">Link to this property</a>
 
-    - `alpha2: string`
+</details>
 
-    - `continent: string`
+<a href="#">Link to this property</a>
 
-    - `latitude: string`
+</details>
 
-      A numeric string.
+[Link to this property](#)%20radar.entities.locations%20%3E%20(model)%20location_list_response%20%3E%20(schema)>)
 
-    - `longitude: string`
+<details>
 
-      A numeric string.
+<summary>
 
-    - `name: string`
+LocationGetResponse object {location }
 
-    - `region: string`
+</summary>
 
-    - `subregion: string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+location: object {alpha2, confidenceLevel, continent, 5 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/entities/locations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+alpha2: string
 
-```json
-{
-  "result": {
-    "locations": [
-      {
-        "alpha2": "AF",
-        "continent": "AS",
-        "latitude": "10",
-        "longitude": "10",
-        "name": "Afghanistan",
-        "region": "Middle East",
-        "subregion": "Southern Asia"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get location details
+confidenceLevel: number
 
-**get** `/radar/entities/locations/{location}`
+<a href="#">Link to this property</a>
 
-Retrieves the requested location information. (A confidence level below `5` indicates a low level of confidence in the traffic data - normally this happens because Cloudflare has a small amount of traffic from/to this location).
+continent: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `location: string`
+latitude: string
 
-  Location alpha-2 code.
+A numeric string.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+longitude: string
 
-  Format in which results will be returned.
+A numeric string.
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+name: string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { location }`
+region: string
 
-  - `location: object { alpha2, confidenceLevel, continent, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `alpha2: string`
+subregion: string
 
-    - `confidenceLevel: number`
+<a href="#">Link to this property</a>
 
-    - `continent: string`
+</details>
 
-    - `latitude: string`
+<a href="#">Link to this property</a>
 
-      A numeric string.
+</details>
 
-    - `longitude: string`
-
-      A numeric string.
-
-    - `name: string`
-
-    - `region: string`
-
-    - `subregion: string`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/radar/entities/locations/$LOCATION \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "location": {
-      "alpha2": "AF",
-      "confidenceLevel": 5,
-      "continent": "AS",
-      "latitude": "10",
-      "longitude": "10",
-      "name": "Afghanistan",
-      "region": "Middle East",
-      "subregion": "Southern Asia"
-    }
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Location List Response
-
-- `LocationListResponse object { locations }`
-
-  - `locations: array of object { alpha2, continent, latitude, 4 more }`
-
-    - `alpha2: string`
-
-    - `continent: string`
-
-    - `latitude: string`
-
-      A numeric string.
-
-    - `longitude: string`
-
-      A numeric string.
-
-    - `name: string`
-
-    - `region: string`
-
-    - `subregion: string`
-
-### Location Get Response
-
-- `LocationGetResponse object { location }`
-
-  - `location: object { alpha2, confidenceLevel, continent, 5 more }`
-
-    - `alpha2: string`
-
-    - `confidenceLevel: number`
-
-    - `continent: string`
-
-    - `latitude: string`
-
-      A numeric string.
-
-    - `longitude: string`
-
-      A numeric string.
-
-    - `name: string`
-
-    - `region: string`
-
-    - `subregion: string`
+[Link to this property](#)%20radar.entities.locations%20%3E%20(model)%20location_get_response%20%3E%20(schema)>)

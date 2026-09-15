@@ -1,751 +1,723 @@
+---
+title: Interconnects
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Network Interconnects](https://developers.cloudflare.com/api/resources/network_interconnects)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Interconnects
 
-## List existing interconnects
+##### [List existing interconnects](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/list)
 
-**get** `/accounts/{account_id}/cni/interconnects`
+GET/accounts/{account\_id}/cni/interconnects
 
-List existing interconnects
+##### [Get information about an interconnect object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/cni/interconnects/{icon}
 
-- `account_id: string`
+##### [Create a new interconnect](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/create)
 
-  Customer account tag
+POST/accounts/{account\_id}/cni/interconnects
 
-### Query Parameters
+##### [Delete an interconnect object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/delete)
 
-- `cursor: optional number`
+DELETE/accounts/{account\_id}/cni/interconnects/{icon}
 
-- `limit: optional number`
+##### [Generate the Letter of Authorization (LOA) for a given interconnect](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/loa)
 
-- `site: optional string`
+GET/accounts/{account\_id}/cni/interconnects/{icon}/loa
 
-  If specified, only show interconnects located at the given site
+##### [Get the current status of an interconnect object](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/interconnects/methods/status)
 
-- `type: optional string`
+GET/accounts/{account\_id}/cni/interconnects/{icon}/status
 
-  If specified, only show interconnects of the given type
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `items: array of object { account, facility, name, 5 more }  or object { account, name, region, 3 more }`
+<summary>
 
-  - `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+InterconnectListResponse object {items, next }
 
-    - `account: string`
+</summary>
 
-    - `facility: object { address, name }`
+<details>
 
-      - `address: array of string`
+<summary>
 
-      - `name: string`
+items: array of object {account, facility, name, 7 more } or object {account, name, region, 4 more }
 
-    - `name: string`
+</summary>
 
-    - `site: string`
+One of the following:
 
-      A Cloudflare site name.
+<details>
 
-    - `slot_id: string`
+<summary>
 
-    - `speed: string`
+NscInterconnectPhysicalBody object {account, facility, name, 7 more }
 
-    - `type: string`
+</summary>
 
-    - `owner: optional string`
+account: string
 
-  - `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `region: string`
+facility: object {address, name }
 
-    - `type: string`
+</summary>
 
-    - `owner: optional string`
+address: array of string
 
-    - `speed: optional "50M" or "100M" or "200M" or 9 more`
+<a href="#">Link to this property</a>
 
-      Bandwidth structure as visible through the customer-facing API.
+name: string
 
-      - `"50M"`
+<a href="#">Link to this property</a>
 
-      - `"100M"`
+</details>
 
-      - `"200M"`
+<a href="#">Link to this property</a>
 
-      - `"300M"`
+name: string
 
-      - `"400M"`
+<a href="#">Link to this property</a>
 
-      - `"500M"`
+site: string
 
-      - `"1G"`
+A Cloudflare site name.
 
-      - `"2G"`
+<a href="#">Link to this property</a>
 
-      - `"5G"`
+slot\_id: string
 
-      - `"10G"`
+formatuuid
 
-      - `"20G"`
+<a href="#">Link to this property</a>
 
-      - `"50G"`
+speed: string
 
-- `next: optional number`
+<a href="#">Link to this property</a>
 
-### Example
+type: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+virtual\_port\_reservation\_id: string
 
-```json
-{
-  "items": [
-    {
-      "account": "account",
-      "facility": {
-        "address": [
-          "string"
-        ],
-        "name": "name"
-      },
-      "name": "name",
-      "site": "site",
-      "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "speed": "speed",
-      "type": "type",
-      "owner": "owner"
-    }
-  ],
-  "next": 0
-}
-```
+formatuuid
 
-## Get information about an interconnect object
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cni/interconnects/{icon}`
+ccr\_device\_name: optional string
 
-Get information about an interconnect object
+<a href="#">Link to this property</a>
 
-### Path Parameters
+owner: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Customer account tag
+</details>
 
-- `icon: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+<summary>
 
-  - `account: string`
+NscInterconnectGcpPartnerBody object {account, name, region, 4 more }
 
-  - `facility: object { address, name }`
+</summary>
 
-    - `address: array of string`
+account: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-  - `site: string`
+<a href="#">Link to this property</a>
 
-    A Cloudflare site name.
+region: string
 
-  - `slot_id: string`
+<a href="#">Link to this property</a>
 
-  - `speed: string`
+type: string
 
-  - `type: string`
+<a href="#">Link to this property</a>
 
-  - `owner: optional string`
+virtual\_port\_reservation\_id: string
 
-- `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+formatuuid
 
-  - `account: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+owner: optional string
 
-  - `region: string`
+<a href="#">Link to this property</a>
 
-  - `type: string`
+<details>
 
-  - `owner: optional string`
+<summary>
 
-  - `speed: optional "50M" or "100M" or "200M" or 9 more`
+speed: optional "50M"or "100M"or "200M"or 9 more
 
-    Bandwidth structure as visible through the customer-facing API.
+Bandwidth structure as visible through the customer-facing API.
 
-    - `"50M"`
+</summary>
 
-    - `"100M"`
+One of the following:
 
-    - `"200M"`
+"50M"
 
-    - `"300M"`
+<a href="#">Link to this property</a>
 
-    - `"400M"`
+"100M"
 
-    - `"500M"`
+<a href="#">Link to this property</a>
 
-    - `"1G"`
+"200M"
 
-    - `"2G"`
+<a href="#">Link to this property</a>
 
-    - `"5G"`
+"300M"
 
-    - `"10G"`
+<a href="#">Link to this property</a>
 
-    - `"20G"`
+"400M"
 
-    - `"50G"`
+<a href="#">Link to this property</a>
 
-### Example
+"500M"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"1G"
 
-```json
-{
-  "account": "account",
-  "facility": {
-    "address": [
-      "string"
-    ],
-    "name": "name"
-  },
-  "name": "name",
-  "site": "site",
-  "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "speed": "speed",
-  "type": "type",
-  "owner": "owner"
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new interconnect
+"2G"
 
-**post** `/accounts/{account_id}/cni/interconnects`
+<a href="#">Link to this property</a>
 
-Create a new interconnect
+"5G"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"10G"
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"20G"
 
-- `body: object { account, slot_id, type, speed }  or object { account, bandwidth, pairing_key, type }`
+<a href="#">Link to this property</a>
 
-  - `NscInterconnectCreatePhysicalBody object { account, slot_id, type, speed }`
+"50G"
 
-    - `account: string`
+<a href="#">Link to this property</a>
 
-    - `slot_id: string`
+</details>
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-    - `speed: optional string`
+</details>
 
-  - `NscInterconnectCreateGcpPartnerBody object { account, bandwidth, pairing_key, type }`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+</details>
 
-    - `bandwidth: "50M" or "100M" or "200M" or 9 more`
+<a href="#">Link to this property</a>
 
-      Bandwidth structure as visible through the customer-facing API.
+next: optional number
 
-      - `"50M"`
+formatint32
 
-      - `"100M"`
+<a href="#">Link to this property</a>
 
-      - `"200M"`
+</details>
 
-      - `"300M"`
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_list_response%20%3E%20(schema)>)
 
-      - `"400M"`
+<details>
 
-      - `"500M"`
+<summary>
 
-      - `"1G"`
+InterconnectGetResponse = object {account, facility, name, 7 more } or object {account, name, region, 4 more }
 
-      - `"2G"`
+</summary>
 
-      - `"5G"`
+One of the following:
 
-      - `"10G"`
+<details>
 
-      - `"20G"`
+<summary>
 
-      - `"50G"`
+NscInterconnectPhysicalBody object {account, facility, name, 7 more }
 
-    - `pairing_key: string`
+</summary>
 
-      Pairing key provided by GCP
+account: string
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+<summary>
 
-  - `account: string`
+facility: object {address, name }
 
-  - `facility: object { address, name }`
+</summary>
 
-    - `address: array of string`
+address: array of string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+name: string
 
-  - `site: string`
+<a href="#">Link to this property</a>
 
-    A Cloudflare site name.
+</details>
 
-  - `slot_id: string`
+<a href="#">Link to this property</a>
 
-  - `speed: string`
+name: string
 
-  - `type: string`
+<a href="#">Link to this property</a>
 
-  - `owner: optional string`
+site: string
 
-- `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+A Cloudflare site name.
 
-  - `account: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+slot\_id: string
 
-  - `region: string`
+formatuuid
 
-  - `type: string`
+<a href="#">Link to this property</a>
 
-  - `owner: optional string`
+speed: string
 
-  - `speed: optional "50M" or "100M" or "200M" or 9 more`
+<a href="#">Link to this property</a>
 
-    Bandwidth structure as visible through the customer-facing API.
+type: string
 
-    - `"50M"`
+<a href="#">Link to this property</a>
 
-    - `"100M"`
+virtual\_port\_reservation\_id: string
 
-    - `"200M"`
+formatuuid
 
-    - `"300M"`
+<a href="#">Link to this property</a>
 
-    - `"400M"`
+ccr\_device\_name: optional string
 
-    - `"500M"`
+<a href="#">Link to this property</a>
 
-    - `"1G"`
+owner: optional string
 
-    - `"2G"`
+<a href="#">Link to this property</a>
 
-    - `"5G"`
+</details>
 
-    - `"10G"`
+<a href="#">Link to this property</a>
 
-    - `"20G"`
+<details>
 
-    - `"50G"`
+<summary>
 
-### Example
+NscInterconnectGcpPartnerBody object {account, name, region, 4 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account": "account",
-          "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-          "type": "type"
-        }'
-```
+</summary>
 
-#### Response
+account: string
 
-```json
-{
-  "account": "account",
-  "facility": {
-    "address": [
-      "string"
-    ],
-    "name": "name"
-  },
-  "name": "name",
-  "site": "site",
-  "slot_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  "speed": "speed",
-  "type": "type",
-  "owner": "owner"
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete an interconnect object
+name: string
 
-**delete** `/accounts/{account_id}/cni/interconnects/{icon}`
+<a href="#">Link to this property</a>
 
-Delete an interconnect object
+region: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+type: string
 
-  Customer account tag
+<a href="#">Link to this property</a>
 
-- `icon: string`
+virtual\_port\_reservation\_id: string
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-## Generate the Letter of Authorization (LOA) for a given interconnect
+owner: optional string
 
-**get** `/accounts/{account_id}/cni/interconnects/{icon}/loa`
+<a href="#">Link to this property</a>
 
-Generate the Letter of Authorization (LOA) for a given interconnect
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+speed: optional "50M"or "100M"or "200M"or 9 more
 
-  Customer account tag
+Bandwidth structure as visible through the customer-facing API.
 
-- `icon: string`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON/loa \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"50M"
 
-## Get the current status of an interconnect object
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/cni/interconnects/{icon}/status`
+"100M"
 
-Get the current status of an interconnect object
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"200M"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Customer account tag
+"300M"
 
-- `icon: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"400M"
 
-- `Pending object { state }`
+<a href="#">Link to this property</a>
 
-  - `state: "Pending"`
+"500M"
 
-    - `"Pending"`
+<a href="#">Link to this property</a>
 
-- `Down object { state, reason }`
+"1G"
 
-  - `state: "Down"`
+<a href="#">Link to this property</a>
 
-    - `"Down"`
+"2G"
 
-  - `reason: optional string`
+<a href="#">Link to this property</a>
 
-    Diagnostic information, if available
+"5G"
 
-- `Unhealthy object { state, reason }`
+<a href="#">Link to this property</a>
 
-  - `state: "Unhealthy"`
+"10G"
 
-    - `"Unhealthy"`
+<a href="#">Link to this property</a>
 
-  - `reason: optional string`
+"20G"
 
-    Diagnostic information, if available
+<a href="#">Link to this property</a>
 
-- `Healthy object { state }`
+"50G"
 
-  - `state: "Healthy"`
+<a href="#">Link to this property</a>
 
-    - `"Healthy"`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/interconnects/$ICON/status \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "state": "Pending"
-}
-```
+</details>
 
-## Domain Types
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_get_response%20%3E%20(schema)>)
 
-### Interconnect List Response
+<details>
 
-- `InterconnectListResponse object { items, next }`
+<summary>
 
-  - `items: array of object { account, facility, name, 5 more }  or object { account, name, region, 3 more }`
+InterconnectCreateResponse = object {account, facility, name, 7 more } or object {account, name, region, 4 more }
 
-    - `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+</summary>
 
-      - `account: string`
+One of the following:
 
-      - `facility: object { address, name }`
+<details>
 
-        - `address: array of string`
+<summary>
 
-        - `name: string`
+NscInterconnectPhysicalBody object {account, facility, name, 7 more }
 
-      - `name: string`
+</summary>
 
-      - `site: string`
+account: string
 
-        A Cloudflare site name.
+<a href="#">Link to this property</a>
 
-      - `slot_id: string`
+<details>
 
-      - `speed: string`
+<summary>
 
-      - `type: string`
+facility: object {address, name }
 
-      - `owner: optional string`
+</summary>
 
-    - `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+address: array of string
 
-      - `account: string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+name: string
 
-      - `region: string`
+<a href="#">Link to this property</a>
 
-      - `type: string`
+</details>
 
-      - `owner: optional string`
+<a href="#">Link to this property</a>
 
-      - `speed: optional "50M" or "100M" or "200M" or 9 more`
+name: string
 
-        Bandwidth structure as visible through the customer-facing API.
+<a href="#">Link to this property</a>
 
-        - `"50M"`
+site: string
 
-        - `"100M"`
+A Cloudflare site name.
 
-        - `"200M"`
+<a href="#">Link to this property</a>
 
-        - `"300M"`
+slot\_id: string
 
-        - `"400M"`
+formatuuid
 
-        - `"500M"`
+<a href="#">Link to this property</a>
 
-        - `"1G"`
+speed: string
 
-        - `"2G"`
+<a href="#">Link to this property</a>
 
-        - `"5G"`
+type: string
 
-        - `"10G"`
+<a href="#">Link to this property</a>
 
-        - `"20G"`
+virtual\_port\_reservation\_id: string
 
-        - `"50G"`
+formatuuid
 
-  - `next: optional number`
+<a href="#">Link to this property</a>
 
-### Interconnect Get Response
+ccr\_device\_name: optional string
 
-- `InterconnectGetResponse = object { account, facility, name, 5 more }  or object { account, name, region, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+owner: optional string
 
-    - `account: string`
+<a href="#">Link to this property</a>
 
-    - `facility: object { address, name }`
+</details>
 
-      - `address: array of string`
+<a href="#">Link to this property</a>
 
-      - `name: string`
+<details>
 
-    - `name: string`
+<summary>
 
-    - `site: string`
+NscInterconnectGcpPartnerBody object {account, name, region, 4 more }
 
-      A Cloudflare site name.
+</summary>
 
-    - `slot_id: string`
+account: string
 
-    - `speed: string`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+name: string
 
-    - `owner: optional string`
+<a href="#">Link to this property</a>
 
-  - `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+region: string
 
-    - `account: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+type: string
 
-    - `region: string`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+virtual\_port\_reservation\_id: string
 
-    - `owner: optional string`
+formatuuid
 
-    - `speed: optional "50M" or "100M" or "200M" or 9 more`
+<a href="#">Link to this property</a>
 
-      Bandwidth structure as visible through the customer-facing API.
+owner: optional string
 
-      - `"50M"`
+<a href="#">Link to this property</a>
 
-      - `"100M"`
+<details>
 
-      - `"200M"`
+<summary>
 
-      - `"300M"`
+speed: optional "50M"or "100M"or "200M"or 9 more
 
-      - `"400M"`
+Bandwidth structure as visible through the customer-facing API.
 
-      - `"500M"`
+</summary>
 
-      - `"1G"`
+One of the following:
 
-      - `"2G"`
+"50M"
 
-      - `"5G"`
+<a href="#">Link to this property</a>
 
-      - `"10G"`
+"100M"
 
-      - `"20G"`
+<a href="#">Link to this property</a>
 
-      - `"50G"`
+"200M"
 
-### Interconnect Create Response
+<a href="#">Link to this property</a>
 
-- `InterconnectCreateResponse = object { account, facility, name, 5 more }  or object { account, name, region, 3 more }`
+"300M"
 
-  - `NscInterconnectPhysicalBody object { account, facility, name, 5 more }`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+"400M"
 
-    - `facility: object { address, name }`
+<a href="#">Link to this property</a>
 
-      - `address: array of string`
+"500M"
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"1G"
 
-    - `site: string`
+<a href="#">Link to this property</a>
 
-      A Cloudflare site name.
+"2G"
 
-    - `slot_id: string`
+<a href="#">Link to this property</a>
 
-    - `speed: string`
+"5G"
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-    - `owner: optional string`
+"10G"
 
-  - `NscInterconnectGcpPartnerBody object { account, name, region, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account: string`
+"20G"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `region: string`
+"50G"
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-    - `owner: optional string`
+</details>
 
-    - `speed: optional "50M" or "100M" or "200M" or 9 more`
+<a href="#">Link to this property</a>
 
-      Bandwidth structure as visible through the customer-facing API.
+</details>
 
-      - `"50M"`
+<a href="#">Link to this property</a>
 
-      - `"100M"`
+</details>
 
-      - `"200M"`
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_create_response%20%3E%20(schema)>)
 
-      - `"300M"`
+<details>
 
-      - `"400M"`
+<summary>
 
-      - `"500M"`
+InterconnectStatusResponse = object {state } or object {state, reason } or object {state, reason } or object {state }
 
-      - `"1G"`
+</summary>
 
-      - `"2G"`
+One of the following:
 
-      - `"5G"`
+<details>
 
-      - `"10G"`
+<summary>
 
-      - `"20G"`
+Pending object {state }
 
-      - `"50G"`
+</summary>
 
-### Interconnect Status Response
+state: "Pending"
 
-- `InterconnectStatusResponse = object { state }  or object { state, reason }  or object { state, reason }  or object { state }`
+<a href="#">Link to this property</a>
 
-  - `Pending object { state }`
+</details>
 
-    - `state: "Pending"`
+<a href="#">Link to this property</a>
 
-      - `"Pending"`
+<details>
 
-  - `Down object { state, reason }`
+<summary>
 
-    - `state: "Down"`
+Down object {state, reason }
 
-      - `"Down"`
+</summary>
 
-    - `reason: optional string`
+state: "Down"
 
-      Diagnostic information, if available
+<a href="#">Link to this property</a>
 
-  - `Unhealthy object { state, reason }`
+reason: optional string
 
-    - `state: "Unhealthy"`
+Diagnostic information, if available
 
-      - `"Unhealthy"`
+<a href="#">Link to this property</a>
 
-    - `reason: optional string`
+</details>
 
-      Diagnostic information, if available
+<a href="#">Link to this property</a>
 
-  - `Healthy object { state }`
+<details>
 
-    - `state: "Healthy"`
+<summary>
 
-      - `"Healthy"`
+Unhealthy object {state, reason }
+
+</summary>
+
+state: "Unhealthy"
+
+<a href="#">Link to this property</a>
+
+reason: optional string
+
+Diagnostic information, if available
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Healthy object {state }
+
+</summary>
+
+state: "Healthy"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.interconnects%20%3E%20(model)%20interconnect_status_response%20%3E%20(schema)>)

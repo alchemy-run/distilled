@@ -58,7 +58,7 @@
         "updated_by": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes.",
+            "smithy.api#documentation": "Email of the actor who last modified the app, or `unknown` when unavailable.",
             "smithy.api#required": {}
           }
         }
@@ -205,6 +205,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -221,9 +256,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -300,6 +334,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -316,9 +385,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -395,6 +463,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -411,9 +514,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -490,6 +592,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -506,9 +643,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -585,6 +721,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -601,9 +772,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -680,6 +850,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -696,9 +901,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -1076,14 +1280,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -1233,6 +1437,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -1249,9 +1488,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -1328,6 +1566,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -1344,9 +1617,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -1423,6 +1695,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -1439,9 +1746,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -1518,6 +1824,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -1534,9 +1875,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -1613,6 +1953,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -1629,9 +2004,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -1708,6 +2082,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -1724,9 +2133,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -2104,14 +2512,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -2124,6 +2532,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.flagship#AppsFlagsCreateResponseRulesItem"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsCreateResponseType": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        }
       }
     },
     "com.cloudflare.flagship#AppsFlagsCreateResponseVariationsCase3Map": {
@@ -2158,35 +2595,6 @@
         },
         "AppsFlagsCreateResponseVariationsCase4List": {
           "target": "com.cloudflare.flagship#AppsFlagsCreateResponseVariationsCase4List"
-        }
-      }
-    },
-    "com.cloudflare.flagship#AppsFlagsCreateResponseType": {
-      "type": "enum",
-      "members": {
-        "BOOLEAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "boolean"
-          }
-        },
-        "STRING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "string"
-          }
-        },
-        "NUMBER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "number"
-          }
-        },
-        "JSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "json"
-          }
         }
       }
     },
@@ -2261,6 +2669,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -2277,9 +2720,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -2356,6 +2798,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -2372,9 +2849,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -2451,6 +2927,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -2467,9 +2978,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -2546,6 +3056,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -2562,9 +3107,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -2641,6 +3185,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -2657,9 +3236,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -2736,6 +3314,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -2752,9 +3365,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -3132,14 +3744,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -3152,6 +3764,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.flagship#AppsFlagsGetResponseRulesItem"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsGetResponseType": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        }
       }
     },
     "com.cloudflare.flagship#AppsFlagsGetResponseVariationsCase3Map": {
@@ -3186,35 +3827,6 @@
         },
         "AppsFlagsGetResponseVariationsCase4List": {
           "target": "com.cloudflare.flagship#AppsFlagsGetResponseVariationsCase4List"
-        }
-      }
-    },
-    "com.cloudflare.flagship#AppsFlagsGetResponseType": {
-      "type": "enum",
-      "members": {
-        "BOOLEAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "boolean"
-          }
-        },
-        "STRING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "string"
-          }
-        },
-        "NUMBER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "number"
-          }
-        },
-        "JSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "json"
-          }
         }
       }
     },
@@ -3289,6 +3901,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -3305,9 +3952,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -3384,6 +4030,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -3400,9 +4081,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -3479,6 +4159,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -3495,9 +4210,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -3574,6 +4288,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -3590,9 +4339,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -3669,6 +4417,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -3685,9 +4468,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -3764,6 +4546,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -3780,9 +4597,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -4160,14 +4976,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -4180,6 +4996,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.flagship#AppsFlagsListResultItemRulesItem"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsListResultItemType": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        }
       }
     },
     "com.cloudflare.flagship#AppsFlagsListResultItemVariationsCase3Map": {
@@ -4217,42 +5062,13 @@
         }
       }
     },
-    "com.cloudflare.flagship#AppsFlagsListResultItemType": {
-      "type": "enum",
-      "members": {
-        "BOOLEAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "boolean"
-          }
-        },
-        "STRING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "string"
-          }
-        },
-        "NUMBER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "number"
-          }
-        },
-        "JSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "json"
-          }
-        }
-      }
-    },
     "com.cloudflare.flagship#AppsFlagsListResultItem": {
       "type": "structure",
       "members": {
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -4277,21 +5093,22 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.cloudflare.flagship#AppsFlagsListResultItemType",
+          "traits": {
+            "smithy.api#documentation": "Server-inferred value type shared by all of the flag's variations.",
+            "smithy.api#required": {}
+          }
+        },
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
         "description": {
           "target": "smithy.api#String"
-        },
-        "type": {
-          "target": "com.cloudflare.flagship#AppsFlagsListResultItemType",
-          "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
-          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -4378,6 +5195,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -4394,9 +5246,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -4473,6 +5324,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -4489,9 +5375,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -4568,6 +5453,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -4584,9 +5504,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -4663,6 +5582,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -4679,9 +5633,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -4758,6 +5711,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -4774,9 +5762,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -4853,6 +5840,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -4869,9 +5891,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -5249,14 +6270,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -5406,6 +6427,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -5422,9 +6478,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -5501,6 +6556,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -5517,9 +6607,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -5596,6 +6685,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -5612,9 +6736,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -5691,6 +6814,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -5707,9 +6865,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -5786,6 +6943,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -5802,9 +6994,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -5881,6 +7072,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -5897,9 +7123,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -6277,14 +7502,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -6297,6 +7522,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseRulesItem"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsUpdateResponseType": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        }
       }
     },
     "com.cloudflare.flagship#AppsFlagsUpdateResponseVariationsCase3Map": {
@@ -6331,35 +7585,6 @@
         },
         "AppsFlagsUpdateResponseVariationsCase4List": {
           "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseVariationsCase4List"
-        }
-      }
-    },
-    "com.cloudflare.flagship#AppsFlagsUpdateResponseType": {
-      "type": "enum",
-      "members": {
-        "BOOLEAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "boolean"
-          }
-        },
-        "STRING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "string"
-          }
-        },
-        "NUMBER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "number"
-          }
-        },
-        "JSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "json"
-          }
         }
       }
     },
@@ -6434,6 +7659,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -6450,9 +7710,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -6529,6 +7788,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -6545,9 +7839,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -6624,6 +7917,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -6640,9 +7968,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -6719,6 +8046,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -6735,9 +8097,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -6814,6 +8175,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -6830,9 +8226,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -6909,6 +8304,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -6925,9 +8355,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -7305,14 +8734,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -7325,6 +8754,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterRulesItem"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterType": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        }
       }
     },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterVariationsCase3Map": {
@@ -7362,42 +8820,13 @@
         }
       }
     },
-    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterType": {
-      "type": "enum",
-      "members": {
-        "BOOLEAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "boolean"
-          }
-        },
-        "STRING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "string"
-          }
-        },
-        "NUMBER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "number"
-          }
-        },
-        "JSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "json"
-          }
-        }
-      }
-    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0After": {
       "type": "structure",
       "members": {
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -7422,21 +8851,22 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterType",
+          "traits": {
+            "smithy.api#documentation": "Server-inferred value type shared by all of the flag's variations.",
+            "smithy.api#required": {}
+          }
+        },
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
         "description": {
           "target": "smithy.api#String"
-        },
-        "type": {
-          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase0AfterType",
-          "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
-          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -7551,6 +8981,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -7567,9 +9032,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -7646,6 +9110,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -7662,9 +9161,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -7741,6 +9239,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -7757,9 +9290,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -7836,6 +9368,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -7852,9 +9419,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -7931,6 +9497,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -7947,9 +9548,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -8026,6 +9626,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -8042,9 +9677,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -8422,14 +10056,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -8442,6 +10076,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterRulesItem"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterType": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        }
       }
     },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterVariationsCase3Map": {
@@ -8479,42 +10142,13 @@
         }
       }
     },
-    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterType": {
-      "type": "enum",
-      "members": {
-        "BOOLEAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "boolean"
-          }
-        },
-        "STRING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "string"
-          }
-        },
-        "NUMBER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "number"
-          }
-        },
-        "JSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "json"
-          }
-        }
-      }
-    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1After": {
       "type": "structure",
       "members": {
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -8539,21 +10173,22 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterType",
+          "traits": {
+            "smithy.api#documentation": "Server-inferred value type shared by all of the flag's variations.",
+            "smithy.api#required": {}
+          }
+        },
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
         "description": {
           "target": "smithy.api#String"
-        },
-        "type": {
-          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase1AfterType",
-          "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
-          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -8668,6 +10303,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0": {
       "type": "structure",
       "members": {
@@ -8684,9 +10354,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -8763,6 +10432,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -8779,9 +10483,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -8858,6 +10561,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -8874,9 +10612,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -8953,6 +10690,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -8969,9 +10741,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -9048,6 +10819,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -9064,9 +10870,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -9143,6 +10948,41 @@
         }
       }
     },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map"
+        },
+        "AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List"
+        }
+      }
+    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0": {
       "type": "structure",
       "members": {
@@ -9159,9 +10999,8 @@
           }
         },
         "value": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value",
           "traits": {
-            "smithy.api#documentation": "Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators.",
             "smithy.api#required": {}
           }
         }
@@ -9539,14 +11378,14 @@
         "priority": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules.",
+            "smithy.api#documentation": "Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules.",
             "smithy.api#required": {}
           }
         },
         "serve_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when this rule matches. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when this rule matches. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -9559,6 +11398,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterRulesItem"
+      }
+    },
+    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterType": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        }
       }
     },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterVariationsCase3Map": {
@@ -9596,42 +11464,13 @@
         }
       }
     },
-    "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterType": {
-      "type": "enum",
-      "members": {
-        "BOOLEAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "boolean"
-          }
-        },
-        "STRING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "string"
-          }
-        },
-        "NUMBER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "number"
-          }
-        },
-        "JSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "json"
-          }
-        }
-      }
-    },
     "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2After": {
       "type": "structure",
       "members": {
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -9656,21 +11495,22 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterType",
+          "traits": {
+            "smithy.api#documentation": "Server-inferred value type shared by all of the flag's variations.",
+            "smithy.api#required": {}
+          }
+        },
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
         "description": {
           "target": "smithy.api#String"
-        },
-        "type": {
-          "target": "com.cloudflare.flagship#AppsFlagsChangelogListResultItemCase2AfterType",
-          "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
-          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -10012,7 +11852,7 @@
         "updated_by": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes.",
+            "smithy.api#documentation": "Email of the actor who last modified the app, or `unknown` when unavailable.",
             "smithy.api#required": {}
           }
         }
@@ -10036,7 +11876,7 @@
           "uri": "/accounts/{account_id}/flagship/apps/{app_id}/flags",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a flag. Returns 409 if the key already exists. `type` is inferred from variation values and may be omitted."
+        "smithy.api#documentation": "Creates a flag. Returns 409 if the key already exists. `type` is always inferred from variation values; legacy request-side values are ignored."
       },
       "errors": [
         {
@@ -10069,7 +11909,7 @@
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -10097,7 +11937,7 @@
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
@@ -10107,7 +11947,7 @@
         "type": {
           "target": "com.cloudflare.flagship#AppsFlagsCreateRequestType",
           "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
+            "smithy.api#documentation": "Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations."
           }
         }
       },
@@ -10121,7 +11961,7 @@
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -10146,21 +11986,22 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseType",
+          "traits": {
+            "smithy.api#documentation": "Server-inferred value type shared by all of the flag's variations.",
+            "smithy.api#required": {}
+          }
+        },
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
         "description": {
           "target": "smithy.api#String"
-        },
-        "type": {
-          "target": "com.cloudflare.flagship#AppsFlagsCreateResponseType",
-          "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
-          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -10250,7 +12091,7 @@
           "uri": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}",
           "code": 200
         },
-        "smithy.api#documentation": "Permanently deletes a flag. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone.",
+        "smithy.api#documentation": "Deletes a flag permanently. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -10386,7 +12227,7 @@
         "updated_by": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes.",
+            "smithy.api#documentation": "Email of the actor who last modified the app, or `unknown` when unavailable.",
             "smithy.api#required": {}
           }
         }
@@ -10410,7 +12251,7 @@
           "uri": "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
           "code": 200
         },
-        "smithy.api#documentation": "Evaluates a flag against the provided context. Pass context attributes as query parameters; boolean and numeric strings are coerced automatically. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint.",
+        "smithy.api#documentation": "Evaluates a flag against the provided context. Pass context attributes as query parameters; values are forwarded as strings. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint.",
         "smithy.api#readonly": {}
       }
     },
@@ -10547,7 +12388,7 @@
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -10572,21 +12413,22 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.cloudflare.flagship#AppsFlagsGetResponseType",
+          "traits": {
+            "smithy.api#documentation": "Server-inferred value type shared by all of the flag's variations.",
+            "smithy.api#required": {}
+          }
+        },
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
         "description": {
           "target": "smithy.api#String"
-        },
-        "type": {
-          "target": "com.cloudflare.flagship#AppsFlagsGetResponseType",
-          "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
-          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -10900,7 +12742,7 @@
         "updated_by": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes.",
+            "smithy.api#documentation": "Email of the actor who last modified the app, or `unknown` when unavailable.",
             "smithy.api#required": {}
           }
         }
@@ -10966,7 +12808,7 @@
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -10994,7 +12836,7 @@
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
@@ -11004,7 +12846,7 @@
         "type": {
           "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestType",
           "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
+            "smithy.api#documentation": "Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations."
           }
         }
       },
@@ -11018,7 +12860,7 @@
         "default_variation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Variation served when no rule matches or the flag is disabled. Must be a key in `variations`.",
+            "smithy.api#documentation": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
             "smithy.api#required": {}
           }
         },
@@ -11043,21 +12885,22 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseType",
+          "traits": {
+            "smithy.api#documentation": "Server-inferred value type shared by all of the flag's variations.",
+            "smithy.api#required": {}
+          }
+        },
         "variations": {
           "target": "com.cloudflare.flagship#UntypedVariationsMap",
           "traits": {
-            "smithy.api#documentation": "Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller.",
+            "smithy.api#documentation": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB.",
             "smithy.api#required": {}
           }
         },
         "description": {
           "target": "smithy.api#String"
-        },
-        "type": {
-          "target": "com.cloudflare.flagship#AppsFlagsUpdateResponseType",
-          "traits": {
-            "smithy.api#documentation": "Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests."
-          }
         },
         "updated_at": {
           "target": "smithy.api#String"

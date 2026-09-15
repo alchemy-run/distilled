@@ -1,805 +1,231 @@
+---
+title: Leaked Credential Checks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Leaked Credential Checks
 
-## Get Leaked Credential Checks Status
+##### [Get the Leaked Credential Checks status for a zone.](https://developers.cloudflare.com/api/resources/leaked_credential_checks/methods/get)
 
-**get** `/zones/{zone_id}/leaked-credential-checks`
+GET/zones/{zone\_id}/leaked-credential-checks
 
-Retrieves the current status of Leaked Credential Checks.
+##### [Update the Leaked Credential Checks status for a zone.](https://developers.cloudflare.com/api/resources/leaked_credential_checks/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/leaked-credential-checks
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Defines an identifier.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+LeakedCredentialCheckGetResponse object {enabled }
 
-  - `code: number`
+Defines the overall status for Leaked Credential Checks.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+enabled: optional boolean
 
-  - `source: optional object { pointer }`
+Determines whether or not Leaked Credential Checks are enabled.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20leaked_credential_checks%20%3E%20(model)%20leaked_credential_check_get_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+LeakedCredentialCheckCreateResponse object {enabled }
 
-- `result: object { enabled }`
+Defines the overall status for Leaked Credential Checks.
 
-  Defines the overall status for Leaked Credential Checks.
+</summary>
 
-  - `enabled: optional boolean`
+enabled: optional boolean
 
-    Determines whether or not Leaked Credential Checks are enabled.
+Determines whether or not Leaked Credential Checks are enabled.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20leaked_credential_checks%20%3E%20(model)%20leaked_credential_check_create_response%20%3E%20(schema)>)
 
-### Example
+#### Leaked Credential ChecksDetections
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/leaked-credential-checks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [List the custom detection locations of a zone.](https://developers.cloudflare.com/api/resources/leaked_credential_checks/subresources/detections/methods/list)
 
-#### Response
+GET/zones/{zone\_id}/leaked-credential-checks/detections
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true
-  },
-  "success": true
-}
-```
+##### [Create a custom detection location for a zone.](https://developers.cloudflare.com/api/resources/leaked_credential_checks/subresources/detections/methods/create)
 
-## Set Leaked Credential Checks Status
+POST/zones/{zone\_id}/leaked-credential-checks/detections
 
-**post** `/zones/{zone_id}/leaked-credential-checks`
+##### [Get a custom detection location of a zone.](https://developers.cloudflare.com/api/resources/leaked_credential_checks/subresources/detections/methods/get)
 
-Updates the current status of Leaked Credential Checks.
+GET/zones/{zone\_id}/leaked-credential-checks/detections/{detection\_id}
 
-### Path Parameters
+##### [Update a custom detection location of a zone.](https://developers.cloudflare.com/api/resources/leaked_credential_checks/subresources/detections/methods/update)
 
-- `zone_id: string`
+PUT/zones/{zone\_id}/leaked-credential-checks/detections/{detection\_id}
 
-  Defines an identifier.
+##### [Delete a custom detection location from a zone.](https://developers.cloudflare.com/api/resources/leaked_credential_checks/subresources/detections/methods/delete)
 
-### Body Parameters
+DELETE/zones/{zone\_id}/leaked-credential-checks/detections/{detection\_id}
 
-- `enabled: optional boolean`
+##### ModelsExpand Collapse
 
-  Determines whether or not Leaked Credential Checks are enabled.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+DetectionListResponse object {id, password, username }
 
-  - `code: number`
+Defines a custom set of username/password expressions to match Leaked Credential Checks on.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+Defines the unique ID for this custom detection.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+password: optional string
 
-  - `message: string`
+Defines ehe ruleset expression to use in matching the password in a request.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+username: optional string
 
-- `result: object { enabled }`
+Defines the ruleset expression to use in matching the username in a request.
 
-  Defines the overall status for Leaked Credential Checks.
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+</details>
 
-    Determines whether or not Leaked Credential Checks are enabled.
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(model)%20detection_list_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Defines whether the API call was successful.
+<summary>
 
-  - `true`
+DetectionCreateResponse object {id, password, username }
 
-### Example
+Defines a custom set of username/password expressions to match Leaked Credential Checks on.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/leaked-credential-checks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
+</summary>
 
-#### Response
+id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": true
-  },
-  "success": true
-}
-```
+Defines the unique ID for this custom detection.
 
-## Domain Types
+maxLength32
 
-### Leaked Credential Check Get Response
+<a href="#">Link to this property</a>
 
-- `LeakedCredentialCheckGetResponse object { enabled }`
+password: optional string
 
-  Defines the overall status for Leaked Credential Checks.
+Defines ehe ruleset expression to use in matching the password in a request.
 
-  - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-    Determines whether or not Leaked Credential Checks are enabled.
+username: optional string
 
-### Leaked Credential Check Create Response
+Defines the ruleset expression to use in matching the username in a request.
 
-- `LeakedCredentialCheckCreateResponse object { enabled }`
+<a href="#">Link to this property</a>
 
-  Defines the overall status for Leaked Credential Checks.
+</details>
 
-  - `enabled: optional boolean`
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(model)%20detection_create_response%20%3E%20(schema)>)
 
-    Determines whether or not Leaked Credential Checks are enabled.
+<details>
 
-# Detections
+<summary>
 
-## List Leaked Credential Checks Custom Detections
+DetectionGetResponse object {id, password, username }
 
-**get** `/zones/{zone_id}/leaked-credential-checks/detections`
+Defines a custom set of username/password expressions to match Leaked Credential Checks on.
 
-List user-defined detection patterns for Leaked Credential Checks.
+</summary>
 
-### Path Parameters
+id: optional string
 
-- `zone_id: string`
+Defines the unique ID for this custom detection.
 
-  Defines an identifier.
+maxLength32
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+password: optional string
 
-  - `code: number`
+Defines ehe ruleset expression to use in matching the password in a request.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+username: optional string
 
-  - `source: optional object { pointer }`
+Defines the ruleset expression to use in matching the username in a request.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(model)%20detection_get_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+DetectionUpdateResponse object {id, password, username }
 
-- `result: array of object { id, password, username }`
+Defines a custom set of username/password expressions to match Leaked Credential Checks on.
 
-  - `id: optional string`
+</summary>
 
-    Defines the unique ID for this custom detection.
+id: optional string
 
-  - `password: optional string`
+Defines the unique ID for this custom detection.
 
-    Defines ehe ruleset expression to use in matching the password in a request.
+maxLength32
 
-  - `username: optional string`
+<a href="#">Link to this property</a>
 
-    Defines the ruleset expression to use in matching the username in a request.
+password: optional string
 
-- `success: true`
+Defines ehe ruleset expression to use in matching the password in a request.
 
-  Defines whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+username: optional string
 
-### Example
+Defines the ruleset expression to use in matching the username in a request.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/leaked-credential-checks/detections \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "18a14bafaa8eb1df04ce683ec18c765e",
-      "password": "lookup_json_string(http.request.body.raw, \"secret\")",
-      "username": "lookup_json_string(http.request.body.raw, \"user\")"
-    }
-  ],
-  "success": true
-}
-```
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(model)%20detection_update_response%20%3E%20(schema)>)
 
-## Create Leaked Credential Checks Custom Detection
+DetectionDeleteResponse = unknown
 
-**post** `/zones/{zone_id}/leaked-credential-checks/detections`
-
-Create user-defined detection pattern for Leaked Credential Checks.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-### Body Parameters
-
-- `password: optional string`
-
-  Defines ehe ruleset expression to use in matching the password in a request.
-
-- `username: optional string`
-
-  Defines the ruleset expression to use in matching the username in a request.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, password, username }`
-
-  Defines a custom set of username/password expressions to match Leaked Credential Checks on.
-
-  - `id: optional string`
-
-    Defines the unique ID for this custom detection.
-
-  - `password: optional string`
-
-    Defines ehe ruleset expression to use in matching the password in a request.
-
-  - `username: optional string`
-
-    Defines the ruleset expression to use in matching the username in a request.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/leaked-credential-checks/detections \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "password": "lookup_json_string(http.request.body.raw, \\"secret\\")",
-          "username": "lookup_json_string(http.request.body.raw, \\"user\\")"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "18a14bafaa8eb1df04ce683ec18c765e",
-    "password": "lookup_json_string(http.request.body.raw, \"secret\")",
-    "username": "lookup_json_string(http.request.body.raw, \"user\")"
-  },
-  "success": true
-}
-```
-
-## Get Leaked Credential Checks Custom Detection
-
-**get** `/zones/{zone_id}/leaked-credential-checks/detections/{detection_id}`
-
-Get user-defined detection pattern for Leaked Credential Checks.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `detection_id: string`
-
-  Defines the unique ID for this custom detection.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, password, username }`
-
-  Defines a custom set of username/password expressions to match Leaked Credential Checks on.
-
-  - `id: optional string`
-
-    Defines the unique ID for this custom detection.
-
-  - `password: optional string`
-
-    Defines ehe ruleset expression to use in matching the password in a request.
-
-  - `username: optional string`
-
-    Defines the ruleset expression to use in matching the username in a request.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/leaked-credential-checks/detections/$DETECTION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "18a14bafaa8eb1df04ce683ec18c765e",
-    "password": "lookup_json_string(http.request.body.raw, \"secret\")",
-    "username": "lookup_json_string(http.request.body.raw, \"user\")"
-  },
-  "success": true
-}
-```
-
-## Update Leaked Credential Checks Custom Detection
-
-**put** `/zones/{zone_id}/leaked-credential-checks/detections/{detection_id}`
-
-Update user-defined detection pattern for Leaked Credential Checks.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `detection_id: string`
-
-  Defines the unique ID for this custom detection.
-
-### Body Parameters
-
-- `password: optional string`
-
-  Defines ehe ruleset expression to use in matching the password in a request.
-
-- `username: optional string`
-
-  Defines the ruleset expression to use in matching the username in a request.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, password, username }`
-
-  Defines a custom set of username/password expressions to match Leaked Credential Checks on.
-
-  - `id: optional string`
-
-    Defines the unique ID for this custom detection.
-
-  - `password: optional string`
-
-    Defines ehe ruleset expression to use in matching the password in a request.
-
-  - `username: optional string`
-
-    Defines the ruleset expression to use in matching the username in a request.
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/leaked-credential-checks/detections/$DETECTION_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "password": "lookup_json_string(http.request.body.raw, \\"secret\\")",
-          "username": "lookup_json_string(http.request.body.raw, \\"user\\")"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "18a14bafaa8eb1df04ce683ec18c765e",
-    "password": "lookup_json_string(http.request.body.raw, \"secret\")",
-    "username": "lookup_json_string(http.request.body.raw, \"user\")"
-  },
-  "success": true
-}
-```
-
-## Delete Leaked Credential Checks Custom Detection
-
-**delete** `/zones/{zone_id}/leaked-credential-checks/detections/{detection_id}`
-
-Remove user-defined detection pattern for Leaked Credential Checks.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Defines an identifier.
-
-- `detection_id: string`
-
-  Defines the unique ID for this custom detection.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown`
-
-- `success: true`
-
-  Defines whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/leaked-credential-checks/detections/$DETECTION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Detection List Response
-
-- `DetectionListResponse object { id, password, username }`
-
-  Defines a custom set of username/password expressions to match Leaked Credential Checks on.
-
-  - `id: optional string`
-
-    Defines the unique ID for this custom detection.
-
-  - `password: optional string`
-
-    Defines ehe ruleset expression to use in matching the password in a request.
-
-  - `username: optional string`
-
-    Defines the ruleset expression to use in matching the username in a request.
-
-### Detection Create Response
-
-- `DetectionCreateResponse object { id, password, username }`
-
-  Defines a custom set of username/password expressions to match Leaked Credential Checks on.
-
-  - `id: optional string`
-
-    Defines the unique ID for this custom detection.
-
-  - `password: optional string`
-
-    Defines ehe ruleset expression to use in matching the password in a request.
-
-  - `username: optional string`
-
-    Defines the ruleset expression to use in matching the username in a request.
-
-### Detection Get Response
-
-- `DetectionGetResponse object { id, password, username }`
-
-  Defines a custom set of username/password expressions to match Leaked Credential Checks on.
-
-  - `id: optional string`
-
-    Defines the unique ID for this custom detection.
-
-  - `password: optional string`
-
-    Defines ehe ruleset expression to use in matching the password in a request.
-
-  - `username: optional string`
-
-    Defines the ruleset expression to use in matching the username in a request.
-
-### Detection Update Response
-
-- `DetectionUpdateResponse object { id, password, username }`
-
-  Defines a custom set of username/password expressions to match Leaked Credential Checks on.
-
-  - `id: optional string`
-
-    Defines the unique ID for this custom detection.
-
-  - `password: optional string`
-
-    Defines ehe ruleset expression to use in matching the password in a request.
-
-  - `username: optional string`
-
-    Defines the ruleset expression to use in matching the username in a request.
-
-### Detection Delete Response
-
-- `DetectionDeleteResponse = unknown`
+[Link to this property](#)%20leaked_credential_checks.detections%20%3E%20(model)%20detection_delete_response%20%3E%20(schema)>)

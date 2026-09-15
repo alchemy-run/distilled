@@ -1,265 +1,211 @@
+---
+title: Traceroute Test Results
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Traceroute Test Results
 
-# Network Path
+#### Traceroute Test ResultsNetwork Path
 
-## Get details for a specific traceroute test run
+##### [Get details for a specific traceroute test run](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/traceroute_test_results/subresources/network_path/methods/get)
 
-**get** `/accounts/{account_id}/dex/traceroute-test-results/{test_result_id}/network-path`
+GET/accounts/{account\_id}/dex/traceroute-test-results/{test\_result\_id}/network-path
 
-Get a breakdown of hops and performance metrics for a specific traceroute test run
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+NetworkPathGetResponse object {hops, resultId, colo, 6 more }
 
-- `test_result_id: string`
+</summary>
 
-  API Resource UUID tag.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+hops: array of object {ttl, asn, aso, 6 more }
 
-  - `code: number`
+An array of the hops taken by the device to reach the end destination.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+ttl: number
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+asn: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+aso: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+ipAddress: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+location: optional object {city, state, zip }
 
-  - `true`
+</summary>
 
-- `result: optional object { hops, resultId, colo, 6 more }`
+city: optional string
 
-  - `hops: array of object { ttl, asn, aso, 6 more }`
+<a href="#">Link to this property</a>
 
-    An array of the hops taken by the device to reach the end destination.
+state: optional string
 
-    - `ttl: number`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+zip: optional string
 
-    - `aso: optional string`
+<a href="#">Link to this property</a>
 
-    - `ipAddress: optional string`
+</details>
 
-    - `location: optional object { city, state, zip }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+<details>
 
-      - `state: optional string`
+<summary>
 
-      - `zip: optional string`
+mile: optional "client-to-app"or "client-to-cf-egress"or "client-to-cf-ingress"or "client-to-isp"
 
-    - `mile: optional "client-to-app" or "client-to-cf-egress" or "client-to-cf-ingress" or "client-to-isp"`
+</summary>
 
-      - `"client-to-app"`
+One of the following:
 
-      - `"client-to-cf-egress"`
+"client-to-app"
 
-      - `"client-to-cf-ingress"`
+<a href="#">Link to this property</a>
 
-      - `"client-to-isp"`
+"client-to-cf-egress"
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `packetLossPct: optional number`
+"client-to-cf-ingress"
 
-    - `rttMs: optional number`
+<a href="#">Link to this property</a>
 
-  - `resultId: string`
+"client-to-isp"
 
-    API Resource UUID tag.
+<a href="#">Link to this property</a>
 
-  - `colo: optional string`
+</details>
 
-    Cloudflare colo airport code.
+<a href="#">Link to this property</a>
 
-  - `deviceName: optional string`
+name: optional string
 
-    Name of the device associated with this network path response.
+<a href="#">Link to this property</a>
 
-  - `execution_context: optional "EXECUTION_CONTEXT_INVALID" or "OUT_OF_TUNNEL" or "IN_TUNNEL"`
-
-    Whether the test was run inside or outside of the WARP tunnel.
-
-    - `"EXECUTION_CONTEXT_INVALID"`
-
-    - `"OUT_OF_TUNNEL"`
-
-    - `"IN_TUNNEL"`
-
-  - `testId: optional string`
+packetLossPct: optional number
 
-    API Resource UUID tag.
+formatfloat
 
-  - `testName: optional string`
+<a href="#">Link to this property</a>
 
-    Name of the traceroute test.
+rttMs: optional number
 
-  - `time_start: optional string`
+<a href="#">Link to this property</a>
 
-    Timestamp indicating when the traceroute test execution began.
+</details>
 
-  - `tunnel_type: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+resultId: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/traceroute-test-results/$TEST_RESULT_ID/network-path \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+API Resource UUID tag.
 
-#### Response
+maxLength36
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "hops": [
-      {
-        "ttl": 0,
-        "asn": 0,
-        "aso": "aso",
-        "ipAddress": "ipAddress",
-        "location": {
-          "city": "city",
-          "state": "state",
-          "zip": "zip"
-        },
-        "mile": "client-to-app",
-        "name": "name",
-        "packetLossPct": 0,
-        "rttMs": 0
-      }
-    ],
-    "resultId": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "colo": "SJC",
-    "deviceName": "deviceName",
-    "execution_context": "EXECUTION_CONTEXT_INVALID",
-    "testId": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "testName": "testName",
-    "time_start": "2023-07-16 15:00:00+00",
-    "tunnel_type": "tunnel_type"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+colo: optional string
 
-### Network Path Get Response
+Cloudflare colo airport code.
 
-- `NetworkPathGetResponse object { hops, resultId, colo, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `hops: array of object { ttl, asn, aso, 6 more }`
+deviceName: optional string
 
-    An array of the hops taken by the device to reach the end destination.
+Name of the device associated with this network path response.
 
-    - `ttl: number`
+<a href="#">Link to this property</a>
 
-    - `asn: optional number`
+<details>
 
-    - `aso: optional string`
+<summary>
 
-    - `ipAddress: optional string`
+execution\_context: optional "EXECUTION\_CONTEXT\_INVALID"or "OUT\_OF\_TUNNEL"or "IN\_TUNNEL"
 
-    - `location: optional object { city, state, zip }`
+Whether the test was run inside or outside of the WARP tunnel.
 
-      - `city: optional string`
+</summary>
 
-      - `state: optional string`
+One of the following:
 
-      - `zip: optional string`
+"EXECUTION\_CONTEXT\_INVALID"
 
-    - `mile: optional "client-to-app" or "client-to-cf-egress" or "client-to-cf-ingress" or "client-to-isp"`
+<a href="#">Link to this property</a>
 
-      - `"client-to-app"`
+"OUT\_OF\_TUNNEL"
 
-      - `"client-to-cf-egress"`
+<a href="#">Link to this property</a>
 
-      - `"client-to-cf-ingress"`
+"IN\_TUNNEL"
 
-      - `"client-to-isp"`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-    - `packetLossPct: optional number`
+<a href="#">Link to this property</a>
 
-    - `rttMs: optional number`
+testId: optional string
 
-  - `resultId: string`
+API Resource UUID tag.
 
-    API Resource UUID tag.
+maxLength36
 
-  - `colo: optional string`
+<a href="#">Link to this property</a>
 
-    Cloudflare colo airport code.
+testName: optional string
 
-  - `deviceName: optional string`
+Name of the traceroute test.
 
-    Name of the device associated with this network path response.
+<a href="#">Link to this property</a>
 
-  - `execution_context: optional "EXECUTION_CONTEXT_INVALID" or "OUT_OF_TUNNEL" or "IN_TUNNEL"`
+time\_start: optional string
 
-    Whether the test was run inside or outside of the WARP tunnel.
+Timestamp indicating when the traceroute test execution began.
 
-    - `"EXECUTION_CONTEXT_INVALID"`
+<a href="#">Link to this property</a>
 
-    - `"OUT_OF_TUNNEL"`
+tunnel\_type: optional string
 
-    - `"IN_TUNNEL"`
+<a href="#">Link to this property</a>
 
-  - `testId: optional string`
+</details>
 
-    API Resource UUID tag.
-
-  - `testName: optional string`
-
-    Name of the traceroute test.
-
-  - `time_start: optional string`
-
-    Timestamp indicating when the traceroute test execution began.
-
-  - `tunnel_type: optional string`
+[Link to this property](#)%20zero_trust.dex.traceroute_test_results.network_path%20%3E%20(model)%20network_path_get_response%20%3E%20(schema)>)

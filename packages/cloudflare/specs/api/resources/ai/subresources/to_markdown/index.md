@@ -1,118 +1,81 @@
+---
+title: To Markdown
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # To Markdown
 
-## Convert Files into Markdown
+##### [Convert Files into Markdown](https://developers.cloudflare.com/api/resources/ai/subresources/to_markdown/methods/transform)
 
-**post** `/accounts/{account_id}/ai/tomarkdown`
+POST/accounts/{account\_id}/ai/tomarkdown
 
-Converts uploaded files into Markdown format using Workers AI.
+##### [Get all converted formats supported](https://developers.cloudflare.com/api/resources/ai/subresources/to_markdown/methods/supported)
 
-### Path Parameters
+GET/accounts/{account\_id}/ai/tomarkdown/supported
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `result: array of object { data, format, mimeType, 2 more }`
+<summary>
 
-  - `data: string`
+ToMarkdownTransformResponse object {data, format, mimeType, 2 more }
 
-  - `format: string`
+</summary>
 
-  - `mimeType: string`
+data: string
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `tokens: string`
+format: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+mimeType: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/tomarkdown \
-    -H 'Content-Type: multipart/form-data' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F file='{"files":["Example data"]}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: string
 
-```json
-{
-  "result": [
-    {
-      "data": "data",
-      "format": "format",
-      "mimeType": "mimeType",
-      "name": "name",
-      "tokens": "tokens"
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Get all converted formats supported
+tokens: string
 
-**get** `/accounts/{account_id}/ai/tomarkdown/supported`
+<a href="#">Link to this property</a>
 
-Lists all file formats supported for conversion to Markdown.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20ai.to_markdown%20%3E%20(model)%20to_markdown_transform_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `result: array of object { extension, mimeType }`
+ToMarkdownSupportedResponse object {extension, mimeType }
 
-  - `extension: string`
+</summary>
 
-  - `mimeType: string`
+extension: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+mimeType: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/tomarkdown/supported \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": [
-    {
-      "extension": "extension",
-      "mimeType": "mimeType"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### To Markdown Transform Response
-
-- `ToMarkdownTransformResponse object { data, format, mimeType, 2 more }`
-
-  - `data: string`
-
-  - `format: string`
-
-  - `mimeType: string`
-
-  - `name: string`
-
-  - `tokens: string`
-
-### To Markdown Supported Response
-
-- `ToMarkdownSupportedResponse object { extension, mimeType }`
-
-  - `extension: string`
-
-  - `mimeType: string`
+[Link to this property](#)%20ai.to_markdown%20%3E%20(model)%20to_markdown_supported_response%20%3E%20(schema)>)

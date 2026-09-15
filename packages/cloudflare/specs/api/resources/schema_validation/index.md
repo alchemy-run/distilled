@@ -1,1780 +1,536 @@
+---
+title: Schema Validation
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Schema Validation
 
-# Schemas
+#### Schema ValidationSchemas
 
-## List all uploaded schemas
+##### [List all uploaded schemas](https://developers.cloudflare.com/api/resources/schema_validation/subresources/schemas/methods/list)
 
-**get** `/zones/{zone_id}/schema_validation/schemas`
+GET/zones/{zone\_id}/schema\_validation/schemas
 
-Lists all OpenAPI schemas uploaded to API Shield with pagination support.
+##### [Get details of a schema](https://developers.cloudflare.com/api/resources/schema_validation/subresources/schemas/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/schema\_validation/schemas/{schema\_id}
 
-- `zone_id: string`
+##### [Upload a schema](https://developers.cloudflare.com/api/resources/schema_validation/subresources/schemas/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/schema\_validation/schemas
 
-### Query Parameters
+##### [Set schema validation state](https://developers.cloudflare.com/api/resources/schema_validation/subresources/schemas/methods/edit)
 
-- `omit_source: optional boolean`
+PATCH/zones/{zone\_id}/schema\_validation/schemas/{schema\_id}
 
-  Omit the source-files of schemas and only retrieve their meta-data.
+##### [Delete a schema](https://developers.cloudflare.com/api/resources/schema_validation/subresources/schemas/methods/delete)
 
-- `page: optional number`
+DELETE/zones/{zone\_id}/schema\_validation/schemas/{schema\_id}
 
-  Page number of paginated results.
+##### ModelsExpand Collapse
 
-- `per_page: optional number`
+<details>
 
-  Maximum number of results per page.
+<summary>
 
-- `validation_enabled: optional boolean`
+PublicSchema object {created\_at, kind, name, 3 more }
 
-  Filter for enabled schemas
+A schema used in schema validation
 
-### Returns
+</summary>
 
-- `errors: Message`
+created\_at: string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+kind: "openapi\_v3"
 
-  - `source: optional object { pointer }`
+The kind of the schema
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+name: string
 
-- `result: array of PublicSchema`
+A human-readable name for the schema
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `kind: "openapi_v3"`
+schema\_id: string
 
-    The kind of the schema
+A unique identifier of this schema
 
-    - `"openapi_v3"`
+maxLength36
 
-  - `name: string`
+minLength36
 
-    A human-readable name for the schema
+formatuuid
 
-  - `schema_id: string`
+<a href="#">Link to this property</a>
 
-    A unique identifier of this schema
+source: string
 
-  - `source: string`
+The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
 
-    The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
+<a href="#">Link to this property</a>
 
-  - `validation_enabled: optional boolean`
+validation\_enabled: optional boolean
 
-    An indicator if this schema is enabled
+An indicator if this schema is enabled
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(model)%20public_schema%20%3E%20(schema)>)
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+SchemaDeleteResponse = unknown
 
-  - `count: optional number`
+Schema deletion returns no result body.
 
-    Total number of results for the requested service.
+[Link to this property](#)%20schema_validation.schemas%20%3E%20(model)%20schema_delete_response%20%3E%20(schema)>)
 
-  - `page: optional number`
+#### Schema ValidationSettings
 
-    Current page within paginated list of results.
+##### [Get global schema validation settings](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/methods/get)
 
-  - `per_page: optional number`
+GET/zones/{zone\_id}/schema\_validation/settings
 
-    Number of results per page of results.
+##### [Update global schema validation settings](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/methods/update)
 
-  - `total_count: optional number`
+PUT/zones/{zone\_id}/schema\_validation/settings
 
-    Total results available without any search parameters.
+##### [Edit global schema validation settings](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/methods/edit)
 
-  - `total_pages: optional number`
+PATCH/zones/{zone\_id}/schema\_validation/settings
 
-    The number of total pages in the entire result set.
+##### ModelsExpand Collapse
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/schemas \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+SettingGetResponse object {validation\_default\_mitigation\_action, validation\_override\_mitigation\_action }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "kind": "openapi_v3",
-      "name": "petstore schema",
-      "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "source": "<schema file contents>",
-      "validation_enabled": true
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+</summary>
 
-## Get details of a schema
+<details>
 
-**get** `/zones/{zone_id}/schema_validation/schemas/{schema_id}`
+<summary>
 
-Gets the contents and metadata of a specific OpenAPI schema uploaded to API Shield.
+validation\_default\_mitigation\_action: "none"or "log"or "block"
 
-### Path Parameters
+The default mitigation action used
 
-- `zone_id: string`
+Mitigation actions are as follows:
 
-  Identifier.
+- <code>log</code> - log request when request does not conform to schema
+- <code>block</code> - deny access to the site when request does not conform to schema
+- <code>none</code> - skip running schema validation
 
-- `schema_id: string`
+</summary>
 
-  UUID.
+One of the following:
 
-### Query Parameters
+"none"
 
-- `omit_source: optional boolean`
+<a href="#">Link to this property</a>
 
-  Omit the source-files of schemas and only retrieve their meta-data.
+"log"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+"block"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+validation\_override\_mitigation\_action: optional "none"
 
-    - `pointer: optional string`
+When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
 
-- `messages: Message`
+- <code>"none"</code> will skip running schema validation entirely for the request
 
-- `result: PublicSchema`
+<a href="#">Link to this property</a>
 
-  A schema used in schema validation
+</details>
 
-  - `created_at: string`
+[Link to this property](#)%20schema_validation.settings%20%3E%20(model)%20setting_get_response%20%3E%20(schema)>)
 
-  - `kind: "openapi_v3"`
+<details>
 
-    The kind of the schema
+<summary>
 
-    - `"openapi_v3"`
+SettingUpdateResponse object {validation\_default\_mitigation\_action, validation\_override\_mitigation\_action }
 
-  - `name: string`
+</summary>
 
-    A human-readable name for the schema
+<details>
 
-  - `schema_id: string`
+<summary>
 
-    A unique identifier of this schema
+validation\_default\_mitigation\_action: "none"or "log"or "block"
 
-  - `source: string`
+The default mitigation action used
 
-    The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
+Mitigation actions are as follows:
 
-  - `validation_enabled: optional boolean`
+- <code>log</code> - log request when request does not conform to schema
+- <code>block</code> - deny access to the site when request does not conform to schema
+- <code>none</code> - skip running schema validation
 
-    An indicator if this schema is enabled
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"none"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"log"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/schemas/$SCHEMA_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"block"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "openapi_v3",
-    "name": "petstore schema",
-    "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "source": "<schema file contents>",
-    "validation_enabled": true
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Upload a schema
+</details>
 
-**post** `/zones/{zone_id}/schema_validation/schemas`
+<a href="#">Link to this property</a>
 
-Uploads a new OpenAPI schema for API Shield schema validation. The schema defines expected request/response formats for API endpoints.
+validation\_override\_mitigation\_action: optional "none"
 
-### Path Parameters
+When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
 
-- `zone_id: string`
+- <code>"none"</code> will skip running schema validation entirely for the request
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `kind: "openapi_v3"`
+[Link to this property](#)%20schema_validation.settings%20%3E%20(model)%20setting_update_response%20%3E%20(schema)>)
 
-  The kind of the schema
+<details>
 
-  - `"openapi_v3"`
+<summary>
 
-- `name: string`
+SettingEditResponse object {validation\_default\_mitigation\_action, validation\_override\_mitigation\_action }
 
-  A human-readable name for the schema
+</summary>
 
-- `source: string`
+<details>
 
-  The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
+<summary>
 
-- `validation_enabled: boolean`
+validation\_default\_mitigation\_action: "none"or "log"or "block"
 
-  An indicator if this schema is enabled
+The default mitigation action used
 
-### Returns
+Mitigation actions are as follows:
 
-- `errors: array of object { code, message, documentation_url, source }`
+- <code>log</code> - log request when request does not conform to schema
+- <code>block</code> - deny access to the site when request does not conform to schema
+- <code>none</code> - skip running schema validation
 
-  - `code: number`
+</summary>
 
-    A unique error code that describes the kind of issue with the schema
+One of the following:
 
-  - `message: string`
+"none"
 
-    A short text explaining the issue with the schema
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"log"
 
-  - `source: optional object { locations, pointer }`
+<a href="#">Link to this property</a>
 
-    - `locations: optional array of string`
+"block"
 
-      A list of JSON path expression(s) that describe the location(s) of the issue within the provided resource. See <https://goessner.net/articles/JsonPath/> for JSONPath specification.
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+validation\_override\_mitigation\_action: optional "none"
 
-    A unique error code that describes the kind of issue with the schema
+When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
 
-  - `message: string`
+- <code>"none"</code> will skip running schema validation entirely for the request
 
-    A short text explaining the issue with the schema
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { locations, pointer }`
+[Link to this property](#)%20schema_validation.settings%20%3E%20(model)%20setting_edit_response%20%3E%20(schema)>)
 
-    - `locations: optional array of string`
+#### Schema ValidationSettingsOperations
 
-      A list of JSON path expression(s) that describe the location(s) of the issue within the provided resource. See <https://goessner.net/articles/JsonPath/> for JSONPath specification.
+##### [List per-operation schema validation settings](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/subresources/operations/methods/list)
 
-    - `pointer: optional string`
+GET/zones/{zone\_id}/schema\_validation/settings/operations
 
-- `result: PublicSchema`
+##### [Get per-operation schema validation setting](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/subresources/operations/methods/get)
 
-  A schema used in schema validation
+GET/zones/{zone\_id}/schema\_validation/settings/operations/{operation\_id}
 
-  - `created_at: string`
+##### [Update per-operation schema validation setting](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/subresources/operations/methods/update)
 
-  - `kind: "openapi_v3"`
+PUT/zones/{zone\_id}/schema\_validation/settings/operations/{operation\_id}
 
-    The kind of the schema
+##### [Bulk edit per-operation schema validation settings](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/subresources/operations/methods/bulk_edit)
 
-    - `"openapi_v3"`
+PATCH/zones/{zone\_id}/schema\_validation/settings/operations
 
-  - `name: string`
+##### [Delete per-operation schema validation setting](https://developers.cloudflare.com/api/resources/schema_validation/subresources/settings/subresources/operations/methods/delete)
 
-    A human-readable name for the schema
+DELETE/zones/{zone\_id}/schema\_validation/settings/operations/{operation\_id}
 
-  - `schema_id: string`
+##### ModelsExpand Collapse
 
-    A unique identifier of this schema
+<details>
 
-  - `source: string`
+<summary>
 
-    The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
+OperationListResponse object {mitigation\_action, operation\_id }
 
-  - `validation_enabled: optional boolean`
+</summary>
 
-    An indicator if this schema is enabled
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+mitigation\_action: "log"or "block"or "none"
 
-  - `true`
+When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
 
-### Example
+- <code>"log"</code> - log request when request does not conform to schema for this operation
+- <code>"block"</code> - deny access to the site when request does not conform to schema for this operation
+- <code>"none"</code> - will skip mitigation for this operation
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/schemas \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "kind": "openapi_v3",
-          "name": "petstore schema",
-          "source": "<schema file contents>",
-          "validation_enabled": true
-        }'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "locations": [
-          ".paths[\"/user/{username}\"].put"
-        ],
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "locations": [
-          ".paths[\"/user/{username}\"].put"
-        ],
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "openapi_v3",
-    "name": "petstore schema",
-    "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "source": "<schema file contents>",
-    "validation_enabled": true
-  },
-  "success": true
-}
-```
+"log"
 
-## Edit details of a schema to enable validation
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/schema_validation/schemas/{schema_id}`
+"block"
 
-Modifies an existing OpenAPI schema in API Shield, updating the validation rules for associated API operations.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"none"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `schema_id: string`
+<a href="#">Link to this property</a>
 
-  UUID.
+operation\_id: string
 
-### Body Parameters
+UUID.
 
-- `validation_enabled: optional boolean`
+maxLength36
 
-  Flag whether schema is enabled for validation.
+minLength36
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: Message`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(model)%20operation_list_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+OperationGetResponse object {mitigation\_action, operation\_id }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: Message`
+<details>
 
-- `result: PublicSchema`
+<summary>
 
-  A schema used in schema validation
+mitigation\_action: "log"or "block"or "none"
 
-  - `created_at: string`
+When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
 
-  - `kind: "openapi_v3"`
+- <code>"log"</code> - log request when request does not conform to schema for this operation
+- <code>"block"</code> - deny access to the site when request does not conform to schema for this operation
+- <code>"none"</code> - will skip mitigation for this operation
 
-    The kind of the schema
+</summary>
 
-    - `"openapi_v3"`
+One of the following:
 
-  - `name: string`
+"log"
 
-    A human-readable name for the schema
+<a href="#">Link to this property</a>
 
-  - `schema_id: string`
+"block"
 
-    A unique identifier of this schema
+<a href="#">Link to this property</a>
 
-  - `source: string`
+"none"
 
-    The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
+<a href="#">Link to this property</a>
 
-  - `validation_enabled: optional boolean`
+</details>
 
-    An indicator if this schema is enabled
+<a href="#">Link to this property</a>
 
-- `success: true`
+operation\_id: string
 
-  Whether the API call was successful.
+UUID.
 
-  - `true`
+maxLength36
 
-### Example
+minLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/schemas/$SCHEMA_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "kind": "openapi_v3",
-    "name": "petstore schema",
-    "schema_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "source": "<schema file contents>",
-    "validation_enabled": true
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(model)%20operation_get_response%20%3E%20(schema)>)
 
-## Delete a schema
+<details>
 
-**delete** `/zones/{zone_id}/schema_validation/schemas/{schema_id}`
+<summary>
 
-Permanently removes an uploaded OpenAPI schema from API Shield. Operations using this schema will lose their validation rules.
+OperationUpdateResponse object {mitigation\_action, operation\_id }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `schema_id: string`
+mitigation\_action: "log"or "block"or "none"
 
-  UUID.
+When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
 
-### Returns
+- <code>"log"</code> - log request when request does not conform to schema for this operation
+- <code>"block"</code> - deny access to the site when request does not conform to schema for this operation
+- <code>"none"</code> - will skip mitigation for this operation
 
-- `errors: Message`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"log"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"block"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: Message`
+"none"
 
-- `result: object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    The ID of the schema that was just deleted
+<a href="#">Link to this property</a>
 
-- `success: true`
+operation\_id: string
 
-  Whether the API call was successful.
+UUID.
 
-  - `true`
+maxLength36
 
-### Example
+minLength36
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/schemas/$SCHEMA_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(model)%20operation_update_response%20%3E%20(schema)>)
 
-## Domain Types
+<details>
 
-### Public Schema
+<summary>
 
-- `PublicSchema object { created_at, kind, name, 3 more }`
+OperationBulkEditResponse = map\[object {mitigation\_action } ]
 
-  A schema used in schema validation
+Operation ID to updated mitigation action mapping
 
-  - `created_at: string`
+</summary>
 
-  - `kind: "openapi_v3"`
+<details>
 
-    The kind of the schema
+<summary>
 
-    - `"openapi_v3"`
+mitigation\_action: optional "log"or "block"or "none"
 
-  - `name: string`
+When set, this applies a mitigation action to this operation
 
-    A human-readable name for the schema
+- <code>"log"</code> - log request when request does not conform to schema for this operation
+- <code>"block"</code> - deny access to the site when request does not conform to schema for this operation
+- <code>"none"</code> - will skip mitigation for this operation
+- <code>null</code> - clears any mitigation action
 
-  - `schema_id: string`
+</summary>
 
-    A unique identifier of this schema
+One of the following:
 
-  - `source: string`
+"log"
 
-    The raw schema, e.g., the OpenAPI schema, either as JSON or YAML
+<a href="#">Link to this property</a>
 
-  - `validation_enabled: optional boolean`
+"block"
 
-    An indicator if this schema is enabled
+<a href="#">Link to this property</a>
 
-### Schema Delete Response
+"none"
 
-- `SchemaDeleteResponse object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    The ID of the schema that was just deleted
+<a href="#">Link to this property</a>
 
-# Settings
+</details>
 
-## Get global schema validation settings
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(model)%20operation_bulk_edit_response%20%3E%20(schema)>)
 
-**get** `/zones/{zone_id}/schema_validation/settings`
+<details>
 
-Retrieves the current global schema validation settings for a zone.
+<summary>
 
-### Path Parameters
+OperationDeleteResponse object {operation\_id }
 
-- `zone_id: string`
+</summary>
 
-  Identifier.
+operation\_id: optional string
 
-### Returns
+UUID.
 
-- `errors: Message`
+maxLength36
 
-  - `code: number`
+minLength36
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { validation_default_mitigation_action, validation_override_mitigation_action }`
-
-  - `validation_default_mitigation_action: "none" or "log" or "block"`
-
-    The default mitigation action used
-
-    Mitigation actions are as follows:
-
-    - `log` - log request when request does not conform to schema
-    - `block` - deny access to the site when request does not conform to schema
-    - `none` - skip running schema validation
-
-    - `"none"`
-
-    - `"log"`
-
-    - `"block"`
-
-  - `validation_override_mitigation_action: optional "none"`
-
-    When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
-
-    - `"none"` will skip running schema validation entirely for the request
-
-    - `"none"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "validation_default_mitigation_action": "block",
-    "validation_override_mitigation_action": "none"
-  },
-  "success": true
-}
-```
-
-## Update global schema validation settings
-
-**put** `/zones/{zone_id}/schema_validation/settings`
-
-Fully updates global schema validation settings for a zone, replacing existing configuration.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `validation_default_mitigation_action: "none" or "log" or "block"`
-
-  The default mitigation action used
-  Mitigation actions are as follows:
-
-  - `"log"` - log request when request does not conform to schema
-  - `"block"` - deny access to the site when request does not conform to schema
-  - `"none"` - skip running schema validation
-
-  - `"none"`
-
-  - `"log"`
-
-  - `"block"`
-
-- `validation_override_mitigation_action: optional "none"`
-
-  When set, this overrides both zone level and operation level mitigation actions.
-
-  - `"none"` - skip running schema validation entirely for the request
-  - `null` - clears any existing override
-
-  - `"none"`
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { validation_default_mitigation_action, validation_override_mitigation_action }`
-
-  - `validation_default_mitigation_action: "none" or "log" or "block"`
-
-    The default mitigation action used
-
-    Mitigation actions are as follows:
-
-    - `log` - log request when request does not conform to schema
-    - `block` - deny access to the site when request does not conform to schema
-    - `none` - skip running schema validation
-
-    - `"none"`
-
-    - `"log"`
-
-    - `"block"`
-
-  - `validation_override_mitigation_action: optional "none"`
-
-    When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
-
-    - `"none"` will skip running schema validation entirely for the request
-
-    - `"none"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "validation_default_mitigation_action": "block"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "validation_default_mitigation_action": "block",
-    "validation_override_mitigation_action": "none"
-  },
-  "success": true
-}
-```
-
-## Edit global schema validation settings
-
-**patch** `/zones/{zone_id}/schema_validation/settings`
-
-Partially updates global schema validation settings for a zone using PATCH semantics.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `validation_default_mitigation_action: optional "none" or "log" or "block"`
-
-  The default mitigation action used
-  Mitigation actions are as follows:
-
-  - `"log"` - log request when request does not conform to schema
-  - `"block"` - deny access to the site when request does not conform to schema
-  - `"none"` - skip running schema validation
-
-  - `"none"`
-
-  - `"log"`
-
-  - `"block"`
-
-- `validation_override_mitigation_action: optional "none"`
-
-  When set, this overrides both zone level and operation level mitigation actions.
-
-  - `"none"` - skip running schema validation entirely for the request
-  - `null` - clears any existing override
-
-  - `"none"`
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { validation_default_mitigation_action, validation_override_mitigation_action }`
-
-  - `validation_default_mitigation_action: "none" or "log" or "block"`
-
-    The default mitigation action used
-
-    Mitigation actions are as follows:
-
-    - `log` - log request when request does not conform to schema
-    - `block` - deny access to the site when request does not conform to schema
-    - `none` - skip running schema validation
-
-    - `"none"`
-
-    - `"log"`
-
-    - `"block"`
-
-  - `validation_override_mitigation_action: optional "none"`
-
-    When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
-
-    - `"none"` will skip running schema validation entirely for the request
-
-    - `"none"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "validation_default_mitigation_action": "block"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "validation_default_mitigation_action": "block",
-    "validation_override_mitigation_action": "none"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Setting Get Response
-
-- `SettingGetResponse object { validation_default_mitigation_action, validation_override_mitigation_action }`
-
-  - `validation_default_mitigation_action: "none" or "log" or "block"`
-
-    The default mitigation action used
-
-    Mitigation actions are as follows:
-
-    - `log` - log request when request does not conform to schema
-    - `block` - deny access to the site when request does not conform to schema
-    - `none` - skip running schema validation
-
-    - `"none"`
-
-    - `"log"`
-
-    - `"block"`
-
-  - `validation_override_mitigation_action: optional "none"`
-
-    When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
-
-    - `"none"` will skip running schema validation entirely for the request
-
-    - `"none"`
-
-### Setting Update Response
-
-- `SettingUpdateResponse object { validation_default_mitigation_action, validation_override_mitigation_action }`
-
-  - `validation_default_mitigation_action: "none" or "log" or "block"`
-
-    The default mitigation action used
-
-    Mitigation actions are as follows:
-
-    - `log` - log request when request does not conform to schema
-    - `block` - deny access to the site when request does not conform to schema
-    - `none` - skip running schema validation
-
-    - `"none"`
-
-    - `"log"`
-
-    - `"block"`
-
-  - `validation_override_mitigation_action: optional "none"`
-
-    When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
-
-    - `"none"` will skip running schema validation entirely for the request
-
-    - `"none"`
-
-### Setting Edit Response
-
-- `SettingEditResponse object { validation_default_mitigation_action, validation_override_mitigation_action }`
-
-  - `validation_default_mitigation_action: "none" or "log" or "block"`
-
-    The default mitigation action used
-
-    Mitigation actions are as follows:
-
-    - `log` - log request when request does not conform to schema
-    - `block` - deny access to the site when request does not conform to schema
-    - `none` - skip running schema validation
-
-    - `"none"`
-
-    - `"log"`
-
-    - `"block"`
-
-  - `validation_override_mitigation_action: optional "none"`
-
-    When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.
-
-    - `"none"` will skip running schema validation entirely for the request
-
-    - `"none"`
-
-# Operations
-
-## List per-operation schema validation settings
-
-**get** `/zones/{zone_id}/schema_validation/settings/operations`
-
-Lists all per-operation schema validation settings configured for the zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Maximum number of results per page.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: array of object { mitigation_action, operation_id }`
-
-  - `mitigation_action: "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
-
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: string`
-
-    UUID.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings/operations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "mitigation_action": "block",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Get per-operation schema validation setting
-
-**get** `/zones/{zone_id}/schema_validation/settings/operations/{operation_id}`
-
-Retrieves the schema validation settings configured for a specific API operation.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `operation_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { mitigation_action, operation_id }`
-
-  - `mitigation_action: "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
-
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: string`
-
-    UUID.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings/operations/$OPERATION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "mitigation_action": "block",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
-
-## Update per-operation schema validation setting
-
-**put** `/zones/{zone_id}/schema_validation/settings/operations/{operation_id}`
-
-Fully updates schema validation settings for a specific API operation.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `operation_id: string`
-
-  UUID.
-
-### Body Parameters
-
-- `mitigation_action: "log" or "block" or "none"`
-
-  When set, this applies a mitigation action to this operation
-
-  - `"log"` - log request when request does not conform to schema for this operation
-  - `"block"` - deny access to the site when request does not conform to schema for this operation
-  - `"none"` - will skip mitigation for this operation
-  - `null` - clears any mitigation action
-
-  - `"log"`
-
-  - `"block"`
-
-  - `"none"`
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { mitigation_action, operation_id }`
-
-  - `mitigation_action: "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
-
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: string`
-
-    UUID.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings/operations/$OPERATION_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "mitigation_action": "block"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "mitigation_action": "block",
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
-
-## Bulk edit per-operation schema validation settings
-
-**patch** `/zones/{zone_id}/schema_validation/settings/operations`
-
-Updates schema validation settings for multiple API operations in a single request. Efficient for applying consistent validation rules across endpoints.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `body: map[object { mitigation_action } ]`
-
-  - `mitigation_action: optional "none" or "log" or "block"`
-
-    Mitigation actions are as follows:
-
-    * `log` - log request when request does not conform to schema * `block` - deny access to the site when request does not conform to schema * `none` - skip running schema validation * null - clears any existing per-operation setting
-
-    - `"none"`
-
-    - `"log"`
-
-    - `"block"`
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: map[object { mitigation_action, operation_id } ]`
-
-  Operation ID to per operation setting mapping
-
-  - `mitigation_action: "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
-
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: string`
-
-    UUID.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings/operations \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "3818d821-5901-4147-a474-f5f5aec1d54e": {
-            "mitigation_action": "log"
-          },
-          "b17c8043-99a0-4202-b7d9-8f7cdbee02cd": {
-            "mitigation_action": "block"
-          }
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "foo": {
-      "mitigation_action": "block",
-      "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-    }
-  },
-  "success": true
-}
-```
-
-## Delete per-operation schema validation setting
-
-**delete** `/zones/{zone_id}/schema_validation/settings/operations/{operation_id}`
-
-Removes custom schema validation settings for a specific API operation, reverting to zone-level defaults.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `operation_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: Message`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: Message`
-
-- `result: object { operation_id }`
-
-  - `operation_id: optional string`
-
-    UUID.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/schema_validation/settings/operations/$OPERATION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Operation List Response
-
-- `OperationListResponse object { mitigation_action, operation_id }`
-
-  - `mitigation_action: "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
-
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: string`
-
-    UUID.
-
-### Operation Get Response
-
-- `OperationGetResponse object { mitigation_action, operation_id }`
-
-  - `mitigation_action: "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
-
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: string`
-
-    UUID.
-
-### Operation Update Response
-
-- `OperationUpdateResponse object { mitigation_action, operation_id }`
-
-  - `mitigation_action: "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
-
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: string`
-
-    UUID.
-
-### Operation Bulk Edit Response
-
-- `OperationBulkEditResponse = map[object { mitigation_action, operation_id } ]`
-
-  Operation ID to per operation setting mapping
-
-  - `mitigation_action: "log" or "block" or "none"`
-
-    When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation
-
-    - `"log"` - log request when request does not conform to schema for this operation
-    - `"block"` - deny access to the site when request does not conform to schema for this operation
-    - `"none"` - will skip mitigation for this operation
-
-    - `"log"`
-
-    - `"block"`
-
-    - `"none"`
-
-  - `operation_id: string`
-
-    UUID.
-
-### Operation Delete Response
-
-- `OperationDeleteResponse object { operation_id }`
-
-  - `operation_id: optional string`
-
-    UUID.
+[Link to this property](#)%20schema_validation.settings.operations%20%3E%20(model)%20operation_delete_response%20%3E%20(schema)>)

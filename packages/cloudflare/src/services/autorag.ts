@@ -704,7 +704,7 @@ export const SyncResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SyncResponse" }) as any as S.Schema<SyncResponse>;
 
 export type FilesError = CloudflareOpError;
-/** Files */
+/** Lists files indexed by an AutoRAG. */
 export const files: API.OperationMethod<
   FilesRequest,
   FilesResponse,
@@ -719,7 +719,7 @@ export const files: API.OperationMethod<
 }));
 
 export type GetJobError = CloudflareOpError;
-/** Get a Job Details */
+/** Returns details for an AutoRAG job. */
 export const getJob: API.OperationMethod<
   GetJobRequest,
   GetJobResponse,
@@ -734,7 +734,7 @@ export const getJob: API.OperationMethod<
 }));
 
 export type JobsLogsError = CloudflareOpError;
-/** List Job Logs */
+/** Lists logs for an AutoRAG job. */
 export const jobsLogs: API.OperationMethod<
   JobsLogsRequest,
   JobsLogsResponse,
@@ -749,7 +749,7 @@ export const jobsLogs: API.OperationMethod<
 }));
 
 export type ListJobsError = CloudflareOpError;
-/** List Jobs */
+/** Lists jobs for an AutoRAG. */
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResponse,
@@ -764,7 +764,7 @@ export const listJobs: API.OperationMethod<
 }));
 
 export type SearchError = CloudflareOpError;
-/** Search */
+/** Searches an AutoRAG. */
 export const search: API.OperationMethod<
   SearchRequest,
   SearchResponse,
@@ -779,7 +779,7 @@ export const search: API.OperationMethod<
 }));
 
 export type SearchAiError = CloudflareOpError;
-/** AI Search */
+/** Runs an AI Search query against an AutoRAG. */
 export const searchAi: API.OperationMethod<
   SearchAiRequest,
   SearchAiResponse,
@@ -794,7 +794,7 @@ export const searchAi: API.OperationMethod<
 }));
 
 export type SyncError = CloudflareOpError;
-/** Sync */
+/** Starts synchronization for an AutoRAG. */
 export const sync: API.OperationMethod<
   SyncRequest,
   SyncResponse,

@@ -1,26 +1,27 @@
+---
+title: Downloads
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Downloads
 
-## Download command output file
+##### [Download command output file](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/downloads/methods/get)
 
-**get** `/accounts/{account_id}/dex/commands/{command_id}/downloads/{filename}`
-
-Downloads artifacts for an executed command. Bulk downloads are not supported
-
-### Path Parameters
-
-- `account_id: string`
-
-  Unique identifier linked to an account.
-
-- `command_id: string`
-
-  Unique identifier for a command
-
-- `filename: string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/$COMMAND_ID/downloads/$FILENAME \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+GET/accounts/{account\_id}/dex/commands/{command\_id}/downloads/{filename}

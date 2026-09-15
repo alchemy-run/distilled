@@ -1,146 +1,409 @@
-## List Certificates
+---
+title: List Certificates
+---
 
-**get** `/certificates`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Origin CA Certificates](https://developers.cloudflare.com/api/resources/origin_ca_certificates)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Certificates
+
+GET/certificates
 
 List all existing Origin CA certificates for a given zone. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)).
 
-### Query Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `limit: optional number`
 
-  Limit to the number of records returned.
 
-- `offset: optional number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Offset the results.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `page: optional number`
+</details>
 
-  Page number of paginated results.
+<details>
 
-- `per_page: optional number`
+<summary>User Service Key</summary>
 
-  Number of records per page.
 
-### Returns
 
-- `errors: array of object { code, message, documentation_url, source }`
+Used when interacting with the Origin CA certificates API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/ca-keys/#viewchange-your-origin-ca-keys">View/change your key</a>.
 
-  - `code: number`
+**Example:**<code>X-Auth-User-Service-Key: v1.0-144c9defac04969c7bfad8ef-631a41d003a32d25fe878081ef365c49503f7fada600da935e2851a1c7326084b85cbf6429c4b859de8475731dc92a9c329631e6d59e6c73da7b198497172b4cefe071d90d0f5d2719</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### Q uery ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+zone\_id: string
 
-    - `pointer: optional string`
+Identifier.
 
-- `messages: array of object { code, message, documentation_url, source }`
+maxLength32
 
-  - `code: number`
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `message: string`
+limit: optional number
 
-  - `documentation_url: optional string`
+Limit to the number of records returned.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+offset: optional number
 
-- `success: true`
+Offset the results.
 
-  Whether the API call was successful.
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
 
-  - `true`
+page: optional number
 
-- `result: optional array of OriginCACertificate`
+Page number of paginated results.
 
-  - `csr: string`
+minimum1
 
-    The Certificate Signing Request (CSR). Must be newline-encoded.
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `hostnames: array of string`
+per\_page: optional number
 
-    Array of hostnames or wildcard names bound to the certificate.
-    Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode.
+Number of records per page.
 
-  - `request_type: CertificateRequestType`
+maximum50
 
-    Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).
+minimum5
 
-    - `"origin-rsa"`
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    - `"origin-ecc"`
+##### ReturnsExpand Collapse
 
-    - `"keyless-certificate"`
+<details>
 
-  - `requested_validity: RequestValidity`
+<summary>
 
-    The number of days for which the certificate should be valid.
+errors: array of object {code, message, documentation\_url, source }
 
-    - `7`
+</summary>
 
-    - `30`
+code: number
 
-    - `90`
+minimum1000
 
-    - `365`
+<a href="#">Link to this property</a>
 
-    - `730`
+message: string
 
-    - `1095`
+<a href="#">Link to this property</a>
 
-    - `5475`
+documentation\_url: optional string
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+<details>
 
-  - `certificate: optional string`
+<summary>
 
-    The Origin CA certificate. Will be newline-encoded.
+source: optional object {pointer }
 
-  - `expires_on: optional string`
+</summary>
 
-    When the certificate will expire.
+pointer: optional string
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+</details>
 
-    Current page within paginated list of results.
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `per_page: optional number`
+<details>
 
-    Number of results per page of results.
+<summary>
 
-  - `total_count: optional number`
+messages: array of object {code, message, documentation\_url, source }
 
-    Total results available without any search parameters.
+</summary>
 
-  - `total_pages: optional number`
+code: number
 
-    The number of total pages in the entire result set.
+minimum1000
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/origin_ca_certificates#(resource)%20origin_ca_certificates%20%3E%20(model)%20origin_ca_certificate%20%3E%20(schema)">OriginCACertificate</a> { csr, hostnames, request\_type, 4 more }
+
+</summary>
+
+csr: string
+
+The Certificate Signing Request (CSR). Must be newline-encoded.
+
+<a href="#">Link to this property</a>
+
+hostnames: array of string
+
+Array of hostnames or wildcard names bound to the certificate. Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., <code>example.com</code> or <code>sub.example.com</code>). Wildcards are supported only as a <code>*.</code> prefix for a single level (e.g., <code>*.example.com</code>). Double wildcards (<code>*.*.example.com</code>) and interior wildcards (<code>foo.*.example.com</code>) are not allowed. The wildcard suffix must be a multi-label domain (<code>*.example.com</code> is valid, but <code>*.com</code> is not). Unicode/IDN hostnames are accepted and automatically converted to punycode.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request\_type: <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20certificate_request_type%20%3E%20(schema)">CertificateRequestType</a>
+
+Signature type desired on certificate (“origin-rsa” (rsa), “origin-ecc” (ecdsa), or “keyless-certificate” (for Keyless SSL servers).
+
+</summary>
+
+One of the following:
+
+"origin-rsa"
+
+<a href="#">Link to this property</a>
+
+"origin-ecc"
+
+<a href="#">Link to this property</a>
+
+"keyless-certificate"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+requested\_validity: <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20request_validity%20%3E%20(schema)">RequestValidity</a>
+
+The number of days for which the certificate should be valid.
+
+</summary>
+
+One of the following:
+
+7
+
+<a href="#">Link to this property</a>
+
+30
+
+<a href="#">Link to this property</a>
+
+90
+
+<a href="#">Link to this property</a>
+
+365
+
+<a href="#">Link to this property</a>
+
+730
+
+<a href="#">Link to this property</a>
+
+1095
+
+<a href="#">Link to this property</a>
+
+5475
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+certificate: optional string
+
+The Origin CA certificate. Will be newline-encoded.
+
+<a href="#">Link to this property</a>
+
+expires\_on: optional string
+
+When the certificate will expire.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_ca_certificates%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Certificates
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/certificates \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICxzCCAa8CAQAwSDELMAkGA1UEBhMCVVMxFjAUBgNVBAgTDVNhbiBGcmFuY2lz\nY28xCzAJBgNVBAcTAkNBMRQwEgYDVQQDEwtleGFtcGxlLm5ldDCCASIwDQYJKoZI\nhvcNAQEBBQADggEPADCCAQoCggEBALxejtu4b+jPdFeFi6OUsye8TYJQBm3WfCvL\nHu5EvijMO/4Z2TImwASbwUF7Ir8OLgH+mGlQZeqyNvGoSOMEaZVXcYfpR1hlVak8\n4GGVr+04IGfOCqaBokaBFIwzclGZbzKmLGwIQioNxGfqFm6RGYGA3be2Je2iseBc\nN8GV1wYmvYE0RR+yWweJCTJ157exyRzu7sVxaEW9F87zBQLyOnwXc64rflXslRqi\ng7F7w5IaQYOl8yvmk/jEPCAha7fkiUfEpj4N12+oPRiMvleJF98chxjD4MH39c5I\nuOslULhrWunfh7GB1jwWNA9y44H0snrf+xvoy2TcHmxvma9Eln8CAwEAAaA6MDgG\nCSqGSIb3DQEJDjErMCkwJwYDVR0RBCAwHoILZXhhbXBsZS5uZXSCD3d3dy5leGFt\ncGxlLm5ldDANBgkqhkiG9w0BAQsFAAOCAQEAcBaX6dOnI8ncARrI9ZSF2AJX+8mx\npTHY2+Y2C0VvrVDGMtbBRH8R9yMbqWtlxeeNGf//LeMkSKSFa4kbpdx226lfui8/\nauRDBTJGx2R1ccUxmLZXx4my0W5iIMxunu+kez+BDlu7bTT2io0uXMRHue4i6quH\nyc5ibxvbJMjR7dqbcanVE10/34oprzXQsJ/VmSuZNXtjbtSKDlmcpw6To/eeAJ+J\nhXykcUihvHyG4A1m2R6qpANBjnA0pHexfwM/SgfzvpbvUg0T1ubmer8BgTwCKIWs\ndcWYTthM51JIqRBfNqy4QcBnX+GY05yltEEswQI55wdiS3CjTTA67sdbcQ==\n-----END CERTIFICATE REQUEST-----",
+      "hostnames": [
+        "example.com",
+        "*.example.com",
+        "sub.example.com"
+      ],
+      "request_type": "origin-rsa",
+      "requested_validity": 5475,
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "certificate": "-----BEGIN CERTIFICATE-----\nMIICvDCCAaQCAQAwdzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBFV0YWgxDzANBgNV\nBAcMBkxpbmRvbjEWMBQGA1UECgwNRGlnaUNlcnQgSW5jLjERMA8GA1UECwwIRGln\naUNlcnQxHTAbBgNVBAMMFGV4YW1wbGUuZGlnaWNlcnQuY29tMIIBIjANBgkqhkiG\n9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8+To7d+2kPWeBv/orU3LVbJwDrSQbeKamCmo\nwp5bqDxIwV20zqRb7APUOKYoVEFFOEQs6T6gImnIolhbiH6m4zgZ/CPvWBOkZc+c\n1Po2EmvBz+AD5sBdT5kzGQA6NbWyZGldxRthNLOs1efOhdnWFuhI162qmcflgpiI\nWDuwq4C9f+YkeJhNn9dF5+owm8cOQmDrV8NNdiTqin8q3qYAHHJRW28glJUCZkTZ\nwIaSR6crBQ8TbYNE0dc+Caa3DOIkz1EOsHWzTx+n0zKfqcbgXi4DJx+C1bjptYPR\nBPZL8DAeWuA8ebudVT44yEp82G96/Ggcf7F33xMxe0yc+Xa6owIDAQABoAAwDQYJ\nKoZIhvcNAQEFBQADggEBAB0kcrFccSmFDmxox0Ne01UIqSsDqHgL+XmHTXJwre6D\nhJSZwbvEtOK0G3+dr4Fs11WuUNt5qcLsx5a8uk4G6AKHMzuhLsJ7XZjgmQXGECpY\nQ4mC3yT3ZoCGpIXbw+iP3lmEEXgaQL0Tx5LFl/okKbKYwIqNiyKWOMj7ZR/wxWg/\nZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn\n29XI1PpVUNCPQGn9p/eX6Qo7vpDaPybRtA2R7XLKjQaF9oXWeCUqy1hvJac9QFO2\n97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=\n-----END CERTIFICATE-----",
+      "expires_on": "2014-01-01 05:20:00 +0000 UTC"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,700 +1,497 @@
+---
+title: Tables
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2 Data Catalog](https://developers.cloudflare.com/api/resources/r2_data_catalog)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tables
 
-## List tables in namespace
+##### [List tables in namespace](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces/subresources/tables/methods/list)
 
-**get** `/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables`
+GET/accounts/{account\_id}/r2-catalog/{bucket\_name}/namespaces/{namespace}/tables
 
-Returns a list of tables in the specified namespace within an R2 catalog.
-Supports pagination for efficient traversal of large table collections.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Use this to identify the account.
+TableListResponse object {identifiers, details, next\_page\_token, table\_uuids }
 
-- `bucket_name: string`
+Contains the list of tables with optional pagination.
 
-  Specifies the R2 bucket name.
+</summary>
 
-- `namespace: string`
+<details>
 
-### Query Parameters
+<summary>
 
-- `page_size: optional number`
+identifiers: array of object {name, namespace }
 
-  Maximum number of tables to return per page.
-  Defaults to 100, maximum 1000.
+Lists tables in the namespace.
 
-- `page_token: optional string`
+</summary>
 
-  Opaque pagination token from a previous response.
-  Use this to fetch the next page of results.
+name: string
 
-- `return_details: optional boolean`
+Specifies the table name.
 
-  Whether to include additional metadata (timestamps, locations).
-  When true, response includes created_at, updated_at, metadata_locations, and locations arrays.
+<a href="#">Link to this property</a>
 
-- `return_uuids: optional boolean`
+namespace: array of string
 
-  Whether to include table UUIDs in the response.
-  Set to true to receive the table_uuids array.
+Specifies the hierarchical namespace parts as an array of strings. For example, \[“bronze”, “analytics”] represents the namespace “bronze.analytics”.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+</details>
 
-  Contains errors if the API call was unsuccessful.
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-    Specifies the error code.
+<summary>
 
-  - `message: string`
+details: optional array of object {identifier, table\_uuid, created\_at, 3 more }
 
-    Describes the error.
+Contains detailed metadata for each table when return\_details is true. Each object includes identifier, UUID, timestamps, and locations.
 
-- `messages: array of object { code, message }`
+</summary>
 
-  Contains informational messages.
+<details>
 
-  - `code: number`
+<summary>
 
-    Specifies the message code.
+identifier: object {name, namespace }
 
-  - `message: string`
+Specifies a unique table identifier within a catalog.
 
-    Contains the message text.
+</summary>
 
-- `success: boolean`
+name: string
 
-  Indicates whether the API call was successful.
+Specifies the table name.
 
-- `result: optional object { identifiers, details, next_page_token, table_uuids }`
+<a href="#">Link to this property</a>
 
-  Contains the list of tables with optional pagination.
+namespace: array of string
 
-  - `identifiers: array of object { name, namespace }`
+Specifies the hierarchical namespace parts as an array of strings. For example, \[“bronze”, “analytics”] represents the namespace “bronze.analytics”.
 
-    Lists tables in the namespace.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+</details>
 
-      Specifies the table name.
+<a href="#">Link to this property</a>
 
-    - `namespace: array of string`
+table\_uuid: string
 
-      Specifies the hierarchical namespace parts as an array of strings.
-      For example, ["bronze", "analytics"] represents the namespace "bronze.analytics".
+Contains the UUID that persists across renames.
 
-  - `details: optional array of object { identifier, table_uuid, created_at, 3 more }`
+formatuuid
 
-    Contains detailed metadata for each table when return_details is true.
-    Each object includes identifier, UUID, timestamps, and locations.
+<a href="#">Link to this property</a>
 
-    - `identifier: object { name, namespace }`
+created\_at: optional string
 
-      Specifies a unique table identifier within a catalog.
+Indicates the creation timestamp in ISO 8601 format.
 
-      - `name: string`
+formatdate-time
 
-        Specifies the table name.
+<a href="#">Link to this property</a>
 
-      - `namespace: array of string`
-
-        Specifies the hierarchical namespace parts as an array of strings.
-        For example, ["bronze", "analytics"] represents the namespace "bronze.analytics".
-
-    - `table_uuid: string`
-
-      Contains the UUID that persists across renames.
-
-    - `created_at: optional string`
-
-      Indicates the creation timestamp in ISO 8601 format.
-
-    - `location: optional string`
-
-      Specifies the base S3 URI for table storage location.
-
-    - `metadata_location: optional string`
-
-      Contains the S3 URI to table metadata file. Null for staged tables.
-
-    - `updated_at: optional string`
+location: optional string
 
-      Shows the last update timestamp in ISO 8601 format. Null if never updated.
+Specifies the base S3 URI for table storage location.
 
-  - `next_page_token: optional string`
+<a href="#">Link to this property</a>
 
-    Use this opaque token to fetch the next page of results.
-    A null or absent value indicates the last page.
+metadata\_location: optional string
 
-  - `table_uuids: optional array of string`
+Contains the S3 URI to table metadata file. Null for staged tables.
 
-    Contains UUIDs for each table when return_uuids is true.
-    The order corresponds to the identifiers array.
+<a href="#">Link to this property</a>
 
-### Example
+updated\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/namespaces/$NAMESPACE/tables \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Shows the last update timestamp in ISO 8601 format. Null if never updated.
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "details": [
-      {
-        "created_at": "2025-10-07T10:00:00Z",
-        "identifier": {
-          "name": "events",
-          "namespace": [
-            "bronze"
-          ]
-        },
-        "location": "s3://my-bucket/__r2_data_catalog/wh-id/table-id/",
-        "metadata_location": "s3://my-bucket/__r2_data_catalog/wh-id/table-id/metadata/v1.metadata.json",
-        "table_uuid": "0199b9a1-28a0-71e0-a73e-b0fc32c8468e",
-        "updated_at": "2025-10-07T15:00:00Z"
-      },
-      {
-        "created_at": "2025-10-07T10:30:00Z",
-        "identifier": {
-          "name": "users",
-          "namespace": [
-            "bronze"
-          ]
-        },
-        "location": "s3://my-bucket/__r2_data_catalog/wh-id/table-id-2/",
-        "metadata_location": "s3://my-bucket/__r2_data_catalog/wh-id/table-id-2/metadata/v2.metadata.json",
-        "table_uuid": "0199b9a1-3c74-7731-bf53-d8c67ead079d",
-        "updated_at": "2025-10-07T16:00:00Z"
-      }
-    ],
-    "identifiers": [
-      {
-        "name": "events",
-        "namespace": [
-          "bronze"
-        ]
-      },
-      {
-        "name": "users",
-        "namespace": [
-          "bronze"
-        ]
-      }
-    ],
-    "next_page_token": null,
-    "table_uuids": [
-      "0199b9a1-28a0-71e0-a73e-b0fc32c8468e",
-      "0199b9a1-3c74-7731-bf53-d8c67ead079d"
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Table List Response
+<a href="#">Link to this property</a>
 
-- `TableListResponse object { identifiers, details, next_page_token, table_uuids }`
+next\_page\_token: optional string
 
-  Contains the list of tables with optional pagination.
+Use this opaque token to fetch the next page of results. A null or absent value indicates the last page.
 
-  - `identifiers: array of object { name, namespace }`
+<a href="#">Link to this property</a>
 
-    Lists tables in the namespace.
+table\_uuids: optional array of string
 
-    - `name: string`
+Contains UUIDs for each table when return\_uuids is true. The order corresponds to the identifiers array.
 
-      Specifies the table name.
+<a href="#">Link to this property</a>
 
-    - `namespace: array of string`
+</details>
 
-      Specifies the hierarchical namespace parts as an array of strings.
-      For example, ["bronze", "analytics"] represents the namespace "bronze.analytics".
+[Link to this property](#)%20r2_data_catalog.namespaces.tables%20%3E%20(model)%20table_list_response%20%3E%20(schema)>)
 
-  - `details: optional array of object { identifier, table_uuid, created_at, 3 more }`
+#### TablesMaintenance Configs
 
-    Contains detailed metadata for each table when return_details is true.
-    Each object includes identifier, UUID, timestamps, and locations.
+##### [Get table maintenance configuration](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces/subresources/tables/subresources/maintenance_configs/methods/get)
 
-    - `identifier: object { name, namespace }`
+GET/accounts/{account\_id}/r2-catalog/{bucket\_name}/namespaces/{namespace}/tables/{table\_name}/maintenance-configs
 
-      Specifies a unique table identifier within a catalog.
+##### [Update table maintenance configuration](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces/subresources/tables/subresources/maintenance_configs/methods/update)
 
-      - `name: string`
+POST/accounts/{account\_id}/r2-catalog/{bucket\_name}/namespaces/{namespace}/tables/{table\_name}/maintenance-configs
 
-        Specifies the table name.
+##### ModelsExpand Collapse
 
-      - `namespace: array of string`
+<details>
 
-        Specifies the hierarchical namespace parts as an array of strings.
-        For example, ["bronze", "analytics"] represents the namespace "bronze.analytics".
+<summary>
 
-    - `table_uuid: string`
+MaintenanceConfigGetResponse object {maintenance\_config }
 
-      Contains the UUID that persists across renames.
+Contains table maintenance configuration.
 
-    - `created_at: optional string`
+</summary>
 
-      Indicates the creation timestamp in ISO 8601 format.
+<details>
 
-    - `location: optional string`
+<summary>
 
-      Specifies the base S3 URI for table storage location.
+maintenance\_config: object {compaction, interval, snapshot\_expiration }
 
-    - `metadata_location: optional string`
+Configures maintenance for the table.
 
-      Contains the S3 URI to table metadata file. Null for staged tables.
+</summary>
 
-    - `updated_at: optional string`
+<details>
 
-      Shows the last update timestamp in ISO 8601 format. Null if never updated.
+<summary>
 
-  - `next_page_token: optional string`
+compaction: optional object {state, target\_size\_mb, next\_eligible\_at }
 
-    Use this opaque token to fetch the next page of results.
-    A null or absent value indicates the last page.
+Configures compaction settings for table optimization.
 
-  - `table_uuids: optional array of string`
+</summary>
 
-    Contains UUIDs for each table when return_uuids is true.
-    The order corresponds to the identifiers array.
+<details>
 
-# Maintenance Configs
+<summary>
 
-## Get table maintenance configuration
+state: "enabled"or "disabled"
 
-**get** `/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs`
+Specifies the state of maintenance operations.
 
-Retrieve the maintenance configuration for a specific table,
-including compaction settings.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"enabled"
 
-  Use this to identify the account.
+<a href="#">Link to this property</a>
 
-- `bucket_name: string`
+"disabled"
 
-  Specifies the R2 bucket name.
+<a href="#">Link to this property</a>
 
-- `namespace: string`
+</details>
 
-- `table_name: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message }`
+<summary>
 
-  Contains errors if the API call was unsuccessful.
+target\_size\_mb: "64"or "128"or "256"or "512"
 
-  - `code: number`
+Sets the target file size for compaction in megabytes. Defaults to “128”.
 
-    Specifies the error code.
+</summary>
 
-  - `message: string`
+One of the following:
 
-    Describes the error.
+"64"
 
-- `messages: array of object { code, message }`
+<a href="#">Link to this property</a>
 
-  Contains informational messages.
+"128"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-    Specifies the message code.
+"256"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Contains the message text.
+"512"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+</details>
 
-- `result: optional object { maintenance_config }`
+<a href="#">Link to this property</a>
 
-  Contains table maintenance configuration.
+next\_eligible\_at: optional string
 
-  - `maintenance_config: object { compaction, snapshot_expiration }`
+Earliest time when the scheduler can claim this operation. Null when disabled.
 
-    Configures maintenance for the table.
+formatdate-time
 
-    - `compaction: optional object { state, target_size_mb }`
+<a href="#">Link to this property</a>
 
-      Configures compaction settings for table optimization.
+</details>
 
-      - `state: "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-        Specifies the state of maintenance operations.
+interval: optional string
 
-        - `"enabled"`
+Scheduling interval between normal table maintenance runs.
 
-        - `"disabled"`
+<a href="#">Link to this property</a>
 
-      - `target_size_mb: "64" or "128" or "256" or "512"`
+<details>
 
-        Sets the target file size for compaction in megabytes. Defaults to "128".
+<summary>
 
-        - `"64"`
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state, next\_eligible\_at }
 
-        - `"128"`
+</summary>
 
-        - `"256"`
+max\_snapshot\_age: string
 
-        - `"512"`
+Specifies the maximum age for snapshots.
 
-    - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<a href="#">Link to this property</a>
 
-      Configures snapshot expiration settings.
+min\_snapshots\_to\_keep: number
 
-      - `max_snapshot_age: string`
+Specifies the minimum number of snapshots to retain. Defaults to 100.
 
-        Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-        Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-        Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-        Defaults to "7d".
+formatint64
 
-      - `min_snapshots_to_keep: number`
+minimum1
 
-        Specifies the minimum number of snapshots to retain. Defaults to 100.
+<a href="#">Link to this property</a>
 
-      - `state: "enabled" or "disabled"`
+<details>
 
-        Specifies the state of maintenance operations.
+<summary>
 
-        - `"enabled"`
+state: "enabled"or "disabled"
 
-        - `"disabled"`
+Specifies the state of maintenance operations.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/namespaces/$NAMESPACE/tables/$TABLE_NAME/maintenance-configs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"enabled"
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "maintenance_config": {
-      "compaction": {
-        "state": "enabled",
-        "target_size_mb": "128"
-      },
-      "snapshot_expiration": {
-        "max_snapshot_age": "7d",
-        "min_snapshots_to_keep": 100,
-        "state": "enabled"
-      }
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update table maintenance configuration
+"disabled"
 
-**post** `/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs`
+<a href="#">Link to this property</a>
 
-Update the maintenance configuration for a specific table. This allows you to
-enable or disable compaction and adjust target file sizes for optimization.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+next\_eligible\_at: optional string
 
-  Use this to identify the account.
+Earliest time when the scheduler can claim this operation. Null when disabled.
 
-- `bucket_name: string`
+formatdate-time
 
-  Specifies the R2 bucket name.
+<a href="#">Link to this property</a>
 
-- `namespace: string`
+</details>
 
-- `table_name: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `compaction: optional object { state, target_size_mb }`
+<a href="#">Link to this property</a>
 
-  Updates compaction configuration (all fields optional).
+</details>
 
-  - `state: optional "enabled" or "disabled"`
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(model)%20maintenance_config_get_response%20%3E%20(schema)>)
 
-    Updates the state optionally.
+<details>
 
-    - `"enabled"`
+<summary>
 
-    - `"disabled"`
+MaintenanceConfigUpdateResponse object {compaction, interval, snapshot\_expiration }
 
-  - `target_size_mb: optional "64" or "128" or "256" or "512"`
+Configures maintenance for the table.
 
-    Updates the target file size optionally.
+</summary>
 
-    - `"64"`
+<details>
 
-    - `"128"`
+<summary>
 
-    - `"256"`
+compaction: optional object {state, target\_size\_mb, next\_eligible\_at }
 
-    - `"512"`
+Configures compaction settings for table optimization.
 
-- `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+</summary>
 
-  Updates snapshot expiration configuration (all fields optional).
+<details>
 
-  - `max_snapshot_age: optional string`
+<summary>
 
-    Updates the maximum age for snapshots optionally.
+state: "enabled"or "disabled"
 
-  - `min_snapshots_to_keep: optional number`
+Specifies the state of maintenance operations.
 
-    Updates the minimum number of snapshots to retain optionally.
+</summary>
 
-  - `state: optional "enabled" or "disabled"`
+One of the following:
 
-    Updates the state optionally.
+"enabled"
 
-    - `"enabled"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+"disabled"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+</details>
 
-  Contains errors if the API call was unsuccessful.
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-    Specifies the error code.
+<summary>
 
-  - `message: string`
+target\_size\_mb: "64"or "128"or "256"or "512"
 
-    Describes the error.
+Sets the target file size for compaction in megabytes. Defaults to “128”.
 
-- `messages: array of object { code, message }`
+</summary>
 
-  Contains informational messages.
+One of the following:
 
-  - `code: number`
+"64"
 
-    Specifies the message code.
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"128"
 
-    Contains the message text.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"256"
 
-  Indicates whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result: optional object { compaction, snapshot_expiration }`
+"512"
 
-  Configures maintenance for the table.
+<a href="#">Link to this property</a>
 
-  - `compaction: optional object { state, target_size_mb }`
+</details>
 
-    Configures compaction settings for table optimization.
+<a href="#">Link to this property</a>
 
-    - `state: "enabled" or "disabled"`
+next\_eligible\_at: optional string
 
-      Specifies the state of maintenance operations.
+Earliest time when the scheduler can claim this operation. Null when disabled.
 
-      - `"enabled"`
+formatdate-time
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `target_size_mb: "64" or "128" or "256" or "512"`
+</details>
 
-      Sets the target file size for compaction in megabytes. Defaults to "128".
+<a href="#">Link to this property</a>
 
-      - `"64"`
+interval: optional string
 
-      - `"128"`
+Scheduling interval between normal table maintenance runs.
 
-      - `"256"`
+<a href="#">Link to this property</a>
 
-      - `"512"`
+<details>
 
-  - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<summary>
 
-    Configures snapshot expiration settings.
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state, next\_eligible\_at }
 
-    - `max_snapshot_age: string`
+</summary>
 
-      Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-      Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-      Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-      Defaults to "7d".
+max\_snapshot\_age: string
 
-    - `min_snapshots_to_keep: number`
+Specifies the maximum age for snapshots.
 
-      Specifies the minimum number of snapshots to retain. Defaults to 100.
+<a href="#">Link to this property</a>
 
-    - `state: "enabled" or "disabled"`
+min\_snapshots\_to\_keep: number
 
-      Specifies the state of maintenance operations.
+Specifies the minimum number of snapshots to retain. Defaults to 100.
 
-      - `"enabled"`
+formatint64
 
-      - `"disabled"`
+minimum1
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/namespaces/$NAMESPACE/tables/$TABLE_NAME/maintenance-configs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "compaction": {
-      "state": "enabled",
-      "target_size_mb": "256"
-    },
-    "snapshot_expiration": {
-      "max_snapshot_age": "14d",
-      "min_snapshots_to_keep": 5,
-      "state": "enabled"
-    }
-  },
-  "success": true
-}
-```
+state: "enabled"or "disabled"
 
-## Domain Types
+Specifies the state of maintenance operations.
 
-### Maintenance Config Get Response
+</summary>
 
-- `MaintenanceConfigGetResponse object { maintenance_config }`
+One of the following:
 
-  Contains table maintenance configuration.
+"enabled"
 
-  - `maintenance_config: object { compaction, snapshot_expiration }`
+<a href="#">Link to this property</a>
 
-    Configures maintenance for the table.
+"disabled"
 
-    - `compaction: optional object { state, target_size_mb }`
+<a href="#">Link to this property</a>
 
-      Configures compaction settings for table optimization.
+</details>
 
-      - `state: "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-        Specifies the state of maintenance operations.
+next\_eligible\_at: optional string
 
-        - `"enabled"`
+Earliest time when the scheduler can claim this operation. Null when disabled.
 
-        - `"disabled"`
+formatdate-time
 
-      - `target_size_mb: "64" or "128" or "256" or "512"`
+<a href="#">Link to this property</a>
 
-        Sets the target file size for compaction in megabytes. Defaults to "128".
+</details>
 
-        - `"64"`
+<a href="#">Link to this property</a>
 
-        - `"128"`
+</details>
 
-        - `"256"`
-
-        - `"512"`
-
-    - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
-
-      Configures snapshot expiration settings.
-
-      - `max_snapshot_age: string`
-
-        Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-        Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-        Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-        Defaults to "7d".
-
-      - `min_snapshots_to_keep: number`
-
-        Specifies the minimum number of snapshots to retain. Defaults to 100.
-
-      - `state: "enabled" or "disabled"`
-
-        Specifies the state of maintenance operations.
-
-        - `"enabled"`
-
-        - `"disabled"`
-
-### Maintenance Config Update Response
-
-- `MaintenanceConfigUpdateResponse object { compaction, snapshot_expiration }`
-
-  Configures maintenance for the table.
-
-  - `compaction: optional object { state, target_size_mb }`
-
-    Configures compaction settings for table optimization.
-
-    - `state: "enabled" or "disabled"`
-
-      Specifies the state of maintenance operations.
-
-      - `"enabled"`
-
-      - `"disabled"`
-
-    - `target_size_mb: "64" or "128" or "256" or "512"`
-
-      Sets the target file size for compaction in megabytes. Defaults to "128".
-
-      - `"64"`
-
-      - `"128"`
-
-      - `"256"`
-
-      - `"512"`
-
-  - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
-
-    Configures snapshot expiration settings.
-
-    - `max_snapshot_age: string`
-
-      Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-      Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-      Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-      Defaults to "7d".
-
-    - `min_snapshots_to_keep: number`
-
-      Specifies the minimum number of snapshots to retain. Defaults to 100.
-
-    - `state: "enabled" or "disabled"`
-
-      Specifies the state of maintenance operations.
-
-      - `"enabled"`
-
-      - `"disabled"`
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(model)%20maintenance_config_update_response%20%3E%20(schema)>)

@@ -1,214 +1,71 @@
+---
+title: Order
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Sensitivity Groups](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups)
+
+[Levels](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Order
 
-## Retrieve the ordered list of level IDs for a sensitivity group.
+##### [Retrieve the ordered list of level IDs for a sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/subresources/order/methods/get)
 
-**get** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/level_order`
+GET/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/level\_order
 
-Retrieve the ordered list of level IDs for a sensitivity group.
+##### [Set the ordering of levels within a sensitivity group.](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/sensitivity_groups/subresources/levels/subresources/order/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/dlp/sensitivity\_groups/{sensitivity\_group\_id}/level\_order
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-- `sensitivity_group_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+OrderGetResponse object {level\_ids }
 
-  - `code: number`
+The ordered list of level IDs for a sensitivity group. Used to get and set the ordering of levels independently of level attributes.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+level\_ids: array of string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels.order%20%3E%20(model)%20order_get_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+OrderUpdateResponse object {level\_ids }
 
-  - `source: optional object { pointer }`
+The ordered list of level IDs for a sensitivity group. Used to get and set the ordering of levels independently of level attributes.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+level\_ids: array of string
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/level_order \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "level_ids": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ]
-  }
-}
-```
-
-## Set the ordering of levels within a sensitivity group.
-
-**put** `/accounts/{account_id}/dlp/sensitivity_groups/{sensitivity_group_id}/level_order`
-
-Set the ordering of levels within a sensitivity group.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `sensitivity_group_id: string`
-
-### Body Parameters
-
-- `level_ids: array of string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/sensitivity_groups/$SENSITIVITY_GROUP_ID/level_order \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "level_ids": [
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "level_ids": [
-      "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-    ]
-  }
-}
-```
-
-## Domain Types
-
-### Order Get Response
-
-- `OrderGetResponse object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
-
-### Order Update Response
-
-- `OrderUpdateResponse object { level_ids }`
-
-  The ordered list of level IDs for a sensitivity group.
-  Used to get and set the ordering of levels independently of level attributes.
-
-  - `level_ids: array of string`
+[Link to this property](#)%20zero_trust.dlp.sensitivity_groups.levels.order%20%3E%20(model)%20order_update_response%20%3E%20(schema)>)

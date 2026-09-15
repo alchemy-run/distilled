@@ -1,110 +1,331 @@
-## Create Service Binding
+---
+title: Create Service Binding
+---
 
-**post** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings`
+[Skip to content](#_top)
 
-Creates a new Service Binding, routing traffic to IPs within the given CIDR to a service running on Cloudflare's network.
-**NOTE:** The first Service Binding created for an IP Prefix must exactly match the IP Prefix's CIDR. Subsequent Service Bindings may be created with a more-specific CIDR. Refer to the  [Service Bindings Documentation](https://developers.cloudflare.com/byoip/service-bindings/) for compatibility details.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
 
-- `account_id: string`
+[Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes)
 
-  Identifier of a Cloudflare account.
+[Service Bindings](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/service_bindings)
 
-- `prefix_id: string`
+Copy Markdown
 
-  Identifier of an IP Prefix.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `cidr: string`
+**Copy Markdown****View as Markdown**
 
-  IP Prefix in Classless Inter-Domain Routing format.
+# Create Service Binding
 
-- `service_id: string`
+POST/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bindings
 
-  Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-  **List Services** endpoint.
+Creates a new Service Binding, routing traffic to IPs within the given CIDR to a service running on Cloudflare’s network. **NOTE:** The first Service Binding created for an IP Prefix must exactly match the IP Prefix’s CIDR. Subsequent Service Bindings may be created with a more-specific CIDR. Refer to the [Service Bindings Documentation](https://developers.cloudflare.com/byoip/service-bindings/) for compatibility details.
 
-### Returns
+##### Security
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `pointer: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Email + API Key</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `success: true`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Whether the API call was successful.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `true`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `result: optional ServiceBinding`
+</details>
 
-  - `id: optional string`
+##### Accepted Permissions (at least one required)
 
-    Identifier of a Service Binding.
+`IP Prefixes: Write`
 
-  - `cidr: optional string`
+##### P ath ParametersExpand Collapse
 
-    IP Prefix in Classless Inter-Domain Routing format.
+account\_id: string
 
-  - `provisioning: optional object { state }`
+Identifier of a Cloudflare account.
 
-    Status of a Service Binding's deployment to the Cloudflare network
+maxLength32
 
-    - `state: optional "provisioning" or "active"`
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
+prefix\_id: string
 
-      - `"provisioning"`
+Identifier of an IP Prefix.
 
-      - `"active"`
+maxLength32
 
-  - `service_id: optional string`
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20prefix_id%20%3E%20(schema)>)
 
-    Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
-    **List Services** endpoint.
+##### Body ParametersJSONExpand Collapse
 
-  - `service_name: optional string`
+cidr: string
 
-    Name of a service running on the Cloudflare network
+IP Prefix in Classless Inter-Domain Routing format.
 
-### Example
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20cidr%20%3E%20(schema)>)
 
-```http
+service\_id: string
+
+Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint.
+
+maxLength32
+
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20service_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/addressing#(resource)%20addressing.prefixes.service_bindings%20%3E%20(model)%20service_binding%20%3E%20(schema)">ServiceBinding</a> { id, cidr, provisioning, 2 more }
+
+</summary>
+
+id: optional string
+
+Identifier of a Service Binding.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+cidr: optional string
+
+IP Prefix in Classless Inter-Domain Routing format.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provisioning: optional object {state }
+
+Status of a Service Binding’s deployment to the Cloudflare network
+
+</summary>
+
+<details>
+
+<summary>
+
+state: optional "provisioning"or "active"or "magic\_transit\_route\_missing"
+
+When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service.
+
+</summary>
+
+One of the following:
+
+"provisioning"
+
+<a href="#">Link to this property</a>
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"magic\_transit\_route\_missing"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+service\_id: optional string
+
+Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+service\_name: optional string
+
+Name of a service running on the Cloudflare network
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.service_bindings%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create Service Binding
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bindings \
     -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{
           "cidr": "192.0.2.0/24",
           "service_id": "2db684ee7ca04e159946fd05b99e1bcd"
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "0429b49b6a5155297b78e75a44b09e14",
+    "cidr": "192.0.2.0/24",
+    "provisioning": {
+      "state": "provisioning"
+    },
+    "service_id": "2db684ee7ca04e159946fd05b99e1bcd",
+    "service_name": "Magic Transit"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

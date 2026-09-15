@@ -1,90 +1,252 @@
-## Update a Zero Trust Gateway PAC file
+---
+title: Update a Zero Trust Gateway PAC file
+---
 
-**put** `/accounts/{account_id}/gateway/pacfiles/{pacfile_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+[Pacfiles](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/pacfiles)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a Zero Trust Gateway PAC file
+
+PUT/accounts/{account\_id}/gateway/pacfiles/{pacfile\_id}
 
 Update a configured Zero Trust Gateway PAC file.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `pacfile_id: string`
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `contents: string`
 
-  Actual contents of the PAC file
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `description: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Detailed description of the PAC file.
+</details>
 
-- `name: string`
+<details>
 
-  Name of the PAC file.
+<summary>API Email + API Key</summary>
 
-### Returns
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `message: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Zero Trust Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `success: true`
+pacfile\_id: string
 
-  Indicate whether the API call was successful.
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20pacfile_id%20%3E%20(schema)>)
 
-  - `true`
+##### Body ParametersJSONExpand Collapse
 
-- `result: optional object { id, contents, created_at, 5 more }`
+contents: string
 
-  - `id: optional string`
+Actual contents of the PAC file
 
-  - `contents: optional string`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20contents%20%3E%20(schema)>)
 
-    Actual contents of the PAC file
+description: string
 
-  - `created_at: optional string`
+Detailed description of the PAC file.
 
-  - `description: optional string`
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    Detailed description of the PAC file.
+name: string
 
-  - `name: optional string`
+Name of the PAC file.
 
-    Name of the PAC file.
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `slug: optional string`
+##### ReturnsExpand Collapse
 
-    URL-friendly version of the PAC file name.
+<details>
 
-  - `updated_at: optional string`
+<summary>
 
-  - `url: optional string`
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    Unique URL to download the PAC file.
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Indicate whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, contents, created\_at, 5 more }
+
+</summary>
+
+id: optional string
+
+<a href="#">Link to this property</a>
+
+contents: optional string
+
+Actual contents of the PAC file
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Detailed description of the PAC file.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the PAC file.
+
+<a href="#">Link to this property</a>
+
+slug: optional string
+
+URL-friendly version of the PAC file name.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+Unique URL to download the PAC file.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.pacfiles%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update a Zero Trust Gateway PAC file
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles/$PACFILE_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -96,9 +258,49 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/pacfiles/
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "ed35569b41ce4d1facfe683550f54086",
+    "contents": "function FindProxyForURL(url, host) { return \"DIRECT\"; }",
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "description": "PAC file for Devops team",
+    "name": "Devops team",
+    "slug": "pac_devops",
+    "updated_at": "2014-01-01T05:20:00.12345Z",
+    "url": "https://pac.cloudflare-gateway.com/699d98642c564d2e855e9661899b7252/pac_devops"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

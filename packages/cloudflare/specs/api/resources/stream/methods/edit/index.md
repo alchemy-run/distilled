@@ -1,304 +1,696 @@
-## Edit video details
+---
+title: Edit video details
+---
 
-**post** `/accounts/{account_id}/stream/{identifier}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Edit video details
+
+POST/accounts/{account\_id}/stream/{identifier}
 
 Edit details for a single video.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  The account identifier tag.
+<summary>API Token</summary>
 
-- `identifier: string`
 
-  A Cloudflare-generated unique identifier for a media item.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `allowedOrigins: optional array of AllowedOrigins`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+</details>
 
-- `creator: optional string`
+<details>
 
-  A user-defined identifier for the media creator.
+<summary>API Email + API Key</summary>
 
-- `maxDurationSeconds: optional number`
 
-  The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
 
-- `meta: optional unknown`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  A user modifiable key-value store used to reference other systems of record for managing videos.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `publicDetails: optional object { channel_link, logo, share_link, title }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Public details for the video including title, share link, channel link, and logo.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `channel_link: optional string`
+</details>
 
-  - `logo: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `share_link: optional string`
+account\_id: string
 
-  - `title: optional string`
+The account identifier tag.
 
-- `requireSignedURLs: optional boolean`
+maxLength32
 
-  Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `scheduledDeletion: optional string`
+identifier: string
 
-  Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+A Cloudflare-generated unique identifier for a media item.
 
-- `thumbnailTimestampPct: optional number`
+maxLength32
 
-  The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20identifier%20%3E%20(schema)>)
 
-- `uid: optional string`
+##### Body ParametersJSONExpand Collapse
 
-  The unique identifier for the video. Can be used to verify the video being updated.
+allowedOrigins: optional array of [AllowedOrigins](<https://developers.cloudflare.com/api/resources/stream#(resource)%20stream%20%3E%20(model)%20allowed_origins%20%3E%20(schema)>)
 
-- `uploadExpiry: optional string`
+Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
 
-  The date and time when the video upload URL is no longer valid for direct user uploads.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20allowedOrigins%20%3E%20(schema)>)
 
-### Returns
+creator: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+A user-defined identifier for the media creator.
 
-  - `code: number`
+maxLength64
 
-  - `message: string`
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20creator%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+maxDurationSeconds: optional number
 
-  - `source: optional object { pointer }`
+The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
 
-    - `pointer: optional string`
+maximum36000
 
-- `messages: array of object { code, message, documentation_url, source }`
+minimum1
 
-  - `code: number`
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20maxDurationSeconds%20%3E%20(schema)>)
 
-  - `message: string`
+meta: optional unknown
 
-  - `documentation_url: optional string`
+A user modifiable key-value store used to reference other systems of record for managing videos.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20meta%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+publicDetails: optional object {channel\_link, logo, share\_link, title }
 
-  - `true`
+Public details for the video including title, share link, channel link, and logo.
 
-- `result: optional Video`
+</summary>
 
-  - `allowedOrigins: optional array of AllowedOrigins`
+channel\_link: optional string
 
-    Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
+<a href="#">Link to this property</a>
 
-  - `clippedFrom: optional string`
+logo: optional string
 
-    The unique identifier of the source video this video was clipped from.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+share\_link: optional string
 
-    The date and time the media item was created.
+<a href="#">Link to this property</a>
 
-  - `creator: optional string`
+title: optional string
 
-    A user-defined identifier for the media creator.
+<a href="#">Link to this property</a>
 
-  - `duration: optional number`
+</details>
 
-    The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20publicDetails%20%3E%20(schema)>)
 
-  - `input: optional object { height, width }`
+requireSignedURLs: optional boolean
 
-    - `height: optional number`
+Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
 
-      The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20requireSignedURLs%20%3E%20(schema)>)
 
-    - `width: optional number`
+scheduledDeletion: optional string
 
-      The video width in pixels. A value of `-1` means the width is unknown. The value becomes available after the upload and before the video is ready.
+Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
 
-  - `liveInput: optional string`
+formatdate-time
 
-    The live input ID used to upload a video with Stream Live.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20scheduledDeletion%20%3E%20(schema)>)
 
-  - `maxDurationSeconds: optional number`
+thumbnailTimestampPct: optional number
 
-    The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.
+The timestamp for a thumbnail image calculated as a percentage value of the video’s duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video.
 
-  - `maxSizeBytes: optional number`
+maximum1
 
-    The maximum size in bytes for the video upload.
+minimum0
 
-  - `meta: optional unknown`
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20thumbnailTimestampPct%20%3E%20(schema)>)
 
-    A user modifiable key-value store used to reference other systems of record for managing videos.
+uid: optional string
 
-  - `modified: optional string`
+The unique identifier for the video. Can be used to verify the video being updated.
 
-    The date and time the media item was last modified.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20uid%20%3E%20(schema)>)
 
-  - `playback: optional object { dash, hls }`
+uploadExpiry: optional string
 
-    - `dash: optional string`
+The date and time when the video upload URL is no longer valid for direct user uploads.
 
-      DASH Media Presentation Description for the video.
+formatdate-time
 
-    - `hls: optional string`
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20uploadExpiry%20%3E%20(schema)>)
 
-      The HLS manifest for the video.
+##### ReturnsExpand Collapse
 
-  - `preview: optional string`
+<details>
 
-    The video's preview page URI. This field is omitted until encoding is complete.
+<summary>
 
-  - `publicDetails: optional object { channel_link, logo, media_id, 2 more }`
+errors: array of object {code, message, documentation\_url, source }
 
-    Public details for the video including title, share link, channel link, and logo.
+</summary>
 
-    - `channel_link: optional string`
+code: number
 
-    - `logo: optional string`
+minimum1000
 
-    - `media_id: optional number`
+<a href="#">Link to this property</a>
 
-    - `share_link: optional string`
+message: string
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-  - `readyToStream: optional boolean`
+documentation\_url: optional string
 
-    Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+<a href="#">Link to this property</a>
 
-  - `readyToStreamAt: optional string`
+<details>
 
-    Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+<summary>
 
-  - `requireSignedURLs: optional boolean`
+source: optional object {pointer }
 
-    Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.
+</summary>
 
-  - `scheduledDeletion: optional string`
+pointer: optional string
 
-    Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+<a href="#">Link to this property</a>
 
-  - `size: optional number`
+</details>
 
-    The size of the media item in bytes.
+<a href="#">Link to this property</a>
 
-  - `status: optional object { errorReasonCode, errorReasonText, pctComplete, state }`
+</details>
 
-    Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `errorReasonCode: optional string`
+<details>
 
-      Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use.
+<summary>
 
-    - `errorReasonText: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-      Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state.
+</summary>
 
-    - `pctComplete: optional string`
+code: number
 
-      Indicates the progress as a percentage between 0 and 100.
+minimum1000
 
-    - `state: optional "pendingupload" or "downloading" or "queued" or 4 more`
+<a href="#">Link to this property</a>
 
-      Specifies the processing status for all quality levels for a video.
+message: string
 
-      - `"pendingupload"`
+<a href="#">Link to this property</a>
 
-      - `"downloading"`
+documentation\_url: optional string
 
-      - `"queued"`
+<a href="#">Link to this property</a>
 
-      - `"inprogress"`
+<details>
 
-      - `"ready"`
+<summary>
 
-      - `"error"`
+source: optional object {pointer }
 
-      - `"live-inprogress"`
+</summary>
 
-  - `thumbnail: optional string`
+pointer: optional string
 
-    The media item's thumbnail URI. This field is omitted until encoding is complete.
+<a href="#">Link to this property</a>
 
-  - `thumbnailTimestampPct: optional number`
+</details>
 
-    The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.
+<a href="#">Link to this property</a>
 
-  - `uid: optional string`
+</details>
 
-    A Cloudflare-generated unique identifier for a media item.
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  - `uploaded: optional string`
+success: true
 
-    The date and time the media item was uploaded.
+Whether the API call was successful.
 
-  - `uploadExpiry: optional string`
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-    The date and time when the video upload URL is no longer valid for direct user uploads.
+<details>
 
-  - `watermark: optional Watermark`
+<summary>
 
-    - `created: optional string`
+result: optional <a href="https://developers.cloudflare.com/api/resources/stream#(resource)%20stream%20%3E%20(model)%20video%20%3E%20(schema)">Video</a> { allowedOrigins, clippedFrom, created, 23 more }
 
-      The date and a time a watermark profile was created.
+</summary>
 
-    - `downloadedFrom: optional string`
+allowedOrigins: optional array of <a href="https://developers.cloudflare.com/api/resources/stream#(resource)%20stream%20%3E%20(model)%20allowed_origins%20%3E%20(schema)">AllowedOrigins</a>
 
-      The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
+Lists the origins allowed to display the video. Enter allowed origin domains in an array and use <code>*</code> for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.
 
-    - `height: optional number`
+<a href="#">Link to this property</a>
 
-      The height of the image in pixels.
+clippedFrom: optional string
 
-    - `name: optional string`
+The unique identifier of the source video this video was clipped from.
 
-      A short description of the watermark profile.
+<a href="#">Link to this property</a>
 
-    - `opacity: optional number`
+created: optional string
 
-      The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque.
+The date and time the media item was created.
 
-    - `padding: optional number`
+formatdate-time
 
-      The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm.
+<a href="#">Link to this property</a>
 
-    - `position: optional string`
+creator: optional string
 
-      The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter.
+A user-defined identifier for the media creator.
 
-    - `scale: optional number`
+maxLength64
 
-      The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video.
+<a href="#">Link to this property</a>
 
-    - `size: optional number`
+duration: optional number
 
-      The size of the image in bytes.
+The duration of the video in seconds. A value of <code>-1</code> means the duration is unknown. The duration becomes available after the upload and before the video is ready.
 
-    - `uid: optional string`
+<a href="#">Link to this property</a>
 
-      The unique identifier for a watermark profile.
+<details>
 
-    - `width: optional number`
+<summary>
 
-      The width of the image in pixels.
+input: optional object {height, width }
 
-### Example
+</summary>
 
-```http
+height: optional number
+
+The video height in pixels. A value of <code>-1</code> means the height is unknown. The value becomes available after the upload and before the video is ready.
+
+<a href="#">Link to this property</a>
+
+width: optional number
+
+The video width in pixels. A value of <code>-1</code> means the width is unknown. The value becomes available after the upload and before the video is ready.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+liveInput: optional string
+
+The live input ID used to upload a video with Stream Live.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+maxDurationSeconds: optional number
+
+The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of <code>-1</code> means the value is unknown.
+
+maximum36000
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+maxSizeBytes: optional number
+
+The maximum size in bytes for the video upload.
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+meta: optional unknown
+
+A user modifiable key-value store used to reference other systems of record for managing videos.
+
+<a href="#">Link to this property</a>
+
+modified: optional string
+
+The date and time the media item was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+playback: optional object {dash, hls }
+
+</summary>
+
+dash: optional string
+
+DASH Media Presentation Description for the video.
+
+<a href="#">Link to this property</a>
+
+hls: optional string
+
+The HLS manifest for the video.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+preview: optional string
+
+The video’s preview page URI. This field is omitted until encoding is complete.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+publicDetails: optional object {channel\_link, logo, media\_id, 2 more }
+
+Public details for the video including title, share link, channel link, and logo.
+
+</summary>
+
+channel\_link: optional string
+
+<a href="#">Link to this property</a>
+
+logo: optional string
+
+<a href="#">Link to this property</a>
+
+media\_id: optional number
+
+<a href="#">Link to this property</a>
+
+share\_link: optional string
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+readyToStream: optional boolean
+
+Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+
+<a href="#">Link to this property</a>
+
+readyToStreamAt: optional string
+
+Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+requireSignedURLs: optional boolean
+
+Indicates whether the video can be a accessed using the UID. When set to <code>true</code>, a signed token must be generated with a signing key to view the video.
+
+<a href="#">Link to this property</a>
+
+scheduledDeletion: optional string
+
+Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a <code>null</code> value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+size: optional number
+
+The size of the media item in bytes.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional object {errorReasonCode, errorReasonText, pctComplete, state }
+
+Specifies a detailed status for a video. If the <code>state</code> is <code>inprogress</code> or <code>error</code>, the <code>step</code> field returns <code>encoding</code> or <code>manifest</code>. If the <code>state</code> is <code>inprogress</code>, <code>pctComplete</code> returns a number between 0 and 100 to indicate the approximate percent of completion. If the <code>state</code> is <code>error</code>, <code>errorReasonCode</code> and <code>errorReasonText</code> provide additional details.
+
+</summary>
+
+errorReasonCode: optional string
+
+Specifies why the video failed to encode. This field is empty if the video is not in an <code>error</code> state. Preferred for programmatic use.
+
+<a href="#">Link to this property</a>
+
+errorReasonText: optional string
+
+Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an <code>error</code> state.
+
+<a href="#">Link to this property</a>
+
+pctComplete: optional string
+
+Indicates the progress as a percentage between 0 and 100.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+state: optional "pendingupload"or "downloading"or "queued"or 4 more
+
+Specifies the processing status for all quality levels for a video.
+
+</summary>
+
+One of the following:
+
+"pendingupload"
+
+<a href="#">Link to this property</a>
+
+"downloading"
+
+<a href="#">Link to this property</a>
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"inprogress"
+
+<a href="#">Link to this property</a>
+
+"ready"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"live-inprogress"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+thumbnail: optional string
+
+The media item’s thumbnail URI. This field is omitted until encoding is complete.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+thumbnailTimestampPct: optional number
+
+The timestamp for a thumbnail image calculated as a percentage value of the video’s duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video.
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+uid: optional string
+
+A Cloudflare-generated unique identifier for a media item.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+uploaded: optional string
+
+The date and time the media item was uploaded.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uploadExpiry: optional string
+
+The date and time when the video upload URL is no longer valid for direct user uploads.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+watermark: optional <a href="https://developers.cloudflare.com/api/resources/stream#(resource)%20stream.watermarks%20%3E%20(model)%20watermark%20%3E%20(schema)">Watermark</a> { created, downloadedFrom, height, 8 more }
+
+</summary>
+
+created: optional string
+
+The date and a time a watermark profile was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+downloadedFrom: optional string
+
+The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null.
+
+<a href="#">Link to this property</a>
+
+height: optional number
+
+The height of the image in pixels.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+A short description of the watermark profile.
+
+<a href="#">Link to this property</a>
+
+opacity: optional number
+
+The translucency of the image. A value of <code>0.0</code> makes the image completely transparent, and <code>1.0</code> makes the image completely opaque. Note that if the image is already semi-transparent, setting this to <code>1.0</code> will not make the image completely opaque.
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+padding: optional number
+
+The whitespace between the adjacent edges (determined by position) of the video and the image. <code>0.0</code> indicates no padding, and <code>1.0</code> indicates a fully padded video width or length, as determined by the algorithm.
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+position: optional string
+
+The location of the image. Valid positions are: <code>upperRight</code>, <code>upperLeft</code>, <code>lowerLeft</code>, <code>lowerRight</code>, and <code>center</code>. Note that <code>center</code> ignores the <code>padding</code> parameter.
+
+<a href="#">Link to this property</a>
+
+scale: optional number
+
+The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. <code>0.0</code> indicates no scaling (use the size of the image as-is), and <code>1.0</code> fills the entire video.
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+size: optional number
+
+The size of the image in bytes.
+
+<a href="#">Link to this property</a>
+
+uid: optional string
+
+The unique identifier for a watermark profile.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+width: optional number
+
+The width of the image in pixels.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20stream%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Edit video details
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -318,9 +710,100 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIE
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "allowedOrigins": [
+      "example.com"
+    ],
+    "clippedFrom": "ea95132c15732412d22c1476fa83f27a",
+    "created": "2014-01-02T02:20:00Z",
+    "creator": "creator-id_abcde12345",
+    "duration": 0,
+    "input": {
+      "height": 0,
+      "width": 0
+    },
+    "liveInput": "fc0a8dc887b16759bfd9ad922230a014",
+    "maxDurationSeconds": 1,
+    "maxSizeBytes": 0,
+    "meta": {
+      "name": "video12345.mp4"
+    },
+    "modified": "2014-01-02T02:20:00Z",
+    "playback": {
+      "dash": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.mpd",
+      "hls": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/manifest/video.m3u8"
+    },
+    "preview": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/watch",
+    "publicDetails": {
+      "channel_link": "channel_link",
+      "logo": "logo",
+      "media_id": 0,
+      "share_link": "share_link",
+      "title": "title"
+    },
+    "readyToStream": true,
+    "readyToStreamAt": "2014-01-02T02:20:00Z",
+    "requireSignedURLs": true,
+    "scheduledDeletion": "2014-01-02T02:20:00Z",
+    "size": 4190963,
+    "status": {
+      "errorReasonCode": "ERR_NON_VIDEO",
+      "errorReasonText": "The file was not recognized as a valid video file.",
+      "pctComplete": "45",
+      "state": "inprogress"
+    },
+    "thumbnail": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/thumbnails/thumbnail.jpg",
+    "thumbnailTimestampPct": 0.529241,
+    "uid": "ea95132c15732412d22c1476fa83f27a",
+    "uploaded": "2014-01-02T02:20:00Z",
+    "uploadExpiry": "2014-01-02T02:20:00Z",
+    "watermark": {
+      "created": "2014-01-02T02:20:00Z",
+      "downloadedFrom": "https://company.com/logo.png",
+      "height": 0,
+      "name": "Marketing Videos",
+      "opacity": 0.75,
+      "padding": 0.1,
+      "position": "center",
+      "scale": 0.1,
+      "size": 29472,
+      "uid": "ea95132c15732412d22c1476fa83f27a",
+      "width": 0
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

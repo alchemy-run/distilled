@@ -1,867 +1,415 @@
+---
+title: Resource Groups
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[IAM](https://developers.cloudflare.com/api/resources/iam)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Resource Groups
 
-## List Resource Groups
+##### [List Resource Groups](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/list)
 
-**get** `/accounts/{account_id}/iam/resource_groups`
+GET/accounts/{account\_id}/iam/resource\_groups
 
-List all the resource groups for an account.
+##### [Resource Group Details](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/iam/resource\_groups/{resource\_group\_id}
 
-- `account_id: string`
+##### [Create Resource Group](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/create)
 
-  Account identifier tag.
+POST/accounts/{account\_id}/iam/resource\_groups
 
-### Query Parameters
+##### [Update Resource Group](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/update)
 
-- `id: optional string`
+PUT/accounts/{account\_id}/iam/resource\_groups/{resource\_group\_id}
 
-  ID of the resource group to be fetched.
+##### [Remove Resource Group](https://developers.cloudflare.com/api/resources/iam/subresources/resource_groups/methods/delete)
 
-- `name: optional string`
+DELETE/accounts/{account\_id}/iam/resource\_groups/{resource\_group\_id}
 
-  Name of the resource group to be fetched.
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+ResourceGroupListResponse object {id, scope, meta, name }
 
-  - `message: string`
+A group of scoped resources.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-    - `pointer: optional string`
+Identifier of the resource group.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+scope: object {key, objects }
 
-  - `source: optional object { pointer }`
+A scope is a combination of scope objects which provides additional context.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+key: string
 
-  Whether the API call was successful.
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, scope, meta, name }`
+<details>
 
-  - `id: string`
+<summary>
 
-    Identifier of the resource group.
+objects: array of object {key }
 
-  - `scope: array of object { key, objects }`
+A list of scope objects for additional context.
 
-    The scope associated to the resource group
+</summary>
 
-    - `key: string`
+key: string
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-    - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-      A list of scope objects for additional context.
+</details>
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+</details>
 
-  - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-    Attributes associated to the resource group.
+<details>
 
-    - `key: optional string`
+<summary>
 
-    - `value: optional string`
+meta: optional object {key, value }
 
-  - `name: optional string`
+Attributes associated to the resource group.
 
-    Name of the resource group.
+</summary>
 
-### Example
+key: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+value: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-      "scope": [
-        {
-          "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-          "objects": [
-            {
-              "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-            }
-          ]
-        }
-      ],
-      "meta": {
-        "key": "key",
-        "value": "value"
-      },
-      "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Resource Group Details
+</details>
 
-**get** `/accounts/{account_id}/iam/resource_groups/{resource_group_id}`
+<a href="#">Link to this property</a>
 
-Get information about a specific resource group in an account.
+name: optional string
 
-### Path Parameters
+Name of the resource group.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+</details>
 
-- `resource_group_id: string`
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_list_response%20%3E%20(schema)>)
 
-  Resource Group identifier tag.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ResourceGroupGetResponse object {id, scope, meta, name }
 
-  - `code: number`
+A group of scoped resources.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Identifier of the resource group.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+scope: object {key, objects }
 
-  - `documentation_url: optional string`
+A scope is a combination of scope objects which provides additional context.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+key: string
 
-- `success: true`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional object { id, scope, meta, name }`
+<summary>
 
-  A group of scoped resources.
+objects: array of object {key }
 
-  - `id: string`
+A list of scope objects for additional context.
 
-    Identifier of the resource group.
+</summary>
 
-  - `scope: array of object { key, objects }`
+key: string
 
-    The scope associated to the resource group
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-    - `key: string`
+<a href="#">Link to this property</a>
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+</details>
 
-    - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-      A list of scope objects for additional context.
+</details>
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<details>
 
-  - `meta: optional object { key, value }`
+<summary>
 
-    Attributes associated to the resource group.
+meta: optional object {key, value }
 
-    - `key: optional string`
+Attributes associated to the resource group.
 
-    - `value: optional string`
+</summary>
 
-  - `name: optional string`
+key: optional string
 
-    Name of the resource group.
+<a href="#">Link to this property</a>
 
-### Example
+value: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups/$RESOURCE_GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "scope": [
-      {
-        "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-        "objects": [
-          {
-            "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-          }
-        ]
-      }
-    ],
-    "meta": {
-      "key": "key",
-      "value": "value"
-    },
-    "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Resource Group
+name: optional string
 
-**post** `/accounts/{account_id}/iam/resource_groups`
+Name of the resource group.
 
-Create a new Resource Group under the specified account.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_get_response%20%3E%20(schema)>)
 
-  Account identifier tag.
+<details>
 
-### Body Parameters
+<summary>
 
-- `name: string`
+ResourceGroupCreateResponse object {id, scope, meta, name }
 
-  Name of the resource group
+A group of scoped resources.
 
-- `scope: object { key, objects }`
+</summary>
 
-  A scope is a combination of scope objects which provides additional context.
+id: string
 
-  - `key: string`
+Identifier of the resource group.
 
-    This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+<a href="#">Link to this property</a>
 
-  - `objects: array of object { key }`
+<details>
 
-    A list of scope objects for additional context. The number of Scope objects should not be zero.
+<summary>
 
-    - `key: string`
+scope: object {key, objects }
 
-      This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+A scope is a combination of scope objects which provides additional context.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+key: string
 
-  - `code: number`
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+objects: array of object {key }
 
-- `messages: array of object { code, message, documentation_url, source }`
+A list of scope objects for additional context.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+key: string
 
-  - `documentation_url: optional string`
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, scope, meta, name }`
+<details>
 
-  A group of scoped resources.
+<summary>
 
-  - `id: string`
+meta: optional object {key, value }
 
-    Identifier of the resource group.
+Attributes associated to the resource group.
 
-  - `scope: array of object { key, objects }`
+</summary>
 
-    The scope associated to the resource group
+key: optional string
 
-    - `key: string`
+<a href="#">Link to this property</a>
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+value: optional string
 
-    - `objects: array of object { key }`
+<a href="#">Link to this property</a>
 
-      A list of scope objects for additional context.
+</details>
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+name: optional string
 
-  - `meta: optional object { key, value }`
+Name of the resource group.
 
-    Attributes associated to the resource group.
+<a href="#">Link to this property</a>
 
-    - `key: optional string`
+</details>
 
-    - `value: optional string`
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_create_response%20%3E%20(schema)>)
 
-  - `name: optional string`
+<details>
 
-    Name of the resource group.
+<summary>
 
-### Example
+ResourceGroupUpdateResponse object {id, scope, meta, name }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "NewResourceGroup",
-          "scope": {
-            "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-            "objects": [
-              {
-                "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-              }
-            ]
-          }
-        }'
-```
+A group of scoped resources.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "scope": [
-      {
-        "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-        "objects": [
-          {
-            "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-          }
-        ]
-      }
-    ],
-    "meta": {
-      "key": "key",
-      "value": "value"
-    },
-    "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-  }
-}
-```
+id: string
 
-## Update Resource Group
+Identifier of the resource group.
 
-**put** `/accounts/{account_id}/iam/resource_groups/{resource_group_id}`
+<a href="#">Link to this property</a>
 
-Modify an existing resource group.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+scope: object {key, objects }
 
-  Account identifier tag.
+A scope is a combination of scope objects which provides additional context.
 
-- `resource_group_id: string`
+</summary>
 
-  Resource Group identifier tag.
+key: string
 
-### Body Parameters
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  Name of the resource group
+<details>
 
-- `scope: optional object { key, objects }`
+<summary>
 
-  A scope is a combination of scope objects which provides additional context.
+objects: array of object {key }
 
-  - `key: string`
+A list of scope objects for additional context.
 
-    This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+</summary>
 
-  - `objects: array of object { key }`
+key: string
 
-    A list of scope objects for additional context. The number of Scope objects should not be zero.
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
 
-    - `key: string`
+<a href="#">Link to this property</a>
 
-      This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+meta: optional object {key, value }
 
-    - `pointer: optional string`
+Attributes associated to the resource group.
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+key: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+value: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+name: optional string
 
-  - `true`
+Name of the resource group.
 
-- `result: optional object { id, scope, meta, name }`
+<a href="#">Link to this property</a>
 
-  A group of scoped resources.
+</details>
 
-  - `id: string`
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_update_response%20%3E%20(schema)>)
 
-    Identifier of the resource group.
+<details>
 
-  - `scope: array of object { key, objects }`
+<summary>
 
-    The scope associated to the resource group
+ResourceGroupDeleteResponse object {id }
 
-    - `key: string`
+</summary>
 
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+id: string
 
-    - `objects: array of object { key }`
+Identifier
 
-      A list of scope objects for additional context.
+maxLength32
 
-      - `key: string`
+minLength32
 
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+<a href="#">Link to this property</a>
 
-  - `meta: optional object { key, value }`
+</details>
 
-    Attributes associated to the resource group.
-
-    - `key: optional string`
-
-    - `value: optional string`
-
-  - `name: optional string`
-
-    Name of the resource group.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups/$RESOURCE_GROUP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "UpdatedResourceGroup"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "scope": [
-      {
-        "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-        "objects": [
-          {
-            "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-          }
-        ]
-      }
-    ],
-    "meta": {
-      "key": "key",
-      "value": "value"
-    },
-    "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
-  }
-}
-```
-
-## Remove Resource Group
-
-**delete** `/accounts/{account_id}/iam/resource_groups/{resource_group_id}`
-
-Remove a resource group from an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `resource_group_id: string`
-
-  Resource Group identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/iam/resource_groups/$RESOURCE_GROUP_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### Resource Group List Response
-
-- `ResourceGroupListResponse object { id, scope, meta, name }`
-
-  A group of scoped resources.
-
-  - `id: string`
-
-    Identifier of the resource group.
-
-  - `scope: array of object { key, objects }`
-
-    The scope associated to the resource group
-
-    - `key: string`
-
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-
-    - `objects: array of object { key }`
-
-      A list of scope objects for additional context.
-
-      - `key: string`
-
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
-
-  - `meta: optional object { key, value }`
-
-    Attributes associated to the resource group.
-
-    - `key: optional string`
-
-    - `value: optional string`
-
-  - `name: optional string`
-
-    Name of the resource group.
-
-### Resource Group Get Response
-
-- `ResourceGroupGetResponse object { id, scope, meta, name }`
-
-  A group of scoped resources.
-
-  - `id: string`
-
-    Identifier of the resource group.
-
-  - `scope: array of object { key, objects }`
-
-    The scope associated to the resource group
-
-    - `key: string`
-
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-
-    - `objects: array of object { key }`
-
-      A list of scope objects for additional context.
-
-      - `key: string`
-
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
-
-  - `meta: optional object { key, value }`
-
-    Attributes associated to the resource group.
-
-    - `key: optional string`
-
-    - `value: optional string`
-
-  - `name: optional string`
-
-    Name of the resource group.
-
-### Resource Group Create Response
-
-- `ResourceGroupCreateResponse object { id, scope, meta, name }`
-
-  A group of scoped resources.
-
-  - `id: string`
-
-    Identifier of the resource group.
-
-  - `scope: array of object { key, objects }`
-
-    The scope associated to the resource group
-
-    - `key: string`
-
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-
-    - `objects: array of object { key }`
-
-      A list of scope objects for additional context.
-
-      - `key: string`
-
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
-
-  - `meta: optional object { key, value }`
-
-    Attributes associated to the resource group.
-
-    - `key: optional string`
-
-    - `value: optional string`
-
-  - `name: optional string`
-
-    Name of the resource group.
-
-### Resource Group Update Response
-
-- `ResourceGroupUpdateResponse object { id, scope, meta, name }`
-
-  A group of scoped resources.
-
-  - `id: string`
-
-    Identifier of the resource group.
-
-  - `scope: array of object { key, objects }`
-
-    The scope associated to the resource group
-
-    - `key: string`
-
-      This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-
-    - `objects: array of object { key }`
-
-      A list of scope objects for additional context.
-
-      - `key: string`
-
-        This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
-
-  - `meta: optional object { key, value }`
-
-    Attributes associated to the resource group.
-
-    - `key: optional string`
-
-    - `value: optional string`
-
-  - `name: optional string`
-
-    Name of the resource group.
-
-### Resource Group Delete Response
-
-- `ResourceGroupDeleteResponse object { id }`
-
-  - `id: string`
-
-    Identifier
+[Link to this property](#)%20iam.resource_groups%20%3E%20(model)%20resource_group_delete_response%20%3E%20(schema)>)

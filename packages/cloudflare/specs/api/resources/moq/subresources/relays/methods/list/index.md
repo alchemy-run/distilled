@@ -1,86 +1,227 @@
-## List relays
+---
+title: List relays
+---
 
-**get** `/accounts/{account_id}/moq/relays`
+[Skip to content](#_top)
 
-Lists all MoQ relays for the account. Returns only metadata.
-Config, status, and tokens are omitted.
+[API Reference](https://developers.cloudflare.com/api)
 
-Results are cursor-paginated (keyset on the `created` timestamp).
-Use `created_before` / `created_after` with the `created` value of the
-first/last item in a page to fetch the adjacent page. `result_info`
-reports the page `count` and the `total` matching the cursor filters.
+[MoQ](https://developers.cloudflare.com/api/resources/moq)
 
-### Path Parameters
+[Relays](https://developers.cloudflare.com/api/resources/moq/subresources/relays)
 
-- `account_id: string`
+Copy Markdown
 
-  Cloudflare account identifier.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Query Parameters
+---
 
-- `asc: optional boolean`
+**Copy Markdown****View as Markdown**
 
-  Sort order by `created`. When true, results are returned oldest-first
-  (ascending); otherwise newest-first (descending, the default).
+# List relays
 
-- `created_after: optional string`
+GET/accounts/{account\_id}/moq/relays
 
-  Cursor for pagination. Returns relays created strictly after this
-  RFC 3339 timestamp (typically the `created` value of the last item
-  on the current page, to fetch the next page).
+Lists all MoQ relays for the account. Returns only metadata. Config, status, and tokens are omitted.
 
-- `created_before: optional string`
+Results are cursor-paginated (keyset on the `created` timestamp). Use `created_before` / `created_after` with the `created` value of the first/last item in a page to fetch the adjacent page. `result_info` reports the page `count` and the `total` matching the cursor filters.
 
-  Cursor for pagination. Returns relays created strictly before this
-  RFC 3339 timestamp (typically the `created` value of the first item
-  on the current page, to fetch the previous page).
+##### Security
 
-- `per_page: optional number`
+API Token
 
-  Maximum number of relays to return per page.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Returns
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `errors: array of object { code, message }`
+##### P ath ParametersExpand Collapse
 
-  - `code: optional number`
+account\_id: string
 
-  - `message: optional string`
+Cloudflare account identifier.
 
-- `messages: array of object { code, message }`
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: optional number`
+##### Q uery ParametersExpand Collapse
 
-  - `message: optional string`
+asc: optional boolean
 
-- `success: boolean`
+Sort order by `created`. When true, results are returned oldest-first (ascending); otherwise newest-first (descending, the default).
 
-- `result: optional array of object { created, modified, name, uid }`
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20asc%20%3E%20(schema)>)
 
-  - `created: string`
+created\_after: optional string
 
-  - `modified: string`
+Cursor for pagination. Returns relays created strictly after this RFC 3339 timestamp (typically the `created` value of the last item on the current page, to fetch the next page).
 
-  - `name: string`
+formatdate-time
 
-  - `uid: string`
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20created_after%20%3E%20(schema)>)
 
-- `result_info: optional object { count, total }`
+created\_before: optional string
 
-  - `count: optional number`
+Cursor for pagination. Returns relays created strictly before this RFC 3339 timestamp (typically the `created` value of the first item on the current page, to fetch the previous page).
 
-  - `total: optional number`
+formatdate-time
 
-### Example
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20created_before%20%3E%20(schema)>)
 
-```http
+per\_page: optional number
+
+Maximum number of relays to return per page. Values above the maximum are clamped to it rather than rejected.
+
+maximum1000
+
+minimum1
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+</summary>
+
+code: optional number
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: boolean
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {created, modified, name, uid }
+
+</summary>
+
+created: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, total }
+
+</summary>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+total: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20moq.relays%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List relays
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/moq/relays \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "created": "2019-12-27T18:11:19.117Z",
+      "modified": "2019-12-27T18:11:19.117Z",
+      "name": "name",
+      "uid": "a1b2c3d4e5f67890a1b2c3d4e5f67890"
+    }
+  ],
+  "result_info": {
+    "count": 0,
+    "total": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

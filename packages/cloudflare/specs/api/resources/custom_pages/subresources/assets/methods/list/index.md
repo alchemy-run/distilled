@@ -1,110 +1,312 @@
-## List custom assets
+---
+title: List custom assets
+---
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/custom_pages/assets`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Custom Pages](https://developers.cloudflare.com/api/resources/custom_pages)
+
+[Assets](https://developers.cloudflare.com/api/resources/custom_pages/subresources/assets)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List custom assets
+
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/custom\_pages/assets
 
 Fetches all the custom assets.
 
-### Path Parameters
+##### Security
 
-- `account_id: optional string`
+API Email + API Key
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `zone_id: optional string`
+**Example:**`X-Auth-Email: user@example.com`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-### Query Parameters
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `page: optional number`
+##### P ath ParametersExpand Collapse
 
-- `per_page: optional number`
+account\_id: optional string
 
-### Returns
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-- `errors: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+zone\_id: optional string
 
-  - `message: string`
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Q uery ParametersExpand Collapse
 
-    - `pointer: optional string`
+page: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+minimum1
 
-  - `code: number`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-  - `message: string`
+per\_page: optional number
 
-  - `documentation_url: optional string`
+maximum200
 
-  - `source: optional object { pointer }`
+minimum1
 
-    - `pointer: optional string`
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-- `success: true`
+##### ReturnsExpand Collapse
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional array of object { description, last_updated, name, 2 more }`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `description: optional string`
+</summary>
 
-    A short description of the custom asset.
+code: number
 
-  - `last_updated: optional string`
+minimum1000
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_).
+message: string
 
-  - `size_bytes: optional number`
+<a href="#">Link to this property</a>
 
-    The size of the asset content in bytes.
+documentation\_url: optional string
 
-  - `url: optional string`
+<a href="#">Link to this property</a>
 
-    The URL where the asset content is fetched from.
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: optional number`
+source: optional object {pointer }
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+pointer: optional string
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `total_pages: optional number`
+<details>
 
-    The number of total pages in the entire result set.
+<summary>
 
-### Example
+messages: array of object {code, message, documentation\_url, source }
 
-```http
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {description, last\_updated, name, 2 more }
+
+</summary>
+
+description: optional string
+
+A short description of the custom asset.
+
+<a href="#">Link to this property</a>
+
+last\_updated: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (\_).
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+size\_bytes: optional number
+
+The size of the asset content in bytes.
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+The URL where the asset content is fetched from.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: optional number
+
+Total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+The number of total pages in the entire result set.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_pages.assets%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List custom assets
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/custom_pages/assets \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "description": "Custom 500 error page",
+      "last_updated": "2014-01-01T05:20:00.12345Z",
+      "name": "my_custom_error_page",
+      "size_bytes": 1024,
+      "url": "https://example.com/error.html"
+    }
+  ],
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000,
+    "total_pages": 100
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

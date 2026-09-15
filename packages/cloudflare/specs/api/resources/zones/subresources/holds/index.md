@@ -1,424 +1,61 @@
+---
+title: Holds
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zones](https://developers.cloudflare.com/api/resources/zones)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Holds
 
-## Get Zone Hold
+##### [Get Zone Hold](https://developers.cloudflare.com/api/resources/zones/subresources/holds/methods/get)
 
-**get** `/zones/{zone_id}/hold`
+GET/zones/{zone\_id}/hold
 
-Retrieve whether the zone is subject to a zone hold, and metadata about the hold.
+##### [Create Zone Hold](https://developers.cloudflare.com/api/resources/zones/subresources/holds/methods/create)
 
-### Path Parameters
+POST/zones/{zone\_id}/hold
 
-- `zone_id: string`
+##### [Update Zone Hold](https://developers.cloudflare.com/api/resources/zones/subresources/holds/methods/edit)
 
-  Identifier.
+PATCH/zones/{zone\_id}/hold
 
-### Returns
+##### [Remove Zone Hold](https://developers.cloudflare.com/api/resources/zones/subresources/holds/methods/delete)
 
-- `errors: array of ResponseInfo`
+DELETE/zones/{zone\_id}/hold
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ZoneHold object {hold, hold\_after, include\_subdomains }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+hold: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+hold\_after: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+include\_subdomains: optional string
 
-- `result: ZoneHold`
+<a href="#">Link to this property</a>
 
-  - `hold: optional boolean`
+</details>
 
-  - `hold_after: optional string`
-
-  - `include_subdomains: optional string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/hold \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "hold": true,
-    "hold_after": "2023-01-31T15:56:36+00:00",
-    "include_subdomains": "include_subdomains"
-  },
-  "success": true
-}
-```
-
-## Create Zone Hold
-
-**post** `/zones/{zone_id}/hold`
-
-Enforce a zone hold on the zone, blocking the creation and activation of zones with this zone's hostname.
-Zone holds cannot be enabled on CDN-only zones.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `include_subdomains: optional boolean`
-
-  If provided, the zone hold will extend to block any subdomain of the given zone, as well
-  as SSL4SaaS Custom Hostnames. For example, a zone hold on a zone with the hostname
-  'example.com' and include_subdomains=true will block 'example.com',
-  'staging.example.com', 'api.staging.example.com', etc.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: ZoneHold`
-
-  - `hold: optional boolean`
-
-  - `hold_after: optional string`
-
-  - `include_subdomains: optional string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/hold \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "hold": true,
-    "hold_after": "2023-01-31T15:56:36+00:00",
-    "include_subdomains": "include_subdomains"
-  },
-  "success": true
-}
-```
-
-## Update Zone Hold
-
-**patch** `/zones/{zone_id}/hold`
-
-Update the `hold_after` and/or `include_subdomains` values on an existing zone hold.
-The hold is enabled if the `hold_after` date-time value is in the past.
-Existing zone holds can be removed from CDN-only zones by setting `hold_after` to `null`.
-Other zone hold updates cannot be made on CDN-only zones.
-Active holds are automatically disabled when a zone transitions to CDN-only mode.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `hold_after: optional string`
-
-  If `hold_after` is provided and future-dated, the hold will be temporarily disabled,
-  then automatically re-enabled by the system at the time specified
-  in this RFC3339-formatted timestamp. A past-dated `hold_after` value will have
-  no effect on an existing, enabled hold. Providing an empty string will set its value
-  to the current time. Providing `null` will disable the hold indefinitely.
-
-- `include_subdomains: optional boolean`
-
-  If `true`, the zone hold will extend to block any subdomain of the given zone, as well
-  as SSL4SaaS Custom Hostnames. For example, a zone hold on a zone with the hostname
-  'example.com' and include_subdomains=true will block 'example.com',
-  'staging.example.com', 'api.staging.example.com', etc.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: ZoneHold`
-
-  - `hold: optional boolean`
-
-  - `hold_after: optional string`
-
-  - `include_subdomains: optional string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/hold \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "hold_after": "2023-01-31T15:56:36+00:00",
-          "include_subdomains": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "hold": true,
-    "hold_after": "2023-01-31T15:56:36+00:00",
-    "include_subdomains": "include_subdomains"
-  },
-  "success": true
-}
-```
-
-## Remove Zone Hold
-
-**delete** `/zones/{zone_id}/hold`
-
-Stop enforcement of a zone hold on the zone, permanently or temporarily, allowing the
-creation and activation of zones with this zone's hostname.
-Existing zone holds can be removed from CDN-only zones when `hold_after` is not provided.
-Active holds are automatically disabled when a zone transitions to CDN-only mode.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `hold_after: optional string`
-
-  If `hold_after` is provided, the hold will be temporarily disabled,
-  then automatically re-enabled by the system at the time specified
-  in this RFC3339-formatted timestamp. Otherwise, the hold will be
-  disabled indefinitely. `hold_after` cannot be provided for CDN-only zones.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: ZoneHold`
-
-  - `hold: optional boolean`
-
-  - `hold_after: optional string`
-
-  - `include_subdomains: optional string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/hold \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "hold": true,
-    "hold_after": "2023-01-31T15:56:36+00:00",
-    "include_subdomains": "include_subdomains"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Zone Hold
-
-- `ZoneHold object { hold, hold_after, include_subdomains }`
-
-  - `hold: optional boolean`
-
-  - `hold_after: optional string`
-
-  - `include_subdomains: optional string`
+[Link to this property](#)%20zones.holds%20%3E%20(model)%20zone_hold%20%3E%20(schema)>)

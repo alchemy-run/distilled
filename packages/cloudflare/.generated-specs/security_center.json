@@ -281,6 +281,12 @@
             "smithy.api#httpQuery": "severity~neq"
           }
         },
+        "source": {
+          "target": "com.cloudflare.security_center#InsightsClassGetRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
+          }
+        },
         "subject": {
           "target": "com.cloudflare.security_center#InsightsClassGetRequestSubjectList",
           "traits": {
@@ -379,6 +385,12 @@
           "target": "com.cloudflare.security_center#InsightsClassGetRequestSeverityNeqList",
           "traits": {
             "smithy.api#httpQuery": "severity~neq"
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.security_center#InsightsClassGetRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
           }
         },
         "subject": {
@@ -537,6 +549,12 @@
             "smithy.api#httpQuery": "severity~neq"
           }
         },
+        "source": {
+          "target": "com.cloudflare.security_center#InsightsSeverityGetRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
+          }
+        },
         "subject": {
           "target": "com.cloudflare.security_center#InsightsSeverityGetRequestSubjectList",
           "traits": {
@@ -635,6 +653,12 @@
           "target": "com.cloudflare.security_center#InsightsSeverityGetRequestSeverityNeqList",
           "traits": {
             "smithy.api#httpQuery": "severity~neq"
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.security_center#InsightsSeverityGetRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
           }
         },
         "subject": {
@@ -737,6 +761,12 @@
             "smithy.api#httpQuery": "severity~neq"
           }
         },
+        "source": {
+          "target": "com.cloudflare.security_center#InsightsTypeGetRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
+          }
+        },
         "subject": {
           "target": "com.cloudflare.security_center#InsightsTypeGetRequestSubjectList",
           "traits": {
@@ -835,6 +865,12 @@
           "target": "com.cloudflare.security_center#InsightsTypeGetRequestSeverityNeqList",
           "traits": {
             "smithy.api#httpQuery": "severity~neq"
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.security_center#InsightsTypeGetRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
           }
         },
         "subject": {
@@ -1332,6 +1368,12 @@
             "smithy.api#httpQuery": "severity~neq"
           }
         },
+        "source": {
+          "target": "com.cloudflare.security_center#InsightsListRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
+          }
+        },
         "subject": {
           "target": "com.cloudflare.security_center#InsightsListRequestSubjectList",
           "traits": {
@@ -1451,6 +1493,12 @@
           "target": "com.cloudflare.security_center#InsightsListRequestSeverityNeqList",
           "traits": {
             "smithy.api#httpQuery": "severity~neq"
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.security_center#InsightsListRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
           }
         },
         "subject": {
@@ -1597,6 +1645,23 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.security_center#InsightsTypeGetRequestSource": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        },
+        "RISKRECON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riskrecon"
+          }
+        }
+      }
+    },
     "com.cloudflare.security_center#InsightsTypeGetRequestSeverityNeqList": {
       "type": "list",
       "member": {
@@ -1666,6 +1731,23 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.security_center#InsightsSeverityGetRequestSource": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        },
+        "RISKRECON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riskrecon"
+          }
+        }
       }
     },
     "com.cloudflare.security_center#InsightsSeverityGetRequestSeverityNeqList": {
@@ -1760,6 +1842,23 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.security_center#InsightsClassGetRequestSource": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        },
+        "RISKRECON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riskrecon"
+          }
+        }
       }
     },
     "com.cloudflare.security_center#InsightsClassGetRequestSeverityNeqList": {
@@ -2042,6 +2141,23 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.security_center#InsightsListRequestSource": {
+      "type": "enum",
+      "members": {
+        "CLOUDFLARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloudflare"
+          }
+        },
+        "RISKRECON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riskrecon"
+          }
+        }
+      }
+    },
     "com.cloudflare.security_center#InsightsListRequestSeverityNeqList": {
       "type": "list",
       "member": {
@@ -2096,16 +2212,34 @@
         "target": "com.cloudflare.security_center#InsightsTypeGetResultItem"
       }
     },
+    "com.cloudflare.security_center#InsightsTypeGetRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.security_center#InsightsTypeGetRequestSource"
+      }
+    },
     "com.cloudflare.security_center#InsightsSeverityGetResultList": {
       "type": "list",
       "member": {
         "target": "com.cloudflare.security_center#InsightsSeverityGetResultItem"
       }
     },
+    "com.cloudflare.security_center#InsightsSeverityGetRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.security_center#InsightsSeverityGetRequestSource"
+      }
+    },
     "com.cloudflare.security_center#InsightsClassGetResultList": {
       "type": "list",
       "member": {
         "target": "com.cloudflare.security_center#InsightsClassGetResultItem"
+      }
+    },
+    "com.cloudflare.security_center#InsightsClassGetRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.security_center#InsightsClassGetRequestSource"
       }
     },
     "com.cloudflare.security_center#InsightsAuditLogsListByInsightResultItem": {
@@ -2280,6 +2414,12 @@
             "smithy.api#documentation": "User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null."
           }
         }
+      }
+    },
+    "com.cloudflare.security_center#InsightsListRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.security_center#InsightsListRequestSource"
       }
     },
     "com.cloudflare.security_center#GetInsightTypeResponse": {

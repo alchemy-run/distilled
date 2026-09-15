@@ -1,110 +1,334 @@
-## Edit IPFS Universal Path Gateway Content List Entry
+---
+title: Edit IPFS Universal Path Gateway Content List Entry
+---
 
-**put** `/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries/{content_list_entry_identifier}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Web3](https://developers.cloudflare.com/api/resources/web3)
+
+[Hostnames](https://developers.cloudflare.com/api/resources/web3/subresources/hostnames)
+
+[IPFS Universal Paths](https://developers.cloudflare.com/api/resources/web3/subresources/hostnames/subresources/ipfs_universal_paths)
+
+[Content Lists](https://developers.cloudflare.com/api/resources/web3/subresources/hostnames/subresources/ipfs_universal_paths/subresources/content_lists)
+
+[Entries](https://developers.cloudflare.com/api/resources/web3/subresources/hostnames/subresources/ipfs_universal_paths/subresources/content_lists/subresources/entries)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Edit IPFS Universal Path Gateway Content List Entry
+
+PUT/zones/{zone\_id}/web3/hostnames/{identifier}/ipfs\_universal\_path/content\_list/entries/{content\_list\_entry\_identifier}
 
 Edit IPFS Universal Path Gateway Content List Entry
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Specify the identifier of the hostname.
+<summary>API Token</summary>
 
-- `identifier: string`
 
-  Specify the identifier of the hostname.
 
-- `content_list_entry_identifier: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Specify the identifier of the hostname.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Body Parameters
+</details>
 
-- `content: string`
+<details>
 
-  Specify the CID or content path of content to block.
+<summary>API Email + API Key</summary>
 
-- `type: "cid" or "content_path"`
 
-  Specify the type of content list entry to block.
 
-  - `"cid"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"content_path"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `description: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Specify an optional description of the content list entry.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+##### Accepted Permissions (at least one required)
 
-  - `code: number`
+`Web3 Hostnames Write`
 
-  - `message: string`
+##### P ath ParametersExpand Collapse
 
-  - `documentation_url: optional string`
+zone\_id: string
 
-  - `source: optional object { pointer }`
+Specify the identifier of the hostname.
 
-    - `pointer: optional string`
+maxLength32
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `code: number`
+identifier: string
 
-  - `message: string`
+Specify the identifier of the hostname.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20identifier%20%3E%20(schema)>)
 
-- `result: object { id, content, created_on, 3 more }`
+content\_list\_entry\_identifier: string
 
-  Specify a content list entry to block.
+Specify the identifier of the hostname.
 
-  - `id: optional string`
+maxLength32
 
-    Specify the identifier of the hostname.
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20content_list_entry_identifier%20%3E%20(schema)>)
 
-  - `content: optional string`
+##### Body ParametersJSONExpand Collapse
 
-    Specify the CID or content path of content to block.
+content: string
 
-  - `created_on: optional string`
+Specify the CID or content path of content to block.
 
-  - `description: optional string`
+maxLength500
 
-    Specify an optional description of the content list entry.
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20content%20%3E%20(schema)>)
 
-  - `modified_on: optional string`
+<details>
 
-  - `type: optional "cid" or "content_path"`
+<summary>
 
-    Specify the type of content list entry to block.
+type: "cid"or "content\_path"
 
-    - `"cid"`
+Specify the type of content list entry to block.
 
-    - `"content_path"`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Specifies whether the API call was successful.
+"cid"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional unknown or string`
+"content\_path"
 
-  Provides the API response.
+<a href="#">Link to this property</a>
 
-  - `unknown`
+</details>
 
-  - `string`
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-### Example
+description: optional string
 
-```http
+Specify an optional description of the content list entry.
+
+maxLength500
+
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, content, created\_on, 3 more }
+
+Specify a content list entry to block.
+
+</summary>
+
+id: optional string
+
+Specify the identifier of the hostname.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+content: optional string
+
+Specify the CID or content path of content to block.
+
+maxLength500
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Specify an optional description of the content list entry.
+
+maxLength500
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "cid"or "content\_path"
+
+Specify the type of content list entry to block.
+
+</summary>
+
+One of the following:
+
+"cid"
+
+<a href="#">Link to this property</a>
+
+"content\_path"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Specifies whether the API call was successful.
+
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional unknownor string
+
+Provides the API response.
+
+</summary>
+
+One of the following:
+
+unknown
+
+<a href="#">Link to this property</a>
+
+string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20web3.hostnames.ipfs_universal_paths.content_lists.entries%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Edit IPFS Universal Path Gateway Content List Entry
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/web3/hostnames/$IDENTIFIER/ipfs_universal_path/content_list/entries/$CONTENT_LIST_ENTRY_IDENTIFIER \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -116,9 +340,48 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/web3/hostnames/$IDENTIF
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "content": "QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB",
+    "created_on": "2014-01-01T05:20:00.12345Z",
+    "description": "this is my content list entry",
+    "modified_on": "2014-01-01T05:20:00.12345Z",
+    "type": "cid"
+  },
+  "success": true,
+  "result_info": {}
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

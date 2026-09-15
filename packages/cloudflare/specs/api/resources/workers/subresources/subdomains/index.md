@@ -1,216 +1,65 @@
+---
+title: Subdomains
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Subdomains
 
-## Get Subdomain
+##### [Get Subdomain](https://developers.cloudflare.com/api/resources/workers/subresources/subdomains/methods/get)
 
-**get** `/accounts/{account_id}/workers/subdomain`
+GET/accounts/{account\_id}/workers/subdomain
 
-Returns a Workers subdomain for an account.
+##### [Create Subdomain](https://developers.cloudflare.com/api/resources/workers/subresources/subdomains/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/workers/subdomain
 
-- `account_id: string`
+##### [Delete Subdomain](https://developers.cloudflare.com/api/resources/workers/subresources/subdomains/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/workers/subdomain
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+SubdomainGetResponse object {subdomain }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+subdomain: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20workers.subdomains%20%3E%20(model)%20subdomain_get_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+SubdomainUpdateResponse object {subdomain }
 
-    - `pointer: optional string`
+</summary>
 
-- `result: object { subdomain }`
+subdomain: string
 
-  - `subdomain: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/subdomain \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "subdomain": "my-subdomain"
-  },
-  "success": true
-}
-```
-
-## Create Subdomain
-
-**put** `/accounts/{account_id}/workers/subdomain`
-
-Creates a Workers subdomain for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `subdomain: string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { subdomain }`
-
-  - `subdomain: string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/subdomain \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "subdomain": "my-subdomain"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "subdomain": "my-subdomain"
-  },
-  "success": true
-}
-```
-
-## Delete Subdomain
-
-**delete** `/accounts/{account_id}/workers/subdomain`
-
-Deletes a Workers subdomain for an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/subdomain \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### Subdomain Get Response
-
-- `SubdomainGetResponse object { subdomain }`
-
-  - `subdomain: string`
-
-### Subdomain Update Response
-
-- `SubdomainUpdateResponse object { subdomain }`
-
-  - `subdomain: string`
+[Link to this property](#)%20workers.subdomains%20%3E%20(model)%20subdomain_update_response%20%3E%20(schema)>)

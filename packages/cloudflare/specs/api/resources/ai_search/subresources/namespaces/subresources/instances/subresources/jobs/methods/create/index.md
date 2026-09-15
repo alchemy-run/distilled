@@ -1,58 +1,189 @@
-## Create new job
+---
+title: Create new job
+---
 
-**post** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces)
+
+[Instances](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances)
+
+[Jobs](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/jobs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create new job
+
+POST/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/jobs
 
 Creates a new indexing job for an AI Search instance.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `name: string`
+<summary>API Token</summary>
 
-- `id: string`
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `description: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `result: object { id, source, description, 4 more }`
+<details>
 
-  - `id: string`
+<summary>API Email + API Key</summary>
 
-  - `source: "user" or "schedule"`
 
-    - `"user"`
 
-    - `"schedule"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `description: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `end_reason: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `ended_at: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `last_seen_at: optional string`
+</details>
 
-  - `started_at: optional string`
+##### P ath ParametersExpand Collapse
 
-- `success: boolean`
+account\_id: string
 
-### Example
+[Link to this property](#)%20ai_search.namespaces.instances.jobs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-```http
+name: string
+
+[Link to this property](#)%20ai_search.namespaces.instances.jobs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+id: string
+
+AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
+
+maxLength64
+
+minLength1
+
+[Link to this property](#)%20ai_search.namespaces.instances.jobs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+description: optional string
+
+maxLength255
+
+[Link to this property](#)%20ai_search.namespaces.instances.jobs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {id, source, description, 4 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: "user"or "schedule"
+
+</summary>
+
+One of the following:
+
+"user"
+
+<a href="#">Link to this property</a>
+
+"schedule"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+end\_reason: optional string
+
+<a href="#">Link to this property</a>
+
+ended\_at: optional string
+
+<a href="#">Link to this property</a>
+
+last\_seen\_at: optional string
+
+<a href="#">Link to this property</a>
+
+started\_at: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances.jobs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_search.namespaces.instances.jobs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create new job
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/jobs \
     -X POST \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "id",
+    "source": "user",
+    "description": "description",
+    "end_reason": "end_reason",
+    "ended_at": "ended_at",
+    "last_seen_at": "last_seen_at",
+    "started_at": "started_at"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "id",

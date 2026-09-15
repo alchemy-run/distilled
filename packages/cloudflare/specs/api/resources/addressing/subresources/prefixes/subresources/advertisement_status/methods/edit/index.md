@@ -1,88 +1,266 @@
-## Update Prefix Dynamic Advertisement Status
+---
+title: Update Prefix Dynamic Advertisement Status
+---
 
-**patch** `/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/status`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Addressing](https://developers.cloudflare.com/api/resources/addressing)
+
+[Prefixes](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes)
+
+[Advertisement Status](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/advertisement_status)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Prefix Dynamic Advertisement Status
+
+Deprecated
+
+PATCH/accounts/{account\_id}/addressing/prefixes/{prefix\_id}/bgp/status
 
 Advertise or withdraw the BGP route for a prefix.
 
-**Deprecated:** Prefer the BGP Prefixes endpoints, which additionally allow for advertising and withdrawing
-subnets of an IP prefix.
+**Deprecated:** Prefer the BGP Prefixes endpoints, which additionally allow for advertising and withdrawing subnets of an IP prefix.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier of a Cloudflare account.
+<summary>API Token</summary>
 
-- `prefix_id: string`
 
-  Identifier of an IP Prefix.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `advertised: boolean`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-  `false`, the BGP route is withdrawn.
+</details>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>API Email + API Key</summary>
 
-  - `code: number`
 
-  - `message: string`
 
-  - `documentation_url: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `source: optional object { pointer }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `pointer: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `messages: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Magic Transit Write``IP Prefixes: Write``IP Prefixes: BGP On Demand Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `success: true`
+Identifier of a Cloudflare account.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `result: optional object { advertised, advertised_modified_at }`
+prefix\_id: string
 
-  - `advertised: optional boolean`
+Identifier of an IP Prefix.
 
-    Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If
-    `false`, the BGP route is withdrawn.
+maxLength32
 
-  - `advertised_modified_at: optional string`
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20prefix_id%20%3E%20(schema)>)
 
-    Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled.
+##### Body ParametersJSONExpand Collapse
 
-### Example
+advertised: boolean
 
-```http
+Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn.
+
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20advertised%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {advertised, advertised\_modified\_at }
+
+</summary>
+
+advertised: optional boolean
+
+Advertisement status of the prefix. If <code>true</code>, the BGP route for the prefix is advertised to the Internet. If <code>false</code>, the BGP route is withdrawn.
+
+<a href="#">Link to this property</a>
+
+advertised\_modified\_at: optional string
+
+Last time the advertisement status was changed. This field is only not ‘null’ if on demand is enabled.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20addressing.prefixes.advertisement_status%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update Prefix Dynamic Advertisement Status
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/addressing/prefixes/$PREFIX_ID/bgp/status \
     -X PATCH \
     -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{
           "advertised": true
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "advertised": true,
+    "advertised_modified_at": "2014-01-01T05:20:00.12345Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

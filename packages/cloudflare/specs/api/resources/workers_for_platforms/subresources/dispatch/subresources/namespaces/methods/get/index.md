@@ -1,95 +1,297 @@
-## Get dispatch namespace
+---
+title: Get dispatch namespace
+---
 
-**get** `/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers For Platforms](https://developers.cloudflare.com/api/resources/workers_for_platforms)
+
+[Dispatch](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get dispatch namespace
+
+GET/accounts/{account\_id}/workers/dispatch/namespaces/{dispatch\_namespace}
 
 Get a Workers for Platforms namespace.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `dispatch_namespace: string`
 
-  Name of the Workers for Platforms dispatch namespace.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `success: true`
+`Workers Tail Read``Workers Scripts Write``Workers Scripts Read`
 
-  Whether the API call was successful.
+##### P ath ParametersExpand Collapse
 
-  - `true`
+account\_id: string
 
-- `result: optional object { created_by, created_on, modified_by, 5 more }`
+Identifier.
 
-  - `created_by: optional string`
+maxLength32
 
-    Identifier.
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `created_on: optional string`
+dispatch\_namespace: string
 
-    When the script was created.
+Name of the Workers for Platforms dispatch namespace.
 
-  - `modified_by: optional string`
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20dispatch_namespace%20%3E%20(schema)>)
 
-    Identifier.
+##### ReturnsExpand Collapse
 
-  - `modified_on: optional string`
+<details>
 
-    When the script was last modified.
+<summary>
 
-  - `namespace_id: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-    API Resource UUID tag.
+</summary>
 
-  - `namespace_name: optional string`
+code: number
 
-    Name of the Workers for Platforms dispatch namespace.
+minimum1000
 
-  - `script_count: optional number`
+<a href="#">Link to this property</a>
 
-    The current number of scripts in this Dispatch Namespace.
+message: string
 
-  - `trusted_workers: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted".
+documentation\_url: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {created\_by, created\_on, modified\_by, 5 more }
+
+</summary>
+
+created\_by: optional string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+When the script was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_by: optional string
+
+Identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+When the script was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+namespace\_id: optional string
+
+API Resource UUID tag.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+namespace\_name: optional string
+
+Name of the Workers for Platforms dispatch namespace.
+
+<a href="#">Link to this property</a>
+
+script\_count: optional number
+
+The current number of scripts in this Dispatch Namespace.
+
+<a href="#">Link to this property</a>
+
+trusted\_workers: optional boolean
+
+Whether the Workers in the namespace are executed in a “trusted” manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the <code>request.cf</code> object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and <code>request.cf</code> is undefined. By default, Workers in a namespace are “untrusted”.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers_for_platforms.dispatch.namespaces%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get dispatch namespace
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/dispatch/namespaces/$DISPATCH_NAMESPACE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "created_by": "023e105f4ecef8ad9ca31a8372d0c353",
+    "created_on": "2017-01-01T00:00:00Z",
+    "modified_by": "023e105f4ecef8ad9ca31a8372d0c353",
+    "modified_on": "2017-01-01T00:00:00Z",
+    "namespace_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
+    "namespace_name": "my-dispatch-namespace",
+    "script_count": 800,
+    "trusted_workers": false
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

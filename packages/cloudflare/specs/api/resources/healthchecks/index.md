@@ -1,3109 +1,647 @@
+---
+title: Healthchecks
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Healthchecks
 
-## List Health Checks
+##### [List Health Checks](https://developers.cloudflare.com/api/resources/healthchecks/methods/list)
 
-**get** `/zones/{zone_id}/healthchecks`
+GET/zones/{zone\_id}/healthchecks
 
-List configured health checks.
+##### [Health Check Details](https://developers.cloudflare.com/api/resources/healthchecks/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/healthchecks/{healthcheck\_id}
 
-- `zone_id: string`
+##### [Create Health Check](https://developers.cloudflare.com/api/resources/healthchecks/methods/create)
 
-  Identifier
+POST/zones/{zone\_id}/healthchecks
 
-### Query Parameters
+##### [Update Health Check](https://developers.cloudflare.com/api/resources/healthchecks/methods/update)
 
-- `page: optional number`
+PUT/zones/{zone\_id}/healthchecks/{healthcheck\_id}
 
-  Page number of paginated results.
+##### [Patch Health Check](https://developers.cloudflare.com/api/resources/healthchecks/methods/edit)
 
-- `per_page: optional number`
+PATCH/zones/{zone\_id}/healthchecks/{healthcheck\_id}
 
-  Maximum number of results per page. Must be a multiple of 5.
+##### [Delete Health Check](https://developers.cloudflare.com/api/resources/healthchecks/methods/delete)
 
-### Returns
+DELETE/zones/{zone\_id}/healthchecks/{healthcheck\_id}
 
-- `errors: array of ResponseInfo`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+CheckRegion = "WNAM"or "ENAM"or "WEU"or 11 more
 
-  - `source: optional object { pointer }`
+WNAM: Western North America, ENAM: Eastern North America, WEU: Western Europe, EEU: Eastern Europe, NSAM: Northern South America, SSAM: Southern South America, OC: Oceania, ME: Middle East, NAF: North Africa, SAF: South Africa, IN: India, SEAS: South East Asia, NEAS: North East Asia, ALL\_REGIONS: all regions (BUSINESS and ENTERPRISE customers only).
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+One of the following:
 
-  - `code: number`
+"WNAM"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"ENAM"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of Healthcheck`
+"WEU"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier
+"EEU"
 
-  - `address: optional string`
+<a href="#">Link to this property</a>
 
-    The hostname or IP address of the origin server to run health checks on.
+"NSAM"
 
-  - `check_regions: optional array of CheckRegion`
+<a href="#">Link to this property</a>
 
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
+"SSAM"
 
-    - `"WNAM"`
+<a href="#">Link to this property</a>
 
-    - `"ENAM"`
+"OC"
 
-    - `"WEU"`
+<a href="#">Link to this property</a>
 
-    - `"EEU"`
+"ME"
 
-    - `"NSAM"`
+<a href="#">Link to this property</a>
 
-    - `"SSAM"`
+"NAF"
 
-    - `"OC"`
+<a href="#">Link to this property</a>
 
-    - `"ME"`
+"SAF"
 
-    - `"NAF"`
+<a href="#">Link to this property</a>
 
-    - `"SAF"`
+"IN"
 
-    - `"IN"`
+<a href="#">Link to this property</a>
 
-    - `"SEAS"`
+"SEAS"
 
-    - `"NEAS"`
+<a href="#">Link to this property</a>
 
-    - `"ALL_REGIONS"`
+"NEAS"
 
-  - `consecutive_fails: optional number`
+<a href="#">Link to this property</a>
 
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
+"ALL\_REGIONS"
 
-  - `consecutive_successes: optional number`
+<a href="#">Link to this property</a>
 
-    The number of consecutive successes required from a health check before changing the health to healthy.
+</details>
 
-  - `created_on: optional string`
+[Link to this property](#)%20healthchecks%20%3E%20(model)%20check_region%20%3E%20(schema)>)
 
-  - `description: optional string`
+<details>
 
-    A human-readable description of the health check.
+<summary>
 
-  - `failure_reason: optional string`
+Healthcheck object {id, address, check\_regions, 15 more }
 
-    The current failure reason if status is unhealthy.
+</summary>
 
-  - `http_config: optional HTTPConfiguration`
+id: optional string
 
-    Parameters specific to an HTTP or HTTPS health check.
+Identifier
 
-    - `allow_insecure: optional boolean`
+maxLength32
 
-      Do not validate the certificate when the health check uses HTTPS.
+<a href="#">Link to this property</a>
 
-    - `expected_body: optional string`
+address: optional string
 
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
+The hostname or IP address of the origin server to run health checks on.
 
-    - `expected_codes: optional array of string`
+<a href="#">Link to this property</a>
 
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
+<details>
 
-    - `follow_redirects: optional boolean`
+<summary>
 
-      Follow redirects if the origin returns a 3xx status code.
+check\_regions: optional array of <a href="https://developers.cloudflare.com/api/resources/healthchecks#(resource)%20healthchecks%20%3E%20(model)%20check_region%20%3E%20(schema)">CheckRegion</a>
 
-    - `header: optional map[array of string]`
+A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
 
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
+</summary>
 
-    - `method: optional "GET" or "HEAD"`
+One of the following:
 
-      The HTTP method to use for the health check.
+"WNAM"
 
-      - `"GET"`
+<a href="#">Link to this property</a>
 
-      - `"HEAD"`
+"ENAM"
 
-    - `path: optional string`
+<a href="#">Link to this property</a>
 
-      The endpoint path to health check against.
+"WEU"
 
-    - `port: optional number`
+<a href="#">Link to this property</a>
 
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
+"EEU"
 
-  - `interval: optional number`
+<a href="#">Link to this property</a>
 
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
+"NSAM"
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+"SSAM"
 
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
+<a href="#">Link to this property</a>
 
-  - `retries: optional number`
+"OC"
 
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
+<a href="#">Link to this property</a>
 
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
+"ME"
 
-    The current status of the origin server according to the health check.
+<a href="#">Link to this property</a>
 
-    - `"unknown"`
+"NAF"
 
-    - `"healthy"`
+<a href="#">Link to this property</a>
 
-    - `"unhealthy"`
+"SAF"
 
-    - `"suspended"`
+<a href="#">Link to this property</a>
 
-  - `suspended: optional boolean`
+"IN"
 
-    If suspended, no health checks are sent to the origin.
+<a href="#">Link to this property</a>
 
-  - `tcp_config: optional TCPConfiguration`
+"SEAS"
 
-    Parameters specific to TCP health check.
+<a href="#">Link to this property</a>
 
-    - `method: optional "connection_established"`
+"NEAS"
 
-      The TCP connection method to use for the health check.
+<a href="#">Link to this property</a>
 
-      - `"connection_established"`
+"ALL\_REGIONS"
 
-    - `port: optional number`
+<a href="#">Link to this property</a>
 
-      Port number to connect to for the health check. Defaults to 80.
+</details>
 
-  - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-    The timeout (in seconds) before marking the health check as failed.
+consecutive\_fails: optional number
 
-  - `type: optional string`
+The number of consecutive fails required from a health check before changing the health to unhealthy.
 
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
+<a href="#">Link to this property</a>
 
-- `success: true`
+consecutive\_successes: optional number
 
-  Whether the API call was successful.
+The number of consecutive successes required from a health check before changing the health to healthy.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+created\_on: optional string
 
-  - `count: optional number`
+formatdate-time
 
-    Total number of results for the requested service
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+description: optional string
 
-    Current page within paginated list of results
+A human-readable description of the health check.
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+failure\_reason: optional string
 
-  - `total_count: optional number`
+The current failure reason if status is unhealthy.
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+http\_config: optional <a href="https://developers.cloudflare.com/api/resources/healthchecks#(resource)%20healthchecks%20%3E%20(model)%20http_configuration%20%3E%20(schema)">HTTPConfiguration</a> { allow\_insecure, expected\_body, expected\_codes, 5 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Parameters specific to an HTTP or HTTPS health check.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "address": "www.example.com",
-      "check_regions": [
-        "WEU",
-        "ENAM"
-      ],
-      "consecutive_fails": 0,
-      "consecutive_successes": 0,
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "description": "Health check for www.example.com",
-      "failure_reason": "",
-      "http_config": {
-        "allow_insecure": true,
-        "expected_body": "success",
-        "expected_codes": [
-          "2xx",
-          "302"
-        ],
-        "follow_redirects": true,
-        "header": {
-          "Host": [
-            "example.com"
-          ],
-          "X-App-ID": [
-            "abc123"
-          ]
-        },
-        "method": "GET",
-        "path": "/health",
-        "port": 0
-      },
-      "interval": 0,
-      "modified_on": "2014-01-01T05:20:00.12345Z",
-      "name": "server-1",
-      "retries": 0,
-      "status": "healthy",
-      "suspended": true,
-      "tcp_config": {
-        "method": "connection_established",
-        "port": 0
-      },
-      "timeout": 0,
-      "type": "HTTPS"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+interval: optional number
 
-## Health Check Details
+The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
 
-**get** `/zones/{zone_id}/healthchecks/{healthcheck_id}`
+<a href="#">Link to this property</a>
 
-Fetch a single configured health check.
+modified\_on: optional string
 
-### Path Parameters
+formatdate-time
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+name: optional string
 
-- `healthcheck_id: string`
+A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Returns
+retries: optional number
 
-- `errors: array of ResponseInfo`
+The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+status: optional "unknown"or "healthy"or "unhealthy"or "suspended"
 
-    - `pointer: optional string`
+The current status of the origin server according to the health check.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"unknown"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"healthy"
 
-- `result: Healthcheck`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"unhealthy"
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `address: optional string`
+"suspended"
 
-    The hostname or IP address of the origin server to run health checks on.
+<a href="#">Link to this property</a>
 
-  - `check_regions: optional array of CheckRegion`
+</details>
 
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
+<a href="#">Link to this property</a>
 
-    - `"WNAM"`
+suspended: optional boolean
 
-    - `"ENAM"`
+If suspended, no health checks are sent to the origin.
 
-    - `"WEU"`
+<a href="#">Link to this property</a>
 
-    - `"EEU"`
+tcp\_config: optional <a href="https://developers.cloudflare.com/api/resources/healthchecks#(resource)%20healthchecks%20%3E%20(model)%20tcp_configuration%20%3E%20(schema)">TCPConfiguration</a> { method, port }
 
-    - `"NSAM"`
+Parameters specific to TCP health check.
 
-    - `"SSAM"`
+<a href="#">Link to this property</a>
 
-    - `"OC"`
+timeout: optional number
 
-    - `"ME"`
+The timeout (in seconds) before marking the health check as failed.
 
-    - `"NAF"`
+<a href="#">Link to this property</a>
 
-    - `"SAF"`
+type: optional string
 
-    - `"IN"`
+The protocol to use for the health check. Currently supported protocols are ‘HTTP’, ‘HTTPS’ and ‘TCP’.
 
-    - `"SEAS"`
+<a href="#">Link to this property</a>
 
-    - `"NEAS"`
+</details>
 
-    - `"ALL_REGIONS"`
+[Link to this property](#)%20healthchecks%20%3E%20(model)%20healthcheck%20%3E%20(schema)>)
 
-  - `consecutive_fails: optional number`
+<details>
 
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
+<summary>
 
-  - `consecutive_successes: optional number`
+HTTPConfiguration object {allow\_insecure, expected\_body, expected\_codes, 5 more }
 
-    The number of consecutive successes required from a health check before changing the health to healthy.
+Parameters specific to an HTTP or HTTPS health check.
 
-  - `created_on: optional string`
+</summary>
 
-  - `description: optional string`
+allow\_insecure: optional boolean
 
-    A human-readable description of the health check.
+Do not validate the certificate when the health check uses HTTPS.
 
-  - `failure_reason: optional string`
+<a href="#">Link to this property</a>
 
-    The current failure reason if status is unhealthy.
+expected\_body: optional string
 
-  - `http_config: optional HTTPConfiguration`
+A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
 
-    Parameters specific to an HTTP or HTTPS health check.
+<a href="#">Link to this property</a>
 
-    - `allow_insecure: optional boolean`
+expected\_codes: optional array of string
 
-      Do not validate the certificate when the health check uses HTTPS.
+The expected HTTP response codes (e.g. “200”) or code ranges (e.g. “2xx” for all codes starting with 2) of the health check.
 
-    - `expected_body: optional string`
+<a href="#">Link to this property</a>
 
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
+follow\_redirects: optional boolean
 
-    - `expected_codes: optional array of string`
+Follow redirects if the origin returns a 3xx status code.
 
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
+<a href="#">Link to this property</a>
 
-    - `follow_redirects: optional boolean`
+header: optional map\[array of string]
 
-      Follow redirects if the origin returns a 3xx status code.
+The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
 
-    - `header: optional map[array of string]`
+<a href="#">Link to this property</a>
 
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
+<details>
 
-    - `method: optional "GET" or "HEAD"`
+<summary>
 
-      The HTTP method to use for the health check.
+method: optional "GET"or "HEAD"
 
-      - `"GET"`
+The HTTP method to use for the health check.
 
-      - `"HEAD"`
+</summary>
 
-    - `path: optional string`
+One of the following:
 
-      The endpoint path to health check against.
+"GET"
 
-    - `port: optional number`
+<a href="#">Link to this property</a>
 
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
+"HEAD"
 
-  - `interval: optional number`
+<a href="#">Link to this property</a>
 
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
+</details>
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+path: optional string
 
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
+The endpoint path to health check against.
 
-  - `retries: optional number`
+<a href="#">Link to this property</a>
 
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
+port: optional number
 
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
+Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
 
-    The current status of the origin server according to the health check.
+<a href="#">Link to this property</a>
 
-    - `"unknown"`
+</details>
 
-    - `"healthy"`
+[Link to this property](#)%20healthchecks%20%3E%20(model)%20http_configuration%20%3E%20(schema)>)
 
-    - `"unhealthy"`
+<details>
 
-    - `"suspended"`
+<summary>
 
-  - `suspended: optional boolean`
+QueryHealthcheck object {address, name, check\_regions, 10 more }
 
-    If suspended, no health checks are sent to the origin.
+</summary>
 
-  - `tcp_config: optional TCPConfiguration`
+address: string
 
-    Parameters specific to TCP health check.
+The hostname or IP address of the origin server to run health checks on.
 
-    - `method: optional "connection_established"`
+<a href="#">Link to this property</a>
 
-      The TCP connection method to use for the health check.
+name: string
 
-      - `"connection_established"`
+A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
 
-    - `port: optional number`
+<a href="#">Link to this property</a>
 
-      Port number to connect to for the health check. Defaults to 80.
+<details>
 
-  - `timeout: optional number`
+<summary>
 
-    The timeout (in seconds) before marking the health check as failed.
+check\_regions: optional array of <a href="https://developers.cloudflare.com/api/resources/healthchecks#(resource)%20healthchecks%20%3E%20(model)%20check_region%20%3E%20(schema)">CheckRegion</a>
 
-  - `type: optional string`
+A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
 
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"WNAM"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"ENAM"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks/$HEALTHCHECK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"WEU"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "address": "www.example.com",
-    "check_regions": [
-      "WEU",
-      "ENAM"
-    ],
-    "consecutive_fails": 0,
-    "consecutive_successes": 0,
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Health check for www.example.com",
-    "failure_reason": "",
-    "http_config": {
-      "allow_insecure": true,
-      "expected_body": "success",
-      "expected_codes": [
-        "2xx",
-        "302"
-      ],
-      "follow_redirects": true,
-      "header": {
-        "Host": [
-          "example.com"
-        ],
-        "X-App-ID": [
-          "abc123"
-        ]
-      },
-      "method": "GET",
-      "path": "/health",
-      "port": 0
-    },
-    "interval": 0,
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "server-1",
-    "retries": 0,
-    "status": "healthy",
-    "suspended": true,
-    "tcp_config": {
-      "method": "connection_established",
-      "port": 0
-    },
-    "timeout": 0,
-    "type": "HTTPS"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create Health Check
+"EEU"
 
-**post** `/zones/{zone_id}/healthchecks`
+<a href="#">Link to this property</a>
 
-Create a new health check.
+"NSAM"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+"SSAM"
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"OC"
 
-- `address: string`
+<a href="#">Link to this property</a>
 
-  The hostname or IP address of the origin server to run health checks on.
+"ME"
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-  A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
+"NAF"
 
-- `check_regions: optional array of CheckRegion`
+<a href="#">Link to this property</a>
 
-  A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
+"SAF"
 
-  - `"WNAM"`
+<a href="#">Link to this property</a>
 
-  - `"ENAM"`
+"IN"
 
-  - `"WEU"`
+<a href="#">Link to this property</a>
 
-  - `"EEU"`
+"SEAS"
 
-  - `"NSAM"`
+<a href="#">Link to this property</a>
 
-  - `"SSAM"`
+"NEAS"
 
-  - `"OC"`
+<a href="#">Link to this property</a>
 
-  - `"ME"`
+"ALL\_REGIONS"
 
-  - `"NAF"`
+<a href="#">Link to this property</a>
 
-  - `"SAF"`
+</details>
 
-  - `"IN"`
+<a href="#">Link to this property</a>
 
-  - `"SEAS"`
+consecutive\_fails: optional number
 
-  - `"NEAS"`
+The number of consecutive fails required from a health check before changing the health to unhealthy.
 
-  - `"ALL_REGIONS"`
+<a href="#">Link to this property</a>
 
-- `consecutive_fails: optional number`
+consecutive\_successes: optional number
 
-  The number of consecutive fails required from a health check before changing the health to unhealthy.
+The number of consecutive successes required from a health check before changing the health to healthy.
 
-- `consecutive_successes: optional number`
+<a href="#">Link to this property</a>
 
-  The number of consecutive successes required from a health check before changing the health to healthy.
+description: optional string
 
-- `description: optional string`
+A human-readable description of the health check.
 
-  A human-readable description of the health check.
+<a href="#">Link to this property</a>
 
-- `http_config: optional HTTPConfiguration`
+http\_config: optional <a href="https://developers.cloudflare.com/api/resources/healthchecks#(resource)%20healthchecks%20%3E%20(model)%20http_configuration%20%3E%20(schema)">HTTPConfiguration</a> { allow\_insecure, expected\_body, expected\_codes, 5 more }
 
-  Parameters specific to an HTTP or HTTPS health check.
+Parameters specific to an HTTP or HTTPS health check.
 
-  - `allow_insecure: optional boolean`
+<a href="#">Link to this property</a>
 
-    Do not validate the certificate when the health check uses HTTPS.
+interval: optional number
 
-  - `expected_body: optional string`
+The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
 
-    A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
+<a href="#">Link to this property</a>
 
-  - `expected_codes: optional array of string`
+retries: optional number
 
-    The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
+The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
 
-  - `follow_redirects: optional boolean`
+<a href="#">Link to this property</a>
 
-    Follow redirects if the origin returns a 3xx status code.
+suspended: optional boolean
 
-  - `header: optional map[array of string]`
+If suspended, no health checks are sent to the origin.
 
-    The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
+<a href="#">Link to this property</a>
 
-  - `method: optional "GET" or "HEAD"`
+tcp\_config: optional <a href="https://developers.cloudflare.com/api/resources/healthchecks#(resource)%20healthchecks%20%3E%20(model)%20tcp_configuration%20%3E%20(schema)">TCPConfiguration</a> { method, port }
 
-    The HTTP method to use for the health check.
+Parameters specific to TCP health check.
 
-    - `"GET"`
+<a href="#">Link to this property</a>
 
-    - `"HEAD"`
+timeout: optional number
 
-  - `path: optional string`
+The timeout (in seconds) before marking the health check as failed.
 
-    The endpoint path to health check against.
+<a href="#">Link to this property</a>
 
-  - `port: optional number`
+type: optional string
 
-    Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
+The protocol to use for the health check. Currently supported protocols are ‘HTTP’, ‘HTTPS’ and ‘TCP’.
 
-- `interval: optional number`
+<a href="#">Link to this property</a>
 
-  The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
+</details>
 
-- `retries: optional number`
+[Link to this property](#)%20healthchecks%20%3E%20(model)%20query_healthcheck%20%3E%20(schema)>)
 
-  The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
+<details>
 
-- `suspended: optional boolean`
+<summary>
 
-  If suspended, no health checks are sent to the origin.
+TCPConfiguration object {method, port }
 
-- `tcp_config: optional TCPConfiguration`
+Parameters specific to TCP health check.
 
-  Parameters specific to TCP health check.
+</summary>
 
-  - `method: optional "connection_established"`
+method: optional "connection\_established"
 
-    The TCP connection method to use for the health check.
+The TCP connection method to use for the health check.
 
-    - `"connection_established"`
+<a href="#">Link to this property</a>
 
-  - `port: optional number`
+port: optional number
 
-    Port number to connect to for the health check. Defaults to 80.
+Port number to connect to for the health check. Defaults to 80.
 
-- `timeout: optional number`
+<a href="#">Link to this property</a>
 
-  The timeout (in seconds) before marking the health check as failed.
+</details>
 
-- `type: optional string`
+[Link to this property](#)%20healthchecks%20%3E%20(model)%20tcp_configuration%20%3E%20(schema)>)
 
-  The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+HealthcheckDeleteResponse object {id }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+Identifier
 
-  - `source: optional object { pointer }`
+maxLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20healthchecks%20%3E%20(model)%20healthcheck_delete_response%20%3E%20(schema)>)
 
-  - `message: string`
+#### HealthchecksPreviews
 
-  - `documentation_url: optional string`
+##### [Health Check Preview Details](https://developers.cloudflare.com/api/resources/healthchecks/subresources/previews/methods/get)
 
-  - `source: optional object { pointer }`
+GET/zones/{zone\_id}/healthchecks/preview/{healthcheck\_id}
 
-- `result: Healthcheck`
+##### [Create Preview Health Check](https://developers.cloudflare.com/api/resources/healthchecks/subresources/previews/methods/create)
 
-  - `id: optional string`
+POST/zones/{zone\_id}/healthchecks/preview
 
-    Identifier
+##### [Delete Preview Health Check](https://developers.cloudflare.com/api/resources/healthchecks/subresources/previews/methods/delete)
 
-  - `address: optional string`
+DELETE/zones/{zone\_id}/healthchecks/preview/{healthcheck\_id}
 
-    The hostname or IP address of the origin server to run health checks on.
+##### ModelsExpand Collapse
 
-  - `check_regions: optional array of CheckRegion`
+<details>
 
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
+<summary>
 
-    - `"WNAM"`
+PreviewDeleteResponse object {id }
 
-    - `"ENAM"`
+</summary>
 
-    - `"WEU"`
+id: optional string
 
-    - `"EEU"`
+Identifier
 
-    - `"NSAM"`
+maxLength32
 
-    - `"SSAM"`
+<a href="#">Link to this property</a>
 
-    - `"OC"`
+</details>
 
-    - `"ME"`
-
-    - `"NAF"`
-
-    - `"SAF"`
-
-    - `"IN"`
-
-    - `"SEAS"`
-
-    - `"NEAS"`
-
-    - `"ALL_REGIONS"`
-
-  - `consecutive_fails: optional number`
-
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-  - `consecutive_successes: optional number`
-
-    The number of consecutive successes required from a health check before changing the health to healthy.
-
-  - `created_on: optional string`
-
-  - `description: optional string`
-
-    A human-readable description of the health check.
-
-  - `failure_reason: optional string`
-
-    The current failure reason if status is unhealthy.
-
-  - `http_config: optional HTTPConfiguration`
-
-    Parameters specific to an HTTP or HTTPS health check.
-
-    - `allow_insecure: optional boolean`
-
-      Do not validate the certificate when the health check uses HTTPS.
-
-    - `expected_body: optional string`
-
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-    - `expected_codes: optional array of string`
-
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-    - `follow_redirects: optional boolean`
-
-      Follow redirects if the origin returns a 3xx status code.
-
-    - `header: optional map[array of string]`
-
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-    - `method: optional "GET" or "HEAD"`
-
-      The HTTP method to use for the health check.
-
-      - `"GET"`
-
-      - `"HEAD"`
-
-    - `path: optional string`
-
-      The endpoint path to health check against.
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-  - `interval: optional number`
-
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `retries: optional number`
-
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
-
-    The current status of the origin server according to the health check.
-
-    - `"unknown"`
-
-    - `"healthy"`
-
-    - `"unhealthy"`
-
-    - `"suspended"`
-
-  - `suspended: optional boolean`
-
-    If suspended, no health checks are sent to the origin.
-
-  - `tcp_config: optional TCPConfiguration`
-
-    Parameters specific to TCP health check.
-
-    - `method: optional "connection_established"`
-
-      The TCP connection method to use for the health check.
-
-      - `"connection_established"`
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80.
-
-  - `timeout: optional number`
-
-    The timeout (in seconds) before marking the health check as failed.
-
-  - `type: optional string`
-
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "address": "www.example.com",
-          "name": "server-1",
-          "check_regions": [
-            "WEU",
-            "ENAM"
-          ],
-          "description": "Health check for www.example.com",
-          "type": "HTTPS"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "address": "www.example.com",
-    "check_regions": [
-      "WEU",
-      "ENAM"
-    ],
-    "consecutive_fails": 0,
-    "consecutive_successes": 0,
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Health check for www.example.com",
-    "failure_reason": "",
-    "http_config": {
-      "allow_insecure": true,
-      "expected_body": "success",
-      "expected_codes": [
-        "2xx",
-        "302"
-      ],
-      "follow_redirects": true,
-      "header": {
-        "Host": [
-          "example.com"
-        ],
-        "X-App-ID": [
-          "abc123"
-        ]
-      },
-      "method": "GET",
-      "path": "/health",
-      "port": 0
-    },
-    "interval": 0,
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "server-1",
-    "retries": 0,
-    "status": "healthy",
-    "suspended": true,
-    "tcp_config": {
-      "method": "connection_established",
-      "port": 0
-    },
-    "timeout": 0,
-    "type": "HTTPS"
-  },
-  "success": true
-}
-```
-
-## Update Health Check
-
-**put** `/zones/{zone_id}/healthchecks/{healthcheck_id}`
-
-Update a configured health check.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `healthcheck_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `address: string`
-
-  The hostname or IP address of the origin server to run health checks on.
-
-- `name: string`
-
-  A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-- `check_regions: optional array of CheckRegion`
-
-  A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-  - `"WNAM"`
-
-  - `"ENAM"`
-
-  - `"WEU"`
-
-  - `"EEU"`
-
-  - `"NSAM"`
-
-  - `"SSAM"`
-
-  - `"OC"`
-
-  - `"ME"`
-
-  - `"NAF"`
-
-  - `"SAF"`
-
-  - `"IN"`
-
-  - `"SEAS"`
-
-  - `"NEAS"`
-
-  - `"ALL_REGIONS"`
-
-- `consecutive_fails: optional number`
-
-  The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-- `consecutive_successes: optional number`
-
-  The number of consecutive successes required from a health check before changing the health to healthy.
-
-- `description: optional string`
-
-  A human-readable description of the health check.
-
-- `http_config: optional HTTPConfiguration`
-
-  Parameters specific to an HTTP or HTTPS health check.
-
-  - `allow_insecure: optional boolean`
-
-    Do not validate the certificate when the health check uses HTTPS.
-
-  - `expected_body: optional string`
-
-    A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-  - `expected_codes: optional array of string`
-
-    The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-  - `follow_redirects: optional boolean`
-
-    Follow redirects if the origin returns a 3xx status code.
-
-  - `header: optional map[array of string]`
-
-    The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-  - `method: optional "GET" or "HEAD"`
-
-    The HTTP method to use for the health check.
-
-    - `"GET"`
-
-    - `"HEAD"`
-
-  - `path: optional string`
-
-    The endpoint path to health check against.
-
-  - `port: optional number`
-
-    Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-- `interval: optional number`
-
-  The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-- `retries: optional number`
-
-  The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-- `suspended: optional boolean`
-
-  If suspended, no health checks are sent to the origin.
-
-- `tcp_config: optional TCPConfiguration`
-
-  Parameters specific to TCP health check.
-
-  - `method: optional "connection_established"`
-
-    The TCP connection method to use for the health check.
-
-    - `"connection_established"`
-
-  - `port: optional number`
-
-    Port number to connect to for the health check. Defaults to 80.
-
-- `timeout: optional number`
-
-  The timeout (in seconds) before marking the health check as failed.
-
-- `type: optional string`
-
-  The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Healthcheck`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `address: optional string`
-
-    The hostname or IP address of the origin server to run health checks on.
-
-  - `check_regions: optional array of CheckRegion`
-
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-    - `"WNAM"`
-
-    - `"ENAM"`
-
-    - `"WEU"`
-
-    - `"EEU"`
-
-    - `"NSAM"`
-
-    - `"SSAM"`
-
-    - `"OC"`
-
-    - `"ME"`
-
-    - `"NAF"`
-
-    - `"SAF"`
-
-    - `"IN"`
-
-    - `"SEAS"`
-
-    - `"NEAS"`
-
-    - `"ALL_REGIONS"`
-
-  - `consecutive_fails: optional number`
-
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-  - `consecutive_successes: optional number`
-
-    The number of consecutive successes required from a health check before changing the health to healthy.
-
-  - `created_on: optional string`
-
-  - `description: optional string`
-
-    A human-readable description of the health check.
-
-  - `failure_reason: optional string`
-
-    The current failure reason if status is unhealthy.
-
-  - `http_config: optional HTTPConfiguration`
-
-    Parameters specific to an HTTP or HTTPS health check.
-
-    - `allow_insecure: optional boolean`
-
-      Do not validate the certificate when the health check uses HTTPS.
-
-    - `expected_body: optional string`
-
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-    - `expected_codes: optional array of string`
-
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-    - `follow_redirects: optional boolean`
-
-      Follow redirects if the origin returns a 3xx status code.
-
-    - `header: optional map[array of string]`
-
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-    - `method: optional "GET" or "HEAD"`
-
-      The HTTP method to use for the health check.
-
-      - `"GET"`
-
-      - `"HEAD"`
-
-    - `path: optional string`
-
-      The endpoint path to health check against.
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-  - `interval: optional number`
-
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `retries: optional number`
-
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
-
-    The current status of the origin server according to the health check.
-
-    - `"unknown"`
-
-    - `"healthy"`
-
-    - `"unhealthy"`
-
-    - `"suspended"`
-
-  - `suspended: optional boolean`
-
-    If suspended, no health checks are sent to the origin.
-
-  - `tcp_config: optional TCPConfiguration`
-
-    Parameters specific to TCP health check.
-
-    - `method: optional "connection_established"`
-
-      The TCP connection method to use for the health check.
-
-      - `"connection_established"`
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80.
-
-  - `timeout: optional number`
-
-    The timeout (in seconds) before marking the health check as failed.
-
-  - `type: optional string`
-
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks/$HEALTHCHECK_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "address": "www.example.com",
-          "name": "server-1",
-          "check_regions": [
-            "WEU",
-            "ENAM"
-          ],
-          "description": "Health check for www.example.com",
-          "type": "HTTPS"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "address": "www.example.com",
-    "check_regions": [
-      "WEU",
-      "ENAM"
-    ],
-    "consecutive_fails": 0,
-    "consecutive_successes": 0,
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Health check for www.example.com",
-    "failure_reason": "",
-    "http_config": {
-      "allow_insecure": true,
-      "expected_body": "success",
-      "expected_codes": [
-        "2xx",
-        "302"
-      ],
-      "follow_redirects": true,
-      "header": {
-        "Host": [
-          "example.com"
-        ],
-        "X-App-ID": [
-          "abc123"
-        ]
-      },
-      "method": "GET",
-      "path": "/health",
-      "port": 0
-    },
-    "interval": 0,
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "server-1",
-    "retries": 0,
-    "status": "healthy",
-    "suspended": true,
-    "tcp_config": {
-      "method": "connection_established",
-      "port": 0
-    },
-    "timeout": 0,
-    "type": "HTTPS"
-  },
-  "success": true
-}
-```
-
-## Patch Health Check
-
-**patch** `/zones/{zone_id}/healthchecks/{healthcheck_id}`
-
-Patch a configured health check.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `healthcheck_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `address: string`
-
-  The hostname or IP address of the origin server to run health checks on.
-
-- `name: string`
-
-  A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-- `check_regions: optional array of CheckRegion`
-
-  A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-  - `"WNAM"`
-
-  - `"ENAM"`
-
-  - `"WEU"`
-
-  - `"EEU"`
-
-  - `"NSAM"`
-
-  - `"SSAM"`
-
-  - `"OC"`
-
-  - `"ME"`
-
-  - `"NAF"`
-
-  - `"SAF"`
-
-  - `"IN"`
-
-  - `"SEAS"`
-
-  - `"NEAS"`
-
-  - `"ALL_REGIONS"`
-
-- `consecutive_fails: optional number`
-
-  The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-- `consecutive_successes: optional number`
-
-  The number of consecutive successes required from a health check before changing the health to healthy.
-
-- `description: optional string`
-
-  A human-readable description of the health check.
-
-- `http_config: optional HTTPConfiguration`
-
-  Parameters specific to an HTTP or HTTPS health check.
-
-  - `allow_insecure: optional boolean`
-
-    Do not validate the certificate when the health check uses HTTPS.
-
-  - `expected_body: optional string`
-
-    A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-  - `expected_codes: optional array of string`
-
-    The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-  - `follow_redirects: optional boolean`
-
-    Follow redirects if the origin returns a 3xx status code.
-
-  - `header: optional map[array of string]`
-
-    The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-  - `method: optional "GET" or "HEAD"`
-
-    The HTTP method to use for the health check.
-
-    - `"GET"`
-
-    - `"HEAD"`
-
-  - `path: optional string`
-
-    The endpoint path to health check against.
-
-  - `port: optional number`
-
-    Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-- `interval: optional number`
-
-  The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-- `retries: optional number`
-
-  The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-- `suspended: optional boolean`
-
-  If suspended, no health checks are sent to the origin.
-
-- `tcp_config: optional TCPConfiguration`
-
-  Parameters specific to TCP health check.
-
-  - `method: optional "connection_established"`
-
-    The TCP connection method to use for the health check.
-
-    - `"connection_established"`
-
-  - `port: optional number`
-
-    Port number to connect to for the health check. Defaults to 80.
-
-- `timeout: optional number`
-
-  The timeout (in seconds) before marking the health check as failed.
-
-- `type: optional string`
-
-  The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Healthcheck`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `address: optional string`
-
-    The hostname or IP address of the origin server to run health checks on.
-
-  - `check_regions: optional array of CheckRegion`
-
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-    - `"WNAM"`
-
-    - `"ENAM"`
-
-    - `"WEU"`
-
-    - `"EEU"`
-
-    - `"NSAM"`
-
-    - `"SSAM"`
-
-    - `"OC"`
-
-    - `"ME"`
-
-    - `"NAF"`
-
-    - `"SAF"`
-
-    - `"IN"`
-
-    - `"SEAS"`
-
-    - `"NEAS"`
-
-    - `"ALL_REGIONS"`
-
-  - `consecutive_fails: optional number`
-
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-  - `consecutive_successes: optional number`
-
-    The number of consecutive successes required from a health check before changing the health to healthy.
-
-  - `created_on: optional string`
-
-  - `description: optional string`
-
-    A human-readable description of the health check.
-
-  - `failure_reason: optional string`
-
-    The current failure reason if status is unhealthy.
-
-  - `http_config: optional HTTPConfiguration`
-
-    Parameters specific to an HTTP or HTTPS health check.
-
-    - `allow_insecure: optional boolean`
-
-      Do not validate the certificate when the health check uses HTTPS.
-
-    - `expected_body: optional string`
-
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-    - `expected_codes: optional array of string`
-
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-    - `follow_redirects: optional boolean`
-
-      Follow redirects if the origin returns a 3xx status code.
-
-    - `header: optional map[array of string]`
-
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-    - `method: optional "GET" or "HEAD"`
-
-      The HTTP method to use for the health check.
-
-      - `"GET"`
-
-      - `"HEAD"`
-
-    - `path: optional string`
-
-      The endpoint path to health check against.
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-  - `interval: optional number`
-
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `retries: optional number`
-
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
-
-    The current status of the origin server according to the health check.
-
-    - `"unknown"`
-
-    - `"healthy"`
-
-    - `"unhealthy"`
-
-    - `"suspended"`
-
-  - `suspended: optional boolean`
-
-    If suspended, no health checks are sent to the origin.
-
-  - `tcp_config: optional TCPConfiguration`
-
-    Parameters specific to TCP health check.
-
-    - `method: optional "connection_established"`
-
-      The TCP connection method to use for the health check.
-
-      - `"connection_established"`
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80.
-
-  - `timeout: optional number`
-
-    The timeout (in seconds) before marking the health check as failed.
-
-  - `type: optional string`
-
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks/$HEALTHCHECK_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "address": "www.example.com",
-          "name": "server-1",
-          "check_regions": [
-            "WEU",
-            "ENAM"
-          ],
-          "description": "Health check for www.example.com",
-          "type": "HTTPS"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "address": "www.example.com",
-    "check_regions": [
-      "WEU",
-      "ENAM"
-    ],
-    "consecutive_fails": 0,
-    "consecutive_successes": 0,
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Health check for www.example.com",
-    "failure_reason": "",
-    "http_config": {
-      "allow_insecure": true,
-      "expected_body": "success",
-      "expected_codes": [
-        "2xx",
-        "302"
-      ],
-      "follow_redirects": true,
-      "header": {
-        "Host": [
-          "example.com"
-        ],
-        "X-App-ID": [
-          "abc123"
-        ]
-      },
-      "method": "GET",
-      "path": "/health",
-      "port": 0
-    },
-    "interval": 0,
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "server-1",
-    "retries": 0,
-    "status": "healthy",
-    "suspended": true,
-    "tcp_config": {
-      "method": "connection_established",
-      "port": 0
-    },
-    "timeout": 0,
-    "type": "HTTPS"
-  },
-  "success": true
-}
-```
-
-## Delete Health Check
-
-**delete** `/zones/{zone_id}/healthchecks/{healthcheck_id}`
-
-Delete a health check.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `healthcheck_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id }`
-
-  - `id: optional string`
-
-    Identifier
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks/$HEALTHCHECK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Check Region
-
-- `CheckRegion = "WNAM" or "ENAM" or "WEU" or 11 more`
-
-  WNAM: Western North America, ENAM: Eastern North America, WEU: Western Europe, EEU: Eastern Europe, NSAM: Northern South America, SSAM: Southern South America, OC: Oceania, ME: Middle East, NAF: North Africa, SAF: South Africa, IN: India, SEAS: South East Asia, NEAS: North East Asia, ALL_REGIONS: all regions (BUSINESS and ENTERPRISE customers only).
-
-  - `"WNAM"`
-
-  - `"ENAM"`
-
-  - `"WEU"`
-
-  - `"EEU"`
-
-  - `"NSAM"`
-
-  - `"SSAM"`
-
-  - `"OC"`
-
-  - `"ME"`
-
-  - `"NAF"`
-
-  - `"SAF"`
-
-  - `"IN"`
-
-  - `"SEAS"`
-
-  - `"NEAS"`
-
-  - `"ALL_REGIONS"`
-
-### Healthcheck
-
-- `Healthcheck object { id, address, check_regions, 15 more }`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `address: optional string`
-
-    The hostname or IP address of the origin server to run health checks on.
-
-  - `check_regions: optional array of CheckRegion`
-
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-    - `"WNAM"`
-
-    - `"ENAM"`
-
-    - `"WEU"`
-
-    - `"EEU"`
-
-    - `"NSAM"`
-
-    - `"SSAM"`
-
-    - `"OC"`
-
-    - `"ME"`
-
-    - `"NAF"`
-
-    - `"SAF"`
-
-    - `"IN"`
-
-    - `"SEAS"`
-
-    - `"NEAS"`
-
-    - `"ALL_REGIONS"`
-
-  - `consecutive_fails: optional number`
-
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-  - `consecutive_successes: optional number`
-
-    The number of consecutive successes required from a health check before changing the health to healthy.
-
-  - `created_on: optional string`
-
-  - `description: optional string`
-
-    A human-readable description of the health check.
-
-  - `failure_reason: optional string`
-
-    The current failure reason if status is unhealthy.
-
-  - `http_config: optional HTTPConfiguration`
-
-    Parameters specific to an HTTP or HTTPS health check.
-
-    - `allow_insecure: optional boolean`
-
-      Do not validate the certificate when the health check uses HTTPS.
-
-    - `expected_body: optional string`
-
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-    - `expected_codes: optional array of string`
-
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-    - `follow_redirects: optional boolean`
-
-      Follow redirects if the origin returns a 3xx status code.
-
-    - `header: optional map[array of string]`
-
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-    - `method: optional "GET" or "HEAD"`
-
-      The HTTP method to use for the health check.
-
-      - `"GET"`
-
-      - `"HEAD"`
-
-    - `path: optional string`
-
-      The endpoint path to health check against.
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-  - `interval: optional number`
-
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `retries: optional number`
-
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
-
-    The current status of the origin server according to the health check.
-
-    - `"unknown"`
-
-    - `"healthy"`
-
-    - `"unhealthy"`
-
-    - `"suspended"`
-
-  - `suspended: optional boolean`
-
-    If suspended, no health checks are sent to the origin.
-
-  - `tcp_config: optional TCPConfiguration`
-
-    Parameters specific to TCP health check.
-
-    - `method: optional "connection_established"`
-
-      The TCP connection method to use for the health check.
-
-      - `"connection_established"`
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80.
-
-  - `timeout: optional number`
-
-    The timeout (in seconds) before marking the health check as failed.
-
-  - `type: optional string`
-
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-### HTTP Configuration
-
-- `HTTPConfiguration object { allow_insecure, expected_body, expected_codes, 5 more }`
-
-  Parameters specific to an HTTP or HTTPS health check.
-
-  - `allow_insecure: optional boolean`
-
-    Do not validate the certificate when the health check uses HTTPS.
-
-  - `expected_body: optional string`
-
-    A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-  - `expected_codes: optional array of string`
-
-    The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-  - `follow_redirects: optional boolean`
-
-    Follow redirects if the origin returns a 3xx status code.
-
-  - `header: optional map[array of string]`
-
-    The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-  - `method: optional "GET" or "HEAD"`
-
-    The HTTP method to use for the health check.
-
-    - `"GET"`
-
-    - `"HEAD"`
-
-  - `path: optional string`
-
-    The endpoint path to health check against.
-
-  - `port: optional number`
-
-    Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-### Query Healthcheck
-
-- `QueryHealthcheck object { address, name, check_regions, 10 more }`
-
-  - `address: string`
-
-    The hostname or IP address of the origin server to run health checks on.
-
-  - `name: string`
-
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `check_regions: optional array of CheckRegion`
-
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-    - `"WNAM"`
-
-    - `"ENAM"`
-
-    - `"WEU"`
-
-    - `"EEU"`
-
-    - `"NSAM"`
-
-    - `"SSAM"`
-
-    - `"OC"`
-
-    - `"ME"`
-
-    - `"NAF"`
-
-    - `"SAF"`
-
-    - `"IN"`
-
-    - `"SEAS"`
-
-    - `"NEAS"`
-
-    - `"ALL_REGIONS"`
-
-  - `consecutive_fails: optional number`
-
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-  - `consecutive_successes: optional number`
-
-    The number of consecutive successes required from a health check before changing the health to healthy.
-
-  - `description: optional string`
-
-    A human-readable description of the health check.
-
-  - `http_config: optional HTTPConfiguration`
-
-    Parameters specific to an HTTP or HTTPS health check.
-
-    - `allow_insecure: optional boolean`
-
-      Do not validate the certificate when the health check uses HTTPS.
-
-    - `expected_body: optional string`
-
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-    - `expected_codes: optional array of string`
-
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-    - `follow_redirects: optional boolean`
-
-      Follow redirects if the origin returns a 3xx status code.
-
-    - `header: optional map[array of string]`
-
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-    - `method: optional "GET" or "HEAD"`
-
-      The HTTP method to use for the health check.
-
-      - `"GET"`
-
-      - `"HEAD"`
-
-    - `path: optional string`
-
-      The endpoint path to health check against.
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-  - `interval: optional number`
-
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-  - `retries: optional number`
-
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-  - `suspended: optional boolean`
-
-    If suspended, no health checks are sent to the origin.
-
-  - `tcp_config: optional TCPConfiguration`
-
-    Parameters specific to TCP health check.
-
-    - `method: optional "connection_established"`
-
-      The TCP connection method to use for the health check.
-
-      - `"connection_established"`
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80.
-
-  - `timeout: optional number`
-
-    The timeout (in seconds) before marking the health check as failed.
-
-  - `type: optional string`
-
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-### TCP Configuration
-
-- `TCPConfiguration object { method, port }`
-
-  Parameters specific to TCP health check.
-
-  - `method: optional "connection_established"`
-
-    The TCP connection method to use for the health check.
-
-    - `"connection_established"`
-
-  - `port: optional number`
-
-    Port number to connect to for the health check. Defaults to 80.
-
-### Healthcheck Delete Response
-
-- `HealthcheckDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier
-
-# Previews
-
-## Health Check Preview Details
-
-**get** `/zones/{zone_id}/healthchecks/preview/{healthcheck_id}`
-
-Fetch a single configured health check preview.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `healthcheck_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Healthcheck`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `address: optional string`
-
-    The hostname or IP address of the origin server to run health checks on.
-
-  - `check_regions: optional array of CheckRegion`
-
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-    - `"WNAM"`
-
-    - `"ENAM"`
-
-    - `"WEU"`
-
-    - `"EEU"`
-
-    - `"NSAM"`
-
-    - `"SSAM"`
-
-    - `"OC"`
-
-    - `"ME"`
-
-    - `"NAF"`
-
-    - `"SAF"`
-
-    - `"IN"`
-
-    - `"SEAS"`
-
-    - `"NEAS"`
-
-    - `"ALL_REGIONS"`
-
-  - `consecutive_fails: optional number`
-
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-  - `consecutive_successes: optional number`
-
-    The number of consecutive successes required from a health check before changing the health to healthy.
-
-  - `created_on: optional string`
-
-  - `description: optional string`
-
-    A human-readable description of the health check.
-
-  - `failure_reason: optional string`
-
-    The current failure reason if status is unhealthy.
-
-  - `http_config: optional HTTPConfiguration`
-
-    Parameters specific to an HTTP or HTTPS health check.
-
-    - `allow_insecure: optional boolean`
-
-      Do not validate the certificate when the health check uses HTTPS.
-
-    - `expected_body: optional string`
-
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-    - `expected_codes: optional array of string`
-
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-    - `follow_redirects: optional boolean`
-
-      Follow redirects if the origin returns a 3xx status code.
-
-    - `header: optional map[array of string]`
-
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-    - `method: optional "GET" or "HEAD"`
-
-      The HTTP method to use for the health check.
-
-      - `"GET"`
-
-      - `"HEAD"`
-
-    - `path: optional string`
-
-      The endpoint path to health check against.
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-  - `interval: optional number`
-
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `retries: optional number`
-
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
-
-    The current status of the origin server according to the health check.
-
-    - `"unknown"`
-
-    - `"healthy"`
-
-    - `"unhealthy"`
-
-    - `"suspended"`
-
-  - `suspended: optional boolean`
-
-    If suspended, no health checks are sent to the origin.
-
-  - `tcp_config: optional TCPConfiguration`
-
-    Parameters specific to TCP health check.
-
-    - `method: optional "connection_established"`
-
-      The TCP connection method to use for the health check.
-
-      - `"connection_established"`
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80.
-
-  - `timeout: optional number`
-
-    The timeout (in seconds) before marking the health check as failed.
-
-  - `type: optional string`
-
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks/preview/$HEALTHCHECK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "address": "www.example.com",
-    "check_regions": [
-      "WEU",
-      "ENAM"
-    ],
-    "consecutive_fails": 0,
-    "consecutive_successes": 0,
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Health check for www.example.com",
-    "failure_reason": "",
-    "http_config": {
-      "allow_insecure": true,
-      "expected_body": "success",
-      "expected_codes": [
-        "2xx",
-        "302"
-      ],
-      "follow_redirects": true,
-      "header": {
-        "Host": [
-          "example.com"
-        ],
-        "X-App-ID": [
-          "abc123"
-        ]
-      },
-      "method": "GET",
-      "path": "/health",
-      "port": 0
-    },
-    "interval": 0,
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "server-1",
-    "retries": 0,
-    "status": "healthy",
-    "suspended": true,
-    "tcp_config": {
-      "method": "connection_established",
-      "port": 0
-    },
-    "timeout": 0,
-    "type": "HTTPS"
-  },
-  "success": true
-}
-```
-
-## Create Preview Health Check
-
-**post** `/zones/{zone_id}/healthchecks/preview`
-
-Create a new preview health check.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-### Body Parameters
-
-- `address: string`
-
-  The hostname or IP address of the origin server to run health checks on.
-
-- `name: string`
-
-  A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-- `check_regions: optional array of CheckRegion`
-
-  A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-  - `"WNAM"`
-
-  - `"ENAM"`
-
-  - `"WEU"`
-
-  - `"EEU"`
-
-  - `"NSAM"`
-
-  - `"SSAM"`
-
-  - `"OC"`
-
-  - `"ME"`
-
-  - `"NAF"`
-
-  - `"SAF"`
-
-  - `"IN"`
-
-  - `"SEAS"`
-
-  - `"NEAS"`
-
-  - `"ALL_REGIONS"`
-
-- `consecutive_fails: optional number`
-
-  The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-- `consecutive_successes: optional number`
-
-  The number of consecutive successes required from a health check before changing the health to healthy.
-
-- `description: optional string`
-
-  A human-readable description of the health check.
-
-- `http_config: optional HTTPConfiguration`
-
-  Parameters specific to an HTTP or HTTPS health check.
-
-  - `allow_insecure: optional boolean`
-
-    Do not validate the certificate when the health check uses HTTPS.
-
-  - `expected_body: optional string`
-
-    A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-  - `expected_codes: optional array of string`
-
-    The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-  - `follow_redirects: optional boolean`
-
-    Follow redirects if the origin returns a 3xx status code.
-
-  - `header: optional map[array of string]`
-
-    The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-  - `method: optional "GET" or "HEAD"`
-
-    The HTTP method to use for the health check.
-
-    - `"GET"`
-
-    - `"HEAD"`
-
-  - `path: optional string`
-
-    The endpoint path to health check against.
-
-  - `port: optional number`
-
-    Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-- `interval: optional number`
-
-  The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-- `retries: optional number`
-
-  The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-- `suspended: optional boolean`
-
-  If suspended, no health checks are sent to the origin.
-
-- `tcp_config: optional TCPConfiguration`
-
-  Parameters specific to TCP health check.
-
-  - `method: optional "connection_established"`
-
-    The TCP connection method to use for the health check.
-
-    - `"connection_established"`
-
-  - `port: optional number`
-
-    Port number to connect to for the health check. Defaults to 80.
-
-- `timeout: optional number`
-
-  The timeout (in seconds) before marking the health check as failed.
-
-- `type: optional string`
-
-  The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Healthcheck`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `address: optional string`
-
-    The hostname or IP address of the origin server to run health checks on.
-
-  - `check_regions: optional array of CheckRegion`
-
-    A list of regions from which to run health checks. Null means Cloudflare will pick a default region.
-
-    - `"WNAM"`
-
-    - `"ENAM"`
-
-    - `"WEU"`
-
-    - `"EEU"`
-
-    - `"NSAM"`
-
-    - `"SSAM"`
-
-    - `"OC"`
-
-    - `"ME"`
-
-    - `"NAF"`
-
-    - `"SAF"`
-
-    - `"IN"`
-
-    - `"SEAS"`
-
-    - `"NEAS"`
-
-    - `"ALL_REGIONS"`
-
-  - `consecutive_fails: optional number`
-
-    The number of consecutive fails required from a health check before changing the health to unhealthy.
-
-  - `consecutive_successes: optional number`
-
-    The number of consecutive successes required from a health check before changing the health to healthy.
-
-  - `created_on: optional string`
-
-  - `description: optional string`
-
-    A human-readable description of the health check.
-
-  - `failure_reason: optional string`
-
-    The current failure reason if status is unhealthy.
-
-  - `http_config: optional HTTPConfiguration`
-
-    Parameters specific to an HTTP or HTTPS health check.
-
-    - `allow_insecure: optional boolean`
-
-      Do not validate the certificate when the health check uses HTTPS.
-
-    - `expected_body: optional string`
-
-      A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.
-
-    - `expected_codes: optional array of string`
-
-      The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.
-
-    - `follow_redirects: optional boolean`
-
-      Follow redirects if the origin returns a 3xx status code.
-
-    - `header: optional map[array of string]`
-
-      The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden.
-
-    - `method: optional "GET" or "HEAD"`
-
-      The HTTP method to use for the health check.
-
-      - `"GET"`
-
-      - `"HEAD"`
-
-    - `path: optional string`
-
-      The endpoint path to health check against.
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.
-
-  - `interval: optional number`
-
-    The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `retries: optional number`
-
-    The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.
-
-  - `status: optional "unknown" or "healthy" or "unhealthy" or "suspended"`
-
-    The current status of the origin server according to the health check.
-
-    - `"unknown"`
-
-    - `"healthy"`
-
-    - `"unhealthy"`
-
-    - `"suspended"`
-
-  - `suspended: optional boolean`
-
-    If suspended, no health checks are sent to the origin.
-
-  - `tcp_config: optional TCPConfiguration`
-
-    Parameters specific to TCP health check.
-
-    - `method: optional "connection_established"`
-
-      The TCP connection method to use for the health check.
-
-      - `"connection_established"`
-
-    - `port: optional number`
-
-      Port number to connect to for the health check. Defaults to 80.
-
-  - `timeout: optional number`
-
-    The timeout (in seconds) before marking the health check as failed.
-
-  - `type: optional string`
-
-    The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks/preview \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "address": "www.example.com",
-          "name": "server-1",
-          "check_regions": [
-            "WEU",
-            "ENAM"
-          ],
-          "description": "Health check for www.example.com",
-          "type": "HTTPS"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "address": "www.example.com",
-    "check_regions": [
-      "WEU",
-      "ENAM"
-    ],
-    "consecutive_fails": 0,
-    "consecutive_successes": 0,
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "description": "Health check for www.example.com",
-    "failure_reason": "",
-    "http_config": {
-      "allow_insecure": true,
-      "expected_body": "success",
-      "expected_codes": [
-        "2xx",
-        "302"
-      ],
-      "follow_redirects": true,
-      "header": {
-        "Host": [
-          "example.com"
-        ],
-        "X-App-ID": [
-          "abc123"
-        ]
-      },
-      "method": "GET",
-      "path": "/health",
-      "port": 0
-    },
-    "interval": 0,
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "server-1",
-    "retries": 0,
-    "status": "healthy",
-    "suspended": true,
-    "tcp_config": {
-      "method": "connection_established",
-      "port": 0
-    },
-    "timeout": 0,
-    "type": "HTTPS"
-  },
-  "success": true
-}
-```
-
-## Delete Preview Health Check
-
-**delete** `/zones/{zone_id}/healthchecks/preview/{healthcheck_id}`
-
-Delete a health check.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `healthcheck_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id }`
-
-  - `id: optional string`
-
-    Identifier
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/healthchecks/preview/$HEALTHCHECK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Preview Delete Response
-
-- `PreviewDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier
+[Link to this property](#)%20healthchecks.previews%20%3E%20(model)%20preview_delete_response%20%3E%20(schema)>)

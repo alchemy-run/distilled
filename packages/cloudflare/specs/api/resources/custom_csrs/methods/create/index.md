@@ -1,164 +1,378 @@
-## Create Custom CSR
+---
+title: Create Custom CSR
+---
 
-**post** `/{accounts_or_zones}/{account_or_zone_id}/custom_csrs`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Custom Csrs](https://developers.cloudflare.com/api/resources/custom_csrs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create Custom CSR
+
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/custom\_csrs
 
 Generate a new custom Certificate Signing Request (CSR) for an account or zone. Cloudflare generates and securely stores the private key associated with the CSR.
 
-### Path Parameters
+##### Security
 
-- `account_id: optional string`
+<details>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+<summary>API Token</summary>
 
-- `zone_id: optional string`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `common_name: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  The common name (domain) for the CSR. Must be at most 64 characters.
+</details>
 
-- `country: string`
+<details>
 
-  Two-letter ISO 3166-1 alpha-2 country code.
+<summary>API Email + API Key</summary>
 
-- `locality: string`
 
-  City or locality name.
 
-- `organization: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Organization name.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `sans: array of string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Subject Alternative Names for the CSR. At least one SAN is required.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `state: string`
+</details>
 
-  State or province name.
+##### Accepted Permissions (at least one required)
 
-- `description: optional string`
+`Account: SSL and Certificates Write`
 
-  Optional description for the CSR.
+##### P ath ParametersExpand Collapse
 
-- `key_type: optional "rsa2048" or "p256v1"`
+account\_id: optional string
 
-  Key algorithm to use for the CSR. Defaults to rsa2048 if not specified.
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-  - `"rsa2048"`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `"p256v1"`
+zone\_id: optional string
 
-- `name: optional string`
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-  Human-readable name for the CSR.
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `organizational_unit: optional string`
+##### Body ParametersJSONExpand Collapse
 
-  Organizational unit name.
+common\_name: string
 
-### Returns
+The common name (domain) for the CSR. Must be at most 64 characters.
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength64
 
-  - `code: number`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20common_name%20%3E%20(schema)>)
 
-  - `message: string`
+country: string
 
-  - `documentation_url: optional string`
+Two-letter ISO 3166-1 alpha-2 country code.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20country%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+locality: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+City or locality name.
 
-  - `code: number`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20locality%20%3E%20(schema)>)
 
-  - `message: string`
+organization: string
 
-  - `documentation_url: optional string`
+Organization name.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20organization%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+sans: array of string
 
-- `success: true`
+Subject Alternative Names for the CSR. At least one SAN is required.
 
-  Whether the API call was successful.
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20sans%20%3E%20(schema)>)
 
-  - `true`
+state: string
 
-- `result: optional object { id, created_at, key_type, 11 more }`
+State or province name.
 
-  A custom Certificate Signing Request (CSR).
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20state%20%3E%20(schema)>)
 
-  - `id: string`
+description: optional string
 
-    Custom CSR identifier tag.
+Optional description for the CSR.
 
-  - `created_at: string`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    When the CSR was created.
+<details>
 
-  - `key_type: "rsa2048" or "p256v1"`
+<summary>
 
-    The key algorithm used to generate the CSR.
+key\_type: optional "rsa2048"or "p256v1"
 
-    - `"rsa2048"`
+Key algorithm to use for the CSR. Defaults to rsa2048 if not specified.
 
-    - `"p256v1"`
+</summary>
 
-  - `account_tag: optional string`
+One of the following:
 
-    Account identifier associated with this CSR.
+"rsa2048"
 
-  - `common_name: optional string`
+<a href="#">Link to this property</a>
 
-    The common name (domain) for the CSR.
+"p256v1"
 
-  - `country: optional string`
+<a href="#">Link to this property</a>
 
-    Two-letter ISO 3166-1 alpha-2 country code.
+</details>
 
-  - `csr: optional string`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20key_type%20%3E%20(schema)>)
 
-    The PEM-encoded Certificate Signing Request.
+name: optional string
 
-  - `description: optional string`
+Human-readable name for the CSR.
 
-    Optional description for the CSR.
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `locality: optional string`
+organizational\_unit: optional string
 
-    City or locality name.
+Organizational unit name.
 
-  - `name: optional string`
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20organizational_unit%20%3E%20(schema)>)
 
-    Human-readable name for the CSR.
+##### ReturnsExpand Collapse
 
-  - `organization: optional string`
+<details>
 
-    Organization name.
+<summary>
 
-  - `organizational_unit: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-    Organizational unit name.
+</summary>
 
-  - `sans: optional array of string`
+code: number
 
-    Subject Alternative Names included in the CSR.
+minimum1000
 
-  - `state: optional string`
+<a href="#">Link to this property</a>
 
-    State or province name.
+message: string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, created\_at, key\_type, 11 more }
+
+A custom Certificate Signing Request (CSR).
+
+</summary>
+
+id: string
+
+Custom CSR identifier tag.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When the CSR was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+key\_type: "rsa2048"or "p256v1"
+
+The key algorithm used to generate the CSR.
+
+</summary>
+
+One of the following:
+
+"rsa2048"
+
+<a href="#">Link to this property</a>
+
+"p256v1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+account\_tag: optional string
+
+Account identifier associated with this CSR.
+
+<a href="#">Link to this property</a>
+
+common\_name: optional string
+
+The common name (domain) for the CSR.
+
+maxLength64
+
+<a href="#">Link to this property</a>
+
+country: optional string
+
+Two-letter ISO 3166-1 alpha-2 country code.
+
+<a href="#">Link to this property</a>
+
+csr: optional string
+
+The PEM-encoded Certificate Signing Request.
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+Optional description for the CSR.
+
+<a href="#">Link to this property</a>
+
+locality: optional string
+
+City or locality name.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Human-readable name for the CSR.
+
+<a href="#">Link to this property</a>
+
+organization: optional string
+
+Organization name.
+
+<a href="#">Link to this property</a>
+
+organizational\_unit: optional string
+
+Organizational unit name.
+
+<a href="#">Link to this property</a>
+
+sans: optional array of string
+
+Subject Alternative Names included in the CSR.
+
+<a href="#">Link to this property</a>
+
+state: optional string
+
+State or province name.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20custom_csrs%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create Custom CSR
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/custom_csrs \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -179,9 +393,58 @@ curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "7b163417-1d2b-4c84-a38a-2fb7a0cd7752",
+    "created_at": "2024-01-15T10:30:00Z",
+    "key_type": "rsa2048",
+    "account_tag": "23e087bd19bc1d40ae95b6f297263ceb",
+    "common_name": "example.com",
+    "country": "US",
+    "csr": "-----BEGIN CERTIFICATE REQUEST-----\nMIICYzCCAUsCAQAwHj...",
+    "description": "CSR for example.com wildcard",
+    "locality": "San Francisco",
+    "name": "My Custom CSR",
+    "organization": "Cloudflare, Inc.",
+    "organizational_unit": "Engineering",
+    "sans": [
+      "example.com",
+      "www.example.com"
+    ],
+    "state": "California"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

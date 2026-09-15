@@ -1,111 +1,283 @@
-## List IP profiles
+---
+title: List IP profiles
+---
 
-**get** `/accounts/{account_id}/devices/ip-profiles`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[IP Profiles](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/ip_profiles)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List IP profiles
+
+GET/accounts/{account\_id}/devices/ip-profiles
 
 Lists WARP Device IP profiles.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `page: optional number`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  The page number to return.
+##### Accepted Permissions (at least one required)
 
-- `per_page: optional number`
+`Zero Trust Read``Zero Trust Write`
 
-  The number of IP profiles to return per page.
+##### P ath ParametersExpand Collapse
 
-### Returns
+account\_id: string
 
-- `errors: array of object { code, message }`
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `code: number`
+##### Q uery ParametersExpand Collapse
 
-  - `message: string`
+page: optional number
 
-- `messages: array of object { code, message }`
+The page number to return.
 
-  - `code: number`
+minimum1
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-- `result: array of IPProfile`
+per\_page: optional number
 
-  - `id: string`
+The number of IP profiles to return per page.
 
-    The ID of the Device IP profile.
+maximum100
 
-  - `created_at: string`
+minimum1
 
-    The RFC3339Nano timestamp when the Device IP profile was created.
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `description: string`
+##### ReturnsExpand Collapse
 
-    An optional description of the Device IP profile.
+<details>
 
-  - `enabled: boolean`
+<summary>
 
-    Whether the Device IP profile is enabled.
+errors: array of object {code, message }
 
-  - `match: string`
+</summary>
 
-    The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".
+code: number
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for the Device IP profile.
+message: string
 
-  - `precedence: number`
+<a href="#">Link to this property</a>
 
-    The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+</details>
 
-  - `subnet_id: string`
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    The ID of the Subnet.
+<details>
 
-  - `updated_at: string`
+<summary>
 
-    The RFC3339Nano timestamp when the Device IP profile was last updated.
+messages: array of object {code, message }
 
-- `success: boolean`
+</summary>
 
-  Whether the API call was successful.
+code: number
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: number`
+message: string
 
-    Number of records in the response.
+<a href="#">Link to this property</a>
 
-  - `page: number`
+</details>
 
-    The page size number of the response.
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-  - `per_page: number`
+<details>
 
-    The limit for the number of records in the response.
+<summary>
 
-  - `total_count: number`
+result: array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.ip_profiles%20%3E%20(model)%20ip_profile%20%3E%20(schema)">IPProfile</a> { id, created\_at, description, 6 more }
 
-    Total number of records available.
+</summary>
 
-  - `total_pages: optional number`
+id: string
 
-    Total number of pages available.
+The ID of the Device IP profile.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+created\_at: string
+
+The RFC3339Nano timestamp when the Device IP profile was created.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+An optional description of the Device IP profile.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Whether the Device IP profile is enabled.
+
+<a href="#">Link to this property</a>
+
+match: string
+
+The wirefilter expression to match registrations. Available values: “identity.name”, “identity.email”, “identity.groups.id”, “identity.groups.name”, “identity.groups.email”, “identity.saml\_attributes”.
+
+maxLength10000
+
+<a href="#">Link to this property</a>
+
+name: string
+
+A user-friendly name for the Device IP profile.
+
+<a href="#">Link to this property</a>
+
+precedence: number
+
+The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.
+
+<a href="#">Link to this property</a>
+
+subnet\_id: string
+
+The ID of the Subnet.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+The RFC3339Nano timestamp when the Device IP profile was last updated.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: number
+
+Number of records in the response.
+
+<a href="#">Link to this property</a>
+
+page: number
+
+The page size number of the response.
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+The limit for the number of records in the response.
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+Total number of records available.
+
+<a href="#">Link to this property</a>
+
+total\_pages: optional number
+
+Total number of pages available.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.ip_profiles%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List IP profiles
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/ip-profiles \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": [
+    {
+      "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+      "created_at": "2025-02-14T13:17:00.123456789Z",
+      "description": "example comment",
+      "enabled": true,
+      "match": "identity.email == \"test@cloudflare.com\"",
+      "name": "IPv4 Cloudflare Source IPs",
+      "precedence": 100,
+      "subnet_id": "b70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+      "updated_at": "2025-02-14T13:17:00.123456789Z"
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 10,
+    "total_count": 10,
+    "total_pages": 1
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

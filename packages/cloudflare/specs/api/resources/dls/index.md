@@ -1,926 +1,417 @@
+---
+title: Data Localization Suite
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Data Localization Suite
 
-# Regions
+#### Data Localization SuiteRegions
 
-## List DLS regions for an account
+##### [List DLS regions for an account](https://developers.cloudflare.com/api/resources/dls/subresources/regions/methods/list)
 
-**get** `/accounts/{account_id}/dls/regions`
+GET/accounts/{account\_id}/dls/regions
 
-List DLS regions for an account
+##### [Get a DLS region](https://developers.cloudflare.com/api/resources/dls/subresources/regions/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/dls/regions/{region\_id}
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier of a Cloudflare account.
+<details>
 
-### Query Parameters
+<summary>
 
-- `cursor: optional string`
+RegionListResponse object {id, created\_on, modified\_on, 4 more }
 
-  Opaque token for cursor-based pagination. Omit for the first page. Pass the value from a previous response to fetch the next page.
+</summary>
 
-- `per_page: optional number`
+id: string
 
-- `type: optional "managed" or "custom"`
+<a href="#">Link to this property</a>
 
-  Filter regions by type. Omit to return all regions.
+created\_on: string
 
-  - `"managed"`
+formatdate-time
 
-  - `"custom"`
+<a href="#">Link to this property</a>
 
-### Returns
+modified\_on: string
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+name: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+region\_key: string
 
-    - `pointer: optional string`
+maxLength128
 
-- `messages: array of ResponseInfo`
+minLength1
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+version: number
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+version\_created\_on: string
 
-- `result: array of object { id, created_on, modified_on, 4 more }`
+formatdate-time
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-  - `modified_on: string`
+[Link to this property](#)%20dls.regions%20%3E%20(model)%20region_list_response%20%3E%20(schema)>)
 
-  - `name: string`
+<details>
 
-  - `region_key: string`
+<summary>
 
-  - `version: number`
+RegionGetResponse object {id, created\_on, modified\_on, 4 more }
 
-  - `version_created_on: string`
+</summary>
 
-- `result_info: object { count, cursor, per_page }`
+id: string
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-    Number of items in the current page.
+created\_on: string
 
-  - `cursor: string`
+formatdate-time
 
-    Opaque cursor for the next page. Empty string when there are no more results.
+<a href="#">Link to this property</a>
 
-  - `per_page: number`
+modified\_on: string
 
-    Maximum number of items per page.
+formatdate-time
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+name: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+region\_key: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "modified_on": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "region_key": "x",
-      "version": 0,
-      "version_created_on": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "cursor": "cursor",
-    "per_page": 0
-  },
-  "success": true
-}
-```
-
-## Get a DLS region
-
-**get** `/accounts/{account_id}/dls/regions/{region_id}`
-
-Get a DLS region
-
-### Path Parameters
+maxLength128
 
-- `account_id: string`
+minLength1
 
-  Identifier of a Cloudflare account.
+<a href="#">Link to this property</a>
 
-- `region_id: string`
+version: number
 
-  UUID of the region (custom or managed) or region_key of a managed region.
+<a href="#">Link to this property</a>
 
-### Returns
+version\_created\_on: string
 
-- `messages: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20dls.regions%20%3E%20(model)%20region_get_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+#### Data Localization SuiteRegional Services
 
-    - `pointer: optional string`
+#### Data Localization SuiteRegional ServicesPrefix Bindings
 
-- `result: object { id, created_on, modified_on, 4 more }`
+##### [List DLS prefix bindings for an account](https://developers.cloudflare.com/api/resources/dls/subresources/regional_services/subresources/prefix_bindings/methods/list)
 
-  - `id: string`
+GET/accounts/{account\_id}/dls/regional\_services/prefix\_bindings
 
-  - `created_on: string`
+##### [Get a DLS prefix binding](https://developers.cloudflare.com/api/resources/dls/subresources/regional_services/subresources/prefix_bindings/methods/get)
 
-  - `modified_on: string`
+GET/accounts/{account\_id}/dls/regional\_services/prefix\_bindings/{binding\_id}
 
-  - `name: string`
+##### [Create a DLS prefix binding](https://developers.cloudflare.com/api/resources/dls/subresources/regional_services/subresources/prefix_bindings/methods/create)
 
-  - `region_key: string`
+POST/accounts/{account\_id}/dls/regional\_services/prefix\_bindings
 
-  - `version: number`
+##### [Update a DLS prefix binding](https://developers.cloudflare.com/api/resources/dls/subresources/regional_services/subresources/prefix_bindings/methods/edit)
 
-  - `version_created_on: string`
+PATCH/accounts/{account\_id}/dls/regional\_services/prefix\_bindings/{binding\_id}
 
-- `success: boolean`
+##### [Delete a DLS prefix binding](https://developers.cloudflare.com/api/resources/dls/subresources/regional_services/subresources/prefix_bindings/methods/delete)
 
-- `errors: optional array of ResponseInfo`
+DELETE/accounts/{account\_id}/dls/regional\_services/prefix\_bindings/{binding\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+PrefixBindingListResponse object {id, cidr, prefix\_id, region\_key }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regions/$REGION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: string
 
-#### Response
+The ID of the binding.
 
-```json
-{
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "region_key": "x",
-    "version": 0,
-    "version_created_on": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+cidr: string
 
-### Region List Response
+The CIDR that is bound.
 
-- `RegionListResponse object { id, created_on, modified_on, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+prefix\_id: string
 
-  - `created_on: string`
+The ID of the parent prefix.
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+region\_key: string
 
-  - `region_key: string`
+The region key used for the binding.
 
-  - `version: number`
+maxLength128
 
-  - `version_created_on: string`
+minLength1
 
-### Region Get Response
+<a href="#">Link to this property</a>
 
-- `RegionGetResponse object { id, created_on, modified_on, 4 more }`
+</details>
 
-  - `id: string`
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(model)%20prefix_binding_list_response%20%3E%20(schema)>)
 
-  - `created_on: string`
+<details>
 
-  - `modified_on: string`
+<summary>
 
-  - `name: string`
+PrefixBindingGetResponse object {id, cidr, prefix\_id, region\_key }
 
-  - `region_key: string`
+</summary>
 
-  - `version: number`
+id: string
 
-  - `version_created_on: string`
+The ID of the binding.
 
-# Regional Services
+<a href="#">Link to this property</a>
 
-# Prefix Bindings
+cidr: string
 
-## List DLS prefix bindings for an account
+The CIDR that is bound.
 
-**get** `/accounts/{account_id}/dls/regional_services/prefix_bindings`
+<a href="#">Link to this property</a>
 
-List DLS prefix bindings for an account
+prefix\_id: string
 
-### Path Parameters
+The ID of the parent prefix.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier of a Cloudflare account.
+region\_key: string
 
-### Query Parameters
+The region key used for the binding.
 
-- `cursor: optional string`
+maxLength128
 
-  Opaque token for cursor-based pagination. Omit for the first page. Pass the value from a previous response to fetch the next page.
+minLength1
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(model)%20prefix_binding_get_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+PrefixBindingCreateResponse object {id, cidr, prefix\_id, region\_key }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `messages: array of ResponseInfo`
+The ID of the binding.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+cidr: string
 
-  - `documentation_url: optional string`
+The CIDR that is bound.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: array of object { id, cidr, prefix_id, region_key }`
+prefix\_id: string
 
-  - `id: string`
+The ID of the parent prefix.
 
-    The ID of the binding.
+<a href="#">Link to this property</a>
 
-  - `cidr: string`
+region\_key: string
 
-    The CIDR that is bound.
+The region key used for the binding.
 
-  - `prefix_id: string`
+maxLength128
 
-    The ID of the parent prefix.
+minLength1
 
-  - `region_key: string`
+<a href="#">Link to this property</a>
 
-    The region key used for the binding.
+</details>
 
-- `result_info: object { count, cursor, per_page }`
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(model)%20prefix_binding_create_response%20%3E%20(schema)>)
 
-  - `count: number`
+<details>
 
-    Number of items in the current page.
+<summary>
 
-  - `cursor: string`
+PrefixBindingEditResponse object {id, cidr, prefix\_id, region\_key }
 
-    Opaque cursor for the next page. Empty string when there are no more results.
+</summary>
 
-  - `per_page: number`
+id: string
 
-    Maximum number of items per page.
+The ID of the binding.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+cidr: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regional_services/prefix_bindings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The CIDR that is bound.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "cidr": "cidr",
-      "prefix_id": "prefix_id",
-      "region_key": "x"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "cursor": "cursor",
-    "per_page": 0
-  },
-  "success": true
-}
-```
+prefix\_id: string
 
-## Get a DLS prefix binding
+The ID of the parent prefix.
 
-**get** `/accounts/{account_id}/dls/regional_services/prefix_bindings/{binding_id}`
+<a href="#">Link to this property</a>
 
-Get a DLS prefix binding
+region\_key: string
 
-### Path Parameters
+The region key used for the binding.
 
-- `account_id: string`
+maxLength128
 
-  Identifier of a Cloudflare account.
+minLength1
 
-- `binding_id: string`
+<a href="#">Link to this property</a>
 
-  Unique identifier for the prefix binding.
+</details>
 
-### Returns
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(model)%20prefix_binding_edit_response%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+PrefixBindingDeleteResponse object {messages, success, errors }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `result: object { id, cidr, prefix_id, region_key }`
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `id: string`
+</summary>
 
-    The ID of the binding.
+code: number
 
-  - `cidr: string`
+minimum1000
 
-    The CIDR that is bound.
+<a href="#">Link to this property</a>
 
-  - `prefix_id: string`
+message: string
 
-    The ID of the parent prefix.
+<a href="#">Link to this property</a>
 
-  - `region_key: string`
+documentation\_url: optional string
 
-    The region key used for the binding.
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-- `errors: optional array of ResponseInfo`
+<summary>
 
-  - `code: number`
+source: optional object {pointer }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+pointer: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regional_services/prefix_bindings/$BINDING_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "cidr": "cidr",
-    "prefix_id": "prefix_id",
-    "region_key": "x"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a DLS prefix binding
+success: boolean
 
-**post** `/accounts/{account_id}/dls/regional_services/prefix_bindings`
+<a href="#">Link to this property</a>
 
-Create a DLS prefix binding
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  Identifier of a Cloudflare account.
+maxLength0
 
-### Body Parameters
+</summary>
 
-- `cidr: string`
+code: number
 
-  IP prefix in CIDR notation to bind.
+minimum1000
 
-- `prefix_id: string`
+<a href="#">Link to this property</a>
 
-  The ID of the parent IP prefix that contains the CIDR.
+message: string
 
-- `region_key: string`
+<a href="#">Link to this property</a>
 
-  Region key from managed regions (e.g., "us", "eu").
+documentation\_url: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+source: optional object {pointer }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+pointer: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { id, cidr, prefix_id, region_key }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The ID of the binding.
+</details>
 
-  - `cidr: string`
+<a href="#">Link to this property</a>
 
-    The CIDR that is bound.
+</details>
 
-  - `prefix_id: string`
-
-    The ID of the parent prefix.
-
-  - `region_key: string`
-
-    The region key used for the binding.
-
-- `success: boolean`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regional_services/prefix_bindings \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "cidr": "10.0.1.0/24",
-          "prefix_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-          "region_key": "eu"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "cidr": "cidr",
-    "prefix_id": "prefix_id",
-    "region_key": "x"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Update a DLS prefix binding
-
-**patch** `/accounts/{account_id}/dls/regional_services/prefix_bindings/{binding_id}`
-
-Update a DLS prefix binding
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `binding_id: string`
-
-  Unique identifier for the prefix binding.
-
-### Body Parameters
-
-- `region_key: string`
-
-  New region key to assign (e.g., "us", "eu", "cfcanary").
-
-### Returns
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { id, cidr, prefix_id, region_key }`
-
-  - `id: string`
-
-    The ID of the binding.
-
-  - `cidr: string`
-
-    The CIDR that is bound.
-
-  - `prefix_id: string`
-
-    The ID of the parent prefix.
-
-  - `region_key: string`
-
-    The region key used for the binding.
-
-- `success: boolean`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regional_services/prefix_bindings/$BINDING_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "region_key": "eu"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "cidr": "cidr",
-    "prefix_id": "prefix_id",
-    "region_key": "x"
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Delete a DLS prefix binding
-
-**delete** `/accounts/{account_id}/dls/regional_services/prefix_bindings/{binding_id}`
-
-Delete a DLS prefix binding
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier of a Cloudflare account.
-
-- `binding_id: string`
-
-  Unique identifier for the prefix binding.
-
-### Returns
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: boolean`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dls/regional_services/prefix_bindings/$BINDING_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Prefix Binding List Response
-
-- `PrefixBindingListResponse object { id, cidr, prefix_id, region_key }`
-
-  - `id: string`
-
-    The ID of the binding.
-
-  - `cidr: string`
-
-    The CIDR that is bound.
-
-  - `prefix_id: string`
-
-    The ID of the parent prefix.
-
-  - `region_key: string`
-
-    The region key used for the binding.
-
-### Prefix Binding Get Response
-
-- `PrefixBindingGetResponse object { id, cidr, prefix_id, region_key }`
-
-  - `id: string`
-
-    The ID of the binding.
-
-  - `cidr: string`
-
-    The CIDR that is bound.
-
-  - `prefix_id: string`
-
-    The ID of the parent prefix.
-
-  - `region_key: string`
-
-    The region key used for the binding.
-
-### Prefix Binding Create Response
-
-- `PrefixBindingCreateResponse object { id, cidr, prefix_id, region_key }`
-
-  - `id: string`
-
-    The ID of the binding.
-
-  - `cidr: string`
-
-    The CIDR that is bound.
-
-  - `prefix_id: string`
-
-    The ID of the parent prefix.
-
-  - `region_key: string`
-
-    The region key used for the binding.
-
-### Prefix Binding Edit Response
-
-- `PrefixBindingEditResponse object { id, cidr, prefix_id, region_key }`
-
-  - `id: string`
-
-    The ID of the binding.
-
-  - `cidr: string`
-
-    The CIDR that is bound.
-
-  - `prefix_id: string`
-
-    The ID of the parent prefix.
-
-  - `region_key: string`
-
-    The region key used for the binding.
-
-### Prefix Binding Delete Response
-
-- `PrefixBindingDeleteResponse object { messages, success, errors }`
-
-  - `messages: array of ResponseInfo`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: boolean`
-
-  - `errors: optional array of ResponseInfo`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
+[Link to this property](#)%20dls.regional_services.prefix_bindings%20%3E%20(model)%20prefix_binding_delete_response%20%3E%20(schema)>)

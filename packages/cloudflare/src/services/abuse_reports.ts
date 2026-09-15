@@ -247,7 +247,7 @@ export interface CreateAbuseReportRequest {
   signature?: string;
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   state?: string;
-  /** A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
+  /** A list of valid URLs separated by '\n' (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   urls: string;
   /** Any additional comments about the infringement not exceeding 2000 characters */
   comments?: string;
@@ -269,11 +269,11 @@ export interface CreateAbuseReportRequest {
   trademarkOffice?: string;
   /** Text not exceeding 1000 characters */
   trademarkSymbol?: string;
-  /** A list of IP addresses separated by ‘\n’ (new line character). The list of destination IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique. */
+  /** A list of IP addresses separated by '\n' (new line character). The list of destination IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique. */
   destinationIps?: string;
   /** A comma separated list of ports and protocols e.g. 80/TCP, 22/UDP. The total size of the field should not exceed 2000 characters. Each individual port/protocol should not exceed 100 characters. The list should not have more than 30 unique ports and protocols. */
   portsProtocols?: string;
-  /** A list of IP addresses separated by ‘\n’ (new line character). The list of source IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique. */
+  /** A list of IP addresses separated by '\n' (new line character). The list of source IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique. */
   sourceIps?: string;
   /** Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. */
   ncmecNotification?: CreateRequestNcmecNotification | (string & {});
@@ -466,6 +466,292 @@ export const GetResponse = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetResponse" }) as any as S.Schema<GetResponse>;
 
+export interface GetSubmittedRequest {
+  accountId: string;
+  reportId: string;
+}
+export const GetSubmittedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    reportId: S.String.pipe(T.Label("report_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/abuse-reports/submitted/{report_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetSubmittedRequest",
+}) as any as S.Schema<GetSubmittedRequest>;
+
+export type GetSubmittedResponseDenialReason =
+  | "unable_to_confirm"
+  | "incomplete_report"
+  | "not_on_cloudflare"
+  | "duplicate_report"
+  | "content_removed"
+  | "report_details_mismatch"
+  | "no_abuse_found"
+  | "missing_original_work"
+  | "direct_url_required"
+  | "wrong_report_category"
+  | "content_unavailable"
+  | "law_enforcement_referral_required"
+  | "domain_dispute_process_required";
+export const GetSubmittedResponseDenialReason = S.String;
+
+export type GetSubmittedResponseStatus = "submitted" | "accepted" | "denied";
+export const GetSubmittedResponseStatus = S.String;
+
+export type GetSubmittedResponseType =
+  | "PHISH"
+  | "GEN"
+  | "THREAT"
+  | "DMCA"
+  | "EMER"
+  | "TM"
+  | "REG_WHO"
+  | "NCSEI"
+  | "NETWORK";
+export const GetSubmittedResponseType = S.String;
+
+export type GetSubmittedResponseUrlsList = Array<string>;
+export const GetSubmittedResponseUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSubmittedResponseUrlsList>;
+
+export type GetSubmittedResponseDestinationIpsList = Array<string>;
+export const GetSubmittedResponseDestinationIpsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSubmittedResponseDestinationIpsList>;
+
+export type GetSubmittedResponsePortsProtocolsList = Array<string>;
+export const GetSubmittedResponsePortsProtocolsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSubmittedResponsePortsProtocolsList>;
+
+export type GetSubmittedResponseRegWhoRequestRegWhoRequestType =
+  | "disclosure"
+  | "invalid_whois";
+export const GetSubmittedResponseRegWhoRequestRegWhoRequestType = S.String;
+
+export type GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsItem =
+  | "registrant_name"
+  | "registrant_organization"
+  | "registrant_email"
+  | "registrant_phone"
+  | "registrant_address"
+  | "registrant_address_country"
+  | "registrant_address_postal_code"
+  | "admin_name"
+  | "admin_organization"
+  | "admin_email"
+  | "admin_phone"
+  | "admin_address"
+  | "tech_name"
+  | "tech_organization"
+  | "tech_email"
+  | "tech_phone"
+  | "tech_address";
+export const GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsItem =
+  S.String;
+
+export type GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsList =
+  Array<GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsItem>;
+export const GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsList =
+  /*@__PURE__*/ S.Array(
+    GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsItem,
+  ) as any as S.Schema<GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsList>;
+
+export type GetSubmittedResponseRegWhoRequestRegWhoRequestorType =
+  | "government"
+  | "corporation"
+  | "individual";
+export const GetSubmittedResponseRegWhoRequestRegWhoRequestorType = S.String;
+
+export interface GetSubmittedResponseRegWhoRequest {
+  /** Affirmation that the request is made in good faith per RDP 10.2.4. Must be true. */
+  regWhoGoodFaithAffirmation: boolean;
+  /** Agreement to process data lawfully per RDP 10.2.5. Must be true. */
+  regWhoLawfulProcessingAgreement: boolean;
+  /** Legal rights and rationale for the request per RDP 10.2.3. Required for all WHOIS requests. */
+  regWhoLegalBasis: string;
+  /** The type of WHOIS data request per RDP procedure. */
+  regWhoRequestType: GetSubmittedResponseRegWhoRequestRegWhoRequestType;
+  /** The specific WHOIS data elements being requested per RDP 10.2.2. Required for all WHOIS requests. */
+  regWhoRequestedDataElements: GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsList;
+  /** Optional authorization statement or power of attorney per RDP 10.2.1.3. */
+  regWhoAuthorizationStatement?: string | null;
+  /** The nature of the requestor per RDP 10.2.1.2. */
+  regWhoRequestorType?: GetSubmittedResponseRegWhoRequestRegWhoRequestorType | null;
+}
+export const GetSubmittedResponseRegWhoRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    regWhoGoodFaithAffirmation: S.Boolean.pipe(
+      T.Body("reg_who_good_faith_affirmation"),
+    ),
+    regWhoLawfulProcessingAgreement: S.Boolean.pipe(
+      T.Body("reg_who_lawful_processing_agreement"),
+    ),
+    regWhoLegalBasis: S.String.pipe(T.Body("reg_who_legal_basis")),
+    regWhoRequestType: GetSubmittedResponseRegWhoRequestRegWhoRequestType.pipe(
+      T.Body("reg_who_request_type"),
+    ),
+    regWhoRequestedDataElements:
+      GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsList.pipe(
+        T.Body("reg_who_requested_data_elements"),
+      ),
+    regWhoAuthorizationStatement: S.optional(
+      S.NullOr(S.String).pipe(T.Body("reg_who_authorization_statement")),
+    ),
+    regWhoRequestorType: S.optional(
+      S.NullOr(GetSubmittedResponseRegWhoRequestRegWhoRequestorType).pipe(
+        T.Body("reg_who_requestor_type"),
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "GetSubmittedResponseRegWhoRequest",
+}) as any as S.Schema<GetSubmittedResponseRegWhoRequest>;
+
+export type GetSubmittedResponseSourceIpsList = Array<string>;
+export const GetSubmittedResponseSourceIpsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSubmittedResponseSourceIpsList>;
+
+export type GetSubmittedResponseSubmitter = GetResponseSubmitter;
+export const GetSubmittedResponseSubmitter = GetResponseSubmitter;
+
+export type GetSubmittedResponseSubtypesList = Array<string>;
+export const GetSubmittedResponseSubtypesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSubmittedResponseSubtypesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetSubmittedResponse {
+  /** Public report code. */
+  id: string;
+  /** Time the report was submitted. */
+  cdate: string;
+  /** Submitter-safe reason for a denied report. Null when unavailable. */
+  denialReason: GetSubmittedResponseDenialReason;
+  /** Domain identified in the report. */
+  domain: string;
+  /** Whether the submitter provided the Digital Services Act attestation. */
+  dsaAttestation: boolean;
+  /** Status visible to the account that submitted the report. */
+  status: GetSubmittedResponseStatus;
+  /** The abuse report type */
+  type: GetSubmittedResponseType;
+  /** URLs supplied with the report. */
+  urls: GetSubmittedResponseUrlsList;
+  /** Authorized agent name supplied with the report. */
+  agentName?: string | null;
+  /** Additional comments supplied with the report. */
+  comments?: string | null;
+  /** The string "on" when a court proceeding applies to the report; otherwise omitted. */
+  court?: string | null;
+  /** Destination IP addresses supplied with a network abuse report. */
+  destinationIps?: GetSubmittedResponseDestinationIpsList | null;
+  /** Submitter preference for notifying the hosting provider. */
+  hostNotification?: string | null;
+  /** Evidence supplied with the report. */
+  justification?: string | null;
+  /** Submitter preference for notifying NCMEC. */
+  ncmecNotification?: string | null;
+  /** Representation supplied for an NCSEI report. */
+  ncseiSubjectRepresentation?: boolean | null;
+  /** Original work or targeted brand supplied with the report. */
+  originalWork?: string | null;
+  /** Submitter preference for notifying the content owner. */
+  ownerNotification?: string | null;
+  /** Ports and protocols supplied with a network abuse report. */
+  portsProtocols?: GetSubmittedResponsePortsProtocolsList | null;
+  /** RDP-mandated fields for registrar WHOIS data disclosure requests. */
+  regWhoRequest?: GetSubmittedResponseRegWhoRequest | null;
+  /** Country associated with the reported activity. */
+  reportedCountry?: string | null;
+  /** User agent associated with the reported activity. */
+  reportedUserAgent?: string | null;
+  /** Source IP addresses supplied with a network abuse report. */
+  sourceIps?: GetSubmittedResponseSourceIpsList | null;
+  /** Information about the submitter of the report. */
+  submitter?: GetResponseSubmitter | null;
+  /** Additional abuse classifications supplied with the report. */
+  subtypes?: GetSubmittedResponseSubtypesList | null;
+  /** Title supplied with the report. */
+  title?: string | null;
+  /** The string "on" when a UDRP proceeding applies to the report; otherwise omitted. */
+  udrp?: string | null;
+  /** The string "on" when a URS proceeding applies to the report; otherwise omitted. */
+  urs?: string | null;
+}
+export const GetSubmittedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    cdate: S.String,
+    denialReason: GetSubmittedResponseDenialReason.pipe(
+      T.Body("denial_reason"),
+    ),
+    domain: S.String,
+    dsaAttestation: S.Boolean.pipe(T.Body("dsa_attestation")),
+    status: GetSubmittedResponseStatus,
+    type: GetSubmittedResponseType,
+    urls: GetSubmittedResponseUrlsList,
+    agentName: S.optional(S.NullOr(S.String).pipe(T.Body("agent_name"))),
+    comments: S.optional(S.NullOr(S.String)),
+    court: S.optional(S.NullOr(S.String)),
+    destinationIps: S.optional(
+      S.NullOr(GetSubmittedResponseDestinationIpsList).pipe(
+        T.Body("destination_ips"),
+      ),
+    ),
+    hostNotification: S.optional(
+      S.NullOr(S.String).pipe(T.Body("host_notification")),
+    ),
+    justification: S.optional(S.NullOr(S.String)),
+    ncmecNotification: S.optional(
+      S.NullOr(S.String).pipe(T.Body("ncmec_notification")),
+    ),
+    ncseiSubjectRepresentation: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("ncsei_subject_representation")),
+    ),
+    originalWork: S.optional(S.NullOr(S.String).pipe(T.Body("original_work"))),
+    ownerNotification: S.optional(
+      S.NullOr(S.String).pipe(T.Body("owner_notification")),
+    ),
+    portsProtocols: S.optional(
+      S.NullOr(GetSubmittedResponsePortsProtocolsList).pipe(
+        T.Body("ports_protocols"),
+      ),
+    ),
+    regWhoRequest: S.optional(
+      S.NullOr(GetSubmittedResponseRegWhoRequest).pipe(
+        T.Body("reg_who_request"),
+      ),
+    ),
+    reportedCountry: S.optional(
+      S.NullOr(S.String).pipe(T.Body("reported_country")),
+    ),
+    reportedUserAgent: S.optional(
+      S.NullOr(S.String).pipe(T.Body("reported_user_agent")),
+    ),
+    sourceIps: S.optional(
+      S.NullOr(GetSubmittedResponseSourceIpsList).pipe(T.Body("source_ips")),
+    ),
+    submitter: S.optional(S.NullOr(GetResponseSubmitter)),
+    subtypes: S.optional(S.NullOr(GetSubmittedResponseSubtypesList)),
+    title: S.optional(S.NullOr(S.String)),
+    udrp: S.optional(S.NullOr(S.String)),
+    urs: S.optional(S.NullOr(S.String)),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetSubmittedResponse",
+}) as any as S.Schema<GetSubmittedResponse>;
+
 export type ListRequestMitigationStatus =
   | "pending"
   | "active"
@@ -625,7 +911,8 @@ export const ListAbuseReportsResponse = /*@__PURE__*/ S.suspend(() =>
 export type MitigationsListRequestEntityType =
   | "url_pattern"
   | "account"
-  | "zone";
+  | "zone"
+  | "custom_expression";
 export const MitigationsListRequestEntityType = S.String;
 
 export type MitigationsListRequestSort =
@@ -647,28 +934,6 @@ export type MitigationsListRequestStatus =
   | "removed";
 export const MitigationsListRequestStatus = S.String;
 
-export type MitigationsListRequestType =
-  | "account_suspend"
-  | "copyright_interstitial"
-  | "geo_block"
-  | "legal_block"
-  | "malware_interstitial"
-  | "misleading_interstitial"
-  | "network_block"
-  | "phishing_interstitial"
-  | "playfairite_enforce"
-  | "r2_takedown_account"
-  | "r2_takedown_bucket"
-  | "r2_takedown_object"
-  | "rate_limit_cache"
-  | "redirect_video_stream"
-  | "registrar_freeze"
-  | "registrar_parking"
-  | "stream_block_account"
-  | "user_suspend"
-  | "workers_takedown_by_zone_id";
-export const MitigationsListRequestType = S.String;
-
 export interface ListMitigationsRequest {
   accountId: string;
   reportId: string;
@@ -686,8 +951,8 @@ export interface ListMitigationsRequest {
   sort?: MitigationsListRequestSort | (string & {});
   /** Filter by the status of the mitigation. */
   status?: MitigationsListRequestStatus | (string & {});
-  /** Filter by the type of mitigation. This filter parameter can be specified multiple times to include multiple types of mitigations in the result set, e.g. ?type=rate_limit_cache&type=legal_block. */
-  type?: MitigationsListRequestType | (string & {});
+  /** Filter by the type of mitigation. This filter parameter can be specified multiple times to include multiple types of mitigations in the result set. */
+  type?: string;
 }
 export const ListMitigationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -702,7 +967,7 @@ export const ListMitigationsRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     sort: S.optional(MitigationsListRequestSort.pipe(T.Query())),
     status: S.optional(MitigationsListRequestStatus.pipe(T.Query())),
-    type: S.optional(MitigationsListRequestType.pipe(T.Query())),
+    type: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(
       T.Http({
@@ -719,7 +984,8 @@ export const ListMitigationsRequest = /*@__PURE__*/ S.suspend(() =>
 export type MitigationsListResponseMitigationsItemEntityType =
   | "url_pattern"
   | "account"
-  | "zone";
+  | "zone"
+  | "custom_expression";
 export const MitigationsListResponseMitigationsItemEntityType = S.String;
 
 export type MitigationsListResponseMitigationsItemStatus =
@@ -729,28 +995,6 @@ export type MitigationsListResponseMitigationsItemStatus =
   | "cancelled"
   | "removed";
 export const MitigationsListResponseMitigationsItemStatus = S.String;
-
-export type MitigationsListResponseMitigationsItemType =
-  | "account_suspend"
-  | "copyright_interstitial"
-  | "geo_block"
-  | "legal_block"
-  | "malware_interstitial"
-  | "misleading_interstitial"
-  | "network_block"
-  | "phishing_interstitial"
-  | "playfairite_enforce"
-  | "r2_takedown_account"
-  | "r2_takedown_bucket"
-  | "r2_takedown_object"
-  | "rate_limit_cache"
-  | "redirect_video_stream"
-  | "registrar_freeze"
-  | "registrar_parking"
-  | "stream_block_account"
-  | "user_suspend"
-  | "workers_takedown_by_zone_id";
-export const MitigationsListResponseMitigationsItemType = S.String;
 
 export interface MitigationsListResponseMitigationsItem {
   /** ID of remediation. */
@@ -763,7 +1007,7 @@ export interface MitigationsListResponseMitigationsItem {
   /** The status of a mitigation */
   status: MitigationsListResponseMitigationsItemStatus;
   /** The type of mitigation applied to a reported entity. */
-  type: MitigationsListResponseMitigationsItemType;
+  type: string;
 }
 export const MitigationsListResponseMitigationsItem = /*@__PURE__*/ S.suspend(
   () =>
@@ -775,7 +1019,7 @@ export const MitigationsListResponseMitigationsItem = /*@__PURE__*/ S.suspend(
         T.Body("entity_type"),
       ),
       status: MitigationsListResponseMitigationsItemStatus,
-      type: MitigationsListResponseMitigationsItemType,
+      type: S.String,
     }),
 ).annotate({
   identifier: "MitigationsListResponseMitigationsItem",
@@ -798,6 +1042,243 @@ export const ListMitigationsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListMitigationsResponse",
 }) as any as S.Schema<ListMitigationsResponse>;
+
+export type ListSubmittedRequestDomainList = Array<string>;
+export const ListSubmittedRequestDomainList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListSubmittedRequestDomainList>;
+
+export type ListSubmittedRequestStatus = "submitted" | "accepted" | "denied";
+export const ListSubmittedRequestStatus = S.String;
+
+export type ListSubmittedRequestStatusList = Array<
+  ListSubmittedRequestStatus | (string & {})
+>;
+export const ListSubmittedRequestStatusList = /*@__PURE__*/ S.Array(
+  ListSubmittedRequestStatus,
+) as any as S.Schema<ListSubmittedRequestStatusList>;
+
+export type ListSubmittedRequestType =
+  | "PHISH"
+  | "GEN"
+  | "THREAT"
+  | "DMCA"
+  | "EMER"
+  | "TM"
+  | "REG_WHO"
+  | "NCSEI"
+  | "NETWORK";
+export const ListSubmittedRequestType = S.String;
+
+export type ListSubmittedRequestTypeList = Array<
+  ListSubmittedRequestType | (string & {})
+>;
+export const ListSubmittedRequestTypeList = /*@__PURE__*/ S.Array(
+  ListSubmittedRequestType,
+) as any as S.Schema<ListSubmittedRequestTypeList>;
+
+export interface ListSubmittedRequest {
+  accountId: string;
+  /** Filter by report code. */
+  id?: string;
+  /** Return reports submitted after this time. */
+  createdAfter?: string;
+  /** Return reports submitted before this time. */
+  createdBefore?: string;
+  /** Filter by reported domain. This parameter can be specified multiple times. */
+  domain?: ListSubmittedRequestDomainList;
+  /** Page of submitted reports to return. */
+  page?: number;
+  /** Number of submitted reports per page. */
+  perPage?: number;
+  /** A property and direction to sort by (id, cdate, domain, type, status). */
+  sort?: string;
+  /** Filter by submitter-facing status. This parameter can be specified multiple times. */
+  status?: ListSubmittedRequestStatusList;
+  /** Filter by report type. This parameter can be specified multiple times. */
+  type?: ListSubmittedRequestTypeList;
+}
+export const ListSubmittedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    id: S.optional(S.String.pipe(T.Query())),
+    createdAfter: S.optional(S.String.pipe(T.Query("created_after"))),
+    createdBefore: S.optional(S.String.pipe(T.Query("created_before"))),
+    domain: S.optional(ListSubmittedRequestDomainList.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+    sort: S.optional(S.String.pipe(T.Query())),
+    status: S.optional(ListSubmittedRequestStatusList.pipe(T.Query())),
+    type: S.optional(ListSubmittedRequestTypeList.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/abuse-reports/submitted",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListSubmittedRequest",
+}) as any as S.Schema<ListSubmittedRequest>;
+
+export type ListSubmittedResponseReportsItemDenialReason =
+  | "unable_to_confirm"
+  | "incomplete_report"
+  | "not_on_cloudflare"
+  | "duplicate_report"
+  | "content_removed"
+  | "report_details_mismatch"
+  | "no_abuse_found"
+  | "missing_original_work"
+  | "direct_url_required"
+  | "wrong_report_category"
+  | "content_unavailable"
+  | "law_enforcement_referral_required"
+  | "domain_dispute_process_required";
+export const ListSubmittedResponseReportsItemDenialReason = S.String;
+
+export type ListSubmittedResponseReportsItemStatus =
+  | "submitted"
+  | "accepted"
+  | "denied";
+export const ListSubmittedResponseReportsItemStatus = S.String;
+
+export type ListSubmittedResponseReportsItemType =
+  | "PHISH"
+  | "GEN"
+  | "THREAT"
+  | "DMCA"
+  | "EMER"
+  | "TM"
+  | "REG_WHO"
+  | "NCSEI"
+  | "NETWORK";
+export const ListSubmittedResponseReportsItemType = S.String;
+
+export type ListSubmittedResponseReportsItemSubmitter = GetResponseSubmitter;
+export const ListSubmittedResponseReportsItemSubmitter = GetResponseSubmitter;
+
+export interface ListSubmittedResponseReportsItem {
+  /** Public report code. */
+  id: string;
+  /** Time the report was submitted. */
+  cdate: string;
+  /** Submitter-safe reason for a denied report. Null when unavailable. */
+  denialReason: ListSubmittedResponseReportsItemDenialReason;
+  /** Domain identified in the report. */
+  domain: string;
+  /** Status visible to the account that submitted the report. */
+  status: ListSubmittedResponseReportsItemStatus;
+  /** The abuse report type */
+  type: ListSubmittedResponseReportsItemType;
+  /** Information about the submitter of the report. */
+  submitter?: GetResponseSubmitter | null;
+}
+export const ListSubmittedResponseReportsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    cdate: S.String,
+    denialReason: ListSubmittedResponseReportsItemDenialReason.pipe(
+      T.Body("denial_reason"),
+    ),
+    domain: S.String,
+    status: ListSubmittedResponseReportsItemStatus,
+    type: ListSubmittedResponseReportsItemType,
+    submitter: S.optional(S.NullOr(GetResponseSubmitter)),
+  }),
+).annotate({
+  identifier: "ListSubmittedResponseReportsItem",
+}) as any as S.Schema<ListSubmittedResponseReportsItem>;
+
+export type ListSubmittedResponseReportsList =
+  Array<ListSubmittedResponseReportsItem>;
+export const ListSubmittedResponseReportsList = /*@__PURE__*/ S.Array(
+  ListSubmittedResponseReportsItem,
+) as any as S.Schema<ListSubmittedResponseReportsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ListSubmittedResponse {
+  reports: ListSubmittedResponseReportsList;
+}
+export const ListSubmittedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reports: ListSubmittedResponseReportsList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListSubmittedResponse",
+}) as any as S.Schema<ListSubmittedResponse>;
+
+export interface ListSubmittedEmailsRequest {
+  accountId: string;
+  reportId: string;
+  /** Page number to retrieve (default 1). */
+  page?: number;
+  /** Number of emails per page (default 20, max 100). */
+  perPage?: number;
+}
+export const ListSubmittedEmailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    reportId: S.String.pipe(T.Label("report_id")),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/abuse-reports/submitted/{report_id}/emails",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListSubmittedEmailsRequest",
+}) as any as S.Schema<ListSubmittedEmailsRequest>;
+
+export interface ListSubmittedEmailsResponseEmailsItem {
+  /** Unique identifier of the email. */
+  id: string;
+  /** Body content of the email. */
+  body: string;
+  /** Email address of the recipient. */
+  recipient: string;
+  /** When the email was sent. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html) */
+  sentAt: string;
+  /** Subject line of the email. */
+  subject: string;
+}
+export const ListSubmittedEmailsResponseEmailsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      body: S.String,
+      recipient: S.String,
+      sentAt: S.String.pipe(T.Body("sent_at")),
+      subject: S.String,
+    }),
+).annotate({
+  identifier: "ListSubmittedEmailsResponseEmailsItem",
+}) as any as S.Schema<ListSubmittedEmailsResponseEmailsItem>;
+
+export type ListSubmittedEmailsResponseEmailsList =
+  Array<ListSubmittedEmailsResponseEmailsItem>;
+export const ListSubmittedEmailsResponseEmailsList = /*@__PURE__*/ S.Array(
+  ListSubmittedEmailsResponseEmailsItem,
+) as any as S.Schema<ListSubmittedEmailsResponseEmailsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ListSubmittedEmailsResponse {
+  emails: ListSubmittedEmailsResponseEmailsList;
+}
+export const ListSubmittedEmailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    emails: ListSubmittedEmailsResponseEmailsList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListSubmittedEmailsResponse",
+}) as any as S.Schema<ListSubmittedEmailsResponse>;
 
 export type MitigationsReviewRequestAppealsItemReason =
   | "removed"
@@ -825,17 +1306,70 @@ export const MitigationsReviewRequestAppealsList = /*@__PURE__*/ S.Array(
   MitigationsReviewRequestAppealsItem,
 ) as any as S.Schema<MitigationsReviewRequestAppealsList>;
 
+export type MitigationsReviewRequestDataUrlsList = Array<string>;
+export const MitigationsReviewRequestDataUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MitigationsReviewRequestDataUrlsList>;
+
+export interface MitigationsReviewRequestData {
+  city: string;
+  country: string;
+  email: string;
+  fullName: string;
+  jurisdictionConsent: boolean;
+  perjuryAttestation: boolean;
+  phoneNumber: string;
+  signature: string;
+  state: string;
+  streetAddress: string;
+  urls: MitigationsReviewRequestDataUrlsList;
+  zipCode: string;
+  company?: string;
+  counterNoticeResponse?: string;
+}
+export const MitigationsReviewRequestData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    city: S.String,
+    country: S.String,
+    email: S.String,
+    fullName: S.String.pipe(T.Body("full_name")),
+    jurisdictionConsent: S.Boolean.pipe(T.Body("jurisdiction_consent")),
+    perjuryAttestation: S.Boolean.pipe(T.Body("perjury_attestation")),
+    phoneNumber: S.String.pipe(T.Body("phone_number")),
+    signature: S.String,
+    state: S.String,
+    streetAddress: S.String.pipe(T.Body("street_address")),
+    urls: MitigationsReviewRequestDataUrlsList,
+    zipCode: S.String.pipe(T.Body("zip_code")),
+    company: S.optional(S.String),
+    counterNoticeResponse: S.optional(
+      S.String.pipe(T.Body("counter_notice_response")),
+    ),
+  }),
+).annotate({
+  identifier: "MitigationsReviewRequestData",
+}) as any as S.Schema<MitigationsReviewRequestData>;
+
+export type MitigationsReviewRequestType = "counter_notice" | "content_removed";
+export const MitigationsReviewRequestType = S.String;
+
 export interface ReviewMitigationRequest {
   accountId: string;
   reportId: string;
   /** List of mitigations to appeal. */
-  appeals: MitigationsReviewRequestAppealsList;
+  appeals?: MitigationsReviewRequestAppealsList;
+  /** Counter-notice details supporting an appeal. */
+  data?: MitigationsReviewRequestData;
+  /** The type of appeal being submitted. */
+  type?: MitigationsReviewRequestType | (string & {});
 }
 export const ReviewMitigationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     reportId: S.String.pipe(T.Label("report_id")),
-    appeals: MitigationsReviewRequestAppealsList,
+    appeals: S.optional(MitigationsReviewRequestAppealsList),
+    data: S.optional(MitigationsReviewRequestData),
+    type: S.optional(MitigationsReviewRequestType),
   })
     .pipe(
       T.Http({
@@ -852,7 +1386,8 @@ export const ReviewMitigationRequest = /*@__PURE__*/ S.suspend(() =>
 export type MitigationsReviewResultItemEntityType =
   | "url_pattern"
   | "account"
-  | "zone";
+  | "zone"
+  | "custom_expression";
 export const MitigationsReviewResultItemEntityType = S.String;
 
 export type MitigationsReviewResultItemStatus =
@@ -862,28 +1397,6 @@ export type MitigationsReviewResultItemStatus =
   | "cancelled"
   | "removed";
 export const MitigationsReviewResultItemStatus = S.String;
-
-export type MitigationsReviewResultItemType =
-  | "account_suspend"
-  | "copyright_interstitial"
-  | "geo_block"
-  | "legal_block"
-  | "malware_interstitial"
-  | "misleading_interstitial"
-  | "network_block"
-  | "phishing_interstitial"
-  | "playfairite_enforce"
-  | "r2_takedown_account"
-  | "r2_takedown_bucket"
-  | "r2_takedown_object"
-  | "rate_limit_cache"
-  | "redirect_video_stream"
-  | "registrar_freeze"
-  | "registrar_parking"
-  | "stream_block_account"
-  | "user_suspend"
-  | "workers_takedown_by_zone_id";
-export const MitigationsReviewResultItemType = S.String;
 
 export interface MitigationsReviewResultItem {
   /** ID of remediation. */
@@ -896,7 +1409,7 @@ export interface MitigationsReviewResultItem {
   /** The status of a mitigation */
   status: MitigationsReviewResultItemStatus;
   /** The type of mitigation applied to a reported entity. */
-  type: MitigationsReviewResultItemType;
+  type: string;
 }
 export const MitigationsReviewResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -907,7 +1420,7 @@ export const MitigationsReviewResultItem = /*@__PURE__*/ S.suspend(() =>
       T.Body("entity_type"),
     ),
     status: MitigationsReviewResultItemStatus,
-    type: MitigationsReviewResultItemType,
+    type: S.String,
   }),
 ).annotate({
   identifier: "MitigationsReviewResultItem",
@@ -934,7 +1447,7 @@ export const ReviewMitigationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReviewMitigationResponse>;
 
 export type CreateAbuseReportError = InvalidRequest | CloudflareOpError;
-/** Submit the Abuse Report of a particular type */
+/** Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Account > Abuse Reports > Edit` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). */
 export const createAbuseReport: API.OperationMethod<
   CreateAbuseReportRequest,
   CreateAbuseReportResponse,
@@ -958,6 +1471,21 @@ export const get: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRequest,
   output: GetResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSubmittedError = CloudflareOpError;
+/** Retrieve a report submitted by the account. */
+export const getSubmitted: API.OperationMethod<
+  GetSubmittedRequest,
+  GetSubmittedResponse,
+  GetSubmittedError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSubmittedRequest,
+  output: GetSubmittedResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -993,8 +1521,38 @@ export const listMitigations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListSubmittedError = CloudflareOpError;
+/** List abuse reports submitted by the account. */
+export const listSubmitted: API.OperationMethod<
+  ListSubmittedRequest,
+  ListSubmittedResponse,
+  ListSubmittedError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSubmittedRequest,
+  output: ListSubmittedResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSubmittedEmailsError = CloudflareOpError;
+/** List successful emails sent to the submitter of a report submitted by the account. Does not include emails sent to customers or hosts. */
+export const listSubmittedEmails: API.OperationMethod<
+  ListSubmittedEmailsRequest,
+  ListSubmittedEmailsResponse,
+  ListSubmittedEmailsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSubmittedEmailsRequest,
+  output: ListSubmittedEmailsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ReviewMitigationError = CloudflareOpError;
-/** Request a review for mitigations on an account. */
+/** Request a review for mitigations on an account. Repeating a request for a mitigation with an unresolved appeal is idempotent and returns that mitigation in the in-review state. */
 export const reviewMitigation: API.PaginatedOperationMethod<
   ReviewMitigationRequest,
   ReviewMitigationResponse,

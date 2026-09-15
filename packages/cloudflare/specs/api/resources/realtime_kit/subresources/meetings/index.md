@@ -1,5020 +1,5723 @@
+---
+title: Meetings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Meetings
 
-## Fetch all meetings for an App
+##### [Fetch all meetings for an App](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/get)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/meetings
 
-Returns all meetings for the given App ID.
+##### [Create a meeting](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/meetings
 
-- `account_id: string`
+##### [Fetch a meeting for an App](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/get_meeting_by_id)
 
-  The account identifier tag.
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}
 
-- `app_id: string`
+##### [Update a meeting](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/update_meeting_by_id)
 
-  The app identifier tag.
+PATCH/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}
 
-### Query Parameters
+##### [Replace a meeting](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/replace_meeting_by_id)
 
-- `end_time: optional string`
+PUT/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}
 
-  The end time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+##### [Fetch all participants of a meeting](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/get_meeting_participants)
 
-- `page_no: optional number`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/participants
 
-  The page number from which you want your page search results to be displayed.
+##### [Add a participant](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/add_participant)
 
-- `per_page: optional number`
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/participants
 
-  Number of results per page
+##### [Fetch a participant's detail](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/get_meeting_participant)
 
-- `search: optional string`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/participants/{participant\_id}
 
-  The search query string. You can search using the meeting ID or title.
+##### [Edit a participant's detail](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/edit_participant)
 
-- `start_time: optional string`
+PATCH/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/participants/{participant\_id}
 
-  The start time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+##### [Delete a participant](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/delete_meeting_participant)
 
-- `status: optional "ACTIVE" or "INACTIVE"`
+DELETE/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/participants/{participant\_id}
 
-  Filter meetings by status.
+##### [Refresh participant's authentication token](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/refresh_participant_token)
 
-  - `"ACTIVE"`
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/meetings/{meeting\_id}/participants/{participant\_id}/token
 
-  - `"INACTIVE"`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `data: array of object { id, created_at, updated_at, 9 more }`
+<summary>
 
-  - `id: string`
+MeetingGetResponse object {data, paging, success }
 
-    ID of the meeting.
+</summary>
 
-  - `created_at: string`
+<details>
 
-    Timestamp the object was created at. The time is returned in ISO format.
+<summary>
 
-  - `updated_at: string`
+data: array of object {id, created\_at, updated\_at, 9 more }
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+</summary>
 
-  - `live_stream_on_start: optional boolean`
+id: string
 
-    Specifies if the meeting should start getting livestreamed on start.
+ID of the meeting.
 
-  - `persist_chat: optional boolean`
+formatuuid
 
-    Specifies if Chat within a meeting should persist for a week.
+<a href="#">Link to this property</a>
 
-  - `record_on_start: optional boolean`
+created\_at: string
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+Timestamp the object was created at. The time is returned in ISO format.
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+formatdate-time
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+<a href="#">Link to this property</a>
 
-    - `audio_config: optional object { channel, codec, export_file }`
+updated\_at: string
 
-      Object containing configuration regarding the audio that is being recorded.
+Timestamp the object was updated at. The time is returned in ISO format.
 
-      - `channel: optional "mono" or "stereo"`
+formatdate-time
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+<a href="#">Link to this property</a>
 
-        - `"mono"`
+live\_stream\_on\_start: optional boolean
 
-        - `"stereo"`
+Specifies if the meeting should start getting livestreamed on start.
 
-      - `codec: optional "MP3" or "AAC"`
+<a href="#">Link to this property</a>
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+persist\_chat: optional boolean
 
-        - `"MP3"`
+Specifies if Chat within a meeting should persist for a week.
 
-        - `"AAC"`
+<a href="#">Link to this property</a>
 
-      - `export_file: optional boolean`
+record\_on\_start: optional boolean
 
-        Controls whether to export audio file seperately
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-    - `file_name_prefix: optional string`
+<a href="#">Link to this property</a>
 
-      Adds a prefix to the beginning of the file name of the recording.
+<details>
 
-    - `live_streaming_config: optional object { rtmp_url }`
+<summary>
 
-      - `rtmp_url: optional string`
+recording\_config: optional object {audio\_config, file\_name\_prefix, live\_streaming\_config, 4 more }
 
-        RTMP URL to stream to
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-    - `max_seconds: optional number`
+</summary>
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<details>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+<summary>
 
-      - `enabled: boolean`
+audio\_config: optional object {channel, codec, export\_file }
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+Object containing configuration regarding the audio that is being recorded.
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+</summary>
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<details>
 
-        Type of storage media.
+<summary>
 
-        - `"aws"`
+channel: optional "mono"or "stereo"
 
-        - `"azure"`
+Audio signal pathway within an audio file that carries a specific sound source.
 
-        - `"digitalocean"`
+</summary>
 
-        - `"gcs"`
+One of the following:
 
-        - `"sftp"`
+"mono"
 
-      - `access_key: optional string`
+<a href="#">Link to this property</a>
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+"stereo"
 
-        Note that this field is not readable by clients, only writeable.
+<a href="#">Link to this property</a>
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+</details>
 
-        Authentication method used for "sftp" type storage medium
+<a href="#">Link to this property</a>
 
-        - `"KEY"`
+<details>
 
-        - `"PASSWORD"`
+<summary>
 
-      - `bucket: optional string`
+codec: optional "MP3"or "AAC"
 
-        Name of the storage medium's bucket.
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-      - `host: optional string`
+</summary>
 
-        SSH destination server host for SFTP type storage medium
+One of the following:
 
-      - `password: optional string`
+"MP3"
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+<a href="#">Link to this property</a>
 
-      - `path: optional string`
+"AAC"
 
-        Path relative to the bucket root at which the recording will be placed.
+<a href="#">Link to this property</a>
 
-      - `port: optional number`
+</details>
 
-        SSH destination server port for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-      - `private_key: optional string`
+export\_file: optional boolean
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+Controls whether to export audio file seperately
 
-      - `region: optional string`
+<a href="#">Link to this property</a>
 
-        Region of the storage medium.
+</details>
 
-      - `secret: optional string`
+<a href="#">Link to this property</a>
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+file\_name\_prefix: optional string
 
-      - `username: optional string`
+Adds a prefix to the beginning of the file name of the recording.
 
-        SSH destination server username for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+<details>
 
-      - `codec: optional "H264" or "VP8"`
+<summary>
 
-        Codec using which the recording will be encoded.
+live\_streaming\_config: optional object {rtmp\_url }
 
-        - `"H264"`
+</summary>
 
-        - `"VP8"`
+rtmp\_url: optional string
 
-      - `export_file: optional boolean`
+RTMP URL to stream to
 
-        Controls whether to export video file seperately
+formaturi
 
-      - `height: optional number`
+<a href="#">Link to this property</a>
 
-        Height of the recording video in pixels
+</details>
 
-      - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-        Watermark to be added to the recording
+max\_seconds: optional number
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-          Position of the watermark
+maximum86400
 
-          - `"left top"`
+minimum60
 
-          - `"right top"`
+<a href="#">Link to this property</a>
 
-          - `"left bottom"`
+<details>
 
-          - `"right bottom"`
+<summary>
 
-        - `size: optional object { height, width }`
+realtimekit\_bucket\_config: optional object {enabled }
 
-          Size of the watermark
+</summary>
 
-          - `height: optional number`
+enabled: boolean
 
-            Height of the watermark in px
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, <code>download_url</code>, <code>audio_download_url</code>, <code>download_url_expiry</code> won’t be generated for a recording.
 
-          - `width: optional number`
+<a href="#">Link to this property</a>
 
-            Width of the watermark in px
+</details>
 
-        - `url: optional string`
+<a href="#">Link to this property</a>
 
-          URL of the watermark image
+<details>
 
-      - `width: optional number`
+<summary>
 
-        Width of the recording video in pixels
+storage\_config: optional object {access\_key, auth\_method, bucket, 9 more } or object {access\_key, region, auth\_method, 9 more } or object {private\_key, access\_key, auth\_method, 9 more } or object {password, access\_key, auth\_method, 9 more }
 
-  - `session_keep_alive_time_in_secs: optional number`
+</summary>
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+One of the following:
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+<details>
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+<summary>
 
-    - `"ACTIVE"`
+object {access\_key, auth\_method, bucket, 9 more }
 
-    - `"INACTIVE"`
+</summary>
 
-  - `summarize_on_end: optional boolean`
+access\_key: optional string
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-  - `title: optional string`
+Note that this field is not readable by clients, only writeable.
 
-    Title of the meeting.
+<a href="#">Link to this property</a>
 
-  - `transcribe_on_end: optional boolean`
+<details>
 
-    Automatically generate transcripts when the meeting ends.
+<summary>
 
-- `paging: object { end_offset, start_offset, total_count }`
+auth\_method: optional "KEY"or "PASSWORD"
 
-  - `end_offset: number`
+Authentication method used for “sftp” type storage medium
 
-  - `start_offset: number`
+</summary>
 
-  - `total_count: number`
+One of the following:
 
-- `success: boolean`
+"KEY"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"PASSWORD"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "data": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "live_stream_on_start": true,
-      "persist_chat": true,
-      "record_on_start": true,
-      "recording_config": {
-        "audio_config": {
-          "channel": "mono",
-          "codec": "MP3",
-          "export_file": true
-        },
-        "file_name_prefix": "file_name_prefix",
-        "live_streaming_config": {
-          "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-        },
-        "max_seconds": 60,
-        "realtimekit_bucket_config": {
-          "enabled": true
-        },
-        "storage_config": {
-          "type": "aws",
-          "auth_method": "KEY",
-          "bucket": "bucket",
-          "host": "host",
-          "password": "password",
-          "path": "path",
-          "port": 0,
-          "private_key": "private_key",
-          "region": "us-east-1",
-          "secret": "secret",
-          "username": "username"
-        },
-        "video_config": {
-          "codec": "H264",
-          "export_file": true,
-          "height": 720,
-          "watermark": {
-            "position": "left top",
-            "size": {
-              "height": 1,
-              "width": 1
-            },
-            "url": "https://example.com"
-          },
-          "width": 1280
-        }
-      },
-      "session_keep_alive_time_in_secs": 60,
-      "status": "ACTIVE",
-      "summarize_on_end": true,
-      "title": "title",
-      "transcribe_on_end": true
-    }
-  ],
-  "paging": {
-    "end_offset": 30,
-    "start_offset": 1,
-    "total_count": 30
-  },
-  "success": true
-}
-```
+</details>
 
-## Create a meeting
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings`
+bucket: optional string
 
-Create a meeting for the given App ID.
+Name of the storage medium’s bucket.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+host: optional string
 
-  The account identifier tag.
+SSH destination server host for SFTP type storage medium
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+password: optional string
 
-### Body Parameters
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-- `ai_config: optional object { summarization, transcription }`
+<a href="#">Link to this property</a>
 
-  The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+path: optional string
 
-  - `summarization: optional object { summary_type, text_format, word_limit }`
+Path relative to the bucket root at which the recording will be placed.
 
-    Summary Config
+<a href="#">Link to this property</a>
 
-    - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+port: optional number
 
-      Defines the style of the summary, such as general, team meeting, or sales call.
+SSH destination server port for SFTP type storage medium
 
-      - `"general"`
+<a href="#">Link to this property</a>
 
-      - `"team_meeting"`
+private\_key: optional string
 
-      - `"sales_call"`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-      - `"client_check_in"`
+<a href="#">Link to this property</a>
 
-      - `"interview"`
+region: optional string
 
-      - `"daily_standup"`
+Region of the storage medium.
 
-      - `"one_on_one_meeting"`
+<a href="#">Link to this property</a>
 
-      - `"lecture"`
+secret: optional string
 
-      - `"code_review"`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-    - `text_format: optional "plain_text" or "markdown"`
+<a href="#">Link to this property</a>
 
-      Determines the text format of the summary, such as plain text or markdown.
+type: optional "gcs"
 
-      - `"plain_text"`
+<a href="#">Link to this property</a>
 
-      - `"markdown"`
+username: optional string
 
-    - `word_limit: optional number`
+SSH destination server username for SFTP type storage medium
 
-      Sets the maximum number of words in the meeting summary.
+<a href="#">Link to this property</a>
 
-  - `transcription: optional object { keywords, language, profanity_filter }`
+</details>
 
-    Transcription Configurations
+<a href="#">Link to this property</a>
 
-    - `keywords: optional array of string`
+<details>
 
-      Adds specific terms to improve accurate detection during transcription.
+<summary>
 
-    - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+object {access\_key, region, auth\_method, 9 more }
 
-      Specifies the language code for transcription to ensure accurate results.
+</summary>
 
-      - `"en-US"`
+access\_key: unknown
 
-      - `"en-IN"`
+minLength1
 
-      - `"de"`
+<a href="#">Link to this property</a>
 
-      - `"hi"`
+region: unknown
 
-      - `"sv"`
+minLength1
 
-      - `"ru"`
+<a href="#">Link to this property</a>
 
-      - `"pl"`
+<details>
 
-      - `"el"`
+<summary>
 
-      - `"fr"`
+auth\_method: optional "KEY"or "PASSWORD"
 
-      - `"nl"`
+Authentication method used for “sftp” type storage medium
 
-    - `profanity_filter: optional boolean`
+</summary>
 
-      Control the inclusion of offensive language in transcriptions.
+One of the following:
 
-- `live_stream_on_start: optional boolean`
+"KEY"
 
-  Specifies if the meeting should start getting livestreamed on start.
+<a href="#">Link to this property</a>
 
-- `persist_chat: optional boolean`
+"PASSWORD"
 
-  If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space.
+<a href="#">Link to this property</a>
 
-- `record_on_start: optional boolean`
+</details>
 
-  Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+<a href="#">Link to this property</a>
 
-- `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+bucket: optional string
 
-  Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+Name of the storage medium’s bucket.
 
-  - `audio_config: optional object { channel, codec, export_file }`
+<a href="#">Link to this property</a>
 
-    Object containing configuration regarding the audio that is being recorded.
+host: optional string
 
-    - `channel: optional "mono" or "stereo"`
+SSH destination server host for SFTP type storage medium
 
-      Audio signal pathway within an audio file that carries a specific sound source.
+<a href="#">Link to this property</a>
 
-      - `"mono"`
+password: optional string
 
-      - `"stereo"`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-    - `codec: optional "MP3" or "AAC"`
+<a href="#">Link to this property</a>
 
-      Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+path: optional string
 
-      - `"MP3"`
+Path relative to the bucket root at which the recording will be placed.
 
-      - `"AAC"`
+<a href="#">Link to this property</a>
 
-    - `export_file: optional boolean`
+port: optional number
 
-      Controls whether to export audio file seperately
+SSH destination server port for SFTP type storage medium
 
-  - `file_name_prefix: optional string`
+<a href="#">Link to this property</a>
 
-    Adds a prefix to the beginning of the file name of the recording.
+private\_key: optional string
 
-  - `live_streaming_config: optional object { rtmp_url }`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-    - `rtmp_url: optional string`
+<a href="#">Link to this property</a>
 
-      RTMP URL to stream to
+secret: optional string
 
-  - `max_seconds: optional number`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-    Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<a href="#">Link to this property</a>
 
-  - `realtimekit_bucket_config: optional object { enabled }`
+<details>
 
-    - `enabled: boolean`
+<summary>
 
-      Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+type: optional "aws"or "azure"or "digitalocean"
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+</summary>
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+One of the following:
 
-      Type of storage media.
+"aws"
 
-      - `"aws"`
+<a href="#">Link to this property</a>
 
-      - `"azure"`
+"azure"
 
-      - `"digitalocean"`
+<a href="#">Link to this property</a>
 
-      - `"gcs"`
+"digitalocean"
 
-      - `"sftp"`
+<a href="#">Link to this property</a>
 
-    - `access_key: optional string`
+</details>
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<a href="#">Link to this property</a>
 
-      Note that this field is not readable by clients, only writeable.
+username: optional string
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+SSH destination server username for SFTP type storage medium
 
-      Authentication method used for "sftp" type storage medium
+<a href="#">Link to this property</a>
 
-      - `"KEY"`
+</details>
 
-      - `"PASSWORD"`
+<a href="#">Link to this property</a>
 
-    - `bucket: optional string`
+<details>
 
-      Name of the storage medium's bucket.
+<summary>
 
-    - `host: optional string`
+object {private\_key, access\_key, auth\_method, 9 more }
 
-      SSH destination server host for SFTP type storage medium
+</summary>
 
-    - `password: optional string`
+private\_key: string
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-    - `path: optional string`
+<a href="#">Link to this property</a>
 
-      Path relative to the bucket root at which the recording will be placed.
+access\_key: optional string
 
-    - `port: optional number`
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-      SSH destination server port for SFTP type storage medium
+Note that this field is not readable by clients, only writeable.
 
-    - `private_key: optional string`
+<a href="#">Link to this property</a>
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+auth\_method: optional "KEY"
 
-    - `region: optional string`
+<a href="#">Link to this property</a>
 
-      Region of the storage medium.
+bucket: optional string
 
-    - `secret: optional string`
+Name of the storage medium’s bucket.
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<a href="#">Link to this property</a>
 
-    - `username: optional string`
+host: optional string
 
-      SSH destination server username for SFTP type storage medium
+SSH destination server host for SFTP type storage medium
 
-  - `video_config: optional object { codec, export_file, height, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `codec: optional "H264" or "VP8"`
+password: optional string
 
-      Codec using which the recording will be encoded.
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-      - `"H264"`
+<a href="#">Link to this property</a>
 
-      - `"VP8"`
+path: optional string
 
-    - `export_file: optional boolean`
+Path relative to the bucket root at which the recording will be placed.
 
-      Controls whether to export video file seperately
+<a href="#">Link to this property</a>
 
-    - `height: optional number`
+port: optional number
 
-      Height of the recording video in pixels
+SSH destination server port for SFTP type storage medium
 
-    - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-      Watermark to be added to the recording
+region: optional string
 
-      - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+Region of the storage medium.
 
-        Position of the watermark
+<a href="#">Link to this property</a>
 
-        - `"left top"`
+secret: optional string
 
-        - `"right top"`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-        - `"left bottom"`
+<a href="#">Link to this property</a>
 
-        - `"right bottom"`
+<details>
 
-      - `size: optional object { height, width }`
+<summary>
 
-        Size of the watermark
+type: optional "aws"or "azure"or "digitalocean"or 2 more
 
-        - `height: optional number`
+Type of storage media.
 
-          Height of the watermark in px
+</summary>
 
-        - `width: optional number`
+One of the following:
 
-          Width of the watermark in px
+"aws"
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-        URL of the watermark image
+"azure"
 
-    - `width: optional number`
+<a href="#">Link to this property</a>
 
-      Width of the recording video in pixels
+"digitalocean"
 
-- `session_keep_alive_time_in_secs: optional number`
+<a href="#">Link to this property</a>
 
-  Time in seconds, for which a session remains active, after the last participant has left the meeting.
+"gcs"
 
-- `summarize_on_end: optional boolean`
+<a href="#">Link to this property</a>
 
-  Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+"sftp"
 
-- `title: optional string`
+<a href="#">Link to this property</a>
 
-  Title of the meeting
+</details>
 
-- `transcribe_on_end: optional boolean`
+<a href="#">Link to this property</a>
 
-  Automatically generate transcripts when the meeting ends.
+username: optional string
 
-### Returns
+SSH destination server username for SFTP type storage medium
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Success status of the operation
+</details>
 
-- `data: optional object { id, created_at, updated_at, 10 more }`
+<a href="#">Link to this property</a>
 
-  Data returned by the operation
+<details>
 
-  - `id: string`
+<summary>
 
-    ID of the meeting.
+object {password, access\_key, auth\_method, 9 more }
 
-  - `created_at: string`
+</summary>
 
-    Timestamp the object was created at. The time is returned in ISO format.
+password: string
 
-  - `updated_at: string`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `ai_config: optional object { summarization, transcription }`
+access\_key: optional string
 
-    The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-    - `summarization: optional object { summary_type, text_format, word_limit }`
+Note that this field is not readable by clients, only writeable.
 
-      Summary Config
+<a href="#">Link to this property</a>
 
-      - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+auth\_method: optional "PASSWORD"
 
-        Defines the style of the summary, such as general, team meeting, or sales call.
+<a href="#">Link to this property</a>
 
-        - `"general"`
+bucket: optional string
 
-        - `"team_meeting"`
+Name of the storage medium’s bucket.
 
-        - `"sales_call"`
+<a href="#">Link to this property</a>
 
-        - `"client_check_in"`
+host: optional string
 
-        - `"interview"`
+SSH destination server host for SFTP type storage medium
 
-        - `"daily_standup"`
+<a href="#">Link to this property</a>
 
-        - `"one_on_one_meeting"`
+path: optional string
 
-        - `"lecture"`
+Path relative to the bucket root at which the recording will be placed.
 
-        - `"code_review"`
+<a href="#">Link to this property</a>
 
-      - `text_format: optional "plain_text" or "markdown"`
+port: optional number
 
-        Determines the text format of the summary, such as plain text or markdown.
+SSH destination server port for SFTP type storage medium
 
-        - `"plain_text"`
+<a href="#">Link to this property</a>
 
-        - `"markdown"`
+private\_key: optional string
 
-      - `word_limit: optional number`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-        Sets the maximum number of words in the meeting summary.
+<a href="#">Link to this property</a>
 
-    - `transcription: optional object { keywords, language, profanity_filter }`
+region: optional string
 
-      Transcription Configurations
+Region of the storage medium.
 
-      - `keywords: optional array of string`
+<a href="#">Link to this property</a>
 
-        Adds specific terms to improve accurate detection during transcription.
+secret: optional string
 
-      - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-        Specifies the language code for transcription to ensure accurate results.
+<a href="#">Link to this property</a>
 
-        - `"en-US"`
+<details>
 
-        - `"en-IN"`
+<summary>
 
-        - `"de"`
+type: optional "aws"or "azure"or "digitalocean"or 2 more
 
-        - `"hi"`
+Type of storage media.
 
-        - `"sv"`
+</summary>
 
-        - `"ru"`
+One of the following:
 
-        - `"pl"`
+"aws"
 
-        - `"el"`
+<a href="#">Link to this property</a>
 
-        - `"fr"`
+"azure"
 
-        - `"nl"`
+<a href="#">Link to this property</a>
 
-      - `profanity_filter: optional boolean`
+"digitalocean"
 
-        Control the inclusion of offensive language in transcriptions.
+<a href="#">Link to this property</a>
 
-  - `live_stream_on_start: optional boolean`
+"gcs"
 
-    Specifies if the meeting should start getting livestreamed on start.
+<a href="#">Link to this property</a>
 
-  - `persist_chat: optional boolean`
+"sftp"
 
-    Specifies if Chat within a meeting should persist for a week.
+<a href="#">Link to this property</a>
 
-  - `record_on_start: optional boolean`
+</details>
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+<a href="#">Link to this property</a>
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+username: optional string
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+SSH destination server username for SFTP type storage medium
 
-    - `audio_config: optional object { channel, codec, export_file }`
+<a href="#">Link to this property</a>
 
-      Object containing configuration regarding the audio that is being recorded.
+</details>
 
-      - `channel: optional "mono" or "stereo"`
+<a href="#">Link to this property</a>
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+</details>
 
-        - `"mono"`
+<a href="#">Link to this property</a>
 
-        - `"stereo"`
+<details>
 
-      - `codec: optional "MP3" or "AAC"`
+<summary>
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+video\_config: optional object {codec, export\_file, height, 2 more }
 
-        - `"MP3"`
+</summary>
 
-        - `"AAC"`
+<details>
 
-      - `export_file: optional boolean`
+<summary>
 
-        Controls whether to export audio file seperately
+codec: optional "H264"or "VP8"or "VP9"
 
-    - `file_name_prefix: optional string`
+Codec using which the recording will be encoded.
 
-      Adds a prefix to the beginning of the file name of the recording.
+</summary>
 
-    - `live_streaming_config: optional object { rtmp_url }`
+One of the following:
 
-      - `rtmp_url: optional string`
+"H264"
 
-        RTMP URL to stream to
+<a href="#">Link to this property</a>
 
-    - `max_seconds: optional number`
+"VP8"
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<a href="#">Link to this property</a>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+"VP9"
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+</details>
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<a href="#">Link to this property</a>
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+export\_file: optional boolean
 
-        Type of storage media.
+Controls whether to export video file seperately
 
-        - `"aws"`
+<a href="#">Link to this property</a>
 
-        - `"azure"`
+height: optional number
 
-        - `"digitalocean"`
+Height of the recording video in pixels
 
-        - `"gcs"`
+maximum1920
 
-        - `"sftp"`
+minimum1
 
-      - `access_key: optional string`
+<a href="#">Link to this property</a>
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<details>
 
-        Note that this field is not readable by clients, only writeable.
+<summary>
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+watermark: optional object {position, size, url }
 
-        Authentication method used for "sftp" type storage medium
+Watermark to be added to the recording
 
-        - `"KEY"`
+</summary>
 
-        - `"PASSWORD"`
+<details>
 
-      - `bucket: optional string`
+<summary>
 
-        Name of the storage medium's bucket.
+position: optional "left top"or "right top"or "left bottom"or "right bottom"
 
-      - `host: optional string`
+Position of the watermark
 
-        SSH destination server host for SFTP type storage medium
+</summary>
 
-      - `password: optional string`
+One of the following:
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+"left top"
 
-      - `path: optional string`
+<a href="#">Link to this property</a>
 
-        Path relative to the bucket root at which the recording will be placed.
+"right top"
 
-      - `port: optional number`
+<a href="#">Link to this property</a>
 
-        SSH destination server port for SFTP type storage medium
+"left bottom"
 
-      - `private_key: optional string`
+<a href="#">Link to this property</a>
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+"right bottom"
 
-      - `region: optional string`
+<a href="#">Link to this property</a>
 
-        Region of the storage medium.
+</details>
 
-      - `secret: optional string`
+<a href="#">Link to this property</a>
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<details>
 
-      - `username: optional string`
+<summary>
 
-        SSH destination server username for SFTP type storage medium
+size: optional object {height, width }
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+Size of the watermark
 
-      - `codec: optional "H264" or "VP8"`
+</summary>
 
-        Codec using which the recording will be encoded.
+height: optional number
 
-        - `"H264"`
+Height of the watermark in px
 
-        - `"VP8"`
+minimum1
 
-      - `export_file: optional boolean`
+<a href="#">Link to this property</a>
 
-        Controls whether to export video file seperately
+width: optional number
 
-      - `height: optional number`
+Width of the watermark in px
 
-        Height of the recording video in pixels
+minimum1
 
-      - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-        Watermark to be added to the recording
+</details>
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+<a href="#">Link to this property</a>
 
-          Position of the watermark
+url: optional string
 
-          - `"left top"`
+URL of the watermark image
 
-          - `"right top"`
+formaturi
 
-          - `"left bottom"`
+<a href="#">Link to this property</a>
 
-          - `"right bottom"`
+</details>
 
-        - `size: optional object { height, width }`
+<a href="#">Link to this property</a>
 
-          Size of the watermark
+width: optional number
 
-          - `height: optional number`
+Width of the recording video in pixels
 
-            Height of the watermark in px
+maximum1920
 
-          - `width: optional number`
+minimum1
 
-            Width of the watermark in px
+<a href="#">Link to this property</a>
 
-        - `url: optional string`
+</details>
 
-          URL of the watermark image
+<a href="#">Link to this property</a>
 
-      - `width: optional number`
+</details>
 
-        Width of the recording video in pixels
+<a href="#">Link to this property</a>
 
-  - `session_keep_alive_time_in_secs: optional number`
+session\_keep\_alive\_time\_in\_secs: optional number
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+maximum600
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+minimum60
 
-    - `"ACTIVE"`
+<a href="#">Link to this property</a>
 
-    - `"INACTIVE"`
+<details>
 
-  - `summarize_on_end: optional boolean`
+<summary>
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+status: optional "ACTIVE"or "INACTIVE"
 
-  - `title: optional string`
+Whether the meeting is <code>ACTIVE</code> or <code>INACTIVE</code>. Users will not be able to join an <code>INACTIVE</code> meeting.
 
-    Title of the meeting.
+</summary>
 
-  - `transcribe_on_end: optional boolean`
+One of the following:
 
-    Automatically generate transcripts when the meeting ends.
+"ACTIVE"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+"INACTIVE"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_config": {
-      "summarization": {
-        "summary_type": "general",
-        "text_format": "plain_text",
-        "word_limit": 150
-      },
-      "transcription": {
-        "keywords": [
-          "string"
-        ],
-        "language": "en-US",
-        "profanity_filter": true
-      }
-    },
-    "live_stream_on_start": true,
-    "persist_chat": true,
-    "record_on_start": true,
-    "recording_config": {
-      "audio_config": {
-        "channel": "mono",
-        "codec": "MP3",
-        "export_file": true
-      },
-      "file_name_prefix": "file_name_prefix",
-      "live_streaming_config": {
-        "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-      },
-      "max_seconds": 60,
-      "realtimekit_bucket_config": {
-        "enabled": true
-      },
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      },
-      "video_config": {
-        "codec": "H264",
-        "export_file": true,
-        "height": 720,
-        "watermark": {
-          "position": "left top",
-          "size": {
-            "height": 1,
-            "width": 1
-          },
-          "url": "https://example.com"
-        },
-        "width": 1280
-      }
-    },
-    "session_keep_alive_time_in_secs": 60,
-    "status": "ACTIVE",
-    "summarize_on_end": true,
-    "title": "title",
-    "transcribe_on_end": true
-  }
-}
-```
+</details>
 
-## Fetch a meeting for an App
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}`
+summarize\_on\_end: optional boolean
 
-Returns a meeting details in an App for the given meeting ID.
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+title: optional string
 
-  The account identifier tag.
+Title of the meeting.
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+transcribe\_on\_end: optional boolean
 
-- `meeting_id: string`
+Automatically generate transcripts when the meeting ends.
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+<details>
 
-  Success status of the operation
+<summary>
 
-- `data: optional object { id, created_at, updated_at, 10 more }`
+paging: object {end\_offset, start\_offset, total\_count }
 
-  Data returned by the operation
+</summary>
 
-  - `id: string`
+end\_offset: number
 
-    ID of the meeting.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+start\_offset: number
 
-    Timestamp the object was created at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+total\_count: number
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+minimum0
 
-  - `ai_config: optional object { summarization, transcription }`
+<a href="#">Link to this property</a>
 
-    The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+</details>
 
-    - `summarization: optional object { summary_type, text_format, word_limit }`
+<a href="#">Link to this property</a>
 
-      Summary Config
+success: boolean
 
-      - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+<a href="#">Link to this property</a>
 
-        Defines the style of the summary, such as general, team meeting, or sales call.
+</details>
 
-        - `"general"`
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_get_response%20%3E%20(schema)>)
 
-        - `"team_meeting"`
+<details>
 
-        - `"sales_call"`
+<summary>
 
-        - `"client_check_in"`
+MeetingCreateResponse object {success, data }
 
-        - `"interview"`
+</summary>
 
-        - `"daily_standup"`
+success: boolean
 
-        - `"one_on_one_meeting"`
+Success status of the operation
 
-        - `"lecture"`
+<a href="#">Link to this property</a>
 
-        - `"code_review"`
+<details>
 
-      - `text_format: optional "plain_text" or "markdown"`
+<summary>
 
-        Determines the text format of the summary, such as plain text or markdown.
+data: optional object {id, created\_at, updated\_at, 10 more }
 
-        - `"plain_text"`
+Data returned by the operation
 
-        - `"markdown"`
+</summary>
 
-      - `word_limit: optional number`
+id: string
 
-        Sets the maximum number of words in the meeting summary.
+ID of the meeting.
 
-    - `transcription: optional object { keywords, language, profanity_filter }`
+formatuuid
 
-      Transcription Configurations
+<a href="#">Link to this property</a>
 
-      - `keywords: optional array of string`
+created\_at: string
 
-        Adds specific terms to improve accurate detection during transcription.
+Timestamp the object was created at. The time is returned in ISO format.
 
-      - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+formatdate-time
 
-        Specifies the language code for transcription to ensure accurate results.
+<a href="#">Link to this property</a>
 
-        - `"en-US"`
+updated\_at: string
 
-        - `"en-IN"`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-        - `"de"`
+formatdate-time
 
-        - `"hi"`
+<a href="#">Link to this property</a>
 
-        - `"sv"`
+<details>
 
-        - `"ru"`
+<summary>
 
-        - `"pl"`
+ai\_config: optional object {summarization, transcription }
 
-        - `"el"`
+The AI Config allows you to customize the behavior of meeting transcriptions and summaries
 
-        - `"fr"`
+</summary>
 
-        - `"nl"`
+<details>
 
-      - `profanity_filter: optional boolean`
+<summary>
 
-        Control the inclusion of offensive language in transcriptions.
+summarization: optional object {summary\_type, text\_format, word\_limit }
 
-  - `live_stream_on_start: optional boolean`
+Summary Config
 
-    Specifies if the meeting should start getting livestreamed on start.
+</summary>
 
-  - `persist_chat: optional boolean`
+<details>
 
-    Specifies if Chat within a meeting should persist for a week.
+<summary>
 
-  - `record_on_start: optional boolean`
+summary\_type: optional "general"or "team\_meeting"or "sales\_call"or 6 more
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+Defines the style of the summary, such as general, team meeting, or sales call.
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+</summary>
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+One of the following:
 
-    - `audio_config: optional object { channel, codec, export_file }`
+"general"
 
-      Object containing configuration regarding the audio that is being recorded.
+<a href="#">Link to this property</a>
 
-      - `channel: optional "mono" or "stereo"`
+"team\_meeting"
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+<a href="#">Link to this property</a>
 
-        - `"mono"`
+"sales\_call"
 
-        - `"stereo"`
+<a href="#">Link to this property</a>
 
-      - `codec: optional "MP3" or "AAC"`
+"client\_check\_in"
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+<a href="#">Link to this property</a>
 
-        - `"MP3"`
+"interview"
 
-        - `"AAC"`
+<a href="#">Link to this property</a>
 
-      - `export_file: optional boolean`
+"daily\_standup"
 
-        Controls whether to export audio file seperately
+<a href="#">Link to this property</a>
 
-    - `file_name_prefix: optional string`
+"one\_on\_one\_meeting"
 
-      Adds a prefix to the beginning of the file name of the recording.
+<a href="#">Link to this property</a>
 
-    - `live_streaming_config: optional object { rtmp_url }`
+"lecture"
 
-      - `rtmp_url: optional string`
+<a href="#">Link to this property</a>
 
-        RTMP URL to stream to
+"code\_review"
 
-    - `max_seconds: optional number`
+<a href="#">Link to this property</a>
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+</details>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+<a href="#">Link to this property</a>
 
-      - `enabled: boolean`
+<details>
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+<summary>
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+text\_format: optional "plain\_text"or "markdown"
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+Determines the text format of the summary, such as plain text or markdown.
 
-        Type of storage media.
+</summary>
 
-        - `"aws"`
+One of the following:
 
-        - `"azure"`
+"plain\_text"
 
-        - `"digitalocean"`
+<a href="#">Link to this property</a>
 
-        - `"gcs"`
+"markdown"
 
-        - `"sftp"`
+<a href="#">Link to this property</a>
 
-      - `access_key: optional string`
+</details>
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<a href="#">Link to this property</a>
 
-        Note that this field is not readable by clients, only writeable.
+word\_limit: optional number
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+Sets the maximum number of words in the meeting summary.
 
-        Authentication method used for "sftp" type storage medium
+maximum1000
 
-        - `"KEY"`
+minimum150
 
-        - `"PASSWORD"`
+<a href="#">Link to this property</a>
 
-      - `bucket: optional string`
+</details>
 
-        Name of the storage medium's bucket.
+<a href="#">Link to this property</a>
 
-      - `host: optional string`
+<details>
 
-        SSH destination server host for SFTP type storage medium
+<summary>
 
-      - `password: optional string`
+transcription: optional object {keywords, language, profanity\_filter }
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+Transcription Configurations
 
-      - `path: optional string`
+</summary>
 
-        Path relative to the bucket root at which the recording will be placed.
+keywords: optional array of string
 
-      - `port: optional number`
+Adds specific terms to improve accurate detection during transcription.
 
-        SSH destination server port for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-      - `private_key: optional string`
+<details>
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+<summary>
 
-      - `region: optional string`
+language: optional "en-US"or "en-IN"or "de"or 7 more
 
-        Region of the storage medium.
+Specifies the language code for transcription to ensure accurate results.
 
-      - `secret: optional string`
+</summary>
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+One of the following:
 
-      - `username: optional string`
+"en-US"
 
-        SSH destination server username for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+"en-IN"
 
-      - `codec: optional "H264" or "VP8"`
+<a href="#">Link to this property</a>
 
-        Codec using which the recording will be encoded.
+"de"
 
-        - `"H264"`
+<a href="#">Link to this property</a>
 
-        - `"VP8"`
+"hi"
 
-      - `export_file: optional boolean`
+<a href="#">Link to this property</a>
 
-        Controls whether to export video file seperately
+"sv"
 
-      - `height: optional number`
+<a href="#">Link to this property</a>
 
-        Height of the recording video in pixels
+"ru"
 
-      - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-        Watermark to be added to the recording
+"pl"
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+<a href="#">Link to this property</a>
 
-          Position of the watermark
+"el"
 
-          - `"left top"`
+<a href="#">Link to this property</a>
 
-          - `"right top"`
+"fr"
 
-          - `"left bottom"`
+<a href="#">Link to this property</a>
 
-          - `"right bottom"`
+"nl"
 
-        - `size: optional object { height, width }`
+<a href="#">Link to this property</a>
 
-          Size of the watermark
+</details>
 
-          - `height: optional number`
+<a href="#">Link to this property</a>
 
-            Height of the watermark in px
+profanity\_filter: optional boolean
 
-          - `width: optional number`
+Control the inclusion of offensive language in transcriptions.
 
-            Width of the watermark in px
+<a href="#">Link to this property</a>
 
-        - `url: optional string`
+</details>
 
-          URL of the watermark image
+<a href="#">Link to this property</a>
 
-      - `width: optional number`
+</details>
 
-        Width of the recording video in pixels
+<a href="#">Link to this property</a>
 
-  - `session_keep_alive_time_in_secs: optional number`
+live\_stream\_on\_start: optional boolean
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+Specifies if the meeting should start getting livestreamed on start.
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+<a href="#">Link to this property</a>
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+persist\_chat: optional boolean
 
-    - `"ACTIVE"`
+Specifies if Chat within a meeting should persist for a week.
 
-    - `"INACTIVE"`
+<a href="#">Link to this property</a>
 
-  - `summarize_on_end: optional boolean`
+record\_on\_start: optional boolean
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-  - `title: optional string`
+<a href="#">Link to this property</a>
 
-    Title of the meeting.
+<details>
 
-  - `transcribe_on_end: optional boolean`
+<summary>
 
-    Automatically generate transcripts when the meeting ends.
+recording\_config: optional object {audio\_config, file\_name\_prefix, live\_streaming\_config, 4 more }
 
-### Example
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_config": {
-      "summarization": {
-        "summary_type": "general",
-        "text_format": "plain_text",
-        "word_limit": 150
-      },
-      "transcription": {
-        "keywords": [
-          "string"
-        ],
-        "language": "en-US",
-        "profanity_filter": true
-      }
-    },
-    "live_stream_on_start": true,
-    "persist_chat": true,
-    "record_on_start": true,
-    "recording_config": {
-      "audio_config": {
-        "channel": "mono",
-        "codec": "MP3",
-        "export_file": true
-      },
-      "file_name_prefix": "file_name_prefix",
-      "live_streaming_config": {
-        "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-      },
-      "max_seconds": 60,
-      "realtimekit_bucket_config": {
-        "enabled": true
-      },
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      },
-      "video_config": {
-        "codec": "H264",
-        "export_file": true,
-        "height": 720,
-        "watermark": {
-          "position": "left top",
-          "size": {
-            "height": 1,
-            "width": 1
-          },
-          "url": "https://example.com"
-        },
-        "width": 1280
-      }
-    },
-    "session_keep_alive_time_in_secs": 60,
-    "status": "ACTIVE",
-    "summarize_on_end": true,
-    "title": "title",
-    "transcribe_on_end": true
-  }
-}
-```
+<summary>
 
-## Update a meeting
+audio\_config: optional object {channel, codec, export\_file }
 
-**patch** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}`
+Object containing configuration regarding the audio that is being recorded.
 
-Updates a meeting in an App for the given meeting ID.
+</summary>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+channel: optional "mono"or "stereo"
 
-- `app_id: string`
+Audio signal pathway within an audio file that carries a specific sound source.
 
-  The app identifier tag.
+</summary>
 
-- `meeting_id: string`
+One of the following:
 
-### Body Parameters
+"mono"
 
-- `ai_config: optional object { summarization, transcription }`
+<a href="#">Link to this property</a>
 
-  The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+"stereo"
 
-  - `summarization: optional object { summary_type, text_format, word_limit }`
+<a href="#">Link to this property</a>
 
-    Summary Config
+</details>
 
-    - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+<a href="#">Link to this property</a>
 
-      Defines the style of the summary, such as general, team meeting, or sales call.
+<details>
 
-      - `"general"`
+<summary>
 
-      - `"team_meeting"`
+codec: optional "MP3"or "AAC"
 
-      - `"sales_call"`
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-      - `"client_check_in"`
+</summary>
 
-      - `"interview"`
+One of the following:
 
-      - `"daily_standup"`
+"MP3"
 
-      - `"one_on_one_meeting"`
+<a href="#">Link to this property</a>
 
-      - `"lecture"`
+"AAC"
 
-      - `"code_review"`
+<a href="#">Link to this property</a>
 
-    - `text_format: optional "plain_text" or "markdown"`
+</details>
 
-      Determines the text format of the summary, such as plain text or markdown.
+<a href="#">Link to this property</a>
 
-      - `"plain_text"`
+export\_file: optional boolean
 
-      - `"markdown"`
+Controls whether to export audio file seperately
 
-    - `word_limit: optional number`
+<a href="#">Link to this property</a>
 
-      Sets the maximum number of words in the meeting summary.
+</details>
 
-  - `transcription: optional object { keywords, language, profanity_filter }`
+<a href="#">Link to this property</a>
 
-    Transcription Configurations
+file\_name\_prefix: optional string
 
-    - `keywords: optional array of string`
+Adds a prefix to the beginning of the file name of the recording.
 
-      Adds specific terms to improve accurate detection during transcription.
+<a href="#">Link to this property</a>
 
-    - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+<details>
 
-      Specifies the language code for transcription to ensure accurate results.
+<summary>
 
-      - `"en-US"`
+live\_streaming\_config: optional object {rtmp\_url }
 
-      - `"en-IN"`
+</summary>
 
-      - `"de"`
+rtmp\_url: optional string
 
-      - `"hi"`
+RTMP URL to stream to
 
-      - `"sv"`
+formaturi
 
-      - `"ru"`
+<a href="#">Link to this property</a>
 
-      - `"pl"`
+</details>
 
-      - `"el"`
+<a href="#">Link to this property</a>
 
-      - `"fr"`
+max\_seconds: optional number
 
-      - `"nl"`
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-    - `profanity_filter: optional boolean`
+maximum86400
 
-      Control the inclusion of offensive language in transcriptions.
+minimum60
 
-- `live_stream_on_start: optional boolean`
+<a href="#">Link to this property</a>
 
-  Specifies if the meeting should start getting livestreamed on start.
+<details>
 
-- `persist_chat: optional boolean`
+<summary>
 
-  If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space.
+realtimekit\_bucket\_config: optional object {enabled }
 
-- `record_on_start: optional boolean`
+</summary>
 
-  Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+enabled: boolean
 
-- `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, <code>download_url</code>, <code>audio_download_url</code>, <code>download_url_expiry</code> won’t be generated for a recording.
 
-  Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+<a href="#">Link to this property</a>
 
-  - `audio_config: optional object { channel, codec, export_file }`
+</details>
 
-    Object containing configuration regarding the audio that is being recorded.
+<a href="#">Link to this property</a>
 
-    - `channel: optional "mono" or "stereo"`
+<details>
 
-      Audio signal pathway within an audio file that carries a specific sound source.
+<summary>
 
-      - `"mono"`
+storage\_config: optional object {access\_key, auth\_method, bucket, 9 more } or object {access\_key, region, auth\_method, 9 more } or object {private\_key, access\_key, auth\_method, 9 more } or object {password, access\_key, auth\_method, 9 more }
 
-      - `"stereo"`
+</summary>
 
-    - `codec: optional "MP3" or "AAC"`
+One of the following:
 
-      Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+<details>
 
-      - `"MP3"`
+<summary>
 
-      - `"AAC"`
+object {access\_key, auth\_method, bucket, 9 more }
 
-    - `export_file: optional boolean`
+</summary>
 
-      Controls whether to export audio file seperately
+access\_key: optional string
 
-  - `file_name_prefix: optional string`
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-    Adds a prefix to the beginning of the file name of the recording.
+Note that this field is not readable by clients, only writeable.
 
-  - `live_streaming_config: optional object { rtmp_url }`
+<a href="#">Link to this property</a>
 
-    - `rtmp_url: optional string`
+<details>
 
-      RTMP URL to stream to
+<summary>
 
-  - `max_seconds: optional number`
+auth\_method: optional "KEY"or "PASSWORD"
 
-    Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+Authentication method used for “sftp” type storage medium
 
-  - `realtimekit_bucket_config: optional object { enabled }`
+</summary>
 
-    - `enabled: boolean`
+One of the following:
 
-      Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+"KEY"
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<a href="#">Link to this property</a>
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+"PASSWORD"
 
-      Type of storage media.
+<a href="#">Link to this property</a>
 
-      - `"aws"`
+</details>
 
-      - `"azure"`
+<a href="#">Link to this property</a>
 
-      - `"digitalocean"`
+bucket: optional string
 
-      - `"gcs"`
+Name of the storage medium’s bucket.
 
-      - `"sftp"`
+<a href="#">Link to this property</a>
 
-    - `access_key: optional string`
+host: optional string
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+SSH destination server host for SFTP type storage medium
 
-      Note that this field is not readable by clients, only writeable.
+<a href="#">Link to this property</a>
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+password: optional string
 
-      Authentication method used for "sftp" type storage medium
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-      - `"KEY"`
+<a href="#">Link to this property</a>
 
-      - `"PASSWORD"`
+path: optional string
 
-    - `bucket: optional string`
+Path relative to the bucket root at which the recording will be placed.
 
-      Name of the storage medium's bucket.
+<a href="#">Link to this property</a>
 
-    - `host: optional string`
+port: optional number
 
-      SSH destination server host for SFTP type storage medium
+SSH destination server port for SFTP type storage medium
 
-    - `password: optional string`
+<a href="#">Link to this property</a>
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+private\_key: optional string
 
-    - `path: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-      Path relative to the bucket root at which the recording will be placed.
+<a href="#">Link to this property</a>
 
-    - `port: optional number`
+region: optional string
 
-      SSH destination server port for SFTP type storage medium
+Region of the storage medium.
 
-    - `private_key: optional string`
+<a href="#">Link to this property</a>
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+secret: optional string
 
-    - `region: optional string`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-      Region of the storage medium.
+<a href="#">Link to this property</a>
 
-    - `secret: optional string`
+type: optional "gcs"
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<a href="#">Link to this property</a>
 
-    - `username: optional string`
+username: optional string
 
-      SSH destination server username for SFTP type storage medium
+SSH destination server username for SFTP type storage medium
 
-  - `video_config: optional object { codec, export_file, height, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `codec: optional "H264" or "VP8"`
+</details>
 
-      Codec using which the recording will be encoded.
+<a href="#">Link to this property</a>
 
-      - `"H264"`
+<details>
 
-      - `"VP8"`
+<summary>
 
-    - `export_file: optional boolean`
+object {access\_key, region, auth\_method, 9 more }
 
-      Controls whether to export video file seperately
+</summary>
 
-    - `height: optional number`
+access\_key: unknown
 
-      Height of the recording video in pixels
+minLength1
 
-    - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-      Watermark to be added to the recording
+region: unknown
 
-      - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+minLength1
 
-        Position of the watermark
+<a href="#">Link to this property</a>
 
-        - `"left top"`
+<details>
 
-        - `"right top"`
+<summary>
 
-        - `"left bottom"`
+auth\_method: optional "KEY"or "PASSWORD"
 
-        - `"right bottom"`
+Authentication method used for “sftp” type storage medium
 
-      - `size: optional object { height, width }`
+</summary>
 
-        Size of the watermark
+One of the following:
 
-        - `height: optional number`
+"KEY"
 
-          Height of the watermark in px
+<a href="#">Link to this property</a>
 
-        - `width: optional number`
+"PASSWORD"
 
-          Width of the watermark in px
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+</details>
 
-        URL of the watermark image
+<a href="#">Link to this property</a>
 
-    - `width: optional number`
+bucket: optional string
 
-      Width of the recording video in pixels
+Name of the storage medium’s bucket.
 
-- `session_keep_alive_time_in_secs: optional number`
+<a href="#">Link to this property</a>
 
-  Time in seconds, for which a session remains active, after the last participant has left the meeting.
+host: optional string
 
-- `status: optional "ACTIVE" or "INACTIVE"`
+SSH destination server host for SFTP type storage medium
 
-  Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+<a href="#">Link to this property</a>
 
-  - `"ACTIVE"`
+password: optional string
 
-  - `"INACTIVE"`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-- `summarize_on_end: optional boolean`
+<a href="#">Link to this property</a>
 
-  Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+path: optional string
 
-- `title: optional string`
+Path relative to the bucket root at which the recording will be placed.
 
-  Title of the meeting
+<a href="#">Link to this property</a>
 
-- `transcribe_on_end: optional boolean`
+port: optional number
 
-  Automatically generate transcripts when the meeting ends.
+SSH destination server port for SFTP type storage medium
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+private\_key: optional string
 
-  Success status of the operation
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-- `data: optional object { id, created_at, updated_at, 10 more }`
+<a href="#">Link to this property</a>
 
-  Data returned by the operation
+secret: optional string
 
-  - `id: string`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-    ID of the meeting.
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-    Timestamp the object was created at. The time is returned in ISO format.
+<summary>
 
-  - `updated_at: string`
+type: optional "aws"or "azure"or "digitalocean"
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+</summary>
 
-  - `ai_config: optional object { summarization, transcription }`
+One of the following:
 
-    The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+"aws"
 
-    - `summarization: optional object { summary_type, text_format, word_limit }`
+<a href="#">Link to this property</a>
 
-      Summary Config
+"azure"
 
-      - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+<a href="#">Link to this property</a>
 
-        Defines the style of the summary, such as general, team meeting, or sales call.
+"digitalocean"
 
-        - `"general"`
+<a href="#">Link to this property</a>
 
-        - `"team_meeting"`
+</details>
 
-        - `"sales_call"`
+<a href="#">Link to this property</a>
 
-        - `"client_check_in"`
+username: optional string
 
-        - `"interview"`
+SSH destination server username for SFTP type storage medium
 
-        - `"daily_standup"`
+<a href="#">Link to this property</a>
 
-        - `"one_on_one_meeting"`
+</details>
 
-        - `"lecture"`
+<a href="#">Link to this property</a>
 
-        - `"code_review"`
+<details>
 
-      - `text_format: optional "plain_text" or "markdown"`
+<summary>
 
-        Determines the text format of the summary, such as plain text or markdown.
+object {private\_key, access\_key, auth\_method, 9 more }
 
-        - `"plain_text"`
+</summary>
 
-        - `"markdown"`
+private\_key: string
 
-      - `word_limit: optional number`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-        Sets the maximum number of words in the meeting summary.
+<a href="#">Link to this property</a>
 
-    - `transcription: optional object { keywords, language, profanity_filter }`
+access\_key: optional string
 
-      Transcription Configurations
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-      - `keywords: optional array of string`
+Note that this field is not readable by clients, only writeable.
 
-        Adds specific terms to improve accurate detection during transcription.
+<a href="#">Link to this property</a>
 
-      - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+auth\_method: optional "KEY"
 
-        Specifies the language code for transcription to ensure accurate results.
+<a href="#">Link to this property</a>
 
-        - `"en-US"`
+bucket: optional string
 
-        - `"en-IN"`
+Name of the storage medium’s bucket.
 
-        - `"de"`
+<a href="#">Link to this property</a>
 
-        - `"hi"`
+host: optional string
 
-        - `"sv"`
+SSH destination server host for SFTP type storage medium
 
-        - `"ru"`
+<a href="#">Link to this property</a>
 
-        - `"pl"`
+password: optional string
 
-        - `"el"`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-        - `"fr"`
+<a href="#">Link to this property</a>
 
-        - `"nl"`
+path: optional string
 
-      - `profanity_filter: optional boolean`
+Path relative to the bucket root at which the recording will be placed.
 
-        Control the inclusion of offensive language in transcriptions.
+<a href="#">Link to this property</a>
 
-  - `live_stream_on_start: optional boolean`
+port: optional number
 
-    Specifies if the meeting should start getting livestreamed on start.
+SSH destination server port for SFTP type storage medium
 
-  - `persist_chat: optional boolean`
+<a href="#">Link to this property</a>
 
-    Specifies if Chat within a meeting should persist for a week.
+region: optional string
 
-  - `record_on_start: optional boolean`
+Region of the storage medium.
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+<a href="#">Link to this property</a>
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+secret: optional string
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-    - `audio_config: optional object { channel, codec, export_file }`
+<a href="#">Link to this property</a>
 
-      Object containing configuration regarding the audio that is being recorded.
+<details>
 
-      - `channel: optional "mono" or "stereo"`
+<summary>
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+type: optional "aws"or "azure"or "digitalocean"or 2 more
 
-        - `"mono"`
+Type of storage media.
 
-        - `"stereo"`
+</summary>
 
-      - `codec: optional "MP3" or "AAC"`
+One of the following:
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+"aws"
 
-        - `"MP3"`
+<a href="#">Link to this property</a>
 
-        - `"AAC"`
+"azure"
 
-      - `export_file: optional boolean`
+<a href="#">Link to this property</a>
 
-        Controls whether to export audio file seperately
+"digitalocean"
 
-    - `file_name_prefix: optional string`
+<a href="#">Link to this property</a>
 
-      Adds a prefix to the beginning of the file name of the recording.
+"gcs"
 
-    - `live_streaming_config: optional object { rtmp_url }`
+<a href="#">Link to this property</a>
 
-      - `rtmp_url: optional string`
+"sftp"
 
-        RTMP URL to stream to
+<a href="#">Link to this property</a>
 
-    - `max_seconds: optional number`
+</details>
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<a href="#">Link to this property</a>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+username: optional string
 
-      - `enabled: boolean`
+SSH destination server username for SFTP type storage medium
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+<a href="#">Link to this property</a>
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+</details>
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<a href="#">Link to this property</a>
 
-        Type of storage media.
+<details>
 
-        - `"aws"`
+<summary>
 
-        - `"azure"`
+object {password, access\_key, auth\_method, 9 more }
 
-        - `"digitalocean"`
+</summary>
 
-        - `"gcs"`
+password: string
 
-        - `"sftp"`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-      - `access_key: optional string`
+<a href="#">Link to this property</a>
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+access\_key: optional string
 
-        Note that this field is not readable by clients, only writeable.
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+Note that this field is not readable by clients, only writeable.
 
-        Authentication method used for "sftp" type storage medium
+<a href="#">Link to this property</a>
 
-        - `"KEY"`
+auth\_method: optional "PASSWORD"
 
-        - `"PASSWORD"`
+<a href="#">Link to this property</a>
 
-      - `bucket: optional string`
+bucket: optional string
 
-        Name of the storage medium's bucket.
+Name of the storage medium’s bucket.
 
-      - `host: optional string`
+<a href="#">Link to this property</a>
 
-        SSH destination server host for SFTP type storage medium
+host: optional string
 
-      - `password: optional string`
+SSH destination server host for SFTP type storage medium
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+<a href="#">Link to this property</a>
 
-      - `path: optional string`
+path: optional string
 
-        Path relative to the bucket root at which the recording will be placed.
+Path relative to the bucket root at which the recording will be placed.
 
-      - `port: optional number`
+<a href="#">Link to this property</a>
 
-        SSH destination server port for SFTP type storage medium
+port: optional number
 
-      - `private_key: optional string`
+SSH destination server port for SFTP type storage medium
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+<a href="#">Link to this property</a>
 
-      - `region: optional string`
+private\_key: optional string
 
-        Region of the storage medium.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-      - `secret: optional string`
+<a href="#">Link to this property</a>
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+region: optional string
 
-      - `username: optional string`
+Region of the storage medium.
 
-        SSH destination server username for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+secret: optional string
 
-      - `codec: optional "H264" or "VP8"`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-        Codec using which the recording will be encoded.
+<a href="#">Link to this property</a>
 
-        - `"H264"`
+<details>
 
-        - `"VP8"`
+<summary>
 
-      - `export_file: optional boolean`
+type: optional "aws"or "azure"or "digitalocean"or 2 more
 
-        Controls whether to export video file seperately
+Type of storage media.
 
-      - `height: optional number`
+</summary>
 
-        Height of the recording video in pixels
+One of the following:
 
-      - `watermark: optional object { position, size, url }`
+"aws"
 
-        Watermark to be added to the recording
+<a href="#">Link to this property</a>
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+"azure"
 
-          Position of the watermark
+<a href="#">Link to this property</a>
 
-          - `"left top"`
+"digitalocean"
 
-          - `"right top"`
+<a href="#">Link to this property</a>
 
-          - `"left bottom"`
+"gcs"
 
-          - `"right bottom"`
+<a href="#">Link to this property</a>
 
-        - `size: optional object { height, width }`
+"sftp"
 
-          Size of the watermark
+<a href="#">Link to this property</a>
 
-          - `height: optional number`
+</details>
 
-            Height of the watermark in px
+<a href="#">Link to this property</a>
 
-          - `width: optional number`
+username: optional string
 
-            Width of the watermark in px
+SSH destination server username for SFTP type storage medium
 
-        - `url: optional string`
+<a href="#">Link to this property</a>
 
-          URL of the watermark image
+</details>
 
-      - `width: optional number`
+<a href="#">Link to this property</a>
 
-        Width of the recording video in pixels
+</details>
 
-  - `session_keep_alive_time_in_secs: optional number`
+<a href="#">Link to this property</a>
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+<details>
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+<summary>
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+video\_config: optional object {codec, export\_file, height, 2 more }
 
-    - `"ACTIVE"`
+</summary>
 
-    - `"INACTIVE"`
+<details>
 
-  - `summarize_on_end: optional boolean`
+<summary>
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+codec: optional "H264"or "VP8"or "VP9"
 
-  - `title: optional string`
+Codec using which the recording will be encoded.
 
-    Title of the meeting.
+</summary>
 
-  - `transcribe_on_end: optional boolean`
+One of the following:
 
-    Automatically generate transcripts when the meeting ends.
+"H264"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "status": "INACTIVE"
-        }'
-```
+"VP8"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_config": {
-      "summarization": {
-        "summary_type": "general",
-        "text_format": "plain_text",
-        "word_limit": 150
-      },
-      "transcription": {
-        "keywords": [
-          "string"
-        ],
-        "language": "en-US",
-        "profanity_filter": true
-      }
-    },
-    "live_stream_on_start": true,
-    "persist_chat": true,
-    "record_on_start": true,
-    "recording_config": {
-      "audio_config": {
-        "channel": "mono",
-        "codec": "MP3",
-        "export_file": true
-      },
-      "file_name_prefix": "file_name_prefix",
-      "live_streaming_config": {
-        "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-      },
-      "max_seconds": 60,
-      "realtimekit_bucket_config": {
-        "enabled": true
-      },
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      },
-      "video_config": {
-        "codec": "H264",
-        "export_file": true,
-        "height": 720,
-        "watermark": {
-          "position": "left top",
-          "size": {
-            "height": 1,
-            "width": 1
-          },
-          "url": "https://example.com"
-        },
-        "width": 1280
-      }
-    },
-    "session_keep_alive_time_in_secs": 60,
-    "status": "ACTIVE",
-    "summarize_on_end": true,
-    "title": "title",
-    "transcribe_on_end": true
-  }
-}
-```
+"VP9"
 
-## Replace a meeting
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}`
+</details>
 
-Replaces all the details for the given meeting ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+export\_file: optional boolean
 
-- `account_id: string`
+Controls whether to export video file seperately
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+height: optional number
 
-  The app identifier tag.
+Height of the recording video in pixels
 
-- `meeting_id: string`
+maximum1920
 
-### Body Parameters
+minimum1
 
-- `ai_config: optional object { summarization, transcription }`
+<a href="#">Link to this property</a>
 
-  The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+<details>
 
-  - `summarization: optional object { summary_type, text_format, word_limit }`
+<summary>
 
-    Summary Config
+watermark: optional object {position, size, url }
 
-    - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+Watermark to be added to the recording
 
-      Defines the style of the summary, such as general, team meeting, or sales call.
+</summary>
 
-      - `"general"`
+<details>
 
-      - `"team_meeting"`
+<summary>
 
-      - `"sales_call"`
+position: optional "left top"or "right top"or "left bottom"or "right bottom"
 
-      - `"client_check_in"`
+Position of the watermark
 
-      - `"interview"`
+</summary>
 
-      - `"daily_standup"`
+One of the following:
 
-      - `"one_on_one_meeting"`
+"left top"
 
-      - `"lecture"`
+<a href="#">Link to this property</a>
 
-      - `"code_review"`
+"right top"
 
-    - `text_format: optional "plain_text" or "markdown"`
+<a href="#">Link to this property</a>
 
-      Determines the text format of the summary, such as plain text or markdown.
+"left bottom"
 
-      - `"plain_text"`
+<a href="#">Link to this property</a>
 
-      - `"markdown"`
+"right bottom"
 
-    - `word_limit: optional number`
+<a href="#">Link to this property</a>
 
-      Sets the maximum number of words in the meeting summary.
+</details>
 
-  - `transcription: optional object { keywords, language, profanity_filter }`
+<a href="#">Link to this property</a>
 
-    Transcription Configurations
+<details>
 
-    - `keywords: optional array of string`
+<summary>
 
-      Adds specific terms to improve accurate detection during transcription.
+size: optional object {height, width }
 
-    - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+Size of the watermark
 
-      Specifies the language code for transcription to ensure accurate results.
+</summary>
 
-      - `"en-US"`
+height: optional number
 
-      - `"en-IN"`
+Height of the watermark in px
 
-      - `"de"`
+minimum1
 
-      - `"hi"`
+<a href="#">Link to this property</a>
 
-      - `"sv"`
+width: optional number
 
-      - `"ru"`
+Width of the watermark in px
 
-      - `"pl"`
+minimum1
 
-      - `"el"`
+<a href="#">Link to this property</a>
 
-      - `"fr"`
+</details>
 
-      - `"nl"`
+<a href="#">Link to this property</a>
 
-    - `profanity_filter: optional boolean`
+url: optional string
 
-      Control the inclusion of offensive language in transcriptions.
+URL of the watermark image
 
-- `live_stream_on_start: optional boolean`
+formaturi
 
-  Specifies if the meeting should start getting livestreamed on start.
+<a href="#">Link to this property</a>
 
-- `persist_chat: optional boolean`
+</details>
 
-  If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space.
+<a href="#">Link to this property</a>
 
-- `record_on_start: optional boolean`
+width: optional number
 
-  Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+Width of the recording video in pixels
 
-- `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+maximum1920
 
-  Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+minimum1
 
-  - `audio_config: optional object { channel, codec, export_file }`
+<a href="#">Link to this property</a>
 
-    Object containing configuration regarding the audio that is being recorded.
+</details>
 
-    - `channel: optional "mono" or "stereo"`
+<a href="#">Link to this property</a>
 
-      Audio signal pathway within an audio file that carries a specific sound source.
+</details>
 
-      - `"mono"`
+<a href="#">Link to this property</a>
 
-      - `"stereo"`
+session\_keep\_alive\_time\_in\_secs: optional number
 
-    - `codec: optional "MP3" or "AAC"`
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-      Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+maximum600
 
-      - `"MP3"`
+minimum60
 
-      - `"AAC"`
+<a href="#">Link to this property</a>
 
-    - `export_file: optional boolean`
+<details>
 
-      Controls whether to export audio file seperately
+<summary>
 
-  - `file_name_prefix: optional string`
+status: optional "ACTIVE"or "INACTIVE"
 
-    Adds a prefix to the beginning of the file name of the recording.
+Whether the meeting is <code>ACTIVE</code> or <code>INACTIVE</code>. Users will not be able to join an <code>INACTIVE</code> meeting.
 
-  - `live_streaming_config: optional object { rtmp_url }`
+</summary>
 
-    - `rtmp_url: optional string`
+One of the following:
 
-      RTMP URL to stream to
+"ACTIVE"
 
-  - `max_seconds: optional number`
+<a href="#">Link to this property</a>
 
-    Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+"INACTIVE"
 
-  - `realtimekit_bucket_config: optional object { enabled }`
+<a href="#">Link to this property</a>
 
-    - `enabled: boolean`
+</details>
 
-      Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+<a href="#">Link to this property</a>
 
-  - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+summarize\_on\_end: optional boolean
 
-    - `type: "aws" or "azure" or "digitalocean" or 2 more`
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-      Type of storage media.
+<a href="#">Link to this property</a>
 
-      - `"aws"`
+title: optional string
 
-      - `"azure"`
+Title of the meeting.
 
-      - `"digitalocean"`
+<a href="#">Link to this property</a>
 
-      - `"gcs"`
+transcribe\_on\_end: optional boolean
 
-      - `"sftp"`
+Automatically generate transcripts when the meeting ends.
 
-    - `access_key: optional string`
+<a href="#">Link to this property</a>
 
-      Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+</details>
 
-      Note that this field is not readable by clients, only writeable.
+<a href="#">Link to this property</a>
 
-    - `auth_method: optional "KEY" or "PASSWORD"`
+</details>
 
-      Authentication method used for "sftp" type storage medium
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_create_response%20%3E%20(schema)>)
 
-      - `"KEY"`
+<details>
 
-      - `"PASSWORD"`
+<summary>
 
-    - `bucket: optional string`
+MeetingGetMeetingByIDResponse object {success, data }
 
-      Name of the storage medium's bucket.
+</summary>
 
-    - `host: optional string`
+success: boolean
 
-      SSH destination server host for SFTP type storage medium
+Success status of the operation
 
-    - `password: optional string`
+<a href="#">Link to this property</a>
 
-      SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+<details>
 
-    - `path: optional string`
+<summary>
 
-      Path relative to the bucket root at which the recording will be placed.
+data: optional object {id, created\_at, updated\_at, 10 more }
 
-    - `port: optional number`
+Data returned by the operation
 
-      SSH destination server port for SFTP type storage medium
+</summary>
 
-    - `private_key: optional string`
+id: string
 
-      Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+ID of the meeting.
 
-    - `region: optional string`
+formatuuid
 
-      Region of the storage medium.
+<a href="#">Link to this property</a>
 
-    - `secret: optional string`
+created\_at: string
 
-      Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+Timestamp the object was created at. The time is returned in ISO format.
 
-    - `username: optional string`
+formatdate-time
 
-      SSH destination server username for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-  - `video_config: optional object { codec, export_file, height, 2 more }`
+updated\_at: string
 
-    - `codec: optional "H264" or "VP8"`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-      Codec using which the recording will be encoded.
+formatdate-time
 
-      - `"H264"`
+<a href="#">Link to this property</a>
 
-      - `"VP8"`
+<details>
 
-    - `export_file: optional boolean`
+<summary>
 
-      Controls whether to export video file seperately
+ai\_config: optional object {summarization, transcription }
 
-    - `height: optional number`
+The AI Config allows you to customize the behavior of meeting transcriptions and summaries
 
-      Height of the recording video in pixels
+</summary>
 
-    - `watermark: optional object { position, size, url }`
+<details>
 
-      Watermark to be added to the recording
+<summary>
 
-      - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+summarization: optional object {summary\_type, text\_format, word\_limit }
 
-        Position of the watermark
+Summary Config
 
-        - `"left top"`
+</summary>
 
-        - `"right top"`
+<details>
 
-        - `"left bottom"`
+<summary>
 
-        - `"right bottom"`
+summary\_type: optional "general"or "team\_meeting"or "sales\_call"or 6 more
 
-      - `size: optional object { height, width }`
+Defines the style of the summary, such as general, team meeting, or sales call.
 
-        Size of the watermark
+</summary>
 
-        - `height: optional number`
+One of the following:
 
-          Height of the watermark in px
+"general"
 
-        - `width: optional number`
+<a href="#">Link to this property</a>
 
-          Width of the watermark in px
+"team\_meeting"
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-        URL of the watermark image
+"sales\_call"
 
-    - `width: optional number`
+<a href="#">Link to this property</a>
 
-      Width of the recording video in pixels
+"client\_check\_in"
 
-- `session_keep_alive_time_in_secs: optional number`
+<a href="#">Link to this property</a>
 
-  Time in seconds, for which a session remains active, after the last participant has left the meeting.
+"interview"
 
-- `summarize_on_end: optional boolean`
+<a href="#">Link to this property</a>
 
-  Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+"daily\_standup"
 
-- `title: optional string`
+<a href="#">Link to this property</a>
 
-  Title of the meeting
+"one\_on\_one\_meeting"
 
-- `transcribe_on_end: optional boolean`
+<a href="#">Link to this property</a>
 
-  Automatically generate transcripts when the meeting ends.
+"lecture"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"code\_review"
 
-  Success status of the operation
+<a href="#">Link to this property</a>
 
-- `data: optional object { id, created_at, updated_at, 10 more }`
+</details>
 
-  Data returned by the operation
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    ID of the meeting.
+<summary>
 
-  - `created_at: string`
+text\_format: optional "plain\_text"or "markdown"
 
-    Timestamp the object was created at. The time is returned in ISO format.
+Determines the text format of the summary, such as plain text or markdown.
 
-  - `updated_at: string`
+</summary>
 
-    Timestamp the object was updated at. The time is returned in ISO format.
+One of the following:
 
-  - `ai_config: optional object { summarization, transcription }`
+"plain\_text"
 
-    The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+<a href="#">Link to this property</a>
 
-    - `summarization: optional object { summary_type, text_format, word_limit }`
+"markdown"
 
-      Summary Config
+<a href="#">Link to this property</a>
 
-      - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+</details>
 
-        Defines the style of the summary, such as general, team meeting, or sales call.
+<a href="#">Link to this property</a>
 
-        - `"general"`
+word\_limit: optional number
 
-        - `"team_meeting"`
+Sets the maximum number of words in the meeting summary.
 
-        - `"sales_call"`
+maximum1000
 
-        - `"client_check_in"`
+minimum150
 
-        - `"interview"`
+<a href="#">Link to this property</a>
 
-        - `"daily_standup"`
+</details>
 
-        - `"one_on_one_meeting"`
+<a href="#">Link to this property</a>
 
-        - `"lecture"`
+<details>
 
-        - `"code_review"`
+<summary>
 
-      - `text_format: optional "plain_text" or "markdown"`
+transcription: optional object {keywords, language, profanity\_filter }
 
-        Determines the text format of the summary, such as plain text or markdown.
+Transcription Configurations
 
-        - `"plain_text"`
+</summary>
 
-        - `"markdown"`
+keywords: optional array of string
 
-      - `word_limit: optional number`
+Adds specific terms to improve accurate detection during transcription.
 
-        Sets the maximum number of words in the meeting summary.
+<a href="#">Link to this property</a>
 
-    - `transcription: optional object { keywords, language, profanity_filter }`
+<details>
 
-      Transcription Configurations
+<summary>
 
-      - `keywords: optional array of string`
+language: optional "en-US"or "en-IN"or "de"or 7 more
 
-        Adds specific terms to improve accurate detection during transcription.
+Specifies the language code for transcription to ensure accurate results.
 
-      - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+</summary>
 
-        Specifies the language code for transcription to ensure accurate results.
+One of the following:
 
-        - `"en-US"`
+"en-US"
 
-        - `"en-IN"`
+<a href="#">Link to this property</a>
 
-        - `"de"`
+"en-IN"
 
-        - `"hi"`
+<a href="#">Link to this property</a>
 
-        - `"sv"`
+"de"
 
-        - `"ru"`
+<a href="#">Link to this property</a>
 
-        - `"pl"`
+"hi"
 
-        - `"el"`
+<a href="#">Link to this property</a>
 
-        - `"fr"`
+"sv"
 
-        - `"nl"`
+<a href="#">Link to this property</a>
 
-      - `profanity_filter: optional boolean`
+"ru"
 
-        Control the inclusion of offensive language in transcriptions.
+<a href="#">Link to this property</a>
 
-  - `live_stream_on_start: optional boolean`
+"pl"
 
-    Specifies if the meeting should start getting livestreamed on start.
+<a href="#">Link to this property</a>
 
-  - `persist_chat: optional boolean`
+"el"
 
-    Specifies if Chat within a meeting should persist for a week.
+<a href="#">Link to this property</a>
 
-  - `record_on_start: optional boolean`
+"fr"
 
-    Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+<a href="#">Link to this property</a>
 
-  - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+"nl"
 
-    Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+<a href="#">Link to this property</a>
 
-    - `audio_config: optional object { channel, codec, export_file }`
+</details>
 
-      Object containing configuration regarding the audio that is being recorded.
+<a href="#">Link to this property</a>
 
-      - `channel: optional "mono" or "stereo"`
+profanity\_filter: optional boolean
 
-        Audio signal pathway within an audio file that carries a specific sound source.
+Control the inclusion of offensive language in transcriptions.
 
-        - `"mono"`
+<a href="#">Link to this property</a>
 
-        - `"stereo"`
+</details>
 
-      - `codec: optional "MP3" or "AAC"`
+<a href="#">Link to this property</a>
 
-        Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+</details>
 
-        - `"MP3"`
+<a href="#">Link to this property</a>
 
-        - `"AAC"`
+live\_stream\_on\_start: optional boolean
 
-      - `export_file: optional boolean`
+Specifies if the meeting should start getting livestreamed on start.
 
-        Controls whether to export audio file seperately
+<a href="#">Link to this property</a>
 
-    - `file_name_prefix: optional string`
+persist\_chat: optional boolean
 
-      Adds a prefix to the beginning of the file name of the recording.
+Specifies if Chat within a meeting should persist for a week.
 
-    - `live_streaming_config: optional object { rtmp_url }`
+<a href="#">Link to this property</a>
 
-      - `rtmp_url: optional string`
+record\_on\_start: optional boolean
 
-        RTMP URL to stream to
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-    - `max_seconds: optional number`
+<a href="#">Link to this property</a>
 
-      Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<details>
 
-    - `realtimekit_bucket_config: optional object { enabled }`
+<summary>
 
-      - `enabled: boolean`
+recording\_config: optional object {audio\_config, file\_name\_prefix, live\_streaming\_config, 4 more }
 
-        Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-    - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+</summary>
 
-      - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<details>
 
-        Type of storage media.
+<summary>
 
-        - `"aws"`
+audio\_config: optional object {channel, codec, export\_file }
 
-        - `"azure"`
+Object containing configuration regarding the audio that is being recorded.
 
-        - `"digitalocean"`
+</summary>
 
-        - `"gcs"`
+<details>
 
-        - `"sftp"`
+<summary>
 
-      - `access_key: optional string`
+channel: optional "mono"or "stereo"
 
-        Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+Audio signal pathway within an audio file that carries a specific sound source.
 
-        Note that this field is not readable by clients, only writeable.
+</summary>
 
-      - `auth_method: optional "KEY" or "PASSWORD"`
+One of the following:
 
-        Authentication method used for "sftp" type storage medium
+"mono"
 
-        - `"KEY"`
+<a href="#">Link to this property</a>
 
-        - `"PASSWORD"`
+"stereo"
 
-      - `bucket: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the storage medium's bucket.
+</details>
 
-      - `host: optional string`
+<a href="#">Link to this property</a>
 
-        SSH destination server host for SFTP type storage medium
+<details>
 
-      - `password: optional string`
+<summary>
 
-        SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+codec: optional "MP3"or "AAC"
 
-      - `path: optional string`
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-        Path relative to the bucket root at which the recording will be placed.
+</summary>
 
-      - `port: optional number`
+One of the following:
 
-        SSH destination server port for SFTP type storage medium
+"MP3"
 
-      - `private_key: optional string`
+<a href="#">Link to this property</a>
 
-        Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+"AAC"
 
-      - `region: optional string`
+<a href="#">Link to this property</a>
 
-        Region of the storage medium.
+</details>
 
-      - `secret: optional string`
+<a href="#">Link to this property</a>
 
-        Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+export\_file: optional boolean
 
-      - `username: optional string`
+Controls whether to export audio file seperately
 
-        SSH destination server username for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-    - `video_config: optional object { codec, export_file, height, 2 more }`
+</details>
 
-      - `codec: optional "H264" or "VP8"`
+<a href="#">Link to this property</a>
 
-        Codec using which the recording will be encoded.
+file\_name\_prefix: optional string
 
-        - `"H264"`
+Adds a prefix to the beginning of the file name of the recording.
 
-        - `"VP8"`
+<a href="#">Link to this property</a>
 
-      - `export_file: optional boolean`
+<details>
 
-        Controls whether to export video file seperately
+<summary>
 
-      - `height: optional number`
+live\_streaming\_config: optional object {rtmp\_url }
 
-        Height of the recording video in pixels
+</summary>
 
-      - `watermark: optional object { position, size, url }`
+rtmp\_url: optional string
 
-        Watermark to be added to the recording
+RTMP URL to stream to
 
-        - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+formaturi
 
-          Position of the watermark
+<a href="#">Link to this property</a>
 
-          - `"left top"`
+</details>
 
-          - `"right top"`
+<a href="#">Link to this property</a>
 
-          - `"left bottom"`
+max\_seconds: optional number
 
-          - `"right bottom"`
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-        - `size: optional object { height, width }`
+maximum86400
 
-          Size of the watermark
+minimum60
 
-          - `height: optional number`
+<a href="#">Link to this property</a>
 
-            Height of the watermark in px
+<details>
 
-          - `width: optional number`
+<summary>
 
-            Width of the watermark in px
+realtimekit\_bucket\_config: optional object {enabled }
 
-        - `url: optional string`
+</summary>
 
-          URL of the watermark image
+enabled: boolean
 
-      - `width: optional number`
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, <code>download_url</code>, <code>audio_download_url</code>, <code>download_url_expiry</code> won’t be generated for a recording.
 
-        Width of the recording video in pixels
+<a href="#">Link to this property</a>
 
-  - `session_keep_alive_time_in_secs: optional number`
+</details>
 
-    Time in seconds, for which a session remains active, after the last participant has left the meeting.
+<a href="#">Link to this property</a>
 
-  - `status: optional "ACTIVE" or "INACTIVE"`
+<details>
 
-    Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+<summary>
 
-    - `"ACTIVE"`
+storage\_config: optional object {access\_key, auth\_method, bucket, 9 more } or object {access\_key, region, auth\_method, 9 more } or object {private\_key, access\_key, auth\_method, 9 more } or object {password, access\_key, auth\_method, 9 more }
 
-    - `"INACTIVE"`
+</summary>
 
-  - `summarize_on_end: optional boolean`
+One of the following:
 
-    Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+<details>
 
-  - `title: optional string`
+<summary>
 
-    Title of the meeting.
+object {access\_key, auth\_method, bucket, 9 more }
 
-  - `transcribe_on_end: optional boolean`
+</summary>
 
-    Automatically generate transcripts when the meeting ends.
+access\_key: optional string
 
-### Example
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+Note that this field is not readable by clients, only writeable.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "ai_config": {
-      "summarization": {
-        "summary_type": "general",
-        "text_format": "plain_text",
-        "word_limit": 150
-      },
-      "transcription": {
-        "keywords": [
-          "string"
-        ],
-        "language": "en-US",
-        "profanity_filter": true
-      }
-    },
-    "live_stream_on_start": true,
-    "persist_chat": true,
-    "record_on_start": true,
-    "recording_config": {
-      "audio_config": {
-        "channel": "mono",
-        "codec": "MP3",
-        "export_file": true
-      },
-      "file_name_prefix": "file_name_prefix",
-      "live_streaming_config": {
-        "rtmp_url": "rtmp://a.rtmp.youtube.com/live2"
-      },
-      "max_seconds": 60,
-      "realtimekit_bucket_config": {
-        "enabled": true
-      },
-      "storage_config": {
-        "type": "aws",
-        "auth_method": "KEY",
-        "bucket": "bucket",
-        "host": "host",
-        "password": "password",
-        "path": "path",
-        "port": 0,
-        "private_key": "private_key",
-        "region": "us-east-1",
-        "secret": "secret",
-        "username": "username"
-      },
-      "video_config": {
-        "codec": "H264",
-        "export_file": true,
-        "height": 720,
-        "watermark": {
-          "position": "left top",
-          "size": {
-            "height": 1,
-            "width": 1
-          },
-          "url": "https://example.com"
-        },
-        "width": 1280
-      }
-    },
-    "session_keep_alive_time_in_secs": 60,
-    "status": "ACTIVE",
-    "summarize_on_end": true,
-    "title": "title",
-    "transcribe_on_end": true
-  }
-}
-```
+<details>
 
-## Fetch all participants of a meeting
+<summary>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants`
+auth\_method: optional "KEY"or "PASSWORD"
 
-Returns all participants detail for the given meeting ID.
+Authentication method used for “sftp” type storage medium
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-  The account identifier tag.
+"KEY"
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+"PASSWORD"
 
-- `meeting_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `page_no: optional number`
+<a href="#">Link to this property</a>
 
-  The page number from which you want your page search results to be displayed.
+bucket: optional string
 
-- `per_page: optional number`
+Name of the storage medium’s bucket.
 
-  Number of results per page
+<a href="#">Link to this property</a>
 
-### Returns
+host: optional string
 
-- `data: array of object { id, created_at, custom_participant_id, 4 more }`
+SSH destination server host for SFTP type storage medium
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    ID of the participant.
+password: optional string
 
-  - `created_at: string`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-    When this object was created. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `custom_participant_id: string`
+path: optional string
 
-    A unique participant ID generated by the client.
+Path relative to the bucket root at which the recording will be placed.
 
-  - `preset_name: string`
+<a href="#">Link to this property</a>
 
-    Preset applied to the participant.
+port: optional number
 
-  - `updated_at: string`
+SSH destination server port for SFTP type storage medium
 
-    When this object was updated. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+private\_key: optional string
 
-    Name of the participant.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-  - `picture: optional string`
+<a href="#">Link to this property</a>
 
-    URL to a picture of the participant.
+region: optional string
 
-- `paging: object { end_offset, start_offset, total_count }`
+Region of the storage medium.
 
-  - `end_offset: number`
+<a href="#">Link to this property</a>
 
-  - `start_offset: number`
+secret: optional string
 
-  - `total_count: number`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+type: optional "gcs"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+username: optional string
 
-```json
-{
-  "data": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "custom_participant_id": "custom_participant_id",
-      "preset_name": "preset_name",
-      "updated_at": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "picture": "https://example.com"
-    }
-  ],
-  "paging": {
-    "end_offset": 30,
-    "start_offset": 1,
-    "total_count": 30
-  },
-  "success": true
-}
-```
+SSH destination server username for SFTP type storage medium
 
-## Add a participant
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants`
+</details>
 
-Adds a participant to the given meeting ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+object {access\_key, region, auth\_method, 9 more }
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+access\_key: unknown
 
-- `meeting_id: string`
+minLength1
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `custom_participant_id: string`
+region: unknown
 
-  A unique participant ID. You must specify a unique ID for the participant, for example, UUID, email address, and so on.
+minLength1
 
-- `preset_name: string`
+<a href="#">Link to this property</a>
 
-  Name of the preset to apply to this participant.
+<details>
 
-- `name: optional string`
+<summary>
 
-  (Optional) Name of the participant.
+auth\_method: optional "KEY"or "PASSWORD"
 
-- `picture: optional string`
+Authentication method used for “sftp” type storage medium
 
-  (Optional) A URL to a picture to be used for the participant.
+</summary>
 
-### Returns
+One of the following:
 
-- `success: boolean`
+"KEY"
 
-  Success status of the operation
+<a href="#">Link to this property</a>
 
-- `data: optional object { id, token, created_at, 5 more }`
+"PASSWORD"
 
-  Represents a participant.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    ID of the participant.
+<a href="#">Link to this property</a>
 
-  - `token: string`
+bucket: optional string
 
-    The participant's auth token that can be used for joining a meeting from the client side.
+Name of the storage medium’s bucket.
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    When this object was created. The time is returned in ISO format.
+host: optional string
 
-  - `custom_participant_id: string`
+SSH destination server host for SFTP type storage medium
 
-    A unique participant ID generated by the client.
+<a href="#">Link to this property</a>
 
-  - `preset_name: string`
+password: optional string
 
-    Preset applied to the participant.
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    When this object was updated. The time is returned in ISO format.
+path: optional string
 
-  - `name: optional string`
+Path relative to the bucket root at which the recording will be placed.
 
-    Name of the participant.
+<a href="#">Link to this property</a>
 
-  - `picture: optional string`
+port: optional number
 
-    URL to a picture of the participant.
+SSH destination server port for SFTP type storage medium
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "custom_participant_id": "custom_participant_id",
-          "preset_name": "preset_name",
-          "name": "Mary Sue",
-          "picture": "https://i.imgur.com/test.jpg"
-        }'
-```
+private\_key: optional string
 
-#### Response
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "token": "token",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "custom_participant_id": "custom_participant_id",
-    "preset_name": "preset_name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "picture": "https://example.com"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Fetch a participant's detail
+secret: optional string
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-Returns a participant details for the given meeting and participant ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+type: optional "aws"or "azure"or "digitalocean"
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+One of the following:
 
-- `meeting_id: string`
+"aws"
 
-- `participant_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"azure"
 
-- `data: object { id, created_at, custom_participant_id, 4 more }`
+<a href="#">Link to this property</a>
 
-  Data returned by the operation
+"digitalocean"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    ID of the participant.
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    When this object was created. The time is returned in ISO format.
+username: optional string
 
-  - `custom_participant_id: string`
+SSH destination server username for SFTP type storage medium
 
-    A unique participant ID generated by the client.
+<a href="#">Link to this property</a>
 
-  - `preset_name: string`
+</details>
 
-    Preset applied to the participant.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+<details>
 
-    When this object was updated. The time is returned in ISO format.
+<summary>
 
-  - `name: optional string`
+object {private\_key, access\_key, auth\_method, 9 more }
 
-    Name of the participant.
+</summary>
 
-  - `picture: optional string`
+private\_key: string
 
-    URL to a picture of the participant.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Success status of the operation
+access\_key: optional string
 
-### Example
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants/$PARTICIPANT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Note that this field is not readable by clients, only writeable.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "custom_participant_id": "custom_participant_id",
-    "preset_name": "preset_name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "picture": "https://example.com"
-  },
-  "success": true
-}
-```
+auth\_method: optional "KEY"
 
-## Edit a participant's detail
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}`
+bucket: optional string
 
-Updates a participant's details for the given meeting and participant ID.
+Name of the storage medium’s bucket.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+host: optional string
 
-  The account identifier tag.
+SSH destination server host for SFTP type storage medium
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+password: optional string
 
-- `meeting_id: string`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-- `participant_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+path: optional string
 
-- `name: optional string`
+Path relative to the bucket root at which the recording will be placed.
 
-  (Optional) Name of the participant.
+<a href="#">Link to this property</a>
 
-- `picture: optional string`
+port: optional number
 
-  (Optional) A URL to a picture to be used for the participant.
+SSH destination server port for SFTP type storage medium
 
-- `preset_name: optional string`
+<a href="#">Link to this property</a>
 
-  (Optional) Name of the preset to apply to this participant.
+region: optional string
 
-### Returns
+Region of the storage medium.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Success status of the operation
+secret: optional string
 
-- `data: optional object { id, token, created_at, 5 more }`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-  Represents a participant.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    ID of the participant.
+<summary>
 
-  - `token: string`
+type: optional "aws"or "azure"or "digitalocean"or 2 more
 
-    The participant's auth token that can be used for joining a meeting from the client side.
+Type of storage media.
 
-  - `created_at: string`
+</summary>
 
-    When this object was created. The time is returned in ISO format.
+One of the following:
 
-  - `custom_participant_id: string`
+"aws"
 
-    A unique participant ID generated by the client.
+<a href="#">Link to this property</a>
 
-  - `preset_name: string`
+"azure"
 
-    Preset applied to the participant.
+<a href="#">Link to this property</a>
 
-  - `updated_at: string`
+"digitalocean"
 
-    When this object was updated. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+"gcs"
 
-    Name of the participant.
+<a href="#">Link to this property</a>
 
-  - `picture: optional string`
+"sftp"
 
-    URL to a picture of the participant.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants/$PARTICIPANT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "Jane Doe"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+username: optional string
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "token": "token",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "custom_participant_id": "custom_participant_id",
-    "preset_name": "preset_name",
-    "updated_at": "2019-12-27T18:11:19.117Z",
-    "name": "name",
-    "picture": "https://example.com"
-  }
-}
-```
+SSH destination server username for SFTP type storage medium
 
-## Delete a participant
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}`
+</details>
 
-Deletes a participant for the given meeting and participant ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+object {password, access\_key, auth\_method, 9 more }
 
-- `app_id: string`
+</summary>
 
-  The app identifier tag.
+password: string
 
-- `meeting_id: string`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-- `participant_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+access\_key: optional string
 
-- `success: boolean`
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-  Success status of the operation
+Note that this field is not readable by clients, only writeable.
 
-- `data: optional object { created_at, custom_participant_id, preset_id, updated_at }`
+<a href="#">Link to this property</a>
 
-  Data returned by the operation
+auth\_method: optional "PASSWORD"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp this object was created at. The time is returned in ISO format.
+bucket: optional string
 
-  - `custom_participant_id: string`
+Name of the storage medium’s bucket.
 
-    A unique participant ID generated by the client.
+<a href="#">Link to this property</a>
 
-  - `preset_id: string`
+host: optional string
 
-    ID of the preset applied to this participant.
+SSH destination server host for SFTP type storage medium
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Timestamp this object was updated at. The time is returned in ISO format.
+path: optional string
 
-### Example
+Path relative to the bucket root at which the recording will be placed.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants/$PARTICIPANT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+port: optional number
 
-```json
-{
-  "success": true,
-  "data": {
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "custom_participant_id": "custom_participant_id",
-    "preset_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "updated_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+SSH destination server port for SFTP type storage medium
 
-## Refresh participant's authentication token
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}/token`
+private\_key: optional string
 
-Regenerates participant's authentication token for the given meeting and participant ID.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+region: optional string
 
-  The account identifier tag.
+Region of the storage medium.
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+secret: optional string
 
-- `meeting_id: string`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-- `participant_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `data: object { token }`
+<summary>
 
-  Data returned by the operation
+type: optional "aws"or "azure"or "digitalocean"or 2 more
 
-  - `token: string`
+Type of storage media.
 
-    Regenerated participant's authentication token.
+</summary>
 
-- `success: boolean`
+One of the following:
 
-  Success status of the operation
+"aws"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/meetings/$MEETING_ID/participants/$PARTICIPANT_ID/token \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"azure"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "data": {
-    "token": "token"
-  },
-  "success": true
-}
-```
+"digitalocean"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Meeting Get Response
+"gcs"
 
-- `MeetingGetResponse object { data, paging, success }`
+<a href="#">Link to this property</a>
 
-  - `data: array of object { id, created_at, updated_at, 9 more }`
+"sftp"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      ID of the meeting.
+</details>
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-      Timestamp the object was created at. The time is returned in ISO format.
+username: optional string
 
-    - `updated_at: string`
+SSH destination server username for SFTP type storage medium
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `live_stream_on_start: optional boolean`
+</details>
 
-      Specifies if the meeting should start getting livestreamed on start.
+<a href="#">Link to this property</a>
 
-    - `persist_chat: optional boolean`
+</details>
 
-      Specifies if Chat within a meeting should persist for a week.
+<a href="#">Link to this property</a>
 
-    - `record_on_start: optional boolean`
+<details>
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+<summary>
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+video\_config: optional object {codec, export\_file, height, 2 more }
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+</summary>
 
-      - `audio_config: optional object { channel, codec, export_file }`
+<details>
 
-        Object containing configuration regarding the audio that is being recorded.
+<summary>
 
-        - `channel: optional "mono" or "stereo"`
+codec: optional "H264"or "VP8"or "VP9"
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+Codec using which the recording will be encoded.
 
-          - `"mono"`
+</summary>
 
-          - `"stereo"`
+One of the following:
 
-        - `codec: optional "MP3" or "AAC"`
+"H264"
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+<a href="#">Link to this property</a>
 
-          - `"MP3"`
+"VP8"
 
-          - `"AAC"`
+<a href="#">Link to this property</a>
 
-        - `export_file: optional boolean`
+"VP9"
 
-          Controls whether to export audio file seperately
+<a href="#">Link to this property</a>
 
-      - `file_name_prefix: optional string`
+</details>
 
-        Adds a prefix to the beginning of the file name of the recording.
+<a href="#">Link to this property</a>
 
-      - `live_streaming_config: optional object { rtmp_url }`
+export\_file: optional boolean
 
-        - `rtmp_url: optional string`
+Controls whether to export video file seperately
 
-          RTMP URL to stream to
+<a href="#">Link to this property</a>
 
-      - `max_seconds: optional number`
+height: optional number
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+Height of the recording video in pixels
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+maximum1920
 
-        - `enabled: boolean`
+minimum1
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+<a href="#">Link to this property</a>
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<details>
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<summary>
 
-          Type of storage media.
+watermark: optional object {position, size, url }
 
-          - `"aws"`
+Watermark to be added to the recording
 
-          - `"azure"`
+</summary>
 
-          - `"digitalocean"`
+<details>
 
-          - `"gcs"`
+<summary>
 
-          - `"sftp"`
+position: optional "left top"or "right top"or "left bottom"or "right bottom"
 
-        - `access_key: optional string`
+Position of the watermark
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+</summary>
 
-          Note that this field is not readable by clients, only writeable.
+One of the following:
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+"left top"
 
-          Authentication method used for "sftp" type storage medium
+<a href="#">Link to this property</a>
 
-          - `"KEY"`
+"right top"
 
-          - `"PASSWORD"`
+<a href="#">Link to this property</a>
 
-        - `bucket: optional string`
+"left bottom"
 
-          Name of the storage medium's bucket.
+<a href="#">Link to this property</a>
 
-        - `host: optional string`
+"right bottom"
 
-          SSH destination server host for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-        - `password: optional string`
+</details>
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+<a href="#">Link to this property</a>
 
-        - `path: optional string`
+<details>
 
-          Path relative to the bucket root at which the recording will be placed.
+<summary>
 
-        - `port: optional number`
+size: optional object {height, width }
 
-          SSH destination server port for SFTP type storage medium
+Size of the watermark
 
-        - `private_key: optional string`
+</summary>
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+height: optional number
 
-        - `region: optional string`
+Height of the watermark in px
 
-          Region of the storage medium.
+minimum1
 
-        - `secret: optional string`
+<a href="#">Link to this property</a>
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+width: optional number
 
-        - `username: optional string`
+Width of the watermark in px
 
-          SSH destination server username for SFTP type storage medium
+minimum1
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `codec: optional "H264" or "VP8"`
+</details>
 
-          Codec using which the recording will be encoded.
+<a href="#">Link to this property</a>
 
-          - `"H264"`
+url: optional string
 
-          - `"VP8"`
+URL of the watermark image
 
-        - `export_file: optional boolean`
+formaturi
 
-          Controls whether to export video file seperately
+<a href="#">Link to this property</a>
 
-        - `height: optional number`
+</details>
 
-          Height of the recording video in pixels
+<a href="#">Link to this property</a>
 
-        - `watermark: optional object { position, size, url }`
+width: optional number
 
-          Watermark to be added to the recording
+Width of the recording video in pixels
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+maximum1920
 
-            Position of the watermark
+minimum1
 
-            - `"left top"`
+<a href="#">Link to this property</a>
 
-            - `"right top"`
+</details>
 
-            - `"left bottom"`
+<a href="#">Link to this property</a>
 
-            - `"right bottom"`
+</details>
 
-          - `size: optional object { height, width }`
+<a href="#">Link to this property</a>
 
-            Size of the watermark
+session\_keep\_alive\_time\_in\_secs: optional number
 
-            - `height: optional number`
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-              Height of the watermark in px
+maximum600
 
-            - `width: optional number`
+minimum60
 
-              Width of the watermark in px
+<a href="#">Link to this property</a>
 
-          - `url: optional string`
+<details>
 
-            URL of the watermark image
+<summary>
 
-        - `width: optional number`
+status: optional "ACTIVE"or "INACTIVE"
 
-          Width of the recording video in pixels
+Whether the meeting is <code>ACTIVE</code> or <code>INACTIVE</code>. Users will not be able to join an <code>INACTIVE</code> meeting.
 
-    - `session_keep_alive_time_in_secs: optional number`
+</summary>
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+One of the following:
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+"ACTIVE"
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+<a href="#">Link to this property</a>
 
-      - `"ACTIVE"`
+"INACTIVE"
 
-      - `"INACTIVE"`
+<a href="#">Link to this property</a>
 
-    - `summarize_on_end: optional boolean`
+</details>
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+summarize\_on\_end: optional boolean
 
-      Title of the meeting.
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-    - `transcribe_on_end: optional boolean`
+<a href="#">Link to this property</a>
 
-      Automatically generate transcripts when the meeting ends.
+title: optional string
 
-  - `paging: object { end_offset, start_offset, total_count }`
+Title of the meeting.
 
-    - `end_offset: number`
+<a href="#">Link to this property</a>
 
-    - `start_offset: number`
+transcribe\_on\_end: optional boolean
 
-    - `total_count: number`
+Automatically generate transcripts when the meeting ends.
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-### Meeting Create Response
+</details>
 
-- `MeetingCreateResponse object { success, data }`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+</details>
 
-    Success status of the operation
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_get_meeting_by_id_response%20%3E%20(schema)>)
 
-  - `data: optional object { id, created_at, updated_at, 10 more }`
+<details>
 
-    Data returned by the operation
+<summary>
 
-    - `id: string`
+MeetingUpdateMeetingByIDResponse object {success, data }
 
-      ID of the meeting.
+</summary>
 
-    - `created_at: string`
+success: boolean
 
-      Timestamp the object was created at. The time is returned in ISO format.
+Success status of the operation
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<details>
 
-    - `ai_config: optional object { summarization, transcription }`
+<summary>
 
-      The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+data: optional object {id, created\_at, updated\_at, 10 more }
 
-      - `summarization: optional object { summary_type, text_format, word_limit }`
+Data returned by the operation
 
-        Summary Config
+</summary>
 
-        - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+id: string
 
-          Defines the style of the summary, such as general, team meeting, or sales call.
+ID of the meeting.
 
-          - `"general"`
+formatuuid
 
-          - `"team_meeting"`
+<a href="#">Link to this property</a>
 
-          - `"sales_call"`
+created\_at: string
 
-          - `"client_check_in"`
+Timestamp the object was created at. The time is returned in ISO format.
 
-          - `"interview"`
+formatdate-time
 
-          - `"daily_standup"`
+<a href="#">Link to this property</a>
 
-          - `"one_on_one_meeting"`
+updated\_at: string
 
-          - `"lecture"`
+Timestamp the object was updated at. The time is returned in ISO format.
 
-          - `"code_review"`
+formatdate-time
 
-        - `text_format: optional "plain_text" or "markdown"`
+<a href="#">Link to this property</a>
 
-          Determines the text format of the summary, such as plain text or markdown.
+<details>
 
-          - `"plain_text"`
+<summary>
 
-          - `"markdown"`
+ai\_config: optional object {summarization, transcription }
 
-        - `word_limit: optional number`
+The AI Config allows you to customize the behavior of meeting transcriptions and summaries
 
-          Sets the maximum number of words in the meeting summary.
+</summary>
 
-      - `transcription: optional object { keywords, language, profanity_filter }`
+<details>
 
-        Transcription Configurations
+<summary>
 
-        - `keywords: optional array of string`
+summarization: optional object {summary\_type, text\_format, word\_limit }
 
-          Adds specific terms to improve accurate detection during transcription.
+Summary Config
 
-        - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+</summary>
 
-          Specifies the language code for transcription to ensure accurate results.
+<details>
 
-          - `"en-US"`
+<summary>
 
-          - `"en-IN"`
+summary\_type: optional "general"or "team\_meeting"or "sales\_call"or 6 more
 
-          - `"de"`
+Defines the style of the summary, such as general, team meeting, or sales call.
 
-          - `"hi"`
+</summary>
 
-          - `"sv"`
+One of the following:
 
-          - `"ru"`
+"general"
 
-          - `"pl"`
+<a href="#">Link to this property</a>
 
-          - `"el"`
+"team\_meeting"
 
-          - `"fr"`
+<a href="#">Link to this property</a>
 
-          - `"nl"`
+"sales\_call"
 
-        - `profanity_filter: optional boolean`
+<a href="#">Link to this property</a>
 
-          Control the inclusion of offensive language in transcriptions.
+"client\_check\_in"
 
-    - `live_stream_on_start: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specifies if the meeting should start getting livestreamed on start.
+"interview"
 
-    - `persist_chat: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specifies if Chat within a meeting should persist for a week.
+"daily\_standup"
 
-    - `record_on_start: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+"one\_on\_one\_meeting"
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+<a href="#">Link to this property</a>
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+"lecture"
 
-      - `audio_config: optional object { channel, codec, export_file }`
+<a href="#">Link to this property</a>
 
-        Object containing configuration regarding the audio that is being recorded.
+"code\_review"
 
-        - `channel: optional "mono" or "stereo"`
+<a href="#">Link to this property</a>
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+</details>
 
-          - `"mono"`
+<a href="#">Link to this property</a>
 
-          - `"stereo"`
+<details>
 
-        - `codec: optional "MP3" or "AAC"`
+<summary>
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+text\_format: optional "plain\_text"or "markdown"
 
-          - `"MP3"`
+Determines the text format of the summary, such as plain text or markdown.
 
-          - `"AAC"`
+</summary>
 
-        - `export_file: optional boolean`
+One of the following:
 
-          Controls whether to export audio file seperately
+"plain\_text"
 
-      - `file_name_prefix: optional string`
+<a href="#">Link to this property</a>
 
-        Adds a prefix to the beginning of the file name of the recording.
+"markdown"
 
-      - `live_streaming_config: optional object { rtmp_url }`
+<a href="#">Link to this property</a>
 
-        - `rtmp_url: optional string`
+</details>
 
-          RTMP URL to stream to
+<a href="#">Link to this property</a>
 
-      - `max_seconds: optional number`
+word\_limit: optional number
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+Sets the maximum number of words in the meeting summary.
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+maximum1000
 
-        - `enabled: boolean`
+minimum150
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+<a href="#">Link to this property</a>
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+</details>
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<a href="#">Link to this property</a>
 
-          Type of storage media.
+<details>
 
-          - `"aws"`
+<summary>
 
-          - `"azure"`
+transcription: optional object {keywords, language, profanity\_filter }
 
-          - `"digitalocean"`
+Transcription Configurations
 
-          - `"gcs"`
+</summary>
 
-          - `"sftp"`
+keywords: optional array of string
 
-        - `access_key: optional string`
+Adds specific terms to improve accurate detection during transcription.
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<a href="#">Link to this property</a>
 
-          Note that this field is not readable by clients, only writeable.
+<details>
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+<summary>
 
-          Authentication method used for "sftp" type storage medium
+language: optional "en-US"or "en-IN"or "de"or 7 more
 
-          - `"KEY"`
+Specifies the language code for transcription to ensure accurate results.
 
-          - `"PASSWORD"`
+</summary>
 
-        - `bucket: optional string`
+One of the following:
 
-          Name of the storage medium's bucket.
+"en-US"
 
-        - `host: optional string`
+<a href="#">Link to this property</a>
 
-          SSH destination server host for SFTP type storage medium
+"en-IN"
 
-        - `password: optional string`
+<a href="#">Link to this property</a>
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+"de"
 
-        - `path: optional string`
+<a href="#">Link to this property</a>
 
-          Path relative to the bucket root at which the recording will be placed.
+"hi"
 
-        - `port: optional number`
+<a href="#">Link to this property</a>
 
-          SSH destination server port for SFTP type storage medium
+"sv"
 
-        - `private_key: optional string`
+<a href="#">Link to this property</a>
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+"ru"
 
-        - `region: optional string`
+<a href="#">Link to this property</a>
 
-          Region of the storage medium.
+"pl"
 
-        - `secret: optional string`
+<a href="#">Link to this property</a>
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+"el"
 
-        - `username: optional string`
+<a href="#">Link to this property</a>
 
-          SSH destination server username for SFTP type storage medium
+"fr"
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `codec: optional "H264" or "VP8"`
+"nl"
 
-          Codec using which the recording will be encoded.
+<a href="#">Link to this property</a>
 
-          - `"H264"`
+</details>
 
-          - `"VP8"`
+<a href="#">Link to this property</a>
 
-        - `export_file: optional boolean`
+profanity\_filter: optional boolean
 
-          Controls whether to export video file seperately
+Control the inclusion of offensive language in transcriptions.
 
-        - `height: optional number`
+<a href="#">Link to this property</a>
 
-          Height of the recording video in pixels
+</details>
 
-        - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-          Watermark to be added to the recording
+</details>
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+<a href="#">Link to this property</a>
 
-            Position of the watermark
+live\_stream\_on\_start: optional boolean
 
-            - `"left top"`
+Specifies if the meeting should start getting livestreamed on start.
 
-            - `"right top"`
+<a href="#">Link to this property</a>
 
-            - `"left bottom"`
+persist\_chat: optional boolean
 
-            - `"right bottom"`
+Specifies if Chat within a meeting should persist for a week.
 
-          - `size: optional object { height, width }`
+<a href="#">Link to this property</a>
 
-            Size of the watermark
+record\_on\_start: optional boolean
 
-            - `height: optional number`
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-              Height of the watermark in px
+<a href="#">Link to this property</a>
 
-            - `width: optional number`
+<details>
 
-              Width of the watermark in px
+<summary>
 
-          - `url: optional string`
+recording\_config: optional object {audio\_config, file\_name\_prefix, live\_streaming\_config, 4 more }
 
-            URL of the watermark image
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-        - `width: optional number`
+</summary>
 
-          Width of the recording video in pixels
+<details>
 
-    - `session_keep_alive_time_in_secs: optional number`
+<summary>
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+audio\_config: optional object {channel, codec, export\_file }
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+Object containing configuration regarding the audio that is being recorded.
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+</summary>
 
-      - `"ACTIVE"`
+<details>
 
-      - `"INACTIVE"`
+<summary>
 
-    - `summarize_on_end: optional boolean`
+channel: optional "mono"or "stereo"
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+Audio signal pathway within an audio file that carries a specific sound source.
 
-    - `title: optional string`
+</summary>
 
-      Title of the meeting.
+One of the following:
 
-    - `transcribe_on_end: optional boolean`
+"mono"
 
-      Automatically generate transcripts when the meeting ends.
+<a href="#">Link to this property</a>
 
-### Meeting Get Meeting By ID Response
+"stereo"
 
-- `MeetingGetMeetingByIDResponse object { success, data }`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+</details>
 
-    Success status of the operation
+<a href="#">Link to this property</a>
 
-  - `data: optional object { id, created_at, updated_at, 10 more }`
+<details>
 
-    Data returned by the operation
+<summary>
 
-    - `id: string`
+codec: optional "MP3"or "AAC"
 
-      ID of the meeting.
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-    - `created_at: string`
+</summary>
 
-      Timestamp the object was created at. The time is returned in ISO format.
+One of the following:
 
-    - `updated_at: string`
+"MP3"
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `ai_config: optional object { summarization, transcription }`
+"AAC"
 
-      The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+<a href="#">Link to this property</a>
 
-      - `summarization: optional object { summary_type, text_format, word_limit }`
+</details>
 
-        Summary Config
+<a href="#">Link to this property</a>
 
-        - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+export\_file: optional boolean
 
-          Defines the style of the summary, such as general, team meeting, or sales call.
+Controls whether to export audio file seperately
 
-          - `"general"`
+<a href="#">Link to this property</a>
 
-          - `"team_meeting"`
+</details>
 
-          - `"sales_call"`
+<a href="#">Link to this property</a>
 
-          - `"client_check_in"`
+file\_name\_prefix: optional string
 
-          - `"interview"`
+Adds a prefix to the beginning of the file name of the recording.
 
-          - `"daily_standup"`
+<a href="#">Link to this property</a>
 
-          - `"one_on_one_meeting"`
+<details>
 
-          - `"lecture"`
+<summary>
 
-          - `"code_review"`
+live\_streaming\_config: optional object {rtmp\_url }
 
-        - `text_format: optional "plain_text" or "markdown"`
+</summary>
 
-          Determines the text format of the summary, such as plain text or markdown.
+rtmp\_url: optional string
 
-          - `"plain_text"`
+RTMP URL to stream to
 
-          - `"markdown"`
+formaturi
 
-        - `word_limit: optional number`
+<a href="#">Link to this property</a>
 
-          Sets the maximum number of words in the meeting summary.
+</details>
 
-      - `transcription: optional object { keywords, language, profanity_filter }`
+<a href="#">Link to this property</a>
 
-        Transcription Configurations
+max\_seconds: optional number
 
-        - `keywords: optional array of string`
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
 
-          Adds specific terms to improve accurate detection during transcription.
+maximum86400
 
-        - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+minimum60
 
-          Specifies the language code for transcription to ensure accurate results.
+<a href="#">Link to this property</a>
 
-          - `"en-US"`
+<details>
 
-          - `"en-IN"`
+<summary>
 
-          - `"de"`
+realtimekit\_bucket\_config: optional object {enabled }
 
-          - `"hi"`
+</summary>
 
-          - `"sv"`
+enabled: boolean
 
-          - `"ru"`
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, <code>download_url</code>, <code>audio_download_url</code>, <code>download_url_expiry</code> won’t be generated for a recording.
 
-          - `"pl"`
+<a href="#">Link to this property</a>
 
-          - `"el"`
+</details>
 
-          - `"fr"`
+<a href="#">Link to this property</a>
 
-          - `"nl"`
+<details>
 
-        - `profanity_filter: optional boolean`
+<summary>
 
-          Control the inclusion of offensive language in transcriptions.
+storage\_config: optional object {access\_key, auth\_method, bucket, 9 more } or object {access\_key, region, auth\_method, 9 more } or object {private\_key, access\_key, auth\_method, 9 more } or object {password, access\_key, auth\_method, 9 more }
 
-    - `live_stream_on_start: optional boolean`
+</summary>
 
-      Specifies if the meeting should start getting livestreamed on start.
+One of the following:
 
-    - `persist_chat: optional boolean`
+<details>
 
-      Specifies if Chat within a meeting should persist for a week.
+<summary>
 
-    - `record_on_start: optional boolean`
+object {access\_key, auth\_method, bucket, 9 more }
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+</summary>
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+access\_key: optional string
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-      - `audio_config: optional object { channel, codec, export_file }`
+Note that this field is not readable by clients, only writeable.
 
-        Object containing configuration regarding the audio that is being recorded.
+<a href="#">Link to this property</a>
 
-        - `channel: optional "mono" or "stereo"`
+<details>
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+<summary>
 
-          - `"mono"`
+auth\_method: optional "KEY"or "PASSWORD"
 
-          - `"stereo"`
+Authentication method used for “sftp” type storage medium
 
-        - `codec: optional "MP3" or "AAC"`
+</summary>
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+One of the following:
 
-          - `"MP3"`
+"KEY"
 
-          - `"AAC"`
+<a href="#">Link to this property</a>
 
-        - `export_file: optional boolean`
+"PASSWORD"
 
-          Controls whether to export audio file seperately
+<a href="#">Link to this property</a>
 
-      - `file_name_prefix: optional string`
+</details>
 
-        Adds a prefix to the beginning of the file name of the recording.
+<a href="#">Link to this property</a>
 
-      - `live_streaming_config: optional object { rtmp_url }`
+bucket: optional string
 
-        - `rtmp_url: optional string`
+Name of the storage medium’s bucket.
 
-          RTMP URL to stream to
+<a href="#">Link to this property</a>
 
-      - `max_seconds: optional number`
+host: optional string
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+SSH destination server host for SFTP type storage medium
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+<a href="#">Link to this property</a>
 
-        - `enabled: boolean`
+password: optional string
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+path: optional string
 
-          Type of storage media.
+Path relative to the bucket root at which the recording will be placed.
 
-          - `"aws"`
+<a href="#">Link to this property</a>
 
-          - `"azure"`
+port: optional number
 
-          - `"digitalocean"`
+SSH destination server port for SFTP type storage medium
 
-          - `"gcs"`
+<a href="#">Link to this property</a>
 
-          - `"sftp"`
+private\_key: optional string
 
-        - `access_key: optional string`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<a href="#">Link to this property</a>
 
-          Note that this field is not readable by clients, only writeable.
+region: optional string
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+Region of the storage medium.
 
-          Authentication method used for "sftp" type storage medium
+<a href="#">Link to this property</a>
 
-          - `"KEY"`
+secret: optional string
 
-          - `"PASSWORD"`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-        - `bucket: optional string`
+<a href="#">Link to this property</a>
 
-          Name of the storage medium's bucket.
+type: optional "gcs"
 
-        - `host: optional string`
+<a href="#">Link to this property</a>
 
-          SSH destination server host for SFTP type storage medium
+username: optional string
 
-        - `password: optional string`
+SSH destination server username for SFTP type storage medium
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+<a href="#">Link to this property</a>
 
-        - `path: optional string`
+</details>
 
-          Path relative to the bucket root at which the recording will be placed.
+<a href="#">Link to this property</a>
 
-        - `port: optional number`
+<details>
 
-          SSH destination server port for SFTP type storage medium
+<summary>
 
-        - `private_key: optional string`
+object {access\_key, region, auth\_method, 9 more }
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+</summary>
 
-        - `region: optional string`
+access\_key: unknown
 
-          Region of the storage medium.
+minLength1
 
-        - `secret: optional string`
+<a href="#">Link to this property</a>
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+region: unknown
 
-        - `username: optional string`
+minLength1
 
-          SSH destination server username for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+<details>
 
-        - `codec: optional "H264" or "VP8"`
+<summary>
 
-          Codec using which the recording will be encoded.
+auth\_method: optional "KEY"or "PASSWORD"
 
-          - `"H264"`
+Authentication method used for “sftp” type storage medium
 
-          - `"VP8"`
+</summary>
 
-        - `export_file: optional boolean`
+One of the following:
 
-          Controls whether to export video file seperately
+"KEY"
 
-        - `height: optional number`
+<a href="#">Link to this property</a>
 
-          Height of the recording video in pixels
+"PASSWORD"
 
-        - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-          Watermark to be added to the recording
+</details>
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+<a href="#">Link to this property</a>
 
-            Position of the watermark
+bucket: optional string
 
-            - `"left top"`
+Name of the storage medium’s bucket.
 
-            - `"right top"`
+<a href="#">Link to this property</a>
 
-            - `"left bottom"`
+host: optional string
 
-            - `"right bottom"`
+SSH destination server host for SFTP type storage medium
 
-          - `size: optional object { height, width }`
+<a href="#">Link to this property</a>
 
-            Size of the watermark
+password: optional string
 
-            - `height: optional number`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-              Height of the watermark in px
+<a href="#">Link to this property</a>
 
-            - `width: optional number`
+path: optional string
 
-              Width of the watermark in px
+Path relative to the bucket root at which the recording will be placed.
 
-          - `url: optional string`
+<a href="#">Link to this property</a>
 
-            URL of the watermark image
+port: optional number
 
-        - `width: optional number`
+SSH destination server port for SFTP type storage medium
 
-          Width of the recording video in pixels
+<a href="#">Link to this property</a>
 
-    - `session_keep_alive_time_in_secs: optional number`
+private\_key: optional string
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+<a href="#">Link to this property</a>
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+secret: optional string
 
-      - `"ACTIVE"`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-      - `"INACTIVE"`
+<a href="#">Link to this property</a>
 
-    - `summarize_on_end: optional boolean`
+<details>
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+<summary>
 
-    - `title: optional string`
+type: optional "aws"or "azure"or "digitalocean"
 
-      Title of the meeting.
+</summary>
 
-    - `transcribe_on_end: optional boolean`
+One of the following:
 
-      Automatically generate transcripts when the meeting ends.
+"aws"
 
-### Meeting Update Meeting By ID Response
+<a href="#">Link to this property</a>
 
-- `MeetingUpdateMeetingByIDResponse object { success, data }`
+"azure"
 
-  - `success: boolean`
+<a href="#">Link to this property</a>
 
-    Success status of the operation
+"digitalocean"
 
-  - `data: optional object { id, created_at, updated_at, 10 more }`
+<a href="#">Link to this property</a>
 
-    Data returned by the operation
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      ID of the meeting.
+username: optional string
 
-    - `created_at: string`
+SSH destination server username for SFTP type storage medium
 
-      Timestamp the object was created at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `ai_config: optional object { summarization, transcription }`
+<details>
 
-      The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+<summary>
 
-      - `summarization: optional object { summary_type, text_format, word_limit }`
+object {private\_key, access\_key, auth\_method, 9 more }
 
-        Summary Config
+</summary>
 
-        - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+private\_key: string
 
-          Defines the style of the summary, such as general, team meeting, or sales call.
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-          - `"general"`
+<a href="#">Link to this property</a>
 
-          - `"team_meeting"`
+access\_key: optional string
 
-          - `"sales_call"`
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-          - `"client_check_in"`
+Note that this field is not readable by clients, only writeable.
 
-          - `"interview"`
+<a href="#">Link to this property</a>
 
-          - `"daily_standup"`
+auth\_method: optional "KEY"
 
-          - `"one_on_one_meeting"`
+<a href="#">Link to this property</a>
 
-          - `"lecture"`
+bucket: optional string
 
-          - `"code_review"`
+Name of the storage medium’s bucket.
 
-        - `text_format: optional "plain_text" or "markdown"`
+<a href="#">Link to this property</a>
 
-          Determines the text format of the summary, such as plain text or markdown.
+host: optional string
 
-          - `"plain_text"`
+SSH destination server host for SFTP type storage medium
 
-          - `"markdown"`
+<a href="#">Link to this property</a>
 
-        - `word_limit: optional number`
+password: optional string
 
-          Sets the maximum number of words in the meeting summary.
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-      - `transcription: optional object { keywords, language, profanity_filter }`
+<a href="#">Link to this property</a>
 
-        Transcription Configurations
+path: optional string
 
-        - `keywords: optional array of string`
+Path relative to the bucket root at which the recording will be placed.
 
-          Adds specific terms to improve accurate detection during transcription.
+<a href="#">Link to this property</a>
 
-        - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+port: optional number
 
-          Specifies the language code for transcription to ensure accurate results.
+SSH destination server port for SFTP type storage medium
 
-          - `"en-US"`
+<a href="#">Link to this property</a>
 
-          - `"en-IN"`
+region: optional string
 
-          - `"de"`
+Region of the storage medium.
 
-          - `"hi"`
+<a href="#">Link to this property</a>
 
-          - `"sv"`
+secret: optional string
 
-          - `"ru"`
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-          - `"pl"`
+<a href="#">Link to this property</a>
 
-          - `"el"`
+<details>
 
-          - `"fr"`
+<summary>
 
-          - `"nl"`
+type: optional "aws"or "azure"or "digitalocean"or 2 more
 
-        - `profanity_filter: optional boolean`
+Type of storage media.
 
-          Control the inclusion of offensive language in transcriptions.
+</summary>
 
-    - `live_stream_on_start: optional boolean`
+One of the following:
 
-      Specifies if the meeting should start getting livestreamed on start.
+"aws"
 
-    - `persist_chat: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specifies if Chat within a meeting should persist for a week.
+"azure"
 
-    - `record_on_start: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+"digitalocean"
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+<a href="#">Link to this property</a>
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+"gcs"
 
-      - `audio_config: optional object { channel, codec, export_file }`
+<a href="#">Link to this property</a>
 
-        Object containing configuration regarding the audio that is being recorded.
+"sftp"
 
-        - `channel: optional "mono" or "stereo"`
+<a href="#">Link to this property</a>
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+</details>
 
-          - `"mono"`
+<a href="#">Link to this property</a>
 
-          - `"stereo"`
+username: optional string
 
-        - `codec: optional "MP3" or "AAC"`
+SSH destination server username for SFTP type storage medium
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+<a href="#">Link to this property</a>
 
-          - `"MP3"`
+</details>
 
-          - `"AAC"`
+<a href="#">Link to this property</a>
 
-        - `export_file: optional boolean`
+<details>
 
-          Controls whether to export audio file seperately
+<summary>
 
-      - `file_name_prefix: optional string`
+object {password, access\_key, auth\_method, 9 more }
 
-        Adds a prefix to the beginning of the file name of the recording.
+</summary>
 
-      - `live_streaming_config: optional object { rtmp_url }`
+password: string
 
-        - `rtmp_url: optional string`
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
 
-          RTMP URL to stream to
+<a href="#">Link to this property</a>
 
-      - `max_seconds: optional number`
+access\_key: optional string
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+Note that this field is not readable by clients, only writeable.
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+auth\_method: optional "PASSWORD"
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+<a href="#">Link to this property</a>
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+bucket: optional string
 
-          Type of storage media.
+Name of the storage medium’s bucket.
 
-          - `"aws"`
+<a href="#">Link to this property</a>
 
-          - `"azure"`
+host: optional string
 
-          - `"digitalocean"`
+SSH destination server host for SFTP type storage medium
 
-          - `"gcs"`
+<a href="#">Link to this property</a>
 
-          - `"sftp"`
+path: optional string
 
-        - `access_key: optional string`
+Path relative to the bucket root at which the recording will be placed.
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<a href="#">Link to this property</a>
 
-          Note that this field is not readable by clients, only writeable.
+port: optional number
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+SSH destination server port for SFTP type storage medium
 
-          Authentication method used for "sftp" type storage medium
+<a href="#">Link to this property</a>
 
-          - `"KEY"`
+private\_key: optional string
 
-          - `"PASSWORD"`
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
 
-        - `bucket: optional string`
+<a href="#">Link to this property</a>
 
-          Name of the storage medium's bucket.
+region: optional string
 
-        - `host: optional string`
+Region of the storage medium.
 
-          SSH destination server host for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-        - `password: optional string`
+secret: optional string
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
 
-        - `path: optional string`
+<a href="#">Link to this property</a>
 
-          Path relative to the bucket root at which the recording will be placed.
+<details>
 
-        - `port: optional number`
+<summary>
 
-          SSH destination server port for SFTP type storage medium
+type: optional "aws"or "azure"or "digitalocean"or 2 more
 
-        - `private_key: optional string`
+Type of storage media.
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+</summary>
 
-        - `region: optional string`
+One of the following:
 
-          Region of the storage medium.
+"aws"
 
-        - `secret: optional string`
+<a href="#">Link to this property</a>
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+"azure"
 
-        - `username: optional string`
+<a href="#">Link to this property</a>
 
-          SSH destination server username for SFTP type storage medium
+"digitalocean"
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+<a href="#">Link to this property</a>
 
-        - `codec: optional "H264" or "VP8"`
+"gcs"
 
-          Codec using which the recording will be encoded.
+<a href="#">Link to this property</a>
 
-          - `"H264"`
+"sftp"
 
-          - `"VP8"`
+<a href="#">Link to this property</a>
 
-        - `export_file: optional boolean`
+</details>
 
-          Controls whether to export video file seperately
+<a href="#">Link to this property</a>
 
-        - `height: optional number`
+username: optional string
 
-          Height of the recording video in pixels
+SSH destination server username for SFTP type storage medium
 
-        - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-          Watermark to be added to the recording
+</details>
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+<a href="#">Link to this property</a>
 
-            Position of the watermark
+</details>
 
-            - `"left top"`
+<a href="#">Link to this property</a>
 
-            - `"right top"`
+<details>
 
-            - `"left bottom"`
+<summary>
 
-            - `"right bottom"`
+video\_config: optional object {codec, export\_file, height, 2 more }
 
-          - `size: optional object { height, width }`
+</summary>
 
-            Size of the watermark
+<details>
 
-            - `height: optional number`
+<summary>
 
-              Height of the watermark in px
+codec: optional "H264"or "VP8"or "VP9"
 
-            - `width: optional number`
+Codec using which the recording will be encoded.
 
-              Width of the watermark in px
+</summary>
 
-          - `url: optional string`
+One of the following:
 
-            URL of the watermark image
+"H264"
 
-        - `width: optional number`
+<a href="#">Link to this property</a>
 
-          Width of the recording video in pixels
+"VP8"
 
-    - `session_keep_alive_time_in_secs: optional number`
+<a href="#">Link to this property</a>
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+"VP9"
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+<a href="#">Link to this property</a>
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+</details>
 
-      - `"ACTIVE"`
+<a href="#">Link to this property</a>
 
-      - `"INACTIVE"`
+export\_file: optional boolean
 
-    - `summarize_on_end: optional boolean`
+Controls whether to export video file seperately
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+height: optional number
 
-      Title of the meeting.
+Height of the recording video in pixels
 
-    - `transcribe_on_end: optional boolean`
+maximum1920
 
-      Automatically generate transcripts when the meeting ends.
+minimum1
 
-### Meeting Replace Meeting By ID Response
+<a href="#">Link to this property</a>
 
-- `MeetingReplaceMeetingByIDResponse object { success, data }`
+<details>
 
-  - `success: boolean`
+<summary>
 
-    Success status of the operation
+watermark: optional object {position, size, url }
 
-  - `data: optional object { id, created_at, updated_at, 10 more }`
+Watermark to be added to the recording
 
-    Data returned by the operation
+</summary>
 
-    - `id: string`
+<details>
 
-      ID of the meeting.
+<summary>
 
-    - `created_at: string`
+position: optional "left top"or "right top"or "left bottom"or "right bottom"
 
-      Timestamp the object was created at. The time is returned in ISO format.
+Position of the watermark
 
-    - `updated_at: string`
+</summary>
 
-      Timestamp the object was updated at. The time is returned in ISO format.
+One of the following:
 
-    - `ai_config: optional object { summarization, transcription }`
+"left top"
 
-      The AI Config allows you to customize the behavior of meeting transcriptions and summaries
+<a href="#">Link to this property</a>
 
-      - `summarization: optional object { summary_type, text_format, word_limit }`
+"right top"
 
-        Summary Config
+<a href="#">Link to this property</a>
 
-        - `summary_type: optional "general" or "team_meeting" or "sales_call" or 6 more`
+"left bottom"
 
-          Defines the style of the summary, such as general, team meeting, or sales call.
+<a href="#">Link to this property</a>
 
-          - `"general"`
+"right bottom"
 
-          - `"team_meeting"`
+<a href="#">Link to this property</a>
 
-          - `"sales_call"`
+</details>
 
-          - `"client_check_in"`
+<a href="#">Link to this property</a>
 
-          - `"interview"`
+<details>
 
-          - `"daily_standup"`
+<summary>
 
-          - `"one_on_one_meeting"`
+size: optional object {height, width }
 
-          - `"lecture"`
+Size of the watermark
 
-          - `"code_review"`
+</summary>
 
-        - `text_format: optional "plain_text" or "markdown"`
+height: optional number
 
-          Determines the text format of the summary, such as plain text or markdown.
+Height of the watermark in px
 
-          - `"plain_text"`
+minimum1
 
-          - `"markdown"`
+<a href="#">Link to this property</a>
 
-        - `word_limit: optional number`
+width: optional number
 
-          Sets the maximum number of words in the meeting summary.
+Width of the watermark in px
 
-      - `transcription: optional object { keywords, language, profanity_filter }`
+minimum1
 
-        Transcription Configurations
+<a href="#">Link to this property</a>
 
-        - `keywords: optional array of string`
+</details>
 
-          Adds specific terms to improve accurate detection during transcription.
+<a href="#">Link to this property</a>
 
-        - `language: optional "en-US" or "en-IN" or "de" or 7 more`
+url: optional string
 
-          Specifies the language code for transcription to ensure accurate results.
+URL of the watermark image
 
-          - `"en-US"`
+formaturi
 
-          - `"en-IN"`
+<a href="#">Link to this property</a>
 
-          - `"de"`
+</details>
 
-          - `"hi"`
+<a href="#">Link to this property</a>
 
-          - `"sv"`
+width: optional number
 
-          - `"ru"`
+Width of the recording video in pixels
 
-          - `"pl"`
+maximum1920
 
-          - `"el"`
+minimum1
 
-          - `"fr"`
+<a href="#">Link to this property</a>
 
-          - `"nl"`
+</details>
 
-        - `profanity_filter: optional boolean`
+<a href="#">Link to this property</a>
 
-          Control the inclusion of offensive language in transcriptions.
+</details>
 
-    - `live_stream_on_start: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specifies if the meeting should start getting livestreamed on start.
+session\_keep\_alive\_time\_in\_secs: optional number
 
-    - `persist_chat: optional boolean`
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
 
-      Specifies if Chat within a meeting should persist for a week.
+maximum600
 
-    - `record_on_start: optional boolean`
+minimum60
 
-      Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+<a href="#">Link to this property</a>
 
-    - `recording_config: optional object { audio_config, file_name_prefix, live_streaming_config, 4 more }`
+<details>
 
-      Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
+<summary>
 
-      - `audio_config: optional object { channel, codec, export_file }`
+status: optional "ACTIVE"or "INACTIVE"
 
-        Object containing configuration regarding the audio that is being recorded.
+Whether the meeting is <code>ACTIVE</code> or <code>INACTIVE</code>. Users will not be able to join an <code>INACTIVE</code> meeting.
 
-        - `channel: optional "mono" or "stereo"`
+</summary>
 
-          Audio signal pathway within an audio file that carries a specific sound source.
+One of the following:
 
-          - `"mono"`
+"ACTIVE"
 
-          - `"stereo"`
+<a href="#">Link to this property</a>
 
-        - `codec: optional "MP3" or "AAC"`
+"INACTIVE"
 
-          Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
+<a href="#">Link to this property</a>
 
-          - `"MP3"`
+</details>
 
-          - `"AAC"`
+<a href="#">Link to this property</a>
 
-        - `export_file: optional boolean`
+summarize\_on\_end: optional boolean
 
-          Controls whether to export audio file seperately
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
 
-      - `file_name_prefix: optional string`
+<a href="#">Link to this property</a>
 
-        Adds a prefix to the beginning of the file name of the recording.
+title: optional string
 
-      - `live_streaming_config: optional object { rtmp_url }`
+Title of the meeting.
 
-        - `rtmp_url: optional string`
+<a href="#">Link to this property</a>
 
-          RTMP URL to stream to
+transcribe\_on\_end: optional boolean
 
-      - `max_seconds: optional number`
+Automatically generate transcripts when the meeting ends.
 
-        Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+<a href="#">Link to this property</a>
 
-      - `realtimekit_bucket_config: optional object { enabled }`
+</details>
 
-        - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-          Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.
+</details>
 
-      - `storage_config: optional object { type, access_key, auth_method, 9 more }`
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_update_meeting_by_id_response%20%3E%20(schema)>)
 
-        - `type: "aws" or "azure" or "digitalocean" or 2 more`
+<details>
 
-          Type of storage media.
+<summary>
 
-          - `"aws"`
+MeetingReplaceMeetingByIDResponse object {success, data }
 
-          - `"azure"`
+</summary>
 
-          - `"digitalocean"`
+success: boolean
 
-          - `"gcs"`
+Success status of the operation
 
-          - `"sftp"`
+<a href="#">Link to this property</a>
 
-        - `access_key: optional string`
+<details>
 
-          Access key of the storage medium. Access key is not required for the `gcs` storage media type.
+<summary>
 
-          Note that this field is not readable by clients, only writeable.
+data: optional object {id, created\_at, updated\_at, 10 more }
 
-        - `auth_method: optional "KEY" or "PASSWORD"`
+Data returned by the operation
 
-          Authentication method used for "sftp" type storage medium
+</summary>
 
-          - `"KEY"`
+id: string
 
-          - `"PASSWORD"`
+ID of the meeting.
 
-        - `bucket: optional string`
+formatuuid
 
-          Name of the storage medium's bucket.
+<a href="#">Link to this property</a>
 
-        - `host: optional string`
+created\_at: string
 
-          SSH destination server host for SFTP type storage medium
+Timestamp the object was created at. The time is returned in ISO format.
 
-        - `password: optional string`
+formatdate-time
 
-          SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key.
+<a href="#">Link to this property</a>
 
-        - `path: optional string`
+updated\_at: string
 
-          Path relative to the bucket root at which the recording will be placed.
+Timestamp the object was updated at. The time is returned in ISO format.
 
-        - `port: optional number`
+formatdate-time
 
-          SSH destination server port for SFTP type storage medium
+<a href="#">Link to this property</a>
 
-        - `private_key: optional string`
+<details>
 
-          Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
+<summary>
 
-        - `region: optional string`
+ai\_config: optional object {summarization, transcription }
 
-          Region of the storage medium.
+The AI Config allows you to customize the behavior of meeting transcriptions and summaries
 
-        - `secret: optional string`
+</summary>
 
-          Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
+<details>
 
-        - `username: optional string`
+<summary>
 
-          SSH destination server username for SFTP type storage medium
+summarization: optional object {summary\_type, text\_format, word\_limit }
 
-      - `video_config: optional object { codec, export_file, height, 2 more }`
+Summary Config
 
-        - `codec: optional "H264" or "VP8"`
+</summary>
 
-          Codec using which the recording will be encoded.
+<details>
 
-          - `"H264"`
+<summary>
 
-          - `"VP8"`
+summary\_type: optional "general"or "team\_meeting"or "sales\_call"or 6 more
 
-        - `export_file: optional boolean`
+Defines the style of the summary, such as general, team meeting, or sales call.
 
-          Controls whether to export video file seperately
+</summary>
 
-        - `height: optional number`
+One of the following:
 
-          Height of the recording video in pixels
+"general"
 
-        - `watermark: optional object { position, size, url }`
+<a href="#">Link to this property</a>
 
-          Watermark to be added to the recording
+"team\_meeting"
 
-          - `position: optional "left top" or "right top" or "left bottom" or "right bottom"`
+<a href="#">Link to this property</a>
 
-            Position of the watermark
+"sales\_call"
 
-            - `"left top"`
+<a href="#">Link to this property</a>
 
-            - `"right top"`
+"client\_check\_in"
 
-            - `"left bottom"`
+<a href="#">Link to this property</a>
 
-            - `"right bottom"`
+"interview"
 
-          - `size: optional object { height, width }`
+<a href="#">Link to this property</a>
 
-            Size of the watermark
+"daily\_standup"
 
-            - `height: optional number`
+<a href="#">Link to this property</a>
 
-              Height of the watermark in px
+"one\_on\_one\_meeting"
 
-            - `width: optional number`
+<a href="#">Link to this property</a>
 
-              Width of the watermark in px
+"lecture"
 
-          - `url: optional string`
+<a href="#">Link to this property</a>
 
-            URL of the watermark image
+"code\_review"
 
-        - `width: optional number`
+<a href="#">Link to this property</a>
 
-          Width of the recording video in pixels
+</details>
 
-    - `session_keep_alive_time_in_secs: optional number`
+<a href="#">Link to this property</a>
 
-      Time in seconds, for which a session remains active, after the last participant has left the meeting.
+<details>
 
-    - `status: optional "ACTIVE" or "INACTIVE"`
+<summary>
 
-      Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
+text\_format: optional "plain\_text"or "markdown"
 
-      - `"ACTIVE"`
+Determines the text format of the summary, such as plain text or markdown.
 
-      - `"INACTIVE"`
+</summary>
 
-    - `summarize_on_end: optional boolean`
+One of the following:
 
-      Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+"plain\_text"
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-      Title of the meeting.
+"markdown"
 
-    - `transcribe_on_end: optional boolean`
+<a href="#">Link to this property</a>
 
-      Automatically generate transcripts when the meeting ends.
+</details>
 
-### Meeting Get Meeting Participants Response
+<a href="#">Link to this property</a>
 
-- `MeetingGetMeetingParticipantsResponse object { data, paging, success }`
+word\_limit: optional number
 
-  - `data: array of object { id, created_at, custom_participant_id, 4 more }`
+Sets the maximum number of words in the meeting summary.
 
-    - `id: string`
+maximum1000
 
-      ID of the participant.
+minimum150
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-      When this object was created. The time is returned in ISO format.
+</details>
 
-    - `custom_participant_id: string`
+<a href="#">Link to this property</a>
 
-      A unique participant ID generated by the client.
+<details>
 
-    - `preset_name: string`
+<summary>
 
-      Preset applied to the participant.
+transcription: optional object {keywords, language, profanity\_filter }
 
-    - `updated_at: string`
+Transcription Configurations
 
-      When this object was updated. The time is returned in ISO format.
+</summary>
 
-    - `name: optional string`
+keywords: optional array of string
 
-      Name of the participant.
+Adds specific terms to improve accurate detection during transcription.
 
-    - `picture: optional string`
+<a href="#">Link to this property</a>
 
-      URL to a picture of the participant.
+<details>
 
-  - `paging: object { end_offset, start_offset, total_count }`
+<summary>
 
-    - `end_offset: number`
+language: optional "en-US"or "en-IN"or "de"or 7 more
 
-    - `start_offset: number`
+Specifies the language code for transcription to ensure accurate results.
 
-    - `total_count: number`
+</summary>
 
-  - `success: boolean`
+One of the following:
 
-### Meeting Add Participant Response
+"en-US"
 
-- `MeetingAddParticipantResponse object { success, data }`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+"en-IN"
 
-    Success status of the operation
+<a href="#">Link to this property</a>
 
-  - `data: optional object { id, token, created_at, 5 more }`
+"de"
 
-    Represents a participant.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"hi"
 
-      ID of the participant.
+<a href="#">Link to this property</a>
 
-    - `token: string`
+"sv"
 
-      The participant's auth token that can be used for joining a meeting from the client side.
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+"ru"
 
-      When this object was created. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `custom_participant_id: string`
+"pl"
 
-      A unique participant ID generated by the client.
+<a href="#">Link to this property</a>
 
-    - `preset_name: string`
+"el"
 
-      Preset applied to the participant.
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+"fr"
 
-      When this object was updated. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"nl"
 
-      Name of the participant.
+<a href="#">Link to this property</a>
 
-    - `picture: optional string`
+</details>
 
-      URL to a picture of the participant.
+<a href="#">Link to this property</a>
 
-### Meeting Get Meeting Participant Response
+profanity\_filter: optional boolean
 
-- `MeetingGetMeetingParticipantResponse object { data, success }`
+Control the inclusion of offensive language in transcriptions.
 
-  - `data: object { id, created_at, custom_participant_id, 4 more }`
+<a href="#">Link to this property</a>
 
-    Data returned by the operation
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      ID of the participant.
+</details>
 
-    - `created_at: string`
+<a href="#">Link to this property</a>
 
-      When this object was created. The time is returned in ISO format.
+live\_stream\_on\_start: optional boolean
 
-    - `custom_participant_id: string`
+Specifies if the meeting should start getting livestreamed on start.
 
-      A unique participant ID generated by the client.
+<a href="#">Link to this property</a>
 
-    - `preset_name: string`
+persist\_chat: optional boolean
 
-      Preset applied to the participant.
+Specifies if Chat within a meeting should persist for a week.
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      When this object was updated. The time is returned in ISO format.
+record\_on\_start: optional boolean
 
-    - `name: optional string`
+Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 
-      Name of the participant.
+<a href="#">Link to this property</a>
 
-    - `picture: optional string`
+<details>
 
-      URL to a picture of the participant.
+<summary>
 
-  - `success: boolean`
+recording\_config: optional object {audio\_config, file\_name\_prefix, live\_streaming\_config, 4 more }
 
-    Success status of the operation
+Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal.
 
-### Meeting Edit Participant Response
+</summary>
 
-- `MeetingEditParticipantResponse object { success, data }`
+<details>
 
-  - `success: boolean`
+<summary>
 
-    Success status of the operation
+audio\_config: optional object {channel, codec, export\_file }
 
-  - `data: optional object { id, token, created_at, 5 more }`
+Object containing configuration regarding the audio that is being recorded.
 
-    Represents a participant.
+</summary>
 
-    - `id: string`
+<details>
 
-      ID of the participant.
+<summary>
 
-    - `token: string`
+channel: optional "mono"or "stereo"
 
-      The participant's auth token that can be used for joining a meeting from the client side.
+Audio signal pathway within an audio file that carries a specific sound source.
 
-    - `created_at: string`
+</summary>
 
-      When this object was created. The time is returned in ISO format.
+One of the following:
 
-    - `custom_participant_id: string`
+"mono"
 
-      A unique participant ID generated by the client.
+<a href="#">Link to this property</a>
 
-    - `preset_name: string`
+"stereo"
 
-      Preset applied to the participant.
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+</details>
 
-      When this object was updated. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-      Name of the participant.
+<summary>
 
-    - `picture: optional string`
+codec: optional "MP3"or "AAC"
 
-      URL to a picture of the participant.
+Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
 
-### Meeting Delete Meeting Participant Response
+</summary>
 
-- `MeetingDeleteMeetingParticipantResponse object { success, data }`
+One of the following:
 
-  - `success: boolean`
+"MP3"
 
-    Success status of the operation
+<a href="#">Link to this property</a>
 
-  - `data: optional object { created_at, custom_participant_id, preset_id, updated_at }`
+"AAC"
 
-    Data returned by the operation
+<a href="#">Link to this property</a>
 
-    - `created_at: string`
+</details>
 
-      Timestamp this object was created at. The time is returned in ISO format.
+<a href="#">Link to this property</a>
 
-    - `custom_participant_id: string`
+export\_file: optional boolean
 
-      A unique participant ID generated by the client.
+Controls whether to export audio file seperately
 
-    - `preset_id: string`
+<a href="#">Link to this property</a>
 
-      ID of the preset applied to this participant.
+</details>
 
-    - `updated_at: string`
+<a href="#">Link to this property</a>
 
-      Timestamp this object was updated at. The time is returned in ISO format.
+file\_name\_prefix: optional string
 
-### Meeting Refresh Participant Token Response
+Adds a prefix to the beginning of the file name of the recording.
 
-- `MeetingRefreshParticipantTokenResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: object { token }`
+<details>
 
-    Data returned by the operation
+<summary>
 
-    - `token: string`
+live\_streaming\_config: optional object {rtmp\_url }
 
-      Regenerated participant's authentication token.
+</summary>
 
-  - `success: boolean`
+rtmp\_url: optional string
 
-    Success status of the operation
+RTMP URL to stream to
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+max\_seconds: optional number
+
+Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.
+
+maximum86400
+
+minimum60
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+realtimekit\_bucket\_config: optional object {enabled }
+
+</summary>
+
+enabled: boolean
+
+Controls whether recordings are uploaded to RealtimeKit’s bucket. If set to false, <code>download_url</code>, <code>audio_download_url</code>, <code>download_url_expiry</code> won’t be generated for a recording.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+storage\_config: optional object {access\_key, auth\_method, bucket, 9 more } or object {access\_key, region, auth\_method, 9 more } or object {private\_key, access\_key, auth\_method, 9 more } or object {password, access\_key, auth\_method, 9 more }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {access\_key, auth\_method, bucket, 9 more }
+
+</summary>
+
+access\_key: optional string
+
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+auth\_method: optional "KEY"or "PASSWORD"
+
+Authentication method used for “sftp” type storage medium
+
+</summary>
+
+One of the following:
+
+"KEY"
+
+<a href="#">Link to this property</a>
+
+"PASSWORD"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+private\_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Region of the storage medium.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+type: optional "gcs"
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {access\_key, region, auth\_method, 9 more }
+
+</summary>
+
+access\_key: unknown
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+region: unknown
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+auth\_method: optional "KEY"or "PASSWORD"
+
+Authentication method used for “sftp” type storage medium
+
+</summary>
+
+One of the following:
+
+"KEY"
+
+<a href="#">Link to this property</a>
+
+"PASSWORD"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+private\_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "aws"or "azure"or "digitalocean"
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {private\_key, access\_key, auth\_method, 9 more }
+
+</summary>
+
+private\_key: string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+access\_key: optional string
+
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+<a href="#">Link to this property</a>
+
+auth\_method: optional "KEY"
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+password: optional string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Region of the storage medium.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "aws"or "azure"or "digitalocean"or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+"gcs"
+
+<a href="#">Link to this property</a>
+
+"sftp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {password, access\_key, auth\_method, 9 more }
+
+</summary>
+
+password: string
+
+SSH destination server password for SFTP type storage medium when auth\_method is “PASSWORD”. If auth\_method is “KEY”, this specifies the password for the ssh private key.
+
+<a href="#">Link to this property</a>
+
+access\_key: optional string
+
+Access key of the storage medium. Access key is not required for the <code>gcs</code> storage media type.
+
+Note that this field is not readable by clients, only writeable.
+
+<a href="#">Link to this property</a>
+
+auth\_method: optional "PASSWORD"
+
+<a href="#">Link to this property</a>
+
+bucket: optional string
+
+Name of the storage medium’s bucket.
+
+<a href="#">Link to this property</a>
+
+host: optional string
+
+SSH destination server host for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+path: optional string
+
+Path relative to the bucket root at which the recording will be placed.
+
+<a href="#">Link to this property</a>
+
+port: optional number
+
+SSH destination server port for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+private\_key: optional string
+
+Private key used to login to destination SSH server for SFTP type storage medium, when auth\_method used is “KEY”
+
+<a href="#">Link to this property</a>
+
+region: optional string
+
+Region of the storage medium.
+
+<a href="#">Link to this property</a>
+
+secret: optional string
+
+Secret key of the storage medium. Similar to <code>access_key</code>, it is only writeable by clients, not readable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: optional "aws"or "azure"or "digitalocean"or 2 more
+
+Type of storage media.
+
+</summary>
+
+One of the following:
+
+"aws"
+
+<a href="#">Link to this property</a>
+
+"azure"
+
+<a href="#">Link to this property</a>
+
+"digitalocean"
+
+<a href="#">Link to this property</a>
+
+"gcs"
+
+<a href="#">Link to this property</a>
+
+"sftp"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+username: optional string
+
+SSH destination server username for SFTP type storage medium
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+video\_config: optional object {codec, export\_file, height, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+codec: optional "H264"or "VP8"or "VP9"
+
+Codec using which the recording will be encoded.
+
+</summary>
+
+One of the following:
+
+"H264"
+
+<a href="#">Link to this property</a>
+
+"VP8"
+
+<a href="#">Link to this property</a>
+
+"VP9"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+export\_file: optional boolean
+
+Controls whether to export video file seperately
+
+<a href="#">Link to this property</a>
+
+height: optional number
+
+Height of the recording video in pixels
+
+maximum1920
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+watermark: optional object {position, size, url }
+
+Watermark to be added to the recording
+
+</summary>
+
+<details>
+
+<summary>
+
+position: optional "left top"or "right top"or "left bottom"or "right bottom"
+
+Position of the watermark
+
+</summary>
+
+One of the following:
+
+"left top"
+
+<a href="#">Link to this property</a>
+
+"right top"
+
+<a href="#">Link to this property</a>
+
+"left bottom"
+
+<a href="#">Link to this property</a>
+
+"right bottom"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+size: optional object {height, width }
+
+Size of the watermark
+
+</summary>
+
+height: optional number
+
+Height of the watermark in px
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+width: optional number
+
+Width of the watermark in px
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: optional string
+
+URL of the watermark image
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+width: optional number
+
+Width of the recording video in pixels
+
+maximum1920
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+session\_keep\_alive\_time\_in\_secs: optional number
+
+Time in seconds, for which a session remains active, after the last participant has left the meeting.
+
+maximum600
+
+minimum60
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "ACTIVE"or "INACTIVE"
+
+Whether the meeting is <code>ACTIVE</code> or <code>INACTIVE</code>. Users will not be able to join an <code>INACTIVE</code> meeting.
+
+</summary>
+
+One of the following:
+
+"ACTIVE"
+
+<a href="#">Link to this property</a>
+
+"INACTIVE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+summarize\_on\_end: optional boolean
+
+Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+Title of the meeting.
+
+<a href="#">Link to this property</a>
+
+transcribe\_on\_end: optional boolean
+
+Automatically generate transcripts when the meeting ends.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_replace_meeting_by_id_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+MeetingGetMeetingParticipantsResponse object {data, paging, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: array of object {id, created\_at, custom\_participant\_id, 4 more }
+
+</summary>
+
+id: string
+
+ID of the participant.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When this object was created. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+custom\_participant\_id: string
+
+A unique participant ID generated by the client.
+
+<a href="#">Link to this property</a>
+
+preset\_name: string
+
+Preset applied to the participant.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+When this object was updated. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the participant.
+
+<a href="#">Link to this property</a>
+
+picture: optional string
+
+URL to a picture of the participant.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+paging: object {end\_offset, start\_offset, total\_count }
+
+</summary>
+
+end\_offset: number
+
+<a href="#">Link to this property</a>
+
+start\_offset: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_get_meeting_participants_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+MeetingAddParticipantResponse object {success, data }
+
+</summary>
+
+success: boolean
+
+Success status of the operation
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+data: optional object {id, token, created\_at, 5 more }
+
+Represents a participant.
+
+</summary>
+
+id: string
+
+ID of the participant.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+token: string
+
+The participant’s auth token that can be used for joining a meeting from the client side.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When this object was created. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+custom\_participant\_id: string
+
+A unique participant ID generated by the client.
+
+<a href="#">Link to this property</a>
+
+preset\_name: string
+
+Preset applied to the participant.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+When this object was updated. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the participant.
+
+<a href="#">Link to this property</a>
+
+picture: optional string
+
+URL to a picture of the participant.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_add_participant_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+MeetingGetMeetingParticipantResponse object {data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object {id, created\_at, custom\_participant\_id, 4 more }
+
+Data returned by the operation
+
+</summary>
+
+id: string
+
+ID of the participant.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When this object was created. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+custom\_participant\_id: string
+
+A unique participant ID generated by the client.
+
+<a href="#">Link to this property</a>
+
+preset\_name: string
+
+Preset applied to the participant.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+When this object was updated. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the participant.
+
+<a href="#">Link to this property</a>
+
+picture: optional string
+
+URL to a picture of the participant.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+Success status of the operation
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_get_meeting_participant_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+MeetingEditParticipantResponse object {success, data }
+
+</summary>
+
+success: boolean
+
+Success status of the operation
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+data: optional object {id, token, created\_at, 5 more }
+
+Represents a participant.
+
+</summary>
+
+id: string
+
+ID of the participant.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+token: string
+
+The participant’s auth token that can be used for joining a meeting from the client side.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+When this object was created. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+custom\_participant\_id: string
+
+A unique participant ID generated by the client.
+
+<a href="#">Link to this property</a>
+
+preset\_name: string
+
+Preset applied to the participant.
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+When this object was updated. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the participant.
+
+<a href="#">Link to this property</a>
+
+picture: optional string
+
+URL to a picture of the participant.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_edit_participant_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+MeetingDeleteMeetingParticipantResponse object {success, data }
+
+</summary>
+
+success: boolean
+
+Success status of the operation
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+data: optional object {created\_at, custom\_participant\_id, preset\_id, updated\_at }
+
+Data returned by the operation
+
+</summary>
+
+created\_at: string
+
+Timestamp this object was created at. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+custom\_participant\_id: string
+
+A unique participant ID generated by the client.
+
+<a href="#">Link to this property</a>
+
+preset\_id: string
+
+ID of the preset applied to this participant.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp this object was updated at. The time is returned in ISO format.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_delete_meeting_participant_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+MeetingRefreshParticipantTokenResponse object {data, success }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: object {token }
+
+Data returned by the operation
+
+</summary>
+
+token: string
+
+Regenerated participant’s authentication token.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+Success status of the operation
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.meetings%20%3E%20(model)%20meeting_refresh_participant_token_response%20%3E%20(schema)>)

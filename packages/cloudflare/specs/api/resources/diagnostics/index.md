@@ -1,1077 +1,533 @@
+---
+title: Diagnostics
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Diagnostics
 
-# Traceroutes
+#### DiagnosticsTraceroutes
 
-## Traceroute
+##### [Traceroute](https://developers.cloudflare.com/api/resources/diagnostics/subresources/traceroutes/methods/create)
 
-**post** `/accounts/{account_id}/diagnostics/traceroute`
+POST/accounts/{account\_id}/diagnostics/traceroute
 
-Run traceroutes from Cloudflare colos.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier
+Traceroute object {colos, target }
 
-### Body Parameters
+</summary>
 
-- `targets: array of string`
+<details>
 
-- `colos: optional array of string`
+<summary>
 
-  If no source colo names specified, all colos will be used. China colos are unavailable for traceroutes.
+colos: optional array of object {colo, error, hops, 2 more }
 
-- `options: optional object { max_ttl, packet_type, packets_per_ttl, 2 more }`
+</summary>
 
-  - `max_ttl: optional number`
+<details>
 
-    Max TTL.
+<summary>
 
-  - `packet_type: optional "icmp" or "tcp" or "udp" or 2 more`
+colo: optional object {city, name }
 
-    Type of packet sent.
+</summary>
 
-    - `"icmp"`
+city: optional string
 
-    - `"tcp"`
+Source colo city.
 
-    - `"udp"`
+<a href="#">Link to this property</a>
 
-    - `"gre"`
+name: optional string
 
-    - `"gre+icmp"`
+Source colo name.
 
-  - `packets_per_ttl: optional number`
+<a href="#">Link to this property</a>
 
-    Number of packets sent at each TTL.
+</details>
 
-  - `port: optional number`
+<a href="#">Link to this property</a>
 
-    For UDP and TCP, specifies the destination port. For ICMP, specifies the initial ICMP sequence value. Default value 0 will choose the best value to use for each protocol.
+<details>
 
-  - `wait_time: optional number`
+<summary>
 
-    Set the time (in seconds) to wait for a response to a probe.
+error: optional ""or "Could not gather traceroute data: Code 1"or "Could not gather traceroute data: Code 2"or 2 more
 
-### Returns
+Errors resulting from collecting traceroute from colo to target.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+""
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"Could not gather traceroute data: Code 1"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"Could not gather traceroute data: Code 2"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"Could not gather traceroute data: Code 3"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"Could not gather traceroute data: Code 4"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional array of Traceroute`
+<summary>
 
-  - `colos: optional array of object { colo, error, hops, 2 more }`
+hops: optional array of object {nodes, packets\_lost, packets\_sent, packets\_ttl }
 
-    - `colo: optional object { city, name }`
+</summary>
 
-      - `city: optional string`
+<details>
 
-        Source colo city.
+<summary>
 
-      - `name: optional string`
+nodes: optional array of object {asn, ip, labels, 6 more }
 
-        Source colo name.
+An array of node objects.
 
-    - `error: optional "" or "Could not gather traceroute data: Code 1" or "Could not gather traceroute data: Code 2" or 2 more`
+</summary>
 
-      Errors resulting from collecting traceroute from colo to target.
+asn: optional string
 
-      - `""`
+AS number associated with the node object.
 
-      - `"Could not gather traceroute data: Code 1"`
+<a href="#">Link to this property</a>
 
-      - `"Could not gather traceroute data: Code 2"`
+ip: optional string
 
-      - `"Could not gather traceroute data: Code 3"`
+IP address of the node.
 
-      - `"Could not gather traceroute data: Code 4"`
+<a href="#">Link to this property</a>
 
-    - `hops: optional array of object { nodes, packets_lost, packets_sent, packets_ttl }`
+labels: optional array of string
 
-      - `nodes: optional array of object { asn, ip, labels, 6 more }`
+Field appears if there is an additional annotation printed when the probe returns. Field also appears when running a GRE+ICMP traceroute to denote which traceroute a node comes from.
 
-        An array of node objects.
+<a href="#">Link to this property</a>
 
-        - `asn: optional string`
+max\_rtt\_ms: optional number
 
-          AS number associated with the node object.
+Maximum RTT in ms.
 
-        - `ip: optional string`
+<a href="#">Link to this property</a>
 
-          IP address of the node.
+mean\_rtt\_ms: optional number
 
-        - `labels: optional array of string`
+Mean RTT in ms.
 
-          Field appears if there is an additional annotation printed when the probe returns. Field also appears when running a GRE+ICMP traceroute to denote which traceroute a node comes from.
+<a href="#">Link to this property</a>
 
-        - `max_rtt_ms: optional number`
+min\_rtt\_ms: optional number
 
-          Maximum RTT in ms.
+Minimum RTT in ms.
 
-        - `mean_rtt_ms: optional number`
+<a href="#">Link to this property</a>
 
-          Mean RTT in ms.
+name: optional string
 
-        - `min_rtt_ms: optional number`
+Host name of the address, this may be the same as the IP address.
 
-          Minimum RTT in ms.
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+packet\_count: optional number
 
-          Host name of the address, this may be the same as the IP address.
+Number of packets with a response from this node.
 
-        - `packet_count: optional number`
+<a href="#">Link to this property</a>
 
-          Number of packets with a response from this node.
+std\_dev\_rtt\_ms: optional number
 
-        - `std_dev_rtt_ms: optional number`
+Standard deviation of the RTTs in ms.
 
-          Standard deviation of the RTTs in ms.
+<a href="#">Link to this property</a>
 
-      - `packets_lost: optional number`
+</details>
 
-        Number of packets where no response was received.
+<a href="#">Link to this property</a>
 
-      - `packets_sent: optional number`
+packets\_lost: optional number
 
-        Number of packets sent with specified TTL.
+Number of packets where no response was received.
 
-      - `packets_ttl: optional number`
+<a href="#">Link to this property</a>
 
-        The time to live (TTL).
+packets\_sent: optional number
 
-    - `target_summary: optional unknown`
+Number of packets sent with specified TTL.
 
-      Aggregated statistics from all hops about the target.
+<a href="#">Link to this property</a>
 
-    - `traceroute_time_ms: optional number`
-
-      Total time of traceroute in ms.
-
-  - `target: optional string`
-
-    The target hostname, IPv6, or IPv6 address.
+packets\_ttl: optional number
 
-### Example
+The time to live (TTL).
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/traceroute \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "targets": [
-            "203.0.113.1",
-            "cloudflare.com"
-          ],
-          "colos": [
-            "den",
-            "sin"
-          ],
-          "options": {
-            "max_ttl": 15,
-            "packet_type": "icmp"
-          }
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "colos": [
-        {
-          "colo": {
-            "city": "Denver, CO, US",
-            "name": "den01"
-          },
-          "error": "",
-          "hops": [
-            {
-              "nodes": [
-                {
-                  "asn": "AS13335",
-                  "ip": "1.1.1.1",
-                  "labels": [
-                    "string"
-                  ],
-                  "max_rtt_ms": 0,
-                  "mean_rtt_ms": 0,
-                  "min_rtt_ms": 0,
-                  "name": "one.one.one.one",
-                  "packet_count": 3,
-                  "std_dev_rtt_ms": 0
-                }
-              ],
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "packets_ttl": 0
-            }
-          ],
-          "target_summary": {
-            "asn": "",
-            "ip": "1.1.1.1",
-            "max_latency_ms": 0.034,
-            "mean_latency_ms": 0.021,
-            "min_latency_ms": 0.014,
-            "name": "1.1.1.1",
-            "packet_count": 3,
-            "std_dev_latency_ms": 0.011269427669584647
-          },
-          "traceroute_time_ms": 0
-        }
-      ],
-      "target": "1.1.1.1"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+target\_summary: optional unknown
 
-### Traceroute
+Aggregated statistics from all hops about the target.
 
-- `Traceroute object { colos, target }`
+<a href="#">Link to this property</a>
 
-  - `colos: optional array of object { colo, error, hops, 2 more }`
+traceroute\_time\_ms: optional number
 
-    - `colo: optional object { city, name }`
+Total time of traceroute in ms.
 
-      - `city: optional string`
+<a href="#">Link to this property</a>
 
-        Source colo city.
+</details>
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Source colo name.
+target: optional string
 
-    - `error: optional "" or "Could not gather traceroute data: Code 1" or "Could not gather traceroute data: Code 2" or 2 more`
+The target hostname, IPv6, or IPv6 address.
 
-      Errors resulting from collecting traceroute from colo to target.
+<a href="#">Link to this property</a>
 
-      - `""`
+</details>
 
-      - `"Could not gather traceroute data: Code 1"`
+[Link to this property](#)%20diagnostics.traceroutes%20%3E%20(model)%20traceroute%20%3E%20(schema)>)
 
-      - `"Could not gather traceroute data: Code 2"`
+#### DiagnosticsEndpoint Healthchecks
 
-      - `"Could not gather traceroute data: Code 3"`
+##### [List Endpoint Health Checks](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/list)
 
-      - `"Could not gather traceroute data: Code 4"`
+GET/accounts/{account\_id}/diagnostics/endpoint-healthchecks
 
-    - `hops: optional array of object { nodes, packets_lost, packets_sent, packets_ttl }`
+##### [Endpoint Health Check](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/create)
 
-      - `nodes: optional array of object { asn, ip, labels, 6 more }`
+POST/accounts/{account\_id}/diagnostics/endpoint-healthchecks
 
-        An array of node objects.
+##### [Get Endpoint Health Check](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/get)
 
-        - `asn: optional string`
+GET/accounts/{account\_id}/diagnostics/endpoint-healthchecks/{id}
 
-          AS number associated with the node object.
+##### [Delete Endpoint Health Check](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/delete)
 
-        - `ip: optional string`
+DELETE/accounts/{account\_id}/diagnostics/endpoint-healthchecks/{id}
 
-          IP address of the node.
+##### [Update Endpoint Health Check](https://developers.cloudflare.com/api/resources/diagnostics/subresources/endpoint-healthchecks/methods/update)
 
-        - `labels: optional array of string`
+PUT/accounts/{account\_id}/diagnostics/endpoint-healthchecks/{id}
 
-          Field appears if there is an additional annotation printed when the probe returns. Field also appears when running a GRE+ICMP traceroute to denote which traceroute a node comes from.
+##### ModelsExpand Collapse
 
-        - `max_rtt_ms: optional number`
+<details>
 
-          Maximum RTT in ms.
+<summary>
 
-        - `mean_rtt_ms: optional number`
+EndpointHealthcheck object {check\_type, endpoint, name }
 
-          Mean RTT in ms.
+</summary>
 
-        - `min_rtt_ms: optional number`
+check\_type: "icmp"
 
-          Minimum RTT in ms.
+type of check to perform
 
-        - `name: optional string`
+<a href="#">Link to this property</a>
 
-          Host name of the address, this may be the same as the IP address.
+endpoint: string
 
-        - `packet_count: optional number`
+the IP address of the host to perform checks against
 
-          Number of packets with a response from this node.
+<a href="#">Link to this property</a>
 
-        - `std_dev_rtt_ms: optional number`
+name: optional string
 
-          Standard deviation of the RTTs in ms.
+Optional name associated with this check
 
-      - `packets_lost: optional number`
+<a href="#">Link to this property</a>
 
-        Number of packets where no response was received.
+</details>
 
-      - `packets_sent: optional number`
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck%20%3E%20(schema)>)
 
-        Number of packets sent with specified TTL.
+<details>
 
-      - `packets_ttl: optional number`
+<summary>
 
-        The time to live (TTL).
+EndpointHealthcheckListResponse object {check\_type, endpoint, id, name }
 
-    - `target_summary: optional unknown`
+</summary>
 
-      Aggregated statistics from all hops about the target.
+check\_type: "icmp"
 
-    - `traceroute_time_ms: optional number`
+type of check to perform
 
-      Total time of traceroute in ms.
+<a href="#">Link to this property</a>
 
-  - `target: optional string`
+endpoint: string
 
-    The target hostname, IPv6, or IPv6 address.
+the IP address of the host to perform checks against
 
-# Endpoint Healthchecks
+<a href="#">Link to this property</a>
 
-## List Endpoint Health Checks
+id: optional string
 
-**get** `/accounts/{account_id}/diagnostics/endpoint-healthchecks`
+UUID.
 
-List Endpoint Health Checks.
+maxLength36
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+name: optional string
 
-  Identifier
+Optional name associated with this check
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_list_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+EndpointHealthcheckCreateResponse object {check\_type, endpoint, id, name }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+check\_type: "icmp"
 
-  - `code: number`
+type of check to perform
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+endpoint: string
 
-  - `source: optional object { pointer }`
+the IP address of the host to perform checks against
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+id: optional string
 
-  Whether the API call was successful.
+UUID.
 
-  - `true`
+maxLength36
 
-- `result: optional object { check_type, endpoint, id, name }`
+<a href="#">Link to this property</a>
 
-  - `check_type: "icmp"`
+name: optional string
 
-    type of check to perform
+Optional name associated with this check
 
-    - `"icmp"`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+</details>
 
-    the IP address of the host to perform checks against
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_create_response%20%3E%20(schema)>)
 
-  - `id: optional string`
+<details>
 
-    UUID.
+<summary>
 
-  - `name: optional string`
+EndpointHealthcheckGetResponse object {check\_type, endpoint, id, name }
 
-    Optional name associated with this check
+</summary>
 
-### Example
+check\_type: "icmp"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+type of check to perform
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "check_type": "icmp",
-    "endpoint": "203.0.113.1",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "name": "My Endpoint"
-  }
-}
-```
+endpoint: string
 
-## Endpoint Health Check
+the IP address of the host to perform checks against
 
-**post** `/accounts/{account_id}/diagnostics/endpoint-healthchecks`
+<a href="#">Link to this property</a>
 
-Create Endpoint Health Check.
+id: optional string
 
-### Path Parameters
+UUID.
 
-- `account_id: string`
+maxLength36
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+name: optional string
 
-- `check_type: "icmp"`
+Optional name associated with this check
 
-  type of check to perform
+<a href="#">Link to this property</a>
 
-  - `"icmp"`
+</details>
 
-- `endpoint: string`
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_get_response%20%3E%20(schema)>)
 
-  the IP address of the host to perform checks against
+<details>
 
-- `name: optional string`
+<summary>
 
-  Optional name associated with this check
+EndpointHealthcheckDeleteResponse object {errors, messages, success }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+code: number
 
-    - `pointer: optional string`
+minimum1000
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+message: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+documentation\_url: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+source: optional object {pointer }
 
-  - `true`
+</summary>
 
-- `result: optional object { check_type, endpoint, id, name }`
+pointer: optional string
 
-  - `check_type: "icmp"`
+<a href="#">Link to this property</a>
 
-    type of check to perform
+</details>
 
-    - `"icmp"`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+</details>
 
-    the IP address of the host to perform checks against
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    UUID.
+<summary>
 
-  - `name: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-    Optional name associated with this check
+</summary>
 
-### Example
+code: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "check_type": "icmp",
-          "endpoint": "203.0.113.1",
-          "name": "My Endpoint"
-        }'
-```
+minimum1000
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "check_type": "icmp",
-    "endpoint": "203.0.113.1",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "name": "My Endpoint"
-  }
-}
-```
+message: string
 
-## Get Endpoint Health Check
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}`
+documentation\_url: optional string
 
-Get a single Endpoint Health Check.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier
+source: optional object {pointer }
 
-- `id: string`
+</summary>
 
-  UUID.
+pointer: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+success: true
 
-    - `pointer: optional string`
+Whether the API call was successful.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_delete_response%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+EndpointHealthcheckUpdateResponse object {check\_type, endpoint, id, name }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+check\_type: "icmp"
 
-  - `true`
+type of check to perform
 
-- `result: optional object { check_type, endpoint, id, name }`
+<a href="#">Link to this property</a>
 
-  - `check_type: "icmp"`
+endpoint: string
 
-    type of check to perform
+the IP address of the host to perform checks against
 
-    - `"icmp"`
+<a href="#">Link to this property</a>
 
-  - `endpoint: string`
+id: optional string
 
-    the IP address of the host to perform checks against
+UUID.
 
-  - `id: optional string`
+maxLength36
 
-    UUID.
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+name: optional string
 
-    Optional name associated with this check
+Optional name associated with this check
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks/$ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "check_type": "icmp",
-    "endpoint": "203.0.113.1",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "name": "My Endpoint"
-  }
-}
-```
-
-## Delete Endpoint Health Check
-
-**delete** `/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}`
-
-Delete Endpoint Health Check.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks/$ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Update Endpoint Health Check
-
-**put** `/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}`
-
-Update a Endpoint Health Check.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `id: string`
-
-  UUID.
-
-### Body Parameters
-
-- `check_type: "icmp"`
-
-  type of check to perform
-
-  - `"icmp"`
-
-- `endpoint: string`
-
-  the IP address of the host to perform checks against
-
-- `name: optional string`
-
-  Optional name associated with this check
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/endpoint-healthchecks/$ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "check_type": "icmp",
-          "endpoint": "203.0.113.1",
-          "name": "My Endpoint"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "check_type": "icmp",
-    "endpoint": "203.0.113.1",
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "name": "My Endpoint"
-  }
-}
-```
-
-## Domain Types
-
-### Endpoint Healthcheck
-
-- `EndpointHealthcheck object { check_type, endpoint, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Endpoint Healthcheck List Response
-
-- `EndpointHealthcheckListResponse object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Endpoint Healthcheck Create Response
-
-- `EndpointHealthcheckCreateResponse object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Endpoint Healthcheck Get Response
-
-- `EndpointHealthcheckGetResponse object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
-
-### Endpoint Healthcheck Delete Response
-
-- `EndpointHealthcheckDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
-
-### Endpoint Healthcheck Update Response
-
-- `EndpointHealthcheckUpdateResponse object { check_type, endpoint, id, name }`
-
-  - `check_type: "icmp"`
-
-    type of check to perform
-
-    - `"icmp"`
-
-  - `endpoint: string`
-
-    the IP address of the host to perform checks against
-
-  - `id: optional string`
-
-    UUID.
-
-  - `name: optional string`
-
-    Optional name associated with this check
+[Link to this property](#)%20diagnostics.endpoint-healthchecks%20%3E%20(model)%20endpoint_healthcheck_update_response%20%3E%20(schema)>)

@@ -1049,7 +1049,7 @@
           "uri": "/zones/{zone_id}/page_shield/policies",
           "code": 200
         },
-        "smithy.api#documentation": "Create a Page Shield policy."
+        "smithy.api#documentation": "Creates a rule that applies a client-side security action when its filter expression matches."
       },
       "errors": [
         {
@@ -1176,7 +1176,7 @@
           "uri": "/zones/{zone_id}/page_shield/policies/{policy_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a Page Shield policy by ID.",
+        "smithy.api#documentation": "Permanently deletes a content security rule by ID.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -1226,7 +1226,7 @@
           "uri": "/zones/{zone_id}/page_shield/connections/{connection_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches a connection detected by Page Shield by connection ID.",
+        "smithy.api#documentation": "Returns a webpage connection detected on the zone by connection ID.",
         "smithy.api#readonly": {}
       }
     },
@@ -1338,7 +1338,7 @@
           "uri": "/zones/{zone_id}/page_shield/cookies/{cookie_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches a cookie collected by Page Shield by cookie ID.",
+        "smithy.api#documentation": "Returns a cookie detected on the zone by cookie ID.",
         "smithy.api#readonly": {}
       }
     },
@@ -1450,7 +1450,7 @@
           "uri": "/zones/{zone_id}/page_shield",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the Page Shield settings.",
+        "smithy.api#documentation": "Returns the client-side security product enablement status and reporting behaviors.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -1481,14 +1481,14 @@
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, indicates that Page Shield is enabled.",
+            "smithy.api#documentation": "When true, indicates that Client-Side Security is enabled.",
             "smithy.api#required": {}
           }
         },
         "updated_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The timestamp of when Page Shield was last updated.",
+            "smithy.api#documentation": "The timestamp of when Client-Side Security was last updated.",
             "smithy.api#required": {}
           }
         },
@@ -1526,7 +1526,7 @@
           "uri": "/zones/{zone_id}/page_shield/policies/{policy_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches a Page Shield policy by ID.",
+        "smithy.api#documentation": "Returns a content security rule by ID.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -1627,7 +1627,7 @@
           "uri": "/zones/{zone_id}/page_shield/scripts/{script_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches a script detected by Page Shield by script ID.",
+        "smithy.api#documentation": "Returns a script detected on the zone by script ID.",
         "smithy.api#readonly": {}
       }
     },
@@ -1790,7 +1790,7 @@
           "uri": "/zones/{zone_id}/page_shield/connections",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all connections detected by Page Shield.",
+        "smithy.api#documentation": "Lists outbound connections made by webpages in the zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -1927,7 +1927,7 @@
           "uri": "/zones/{zone_id}/page_shield/cookies",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all cookies collected by Page Shield.",
+        "smithy.api#documentation": "Lists cookies detected on the zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -1984,7 +1984,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filters the returned cookies that match the specified name.",
+            "smithy.api#documentation": "Filters the returned cookies that match the specified name. Wildcards are supported at the start and end to support starts with, ends with and contains. e.g. session*",
             "smithy.api#httpQuery": "name"
           }
         },
@@ -2078,7 +2078,7 @@
           "uri": "/zones/{zone_id}/page_shield/policies",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all Page Shield policies.",
+        "smithy.api#documentation": "Lists content security rules configured for the zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -2136,7 +2136,7 @@
           "uri": "/zones/{zone_id}/page_shield/scripts",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all scripts detected by Page Shield.",
+        "smithy.api#documentation": "Lists scripts detected on webpages in the zone, with filtering and pagination.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -2172,7 +2172,7 @@
         "exclude_duplicates": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript",
+            "smithy.api#documentation": "When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript content matches and they share the same url host and zone hostname. In such case, we return the most recent script for the URL host and zone hostname combination.",
             "smithy.api#httpQuery": "exclude_duplicates"
           }
         },
@@ -2280,7 +2280,7 @@
           "uri": "/zones/{zone_id}/page_shield",
           "code": 200
         },
-        "smithy.api#documentation": "Updates Page Shield settings.",
+        "smithy.api#documentation": "Updates client-side security enablement and reporting behaviors for the zone.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -2306,7 +2306,7 @@
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, indicates that Page Shield is enabled."
+            "smithy.api#documentation": "When true, indicates that Client-Side Security is enabled."
           }
         },
         "use_cloudflare_reporting_endpoint": {
@@ -2332,14 +2332,14 @@
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, indicates that Page Shield is enabled.",
+            "smithy.api#documentation": "When true, indicates that Client-Side Security is enabled.",
             "smithy.api#required": {}
           }
         },
         "updated_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The timestamp of when Page Shield was last updated.",
+            "smithy.api#documentation": "The timestamp of when Client-Side Security was last updated.",
             "smithy.api#required": {}
           }
         },
@@ -2377,7 +2377,7 @@
           "uri": "/zones/{zone_id}/page_shield/policies/{policy_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update a Page Shield policy by ID.",
+        "smithy.api#documentation": "Updates the description, action, expression, enabled state, and policy value for a content security rule.",
         "smithy.api#idempotent": {}
       },
       "errors": [

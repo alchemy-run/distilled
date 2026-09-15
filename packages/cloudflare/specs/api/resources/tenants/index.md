@@ -1,737 +1,541 @@
+---
+title: Tenants
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Tenants
 
-## Get tenant
+##### [Get tenant](https://developers.cloudflare.com/api/resources/tenants/methods/get)
 
-**get** `/tenants/{tenant_id}`
+GET/tenants/{tenant\_id}
 
-Retrieves a Tenant by Tenant ID.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `tenant_id: string`
+<summary>
 
-### Returns
+Tenant object {cdate, edate, tenant\_contacts, 9 more }
 
-- `errors: array of unknown`
+</summary>
 
-- `messages: array of ResponseInfo`
+cdate: string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+edate: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: Tenant`
+<details>
 
-  - `cdate: string`
+<summary>
 
-  - `edate: string`
+tenant\_contacts: object {email, website }
 
-  - `tenant_contacts: object { email, website }`
+</summary>
 
-    - `email: optional string`
+email: optional string
 
-    - `website: optional string`
+<a href="#">Link to this property</a>
 
-  - `tenant_labels: array of string`
+website: optional string
 
-  - `tenant_metadata: object { dns }`
+<a href="#">Link to this property</a>
 
-    - `dns: optional object { ns_pool }`
+</details>
 
-      - `ns_pool: object { primary, secondary }`
+<a href="#">Link to this property</a>
 
-        - `primary: optional string`
+tenant\_labels: array of string
 
-        - `secondary: optional string`
+<a href="#">Link to this property</a>
 
-  - `tenant_name: string`
+<details>
 
-  - `tenant_network: unknown`
+<summary>
 
-  - `tenant_status: string`
+tenant\_metadata: object {dns }
 
-  - `tenant_tag: string`
+</summary>
 
-  - `tenant_type: string`
+<details>
 
-  - `tenant_units: array of object { unit_memberships, unit_metadata, unit_name, 2 more }`
+<summary>
 
-    - `unit_memberships: array of unknown`
+dns: optional object {ns\_pool }
 
-    - `unit_metadata: unknown`
+</summary>
 
-    - `unit_name: string`
+<details>
 
-    - `unit_status: string`
+<summary>
 
-    - `unit_tag: string`
+ns\_pool: object {primary, secondary }
 
-  - `customer_id: optional string`
+</summary>
 
-- `success: true`
+primary: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+secondary: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "cdate": "2019-12-27T18:11:19.117Z",
-    "edate": "2019-12-27T18:11:19.117Z",
-    "tenant_contacts": {
-      "email": "email",
-      "website": "website"
-    },
-    "tenant_labels": [
-      "string"
-    ],
-    "tenant_metadata": {
-      "dns": {
-        "ns_pool": {
-          "primary": "primary",
-          "secondary": "secondary"
-        }
-      }
-    },
-    "tenant_name": "tenant_name",
-    "tenant_network": {},
-    "tenant_status": "tenant_status",
-    "tenant_tag": "tenant_tag",
-    "tenant_type": "tenant_type",
-    "tenant_units": [
-      {
-        "unit_memberships": [
-          {}
-        ],
-        "unit_metadata": {},
-        "unit_name": "unit_name",
-        "unit_status": "unit_status",
-        "unit_tag": "unit_tag"
-      }
-    ],
-    "customer_id": "customer_id"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Tenant
+<a href="#">Link to this property</a>
 
-- `Tenant object { cdate, edate, tenant_contacts, 9 more }`
+</details>
 
-  - `cdate: string`
+<a href="#">Link to this property</a>
 
-  - `edate: string`
+tenant\_name: string
 
-  - `tenant_contacts: object { email, website }`
+<a href="#">Link to this property</a>
 
-    - `email: optional string`
+tenant\_network: unknown
 
-    - `website: optional string`
+<a href="#">Link to this property</a>
 
-  - `tenant_labels: array of string`
+tenant\_status: string
 
-  - `tenant_metadata: object { dns }`
+<a href="#">Link to this property</a>
 
-    - `dns: optional object { ns_pool }`
+tenant\_tag: string
 
-      - `ns_pool: object { primary, secondary }`
+<a href="#">Link to this property</a>
 
-        - `primary: optional string`
+tenant\_type: string
 
-        - `secondary: optional string`
+<a href="#">Link to this property</a>
 
-  - `tenant_name: string`
+<details>
 
-  - `tenant_network: unknown`
+<summary>
 
-  - `tenant_status: string`
+tenant\_units: array of object {unit\_memberships, unit\_metadata, unit\_name, 2 more }
 
-  - `tenant_tag: string`
+</summary>
 
-  - `tenant_type: string`
+unit\_memberships: array of unknown
 
-  - `tenant_units: array of object { unit_memberships, unit_metadata, unit_name, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `unit_memberships: array of unknown`
+unit\_metadata: unknown
 
-    - `unit_metadata: unknown`
+<a href="#">Link to this property</a>
 
-    - `unit_name: string`
+unit\_name: string
 
-    - `unit_status: string`
+<a href="#">Link to this property</a>
 
-    - `unit_tag: string`
+unit\_status: string
 
-  - `customer_id: optional string`
+<a href="#">Link to this property</a>
 
-# Account Types
+unit\_tag: string
 
-## Get tenant account types
+<a href="#">Link to this property</a>
 
-**get** `/tenants/{tenant_id}/account_types`
+</details>
 
-List of account types available for the Tenant to provision accounts.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+customer\_id: optional string
 
-- `tenant_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of unknown`
+[Link to this property](#)%20tenants%20%3E%20(model)%20tenant%20%3E%20(schema)>)
 
-- `messages: array of ResponseInfo`
+#### TenantsAccount Types
 
-  - `code: number`
+##### [Get tenant account types](https://developers.cloudflare.com/api/resources/tenants/subresources/account_types/methods/list)
 
-  - `message: string`
+GET/tenants/{tenant\_id}/account\_types
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+AccountTypeListResponse = string
 
-    - `pointer: optional string`
+[Link to this property](#)%20tenants.account_types%20%3E%20(model)%20account_type_list_response%20%3E%20(schema)>)
 
-- `result: array of string`
+#### TenantsAccounts
 
-- `success: true`
+##### [List tenant accounts](https://developers.cloudflare.com/api/resources/tenants/subresources/accounts/methods/list)
 
-  - `true`
+GET/tenants/{tenant\_id}/accounts
 
-### Example
+##### ModelsExpand Collapse
 
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID/account_types \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    "string"
-  ],
-  "success": true
-}
-```
+TenantAccount object {id, created\_on, name, 3 more }
 
-## Domain Types
+</summary>
 
-### Account Type List Response
+id: string
 
-- `AccountTypeListResponse = string`
+<a href="#">Link to this property</a>
 
-# Accounts
+created\_on: string
 
-## List tenant accounts
+formatdate-time
 
-**get** `/tenants/{tenant_id}/accounts`
+<a href="#">Link to this property</a>
 
-List of accounts for the Tenant.
+name: string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `tenant_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of unknown`
+settings: object {abuse\_contact\_email, access\_approval\_expiry, api\_access\_enabled, 3 more }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+abuse\_contact\_email: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+access\_approval\_expiry: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of TenantAccount`
+api\_access\_enabled: boolean
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+Deprecateddefault\_nameservers: string
 
-  - `name: string`
+Use <a href="https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings">DNS Settings</a> instead. Deprecated.
 
-  - `settings: object { abuse_contact_email, access_approval_expiry, api_access_enabled, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `abuse_contact_email: string`
+enforce\_twofactor: boolean
 
-    - `access_approval_expiry: string`
+<a href="#">Link to this property</a>
 
-    - `api_access_enabled: boolean`
+Deprecateduse\_account\_custom\_ns\_by\_default: boolean
 
-    - `default_nameservers: string`
+Use <a href="https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings">DNS Settings</a> instead. Deprecated.
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<a href="#">Link to this property</a>
 
-    - `enforce_twofactor: boolean`
+</details>
 
-    - `use_account_custom_ns_by_default: boolean`
+<a href="#">Link to this property</a>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<details>
 
-  - `type: "standard" or "enterprise"`
+<summary>
 
-    - `"standard"`
+type: "standard"or "enterprise"
 
-    - `"enterprise"`
+</summary>
 
-- `success: true`
+One of the following:
 
-  - `true`
+"standard"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID/accounts \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+"enterprise"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "settings": {
-        "abuse_contact_email": "abuse_contact_email",
-        "access_approval_expiry": "2019-12-27T18:11:19.117Z",
-        "api_access_enabled": true,
-        "default_nameservers": "default_nameservers",
-        "enforce_twofactor": true,
-        "use_account_custom_ns_by_default": true
-      },
-      "type": "standard"
-    }
-  ],
-  "success": true
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Tenant Account
+tags: optional map\[string]
 
-- `TenantAccount object { id, created_on, name, 2 more }`
+Account tags, present only when <code>include_tags=true</code> is requested.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+</details>
 
-  - `name: string`
+[Link to this property](#)%20tenants.accounts%20%3E%20(model)%20tenant_account%20%3E%20(schema)>)
 
-  - `settings: object { abuse_contact_email, access_approval_expiry, api_access_enabled, 3 more }`
+#### TenantsEntitlements
 
-    - `abuse_contact_email: string`
+##### [List tenant entitlements](https://developers.cloudflare.com/api/resources/tenants/subresources/entitlements/methods/get)
 
-    - `access_approval_expiry: string`
+GET/tenants/{tenant\_id}/entitlements
 
-    - `api_access_enabled: boolean`
+##### ModelsExpand Collapse
 
-    - `default_nameservers: string`
+<details>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<summary>
 
-    - `enforce_twofactor: boolean`
+TenantEntitlements object {allow\_add\_subdomain, allow\_auto\_accept\_invites, cname\_setup\_allowed, 3 more }
 
-    - `use_account_custom_ns_by_default: boolean`
+</summary>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<details>
 
-  - `type: "standard" or "enterprise"`
+<summary>
 
-    - `"standard"`
+allow\_add\_subdomain: object {type, value }
 
-    - `"enterprise"`
+</summary>
 
-# Entitlements
+type: "bool"
 
-## List tenant entitlements
+<a href="#">Link to this property</a>
 
-**get** `/tenants/{tenant_id}/entitlements`
+value: boolean
 
-List of innate entitlements available for the Tenant.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `tenant_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of unknown`
+<summary>
 
-- `messages: array of ResponseInfo`
+allow\_auto\_accept\_invites: object {type, value }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+type: "bool"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+value: boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: TenantEntitlements`
+</details>
 
-  - `allow_add_subdomain: object { type, value }`
+<a href="#">Link to this property</a>
 
-    - `type: "bool"`
+<details>
 
-      - `"bool"`
+<summary>
 
-    - `value: boolean`
+cname\_setup\_allowed: object {type, value }
 
-  - `allow_auto_accept_invites: object { type, value }`
+</summary>
 
-    - `type: "bool"`
+type: "bool"
 
-      - `"bool"`
+<a href="#">Link to this property</a>
 
-    - `value: boolean`
+value: boolean
 
-  - `cname_setup_allowed: object { type, value }`
+<a href="#">Link to this property</a>
 
-    - `type: "bool"`
+</details>
 
-      - `"bool"`
+<a href="#">Link to this property</a>
 
-    - `value: boolean`
+<details>
 
-  - `custom_entitlements: array of object { allocation, feature }`
+<summary>
 
-    - `allocation: object { type, value }  or object { type, value }  or object { type, value }`
+custom\_entitlements: array of object {allocation, feature }
 
-      - `OrganizationsAPIMaxCountAllocation object { type, value }`
+</summary>
 
-        - `type: "max_count"`
+<details>
 
-          - `"max_count"`
+<summary>
 
-        - `value: number`
+allocation: object {type, value } or object {type, value } or object {type, value }
 
-      - `OrganizationsAPIBoolAllocation object { type, value }`
+</summary>
 
-        - `type: "bool"`
+One of the following:
 
-          - `"bool"`
+<details>
 
-        - `value: boolean`
+<summary>
 
-      - `OrganizationsAPINullAllocation object { type, value }`
+OrganizationsAPIMaxCountAllocation object {type, value }
 
-        - `type: ""`
+</summary>
 
-          - `""`
+type: "max\_count"
 
-        - `value: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `feature: object { key }`
+value: number
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-  - `mhs_certificate_count: object { type, value }`
+</details>
 
-    - `type: "max_count"`
+<a href="#">Link to this property</a>
 
-      - `"max_count"`
+<details>
 
-    - `value: number`
+<summary>
 
-  - `partial_setup_allowed: object { type, value }`
+OrganizationsAPIBoolAllocation object {type, value }
 
-    - `type: "bool"`
+</summary>
 
-      - `"bool"`
+type: "bool"
 
-    - `value: boolean`
+<a href="#">Link to this property</a>
 
-- `success: true`
+value: boolean
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID/entitlements \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_add_subdomain": {
-      "type": "bool",
-      "value": true
-    },
-    "allow_auto_accept_invites": {
-      "type": "bool",
-      "value": true
-    },
-    "cname_setup_allowed": {
-      "type": "bool",
-      "value": true
-    },
-    "custom_entitlements": [
-      {
-        "allocation": {
-          "type": "max_count",
-          "value": 0
-        },
-        "feature": {
-          "key": "key"
-        }
-      }
-    ],
-    "mhs_certificate_count": {
-      "type": "max_count",
-      "value": 0
-    },
-    "partial_setup_allowed": {
-      "type": "bool",
-      "value": true
-    }
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+OrganizationsAPINullAllocation object {type, value }
 
-### Tenant Entitlements
+</summary>
 
-- `TenantEntitlements object { allow_add_subdomain, allow_auto_accept_invites, cname_setup_allowed, 3 more }`
+type: ""
 
-  - `allow_add_subdomain: object { type, value }`
+<a href="#">Link to this property</a>
 
-    - `type: "bool"`
+value: optional unknown
 
-      - `"bool"`
+<a href="#">Link to this property</a>
 
-    - `value: boolean`
+</details>
 
-  - `allow_auto_accept_invites: object { type, value }`
+<a href="#">Link to this property</a>
 
-    - `type: "bool"`
+</details>
 
-      - `"bool"`
+<a href="#">Link to this property</a>
 
-    - `value: boolean`
+<details>
 
-  - `cname_setup_allowed: object { type, value }`
+<summary>
 
-    - `type: "bool"`
+feature: object {key }
 
-      - `"bool"`
+</summary>
 
-    - `value: boolean`
+key: string
 
-  - `custom_entitlements: array of object { allocation, feature }`
+<a href="#">Link to this property</a>
 
-    - `allocation: object { type, value }  or object { type, value }  or object { type, value }`
+</details>
 
-      - `OrganizationsAPIMaxCountAllocation object { type, value }`
+<a href="#">Link to this property</a>
 
-        - `type: "max_count"`
+</details>
 
-          - `"max_count"`
+<a href="#">Link to this property</a>
 
-        - `value: number`
+<details>
 
-      - `OrganizationsAPIBoolAllocation object { type, value }`
+<summary>
 
-        - `type: "bool"`
+mhs\_certificate\_count: object {type, value }
 
-          - `"bool"`
+</summary>
 
-        - `value: boolean`
+type: "max\_count"
 
-      - `OrganizationsAPINullAllocation object { type, value }`
+<a href="#">Link to this property</a>
 
-        - `type: ""`
+value: number
 
-          - `""`
+<a href="#">Link to this property</a>
 
-        - `value: optional unknown`
+</details>
 
-    - `feature: object { key }`
+<a href="#">Link to this property</a>
 
-      - `key: string`
+<details>
 
-  - `mhs_certificate_count: object { type, value }`
+<summary>
 
-    - `type: "max_count"`
+partial\_setup\_allowed: object {type, value }
 
-      - `"max_count"`
+</summary>
 
-    - `value: number`
+type: "bool"
 
-  - `partial_setup_allowed: object { type, value }`
+<a href="#">Link to this property</a>
 
-    - `type: "bool"`
+value: boolean
 
-      - `"bool"`
+<a href="#">Link to this property</a>
 
-    - `value: boolean`
+</details>
 
-# Memberships
+<a href="#">Link to this property</a>
 
-## List tenant memberships
+</details>
 
-**get** `/tenants/{tenant_id}/memberships`
+[Link to this property](#)%20tenants.entitlements%20%3E%20(model)%20tenant_entitlements%20%3E%20(schema)>)
 
-List of active members (Cloudflare users) for the Tenant.
+#### TenantsMemberships
 
-### Path Parameters
+##### [List tenant memberships](https://developers.cloudflare.com/api/resources/tenants/subresources/memberships/methods/list)
 
-- `tenant_id: string`
+GET/tenants/{tenant\_id}/memberships
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of unknown`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+TenantMembership object {user\_email, user\_name, user\_tag }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+user\_email: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+user\_name: string
 
-- `result: array of TenantMembership`
+<a href="#">Link to this property</a>
 
-  - `user_email: string`
+user\_tag: string
 
-  - `user_name: string`
+<a href="#">Link to this property</a>
 
-  - `user_tag: string`
+</details>
 
-- `success: true`
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID/memberships \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "user_email": "user_email",
-      "user_name": "user_name",
-      "user_tag": "user_tag"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Tenant Membership
-
-- `TenantMembership object { user_email, user_name, user_tag }`
-
-  - `user_email: string`
-
-  - `user_name: string`
-
-  - `user_tag: string`
+[Link to this property](#)%20tenants.memberships%20%3E%20(model)%20tenant_membership%20%3E%20(schema)>)

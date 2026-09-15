@@ -1,400 +1,177 @@
+---
+title: Connections
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Page Shield](https://developers.cloudflare.com/api/resources/page_shield)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Connections
 
-## List Page Shield connections
+##### [List detected connections](https://developers.cloudflare.com/api/resources/page_shield/subresources/connections/methods/list)
 
-**get** `/zones/{zone_id}/page_shield/connections`
+GET/zones/{zone\_id}/page\_shield/connections
 
-Lists all connections detected by Page Shield.
+##### [Get a detected connection](https://developers.cloudflare.com/api/resources/page_shield/subresources/connections/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/page\_shield/connections/{connection\_id}
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier
+<details>
 
-### Query Parameters
+<summary>
 
-- `direction: optional "asc" or "desc"`
+ConnectionListResponse object {id, added\_at, first\_seen\_at, 10 more }
 
-  The direction used to sort returned connections.
+</summary>
 
-  - `"asc"`
+id: string
 
-  - `"desc"`
+Identifier
 
-- `exclude_cdn_cgi: optional boolean`
+maxLength32
 
-  When true, excludes connections seen in a `/cdn-cgi` path from the returned connections. The default value is true.
+<a href="#">Link to this property</a>
 
-- `exclude_urls: optional string`
+added\_at: string
 
-  Excludes connections whose URL contains one of the URL-encoded URLs separated by commas.
+formatdate-time
 
-- `export: optional "csv"`
+<a href="#">Link to this property</a>
 
-  Export the list of connections as a file, limited to 50000 entries.
+first\_seen\_at: string
 
-  - `"csv"`
+formatdate-time
 
-- `hosts: optional string`
+<a href="#">Link to this property</a>
 
-  Includes connections that match one or more URL-encoded hostnames separated by commas.
+host: string
 
-  Wildcards are supported at the start and end of each hostname to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+<a href="#">Link to this property</a>
 
-- `order_by: optional "first_seen_at" or "last_seen_at"`
+last\_seen\_at: string
 
-  The field used to sort returned connections.
+formatdate-time
 
-  - `"first_seen_at"`
+<a href="#">Link to this property</a>
 
-  - `"last_seen_at"`
+url: string
 
-- `page: optional string`
+<a href="#">Link to this property</a>
 
-  The current page number of the paginated results.
+url\_contains\_cdn\_cgi\_path: boolean
 
-  We additionally support a special value "all". When "all" is used, the API will return all the connections
-  with the applied filters in a single page. This feature is best-effort and it may only work for zones with
-  a low number of connections
+<a href="#">Link to this property</a>
 
-- `page_url: optional string`
+domain\_reported\_malicious: optional boolean
 
-  Includes connections that match one or more page URLs (separated by commas) where they were last seen
+<a href="#">Link to this property</a>
 
-  Wildcards are supported at the start and end of each page URL to support starts with, ends with
-  and contains. If no wildcards are used, results will be filtered by exact match
+first\_page\_url: optional string
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The number of results per page.
+malicious\_domain\_categories: optional array of string
 
-- `prioritize_malicious: optional boolean`
+<a href="#">Link to this property</a>
 
-  When true, malicious connections appear first in the returned connections.
+malicious\_url\_categories: optional array of string
 
-- `status: optional string`
+<a href="#">Link to this property</a>
 
-  Filters the returned connections using a comma-separated list of connection statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`.
+page\_urls: optional array of string
 
-- `urls: optional string`
+<a href="#">Link to this property</a>
 
-  Includes connections whose URL contain one or more URL-encoded URLs separated by commas.
+url\_reported\_malicious: optional boolean
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result_info: object { count, page, per_page, 2 more }`
+</details>
 
-  - `count: number`
+[Link to this property](#)%20page_shield.connections%20%3E%20(model)%20connection_list_response%20%3E%20(schema)>)
 
-    Total number of results for the requested service
+<details>
 
-  - `page: number`
+<summary>
 
-    Current page within paginated list of results
+ConnectionGetResponse object {id, added\_at, first\_seen\_at, 10 more }
 
-  - `per_page: number`
+</summary>
 
-    Number of results per page of results
+id: string
 
-  - `total_count: number`
+Identifier
 
-    Total results available without any search parameters
+maxLength32
 
-  - `total_pages: number`
+<a href="#">Link to this property</a>
 
-    Total number of pages
+added\_at: string
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+first\_seen\_at: string
 
-- `errors: optional array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+host: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+last\_seen\_at: string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+url: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+url\_contains\_cdn\_cgi\_path: boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: optional array of Connection`
+domain\_reported\_malicious: optional boolean
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier
+first\_page\_url: optional string
 
-  - `added_at: string`
+<a href="#">Link to this property</a>
 
-  - `first_seen_at: string`
+malicious\_domain\_categories: optional array of string
 
-  - `host: string`
+<a href="#">Link to this property</a>
 
-  - `last_seen_at: string`
+malicious\_url\_categories: optional array of string
 
-  - `url: string`
+<a href="#">Link to this property</a>
 
-  - `url_contains_cdn_cgi_path: boolean`
+page\_urls: optional array of string
 
-  - `domain_reported_malicious: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `first_page_url: optional string`
+url\_reported\_malicious: optional boolean
 
-  - `malicious_domain_categories: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `malicious_url_categories: optional array of string`
+</details>
 
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/connections \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "added_at": "2021-08-18T10:51:10.09615Z",
-      "first_seen_at": "2021-08-18T10:51:08Z",
-      "host": "blog.cloudflare.com",
-      "last_seen_at": "2021-09-02T09:57:54Z",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
-      "url_contains_cdn_cgi_path": false,
-      "domain_reported_malicious": false,
-      "first_page_url": "blog.cloudflare.com/page",
-      "malicious_domain_categories": [
-        "Malware"
-      ],
-      "malicious_url_categories": [
-        "Malware"
-      ],
-      "page_urls": [
-        "blog.cloudflare.com/page1",
-        "blog.cloudflare.com/page2"
-      ],
-      "url_reported_malicious": false
-    }
-  ]
-}
-```
-
-## Get a Page Shield connection
-
-**get** `/zones/{zone_id}/page_shield/connections/{connection_id}`
-
-Fetches a connection detected by Page Shield by connection ID.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier
-
-- `connection_id: string`
-
-  Identifier
-
-### Returns
-
-- `result: Connection`
-
-  - `id: string`
-
-    Identifier
-
-  - `added_at: string`
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `url: string`
-
-  - `url_contains_cdn_cgi_path: boolean`
-
-  - `domain_reported_malicious: optional boolean`
-
-  - `first_page_url: optional string`
-
-  - `malicious_domain_categories: optional array of string`
-
-  - `malicious_url_categories: optional array of string`
-
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `errors: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: optional array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/page_shield/connections/$CONNECTION_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "added_at": "2021-08-18T10:51:10.09615Z",
-    "first_seen_at": "2021-08-18T10:51:08Z",
-    "host": "blog.cloudflare.com",
-    "last_seen_at": "2021-09-02T09:57:54Z",
-    "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js",
-    "url_contains_cdn_cgi_path": false,
-    "domain_reported_malicious": false,
-    "first_page_url": "blog.cloudflare.com/page",
-    "malicious_domain_categories": [
-      "Malware"
-    ],
-    "malicious_url_categories": [
-      "Malware"
-    ],
-    "page_urls": [
-      "blog.cloudflare.com/page1",
-      "blog.cloudflare.com/page2"
-    ],
-    "url_reported_malicious": false
-  },
-  "success": true,
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Connection
-
-- `Connection object { id, added_at, first_seen_at, 10 more }`
-
-  - `id: string`
-
-    Identifier
-
-  - `added_at: string`
-
-  - `first_seen_at: string`
-
-  - `host: string`
-
-  - `last_seen_at: string`
-
-  - `url: string`
-
-  - `url_contains_cdn_cgi_path: boolean`
-
-  - `domain_reported_malicious: optional boolean`
-
-  - `first_page_url: optional string`
-
-  - `malicious_domain_categories: optional array of string`
-
-  - `malicious_url_categories: optional array of string`
-
-  - `page_urls: optional array of string`
-
-  - `url_reported_malicious: optional boolean`
+[Link to this property](#)%20page_shield.connections%20%3E%20(model)%20connection_get_response%20%3E%20(schema)>)

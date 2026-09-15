@@ -1,335 +1,163 @@
+---
+title: URL Normalization
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # URL Normalization
 
-## Get URL Normalization settings
+##### [Get URL Normalization settings](https://developers.cloudflare.com/api/resources/url_normalization/methods/get)
 
-**get** `/zones/{zone_id}/url_normalization`
+GET/zones/{zone\_id}/url\_normalization
 
-Fetches the current URL Normalization settings.
+##### [Update URL Normalization settings](https://developers.cloudflare.com/api/resources/url_normalization/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/url\_normalization
 
-- `zone_id: string`
+##### [Delete URL Normalization settings](https://developers.cloudflare.com/api/resources/url_normalization/methods/delete)
 
-  The unique ID of the zone.
+DELETE/zones/{zone\_id}/url\_normalization
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { message, code, source }`
+<details>
 
-  A list of error messages.
+<summary>
 
-  - `message: string`
+URLNormalizationGetResponse object {scope, type }
 
-    A text description of this message.
+A result.
 
-  - `code: optional number`
+</summary>
 
-    A unique code for this message.
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    The source of this message.
+scope: "incoming"or "both"or "none"
 
-    - `pointer: string`
+The scope of the URL normalization.
 
-      A JSON pointer to the field that is the source of the message.
+</summary>
 
-- `messages: array of object { message, code, source }`
+One of the following:
 
-  A list of warning messages.
+"incoming"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    A text description of this message.
+"both"
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-    A unique code for this message.
+"none"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    The source of this message.
+</details>
 
-    - `pointer: string`
+<a href="#">Link to this property</a>
 
-      A JSON pointer to the field that is the source of the message.
+<details>
 
-- `result: object { scope, type }`
+<summary>
 
-  A result.
+type: "cloudflare"or "rfc3986"
 
-  - `scope: "incoming" or "both" or "none"`
+The type of URL normalization performed by Cloudflare.
 
-    The scope of the URL normalization.
+</summary>
 
-    - `"incoming"`
+One of the following:
 
-    - `"both"`
+"cloudflare"
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-  - `type: "cloudflare" or "rfc3986"`
+"rfc3986"
 
-    The type of URL normalization performed by Cloudflare.
+<a href="#">Link to this property</a>
 
-    - `"cloudflare"`
+</details>
 
-    - `"rfc3986"`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20url_normalization%20%3E%20(model)%20url_normalization_get_response%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/url_normalization \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+URLNormalizationUpdateResponse object {scope, type }
 
-#### Response
+A result.
 
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "result": {
-    "scope": "incoming",
-    "type": "cloudflare"
-  },
-  "success": true
-}
-```
+</summary>
 
-## Update URL Normalization settings
+<details>
 
-**put** `/zones/{zone_id}/url_normalization`
+<summary>
 
-Updates the URL Normalization settings.
+scope: "incoming"or "both"or "none"
 
-### Path Parameters
+The scope of the URL normalization.
 
-- `zone_id: string`
+</summary>
 
-  The unique ID of the zone.
+One of the following:
 
-### Body Parameters
+"incoming"
 
-- `scope: "incoming" or "both" or "none"`
+<a href="#">Link to this property</a>
 
-  The scope of the URL normalization.
+"both"
 
-  - `"incoming"`
+<a href="#">Link to this property</a>
 
-  - `"both"`
+"none"
 
-  - `"none"`
+<a href="#">Link to this property</a>
 
-- `type: "cloudflare" or "rfc3986"`
+</details>
 
-  The type of URL normalization performed by Cloudflare.
+<a href="#">Link to this property</a>
 
-  - `"cloudflare"`
+<details>
 
-  - `"rfc3986"`
+<summary>
 
-### Returns
+type: "cloudflare"or "rfc3986"
 
-- `errors: array of object { message, code, source }`
+The type of URL normalization performed by Cloudflare.
 
-  A list of error messages.
+</summary>
 
-  - `message: string`
+One of the following:
 
-    A text description of this message.
+"cloudflare"
 
-  - `code: optional number`
+<a href="#">Link to this property</a>
 
-    A unique code for this message.
+"rfc3986"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    The source of this message.
+</details>
 
-    - `pointer: string`
+<a href="#">Link to this property</a>
 
-      A JSON pointer to the field that is the source of the message.
+</details>
 
-- `messages: array of object { message, code, source }`
-
-  A list of warning messages.
-
-  - `message: string`
-
-    A text description of this message.
-
-  - `code: optional number`
-
-    A unique code for this message.
-
-  - `source: optional object { pointer }`
-
-    The source of this message.
-
-    - `pointer: string`
-
-      A JSON pointer to the field that is the source of the message.
-
-- `result: object { scope, type }`
-
-  A result.
-
-  - `scope: "incoming" or "both" or "none"`
-
-    The scope of the URL normalization.
-
-    - `"incoming"`
-
-    - `"both"`
-
-    - `"none"`
-
-  - `type: "cloudflare" or "rfc3986"`
-
-    The type of URL normalization performed by Cloudflare.
-
-    - `"cloudflare"`
-
-    - `"rfc3986"`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/url_normalization \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "scope": "incoming",
-          "type": "cloudflare"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "message": "something bad happened",
-      "code": 10000,
-      "source": {
-        "pointer": "/rules/0/action"
-      }
-    }
-  ],
-  "result": {
-    "scope": "incoming",
-    "type": "cloudflare"
-  },
-  "success": true
-}
-```
-
-## Delete URL Normalization settings
-
-**delete** `/zones/{zone_id}/url_normalization`
-
-Deletes the URL Normalization settings.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  The unique ID of the zone.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/url_normalization \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### URL Normalization Get Response
-
-- `URLNormalizationGetResponse object { scope, type }`
-
-  A result.
-
-  - `scope: "incoming" or "both" or "none"`
-
-    The scope of the URL normalization.
-
-    - `"incoming"`
-
-    - `"both"`
-
-    - `"none"`
-
-  - `type: "cloudflare" or "rfc3986"`
-
-    The type of URL normalization performed by Cloudflare.
-
-    - `"cloudflare"`
-
-    - `"rfc3986"`
-
-### URL Normalization Update Response
-
-- `URLNormalizationUpdateResponse object { scope, type }`
-
-  A result.
-
-  - `scope: "incoming" or "both" or "none"`
-
-    The scope of the URL normalization.
-
-    - `"incoming"`
-
-    - `"both"`
-
-    - `"none"`
-
-  - `type: "cloudflare" or "rfc3986"`
-
-    The type of URL normalization performed by Cloudflare.
-
-    - `"cloudflare"`
-
-    - `"rfc3986"`
+[Link to this property](#)%20url_normalization%20%3E%20(model)%20url_normalization_update_response%20%3E%20(schema)>)

@@ -1,799 +1,1054 @@
-## Get PDF.
+---
+title: Get PDF.
+---
 
-**post** `/accounts/{account_id}/browser-rendering/pdf`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+[PDF](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/pdf)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get PDF.
+
+POST/accounts/{account\_id}/browser-rendering/pdf
 
 Fetches rendered PDF from provided URL or HTML. Check available options like `gotoOptions` and `waitFor*` to control page load behaviour.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `cacheTTL: optional number`
 
-  Cache TTL default is 5s. Set to 0 to disable.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Body Parameters
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `body: object { html, actionTimeout, addScriptTag, 17 more }  or object { url, actionTimeout, addScriptTag, 17 more }`
+</details>
 
-  - `object { html, actionTimeout, addScriptTag, 17 more }`
+<details>
 
-    - `html: string`
+<summary>API Email + API Key</summary>
 
-      Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set.
 
-    - `actionTimeout: optional number`
 
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `addScriptTag: optional array of object { id, content, type, url }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      Adds a `<script>` tag into the page with the desired URL or content.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-      - `id: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `content: optional string`
+</details>
 
-      - `type: optional string`
+##### Accepted Permissions (at least one required)
 
-      - `url: optional string`
+`Browser Rendering Write`
 
-    - `addStyleTag: optional array of object { content, url }`
+##### P ath ParametersExpand Collapse
 
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
+account\_id: string
 
-      - `content: optional string`
+Account ID.
 
-      - `url: optional string`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `allowRequestPattern: optional array of string`
+##### Q uery ParametersExpand Collapse
 
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
+cacheTTL: optional number
 
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+Cache TTL default is 5s. Set to 0 to disable.
 
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
+maximum86400
 
-      - `"document"`
+minimum0
 
-      - `"stylesheet"`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20cacheTTL%20%3E%20(schema)>)
 
-      - `"image"`
+##### Body ParametersJSONExpand Collapse
 
-      - `"media"`
+actionTimeout: optional number
 
-      - `"font"`
+The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
 
-      - `"script"`
+maximum120000
 
-      - `"texttrack"`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20actionTimeout%20%3E%20(schema)>)
 
-      - `"xhr"`
+<details>
 
-      - `"fetch"`
+<summary>
 
-      - `"prefetch"`
+addScriptTag: optional array of object {id, content, type, url }
 
-      - `"eventsource"`
+Adds a <code>&lt;script&gt;</code> tag into the page with the desired URL or content.
 
-      - `"websocket"`
+</summary>
 
-      - `"manifest"`
+id: optional string
 
-      - `"signedexchange"`
+<a href="#">Link to this property</a>
 
-      - `"ping"`
+content: optional string
 
-      - `"cspviolationreport"`
+<a href="#">Link to this property</a>
 
-      - `"preflight"`
+type: optional string
 
-      - `"other"`
+<a href="#">Link to this property</a>
 
-    - `authenticate: optional object { password, username }`
+url: optional string
 
-      Provide credentials for HTTP authentication.
+formaturi
 
-      - `password: string`
+<a href="#">Link to this property</a>
 
-      - `username: string`
+</details>
 
-    - `bestAttempt: optional boolean`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20addScriptTag%20%3E%20(schema)>)
 
-      Attempt to proceed when 'awaited' events fail or timeout.
+<details>
 
-    - `cookies: optional array of object { name, value, domain, 11 more }`
+<summary>
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
+addStyleTag: optional array of object {content, url }
 
-      - `name: string`
+Adds a <code>&lt;link rel="stylesheet"&gt;</code> tag into the page with the desired URL or a <code>&lt;style type="text/css"&gt;</code> tag with the content.
 
-        Cookie name.
+</summary>
 
-      - `value: string`
+content: optional string
 
-      - `domain: optional string`
+<a href="#">Link to this property</a>
 
-      - `expires: optional number`
+url: optional string
 
-      - `httpOnly: optional boolean`
+formaturi
 
-      - `partitionKey: optional string`
+<a href="#">Link to this property</a>
 
-      - `path: optional string`
+</details>
 
-      - `priority: optional "Low" or "Medium" or "High"`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20addStyleTag%20%3E%20(schema)>)
 
-        - `"Low"`
+allowRequestPattern: optional array of string
 
-        - `"Medium"`
+Only allow requests that match the provided regex patterns, eg. ’/^.\*.(css)’. Reject rules are applied first.
 
-        - `"High"`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20allowRequestPattern%20%3E%20(schema)>)
 
-      - `sameParty: optional boolean`
+<details>
 
-      - `sameSite: optional "Strict" or "Lax" or "None"`
+<summary>
 
-        - `"Strict"`
+allowResourceTypes: optional array of "document"or "stylesheet"or "image"or 15 more
 
-        - `"Lax"`
+Only allow requests that match the provided resource types, eg. ‘image’ or ‘script’. Reject rules are applied first.
 
-        - `"None"`
+</summary>
 
-      - `secure: optional boolean`
+One of the following:
 
-      - `sourcePort: optional number`
+"document"
 
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
+<a href="#">Link to this property</a>
 
-        - `"Unset"`
+"stylesheet"
 
-        - `"NonSecure"`
+<a href="#">Link to this property</a>
 
-        - `"Secure"`
+"image"
 
-      - `url: optional string`
+<a href="#">Link to this property</a>
 
-    - `emulateMediaType: optional string`
+"media"
 
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
+<a href="#">Link to this property</a>
 
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
+"font"
 
-      - `referer: optional string`
+<a href="#">Link to this property</a>
 
-      - `referrerPolicy: optional string`
+"script"
 
-      - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+"texttrack"
 
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+<a href="#">Link to this property</a>
 
-          - `"load"`
+"xhr"
 
-          - `"domcontentloaded"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle0"`
+"fetch"
 
-          - `"networkidle2"`
+<a href="#">Link to this property</a>
 
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+"prefetch"
 
-          - `"load"`
+<a href="#">Link to this property</a>
 
-          - `"domcontentloaded"`
+"eventsource"
 
-          - `"networkidle0"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle2"`
+"websocket"
 
-    - `pdfOptions: optional object { displayHeaderFooter, footerTemplate, format, 13 more }`
+<a href="#">Link to this property</a>
 
-      Check [options](https://pptr.dev/api/puppeteer.pdfoptions).
+"manifest"
 
-      - `displayHeaderFooter: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether to show the header and footer.
+"signedexchange"
 
-      - `footerTemplate: optional string`
+<a href="#">Link to this property</a>
 
-        HTML template for the print footer.
+"ping"
 
-      - `format: optional "letter" or "legal" or "tabloid" or 8 more`
+<a href="#">Link to this property</a>
 
-        Paper format. Takes priority over width and height if set.
+"cspviolationreport"
 
-        - `"letter"`
+<a href="#">Link to this property</a>
 
-        - `"legal"`
+"preflight"
 
-        - `"tabloid"`
+<a href="#">Link to this property</a>
 
-        - `"ledger"`
+"other"
 
-        - `"a0"`
+<a href="#">Link to this property</a>
 
-        - `"a1"`
+</details>
 
-        - `"a2"`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20allowResourceTypes%20%3E%20(schema)>)
 
-        - `"a3"`
+<details>
 
-        - `"a4"`
+<summary>
 
-        - `"a5"`
+authenticate: optional object {password, username }
 
-        - `"a6"`
+Provide credentials for HTTP authentication.
 
-      - `headerTemplate: optional string`
+</summary>
 
-        HTML template for the print header.
+password: string
 
-      - `height: optional string or number`
+minLength1
 
-        Sets the height of paper. Can be a number or string with unit.
+<a href="#">Link to this property</a>
 
-        - `string`
+username: string
 
-        - `number`
+minLength1
 
-      - `landscape: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether to print in landscape orientation.
+</details>
 
-      - `margin: optional object { bottom, left, right, top }`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20authenticate%20%3E%20(schema)>)
 
-        Set the PDF margins. Useful when setting header and footer.
+bestAttempt: optional boolean
 
-        - `bottom: optional string or number`
+Attempt to proceed when ‘awaited’ events fail or timeout.
 
-          - `string`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20bestAttempt%20%3E%20(schema)>)
 
-          - `number`
+<details>
 
-        - `left: optional string or number`
+<summary>
 
-          - `string`
+cookies: optional array of object {name, value, domain, 11 more }
 
-          - `number`
+Check <a href="https://pptr.dev/api/puppeteer.page.setcookie">options</a>.
 
-        - `right: optional string or number`
+</summary>
 
-          - `string`
+name: string
 
-          - `number`
+Cookie name.
 
-        - `top: optional string or number`
+<a href="#">Link to this property</a>
 
-          - `string`
+value: string
 
-          - `number`
+<a href="#">Link to this property</a>
 
-      - `omitBackground: optional boolean`
+domain: optional string
 
-        Hides default white background and allows generating pdfs with transparency.
+<a href="#">Link to this property</a>
 
-      - `outline: optional boolean`
+expires: optional number
 
-        Generate document outline.
+<a href="#">Link to this property</a>
 
-      - `pageRanges: optional string`
+httpOnly: optional boolean
 
-        Paper ranges to print, e.g. '1-5, 8, 11-13'.
+<a href="#">Link to this property</a>
 
-      - `preferCSSPageSize: optional boolean`
+partitionKey: optional string
 
-        Give CSS @page size priority over other size declarations.
+<a href="#">Link to this property</a>
 
-      - `printBackground: optional boolean`
+path: optional string
 
-        Set to true to print background graphics.
+<a href="#">Link to this property</a>
 
-      - `scale: optional number`
+<details>
 
-        Scales the rendering of the web page. Amount must be between 0.1 and 2.
+<summary>
 
-      - `tagged: optional boolean`
+priority: optional "Low"or "Medium"or "High"
 
-        Generate tagged (accessible) PDF.
+</summary>
 
-      - `timeout: optional number`
+One of the following:
 
-        Timeout in milliseconds.
+"Low"
 
-      - `width: optional string or number`
+<a href="#">Link to this property</a>
 
-        Sets the width of paper. Can be a number or string with unit.
+"Medium"
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+"High"
 
-    - `rejectRequestPattern: optional array of string`
+<a href="#">Link to this property</a>
 
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
+</details>
 
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+<a href="#">Link to this property</a>
 
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
+sameParty: optional boolean
 
-      - `"document"`
+<a href="#">Link to this property</a>
 
-      - `"stylesheet"`
+<details>
 
-      - `"image"`
+<summary>
 
-      - `"media"`
+sameSite: optional "Strict"or "Lax"or "None"
 
-      - `"font"`
+</summary>
 
-      - `"script"`
+One of the following:
 
-      - `"texttrack"`
+"Strict"
 
-      - `"xhr"`
+<a href="#">Link to this property</a>
 
-      - `"fetch"`
+"Lax"
 
-      - `"prefetch"`
+<a href="#">Link to this property</a>
 
-      - `"eventsource"`
+"None"
 
-      - `"websocket"`
+<a href="#">Link to this property</a>
 
-      - `"manifest"`
+</details>
 
-      - `"signedexchange"`
+<a href="#">Link to this property</a>
 
-      - `"ping"`
+secure: optional boolean
 
-      - `"cspviolationreport"`
+<a href="#">Link to this property</a>
 
-      - `"preflight"`
+sourcePort: optional number
 
-      - `"other"`
+<a href="#">Link to this property</a>
 
-    - `setExtraHTTPHeaders: optional map[string]`
+<details>
 
-    - `setJavaScriptEnabled: optional boolean`
+<summary>
 
-    - `userAgent: optional string`
+sourceScheme: optional "Unset"or "NonSecure"or "Secure"
 
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
+</summary>
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
+One of the following:
 
-      - `height: number`
+"Unset"
 
-      - `width: number`
+<a href="#">Link to this property</a>
 
-      - `deviceScaleFactor: optional number`
+"NonSecure"
 
-      - `hasTouch: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `isLandscape: optional boolean`
+"Secure"
 
-      - `isMobile: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
+</details>
 
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
+<a href="#">Link to this property</a>
 
-      - `selector: string`
+url: optional string
 
-      - `hidden: optional true`
+<a href="#">Link to this property</a>
 
-        - `true`
+</details>
 
-      - `timeout: optional number`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20cookies%20%3E%20(schema)>)
 
-      - `visible: optional true`
+emulateMediaType: optional string
 
-        - `true`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20emulateMediaType%20%3E%20(schema)>)
 
-    - `waitForTimeout: optional number`
+<details>
 
-      Waits for a specified timeout before continuing.
+<summary>
 
-  - `object { url, actionTimeout, addScriptTag, 17 more }`
+gotoOptions: optional object {referer, referrerPolicy, timeout, waitUntil }
 
-    - `url: string`
+Check <a href="https://pptr.dev/api/puppeteer.gotooptions">options</a>.
 
-      URL to navigate to, eg. `https://example.com`.
+</summary>
 
-    - `actionTimeout: optional number`
+referer: optional string
 
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
+<a href="#">Link to this property</a>
 
-    - `addScriptTag: optional array of object { id, content, type, url }`
+referrerPolicy: optional string
 
-      Adds a `<script>` tag into the page with the desired URL or content.
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+timeout: optional number
 
-      - `content: optional string`
+maximum60000
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+<details>
 
-    - `addStyleTag: optional array of object { content, url }`
+<summary>
 
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
+waitUntil: optional "load"or "domcontentloaded"or "networkidle0"or "networkidle2"or array of "load"or "domcontentloaded"or "networkidle0"or "networkidle2"
 
-      - `content: optional string`
+</summary>
 
-      - `url: optional string`
+One of the following:
 
-    - `allowRequestPattern: optional array of string`
+<details>
 
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
+<summary>
 
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+"load"or "domcontentloaded"or "networkidle0"or "networkidle2"
 
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
+</summary>
 
-      - `"document"`
+One of the following:
 
-      - `"stylesheet"`
+"load"
 
-      - `"image"`
+<a href="#">Link to this property</a>
 
-      - `"media"`
+"domcontentloaded"
 
-      - `"font"`
+<a href="#">Link to this property</a>
 
-      - `"script"`
+"networkidle0"
 
-      - `"texttrack"`
+<a href="#">Link to this property</a>
 
-      - `"xhr"`
+"networkidle2"
 
-      - `"fetch"`
+<a href="#">Link to this property</a>
 
-      - `"prefetch"`
+</details>
 
-      - `"eventsource"`
+<a href="#">Link to this property</a>
 
-      - `"websocket"`
+<details>
 
-      - `"manifest"`
+<summary>
 
-      - `"signedexchange"`
+array of "load"or "domcontentloaded"or "networkidle0"or "networkidle2"
 
-      - `"ping"`
+</summary>
 
-      - `"cspviolationreport"`
+One of the following:
 
-      - `"preflight"`
+"load"
 
-      - `"other"`
+<a href="#">Link to this property</a>
 
-    - `authenticate: optional object { password, username }`
+"domcontentloaded"
 
-      Provide credentials for HTTP authentication.
+<a href="#">Link to this property</a>
 
-      - `password: string`
+"networkidle0"
 
-      - `username: string`
+<a href="#">Link to this property</a>
 
-    - `bestAttempt: optional boolean`
+"networkidle2"
 
-      Attempt to proceed when 'awaited' events fail or timeout.
+<a href="#">Link to this property</a>
 
-    - `cookies: optional array of object { name, value, domain, 11 more }`
+</details>
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
+<a href="#">Link to this property</a>
 
-      - `name: string`
+</details>
 
-        Cookie name.
+<a href="#">Link to this property</a>
 
-      - `value: string`
+</details>
 
-      - `domain: optional string`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20gotoOptions%20%3E%20(schema)>)
 
-      - `expires: optional number`
+html: optional string
 
-      - `httpOnly: optional boolean`
+Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set.
 
-      - `partitionKey: optional string`
+minLength1
 
-      - `path: optional string`
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20html%20%3E%20(schema)>)
 
-      - `priority: optional "Low" or "Medium" or "High"`
+<details>
 
-        - `"Low"`
+<summary>
 
-        - `"Medium"`
+pdfOptions: optional object {displayHeaderFooter, footerTemplate, format, 13 more }
 
-        - `"High"`
+Check <a href="https://pptr.dev/api/puppeteer.pdfoptions">options</a>.
 
-      - `sameParty: optional boolean`
+</summary>
 
-      - `sameSite: optional "Strict" or "Lax" or "None"`
+displayHeaderFooter: optional boolean
 
-        - `"Strict"`
+Whether to show the header and footer.
 
-        - `"Lax"`
+<a href="#">Link to this property</a>
 
-        - `"None"`
+footerTemplate: optional string
 
-      - `secure: optional boolean`
+HTML template for the print footer.
 
-      - `sourcePort: optional number`
+<a href="#">Link to this property</a>
 
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
+<details>
 
-        - `"Unset"`
+<summary>
 
-        - `"NonSecure"`
+format: optional "letter"or "legal"or "tabloid"or 8 more
 
-        - `"Secure"`
+Paper format. Takes priority over width and height if set.
 
-      - `url: optional string`
+</summary>
 
-    - `emulateMediaType: optional string`
+One of the following:
 
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
+"letter"
 
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
+<a href="#">Link to this property</a>
 
-      - `referer: optional string`
+"legal"
 
-      - `referrerPolicy: optional string`
+<a href="#">Link to this property</a>
 
-      - `timeout: optional number`
+"tabloid"
 
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+<a href="#">Link to this property</a>
 
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+"ledger"
 
-          - `"load"`
+<a href="#">Link to this property</a>
 
-          - `"domcontentloaded"`
+"a0"
 
-          - `"networkidle0"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle2"`
+"a1"
 
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
+<a href="#">Link to this property</a>
 
-          - `"load"`
+"a2"
 
-          - `"domcontentloaded"`
+<a href="#">Link to this property</a>
 
-          - `"networkidle0"`
+"a3"
 
-          - `"networkidle2"`
+<a href="#">Link to this property</a>
 
-    - `pdfOptions: optional object { displayHeaderFooter, footerTemplate, format, 13 more }`
+"a4"
 
-      Check [options](https://pptr.dev/api/puppeteer.pdfoptions).
+<a href="#">Link to this property</a>
 
-      - `displayHeaderFooter: optional boolean`
+"a5"
 
-        Whether to show the header and footer.
+<a href="#">Link to this property</a>
 
-      - `footerTemplate: optional string`
+"a6"
 
-        HTML template for the print footer.
+<a href="#">Link to this property</a>
 
-      - `format: optional "letter" or "legal" or "tabloid" or 8 more`
+</details>
 
-        Paper format. Takes priority over width and height if set.
+<a href="#">Link to this property</a>
 
-        - `"letter"`
+headerTemplate: optional string
 
-        - `"legal"`
+HTML template for the print header.
 
-        - `"tabloid"`
+<a href="#">Link to this property</a>
 
-        - `"ledger"`
+<details>
 
-        - `"a0"`
+<summary>
 
-        - `"a1"`
+height: optional stringor number
 
-        - `"a2"`
+Sets the height of paper. Can be a number or string with unit.
 
-        - `"a3"`
+</summary>
 
-        - `"a4"`
+One of the following:
 
-        - `"a5"`
+string
 
-        - `"a6"`
+<a href="#">Link to this property</a>
 
-      - `headerTemplate: optional string`
+number
 
-        HTML template for the print header.
+<a href="#">Link to this property</a>
 
-      - `height: optional string or number`
+</details>
 
-        Sets the height of paper. Can be a number or string with unit.
+<a href="#">Link to this property</a>
 
-        - `string`
+landscape: optional boolean
 
-        - `number`
+Whether to print in landscape orientation.
 
-      - `landscape: optional boolean`
+<a href="#">Link to this property</a>
 
-        Whether to print in landscape orientation.
+<details>
 
-      - `margin: optional object { bottom, left, right, top }`
+<summary>
 
-        Set the PDF margins. Useful when setting header and footer.
+margin: optional object {bottom, left, right, top }
 
-        - `bottom: optional string or number`
+Set the PDF margins. Useful when setting header and footer.
 
-          - `string`
+</summary>
 
-          - `number`
+<details>
 
-        - `left: optional string or number`
+<summary>
 
-          - `string`
+bottom: optional stringor number
 
-          - `number`
+</summary>
 
-        - `right: optional string or number`
+One of the following:
 
-          - `string`
+string
 
-          - `number`
+<a href="#">Link to this property</a>
 
-        - `top: optional string or number`
+number
 
-          - `string`
+<a href="#">Link to this property</a>
 
-          - `number`
+</details>
 
-      - `omitBackground: optional boolean`
+<a href="#">Link to this property</a>
 
-        Hides default white background and allows generating pdfs with transparency.
+<details>
 
-      - `outline: optional boolean`
+<summary>
 
-        Generate document outline.
+left: optional stringor number
 
-      - `pageRanges: optional string`
+</summary>
 
-        Paper ranges to print, e.g. '1-5, 8, 11-13'.
+One of the following:
 
-      - `preferCSSPageSize: optional boolean`
+string
 
-        Give CSS @page size priority over other size declarations.
+<a href="#">Link to this property</a>
 
-      - `printBackground: optional boolean`
+number
 
-        Set to true to print background graphics.
+<a href="#">Link to this property</a>
 
-      - `scale: optional number`
+</details>
 
-        Scales the rendering of the web page. Amount must be between 0.1 and 2.
+<a href="#">Link to this property</a>
 
-      - `tagged: optional boolean`
+<details>
 
-        Generate tagged (accessible) PDF.
+<summary>
 
-      - `timeout: optional number`
+right: optional stringor number
 
-        Timeout in milliseconds.
+</summary>
 
-      - `width: optional string or number`
+One of the following:
 
-        Sets the width of paper. Can be a number or string with unit.
+string
 
-        - `string`
+<a href="#">Link to this property</a>
 
-        - `number`
+number
 
-    - `rejectRequestPattern: optional array of string`
+<a href="#">Link to this property</a>
 
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
+</details>
 
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+<a href="#">Link to this property</a>
 
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
+<details>
 
-      - `"document"`
+<summary>
 
-      - `"stylesheet"`
+top: optional stringor number
 
-      - `"image"`
+</summary>
 
-      - `"media"`
+One of the following:
 
-      - `"font"`
+string
 
-      - `"script"`
+<a href="#">Link to this property</a>
 
-      - `"texttrack"`
+number
 
-      - `"xhr"`
+<a href="#">Link to this property</a>
 
-      - `"fetch"`
+</details>
 
-      - `"prefetch"`
+<a href="#">Link to this property</a>
 
-      - `"eventsource"`
+</details>
 
-      - `"websocket"`
+<a href="#">Link to this property</a>
 
-      - `"manifest"`
+omitBackground: optional boolean
 
-      - `"signedexchange"`
+Hides default white background and allows generating pdfs with transparency.
 
-      - `"ping"`
+<a href="#">Link to this property</a>
 
-      - `"cspviolationreport"`
+outline: optional boolean
 
-      - `"preflight"`
+Generate document outline.
 
-      - `"other"`
+<a href="#">Link to this property</a>
 
-    - `setExtraHTTPHeaders: optional map[string]`
+pageRanges: optional string
 
-    - `setJavaScriptEnabled: optional boolean`
+Paper ranges to print, e.g. ‘1-5, 8, 11-13’.
 
-    - `userAgent: optional string`
+<a href="#">Link to this property</a>
 
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
+preferCSSPageSize: optional boolean
 
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
+Give CSS @page size priority over other size declarations.
 
-      - `height: number`
+<a href="#">Link to this property</a>
 
-      - `width: number`
+printBackground: optional boolean
 
-      - `deviceScaleFactor: optional number`
+Set to true to print background graphics.
 
-      - `hasTouch: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `isLandscape: optional boolean`
+scale: optional number
 
-      - `isMobile: optional boolean`
+Scales the rendering of the web page. Amount must be between 0.1 and 2.
 
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
+maximum2
 
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
+minimum0.1
 
-      - `selector: string`
+<a href="#">Link to this property</a>
 
-      - `hidden: optional true`
+tagged: optional boolean
 
-        - `true`
+Generate tagged (accessible) PDF.
 
-      - `timeout: optional number`
+<a href="#">Link to this property</a>
 
-      - `visible: optional true`
+timeout: optional number
 
-        - `true`
+Timeout in milliseconds.
 
-    - `waitForTimeout: optional number`
+<a href="#">Link to this property</a>
 
-      Waits for a specified timeout before continuing.
+<details>
 
-### Example
+<summary>
 
-```http
+width: optional stringor number
+
+Sets the width of paper. Can be a number or string with unit.
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20pdfOptions%20%3E%20(schema)>)
+
+rejectRequestPattern: optional array of string
+
+Block undesired requests that match the provided regex patterns, eg. ’/^.\*.(css)’.
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20rejectRequestPattern%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+rejectResourceTypes: optional array of "document"or "stylesheet"or "image"or 15 more
+
+Block undesired requests that match the provided resource types, eg. ‘image’ or ‘script’.
+
+</summary>
+
+One of the following:
+
+"document"
+
+<a href="#">Link to this property</a>
+
+"stylesheet"
+
+<a href="#">Link to this property</a>
+
+"image"
+
+<a href="#">Link to this property</a>
+
+"media"
+
+<a href="#">Link to this property</a>
+
+"font"
+
+<a href="#">Link to this property</a>
+
+"script"
+
+<a href="#">Link to this property</a>
+
+"texttrack"
+
+<a href="#">Link to this property</a>
+
+"xhr"
+
+<a href="#">Link to this property</a>
+
+"fetch"
+
+<a href="#">Link to this property</a>
+
+"prefetch"
+
+<a href="#">Link to this property</a>
+
+"eventsource"
+
+<a href="#">Link to this property</a>
+
+"websocket"
+
+<a href="#">Link to this property</a>
+
+"manifest"
+
+<a href="#">Link to this property</a>
+
+"signedexchange"
+
+<a href="#">Link to this property</a>
+
+"ping"
+
+<a href="#">Link to this property</a>
+
+"cspviolationreport"
+
+<a href="#">Link to this property</a>
+
+"preflight"
+
+<a href="#">Link to this property</a>
+
+"other"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20rejectResourceTypes%20%3E%20(schema)>)
+
+setExtraHTTPHeaders: optional map\[string]
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20setExtraHTTPHeaders%20%3E%20(schema)>)
+
+setJavaScriptEnabled: optional boolean
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20setJavaScriptEnabled%20%3E%20(schema)>)
+
+url: optional string
+
+URL to navigate to, eg. `https://example.com`.
+
+formaturi
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20url%20%3E%20(schema)>)
+
+userAgent: optional string
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20userAgent%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+viewport: optional object {height, width, deviceScaleFactor, 3 more }
+
+Check <a href="https://pptr.dev/api/puppeteer.page.setviewport">options</a>.
+
+</summary>
+
+height: number
+
+<a href="#">Link to this property</a>
+
+width: number
+
+<a href="#">Link to this property</a>
+
+deviceScaleFactor: optional number
+
+<a href="#">Link to this property</a>
+
+hasTouch: optional boolean
+
+<a href="#">Link to this property</a>
+
+isLandscape: optional boolean
+
+<a href="#">Link to this property</a>
+
+isMobile: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20viewport%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+waitForSelector: optional object {selector, hidden, timeout, visible }
+
+Wait for the selector to appear in page. Check <a href="https://pptr.dev/api/puppeteer.page.waitforselector">options</a>.
+
+</summary>
+
+selector: string
+
+<a href="#">Link to this property</a>
+
+hidden: optional true
+
+<a href="#">Link to this property</a>
+
+timeout: optional number
+
+maximum120000
+
+<a href="#">Link to this property</a>
+
+visible: optional true
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20waitForSelector%20%3E%20(schema)>)
+
+waitForTimeout: optional number
+
+Waits for a specified timeout before continuing.
+
+maximum120000
+
+[Link to this property](#)%20browser_rendering.pdf%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20waitForTimeout%20%3E%20(schema)>)
+
+### Get PDF.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/pdf \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -d '{
-          "html": "<h1>Hello World!</h1>"
+          "html": "<h1>Hello World!</h1>",
+          "url": "https://www.example.com/"
         }'
 ```
 
-#### Response
+429 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 2001,
+      "message": "Rate limit exceeded"
+    }
+  ],
+  "success": false
+}
+```
+
+##### Returns Examples
+
+429 example
+
+```
 {
   "errors": [
     {

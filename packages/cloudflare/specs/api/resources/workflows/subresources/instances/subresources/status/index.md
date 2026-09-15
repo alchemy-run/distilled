@@ -1,193 +1,97 @@
+---
+title: Status
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workflows](https://developers.cloudflare.com/api/resources/workflows)
+
+[Instances](https://developers.cloudflare.com/api/resources/workflows/subresources/instances)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Status
 
-## Change status of instance
+##### [Change status of instance](https://developers.cloudflare.com/api/resources/workflows/subresources/instances/subresources/status/methods/edit)
 
-**patch** `/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/status`
+PATCH/accounts/{account\_id}/workflows/{workflow\_name}/instances/{instance\_id}/status
 
-Changes the execution status of a workflow instance (e.g., pause, resume, terminate).
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `workflow_name: string`
+StatusEditResponse object {status, timestamp }
 
-- `instance_id: string`
+</summary>
 
-  Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.
+<details>
 
-### Body Parameters
+<summary>
 
-- `body: optional object { status }  or object { status }  or object { status, rollback }  or object { status, from }`
+status: "queued"or "running"or "paused"or 6 more
 
-  - `Status object { status }`
+</summary>
 
-    - `status: "pause"`
+One of the following:
 
-      - `"pause"`
+"queued"
 
-  - `Status object { status }`
+<a href="#">Link to this property</a>
 
-    - `status: "resume"`
+"running"
 
-      - `"resume"`
+<a href="#">Link to this property</a>
 
-  - `object { status, rollback }`
+"paused"
 
-    - `status: "terminate"`
+<a href="#">Link to this property</a>
 
-      - `"terminate"`
+"errored"
 
-    - `rollback: optional boolean`
+<a href="#">Link to this property</a>
 
-      Run rollback before terminating.
+"terminated"
 
-  - `object { status, from }`
+<a href="#">Link to this property</a>
 
-    - `status: "restart"`
+"complete"
 
-      - `"restart"`
+<a href="#">Link to this property</a>
 
-    - `from: optional object { name, count, type }`
+"waitingForPause"
 
-      Step to restart from.
+<a href="#">Link to this property</a>
 
-      - `name: string`
+"waiting"
 
-      - `count: optional number`
+<a href="#">Link to this property</a>
 
-      - `type: optional "do" or "sleep" or "waitForEvent"`
+"rollingBack"
 
-        - `"do"`
+<a href="#">Link to this property</a>
 
-        - `"sleep"`
+</details>
 
-        - `"waitForEvent"`
+<a href="#">Link to this property</a>
 
-### Returns
+timestamp: string
 
-- `errors: array of object { code, message }`
+Accepts ISO 8601 with no timezone offsets and in UTC.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message }`
+</details>
 
-  - `code: number`
-
-  - `message: string`
-
-- `result: object { status, timestamp }`
-
-  - `status: "queued" or "running" or "paused" or 6 more`
-
-    - `"queued"`
-
-    - `"running"`
-
-    - `"paused"`
-
-    - `"errored"`
-
-    - `"terminated"`
-
-    - `"complete"`
-
-    - `"waitingForPause"`
-
-    - `"waiting"`
-
-    - `"rollingBack"`
-
-  - `timestamp: string`
-
-    Accepts ISO 8601 with no timezone offsets and in UTC.
-
-- `success: true`
-
-  - `true`
-
-- `result_info: optional object { count, per_page, total_count, 3 more }`
-
-  - `count: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-  - `cursor: optional string`
-
-  - `page: optional number`
-
-  - `total_pages: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workflows/$WORKFLOW_NAME/instances/$INSTANCE_ID/status \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ],
-  "result": {
-    "status": "queued",
-    "timestamp": "2019-12-27T18:11:19.117Z"
-  },
-  "success": true,
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "cursor": "cursor",
-    "page": 0,
-    "total_pages": 0
-  }
-}
-```
-
-## Domain Types
-
-### Status Edit Response
-
-- `StatusEditResponse object { status, timestamp }`
-
-  - `status: "queued" or "running" or "paused" or 6 more`
-
-    - `"queued"`
-
-    - `"running"`
-
-    - `"paused"`
-
-    - `"errored"`
-
-    - `"terminated"`
-
-    - `"complete"`
-
-    - `"waitingForPause"`
-
-    - `"waiting"`
-
-    - `"rollingBack"`
-
-  - `timestamp: string`
-
-    Accepts ISO 8601 with no timezone offsets and in UTC.
+[Link to this property](#)%20workflows.instances.status%20%3E%20(model)%20status_edit_response%20%3E%20(schema)>)

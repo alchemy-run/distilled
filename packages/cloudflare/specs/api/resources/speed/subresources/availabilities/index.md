@@ -1,403 +1,749 @@
+---
+title: Availabilities
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Speed](https://developers.cloudflare.com/api/resources/speed)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Availabilities
 
-## Get quota and availability
+##### [Get quota and availability](https://developers.cloudflare.com/api/resources/speed/subresources/availabilities/methods/list)
 
-**get** `/zones/{zone_id}/speed_api/availabilities`
+GET/zones/{zone\_id}/speed\_api/availabilities
 
-Retrieves quota for all plans, as well as the current zone quota.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+Availability object {quota, regions, regionsPerPlan }
 
-### Returns
+</summary>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+quota: optional object {plan, quotasPerPlan, remainingSchedules, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+plan: optional string
 
-    - `pointer: optional string`
+Cloudflare plan.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+quotasPerPlan: optional object {value }
 
-  - `source: optional object { pointer }`
+The number of tests available per plan.
 
-- `success: boolean`
+</summary>
 
-  Whether the API call was successful.
+<details>
 
-- `result: optional Availability`
+<summary>
 
-  - `quota: optional object { plan, quotasPerPlan, remainingSchedules, 2 more }`
+value: optional object {business, enterprise, free, pro }
 
-    - `plan: optional string`
+Counts per account plan.
 
-      Cloudflare plan.
+</summary>
 
-    - `quotasPerPlan: optional object { value }`
+business: optional number
 
-      The number of tests available per plan.
+<a href="#">Link to this property</a>
 
-      - `value: optional object { business, enterprise, free, pro }`
+enterprise: optional number
 
-        Counts per account plan.
+<a href="#">Link to this property</a>
 
-        - `business: optional number`
+free: optional number
 
-        - `enterprise: optional number`
+<a href="#">Link to this property</a>
 
-        - `free: optional number`
+pro: optional number
 
-        - `pro: optional number`
+<a href="#">Link to this property</a>
 
-    - `remainingSchedules: optional number`
+</details>
 
-      The number of remaining schedules available.
+<a href="#">Link to this property</a>
 
-    - `remainingTests: optional number`
+</details>
 
-      The number of remaining tests available.
+<a href="#">Link to this property</a>
 
-    - `scheduleQuotasPerPlan: optional object { value }`
+remainingSchedules: optional number
 
-      The number of schedules available per plan.
+The number of remaining schedules available.
 
-      - `value: optional object { business, enterprise, free, pro }`
+<a href="#">Link to this property</a>
 
-        Counts per account plan.
+remainingTests: optional number
 
-        - `business: optional number`
+The number of remaining tests available.
 
-        - `enterprise: optional number`
+<a href="#">Link to this property</a>
 
-        - `free: optional number`
+<details>
 
-        - `pro: optional number`
+<summary>
 
-  - `regions: optional array of LabeledRegion`
+scheduleQuotasPerPlan: optional object {value }
 
-    - `label: optional string`
+The number of schedules available per plan.
 
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+</summary>
 
-      A test region.
+<details>
 
-      - `"asia-east1"`
+<summary>
 
-      - `"asia-northeast1"`
+value: optional object {business, enterprise, free, pro }
 
-      - `"asia-northeast2"`
+Counts per account plan.
 
-      - `"asia-south1"`
+</summary>
 
-      - `"asia-southeast1"`
+business: optional number
 
-      - `"australia-southeast1"`
+<a href="#">Link to this property</a>
 
-      - `"europe-north1"`
+enterprise: optional number
 
-      - `"europe-southwest1"`
+<a href="#">Link to this property</a>
 
-      - `"europe-west1"`
+free: optional number
 
-      - `"europe-west2"`
+<a href="#">Link to this property</a>
 
-      - `"europe-west3"`
+pro: optional number
 
-      - `"europe-west4"`
+<a href="#">Link to this property</a>
 
-      - `"europe-west8"`
+</details>
 
-      - `"europe-west9"`
+<a href="#">Link to this property</a>
 
-      - `"me-west1"`
+</details>
 
-      - `"southamerica-east1"`
+<a href="#">Link to this property</a>
 
-      - `"us-central1"`
+</details>
 
-      - `"us-east1"`
+<a href="#">Link to this property</a>
 
-      - `"us-east4"`
+<details>
 
-      - `"us-south1"`
+<summary>
 
-      - `"us-west1"`
+regions: optional array of <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
 
-  - `regionsPerPlan: optional object { business, enterprise, free, pro }`
+</summary>
 
-    Available regions.
+label: optional string
 
-    - `business: optional array of LabeledRegion`
+<a href="#">Link to this property</a>
 
-      - `label: optional string`
+<details>
 
-      - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+<summary>
 
-        A test region.
+value: optional "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
 
-    - `enterprise: optional array of LabeledRegion`
+A test region.
 
-      - `label: optional string`
+</summary>
 
-      - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+One of the following:
 
-        A test region.
+"asia-east1"
 
-    - `free: optional array of LabeledRegion`
+<a href="#">Link to this property</a>
 
-      - `label: optional string`
-
-      - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
-
-        A test region.
-
-    - `pro: optional array of LabeledRegion`
+"asia-northeast1"
 
-      - `label: optional string`
+<a href="#">Link to this property</a>
 
-      - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+"asia-northeast2"
 
-        A test region.
+<a href="#">Link to this property</a>
 
-### Example
+"asia-south1"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/speed_api/availabilities \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"asia-southeast1"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "quota": {
-      "plan": "free",
-      "quotasPerPlan": {
-        "value": {
-          "business": 1,
-          "enterprise": 1,
-          "free": 1,
-          "pro": 1
-        }
-      },
-      "remainingSchedules": 1,
-      "remainingTests": 30,
-      "scheduleQuotasPerPlan": {
-        "value": {
-          "business": 1,
-          "enterprise": 1,
-          "free": 1,
-          "pro": 1
-        }
-      }
-    },
-    "regions": [
-      {
-        "label": "Iowa, USA",
-        "value": "us-central1"
-      }
-    ],
-    "regionsPerPlan": {
-      "business": [
-        {
-          "label": "Iowa, USA",
-          "value": "us-central1"
-        }
-      ],
-      "enterprise": [
-        {
-          "label": "Iowa, USA",
-          "value": "us-central1"
-        }
-      ],
-      "free": [
-        {
-          "label": "Iowa, USA",
-          "value": "us-central1"
-        }
-      ],
-      "pro": [
-        {
-          "label": "Iowa, USA",
-          "value": "us-central1"
-        }
-      ]
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"australia-southeast1"
 
-### Availability
+<a href="#">Link to this property</a>
 
-- `Availability object { quota, regions, regionsPerPlan }`
+"europe-north1"
 
-  - `quota: optional object { plan, quotasPerPlan, remainingSchedules, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `plan: optional string`
+"europe-southwest1"
 
-      Cloudflare plan.
+<a href="#">Link to this property</a>
 
-    - `quotasPerPlan: optional object { value }`
+"europe-west1"
 
-      The number of tests available per plan.
+<a href="#">Link to this property</a>
 
-      - `value: optional object { business, enterprise, free, pro }`
+"europe-west2"
 
-        Counts per account plan.
+<a href="#">Link to this property</a>
 
-        - `business: optional number`
+"europe-west3"
 
-        - `enterprise: optional number`
+<a href="#">Link to this property</a>
 
-        - `free: optional number`
+"europe-west4"
 
-        - `pro: optional number`
+<a href="#">Link to this property</a>
 
-    - `remainingSchedules: optional number`
+"europe-west8"
 
-      The number of remaining schedules available.
+<a href="#">Link to this property</a>
 
-    - `remainingTests: optional number`
+"europe-west9"
 
-      The number of remaining tests available.
+<a href="#">Link to this property</a>
 
-    - `scheduleQuotasPerPlan: optional object { value }`
+"me-west1"
 
-      The number of schedules available per plan.
+<a href="#">Link to this property</a>
 
-      - `value: optional object { business, enterprise, free, pro }`
+"southamerica-east1"
 
-        Counts per account plan.
+<a href="#">Link to this property</a>
 
-        - `business: optional number`
+"us-central1"
 
-        - `enterprise: optional number`
+<a href="#">Link to this property</a>
 
-        - `free: optional number`
+"us-east1"
 
-        - `pro: optional number`
+<a href="#">Link to this property</a>
 
-  - `regions: optional array of LabeledRegion`
+"us-east4"
 
-    - `label: optional string`
+<a href="#">Link to this property</a>
 
-    - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+"us-south1"
 
-      A test region.
+<a href="#">Link to this property</a>
 
-      - `"asia-east1"`
+"us-west1"
 
-      - `"asia-northeast1"`
+<a href="#">Link to this property</a>
 
-      - `"asia-northeast2"`
+</details>
 
-      - `"asia-south1"`
+<a href="#">Link to this property</a>
 
-      - `"asia-southeast1"`
+</details>
 
-      - `"australia-southeast1"`
+<a href="#">Link to this property</a>
 
-      - `"europe-north1"`
+<details>
 
-      - `"europe-southwest1"`
+<summary>
 
-      - `"europe-west1"`
+regionsPerPlan: optional object {business, enterprise, free, pro }
 
-      - `"europe-west2"`
+Available regions.
 
-      - `"europe-west3"`
+</summary>
 
-      - `"europe-west4"`
+<details>
 
-      - `"europe-west8"`
+<summary>
 
-      - `"europe-west9"`
+business: optional array of <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
 
-      - `"me-west1"`
+</summary>
 
-      - `"southamerica-east1"`
+label: optional string
 
-      - `"us-central1"`
+<a href="#">Link to this property</a>
 
-      - `"us-east1"`
+<details>
 
-      - `"us-east4"`
+<summary>
 
-      - `"us-south1"`
+value: optional "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
 
-      - `"us-west1"`
+A test region.
 
-  - `regionsPerPlan: optional object { business, enterprise, free, pro }`
+</summary>
 
-    Available regions.
+One of the following:
 
-    - `business: optional array of LabeledRegion`
+"asia-east1"
 
-      - `label: optional string`
+<a href="#">Link to this property</a>
 
-      - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+"asia-northeast1"
 
-        A test region.
+<a href="#">Link to this property</a>
 
-    - `enterprise: optional array of LabeledRegion`
+"asia-northeast2"
 
-      - `label: optional string`
+<a href="#">Link to this property</a>
 
-      - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+"asia-south1"
 
-        A test region.
+<a href="#">Link to this property</a>
 
-    - `free: optional array of LabeledRegion`
+"asia-southeast1"
 
-      - `label: optional string`
+<a href="#">Link to this property</a>
 
-      - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+"australia-southeast1"
 
-        A test region.
+<a href="#">Link to this property</a>
 
-    - `pro: optional array of LabeledRegion`
+"europe-north1"
 
-      - `label: optional string`
+<a href="#">Link to this property</a>
 
-      - `value: optional "asia-east1" or "asia-northeast1" or "asia-northeast2" or 18 more`
+"europe-southwest1"
 
-        A test region.
+<a href="#">Link to this property</a>
+
+"europe-west1"
+
+<a href="#">Link to this property</a>
+
+"europe-west2"
+
+<a href="#">Link to this property</a>
+
+"europe-west3"
+
+<a href="#">Link to this property</a>
+
+"europe-west4"
+
+<a href="#">Link to this property</a>
+
+"europe-west8"
+
+<a href="#">Link to this property</a>
+
+"europe-west9"
+
+<a href="#">Link to this property</a>
+
+"me-west1"
+
+<a href="#">Link to this property</a>
+
+"southamerica-east1"
+
+<a href="#">Link to this property</a>
+
+"us-central1"
+
+<a href="#">Link to this property</a>
+
+"us-east1"
+
+<a href="#">Link to this property</a>
+
+"us-east4"
+
+<a href="#">Link to this property</a>
+
+"us-south1"
+
+<a href="#">Link to this property</a>
+
+"us-west1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+enterprise: optional array of <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
+
+</summary>
+
+label: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
+
+A test region.
+
+</summary>
+
+One of the following:
+
+"asia-east1"
+
+<a href="#">Link to this property</a>
+
+"asia-northeast1"
+
+<a href="#">Link to this property</a>
+
+"asia-northeast2"
+
+<a href="#">Link to this property</a>
+
+"asia-south1"
+
+<a href="#">Link to this property</a>
+
+"asia-southeast1"
+
+<a href="#">Link to this property</a>
+
+"australia-southeast1"
+
+<a href="#">Link to this property</a>
+
+"europe-north1"
+
+<a href="#">Link to this property</a>
+
+"europe-southwest1"
+
+<a href="#">Link to this property</a>
+
+"europe-west1"
+
+<a href="#">Link to this property</a>
+
+"europe-west2"
+
+<a href="#">Link to this property</a>
+
+"europe-west3"
+
+<a href="#">Link to this property</a>
+
+"europe-west4"
+
+<a href="#">Link to this property</a>
+
+"europe-west8"
+
+<a href="#">Link to this property</a>
+
+"europe-west9"
+
+<a href="#">Link to this property</a>
+
+"me-west1"
+
+<a href="#">Link to this property</a>
+
+"southamerica-east1"
+
+<a href="#">Link to this property</a>
+
+"us-central1"
+
+<a href="#">Link to this property</a>
+
+"us-east1"
+
+<a href="#">Link to this property</a>
+
+"us-east4"
+
+<a href="#">Link to this property</a>
+
+"us-south1"
+
+<a href="#">Link to this property</a>
+
+"us-west1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+free: optional array of <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
+
+</summary>
+
+label: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
+
+A test region.
+
+</summary>
+
+One of the following:
+
+"asia-east1"
+
+<a href="#">Link to this property</a>
+
+"asia-northeast1"
+
+<a href="#">Link to this property</a>
+
+"asia-northeast2"
+
+<a href="#">Link to this property</a>
+
+"asia-south1"
+
+<a href="#">Link to this property</a>
+
+"asia-southeast1"
+
+<a href="#">Link to this property</a>
+
+"australia-southeast1"
+
+<a href="#">Link to this property</a>
+
+"europe-north1"
+
+<a href="#">Link to this property</a>
+
+"europe-southwest1"
+
+<a href="#">Link to this property</a>
+
+"europe-west1"
+
+<a href="#">Link to this property</a>
+
+"europe-west2"
+
+<a href="#">Link to this property</a>
+
+"europe-west3"
+
+<a href="#">Link to this property</a>
+
+"europe-west4"
+
+<a href="#">Link to this property</a>
+
+"europe-west8"
+
+<a href="#">Link to this property</a>
+
+"europe-west9"
+
+<a href="#">Link to this property</a>
+
+"me-west1"
+
+<a href="#">Link to this property</a>
+
+"southamerica-east1"
+
+<a href="#">Link to this property</a>
+
+"us-central1"
+
+<a href="#">Link to this property</a>
+
+"us-east1"
+
+<a href="#">Link to this property</a>
+
+"us-east4"
+
+<a href="#">Link to this property</a>
+
+"us-south1"
+
+<a href="#">Link to this property</a>
+
+"us-west1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+pro: optional array of <a href="https://developers.cloudflare.com/api/resources/speed#(resource)%20speed%20%3E%20(model)%20labeled_region%20%3E%20(schema)">LabeledRegion</a> { label, value }
+
+</summary>
+
+label: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: optional "asia-east1"or "asia-northeast1"or "asia-northeast2"or 18 more
+
+A test region.
+
+</summary>
+
+One of the following:
+
+"asia-east1"
+
+<a href="#">Link to this property</a>
+
+"asia-northeast1"
+
+<a href="#">Link to this property</a>
+
+"asia-northeast2"
+
+<a href="#">Link to this property</a>
+
+"asia-south1"
+
+<a href="#">Link to this property</a>
+
+"asia-southeast1"
+
+<a href="#">Link to this property</a>
+
+"australia-southeast1"
+
+<a href="#">Link to this property</a>
+
+"europe-north1"
+
+<a href="#">Link to this property</a>
+
+"europe-southwest1"
+
+<a href="#">Link to this property</a>
+
+"europe-west1"
+
+<a href="#">Link to this property</a>
+
+"europe-west2"
+
+<a href="#">Link to this property</a>
+
+"europe-west3"
+
+<a href="#">Link to this property</a>
+
+"europe-west4"
+
+<a href="#">Link to this property</a>
+
+"europe-west8"
+
+<a href="#">Link to this property</a>
+
+"europe-west9"
+
+<a href="#">Link to this property</a>
+
+"me-west1"
+
+<a href="#">Link to this property</a>
+
+"southamerica-east1"
+
+<a href="#">Link to this property</a>
+
+"us-central1"
+
+<a href="#">Link to this property</a>
+
+"us-east1"
+
+<a href="#">Link to this property</a>
+
+"us-east4"
+
+<a href="#">Link to this property</a>
+
+"us-south1"
+
+<a href="#">Link to this property</a>
+
+"us-west1"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20speed.availabilities%20%3E%20(model)%20availability%20%3E%20(schema)>)

@@ -1,612 +1,245 @@
+---
+title: Mitigations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Abuse Reports](https://developers.cloudflare.com/api/resources/abuse_reports)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Mitigations
 
-## List abuse report mitigations
+##### [List abuse report mitigations](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/mitigations/methods/list)
 
-**get** `/accounts/{account_id}/abuse-reports/{report_id}/mitigations`
+GET/accounts/{account\_id}/abuse-reports/{report\_id}/mitigations
 
-List mitigations done to remediate the abuse report.
+##### [Request review on mitigations](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/mitigations/methods/review)
 
-### Path Parameters
+POST/accounts/{account\_id}/abuse-reports/{report\_id}/mitigations/appeal
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-- `report_id: string`
+<details>
 
-### Query Parameters
+<summary>
 
-- `effective_after: optional string`
+MitigationListResponse object {mitigations }
 
-  Returns mitigation that were dispatched after the given date
+</summary>
 
-- `effective_before: optional string`
+<details>
 
-  Returns mitigations that were dispatched before the given date
+<summary>
 
-- `entity_type: optional "url_pattern" or "account" or "zone"`
+mitigations: array of object {id, effective\_date, entity\_id, 3 more }
 
-  Filter by the type of entity the mitigation impacts.
+</summary>
 
-  - `"url_pattern"`
+id: string
 
-  - `"account"`
+ID of remediation.
 
-  - `"zone"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+effective\_date: string
 
-  Where in pagination to start listing abuse reports
+Date when the mitigation will become active. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  How many abuse reports per page to list
+entity\_id: string
 
-- `sort: optional "type,asc" or "type,desc" or "effective_date,asc" or 5 more`
+<a href="#">Link to this property</a>
 
-  A property to sort by, followed by the order
+<details>
 
-  - `"type,asc"`
+<summary>
 
-  - `"type,desc"`
+entity\_type: "url\_pattern"or "account"or "zone"or "custom\_expression"
 
-  - `"effective_date,asc"`
+The type of entity targeted by a mitigation.
 
-  - `"effective_date,desc"`
+</summary>
 
-  - `"status,asc"`
+One of the following:
 
-  - `"status,desc"`
+"url\_pattern"
 
-  - `"entity_type,asc"`
+<a href="#">Link to this property</a>
 
-  - `"entity_type,desc"`
+"account"
 
-- `status: optional "pending" or "active" or "in_review" or 2 more`
+<a href="#">Link to this property</a>
 
-  Filter by the status of the mitigation.
+"zone"
 
-  - `"pending"`
+<a href="#">Link to this property</a>
 
-  - `"active"`
+"custom\_expression"
 
-  - `"in_review"`
+<a href="#">Link to this property</a>
 
-  - `"cancelled"`
+</details>
 
-  - `"removed"`
+<a href="#">Link to this property</a>
 
-- `type: optional "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
+<details>
 
-  Filter by the type of mitigation. This filter parameter can be specified multiple times to include multiple types of mitigations in the result set, e.g. ?type=rate_limit_cache&type=legal_block.
+<summary>
 
-  - `"account_suspend"`
+status: "pending"or "active"or "in\_review"or 2 more
 
-  - `"copyright_interstitial"`
+The status of a mitigation
 
-  - `"geo_block"`
+</summary>
 
-  - `"legal_block"`
+One of the following:
 
-  - `"malware_interstitial"`
+"pending"
 
-  - `"misleading_interstitial"`
+<a href="#">Link to this property</a>
 
-  - `"network_block"`
+"active"
 
-  - `"phishing_interstitial"`
+<a href="#">Link to this property</a>
 
-  - `"playfairite_enforce"`
+"in\_review"
 
-  - `"r2_takedown_account"`
+<a href="#">Link to this property</a>
 
-  - `"r2_takedown_bucket"`
+"cancelled"
 
-  - `"r2_takedown_object"`
+<a href="#">Link to this property</a>
 
-  - `"rate_limit_cache"`
+"removed"
 
-  - `"redirect_video_stream"`
+<a href="#">Link to this property</a>
 
-  - `"registrar_freeze"`
+</details>
 
-  - `"registrar_parking"`
+<a href="#">Link to this property</a>
 
-  - `"stream_block_account"`
+type: string
 
-  - `"user_suspend"`
+The type of mitigation applied to a reported entity.
 
-  - `"workers_takedown_by_zone_id"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { message }`
+</details>
 
-  - `message: string`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(model)%20mitigation_list_response%20%3E%20(schema)>)
 
-- `messages: optional array of object { message }`
+<details>
 
-  - `message: string`
+<summary>
 
-- `result: optional object { mitigations }`
+MitigationReviewResponse object {id, effective\_date, entity\_id, 3 more }
 
-  - `mitigations: array of object { id, effective_date, entity_id, 3 more }`
+</summary>
 
-    - `id: string`
+id: string
 
-      ID of remediation.
+ID of remediation.
 
-    - `effective_date: string`
+<a href="#">Link to this property</a>
 
-      Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+effective\_date: string
 
-    - `entity_id: string`
+Date when the mitigation will become active. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
 
-    - `entity_type: "url_pattern" or "account" or "zone"`
+<a href="#">Link to this property</a>
 
-      The type of entity targeted by a mitigation.
+entity\_id: string
 
-      - `"url_pattern"`
+<a href="#">Link to this property</a>
 
-      - `"account"`
+<details>
 
-      - `"zone"`
+<summary>
 
-    - `status: "pending" or "active" or "in_review" or 2 more`
+entity\_type: "url\_pattern"or "account"or "zone"or "custom\_expression"
 
-      The status of a mitigation
+The type of entity targeted by a mitigation.
 
-      - `"pending"`
+</summary>
 
-      - `"active"`
+One of the following:
 
-      - `"in_review"`
+"url\_pattern"
 
-      - `"cancelled"`
+<a href="#">Link to this property</a>
 
-      - `"removed"`
+"account"
 
-    - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
+<a href="#">Link to this property</a>
 
-      The type of mitigation applied to a reported entity.
+"zone"
 
-      - `"account_suspend"`
+<a href="#">Link to this property</a>
 
-      - `"copyright_interstitial"`
+"custom\_expression"
 
-      - `"geo_block"`
+<a href="#">Link to this property</a>
 
-      - `"legal_block"`
+</details>
 
-      - `"malware_interstitial"`
+<a href="#">Link to this property</a>
 
-      - `"misleading_interstitial"`
+<details>
 
-      - `"network_block"`
+<summary>
 
-      - `"phishing_interstitial"`
+status: "pending"or "active"or "in\_review"or 2 more
 
-      - `"playfairite_enforce"`
+The status of a mitigation
 
-      - `"r2_takedown_account"`
+</summary>
 
-      - `"r2_takedown_bucket"`
+One of the following:
 
-      - `"r2_takedown_object"`
+"pending"
 
-      - `"rate_limit_cache"`
+<a href="#">Link to this property</a>
 
-      - `"redirect_video_stream"`
+"active"
 
-      - `"registrar_freeze"`
+<a href="#">Link to this property</a>
 
-      - `"registrar_parking"`
+"in\_review"
 
-      - `"stream_block_account"`
+<a href="#">Link to this property</a>
 
-      - `"user_suspend"`
+"cancelled"
 
-      - `"workers_takedown_by_zone_id"`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+"removed"
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+</details>
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+type: string
 
-  - `total_pages: number`
+The type of mitigation applied to a reported entity.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_ID/mitigations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
-
-```json
-{
-  "success": true,
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": {
-    "mitigations": [
-      {
-        "id": "id",
-        "effective_date": "2009-11-10T23:00:00Z",
-        "entity_id": "entity_id",
-        "entity_type": "url_pattern",
-        "status": "pending",
-        "type": "account_suspend"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "total_pages": 0
-  }
-}
-```
-
-## Request review on mitigations
-
-**post** `/accounts/{account_id}/abuse-reports/{report_id}/mitigations/appeal`
-
-Request a review for mitigations on an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `report_id: string`
-
-### Body Parameters
-
-- `appeals: array of object { id, reason }`
-
-  List of mitigations to appeal.
-
-  - `id: string`
-
-    ID of the mitigation to appeal.
-
-  - `reason: "removed" or "misclassified"`
-
-    Reason why the customer is appealing.
-
-    - `"removed"`
-
-    - `"misclassified"`
-
-### Returns
-
-- `result_info: object { count, page, per_page, 2 more }`
-
-  - `count: number`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-  - `total_pages: number`
-
-- `success: boolean`
-
-- `errors: optional array of object { message }`
-
-  - `message: string`
-
-- `messages: optional array of object { message }`
-
-  - `message: string`
-
-- `result: optional array of object { id, effective_date, entity_id, 3 more }`
-
-  - `id: string`
-
-    ID of remediation.
-
-  - `effective_date: string`
-
-    Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
-
-  - `entity_id: string`
-
-  - `entity_type: "url_pattern" or "account" or "zone"`
-
-    The type of entity targeted by a mitigation.
-
-    - `"url_pattern"`
-
-    - `"account"`
-
-    - `"zone"`
-
-  - `status: "pending" or "active" or "in_review" or 2 more`
-
-    The status of a mitigation
-
-    - `"pending"`
-
-    - `"active"`
-
-    - `"in_review"`
-
-    - `"cancelled"`
-
-    - `"removed"`
-
-  - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
-
-    The type of mitigation applied to a reported entity.
-
-    - `"account_suspend"`
-
-    - `"copyright_interstitial"`
-
-    - `"geo_block"`
-
-    - `"legal_block"`
-
-    - `"malware_interstitial"`
-
-    - `"misleading_interstitial"`
-
-    - `"network_block"`
-
-    - `"phishing_interstitial"`
-
-    - `"playfairite_enforce"`
-
-    - `"r2_takedown_account"`
-
-    - `"r2_takedown_bucket"`
-
-    - `"r2_takedown_object"`
-
-    - `"rate_limit_cache"`
-
-    - `"redirect_video_stream"`
-
-    - `"registrar_freeze"`
-
-    - `"registrar_parking"`
-
-    - `"stream_block_account"`
-
-    - `"user_suspend"`
-
-    - `"workers_takedown_by_zone_id"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_ID/mitigations/appeal \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "appeals": [
-            {
-              "id": "id",
-              "reason": "misclassified"
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "total_pages": 0
-  },
-  "success": true,
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "effective_date": "2009-11-10T23:00:00Z",
-      "entity_id": "entity_id",
-      "entity_type": "url_pattern",
-      "status": "pending",
-      "type": "account_suspend"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Mitigation List Response
-
-- `MitigationListResponse object { mitigations }`
-
-  - `mitigations: array of object { id, effective_date, entity_id, 3 more }`
-
-    - `id: string`
-
-      ID of remediation.
-
-    - `effective_date: string`
-
-      Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
-
-    - `entity_id: string`
-
-    - `entity_type: "url_pattern" or "account" or "zone"`
-
-      The type of entity targeted by a mitigation.
-
-      - `"url_pattern"`
-
-      - `"account"`
-
-      - `"zone"`
-
-    - `status: "pending" or "active" or "in_review" or 2 more`
-
-      The status of a mitigation
-
-      - `"pending"`
-
-      - `"active"`
-
-      - `"in_review"`
-
-      - `"cancelled"`
-
-      - `"removed"`
-
-    - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
-
-      The type of mitigation applied to a reported entity.
-
-      - `"account_suspend"`
-
-      - `"copyright_interstitial"`
-
-      - `"geo_block"`
-
-      - `"legal_block"`
-
-      - `"malware_interstitial"`
-
-      - `"misleading_interstitial"`
-
-      - `"network_block"`
-
-      - `"phishing_interstitial"`
-
-      - `"playfairite_enforce"`
-
-      - `"r2_takedown_account"`
-
-      - `"r2_takedown_bucket"`
-
-      - `"r2_takedown_object"`
-
-      - `"rate_limit_cache"`
-
-      - `"redirect_video_stream"`
-
-      - `"registrar_freeze"`
-
-      - `"registrar_parking"`
-
-      - `"stream_block_account"`
-
-      - `"user_suspend"`
-
-      - `"workers_takedown_by_zone_id"`
-
-### Mitigation Review Response
-
-- `MitigationReviewResponse object { id, effective_date, entity_id, 3 more }`
-
-  - `id: string`
-
-    ID of remediation.
-
-  - `effective_date: string`
-
-    Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
-
-  - `entity_id: string`
-
-  - `entity_type: "url_pattern" or "account" or "zone"`
-
-    The type of entity targeted by a mitigation.
-
-    - `"url_pattern"`
-
-    - `"account"`
-
-    - `"zone"`
-
-  - `status: "pending" or "active" or "in_review" or 2 more`
-
-    The status of a mitigation
-
-    - `"pending"`
-
-    - `"active"`
-
-    - `"in_review"`
-
-    - `"cancelled"`
-
-    - `"removed"`
-
-  - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
-
-    The type of mitigation applied to a reported entity.
-
-    - `"account_suspend"`
-
-    - `"copyright_interstitial"`
-
-    - `"geo_block"`
-
-    - `"legal_block"`
-
-    - `"malware_interstitial"`
-
-    - `"misleading_interstitial"`
-
-    - `"network_block"`
-
-    - `"phishing_interstitial"`
-
-    - `"playfairite_enforce"`
-
-    - `"r2_takedown_account"`
-
-    - `"r2_takedown_bucket"`
-
-    - `"r2_takedown_object"`
-
-    - `"rate_limit_cache"`
-
-    - `"redirect_video_stream"`
-
-    - `"registrar_freeze"`
-
-    - `"registrar_parking"`
-
-    - `"stream_block_account"`
-
-    - `"user_suspend"`
-
-    - `"workers_takedown_by_zone_id"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(model)%20mitigation_review_response%20%3E%20(schema)>)

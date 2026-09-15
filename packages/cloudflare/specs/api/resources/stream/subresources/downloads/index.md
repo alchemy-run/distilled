@@ -1,481 +1,305 @@
+---
+title: Downloads
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Downloads
 
-## List downloads
+##### [List downloads](https://developers.cloudflare.com/api/resources/stream/subresources/downloads/methods/get)
 
-**get** `/accounts/{account_id}/stream/{identifier}/downloads`
+GET/accounts/{account\_id}/stream/{identifier}/downloads
 
-Lists the downloads created for a video.
+##### [Create downloads](https://developers.cloudflare.com/api/resources/stream/subresources/downloads/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/stream/{identifier}/downloads
 
-- `account_id: string`
+##### [Delete downloads](https://developers.cloudflare.com/api/resources/stream/subresources/downloads/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/stream/{identifier}/downloads
 
-- `identifier: string`
+##### ModelsExpand Collapse
 
-  A Cloudflare-generated unique identifier for a media item.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+DownloadGetResponse object {audio, default }
 
-  - `code: number`
+An object with download type keys. Each key is optional and only present if that download type has been created.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+audio: optional object {percentComplete, status, url }
 
-- `messages: array of object { code, message, documentation_url, source }`
+The audio-only download. Only present if this download type has been created.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+percentComplete: number
 
-  - `documentation_url: optional string`
+Indicates the progress as a percentage between 0 and 100.
 
-  - `source: optional object { pointer }`
+maximum100
 
-    - `pointer: optional string`
+minimum0
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { audio, default }`
+status: "ready"or "inprogress"or "error"
 
-  An object with download type keys. Each key is optional and only present if that download type has been created.
+The status of a generated download.
 
-  - `audio: optional object { percentComplete, status, url }`
+</summary>
 
-    The audio-only download. Only present if this download type has been created.
+One of the following:
 
-    - `percentComplete: number`
+"ready"
 
-      Indicates the progress as a percentage between 0 and 100.
+<a href="#">Link to this property</a>
 
-    - `status: "ready" or "inprogress" or "error"`
+"inprogress"
 
-      The status of a generated download.
+<a href="#">Link to this property</a>
 
-      - `"ready"`
+"error"
 
-      - `"inprogress"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+</details>
 
-    - `url: optional string`
+<a href="#">Link to this property</a>
 
-      The URL to access the generated download.
+url: optional string
 
-  - `default: optional object { percentComplete, status, url }`
+The URL to access the generated download.
 
-    The default video download. Only present if this download type has been created.
+formaturi
 
-    - `percentComplete: number`
+<a href="#">Link to this property</a>
 
-      Indicates the progress as a percentage between 0 and 100.
+</details>
 
-    - `status: "ready" or "inprogress" or "error"`
+<a href="#">Link to this property</a>
 
-      The status of a generated download.
+<details>
 
-      - `"ready"`
+<summary>
 
-      - `"inprogress"`
+default: optional object {percentComplete, status, url }
 
-      - `"error"`
+The default video download. Only present if this download type has been created.
 
-    - `url: optional string`
+</summary>
 
-      The URL to access the generated download.
+percentComplete: number
 
-### Example
+Indicates the progress as a percentage between 0 and 100.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/downloads \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maximum100
 
-#### Response
+minimum0
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "audio": {
-      "percentComplete": 0,
-      "status": "ready",
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
-    },
-    "default": {
-      "percentComplete": 0,
-      "status": "ready",
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create downloads
+<details>
 
-**post** `/accounts/{account_id}/stream/{identifier}/downloads`
+<summary>
 
-Creates a download for a video when a video is ready to view. Use `/downloads/{download_type}` instead for type-specific downloads. Available types are `default` and `audio`.
+status: "ready"or "inprogress"or "error"
 
-### Path Parameters
+The status of a generated download.
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+One of the following:
 
-- `identifier: string`
+"ready"
 
-  A Cloudflare-generated unique identifier for a media item.
+<a href="#">Link to this property</a>
 
-### Returns
+"inprogress"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"error"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+url: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The URL to access the generated download.
 
-  - `code: number`
+formaturi
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20stream.downloads%20%3E%20(model)%20download_get_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { audio, default }`
+DownloadCreateResponse object {audio, default }
 
-  An object with download type keys. Each key is optional and only present if that download type has been created.
+An object with download type keys. Each key is optional and only present if that download type has been created.
 
-  - `audio: optional object { percentComplete, status, url }`
+</summary>
 
-    The audio-only download. Only present if this download type has been created.
+<details>
 
-    - `percentComplete: number`
+<summary>
 
-      Indicates the progress as a percentage between 0 and 100.
+audio: optional object {percentComplete, status, url }
 
-    - `status: "ready" or "inprogress" or "error"`
+The audio-only download. Only present if this download type has been created.
 
-      The status of a generated download.
+</summary>
 
-      - `"ready"`
+percentComplete: number
 
-      - `"inprogress"`
+Indicates the progress as a percentage between 0 and 100.
 
-      - `"error"`
+maximum100
 
-    - `url: optional string`
+minimum0
 
-      The URL to access the generated download.
+<a href="#">Link to this property</a>
 
-  - `default: optional object { percentComplete, status, url }`
+<details>
 
-    The default video download. Only present if this download type has been created.
+<summary>
 
-    - `percentComplete: number`
+status: "ready"or "inprogress"or "error"
 
-      Indicates the progress as a percentage between 0 and 100.
+The status of a generated download.
 
-    - `status: "ready" or "inprogress" or "error"`
+</summary>
 
-      The status of a generated download.
+One of the following:
 
-      - `"ready"`
+"ready"
 
-      - `"inprogress"`
+<a href="#">Link to this property</a>
 
-      - `"error"`
+"inprogress"
 
-    - `url: optional string`
+<a href="#">Link to this property</a>
 
-      The URL to access the generated download.
+"error"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/downloads \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "audio": {
-      "percentComplete": 0,
-      "status": "ready",
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
-    },
-    "default": {
-      "percentComplete": 0,
-      "status": "ready",
-      "url": "https://customer-m033z5x00ks6nunl.cloudflarestream.com/ea95132c15732412d22c1476fa83f27a/downloads/default.mp4"
-    }
-  }
-}
-```
+url: optional string
 
-## Delete downloads
+The URL to access the generated download.
 
-**delete** `/accounts/{account_id}/stream/{identifier}/downloads`
+formaturi
 
-Delete the downloads for a video. Use `/downloads/{download_type}` instead for type-specific downloads. Available types are `default` and `audio`.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `identifier: string`
+<summary>
 
-  A Cloudflare-generated unique identifier for a media item.
+default: optional object {percentComplete, status, url }
 
-### Returns
+The default video download. Only present if this download type has been created.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+percentComplete: number
 
-  - `message: string`
+Indicates the progress as a percentage between 0 and 100.
 
-  - `documentation_url: optional string`
+maximum100
 
-  - `source: optional object { pointer }`
+minimum0
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+status: "ready"or "inprogress"or "error"
 
-  - `documentation_url: optional string`
+The status of a generated download.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `success: true`
+"ready"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"inprogress"
 
-- `result: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"error"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/downloads \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "ok"
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+url: optional string
 
-### Download Get Response
+The URL to access the generated download.
 
-- `DownloadGetResponse object { audio, default }`
+formaturi
 
-  An object with download type keys. Each key is optional and only present if that download type has been created.
+<a href="#">Link to this property</a>
 
-  - `audio: optional object { percentComplete, status, url }`
+</details>
 
-    The audio-only download. Only present if this download type has been created.
+<a href="#">Link to this property</a>
 
-    - `percentComplete: number`
+</details>
 
-      Indicates the progress as a percentage between 0 and 100.
+[Link to this property](#)%20stream.downloads%20%3E%20(model)%20download_create_response%20%3E%20(schema)>)
 
-    - `status: "ready" or "inprogress" or "error"`
+DownloadDeleteResponse = string
 
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-  - `default: optional object { percentComplete, status, url }`
-
-    The default video download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-### Download Create Response
-
-- `DownloadCreateResponse object { audio, default }`
-
-  An object with download type keys. Each key is optional and only present if that download type has been created.
-
-  - `audio: optional object { percentComplete, status, url }`
-
-    The audio-only download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-  - `default: optional object { percentComplete, status, url }`
-
-    The default video download. Only present if this download type has been created.
-
-    - `percentComplete: number`
-
-      Indicates the progress as a percentage between 0 and 100.
-
-    - `status: "ready" or "inprogress" or "error"`
-
-      The status of a generated download.
-
-      - `"ready"`
-
-      - `"inprogress"`
-
-      - `"error"`
-
-    - `url: optional string`
-
-      The URL to access the generated download.
-
-### Download Delete Response
-
-- `DownloadDeleteResponse = string`
+[Link to this property](#)%20stream.downloads%20%3E%20(model)%20download_delete_response%20%3E%20(schema)>)

@@ -1,148 +1,832 @@
-## Update Stream
+---
+title: Update Stream
+---
 
-**patch** `/accounts/{account_id}/pipelines/v1/streams/{stream_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Pipelines](https://developers.cloudflare.com/api/resources/pipelines)
+
+[Streams](https://developers.cloudflare.com/api/resources/pipelines/subresources/streams)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Stream
+
+PATCH/accounts/{account\_id}/pipelines/v1/streams/{stream\_id}
 
 Update a Stream.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Specifies the public ID of the account.
+<summary>API Token</summary>
 
-- `stream_id: string`
 
-  Specifies the public ID of the stream.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `http: optional object { authentication, enabled, cors }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `authentication: boolean`
+</details>
 
-    Indicates that authentication is required for the HTTP endpoint.
+<details>
 
-  - `enabled: boolean`
+<summary>API Email + API Key</summary>
 
-    Indicates that the HTTP endpoint is enabled.
 
-  - `cors: optional object { origins }`
 
-    Specifies the CORS options for the HTTP endpoint.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `origins: optional array of string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `worker_binding: optional object { enabled }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `enabled: boolean`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    Indicates that the worker binding is enabled.
+</details>
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `result: object { id, created_at, http, 6 more }`
+account\_id: string
 
-  - `id: string`
+Specifies the public ID of the account.
 
-    Indicates a unique identifier for this stream.
+[Link to this property](#)%20pipelines.streams%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `created_at: string`
+stream\_id: string
 
-  - `http: object { authentication, enabled, cors }`
+Specifies the public ID of the stream.
 
-    - `authentication: boolean`
+maxLength32
 
-      Indicates that authentication is required for the HTTP endpoint.
+minLength32
 
-    - `enabled: boolean`
+[Link to this property](#)%20pipelines.streams%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20stream_id%20%3E%20(schema)>)
 
-      Indicates that the HTTP endpoint is enabled.
+##### Body ParametersJSONExpand Collapse
 
-    - `cors: optional object { origins }`
+<details>
 
-      Specifies the CORS options for the HTTP endpoint.
+<summary>
 
-      - `origins: optional array of string`
+http: optional object {authentication, enabled, cors }
 
-  - `modified_at: string`
+</summary>
 
-  - `name: string`
+authentication: boolean
 
-    Indicates the name of the Stream.
+Indicates that authentication is required for the HTTP endpoint.
 
-  - `version: number`
+<a href="#">Link to this property</a>
 
-    Indicates the current version of this stream.
+enabled: boolean
 
-  - `worker_binding: object { enabled }`
+Indicates that the HTTP endpoint is enabled.
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Indicates that the worker binding is enabled.
+<details>
 
-  - `endpoint: optional string`
+<summary>
 
-    Indicates the endpoint URL of this stream.
+cors: optional object {origins }
 
-  - `format: optional object { type, decimal_encoding, timestamp_format, unstructured }  or object { type, compression, row_group_bytes }`
+Specifies the CORS options for the HTTP endpoint.
 
-    - `Json object { type, decimal_encoding, timestamp_format, unstructured }`
+</summary>
 
-      - `type: "json"`
+origins: optional array of string
 
-        - `"json"`
+<a href="#">Link to this property</a>
 
-      - `decimal_encoding: optional "number" or "string" or "bytes"`
+</details>
 
-        - `"number"`
+<a href="#">Link to this property</a>
 
-        - `"string"`
+</details>
 
-        - `"bytes"`
+[Link to this property](#)%20pipelines.streams%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20http%20%3E%20(schema)>)
 
-      - `timestamp_format: optional "rfc3339" or "unix_millis"`
+<details>
 
-        - `"rfc3339"`
+<summary>
 
-        - `"unix_millis"`
+worker\_binding: optional object {enabled }
 
-      - `unstructured: optional boolean`
+</summary>
 
-    - `Parquet object { type, compression, row_group_bytes }`
+enabled: boolean
 
-      - `type: "parquet"`
+Indicates that the worker binding is enabled.
 
-        - `"parquet"`
+<a href="#">Link to this property</a>
 
-      - `compression: optional "uncompressed" or "snappy" or "gzip" or 2 more`
+</details>
 
-        - `"uncompressed"`
+[Link to this property](#)%20pipelines.streams%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20worker_binding%20%3E%20(schema)>)
 
-        - `"snappy"`
+##### ReturnsExpand Collapse
 
-        - `"gzip"`
+<details>
 
-        - `"zstd"`
+<summary>
 
-        - `"lz4"`
+result: object {id, created\_at, http, 7 more }
 
-      - `row_group_bytes: optional number`
+</summary>
 
-- `success: boolean`
+id: string
 
-  Indicates whether the API call was successful.
+Indicates a unique identifier for this stream.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+http: object {authentication, enabled, cors }
+
+</summary>
+
+authentication: boolean
+
+Indicates that authentication is required for the HTTP endpoint.
+
+<a href="#">Link to this property</a>
+
+enabled: boolean
+
+Indicates that the HTTP endpoint is enabled.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cors: optional object {origins }
+
+Specifies the CORS options for the HTTP endpoint.
+
+</summary>
+
+origins: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+Indicates the name of the Stream.
+
+maxLength128
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+version: number
+
+Indicates the current version of this stream.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+worker\_binding: object {enabled }
+
+</summary>
+
+enabled: boolean
+
+Indicates that the worker binding is enabled.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+endpoint: optional string
+
+Indicates the endpoint URL of this stream.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+format: optional object {type, decimal\_encoding, timestamp\_format, unstructured } or object {type, compression, row\_group\_bytes }
+
+Defines the data format of the events.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Json object {type, decimal\_encoding, timestamp\_format, unstructured }
+
+</summary>
+
+type: "json"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+decimal\_encoding: optional "number"or "string"or "bytes"
+
+</summary>
+
+One of the following:
+
+"number"
+
+<a href="#">Link to this property</a>
+
+"string"
+
+<a href="#">Link to this property</a>
+
+"bytes"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+timestamp\_format: optional "rfc3339"or "unix\_millis"
+
+</summary>
+
+One of the following:
+
+"rfc3339"
+
+<a href="#">Link to this property</a>
+
+"unix\_millis"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+unstructured: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Parquet object {type, compression, row\_group\_bytes }
+
+</summary>
+
+type: "parquet"
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+compression: optional "uncompressed"or "snappy"or "gzip"or 2 more
+
+</summary>
+
+One of the following:
+
+"uncompressed"
+
+<a href="#">Link to this property</a>
+
+"snappy"
+
+<a href="#">Link to this property</a>
+
+"gzip"
+
+<a href="#">Link to this property</a>
+
+"zstd"
+
+<a href="#">Link to this property</a>
+
+"lz4"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+row\_group\_bytes: optional number
+
+formatint64
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+schema: optional object {fields, inferred }
+
+Defines the schema of the events in the data stream.
+
+</summary>
+
+<details>
+
+<summary>
+
+fields: optional array of <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20source_field%20%3E%20(schema)">SourceField</a>
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+Int32 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "int32"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Int64 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "int64"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Float32 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "float32"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Float64 object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "float64"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Bool object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "bool"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+String object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "string"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Binary object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "binary"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Timestamp object {type, metadata\_key, name, 3 more }
+
+</summary>
+
+type: "timestamp"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+unit: optional "second"or "millisecond"or "microsecond"or "nanosecond"
+
+</summary>
+
+One of the following:
+
+"second"
+
+<a href="#">Link to this property</a>
+
+"millisecond"
+
+<a href="#">Link to this property</a>
+
+"microsecond"
+
+<a href="#">Link to this property</a>
+
+"nanosecond"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Json object {type, metadata\_key, name, 2 more }
+
+</summary>
+
+type: "json"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Struct = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20struct_field%20%3E%20(schema)">StructField</a> { fields, name }
+
+</summary>
+
+type: "struct"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+List = <a href="https://developers.cloudflare.com/api/resources/pipelines#(resource)%20pipelines%20%3E%20(model)%20list_field%20%3E%20(schema)">ListField</a> { items }
+
+</summary>
+
+type: "list"
+
+<a href="#">Link to this property</a>
+
+metadata\_key: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+required: optional boolean
+
+<a href="#">Link to this property</a>
+
+sql\_name: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+inferred: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20pipelines.streams%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20pipelines.streams%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update Stream
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/streams/$STREAM_ID \
     -X PATCH \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "id": "01234567890123457689012345678901",
@@ -168,6 +852,66 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pipelines/v1/stre
       "decimal_encoding": "number",
       "timestamp_format": "rfc3339",
       "unstructured": true
+    },
+    "schema": {
+      "fields": [
+        {
+          "type": "int32",
+          "metadata_key": "metadata_key",
+          "name": "name",
+          "required": true,
+          "sql_name": "sql_name"
+        }
+      ],
+      "inferred": true
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "id": "01234567890123457689012345678901",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "http": {
+      "authentication": false,
+      "enabled": true,
+      "cors": {
+        "origins": [
+          "string"
+        ]
+      }
+    },
+    "modified_at": "2019-12-27T18:11:19.117Z",
+    "name": "my_stream",
+    "version": 3,
+    "worker_binding": {
+      "enabled": true
+    },
+    "endpoint": "https://01234567890123457689012345678901.ingest.cloudflare.com/v1",
+    "format": {
+      "type": "json",
+      "decimal_encoding": "number",
+      "timestamp_format": "rfc3339",
+      "unstructured": true
+    },
+    "schema": {
+      "fields": [
+        {
+          "type": "int32",
+          "metadata_key": "metadata_key",
+          "name": "name",
+          "required": true,
+          "sql_name": "sql_name"
+        }
+      ],
+      "inferred": true
     }
   },
   "success": true

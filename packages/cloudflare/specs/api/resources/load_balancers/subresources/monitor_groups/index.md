@@ -1,1192 +1,197 @@
+---
+title: Monitor Groups
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Load Balancers](https://developers.cloudflare.com/api/resources/load_balancers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Monitor Groups
 
-## List Monitor Groups
+##### [List Monitor Groups](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitor_groups/methods/list)
 
-**get** `/accounts/{account_id}/load_balancers/monitor_groups`
+GET/accounts/{account\_id}/load\_balancers/monitor\_groups
 
-List configured monitor groups.
+##### [Monitor Group Details](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitor_groups/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/load\_balancers/monitor\_groups/{monitor\_group\_id}
 
-- `account_id: string`
+##### [Create Monitor Group](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitor_groups/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/load\_balancers/monitor\_groups
 
-### Returns
+##### [Update Monitor Group](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitor_groups/methods/update)
 
-- `errors: array of ResponseInfo`
+PUT/accounts/{account\_id}/load\_balancers/monitor\_groups/{monitor\_group\_id}
 
-  - `code: number`
+##### [Patch Monitor Group](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitor_groups/methods/edit)
 
-  - `message: string`
+PATCH/accounts/{account\_id}/load\_balancers/monitor\_groups/{monitor\_group\_id}
 
-  - `documentation_url: optional string`
+##### [Delete Monitor Group](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitor_groups/methods/delete)
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/load\_balancers/monitor\_groups/{monitor\_group\_id}
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+MonitorGroup object {id, description, members, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: string
 
-- `result: array of MonitorGroup`
+The ID of the Monitor Group to use for checking the health of origins within this pool.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
+description: string
 
-  - `description: string`
+A short description of the monitor group
 
-    A short description of the monitor group
+<a href="#">Link to this property</a>
 
-  - `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
+<details>
 
-    List of monitors in this group
+<summary>
 
-    - `enabled: boolean`
+members: array of object {enabled, monitor\_id, monitoring\_only, 3 more }
 
-      Whether this monitor is enabled in the group
+List of monitors in this group
 
-    - `monitor_id: string`
+</summary>
 
-      The ID of the Monitor to use for checking the health of origins within this pool.
+enabled: boolean
 
-    - `monitoring_only: boolean`
+Whether this monitor is enabled in the group
 
-      Whether this monitor is used for monitoring only (does not affect pool health)
+<a href="#">Link to this property</a>
 
-    - `must_be_healthy: boolean`
+monitor\_id: string
 
-      Whether this monitor must be healthy for the pool to be considered healthy
+The ID of the Monitor to use for checking the health of origins within this pool.
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-      The timestamp of when the monitor was added to the group
+monitoring\_only: boolean
 
-    - `updated_at: optional string`
+Whether this monitor is used for monitoring only (does not affect pool health)
 
-      The timestamp of when the monitor group member was last updated
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+must\_be\_healthy: boolean
 
-    The timestamp of when the monitor group was created
+Whether this monitor must be healthy for the pool to be considered healthy
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    The timestamp of when the monitor group was last updated
+created\_at: optional string
 
-- `success: true`
+The timestamp of when the monitor was added to the group
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+updated\_at: optional string
 
-  - `count: optional number`
+The timestamp of when the monitor group member was last updated
 
-    Total number of results on the current page.
+formatdate-time
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
+created\_on: optional string
 
-    Total number of pages available.
+The timestamp of when the monitor group was created
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitor_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+modified\_on: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "description": "Primary datacenter monitors",
-      "members": [
-        {
-          "enabled": true,
-          "monitor_id": "monitor_id",
-          "monitoring_only": false,
-          "must_be_healthy": true,
-          "created_at": "2014-01-01T05:20:00.12345Z",
-          "updated_at": "2014-01-01T05:20:00.12345Z"
-        }
-      ],
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "modified_on": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 20,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+The timestamp of when the monitor group was last updated
 
-## Monitor Group Details
+formatdate-time
 
-**get** `/accounts/{account_id}/load_balancers/monitor_groups/{monitor_group_id}`
+<a href="#">Link to this property</a>
 
-Fetch a single configured monitor group.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20load_balancers.monitor_groups%20%3E%20(model)%20monitor_group%20%3E%20(schema)>)
 
-- `account_id: string`
+#### Monitor GroupsReferences
 
-  Identifier.
+##### [List Monitor Group References](https://developers.cloudflare.com/api/resources/load_balancers/subresources/monitor_groups/subresources/references/methods/get)
 
-- `monitor_group_id: string`
+GET/accounts/{account\_id}/load\_balancers/monitor\_groups/{monitor\_group\_id}/references
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+ReferenceGetResponse object {reference\_type, resource\_id, resource\_name, resource\_type }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+reference\_type: optional "\*"or "referral"or "referrer"
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"\*"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: MonitorGroup`
+"referral"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
+"referrer"
 
-  - `description: string`
+<a href="#">Link to this property</a>
 
-    A short description of the monitor group
+</details>
 
-  - `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
+<a href="#">Link to this property</a>
 
-    List of monitors in this group
+resource\_id: optional string
 
-    - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-      Whether this monitor is enabled in the group
+resource\_name: optional string
 
-    - `monitor_id: string`
+<a href="#">Link to this property</a>
 
-      The ID of the Monitor to use for checking the health of origins within this pool.
+resource\_type: optional string
 
-    - `monitoring_only: boolean`
+<a href="#">Link to this property</a>
 
-      Whether this monitor is used for monitoring only (does not affect pool health)
+</details>
 
-    - `must_be_healthy: boolean`
-
-      Whether this monitor must be healthy for the pool to be considered healthy
-
-    - `created_at: optional string`
-
-      The timestamp of when the monitor was added to the group
-
-    - `updated_at: optional string`
-
-      The timestamp of when the monitor group member was last updated
-
-  - `created_on: optional string`
-
-    The timestamp of when the monitor group was created
-
-  - `modified_on: optional string`
-
-    The timestamp of when the monitor group was last updated
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitor_groups/$MONITOR_GROUP_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "description": "Primary datacenter monitors",
-    "members": [
-      {
-        "enabled": true,
-        "monitor_id": "monitor_id",
-        "monitoring_only": false,
-        "must_be_healthy": true,
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "updated_at": "2014-01-01T05:20:00.12345Z"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Create Monitor Group
-
-**post** `/accounts/{account_id}/load_balancers/monitor_groups`
-
-Create a new monitor group.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `description: string`
-
-  A short description of the monitor group
-
-- `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
-
-  List of monitors in this group
-
-  - `enabled: boolean`
-
-    Whether this monitor is enabled in the group
-
-  - `monitor_id: string`
-
-    The ID of the Monitor to use for checking the health of origins within this pool.
-
-  - `monitoring_only: boolean`
-
-    Whether this monitor is used for monitoring only (does not affect pool health)
-
-  - `must_be_healthy: boolean`
-
-    Whether this monitor must be healthy for the pool to be considered healthy
-
-  - `created_at: optional string`
-
-    The timestamp of when the monitor was added to the group
-
-  - `updated_at: optional string`
-
-    The timestamp of when the monitor group member was last updated
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MonitorGroup`
-
-  - `id: string`
-
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
-
-  - `description: string`
-
-    A short description of the monitor group
-
-  - `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
-
-    List of monitors in this group
-
-    - `enabled: boolean`
-
-      Whether this monitor is enabled in the group
-
-    - `monitor_id: string`
-
-      The ID of the Monitor to use for checking the health of origins within this pool.
-
-    - `monitoring_only: boolean`
-
-      Whether this monitor is used for monitoring only (does not affect pool health)
-
-    - `must_be_healthy: boolean`
-
-      Whether this monitor must be healthy for the pool to be considered healthy
-
-    - `created_at: optional string`
-
-      The timestamp of when the monitor was added to the group
-
-    - `updated_at: optional string`
-
-      The timestamp of when the monitor group member was last updated
-
-  - `created_on: optional string`
-
-    The timestamp of when the monitor group was created
-
-  - `modified_on: optional string`
-
-    The timestamp of when the monitor group was last updated
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitor_groups \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "Primary datacenter monitors",
-          "members": [
-            {
-              "enabled": true,
-              "monitor_id": "monitor_id",
-              "monitoring_only": false,
-              "must_be_healthy": true
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "description": "Primary datacenter monitors",
-    "members": [
-      {
-        "enabled": true,
-        "monitor_id": "monitor_id",
-        "monitoring_only": false,
-        "must_be_healthy": true,
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "updated_at": "2014-01-01T05:20:00.12345Z"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Update Monitor Group
-
-**put** `/accounts/{account_id}/load_balancers/monitor_groups/{monitor_group_id}`
-
-Modify a configured monitor group.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `monitor_group_id: string`
-
-### Body Parameters
-
-- `description: string`
-
-  A short description of the monitor group
-
-- `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
-
-  List of monitors in this group
-
-  - `enabled: boolean`
-
-    Whether this monitor is enabled in the group
-
-  - `monitor_id: string`
-
-    The ID of the Monitor to use for checking the health of origins within this pool.
-
-  - `monitoring_only: boolean`
-
-    Whether this monitor is used for monitoring only (does not affect pool health)
-
-  - `must_be_healthy: boolean`
-
-    Whether this monitor must be healthy for the pool to be considered healthy
-
-  - `created_at: optional string`
-
-    The timestamp of when the monitor was added to the group
-
-  - `updated_at: optional string`
-
-    The timestamp of when the monitor group member was last updated
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MonitorGroup`
-
-  - `id: string`
-
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
-
-  - `description: string`
-
-    A short description of the monitor group
-
-  - `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
-
-    List of monitors in this group
-
-    - `enabled: boolean`
-
-      Whether this monitor is enabled in the group
-
-    - `monitor_id: string`
-
-      The ID of the Monitor to use for checking the health of origins within this pool.
-
-    - `monitoring_only: boolean`
-
-      Whether this monitor is used for monitoring only (does not affect pool health)
-
-    - `must_be_healthy: boolean`
-
-      Whether this monitor must be healthy for the pool to be considered healthy
-
-    - `created_at: optional string`
-
-      The timestamp of when the monitor was added to the group
-
-    - `updated_at: optional string`
-
-      The timestamp of when the monitor group member was last updated
-
-  - `created_on: optional string`
-
-    The timestamp of when the monitor group was created
-
-  - `modified_on: optional string`
-
-    The timestamp of when the monitor group was last updated
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitor_groups/$MONITOR_GROUP_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "Primary datacenter monitors",
-          "members": [
-            {
-              "enabled": true,
-              "monitor_id": "monitor_id",
-              "monitoring_only": false,
-              "must_be_healthy": true
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "description": "Primary datacenter monitors",
-    "members": [
-      {
-        "enabled": true,
-        "monitor_id": "monitor_id",
-        "monitoring_only": false,
-        "must_be_healthy": true,
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "updated_at": "2014-01-01T05:20:00.12345Z"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Patch Monitor Group
-
-**patch** `/accounts/{account_id}/load_balancers/monitor_groups/{monitor_group_id}`
-
-Apply changes to an existing monitor group, overwriting the supplied properties.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `monitor_group_id: string`
-
-### Body Parameters
-
-- `description: string`
-
-  A short description of the monitor group
-
-- `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
-
-  List of monitors in this group
-
-  - `enabled: boolean`
-
-    Whether this monitor is enabled in the group
-
-  - `monitor_id: string`
-
-    The ID of the Monitor to use for checking the health of origins within this pool.
-
-  - `monitoring_only: boolean`
-
-    Whether this monitor is used for monitoring only (does not affect pool health)
-
-  - `must_be_healthy: boolean`
-
-    Whether this monitor must be healthy for the pool to be considered healthy
-
-  - `created_at: optional string`
-
-    The timestamp of when the monitor was added to the group
-
-  - `updated_at: optional string`
-
-    The timestamp of when the monitor group member was last updated
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MonitorGroup`
-
-  - `id: string`
-
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
-
-  - `description: string`
-
-    A short description of the monitor group
-
-  - `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
-
-    List of monitors in this group
-
-    - `enabled: boolean`
-
-      Whether this monitor is enabled in the group
-
-    - `monitor_id: string`
-
-      The ID of the Monitor to use for checking the health of origins within this pool.
-
-    - `monitoring_only: boolean`
-
-      Whether this monitor is used for monitoring only (does not affect pool health)
-
-    - `must_be_healthy: boolean`
-
-      Whether this monitor must be healthy for the pool to be considered healthy
-
-    - `created_at: optional string`
-
-      The timestamp of when the monitor was added to the group
-
-    - `updated_at: optional string`
-
-      The timestamp of when the monitor group member was last updated
-
-  - `created_on: optional string`
-
-    The timestamp of when the monitor group was created
-
-  - `modified_on: optional string`
-
-    The timestamp of when the monitor group was last updated
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitor_groups/$MONITOR_GROUP_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "description": "Primary datacenter monitors",
-          "members": [
-            {
-              "enabled": true,
-              "monitor_id": "monitor_id",
-              "monitoring_only": false,
-              "must_be_healthy": true
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "description": "Primary datacenter monitors",
-    "members": [
-      {
-        "enabled": true,
-        "monitor_id": "monitor_id",
-        "monitoring_only": false,
-        "must_be_healthy": true,
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "updated_at": "2014-01-01T05:20:00.12345Z"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Delete Monitor Group
-
-**delete** `/accounts/{account_id}/load_balancers/monitor_groups/{monitor_group_id}`
-
-Delete a configured monitor group.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `monitor_group_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MonitorGroup`
-
-  - `id: string`
-
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
-
-  - `description: string`
-
-    A short description of the monitor group
-
-  - `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
-
-    List of monitors in this group
-
-    - `enabled: boolean`
-
-      Whether this monitor is enabled in the group
-
-    - `monitor_id: string`
-
-      The ID of the Monitor to use for checking the health of origins within this pool.
-
-    - `monitoring_only: boolean`
-
-      Whether this monitor is used for monitoring only (does not affect pool health)
-
-    - `must_be_healthy: boolean`
-
-      Whether this monitor must be healthy for the pool to be considered healthy
-
-    - `created_at: optional string`
-
-      The timestamp of when the monitor was added to the group
-
-    - `updated_at: optional string`
-
-      The timestamp of when the monitor group member was last updated
-
-  - `created_on: optional string`
-
-    The timestamp of when the monitor group was created
-
-  - `modified_on: optional string`
-
-    The timestamp of when the monitor group was last updated
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitor_groups/$MONITOR_GROUP_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id",
-    "description": "Primary datacenter monitors",
-    "members": [
-      {
-        "enabled": true,
-        "monitor_id": "monitor_id",
-        "monitoring_only": false,
-        "must_be_healthy": true,
-        "created_at": "2014-01-01T05:20:00.12345Z",
-        "updated_at": "2014-01-01T05:20:00.12345Z"
-      }
-    ],
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Monitor Group
-
-- `MonitorGroup object { id, description, members, 2 more }`
-
-  - `id: string`
-
-    The ID of the Monitor Group to use for checking the health of origins within this pool.
-
-  - `description: string`
-
-    A short description of the monitor group
-
-  - `members: array of object { enabled, monitor_id, monitoring_only, 3 more }`
-
-    List of monitors in this group
-
-    - `enabled: boolean`
-
-      Whether this monitor is enabled in the group
-
-    - `monitor_id: string`
-
-      The ID of the Monitor to use for checking the health of origins within this pool.
-
-    - `monitoring_only: boolean`
-
-      Whether this monitor is used for monitoring only (does not affect pool health)
-
-    - `must_be_healthy: boolean`
-
-      Whether this monitor must be healthy for the pool to be considered healthy
-
-    - `created_at: optional string`
-
-      The timestamp of when the monitor was added to the group
-
-    - `updated_at: optional string`
-
-      The timestamp of when the monitor group member was last updated
-
-  - `created_on: optional string`
-
-    The timestamp of when the monitor group was created
-
-  - `modified_on: optional string`
-
-    The timestamp of when the monitor group was last updated
-
-# References
-
-## List Monitor Group References
-
-**get** `/accounts/{account_id}/load_balancers/monitor_groups/{monitor_group_id}/references`
-
-Get the list of resources that reference the provided monitor group.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `monitor_group_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of object { reference_type, resource_id, resource_name, resource_type }`
-
-  List of resources that reference a given monitor group.
-
-  - `reference_type: optional "*" or "referral" or "referrer"`
-
-    - `"*"`
-
-    - `"referral"`
-
-    - `"referrer"`
-
-  - `resource_id: optional string`
-
-  - `resource_name: optional string`
-
-  - `resource_type: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/load_balancers/monitor_groups/$MONITOR_GROUP_ID/references \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "reference_type": "referrer",
-      "resource_id": "17b5962d775c646f3f9725cbc7a53df4",
-      "resource_name": "primary-dc-1",
-      "resource_type": "pool"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Reference Get Response
-
-- `ReferenceGetResponse object { reference_type, resource_id, resource_name, resource_type }`
-
-  - `reference_type: optional "*" or "referral" or "referrer"`
-
-    - `"*"`
-
-    - `"referral"`
-
-    - `"referrer"`
-
-  - `resource_id: optional string`
-
-  - `resource_name: optional string`
-
-  - `resource_type: optional string`
+[Link to this property](#)%20load_balancers.monitor_groups.references%20%3E%20(model)%20reference_get_response%20%3E%20(schema)>)

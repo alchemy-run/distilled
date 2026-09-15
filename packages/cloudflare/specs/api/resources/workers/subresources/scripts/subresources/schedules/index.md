@@ -1,248 +1,103 @@
+---
+title: Schedules
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers/subresources/scripts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Schedules
 
-## Get Cron Triggers
+##### [Get Cron Triggers](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/schedules/methods/get)
 
-**get** `/accounts/{account_id}/workers/scripts/{script_name}/schedules`
+GET/accounts/{account\_id}/workers/scripts/{script\_name}/schedules
 
-Fetches Cron Triggers for a Worker.
+##### [Update Cron Triggers](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/schedules/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/workers/scripts/{script\_name}/schedules
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `script_name: string`
+<summary>
 
-  Name of the script, used in URLs and route configuration.
+ScheduleGetResponse object {schedules }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+schedules: array of object {cron, created\_on, modified\_on }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+cron: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+created\_on: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { schedules }`
+</details>
 
-  - `schedules: array of object { cron, created_on, modified_on }`
+[Link to this property](#)%20workers.scripts.schedules%20%3E%20(model)%20schedule_get_response%20%3E%20(schema)>)
 
-    - `cron: string`
+<details>
 
-    - `created_on: optional string`
+<summary>
 
-    - `modified_on: optional string`
+ScheduleUpdateResponse object {schedules }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-### Example
+schedules: array of object {cron, created\_on, modified\_on }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/schedules \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+cron: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "schedules": [
-      {
-        "cron": "*/30 * * * *",
-        "created_on": "created_on",
-        "modified_on": "modified_on"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update Cron Triggers
+created\_on: optional string
 
-**put** `/accounts/{account_id}/workers/scripts/{script_name}/schedules`
+<a href="#">Link to this property</a>
 
-Updates Cron Triggers for a Worker.
+modified\_on: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `script_name: string`
+</details>
 
-  Name of the script, used in URLs and route configuration.
-
-### Body Parameters
-
-- `body: array of object { cron, created_on, modified_on }`
-
-  - `cron: string`
-
-  - `created_on: optional string`
-
-  - `modified_on: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { schedules }`
-
-  - `schedules: array of object { cron, created_on, modified_on }`
-
-    - `cron: string`
-
-    - `created_on: optional string`
-
-    - `modified_on: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/schedules \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "cron": "*/30 * * * *"
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "schedules": [
-      {
-        "cron": "*/30 * * * *",
-        "created_on": "created_on",
-        "modified_on": "modified_on"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Schedule Get Response
-
-- `ScheduleGetResponse object { schedules }`
-
-  - `schedules: array of object { cron, created_on, modified_on }`
-
-    - `cron: string`
-
-    - `created_on: optional string`
-
-    - `modified_on: optional string`
-
-### Schedule Update Response
-
-- `ScheduleUpdateResponse object { schedules }`
-
-  - `schedules: array of object { cron, created_on, modified_on }`
-
-    - `cron: string`
-
-    - `created_on: optional string`
-
-    - `modified_on: optional string`
+[Link to this property](#)%20workers.scripts.schedules%20%3E%20(model)%20schedule_update_response%20%3E%20(schema)>)

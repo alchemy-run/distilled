@@ -1,326 +1,772 @@
-## Configure DMARC Reports
+---
+title: Configure DMARC Reports
+---
 
-**patch** `/zones/{zone_id}/email/auth/dmarc-reports`
+[Skip to content](#_top)
 
-Updates the DMARC report configuration for a zone.
-At least one of `enabled` or `skip_wizard` must be provided.
-When enabling, the handler will ensure the DMARC RUA record exists in DNS.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Email Auth](https://developers.cloudflare.com/api/resources/email_auth)
 
-- `zone_id: string`
+[DMARC Reports](https://developers.cloudflare.com/api/resources/email_auth/subresources/dmarc_reports)
 
-  Identifier.
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `enabled: optional boolean`
+---
 
-  Enable or disable DMARC reports for this zone
+**Copy Markdown****View as Markdown**
 
-- `skip_wizard: optional boolean`
+# Configure DMARC Reports
 
-  Skip the DMARC setup wizard
+PATCH/zones/{zone\_id}/email/auth/dmarc-reports
 
-### Returns
+Updates the DMARC report configuration for a zone. At least one of `enabled` or `skip_wizard` must be provided. When enabling, the handler will ensure the DMARC RUA record exists in DNS.
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `messages: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `success: true`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Whether the API call was successful.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `true`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `result: optional object { approved_sources, created, created_at, 9 more }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  Response for GET/PATCH /dmarc-reports
+</details>
 
-  - `approved_sources: optional array of object { created, created_at, domain, 6 more }`
+##### P ath ParametersExpand Collapse
 
-    List of approved sending sources (omitted when empty)
+zone\_id: string
 
-    - `created: optional string`
+Identifier.
 
-      Deprecated, use created_at
+maxLength32
 
-    - `created_at: optional string`
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-      Creation timestamp
+##### Body ParametersJSONExpand Collapse
 
-    - `domain: optional string`
+enabled: optional boolean
 
-      The source domain
+Enable or disable DMARC reports for this zone
 
-    - `ips: optional array of string`
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20enabled%20%3E%20(schema)>)
 
-      Resolved IP addresses from SPF
+skip\_wizard: optional boolean
 
-    - `modified: optional string`
+Skip the DMARC setup wizard
 
-      Deprecated, use modified_at
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20skip_wizard%20%3E%20(schema)>)
 
-    - `modified_at: optional string`
+##### ReturnsExpand Collapse
 
-      Last modification timestamp
+<details>
 
-    - `name: optional string`
+<summary>
 
-      Source name (typically same as domain)
+errors: array of object {code, message, documentation\_url, source }
 
-    - `slug: optional string`
+</summary>
 
-      URL-friendly identifier
+code: number
 
-    - `tag: optional string`
+minimum1000
 
-      Source UUID
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+message: string
 
-    Deprecated, use created_at
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+documentation\_url: optional string
 
-    Creation timestamp
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+<details>
 
-    Whether DMARC reports are enabled
+<summary>
 
-  - `modified: optional string`
+source: optional object {pointer }
 
-    Deprecated, use modified_at
+</summary>
 
-  - `modified_at: optional string`
+pointer: optional string
 
-    Last modification timestamp
+<a href="#">Link to this property</a>
 
-  - `records: optional object { bimi_records, cname_dkim_records, cname_dmarc_records, 4 more }`
+</details>
 
-    Live DNS records for the zone, grouped by type
+<a href="#">Link to this property</a>
 
-    - `bimi_records: optional array of object { id, content, name, 2 more }`
+</details>
 
-      BIMI TXT records
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `id: optional string`
+<details>
 
-        DNS record ID
+<summary>
 
-      - `content: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-        Record content
+</summary>
 
-      - `name: optional string`
+code: number
 
-        DNS record name
+minimum1000
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+message: string
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+documentation\_url: optional string
 
-    - `cname_dkim_records: optional array of object { id, content, name, 2 more }`
+<a href="#">Link to this property</a>
 
-      CNAME records for DKIM
+<details>
 
-      - `id: optional string`
+<summary>
 
-        DNS record ID
+source: optional object {pointer }
 
-      - `content: optional string`
+</summary>
 
-        Record content
+pointer: optional string
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record name
+</details>
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+</details>
 
-      - `type: optional string`
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-        Record type
+success: true
 
-    - `cname_dmarc_records: optional array of object { id, content, name, 2 more }`
+Whether the API call was successful.
 
-      CNAME records at _dmarc (problematic)
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      - `id: optional string`
+<details>
 
-        DNS record ID
+<summary>
 
-      - `content: optional string`
+result: optional object {approved\_sources, created, created\_at, 9 more }
 
-        Record content
+Response for GET/PATCH /dmarc-reports
 
-      - `name: optional string`
+</summary>
 
-        DNS record name
+<details>
 
-      - `ttl: optional number`
+<summary>
 
-        Time to live in seconds
+approved\_sources: optional array of object {created, created\_at, domain, 6 more }
 
-      - `type: optional string`
+List of approved sending sources (omitted when empty)
 
-        Record type
+</summary>
 
-    - `cname_spf_records: optional array of object { id, content, name, 2 more }`
+Deprecatedcreated: optional string
 
-      CNAME records for SPF
+Use <code>created_at</code> instead.
 
-      - `id: optional string`
+Deprecated, use created\_at
 
-        DNS record ID
+formatdate-time
 
-      - `content: optional string`
+<a href="#">Link to this property</a>
 
-        Record content
+created\_at: optional string
 
-      - `name: optional string`
+Creation timestamp
 
-        DNS record name
+formatdate-time
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+domain: optional string
 
-      - `type: optional string`
+The source domain
 
-        Record type
+<a href="#">Link to this property</a>
 
-    - `dkim_records: optional array of object { id, content, name, 2 more }`
+ips: optional array of string
 
-      DKIM TXT records
+Resolved IP addresses from SPF
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record ID
+Deprecatedmodified: optional string
 
-      - `content: optional string`
+Use <code>modified_at</code> instead.
 
-        Record content
+Deprecated, use modified\_at
 
-      - `name: optional string`
+formatdate-time
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+modified\_at: optional string
 
-        Time to live in seconds
+Last modification timestamp
 
-      - `type: optional string`
+formatdate-time
 
-        Record type
+<a href="#">Link to this property</a>
 
-    - `dmarc_records: optional array of object { id, content, name, 2 more }`
+name: optional string
 
-      DMARC TXT records
+Source name (typically same as domain)
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        DNS record ID
+slug: optional string
 
-      - `content: optional string`
+URL-friendly identifier
 
-        Record content
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+tag: optional string
 
-        DNS record name
+Source UUID
 
-      - `ttl: optional number`
+<a href="#">Link to this property</a>
 
-        Time to live in seconds
+</details>
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+Deprecatedcreated: optional string
 
-    - `spf_records: optional array of object { id, content, name, 2 more }`
+Use <code>created_at</code> instead.
 
-      SPF TXT records
+Deprecated, use created\_at
 
-      - `id: optional string`
+formatdate-time
 
-        DNS record ID
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+created\_at: optional string
 
-        Record content
+Creation timestamp
 
-      - `name: optional string`
+formatdate-time
 
-        DNS record name
+<a href="#">Link to this property</a>
 
-      - `ttl: optional number`
+enabled: optional boolean
 
-        Time to live in seconds
+Whether DMARC reports are enabled
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-        Record type
+Deprecatedmodified: optional string
 
-  - `rua_prefix: optional string`
+Use <code>modified_at</code> instead.
 
-    Prefix for DMARC RUA addresses (32-char hex string)
+Deprecated, use modified\_at
 
-  - `skip_wizard: optional boolean`
+formatdate-time
 
-    Whether to skip the setup wizard
+<a href="#">Link to this property</a>
 
-  - `status: optional "missing-dmarc-report" or "multiple-dmarc-reports" or "missing-dmarc-rua" or "cname-on-dmarc-record"`
+modified\_at: optional string
 
-    DMARC configuration status
+Last modification timestamp
 
-    - `"missing-dmarc-report"`
+formatdate-time
 
-    - `"multiple-dmarc-reports"`
+<a href="#">Link to this property</a>
 
-    - `"missing-dmarc-rua"`
+<details>
 
-    - `"cname-on-dmarc-record"`
+<summary>
 
-  - `tag: optional string`
+records: optional object {bimi\_records, cname\_dkim\_records, cname\_dmarc\_records, 5 more }
 
-    Use `zone_id` instead
+Live DNS records for the zone, grouped by type
 
-  - `zone_id: optional string`
+</summary>
 
-    Zone identifier
+<details>
 
-### Example
+<summary>
 
-```http
+bimi\_records: optional array of object {id, content, name, 3 more }
+
+BIMI TXT records
+
+</summary>
+
+id: optional string
+
+DNS record ID
+
+<a href="#">Link to this property</a>
+
+content: optional string
+
+Record content
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+DNS record name
+
+<a href="#">Link to this property</a>
+
+resolved: optional array of string
+
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+Time to live in seconds
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Record type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cname\_dkim\_records: optional array of object {id, content, name, 3 more }
+
+CNAME records for DKIM selectors. Each selector is resolved independently; when a selector’s CNAME resolves to a DKIM TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
+
+</summary>
+
+id: optional string
+
+DNS record ID
+
+<a href="#">Link to this property</a>
+
+content: optional string
+
+Record content
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+DNS record name
+
+<a href="#">Link to this property</a>
+
+resolved: optional array of string
+
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+Time to live in seconds
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Record type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cname\_dmarc\_records: optional array of object {id, content, name, 3 more }
+
+CNAME records at \_dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
+
+</summary>
+
+id: optional string
+
+DNS record ID
+
+<a href="#">Link to this property</a>
+
+content: optional string
+
+Record content
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+DNS record name
+
+<a href="#">Link to this property</a>
+
+resolved: optional array of string
+
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+Time to live in seconds
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Record type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cname\_spf\_records: optional array of object {id, content, name, 3 more }
+
+CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record’s content in the <code>resolved</code> field of the corresponding entry.
+
+</summary>
+
+id: optional string
+
+DNS record ID
+
+<a href="#">Link to this property</a>
+
+content: optional string
+
+Record content
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+DNS record name
+
+<a href="#">Link to this property</a>
+
+resolved: optional array of string
+
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+Time to live in seconds
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Record type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dkim\_records: optional array of object {id, content, name, 3 more }
+
+DKIM TXT records
+
+</summary>
+
+id: optional string
+
+DNS record ID
+
+<a href="#">Link to this property</a>
+
+content: optional string
+
+Record content
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+DNS record name
+
+<a href="#">Link to this property</a>
+
+resolved: optional array of string
+
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+Time to live in seconds
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Record type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc\_records: optional array of object {id, content, name, 3 more }
+
+DMARC TXT records
+
+</summary>
+
+id: optional string
+
+DNS record ID
+
+<a href="#">Link to this property</a>
+
+content: optional string
+
+Record content
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+DNS record name
+
+<a href="#">Link to this property</a>
+
+resolved: optional array of string
+
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+Time to live in seconds
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Record type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedresolved\_dmarc\_records: optional array of object {content, name }
+
+Use the <code>resolved</code> field on the corresponding entry in cname\_dmarc\_records instead.
+
+DMARC records that a recursive lookup of \_dmarc.{zone} returned. The API populates this only when the zone lacks a DMARC TXT record of its own, which usually means a CNAME delegates DMARC to another zone.
+
+</summary>
+
+content: optional string
+
+The TXT record value. The API joins all character-strings into a single string.
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+The name the API queried.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf\_records: optional array of object {id, content, name, 3 more }
+
+SPF TXT records
+
+</summary>
+
+id: optional string
+
+DNS record ID
+
+<a href="#">Link to this property</a>
+
+content: optional string
+
+Record content
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+DNS record name
+
+<a href="#">Link to this property</a>
+
+resolved: optional array of string
+
+For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname\_dmarc\_records, cname\_spf\_records, and cname\_dkim\_records.
+
+<a href="#">Link to this property</a>
+
+ttl: optional number
+
+Time to live in seconds
+
+<a href="#">Link to this property</a>
+
+type: optional string
+
+Record type
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+rua\_prefix: optional string
+
+Prefix for DMARC RUA addresses (32-char hex string)
+
+<a href="#">Link to this property</a>
+
+skip\_wizard: optional boolean
+
+Whether to skip the setup wizard
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "missing-dmarc-report"or "multiple-dmarc-reports"or "missing-dmarc-rua"or 2 more
+
+DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, the API resolves \_dmarc.{zone} recursively and evaluates whatever that lookup returns. A CNAME at \_dmarc.{zone} that points to a valid DMARC record is therefore healthy; the cname-on-dmarc-record value means the CNAME resolves to no DMARC record at all.
+
+</summary>
+
+One of the following:
+
+"missing-dmarc-report"
+
+<a href="#">Link to this property</a>
+
+"multiple-dmarc-reports"
+
+<a href="#">Link to this property</a>
+
+"missing-dmarc-rua"
+
+<a href="#">Link to this property</a>
+
+"cname-on-dmarc-record"
+
+<a href="#">Link to this property</a>
+
+"unauthorized-reporting-domain"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedtag: optional string
+
+Use <code>zone_id</code> instead.
+
+Use <code>zone_id</code> instead
+
+<a href="#">Link to this property</a>
+
+zone\_id: optional string
+
+Zone identifier
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_auth.dmarc_reports%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Configure DMARC Reports
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-reports \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -330,9 +776,9 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-report
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -381,8 +827,11 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-report
       "bimi_records": [
         {
           "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
           "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
           "ttl": 300,
           "type": "TXT"
         }
@@ -390,8 +839,11 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-report
       "cname_dkim_records": [
         {
           "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
           "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
           "ttl": 300,
           "type": "TXT"
         }
@@ -399,8 +851,11 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-report
       "cname_dmarc_records": [
         {
           "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
           "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
           "ttl": 300,
           "type": "TXT"
         }
@@ -408,8 +863,11 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-report
       "cname_spf_records": [
         {
           "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
           "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
           "ttl": 300,
           "type": "TXT"
         }
@@ -417,8 +875,11 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-report
       "dkim_records": [
         {
           "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
           "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
           "ttl": 300,
           "type": "TXT"
         }
@@ -426,17 +887,179 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/auth/dmarc-report
       "dmarc_records": [
         {
           "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
           "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
           "ttl": 300,
           "type": "TXT"
+        }
+      ],
+      "resolved_dmarc_records": [
+        {
+          "content": "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com"
         }
       ],
       "spf_records": [
         {
           "id": "e5bb46707a802688812d5d1c9f7977d4",
-          "content": "\"v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net\"",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
           "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
+          "ttl": 300,
+          "type": "TXT"
+        }
+      ]
+    },
+    "rua_prefix": "9233c80fc89f43e3a7b749605f651868",
+    "skip_wizard": false,
+    "status": "missing-dmarc-report",
+    "tag": "023e105f4ecef8ad9ca31a8372d0c353",
+    "zone_id": "023e105f4ecef8ad9ca31a8372d0c353"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "approved_sources": [
+      {
+        "created": "2024-01-15T10:30:00.12345Z",
+        "created_at": "2024-01-15T10:30:00.12345Z",
+        "domain": "sendgrid.net",
+        "ips": [
+          "192.168.1.1",
+          "10.0.0.1"
+        ],
+        "modified": "2024-01-15T11:45:00.12345Z",
+        "modified_at": "2024-01-15T11:45:00.12345Z",
+        "name": "SendGrid",
+        "slug": "sendgrid-net",
+        "tag": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+      }
+    ],
+    "created": "2024-01-15T10:30:00.12345Z",
+    "created_at": "2024-01-15T10:30:00.12345Z",
+    "enabled": true,
+    "modified": "2024-01-15T11:45:00.12345Z",
+    "modified_at": "2024-01-15T11:45:00.12345Z",
+    "records": {
+      "bimi_records": [
+        {
+          "id": "e5bb46707a802688812d5d1c9f7977d4",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
+          "ttl": 300,
+          "type": "TXT"
+        }
+      ],
+      "cname_dkim_records": [
+        {
+          "id": "e5bb46707a802688812d5d1c9f7977d4",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
+          "ttl": 300,
+          "type": "TXT"
+        }
+      ],
+      "cname_dmarc_records": [
+        {
+          "id": "e5bb46707a802688812d5d1c9f7977d4",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
+          "ttl": 300,
+          "type": "TXT"
+        }
+      ],
+      "cname_spf_records": [
+        {
+          "id": "e5bb46707a802688812d5d1c9f7977d4",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
+          "ttl": 300,
+          "type": "TXT"
+        }
+      ],
+      "dkim_records": [
+        {
+          "id": "e5bb46707a802688812d5d1c9f7977d4",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
+          "ttl": 300,
+          "type": "TXT"
+        }
+      ],
+      "dmarc_records": [
+        {
+          "id": "e5bb46707a802688812d5d1c9f7977d4",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
+          "ttl": 300,
+          "type": "TXT"
+        }
+      ],
+      "resolved_dmarc_records": [
+        {
+          "content": "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com"
+        }
+      ],
+      "spf_records": [
+        {
+          "id": "e5bb46707a802688812d5d1c9f7977d4",
+          "content": "v=DMARC1; p=none; rua=mailto:rua@dmarc-reports.cloudflare.net",
+          "name": "_dmarc.example.com",
+          "resolved": [
+            "v=DMARC1; p=reject; rua=mailto:rua@dmarc-reports.cloudflare.net"
+          ],
           "ttl": 300,
           "type": "TXT"
         }

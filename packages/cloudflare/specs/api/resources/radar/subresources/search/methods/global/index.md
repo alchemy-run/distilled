@@ -1,111 +1,314 @@
-## Search for locations, ASes, reports, and more
+---
+title: Search for locations, ASes, reports, and more
+---
 
-**get** `/radar/search/global`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Search](https://developers.cloudflare.com/api/resources/radar/subresources/search)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Search for locations, ASes, reports, and more
+
+GET/radar/search/global
 
 Searches for locations, autonomous systems, reports, bots, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`).
 
-### Query Parameters
+##### Security
 
-- `query: string`
+<details>
 
-  String used to perform the search operation.
+<summary>API Token</summary>
 
-- `exclude: optional array of "ADM1S" or "ASNS" or "BOTS" or 9 more`
 
-  Search types excluded from results.
 
-  - `"ADM1S"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"ASNS"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"BOTS"`
+</details>
 
-  - `"CERTIFICATE_AUTHORITIES"`
+<details>
 
-  - `"CERTIFICATE_LOGS"`
+<summary>API Email + API Key</summary>
 
-  - `"ORIGINS"`
 
-  - `"ORIGIN_REGIONS"`
 
-  - `"INDUSTRIES"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"LOCATIONS"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"NOTEBOOKS"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"TLDS"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"VERTICALS"`
+</details>
 
-- `format: optional "JSON" or "CSV"`
+##### Accepted Permissions (at least one required)
 
-  Format in which results will be returned.
+`User Details Write``User Details Read`
 
-  - `"JSON"`
+##### Q uery ParametersExpand Collapse
 
-  - `"CSV"`
+query: string
 
-- `include: optional array of "ADM1S" or "ASNS" or "BOTS" or 9 more`
+String used to perform the search operation.
 
-  Search types included in results.
+[Link to this property](#)%20radar.search%20%3E%20(method)%20global%20%3E%20(params)%20default%20%3E%20(param)%20query%20%3E%20(schema)>)
 
-  - `"ADM1S"`
+<details>
 
-  - `"ASNS"`
+<summary>
 
-  - `"BOTS"`
+exclude: optional array of "ADM1S"or "ASNS"or "BOTS"or 9 more
 
-  - `"CERTIFICATE_AUTHORITIES"`
+Search types excluded from results.
 
-  - `"CERTIFICATE_LOGS"`
+</summary>
 
-  - `"ORIGINS"`
+One of the following:
 
-  - `"ORIGIN_REGIONS"`
+"ADM1S"
 
-  - `"INDUSTRIES"`
+<a href="#">Link to this property</a>
 
-  - `"LOCATIONS"`
+"ASNS"
 
-  - `"NOTEBOOKS"`
+<a href="#">Link to this property</a>
 
-  - `"TLDS"`
+"BOTS"
 
-  - `"VERTICALS"`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+"CERTIFICATE\_AUTHORITIES"
 
-  Limits the number of objects returned in the response.
+<a href="#">Link to this property</a>
 
-- `limitPerGroup: optional number`
+"CERTIFICATE\_LOGS"
 
-  Limits the number of objects per search category.
+<a href="#">Link to this property</a>
 
-### Returns
+"ORIGINS"
 
-- `result: object { search }`
+<a href="#">Link to this property</a>
 
-  - `search: array of object { code, name, type }`
+"ORIGIN\_REGIONS"
 
-    - `code: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"INDUSTRIES"
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"LOCATIONS"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"NOTEBOOKS"
+
+<a href="#">Link to this property</a>
+
+"TLDS"
+
+<a href="#">Link to this property</a>
+
+"VERTICALS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.search%20%3E%20(method)%20global%20%3E%20(params)%20default%20%3E%20(param)%20exclude%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+format: optional "JSON"or "CSV"
+
+Format in which results will be returned.
+
+</summary>
+
+One of the following:
+
+"JSON"
+
+<a href="#">Link to this property</a>
+
+"CSV"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.search%20%3E%20(method)%20global%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+include: optional array of "ADM1S"or "ASNS"or "BOTS"or 9 more
+
+Search types included in results.
+
+</summary>
+
+One of the following:
+
+"ADM1S"
+
+<a href="#">Link to this property</a>
+
+"ASNS"
+
+<a href="#">Link to this property</a>
+
+"BOTS"
+
+<a href="#">Link to this property</a>
+
+"CERTIFICATE\_AUTHORITIES"
+
+<a href="#">Link to this property</a>
+
+"CERTIFICATE\_LOGS"
+
+<a href="#">Link to this property</a>
+
+"ORIGINS"
+
+<a href="#">Link to this property</a>
+
+"ORIGIN\_REGIONS"
+
+<a href="#">Link to this property</a>
+
+"INDUSTRIES"
+
+<a href="#">Link to this property</a>
+
+"LOCATIONS"
+
+<a href="#">Link to this property</a>
+
+"NOTEBOOKS"
+
+<a href="#">Link to this property</a>
+
+"TLDS"
+
+<a href="#">Link to this property</a>
+
+"VERTICALS"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.search%20%3E%20(method)%20global%20%3E%20(params)%20default%20%3E%20(param)%20include%20%3E%20(schema)>)
+
+limit: optional number
+
+Limits the number of objects returned in the response.
+
+exclusiveMinimum
+
+minimum0
+
+[Link to this property](#)%20radar.search%20%3E%20(method)%20global%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+limitPerGroup: optional number
+
+Limits the number of objects per search category.
+
+[Link to this property](#)%20radar.search%20%3E%20(method)%20global%20%3E%20(params)%20default%20%3E%20(param)%20limitPerGroup%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {search }
+
+</summary>
+
+<details>
+
+<summary>
+
+search: array of object {code, name, type }
+
+</summary>
+
+code: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.search%20%3E%20(method)%20global%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.search%20%3E%20(method)%20global%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Search for locations, ASes, reports, and more
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/search/global \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "search": [
+      {
+        "code": "13335",
+        "name": "Cloudflare",
+        "type": "asn"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "search": [

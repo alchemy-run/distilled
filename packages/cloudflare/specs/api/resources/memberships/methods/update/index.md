@@ -1,233 +1,786 @@
-## Update Membership
+---
+title: Update Membership
+---
 
-**put** `/memberships/{membership_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Memberships](https://developers.cloudflare.com/api/resources/memberships)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Membership
+
+PUT/memberships/{membership\_id}
 
 Accept or reject this account invitation.
 
-### Path Parameters
+##### Security
 
-- `membership_id: string`
+API Email + API Key
 
-  Membership identifier tag.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Body Parameters
+**Example:**`X-Auth-Email: user@example.com`
 
-- `status: "accepted" or "rejected"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  Whether to accept or reject this account invitation.
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `"accepted"`
+##### Accepted Permissions (at least one required)
 
-  - `"rejected"`
+`Memberships Write`
 
-### Returns
+##### P ath ParametersExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+membership\_id: string
 
-  - `code: number`
+Membership identifier tag.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20memberships%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20membership_id%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+##### Body ParametersJSONExpand Collapse
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+status: "accepted"or "rejected"
 
-  - `message: string`
+Whether to accept or reject this account invitation.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"accepted"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"rejected"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, account, api_access_enabled, 4 more }`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20memberships%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-    Membership identifier tag.
+##### ReturnsExpand Collapse
 
-  - `account: optional Account`
+<details>
 
-    - `id: string`
+<summary>
 
-      Identifier
+errors: array of object {code, message, documentation\_url, source }
 
-    - `name: string`
+</summary>
 
-      Account name
+code: number
 
-    - `type: "standard" or "enterprise"`
+minimum1000
 
-      - `"standard"`
+<a href="#">Link to this property</a>
 
-      - `"enterprise"`
+message: string
 
-    - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-      Timestamp for the creation of the account
+documentation\_url: optional string
 
-    - `managed_by: optional object { parent_org_id, parent_org_name }`
+<a href="#">Link to this property</a>
 
-      Parent container details
+<details>
 
-      - `parent_org_id: optional string`
+<summary>
 
-        ID of the parent Organization, if one exists
+source: optional object {pointer }
 
-      - `parent_org_name: optional string`
+</summary>
 
-        Name of the parent Organization, if one exists
+pointer: optional string
 
-    - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+<a href="#">Link to this property</a>
 
-      Account settings
+</details>
 
-      - `abuse_contact_email: optional string`
+<a href="#">Link to this property</a>
 
-        Sets an abuse contact email to notify for abuse reports.
+</details>
 
-      - `enforce_twofactor: optional boolean`
+[Link to this property](#)%20memberships%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-        Indicates whether membership in this account requires that
-        Two-Factor Authentication is enabled
+<details>
 
-  - `api_access_enabled: optional boolean`
+<summary>
 
-    Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
+messages: array of object {code, message, documentation\_url, source }
 
-  - `permissions: optional object { analytics, billing, cache_purge, 9 more }`
+</summary>
 
-    All access permissions for the user at the account.
+code: number
 
-    - `analytics: optional PermissionGrant`
+minimum1000
 
-      - `read: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `write: optional boolean`
+message: string
 
-    - `billing: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `cache_purge: optional PermissionGrant`
+documentation\_url: optional string
 
-    - `dns: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `dns_records: optional PermissionGrant`
+<details>
 
-    - `lb: optional PermissionGrant`
+<summary>
 
-    - `logs: optional PermissionGrant`
+source: optional object {pointer }
 
-    - `organization: optional PermissionGrant`
+</summary>
 
-    - `ssl: optional PermissionGrant`
+pointer: optional string
 
-    - `waf: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-    - `zone_settings: optional PermissionGrant`
+</details>
 
-    - `zones: optional PermissionGrant`
+<a href="#">Link to this property</a>
 
-  - `policies: optional array of object { id, access, permission_groups, resource_groups }`
+</details>
 
-    Access policy for the membership
+[Link to this property](#)%20memberships%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    - `id: optional string`
+success: true
 
-      Policy identifier.
+Whether the API call was successful.
 
-    - `access: optional "allow" or "deny"`
+[Link to this property](#)%20memberships%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      Allow or deny operations against the resources.
+<details>
 
-      - `"allow"`
+<summary>
 
-      - `"deny"`
+result: optional object {id, account, api\_access\_enabled, 4 more }
 
-    - `permission_groups: optional array of object { id, meta, name }`
+</summary>
 
-      A set of permission groups that are specified to the policy.
+id: optional string
 
-      - `id: string`
+Membership identifier tag.
 
-        Identifier of the permission group.
+maxLength32
 
-      - `meta: optional object { key, value }`
+<a href="#">Link to this property</a>
 
-        Attributes associated to the permission group.
+<details>
 
-        - `key: optional string`
+<summary>
 
-        - `value: optional string`
+account: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts%20%3E%20(model)%20account%20%3E%20(schema)">Account</a> { id, name, type, 3 more }
 
-      - `name: optional string`
+</summary>
 
-        Name of the permission group.
+id: string
 
-    - `resource_groups: optional array of object { id, scope, meta, name }`
+Identifier
 
-      A list of resource groups that the policy applies to.
+maxLength32
 
-      - `id: string`
+minLength32
 
-        Identifier of the resource group.
+<a href="#">Link to this property</a>
 
-      - `scope: array of object { key, objects }`
+name: string
 
-        The scope associated to the resource group
+Account name
 
-        - `key: string`
+maxLength100
 
-          This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+<a href="#">Link to this property</a>
 
-        - `objects: array of object { key }`
+<details>
 
-          A list of scope objects for additional context.
+<summary>
 
-          - `key: string`
+type: "standard"or "enterprise"
 
-            This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+</summary>
 
-      - `meta: optional object { key, value }`
+One of the following:
 
-        Attributes associated to the resource group.
+"standard"
 
-        - `key: optional string`
+<a href="#">Link to this property</a>
 
-        - `value: optional string`
+"enterprise"
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the resource group.
+</details>
 
-  - `roles: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of role names the membership has for this account.
+created\_on: optional string
 
-  - `status: optional "accepted" or "pending" or "rejected"`
+Timestamp for the creation of the account
 
-    Status of this membership.
+formatdate-time
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+<details>
 
-    - `"rejected"`
+<summary>
 
-### Example
+managed\_by: optional object {parent\_org\_id, parent\_org\_name }
 
-```http
+Parent container details
+
+</summary>
+
+parent\_org\_id: optional string
+
+ID of the parent Organization, if one exists
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+parent\_org\_name: optional string
+
+Name of the parent Organization, if one exists
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: optional object {abuse\_contact\_email, enforce\_twofactor }
+
+Account settings
+
+</summary>
+
+abuse\_contact\_email: optional string
+
+Sets an abuse contact email to notify for abuse reports.
+
+<a href="#">Link to this property</a>
+
+enforce\_twofactor: optional boolean
+
+Indicates whether membership in this account requires that Two-Factor Authentication is enabled
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+api\_access\_enabled: optional boolean
+
+Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+permissions: optional object {analytics, billing, cache\_purge, 9 more }
+
+All access permissions for the user at the account.
+
+</summary>
+
+<details>
+
+<summary>
+
+analytics: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+billing: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+cache\_purge: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dns: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dns\_records: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+lb: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+logs: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+organization: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ssl: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+waf: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zone\_settings: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+zones: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission_grant%20%3E%20(schema)">PermissionGrant</a> { read, write }
+
+</summary>
+
+read: optional boolean
+
+<a href="#">Link to this property</a>
+
+write: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+policies: optional array of object {id, access, permission\_groups, resource\_groups }
+
+Access policy for the membership
+
+</summary>
+
+id: optional string
+
+Policy identifier.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+access: optional "allow"or "deny"
+
+Allow or deny operations against the resources.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"deny"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+permission\_groups: optional array of object {id, meta, name }
+
+A set of permission groups that are specified to the policy.
+
+</summary>
+
+id: string
+
+Identifier of the permission group.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {key, value }
+
+Attributes associated to the permission group.
+
+</summary>
+
+key: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the permission group.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resource\_groups: optional array of object {id, scope, meta, name }
+
+A list of resource groups that the policy applies to.
+
+</summary>
+
+id: string
+
+Identifier of the resource group.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scope: object {key, objects }
+
+A scope is a combination of scope objects which provides additional context.
+
+</summary>
+
+key: string
+
+This is a combination of pre-defined resource name and identifier (like Account ID etc.)
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+objects: array of object {key }
+
+A list of scope objects for additional context.
+
+</summary>
+
+key: string
+
+This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+meta: optional object {key, value }
+
+Attributes associated to the resource group.
+
+</summary>
+
+key: optional string
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Name of the resource group.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+roles: optional array of string
+
+List of role names the membership has for this account.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "accepted"or "pending"or "rejected"
+
+Status of this membership.
+
+</summary>
+
+One of the following:
+
+"accepted"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20memberships%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update Membership
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/memberships/$MEMBERSHIP_ID \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -238,9 +791,9 @@ curl https://api.cloudflare.com/client/v4/memberships/$MEMBERSHIP_ID \
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -269,7 +822,7 @@ curl https://api.cloudflare.com/client/v4/memberships/$MEMBERSHIP_ID \
       "id": "023e105f4ecef8ad9ca31a8372d0c353",
       "name": "Demo Account",
       "type": "standard",
-      "created_on": "2014-03-01T12:21:02.0000Z",
+      "created_on": "2014-03-01T12:21:02Z",
       "managed_by": {
         "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
         "parent_org_name": "Demo Parent Organization"
@@ -355,16 +908,158 @@ curl https://api.cloudflare.com/client/v4/memberships/$MEMBERSHIP_ID \
         "resource_groups": [
           {
             "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-            "scope": [
-              {
-                "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
-                "objects": [
-                  {
-                    "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
-                  }
-                ]
-              }
-            ],
+            "scope": {
+              "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
+              "objects": [
+                {
+                  "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
+                }
+              ]
+            },
+            "meta": {
+              "key": "key",
+              "value": "value"
+            },
+            "name": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4"
+          }
+        ]
+      }
+    ],
+    "roles": [
+      "Account Administrator"
+    ],
+    "status": "accepted"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "4536bcfad5faccb111b47003c79917fa",
+    "account": {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "name": "Demo Account",
+      "type": "standard",
+      "created_on": "2014-03-01T12:21:02Z",
+      "managed_by": {
+        "parent_org_id": "4536bcfad5faccb111b47003c79917fa",
+        "parent_org_name": "Demo Parent Organization"
+      },
+      "settings": {
+        "abuse_contact_email": "abuse_contact_email",
+        "enforce_twofactor": true
+      }
+    },
+    "api_access_enabled": true,
+    "permissions": {
+      "analytics": {
+        "read": true,
+        "write": false
+      },
+      "billing": {
+        "read": true,
+        "write": false
+      },
+      "cache_purge": {
+        "read": true,
+        "write": false
+      },
+      "dns": {
+        "read": true,
+        "write": false
+      },
+      "dns_records": {
+        "read": true,
+        "write": false
+      },
+      "lb": {
+        "read": true,
+        "write": false
+      },
+      "logs": {
+        "read": true,
+        "write": false
+      },
+      "organization": {
+        "read": true,
+        "write": false
+      },
+      "ssl": {
+        "read": true,
+        "write": false
+      },
+      "waf": {
+        "read": true,
+        "write": false
+      },
+      "zone_settings": {
+        "read": true,
+        "write": false
+      },
+      "zones": {
+        "read": true,
+        "write": true
+      }
+    },
+    "policies": [
+      {
+        "id": "f267e341f3dd4697bd3b9f71dd96247f",
+        "access": "allow",
+        "permission_groups": [
+          {
+            "id": "c8fed203ed3043cba015a93ad1616f1f",
+            "meta": {
+              "key": "key",
+              "value": "value"
+            },
+            "name": "Zone Read"
+          },
+          {
+            "id": "82e64a83756745bbbb1c9c2701bf816b",
+            "meta": {
+              "key": "key",
+              "value": "value"
+            },
+            "name": "Magic Network Monitoring"
+          }
+        ],
+        "resource_groups": [
+          {
+            "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
+            "scope": {
+              "key": "com.cloudflare.api.account.eb78d65290b24279ba6f44721b3ea3c4",
+              "objects": [
+                {
+                  "key": "com.cloudflare.api.account.zone.23f8d65290b24279ba6f44721b3eaad5"
+                }
+              ]
+            },
             "meta": {
               "key": "key",
               "value": "value"

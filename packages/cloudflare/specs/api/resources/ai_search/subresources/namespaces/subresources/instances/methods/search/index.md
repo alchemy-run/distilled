@@ -1,278 +1,813 @@
-## Search
+---
+title: Search
+---
 
-**post** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/search`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces)
+
+[Instances](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Search
+
+POST/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/search
 
 Executes a semantic search query against an AI Search instance to find relevant indexed content.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `name: string`
+<summary>API Token</summary>
 
-- `id: string`
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `ai_search_options: optional object { cache, query_rewrite, reranking, retrieval }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `cache: optional object { cache_threshold, enabled }`
+</details>
 
-    - `cache_threshold: optional "super_strict_match" or "close_enough" or "flexible_friend" or "anything_goes"`
+<details>
 
-      - `"super_strict_match"`
+<summary>API Email + API Key</summary>
 
-      - `"close_enough"`
 
-      - `"flexible_friend"`
 
-      - `"anything_goes"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `enabled: optional boolean`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `query_rewrite: optional object { enabled, model, rewrite_prompt }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `enabled: optional boolean`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `model: optional "@cf/meta/llama-3.3-70b-instruct-fp8-fast" or "@cf/zai-org/glm-4.7-flash" or "@cf/meta/llama-3.1-8b-instruct-fast" or 27 more`
+</details>
 
-      - `"@cf/meta/llama-3.3-70b-instruct-fp8-fast"`
+##### P ath ParametersExpand Collapse
 
-      - `"@cf/zai-org/glm-4.7-flash"`
+account\_id: string
 
-      - `"@cf/meta/llama-3.1-8b-instruct-fast"`
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20search%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `"@cf/meta/llama-3.1-8b-instruct-fp8"`
+name: string
 
-      - `"@cf/meta/llama-4-scout-17b-16e-instruct"`
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20search%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-      - `"@cf/qwen/qwen3-30b-a3b-fp8"`
+id: string
 
-      - `"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"`
+AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
 
-      - `"@cf/moonshotai/kimi-k2-instruct"`
+maxLength64
 
-      - `"@cf/google/gemma-3-12b-it"`
+minLength1
 
-      - `"@cf/google/gemma-4-26b-a4b-it"`
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20search%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
 
-      - `"@cf/moonshotai/kimi-k2.5"`
+##### Body ParametersJSONExpand Collapse
 
-      - `"anthropic/claude-3-7-sonnet"`
+<details>
 
-      - `"anthropic/claude-sonnet-4"`
+<summary>
 
-      - `"anthropic/claude-opus-4"`
+ai\_search\_options: optional object {cache, custom\_metadata, query\_rewrite, 2 more }
 
-      - `"anthropic/claude-3-5-haiku"`
+</summary>
 
-      - `"cerebras/qwen-3-235b-a22b-instruct"`
+<details>
 
-      - `"cerebras/qwen-3-235b-a22b-thinking"`
+<summary>
 
-      - `"cerebras/llama-3.3-70b"`
+cache: optional object {cache\_threshold, enabled }
 
-      - `"cerebras/llama-4-maverick-17b-128e-instruct"`
+</summary>
 
-      - `"cerebras/llama-4-scout-17b-16e-instruct"`
+<details>
 
-      - `"cerebras/gpt-oss-120b"`
+<summary>
 
-      - `"google-ai-studio/gemini-2.5-flash"`
+cache\_threshold: optional "super\_strict\_match"or "close\_enough"or "flexible\_friend"or "anything\_goes"
 
-      - `"google-ai-studio/gemini-2.5-pro"`
+</summary>
 
-      - `"grok/grok-4"`
+One of the following:
 
-      - `"groq/llama-3.3-70b-versatile"`
+"super\_strict\_match"
 
-      - `"groq/llama-3.1-8b-instant"`
+<a href="#">Link to this property</a>
 
-      - `"openai/gpt-5"`
+"close\_enough"
 
-      - `"openai/gpt-5-mini"`
+<a href="#">Link to this property</a>
 
-      - `"openai/gpt-5-nano"`
+"flexible\_friend"
 
-      - `""`
+<a href="#">Link to this property</a>
 
-    - `rewrite_prompt: optional string`
+"anything\_goes"
 
-  - `reranking: optional object { enabled, match_threshold, model }`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+</details>
 
-    - `match_threshold: optional number`
+<a href="#">Link to this property</a>
 
-    - `model: optional "@cf/baai/bge-reranker-base" or ""`
+enabled: optional boolean
 
-      - `"@cf/baai/bge-reranker-base"`
+<a href="#">Link to this property</a>
 
-      - `""`
+</details>
 
-  - `retrieval: optional object { boost_by, context_expansion, filters, 6 more }`
+<a href="#">Link to this property</a>
 
-    - `boost_by: optional array of object { field, direction }`
+<details>
 
-      Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field.
+<summary>
 
-      - `field: string`
+custom\_metadata: optional map\[stringor numberor boolean]
 
-        Metadata field name to boost by. Use 'timestamp' for document freshness, or any custom_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not_exists); text/boolean fields only support exists/not_exists.
+Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys ‘ai-search’, ‘task’, ‘origin’, and keys beginning with ‘cf.’ are reserved.
 
-      - `direction: optional "asc" or "desc" or "exists" or "not_exists"`
+</summary>
 
-        Boost direction. 'desc' = higher values rank higher (e.g. newer timestamps). 'asc' = lower values rank higher. 'exists' = boost chunks that have the field. 'not_exists' = boost chunks that lack the field. Optional — defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields.
+One of the following:
 
-        - `"asc"`
+string
 
-        - `"desc"`
+<a href="#">Link to this property</a>
 
-        - `"exists"`
+number
 
-        - `"not_exists"`
+<a href="#">Link to this property</a>
 
-    - `context_expansion: optional number`
+boolean
 
-    - `filters: optional map[unknown]`
+<a href="#">Link to this property</a>
 
-    - `fusion_method: optional "max" or "rrf"`
+</details>
 
-      - `"max"`
+<a href="#">Link to this property</a>
 
-      - `"rrf"`
+<details>
 
-    - `keyword_match_mode: optional "and" or "or"`
+<summary>
 
-      Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'.
+query\_rewrite: optional object {enabled, model, rewrite\_prompt }
 
-      - `"and"`
+</summary>
 
-      - `"or"`
+enabled: optional boolean
 
-    - `match_threshold: optional number`
+<a href="#">Link to this property</a>
 
-    - `max_num_results: optional number`
+model: optional string
 
-    - `retrieval_type: optional "vector" or "keyword" or "hybrid"`
+A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model.
 
-      - `"vector"`
+<a href="#">Link to this property</a>
 
-      - `"keyword"`
+rewrite\_prompt: optional string
 
-      - `"hybrid"`
+<a href="#">Link to this property</a>
 
-    - `return_on_failure: optional boolean`
+</details>
 
-- `messages: optional array of object { content, role }`
+<a href="#">Link to this property</a>
 
-  OpenAI-compatible message array. For multimodal queries, set the last user message's `content` to an array of typed parts: `[{type:'text', text:'…'}, {type:'image_url', image_url:{url:'…'}}]`. Image inputs require the RAG's embedding_model to declare 'image' in supported_modalities.
+<details>
 
-  - `content: string or array of object { text, type }  or object { image_url, type }`
+<summary>
 
-    - `string`
+reranking: optional object {enabled, match\_threshold, model }
 
-    - `array of object { text, type }  or object { image_url, type }`
+</summary>
 
-      - `object { text, type }`
+enabled: optional boolean
 
-        - `text: string`
+<a href="#">Link to this property</a>
 
-        - `type: "text"`
+match\_threshold: optional number
 
-          - `"text"`
+maximum1
 
-      - `object { image_url, type }`
+minimum0
 
-        - `image_url: object { url }`
+<a href="#">Link to this property</a>
 
-          - `url: string`
+model: optional string
 
-        - `type: "image_url"`
+<a href="#">Link to this property</a>
 
-          - `"image_url"`
+</details>
 
-  - `role: "system" or "developer" or "user" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"system"`
+<details>
 
-    - `"developer"`
+<summary>
 
-    - `"user"`
+retrieval: optional object {boost\_by, context\_expansion, filters, 6 more }
 
-    - `"assistant"`
+</summary>
 
-    - `"tool"`
+<details>
 
-- `query: optional string`
+<summary>
 
-  A simple text query string. Alternative to 'messages' — provide either this or 'messages', not both.
+boost\_by: optional array of object {field, direction }
 
-### Returns
+Metadata fields to boost search results by. Overrides the instance-level boost\_by config. Direction defaults to ‘asc’ for numeric/datetime fields, ‘exists’ for text/boolean fields. Fields must match ‘timestamp’ or a defined custom\_metadata field.
 
-- `result: object { chunks, query_kind, search_query }`
+</summary>
 
-  - `chunks: array of object { id, score, text, 3 more }`
+field: string
 
-    - `id: string`
+Metadata field name to boost by. Use ‘timestamp’ for document freshness, or any custom\_metadata field. Numeric and datetime fields support all four directions (asc, desc, exists, not\_exists); text/boolean fields only support exists/not\_exists.
 
-    - `score: number`
+maxLength64
 
-    - `text: string`
+minLength1
 
-    - `type: string`
+<a href="#">Link to this property</a>
 
-    - `item: optional object { key, metadata, timestamp }`
+<details>
 
-      - `key: string`
+<summary>
 
-      - `metadata: optional map[unknown]`
+direction: optional "asc"or "desc"or "exists"or "not\_exists"
 
-      - `timestamp: optional number`
+Boost direction. ‘desc’ = higher values rank higher (e.g. newer timestamps). ‘asc’ = lower values rank higher. ‘exists’ = boost chunks that have the field. ‘not\_exists’ = boost chunks that lack the field. Optional — defaults to ‘asc’ for numeric/datetime fields, ‘exists’ for text/boolean fields.
 
-    - `scoring_details: optional object { fusion_method, keyword_rank, keyword_score, 3 more }`
+</summary>
 
-      - `fusion_method: optional "rrf" or "max"`
+One of the following:
 
-        - `"rrf"`
+"asc"
 
-        - `"max"`
+<a href="#">Link to this property</a>
 
-      - `keyword_rank: optional number`
+"desc"
 
-      - `keyword_score: optional number`
+<a href="#">Link to this property</a>
 
-      - `reranking_score: optional number`
+"exists"
 
-      - `vector_rank: optional number`
+<a href="#">Link to this property</a>
 
-      - `vector_score: optional number`
+"not\_exists"
 
-  - `query_kind: "text" or "image" or "multimodal"`
+<a href="#">Link to this property</a>
 
-    - `"text"`
+</details>
 
-    - `"image"`
+<a href="#">Link to this property</a>
 
-    - `"multimodal"`
+</details>
 
-  - `search_query: optional string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+context\_expansion: optional number
 
-### Example
+maximum3
 
-```http
+minimum0
+
+<a href="#">Link to this property</a>
+
+filters: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fusion\_method: optional "max"or "rrf"
+
+</summary>
+
+One of the following:
+
+"max"
+
+<a href="#">Link to this property</a>
+
+"rrf"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+keyword\_match\_mode: optional "and"or "or"
+
+Controls which documents are candidates for BM25 scoring. ‘and’ restricts candidates to documents containing all query terms; ‘or’ includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval\_options.keyword\_match\_mode, then to ‘and’.
+
+</summary>
+
+One of the following:
+
+"and"
+
+<a href="#">Link to this property</a>
+
+"or"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+match\_threshold: optional number
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+max\_num\_results: optional number
+
+maximum50
+
+minimum1
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+retrieval\_type: optional "vector"or "keyword"or "hybrid"
+
+</summary>
+
+One of the following:
+
+"vector"
+
+<a href="#">Link to this property</a>
+
+"keyword"
+
+<a href="#">Link to this property</a>
+
+"hybrid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+return\_on\_failure: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20search%20%3E%20(params)%200%20%3E%20(param)%20ai_search_options%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+messages: optional array of object {content, role }
+
+OpenAI-compatible message array. For multimodal queries, set the last user message’s <code>content</code> to an array of typed parts: <code>[{type:'text', text:'…'}, {type:'image_url', image_url:{url:'…'}}]</code>. Image inputs require the RAG’s embedding\_model to declare ‘image’ in supported\_modalities.
+
+</summary>
+
+<details>
+
+<summary>
+
+content: stringor array of object {text, type } or object {image\_url, type } or object {file, type } or string
+
+</summary>
+
+One of the following:
+
+string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+array of object {text, type } or object {image\_url, type } or object {file, type }
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+object {text, type }
+
+</summary>
+
+text: string
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+type: "text"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {image\_url, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+image\_url: object {url }
+
+</summary>
+
+url: string
+
+maxLength20971520
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "image\_url"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+object {file, type }
+
+</summary>
+
+<details>
+
+<summary>
+
+file: object {filename, file\_data, file\_id }
+
+</summary>
+
+filename: string
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+file\_data: optional string
+
+maxLength13981144
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+file\_id: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: "file"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+role: "system"or "developer"or "user"or 2 more
+
+</summary>
+
+One of the following:
+
+"system"
+
+<a href="#">Link to this property</a>
+
+"developer"
+
+<a href="#">Link to this property</a>
+
+"user"
+
+<a href="#">Link to this property</a>
+
+"assistant"
+
+<a href="#">Link to this property</a>
+
+"tool"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20search%20%3E%20(params)%200%20%3E%20(param)%20messages%20%3E%20(schema)>)
+
+query: optional string
+
+A simple text query string. Alternative to ‘messages’ — provide either this or ‘messages’, not both.
+
+minLength1
+
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20search%20%3E%20(params)%200%20%3E%20(param)%20query%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {chunks, query\_kind, search\_query }
+
+</summary>
+
+<details>
+
+<summary>
+
+chunks: array of object {id, score, text, 3 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+score: number
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+text: string
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+item: optional object {key, metadata, timestamp }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+metadata: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+timestamp: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scoring\_details: optional object {fusion\_method, keyword\_rank, keyword\_score, 3 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+fusion\_method: optional "rrf"or "max"
+
+</summary>
+
+One of the following:
+
+"rrf"
+
+<a href="#">Link to this property</a>
+
+"max"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+keyword\_rank: optional number
+
+<a href="#">Link to this property</a>
+
+keyword\_score: optional number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+reranking\_score: optional number
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+vector\_rank: optional number
+
+<a href="#">Link to this property</a>
+
+vector\_score: optional number
+
+maximum1
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+query\_kind: "text"or "image"or "multimodal"
+
+</summary>
+
+One of the following:
+
+"text"
+
+<a href="#">Link to this property</a>
+
+"image"
+
+<a href="#">Link to this property</a>
+
+"multimodal"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+search\_query: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20search%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_search.namespaces.instances%20%3E%20(method)%20search%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Search
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/search \
     -X POST \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "chunks": [
+      {
+        "id": "id",
+        "score": 0,
+        "text": "text",
+        "type": "type",
+        "item": {
+          "key": "key",
+          "metadata": {
+            "foo": "bar"
+          },
+          "timestamp": 0
+        },
+        "scoring_details": {
+          "fusion_method": "rrf",
+          "keyword_rank": 0,
+          "keyword_score": 0,
+          "reranking_score": 0,
+          "vector_rank": 0,
+          "vector_score": 0
+        }
+      }
+    ],
+    "query_kind": "text",
+    "search_query": "search_query"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "chunks": [

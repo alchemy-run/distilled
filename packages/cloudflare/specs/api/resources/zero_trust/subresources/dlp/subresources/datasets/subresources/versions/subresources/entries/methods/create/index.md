@@ -1,86 +1,309 @@
-## Upload a new version of a multi-column dataset
+---
+title: Upload a new version of a multi-column dataset
+---
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/versions/{version}/entries/{entry_id}`
+[Skip to content](#_top)
 
-This is used for multi-column EDMv2 datasets. The EDMv2 format can only be
-created in the Cloudflare dashboard.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-- `dataset_id: string`
+[Datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets)
 
-- `version: number`
+[Versions](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions)
 
-- `entry_id: string`
+[Entries](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions/subresources/entries)
 
-### Returns
+Copy Markdown
 
-- `errors: array of object { code, message, documentation_url, source }`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `code: number`
+---
 
-  - `message: string`
+**Copy Markdown****View as Markdown**
 
-  - `documentation_url: optional string`
+# Upload a new version of a multi-column dataset
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/versions/{version}/entries/{entry\_id}
 
-    - `pointer: optional string`
+This is used for multi-column EDMv2 datasets. The EDMv2 format can only be created in the Cloudflare dashboard.
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `success: true`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<details>
 
-- `result: optional object { entry_id, header_name, num_cells, upload_status }`
+<summary>API Email + API Key</summary>
 
-  - `entry_id: string`
 
-  - `header_name: string`
 
-  - `num_cells: number`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `"empty"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `"uploading"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `"pending"`
+</details>
 
-    - `"processing"`
+##### Accepted Permissions (at least one required)
 
-    - `"failed"`
+`Zero Trust Write`
 
-    - `"complete"`
+##### P ath ParametersExpand Collapse
 
-### Example
+account\_id: string
 
-```http
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+dataset\_id: string
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20dataset_id%20%3E%20(schema)>)
+
+version: number
+
+formatint64
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20version%20%3E%20(schema)>)
+
+entry\_id: string
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20entry_id%20%3E%20(schema)>)
+
+##### Body ParametersExpand Collapse
+
+dataset\_version\_entry: file
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20dataset_version_entry%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {entry\_id, header\_name, num\_cells, upload\_status }
+
+</summary>
+
+entry\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+header\_name: string
+
+<a href="#">Link to this property</a>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+upload\_status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Upload a new version of a multi-column dataset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/versions/$VERSION/entries/$ENTRY_ID \
     -H 'Content-Type: application/octet-stream' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
     -F 'dataset_version_entry=@/path/to/dataset_version_entry'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "header_name": "header_name",
+    "num_cells": 0,
+    "upload_status": "empty"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

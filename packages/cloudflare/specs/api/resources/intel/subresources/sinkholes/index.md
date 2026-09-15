@@ -1,156 +1,239 @@
+---
+title: Sinkholes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Sinkholes
 
-## List sinkholes owned by this account
+##### [List sinkholes owned by this account](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/list)
 
-**get** `/accounts/{account_id}/intel/sinkholes`
+GET/accounts/{account\_id}/intel/sinkholes
 
-Lists sinkholes owned by the account for redirecting malicious traffic.
+##### [Get a sinkhole](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/intel/sinkholes/{sinkhole\_id}
 
-- `account_id: string`
+##### [Create a new sinkhole for your account](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/intel/sinkholes
 
-### Returns
+##### [Update a sinkhole](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/update)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PUT/accounts/{account\_id}/intel/sinkholes/{sinkhole\_id}
 
-  - `code: number`
+##### [Delete a sinkhole](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/intel/sinkholes/{sinkhole\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+Sinkhole object {id, account\_tag, created\_on, 4 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+The unique identifier for the sinkhole.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+account\_tag: optional string
 
-- `success: true`
+The account tag that owns this sinkhole.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+created\_on: optional string
 
-- `result: optional array of Sinkhole`
+The date and time when the sinkhole was created.
 
-  - `id: optional string`
+formatdate-time
 
-    The unique identifier for the sinkhole.
+<a href="#">Link to this property</a>
 
-  - `account_tag: optional string`
+modified\_on: optional string
 
-    The account tag that owns this sinkhole.
+The date and time when the sinkhole was last modified.
 
-  - `created_on: optional string`
+formatdate-time
 
-    The date and time when the sinkhole was created.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+name: optional string
 
-    The date and time when the sinkhole was last modified.
+The name of the sinkhole.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    The name of the sinkhole.
+r2\_bucket: optional string
 
-  - `r2_bucket: optional string`
+The name of the R2 bucket to store results.
 
-    The name of the R2 bucket to store results.
+<a href="#">Link to this property</a>
 
-  - `r2_id: optional string`
+r2\_id: optional string
 
-    The id of the R2 instance.
+The id of the R2 instance.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/sinkholes \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20intel.sinkholes%20%3E%20(model)%20sinkhole%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "93defa6e909e464e8c89a85859f36d3c",
-      "account_tag": "233f45e61fd1f7e21e1e154ede4q2859",
-      "created_on": "2023-05-12T12:21:56.777653Z",
-      "modified_on": "2023-06-18T03:13:34.123321Z",
-      "name": "my_sinkhole",
-      "r2_bucket": "my_bucket",
-      "r2_id": "example_r2_id"
-    }
-  ]
-}
-```
+SinkholeUpdateResponse = unknown
 
-## Domain Types
+[Link to this property](#)%20intel.sinkholes%20%3E%20(model)%20sinkhole_update_response%20%3E%20(schema)>)
 
-### Sinkhole
+SinkholeDeleteResponse = unknown
 
-- `Sinkhole object { id, account_tag, created_on, 4 more }`
+[Link to this property](#)%20intel.sinkholes%20%3E%20(model)%20sinkhole_delete_response%20%3E%20(schema)>)
 
-  - `id: optional string`
+#### SinkholesIngresses
 
-    The unique identifier for the sinkhole.
+##### [Create an ingress rule](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/subresources/ingresses/methods/create)
 
-  - `account_tag: optional string`
+POST/zones/{zone\_id}/intel/sinkholes/{sinkhole\_id}/ingresses
 
-    The account tag that owns this sinkhole.
+##### [Get an ingress rule](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/subresources/ingresses/methods/get)
 
-  - `created_on: optional string`
+GET/zones/{zone\_id}/intel/sinkholes/{sinkhole\_id}/ingresses/{ingress\_id}
 
-    The date and time when the sinkhole was created.
+##### [Update an ingress rule](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/subresources/ingresses/methods/update)
 
-  - `modified_on: optional string`
+PUT/zones/{zone\_id}/intel/sinkholes/{sinkhole\_id}/ingresses/{ingress\_id}
 
-    The date and time when the sinkhole was last modified.
+##### [Delete an ingress rule](https://developers.cloudflare.com/api/resources/intel/subresources/sinkholes/subresources/ingresses/methods/delete)
 
-  - `name: optional string`
+DELETE/zones/{zone\_id}/intel/sinkholes/{sinkhole\_id}/ingresses/{ingress\_id}
 
-    The name of the sinkhole.
+##### ModelsExpand Collapse
 
-  - `r2_bucket: optional string`
+<details>
 
-    The name of the R2 bucket to store results.
+<summary>
 
-  - `r2_id: optional string`
+IngressCreateResponse object {id, cidr, created\_on, 3 more }
 
-    The id of the R2 instance.
+</summary>
+
+id: optional string
+
+The unique identifier for the ingress rule.
+
+<a href="#">Link to this property</a>
+
+cidr: optional string
+
+The CIDR block for the ingress rule.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+The date and time when the ingress rule was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+The date and time when the ingress rule was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+sinkhole\_id: optional string
+
+The sinkhole this ingress rule belongs to.
+
+<a href="#">Link to this property</a>
+
+zone\_tag: optional string
+
+The zone tag associated with this ingress rule.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20intel.sinkholes.ingresses%20%3E%20(model)%20ingress_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+IngressGetResponse object {id, cidr, created\_on, 3 more }
+
+</summary>
+
+id: optional string
+
+The unique identifier for the ingress rule.
+
+<a href="#">Link to this property</a>
+
+cidr: optional string
+
+The CIDR block for the ingress rule.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+The date and time when the ingress rule was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+The date and time when the ingress rule was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+sinkhole\_id: optional string
+
+The sinkhole this ingress rule belongs to.
+
+<a href="#">Link to this property</a>
+
+zone\_tag: optional string
+
+The zone tag associated with this ingress rule.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20intel.sinkholes.ingresses%20%3E%20(model)%20ingress_get_response%20%3E%20(schema)>)
+
+IngressUpdateResponse = unknown
+
+[Link to this property](#)%20intel.sinkholes.ingresses%20%3E%20(model)%20ingress_update_response%20%3E%20(schema)>)
+
+IngressDeleteResponse = unknown
+
+[Link to this property](#)%20intel.sinkholes.ingresses%20%3E%20(model)%20ingress_delete_response%20%3E%20(schema)>)

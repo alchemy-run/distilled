@@ -1,1462 +1,3233 @@
+---
+title: Domains
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Settings](https://developers.cloudflare.com/api/resources/email_security/subresources/settings)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Domains
 
-## List protected email domains
+##### [List protected email domains](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/list)
 
-**get** `/accounts/{account_id}/email-security/settings/domains`
+GET/accounts/{account\_id}/email-security/settings/domains
 
-Returns a paginated list of email domains protected by Email Security. Includes domain configuration, delivery modes, and authorization status. Supports filtering by delivery mode and integration ID.
+##### [Get an email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/email-security/settings/domains/{domain\_id}
 
-- `account_id: string`
+##### [Replace an email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/update)
 
-  Identifier.
+PUT/accounts/{account\_id}/email-security/settings/domains/{domain\_id}
 
-### Query Parameters
+##### [Update an email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/edit)
 
-- `active_delivery_mode: optional "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+PATCH/accounts/{account\_id}/email-security/settings/domains/{domain\_id}
 
-  Currently active delivery mode to filter by.
+##### [Add a new email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/create)
 
-  - `"DIRECT"`
+POST/accounts/{account\_id}/email-security/settings/domains
 
-  - `"BCC"`
+##### [Unprotect an email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/delete)
 
-  - `"JOURNAL"`
+DELETE/accounts/{account\_id}/email-security/settings/domains/{domain\_id}
 
-  - `"API"`
+##### [Batch domain operations](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/batch)
 
-  - `"RETRO_SCAN"`
+POST/accounts/{account\_id}/email-security/settings/domains/batch
 
-- `allowed_delivery_mode: optional "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+##### [Unprotect multiple email domains](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/bulk_delete)
 
-  Delivery mode to filter by.
+Deprecated
 
-  - `"DIRECT"`
+DELETE/accounts/{account\_id}/email-security/settings/domains
 
-  - `"BCC"`
+##### ModelsExpand Collapse
 
-  - `"JOURNAL"`
+<details>
 
-  - `"API"`
+<summary>
 
-  - `"RETRO_SCAN"`
+DomainListResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-- `direction: optional "asc" or "desc"`
+</summary>
 
-  The sorting direction.
+id: optional string
 
-  - `"asc"`
+Domain identifier.
 
-  - `"desc"`
+formatuuid
 
-- `domain: optional array of string`
+<a href="#">Link to this property</a>
 
-  Domain names to filter by.
+<details>
 
-- `integration_id: optional string`
+<summary>
 
-  Integration ID to filter by.
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-- `order: optional "domain" or "created_at"`
+</summary>
 
-  Field to sort by.
+One of the following:
 
-  - `"domain"`
+"DIRECT"
 
-  - `"created_at"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+"BCC"
 
-  Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+"JOURNAL"
 
-  The number of results per page. Maximum value is 1000.
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+"API"
 
-  Search term for filtering records. Behavior may change.
+<a href="#">Link to this property</a>
 
-- `status: optional "pending" or "active" or "failed" or "timeout"`
+"RETRO\_SCAN"
 
-  Filters response to domains with the provided status.
+<a href="#">Link to this property</a>
 
-  - `"pending"`
+</details>
 
-  - `"active"`
+<a href="#">Link to this property</a>
 
-  - `"failed"`
+<details>
 
-  - `"timeout"`
+<summary>
 
-### Returns
+authorization: optional object {authorized, timestamp, status\_message }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+authorized: boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+timestamp: string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+status\_message: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: optional string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional array of object { id, allowed_delivery_modes, authorization, 19 more }`
+dmarc\_status: optional "none"or "good"or "invalid"
 
-  - `id: optional string`
+</summary>
 
-    Domain identifier
+One of the following:
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+"none"
 
-    - `"DIRECT"`
+<a href="#">Link to this property</a>
 
-    - `"BCC"`
+"good"
 
-    - `"JOURNAL"`
+<a href="#">Link to this property</a>
 
-    - `"API"`
+"invalid"
 
-    - `"RETRO_SCAN"`
+<a href="#">Link to this property</a>
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+</details>
 
-    - `authorized: boolean`
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+domain: optional string
 
-    - `status_message: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+<details>
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+<summary>
 
-    - `"none"`
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-    - `"good"`
+</summary>
 
-    - `"invalid"`
+One of the following:
 
-  - `domain: optional string`
+"MALICIOUS"
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS"`
+"MALICIOUS-BEC"
 
-    - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+"SUSPICIOUS"
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+"SPOOF"
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+"SPAM"
 
-    - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+"BULK"
 
-    - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+"ENCRYPTED"
 
-    - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed: number`
+"EXTERNAL"
 
-    - `total_emails_processed_previous: number`
+<a href="#">Link to this property</a>
 
-  - `folder: optional "AllItems" or "Inbox"`
+"UNKNOWN"
 
-    - `"AllItems"`
+<a href="#">Link to this property</a>
 
-    - `"Inbox"`
+"NONE"
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+<a href="#">Link to this property</a>
 
-    - `"Microsoft"`
+</details>
 
-    - `"Google"`
+<a href="#">Link to this property</a>
 
-  - `integration_id: optional string`
+<details>
 
-  - `ip_restrictions: optional array of string`
+<summary>
 
-  - `last_modified: optional string`
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</summary>
 
-  - `lookback_hops: optional number`
+timestamp: string
 
-  - `modified_at: optional string`
+formatdate-time
 
-  - `o365_tenant_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+total\_emails\_processed: number
 
-    - `"GLOBAL"`
+minimum0
 
-    - `"AU"`
+<a href="#">Link to this property</a>
 
-    - `"DE"`
+total\_emails\_processed\_previous: number
 
-    - `"IN"`
+minimum0
 
-    - `"US"`
+<a href="#">Link to this property</a>
 
-  - `require_tls_inbound: optional boolean`
+</details>
 
-  - `require_tls_outbound: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<details>
 
-    - `"none"`
+<summary>
 
-    - `"good"`
+folder: optional "AllItems"or "Inbox"
 
-    - `"neutral"`
+</summary>
 
-    - `"open"`
+One of the following:
 
-    - `"invalid"`
+"AllItems"
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"Inbox"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+</details>
 
-    - `"timeout"`
+<a href="#">Link to this property</a>
 
-  - `transport: optional string`
+<details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<summary>
 
-  - `count: optional number`
+inbox\_provider: optional "Microsoft"or "Google"
 
-    Total number of results for the requested service.
+</summary>
 
-  - `page: optional number`
+One of the following:
 
-    Current page within paginated list of results.
+"Microsoft"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+"Google"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+integration\_id: optional string
 
-#### Response
+formatuuid
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "allowed_delivery_modes": [
-        "DIRECT"
-      ],
-      "authorization": {
-        "authorized": true,
-        "timestamp": "2019-12-27T18:11:19.117Z",
-        "status_message": "status_message"
-      },
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "dmarc_status": "none",
-      "domain": "example.com",
-      "drop_dispositions": [
-        "MALICIOUS"
-      ],
-      "emails_processed": {
-        "timestamp": "2019-12-27T18:11:19.117Z",
-        "total_emails_processed": 0,
-        "total_emails_processed_previous": 0
-      },
-      "folder": "AllItems",
-      "inbox_provider": "Microsoft",
-      "integration_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "ip_restrictions": [
-        "192.0.2.0/24",
-        "2001:db8::/32"
-      ],
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "lookback_hops": 0,
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "o365_tenant_id": "o365_tenant_id",
-      "regions": [
-        "GLOBAL"
-      ],
-      "require_tls_inbound": true,
-      "require_tls_outbound": true,
-      "spf_status": "none",
-      "status": "pending",
-      "transport": "transport"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get an email domain
+ip\_restrictions: optional array of string
 
-**get** `/accounts/{account_id}/email-security/settings/domains/{domain_id}`
+<a href="#">Link to this property</a>
 
-Retrieves detailed information for a specific protected email domain including its delivery configuration, SPF/DMARC status, and authorization state.
+Deprecatedlast\_modified: optional string
 
-### Path Parameters
+Use <code>modified_at</code> instead.
 
-- `account_id: string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  Identifier.
+formatdate-time
 
-- `domain_id: string`
+<a href="#">Link to this property</a>
 
-  Domain identifier
+lookback\_hops: optional number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+modified\_at: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+o365\_tenant\_id: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"GLOBAL"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"AU"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"DE"
 
-- `result: optional object { id, allowed_delivery_modes, authorization, 19 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"IN"
 
-    Domain identifier
+<a href="#">Link to this property</a>
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+"US"
 
-    - `"DIRECT"`
+<a href="#">Link to this property</a>
 
-    - `"BCC"`
+</details>
 
-    - `"JOURNAL"`
+<a href="#">Link to this property</a>
 
-    - `"API"`
+require\_tls\_inbound: optional boolean
 
-    - `"RETRO_SCAN"`
+<a href="#">Link to this property</a>
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+require\_tls\_outbound: optional boolean
 
-    - `authorized: boolean`
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+<details>
 
-    - `status_message: optional string`
+<summary>
 
-  - `created_at: optional string`
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+</summary>
 
-    - `"none"`
+One of the following:
 
-    - `"good"`
+"none"
 
-    - `"invalid"`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+"good"
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS"`
+"neutral"
 
-    - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+"open"
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+"invalid"
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+</details>
 
-    - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+<details>
 
-    - `"NONE"`
+<summary>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-    - `timestamp: string`
+</summary>
 
-    - `total_emails_processed: number`
+One of the following:
 
-    - `total_emails_processed_previous: number`
+"PENDING"
 
-  - `folder: optional "AllItems" or "Inbox"`
+<a href="#">Link to this property</a>
 
-    - `"AllItems"`
+"ACTIVE"
 
-    - `"Inbox"`
+<a href="#">Link to this property</a>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+"FAILED"
 
-    - `"Microsoft"`
+<a href="#">Link to this property</a>
 
-    - `"Google"`
+"TIMEOUT"
 
-  - `integration_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `ip_restrictions: optional array of string`
+</details>
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+transport: optional string
 
-  - `lookback_hops: optional number`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+</details>
 
-  - `o365_tenant_id: optional string`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_list_response%20%3E%20(schema)>)
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+<details>
 
-    - `"GLOBAL"`
+<summary>
 
-    - `"AU"`
+DomainGetResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-    - `"DE"`
+</summary>
 
-    - `"IN"`
+id: optional string
 
-    - `"US"`
+Domain identifier.
 
-  - `require_tls_inbound: optional boolean`
+formatuuid
 
-  - `require_tls_outbound: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<details>
 
-    - `"none"`
+<summary>
 
-    - `"good"`
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-    - `"neutral"`
+</summary>
 
-    - `"open"`
+One of the following:
 
-    - `"invalid"`
+"DIRECT"
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"BCC"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+"JOURNAL"
 
-    - `"timeout"`
+<a href="#">Link to this property</a>
 
-  - `transport: optional string`
+"API"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains/$DOMAIN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"RETRO\_SCAN"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "allowed_delivery_modes": [
-      "DIRECT"
-    ],
-    "authorization": {
-      "authorized": true,
-      "timestamp": "2019-12-27T18:11:19.117Z",
-      "status_message": "status_message"
-    },
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "dmarc_status": "none",
-    "domain": "example.com",
-    "drop_dispositions": [
-      "MALICIOUS"
-    ],
-    "emails_processed": {
-      "timestamp": "2019-12-27T18:11:19.117Z",
-      "total_emails_processed": 0,
-      "total_emails_processed_previous": 0
-    },
-    "folder": "AllItems",
-    "inbox_provider": "Microsoft",
-    "integration_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "ip_restrictions": [
-      "192.0.2.0/24",
-      "2001:db8::/32"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "lookback_hops": 0,
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "o365_tenant_id": "o365_tenant_id",
-    "regions": [
-      "GLOBAL"
-    ],
-    "require_tls_inbound": true,
-    "require_tls_outbound": true,
-    "spf_status": "none",
-    "status": "pending",
-    "transport": "transport"
-  }
-}
-```
+</details>
 
-## Update an email domain
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/email-security/settings/domains/{domain_id}`
+<details>
 
-Updates configuration for a protected email domain. Only provided fields will be modified. Changes affect delivery mode, security settings, and regional processing.
+<summary>
 
-### Path Parameters
+authorization: optional object {authorized, timestamp, status\_message }
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+authorized: boolean
 
-- `domain_id: string`
+<a href="#">Link to this property</a>
 
-  Domain identifier
+timestamp: string
 
-### Body Parameters
+formatdate-time
 
-- `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+<a href="#">Link to this property</a>
 
-  - `"DIRECT"`
+status\_message: optional string
 
-  - `"BCC"`
+<a href="#">Link to this property</a>
 
-  - `"JOURNAL"`
+</details>
 
-  - `"API"`
+<a href="#">Link to this property</a>
 
-  - `"RETRO_SCAN"`
+created\_at: optional string
 
-- `domain: optional string`
+formatdate-time
 
-- `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-  - `"MALICIOUS"`
+<details>
 
-  - `"MALICIOUS-BEC"`
+<summary>
 
-  - `"SUSPICIOUS"`
+dmarc\_status: optional "none"or "good"or "invalid"
 
-  - `"SPOOF"`
+</summary>
 
-  - `"SPAM"`
+One of the following:
 
-  - `"BULK"`
+"none"
 
-  - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-  - `"EXTERNAL"`
+"good"
 
-  - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  - `"NONE"`
+"invalid"
 
-- `folder: optional "AllItems" or "Inbox"`
+<a href="#">Link to this property</a>
 
-  - `"AllItems"`
+</details>
 
-  - `"Inbox"`
+<a href="#">Link to this property</a>
 
-- `integration_id: optional string`
+domain: optional string
 
-- `ip_restrictions: optional array of string`
+<a href="#">Link to this property</a>
 
-- `lookback_hops: optional number`
+<details>
 
-- `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+<summary>
 
-  - `"GLOBAL"`
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  - `"AU"`
+</summary>
 
-  - `"DE"`
+One of the following:
 
-  - `"IN"`
+"MALICIOUS"
 
-  - `"US"`
+<a href="#">Link to this property</a>
 
-- `require_tls_inbound: optional boolean`
+"MALICIOUS-BEC"
 
-- `require_tls_outbound: optional boolean`
+<a href="#">Link to this property</a>
 
-- `transport: optional string`
+"SUSPICIOUS"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"SPOOF"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"SPAM"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"BULK"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"ENCRYPTED"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"EXTERNAL"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"UNKNOWN"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"NONE"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id, allowed_delivery_modes, authorization, 19 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Domain identifier
+<summary>
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-    - `"DIRECT"`
+</summary>
 
-    - `"BCC"`
+timestamp: string
 
-    - `"JOURNAL"`
+formatdate-time
 
-    - `"API"`
+<a href="#">Link to this property</a>
 
-    - `"RETRO_SCAN"`
+total\_emails\_processed: number
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+minimum0
 
-    - `authorized: boolean`
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+total\_emails\_processed\_previous: number
 
-    - `status_message: optional string`
+minimum0
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+</details>
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-    - `"good"`
+<details>
 
-    - `"invalid"`
+<summary>
 
-  - `domain: optional string`
+folder: optional "AllItems"or "Inbox"
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+</summary>
 
-    - `"MALICIOUS"`
+One of the following:
 
-    - `"MALICIOUS-BEC"`
+"AllItems"
 
-    - `"SUSPICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SPOOF"`
+"Inbox"
 
-    - `"SPAM"`
+<a href="#">Link to this property</a>
 
-    - `"BULK"`
+</details>
 
-    - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-    - `"EXTERNAL"`
+<details>
 
-    - `"UNKNOWN"`
+<summary>
 
-    - `"NONE"`
+inbox\_provider: optional "Microsoft"or "Google"
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+</summary>
 
-    - `timestamp: string`
+One of the following:
 
-    - `total_emails_processed: number`
+"Microsoft"
 
-    - `total_emails_processed_previous: number`
+<a href="#">Link to this property</a>
 
-  - `folder: optional "AllItems" or "Inbox"`
+"Google"
 
-    - `"AllItems"`
+<a href="#">Link to this property</a>
 
-    - `"Inbox"`
+</details>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+<a href="#">Link to this property</a>
 
-    - `"Microsoft"`
+integration\_id: optional string
 
-    - `"Google"`
+formatuuid
 
-  - `integration_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `ip_restrictions: optional array of string`
+ip\_restrictions: optional array of string
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+Deprecatedlast\_modified: optional string
 
-  - `lookback_hops: optional number`
+Use <code>modified_at</code> instead.
 
-  - `modified_at: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `o365_tenant_id: optional string`
+formatdate-time
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"GLOBAL"`
+lookback\_hops: optional number
 
-    - `"AU"`
+<a href="#">Link to this property</a>
 
-    - `"DE"`
+modified\_at: optional string
 
-    - `"IN"`
+formatdate-time
 
-    - `"US"`
+<a href="#">Link to this property</a>
 
-  - `require_tls_inbound: optional boolean`
+o365\_tenant\_id: optional string
 
-  - `require_tls_outbound: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<details>
 
-    - `"none"`
+<summary>
 
-    - `"good"`
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-    - `"neutral"`
+</summary>
 
-    - `"open"`
+One of the following:
 
-    - `"invalid"`
+"GLOBAL"
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"AU"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+"DE"
 
-    - `"timeout"`
+<a href="#">Link to this property</a>
 
-  - `transport: optional string`
+"IN"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains/$DOMAIN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ip_restrictions": [
-            "192.0.2.0/24",
-            "2001:db8::/32"
-          ]
-        }'
-```
+"US"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "allowed_delivery_modes": [
-      "DIRECT"
-    ],
-    "authorization": {
-      "authorized": true,
-      "timestamp": "2019-12-27T18:11:19.117Z",
-      "status_message": "status_message"
-    },
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "dmarc_status": "none",
-    "domain": "example.com",
-    "drop_dispositions": [
-      "MALICIOUS"
-    ],
-    "emails_processed": {
-      "timestamp": "2019-12-27T18:11:19.117Z",
-      "total_emails_processed": 0,
-      "total_emails_processed_previous": 0
-    },
-    "folder": "AllItems",
-    "inbox_provider": "Microsoft",
-    "integration_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "ip_restrictions": [
-      "192.0.2.0/24",
-      "2001:db8::/32"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "lookback_hops": 0,
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "o365_tenant_id": "o365_tenant_id",
-    "regions": [
-      "GLOBAL"
-    ],
-    "require_tls_inbound": true,
-    "require_tls_outbound": true,
-    "spf_status": "none",
-    "status": "pending",
-    "transport": "transport"
-  }
-}
-```
+</details>
 
-## Unprotect an email domain
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/email-security/settings/domains/{domain_id}`
+require\_tls\_inbound: optional boolean
 
-Removes email security protection from a domain. After deletion, emails for this domain will no longer be processed by Email Security. This action cannot be undone.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+require\_tls\_outbound: optional boolean
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `domain_id: string`
+<summary>
 
-  Domain identifier
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"none"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"good"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"neutral"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"open"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"invalid"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id }`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-  - `id: string`
+</summary>
 
-    Domain identifier
+One of the following:
 
-### Example
+"PENDING"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains/$DOMAIN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"ACTIVE"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"FAILED"
 
-### Domain List Response
+<a href="#">Link to this property</a>
 
-- `DomainListResponse object { id, allowed_delivery_modes, authorization, 19 more }`
+"TIMEOUT"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Domain identifier
+</details>
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"DIRECT"`
+transport: optional string
 
-    - `"BCC"`
+<a href="#">Link to this property</a>
 
-    - `"JOURNAL"`
+</details>
 
-    - `"API"`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_get_response%20%3E%20(schema)>)
 
-    - `"RETRO_SCAN"`
+<details>
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+<summary>
 
-    - `authorized: boolean`
+DomainUpdateResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-    - `timestamp: string`
+</summary>
 
-    - `status_message: optional string`
+id: optional string
 
-  - `created_at: optional string`
+Domain identifier.
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+formatuuid
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-    - `"good"`
+<details>
 
-    - `"invalid"`
+<summary>
 
-  - `domain: optional string`
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+</summary>
 
-    - `"MALICIOUS"`
+One of the following:
 
-    - `"MALICIOUS-BEC"`
+"DIRECT"
 
-    - `"SUSPICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SPOOF"`
+"BCC"
 
-    - `"SPAM"`
+<a href="#">Link to this property</a>
 
-    - `"BULK"`
+"JOURNAL"
 
-    - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-    - `"EXTERNAL"`
+"API"
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-    - `"NONE"`
+"RETRO\_SCAN"
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+</details>
 
-    - `total_emails_processed: number`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed_previous: number`
+<details>
 
-  - `folder: optional "AllItems" or "Inbox"`
+<summary>
 
-    - `"AllItems"`
+authorization: optional object {authorized, timestamp, status\_message }
 
-    - `"Inbox"`
+</summary>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+authorized: boolean
 
-    - `"Microsoft"`
+<a href="#">Link to this property</a>
 
-    - `"Google"`
+timestamp: string
 
-  - `integration_id: optional string`
+formatdate-time
 
-  - `ip_restrictions: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+status\_message: optional string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `lookback_hops: optional number`
+</details>
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `o365_tenant_id: optional string`
+created\_at: optional string
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+formatdate-time
 
-    - `"GLOBAL"`
+<a href="#">Link to this property</a>
 
-    - `"AU"`
+<details>
 
-    - `"DE"`
+<summary>
 
-    - `"IN"`
+dmarc\_status: optional "none"or "good"or "invalid"
 
-    - `"US"`
+</summary>
 
-  - `require_tls_inbound: optional boolean`
+One of the following:
 
-  - `require_tls_outbound: optional boolean`
+"none"
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+"good"
 
-    - `"good"`
+<a href="#">Link to this property</a>
 
-    - `"neutral"`
+"invalid"
 
-    - `"open"`
+<a href="#">Link to this property</a>
 
-    - `"invalid"`
+</details>
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+domain: optional string
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+<details>
 
-    - `"timeout"`
+<summary>
 
-  - `transport: optional string`
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-### Domain Get Response
+</summary>
 
-- `DomainGetResponse object { id, allowed_delivery_modes, authorization, 19 more }`
+One of the following:
 
-  - `id: optional string`
+"MALICIOUS"
 
-    Domain identifier
+<a href="#">Link to this property</a>
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+"MALICIOUS-BEC"
 
-    - `"DIRECT"`
+<a href="#">Link to this property</a>
 
-    - `"BCC"`
+"SUSPICIOUS"
 
-    - `"JOURNAL"`
+<a href="#">Link to this property</a>
 
-    - `"API"`
+"SPOOF"
 
-    - `"RETRO_SCAN"`
+<a href="#">Link to this property</a>
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+"SPAM"
 
-    - `authorized: boolean`
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+"BULK"
 
-    - `status_message: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"ENCRYPTED"
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+"EXTERNAL"
 
-    - `"good"`
+<a href="#">Link to this property</a>
 
-    - `"invalid"`
+"UNKNOWN"
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+"NONE"
 
-    - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS-BEC"`
+</details>
 
-    - `"SUSPICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SPOOF"`
+<details>
 
-    - `"SPAM"`
+<summary>
 
-    - `"BULK"`
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-    - `"ENCRYPTED"`
+</summary>
 
-    - `"EXTERNAL"`
+timestamp: string
 
-    - `"UNKNOWN"`
+formatdate-time
 
-    - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+total\_emails\_processed: number
 
-    - `timestamp: string`
+minimum0
 
-    - `total_emails_processed: number`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed_previous: number`
+total\_emails\_processed\_previous: number
 
-  - `folder: optional "AllItems" or "Inbox"`
+minimum0
 
-    - `"AllItems"`
+<a href="#">Link to this property</a>
 
-    - `"Inbox"`
+</details>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+<a href="#">Link to this property</a>
 
-    - `"Microsoft"`
+<details>
 
-    - `"Google"`
+<summary>
 
-  - `integration_id: optional string`
+folder: optional "AllItems"or "Inbox"
 
-  - `ip_restrictions: optional array of string`
+</summary>
 
-  - `last_modified: optional string`
+One of the following:
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"AllItems"
 
-  - `lookback_hops: optional number`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"Inbox"
 
-  - `o365_tenant_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+</details>
 
-    - `"GLOBAL"`
+<a href="#">Link to this property</a>
 
-    - `"AU"`
+<details>
 
-    - `"DE"`
+<summary>
 
-    - `"IN"`
+inbox\_provider: optional "Microsoft"or "Google"
 
-    - `"US"`
+</summary>
 
-  - `require_tls_inbound: optional boolean`
+One of the following:
 
-  - `require_tls_outbound: optional boolean`
+"Microsoft"
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+"Google"
 
-    - `"good"`
+<a href="#">Link to this property</a>
 
-    - `"neutral"`
+</details>
 
-    - `"open"`
+<a href="#">Link to this property</a>
 
-    - `"invalid"`
+integration\_id: optional string
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+formatuuid
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+ip\_restrictions: optional array of string
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-    - `"timeout"`
+Deprecatedlast\_modified: optional string
 
-  - `transport: optional string`
+Use <code>modified_at</code> instead.
 
-### Domain Edit Response
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `DomainEditResponse object { id, allowed_delivery_modes, authorization, 19 more }`
+formatdate-time
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Domain identifier
+lookback\_hops: optional number
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"DIRECT"`
+modified\_at: optional string
 
-    - `"BCC"`
+formatdate-time
 
-    - `"JOURNAL"`
+<a href="#">Link to this property</a>
 
-    - `"API"`
+o365\_tenant\_id: optional string
 
-    - `"RETRO_SCAN"`
+<a href="#">Link to this property</a>
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+<details>
 
-    - `authorized: boolean`
+<summary>
 
-    - `timestamp: string`
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-    - `status_message: optional string`
+</summary>
 
-  - `created_at: optional string`
+One of the following:
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+"GLOBAL"
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-    - `"good"`
+"AU"
 
-    - `"invalid"`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+"DE"
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS"`
+"IN"
 
-    - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+"US"
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+</details>
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+require\_tls\_inbound: optional boolean
 
-    - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+require\_tls\_outbound: optional boolean
 
-    - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+<details>
 
-    - `timestamp: string`
+<summary>
 
-    - `total_emails_processed: number`
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-    - `total_emails_processed_previous: number`
+</summary>
 
-  - `folder: optional "AllItems" or "Inbox"`
+One of the following:
 
-    - `"AllItems"`
+"none"
 
-    - `"Inbox"`
+<a href="#">Link to this property</a>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+"good"
 
-    - `"Microsoft"`
+<a href="#">Link to this property</a>
 
-    - `"Google"`
+"neutral"
 
-  - `integration_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `ip_restrictions: optional array of string`
+"open"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"invalid"
 
-  - `lookback_hops: optional number`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+</details>
 
-  - `o365_tenant_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+<details>
 
-    - `"GLOBAL"`
+<summary>
 
-    - `"AU"`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-    - `"DE"`
+</summary>
 
-    - `"IN"`
+One of the following:
 
-    - `"US"`
+"PENDING"
 
-  - `require_tls_inbound: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `require_tls_outbound: optional boolean`
+"ACTIVE"
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+"FAILED"
 
-    - `"good"`
+<a href="#">Link to this property</a>
 
-    - `"neutral"`
+"TIMEOUT"
 
-    - `"open"`
+<a href="#">Link to this property</a>
 
-    - `"invalid"`
+</details>
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+transport: optional string
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+</details>
 
-    - `"timeout"`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_update_response%20%3E%20(schema)>)
 
-  - `transport: optional string`
+<details>
 
-### Domain Delete Response
+<summary>
 
-- `DomainDeleteResponse object { id }`
+DomainEditResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-  - `id: string`
+</summary>
 
-    Domain identifier
+id: optional string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authorization: optional object {authorized, timestamp, status\_message }
+
+</summary>
+
+authorized: boolean
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc\_status: optional "none"or "good"or "invalid"
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
+
+</summary>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed\_previous: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+folder: optional "AllItems"or "Inbox"
+
+</summary>
+
+One of the following:
+
+"AllItems"
+
+<a href="#">Link to this property</a>
+
+"Inbox"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inbox\_provider: optional "Microsoft"or "Google"
+
+</summary>
+
+One of the following:
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Google"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+integration\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ip\_restrictions: optional array of string
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+lookback\_hops: optional number
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+o365\_tenant\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
+
+</summary>
+
+One of the following:
+
+"GLOBAL"
+
+<a href="#">Link to this property</a>
+
+"AU"
+
+<a href="#">Link to this property</a>
+
+"DE"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"US"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+require\_tls\_inbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+require\_tls\_outbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf\_status: optional "none"or "good"or "neutral"or 2 more
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
+
+</summary>
+
+One of the following:
+
+"PENDING"
+
+<a href="#">Link to this property</a>
+
+"ACTIVE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+"TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+transport: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DomainCreateResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
+
+</summary>
+
+id: optional string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authorization: optional object {authorized, timestamp, status\_message }
+
+</summary>
+
+authorized: boolean
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc\_status: optional "none"or "good"or "invalid"
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
+
+</summary>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed\_previous: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+folder: optional "AllItems"or "Inbox"
+
+</summary>
+
+One of the following:
+
+"AllItems"
+
+<a href="#">Link to this property</a>
+
+"Inbox"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inbox\_provider: optional "Microsoft"or "Google"
+
+</summary>
+
+One of the following:
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Google"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+integration\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ip\_restrictions: optional array of string
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+lookback\_hops: optional number
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+o365\_tenant\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
+
+</summary>
+
+One of the following:
+
+"GLOBAL"
+
+<a href="#">Link to this property</a>
+
+"AU"
+
+<a href="#">Link to this property</a>
+
+"DE"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"US"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+require\_tls\_inbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+require\_tls\_outbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf\_status: optional "none"or "good"or "neutral"or 2 more
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
+
+</summary>
+
+One of the following:
+
+"PENDING"
+
+<a href="#">Link to this property</a>
+
+"ACTIVE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+"TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+transport: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DomainDeleteResponse object {id }
+
+</summary>
+
+id: string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_delete_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DomainBatchResponse object {deletes, patches, posts, puts }
+
+</summary>
+
+<details>
+
+<summary>
+
+deletes: array of object {id }
+
+</summary>
+
+id: string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+patches: array of object {id, allowed\_delivery\_modes, authorization, 19 more }
+
+</summary>
+
+id: optional string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authorization: optional object {authorized, timestamp, status\_message }
+
+</summary>
+
+authorized: boolean
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc\_status: optional "none"or "good"or "invalid"
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
+
+</summary>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed\_previous: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+folder: optional "AllItems"or "Inbox"
+
+</summary>
+
+One of the following:
+
+"AllItems"
+
+<a href="#">Link to this property</a>
+
+"Inbox"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inbox\_provider: optional "Microsoft"or "Google"
+
+</summary>
+
+One of the following:
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Google"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+integration\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ip\_restrictions: optional array of string
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+lookback\_hops: optional number
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+o365\_tenant\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
+
+</summary>
+
+One of the following:
+
+"GLOBAL"
+
+<a href="#">Link to this property</a>
+
+"AU"
+
+<a href="#">Link to this property</a>
+
+"DE"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"US"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+require\_tls\_inbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+require\_tls\_outbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf\_status: optional "none"or "good"or "neutral"or 2 more
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
+
+</summary>
+
+One of the following:
+
+"PENDING"
+
+<a href="#">Link to this property</a>
+
+"ACTIVE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+"TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+transport: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+posts: array of object {id, allowed\_delivery\_modes, authorization, 19 more }
+
+</summary>
+
+id: optional string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authorization: optional object {authorized, timestamp, status\_message }
+
+</summary>
+
+authorized: boolean
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc\_status: optional "none"or "good"or "invalid"
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
+
+</summary>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed\_previous: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+folder: optional "AllItems"or "Inbox"
+
+</summary>
+
+One of the following:
+
+"AllItems"
+
+<a href="#">Link to this property</a>
+
+"Inbox"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inbox\_provider: optional "Microsoft"or "Google"
+
+</summary>
+
+One of the following:
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Google"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+integration\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ip\_restrictions: optional array of string
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+lookback\_hops: optional number
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+o365\_tenant\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
+
+</summary>
+
+One of the following:
+
+"GLOBAL"
+
+<a href="#">Link to this property</a>
+
+"AU"
+
+<a href="#">Link to this property</a>
+
+"DE"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"US"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+require\_tls\_inbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+require\_tls\_outbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf\_status: optional "none"or "good"or "neutral"or 2 more
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
+
+</summary>
+
+One of the following:
+
+"PENDING"
+
+<a href="#">Link to this property</a>
+
+"ACTIVE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+"TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+transport: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+puts: array of object {id, allowed\_delivery\_modes, authorization, 19 more }
+
+</summary>
+
+id: optional string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authorization: optional object {authorized, timestamp, status\_message }
+
+</summary>
+
+authorized: boolean
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc\_status: optional "none"or "good"or "invalid"
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
+
+</summary>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed\_previous: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+folder: optional "AllItems"or "Inbox"
+
+</summary>
+
+One of the following:
+
+"AllItems"
+
+<a href="#">Link to this property</a>
+
+"Inbox"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inbox\_provider: optional "Microsoft"or "Google"
+
+</summary>
+
+One of the following:
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Google"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+integration\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ip\_restrictions: optional array of string
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+lookback\_hops: optional number
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+o365\_tenant\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
+
+</summary>
+
+One of the following:
+
+"GLOBAL"
+
+<a href="#">Link to this property</a>
+
+"AU"
+
+<a href="#">Link to this property</a>
+
+"DE"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"US"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+require\_tls\_inbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+require\_tls\_outbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf\_status: optional "none"or "good"or "neutral"or 2 more
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
+
+</summary>
+
+One of the following:
+
+"PENDING"
+
+<a href="#">Link to this property</a>
+
+"ACTIVE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+"TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+transport: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_batch_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DomainBulkDeleteResponse object {id }
+
+</summary>
+
+id: string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_bulk_delete_response%20%3E%20(schema)>)

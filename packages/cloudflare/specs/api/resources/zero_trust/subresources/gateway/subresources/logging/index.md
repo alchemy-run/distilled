@@ -1,378 +1,141 @@
+---
+title: Logging
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Logging
 
-## Get logging settings for the Zero Trust account
+##### [Get logging settings for the Zero Trust account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/logging/methods/get)
 
-**get** `/accounts/{account_id}/gateway/logging`
+GET/accounts/{account\_id}/gateway/logging
 
-Retrieve the current logging settings for the Zero Trust account.
+##### [Update Zero Trust account logging settings](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/logging/methods/update)
 
-### Path Parameters
+PUT/accounts/{account\_id}/gateway/logging
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+LoggingSetting object {redact\_pii, settings\_by\_rule\_type }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+redact\_pii: optional boolean
 
-  - `source: optional object { pointer }`
+Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+settings\_by\_rule\_type: optional object {dns, http, l4 }
 
-  - `documentation_url: optional string`
+Configure logging settings for each rule type.
 
-  - `source: optional object { pointer }`
+</summary>
 
-- `success: true`
+<details>
 
-  Indicate whether the API call was successful.
+<summary>
 
-  - `true`
+dns: optional object {log\_all, log\_blocks }
 
-- `result: optional LoggingSetting`
+Configure logging settings for DNS firewall.
 
-  - `redact_pii: optional boolean`
+</summary>
 
-    Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
+log\_all: optional boolean
 
-  - `settings_by_rule_type: optional object { dns, http, l4 }`
+Specify whether to log all requests to this service.
 
-    Configure logging settings for each rule type.
+<a href="#">Link to this property</a>
 
-    - `dns: optional object { log_all, log_blocks }`
+log\_blocks: optional boolean
 
-      Configure logging settings for DNS firewall.
+Specify whether to log only blocking requests to this service.
 
-      - `log_all: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to log all requests to this service.
+</details>
 
-      - `log_blocks: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to log only blocking requests to this service.
+<details>
 
-    - `http: optional object { log_all, log_blocks }`
+<summary>
 
-      Configure logging settings for HTTP/HTTPS firewall.
+http: optional object {log\_all, log\_blocks }
 
-      - `log_all: optional boolean`
+Configure logging settings for HTTP/HTTPS firewall.
 
-        Specify whether to log all requests to this service.
+</summary>
 
-      - `log_blocks: optional boolean`
+log\_all: optional boolean
 
-        Specify whether to log only blocking requests to this service.
+Specify whether to log all requests to this service.
 
-    - `l4: optional object { log_all, log_blocks }`
+<a href="#">Link to this property</a>
 
-      Configure logging settings for Network firewall.
+log\_blocks: optional boolean
 
-      - `log_all: optional boolean`
+Specify whether to log only blocking requests to this service.
 
-        Specify whether to log all requests to this service.
+<a href="#">Link to this property</a>
 
-      - `log_blocks: optional boolean`
+</details>
 
-        Specify whether to log only blocking requests to this service.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/logging \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+l4: optional object {log\_all, log\_blocks }
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "redact_pii": true,
-    "settings_by_rule_type": {
-      "dns": {
-        "log_all": false,
-        "log_blocks": true
-      },
-      "http": {
-        "log_all": false,
-        "log_blocks": true
-      },
-      "l4": {
-        "log_all": false,
-        "log_blocks": true
-      }
-    }
-  }
-}
-```
+Configure logging settings for Network firewall.
 
-## Update Zero Trust account logging settings
+</summary>
 
-**put** `/accounts/{account_id}/gateway/logging`
+log\_all: optional boolean
 
-Update logging settings for the current Zero Trust account.
+Specify whether to log all requests to this service.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+log\_blocks: optional boolean
 
-### Body Parameters
+Specify whether to log only blocking requests to this service.
 
-- `redact_pii: optional boolean`
+<a href="#">Link to this property</a>
 
-  Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
+</details>
 
-- `settings_by_rule_type: optional object { dns, http, l4 }`
+<a href="#">Link to this property</a>
 
-  Configure logging settings for each rule type.
+</details>
 
-  - `dns: optional object { log_all, log_blocks }`
+<a href="#">Link to this property</a>
 
-    Configure logging settings for DNS firewall.
+</details>
 
-    - `log_all: optional boolean`
-
-      Specify whether to log all requests to this service.
-
-    - `log_blocks: optional boolean`
-
-      Specify whether to log only blocking requests to this service.
-
-  - `http: optional object { log_all, log_blocks }`
-
-    Configure logging settings for HTTP/HTTPS firewall.
-
-    - `log_all: optional boolean`
-
-      Specify whether to log all requests to this service.
-
-    - `log_blocks: optional boolean`
-
-      Specify whether to log only blocking requests to this service.
-
-  - `l4: optional object { log_all, log_blocks }`
-
-    Configure logging settings for Network firewall.
-
-    - `log_all: optional boolean`
-
-      Specify whether to log all requests to this service.
-
-    - `log_blocks: optional boolean`
-
-      Specify whether to log only blocking requests to this service.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Indicate whether the API call was successful.
-
-  - `true`
-
-- `result: optional LoggingSetting`
-
-  - `redact_pii: optional boolean`
-
-    Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
-
-  - `settings_by_rule_type: optional object { dns, http, l4 }`
-
-    Configure logging settings for each rule type.
-
-    - `dns: optional object { log_all, log_blocks }`
-
-      Configure logging settings for DNS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `http: optional object { log_all, log_blocks }`
-
-      Configure logging settings for HTTP/HTTPS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `l4: optional object { log_all, log_blocks }`
-
-      Configure logging settings for Network firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/logging \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "redact_pii": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "redact_pii": true,
-    "settings_by_rule_type": {
-      "dns": {
-        "log_all": false,
-        "log_blocks": true
-      },
-      "http": {
-        "log_all": false,
-        "log_blocks": true
-      },
-      "l4": {
-        "log_all": false,
-        "log_blocks": true
-      }
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Logging Setting
-
-- `LoggingSetting object { redact_pii, settings_by_rule_type }`
-
-  - `redact_pii: optional boolean`
-
-    Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).
-
-  - `settings_by_rule_type: optional object { dns, http, l4 }`
-
-    Configure logging settings for each rule type.
-
-    - `dns: optional object { log_all, log_blocks }`
-
-      Configure logging settings for DNS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `http: optional object { log_all, log_blocks }`
-
-      Configure logging settings for HTTP/HTTPS firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
-
-    - `l4: optional object { log_all, log_blocks }`
-
-      Configure logging settings for Network firewall.
-
-      - `log_all: optional boolean`
-
-        Specify whether to log all requests to this service.
-
-      - `log_blocks: optional boolean`
-
-        Specify whether to log only blocking requests to this service.
+[Link to this property](#)%20zero_trust.gateway.logging%20%3E%20(model)%20logging_setting%20%3E%20(schema)>)

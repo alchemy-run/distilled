@@ -1,700 +1,115 @@
+---
+title: Scrape
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Scrape
 
-## Scrape elements.
+##### [Scrape elements.](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/scrape/methods/create)
 
-**post** `/accounts/{account_id}/browser-rendering/scrape`
+POST/accounts/{account\_id}/browser-rendering/scrape
 
-Get meta attributes like height, width, text and others of selected elements.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account ID.
+ScrapeCreateResponse = array of object {results, selector }
 
-### Query Parameters
+</summary>
 
-- `cacheTTL: optional number`
+<details>
 
-  Cache TTL default is 5s. Set to 0 to disable.
+<summary>
 
-### Body Parameters
+results: object {attributes, height, html, 4 more }
 
-- `body: object { elements, html, actionTimeout, 17 more }  or object { elements, url, actionTimeout, 17 more }`
+</summary>
 
-  - `object { elements, html, actionTimeout, 17 more }`
+<details>
 
-    - `elements: array of object { selector }`
+<summary>
 
-      - `selector: string`
+attributes: array of object {name, value }
 
-    - `html: string`
+</summary>
 
-      Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set.
+name: string
 
-    - `actionTimeout: optional number`
+Attribute name.
 
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
+<a href="#">Link to this property</a>
 
-    - `addScriptTag: optional array of object { id, content, type, url }`
+value: string
 
-      Adds a `<script>` tag into the page with the desired URL or content.
+Attribute value.
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+</details>
 
-      - `type: optional string`
+<a href="#">Link to this property</a>
 
-      - `url: optional string`
+height: number
 
-    - `addStyleTag: optional array of object { content, url }`
+Element height.
 
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
+<a href="#">Link to this property</a>
 
-      - `content: optional string`
+html: string
 
-      - `url: optional string`
+HTML content.
 
-    - `allowRequestPattern: optional array of string`
+<a href="#">Link to this property</a>
 
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
+left: number
 
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
+Element left.
 
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
+<a href="#">Link to this property</a>
 
-      - `"document"`
+text: string
 
-      - `"stylesheet"`
+Text content.
 
-      - `"image"`
+<a href="#">Link to this property</a>
 
-      - `"media"`
+top: number
 
-      - `"font"`
+Element top.
 
-      - `"script"`
+<a href="#">Link to this property</a>
 
-      - `"texttrack"`
+width: number
 
-      - `"xhr"`
+Element width.
 
-      - `"fetch"`
+<a href="#">Link to this property</a>
 
-      - `"prefetch"`
+</details>
 
-      - `"eventsource"`
+<a href="#">Link to this property</a>
 
-      - `"websocket"`
+selector: string
 
-      - `"manifest"`
+Selector.
 
-      - `"signedexchange"`
+<a href="#">Link to this property</a>
 
-      - `"ping"`
+</details>
 
-      - `"cspviolationreport"`
-
-      - `"preflight"`
-
-      - `"other"`
-
-    - `authenticate: optional object { password, username }`
-
-      Provide credentials for HTTP authentication.
-
-      - `password: string`
-
-      - `username: string`
-
-    - `bestAttempt: optional boolean`
-
-      Attempt to proceed when 'awaited' events fail or timeout.
-
-    - `cookies: optional array of object { name, value, domain, 11 more }`
-
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
-
-      - `name: string`
-
-        Cookie name.
-
-      - `value: string`
-
-      - `domain: optional string`
-
-      - `expires: optional number`
-
-      - `httpOnly: optional boolean`
-
-      - `partitionKey: optional string`
-
-      - `path: optional string`
-
-      - `priority: optional "Low" or "Medium" or "High"`
-
-        - `"Low"`
-
-        - `"Medium"`
-
-        - `"High"`
-
-      - `sameParty: optional boolean`
-
-      - `sameSite: optional "Strict" or "Lax" or "None"`
-
-        - `"Strict"`
-
-        - `"Lax"`
-
-        - `"None"`
-
-      - `secure: optional boolean`
-
-      - `sourcePort: optional number`
-
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
-
-        - `"Unset"`
-
-        - `"NonSecure"`
-
-        - `"Secure"`
-
-      - `url: optional string`
-
-    - `emulateMediaType: optional string`
-
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
-
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
-
-      - `referer: optional string`
-
-      - `referrerPolicy: optional string`
-
-      - `timeout: optional number`
-
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-          - `"load"`
-
-          - `"domcontentloaded"`
-
-          - `"networkidle0"`
-
-          - `"networkidle2"`
-
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-          - `"load"`
-
-          - `"domcontentloaded"`
-
-          - `"networkidle0"`
-
-          - `"networkidle2"`
-
-    - `rejectRequestPattern: optional array of string`
-
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
-
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
-
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
-
-      - `"document"`
-
-      - `"stylesheet"`
-
-      - `"image"`
-
-      - `"media"`
-
-      - `"font"`
-
-      - `"script"`
-
-      - `"texttrack"`
-
-      - `"xhr"`
-
-      - `"fetch"`
-
-      - `"prefetch"`
-
-      - `"eventsource"`
-
-      - `"websocket"`
-
-      - `"manifest"`
-
-      - `"signedexchange"`
-
-      - `"ping"`
-
-      - `"cspviolationreport"`
-
-      - `"preflight"`
-
-      - `"other"`
-
-    - `setExtraHTTPHeaders: optional map[string]`
-
-    - `setJavaScriptEnabled: optional boolean`
-
-    - `userAgent: optional string`
-
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
-
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
-
-      - `height: number`
-
-      - `width: number`
-
-      - `deviceScaleFactor: optional number`
-
-      - `hasTouch: optional boolean`
-
-      - `isLandscape: optional boolean`
-
-      - `isMobile: optional boolean`
-
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
-
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
-
-      - `selector: string`
-
-      - `hidden: optional true`
-
-        - `true`
-
-      - `timeout: optional number`
-
-      - `visible: optional true`
-
-        - `true`
-
-    - `waitForTimeout: optional number`
-
-      Waits for a specified timeout before continuing.
-
-  - `object { elements, url, actionTimeout, 17 more }`
-
-    - `elements: array of object { selector }`
-
-      - `selector: string`
-
-    - `url: string`
-
-      URL to navigate to, eg. `https://example.com`.
-
-    - `actionTimeout: optional number`
-
-      The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.
-
-    - `addScriptTag: optional array of object { id, content, type, url }`
-
-      Adds a `<script>` tag into the page with the desired URL or content.
-
-      - `id: optional string`
-
-      - `content: optional string`
-
-      - `type: optional string`
-
-      - `url: optional string`
-
-    - `addStyleTag: optional array of object { content, url }`
-
-      Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content.
-
-      - `content: optional string`
-
-      - `url: optional string`
-
-    - `allowRequestPattern: optional array of string`
-
-      Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'.
-
-    - `allowResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
-
-      Only allow requests that match the provided resource types, eg. 'image' or 'script'.
-
-      - `"document"`
-
-      - `"stylesheet"`
-
-      - `"image"`
-
-      - `"media"`
-
-      - `"font"`
-
-      - `"script"`
-
-      - `"texttrack"`
-
-      - `"xhr"`
-
-      - `"fetch"`
-
-      - `"prefetch"`
-
-      - `"eventsource"`
-
-      - `"websocket"`
-
-      - `"manifest"`
-
-      - `"signedexchange"`
-
-      - `"ping"`
-
-      - `"cspviolationreport"`
-
-      - `"preflight"`
-
-      - `"other"`
-
-    - `authenticate: optional object { password, username }`
-
-      Provide credentials for HTTP authentication.
-
-      - `password: string`
-
-      - `username: string`
-
-    - `bestAttempt: optional boolean`
-
-      Attempt to proceed when 'awaited' events fail or timeout.
-
-    - `cookies: optional array of object { name, value, domain, 11 more }`
-
-      Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
-
-      - `name: string`
-
-        Cookie name.
-
-      - `value: string`
-
-      - `domain: optional string`
-
-      - `expires: optional number`
-
-      - `httpOnly: optional boolean`
-
-      - `partitionKey: optional string`
-
-      - `path: optional string`
-
-      - `priority: optional "Low" or "Medium" or "High"`
-
-        - `"Low"`
-
-        - `"Medium"`
-
-        - `"High"`
-
-      - `sameParty: optional boolean`
-
-      - `sameSite: optional "Strict" or "Lax" or "None"`
-
-        - `"Strict"`
-
-        - `"Lax"`
-
-        - `"None"`
-
-      - `secure: optional boolean`
-
-      - `sourcePort: optional number`
-
-      - `sourceScheme: optional "Unset" or "NonSecure" or "Secure"`
-
-        - `"Unset"`
-
-        - `"NonSecure"`
-
-        - `"Secure"`
-
-      - `url: optional string`
-
-    - `emulateMediaType: optional string`
-
-    - `gotoOptions: optional object { referer, referrerPolicy, timeout, waitUntil }`
-
-      Check [options](https://pptr.dev/api/puppeteer.gotooptions).
-
-      - `referer: optional string`
-
-      - `referrerPolicy: optional string`
-
-      - `timeout: optional number`
-
-      - `waitUntil: optional "load" or "domcontentloaded" or "networkidle0" or "networkidle2" or array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-        - `"load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-          - `"load"`
-
-          - `"domcontentloaded"`
-
-          - `"networkidle0"`
-
-          - `"networkidle2"`
-
-        - `array of "load" or "domcontentloaded" or "networkidle0" or "networkidle2"`
-
-          - `"load"`
-
-          - `"domcontentloaded"`
-
-          - `"networkidle0"`
-
-          - `"networkidle2"`
-
-    - `rejectRequestPattern: optional array of string`
-
-      Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'.
-
-    - `rejectResourceTypes: optional array of "document" or "stylesheet" or "image" or 15 more`
-
-      Block undesired requests that match the provided resource types, eg. 'image' or 'script'.
-
-      - `"document"`
-
-      - `"stylesheet"`
-
-      - `"image"`
-
-      - `"media"`
-
-      - `"font"`
-
-      - `"script"`
-
-      - `"texttrack"`
-
-      - `"xhr"`
-
-      - `"fetch"`
-
-      - `"prefetch"`
-
-      - `"eventsource"`
-
-      - `"websocket"`
-
-      - `"manifest"`
-
-      - `"signedexchange"`
-
-      - `"ping"`
-
-      - `"cspviolationreport"`
-
-      - `"preflight"`
-
-      - `"other"`
-
-    - `setExtraHTTPHeaders: optional map[string]`
-
-    - `setJavaScriptEnabled: optional boolean`
-
-    - `userAgent: optional string`
-
-    - `viewport: optional object { height, width, deviceScaleFactor, 3 more }`
-
-      Check [options](https://pptr.dev/api/puppeteer.page.setviewport).
-
-      - `height: number`
-
-      - `width: number`
-
-      - `deviceScaleFactor: optional number`
-
-      - `hasTouch: optional boolean`
-
-      - `isLandscape: optional boolean`
-
-      - `isMobile: optional boolean`
-
-    - `waitForSelector: optional object { selector, hidden, timeout, visible }`
-
-      Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector).
-
-      - `selector: string`
-
-      - `hidden: optional true`
-
-        - `true`
-
-      - `timeout: optional number`
-
-      - `visible: optional true`
-
-        - `true`
-
-    - `waitForTimeout: optional number`
-
-      Waits for a specified timeout before continuing.
-
-### Returns
-
-- `result: array of object { results, selector }`
-
-  - `results: object { attributes, height, html, 4 more }`
-
-    - `attributes: array of object { name, value }`
-
-      - `name: string`
-
-        Attribute name.
-
-      - `value: string`
-
-        Attribute value.
-
-    - `height: number`
-
-      Element height.
-
-    - `html: string`
-
-      HTML content.
-
-    - `left: number`
-
-      Element left.
-
-    - `text: string`
-
-      Text content.
-
-    - `top: number`
-
-      Element top.
-
-    - `width: number`
-
-      Element width.
-
-  - `selector: string`
-
-    Selector.
-
-- `success: boolean`
-
-  Response status.
-
-- `errors: optional array of object { code, message }`
-
-  - `code: number`
-
-    Error code.
-
-  - `message: string`
-
-    Error message.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/scrape \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "elements": [
-            {
-              "selector": "selector"
-            }
-          ],
-          "html": "<h1>Hello World!</h1>"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "results": {
-        "attributes": [
-          {
-            "name": "name",
-            "value": "value"
-          }
-        ],
-        "height": 0,
-        "html": "html",
-        "left": 0,
-        "text": "text",
-        "top": 0,
-        "width": 0
-      },
-      "selector": "selector"
-    }
-  ],
-  "success": true,
-  "errors": [
-    {
-      "code": 0,
-      "message": "message"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Scrape Create Response
-
-- `ScrapeCreateResponse = array of object { results, selector }`
-
-  - `results: object { attributes, height, html, 4 more }`
-
-    - `attributes: array of object { name, value }`
-
-      - `name: string`
-
-        Attribute name.
-
-      - `value: string`
-
-        Attribute value.
-
-    - `height: number`
-
-      Element height.
-
-    - `html: string`
-
-      HTML content.
-
-    - `left: number`
-
-      Element left.
-
-    - `text: string`
-
-      Text content.
-
-    - `top: number`
-
-      Element top.
-
-    - `width: number`
-
-      Element width.
-
-  - `selector: string`
-
-    Selector.
+[Link to this property](#)%20browser_rendering.scrape%20%3E%20(model)%20scrape_create_response%20%3E%20(schema)>)

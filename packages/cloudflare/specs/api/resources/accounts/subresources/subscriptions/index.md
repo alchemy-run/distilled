@@ -1,876 +1,205 @@
+---
+title: Subscriptions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Subscriptions
 
-## List Subscriptions
+##### [List Subscriptions](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get)
 
-**get** `/accounts/{account_id}/subscriptions`
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/subscriptions
 
-Lists all of an account's subscriptions.
+##### [Get Subscription](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get_by_identifier)
 
-### Path Parameters
+GET/accounts/{account\_id}/subscriptions/{subscription\_identifier}
 
-- `account_id: string`
+##### [Create Subscription](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/create)
 
-  Identifier
+POST/{accounts\_or\_zones}/{account\_or\_zone\_id}/subscriptions
 
-### Returns
+##### [Update Subscription](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/update)
 
-- `errors: array of ResponseInfo`
+PUT/accounts/{account\_id}/subscriptions/{subscription\_identifier}
 
-  - `code: number`
+##### [Delete Subscription](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/subscriptions/{subscription\_identifier}
 
-  - `documentation_url: optional string`
+##### [Cancel Delayed Downgrade](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/cancel_downgrade)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/subscriptions/cancel-downgrade
 
-    - `pointer: optional string`
+##### ModelsExpand Collapse
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+SubscriptionDeleteResponse object {subscription\_id }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+subscription\_id: optional string
 
-- `result: array of Subscription`
+Subscription identifier tag.
 
-  - `id: optional string`
+maxLength32
 
-    Subscription identifier tag.
+<a href="#">Link to this property</a>
 
-  - `currency: optional string`
+</details>
 
-    The monetary unit in which pricing information is displayed.
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(model)%20subscription_delete_response%20%3E%20(schema)>)
 
-  - `current_period_end: optional string`
+<details>
 
-    The end of the current period and also when the next billing is due.
+<summary>
 
-  - `current_period_start: optional string`
+SubscriptionCancelDowngradeResponse = unknownor string
 
-    When the current billing period started. May match initial_period_start if this is the first period.
+</summary>
 
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
+One of the following:
 
-    How often the subscription is renewed automatically.
+unknown
 
-    - `"weekly"`
+<a href="#">Link to this property</a>
 
-    - `"monthly"`
+string
 
-    - `"quarterly"`
+<a href="#">Link to this property</a>
 
-    - `"yearly"`
+</details>
 
-  - `price: optional number`
+[Link to this property](#)%20accounts.subscriptions%20%3E%20(model)%20subscription_cancel_downgrade_response%20%3E%20(schema)>)
 
-    The price of the subscription that will be billed, in US dollars.
+#### SubscriptionsCancel Reason
 
-  - `rate_plan: optional RatePlan`
+##### [Create Cancel Reason](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/subresources/cancel_reason/methods/create)
 
-    The rate plan applied to the subscription.
+POST/accounts/{account\_id}/subscriptions/{subscription\_identifier}/cancel-reason
 
-    - `id: optional "free" or "lite" or "pro" or 7 more`
+##### [Get Cancel Reason](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/subresources/cancel_reason/methods/get)
 
-      The ID of the rate plan.
+GET/accounts/{account\_id}/subscriptions/{subscription\_identifier}/cancel-reason
 
-      - `"free"`
+##### ModelsExpand Collapse
 
-      - `"lite"`
+<details>
 
-      - `"pro"`
+<summary>
 
-      - `"pro_plus"`
+CancelReasonCreateResponse object {id, other, reason\_code, 2 more }
 
-      - `"business"`
+</summary>
 
-      - `"enterprise"`
+id: optional string
 
-      - `"partners_free"`
+The cancel reason identifier.
 
-      - `"partners_pro"`
+<a href="#">Link to this property</a>
 
-      - `"partners_business"`
+other: optional string
 
-      - `"partners_enterprise"`
+Additional cancellation details.
 
-    - `currency: optional string`
+<a href="#">Link to this property</a>
 
-      The currency applied to the rate plan subscription.
+reason\_code: optional array of string
 
-    - `externally_managed: optional boolean`
+The cancellation reason codes.
 
-      Whether this rate plan is managed externally from Cloudflare.
+<a href="#">Link to this property</a>
 
-    - `is_contract: optional boolean`
+submitted: optional string
 
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
+When the cancel reason was submitted.
 
-    - `public_name: optional string`
+formatdate-time
 
-      The full name of the rate plan.
+<a href="#">Link to this property</a>
 
-    - `scope: optional string`
+subscription\_id: optional string
 
-      The scope that this rate plan applies to.
+The subscription identifier.
 
-    - `sets: optional array of string`
+<a href="#">Link to this property</a>
 
-      The list of sets this rate plan applies to. Returns array of strings.
+</details>
 
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
+[Link to this property](#)%20accounts.subscriptions.cancel_reason%20%3E%20(model)%20cancel_reason_create_response%20%3E%20(schema)>)
 
-    The state that the subscription is in.
+<details>
 
-    - `"Trial"`
+<summary>
 
-    - `"Provisioned"`
+CancelReasonGetResponse object {id, other, reason\_code, 2 more }
 
-    - `"Paid"`
+</summary>
 
-    - `"AwaitingPayment"`
+id: optional string
 
-    - `"Cancelled"`
+The cancel reason identifier.
 
-    - `"Failed"`
+<a href="#">Link to this property</a>
 
-    - `"Expired"`
+other: optional string
 
-- `success: true`
+Additional cancellation details.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+reason\_code: optional array of string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+The cancellation reason codes.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+submitted: optional string
 
-  - `page: optional number`
+When the cancel reason was submitted.
 
-    Current page within paginated list of results
+formatdate-time
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results
+subscription\_id: optional string
 
-  - `total_count: optional number`
+The subscription identifier.
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20accounts.subscriptions.cancel_reason%20%3E%20(model)%20cancel_reason_get_response%20%3E%20(schema)>)
 
-#### Response
+#### SubscriptionsActions
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "506e3185e9c882d175a2d0cb0093d9f2",
-      "currency": "USD",
-      "current_period_end": "2014-03-31T12:20:00Z",
-      "current_period_start": "2014-05-11T12:20:00Z",
-      "frequency": "monthly",
-      "price": 20,
-      "rate_plan": {
-        "id": "free",
-        "currency": "USD",
-        "externally_managed": false,
-        "is_contract": false,
-        "public_name": "Business Plan",
-        "scope": "zone",
-        "sets": [
-          "string"
-        ]
-      },
-      "state": "Paid"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+##### [Append Subscription Action](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/subresources/actions/methods/append)
 
-## Create Subscription
+POST/accounts/{account\_id}/subscriptions/{subscription\_identifier}/action/append
 
-**post** `/accounts/{account_id}/subscriptions`
+#### SubscriptionsBulk
 
-Creates an account subscription.
+##### [Create Subscriptions](https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/subresources/bulk/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/bulk/subscriptions
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier
+BulkCreateResponse = array of unknown
 
-### Body Parameters
-
-- `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-  How often the subscription is renewed automatically.
-
-  - `"weekly"`
-
-  - `"monthly"`
-
-  - `"quarterly"`
-
-  - `"yearly"`
-
-- `rate_plan: optional RatePlan`
-
-  The rate plan applied to the subscription.
-
-  - `id: optional "free" or "lite" or "pro" or 7 more`
-
-    The ID of the rate plan.
-
-    - `"free"`
-
-    - `"lite"`
-
-    - `"pro"`
-
-    - `"pro_plus"`
-
-    - `"business"`
-
-    - `"enterprise"`
-
-    - `"partners_free"`
-
-    - `"partners_pro"`
-
-    - `"partners_business"`
-
-    - `"partners_enterprise"`
-
-  - `currency: optional string`
-
-    The currency applied to the rate plan subscription.
-
-  - `externally_managed: optional boolean`
-
-    Whether this rate plan is managed externally from Cloudflare.
-
-  - `is_contract: optional boolean`
-
-    Whether a rate plan is enterprise-based (or newly adopted term contract).
-
-  - `public_name: optional string`
-
-    The full name of the rate plan.
-
-  - `scope: optional string`
-
-    The scope that this rate plan applies to.
-
-  - `sets: optional array of string`
-
-    The list of sets this rate plan applies to. Returns array of strings.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Subscription`
-
-  - `id: optional string`
-
-    Subscription identifier tag.
-
-  - `currency: optional string`
-
-    The monetary unit in which pricing information is displayed.
-
-  - `current_period_end: optional string`
-
-    The end of the current period and also when the next billing is due.
-
-  - `current_period_start: optional string`
-
-    When the current billing period started. May match initial_period_start if this is the first period.
-
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-    How often the subscription is renewed automatically.
-
-    - `"weekly"`
-
-    - `"monthly"`
-
-    - `"quarterly"`
-
-    - `"yearly"`
-
-  - `price: optional number`
-
-    The price of the subscription that will be billed, in US dollars.
-
-  - `rate_plan: optional RatePlan`
-
-    The rate plan applied to the subscription.
-
-    - `id: optional "free" or "lite" or "pro" or 7 more`
-
-      The ID of the rate plan.
-
-      - `"free"`
-
-      - `"lite"`
-
-      - `"pro"`
-
-      - `"pro_plus"`
-
-      - `"business"`
-
-      - `"enterprise"`
-
-      - `"partners_free"`
-
-      - `"partners_pro"`
-
-      - `"partners_business"`
-
-      - `"partners_enterprise"`
-
-    - `currency: optional string`
-
-      The currency applied to the rate plan subscription.
-
-    - `externally_managed: optional boolean`
-
-      Whether this rate plan is managed externally from Cloudflare.
-
-    - `is_contract: optional boolean`
-
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
-
-    - `public_name: optional string`
-
-      The full name of the rate plan.
-
-    - `scope: optional string`
-
-      The scope that this rate plan applies to.
-
-    - `sets: optional array of string`
-
-      The list of sets this rate plan applies to. Returns array of strings.
-
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
-
-    The state that the subscription is in.
-
-    - `"Trial"`
-
-    - `"Provisioned"`
-
-    - `"Paid"`
-
-    - `"AwaitingPayment"`
-
-    - `"Cancelled"`
-
-    - `"Failed"`
-
-    - `"Expired"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "frequency": "monthly"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "506e3185e9c882d175a2d0cb0093d9f2",
-    "currency": "USD",
-    "current_period_end": "2014-03-31T12:20:00Z",
-    "current_period_start": "2014-05-11T12:20:00Z",
-    "frequency": "monthly",
-    "price": 20,
-    "rate_plan": {
-      "id": "free",
-      "currency": "USD",
-      "externally_managed": false,
-      "is_contract": false,
-      "public_name": "Business Plan",
-      "scope": "zone",
-      "sets": [
-        "string"
-      ]
-    },
-    "state": "Paid"
-  },
-  "success": true
-}
-```
-
-## Update Subscription
-
-**put** `/accounts/{account_id}/subscriptions/{subscription_identifier}`
-
-Updates an account subscription.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `subscription_identifier: string`
-
-  Subscription identifier tag.
-
-### Body Parameters
-
-- `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-  How often the subscription is renewed automatically.
-
-  - `"weekly"`
-
-  - `"monthly"`
-
-  - `"quarterly"`
-
-  - `"yearly"`
-
-- `rate_plan: optional RatePlan`
-
-  The rate plan applied to the subscription.
-
-  - `id: optional "free" or "lite" or "pro" or 7 more`
-
-    The ID of the rate plan.
-
-    - `"free"`
-
-    - `"lite"`
-
-    - `"pro"`
-
-    - `"pro_plus"`
-
-    - `"business"`
-
-    - `"enterprise"`
-
-    - `"partners_free"`
-
-    - `"partners_pro"`
-
-    - `"partners_business"`
-
-    - `"partners_enterprise"`
-
-  - `currency: optional string`
-
-    The currency applied to the rate plan subscription.
-
-  - `externally_managed: optional boolean`
-
-    Whether this rate plan is managed externally from Cloudflare.
-
-  - `is_contract: optional boolean`
-
-    Whether a rate plan is enterprise-based (or newly adopted term contract).
-
-  - `public_name: optional string`
-
-    The full name of the rate plan.
-
-  - `scope: optional string`
-
-    The scope that this rate plan applies to.
-
-  - `sets: optional array of string`
-
-    The list of sets this rate plan applies to. Returns array of strings.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Subscription`
-
-  - `id: optional string`
-
-    Subscription identifier tag.
-
-  - `currency: optional string`
-
-    The monetary unit in which pricing information is displayed.
-
-  - `current_period_end: optional string`
-
-    The end of the current period and also when the next billing is due.
-
-  - `current_period_start: optional string`
-
-    When the current billing period started. May match initial_period_start if this is the first period.
-
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-    How often the subscription is renewed automatically.
-
-    - `"weekly"`
-
-    - `"monthly"`
-
-    - `"quarterly"`
-
-    - `"yearly"`
-
-  - `price: optional number`
-
-    The price of the subscription that will be billed, in US dollars.
-
-  - `rate_plan: optional RatePlan`
-
-    The rate plan applied to the subscription.
-
-    - `id: optional "free" or "lite" or "pro" or 7 more`
-
-      The ID of the rate plan.
-
-      - `"free"`
-
-      - `"lite"`
-
-      - `"pro"`
-
-      - `"pro_plus"`
-
-      - `"business"`
-
-      - `"enterprise"`
-
-      - `"partners_free"`
-
-      - `"partners_pro"`
-
-      - `"partners_business"`
-
-      - `"partners_enterprise"`
-
-    - `currency: optional string`
-
-      The currency applied to the rate plan subscription.
-
-    - `externally_managed: optional boolean`
-
-      Whether this rate plan is managed externally from Cloudflare.
-
-    - `is_contract: optional boolean`
-
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
-
-    - `public_name: optional string`
-
-      The full name of the rate plan.
-
-    - `scope: optional string`
-
-      The scope that this rate plan applies to.
-
-    - `sets: optional array of string`
-
-      The list of sets this rate plan applies to. Returns array of strings.
-
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
-
-    The state that the subscription is in.
-
-    - `"Trial"`
-
-    - `"Provisioned"`
-
-    - `"Paid"`
-
-    - `"AwaitingPayment"`
-
-    - `"Cancelled"`
-
-    - `"Failed"`
-
-    - `"Expired"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions/$SUBSCRIPTION_IDENTIFIER \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "frequency": "monthly"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "506e3185e9c882d175a2d0cb0093d9f2",
-    "currency": "USD",
-    "current_period_end": "2014-03-31T12:20:00Z",
-    "current_period_start": "2014-05-11T12:20:00Z",
-    "frequency": "monthly",
-    "price": 20,
-    "rate_plan": {
-      "id": "free",
-      "currency": "USD",
-      "externally_managed": false,
-      "is_contract": false,
-      "public_name": "Business Plan",
-      "scope": "zone",
-      "sets": [
-        "string"
-      ]
-    },
-    "state": "Paid"
-  },
-  "success": true
-}
-```
-
-## Delete Subscription
-
-**delete** `/accounts/{account_id}/subscriptions/{subscription_identifier}`
-
-Deletes an account's subscription.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier
-
-- `subscription_identifier: string`
-
-  Subscription identifier tag.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { subscription_id }`
-
-  - `subscription_id: optional string`
-
-    Subscription identifier tag.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/subscriptions/$SUBSCRIPTION_IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "subscription_id": "506e3185e9c882d175a2d0cb0093d9f2"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Subscription Delete Response
-
-- `SubscriptionDeleteResponse object { subscription_id }`
-
-  - `subscription_id: optional string`
-
-    Subscription identifier tag.
+[Link to this property](#)%20accounts.subscriptions.bulk%20%3E%20(model)%20bulk_create_response%20%3E%20(schema)>)

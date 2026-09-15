@@ -1,239 +1,81 @@
+---
+title: Time Travel
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[D1](https://developers.cloudflare.com/api/resources/d1)
+
+[Database](https://developers.cloudflare.com/api/resources/d1/subresources/database)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Time Travel
 
-## Get D1 database bookmark
+##### [Get D1 database bookmark](https://developers.cloudflare.com/api/resources/d1/subresources/database/subresources/time_travel/methods/get_bookmark)
 
-**get** `/accounts/{account_id}/d1/database/{database_id}/time_travel/bookmark`
+GET/accounts/{account\_id}/d1/database/{database\_id}/time\_travel/bookmark
 
-Retrieves the current bookmark, or the nearest bookmark at or before a provided timestamp.
-Bookmarks can be used with the restore endpoint to revert the database to a previous point in time.
+##### [Restore D1 Database to a bookmark or point in time](https://developers.cloudflare.com/api/resources/d1/subresources/database/subresources/time_travel/methods/restore)
 
-### Path Parameters
+POST/accounts/{account\_id}/d1/database/{database\_id}/time\_travel/restore
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account identifier tag.
+<details>
 
-- `database_id: string`
+<summary>
 
-  D1 database identifier (UUID).
+TimeTravelGetBookmarkResponse object {bookmark }
 
-### Query Parameters
+</summary>
 
-- `timestamp: optional string`
+bookmark: optional string
 
-  An optional ISO 8601 timestamp. If provided, returns the nearest available bookmark at or before this timestamp. If omitted, returns the current bookmark.
+A bookmark representing a specific state of the database at a specific point in time.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+[Link to this property](#)%20d1.database.time_travel%20%3E%20(model)%20time_travel_get_bookmark_response%20%3E%20(schema)>)
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+TimeTravelRestoreResponse object {bookmark, message, previous\_bookmark }
 
-    - `pointer: optional string`
+Response from a time travel restore operation.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+bookmark: optional string
 
-  - `message: string`
+The new bookmark representing the state of the database after the restore operation.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+message: optional string
 
-- `result: object { bookmark }`
+A message describing the result of the restore operation.
 
-  - `bookmark: optional string`
+<a href="#">Link to this property</a>
 
-    A bookmark representing a specific state of the database at a specific point in time.
+previous\_bookmark: optional string
 
-- `success: true`
+The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed.
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/time_travel/bookmark \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "bookmark": "00000001-00000002-00004e2f-0a83ea2fceebc654de0640c422be4653"
-  },
-  "success": true
-}
-```
-
-## Restore D1 Database to a bookmark or point in time
-
-**post** `/accounts/{account_id}/d1/database/{database_id}/time_travel/restore`
-
-Restores a D1 database to a previous point in time either via a bookmark or a timestamp.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `database_id: string`
-
-  D1 database identifier (UUID).
-
-### Query Parameters
-
-- `bookmark: optional string`
-
-  A bookmark to restore the database to. Required if `timestamp` is not provided.
-
-- `timestamp: optional string`
-
-  An ISO 8601 timestamp to restore the database to. Required if `bookmark` is not provided.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { bookmark, message, previous_bookmark }`
-
-  Response from a time travel restore operation.
-
-  - `bookmark: optional string`
-
-    The new bookmark representing the state of the database after the restore operation.
-
-  - `message: optional string`
-
-    A message describing the result of the restore operation.
-
-  - `previous_bookmark: optional string`
-
-    The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/d1/database/$DATABASE_ID/time_travel/restore \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "bookmark": "00000001-00000002-00004e2f-0a83ea2fceebc654de0640c422be4653",
-    "message": "Database restored successfully",
-    "previous_bookmark": "00000001-00000002-00004e2f-0a83ea2fceebc654de0640c422be4653"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Time Travel Get Bookmark Response
-
-- `TimeTravelGetBookmarkResponse object { bookmark }`
-
-  - `bookmark: optional string`
-
-    A bookmark representing a specific state of the database at a specific point in time.
-
-### Time Travel Restore Response
-
-- `TimeTravelRestoreResponse object { bookmark, message, previous_bookmark }`
-
-  Response from a time travel restore operation.
-
-  - `bookmark: optional string`
-
-    The new bookmark representing the state of the database after the restore operation.
-
-  - `message: optional string`
-
-    A message describing the result of the restore operation.
-
-  - `previous_bookmark: optional string`
-
-    The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed.
+[Link to this property](#)%20d1.database.time_travel%20%3E%20(model)%20time_travel_restore_response%20%3E%20(schema)>)

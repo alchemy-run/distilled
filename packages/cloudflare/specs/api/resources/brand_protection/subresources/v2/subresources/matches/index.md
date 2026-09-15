@@ -1,172 +1,137 @@
+---
+title: Matches
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Brand Protection](https://developers.cloudflare.com/api/resources/brand_protection)
+
+[V2](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Matches
 
-## List saved query matches
+##### [List saved query matches](https://developers.cloudflare.com/api/resources/brand_protection/subresources/v2/subresources/matches/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/matches`
+GET/accounts/{account\_id}/cloudforce-one/v2/brand-protection/domain/matches
 
-Get paginated list of domain matches for one or more brand protection queries. When multiple query_ids are provided (comma-separated), matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and individual dismissed state.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+MatchGetResponse object {matches, total }
 
-- `query_id: array of string`
+</summary>
 
-  Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and dismissed state.
+<details>
 
-- `domain_search: optional string`
+<summary>
 
-  Filter matches by domain name (substring match)
+matches: array of object {domain, first\_seen, public\_scans, 6 more }
 
-- `include_dismissed: optional string`
+</summary>
 
-- `include_domain_id: optional string`
+domain: string
 
-- `limit: optional string`
+<a href="#">Link to this property</a>
 
-- `offset: optional string`
+first\_seen: string
 
-- `order: optional "asc" or "desc"`
+<a href="#">Link to this property</a>
 
-  Sort order. Options: 'asc' (ascending) or 'desc' (descending)
+<details>
 
-  - `"asc"`
+<summary>
 
-  - `"desc"`
+public\_scans: object {submission\_id }
 
-- `orderBy: optional "domain" or "first_seen" or "registrar"`
+</summary>
 
-  Column to sort by. Options: 'domain', 'first_seen', or 'registrar'
+submission\_id: string
 
-  - `"domain"`
+<a href="#">Link to this property</a>
 
-  - `"first_seen"`
+</details>
 
-  - `"registrar"`
+<a href="#">Link to this property</a>
 
-### Returns
+registrar: string
 
-- `matches: array of object { domain, first_seen, public_scans, 6 more }`
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+scan\_status: string
 
-  - `first_seen: string`
+<a href="#">Link to this property</a>
 
-  - `public_scans: object { submission_id }`
+scan\_submission\_id: number
 
-    - `submission_id: string`
+<a href="#">Link to this property</a>
 
-  - `registrar: string`
+source: string
 
-  - `scan_status: string`
+<a href="#">Link to this property</a>
 
-  - `scan_submission_id: number`
+dismissed: optional boolean
 
-  - `source: string`
+Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match\_details entry.
 
-  - `dismissed: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match_details entry.
+<details>
 
-  - `match_details: optional array of object { dismissed, match_id, query_id, query_tag }`
+<summary>
 
-    Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query_ids are requested.
+match\_details: optional array of object {dismissed, match\_id, query\_id, query\_tag }
 
-    - `dismissed: boolean`
+Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query\_ids are requested.
 
-      Individual dismissed state for this specific match.
+</summary>
 
-    - `match_id: number`
+dismissed: boolean
 
-    - `query_id: number`
+Individual dismissed state for this specific match.
 
-    - `query_tag: string`
+<a href="#">Link to this property</a>
 
-      Tag associated with the query, if one exists.
+match\_id: number
 
-- `total: number`
+<a href="#">Link to this property</a>
 
-### Example
+query\_id: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/v2/brand-protection/domain/matches \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+query\_tag: string
 
-```json
-{
-  "matches": [
-    {
-      "domain": "domain",
-      "first_seen": "first_seen",
-      "public_scans": {
-        "submission_id": "submission_id"
-      },
-      "registrar": "registrar",
-      "scan_status": "scan_status",
-      "scan_submission_id": 0,
-      "source": "source",
-      "dismissed": true,
-      "match_details": [
-        {
-          "dismissed": true,
-          "match_id": 0,
-          "query_id": 0,
-          "query_tag": "query_tag"
-        }
-      ]
-    }
-  ],
-  "total": 0
-}
-```
+Tag associated with the query, if one exists.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Match Get Response
+</details>
 
-- `MatchGetResponse object { matches, total }`
+<a href="#">Link to this property</a>
 
-  - `matches: array of object { domain, first_seen, public_scans, 6 more }`
+</details>
 
-    - `domain: string`
+<a href="#">Link to this property</a>
 
-    - `first_seen: string`
+total: number
 
-    - `public_scans: object { submission_id }`
+minimum0
 
-      - `submission_id: string`
+<a href="#">Link to this property</a>
 
-    - `registrar: string`
+</details>
 
-    - `scan_status: string`
-
-    - `scan_submission_id: number`
-
-    - `source: string`
-
-    - `dismissed: optional boolean`
-
-      Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match_details entry.
-
-    - `match_details: optional array of object { dismissed, match_id, query_id, query_tag }`
-
-      Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query_ids are requested.
-
-      - `dismissed: boolean`
-
-        Individual dismissed state for this specific match.
-
-      - `match_id: number`
-
-      - `query_id: number`
-
-      - `query_tag: string`
-
-        Tag associated with the query, if one exists.
-
-  - `total: number`
+[Link to this property](#)%20brand_protection.v2.matches%20%3E%20(model)%20match_get_response%20%3E%20(schema)>)

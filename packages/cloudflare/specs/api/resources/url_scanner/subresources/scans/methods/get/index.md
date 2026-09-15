@@ -1,1633 +1,5097 @@
-## Get URL scan
+---
+title: Get URL scan
+---
 
-**get** `/accounts/{account_id}/urlscanner/v2/result/{scan_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[URL Scanner](https://developers.cloudflare.com/api/resources/url_scanner)
+
+[Scans](https://developers.cloudflare.com/api/resources/url_scanner/subresources/scans)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get URL scan
+
+GET/accounts/{account\_id}/urlscanner/v2/result/{scan\_id}
 
 Get URL scan by uuid
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-- `scan_id: string`
 
-  Scan UUID.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `data: object { console, cookies, globals, 3 more }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `console: array of object { message }`
+</details>
 
-    - `message: object { level, source, text, url }`
+<details>
 
-      - `level: string`
+<summary>API Email + API Key</summary>
 
-      - `source: string`
 
-      - `text: string`
 
-      - `url: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `cookies: array of object { domain, expires, httpOnly, 10 more }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `domain: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `expires: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    - `httpOnly: boolean`
+</details>
 
-    - `name: string`
+##### Accepted Permissions (at least one required)
 
-    - `path: string`
+`URL Scanner Write``URL Scanner Read`
 
-    - `priority: string`
+##### P ath ParametersExpand Collapse
 
-    - `sameParty: boolean`
+account\_id: string
 
-    - `secure: boolean`
+Account ID.
 
-    - `session: boolean`
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `size: number`
+scan\_id: string
 
-    - `sourcePort: number`
+Scan UUID.
 
-    - `sourceScheme: string`
+formatuuid
 
-    - `value: string`
+[Link to this property](#)%20url_scanner.scans%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20scan_id%20%3E%20(schema)>)
 
-  - `globals: array of object { prop, type }`
+##### ReturnsExpand Collapse
 
-    - `prop: string`
+<details>
 
-    - `type: string`
+<summary>
 
-  - `links: array of object { href, text }`
+data: object {console, cookies, globals, 3 more }
 
-    - `href: string`
+</summary>
 
-    - `text: string`
+<details>
 
-  - `performance: array of object { duration, entryType, name, startTime }`
+<summary>
 
-    - `duration: number`
+console: array of object {message }
 
-    - `entryType: string`
+</summary>
 
-    - `name: string`
+<details>
 
-    - `startTime: number`
+<summary>
 
-  - `requests: array of object { request, response, requests }`
+message: object {level, source, text, url }
 
-    - `request: object { documentURL, hasUserGesture, initiator, 9 more }`
+</summary>
 
-      - `documentURL: string`
+level: string
 
-      - `hasUserGesture: boolean`
+<a href="#">Link to this property</a>
 
-      - `initiator: object { host, type, url }`
+source: string
 
-        - `host: string`
+<a href="#">Link to this property</a>
 
-        - `type: string`
+text: string
 
-        - `url: string`
+<a href="#">Link to this property</a>
 
-      - `redirectHasExtraInfo: boolean`
+url: string
 
-      - `request: object { initialPriority, isSameSite, method, 4 more }`
+<a href="#">Link to this property</a>
 
-        - `initialPriority: string`
+</details>
 
-        - `isSameSite: boolean`
+<a href="#">Link to this property</a>
 
-        - `method: string`
+</details>
 
-        - `mixedContentType: string`
+<a href="#">Link to this property</a>
 
-        - `referrerPolicy: string`
+<details>
 
-        - `url: string`
+<summary>
 
-        - `headers: optional unknown`
+cookies: array of object {domain, expires, httpOnly, 10 more }
 
-      - `requestId: string`
+</summary>
 
-      - `type: string`
+domain: string
 
-      - `wallTime: number`
+<a href="#">Link to this property</a>
 
-      - `frameId: optional string`
+expires: number
 
-      - `loaderId: optional string`
+<a href="#">Link to this property</a>
 
-      - `primaryRequest: optional boolean`
+httpOnly: boolean
 
-      - `redirectResponse: optional object { charset, mimeType, protocol, 8 more }`
+<a href="#">Link to this property</a>
 
-        - `charset: string`
+name: string
 
-        - `mimeType: string`
+<a href="#">Link to this property</a>
 
-        - `protocol: string`
+path: string
 
-        - `remoteIPAddress: string`
+<a href="#">Link to this property</a>
 
-        - `remotePort: number`
+priority: string
 
-        - `securityHeaders: array of object { name, value }`
+<a href="#">Link to this property</a>
 
-          - `name: string`
+sameParty: boolean
 
-          - `value: string`
+<a href="#">Link to this property</a>
 
-        - `securityState: string`
+secure: boolean
 
-        - `status: number`
+<a href="#">Link to this property</a>
 
-        - `statusText: string`
+session: boolean
 
-        - `url: string`
+<a href="#">Link to this property</a>
 
-        - `headers: optional unknown`
+size: number
 
-    - `response: object { asn, dataLength, encodedDataLength, 8 more }`
+<a href="#">Link to this property</a>
 
-      - `asn: object { asn, country, description, 3 more }`
+sourcePort: number
 
-        - `asn: string`
+<a href="#">Link to this property</a>
 
-        - `country: string`
+sourceScheme: string
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `ip: string`
+value: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `org: string`
+</details>
 
-      - `dataLength: number`
+<a href="#">Link to this property</a>
 
-      - `encodedDataLength: number`
+<details>
 
-      - `geoip: object { city, country, country_name, 3 more }`
+<summary>
 
-        - `city: string`
+globals: array of object {prop, type }
 
-        - `country: string`
+</summary>
 
-        - `country_name: string`
+prop: string
 
-        - `geonameId: string`
+<a href="#">Link to this property</a>
 
-        - `ll: array of number`
+type: string
 
-        - `region: string`
+<a href="#">Link to this property</a>
 
-      - `hasExtraInfo: boolean`
+</details>
 
-      - `requestId: string`
+<a href="#">Link to this property</a>
 
-      - `response: object { charset, mimeType, protocol, 9 more }`
+<details>
 
-        - `charset: string`
+<summary>
 
-        - `mimeType: string`
+links: array of object {href, text }
 
-        - `protocol: string`
+</summary>
 
-        - `remoteIPAddress: string`
+href: string
 
-        - `remotePort: number`
+<a href="#">Link to this property</a>
 
-        - `securityDetails: object { certificateId, certificateTransparencyCompliance, cipher, 10 more }`
+text: string
 
-          - `certificateId: number`
+<a href="#">Link to this property</a>
 
-          - `certificateTransparencyCompliance: string`
+</details>
 
-          - `cipher: string`
+<a href="#">Link to this property</a>
 
-          - `encryptedClientHello: boolean`
+<details>
 
-          - `issuer: string`
+<summary>
 
-          - `keyExchange: string`
+performance: array of object {duration, entryType, name, startTime }
 
-          - `keyExchangeGroup: string`
+</summary>
 
-          - `protocol: string`
+duration: number
 
-          - `sanList: array of string`
+<a href="#">Link to this property</a>
 
-          - `serverSignatureAlgorithm: number`
+entryType: string
 
-          - `subjectName: string`
+<a href="#">Link to this property</a>
 
-          - `validFrom: number`
+name: string
 
-          - `validTo: number`
+<a href="#">Link to this property</a>
 
-        - `securityHeaders: array of object { name, value }`
+startTime: number
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `value: string`
+</details>
 
-        - `securityState: string`
+<a href="#">Link to this property</a>
 
-        - `status: number`
+<details>
 
-        - `statusText: string`
+<summary>
 
-        - `url: string`
+requests: array of object {request, response, requests }
 
-        - `headers: optional unknown`
+</summary>
 
-      - `size: number`
+<details>
 
-      - `type: string`
+<summary>
 
-      - `contentAvailable: optional boolean`
+request: object {documentURL, hasUserGesture, initiator, 9 more }
 
-      - `hash: optional string`
+</summary>
 
-    - `requests: optional array of object { documentURL, frameId, hasUserGesture, 7 more }`
+documentURL: string
 
-      - `documentURL: string`
+<a href="#">Link to this property</a>
 
-      - `frameId: string`
+hasUserGesture: boolean
 
-      - `hasUserGesture: boolean`
+<a href="#">Link to this property</a>
 
-      - `initiator: object { type }`
+<details>
 
-        - `type: string`
+<summary>
 
-      - `loaderId: string`
+initiator: object {host, type, url }
 
-      - `redirectHasExtraInfo: boolean`
+</summary>
 
-      - `request: object { headers, initialPriority, isSameSite, 4 more }`
+host: string
 
-        - `headers: object { name }`
+<a href="#">Link to this property</a>
 
-          - `name: string`
+type: string
 
-        - `initialPriority: string`
+<a href="#">Link to this property</a>
 
-        - `isSameSite: boolean`
+url: string
 
-        - `method: string`
+<a href="#">Link to this property</a>
 
-        - `mixedContentType: string`
+</details>
 
-        - `referrerPolicy: string`
+<a href="#">Link to this property</a>
 
-        - `url: string`
+redirectHasExtraInfo: boolean
 
-      - `requestId: string`
+<a href="#">Link to this property</a>
 
-      - `type: string`
+<details>
 
-      - `wallTime: number`
+<summary>
 
-- `lists: object { asns, certificates, continents, 7 more }`
+request: object {initialPriority, isSameSite, method, 4 more }
 
-  - `asns: array of string`
+</summary>
 
-  - `certificates: array of object { issuer, subjectName, validFrom, validTo }`
+initialPriority: string
 
-    - `issuer: string`
+<a href="#">Link to this property</a>
 
-    - `subjectName: string`
+isSameSite: boolean
 
-    - `validFrom: number`
+<a href="#">Link to this property</a>
 
-    - `validTo: number`
+method: string
 
-  - `continents: array of string`
+<a href="#">Link to this property</a>
 
-  - `countries: array of string`
+mixedContentType: string
 
-  - `domains: array of string`
+<a href="#">Link to this property</a>
 
-  - `hashes: array of string`
+referrerPolicy: string
 
-  - `ips: array of string`
+<a href="#">Link to this property</a>
 
-  - `linkDomains: array of string`
+url: string
 
-  - `servers: array of string`
+<a href="#">Link to this property</a>
 
-  - `urls: array of string`
+headers: optional unknown
 
-- `meta: object { processors }`
+<a href="#">Link to this property</a>
 
-  - `processors: object { asn, dns, domainCategories, 8 more }`
+</details>
 
-    - `asn: object { data }`
+<a href="#">Link to this property</a>
 
-      - `data: array of object { asn, country, description, 2 more }`
+requestId: string
 
-        - `asn: string`
+<a href="#">Link to this property</a>
 
-        - `country: string`
+type: string
 
-        - `description: string`
+<a href="#">Link to this property</a>
 
-        - `ip: string`
+wallTime: number
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-    - `dns: object { data }`
+frameId: optional string
 
-      - `data: array of object { address, dnssec_valid, name, type }`
+<a href="#">Link to this property</a>
 
-        - `address: string`
+loaderId: optional string
 
-        - `dnssec_valid: boolean`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+primaryRequest: optional boolean
 
-        - `type: string`
+<a href="#">Link to this property</a>
 
-    - `domainCategories: object { data }`
+<details>
 
-      - `data: array of object { inherited, isPrimary, name }`
+<summary>
 
-        - `inherited: unknown`
+redirectResponse: optional object {charset, mimeType, protocol, 8 more }
 
-        - `isPrimary: boolean`
+</summary>
 
-        - `name: string`
+charset: string
 
-    - `geoip: object { data }`
+<a href="#">Link to this property</a>
 
-      - `data: array of object { geoip, ip }`
+mimeType: string
 
-        - `geoip: object { city, country, country_name, 2 more }`
+<a href="#">Link to this property</a>
 
-          - `city: string`
+protocol: string
 
-          - `country: string`
+<a href="#">Link to this property</a>
 
-          - `country_name: string`
+remoteIPAddress: string
 
-          - `ll: array of number`
+<a href="#">Link to this property</a>
 
-          - `region: string`
+remotePort: number
 
-        - `ip: string`
+<a href="#">Link to this property</a>
 
-    - `phishing: object { data }`
+<details>
 
-      - `data: array of string`
+<summary>
 
-    - `radarRank: object { data }`
+securityHeaders: array of object {name, value }
 
-      - `data: array of object { bucket, hostname, rank }`
+</summary>
 
-        - `bucket: string`
+name: string
 
-        - `hostname: string`
+<a href="#">Link to this property</a>
 
-        - `rank: optional number`
+value: string
 
-    - `wappa: object { data }`
+<a href="#">Link to this property</a>
 
-      - `data: array of object { app, categories, confidence, 3 more }`
+</details>
 
-        - `app: string`
+<a href="#">Link to this property</a>
 
-        - `categories: array of object { name, priority }`
+securityState: string
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `priority: number`
+status: number
 
-        - `confidence: array of object { confidence, name, pattern, patternType }`
+<a href="#">Link to this property</a>
 
-          - `confidence: number`
+statusText: string
 
-          - `name: string`
+<a href="#">Link to this property</a>
 
-          - `pattern: string`
+url: string
 
-          - `patternType: string`
+<a href="#">Link to this property</a>
 
-        - `confidenceTotal: number`
+headers: optional unknown
 
-        - `icon: string`
+<a href="#">Link to this property</a>
 
-        - `website: string`
+</details>
 
-    - `agentReadiness: optional object { checks, level, levelName, 3 more }`
+<a href="#">Link to this property</a>
 
-      - `checks: object { botAccessControl, commerce, contentAccessibility, 2 more }`
+</details>
 
-        - `botAccessControl: object { contentSignals, robotsTxtAiRules, webBotAuth }`
+<a href="#">Link to this property</a>
 
-          - `contentSignals: object { status, details, durationMs, 2 more }`
+<details>
 
-            - `status: string`
+<summary>
 
-            - `details: optional unknown`
+response: object {asn, dataLength, encodedDataLength, 8 more }
 
-            - `durationMs: optional number`
+</summary>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<details>
 
-              - `action: string`
+<summary>
 
-              - `label: string`
+asn: object {asn, country, description, 3 more }
 
-              - `finding: optional object { outcome, summary }`
+</summary>
 
-                - `outcome: string`
+asn: string
 
-                - `summary: string`
+<a href="#">Link to this property</a>
 
-              - `request: optional object { method, url, headers }`
+country: string
 
-                - `method: string`
+<a href="#">Link to this property</a>
 
-                - `url: string`
+description: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+ip: string
 
-                - `status: number`
+<a href="#">Link to this property</a>
 
-                - `statusText: string`
+name: string
 
-                - `bodyPreview: optional string`
+<a href="#">Link to this property</a>
 
-                - `bodySize: optional number`
+org: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-                - `redirectedTo: optional string`
+</details>
 
-            - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `robotsTxtAiRules: object { status, details, durationMs, 2 more }`
+dataLength: number
 
-            - `status: string`
+<a href="#">Link to this property</a>
 
-            - `details: optional unknown`
+encodedDataLength: number
 
-            - `durationMs: optional number`
+<a href="#">Link to this property</a>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<details>
 
-              - `action: string`
+<summary>
 
-              - `label: string`
+geoip: object {city, country, country\_name, 3 more }
 
-              - `finding: optional object { outcome, summary }`
+</summary>
 
-                - `outcome: string`
+city: string
 
-                - `summary: string`
+<a href="#">Link to this property</a>
 
-              - `request: optional object { method, url, headers }`
+country: string
 
-                - `method: string`
+<a href="#">Link to this property</a>
 
-                - `url: string`
+country\_name: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+geonameId: string
 
-                - `status: number`
+<a href="#">Link to this property</a>
 
-                - `statusText: string`
+ll: array of number
 
-                - `bodyPreview: optional string`
+<a href="#">Link to this property</a>
 
-                - `bodySize: optional number`
+region: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-                - `redirectedTo: optional string`
+</details>
 
-            - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `webBotAuth: object { status, details, durationMs, 2 more }`
+hasExtraInfo: boolean
 
-            - `status: string`
+<a href="#">Link to this property</a>
 
-            - `details: optional unknown`
+requestId: string
 
-            - `durationMs: optional number`
+<a href="#">Link to this property</a>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<details>
 
-              - `action: string`
+<summary>
 
-              - `label: string`
+response: object {charset, mimeType, protocol, 9 more }
 
-              - `finding: optional object { outcome, summary }`
+</summary>
 
-                - `outcome: string`
+charset: string
 
-                - `summary: string`
+<a href="#">Link to this property</a>
 
-              - `request: optional object { method, url, headers }`
+mimeType: string
 
-                - `method: string`
+<a href="#">Link to this property</a>
 
-                - `url: string`
+protocol: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+remoteIPAddress: string
 
-                - `status: number`
+<a href="#">Link to this property</a>
 
-                - `statusText: string`
+remotePort: number
 
-                - `bodyPreview: optional string`
+<a href="#">Link to this property</a>
 
-                - `bodySize: optional number`
+<details>
 
-                - `headers: optional unknown`
+<summary>
 
-                - `redirectedTo: optional string`
+securityDetails: object {certificateId, certificateTransparencyCompliance, cipher, 10 more }
 
-            - `message: optional string`
+</summary>
 
-        - `commerce: object { acp, ap2, mpp, 2 more }`
+certificateId: number
 
-          - `acp: object { status, details, durationMs, 2 more }`
+<a href="#">Link to this property</a>
 
-            - `status: string`
+certificateTransparencyCompliance: string
 
-            - `details: optional unknown`
+<a href="#">Link to this property</a>
 
-            - `durationMs: optional number`
+cipher: string
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `action: string`
+encryptedClientHello: boolean
 
-              - `label: string`
+<a href="#">Link to this property</a>
 
-              - `finding: optional object { outcome, summary }`
+issuer: string
 
-                - `outcome: string`
+<a href="#">Link to this property</a>
 
-                - `summary: string`
+keyExchange: string
 
-              - `request: optional object { method, url, headers }`
+<a href="#">Link to this property</a>
 
-                - `method: string`
+keyExchangeGroup: string
 
-                - `url: string`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+protocol: string
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<a href="#">Link to this property</a>
 
-                - `status: number`
+sanList: array of string
 
-                - `statusText: string`
+<a href="#">Link to this property</a>
 
-                - `bodyPreview: optional string`
+serverSignatureAlgorithm: number
 
-                - `bodySize: optional number`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+subjectName: string
 
-                - `redirectedTo: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+validFrom: number
 
-          - `ap2: object { status, details, durationMs, 2 more }`
+<a href="#">Link to this property</a>
 
-            - `status: string`
+validTo: number
 
-            - `details: optional unknown`
+<a href="#">Link to this property</a>
 
-            - `durationMs: optional number`
+</details>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `action: string`
+<details>
 
-              - `label: string`
+<summary>
 
-              - `finding: optional object { outcome, summary }`
+securityHeaders: array of object {name, value }
 
-                - `outcome: string`
+</summary>
 
-                - `summary: string`
+name: string
 
-              - `request: optional object { method, url, headers }`
+<a href="#">Link to this property</a>
 
-                - `method: string`
+value: string
 
-                - `url: string`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+</details>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<a href="#">Link to this property</a>
 
-                - `status: number`
+securityState: string
 
-                - `statusText: string`
+<a href="#">Link to this property</a>
 
-                - `bodyPreview: optional string`
+status: number
 
-                - `bodySize: optional number`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+statusText: string
 
-                - `redirectedTo: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+url: string
 
-          - `mpp: object { status, details, durationMs, 2 more }`
+<a href="#">Link to this property</a>
 
-            - `status: string`
+headers: optional unknown
 
-            - `details: optional unknown`
+<a href="#">Link to this property</a>
 
-            - `durationMs: optional number`
+</details>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `action: string`
+size: number
 
-              - `label: string`
+<a href="#">Link to this property</a>
 
-              - `finding: optional object { outcome, summary }`
+type: string
 
-                - `outcome: string`
+<a href="#">Link to this property</a>
 
-                - `summary: string`
+contentAvailable: optional boolean
 
-              - `request: optional object { method, url, headers }`
+<a href="#">Link to this property</a>
 
-                - `method: string`
+hash: optional string
 
-                - `url: string`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+</details>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<a href="#">Link to this property</a>
 
-                - `status: number`
+<details>
 
-                - `statusText: string`
+<summary>
 
-                - `bodyPreview: optional string`
+requests: optional array of object {documentURL, frameId, hasUserGesture, 7 more }
 
-                - `bodySize: optional number`
+</summary>
 
-                - `headers: optional unknown`
+documentURL: string
 
-                - `redirectedTo: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+frameId: string
 
-          - `ucp: object { status, details, durationMs, 2 more }`
+<a href="#">Link to this property</a>
 
-            - `status: string`
+hasUserGesture: boolean
 
-            - `details: optional unknown`
+<a href="#">Link to this property</a>
 
-            - `durationMs: optional number`
+<details>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<summary>
 
-              - `action: string`
+initiator: object {type }
 
-              - `label: string`
+</summary>
 
-              - `finding: optional object { outcome, summary }`
+type: string
 
-                - `outcome: string`
+<a href="#">Link to this property</a>
 
-                - `summary: string`
+</details>
 
-              - `request: optional object { method, url, headers }`
+<a href="#">Link to this property</a>
 
-                - `method: string`
+loaderId: string
 
-                - `url: string`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+redirectHasExtraInfo: boolean
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<a href="#">Link to this property</a>
 
-                - `status: number`
+<details>
 
-                - `statusText: string`
+<summary>
 
-                - `bodyPreview: optional string`
+request: object {headers, initialPriority, isSameSite, 4 more }
 
-                - `bodySize: optional number`
+</summary>
 
-                - `headers: optional unknown`
+<details>
 
-                - `redirectedTo: optional string`
+<summary>
 
-            - `message: optional string`
+headers: object {name }
 
-          - `x402: object { status, details, durationMs, 2 more }`
+</summary>
 
-            - `status: string`
+name: string
 
-            - `details: optional unknown`
+<a href="#">Link to this property</a>
 
-            - `durationMs: optional number`
+</details>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `action: string`
+initialPriority: string
 
-              - `label: string`
+<a href="#">Link to this property</a>
 
-              - `finding: optional object { outcome, summary }`
+isSameSite: boolean
 
-                - `outcome: string`
+<a href="#">Link to this property</a>
 
-                - `summary: string`
+method: string
 
-              - `request: optional object { method, url, headers }`
+<a href="#">Link to this property</a>
 
-                - `method: string`
+mixedContentType: string
 
-                - `url: string`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+referrerPolicy: string
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<a href="#">Link to this property</a>
 
-                - `status: number`
+url: string
 
-                - `statusText: string`
+<a href="#">Link to this property</a>
 
-                - `bodyPreview: optional string`
+</details>
 
-                - `bodySize: optional number`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+requestId: string
 
-                - `redirectedTo: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+type: string
 
-        - `contentAccessibility: object { markdownNegotiation }`
+<a href="#">Link to this property</a>
 
-          - `markdownNegotiation: object { status, details, durationMs, 2 more }`
+wallTime: number
 
-            - `status: string`
+<a href="#">Link to this property</a>
 
-            - `details: optional unknown`
+</details>
 
-            - `durationMs: optional number`
+<a href="#">Link to this property</a>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+</details>
 
-              - `action: string`
+<a href="#">Link to this property</a>
 
-              - `label: string`
+</details>
 
-              - `finding: optional object { outcome, summary }`
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_get_response%20%3E%20(schema)%20%3E%20(property)%20data>)
 
-                - `outcome: string`
+<details>
 
-                - `summary: string`
+<summary>
 
-              - `request: optional object { method, url, headers }`
+lists: object {asns, certificates, continents, 7 more }
 
-                - `method: string`
+</summary>
 
-                - `url: string`
+asns: array of string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<details>
 
-                - `status: number`
+<summary>
 
-                - `statusText: string`
+certificates: array of object {issuer, subjectName, validFrom, validTo }
 
-                - `bodyPreview: optional string`
+</summary>
 
-                - `bodySize: optional number`
+issuer: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-                - `redirectedTo: optional string`
+subjectName: string
 
-            - `message: optional string`
+<a href="#">Link to this property</a>
 
-        - `discoverability: object { linkHeaders, robotsTxt, sitemap }`
+validFrom: number
 
-          - `linkHeaders: object { status, details, durationMs, 2 more }`
+<a href="#">Link to this property</a>
 
-            - `status: string`
+validTo: number
 
-            - `details: optional unknown`
+<a href="#">Link to this property</a>
 
-            - `durationMs: optional number`
+</details>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `action: string`
+continents: array of string
 
-              - `label: string`
+<a href="#">Link to this property</a>
 
-              - `finding: optional object { outcome, summary }`
+countries: array of string
 
-                - `outcome: string`
+<a href="#">Link to this property</a>
 
-                - `summary: string`
+domains: array of string
 
-              - `request: optional object { method, url, headers }`
+<a href="#">Link to this property</a>
 
-                - `method: string`
+hashes: array of string
 
-                - `url: string`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+ips: array of string
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<a href="#">Link to this property</a>
 
-                - `status: number`
+linkDomains: array of string
 
-                - `statusText: string`
+<a href="#">Link to this property</a>
 
-                - `bodyPreview: optional string`
+servers: array of string
 
-                - `bodySize: optional number`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+urls: array of string
 
-                - `redirectedTo: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+</details>
 
-          - `robotsTxt: object { status, details, durationMs, 2 more }`
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_get_response%20%3E%20(schema)%20%3E%20(property)%20lists>)
 
-            - `status: string`
+<details>
 
-            - `details: optional unknown`
+<summary>
 
-            - `durationMs: optional number`
+meta: object {processors }
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+</summary>
 
-              - `action: string`
+<details>
 
-              - `label: string`
+<summary>
 
-              - `finding: optional object { outcome, summary }`
+processors: object {asn, dns, domainCategories, 8 more }
 
-                - `outcome: string`
+</summary>
 
-                - `summary: string`
+<details>
 
-              - `request: optional object { method, url, headers }`
+<summary>
 
-                - `method: string`
+asn: object {data }
 
-                - `url: string`
+</summary>
 
-                - `headers: optional unknown`
+<details>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<summary>
 
-                - `status: number`
+data: array of object {asn, country, description, 2 more }
 
-                - `statusText: string`
+</summary>
 
-                - `bodyPreview: optional string`
+asn: string
 
-                - `bodySize: optional number`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+country: string
 
-                - `redirectedTo: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+description: string
 
-          - `sitemap: object { status, details, durationMs, 2 more }`
+<a href="#">Link to this property</a>
 
-            - `status: string`
+ip: string
 
-            - `details: optional unknown`
+<a href="#">Link to this property</a>
 
-            - `durationMs: optional number`
+name: string
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `action: string`
+</details>
 
-              - `label: string`
+<a href="#">Link to this property</a>
 
-              - `finding: optional object { outcome, summary }`
+</details>
 
-                - `outcome: string`
+<a href="#">Link to this property</a>
 
-                - `summary: string`
+<details>
 
-              - `request: optional object { method, url, headers }`
+<summary>
 
-                - `method: string`
+dns: object {data }
 
-                - `url: string`
+</summary>
 
-                - `headers: optional unknown`
+<details>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<summary>
 
-                - `status: number`
+data: array of object {address, dnssec\_valid, name, type }
 
-                - `statusText: string`
+</summary>
 
-                - `bodyPreview: optional string`
+address: string
 
-                - `bodySize: optional number`
+<a href="#">Link to this property</a>
 
-                - `headers: optional unknown`
+dnssec\_valid: boolean
 
-                - `redirectedTo: optional string`
+<a href="#">Link to this property</a>
 
-            - `message: optional string`
+name: string
 
-        - `discovery: object { a2aAgentCard, agentSkills, apiCatalog, 4 more }`
+<a href="#">Link to this property</a>
 
-          - `a2aAgentCard: object { status, details, durationMs, 2 more }`
+type: string
 
-            - `status: string`
+<a href="#">Link to this property</a>
 
-            - `details: optional unknown`
+</details>
 
-            - `durationMs: optional number`
+<a href="#">Link to this property</a>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+</details>
 
-              - `action: string`
+<a href="#">Link to this property</a>
 
-              - `label: string`
+<details>
 
-              - `finding: optional object { outcome, summary }`
+<summary>
 
-                - `outcome: string`
+domainCategories: object {data }
 
-                - `summary: string`
+</summary>
 
-              - `request: optional object { method, url, headers }`
+<details>
 
-                - `method: string`
+<summary>
 
-                - `url: string`
+data: array of object {inherited, isPrimary, name }
 
-                - `headers: optional unknown`
+</summary>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+inherited: unknown
 
-                - `status: number`
+<a href="#">Link to this property</a>
 
-                - `statusText: string`
+isPrimary: boolean
 
-                - `bodyPreview: optional string`
+<a href="#">Link to this property</a>
 
-                - `bodySize: optional number`
+name: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-                - `redirectedTo: optional string`
+</details>
 
-            - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `agentSkills: object { status, details, durationMs, 2 more }`
+</details>
 
-            - `status: string`
+<a href="#">Link to this property</a>
 
-            - `details: optional unknown`
+<details>
 
-            - `durationMs: optional number`
+<summary>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+geoip: object {data }
 
-              - `action: string`
+</summary>
 
-              - `label: string`
+<details>
 
-              - `finding: optional object { outcome, summary }`
+<summary>
 
-                - `outcome: string`
+data: array of object {geoip, ip }
 
-                - `summary: string`
+</summary>
 
-              - `request: optional object { method, url, headers }`
+<details>
 
-                - `method: string`
+<summary>
 
-                - `url: string`
+geoip: object {city, country, country\_name, 2 more }
 
-                - `headers: optional unknown`
+</summary>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+city: string
 
-                - `status: number`
+<a href="#">Link to this property</a>
 
-                - `statusText: string`
+country: string
 
-                - `bodyPreview: optional string`
+<a href="#">Link to this property</a>
 
-                - `bodySize: optional number`
+country\_name: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-                - `redirectedTo: optional string`
+ll: array of number
 
-            - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `apiCatalog: object { status, details, durationMs, 2 more }`
+region: string
 
-            - `status: string`
+<a href="#">Link to this property</a>
 
-            - `details: optional unknown`
+</details>
 
-            - `durationMs: optional number`
+<a href="#">Link to this property</a>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+ip: string
 
-              - `action: string`
+<a href="#">Link to this property</a>
 
-              - `label: string`
+</details>
 
-              - `finding: optional object { outcome, summary }`
+<a href="#">Link to this property</a>
 
-                - `outcome: string`
+</details>
 
-                - `summary: string`
+<a href="#">Link to this property</a>
 
-              - `request: optional object { method, url, headers }`
+<details>
 
-                - `method: string`
+<summary>
 
-                - `url: string`
+phishing: object {data }
 
-                - `headers: optional unknown`
+</summary>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+data: array of string
 
-                - `status: number`
+<a href="#">Link to this property</a>
 
-                - `statusText: string`
+</details>
 
-                - `bodyPreview: optional string`
+<a href="#">Link to this property</a>
 
-                - `bodySize: optional number`
+<details>
 
-                - `headers: optional unknown`
+<summary>
 
-                - `redirectedTo: optional string`
+radarRank: object {data }
 
-            - `message: optional string`
+</summary>
 
-          - `mcpServerCard: object { status, details, durationMs, 2 more }`
+<details>
 
-            - `status: string`
+<summary>
 
-            - `details: optional unknown`
+data: array of object {bucket, hostname, rank }
 
-            - `durationMs: optional number`
+</summary>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+bucket: string
 
-              - `action: string`
+<a href="#">Link to this property</a>
 
-              - `label: string`
+hostname: string
 
-              - `finding: optional object { outcome, summary }`
+<a href="#">Link to this property</a>
 
-                - `outcome: string`
+rank: optional number
 
-                - `summary: string`
+<a href="#">Link to this property</a>
 
-              - `request: optional object { method, url, headers }`
+</details>
 
-                - `method: string`
+<a href="#">Link to this property</a>
 
-                - `url: string`
+</details>
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<details>
 
-                - `status: number`
+<summary>
 
-                - `statusText: string`
+wappa: object {data }
 
-                - `bodyPreview: optional string`
+</summary>
 
-                - `bodySize: optional number`
+<details>
 
-                - `headers: optional unknown`
+<summary>
 
-                - `redirectedTo: optional string`
+data: array of object {app, categories, confidence, 3 more }
 
-            - `message: optional string`
+</summary>
 
-          - `oauthDiscovery: object { status, details, durationMs, 2 more }`
+app: string
 
-            - `status: string`
+<a href="#">Link to this property</a>
 
-            - `details: optional unknown`
+<details>
 
-            - `durationMs: optional number`
+<summary>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+categories: array of object {name, priority }
 
-              - `action: string`
+</summary>
 
-              - `label: string`
+name: string
 
-              - `finding: optional object { outcome, summary }`
+<a href="#">Link to this property</a>
 
-                - `outcome: string`
+priority: number
 
-                - `summary: string`
+<a href="#">Link to this property</a>
 
-              - `request: optional object { method, url, headers }`
+</details>
 
-                - `method: string`
+<a href="#">Link to this property</a>
 
-                - `url: string`
+<details>
 
-                - `headers: optional unknown`
+<summary>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+confidence: array of object {confidence, name, pattern, patternType }
 
-                - `status: number`
+</summary>
 
-                - `statusText: string`
+confidence: number
 
-                - `bodyPreview: optional string`
+<a href="#">Link to this property</a>
 
-                - `bodySize: optional number`
+name: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-                - `redirectedTo: optional string`
+pattern: string
 
-            - `message: optional string`
+<a href="#">Link to this property</a>
 
-          - `oauthProtectedResource: object { status, details, durationMs, 2 more }`
+patternType: string
 
-            - `status: string`
+<a href="#">Link to this property</a>
 
-            - `details: optional unknown`
+</details>
 
-            - `durationMs: optional number`
+<a href="#">Link to this property</a>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+confidenceTotal: number
 
-              - `action: string`
+<a href="#">Link to this property</a>
 
-              - `label: string`
+icon: string
 
-              - `finding: optional object { outcome, summary }`
+<a href="#">Link to this property</a>
 
-                - `outcome: string`
+website: string
 
-                - `summary: string`
+<a href="#">Link to this property</a>
 
-              - `request: optional object { method, url, headers }`
+</details>
 
-                - `method: string`
+<a href="#">Link to this property</a>
 
-                - `url: string`
+</details>
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<details>
 
-                - `status: number`
+<summary>
 
-                - `statusText: string`
+agentReadiness: optional object {checks, level, levelName, 3 more }
 
-                - `bodyPreview: optional string`
+</summary>
 
-                - `bodySize: optional number`
+<details>
 
-                - `headers: optional unknown`
+<summary>
 
-                - `redirectedTo: optional string`
+checks: object {botAccessControl, commerce, contentAccessibility, 2 more }
 
-            - `message: optional string`
+</summary>
 
-          - `webMcp: object { status, details, durationMs, 2 more }`
+<details>
 
-            - `status: string`
+<summary>
 
-            - `details: optional unknown`
+botAccessControl: object {contentSignals, robotsTxtAiRules, webBotAuth }
 
-            - `durationMs: optional number`
+</summary>
 
-            - `evidence: optional array of object { action, label, finding, 2 more }`
+<details>
 
-              - `action: string`
+<summary>
 
-              - `label: string`
+contentSignals: object {status, details, durationMs, 2 more }
 
-              - `finding: optional object { outcome, summary }`
+</summary>
 
-                - `outcome: string`
+status: string
 
-                - `summary: string`
+<a href="#">Link to this property</a>
 
-              - `request: optional object { method, url, headers }`
+details: optional unknown
 
-                - `method: string`
+<a href="#">Link to this property</a>
 
-                - `url: string`
+durationMs: optional number
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-              - `response: optional object { status, statusText, bodyPreview, 3 more }`
+<details>
 
-                - `status: number`
+<summary>
 
-                - `statusText: string`
+evidence: optional array of object {action, label, finding, 2 more }
 
-                - `bodyPreview: optional string`
+</summary>
 
-                - `bodySize: optional number`
+action: string
 
-                - `headers: optional unknown`
+<a href="#">Link to this property</a>
 
-                - `redirectedTo: optional string`
+label: string
 
-            - `message: optional string`
+<a href="#">Link to this property</a>
 
-      - `level: number`
+<details>
 
-      - `levelName: string`
+<summary>
 
-      - `commerceSignals: optional array of string`
+finding: optional object {outcome, summary }
 
-      - `isCommerce: optional boolean`
+</summary>
 
-      - `nextLevel: optional object { name, requirements, target }`
+outcome: string
 
-        - `name: string`
+<a href="#">Link to this property</a>
 
-        - `requirements: array of object { check, description, prompt, 2 more }`
+summary: string
 
-          - `check: string`
+<a href="#">Link to this property</a>
 
-          - `description: string`
+</details>
 
-          - `prompt: string`
+<a href="#">Link to this property</a>
 
-          - `skillUrl: string`
+<details>
 
-          - `specUrls: array of string`
+<summary>
 
-        - `target: number`
+request: optional object {method, url, headers }
 
-    - `phishing_v2: optional object { data }`
+</summary>
 
-      - `data: array of string`
+method: string
 
-    - `robotsTxt: optional object { data }`
+<a href="#">Link to this property</a>
 
-      - `data: array of object { rules, sitemaps, hash }`
+url: string
 
-        - `rules: object { "*" }`
+<a href="#">Link to this property</a>
 
-          - `"*": object { allow, disallow, contentSignal, crawlDelay }`
+headers: optional unknown
 
-            - `allow: array of string`
+<a href="#">Link to this property</a>
 
-            - `disallow: array of string`
+</details>
 
-            - `contentSignal: optional object { "ai-input", "ai-train", search }`
+<a href="#">Link to this property</a>
 
-              - `"ai-input": optional string`
+<details>
 
-              - `"ai-train": optional string`
+<summary>
 
-              - `search: optional string`
+response: optional object {status, statusText, bodyPreview, 3 more }
 
-            - `crawlDelay: optional number`
+</summary>
 
-        - `sitemaps: array of string`
+status: number
 
-        - `hash: optional string`
+<a href="#">Link to this property</a>
 
-    - `urlCategories: optional object { data }`
+statusText: string
 
-      - `data: array of object { content, inherited, name, risks }`
+<a href="#">Link to this property</a>
 
-        - `content: array of object { id, name, super_category_id }`
+bodyPreview: optional string
 
-          - `id: number`
+<a href="#">Link to this property</a>
 
-          - `name: string`
+bodySize: optional number
 
-          - `super_category_id: number`
+<a href="#">Link to this property</a>
 
-        - `inherited: object { content, from, risks }`
+headers: optional unknown
 
-          - `content: array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-            - `id: number`
+redirectedTo: optional string
 
-            - `name: string`
+<a href="#">Link to this property</a>
 
-            - `super_category_id: number`
+</details>
 
-          - `from: string`
+<a href="#">Link to this property</a>
 
-          - `risks: array of object { id, name, super_category_id }`
+</details>
 
-            - `id: number`
+<a href="#">Link to this property</a>
 
-            - `name: string`
+message: optional string
 
-            - `super_category_id: number`
+<a href="#">Link to this property</a>
 
-        - `name: string`
+</details>
 
-        - `risks: array of object { id, name, super_category_id }`
+<a href="#">Link to this property</a>
 
-          - `id: number`
+<details>
 
-          - `name: string`
+<summary>
 
-          - `super_category_id: number`
+robotsTxtAiRules: object {status, details, durationMs, 2 more }
 
-- `page: object { apexDomain, asn, asnname, 14 more }`
+</summary>
 
-  - `apexDomain: string`
+status: string
 
-  - `asn: string`
+<a href="#">Link to this property</a>
 
-  - `asnname: string`
+details: optional unknown
 
-  - `city: string`
+<a href="#">Link to this property</a>
 
-  - `country: string`
+durationMs: optional number
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-  - `ip: string`
+<details>
 
-  - `mimeType: string`
+<summary>
 
-  - `server: string`
+evidence: optional array of object {action, label, finding, 2 more }
 
-  - `status: string`
+</summary>
 
-  - `title: string`
+action: string
 
-  - `tlsAgeDays: number`
+<a href="#">Link to this property</a>
 
-  - `tlsIssuer: string`
+label: string
 
-  - `tlsValidDays: number`
+<a href="#">Link to this property</a>
 
-  - `tlsValidFrom: string`
+<details>
 
-  - `url: string`
+<summary>
 
-  - `screenshot: optional object { dhash, mm3Hash, name, phash }`
+finding: optional object {outcome, summary }
 
-    - `dhash: string`
+</summary>
 
-    - `mm3Hash: number`
+outcome: string
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `phash: string`
+summary: string
 
-- `scanner: object { colo, country }`
+<a href="#">Link to this property</a>
 
-  - `colo: string`
+</details>
 
-  - `country: string`
+<a href="#">Link to this property</a>
 
-- `stats: object { domainStats, ipStats, IPv6Percentage, 10 more }`
+<details>
 
-  - `domainStats: array of object { count, countries, domain, 6 more }`
+<summary>
 
-    - `count: number`
+request: optional object {method, url, headers }
 
-    - `countries: array of string`
+</summary>
 
-    - `domain: string`
+method: string
 
-    - `encodedSize: number`
+<a href="#">Link to this property</a>
 
-    - `index: number`
+url: string
 
-    - `initiators: array of string`
+<a href="#">Link to this property</a>
 
-    - `ips: array of string`
+headers: optional unknown
 
-    - `redirects: number`
+<a href="#">Link to this property</a>
 
-    - `size: number`
+</details>
 
-  - `ipStats: array of object { asn, countries, domains, 9 more }`
+<a href="#">Link to this property</a>
 
-    - `asn: object { asn, country, description, 3 more }`
+<details>
 
-      - `asn: string`
+<summary>
 
-      - `country: string`
+response: optional object {status, statusText, bodyPreview, 3 more }
 
-      - `description: string`
+</summary>
 
-      - `ip: string`
+status: number
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-      - `org: string`
+statusText: string
 
-    - `countries: array of string`
+<a href="#">Link to this property</a>
 
-    - `domains: array of string`
+bodyPreview: optional string
 
-    - `encodedSize: number`
+<a href="#">Link to this property</a>
 
-    - `geoip: object { city, country, country_name, 2 more }`
+bodySize: optional number
 
-      - `city: string`
+<a href="#">Link to this property</a>
 
-      - `country: string`
+headers: optional unknown
 
-      - `country_name: string`
+<a href="#">Link to this property</a>
 
-      - `ll: array of number`
+redirectedTo: optional string
 
-      - `region: string`
+<a href="#">Link to this property</a>
 
-    - `index: number`
+</details>
 
-    - `ip: string`
+<a href="#">Link to this property</a>
 
-    - `ipv6: boolean`
+</details>
 
-    - `redirects: number`
+<a href="#">Link to this property</a>
 
-    - `requests: number`
+message: optional string
 
-    - `size: number`
+<a href="#">Link to this property</a>
 
-    - `count: optional number`
+</details>
 
-  - `IPv6Percentage: number`
+<a href="#">Link to this property</a>
 
-  - `malicious: number`
+<details>
 
-  - `protocolStats: array of object { count, countries, encodedSize, 3 more }`
+<summary>
 
-    - `count: number`
+webBotAuth: object {status, details, durationMs, 2 more }
 
-    - `countries: array of string`
+</summary>
 
-    - `encodedSize: number`
+status: string
 
-    - `ips: array of string`
+<a href="#">Link to this property</a>
 
-    - `protocol: string`
+details: optional unknown
 
-    - `size: number`
+<a href="#">Link to this property</a>
 
-  - `resourceStats: array of object { compression, count, countries, 5 more }`
+durationMs: optional number
 
-    - `compression: number`
+<a href="#">Link to this property</a>
 
-    - `count: number`
+<details>
 
-    - `countries: array of string`
+<summary>
 
-    - `encodedSize: number`
+evidence: optional array of object {action, label, finding, 2 more }
 
-    - `ips: array of string`
+</summary>
 
-    - `percentage: number`
+action: string
 
-    - `size: number`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+label: string
 
-  - `securePercentage: number`
+<a href="#">Link to this property</a>
 
-  - `secureRequests: number`
+<details>
 
-  - `serverStats: array of object { count, countries, encodedSize, 3 more }`
+<summary>
 
-    - `count: number`
+finding: optional object {outcome, summary }
 
-    - `countries: array of string`
+</summary>
 
-    - `encodedSize: number`
+outcome: string
 
-    - `ips: array of string`
+<a href="#">Link to this property</a>
 
-    - `server: string`
+summary: string
 
-    - `size: number`
+<a href="#">Link to this property</a>
 
-  - `tlsStats: array of object { count, countries, encodedSize, 4 more }`
+</details>
 
-    - `count: number`
+<a href="#">Link to this property</a>
 
-    - `countries: array of string`
+<details>
 
-    - `encodedSize: number`
+<summary>
 
-    - `ips: array of string`
+request: optional object {method, url, headers }
 
-    - `protocols: object { "TLS 1.3 / AES_128_GCM" }`
+</summary>
 
-      - `"TLS 1.3 / AES_128_GCM": number`
+method: string
 
-    - `securityState: string`
+<a href="#">Link to this property</a>
 
-    - `size: number`
+url: string
 
-  - `totalLinks: number`
+<a href="#">Link to this property</a>
 
-  - `uniqASNs: number`
+headers: optional unknown
 
-  - `uniqCountries: number`
+<a href="#">Link to this property</a>
 
-- `task: object { apexDomain, domain, domURL, 10 more }`
+</details>
 
-  - `apexDomain: string`
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+<details>
 
-  - `domURL: string`
+<summary>
 
-  - `method: string`
+response: optional object {status, statusText, bodyPreview, 3 more }
 
-  - `options: object { customHeaders, screenshotsResolutions }`
+</summary>
 
-    - `customHeaders: optional unknown`
+status: number
 
-      Custom headers set.
+<a href="#">Link to this property</a>
 
-    - `screenshotsResolutions: optional array of string`
+statusText: string
 
-  - `reportURL: string`
+<a href="#">Link to this property</a>
 
-  - `screenshotURL: string`
+bodyPreview: optional string
 
-  - `source: string`
+<a href="#">Link to this property</a>
 
-  - `success: boolean`
+bodySize: optional number
 
-  - `time: string`
+<a href="#">Link to this property</a>
 
-  - `url: string`
+headers: optional unknown
 
-  - `uuid: string`
+<a href="#">Link to this property</a>
 
-  - `visibility: string`
+redirectedTo: optional string
 
-- `verdicts: object { overall }`
+<a href="#">Link to this property</a>
 
-  - `overall: object { categories, hasVerdicts, malicious, tags }`
+</details>
 
-    - `categories: array of string`
+<a href="#">Link to this property</a>
 
-    - `hasVerdicts: boolean`
+</details>
 
-    - `malicious: boolean`
+<a href="#">Link to this property</a>
 
-    - `tags: array of string`
+message: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+commerce: object {acp, ap2, mpp, 2 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+acp: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ap2: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mpp: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ucp: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+x402: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+contentAccessibility: object {markdownNegotiation }
+
+</summary>
+
+<details>
+
+<summary>
+
+markdownNegotiation: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+discoverability: object {dnsAid, linkHeaders, robotsTxt, sitemap }
+
+</summary>
+
+<details>
+
+<summary>
+
+dnsAid: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+linkHeaders: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+robotsTxt: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sitemap: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+discovery: object {a2aAgentCard, agentSkills, apiCatalog, 6 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+a2aAgentCard: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+agentSkills: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+apiCatalog: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ard: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authMd: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mcpServerCard: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+oauthDiscovery: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+oauthProtectedResource: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+webMcp: object {status, details, durationMs, 2 more }
+
+</summary>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+details: optional unknown
+
+<a href="#">Link to this property</a>
+
+durationMs: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+evidence: optional array of object {action, label, finding, 2 more }
+
+</summary>
+
+action: string
+
+<a href="#">Link to this property</a>
+
+label: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+finding: optional object {outcome, summary }
+
+</summary>
+
+outcome: string
+
+<a href="#">Link to this property</a>
+
+summary: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+request: optional object {method, url, headers }
+
+</summary>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+response: optional object {status, statusText, bodyPreview, 3 more }
+
+</summary>
+
+status: number
+
+<a href="#">Link to this property</a>
+
+statusText: string
+
+<a href="#">Link to this property</a>
+
+bodyPreview: optional string
+
+<a href="#">Link to this property</a>
+
+bodySize: optional number
+
+<a href="#">Link to this property</a>
+
+headers: optional unknown
+
+<a href="#">Link to this property</a>
+
+redirectedTo: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+level: number
+
+<a href="#">Link to this property</a>
+
+levelName: string
+
+<a href="#">Link to this property</a>
+
+commerceSignals: optional array of string
+
+<a href="#">Link to this property</a>
+
+isCommerce: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+nextLevel: optional object {name, requirements, target }
+
+</summary>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+requirements: array of object {check, description, prompt, 2 more }
+
+</summary>
+
+check: string
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+prompt: string
+
+<a href="#">Link to this property</a>
+
+skillUrl: string
+
+<a href="#">Link to this property</a>
+
+specUrls: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+target: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+phishing\_v2: optional object {data }
+
+</summary>
+
+data: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+robotsTxt: optional object {data }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: array of object {rules, sitemaps, hash }
+
+</summary>
+
+<details>
+
+<summary>
+
+rules: object {"\*" }
+
+</summary>
+
+<details>
+
+<summary>
+
+"\*": object {allow, disallow, contentSignal, crawlDelay }
+
+</summary>
+
+allow: array of string
+
+<a href="#">Link to this property</a>
+
+disallow: array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+contentSignal: optional object {"ai-input", "ai-train", search }
+
+</summary>
+
+"ai-input": optional string
+
+<a href="#">Link to this property</a>
+
+"ai-train": optional string
+
+<a href="#">Link to this property</a>
+
+search: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+crawlDelay: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+sitemaps: array of string
+
+<a href="#">Link to this property</a>
+
+hash: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+urlCategories: optional object {data }
+
+</summary>
+
+<details>
+
+<summary>
+
+data: array of object {content, inherited, name, risks }
+
+</summary>
+
+<details>
+
+<summary>
+
+content: array of object {id, name, super\_category\_id }
+
+</summary>
+
+id: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+super\_category\_id: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inherited: object {content, from, risks }
+
+</summary>
+
+<details>
+
+<summary>
+
+content: array of object {id, name, super\_category\_id }
+
+</summary>
+
+id: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+super\_category\_id: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+from: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+risks: array of object {id, name, super\_category\_id }
+
+</summary>
+
+id: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+super\_category\_id: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+risks: array of object {id, name, super\_category\_id }
+
+</summary>
+
+id: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+super\_category\_id: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_get_response%20%3E%20(schema)%20%3E%20(property)%20meta>)
+
+<details>
+
+<summary>
+
+page: object {apexDomain, asn, asnname, 14 more }
+
+</summary>
+
+apexDomain: string
+
+<a href="#">Link to this property</a>
+
+asn: string
+
+<a href="#">Link to this property</a>
+
+asnname: string
+
+<a href="#">Link to this property</a>
+
+city: string
+
+<a href="#">Link to this property</a>
+
+country: string
+
+<a href="#">Link to this property</a>
+
+domain: string
+
+<a href="#">Link to this property</a>
+
+ip: string
+
+<a href="#">Link to this property</a>
+
+mimeType: string
+
+<a href="#">Link to this property</a>
+
+server: string
+
+<a href="#">Link to this property</a>
+
+status: string
+
+<a href="#">Link to this property</a>
+
+title: string
+
+<a href="#">Link to this property</a>
+
+tlsAgeDays: number
+
+<a href="#">Link to this property</a>
+
+tlsIssuer: string
+
+<a href="#">Link to this property</a>
+
+tlsValidDays: number
+
+<a href="#">Link to this property</a>
+
+tlsValidFrom: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+screenshot: optional object {dhash, mm3Hash, name, phash }
+
+</summary>
+
+dhash: string
+
+<a href="#">Link to this property</a>
+
+mm3Hash: number
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+phash: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_get_response%20%3E%20(schema)%20%3E%20(property)%20page>)
+
+<details>
+
+<summary>
+
+scanner: object {colo, country }
+
+</summary>
+
+colo: string
+
+<a href="#">Link to this property</a>
+
+country: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_get_response%20%3E%20(schema)%20%3E%20(property)%20scanner>)
+
+<details>
+
+<summary>
+
+stats: object {domainStats, ipStats, IPv6Percentage, 10 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+domainStats: array of object {count, countries, domain, 6 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+countries: array of string
+
+<a href="#">Link to this property</a>
+
+domain: string
+
+<a href="#">Link to this property</a>
+
+encodedSize: number
+
+<a href="#">Link to this property</a>
+
+index: number
+
+<a href="#">Link to this property</a>
+
+initiators: array of string
+
+<a href="#">Link to this property</a>
+
+ips: array of string
+
+<a href="#">Link to this property</a>
+
+redirects: number
+
+<a href="#">Link to this property</a>
+
+size: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+ipStats: array of object {asn, countries, domains, 9 more }
+
+</summary>
+
+<details>
+
+<summary>
+
+asn: object {asn, country, description, 3 more }
+
+</summary>
+
+asn: string
+
+<a href="#">Link to this property</a>
+
+country: string
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+ip: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+org: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+countries: array of string
+
+<a href="#">Link to this property</a>
+
+domains: array of string
+
+<a href="#">Link to this property</a>
+
+encodedSize: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+geoip: object {city, country, country\_name, 2 more }
+
+</summary>
+
+city: string
+
+<a href="#">Link to this property</a>
+
+country: string
+
+<a href="#">Link to this property</a>
+
+country\_name: string
+
+<a href="#">Link to this property</a>
+
+ll: array of number
+
+<a href="#">Link to this property</a>
+
+region: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+index: number
+
+<a href="#">Link to this property</a>
+
+ip: string
+
+<a href="#">Link to this property</a>
+
+ipv6: boolean
+
+<a href="#">Link to this property</a>
+
+redirects: number
+
+<a href="#">Link to this property</a>
+
+requests: number
+
+<a href="#">Link to this property</a>
+
+size: number
+
+<a href="#">Link to this property</a>
+
+count: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+IPv6Percentage: number
+
+<a href="#">Link to this property</a>
+
+malicious: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+protocolStats: array of object {count, countries, encodedSize, 3 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+countries: array of string
+
+<a href="#">Link to this property</a>
+
+encodedSize: number
+
+<a href="#">Link to this property</a>
+
+ips: array of string
+
+<a href="#">Link to this property</a>
+
+protocol: string
+
+<a href="#">Link to this property</a>
+
+size: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+resourceStats: array of object {compression, count, countries, 5 more }
+
+</summary>
+
+compression: number
+
+<a href="#">Link to this property</a>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+countries: array of string
+
+<a href="#">Link to this property</a>
+
+encodedSize: number
+
+<a href="#">Link to this property</a>
+
+ips: array of string
+
+<a href="#">Link to this property</a>
+
+percentage: number
+
+<a href="#">Link to this property</a>
+
+size: number
+
+<a href="#">Link to this property</a>
+
+type: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+securePercentage: number
+
+<a href="#">Link to this property</a>
+
+secureRequests: number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+serverStats: array of object {count, countries, encodedSize, 3 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+countries: array of string
+
+<a href="#">Link to this property</a>
+
+encodedSize: number
+
+<a href="#">Link to this property</a>
+
+ips: array of string
+
+<a href="#">Link to this property</a>
+
+server: string
+
+<a href="#">Link to this property</a>
+
+size: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tlsStats: array of object {count, countries, encodedSize, 4 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+countries: array of string
+
+<a href="#">Link to this property</a>
+
+encodedSize: number
+
+<a href="#">Link to this property</a>
+
+ips: array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+protocols: object {"TLS 1.3 / AES\_128\_GCM" }
+
+</summary>
+
+"TLS 1.3 / AES\_128\_GCM": number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+securityState: string
+
+<a href="#">Link to this property</a>
+
+size: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+totalLinks: number
+
+<a href="#">Link to this property</a>
+
+uniqASNs: number
+
+<a href="#">Link to this property</a>
+
+uniqCountries: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_get_response%20%3E%20(schema)%20%3E%20(property)%20stats>)
+
+<details>
+
+<summary>
+
+task: object {apexDomain, domain, domURL, 10 more }
+
+</summary>
+
+apexDomain: string
+
+<a href="#">Link to this property</a>
+
+domain: string
+
+<a href="#">Link to this property</a>
+
+domURL: string
+
+<a href="#">Link to this property</a>
+
+method: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+options: object {customHeaders, screenshotsResolutions }
+
+</summary>
+
+customHeaders: optional unknown
+
+Custom headers set.
+
+<a href="#">Link to this property</a>
+
+screenshotsResolutions: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+reportURL: string
+
+<a href="#">Link to this property</a>
+
+screenshotURL: string
+
+<a href="#">Link to this property</a>
+
+source: string
+
+<a href="#">Link to this property</a>
+
+success: boolean
+
+<a href="#">Link to this property</a>
+
+time: string
+
+<a href="#">Link to this property</a>
+
+url: string
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+<a href="#">Link to this property</a>
+
+visibility: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_get_response%20%3E%20(schema)%20%3E%20(property)%20task>)
+
+<details>
+
+<summary>
+
+verdicts: object {overall }
+
+</summary>
+
+<details>
+
+<summary>
+
+overall: object {categories, hasVerdicts, malicious, tags }
+
+</summary>
+
+categories: array of string
+
+<a href="#">Link to this property</a>
+
+hasVerdicts: boolean
+
+<a href="#">Link to this property</a>
+
+malicious: boolean
+
+<a href="#">Link to this property</a>
+
+tags: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20url_scanner.scans%20%3E%20(model)%20scan_get_response%20%3E%20(schema)%20%3E%20(property)%20verdicts>)
+
+### Get URL scan
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/urlscanner/v2/result/$SCAN_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "data": {
     "console": [
@@ -2207,6 +5671,35 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/urlscanner/v2/res
             }
           },
           "discoverability": {
+            "dnsAid": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
             "linkHeaders": {
               "status": "fail",
               "details": {},
@@ -2355,6 +5848,1309 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/urlscanner/v2/res
               "message": "message"
             },
             "apiCatalog": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "ard": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "authMd": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "mcpServerCard": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "oauthDiscovery": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "oauthProtectedResource": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "webMcp": {
+              "status": "neutral",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            }
+          }
+        },
+        "level": 2,
+        "levelName": "Bot-Aware",
+        "commerceSignals": [
+          "string"
+        ],
+        "isCommerce": true,
+        "nextLevel": {
+          "name": "Agent-Readable",
+          "requirements": [
+            {
+              "check": "markdownNegotiation",
+              "description": "Support content negotiation with Accept: text/markdown",
+              "prompt": "Add markdown content negotiation support",
+              "skillUrl": "https://agentready.cloudflare.com/.well-known/skills/markdown-negotiation",
+              "specUrls": [
+                "https://markdownforagents.org"
+              ]
+            }
+          ],
+          "target": 3
+        }
+      },
+      "phishing_v2": {
+        "data": [
+          "string"
+        ]
+      },
+      "robotsTxt": {
+        "data": [
+          {
+            "rules": {
+              "*": {
+                "allow": [
+                  "string"
+                ],
+                "disallow": [
+                  "string"
+                ],
+                "contentSignal": {
+                  "ai-input": "no",
+                  "ai-train": "yes",
+                  "search": "yes"
+                },
+                "crawlDelay": 0
+              }
+            },
+            "sitemaps": [
+              "string"
+            ],
+            "hash": "hash"
+          }
+        ]
+      },
+      "urlCategories": {
+        "data": [
+          {
+            "content": [
+              {
+                "id": 0,
+                "name": "name",
+                "super_category_id": 0
+              }
+            ],
+            "inherited": {
+              "content": [
+                {
+                  "id": 0,
+                  "name": "name",
+                  "super_category_id": 0
+                }
+              ],
+              "from": "from",
+              "risks": [
+                {
+                  "id": 0,
+                  "name": "name",
+                  "super_category_id": 0
+                }
+              ]
+            },
+            "name": "name",
+            "risks": [
+              {
+                "id": 0,
+                "name": "name",
+                "super_category_id": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "page": {
+    "apexDomain": "apexDomain",
+    "asn": "asn",
+    "asnname": "asnname",
+    "city": "city",
+    "country": "country",
+    "domain": "domain",
+    "ip": "ip",
+    "mimeType": "mimeType",
+    "server": "server",
+    "status": "200",
+    "title": "title",
+    "tlsAgeDays": 0,
+    "tlsIssuer": "tlsIssuer",
+    "tlsValidDays": 0,
+    "tlsValidFrom": "tlsValidFrom",
+    "url": "url",
+    "screenshot": {
+      "dhash": "dhash",
+      "mm3Hash": 0,
+      "name": "name",
+      "phash": "phash"
+    }
+  },
+  "scanner": {
+    "colo": "colo",
+    "country": "country"
+  },
+  "stats": {
+    "domainStats": [
+      {
+        "count": 0,
+        "countries": [
+          "string"
+        ],
+        "domain": "domain",
+        "encodedSize": 0,
+        "index": 0,
+        "initiators": [
+          "string"
+        ],
+        "ips": [
+          "string"
+        ],
+        "redirects": 0,
+        "size": 0
+      }
+    ],
+    "ipStats": [
+      {
+        "asn": {
+          "asn": "asn",
+          "country": "country",
+          "description": "description",
+          "ip": "ip",
+          "name": "name",
+          "org": "org"
+        },
+        "countries": [
+          "string"
+        ],
+        "domains": [
+          "string"
+        ],
+        "encodedSize": 0,
+        "geoip": {
+          "city": "city",
+          "country": "country",
+          "country_name": "country_name",
+          "ll": [
+            0
+          ],
+          "region": "region"
+        },
+        "index": 0,
+        "ip": "ip",
+        "ipv6": true,
+        "redirects": 0,
+        "requests": 0,
+        "size": 0,
+        "count": 0
+      }
+    ],
+    "IPv6Percentage": 0,
+    "malicious": 0,
+    "protocolStats": [
+      {
+        "count": 0,
+        "countries": [
+          "string"
+        ],
+        "encodedSize": 0,
+        "ips": [
+          "string"
+        ],
+        "protocol": "protocol",
+        "size": 0
+      }
+    ],
+    "resourceStats": [
+      {
+        "compression": 0,
+        "count": 0,
+        "countries": [
+          "string"
+        ],
+        "encodedSize": 0,
+        "ips": [
+          "string"
+        ],
+        "percentage": 0,
+        "size": 0,
+        "type": "type"
+      }
+    ],
+    "securePercentage": 0,
+    "secureRequests": 0,
+    "serverStats": [
+      {
+        "count": 0,
+        "countries": [
+          "string"
+        ],
+        "encodedSize": 0,
+        "ips": [
+          "string"
+        ],
+        "server": "server",
+        "size": 0
+      }
+    ],
+    "tlsStats": [
+      {
+        "count": 0,
+        "countries": [
+          "string"
+        ],
+        "encodedSize": 0,
+        "ips": [
+          "string"
+        ],
+        "protocols": {
+          "TLS 1.3 / AES_128_GCM": 0
+        },
+        "securityState": "securityState",
+        "size": 0
+      }
+    ],
+    "totalLinks": 0,
+    "uniqASNs": 0,
+    "uniqCountries": 0
+  },
+  "task": {
+    "apexDomain": "apexDomain",
+    "domain": "domain",
+    "domURL": "domURL",
+    "method": "method",
+    "options": {
+      "customHeaders": {},
+      "screenshotsResolutions": [
+        "string"
+      ]
+    },
+    "reportURL": "reportURL",
+    "screenshotURL": "screenshotURL",
+    "source": "source",
+    "success": true,
+    "time": "time",
+    "url": "url",
+    "uuid": "uuid",
+    "visibility": "visibility"
+  },
+  "verdicts": {
+    "overall": {
+      "categories": [
+        "string"
+      ],
+      "hasVerdicts": true,
+      "malicious": true,
+      "tags": [
+        "string"
+      ]
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "data": {
+    "console": [
+      {
+        "message": {
+          "level": "level",
+          "source": "source",
+          "text": "text",
+          "url": "url"
+        }
+      }
+    ],
+    "cookies": [
+      {
+        "domain": "domain",
+        "expires": 0,
+        "httpOnly": true,
+        "name": "name",
+        "path": "path",
+        "priority": "priority",
+        "sameParty": true,
+        "secure": true,
+        "session": true,
+        "size": 0,
+        "sourcePort": 0,
+        "sourceScheme": "sourceScheme",
+        "value": "value"
+      }
+    ],
+    "globals": [
+      {
+        "prop": "prop",
+        "type": "type"
+      }
+    ],
+    "links": [
+      {
+        "href": "href",
+        "text": "text"
+      }
+    ],
+    "performance": [
+      {
+        "duration": 0,
+        "entryType": "entryType",
+        "name": "name",
+        "startTime": 0
+      }
+    ],
+    "requests": [
+      {
+        "request": {
+          "documentURL": "documentURL",
+          "hasUserGesture": true,
+          "initiator": {
+            "host": "host",
+            "type": "type",
+            "url": "url"
+          },
+          "redirectHasExtraInfo": true,
+          "request": {
+            "initialPriority": "initialPriority",
+            "isSameSite": true,
+            "method": "method",
+            "mixedContentType": "mixedContentType",
+            "referrerPolicy": "referrerPolicy",
+            "url": "url",
+            "headers": {}
+          },
+          "requestId": "requestId",
+          "type": "type",
+          "wallTime": 0,
+          "frameId": "frameId",
+          "loaderId": "loaderId",
+          "primaryRequest": true,
+          "redirectResponse": {
+            "charset": "charset",
+            "mimeType": "mimeType",
+            "protocol": "protocol",
+            "remoteIPAddress": "remoteIPAddress",
+            "remotePort": 0,
+            "securityHeaders": [
+              {
+                "name": "name",
+                "value": "value"
+              }
+            ],
+            "securityState": "securityState",
+            "status": 0,
+            "statusText": "statusText",
+            "url": "url",
+            "headers": {}
+          }
+        },
+        "response": {
+          "asn": {
+            "asn": "asn",
+            "country": "country",
+            "description": "description",
+            "ip": "ip",
+            "name": "name",
+            "org": "org"
+          },
+          "dataLength": 0,
+          "encodedDataLength": 0,
+          "geoip": {
+            "city": "city",
+            "country": "country",
+            "country_name": "country_name",
+            "geonameId": "geonameId",
+            "ll": [
+              0
+            ],
+            "region": "region"
+          },
+          "hasExtraInfo": true,
+          "requestId": "requestId",
+          "response": {
+            "charset": "charset",
+            "mimeType": "mimeType",
+            "protocol": "protocol",
+            "remoteIPAddress": "remoteIPAddress",
+            "remotePort": 0,
+            "securityDetails": {
+              "certificateId": 0,
+              "certificateTransparencyCompliance": "certificateTransparencyCompliance",
+              "cipher": "cipher",
+              "encryptedClientHello": true,
+              "issuer": "issuer",
+              "keyExchange": "keyExchange",
+              "keyExchangeGroup": "keyExchangeGroup",
+              "protocol": "protocol",
+              "sanList": [
+                "string"
+              ],
+              "serverSignatureAlgorithm": 0,
+              "subjectName": "subjectName",
+              "validFrom": 0,
+              "validTo": 0
+            },
+            "securityHeaders": [
+              {
+                "name": "name",
+                "value": "value"
+              }
+            ],
+            "securityState": "securityState",
+            "status": 0,
+            "statusText": "statusText",
+            "url": "url",
+            "headers": {}
+          },
+          "size": 0,
+          "type": "type",
+          "contentAvailable": true,
+          "hash": "hash"
+        },
+        "requests": [
+          {
+            "documentURL": "documentURL",
+            "frameId": "frameId",
+            "hasUserGesture": true,
+            "initiator": {
+              "type": "type"
+            },
+            "loaderId": "loaderId",
+            "redirectHasExtraInfo": true,
+            "request": {
+              "headers": {
+                "name": "name"
+              },
+              "initialPriority": "initialPriority",
+              "isSameSite": true,
+              "method": "method",
+              "mixedContentType": "mixedContentType",
+              "referrerPolicy": "referrerPolicy",
+              "url": "url"
+            },
+            "requestId": "requestId",
+            "type": "type",
+            "wallTime": 0
+          }
+        ]
+      }
+    ]
+  },
+  "lists": {
+    "asns": [
+      "string"
+    ],
+    "certificates": [
+      {
+        "issuer": "issuer",
+        "subjectName": "subjectName",
+        "validFrom": 0,
+        "validTo": 0
+      }
+    ],
+    "continents": [
+      "string"
+    ],
+    "countries": [
+      "string"
+    ],
+    "domains": [
+      "string"
+    ],
+    "hashes": [
+      "string"
+    ],
+    "ips": [
+      "string"
+    ],
+    "linkDomains": [
+      "string"
+    ],
+    "servers": [
+      "string"
+    ],
+    "urls": [
+      "string"
+    ]
+  },
+  "meta": {
+    "processors": {
+      "asn": {
+        "data": [
+          {
+            "asn": "asn",
+            "country": "country",
+            "description": "description",
+            "ip": "ip",
+            "name": "name"
+          }
+        ]
+      },
+      "dns": {
+        "data": [
+          {
+            "address": "address",
+            "dnssec_valid": true,
+            "name": "name",
+            "type": "type"
+          }
+        ]
+      },
+      "domainCategories": {
+        "data": [
+          {
+            "inherited": {},
+            "isPrimary": true,
+            "name": "name"
+          }
+        ]
+      },
+      "geoip": {
+        "data": [
+          {
+            "geoip": {
+              "city": "city",
+              "country": "country",
+              "country_name": "country_name",
+              "ll": [
+                0
+              ],
+              "region": "region"
+            },
+            "ip": "ip"
+          }
+        ]
+      },
+      "phishing": {
+        "data": [
+          "string"
+        ]
+      },
+      "radarRank": {
+        "data": [
+          {
+            "bucket": "bucket",
+            "hostname": "hostname",
+            "rank": 0
+          }
+        ]
+      },
+      "wappa": {
+        "data": [
+          {
+            "app": "app",
+            "categories": [
+              {
+                "name": "name",
+                "priority": 0
+              }
+            ],
+            "confidence": [
+              {
+                "confidence": 0,
+                "name": "name",
+                "pattern": "pattern",
+                "patternType": "patternType"
+              }
+            ],
+            "confidenceTotal": 0,
+            "icon": "icon",
+            "website": "website"
+          }
+        ]
+      },
+      "agentReadiness": {
+        "checks": {
+          "botAccessControl": {
+            "contentSignals": {
+              "status": "pass",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "robotsTxtAiRules": {
+              "status": "pass",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "webBotAuth": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            }
+          },
+          "commerce": {
+            "acp": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "ap2": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "mpp": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "ucp": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "x402": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            }
+          },
+          "contentAccessibility": {
+            "markdownNegotiation": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            }
+          },
+          "discoverability": {
+            "dnsAid": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "linkHeaders": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "robotsTxt": {
+              "status": "pass",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "sitemap": {
+              "status": "pass",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            }
+          },
+          "discovery": {
+            "a2aAgentCard": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "agentSkills": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "apiCatalog": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "ard": {
+              "status": "fail",
+              "details": {},
+              "durationMs": 0,
+              "evidence": [
+                {
+                  "action": "fetch",
+                  "label": "GET /robots.txt",
+                  "finding": {
+                    "outcome": "positive",
+                    "summary": "Found valid robots.txt"
+                  },
+                  "request": {
+                    "method": "GET",
+                    "url": "https://example.com/robots.txt",
+                    "headers": {}
+                  },
+                  "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "bodyPreview": "bodyPreview",
+                    "bodySize": 0,
+                    "headers": {},
+                    "redirectedTo": "redirectedTo"
+                  }
+                }
+              ],
+              "message": "message"
+            },
+            "authMd": {
               "status": "fail",
               "details": {},
               "durationMs": 0,

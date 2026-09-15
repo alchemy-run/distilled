@@ -1,593 +1,231 @@
+---
+title: Scans
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Scans
 
-# Results
+#### ScansResults
 
-## Get the Latest Scan Result
+##### [Get the Latest Scan Result](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans/subresources/results/methods/get)
 
-**get** `/accounts/{account_id}/cloudforce-one/scans/results/{config_id}`
+GET/accounts/{account\_id}/cloudforce-one/scans/results/{config\_id}
 
-Get the Latest Scan Result
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Defines the Account ID.
+ScanResult object {number, proto, status }
 
-- `config_id: string`
+</summary>
 
-  Defines the Config ID.
+number: optional number
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of string`
+proto: optional string
 
-- `messages: array of string`
+<a href="#">Link to this property</a>
 
-- `result: object { "1.1.1.1" }`
+status: optional string
 
-  - `"1.1.1.1": array of ScanResult`
+<a href="#">Link to this property</a>
 
-    - `number: optional number`
+</details>
 
-    - `proto: optional string`
+[Link to this property](#)%20cloudforce_one.scans.results%20%3E%20(model)%20scan_result%20%3E%20(schema)>)
 
-    - `status: optional string`
+<details>
 
-- `success: boolean`
+<summary>
 
-### Example
+ResultGetResponse object {"1.1.1.1" }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/scans/results/$CONFIG_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    "string"
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {
-    "1.1.1.1": [
-      {
-        "number": 8080,
-        "proto": "tcp",
-        "status": "open"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+"1.1.1.1": array of <a href="https://developers.cloudflare.com/api/resources/cloudforce_one#(resource)%20cloudforce_one.scans.results%20%3E%20(model)%20scan_result%20%3E%20(schema)">ScanResult</a> { number, proto, status }
 
-### Scan Result
+</summary>
 
-- `ScanResult object { number, proto, status }`
+number: optional number
 
-  - `number: optional number`
+<a href="#">Link to this property</a>
 
-  - `proto: optional string`
+proto: optional string
 
-  - `status: optional string`
+<a href="#">Link to this property</a>
 
-### Result Get Response
+status: optional string
 
-- `ResultGetResponse object { "1.1.1.1" }`
+<a href="#">Link to this property</a>
 
-  - `"1.1.1.1": array of ScanResult`
+</details>
 
-    - `number: optional number`
+<a href="#">Link to this property</a>
 
-    - `proto: optional string`
+</details>
 
-    - `status: optional string`
+[Link to this property](#)%20cloudforce_one.scans.results%20%3E%20(model)%20result_get_response%20%3E%20(schema)>)
 
-# Config
+#### ScansConfig
 
-## List Scan Configs
+##### [List Scan Configs](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans/subresources/config/methods/list)
 
-**get** `/accounts/{account_id}/cloudforce-one/scans/config`
+GET/accounts/{account\_id}/cloudforce-one/scans/config
 
-List Scan Configs
+##### [Create a new Scan Config](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans/subresources/config/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/cloudforce-one/scans/config
 
-- `account_id: string`
+##### [Update an existing Scan Config](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans/subresources/config/methods/edit)
 
-  Defines the Account ID.
+PATCH/accounts/{account\_id}/cloudforce-one/scans/config/{config\_id}
 
-### Returns
+##### [Delete a Scan Config](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/scans/subresources/config/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/cloudforce-one/scans/config/{config\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ConfigListResponse object {id, account\_id, frequency, 2 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+Defines the Config ID.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+account\_id: string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+frequency: number
 
-- `success: true`
+Defines the number of days between each scan (0 = One-off scan).
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+ips: array of string
 
-- `result: optional array of object { id, account_id, frequency, 2 more }`
+Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Defines the Config ID.
+ports: array of string
 
-  - `account_id: string`
+Defines a list of ports to scan. Valid values are:“default”, “all”, or a comma-separated list of ports or range of ports (e.g. \[“1-80”, “443”]). “default” scans the 100 most commonly open ports.
 
-  - `frequency: number`
+<a href="#">Link to this property</a>
 
-    Defines the number of days between each scan (0 = One-off scan).
+</details>
 
-  - `ips: array of string`
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(model)%20config_list_response%20%3E%20(schema)>)
 
-    Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
+<details>
 
-  - `ports: array of string`
+<summary>
 
-    Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports.
+ConfigCreateResponse object {id, account\_id, frequency, 2 more }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/scans/config \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+id: string
 
-#### Response
+Defines the Config ID.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "uuid",
-      "account_id": "abcd1234abcd1234abcd1234abcd1234",
-      "frequency": 7,
-      "ips": [
-        "1.1.1.1",
-        "2606:4700:4700::1111"
-      ],
-      "ports": [
-        "default"
-      ]
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a new Scan Config
+account\_id: string
 
-**post** `/accounts/{account_id}/cloudforce-one/scans/config`
+<a href="#">Link to this property</a>
 
-Create a new Scan Config
+frequency: number
 
-### Path Parameters
+Defines the number of days between each scan (0 = One-off scan).
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Defines the Account ID.
+ips: array of string
 
-### Body Parameters
+Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
 
-- `ips: array of string`
+<a href="#">Link to this property</a>
 
-  Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
+ports: array of string
 
-- `frequency: optional number`
+Defines a list of ports to scan. Valid values are:“default”, “all”, or a comma-separated list of ports or range of ports (e.g. \[“1-80”, “443”]). “default” scans the 100 most commonly open ports.
 
-  Defines the number of days between each scan (0 = One-off scan).
+<a href="#">Link to this property</a>
 
-- `ports: optional array of string`
+</details>
 
-  Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports.
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(model)%20config_create_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+ConfigEditResponse object {id, account\_id, frequency, 2 more }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Defines the Config ID.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+account\_id: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+frequency: number
 
-  - `documentation_url: optional string`
+Defines the number of days between each scan (0 = One-off scan).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+ips: array of string
 
-- `success: true`
+Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+ports: array of string
 
-- `result: optional object { id, account_id, frequency, 2 more }`
+Defines a list of ports to scan. Valid values are:“default”, “all”, or a comma-separated list of ports or range of ports (e.g. \[“1-80”, “443”]). “default” scans the 100 most commonly open ports.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Defines the Config ID.
+</details>
 
-  - `account_id: string`
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(model)%20config_edit_response%20%3E%20(schema)>)
 
-  - `frequency: number`
+ConfigDeleteResponse = unknown
 
-    Defines the number of days between each scan (0 = One-off scan).
-
-  - `ips: array of string`
-
-    Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
-
-  - `ports: array of string`
-
-    Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/scans/config \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ips": [
-            "1.1.1.1",
-            "2606:4700:4700::1111"
-          ],
-          "frequency": 7,
-          "ports": [
-            "default"
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "uuid",
-    "account_id": "abcd1234abcd1234abcd1234abcd1234",
-    "frequency": 7,
-    "ips": [
-      "1.1.1.1",
-      "2606:4700:4700::1111"
-    ],
-    "ports": [
-      "default"
-    ]
-  }
-}
-```
-
-## Update an existing Scan Config
-
-**patch** `/accounts/{account_id}/cloudforce-one/scans/config/{config_id}`
-
-Update an existing Scan Config
-
-### Path Parameters
-
-- `account_id: string`
-
-  Defines the Account ID.
-
-- `config_id: string`
-
-  Defines the Config ID.
-
-### Body Parameters
-
-- `frequency: optional number`
-
-  Defines the number of days between each scan (0 = One-off scan).
-
-- `ips: optional array of string`
-
-  Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
-
-- `ports: optional array of string`
-
-  Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, account_id, frequency, 2 more }`
-
-  - `id: string`
-
-    Defines the Config ID.
-
-  - `account_id: string`
-
-  - `frequency: number`
-
-    Defines the number of days between each scan (0 = One-off scan).
-
-  - `ips: array of string`
-
-    Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
-
-  - `ports: array of string`
-
-    Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/scans/config/$CONFIG_ID \
-    -X PATCH \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "uuid",
-    "account_id": "abcd1234abcd1234abcd1234abcd1234",
-    "frequency": 7,
-    "ips": [
-      "1.1.1.1",
-      "2606:4700:4700::1111"
-    ],
-    "ports": [
-      "default"
-    ]
-  }
-}
-```
-
-## Delete a Scan Config
-
-**delete** `/accounts/{account_id}/cloudforce-one/scans/config/{config_id}`
-
-Delete a Scan Config
-
-### Path Parameters
-
-- `account_id: string`
-
-  Defines the Account ID.
-
-- `config_id: string`
-
-  Defines the Config ID.
-
-### Returns
-
-- `errors: array of string`
-
-- `messages: array of string`
-
-- `result: unknown`
-
-- `success: boolean`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/scans/config/$CONFIG_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    "string"
-  ],
-  "messages": [
-    "string"
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Config List Response
-
-- `ConfigListResponse object { id, account_id, frequency, 2 more }`
-
-  - `id: string`
-
-    Defines the Config ID.
-
-  - `account_id: string`
-
-  - `frequency: number`
-
-    Defines the number of days between each scan (0 = One-off scan).
-
-  - `ips: array of string`
-
-    Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
-
-  - `ports: array of string`
-
-    Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports.
-
-### Config Create Response
-
-- `ConfigCreateResponse object { id, account_id, frequency, 2 more }`
-
-  - `id: string`
-
-    Defines the Config ID.
-
-  - `account_id: string`
-
-  - `frequency: number`
-
-    Defines the number of days between each scan (0 = One-off scan).
-
-  - `ips: array of string`
-
-    Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
-
-  - `ports: array of string`
-
-    Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports.
-
-### Config Edit Response
-
-- `ConfigEditResponse object { id, account_id, frequency, 2 more }`
-
-  - `id: string`
-
-    Defines the Config ID.
-
-  - `account_id: string`
-
-  - `frequency: number`
-
-    Defines the number of days between each scan (0 = One-off scan).
-
-  - `ips: array of string`
-
-    Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000.
-
-  - `ports: array of string`
-
-    Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports.
-
-### Config Delete Response
-
-- `ConfigDeleteResponse = unknown`
+[Link to this property](#)%20cloudforce_one.scans.config%20%3E%20(model)%20config_delete_response%20%3E%20(schema)>)

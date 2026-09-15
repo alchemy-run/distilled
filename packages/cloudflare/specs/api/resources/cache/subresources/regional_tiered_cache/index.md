@@ -1,292 +1,147 @@
+---
+title: Regional Tiered Cache
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cache](https://developers.cloudflare.com/api/resources/cache)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Regional Tiered Cache
 
-## Get Regional Tiered Cache setting
+##### [Get Regional Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/regional_tiered_cache/methods/get)
 
-**get** `/zones/{zone_id}/cache/regional_tiered_cache`
+GET/zones/{zone\_id}/cache/regional\_tiered\_cache
 
-Instructs Cloudflare to check a regional hub data center on the way to your upper tier. This can help improve performance for smart and custom tiered cache topologies.
+##### [Change Regional Tiered Cache setting](https://developers.cloudflare.com/api/resources/cache/subresources/regional_tiered_cache/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/cache/regional\_tiered\_cache
 
-- `zone_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+RegionalTieredCache = "tc\_regional"
 
-### Returns
+The identifier of the caching setting.
 
-- `errors: array of ResponseInfo`
+[Link to this property](#)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+RegionalTieredCacheGetResponse object {id, editable, value, modified\_on }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache%20%3E%20(schema)">RegionalTieredCache</a>
 
-- `messages: array of ResponseInfo`
+The identifier of the caching setting.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+editable: boolean
 
-  - `documentation_url: optional string`
+Whether the setting is editable.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+value: "on"or "off"
 
-- `result: optional object { id, editable, value, modified_on }`
+Value of the Regional Tiered Cache zone setting.
 
-  - `id: RegionalTieredCache`
+</summary>
 
-    The identifier of the caching setting.
+One of the following:
 
-    - `"tc_regional"`
+"on"
 
-  - `editable: boolean`
+<a href="#">Link to this property</a>
 
-    Whether the setting is editable.
+"off"
 
-  - `value: "on" or "off"`
+<a href="#">Link to this property</a>
 
-    Value of the Regional Tiered Cache zone setting.
+</details>
 
-    - `"on"`
+<a href="#">Link to this property</a>
 
-    - `"off"`
+modified\_on: optional string
 
-  - `modified_on: optional string`
+Last time this setting was modified.
 
-    Last time this setting was modified.
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/regional_tiered_cache \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tc_regional",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<details>
 
-## Change Regional Tiered Cache setting
+<summary>
 
-**patch** `/zones/{zone_id}/cache/regional_tiered_cache`
+RegionalTieredCacheEditResponse object {id, editable, value, modified\_on }
 
-Instructs Cloudflare to check a regional hub data center on the way to your upper tier. This can help improve performance for smart and custom tiered cache topologies.
+</summary>
 
-### Path Parameters
+id: <a href="https://developers.cloudflare.com/api/resources/cache#(resource)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache%20%3E%20(schema)">RegionalTieredCache</a>
 
-- `zone_id: string`
+The identifier of the caching setting.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+editable: boolean
 
-- `value: "on" or "off"`
+Whether the setting is editable.
 
-  Value of the Regional Tiered Cache zone setting.
+<a href="#">Link to this property</a>
 
-  - `"on"`
+<details>
 
-  - `"off"`
+<summary>
 
-### Returns
+value: "on"or "off"
 
-- `errors: array of ResponseInfo`
+Value of the Regional Tiered Cache zone setting.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"on"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"off"
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: optional string
 
-  - `source: optional object { pointer }`
+Last time this setting was modified.
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id, editable, value, modified_on }`
-
-  - `id: RegionalTieredCache`
-
-    The identifier of the caching setting.
-
-    - `"tc_regional"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Regional Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/regional_tiered_cache \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "on"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "tc_regional",
-    "editable": true,
-    "value": "on",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Regional Tiered Cache
-
-- `RegionalTieredCache = "tc_regional"`
-
-  The identifier of the caching setting.
-
-  - `"tc_regional"`
-
-### Regional Tiered Cache Get Response
-
-- `RegionalTieredCacheGetResponse object { id, editable, value, modified_on }`
-
-  - `id: RegionalTieredCache`
-
-    The identifier of the caching setting.
-
-    - `"tc_regional"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Regional Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Regional Tiered Cache Edit Response
-
-- `RegionalTieredCacheEditResponse object { id, editable, value, modified_on }`
-
-  - `id: RegionalTieredCache`
-
-    The identifier of the caching setting.
-
-    - `"tc_regional"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: "on" or "off"`
-
-    Value of the Regional Tiered Cache zone setting.
-
-    - `"on"`
-
-    - `"off"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20cache.regional_tiered_cache%20%3E%20(model)%20regional_tiered_cache_edit_response%20%3E%20(schema)>)

@@ -1,102 +1,254 @@
-## Attach Domain
+---
+title: Attach Domain
+---
 
-**put** `/accounts/{account_id}/workers/domains`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Domains](https://developers.cloudflare.com/api/resources/workers/subresources/domains)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Attach Domain
+
+PUT/accounts/{account\_id}/workers/domains
 
 Attaches a domain that routes traffic to a Worker.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `hostname: string`
 
-  Hostname of the domain. Can be either the zone apex or a subdomain of the zone. Requests to this hostname will be routed to the configured Worker.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `service: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker.
+</details>
 
-- `environment: optional string`
+<details>
 
-  Worker environment associated with the domain.
+<summary>API Email + API Key</summary>
 
-- `zone_id: optional string`
 
-  ID of the zone containing the domain hostname.
 
-- `zone_name: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Name of the zone containing the domain hostname.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Workers Scripts Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifier.
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+##### Body ParametersJSONExpand Collapse
 
-  - `source: optional object { pointer }`
+hostname: string
 
-    - `pointer: optional string`
+Hostname of the domain. Can be either the zone apex or a subdomain of the zone. Requests to this hostname will be routed to the configured Worker.
 
-- `result: object { id, cert_id, environment, 4 more }`
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20hostname%20%3E%20(schema)>)
 
-  - `id: string`
+service: string
 
-    Immutable ID of the domain.
+Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker.
 
-  - `cert_id: string`
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20service%20%3E%20(schema)>)
 
-    ID of the TLS certificate issued for the domain.
+zone\_id: optional string
 
-  - `environment: string`
+ID of the zone containing the domain hostname.
 
-    Worker environment associated with the domain.
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-  - `hostname: string`
+zone\_name: optional string
 
-    Hostname of the domain. Can be either the zone apex or a subdomain of the zone. Requests to this hostname will be routed to the configured Worker.
+Name of the zone containing the domain hostname.
 
-  - `service: string`
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20zone_name%20%3E%20(schema)>)
 
-    Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker.
+##### ReturnsExpand Collapse
 
-  - `zone_id: string`
+<details>
 
-    ID of the zone containing the domain hostname.
+<summary>
 
-  - `zone_name: string`
+errors: array of object {code, message, documentation\_url, source }
 
-    Name of the zone containing the domain hostname.
+</summary>
 
-- `success: true`
+code: number
 
-  Whether the API call was successful.
+minimum1000
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+message: string
 
-```http
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {id, cert\_id, environment, 4 more }
+
+</summary>
+
+id: string
+
+Immutable ID of the domain.
+
+<a href="#">Link to this property</a>
+
+cert\_id: string
+
+ID of the TLS certificate issued for the domain.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+Deprecatedenvironment: string
+
+Worker environment associated with the domain.
+
+<a href="#">Link to this property</a>
+
+hostname: string
+
+Hostname of the domain. Can be either the zone apex or a subdomain of the zone. Requests to this hostname will be routed to the configured Worker.
+
+<a href="#">Link to this property</a>
+
+service: string
+
+Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker.
+
+<a href="#">Link to this property</a>
+
+zone\_id: string
+
+ID of the zone containing the domain hostname.
+
+<a href="#">Link to this property</a>
+
+zone\_name: string
+
+Name of the zone containing the domain hostname.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20workers.domains%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Attach Domain
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/domains \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -104,15 +256,53 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/domains \
     -d '{
           "hostname": "app.example.com",
           "service": "my-worker",
-          "environment": "production",
           "zone_id": "593c9c94de529bbbfaac7c53ced0447d",
           "zone_name": "example.com"
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "dbe10b4bc17c295377eabd600e1787fd",
+    "cert_id": "9fdf92c8-64c2-4a3d-b1af-e15304961145",
+    "environment": "production",
+    "hostname": "app.example.com",
+    "service": "my-worker",
+    "zone_id": "593c9c94de529bbbfaac7c53ced0447d",
+    "zone_name": "example.com"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

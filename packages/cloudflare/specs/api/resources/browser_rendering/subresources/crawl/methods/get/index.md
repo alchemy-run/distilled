@@ -1,155 +1,353 @@
-## Get crawl result.
+---
+title: Get crawl result.
+---
 
-**get** `/accounts/{account_id}/browser-rendering/crawl/{job_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Browser Rendering](https://developers.cloudflare.com/api/resources/browser_rendering)
+
+[Crawl](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/crawl)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get crawl result.
+
+GET/accounts/{account\_id}/browser-rendering/crawl/{job\_id}
 
 Returns the result of a crawl job.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Account ID.
+<summary>API Token</summary>
 
-- `job_id: string`
 
-  Crawl job ID.
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `cacheTTL: optional number`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Cache TTL default is 5s. Set to 0 to disable.
+</details>
 
-- `cursor: optional number`
+<details>
 
-  Cursor for pagination.
+<summary>API Email + API Key</summary>
 
-- `limit: optional number`
 
-  Limit for pagination.
 
-- `status: optional "queued" or "errored" or "completed" or 3 more`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  Filter by URL status.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"queued"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"errored"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"completed"`
+</details>
 
-  - `"disallowed"`
+##### Accepted Permissions (at least one required)
 
-  - `"skipped"`
+`Browser Rendering Write``Browser Rendering Read`
 
-  - `"cancelled"`
+##### P ath ParametersExpand Collapse
 
-### Returns
+account\_id: string
 
-- `result: object { id, browserSecondsUsed, finished, 5 more }`
+Account ID.
 
-  - `id: string`
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    Crawl job ID.
+job\_id: string
 
-  - `browserSecondsUsed: number`
+Crawl job ID.
 
-    Total seconds spent in browser so far.
+minLength1
 
-  - `finished: number`
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20job_id%20%3E%20(schema)>)
 
-    Total number of URLs that have been crawled so far.
+##### Q uery ParametersExpand Collapse
 
-  - `records: array of object { metadata, status, url, 3 more }`
+cacheTTL: optional number
 
-    List of crawl job records.
+Cache TTL default is 5s. Set to 0 to disable.
 
-    - `metadata: object { status, url, title }`
+maximum86400
 
-      - `status: number`
+minimum0
 
-        HTTP status code of the crawled page.
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20cacheTTL%20%3E%20(schema)>)
 
-      - `url: string`
+cursor: optional number
 
-        Final URL of the crawled page.
+Cursor for pagination.
 
-      - `title: optional string`
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20cursor%20%3E%20(schema)>)
 
-        Title of the crawled page.
+limit: optional number
 
-    - `status: "queued" or "errored" or "completed" or 3 more`
+Limit for pagination.
 
-      Current status of the crawled URL.
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
 
-      - `"queued"`
+<details>
 
-      - `"errored"`
+<summary>
 
-      - `"completed"`
+status: optional "queued"or "errored"or "completed"or 3 more
 
-      - `"disallowed"`
+Filter by URL status.
 
-      - `"skipped"`
+</summary>
 
-      - `"cancelled"`
+One of the following:
 
-    - `url: string`
+"queued"
 
-      Crawled URL.
+<a href="#">Link to this property</a>
 
-    - `html: optional string`
+"errored"
 
-      HTML content of the crawled URL.
+<a href="#">Link to this property</a>
 
-    - `json: optional map[unknown]`
+"completed"
 
-      JSON of the content of the crawled URL.
+<a href="#">Link to this property</a>
 
-    - `markdown: optional string`
+"disallowed"
 
-      Markdown of the content of the crawled URL.
+<a href="#">Link to this property</a>
 
-  - `skipped: number`
+"skipped"
 
-    Total number of URLs that were skipped due to include/exclude/subdomain filters. Skipped URLs are included in records but are not counted toward total/finished.
+<a href="#">Link to this property</a>
 
-  - `status: string`
+"cancelled"
 
-    Current crawl job status.
+<a href="#">Link to this property</a>
 
-  - `total: number`
+</details>
 
-    Total current number of URLs in the crawl job.
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-  - `cursor: optional string`
+##### ReturnsExpand Collapse
 
-    Cursor for pagination.
+<details>
 
-- `success: boolean`
+<summary>
 
-  Response status.
+result: object {id, browserSecondsUsed, finished, 5 more }
 
-- `errors: optional array of object { code, message }`
+</summary>
 
-  - `code: number`
+id: string
 
-    Error code.
+Crawl job ID.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-    Error message.
+browserSecondsUsed: number
 
-### Example
+Total seconds spent in browser so far.
 
-```http
+<a href="#">Link to this property</a>
+
+finished: number
+
+Total number of URLs that have been crawled so far.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+records: array of object {status, url, html, 3 more }
+
+List of crawl job records.
+
+</summary>
+
+<details>
+
+<summary>
+
+status: "queued"or "errored"or "completed"or 3 more
+
+Current status of the crawled URL.
+
+</summary>
+
+One of the following:
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"errored"
+
+<a href="#">Link to this property</a>
+
+"completed"
+
+<a href="#">Link to this property</a>
+
+"disallowed"
+
+<a href="#">Link to this property</a>
+
+"skipped"
+
+<a href="#">Link to this property</a>
+
+"cancelled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+url: string
+
+Crawled URL.
+
+<a href="#">Link to this property</a>
+
+html: optional string
+
+HTML content of the crawled URL.
+
+<a href="#">Link to this property</a>
+
+json: optional map\[unknown]
+
+JSON of the content of the crawled URL.
+
+<a href="#">Link to this property</a>
+
+markdown: optional string
+
+Markdown of the content of the crawled URL.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+metadata: optional object {status, url, title }
+
+Absent for urls that never reached a fetch.
+
+</summary>
+
+status: number
+
+HTTP status code of the crawled page.
+
+<a href="#">Link to this property</a>
+
+url: string
+
+Final URL of the crawled page.
+
+<a href="#">Link to this property</a>
+
+title: optional string
+
+Title of the crawled page.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+skipped: number
+
+Total number of URLs that were skipped due to include/exclude/subdomain filters. Skipped URLs are included in records but are not counted toward total/finished.
+
+<a href="#">Link to this property</a>
+
+status: string
+
+Current crawl job status.
+
+<a href="#">Link to this property</a>
+
+total: number
+
+Total current number of URLs in the crawl job.
+
+<a href="#">Link to this property</a>
+
+cursor: optional string
+
+Cursor for pagination.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Response status.
+
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+errors: optional array of object {code, message }
+
+</summary>
+
+code: number
+
+Error code.
+
+<a href="#">Link to this property</a>
+
+message: string
+
+Error message.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20browser_rendering.crawl%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+### Get crawl result.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering/crawl/$JOB_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "result": {
     "id": "id",
@@ -157,18 +355,59 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/browser-rendering
     "finished": 0,
     "records": [
       {
-        "metadata": {
-          "status": 0,
-          "url": "url",
-          "title": "title"
-        },
         "status": "queued",
         "url": "url",
         "html": "html",
         "json": {
           "foo": {}
         },
-        "markdown": "markdown"
+        "markdown": "markdown",
+        "metadata": {
+          "status": 0,
+          "url": "url",
+          "title": "title"
+        }
+      }
+    ],
+    "skipped": 0,
+    "status": "status",
+    "total": 0,
+    "cursor": "cursor"
+  },
+  "success": true,
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "result": {
+    "id": "id",
+    "browserSecondsUsed": 0,
+    "finished": 0,
+    "records": [
+      {
+        "status": "queued",
+        "url": "url",
+        "html": "html",
+        "json": {
+          "foo": {}
+        },
+        "markdown": "markdown",
+        "metadata": {
+          "status": 0,
+          "url": "url",
+          "title": "title"
+        }
       }
     ],
     "skipped": 0,

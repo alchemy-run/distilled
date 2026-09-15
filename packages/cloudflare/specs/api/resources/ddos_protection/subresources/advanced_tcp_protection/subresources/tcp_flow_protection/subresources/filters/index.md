@@ -1,858 +1,441 @@
+---
+title: Filters
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[TCP Flow Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Filters
 
-## List all TCP Flow Protection filters.
+##### [List all TCP Flow Protection filters.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/methods/list)
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters`
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters
 
-List all TCP Flow Protection filters for an account.
+##### [Create a TCP Flow Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters
 
-- `account_id: string`
+##### [Delete all TCP Flow Protection filters.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/methods/bulk_delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters
 
-### Query Parameters
+##### ModelsExpand Collapse
 
-- `direction: optional string`
+<details>
 
-  The direction of ordering (ASC or DESC). Defaults to 'ASC'.
+<summary>
 
-- `mode: optional string`
+FilterListResponse object {id, created\_on, expression, 2 more }
 
-  The mode of the filters to get. Optional. Valid values: 'enabled', 'disabled', 'monitoring'.
+</summary>
 
-- `order: optional string`
+id: string
 
-  The field to order by. Defaults to 'prefix'.
+The unique ID of the expression filter.
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  The page number for pagination. Defaults to 1.
+created\_on: string
 
-- `per_page: optional number`
+The creation timestamp of the expression filter.
 
-  The number of items per page. Must be between 10 and 1000. Defaults to 25.
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+expression: string
 
-  - `code: number`
+The filter expression.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+mode: string
 
-  - `source: optional object { pointer }`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+modified\_on: string
 
-  - `code: number`
+The last modification timestamp of the expression filter.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters%20%3E%20(model)%20filter_list_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+FilterCreateResponse object {id, created\_on, expression, 2 more }
 
-- `result: optional array of object { id, created_on, expression, 2 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-    The unique ID of the expression filter.
+The unique ID of the expression filter.
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the expression filter.
+created\_on: string
 
-  - `expression: string`
+The creation timestamp of the expression filter.
 
-    The filter expression.
+formatdate-time
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+expression: string
 
-  - `modified_on: string`
+The filter expression.
 
-    The last modification timestamp of the expression filter.
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+mode: string
 
-  - `count: optional number`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+modified\_on: string
 
-    Current page within paginated list of results.
+The last modification timestamp of the expression filter.
 
-  - `per_page: optional number`
+formatdate-time
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+</details>
 
-    Total results available without any search parameters.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters%20%3E%20(model)%20filter_create_response%20%3E%20(schema)>)
 
-  - `total_pages: optional number`
+<details>
 
-    The number of total pages in the entire result set.
+<summary>
 
-### Example
+FilterBulkDeleteResponse object {errors, messages, success }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-      "mode": "mode",
-      "modified_on": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<summary>
 
-## Create a TCP Flow Protection filter.
+errors: array of object {code, message, documentation\_url, source }
 
-**post** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters`
+</summary>
 
-Create a TCP Flow Protection filter for an account.
+code: number
 
-### Path Parameters
+minimum1000
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+message: string
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `expression: string`
+documentation\_url: optional string
 
-  The filter expression.
+<a href="#">Link to this property</a>
 
-- `mode: string`
+<details>
 
-  The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+<summary>
 
-### Returns
+source: optional object {pointer }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+pointer: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+code: number
 
-- `success: true`
+minimum1000
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+message: string
 
-- `result: optional object { id, created_on, expression, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+documentation\_url: optional string
 
-    The unique ID of the expression filter.
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+<details>
 
-    The creation timestamp of the expression filter.
+<summary>
 
-  - `expression: string`
+source: optional object {pointer }
 
-    The filter expression.
+</summary>
 
-  - `mode: string`
+pointer: optional string
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+<a href="#">Link to this property</a>
 
-  - `modified_on: string`
+</details>
 
-    The last modification timestamp of the expression filter.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-          "mode": "mode"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+success: true
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+Whether the API call was successful.
 
-## Delete all TCP Flow Protection filters.
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters`
+</details>
 
-Delete all TCP Flow Protection filters for an account.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters%20%3E%20(model)%20filter_bulk_delete_response%20%3E%20(schema)>)
 
-### Path Parameters
+#### FiltersItems
 
-- `account_id: string`
+##### [Get TCP Flow Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/subresources/items/methods/get)
 
-  Identifier.
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters/{filter\_id}
 
-### Returns
+##### [Update TCP Flow Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/subresources/items/methods/edit)
 
-- `errors: array of object { code, message, documentation_url, source }`
+PATCH/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters/{filter\_id}
 
-  - `code: number`
+##### [Delete TCP Flow Protection filter.](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/tcp_flow_protection/subresources/filters/subresources/items/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/tcp\_flow\_protection/filters/{filter\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+ItemGetResponse object {id, created\_on, expression, 2 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: string
 
-  - `documentation_url: optional string`
+The unique ID of the expression filter.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+created\_on: string
 
-- `success: true`
+The creation timestamp of the expression filter.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+expression: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The filter expression.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+mode: string
 
-## Domain Types
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-### Filter List Response
+<a href="#">Link to this property</a>
 
-- `FilterListResponse object { id, created_on, expression, 2 more }`
+modified\_on: string
 
-  - `id: string`
+The last modification timestamp of the expression filter.
 
-    The unique ID of the expression filter.
+formatdate-time
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-    The creation timestamp of the expression filter.
+</details>
 
-  - `expression: string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters.items%20%3E%20(model)%20item_get_response%20%3E%20(schema)>)
 
-    The filter expression.
+<details>
 
-  - `mode: string`
+<summary>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+ItemEditResponse object {id, created\_on, expression, 2 more }
 
-  - `modified_on: string`
+</summary>
 
-    The last modification timestamp of the expression filter.
+id: string
 
-### Filter Create Response
+The unique ID of the expression filter.
 
-- `FilterCreateResponse object { id, created_on, expression, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+created\_on: string
 
-    The unique ID of the expression filter.
+The creation timestamp of the expression filter.
 
-  - `created_on: string`
+formatdate-time
 
-    The creation timestamp of the expression filter.
+<a href="#">Link to this property</a>
 
-  - `expression: string`
+expression: string
 
-    The filter expression.
+The filter expression.
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+mode: string
 
-  - `modified_on: string`
+The filter’s mode. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
 
-    The last modification timestamp of the expression filter.
+<a href="#">Link to this property</a>
 
-### Filter Bulk Delete Response
+modified\_on: string
 
-- `FilterBulkDeleteResponse object { errors, messages, success }`
+The last modification timestamp of the expression filter.
 
-  - `errors: array of object { code, message, documentation_url, source }`
+formatdate-time
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+</details>
 
-    - `documentation_url: optional string`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters.items%20%3E%20(model)%20item_edit_response%20%3E%20(schema)>)
 
-    - `source: optional object { pointer }`
+<details>
 
-      - `pointer: optional string`
+<summary>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+ItemDeleteResponse object {errors, messages, success }
 
-    - `code: number`
+</summary>
 
-    - `message: string`
+<details>
 
-    - `documentation_url: optional string`
+<summary>
 
-    - `source: optional object { pointer }`
+errors: array of object {code, message, documentation\_url, source }
 
-      - `pointer: optional string`
+</summary>
 
-  - `success: true`
+code: number
 
-    Whether the API call was successful.
+minimum1000
 
-    - `true`
+<a href="#">Link to this property</a>
 
-# Items
+message: string
 
-## Get TCP Flow Protection filter.
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}`
+documentation\_url: optional string
 
-Get a TCP Flow Protection filter specified by the given UUID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+source: optional object {pointer }
 
-- `filter_id: string`
+</summary>
 
-  UUID.
+pointer: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+messages: array of object {code, message, documentation\_url, source }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+code: number
 
-  - `documentation_url: optional string`
+minimum1000
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+message: string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+documentation\_url: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_on, expression, 2 more }`
+<details>
 
-  - `id: string`
+<summary>
 
-    The unique ID of the expression filter.
+source: optional object {pointer }
 
-  - `created_on: string`
+</summary>
 
-    The creation timestamp of the expression filter.
+pointer: optional string
 
-  - `expression: string`
+<a href="#">Link to this property</a>
 
-    The filter expression.
+</details>
 
-  - `mode: string`
+<a href="#">Link to this property</a>
 
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
+</details>
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    The last modification timestamp of the expression filter.
+success: true
 
-### Example
+Whether the API call was successful.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/$FILTER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
-
-## Update TCP Flow Protection filter.
-
-**patch** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}`
-
-Update a TCP Flow Protection filter specified by the given UUID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `filter_id: string`
-
-  UUID.
-
-### Body Parameters
-
-- `expression: optional string`
-
-  The new filter expression. Optional.
-
-- `mode: optional string`
-
-  The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/$FILTER_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "id",
-    "created_on": "2019-12-27T18:11:19.117Z",
-    "expression": "ip.dst in { 192.0.2.0/24 198.51.100.0/24 } and tcp.srcport in { 80 443 10000..65535 }",
-    "mode": "mode",
-    "modified_on": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
-
-## Delete TCP Flow Protection filter.
-
-**delete** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}`
-
-Delete a TCP Flow Protection filter specified by the given UUID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `filter_id: string`
-
-  UUID.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/$FILTER_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Item Get Response
-
-- `ItemGetResponse object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Item Edit Response
-
-- `ItemEditResponse object { id, created_on, expression, 2 more }`
-
-  - `id: string`
-
-    The unique ID of the expression filter.
-
-  - `created_on: string`
-
-    The creation timestamp of the expression filter.
-
-  - `expression: string`
-
-    The filter expression.
-
-  - `mode: string`
-
-    The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.
-
-  - `modified_on: string`
-
-    The last modification timestamp of the expression filter.
-
-### Item Delete Response
-
-- `ItemDeleteResponse object { errors, messages, success }`
-
-  - `errors: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `messages: array of object { code, message, documentation_url, source }`
-
-    - `code: number`
-
-    - `message: string`
-
-    - `documentation_url: optional string`
-
-    - `source: optional object { pointer }`
-
-      - `pointer: optional string`
-
-  - `success: true`
-
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.tcp_flow_protection.filters.items%20%3E%20(model)%20item_delete_response%20%3E%20(schema)>)

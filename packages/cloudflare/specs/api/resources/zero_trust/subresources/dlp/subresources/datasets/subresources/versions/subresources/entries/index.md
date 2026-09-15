@@ -1,141 +1,97 @@
+---
+title: Entries
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+[Datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets)
+
+[Versions](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Entries
 
-## Upload a new version of a multi-column dataset
+##### [Upload a new version of a multi-column dataset](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets/subresources/versions/subresources/entries/methods/create)
 
-**post** `/accounts/{account_id}/dlp/datasets/{dataset_id}/versions/{version}/entries/{entry_id}`
+POST/accounts/{account\_id}/dlp/datasets/{dataset\_id}/versions/{version}/entries/{entry\_id}
 
-This is used for multi-column EDMv2 datasets. The EDMv2 format can only be
-created in the Cloudflare dashboard.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-- `dataset_id: string`
+EntryCreateResponse object {entry\_id, header\_name, num\_cells, upload\_status }
 
-- `version: number`
+</summary>
 
-- `entry_id: string`
+entry\_id: string
 
-### Returns
+formatuuid
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+header\_name: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+num\_cells: number
 
-  - `source: optional object { pointer }`
+formatint64
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+upload\_status: "empty"or "uploading"or "pending"or 3 more
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"empty"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"uploading"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { entry_id, header_name, num_cells, upload_status }`
+"pending"
 
-  - `entry_id: string`
+<a href="#">Link to this property</a>
 
-  - `header_name: string`
+"processing"
 
-  - `num_cells: number`
+<a href="#">Link to this property</a>
 
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+"failed"
 
-    - `"empty"`
+<a href="#">Link to this property</a>
 
-    - `"uploading"`
+"complete"
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"processing"`
+</details>
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID/versions/$VERSION/entries/$ENTRY_ID \
-    -H 'Content-Type: application/octet-stream' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -F 'dataset_version_entry=@/path/to/dataset_version_entry'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "header_name": "header_name",
-    "num_cells": 0,
-    "upload_status": "empty"
-  }
-}
-```
-
-## Domain Types
-
-### Entry Create Response
-
-- `EntryCreateResponse object { entry_id, header_name, num_cells, upload_status }`
-
-  - `entry_id: string`
-
-  - `header_name: string`
-
-  - `num_cells: number`
-
-  - `upload_status: "empty" or "uploading" or "pending" or 3 more`
-
-    - `"empty"`
-
-    - `"uploading"`
-
-    - `"pending"`
-
-    - `"processing"`
-
-    - `"failed"`
-
-    - `"complete"`
+[Link to this property](#)%20zero_trust.dlp.datasets.versions.entries%20%3E%20(model)%20entry_create_response%20%3E%20(schema)>)

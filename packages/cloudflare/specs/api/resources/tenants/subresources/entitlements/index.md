@@ -1,243 +1,239 @@
+---
+title: Entitlements
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Tenants](https://developers.cloudflare.com/api/resources/tenants)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Entitlements
 
-## List tenant entitlements
+##### [List tenant entitlements](https://developers.cloudflare.com/api/resources/tenants/subresources/entitlements/methods/get)
 
-**get** `/tenants/{tenant_id}/entitlements`
+GET/tenants/{tenant\_id}/entitlements
 
-List of innate entitlements available for the Tenant.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `tenant_id: string`
+<summary>
 
-### Returns
+TenantEntitlements object {allow\_add\_subdomain, allow\_auto\_accept\_invites, cname\_setup\_allowed, 3 more }
 
-- `errors: array of unknown`
+</summary>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+allow\_add\_subdomain: object {type, value }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+type: "bool"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: TenantEntitlements`
+value: boolean
 
-  - `allow_add_subdomain: object { type, value }`
+<a href="#">Link to this property</a>
 
-    - `type: "bool"`
+</details>
 
-      - `"bool"`
+<a href="#">Link to this property</a>
 
-    - `value: boolean`
+<details>
 
-  - `allow_auto_accept_invites: object { type, value }`
+<summary>
 
-    - `type: "bool"`
+allow\_auto\_accept\_invites: object {type, value }
 
-      - `"bool"`
+</summary>
 
-    - `value: boolean`
+type: "bool"
 
-  - `cname_setup_allowed: object { type, value }`
+<a href="#">Link to this property</a>
 
-    - `type: "bool"`
+value: boolean
 
-      - `"bool"`
+<a href="#">Link to this property</a>
 
-    - `value: boolean`
+</details>
 
-  - `custom_entitlements: array of object { allocation, feature }`
+<a href="#">Link to this property</a>
 
-    - `allocation: object { type, value }  or object { type, value }  or object { type, value }`
+<details>
 
-      - `OrganizationsAPIMaxCountAllocation object { type, value }`
+<summary>
 
-        - `type: "max_count"`
+cname\_setup\_allowed: object {type, value }
 
-          - `"max_count"`
+</summary>
 
-        - `value: number`
+type: "bool"
 
-      - `OrganizationsAPIBoolAllocation object { type, value }`
+<a href="#">Link to this property</a>
 
-        - `type: "bool"`
+value: boolean
 
-          - `"bool"`
+<a href="#">Link to this property</a>
 
-        - `value: boolean`
+</details>
 
-      - `OrganizationsAPINullAllocation object { type, value }`
+<a href="#">Link to this property</a>
 
-        - `type: ""`
+<details>
 
-          - `""`
+<summary>
 
-        - `value: optional unknown`
+custom\_entitlements: array of object {allocation, feature }
 
-    - `feature: object { key }`
+</summary>
 
-      - `key: string`
+<details>
 
-  - `mhs_certificate_count: object { type, value }`
+<summary>
 
-    - `type: "max_count"`
+allocation: object {type, value } or object {type, value } or object {type, value }
 
-      - `"max_count"`
+</summary>
 
-    - `value: number`
+One of the following:
 
-  - `partial_setup_allowed: object { type, value }`
+<details>
 
-    - `type: "bool"`
+<summary>
 
-      - `"bool"`
+OrganizationsAPIMaxCountAllocation object {type, value }
 
-    - `value: boolean`
+</summary>
 
-- `success: true`
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/tenants/$TENANT_ID/entitlements \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+type: "max\_count"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "allow_add_subdomain": {
-      "type": "bool",
-      "value": true
-    },
-    "allow_auto_accept_invites": {
-      "type": "bool",
-      "value": true
-    },
-    "cname_setup_allowed": {
-      "type": "bool",
-      "value": true
-    },
-    "custom_entitlements": [
-      {
-        "allocation": {
-          "type": "max_count",
-          "value": 0
-        },
-        "feature": {
-          "key": "key"
-        }
-      }
-    ],
-    "mhs_certificate_count": {
-      "type": "max_count",
-      "value": 0
-    },
-    "partial_setup_allowed": {
-      "type": "bool",
-      "value": true
-    }
-  },
-  "success": true
-}
-```
+value: number
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Tenant Entitlements
+</details>
 
-- `TenantEntitlements object { allow_add_subdomain, allow_auto_accept_invites, cname_setup_allowed, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `allow_add_subdomain: object { type, value }`
+<details>
 
-    - `type: "bool"`
+<summary>
 
-      - `"bool"`
+OrganizationsAPIBoolAllocation object {type, value }
 
-    - `value: boolean`
+</summary>
 
-  - `allow_auto_accept_invites: object { type, value }`
+type: "bool"
 
-    - `type: "bool"`
+<a href="#">Link to this property</a>
 
-      - `"bool"`
+value: boolean
 
-    - `value: boolean`
+<a href="#">Link to this property</a>
 
-  - `cname_setup_allowed: object { type, value }`
+</details>
 
-    - `type: "bool"`
+<a href="#">Link to this property</a>
 
-      - `"bool"`
+<details>
 
-    - `value: boolean`
+<summary>
 
-  - `custom_entitlements: array of object { allocation, feature }`
+OrganizationsAPINullAllocation object {type, value }
 
-    - `allocation: object { type, value }  or object { type, value }  or object { type, value }`
+</summary>
 
-      - `OrganizationsAPIMaxCountAllocation object { type, value }`
+type: ""
 
-        - `type: "max_count"`
+<a href="#">Link to this property</a>
 
-          - `"max_count"`
+value: optional unknown
 
-        - `value: number`
+<a href="#">Link to this property</a>
 
-      - `OrganizationsAPIBoolAllocation object { type, value }`
+</details>
 
-        - `type: "bool"`
+<a href="#">Link to this property</a>
 
-          - `"bool"`
+</details>
 
-        - `value: boolean`
+<a href="#">Link to this property</a>
 
-      - `OrganizationsAPINullAllocation object { type, value }`
+<details>
 
-        - `type: ""`
+<summary>
 
-          - `""`
+feature: object {key }
 
-        - `value: optional unknown`
+</summary>
 
-    - `feature: object { key }`
+key: string
 
-      - `key: string`
+<a href="#">Link to this property</a>
 
-  - `mhs_certificate_count: object { type, value }`
+</details>
 
-    - `type: "max_count"`
+<a href="#">Link to this property</a>
 
-      - `"max_count"`
+</details>
 
-    - `value: number`
+<a href="#">Link to this property</a>
 
-  - `partial_setup_allowed: object { type, value }`
+<details>
 
-    - `type: "bool"`
+<summary>
 
-      - `"bool"`
+mhs\_certificate\_count: object {type, value }
 
-    - `value: boolean`
+</summary>
+
+type: "max\_count"
+
+<a href="#">Link to this property</a>
+
+value: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+partial\_setup\_allowed: object {type, value }
+
+</summary>
+
+type: "bool"
+
+<a href="#">Link to this property</a>
+
+value: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20tenants.entitlements%20%3E%20(model)%20tenant_entitlements%20%3E%20(schema)>)

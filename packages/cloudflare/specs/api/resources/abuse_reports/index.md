@@ -1,1987 +1,1473 @@
+---
+title: Abuse Reports
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Abuse Reports
 
-## Submit an abuse report
+##### [Submit an abuse report](https://developers.cloudflare.com/api/resources/abuse_reports/methods/create)
 
-**post** `/accounts/{account_id}/abuse-reports/{report_param}`
+POST/accounts/{account\_id}/abuse-reports/{report\_param}
 
-Submit the Abuse Report of a particular type
+##### [Abuse Report Details](https://developers.cloudflare.com/api/resources/abuse_reports/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/abuse-reports/{report\_param}
 
-- `account_id: string`
+##### [List abuse reports](https://developers.cloudflare.com/api/resources/abuse_reports/methods/list)
 
-- `report_param: string`
+GET/accounts/{account\_id}/abuse-reports
 
-  The report type for submitted reports.
+##### ModelsExpand Collapse
 
-### Body Parameters
+AbuseReportCreateResponse = string
 
-- `body: object { act, address1, agent_name, 18 more }  or object { act, email, email2, 14 more }  or object { act, email, email2, 14 more }  or 5 more`
+The result should be ‘success’ for successful response
 
-  - `AbuseDmca object { act, address1, agent_name, 18 more }`
+[Link to this property](#)%20abuse_reports%20%3E%20(model)%20abuse_report_create_response%20%3E%20(schema)>)
 
-    - `act: "abuse_dmca"`
+<details>
 
-      The report type for submitted reports.
+<summary>
 
-      - `"abuse_dmca"`
+AbuseReportGetResponse object {id, cdate, domain, 7 more }
 
-    - `address1: string`
+</summary>
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+id: string
 
-    - `agent_name: string`
+Public facing ID of abuse report, aka abuse\_rand.
 
-      The name of the copyright holder. Text not exceeding 60 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `agree: 1`
+cdate: string
 
-      Can be `0` for false or `1` for true. Must be value: 1 for DMCA reports
+Creation date of report. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
 
-      - `1`
+<a href="#">Link to this property</a>
 
-    - `city: string`
+domain: string
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+Domain that relates to the report.
 
-    - `country: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<details>
 
-    - `email: string`
+<summary>
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+mitigation\_summary: object {accepted\_url\_count, active\_count, external\_host\_notified, 2 more }
 
-    - `email2: string`
+A summary of the mitigations related to this report.
 
-      Should match the value provided in `email`
+</summary>
 
-    - `host_notification: "send"`
+accepted\_url\_count: number
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+How many of the reported URLs were confirmed as abusive.
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+active\_count: number
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+How many mitigations are active.
 
-    - `original_work: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+external\_host\_notified: boolean
 
-    - `owner_notification: "send"`
+Whether the report has been forwarded to an external hosting provider.
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<a href="#">Link to this property</a>
 
-      - `"send"`
+in\_review\_count: number
 
-    - `signature: string`
+How many mitigations are under review.
 
-      Required for DMCA reports, should be same as Name. An affirmation that all information in the report is true and accurate while agreeing to the policies of Cloudflare's abuse reports
+<a href="#">Link to this property</a>
 
-    - `state: string`
+pending\_count: number
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+How many mitigations are pending their effective date.
 
-    - `urls: string`
+<a href="#">Link to this property</a>
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</details>
 
-    - `comments: optional string`
+<a href="#">Link to this property</a>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+<details>
 
-    - `company: optional string`
+<summary>
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+status: "accepted"or "in\_review"
 
-    - `reported_country: optional string`
+An enum value that represents the status of an abuse record
 
-      Text containing 2 characters
+</summary>
 
-    - `reported_user_agent: optional string`
+One of the following:
 
-      Text not exceeding 255 characters
+"accepted"
 
-    - `tele: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+"in\_review"
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+</details>
 
-  - `AbuseTrademark object { act, email, email2, 14 more }`
+<a href="#">Link to this property</a>
 
-    - `act: "abuse_trademark"`
+<details>
 
-      The report type for submitted reports.
+<summary>
 
-      - `"abuse_trademark"`
+type: "PHISH"or "GEN"or "THREAT"or 6 more
 
-    - `email: string`
+The abuse report type
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</summary>
 
-    - `email2: string`
+One of the following:
 
-      Should match the value provided in `email`
+"PHISH"
 
-    - `host_notification: "send"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+"GEN"
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-    - `justification: string`
+"THREAT"
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"DMCA"
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `owner_notification: "send"`
+"EMER"
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<a href="#">Link to this property</a>
 
-      - `"send"`
+"TM"
 
-    - `trademark_number: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 1000 characters
+"REG\_WHO"
 
-    - `trademark_office: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 1000 characters
+"NCSEI"
 
-    - `trademark_symbol: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 1000 characters
+"NETWORK"
 
-    - `urls: string`
+<a href="#">Link to this property</a>
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</details>
 
-    - `comments: optional string`
+<a href="#">Link to this property</a>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+justification: optional string
 
-    - `company: optional string`
+Justification for the report.
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `reported_country: optional string`
+original\_work: optional string
 
-      Text containing 2 characters
+Original work / Targeted brand in the alleged abuse.
 
-    - `reported_user_agent: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+<details>
 
-    - `tele: optional string`
+<summary>
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+submitter: optional object {company, email, name, telephone }
 
-    - `title: optional string`
+Information about the submitter of the report.
 
-      Text not exceeding 255 characters
+</summary>
 
-  - `AbuseGeneral object { act, email, email2, 14 more }`
+company: optional string
 
-    - `act: "abuse_general"`
+<a href="#">Link to this property</a>
 
-      The report type for submitted reports.
+email: optional string
 
-      - `"abuse_general"`
+<a href="#">Link to this property</a>
 
-    - `email: string`
+name: optional string
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `email2: string`
+telephone: optional string
 
-      Should match the value provided in `email`
+<a href="#">Link to this property</a>
 
-    - `host_notification: "send" or "send-anon"`
+</details>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<a href="#">Link to this property</a>
 
-      - `"send"`
+urls: optional array of string
 
-      - `"send-anon"`
+<a href="#">Link to this property</a>
 
-    - `justification: string`
+</details>
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+[Link to this property](#)%20abuse_reports%20%3E%20(model)%20abuse_report_get_response%20%3E%20(schema)>)
 
-    - `name: string`
+<details>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<summary>
 
-    - `owner_notification: "send" or "send-anon"`
+AbuseReportListResponse object {reports }
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+</summary>
 
-      - `"send"`
+<details>
 
-      - `"send-anon"`
+<summary>
 
-    - `urls: string`
+reports: array of object {id, cdate, domain, 7 more }
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</summary>
 
-    - `comments: optional string`
+id: string
 
-      Any additional comments about the infringement not exceeding 2000 characters
+Public facing ID of abuse report, aka abuse\_rand.
 
-    - `company: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+cdate: string
 
-    - `destination_ips: optional string`
+Creation date of report. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
 
-      A list of IP addresses separated by ‘\n’ (new line character). The list of destination IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique.
+<a href="#">Link to this property</a>
 
-    - `ports_protocols: optional string`
+domain: string
 
-      A comma separated list of ports and protocols e.g. 80/TCP, 22/UDP. The total size of the field should not exceed 2000 characters. Each individual port/protocol should not exceed 100 characters. The list should not have more than 30 unique ports and protocols.
+Domain that relates to the report.
 
-    - `reported_country: optional string`
+<a href="#">Link to this property</a>
 
-      Text containing 2 characters
+<details>
 
-    - `reported_user_agent: optional string`
+<summary>
 
-      Text not exceeding 255 characters
+mitigation\_summary: object {accepted\_url\_count, active\_count, external\_host\_notified, 2 more }
 
-    - `source_ips: optional string`
+A summary of the mitigations related to this report.
 
-      A list of IP addresses separated by ‘\n’ (new line character). The list of source IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique.
+</summary>
 
-    - `tele: optional string`
+accepted\_url\_count: number
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+How many of the reported URLs were confirmed as abusive.
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+active\_count: number
 
-  - `AbusePhishing object { act, email, email2, 12 more }`
+How many mitigations are active.
 
-    - `act: "abuse_phishing"`
+<a href="#">Link to this property</a>
 
-      The report type for submitted reports.
+external\_host\_notified: boolean
 
-      - `"abuse_phishing"`
+Whether the report has been forwarded to an external hosting provider.
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+in\_review\_count: number
 
-    - `email2: string`
+How many mitigations are under review.
 
-      Should match the value provided in `email`
+<a href="#">Link to this property</a>
 
-    - `host_notification: "send" or "send-anon"`
+pending\_count: number
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+How many mitigations are pending their effective date.
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-      - `"send-anon"`
+</details>
 
-    - `justification: string`
+<a href="#">Link to this property</a>
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+<details>
 
-    - `name: string`
+<summary>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+status: "accepted"or "in\_review"
 
-    - `owner_notification: "send" or "send-anon"`
+An enum value that represents the status of an abuse record
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+</summary>
 
-      - `"send"`
+One of the following:
 
-      - `"send-anon"`
+"accepted"
 
-    - `urls: string`
+<a href="#">Link to this property</a>
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+"in\_review"
 
-    - `comments: optional string`
+<a href="#">Link to this property</a>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+</details>
 
-    - `company: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<details>
 
-    - `original_work: optional string`
+<summary>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+type: "PHISH"or "GEN"or "THREAT"or 6 more
 
-    - `reported_country: optional string`
+The abuse report type
 
-      Text containing 2 characters
+</summary>
 
-    - `reported_user_agent: optional string`
+One of the following:
 
-      Text not exceeding 255 characters
+"PHISH"
 
-    - `tele: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+"GEN"
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+"THREAT"
 
-  - `AbuseChildren object { act, email, email2, 13 more }`
+<a href="#">Link to this property</a>
 
-    - `act: "abuse_children"`
+"DMCA"
 
-      The report type for submitted reports.
+<a href="#">Link to this property</a>
 
-      - `"abuse_children"`
+"EMER"
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+"TM"
 
-    - `email2: string`
+<a href="#">Link to this property</a>
 
-      Should match the value provided in `email`
+"REG\_WHO"
 
-    - `host_notification: "send" or "send-anon"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+"NCSEI"
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-      - `"send-anon"`
+"NETWORK"
 
-    - `justification: string`
+<a href="#">Link to this property</a>
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+justification: optional string
 
-    - `ncmec_notification: "send" or "send-anon"`
+Justification for the report.
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<a href="#">Link to this property</a>
 
-      - `"send"`
+original\_work: optional string
 
-      - `"send-anon"`
+Original work / Targeted brand in the alleged abuse.
 
-    - `owner_notification: "send" or "send-anon" or "none"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<details>
 
-      - `"send"`
+<summary>
 
-      - `"send-anon"`
+submitter: optional object {company, email, name, telephone }
 
-      - `"none"`
+Information about the submitter of the report.
 
-    - `urls: string`
+</summary>
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+company: optional string
 
-    - `comments: optional string`
+<a href="#">Link to this property</a>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+email: optional string
 
-    - `company: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+name: optional string
 
-    - `country: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+telephone: optional string
 
-    - `reported_country: optional string`
+<a href="#">Link to this property</a>
 
-      Text containing 2 characters
+</details>
 
-    - `reported_user_agent: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+urls: optional array of string
 
-    - `tele: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</details>
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+</details>
 
-  - `AbuseThreat object { act, email, email2, 11 more }`
+[Link to this property](#)%20abuse_reports%20%3E%20(model)%20abuse_report_list_response%20%3E%20(schema)>)
 
-    - `act: "abuse_threat"`
+#### Abuse ReportsSubmitted
 
-      The report type for submitted reports.
+##### [List submitted abuse reports](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/submitted/methods/list)
 
-      - `"abuse_threat"`
+GET/accounts/{account\_id}/abuse-reports/submitted
 
-    - `email: string`
+##### [Get a submitted abuse report](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/submitted/methods/get)
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+GET/accounts/{account\_id}/abuse-reports/submitted/{report\_id}
 
-    - `email2: string`
+##### ModelsExpand Collapse
 
-      Should match the value provided in `email`
+<details>
 
-    - `host_notification: "send" or "send-anon"`
+<summary>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+SubmittedListResponse object {reports }
 
-      - `"send"`
+</summary>
 
-      - `"send-anon"`
+<details>
 
-    - `justification: string`
+<summary>
 
-      A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.
+reports: array of object {id, cdate, denial\_reason, 4 more }
 
-    - `name: string`
+</summary>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+id: string
 
-    - `owner_notification: "send" or "send-anon"`
+Public report code.
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<a href="#">Link to this property</a>
 
-      - `"send"`
+cdate: string
 
-      - `"send-anon"`
+Time the report was submitted.
 
-    - `urls: string`
+formatdate-time
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `comments: optional string`
+<details>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+<summary>
 
-    - `company: optional string`
+denial\_reason: "unable\_to\_confirm"or "incomplete\_report"or "not\_on\_cloudflare"or 10 more
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+Submitter-safe reason for a denied report. Null when unavailable.
 
-    - `reported_country: optional string`
+</summary>
 
-      Text containing 2 characters
+One of the following:
 
-    - `reported_user_agent: optional string`
+"unable\_to\_confirm"
 
-      Text not exceeding 255 characters
+<a href="#">Link to this property</a>
 
-    - `tele: optional string`
+"incomplete\_report"
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+"not\_on\_cloudflare"
 
-      Text not exceeding 255 characters
+<a href="#">Link to this property</a>
 
-  - `AbuseRegistrarWhois object { act, email, email2, 10 more }`
+"duplicate\_report"
 
-    - `act: "abuse_registrar_whois"`
+<a href="#">Link to this property</a>
 
-      The report type for submitted reports.
+"content\_removed"
 
-      - `"abuse_registrar_whois"`
+<a href="#">Link to this property</a>
 
-    - `email: string`
+"report\_details\_mismatch"
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `email2: string`
+"no\_abuse\_found"
 
-      Should match the value provided in `email`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"missing\_original\_work"
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `owner_notification: "send" or "send-anon" or "none"`
+"direct\_url\_required"
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<a href="#">Link to this property</a>
 
-      - `"send"`
+"wrong\_report\_category"
 
-      - `"send-anon"`
+<a href="#">Link to this property</a>
 
-      - `"none"`
+"content\_unavailable"
 
-    - `urls: string`
+<a href="#">Link to this property</a>
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+"law\_enforcement\_referral\_required"
 
-    - `comments: optional string`
+<a href="#">Link to this property</a>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+"domain\_dispute\_process\_required"
 
-    - `company: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</details>
 
-    - `reg_who_request: optional object { reg_who_good_faith_affirmation, reg_who_lawful_processing_agreement, reg_who_legal_basis, 4 more }`
+<a href="#">Link to this property</a>
 
-      RDP-mandated fields for registrar WHOIS data disclosure requests.
+domain: string
 
-      - `reg_who_good_faith_affirmation: boolean`
+Domain identified in the report.
 
-        Affirmation that the request is made in good faith per RDP 10.2.4. Must be true.
+<a href="#">Link to this property</a>
 
-      - `reg_who_lawful_processing_agreement: boolean`
+<details>
 
-        Agreement to process data lawfully per RDP 10.2.5. Must be true.
+<summary>
 
-      - `reg_who_legal_basis: string`
+status: "submitted"or "accepted"or "denied"
 
-        Legal rights and rationale for the request per RDP 10.2.3. Required for all WHOIS requests.
+Status visible to the account that submitted the report.
 
-      - `reg_who_request_type: "disclosure" or "invalid_whois"`
+</summary>
 
-        The type of WHOIS data request per RDP procedure.
+One of the following:
 
-        - `"disclosure"`
+"submitted"
 
-        - `"invalid_whois"`
+<a href="#">Link to this property</a>
 
-      - `reg_who_requested_data_elements: array of "registrant_name" or "registrant_organization" or "registrant_email" or 14 more`
+"accepted"
 
-        The specific WHOIS data elements being requested per RDP 10.2.2. Required for all WHOIS requests.
+<a href="#">Link to this property</a>
 
-        - `"registrant_name"`
+"denied"
 
-        - `"registrant_organization"`
+<a href="#">Link to this property</a>
 
-        - `"registrant_email"`
+</details>
 
-        - `"registrant_phone"`
+<a href="#">Link to this property</a>
 
-        - `"registrant_address"`
+<details>
 
-        - `"registrant_address_country"`
+<summary>
 
-        - `"registrant_address_postal_code"`
+type: "PHISH"or "GEN"or "THREAT"or 6 more
 
-        - `"admin_name"`
+The abuse report type
 
-        - `"admin_organization"`
+</summary>
 
-        - `"admin_email"`
+One of the following:
 
-        - `"admin_phone"`
+"PHISH"
 
-        - `"admin_address"`
+<a href="#">Link to this property</a>
 
-        - `"tech_name"`
+"GEN"
 
-        - `"tech_organization"`
+<a href="#">Link to this property</a>
 
-        - `"tech_email"`
+"THREAT"
 
-        - `"tech_phone"`
+<a href="#">Link to this property</a>
 
-        - `"tech_address"`
+"DMCA"
 
-      - `reg_who_authorization_statement: optional string`
+<a href="#">Link to this property</a>
 
-        Optional authorization statement or power of attorney per RDP 10.2.1.3.
+"EMER"
 
-      - `reg_who_requestor_type: optional "government" or "corporation" or "individual"`
+<a href="#">Link to this property</a>
 
-        The nature of the requestor per RDP 10.2.1.2.
+"TM"
 
-        - `"government"`
+<a href="#">Link to this property</a>
 
-        - `"corporation"`
+"REG\_WHO"
 
-        - `"individual"`
+<a href="#">Link to this property</a>
 
-    - `reported_country: optional string`
+"NCSEI"
 
-      Text containing 2 characters
+<a href="#">Link to this property</a>
 
-    - `reported_user_agent: optional string`
+"NETWORK"
 
-      Text not exceeding 255 characters
+<a href="#">Link to this property</a>
 
-    - `tele: optional string`
+</details>
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<a href="#">Link to this property</a>
 
-    - `title: optional string`
+<details>
 
-      Text not exceeding 255 characters
+<summary>
 
-  - `AbuseNcsei object { act, email, email2, 12 more }`
+submitter: optional object {company, email, name, telephone }
 
-    - `act: "abuse_ncsei"`
+Information about the submitter of the report.
 
-      The report type for submitted reports.
+</summary>
 
-      - `"abuse_ncsei"`
+company: optional string
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-      A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+email: optional string
 
-    - `email2: string`
+<a href="#">Link to this property</a>
 
-      Should match the value provided in `email`
+name: optional string
 
-    - `host_notification: "send" or "send-anon"`
+<a href="#">Link to this property</a>
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+telephone: optional string
 
-      - `"send"`
+<a href="#">Link to this property</a>
 
-      - `"send-anon"`
+</details>
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+</details>
 
-    - `ncsei_subject_representation: boolean`
+<a href="#">Link to this property</a>
 
-      If the submitter is the target of NCSEI in the URLs of the abuse report.
+</details>
 
-    - `owner_notification: "send" or "send-anon" or "none"`
+[Link to this property](#)%20abuse_reports.submitted%20%3E%20(model)%20submitted_list_response%20%3E%20(schema)>)
 
-      Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.
+<details>
 
-      - `"send"`
+<summary>
 
-      - `"send-anon"`
+SubmittedGetResponse object {id, cdate, denial\_reason, 25 more }
 
-      - `"none"`
+</summary>
 
-    - `urls: string`
+id: string
 
-      A list of valid URLs separated by ‘\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+Public report code.
 
-    - `comments: optional string`
+<a href="#">Link to this property</a>
 
-      Any additional comments about the infringement not exceeding 2000 characters
+cdate: string
 
-    - `company: optional string`
+Time the report was submitted.
 
-      Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+formatdate-time
 
-    - `country: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+<details>
 
-    - `reported_country: optional string`
+<summary>
 
-      Text containing 2 characters
+denial\_reason: "unable\_to\_confirm"or "incomplete\_report"or "not\_on\_cloudflare"or 10 more
 
-    - `reported_user_agent: optional string`
+Submitter-safe reason for a denied report. Null when unavailable.
 
-      Text not exceeding 255 characters
+</summary>
 
-    - `tele: optional string`
+One of the following:
 
-      Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).
+"unable\_to\_confirm"
 
-    - `title: optional string`
+<a href="#">Link to this property</a>
 
-      Text not exceeding 255 characters
+"incomplete\_report"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `abuse_rand: string`
+"not\_on\_cloudflare"
 
-  The identifier for the submitted abuse report.
+<a href="#">Link to this property</a>
 
-- `request: object { act }`
+"duplicate\_report"
 
-  - `act: string`
+<a href="#">Link to this property</a>
 
-    The report type for submitted reports.
+"content\_removed"
 
-- `result: string`
+<a href="#">Link to this property</a>
 
-  The result should be 'success' for successful response
+"report\_details\_mismatch"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_PARAM \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "act": "abuse_dmca",
-          "address1": "x",
-          "agent_name": "x",
-          "agree": 1,
-          "city": "x",
-          "country": "x",
-          "email": "email",
-          "email2": "email2",
-          "host_notification": "send",
-          "name": "x",
-          "original_work": "x",
-          "owner_notification": "send",
-          "signature": "signature",
-          "state": "x",
-          "urls": "urls"
-        }'
-```
+"no\_abuse\_found"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "abuse_rand": "abuse_rand",
-  "request": {
-    "act": "act"
-  },
-  "result": "result"
-}
-```
+"missing\_original\_work"
 
-## Abuse Report Details
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/abuse-reports/{report_param}`
+"direct\_url\_required"
 
-Retrieve the details of an abuse report.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"wrong\_report\_category"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-- `report_param: string`
+"content\_unavailable"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { id, cdate, domain, 7 more }`
+"law\_enforcement\_referral\_required"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Public facing ID of abuse report, aka abuse_rand.
+"domain\_dispute\_process\_required"
 
-  - `cdate: string`
+<a href="#">Link to this property</a>
 
-    Creation date of report. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+</details>
 
-  - `domain: string`
+<a href="#">Link to this property</a>
 
-    Domain that relates to the report.
+domain: string
 
-  - `mitigation_summary: object { accepted_url_count, active_count, external_host_notified, 2 more }`
+Domain identified in the report.
 
-    A summary of the mitigations related to this report.
+<a href="#">Link to this property</a>
 
-    - `accepted_url_count: number`
+dsa\_attestation: boolean
 
-      How many of the reported URLs were confirmed as abusive.
+Whether the submitter provided the Digital Services Act attestation.
 
-    - `active_count: number`
+<a href="#">Link to this property</a>
 
-      How many mitigations are active.
+<details>
 
-    - `external_host_notified: boolean`
+<summary>
 
-      Whether the report has been forwarded to an external hosting provider.
+status: "submitted"or "accepted"or "denied"
 
-    - `in_review_count: number`
+Status visible to the account that submitted the report.
 
-      How many mitigations are under review.
+</summary>
 
-    - `pending_count: number`
+One of the following:
 
-      How many mitigations are pending their effective date.
+"submitted"
 
-  - `status: "accepted" or "in_review"`
+<a href="#">Link to this property</a>
 
-    An enum value that represents the status of an abuse record
+"accepted"
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"in_review"`
+"denied"
 
-  - `type: "PHISH" or "GEN" or "THREAT" or 6 more`
+<a href="#">Link to this property</a>
 
-    The abuse report type
+</details>
 
-    - `"PHISH"`
+<a href="#">Link to this property</a>
 
-    - `"GEN"`
+<details>
 
-    - `"THREAT"`
+<summary>
 
-    - `"DMCA"`
+type: "PHISH"or "GEN"or "THREAT"or 6 more
 
-    - `"EMER"`
+The abuse report type
 
-    - `"TM"`
+</summary>
 
-    - `"REG_WHO"`
+One of the following:
 
-    - `"NCSEI"`
+"PHISH"
 
-    - `"NETWORK"`
+<a href="#">Link to this property</a>
 
-  - `justification: optional string`
+"GEN"
 
-    Justification for the report.
+<a href="#">Link to this property</a>
 
-  - `original_work: optional string`
+"THREAT"
 
-    Original work / Targeted brand in the alleged abuse.
+<a href="#">Link to this property</a>
 
-  - `submitter: optional object { company, email, name, telephone }`
+"DMCA"
 
-    Information about the submitter of the report.
+<a href="#">Link to this property</a>
 
-    - `company: optional string`
+"EMER"
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+"TM"
 
-    - `telephone: optional string`
+<a href="#">Link to this property</a>
 
-  - `urls: optional array of string`
+"REG\_WHO"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { message, code }`
+"NCSEI"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `code: optional string or number`
+"NETWORK"
 
-    - `string`
+<a href="#">Link to this property</a>
 
-    - `number`
+</details>
 
-- `messages: optional array of object { message }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+urls: array of string
 
-### Example
+URLs supplied with the report.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_PARAM \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+agent\_name: optional string
 
-```json
-{
-  "result": {
-    "id": "id",
-    "cdate": "2009-11-10T23:00:00Z",
-    "domain": "domain",
-    "mitigation_summary": {
-      "accepted_url_count": 0,
-      "active_count": 0,
-      "external_host_notified": true,
-      "in_review_count": 0,
-      "pending_count": 0
-    },
-    "status": "accepted",
-    "type": "PHISH",
-    "justification": "justification",
-    "original_work": "original_work",
-    "submitter": {
-      "company": "company",
-      "email": "email",
-      "name": "name",
-      "telephone": "telephone"
-    },
-    "urls": [
-      "string"
-    ]
-  },
-  "success": true,
-  "errors": [
-    {
-      "message": "message",
-      "code": "string"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ]
-}
-```
+Authorized agent name supplied with the report.
 
-## List abuse reports
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/abuse-reports`
+comments: optional string
 
-List the abuse reports for a given account
+Additional comments supplied with the report.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+court: optional string
 
-### Query Parameters
+The string “on” when a court proceeding applies to the report; otherwise omitted.
 
-- `created_after: optional string`
+<a href="#">Link to this property</a>
 
-  Returns reports created after the specified date
+destination\_ips: optional array of string
 
-- `created_before: optional string`
+Destination IP addresses supplied with a network abuse report.
 
-  Returns reports created before the specified date
+<a href="#">Link to this property</a>
 
-- `domain: optional string`
+host\_notification: optional string
 
-  Filter by domain name related to the abuse report
+Submitter preference for notifying the hosting provider.
 
-- `mitigation_status: optional "pending" or "active" or "in_review" or 2 more`
+<a href="#">Link to this property</a>
 
-  Filter reports that have any mitigations in the given status.
+justification: optional string
 
-  - `"pending"`
+Evidence supplied with the report.
 
-  - `"active"`
+<a href="#">Link to this property</a>
 
-  - `"in_review"`
+ncmec\_notification: optional string
 
-  - `"cancelled"`
+Submitter preference for notifying NCMEC.
 
-  - `"removed"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+ncsei\_subject\_representation: optional boolean
 
-  Where in pagination to start listing abuse reports
+Representation supplied for an NCSEI report.
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  How many abuse reports per page to list
+original\_work: optional string
 
-- `sort: optional string`
+Original work or targeted brand supplied with the report.
 
-  A property to sort by, followed by the order (id, cdate, domain, type, status)
+<a href="#">Link to this property</a>
 
-- `status: optional "accepted" or "in_review"`
+owner\_notification: optional string
 
-  Filter by the status of the report.
+Submitter preference for notifying the content owner.
 
-  - `"accepted"`
+<a href="#">Link to this property</a>
 
-  - `"in_review"`
+ports\_protocols: optional array of string
 
-- `type: optional "PHISH" or "GEN" or "THREAT" or 6 more`
+Ports and protocols supplied with a network abuse report.
 
-  Filter by the type of the report.
+<a href="#">Link to this property</a>
 
-  - `"PHISH"`
+<details>
 
-  - `"GEN"`
+<summary>
 
-  - `"THREAT"`
+reg\_who\_request: optional object {reg\_who\_good\_faith\_affirmation, reg\_who\_lawful\_processing\_agreement, reg\_who\_legal\_basis, 4 more }
 
-  - `"DMCA"`
+RDP-mandated fields for registrar WHOIS data disclosure requests.
 
-  - `"EMER"`
+</summary>
 
-  - `"TM"`
+reg\_who\_good\_faith\_affirmation: boolean
 
-  - `"REG_WHO"`
+Affirmation that the request is made in good faith per RDP 10.2.4. Must be true.
 
-  - `"NCSEI"`
+<a href="#">Link to this property</a>
 
-  - `"NETWORK"`
+reg\_who\_lawful\_processing\_agreement: boolean
 
-### Returns
+Agreement to process data lawfully per RDP 10.2.5. Must be true.
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { message }`
+reg\_who\_legal\_basis: string
 
-  - `message: string`
+Legal rights and rationale for the request per RDP 10.2.3. Required for all WHOIS requests.
 
-- `messages: optional array of object { message }`
+maxLength5000
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: optional object { reports }`
+<details>
 
-  - `reports: array of object { id, cdate, domain, 7 more }`
+<summary>
 
-    - `id: string`
+reg\_who\_request\_type: "disclosure"or "invalid\_whois"
 
-      Public facing ID of abuse report, aka abuse_rand.
+The type of WHOIS data request per RDP procedure.
 
-    - `cdate: string`
+</summary>
 
-      Creation date of report. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+One of the following:
 
-    - `domain: string`
+"disclosure"
 
-      Domain that relates to the report.
+<a href="#">Link to this property</a>
 
-    - `mitigation_summary: object { accepted_url_count, active_count, external_host_notified, 2 more }`
+"invalid\_whois"
 
-      A summary of the mitigations related to this report.
+<a href="#">Link to this property</a>
 
-      - `accepted_url_count: number`
+</details>
 
-        How many of the reported URLs were confirmed as abusive.
+<a href="#">Link to this property</a>
 
-      - `active_count: number`
+<details>
 
-        How many mitigations are active.
+<summary>
 
-      - `external_host_notified: boolean`
+reg\_who\_requested\_data\_elements: array of "registrant\_name"or "registrant\_organization"or "registrant\_email"or 14 more
 
-        Whether the report has been forwarded to an external hosting provider.
+The specific WHOIS data elements being requested per RDP 10.2.2. Required for all WHOIS requests.
 
-      - `in_review_count: number`
+</summary>
 
-        How many mitigations are under review.
+One of the following:
 
-      - `pending_count: number`
+"registrant\_name"
 
-        How many mitigations are pending their effective date.
+<a href="#">Link to this property</a>
 
-    - `status: "accepted" or "in_review"`
+"registrant\_organization"
 
-      An enum value that represents the status of an abuse record
+<a href="#">Link to this property</a>
 
-      - `"accepted"`
+"registrant\_email"
 
-      - `"in_review"`
+<a href="#">Link to this property</a>
 
-    - `type: "PHISH" or "GEN" or "THREAT" or 6 more`
+"registrant\_phone"
 
-      The abuse report type
+<a href="#">Link to this property</a>
 
-      - `"PHISH"`
+"registrant\_address"
 
-      - `"GEN"`
+<a href="#">Link to this property</a>
 
-      - `"THREAT"`
+"registrant\_address\_country"
 
-      - `"DMCA"`
+<a href="#">Link to this property</a>
 
-      - `"EMER"`
+"registrant\_address\_postal\_code"
 
-      - `"TM"`
+<a href="#">Link to this property</a>
 
-      - `"REG_WHO"`
+"admin\_name"
 
-      - `"NCSEI"`
+<a href="#">Link to this property</a>
 
-      - `"NETWORK"`
+"admin\_organization"
 
-    - `justification: optional string`
+<a href="#">Link to this property</a>
 
-      Justification for the report.
+"admin\_email"
 
-    - `original_work: optional string`
+<a href="#">Link to this property</a>
 
-      Original work / Targeted brand in the alleged abuse.
+"admin\_phone"
 
-    - `submitter: optional object { company, email, name, telephone }`
+<a href="#">Link to this property</a>
 
-      Information about the submitter of the report.
+"admin\_address"
 
-      - `company: optional string`
+<a href="#">Link to this property</a>
 
-      - `email: optional string`
+"tech\_name"
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-      - `telephone: optional string`
+"tech\_organization"
 
-    - `urls: optional array of string`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+"tech\_email"
 
-  - `count: number`
+<a href="#">Link to this property</a>
 
-  - `page: number`
+"tech\_phone"
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-  - `total_count: number`
+"tech\_address"
 
-  - `total_pages: number`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+reg\_who\_authorization\_statement: optional string
 
-```json
-{
-  "success": true,
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": {
-    "reports": [
-      {
-        "id": "id",
-        "cdate": "2009-11-10T23:00:00Z",
-        "domain": "domain",
-        "mitigation_summary": {
-          "accepted_url_count": 0,
-          "active_count": 0,
-          "external_host_notified": true,
-          "in_review_count": 0,
-          "pending_count": 0
-        },
-        "status": "accepted",
-        "type": "PHISH",
-        "justification": "justification",
-        "original_work": "original_work",
-        "submitter": {
-          "company": "company",
-          "email": "email",
-          "name": "name",
-          "telephone": "telephone"
-        },
-        "urls": [
-          "string"
-        ]
-      }
-    ]
-  },
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "total_pages": 0
-  }
-}
-```
+Optional authorization statement or power of attorney per RDP 10.2.1.3.
 
-## Domain Types
+maxLength5000
 
-### Abuse Report Create Response
+<a href="#">Link to this property</a>
 
-- `AbuseReportCreateResponse = string`
+<details>
 
-  The result should be 'success' for successful response
+<summary>
 
-### Abuse Report Get Response
+reg\_who\_requestor\_type: optional "government"or "corporation"or "individual"
 
-- `AbuseReportGetResponse object { id, cdate, domain, 7 more }`
+The nature of the requestor per RDP 10.2.1.2.
 
-  - `id: string`
+</summary>
 
-    Public facing ID of abuse report, aka abuse_rand.
+One of the following:
 
-  - `cdate: string`
+"government"
 
-    Creation date of report. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+<a href="#">Link to this property</a>
 
-  - `domain: string`
+"corporation"
 
-    Domain that relates to the report.
+<a href="#">Link to this property</a>
 
-  - `mitigation_summary: object { accepted_url_count, active_count, external_host_notified, 2 more }`
+"individual"
 
-    A summary of the mitigations related to this report.
+<a href="#">Link to this property</a>
 
-    - `accepted_url_count: number`
+</details>
 
-      How many of the reported URLs were confirmed as abusive.
+<a href="#">Link to this property</a>
 
-    - `active_count: number`
+</details>
 
-      How many mitigations are active.
+<a href="#">Link to this property</a>
 
-    - `external_host_notified: boolean`
+reported\_country: optional string
 
-      Whether the report has been forwarded to an external hosting provider.
+Country associated with the reported activity.
 
-    - `in_review_count: number`
+<a href="#">Link to this property</a>
 
-      How many mitigations are under review.
+reported\_user\_agent: optional string
 
-    - `pending_count: number`
+User agent associated with the reported activity.
 
-      How many mitigations are pending their effective date.
+<a href="#">Link to this property</a>
 
-  - `status: "accepted" or "in_review"`
+source\_ips: optional array of string
 
-    An enum value that represents the status of an abuse record
+Source IP addresses supplied with a network abuse report.
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"in_review"`
+<details>
 
-  - `type: "PHISH" or "GEN" or "THREAT" or 6 more`
+<summary>
 
-    The abuse report type
+submitter: optional object {company, email, name, telephone }
 
-    - `"PHISH"`
+Information about the submitter of the report.
 
-    - `"GEN"`
+</summary>
 
-    - `"THREAT"`
+company: optional string
 
-    - `"DMCA"`
+<a href="#">Link to this property</a>
 
-    - `"EMER"`
+email: optional string
 
-    - `"TM"`
+<a href="#">Link to this property</a>
 
-    - `"REG_WHO"`
+name: optional string
 
-    - `"NCSEI"`
+<a href="#">Link to this property</a>
 
-    - `"NETWORK"`
+telephone: optional string
 
-  - `justification: optional string`
+<a href="#">Link to this property</a>
 
-    Justification for the report.
+</details>
 
-  - `original_work: optional string`
+<a href="#">Link to this property</a>
 
-    Original work / Targeted brand in the alleged abuse.
+subtypes: optional array of string
 
-  - `submitter: optional object { company, email, name, telephone }`
+Additional abuse classifications supplied with the report.
 
-    Information about the submitter of the report.
+<a href="#">Link to this property</a>
 
-    - `company: optional string`
+title: optional string
 
-    - `email: optional string`
+Title supplied with the report.
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `telephone: optional string`
+udrp: optional string
 
-  - `urls: optional array of string`
+The string “on” when a UDRP proceeding applies to the report; otherwise omitted.
 
-### Abuse Report List Response
+<a href="#">Link to this property</a>
 
-- `AbuseReportListResponse object { reports }`
+urs: optional string
 
-  - `reports: array of object { id, cdate, domain, 7 more }`
+The string “on” when a URS proceeding applies to the report; otherwise omitted.
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Public facing ID of abuse report, aka abuse_rand.
+</details>
 
-    - `cdate: string`
+[Link to this property](#)%20abuse_reports.submitted%20%3E%20(model)%20submitted_get_response%20%3E%20(schema)>)
 
-      Creation date of report. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+#### Abuse ReportsSubmittedEmails
 
-    - `domain: string`
+##### [List emails sent to an abuse report submitter](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/submitted/subresources/emails/methods/list)
 
-      Domain that relates to the report.
+GET/accounts/{account\_id}/abuse-reports/submitted/{report\_id}/emails
 
-    - `mitigation_summary: object { accepted_url_count, active_count, external_host_notified, 2 more }`
+##### ModelsExpand Collapse
 
-      A summary of the mitigations related to this report.
+<details>
 
-      - `accepted_url_count: number`
+<summary>
 
-        How many of the reported URLs were confirmed as abusive.
+EmailListResponse object {emails }
 
-      - `active_count: number`
+</summary>
 
-        How many mitigations are active.
+<details>
 
-      - `external_host_notified: boolean`
+<summary>
 
-        Whether the report has been forwarded to an external hosting provider.
+emails: array of object {id, body, recipient, 2 more }
 
-      - `in_review_count: number`
+</summary>
 
-        How many mitigations are under review.
+id: string
 
-      - `pending_count: number`
+Unique identifier of the email.
 
-        How many mitigations are pending their effective date.
+<a href="#">Link to this property</a>
 
-    - `status: "accepted" or "in_review"`
+body: string
 
-      An enum value that represents the status of an abuse record
+Body content of the email.
 
-      - `"accepted"`
+<a href="#">Link to this property</a>
 
-      - `"in_review"`
+recipient: string
 
-    - `type: "PHISH" or "GEN" or "THREAT" or 6 more`
+Email address of the recipient.
 
-      The abuse report type
+<a href="#">Link to this property</a>
 
-      - `"PHISH"`
+sent\_at: string
 
-      - `"GEN"`
+When the email was sent. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
 
-      - `"THREAT"`
+<a href="#">Link to this property</a>
 
-      - `"DMCA"`
+subject: string
 
-      - `"EMER"`
+Subject line of the email.
 
-      - `"TM"`
+<a href="#">Link to this property</a>
 
-      - `"REG_WHO"`
+</details>
 
-      - `"NCSEI"`
+<a href="#">Link to this property</a>
 
-      - `"NETWORK"`
+</details>
 
-    - `justification: optional string`
+[Link to this property](#)%20abuse_reports.submitted.emails%20%3E%20(model)%20email_list_response%20%3E%20(schema)>)
 
-      Justification for the report.
+#### Abuse ReportsMitigations
 
-    - `original_work: optional string`
+##### [List abuse report mitigations](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/mitigations/methods/list)
 
-      Original work / Targeted brand in the alleged abuse.
+GET/accounts/{account\_id}/abuse-reports/{report\_id}/mitigations
 
-    - `submitter: optional object { company, email, name, telephone }`
+##### [Request review on mitigations](https://developers.cloudflare.com/api/resources/abuse_reports/subresources/mitigations/methods/review)
 
-      Information about the submitter of the report.
+POST/accounts/{account\_id}/abuse-reports/{report\_id}/mitigations/appeal
 
-      - `company: optional string`
+##### ModelsExpand Collapse
 
-      - `email: optional string`
+<details>
 
-      - `name: optional string`
+<summary>
 
-      - `telephone: optional string`
+MitigationListResponse object {mitigations }
 
-    - `urls: optional array of string`
+</summary>
 
-# Mitigations
+<details>
 
-## List abuse report mitigations
+<summary>
 
-**get** `/accounts/{account_id}/abuse-reports/{report_id}/mitigations`
+mitigations: array of object {id, effective\_date, entity\_id, 3 more }
 
-List mitigations done to remediate the abuse report.
+</summary>
 
-### Path Parameters
+id: string
 
-- `account_id: string`
+ID of remediation.
 
-- `report_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+effective\_date: string
 
-- `effective_after: optional string`
+Date when the mitigation will become active. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
 
-  Returns mitigation that were dispatched after the given date
+<a href="#">Link to this property</a>
 
-- `effective_before: optional string`
+entity\_id: string
 
-  Returns mitigations that were dispatched before the given date
+<a href="#">Link to this property</a>
 
-- `entity_type: optional "url_pattern" or "account" or "zone"`
+<details>
 
-  Filter by the type of entity the mitigation impacts.
+<summary>
 
-  - `"url_pattern"`
+entity\_type: "url\_pattern"or "account"or "zone"or "custom\_expression"
 
-  - `"account"`
+The type of entity targeted by a mitigation.
 
-  - `"zone"`
+</summary>
 
-- `page: optional number`
+One of the following:
 
-  Where in pagination to start listing abuse reports
+"url\_pattern"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  How many abuse reports per page to list
+"account"
 
-- `sort: optional "type,asc" or "type,desc" or "effective_date,asc" or 5 more`
+<a href="#">Link to this property</a>
 
-  A property to sort by, followed by the order
+"zone"
 
-  - `"type,asc"`
+<a href="#">Link to this property</a>
 
-  - `"type,desc"`
+"custom\_expression"
 
-  - `"effective_date,asc"`
+<a href="#">Link to this property</a>
 
-  - `"effective_date,desc"`
+</details>
 
-  - `"status,asc"`
+<a href="#">Link to this property</a>
 
-  - `"status,desc"`
+<details>
 
-  - `"entity_type,asc"`
+<summary>
 
-  - `"entity_type,desc"`
+status: "pending"or "active"or "in\_review"or 2 more
 
-- `status: optional "pending" or "active" or "in_review" or 2 more`
+The status of a mitigation
 
-  Filter by the status of the mitigation.
+</summary>
 
-  - `"pending"`
+One of the following:
 
-  - `"active"`
+"pending"
 
-  - `"in_review"`
+<a href="#">Link to this property</a>
 
-  - `"cancelled"`
+"active"
 
-  - `"removed"`
+<a href="#">Link to this property</a>
 
-- `type: optional "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
+"in\_review"
 
-  Filter by the type of mitigation. This filter parameter can be specified multiple times to include multiple types of mitigations in the result set, e.g. ?type=rate_limit_cache&type=legal_block.
+<a href="#">Link to this property</a>
 
-  - `"account_suspend"`
+"cancelled"
 
-  - `"copyright_interstitial"`
+<a href="#">Link to this property</a>
 
-  - `"geo_block"`
+"removed"
 
-  - `"legal_block"`
+<a href="#">Link to this property</a>
 
-  - `"malware_interstitial"`
+</details>
 
-  - `"misleading_interstitial"`
+<a href="#">Link to this property</a>
 
-  - `"network_block"`
+type: string
 
-  - `"phishing_interstitial"`
+The type of mitigation applied to a reported entity.
 
-  - `"playfairite_enforce"`
+<a href="#">Link to this property</a>
 
-  - `"r2_takedown_account"`
+</details>
 
-  - `"r2_takedown_bucket"`
+<a href="#">Link to this property</a>
 
-  - `"r2_takedown_object"`
+</details>
 
-  - `"rate_limit_cache"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(model)%20mitigation_list_response%20%3E%20(schema)>)
 
-  - `"redirect_video_stream"`
+<details>
 
-  - `"registrar_freeze"`
+<summary>
 
-  - `"registrar_parking"`
+MitigationReviewResponse object {id, effective\_date, entity\_id, 3 more }
 
-  - `"stream_block_account"`
+</summary>
 
-  - `"user_suspend"`
+id: string
 
-  - `"workers_takedown_by_zone_id"`
+ID of remediation.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+effective\_date: string
 
-- `errors: optional array of object { message }`
+Date when the mitigation will become active. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `messages: optional array of object { message }`
+entity\_id: string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-- `result: optional object { mitigations }`
+<details>
 
-  - `mitigations: array of object { id, effective_date, entity_id, 3 more }`
+<summary>
 
-    - `id: string`
+entity\_type: "url\_pattern"or "account"or "zone"or "custom\_expression"
 
-      ID of remediation.
+The type of entity targeted by a mitigation.
 
-    - `effective_date: string`
+</summary>
 
-      Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+One of the following:
 
-    - `entity_id: string`
+"url\_pattern"
 
-    - `entity_type: "url_pattern" or "account" or "zone"`
+<a href="#">Link to this property</a>
 
-      The type of entity targeted by a mitigation.
+"account"
 
-      - `"url_pattern"`
+<a href="#">Link to this property</a>
 
-      - `"account"`
+"zone"
 
-      - `"zone"`
+<a href="#">Link to this property</a>
 
-    - `status: "pending" or "active" or "in_review" or 2 more`
+"custom\_expression"
 
-      The status of a mitigation
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+</details>
 
-      - `"active"`
+<a href="#">Link to this property</a>
 
-      - `"in_review"`
+<details>
 
-      - `"cancelled"`
+<summary>
 
-      - `"removed"`
+status: "pending"or "active"or "in\_review"or 2 more
 
-    - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
+The status of a mitigation
 
-      The type of mitigation applied to a reported entity.
+</summary>
 
-      - `"account_suspend"`
+One of the following:
 
-      - `"copyright_interstitial"`
+"pending"
 
-      - `"geo_block"`
+<a href="#">Link to this property</a>
 
-      - `"legal_block"`
+"active"
 
-      - `"malware_interstitial"`
+<a href="#">Link to this property</a>
 
-      - `"misleading_interstitial"`
+"in\_review"
 
-      - `"network_block"`
+<a href="#">Link to this property</a>
 
-      - `"phishing_interstitial"`
+"cancelled"
 
-      - `"playfairite_enforce"`
+<a href="#">Link to this property</a>
 
-      - `"r2_takedown_account"`
+"removed"
 
-      - `"r2_takedown_bucket"`
+<a href="#">Link to this property</a>
 
-      - `"r2_takedown_object"`
+</details>
 
-      - `"rate_limit_cache"`
+<a href="#">Link to this property</a>
 
-      - `"redirect_video_stream"`
+type: string
 
-      - `"registrar_freeze"`
+The type of mitigation applied to a reported entity.
 
-      - `"registrar_parking"`
+<a href="#">Link to this property</a>
 
-      - `"stream_block_account"`
+</details>
 
-      - `"user_suspend"`
-
-      - `"workers_takedown_by_zone_id"`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: number`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-  - `total_pages: number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_ID/mitigations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "success": true,
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": {
-    "mitigations": [
-      {
-        "id": "id",
-        "effective_date": "2009-11-10T23:00:00Z",
-        "entity_id": "entity_id",
-        "entity_type": "url_pattern",
-        "status": "pending",
-        "type": "account_suspend"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "total_pages": 0
-  }
-}
-```
-
-## Request review on mitigations
-
-**post** `/accounts/{account_id}/abuse-reports/{report_id}/mitigations/appeal`
-
-Request a review for mitigations on an account.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `report_id: string`
-
-### Body Parameters
-
-- `appeals: array of object { id, reason }`
-
-  List of mitigations to appeal.
-
-  - `id: string`
-
-    ID of the mitigation to appeal.
-
-  - `reason: "removed" or "misclassified"`
-
-    Reason why the customer is appealing.
-
-    - `"removed"`
-
-    - `"misclassified"`
-
-### Returns
-
-- `result_info: object { count, page, per_page, 2 more }`
-
-  - `count: number`
-
-  - `page: number`
-
-  - `per_page: number`
-
-  - `total_count: number`
-
-  - `total_pages: number`
-
-- `success: boolean`
-
-- `errors: optional array of object { message }`
-
-  - `message: string`
-
-- `messages: optional array of object { message }`
-
-  - `message: string`
-
-- `result: optional array of object { id, effective_date, entity_id, 3 more }`
-
-  - `id: string`
-
-    ID of remediation.
-
-  - `effective_date: string`
-
-    Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
-
-  - `entity_id: string`
-
-  - `entity_type: "url_pattern" or "account" or "zone"`
-
-    The type of entity targeted by a mitigation.
-
-    - `"url_pattern"`
-
-    - `"account"`
-
-    - `"zone"`
-
-  - `status: "pending" or "active" or "in_review" or 2 more`
-
-    The status of a mitigation
-
-    - `"pending"`
-
-    - `"active"`
-
-    - `"in_review"`
-
-    - `"cancelled"`
-
-    - `"removed"`
-
-  - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
-
-    The type of mitigation applied to a reported entity.
-
-    - `"account_suspend"`
-
-    - `"copyright_interstitial"`
-
-    - `"geo_block"`
-
-    - `"legal_block"`
-
-    - `"malware_interstitial"`
-
-    - `"misleading_interstitial"`
-
-    - `"network_block"`
-
-    - `"phishing_interstitial"`
-
-    - `"playfairite_enforce"`
-
-    - `"r2_takedown_account"`
-
-    - `"r2_takedown_bucket"`
-
-    - `"r2_takedown_object"`
-
-    - `"rate_limit_cache"`
-
-    - `"redirect_video_stream"`
-
-    - `"registrar_freeze"`
-
-    - `"registrar_parking"`
-
-    - `"stream_block_account"`
-
-    - `"user_suspend"`
-
-    - `"workers_takedown_by_zone_id"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports/$REPORT_ID/mitigations/appeal \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "appeals": [
-            {
-              "id": "id",
-              "reason": "misclassified"
-            }
-          ]
-        }'
-```
-
-#### Response
-
-```json
-{
-  "result_info": {
-    "count": 0,
-    "page": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "total_pages": 0
-  },
-  "success": true,
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "messages": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "effective_date": "2009-11-10T23:00:00Z",
-      "entity_id": "entity_id",
-      "entity_type": "url_pattern",
-      "status": "pending",
-      "type": "account_suspend"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Mitigation List Response
-
-- `MitigationListResponse object { mitigations }`
-
-  - `mitigations: array of object { id, effective_date, entity_id, 3 more }`
-
-    - `id: string`
-
-      ID of remediation.
-
-    - `effective_date: string`
-
-      Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
-
-    - `entity_id: string`
-
-    - `entity_type: "url_pattern" or "account" or "zone"`
-
-      The type of entity targeted by a mitigation.
-
-      - `"url_pattern"`
-
-      - `"account"`
-
-      - `"zone"`
-
-    - `status: "pending" or "active" or "in_review" or 2 more`
-
-      The status of a mitigation
-
-      - `"pending"`
-
-      - `"active"`
-
-      - `"in_review"`
-
-      - `"cancelled"`
-
-      - `"removed"`
-
-    - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
-
-      The type of mitigation applied to a reported entity.
-
-      - `"account_suspend"`
-
-      - `"copyright_interstitial"`
-
-      - `"geo_block"`
-
-      - `"legal_block"`
-
-      - `"malware_interstitial"`
-
-      - `"misleading_interstitial"`
-
-      - `"network_block"`
-
-      - `"phishing_interstitial"`
-
-      - `"playfairite_enforce"`
-
-      - `"r2_takedown_account"`
-
-      - `"r2_takedown_bucket"`
-
-      - `"r2_takedown_object"`
-
-      - `"rate_limit_cache"`
-
-      - `"redirect_video_stream"`
-
-      - `"registrar_freeze"`
-
-      - `"registrar_parking"`
-
-      - `"stream_block_account"`
-
-      - `"user_suspend"`
-
-      - `"workers_takedown_by_zone_id"`
-
-### Mitigation Review Response
-
-- `MitigationReviewResponse object { id, effective_date, entity_id, 3 more }`
-
-  - `id: string`
-
-    ID of remediation.
-
-  - `effective_date: string`
-
-    Date when the mitigation will become active. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
-
-  - `entity_id: string`
-
-  - `entity_type: "url_pattern" or "account" or "zone"`
-
-    The type of entity targeted by a mitigation.
-
-    - `"url_pattern"`
-
-    - `"account"`
-
-    - `"zone"`
-
-  - `status: "pending" or "active" or "in_review" or 2 more`
-
-    The status of a mitigation
-
-    - `"pending"`
-
-    - `"active"`
-
-    - `"in_review"`
-
-    - `"cancelled"`
-
-    - `"removed"`
-
-  - `type: "account_suspend" or "copyright_interstitial" or "geo_block" or 16 more`
-
-    The type of mitigation applied to a reported entity.
-
-    - `"account_suspend"`
-
-    - `"copyright_interstitial"`
-
-    - `"geo_block"`
-
-    - `"legal_block"`
-
-    - `"malware_interstitial"`
-
-    - `"misleading_interstitial"`
-
-    - `"network_block"`
-
-    - `"phishing_interstitial"`
-
-    - `"playfairite_enforce"`
-
-    - `"r2_takedown_account"`
-
-    - `"r2_takedown_bucket"`
-
-    - `"r2_takedown_object"`
-
-    - `"rate_limit_cache"`
-
-    - `"redirect_video_stream"`
-
-    - `"registrar_freeze"`
-
-    - `"registrar_parking"`
-
-    - `"stream_block_account"`
-
-    - `"user_suspend"`
-
-    - `"workers_takedown_by_zone_id"`
+[Link to this property](#)%20abuse_reports.mitigations%20%3E%20(model)%20mitigation_review_response%20%3E%20(schema)>)

@@ -1,173 +1,467 @@
-## List Zone Lockdown rules
+---
+title: List Zone Lockdown rules
+---
 
-**get** `/zones/{zone_id}/firewall/lockdowns`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
+
+[Lockdowns](https://developers.cloudflare.com/api/resources/firewall/subresources/lockdowns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Zone Lockdown rules
+
+GET/zones/{zone\_id}/firewall/lockdowns
 
 Fetches Zone Lockdown rules. You can filter the results using several optional parameters.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Defines an identifier.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `created_on: optional string`
 
-  The timestamp of when the rule was created.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `description: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  A string to search for in the description of existing rules.
+</details>
 
-- `description_search: optional string`
+<details>
 
-  A string to search for in the description of existing rules.
+<summary>API Email + API Key</summary>
 
-- `ip: optional string`
 
-  A single IP address to search for in existing rules.
 
-- `ip_range_search: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  A single IP address range to search for in existing rules.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `ip_search: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  A single IP address to search for in existing rules.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `modified_on: optional string`
+</details>
 
-  The timestamp of when the rule was last modified.
+##### Accepted Permissions (at least one required)
 
-- `page: optional number`
+`Firewall Services Write``Firewall Services Read`
 
-  Page number of paginated results.
+##### P ath ParametersExpand Collapse
 
-- `per_page: optional number`
+zone\_id: string
 
-  The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
+Defines an identifier.
 
-- `priority: optional number`
+maxLength32
 
-  The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `uri_search: optional string`
+##### Q uery ParametersExpand Collapse
 
-  A single URI to search for in the list of URLs of existing rules.
+created\_on: optional string
 
-### Returns
+The timestamp of when the rule was created.
 
-- `errors: array of ResponseInfo`
+formatdate-time
 
-  - `code: number`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20created_on%20%3E%20(schema)>)
 
-  - `message: string`
+description: optional string
 
-  - `documentation_url: optional string`
+A string to search for in the description of existing rules.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20description%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+description\_search: optional string
 
-- `messages: array of ResponseInfo`
+A string to search for in the description of existing rules.
 
-  - `code: number`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20description_search%20%3E%20(schema)>)
 
-  - `message: string`
+ip: optional string
 
-  - `documentation_url: optional string`
+A single IP address to search for in existing rules.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ip%20%3E%20(schema)>)
 
-- `result: array of Lockdown`
+ip\_range\_search: optional string
 
-  - `id: string`
+A single IP address range to search for in existing rules.
 
-    The unique identifier of the Zone Lockdown rule.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ip_range_search%20%3E%20(schema)>)
 
-  - `configurations: Configuration`
+ip\_search: optional string
 
-    A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations.
+A single IP address to search for in existing rules.
 
-    - `LockdownIPConfiguration object { target, value }`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20ip_search%20%3E%20(schema)>)
 
-      - `target: optional "ip"`
+modified\_on: optional string
 
-        The configuration target. You must set the target to `ip` when specifying an IP address in the Zone Lockdown rule.
+The timestamp of when the rule was last modified.
 
-        - `"ip"`
+formatdate-time
 
-      - `value: optional string`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20modified_on%20%3E%20(schema)>)
 
-        The IP address to match. This address will be compared to the IP address of incoming requests.
+page: optional number
 
-    - `LockdownCIDRConfiguration object { target, value }`
+Page number of paginated results.
 
-      - `target: optional "ip_range"`
+minimum1
 
-        The configuration target. You must set the target to `ip_range` when specifying an IP address range in the Zone Lockdown rule.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-        - `"ip_range"`
+per\_page: optional number
 
-      - `value: optional string`
+The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.
 
-        The IP address range to match. You can only use prefix lengths `/16` and `/24`.
+maximum1000
 
-  - `created_on: string`
+minimum1
 
-    The timestamp of when the rule was created.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `description: string`
+priority: optional number
 
-    An informative summary of the rule.
+The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority.
 
-  - `modified_on: string`
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20priority%20%3E%20(schema)>)
 
-    The timestamp of when the rule was last modified.
+uri\_search: optional string
 
-  - `paused: boolean`
+A single URI to search for in the list of URLs of existing rules.
 
-    When true, indicates that the rule is currently paused.
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20uri_search%20%3E%20(schema)>)
 
-  - `urls: array of LockdownURL`
+##### ReturnsExpand Collapse
 
-    The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+<details>
 
-- `success: true`
+<summary>
 
-  Defines whether the API call was successful.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-  - `true`
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+code: number
 
-  - `count: optional number`
+minimum1000
 
-    Defines the total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+message: string
 
-    Defines the current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+documentation\_url: optional string
 
-    Defines the number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+<details>
 
-    Defines the total results available without any search parameters.
+<summary>
 
-### Example
+source: optional object {pointer }
 
-```http
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown%20%3E%20(schema)">Lockdown</a> { id, configurations, created\_on, 4 more }
+
+</summary>
+
+id: string
+
+The unique identifier of the Zone Lockdown rule.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+configurations: <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20configuration%20%3E%20(schema)">Configuration</a> { , }
+
+A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of <code>ip</code> or <code>ip_range</code> configurations.
+
+</summary>
+
+One of the following:
+
+<details>
+
+<summary>
+
+LockdownIPConfiguration object {target, value }
+
+</summary>
+
+target: optional "ip"
+
+The configuration target. You must set the target to <code>ip</code> when specifying an IP address in the Zone Lockdown rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The IP address to match. This address will be compared to the IP address of incoming requests.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+LockdownCIDRConfiguration object {target, value }
+
+</summary>
+
+target: optional "ip\_range"
+
+The configuration target. You must set the target to <code>ip_range</code> when specifying an IP address range in the Zone Lockdown rule.
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+The IP address range to match. You can only use prefix lengths <code>/16</code> and <code>/24</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The timestamp of when the rule was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: string
+
+An informative summary of the rule.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The timestamp of when the rule was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+paused: boolean
+
+When true, indicates that the rule is currently paused.
+
+<a href="#">Link to this property</a>
+
+urls: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.lockdowns%20%3E%20(model)%20lockdown_url%20%3E%20(schema)">LockdownURL</a>
+
+The URLs to include in the rule definition. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Defines the total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Defines the current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Defines the number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Defines the total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.lockdowns%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List Zone Lockdown rules
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/lockdowns \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "372e67954025e0ba6aaa6d586b9e0b59",
+      "configurations": [
+        {
+          "target": "ip",
+          "value": "198.51.100.4"
+        }
+      ],
+      "created_on": "2014-01-01T05:20:00.12345Z",
+      "description": "Restrict access to these endpoints to requests from a known IP address",
+      "modified_on": "2014-01-01T05:20:00.12345Z",
+      "paused": false,
+      "urls": [
+        "api.mysite.com/some/endpoint*"
+      ]
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

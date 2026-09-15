@@ -1,438 +1,231 @@
+---
+title: Csam Scanner
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Csam Scanner
 
-## Get CSAM Scanner setting
+##### [Get CSAM Scanner setting](https://developers.cloudflare.com/api/resources/csam_scanner/methods/get)
 
-**get** `/zones/{zone_id}/settings/csam_scanner_third_party`
+GET/zones/{zone\_id}/settings/csam\_scanner\_third\_party
 
-Retrieve the current CSAM Scanner configuration for a zone.
+##### [Update CSAM Scanner setting](https://developers.cloudflare.com/api/resources/csam_scanner/methods/edit)
 
-The notification email is masked by default in responses.
+PATCH/zones/{zone\_id}/settings/csam\_scanner\_third\_party
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `zone_id: string`
+<details>
 
-  Identifier for the zone.
+<summary>
 
-### Returns
+CsamScannerGetResponse object {id, editable, modified\_on, value }
 
-- `errors: array of ResponseInfo`
+CSAM Scanner configuration for a zone.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional "csam\_scanner"
 
-  - `documentation_url: optional string`
+The feature identifier.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+editable: optional boolean
 
-- `messages: array of ResponseInfo`
+Whether the feature state can be changed. When false, the zone or account may be locked by Trust &amp; Safety.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: optional string
 
-  - `documentation_url: optional string`
+When the setting was last modified. Currently always null as the server does not populate this field.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-- `result: optional object { id, editable, modified_on, value }`
+<summary>
 
-  CSAM Scanner configuration for a zone.
+value: optional object {email, email\_state, enabled, 2 more }
 
-  - `id: optional "csam_scanner"`
+The CSAM Scanner feature configuration values. Contains the notification email and scanning enablement settings.
 
-    The feature identifier.
+</summary>
 
-    - `"csam_scanner"`
+email: optional string
 
-  - `editable: optional boolean`
+Notification email address for CSAM scan results. Masked in responses unless explicitly unmasked via admin endpoint.
 
-    Whether the feature state can be changed. When false, the zone
-    or account may be locked by Trust & Safety.
+maxLength254
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the setting was last modified. Currently always null as the
-    server does not populate this field.
+<details>
 
-  - `value: optional object { email, email_state, enabled, 2 more }`
+<summary>
 
-    The CSAM Scanner feature configuration values. Contains the
-    notification email and scanning enablement settings.
+email\_state: optional "valid"or "pending"or "unverified"
 
-    - `email: optional string`
+Current verification state of the notification email.
 
-      Notification email address for CSAM scan results. Masked in
-      responses unless explicitly unmasked via admin endpoint.
+</summary>
 
-    - `email_state: optional "valid" or "pending" or "unverified"`
+One of the following:
 
-      Current verification state of the notification email.
+"valid"
 
-      - `"valid"`
+<a href="#">Link to this property</a>
 
-      - `"pending"`
+"pending"
 
-      - `"unverified"`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+"unverified"
 
-      Whether CSAM scanning is enabled for this zone.
+<a href="#">Link to this property</a>
 
-    - `sources: optional map[boolean]`
+</details>
 
-      Map of scanning sources and their enabled state.
+<a href="#">Link to this property</a>
 
-    - `zone_plan: optional string`
+enabled: optional boolean
 
-      The zone's plan level.
+Whether CSAM scanning is enabled for this zone.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/csam_scanner_third_party \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+sources: optional map\[boolean]
 
-#### Response
+Map of scanning sources and their enabled state.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "csam_scanner",
-    "editable": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "value": {
-      "email": "**********",
-      "email_state": "valid",
-      "enabled": true,
-      "sources": {
-        "source1": true
-      },
-      "zone_plan": "ent"
-    }
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update CSAM Scanner setting
+zone\_plan: optional string
 
-**patch** `/zones/{zone_id}/settings/csam_scanner_third_party`
+The zone’s plan level.
 
-Update the CSAM Scanner configuration for a zone. Allows enabling or
-disabling CSAM scanning, updating the notification email, and
-configuring scanning sources.
+<a href="#">Link to this property</a>
 
-When a new email is provided, email verification is triggered
-automatically. The `enabled` field is a toggle; the server may
-adjust it based on whether the notification email is verified.
+</details>
 
-Returns 403 if the zone or account is locked by Trust & Safety.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+[Link to this property](#)%20csam_scanner%20%3E%20(model)%20csam_scanner_get_response%20%3E%20(schema)>)
 
-  Identifier for the zone.
+<details>
 
-### Body Parameters
+<summary>
 
-- `id: optional "csam_scanner"`
+CsamScannerEditResponse object {id, editable, modified\_on, value }
 
-  The feature identifier.
+CSAM Scanner configuration for a zone.
 
-  - `"csam_scanner"`
+</summary>
 
-- `value: optional object { email, enabled, resend_email, sources }`
+id: optional "csam\_scanner"
 
-  Writable CSAM Scanner feature configuration values.
+The feature identifier.
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    Notification email address for CSAM scan results. When changed,
-    email verification is triggered automatically.
+editable: optional boolean
 
-  - `enabled: optional boolean`
+Whether the feature state can be changed. When false, the zone or account may be locked by Trust &amp; Safety.
 
-    Whether CSAM scanning is enabled for this zone.
+<a href="#">Link to this property</a>
 
-  - `resend_email: optional boolean`
+modified\_on: optional string
 
-    Set to true to trigger re-sending the email verification.
-    Write-only; never appears in responses (omitted when false).
+When the setting was last modified. Currently always null as the server does not populate this field.
 
-  - `sources: optional map[boolean]`
+formatdate-time
 
-    Map of scanning sources and their enabled state.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+value: optional object {email, email\_state, enabled, 2 more }
 
-  - `message: string`
+The CSAM Scanner feature configuration values. Contains the notification email and scanning enablement settings.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+email: optional string
 
-    - `pointer: optional string`
+Notification email address for CSAM scan results. Masked in responses unless explicitly unmasked via admin endpoint.
 
-- `messages: array of ResponseInfo`
+maxLength254
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+email\_state: optional "valid"or "pending"or "unverified"
 
-- `success: boolean`
+Current verification state of the notification email.
 
-  Whether the API call was successful.
+</summary>
 
-- `result: optional object { id, editable, modified_on, value }`
+One of the following:
 
-  CSAM Scanner configuration for a zone.
+"valid"
 
-  - `id: optional "csam_scanner"`
+<a href="#">Link to this property</a>
 
-    The feature identifier.
+"pending"
 
-    - `"csam_scanner"`
+<a href="#">Link to this property</a>
 
-  - `editable: optional boolean`
+"unverified"
 
-    Whether the feature state can be changed. When false, the zone
-    or account may be locked by Trust & Safety.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+</details>
 
-    When the setting was last modified. Currently always null as the
-    server does not populate this field.
+<a href="#">Link to this property</a>
 
-  - `value: optional object { email, email_state, enabled, 2 more }`
+enabled: optional boolean
 
-    The CSAM Scanner feature configuration values. Contains the
-    notification email and scanning enablement settings.
+Whether CSAM scanning is enabled for this zone.
 
-    - `email: optional string`
+<a href="#">Link to this property</a>
 
-      Notification email address for CSAM scan results. Masked in
-      responses unless explicitly unmasked via admin endpoint.
+sources: optional map\[boolean]
 
-    - `email_state: optional "valid" or "pending" or "unverified"`
+Map of scanning sources and their enabled state.
 
-      Current verification state of the notification email.
+<a href="#">Link to this property</a>
 
-      - `"valid"`
+zone\_plan: optional string
 
-      - `"pending"`
+The zone’s plan level.
 
-      - `"unverified"`
+<a href="#">Link to this property</a>
 
-    - `enabled: optional boolean`
+</details>
 
-      Whether CSAM scanning is enabled for this zone.
+<a href="#">Link to this property</a>
 
-    - `sources: optional map[boolean]`
+</details>
 
-      Map of scanning sources and their enabled state.
-
-    - `zone_plan: optional string`
-
-      The zone's plan level.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/csam_scanner_third_party \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "csam_scanner"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "csam_scanner",
-    "editable": true,
-    "modified_on": "2019-12-27T18:11:19.117Z",
-    "value": {
-      "email": "**********",
-      "email_state": "valid",
-      "enabled": true,
-      "sources": {
-        "source1": true
-      },
-      "zone_plan": "ent"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Csam Scanner Get Response
-
-- `CsamScannerGetResponse object { id, editable, modified_on, value }`
-
-  CSAM Scanner configuration for a zone.
-
-  - `id: optional "csam_scanner"`
-
-    The feature identifier.
-
-    - `"csam_scanner"`
-
-  - `editable: optional boolean`
-
-    Whether the feature state can be changed. When false, the zone
-    or account may be locked by Trust & Safety.
-
-  - `modified_on: optional string`
-
-    When the setting was last modified. Currently always null as the
-    server does not populate this field.
-
-  - `value: optional object { email, email_state, enabled, 2 more }`
-
-    The CSAM Scanner feature configuration values. Contains the
-    notification email and scanning enablement settings.
-
-    - `email: optional string`
-
-      Notification email address for CSAM scan results. Masked in
-      responses unless explicitly unmasked via admin endpoint.
-
-    - `email_state: optional "valid" or "pending" or "unverified"`
-
-      Current verification state of the notification email.
-
-      - `"valid"`
-
-      - `"pending"`
-
-      - `"unverified"`
-
-    - `enabled: optional boolean`
-
-      Whether CSAM scanning is enabled for this zone.
-
-    - `sources: optional map[boolean]`
-
-      Map of scanning sources and their enabled state.
-
-    - `zone_plan: optional string`
-
-      The zone's plan level.
-
-### Csam Scanner Edit Response
-
-- `CsamScannerEditResponse object { id, editable, modified_on, value }`
-
-  CSAM Scanner configuration for a zone.
-
-  - `id: optional "csam_scanner"`
-
-    The feature identifier.
-
-    - `"csam_scanner"`
-
-  - `editable: optional boolean`
-
-    Whether the feature state can be changed. When false, the zone
-    or account may be locked by Trust & Safety.
-
-  - `modified_on: optional string`
-
-    When the setting was last modified. Currently always null as the
-    server does not populate this field.
-
-  - `value: optional object { email, email_state, enabled, 2 more }`
-
-    The CSAM Scanner feature configuration values. Contains the
-    notification email and scanning enablement settings.
-
-    - `email: optional string`
-
-      Notification email address for CSAM scan results. Masked in
-      responses unless explicitly unmasked via admin endpoint.
-
-    - `email_state: optional "valid" or "pending" or "unverified"`
-
-      Current verification state of the notification email.
-
-      - `"valid"`
-
-      - `"pending"`
-
-      - `"unverified"`
-
-    - `enabled: optional boolean`
-
-      Whether CSAM scanning is enabled for this zone.
-
-    - `sources: optional map[boolean]`
-
-      Map of scanning sources and their enabled state.
-
-    - `zone_plan: optional string`
-
-      The zone's plan level.
+[Link to this property](#)%20csam_scanner%20%3E%20(model)%20csam_scanner_edit_response%20%3E%20(schema)>)

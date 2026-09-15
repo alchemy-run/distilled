@@ -1,345 +1,107 @@
+---
+title: Subdomain
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Workers](https://developers.cloudflare.com/api/resources/workers)
+
+[Scripts](https://developers.cloudflare.com/api/resources/workers/subresources/scripts)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Subdomain
 
-## Get Worker subdomain
+##### [Get Worker subdomain](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/subdomain/methods/get)
 
-**get** `/accounts/{account_id}/workers/scripts/{script_name}/subdomain`
+GET/accounts/{account\_id}/workers/scripts/{script\_name}/subdomain
 
-Get if the Worker is available on the workers.dev subdomain.
+##### [Post Worker subdomain](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/subdomain/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/workers/scripts/{script\_name}/subdomain
 
-- `account_id: string`
+##### [Delete Worker subdomain](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/subdomain/methods/delete)
 
-  Identifier.
+DELETE/accounts/{account\_id}/workers/scripts/{script\_name}/subdomain
 
-- `script_name: string`
+##### ModelsExpand Collapse
 
-  Name of the script, used in URLs and route configuration.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+SubdomainGetResponse object {enabled, previews\_enabled }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+enabled: boolean
 
-  - `documentation_url: optional string`
+Whether the Worker is available on the workers.dev subdomain.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+previews\_enabled: boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Whether the Worker’s Preview URLs are available on the workers.dev subdomain.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(model)%20subdomain_get_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `result: object { enabled, previews_enabled }`
+SubdomainCreateResponse object {enabled, previews\_enabled }
 
-  - `enabled: boolean`
+</summary>
 
-    Whether the Worker is available on the workers.dev subdomain.
+enabled: boolean
 
-  - `previews_enabled: boolean`
+Whether the Worker is available on the workers.dev subdomain.
 
-    Whether the Worker's Preview URLs are available on the workers.dev subdomain.
+<a href="#">Link to this property</a>
 
-- `success: true`
+previews\_enabled: boolean
 
-  Whether the API call was successful.
+Whether the Worker’s Preview URLs are available on the workers.dev subdomain.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/subdomain \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(model)%20subdomain_create_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": false,
-    "previews_enabled": false
-  },
-  "success": true
-}
-```
+<summary>
 
-## Post Worker subdomain
+SubdomainDeleteResponse object {enabled, previews\_enabled }
 
-**post** `/accounts/{account_id}/workers/scripts/{script_name}/subdomain`
+</summary>
 
-Enable or disable the Worker on the workers.dev subdomain.
+enabled: boolean
 
-### Path Parameters
+Whether the Worker is available on the workers.dev subdomain.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+previews\_enabled: boolean
 
-- `script_name: string`
+Whether the Worker’s Preview URLs are available on the workers.dev subdomain.
 
-  Name of the script, used in URLs and route configuration.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `enabled: boolean`
-
-  Whether the Worker should be available on the workers.dev subdomain.
-
-- `previews_enabled: optional boolean`
-
-  Whether the Worker's Preview URLs should be available on the workers.dev subdomain.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { enabled, previews_enabled }`
-
-  - `enabled: boolean`
-
-    Whether the Worker is available on the workers.dev subdomain.
-
-  - `previews_enabled: boolean`
-
-    Whether the Worker's Preview URLs are available on the workers.dev subdomain.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/subdomain \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": false,
-    "previews_enabled": false
-  },
-  "success": true
-}
-```
-
-## Delete Worker subdomain
-
-**delete** `/accounts/{account_id}/workers/scripts/{script_name}/subdomain`
-
-Disable all workers.dev subdomains for a Worker.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `script_name: string`
-
-  Name of the script, used in URLs and route configuration.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: object { enabled, previews_enabled }`
-
-  - `enabled: boolean`
-
-    Whether the Worker is available on the workers.dev subdomain.
-
-  - `previews_enabled: boolean`
-
-    Whether the Worker's Preview URLs are available on the workers.dev subdomain.
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/$SCRIPT_NAME/subdomain \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "enabled": false,
-    "previews_enabled": false
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Subdomain Get Response
-
-- `SubdomainGetResponse object { enabled, previews_enabled }`
-
-  - `enabled: boolean`
-
-    Whether the Worker is available on the workers.dev subdomain.
-
-  - `previews_enabled: boolean`
-
-    Whether the Worker's Preview URLs are available on the workers.dev subdomain.
-
-### Subdomain Create Response
-
-- `SubdomainCreateResponse object { enabled, previews_enabled }`
-
-  - `enabled: boolean`
-
-    Whether the Worker is available on the workers.dev subdomain.
-
-  - `previews_enabled: boolean`
-
-    Whether the Worker's Preview URLs are available on the workers.dev subdomain.
-
-### Subdomain Delete Response
-
-- `SubdomainDeleteResponse object { enabled, previews_enabled }`
-
-  - `enabled: boolean`
-
-    Whether the Worker is available on the workers.dev subdomain.
-
-  - `previews_enabled: boolean`
-
-    Whether the Worker's Preview URLs are available on the workers.dev subdomain.
+[Link to this property](#)%20workers.scripts.subdomain%20%3E%20(model)%20subdomain_delete_response%20%3E%20(schema)>)

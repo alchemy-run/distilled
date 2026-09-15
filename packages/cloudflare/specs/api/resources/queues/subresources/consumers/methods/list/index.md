@@ -1,133 +1,369 @@
-## List Queue Consumers
+---
+title: List Queue Consumers
+---
 
-**get** `/accounts/{account_id}/queues/{queue_id}/consumers`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Queues](https://developers.cloudflare.com/api/resources/queues)
+
+[Consumers](https://developers.cloudflare.com/api/resources/queues/subresources/consumers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Queue Consumers
+
+GET/accounts/{account\_id}/queues/{queue\_id}/consumers
 
 Returns the consumers for a Queue
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  A Resource identifier.
+<summary>API Token</summary>
 
-- `queue_id: string`
 
-  A Resource identifier.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: optional array of ResponseInfo`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: optional array of string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `result: optional array of Consumer`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `Worker object { consumer_id, created_on, dead_letter_queue, 4 more }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `consumer_id: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      A Resource identifier.
+</details>
 
-    - `created_on: optional string`
+##### Accepted Permissions (at least one required)
 
-    - `dead_letter_queue: optional string`
+`Queues Write``Queues Read``Workers Scripts Write``Workers Scripts Read`
 
-      Name of the dead letter queue, or empty string if not configured
+##### P ath ParametersExpand Collapse
 
-    - `queue_name: optional string`
+account\_id: string
 
-    - `script_name: optional string`
+A Resource identifier.
 
-      Name of a Worker
+maxLength32
 
-    - `settings: optional object { batch_size, max_concurrency, max_retries, 2 more }`
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-      - `batch_size: optional number`
+queue\_id: string
 
-        The maximum number of messages to include in a batch.
+A Resource identifier.
 
-      - `max_concurrency: optional number`
+maxLength32
 
-        Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20queue_id%20%3E%20(schema)>)
 
-      - `max_retries: optional number`
+##### ReturnsExpand Collapse
 
-        The maximum number of retries
+<details>
 
-      - `max_wait_time_ms: optional number`
+<summary>
 
-        The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+errors: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `retry_delay: optional number`
+minLength1
 
-        The number of seconds to delay before making the message available for another attempt.
+</summary>
 
-    - `type: optional "worker"`
+code: number
 
-      - `"worker"`
+minimum1000
 
-  - `HTTPPull object { consumer_id, created_on, dead_letter_queue, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `consumer_id: optional string`
+message: string
 
-      A Resource identifier.
+<a href="#">Link to this property</a>
 
-    - `created_on: optional string`
+documentation\_url: optional string
 
-    - `dead_letter_queue: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the dead letter queue, or empty string if not configured
+<details>
 
-    - `queue_name: optional string`
+<summary>
 
-    - `settings: optional object { batch_size, max_retries, retry_delay, visibility_timeout_ms }`
+source: optional object {pointer }
 
-      - `batch_size: optional number`
+</summary>
 
-        The maximum number of messages to include in a batch.
+pointer: optional string
 
-      - `max_retries: optional number`
+<a href="#">Link to this property</a>
 
-        The maximum number of retries
+</details>
 
-      - `retry_delay: optional number`
+<a href="#">Link to this property</a>
 
-        The number of seconds to delay before making the message available for another attempt.
+</details>
 
-      - `visibility_timeout_ms: optional number`
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-        The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+messages: optional array of string
 
-    - `type: optional "http_pull"`
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-      - `"http_pull"`
+<details>
 
-- `success: optional true`
+<summary>
 
-  Indicates if the API call was successful or not.
+result: optional array of <a href="https://developers.cloudflare.com/api/resources/queues#(resource)%20queues.consumers%20%3E%20(model)%20consumer%20%3E%20(schema)">Consumer</a>
 
-  - `true`
+</summary>
 
-### Example
+One of the following:
 
-```http
+<details>
+
+<summary>
+
+Worker object {consumer\_id, created\_on, dead\_letter\_queue, 4 more }
+
+</summary>
+
+consumer\_id: optional string
+
+A Resource identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+dead\_letter\_queue: optional string
+
+Name of the dead letter queue, or empty string if not configured
+
+<a href="#">Link to this property</a>
+
+queue\_name: optional string
+
+<a href="#">Link to this property</a>
+
+script\_name: optional string
+
+Name of a Worker
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: optional object {batch\_size, max\_concurrency, max\_retries, 2 more }
+
+</summary>
+
+batch\_size: optional number
+
+The maximum number of messages to include in a batch.
+
+<a href="#">Link to this property</a>
+
+max\_concurrency: optional number
+
+Maximum number of concurrent consumers that may consume from this Queue. Set to <code>null</code> to automatically opt in to the platform’s maximum (recommended).
+
+<a href="#">Link to this property</a>
+
+max\_retries: optional number
+
+The maximum number of retries
+
+<a href="#">Link to this property</a>
+
+max\_wait\_time\_ms: optional number
+
+The number of milliseconds to wait for a batch to fill up before attempting to deliver it
+
+<a href="#">Link to this property</a>
+
+retry\_delay: optional number
+
+The number of seconds to delay before making the message available for another attempt.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: optional "worker"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+HTTPPull object {consumer\_id, created\_on, dead\_letter\_queue, 3 more }
+
+</summary>
+
+consumer\_id: optional string
+
+A Resource identifier.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+dead\_letter\_queue: optional string
+
+Name of the dead letter queue, or empty string if not configured
+
+<a href="#">Link to this property</a>
+
+queue\_name: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: optional object {batch\_size, max\_retries, retry\_delay, visibility\_timeout\_ms }
+
+</summary>
+
+batch\_size: optional number
+
+The maximum number of messages to include in a batch.
+
+<a href="#">Link to this property</a>
+
+max\_retries: optional number
+
+The maximum number of retries
+
+<a href="#">Link to this property</a>
+
+retry\_delay: optional number
+
+The number of seconds to delay before making the message available for another attempt.
+
+<a href="#">Link to this property</a>
+
+visibility\_timeout\_ms: optional number
+
+The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+type: optional "http\_pull"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: optional true
+
+Indicates if the API call was successful or not.
+
+[Link to this property](#)%20queues.consumers%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Queue Consumers
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/queues/$QUEUE_ID/consumers \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 7003,
+      "message": "No route for the URI",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    "string"
+  ],
+  "result": [
+    {
+      "consumer_id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "created_on": "2019-12-27T18:11:19.117Z",
+      "dead_letter_queue": "dead_letter_queue",
+      "queue_name": "example-queue",
+      "script_name": "my-consumer-worker",
+      "settings": {
+        "batch_size": 50,
+        "max_concurrency": 10,
+        "max_retries": 3,
+        "max_wait_time_ms": 5000,
+        "retry_delay": 10
+      },
+      "type": "worker"
+    }
+  ],
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

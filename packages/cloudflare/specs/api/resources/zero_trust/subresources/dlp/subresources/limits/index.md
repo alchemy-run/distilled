@@ -1,144 +1,99 @@
+---
+title: Limits
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Limits
 
-## Fetch limits associated with DLP for account
+##### [Fetch limits associated with DLP for account](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/limits/methods/list)
 
-**get** `/accounts/{account_id}/dlp/limits`
+GET/accounts/{account\_id}/dlp/limits
 
-Retrieves current DLP usage limits and quotas for the account, including
-maximum allowed counts and current usage for custom entries, dataset cells,
-and document fingerprints.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Returns
+LimitListResponse object {max\_custom\_regex\_entries, max\_dataset\_cells, max\_document\_fingerprints, 3 more }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+max\_custom\_regex\_entries: number
 
-  - `message: string`
+Maximum number of custom regex entries allowed for the account.
 
-  - `documentation_url: optional string`
+formatint64
 
-  - `source: optional object { pointer }`
+minimum0
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+max\_dataset\_cells: number
 
-  - `code: number`
+Maximum number of dataset cells allowed for the account, across all EDM and CWL datasets.
 
-  - `message: string`
+formatint64
 
-  - `documentation_url: optional string`
+minimum0
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+max\_document\_fingerprints: number
 
-- `success: true`
+Maximum number of document fingerprints allowed for the account.
 
-  Whether the API call was successful.
+formatint64
 
-  - `true`
+minimum0
 
-- `result: optional object { max_custom_regex_entries, max_dataset_cells, max_document_fingerprints, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `max_custom_regex_entries: number`
+used\_custom\_regex\_entries: number
 
-    Maximum number of custom regex entries allowed for the account.
+Number of custom regex entries currently configured for the account.
 
-  - `max_dataset_cells: number`
+formatint64
 
-    Maximum number of dataset cells allowed for the account, across all EDM and CWL datasets.
+minimum0
 
-  - `max_document_fingerprints: number`
+<a href="#">Link to this property</a>
 
-    Maximum number of document fingerprints allowed for the account.
+used\_dataset\_cells: number
 
-  - `used_custom_regex_entries: number`
+Number of dataset cells currently configured for the account, across all EDM and CWL datasets. Document fingerprints do not count towards this limit.
 
-    Number of custom regex entries currently configured for the account.
+formatint64
 
-  - `used_dataset_cells: number`
+minimum0
 
-    Number of dataset cells currently configured for the account, across all EDM and CWL datasets. Document fingerprints do not count towards this limit.
+<a href="#">Link to this property</a>
 
-  - `used_document_fingerprints: number`
+used\_document\_fingerprints: number
 
-    Number of document fingerprints currently configured for the account.
+Number of document fingerprints currently configured for the account.
 
-### Example
+formatint64
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/limits \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+minimum0
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "max_custom_regex_entries": 0,
-    "max_dataset_cells": 0,
-    "max_document_fingerprints": 0,
-    "used_custom_regex_entries": 0,
-    "used_dataset_cells": 0,
-    "used_document_fingerprints": 0
-  }
-}
-```
+</details>
 
-## Domain Types
-
-### Limit List Response
-
-- `LimitListResponse object { max_custom_regex_entries, max_dataset_cells, max_document_fingerprints, 3 more }`
-
-  - `max_custom_regex_entries: number`
-
-    Maximum number of custom regex entries allowed for the account.
-
-  - `max_dataset_cells: number`
-
-    Maximum number of dataset cells allowed for the account, across all EDM and CWL datasets.
-
-  - `max_document_fingerprints: number`
-
-    Maximum number of document fingerprints allowed for the account.
-
-  - `used_custom_regex_entries: number`
-
-    Number of custom regex entries currently configured for the account.
-
-  - `used_dataset_cells: number`
-
-    Number of dataset cells currently configured for the account, across all EDM and CWL datasets. Document fingerprints do not count towards this limit.
-
-  - `used_document_fingerprints: number`
-
-    Number of document fingerprints currently configured for the account.
+[Link to this property](#)%20zero_trust.dlp.limits%20%3E%20(model)%20limit_list_response%20%3E%20(schema)>)

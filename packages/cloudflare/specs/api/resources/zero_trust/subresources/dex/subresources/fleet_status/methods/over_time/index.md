@@ -1,103 +1,338 @@
-## Get over time aggregate details for devices by dimension
+---
+title: Get over time aggregate details for devices by dimension
+---
 
-**get** `/accounts/{account_id}/dex/fleet-status/over-time`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Fleet Status](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get over time aggregate details for devices by dimension
+
+GET/accounts/{account\_id}/dex/fleet-status/over-time
 
 Get aggregate details for devices using WARP, up to 7 days.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Unique identifier linked to an account.
+<summary>API Token</summary>
 
-### Query Parameters
 
-- `from: string`
 
-  Start of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `to: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  End of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
+</details>
 
-- `colo: optional string`
+<details>
 
-  Cloudflare colo airport code.
+<summary>API Email + API Key</summary>
 
-- `device_id: optional string`
 
-  Device-specific ID, given as UUID.
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `code: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `message: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+##### Accepted Permissions (at least one required)
 
-    - `pointer: optional string`
+`Cloudflare DEX Write``Cloudflare DEX Read``Zero Trust Report``Zero Trust Read`
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+Unique identifier linked to an account.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+##### Q uery ParametersExpand Collapse
 
-- `success: true`
+from: string
 
-  Whether the API call was successful.
+Start of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
 
-  - `true`
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(params)%20default%20%3E%20(param)%20from%20%3E%20(schema)>)
 
-- `result: optional object { deviceStats }`
+to: string
 
-  - `deviceStats: optional object { byMode, byStatus, uniqueDevicesTotal }`
+End of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.
 
-    - `byMode: optional array of object { timestamp, uniqueDevicesTotal, value }`
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(params)%20default%20%3E%20(param)%20to%20%3E%20(schema)>)
 
-      - `timestamp: optional string`
+colo: optional string
 
-      - `uniqueDevicesTotal: optional number`
+Cloudflare colo airport code.
 
-        Number of unique devices
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(params)%20default%20%3E%20(param)%20colo%20%3E%20(schema)>)
 
-      - `value: optional string`
+device\_id: optional string
 
-    - `byStatus: optional array of object { timestamp, uniqueDevicesTotal, value }`
+Device-specific ID, given as UUID.
 
-      - `timestamp: optional string`
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(params)%20default%20%3E%20(param)%20device_id%20%3E%20(schema)>)
 
-      - `uniqueDevicesTotal: optional number`
+##### ReturnsExpand Collapse
 
-        Number of unique devices
+<details>
 
-      - `value: optional string`
+<summary>
 
-    - `uniqueDevicesTotal: optional number`
+errors: array of object {code, message, documentation\_url, source }
 
-      Number of unique devices
+</summary>
 
-### Example
+code: number
 
-```http
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {deviceStats }
+
+</summary>
+
+<details>
+
+<summary>
+
+deviceStats: optional object {byMode, byStatus, uniqueDevicesTotal }
+
+</summary>
+
+<details>
+
+<summary>
+
+byMode: optional array of object {timestamp, uniqueDevicesTotal, value }
+
+</summary>
+
+timestamp: optional string
+
+<a href="#">Link to this property</a>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+byStatus: optional array of object {timestamp, uniqueDevicesTotal, value }
+
+</summary>
+
+timestamp: optional string
+
+<a href="#">Link to this property</a>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+uniqueDevicesTotal: optional number
+
+Number of unique devices
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dex.fleet_status%20%3E%20(method)%20over_time%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get over time aggregate details for devices by dimension
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/fleet-status/over-time \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "deviceStats": {
+      "byMode": [
+        {
+          "timestamp": "2023-10-11 00:00:00+00",
+          "uniqueDevicesTotal": 0,
+          "value": "value"
+        }
+      ],
+      "byStatus": [
+        {
+          "timestamp": "2023-10-11 00:00:00+00",
+          "uniqueDevicesTotal": 0,
+          "value": "value"
+        }
+      ],
+      "uniqueDevicesTotal": 0
+    }
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

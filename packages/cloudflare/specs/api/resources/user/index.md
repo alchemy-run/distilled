@@ -1,4692 +1,1505 @@
+---
+title: User
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # User
 
-## User Details
+##### [User Details](https://developers.cloudflare.com/api/resources/user/methods/get)
 
-**get** `/user`
+GET/user
 
-Retrieves detailed information about the currently authenticated user, including email, name, and account memberships.
+##### [Edit User](https://developers.cloudflare.com/api/resources/user/methods/edit)
 
-### Returns
+PATCH/user
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### ModelsExpand Collapse
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+UserGetResponse object {id, email, betas, 12 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Identifier of the user.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+email: string
 
-  - `documentation_url: optional string`
+Current email address of the user.
 
-  - `source: optional object { pointer }`
+formatemail
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+betas: optional array of string
 
-  Whether the API call was successful.
+Lists the betas that the user is participating in.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, email, betas, 12 more }`
+country: optional string
 
-  - `id: string`
+The country in which the user lives.
 
-    Identifier of the user.
+maxLength30
 
-  - `email: string`
+<a href="#">Link to this property</a>
 
-    Current email address of the user.
+first\_name: optional string
 
-  - `betas: optional array of string`
+User’s first name
 
-    Lists the betas that the user is participating in.
+maxLength60
 
-  - `country: optional string`
+<a href="#">Link to this property</a>
 
-    The country in which the user lives.
+has\_business\_zones: optional boolean
 
-  - `first_name: optional string`
+Indicates whether user has any business zones
 
-    User's first name
+<a href="#">Link to this property</a>
 
-  - `has_business_zones: optional boolean`
+has\_enterprise\_zones: optional boolean
 
-    Indicates whether user has any business zones
+Indicates whether user has any enterprise zones
 
-  - `has_enterprise_zones: optional boolean`
+<a href="#">Link to this property</a>
 
-    Indicates whether user has any enterprise zones
+has\_pro\_zones: optional boolean
 
-  - `has_pro_zones: optional boolean`
+Indicates whether user has any pro zones
 
-    Indicates whether user has any pro zones
+<a href="#">Link to this property</a>
 
-  - `last_name: optional string`
+last\_name: optional string
 
-    User's last name
+User’s last name
 
-  - `organizations: optional array of Organization`
+maxLength60
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+<details>
 
-    - `name: optional string`
+<summary>
 
-      Organization name.
+organizations: optional array of <a href="https://developers.cloudflare.com/api/resources/user#(resource)%20user.organizations%20%3E%20(model)%20organization%20%3E%20(schema)">Organization</a> { id, name, permissions, 2 more }
 
-    - `permissions: optional array of Permission`
+</summary>
 
-      Access permissions for this User.
+id: optional string
 
-    - `roles: optional array of string`
+Identifier
 
-      List of roles that a user has within an organization.
+maxLength32
 
-    - `status: optional Status`
+minLength32
 
-      Whether the user is a member of the organization or has an invitation pending.
+<a href="#">Link to this property</a>
 
-      - `"member"`
+name: optional string
 
-      - `"invited"`
-
-  - `suspended: optional boolean`
-
-    Indicates whether user has been suspended
-
-  - `telephone: optional string`
-
-    User's telephone number
-
-  - `two_factor_authentication_enabled: optional boolean`
-
-    Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
-
-  - `two_factor_authentication_locked: optional boolean`
-
-    Indicates whether two-factor authentication is required by one of the accounts that the user is a member of.
-
-  - `zipcode: optional string`
+Organization name.
 
-    The zipcode or postal code where the user lives.
+maxLength100
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/user \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+permissions: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission%20%3E%20(schema)">Permission</a>
 
-#### Response
+Access permissions for this User.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "email": "alice@example.com",
-    "betas": [
-      "zone_level_access_beta"
-    ],
-    "country": "US",
-    "first_name": "John",
-    "has_business_zones": true,
-    "has_enterprise_zones": true,
-    "has_pro_zones": true,
-    "last_name": "Appleseed",
-    "organizations": [
-      {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "name": "Cloudflare, Inc.",
-        "permissions": [
-          "#zones:read"
-        ],
-        "roles": [
-          "All Privileges - Super Administrator"
-        ],
-        "status": "member"
-      }
-    ],
-    "suspended": true,
-    "telephone": "+1 123-123-1234",
-    "two_factor_authentication_enabled": true,
-    "two_factor_authentication_locked": true,
-    "zipcode": "12345"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Edit User
+roles: optional array of string
 
-**patch** `/user`
+List of roles that a user has within an organization.
 
-Edit part of your user details.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+status: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts.members%20%3E%20(model)%20status%20%3E%20(schema)">Status</a>
 
-- `country: optional string`
+Whether the user is a member of the organization or has an invitation pending.
 
-  The country in which the user lives.
+<a href="#">Link to this property</a>
 
-- `first_name: optional string`
+</details>
 
-  User's first name
+<a href="#">Link to this property</a>
 
-- `last_name: optional string`
+suspended: optional boolean
 
-  User's last name
+Indicates whether user has been suspended
 
-- `telephone: optional string`
+<a href="#">Link to this property</a>
 
-  User's telephone number
+telephone: optional string
 
-- `zipcode: optional string`
+User’s telephone number
 
-  The zipcode or postal code where the user lives.
+maxLength20
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+two\_factor\_authentication\_enabled: optional boolean
 
-  - `code: number`
+Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+two\_factor\_authentication\_locked: optional boolean
 
-  - `source: optional object { pointer }`
+Indicates whether two-factor authentication is required by one of the accounts that the user is a member of.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+zipcode: optional string
 
-  - `code: number`
+The zipcode or postal code where the user lives.
 
-  - `message: string`
+maxLength20
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+[Link to this property](#)%20user%20%3E%20(model)%20user_get_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+UserEditResponse object {id, email, betas, 12 more }
 
-- `result: optional object { id, email, betas, 12 more }`
+</summary>
 
-  - `id: string`
+id: string
 
-    Identifier of the user.
+Identifier of the user.
 
-  - `email: string`
+<a href="#">Link to this property</a>
 
-    Current email address of the user.
+email: string
 
-  - `betas: optional array of string`
+Current email address of the user.
 
-    Lists the betas that the user is participating in.
+formatemail
 
-  - `country: optional string`
+<a href="#">Link to this property</a>
 
-    The country in which the user lives.
+betas: optional array of string
 
-  - `first_name: optional string`
+Lists the betas that the user is participating in.
 
-    User's first name
+<a href="#">Link to this property</a>
 
-  - `has_business_zones: optional boolean`
+country: optional string
 
-    Indicates whether user has any business zones
+The country in which the user lives.
 
-  - `has_enterprise_zones: optional boolean`
+maxLength30
 
-    Indicates whether user has any enterprise zones
+<a href="#">Link to this property</a>
 
-  - `has_pro_zones: optional boolean`
+first\_name: optional string
 
-    Indicates whether user has any pro zones
+User’s first name
 
-  - `last_name: optional string`
+maxLength60
 
-    User's last name
+<a href="#">Link to this property</a>
 
-  - `organizations: optional array of Organization`
+has\_business\_zones: optional boolean
 
-    - `id: optional string`
+Indicates whether user has any business zones
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+has\_enterprise\_zones: optional boolean
 
-      Organization name.
+Indicates whether user has any enterprise zones
 
-    - `permissions: optional array of Permission`
+<a href="#">Link to this property</a>
 
-      Access permissions for this User.
+has\_pro\_zones: optional boolean
 
-    - `roles: optional array of string`
+Indicates whether user has any pro zones
 
-      List of roles that a user has within an organization.
+<a href="#">Link to this property</a>
 
-    - `status: optional Status`
+last\_name: optional string
 
-      Whether the user is a member of the organization or has an invitation pending.
+User’s last name
 
-      - `"member"`
+maxLength60
 
-      - `"invited"`
+<a href="#">Link to this property</a>
 
-  - `suspended: optional boolean`
+<details>
 
-    Indicates whether user has been suspended
+<summary>
 
-  - `telephone: optional string`
+organizations: optional array of <a href="https://developers.cloudflare.com/api/resources/user#(resource)%20user.organizations%20%3E%20(model)%20organization%20%3E%20(schema)">Organization</a> { id, name, permissions, 2 more }
 
-    User's telephone number
+</summary>
 
-  - `two_factor_authentication_enabled: optional boolean`
+id: optional string
 
-    Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+Identifier
 
-  - `two_factor_authentication_locked: optional boolean`
+maxLength32
 
-    Indicates whether two-factor authentication is required by one of the accounts that the user is a member of.
+minLength32
 
-  - `zipcode: optional string`
+<a href="#">Link to this property</a>
 
-    The zipcode or postal code where the user lives.
+name: optional string
 
-### Example
+Organization name.
 
-```http
-curl https://api.cloudflare.com/client/v4/user \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "country": "US",
-          "first_name": "John",
-          "last_name": "Appleseed",
-          "telephone": "+1 123-123-1234",
-          "zipcode": "12345"
-        }'
-```
+maxLength100
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "6d7f2f5f5b1d4a0e9081fdc98d432fd1",
-    "email": "alice@example.com",
-    "betas": [
-      "zone_level_access_beta"
-    ],
-    "country": "US",
-    "first_name": "John",
-    "has_business_zones": true,
-    "has_enterprise_zones": true,
-    "has_pro_zones": true,
-    "last_name": "Appleseed",
-    "organizations": [
-      {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "name": "Cloudflare, Inc.",
-        "permissions": [
-          "#zones:read"
-        ],
-        "roles": [
-          "All Privileges - Super Administrator"
-        ],
-        "status": "member"
-      }
-    ],
-    "suspended": true,
-    "telephone": "+1 123-123-1234",
-    "two_factor_authentication_enabled": true,
-    "two_factor_authentication_locked": true,
-    "zipcode": "12345"
-  }
-}
-```
+permissions: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission%20%3E%20(schema)">Permission</a>
 
-## Domain Types
+Access permissions for this User.
 
-### User Get Response
+<a href="#">Link to this property</a>
 
-- `UserGetResponse object { id, email, betas, 12 more }`
+roles: optional array of string
 
-  - `id: string`
+List of roles that a user has within an organization.
 
-    Identifier of the user.
+<a href="#">Link to this property</a>
 
-  - `email: string`
+status: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts.members%20%3E%20(model)%20status%20%3E%20(schema)">Status</a>
 
-    Current email address of the user.
+Whether the user is a member of the organization or has an invitation pending.
 
-  - `betas: optional array of string`
+<a href="#">Link to this property</a>
 
-    Lists the betas that the user is participating in.
+</details>
 
-  - `country: optional string`
+<a href="#">Link to this property</a>
 
-    The country in which the user lives.
+suspended: optional boolean
 
-  - `first_name: optional string`
+Indicates whether user has been suspended
 
-    User's first name
+<a href="#">Link to this property</a>
 
-  - `has_business_zones: optional boolean`
+telephone: optional string
 
-    Indicates whether user has any business zones
+User’s telephone number
 
-  - `has_enterprise_zones: optional boolean`
+maxLength20
 
-    Indicates whether user has any enterprise zones
+<a href="#">Link to this property</a>
 
-  - `has_pro_zones: optional boolean`
+two\_factor\_authentication\_enabled: optional boolean
 
-    Indicates whether user has any pro zones
+Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
 
-  - `last_name: optional string`
+<a href="#">Link to this property</a>
 
-    User's last name
+two\_factor\_authentication\_locked: optional boolean
 
-  - `organizations: optional array of Organization`
+Indicates whether two-factor authentication is required by one of the accounts that the user is a member of.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+zipcode: optional string
 
-    - `name: optional string`
+The zipcode or postal code where the user lives.
 
-      Organization name.
+maxLength20
 
-    - `permissions: optional array of Permission`
+<a href="#">Link to this property</a>
 
-      Access permissions for this User.
+</details>
 
-    - `roles: optional array of string`
+[Link to this property](#)%20user%20%3E%20(model)%20user_edit_response%20%3E%20(schema)>)
 
-      List of roles that a user has within an organization.
+#### UserAudit Logs
 
-    - `status: optional Status`
+##### [Get user audit logs](https://developers.cloudflare.com/api/resources/user/subresources/audit_logs/methods/list)
 
-      Whether the user is a member of the organization or has an invitation pending.
+GET/user/audit\_logs
 
-      - `"member"`
+#### UserBilling
 
-      - `"invited"`
+#### UserBillingHistory
 
-  - `suspended: optional boolean`
+##### [Billing History Details](https://developers.cloudflare.com/api/resources/user/subresources/billing/subresources/history/methods/list)
 
-    Indicates whether user has been suspended
+Deprecated
 
-  - `telephone: optional string`
+GET/user/billing/history
 
-    User's telephone number
+##### ModelsExpand Collapse
 
-  - `two_factor_authentication_enabled: optional boolean`
+<details>
 
-    Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+<summary>
 
-  - `two_factor_authentication_locked: optional boolean`
+BillingHistory object {id, action, amount, 5 more }
 
-    Indicates whether two-factor authentication is required by one of the accounts that the user is a member of.
+</summary>
 
-  - `zipcode: optional string`
+id: string
 
-    The zipcode or postal code where the user lives.
+Billing item identifier tag.
 
-### User Edit Response
+maxLength32
 
-- `UserEditResponse object { id, email, betas, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+action: string
 
-    Identifier of the user.
+The billing item action.
 
-  - `email: string`
+maxLength30
 
-    Current email address of the user.
+<a href="#">Link to this property</a>
 
-  - `betas: optional array of string`
+amount: number
 
-    Lists the betas that the user is participating in.
+The amount associated with this billing item.
 
-  - `country: optional string`
+<a href="#">Link to this property</a>
 
-    The country in which the user lives.
+currency: string
 
-  - `first_name: optional string`
+The monetary unit in which pricing information is displayed.
 
-    User's first name
+<a href="#">Link to this property</a>
 
-  - `has_business_zones: optional boolean`
+description: string
 
-    Indicates whether user has any business zones
+The billing item description.
 
-  - `has_enterprise_zones: optional boolean`
+maxLength255
 
-    Indicates whether user has any enterprise zones
+<a href="#">Link to this property</a>
 
-  - `has_pro_zones: optional boolean`
+occurred\_at: string
 
-    Indicates whether user has any pro zones
+When the billing item was created.
 
-  - `last_name: optional string`
+formatdate-time
 
-    User's last name
+<a href="#">Link to this property</a>
 
-  - `organizations: optional array of Organization`
+type: string
 
-    - `id: optional string`
+The billing item type.
 
-      Identifier
+maxLength30
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-      Organization name.
+<details>
 
-    - `permissions: optional array of Permission`
+<summary>
 
-      Access permissions for this User.
+zone: object {name }
 
-    - `roles: optional array of string`
+</summary>
 
-      List of roles that a user has within an organization.
+name: optional string
 
-    - `status: optional Status`
+<a href="#">Link to this property</a>
 
-      Whether the user is a member of the organization or has an invitation pending.
+</details>
 
-      - `"member"`
+<a href="#">Link to this property</a>
 
-      - `"invited"`
+</details>
 
-  - `suspended: optional boolean`
+[Link to this property](#)%20user.billing.history%20%3E%20(model)%20billing_history%20%3E%20(schema)>)
 
-    Indicates whether user has been suspended
+#### UserBillingProfile
 
-  - `telephone: optional string`
+##### [Billing Profile Details](https://developers.cloudflare.com/api/resources/user/subresources/billing/subresources/profile/methods/get)
 
-    User's telephone number
+Deprecated
 
-  - `two_factor_authentication_enabled: optional boolean`
+GET/user/billing/profile
 
-    Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication.
+##### ModelsExpand Collapse
 
-  - `two_factor_authentication_locked: optional boolean`
+<details>
 
-    Indicates whether two-factor authentication is required by one of the accounts that the user is a member of.
+<summary>
 
-  - `zipcode: optional string`
+ProfileGetResponse object {id, account\_type, address, 35 more }
 
-    The zipcode or postal code where the user lives.
+</summary>
 
-# Audit Logs
+id: optional string
 
-## Get user audit logs
+Billing item identifier tag.
 
-**get** `/user/audit_logs`
+maxLength32
 
-Gets a list of audit logs for a user account. Can be filtered by who made the change, on which zone, and the timeframe of the change.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+account\_type: optional string
 
-- `id: optional string`
+<a href="#">Link to this property</a>
 
-  Finds a specific log by its ID.
+address: optional string
 
-- `action: optional object { type }`
+<a href="#">Link to this property</a>
 
-  - `type: optional string`
+address2: optional string
 
-    Filters by the action type.
+<a href="#">Link to this property</a>
 
-- `actor: optional object { email, ip }`
+balance: optional string
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-    Filters by the email address of the actor that made the change.
+card\_expiry\_month: optional number
 
-  - `ip: optional string`
+<a href="#">Link to this property</a>
 
-    Filters by the IP address of the request that made the change by specific IP address or valid CIDR Range.
+card\_expiry\_year: optional number
 
-- `before: optional string or string`
+<a href="#">Link to this property</a>
 
-  Limits the returned results to logs older than the specified date. A `full-date` that conforms to RFC3339.
+card\_number: optional string
 
-  - `FullDate = string`
+<a href="#">Link to this property</a>
 
-    Limits the returned results to logs older than the specified date. A `full-date` that conforms to RFC3339.
+city: optional string
 
-  - `DateTime = string`
+<a href="#">Link to this property</a>
 
-    Limits the returned results to logs older than the specified date. A `date-time` that conforms to RFC3339.
+company: optional string
 
-- `direction: optional "desc" or "asc"`
+<a href="#">Link to this property</a>
 
-  Changes the direction of the chronological sorting.
+country: optional string
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+created\_on: optional string
 
-- `export: optional boolean`
+formatdate-time
 
-  Indicates that this request is an export of logs in CSV format.
+<a href="#">Link to this property</a>
 
-- `hide_user_logs: optional boolean`
+device\_data: optional string
 
-  Indicates whether or not to hide user level audit logs.
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+edited\_on: optional string
 
-  Defines which page of results to return.
+formatdate-time
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Sets the number of results to return per page.
+enterprise\_billing\_email: optional string
 
-- `since: optional string or string`
+<a href="#">Link to this property</a>
 
-  Limits the returned results to logs newer than the specified date. A `full-date` that conforms to RFC3339.
+enterprise\_primary\_email: optional string
 
-  - `FullDate = string`
+<a href="#">Link to this property</a>
 
-    Limits the returned results to logs newer than the specified date. A `full-date` that conforms to RFC3339.
+first\_name: optional string
 
-  - `DateTime = string`
+<a href="#">Link to this property</a>
 
-    Limits the returned results to logs newer than the specified date. A `date-time` that conforms to RFC3339.
+is\_partner: optional boolean
 
-- `zone: optional object { name }`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+last\_name: optional string
 
-    Filters by the name of the zone associated to the change.
+<a href="#">Link to this property</a>
 
-### Returns
+next\_bill\_date: optional string
 
-- `object { errors, messages, result, success }`
+formatdate-time
 
-  - `errors: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+payment\_address: optional string
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+payment\_address2: optional string
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+payment\_city: optional string
 
-  - `messages: optional array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+payment\_country: optional string
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+payment\_email: optional string
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-  - `result: optional array of AuditLog`
+payment\_first\_name: optional string
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      A string that uniquely identifies the audit log.
+payment\_gateway: optional string
 
-    - `action: optional object { result, type }`
+<a href="#">Link to this property</a>
 
-      - `result: optional boolean`
+payment\_last\_name: optional string
 
-        A boolean that indicates if the action attempted was successful.
+<a href="#">Link to this property</a>
 
-      - `type: optional string`
+payment\_nonce: optional string
 
-        A short string that describes the action that was performed.
+<a href="#">Link to this property</a>
 
-    - `actor: optional object { id, email, ip, type }`
+payment\_state: optional string
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        The ID of the actor that performed the action. If a user performed the action, this will be their User ID.
+payment\_zipcode: optional string
 
-      - `email: optional string`
+<a href="#">Link to this property</a>
 
-        The email of the user that performed the action.
+primary\_email: optional string
 
-      - `ip: optional string`
+<a href="#">Link to this property</a>
 
-        The IP address of the request that performed the action.
+state: optional string
 
-      - `type: optional "user" or "admin" or "Cloudflare"`
+<a href="#">Link to this property</a>
 
-        The type of actor, whether a User, Cloudflare Admin, or an Automated System.
+tax\_id\_type: optional string
 
-        - `"user"`
+<a href="#">Link to this property</a>
 
-        - `"admin"`
+telephone: optional string
 
-        - `"Cloudflare"`
+<a href="#">Link to this property</a>
 
-    - `interface: optional string`
+validation\_code: optional string
 
-      The source of the event.
+<a href="#">Link to this property</a>
 
-    - `metadata: optional unknown`
+vat: optional string
 
-      An object which can lend more context to the action being logged. This is a flexible value and varies between different actions.
+<a href="#">Link to this property</a>
 
-    - `newValue: optional string`
+zipcode: optional string
 
-      The new value of the resource that was modified.
+<a href="#">Link to this property</a>
 
-    - `oldValue: optional string`
+</details>
 
-      The value of the resource before it was modified.
+[Link to this property](#)%20user.billing.profile%20%3E%20(model)%20profile_get_response%20%3E%20(schema)>)
 
-    - `owner: optional object { id }`
+#### UserInvites
 
-      - `id: optional string`
+##### [List Invitations](https://developers.cloudflare.com/api/resources/user/subresources/invites/methods/list)
 
-        Identifier
+GET/user/invites
 
-    - `resource: optional object { id, type }`
+##### [Invitation Details](https://developers.cloudflare.com/api/resources/user/subresources/invites/methods/get)
 
-      - `id: optional string`
+GET/user/invites/{invite\_id}
 
-        An identifier for the resource that was affected by the action.
+##### [Respond to Invitation](https://developers.cloudflare.com/api/resources/user/subresources/invites/methods/edit)
 
-      - `type: optional string`
+PATCH/user/invites/{invite\_id}
 
-        A short string that describes the resource that was affected by the action.
+##### ModelsExpand Collapse
 
-    - `when: optional string`
+<details>
 
-      A UTC RFC3339 timestamp that specifies when the action being logged occured.
+<summary>
 
-  - `success: optional boolean`
+Invite object {invited\_member\_id, organization\_id, id, 8 more }
 
-- `AaaAPIResponseCommon object { errors, messages, success }`
+</summary>
 
-  - `errors: array of ResponseInfo`
+invited\_member\_id: string
 
-    - `code: number`
+ID of the user to add to the organization.
 
-    - `message: string`
+maxLength32
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+organization\_id: string
 
-  - `messages: array of ResponseInfo`
+ID of the organization the user will be added to.
 
-    - `code: number`
+maxLength32
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+id: optional string
 
-    - `source: optional object { pointer }`
+Invite identifier tag.
 
-  - `success: true`
+maxLength32
 
-    Whether the API call was successful
+<a href="#">Link to this property</a>
 
-    - `true`
+expires\_on: optional string
 
-### Example
+When the invite is no longer active.
 
-```http
-curl https://api.cloudflare.com/client/v4/user/audit_logs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "d5b0f326-1232-4452-8858-1089bd7168ef",
-      "action": {
-        "result": true,
-        "type": "change_setting"
-      },
-      "actor": {
-        "id": "f6b5de0326bb5182b8a4840ee01ec774",
-        "email": "michelle@example.com",
-        "ip": "198.41.129.166",
-        "type": "user"
-      },
-      "interface": "API",
-      "metadata": {
-        "name": "security_level",
-        "type": "firewall",
-        "value": "high",
-        "zone_name": "example.com"
-      },
-      "newValue": "low",
-      "oldValue": "high",
-      "owner": {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353"
-      },
-      "resource": {
-        "id": "023e105f4ecef8ad9ca31a8372d0c353",
-        "type": "zone"
-      },
-      "when": "2017-04-26T17:31:07Z"
-    }
-  ],
-  "success": true
-}
-```
+invited\_by: optional string
 
-# Billing
+The email address of the user who created the invite.
 
-# History
+maxLength90
 
-## Billing History Details
+<a href="#">Link to this property</a>
 
-**get** `/user/billing/history`
+invited\_member\_email: optional string
 
-Accesses your billing history object.
+Email address of the user to add to the organization.
 
-### Query Parameters
+maxLength90
 
-- `action: optional string`
+<a href="#">Link to this property</a>
 
-  The billing item action.
+invited\_on: optional string
 
-- `occurred_at: optional string`
+When the invite was sent.
 
-  When the billing item was created.
+formatdate-time
 
-- `order: optional "type" or "occurred_at" or "action"`
+<a href="#">Link to this property</a>
 
-  Field to order billing history by.
+organization\_is\_enforcing\_twofactor: optional boolean
 
-  - `"type"`
+<a href="#">Link to this property</a>
 
-  - `"occurred_at"`
+organization\_name: optional string
 
-  - `"action"`
+Organization name.
 
-- `page: optional number`
+maxLength100
 
-  Page number of paginated results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+roles: optional array of string
 
-  Number of items per page.
+List of role names the membership has for this account.
 
-- `type: optional string`
+<a href="#">Link to this property</a>
 
-  The billing item type.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+status: optional "pending"or "accepted"or "rejected"or "expired"
 
-  - `code: number`
+Current status of the invitation.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"pending"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"accepted"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"rejected"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"expired"
 
-- `result: array of BillingHistory`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Billing item identifier tag.
+<a href="#">Link to this property</a>
 
-  - `action: string`
+</details>
 
-    The billing item action.
+[Link to this property](#)%20user.invites%20%3E%20(model)%20invite%20%3E%20(schema)>)
 
-  - `amount: number`
+#### UserOrganizations
 
-    The amount associated with this billing item.
+##### [List Organizations](https://developers.cloudflare.com/api/resources/user/subresources/organizations/methods/list)
 
-  - `currency: string`
+Deprecated
 
-    The monetary unit in which pricing information is displayed.
+GET/user/organizations
 
-  - `description: string`
+##### [Organization Details](https://developers.cloudflare.com/api/resources/user/subresources/organizations/methods/get)
 
-    The billing item description.
+Deprecated
 
-  - `occurred_at: string`
+GET/user/organizations/{organization\_id}
 
-    When the billing item was created.
+##### [Leave Organization](https://developers.cloudflare.com/api/resources/user/subresources/organizations/methods/delete)
 
-  - `type: string`
+Deprecated
 
-    The billing item type.
+DELETE/user/organizations/{organization\_id}
 
-  - `zone: object { name }`
+##### ModelsExpand Collapse
 
-    - `name: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+Organization object {id, name, permissions, 2 more }
 
-  - `true`
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+id: optional string
 
-  - `count: optional number`
+Identifier
 
-    Total number of results for the requested service
+maxLength32
 
-  - `page: optional number`
+minLength32
 
-    Current page within paginated list of results
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+name: optional string
 
-    Number of results per page of results
+Organization name.
 
-  - `total_count: optional number`
+maxLength100
 
-    Total results available without any search parameters
+<a href="#">Link to this property</a>
 
-### Example
+permissions: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20permission%20%3E%20(schema)">Permission</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/user/billing/history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Access permissions for this User.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "b69a9f3492637782896352daae219e7d",
-      "action": "subscription",
-      "amount": 20.99,
-      "currency": "USD",
-      "description": "The billing item description",
-      "occurred_at": "2014-03-01T12:21:59.3456Z",
-      "type": "charge",
-      "zone": {
-        "name": "name"
-      }
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+roles: optional array of string
 
-## Domain Types
+List of roles that a user has within an organization.
 
-### Billing History
+<a href="#">Link to this property</a>
 
-- `BillingHistory object { id, action, amount, 5 more }`
+status: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts.members%20%3E%20(model)%20status%20%3E%20(schema)">Status</a>
 
-  - `id: string`
+Whether the user is a member of the organization or has an invitation pending.
 
-    Billing item identifier tag.
+<a href="#">Link to this property</a>
 
-  - `action: string`
+</details>
 
-    The billing item action.
+[Link to this property](#)%20user.organizations%20%3E%20(model)%20organization%20%3E%20(schema)>)
 
-  - `amount: number`
+OrganizationGetResponse = unknown
 
-    The amount associated with this billing item.
+[Link to this property](#)%20user.organizations%20%3E%20(model)%20organization_get_response%20%3E%20(schema)>)
 
-  - `currency: string`
+<details>
 
-    The monetary unit in which pricing information is displayed.
+<summary>
 
-  - `description: string`
+OrganizationDeleteResponse object {id }
 
-    The billing item description.
+</summary>
 
-  - `occurred_at: string`
+id: optional string
 
-    When the billing item was created.
+Identifier
 
-  - `type: string`
+maxLength32
 
-    The billing item type.
+minLength32
 
-  - `zone: object { name }`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+</details>
 
-# Profile
+[Link to this property](#)%20user.organizations%20%3E%20(model)%20organization_delete_response%20%3E%20(schema)>)
 
-## Billing Profile Details
+#### UserSpectrum Analytics
 
-**get** `/user/billing/profile`
+#### UserSpectrum AnalyticsZones
 
-Accesses your billing profile object.
+#### UserSpectrum AnalyticsZonesReports
 
-### Returns
+##### [Get zones bandwidth report](https://developers.cloudflare.com/api/resources/user/subresources/spectrum_analytics/subresources/zones/subresources/reports/methods/get)
 
-- `errors: array of ResponseInfo`
+GET/user/spectrum\_analytics/zones/report
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+ReportGetResponse = array of object {totals, zone\_id }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+totals: object {bandwidth }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: object { id, account_type, address, 36 more }`
+<summary>
 
-  - `id: optional string`
+bandwidth: object {all, egress, ingress }
 
-    Billing item identifier tag.
+</summary>
 
-  - `account_type: optional string`
+all: number
 
-  - `address: optional string`
+Sum of ingress and egress bytes transferred.
 
-  - `address2: optional string`
+<a href="#">Link to this property</a>
 
-  - `balance: optional string`
+egress: number
 
-  - `card_expiry_month: optional number`
+Sum of egress bytes transferred.
 
-  - `card_expiry_year: optional number`
+<a href="#">Link to this property</a>
 
-  - `card_number: optional string`
+ingress: number
 
-  - `city: optional string`
+Sum of ingress bytes transferred.
 
-  - `company: optional string`
+<a href="#">Link to this property</a>
 
-  - `country: optional string`
+</details>
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_data: optional string`
+</details>
 
-  - `edited_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `enterprise_billing_email: optional string`
+zone\_id: string
 
-  - `enterprise_primary_email: optional string`
+Identifier.
 
-  - `first_name: optional string`
+maxLength32
 
-  - `is_partner: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_name: optional string`
+</details>
 
-  - `next_bill_date: optional string`
+[Link to this property](#)%20user.spectrum_analytics.zones.reports%20%3E%20(model)%20report_get_response%20%3E%20(schema)>)
 
-  - `payment_address: optional string`
+#### UserSubscriptions
 
-  - `payment_address2: optional string`
+##### [Get User Subscriptions](https://developers.cloudflare.com/api/resources/user/subresources/subscriptions/methods/get)
 
-  - `payment_city: optional string`
+GET/user/subscriptions
 
-  - `payment_country: optional string`
+##### [Update User Subscription](https://developers.cloudflare.com/api/resources/user/subresources/subscriptions/methods/update)
 
-  - `payment_email: optional string`
+PUT/user/subscriptions/{identifier}
 
-  - `payment_first_name: optional string`
+##### [Delete User Subscription](https://developers.cloudflare.com/api/resources/user/subresources/subscriptions/methods/delete)
 
-  - `payment_gateway: optional string`
+DELETE/user/subscriptions/{identifier}
 
-  - `payment_last_name: optional string`
+##### ModelsExpand Collapse
 
-  - `payment_nonce: optional string`
+<details>
 
-  - `payment_state: optional string`
+<summary>
 
-  - `payment_zipcode: optional string`
+SubscriptionUpdateResponse = unknownor string
 
-  - `primary_email: optional string`
+</summary>
 
-  - `state: optional string`
+One of the following:
 
-  - `tax_id_type: optional string`
+unknown
 
-  - `telephone: optional string`
+<a href="#">Link to this property</a>
 
-  - `use_legacy: optional boolean`
+string
 
-  - `validation_code: optional string`
+<a href="#">Link to this property</a>
 
-  - `vat: optional string`
+</details>
 
-  - `zipcode: optional string`
+[Link to this property](#)%20user.subscriptions%20%3E%20(model)%20subscription_update_response%20%3E%20(schema)>)
 
-- `success: true`
+<details>
 
-  Whether the API call was successful
+<summary>
 
-  - `true`
+SubscriptionDeleteResponse object {subscription\_id }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/user/billing/profile \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+subscription\_id: optional string
 
-#### Response
+Subscription identifier tag.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "b69a9f3492637782896352daae219e7d",
-    "account_type": "type",
-    "address": "123 Main Street",
-    "address2": "Apt 1",
-    "balance": "0",
-    "card_expiry_month": 12,
-    "card_expiry_year": 2099,
-    "card_number": "4242424242424242",
-    "city": "Anytown",
-    "company": "Company",
-    "country": "Anycountry",
-    "created_on": "2014-03-01T12:21:59.3456Z",
-    "device_data": "sample_data",
-    "edited_on": "2014-03-01T12:21:59.3456Z",
-    "enterprise_billing_email": "johndoe@gmail.com",
-    "enterprise_primary_email": "johndoe@gmail.com",
-    "first_name": "John",
-    "is_partner": false,
-    "last_name": "Doe",
-    "next_bill_date": "2014-03-01T12:21:59.3456Z",
-    "payment_address": "123 Main Street",
-    "payment_address2": "Apt 1",
-    "payment_city": "Anytown",
-    "payment_country": "Anycountry",
-    "payment_email": "johndoe@gmail.com",
-    "payment_first_name": "John",
-    "payment_gateway": "gateway",
-    "payment_last_name": "Doe",
-    "payment_nonce": "abc123",
-    "payment_state": "state",
-    "payment_zipcode": "12345",
-    "primary_email": "johndoe@gmail.com",
-    "state": "AnyState",
-    "tax_id_type": "type",
-    "telephone": "1234567899",
-    "use_legacy": false,
-    "validation_code": "1111",
-    "vat": "GB123456789",
-    "zipcode": "12345"
-  },
-  "success": true
-}
-```
+maxLength32
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Profile Get Response
+</details>
 
-- `ProfileGetResponse object { id, account_type, address, 36 more }`
+[Link to this property](#)%20user.subscriptions%20%3E%20(model)%20subscription_delete_response%20%3E%20(schema)>)
 
-  - `id: optional string`
+#### UserTenants
 
-    Billing item identifier tag.
+##### [List user tenants](https://developers.cloudflare.com/api/resources/user/subresources/tenants/methods/list)
 
-  - `account_type: optional string`
+GET/user/tenants
 
-  - `address: optional string`
+#### UserTokens
 
-  - `address2: optional string`
+##### [List Tokens](https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/list)
 
-  - `balance: optional string`
+GET/user/tokens
 
-  - `card_expiry_month: optional number`
+##### [Token Details](https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/get)
 
-  - `card_expiry_year: optional number`
+GET/user/tokens/{token\_id}
 
-  - `card_number: optional string`
+##### [Create Token](https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/create)
 
-  - `city: optional string`
+POST/user/tokens
 
-  - `company: optional string`
+##### [Update Token](https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/update)
 
-  - `country: optional string`
+PUT/user/tokens/{token\_id}
 
-  - `created_on: optional string`
+##### [Delete Token](https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/delete)
 
-  - `device_data: optional string`
+DELETE/user/tokens/{token\_id}
 
-  - `edited_on: optional string`
+##### [Verify Token](https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/verify)
 
-  - `enterprise_billing_email: optional string`
+GET/user/tokens/verify
 
-  - `enterprise_primary_email: optional string`
+##### ModelsExpand Collapse
 
-  - `first_name: optional string`
+<details>
 
-  - `is_partner: optional boolean`
+<summary>
 
-  - `last_name: optional string`
+TokenCreateResponse object {id, condition, expires\_on, 8 more }
 
-  - `next_bill_date: optional string`
+</summary>
 
-  - `payment_address: optional string`
+id: optional string
 
-  - `payment_address2: optional string`
+Token identifier tag.
 
-  - `payment_city: optional string`
+maxLength32
 
-  - `payment_country: optional string`
+<a href="#">Link to this property</a>
 
-  - `payment_email: optional string`
+<details>
 
-  - `payment_first_name: optional string`
+<summary>
 
-  - `payment_gateway: optional string`
+condition: optional object {request\_ip }
 
-  - `payment_last_name: optional string`
+</summary>
 
-  - `payment_nonce: optional string`
+<details>
 
-  - `payment_state: optional string`
+<summary>
 
-  - `payment_zipcode: optional string`
+request\_ip: optional object {in, not\_in }
 
-  - `primary_email: optional string`
+Client IP restrictions.
 
-  - `state: optional string`
+</summary>
 
-  - `tax_id_type: optional string`
+in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
 
-  - `telephone: optional string`
+List of IPv4/IPv6 CIDR addresses.
 
-  - `use_legacy: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `validation_code: optional string`
+not\_in: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_condition_cidr_list%20%3E%20(schema)">TokenConditionCIDRList</a>
 
-  - `vat: optional string`
+List of IPv4/IPv6 CIDR addresses.
 
-  - `zipcode: optional string`
+<a href="#">Link to this property</a>
 
-# Invites
+</details>
 
-## List Invitations
+<a href="#">Link to this property</a>
 
-**get** `/user/invites`
+</details>
 
-Lists all invitations associated with my user.
+<a href="#">Link to this property</a>
 
-### Returns
+expires\_on: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+issued\_on: optional string
 
-  - `source: optional object { pointer }`
+The time on which the token was created.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+last\_used\_on: optional string
 
-  - `message: string`
+Last time the token was used.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+modified\_on: optional string
 
-- `success: true`
+Last time the token was modified.
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of Invite`
+name: optional string
 
-  - `invited_member_id: string`
+Token name.
 
-    ID of the user to add to the organization.
+maxLength120
 
-  - `organization_id: string`
+<a href="#">Link to this property</a>
 
-    ID of the organization the user will be added to.
+not\_before: optional string
 
-  - `id: optional string`
+The time before which the token MUST NOT be accepted for processing.
 
-    Invite identifier tag.
+formatdate-time
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the invite is no longer active.
+<details>
 
-  - `invited_by: optional string`
+<summary>
 
-    The email address of the user who created the invite.
+policies: optional array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_policy%20%3E%20(schema)">TokenPolicy</a> { id, effect, permission\_groups, resources }
 
-  - `invited_member_email: optional string`
+List of access policies assigned to the token.
 
-    Email address of the user to add to the organization.
+</summary>
 
-  - `invited_on: optional string`
+id: string
 
-    When the invite was sent.
+Policy identifier.
 
-  - `organization_is_enforcing_twofactor: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `organization_name: optional string`
+<details>
 
-    Organization name.
+<summary>
 
-  - `roles: optional array of string`
+effect: "allow"or "deny"
 
-    List of role names the membership has for this account.
+Allow or deny operations against the resources.
 
-  - `status: optional "pending" or "accepted" or "rejected" or "expired"`
+</summary>
 
-    Current status of the invitation.
+One of the following:
 
-    - `"pending"`
+"allow"
 
-    - `"accepted"`
+<a href="#">Link to this property</a>
 
-    - `"rejected"`
+"deny"
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results
+permission\_groups: array of object {id, meta, name }
 
-  - `per_page: optional number`
+A set of permission groups that are specified to the policy.
 
-    Number of results per page of results
+</summary>
 
-  - `total_count: optional number`
+id: string
 
-    Total results available without any search parameters
+Identifier of the permission group.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/user/invites \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "invited_member_id": "5a7805061c76ada191ed06f989cc3dac",
-      "organization_id": "5a7805061c76ada191ed06f989cc3dac",
-      "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-      "expires_on": "2014-01-01T05:20:00Z",
-      "invited_by": "user@example.com",
-      "invited_member_email": "user@example.com",
-      "invited_on": "2014-01-01T05:20:00Z",
-      "organization_is_enforcing_twofactor": true,
-      "organization_name": "Cloudflare, Inc.",
-      "roles": [
-        "Account Administrator"
-      ],
-      "status": "accepted"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+meta: optional object {key, value }
 
-## Invitation Details
+Attributes associated to the permission group.
 
-**get** `/user/invites/{invite_id}`
+</summary>
 
-Gets the details of an invitation.
+key: optional string
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `invite_id: string`
+value: optional string
 
-  Invite identifier tag.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: optional string
 
-  - `message: string`
+Name of the permission group.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+resources: map\[string]or map\[map\[string]]
 
-  - `documentation_url: optional string`
+A list of resource names that the policy applies to.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `success: true`
+IAMResourcesTypeObjectString = map\[string]
 
-  Whether the API call was successful.
+Map of simple string resource permissions
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Invite`
+IAMResourcesTypeObjectNested = map\[map\[string]]
 
-  - `invited_member_id: string`
+Map of nested resource permissions
 
-    ID of the user to add to the organization.
+<a href="#">Link to this property</a>
 
-  - `organization_id: string`
+</details>
 
-    ID of the organization the user will be added to.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+</details>
 
-    Invite identifier tag.
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+<details>
 
-    When the invite is no longer active.
+<summary>
 
-  - `invited_by: optional string`
+status: optional "active"or "disabled"or "expired"
 
-    The email address of the user who created the invite.
+Status of the token.
 
-  - `invited_member_email: optional string`
+</summary>
 
-    Email address of the user to add to the organization.
+One of the following:
 
-  - `invited_on: optional string`
+"active"
 
-    When the invite was sent.
+<a href="#">Link to this property</a>
 
-  - `organization_is_enforcing_twofactor: optional boolean`
+"disabled"
 
-  - `organization_name: optional string`
+<a href="#">Link to this property</a>
 
-    Organization name.
+"expired"
 
-  - `roles: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of role names the membership has for this account.
+</details>
 
-  - `status: optional "pending" or "accepted" or "rejected" or "expired"`
+<a href="#">Link to this property</a>
 
-    Current status of the invitation.
+value: optional <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20token_value%20%3E%20(schema)">TokenValue</a>
 
-    - `"pending"`
+The token value.
 
-    - `"accepted"`
+maxLength80
 
-    - `"rejected"`
+minLength40
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/user/invites/$INVITE_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+[Link to this property](#)%20user.tokens%20%3E%20(model)%20token_create_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "invited_member_id": "5a7805061c76ada191ed06f989cc3dac",
-    "organization_id": "5a7805061c76ada191ed06f989cc3dac",
-    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-    "expires_on": "2014-01-01T05:20:00Z",
-    "invited_by": "user@example.com",
-    "invited_member_email": "user@example.com",
-    "invited_on": "2014-01-01T05:20:00Z",
-    "organization_is_enforcing_twofactor": true,
-    "organization_name": "Cloudflare, Inc.",
-    "roles": [
-      "Account Administrator"
-    ],
-    "status": "accepted"
-  }
-}
-```
+<summary>
 
-## Respond to Invitation
+TokenDeleteResponse object {id }
 
-**patch** `/user/invites/{invite_id}`
+</summary>
 
-Responds to an invitation.
+id: string
 
-### Path Parameters
+Identifier
 
-- `invite_id: string`
+maxLength32
 
-  Invite identifier tag.
+minLength32
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `status: "accepted" or "rejected"`
+</details>
 
-  Status of your response to the invitation (rejected or accepted).
+[Link to this property](#)%20user.tokens%20%3E%20(model)%20token_delete_response%20%3E%20(schema)>)
 
-  - `"accepted"`
+<details>
 
-  - `"rejected"`
+<summary>
 
-### Returns
+TokenVerifyResponse object {id, status, expires\_on, not\_before }
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+Token identifier tag.
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+status: "active"or "disabled"or "expired"
 
-  - `message: string`
+Status of the token.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"active"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"disabled"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional Invite`
+"expired"
 
-  - `invited_member_id: string`
+<a href="#">Link to this property</a>
 
-    ID of the user to add to the organization.
+</details>
 
-  - `organization_id: string`
+<a href="#">Link to this property</a>
 
-    ID of the organization the user will be added to.
+expires\_on: optional string
 
-  - `id: optional string`
+The expiration time on or after which the JWT MUST NOT be accepted for processing.
 
-    Invite identifier tag.
+formatdate-time
 
-  - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-    When the invite is no longer active.
+not\_before: optional string
 
-  - `invited_by: optional string`
+The time before which the token MUST NOT be accepted for processing.
 
-    The email address of the user who created the invite.
+formatdate-time
 
-  - `invited_member_email: optional string`
+<a href="#">Link to this property</a>
 
-    Email address of the user to add to the organization.
+</details>
 
-  - `invited_on: optional string`
+[Link to this property](#)%20user.tokens%20%3E%20(model)%20token_verify_response%20%3E%20(schema)>)
 
-    When the invite was sent.
+#### UserTokensPermission Groups
 
-  - `organization_is_enforcing_twofactor: optional boolean`
+##### [List Token Permission Groups](https://developers.cloudflare.com/api/resources/user/subresources/tokens/subresources/permission_groups/methods/list)
 
-  - `organization_name: optional string`
+GET/user/tokens/permission\_groups
 
-    Organization name.
+##### ModelsExpand Collapse
 
-  - `roles: optional array of string`
+<details>
 
-    List of role names the membership has for this account.
+<summary>
 
-  - `status: optional "pending" or "accepted" or "rejected" or "expired"`
+PermissionGroupListResponse object {id, category, name, scopes }
 
-    Current status of the invitation.
+</summary>
 
-    - `"pending"`
+id: optional string
 
-    - `"accepted"`
+Public ID.
 
-    - `"rejected"`
+<a href="#">Link to this property</a>
 
-    - `"expired"`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/user/invites/$INVITE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "status": "accepted"
-        }'
-```
+category: optional "developer\_platform"or "ai\_and\_machine\_learning"or "dns\_and\_zones"or 10 more
 
-#### Response
+Product category that this permission group belongs to.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "invited_member_id": "5a7805061c76ada191ed06f989cc3dac",
-    "organization_id": "5a7805061c76ada191ed06f989cc3dac",
-    "id": "4f5f0c14a2a41d5063dd301b2f829f04",
-    "expires_on": "2014-01-01T05:20:00Z",
-    "invited_by": "user@example.com",
-    "invited_member_email": "user@example.com",
-    "invited_on": "2014-01-01T05:20:00Z",
-    "organization_is_enforcing_twofactor": true,
-    "organization_name": "Cloudflare, Inc.",
-    "roles": [
-      "Account Administrator"
-    ],
-    "status": "accepted"
-  }
-}
-```
+</summary>
 
-## Domain Types
+One of the following:
 
-### Invite
+"developer\_platform"
 
-- `Invite object { invited_member_id, organization_id, id, 8 more }`
+<a href="#">Link to this property</a>
 
-  - `invited_member_id: string`
+"ai\_and\_machine\_learning"
 
-    ID of the user to add to the organization.
+<a href="#">Link to this property</a>
 
-  - `organization_id: string`
+"dns\_and\_zones"
 
-    ID of the organization the user will be added to.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"app\_security"
 
-    Invite identifier tag.
+<a href="#">Link to this property</a>
 
-  - `expires_on: optional string`
+"rules\_and\_configuration"
 
-    When the invite is no longer active.
+<a href="#">Link to this property</a>
 
-  - `invited_by: optional string`
+"cloudflare\_one\_and\_zero\_trust"
 
-    The email address of the user who created the invite.
+<a href="#">Link to this property</a>
 
-  - `invited_member_email: optional string`
+"analytics\_and\_logs"
 
-    Email address of the user to add to the organization.
+<a href="#">Link to this property</a>
 
-  - `invited_on: optional string`
+"network\_services"
 
-    When the invite was sent.
+<a href="#">Link to this property</a>
 
-  - `organization_is_enforcing_twofactor: optional boolean`
+"media"
 
-  - `organization_name: optional string`
+<a href="#">Link to this property</a>
 
-    Organization name.
+"email\_and\_messaging"
 
-  - `roles: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of role names the membership has for this account.
+"cache\_and\_performance"
 
-  - `status: optional "pending" or "accepted" or "rejected" or "expired"`
+<a href="#">Link to this property</a>
 
-    Current status of the invitation.
+"account\_and\_billing"
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"accepted"`
+"other"
 
-    - `"rejected"`
+<a href="#">Link to this property</a>
 
-    - `"expired"`
+</details>
 
-# Organizations
+<a href="#">Link to this property</a>
 
-## List Organizations
+name: optional string
 
-**get** `/user/organizations`
+Permission Group Name
 
-Lists organizations the user is associated with.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+<details>
 
-- `direction: optional "asc" or "desc"`
+<summary>
 
-  Direction to order organizations.
+scopes: optional array of "com.cloudflare.api.account"or "com.cloudflare.api.account.zone"or "com.cloudflare.api.user"or "com.cloudflare.edge.r2.bucket"
 
-  - `"asc"`
+Resources to which the Permission Group is scoped
 
-  - `"desc"`
+</summary>
 
-- `match: optional "any" or "all"`
+One of the following:
 
-  Whether to match all search requirements or at least one (any).
+"com.cloudflare.api.account"
 
-  - `"any"`
+<a href="#">Link to this property</a>
 
-  - `"all"`
+"com.cloudflare.api.account.zone"
 
-- `name: optional string`
+<a href="#">Link to this property</a>
 
-  Organization name.
+"com.cloudflare.api.user"
 
-- `order: optional "id" or "name" or "status"`
+<a href="#">Link to this property</a>
 
-  Field to order organizations by.
+"com.cloudflare.edge.r2.bucket"
 
-  - `"id"`
+<a href="#">Link to this property</a>
 
-  - `"name"`
+</details>
 
-  - `"status"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+</details>
 
-  Page number of paginated results.
+[Link to this property](#)%20user.tokens.permission_groups%20%3E%20(model)%20permission_group_list_response%20%3E%20(schema)>)
 
-- `per_page: optional number`
+#### UserTokensValue
 
-  Number of organizations per page.
+##### [Roll Token](https://developers.cloudflare.com/api/resources/user/subresources/tokens/subresources/value/methods/update)
 
-- `status: optional "member" or "invited"`
-
-  Whether the user is a member of the organization or has an inivitation pending.
-
-  - `"member"`
-
-  - `"invited"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Organization`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `name: optional string`
-
-    Organization name.
-
-  - `permissions: optional array of Permission`
-
-    Access permissions for this User.
-
-  - `roles: optional array of string`
-
-    List of roles that a user has within an organization.
-
-  - `status: optional Status`
-
-    Whether the user is a member of the organization or has an invitation pending.
-
-    - `"member"`
-
-    - `"invited"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/organizations \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "name": "Cloudflare, Inc.",
-      "permissions": [
-        "#zones:read"
-      ],
-      "roles": [
-        "All Privileges - Super Administrator"
-      ],
-      "status": "member"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Organization Details
-
-**get** `/user/organizations/{organization_id}`
-
-Gets a specific organization the user is associated with.
-
-### Path Parameters
-
-- `organization_id: string`
-
-  Identifier
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional unknown`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/organizations/$ORGANIZATION_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
-
-## Leave Organization
-
-**delete** `/user/organizations/{organization_id}`
-
-Removes association to an organization.
-
-### Path Parameters
-
-- `organization_id: string`
-
-  Identifier
-
-### Returns
-
-- `id: optional string`
-
-  Identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/organizations/$ORGANIZATION_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "id": "023e105f4ecef8ad9ca31a8372d0c353"
-}
-```
-
-## Domain Types
-
-### Organization
-
-- `Organization object { id, name, permissions, 2 more }`
-
-  - `id: optional string`
-
-    Identifier
-
-  - `name: optional string`
-
-    Organization name.
-
-  - `permissions: optional array of Permission`
-
-    Access permissions for this User.
-
-  - `roles: optional array of string`
-
-    List of roles that a user has within an organization.
-
-  - `status: optional Status`
-
-    Whether the user is a member of the organization or has an invitation pending.
-
-    - `"member"`
-
-    - `"invited"`
-
-### Organization Get Response
-
-- `OrganizationGetResponse = unknown`
-
-### Organization Delete Response
-
-- `OrganizationDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    Identifier
-
-# Subscriptions
-
-## Get User Subscriptions
-
-**get** `/user/subscriptions`
-
-Lists all of a user's subscriptions.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of Subscription`
-
-  - `id: optional string`
-
-    Subscription identifier tag.
-
-  - `currency: optional string`
-
-    The monetary unit in which pricing information is displayed.
-
-  - `current_period_end: optional string`
-
-    The end of the current period and also when the next billing is due.
-
-  - `current_period_start: optional string`
-
-    When the current billing period started. May match initial_period_start if this is the first period.
-
-  - `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-    How often the subscription is renewed automatically.
-
-    - `"weekly"`
-
-    - `"monthly"`
-
-    - `"quarterly"`
-
-    - `"yearly"`
-
-  - `price: optional number`
-
-    The price of the subscription that will be billed, in US dollars.
-
-  - `rate_plan: optional RatePlan`
-
-    The rate plan applied to the subscription.
-
-    - `id: optional "free" or "lite" or "pro" or 7 more`
-
-      The ID of the rate plan.
-
-      - `"free"`
-
-      - `"lite"`
-
-      - `"pro"`
-
-      - `"pro_plus"`
-
-      - `"business"`
-
-      - `"enterprise"`
-
-      - `"partners_free"`
-
-      - `"partners_pro"`
-
-      - `"partners_business"`
-
-      - `"partners_enterprise"`
-
-    - `currency: optional string`
-
-      The currency applied to the rate plan subscription.
-
-    - `externally_managed: optional boolean`
-
-      Whether this rate plan is managed externally from Cloudflare.
-
-    - `is_contract: optional boolean`
-
-      Whether a rate plan is enterprise-based (or newly adopted term contract).
-
-    - `public_name: optional string`
-
-      The full name of the rate plan.
-
-    - `scope: optional string`
-
-      The scope that this rate plan applies to.
-
-    - `sets: optional array of string`
-
-      The list of sets this rate plan applies to. Returns array of strings.
-
-  - `state: optional "Trial" or "Provisioned" or "Paid" or 4 more`
-
-    The state that the subscription is in.
-
-    - `"Trial"`
-
-    - `"Provisioned"`
-
-    - `"Paid"`
-
-    - `"AwaitingPayment"`
-
-    - `"Cancelled"`
-
-    - `"Failed"`
-
-    - `"Expired"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/subscriptions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "506e3185e9c882d175a2d0cb0093d9f2",
-      "currency": "USD",
-      "current_period_end": "2014-03-31T12:20:00Z",
-      "current_period_start": "2014-05-11T12:20:00Z",
-      "frequency": "monthly",
-      "price": 20,
-      "rate_plan": {
-        "id": "free",
-        "currency": "USD",
-        "externally_managed": false,
-        "is_contract": false,
-        "public_name": "Business Plan",
-        "scope": "zone",
-        "sets": [
-          "string"
-        ]
-      },
-      "state": "Paid"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Update User Subscription
-
-**put** `/user/subscriptions/{identifier}`
-
-Updates a user's subscriptions.
-
-### Path Parameters
-
-- `identifier: string`
-
-  Subscription identifier tag.
-
-### Body Parameters
-
-- `frequency: optional "weekly" or "monthly" or "quarterly" or "yearly"`
-
-  How often the subscription is renewed automatically.
-
-  - `"weekly"`
-
-  - `"monthly"`
-
-  - `"quarterly"`
-
-  - `"yearly"`
-
-- `rate_plan: optional RatePlan`
-
-  The rate plan applied to the subscription.
-
-  - `id: optional "free" or "lite" or "pro" or 7 more`
-
-    The ID of the rate plan.
-
-    - `"free"`
-
-    - `"lite"`
-
-    - `"pro"`
-
-    - `"pro_plus"`
-
-    - `"business"`
-
-    - `"enterprise"`
-
-    - `"partners_free"`
-
-    - `"partners_pro"`
-
-    - `"partners_business"`
-
-    - `"partners_enterprise"`
-
-  - `currency: optional string`
-
-    The currency applied to the rate plan subscription.
-
-  - `externally_managed: optional boolean`
-
-    Whether this rate plan is managed externally from Cloudflare.
-
-  - `is_contract: optional boolean`
-
-    Whether a rate plan is enterprise-based (or newly adopted term contract).
-
-  - `public_name: optional string`
-
-    The full name of the rate plan.
-
-  - `scope: optional string`
-
-    The scope that this rate plan applies to.
-
-  - `sets: optional array of string`
-
-    The list of sets this rate plan applies to. Returns array of strings.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/subscriptions/$IDENTIFIER \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "frequency": "monthly"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Delete User Subscription
-
-**delete** `/user/subscriptions/{identifier}`
-
-Deletes a user's subscription.
-
-### Path Parameters
-
-- `identifier: string`
-
-  Subscription identifier tag.
-
-### Returns
-
-- `subscription_id: optional string`
-
-  Subscription identifier tag.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/subscriptions/$IDENTIFIER \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "subscription_id": "506e3185e9c882d175a2d0cb0093d9f2"
-}
-```
-
-## Domain Types
-
-### Subscription Update Response
-
-- `SubscriptionUpdateResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
-
-### Subscription Delete Response
-
-- `SubscriptionDeleteResponse object { subscription_id }`
-
-  - `subscription_id: optional string`
-
-    Subscription identifier tag.
-
-# Tenants
-
-## List user tenants
-
-**get** `/user/tenants`
-
-Retrieves list of tenants the authenticated user / method has access to.
-
-### Returns
-
-- `errors: array of unknown`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: array of Organization`
-
-  - `id: string`
-
-  - `create_time: string`
-
-  - `meta: object { flags, hierarchy_tags, managed_by }`
-
-    - `flags: optional object { account_creation, account_deletion, account_migration, 2 more }`
-
-      Enable features for Organizations.
-
-      - `account_creation: string`
-
-      - `account_deletion: string`
-
-      - `account_migration: string`
-
-      - `account_mobility: string`
-
-      - `sub_org_creation: string`
-
-    - `hierarchy_tags: optional array of string`
-
-      Ordered chain of organization tags from the root organization down to
-      (and including) this organization itself. Root organizations return a
-      single-element array containing their own tag; sub-organizations return
-      `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for
-      constructing authorization scopes that need to cover every ancestor
-      in the hierarchy.
-
-    - `managed_by: optional string`
-
-  - `name: string`
-
-  - `parent: optional object { id, name }`
-
-    - `id: string`
-
-    - `name: string`
-
-  - `profile: optional AccountProfile`
-
-    - `business_address: string`
-
-    - `business_email: string`
-
-    - `business_name: string`
-
-    - `business_phone: string`
-
-    - `external_metadata: string`
-
-- `success: true`
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tenants \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-      "create_time": "2019-12-27T18:11:19.117Z",
-      "meta": {
-        "flags": {
-          "account_creation": "account_creation",
-          "account_deletion": "account_deletion",
-          "account_migration": "account_migration",
-          "account_mobility": "account_mobility",
-          "sub_org_creation": "sub_org_creation"
-        },
-        "hierarchy_tags": [
-          "string"
-        ],
-        "managed_by": "managed_by"
-      },
-      "name": "name",
-      "parent": {
-        "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-        "name": "name"
-      },
-      "profile": {
-        "business_address": "business_address",
-        "business_email": "business_email",
-        "business_name": "business_name",
-        "business_phone": "business_phone",
-        "external_metadata": "external_metadata"
-      }
-    }
-  ],
-  "success": true
-}
-```
-
-# Tokens
-
-## List Tokens
-
-**get** `/user/tokens`
-
-List all access tokens you created.
-
-### Query Parameters
-
-- `direction: optional "asc" or "desc"`
-
-  Direction to order results.
-
-  - `"asc"`
-
-  - `"desc"`
-
-- `page: optional number`
-
-  Page number of paginated results.
-
-- `per_page: optional number`
-
-  Maximum number of results per page.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of Token`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tokens \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "ed17574386854bf78a67040be0a770b0",
-      "condition": {
-        "request_ip": {
-          "in": [
-            "123.123.123.0/24",
-            "2606:4700::/32"
-          ],
-          "not_in": [
-            "123.123.123.100/24",
-            "2606:4700:4700::/48"
-          ]
-        }
-      },
-      "expires_on": "2020-01-01T00:00:00Z",
-      "issued_on": "2018-07-01T05:20:00Z",
-      "last_used_on": "2020-01-02T12:34:00Z",
-      "modified_on": "2018-07-02T05:20:00Z",
-      "name": "readonly token",
-      "not_before": "2018-07-01T05:20:00Z",
-      "policies": [
-        {
-          "id": "f267e341f3dd4697bd3b9f71dd96247f",
-          "effect": "allow",
-          "permission_groups": [
-            {
-              "id": "c8fed203ed3043cba015a93ad1616f1f",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Zone Read"
-            },
-            {
-              "id": "82e64a83756745bbbb1c9c2701bf816b",
-              "meta": {
-                "key": "key",
-                "value": "value"
-              },
-              "name": "Magic Network Monitoring"
-            }
-          ],
-          "resources": {
-            "foo": "string"
-          }
-        }
-      ],
-      "status": "active"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Token Details
-
-**get** `/user/tokens/{token_id}`
-
-Get information about a specific token.
-
-### Path Parameters
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Token`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tokens/$TOKEN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active"
-  }
-}
-```
-
-## Create Token
-
-**post** `/user/tokens`
-
-Create a new access token.
-
-### Body Parameters
-
-- `name: string`
-
-  Token name.
-
-- `policies: array of TokenPolicy`
-
-  List of access policies assigned to the token.
-
-  - `id: string`
-
-    Policy identifier.
-
-  - `effect: "allow" or "deny"`
-
-    Allow or deny operations against the resources.
-
-    - `"allow"`
-
-    - `"deny"`
-
-  - `permission_groups: array of object { id, meta, name }`
-
-    A set of permission groups that are specified to the policy.
-
-    - `id: string`
-
-      Identifier of the permission group.
-
-    - `meta: optional object { key, value }`
-
-      Attributes associated to the permission group.
-
-      - `key: optional string`
-
-      - `value: optional string`
-
-    - `name: optional string`
-
-      Name of the permission group.
-
-  - `resources: map[string] or map[map[string]]`
-
-    A list of resource names that the policy applies to.
-
-    - `IAMResourcesTypeObjectString = map[string]`
-
-      Map of simple string resource permissions
-
-    - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-      Map of nested resource permissions
-
-- `condition: optional object { request_ip }`
-
-  - `request_ip: optional object { in, not_in }`
-
-    Client IP restrictions.
-
-    - `in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-    - `not_in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-- `expires_on: optional string`
-
-  The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-- `not_before: optional string`
-
-  The time before which the token MUST NOT be accepted for processing.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, condition, expires_on, 8 more }`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `value: optional TokenValue`
-
-    The token value.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tokens \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "readonly token",
-          "policies": [
-            {
-              "effect": "allow",
-              "permission_groups": [
-                {
-                  "id": "c8fed203ed3043cba015a93ad1616f1f",
-                  "meta": {}
-                },
-                {
-                  "id": "82e64a83756745bbbb1c9c2701bf816b",
-                  "meta": {}
-                }
-              ],
-              "resources": {
-                "foo": "string"
-              }
-            }
-          ],
-          "expires_on": "2020-01-01T00:00:00Z",
-          "not_before": "2018-07-01T05:20:00Z"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active",
-    "value": "8M7wS6hCpXVc-DoRnPPY_UCWPgy8aea4Wy6kCe5T"
-  }
-}
-```
-
-## Update Token
-
-**put** `/user/tokens/{token_id}`
-
-Update an existing token.
-
-### Path Parameters
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Body Parameters
-
-- `name: string`
-
-  Token name.
-
-- `policies: array of TokenPolicy`
-
-  List of access policies assigned to the token.
-
-  - `id: string`
-
-    Policy identifier.
-
-  - `effect: "allow" or "deny"`
-
-    Allow or deny operations against the resources.
-
-    - `"allow"`
-
-    - `"deny"`
-
-  - `permission_groups: array of object { id, meta, name }`
-
-    A set of permission groups that are specified to the policy.
-
-    - `id: string`
-
-      Identifier of the permission group.
-
-    - `meta: optional object { key, value }`
-
-      Attributes associated to the permission group.
-
-      - `key: optional string`
-
-      - `value: optional string`
-
-    - `name: optional string`
-
-      Name of the permission group.
-
-  - `resources: map[string] or map[map[string]]`
-
-    A list of resource names that the policy applies to.
-
-    - `IAMResourcesTypeObjectString = map[string]`
-
-      Map of simple string resource permissions
-
-    - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-      Map of nested resource permissions
-
-- `condition: optional object { request_ip }`
-
-  - `request_ip: optional object { in, not_in }`
-
-    Client IP restrictions.
-
-    - `in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-    - `not_in: optional array of TokenConditionCIDRList`
-
-      List of IPv4/IPv6 CIDR addresses.
-
-- `expires_on: optional string`
-
-  The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-- `not_before: optional string`
-
-  The time before which the token MUST NOT be accepted for processing.
-
-- `status: optional "active" or "disabled" or "expired"`
-
-  Status of the token.
-
-  - `"active"`
-
-  - `"disabled"`
-
-  - `"expired"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional Token`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tokens/$TOKEN_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "name": "readonly token",
-          "policies": [
-            {
-              "effect": "allow",
-              "permission_groups": [
-                {
-                  "id": "c8fed203ed3043cba015a93ad1616f1f",
-                  "meta": {}
-                },
-                {
-                  "id": "82e64a83756745bbbb1c9c2701bf816b",
-                  "meta": {}
-                }
-              ],
-              "resources": {
-                "foo": "string"
-              }
-            }
-          ],
-          "expires_on": "2020-01-01T00:00:00Z",
-          "not_before": "2018-07-01T05:20:00Z",
-          "status": "active"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "condition": {
-      "request_ip": {
-        "in": [
-          "123.123.123.0/24",
-          "2606:4700::/32"
-        ],
-        "not_in": [
-          "123.123.123.100/24",
-          "2606:4700:4700::/48"
-        ]
-      }
-    },
-    "expires_on": "2020-01-01T00:00:00Z",
-    "issued_on": "2018-07-01T05:20:00Z",
-    "last_used_on": "2020-01-02T12:34:00Z",
-    "modified_on": "2018-07-02T05:20:00Z",
-    "name": "readonly token",
-    "not_before": "2018-07-01T05:20:00Z",
-    "policies": [
-      {
-        "id": "f267e341f3dd4697bd3b9f71dd96247f",
-        "effect": "allow",
-        "permission_groups": [
-          {
-            "id": "c8fed203ed3043cba015a93ad1616f1f",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Zone Read"
-          },
-          {
-            "id": "82e64a83756745bbbb1c9c2701bf816b",
-            "meta": {
-              "key": "key",
-              "value": "value"
-            },
-            "name": "Magic Network Monitoring"
-          }
-        ],
-        "resources": {
-          "foo": "string"
-        }
-      }
-    ],
-    "status": "active"
-  }
-}
-```
-
-## Delete Token
-
-**delete** `/user/tokens/{token_id}`
-
-Destroy a token.
-
-### Path Parameters
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tokens/$TOKEN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Verify Token
-
-**get** `/user/tokens/verify`
-
-Test whether a token works.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, status, expires_on, not_before }`
-
-  - `id: string`
-
-    Token identifier tag.
-
-  - `status: "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tokens/verify \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "ed17574386854bf78a67040be0a770b0",
-    "status": "active",
-    "expires_on": "2020-01-01T00:00:00Z",
-    "not_before": "2018-07-01T05:20:00Z"
-  }
-}
-```
-
-## Domain Types
-
-### Token Create Response
-
-- `TokenCreateResponse object { id, condition, expires_on, 8 more }`
-
-  - `id: optional string`
-
-    Token identifier tag.
-
-  - `condition: optional object { request_ip }`
-
-    - `request_ip: optional object { in, not_in }`
-
-      Client IP restrictions.
-
-      - `in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-      - `not_in: optional array of TokenConditionCIDRList`
-
-        List of IPv4/IPv6 CIDR addresses.
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `issued_on: optional string`
-
-    The time on which the token was created.
-
-  - `last_used_on: optional string`
-
-    Last time the token was used.
-
-  - `modified_on: optional string`
-
-    Last time the token was modified.
-
-  - `name: optional string`
-
-    Token name.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-  - `policies: optional array of TokenPolicy`
-
-    List of access policies assigned to the token.
-
-    - `id: string`
-
-      Policy identifier.
-
-    - `effect: "allow" or "deny"`
-
-      Allow or deny operations against the resources.
-
-      - `"allow"`
-
-      - `"deny"`
-
-    - `permission_groups: array of object { id, meta, name }`
-
-      A set of permission groups that are specified to the policy.
-
-      - `id: string`
-
-        Identifier of the permission group.
-
-      - `meta: optional object { key, value }`
-
-        Attributes associated to the permission group.
-
-        - `key: optional string`
-
-        - `value: optional string`
-
-      - `name: optional string`
-
-        Name of the permission group.
-
-    - `resources: map[string] or map[map[string]]`
-
-      A list of resource names that the policy applies to.
-
-      - `IAMResourcesTypeObjectString = map[string]`
-
-        Map of simple string resource permissions
-
-      - `IAMResourcesTypeObjectNested = map[map[string]]`
-
-        Map of nested resource permissions
-
-  - `status: optional "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `value: optional TokenValue`
-
-    The token value.
-
-### Token Delete Response
-
-- `TokenDeleteResponse object { id }`
-
-  - `id: string`
-
-    Identifier
-
-### Token Verify Response
-
-- `TokenVerifyResponse object { id, status, expires_on, not_before }`
-
-  - `id: string`
-
-    Token identifier tag.
-
-  - `status: "active" or "disabled" or "expired"`
-
-    Status of the token.
-
-    - `"active"`
-
-    - `"disabled"`
-
-    - `"expired"`
-
-  - `expires_on: optional string`
-
-    The expiration time on or after which the JWT MUST NOT be accepted for processing.
-
-  - `not_before: optional string`
-
-    The time before which the token MUST NOT be accepted for processing.
-
-# Permission Groups
-
-## List Token Permission Groups
-
-**get** `/user/tokens/permission_groups`
-
-Find all available permission groups for API Tokens.
-
-### Query Parameters
-
-- `name: optional string`
-
-  Filter by the name of the permission group.
-  The value must be URL-encoded.
-
-- `scope: optional string`
-
-  Filter by the scope of the permission group.
-  The value must be URL-encoded.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tokens/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7cf72faf220841aabcfdfab81c43c4f6",
-      "category": "account_and_billing",
-      "name": "Billing Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "9d24387c6e8544e2bc4024a03991339f",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "d2a1802cc9a34e30852f8b33869b2f3c",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "8b47d2786a534c08a1f94ee8f9f599ef",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "f7f0eda5697f475c90846e879bab8666",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "1a71c399035b4950a1bd1466bbe4f420",
-      "category": "developer_platform",
-      "name": "Workers Scripts Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "e086da7e2179491d91ee5f35b3ca210a",
-      "category": "developer_platform",
-      "name": "Workers Scripts Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### Permission Group List Response
-
-- `PermissionGroupListResponse object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-# Value
-
-## Roll Token
-
-**put** `/user/tokens/{token_id}/value`
-
-Roll the token secret.
-
-### Path Parameters
-
-- `token_id: string`
-
-  Token identifier tag.
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional TokenValue`
-
-  The token value.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/user/tokens/$TOKEN_ID/value \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": "8M7wS6hCpXVc-DoRnPPY_UCWPgy8aea4Wy6kCe5T"
-}
-```
+PUT/user/tokens/{token\_id}/value

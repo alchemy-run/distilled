@@ -1,948 +1,597 @@
+---
+title: Variants
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Images](https://developers.cloudflare.com/api/resources/images)
+
+[V1](https://developers.cloudflare.com/api/resources/images/subresources/v1)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Variants
 
-## List variants
+##### [List variants](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/list)
 
-**get** `/accounts/{account_id}/images/v1/variants`
+GET/accounts/{account\_id}/images/v1/variants
 
-List existing CF Images variants.
+##### [Variant details](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/images/v1/variants/{variant\_id}
 
-- `account_id: string`
+##### [Create a variant](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/create)
 
-  Account identifier tag.
+POST/accounts/{account\_id}/images/v1/variants
 
-### Returns
+##### [Update a variant](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/edit)
 
-- `errors: array of ResponseInfo`
+PATCH/accounts/{account\_id}/images/v1/variants/{variant\_id}
 
-  - `code: number`
+##### [Delete a variant](https://developers.cloudflare.com/api/resources/images/subresources/v1/subresources/variants/methods/delete)
 
-  - `message: string`
+DELETE/accounts/{account\_id}/images/v1/variants/{variant\_id}
 
-  - `documentation_url: optional string`
+##### ModelsExpand Collapse
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+Variant object {variants }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+variants: optional object {hero }
 
-- `result: Variant`
+</summary>
 
-  - `variants: optional object { hero }`
+<details>
 
-    - `hero: optional object { id, options, neverRequireSignedURLs }`
+<summary>
 
-      - `id: string`
+hero: optional object {id, options, neverRequireSignedURLs }
 
-      - `options: object { fit, height, metadata, width }`
+</summary>
 
-        Allows you to define image resizing sizes for different use cases.
+id: string
 
-        - `fit: "scale-down" or "contain" or "cover" or 2 more`
+maxLength99
 
-          The fit property describes how the width and height dimensions should be interpreted.
+<a href="#">Link to this property</a>
 
-          - `"scale-down"`
+<details>
 
-          - `"contain"`
+<summary>
 
-          - `"cover"`
+options: object {fit, height, metadata, width }
 
-          - `"crop"`
+Allows you to define image resizing sizes for different use cases.
 
-          - `"pad"`
+</summary>
 
-        - `height: number`
+<details>
 
-          Maximum height in image pixels.
+<summary>
 
-        - `metadata: "keep" or "copyright" or "none"`
+fit: "scale-down"or "contain"or "cover"or 2 more
 
-          What EXIF data should be preserved in the output image.
+The fit property describes how the width and height dimensions should be interpreted.
 
-          - `"keep"`
+</summary>
 
-          - `"copyright"`
+One of the following:
 
-          - `"none"`
+"scale-down"
 
-        - `width: number`
+<a href="#">Link to this property</a>
 
-          Maximum width in image pixels.
+"contain"
 
-      - `neverRequireSignedURLs: optional boolean`
+<a href="#">Link to this property</a>
 
-        Indicates whether the variant can access an image without a signature, regardless of image access control.
+"cover"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+"crop"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"pad"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "variants": {
-      "hero": {
-        "id": "hero",
-        "options": {
-          "fit": "scale-down",
-          "height": 768,
-          "metadata": "none",
-          "width": 1366
-        },
-        "neverRequireSignedURLs": true
-      }
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Variant details
+height: number
 
-**get** `/accounts/{account_id}/images/v1/variants/{variant_id}`
+Maximum height in image pixels.
 
-Fetch details for a CF Images variant.
+minimum1
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+<details>
 
-  Account identifier tag.
+<summary>
 
-- `variant_id: string`
+metadata: "keep"or "copyright"or "none"
 
-### Returns
+What EXIF data should be preserved in the output image.
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"keep"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"copyright"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"none"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+width: number
 
-- `result: object { variant }`
+Maximum width in image pixels.
 
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
+minimum1
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-    - `options: object { fit, height, metadata, width }`
+</details>
 
-      Allows you to define image resizing sizes for different use cases.
+<a href="#">Link to this property</a>
 
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
+neverRequireSignedURLs: optional boolean
 
-        The fit property describes how the width and height dimensions should be interpreted.
+Indicates whether the variant can access an image without a signature, regardless of image access control.
 
-        - `"scale-down"`
+<a href="#">Link to this property</a>
 
-        - `"contain"`
+</details>
 
-        - `"cover"`
+<a href="#">Link to this property</a>
 
-        - `"crop"`
+</details>
 
-        - `"pad"`
+<a href="#">Link to this property</a>
 
-      - `height: number`
+</details>
 
-        Maximum height in image pixels.
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant%20%3E%20(schema)>)
 
-      - `metadata: "keep" or "copyright" or "none"`
+<details>
 
-        What EXIF data should be preserved in the output image.
+<summary>
 
-        - `"keep"`
+VariantGetResponse object {variant }
 
-        - `"copyright"`
+</summary>
 
-        - `"none"`
+<details>
 
-      - `width: number`
+<summary>
 
-        Maximum width in image pixels.
+variant: optional object {id, options, neverRequireSignedURLs }
 
-    - `neverRequireSignedURLs: optional boolean`
+</summary>
 
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
+id: string
 
-- `success: true`
+maxLength99
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants/$VARIANT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+options: object {fit, height, metadata, width }
 
-#### Response
+Allows you to define image resizing sizes for different use cases.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "variant": {
-      "id": "hero",
-      "options": {
-        "fit": "scale-down",
-        "height": 768,
-        "metadata": "none",
-        "width": 1366
-      },
-      "neverRequireSignedURLs": true
-    }
-  },
-  "success": true
-}
-```
+</summary>
 
-## Create a variant
+<details>
 
-**post** `/accounts/{account_id}/images/v1/variants`
+<summary>
 
-Create a CF Images variant that allows you to resize images for different use cases.
+fit: "scale-down"or "contain"or "cover"or 2 more
 
-### Path Parameters
+The fit property describes how the width and height dimensions should be interpreted.
 
-- `account_id: string`
+</summary>
 
-  Account identifier tag.
+One of the following:
 
-### Body Parameters
+"scale-down"
 
-- `id: string`
+<a href="#">Link to this property</a>
 
-- `options: object { fit, height, metadata, width }`
+"contain"
 
-  Allows you to define image resizing sizes for different use cases.
+<a href="#">Link to this property</a>
 
-  - `fit: "scale-down" or "contain" or "cover" or 2 more`
+"cover"
 
-    The fit property describes how the width and height dimensions should be interpreted.
+<a href="#">Link to this property</a>
 
-    - `"scale-down"`
+"crop"
 
-    - `"contain"`
+<a href="#">Link to this property</a>
 
-    - `"cover"`
+"pad"
 
-    - `"crop"`
+<a href="#">Link to this property</a>
 
-    - `"pad"`
+</details>
 
-  - `height: number`
+<a href="#">Link to this property</a>
 
-    Maximum height in image pixels.
+height: number
 
-  - `metadata: "keep" or "copyright" or "none"`
+Maximum height in image pixels.
 
-    What EXIF data should be preserved in the output image.
+minimum1
 
-    - `"keep"`
+<a href="#">Link to this property</a>
 
-    - `"copyright"`
+<details>
 
-    - `"none"`
+<summary>
 
-  - `width: number`
+metadata: "keep"or "copyright"or "none"
 
-    Maximum width in image pixels.
+What EXIF data should be preserved in the output image.
 
-- `neverRequireSignedURLs: optional boolean`
+</summary>
 
-  Indicates whether the variant can access an image without a signature, regardless of image access control.
+One of the following:
 
-### Returns
+"keep"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"copyright"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"none"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+width: number
 
-  - `message: string`
+Maximum width in image pixels.
 
-  - `documentation_url: optional string`
+minimum1
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { variant }`
+</details>
 
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+neverRequireSignedURLs: optional boolean
 
-    - `options: object { fit, height, metadata, width }`
+Indicates whether the variant can access an image without a signature, regardless of image access control.
 
-      Allows you to define image resizing sizes for different use cases.
+<a href="#">Link to this property</a>
 
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
+</details>
 
-        The fit property describes how the width and height dimensions should be interpreted.
+<a href="#">Link to this property</a>
 
-        - `"scale-down"`
+</details>
 
-        - `"contain"`
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant_get_response%20%3E%20(schema)>)
 
-        - `"cover"`
+<details>
 
-        - `"crop"`
+<summary>
 
-        - `"pad"`
+VariantCreateResponse object {variant }
 
-      - `height: number`
+</summary>
 
-        Maximum height in image pixels.
+<details>
 
-      - `metadata: "keep" or "copyright" or "none"`
+<summary>
 
-        What EXIF data should be preserved in the output image.
+variant: optional object {id, options, neverRequireSignedURLs }
 
-        - `"keep"`
+</summary>
 
-        - `"copyright"`
+id: string
 
-        - `"none"`
+maxLength99
 
-      - `width: number`
+<a href="#">Link to this property</a>
 
-        Maximum width in image pixels.
+<details>
 
-    - `neverRequireSignedURLs: optional boolean`
+<summary>
 
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
+options: object {fit, height, metadata, width }
 
-- `success: true`
+Allows you to define image resizing sizes for different use cases.
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "id": "hero",
-          "options": {
-            "fit": "scale-down",
-            "height": 768,
-            "metadata": "none",
-            "width": 1366
-          },
-          "neverRequireSignedURLs": true
-        }'
-```
+fit: "scale-down"or "contain"or "cover"or 2 more
 
-#### Response
+The fit property describes how the width and height dimensions should be interpreted.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "variant": {
-      "id": "hero",
-      "options": {
-        "fit": "scale-down",
-        "height": 768,
-        "metadata": "none",
-        "width": 1366
-      },
-      "neverRequireSignedURLs": true
-    }
-  },
-  "success": true
-}
-```
+</summary>
 
-## Update a variant
+One of the following:
 
-**patch** `/accounts/{account_id}/images/v1/variants/{variant_id}`
+"scale-down"
 
-Update a CF Images variant. This will purge the cache for all images associated with the variant.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"contain"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier tag.
+"cover"
 
-- `variant_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+"crop"
 
-- `options: object { fit, height, metadata, width }`
+<a href="#">Link to this property</a>
 
-  Allows you to define image resizing sizes for different use cases.
+"pad"
 
-  - `fit: "scale-down" or "contain" or "cover" or 2 more`
+<a href="#">Link to this property</a>
 
-    The fit property describes how the width and height dimensions should be interpreted.
+</details>
 
-    - `"scale-down"`
+<a href="#">Link to this property</a>
 
-    - `"contain"`
+height: number
 
-    - `"cover"`
+Maximum height in image pixels.
 
-    - `"crop"`
+minimum1
 
-    - `"pad"`
+<a href="#">Link to this property</a>
 
-  - `height: number`
+<details>
 
-    Maximum height in image pixels.
+<summary>
 
-  - `metadata: "keep" or "copyright" or "none"`
+metadata: "keep"or "copyright"or "none"
 
-    What EXIF data should be preserved in the output image.
+What EXIF data should be preserved in the output image.
 
-    - `"keep"`
+</summary>
 
-    - `"copyright"`
+One of the following:
 
-    - `"none"`
+"keep"
 
-  - `width: number`
+<a href="#">Link to this property</a>
 
-    Maximum width in image pixels.
+"copyright"
 
-- `neverRequireSignedURLs: optional boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the variant can access an image without a signature, regardless of image access control.
+"none"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+width: number
 
-  - `documentation_url: optional string`
+Maximum width in image pixels.
 
-  - `source: optional object { pointer }`
+minimum1
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+neverRequireSignedURLs: optional boolean
 
-  - `documentation_url: optional string`
+Indicates whether the variant can access an image without a signature, regardless of image access control.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { variant }`
+</details>
 
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-    - `options: object { fit, height, metadata, width }`
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant_create_response%20%3E%20(schema)>)
 
-      Allows you to define image resizing sizes for different use cases.
+<details>
 
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
+<summary>
 
-        The fit property describes how the width and height dimensions should be interpreted.
+VariantEditResponse object {variant }
 
-        - `"scale-down"`
+</summary>
 
-        - `"contain"`
+<details>
 
-        - `"cover"`
+<summary>
 
-        - `"crop"`
+variant: optional object {id, options, neverRequireSignedURLs }
 
-        - `"pad"`
+</summary>
 
-      - `height: number`
+id: string
 
-        Maximum height in image pixels.
+maxLength99
 
-      - `metadata: "keep" or "copyright" or "none"`
+<a href="#">Link to this property</a>
 
-        What EXIF data should be preserved in the output image.
+<details>
 
-        - `"keep"`
+<summary>
 
-        - `"copyright"`
+options: object {fit, height, metadata, width }
 
-        - `"none"`
+Allows you to define image resizing sizes for different use cases.
 
-      - `width: number`
+</summary>
 
-        Maximum width in image pixels.
+<details>
 
-    - `neverRequireSignedURLs: optional boolean`
+<summary>
 
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
+fit: "scale-down"or "contain"or "cover"or 2 more
 
-- `success: true`
+The fit property describes how the width and height dimensions should be interpreted.
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+One of the following:
 
-### Example
+"scale-down"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants/$VARIANT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "options": {
-            "fit": "scale-down",
-            "height": 768,
-            "metadata": "none",
-            "width": 1366
-          },
-          "neverRequireSignedURLs": true
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"contain"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "variant": {
-      "id": "hero",
-      "options": {
-        "fit": "scale-down",
-        "height": 768,
-        "metadata": "none",
-        "width": 1366
-      },
-      "neverRequireSignedURLs": true
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a variant
+"cover"
 
-**delete** `/accounts/{account_id}/images/v1/variants/{variant_id}`
+<a href="#">Link to this property</a>
 
-Delete a CF Images variant. This will purge the cache for all images associated with the variant.
+"crop"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"pad"
 
-  Account identifier tag.
+<a href="#">Link to this property</a>
 
-- `variant_id: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+height: number
 
-  - `code: number`
+Maximum height in image pixels.
 
-  - `message: string`
+minimum1
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+metadata: "keep"or "copyright"or "none"
 
-  - `code: number`
+What EXIF data should be preserved in the output image.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"keep"
 
-- `result: unknown or string`
+<a href="#">Link to this property</a>
 
-  - `unknown`
+"copyright"
 
-  - `string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"none"
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/images/v1/variants/$VARIANT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+width: number
 
-#### Response
+Maximum width in image pixels.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
+minimum1
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Variant
+</details>
 
-- `Variant object { variants }`
+<a href="#">Link to this property</a>
 
-  - `variants: optional object { hero }`
+neverRequireSignedURLs: optional boolean
 
-    - `hero: optional object { id, options, neverRequireSignedURLs }`
+Indicates whether the variant can access an image without a signature, regardless of image access control.
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-      - `options: object { fit, height, metadata, width }`
+</details>
 
-        Allows you to define image resizing sizes for different use cases.
+<a href="#">Link to this property</a>
 
-        - `fit: "scale-down" or "contain" or "cover" or 2 more`
+</details>
 
-          The fit property describes how the width and height dimensions should be interpreted.
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant_edit_response%20%3E%20(schema)>)
 
-          - `"scale-down"`
+<details>
 
-          - `"contain"`
+<summary>
 
-          - `"cover"`
+VariantDeleteResponse = unknownor string
 
-          - `"crop"`
+</summary>
 
-          - `"pad"`
+One of the following:
 
-        - `height: number`
+unknown
 
-          Maximum height in image pixels.
+<a href="#">Link to this property</a>
 
-        - `metadata: "keep" or "copyright" or "none"`
+string
 
-          What EXIF data should be preserved in the output image.
+<a href="#">Link to this property</a>
 
-          - `"keep"`
+</details>
 
-          - `"copyright"`
-
-          - `"none"`
-
-        - `width: number`
-
-          Maximum width in image pixels.
-
-      - `neverRequireSignedURLs: optional boolean`
-
-        Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Variant Get Response
-
-- `VariantGetResponse object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Variant Create Response
-
-- `VariantCreateResponse object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Variant Edit Response
-
-- `VariantEditResponse object { variant }`
-
-  - `variant: optional object { id, options, neverRequireSignedURLs }`
-
-    - `id: string`
-
-    - `options: object { fit, height, metadata, width }`
-
-      Allows you to define image resizing sizes for different use cases.
-
-      - `fit: "scale-down" or "contain" or "cover" or 2 more`
-
-        The fit property describes how the width and height dimensions should be interpreted.
-
-        - `"scale-down"`
-
-        - `"contain"`
-
-        - `"cover"`
-
-        - `"crop"`
-
-        - `"pad"`
-
-      - `height: number`
-
-        Maximum height in image pixels.
-
-      - `metadata: "keep" or "copyright" or "none"`
-
-        What EXIF data should be preserved in the output image.
-
-        - `"keep"`
-
-        - `"copyright"`
-
-        - `"none"`
-
-      - `width: number`
-
-        Maximum width in image pixels.
-
-    - `neverRequireSignedURLs: optional boolean`
-
-      Indicates whether the variant can access an image without a signature, regardless of image access control.
-
-### Variant Delete Response
-
-- `VariantDeleteResponse = unknown or string`
-
-  - `unknown`
-
-  - `string`
+[Link to this property](#)%20images.v1.variants%20%3E%20(model)%20variant_delete_response%20%3E%20(schema)>)

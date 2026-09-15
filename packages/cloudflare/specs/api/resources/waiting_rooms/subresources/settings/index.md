@@ -1,186 +1,105 @@
+---
+title: Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Waiting Rooms](https://developers.cloudflare.com/api/resources/waiting_rooms)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Settings
 
-## Get zone-level Waiting Room settings
+##### [Get zone-level Waiting Room settings](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/settings/methods/get)
 
-**get** `/zones/{zone_id}/waiting_rooms/settings`
+GET/zones/{zone\_id}/waiting\_rooms/settings
 
-Gets the zone-level Waiting Room settings that apply as defaults to all waiting rooms on the zone.
+##### [Update zone-level Waiting Room settings](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/settings/methods/update)
 
-### Path Parameters
+PUT/zones/{zone\_id}/waiting\_rooms/settings
 
-- `zone_id: string`
+##### [Patch zone-level Waiting Room settings](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/settings/methods/edit)
 
-  Identifier.
+PATCH/zones/{zone\_id}/waiting\_rooms/settings
 
-### Returns
+##### ModelsExpand Collapse
 
-- `result: object { search_engine_crawler_bypass }`
+<details>
 
-  - `search_engine_crawler_bypass: boolean`
+<summary>
 
-    Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-    Verified search engine crawlers will not be tracked or counted by the waiting room system,
-    and will not appear in waiting room analytics.
+Setting object {search\_engine\_crawler\_bypass }
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+search\_engine\_crawler\_bypass: boolean
 
-#### Response
+Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics.
 
-```json
-{
-  "result": {
-    "search_engine_crawler_bypass": true
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update zone-level Waiting Room settings
+</details>
 
-**put** `/zones/{zone_id}/waiting_rooms/settings`
+[Link to this property](#)%20waiting_rooms.settings%20%3E%20(model)%20setting%20%3E%20(schema)>)
 
-Fully updates zone-level Waiting Room settings, replacing the existing configuration.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+SettingGetResponse object {search\_engine\_crawler\_bypass }
 
-  Identifier.
+</summary>
 
-### Body Parameters
+search\_engine\_crawler\_bypass: boolean
 
-- `search_engine_crawler_bypass: optional boolean`
+Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics.
 
-  Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-  Verified search engine crawlers will not be tracked or counted by the waiting room system,
-  and will not appear in waiting room analytics.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { search_engine_crawler_bypass }`
+[Link to this property](#)%20waiting_rooms.settings%20%3E%20(model)%20setting_get_response%20%3E%20(schema)>)
 
-  - `search_engine_crawler_bypass: boolean`
+<details>
 
-    Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-    Verified search engine crawlers will not be tracked or counted by the waiting room system,
-    and will not appear in waiting room analytics.
+<summary>
 
-### Example
+SettingUpdateResponse object {search\_engine\_crawler\_bypass }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/settings \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "search_engine_crawler_bypass": true
-        }'
-```
+</summary>
 
-#### Response
+search\_engine\_crawler\_bypass: boolean
 
-```json
-{
-  "result": {
-    "search_engine_crawler_bypass": true
-  }
-}
-```
+Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics.
 
-## Patch zone-level Waiting Room settings
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/waiting_rooms/settings`
+</details>
 
-Partially updates zone-level Waiting Room settings using PATCH semantics.
+[Link to this property](#)%20waiting_rooms.settings%20%3E%20(model)%20setting_update_response%20%3E%20(schema)>)
 
-### Path Parameters
+<details>
 
-- `zone_id: string`
+<summary>
 
-  Identifier.
+SettingEditResponse object {search\_engine\_crawler\_bypass }
 
-### Body Parameters
+</summary>
 
-- `search_engine_crawler_bypass: optional boolean`
+search\_engine\_crawler\_bypass: boolean
 
-  Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-  Verified search engine crawlers will not be tracked or counted by the waiting room system,
-  and will not appear in waiting room analytics.
+Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: object { search_engine_crawler_bypass }`
+</details>
 
-  - `search_engine_crawler_bypass: boolean`
-
-    Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-    Verified search engine crawlers will not be tracked or counted by the waiting room system,
-    and will not appear in waiting room analytics.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "search_engine_crawler_bypass": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "search_engine_crawler_bypass": true
-  }
-}
-```
-
-## Domain Types
-
-### Setting
-
-- `Setting object { search_engine_crawler_bypass }`
-
-  - `search_engine_crawler_bypass: boolean`
-
-    Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-    Verified search engine crawlers will not be tracked or counted by the waiting room system,
-    and will not appear in waiting room analytics.
-
-### Setting Get Response
-
-- `SettingGetResponse object { search_engine_crawler_bypass }`
-
-  - `search_engine_crawler_bypass: boolean`
-
-    Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-    Verified search engine crawlers will not be tracked or counted by the waiting room system,
-    and will not appear in waiting room analytics.
-
-### Setting Update Response
-
-- `SettingUpdateResponse object { search_engine_crawler_bypass }`
-
-  - `search_engine_crawler_bypass: boolean`
-
-    Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-    Verified search engine crawlers will not be tracked or counted by the waiting room system,
-    and will not appear in waiting room analytics.
-
-### Setting Edit Response
-
-- `SettingEditResponse object { search_engine_crawler_bypass }`
-
-  - `search_engine_crawler_bypass: boolean`
-
-    Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.
-    Verified search engine crawlers will not be tracked or counted by the waiting room system,
-    and will not appear in waiting room analytics.
+[Link to this property](#)%20waiting_rooms.settings%20%3E%20(model)%20setting_edit_response%20%3E%20(schema)>)

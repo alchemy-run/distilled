@@ -1,427 +1,363 @@
+---
+title: Maintenance Configs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2 Data Catalog](https://developers.cloudflare.com/api/resources/r2_data_catalog)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces)
+
+[Tables](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces/subresources/tables)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Maintenance Configs
 
-## Get table maintenance configuration
+##### [Get table maintenance configuration](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces/subresources/tables/subresources/maintenance_configs/methods/get)
 
-**get** `/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs`
+GET/accounts/{account\_id}/r2-catalog/{bucket\_name}/namespaces/{namespace}/tables/{table\_name}/maintenance-configs
 
-Retrieve the maintenance configuration for a specific table,
-including compaction settings.
+##### [Update table maintenance configuration](https://developers.cloudflare.com/api/resources/r2_data_catalog/subresources/namespaces/subresources/tables/subresources/maintenance_configs/methods/update)
 
-### Path Parameters
+POST/accounts/{account\_id}/r2-catalog/{bucket\_name}/namespaces/{namespace}/tables/{table\_name}/maintenance-configs
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Use this to identify the account.
+<details>
 
-- `bucket_name: string`
+<summary>
 
-  Specifies the R2 bucket name.
+MaintenanceConfigGetResponse object {maintenance\_config }
 
-- `namespace: string`
+Contains table maintenance configuration.
 
-- `table_name: string`
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message }`
+<summary>
 
-  Contains errors if the API call was unsuccessful.
+maintenance\_config: object {compaction, interval, snapshot\_expiration }
 
-  - `code: number`
+Configures maintenance for the table.
 
-    Specifies the error code.
+</summary>
 
-  - `message: string`
+<details>
 
-    Describes the error.
+<summary>
 
-- `messages: array of object { code, message }`
+compaction: optional object {state, target\_size\_mb, next\_eligible\_at }
 
-  Contains informational messages.
+Configures compaction settings for table optimization.
 
-  - `code: number`
+</summary>
 
-    Specifies the message code.
+<details>
 
-  - `message: string`
+<summary>
 
-    Contains the message text.
+state: "enabled"or "disabled"
 
-- `success: boolean`
+Specifies the state of maintenance operations.
 
-  Indicates whether the API call was successful.
+</summary>
 
-- `result: optional object { maintenance_config }`
+One of the following:
 
-  Contains table maintenance configuration.
+"enabled"
 
-  - `maintenance_config: object { compaction, snapshot_expiration }`
+<a href="#">Link to this property</a>
 
-    Configures maintenance for the table.
+"disabled"
 
-    - `compaction: optional object { state, target_size_mb }`
+<a href="#">Link to this property</a>
 
-      Configures compaction settings for table optimization.
+</details>
 
-      - `state: "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-        Specifies the state of maintenance operations.
+<details>
 
-        - `"enabled"`
+<summary>
 
-        - `"disabled"`
+target\_size\_mb: "64"or "128"or "256"or "512"
 
-      - `target_size_mb: "64" or "128" or "256" or "512"`
+Sets the target file size for compaction in megabytes. Defaults to “128”.
 
-        Sets the target file size for compaction in megabytes. Defaults to "128".
+</summary>
 
-        - `"64"`
+One of the following:
 
-        - `"128"`
+"64"
 
-        - `"256"`
+<a href="#">Link to this property</a>
 
-        - `"512"`
+"128"
 
-    - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<a href="#">Link to this property</a>
 
-      Configures snapshot expiration settings.
+"256"
 
-      - `max_snapshot_age: string`
+<a href="#">Link to this property</a>
 
-        Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-        Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-        Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-        Defaults to "7d".
+"512"
 
-      - `min_snapshots_to_keep: number`
+<a href="#">Link to this property</a>
 
-        Specifies the minimum number of snapshots to retain. Defaults to 100.
+</details>
 
-      - `state: "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-        Specifies the state of maintenance operations.
+next\_eligible\_at: optional string
 
-        - `"enabled"`
+Earliest time when the scheduler can claim this operation. Null when disabled.
 
-        - `"disabled"`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/namespaces/$NAMESPACE/tables/$TABLE_NAME/maintenance-configs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "maintenance_config": {
-      "compaction": {
-        "state": "enabled",
-        "target_size_mb": "128"
-      },
-      "snapshot_expiration": {
-        "max_snapshot_age": "7d",
-        "min_snapshots_to_keep": 100,
-        "state": "enabled"
-      }
-    }
-  },
-  "success": true
-}
-```
+interval: optional string
 
-## Update table maintenance configuration
+Scheduling interval between normal table maintenance runs.
 
-**post** `/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs`
+<a href="#">Link to this property</a>
 
-Update the maintenance configuration for a specific table. This allows you to
-enable or disable compaction and adjust target file sizes for optimization.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state, next\_eligible\_at }
 
-  Use this to identify the account.
+</summary>
 
-- `bucket_name: string`
+max\_snapshot\_age: string
 
-  Specifies the R2 bucket name.
+Specifies the maximum age for snapshots.
 
-- `namespace: string`
+<a href="#">Link to this property</a>
 
-- `table_name: string`
+min\_snapshots\_to\_keep: number
 
-### Body Parameters
+Specifies the minimum number of snapshots to retain. Defaults to 100.
 
-- `compaction: optional object { state, target_size_mb }`
+formatint64
 
-  Updates compaction configuration (all fields optional).
+minimum1
 
-  - `state: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-    Updates the state optionally.
+<details>
 
-    - `"enabled"`
+<summary>
 
-    - `"disabled"`
+state: "enabled"or "disabled"
 
-  - `target_size_mb: optional "64" or "128" or "256" or "512"`
+Specifies the state of maintenance operations.
 
-    Updates the target file size optionally.
+</summary>
 
-    - `"64"`
+One of the following:
 
-    - `"128"`
+"enabled"
 
-    - `"256"`
+<a href="#">Link to this property</a>
 
-    - `"512"`
+"disabled"
 
-- `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<a href="#">Link to this property</a>
 
-  Updates snapshot expiration configuration (all fields optional).
+</details>
 
-  - `max_snapshot_age: optional string`
+<a href="#">Link to this property</a>
 
-    Updates the maximum age for snapshots optionally.
+next\_eligible\_at: optional string
 
-  - `min_snapshots_to_keep: optional number`
+Earliest time when the scheduler can claim this operation. Null when disabled.
 
-    Updates the minimum number of snapshots to retain optionally.
+formatdate-time
 
-  - `state: optional "enabled" or "disabled"`
+<a href="#">Link to this property</a>
 
-    Updates the state optionally.
+</details>
 
-    - `"enabled"`
+<a href="#">Link to this property</a>
 
-    - `"disabled"`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message }`
+</details>
 
-  Contains errors if the API call was unsuccessful.
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(model)%20maintenance_config_get_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-    Specifies the error code.
+<summary>
 
-  - `message: string`
+MaintenanceConfigUpdateResponse object {compaction, interval, snapshot\_expiration }
 
-    Describes the error.
+Configures maintenance for the table.
 
-- `messages: array of object { code, message }`
+</summary>
 
-  Contains informational messages.
+<details>
 
-  - `code: number`
+<summary>
 
-    Specifies the message code.
+compaction: optional object {state, target\_size\_mb, next\_eligible\_at }
 
-  - `message: string`
+Configures compaction settings for table optimization.
 
-    Contains the message text.
+</summary>
 
-- `success: boolean`
+<details>
 
-  Indicates whether the API call was successful.
+<summary>
 
-- `result: optional object { compaction, snapshot_expiration }`
+state: "enabled"or "disabled"
 
-  Configures maintenance for the table.
+Specifies the state of maintenance operations.
 
-  - `compaction: optional object { state, target_size_mb }`
+</summary>
 
-    Configures compaction settings for table optimization.
+One of the following:
 
-    - `state: "enabled" or "disabled"`
+"enabled"
 
-      Specifies the state of maintenance operations.
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+"disabled"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `target_size_mb: "64" or "128" or "256" or "512"`
+</details>
 
-      Sets the target file size for compaction in megabytes. Defaults to "128".
+<a href="#">Link to this property</a>
 
-      - `"64"`
+<details>
 
-      - `"128"`
+<summary>
 
-      - `"256"`
+target\_size\_mb: "64"or "128"or "256"or "512"
 
-      - `"512"`
+Sets the target file size for compaction in megabytes. Defaults to “128”.
 
-  - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+</summary>
 
-    Configures snapshot expiration settings.
+One of the following:
 
-    - `max_snapshot_age: string`
+"64"
 
-      Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-      Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-      Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-      Defaults to "7d".
+<a href="#">Link to this property</a>
 
-    - `min_snapshots_to_keep: number`
+"128"
 
-      Specifies the minimum number of snapshots to retain. Defaults to 100.
+<a href="#">Link to this property</a>
 
-    - `state: "enabled" or "disabled"`
+"256"
 
-      Specifies the state of maintenance operations.
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+"512"
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2-catalog/$BUCKET_NAME/namespaces/$NAMESPACE/tables/$TABLE_NAME/maintenance-configs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+next\_eligible\_at: optional string
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "compaction": {
-      "state": "enabled",
-      "target_size_mb": "256"
-    },
-    "snapshot_expiration": {
-      "max_snapshot_age": "14d",
-      "min_snapshots_to_keep": 5,
-      "state": "enabled"
-    }
-  },
-  "success": true
-}
-```
+Earliest time when the scheduler can claim this operation. Null when disabled.
 
-## Domain Types
+formatdate-time
 
-### Maintenance Config Get Response
+<a href="#">Link to this property</a>
 
-- `MaintenanceConfigGetResponse object { maintenance_config }`
+</details>
 
-  Contains table maintenance configuration.
+<a href="#">Link to this property</a>
 
-  - `maintenance_config: object { compaction, snapshot_expiration }`
+interval: optional string
 
-    Configures maintenance for the table.
+Scheduling interval between normal table maintenance runs.
 
-    - `compaction: optional object { state, target_size_mb }`
+<a href="#">Link to this property</a>
 
-      Configures compaction settings for table optimization.
+<details>
 
-      - `state: "enabled" or "disabled"`
+<summary>
 
-        Specifies the state of maintenance operations.
+snapshot\_expiration: optional object {max\_snapshot\_age, min\_snapshots\_to\_keep, state, next\_eligible\_at }
 
-        - `"enabled"`
+</summary>
 
-        - `"disabled"`
+max\_snapshot\_age: string
 
-      - `target_size_mb: "64" or "128" or "256" or "512"`
+Specifies the maximum age for snapshots.
 
-        Sets the target file size for compaction in megabytes. Defaults to "128".
+<a href="#">Link to this property</a>
 
-        - `"64"`
+min\_snapshots\_to\_keep: number
 
-        - `"128"`
+Specifies the minimum number of snapshots to retain. Defaults to 100.
 
-        - `"256"`
+formatint64
 
-        - `"512"`
+minimum1
 
-    - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
+<a href="#">Link to this property</a>
 
-      Configures snapshot expiration settings.
+<details>
 
-      - `max_snapshot_age: string`
+<summary>
 
-        Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-        Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-        Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-        Defaults to "7d".
+state: "enabled"or "disabled"
 
-      - `min_snapshots_to_keep: number`
+Specifies the state of maintenance operations.
 
-        Specifies the minimum number of snapshots to retain. Defaults to 100.
+</summary>
 
-      - `state: "enabled" or "disabled"`
+One of the following:
 
-        Specifies the state of maintenance operations.
+"enabled"
 
-        - `"enabled"`
+<a href="#">Link to this property</a>
 
-        - `"disabled"`
+"disabled"
 
-### Maintenance Config Update Response
+<a href="#">Link to this property</a>
 
-- `MaintenanceConfigUpdateResponse object { compaction, snapshot_expiration }`
+</details>
 
-  Configures maintenance for the table.
+<a href="#">Link to this property</a>
 
-  - `compaction: optional object { state, target_size_mb }`
+next\_eligible\_at: optional string
 
-    Configures compaction settings for table optimization.
+Earliest time when the scheduler can claim this operation. Null when disabled.
 
-    - `state: "enabled" or "disabled"`
+formatdate-time
 
-      Specifies the state of maintenance operations.
+<a href="#">Link to this property</a>
 
-      - `"enabled"`
+</details>
 
-      - `"disabled"`
+<a href="#">Link to this property</a>
 
-    - `target_size_mb: "64" or "128" or "256" or "512"`
+</details>
 
-      Sets the target file size for compaction in megabytes. Defaults to "128".
-
-      - `"64"`
-
-      - `"128"`
-
-      - `"256"`
-
-      - `"512"`
-
-  - `snapshot_expiration: optional object { max_snapshot_age, min_snapshots_to_keep, state }`
-
-    Configures snapshot expiration settings.
-
-    - `max_snapshot_age: string`
-
-      Specifies the maximum age for snapshots. The system deletes snapshots older than this age.
-      Format: <number><unit> where unit is d (days), h (hours), m (minutes), or s (seconds).
-      Examples: "7d" (7 days), "48h" (48 hours), "2880m" (2,880 minutes).
-      Defaults to "7d".
-
-    - `min_snapshots_to_keep: number`
-
-      Specifies the minimum number of snapshots to retain. Defaults to 100.
-
-    - `state: "enabled" or "disabled"`
-
-      Specifies the state of maintenance operations.
-
-      - `"enabled"`
-
-      - `"disabled"`
+[Link to this property](#)%20r2_data_catalog.namespaces.tables.maintenance_configs%20%3E%20(model)%20maintenance_config_update_response%20%3E%20(schema)>)

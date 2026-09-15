@@ -1,2630 +1,1411 @@
+---
+title: Organizations
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Organizations
 
-## List organizations the user has access to
+##### [List organizations the user has access to](https://developers.cloudflare.com/api/resources/organizations/methods/list)
 
-**get** `/organizations`
+GET/organizations
 
-Retrieve a list of organizations a particular user has access to. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+##### [Get organization](https://developers.cloudflare.com/api/resources/organizations/methods/get)
 
-### Query Parameters
+GET/organizations/{organization\_id}
 
-- `id: optional array of string`
+##### [Create organization](https://developers.cloudflare.com/api/resources/organizations/methods/create)
 
-  Only return organizations with the specified IDs (ex. id=foo&id=bar). Send multiple elements
-  by repeating the query value.
+POST/organizations
 
-- `containing: optional object { account, organization, user }`
+##### [Modify organization.](https://developers.cloudflare.com/api/resources/organizations/methods/update)
 
-  - `account: optional string`
+PUT/organizations/{organization\_id}
 
-    Filter the list of organizations to the ones that contain this particular
-    account.
+##### [Delete organization.](https://developers.cloudflare.com/api/resources/organizations/methods/delete)
 
-  - `organization: optional string`
+DELETE/organizations/{organization\_id}
 
-    Filter the list of organizations to the ones that contain this particular
-    organization.
+##### ModelsExpand Collapse
 
-  - `user: optional string`
+<details>
 
-    Filter the list of organizations to the ones that contain this particular
-    user.
+<summary>
 
-    IMPORTANT: Just because an organization "contains" a user is not a
-    representation of any authorization or privilege to manage any resources
-    therein. An organization "containing" a user simply means the user is managed by
-    that organization.
+Organization object {id, create\_time, meta, 3 more }
 
-- `name: optional object { contains, endsWith, startsWith }`
+References an Organization in the Cloudflare data model.
 
-  - `contains: optional string`
+</summary>
 
-    (case-insensitive) Filter the list of organizations to where the name contains a particular
-    string.
+id: string
 
-  - `endsWith: optional string`
+<a href="#">Link to this property</a>
 
-    (case-insensitive) Filter the list of organizations to where the name ends with a particular
-    string.
+create\_time: string
 
-  - `startsWith: optional string`
+formatdate-time
 
-    (case-insensitive) Filter the list of organizations to where the name starts with a
-    particular string.
+<a href="#">Link to this property</a>
 
-- `page_size: optional number`
+<details>
 
-  The amount of items to return. Defaults to 10.
+<summary>
 
-- `page_token: optional string`
+meta: object {hierarchy\_tags, managed\_by, tenant\_flags }
 
-  An opaque token returned from the last list response that when
-  provided will retrieve the next page.
+</summary>
 
-  Parameters used to filter the retrieved list must remain in subsequent
-  requests with a page token.
+hierarchy\_tags: optional array of string
 
-- `parent: optional object { id }`
+Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return <code>[rootTag, ...intermediateTags, parentTag, selfTag]</code>. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy.
 
-  - `id: optional string or "null"`
+<a href="#">Link to this property</a>
 
-    Filter the list of organizations to the ones that are a sub-organization
-    of the specified organization.
+managed\_by: optional string
 
-    "null" is a valid value to provide for this parameter. It means "where
-    an organization has no parent (i.e. it is a 'root' organization)."
+<a href="#">Link to this property</a>
 
-    - `OrganizationsAPIOrganizationID = string`
+<details>
 
-    - `"null"`
+<summary>
 
-      Filter the list of organizations to the ones that are a sub-organization
-      of the specified organization.
+tenant\_flags: optional object {account\_creation, account\_creation\_applies\_tenant\_defaults, account\_deletion, 5 more }
 
-      "null" is a valid value to provide for this parameter. It means "where
-      an organization has no parent (i.e. it is a 'root' organization)."
+Enable features for Organizations.
 
-      - `"null"`
+</summary>
 
-### Returns
+account\_creation: string
 
-- `errors: array of unknown`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+account\_creation\_applies\_tenant\_defaults: string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+account\_deletion: string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+account\_migration: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of Organization`
+account\_mobility: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `create_time: string`
+enterprise\_capability: string
 
-  - `meta: object { flags, hierarchy_tags, managed_by }`
+<a href="#">Link to this property</a>
 
-    - `flags: optional object { account_creation, account_deletion, account_migration, 2 more }`
+member\_management: string
 
-      Enable features for Organizations.
+<a href="#">Link to this property</a>
 
-      - `account_creation: string`
+sub\_org\_creation: string
 
-      - `account_deletion: string`
+<a href="#">Link to this property</a>
 
-      - `account_migration: string`
+</details>
 
-      - `account_mobility: string`
+<a href="#">Link to this property</a>
 
-      - `sub_org_creation: string`
+</details>
 
-    - `hierarchy_tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      Ordered chain of organization tags from the root organization down to
-      (and including) this organization itself. Root organizations return a
-      single-element array containing their own tag; sub-organizations return
-      `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for
-      constructing authorization scopes that need to cover every ancestor
-      in the hierarchy.
+name: string
 
-    - `managed_by: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+<details>
 
-  - `parent: optional object { id, name }`
+<summary>
 
-    - `id: string`
+parent: optional object {id, name }
 
-    - `name: string`
+</summary>
 
-  - `profile: optional AccountProfile`
+id: string
 
-    - `business_address: string`
+<a href="#">Link to this property</a>
 
-    - `business_email: string`
+name: string
 
-    - `business_name: string`
+<a href="#">Link to this property</a>
 
-    - `business_phone: string`
+</details>
 
-    - `external_metadata: string`
+<a href="#">Link to this property</a>
 
-- `result_info: object { next_page_token, total_size }`
+profile: optional <a href="https://developers.cloudflare.com/api/resources/accounts#(resource)%20accounts.account_profile%20%3E%20(model)%20account_profile%20%3E%20(schema)">AccountProfile</a> { business\_address, business\_email, business\_name, 2 more }
 
-  - `next_page_token: optional string`
+<a href="#">Link to this property</a>
 
-    Use this opaque token in the next request to retrieve the
-    next page.
+</details>
 
-    Parameters used to filter the retrieved list must remain in subsequent
-    requests with a page token.
+[Link to this property](#)%20organizations%20%3E%20(model)%20organization%20%3E%20(schema)>)
 
-  - `total_size: optional number`
+<details>
 
-    Counts the total amount of items in a list with the applied filters. The API omits next_page_token to indicate no more items in a particular list.
+<summary>
 
-- `success: true`
+OrganizationDeleteResponse object {id }
 
-  - `true`
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-      "create_time": "2019-12-27T18:11:19.117Z",
-      "meta": {
-        "flags": {
-          "account_creation": "account_creation",
-          "account_deletion": "account_deletion",
-          "account_migration": "account_migration",
-          "account_mobility": "account_mobility",
-          "sub_org_creation": "sub_org_creation"
-        },
-        "hierarchy_tags": [
-          "string"
-        ],
-        "managed_by": "managed_by"
-      },
-      "name": "name",
-      "parent": {
-        "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-        "name": "name"
-      },
-      "profile": {
-        "business_address": "business_address",
-        "business_email": "business_email",
-        "business_name": "business_name",
-        "business_phone": "business_phone",
-        "external_metadata": "external_metadata"
-      }
-    }
-  ],
-  "result_info": {
-    "next_page_token": "next_page_token",
-    "total_size": 0
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20organizations%20%3E%20(model)%20organization_delete_response%20%3E%20(schema)>)
 
-## Get organization
+#### OrganizationsOrganization Accounts
 
-**get** `/organizations/{organization_id}`
+##### [Get organization accounts](https://developers.cloudflare.com/api/resources/organizations/subresources/organization_accounts/methods/get)
 
-Retrieve the details of a certain organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+GET/organizations/{organization\_id}/accounts
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `organization_id: string`
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of unknown`
+OrganizationAccounts object {id, name, type, 3 more }
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+id: string
 
-  - `message: string`
+Identifier
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+minLength32
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: Organization`
+name: string
 
-  References an Organization in the Cloudflare data model.
+Account name
 
-  - `id: string`
+maxLength100
 
-  - `create_time: string`
+<a href="#">Link to this property</a>
 
-  - `meta: object { flags, hierarchy_tags, managed_by }`
+<details>
 
-    - `flags: optional object { account_creation, account_deletion, account_migration, 2 more }`
+<summary>
 
-      Enable features for Organizations.
+type: "standard"or "enterprise"
 
-      - `account_creation: string`
+</summary>
 
-      - `account_deletion: string`
+One of the following:
 
-      - `account_migration: string`
+"standard"
 
-      - `account_mobility: string`
+<a href="#">Link to this property</a>
 
-      - `sub_org_creation: string`
+"enterprise"
 
-    - `hierarchy_tags: optional array of string`
+<a href="#">Link to this property</a>
 
-      Ordered chain of organization tags from the root organization down to
-      (and including) this organization itself. Root organizations return a
-      single-element array containing their own tag; sub-organizations return
-      `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for
-      constructing authorization scopes that need to cover every ancestor
-      in the hierarchy.
+</details>
 
-    - `managed_by: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+created\_on: optional string
 
-  - `parent: optional object { id, name }`
+Timestamp for the creation of the account
 
-    - `id: string`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-  - `profile: optional AccountProfile`
+<details>
 
-    - `business_address: string`
+<summary>
 
-    - `business_email: string`
+managed\_by: optional object {parent\_org\_id, parent\_org\_name }
 
-    - `business_name: string`
+Parent container details
 
-    - `business_phone: string`
+</summary>
 
-    - `external_metadata: string`
+parent\_org\_id: optional string
 
-- `success: true`
+ID of the parent Organization, if one exists
 
-  - `true`
+maxLength32
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+parent\_org\_name: optional string
 
-#### Response
+Name of the parent Organization, if one exists
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-    "create_time": "2019-12-27T18:11:19.117Z",
-    "meta": {
-      "flags": {
-        "account_creation": "account_creation",
-        "account_deletion": "account_deletion",
-        "account_migration": "account_migration",
-        "account_mobility": "account_mobility",
-        "sub_org_creation": "sub_org_creation"
-      },
-      "hierarchy_tags": [
-        "string"
-      ],
-      "managed_by": "managed_by"
-    },
-    "name": "name",
-    "parent": {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-      "name": "name"
-    },
-    "profile": {
-      "business_address": "business_address",
-      "business_email": "business_email",
-      "business_name": "business_name",
-      "business_phone": "business_phone",
-      "external_metadata": "external_metadata"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Create organization
+</details>
 
-**post** `/organizations`
+<a href="#">Link to this property</a>
 
-Create a new organization for a user. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+<details>
 
-### Body Parameters
+<summary>
 
-- `name: string`
+settings: optional object {abuse\_contact\_email, enforce\_twofactor }
 
-- `parent: optional object { id, name }`
+Account settings
 
-  - `id: string`
+</summary>
 
-  - `name: string`
+abuse\_contact\_email: optional string
 
-- `profile: optional AccountProfile`
+Sets an abuse contact email to notify for abuse reports.
 
-  - `business_address: string`
+<a href="#">Link to this property</a>
 
-  - `business_email: string`
+enforce\_twofactor: optional boolean
 
-  - `business_name: string`
+Indicates whether membership in this account requires that Two-Factor Authentication is enabled
 
-  - `business_phone: string`
+<a href="#">Link to this property</a>
 
-  - `external_metadata: string`
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of unknown`
+</details>
 
-- `messages: array of ResponseInfo`
+[Link to this property](#)%20organizations.organization_accounts%20%3E%20(model)%20organization_accounts%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+OrganizationAccountGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/tenants#(resource)%20tenants.accounts%20%3E%20(model)%20tenant_account%20%3E%20(schema)">TenantAccount</a> { id, created\_on, name, 3 more }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `result: Organization`
+<a href="#">Link to this property</a>
 
-  References an Organization in the Cloudflare data model.
+created\_on: string
 
-  - `id: string`
+formatdate-time
 
-  - `create_time: string`
+<a href="#">Link to this property</a>
 
-  - `meta: object { flags, hierarchy_tags, managed_by }`
+name: string
 
-    - `flags: optional object { account_creation, account_deletion, account_migration, 2 more }`
+<a href="#">Link to this property</a>
 
-      Enable features for Organizations.
+<details>
 
-      - `account_creation: string`
+<summary>
 
-      - `account_deletion: string`
+settings: object {abuse\_contact\_email, access\_approval\_expiry, api\_access\_enabled, 3 more }
 
-      - `account_migration: string`
+</summary>
 
-      - `account_mobility: string`
+abuse\_contact\_email: string
 
-      - `sub_org_creation: string`
+<a href="#">Link to this property</a>
 
-    - `hierarchy_tags: optional array of string`
+access\_approval\_expiry: string
 
-      Ordered chain of organization tags from the root organization down to
-      (and including) this organization itself. Root organizations return a
-      single-element array containing their own tag; sub-organizations return
-      `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for
-      constructing authorization scopes that need to cover every ancestor
-      in the hierarchy.
+formatdate-time
 
-    - `managed_by: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+api\_access\_enabled: boolean
 
-  - `parent: optional object { id, name }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+Deprecateddefault\_nameservers: string
 
-    - `name: string`
+Use <a href="https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings">DNS Settings</a> instead. Deprecated.
 
-  - `profile: optional AccountProfile`
+<a href="#">Link to this property</a>
 
-    - `business_address: string`
+enforce\_twofactor: boolean
 
-    - `business_email: string`
+<a href="#">Link to this property</a>
 
-    - `business_name: string`
+Deprecateduse\_account\_custom\_ns\_by\_default: boolean
 
-    - `business_phone: string`
+Use <a href="https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings">DNS Settings</a> instead. Deprecated.
 
-    - `external_metadata: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "name": "name"
-        }'
-```
+<summary>
 
-#### Response
+type: "standard"or "enterprise"
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-    "create_time": "2019-12-27T18:11:19.117Z",
-    "meta": {
-      "flags": {
-        "account_creation": "account_creation",
-        "account_deletion": "account_deletion",
-        "account_migration": "account_migration",
-        "account_mobility": "account_mobility",
-        "sub_org_creation": "sub_org_creation"
-      },
-      "hierarchy_tags": [
-        "string"
-      ],
-      "managed_by": "managed_by"
-    },
-    "name": "name",
-    "parent": {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-      "name": "name"
-    },
-    "profile": {
-      "business_address": "business_address",
-      "business_email": "business_email",
-      "business_name": "business_name",
-      "business_phone": "business_phone",
-      "external_metadata": "external_metadata"
-    }
-  },
-  "success": true
-}
-```
+</summary>
 
-## Modify organization.
+One of the following:
 
-**put** `/organizations/{organization_id}`
+"standard"
 
-Modify organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"enterprise"
 
-- `organization_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `name: string`
+<a href="#">Link to this property</a>
 
-- `parent: optional object { id, name }`
+tags: optional map\[string]
 
-  - `id: string`
+Account tags, present only when <code>include_tags=true</code> is requested.
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-- `profile: optional AccountProfile`
+</details>
 
-  - `business_address: string`
+[Link to this property](#)%20organizations.organization_accounts%20%3E%20(model)%20organization_account_get_response%20%3E%20(schema)>)
 
-  - `business_email: string`
+#### OrganizationsOrganization Profile
 
-  - `business_name: string`
+##### [Get organization profile](https://developers.cloudflare.com/api/resources/organizations/subresources/organization_profile/methods/get)
 
-  - `business_phone: string`
+GET/organizations/{organization\_id}/profile
 
-  - `external_metadata: string`
+##### [Modify organization profile.](https://developers.cloudflare.com/api/resources/organizations/subresources/organization_profile/methods/update)
 
-### Returns
+PUT/organizations/{organization\_id}/profile
 
-- `errors: array of unknown`
+##### ModelsExpand Collapse
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+OrganizationProfile object {business\_address, business\_email, business\_name, 2 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+business\_address: string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: Organization`
+business\_email: string
 
-  References an Organization in the Cloudflare data model.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+business\_name: string
 
-  - `create_time: string`
+<a href="#">Link to this property</a>
 
-  - `meta: object { flags, hierarchy_tags, managed_by }`
+business\_phone: string
 
-    - `flags: optional object { account_creation, account_deletion, account_migration, 2 more }`
+<a href="#">Link to this property</a>
 
-      Enable features for Organizations.
+external\_metadata: string
 
-      - `account_creation: string`
+<a href="#">Link to this property</a>
 
-      - `account_deletion: string`
+</details>
 
-      - `account_migration: string`
+[Link to this property](#)%20organizations.organization_profile%20%3E%20(model)%20organization_profile%20%3E%20(schema)>)
 
-      - `account_mobility: string`
+#### OrganizationsMembers
 
-      - `sub_org_creation: string`
+##### [List organization members](https://developers.cloudflare.com/api/resources/organizations/subresources/members/methods/list)
 
-    - `hierarchy_tags: optional array of string`
+GET/organizations/{organization\_id}/members
 
-      Ordered chain of organization tags from the root organization down to
-      (and including) this organization itself. Root organizations return a
-      single-element array containing their own tag; sub-organizations return
-      `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for
-      constructing authorization scopes that need to cover every ancestor
-      in the hierarchy.
+##### [Get organization member](https://developers.cloudflare.com/api/resources/organizations/subresources/members/methods/get)
 
-    - `managed_by: optional string`
+GET/organizations/{organization\_id}/members/{member\_id}
 
-  - `name: string`
+##### [Create organization member](https://developers.cloudflare.com/api/resources/organizations/subresources/members/methods/create)
 
-  - `parent: optional object { id, name }`
+POST/organizations/{organization\_id}/members
 
-    - `id: string`
+##### [Delete organization member](https://developers.cloudflare.com/api/resources/organizations/subresources/members/methods/delete)
 
-    - `name: string`
+DELETE/organizations/{organization\_id}/members/{member\_id}
 
-  - `profile: optional AccountProfile`
+##### ModelsExpand Collapse
 
-    - `business_address: string`
+<details>
 
-    - `business_email: string`
+<summary>
 
-    - `business_name: string`
+OrganizationMember object {id, create\_time, meta, 3 more }
 
-    - `business_phone: string`
+</summary>
 
-    - `external_metadata: string`
+id: string
 
-- `success: true`
+Organization Member ID
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+create\_time: string
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "name": "name"
-        }'
-```
+formatdate-time
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-    "create_time": "2019-12-27T18:11:19.117Z",
-    "meta": {
-      "flags": {
-        "account_creation": "account_creation",
-        "account_deletion": "account_deletion",
-        "account_migration": "account_migration",
-        "account_mobility": "account_mobility",
-        "sub_org_creation": "sub_org_creation"
-      },
-      "hierarchy_tags": [
-        "string"
-      ],
-      "managed_by": "managed_by"
-    },
-    "name": "name",
-    "parent": {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-      "name": "name"
-    },
-    "profile": {
-      "business_address": "business_address",
-      "business_email": "business_email",
-      "business_name": "business_name",
-      "business_phone": "business_phone",
-      "external_metadata": "external_metadata"
-    }
-  },
-  "success": true
-}
-```
+meta: map\[unknown]
 
-## Delete organization.
+<a href="#">Link to this property</a>
 
-**delete** `/organizations/{organization_id}`
+<details>
 
-Delete an organization. The organization MUST be empty before deleting.
-It must not contain any sub-organizations, accounts, members or users. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+<summary>
 
-**Access Control:** Restricted to enterprise organizations.
+status: "active"or "pending"or "rejected"or "canceled"
 
-### Path Parameters
+</summary>
 
-- `organization_id: string`
+One of the following:
 
-### Returns
+"active"
 
-- `errors: array of unknown`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"pending"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"rejected"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"canceled"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: object { id }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+update\_time: string
 
-  - `true`
+formatdate-time
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "id"
-  },
-  "success": true
-}
-```
+user: object {id, email, name, two\_factor\_authentication\_enabled }
 
-## Domain Types
+</summary>
 
-### Organization
+id: string
 
-- `Organization object { id, create_time, meta, 3 more }`
+<a href="#">Link to this property</a>
 
-  References an Organization in the Cloudflare data model.
+email: string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `create_time: string`
+name: string
 
-  - `meta: object { flags, hierarchy_tags, managed_by }`
+<a href="#">Link to this property</a>
 
-    - `flags: optional object { account_creation, account_deletion, account_migration, 2 more }`
+two\_factor\_authentication\_enabled: boolean
 
-      Enable features for Organizations.
+<a href="#">Link to this property</a>
 
-      - `account_creation: string`
+</details>
 
-      - `account_deletion: string`
+<a href="#">Link to this property</a>
 
-      - `account_migration: string`
+</details>
 
-      - `account_mobility: string`
+[Link to this property](#)%20organizations.members%20%3E%20(model)%20organization_member%20%3E%20(schema)>)
 
-      - `sub_org_creation: string`
+#### OrganizationsLogs
 
-    - `hierarchy_tags: optional array of string`
+#### OrganizationsLogsAudit
 
-      Ordered chain of organization tags from the root organization down to
-      (and including) this organization itself. Root organizations return a
-      single-element array containing their own tag; sub-organizations return
-      `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for
-      constructing authorization scopes that need to cover every ancestor
-      in the hierarchy.
+##### [Get organization audit logs (Version 2)](https://developers.cloudflare.com/api/resources/organizations/subresources/logs/subresources/audit/methods/list)
 
-    - `managed_by: optional string`
+GET/organizations/{organization\_id}/logs/audit
 
-  - `name: string`
+##### [Get resource change history from an organization audit log entry (Version 2)](https://developers.cloudflare.com/api/resources/organizations/subresources/logs/subresources/audit/methods/history)
 
-  - `parent: optional object { id, name }`
+GET/organizations/{organization\_id}/logs/audit/{id}/history
 
-    - `id: string`
+##### ModelsExpand Collapse
 
-    - `name: string`
+<details>
 
-  - `profile: optional AccountProfile`
+<summary>
 
-    - `business_address: string`
+AuditListResponse object {id, action, actor, 3 more }
 
-    - `business_email: string`
+</summary>
 
-    - `business_name: string`
+id: optional string
 
-    - `business_phone: string`
+A unique identifier for the audit log entry.
 
-    - `external_metadata: string`
+maxLength32
 
-### Organization Delete Response
+<a href="#">Link to this property</a>
 
-- `OrganizationDeleteResponse object { id }`
+<details>
 
-  - `id: string`
+<summary>
 
-# Organization Accounts
+action: optional object {description, result, time, type }
 
-## Get organization accounts
+Provides information about the action performed.
 
-**get** `/organizations/{organization_id}/accounts`
+</summary>
 
-Retrieve a list of accounts that belong to a specific organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+description: optional string
 
-### Path Parameters
+A short description of the action performed.
 
-- `organization_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+result: optional string
 
-- `account_pubname: optional object { contains, endsWith, startsWith }`
+The result of the action, indicating success or failure.
 
-  - `contains: optional string`
+<a href="#">Link to this property</a>
 
-    (case-insensitive) Filter the list of accounts to where the account_pubname contains
-    a particular string.
+time: optional string
 
-  - `endsWith: optional string`
+A timestamp indicating when the action was logged.
 
-    (case-insensitive) Filter the list of accounts to where the account_pubname ends with
-    a particular string.
+formatdate-time
 
-  - `startsWith: optional string`
+<a href="#">Link to this property</a>
 
-    (case-insensitive) Filter the list of accounts to where the account_pubname starts with
-    a particular string.
+type: optional string
 
-- `direction: optional "asc" or "desc"`
+A short string that describes the action that was performed.
 
-  Sort direction for the order_by field. Valid values: `asc`, `desc`.
-  Defaults to `asc` when order_by is specified.
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+</details>
 
-  - `"desc"`
+<a href="#">Link to this property</a>
 
-- `name: optional object { contains, endsWith, startsWith }`
+<details>
 
-  - `contains: optional string`
+<summary>
 
-    (case-insensitive) Filter the list of accounts to where the name contains a particular
-    string.
+actor: optional object {id, context, email, 4 more }
 
-  - `endsWith: optional string`
+Provides details about the actor who performed the action.
 
-    (case-insensitive) Filter the list of accounts to where the name ends with a particular
-    string.
+</summary>
 
-  - `startsWith: optional string`
+id: optional string
 
-    (case-insensitive) Filter the list of accounts to where the name starts with a
-    particular string.
+The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
 
-- `order_by: optional "account_name"`
+<a href="#">Link to this property</a>
 
-  Field to order results by. Currently supported values: `account_name`.
-  When not specified, results are ordered by internal account ID.
+<details>
 
-  - `"account_name"`
+<summary>
 
-- `page_size: optional number`
+context: optional "api"or "api\_key"or "api\_token"or 3 more
 
-  The amount of items to return. Defaults to 10.
+The context in which the action was initiated.
 
-- `page_token: optional string`
+- <code>api</code>: The action was performed through the API. The specific credential type was not recorded.
+- <code>api_key</code>: The action was authenticated with a Cloudflare Global API Key.
+- <code>api_token</code>: The action was authenticated with an API token.
+- <code>dash</code>: The action was performed through the Cloudflare dashboard.
+- <code>oauth</code>: The action was authenticated with an OAuth token.
+- <code>origin_ca_key</code>: The action was authenticated with an Origin CA key.
 
-  An opaque token returned from the last list response that when
-  provided will retrieve the next page.
+</summary>
 
-  Parameters used to filter the retrieved list must remain in subsequent
-  requests with a page token.
+One of the following:
 
-### Returns
+"api"
 
-- `errors: array of unknown`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"api\_key"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"api\_token"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"dash"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of TenantAccount`
+"oauth"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `created_on: string`
+"origin\_ca\_key"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-  - `settings: object { abuse_contact_email, access_approval_expiry, api_access_enabled, 3 more }`
+</details>
 
-    - `abuse_contact_email: string`
+<a href="#">Link to this property</a>
 
-    - `access_approval_expiry: string`
+email: optional string
 
-    - `api_access_enabled: boolean`
+The email of the actor who performed the action.
 
-    - `default_nameservers: string`
+formatemail
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<a href="#">Link to this property</a>
 
-    - `enforce_twofactor: boolean`
+ip\_address: optional string
 
-    - `use_account_custom_ns_by_default: boolean`
+The IP address of the request that performed the action.
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+<a href="#">Link to this property</a>
 
-  - `type: "standard" or "enterprise"`
+token\_id: optional string
 
-    - `"standard"`
+The API token ID when the actor context is an api\_token or oauth.
 
-    - `"enterprise"`
+<a href="#">Link to this property</a>
 
-- `result_info: object { next_page_token, total_size }`
+token\_name: optional string
 
-  - `next_page_token: optional string`
+The API token name when the actor context is an api\_token or oauth.
 
-    Use this opaque token in the next request to retrieve the
-    next page.
+<a href="#">Link to this property</a>
 
-    Parameters used to filter the retrieved list must remain in subsequent
-    requests with a page token.
+<details>
 
-  - `total_size: optional number`
+<summary>
 
-    Counts the total amount of items in a list with the applied filters. The API omits next_page_token to indicate no more items in a particular list.
+type: optional "cloudflare\_admin"or "system"or "user"
 
-- `success: true`
+The type of actor.
 
-  - `true`
+</summary>
 
-### Example
+One of the following:
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/accounts \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+"cloudflare\_admin"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "id",
-      "created_on": "2019-12-27T18:11:19.117Z",
-      "name": "name",
-      "settings": {
-        "abuse_contact_email": "abuse_contact_email",
-        "access_approval_expiry": "2019-12-27T18:11:19.117Z",
-        "api_access_enabled": true,
-        "default_nameservers": "default_nameservers",
-        "enforce_twofactor": true,
-        "use_account_custom_ns_by_default": true
-      },
-      "type": "standard"
-    }
-  ],
-  "result_info": {
-    "next_page_token": "next_page_token",
-    "total_size": 0
-  },
-  "success": true
-}
-```
+"system"
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Organization Accounts
+"user"
 
-- `OrganizationAccounts object { id, name, type, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Identifier
+<a href="#">Link to this property</a>
 
-  - `name: string`
+</details>
 
-    Account name
+<a href="#">Link to this property</a>
 
-  - `type: "standard" or "enterprise"`
+<details>
 
-    - `"standard"`
+<summary>
 
-    - `"enterprise"`
+organization: optional object {id }
 
-  - `created_on: optional string`
+Contains organization related information.
 
-    Timestamp for the creation of the account
+</summary>
 
-  - `managed_by: optional object { parent_org_id, parent_org_name }`
+id: optional string
 
-    Parent container details
+A unique identifier for the organization.
 
-    - `parent_org_id: optional string`
+<a href="#">Link to this property</a>
 
-      ID of the parent Organization, if one exists
+</details>
 
-    - `parent_org_name: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the parent Organization, if one exists
+<details>
 
-  - `settings: optional object { abuse_contact_email, enforce_twofactor }`
+<summary>
 
-    Account settings
+raw: optional object {cf\_ray\_id, method, status\_code, 2 more }
 
-    - `abuse_contact_email: optional string`
+Provides raw information about the request and response.
 
-      Sets an abuse contact email to notify for abuse reports.
+</summary>
 
-    - `enforce_twofactor: optional boolean`
+cf\_ray\_id: optional string
 
-      Indicates whether membership in this account requires that
-      Two-Factor Authentication is enabled
+The Cloudflare Ray ID for the request.
 
-### Organization Account Get Response
+<a href="#">Link to this property</a>
 
-- `OrganizationAccountGetResponse = array of TenantAccount`
+method: optional string
 
-  - `id: string`
+The HTTP method of the request.
 
-  - `created_on: string`
+<a href="#">Link to this property</a>
 
-  - `name: string`
+status\_code: optional number
 
-  - `settings: object { abuse_contact_email, access_approval_expiry, api_access_enabled, 3 more }`
+The HTTP response status code returned by the API.
 
-    - `abuse_contact_email: string`
+<a href="#">Link to this property</a>
 
-    - `access_approval_expiry: string`
+uri: optional string
 
-    - `api_access_enabled: boolean`
+The URI of the request.
 
-    - `default_nameservers: string`
+<a href="#">Link to this property</a>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+user\_agent: optional string
 
-    - `enforce_twofactor: boolean`
+The client’s user agent string sent with the request.
 
-    - `use_account_custom_ns_by_default: boolean`
+<a href="#">Link to this property</a>
 
-      Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated.
+</details>
 
-  - `type: "standard" or "enterprise"`
+<a href="#">Link to this property</a>
 
-    - `"standard"`
+<details>
 
-    - `"enterprise"`
+<summary>
 
-# Organization Profile
+resource: optional object {id, product, request, 3 more }
 
-## Get organization profile
+Provides details about the affected resource.
 
-**get** `/organizations/{organization_id}/profile`
+</summary>
 
-Get an organizations profile if it exists. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+id: optional string
 
-### Path Parameters
+The unique identifier for the affected resource.
 
-- `organization_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+product: optional string
 
-- `errors: array of unknown`
+The Cloudflare product associated with the resource.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+request: optional unknown
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+response: optional unknown
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+scope: optional unknown
 
-- `result: AccountProfile`
+The scope of the resource.
 
-  - `business_address: string`
+<a href="#">Link to this property</a>
 
-  - `business_email: string`
+type: optional string
 
-  - `business_name: string`
+The type of the resource.
 
-  - `business_phone: string`
+<a href="#">Link to this property</a>
 
-  - `external_metadata: string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-### Example
+[Link to this property](#)%20organizations.logs.audit%20%3E%20(model)%20audit_list_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/profile \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "business_address": "business_address",
-    "business_email": "business_email",
-    "business_name": "business_name",
-    "business_phone": "business_phone",
-    "external_metadata": "external_metadata"
-  },
-  "success": true
-}
-```
+AuditHistoryResponse = array of object {id, action, actor, 3 more }
 
-## Modify organization profile.
+</summary>
 
-**put** `/organizations/{organization_id}/profile`
+id: optional string
 
-Modify organization profile. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+A unique identifier for the audit log entry.
 
-### Path Parameters
+maxLength32
 
-- `organization_id: string`
+<a href="#">Link to this property</a>
 
-### Body Parameters
+<details>
 
-- `business_address: string`
+<summary>
 
-- `business_email: string`
+action: optional object {description, result, time, type }
 
-- `business_name: string`
+Provides information about the action performed.
 
-- `business_phone: string`
+</summary>
 
-- `external_metadata: string`
+description: optional string
 
-### Example
+A short description of the action performed.
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/profile \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "business_address": "business_address",
-          "business_email": "business_email",
-          "business_name": "business_name",
-          "business_phone": "business_phone",
-          "external_metadata": "external_metadata"
-        }'
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+result: optional string
 
-### Organization Profile
+The result of the action, indicating success or failure.
 
-- `OrganizationProfile object { business_address, business_email, business_name, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `business_address: string`
+time: optional string
 
-  - `business_email: string`
+A timestamp indicating when the action was logged.
 
-  - `business_name: string`
+formatdate-time
 
-  - `business_phone: string`
+<a href="#">Link to this property</a>
 
-  - `external_metadata: string`
+type: optional string
 
-# Members
+A short string that describes the action that was performed.
 
-## List organization members
+<a href="#">Link to this property</a>
 
-**get** `/organizations/{organization_id}/members`
+</details>
 
-List memberships for an Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `organization_id: string`
+<summary>
 
-### Query Parameters
+actor: optional object {id, context, email, 4 more }
 
-- `page_size: optional number`
+Provides details about the actor who performed the action.
 
-  The amount of items to return. Defaults to 10.
+</summary>
 
-- `page_token: optional string`
+id: optional string
 
-  An opaque token returned from the last list response that when
-  provided will retrieve the next page.
+The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
 
-  Parameters used to filter the retrieved list must remain in subsequent
-  requests with a page token.
+<a href="#">Link to this property</a>
 
-- `status: optional array of "active" or "canceled"`
+<details>
 
-  Filter the list of memberships by membership status.
+<summary>
 
-  - `"active"`
+context: optional "api"or "api\_key"or "api\_token"or 3 more
 
-  - `"canceled"`
+The context in which the action was initiated.
 
-- `user: optional object { email }`
+- <code>api</code>: The action was performed through the API. The specific credential type was not recorded.
+- <code>api_key</code>: The action was authenticated with a Cloudflare Global API Key.
+- <code>api_token</code>: The action was authenticated with an API token.
+- <code>dash</code>: The action was performed through the Cloudflare dashboard.
+- <code>oauth</code>: The action was authenticated with an OAuth token.
+- <code>origin_ca_key</code>: The action was authenticated with an Origin CA key.
 
-  - `email: optional string`
+</summary>
 
-    Filter the list of memberships for a specific email that ends with a substring.
+One of the following:
 
-### Returns
+"api"
 
-- `errors: array of unknown`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+"api\_key"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"api\_token"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"dash"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of OrganizationMember`
+"oauth"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Organization Member ID
+"origin\_ca\_key"
 
-  - `create_time: string`
+<a href="#">Link to this property</a>
 
-  - `meta: map[unknown]`
+</details>
 
-  - `status: "active" or "canceled"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+email: optional string
 
-    - `"canceled"`
+The email of the actor who performed the action.
 
-  - `update_time: string`
+formatemail
 
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+ip\_address: optional string
 
-    - `email: string`
+The IP address of the request that performed the action.
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `two_factor_authentication_enabled: boolean`
+token\_id: optional string
 
-- `result_info: object { next_page_token, total_size }`
+The API token ID when the actor context is an api\_token or oauth.
 
-  - `next_page_token: optional string`
+<a href="#">Link to this property</a>
 
-    Use this opaque token in the next request to retrieve the
-    next page.
+token\_name: optional string
 
-    Parameters used to filter the retrieved list must remain in subsequent
-    requests with a page token.
+The API token name when the actor context is an api\_token or oauth.
 
-  - `total_size: optional number`
+<a href="#">Link to this property</a>
 
-    Counts the total amount of items in a list with the applied filters. The API omits next_page_token to indicate no more items in a particular list.
+<details>
 
-- `success: true`
+<summary>
 
-  - `true`
+type: optional "cloudflare\_admin"or "system"or "user"
 
-### Example
+The type of actor.
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-      "create_time": "2019-12-27T18:11:19.117Z",
-      "meta": {
-        "foo": {}
-      },
-      "status": "active",
-      "update_time": "2019-12-27T18:11:19.117Z",
-      "user": {
-        "id": "id",
-        "email": "email",
-        "name": "name",
-        "two_factor_authentication_enabled": true
-      }
-    }
-  ],
-  "result_info": {
-    "next_page_token": "next_page_token",
-    "total_size": 0
-  },
-  "success": true
-}
-```
+"cloudflare\_admin"
 
-## Get organization member
+<a href="#">Link to this property</a>
 
-**get** `/organizations/{organization_id}/members/{member_id}`
+"system"
 
-Retrieve a single membership from an Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"user"
 
-- `organization_id: string`
+<a href="#">Link to this property</a>
 
-- `member_id: string`
+</details>
 
-  Organization Member ID
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of unknown`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+organization: optional object {id }
 
-  - `documentation_url: optional string`
+Contains organization related information.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: optional string
 
-- `result: OrganizationMember`
+A unique identifier for the organization.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Organization Member ID
+</details>
 
-  - `create_time: string`
+<a href="#">Link to this property</a>
 
-  - `meta: map[unknown]`
+<details>
 
-  - `status: "active" or "canceled"`
+<summary>
 
-    - `"active"`
+raw: optional object {cf\_ray\_id, method, status\_code, 2 more }
 
-    - `"canceled"`
+Provides raw information about the request and response.
 
-  - `update_time: string`
+</summary>
 
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
+cf\_ray\_id: optional string
 
-    - `id: string`
+The Cloudflare Ray ID for the request.
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+method: optional string
 
-    - `two_factor_authentication_enabled: boolean`
+The HTTP method of the request.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  - `true`
+status\_code: optional number
 
-### Example
+The HTTP response status code returned by the API.
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members/$MEMBER_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+uri: optional string
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-    "create_time": "2019-12-27T18:11:19.117Z",
-    "meta": {
-      "foo": {}
-    },
-    "status": "active",
-    "update_time": "2019-12-27T18:11:19.117Z",
-    "user": {
-      "id": "id",
-      "email": "email",
-      "name": "name",
-      "two_factor_authentication_enabled": true
-    }
-  },
-  "success": true
-}
-```
+The URI of the request.
 
-## Create organization member
+<a href="#">Link to this property</a>
 
-**post** `/organizations/{organization_id}/members`
+user\_agent: optional string
 
-Create a membership that grants access to a specific Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+The client’s user agent string sent with the request.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `organization_id: string`
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `member: object { user, status }`
+<details>
 
-  - `user: object { email }`
+<summary>
 
-    - `email: string`
+resource: optional object {id, product, request, 3 more }
 
-  - `status: optional "active" or "canceled"`
+Provides details about the affected resource.
 
-    - `"active"`
+</summary>
 
-    - `"canceled"`
+id: optional string
 
-### Returns
+The unique identifier for the affected resource.
 
-- `errors: array of unknown`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+product: optional string
 
-  - `code: number`
+The Cloudflare product associated with the resource.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+request: optional unknown
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+response: optional unknown
 
-- `result: OrganizationMember`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+scope: optional unknown
 
-    Organization Member ID
+The scope of the resource.
 
-  - `create_time: string`
+<a href="#">Link to this property</a>
 
-  - `meta: map[unknown]`
+type: optional string
 
-  - `status: "active" or "canceled"`
+The type of the resource.
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"canceled"`
+</details>
 
-  - `update_time: string`
+<a href="#">Link to this property</a>
 
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
+</details>
 
-    - `id: string`
+[Link to this property](#)%20organizations.logs.audit%20%3E%20(model)%20audit_history_response%20%3E%20(schema)>)
 
-    - `email: string`
+#### OrganizationsBilling
 
-    - `name: string`
+#### OrganizationsBillingUsage
 
-    - `two_factor_authentication_enabled: boolean`
+##### [Get Organization Usage (Version 2, Alpha, Restricted)](https://developers.cloudflare.com/api/resources/organizations/subresources/billing/subresources/usage/methods/get)
 
-- `success: true`
+GET/organizations/{organization\_id}/billable/usage
 
-  - `true`
+##### ModelsExpand Collapse
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "member": {
-            "user": {
-              "email": "email"
-            }
-          }
-        }'
-```
+<summary>
 
-#### Response
+UsageGetResponse = array of object {BillingAccountId, BillingAccountName, ChargeCategory, 33 more }
 
-```json
-{
-  "errors": [],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
-    "create_time": "2019-12-27T18:11:19.117Z",
-    "meta": {
-      "foo": {}
-    },
-    "status": "active",
-    "update_time": "2019-12-27T18:11:19.117Z",
-    "user": {
-      "id": "id",
-      "email": "email",
-      "name": "name",
-      "two_factor_authentication_enabled": true
-    }
-  },
-  "success": true
-}
-```
+Contains the array of cost and usage records.
 
-## Delete organization member
+</summary>
 
-**delete** `/organizations/{organization_id}/members/{member_id}`
+BillingAccountId: string
 
-Delete a membership to a particular Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+Public identifier of the Cloudflare account (account tag).
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `organization_id: string`
+BillingAccountName: string
 
-- `member_id: string`
+Display name of the Cloudflare account.
 
-  Organization Member ID
+<a href="#">Link to this property</a>
 
-### Example
+ChargeCategory: "Usage"
 
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members/$MEMBER_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Highest-level classification of a charge based on the nature of how it gets billed. Currently only “Usage” is supported.
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Organization Member
+ChargeDescription: string
 
-- `OrganizationMember object { id, create_time, meta, 3 more }`
+Self-contained summary of the charge’s purpose and price.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Organization Member ID
+ChargeFrequency: "Usage-Based"
 
-  - `create_time: string`
+Indicates how often a charge occurs. Currently only “Usage-Based” is supported.
 
-  - `meta: map[unknown]`
+<a href="#">Link to this property</a>
 
-  - `status: "active" or "canceled"`
+ChargePeriodEnd: string
 
-    - `"active"`
+Exclusive end of the time interval during which the usage was consumed.
 
-    - `"canceled"`
+formatdate-time
 
-  - `update_time: string`
+<a href="#">Link to this property</a>
 
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
+ChargePeriodStart: string
 
-    - `id: string`
+Inclusive start of the time interval during which the usage was consumed.
 
-    - `email: string`
+formatdate-time
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-    - `two_factor_authentication_enabled: boolean`
+ConsumedQuantity: number
 
-# Logs
+Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations.
 
-# Audit
+<a href="#">Link to this property</a>
 
-## Get organization audit logs (Version 2)
+ConsumedUnit: string
 
-**get** `/organizations/{organization_id}/logs/audit`
+Unit of measure for the consumed quantity (e.g., “GB”, “Requests”, “vCPU-Hours”).
 
-Gets a list of audit logs for an organization.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+HostProviderName: string
 
-- `organization_id: string`
+Name of the entity providing the underlying infrastructure or platform.
 
-  The unique id that identifies the organization.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+InvoiceIssuerName: string
 
-- `before: string`
+Name of the entity responsible for invoicing for the services consumed.
 
-  Limits the returned results to logs older than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339.
+<a href="#">Link to this property</a>
 
-- `since: string`
+ServiceProviderName: string
 
-  Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339.
+Name of the entity that made the services available for purchase.
 
-- `id: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+x\_BillableMetricId: string
 
-    Filters out audit logs by their IDs.
+The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.
 
-- `action_result: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of "success" or "failure"`
+x\_BillableMetricName: string
 
-    Filters out audit logs by whether the action was successful or not.
+The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.
 
-    - `"success"`
+<a href="#">Link to this property</a>
 
-    - `"failure"`
+BilledCost: optional number
 
-- `action_type: optional object { not }`
+A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring).
 
-  - `not: optional array of "create" or "delete" or "view" or "update"`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the action type.
+BillingCurrency: optional string
 
-    - `"create"`
+Currency that a charge was billed in (ISO 4217).
 
-    - `"delete"`
+<a href="#">Link to this property</a>
 
-    - `"view"`
+BillingPeriodEnd: optional string
 
-    - `"update"`
+Exclusive end of the billing cycle that contains this usage record.
 
-- `actor_context: optional object { not }`
+formatdate-time
 
-  - `not: optional array of "api_key" or "api_token" or "dash" or 2 more`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the actor context.
+BillingPeriodStart: optional string
 
-    - `"api_key"`
+Inclusive start of the billing cycle that contains this usage record.
 
-    - `"api_token"`
+formatdate-time
 
-    - `"dash"`
+<a href="#">Link to this property</a>
 
-    - `"oauth"`
+ChargeClass: optional "Correction"
 
-    - `"origin_ca_key"`
+Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period.
 
-- `actor_email: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+ContractedCost: optional number
 
-    Filters out audit logs by the actor's email address.
+Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity.
 
-- `actor_id: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+ContractedUnitPrice: optional number
 
-    Filters out audit logs by the actor's user ID.
+The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts.
 
-- `actor_ip_address: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+EffectiveCost: optional number
 
-    Filters out audit logs IP address where the action was initiated.
+The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge.
 
-- `actor_token_id: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+ListCost: optional number
 
-    Filters out audit logs by the API token ID when the actor context is an api_token or oauth.
+Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity.
 
-- `actor_token_name: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+ListUnitPrice: optional number
 
-    Filters out audit logs by the API token name when the actor context is an api_token or oauth.
+Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts.
 
-- `actor_type: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of "cloudflare_admin" or "system" or "user"`
+PricingQuantity: optional number
 
-    Filters out audit logs by the actor type.
+Volume of a given service used or purchased, based on the PricingUnit.
 
-    - `"cloudflare_admin"`
+<a href="#">Link to this property</a>
 
-    - `"system"`
+PricingUnit: optional string
 
-    - `"user"`
+Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing.
 
-- `cursor: optional string`
+<a href="#">Link to this property</a>
 
-  The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response.
+RegionId: optional string
 
-- `direction: optional "desc" or "asc"`
+Provider-assigned identifier for an isolated geographic area where a service is provided.
 
-  Sets sorting order.
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+RegionName: optional string
 
-  - `"asc"`
+Name of an isolated geographic area where a service is provided.
 
-- `limit: optional number`
+<a href="#">Link to this property</a>
 
-  The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit.
+SubAccountId: optional string
 
-- `raw_cf_ray_id: optional object { not }`
+Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID.
 
-  - `not: optional array of string`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the response CF Ray ID.
+SubAccountName: optional string
 
-- `raw_method: optional object { not }`
+Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name.
 
-  - `not: optional array of string`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the HTTP method for the API call.
+<details>
 
-- `raw_status_code: optional object { not }`
+<summary>
 
-  - `not: optional array of number`
+Tags: optional map\[stringor true]
 
-    Filters out audit logs by the response status code that was returned.
+Tag values for the requested <code>GroupBy</code> keys. Omitted when <code>GroupBy</code> is not provided. Missing keys are omitted, and key-only tags are returned as boolean <code>true</code>. All other tag values are strings.
 
-- `raw_uri: optional object { not }`
+</summary>
 
-  - `not: optional array of string`
+One of the following:
 
-    Filters out audit logs by the request URI.
+string
 
-- `resource_id: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+true
 
-    Filters out audit logs by the resource ID.
+<a href="#">Link to this property</a>
 
-- `resource_product: optional object { not }`
+</details>
 
-  - `not: optional array of string`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the Cloudflare product associated with the changed resource.
+x\_ProductCategoryName: optional string
 
-- `resource_scope: optional object { not }`
+The product category the charge belongs to (e.g., “Developer”, “Cloudflare One”). Cloudflare extension; replaces FOCUS ServiceCategory.
 
-  - `not: optional array of "organizations"`
+<a href="#">Link to this property</a>
 
-    Filters out audit logs by the resource scope, specifying whether the resource is associated with an organization.
+x\_ProductFamilyId: optional string
 
-    - `"organizations"`
+The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId.
 
-- `resource_type: optional object { not }`
+<a href="#">Link to this property</a>
 
-  - `not: optional array of string`
+x\_ProductFamilyName: optional string
 
-    Filters out audit logs based on the unique type of resource changed by the action.
+The product family the charge belongs to (e.g., “R2”, “Workers”). Cloudflare extension; replaces FOCUS ServiceName.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: optional array of object { message }`
+x\_ZoneId: optional string
 
-  - `message: string`
+The identifier for the Cloudflare zone (zone tag). Cloudflare extension.
 
-- `result: optional array of object { id, action, actor, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+x\_ZoneName: optional string
 
-    A unique identifier for the audit log entry.
+The display name of the Cloudflare zone. Cloudflare extension.
 
-  - `action: optional object { description, result, time, type }`
+<a href="#">Link to this property</a>
 
-    Provides information about the action performed.
+</details>
 
-    - `description: optional string`
-
-      A short description of the action performed.
-
-    - `result: optional string`
-
-      The result of the action, indicating success or failure.
-
-    - `time: optional string`
-
-      A timestamp indicating when the action was logged.
-
-    - `type: optional string`
-
-      A short string that describes the action that was performed.
-
-  - `actor: optional object { id, context, email, 4 more }`
-
-    Provides details about the actor who performed the action.
-
-    - `id: optional string`
-
-      The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
-
-    - `context: optional "api_key" or "api_token" or "dash" or 2 more`
-
-      - `"api_key"`
-
-      - `"api_token"`
-
-      - `"dash"`
-
-      - `"oauth"`
-
-      - `"origin_ca_key"`
-
-    - `email: optional string`
-
-      The email of the actor who performed the action.
-
-    - `ip_address: optional string`
-
-      The IP address of the request that performed the action.
-
-    - `token_id: optional string`
-
-      The API token ID when the actor context is an api_token or oauth.
-
-    - `token_name: optional string`
-
-      The API token name when the actor context is an api_token or oauth.
-
-    - `type: optional "cloudflare_admin" or "system" or "user"`
-
-      The type of actor.
-
-      - `"cloudflare_admin"`
-
-      - `"system"`
-
-      - `"user"`
-
-  - `organization: optional object { id }`
-
-    Contains organization related information.
-
-    - `id: optional string`
-
-      A unique identifier for the organization.
-
-  - `raw: optional object { cf_ray_id, method, status_code, 2 more }`
-
-    Provides raw information about the request and response.
-
-    - `cf_ray_id: optional string`
-
-      The Cloudflare Ray ID for the request.
-
-    - `method: optional string`
-
-      The HTTP method of the request.
-
-    - `status_code: optional number`
-
-      The HTTP response status code returned by the API.
-
-    - `uri: optional string`
-
-      The URI of the request.
-
-    - `user_agent: optional string`
-
-      The client's user agent string sent with the request.
-
-  - `resource: optional object { id, product, request, 3 more }`
-
-    Provides details about the affected resource.
-
-    - `id: optional string`
-
-      The unique identifier for the affected resource.
-
-    - `product: optional string`
-
-      The Cloudflare product associated with the resource.
-
-    - `request: optional unknown`
-
-    - `response: optional unknown`
-
-    - `scope: optional unknown`
-
-      The scope of the resource.
-
-    - `type: optional string`
-
-      The type of the resource.
-
-- `result_info: optional object { count, cursor }`
-
-  Provides information about the result of the request, including count and cursor.
-
-  - `count: optional string`
-
-    The number of records returned in the response.
-
-  - `cursor: optional string`
-
-    The cursor token used for pagination.
-
-- `success: optional true`
-
-  Indicates whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/logs/audit \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message"
-    }
-  ],
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "action": {
-        "description": "Add Member",
-        "result": "success",
-        "time": "2024-04-26T17:31:07Z",
-        "type": "create"
-      },
-      "actor": {
-        "id": "f6b5de0326bb5182b8a4840ee01ec774",
-        "context": "dash",
-        "email": "alice@example.com",
-        "ip_address": "198.41.129.166",
-        "token_id": "token_id",
-        "token_name": "token_name",
-        "type": "user"
-      },
-      "organization": {
-        "id": "019c4f65e7607d8c9f6f6b58aa3aff50"
-      },
-      "raw": {
-        "cf_ray_id": "8e9b1c60ef9e1c9a",
-        "method": "POST",
-        "status_code": 200,
-        "uri": "/accounts/4bb334f7c94c4a29a045f03944f072e5/members",
-        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15"
-      },
-      "resource": {
-        "id": "id",
-        "product": "organizations",
-        "request": {},
-        "response": {},
-        "scope": {},
-        "type": "type"
-      }
-    }
-  ],
-  "result_info": {
-    "count": "1",
-    "cursor": "ASqdKd7dKgxh-aZ8bm0mZos1BtW4BdEqifCzNkEeGRzi_5SN_-362Y8sF-C1TRn60_6rd3z2dIajf9EAPyQ_NmIeAMkacmaJPXipqvP7PLU4t72wyqBeJfjmjdE="
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Audit List Response
-
-- `AuditListResponse object { id, action, actor, 3 more }`
-
-  - `id: optional string`
-
-    A unique identifier for the audit log entry.
-
-  - `action: optional object { description, result, time, type }`
-
-    Provides information about the action performed.
-
-    - `description: optional string`
-
-      A short description of the action performed.
-
-    - `result: optional string`
-
-      The result of the action, indicating success or failure.
-
-    - `time: optional string`
-
-      A timestamp indicating when the action was logged.
-
-    - `type: optional string`
-
-      A short string that describes the action that was performed.
-
-  - `actor: optional object { id, context, email, 4 more }`
-
-    Provides details about the actor who performed the action.
-
-    - `id: optional string`
-
-      The ID of the actor who performed the action. If a user performed the action, this will be their User ID.
-
-    - `context: optional "api_key" or "api_token" or "dash" or 2 more`
-
-      - `"api_key"`
-
-      - `"api_token"`
-
-      - `"dash"`
-
-      - `"oauth"`
-
-      - `"origin_ca_key"`
-
-    - `email: optional string`
-
-      The email of the actor who performed the action.
-
-    - `ip_address: optional string`
-
-      The IP address of the request that performed the action.
-
-    - `token_id: optional string`
-
-      The API token ID when the actor context is an api_token or oauth.
-
-    - `token_name: optional string`
-
-      The API token name when the actor context is an api_token or oauth.
-
-    - `type: optional "cloudflare_admin" or "system" or "user"`
-
-      The type of actor.
-
-      - `"cloudflare_admin"`
-
-      - `"system"`
-
-      - `"user"`
-
-  - `organization: optional object { id }`
-
-    Contains organization related information.
-
-    - `id: optional string`
-
-      A unique identifier for the organization.
-
-  - `raw: optional object { cf_ray_id, method, status_code, 2 more }`
-
-    Provides raw information about the request and response.
-
-    - `cf_ray_id: optional string`
-
-      The Cloudflare Ray ID for the request.
-
-    - `method: optional string`
-
-      The HTTP method of the request.
-
-    - `status_code: optional number`
-
-      The HTTP response status code returned by the API.
-
-    - `uri: optional string`
-
-      The URI of the request.
-
-    - `user_agent: optional string`
-
-      The client's user agent string sent with the request.
-
-  - `resource: optional object { id, product, request, 3 more }`
-
-    Provides details about the affected resource.
-
-    - `id: optional string`
-
-      The unique identifier for the affected resource.
-
-    - `product: optional string`
-
-      The Cloudflare product associated with the resource.
-
-    - `request: optional unknown`
-
-    - `response: optional unknown`
-
-    - `scope: optional unknown`
-
-      The scope of the resource.
-
-    - `type: optional string`
-
-      The type of the resource.
-
-# Billing
-
-# Usage
-
-## Get Organization Usage (Version 2, Alpha, Restricted)
-
-**get** `/organizations/{organization_id}/billable/usage`
-
-Returns cost and usage data for all accounts within an organization,
-aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/)
-Cost and Usage dataset specification.
-
-Each record represents one billable metric for one account on one day.
-This includes all metered usage, including usage that falls within
-free-tier allowances and may result in zero cost. The response
-includes usage for every account belonging to the specified
-organization.
-
-**Note:** Cost and pricing fields are not yet populated and
-will be absent from responses until billing integration is complete.
-
-When `from` and `to` are omitted, defaults to the start of the current
-month through today. The maximum date range is 31 days.
-
-### Path Parameters
-
-- `organization_id: string`
-
-  Represents a Cloudflare resource identifier tag.
-
-### Query Parameters
-
-- `from: optional string`
-
-  Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.
-
-- `metric: optional string`
-
-  Filter results by billable metric id (e.g., workers_standard_requests).
-
-- `to: optional string`
-
-  End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.
-
-### Returns
-
-- `errors: array of object { message, code }`
-
-  Contains error details if the request failed.
-
-  - `message: string`
-
-    Describes the error or notice.
-
-  - `code: optional number`
-
-    Identifies the error or notice type.
-
-- `messages: array of object { message, code }`
-
-  Contains informational notices about the response.
-
-  - `message: string`
-
-    Describes the error or notice.
-
-  - `code: optional number`
-
-    Identifies the error or notice type.
-
-- `result: array of object { BillingAccountId, BillingAccountName, ChargeCategory, 30 more }`
-
-  Contains the array of cost and usage records.
-
-  - `BillingAccountId: string`
-
-    Public identifier of the Cloudflare account (account tag).
-
-  - `BillingAccountName: string`
-
-    Display name of the Cloudflare account.
-
-  - `ChargeCategory: "Usage"`
-
-    Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported.
-
-    - `"Usage"`
-
-  - `ChargeDescription: string`
-
-    Self-contained summary of the charge's purpose and price.
-
-  - `ChargeFrequency: "Usage-Based"`
-
-    Indicates how often a charge occurs. Currently only "Usage-Based" is supported.
-
-    - `"Usage-Based"`
-
-  - `ChargePeriodEnd: string`
-
-    Exclusive end of the time interval during which the usage was consumed.
-
-  - `ChargePeriodStart: string`
-
-    Inclusive start of the time interval during which the usage was consumed.
-
-  - `ConsumedQuantity: number`
-
-    Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations.
-
-  - `ConsumedUnit: string`
-
-    Unit of measure for the consumed quantity (e.g., "GB", "Requests", "vCPU-Hours").
-
-  - `HostProviderName: string`
-
-    Name of the entity providing the underlying infrastructure or platform.
-
-  - `InvoiceIssuerName: string`
-
-    Name of the entity responsible for invoicing for the services consumed.
-
-  - `ServiceProviderName: string`
-
-    Name of the entity that made the services available for purchase.
-
-  - `x_BillableMetricName: string`
-
-    The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.
-
-  - `BilledCost: optional number`
-
-    A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring).
-
-  - `BillingCurrency: optional string`
-
-    Currency that a charge was billed in (ISO 4217).
-
-  - `BillingPeriodEnd: optional string`
-
-    Exclusive end of the billing cycle that contains this usage record.
-
-  - `BillingPeriodStart: optional string`
-
-    Inclusive start of the billing cycle that contains this usage record.
-
-  - `ChargeClass: optional "Correction"`
-
-    Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period.
-
-    - `"Correction"`
-
-  - `ContractedCost: optional number`
-
-    Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity.
-
-  - `ContractedUnitPrice: optional number`
-
-    The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts.
-
-  - `EffectiveCost: optional number`
-
-    The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge.
-
-  - `ListCost: optional number`
-
-    Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity.
-
-  - `ListUnitPrice: optional number`
-
-    Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts.
-
-  - `PricingQuantity: optional number`
-
-    Volume of a given service used or purchased, based on the PricingUnit.
-
-  - `PricingUnit: optional string`
-
-    Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing.
-
-  - `RegionId: optional string`
-
-    Provider-assigned identifier for an isolated geographic area where a service is provided.
-
-  - `RegionName: optional string`
-
-    Name of an isolated geographic area where a service is provided.
-
-  - `SubAccountId: optional string`
-
-    Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID.
-
-  - `SubAccountName: optional string`
-
-    Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name.
-
-  - `x_BillableMetricId: optional string`
-
-    The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.
-
-  - `x_ProductFamilyName: optional string`
-
-    The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName.
-
-  - `x_ZoneId: optional string`
-
-    The identifier for the Cloudflare zone (zone tag). Cloudflare extension.
-
-  - `x_ZoneName: optional string`
-
-    The display name of the Cloudflare zone. Cloudflare extension.
-
-- `success: true`
-
-  Indicates whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/billable/usage \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 0
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 0
-    }
-  ],
-  "result": [
-    {
-      "BillingAccountId": "023e105f4ecef8ad9ca31a8372d0c353",
-      "BillingAccountName": "My Account",
-      "ChargeCategory": "Usage",
-      "ChargeDescription": "Workers Standard Requests — daily usage",
-      "ChargeFrequency": "Usage-Based",
-      "ChargePeriodEnd": "2025-05-02T00:00:00Z",
-      "ChargePeriodStart": "2025-05-01T00:00:00Z",
-      "ConsumedQuantity": 150000,
-      "ConsumedUnit": "Requests",
-      "HostProviderName": "Cloudflare",
-      "InvoiceIssuerName": "Cloudflare",
-      "ServiceProviderName": "Cloudflare",
-      "x_BillableMetricName": "Workers Standard Requests",
-      "BilledCost": 0,
-      "BillingCurrency": "USD",
-      "BillingPeriodEnd": "2025-06-01T00:00:00Z",
-      "BillingPeriodStart": "2025-05-01T00:00:00Z",
-      "ChargeClass": "Correction",
-      "ContractedCost": 0.75,
-      "ContractedUnitPrice": 0.000005,
-      "EffectiveCost": 0,
-      "ListCost": 0.75,
-      "ListUnitPrice": 0.000005,
-      "PricingQuantity": 150000,
-      "PricingUnit": "Requests",
-      "RegionId": "EEUR",
-      "RegionName": "Eastern Europe",
-      "SubAccountId": "c9bd752d-9ca8-411d-b804-be44a758057f",
-      "SubAccountName": "My Subscription",
-      "x_BillableMetricId": "workers_standard_requests",
-      "x_ProductFamilyName": "Workers",
-      "x_ZoneId": "023e105f4ecef8ad9ca31a8372d0c353",
-      "x_ZoneName": "example.com"
-    }
-  ],
-  "success": true
-}
-```
-
-## Domain Types
-
-### Usage Get Response
-
-- `UsageGetResponse = array of object { BillingAccountId, BillingAccountName, ChargeCategory, 30 more }`
-
-  Contains the array of cost and usage records.
-
-  - `BillingAccountId: string`
-
-    Public identifier of the Cloudflare account (account tag).
-
-  - `BillingAccountName: string`
-
-    Display name of the Cloudflare account.
-
-  - `ChargeCategory: "Usage"`
-
-    Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported.
-
-    - `"Usage"`
-
-  - `ChargeDescription: string`
-
-    Self-contained summary of the charge's purpose and price.
-
-  - `ChargeFrequency: "Usage-Based"`
-
-    Indicates how often a charge occurs. Currently only "Usage-Based" is supported.
-
-    - `"Usage-Based"`
-
-  - `ChargePeriodEnd: string`
-
-    Exclusive end of the time interval during which the usage was consumed.
-
-  - `ChargePeriodStart: string`
-
-    Inclusive start of the time interval during which the usage was consumed.
-
-  - `ConsumedQuantity: number`
-
-    Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations.
-
-  - `ConsumedUnit: string`
-
-    Unit of measure for the consumed quantity (e.g., "GB", "Requests", "vCPU-Hours").
-
-  - `HostProviderName: string`
-
-    Name of the entity providing the underlying infrastructure or platform.
-
-  - `InvoiceIssuerName: string`
-
-    Name of the entity responsible for invoicing for the services consumed.
-
-  - `ServiceProviderName: string`
-
-    Name of the entity that made the services available for purchase.
-
-  - `x_BillableMetricName: string`
-
-    The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.
-
-  - `BilledCost: optional number`
-
-    A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring).
-
-  - `BillingCurrency: optional string`
-
-    Currency that a charge was billed in (ISO 4217).
-
-  - `BillingPeriodEnd: optional string`
-
-    Exclusive end of the billing cycle that contains this usage record.
-
-  - `BillingPeriodStart: optional string`
-
-    Inclusive start of the billing cycle that contains this usage record.
-
-  - `ChargeClass: optional "Correction"`
-
-    Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period.
-
-    - `"Correction"`
-
-  - `ContractedCost: optional number`
-
-    Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity.
-
-  - `ContractedUnitPrice: optional number`
-
-    The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts.
-
-  - `EffectiveCost: optional number`
-
-    The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge.
-
-  - `ListCost: optional number`
-
-    Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity.
-
-  - `ListUnitPrice: optional number`
-
-    Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts.
-
-  - `PricingQuantity: optional number`
-
-    Volume of a given service used or purchased, based on the PricingUnit.
-
-  - `PricingUnit: optional string`
-
-    Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing.
-
-  - `RegionId: optional string`
-
-    Provider-assigned identifier for an isolated geographic area where a service is provided.
-
-  - `RegionName: optional string`
-
-    Name of an isolated geographic area where a service is provided.
-
-  - `SubAccountId: optional string`
-
-    Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID.
-
-  - `SubAccountName: optional string`
-
-    Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name.
-
-  - `x_BillableMetricId: optional string`
-
-    The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.
-
-  - `x_ProductFamilyName: optional string`
-
-    The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName.
-
-  - `x_ZoneId: optional string`
-
-    The identifier for the Cloudflare zone (zone tag). Cloudflare extension.
-
-  - `x_ZoneName: optional string`
-
-    The display name of the Cloudflare zone. Cloudflare extension.
+[Link to this property](#)%20organizations.billing.usage%20%3E%20(model)%20usage_get_response%20%3E%20(schema)>)

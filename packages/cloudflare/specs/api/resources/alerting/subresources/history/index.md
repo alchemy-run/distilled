@@ -1,207 +1,119 @@
+---
+title: History
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Alerting](https://developers.cloudflare.com/api/resources/alerting)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # History
 
-## List History
+##### [List History](https://developers.cloudflare.com/api/resources/alerting/subresources/history/methods/list)
 
-**get** `/accounts/{account_id}/alerting/v3/history`
+GET/accounts/{account\_id}/alerting/v3/history
 
-Gets a list of history records for notifications sent to an account. The records are displayed for last `x` number of days based on the zone plan (free = 30, pro = 30, biz = 30, ent = 90).
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account id
+History object {id, alert\_body, alert\_type, 6 more }
 
-### Query Parameters
+</summary>
 
-- `before: optional string`
+id: optional string
 
-  Limit the returned results to history records older than the specified date. This must be a timestamp that conforms to RFC3339.
+UUID
 
-- `page: optional number`
+maxLength32
 
-  Page number of paginated results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+alert\_body: optional string
 
-  Number of items per page.
+Message body included in the notification sent.
 
-- `since: optional string`
+<a href="#">Link to this property</a>
 
-  Limit the returned results to history records newer than the specified date. This must be a timestamp that conforms to RFC3339.
+alert\_type: optional string
 
-### Returns
+Type of notification that has been dispatched.
 
-- `errors: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+description: optional string
 
-  - `code: optional number`
+Description of the notification policy (if present).
 
-- `messages: array of object { message, code }`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+mechanism: optional string
 
-  - `code: optional number`
+The mechanism to which the notification has been dispatched.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional array of History`
+mechanism\_type: optional "email"or "pagerduty"or "webhook"
 
-  - `id: optional string`
+The type of mechanism to which the notification has been dispatched. This can be email/pagerduty/webhook based on the mechanism configured.
 
-    UUID
+</summary>
 
-  - `alert_body: optional string`
+One of the following:
 
-    Message body included in the notification sent.
+"email"
 
-  - `alert_type: optional string`
+<a href="#">Link to this property</a>
 
-    Type of notification that has been dispatched.
+"pagerduty"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    Description of the notification policy (if present).
+"webhook"
 
-  - `mechanism: optional string`
+<a href="#">Link to this property</a>
 
-    The mechanism to which the notification has been dispatched.
+</details>
 
-  - `mechanism_type: optional "email" or "pagerduty" or "webhook"`
+<a href="#">Link to this property</a>
 
-    The type of mechanism to which the notification has been dispatched. This can be email/pagerduty/webhook based on the mechanism configured.
+name: optional string
 
-    - `"email"`
+Name of the policy.
 
-    - `"pagerduty"`
+<a href="#">Link to this property</a>
 
-    - `"webhook"`
+policy\_id: optional string
 
-  - `name: optional string`
+The unique identifier of a notification policy
 
-    Name of the policy.
+maxLength32
 
-  - `policy_id: optional string`
+<a href="#">Link to this property</a>
 
-    The unique identifier of a notification policy
+sent: optional string
 
-  - `sent: optional string`
+Timestamp of when the notification was dispatched in ISO 8601 format.
 
-    Timestamp of when the notification was dispatched in ISO 8601 format.
+formatdate-time
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/alerting/v3/history \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "messages": [
-    {
-      "message": "message",
-      "code": 1000
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90afafe4643bbbc4a0ed4fc8415",
-      "alert_body": "SSL certificate has expired",
-      "alert_type": "universal_ssl_event_type",
-      "description": "Universal Certificate validation status, issuance, renewal, and expiration notices",
-      "mechanism": "test@example.com",
-      "mechanism_type": "email",
-      "name": "SSL Notification Event Policy",
-      "policy_id": "0da2b59ef118439d8097bdfb215203c9",
-      "sent": "2021-10-08T17:52:17.571336Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Domain Types
-
-### History
-
-- `History object { id, alert_body, alert_type, 6 more }`
-
-  - `id: optional string`
-
-    UUID
-
-  - `alert_body: optional string`
-
-    Message body included in the notification sent.
-
-  - `alert_type: optional string`
-
-    Type of notification that has been dispatched.
-
-  - `description: optional string`
-
-    Description of the notification policy (if present).
-
-  - `mechanism: optional string`
-
-    The mechanism to which the notification has been dispatched.
-
-  - `mechanism_type: optional "email" or "pagerduty" or "webhook"`
-
-    The type of mechanism to which the notification has been dispatched. This can be email/pagerduty/webhook based on the mechanism configured.
-
-    - `"email"`
-
-    - `"pagerduty"`
-
-    - `"webhook"`
-
-  - `name: optional string`
-
-    Name of the policy.
-
-  - `policy_id: optional string`
-
-    The unique identifier of a notification policy
-
-  - `sent: optional string`
-
-    Timestamp of when the notification was dispatched in ISO 8601 format.
+[Link to this property](#)%20alerting.history%20%3E%20(model)%20history%20%3E%20(schema)>)

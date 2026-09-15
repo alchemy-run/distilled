@@ -101,11 +101,11 @@ export interface CreateDnsFirewallRequest {
   dnsFirewallIpCount?: number;
   /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
   ecsFallback?: boolean;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting. */
   maximumCacheTtl?: number;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting. */
   minimumCacheTtl?: number;
-  /** This setting controls how long DNS Firewall should cache negative */
+  /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers. */
   negativeCacheTtl?: number | null;
   /** Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting. */
   ratelimit?: number | null;
@@ -183,15 +183,15 @@ export interface CreateDnsFirewallResponse {
   dnsFirewallIps: CreateResponseDnsFirewallIpsList;
   /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
   ecsFallback: boolean;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting. */
   maximumCacheTtl: number;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting. */
   minimumCacheTtl: number;
   /** Last modification of DNS Firewall cluster */
   modifiedOn: string;
   /** DNS Firewall cluster name */
   name: string;
-  /** This setting controls how long DNS Firewall should cache negative */
+  /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers. */
   negativeCacheTtl: number;
   /** Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting. */
   ratelimit: number;
@@ -686,15 +686,15 @@ export interface GetDnsFirewallResponse {
   dnsFirewallIps: GetResponseDnsFirewallIpsList;
   /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
   ecsFallback: boolean;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting. */
   maximumCacheTtl: number;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting. */
   minimumCacheTtl: number;
   /** Last modification of DNS Firewall cluster */
   modifiedOn: string;
   /** DNS Firewall cluster name */
   name: string;
-  /** This setting controls how long DNS Firewall should cache negative */
+  /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers. */
   negativeCacheTtl: number;
   /** Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting. */
   ratelimit: number;
@@ -819,15 +819,15 @@ export interface ListResultItem {
   dnsFirewallIps: ListResultItemDnsFirewallIpsList;
   /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
   ecsFallback: boolean;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting. */
   maximumCacheTtl: number;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting. */
   minimumCacheTtl: number;
   /** Last modification of DNS Firewall cluster */
   modifiedOn: string;
   /** DNS Firewall cluster name */
   name: string;
-  /** This setting controls how long DNS Firewall should cache negative */
+  /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers. */
   negativeCacheTtl: number;
   /** Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting. */
   ratelimit: number;
@@ -900,13 +900,13 @@ export interface PatchDnsFirewallRequest {
   deprecateAnyRequests?: boolean;
   /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
   ecsFallback?: boolean;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting. */
   maximumCacheTtl?: number;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting. */
   minimumCacheTtl?: number;
   /** DNS Firewall cluster name */
   name?: string;
-  /** This setting controls how long DNS Firewall should cache negative */
+  /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers. */
   negativeCacheTtl?: number | null;
   /** Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting. */
   ratelimit?: number | null;
@@ -971,15 +971,15 @@ export interface PatchDnsFirewallResponse {
   dnsFirewallIps: EditResponseDnsFirewallIpsList;
   /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
   ecsFallback: boolean;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting. */
   maximumCacheTtl: number;
-  /** By default, Cloudflare attempts to cache responses for as long as */
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting. */
   minimumCacheTtl: number;
   /** Last modification of DNS Firewall cluster */
   modifiedOn: string;
   /** DNS Firewall cluster name */
   name: string;
-  /** This setting controls how long DNS Firewall should cache negative */
+  /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers. */
   negativeCacheTtl: number;
   /** Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting. */
   ratelimit: number;

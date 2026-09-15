@@ -1,67 +1,222 @@
-## Get top locations by total traffic anomalies
+---
+title: Get top locations by total traffic anomalies
+---
 
-**get** `/radar/traffic_anomalies/locations`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Traffic Anomalies](https://developers.cloudflare.com/api/resources/radar/subresources/traffic_anomalies)
+
+[Locations](https://developers.cloudflare.com/api/resources/radar/subresources/traffic_anomalies/subresources/locations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get top locations by total traffic anomalies
+
+GET/radar/traffic\_anomalies/locations
 
 Retrieves the sum of Internet traffic anomalies, grouped by location. These anomalies are signals that might indicate an outage, automatically detected by Radar and manually verified by our team.
 
-### Query Parameters
+##### Security
 
-- `dateEnd: optional string`
+<details>
 
-  End of the date range (inclusive).
+<summary>API Token</summary>
 
-- `dateRange: optional string`
 
-  Filters results by date range.
 
-- `dateStart: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Start of the date range (inclusive).
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `format: optional "JSON" or "CSV"`
+</details>
 
-  Format in which results will be returned.
+<details>
 
-  - `"JSON"`
+<summary>API Email + API Key</summary>
 
-  - `"CSV"`
 
-- `limit: optional number`
 
-  Limits the number of objects returned in the response.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `status: optional "VERIFIED" or "UNVERIFIED"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"VERIFIED"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"UNVERIFIED"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-### Returns
+</details>
 
-- `result: object { trafficAnomalies }`
+##### Accepted Permissions (at least one required)
 
-  - `trafficAnomalies: array of object { clientCountryAlpha2, clientCountryName, value }`
+`User Details Write``User Details Read`
 
-    - `clientCountryAlpha2: string`
+##### Q uery ParametersExpand Collapse
 
-    - `clientCountryName: string`
+dateEnd: optional string
 
-    - `value: string`
+End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.
 
-      A numeric string.
+formatdate-time
 
-- `success: boolean`
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20dateEnd%20%3E%20(schema)>)
 
-### Example
+dateRange: optional string
 
-```http
+Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window’s length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`.
+
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20dateRange%20%3E%20(schema)>)
+
+dateStart: optional string
+
+Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.
+
+formatdate-time
+
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20dateStart%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+format: optional "JSON"or "CSV"
+
+Format in which results will be returned.
+
+</summary>
+
+One of the following:
+
+"JSON"
+
+<a href="#">Link to this property</a>
+
+"CSV"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+limit: optional number
+
+Limits the number of objects returned in the response.
+
+exclusiveMinimum
+
+minimum0
+
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+status: optional "VERIFIED"or "UNVERIFIED"
+
+</summary>
+
+One of the following:
+
+"VERIFIED"
+
+<a href="#">Link to this property</a>
+
+"UNVERIFIED"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {trafficAnomalies }
+
+</summary>
+
+<details>
+
+<summary>
+
+trafficAnomalies: array of object {clientCountryAlpha2, clientCountryName, value }
+
+</summary>
+
+clientCountryAlpha2: string
+
+<a href="#">Link to this property</a>
+
+clientCountryName: string
+
+<a href="#">Link to this property</a>
+
+value: string
+
+A numeric string.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.traffic_anomalies.locations%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get top locations by total traffic anomalies
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/traffic_anomalies/locations \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "trafficAnomalies": [
+      {
+        "clientCountryAlpha2": "PT",
+        "clientCountryName": "Portugal",
+        "value": "10"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "trafficAnomalies": [

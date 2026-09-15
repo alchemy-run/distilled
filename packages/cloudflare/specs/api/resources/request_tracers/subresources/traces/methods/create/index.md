@@ -1,140 +1,332 @@
-## Request Trace
+---
+title: Request Trace
+---
 
-**post** `/accounts/{account_id}/request-tracer/trace`
+[Skip to content](#_top)
 
-Request Trace
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Rules Trace](https://developers.cloudflare.com/api/resources/request_tracers)
 
-- `account_id: string`
+[Traces](https://developers.cloudflare.com/api/resources/request_tracers/subresources/traces)
 
-  Identifier.
+Copy Markdown
 
-### Body Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `method: string`
+---
 
-  HTTP Method of tracing request
+**Copy Markdown****View as Markdown**
 
-- `url: string`
+# Request Trace
 
-  URL to which perform tracing request
+POST/accounts/{account\_id}/request-tracer/trace
 
-- `body: optional object { base64, json, plain_text }`
+Traces a simulated HTTP request through Cloudflare’s edge to analyze how rules, settings, and configurations would process the request. Useful for debugging firewall rules, page rules, and other request transformations without sending actual traffic. Supports custom headers, cookies, body content, and geolocation context.
 
-  - `base64: optional string`
+##### Security
 
-    Base64 encoded request body
+API Email + API Key
 
-  - `json: optional unknown`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    Arbitrary json as request body
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `plain_text: optional string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Request body as plain text
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-- `context: optional object { bot_score, geoloc, skip_challenge, threat_score }`
+##### Accepted Permissions (at least one required)
 
-  Additional request parameters
+`Allow Request Tracer Read`
 
-  - `bot_score: optional number`
+##### P ath ParametersExpand Collapse
 
-    Bot score used for evaluating tracing request processing
+account\_id: string
 
-  - `geoloc: optional object { city, continent, is_eu_country, 7 more }`
+Identifier.
 
-    Geodata for tracing request
+maxLength32
 
-    - `city: optional string`
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `continent: optional string`
+##### Body ParametersJSONExpand Collapse
 
-    - `is_eu_country: optional boolean`
+method: string
 
-    - `iso_code: optional string`
+HTTP Method of tracing request
 
-    - `latitude: optional number`
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20method%20%3E%20(schema)>)
 
-    - `longitude: optional number`
+url: string
 
-    - `postal_code: optional string`
+URL to which perform tracing request
 
-    - `region_code: optional string`
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20url%20%3E%20(schema)>)
 
-    - `subdivision_2_iso_code: optional string`
+<details>
 
-    - `timezone: optional string`
+<summary>
 
-  - `skip_challenge: optional boolean`
+body: optional object {base64, json, plain\_text }
 
-    Whether to skip any challenges for tracing request (e.g.: captcha)
+</summary>
 
-  - `threat_score: optional number`
+base64: optional string
 
-    Threat score used for evaluating tracing request processing
+Base64 encoded request body
 
-- `cookies: optional map[string]`
+<a href="#">Link to this property</a>
 
-  Cookies added to tracing request
+json: optional unknown
 
-- `headers: optional map[string]`
+Arbitrary json as request body
 
-  Headers added to tracing request
+<a href="#">Link to this property</a>
 
-- `protocol: optional string`
+plain\_text: optional string
 
-  HTTP Protocol of tracing request
+Request body as plain text
 
-- `skip_response: optional boolean`
+<a href="#">Link to this property</a>
 
-  Skip sending the request to the Origin server after all rules evaluation
+</details>
 
-### Returns
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20body%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+context: optional object {bot\_score, geoloc, skip\_challenge, threat\_score }
 
-  - `documentation_url: optional string`
+Additional request parameters
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+bot\_score: optional number
 
-- `messages: array of object { code, message, documentation_url, source }`
+Bot score used for evaluating tracing request processing
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+geoloc: optional object {city, continent, is\_eu\_country, 7 more }
 
-    - `pointer: optional string`
+Geodata for tracing request
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+city: optional string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { status_code, trace }`
+continent: optional string
 
-  Trace result with an origin status code
+<a href="#">Link to this property</a>
 
-  - `status_code: optional number`
+is\_eu\_country: optional boolean
 
-    HTTP Status code of zone response
+<a href="#">Link to this property</a>
 
-  - `trace: optional Trace`
+iso\_code: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+latitude: optional number
+
+<a href="#">Link to this property</a>
+
+longitude: optional number
+
+<a href="#">Link to this property</a>
+
+postal\_code: optional string
+
+<a href="#">Link to this property</a>
+
+region\_code: optional string
+
+<a href="#">Link to this property</a>
+
+subdivision\_2\_iso\_code: optional string
+
+<a href="#">Link to this property</a>
+
+timezone: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+skip\_challenge: optional boolean
+
+Whether to skip any challenges for tracing request (e.g.: captcha)
+
+<a href="#">Link to this property</a>
+
+threat\_score: optional number
+
+Threat score used for evaluating tracing request processing
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20context%20%3E%20(schema)>)
+
+cookies: optional map\[string]
+
+Cookies added to tracing request
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20cookies%20%3E%20(schema)>)
+
+headers: optional map\[string]
+
+Headers added to tracing request
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20headers%20%3E%20(schema)>)
+
+protocol: optional string
+
+HTTP Protocol of tracing request
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20protocol%20%3E%20(schema)>)
+
+skip\_response: optional boolean
+
+Skip sending the request to the Origin server after all rules evaluation
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20skip_response%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {status\_code, trace }
+
+Trace result with an origin status code
+
+</summary>
+
+status\_code: optional number
+
+HTTP Status code of zone response
+
+<a href="#">Link to this property</a>
+
+trace: optional <a href="https://developers.cloudflare.com/api/resources/request_tracers#(resource)%20request_tracers.traces%20%3E%20(model)%20trace%20%3E%20(schema)">Trace</a>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20request_tracers.traces%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Request Trace
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/request-tracer/trace \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -154,9 +346,57 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/request-tracer/tr
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "status_code": 0,
+    "trace": [
+      {
+        "action": "execute",
+        "action_parameters": {
+          "id": "4814384a9e5d4991b9815dcfc25d2f1f"
+        },
+        "description": "some rule",
+        "expression": "ip.src ne 1.1.1.1",
+        "kind": "zone",
+        "matched": true,
+        "name": "some ruleset name",
+        "step_name": "rule_id01",
+        "type": "rule"
+      }
+    ]
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

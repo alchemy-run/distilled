@@ -1,99 +1,304 @@
-## Get SYN Protection rule.
+---
+title: Get SYN Protection rule.
+---
 
-**get** `/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DDoS Protection](https://developers.cloudflare.com/api/resources/ddos_protection)
+
+[Advanced TCP Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection)
+
+[SYN Protection](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection)
+
+[Rules](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules)
+
+[Items](https://developers.cloudflare.com/api/resources/ddos_protection/subresources/advanced_tcp_protection/subresources/syn_protection/subresources/rules/subresources/items)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get SYN Protection rule.
+
+GET/accounts/{account\_id}/magic/advanced\_tcp\_protection/configs/syn\_protection/rules/{rule\_id}
 
 Get a SYN Protection rule specified by the given UUID.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `rule_id: string`
 
-  UUID.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### Accepted Permissions (at least one required)
 
-- `success: true`
+`DDoS Protection Write``DDoS Protection Read`
 
-  Whether the API call was successful.
+##### P ath ParametersExpand Collapse
 
-  - `true`
+account\_id: string
 
-- `result: optional object { id, burst_sensitivity, created_on, 6 more }`
+Identifier.
 
-  - `id: string`
+maxLength32
 
-    The unique ID of the SYN Protection rule.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `burst_sensitivity: string`
+rule\_id: string
 
-    The burst sensitivity. Must be one of 'low', 'medium', 'high'.
+UUID.
 
-  - `created_on: string`
+maxLength36
 
-    The creation timestamp of the SYN Protection rule.
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20rule_id%20%3E%20(schema)>)
 
-  - `mitigation_type: string`
+##### ReturnsExpand Collapse
 
-    The type of mitigation for SYN Protection. Must be one of 'challenge' or 'retransmit'.
+<details>
 
-  - `mode: string`
+<summary>
 
-    The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.
+errors: array of object {code, message, documentation\_url, source }
 
-  - `modified_on: string`
+</summary>
 
-    The last modification timestamp of the SYN Protection rule.
+code: number
 
-  - `name: string`
+minimum1000
 
-    The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.
+<a href="#">Link to this property</a>
 
-  - `rate_sensitivity: string`
+message: string
 
-    The rate sensitivity. Must be one of 'low', 'medium', 'high'.
+<a href="#">Link to this property</a>
 
-  - `scope: string`
+documentation\_url: optional string
 
-    The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, burst\_sensitivity, created\_on, 6 more }
+
+</summary>
+
+id: string
+
+The unique ID of the SYN Protection rule.
+
+<a href="#">Link to this property</a>
+
+burst\_sensitivity: string
+
+The burst sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
+
+<a href="#">Link to this property</a>
+
+created\_on: string
+
+The creation timestamp of the SYN Protection rule.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+mitigation\_type: string
+
+The type of mitigation for SYN Protection. Must be one of ‘challenge’ or ‘retransmit’.
+
+<a href="#">Link to this property</a>
+
+mode: string
+
+The mode for SYN Protection. Must be one of ‘enabled’, ‘disabled’, ‘monitoring’.
+
+<a href="#">Link to this property</a>
+
+modified\_on: string
+
+The last modification timestamp of the SYN Protection rule.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the SYN Protection rule. Value is relative to the ‘scope’ setting. For ‘global’ scope, name should be ‘global’. For either the ‘region’ or ‘datacenter’ scope, name should be the actual name of the region or datacenter, e.g., ‘wnam’ or ‘lax’.
+
+<a href="#">Link to this property</a>
+
+rate\_sensitivity: string
+
+The rate sensitivity. Must be one of ‘low’, ‘medium’, ‘high’.
+
+<a href="#">Link to this property</a>
+
+scope: string
+
+The scope for the SYN Protection rule. Must be one of ‘global’, ‘region’, or ‘datacenter’.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ddos_protection.advanced_tcp_protection.syn_protection.rules.items%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Get SYN Protection rule.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/advanced_tcp_protection/configs/syn_protection/rules/$RULE_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "id",
+    "burst_sensitivity": "burst_sensitivity",
+    "created_on": "2019-12-27T18:11:19.117Z",
+    "mitigation_type": "mitigation_type",
+    "mode": "mode",
+    "modified_on": "2019-12-27T18:11:19.117Z",
+    "name": "name",
+    "rate_sensitivity": "rate_sensitivity",
+    "scope": "scope"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

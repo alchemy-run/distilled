@@ -1,231 +1,113 @@
+---
+title: Devices
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[DEX](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex)
+
+[Commands](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Devices
 
-## List devices eligible for remote captures
+##### [List devices eligible for remote captures](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/commands/subresources/devices/methods/list)
 
-**get** `/accounts/{account_id}/dex/commands/devices`
+GET/accounts/{account\_id}/dex/commands/devices
 
-List devices with WARP client support for remote captures which have been connected in the last 1 hour.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Unique identifier linked to an account.
+DeviceListResponse object {devices }
 
-### Query Parameters
+</summary>
 
-- `page: number`
+<details>
 
-  Page number of paginated results.
+<summary>
 
-- `per_page: number`
+devices: optional array of object {deviceId, deviceName, eligible, 7 more }
 
-  Number of results per page.
+List of eligible devices
 
-- `search: optional string`
+</summary>
 
-  Filter devices by name or email.
+deviceId: optional string
 
-### Returns
+Device identifier (UUID v4)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+deviceName: optional string
 
-  - `message: string`
+Device identifier (human readable)
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+eligible: optional boolean
 
-    - `pointer: optional string`
+Whether the device is eligible for remote captures
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+ineligibleReason: optional string
 
-  - `message: string`
+If the device is not eligible, the reason why.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+personEmail: optional string
 
-    - `pointer: optional string`
+User contact email address
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+platform: optional string
 
-  - `true`
+Operating system.
 
-- `result: optional object { devices }`
+<a href="#">Link to this property</a>
 
-  - `devices: optional array of object { deviceId, deviceName, eligible, 7 more }`
+registrationId: optional string
 
-    List of eligible devices
+Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user’s registration on the device.
 
-    - `deviceId: optional string`
+<a href="#">Link to this property</a>
 
-      Device identifier (UUID v4)
+status: optional string
 
-    - `deviceName: optional string`
+Network status.
 
-      Device identifier (human readable)
+<a href="#">Link to this property</a>
 
-    - `eligible: optional boolean`
+timestamp: optional string
 
-      Whether the device is eligible for remote captures
+<a href="#">Link to this property</a>
 
-    - `ineligibleReason: optional string`
+version: optional string
 
-      If the device is not eligible, the reason why.
+WARP client version.
 
-    - `personEmail: optional string`
+<a href="#">Link to this property</a>
 
-      User contact email address
+</details>
 
-    - `platform: optional string`
+<a href="#">Link to this property</a>
 
-      Operating system.
+</details>
 
-    - `registrationId: optional string`
-
-      Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
-
-    - `status: optional string`
-
-      Network status.
-
-    - `timestamp: optional string`
-
-    - `version: optional string`
-
-      WARP client version.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dex/commands/devices \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "devices": [
-      {
-        "deviceId": "deviceId",
-        "deviceName": "deviceName",
-        "eligible": true,
-        "ineligibleReason": "ineligibleReason",
-        "personEmail": "personEmail",
-        "platform": "windows",
-        "registrationId": "registrationId",
-        "status": "connected",
-        "timestamp": "2023-10-11 00:00:00+00",
-        "version": "1.0.0"
-      }
-    ]
-  },
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Device List Response
-
-- `DeviceListResponse object { devices }`
-
-  - `devices: optional array of object { deviceId, deviceName, eligible, 7 more }`
-
-    List of eligible devices
-
-    - `deviceId: optional string`
-
-      Device identifier (UUID v4)
-
-    - `deviceName: optional string`
-
-      Device identifier (human readable)
-
-    - `eligible: optional boolean`
-
-      Whether the device is eligible for remote captures
-
-    - `ineligibleReason: optional string`
-
-      If the device is not eligible, the reason why.
-
-    - `personEmail: optional string`
-
-      User contact email address
-
-    - `platform: optional string`
-
-      Operating system.
-
-    - `registrationId: optional string`
-
-      Device registration identifier (UUID v4). On multi-user devices, this uniquely identifies a user's registration on the device.
-
-    - `status: optional string`
-
-      Network status.
-
-    - `timestamp: optional string`
-
-    - `version: optional string`
-
-      WARP client version.
+[Link to this property](#)%20zero_trust.dex.commands.devices%20%3E%20(model)%20device_list_response%20%3E%20(schema)>)

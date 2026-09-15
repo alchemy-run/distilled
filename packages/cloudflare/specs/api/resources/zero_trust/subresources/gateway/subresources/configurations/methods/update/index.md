@@ -1,560 +1,1322 @@
-## Update Zero Trust account configuration
+---
+title: Update Zero Trust account configuration
+---
 
-**put** `/accounts/{account_id}/gateway/configuration`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Gateway](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway)
+
+[Configurations](https://developers.cloudflare.com/api/resources/zero_trust/subresources/gateway/subresources/configurations)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update Zero Trust account configuration
+
+PUT/accounts/{account\_id}/gateway/configuration
 
 Update the current Zero Trust account configuration.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>API Token</summary>
 
-- `settings: optional GatewayConfigurationSettings`
 
-  Specify account settings.
 
-  - `activity_log: optional ActivityLogSettings`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    Specify activity log settings.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-    - `enabled: optional boolean`
+</details>
 
-      Specify whether to log activity.
+<details>
 
-  - `antivirus: optional AntiVirusSettings`
+<summary>API Email + API Key</summary>
 
-    Specify anti-virus settings.
 
-    - `enabled_download_phase: optional boolean`
 
-      Specify whether to enable anti-virus scanning on downloads.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `enabled_upload_phase: optional boolean`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-      Specify whether to enable anti-virus scanning on uploads.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `fail_closed: optional boolean`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      Specify whether to block requests for unscannable files.
+</details>
 
-    - `notification_settings: optional NotificationSettings`
+##### P ath ParametersExpand Collapse
 
-      Configure the message the user's device shows during an antivirus scan.
+account\_id: string
 
-      - `enabled: optional boolean`
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-        Specify whether to enable notifications.
+##### Body ParametersJSONExpand Collapse
 
-      - `include_context: optional boolean`
+<details>
 
-        Specify whether to include context information as query parameters.
+<summary>
 
-      - `msg: optional string`
+settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)">GatewayConfigurationSettings</a> { activity\_log, antivirus, block\_page, 12 more }
 
-        Specify the message to show in the notification.
+Specify account settings.
 
-      - `support_url: optional string`
+</summary>
 
-        Specify a URL that directs users to more information. If unset, the notification opens a block page.
+<details>
 
-  - `block_page: optional BlockPageSettings`
+<summary>
 
-    Specify block page layout settings.
+activity\_log: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20activity_log_settings%20%3E%20(schema)">ActivityLogSettings</a> { enabled }
 
-    - `background_color: optional string`
+Specify activity log settings.
 
-      Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+</summary>
 
-    - `enabled: optional boolean`
+enabled: optional boolean
 
-      Specify whether to enable the custom block page.
+Specify whether to log activity.
 
-    - `footer_text: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the block page footer text when the mode is customized_block_page.
+</details>
 
-    - `header_text: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the block page header text when the mode is customized_block_page.
+<details>
 
-    - `include_context: optional boolean`
+<summary>
 
-      Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+antivirus: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20anti_virus_settings%20%3E%20(schema)">AntiVirusSettings</a> { enabled\_download\_phase, enabled\_upload\_phase, fail\_closed, notification\_settings }
 
-    - `logo_path: optional string`
+Specify anti-virus settings.
 
-      Specify the full URL to the logo file when the mode is customized_block_page.
+</summary>
 
-    - `mailto_address: optional string`
+enabled\_download\_phase: optional boolean
 
-      Specify the admin email for users to contact when the mode is customized_block_page.
+Specify whether to enable anti-virus scanning on downloads.
 
-    - `mailto_subject: optional string`
+<a href="#">Link to this property</a>
 
-      Specify the subject line for emails created from the block page when the mode is customized_block_page.
+enabled\_upload\_phase: optional boolean
 
-    - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+Specify whether to enable anti-virus scanning on uploads.
 
-      Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+<a href="#">Link to this property</a>
 
-      - `""`
+fail\_closed: optional boolean
 
-      - `"customized_block_page"`
+Specify whether to block requests for unscannable files.
 
-      - `"redirect_uri"`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+<details>
 
-      Specify the block page title when the mode is customized_block_page.
+<summary>
 
-    - `read_only: optional boolean`
+notification\_settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20notification_settings%20%3E%20(schema)">NotificationSettings</a> { enabled, include\_context, msg, support\_url }
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+Configure the message the user’s device shows during an antivirus scan.
 
-    - `source_account: optional string`
+</summary>
 
-      Indicate the account tag of the account that shared this setting.
+enabled: optional boolean
 
-    - `suppress_footer: optional boolean`
+Specify whether to enable notifications.
 
-      Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-    - `target_uri: optional string`
+include\_context: optional boolean
 
-      Specify the URI to redirect users to when the mode is redirect_uri.
+Specify whether to include context information as query parameters.
 
-    - `version: optional number`
+<a href="#">Link to this property</a>
 
-      Indicate the version number of the setting.
+msg: optional string
 
-  - `body_scanning: optional BodyScanningSettings`
+Specify the message to show in the notification.
 
-    Specify the DLP inspection mode.
+<a href="#">Link to this property</a>
 
-    - `inspection_mode: optional "deep" or "shallow"`
+support\_url: optional string
 
-      Specify the inspection mode as either `deep` or `shallow`.
+Specify a URL that directs users to more information. If unset, the notification opens a block page.
 
-      - `"deep"`
+<a href="#">Link to this property</a>
 
-      - `"shallow"`
+</details>
 
-  - `browser_isolation: optional BrowserIsolationSettings`
+<a href="#">Link to this property</a>
 
-    Specify Clientless Browser Isolation settings.
+</details>
 
-    - `non_identity_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable non-identity onramp support for Browser Isolation.
+<details>
 
-    - `url_browser_isolation_enabled: optional boolean`
+<summary>
 
-      Specify whether to enable Clientless Browser Isolation.
+block\_page: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20block_page_settings%20%3E%20(schema)">BlockPageSettings</a> { background\_color, enabled, footer\_text, 12 more }
 
-  - `certificate: optional object { id }`
+Specify block page layout settings.
 
-    Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+</summary>
 
-    - `id: string`
+background\_color: optional string
 
-      Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+Specify the block page background color in <code>#rrggbb</code> format when the mode is customized\_block\_page.
 
-  - `custom_certificate: optional CustomCertificateSettings`
+<a href="#">Link to this property</a>
 
-    Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+enabled: optional boolean
 
-    - `enabled: boolean`
+Specify whether to enable the custom block page.
 
-      Specify whether to enable a custom certificate authority for signing Gateway traffic.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+footer\_text: optional string
 
-      Specify the UUID of the certificate (ID from MTLS certificate store).
+Specify the block page footer text when the mode is customized\_block\_page.
 
-    - `binding_status: optional string`
+<a href="#">Link to this property</a>
 
-      Indicate the internal certificate status.
+header\_text: optional string
 
-    - `updated_at: optional string`
+Specify the block page header text when the mode is customized\_block\_page.
 
-  - `extended_email_matching: optional ExtendedEmailMatching`
+<a href="#">Link to this property</a>
 
-    Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+include\_context: optional boolean
 
-    - `enabled: optional boolean`
+Specify whether to append context to target\_uri as query parameters. This applies only when the mode is redirect\_uri.
 
-      Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+<a href="#">Link to this property</a>
 
-    - `read_only: optional boolean`
+logo\_path: optional string
 
-      Indicate that this setting was shared via the Orgs API and read only for the current account.
+Specify the full URL to the logo file when the mode is customized\_block\_page.
 
-    - `source_account: optional string`
+<a href="#">Link to this property</a>
 
-      Indicate the account tag of the account that shared this setting.
+mailto\_address: optional string
 
-    - `version: optional number`
+Specify the admin email for users to contact when the mode is customized\_block\_page.
 
-      Indicate the version number of the setting.
+<a href="#">Link to this property</a>
 
-  - `fips: optional FipsSettings`
+mailto\_subject: optional string
 
-    Specify FIPS settings.
+Specify the subject line for emails created from the block page when the mode is customized\_block\_page.
 
-    - `tls: optional boolean`
+<a href="#">Link to this property</a>
 
-      Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+<details>
 
-  - `host_selector: optional object { enabled }`
+<summary>
 
-    Enable host selection in egress policies.
+mode: optional ""or "customized\_block\_page"or "redirect\_uri"
 
-    - `enabled: optional boolean`
+Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
 
-      Specify whether to enable filtering via hosts for egress policies.
+</summary>
 
-  - `inspection: optional object { mode }`
+One of the following:
 
-    Define the proxy inspection mode.
+""
 
-    - `mode: optional "static" or "dynamic"`
+<a href="#">Link to this property</a>
 
-      Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+"customized\_block\_page"
 
-      - `"static"`
+<a href="#">Link to this property</a>
 
-      - `"dynamic"`
+"redirect\_uri"
 
-  - `max_ttl_secs: optional number`
+<a href="#">Link to this property</a>
 
-    Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+</details>
 
-  - `protocol_detection: optional ProtocolDetection`
+<a href="#">Link to this property</a>
 
-    Specify whether to detect protocols from the initial bytes of client traffic.
+name: optional string
 
-    - `enabled: optional boolean`
+Specify the block page title when the mode is customized\_block\_page.
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-  - `sandbox: optional object { enabled, fallback_action }`
+read\_only: optional boolean
 
-    Specify whether to enable the sandbox.
+Indicate that this setting was shared via the Orgs API and read only for the current account.
 
-    - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-      Specify whether to enable the sandbox.
+source\_account: optional string
 
-    - `fallback_action: optional "allow" or "block"`
+Indicate the account tag of the account that shared this setting.
 
-      Specify the action to take when the system cannot scan the file.
+<a href="#">Link to this property</a>
 
-      - `"allow"`
+suppress\_footer: optional boolean
 
-      - `"block"`
+Specify whether to suppress detailed information at the bottom of the block page when the mode is customized\_block\_page.
 
-  - `tls_decrypt: optional TLSSettings`
+<a href="#">Link to this property</a>
 
-    Specify whether to inspect encrypted HTTP traffic.
+target\_uri: optional string
 
-    - `enabled: optional boolean`
+Specify the URI to redirect users to when the mode is redirect\_uri.
 
-      Specify whether to inspect encrypted HTTP traffic.
+formaturi
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+version: optional number
 
-  - `code: number`
+Indicate the version number of the setting.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+body\_scanning: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20body_scanning_settings%20%3E%20(schema)">BodyScanningSettings</a> { inspection\_mode }
 
-  - `message: string`
+Specify the DLP inspection mode.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `success: true`
+<summary>
 
-  Indicate whether the API call was successful.
+inspection\_mode: optional "deep"or "shallow"
 
-  - `true`
+Specify the inspection mode as either <code>deep</code> or <code>shallow</code>.
 
-- `result: optional object { created_at, settings, updated_at }`
+</summary>
 
-  Specify account settings.
+One of the following:
 
-  - `created_at: optional string`
+"deep"
 
-  - `settings: optional GatewayConfigurationSettings`
+<a href="#">Link to this property</a>
 
-    Specify account settings.
+"shallow"
 
-    - `activity_log: optional ActivityLogSettings`
+<a href="#">Link to this property</a>
 
-      Specify activity log settings.
+</details>
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to log activity.
+</details>
 
-    - `antivirus: optional AntiVirusSettings`
+<a href="#">Link to this property</a>
 
-      Specify anti-virus settings.
+<details>
 
-      - `enabled_download_phase: optional boolean`
+<summary>
 
-        Specify whether to enable anti-virus scanning on downloads.
+browser\_isolation: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20browser_isolation_settings%20%3E%20(schema)">BrowserIsolationSettings</a> { non\_identity\_enabled, url\_browser\_isolation\_enabled }
 
-      - `enabled_upload_phase: optional boolean`
+Specify Clientless Browser Isolation settings.
 
-        Specify whether to enable anti-virus scanning on uploads.
+</summary>
 
-      - `fail_closed: optional boolean`
+non\_identity\_enabled: optional boolean
 
-        Specify whether to block requests for unscannable files.
+Specify whether to enable non-identity onramp support for Browser Isolation.
 
-      - `notification_settings: optional NotificationSettings`
+<a href="#">Link to this property</a>
 
-        Configure the message the user's device shows during an antivirus scan.
+url\_browser\_isolation\_enabled: optional boolean
 
-        - `enabled: optional boolean`
+Specify whether to enable Clientless Browser Isolation.
 
-          Specify whether to enable notifications.
+<a href="#">Link to this property</a>
 
-        - `include_context: optional boolean`
+</details>
 
-          Specify whether to include context information as query parameters.
+<a href="#">Link to this property</a>
 
-        - `msg: optional string`
+<details>
 
-          Specify the message to show in the notification.
+<summary>
 
-        - `support_url: optional string`
+certificate: optional object {id }
 
-          Specify a URL that directs users to more information. If unset, the notification opens a block page.
+Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
 
-    - `block_page: optional BlockPageSettings`
+</summary>
 
-      Specify block page layout settings.
+id: string
 
-      - `background_color: optional string`
+Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called ‘active’). A nil UUID directs Cloudflare to use the Root CA.
 
-        Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Specify whether to enable the custom block page.
+<a href="#">Link to this property</a>
 
-      - `footer_text: optional string`
+<details>
 
-        Specify the block page footer text when the mode is customized_block_page.
+<summary>
 
-      - `header_text: optional string`
+Deprecatedcustom\_certificate: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20custom_certificate_settings%20%3E%20(schema)">CustomCertificateSettings</a> { enabled, id, binding\_status, updated\_at }
 
-        Specify the block page header text when the mode is customized_block_page.
+Specify custom certificate settings for BYO-PKI. This field is deprecated; use <code>certificate</code> instead.
 
-      - `include_context: optional boolean`
+</summary>
 
-        Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.
+enabled: boolean
 
-      - `logo_path: optional string`
+Specify whether to enable a custom certificate authority for signing Gateway traffic.
 
-        Specify the full URL to the logo file when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `mailto_address: optional string`
+id: optional string
 
-        Specify the admin email for users to contact when the mode is customized_block_page.
+Specify the UUID of the certificate (ID from MTLS certificate store).
 
-      - `mailto_subject: optional string`
+<a href="#">Link to this property</a>
 
-        Specify the subject line for emails created from the block page when the mode is customized_block_page.
+binding\_status: optional string
 
-      - `mode: optional "" or "customized_block_page" or "redirect_uri"`
+Indicate the internal certificate status.
 
-        Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+<a href="#">Link to this property</a>
 
-        - `""`
+updated\_at: optional string
 
-        - `"customized_block_page"`
+formatdate-time
 
-        - `"redirect_uri"`
+<a href="#">Link to this property</a>
 
-      - `name: optional string`
+</details>
 
-        Specify the block page title when the mode is customized_block_page.
+<a href="#">Link to this property</a>
 
-      - `read_only: optional boolean`
+<details>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<summary>
 
-      - `source_account: optional string`
+extended\_email\_matching: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20extended_email_matching%20%3E%20(schema)">ExtendedEmailMatching</a> { enabled, read\_only, source\_account, version }
 
-        Indicate the account tag of the account that shared this setting.
+Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses <code>.</code> or <code>+</code> modifiers.
 
-      - `suppress_footer: optional boolean`
+</summary>
 
-        Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.
+enabled: optional boolean
 
-      - `target_uri: optional string`
+Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
 
-        Specify the URI to redirect users to when the mode is redirect_uri.
+<a href="#">Link to this property</a>
 
-      - `version: optional number`
+read\_only: optional boolean
 
-        Indicate the version number of the setting.
+Indicate that this setting was shared via the Orgs API and read only for the current account.
 
-    - `body_scanning: optional BodyScanningSettings`
+<a href="#">Link to this property</a>
 
-      Specify the DLP inspection mode.
+source\_account: optional string
 
-      - `inspection_mode: optional "deep" or "shallow"`
+Indicate the account tag of the account that shared this setting.
 
-        Specify the inspection mode as either `deep` or `shallow`.
+<a href="#">Link to this property</a>
 
-        - `"deep"`
+version: optional number
 
-        - `"shallow"`
+Indicate the version number of the setting.
 
-    - `browser_isolation: optional BrowserIsolationSettings`
+<a href="#">Link to this property</a>
 
-      Specify Clientless Browser Isolation settings.
+</details>
 
-      - `non_identity_enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable non-identity onramp support for Browser Isolation.
+<details>
 
-      - `url_browser_isolation_enabled: optional boolean`
+<summary>
 
-        Specify whether to enable Clientless Browser Isolation.
+fips: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20fips_settings%20%3E%20(schema)">FipsSettings</a> { tls }
 
-    - `certificate: optional object { id }`
+Specify FIPS settings.
 
-      Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+</summary>
 
-      - `id: string`
+tls: optional boolean
 
-        Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.
+Enforce cipher suites and TLS versions compliant with FIPS 140-2.
 
-    - `custom_certificate: optional CustomCertificateSettings`
+<a href="#">Link to this property</a>
 
-      Specify custom certificate settings for BYO-PKI. This field is deprecated; use `certificate` instead.
+</details>
 
-      - `enabled: boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable a custom certificate authority for signing Gateway traffic.
+<details>
 
-      - `id: optional string`
+<summary>
 
-        Specify the UUID of the certificate (ID from MTLS certificate store).
+host\_selector: optional object {enabled }
 
-      - `binding_status: optional string`
+Enable host selection in egress policies.
 
-        Indicate the internal certificate status.
+</summary>
 
-      - `updated_at: optional string`
+enabled: optional boolean
 
-    - `extended_email_matching: optional ExtendedEmailMatching`
+Specify whether to enable filtering via hosts for egress policies.
 
-      Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses `.` or `+` modifiers.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+</details>
 
-        Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+<a href="#">Link to this property</a>
 
-      - `read_only: optional boolean`
+<details>
 
-        Indicate that this setting was shared via the Orgs API and read only for the current account.
+<summary>
 
-      - `source_account: optional string`
+inspection: optional object {mode }
 
-        Indicate the account tag of the account that shared this setting.
+Define the proxy inspection mode.
 
-      - `version: optional number`
+</summary>
 
-        Indicate the version number of the setting.
+<details>
 
-    - `fips: optional FipsSettings`
+<summary>
 
-      Specify FIPS settings.
+mode: optional "static"or "dynamic"
 
-      - `tls: optional boolean`
+Define the proxy inspection mode. 1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443). 2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
 
-        Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+</summary>
 
-    - `host_selector: optional object { enabled }`
+One of the following:
 
-      Enable host selection in egress policies.
+"static"
 
-      - `enabled: optional boolean`
+<a href="#">Link to this property</a>
 
-        Specify whether to enable filtering via hosts for egress policies.
+"dynamic"
 
-    - `inspection: optional object { mode }`
+<a href="#">Link to this property</a>
 
-      Define the proxy inspection mode.
+</details>
 
-      - `mode: optional "static" or "dynamic"`
+<a href="#">Link to this property</a>
 
-        Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+</details>
 
-        - `"static"`
+<a href="#">Link to this property</a>
 
-        - `"dynamic"`
+max\_ttl\_secs: optional number
 
-    - `max_ttl_secs: optional number`
+Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location <code>max_ttl</code> setting.
 
-      Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.
+maximum36000
 
-    - `protocol_detection: optional ProtocolDetection`
+minimum60
 
-      Specify whether to detect protocols from the initial bytes of client traffic.
+<a href="#">Link to this property</a>
 
-      - `enabled: optional boolean`
+<details>
 
-        Specify whether to detect protocols from the initial bytes of client traffic.
+<summary>
 
-    - `sandbox: optional object { enabled, fallback_action }`
+protocol\_detection: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20protocol_detection%20%3E%20(schema)">ProtocolDetection</a> { enabled }
 
-      Specify whether to enable the sandbox.
+Specify whether to detect protocols from the initial bytes of client traffic.
 
-      - `enabled: optional boolean`
+</summary>
 
-        Specify whether to enable the sandbox.
+enabled: optional boolean
 
-      - `fallback_action: optional "allow" or "block"`
+Specify whether to detect protocols from the initial bytes of client traffic.
 
-        Specify the action to take when the system cannot scan the file.
+<a href="#">Link to this property</a>
 
-        - `"allow"`
+</details>
 
-        - `"block"`
+<a href="#">Link to this property</a>
 
-    - `tls_decrypt: optional TLSSettings`
+<details>
 
-      Specify whether to inspect encrypted HTTP traffic.
+<summary>
 
-      - `enabled: optional boolean`
+sandbox: optional object {enabled, fallback\_action }
 
-        Specify whether to inspect encrypted HTTP traffic.
+Specify whether to enable the sandbox.
 
-  - `updated_at: optional string`
+</summary>
 
-### Example
+enabled: optional boolean
 
-```http
+Specify whether to enable the sandbox.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fallback\_action: optional "allow"or "block"
+
+Specify the action to take when the system cannot scan the file.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tls\_decrypt: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20tls_settings%20%3E%20(schema)">TLSSettings</a> { enabled }
+
+Specify whether to inspect encrypted HTTP traffic.
+
+</summary>
+
+enabled: optional boolean
+
+Specify whether to inspect encrypted HTTP traffic.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20settings%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Indicate whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {created\_at, settings, updated\_at }
+
+Specify account settings.
+
+</summary>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20gateway_configuration_settings%20%3E%20(schema)">GatewayConfigurationSettings</a> { activity\_log, antivirus, block\_page, 12 more }
+
+Specify account settings.
+
+</summary>
+
+<details>
+
+<summary>
+
+activity\_log: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20activity_log_settings%20%3E%20(schema)">ActivityLogSettings</a> { enabled }
+
+Specify activity log settings.
+
+</summary>
+
+enabled: optional boolean
+
+Specify whether to log activity.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+antivirus: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20anti_virus_settings%20%3E%20(schema)">AntiVirusSettings</a> { enabled\_download\_phase, enabled\_upload\_phase, fail\_closed, notification\_settings }
+
+Specify anti-virus settings.
+
+</summary>
+
+enabled\_download\_phase: optional boolean
+
+Specify whether to enable anti-virus scanning on downloads.
+
+<a href="#">Link to this property</a>
+
+enabled\_upload\_phase: optional boolean
+
+Specify whether to enable anti-virus scanning on uploads.
+
+<a href="#">Link to this property</a>
+
+fail\_closed: optional boolean
+
+Specify whether to block requests for unscannable files.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+notification\_settings: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20notification_settings%20%3E%20(schema)">NotificationSettings</a> { enabled, include\_context, msg, support\_url }
+
+Configure the message the user’s device shows during an antivirus scan.
+
+</summary>
+
+enabled: optional boolean
+
+Specify whether to enable notifications.
+
+<a href="#">Link to this property</a>
+
+include\_context: optional boolean
+
+Specify whether to include context information as query parameters.
+
+<a href="#">Link to this property</a>
+
+msg: optional string
+
+Specify the message to show in the notification.
+
+<a href="#">Link to this property</a>
+
+support\_url: optional string
+
+Specify a URL that directs users to more information. If unset, the notification opens a block page.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+block\_page: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20block_page_settings%20%3E%20(schema)">BlockPageSettings</a> { background\_color, enabled, footer\_text, 12 more }
+
+Specify block page layout settings.
+
+</summary>
+
+background\_color: optional string
+
+Specify the block page background color in <code>#rrggbb</code> format when the mode is customized\_block\_page.
+
+<a href="#">Link to this property</a>
+
+enabled: optional boolean
+
+Specify whether to enable the custom block page.
+
+<a href="#">Link to this property</a>
+
+footer\_text: optional string
+
+Specify the block page footer text when the mode is customized\_block\_page.
+
+<a href="#">Link to this property</a>
+
+header\_text: optional string
+
+Specify the block page header text when the mode is customized\_block\_page.
+
+<a href="#">Link to this property</a>
+
+include\_context: optional boolean
+
+Specify whether to append context to target\_uri as query parameters. This applies only when the mode is redirect\_uri.
+
+<a href="#">Link to this property</a>
+
+logo\_path: optional string
+
+Specify the full URL to the logo file when the mode is customized\_block\_page.
+
+<a href="#">Link to this property</a>
+
+mailto\_address: optional string
+
+Specify the admin email for users to contact when the mode is customized\_block\_page.
+
+<a href="#">Link to this property</a>
+
+mailto\_subject: optional string
+
+Specify the subject line for emails created from the block page when the mode is customized\_block\_page.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mode: optional ""or "customized\_block\_page"or "redirect\_uri"
+
+Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.
+
+</summary>
+
+One of the following:
+
+""
+
+<a href="#">Link to this property</a>
+
+"customized\_block\_page"
+
+<a href="#">Link to this property</a>
+
+"redirect\_uri"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+Specify the block page title when the mode is customized\_block\_page.
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicate that this setting was shared via the Orgs API and read only for the current account.
+
+<a href="#">Link to this property</a>
+
+source\_account: optional string
+
+Indicate the account tag of the account that shared this setting.
+
+<a href="#">Link to this property</a>
+
+suppress\_footer: optional boolean
+
+Specify whether to suppress detailed information at the bottom of the block page when the mode is customized\_block\_page.
+
+<a href="#">Link to this property</a>
+
+target\_uri: optional string
+
+Specify the URI to redirect users to when the mode is redirect\_uri.
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+Indicate the version number of the setting.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+body\_scanning: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20body_scanning_settings%20%3E%20(schema)">BodyScanningSettings</a> { inspection\_mode }
+
+Specify the DLP inspection mode.
+
+</summary>
+
+<details>
+
+<summary>
+
+inspection\_mode: optional "deep"or "shallow"
+
+Specify the inspection mode as either <code>deep</code> or <code>shallow</code>.
+
+</summary>
+
+One of the following:
+
+"deep"
+
+<a href="#">Link to this property</a>
+
+"shallow"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+browser\_isolation: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20browser_isolation_settings%20%3E%20(schema)">BrowserIsolationSettings</a> { non\_identity\_enabled, url\_browser\_isolation\_enabled }
+
+Specify Clientless Browser Isolation settings.
+
+</summary>
+
+non\_identity\_enabled: optional boolean
+
+Specify whether to enable non-identity onramp support for Browser Isolation.
+
+<a href="#">Link to this property</a>
+
+url\_browser\_isolation\_enabled: optional boolean
+
+Specify whether to enable Clientless Browser Isolation.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+certificate: optional object {id }
+
+Specify certificate settings for Gateway TLS interception. If unset, the Cloudflare Root CA handles interception.
+
+</summary>
+
+id: string
+
+Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called ‘active’). A nil UUID directs Cloudflare to use the Root CA.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedcustom\_certificate: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20custom_certificate_settings%20%3E%20(schema)">CustomCertificateSettings</a> { enabled, id, binding\_status, updated\_at }
+
+Specify custom certificate settings for BYO-PKI. This field is deprecated; use <code>certificate</code> instead.
+
+</summary>
+
+enabled: boolean
+
+Specify whether to enable a custom certificate authority for signing Gateway traffic.
+
+<a href="#">Link to this property</a>
+
+id: optional string
+
+Specify the UUID of the certificate (ID from MTLS certificate store).
+
+<a href="#">Link to this property</a>
+
+binding\_status: optional string
+
+Indicate the internal certificate status.
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+extended\_email\_matching: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20extended_email_matching%20%3E%20(schema)">ExtendedEmailMatching</a> { enabled, read\_only, source\_account, version }
+
+Configures user email settings for firewall policies. When you enable this, the system standardizes email addresses in the identity portion of the rule to match extended email variants in firewall policies. When you disable this setting, the system matches email addresses exactly as you provide them. Enable this setting if your email uses <code>.</code> or <code>+</code> modifiers.
+
+</summary>
+
+enabled: optional boolean
+
+Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.
+
+<a href="#">Link to this property</a>
+
+read\_only: optional boolean
+
+Indicate that this setting was shared via the Orgs API and read only for the current account.
+
+<a href="#">Link to this property</a>
+
+source\_account: optional string
+
+Indicate the account tag of the account that shared this setting.
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+Indicate the version number of the setting.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fips: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20fips_settings%20%3E%20(schema)">FipsSettings</a> { tls }
+
+Specify FIPS settings.
+
+</summary>
+
+tls: optional boolean
+
+Enforce cipher suites and TLS versions compliant with FIPS 140-2.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+host\_selector: optional object {enabled }
+
+Enable host selection in egress policies.
+
+</summary>
+
+enabled: optional boolean
+
+Specify whether to enable filtering via hosts for egress policies.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inspection: optional object {mode }
+
+Define the proxy inspection mode.
+
+</summary>
+
+<details>
+
+<summary>
+
+mode: optional "static"or "dynamic"
+
+Define the proxy inspection mode. 1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443). 2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.
+
+</summary>
+
+One of the following:
+
+"static"
+
+<a href="#">Link to this property</a>
+
+"dynamic"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+max\_ttl\_secs: optional number
+
+Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location <code>max_ttl</code> setting.
+
+maximum36000
+
+minimum60
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+protocol\_detection: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20protocol_detection%20%3E%20(schema)">ProtocolDetection</a> { enabled }
+
+Specify whether to detect protocols from the initial bytes of client traffic.
+
+</summary>
+
+enabled: optional boolean
+
+Specify whether to detect protocols from the initial bytes of client traffic.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+sandbox: optional object {enabled, fallback\_action }
+
+Specify whether to enable the sandbox.
+
+</summary>
+
+enabled: optional boolean
+
+Specify whether to enable the sandbox.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+fallback\_action: optional "allow"or "block"
+
+Specify the action to take when the system cannot scan the file.
+
+</summary>
+
+One of the following:
+
+"allow"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+tls\_decrypt: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.gateway.configurations%20%3E%20(model)%20tls_settings%20%3E%20(schema)">TLSSettings</a> { enabled }
+
+Specify whether to inspect encrypted HTTP traffic.
+
+</summary>
+
+enabled: optional boolean
+
+Specify whether to inspect encrypted HTTP traffic.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.gateway.configurations%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Update Zero Trust account configuration
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configuration \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -562,9 +1324,118 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/configura
     -d '{}'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "settings": {
+      "activity_log": {
+        "enabled": true
+      },
+      "antivirus": {
+        "enabled_download_phase": false,
+        "enabled_upload_phase": false,
+        "fail_closed": false,
+        "notification_settings": {
+          "enabled": true,
+          "include_context": true,
+          "msg": "msg",
+          "support_url": "support_url"
+        }
+      },
+      "block_page": {
+        "background_color": "background_color",
+        "enabled": true,
+        "footer_text": "--footer--",
+        "header_text": "--header--",
+        "include_context": true,
+        "logo_path": "https://logos.com/a.png",
+        "mailto_address": "admin@example.com",
+        "mailto_subject": "Blocked User Inquiry",
+        "mode": "",
+        "name": "Cloudflare",
+        "read_only": true,
+        "source_account": "source_account",
+        "suppress_footer": false,
+        "target_uri": "https://example.com",
+        "version": 1
+      },
+      "body_scanning": {
+        "inspection_mode": "deep"
+      },
+      "browser_isolation": {
+        "non_identity_enabled": true,
+        "url_browser_isolation_enabled": true
+      },
+      "certificate": {
+        "id": "d1b364c5-1311-466e-a194-f0e943e0799f"
+      },
+      "custom_certificate": {
+        "enabled": true,
+        "id": "d1b364c5-1311-466e-a194-f0e943e0799f",
+        "binding_status": "pending_deployment",
+        "updated_at": "2019-12-27T18:11:19.117Z"
+      },
+      "extended_email_matching": {
+        "enabled": true,
+        "read_only": true,
+        "source_account": "source_account",
+        "version": 1
+      },
+      "fips": {
+        "tls": true
+      },
+      "host_selector": {
+        "enabled": false
+      },
+      "inspection": {
+        "mode": "static"
+      },
+      "max_ttl_secs": 3600,
+      "protocol_detection": {
+        "enabled": true
+      },
+      "sandbox": {
+        "enabled": true,
+        "fallback_action": "allow"
+      },
+      "tls_decrypt": {
+        "enabled": true
+      }
+    },
+    "updated_at": "2014-01-01T05:20:00.12345Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

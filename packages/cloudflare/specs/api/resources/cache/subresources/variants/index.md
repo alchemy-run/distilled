@@ -1,707 +1,317 @@
+---
+title: Variants
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cache](https://developers.cloudflare.com/api/resources/cache)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Variants
 
-## Get variants setting
+##### [Get variants setting](https://developers.cloudflare.com/api/resources/cache/subresources/variants/methods/get)
 
-**get** `/zones/{zone_id}/cache/variants`
+GET/zones/{zone\_id}/cache/variants
 
-Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the 'Vary: Accept' response header. If the origin server sends 'Vary: Accept' but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
+##### [Change variants setting](https://developers.cloudflare.com/api/resources/cache/subresources/variants/methods/edit)
 
-### Path Parameters
+PATCH/zones/{zone\_id}/cache/variants
 
-- `zone_id: string`
+##### [Delete variants setting](https://developers.cloudflare.com/api/resources/cache/subresources/variants/methods/delete)
 
-  Identifier.
+DELETE/zones/{zone\_id}/cache/variants
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+CacheVariant object {id, modified\_on }
 
-  - `documentation_url: optional string`
+Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the ‘Vary: Accept’ response header. If the origin server sends ‘Vary: Accept’ but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: "variants"
 
-- `messages: array of ResponseInfo`
+ID of the zone setting.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_on: optional string
 
-  - `documentation_url: optional string`
+Last time this setting was modified.
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+[Link to this property](#)%20cache.variants%20%3E%20(model)%20cache_variant%20%3E%20(schema)>)
 
-- `result: optional object { id, editable, value, modified_on }`
+<details>
 
-  - `id: "variants"`
+<summary>
 
-    The identifier of the caching setting.
+VariantGetResponse object {id, editable, value, modified\_on }
 
-    - `"variants"`
+</summary>
 
-  - `editable: boolean`
+id: "variants"
 
-    Whether the setting is editable.
+The identifier of the caching setting.
 
-  - `value: object { avif, bmp, gif, 8 more }`
+<a href="#">Link to this property</a>
 
-    Value of the zone setting.
+editable: boolean
 
-    - `avif: optional array of string`
+Whether the setting is editable.
 
-      List of strings with the MIME types of all the variants that should be served for avif.
+<a href="#">Link to this property</a>
 
-    - `bmp: optional array of string`
+<details>
 
-      List of strings with the MIME types of all the variants that should be served for bmp.
+<summary>
 
-    - `gif: optional array of string`
+value: object {avif, bmp, gif, 8 more }
 
-      List of strings with the MIME types of all the variants that should be served for gif.
+Value of the zone setting.
 
-    - `jp2: optional array of string`
+</summary>
 
-      List of strings with the MIME types of all the variants that should be served for jp2.
+avif: optional array of string
 
-    - `jpeg: optional array of string`
+List of strings with the MIME types of all the variants that should be served for avif.
 
-      List of strings with the MIME types of all the variants that should be served for jpeg.
+<a href="#">Link to this property</a>
 
-    - `jpg: optional array of string`
+bmp: optional array of string
 
-      List of strings with the MIME types of all the variants that should be served for jpg.
+List of strings with the MIME types of all the variants that should be served for bmp.
 
-    - `jpg2: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for jpg2.
+gif: optional array of string
 
-    - `png: optional array of string`
+List of strings with the MIME types of all the variants that should be served for gif.
 
-      List of strings with the MIME types of all the variants that should be served for png.
+<a href="#">Link to this property</a>
 
-    - `tif: optional array of string`
+jp2: optional array of string
 
-      List of strings with the MIME types of all the variants that should be served for tif.
+List of strings with the MIME types of all the variants that should be served for jp2.
 
-    - `tiff: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for tiff.
+jpeg: optional array of string
 
-    - `webp: optional array of string`
+List of strings with the MIME types of all the variants that should be served for jpeg.
 
-      List of strings with the MIME types of all the variants that should be served for webp.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/variants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "variants",
-    "editable": true,
-    "value": {
-      "avif": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "bmp": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "gif": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "jp2": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpeg": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpg": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpg2": [
-        "image/webp",
-        "image/avif"
-      ],
-      "png": [
-        "image/webp",
-        "image/avif"
-      ],
-      "tif": [
-        "image/webp",
-        "image/avif"
-      ],
-      "tiff": [
-        "image/webp",
-        "image/avif"
-      ],
-      "webp": [
-        "image/jpeg",
-        "image/avif"
-      ]
-    },
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Change variants setting
+jpg: optional array of string
 
-**patch** `/zones/{zone_id}/cache/variants`
+List of strings with the MIME types of all the variants that should be served for jpg.
 
-Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the 'Vary: Accept' response header. If the origin server sends 'Vary: Accept' but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+jpg2: optional array of string
 
-- `zone_id: string`
+List of strings with the MIME types of all the variants that should be served for jpg2.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+png: optional array of string
 
-- `value: object { avif, bmp, gif, 8 more }`
+List of strings with the MIME types of all the variants that should be served for png.
 
-  Value of the zone setting.
+<a href="#">Link to this property</a>
 
-  - `avif: optional array of string`
+tif: optional array of string
 
-    List of strings with the MIME types of all the variants that should be served for avif.
+List of strings with the MIME types of all the variants that should be served for tif.
 
-  - `bmp: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of strings with the MIME types of all the variants that should be served for bmp.
+tiff: optional array of string
 
-  - `gif: optional array of string`
+List of strings with the MIME types of all the variants that should be served for tiff.
 
-    List of strings with the MIME types of all the variants that should be served for gif.
+<a href="#">Link to this property</a>
 
-  - `jp2: optional array of string`
+webp: optional array of string
 
-    List of strings with the MIME types of all the variants that should be served for jp2.
+List of strings with the MIME types of all the variants that should be served for webp.
 
-  - `jpeg: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of strings with the MIME types of all the variants that should be served for jpeg.
+</details>
 
-  - `jpg: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of strings with the MIME types of all the variants that should be served for jpg.
+modified\_on: optional string
 
-  - `jpg2: optional array of string`
+Last time this setting was modified.
 
-    List of strings with the MIME types of all the variants that should be served for jpg2.
+formatdate-time
 
-  - `png: optional array of string`
+<a href="#">Link to this property</a>
 
-    List of strings with the MIME types of all the variants that should be served for png.
+</details>
 
-  - `tif: optional array of string`
+[Link to this property](#)%20cache.variants%20%3E%20(model)%20variant_get_response%20%3E%20(schema)>)
 
-    List of strings with the MIME types of all the variants that should be served for tif.
+<details>
 
-  - `tiff: optional array of string`
+<summary>
 
-    List of strings with the MIME types of all the variants that should be served for tiff.
+VariantEditResponse object {id, editable, value, modified\_on }
 
-  - `webp: optional array of string`
+</summary>
 
-    List of strings with the MIME types of all the variants that should be served for webp.
+id: "variants"
 
-### Returns
+The identifier of the caching setting.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+editable: boolean
 
-  - `message: string`
+Whether the setting is editable.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+value: object {avif, bmp, gif, 8 more }
 
-  - `code: number`
+Value of the zone setting.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+avif: optional array of string
 
-  - `source: optional object { pointer }`
+List of strings with the MIME types of all the variants that should be served for avif.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+bmp: optional array of string
 
-  - `true`
+List of strings with the MIME types of all the variants that should be served for bmp.
 
-- `result: optional object { id, editable, value, modified_on }`
+<a href="#">Link to this property</a>
 
-  - `id: "variants"`
+gif: optional array of string
 
-    The identifier of the caching setting.
+List of strings with the MIME types of all the variants that should be served for gif.
 
-    - `"variants"`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+jp2: optional array of string
 
-    Whether the setting is editable.
+List of strings with the MIME types of all the variants that should be served for jp2.
 
-  - `value: object { avif, bmp, gif, 8 more }`
+<a href="#">Link to this property</a>
 
-    Value of the zone setting.
+jpeg: optional array of string
 
-    - `avif: optional array of string`
+List of strings with the MIME types of all the variants that should be served for jpeg.
 
-      List of strings with the MIME types of all the variants that should be served for avif.
+<a href="#">Link to this property</a>
 
-    - `bmp: optional array of string`
+jpg: optional array of string
 
-      List of strings with the MIME types of all the variants that should be served for bmp.
+List of strings with the MIME types of all the variants that should be served for jpg.
 
-    - `gif: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for gif.
+jpg2: optional array of string
 
-    - `jp2: optional array of string`
+List of strings with the MIME types of all the variants that should be served for jpg2.
 
-      List of strings with the MIME types of all the variants that should be served for jp2.
+<a href="#">Link to this property</a>
 
-    - `jpeg: optional array of string`
+png: optional array of string
 
-      List of strings with the MIME types of all the variants that should be served for jpeg.
+List of strings with the MIME types of all the variants that should be served for png.
 
-    - `jpg: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for jpg.
+tif: optional array of string
 
-    - `jpg2: optional array of string`
+List of strings with the MIME types of all the variants that should be served for tif.
 
-      List of strings with the MIME types of all the variants that should be served for jpg2.
+<a href="#">Link to this property</a>
 
-    - `png: optional array of string`
+tiff: optional array of string
 
-      List of strings with the MIME types of all the variants that should be served for png.
+List of strings with the MIME types of all the variants that should be served for tiff.
 
-    - `tif: optional array of string`
+<a href="#">Link to this property</a>
 
-      List of strings with the MIME types of all the variants that should be served for tif.
+webp: optional array of string
 
-    - `tiff: optional array of string`
+List of strings with the MIME types of all the variants that should be served for webp.
 
-      List of strings with the MIME types of all the variants that should be served for tiff.
+<a href="#">Link to this property</a>
 
-    - `webp: optional array of string`
+</details>
 
-      List of strings with the MIME types of all the variants that should be served for webp.
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+modified\_on: optional string
 
-    Last time this setting was modified.
+Last time this setting was modified.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/variants \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": {}
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "variants",
-    "editable": true,
-    "value": {
-      "avif": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "bmp": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "gif": [
-        "image/webp",
-        "image/jpeg"
-      ],
-      "jp2": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpeg": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpg": [
-        "image/webp",
-        "image/avif"
-      ],
-      "jpg2": [
-        "image/webp",
-        "image/avif"
-      ],
-      "png": [
-        "image/webp",
-        "image/avif"
-      ],
-      "tif": [
-        "image/webp",
-        "image/avif"
-      ],
-      "tiff": [
-        "image/webp",
-        "image/avif"
-      ],
-      "webp": [
-        "image/jpeg",
-        "image/avif"
-      ]
-    },
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+[Link to this property](#)%20cache.variants%20%3E%20(model)%20variant_edit_response%20%3E%20(schema)>)
 
-## Delete variants setting
+<details>
 
-**delete** `/zones/{zone_id}/cache/variants`
+<summary>
 
-Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the 'Vary: Accept' response header. If the origin server sends 'Vary: Accept' but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
+VariantDeleteResponse object {id, editable, modified\_on }
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+id: "variants"
 
-  Identifier.
+The identifier of the caching setting.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of ResponseInfo`
+editable: boolean
 
-  - `code: number`
+Whether the setting is editable.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_on: optional string
 
-  - `source: optional object { pointer }`
+Last time this setting was modified.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id, editable, modified_on }`
-
-  - `id: "variants"`
-
-    The identifier of the caching setting.
-
-    - `"variants"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/variants \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "variants",
-    "editable": true,
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
-
-## Domain Types
-
-### Cache Variant
-
-- `CacheVariant object { id, modified_on }`
-
-  Variant support enables caching variants of images with certain file extensions in addition to the original. This only applies when the origin server sends the 'Vary: Accept' response header. If the origin server sends 'Vary: Accept' but does not serve the variant requested, the response will not be cached. This will be indicated with BYPASS cache status in the response headers.
-
-  - `id: "variants"`
-
-    ID of the zone setting.
-
-    - `"variants"`
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Variant Get Response
-
-- `VariantGetResponse object { id, editable, value, modified_on }`
-
-  - `id: "variants"`
-
-    The identifier of the caching setting.
-
-    - `"variants"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: object { avif, bmp, gif, 8 more }`
-
-    Value of the zone setting.
-
-    - `avif: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for avif.
-
-    - `bmp: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for bmp.
-
-    - `gif: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for gif.
-
-    - `jp2: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for jp2.
-
-    - `jpeg: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for jpeg.
-
-    - `jpg: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for jpg.
-
-    - `jpg2: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for jpg2.
-
-    - `png: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for png.
-
-    - `tif: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for tif.
-
-    - `tiff: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for tiff.
-
-    - `webp: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for webp.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Variant Edit Response
-
-- `VariantEditResponse object { id, editable, value, modified_on }`
-
-  - `id: "variants"`
-
-    The identifier of the caching setting.
-
-    - `"variants"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `value: object { avif, bmp, gif, 8 more }`
-
-    Value of the zone setting.
-
-    - `avif: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for avif.
-
-    - `bmp: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for bmp.
-
-    - `gif: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for gif.
-
-    - `jp2: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for jp2.
-
-    - `jpeg: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for jpeg.
-
-    - `jpg: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for jpg.
-
-    - `jpg2: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for jpg2.
-
-    - `png: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for png.
-
-    - `tif: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for tif.
-
-    - `tiff: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for tiff.
-
-    - `webp: optional array of string`
-
-      List of strings with the MIME types of all the variants that should be served for webp.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
-
-### Variant Delete Response
-
-- `VariantDeleteResponse object { id, editable, modified_on }`
-
-  - `id: "variants"`
-
-    The identifier of the caching setting.
-
-    - `"variants"`
-
-  - `editable: boolean`
-
-    Whether the setting is editable.
-
-  - `modified_on: optional string`
-
-    Last time this setting was modified.
+[Link to this property](#)%20cache.variants%20%3E%20(model)%20variant_delete_response%20%3E%20(schema)>)

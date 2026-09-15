@@ -1,4366 +1,2923 @@
+---
+title: SSL
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # SSL
 
-# Analyze
+#### SSLAnalyze
 
-## Analyze Certificate
+##### [Analyze Certificate](https://developers.cloudflare.com/api/resources/ssl/subresources/analyze/methods/create)
 
-**post** `/zones/{zone_id}/ssl/analyze`
+POST/zones/{zone\_id}/ssl/analyze
 
-Returns the set of hostnames, the signature algorithm, and the expiration date of the certificate.
+##### ModelsExpand Collapse
 
-### Path Parameters
+AnalyzeCreateResponse = unknown
 
-- `zone_id: string`
+[Link to this property](#)%20ssl.analyze%20%3E%20(model)%20analyze_create_response%20%3E%20(schema)>)
 
-  Identifier.
+#### SSLCertificate Packs
 
-### Body Parameters
+##### [List Certificate Packs](https://developers.cloudflare.com/api/resources/ssl/subresources/certificate_packs/methods/list)
 
-- `bundle_method: optional BundleMethod`
+GET/zones/{zone\_id}/ssl/certificate\_packs
 
-  A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.
+##### [Get Certificate Pack](https://developers.cloudflare.com/api/resources/ssl/subresources/certificate_packs/methods/get)
 
-  - `"ubiquitous"`
+GET/zones/{zone\_id}/ssl/certificate\_packs/{certificate\_pack\_id}
 
-  - `"optimal"`
+##### [Order Advanced Certificate Manager Certificate Pack](https://developers.cloudflare.com/api/resources/ssl/subresources/certificate_packs/methods/create)
 
-  - `"force"`
+POST/zones/{zone\_id}/ssl/certificate\_packs/order
 
-- `certificate: optional string`
+##### [Restart Validation or Update Advanced Certificate Manager Certificate Pack](https://developers.cloudflare.com/api/resources/ssl/subresources/certificate_packs/methods/edit)
 
-  The zone's SSL certificate or certificate and the intermediate(s).
+PATCH/zones/{zone\_id}/ssl/certificate\_packs/{certificate\_pack\_id}
 
-### Returns
+##### [Delete Advanced Certificate Manager Certificate Pack](https://developers.cloudflare.com/api/resources/ssl/subresources/certificate_packs/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/zones/{zone\_id}/ssl/certificate\_packs/{certificate\_pack\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+Host = string
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20host%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+RequestValidity = 7or 30or 90or 4 more
 
-  - `code: number`
+The number of days for which the certificate should be valid.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+7
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+30
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+90
 
-- `result: optional unknown`
+<a href="#">Link to this property</a>
 
-### Example
+365
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/analyze \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "bundle_method": "ubiquitous",
-          "certificate": "-----BEGIN CERTIFICATE-----\\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV\\nBAYTAkFVMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX\\naWRnaXRzIFB0eSBMdGQwHhcNMTYwODI0MTY0MzAxWhcNMTYxMTIyMTY0MzAxWjBF\\nMQswCQYDVQQGEwJBVTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50\\nZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\\nCgKCAQEAwQHoetcl9+5ikGzV6cMzWtWPJHqXT3wpbEkRU9Yz7lgvddmGdtcGbg/1\\nCGZu0jJGkMoppoUo4c3dts3iwqRYmBikUP77wwY2QGmDZw2FvkJCJlKnabIRuGvB\\nKwzESIXgKk2016aTP6/dAjEHyo6SeoK8lkIySUvK0fyOVlsiEsCmOpidtnKX/a+5\\n0GjB79CJH4ER2lLVZnhePFR/zUOyPxZQQ4naHf7yu/b5jhO0f8fwt+pyFxIXjbEI\\ndZliWRkRMtzrHOJIhrmJ2A1J7iOrirbbwillwjjNVUWPf3IJ3M12S9pEewooaeO2\\nizNTERcG9HzAacbVRn2Y2SWIyT/18QIDAQABo4GnMIGkMB0GA1UdDgQWBBT/LbE4\\n9rWf288N6sJA5BRb6FJIGDB1BgNVHSMEbjBsgBT/LbE49rWf288N6sJA5BRb6FJI\\nGKFJpEcwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNV\\nBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZIIJAMHAwfXZ5/PWMAwGA1UdEwQF\\nMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHHFwl0tH0quUYZYO0dZYt4R7SJ0pCm2\\n2satiyzHl4OnXcHDpekAo7/a09c6Lz6AU83cKy/+x3/djYHXWba7HpEu0dR3ugQP\\nMlr4zrhd9xKZ0KZKiYmtJH+ak4OM4L3FbT0owUZPyjLSlhMtJVcoRp5CJsjAMBUG\\nSvD8RX+T01wzox/Qb+lnnNnOlaWpqu8eoOenybxKp1a9ULzIVvN/LAcc+14vioFq\\n2swRWtmocBAs8QR9n4uvbpiYvS8eYueDCWMM4fvFfBhaDZ3N9IbtySh3SpFdQDhw\\nYbjM2rxXiyLGxB4Bol7QTv4zHif7Zt89FReT/NBy4rzaskDJY5L6xmY=\\n-----END CERTIFICATE-----\\n"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+730
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {}
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+1095
 
-### Analyze Create Response
+<a href="#">Link to this property</a>
 
-- `AnalyzeCreateResponse = unknown`
+5475
 
-# Certificate Packs
+<a href="#">Link to this property</a>
 
-## List Certificate Packs
+</details>
 
-**get** `/zones/{zone_id}/ssl/certificate_packs`
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20request_validity%20%3E%20(schema)>)
 
-For a given zone, list all active certificate packs.
+<details>
 
-### Path Parameters
+<summary>
 
-- `zone_id: string`
+Status = "initializing"or "pending\_validation"or "deleted"or 18 more
 
-  Identifier.
+Status of certificate pack.
 
-### Query Parameters
+</summary>
 
-- `deploy: optional "staging" or "production"`
+One of the following:
 
-  Specify the deployment environment for the certificate packs.
+"initializing"
 
-  - `"staging"`
+<a href="#">Link to this property</a>
 
-  - `"production"`
+"pending\_validation"
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Page number of paginated results.
+"deleted"
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  Number of certificate packs per page.
+"pending\_issuance"
 
-- `status: optional "all"`
+<a href="#">Link to this property</a>
 
-  Include Certificate Packs of all statuses, not just active ones.
+"pending\_deployment"
 
-  - `"all"`
+<a href="#">Link to this property</a>
 
-### Returns
+"pending\_deletion"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"pending\_expiration"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"expired"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"active"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"initializing\_timed\_out"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"validation\_timed\_out"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"issuance\_timed\_out"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"deployment\_timed\_out"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, certificates, hosts, 10 more }`
+"deletion\_timed\_out"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+"pending\_cleanup"
 
-  - `certificates: array of object { id, hosts, status, 9 more }`
+<a href="#">Link to this property</a>
 
-    Array of certificates in this pack.
+"staging\_deployment"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Certificate identifier.
+"staging\_active"
 
-    - `hosts: array of string`
+<a href="#">Link to this property</a>
 
-      Hostnames covered by this certificate.
+"deactivating"
 
-    - `status: string`
+<a href="#">Link to this property</a>
 
-      Certificate status.
+"inactive"
 
-    - `bundle_method: optional string`
+<a href="#">Link to this property</a>
 
-      Certificate bundle method.
+"backup\_issued"
 
-    - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-      When the certificate from the authority expires.
+"holding\_deployment"
 
-    - `geo_restrictions: optional object { label }`
+<a href="#">Link to this property</a>
 
-      Specify the region where your private key can be held locally.
+</details>
 
-      - `label: optional "us" or "eu" or "highest_security"`
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20status%20%3E%20(schema)>)
 
-        - `"us"`
+<details>
 
-        - `"eu"`
+<summary>
 
-        - `"highest_security"`
+ValidationMethod = "http"or "cname"or "txt"
 
-    - `issuer: optional string`
+Validation method in use for a certificate pack order.
 
-      The certificate authority that issued the certificate.
+</summary>
 
-    - `modified_on: optional string`
+One of the following:
 
-      When the certificate was last modified.
+"http"
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      The order/priority in which the certificate will be used.
+"cname"
 
-    - `signature: optional string`
+<a href="#">Link to this property</a>
 
-      The type of hash used for the certificate.
+"txt"
 
-    - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-      When the certificate was uploaded to Cloudflare.
+</details>
 
-    - `zone_id: optional string`
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20validation_method%20%3E%20(schema)>)
 
-      Identifier.
+<details>
 
-  - `hosts: array of Host`
+<summary>
 
-    Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+CertificatePackListResponse object {id, certificates, hosts, 10 more }
 
-  - `status: Status`
+A certificate pack with all its properties.
 
-    Status of certificate pack.
+</summary>
 
-    - `"initializing"`
+id: string
 
-    - `"pending_validation"`
+Identifier.
 
-    - `"deleted"`
+maxLength32
 
-    - `"pending_issuance"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deployment"`
+<details>
 
-    - `"pending_deletion"`
+<summary>
 
-    - `"pending_expiration"`
+certificates: array of object {id, hosts, status, 9 more }
 
-    - `"expired"`
+Array of certificates in this pack.
 
-    - `"active"`
+</summary>
 
-    - `"initializing_timed_out"`
+id: string
 
-    - `"validation_timed_out"`
+Certificate identifier.
 
-    - `"issuance_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deployment_timed_out"`
+hosts: array of string
 
-    - `"deletion_timed_out"`
+Hostnames covered by this certificate.
 
-    - `"pending_cleanup"`
+<a href="#">Link to this property</a>
 
-    - `"staging_deployment"`
+status: string
 
-    - `"staging_active"`
+Certificate status.
 
-    - `"deactivating"`
+<a href="#">Link to this property</a>
 
-    - `"inactive"`
+bundle\_method: optional string
 
-    - `"backup_issued"`
+Certificate bundle method.
 
-    - `"holding_deployment"`
+<a href="#">Link to this property</a>
 
-  - `type: "mh_custom" or "managed_hostname" or "sni_custom" or 5 more`
+expires\_on: optional string
 
-    Type of certificate pack.
+When the certificate from the authority expires.
 
-    - `"mh_custom"`
+formatdate-time
 
-    - `"managed_hostname"`
+<a href="#">Link to this property</a>
 
-    - `"sni_custom"`
+<details>
 
-    - `"universal"`
+<summary>
 
-    - `"advanced"`
+geo\_restrictions: optional object {label }
 
-    - `"total_tls"`
+Specify the region where your private key can be held locally.
 
-    - `"keyless"`
+</summary>
 
-    - `"legacy_custom"`
+<details>
 
-  - `certificate_authority: optional "google" or "lets_encrypt" or "ssl_com"`
+<summary>
 
-    Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+label: optional "us"or "eu"or "highest\_security"
 
-    - `"google"`
+</summary>
 
-    - `"lets_encrypt"`
+One of the following:
 
-    - `"ssl_com"`
+"us"
 
-  - `cloudflare_branding: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+"eu"
 
-  - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+<a href="#">Link to this property</a>
 
-    DCV Delegation records for domain validation.
+"highest\_security"
 
-    - `cname: optional string`
+<a href="#">Link to this property</a>
 
-      The CNAME record hostname for DCV delegation.
+</details>
 
-    - `cname_target: optional string`
+<a href="#">Link to this property</a>
 
-      The CNAME record target value for DCV delegation.
+</details>
 
-    - `emails: optional array of string`
+<a href="#">Link to this property</a>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+issuer: optional string
 
-    - `http_body: optional string`
+The certificate authority that issued the certificate.
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+<a href="#">Link to this property</a>
 
-    - `http_url: optional string`
+modified\_on: optional string
 
-      The url that will be checked during domain validation.
+When the certificate was last modified.
 
-    - `status: optional string`
+formatdate-time
 
-      Status of the validation record.
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+priority: optional number
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+The order/priority in which the certificate will be used.
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+signature: optional string
 
-  - `primary_certificate: optional string`
+The type of hash used for the certificate.
 
-    Identifier of the primary certificate in a pack.
+<a href="#">Link to this property</a>
 
-  - `validation_errors: optional array of object { message }`
+uploaded\_on: optional string
 
-    Domain validation errors that have been received by the certificate authority (CA).
+When the certificate was uploaded to Cloudflare.
 
-    - `message: optional string`
+formatdate-time
 
-      A domain validation error.
+<a href="#">Link to this property</a>
 
-  - `validation_method: optional "txt" or "http" or "email"`
+zone\_id: optional string
 
-    Validation Method selected for the order.
+Identifier.
 
-    - `"txt"`
+maxLength32
 
-    - `"http"`
+<a href="#">Link to this property</a>
 
-    - `"email"`
+</details>
 
-  - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+<a href="#">Link to this property</a>
 
-    Certificates' validation records.
+hosts: array of <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20host%20%3E%20(schema)">Host</a>
 
-    - `cname: optional string`
+Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
 
-      The CNAME record hostname for DCV delegation.
+<a href="#">Link to this property</a>
 
-    - `cname_target: optional string`
+status: <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20status%20%3E%20(schema)">Status</a>
 
-      The CNAME record target value for DCV delegation.
+Status of certificate pack.
 
-    - `emails: optional array of string`
+<a href="#">Link to this property</a>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+<details>
 
-    - `http_body: optional string`
+<summary>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+type: "mh\_custom"or "managed\_hostname"or "sni\_custom"or 5 more
 
-    - `http_url: optional string`
+Type of certificate pack.
 
-      The url that will be checked during domain validation.
+</summary>
 
-    - `status: optional string`
+One of the following:
 
-      Status of the validation record.
+"mh\_custom"
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+"managed\_hostname"
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+"sni\_custom"
 
-  - `validity_days: optional 14 or 30 or 90 or 365`
+<a href="#">Link to this property</a>
 
-    Validity Days selected for the order.
+"universal"
 
-    - `14`
+<a href="#">Link to this property</a>
 
-    - `30`
+"advanced"
 
-    - `90`
+<a href="#">Link to this property</a>
 
-    - `365`
+"total\_tls"
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+"keyless"
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"legacy\_custom"
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+</details>
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+<details>
 
-    Total results available without any search parameters.
+<summary>
 
-  - `total_pages: optional number`
+certificate\_authority: optional "google"or "lets\_encrypt"or "ssl\_com"
 
-    The number of total pages in the entire result set.
+Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions <a href="https://developers.cloudflare.com/ssl/reference/certificate-authorities">see this page for more details</a>.
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/certificate_packs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+One of the following:
 
-#### Response
+"google"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "certificates": [
-        {
-          "id": "7e7b8deba8538af625850b7b2530034c",
-          "hosts": [
-            "example.com",
-            "*.example.com"
-          ],
-          "status": "active",
-          "bundle_method": "ubiquitous",
-          "expires_on": "2024-01-01T00:00:00Z",
-          "geo_restrictions": {
-            "label": "us"
-          },
-          "issuer": "Let's Encrypt",
-          "modified_on": "2014-01-01T05:20:00Z",
-          "priority": 0,
-          "signature": "ECDSAWithSHA256",
-          "uploaded_on": "2014-01-01T05:20:00Z",
-          "zone_id": "023e105f4ecef8ad9ca31a8372d0c353"
-        }
-      ],
-      "hosts": [
-        "example.com",
-        "*.example.com",
-        "www.example.com"
-      ],
-      "status": "initializing",
-      "type": "universal",
-      "certificate_authority": "lets_encrypt",
-      "cloudflare_branding": false,
-      "dcv_delegation_records": [
-        {
-          "cname": "_acme-challenge.example.com",
-          "cname_target": "dcv.cloudflare.com",
-          "emails": [
-            "administrator@example.com",
-            "webmaster@example.com"
-          ],
-          "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
-          "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
-          "status": "pending",
-          "txt_name": "_acme-challenge.app.example.com",
-          "txt_value": "810b7d5f01154524b961ba0cd578acc2"
-        }
-      ],
-      "primary_certificate": "7e7b8deba8538af625850b7b2530034c",
-      "validation_errors": [
-        {
-          "message": "SERVFAIL looking up CAA for app.example.com"
-        }
-      ],
-      "validation_method": "txt",
-      "validation_records": [
-        {
-          "cname": "_acme-challenge.example.com",
-          "cname_target": "dcv.cloudflare.com",
-          "emails": [
-            "administrator@example.com",
-            "webmaster@example.com"
-          ],
-          "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
-          "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
-          "status": "pending",
-          "txt_name": "_acme-challenge.app.example.com",
-          "txt_value": "810b7d5f01154524b961ba0cd578acc2"
-        }
-      ],
-      "validity_days": 14
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get Certificate Pack
+"lets\_encrypt"
 
-**get** `/zones/{zone_id}/ssl/certificate_packs/{certificate_pack_id}`
+<a href="#">Link to this property</a>
 
-For a given zone, get a certificate pack.
+"ssl\_com"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `zone_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `certificate_pack_id: string`
+cloudflare\_branding: optional boolean
 
-  Identifier.
+Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+dcv\_delegation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-  - `documentation_url: optional string`
+DCV Delegation records for domain validation.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+cname: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The CNAME record hostname for DCV delegation.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+cname\_target: optional string
 
-  - `documentation_url: optional string`
+The CNAME record target value for DCV delegation.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+emails: optional array of string
 
-- `success: true`
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+http\_body: optional string
 
-- `result: optional object { id, certificates, hosts, 10 more }`
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-  A certificate pack with all its properties.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+http\_url: optional string
 
-    Identifier.
+The url that will be checked during domain validation.
 
-  - `certificates: array of object { id, hosts, status, 9 more }`
+<a href="#">Link to this property</a>
 
-    Array of certificates in this pack.
+status: optional string
 
-    - `id: string`
+Status of the validation record.
 
-      Certificate identifier.
+<a href="#">Link to this property</a>
 
-    - `hosts: array of string`
+txt\_name: optional string
 
-      Hostnames covered by this certificate.
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-    - `status: string`
+<a href="#">Link to this property</a>
 
-      Certificate status.
+txt\_value: optional string
 
-    - `bundle_method: optional string`
+The TXT record that the certificate authority (CA) will check during domain validation.
 
-      Certificate bundle method.
+<a href="#">Link to this property</a>
 
-    - `expires_on: optional string`
+</details>
 
-      When the certificate from the authority expires.
+<a href="#">Link to this property</a>
 
-    - `geo_restrictions: optional object { label }`
+primary\_certificate: optional string
 
-      Specify the region where your private key can be held locally.
+Identifier of the primary certificate in a pack.
 
-      - `label: optional "us" or "eu" or "highest_security"`
+<a href="#">Link to this property</a>
 
-        - `"us"`
+<details>
 
-        - `"eu"`
+<summary>
 
-        - `"highest_security"`
+validation\_errors: optional array of object {message }
 
-    - `issuer: optional string`
+Domain validation errors that have been received by the certificate authority (CA).
 
-      The certificate authority that issued the certificate.
+</summary>
 
-    - `modified_on: optional string`
+message: optional string
 
-      When the certificate was last modified.
+A domain validation error.
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      The order/priority in which the certificate will be used.
+</details>
 
-    - `signature: optional string`
+<a href="#">Link to this property</a>
 
-      The type of hash used for the certificate.
+<details>
 
-    - `uploaded_on: optional string`
+<summary>
 
-      When the certificate was uploaded to Cloudflare.
+validation\_method: optional "txt"or "http"or "email"
 
-    - `zone_id: optional string`
+Validation Method selected for the order.
 
-      Identifier.
+</summary>
 
-  - `hosts: array of Host`
+One of the following:
 
-    Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+"txt"
 
-  - `status: Status`
+<a href="#">Link to this property</a>
 
-    Status of certificate pack.
+"http"
 
-    - `"initializing"`
+<a href="#">Link to this property</a>
 
-    - `"pending_validation"`
+"email"
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-    - `"pending_issuance"`
+</details>
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+<details>
 
-    - `"pending_expiration"`
+<summary>
 
-    - `"expired"`
+validation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-    - `"active"`
+Certificates’ validation records.
 
-    - `"initializing_timed_out"`
+</summary>
 
-    - `"validation_timed_out"`
+cname: optional string
 
-    - `"issuance_timed_out"`
+The CNAME record hostname for DCV delegation.
 
-    - `"deployment_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deletion_timed_out"`
+cname\_target: optional string
 
-    - `"pending_cleanup"`
+The CNAME record target value for DCV delegation.
 
-    - `"staging_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"staging_active"`
+emails: optional array of string
 
-    - `"deactivating"`
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-    - `"inactive"`
+<a href="#">Link to this property</a>
 
-    - `"backup_issued"`
+http\_body: optional string
 
-    - `"holding_deployment"`
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-  - `type: "mh_custom" or "managed_hostname" or "sni_custom" or 5 more`
+<a href="#">Link to this property</a>
 
-    Type of certificate pack.
+http\_url: optional string
 
-    - `"mh_custom"`
+The url that will be checked during domain validation.
 
-    - `"managed_hostname"`
+<a href="#">Link to this property</a>
 
-    - `"sni_custom"`
+status: optional string
 
-    - `"universal"`
+Status of the validation record.
 
-    - `"advanced"`
+<a href="#">Link to this property</a>
 
-    - `"total_tls"`
+txt\_name: optional string
 
-    - `"keyless"`
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-    - `"legacy_custom"`
+<a href="#">Link to this property</a>
 
-  - `certificate_authority: optional "google" or "lets_encrypt" or "ssl_com"`
+txt\_value: optional string
 
-    Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+The TXT record that the certificate authority (CA) will check during domain validation.
 
-    - `"google"`
+<a href="#">Link to this property</a>
 
-    - `"lets_encrypt"`
+</details>
 
-    - `"ssl_com"`
+<a href="#">Link to this property</a>
 
-  - `cloudflare_branding: optional boolean`
+<details>
 
-    Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+<summary>
 
-  - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+validity\_days: optional 14or 30or 90or 365
 
-    DCV Delegation records for domain validation.
+Validity Days selected for the order.
 
-    - `cname: optional string`
+</summary>
 
-      The CNAME record hostname for DCV delegation.
+One of the following:
 
-    - `cname_target: optional string`
+14
 
-      The CNAME record target value for DCV delegation.
+<a href="#">Link to this property</a>
 
-    - `emails: optional array of string`
+30
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+<a href="#">Link to this property</a>
 
-    - `http_body: optional string`
+90
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+<a href="#">Link to this property</a>
 
-    - `http_url: optional string`
+365
 
-      The url that will be checked during domain validation.
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+</details>
 
-      Status of the validation record.
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+</details>
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20certificate_pack_list_response%20%3E%20(schema)>)
 
-    - `txt_value: optional string`
+<details>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+<summary>
 
-  - `primary_certificate: optional string`
+CertificatePackGetResponse object {id, certificates, hosts, 10 more }
 
-    Identifier of the primary certificate in a pack.
+A certificate pack with all its properties.
 
-  - `validation_errors: optional array of object { message }`
+</summary>
 
-    Domain validation errors that have been received by the certificate authority (CA).
+id: string
 
-    - `message: optional string`
+Identifier.
 
-      A domain validation error.
+maxLength32
 
-  - `validation_method: optional "txt" or "http" or "email"`
+<a href="#">Link to this property</a>
 
-    Validation Method selected for the order.
+<details>
 
-    - `"txt"`
+<summary>
 
-    - `"http"`
+certificates: array of object {id, hosts, status, 9 more }
 
-    - `"email"`
+Array of certificates in this pack.
 
-  - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+</summary>
 
-    Certificates' validation records.
+id: string
 
-    - `cname: optional string`
+Certificate identifier.
 
-      The CNAME record hostname for DCV delegation.
+<a href="#">Link to this property</a>
 
-    - `cname_target: optional string`
+hosts: array of string
 
-      The CNAME record target value for DCV delegation.
+Hostnames covered by this certificate.
 
-    - `emails: optional array of string`
+<a href="#">Link to this property</a>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+status: string
 
-    - `http_body: optional string`
+Certificate status.
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+<a href="#">Link to this property</a>
 
-    - `http_url: optional string`
+bundle\_method: optional string
 
-      The url that will be checked during domain validation.
+Certificate bundle method.
 
-    - `status: optional string`
+<a href="#">Link to this property</a>
 
-      Status of the validation record.
+expires\_on: optional string
 
-    - `txt_name: optional string`
+When the certificate from the authority expires.
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+formatdate-time
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+<details>
 
-  - `validity_days: optional 14 or 30 or 90 or 365`
+<summary>
 
-    Validity Days selected for the order.
+geo\_restrictions: optional object {label }
 
-    - `14`
+Specify the region where your private key can be held locally.
 
-    - `30`
+</summary>
 
-    - `90`
+<details>
 
-    - `365`
+<summary>
 
-### Example
+label: optional "us"or "eu"or "highest\_security"
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/certificate_packs/$CERTIFICATE_PACK_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificates": [
-      {
-        "id": "7e7b8deba8538af625850b7b2530034c",
-        "hosts": [
-          "example.com",
-          "*.example.com"
-        ],
-        "status": "active",
-        "bundle_method": "ubiquitous",
-        "expires_on": "2024-01-01T00:00:00Z",
-        "geo_restrictions": {
-          "label": "us"
-        },
-        "issuer": "Let's Encrypt",
-        "modified_on": "2014-01-01T05:20:00Z",
-        "priority": 0,
-        "signature": "ECDSAWithSHA256",
-        "uploaded_on": "2014-01-01T05:20:00Z",
-        "zone_id": "023e105f4ecef8ad9ca31a8372d0c353"
-      }
-    ],
-    "hosts": [
-      "example.com",
-      "*.example.com",
-      "www.example.com"
-    ],
-    "status": "initializing",
-    "type": "universal",
-    "certificate_authority": "lets_encrypt",
-    "cloudflare_branding": false,
-    "dcv_delegation_records": [
-      {
-        "cname": "_acme-challenge.example.com",
-        "cname_target": "dcv.cloudflare.com",
-        "emails": [
-          "administrator@example.com",
-          "webmaster@example.com"
-        ],
-        "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
-        "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
-        "status": "pending",
-        "txt_name": "_acme-challenge.app.example.com",
-        "txt_value": "810b7d5f01154524b961ba0cd578acc2"
-      }
-    ],
-    "primary_certificate": "7e7b8deba8538af625850b7b2530034c",
-    "validation_errors": [
-      {
-        "message": "SERVFAIL looking up CAA for app.example.com"
-      }
-    ],
-    "validation_method": "txt",
-    "validation_records": [
-      {
-        "cname": "_acme-challenge.example.com",
-        "cname_target": "dcv.cloudflare.com",
-        "emails": [
-          "administrator@example.com",
-          "webmaster@example.com"
-        ],
-        "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
-        "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
-        "status": "pending",
-        "txt_name": "_acme-challenge.app.example.com",
-        "txt_value": "810b7d5f01154524b961ba0cd578acc2"
-      }
-    ],
-    "validity_days": 14
-  }
-}
-```
+"us"
 
-## Order Advanced Certificate Manager Certificate Pack
+<a href="#">Link to this property</a>
 
-**post** `/zones/{zone_id}/ssl/certificate_packs/order`
+"eu"
 
-For a given zone, order an advanced certificate pack.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"highest\_security"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `certificate_authority: "google" or "lets_encrypt" or "ssl_com"`
+</details>
 
-  Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+<a href="#">Link to this property</a>
 
-  - `"google"`
+issuer: optional string
 
-  - `"lets_encrypt"`
+The certificate authority that issued the certificate.
 
-  - `"ssl_com"`
+<a href="#">Link to this property</a>
 
-- `hosts: array of Host`
+modified\_on: optional string
 
-  Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+When the certificate was last modified.
 
-- `type: "advanced"`
+formatdate-time
 
-  Type of certificate pack.
+<a href="#">Link to this property</a>
 
-  - `"advanced"`
+priority: optional number
 
-- `validation_method: "txt" or "http" or "email"`
+The order/priority in which the certificate will be used.
 
-  Validation Method selected for the order.
+<a href="#">Link to this property</a>
 
-  - `"txt"`
+signature: optional string
 
-  - `"http"`
+The type of hash used for the certificate.
 
-  - `"email"`
+<a href="#">Link to this property</a>
 
-- `validity_days: 14 or 30 or 90 or 365`
+uploaded\_on: optional string
 
-  Validity Days selected for the order.
+When the certificate was uploaded to Cloudflare.
 
-  - `14`
+formatdate-time
 
-  - `30`
+<a href="#">Link to this property</a>
 
-  - `90`
+zone\_id: optional string
 
-  - `365`
+Identifier.
 
-- `cloudflare_branding: optional boolean`
+maxLength32
 
-  Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+hosts: array of <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20host%20%3E%20(schema)">Host</a>
 
-  - `message: string`
+Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+status: <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20status%20%3E%20(schema)">Status</a>
 
-    - `pointer: optional string`
+Status of certificate pack.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+type: "mh\_custom"or "managed\_hostname"or "sni\_custom"or 5 more
 
-  - `source: optional object { pointer }`
+Type of certificate pack.
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+One of the following:
 
-  Whether the API call was successful.
+"mh\_custom"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, certificates, hosts, 10 more }`
+"managed\_hostname"
 
-  A certificate pack with all its properties.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"sni\_custom"
 
-    Identifier.
+<a href="#">Link to this property</a>
 
-  - `certificates: array of object { id, hosts, status, 9 more }`
+"universal"
 
-    Array of certificates in this pack.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+"advanced"
 
-      Certificate identifier.
+<a href="#">Link to this property</a>
 
-    - `hosts: array of string`
+"total\_tls"
 
-      Hostnames covered by this certificate.
+<a href="#">Link to this property</a>
 
-    - `status: string`
+"keyless"
 
-      Certificate status.
+<a href="#">Link to this property</a>
 
-    - `bundle_method: optional string`
+"legacy\_custom"
 
-      Certificate bundle method.
+<a href="#">Link to this property</a>
 
-    - `expires_on: optional string`
+</details>
 
-      When the certificate from the authority expires.
+<a href="#">Link to this property</a>
 
-    - `geo_restrictions: optional object { label }`
+<details>
 
-      Specify the region where your private key can be held locally.
+<summary>
 
-      - `label: optional "us" or "eu" or "highest_security"`
+certificate\_authority: optional "google"or "lets\_encrypt"or "ssl\_com"
 
-        - `"us"`
+Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions <a href="https://developers.cloudflare.com/ssl/reference/certificate-authorities">see this page for more details</a>.
 
-        - `"eu"`
+</summary>
 
-        - `"highest_security"`
+One of the following:
 
-    - `issuer: optional string`
+"google"
 
-      The certificate authority that issued the certificate.
+<a href="#">Link to this property</a>
 
-    - `modified_on: optional string`
+"lets\_encrypt"
 
-      When the certificate was last modified.
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+"ssl\_com"
 
-      The order/priority in which the certificate will be used.
+<a href="#">Link to this property</a>
 
-    - `signature: optional string`
+</details>
 
-      The type of hash used for the certificate.
+<a href="#">Link to this property</a>
 
-    - `uploaded_on: optional string`
+cloudflare\_branding: optional boolean
 
-      When the certificate was uploaded to Cloudflare.
+Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
 
-    - `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier.
+<details>
 
-  - `hosts: array of Host`
+<summary>
 
-    Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+dcv\_delegation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-  - `status: Status`
+DCV Delegation records for domain validation.
 
-    Status of certificate pack.
+</summary>
 
-    - `"initializing"`
+cname: optional string
 
-    - `"pending_validation"`
+The CNAME record hostname for DCV delegation.
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-    - `"pending_issuance"`
+cname\_target: optional string
 
-    - `"pending_deployment"`
+The CNAME record target value for DCV delegation.
 
-    - `"pending_deletion"`
+<a href="#">Link to this property</a>
 
-    - `"pending_expiration"`
+emails: optional array of string
 
-    - `"expired"`
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"initializing_timed_out"`
+http\_body: optional string
 
-    - `"validation_timed_out"`
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-    - `"issuance_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deployment_timed_out"`
+http\_url: optional string
 
-    - `"deletion_timed_out"`
+The url that will be checked during domain validation.
 
-    - `"pending_cleanup"`
+<a href="#">Link to this property</a>
 
-    - `"staging_deployment"`
+status: optional string
 
-    - `"staging_active"`
+Status of the validation record.
 
-    - `"deactivating"`
+<a href="#">Link to this property</a>
 
-    - `"inactive"`
+txt\_name: optional string
 
-    - `"backup_issued"`
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-    - `"holding_deployment"`
+<a href="#">Link to this property</a>
 
-  - `type: "mh_custom" or "managed_hostname" or "sni_custom" or 5 more`
+txt\_value: optional string
 
-    Type of certificate pack.
+The TXT record that the certificate authority (CA) will check during domain validation.
 
-    - `"mh_custom"`
+<a href="#">Link to this property</a>
 
-    - `"managed_hostname"`
+</details>
 
-    - `"sni_custom"`
+<a href="#">Link to this property</a>
 
-    - `"universal"`
+primary\_certificate: optional string
 
-    - `"advanced"`
+Identifier of the primary certificate in a pack.
 
-    - `"total_tls"`
+<a href="#">Link to this property</a>
 
-    - `"keyless"`
+<details>
 
-    - `"legacy_custom"`
+<summary>
 
-  - `certificate_authority: optional "google" or "lets_encrypt" or "ssl_com"`
+validation\_errors: optional array of object {message }
 
-    Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+Domain validation errors that have been received by the certificate authority (CA).
 
-    - `"google"`
+</summary>
 
-    - `"lets_encrypt"`
+message: optional string
 
-    - `"ssl_com"`
+A domain validation error.
 
-  - `cloudflare_branding: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+</details>
 
-  - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+<a href="#">Link to this property</a>
 
-    DCV Delegation records for domain validation.
+<details>
 
-    - `cname: optional string`
+<summary>
 
-      The CNAME record hostname for DCV delegation.
+validation\_method: optional "txt"or "http"or "email"
 
-    - `cname_target: optional string`
+Validation Method selected for the order.
 
-      The CNAME record target value for DCV delegation.
+</summary>
 
-    - `emails: optional array of string`
+One of the following:
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+"txt"
 
-    - `http_body: optional string`
+<a href="#">Link to this property</a>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+"http"
 
-    - `http_url: optional string`
+<a href="#">Link to this property</a>
 
-      The url that will be checked during domain validation.
+"email"
 
-    - `status: optional string`
+<a href="#">Link to this property</a>
 
-      Status of the validation record.
+</details>
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<details>
 
-    - `txt_value: optional string`
+<summary>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+validation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-  - `primary_certificate: optional string`
+Certificates’ validation records.
 
-    Identifier of the primary certificate in a pack.
+</summary>
 
-  - `validation_errors: optional array of object { message }`
+cname: optional string
 
-    Domain validation errors that have been received by the certificate authority (CA).
+The CNAME record hostname for DCV delegation.
 
-    - `message: optional string`
+<a href="#">Link to this property</a>
 
-      A domain validation error.
+cname\_target: optional string
 
-  - `validation_method: optional "txt" or "http" or "email"`
+The CNAME record target value for DCV delegation.
 
-    Validation Method selected for the order.
+<a href="#">Link to this property</a>
 
-    - `"txt"`
+emails: optional array of string
 
-    - `"http"`
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-    - `"email"`
+<a href="#">Link to this property</a>
 
-  - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+http\_body: optional string
 
-    Certificates' validation records.
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-    - `cname: optional string`
+<a href="#">Link to this property</a>
 
-      The CNAME record hostname for DCV delegation.
+http\_url: optional string
 
-    - `cname_target: optional string`
+The url that will be checked during domain validation.
 
-      The CNAME record target value for DCV delegation.
+<a href="#">Link to this property</a>
 
-    - `emails: optional array of string`
+status: optional string
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+Status of the validation record.
 
-    - `http_body: optional string`
+<a href="#">Link to this property</a>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+txt\_name: optional string
 
-    - `http_url: optional string`
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-      The url that will be checked during domain validation.
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+txt\_value: optional string
 
-      Status of the validation record.
+The TXT record that the certificate authority (CA) will check during domain validation.
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+</details>
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+<details>
 
-  - `validity_days: optional 14 or 30 or 90 or 365`
+<summary>
 
-    Validity Days selected for the order.
+validity\_days: optional 14or 30or 90or 365
 
-    - `14`
+Validity Days selected for the order.
 
-    - `30`
+</summary>
 
-    - `90`
+One of the following:
 
-    - `365`
+14
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/certificate_packs/order \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "certificate_authority": "lets_encrypt",
-          "hosts": [
-            "example.com",
-            "*.example.com",
-            "www.example.com"
-          ],
-          "type": "advanced",
-          "validation_method": "txt",
-          "validity_days": 14
-        }'
-```
+30
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificates": [
-      {
-        "id": "7e7b8deba8538af625850b7b2530034c",
-        "hosts": [
-          "example.com",
-          "*.example.com"
-        ],
-        "status": "active",
-        "bundle_method": "ubiquitous",
-        "expires_on": "2024-01-01T00:00:00Z",
-        "geo_restrictions": {
-          "label": "us"
-        },
-        "issuer": "Let's Encrypt",
-        "modified_on": "2014-01-01T05:20:00Z",
-        "priority": 0,
-        "signature": "ECDSAWithSHA256",
-        "uploaded_on": "2014-01-01T05:20:00Z",
-        "zone_id": "023e105f4ecef8ad9ca31a8372d0c353"
-      }
-    ],
-    "hosts": [
-      "example.com",
-      "*.example.com",
-      "www.example.com"
-    ],
-    "status": "initializing",
-    "type": "universal",
-    "certificate_authority": "lets_encrypt",
-    "cloudflare_branding": false,
-    "dcv_delegation_records": [
-      {
-        "cname": "_acme-challenge.example.com",
-        "cname_target": "dcv.cloudflare.com",
-        "emails": [
-          "administrator@example.com",
-          "webmaster@example.com"
-        ],
-        "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
-        "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
-        "status": "pending",
-        "txt_name": "_acme-challenge.app.example.com",
-        "txt_value": "810b7d5f01154524b961ba0cd578acc2"
-      }
-    ],
-    "primary_certificate": "7e7b8deba8538af625850b7b2530034c",
-    "validation_errors": [
-      {
-        "message": "SERVFAIL looking up CAA for app.example.com"
-      }
-    ],
-    "validation_method": "txt",
-    "validation_records": [
-      {
-        "cname": "_acme-challenge.example.com",
-        "cname_target": "dcv.cloudflare.com",
-        "emails": [
-          "administrator@example.com",
-          "webmaster@example.com"
-        ],
-        "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
-        "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
-        "status": "pending",
-        "txt_name": "_acme-challenge.app.example.com",
-        "txt_value": "810b7d5f01154524b961ba0cd578acc2"
-      }
-    ],
-    "validity_days": 14
-  }
-}
-```
+90
 
-## Restart Validation or Update Advanced Certificate Manager Certificate Pack
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/ssl/certificate_packs/{certificate_pack_id}`
+365
 
-For a given zone, restart validation or add cloudflare branding for an advanced certificate pack.  The former is only a validation operation for a Certificate Pack in a validation_timed_out status.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `certificate_pack_id: string`
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20certificate_pack_get_response%20%3E%20(schema)>)
 
-  Identifier.
+<details>
 
-### Body Parameters
+<summary>
 
-- `cloudflare_branding: optional boolean`
+CertificatePackCreateResponse object {id, certificates, hosts, 10 more }
 
-  Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+A certificate pack with all its properties.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+Identifier.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+certificates: array of object {id, hosts, status, 9 more }
 
-  - `code: number`
+Array of certificates in this pack.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Certificate identifier.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+hosts: array of string
 
-  Whether the API call was successful.
+Hostnames covered by this certificate.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, certificates, hosts, 10 more }`
+status: string
 
-  A certificate pack with all its properties.
+Certificate status.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+bundle\_method: optional string
 
-  - `certificates: array of object { id, hosts, status, 9 more }`
+Certificate bundle method.
 
-    Array of certificates in this pack.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+expires\_on: optional string
 
-      Certificate identifier.
+When the certificate from the authority expires.
 
-    - `hosts: array of string`
+formatdate-time
 
-      Hostnames covered by this certificate.
+<a href="#">Link to this property</a>
 
-    - `status: string`
+<details>
 
-      Certificate status.
+<summary>
 
-    - `bundle_method: optional string`
+geo\_restrictions: optional object {label }
 
-      Certificate bundle method.
+Specify the region where your private key can be held locally.
 
-    - `expires_on: optional string`
+</summary>
 
-      When the certificate from the authority expires.
+<details>
 
-    - `geo_restrictions: optional object { label }`
+<summary>
 
-      Specify the region where your private key can be held locally.
+label: optional "us"or "eu"or "highest\_security"
 
-      - `label: optional "us" or "eu" or "highest_security"`
+</summary>
 
-        - `"us"`
+One of the following:
 
-        - `"eu"`
+"us"
 
-        - `"highest_security"`
+<a href="#">Link to this property</a>
 
-    - `issuer: optional string`
+"eu"
 
-      The certificate authority that issued the certificate.
+<a href="#">Link to this property</a>
 
-    - `modified_on: optional string`
+"highest\_security"
 
-      When the certificate was last modified.
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+</details>
 
-      The order/priority in which the certificate will be used.
+<a href="#">Link to this property</a>
 
-    - `signature: optional string`
+</details>
 
-      The type of hash used for the certificate.
+<a href="#">Link to this property</a>
 
-    - `uploaded_on: optional string`
+issuer: optional string
 
-      When the certificate was uploaded to Cloudflare.
+The certificate authority that issued the certificate.
 
-    - `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier.
+modified\_on: optional string
 
-  - `hosts: array of Host`
+When the certificate was last modified.
 
-    Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+formatdate-time
 
-  - `status: Status`
+<a href="#">Link to this property</a>
 
-    Status of certificate pack.
+priority: optional number
 
-    - `"initializing"`
+The order/priority in which the certificate will be used.
 
-    - `"pending_validation"`
+<a href="#">Link to this property</a>
 
-    - `"deleted"`
+signature: optional string
 
-    - `"pending_issuance"`
+The type of hash used for the certificate.
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+uploaded\_on: optional string
 
-    - `"pending_expiration"`
+When the certificate was uploaded to Cloudflare.
 
-    - `"expired"`
+formatdate-time
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"initializing_timed_out"`
+zone\_id: optional string
 
-    - `"validation_timed_out"`
+Identifier.
 
-    - `"issuance_timed_out"`
+maxLength32
 
-    - `"deployment_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deletion_timed_out"`
+</details>
 
-    - `"pending_cleanup"`
+<a href="#">Link to this property</a>
 
-    - `"staging_deployment"`
+hosts: array of <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20host%20%3E%20(schema)">Host</a>
 
-    - `"staging_active"`
+Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
 
-    - `"deactivating"`
+<a href="#">Link to this property</a>
 
-    - `"inactive"`
+status: <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20status%20%3E%20(schema)">Status</a>
 
-    - `"backup_issued"`
+Status of certificate pack.
 
-    - `"holding_deployment"`
+<a href="#">Link to this property</a>
 
-  - `type: "mh_custom" or "managed_hostname" or "sni_custom" or 5 more`
+<details>
 
-    Type of certificate pack.
+<summary>
 
-    - `"mh_custom"`
+type: "mh\_custom"or "managed\_hostname"or "sni\_custom"or 5 more
 
-    - `"managed_hostname"`
+Type of certificate pack.
 
-    - `"sni_custom"`
+</summary>
 
-    - `"universal"`
+One of the following:
 
-    - `"advanced"`
+"mh\_custom"
 
-    - `"total_tls"`
+<a href="#">Link to this property</a>
 
-    - `"keyless"`
+"managed\_hostname"
 
-    - `"legacy_custom"`
+<a href="#">Link to this property</a>
 
-  - `certificate_authority: optional "google" or "lets_encrypt" or "ssl_com"`
+"sni\_custom"
 
-    Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+<a href="#">Link to this property</a>
 
-    - `"google"`
+"universal"
 
-    - `"lets_encrypt"`
+<a href="#">Link to this property</a>
 
-    - `"ssl_com"`
+"advanced"
 
-  - `cloudflare_branding: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+"total\_tls"
 
-  - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+<a href="#">Link to this property</a>
 
-    DCV Delegation records for domain validation.
+"keyless"
 
-    - `cname: optional string`
+<a href="#">Link to this property</a>
 
-      The CNAME record hostname for DCV delegation.
+"legacy\_custom"
 
-    - `cname_target: optional string`
+<a href="#">Link to this property</a>
 
-      The CNAME record target value for DCV delegation.
+</details>
 
-    - `emails: optional array of string`
+<a href="#">Link to this property</a>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+<details>
 
-    - `http_body: optional string`
+<summary>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+certificate\_authority: optional "google"or "lets\_encrypt"or "ssl\_com"
 
-    - `http_url: optional string`
+Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions <a href="https://developers.cloudflare.com/ssl/reference/certificate-authorities">see this page for more details</a>.
 
-      The url that will be checked during domain validation.
+</summary>
 
-    - `status: optional string`
+One of the following:
 
-      Status of the validation record.
+"google"
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+"lets\_encrypt"
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+"ssl\_com"
 
-  - `primary_certificate: optional string`
+<a href="#">Link to this property</a>
 
-    Identifier of the primary certificate in a pack.
+</details>
 
-  - `validation_errors: optional array of object { message }`
+<a href="#">Link to this property</a>
 
-    Domain validation errors that have been received by the certificate authority (CA).
+cloudflare\_branding: optional boolean
 
-    - `message: optional string`
+Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
 
-      A domain validation error.
+<a href="#">Link to this property</a>
 
-  - `validation_method: optional "txt" or "http" or "email"`
+<details>
 
-    Validation Method selected for the order.
+<summary>
 
-    - `"txt"`
+dcv\_delegation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-    - `"http"`
+DCV Delegation records for domain validation.
 
-    - `"email"`
+</summary>
 
-  - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+cname: optional string
 
-    Certificates' validation records.
+The CNAME record hostname for DCV delegation.
 
-    - `cname: optional string`
+<a href="#">Link to this property</a>
 
-      The CNAME record hostname for DCV delegation.
+cname\_target: optional string
 
-    - `cname_target: optional string`
+The CNAME record target value for DCV delegation.
 
-      The CNAME record target value for DCV delegation.
+<a href="#">Link to this property</a>
 
-    - `emails: optional array of string`
+emails: optional array of string
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-    - `http_body: optional string`
+<a href="#">Link to this property</a>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+http\_body: optional string
 
-    - `http_url: optional string`
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-      The url that will be checked during domain validation.
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+http\_url: optional string
 
-      Status of the validation record.
+The url that will be checked during domain validation.
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+status: optional string
 
-    - `txt_value: optional string`
+Status of the validation record.
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+<a href="#">Link to this property</a>
 
-  - `validity_days: optional 14 or 30 or 90 or 365`
+txt\_name: optional string
 
-    Validity Days selected for the order.
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-    - `14`
+<a href="#">Link to this property</a>
 
-    - `30`
+txt\_value: optional string
 
-    - `90`
+The TXT record that the certificate authority (CA) will check during domain validation.
 
-    - `365`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/certificate_packs/$CERTIFICATE_PACK_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+primary\_certificate: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "certificates": [
-      {
-        "id": "7e7b8deba8538af625850b7b2530034c",
-        "hosts": [
-          "example.com",
-          "*.example.com"
-        ],
-        "status": "active",
-        "bundle_method": "ubiquitous",
-        "expires_on": "2024-01-01T00:00:00Z",
-        "geo_restrictions": {
-          "label": "us"
-        },
-        "issuer": "Let's Encrypt",
-        "modified_on": "2014-01-01T05:20:00Z",
-        "priority": 0,
-        "signature": "ECDSAWithSHA256",
-        "uploaded_on": "2014-01-01T05:20:00Z",
-        "zone_id": "023e105f4ecef8ad9ca31a8372d0c353"
-      }
-    ],
-    "hosts": [
-      "example.com",
-      "*.example.com",
-      "www.example.com"
-    ],
-    "status": "initializing",
-    "type": "universal",
-    "certificate_authority": "lets_encrypt",
-    "cloudflare_branding": false,
-    "dcv_delegation_records": [
-      {
-        "cname": "_acme-challenge.example.com",
-        "cname_target": "dcv.cloudflare.com",
-        "emails": [
-          "administrator@example.com",
-          "webmaster@example.com"
-        ],
-        "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
-        "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
-        "status": "pending",
-        "txt_name": "_acme-challenge.app.example.com",
-        "txt_value": "810b7d5f01154524b961ba0cd578acc2"
-      }
-    ],
-    "primary_certificate": "7e7b8deba8538af625850b7b2530034c",
-    "validation_errors": [
-      {
-        "message": "SERVFAIL looking up CAA for app.example.com"
-      }
-    ],
-    "validation_method": "txt",
-    "validation_records": [
-      {
-        "cname": "_acme-challenge.example.com",
-        "cname_target": "dcv.cloudflare.com",
-        "emails": [
-          "administrator@example.com",
-          "webmaster@example.com"
-        ],
-        "http_body": "ca3-574923932a82475cb8592200f1a2a23d",
-        "http_url": "http://app.example.com/.well-known/pki-validation/ca3-da12a1c25e7b48cf80408c6c1763b8a2.txt",
-        "status": "pending",
-        "txt_name": "_acme-challenge.app.example.com",
-        "txt_value": "810b7d5f01154524b961ba0cd578acc2"
-      }
-    ],
-    "validity_days": 14
-  }
-}
-```
+Identifier of the primary certificate in a pack.
 
-## Delete Advanced Certificate Manager Certificate Pack
+<a href="#">Link to this property</a>
 
-**delete** `/zones/{zone_id}/ssl/certificate_packs/{certificate_pack_id}`
+<details>
 
-For a given zone, delete an advanced certificate pack.
+<summary>
 
-### Path Parameters
+validation\_errors: optional array of object {message }
 
-- `zone_id: string`
+Domain validation errors that have been received by the certificate authority (CA).
 
-  Identifier.
+</summary>
 
-- `certificate_pack_id: string`
+message: optional string
 
-  Identifier.
+A domain validation error.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+validation\_method: optional "txt"or "http"or "email"
 
-    - `pointer: optional string`
+Validation Method selected for the order.
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"txt"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"http"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"email"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Identifier.
+<summary>
 
-### Example
+validation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/certificate_packs/$CERTIFICATE_PACK_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Certificates’ validation records.
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
+cname: optional string
 
-## Domain Types
+The CNAME record hostname for DCV delegation.
 
-### Host
+<a href="#">Link to this property</a>
 
-- `Host = string`
+cname\_target: optional string
 
-### Request Validity
+The CNAME record target value for DCV delegation.
 
-- `RequestValidity = 7 or 30 or 90 or 4 more`
+<a href="#">Link to this property</a>
 
-  The number of days for which the certificate should be valid.
+emails: optional array of string
 
-  - `7`
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-  - `30`
+<a href="#">Link to this property</a>
 
-  - `90`
+http\_body: optional string
 
-  - `365`
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-  - `730`
+<a href="#">Link to this property</a>
 
-  - `1095`
+http\_url: optional string
 
-  - `5475`
+The url that will be checked during domain validation.
 
-### Status
+<a href="#">Link to this property</a>
 
-- `Status = "initializing" or "pending_validation" or "deleted" or 18 more`
+status: optional string
 
-  Status of certificate pack.
+Status of the validation record.
 
-  - `"initializing"`
+<a href="#">Link to this property</a>
 
-  - `"pending_validation"`
+txt\_name: optional string
 
-  - `"deleted"`
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-  - `"pending_issuance"`
+<a href="#">Link to this property</a>
 
-  - `"pending_deployment"`
+txt\_value: optional string
 
-  - `"pending_deletion"`
+The TXT record that the certificate authority (CA) will check during domain validation.
 
-  - `"pending_expiration"`
+<a href="#">Link to this property</a>
 
-  - `"expired"`
+</details>
 
-  - `"active"`
+<a href="#">Link to this property</a>
 
-  - `"initializing_timed_out"`
+<details>
 
-  - `"validation_timed_out"`
+<summary>
 
-  - `"issuance_timed_out"`
+validity\_days: optional 14or 30or 90or 365
 
-  - `"deployment_timed_out"`
+Validity Days selected for the order.
 
-  - `"deletion_timed_out"`
+</summary>
 
-  - `"pending_cleanup"`
+One of the following:
 
-  - `"staging_deployment"`
+14
 
-  - `"staging_active"`
+<a href="#">Link to this property</a>
 
-  - `"deactivating"`
+30
 
-  - `"inactive"`
+<a href="#">Link to this property</a>
 
-  - `"backup_issued"`
+90
 
-  - `"holding_deployment"`
+<a href="#">Link to this property</a>
 
-### Validation Method
+365
 
-- `ValidationMethod = "http" or "cname" or "txt"`
+<a href="#">Link to this property</a>
 
-  Validation method in use for a certificate pack order.
+</details>
 
-  - `"http"`
+<a href="#">Link to this property</a>
 
-  - `"cname"`
+</details>
 
-  - `"txt"`
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20certificate_pack_create_response%20%3E%20(schema)>)
 
-### Certificate Pack List Response
+<details>
 
-- `CertificatePackListResponse object { id, certificates, hosts, 10 more }`
+<summary>
 
-  A certificate pack with all its properties.
+CertificatePackEditResponse object {id, certificates, hosts, 10 more }
 
-  - `id: string`
+A certificate pack with all its properties.
 
-    Identifier.
+</summary>
 
-  - `certificates: array of object { id, hosts, status, 9 more }`
+id: string
 
-    Array of certificates in this pack.
+Identifier.
 
-    - `id: string`
+maxLength32
 
-      Certificate identifier.
+<a href="#">Link to this property</a>
 
-    - `hosts: array of string`
+<details>
 
-      Hostnames covered by this certificate.
+<summary>
 
-    - `status: string`
+certificates: array of object {id, hosts, status, 9 more }
 
-      Certificate status.
+Array of certificates in this pack.
 
-    - `bundle_method: optional string`
+</summary>
 
-      Certificate bundle method.
+id: string
 
-    - `expires_on: optional string`
+Certificate identifier.
 
-      When the certificate from the authority expires.
+<a href="#">Link to this property</a>
 
-    - `geo_restrictions: optional object { label }`
+hosts: array of string
 
-      Specify the region where your private key can be held locally.
+Hostnames covered by this certificate.
 
-      - `label: optional "us" or "eu" or "highest_security"`
+<a href="#">Link to this property</a>
 
-        - `"us"`
+status: string
 
-        - `"eu"`
+Certificate status.
 
-        - `"highest_security"`
+<a href="#">Link to this property</a>
 
-    - `issuer: optional string`
+bundle\_method: optional string
 
-      The certificate authority that issued the certificate.
+Certificate bundle method.
 
-    - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-      When the certificate was last modified.
+expires\_on: optional string
 
-    - `priority: optional number`
+When the certificate from the authority expires.
 
-      The order/priority in which the certificate will be used.
+formatdate-time
 
-    - `signature: optional string`
+<a href="#">Link to this property</a>
 
-      The type of hash used for the certificate.
+<details>
 
-    - `uploaded_on: optional string`
+<summary>
 
-      When the certificate was uploaded to Cloudflare.
+geo\_restrictions: optional object {label }
 
-    - `zone_id: optional string`
+Specify the region where your private key can be held locally.
 
-      Identifier.
+</summary>
 
-  - `hosts: array of Host`
+<details>
 
-    Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+<summary>
 
-  - `status: Status`
+label: optional "us"or "eu"or "highest\_security"
 
-    Status of certificate pack.
+</summary>
 
-    - `"initializing"`
+One of the following:
 
-    - `"pending_validation"`
+"us"
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-    - `"pending_issuance"`
+"eu"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+"highest\_security"
 
-    - `"pending_expiration"`
+<a href="#">Link to this property</a>
 
-    - `"expired"`
+</details>
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"initializing_timed_out"`
+</details>
 
-    - `"validation_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"issuance_timed_out"`
+issuer: optional string
 
-    - `"deployment_timed_out"`
+The certificate authority that issued the certificate.
 
-    - `"deletion_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"pending_cleanup"`
+modified\_on: optional string
 
-    - `"staging_deployment"`
+When the certificate was last modified.
 
-    - `"staging_active"`
+formatdate-time
 
-    - `"deactivating"`
+<a href="#">Link to this property</a>
 
-    - `"inactive"`
+priority: optional number
 
-    - `"backup_issued"`
+The order/priority in which the certificate will be used.
 
-    - `"holding_deployment"`
+<a href="#">Link to this property</a>
 
-  - `type: "mh_custom" or "managed_hostname" or "sni_custom" or 5 more`
+signature: optional string
 
-    Type of certificate pack.
+The type of hash used for the certificate.
 
-    - `"mh_custom"`
+<a href="#">Link to this property</a>
 
-    - `"managed_hostname"`
+uploaded\_on: optional string
 
-    - `"sni_custom"`
+When the certificate was uploaded to Cloudflare.
 
-    - `"universal"`
+formatdate-time
 
-    - `"advanced"`
+<a href="#">Link to this property</a>
 
-    - `"total_tls"`
+zone\_id: optional string
 
-    - `"keyless"`
+Identifier.
 
-    - `"legacy_custom"`
+maxLength32
 
-  - `certificate_authority: optional "google" or "lets_encrypt" or "ssl_com"`
+<a href="#">Link to this property</a>
 
-    Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+</details>
 
-    - `"google"`
+<a href="#">Link to this property</a>
 
-    - `"lets_encrypt"`
+hosts: array of <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20host%20%3E%20(schema)">Host</a>
 
-    - `"ssl_com"`
+Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
 
-  - `cloudflare_branding: optional boolean`
+<a href="#">Link to this property</a>
 
-    Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+status: <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20status%20%3E%20(schema)">Status</a>
 
-  - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+Status of certificate pack.
 
-    DCV Delegation records for domain validation.
+<a href="#">Link to this property</a>
 
-    - `cname: optional string`
+<details>
 
-      The CNAME record hostname for DCV delegation.
+<summary>
 
-    - `cname_target: optional string`
+type: "mh\_custom"or "managed\_hostname"or "sni\_custom"or 5 more
 
-      The CNAME record target value for DCV delegation.
+Type of certificate pack.
 
-    - `emails: optional array of string`
+</summary>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+One of the following:
 
-    - `http_body: optional string`
+"mh\_custom"
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+<a href="#">Link to this property</a>
 
-    - `http_url: optional string`
+"managed\_hostname"
 
-      The url that will be checked during domain validation.
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+"sni\_custom"
 
-      Status of the validation record.
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+"universal"
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<a href="#">Link to this property</a>
 
-    - `txt_value: optional string`
+"advanced"
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+<a href="#">Link to this property</a>
 
-  - `primary_certificate: optional string`
+"total\_tls"
 
-    Identifier of the primary certificate in a pack.
+<a href="#">Link to this property</a>
 
-  - `validation_errors: optional array of object { message }`
+"keyless"
 
-    Domain validation errors that have been received by the certificate authority (CA).
+<a href="#">Link to this property</a>
 
-    - `message: optional string`
+"legacy\_custom"
 
-      A domain validation error.
+<a href="#">Link to this property</a>
 
-  - `validation_method: optional "txt" or "http" or "email"`
+</details>
 
-    Validation Method selected for the order.
+<a href="#">Link to this property</a>
 
-    - `"txt"`
+<details>
 
-    - `"http"`
+<summary>
 
-    - `"email"`
+certificate\_authority: optional "google"or "lets\_encrypt"or "ssl\_com"
 
-  - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions <a href="https://developers.cloudflare.com/ssl/reference/certificate-authorities">see this page for more details</a>.
 
-    Certificates' validation records.
+</summary>
 
-    - `cname: optional string`
+One of the following:
 
-      The CNAME record hostname for DCV delegation.
+"google"
 
-    - `cname_target: optional string`
+<a href="#">Link to this property</a>
 
-      The CNAME record target value for DCV delegation.
+"lets\_encrypt"
 
-    - `emails: optional array of string`
+<a href="#">Link to this property</a>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+"ssl\_com"
 
-    - `http_body: optional string`
+<a href="#">Link to this property</a>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+</details>
 
-    - `http_url: optional string`
+<a href="#">Link to this property</a>
 
-      The url that will be checked during domain validation.
+cloudflare\_branding: optional boolean
 
-    - `status: optional string`
+Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
 
-      Status of the validation record.
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+<details>
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<summary>
 
-    - `txt_value: optional string`
+dcv\_delegation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+DCV Delegation records for domain validation.
 
-  - `validity_days: optional 14 or 30 or 90 or 365`
+</summary>
 
-    Validity Days selected for the order.
+cname: optional string
 
-    - `14`
+The CNAME record hostname for DCV delegation.
 
-    - `30`
+<a href="#">Link to this property</a>
 
-    - `90`
+cname\_target: optional string
 
-    - `365`
+The CNAME record target value for DCV delegation.
 
-### Certificate Pack Get Response
+<a href="#">Link to this property</a>
 
-- `CertificatePackGetResponse object { id, certificates, hosts, 10 more }`
+emails: optional array of string
 
-  A certificate pack with all its properties.
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Identifier.
+http\_body: optional string
 
-  - `certificates: array of object { id, hosts, status, 9 more }`
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-    Array of certificates in this pack.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+http\_url: optional string
 
-      Certificate identifier.
+The url that will be checked during domain validation.
 
-    - `hosts: array of string`
+<a href="#">Link to this property</a>
 
-      Hostnames covered by this certificate.
+status: optional string
 
-    - `status: string`
+Status of the validation record.
 
-      Certificate status.
+<a href="#">Link to this property</a>
 
-    - `bundle_method: optional string`
+txt\_name: optional string
 
-      Certificate bundle method.
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-    - `expires_on: optional string`
+<a href="#">Link to this property</a>
 
-      When the certificate from the authority expires.
+txt\_value: optional string
 
-    - `geo_restrictions: optional object { label }`
+The TXT record that the certificate authority (CA) will check during domain validation.
 
-      Specify the region where your private key can be held locally.
+<a href="#">Link to this property</a>
 
-      - `label: optional "us" or "eu" or "highest_security"`
+</details>
 
-        - `"us"`
+<a href="#">Link to this property</a>
 
-        - `"eu"`
+primary\_certificate: optional string
 
-        - `"highest_security"`
+Identifier of the primary certificate in a pack.
 
-    - `issuer: optional string`
+<a href="#">Link to this property</a>
 
-      The certificate authority that issued the certificate.
+<details>
 
-    - `modified_on: optional string`
+<summary>
 
-      When the certificate was last modified.
+validation\_errors: optional array of object {message }
 
-    - `priority: optional number`
+Domain validation errors that have been received by the certificate authority (CA).
 
-      The order/priority in which the certificate will be used.
+</summary>
 
-    - `signature: optional string`
+message: optional string
 
-      The type of hash used for the certificate.
+A domain validation error.
 
-    - `uploaded_on: optional string`
+<a href="#">Link to this property</a>
 
-      When the certificate was uploaded to Cloudflare.
+</details>
 
-    - `zone_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier.
+<details>
 
-  - `hosts: array of Host`
+<summary>
 
-    Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+validation\_method: optional "txt"or "http"or "email"
 
-  - `status: Status`
+Validation Method selected for the order.
 
-    Status of certificate pack.
+</summary>
 
-    - `"initializing"`
+One of the following:
 
-    - `"pending_validation"`
+"txt"
 
-    - `"deleted"`
+<a href="#">Link to this property</a>
 
-    - `"pending_issuance"`
+"http"
 
-    - `"pending_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"pending_deletion"`
+"email"
 
-    - `"pending_expiration"`
+<a href="#">Link to this property</a>
 
-    - `"expired"`
+</details>
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"initializing_timed_out"`
+<details>
 
-    - `"validation_timed_out"`
+<summary>
 
-    - `"issuance_timed_out"`
+validation\_records: optional array of object {cname, cname\_target, emails, 5 more }
 
-    - `"deployment_timed_out"`
+Certificates’ validation records.
 
-    - `"deletion_timed_out"`
+</summary>
 
-    - `"pending_cleanup"`
+cname: optional string
 
-    - `"staging_deployment"`
+The CNAME record hostname for DCV delegation.
 
-    - `"staging_active"`
+<a href="#">Link to this property</a>
 
-    - `"deactivating"`
+cname\_target: optional string
 
-    - `"inactive"`
+The CNAME record target value for DCV delegation.
 
-    - `"backup_issued"`
+<a href="#">Link to this property</a>
 
-    - `"holding_deployment"`
+emails: optional array of string
 
-  - `type: "mh_custom" or "managed_hostname" or "sni_custom" or 5 more`
+The set of email addresses that the certificate authority (CA) will use to complete domain validation.
 
-    Type of certificate pack.
+<a href="#">Link to this property</a>
 
-    - `"mh_custom"`
+http\_body: optional string
 
-    - `"managed_hostname"`
+The content that the certificate authority (CA) will expect to find at the http\_url during the domain validation.
 
-    - `"sni_custom"`
+<a href="#">Link to this property</a>
 
-    - `"universal"`
+http\_url: optional string
 
-    - `"advanced"`
+The url that will be checked during domain validation.
 
-    - `"total_tls"`
+<a href="#">Link to this property</a>
 
-    - `"keyless"`
+status: optional string
 
-    - `"legacy_custom"`
+Status of the validation record.
 
-  - `certificate_authority: optional "google" or "lets_encrypt" or "ssl_com"`
+<a href="#">Link to this property</a>
 
-    Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+txt\_name: optional string
 
-    - `"google"`
+The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
 
-    - `"lets_encrypt"`
+<a href="#">Link to this property</a>
 
-    - `"ssl_com"`
+txt\_value: optional string
 
-  - `cloudflare_branding: optional boolean`
+The TXT record that the certificate authority (CA) will check during domain validation.
 
-    Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+<a href="#">Link to this property</a>
 
-  - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+</details>
 
-    DCV Delegation records for domain validation.
+<a href="#">Link to this property</a>
 
-    - `cname: optional string`
+<details>
 
-      The CNAME record hostname for DCV delegation.
+<summary>
 
-    - `cname_target: optional string`
+validity\_days: optional 14or 30or 90or 365
 
-      The CNAME record target value for DCV delegation.
+Validity Days selected for the order.
 
-    - `emails: optional array of string`
+</summary>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+One of the following:
 
-    - `http_body: optional string`
+14
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+<a href="#">Link to this property</a>
 
-    - `http_url: optional string`
+30
 
-      The url that will be checked during domain validation.
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+90
 
-      Status of the validation record.
+<a href="#">Link to this property</a>
 
-    - `txt_name: optional string`
+365
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<a href="#">Link to this property</a>
 
-    - `txt_value: optional string`
+</details>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+<a href="#">Link to this property</a>
 
-  - `primary_certificate: optional string`
+</details>
 
-    Identifier of the primary certificate in a pack.
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20certificate_pack_edit_response%20%3E%20(schema)>)
 
-  - `validation_errors: optional array of object { message }`
+<details>
 
-    Domain validation errors that have been received by the certificate authority (CA).
+<summary>
 
-    - `message: optional string`
+CertificatePackDeleteResponse object {id }
 
-      A domain validation error.
+</summary>
 
-  - `validation_method: optional "txt" or "http" or "email"`
+id: optional string
 
-    Validation Method selected for the order.
+Identifier.
 
-    - `"txt"`
+maxLength32
 
-    - `"http"`
+<a href="#">Link to this property</a>
 
-    - `"email"`
+</details>
 
-  - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+[Link to this property](#)%20ssl.certificate_packs%20%3E%20(model)%20certificate_pack_delete_response%20%3E%20(schema)>)
 
-    Certificates' validation records.
+#### SSLCertificate PacksQuota
 
-    - `cname: optional string`
+##### [Get Certificate Pack Quotas](https://developers.cloudflare.com/api/resources/ssl/subresources/certificate_packs/subresources/quota/methods/get)
 
-      The CNAME record hostname for DCV delegation.
+GET/zones/{zone\_id}/ssl/certificate\_packs/quota
 
-    - `cname_target: optional string`
+##### ModelsExpand Collapse
 
-      The CNAME record target value for DCV delegation.
+<details>
 
-    - `emails: optional array of string`
+<summary>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+QuotaGetResponse object {advanced }
 
-    - `http_body: optional string`
+</summary>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+<details>
 
-    - `http_url: optional string`
+<summary>
 
-      The url that will be checked during domain validation.
+advanced: optional object {allocated, used }
 
-    - `status: optional string`
+</summary>
 
-      Status of the validation record.
+allocated: optional number
 
-    - `txt_name: optional string`
+Quantity Allocated.
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<a href="#">Link to this property</a>
 
-    - `txt_value: optional string`
+used: optional number
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+Quantity Used.
 
-  - `validity_days: optional 14 or 30 or 90 or 365`
+<a href="#">Link to this property</a>
 
-    Validity Days selected for the order.
+</details>
 
-    - `14`
+<a href="#">Link to this property</a>
 
-    - `30`
+</details>
 
-    - `90`
+[Link to this property](#)%20ssl.certificate_packs.quota%20%3E%20(model)%20quota_get_response%20%3E%20(schema)>)
 
-    - `365`
+#### SSLRecommendations
 
-### Certificate Pack Create Response
+##### [SSL/TLS Recommendation](https://developers.cloudflare.com/api/resources/ssl/subresources/recommendations/methods/get)
 
-- `CertificatePackCreateResponse object { id, certificates, hosts, 10 more }`
+Deprecated
 
-  A certificate pack with all its properties.
+GET/zones/{zone\_id}/ssl/recommendation
 
-  - `id: string`
+##### ModelsExpand Collapse
 
-    Identifier.
+<details>
 
-  - `certificates: array of object { id, hosts, status, 9 more }`
+<summary>
 
-    Array of certificates in this pack.
+RecommendationGetResponse object {id, editable, modified\_on, 2 more }
 
-    - `id: string`
+</summary>
 
-      Certificate identifier.
+id: string
 
-    - `hosts: array of string`
+<a href="#">Link to this property</a>
 
-      Hostnames covered by this certificate.
+editable: boolean
 
-    - `status: string`
+Whether this setting can be updated or not.
 
-      Certificate status.
+<a href="#">Link to this property</a>
 
-    - `bundle_method: optional string`
+modified\_on: string
 
-      Certificate bundle method.
+Last time this setting was modified.
 
-    - `expires_on: optional string`
+formatdate-time
 
-      When the certificate from the authority expires.
+<a href="#">Link to this property</a>
 
-    - `geo_restrictions: optional object { label }`
+<details>
 
-      Specify the region where your private key can be held locally.
+<summary>
 
-      - `label: optional "us" or "eu" or "highest_security"`
+value: "auto"or "custom"
 
-        - `"us"`
+Current setting of the automatic SSL/TLS.
 
-        - `"eu"`
+</summary>
 
-        - `"highest_security"`
+One of the following:
 
-    - `issuer: optional string`
+"auto"
 
-      The certificate authority that issued the certificate.
+<a href="#">Link to this property</a>
 
-    - `modified_on: optional string`
+"custom"
 
-      When the certificate was last modified.
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+</details>
 
-      The order/priority in which the certificate will be used.
+<a href="#">Link to this property</a>
 
-    - `signature: optional string`
+next\_scheduled\_scan: optional string
 
-      The type of hash used for the certificate.
+Next time this zone will be scanned by the Automatic SSL/TLS.
 
-    - `uploaded_on: optional string`
+formatdate-time
 
-      When the certificate was uploaded to Cloudflare.
+<a href="#">Link to this property</a>
 
-    - `zone_id: optional string`
+</details>
 
-      Identifier.
+[Link to this property](#)%20ssl.recommendations%20%3E%20(model)%20recommendation_get_response%20%3E%20(schema)>)
 
-  - `hosts: array of Host`
+#### SSLAutomatic Upgrader
 
-    Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+##### [Get Automatic SSL/TLS enrollment status for the given zone](https://developers.cloudflare.com/api/resources/ssl/subresources/automatic_upgrader/methods/get)
 
-  - `status: Status`
+GET/zones/{zone\_id}/settings/ssl\_automatic\_mode
 
-    Status of certificate pack.
+##### [Patch Automatic SSL/TLS Enrollment status for given zone](https://developers.cloudflare.com/api/resources/ssl/subresources/automatic_upgrader/methods/patch)
 
-    - `"initializing"`
+PATCH/zones/{zone\_id}/settings/ssl\_automatic\_mode
 
-    - `"pending_validation"`
+##### ModelsExpand Collapse
 
-    - `"deleted"`
+<details>
 
-    - `"pending_issuance"`
+<summary>
 
-    - `"pending_deployment"`
+AutomaticUpgraderGetResponse object {id, editable, modified\_on, 2 more }
 
-    - `"pending_deletion"`
+</summary>
 
-    - `"pending_expiration"`
+id: string
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+editable: boolean
 
-    - `"initializing_timed_out"`
+Whether this setting can be updated or not.
 
-    - `"validation_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"issuance_timed_out"`
+modified\_on: string
 
-    - `"deployment_timed_out"`
+Last time this setting was modified.
 
-    - `"deletion_timed_out"`
+formatdate-time
 
-    - `"pending_cleanup"`
+<a href="#">Link to this property</a>
 
-    - `"staging_deployment"`
+<details>
 
-    - `"staging_active"`
+<summary>
 
-    - `"deactivating"`
+value: "auto"or "custom"
 
-    - `"inactive"`
+Current setting of the automatic SSL/TLS.
 
-    - `"backup_issued"`
+</summary>
 
-    - `"holding_deployment"`
+One of the following:
 
-  - `type: "mh_custom" or "managed_hostname" or "sni_custom" or 5 more`
+"auto"
 
-    Type of certificate pack.
+<a href="#">Link to this property</a>
 
-    - `"mh_custom"`
+"custom"
 
-    - `"managed_hostname"`
+<a href="#">Link to this property</a>
 
-    - `"sni_custom"`
+</details>
 
-    - `"universal"`
+<a href="#">Link to this property</a>
 
-    - `"advanced"`
+next\_scheduled\_scan: optional string
 
-    - `"total_tls"`
+Next time this zone will be scanned by the Automatic SSL/TLS.
 
-    - `"keyless"`
+formatdate-time
 
-    - `"legacy_custom"`
+<a href="#">Link to this property</a>
 
-  - `certificate_authority: optional "google" or "lets_encrypt" or "ssl_com"`
+</details>
 
-    Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+[Link to this property](#)%20ssl.automatic_upgrader%20%3E%20(model)%20automatic_upgrader_get_response%20%3E%20(schema)>)
 
-    - `"google"`
+<details>
 
-    - `"lets_encrypt"`
+<summary>
 
-    - `"ssl_com"`
+AutomaticUpgraderPatchResponse object {id, editable, modified\_on, 2 more }
 
-  - `cloudflare_branding: optional boolean`
+</summary>
 
-    Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+id: string
 
-  - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+<a href="#">Link to this property</a>
 
-    DCV Delegation records for domain validation.
+editable: boolean
 
-    - `cname: optional string`
+Whether this setting can be updated or not.
 
-      The CNAME record hostname for DCV delegation.
+<a href="#">Link to this property</a>
 
-    - `cname_target: optional string`
+modified\_on: string
 
-      The CNAME record target value for DCV delegation.
+Last time this setting was modified.
 
-    - `emails: optional array of string`
+formatdate-time
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+<a href="#">Link to this property</a>
 
-    - `http_body: optional string`
+<details>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+<summary>
 
-    - `http_url: optional string`
+value: "auto"or "custom"
 
-      The url that will be checked during domain validation.
+Current setting of the automatic SSL/TLS.
 
-    - `status: optional string`
+</summary>
 
-      Status of the validation record.
+One of the following:
 
-    - `txt_name: optional string`
+"auto"
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<a href="#">Link to this property</a>
 
-    - `txt_value: optional string`
+"custom"
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+<a href="#">Link to this property</a>
 
-  - `primary_certificate: optional string`
+</details>
 
-    Identifier of the primary certificate in a pack.
+<a href="#">Link to this property</a>
 
-  - `validation_errors: optional array of object { message }`
+next\_scheduled\_scan: optional string
 
-    Domain validation errors that have been received by the certificate authority (CA).
+Next time this zone will be scanned by the Automatic SSL/TLS.
 
-    - `message: optional string`
+formatdate-time
 
-      A domain validation error.
+<a href="#">Link to this property</a>
 
-  - `validation_method: optional "txt" or "http" or "email"`
+</details>
 
-    Validation Method selected for the order.
+[Link to this property](#)%20ssl.automatic_upgrader%20%3E%20(model)%20automatic_upgrader_patch_response%20%3E%20(schema)>)
 
-    - `"txt"`
+#### SSLAuto Origin TLS Kex
 
-    - `"http"`
+##### [Get Auto-Origin TLS KEX enrollment status for the given zone](https://developers.cloudflare.com/api/resources/ssl/subresources/auto_origin_tls_kex/methods/get)
 
-    - `"email"`
+GET/zones/{zone\_id}/settings/auto\_origin\_tls\_kex
 
-  - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+##### [Patch Auto-Origin TLS KEX enrollment status for the given zone](https://developers.cloudflare.com/api/resources/ssl/subresources/auto_origin_tls_kex/methods/edit)
 
-    Certificates' validation records.
+PATCH/zones/{zone\_id}/settings/auto\_origin\_tls\_kex
 
-    - `cname: optional string`
+##### ModelsExpand Collapse
 
-      The CNAME record hostname for DCV delegation.
+<details>
 
-    - `cname_target: optional string`
+<summary>
 
-      The CNAME record target value for DCV delegation.
+AutoOriginTLSKexGetResponse object {id, enabled, modified\_on }
 
-    - `emails: optional array of string`
+</summary>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+id: string
 
-    - `http_body: optional string`
+<a href="#">Link to this property</a>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+enabled: boolean
 
-    - `http_url: optional string`
+Whether Auto-Origin TLS KEX selection is enabled for the zone.
 
-      The url that will be checked during domain validation.
+<a href="#">Link to this property</a>
 
-    - `status: optional string`
+modified\_on: string
 
-      Status of the validation record.
+Last time this setting was modified.
 
-    - `txt_name: optional string`
+formatdate-time
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+<a href="#">Link to this property</a>
 
-    - `txt_value: optional string`
+</details>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(model)%20auto_origin_tls_kex_get_response%20%3E%20(schema)>)
 
-  - `validity_days: optional 14 or 30 or 90 or 365`
+<details>
 
-    Validity Days selected for the order.
+<summary>
 
-    - `14`
+AutoOriginTLSKexEditResponse object {id, enabled, modified\_on }
 
-    - `30`
+</summary>
 
-    - `90`
+id: string
 
-    - `365`
+<a href="#">Link to this property</a>
 
-### Certificate Pack Edit Response
+enabled: boolean
 
-- `CertificatePackEditResponse object { id, certificates, hosts, 10 more }`
+Whether Auto-Origin TLS KEX selection is enabled for the zone.
 
-  A certificate pack with all its properties.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+modified\_on: string
 
-    Identifier.
+Last time this setting was modified.
 
-  - `certificates: array of object { id, hosts, status, 9 more }`
+formatdate-time
 
-    Array of certificates in this pack.
+<a href="#">Link to this property</a>
 
-    - `id: string`
+</details>
 
-      Certificate identifier.
+[Link to this property](#)%20ssl.auto_origin_tls_kex%20%3E%20(model)%20auto_origin_tls_kex_edit_response%20%3E%20(schema)>)
 
-    - `hosts: array of string`
+#### SSLUniversal
 
-      Hostnames covered by this certificate.
+#### SSLUniversalSettings
 
-    - `status: string`
+##### [Universal SSL Settings Details](https://developers.cloudflare.com/api/resources/ssl/subresources/universal/subresources/settings/methods/get)
 
-      Certificate status.
+GET/zones/{zone\_id}/ssl/universal/settings
 
-    - `bundle_method: optional string`
+##### [Edit Universal SSL Settings](https://developers.cloudflare.com/api/resources/ssl/subresources/universal/subresources/settings/methods/edit)
 
-      Certificate bundle method.
+PATCH/zones/{zone\_id}/ssl/universal/settings
 
-    - `expires_on: optional string`
+##### ModelsExpand Collapse
 
-      When the certificate from the authority expires.
+<details>
 
-    - `geo_restrictions: optional object { label }`
+<summary>
 
-      Specify the region where your private key can be held locally.
+UniversalSSLSettings object {enabled }
 
-      - `label: optional "us" or "eu" or "highest_security"`
+</summary>
 
-        - `"us"`
+enabled: optional boolean
 
-        - `"eu"`
+Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advanced certificates or custom certificates uploaded for the domain, visitors will be unable to access the domain over HTTPS.
 
-        - `"highest_security"`
+By disabling Universal SSL, you understand that the following Cloudflare settings and preferences will result in visitors being unable to visit your domain unless you have uploaded a custom certificate or purchased an advanced certificate.
 
-    - `issuer: optional string`
+- HSTS
+- Always Use HTTPS
+- Opportunistic Encryption
+- Onion Routing
+- Any Page Rules redirecting traffic to HTTPS
 
-      The certificate authority that issued the certificate.
+Similarly, any HTTP redirect to HTTPS at the origin while the Cloudflare proxy is enabled will result in users being unable to visit your site without a valid certificate at Cloudflare’s edge.
 
-    - `modified_on: optional string`
+If you do not have a valid custom or advanced certificate at Cloudflare’s edge and are unsure if any of the above Cloudflare settings are enabled, or if any HTTP redirects exist at your origin, we advise leaving Universal SSL enabled for your domain.
 
-      When the certificate was last modified.
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+</details>
 
-      The order/priority in which the certificate will be used.
+[Link to this property](#)%20ssl.universal.settings%20%3E%20(model)%20universal_ssl_settings%20%3E%20(schema)>)
 
-    - `signature: optional string`
+#### SSLVerification
 
-      The type of hash used for the certificate.
+##### [SSL Verification Details](https://developers.cloudflare.com/api/resources/ssl/subresources/verification/methods/get)
 
-    - `uploaded_on: optional string`
+GET/zones/{zone\_id}/ssl/verification
 
-      When the certificate was uploaded to Cloudflare.
+##### [Edit SSL Certificate Pack Validation Method](https://developers.cloudflare.com/api/resources/ssl/subresources/verification/methods/edit)
 
-    - `zone_id: optional string`
+PATCH/zones/{zone\_id}/ssl/verification/{certificate\_pack\_id}
 
-      Identifier.
+##### ModelsExpand Collapse
 
-  - `hosts: array of Host`
+<details>
 
-    Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.
+<summary>
 
-  - `status: Status`
+Verification object {certificate\_status, brand\_check, cert\_pack\_uuid, 5 more }
 
-    Status of certificate pack.
+</summary>
 
-    - `"initializing"`
+<details>
 
-    - `"pending_validation"`
+<summary>
 
-    - `"deleted"`
+certificate\_status: "initializing"or "authorizing"or "active"or 4 more
 
-    - `"pending_issuance"`
+Current status of certificate.
 
-    - `"pending_deployment"`
+</summary>
 
-    - `"pending_deletion"`
+One of the following:
 
-    - `"pending_expiration"`
+"initializing"
 
-    - `"expired"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"authorizing"
 
-    - `"initializing_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"validation_timed_out"`
+"active"
 
-    - `"issuance_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"deployment_timed_out"`
+"expired"
 
-    - `"deletion_timed_out"`
+<a href="#">Link to this property</a>
 
-    - `"pending_cleanup"`
+"issuing"
 
-    - `"staging_deployment"`
+<a href="#">Link to this property</a>
 
-    - `"staging_active"`
+"timing\_out"
 
-    - `"deactivating"`
+<a href="#">Link to this property</a>
 
-    - `"inactive"`
+"pending\_deployment"
 
-    - `"backup_issued"`
+<a href="#">Link to this property</a>
 
-    - `"holding_deployment"`
+</details>
 
-  - `type: "mh_custom" or "managed_hostname" or "sni_custom" or 5 more`
+<a href="#">Link to this property</a>
 
-    Type of certificate pack.
+brand\_check: optional boolean
 
-    - `"mh_custom"`
+Certificate Authority is manually reviewing the order.
 
-    - `"managed_hostname"`
+<a href="#">Link to this property</a>
 
-    - `"sni_custom"`
+cert\_pack\_uuid: optional string
 
-    - `"universal"`
+Certificate Pack UUID.
 
-    - `"advanced"`
+<a href="#">Link to this property</a>
 
-    - `"total_tls"`
+<details>
 
-    - `"keyless"`
+<summary>
 
-    - `"legacy_custom"`
+signature: optional "ECDSAWithSHA256"or "SHA1WithRSA"or "SHA256WithRSA"
 
-  - `certificate_authority: optional "google" or "lets_encrypt" or "ssl_com"`
+Certificate’s signature algorithm.
 
-    Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
+</summary>
 
-    - `"google"`
+One of the following:
 
-    - `"lets_encrypt"`
+"ECDSAWithSHA256"
 
-    - `"ssl_com"`
+<a href="#">Link to this property</a>
 
-  - `cloudflare_branding: optional boolean`
+"SHA1WithRSA"
 
-    Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.
+<a href="#">Link to this property</a>
 
-  - `dcv_delegation_records: optional array of object { cname, cname_target, emails, 5 more }`
+"SHA256WithRSA"
 
-    DCV Delegation records for domain validation.
+<a href="#">Link to this property</a>
 
-    - `cname: optional string`
+</details>
 
-      The CNAME record hostname for DCV delegation.
+<a href="#">Link to this property</a>
 
-    - `cname_target: optional string`
+validation\_method: optional <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20validation_method%20%3E%20(schema)">ValidationMethod</a>
 
-      The CNAME record target value for DCV delegation.
+Validation method in use for a certificate pack order.
 
-    - `emails: optional array of string`
+<a href="#">Link to this property</a>
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+<details>
 
-    - `http_body: optional string`
+<summary>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+verification\_info: optional object {record\_name, record\_target }
 
-    - `http_url: optional string`
+Certificate’s required verification information.
 
-      The url that will be checked during domain validation.
+</summary>
 
-    - `status: optional string`
+<details>
 
-      Status of the validation record.
+<summary>
 
-    - `txt_name: optional string`
+record\_name: optional "record\_name"or "http\_url"or "cname"or "txt\_name"
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+Name of CNAME record.
 
-    - `txt_value: optional string`
+formathostname
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+</summary>
 
-  - `primary_certificate: optional string`
+One of the following:
 
-    Identifier of the primary certificate in a pack.
+"record\_name"
 
-  - `validation_errors: optional array of object { message }`
+<a href="#">Link to this property</a>
 
-    Domain validation errors that have been received by the certificate authority (CA).
+"http\_url"
 
-    - `message: optional string`
+<a href="#">Link to this property</a>
 
-      A domain validation error.
+"cname"
 
-  - `validation_method: optional "txt" or "http" or "email"`
+<a href="#">Link to this property</a>
 
-    Validation Method selected for the order.
+"txt\_name"
 
-    - `"txt"`
+<a href="#">Link to this property</a>
 
-    - `"http"`
+</details>
 
-    - `"email"`
+<a href="#">Link to this property</a>
 
-  - `validation_records: optional array of object { cname, cname_target, emails, 5 more }`
+<details>
 
-    Certificates' validation records.
+<summary>
 
-    - `cname: optional string`
+record\_target: optional "record\_value"or "http\_body"or "cname\_target"or "txt\_value"
 
-      The CNAME record hostname for DCV delegation.
+Target of CNAME record.
 
-    - `cname_target: optional string`
+formathostname
 
-      The CNAME record target value for DCV delegation.
+</summary>
 
-    - `emails: optional array of string`
+One of the following:
 
-      The set of email addresses that the certificate authority (CA) will use to complete domain validation.
+"record\_value"
 
-    - `http_body: optional string`
+<a href="#">Link to this property</a>
 
-      The content that the certificate authority (CA) will expect to find at the http_url during the domain validation.
+"http\_body"
 
-    - `http_url: optional string`
+<a href="#">Link to this property</a>
 
-      The url that will be checked during domain validation.
+"cname\_target"
 
-    - `status: optional string`
+<a href="#">Link to this property</a>
 
-      Status of the validation record.
+"txt\_value"
 
-    - `txt_name: optional string`
+<a href="#">Link to this property</a>
 
-      The hostname that the certificate authority (CA) will check for a TXT record during domain validation .
+</details>
 
-    - `txt_value: optional string`
+<a href="#">Link to this property</a>
 
-      The TXT record that the certificate authority (CA) will check during domain validation.
+</details>
 
-  - `validity_days: optional 14 or 30 or 90 or 365`
+<a href="#">Link to this property</a>
 
-    Validity Days selected for the order.
+verification\_status: optional boolean
 
-    - `14`
+Status of the required verification information, omitted if verification status is unknown.
 
-    - `30`
+<a href="#">Link to this property</a>
 
-    - `90`
+<details>
 
-    - `365`
+<summary>
 
-### Certificate Pack Delete Response
+verification\_type: optional "cname"or "meta tag"
 
-- `CertificatePackDeleteResponse object { id }`
+Method of verification.
 
-  - `id: optional string`
+</summary>
 
-    Identifier.
+One of the following:
 
-# Quota
+"cname"
 
-## Get Certificate Pack Quotas
+<a href="#">Link to this property</a>
 
-**get** `/zones/{zone_id}/ssl/certificate_packs/quota`
+"meta tag"
 
-For a given zone, list certificate pack quotas.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Returns
+[Link to this property](#)%20ssl.verification%20%3E%20(model)%20verification%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+VerificationGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.verification%20%3E%20(model)%20verification%20%3E%20(schema)">Verification</a> { certificate\_status, brand\_check, cert\_pack\_uuid, 5 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+certificate\_status: "initializing"or "authorizing"or "active"or 4 more
 
-  - `code: number`
+Current status of certificate.
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"initializing"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"authorizing"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"active"
 
-- `result: optional object { advanced }`
+<a href="#">Link to this property</a>
 
-  - `advanced: optional object { allocated, used }`
+"expired"
 
-    - `allocated: optional number`
+<a href="#">Link to this property</a>
 
-      Quantity Allocated.
+"issuing"
 
-    - `used: optional number`
+<a href="#">Link to this property</a>
 
-      Quantity Used.
+"timing\_out"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/certificate_packs/quota \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"pending\_deployment"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "advanced": {
-      "allocated": 0,
-      "used": 0
-    }
-  }
-}
-```
+</details>
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### Quota Get Response
+brand\_check: optional boolean
 
-- `QuotaGetResponse object { advanced }`
+Certificate Authority is manually reviewing the order.
 
-  - `advanced: optional object { allocated, used }`
+<a href="#">Link to this property</a>
 
-    - `allocated: optional number`
+cert\_pack\_uuid: optional string
 
-      Quantity Allocated.
+Certificate Pack UUID.
 
-    - `used: optional number`
+<a href="#">Link to this property</a>
 
-      Quantity Used.
+<details>
 
-# Recommendations
+<summary>
 
-# Automatic Upgrader
+signature: optional "ECDSAWithSHA256"or "SHA1WithRSA"or "SHA256WithRSA"
 
-## Get Automatic SSL/TLS enrollment status for the given zone
+Certificate’s signature algorithm.
 
-**get** `/zones/{zone_id}/settings/ssl_automatic_mode`
+</summary>
 
-If the system is enabled, the response will include next_scheduled_scan, representing the next time this zone will be scanned and the zone's ssl/tls encryption mode is potentially upgraded by the system. If the system is disabled, next_scheduled_scan will not be present in the response body.
+One of the following:
 
-### Path Parameters
+"ECDSAWithSHA256"
 
-- `zone_id: string`
+<a href="#">Link to this property</a>
 
-### Returns
+"SHA1WithRSA"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"SHA256WithRSA"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+validation\_method: optional <a href="https://developers.cloudflare.com/api/resources/ssl#(resource)%20ssl.certificate_packs%20%3E%20(model)%20validation_method%20%3E%20(schema)">ValidationMethod</a>
 
-- `messages: array of ResponseInfo`
+Validation method in use for a certificate pack order.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+verification\_info: optional object {record\_name, record\_target }
 
-- `result: object { id, editable, modified_on, 2 more }`
+Certificate’s required verification information.
 
-  - `id: string`
+</summary>
 
-  - `editable: boolean`
+<details>
 
-    Whether this setting can be updated or not.
+<summary>
 
-  - `modified_on: string`
+record\_name: optional "record\_name"or "http\_url"or "cname"or "txt\_name"
 
-    Last time this setting was modified.
+Name of CNAME record.
 
-  - `value: "auto" or "custom"`
+formathostname
 
-    Current setting of the automatic SSL/TLS.
+</summary>
 
-    - `"auto"`
+One of the following:
 
-    - `"custom"`
+"record\_name"
 
-  - `next_scheduled_scan: optional string`
+<a href="#">Link to this property</a>
 
-    Next time this zone will be scanned by the Automatic SSL/TLS.
+"http\_url"
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates the API call's success or failure.
+"cname"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/ssl_automatic_mode \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+"txt\_name"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "ssl_automatic_mode",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "next_scheduled_scan": "2014-02-01T05:20:00.12345Z",
-    "value": "auto"
-  },
-  "success": true
-}
-```
+</details>
 
-## Patch Automatic SSL/TLS Enrollment status for given zone
+<a href="#">Link to this property</a>
 
-**patch** `/zones/{zone_id}/settings/ssl_automatic_mode`
+<details>
 
-The automatic system is enabled when this endpoint is hit with value in the request body is set to "auto", and disabled when the request body value is set to "custom".
+<summary>
 
-### Path Parameters
+record\_target: optional "record\_value"or "http\_body"or "cname\_target"or "txt\_value"
 
-- `zone_id: string`
+Target of CNAME record.
 
-### Body Parameters
+formathostname
 
-- `value: "auto" or "custom"`
+</summary>
 
-  Controls enablement of Automatic SSL/TLS.
+One of the following:
 
-  - `"auto"`
+"record\_value"
 
-  - `"custom"`
+<a href="#">Link to this property</a>
 
-### Returns
+"http\_body"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"cname\_target"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"txt\_value"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+verification\_status: optional boolean
 
-  - `source: optional object { pointer }`
+Status of the required verification information, omitted if verification status is unknown.
 
-- `result: object { id, editable, modified_on, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-  - `editable: boolean`
+<summary>
 
-    Whether this setting can be updated or not.
+verification\_type: optional "cname"or "meta tag"
 
-  - `modified_on: string`
+Method of verification.
 
-    Last time this setting was modified.
+</summary>
 
-  - `value: "auto" or "custom"`
+One of the following:
 
-    Current setting of the automatic SSL/TLS.
+"cname"
 
-    - `"auto"`
+<a href="#">Link to this property</a>
 
-    - `"custom"`
+"meta tag"
 
-  - `next_scheduled_scan: optional string`
+<a href="#">Link to this property</a>
 
-    Next time this zone will be scanned by the Automatic SSL/TLS.
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates the API call's success or failure.
+</details>
 
-### Example
+[Link to this property](#)%20ssl.verification%20%3E%20(model)%20verification_get_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/ssl_automatic_mode \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "value": "auto"
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "editable": true,
-    "id": "ssl_automatic_mode",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "next_scheduled_scan": "2014-02-01T05:20:00.12345Z",
-    "value": "auto"
-  },
-  "success": true
-}
-```
+VerificationEditResponse object {status, validation\_method }
 
-## Domain Types
+</summary>
 
-### Automatic Upgrader Get Response
+status: optional string
 
-- `AutomaticUpgraderGetResponse object { id, editable, modified_on, 2 more }`
+Result status.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-  - `editable: boolean`
+<details>
 
-    Whether this setting can be updated or not.
+<summary>
 
-  - `modified_on: string`
+validation\_method: optional "http"or "cname"or "txt"or "email"
 
-    Last time this setting was modified.
+Desired validation method.
 
-  - `value: "auto" or "custom"`
+</summary>
 
-    Current setting of the automatic SSL/TLS.
+One of the following:
 
-    - `"auto"`
+"http"
 
-    - `"custom"`
+<a href="#">Link to this property</a>
 
-  - `next_scheduled_scan: optional string`
+"cname"
 
-    Next time this zone will be scanned by the Automatic SSL/TLS.
+<a href="#">Link to this property</a>
 
-### Automatic Upgrader Patch Response
+"txt"
 
-- `AutomaticUpgraderPatchResponse object { id, editable, modified_on, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"email"
 
-  - `editable: boolean`
+<a href="#">Link to this property</a>
 
-    Whether this setting can be updated or not.
+</details>
 
-  - `modified_on: string`
+<a href="#">Link to this property</a>
 
-    Last time this setting was modified.
+</details>
 
-  - `value: "auto" or "custom"`
-
-    Current setting of the automatic SSL/TLS.
-
-    - `"auto"`
-
-    - `"custom"`
-
-  - `next_scheduled_scan: optional string`
-
-    Next time this zone will be scanned by the Automatic SSL/TLS.
-
-# Auto Origin TLS Kex
-
-## Get Auto-Origin TLS KEX enrollment status for the given zone
-
-**get** `/zones/{zone_id}/settings/auto_origin_tls_kex`
-
-When enabled, Cloudflare automatically selects the preferred TLS key-exchange algorithm to use when establishing the TLS connection to the zone's origin, picking from the algorithms permitted by the zone's `origin_tls_compliance_modes` setting. When disabled, the default key-exchange ordering is used.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, enabled, modified_on }`
-
-  - `id: string`
-
-  - `enabled: boolean`
-
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
-
-- `success: boolean`
-
-  Indicates the API call's success or failure.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/auto_origin_tls_kex \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "enabled": false,
-    "id": "auto_origin_tls_kex",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Patch Auto-Origin TLS KEX enrollment status for the given zone
-
-**patch** `/zones/{zone_id}/settings/auto_origin_tls_kex`
-
-Enable or disable Auto-Origin TLS KEX selection for the zone by sending `{"enabled": true}` or `{"enabled": false}`. When enabled, Cloudflare runs a periodic scan of the zone's origins to determine the preferred key-exchange algorithm and writes that preference to the edge so it is sent first in the TLS ClientHello to the origin.
-
-### Path Parameters
-
-- `zone_id: string`
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  Controls enablement of Auto-Origin TLS KEX selection for the zone.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: object { id, enabled, modified_on }`
-
-  - `id: string`
-
-  - `enabled: boolean`
-
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
-
-- `success: boolean`
-
-  Indicates the API call's success or failure.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/auto_origin_tls_kex \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [],
-  "messages": [],
-  "result": {
-    "enabled": false,
-    "id": "auto_origin_tls_kex",
-    "modified_on": "2014-01-01T05:20:00.12345Z"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Auto Origin TLS Kex Get Response
-
-- `AutoOriginTLSKexGetResponse object { id, enabled, modified_on }`
-
-  - `id: string`
-
-  - `enabled: boolean`
-
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
-
-### Auto Origin TLS Kex Edit Response
-
-- `AutoOriginTLSKexEditResponse object { id, enabled, modified_on }`
-
-  - `id: string`
-
-  - `enabled: boolean`
-
-    Whether Auto-Origin TLS KEX selection is enabled for the zone.
-
-  - `modified_on: string`
-
-    Last time this setting was modified.
-
-# Universal
-
-# Settings
-
-## Universal SSL Settings Details
-
-**get** `/zones/{zone_id}/ssl/universal/settings`
-
-Get Universal SSL Settings for a Zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional UniversalSSLSettings`
-
-  - `enabled: optional boolean`
-
-    Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advanced certificates or custom certificates uploaded for the domain, visitors will be unable to access the domain over HTTPS.
-
-    By disabling Universal SSL, you understand that the following Cloudflare settings and preferences will result in visitors being unable to visit your domain unless you have uploaded a custom certificate or purchased an advanced certificate.
-
-    * HSTS
-    * Always Use HTTPS
-    * Opportunistic Encryption
-    * Onion Routing
-    * Any Page Rules redirecting traffic to HTTPS
-
-    Similarly, any HTTP redirect to HTTPS at the origin while the Cloudflare proxy is enabled will result in users being unable to visit your site without a valid certificate at Cloudflare's edge.
-
-    If you do not have a valid custom or advanced certificate at Cloudflare's edge and are unsure if any of the above Cloudflare settings are enabled, or if any HTTP redirects exist at your origin, we advise leaving Universal SSL enabled for your domain.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/universal/settings \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true
-  }
-}
-```
-
-## Edit Universal SSL Settings
-
-**patch** `/zones/{zone_id}/ssl/universal/settings`
-
-Patch Universal SSL Settings for a Zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `enabled: optional boolean`
-
-  Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advanced certificates or custom certificates uploaded for the domain, visitors will be unable to access the domain over HTTPS.
-
-  By disabling Universal SSL, you understand that the following Cloudflare settings and preferences will result in visitors being unable to visit your domain unless you have uploaded a custom certificate or purchased an advanced certificate.
-
-  * HSTS
-  * Always Use HTTPS
-  * Opportunistic Encryption
-  * Onion Routing
-  * Any Page Rules redirecting traffic to HTTPS
-
-  Similarly, any HTTP redirect to HTTPS at the origin while the Cloudflare proxy is enabled will result in users being unable to visit your site without a valid certificate at Cloudflare's edge.
-
-  If you do not have a valid custom or advanced certificate at Cloudflare's edge and are unsure if any of the above Cloudflare settings are enabled, or if any HTTP redirects exist at your origin, we advise leaving Universal SSL enabled for your domain.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional UniversalSSLSettings`
-
-  - `enabled: optional boolean`
-
-    Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advanced certificates or custom certificates uploaded for the domain, visitors will be unable to access the domain over HTTPS.
-
-    By disabling Universal SSL, you understand that the following Cloudflare settings and preferences will result in visitors being unable to visit your domain unless you have uploaded a custom certificate or purchased an advanced certificate.
-
-    * HSTS
-    * Always Use HTTPS
-    * Opportunistic Encryption
-    * Onion Routing
-    * Any Page Rules redirecting traffic to HTTPS
-
-    Similarly, any HTTP redirect to HTTPS at the origin while the Cloudflare proxy is enabled will result in users being unable to visit your site without a valid certificate at Cloudflare's edge.
-
-    If you do not have a valid custom or advanced certificate at Cloudflare's edge and are unsure if any of the above Cloudflare settings are enabled, or if any HTTP redirects exist at your origin, we advise leaving Universal SSL enabled for your domain.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/universal/settings \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "enabled": true
-  }
-}
-```
-
-## Domain Types
-
-### Universal SSL Settings
-
-- `UniversalSSLSettings object { enabled }`
-
-  - `enabled: optional boolean`
-
-    Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advanced certificates or custom certificates uploaded for the domain, visitors will be unable to access the domain over HTTPS.
-
-    By disabling Universal SSL, you understand that the following Cloudflare settings and preferences will result in visitors being unable to visit your domain unless you have uploaded a custom certificate or purchased an advanced certificate.
-
-    * HSTS
-    * Always Use HTTPS
-    * Opportunistic Encryption
-    * Onion Routing
-    * Any Page Rules redirecting traffic to HTTPS
-
-    Similarly, any HTTP redirect to HTTPS at the origin while the Cloudflare proxy is enabled will result in users being unable to visit your site without a valid certificate at Cloudflare's edge.
-
-    If you do not have a valid custom or advanced certificate at Cloudflare's edge and are unsure if any of the above Cloudflare settings are enabled, or if any HTTP redirects exist at your origin, we advise leaving Universal SSL enabled for your domain.
-
-# Verification
-
-## SSL Verification Details
-
-**get** `/zones/{zone_id}/ssl/verification`
-
-Get SSL Verification Info for a Zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Query Parameters
-
-- `retry: optional true`
-
-  Immediately retry SSL Verification.
-
-  - `true`
-
-### Returns
-
-- `result: optional array of Verification`
-
-  - `certificate_status: "initializing" or "authorizing" or "active" or 4 more`
-
-    Current status of certificate.
-
-    - `"initializing"`
-
-    - `"authorizing"`
-
-    - `"active"`
-
-    - `"expired"`
-
-    - `"issuing"`
-
-    - `"timing_out"`
-
-    - `"pending_deployment"`
-
-  - `brand_check: optional boolean`
-
-    Certificate Authority is manually reviewing the order.
-
-  - `cert_pack_uuid: optional string`
-
-    Certificate Pack UUID.
-
-  - `signature: optional "ECDSAWithSHA256" or "SHA1WithRSA" or "SHA256WithRSA"`
-
-    Certificate's signature algorithm.
-
-    - `"ECDSAWithSHA256"`
-
-    - `"SHA1WithRSA"`
-
-    - `"SHA256WithRSA"`
-
-  - `validation_method: optional ValidationMethod`
-
-    Validation method in use for a certificate pack order.
-
-    - `"http"`
-
-    - `"cname"`
-
-    - `"txt"`
-
-  - `verification_info: optional object { record_name, record_target }`
-
-    Certificate's required verification information.
-
-    - `record_name: optional "record_name" or "http_url" or "cname" or "txt_name"`
-
-      Name of CNAME record.
-
-      - `"record_name"`
-
-      - `"http_url"`
-
-      - `"cname"`
-
-      - `"txt_name"`
-
-    - `record_target: optional "record_value" or "http_body" or "cname_target" or "txt_value"`
-
-      Target of CNAME record.
-
-      - `"record_value"`
-
-      - `"http_body"`
-
-      - `"cname_target"`
-
-      - `"txt_value"`
-
-  - `verification_status: optional boolean`
-
-    Status of the required verification information, omitted if verification status is unknown.
-
-  - `verification_type: optional "cname" or "meta tag"`
-
-    Method of verification.
-
-    - `"cname"`
-
-    - `"meta tag"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/verification \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": [
-    {
-      "certificate_status": "active",
-      "brand_check": false,
-      "cert_pack_uuid": "a77f8bd7-3b47-46b4-a6f1-75cf98109948",
-      "signature": "ECDSAWithSHA256",
-      "validation_method": "txt",
-      "verification_info": {
-        "record_name": "record_name",
-        "record_target": "record_value"
-      },
-      "verification_status": true,
-      "verification_type": "cname"
-    }
-  ]
-}
-```
-
-## Edit SSL Certificate Pack Validation Method
-
-**patch** `/zones/{zone_id}/ssl/verification/{certificate_pack_id}`
-
-Edit SSL validation method for a certificate pack. A PATCH request will request an immediate validation check on any certificate, and return the updated status. If a validation method is provided, the validation will be immediately attempted using that method.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `certificate_pack_id: string`
-
-  Certificate Pack UUID.
-
-### Body Parameters
-
-- `validation_method: "http" or "cname" or "txt" or "email"`
-
-  Desired validation method.
-
-  - `"http"`
-
-  - `"cname"`
-
-  - `"txt"`
-
-  - `"email"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { status, validation_method }`
-
-  - `status: optional string`
-
-    Result status.
-
-  - `validation_method: optional "http" or "cname" or "txt" or "email"`
-
-    Desired validation method.
-
-    - `"http"`
-
-    - `"cname"`
-
-    - `"txt"`
-
-    - `"email"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/ssl/verification/$CERTIFICATE_PACK_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "validation_method": "txt"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "status": "pending_validation",
-    "validation_method": "txt"
-  }
-}
-```
-
-## Domain Types
-
-### Verification
-
-- `Verification object { certificate_status, brand_check, cert_pack_uuid, 5 more }`
-
-  - `certificate_status: "initializing" or "authorizing" or "active" or 4 more`
-
-    Current status of certificate.
-
-    - `"initializing"`
-
-    - `"authorizing"`
-
-    - `"active"`
-
-    - `"expired"`
-
-    - `"issuing"`
-
-    - `"timing_out"`
-
-    - `"pending_deployment"`
-
-  - `brand_check: optional boolean`
-
-    Certificate Authority is manually reviewing the order.
-
-  - `cert_pack_uuid: optional string`
-
-    Certificate Pack UUID.
-
-  - `signature: optional "ECDSAWithSHA256" or "SHA1WithRSA" or "SHA256WithRSA"`
-
-    Certificate's signature algorithm.
-
-    - `"ECDSAWithSHA256"`
-
-    - `"SHA1WithRSA"`
-
-    - `"SHA256WithRSA"`
-
-  - `validation_method: optional ValidationMethod`
-
-    Validation method in use for a certificate pack order.
-
-    - `"http"`
-
-    - `"cname"`
-
-    - `"txt"`
-
-  - `verification_info: optional object { record_name, record_target }`
-
-    Certificate's required verification information.
-
-    - `record_name: optional "record_name" or "http_url" or "cname" or "txt_name"`
-
-      Name of CNAME record.
-
-      - `"record_name"`
-
-      - `"http_url"`
-
-      - `"cname"`
-
-      - `"txt_name"`
-
-    - `record_target: optional "record_value" or "http_body" or "cname_target" or "txt_value"`
-
-      Target of CNAME record.
-
-      - `"record_value"`
-
-      - `"http_body"`
-
-      - `"cname_target"`
-
-      - `"txt_value"`
-
-  - `verification_status: optional boolean`
-
-    Status of the required verification information, omitted if verification status is unknown.
-
-  - `verification_type: optional "cname" or "meta tag"`
-
-    Method of verification.
-
-    - `"cname"`
-
-    - `"meta tag"`
-
-### Verification Get Response
-
-- `VerificationGetResponse = array of Verification`
-
-  - `certificate_status: "initializing" or "authorizing" or "active" or 4 more`
-
-    Current status of certificate.
-
-    - `"initializing"`
-
-    - `"authorizing"`
-
-    - `"active"`
-
-    - `"expired"`
-
-    - `"issuing"`
-
-    - `"timing_out"`
-
-    - `"pending_deployment"`
-
-  - `brand_check: optional boolean`
-
-    Certificate Authority is manually reviewing the order.
-
-  - `cert_pack_uuid: optional string`
-
-    Certificate Pack UUID.
-
-  - `signature: optional "ECDSAWithSHA256" or "SHA1WithRSA" or "SHA256WithRSA"`
-
-    Certificate's signature algorithm.
-
-    - `"ECDSAWithSHA256"`
-
-    - `"SHA1WithRSA"`
-
-    - `"SHA256WithRSA"`
-
-  - `validation_method: optional ValidationMethod`
-
-    Validation method in use for a certificate pack order.
-
-    - `"http"`
-
-    - `"cname"`
-
-    - `"txt"`
-
-  - `verification_info: optional object { record_name, record_target }`
-
-    Certificate's required verification information.
-
-    - `record_name: optional "record_name" or "http_url" or "cname" or "txt_name"`
-
-      Name of CNAME record.
-
-      - `"record_name"`
-
-      - `"http_url"`
-
-      - `"cname"`
-
-      - `"txt_name"`
-
-    - `record_target: optional "record_value" or "http_body" or "cname_target" or "txt_value"`
-
-      Target of CNAME record.
-
-      - `"record_value"`
-
-      - `"http_body"`
-
-      - `"cname_target"`
-
-      - `"txt_value"`
-
-  - `verification_status: optional boolean`
-
-    Status of the required verification information, omitted if verification status is unknown.
-
-  - `verification_type: optional "cname" or "meta tag"`
-
-    Method of verification.
-
-    - `"cname"`
-
-    - `"meta tag"`
-
-### Verification Edit Response
-
-- `VerificationEditResponse object { status, validation_method }`
-
-  - `status: optional string`
-
-    Result status.
-
-  - `validation_method: optional "http" or "cname" or "txt" or "email"`
-
-    Desired validation method.
-
-    - `"http"`
-
-    - `"cname"`
-
-    - `"txt"`
-
-    - `"email"`
+[Link to this property](#)%20ssl.verification%20%3E%20(model)%20verification_edit_response%20%3E%20(schema)>)

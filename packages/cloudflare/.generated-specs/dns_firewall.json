@@ -232,14 +232,14 @@
         "maximum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as",
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting.",
             "smithy.api#required": {}
           }
         },
         "minimum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as",
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting.",
             "smithy.api#required": {}
           }
         },
@@ -260,7 +260,7 @@
         "negative_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative",
+            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.",
             "smithy.api#required": {}
           }
         },
@@ -865,19 +865,19 @@
         "maximum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as"
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting."
           }
         },
         "minimum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as"
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting."
           }
         },
         "negative_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative",
+            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.",
             "com.cloudflare.protocols#nullable": {}
           }
         },
@@ -932,14 +932,14 @@
         "maximum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as",
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting.",
             "smithy.api#required": {}
           }
         },
         "minimum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as",
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting.",
             "smithy.api#required": {}
           }
         },
@@ -960,7 +960,7 @@
         "negative_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative",
+            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.",
             "smithy.api#required": {}
           }
         },
@@ -1454,14 +1454,14 @@
         "maximum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as",
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting.",
             "smithy.api#required": {}
           }
         },
         "minimum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as",
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting.",
             "smithy.api#required": {}
           }
         },
@@ -1482,7 +1482,7 @@
         "negative_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative",
+            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.",
             "smithy.api#required": {}
           }
         },
@@ -1724,13 +1724,13 @@
         "maximum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as"
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting."
           }
         },
         "minimum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as"
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting."
           }
         },
         "name": {
@@ -1742,7 +1742,7 @@
         "negative_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative",
+            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.",
             "com.cloudflare.protocols#nullable": {}
           }
         },
@@ -1800,14 +1800,14 @@
         "maximum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as",
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting.",
             "smithy.api#required": {}
           }
         },
         "minimum_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as",
+            "smithy.api#documentation": "By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting.",
             "smithy.api#required": {}
           }
         },
@@ -1828,7 +1828,7 @@
         "negative_cache_ttl": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative",
+            "smithy.api#documentation": "This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.",
             "smithy.api#required": {}
           }
         },

@@ -1,126 +1,282 @@
-## Creates bulk events
+---
+title: Creates bulk events
+---
 
-**post** `/accounts/{account_id}/cloudforce-one/events/create/bulk`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Cloudforce One](https://developers.cloudflare.com/api/resources/cloudforce_one)
+
+[Threat Events](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Creates bulk events
+
+POST/accounts/{account\_id}/cloudforce-one/events/create/bulk
 
 The `datasetId` parameter must be defined. To list existing datasets (and their IDs) in your account, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account ID.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Body Parameters
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `data: array of object { category, date, event, 13 more }`
+##### Accepted Permissions (at least one required)
 
-  - `category: string`
+`Cloudforce One Write``Cloudforce One Read`
 
-  - `date: string`
+##### P ath ParametersExpand Collapse
 
-  - `event: string`
+account\_id: string
 
-  - `raw: object { data, source, tlp }`
+Account ID.
 
-    - `data: map[unknown]`
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20bulk_create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `source: optional string`
+##### Body ParametersJSONExpand Collapse
 
-    - `tlp: optional string`
+<details>
 
-  - `tlp: string`
+<summary>
 
-  - `accountId: optional number`
+data: array of object {category, date, event, 13 more }
 
-  - `attacker: optional string`
+</summary>
 
-  - `attackerCountry: optional string`
+category: string
 
-  - `datasetId: optional string`
+<a href="#">Link to this property</a>
 
-  - `indicator: optional string`
+date: string
 
-  - `indicators: optional array of object { indicatorType, value }`
+formatdate-time
 
-    Array of indicators for this event. Supports multiple indicators per event for complex scenarios.
+<a href="#">Link to this property</a>
 
-    - `indicatorType: string`
+event: string
 
-      The type of indicator (e.g., DOMAIN, IP, JA3, HASH)
+<a href="#">Link to this property</a>
 
-    - `value: string`
+<details>
 
-      The indicator value (e.g., domain name, IP address, hash)
+<summary>
 
-  - `indicatorType: optional string`
+raw: object {data, source, tlp }
 
-  - `insight: optional string`
+</summary>
 
-  - `tags: optional array of string`
+data: map\[unknown]
 
-  - `targetCountry: optional string`
+<a href="#">Link to this property</a>
 
-  - `targetIndustry: optional string`
+source: optional string
 
-- `datasetId: string`
+<a href="#">Link to this property</a>
 
-- `includeCreatedEvents: optional boolean`
+tlp: optional string
 
-  When true, response includes array of created event UUIDs and shard IDs. Useful for tracking which events were created and where.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `createdEventsCount: number`
+<a href="#">Link to this property</a>
 
-  Number of events created
+tlp: string
 
-- `createdTagsCount: number`
+<a href="#">Link to this property</a>
 
-  Number of new tags created in SoT
+accountId: optional number
 
-- `errorCount: number`
+<a href="#">Link to this property</a>
 
-  Number of errors encountered
+attacker: optional string
 
-- `queuedIndicatorsCount: number`
+<a href="#">Link to this property</a>
 
-  Number of indicators queued for async processing
+attackerCountry: optional string
 
-- `createBulkEventsRequestId: optional string`
+<a href="#">Link to this property</a>
 
-  Correlation ID for async indicator processing
+datasetId: optional string
 
-- `createdEvents: optional array of object { eventIndex, shardId, uuid }`
+<a href="#">Link to this property</a>
 
-  Array of created events with UUIDs and shard locations. Only present when includeCreatedEvents=true
+indicator: optional string
 
-  - `eventIndex: number`
+<a href="#">Link to this property</a>
 
-    Original index in the input data array
+<details>
 
-  - `shardId: string`
+<summary>
 
-    Dataset ID of the shard where the event was created
+indicators: optional array of object {indicatorType, value }
 
-  - `uuid: string`
+Array of indicators for this event. Supports multiple indicators per event for complex scenarios.
 
-    UUID of the created event
+</summary>
 
-- `errors: optional array of object { error, eventIndex }`
+indicatorType: string
 
-  Array of error details
+The type of indicator (e.g., DOMAIN, IP, JA3, HASH)
 
-  - `error: string`
+<a href="#">Link to this property</a>
 
-    Error message
+value: string
 
-  - `eventIndex: number`
+The indicator value (e.g., domain name, IP address, hash)
 
-    Index of the event that caused the error
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+<a href="#">Link to this property</a>
+
+indicatorType: optional string
+
+<a href="#">Link to this property</a>
+
+insight: optional string
+
+<a href="#">Link to this property</a>
+
+tags: optional array of string
+
+<a href="#">Link to this property</a>
+
+targetCountry: optional string
+
+<a href="#">Link to this property</a>
+
+targetIndustry: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20bulk_create%20%3E%20(params)%200%20%3E%20(param)%20data%20%3E%20(schema)>)
+
+datasetId: string
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20bulk_create%20%3E%20(params)%200%20%3E%20(param)%20datasetId%20%3E%20(schema)>)
+
+includeCreatedEvents: optional boolean
+
+When true, response includes array of created event UUIDs and shard IDs. Useful for tracking which events were created and where.
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(method)%20bulk_create%20%3E%20(params)%200%20%3E%20(param)%20includeCreatedEvents%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+createdEventsCount: number
+
+Number of events created
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_response%20%3E%20(schema)%20%3E%20(property)%20createdEventsCount>)
+
+createdTagsCount: number
+
+Number of new tags created in SoT
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_response%20%3E%20(schema)%20%3E%20(property)%20createdTagsCount>)
+
+errorCount: number
+
+Number of errors encountered
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_response%20%3E%20(schema)%20%3E%20(property)%20errorCount>)
+
+queuedIndicatorsCount: number
+
+Number of indicators queued for async processing
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_response%20%3E%20(schema)%20%3E%20(property)%20queuedIndicatorsCount>)
+
+createBulkEventsRequestId: optional string
+
+Correlation ID for async indicator processing
+
+formatuuid
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_response%20%3E%20(schema)%20%3E%20(property)%20createBulkEventsRequestId>)
+
+<details>
+
+<summary>
+
+createdEvents: optional array of object {eventIndex, shardId, uuid }
+
+Array of created events with UUIDs and shard locations. Only present when includeCreatedEvents=true
+
+</summary>
+
+eventIndex: number
+
+Original index in the input data array
+
+<a href="#">Link to this property</a>
+
+shardId: string
+
+Dataset ID of the shard where the event was created
+
+<a href="#">Link to this property</a>
+
+uuid: string
+
+UUID of the created event
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_response%20%3E%20(schema)%20%3E%20(property)%20createdEvents>)
+
+<details>
+
+<summary>
+
+errors: optional array of object {error, eventIndex }
+
+Array of error details
+
+</summary>
+
+error: string
+
+Error message
+
+<a href="#">Link to this property</a>
+
+eventIndex: number
+
+Index of the event that caused the error
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20cloudforce_one.threat_events%20%3E%20(model)%20threat_event_bulk_create_response%20%3E%20(schema)%20%3E%20(property)%20errors>)
+
+### Creates bulk events
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/events/create/bulk \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -142,9 +298,36 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cloudforce-one/ev
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "createdEventsCount": 0,
+  "createdTagsCount": 0,
+  "errorCount": 0,
+  "queuedIndicatorsCount": 0,
+  "createBulkEventsRequestId": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "createdEvents": [
+    {
+      "eventIndex": 0,
+      "shardId": "shardId",
+      "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+    }
+  ],
+  "errors": [
+    {
+      "error": "error",
+      "eventIndex": 0
+    }
+  ]
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "createdEventsCount": 0,
   "createdTagsCount": 0,

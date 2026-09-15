@@ -1,1144 +1,683 @@
+---
+title: App Configuration
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Sites](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # App Configuration
 
-## List App Configs
+##### [List App Configs](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/list)
 
-**get** `/accounts/{account_id}/magic/sites/{site_id}/app_configs`
+GET/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs
 
-Lists App Configs associated with a site.
+##### [Create a new App Config](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs
 
-- `account_id: string`
+##### [Update an App Config](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/update)
 
-  Identifier
+PUT/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs/{app\_config\_id}
 
-- `site_id: string`
+##### [Update an App Config](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/edit)
 
-  Identifier
+PATCH/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs/{app\_config\_id}
 
-### Returns
+##### [Delete App Config](https://developers.cloudflare.com/api/resources/magic_transit/subresources/sites/subresources/app_configuration/methods/delete)
 
-- `errors: array of ResponseInfo`
+DELETE/accounts/{account\_id}/magic/sites/{site\_id}/app\_configs/{app\_config\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+AppConfigurationListResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-    - `pointer: optional string`
+Traffic decision configuration for an app.
 
-- `messages: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-- `result: array of object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+</summary>
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+account\_app\_id: string
 
-    - `account_app_id: string`
+Magic account app ID.
 
-      Magic account app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+id: optional string
 
-      Identifier
+Identifier
 
-    - `breakout: optional boolean`
+maxLength32
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+breakout: optional boolean
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+preferred\_wans: optional array of string
 
-    - `site_id: optional string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-      Identifier
+<a href="#">Link to this property</a>
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+priority: optional number
 
-    - `managed_app_id: string`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-      Managed app ID.
+maximum1
 
-    - `id: optional string`
+minimum0
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `breakout: optional boolean`
+site\_id: optional string
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+Identifier
 
-    - `preferred_wans: optional array of string`
+maxLength32
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+</details>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+<a href="#">Link to this property</a>
 
-    - `site_id: optional string`
+<details>
 
-      Identifier
+<summary>
 
-- `success: true`
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+managed\_app\_id: string
 
-### Example
+Managed app ID.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "breakout": true,
-      "preferred_wans": [
-        "023e105f4ecef8ad9ca31a8372d0c353"
-      ],
-      "priority": 0,
-      "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-    }
-  ],
-  "success": true
-}
-```
+Identifier
 
-## Create a new App Config
+maxLength32
 
-**post** `/accounts/{account_id}/magic/sites/{site_id}/app_configs`
+<a href="#">Link to this property</a>
 
-Creates a new App Config for a site
+breakout: optional boolean
 
-### Path Parameters
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier
+preferred\_wans: optional array of string
 
-- `site_id: string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-  Identifier
+<a href="#">Link to this property</a>
 
-### Body Parameters
+priority: optional number
 
-- `body: object { account_app_id, breakout, preferred_wans, priority }  or object { managed_app_id, breakout, preferred_wans, priority }`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `AccountApp object { account_app_id, breakout, preferred_wans, priority }`
+maximum1
 
-    - `account_app_id: string`
+minimum0
 
-      Magic account app ID.
+<a href="#">Link to this property</a>
 
-    - `breakout: optional boolean`
+site\_id: optional string
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+Identifier
 
-    - `preferred_wans: optional array of string`
+maxLength32
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+</details>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+<a href="#">Link to this property</a>
 
-  - `ManagedApp object { managed_app_id, breakout, preferred_wans, priority }`
+</details>
 
-    - `managed_app_id: string`
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_list_response%20%3E%20(schema)>)
 
-      Managed app ID.
+<details>
 
-    - `breakout: optional boolean`
+<summary>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+AppConfigurationCreateResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-    - `preferred_wans: optional array of string`
+Traffic decision configuration for an app.
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+</summary>
 
-    - `priority: optional number`
+One of the following:
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of ResponseInfo`
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+account\_app\_id: string
 
-  - `documentation_url: optional string`
+Magic account app ID.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+id: optional string
 
-- `messages: array of ResponseInfo`
+Identifier
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+breakout: optional boolean
 
-  - `source: optional object { pointer }`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-  Traffic decision configuration for an app.
+preferred\_wans: optional array of string
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-    - `account_app_id: string`
+<a href="#">Link to this property</a>
 
-      Magic account app ID.
+priority: optional number
 
-    - `id: optional string`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-      Identifier
+maximum1
 
-    - `breakout: optional boolean`
+minimum0
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+site\_id: optional string
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+Identifier
 
-    - `priority: optional number`
+maxLength32
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+<a href="#">Link to this property</a>
 
-    - `site_id: optional string`
+</details>
 
-      Identifier
+<a href="#">Link to this property</a>
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+<details>
 
-    - `managed_app_id: string`
+<summary>
 
-      Managed app ID.
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-    - `id: optional string`
+</summary>
 
-      Identifier
+managed\_app\_id: string
 
-    - `breakout: optional boolean`
+Managed app ID.
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+id: optional string
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+Identifier
 
-    - `priority: optional number`
+maxLength32
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+<a href="#">Link to this property</a>
 
-    - `site_id: optional string`
+breakout: optional boolean
 
-      Identifier
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+preferred\_wans: optional array of string
 
-  - `true`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-          "breakout": true
-        }'
-```
+priority: optional number
 
-#### Response
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "breakout": true,
-    "preferred_wans": [
-      "023e105f4ecef8ad9ca31a8372d0c353"
-    ],
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+maximum1
 
-## Update an App Config
+minimum0
 
-**put** `/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}`
+<a href="#">Link to this property</a>
 
-Updates an App Config for a site
+site\_id: optional string
 
-### Path Parameters
+Identifier
 
-- `account_id: string`
+maxLength32
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `site_id: string`
+</details>
 
-  Identifier
+<a href="#">Link to this property</a>
 
-- `app_config_id: string`
+</details>
 
-  Identifier
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_create_response%20%3E%20(schema)>)
 
-### Body Parameters
+<details>
 
-- `account_app_id: optional string`
+<summary>
 
-  Magic account app ID.
+AppConfigurationUpdateResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-- `breakout: optional boolean`
+Traffic decision configuration for an app.
 
-  Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+</summary>
 
-- `managed_app_id: optional string`
+One of the following:
 
-  Managed app ID.
+<details>
 
-- `preferred_wans: optional array of string`
+<summary>
 
-  WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-- `priority: optional number`
+</summary>
 
-  Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+account\_app\_id: string
 
-### Returns
+Magic account app ID.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+id: optional string
 
-  - `message: string`
+Identifier
 
-  - `documentation_url: optional string`
+maxLength32
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+breakout: optional boolean
 
-- `messages: array of ResponseInfo`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+preferred\_wans: optional array of string
 
-  - `documentation_url: optional string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+priority: optional number
 
-  Traffic decision configuration for an app.
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+maximum1
 
-    - `account_app_id: string`
+minimum0
 
-      Magic account app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+site\_id: optional string
 
-      Identifier
+Identifier
 
-    - `breakout: optional boolean`
+maxLength32
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+</details>
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+<details>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+<summary>
 
-    - `site_id: optional string`
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-      Identifier
+</summary>
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+managed\_app\_id: string
 
-    - `managed_app_id: string`
+Managed app ID.
 
-      Managed app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+id: optional string
 
-      Identifier
+Identifier
 
-    - `breakout: optional boolean`
+maxLength32
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<a href="#">Link to this property</a>
 
-    - `preferred_wans: optional array of string`
+breakout: optional boolean
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+preferred\_wans: optional array of string
 
-    - `site_id: optional string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-      Identifier
+<a href="#">Link to this property</a>
 
-- `success: true`
+priority: optional number
 
-  Whether the API call was successful
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `true`
+maximum1
 
-### Example
+minimum0
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs/$APP_CONFIG_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-          "breakout": true,
-          "managed_app_id": "cloudflare"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+site\_id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "breakout": true,
-    "preferred_wans": [
-      "023e105f4ecef8ad9ca31a8372d0c353"
-    ],
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+Identifier
 
-## Update an App Config
+maxLength32
 
-**patch** `/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}`
+<a href="#">Link to this property</a>
 
-Updates an App Config for a site
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_update_response%20%3E%20(schema)>)
 
-- `site_id: string`
+<details>
 
-  Identifier
+<summary>
 
-- `app_config_id: string`
+AppConfigurationEditResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-  Identifier
+Traffic decision configuration for an app.
 
-### Body Parameters
+</summary>
 
-- `account_app_id: optional string`
+One of the following:
 
-  Magic account app ID.
+<details>
 
-- `breakout: optional boolean`
+<summary>
 
-  Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-- `managed_app_id: optional string`
+</summary>
 
-  Managed app ID.
+account\_app\_id: string
 
-- `preferred_wans: optional array of string`
+Magic account app ID.
 
-  WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<a href="#">Link to this property</a>
 
-- `priority: optional number`
+id: optional string
 
-  Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+Identifier
 
-### Returns
+maxLength32
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+breakout: optional boolean
 
-  - `message: string`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+preferred\_wans: optional array of string
 
-    - `pointer: optional string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+priority: optional number
 
-  - `message: string`
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-  - `documentation_url: optional string`
+maximum1
 
-  - `source: optional object { pointer }`
+minimum0
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-  Traffic decision configuration for an app.
+site\_id: optional string
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+Identifier
 
-    - `account_app_id: string`
+maxLength32
 
-      Magic account app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      Identifier
+<a href="#">Link to this property</a>
 
-    - `breakout: optional boolean`
+<details>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+<summary>
 
-    - `preferred_wans: optional array of string`
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+</summary>
 
-    - `priority: optional number`
+managed\_app\_id: string
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+Managed app ID.
 
-    - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+id: optional string
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+Identifier
 
-    - `managed_app_id: string`
+maxLength32
 
-      Managed app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+breakout: optional boolean
 
-      Identifier
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-    - `breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+preferred\_wans: optional array of string
 
-    - `preferred_wans: optional array of string`
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+priority: optional number
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-    - `site_id: optional string`
+maximum1
 
-      Identifier
+minimum0
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+site\_id: optional string
 
-  - `true`
+Identifier
 
-### Example
+maxLength32
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs/$APP_CONFIG_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-          "breakout": true,
-          "managed_app_id": "cloudflare"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "breakout": true,
-    "preferred_wans": [
-      "023e105f4ecef8ad9ca31a8372d0c353"
-    ],
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete App Config
+</details>
 
-**delete** `/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}`
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_edit_response%20%3E%20(schema)>)
 
-Deletes specific App Config associated with a site.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+AppConfigurationDeleteResponse = object {account\_app\_id, id, breakout, 3 more } or object {managed\_app\_id, id, breakout, 3 more }
 
-  Identifier
+Traffic decision configuration for an app.
 
-- `site_id: string`
+</summary>
 
-  Identifier
+One of the following:
 
-- `app_config_id: string`
+<details>
 
-  Identifier
+<summary>
 
-### Returns
+AccountApp object {account\_app\_id, id, breakout, 3 more }
 
-- `errors: array of ResponseInfo`
+</summary>
 
-  - `code: number`
+account\_app\_id: string
 
-  - `message: string`
+Magic account app ID.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+Identifier
 
-- `messages: array of ResponseInfo`
+maxLength32
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+breakout: optional boolean
 
-  - `documentation_url: optional string`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+preferred\_wans: optional array of string
 
-  Traffic decision configuration for an app.
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account_app_id: string`
+priority: optional number
 
-      Magic account app ID.
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-    - `id: optional string`
+maximum1
 
-      Identifier
+minimum0
 
-    - `breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+site\_id: optional string
 
-    - `preferred_wans: optional array of string`
+Identifier
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+maxLength32
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+</details>
 
-    - `site_id: optional string`
+<a href="#">Link to this property</a>
 
-      Identifier
+<details>
 
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
+<summary>
 
-    - `managed_app_id: string`
+ManagedApp object {managed\_app\_id, id, breakout, 3 more }
 
-      Managed app ID.
+</summary>
 
-    - `id: optional string`
+managed\_app\_id: string
 
-      Identifier
+Managed app ID.
 
-    - `breakout: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
+id: optional string
 
-    - `preferred_wans: optional array of string`
+Identifier
 
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
+maxLength32
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
+breakout: optional boolean
 
-    - `site_id: optional string`
+Whether to breakout traffic to the app’s endpoints directly. Null preserves default behavior.
 
-      Identifier
+<a href="#">Link to this property</a>
 
-- `success: true`
+preferred\_wans: optional array of string
 
-  Whether the API call was successful
+WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+priority: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/sites/$SITE_ID/app_configs/$APP_CONFIG_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
 
-#### Response
+maximum1
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "account_app_id": "ac60d3d0435248289d446cedd870bcf4",
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "breakout": true,
-    "preferred_wans": [
-      "023e105f4ecef8ad9ca31a8372d0c353"
-    ],
-    "priority": 0,
-    "site_id": "023e105f4ecef8ad9ca31a8372d0c353"
-  },
-  "success": true
-}
-```
+minimum0
 
-## Domain Types
+<a href="#">Link to this property</a>
 
-### App Configuration List Response
+site\_id: optional string
 
-- `AppConfigurationListResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
+Identifier
 
-  Traffic decision configuration for an app.
+maxLength32
 
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
+<a href="#">Link to this property</a>
 
-    - `account_app_id: string`
+</details>
 
-      Magic account app ID.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+</details>
 
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-### App Configuration Create Response
-
-- `AppConfigurationCreateResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
-
-  Traffic decision configuration for an app.
-
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
-
-    - `account_app_id: string`
-
-      Magic account app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-### App Configuration Update Response
-
-- `AppConfigurationUpdateResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
-
-  Traffic decision configuration for an app.
-
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
-
-    - `account_app_id: string`
-
-      Magic account app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-### App Configuration Edit Response
-
-- `AppConfigurationEditResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
-
-  Traffic decision configuration for an app.
-
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
-
-    - `account_app_id: string`
-
-      Magic account app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-### App Configuration Delete Response
-
-- `AppConfigurationDeleteResponse = object { account_app_id, id, breakout, 3 more }  or object { managed_app_id, id, breakout, 3 more }`
-
-  Traffic decision configuration for an app.
-
-  - `AccountApp object { account_app_id, id, breakout, 3 more }`
-
-    - `account_app_id: string`
-
-      Magic account app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
-
-  - `ManagedApp object { managed_app_id, id, breakout, 3 more }`
-
-    - `managed_app_id: string`
-
-      Managed app ID.
-
-    - `id: optional string`
-
-      Identifier
-
-    - `breakout: optional boolean`
-
-      Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
-
-    - `preferred_wans: optional array of string`
-
-      WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
-
-    - `priority: optional number`
-
-      Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)
-
-    - `site_id: optional string`
-
-      Identifier
+[Link to this property](#)%20magic_transit.sites.app_configuration%20%3E%20(model)%20app_configuration_delete_response%20%3E%20(schema)>)

@@ -1,157 +1,441 @@
-## Retrieves Issue Audit Log
+---
+title: Retrieves Issue Audit Log
+---
 
-**get** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/{issue_id}/audit-log`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Security Center](https://developers.cloudflare.com/api/resources/security_center)
+
+[Insights](https://developers.cloudflare.com/api/resources/security_center/subresources/insights)
+
+[Audit Logs](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/audit_logs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Retrieves Issue Audit Log
+
+GET/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/{issue\_id}/audit-log
 
 Lists audit log entries for a specific Security Center insight, showing changes to its status and classification over time.
 
-### Path Parameters
+##### Security
 
-- `issue_id: string`
+<details>
 
-- `account_id: optional string`
+<summary>API Token</summary>
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-- `zone_id: optional string`
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Query Parameters
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `before: optional string`
+</details>
 
-  Filter entries changed before this timestamp (RFC 3339).
+<details>
 
-- `changed_by: optional string`
+<summary>API Email + API Key</summary>
 
-  Filter by the actor that made the change.
 
-- `cursor: optional string`
 
-  Opaque cursor for pagination. Use the cursor value from result_info of the previous response.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `field_changed: optional "status" or "user_classification"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  Filter by the field that was changed.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"status"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"user_classification"`
+</details>
 
-- `order: optional "asc" or "desc"`
+##### P ath ParametersExpand Collapse
 
-  Sort order for results. Use 'asc' for oldest first or 'desc' for newest first.
+issue\_id: string
 
-  - `"asc"`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20issue_id%20%3E%20(schema)>)
 
-  - `"desc"`
+account\_id: optional string
 
-- `per_page: optional number`
+The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
 
-  Number of results per page.
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `since: optional string`
+zone\_id: optional string
 
-  Filter entries changed at or after this timestamp (RFC 3339).
+The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
 
-### Returns
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `errors: array of object { code, message, documentation_url, source }`
+##### Q uery ParametersExpand Collapse
 
-  - `code: number`
+before: optional string
 
-  - `message: string`
+Filter entries changed before this timestamp (RFC 3339).
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20before%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+changed\_by: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Filter by the actor that made the change.
 
-  - `code: number`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20changed_by%20%3E%20(schema)>)
 
-  - `message: string`
+cursor: optional string
 
-  - `documentation_url: optional string`
+Opaque cursor for pagination. Use the cursor value from result\_info of the previous response.
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20cursor%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+field\_changed: optional "status"or "user\_classification"
 
-  - `true`
+Filter by the field that was changed.
 
-- `result: optional array of object { id, changed_at, changed_by, 6 more }`
+</summary>
 
-  - `id: optional string`
+One of the following:
 
-    UUIDv7 identifier for the audit log entry, time-ordered.
+"status"
 
-  - `changed_at: optional string`
+<a href="#">Link to this property</a>
 
-    The timestamp when the change occurred.
+"user\_classification"
 
-  - `changed_by: optional string`
+<a href="#">Link to this property</a>
 
-    The actor that made the change. 'system' for automated changes, or a user identifier.
+</details>
 
-  - `current_value: optional string`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20field_changed%20%3E%20(schema)>)
 
-    The value of the field after the change. Null if the field was cleared.
+<details>
 
-  - `field_changed: optional "status" or "user_classification"`
+<summary>
 
-    The field that was changed.
+order: optional "asc"or "desc"
 
-    - `"status"`
+Sort order for results. Use ‘asc’ for oldest first or ‘desc’ for newest first.
 
-    - `"user_classification"`
+</summary>
 
-  - `issue_id: optional string`
+One of the following:
 
-    The ID of the insight this audit log entry relates to.
+"asc"
 
-  - `previous_value: optional string`
+<a href="#">Link to this property</a>
 
-    The value of the field before the change. Null if the field was not previously set.
+"desc"
 
-  - `rationale: optional string`
+<a href="#">Link to this property</a>
 
-    Optional rationale provided for the change.
+</details>
 
-  - `zone_id: optional number`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20order%20%3E%20(schema)>)
 
-    The zone ID associated with the insight. Only present for zone-level insights.
+per\_page: optional number
 
-- `result_info: optional object { count, cursor, per_page }`
+Number of results per page.
 
-  - `count: optional number`
+maximum1000
 
-    The number of items in the current result set.
+minimum1
 
-  - `cursor: optional string`
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-    Opaque cursor for the next page of results. Absent when there are no more results.
+since: optional string
 
-  - `per_page: optional number`
+Filter entries changed at or after this timestamp (RFC 3339).
 
-    The requested number of items per page.
+formatdate-time
 
-### Example
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(params)%20default%20%3E%20(param)%20since%20%3E%20(schema)>)
 
-```http
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional array of object {id, changed\_at, changed\_by, 6 more }
+
+</summary>
+
+id: optional string
+
+UUIDv7 identifier for the audit log entry, time-ordered.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+changed\_at: optional string
+
+The timestamp when the change occurred.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+changed\_by: optional string
+
+The actor that made the change. ‘system’ for automated changes, or a user identifier.
+
+<a href="#">Link to this property</a>
+
+current\_value: optional string
+
+The value of the field after the change. Null if the field was cleared.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+field\_changed: optional "status"or "user\_classification"
+
+The field that was changed.
+
+</summary>
+
+One of the following:
+
+"status"
+
+<a href="#">Link to this property</a>
+
+"user\_classification"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+issue\_id: optional string
+
+The ID of the insight this audit log entry relates to.
+
+<a href="#">Link to this property</a>
+
+previous\_value: optional string
+
+The value of the field before the change. Null if the field was not previously set.
+
+<a href="#">Link to this property</a>
+
+rationale: optional string
+
+Optional rationale provided for the change.
+
+<a href="#">Link to this property</a>
+
+zone\_id: optional number
+
+The zone ID associated with the insight. Only present for zone-level insights.
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, cursor, per\_page }
+
+</summary>
+
+count: optional number
+
+The number of items in the current result set.
+
+<a href="#">Link to this property</a>
+
+cursor: optional string
+
+Opaque cursor for the next page of results. Absent when there are no more results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+The requested number of items per page.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20security_center.insights.audit_logs%20%3E%20(method)%20list_by_insight%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Retrieves Issue Audit Log
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/$ISSUE_ID/audit-log \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": [
+    {
+      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "changed_at": "2019-12-27T18:11:19.117Z",
+      "changed_by": "system",
+      "current_value": "current_value",
+      "field_changed": "status",
+      "issue_id": "issue_id",
+      "previous_value": "previous_value",
+      "rationale": "rationale",
+      "zone_id": 0
+    }
+  ],
+  "result_info": {
+    "count": 25,
+    "cursor": "cursor",
+    "per_page": 25
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

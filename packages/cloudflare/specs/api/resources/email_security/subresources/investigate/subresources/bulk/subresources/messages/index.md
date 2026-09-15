@@ -1,359 +1,1073 @@
+---
+title: Messages
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
+
+[Bulk](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/bulk)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Messages
 
-## List messages for a bulk action job
+##### [List messages for a bulk action job](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/bulk/subresources/messages/methods/list)
 
-**get** `/accounts/{account_id}/email-security/investigate/bulk/{job_id}/messages`
+GET/accounts/{account\_id}/email-security/investigate/bulk/{job\_id}/messages
 
-List messages for a bulk action job
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+MessageListResponse object {action\_params, action\_type, created\_at, 10 more }
 
-- `job_id: string`
+</summary>
 
-### Query Parameters
+<details>
 
-- `page: optional number`
+<summary>
 
-  Current page within paginated list of results.
+action\_params: object {client\_recipient, destination, type, expected\_disposition } or object {client\_recipient, type }
 
-- `per_page: optional number`
+</summary>
 
-  The number of results per page. Maximum value is 1000.
+One of the following:
 
-- `status: optional "PENDING" or "DISCOVERING" or "PROCESSING" or 4 more`
+<details>
 
-  - `"PENDING"`
+<summary>
 
-  - `"DISCOVERING"`
+Move object {client\_recipient, destination, type, expected\_disposition }
 
-  - `"PROCESSING"`
+</summary>
 
-  - `"COMPLETED"`
+client\_recipient: string
 
-  - `"FAILED"`
+<a href="#">Link to this property</a>
 
-  - `"CANCELLED"`
+<details>
 
-  - `"SKIPPED"`
+<summary>
 
-### Returns
+destination: "Inbox"or "JunkEmail"or "DeletedItems"or 2 more
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"Inbox"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"JunkEmail"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"DeletedItems"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"RecoverableItemsDeletions"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"RecoverableItemsPurges"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `result: array of object { action_params, action_type, created_at, 9 more }`
+</details>
 
-  - `action_params: object { client_recipient, destination, type, expected_disposition }  or object { client_recipient, type }`
+<a href="#">Link to this property</a>
 
-    - `Move object { client_recipient, destination, type, expected_disposition }`
+type: "MOVE"
 
-      - `client_recipient: string`
+<a href="#">Link to this property</a>
 
-      - `destination: "Inbox" or "JunkEmail" or "DeletedItems" or 2 more`
+<details>
 
-        - `"Inbox"`
+<summary>
 
-        - `"JunkEmail"`
+expected\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-        - `"DeletedItems"`
+</summary>
 
-        - `"RecoverableItemsDeletions"`
+One of the following:
 
-        - `"RecoverableItemsPurges"`
+"MALICIOUS"
 
-      - `type: "MOVE"`
+<a href="#">Link to this property</a>
 
-        - `"MOVE"`
+"MALICIOUS-BEC"
 
-      - `expected_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-        - `"MALICIOUS"`
+"SUSPICIOUS"
 
-        - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-        - `"SUSPICIOUS"`
+"SPOOF"
 
-        - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-        - `"SPAM"`
+"SPAM"
 
-        - `"BULK"`
+<a href="#">Link to this property</a>
 
-        - `"ENCRYPTED"`
+"BULK"
 
-        - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-        - `"UNKNOWN"`
+"ENCRYPTED"
 
-        - `"NONE"`
+<a href="#">Link to this property</a>
 
-    - `Release object { client_recipient, type }`
+"EXTERNAL"
 
-      - `client_recipient: string`
+<a href="#">Link to this property</a>
 
-      - `type: "RELEASE"`
+"UNKNOWN"
 
-        - `"RELEASE"`
+<a href="#">Link to this property</a>
 
-  - `action_type: "MOVE" or "RELEASE"`
+"NONE"
 
-    - `"MOVE"`
+<a href="#">Link to this property</a>
 
-    - `"RELEASE"`
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `message_id: string`
+</details>
 
-  - `postfix_id: string`
+<a href="#">Link to this property</a>
 
-  - `retry_count: number`
+<details>
 
-  - `status: "PENDING" or "DISCOVERING" or "PROCESSING" or 4 more`
+<summary>
 
-    - `"PENDING"`
+Release object {client\_recipient, type }
 
-    - `"DISCOVERING"`
+</summary>
 
-    - `"PROCESSING"`
+client\_recipient: string
 
-    - `"COMPLETED"`
+<a href="#">Link to this property</a>
 
-    - `"FAILED"`
+type: "RELEASE"
 
-    - `"CANCELLED"`
+<a href="#">Link to this property</a>
 
-    - `"SKIPPED"`
+</details>
 
-  - `alert_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `email_message_id: optional string`
+</details>
 
-  - `processed_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `retry_after: optional string`
+<details>
 
-    When to retry the action if it failed
+<summary>
 
-  - `status_message: optional string`
+action\_type: "MOVE"or "RELEASE"
 
-- `result_info: object { count, per_page, total_count, 3 more }`
+</summary>
 
-  - `count: number`
+One of the following:
 
-    Number of items in current page
+"MOVE"
 
-  - `per_page: number`
+<a href="#">Link to this property</a>
 
-    Number of items per page
+"RELEASE"
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-    Deprecated: Always returns 0. End of life: November 1, 2026.
+</details>
 
-  - `next: optional string`
+<a href="#">Link to this property</a>
 
-    Cursor for next page
+created\_at: string
 
-  - `page: optional number`
+formatdate-time
 
-    Deprecated: Always returns 0. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `previous: optional string`
+message\_id: string
 
-    Cursor for previous page
+formatuuid
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+postfix\_id: string
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+retry\_count: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/bulk/$JOB_ID/messages \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "action_params": {
-        "client_recipient": "client_recipient",
-        "destination": "Inbox",
-        "type": "MOVE",
-        "expected_disposition": "MALICIOUS"
-      },
-      "action_type": "MOVE",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "message_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "postfix_id": "postfix_id",
-      "retry_count": 0,
-      "status": "PENDING",
-      "alert_id": "alert_id",
-      "email_message_id": "email_message_id",
-      "processed_at": "2019-12-27T18:11:19.117Z",
-      "retry_after": "2019-12-27T18:11:19.117Z",
-      "status_message": "status_message"
-    }
-  ],
-  "result_info": {
-    "count": 0,
-    "per_page": 0,
-    "total_count": 0,
-    "next": "next",
-    "page": 0,
-    "previous": "previous"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Domain Types
+status: "PENDING"or "DISCOVERING"or "PROCESSING"or 4 more
 
-### Message List Response
+</summary>
 
-- `MessageListResponse object { action_params, action_type, created_at, 9 more }`
+One of the following:
 
-  - `action_params: object { client_recipient, destination, type, expected_disposition }  or object { client_recipient, type }`
+"PENDING"
 
-    - `Move object { client_recipient, destination, type, expected_disposition }`
+<a href="#">Link to this property</a>
 
-      - `client_recipient: string`
+"DISCOVERING"
 
-      - `destination: "Inbox" or "JunkEmail" or "DeletedItems" or 2 more`
+<a href="#">Link to this property</a>
 
-        - `"Inbox"`
+"PROCESSING"
 
-        - `"JunkEmail"`
+<a href="#">Link to this property</a>
 
-        - `"DeletedItems"`
+"COMPLETED"
 
-        - `"RecoverableItemsDeletions"`
+<a href="#">Link to this property</a>
 
-        - `"RecoverableItemsPurges"`
+"FAILED"
 
-      - `type: "MOVE"`
+<a href="#">Link to this property</a>
 
-        - `"MOVE"`
+"CANCELLED"
 
-      - `expected_disposition: optional "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<a href="#">Link to this property</a>
 
-        - `"MALICIOUS"`
+"SKIPPED"
 
-        - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-        - `"SUSPICIOUS"`
+</details>
 
-        - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-        - `"SPAM"`
+alert\_id: optional string
 
-        - `"BULK"`
+<a href="#">Link to this property</a>
 
-        - `"ENCRYPTED"`
+email\_message\_id: optional string
 
-        - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-        - `"UNKNOWN"`
+<details>
 
-        - `"NONE"`
+<summary>
 
-    - `Release object { client_recipient, type }`
+message: optional object {id, action\_log, client\_recipients, 32 more }
 
-      - `client_recipient: string`
+</summary>
 
-      - `type: "RELEASE"`
+id: string
 
-        - `"RELEASE"`
+Unique identifier for a message retrieved from investigation.
 
-  - `action_type: "MOVE" or "RELEASE"`
+<a href="#">Link to this property</a>
 
-    - `"MOVE"`
+<details>
 
-    - `"RELEASE"`
+<summary>
 
-  - `created_at: string`
+Deprecatedaction\_log: array of object {completed\_at, operation, completed\_timestamp, 2 more }
 
-  - `message_id: string`
+Use GET /investigate/{investigate\_id}/action\_log instead.
 
-  - `postfix_id: string`
+Deprecated, use <code>GET /investigate/{investigate_id}/action_log</code> instead. End of life: November 1, 2026.
 
-  - `retry_count: number`
+</summary>
 
-  - `status: "PENDING" or "DISCOVERING" or "PROCESSING" or 4 more`
+completed\_at: string
 
-    - `"PENDING"`
+Timestamp when action completed.
 
-    - `"DISCOVERING"`
+formatdate-time
 
-    - `"PROCESSING"`
+<a href="#">Link to this property</a>
 
-    - `"COMPLETED"`
+<details>
 
-    - `"FAILED"`
+<summary>
 
-    - `"CANCELLED"`
+operation: "MOVE"or "RELEASE"or "RECLASSIFY"or 3 more
 
-    - `"SKIPPED"`
+Type of action performed.
 
-  - `alert_id: optional string`
+</summary>
 
-  - `email_message_id: optional string`
+One of the following:
 
-  - `processed_at: optional string`
+"MOVE"
 
-  - `retry_after: optional string`
+<a href="#">Link to this property</a>
 
-    When to retry the action if it failed
+"RELEASE"
 
-  - `status_message: optional string`
+<a href="#">Link to this property</a>
+
+"RECLASSIFY"
+
+<a href="#">Link to this property</a>
+
+"SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"QUARANTINE\_RELEASE"
+
+<a href="#">Link to this property</a>
+
+"PREVIEW"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedcompleted\_timestamp: optional string
+
+Use <code>completed_at</code> instead.
+
+Deprecated, use <code>completed_at</code> instead. End of life: November 1, 2026.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: optional object {folder, requested\_by }
+
+Additional properties for the action.
+
+</summary>
+
+folder: optional string
+
+Target folder for move operations.
+
+<a href="#">Link to this property</a>
+
+requested\_by: optional string
+
+User who requested the action.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+status: optional string
+
+Status of the action.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+client\_recipients: array of string
+
+<a href="#">Link to this property</a>
+
+detection\_reasons: array of string
+
+<a href="#">Link to this property</a>
+
+is\_phish\_submission: boolean
+
+<a href="#">Link to this property</a>
+
+is\_quarantined: boolean
+
+<a href="#">Link to this property</a>
+
+postfix\_id: string
+
+The identifier of the message.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+properties: object {allowlisted\_pattern, allowlisted\_pattern\_type, blocklisted\_message, 2 more }
+
+Message processing properties.
+
+</summary>
+
+allowlisted\_pattern: optional string
+
+Pattern that allowlisted this message.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowlisted\_pattern\_type: optional "quarantine\_release"or "acceptable\_sender"or "allowed\_sender"or 5 more
+
+Type of allowlist pattern.
+
+</summary>
+
+One of the following:
+
+"quarantine\_release"
+
+<a href="#">Link to this property</a>
+
+"acceptable\_sender"
+
+<a href="#">Link to this property</a>
+
+"allowed\_sender"
+
+<a href="#">Link to this property</a>
+
+"allowed\_recipient"
+
+<a href="#">Link to this property</a>
+
+"domain\_similarity"
+
+<a href="#">Link to this property</a>
+
+"domain\_recency"
+
+<a href="#">Link to this property</a>
+
+"managed\_acceptable\_sender"
+
+<a href="#">Link to this property</a>
+
+"outbound\_ndr"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+blocklisted\_message: optional boolean
+
+Whether message was blocklisted.
+
+<a href="#">Link to this property</a>
+
+blocklisted\_pattern: optional string
+
+Pattern that blocklisted this message.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+whitelisted\_pattern\_type: optional "quarantine\_release"or "acceptable\_sender"or "allowed\_sender"or 5 more
+
+Legacy field for allowlist pattern type.
+
+</summary>
+
+One of the following:
+
+"quarantine\_release"
+
+<a href="#">Link to this property</a>
+
+"acceptable\_sender"
+
+<a href="#">Link to this property</a>
+
+"allowed\_sender"
+
+<a href="#">Link to this property</a>
+
+"allowed\_recipient"
+
+<a href="#">Link to this property</a>
+
+"domain\_similarity"
+
+<a href="#">Link to this property</a>
+
+"domain\_recency"
+
+<a href="#">Link to this property</a>
+
+"managed\_acceptable\_sender"
+
+<a href="#">Link to this property</a>
+
+"outbound\_ndr"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedts: string
+
+Use <code>scanned_at</code> instead.
+
+Deprecated, use <code>scanned_at</code> instead. End of life: November 1, 2026.
+
+<a href="#">Link to this property</a>
+
+alert\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+delivery\_mode: optional "DIRECT"or "BCC"or "JOURNAL"or 8 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"REVIEW\_SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"DMARC\_UNVERIFIED"
+
+<a href="#">Link to this property</a>
+
+"DMARC\_FAILURE\_REPORT"
+
+<a href="#">Link to this property</a>
+
+"DMARC\_AGGREGATE\_REPORT"
+
+<a href="#">Link to this property</a>
+
+"THREAT\_INTEL\_SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"SIMULATION\_SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+delivery\_status: optional array of "delivered"or "moved"or "quarantined"or 5 more
+
+</summary>
+
+One of the following:
+
+"delivered"
+
+<a href="#">Link to this property</a>
+
+"moved"
+
+<a href="#">Link to this property</a>
+
+"quarantined"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+"deferred"
+
+<a href="#">Link to this property</a>
+
+"bounced"
+
+<a href="#">Link to this property</a>
+
+"queued"
+
+<a href="#">Link to this property</a>
+
+"move\_failed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+edf\_hash: optional string
+
+<a href="#">Link to this property</a>
+
+envelope\_from: optional string
+
+<a href="#">Link to this property</a>
+
+envelope\_to: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+final\_disposition: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+Deprecatedfindings: optional array of object {attachment, detail, detection, 6 more }
+
+Use the <code>findings</code> field from GET /investigate/{investigate\_id}/detections instead.
+
+Deprecated, use the <code>findings</code> field from <code>GET /investigate/{investigate_id}/detections</code> instead. End of life: November 1, 2026. Detection findings for this message.
+
+</summary>
+
+attachment: optional string
+
+<a href="#">Link to this property</a>
+
+detail: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+detection: optional "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+field: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+portion: optional string
+
+<a href="#">Link to this property</a>
+
+reason: optional string
+
+<a href="#">Link to this property</a>
+
+score: optional number
+
+formatdouble
+
+<a href="#">Link to this property</a>
+
+value: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+from: optional string
+
+<a href="#">Link to this property</a>
+
+from\_name: optional string
+
+<a href="#">Link to this property</a>
+
+htmltext\_structure\_hash: optional string
+
+<a href="#">Link to this property</a>
+
+message\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+post\_delivery\_operations: optional array of "PREVIEW"or "QUARANTINE\_RELEASE"or "SUBMISSION"or "MOVE"
+
+Post-delivery operations performed on this message.
+
+</summary>
+
+One of the following:
+
+"PREVIEW"
+
+<a href="#">Link to this property</a>
+
+"QUARANTINE\_RELEASE"
+
+<a href="#">Link to this property</a>
+
+"SUBMISSION"
+
+<a href="#">Link to this property</a>
+
+"MOVE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+postfix\_id\_outbound: optional string
+
+<a href="#">Link to this property</a>
+
+replyto: optional string
+
+<a href="#">Link to this property</a>
+
+scanned\_at: optional string
+
+When the message was scanned (UTC).
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+sent\_at: optional string
+
+When the message was sent (UTC).
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+sent\_date: optional string
+
+<a href="#">Link to this property</a>
+
+smtp\_helo\_server\_ip: optional string
+
+<a href="#">Link to this property</a>
+
+smtp\_previous\_hop\_ip: optional string
+
+<a href="#">Link to this property</a>
+
+subject: optional string
+
+<a href="#">Link to this property</a>
+
+threat\_categories: optional array of string
+
+<a href="#">Link to this property</a>
+
+to: optional array of string
+
+<a href="#">Link to this property</a>
+
+to\_name: optional array of string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+validation: optional object {comment, dkim, dmarc, spf }
+
+</summary>
+
+comment: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dkim: optional "pass"or "neutral"or "fail"or 2 more
+
+</summary>
+
+One of the following:
+
+"pass"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"fail"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc: optional "pass"or "neutral"or "fail"or 2 more
+
+</summary>
+
+One of the following:
+
+"pass"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"fail"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf: optional "pass"or "neutral"or "fail"or 2 more
+
+</summary>
+
+One of the following:
+
+"pass"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"fail"
+
+<a href="#">Link to this property</a>
+
+"error"
+
+<a href="#">Link to this property</a>
+
+"none"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+x\_originating\_ip: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+processed\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+retry\_after: optional string
+
+When to retry the action if it failed.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.investigate.bulk.messages%20%3E%20(model)%20message_list_response%20%3E%20(schema)>)

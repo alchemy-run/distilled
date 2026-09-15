@@ -1,88 +1,87 @@
+---
+title: Schema
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI](https://developers.cloudflare.com/api/resources/ai)
+
+[Models](https://developers.cloudflare.com/api/resources/ai/subresources/models)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Schema
 
-## Get Model Schema
+##### [Get Model Schema](https://developers.cloudflare.com/api/resources/ai/subresources/models/subresources/schema/methods/get)
 
-**get** `/accounts/{account_id}/ai/models/schema`
+GET/accounts/{account\_id}/ai/models/schema
 
-Retrieves the input and output JSON schema definition for a Workers AI model.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-### Query Parameters
+SchemaGetResponse object {input, output }
 
-- `model: string`
+</summary>
 
-  Model Name
+<details>
 
-### Returns
+<summary>
 
-- `result: object { input, output }`
+input: object {additionalProperties, description, type }
 
-  - `input: object { additionalProperties, description, type }`
+</summary>
 
-    - `additionalProperties: boolean`
+additionalProperties: boolean
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+description: string
 
-  - `output: object { additionalProperties, description, type }`
+<a href="#">Link to this property</a>
 
-    - `additionalProperties: boolean`
+type: string
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+</details>
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai/models/schema \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+output: object {additionalProperties, description, type }
 
-```json
-{
-  "result": {
-    "input": {
-      "additionalProperties": true,
-      "description": "JSON Schema definition for the model's input parameters",
-      "type": "object"
-    },
-    "output": {
-      "additionalProperties": true,
-      "description": "JSON Schema definition for the model's output format",
-      "type": "object"
-    }
-  },
-  "success": true
-}
-```
+</summary>
 
-## Domain Types
+additionalProperties: boolean
 
-### Schema Get Response
+<a href="#">Link to this property</a>
 
-- `SchemaGetResponse object { input, output }`
+description: string
 
-  - `input: object { additionalProperties, description, type }`
+<a href="#">Link to this property</a>
 
-    - `additionalProperties: boolean`
+type: string
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-    - `type: string`
+</details>
 
-  - `output: object { additionalProperties, description, type }`
+<a href="#">Link to this property</a>
 
-    - `additionalProperties: boolean`
+</details>
 
-    - `description: string`
-
-    - `type: string`
+[Link to this property](#)%20ai.models.schema%20%3E%20(model)%20schema_get_response%20%3E%20(schema)>)

@@ -1,181 +1,321 @@
-## Disable Email Routing
+---
+title: Disable Email Routing
+---
 
-**delete** `/zones/{zone_id}/email/routing/dns`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Routing](https://developers.cloudflare.com/api/resources/email_routing)
+
+[DNS](https://developers.cloudflare.com/api/resources/email_routing/subresources/dns)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Disable Email Routing
+
+DELETE/zones/{zone\_id}/email/routing/dns
 
 Disable your Email Routing zone. Also removes additional MX records previously required for Email Routing to work.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+API Email + API Key
 
-  Identifier.
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-### Returns
+**Example:**`X-Auth-Email: user@example.com`
 
-- `EmailAPIResponseCommon object { errors, messages, success }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `errors: array of object { code, message, documentation_url, source }`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-    - `code: number`
+##### Accepted Permissions (at least one required)
 
-    - `message: string`
+`Zone Settings Write`
 
-    - `documentation_url: optional string`
+##### P ath ParametersExpand Collapse
 
-    - `source: optional object { pointer }`
+zone\_id: string
 
-      - `pointer: optional string`
+Identifier.
 
-  - `messages: array of object { code, message, documentation_url, source }`
+maxLength32
 
-    - `code: number`
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-    - `message: string`
+##### ReturnsExpand Collapse
 
-    - `documentation_url: optional string`
+<details>
 
-    - `source: optional object { pointer }`
+<summary>
 
-      - `pointer: optional string`
+errors: array of object {code, message, documentation\_url, source }
 
-  - `success: true`
+</summary>
 
-    Whether the API call was successful.
+code: number
 
-    - `true`
+minimum1000
 
-- `EmailDNSSettingsResponseCollection object { errors, messages, success, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+message: string
 
-    - `code: number`
+<a href="#">Link to this property</a>
 
-    - `message: string`
+documentation\_url: optional string
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+<details>
 
-      - `pointer: optional string`
+<summary>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+source: optional object {pointer }
 
-    - `code: number`
+</summary>
 
-    - `message: string`
+pointer: optional string
 
-    - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-    - `source: optional object { pointer }`
+</details>
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+</details>
 
-    Whether the API call was successful.
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    - `true`
+<details>
 
-  - `result: optional array of DNSRecord`
+<summary>
 
-    - `content: optional string`
+messages: array of object {code, message, documentation\_url, source }
 
-      DNS record content.
+</summary>
 
-    - `name: optional string`
+code: number
 
-      DNS record name (or @ for the zone apex).
+minimum1000
 
-    - `priority: optional number`
+<a href="#">Link to this property</a>
 
-      Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+message: string
 
-    - `ttl: optional number or 1`
+<a href="#">Link to this property</a>
 
-      Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+documentation\_url: optional string
 
-      - `number`
+<a href="#">Link to this property</a>
 
-      - `1`
+<details>
 
-        Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+<summary>
 
-        - `1`
+source: optional object {pointer }
 
-    - `type: optional "A" or "AAAA" or "CNAME" or 15 more`
+</summary>
 
-      DNS record type.
+pointer: optional string
 
-      - `"A"`
+<a href="#">Link to this property</a>
 
-      - `"AAAA"`
+</details>
 
-      - `"CNAME"`
+<a href="#">Link to this property</a>
 
-      - `"HTTPS"`
+</details>
 
-      - `"TXT"`
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-      - `"SRV"`
+success: true
 
-      - `"LOC"`
+Whether the API call was successful.
 
-      - `"MX"`
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-      - `"NS"`
+<details>
 
-      - `"CERT"`
+<summary>
 
-      - `"DNSKEY"`
+result: optional <a href="https://developers.cloudflare.com/api/resources/email_routing#(resource)%20email_routing%20%3E%20(model)%20settings%20%3E%20(schema)">Settings</a> { id, enabled, name, 6 more }
 
-      - `"DS"`
+</summary>
 
-      - `"NAPTR"`
+id: string
 
-      - `"SMIMEA"`
+Email Routing settings identifier.
 
-      - `"SSHFP"`
+maxLength32
 
-      - `"SVCB"`
+<a href="#">Link to this property</a>
 
-      - `"TLSA"`
+<details>
 
-      - `"URI"`
+<summary>
 
-  - `result_info: optional object { count, page, per_page, 2 more }`
+enabled: trueor false
 
-    - `count: optional number`
+State of the zone settings for Email Routing.
 
-      Total number of results for the requested service.
+</summary>
 
-    - `page: optional number`
+One of the following:
 
-      Current page within paginated list of results.
+true
 
-    - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-      Number of results per page of results.
+false
 
-    - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-      Total results available without any search parameters.
+</details>
 
-    - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-      The number of total pages in the entire result set.
+name: string
 
-### Example
+Domain of your zone.
 
-```http
+<a href="#">Link to this property</a>
+
+created: optional string
+
+The date and time the settings have been created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified: optional string
+
+The date and time the settings have been modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+skip\_wizard: optional trueor false
+
+Flag to check if the user skipped the configuration wizard.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "ready"or "unconfigured"or "misconfigured"or 2 more
+
+Show the state of your account, and the type or configuration error.
+
+</summary>
+
+One of the following:
+
+"ready"
+
+<a href="#">Link to this property</a>
+
+"unconfigured"
+
+<a href="#">Link to this property</a>
+
+"misconfigured"
+
+<a href="#">Link to this property</a>
+
+"misconfigured/locked"
+
+<a href="#">Link to this property</a>
+
+"unlocked"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+support\_subaddress: optional trueor false
+
+Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+
+</summary>
+
+One of the following:
+
+true
+
+<a href="#">Link to this property</a>
+
+false
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+Deprecatedtag: optional string
+
+Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_routing.dns%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Disable Email Routing
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/dns \
     -X DELETE \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
     -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -197,6 +337,58 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/dns \
       }
     }
   ],
-  "success": true
+  "success": true,
+  "result": {
+    "id": "75610dab9e69410a82cf7e400a09ecec",
+    "enabled": true,
+    "name": "example.net",
+    "created": "2014-01-02T02:20:00Z",
+    "modified": "2014-01-02T02:20:00Z",
+    "skip_wizard": true,
+    "status": "ready",
+    "support_subaddress": true,
+    "tag": "75610dab9e69410a82cf7e400a09ecec"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "75610dab9e69410a82cf7e400a09ecec",
+    "enabled": true,
+    "name": "example.net",
+    "created": "2014-01-02T02:20:00Z",
+    "modified": "2014-01-02T02:20:00Z",
+    "skip_wizard": true,
+    "status": "ready",
+    "support_subaddress": true,
+    "tag": "75610dab9e69410a82cf7e400a09ecec"
+  }
 }
 ```

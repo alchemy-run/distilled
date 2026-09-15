@@ -1,119 +1,31 @@
+---
+title: Reclassify
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+[Investigate](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Reclassify
 
-## Change email classification
+##### [Change email classification](https://developers.cloudflare.com/api/resources/email_security/subresources/investigate/subresources/reclassify/methods/create)
 
-**post** `/accounts/{account_id}/email-security/investigate/{investigate_id}/reclassify`
+POST/accounts/{account\_id}/email-security/investigate/{investigate\_id}/reclassify
 
-Submits a request to reclassify an email's disposition. Use for reporting false positives or false negatives. Optionally provide the raw EML content for reanalysis. The reclassification is processed asynchronously.
+##### ModelsExpand Collapse
 
-### Path Parameters
+ReclassifyCreateResponse = unknown
 
-- `account_id: string`
-
-  Identifier.
-
-- `investigate_id: string`
-
-  Unique identifier for a message retrieved from investigation
-
-### Body Parameters
-
-- `expected_disposition: "NONE" or "BULK" or "MALICIOUS" or 3 more`
-
-  - `"NONE"`
-
-  - `"BULK"`
-
-  - `"MALICIOUS"`
-
-  - `"SPAM"`
-
-  - `"SPOOF"`
-
-  - `"SUSPICIOUS"`
-
-- `eml_content: optional string`
-
-  Base64 encoded content of the EML file.
-
-- `escalated_submission_id: optional string`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: unknown`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/investigate/$INVESTIGATE_ID/reclassify \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "expected_disposition": "NONE"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {},
-  "success": true
-}
-```
-
-## Domain Types
-
-### Reclassify Create Response
-
-- `ReclassifyCreateResponse = unknown`
+[Link to this property](#)%20email_security.investigate.reclassify%20%3E%20(model)%20reclassify_create_response%20%3E%20(schema)>)

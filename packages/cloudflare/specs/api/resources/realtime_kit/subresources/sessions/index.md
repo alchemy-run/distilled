@@ -1,4590 +1,4051 @@
+---
+title: Sessions
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Realtime Kit](https://developers.cloudflare.com/api/resources/realtime_kit)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Sessions
 
-## Fetch all sessions of an App
+##### [Fetch all sessions of an App](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/get_sessions)
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions
 
-Returns details of all sessions of an App.
+##### [Fetch details of a session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/get_session_details)
 
-### Path Parameters
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/{session\_id}
 
-- `account_id: string`
+##### [Fetch participants list of a session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/get_session_participants)
 
-  The account identifier tag.
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/{session\_id}/participants
 
-- `app_id: string`
+##### [Fetch details of a participant](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/get_session_participant_details)
 
-  The app identifier tag.
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/{session\_id}/participants/{participant\_id}
 
-### Query Parameters
+##### [Fetch all chat messages of a session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/get_session_chat)
 
-- `associated_id: optional string`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/{session\_id}/chat
 
-  ID of the meeting that sessions should be associated with
+##### [Fetch the complete transcript for a session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/get_session_transcripts)
 
-- `end_time: optional string`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/{session\_id}/transcript
 
-  The end time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+##### [Fetch summary of transcripts for a session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/get_session_summary)
 
-- `page_no: optional number`
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/{session\_id}/summary
 
-  The page number from which you want your page search results to be displayed.
+##### [Generate summary of Transcripts for the session](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/generate_summary_of_transcripts)
 
-- `participants: optional string`
+POST/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/{session\_id}/summary
 
-- `per_page: optional number`
+##### [Fetch details of peer](https://developers.cloudflare.com/api/resources/realtime_kit/subresources/sessions/methods/get_participant_data_from_peer_id)
 
-  Number of results per page
+GET/accounts/{account\_id}/realtime/kit/{app\_id}/sessions/peer-report/{peer\_id}
 
-- `search: optional string`
+##### ModelsExpand Collapse
 
-  Search string that matches sessions based on meeting title, meeting ID, and session ID
+<details>
 
-- `sort_by: optional "minutesConsumed" or "createdAt"`
+<summary>
 
-  - `"minutesConsumed"`
+SessionGetSessionsResponse object {data, paging, success }
 
-  - `"createdAt"`
+</summary>
 
-- `sort_order: optional "ASC" or "DESC"`
+<details>
 
-  - `"ASC"`
+<summary>
 
-  - `"DESC"`
+data: optional object {sessions }
 
-- `start_time: optional string`
+</summary>
 
-  The start time range for which you want to retrieve the meetings. The time must be specified in ISO format.
+<details>
 
-- `status: optional "LIVE" or "ENDED"`
+<summary>
 
-  - `"LIVE"`
+sessions: optional array of object {id, associated\_id, created\_at, 11 more }
 
-  - `"ENDED"`
+</summary>
 
-### Returns
+id: string
 
-- `data: optional object { sessions }`
+ID of the session
 
-  - `sessions: optional array of object { id, associated_id, created_at, 11 more }`
+<a href="#">Link to this property</a>
 
-    - `id: string`
+associated\_id: string
 
-      ID of the session
+ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form <code>abcdef-ghijkl</code>
 
-    - `associated_id: string`
+<a href="#">Link to this property</a>
 
-      ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+created\_at: string
 
-    - `created_at: string`
+timestamp when session created
 
-      timestamp when session created
+<a href="#">Link to this property</a>
 
-    - `live_participants: number`
+live\_participants: number
 
-      number of participants currently in the session
+number of participants currently in the session
 
-    - `max_concurrent_participants: number`
+<a href="#">Link to this property</a>
 
-      number of maximum participants that were in the session
+max\_concurrent\_participants: number
 
-    - `meeting_display_name: string`
+number of maximum participants that were in the session
 
-      Title of the meeting this session belongs to
+<a href="#">Link to this property</a>
 
-    - `minutes_consumed: number`
+meeting\_display\_name: string
 
-      number of minutes consumed since the session started
+Title of the meeting this session belongs to
 
-    - `organization_id: string`
+<a href="#">Link to this property</a>
 
-      App id that hosted this session
+minutes\_consumed: number
 
-    - `started_at: string`
+number of minutes consumed since the session started
 
-      timestamp when session started
+<a href="#">Link to this property</a>
 
-    - `status: "LIVE" or "ENDED"`
+organization\_id: string
 
-      current status of session
+App id that hosted this session
 
-      - `"LIVE"`
+<a href="#">Link to this property</a>
 
-      - `"ENDED"`
+started\_at: string
 
-    - `type: "meeting" or "livestream" or "participant"`
+timestamp when session started
 
-      type of session
+<a href="#">Link to this property</a>
 
-      - `"meeting"`
+<details>
 
-      - `"livestream"`
+<summary>
 
-      - `"participant"`
+status: "LIVE"or "ENDED"
 
-    - `updated_at: string`
+current status of session
 
-      timestamp when session was last updated
+</summary>
 
-    - `breakout_rooms: optional array of unknown`
+One of the following:
 
-    - `ended_at: optional string`
+"LIVE"
 
-      timestamp when session ended
+<a href="#">Link to this property</a>
 
-- `paging: optional object { end_offset, start_offset, total_count }`
+"ENDED"
 
-  - `end_offset: optional number`
+<a href="#">Link to this property</a>
 
-  - `start_offset: optional number`
+</details>
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-- `success: optional boolean`
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+type: "meeting"or "livestream"or "participant"
 
-#### Response
+type of session
 
-```json
-{
-  "data": {
-    "sessions": [
-      {
-        "id": "id",
-        "associated_id": "associated_id",
-        "created_at": "created_at",
-        "live_participants": 0,
-        "max_concurrent_participants": 0,
-        "meeting_display_name": "meeting_display_name",
-        "minutes_consumed": 0,
-        "organization_id": "organization_id",
-        "started_at": "started_at",
-        "status": "LIVE",
-        "type": "meeting",
-        "updated_at": "updated_at",
-        "breakout_rooms": [
-          {}
-        ],
-        "ended_at": "ended_at"
-      }
-    ]
-  },
-  "paging": {
-    "end_offset": 0,
-    "start_offset": 0,
-    "total_count": 0
-  },
-  "success": true
-}
-```
+</summary>
 
-## Fetch details of a session
+One of the following:
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}`
+"meeting"
 
-Returns data of the given session ID including recording details.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"livestream"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+"participant"
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+</details>
 
-- `session_id: string`
+<a href="#">Link to this property</a>
 
-### Query Parameters
+updated\_at: string
 
-- `include_breakout_rooms: optional boolean`
+timestamp when session was last updated
 
-  List all breakout rooms
+<a href="#">Link to this property</a>
 
-### Returns
+breakout\_rooms: optional array of unknown
 
-- `data: optional object { id, associated_id, created_at, 11 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+ended\_at: optional string
 
-    ID of the session
+timestamp when session ended
 
-  - `associated_id: string`
+<a href="#">Link to this property</a>
 
-    ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    timestamp when session created
+</details>
 
-  - `live_participants: number`
+<a href="#">Link to this property</a>
 
-    number of participants currently in the session
+<details>
 
-  - `max_concurrent_participants: number`
+<summary>
 
-    number of maximum participants that were in the session
+paging: optional object {end\_offset, start\_offset, total\_count }
 
-  - `meeting_display_name: string`
+</summary>
 
-    Title of the meeting this session belongs to
+end\_offset: optional number
 
-  - `minutes_consumed: number`
+<a href="#">Link to this property</a>
 
-    number of minutes consumed since the session started
+start\_offset: optional number
 
-  - `organization_id: string`
+<a href="#">Link to this property</a>
 
-    App id that hosted this session
+total\_count: optional number
 
-  - `started_at: string`
+minimum0
 
-    timestamp when session started
+<a href="#">Link to this property</a>
 
-  - `status: "LIVE" or "ENDED"`
+</details>
 
-    current status of session
+<a href="#">Link to this property</a>
 
-    - `"LIVE"`
+success: optional boolean
 
-    - `"ENDED"`
+<a href="#">Link to this property</a>
 
-  - `type: "meeting" or "livestream" or "participant"`
+</details>
 
-    type of session
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_sessions_response%20%3E%20(schema)>)
 
-    - `"meeting"`
+<details>
 
-    - `"livestream"`
+<summary>
 
-    - `"participant"`
+SessionGetSessionDetailsResponse object {data, success }
 
-  - `updated_at: string`
+</summary>
 
-    timestamp when session was last updated
+<details>
 
-  - `breakout_rooms: optional array of unknown`
+<summary>
 
-  - `ended_at: optional string`
+data: optional object {id, associated\_id, created\_at, 11 more }
 
-    timestamp when session ended
+</summary>
 
-- `success: optional boolean`
+id: string
 
-### Example
+ID of the session
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+associated\_id: string
 
-```json
-{
-  "data": {
-    "id": "id",
-    "associated_id": "associated_id",
-    "created_at": "created_at",
-    "live_participants": 0,
-    "max_concurrent_participants": 0,
-    "meeting_display_name": "meeting_display_name",
-    "minutes_consumed": 0,
-    "organization_id": "organization_id",
-    "started_at": "started_at",
-    "status": "LIVE",
-    "type": "meeting",
-    "updated_at": "updated_at",
-    "breakout_rooms": [
-      {}
-    ],
-    "ended_at": "ended_at"
-  },
-  "success": true
-}
-```
+ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form <code>abcdef-ghijkl</code>
 
-## Fetch participants list of a session
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/participants`
+created\_at: string
 
-Returns a list of participants for the given session ID.
+timestamp when session created
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+live\_participants: number
 
-  The account identifier tag.
+number of participants currently in the session
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+max\_concurrent\_participants: number
 
-- `session_id: string`
+number of maximum participants that were in the session
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `include_peer_events: optional boolean`
+meeting\_display\_name: string
 
-  if true, response includes all the peer events of participants.
+Title of the meeting this session belongs to
 
-- `page_no: optional number`
+<a href="#">Link to this property</a>
 
-  The page number from which you want your page search results to be displayed.
+minutes\_consumed: number
 
-- `per_page: optional number`
+number of minutes consumed since the session started
 
-  Number of results per page
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+organization\_id: string
 
-  The search query string. You can search using participant ID, custom participant ID, or display name.
+App id that hosted this session
 
-- `sort_by: optional "joinedAt" or "duration"`
+<a href="#">Link to this property</a>
 
-  - `"joinedAt"`
+started\_at: string
 
-  - `"duration"`
+timestamp when session started
 
-- `sort_order: optional "ASC" or "DESC"`
+<a href="#">Link to this property</a>
 
-  - `"ASC"`
+<details>
 
-  - `"DESC"`
+<summary>
 
-- `view: optional "raw" or "consolidated"`
+status: "LIVE"or "ENDED"
 
-  In breakout room sessions, the view parameter can be set to `raw` for session specific duration for participants or `consolidated` to accumulate breakout room durations.
+current status of session
 
-  - `"raw"`
+</summary>
 
-  - `"consolidated"`
+One of the following:
 
-### Returns
+"LIVE"
 
-- `data: optional object { participants }`
+<a href="#">Link to this property</a>
 
-  - `participants: optional array of object { id, created_at, custom_participant_id, 8 more }`
+"ENDED"
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Participant ID. This maps to the corresponding peerId.
+</details>
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-      timestamp when this participant was created.
+<details>
 
-    - `custom_participant_id: optional string`
+<summary>
 
-      ID passed by client to create this participant.
+type: "meeting"or "livestream"or "participant"
 
-    - `display_name: optional string`
+type of session
 
-      Display name of participant when joining the session.
+</summary>
 
-    - `duration: optional number`
+One of the following:
 
-      number of minutes for which the participant was in the session.
+"meeting"
 
-    - `joined_at: optional string`
+<a href="#">Link to this property</a>
 
-      timestamp at which participant joined the session.
+"livestream"
 
-    - `left_at: optional string`
+<a href="#">Link to this property</a>
 
-      timestamp at which participant left the session.
+"participant"
 
-    - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+<a href="#">Link to this property</a>
 
-      Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+</details>
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the peer event.
+updated\_at: string
 
-      - `created_at: optional string`
+timestamp when session was last updated
 
-        Timestamp when this peer event was created.
+<a href="#">Link to this property</a>
 
-      - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+breakout\_rooms: optional array of unknown
 
-        Name of the peer event.
+<a href="#">Link to this property</a>
 
-        - `"PEER_CREATED"`
+ended\_at: optional string
 
-        - `"PEER_JOINING"`
+timestamp when session ended
 
-        - `"PEER_LEAVING"`
+<a href="#">Link to this property</a>
 
-      - `minutes_consumed: optional number`
+</details>
 
-        Minutes consumed attributed to this event.
+<a href="#">Link to this property</a>
 
-      - `participant_id: optional string`
+success: optional boolean
 
-        ID of the participant this event belongs to.
+<a href="#">Link to this property</a>
 
-      - `peer_id: optional string`
+</details>
 
-        Peer ID this event belongs to.
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_session_details_response%20%3E%20(schema)>)
 
-      - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+<details>
 
-        View type of the preset associated with the peer.
+<summary>
 
-        - `"GROUP_CALL"`
+SessionGetSessionParticipantsResponse object {data, success }
 
-        - `"WEBINAR"`
+</summary>
 
-        - `"AUDIO_ROOM"`
+<details>
 
-        - `"LIVESTREAM"`
+<summary>
 
-        - `"CHAT"`
+data: optional object {participants }
 
-      - `session_id: optional string`
+</summary>
 
-        ID of the session this event belongs to.
+<details>
 
-      - `socket_session_id: optional string`
+<summary>
 
-        ID of the socket session associated with this event.
+participants: optional array of object {id, created\_at, custom\_participant\_id, 8 more }
 
-      - `updated_at: optional string`
+</summary>
 
-        Timestamp when this peer event was last updated.
+id: optional string
 
-    - `preset_name: optional string`
+Participant ID. This maps to the corresponding peerId.
 
-      Name of the preset associated with the participant.
+<a href="#">Link to this property</a>
 
-    - `updated_at: optional string`
+created\_at: optional string
 
-      timestamp when this participant's data was last updated.
+timestamp when this participant was created.
 
-    - `user_id: optional string`
+<a href="#">Link to this property</a>
 
-      User id for this participant.
+custom\_participant\_id: optional string
 
-- `success: optional boolean`
+ID passed by client to create this participant.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/participants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+display\_name: optional string
 
-#### Response
+Display name of participant when joining the session.
 
-```json
-{
-  "data": {
-    "paging": {
-      "end_offset": 2,
-      "start_offset": 1,
-      "total_count": 123
-    },
-    "participants": [
-      {
-        "created_at": "2023-02-01T10:51:08.039Z",
-        "custom_participant_id": "83qi0i",
-        "display_name": "Mark",
-        "duration": 5.8097,
-        "id": "005f4e0c-4d08-4d4e-a391-a76be75cd296",
-        "joined_at": "2023-02-01T10:51:08.030Z",
-        "left_at": "2023-02-01T10:56:56.612Z",
-        "preset_name": "webinar_participant",
-        "updated_at": "2023-02-01T10:56:56.618Z",
-        "user_id": "0a08343d-a9dc-45f0-9feb-6a64afcc4f81"
-      },
-      {
-        "created_at": "2023-02-01T10:50:36.853Z",
-        "custom_participant_id": "3uggr",
-        "display_name": "Henry",
-        "duration": 6.9263,
-        "id": "51fdf95f-d893-471a-922b-7db7adb14453",
-        "joined_at": "2023-02-01T10:50:36.846Z\"",
-        "left_at": "2023-02-01T10:57:32.424Z",
-        "preset_name": "webinar_participant",
-        "updated_at": "2023-02-01T10:57:32.431Z",
-        "user_id": "85e7f0fd-7c16-45e9-9d68-f17ef007c4eb"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Fetch details of a participant
+duration: optional number
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/participants/{participant_id}`
+number of minutes for which the participant was in the session.
 
-Returns details of the given participant ID along with call statistics for the given session ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+joined\_at: optional string
 
-- `account_id: string`
+timestamp at which participant joined the session.
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+left\_at: optional string
 
-  The app identifier tag.
+timestamp at which participant left the session.
 
-- `session_id: string`
+<a href="#">Link to this property</a>
 
-- `participant_id: string`
+<details>
 
-### Query Parameters
+<summary>
 
-- `include_peer_events: optional boolean`
+peer\_events: optional array of object {id, created\_at, event\_name, 7 more }
 
-  if true, response includes all the peer events of participant.
+Connection lifecycle events for the participant’s peer. Only included when <code>include_peer_events</code> is true.
 
-### Returns
+</summary>
 
-- `data: optional object { participant }`
+id: optional string
 
-  - `participant: optional object { id, created_at, custom_participant_id, 8 more }`
+ID of the peer event.
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-      Participant ID. This maps to the corresponding peerId.
+created\_at: optional string
 
-    - `created_at: optional string`
+Timestamp when this peer event was created.
 
-      timestamp when this participant was created.
+<a href="#">Link to this property</a>
 
-    - `custom_participant_id: optional string`
+<details>
 
-      ID passed by client to create this participant.
+<summary>
 
-    - `display_name: optional string`
+event\_name: optional "PEER\_CREATED"or "PEER\_JOINING"or "PEER\_LEAVING"
 
-      Display name of participant when joining the session.
+Name of the peer event.
 
-    - `duration: optional number`
+</summary>
 
-      number of minutes for which the participant was in the session.
+One of the following:
 
-    - `joined_at: optional string`
+"PEER\_CREATED"
 
-      timestamp at which participant joined the session.
+<a href="#">Link to this property</a>
 
-    - `left_at: optional string`
+"PEER\_JOINING"
 
-      timestamp at which participant left the session.
+<a href="#">Link to this property</a>
 
-    - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+"PEER\_LEAVING"
 
-      Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+</details>
 
-        ID of the peer event.
+<a href="#">Link to this property</a>
 
-      - `created_at: optional string`
+minutes\_consumed: optional number
 
-        Timestamp when this peer event was created.
+Minutes consumed attributed to this event.
 
-      - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+<a href="#">Link to this property</a>
 
-        Name of the peer event.
+participant\_id: optional string
 
-        - `"PEER_CREATED"`
+ID of the participant this event belongs to.
 
-        - `"PEER_JOINING"`
+<a href="#">Link to this property</a>
 
-        - `"PEER_LEAVING"`
+peer\_id: optional string
 
-      - `minutes_consumed: optional number`
+Peer ID this event belongs to.
 
-        Minutes consumed attributed to this event.
+<a href="#">Link to this property</a>
 
-      - `participant_id: optional string`
+<details>
 
-        ID of the participant this event belongs to.
+<summary>
 
-      - `peer_id: optional string`
+preset\_view\_type: optional "GROUP\_CALL"or "WEBINAR"or "AUDIO\_ROOM"or 2 more
 
-        Peer ID this event belongs to.
+View type of the preset associated with the peer.
 
-      - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+</summary>
 
-        View type of the preset associated with the peer.
+One of the following:
 
-        - `"GROUP_CALL"`
+"GROUP\_CALL"
 
-        - `"WEBINAR"`
+<a href="#">Link to this property</a>
 
-        - `"AUDIO_ROOM"`
+"WEBINAR"
 
-        - `"LIVESTREAM"`
+<a href="#">Link to this property</a>
 
-        - `"CHAT"`
+"AUDIO\_ROOM"
 
-      - `session_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the session this event belongs to.
+"LIVESTREAM"
 
-      - `socket_session_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the socket session associated with this event.
+"CHAT"
 
-      - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-        Timestamp when this peer event was last updated.
+</details>
 
-    - `preset_name: optional string`
+<a href="#">Link to this property</a>
 
-      Name of the preset associated with the participant.
+session\_id: optional string
 
-    - `updated_at: optional string`
+ID of the session this event belongs to.
 
-      timestamp when this participant's data was last updated.
+<a href="#">Link to this property</a>
 
-    - `user_id: optional string`
+socket\_session\_id: optional string
 
-      User id for this participant.
+ID of the socket session associated with this event.
 
-- `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Example
+updated\_at: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/participants/$PARTICIPANT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Timestamp when this peer event was last updated.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "data": {
-    "participant": {
-      "id": "id",
-      "created_at": "created_at",
-      "custom_participant_id": "custom_participant_id",
-      "display_name": "display_name",
-      "duration": 0,
-      "joined_at": "joined_at",
-      "left_at": "left_at",
-      "peer_events": [
-        {
-          "id": "id",
-          "created_at": "created_at",
-          "event_name": "PEER_CREATED",
-          "minutes_consumed": 0,
-          "participant_id": "participant_id",
-          "peer_id": "peer_id",
-          "preset_view_type": "GROUP_CALL",
-          "session_id": "session_id",
-          "socket_session_id": "socket_session_id",
-          "updated_at": "updated_at"
-        }
-      ],
-      "preset_name": "preset_name",
-      "updated_at": "updated_at",
-      "user_id": "user_id"
-    }
-  },
-  "success": true
-}
-```
+</details>
 
-## Fetch all chat messages of a session
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/chat`
+preset\_name: optional string
 
-Returns a URL to download all chat messages of the session ID in CSV format.
+Name of the preset associated with the participant.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+updated\_at: optional string
 
-  The account identifier tag.
+timestamp when this participant’s data was last updated.
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+user\_id: optional string
 
-- `session_id: string`
+User id for this participant.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: optional object { chat_download_url, chat_download_url_expiry }`
+</details>
 
-  - `chat_download_url: string`
+<a href="#">Link to this property</a>
 
-    URL where the chat logs can be downloaded
+</details>
 
-  - `chat_download_url_expiry: string`
+<a href="#">Link to this property</a>
 
-    Time when the download URL will expire
+success: optional boolean
 
-- `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/chat \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_session_participants_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "data": {
-    "chat_download_url": "chat_download_url",
-    "chat_download_url_expiry": "chat_download_url_expiry"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Fetch the complete transcript for a session
+SessionGetSessionParticipantDetailsResponse object {data, success }
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/transcript`
+</summary>
 
-Returns a URL to download the transcript for the session ID in CSV format.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+data: optional object {participant }
 
-  The account identifier tag.
+</summary>
 
-- `app_id: string`
+<details>
 
-  The app identifier tag.
+<summary>
 
-- `session_id: string`
+participant: optional object {id, created\_at, custom\_participant\_id, 8 more }
 
-### Query Parameters
+</summary>
 
-- `format: optional "SRT" or "VTT" or "JSON" or "CSV"`
+id: optional string
 
-  Transcript file format to fetch.
+Participant ID. This maps to the corresponding peerId.
 
-  - `"SRT"`
+<a href="#">Link to this property</a>
 
-  - `"VTT"`
+created\_at: optional string
 
-  - `"JSON"`
+timestamp when this participant was created.
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-### Returns
+custom\_participant\_id: optional string
 
-- `data: optional object { sessionId, transcript_download_url, transcript_download_url_expiry }`
+ID passed by client to create this participant.
 
-  - `sessionId: string`
+<a href="#">Link to this property</a>
 
-  - `transcript_download_url: string`
+display\_name: optional string
 
-    URL where the transcript can be downloaded
+Display name of participant when joining the session.
 
-  - `transcript_download_url_expiry: string`
+<a href="#">Link to this property</a>
 
-    Time when the download URL will expire
+duration: optional number
 
-- `success: optional boolean`
+number of minutes for which the participant was in the session.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/transcript \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+joined\_at: optional string
 
-#### Response
+timestamp at which participant joined the session.
 
-```json
-{
-  "data": {
-    "sessionId": "sessionId",
-    "transcript_download_url": "transcript_download_url",
-    "transcript_download_url_expiry": "transcript_download_url_expiry"
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Fetch summary of transcripts for a session
+left\_at: optional string
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/summary`
+timestamp at which participant left the session.
 
-Returns a Summary URL to download the Summary of Transcripts for the session ID as plain text.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  The account identifier tag.
+peer\_events: optional array of object {id, created\_at, event\_name, 7 more }
 
-- `app_id: string`
+Connection lifecycle events for the participant’s peer. Only included when <code>include_peer_events</code> is true.
 
-  The app identifier tag.
+</summary>
 
-- `session_id: string`
+id: optional string
 
-### Returns
+ID of the peer event.
 
-- `data: optional object { sessionId, summaryDownloadUrl, summaryDownloadUrlExpiry }`
+<a href="#">Link to this property</a>
 
-  - `sessionId: string`
+created\_at: optional string
 
-  - `summaryDownloadUrl: string`
+Timestamp when this peer event was created.
 
-    URL where the summary of transcripts can be downloaded
+<a href="#">Link to this property</a>
 
-  - `summaryDownloadUrlExpiry: string`
+<details>
 
-    Time of Expiry before when you need to download the csv file.
+<summary>
 
-- `success: optional boolean`
+event\_name: optional "PEER\_CREATED"or "PEER\_JOINING"or "PEER\_LEAVING"
 
-### Example
+Name of the peer event.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/summary \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "data": {
-    "sessionId": "sessionId",
-    "summaryDownloadUrl": "summaryDownloadUrl",
-    "summaryDownloadUrlExpiry": "summaryDownloadUrlExpiry"
-  },
-  "success": true
-}
-```
+"PEER\_CREATED"
 
-## Generate summary of Transcripts for the session
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/summary`
+"PEER\_JOINING"
 
-Trigger Summary generation of Transcripts for the session ID.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"PEER\_LEAVING"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  The account identifier tag.
+</details>
 
-- `app_id: string`
+<a href="#">Link to this property</a>
 
-  The app identifier tag.
+minutes\_consumed: optional number
 
-- `session_id: string`
+Minutes consumed attributed to this event.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `data: optional object { session_id, status }`
+participant\_id: optional string
 
-  - `session_id: optional string`
+ID of the participant this event belongs to.
 
-  - `status: optional string`
+<a href="#">Link to this property</a>
 
-- `success: optional boolean`
+peer\_id: optional string
 
-### Example
+Peer ID this event belongs to.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/$SESSION_ID/summary \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "data": {
-    "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "status": "status"
-  },
-  "success": true
-}
-```
+<summary>
 
-## Fetch details of peer
+preset\_view\_type: optional "GROUP\_CALL"or "WEBINAR"or "AUDIO\_ROOM"or 2 more
 
-**get** `/accounts/{account_id}/realtime/kit/{app_id}/sessions/peer-report/{peer_id}`
+View type of the preset associated with the peer.
 
-Returns participant details for the given peer ID along with call statistics.
+</summary>
 
-### Path Parameters
+One of the following:
 
-- `account_id: string`
+"GROUP\_CALL"
 
-  The account identifier tag.
+<a href="#">Link to this property</a>
 
-- `app_id: string`
+"WEBINAR"
 
-  The app identifier tag.
+<a href="#">Link to this property</a>
 
-- `peer_id: string`
+"AUDIO\_ROOM"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `filters: optional "device_info" or "ip_information" or "precall_network_information" or 2 more`
+"LIVESTREAM"
 
-  Filter to apply to the peer report.
+<a href="#">Link to this property</a>
 
-  - `"device_info"`
+"CHAT"
 
-  - `"ip_information"`
+<a href="#">Link to this property</a>
 
-  - `"precall_network_information"`
+</details>
 
-  - `"events"`
+<a href="#">Link to this property</a>
 
-  - `"quality_stats"`
+session\_id: optional string
 
-- `include_peer_events: optional boolean`
+ID of the session this event belongs to.
 
-  if true, response includes all the peer events of participant.
+<a href="#">Link to this property</a>
 
-### Returns
+socket\_session\_id: optional string
 
-- `data: optional object { participant }`
+ID of the socket session associated with this event.
 
-  - `participant: optional object { id, created_at, custom_participant_id, 10 more }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+updated\_at: optional string
 
-      ID of the participant.
+Timestamp when this peer event was last updated.
 
-    - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-      timestamp when this participant was created.
+</details>
 
-    - `custom_participant_id: optional string`
+<a href="#">Link to this property</a>
 
-      ID passed by client to create this participant.
+preset\_name: optional string
 
-    - `display_name: optional string`
+Name of the preset associated with the participant.
 
-      Display name of participant when joining the session.
+<a href="#">Link to this property</a>
 
-    - `duration: optional number`
+updated\_at: optional string
 
-      number of minutes for which the participant was in the session.
+timestamp when this participant’s data was last updated.
 
-    - `joined_at: optional string`
+<a href="#">Link to this property</a>
 
-      timestamp at which participant joined the session.
+user\_id: optional string
 
-    - `left_at: optional string`
+User id for this participant.
 
-      timestamp at which participant left the session.
+<a href="#">Link to this property</a>
 
-    - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+</details>
 
-      Connection lifecycle events for the participant's peer.
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+</details>
 
-        ID of the peer event.
+<a href="#">Link to this property</a>
 
-      - `created_at: optional string`
+success: optional boolean
 
-        Timestamp when this peer event was created.
+<a href="#">Link to this property</a>
 
-      - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+</details>
 
-        Name of the peer event.
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_session_participant_details_response%20%3E%20(schema)>)
 
-        - `"PEER_CREATED"`
+<details>
 
-        - `"PEER_JOINING"`
+<summary>
 
-        - `"PEER_LEAVING"`
+SessionGetSessionChatResponse object {data, success }
 
-      - `minutes_consumed: optional number`
+</summary>
 
-        Minutes consumed attributed to this event.
+<details>
 
-      - `participant_id: optional string`
+<summary>
 
-        ID of the participant this event belongs to.
+data: optional object {chat\_download\_url, chat\_download\_url\_expiry }
 
-      - `peer_id: optional string`
+</summary>
 
-        Peer ID this event belongs to.
+chat\_download\_url: string
 
-      - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+URL where the chat logs can be downloaded
 
-        View type of the preset associated with the peer.
+<a href="#">Link to this property</a>
 
-        - `"GROUP_CALL"`
+chat\_download\_url\_expiry: string
 
-        - `"WEBINAR"`
+Time when the download URL will expire
 
-        - `"AUDIO_ROOM"`
+<a href="#">Link to this property</a>
 
-        - `"LIVESTREAM"`
+</details>
 
-        - `"CHAT"`
+<a href="#">Link to this property</a>
 
-      - `session_id: optional string`
+success: optional boolean
 
-        ID of the session this event belongs to.
+<a href="#">Link to this property</a>
 
-      - `socket_session_id: optional string`
+</details>
 
-        ID of the socket session associated with this event.
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_session_chat_response%20%3E%20(schema)>)
 
-      - `updated_at: optional string`
+<details>
 
-        Timestamp when this peer event was last updated.
+<summary>
 
-    - `peer_report: optional object { metadata, quality }`
+SessionGetSessionTranscriptsResponse object {data, success }
 
-      Peer call statistics report.
+</summary>
 
-      - `metadata: optional object { audio_devices_updates, browser_metadata, candidate_pairs, 12 more }`
+<details>
 
-        Connection and device metadata for the participant.
+<summary>
 
-        - `audio_devices_updates: optional array of object { added, removed, timestamp }`
+data: optional object {sessionId, transcript\_download\_url, transcript\_download\_url\_expiry }
 
-          - `added: optional array of object { device_id, kind, label }`
+</summary>
 
-            Devices that became available.
+sessionId: string
 
-            - `device_id: optional string`
+<a href="#">Link to this property</a>
 
-              ID of the device.
+transcript\_download\_url: string
 
-            - `kind: optional string`
+URL where the transcript can be downloaded
 
-              Kind of device, for example audioinput or videoinput.
+<a href="#">Link to this property</a>
 
-            - `label: optional string`
+transcript\_download\_url\_expiry: string
 
-              Human-readable label of the device.
+Time when the download URL will expire
 
-          - `removed: optional array of object { device_id, kind, label }`
+<a href="#">Link to this property</a>
 
-            Devices that became unavailable.
+</details>
 
-            - `device_id: optional string`
+<a href="#">Link to this property</a>
 
-              ID of the device.
+success: optional boolean
 
-            - `kind: optional string`
+<a href="#">Link to this property</a>
 
-              Kind of device, for example audioinput or videoinput.
+</details>
 
-            - `label: optional string`
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_session_transcripts_response%20%3E%20(schema)>)
 
-              Human-readable label of the device.
+<details>
 
-          - `timestamp: optional string`
+<summary>
 
-            Timestamp of the device update.
+SessionGetSessionSummaryResponse object {data, success }
 
-        - `browser_metadata: optional object { browser, browser_version, engine, 2 more }`
+</summary>
 
-          - `browser: optional string`
+<details>
 
-          - `browser_version: optional string`
+<summary>
 
-          - `engine: optional string`
+data: optional object {sessionId, summaryDownloadUrl, summaryDownloadUrlExpiry }
 
-          - `user_agent: optional string`
+</summary>
 
-          - `webgl_support: optional boolean`
+sessionId: string
 
-        - `candidate_pairs: optional object { consuming_transport, producing_transport }`
+<a href="#">Link to this property</a>
 
-          - `consuming_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }`
+summaryDownloadUrl: string
 
-            - `available_incoming_bitrate: optional number`
+URL where the summary of transcripts can be downloaded
 
-            - `available_outgoing_bitrate: optional number`
+<a href="#">Link to this property</a>
 
-            - `bytes_discarded_on_send: optional number`
+summaryDownloadUrlExpiry: string
 
-            - `bytes_received: optional number`
+Time of Expiry before when you need to download the csv file.
 
-            - `bytes_sent: optional number`
+<a href="#">Link to this property</a>
 
-            - `current_round_trip_time: optional number`
+</details>
 
-            - `last_packet_received_timestamp: optional number`
+<a href="#">Link to this property</a>
 
-              Epoch milliseconds when the last packet was received.
+success: optional boolean
 
-            - `last_packet_sent_timestamp: optional number`
+<a href="#">Link to this property</a>
 
-              Epoch milliseconds when the last packet was sent.
+</details>
 
-            - `local_candidate_address: optional string`
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_session_summary_response%20%3E%20(schema)>)
 
-            - `local_candidate_id: optional string`
+<details>
 
-            - `local_candidate_network_type: optional string`
+<summary>
 
-            - `local_candidate_port: optional number`
+SessionGenerateSummaryOfTranscriptsResponse object {data, success }
 
-            - `local_candidate_protocol: optional string`
+</summary>
 
-            - `local_candidate_related_address: optional string`
+<details>
 
-            - `local_candidate_related_port: optional number`
+<summary>
 
-            - `local_candidate_type: optional string`
+data: optional object {session\_id, status }
 
-            - `local_candidate_url: optional string`
+</summary>
 
-            - `nominated: optional boolean`
+session\_id: optional string
 
-            - `packets_discarded_on_send: optional number`
+formatuuid
 
-            - `packets_received: optional number`
+<a href="#">Link to this property</a>
 
-            - `packets_sent: optional number`
+status: optional string
 
-            - `remote_candidate_address: optional string`
+<a href="#">Link to this property</a>
 
-            - `remote_candidate_id: optional string`
+</details>
 
-            - `remote_candidate_port: optional number`
+<a href="#">Link to this property</a>
 
-            - `remote_candidate_protocol: optional string`
+success: optional boolean
 
-            - `remote_candidate_type: optional string`
+<a href="#">Link to this property</a>
 
-            - `remote_candidate_url: optional string`
+</details>
 
-            - `total_round_trip_time: optional number`
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_generate_summary_of_transcripts_response%20%3E%20(schema)>)
 
-          - `producing_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }`
+<details>
 
-            - `available_incoming_bitrate: optional number`
+<summary>
 
-            - `available_outgoing_bitrate: optional number`
+SessionGetParticipantDataFromPeerIDResponse object {data, success }
 
-            - `bytes_discarded_on_send: optional number`
+</summary>
 
-            - `bytes_received: optional number`
+<details>
 
-            - `bytes_sent: optional number`
+<summary>
 
-            - `current_round_trip_time: optional number`
+data: optional object {participant }
 
-            - `last_packet_received_timestamp: optional number`
+</summary>
 
-              Epoch milliseconds when the last packet was received.
+<details>
 
-            - `last_packet_sent_timestamp: optional number`
+<summary>
 
-              Epoch milliseconds when the last packet was sent.
+participant: optional object {id, created\_at, custom\_participant\_id, 10 more }
 
-            - `local_candidate_address: optional string`
+</summary>
 
-            - `local_candidate_id: optional string`
+id: optional string
 
-            - `local_candidate_network_type: optional string`
+ID of the participant.
 
-            - `local_candidate_port: optional number`
+formatuuid
 
-            - `local_candidate_protocol: optional string`
+<a href="#">Link to this property</a>
 
-            - `local_candidate_related_address: optional string`
+created\_at: optional string
 
-            - `local_candidate_related_port: optional number`
+timestamp when this participant was created.
 
-            - `local_candidate_type: optional string`
+<a href="#">Link to this property</a>
 
-            - `local_candidate_url: optional string`
+custom\_participant\_id: optional string
 
-            - `nominated: optional boolean`
+ID passed by client to create this participant.
 
-            - `packets_discarded_on_send: optional number`
+<a href="#">Link to this property</a>
 
-            - `packets_received: optional number`
+display\_name: optional string
 
-            - `packets_sent: optional number`
+Display name of participant when joining the session.
 
-            - `remote_candidate_address: optional string`
+<a href="#">Link to this property</a>
 
-            - `remote_candidate_id: optional string`
+duration: optional number
 
-            - `remote_candidate_port: optional number`
+number of minutes for which the participant was in the session.
 
-            - `remote_candidate_protocol: optional string`
+<a href="#">Link to this property</a>
 
-            - `remote_candidate_type: optional string`
+joined\_at: optional string
 
-            - `remote_candidate_url: optional string`
+timestamp at which participant joined the session.
 
-            - `total_round_trip_time: optional number`
+<a href="#">Link to this property</a>
 
-        - `device_info: optional object { cpus, is_mobile, os, os_version }`
+left\_at: optional string
 
-          - `cpus: optional number`
+timestamp at which participant left the session.
 
-          - `is_mobile: optional boolean`
+<a href="#">Link to this property</a>
 
-          - `os: optional string`
+<details>
 
-          - `os_version: optional string`
+<summary>
 
-        - `events: optional array of object { metadata, name, timestamp }`
+peer\_events: optional array of object {id, created\_at, event\_name, 7 more }
 
-          - `metadata: optional map[string or number or boolean]`
+Connection lifecycle events for the participant’s peer.
 
-            Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null).
+</summary>
 
-            - `string`
+id: optional string
 
-            - `number`
+ID of the peer event.
 
-            - `boolean`
+<a href="#">Link to this property</a>
 
-          - `name: optional string`
+created\_at: optional string
 
-            Name of the event.
+Timestamp when this peer event was created.
 
-          - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-            Timestamp when the event occurred.
+<details>
 
-        - `ip_information: optional object { asn, city, country, 4 more }`
+<summary>
 
-          - `asn: optional object { asn, domain, name, 2 more }`
+event\_name: optional "PEER\_CREATED"or "PEER\_JOINING"or "PEER\_LEAVING"
 
-            - `asn: optional string`
+Name of the peer event.
 
-            - `domain: optional string`
+</summary>
 
-            - `name: optional string`
+One of the following:
 
-            - `route: optional string`
+"PEER\_CREATED"
 
-            - `type: optional string`
+<a href="#">Link to this property</a>
 
-          - `city: optional string`
+"PEER\_JOINING"
 
-          - `country: optional string`
+<a href="#">Link to this property</a>
 
-          - `ipv4: optional string`
+"PEER\_LEAVING"
 
-          - `org: optional string`
+<a href="#">Link to this property</a>
 
-          - `region: optional string`
+</details>
 
-          - `timezone: optional string`
+<a href="#">Link to this property</a>
 
-        - `native_metadata: optional object { audio_encoder, video_encoder }`
+minutes\_consumed: optional number
 
-          - `audio_encoder: optional string`
+Minutes consumed attributed to this event.
 
-          - `video_encoder: optional string`
+<a href="#">Link to this property</a>
 
-        - `pc_metadata: optional array of object { effective_network_type, reflexive_connectivity, relay_connectivity, 3 more }`
+participant\_id: optional string
 
-          - `effective_network_type: optional string`
+ID of the participant this event belongs to.
 
-          - `reflexive_connectivity: optional boolean`
+<a href="#">Link to this property</a>
 
-          - `relay_connectivity: optional boolean`
+peer\_id: optional string
 
-          - `sdp: optional array of string`
+Peer ID this event belongs to.
 
-          - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-          - `turn_connectivity: optional boolean`
+<details>
 
-        - `room_view_type: optional string`
+<summary>
 
-        - `sdk_name: optional string`
+preset\_view\_type: optional "GROUP\_CALL"or "WEBINAR"or "AUDIO\_ROOM"or 2 more
 
-        - `sdk_type: optional string`
+View type of the preset associated with the peer.
 
-        - `sdk_version: optional string`
+</summary>
 
-        - `selected_device_updates: optional array of object { device, timestamp }`
+One of the following:
 
-          - `device: optional object { device_id, kind, label }`
+"GROUP\_CALL"
 
-            A media device (camera, microphone, or speaker).
+<a href="#">Link to this property</a>
 
-            - `device_id: optional string`
+"WEBINAR"
 
-              ID of the device.
+<a href="#">Link to this property</a>
 
-            - `kind: optional string`
+"AUDIO\_ROOM"
 
-              Kind of device, for example audioinput or videoinput.
+<a href="#">Link to this property</a>
 
-            - `label: optional string`
+"LIVESTREAM"
 
-              Human-readable label of the device.
+<a href="#">Link to this property</a>
 
-          - `timestamp: optional string`
+"CHAT"
 
-        - `speaker_devices_updates: optional array of object { added, removed, timestamp }`
+<a href="#">Link to this property</a>
 
-          - `added: optional array of object { device_id, kind, label }`
+</details>
 
-            Devices that became available.
+<a href="#">Link to this property</a>
 
-            - `device_id: optional string`
+session\_id: optional string
 
-              ID of the device.
+ID of the session this event belongs to.
 
-            - `kind: optional string`
+<a href="#">Link to this property</a>
 
-              Kind of device, for example audioinput or videoinput.
+socket\_session\_id: optional string
 
-            - `label: optional string`
+ID of the socket session associated with this event.
 
-              Human-readable label of the device.
+<a href="#">Link to this property</a>
 
-          - `removed: optional array of object { device_id, kind, label }`
+updated\_at: optional string
 
-            Devices that became unavailable.
+Timestamp when this peer event was last updated.
 
-            - `device_id: optional string`
+<a href="#">Link to this property</a>
 
-              ID of the device.
+</details>
 
-            - `kind: optional string`
+<a href="#">Link to this property</a>
 
-              Kind of device, for example audioinput or videoinput.
+<details>
 
-            - `label: optional string`
+<summary>
 
-              Human-readable label of the device.
+peer\_report: optional object {metadata, quality }
 
-          - `timestamp: optional string`
+Peer call statistics report.
 
-            Timestamp of the device update.
+</summary>
 
-        - `video_devices_updates: optional array of object { added, removed, timestamp }`
+<details>
 
-          - `added: optional array of object { device_id, kind, label }`
+<summary>
 
-            Devices that became available.
+metadata: optional object {audio\_devices\_updates, browser\_metadata, candidate\_pairs, 12 more }
 
-            - `device_id: optional string`
+Connection and device metadata for the participant.
 
-              ID of the device.
+</summary>
 
-            - `kind: optional string`
+<details>
 
-              Kind of device, for example audioinput or videoinput.
+<summary>
 
-            - `label: optional string`
+audio\_devices\_updates: optional array of object {added, removed, timestamp }
 
-              Human-readable label of the device.
+</summary>
 
-          - `removed: optional array of object { device_id, kind, label }`
+<details>
 
-            Devices that became unavailable.
+<summary>
 
-            - `device_id: optional string`
+added: optional array of object {device\_id, kind, label }
 
-              ID of the device.
+Devices that became available.
 
-            - `kind: optional string`
+</summary>
 
-              Kind of device, for example audioinput or videoinput.
+device\_id: optional string
 
-            - `label: optional string`
+ID of the device.
 
-              Human-readable label of the device.
+<a href="#">Link to this property</a>
 
-          - `timestamp: optional string`
+kind: optional string
 
-            Timestamp of the device update.
+Kind of device, for example audioinput or videoinput.
 
-      - `quality: optional object { audio_consumer, audio_consumer_cumulative, audio_producer, 13 more }`
+<a href="#">Link to this property</a>
 
-        Media quality statistics for the participant.
+label: optional string
 
-        - `audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }`
+Human-readable label of the device.
 
-          - `bytes_received: optional number`
+<a href="#">Link to this property</a>
 
-          - `concealment_events: optional number`
+</details>
 
-          - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-          - `jitter: optional number`
+<details>
 
-          - `jitter_buffer_delay: optional number`
+<summary>
 
-          - `jitter_buffer_emitted_count: optional number`
+removed: optional array of object {device\_id, kind, label }
 
-          - `mid: optional string`
+Devices that became unavailable.
 
-          - `mos_quality: optional number`
+</summary>
 
-          - `packets_lost: optional number`
+device\_id: optional string
 
-          - `packets_received: optional number`
+ID of the device.
 
-          - `peer_id: optional string`
+<a href="#">Link to this property</a>
 
-          - `producer_id: optional string`
+kind: optional string
 
-          - `ssrc: optional number`
+Kind of device, for example audioinput or videoinput.
 
-          - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-        - `audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }`
+label: optional string
 
-          Aggregated inbound (consumer) audio statistics for the session.
+Human-readable label of the device.
 
-          - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<a href="#">Link to this property</a>
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+</details>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"250ms_or_greater_event_fraction": optional number`
+timestamp: optional string
 
-            - `"500ms_or_greater_event_fraction": optional number`
+Timestamp of the device update.
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+</details>
 
-            Cumulative packet loss distribution.
+<a href="#">Link to this property</a>
 
-            - `"10_or_greater_event_fraction": optional number`
+<details>
 
-            - `"25_or_greater_event_fraction": optional number`
+<summary>
 
-            - `"5_or_greater_event_fraction": optional number`
+browser\_metadata: optional object {browser, browser\_version, engine, 2 more }
 
-            - `"50_or_greater_event_fraction": optional number`
+</summary>
 
-            - `avg: optional number`
+browser: optional string
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-            Distribution summary with average and percentiles.
+browser\_version: optional string
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `p50: optional number`
+engine: optional string
 
-            - `p75: optional number`
+<a href="#">Link to this property</a>
 
-            - `p90: optional number`
+user\_agent: optional string
 
-        - `audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }`
+<a href="#">Link to this property</a>
 
-          - `bytes_sent: optional number`
+webgl\_support: optional boolean
 
-          - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-          - `mid: optional string`
+</details>
 
-          - `mos_quality: optional number`
+<a href="#">Link to this property</a>
 
-          - `packets_lost: optional number`
+<details>
 
-          - `packets_sent: optional number`
+<summary>
 
-          - `producer_id: optional string`
+candidate\_pairs: optional object {consuming\_transport, producing\_transport }
 
-          - `rtt: optional number`
+</summary>
 
-          - `ssrc: optional number`
+<details>
 
-          - `timestamp: optional string`
+<summary>
 
-        - `audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }`
+consuming\_transport: optional array of object {available\_incoming\_bitrate, available\_outgoing\_bitrate, bytes\_discarded\_on\_send, 25 more }
 
-          Aggregated outbound (producer) audio statistics for the session.
+</summary>
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+available\_incoming\_bitrate: optional number
 
-            Cumulative packet loss distribution.
+<a href="#">Link to this property</a>
 
-            - `"10_or_greater_event_fraction": optional number`
+available\_outgoing\_bitrate: optional number
 
-            - `"25_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"5_or_greater_event_fraction": optional number`
+bytes\_discarded\_on\_send: optional number
 
-            - `"50_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+bytes\_received: optional number
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-            Distribution summary with average and percentiles.
+bytes\_sent: optional number
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `p50: optional number`
+current\_round\_trip\_time: optional number
 
-            - `p75: optional number`
+<a href="#">Link to this property</a>
 
-            - `p90: optional number`
+last\_packet\_received\_timestamp: optional number
 
-          - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+Epoch milliseconds when the last packet was received.
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+<a href="#">Link to this property</a>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+last\_packet\_sent\_timestamp: optional number
 
-            - `"250ms_or_greater_event_fraction": optional number`
+Epoch milliseconds when the last packet was sent.
 
-            - `"500ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+local\_candidate\_address: optional string
 
-        - `screenshare_audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }`
+<a href="#">Link to this property</a>
 
-          - `bytes_received: optional number`
+local\_candidate\_id: optional string
 
-          - `concealment_events: optional number`
+<a href="#">Link to this property</a>
 
-          - `consumer_id: optional string`
+local\_candidate\_network\_type: optional string
 
-          - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-          - `jitter_buffer_delay: optional number`
+local\_candidate\_port: optional number
 
-          - `jitter_buffer_emitted_count: optional number`
+<a href="#">Link to this property</a>
 
-          - `mid: optional string`
+local\_candidate\_protocol: optional string
 
-          - `mos_quality: optional number`
+<a href="#">Link to this property</a>
 
-          - `packets_lost: optional number`
+local\_candidate\_related\_address: optional string
 
-          - `packets_received: optional number`
+<a href="#">Link to this property</a>
 
-          - `peer_id: optional string`
+local\_candidate\_related\_port: optional number
 
-          - `producer_id: optional string`
+<a href="#">Link to this property</a>
 
-          - `ssrc: optional number`
+local\_candidate\_type: optional string
 
-          - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-        - `screenshare_audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }`
+local\_candidate\_url: optional string
 
-          Aggregated inbound (consumer) audio statistics for the session.
+<a href="#">Link to this property</a>
 
-          - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+nominated: optional boolean
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+<a href="#">Link to this property</a>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+packets\_discarded\_on\_send: optional number
 
-            - `"250ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"500ms_or_greater_event_fraction": optional number`
+packets\_received: optional number
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+packets\_sent: optional number
 
-            Cumulative packet loss distribution.
+<a href="#">Link to this property</a>
 
-            - `"10_or_greater_event_fraction": optional number`
+remote\_candidate\_address: optional string
 
-            - `"25_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"5_or_greater_event_fraction": optional number`
+remote\_candidate\_id: optional string
 
-            - `"50_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+remote\_candidate\_port: optional number
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-            Distribution summary with average and percentiles.
+remote\_candidate\_protocol: optional string
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `p50: optional number`
+remote\_candidate\_type: optional string
 
-            - `p75: optional number`
+<a href="#">Link to this property</a>
 
-            - `p90: optional number`
+remote\_candidate\_url: optional string
 
-        - `screenshare_audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }`
+<a href="#">Link to this property</a>
 
-          - `bytes_sent: optional number`
+total\_round\_trip\_time: optional number
 
-          - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-          - `mid: optional string`
+</details>
 
-          - `mos_quality: optional number`
+<a href="#">Link to this property</a>
 
-          - `packets_lost: optional number`
+<details>
 
-          - `packets_sent: optional number`
+<summary>
 
-          - `producer_id: optional string`
+producing\_transport: optional array of object {available\_incoming\_bitrate, available\_outgoing\_bitrate, bytes\_discarded\_on\_send, 25 more }
 
-          - `rtt: optional number`
+</summary>
 
-          - `ssrc: optional number`
+available\_incoming\_bitrate: optional number
 
-          - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-        - `screenshare_audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }`
+available\_outgoing\_bitrate: optional number
 
-          Aggregated outbound (producer) audio statistics for the session.
+<a href="#">Link to this property</a>
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+bytes\_discarded\_on\_send: optional number
 
-            Cumulative packet loss distribution.
+<a href="#">Link to this property</a>
 
-            - `"10_or_greater_event_fraction": optional number`
+bytes\_received: optional number
 
-            - `"25_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"5_or_greater_event_fraction": optional number`
+bytes\_sent: optional number
 
-            - `"50_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+current\_round\_trip\_time: optional number
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-            Distribution summary with average and percentiles.
+last\_packet\_received\_timestamp: optional number
 
-            - `avg: optional number`
+Epoch milliseconds when the last packet was received.
 
-            - `p50: optional number`
+<a href="#">Link to this property</a>
 
-            - `p75: optional number`
+last\_packet\_sent\_timestamp: optional number
 
-            - `p90: optional number`
+Epoch milliseconds when the last packet was sent.
 
-          - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<a href="#">Link to this property</a>
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+local\_candidate\_address: optional string
 
-            - `"100ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"250ms_or_greater_event_fraction": optional number`
+local\_candidate\_id: optional string
 
-            - `"500ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+local\_candidate\_network\_type: optional string
 
-        - `screenshare_video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }`
+<a href="#">Link to this property</a>
 
-          - `bytes_received: optional number`
+local\_candidate\_port: optional number
 
-          - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-          - `fir_count: optional number`
+local\_candidate\_protocol: optional string
 
-          - `frame_height: optional number`
+<a href="#">Link to this property</a>
 
-          - `frame_width: optional number`
+local\_candidate\_related\_address: optional string
 
-          - `frames_decoded: optional number`
+<a href="#">Link to this property</a>
 
-          - `frames_dropped: optional number`
+local\_candidate\_related\_port: optional number
 
-          - `frames_per_second: optional number`
+<a href="#">Link to this property</a>
 
-          - `jitter: optional number`
+local\_candidate\_type: optional string
 
-          - `jitter_buffer_delay: optional number`
+<a href="#">Link to this property</a>
 
-          - `jitter_buffer_emitted_count: optional number`
+local\_candidate\_url: optional string
 
-          - `key_frames_decoded: optional number`
+<a href="#">Link to this property</a>
 
-          - `mid: optional string`
+nominated: optional boolean
 
-          - `mos_quality: optional number`
+<a href="#">Link to this property</a>
 
-          - `packets_lost: optional number`
+packets\_discarded\_on\_send: optional number
 
-          - `packets_received: optional number`
+<a href="#">Link to this property</a>
 
-          - `peer_id: optional string`
+packets\_received: optional number
 
-          - `producer_id: optional string`
+<a href="#">Link to this property</a>
 
-          - `ssrc: optional number`
+packets\_sent: optional number
 
-          - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-        - `screenshare_video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }`
+remote\_candidate\_address: optional string
 
-          Aggregated inbound (consumer) video statistics for the session.
+<a href="#">Link to this property</a>
 
-          - `frame_per_second: optional object { avg, p50, p75, p90 }`
+remote\_candidate\_id: optional string
 
-            Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+remote\_candidate\_port: optional number
 
-            - `p50: optional number`
+<a href="#">Link to this property</a>
 
-            - `p75: optional number`
+remote\_candidate\_protocol: optional string
 
-            - `p90: optional number`
+<a href="#">Link to this property</a>
 
-          - `frame_width: optional object { avg, p50, p75, p90 }`
+remote\_candidate\_type: optional string
 
-            Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+remote\_candidate\_url: optional string
 
-            - `p50: optional number`
+<a href="#">Link to this property</a>
 
-            - `p75: optional number`
+total\_round\_trip\_time: optional number
 
-            - `p90: optional number`
+<a href="#">Link to this property</a>
 
-          - `issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }`
+</details>
 
-            - `lag_fraction: optional number`
+<a href="#">Link to this property</a>
 
-            - `no_video_fraction: optional number`
+</details>
 
-            - `poor_resolution_fraction: optional number`
+<a href="#">Link to this property</a>
 
-          - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<details>
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+<summary>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+device\_info: optional object {cpus, is\_mobile, os, os\_version }
 
-            - `"250ms_or_greater_event_fraction": optional number`
+</summary>
 
-            - `"500ms_or_greater_event_fraction": optional number`
+cpus: optional number
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-          - `key_frames_decoded_fraction: optional number`
+is\_mobile: optional boolean
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+<a href="#">Link to this property</a>
 
-            Cumulative packet loss distribution.
+os: optional string
 
-            - `"10_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"25_or_greater_event_fraction": optional number`
+os\_version: optional string
 
-            - `"5_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"50_or_greater_event_fraction": optional number`
+</details>
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+<details>
 
-            Distribution summary with average and percentiles.
+<summary>
 
-            - `avg: optional number`
+events: optional array of object {metadata, name, timestamp }
 
-            - `p50: optional number`
+</summary>
 
-            - `p75: optional number`
+<details>
 
-            - `p90: optional number`
+<summary>
 
-        - `screenshare_video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }`
+metadata: optional map\[stringor numberor boolean]
 
-          - `bytes_sent: optional number`
+Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null).
 
-          - `fir_count: optional number`
+</summary>
 
-          - `frame_height: optional number`
+One of the following:
 
-          - `frame_width: optional number`
+string
 
-          - `frames_encoded: optional number`
+<a href="#">Link to this property</a>
 
-          - `frames_per_second: optional number`
+number
 
-          - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-          - `key_frames_encoded: optional number`
+boolean
 
-          - `mid: optional string`
+<a href="#">Link to this property</a>
 
-          - `mos_quality: optional number`
+</details>
 
-          - `packets_lost: optional number`
+<a href="#">Link to this property</a>
 
-          - `packets_sent: optional number`
+name: optional string
 
-          - `pli_count: optional number`
+Name of the event.
 
-          - `producer_id: optional string`
+<a href="#">Link to this property</a>
 
-          - `quality_limitation_durations: optional object { bandwidth, cpu, none, other }`
+timestamp: optional string
 
-            - `bandwidth: optional number`
+Timestamp when the event occurred.
 
-            - `cpu: optional number`
+<a href="#">Link to this property</a>
 
-            - `none: optional number`
+</details>
 
-            - `other: optional number`
+<a href="#">Link to this property</a>
 
-          - `quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"`
+<details>
 
-            - `"cpu"`
+<summary>
 
-            - `"bandwidth"`
+ip\_information: optional object {asn, city, country, 4 more }
 
-            - `"none"`
+</summary>
 
-            - `"other"`
+<details>
 
-          - `quality_limitation_resolution_changes: optional number`
+<summary>
 
-          - `rtt: optional number`
+asn: optional object {asn, domain, name, 2 more }
 
-          - `ssrc: optional number`
+</summary>
 
-          - `timestamp: optional string`
+asn: optional string
 
-        - `screenshare_video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }`
+<a href="#">Link to this property</a>
 
-          Aggregated outbound (producer) video statistics for the session.
+domain: optional string
 
-          - `frame_per_second: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-            Distribution summary with average and percentiles.
+name: optional string
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `p50: optional number`
+route: optional string
 
-            - `p75: optional number`
+<a href="#">Link to this property</a>
 
-            - `p90: optional number`
+type: optional string
 
-          - `frame_width: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-            Distribution summary with average and percentiles.
+</details>
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `p50: optional number`
+city: optional string
 
-            - `p75: optional number`
+<a href="#">Link to this property</a>
 
-            - `p90: optional number`
+country: optional string
 
-          - `high_negative_feedback_fraction: optional number`
+<a href="#">Link to this property</a>
 
-          - `issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }`
+ipv4: optional string
 
-            - `bandwidth_quality_limitation_fraction: optional number`
+<a href="#">Link to this property</a>
 
-            - `cpu_quality_limitation_fraction: optional number`
+org: optional string
 
-            - `no_video_fraction: optional number`
+<a href="#">Link to this property</a>
 
-            - `poor_resolution_fraction: optional number`
+region: optional string
 
-            - `quality_limitation_fraction: optional number`
+<a href="#">Link to this property</a>
 
-          - `key_frames_encoded_fraction: optional number`
+timezone: optional string
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+<a href="#">Link to this property</a>
 
-            Cumulative packet loss distribution.
+</details>
 
-            - `"10_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"25_or_greater_event_fraction": optional number`
+<details>
 
-            - `"5_or_greater_event_fraction": optional number`
+<summary>
 
-            - `"50_or_greater_event_fraction": optional number`
+native\_metadata: optional object {audio\_encoder, video\_encoder }
 
-            - `avg: optional number`
+</summary>
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+audio\_encoder: optional string
 
-            Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+video\_encoder: optional string
 
-            - `p50: optional number`
+<a href="#">Link to this property</a>
 
-            - `p75: optional number`
+</details>
 
-            - `p90: optional number`
+<a href="#">Link to this property</a>
 
-          - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<details>
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+<summary>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+pc\_metadata: optional array of object {effective\_network\_type, reflexive\_connectivity, relay\_connectivity, 3 more }
 
-            - `"250ms_or_greater_event_fraction": optional number`
+</summary>
 
-            - `"500ms_or_greater_event_fraction": optional number`
+effective\_network\_type: optional string
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-        - `video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }`
+reflexive\_connectivity: optional boolean
 
-          - `bytes_received: optional number`
+<a href="#">Link to this property</a>
 
-          - `consumer_id: optional string`
+relay\_connectivity: optional boolean
 
-          - `fir_count: optional number`
+<a href="#">Link to this property</a>
 
-          - `frame_height: optional number`
+sdp: optional array of string
 
-          - `frame_width: optional number`
+<a href="#">Link to this property</a>
 
-          - `frames_decoded: optional number`
+timestamp: optional string
 
-          - `frames_dropped: optional number`
+<a href="#">Link to this property</a>
 
-          - `frames_per_second: optional number`
+turn\_connectivity: optional boolean
 
-          - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-          - `jitter_buffer_delay: optional number`
+</details>
 
-          - `jitter_buffer_emitted_count: optional number`
+<a href="#">Link to this property</a>
 
-          - `key_frames_decoded: optional number`
+room\_view\_type: optional string
 
-          - `mid: optional string`
+<a href="#">Link to this property</a>
 
-          - `mos_quality: optional number`
+sdk\_name: optional string
 
-          - `packets_lost: optional number`
+<a href="#">Link to this property</a>
 
-          - `packets_received: optional number`
+sdk\_type: optional string
 
-          - `peer_id: optional string`
+<a href="#">Link to this property</a>
 
-          - `producer_id: optional string`
+sdk\_version: optional string
 
-          - `ssrc: optional number`
+<a href="#">Link to this property</a>
 
-          - `timestamp: optional string`
+<details>
 
-        - `video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }`
+<summary>
 
-          Aggregated inbound (consumer) video statistics for the session.
+selected\_device\_updates: optional array of object {device, timestamp }
 
-          - `frame_per_second: optional object { avg, p50, p75, p90 }`
+</summary>
 
-            Distribution summary with average and percentiles.
+<details>
 
-            - `avg: optional number`
+<summary>
 
-            - `p50: optional number`
+device: optional object {device\_id, kind, label }
 
-            - `p75: optional number`
+A media device (camera, microphone, or speaker).
 
-            - `p90: optional number`
+</summary>
 
-          - `frame_width: optional object { avg, p50, p75, p90 }`
+device\_id: optional string
 
-            Distribution summary with average and percentiles.
+ID of the device.
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `p50: optional number`
+kind: optional string
 
-            - `p75: optional number`
+Kind of device, for example audioinput or videoinput.
 
-            - `p90: optional number`
+<a href="#">Link to this property</a>
 
-          - `issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }`
+label: optional string
 
-            - `lag_fraction: optional number`
+Human-readable label of the device.
 
-            - `no_video_fraction: optional number`
+<a href="#">Link to this property</a>
 
-            - `poor_resolution_fraction: optional number`
+</details>
 
-          - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<a href="#">Link to this property</a>
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+timestamp: optional string
 
-            - `"100ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"250ms_or_greater_event_fraction": optional number`
+</details>
 
-            - `"500ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+<details>
 
-          - `key_frames_decoded_fraction: optional number`
+<summary>
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+speaker\_devices\_updates: optional array of object {added, removed, timestamp }
 
-            Cumulative packet loss distribution.
+</summary>
 
-            - `"10_or_greater_event_fraction": optional number`
+<details>
 
-            - `"25_or_greater_event_fraction": optional number`
+<summary>
 
-            - `"5_or_greater_event_fraction": optional number`
+added: optional array of object {device\_id, kind, label }
 
-            - `"50_or_greater_event_fraction": optional number`
+Devices that became available.
 
-            - `avg: optional number`
+</summary>
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+device\_id: optional string
 
-            Distribution summary with average and percentiles.
+ID of the device.
 
-            - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `p50: optional number`
+kind: optional string
 
-            - `p75: optional number`
+Kind of device, for example audioinput or videoinput.
 
-            - `p90: optional number`
+<a href="#">Link to this property</a>
 
-        - `video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }`
+label: optional string
 
-          - `bytes_sent: optional number`
+Human-readable label of the device.
 
-          - `fir_count: optional number`
+<a href="#">Link to this property</a>
 
-          - `frame_height: optional number`
+</details>
 
-          - `frame_width: optional number`
+<a href="#">Link to this property</a>
 
-          - `frames_encoded: optional number`
+<details>
 
-          - `frames_per_second: optional number`
+<summary>
 
-          - `jitter: optional number`
+removed: optional array of object {device\_id, kind, label }
 
-          - `key_frames_encoded: optional number`
+Devices that became unavailable.
 
-          - `mid: optional string`
+</summary>
 
-          - `mos_quality: optional number`
+device\_id: optional string
 
-          - `packets_lost: optional number`
+ID of the device.
 
-          - `packets_sent: optional number`
+<a href="#">Link to this property</a>
 
-          - `pli_count: optional number`
+kind: optional string
 
-          - `producer_id: optional string`
+Kind of device, for example audioinput or videoinput.
 
-          - `quality_limitation_durations: optional object { bandwidth, cpu, none, other }`
+<a href="#">Link to this property</a>
 
-            - `bandwidth: optional number`
+label: optional string
 
-            - `cpu: optional number`
+Human-readable label of the device.
 
-            - `none: optional number`
+<a href="#">Link to this property</a>
 
-            - `other: optional number`
+</details>
 
-          - `quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"`
+<a href="#">Link to this property</a>
 
-            - `"cpu"`
+timestamp: optional string
 
-            - `"bandwidth"`
+Timestamp of the device update.
 
-            - `"none"`
+<a href="#">Link to this property</a>
 
-            - `"other"`
+</details>
 
-          - `quality_limitation_resolution_changes: optional number`
+<a href="#">Link to this property</a>
 
-          - `rtt: optional number`
+<details>
 
-          - `ssrc: optional number`
+<summary>
 
-          - `timestamp: optional string`
+video\_devices\_updates: optional array of object {added, removed, timestamp }
 
-        - `video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }`
+</summary>
 
-          Aggregated outbound (producer) video statistics for the session.
+<details>
 
-          - `frame_per_second: optional object { avg, p50, p75, p90 }`
+<summary>
 
-            Distribution summary with average and percentiles.
+added: optional array of object {device\_id, kind, label }
 
-            - `avg: optional number`
+Devices that became available.
 
-            - `p50: optional number`
+</summary>
 
-            - `p75: optional number`
+device\_id: optional string
 
-            - `p90: optional number`
+ID of the device.
 
-          - `frame_width: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-            Distribution summary with average and percentiles.
+kind: optional string
 
-            - `avg: optional number`
+Kind of device, for example audioinput or videoinput.
 
-            - `p50: optional number`
+<a href="#">Link to this property</a>
 
-            - `p75: optional number`
+label: optional string
 
-            - `p90: optional number`
+Human-readable label of the device.
 
-          - `high_negative_feedback_fraction: optional number`
+<a href="#">Link to this property</a>
 
-          - `issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }`
+</details>
 
-            - `bandwidth_quality_limitation_fraction: optional number`
+<a href="#">Link to this property</a>
 
-            - `cpu_quality_limitation_fraction: optional number`
+<details>
 
-            - `no_video_fraction: optional number`
+<summary>
 
-            - `poor_resolution_fraction: optional number`
+removed: optional array of object {device\_id, kind, label }
 
-            - `quality_limitation_fraction: optional number`
+Devices that became unavailable.
 
-          - `key_frames_encoded_fraction: optional number`
+</summary>
 
-          - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+device\_id: optional string
 
-            Cumulative packet loss distribution.
+ID of the device.
 
-            - `"10_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"25_or_greater_event_fraction": optional number`
+kind: optional string
 
-            - `"5_or_greater_event_fraction": optional number`
+Kind of device, for example audioinput or videoinput.
 
-            - `"50_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+label: optional string
 
-          - `quality_mos: optional object { avg, p50, p75, p90 }`
+Human-readable label of the device.
 
-            Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+</details>
 
-            - `p50: optional number`
+<a href="#">Link to this property</a>
 
-            - `p75: optional number`
+timestamp: optional string
 
-            - `p90: optional number`
+Timestamp of the device update.
 
-          - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<a href="#">Link to this property</a>
 
-            Cumulative latency distribution (milliseconds-based thresholds).
+</details>
 
-            - `"100ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `"250ms_or_greater_event_fraction": optional number`
+</details>
 
-            - `"500ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-            - `avg: optional number`
+<details>
 
-    - `role: optional string`
+<summary>
 
-      Name of the preset associated with the participant.
+quality: optional object {audio\_consumer, audio\_consumer\_cumulative, audio\_producer, 13 more }
 
-    - `session_id: optional string`
+Media quality statistics for the participant.
 
-    - `updated_at: optional string`
+</summary>
 
-      timestamp when this participant's data was last updated.
+<details>
 
-    - `user_id: optional string`
+<summary>
 
-      User id for this participant.
+audio\_consumer: optional array of object {bytes\_received, concealment\_events, consumer\_id, 11 more }
 
-- `success: optional boolean`
+</summary>
 
-### Example
+bytes\_received: optional number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/realtime/kit/$APP_ID/sessions/peer-report/$PEER_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+concealment\_events: optional number
 
-```json
-{
-  "data": {
-    "participant": {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "created_at",
-      "custom_participant_id": "custom_participant_id",
-      "display_name": "display_name",
-      "duration": 0,
-      "joined_at": "joined_at",
-      "left_at": "left_at",
-      "peer_events": [
-        {
-          "id": "id",
-          "created_at": "created_at",
-          "event_name": "PEER_CREATED",
-          "minutes_consumed": 0,
-          "participant_id": "participant_id",
-          "peer_id": "peer_id",
-          "preset_view_type": "GROUP_CALL",
-          "session_id": "session_id",
-          "socket_session_id": "socket_session_id",
-          "updated_at": "updated_at"
-        }
-      ],
-      "peer_report": {
-        "metadata": {
-          "audio_devices_updates": [
-            {
-              "added": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "removed": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "timestamp": "timestamp"
-            }
-          ],
-          "browser_metadata": {
-            "browser": "browser",
-            "browser_version": "browser_version",
-            "engine": "engine",
-            "user_agent": "user_agent",
-            "webgl_support": true
-          },
-          "candidate_pairs": {
-            "consuming_transport": [
-              {
-                "available_incoming_bitrate": 0,
-                "available_outgoing_bitrate": 0,
-                "bytes_discarded_on_send": 0,
-                "bytes_received": 0,
-                "bytes_sent": 0,
-                "current_round_trip_time": 0,
-                "last_packet_received_timestamp": 0,
-                "last_packet_sent_timestamp": 0,
-                "local_candidate_address": "local_candidate_address",
-                "local_candidate_id": "local_candidate_id",
-                "local_candidate_network_type": "local_candidate_network_type",
-                "local_candidate_port": 0,
-                "local_candidate_protocol": "local_candidate_protocol",
-                "local_candidate_related_address": "local_candidate_related_address",
-                "local_candidate_related_port": 0,
-                "local_candidate_type": "local_candidate_type",
-                "local_candidate_url": "local_candidate_url",
-                "nominated": true,
-                "packets_discarded_on_send": 0,
-                "packets_received": 0,
-                "packets_sent": 0,
-                "remote_candidate_address": "remote_candidate_address",
-                "remote_candidate_id": "remote_candidate_id",
-                "remote_candidate_port": 0,
-                "remote_candidate_protocol": "remote_candidate_protocol",
-                "remote_candidate_type": "remote_candidate_type",
-                "remote_candidate_url": "remote_candidate_url",
-                "total_round_trip_time": 0
-              }
-            ],
-            "producing_transport": [
-              {
-                "available_incoming_bitrate": 0,
-                "available_outgoing_bitrate": 0,
-                "bytes_discarded_on_send": 0,
-                "bytes_received": 0,
-                "bytes_sent": 0,
-                "current_round_trip_time": 0,
-                "last_packet_received_timestamp": 0,
-                "last_packet_sent_timestamp": 0,
-                "local_candidate_address": "local_candidate_address",
-                "local_candidate_id": "local_candidate_id",
-                "local_candidate_network_type": "local_candidate_network_type",
-                "local_candidate_port": 0,
-                "local_candidate_protocol": "local_candidate_protocol",
-                "local_candidate_related_address": "local_candidate_related_address",
-                "local_candidate_related_port": 0,
-                "local_candidate_type": "local_candidate_type",
-                "local_candidate_url": "local_candidate_url",
-                "nominated": true,
-                "packets_discarded_on_send": 0,
-                "packets_received": 0,
-                "packets_sent": 0,
-                "remote_candidate_address": "remote_candidate_address",
-                "remote_candidate_id": "remote_candidate_id",
-                "remote_candidate_port": 0,
-                "remote_candidate_protocol": "remote_candidate_protocol",
-                "remote_candidate_type": "remote_candidate_type",
-                "remote_candidate_url": "remote_candidate_url",
-                "total_round_trip_time": 0
-              }
-            ]
-          },
-          "device_info": {
-            "cpus": 0,
-            "is_mobile": true,
-            "os": "os",
-            "os_version": "os_version"
-          },
-          "events": [
-            {
-              "metadata": {
-                "foo": "string"
-              },
-              "name": "name",
-              "timestamp": "timestamp"
-            }
-          ],
-          "ip_information": {
-            "asn": {
-              "asn": "asn",
-              "domain": "domain",
-              "name": "name",
-              "route": "route",
-              "type": "type"
-            },
-            "city": "city",
-            "country": "country",
-            "ipv4": "ipv4",
-            "org": "org",
-            "region": "region",
-            "timezone": "timezone"
-          },
-          "native_metadata": {
-            "audio_encoder": "audio_encoder",
-            "video_encoder": "video_encoder"
-          },
-          "pc_metadata": [
-            {
-              "effective_network_type": "effective_network_type",
-              "reflexive_connectivity": true,
-              "relay_connectivity": true,
-              "sdp": [
-                "string"
-              ],
-              "timestamp": "timestamp",
-              "turn_connectivity": true
-            }
-          ],
-          "room_view_type": "room_view_type",
-          "sdk_name": "sdk_name",
-          "sdk_type": "sdk_type",
-          "sdk_version": "sdk_version",
-          "selected_device_updates": [
-            {
-              "device": {
-                "device_id": "device_id",
-                "kind": "kind",
-                "label": "label"
-              },
-              "timestamp": "timestamp"
-            }
-          ],
-          "speaker_devices_updates": [
-            {
-              "added": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "removed": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "timestamp": "timestamp"
-            }
-          ],
-          "video_devices_updates": [
-            {
-              "added": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "removed": [
-                {
-                  "device_id": "device_id",
-                  "kind": "kind",
-                  "label": "label"
-                }
-              ],
-              "timestamp": "timestamp"
-            }
-          ]
-        },
-        "quality": {
-          "audio_consumer": [
-            {
-              "bytes_received": 0,
-              "concealment_events": 0,
-              "consumer_id": "consumer_id",
-              "jitter": 0,
-              "jitter_buffer_delay": 0,
-              "jitter_buffer_emitted_count": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_received": 0,
-              "peer_id": "peer_id",
-              "producer_id": "producer_id",
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "audio_consumer_cumulative": {
-            "jitter_buffer_delay": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            }
-          },
-          "audio_producer": [
-            {
-              "bytes_sent": 0,
-              "jitter": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "producer_id": "producer_id",
-              "rtt": 0,
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "audio_producer_cumulative": {
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "rtt": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            }
-          },
-          "screenshare_audio_consumer": [
-            {
-              "bytes_received": 0,
-              "concealment_events": 0,
-              "consumer_id": "consumer_id",
-              "jitter": 0,
-              "jitter_buffer_delay": 0,
-              "jitter_buffer_emitted_count": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_received": 0,
-              "peer_id": "peer_id",
-              "producer_id": "producer_id",
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "screenshare_audio_consumer_cumulative": {
-            "jitter_buffer_delay": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            }
-          },
-          "screenshare_audio_producer": [
-            {
-              "bytes_sent": 0,
-              "jitter": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "producer_id": "producer_id",
-              "rtt": 0,
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "screenshare_audio_producer_cumulative": {
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "rtt": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            }
-          },
-          "screenshare_video_consumer": [
-            {
-              "bytes_received": 0,
-              "consumer_id": "consumer_id",
-              "fir_count": 0,
-              "frame_height": 0,
-              "frame_width": 0,
-              "frames_decoded": 0,
-              "frames_dropped": 0,
-              "frames_per_second": 0,
-              "jitter": 0,
-              "jitter_buffer_delay": 0,
-              "jitter_buffer_emitted_count": 0,
-              "key_frames_decoded": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_received": 0,
-              "peer_id": "peer_id",
-              "producer_id": "producer_id",
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "screenshare_video_consumer_cumulative": {
-            "frame_per_second": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "frame_width": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "issues": {
-              "lag_fraction": 0,
-              "no_video_fraction": 0,
-              "poor_resolution_fraction": 0
-            },
-            "jitter_buffer_delay": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "key_frames_decoded_fraction": 0,
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            }
-          },
-          "screenshare_video_producer": [
-            {
-              "bytes_sent": 0,
-              "fir_count": 0,
-              "frame_height": 0,
-              "frame_width": 0,
-              "frames_encoded": 0,
-              "frames_per_second": 0,
-              "jitter": 0,
-              "key_frames_encoded": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "pli_count": 0,
-              "producer_id": "producer_id",
-              "quality_limitation_durations": {
-                "bandwidth": 0,
-                "cpu": 0,
-                "none": 0,
-                "other": 0
-              },
-              "quality_limitation_reason": "cpu",
-              "quality_limitation_resolution_changes": 0,
-              "rtt": 0,
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "screenshare_video_producer_cumulative": {
-            "frame_per_second": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "frame_width": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "high_negative_feedback_fraction": 0,
-            "issues": {
-              "bandwidth_quality_limitation_fraction": 0,
-              "cpu_quality_limitation_fraction": 0,
-              "no_video_fraction": 0,
-              "poor_resolution_fraction": 0,
-              "quality_limitation_fraction": 0
-            },
-            "key_frames_encoded_fraction": 0,
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "rtt": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            }
-          },
-          "video_consumer": [
-            {
-              "bytes_received": 0,
-              "consumer_id": "consumer_id",
-              "fir_count": 0,
-              "frame_height": 0,
-              "frame_width": 0,
-              "frames_decoded": 0,
-              "frames_dropped": 0,
-              "frames_per_second": 0,
-              "jitter": 0,
-              "jitter_buffer_delay": 0,
-              "jitter_buffer_emitted_count": 0,
-              "key_frames_decoded": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_received": 0,
-              "peer_id": "peer_id",
-              "producer_id": "producer_id",
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "video_consumer_cumulative": {
-            "frame_per_second": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "frame_width": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "issues": {
-              "lag_fraction": 0,
-              "no_video_fraction": 0,
-              "poor_resolution_fraction": 0
-            },
-            "jitter_buffer_delay": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "key_frames_decoded_fraction": 0,
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            }
-          },
-          "video_producer": [
-            {
-              "bytes_sent": 0,
-              "fir_count": 0,
-              "frame_height": 0,
-              "frame_width": 0,
-              "frames_encoded": 0,
-              "frames_per_second": 0,
-              "jitter": 0,
-              "key_frames_encoded": 0,
-              "mid": "mid",
-              "mos_quality": 0,
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "pli_count": 0,
-              "producer_id": "producer_id",
-              "quality_limitation_durations": {
-                "bandwidth": 0,
-                "cpu": 0,
-                "none": 0,
-                "other": 0
-              },
-              "quality_limitation_reason": "cpu",
-              "quality_limitation_resolution_changes": 0,
-              "rtt": 0,
-              "ssrc": 0,
-              "timestamp": "timestamp"
-            }
-          ],
-          "video_producer_cumulative": {
-            "frame_per_second": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "frame_width": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "high_negative_feedback_fraction": 0,
-            "issues": {
-              "bandwidth_quality_limitation_fraction": 0,
-              "cpu_quality_limitation_fraction": 0,
-              "no_video_fraction": 0,
-              "poor_resolution_fraction": 0,
-              "quality_limitation_fraction": 0
-            },
-            "key_frames_encoded_fraction": 0,
-            "packet_loss": {
-              "10_or_greater_event_fraction": 0,
-              "25_or_greater_event_fraction": 0,
-              "5_or_greater_event_fraction": 0,
-              "50_or_greater_event_fraction": 0,
-              "avg": 0
-            },
-            "quality_mos": {
-              "avg": 0,
-              "p50": 0,
-              "p75": 0,
-              "p90": 0
-            },
-            "rtt": {
-              "100ms_or_greater_event_fraction": 0,
-              "250ms_or_greater_event_fraction": 0,
-              "500ms_or_greater_event_fraction": 0,
-              "avg": 0
-            }
-          }
-        }
-      },
-      "role": "role",
-      "session_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "updated_at": "updated_at",
-      "user_id": "user_id"
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+consumer\_id: optional string
 
-### Session Get Sessions Response
+<a href="#">Link to this property</a>
 
-- `SessionGetSessionsResponse object { data, paging, success }`
+jitter: optional number
 
-  - `data: optional object { sessions }`
+<a href="#">Link to this property</a>
 
-    - `sessions: optional array of object { id, associated_id, created_at, 11 more }`
+jitter\_buffer\_delay: optional number
 
-      - `id: string`
+<a href="#">Link to this property</a>
 
-        ID of the session
+jitter\_buffer\_emitted\_count: optional number
 
-      - `associated_id: string`
+<a href="#">Link to this property</a>
 
-        ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+mid: optional string
 
-      - `created_at: string`
+<a href="#">Link to this property</a>
 
-        timestamp when session created
+mos\_quality: optional number
 
-      - `live_participants: number`
+<a href="#">Link to this property</a>
 
-        number of participants currently in the session
+packets\_lost: optional number
 
-      - `max_concurrent_participants: number`
+<a href="#">Link to this property</a>
 
-        number of maximum participants that were in the session
+packets\_received: optional number
 
-      - `meeting_display_name: string`
+<a href="#">Link to this property</a>
 
-        Title of the meeting this session belongs to
+peer\_id: optional string
 
-      - `minutes_consumed: number`
+<a href="#">Link to this property</a>
 
-        number of minutes consumed since the session started
+producer\_id: optional string
 
-      - `organization_id: string`
+<a href="#">Link to this property</a>
 
-        App id that hosted this session
+ssrc: optional number
 
-      - `started_at: string`
+<a href="#">Link to this property</a>
 
-        timestamp when session started
+timestamp: optional string
 
-      - `status: "LIVE" or "ENDED"`
+<a href="#">Link to this property</a>
 
-        current status of session
+</details>
 
-        - `"LIVE"`
+<a href="#">Link to this property</a>
 
-        - `"ENDED"`
+<details>
 
-      - `type: "meeting" or "livestream" or "participant"`
+<summary>
 
-        type of session
+audio\_consumer\_cumulative: optional object {jitter\_buffer\_delay, packet\_loss, quality\_mos }
 
-        - `"meeting"`
+Aggregated inbound (consumer) audio statistics for the session.
 
-        - `"livestream"`
+</summary>
 
-        - `"participant"`
+<details>
 
-      - `updated_at: string`
+<summary>
 
-        timestamp when session was last updated
+jitter\_buffer\_delay: optional object {"100ms\_or\_greater\_event\_fraction", "250ms\_or\_greater\_event\_fraction", "500ms\_or\_greater\_event\_fraction", avg }
 
-      - `breakout_rooms: optional array of unknown`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-      - `ended_at: optional string`
+</summary>
 
-        timestamp when session ended
+"100ms\_or\_greater\_event\_fraction": optional number
 
-  - `paging: optional object { end_offset, start_offset, total_count }`
+<a href="#">Link to this property</a>
 
-    - `end_offset: optional number`
+"250ms\_or\_greater\_event\_fraction": optional number
 
-    - `start_offset: optional number`
+<a href="#">Link to this property</a>
 
-    - `total_count: optional number`
+"500ms\_or\_greater\_event\_fraction": optional number
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Session Get Session Details Response
+avg: optional number
 
-- `SessionGetSessionDetailsResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: optional object { id, associated_id, created_at, 11 more }`
+</details>
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      ID of the session
+<details>
 
-    - `associated_id: string`
+<summary>
 
-      ID of the meeting this session is associated with. In the case of V2 meetings, it is always a UUID. In V1 meetings, it is a room name of the form `abcdef-ghijkl`
+packet\_loss: optional object {"10\_or\_greater\_event\_fraction", "25\_or\_greater\_event\_fraction", "5\_or\_greater\_event\_fraction", 2 more }
 
-    - `created_at: string`
+Cumulative packet loss distribution.
 
-      timestamp when session created
+</summary>
 
-    - `live_participants: number`
+"10\_or\_greater\_event\_fraction": optional number
 
-      number of participants currently in the session
+<a href="#">Link to this property</a>
 
-    - `max_concurrent_participants: number`
+"25\_or\_greater\_event\_fraction": optional number
 
-      number of maximum participants that were in the session
+<a href="#">Link to this property</a>
 
-    - `meeting_display_name: string`
+"5\_or\_greater\_event\_fraction": optional number
 
-      Title of the meeting this session belongs to
+<a href="#">Link to this property</a>
 
-    - `minutes_consumed: number`
+"50\_or\_greater\_event\_fraction": optional number
 
-      number of minutes consumed since the session started
+<a href="#">Link to this property</a>
 
-    - `organization_id: string`
+avg: optional number
 
-      App id that hosted this session
+<a href="#">Link to this property</a>
 
-    - `started_at: string`
+</details>
 
-      timestamp when session started
+<a href="#">Link to this property</a>
 
-    - `status: "LIVE" or "ENDED"`
+<details>
 
-      current status of session
+<summary>
 
-      - `"LIVE"`
+quality\_mos: optional object {avg, p50, p75, p90 }
 
-      - `"ENDED"`
+Distribution summary with average and percentiles.
 
-    - `type: "meeting" or "livestream" or "participant"`
+</summary>
 
-      type of session
+avg: optional number
 
-      - `"meeting"`
+<a href="#">Link to this property</a>
 
-      - `"livestream"`
+p50: optional number
 
-      - `"participant"`
+<a href="#">Link to this property</a>
 
-    - `updated_at: string`
+p75: optional number
 
-      timestamp when session was last updated
+<a href="#">Link to this property</a>
 
-    - `breakout_rooms: optional array of unknown`
+p90: optional number
 
-    - `ended_at: optional string`
+<a href="#">Link to this property</a>
 
-      timestamp when session ended
+</details>
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Session Get Session Participants Response
+</details>
 
-- `SessionGetSessionParticipantsResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: optional object { participants }`
+<details>
 
-    - `participants: optional array of object { id, created_at, custom_participant_id, 8 more }`
+<summary>
 
-      - `id: optional string`
+audio\_producer: optional array of object {bytes\_sent, jitter, mid, 7 more }
 
-        Participant ID. This maps to the corresponding peerId.
+</summary>
 
-      - `created_at: optional string`
+bytes\_sent: optional number
 
-        timestamp when this participant was created.
+<a href="#">Link to this property</a>
 
-      - `custom_participant_id: optional string`
+jitter: optional number
 
-        ID passed by client to create this participant.
+<a href="#">Link to this property</a>
 
-      - `display_name: optional string`
+mid: optional string
 
-        Display name of participant when joining the session.
+<a href="#">Link to this property</a>
 
-      - `duration: optional number`
+mos\_quality: optional number
 
-        number of minutes for which the participant was in the session.
+<a href="#">Link to this property</a>
 
-      - `joined_at: optional string`
+packets\_lost: optional number
 
-        timestamp at which participant joined the session.
+<a href="#">Link to this property</a>
 
-      - `left_at: optional string`
+packets\_sent: optional number
 
-        timestamp at which participant left the session.
+<a href="#">Link to this property</a>
 
-      - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+producer\_id: optional string
 
-        Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+<a href="#">Link to this property</a>
 
-        - `id: optional string`
+rtt: optional number
 
-          ID of the peer event.
+<a href="#">Link to this property</a>
 
-        - `created_at: optional string`
+ssrc: optional number
 
-          Timestamp when this peer event was created.
+<a href="#">Link to this property</a>
 
-        - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+timestamp: optional string
 
-          Name of the peer event.
+<a href="#">Link to this property</a>
 
-          - `"PEER_CREATED"`
+</details>
 
-          - `"PEER_JOINING"`
+<a href="#">Link to this property</a>
 
-          - `"PEER_LEAVING"`
+<details>
 
-        - `minutes_consumed: optional number`
+<summary>
 
-          Minutes consumed attributed to this event.
+audio\_producer\_cumulative: optional object {packet\_loss, quality\_mos, rtt }
 
-        - `participant_id: optional string`
+Aggregated outbound (producer) audio statistics for the session.
 
-          ID of the participant this event belongs to.
+</summary>
 
-        - `peer_id: optional string`
+<details>
 
-          Peer ID this event belongs to.
+<summary>
 
-        - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+packet\_loss: optional object {"10\_or\_greater\_event\_fraction", "25\_or\_greater\_event\_fraction", "5\_or\_greater\_event\_fraction", 2 more }
 
-          View type of the preset associated with the peer.
+Cumulative packet loss distribution.
 
-          - `"GROUP_CALL"`
+</summary>
 
-          - `"WEBINAR"`
+"10\_or\_greater\_event\_fraction": optional number
 
-          - `"AUDIO_ROOM"`
+<a href="#">Link to this property</a>
 
-          - `"LIVESTREAM"`
+"25\_or\_greater\_event\_fraction": optional number
 
-          - `"CHAT"`
+<a href="#">Link to this property</a>
 
-        - `session_id: optional string`
+"5\_or\_greater\_event\_fraction": optional number
 
-          ID of the session this event belongs to.
+<a href="#">Link to this property</a>
 
-        - `socket_session_id: optional string`
+"50\_or\_greater\_event\_fraction": optional number
 
-          ID of the socket session associated with this event.
+<a href="#">Link to this property</a>
 
-        - `updated_at: optional string`
+avg: optional number
 
-          Timestamp when this peer event was last updated.
+<a href="#">Link to this property</a>
 
-      - `preset_name: optional string`
+</details>
 
-        Name of the preset associated with the participant.
+<a href="#">Link to this property</a>
 
-      - `updated_at: optional string`
+<details>
 
-        timestamp when this participant's data was last updated.
+<summary>
 
-      - `user_id: optional string`
+quality\_mos: optional object {avg, p50, p75, p90 }
 
-        User id for this participant.
+Distribution summary with average and percentiles.
 
-  - `success: optional boolean`
+</summary>
 
-### Session Get Session Participant Details Response
+avg: optional number
 
-- `SessionGetSessionParticipantDetailsResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: optional object { participant }`
+p50: optional number
 
-    - `participant: optional object { id, created_at, custom_participant_id, 8 more }`
+<a href="#">Link to this property</a>
 
-      - `id: optional string`
+p75: optional number
 
-        Participant ID. This maps to the corresponding peerId.
+<a href="#">Link to this property</a>
 
-      - `created_at: optional string`
+p90: optional number
 
-        timestamp when this participant was created.
+<a href="#">Link to this property</a>
 
-      - `custom_participant_id: optional string`
+</details>
 
-        ID passed by client to create this participant.
+<a href="#">Link to this property</a>
 
-      - `display_name: optional string`
+<details>
 
-        Display name of participant when joining the session.
+<summary>
 
-      - `duration: optional number`
+rtt: optional object {"100ms\_or\_greater\_event\_fraction", "250ms\_or\_greater\_event\_fraction", "500ms\_or\_greater\_event\_fraction", avg }
 
-        number of minutes for which the participant was in the session.
+Cumulative latency distribution (milliseconds-based thresholds).
 
-      - `joined_at: optional string`
+</summary>
 
-        timestamp at which participant joined the session.
+"100ms\_or\_greater\_event\_fraction": optional number
 
-      - `left_at: optional string`
+<a href="#">Link to this property</a>
 
-        timestamp at which participant left the session.
+"250ms\_or\_greater\_event\_fraction": optional number
 
-      - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+<a href="#">Link to this property</a>
 
-        Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true.
+"500ms\_or\_greater\_event\_fraction": optional number
 
-        - `id: optional string`
+<a href="#">Link to this property</a>
 
-          ID of the peer event.
+avg: optional number
 
-        - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-          Timestamp when this peer event was created.
+</details>
 
-        - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+<a href="#">Link to this property</a>
 
-          Name of the peer event.
+</details>
 
-          - `"PEER_CREATED"`
+<a href="#">Link to this property</a>
 
-          - `"PEER_JOINING"`
+<details>
 
-          - `"PEER_LEAVING"`
+<summary>
 
-        - `minutes_consumed: optional number`
+screenshare\_audio\_consumer: optional array of object {bytes\_received, concealment\_events, consumer\_id, 11 more }
 
-          Minutes consumed attributed to this event.
+</summary>
 
-        - `participant_id: optional string`
+bytes\_received: optional number
 
-          ID of the participant this event belongs to.
+<a href="#">Link to this property</a>
 
-        - `peer_id: optional string`
+concealment\_events: optional number
 
-          Peer ID this event belongs to.
+<a href="#">Link to this property</a>
 
-        - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+consumer\_id: optional string
 
-          View type of the preset associated with the peer.
+<a href="#">Link to this property</a>
 
-          - `"GROUP_CALL"`
+jitter: optional number
 
-          - `"WEBINAR"`
+<a href="#">Link to this property</a>
 
-          - `"AUDIO_ROOM"`
+jitter\_buffer\_delay: optional number
 
-          - `"LIVESTREAM"`
+<a href="#">Link to this property</a>
 
-          - `"CHAT"`
+jitter\_buffer\_emitted\_count: optional number
 
-        - `session_id: optional string`
+<a href="#">Link to this property</a>
 
-          ID of the session this event belongs to.
+mid: optional string
 
-        - `socket_session_id: optional string`
+<a href="#">Link to this property</a>
 
-          ID of the socket session associated with this event.
+mos\_quality: optional number
 
-        - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-          Timestamp when this peer event was last updated.
+packets\_lost: optional number
 
-      - `preset_name: optional string`
+<a href="#">Link to this property</a>
 
-        Name of the preset associated with the participant.
+packets\_received: optional number
 
-      - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-        timestamp when this participant's data was last updated.
+peer\_id: optional string
 
-      - `user_id: optional string`
+<a href="#">Link to this property</a>
 
-        User id for this participant.
+producer\_id: optional string
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Session Get Session Chat Response
+ssrc: optional number
 
-- `SessionGetSessionChatResponse object { data, success }`
+<a href="#">Link to this property</a>
 
-  - `data: optional object { chat_download_url, chat_download_url_expiry }`
+timestamp: optional string
 
-    - `chat_download_url: string`
+<a href="#">Link to this property</a>
 
-      URL where the chat logs can be downloaded
+</details>
 
-    - `chat_download_url_expiry: string`
+<a href="#">Link to this property</a>
 
-      Time when the download URL will expire
+<details>
 
-  - `success: optional boolean`
+<summary>
 
-### Session Get Session Transcripts Response
+screenshare\_audio\_consumer\_cumulative: optional object {jitter\_buffer\_delay, packet\_loss, quality\_mos }
 
-- `SessionGetSessionTranscriptsResponse object { data, success }`
+Aggregated inbound (consumer) audio statistics for the session.
 
-  - `data: optional object { sessionId, transcript_download_url, transcript_download_url_expiry }`
+</summary>
 
-    - `sessionId: string`
+<details>
 
-    - `transcript_download_url: string`
+<summary>
 
-      URL where the transcript can be downloaded
+jitter\_buffer\_delay: optional object {"100ms\_or\_greater\_event\_fraction", "250ms\_or\_greater\_event\_fraction", "500ms\_or\_greater\_event\_fraction", avg }
 
-    - `transcript_download_url_expiry: string`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-      Time when the download URL will expire
+</summary>
 
-  - `success: optional boolean`
+"100ms\_or\_greater\_event\_fraction": optional number
 
-### Session Get Session Summary Response
+<a href="#">Link to this property</a>
 
-- `SessionGetSessionSummaryResponse object { data, success }`
+"250ms\_or\_greater\_event\_fraction": optional number
 
-  - `data: optional object { sessionId, summaryDownloadUrl, summaryDownloadUrlExpiry }`
+<a href="#">Link to this property</a>
 
-    - `sessionId: string`
+"500ms\_or\_greater\_event\_fraction": optional number
 
-    - `summaryDownloadUrl: string`
+<a href="#">Link to this property</a>
 
-      URL where the summary of transcripts can be downloaded
+avg: optional number
 
-    - `summaryDownloadUrlExpiry: string`
+<a href="#">Link to this property</a>
 
-      Time of Expiry before when you need to download the csv file.
+</details>
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-### Session Generate Summary Of Transcripts Response
+<details>
 
-- `SessionGenerateSummaryOfTranscriptsResponse object { data, success }`
+<summary>
 
-  - `data: optional object { session_id, status }`
+packet\_loss: optional object {"10\_or\_greater\_event\_fraction", "25\_or\_greater\_event\_fraction", "5\_or\_greater\_event\_fraction", 2 more }
 
-    - `session_id: optional string`
+Cumulative packet loss distribution.
 
-    - `status: optional string`
+</summary>
 
-  - `success: optional boolean`
+"10\_or\_greater\_event\_fraction": optional number
 
-### Session Get Participant Data From Peer ID Response
+<a href="#">Link to this property</a>
 
-- `SessionGetParticipantDataFromPeerIDResponse object { data, success }`
+"25\_or\_greater\_event\_fraction": optional number
 
-  - `data: optional object { participant }`
+<a href="#">Link to this property</a>
 
-    - `participant: optional object { id, created_at, custom_participant_id, 10 more }`
+"5\_or\_greater\_event\_fraction": optional number
 
-      - `id: optional string`
+<a href="#">Link to this property</a>
 
-        ID of the participant.
+"50\_or\_greater\_event\_fraction": optional number
 
-      - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-        timestamp when this participant was created.
+avg: optional number
 
-      - `custom_participant_id: optional string`
+<a href="#">Link to this property</a>
 
-        ID passed by client to create this participant.
+</details>
 
-      - `display_name: optional string`
+<a href="#">Link to this property</a>
 
-        Display name of participant when joining the session.
+<details>
 
-      - `duration: optional number`
+<summary>
 
-        number of minutes for which the participant was in the session.
+quality\_mos: optional object {avg, p50, p75, p90 }
 
-      - `joined_at: optional string`
+Distribution summary with average and percentiles.
 
-        timestamp at which participant joined the session.
+</summary>
 
-      - `left_at: optional string`
+avg: optional number
 
-        timestamp at which participant left the session.
+<a href="#">Link to this property</a>
 
-      - `peer_events: optional array of object { id, created_at, event_name, 7 more }`
+p50: optional number
 
-        Connection lifecycle events for the participant's peer.
+<a href="#">Link to this property</a>
 
-        - `id: optional string`
+p75: optional number
 
-          ID of the peer event.
+<a href="#">Link to this property</a>
 
-        - `created_at: optional string`
+p90: optional number
 
-          Timestamp when this peer event was created.
+<a href="#">Link to this property</a>
 
-        - `event_name: optional "PEER_CREATED" or "PEER_JOINING" or "PEER_LEAVING"`
+</details>
 
-          Name of the peer event.
+<a href="#">Link to this property</a>
 
-          - `"PEER_CREATED"`
+</details>
 
-          - `"PEER_JOINING"`
+<a href="#">Link to this property</a>
 
-          - `"PEER_LEAVING"`
+<details>
 
-        - `minutes_consumed: optional number`
+<summary>
 
-          Minutes consumed attributed to this event.
+screenshare\_audio\_producer: optional array of object {bytes\_sent, jitter, mid, 7 more }
 
-        - `participant_id: optional string`
+</summary>
 
-          ID of the participant this event belongs to.
+bytes\_sent: optional number
 
-        - `peer_id: optional string`
+<a href="#">Link to this property</a>
 
-          Peer ID this event belongs to.
+jitter: optional number
 
-        - `preset_view_type: optional "GROUP_CALL" or "WEBINAR" or "AUDIO_ROOM" or 2 more`
+<a href="#">Link to this property</a>
 
-          View type of the preset associated with the peer.
+mid: optional string
 
-          - `"GROUP_CALL"`
+<a href="#">Link to this property</a>
 
-          - `"WEBINAR"`
+mos\_quality: optional number
 
-          - `"AUDIO_ROOM"`
+<a href="#">Link to this property</a>
 
-          - `"LIVESTREAM"`
+packets\_lost: optional number
 
-          - `"CHAT"`
+<a href="#">Link to this property</a>
 
-        - `session_id: optional string`
+packets\_sent: optional number
 
-          ID of the session this event belongs to.
+<a href="#">Link to this property</a>
 
-        - `socket_session_id: optional string`
+producer\_id: optional string
 
-          ID of the socket session associated with this event.
+<a href="#">Link to this property</a>
 
-        - `updated_at: optional string`
+rtt: optional number
 
-          Timestamp when this peer event was last updated.
+<a href="#">Link to this property</a>
 
-      - `peer_report: optional object { metadata, quality }`
+ssrc: optional number
 
-        Peer call statistics report.
+<a href="#">Link to this property</a>
 
-        - `metadata: optional object { audio_devices_updates, browser_metadata, candidate_pairs, 12 more }`
+timestamp: optional string
 
-          Connection and device metadata for the participant.
+<a href="#">Link to this property</a>
 
-          - `audio_devices_updates: optional array of object { added, removed, timestamp }`
+</details>
 
-            - `added: optional array of object { device_id, kind, label }`
+<a href="#">Link to this property</a>
 
-              Devices that became available.
+<details>
 
-              - `device_id: optional string`
+<summary>
 
-                ID of the device.
+screenshare\_audio\_producer\_cumulative: optional object {packet\_loss, quality\_mos, rtt }
 
-              - `kind: optional string`
+Aggregated outbound (producer) audio statistics for the session.
 
-                Kind of device, for example audioinput or videoinput.
+</summary>
 
-              - `label: optional string`
+<details>
 
-                Human-readable label of the device.
+<summary>
 
-            - `removed: optional array of object { device_id, kind, label }`
+packet\_loss: optional object {"10\_or\_greater\_event\_fraction", "25\_or\_greater\_event\_fraction", "5\_or\_greater\_event\_fraction", 2 more }
 
-              Devices that became unavailable.
+Cumulative packet loss distribution.
 
-              - `device_id: optional string`
+</summary>
 
-                ID of the device.
+"10\_or\_greater\_event\_fraction": optional number
 
-              - `kind: optional string`
+<a href="#">Link to this property</a>
 
-                Kind of device, for example audioinput or videoinput.
+"25\_or\_greater\_event\_fraction": optional number
 
-              - `label: optional string`
+<a href="#">Link to this property</a>
 
-                Human-readable label of the device.
+"5\_or\_greater\_event\_fraction": optional number
 
-            - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-              Timestamp of the device update.
+"50\_or\_greater\_event\_fraction": optional number
 
-          - `browser_metadata: optional object { browser, browser_version, engine, 2 more }`
+<a href="#">Link to this property</a>
 
-            - `browser: optional string`
+avg: optional number
 
-            - `browser_version: optional string`
+<a href="#">Link to this property</a>
 
-            - `engine: optional string`
+</details>
 
-            - `user_agent: optional string`
+<a href="#">Link to this property</a>
 
-            - `webgl_support: optional boolean`
+<details>
 
-          - `candidate_pairs: optional object { consuming_transport, producing_transport }`
+<summary>
 
-            - `consuming_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }`
+quality\_mos: optional object {avg, p50, p75, p90 }
 
-              - `available_incoming_bitrate: optional number`
+Distribution summary with average and percentiles.
 
-              - `available_outgoing_bitrate: optional number`
+</summary>
 
-              - `bytes_discarded_on_send: optional number`
+avg: optional number
 
-              - `bytes_received: optional number`
+<a href="#">Link to this property</a>
 
-              - `bytes_sent: optional number`
+p50: optional number
 
-              - `current_round_trip_time: optional number`
+<a href="#">Link to this property</a>
 
-              - `last_packet_received_timestamp: optional number`
+p75: optional number
 
-                Epoch milliseconds when the last packet was received.
+<a href="#">Link to this property</a>
 
-              - `last_packet_sent_timestamp: optional number`
+p90: optional number
 
-                Epoch milliseconds when the last packet was sent.
+<a href="#">Link to this property</a>
 
-              - `local_candidate_address: optional string`
+</details>
 
-              - `local_candidate_id: optional string`
+<a href="#">Link to this property</a>
 
-              - `local_candidate_network_type: optional string`
+<details>
 
-              - `local_candidate_port: optional number`
+<summary>
 
-              - `local_candidate_protocol: optional string`
+rtt: optional object {"100ms\_or\_greater\_event\_fraction", "250ms\_or\_greater\_event\_fraction", "500ms\_or\_greater\_event\_fraction", avg }
 
-              - `local_candidate_related_address: optional string`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-              - `local_candidate_related_port: optional number`
+</summary>
 
-              - `local_candidate_type: optional string`
+"100ms\_or\_greater\_event\_fraction": optional number
 
-              - `local_candidate_url: optional string`
+<a href="#">Link to this property</a>
 
-              - `nominated: optional boolean`
+"250ms\_or\_greater\_event\_fraction": optional number
 
-              - `packets_discarded_on_send: optional number`
+<a href="#">Link to this property</a>
 
-              - `packets_received: optional number`
+"500ms\_or\_greater\_event\_fraction": optional number
 
-              - `packets_sent: optional number`
+<a href="#">Link to this property</a>
 
-              - `remote_candidate_address: optional string`
+avg: optional number
 
-              - `remote_candidate_id: optional string`
+<a href="#">Link to this property</a>
 
-              - `remote_candidate_port: optional number`
+</details>
 
-              - `remote_candidate_protocol: optional string`
+<a href="#">Link to this property</a>
 
-              - `remote_candidate_type: optional string`
+</details>
 
-              - `remote_candidate_url: optional string`
+<a href="#">Link to this property</a>
 
-              - `total_round_trip_time: optional number`
+<details>
 
-            - `producing_transport: optional array of object { available_incoming_bitrate, available_outgoing_bitrate, bytes_discarded_on_send, 25 more }`
+<summary>
 
-              - `available_incoming_bitrate: optional number`
+screenshare\_video\_consumer: optional array of object {bytes\_received, consumer\_id, fir\_count, 17 more }
 
-              - `available_outgoing_bitrate: optional number`
+</summary>
 
-              - `bytes_discarded_on_send: optional number`
+bytes\_received: optional number
 
-              - `bytes_received: optional number`
+<a href="#">Link to this property</a>
 
-              - `bytes_sent: optional number`
+consumer\_id: optional string
 
-              - `current_round_trip_time: optional number`
+<a href="#">Link to this property</a>
 
-              - `last_packet_received_timestamp: optional number`
+fir\_count: optional number
 
-                Epoch milliseconds when the last packet was received.
+<a href="#">Link to this property</a>
 
-              - `last_packet_sent_timestamp: optional number`
+frame\_height: optional number
 
-                Epoch milliseconds when the last packet was sent.
+<a href="#">Link to this property</a>
 
-              - `local_candidate_address: optional string`
+frame\_width: optional number
 
-              - `local_candidate_id: optional string`
+<a href="#">Link to this property</a>
 
-              - `local_candidate_network_type: optional string`
+frames\_decoded: optional number
 
-              - `local_candidate_port: optional number`
+<a href="#">Link to this property</a>
 
-              - `local_candidate_protocol: optional string`
+frames\_dropped: optional number
 
-              - `local_candidate_related_address: optional string`
+<a href="#">Link to this property</a>
 
-              - `local_candidate_related_port: optional number`
+frames\_per\_second: optional number
 
-              - `local_candidate_type: optional string`
+<a href="#">Link to this property</a>
 
-              - `local_candidate_url: optional string`
+jitter: optional number
 
-              - `nominated: optional boolean`
+<a href="#">Link to this property</a>
 
-              - `packets_discarded_on_send: optional number`
+jitter\_buffer\_delay: optional number
 
-              - `packets_received: optional number`
+<a href="#">Link to this property</a>
 
-              - `packets_sent: optional number`
+jitter\_buffer\_emitted\_count: optional number
 
-              - `remote_candidate_address: optional string`
+<a href="#">Link to this property</a>
 
-              - `remote_candidate_id: optional string`
+key\_frames\_decoded: optional number
 
-              - `remote_candidate_port: optional number`
+<a href="#">Link to this property</a>
 
-              - `remote_candidate_protocol: optional string`
+mid: optional string
 
-              - `remote_candidate_type: optional string`
+<a href="#">Link to this property</a>
 
-              - `remote_candidate_url: optional string`
+mos\_quality: optional number
 
-              - `total_round_trip_time: optional number`
+<a href="#">Link to this property</a>
 
-          - `device_info: optional object { cpus, is_mobile, os, os_version }`
+packets\_lost: optional number
 
-            - `cpus: optional number`
+<a href="#">Link to this property</a>
 
-            - `is_mobile: optional boolean`
+packets\_received: optional number
 
-            - `os: optional string`
+<a href="#">Link to this property</a>
 
-            - `os_version: optional string`
+peer\_id: optional string
 
-          - `events: optional array of object { metadata, name, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `metadata: optional map[string or number or boolean]`
+producer\_id: optional string
 
-              Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null).
+<a href="#">Link to this property</a>
 
-              - `string`
+ssrc: optional number
 
-              - `number`
+<a href="#">Link to this property</a>
 
-              - `boolean`
+timestamp: optional string
 
-            - `name: optional string`
+<a href="#">Link to this property</a>
 
-              Name of the event.
+</details>
 
-            - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-              Timestamp when the event occurred.
+<details>
 
-          - `ip_information: optional object { asn, city, country, 4 more }`
+<summary>
 
-            - `asn: optional object { asn, domain, name, 2 more }`
+screenshare\_video\_consumer\_cumulative: optional object {frame\_per\_second, frame\_width, issues, 4 more }
 
-              - `asn: optional string`
+Aggregated inbound (consumer) video statistics for the session.
 
-              - `domain: optional string`
+</summary>
 
-              - `name: optional string`
+<details>
 
-              - `route: optional string`
+<summary>
 
-              - `type: optional string`
+frame\_per\_second: optional object {avg, p50, p75, p90 }
 
-            - `city: optional string`
+Distribution summary with average and percentiles.
 
-            - `country: optional string`
+</summary>
 
-            - `ipv4: optional string`
+avg: optional number
 
-            - `org: optional string`
+<a href="#">Link to this property</a>
 
-            - `region: optional string`
+p50: optional number
 
-            - `timezone: optional string`
+<a href="#">Link to this property</a>
 
-          - `native_metadata: optional object { audio_encoder, video_encoder }`
+p75: optional number
 
-            - `audio_encoder: optional string`
+<a href="#">Link to this property</a>
 
-            - `video_encoder: optional string`
+p90: optional number
 
-          - `pc_metadata: optional array of object { effective_network_type, reflexive_connectivity, relay_connectivity, 3 more }`
+<a href="#">Link to this property</a>
 
-            - `effective_network_type: optional string`
+</details>
 
-            - `reflexive_connectivity: optional boolean`
+<a href="#">Link to this property</a>
 
-            - `relay_connectivity: optional boolean`
+<details>
 
-            - `sdp: optional array of string`
+<summary>
 
-            - `timestamp: optional string`
+frame\_width: optional object {avg, p50, p75, p90 }
 
-            - `turn_connectivity: optional boolean`
+Distribution summary with average and percentiles.
 
-          - `room_view_type: optional string`
+</summary>
 
-          - `sdk_name: optional string`
+avg: optional number
 
-          - `sdk_type: optional string`
+<a href="#">Link to this property</a>
 
-          - `sdk_version: optional string`
+p50: optional number
 
-          - `selected_device_updates: optional array of object { device, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `device: optional object { device_id, kind, label }`
+p75: optional number
 
-              A media device (camera, microphone, or speaker).
+<a href="#">Link to this property</a>
 
-              - `device_id: optional string`
+p90: optional number
 
-                ID of the device.
+<a href="#">Link to this property</a>
 
-              - `kind: optional string`
+</details>
 
-                Kind of device, for example audioinput or videoinput.
+<a href="#">Link to this property</a>
 
-              - `label: optional string`
+<details>
 
-                Human-readable label of the device.
+<summary>
 
-            - `timestamp: optional string`
+issues: optional object {lag\_fraction, no\_video\_fraction, poor\_resolution\_fraction }
 
-          - `speaker_devices_updates: optional array of object { added, removed, timestamp }`
+</summary>
 
-            - `added: optional array of object { device_id, kind, label }`
+lag\_fraction: optional number
 
-              Devices that became available.
+<a href="#">Link to this property</a>
 
-              - `device_id: optional string`
+no\_video\_fraction: optional number
 
-                ID of the device.
+<a href="#">Link to this property</a>
 
-              - `kind: optional string`
+poor\_resolution\_fraction: optional number
 
-                Kind of device, for example audioinput or videoinput.
+<a href="#">Link to this property</a>
 
-              - `label: optional string`
+</details>
 
-                Human-readable label of the device.
+<a href="#">Link to this property</a>
 
-            - `removed: optional array of object { device_id, kind, label }`
+<details>
 
-              Devices that became unavailable.
+<summary>
 
-              - `device_id: optional string`
+jitter\_buffer\_delay: optional object {"100ms\_or\_greater\_event\_fraction", "250ms\_or\_greater\_event\_fraction", "500ms\_or\_greater\_event\_fraction", avg }
 
-                ID of the device.
+Cumulative latency distribution (milliseconds-based thresholds).
 
-              - `kind: optional string`
+</summary>
 
-                Kind of device, for example audioinput or videoinput.
+"100ms\_or\_greater\_event\_fraction": optional number
 
-              - `label: optional string`
+<a href="#">Link to this property</a>
 
-                Human-readable label of the device.
+"250ms\_or\_greater\_event\_fraction": optional number
 
-            - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-              Timestamp of the device update.
+"500ms\_or\_greater\_event\_fraction": optional number
 
-          - `video_devices_updates: optional array of object { added, removed, timestamp }`
+<a href="#">Link to this property</a>
 
-            - `added: optional array of object { device_id, kind, label }`
+avg: optional number
 
-              Devices that became available.
+<a href="#">Link to this property</a>
 
-              - `device_id: optional string`
+</details>
 
-                ID of the device.
+<a href="#">Link to this property</a>
 
-              - `kind: optional string`
+key\_frames\_decoded\_fraction: optional number
 
-                Kind of device, for example audioinput or videoinput.
+<a href="#">Link to this property</a>
 
-              - `label: optional string`
+<details>
 
-                Human-readable label of the device.
+<summary>
 
-            - `removed: optional array of object { device_id, kind, label }`
+packet\_loss: optional object {"10\_or\_greater\_event\_fraction", "25\_or\_greater\_event\_fraction", "5\_or\_greater\_event\_fraction", 2 more }
 
-              Devices that became unavailable.
+Cumulative packet loss distribution.
 
-              - `device_id: optional string`
+</summary>
 
-                ID of the device.
+"10\_or\_greater\_event\_fraction": optional number
 
-              - `kind: optional string`
+<a href="#">Link to this property</a>
 
-                Kind of device, for example audioinput or videoinput.
+"25\_or\_greater\_event\_fraction": optional number
 
-              - `label: optional string`
+<a href="#">Link to this property</a>
 
-                Human-readable label of the device.
+"5\_or\_greater\_event\_fraction": optional number
 
-            - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-              Timestamp of the device update.
+"50\_or\_greater\_event\_fraction": optional number
 
-        - `quality: optional object { audio_consumer, audio_consumer_cumulative, audio_producer, 13 more }`
+<a href="#">Link to this property</a>
 
-          Media quality statistics for the participant.
+avg: optional number
 
-          - `audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }`
+<a href="#">Link to this property</a>
 
-            - `bytes_received: optional number`
+</details>
 
-            - `concealment_events: optional number`
+<a href="#">Link to this property</a>
 
-            - `consumer_id: optional string`
+<details>
 
-            - `jitter: optional number`
+<summary>
 
-            - `jitter_buffer_delay: optional number`
+quality\_mos: optional object {avg, p50, p75, p90 }
 
-            - `jitter_buffer_emitted_count: optional number`
+Distribution summary with average and percentiles.
 
-            - `mid: optional string`
+</summary>
 
-            - `mos_quality: optional number`
+avg: optional number
 
-            - `packets_lost: optional number`
+<a href="#">Link to this property</a>
 
-            - `packets_received: optional number`
+p50: optional number
 
-            - `peer_id: optional string`
+<a href="#">Link to this property</a>
 
-            - `producer_id: optional string`
+p75: optional number
 
-            - `ssrc: optional number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: optional string`
+p90: optional number
 
-          - `audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }`
+<a href="#">Link to this property</a>
 
-            Aggregated inbound (consumer) audio statistics for the session.
+</details>
 
-            - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<a href="#">Link to this property</a>
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+</details>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<details>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+<summary>
 
-              - `avg: optional number`
+screenshare\_video\_producer: optional array of object {bytes\_sent, fir\_count, frame\_height, 17 more }
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+</summary>
 
-              Cumulative packet loss distribution.
+bytes\_sent: optional number
 
-              - `"10_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"25_or_greater_event_fraction": optional number`
+fir\_count: optional number
 
-              - `"5_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"50_or_greater_event_fraction": optional number`
+frame\_height: optional number
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+frame\_width: optional number
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+frames\_encoded: optional number
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+frames\_per\_second: optional number
 
-              - `p90: optional number`
+<a href="#">Link to this property</a>
 
-          - `audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }`
+jitter: optional number
 
-            - `bytes_sent: optional number`
+<a href="#">Link to this property</a>
 
-            - `jitter: optional number`
+key\_frames\_encoded: optional number
 
-            - `mid: optional string`
+<a href="#">Link to this property</a>
 
-            - `mos_quality: optional number`
+mid: optional string
 
-            - `packets_lost: optional number`
+<a href="#">Link to this property</a>
 
-            - `packets_sent: optional number`
+mos\_quality: optional number
 
-            - `producer_id: optional string`
+<a href="#">Link to this property</a>
 
-            - `rtt: optional number`
+packets\_lost: optional number
 
-            - `ssrc: optional number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: optional string`
+packets\_sent: optional number
 
-          - `audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }`
+<a href="#">Link to this property</a>
 
-            Aggregated outbound (producer) audio statistics for the session.
+pli\_count: optional number
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+<a href="#">Link to this property</a>
 
-              Cumulative packet loss distribution.
+producer\_id: optional string
 
-              - `"10_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"25_or_greater_event_fraction": optional number`
+<details>
 
-              - `"5_or_greater_event_fraction": optional number`
+<summary>
 
-              - `"50_or_greater_event_fraction": optional number`
+quality\_limitation\_durations: optional object {bandwidth, cpu, none, other }
 
-              - `avg: optional number`
+</summary>
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+bandwidth: optional number
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+cpu: optional number
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+none: optional number
 
-              - `p90: optional number`
+<a href="#">Link to this property</a>
 
-            - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+other: optional number
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+<a href="#">Link to this property</a>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+</details>
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+<details>
 
-              - `avg: optional number`
+<summary>
 
-          - `screenshare_audio_consumer: optional array of object { bytes_received, concealment_events, consumer_id, 11 more }`
+quality\_limitation\_reason: optional "cpu"or "bandwidth"or "none"or "other"
 
-            - `bytes_received: optional number`
+</summary>
 
-            - `concealment_events: optional number`
+One of the following:
 
-            - `consumer_id: optional string`
+"cpu"
 
-            - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-            - `jitter_buffer_delay: optional number`
+"bandwidth"
 
-            - `jitter_buffer_emitted_count: optional number`
+<a href="#">Link to this property</a>
 
-            - `mid: optional string`
+"none"
 
-            - `mos_quality: optional number`
+<a href="#">Link to this property</a>
 
-            - `packets_lost: optional number`
+"other"
 
-            - `packets_received: optional number`
+<a href="#">Link to this property</a>
 
-            - `peer_id: optional string`
+</details>
 
-            - `producer_id: optional string`
+<a href="#">Link to this property</a>
 
-            - `ssrc: optional number`
+quality\_limitation\_resolution\_changes: optional number
 
-            - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-          - `screenshare_audio_consumer_cumulative: optional object { jitter_buffer_delay, packet_loss, quality_mos }`
+rtt: optional number
 
-            Aggregated inbound (consumer) audio statistics for the session.
+<a href="#">Link to this property</a>
 
-            - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+ssrc: optional number
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+<a href="#">Link to this property</a>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+timestamp: optional string
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+</details>
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+<details>
 
-              Cumulative packet loss distribution.
+<summary>
 
-              - `"10_or_greater_event_fraction": optional number`
+screenshare\_video\_producer\_cumulative: optional object {frame\_per\_second, frame\_width, high\_negative\_feedback\_fraction, 5 more }
 
-              - `"25_or_greater_event_fraction": optional number`
+Aggregated outbound (producer) video statistics for the session.
 
-              - `"5_or_greater_event_fraction": optional number`
+</summary>
 
-              - `"50_or_greater_event_fraction": optional number`
+<details>
 
-              - `avg: optional number`
+<summary>
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+frame\_per\_second: optional object {avg, p50, p75, p90 }
 
-              Distribution summary with average and percentiles.
+Distribution summary with average and percentiles.
 
-              - `avg: optional number`
+</summary>
 
-              - `p50: optional number`
+avg: optional number
 
-              - `p75: optional number`
+<a href="#">Link to this property</a>
 
-              - `p90: optional number`
+p50: optional number
 
-          - `screenshare_audio_producer: optional array of object { bytes_sent, jitter, mid, 7 more }`
+<a href="#">Link to this property</a>
 
-            - `bytes_sent: optional number`
+p75: optional number
 
-            - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-            - `mid: optional string`
+p90: optional number
 
-            - `mos_quality: optional number`
+<a href="#">Link to this property</a>
 
-            - `packets_lost: optional number`
+</details>
 
-            - `packets_sent: optional number`
+<a href="#">Link to this property</a>
 
-            - `producer_id: optional string`
+<details>
 
-            - `rtt: optional number`
+<summary>
 
-            - `ssrc: optional number`
+frame\_width: optional object {avg, p50, p75, p90 }
 
-            - `timestamp: optional string`
+Distribution summary with average and percentiles.
 
-          - `screenshare_audio_producer_cumulative: optional object { packet_loss, quality_mos, rtt }`
+</summary>
 
-            Aggregated outbound (producer) audio statistics for the session.
+avg: optional number
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+<a href="#">Link to this property</a>
 
-              Cumulative packet loss distribution.
+p50: optional number
 
-              - `"10_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"25_or_greater_event_fraction": optional number`
+p75: optional number
 
-              - `"5_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"50_or_greater_event_fraction": optional number`
+p90: optional number
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+</details>
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+high\_negative\_feedback\_fraction: optional number
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+<details>
 
-              - `p90: optional number`
+<summary>
 
-            - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+issues: optional object {bandwidth\_quality\_limitation\_fraction, cpu\_quality\_limitation\_fraction, no\_video\_fraction, 2 more }
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+</summary>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+bandwidth\_quality\_limitation\_fraction: optional number
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+cpu\_quality\_limitation\_fraction: optional number
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-          - `screenshare_video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }`
+no\_video\_fraction: optional number
 
-            - `bytes_received: optional number`
+<a href="#">Link to this property</a>
 
-            - `consumer_id: optional string`
+poor\_resolution\_fraction: optional number
 
-            - `fir_count: optional number`
+<a href="#">Link to this property</a>
 
-            - `frame_height: optional number`
+quality\_limitation\_fraction: optional number
 
-            - `frame_width: optional number`
+<a href="#">Link to this property</a>
 
-            - `frames_decoded: optional number`
+</details>
 
-            - `frames_dropped: optional number`
+<a href="#">Link to this property</a>
 
-            - `frames_per_second: optional number`
+key\_frames\_encoded\_fraction: optional number
 
-            - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-            - `jitter_buffer_delay: optional number`
+<details>
 
-            - `jitter_buffer_emitted_count: optional number`
+<summary>
 
-            - `key_frames_decoded: optional number`
+packet\_loss: optional object {"10\_or\_greater\_event\_fraction", "25\_or\_greater\_event\_fraction", "5\_or\_greater\_event\_fraction", 2 more }
 
-            - `mid: optional string`
+Cumulative packet loss distribution.
 
-            - `mos_quality: optional number`
+</summary>
 
-            - `packets_lost: optional number`
+"10\_or\_greater\_event\_fraction": optional number
 
-            - `packets_received: optional number`
+<a href="#">Link to this property</a>
 
-            - `peer_id: optional string`
+"25\_or\_greater\_event\_fraction": optional number
 
-            - `producer_id: optional string`
+<a href="#">Link to this property</a>
 
-            - `ssrc: optional number`
+"5\_or\_greater\_event\_fraction": optional number
 
-            - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-          - `screenshare_video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }`
+"50\_or\_greater\_event\_fraction": optional number
 
-            Aggregated inbound (consumer) video statistics for the session.
+<a href="#">Link to this property</a>
 
-            - `frame_per_second: optional object { avg, p50, p75, p90 }`
+avg: optional number
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+</details>
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+<details>
 
-              - `p90: optional number`
+<summary>
 
-            - `frame_width: optional object { avg, p50, p75, p90 }`
+quality\_mos: optional object {avg, p50, p75, p90 }
 
-              Distribution summary with average and percentiles.
+Distribution summary with average and percentiles.
 
-              - `avg: optional number`
+</summary>
 
-              - `p50: optional number`
+avg: optional number
 
-              - `p75: optional number`
+<a href="#">Link to this property</a>
 
-              - `p90: optional number`
+p50: optional number
 
-            - `issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }`
+<a href="#">Link to this property</a>
 
-              - `lag_fraction: optional number`
+p75: optional number
 
-              - `no_video_fraction: optional number`
+<a href="#">Link to this property</a>
 
-              - `poor_resolution_fraction: optional number`
+p90: optional number
 
-            - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<a href="#">Link to this property</a>
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+</details>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<details>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+<summary>
 
-              - `avg: optional number`
+rtt: optional object {"100ms\_or\_greater\_event\_fraction", "250ms\_or\_greater\_event\_fraction", "500ms\_or\_greater\_event\_fraction", avg }
 
-            - `key_frames_decoded_fraction: optional number`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+</summary>
 
-              Cumulative packet loss distribution.
+"100ms\_or\_greater\_event\_fraction": optional number
 
-              - `"10_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"25_or_greater_event_fraction": optional number`
+"250ms\_or\_greater\_event\_fraction": optional number
 
-              - `"5_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"50_or_greater_event_fraction": optional number`
+"500ms\_or\_greater\_event\_fraction": optional number
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+avg: optional number
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+</details>
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+</details>
 
-              - `p90: optional number`
+<a href="#">Link to this property</a>
 
-          - `screenshare_video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }`
+<details>
 
-            - `bytes_sent: optional number`
+<summary>
 
-            - `fir_count: optional number`
+video\_consumer: optional array of object {bytes\_received, consumer\_id, fir\_count, 17 more }
 
-            - `frame_height: optional number`
+</summary>
 
-            - `frame_width: optional number`
+bytes\_received: optional number
 
-            - `frames_encoded: optional number`
+<a href="#">Link to this property</a>
 
-            - `frames_per_second: optional number`
+consumer\_id: optional string
 
-            - `jitter: optional number`
+<a href="#">Link to this property</a>
 
-            - `key_frames_encoded: optional number`
+fir\_count: optional number
 
-            - `mid: optional string`
+<a href="#">Link to this property</a>
 
-            - `mos_quality: optional number`
+frame\_height: optional number
 
-            - `packets_lost: optional number`
+<a href="#">Link to this property</a>
 
-            - `packets_sent: optional number`
+frame\_width: optional number
 
-            - `pli_count: optional number`
+<a href="#">Link to this property</a>
 
-            - `producer_id: optional string`
+frames\_decoded: optional number
 
-            - `quality_limitation_durations: optional object { bandwidth, cpu, none, other }`
+<a href="#">Link to this property</a>
 
-              - `bandwidth: optional number`
+frames\_dropped: optional number
 
-              - `cpu: optional number`
+<a href="#">Link to this property</a>
 
-              - `none: optional number`
+frames\_per\_second: optional number
 
-              - `other: optional number`
+<a href="#">Link to this property</a>
 
-            - `quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"`
+jitter: optional number
 
-              - `"cpu"`
+<a href="#">Link to this property</a>
 
-              - `"bandwidth"`
+jitter\_buffer\_delay: optional number
 
-              - `"none"`
+<a href="#">Link to this property</a>
 
-              - `"other"`
+jitter\_buffer\_emitted\_count: optional number
 
-            - `quality_limitation_resolution_changes: optional number`
+<a href="#">Link to this property</a>
 
-            - `rtt: optional number`
+key\_frames\_decoded: optional number
 
-            - `ssrc: optional number`
+<a href="#">Link to this property</a>
 
-            - `timestamp: optional string`
+mid: optional string
 
-          - `screenshare_video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }`
+<a href="#">Link to this property</a>
 
-            Aggregated outbound (producer) video statistics for the session.
+mos\_quality: optional number
 
-            - `frame_per_second: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-              Distribution summary with average and percentiles.
+packets\_lost: optional number
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-              - `p50: optional number`
+packets\_received: optional number
 
-              - `p75: optional number`
+<a href="#">Link to this property</a>
 
-              - `p90: optional number`
+peer\_id: optional string
 
-            - `frame_width: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-              Distribution summary with average and percentiles.
+producer\_id: optional string
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-              - `p50: optional number`
+ssrc: optional number
 
-              - `p75: optional number`
+<a href="#">Link to this property</a>
 
-              - `p90: optional number`
+timestamp: optional string
 
-            - `high_negative_feedback_fraction: optional number`
+<a href="#">Link to this property</a>
 
-            - `issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }`
+</details>
 
-              - `bandwidth_quality_limitation_fraction: optional number`
+<a href="#">Link to this property</a>
 
-              - `cpu_quality_limitation_fraction: optional number`
+<details>
 
-              - `no_video_fraction: optional number`
+<summary>
 
-              - `poor_resolution_fraction: optional number`
+video\_consumer\_cumulative: optional object {frame\_per\_second, frame\_width, issues, 4 more }
 
-              - `quality_limitation_fraction: optional number`
+Aggregated inbound (consumer) video statistics for the session.
 
-            - `key_frames_encoded_fraction: optional number`
+</summary>
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+<details>
 
-              Cumulative packet loss distribution.
+<summary>
 
-              - `"10_or_greater_event_fraction": optional number`
+frame\_per\_second: optional object {avg, p50, p75, p90 }
 
-              - `"25_or_greater_event_fraction": optional number`
+Distribution summary with average and percentiles.
 
-              - `"5_or_greater_event_fraction": optional number`
+</summary>
 
-              - `"50_or_greater_event_fraction": optional number`
+avg: optional number
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+p50: optional number
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+p75: optional number
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+p90: optional number
 
-              - `p90: optional number`
+<a href="#">Link to this property</a>
 
-            - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+</details>
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+<a href="#">Link to this property</a>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+<details>
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<summary>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+frame\_width: optional object {avg, p50, p75, p90 }
 
-              - `avg: optional number`
+Distribution summary with average and percentiles.
 
-          - `video_consumer: optional array of object { bytes_received, consumer_id, fir_count, 17 more }`
+</summary>
 
-            - `bytes_received: optional number`
+avg: optional number
 
-            - `consumer_id: optional string`
+<a href="#">Link to this property</a>
 
-            - `fir_count: optional number`
+p50: optional number
 
-            - `frame_height: optional number`
+<a href="#">Link to this property</a>
 
-            - `frame_width: optional number`
+p75: optional number
 
-            - `frames_decoded: optional number`
+<a href="#">Link to this property</a>
 
-            - `frames_dropped: optional number`
+p90: optional number
 
-            - `frames_per_second: optional number`
+<a href="#">Link to this property</a>
 
-            - `jitter: optional number`
+</details>
 
-            - `jitter_buffer_delay: optional number`
+<a href="#">Link to this property</a>
 
-            - `jitter_buffer_emitted_count: optional number`
+<details>
 
-            - `key_frames_decoded: optional number`
+<summary>
 
-            - `mid: optional string`
+issues: optional object {lag\_fraction, no\_video\_fraction, poor\_resolution\_fraction }
 
-            - `mos_quality: optional number`
+</summary>
 
-            - `packets_lost: optional number`
+lag\_fraction: optional number
 
-            - `packets_received: optional number`
+<a href="#">Link to this property</a>
 
-            - `peer_id: optional string`
+no\_video\_fraction: optional number
 
-            - `producer_id: optional string`
+<a href="#">Link to this property</a>
 
-            - `ssrc: optional number`
+poor\_resolution\_fraction: optional number
 
-            - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-          - `video_consumer_cumulative: optional object { frame_per_second, frame_width, issues, 4 more }`
+</details>
 
-            Aggregated inbound (consumer) video statistics for the session.
+<a href="#">Link to this property</a>
 
-            - `frame_per_second: optional object { avg, p50, p75, p90 }`
+<details>
 
-              Distribution summary with average and percentiles.
+<summary>
 
-              - `avg: optional number`
+jitter\_buffer\_delay: optional object {"100ms\_or\_greater\_event\_fraction", "250ms\_or\_greater\_event\_fraction", "500ms\_or\_greater\_event\_fraction", avg }
 
-              - `p50: optional number`
+Cumulative latency distribution (milliseconds-based thresholds).
 
-              - `p75: optional number`
+</summary>
 
-              - `p90: optional number`
+"100ms\_or\_greater\_event\_fraction": optional number
 
-            - `frame_width: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-              Distribution summary with average and percentiles.
+"250ms\_or\_greater\_event\_fraction": optional number
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-              - `p50: optional number`
+"500ms\_or\_greater\_event\_fraction": optional number
 
-              - `p75: optional number`
+<a href="#">Link to this property</a>
 
-              - `p90: optional number`
+avg: optional number
 
-            - `issues: optional object { lag_fraction, no_video_fraction, poor_resolution_fraction }`
+<a href="#">Link to this property</a>
 
-              - `lag_fraction: optional number`
+</details>
 
-              - `no_video_fraction: optional number`
+<a href="#">Link to this property</a>
 
-              - `poor_resolution_fraction: optional number`
+key\_frames\_decoded\_fraction: optional number
 
-            - `jitter_buffer_delay: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+<a href="#">Link to this property</a>
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+<details>
 
-              - `"100ms_or_greater_event_fraction": optional number`
+<summary>
 
-              - `"250ms_or_greater_event_fraction": optional number`
+packet\_loss: optional object {"10\_or\_greater\_event\_fraction", "25\_or\_greater\_event\_fraction", "5\_or\_greater\_event\_fraction", 2 more }
 
-              - `"500ms_or_greater_event_fraction": optional number`
+Cumulative packet loss distribution.
 
-              - `avg: optional number`
+</summary>
 
-            - `key_frames_decoded_fraction: optional number`
+"10\_or\_greater\_event\_fraction": optional number
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+<a href="#">Link to this property</a>
 
-              Cumulative packet loss distribution.
+"25\_or\_greater\_event\_fraction": optional number
 
-              - `"10_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"25_or_greater_event_fraction": optional number`
+"5\_or\_greater\_event\_fraction": optional number
 
-              - `"5_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"50_or_greater_event_fraction": optional number`
+"50\_or\_greater\_event\_fraction": optional number
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+avg: optional number
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+</details>
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+<details>
 
-              - `p90: optional number`
+<summary>
 
-          - `video_producer: optional array of object { bytes_sent, fir_count, frame_height, 17 more }`
+quality\_mos: optional object {avg, p50, p75, p90 }
 
-            - `bytes_sent: optional number`
+Distribution summary with average and percentiles.
 
-            - `fir_count: optional number`
+</summary>
 
-            - `frame_height: optional number`
+avg: optional number
 
-            - `frame_width: optional number`
+<a href="#">Link to this property</a>
 
-            - `frames_encoded: optional number`
+p50: optional number
 
-            - `frames_per_second: optional number`
+<a href="#">Link to this property</a>
 
-            - `jitter: optional number`
+p75: optional number
 
-            - `key_frames_encoded: optional number`
+<a href="#">Link to this property</a>
 
-            - `mid: optional string`
+p90: optional number
 
-            - `mos_quality: optional number`
+<a href="#">Link to this property</a>
 
-            - `packets_lost: optional number`
+</details>
 
-            - `packets_sent: optional number`
+<a href="#">Link to this property</a>
 
-            - `pli_count: optional number`
+</details>
 
-            - `producer_id: optional string`
+<a href="#">Link to this property</a>
 
-            - `quality_limitation_durations: optional object { bandwidth, cpu, none, other }`
+<details>
 
-              - `bandwidth: optional number`
+<summary>
 
-              - `cpu: optional number`
+video\_producer: optional array of object {bytes\_sent, fir\_count, frame\_height, 17 more }
 
-              - `none: optional number`
+</summary>
 
-              - `other: optional number`
+bytes\_sent: optional number
 
-            - `quality_limitation_reason: optional "cpu" or "bandwidth" or "none" or "other"`
+<a href="#">Link to this property</a>
 
-              - `"cpu"`
+fir\_count: optional number
 
-              - `"bandwidth"`
+<a href="#">Link to this property</a>
 
-              - `"none"`
+frame\_height: optional number
 
-              - `"other"`
+<a href="#">Link to this property</a>
 
-            - `quality_limitation_resolution_changes: optional number`
+frame\_width: optional number
 
-            - `rtt: optional number`
+<a href="#">Link to this property</a>
 
-            - `ssrc: optional number`
+frames\_encoded: optional number
 
-            - `timestamp: optional string`
+<a href="#">Link to this property</a>
 
-          - `video_producer_cumulative: optional object { frame_per_second, frame_width, high_negative_feedback_fraction, 5 more }`
+frames\_per\_second: optional number
 
-            Aggregated outbound (producer) video statistics for the session.
+<a href="#">Link to this property</a>
 
-            - `frame_per_second: optional object { avg, p50, p75, p90 }`
+jitter: optional number
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+key\_frames\_encoded: optional number
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+mid: optional string
 
-              - `p90: optional number`
+<a href="#">Link to this property</a>
 
-            - `frame_width: optional object { avg, p50, p75, p90 }`
+mos\_quality: optional number
 
-              Distribution summary with average and percentiles.
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+packets\_lost: optional number
 
-              - `p50: optional number`
+<a href="#">Link to this property</a>
 
-              - `p75: optional number`
+packets\_sent: optional number
 
-              - `p90: optional number`
+<a href="#">Link to this property</a>
 
-            - `high_negative_feedback_fraction: optional number`
+pli\_count: optional number
 
-            - `issues: optional object { bandwidth_quality_limitation_fraction, cpu_quality_limitation_fraction, no_video_fraction, 2 more }`
+<a href="#">Link to this property</a>
 
-              - `bandwidth_quality_limitation_fraction: optional number`
+producer\_id: optional string
 
-              - `cpu_quality_limitation_fraction: optional number`
+<a href="#">Link to this property</a>
 
-              - `no_video_fraction: optional number`
+<details>
 
-              - `poor_resolution_fraction: optional number`
+<summary>
 
-              - `quality_limitation_fraction: optional number`
+quality\_limitation\_durations: optional object {bandwidth, cpu, none, other }
 
-            - `key_frames_encoded_fraction: optional number`
+</summary>
 
-            - `packet_loss: optional object { "10_or_greater_event_fraction", "25_or_greater_event_fraction", "5_or_greater_event_fraction", 2 more }`
+bandwidth: optional number
 
-              Cumulative packet loss distribution.
+<a href="#">Link to this property</a>
 
-              - `"10_or_greater_event_fraction": optional number`
+cpu: optional number
 
-              - `"25_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"5_or_greater_event_fraction": optional number`
+none: optional number
 
-              - `"50_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `avg: optional number`
+other: optional number
 
-            - `quality_mos: optional object { avg, p50, p75, p90 }`
+<a href="#">Link to this property</a>
 
-              Distribution summary with average and percentiles.
+</details>
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-              - `p50: optional number`
+<details>
 
-              - `p75: optional number`
+<summary>
 
-              - `p90: optional number`
+quality\_limitation\_reason: optional "cpu"or "bandwidth"or "none"or "other"
 
-            - `rtt: optional object { "100ms_or_greater_event_fraction", "250ms_or_greater_event_fraction", "500ms_or_greater_event_fraction", avg }`
+</summary>
 
-              Cumulative latency distribution (milliseconds-based thresholds).
+One of the following:
 
-              - `"100ms_or_greater_event_fraction": optional number`
+"cpu"
 
-              - `"250ms_or_greater_event_fraction": optional number`
+<a href="#">Link to this property</a>
 
-              - `"500ms_or_greater_event_fraction": optional number`
+"bandwidth"
 
-              - `avg: optional number`
+<a href="#">Link to this property</a>
 
-      - `role: optional string`
+"none"
 
-        Name of the preset associated with the participant.
+<a href="#">Link to this property</a>
 
-      - `session_id: optional string`
+"other"
 
-      - `updated_at: optional string`
+<a href="#">Link to this property</a>
 
-        timestamp when this participant's data was last updated.
+</details>
 
-      - `user_id: optional string`
+<a href="#">Link to this property</a>
 
-        User id for this participant.
+quality\_limitation\_resolution\_changes: optional number
 
-  - `success: optional boolean`
+<a href="#">Link to this property</a>
+
+rtt: optional number
+
+<a href="#">Link to this property</a>
+
+ssrc: optional number
+
+<a href="#">Link to this property</a>
+
+timestamp: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+video\_producer\_cumulative: optional object {frame\_per\_second, frame\_width, high\_negative\_feedback\_fraction, 5 more }
+
+Aggregated outbound (producer) video statistics for the session.
+
+</summary>
+
+<details>
+
+<summary>
+
+frame\_per\_second: optional object {avg, p50, p75, p90 }
+
+Distribution summary with average and percentiles.
+
+</summary>
+
+avg: optional number
+
+<a href="#">Link to this property</a>
+
+p50: optional number
+
+<a href="#">Link to this property</a>
+
+p75: optional number
+
+<a href="#">Link to this property</a>
+
+p90: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+frame\_width: optional object {avg, p50, p75, p90 }
+
+Distribution summary with average and percentiles.
+
+</summary>
+
+avg: optional number
+
+<a href="#">Link to this property</a>
+
+p50: optional number
+
+<a href="#">Link to this property</a>
+
+p75: optional number
+
+<a href="#">Link to this property</a>
+
+p90: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+high\_negative\_feedback\_fraction: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+issues: optional object {bandwidth\_quality\_limitation\_fraction, cpu\_quality\_limitation\_fraction, no\_video\_fraction, 2 more }
+
+</summary>
+
+bandwidth\_quality\_limitation\_fraction: optional number
+
+<a href="#">Link to this property</a>
+
+cpu\_quality\_limitation\_fraction: optional number
+
+<a href="#">Link to this property</a>
+
+no\_video\_fraction: optional number
+
+<a href="#">Link to this property</a>
+
+poor\_resolution\_fraction: optional number
+
+<a href="#">Link to this property</a>
+
+quality\_limitation\_fraction: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+key\_frames\_encoded\_fraction: optional number
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+packet\_loss: optional object {"10\_or\_greater\_event\_fraction", "25\_or\_greater\_event\_fraction", "5\_or\_greater\_event\_fraction", 2 more }
+
+Cumulative packet loss distribution.
+
+</summary>
+
+"10\_or\_greater\_event\_fraction": optional number
+
+<a href="#">Link to this property</a>
+
+"25\_or\_greater\_event\_fraction": optional number
+
+<a href="#">Link to this property</a>
+
+"5\_or\_greater\_event\_fraction": optional number
+
+<a href="#">Link to this property</a>
+
+"50\_or\_greater\_event\_fraction": optional number
+
+<a href="#">Link to this property</a>
+
+avg: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+quality\_mos: optional object {avg, p50, p75, p90 }
+
+Distribution summary with average and percentiles.
+
+</summary>
+
+avg: optional number
+
+<a href="#">Link to this property</a>
+
+p50: optional number
+
+<a href="#">Link to this property</a>
+
+p75: optional number
+
+<a href="#">Link to this property</a>
+
+p90: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rtt: optional object {"100ms\_or\_greater\_event\_fraction", "250ms\_or\_greater\_event\_fraction", "500ms\_or\_greater\_event\_fraction", avg }
+
+Cumulative latency distribution (milliseconds-based thresholds).
+
+</summary>
+
+"100ms\_or\_greater\_event\_fraction": optional number
+
+<a href="#">Link to this property</a>
+
+"250ms\_or\_greater\_event\_fraction": optional number
+
+<a href="#">Link to this property</a>
+
+"500ms\_or\_greater\_event\_fraction": optional number
+
+<a href="#">Link to this property</a>
+
+avg: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+role: optional string
+
+Name of the preset associated with the participant.
+
+<a href="#">Link to this property</a>
+
+session\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: optional string
+
+timestamp when this participant’s data was last updated.
+
+<a href="#">Link to this property</a>
+
+user\_id: optional string
+
+User id for this participant.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+success: optional boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20realtime_kit.sessions%20%3E%20(model)%20session_get_participant_data_from_peer_id_response%20%3E%20(schema)>)

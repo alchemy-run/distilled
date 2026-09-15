@@ -1,216 +1,65 @@
+---
+title: Reverse DNS
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[DNS Firewall](https://developers.cloudflare.com/api/resources/dns_firewall)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Reverse DNS
 
-## Show DNS Firewall Cluster Reverse DNS
+##### [Show DNS Firewall Cluster Reverse DNS](https://developers.cloudflare.com/api/resources/dns_firewall/subresources/reverse_dns/methods/get)
 
-**get** `/accounts/{account_id}/dns_firewall/{dns_firewall_id}/reverse_dns`
+GET/accounts/{account\_id}/dns\_firewall/{dns\_firewall\_id}/reverse\_dns
 
-Show reverse DNS configuration (PTR records) for a DNS Firewall cluster
+##### [Update DNS Firewall Cluster Reverse DNS](https://developers.cloudflare.com/api/resources/dns_firewall/subresources/reverse_dns/methods/edit)
 
-### Path Parameters
+PATCH/accounts/{account\_id}/dns\_firewall/{dns\_firewall\_id}/reverse\_dns
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Identifier.
+<details>
 
-- `dns_firewall_id: string`
+<summary>
 
-  Identifier.
+ReverseDNSGetResponse object {ptr }
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+ptr: map\[string]
 
-  - `code: number`
+Map of cluster IP addresses to PTR record contents
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20dns_firewall.reverse_dns%20%3E%20(model)%20reverse_dns_get_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+ReverseDNSEditResponse object {ptr }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+ptr: map\[string]
 
-  - `source: optional object { pointer }`
+Map of cluster IP addresses to PTR record contents
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { ptr }`
-
-  - `ptr: map[string]`
-
-    Map of cluster IP addresses to PTR record contents
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_firewall/$DNS_FIREWALL_ID/reverse_dns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ptr": {
-      "foo": "string"
-    }
-  }
-}
-```
-
-## Update DNS Firewall Cluster Reverse DNS
-
-**patch** `/accounts/{account_id}/dns_firewall/{dns_firewall_id}/reverse_dns`
-
-Update reverse DNS configuration (PTR records) for a DNS Firewall cluster
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `dns_firewall_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `ptr: optional map[string]`
-
-  Map of cluster IP addresses to PTR record contents
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { ptr }`
-
-  - `ptr: map[string]`
-
-    Map of cluster IP addresses to PTR record contents
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dns_firewall/$DNS_FIREWALL_ID/reverse_dns \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "ptr": {
-      "foo": "string"
-    }
-  }
-}
-```
-
-## Domain Types
-
-### Reverse DNS Get Response
-
-- `ReverseDNSGetResponse object { ptr }`
-
-  - `ptr: map[string]`
-
-    Map of cluster IP addresses to PTR record contents
-
-### Reverse DNS Edit Response
-
-- `ReverseDNSEditResponse object { ptr }`
-
-  - `ptr: map[string]`
-
-    Map of cluster IP addresses to PTR record contents
+[Link to this property](#)%20dns_firewall.reverse_dns%20%3E%20(model)%20reverse_dns_edit_response%20%3E%20(schema)>)

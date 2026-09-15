@@ -1,139 +1,472 @@
-## Fetch a specific dataset
+---
+title: Fetch a specific dataset
+---
 
-**get** `/accounts/{account_id}/dlp/datasets/{dataset_id}`
+[Skip to content](#_top)
 
-Fetch a specific dataset
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[DLP](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp)
 
-- `dataset_id: string`
+[Datasets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/dlp/subresources/datasets)
 
-### Returns
+Copy Markdown
 
-- `errors: array of object { code, message, documentation_url, source }`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-  - `code: number`
+---
 
-  - `message: string`
+**Copy Markdown****View as Markdown**
 
-  - `documentation_url: optional string`
+# Fetch a specific dataset
 
-  - `source: optional object { pointer }`
+GET/accounts/{account\_id}/dlp/datasets/{dataset\_id}
 
-    - `pointer: optional string`
+Gets a dataset and its latest upload status.
 
-- `messages: array of object { code, message, documentation_url, source }`
+##### Security
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>API Token</summary>
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `success: true`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<details>
 
-- `result: optional Dataset`
+<summary>API Email + API Key</summary>
 
-  - `id: string`
 
-  - `columns: array of object { entry_id, header_name, num_cells, upload_status }`
 
-    - `entry_id: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `header_name: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `num_cells: number`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `upload_status: "empty" or "uploading" or "pending" or 3 more`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      - `"empty"`
+</details>
 
-      - `"uploading"`
+##### Accepted Permissions (at least one required)
 
-      - `"pending"`
+`Zero Trust Read``Zero Trust Write`
 
-      - `"processing"`
+##### P ath ParametersExpand Collapse
 
-      - `"failed"`
+account\_id: string
 
-      - `"complete"`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `created_at: string`
+dataset\_id: string
 
-  - `encoding_version: number`
+formatuuid
 
-  - `name: string`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20dataset_id%20%3E%20(schema)>)
 
-  - `num_cells: number`
+##### ReturnsExpand Collapse
 
-  - `secret: boolean`
+<details>
 
-  - `status: "empty" or "uploading" or "pending" or 3 more`
+<summary>
 
-    - `"empty"`
+errors: array of object {code, message, documentation\_url, source }
 
-    - `"uploading"`
+</summary>
 
-    - `"pending"`
+code: number
 
-    - `"processing"`
+minimum1000
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-    - `"complete"`
+message: string
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    Stores when the dataset was last updated.
+documentation\_url: optional string
 
-    This includes name or description changes as well as uploads.
+<a href="#">Link to this property</a>
 
-  - `uploads: array of object { num_cells, status, version }`
+<details>
 
-    - `num_cells: number`
+<summary>
 
-    - `status: "empty" or "uploading" or "pending" or 3 more`
+source: optional object {pointer }
 
-      - `"empty"`
+</summary>
 
-      - `"uploading"`
+pointer: optional string
 
-      - `"pending"`
+<a href="#">Link to this property</a>
 
-      - `"processing"`
+</details>
 
-      - `"failed"`
+<a href="#">Link to this property</a>
 
-      - `"complete"`
+</details>
 
-    - `version: number`
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-  - `case_sensitive: optional boolean`
+<details>
 
-  - `description: optional string`
+<summary>
 
-    The description of the dataset.
+messages: array of object {code, message, documentation\_url, source }
 
-### Example
+</summary>
 
-```http
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.dlp.datasets%20%3E%20(model)%20dataset%20%3E%20(schema)">Dataset</a> { id, columns, created\_at, 9 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+columns: array of object {entry\_id, header\_name, num\_cells, upload\_status }
+
+</summary>
+
+entry\_id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+header\_name: string
+
+<a href="#">Link to this property</a>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+upload\_status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+encoding\_version: number
+
+formatint32
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+secret: boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Stores when the dataset was last updated.
+
+This includes name or description changes as well as uploads.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+uploads: array of object {num\_cells, status, version }
+
+</summary>
+
+num\_cells: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "empty"or "uploading"or "pending"or 3 more
+
+</summary>
+
+One of the following:
+
+"empty"
+
+<a href="#">Link to this property</a>
+
+"uploading"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"processing"
+
+<a href="#">Link to this property</a>
+
+"failed"
+
+<a href="#">Link to this property</a>
+
+"complete"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+version: number
+
+formatint64
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+case\_sensitive: optional boolean
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+The description of the dataset.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.dlp.datasets%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Fetch a specific dataset
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/dlp/datasets/$DATASET_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "columns": [
+      {
+        "entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        "header_name": "header_name",
+        "num_cells": 0,
+        "upload_status": "empty"
+      }
+    ],
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "encoding_version": 0,
+    "name": "name",
+    "num_cells": 0,
+    "secret": true,
+    "status": "empty",
+    "updated_at": "2019-12-27T18:11:19.117Z",
+    "uploads": [
+      {
+        "num_cells": 0,
+        "status": "empty",
+        "version": 0
+      }
+    ],
+    "case_sensitive": true,
+    "description": "description"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

@@ -1,933 +1,189 @@
+---
+title: Site Info
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[RUM](https://developers.cloudflare.com/api/resources/rum)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Site Info
 
-## List Web Analytics sites
+##### [List Web Analytics sites](https://developers.cloudflare.com/api/resources/rum/subresources/site_info/methods/list)
 
-**get** `/accounts/{account_id}/rum/site_info/list`
+GET/accounts/{account\_id}/rum/site\_info/list
 
-Lists all Web Analytics sites of an account.
+##### [Get a Web Analytics site](https://developers.cloudflare.com/api/resources/rum/subresources/site_info/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/rum/site\_info/{site\_id}
 
-- `account_id: string`
+##### [Create a Web Analytics site](https://developers.cloudflare.com/api/resources/rum/subresources/site_info/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/rum/site\_info
 
-### Query Parameters
+##### [Update a Web Analytics site](https://developers.cloudflare.com/api/resources/rum/subresources/site_info/methods/update)
 
-- `order_by: optional "host" or "created"`
+PUT/accounts/{account\_id}/rum/site\_info/{site\_id}
 
-  The property used to sort the list of results.
+##### [Delete a Web Analytics site](https://developers.cloudflare.com/api/resources/rum/subresources/site_info/methods/delete)
 
-  - `"host"`
+DELETE/accounts/{account\_id}/rum/site\_info/{site\_id}
 
-  - `"created"`
+##### ModelsExpand Collapse
 
-- `page: optional number`
+<details>
 
-  Current page within the paginated list of results.
+<summary>
 
-- `per_page: optional number`
+Site object {auto\_install, created, rules, 4 more }
 
-  Number of items to return per page of results.
+</summary>
 
-### Returns
+auto\_install: optional boolean
 
-- `errors: array of ResponseInfo`
+If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+created: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+rules: optional array of <a href="https://developers.cloudflare.com/api/resources/rum#(resource)%20rum.rules%20%3E%20(model)%20rum_rule%20%3E%20(schema)">RUMRule</a> { id, created, host, 4 more }
 
-  - `message: string`
+A list of rules.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-- `success: boolean`
+The Web Analytics rule identifier.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-- `result: optional array of Site`
+created: optional string
 
-  - `auto_install: optional boolean`
+formatdate-time
 
-    If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
+<a href="#">Link to this property</a>
 
-  - `created: optional string`
+host: optional string
 
-  - `rules: optional array of RUMRule`
+The hostname the rule will be applied to.
 
-    A list of rules.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+inclusive: optional boolean
 
-      The Web Analytics rule identifier.
+Whether the rule includes or excludes traffic from being measured.
 
-    - `created: optional string`
+<a href="#">Link to this property</a>
 
-    - `host: optional string`
+is\_paused: optional boolean
 
-      The hostname the rule will be applied to.
+Whether the rule is paused or not.
 
-    - `inclusive: optional boolean`
+<a href="#">Link to this property</a>
 
-      Whether the rule includes or excludes traffic from being measured.
+paths: optional array of string
 
-    - `is_paused: optional boolean`
+The paths the rule will be applied to.
 
-      Whether the rule is paused or not.
+<a href="#">Link to this property</a>
 
-    - `paths: optional array of string`
+priority: optional number
 
-      The paths the rule will be applied to.
+<a href="#">Link to this property</a>
 
-    - `priority: optional number`
+</details>
 
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+<details>
 
-      The Web Analytics ruleset identifier.
+<summary>
 
-    - `enabled: optional boolean`
-
-      Whether the ruleset is enabled.
-
-    - `zone_name: optional string`
-
-    - `zone_tag: optional string`
-
-      The zone identifier.
-
-  - `site_tag: optional string`
-
-    The Web Analytics site identifier.
-
-  - `site_token: optional string`
-
-    The Web Analytics site token.
-
-  - `snippet: optional string`
-
-    Encoded JavaScript snippet.
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    The total number of items on the current page.
+ruleset: optional object {id, enabled, zone\_name, zone\_tag }
 
-  - `page: optional number`
+</summary>
 
-    Current page within the paginated list of results.
+id: optional string
 
-  - `per_page: optional number`
+The Web Analytics ruleset identifier.
 
-    The maximum number of items to return per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+enabled: optional boolean
 
-    The total number of items.
+Whether the ruleset is enabled.
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The total number of pages.
+zone\_name: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/site_info/list \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+zone\_tag: optional string
 
-#### Response
+The zone identifier.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "auto_install": true,
-      "created": "2014-01-01T05:20:00.12345Z",
-      "rules": [
-        {
-          "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-          "created": "2014-01-01T05:20:00.12345Z",
-          "host": "example.com",
-          "inclusive": true,
-          "is_paused": false,
-          "paths": [
-            "*"
-          ],
-          "priority": 1000
-        }
-      ],
-      "ruleset": {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "enabled": true,
-        "zone_name": "example.com",
-        "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-      },
-      "site_tag": "023e105f4ecef8ad9ca31a8372d0c353",
-      "site_token": "023e105f4ecef8ad9ca31a8372d0c353",
-      "snippet": "<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"bc40a2d1b5834453aba85c1b9a3054da\"}'></script><!-- End Cloudflare Web Analytics -->"
-    }
-  ],
-  "result_info": {
-    "count": 10,
-    "page": 1,
-    "per_page": 10,
-    "total_count": 25,
-    "total_pages": 3
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get a Web Analytics site
+</details>
 
-**get** `/accounts/{account_id}/rum/site_info/{site_id}`
+<a href="#">Link to this property</a>
 
-Retrieves a Web Analytics site.
+site\_tag: optional string
 
-### Path Parameters
+The Web Analytics site identifier.
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+site\_token: optional string
 
-- `site_id: string`
+The Web Analytics site token.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Returns
+snippet: optional string
 
-- `errors: array of ResponseInfo`
+Encoded JavaScript snippet.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20rum.site_info%20%3E%20(model)%20site%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `messages: array of ResponseInfo`
+SiteInfoDeleteResponse object {site\_tag }
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+site\_tag: optional string
 
-  - `documentation_url: optional string`
+The Web Analytics site identifier.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+</details>
 
-  Whether the API call was successful.
-
-- `result: optional Site`
-
-  - `auto_install: optional boolean`
-
-    If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
-
-  - `created: optional string`
-
-  - `rules: optional array of RUMRule`
-
-    A list of rules.
-
-    - `id: optional string`
-
-      The Web Analytics rule identifier.
-
-    - `created: optional string`
-
-    - `host: optional string`
-
-      The hostname the rule will be applied to.
-
-    - `inclusive: optional boolean`
-
-      Whether the rule includes or excludes traffic from being measured.
-
-    - `is_paused: optional boolean`
-
-      Whether the rule is paused or not.
-
-    - `paths: optional array of string`
-
-      The paths the rule will be applied to.
-
-    - `priority: optional number`
-
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
-
-    - `id: optional string`
-
-      The Web Analytics ruleset identifier.
-
-    - `enabled: optional boolean`
-
-      Whether the ruleset is enabled.
-
-    - `zone_name: optional string`
-
-    - `zone_tag: optional string`
-
-      The zone identifier.
-
-  - `site_tag: optional string`
-
-    The Web Analytics site identifier.
-
-  - `site_token: optional string`
-
-    The Web Analytics site token.
-
-  - `snippet: optional string`
-
-    Encoded JavaScript snippet.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/site_info/$SITE_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "auto_install": true,
-    "created": "2014-01-01T05:20:00.12345Z",
-    "rules": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created": "2014-01-01T05:20:00.12345Z",
-        "host": "example.com",
-        "inclusive": true,
-        "is_paused": false,
-        "paths": [
-          "*"
-        ],
-        "priority": 1000
-      }
-    ],
-    "ruleset": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "enabled": true,
-      "zone_name": "example.com",
-      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-    },
-    "site_tag": "023e105f4ecef8ad9ca31a8372d0c353",
-    "site_token": "023e105f4ecef8ad9ca31a8372d0c353",
-    "snippet": "<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"bc40a2d1b5834453aba85c1b9a3054da\"}'></script><!-- End Cloudflare Web Analytics -->"
-  }
-}
-```
-
-## Create a Web Analytics site
-
-**post** `/accounts/{account_id}/rum/site_info`
-
-Creates a new Web Analytics site.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `auto_install: optional boolean`
-
-  If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
-
-- `host: optional string`
-
-  The hostname to use for gray-clouded sites.
-
-- `zone_tag: optional string`
-
-  The zone identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional Site`
-
-  - `auto_install: optional boolean`
-
-    If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
-
-  - `created: optional string`
-
-  - `rules: optional array of RUMRule`
-
-    A list of rules.
-
-    - `id: optional string`
-
-      The Web Analytics rule identifier.
-
-    - `created: optional string`
-
-    - `host: optional string`
-
-      The hostname the rule will be applied to.
-
-    - `inclusive: optional boolean`
-
-      Whether the rule includes or excludes traffic from being measured.
-
-    - `is_paused: optional boolean`
-
-      Whether the rule is paused or not.
-
-    - `paths: optional array of string`
-
-      The paths the rule will be applied to.
-
-    - `priority: optional number`
-
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
-
-    - `id: optional string`
-
-      The Web Analytics ruleset identifier.
-
-    - `enabled: optional boolean`
-
-      Whether the ruleset is enabled.
-
-    - `zone_name: optional string`
-
-    - `zone_tag: optional string`
-
-      The zone identifier.
-
-  - `site_tag: optional string`
-
-    The Web Analytics site identifier.
-
-  - `site_token: optional string`
-
-    The Web Analytics site token.
-
-  - `snippet: optional string`
-
-    Encoded JavaScript snippet.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/site_info \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auto_install": true,
-          "host": "example.com",
-          "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "auto_install": true,
-    "created": "2014-01-01T05:20:00.12345Z",
-    "rules": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created": "2014-01-01T05:20:00.12345Z",
-        "host": "example.com",
-        "inclusive": true,
-        "is_paused": false,
-        "paths": [
-          "*"
-        ],
-        "priority": 1000
-      }
-    ],
-    "ruleset": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "enabled": true,
-      "zone_name": "example.com",
-      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-    },
-    "site_tag": "023e105f4ecef8ad9ca31a8372d0c353",
-    "site_token": "023e105f4ecef8ad9ca31a8372d0c353",
-    "snippet": "<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"bc40a2d1b5834453aba85c1b9a3054da\"}'></script><!-- End Cloudflare Web Analytics -->"
-  }
-}
-```
-
-## Update a Web Analytics site
-
-**put** `/accounts/{account_id}/rum/site_info/{site_id}`
-
-Updates an existing Web Analytics site.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `site_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `auto_install: optional boolean`
-
-  If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
-
-- `enabled: optional boolean`
-
-  Enables or disables RUM. This option can be used only when auto_install is set to true.
-
-- `host: optional string`
-
-  The hostname to use for gray-clouded sites.
-
-- `lite: optional boolean`
-
-  If enabled, the JavaScript snippet will not be injected for visitors from the EU.
-
-- `zone_tag: optional string`
-
-  The zone identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional Site`
-
-  - `auto_install: optional boolean`
-
-    If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
-
-  - `created: optional string`
-
-  - `rules: optional array of RUMRule`
-
-    A list of rules.
-
-    - `id: optional string`
-
-      The Web Analytics rule identifier.
-
-    - `created: optional string`
-
-    - `host: optional string`
-
-      The hostname the rule will be applied to.
-
-    - `inclusive: optional boolean`
-
-      Whether the rule includes or excludes traffic from being measured.
-
-    - `is_paused: optional boolean`
-
-      Whether the rule is paused or not.
-
-    - `paths: optional array of string`
-
-      The paths the rule will be applied to.
-
-    - `priority: optional number`
-
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
-
-    - `id: optional string`
-
-      The Web Analytics ruleset identifier.
-
-    - `enabled: optional boolean`
-
-      Whether the ruleset is enabled.
-
-    - `zone_name: optional string`
-
-    - `zone_tag: optional string`
-
-      The zone identifier.
-
-  - `site_tag: optional string`
-
-    The Web Analytics site identifier.
-
-  - `site_token: optional string`
-
-    The Web Analytics site token.
-
-  - `snippet: optional string`
-
-    Encoded JavaScript snippet.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/site_info/$SITE_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "auto_install": true,
-          "enabled": true,
-          "host": "example.com",
-          "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "auto_install": true,
-    "created": "2014-01-01T05:20:00.12345Z",
-    "rules": [
-      {
-        "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-        "created": "2014-01-01T05:20:00.12345Z",
-        "host": "example.com",
-        "inclusive": true,
-        "is_paused": false,
-        "paths": [
-          "*"
-        ],
-        "priority": 1000
-      }
-    ],
-    "ruleset": {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "enabled": true,
-      "zone_name": "example.com",
-      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-    },
-    "site_tag": "023e105f4ecef8ad9ca31a8372d0c353",
-    "site_token": "023e105f4ecef8ad9ca31a8372d0c353",
-    "snippet": "<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"bc40a2d1b5834453aba85c1b9a3054da\"}'></script><!-- End Cloudflare Web Analytics -->"
-  }
-}
-```
-
-## Delete a Web Analytics site
-
-**delete** `/accounts/{account_id}/rum/site_info/{site_id}`
-
-Deletes an existing Web Analytics site.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `site_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-- `result: optional object { site_tag }`
-
-  - `site_tag: optional string`
-
-    The Web Analytics site identifier.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/rum/site_info/$SITE_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "site_tag": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### Site
-
-- `Site object { auto_install, created, rules, 4 more }`
-
-  - `auto_install: optional boolean`
-
-    If enabled, the JavaScript snippet is automatically injected for orange-clouded sites.
-
-  - `created: optional string`
-
-  - `rules: optional array of RUMRule`
-
-    A list of rules.
-
-    - `id: optional string`
-
-      The Web Analytics rule identifier.
-
-    - `created: optional string`
-
-    - `host: optional string`
-
-      The hostname the rule will be applied to.
-
-    - `inclusive: optional boolean`
-
-      Whether the rule includes or excludes traffic from being measured.
-
-    - `is_paused: optional boolean`
-
-      Whether the rule is paused or not.
-
-    - `paths: optional array of string`
-
-      The paths the rule will be applied to.
-
-    - `priority: optional number`
-
-  - `ruleset: optional object { id, enabled, zone_name, zone_tag }`
-
-    - `id: optional string`
-
-      The Web Analytics ruleset identifier.
-
-    - `enabled: optional boolean`
-
-      Whether the ruleset is enabled.
-
-    - `zone_name: optional string`
-
-    - `zone_tag: optional string`
-
-      The zone identifier.
-
-  - `site_tag: optional string`
-
-    The Web Analytics site identifier.
-
-  - `site_token: optional string`
-
-    The Web Analytics site token.
-
-  - `snippet: optional string`
-
-    Encoded JavaScript snippet.
-
-### Site Info Delete Response
-
-- `SiteInfoDeleteResponse object { site_tag }`
-
-  - `site_tag: optional string`
-
-    The Web Analytics site identifier.
+[Link to this property](#)%20rum.site_info%20%3E%20(model)%20site_info_delete_response%20%3E%20(schema)>)

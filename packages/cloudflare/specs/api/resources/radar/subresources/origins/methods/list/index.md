@@ -1,55 +1,197 @@
-## List Origins
+---
+title: List Origins
+---
 
-**get** `/radar/origins`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Origins](https://developers.cloudflare.com/api/resources/radar/subresources/origins)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Origins
+
+GET/radar/origins
 
 Retrieves a list of origins with their regions.
 
-### Query Parameters
+##### Security
 
-- `format: optional "JSON" or "CSV"`
+<details>
 
-  Format in which results will be returned.
+<summary>API Token</summary>
 
-  - `"JSON"`
 
-  - `"CSV"`
 
-- `limit: optional number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  Limits the number of objects returned in the response.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `offset: optional number`
+</details>
 
-  Skips the specified number of objects before fetching the results.
+<details>
 
-### Returns
+<summary>API Email + API Key</summary>
 
-- `result: object { origins }`
 
-  - `origins: array of object { regions, slug }`
 
-    - `regions: array of object { region }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-      - `region: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-        The region code.
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `slug: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-      The origin slug.
+</details>
 
-- `success: boolean`
+##### Accepted Permissions (at least one required)
 
-### Example
+`User Details Write``User Details Read`
 
-```http
+##### Q uery ParametersExpand Collapse
+
+<details>
+
+<summary>
+
+format: optional "JSON"or "CSV"
+
+Format in which results will be returned.
+
+</summary>
+
+One of the following:
+
+"JSON"
+
+<a href="#">Link to this property</a>
+
+"CSV"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.origins%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+limit: optional number
+
+Limits the number of objects returned in the response.
+
+exclusiveMinimum
+
+minimum0
+
+[Link to this property](#)%20radar.origins%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+offset: optional number
+
+Skips the specified number of objects before fetching the results.
+
+minimum0
+
+[Link to this property](#)%20radar.origins%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {origins }
+
+</summary>
+
+<details>
+
+<summary>
+
+origins: array of object {regions, slug }
+
+</summary>
+
+<details>
+
+<summary>
+
+regions: array of object {region }
+
+</summary>
+
+region: string
+
+The region code.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+slug: string
+
+The origin slug.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.origins%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.origins%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Origins
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/origins \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "origins": [
+      {
+        "regions": [
+          {
+            "region": "us-east-1"
+          }
+        ],
+        "slug": "amazon"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "origins": [

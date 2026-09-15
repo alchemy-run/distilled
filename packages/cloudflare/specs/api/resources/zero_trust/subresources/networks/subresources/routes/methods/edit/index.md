@@ -1,100 +1,284 @@
-## Update a tunnel route
+---
+title: Update a tunnel route
+---
 
-**patch** `/accounts/{account_id}/teamnet/routes/{route_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks)
+
+[Routes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Update a tunnel route
+
+PATCH/accounts/{account\_id}/teamnet/routes/{route\_id}
 
 Updates an existing private network route in an account. The fields that are meant to be updated should be provided in the body of the request.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Cloudflare account ID
+<summary>API Token</summary>
 
-- `route_id: string`
 
-  UUID of the route.
 
-### Body Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `comment: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  Optional remark describing the route.
+</details>
 
-- `network: optional string`
+<details>
 
-  The private IPv4 or IPv6 range connected by the route, in CIDR notation.
+<summary>API Email + API Key</summary>
 
-- `tunnel_id: optional string`
 
-  UUID of the tunnel.
 
-- `virtual_network_id: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  UUID of the virtual network.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-### Returns
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+##### Accepted Permissions (at least one required)
 
-  - `documentation_url: optional string`
+`Cloudflare One Networks Write``Cloudflare Tunnel Write`
 
-  - `source: optional object { pointer }`
+##### P ath ParametersExpand Collapse
 
-    - `pointer: optional string`
+account\_id: string
 
-- `messages: array of ResponseInfo`
+Cloudflare account ID
 
-  - `code: number`
+maxLength32
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `documentation_url: optional string`
+route\_id: string
 
-  - `source: optional object { pointer }`
+UUID of the route.
 
-- `result: Route`
+maxLength36
 
-  - `id: optional string`
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20route_id%20%3E%20(schema)>)
 
-    UUID of the route.
+##### Body ParametersJSONExpand Collapse
 
-  - `comment: optional string`
+comment: optional string
 
-    Optional remark describing the route.
+Optional remark describing the route.
 
-  - `created_at: optional string`
+maxLength100
 
-    Timestamp of when the resource was created.
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20comment%20%3E%20(schema)>)
 
-  - `deleted_at: optional string`
+network: optional string
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+The private IPv4 or IPv6 range connected by the route, in CIDR notation.
 
-  - `network: optional string`
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20network%20%3E%20(schema)>)
 
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
+tunnel\_id: optional string
 
-  - `tunnel_id: optional string`
+UUID of the tunnel.
 
-    UUID of the tunnel.
+formatuuid
 
-  - `virtual_network_id: optional string`
+maxLength36
 
-    UUID of the virtual network.
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20tunnel_id%20%3E%20(schema)>)
 
-- `success: true`
+virtual\_network\_id: optional string
 
-  Whether the API call was successful
+UUID of the virtual network.
 
-  - `true`
+formatuuid
 
-### Example
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20virtual_network_id%20%3E%20(schema)>)
 
-```http
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.networks.routes%20%3E%20(model)%20route%20%3E%20(schema)">Route</a> { id, comment, created\_at, 4 more }
+
+</summary>
+
+id: optional string
+
+UUID of the route.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Optional remark describing the route.
+
+maxLength100
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+Timestamp of when the resource was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleted\_at: optional string
+
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+network: optional string
+
+The private IPv4 or IPv6 range connected by the route, in CIDR notation.
+
+<a href="#">Link to this property</a>
+
+tunnel\_id: optional string
+
+UUID of the tunnel.
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+virtual\_network\_id: optional string
+
+UUID of the virtual network.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zero_trust.networks.routes%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Update a tunnel route
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/$ROUTE_ID \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -107,9 +291,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/$R
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -135,7 +319,46 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/$R
     "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
     "comment": "Example comment for this route.",
     "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
+    "network": "172.16.0.0/16",
+    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "comment": "Example comment for this route.",
+    "created_at": "2021-01-25T18:22:34.317854Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
     "network": "172.16.0.0/16",
     "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
     "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"

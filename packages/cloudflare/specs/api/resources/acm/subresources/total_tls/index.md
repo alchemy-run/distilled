@@ -1,447 +1,151 @@
+---
+title: Total TLS
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[ACM](https://developers.cloudflare.com/api/resources/acm)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Total TLS
 
-## Total TLS Settings Details
+##### [Total TLS Settings Details](https://developers.cloudflare.com/api/resources/acm/subresources/total_tls/methods/get)
 
-**get** `/zones/{zone_id}/acm/total_tls`
+GET/zones/{zone\_id}/acm/total\_tls
 
-Get Total TLS Settings for a Zone.
+##### [Enable or Disable Total TLS](https://developers.cloudflare.com/api/resources/acm/subresources/total_tls/methods/update)
 
-### Path Parameters
+POST/zones/{zone\_id}/acm/total\_tls
 
-- `zone_id: string`
+##### [Enable or Disable Total TLS](https://developers.cloudflare.com/api/resources/acm/subresources/total_tls/methods/edit)
 
-  Identifier.
+POST/zones/{zone\_id}/acm/total\_tls
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+CertificateAuthority = "google"or "lets\_encrypt"or "ssl\_com"
 
-  - `documentation_url: optional string`
+The Certificate Authority that Total TLS certificates will be issued through.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"google"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"lets\_encrypt"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"ssl\_com"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+[Link to this property](#)%20acm.total_tls%20%3E%20(model)%20certificate_authority%20%3E%20(schema)>)
 
-  - `true`
+<details>
 
-- `result: optional object { certificate_authority, enabled, validity_period }`
+<summary>
 
-  - `certificate_authority: optional CertificateAuthority`
+TotalTLSGetResponse object {certificate\_authority, enabled, validity\_period }
 
-    The Certificate Authority that Total TLS certificates will be issued through.
+</summary>
 
-    - `"google"`
+certificate\_authority: optional <a href="https://developers.cloudflare.com/api/resources/acm#(resource)%20acm.total_tls%20%3E%20(model)%20certificate_authority%20%3E%20(schema)">CertificateAuthority</a>
 
-    - `"lets_encrypt"`
+The Certificate Authority that Total TLS certificates will be issued through.
 
-    - `"ssl_com"`
+<a href="#">Link to this property</a>
 
-  - `enabled: optional boolean`
+enabled: optional boolean
 
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
+If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
 
-  - `validity_period: optional 90`
+<a href="#">Link to this property</a>
 
-    The validity period in days for the certificates ordered via Total TLS.
+validity\_period: optional 90
 
-    - `90`
+The validity period in days for the certificates ordered via Total TLS.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/total_tls \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+[Link to this property](#)%20acm.total_tls%20%3E%20(model)%20total_tls_get_response%20%3E%20(schema)>)
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "certificate_authority": "google",
-    "enabled": true,
-    "validity_period": 90
-  }
-}
-```
+<details>
 
-## Enable or Disable Total TLS
+<summary>
 
-**post** `/zones/{zone_id}/acm/total_tls`
+TotalTLSUpdateResponse object {certificate\_authority, enabled, validity\_period }
 
-Set Total TLS Settings or disable the feature for a Zone.
+</summary>
 
-### Path Parameters
+certificate\_authority: optional <a href="https://developers.cloudflare.com/api/resources/acm#(resource)%20acm.total_tls%20%3E%20(model)%20certificate_authority%20%3E%20(schema)">CertificateAuthority</a>
 
-- `zone_id: string`
+The Certificate Authority that Total TLS certificates will be issued through.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+enabled: optional boolean
 
-- `enabled: boolean`
+If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
 
-  If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
+<a href="#">Link to this property</a>
 
-- `certificate_authority: optional CertificateAuthority`
+validity\_period: optional 90
 
-  The Certificate Authority that Total TLS certificates will be issued through.
+The validity period in days for the certificates ordered via Total TLS.
 
-  - `"google"`
+<a href="#">Link to this property</a>
 
-  - `"lets_encrypt"`
+</details>
 
-  - `"ssl_com"`
+[Link to this property](#)%20acm.total_tls%20%3E%20(model)%20total_tls_update_response%20%3E%20(schema)>)
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+TotalTLSEditResponse object {certificate\_authority, enabled, validity\_period }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+certificate\_authority: optional <a href="https://developers.cloudflare.com/api/resources/acm#(resource)%20acm.total_tls%20%3E%20(model)%20certificate_authority%20%3E%20(schema)">CertificateAuthority</a>
 
-  - `source: optional object { pointer }`
+The Certificate Authority that Total TLS certificates will be issued through.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+enabled: optional boolean
 
-  - `code: number`
+If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+validity\_period: optional 90
 
-  - `source: optional object { pointer }`
+The validity period in days for the certificates ordered via Total TLS.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { certificate_authority, enabled, validity_period }`
-
-  - `certificate_authority: optional CertificateAuthority`
-
-    The Certificate Authority that Total TLS certificates will be issued through.
-
-    - `"google"`
-
-    - `"lets_encrypt"`
-
-    - `"ssl_com"`
-
-  - `enabled: optional boolean`
-
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-  - `validity_period: optional 90`
-
-    The validity period in days for the certificates ordered via Total TLS.
-
-    - `90`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/total_tls \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "certificate_authority": "google"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "certificate_authority": "google",
-    "enabled": true,
-    "validity_period": 90
-  }
-}
-```
-
-## Enable or Disable Total TLS
-
-**post** `/zones/{zone_id}/acm/total_tls`
-
-Set Total TLS Settings or disable the feature for a Zone.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `enabled: boolean`
-
-  If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-- `certificate_authority: optional CertificateAuthority`
-
-  The Certificate Authority that Total TLS certificates will be issued through.
-
-  - `"google"`
-
-  - `"lets_encrypt"`
-
-  - `"ssl_com"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { certificate_authority, enabled, validity_period }`
-
-  - `certificate_authority: optional CertificateAuthority`
-
-    The Certificate Authority that Total TLS certificates will be issued through.
-
-    - `"google"`
-
-    - `"lets_encrypt"`
-
-    - `"ssl_com"`
-
-  - `enabled: optional boolean`
-
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-  - `validity_period: optional 90`
-
-    The validity period in days for the certificates ordered via Total TLS.
-
-    - `90`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/acm/total_tls \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "enabled": true,
-          "certificate_authority": "google"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "certificate_authority": "google",
-    "enabled": true,
-    "validity_period": 90
-  }
-}
-```
-
-## Domain Types
-
-### Certificate Authority
-
-- `CertificateAuthority = "google" or "lets_encrypt" or "ssl_com"`
-
-  The Certificate Authority that Total TLS certificates will be issued through.
-
-  - `"google"`
-
-  - `"lets_encrypt"`
-
-  - `"ssl_com"`
-
-### Total TLS Get Response
-
-- `TotalTLSGetResponse object { certificate_authority, enabled, validity_period }`
-
-  - `certificate_authority: optional CertificateAuthority`
-
-    The Certificate Authority that Total TLS certificates will be issued through.
-
-    - `"google"`
-
-    - `"lets_encrypt"`
-
-    - `"ssl_com"`
-
-  - `enabled: optional boolean`
-
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-  - `validity_period: optional 90`
-
-    The validity period in days for the certificates ordered via Total TLS.
-
-    - `90`
-
-### Total TLS Update Response
-
-- `TotalTLSUpdateResponse object { certificate_authority, enabled, validity_period }`
-
-  - `certificate_authority: optional CertificateAuthority`
-
-    The Certificate Authority that Total TLS certificates will be issued through.
-
-    - `"google"`
-
-    - `"lets_encrypt"`
-
-    - `"ssl_com"`
-
-  - `enabled: optional boolean`
-
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-  - `validity_period: optional 90`
-
-    The validity period in days for the certificates ordered via Total TLS.
-
-    - `90`
-
-### Total TLS Edit Response
-
-- `TotalTLSEditResponse object { certificate_authority, enabled, validity_period }`
-
-  - `certificate_authority: optional CertificateAuthority`
-
-    The Certificate Authority that Total TLS certificates will be issued through.
-
-    - `"google"`
-
-    - `"lets_encrypt"`
-
-    - `"ssl_com"`
-
-  - `enabled: optional boolean`
-
-    If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.
-
-  - `validity_period: optional 90`
-
-    The validity period in days for the certificates ordered via Total TLS.
-
-    - `90`
+[Link to this property](#)%20acm.total_tls%20%3E%20(model)%20total_tls_edit_response%20%3E%20(schema)>)

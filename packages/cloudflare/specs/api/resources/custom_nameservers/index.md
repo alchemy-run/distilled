@@ -1,479 +1,149 @@
+---
+title: Account Custom Nameservers
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Account Custom Nameservers
 
-## List Account Custom Nameservers
+##### [List Account Custom Nameservers](https://developers.cloudflare.com/api/resources/custom_nameservers/methods/get)
 
-**get** `/accounts/{account_id}/custom_ns`
+GET/accounts/{account\_id}/custom\_ns
 
-List an account's custom nameservers.
+##### [Add Account Custom Nameserver](https://developers.cloudflare.com/api/resources/custom_nameservers/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/custom\_ns
 
-- `account_id: string`
+##### [Delete Account Custom Nameserver](https://developers.cloudflare.com/api/resources/custom_nameservers/methods/delete)
 
-  Account identifier tag.
+DELETE/accounts/{account\_id}/custom\_ns/{custom\_ns\_id}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+CustomNameserver object {dns\_records, ns\_name, status, 2 more }
 
-  - `documentation_url: optional string`
+A single account custom nameserver.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+dns\_records: array of object {type, value }
 
-  - `message: string`
+A and AAAA records associated with the nameserver.
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+type: optional "A"or "AAAA"
 
-  Whether the API call was successful.
+DNS record type.
 
-  - `true`
+</summary>
 
-- `result: optional array of CustomNameserver`
+One of the following:
 
-  - `dns_records: array of object { type, value }`
+"A"
 
-    A and AAAA records associated with the nameserver.
+<a href="#">Link to this property</a>
 
-    - `type: optional "A" or "AAAA"`
+"AAAA"
 
-      DNS record type.
+<a href="#">Link to this property</a>
 
-      - `"A"`
+</details>
 
-      - `"AAAA"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+value: optional string
 
-      DNS record contents (an IPv4 or IPv6 address).
+DNS record contents (an IPv4 or IPv6 address).
 
-  - `ns_name: string`
+<a href="#">Link to this property</a>
 
-    The FQDN of the name server.
+</details>
 
-  - `status: "moved" or "pending" or "verified"`
+<a href="#">Link to this property</a>
 
-    Verification status of the nameserver.
+ns\_name: string
 
-    - `"moved"`
+The FQDN of the name server.
 
-    - `"pending"`
+formathostname
 
-    - `"verified"`
+<a href="#">Link to this property</a>
 
-  - `zone_tag: string`
+<details>
 
-    Identifier.
+<summary>
 
-  - `ns_set: optional number`
+Deprecatedstatus: "moved"or "pending"or "verified"
 
-    The number of the set that this name server belongs to.
+Verification status of the nameserver.
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+</summary>
 
-  - `count: optional number`
+One of the following:
 
-    Total number of results for the requested service.
+"moved"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+"pending"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+"verified"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+zone\_tag: string
 
-### Example
+Identifier.
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/custom_ns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength32
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "dns_records": [
-        {
-          "type": "A",
-          "value": "1.1.1.1"
-        }
-      ],
-      "ns_name": "ns1.example.com",
-      "status": "verified",
-      "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353",
-      "ns_set": 1
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+ns\_set: optional number
 
-## Add Account Custom Nameserver
+The number of the set that this name server belongs to.
 
-**post** `/accounts/{account_id}/custom_ns`
+maximum5
 
-Adds a custom nameserver to the account for use as a vanity nameserver on zones.
+minimum1
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Account identifier tag.
+[Link to this property](#)%20custom_nameservers%20%3E%20(model)%20custom_nameserver%20%3E%20(schema)>)
 
-### Body Parameters
+CustomNameserverDeleteResponse = string
 
-- `ns_name: string`
+Unused
 
-  The FQDN of the name server.
-
-- `ns_set: optional number`
-
-  The number of the set that this name server belongs to.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional CustomNameserver`
-
-  A single account custom nameserver.
-
-  - `dns_records: array of object { type, value }`
-
-    A and AAAA records associated with the nameserver.
-
-    - `type: optional "A" or "AAAA"`
-
-      DNS record type.
-
-      - `"A"`
-
-      - `"AAAA"`
-
-    - `value: optional string`
-
-      DNS record contents (an IPv4 or IPv6 address).
-
-  - `ns_name: string`
-
-    The FQDN of the name server.
-
-  - `status: "moved" or "pending" or "verified"`
-
-    Verification status of the nameserver.
-
-    - `"moved"`
-
-    - `"pending"`
-
-    - `"verified"`
-
-  - `zone_tag: string`
-
-    Identifier.
-
-  - `ns_set: optional number`
-
-    The number of the set that this name server belongs to.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/custom_ns \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ns_name": "ns1.example.com",
-          "ns_set": 1
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "dns_records": [
-      {
-        "type": "A",
-        "value": "1.1.1.1"
-      }
-    ],
-    "ns_name": "ns1.example.com",
-    "status": "verified",
-    "zone_tag": "023e105f4ecef8ad9ca31a8372d0c353",
-    "ns_set": 1
-  }
-}
-```
-
-## Delete Account Custom Nameserver
-
-**delete** `/accounts/{account_id}/custom_ns/{custom_ns_id}`
-
-Removes a custom nameserver from the account.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier tag.
-
-- `custom_ns_id: string`
-
-  The FQDN of the name server.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of string`
-
-- `result_info: optional object { count, page, per_page, 2 more }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service.
-
-  - `page: optional number`
-
-    Current page within paginated list of results.
-
-  - `per_page: optional number`
-
-    Number of results per page of results.
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters.
-
-  - `total_pages: optional number`
-
-    The number of total pages in the entire result set.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/custom_ns/$CUSTOM_NS_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
-
-## Domain Types
-
-### Custom Nameserver
-
-- `CustomNameserver object { dns_records, ns_name, status, 2 more }`
-
-  A single account custom nameserver.
-
-  - `dns_records: array of object { type, value }`
-
-    A and AAAA records associated with the nameserver.
-
-    - `type: optional "A" or "AAAA"`
-
-      DNS record type.
-
-      - `"A"`
-
-      - `"AAAA"`
-
-    - `value: optional string`
-
-      DNS record contents (an IPv4 or IPv6 address).
-
-  - `ns_name: string`
-
-    The FQDN of the name server.
-
-  - `status: "moved" or "pending" or "verified"`
-
-    Verification status of the nameserver.
-
-    - `"moved"`
-
-    - `"pending"`
-
-    - `"verified"`
-
-  - `zone_tag: string`
-
-    Identifier.
-
-  - `ns_set: optional number`
-
-    The number of the set that this name server belongs to.
-
-### Custom Nameserver Delete Response
-
-- `CustomNameserverDeleteResponse = string`
-
-  Unused
+[Link to this property](#)%20custom_nameservers%20%3E%20(model)%20custom_nameserver_delete_response%20%3E%20(schema)>)

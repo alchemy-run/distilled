@@ -1,125 +1,334 @@
-## List bots
+---
+title: List bots
+---
 
-**get** `/radar/bots`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[Bots](https://developers.cloudflare.com/api/resources/radar/subresources/bots)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List bots
+
+GET/radar/bots
 
 Retrieves a list of bots.
 
-### Query Parameters
+##### Security
 
-- `botCategory: optional "SEARCH_ENGINE_CRAWLER" or "SEARCH_ENGINE_OPTIMIZATION" or "MONITORING_AND_ANALYTICS" or 13 more`
+<details>
 
-  Filters results by bot category.
+<summary>API Token</summary>
 
-  - `"SEARCH_ENGINE_CRAWLER"`
 
-  - `"SEARCH_ENGINE_OPTIMIZATION"`
 
-  - `"MONITORING_AND_ANALYTICS"`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"ADVERTISING_AND_MARKETING"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"SOCIAL_MEDIA_MARKETING"`
+</details>
 
-  - `"PAGE_PREVIEW"`
+<details>
 
-  - `"ACADEMIC_RESEARCH"`
+<summary>API Email + API Key</summary>
 
-  - `"SECURITY"`
 
-  - `"ACCESSIBILITY"`
 
-  - `"WEBHOOKS"`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `"FEED_FETCHER"`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `"AI_CRAWLER"`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `"AGGREGATOR"`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `"AI_ASSISTANT"`
+</details>
 
-  - `"AI_SEARCH"`
+##### Accepted Permissions (at least one required)
 
-  - `"ARCHIVER"`
+`User Details Write``User Details Read`
 
-- `botOperator: optional string`
+##### Q uery ParametersExpand Collapse
 
-  Filters results by bot operator.
+<details>
 
-- `botVerificationStatus: optional "VERIFIED"`
+<summary>
 
-  Filters results by bot verification status.
+botCategory: optional "SEARCH\_ENGINE\_CRAWLER"or "SEARCH\_ENGINE\_OPTIMIZATION"or "MONITORING\_AND\_ANALYTICS"or 13 more
 
-  - `"VERIFIED"`
+Filters results by bot category.
 
-- `format: optional "JSON" or "CSV"`
+</summary>
 
-  Format in which results will be returned.
+One of the following:
 
-  - `"JSON"`
+"SEARCH\_ENGINE\_CRAWLER"
 
-  - `"CSV"`
+<a href="#">Link to this property</a>
 
-- `kind: optional "AGENT" or "BOT"`
+"SEARCH\_ENGINE\_OPTIMIZATION"
 
-  Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed.
+<a href="#">Link to this property</a>
 
-  - `"AGENT"`
+"MONITORING\_AND\_ANALYTICS"
 
-  - `"BOT"`
+<a href="#">Link to this property</a>
 
-- `limit: optional number`
+"ADVERTISING\_AND\_MARKETING"
 
-  Limits the number of objects returned in the response.
+<a href="#">Link to this property</a>
 
-- `offset: optional number`
+"SOCIAL\_MEDIA\_MARKETING"
 
-  Skips the specified number of objects before fetching the results.
+<a href="#">Link to this property</a>
 
-### Returns
+"PAGE\_PREVIEW"
 
-- `result: object { bots }`
+<a href="#">Link to this property</a>
 
-  - `bots: array of object { category, description, kind, 4 more }`
+"ACADEMIC\_RESEARCH"
 
-    - `category: string`
+<a href="#">Link to this property</a>
 
-      The category of the bot.
+"SECURITY"
 
-    - `description: string`
+<a href="#">Link to this property</a>
 
-      A summary for the bot (e.g., purpose).
+"ACCESSIBILITY"
 
-    - `kind: string`
+<a href="#">Link to this property</a>
 
-      The kind of the bot.
+"WEBHOOKS"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      The name of the bot.
+"FEED\_FETCHER"
 
-    - `operator: string`
+<a href="#">Link to this property</a>
 
-      The organization that owns and operates the bot.
+"AI\_CRAWLER"
 
-    - `slug: string`
+<a href="#">Link to this property</a>
 
-      A kebab-case identifier derived from the bot name.
+"AGGREGATOR"
 
-    - `userAgentPatterns: array of string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+"AI\_ASSISTANT"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"AI\_SEARCH"
+
+<a href="#">Link to this property</a>
+
+"ARCHIVER"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20botCategory%20%3E%20(schema)>)
+
+botOperator: optional string
+
+Filters results by bot operator.
+
+maxLength100
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20botOperator%20%3E%20(schema)>)
+
+botVerificationStatus: optional "VERIFIED"
+
+Filters results by bot verification status.
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20botVerificationStatus%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+format: optional "JSON"or "CSV"
+
+Format in which results will be returned.
+
+</summary>
+
+One of the following:
+
+"JSON"
+
+<a href="#">Link to this property</a>
+
+"CSV"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20format%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+kind: optional "AGENT"or "BOT"
+
+Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed.
+
+</summary>
+
+One of the following:
+
+"AGENT"
+
+<a href="#">Link to this property</a>
+
+"BOT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20kind%20%3E%20(schema)>)
+
+limit: optional number
+
+Limits the number of objects returned in the response.
+
+exclusiveMinimum
+
+minimum0
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+offset: optional number
+
+Skips the specified number of objects before fetching the results.
+
+minimum0
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {bots }
+
+</summary>
+
+<details>
+
+<summary>
+
+bots: array of object {category, description, kind, 4 more }
+
+</summary>
+
+category: string
+
+The category of the bot.
+
+<a href="#">Link to this property</a>
+
+description: string
+
+A summary for the bot (e.g., purpose).
+
+<a href="#">Link to this property</a>
+
+Deprecatedkind: string
+
+The kind of the bot.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the bot.
+
+<a href="#">Link to this property</a>
+
+operator: string
+
+The organization that owns and operates the bot.
+
+<a href="#">Link to this property</a>
+
+slug: string
+
+A kebab-case identifier derived from the bot name.
+
+<a href="#">Link to this property</a>
+
+userAgentPatterns: array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20radar.bots%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List bots
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/radar/bots \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "bots": [
+      {
+        "category": "AI_CRAWLER",
+        "description": "OpenAI/ChatGPT's web crawler",
+        "kind": "AGENT",
+        "name": "GPTBot",
+        "operator": "OpenAI",
+        "slug": "gptbot",
+        "userAgentPatterns": [
+          "GPTBot"
+        ]
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "bots": [

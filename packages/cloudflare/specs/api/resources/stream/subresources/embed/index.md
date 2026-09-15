@@ -1,30 +1,29 @@
+---
+title: Embed
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Stream](https://developers.cloudflare.com/api/resources/stream)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Embed
 
-## Retrieve embed Code HTML
+##### [Deprecated: Retrieve legacy embed code HTML](https://developers.cloudflare.com/api/resources/stream/subresources/embed/methods/get)
 
-**get** `/accounts/{account_id}/stream/{identifier}/embed`
+GET/accounts/{account\_id}/stream/{identifier}/embed
 
-Fetches an HTML code snippet to embed a video in a web page delivered through Cloudflare. On success, returns an HTML fragment for use on web pages to display a video. On failure, returns a JSON response body.
+##### ModelsExpand Collapse
 
-### Path Parameters
+EmbedGetResponse = string
 
-- `account_id: string`
-
-  The account identifier tag.
-
-- `identifier: string`
-
-  A Cloudflare-generated unique identifier for a media item.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/stream/$IDENTIFIER/embed \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Domain Types
-
-### Embed Get Response
-
-- `EmbedGetResponse = string`
+[Link to this property](#)%20stream.embed%20%3E%20(model)%20embed_get_response%20%3E%20(schema)>)

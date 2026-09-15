@@ -1,86 +1,262 @@
-## Change Origin Post-Quantum Encryption setting
+---
+title: Change Origin Post-Quantum Encryption setting
+---
 
-**put** `/zones/{zone_id}/cache/origin_post_quantum_encryption`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Origin Post Quantum Encryption](https://developers.cloudflare.com/api/resources/origin_post_quantum_encryption)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Change Origin Post-Quantum Encryption setting
+
+Deprecated
+
+PUT/zones/{zone\_id}/cache/origin\_post\_quantum\_encryption
 
 Instructs Cloudflare to use Post-Quantum (PQ) key agreement algorithms when connecting to your origin. Preferred instructs Cloudflare to opportunistically send a Post-Quantum keyshare in the first message to the origin (for fastest connections when the origin supports and prefers PQ), supported means that PQ algorithms are advertised but only used when requested by the origin, and off means that PQ algorithms are not advertised.
 
-### Path Parameters
+##### Security
 
-- `zone_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-### Body Parameters
 
-- `value: "preferred" or "supported" or "off"`
 
-  Value of the Origin Post Quantum Encryption Setting.
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `"preferred"`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `"supported"`
+</details>
 
-  - `"off"`
+<details>
 
-### Returns
+<summary>API Email + API Key</summary>
 
-- `errors: array of ResponseInfo`
 
-  - `code: number`
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-- `messages: array of ResponseInfo`
+</details>
 
-  - `code: number`
+##### Accepted Permissions (at least one required)
 
-  - `message: string`
+`Zone Settings Write``Zone Write`
 
-  - `documentation_url: optional string`
+##### P ath ParametersExpand Collapse
 
-  - `source: optional object { pointer }`
+zone\_id: string
 
-- `success: true`
+Identifier.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20origin_post_quantum_encryption%20%3E%20(method)%20update%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-- `result: optional object { id, editable, value, modified_on }`
+##### Body ParametersJSONExpand Collapse
 
-  - `id: "origin_pqe"`
+<details>
 
-    The identifier of the caching setting.
+<summary>
 
-    - `"origin_pqe"`
+value: "preferred"or "supported"or "off"
 
-  - `editable: boolean`
+Value of the Origin Post Quantum Encryption Setting.
 
-    Whether the setting is editable.
+</summary>
 
-  - `value: "preferred" or "supported" or "off"`
+One of the following:
 
-    Value of the Origin Post Quantum Encryption Setting.
+"preferred"
 
-    - `"preferred"`
+<a href="#">Link to this property</a>
 
-    - `"supported"`
+"supported"
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-  - `modified_on: optional string`
+"off"
 
-    Last time this setting was modified.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+[Link to this property](#)%20origin_post_quantum_encryption%20%3E%20(method)%20update%20%3E%20(params)%200%20%3E%20(param)%20value%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_post_quantum_encryption%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_post_quantum_encryption%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20origin_post_quantum_encryption%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {id, editable, value, modified\_on }
+
+</summary>
+
+id: "origin\_pqe"
+
+The identifier of the caching setting.
+
+<a href="#">Link to this property</a>
+
+editable: boolean
+
+Whether the setting is editable.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+value: "preferred"or "supported"or "off"
+
+Value of the Origin Post Quantum Encryption Setting.
+
+</summary>
+
+One of the following:
+
+"preferred"
+
+<a href="#">Link to this property</a>
+
+"supported"
+
+<a href="#">Link to this property</a>
+
+"off"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+Last time this setting was modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20origin_post_quantum_encryption%20%3E%20(method)%20update%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Change Origin Post-Quantum Encryption setting
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_post_quantum_encryption \
     -X PUT \
     -H 'Content-Type: application/json' \
@@ -90,9 +266,45 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/cache/origin_post_quant
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "id": "origin_pqe",
+    "editable": true,
+    "value": "preferred",
+    "modified_on": "2014-01-01T05:20:00.12345Z"
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

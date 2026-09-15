@@ -1,561 +1,279 @@
+---
+title: Permission Groups
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Accounts](https://developers.cloudflare.com/api/resources/accounts)
+
+[Tokens](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Permission Groups
 
-## List Permission Groups
+##### [List Permission Groups](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/permission_groups/methods/list)
 
-**get** `/accounts/{account_id}/tokens/permission_groups`
+GET/accounts/{account\_id}/tokens/permission\_groups
 
-Find all available permission groups for Account Owned API Tokens
+##### [List Permission Groups](https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/subresources/permission_groups/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/tokens/permission\_groups
 
-- `account_id: string`
+##### ModelsExpand Collapse
 
-  Account identifier tag.
+<details>
 
-### Query Parameters
+<summary>
 
-- `name: optional string`
+PermissionGroupListResponse object {id, category, name, scopes }
 
-  Filter by the name of the permission group.
-  The value must be URL-encoded.
+</summary>
 
-- `scope: optional string`
+id: optional string
 
-  Filter by the scope of the permission group.
-  The value must be URL-encoded.
+Public ID.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+category: optional "developer\_platform"or "ai\_and\_machine\_learning"or "dns\_and\_zones"or 10 more
 
-  - `documentation_url: optional string`
+Product category that this permission group belongs to.
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `messages: array of object { code, message, documentation_url, source }`
+"developer\_platform"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"ai\_and\_machine\_learning"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"dns\_and\_zones"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"app\_security"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"rules\_and\_configuration"
 
-- `result: optional array of object { id, category, name, scopes }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"cloudflare\_one\_and\_zero\_trust"
 
-    Public ID.
+<a href="#">Link to this property</a>
 
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
+"analytics\_and\_logs"
 
-    Product category that this permission group belongs to.
+<a href="#">Link to this property</a>
 
-    - `"developer_platform"`
+"network\_services"
 
-    - `"ai_and_machine_learning"`
+<a href="#">Link to this property</a>
 
-    - `"dns_and_zones"`
+"media"
 
-    - `"app_security"`
+<a href="#">Link to this property</a>
 
-    - `"rules_and_configuration"`
+"email\_and\_messaging"
 
-    - `"cloudflare_one_and_zero_trust"`
+<a href="#">Link to this property</a>
 
-    - `"analytics_and_logs"`
+"cache\_and\_performance"
 
-    - `"network_services"`
+<a href="#">Link to this property</a>
 
-    - `"media"`
+"account\_and\_billing"
 
-    - `"email_and_messaging"`
+<a href="#">Link to this property</a>
 
-    - `"cache_and_performance"`
+"other"
 
-    - `"account_and_billing"`
+<a href="#">Link to this property</a>
 
-    - `"other"`
+</details>
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Permission Group Name
+name: optional string
 
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
+Permission Group Name
 
-    Resources to which the Permission Group is scoped
+<a href="#">Link to this property</a>
 
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7cf72faf220841aabcfdfab81c43c4f6",
-      "category": "account_and_billing",
-      "name": "Billing Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "9d24387c6e8544e2bc4024a03991339f",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "d2a1802cc9a34e30852f8b33869b2f3c",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "8b47d2786a534c08a1f94ee8f9f599ef",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "f7f0eda5697f475c90846e879bab8666",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "1a71c399035b4950a1bd1466bbe4f420",
-      "category": "developer_platform",
-      "name": "Workers Scripts Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "e086da7e2179491d91ee5f35b3ca210a",
-      "category": "developer_platform",
-      "name": "Workers Scripts Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<details>
 
-## List Permission Groups
+<summary>
 
-**get** `/accounts/{account_id}/tokens/permission_groups`
+scopes: optional array of "com.cloudflare.api.account"or "com.cloudflare.api.account.zone"or "com.cloudflare.api.user"or "com.cloudflare.edge.r2.bucket"
 
-Find all available permission groups for Account Owned API Tokens
+Resources to which the Permission Group is scoped
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+One of the following:
 
-  Account identifier tag.
+"com.cloudflare.api.account"
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+"com.cloudflare.api.account.zone"
 
-  Filter by the name of the permission group.
-  The value must be URL-encoded.
+<a href="#">Link to this property</a>
 
-- `scope: optional string`
+"com.cloudflare.api.user"
 
-  Filter by the scope of the permission group.
-  The value must be URL-encoded.
+<a href="#">Link to this property</a>
 
-### Returns
+"com.cloudflare.edge.r2.bucket"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20accounts.tokens.permission_groups%20%3E%20(model)%20permission_group_list_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+PermissionGroupGetResponse = array of object {id, category, name, scopes }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: optional string
 
-  - `source: optional object { pointer }`
+Public ID.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+category: optional "developer\_platform"or "ai\_and\_machine\_learning"or "dns\_and\_zones"or 10 more
 
-- `result: optional array of object { id, category, name, scopes }`
+Product category that this permission group belongs to.
 
-  - `id: optional string`
+</summary>
 
-    Public ID.
+One of the following:
 
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
+"developer\_platform"
 
-    Product category that this permission group belongs to.
+<a href="#">Link to this property</a>
 
-    - `"developer_platform"`
+"ai\_and\_machine\_learning"
 
-    - `"ai_and_machine_learning"`
+<a href="#">Link to this property</a>
 
-    - `"dns_and_zones"`
+"dns\_and\_zones"
 
-    - `"app_security"`
+<a href="#">Link to this property</a>
 
-    - `"rules_and_configuration"`
+"app\_security"
 
-    - `"cloudflare_one_and_zero_trust"`
+<a href="#">Link to this property</a>
 
-    - `"analytics_and_logs"`
+"rules\_and\_configuration"
 
-    - `"network_services"`
+<a href="#">Link to this property</a>
 
-    - `"media"`
+"cloudflare\_one\_and\_zero\_trust"
 
-    - `"email_and_messaging"`
+<a href="#">Link to this property</a>
 
-    - `"cache_and_performance"`
+"analytics\_and\_logs"
 
-    - `"account_and_billing"`
+<a href="#">Link to this property</a>
 
-    - `"other"`
+"network\_services"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Permission Group Name
+"media"
 
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
+<a href="#">Link to this property</a>
 
-    Resources to which the Permission Group is scoped
+"email\_and\_messaging"
 
-    - `"com.cloudflare.api.account"`
+<a href="#">Link to this property</a>
 
-    - `"com.cloudflare.api.account.zone"`
+"cache\_and\_performance"
 
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/tokens/permission_groups \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "7cf72faf220841aabcfdfab81c43c4f6",
-      "category": "account_and_billing",
-      "name": "Billing Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "9d24387c6e8544e2bc4024a03991339f",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "d2a1802cc9a34e30852f8b33869b2f3c",
-      "category": "network_services",
-      "name": "Load Balancing: Monitors and Pools Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "8b47d2786a534c08a1f94ee8f9f599ef",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "f7f0eda5697f475c90846e879bab8666",
-      "category": "developer_platform",
-      "name": "Workers KV Storage Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "1a71c399035b4950a1bd1466bbe4f420",
-      "category": "developer_platform",
-      "name": "Workers Scripts Read",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    },
-    {
-      "id": "e086da7e2179491d91ee5f35b3ca210a",
-      "category": "developer_platform",
-      "name": "Workers Scripts Write",
-      "scopes": [
-        "com.cloudflare.api.account"
-      ]
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+"account\_and\_billing"
 
-### Permission Group List Response
+<a href="#">Link to this property</a>
 
-- `PermissionGroupListResponse object { id, category, name, scopes }`
+"other"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Public ID.
+</details>
 
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
+<a href="#">Link to this property</a>
 
-    Product category that this permission group belongs to.
+name: optional string
 
-    - `"developer_platform"`
+Permission Group Name
 
-    - `"ai_and_machine_learning"`
+<a href="#">Link to this property</a>
 
-    - `"dns_and_zones"`
+<details>
 
-    - `"app_security"`
+<summary>
 
-    - `"rules_and_configuration"`
+scopes: optional array of "com.cloudflare.api.account"or "com.cloudflare.api.account.zone"or "com.cloudflare.api.user"or "com.cloudflare.edge.r2.bucket"
 
-    - `"cloudflare_one_and_zero_trust"`
+Resources to which the Permission Group is scoped
 
-    - `"analytics_and_logs"`
+</summary>
 
-    - `"network_services"`
+One of the following:
 
-    - `"media"`
+"com.cloudflare.api.account"
 
-    - `"email_and_messaging"`
+<a href="#">Link to this property</a>
 
-    - `"cache_and_performance"`
+"com.cloudflare.api.account.zone"
 
-    - `"account_and_billing"`
+<a href="#">Link to this property</a>
 
-    - `"other"`
+"com.cloudflare.api.user"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    Permission Group Name
+"com.cloudflare.edge.r2.bucket"
 
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
+<a href="#">Link to this property</a>
 
-    Resources to which the Permission Group is scoped
+</details>
 
-    - `"com.cloudflare.api.account"`
+<a href="#">Link to this property</a>
 
-    - `"com.cloudflare.api.account.zone"`
+</details>
 
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
-
-### Permission Group Get Response
-
-- `PermissionGroupGetResponse = array of object { id, category, name, scopes }`
-
-  - `id: optional string`
-
-    Public ID.
-
-  - `category: optional "developer_platform" or "ai_and_machine_learning" or "dns_and_zones" or 10 more`
-
-    Product category that this permission group belongs to.
-
-    - `"developer_platform"`
-
-    - `"ai_and_machine_learning"`
-
-    - `"dns_and_zones"`
-
-    - `"app_security"`
-
-    - `"rules_and_configuration"`
-
-    - `"cloudflare_one_and_zero_trust"`
-
-    - `"analytics_and_logs"`
-
-    - `"network_services"`
-
-    - `"media"`
-
-    - `"email_and_messaging"`
-
-    - `"cache_and_performance"`
-
-    - `"account_and_billing"`
-
-    - `"other"`
-
-  - `name: optional string`
-
-    Permission Group Name
-
-  - `scopes: optional array of "com.cloudflare.api.account" or "com.cloudflare.api.account.zone" or "com.cloudflare.api.user" or "com.cloudflare.edge.r2.bucket"`
-
-    Resources to which the Permission Group is scoped
-
-    - `"com.cloudflare.api.account"`
-
-    - `"com.cloudflare.api.account.zone"`
-
-    - `"com.cloudflare.api.user"`
-
-    - `"com.cloudflare.edge.r2.bucket"`
+[Link to this property](#)%20accounts.tokens.permission_groups%20%3E%20(model)%20permission_group_get_response%20%3E%20(schema)>)

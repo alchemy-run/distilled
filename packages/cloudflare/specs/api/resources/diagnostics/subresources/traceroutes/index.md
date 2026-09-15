@@ -1,374 +1,225 @@
+---
+title: Traceroutes
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Diagnostics](https://developers.cloudflare.com/api/resources/diagnostics)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Traceroutes
 
-## Traceroute
+##### [Traceroute](https://developers.cloudflare.com/api/resources/diagnostics/subresources/traceroutes/methods/create)
 
-**post** `/accounts/{account_id}/diagnostics/traceroute`
+POST/accounts/{account\_id}/diagnostics/traceroute
 
-Run traceroutes from Cloudflare colos.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier
+Traceroute object {colos, target }
 
-### Body Parameters
+</summary>
 
-- `targets: array of string`
+<details>
 
-- `colos: optional array of string`
+<summary>
 
-  If no source colo names specified, all colos will be used. China colos are unavailable for traceroutes.
+colos: optional array of object {colo, error, hops, 2 more }
 
-- `options: optional object { max_ttl, packet_type, packets_per_ttl, 2 more }`
+</summary>
 
-  - `max_ttl: optional number`
+<details>
 
-    Max TTL.
+<summary>
 
-  - `packet_type: optional "icmp" or "tcp" or "udp" or 2 more`
+colo: optional object {city, name }
 
-    Type of packet sent.
+</summary>
 
-    - `"icmp"`
+city: optional string
 
-    - `"tcp"`
+Source colo city.
 
-    - `"udp"`
+<a href="#">Link to this property</a>
 
-    - `"gre"`
+name: optional string
 
-    - `"gre+icmp"`
+Source colo name.
 
-  - `packets_per_ttl: optional number`
+<a href="#">Link to this property</a>
 
-    Number of packets sent at each TTL.
+</details>
 
-  - `port: optional number`
+<a href="#">Link to this property</a>
 
-    For UDP and TCP, specifies the destination port. For ICMP, specifies the initial ICMP sequence value. Default value 0 will choose the best value to use for each protocol.
+<details>
 
-  - `wait_time: optional number`
+<summary>
 
-    Set the time (in seconds) to wait for a response to a probe.
+error: optional ""or "Could not gather traceroute data: Code 1"or "Could not gather traceroute data: Code 2"or 2 more
 
-### Returns
+Errors resulting from collecting traceroute from colo to target.
 
-- `errors: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+""
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"Could not gather traceroute data: Code 1"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"Could not gather traceroute data: Code 2"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"Could not gather traceroute data: Code 3"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"Could not gather traceroute data: Code 4"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional array of Traceroute`
+<summary>
 
-  - `colos: optional array of object { colo, error, hops, 2 more }`
+hops: optional array of object {nodes, packets\_lost, packets\_sent, packets\_ttl }
 
-    - `colo: optional object { city, name }`
+</summary>
 
-      - `city: optional string`
+<details>
 
-        Source colo city.
+<summary>
 
-      - `name: optional string`
+nodes: optional array of object {asn, ip, labels, 6 more }
 
-        Source colo name.
+An array of node objects.
 
-    - `error: optional "" or "Could not gather traceroute data: Code 1" or "Could not gather traceroute data: Code 2" or 2 more`
+</summary>
 
-      Errors resulting from collecting traceroute from colo to target.
+asn: optional string
 
-      - `""`
+AS number associated with the node object.
 
-      - `"Could not gather traceroute data: Code 1"`
+<a href="#">Link to this property</a>
 
-      - `"Could not gather traceroute data: Code 2"`
+ip: optional string
 
-      - `"Could not gather traceroute data: Code 3"`
+IP address of the node.
 
-      - `"Could not gather traceroute data: Code 4"`
+<a href="#">Link to this property</a>
 
-    - `hops: optional array of object { nodes, packets_lost, packets_sent, packets_ttl }`
+labels: optional array of string
 
-      - `nodes: optional array of object { asn, ip, labels, 6 more }`
+Field appears if there is an additional annotation printed when the probe returns. Field also appears when running a GRE+ICMP traceroute to denote which traceroute a node comes from.
 
-        An array of node objects.
+<a href="#">Link to this property</a>
 
-        - `asn: optional string`
+max\_rtt\_ms: optional number
 
-          AS number associated with the node object.
+Maximum RTT in ms.
 
-        - `ip: optional string`
+<a href="#">Link to this property</a>
 
-          IP address of the node.
+mean\_rtt\_ms: optional number
 
-        - `labels: optional array of string`
+Mean RTT in ms.
 
-          Field appears if there is an additional annotation printed when the probe returns. Field also appears when running a GRE+ICMP traceroute to denote which traceroute a node comes from.
+<a href="#">Link to this property</a>
 
-        - `max_rtt_ms: optional number`
+min\_rtt\_ms: optional number
 
-          Maximum RTT in ms.
+Minimum RTT in ms.
 
-        - `mean_rtt_ms: optional number`
+<a href="#">Link to this property</a>
 
-          Mean RTT in ms.
+name: optional string
 
-        - `min_rtt_ms: optional number`
+Host name of the address, this may be the same as the IP address.
 
-          Minimum RTT in ms.
+<a href="#">Link to this property</a>
 
-        - `name: optional string`
+packet\_count: optional number
 
-          Host name of the address, this may be the same as the IP address.
+Number of packets with a response from this node.
 
-        - `packet_count: optional number`
+<a href="#">Link to this property</a>
 
-          Number of packets with a response from this node.
+std\_dev\_rtt\_ms: optional number
 
-        - `std_dev_rtt_ms: optional number`
+Standard deviation of the RTTs in ms.
 
-          Standard deviation of the RTTs in ms.
+<a href="#">Link to this property</a>
 
-      - `packets_lost: optional number`
+</details>
 
-        Number of packets where no response was received.
+<a href="#">Link to this property</a>
 
-      - `packets_sent: optional number`
+packets\_lost: optional number
 
-        Number of packets sent with specified TTL.
+Number of packets where no response was received.
 
-      - `packets_ttl: optional number`
+<a href="#">Link to this property</a>
 
-        The time to live (TTL).
+packets\_sent: optional number
 
-    - `target_summary: optional unknown`
+Number of packets sent with specified TTL.
 
-      Aggregated statistics from all hops about the target.
-
-    - `traceroute_time_ms: optional number`
-
-      Total time of traceroute in ms.
-
-  - `target: optional string`
-
-    The target hostname, IPv6, or IPv6 address.
-
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/diagnostics/traceroute \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "targets": [
-            "203.0.113.1",
-            "cloudflare.com"
-          ],
-          "colos": [
-            "den",
-            "sin"
-          ],
-          "options": {
-            "max_ttl": 15,
-            "packet_type": "icmp"
-          }
-        }'
-```
+packets\_ttl: optional number
 
-#### Response
+The time to live (TTL).
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "colos": [
-        {
-          "colo": {
-            "city": "Denver, CO, US",
-            "name": "den01"
-          },
-          "error": "",
-          "hops": [
-            {
-              "nodes": [
-                {
-                  "asn": "AS13335",
-                  "ip": "1.1.1.1",
-                  "labels": [
-                    "string"
-                  ],
-                  "max_rtt_ms": 0,
-                  "mean_rtt_ms": 0,
-                  "min_rtt_ms": 0,
-                  "name": "one.one.one.one",
-                  "packet_count": 3,
-                  "std_dev_rtt_ms": 0
-                }
-              ],
-              "packets_lost": 0,
-              "packets_sent": 0,
-              "packets_ttl": 0
-            }
-          ],
-          "target_summary": {
-            "asn": "",
-            "ip": "1.1.1.1",
-            "max_latency_ms": 0.034,
-            "mean_latency_ms": 0.021,
-            "min_latency_ms": 0.014,
-            "name": "1.1.1.1",
-            "packet_count": 3,
-            "std_dev_latency_ms": 0.011269427669584647
-          },
-          "traceroute_time_ms": 0
-        }
-      ],
-      "target": "1.1.1.1"
-    }
-  ]
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+</details>
 
-### Traceroute
+<a href="#">Link to this property</a>
 
-- `Traceroute object { colos, target }`
+target\_summary: optional unknown
 
-  - `colos: optional array of object { colo, error, hops, 2 more }`
+Aggregated statistics from all hops about the target.
 
-    - `colo: optional object { city, name }`
+<a href="#">Link to this property</a>
 
-      - `city: optional string`
+traceroute\_time\_ms: optional number
 
-        Source colo city.
+Total time of traceroute in ms.
 
-      - `name: optional string`
+<a href="#">Link to this property</a>
 
-        Source colo name.
+</details>
 
-    - `error: optional "" or "Could not gather traceroute data: Code 1" or "Could not gather traceroute data: Code 2" or 2 more`
+<a href="#">Link to this property</a>
 
-      Errors resulting from collecting traceroute from colo to target.
+target: optional string
 
-      - `""`
+The target hostname, IPv6, or IPv6 address.
 
-      - `"Could not gather traceroute data: Code 1"`
+<a href="#">Link to this property</a>
 
-      - `"Could not gather traceroute data: Code 2"`
+</details>
 
-      - `"Could not gather traceroute data: Code 3"`
-
-      - `"Could not gather traceroute data: Code 4"`
-
-    - `hops: optional array of object { nodes, packets_lost, packets_sent, packets_ttl }`
-
-      - `nodes: optional array of object { asn, ip, labels, 6 more }`
-
-        An array of node objects.
-
-        - `asn: optional string`
-
-          AS number associated with the node object.
-
-        - `ip: optional string`
-
-          IP address of the node.
-
-        - `labels: optional array of string`
-
-          Field appears if there is an additional annotation printed when the probe returns. Field also appears when running a GRE+ICMP traceroute to denote which traceroute a node comes from.
-
-        - `max_rtt_ms: optional number`
-
-          Maximum RTT in ms.
-
-        - `mean_rtt_ms: optional number`
-
-          Mean RTT in ms.
-
-        - `min_rtt_ms: optional number`
-
-          Minimum RTT in ms.
-
-        - `name: optional string`
-
-          Host name of the address, this may be the same as the IP address.
-
-        - `packet_count: optional number`
-
-          Number of packets with a response from this node.
-
-        - `std_dev_rtt_ms: optional number`
-
-          Standard deviation of the RTTs in ms.
-
-      - `packets_lost: optional number`
-
-        Number of packets where no response was received.
-
-      - `packets_sent: optional number`
-
-        Number of packets sent with specified TTL.
-
-      - `packets_ttl: optional number`
-
-        The time to live (TTL).
-
-    - `target_summary: optional unknown`
-
-      Aggregated statistics from all hops about the target.
-
-    - `traceroute_time_ms: optional number`
-
-      Total time of traceroute in ms.
-
-  - `target: optional string`
-
-    The target hostname, IPv6, or IPv6 address.
+[Link to this property](#)%20diagnostics.traceroutes%20%3E%20(model)%20traceroute%20%3E%20(schema)>)

@@ -1,86 +1,229 @@
-## Get information about a CNI object
+---
+title: Get information about a CNI object
+---
 
-**get** `/accounts/{account_id}/cni/cnis/{cni}`
+[Skip to content](#_top)
 
-Get information about a CNI object
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Network Interconnects](https://developers.cloudflare.com/api/resources/network_interconnects)
 
-- `account_id: string`
+[CNIs](https://developers.cloudflare.com/api/resources/network_interconnects/subresources/cnis)
 
-  Customer account tag
+Copy Markdown
 
-- `cni: string`
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Returns
+---
 
-- `id: string`
+**Copy Markdown****View as Markdown**
 
-- `account: string`
+# Get information about a CNI object
 
-  Customer account tag
+GET/accounts/{account\_id}/cni/cnis/{cni}
 
-- `cust_ip: string`
+Retrieves configuration details for a specific Cloud Network Interconnect (CNI), including connection status and parameters.
 
-  Customer end of the point-to-point link
+##### Security
 
-  This should always be inside the same prefix as `p2p_ip`.
+<details>
 
-- `interconnect: string`
+<summary>API Token</summary>
 
-  Interconnect identifier hosting this CNI
 
-- `magic: object { conduit_name, description, mtu }`
 
-  - `conduit_name: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `description: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `mtu: number`
+</details>
 
-- `p2p_ip: string`
+<details>
 
-  Cloudflare end of the point-to-point link
+<summary>API Email + API Key</summary>
 
-- `bgp: optional object { customer_asn, extra_prefixes, md5_key }`
 
-  - `customer_asn: number`
 
-    ASN used on the customer end of the BGP session
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `extra_prefixes: array of string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Extra set of static prefixes to advertise to the customer's end of the session
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `md5_key: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    MD5 key to use for session authentication.
+</details>
 
-    Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the
-    key is not treated as a secret value. This is *only* supported for preventing
-    misconfiguration, not for defending against malicious attacks.
+##### Accepted Permissions (at least one required)
 
-    The MD5 key, if set, must be of non-zero length and consist only of the following types of
-    character:
+`Magic WAN Write``Magic WAN Read``Magic Transit Read``Magic Transit Write`
 
-    * ASCII alphanumerics: `[a-zA-Z0-9]`
-    * Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= |`
+##### P ath ParametersExpand Collapse
 
-    In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),
-    quotation mark (`"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed
-    (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of
-    these disallowed characters will be rejected.
+account\_id: string
 
-### Example
+Customer account tag
 
-```http
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
+
+cni: string
+
+formatuuid
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20cni%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+id: string
+
+formatuuid
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)%20%3E%20(property)%20id>)
+
+account: string
+
+Customer account tag
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)%20%3E%20(property)%20account>)
+
+cust\_ip: string
+
+Customer end of the point-to-point link
+
+This should always be inside the same prefix as `p2p_ip`.
+
+formatA.B.C.D/N
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)%20%3E%20(property)%20cust_ip>)
+
+interconnect: string
+
+Interconnect identifier hosting this CNI
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)%20%3E%20(property)%20interconnect>)
+
+<details>
+
+<summary>
+
+magic: object {conduit\_name, description, mtu }
+
+</summary>
+
+conduit\_name: string
+
+<a href="#">Link to this property</a>
+
+description: string
+
+<a href="#">Link to this property</a>
+
+mtu: number
+
+formatint32
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)%20%3E%20(property)%20magic>)
+
+p2p\_ip: string
+
+Cloudflare end of the point-to-point link
+
+formatA.B.C.D/N
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)%20%3E%20(property)%20p2p_ip>)
+
+<details>
+
+<summary>
+
+bgp: optional object {customer\_asn, extra\_prefixes, md5\_key }
+
+</summary>
+
+customer\_asn: number
+
+ASN used on the customer end of the BGP session
+
+formatint32
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+extra\_prefixes: array of string
+
+Extra set of static prefixes to advertise to the customer’s end of the session
+
+<a href="#">Link to this property</a>
+
+md5\_key: optional string
+
+MD5 key to use for session authentication.
+
+Note that *this is not a security measure*. MD5 is not a valid security mechanism, and the key is not treated as a secret value. This is *only* supported for preventing misconfiguration, not for defending against malicious attacks.
+
+The MD5 key, if set, must be of non-zero length and consist only of the following types of character:
+
+- ASCII alphanumerics: <code>[a-zA-Z0-9]</code>
+- Special characters in the set <code>'!@#$%^&amp;*()+[]{}&lt;&gt;/.,;:_-~</code>= |\`
+
+In other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A), quotation mark (<code>"</code>), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed (0x0C), and the question mark (<code>?</code>). Requests specifying an MD5 key with one or more of these disallowed characters will be rejected.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)%20%3E%20(property)%20bgp>)
+
+<details>
+
+<summary>
+
+bgp\_mode: optional "dynamic\_route\_exchange"or "advertise\_only"
+
+The BGP mode for a CNI.
+
+Controls the customer-facing data path:
+
+- <code>DynamicRouteExchange</code> — Full BGP: routes flow through to conduit via CRE / bgp-bridge / bgp-bridge-receiver.
+- <code>AdvertiseOnly</code> — static advertisement via taserver, no routes exchanged with Conduit
+
+</summary>
+
+One of the following:
+
+"dynamic\_route\_exchange"
+
+<a href="#">Link to this property</a>
+
+"advertise\_only"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20network_interconnects.cnis%20%3E%20(model)%20cni_get_response%20%3E%20(schema)%20%3E%20(property)%20bgp_mode>)
+
+### Get information about a CNI object
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis/$CNI \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
   "account": "account",
@@ -98,6 +241,34 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cni/cnis/$CNI \
       "string"
     ],
     "md5_key": "md5_key"
-  }
+  },
+  "bgp_mode": "dynamic_route_exchange"
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  "account": "account",
+  "cust_ip": "192.168.3.4/31",
+  "interconnect": "interconnect",
+  "magic": {
+    "conduit_name": "conduit_name",
+    "description": "description",
+    "mtu": 0
+  },
+  "p2p_ip": "192.168.3.4/31",
+  "bgp": {
+    "customer_asn": 0,
+    "extra_prefixes": [
+      "string"
+    ],
+    "md5_key": "md5_key"
+  },
+  "bgp_mode": "dynamic_route_exchange"
 }
 ```

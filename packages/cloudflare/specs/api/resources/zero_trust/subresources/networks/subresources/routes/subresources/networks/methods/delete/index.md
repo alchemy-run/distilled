@@ -1,118 +1,324 @@
-## Delete a tunnel route (CIDR Endpoint)
+---
+title: Delete a tunnel route (CIDR Endpoint)
+---
 
-**delete** `/accounts/{account_id}/teamnet/routes/network/{ip_network_encoded}`
+[Skip to content](#_top)
 
-Deletes a private network route from an account. The CIDR in `ip_network_encoded` must be written in URL-encoded format. If no virtual_network_id is provided it will delete the route from the default vnet. If no tun_type is provided it will fetch the type from the tunnel_id or if that is missing it will assume Cloudflare Tunnel as default. If tunnel_id is provided it will delete the route from that tunnel, otherwise it will delete the route based on the vnet and tun_type.
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
 
-- `account_id: string`
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks)
 
-  Cloudflare account ID
+[Routes](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes)
 
-- `ip_network_encoded: string`
+[Networks](https://developers.cloudflare.com/api/resources/zero_trust/subresources/networks/subresources/routes/subresources/networks)
 
-  IP/CIDR range in URL-encoded format
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `tun_type: optional "cfd_tunnel" or "warp_connector" or "warp" or 4 more`
+---
 
-  The type of tunnel.
+**Copy Markdown****View as Markdown**
 
-  - `"cfd_tunnel"`
+# Delete a tunnel route (CIDR Endpoint)
 
-  - `"warp_connector"`
+Deprecated: This endpoint and its related APIs are deprecated in favor of the equivalent Tunnel Route (without CIDR) APIs.
 
-  - `"warp"`
+DELETE/accounts/{account\_id}/teamnet/routes/network/{ip\_network\_encoded}
 
-  - `"magic"`
+Deletes a private network route from an account. The CIDR in `ip_network_encoded` must be written in URL-encoded format. If no virtual\_network\_id is provided it will delete the route from the default vnet. If no tun\_type is provided it will fetch the type from the tunnel\_id or if that is missing it will assume Cloudflare Tunnel as default. If tunnel\_id is provided it will delete the route from that tunnel, otherwise it will delete the route based on the vnet and tun\_type.
 
-  - `"ip_sec"`
+##### Security
 
-  - `"gre"`
+<details>
 
-  - `"cni"`
+<summary>API Token</summary>
 
-- `tunnel_id: optional string`
 
-  UUID of the tunnel.
 
-- `virtual_network_id: optional string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  UUID of the virtual network.
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-### Returns
+</details>
 
-- `errors: array of ResponseInfo`
+<details>
 
-  - `code: number`
+<summary>API Email + API Key</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `pointer: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `code: number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+##### Accepted Permissions (at least one required)
 
-  - `source: optional object { pointer }`
+`Cloudflare One Networks Write``Cloudflare Tunnel Write`
 
-- `result: Route`
+##### P ath ParametersExpand Collapse
 
-  - `id: optional string`
+account\_id: string
 
-    UUID of the route.
+Cloudflare account ID
 
-  - `comment: optional string`
+maxLength32
 
-    Optional remark describing the route.
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `created_at: optional string`
+ip\_network\_encoded: string
 
-    Timestamp of when the resource was created.
+IP/CIDR range in URL-encoded format
 
-  - `deleted_at: optional string`
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20ip_network_encoded%20%3E%20(schema)>)
 
-    Timestamp of when the resource was deleted. If `null`, the resource has not been deleted.
+##### Q uery ParametersExpand Collapse
 
-  - `network: optional string`
+<details>
 
-    The private IPv4 or IPv6 range connected by the route, in CIDR notation.
+<summary>
 
-  - `tunnel_id: optional string`
+tun\_type: optional "cfd\_tunnel"or "warp\_connector"or "warp"or 4 more
 
-    UUID of the tunnel.
+The type of tunnel.
 
-  - `virtual_network_id: optional string`
+</summary>
 
-    UUID of the virtual network.
+One of the following:
 
-- `success: true`
+"cfd\_tunnel"
 
-  Whether the API call was successful
+<a href="#">Link to this property</a>
 
-  - `true`
+"warp\_connector"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+"warp"
+
+<a href="#">Link to this property</a>
+
+"magic"
+
+<a href="#">Link to this property</a>
+
+"ip\_sec"
+
+<a href="#">Link to this property</a>
+
+"gre"
+
+<a href="#">Link to this property</a>
+
+"cni"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20tun_type%20%3E%20(schema)>)
+
+tunnel\_id: optional string
+
+UUID of the tunnel.
+
+formatuuid
+
+maxLength36
+
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20tunnel_id%20%3E%20(schema)>)
+
+virtual\_network\_id: optional string
+
+UUID of the virtual network.
+
+formatuuid
+
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20virtual_network_id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.networks.routes%20%3E%20(model)%20route%20%3E%20(schema)">Route</a> { id, comment, created\_at, 4 more }
+
+</summary>
+
+id: optional string
+
+UUID of the route.
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+comment: optional string
+
+Optional remark describing the route.
+
+maxLength100
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+Timestamp of when the resource was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+deleted\_at: optional string
+
+Timestamp of when the resource was deleted. If <code>null</code>, the resource has not been deleted.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+network: optional string
+
+The private IPv4 or IPv6 range connected by the route, in CIDR notation.
+
+<a href="#">Link to this property</a>
+
+tunnel\_id: optional string
+
+UUID of the tunnel.
+
+formatuuid
+
+maxLength36
+
+<a href="#">Link to this property</a>
+
+virtual\_network\_id: optional string
+
+UUID of the virtual network.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20zero_trust.networks.routes.networks%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete a tunnel route (CIDR Endpoint)
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/network/$IP_NETWORK_ENCODED \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -138,7 +344,46 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/teamnet/routes/ne
     "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
     "comment": "Example comment for this route.",
     "created_at": "2021-01-25T18:22:34.317854Z",
-    "deleted_at": "2009-11-10T23:00:00.000000Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
+    "network": "172.16.0.0/16",
+    "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
+    "comment": "Example comment for this route.",
+    "created_at": "2021-01-25T18:22:34.317854Z",
+    "deleted_at": "2009-11-10T23:00:00Z",
     "network": "172.16.0.0/16",
     "tunnel_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415",
     "virtual_network_id": "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415"

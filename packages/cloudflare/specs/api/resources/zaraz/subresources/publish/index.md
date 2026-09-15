@@ -1,94 +1,29 @@
+---
+title: Publish
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zaraz](https://developers.cloudflare.com/api/resources/zaraz)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Publish
 
-## Publish Zaraz preview configuration
+##### [Publish Zaraz preview configuration](https://developers.cloudflare.com/api/resources/zaraz/subresources/publish/methods/create)
 
-**post** `/zones/{zone_id}/settings/zaraz/publish`
+POST/zones/{zone\_id}/settings/zaraz/publish
 
-Publish current Zaraz preview configuration for a zone.
+##### ModelsExpand Collapse
 
-### Path Parameters
+PublishCreateResponse = string
 
-- `zone_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `body: optional string`
-
-  Zaraz configuration description.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `result: string`
-
-- `success: boolean`
-
-  Whether the API call was successful.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/settings/zaraz/publish \
-    -X POST \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": "Config has been published successfully",
-  "success": true
-}
-```
-
-## Domain Types
-
-### Publish Create Response
-
-- `PublishCreateResponse = string`
+[Link to this property](#)%20zaraz.publish%20%3E%20(model)%20publish_create_response%20%3E%20(schema)>)

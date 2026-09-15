@@ -1,113 +1,322 @@
-## Create SAML encryption certificate for Identity Provider
+---
+title: Create SAML encryption certificate for Identity Provider
+---
 
-**post** `/accounts/{account_id}/access/identity_providers/{identity_provider_id}/saml_certificate`
+[Skip to content](#_top)
 
-Creates a new SAML encryption certificate set and assigns it to the specified
-SAML Identity Provider. This endpoint is idempotent - if the IdP already has
-a certificate set assigned, the existing certificate set is returned with a 200 status.
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Identity Providers](https://developers.cloudflare.com/api/resources/zero_trust/subresources/identity_providers)
+
+[SAML Certificate](https://developers.cloudflare.com/api/resources/zero_trust/subresources/identity_providers/subresources/saml_certificate)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create SAML encryption certificate for Identity Provider
+
+POST/accounts/{account\_id}/access/identity\_providers/{identity\_provider\_id}/saml\_certificate
+
+Creates a new SAML encryption certificate set and assigns it to the specified SAML Identity Provider. This endpoint is idempotent - if the IdP already has a certificate set assigned, the existing certificate set is returned with a 200 status.
 
 **Workflow for enabling SAML encryption:**
 
 1. Call this endpoint to create and assign a certificate set to the IdP
-1. Update the IdP configuration (PUT `/identity_providers/{id}`) with:
+2. Update the IdP configuration (PUT `/identity_providers/{id}`) with:
    - `config.enable_encryption: true`
    - `saml_certificate_set_id: <uid from step 1>`
-1. Configure the certificate's public key in your external SAML Identity Provider
+3. Configure the certificate’s public key in your external SAML Identity Provider
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>API Token</summary>
 
-- `identity_provider_id: string`
 
-  UUID.
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of object { code, message, documentation_url, source }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of object { code, message, documentation_url, source }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+##### P ath ParametersExpand Collapse
 
-- `success: true`
+account\_id: string
 
-  Whether the API call was successful.
+Identifier.
 
-  - `true`
+maxLength32
 
-- `result: optional object { created_at, uid, updated_at, 2 more }`
+[Link to this property](#)%20zero_trust.identity_providers.saml_certificate%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  A SAML encryption certificate set containing current and optionally previous certificates for encryption key rotation.
+identity\_provider\_id: string
 
-  - `created_at: string`
+UUID.
 
-    Timestamp when the certificate set was created
+maxLength36
 
-  - `uid: string`
+[Link to this property](#)%20zero_trust.identity_providers.saml_certificate%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20identity_provider_id%20%3E%20(schema)>)
 
-    Unique identifier for the certificate set
+##### ReturnsExpand Collapse
 
-  - `updated_at: string`
+<details>
 
-    Timestamp when the certificate set was last updated (e.g., during rotation)
+<summary>
 
-  - `current_certificate: optional object { is_current, not_after, public_certificate, uid }`
+errors: array of object {code, message, documentation\_url, source }
 
-    The currently active certificate used for encrypting SAML assertions
+</summary>
 
-    - `is_current: boolean`
+code: number
 
-      Indicates whether this is the currently active certificate
+minimum1000
 
-    - `not_after: string`
+<a href="#">Link to this property</a>
 
-      Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+message: string
 
-    - `public_certificate: string`
+<a href="#">Link to this property</a>
 
-      PEM-encoded X.509 certificate containing the public key.
-      Configure this certificate in your external SAML Identity Provider to enable encryption.
+documentation\_url: optional string
 
-    - `uid: string`
+<a href="#">Link to this property</a>
 
-      Unique identifier for the certificate
+<details>
 
-  - `previous_certificate: optional unknown`
+<summary>
 
-    The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of `saml_certificate`.
+source: optional object {pointer }
 
-### Example
+</summary>
 
-```http
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.identity_providers.saml_certificate%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.identity_providers.saml_certificate%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.identity_providers.saml_certificate%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result: optional object {created\_at, uid, updated\_at, 2 more }
+
+A SAML encryption certificate set containing current and optionally previous certificates for encryption key rotation.
+
+</summary>
+
+created\_at: string
+
+Timestamp when the certificate set was created
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate set
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+Timestamp when the certificate set was last updated (e.g., during rotation)
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+current\_certificate: optional object {is\_current, not\_after, public\_certificate, uid }
+
+The currently active certificate used for encrypting SAML assertions
+
+</summary>
+
+is\_current: boolean
+
+Indicates whether this is the currently active certificate
+
+<a href="#">Link to this property</a>
+
+not\_after: string
+
+Certificate expiration date. Certificates are automatically rotated 30 days before expiration.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+public\_certificate: string
+
+PEM-encoded X.509 certificate containing the public key. Configure this certificate in your external SAML Identity Provider to enable encryption.
+
+<a href="#">Link to this property</a>
+
+uid: string
+
+Unique identifier for the certificate
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+previous\_certificate: optional unknown
+
+The previous certificate, maintained during rotation to ensure continuity. Null if no rotation has occurred. Mirrors the structure of <code>saml_certificate</code>.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.identity_providers.saml_certificate%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+### Create SAML encryption certificate for Identity Provider
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/identity_providers/$IDENTITY_PROVIDER_ID/saml_certificate \
     -X POST \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "success": true,
+  "result": {
+    "created_at": "2026-05-07T19:16:19.821162Z",
+    "uid": "c409ef44-e72c-41c8-8c0b-278c8a6f4fd8",
+    "updated_at": "2026-05-07T19:16:19.821162Z",
+    "current_certificate": {
+      "is_current": true,
+      "not_after": "2027-05-07T19:11:00Z",
+      "public_certificate": "-----BEGIN CERTIFICATE-----\nMIIEpzCCA4+gAwIBAgIUTh2VSDDJ0oB/gabio6j1L9QwWoUwDQYJKoZIhvcNAQEL\n...\n-----END CERTIFICATE-----\n",
+      "uid": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+    },
+    "previous_certificate": {}
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

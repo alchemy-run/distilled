@@ -1,2471 +1,383 @@
+---
+title: Magic Network Monitoring
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Magic Network Monitoring
 
-# VPC Flows
+#### Magic Network MonitoringVPC Flows
 
-# Tokens
+#### Magic Network MonitoringVPC FlowsTokens
 
-## Generate authentication token for VPC flow logs export.
+##### [Generate authentication token for VPC flow logs export.](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/vpc_flows/subresources/tokens/methods/create)
 
-**post** `/accounts/{account_id}/mnm/vpc-flows/token`
+POST/accounts/{account\_id}/mnm/vpc-flows/token
 
-Generate authentication token for VPC flow logs export.
+##### ModelsExpand Collapse
 
-### Path Parameters
+TokenCreateResponse = string
 
-- `account_id: string`
+Authentication token to be used for VPC Flows export authentication.
 
-### Returns
+[Link to this property](#)%20magic_network_monitoring.vpc_flows.tokens%20%3E%20(model)%20token_create_response%20%3E%20(schema)>)
 
-- `errors: array of ResponseInfo`
+#### Magic Network MonitoringConfigs
 
-  - `code: number`
+##### [List account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/get)
 
-  - `message: string`
+GET/accounts/{account\_id}/mnm/config
 
-  - `documentation_url: optional string`
+##### [Create account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/create)
 
-  - `source: optional object { pointer }`
+POST/accounts/{account\_id}/mnm/config
 
-    - `pointer: optional string`
+##### [Update an entire account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/update)
 
-- `messages: array of ResponseInfo`
+PUT/accounts/{account\_id}/mnm/config
 
-  - `code: number`
+##### [Update account configuration fields](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/edit)
 
-  - `message: string`
+PATCH/accounts/{account\_id}/mnm/config
 
-  - `documentation_url: optional string`
+##### [Delete account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/methods/delete)
 
-  - `source: optional object { pointer }`
+DELETE/accounts/{account\_id}/mnm/config
 
-- `result: string`
+##### ModelsExpand Collapse
 
-  Authentication token to be used for VPC Flows export authentication.
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful
+Configuration object {default\_sampling, name, router\_ips, warp\_devices }
 
-  - `true`
+</summary>
 
-### Example
+default\_sampling: number
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/vpc-flows/token \
-    -X POST \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
 
-#### Response
+minimum1
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": "JWE/JWT auth token",
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+name: string
 
-### Token Create Response
+The account name.
 
-- `TokenCreateResponse = string`
+<a href="#">Link to this property</a>
 
-  Authentication token to be used for VPC Flows export authentication.
+router\_ips: array of string
 
-# Configs
+<a href="#">Link to this property</a>
 
-## List account configuration
+<details>
 
-**get** `/accounts/{account_id}/mnm/config`
+<summary>
 
-Lists default sampling, router IPs and warp devices for account.
+warp\_devices: array of object {id, name, router\_ip }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+id: string
 
-### Returns
+Unique identifier for the warp device.
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+name: string
 
-  - `message: string`
+Name of the warp device.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+router\_ip: string
 
-    - `pointer: optional string`
+IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20magic_network_monitoring.configs%20%3E%20(model)%20configuration%20%3E%20(schema)>)
 
-- `result: Configuration`
+#### Magic Network MonitoringConfigsFull
 
-  - `default_sampling: number`
+##### [List rules and account configuration](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/configs/subresources/full/methods/get)
 
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
+GET/accounts/{account\_id}/mnm/config/full
 
-  - `name: string`
+#### Magic Network MonitoringRules
 
-    The account name.
+##### [List rules](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/list)
 
-  - `router_ips: array of string`
+GET/accounts/{account\_id}/mnm/rules
 
-  - `warp_devices: array of object { id, name, router_ip }`
+##### [Get rule](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/get)
 
-    - `id: string`
+GET/accounts/{account\_id}/mnm/rules/{rule\_id}
 
-      Unique identifier for the warp device.
+##### [Create rules](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/create)
 
-    - `name: string`
+POST/accounts/{account\_id}/mnm/rules
 
-      Name of the warp device.
+##### [Update rules](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/update)
 
-    - `router_ip: string`
+PUT/accounts/{account\_id}/mnm/rules
 
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
+##### [Update rule](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/edit)
 
-- `success: true`
+PATCH/accounts/{account\_id}/mnm/rules/{rule\_id}
 
-  Whether the API call was successful
+##### [Delete rule](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/methods/delete)
 
-  - `true`
+DELETE/accounts/{account\_id}/mnm/rules/{rule\_id}
 
-### Example
+##### ModelsExpand Collapse
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
+MagicNetworkMonitoringRule object {id, automatic\_advertisement, name, 8 more }
 
-## Create account configuration
+</summary>
 
-**post** `/accounts/{account_id}/mnm/config`
+id: string
 
-Create a new network monitoring configuration.
+The id of the rule. Must be unique.
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+automatic\_advertisement: boolean
 
-### Body Parameters
+Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
 
-- `default_sampling: number`
+<a href="#">Link to this property</a>
 
-  Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
+name: string
 
-- `name: string`
+The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (\_), dash (-), period (.), and tilde (\~). You can’t have a space in the rule name. Max 256 characters.
 
-  The account name.
+<a href="#">Link to this property</a>
 
-- `router_ips: optional array of string`
+prefixes: array of string
 
-- `warp_devices: optional array of object { id, name, router_ip }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    Unique identifier for the warp device.
+<summary>
 
-  - `name: string`
+type: "threshold"or "zscore"or "advanced\_ddos"
 
-    Name of the warp device.
+MNM rule type.
 
-  - `router_ip: string`
+</summary>
 
-    IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
+One of the following:
 
-### Returns
+"threshold"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"zscore"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"advanced\_ddos"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+bandwidth\_threshold: optional number
 
-  - `message: string`
+The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
 
-  - `documentation_url: optional string`
+minimum1
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: Configuration`
+<details>
 
-  - `default_sampling: number`
+<summary>
 
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
+duration: optional "1m"or "5m"or "10m"or 5 more
 
-  - `name: string`
+The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values \[“1m”,“5m”,“10m”,“15m”,“20m”,“30m”,“45m”,“60m”].
 
-    The account name.
+</summary>
 
-  - `router_ips: array of string`
+One of the following:
 
-  - `warp_devices: array of object { id, name, router_ip }`
+"1m"
 
-    - `id: string`
+<a href="#">Link to this property</a>
 
-      Unique identifier for the warp device.
+"5m"
 
-    - `name: string`
+<a href="#">Link to this property</a>
 
-      Name of the warp device.
+"10m"
 
-    - `router_ip: string`
+<a href="#">Link to this property</a>
 
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
+"15m"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+"20m"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+"30m"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"default_sampling\": 1,
-          \"name\": \"cloudflare user's account\"
-        }"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"45m"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Update an entire account configuration
+"60m"
 
-**put** `/accounts/{account_id}/mnm/config`
+<a href="#">Link to this property</a>
 
-Update an existing network monitoring configuration, requires the entire configuration to be updated at once.
+</details>
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+packet\_threshold: optional number
 
-### Body Parameters
+The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
 
-- `default_sampling: number`
+minimum1
 
-  Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
+<a href="#">Link to this property</a>
 
-- `name: string`
+<details>
 
-  The account name.
+<summary>
 
-- `router_ips: optional array of string`
+prefix\_match: optional "exact"or "subnet"or "supernet"
 
-- `warp_devices: optional array of object { id, name, router_ip }`
+Prefix match type to be applied for a prefix auto advertisement when using an advanced\_ddos rule.
 
-  - `id: string`
+</summary>
 
-    Unique identifier for the warp device.
+One of the following:
 
-  - `name: string`
+"exact"
 
-    Name of the warp device.
+<a href="#">Link to this property</a>
 
-  - `router_ip: string`
+"subnet"
 
-    IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
+<a href="#">Link to this property</a>
 
-### Returns
+"supernet"
 
-- `errors: array of ResponseInfo`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+zscore\_sensitivity: optional "low"or "medium"or "high"
 
-- `messages: array of ResponseInfo`
+Level of sensitivity set for zscore rules.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"low"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-- `result: Configuration`
+"medium"
 
-  - `default_sampling: number`
+<a href="#">Link to this property</a>
 
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
+"high"
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    The account name.
+</details>
 
-  - `router_ips: array of string`
+<a href="#">Link to this property</a>
 
-  - `warp_devices: array of object { id, name, router_ip }`
+<details>
 
-    - `id: string`
+<summary>
 
-      Unique identifier for the warp device.
+zscore\_target: optional "bits"or "packets"
 
-    - `name: string`
+Target of the zscore rule analysis.
 
-      Name of the warp device.
+</summary>
 
-    - `router_ip: string`
+One of the following:
 
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
+"bits"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful
+"packets"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"default_sampling\": 1,
-          \"name\": \"cloudflare user's account\"
-        }"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
+[Link to this property](#)%20magic_network_monitoring.rules%20%3E%20(model)%20magic_network_monitoring_rule%20%3E%20(schema)>)
 
-## Update account configuration fields
+#### Magic Network MonitoringRulesAdvertisements
 
-**patch** `/accounts/{account_id}/mnm/config`
+##### [Update advertisement for rule](https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/rules/subresources/advertisements/methods/edit)
 
-Update fields in an existing network monitoring configuration.
+PATCH/accounts/{account\_id}/mnm/rules/{rule\_id}/advertisement
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-### Body Parameters
+<summary>
 
-- `default_sampling: optional number`
+Advertisement object {automatic\_advertisement }
 
-  Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
+</summary>
 
-- `name: optional string`
+automatic\_advertisement: boolean
 
-  The account name.
+Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
 
-- `router_ips: optional array of string`
+<a href="#">Link to this property</a>
 
-- `warp_devices: optional array of object { id, name, router_ip }`
+</details>
 
-  - `id: string`
-
-    Unique identifier for the warp device.
-
-  - `name: string`
-
-    Name of the warp device.
-
-  - `router_ip: string`
-
-    IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Configuration`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d "{
-          \"name\": \"cloudflare user's account\"
-        }"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Delete account configuration
-
-**delete** `/accounts/{account_id}/mnm/config`
-
-Delete an existing network monitoring configuration.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Configuration`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Configuration
-
-- `Configuration object { default_sampling, name, router_ips, warp_devices }`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-# Full
-
-## List rules and account configuration
-
-**get** `/accounts/{account_id}/mnm/config/full`
-
-Lists default sampling, router IPs, warp devices, and rules for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Configuration`
-
-  - `default_sampling: number`
-
-    Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.
-
-  - `name: string`
-
-    The account name.
-
-  - `router_ips: array of string`
-
-  - `warp_devices: array of object { id, name, router_ip }`
-
-    - `id: string`
-
-      Unique identifier for the warp device.
-
-    - `name: string`
-
-      Name of the warp device.
-
-    - `router_ip: string`
-
-      IPv4 CIDR of the router sourcing flow data associated with this warp device. Only /32 addresses are currently supported.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/config/full \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "default_sampling": 1,
-    "name": "cloudflare user's account",
-    "router_ips": [
-      "203.0.113.1"
-    ],
-    "warp_devices": [
-      {
-        "id": "5360368d-b351-4791-abe1-93550dabd351",
-        "name": "My warp device",
-        "router_ip": "203.0.113.1"
-      }
-    ]
-  },
-  "success": true
-}
-```
-
-# Rules
-
-## List rules
-
-**get** `/accounts/{account_id}/mnm/rules`
-
-Lists network monitoring rules for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: array of MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-- `result_info: optional object { count, page, per_page, total_count }`
-
-  - `count: optional number`
-
-    Total number of results for the requested service
-
-  - `page: optional number`
-
-    Current page within paginated list of results
-
-  - `per_page: optional number`
-
-    Number of results per page of results
-
-  - `total_count: optional number`
-
-    Total results available without any search parameters
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-      "automatic_advertisement": true,
-      "name": "my_rule_1",
-      "prefixes": [
-        "203.0.113.1/32"
-      ],
-      "type": "zscore",
-      "bandwidth_threshold": 1000,
-      "duration": "1m",
-      "packet_threshold": 10000,
-      "prefix_match": "exact",
-      "zscore_sensitivity": "high",
-      "zscore_target": "bits"
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
-
-## Get rule
-
-**get** `/accounts/{account_id}/mnm/rules/{rule_id}`
-
-List a single network monitoring rule for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  The id of the rule. Must be unique.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules/$RULE_ID \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Create rules
-
-**post** `/accounts/{account_id}/mnm/rules`
-
-Create network monitoring rules for account. Currently only supports creating a single rule per API request.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `automatic_advertisement: boolean`
-
-  Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-- `name: string`
-
-  The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-- `prefixes: array of string`
-
-- `type: "threshold" or "zscore" or "advanced_ddos"`
-
-  MNM rule type.
-
-  - `"threshold"`
-
-  - `"zscore"`
-
-  - `"advanced_ddos"`
-
-- `bandwidth_threshold: optional number`
-
-  The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-  The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-  - `"1m"`
-
-  - `"5m"`
-
-  - `"10m"`
-
-  - `"15m"`
-
-  - `"20m"`
-
-  - `"30m"`
-
-  - `"45m"`
-
-  - `"60m"`
-
-- `packet_threshold: optional number`
-
-  The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-  Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-  - `"exact"`
-
-  - `"subnet"`
-
-  - `"supernet"`
-
-- `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-  Level of sensitivity set for zscore rules.
-
-  - `"low"`
-
-  - `"medium"`
-
-  - `"high"`
-
-- `zscore_target: optional "bits" or "packets"`
-
-  Target of the zscore rule analysis.
-
-  - `"bits"`
-
-  - `"packets"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "automatic_advertisement": true,
-          "name": "my_rule_1",
-          "prefixes": [
-            "203.0.113.1/32"
-          ],
-          "type": "zscore",
-          "bandwidth_threshold": 1000,
-          "packet_threshold": 10000,
-          "prefix_match": "exact",
-          "zscore_sensitivity": "high",
-          "zscore_target": "bits"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Update rules
-
-**put** `/accounts/{account_id}/mnm/rules`
-
-Update network monitoring rules for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-### Body Parameters
-
-- `automatic_advertisement: boolean`
-
-  Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-- `name: string`
-
-  The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-- `prefixes: array of string`
-
-- `type: "threshold" or "zscore" or "advanced_ddos"`
-
-  MNM rule type.
-
-  - `"threshold"`
-
-  - `"zscore"`
-
-  - `"advanced_ddos"`
-
-- `bandwidth_threshold: optional number`
-
-  The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-  The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-  - `"1m"`
-
-  - `"5m"`
-
-  - `"10m"`
-
-  - `"15m"`
-
-  - `"20m"`
-
-  - `"30m"`
-
-  - `"45m"`
-
-  - `"60m"`
-
-- `packet_threshold: optional number`
-
-  The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-  Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-  - `"exact"`
-
-  - `"subnet"`
-
-  - `"supernet"`
-
-- `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-  Level of sensitivity set for zscore rules.
-
-  - `"low"`
-
-  - `"medium"`
-
-  - `"high"`
-
-- `zscore_target: optional "bits" or "packets"`
-
-  Target of the zscore rule analysis.
-
-  - `"bits"`
-
-  - `"packets"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "automatic_advertisement": true,
-          "name": "my_rule_1",
-          "prefixes": [
-            "203.0.113.1/32"
-          ],
-          "type": "zscore",
-          "bandwidth_threshold": 1000,
-          "packet_threshold": 10000,
-          "prefix_match": "exact",
-          "zscore_sensitivity": "high",
-          "zscore_target": "bits"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Update rule
-
-**patch** `/accounts/{account_id}/mnm/rules/{rule_id}`
-
-Update a network monitoring rule for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  The id of the rule. Must be unique.
-
-### Body Parameters
-
-- `automatic_advertisement: boolean`
-
-  Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-- `name: string`
-
-  The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-- `prefixes: array of string`
-
-- `type: "threshold" or "zscore" or "advanced_ddos"`
-
-  MNM rule type.
-
-  - `"threshold"`
-
-  - `"zscore"`
-
-  - `"advanced_ddos"`
-
-- `bandwidth_threshold: optional number`
-
-  The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-  The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-  - `"1m"`
-
-  - `"5m"`
-
-  - `"10m"`
-
-  - `"15m"`
-
-  - `"20m"`
-
-  - `"30m"`
-
-  - `"45m"`
-
-  - `"60m"`
-
-- `packet_threshold: optional number`
-
-  The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-- `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-  Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-  - `"exact"`
-
-  - `"subnet"`
-
-  - `"supernet"`
-
-- `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-  Level of sensitivity set for zscore rules.
-
-  - `"low"`
-
-  - `"medium"`
-
-  - `"high"`
-
-- `zscore_target: optional "bits" or "packets"`
-
-  Target of the zscore rule analysis.
-
-  - `"bits"`
-
-  - `"packets"`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules/$RULE_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{
-          "automatic_advertisement": true,
-          "name": "my_rule_1",
-          "prefixes": [
-            "203.0.113.1/32"
-          ],
-          "type": "zscore",
-          "bandwidth_threshold": 1000,
-          "packet_threshold": 10000,
-          "prefix_match": "exact",
-          "zscore_sensitivity": "high",
-          "zscore_target": "bits"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Delete rule
-
-**delete** `/accounts/{account_id}/mnm/rules/{rule_id}`
-
-Delete a network monitoring rule for account.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  The id of the rule. Must be unique.
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: MagicNetworkMonitoringRule`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules/$RULE_ID \
-    -X DELETE \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "id": "2890e6fa406311ed9b5a23f70f6fb8cf",
-    "automatic_advertisement": true,
-    "name": "my_rule_1",
-    "prefixes": [
-      "203.0.113.1/32"
-    ],
-    "type": "zscore",
-    "bandwidth_threshold": 1000,
-    "duration": "1m",
-    "packet_threshold": 10000,
-    "prefix_match": "exact",
-    "zscore_sensitivity": "high",
-    "zscore_target": "bits"
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Magic Network Monitoring Rule
-
-- `MagicNetworkMonitoringRule object { id, automatic_advertisement, name, 8 more }`
-
-  - `id: string`
-
-    The id of the rule. Must be unique.
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-  - `name: string`
-
-    The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters.
-
-  - `prefixes: array of string`
-
-  - `type: "threshold" or "zscore" or "advanced_ddos"`
-
-    MNM rule type.
-
-    - `"threshold"`
-
-    - `"zscore"`
-
-    - `"advanced_ddos"`
-
-  - `bandwidth_threshold: optional number`
-
-    The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `duration: optional "1m" or "5m" or "10m" or 5 more`
-
-    The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].
-
-    - `"1m"`
-
-    - `"5m"`
-
-    - `"10m"`
-
-    - `"15m"`
-
-    - `"20m"`
-
-    - `"30m"`
-
-    - `"45m"`
-
-    - `"60m"`
-
-  - `packet_threshold: optional number`
-
-    The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum.
-
-  - `prefix_match: optional "exact" or "subnet" or "supernet"`
-
-    Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.
-
-    - `"exact"`
-
-    - `"subnet"`
-
-    - `"supernet"`
-
-  - `zscore_sensitivity: optional "low" or "medium" or "high"`
-
-    Level of sensitivity set for zscore rules.
-
-    - `"low"`
-
-    - `"medium"`
-
-    - `"high"`
-
-  - `zscore_target: optional "bits" or "packets"`
-
-    Target of the zscore rule analysis.
-
-    - `"bits"`
-
-    - `"packets"`
-
-# Advertisements
-
-## Update advertisement for rule
-
-**patch** `/accounts/{account_id}/mnm/rules/{rule_id}/advertisement`
-
-Update advertisement for rule.
-
-### Path Parameters
-
-- `account_id: string`
-
-- `rule_id: string`
-
-  The id of the rule. Must be unique.
-
-### Body Parameters
-
-- `body: unknown`
-
-### Returns
-
-- `errors: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of ResponseInfo`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-- `result: Advertisement`
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
-
-- `success: true`
-
-  Whether the API call was successful
-
-  - `true`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/mnm/rules/$RULE_ID/advertisement \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY" \
-    -d '{}'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": {
-    "automatic_advertisement": true
-  },
-  "success": true
-}
-```
-
-## Domain Types
-
-### Advertisement
-
-- `Advertisement object { automatic_advertisement }`
-
-  - `automatic_advertisement: boolean`
-
-    Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit.
+[Link to this property](#)%20magic_network_monitoring.rules.advertisements%20%3E%20(model)%20advertisement%20%3E%20(schema)>)

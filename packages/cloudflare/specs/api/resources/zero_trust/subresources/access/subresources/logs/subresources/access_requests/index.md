@@ -1,300 +1,99 @@
+---
+title: Access Requests
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Logs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/logs)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Access Requests
 
-## Get Access authentication logs
+##### [Get Access authentication logs](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/logs/subresources/access_requests/methods/list)
 
-**get** `/accounts/{account_id}/access/logs/access_requests`
+GET/accounts/{account\_id}/access/logs/access\_requests
 
-Gets a list of Access authentication audit logs for an account.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+AccessRequestListResponse = array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.access.logs.scim%20%3E%20(model)%20access_request%20%3E%20(schema)">AccessRequest</a> { action, allowed, app\_domain, 6 more }
 
-### Query Parameters
+</summary>
 
-- `allowedOp: optional "eq" or "neq"`
+action: optional string
 
-  Operator for the `allowed` filter.
+The event that occurred, such as a login attempt.
 
-  - `"eq"`
+<a href="#">Link to this property</a>
 
-  - `"neq"`
+allowed: optional boolean
 
-- `app_typeOp: optional "eq" or "neq"`
+The result of the authentication event.
 
-  Operator for the `app_type` filter.
+<a href="#">Link to this property</a>
 
-  - `"eq"`
+app\_domain: optional string
 
-  - `"neq"`
+The URL of the Access application.
 
-- `app_uidOp: optional "eq" or "neq"`
+<a href="#">Link to this property</a>
 
-  Operator for the `app_uid` filter.
+app\_uid: optional string
 
-  - `"eq"`
+The unique identifier for the Access application.
 
-  - `"neq"`
+<a href="#">Link to this property</a>
 
-- `country_codeOp: optional "eq" or "neq"`
+connection: optional string
 
-  Operator for the `country_code` filter.
+The IdP used to authenticate.
 
-  - `"eq"`
+<a href="#">Link to this property</a>
 
-  - `"neq"`
+created\_at: optional string
 
-- `direction: optional "desc" or "asc"`
+formatdate-time
 
-  The chronological sorting order for the logs.
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+ip\_address: optional string
 
-  - `"asc"`
+The IP address of the authenticating user.
 
-- `email: optional string`
+<a href="#">Link to this property</a>
 
-  Filter by user email. Match mode is controlled by `emailOp` (preferred) or the legacy `email_exact` flag.
+ray\_id: optional string
 
-  - Default (no `emailOp`, `email_exact=false` or unset): substring match — `email=@example.com` returns all events with that domain.
-  - Exact match: set `emailOp=eq` (preferred) or `email_exact=true` — e.g. `email=user@example.com&email_exact=true` returns only that user.
-  - Explicit substring match: set `emailOp=contains` (without `email_exact=true`). When both are set, `email_exact=true` takes precedence and the match is exact.
-  - Exclusion: set `emailOp=neq`. With `email_exact=true` this is an exact-value exclusion; without it, a fuzzy substring exclusion.
+The unique identifier for the request to Cloudflare.
 
-- `email_exact: optional boolean`
+maxLength16
 
-  When true, `email` is matched exactly instead of substring matching.
+<a href="#">Link to this property</a>
 
-- `emailOp: optional "eq" or "neq" or "contains"`
+user\_email: optional string
 
-  Operator for the `email` filter.
-  `contains` performs a substring (case-sensitive) match. When `email_exact=true`
-  is also set, `email_exact` takes precedence and `contains` is ignored.
+The email address of the authenticating user.
 
-  - `"eq"`
+formatemail
 
-  - `"neq"`
+<a href="#">Link to this property</a>
 
-  - `"contains"`
+</details>
 
-- `fields: optional string`
-
-  Comma-separated list of fields to include in the response.
-  When omitted, all fields are returned.
-
-- `idpOp: optional "eq" or "neq"`
-
-  Operator for the `idp` filter.
-
-  - `"eq"`
-
-  - `"neq"`
-
-- `limit: optional number`
-
-  The maximum number of log entries to retrieve.
-
-- `non_identityOp: optional "eq" or "neq"`
-
-  Operator for the `non_identity` filter.
-
-  - `"eq"`
-
-  - `"neq"`
-
-- `page: optional number`
-
-  Page number of results.
-
-- `per_page: optional number`
-
-  Number of results per page.
-
-- `ray_idOp: optional "eq" or "neq"`
-
-  Operator for the `ray_id` filter.
-
-  - `"eq"`
-
-  - `"neq"`
-
-- `since: optional string`
-
-  The earliest event timestamp to query.
-
-- `until: optional string`
-
-  The latest event timestamp to query.
-
-- `user_id: optional string`
-
-  Deprecated. Accepted for backward compatibility but no longer applied
-  as a filter. Use `email` instead.
-
-- `user_idOp: optional "eq" or "neq"`
-
-  Deprecated. Accepted for backward compatibility but no longer applied
-  as a filter (the `user_id` parameter is itself deprecated).
-
-  - `"eq"`
-
-  - `"neq"`
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of AccessRequest`
-
-  - `action: optional string`
-
-    The event that occurred, such as a login attempt.
-
-  - `allowed: optional boolean`
-
-    The result of the authentication event.
-
-  - `app_domain: optional string`
-
-    The URL of the Access application.
-
-  - `app_uid: optional string`
-
-    The unique identifier for the Access application.
-
-  - `connection: optional string`
-
-    The IdP used to authenticate.
-
-  - `created_at: optional string`
-
-  - `ip_address: optional string`
-
-    The IP address of the authenticating user.
-
-  - `ray_id: optional string`
-
-    The unique identifier for the request to Cloudflare.
-
-  - `user_email: optional string`
-
-    The email address of the authenticating user.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/logs/access_requests \
-    -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
-    -H "X-Auth-Key: $CLOUDFLARE_API_KEY"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "action": "login",
-      "allowed": true,
-      "app_domain": "test.example.com/admin",
-      "app_uid": "df7e2w5f-02b7-4d9d-af26-8d1988fca630",
-      "connection": "saml",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "ip_address": "198.41.129.166",
-      "ray_id": "187d944c61940c77",
-      "user_email": "user@example.com"
-    }
-  ]
-}
-```
-
-## Domain Types
-
-### Access Request List Response
-
-- `AccessRequestListResponse = array of AccessRequest`
-
-  - `action: optional string`
-
-    The event that occurred, such as a login attempt.
-
-  - `allowed: optional boolean`
-
-    The result of the authentication event.
-
-  - `app_domain: optional string`
-
-    The URL of the Access application.
-
-  - `app_uid: optional string`
-
-    The unique identifier for the Access application.
-
-  - `connection: optional string`
-
-    The IdP used to authenticate.
-
-  - `created_at: optional string`
-
-  - `ip_address: optional string`
-
-    The IP address of the authenticating user.
-
-  - `ray_id: optional string`
-
-    The unique identifier for the request to Cloudflare.
-
-  - `user_email: optional string`
-
-    The email address of the authenticating user.
+[Link to this property](#)%20zero_trust.access.logs.access_requests%20%3E%20(model)%20access_request_list_response%20%3E%20(schema)>)

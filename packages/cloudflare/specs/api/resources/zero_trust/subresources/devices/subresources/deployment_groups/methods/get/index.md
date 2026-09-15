@@ -1,77 +1,221 @@
-## Get deployment group
+---
+title: Get deployment group
+---
 
-**get** `/accounts/{account_id}/devices/deployment-groups/{group_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Devices](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices)
+
+[Deployment Groups](https://developers.cloudflare.com/api/resources/zero_trust/subresources/devices/subresources/deployment_groups)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get deployment group
+
+GET/accounts/{account\_id}/devices/deployment-groups/{group\_id}
 
 Fetches a single deployment group by its ID. This endpoint is in Beta.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-- `group_id: string`
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-### Returns
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-- `errors: array of object { code, message }`
+##### P ath ParametersExpand Collapse
 
-  - `code: number`
+account\_id: string
 
-  - `message: string`
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-- `messages: array of object { code, message }`
+group\_id: string
 
-  - `code: number`
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20group_id%20%3E%20(schema)>)
 
-  - `message: string`
+##### ReturnsExpand Collapse
 
-- `result: DeploymentGroup`
+<details>
 
-  - `id: string`
+<summary>
 
-    The ID of the deployment group.
+errors: array of object {code, message }
 
-  - `created_at: string`
+</summary>
 
-    The RFC3339Nano timestamp when the deployment group was created.
+code: number
 
-  - `name: string`
+<a href="#">Link to this property</a>
 
-    A user-friendly name for the deployment group.
+message: string
 
-  - `updated_at: string`
+<a href="#">Link to this property</a>
 
-    The RFC3339Nano timestamp when the deployment group was last updated.
+</details>
 
-  - `version_config: array of object { target_environment, version }`
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-    Contains version configurations for different target environments.
+<details>
 
-    - `target_environment: string`
+<summary>
 
-      The target environment for the client version (e.g., windows, macos).
+messages: array of object {code, message }
 
-    - `version: string`
+</summary>
 
-      The specific client version to deploy.
+code: number
 
-  - `policy_ids: optional array of string`
+<a href="#">Link to this property</a>
 
-    Contains a list of policy IDs assigned to this deployment group.
+message: string
 
-- `success: boolean`
+<a href="#">Link to this property</a>
 
-  Indicates whether the API call was successful.
+</details>
 
-### Example
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-```http
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.devices.deployment_groups%20%3E%20(model)%20deployment_group%20%3E%20(schema)">DeploymentGroup</a> { id, created\_at, name, 3 more }
+
+</summary>
+
+id: string
+
+The ID of the deployment group.
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+The RFC3339Nano timestamp when the deployment group was created.
+
+<a href="#">Link to this property</a>
+
+name: string
+
+A user-friendly name for the deployment group.
+
+maxLength255
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+updated\_at: string
+
+The RFC3339Nano timestamp when the deployment group was last updated.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+version\_config: array of object {target\_environment, version }
+
+Contains version configurations for different target environments.
+
+</summary>
+
+target\_environment: string
+
+The target environment for the client version (e.g., windows, macos).
+
+<a href="#">Link to this property</a>
+
+version: string
+
+The specific client version to deploy.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+policy\_ids: optional array of string
+
+Contains a list of policy IDs assigned to this deployment group.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+Indicates whether the API call was successful.
+
+[Link to this property](#)%20zero_trust.devices.deployment_groups%20%3E%20(method)%20get%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Get deployment group
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/devices/deployment-groups/$GROUP_ID \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "created_at": "2026-02-14T13:17:00.123456789Z",
+    "name": "Engineering Ring 0",
+    "updated_at": "2026-02-14T13:17:00.123456789Z",
+    "version_config": [
+      {
+        "target_environment": "windows",
+        "version": "2026.6.234.0"
+      }
+    ],
+    "policy_ids": [
+      "policy-uuid-1",
+      "policy-uuid-2"
+    ]
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

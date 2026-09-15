@@ -1,199 +1,587 @@
-## List WAF overrides
+---
+title: List WAF overrides
+---
 
-**get** `/zones/{zone_id}/firewall/waf/overrides`
+[Skip to content](#_top)
 
-Fetches the URI-based WAF overrides in a zone.
+[API Reference](https://developers.cloudflare.com/api)
 
-**Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).
+[Firewall](https://developers.cloudflare.com/api/resources/firewall)
 
-### Path Parameters
+[WAF](https://developers.cloudflare.com/api/resources/firewall/subresources/waf)
 
-- `zone_id: string`
+[Overrides](https://developers.cloudflare.com/api/resources/firewall/subresources/waf/subresources/overrides)
 
-  Defines an identifier.
+Copy Markdown
 
-### Query Parameters
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-- `page: optional number`
+---
 
-  The page number of paginated results.
+**Copy Markdown****View as Markdown**
 
-- `per_page: optional number`
+# List WAF overrides
 
-  The number of WAF overrides per page.
+Deprecated
 
-### Returns
+GET/zones/{zone\_id}/firewall/waf/overrides
 
-- `errors: array of ResponseInfo`
+**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.**
 
-  - `code: number`
+Previously fetched the URI-based WAF overrides in a zone.
 
-  - `message: string`
+##### Security
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>API Token</summary>
 
-    - `pointer: optional string`
 
-- `messages: array of ResponseInfo`
 
-  - `code: number`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `message: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<details>
 
-- `result: array of Override`
+<summary>API Email + API Key</summary>
 
-  - `id: optional string`
 
-    The unique identifier of the WAF override.
 
-  - `description: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    An informative summary of the current URI-based WAF override.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `groups: optional map[unknown]`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `paused: optional boolean`
+</details>
 
-    When true, indicates that the rule is currently paused.
+##### Accepted Permissions (at least one required)
 
-  - `priority: optional number`
+`Zone Settings Write``Zone Settings Read`
 
-    The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
+##### P ath ParametersExpand Collapse
 
-  - `rewrite_action: optional RewriteAction`
+zone\_id: string
 
-    Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+Defines an identifier.
 
-    - `block: optional "challenge" or "block" or "simulate" or 2 more`
+maxLength32
 
-      The WAF rule action to apply.
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-      - `"challenge"`
+##### Q uery ParametersExpand Collapse
 
-      - `"block"`
+page: optional number
 
-      - `"simulate"`
+The page number of paginated results.
 
-      - `"disable"`
+minimum1
 
-      - `"default"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-    - `challenge: optional "challenge" or "block" or "simulate" or 2 more`
+per\_page: optional number
 
-      The WAF rule action to apply.
+The number of WAF overrides per page.
 
-      - `"challenge"`
+maximum100
 
-      - `"block"`
+minimum5
 
-      - `"simulate"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-      - `"disable"`
+##### ReturnsExpand Collapse
 
-      - `"default"`
+<details>
 
-    - `default: optional "challenge" or "block" or "simulate" or 2 more`
+<summary>
 
-      The WAF rule action to apply.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-      - `"challenge"`
+</summary>
 
-      - `"block"`
+code: number
 
-      - `"simulate"`
+minimum1000
 
-      - `"disable"`
+<a href="#">Link to this property</a>
 
-      - `"default"`
+message: string
 
-    - `disable: optional "challenge" or "block" or "simulate" or 2 more`
+<a href="#">Link to this property</a>
 
-      The WAF rule action to apply.
+documentation\_url: optional string
 
-      - `"challenge"`
+<a href="#">Link to this property</a>
 
-      - `"block"`
+<details>
 
-      - `"simulate"`
+<summary>
 
-      - `"disable"`
+source: optional object {pointer }
 
-      - `"default"`
+</summary>
 
-    - `simulate: optional "challenge" or "block" or "simulate" or 2 more`
+pointer: optional string
 
-      The WAF rule action to apply.
+<a href="#">Link to this property</a>
 
-      - `"challenge"`
+</details>
 
-      - `"block"`
+<a href="#">Link to this property</a>
 
-      - `"simulate"`
+</details>
 
-      - `"disable"`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-      - `"default"`
+<details>
 
-  - `rules: optional WAFRule`
+<summary>
 
-    An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object.
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `"challenge"`
+</summary>
 
-    - `"block"`
+code: number
 
-    - `"simulate"`
+minimum1000
 
-    - `"disable"`
+<a href="#">Link to this property</a>
 
-    - `"default"`
+message: string
 
-  - `urls: optional array of OverrideURL`
+<a href="#">Link to this property</a>
 
-    The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+documentation\_url: optional string
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Defines whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+source: optional object {pointer }
 
-  - `count: optional number`
+</summary>
 
-    Defines the total number of results for the requested service.
+pointer: optional string
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Defines the current page within paginated list of results.
+</details>
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Defines the number of results per page of results.
+</details>
 
-  - `total_count: optional number`
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
 
-    Defines the total results available without any search parameters.
+<details>
 
-### Example
+<summary>
 
-```http
+result: array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20override%20%3E%20(schema)">Override</a> { id, description, groups, 5 more }
+
+</summary>
+
+id: optional string
+
+The unique identifier of the WAF override.
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An informative summary of the current URI-based WAF override.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+groups: optional map\[unknown]
+
+An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually <code>default</code> or <code>disable</code>). When creating a new URI-based WAF override, you must provide a <code>groups</code> object or a <code>rules</code> object.
+
+<a href="#">Link to this property</a>
+
+paused: optional boolean
+
+When true, indicates that the rule is currently paused.
+
+<a href="#">Link to this property</a>
+
+priority: optional number
+
+The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides.
+
+maximum1000000000
+
+minimum-1000000000
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rewrite\_action: optional <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20rewrite_action%20%3E%20(schema)">RewriteAction</a> { block, challenge, default, 2 more }
+
+Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object.
+
+</summary>
+
+<details>
+
+<summary>
+
+block: optional "challenge"or "block"or "simulate"or 2 more
+
+The WAF rule action to apply.
+
+</summary>
+
+One of the following:
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"simulate"
+
+<a href="#">Link to this property</a>
+
+"disable"
+
+<a href="#">Link to this property</a>
+
+"default"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+challenge: optional "challenge"or "block"or "simulate"or 2 more
+
+The WAF rule action to apply.
+
+</summary>
+
+One of the following:
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"simulate"
+
+<a href="#">Link to this property</a>
+
+"disable"
+
+<a href="#">Link to this property</a>
+
+"default"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+default: optional "challenge"or "block"or "simulate"or 2 more
+
+The WAF rule action to apply.
+
+</summary>
+
+One of the following:
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"simulate"
+
+<a href="#">Link to this property</a>
+
+"disable"
+
+<a href="#">Link to this property</a>
+
+"default"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+disable: optional "challenge"or "block"or "simulate"or 2 more
+
+The WAF rule action to apply.
+
+</summary>
+
+One of the following:
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"simulate"
+
+<a href="#">Link to this property</a>
+
+"disable"
+
+<a href="#">Link to this property</a>
+
+"default"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+simulate: optional "challenge"or "block"or "simulate"or 2 more
+
+The WAF rule action to apply.
+
+</summary>
+
+One of the following:
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"simulate"
+
+<a href="#">Link to this property</a>
+
+"disable"
+
+<a href="#">Link to this property</a>
+
+"default"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+rules: optional <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20waf_rule%20%3E%20(schema)">WAFRule</a> { , , , 2 more }
+
+An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a <code>groups</code> object or a <code>rules</code> object.
+
+</summary>
+
+One of the following:
+
+"challenge"
+
+<a href="#">Link to this property</a>
+
+"block"
+
+<a href="#">Link to this property</a>
+
+"simulate"
+
+<a href="#">Link to this property</a>
+
+"disable"
+
+<a href="#">Link to this property</a>
+
+"default"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+urls: optional array of <a href="https://developers.cloudflare.com/api/resources/firewall#(resource)%20firewall.waf.overrides%20%3E%20(model)%20override_url%20%3E%20(schema)">OverrideURL</a>
+
+The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Defines whether the API call was successful.
+
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, total\_count }
+
+</summary>
+
+count: optional number
+
+Defines the total number of results for the requested service.
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+Defines the current page within paginated list of results.
+
+<a href="#">Link to this property</a>
+
+per\_page: optional number
+
+Defines the number of results per page of results.
+
+<a href="#">Link to this property</a>
+
+total\_count: optional number
+
+Defines the total results available without any search parameters.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20firewall.waf.overrides%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List WAF overrides
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/waf/overrides \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": [
+    {
+      "id": "de677e5818985db1285d0e80225f06e5",
+      "description": "Enable Cloudflare Magento ruleset for shop.example.com",
+      "groups": {
+        "ea8687e59929c1fd05ba97574ad43f77": "bar"
+      },
+      "paused": true,
+      "priority": 1,
+      "rewrite_action": {
+        "block": "challenge",
+        "challenge": "challenge",
+        "default": "challenge",
+        "disable": "challenge",
+        "simulate": "challenge"
+      },
+      "rules": {
+        "100015": "disable"
+      },
+      "urls": [
+        "shop.example.com/*"
+      ]
+    }
+  ],
+  "success": true,
+  "result_info": {
+    "count": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_count": 2000
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

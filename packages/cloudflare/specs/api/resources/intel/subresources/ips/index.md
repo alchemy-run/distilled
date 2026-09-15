@@ -1,235 +1,225 @@
+---
+title: IPs
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Intel](https://developers.cloudflare.com/api/resources/intel)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # IPs
 
-## Get IP Overview
+##### [Get IP Overview](https://developers.cloudflare.com/api/resources/intel/subresources/ips/methods/get)
 
-**get** `/accounts/{account_id}/intel/ip`
+GET/accounts/{account\_id}/intel/ip
 
-Gets the geolocation, ASN, infrastructure type of the ASN, and any security threat categories of an IP address. **Must provide ip query parameters.** For example, `/intel/ip?ipv4=1.1.1.1` or `/intel/ip?ipv6=2001:db8::1`.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+IP object {belongs\_to\_ref, ip, risk\_types }
 
-### Query Parameters
+</summary>
 
-- `ipv4: optional string`
+<details>
 
-- `ipv6: optional string`
+<summary>
 
-### Returns
+belongs\_to\_ref: optional object {id, country, description, 2 more }
 
-- `errors: array of ResponseInfo`
+Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+id: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+country: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of ResponseInfo`
+description: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+type: optional "hosting\_provider"or "isp"or "organization"
 
-- `result: array of IP`
+Infrastructure type of this ASN.
 
-  - `belongs_to_ref: optional object { id, country, description, 2 more }`
+</summary>
 
-    Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
+One of the following:
 
-    - `id: optional string`
+"hosting\_provider"
 
-    - `country: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"isp"
 
-    - `type: optional "hosting_provider" or "isp" or "organization"`
+<a href="#">Link to this property</a>
 
-      Infrastructure type of this ASN.
+"organization"
 
-      - `"hosting_provider"`
+<a href="#">Link to this property</a>
 
-      - `"isp"`
+</details>
 
-      - `"organization"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+value: optional string
 
-  - `ip: optional string`
+<a href="#">Link to this property</a>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+</details>
 
-    - `id: optional number`
+<a href="#">Link to this property</a>
 
-    - `name: optional string`
+ip: optional string
 
-    - `super_category_id: optional number`
+formatipv4
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+risk\_types: optional array of object {id, name, super\_category\_id }
 
-  - `count: optional number`
+</summary>
 
-    Total number of results for the requested service.
+id: optional number
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+name: optional string
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+super\_category\_id: optional number
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/intel/ip \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "result": [
-    {
-      "belongs_to_ref": {
-        "id": "autonomous-system--2fa28d71-3549-5a38-af05-770b79ad6ea8",
-        "country": "US",
-        "description": "CLOUDFLARENET",
-        "type": "hosting_provider",
-        "value": "value"
-      },
-      "ip": "192.0.2.0",
-      "risk_types": [
-        {
-          "id": 131,
-          "name": "Phishing",
-          "super_category_id": 21
-        }
-      ]
-    }
-  ],
-  "success": true,
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+[Link to this property](#)%20intel.ips%20%3E%20(model)%20ip%20%3E%20(schema)>)
 
-## Domain Types
+<details>
 
-### IP
+<summary>
 
-- `IP object { belongs_to_ref, ip, risk_types }`
+IPGetResponse = array of <a href="https://developers.cloudflare.com/api/resources/intel#(resource)%20intel.ips%20%3E%20(model)%20ip%20%3E%20(schema)">IP</a> { belongs\_to\_ref, ip, risk\_types }
 
-  - `belongs_to_ref: optional object { id, country, description, 2 more }`
+</summary>
 
-    Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
+<details>
 
-    - `id: optional string`
+<summary>
 
-    - `country: optional string`
+belongs\_to\_ref: optional object {id, country, description, 2 more }
 
-    - `description: optional string`
+Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
 
-    - `type: optional "hosting_provider" or "isp" or "organization"`
+</summary>
 
-      Infrastructure type of this ASN.
+id: optional string
 
-      - `"hosting_provider"`
+<a href="#">Link to this property</a>
 
-      - `"isp"`
+country: optional string
 
-      - `"organization"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+description: optional string
 
-  - `ip: optional string`
+<a href="#">Link to this property</a>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+<details>
 
-    - `id: optional number`
+<summary>
 
-    - `name: optional string`
+type: optional "hosting\_provider"or "isp"or "organization"
 
-    - `super_category_id: optional number`
+Infrastructure type of this ASN.
 
-### IP Get Response
+</summary>
 
-- `IPGetResponse = array of IP`
+One of the following:
 
-  - `belongs_to_ref: optional object { id, country, description, 2 more }`
+"hosting\_provider"
 
-    Specifies a reference to the autonomous systems (AS) that the IP address belongs to.
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+"isp"
 
-    - `country: optional string`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+"organization"
 
-    - `type: optional "hosting_provider" or "isp" or "organization"`
+<a href="#">Link to this property</a>
 
-      Infrastructure type of this ASN.
+</details>
 
-      - `"hosting_provider"`
+<a href="#">Link to this property</a>
 
-      - `"isp"`
+value: optional string
 
-      - `"organization"`
+<a href="#">Link to this property</a>
 
-    - `value: optional string`
+</details>
 
-  - `ip: optional string`
+<a href="#">Link to this property</a>
 
-  - `risk_types: optional array of object { id, name, super_category_id }`
+ip: optional string
 
-    - `id: optional number`
+formatipv4
 
-    - `name: optional string`
+<a href="#">Link to this property</a>
 
-    - `super_category_id: optional number`
+<details>
+
+<summary>
+
+risk\_types: optional array of object {id, name, super\_category\_id }
+
+</summary>
+
+id: optional number
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+super\_category\_id: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20intel.ips%20%3E%20(model)%20ip_get_response%20%3E%20(schema)>)

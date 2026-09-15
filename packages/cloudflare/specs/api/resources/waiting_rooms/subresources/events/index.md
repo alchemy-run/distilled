@@ -1,1361 +1,495 @@
+---
+title: Events
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Waiting Rooms](https://developers.cloudflare.com/api/resources/waiting_rooms)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Events
 
-## List events
+##### [List events](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/events/methods/list)
 
-**get** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/events`
+GET/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/events
 
-Lists events for a waiting room.
+##### [Event details](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/events/methods/get)
 
-### Path Parameters
+GET/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/events/{event\_id}
 
-- `zone_id: string`
+##### [Create event](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/events/methods/create)
 
-  Identifier.
+POST/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/events
 
-- `waiting_room_id: string`
+##### [Update event](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/events/methods/update)
 
-### Query Parameters
+PUT/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/events/{event\_id}
 
-- `page: optional number`
+##### [Patch event](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/events/methods/edit)
 
-  Page number of paginated results.
+PATCH/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/events/{event\_id}
 
-- `per_page: optional number`
+##### [Delete event](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/events/methods/delete)
 
-  Maximum number of results per page. Must be a multiple of 5.
+DELETE/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/events/{event\_id}
 
-### Returns
+##### ModelsExpand Collapse
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+Event object {id, created\_on, custom\_page\_html, 15 more }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+id: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+created\_on: optional string
 
-  - `code: number`
+formatdate-time
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+custom\_page\_html: optional string
 
-  - `source: optional object { pointer }`
+If set, the event will override the waiting room’s <code>custom_page_html</code> property while it is active. If null, the event will inherit it.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+description: optional string
 
-  Whether the API call was successful.
+A note that you can use to add more details about the event.
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of Event`
+disable\_session\_renewal: optional boolean
 
-  - `id: optional string`
+If set, the event will override the waiting room’s <code>disable_session_renewal</code> property while it is active. If null, the event will inherit it.
 
-  - `created_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `custom_page_html: optional string`
+event\_end\_time: optional string
 
-    If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
+An ISO 8601 timestamp that marks the end of the event.
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    A note that you can use to add more details about the event.
+event\_start\_time: optional string
 
-  - `disable_session_renewal: optional boolean`
+An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event’s configuration. The start time must be at least one minute before <code>event_end_time</code>.
 
-    If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
+<a href="#">Link to this property</a>
 
-  - `event_end_time: optional string`
+modified\_on: optional string
 
-    An ISO 8601 timestamp that marks the end of the event.
+formatdate-time
 
-  - `event_start_time: optional string`
+<a href="#">Link to this property</a>
 
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
+name: optional string
 
-  - `modified_on: optional string`
+A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
+new\_users\_per\_minute: optional number
 
-  - `new_users_per_minute: optional number`
+If set, the event will override the waiting room’s <code>new_users_per_minute</code> property while it is active. If null, the event will inherit it. This can only be set if the event’s <code>total_active_users</code> property is also set.
 
-    If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
+maximum2147483647
 
-  - `prequeue_start_time: optional string`
+minimum200
 
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
+<a href="#">Link to this property</a>
 
-  - `queueing_method: optional string`
+prequeue\_start\_time: optional string
 
-    If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
+An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before <code>event_start_time</code>.
 
-  - `session_duration: optional number`
+<a href="#">Link to this property</a>
 
-    If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
+queueing\_method: optional string
 
-  - `shuffle_at_event_start: optional boolean`
+If set, the event will override the waiting room’s <code>queueing_method</code> property while it is active. If null, the event will inherit it.
 
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
+<a href="#">Link to this property</a>
 
-  - `suspended: optional boolean`
+session\_duration: optional number
 
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
+If set, the event will override the waiting room’s <code>session_duration</code> property while it is active. If null, the event will inherit it.
 
-  - `total_active_users: optional number`
+maximum30
 
-    If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
+minimum1
 
-  - `turnstile_action: optional "log" or "infinite_queue"`
+<a href="#">Link to this property</a>
 
-    If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
+shuffle\_at\_event\_start: optional boolean
 
-    - `"log"`
+If enabled, users in the prequeue will be shuffled randomly at the <code>event_start_time</code>. Requires that <code>prequeue_start_time</code> is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the <code>queueing_method</code> during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
 
-    - `"infinite_queue"`
+<a href="#">Link to this property</a>
 
-  - `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
+suspended: optional boolean
 
-    If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
+Suspends or allows an event. If set to <code>true</code>, the event is ignored and traffic will be handled based on the waiting room configuration.
 
-    - `"off"`
+<a href="#">Link to this property</a>
 
-    - `"invisible"`
+total\_active\_users: optional number
 
-    - `"visible_non_interactive"`
+If set, the event will override the waiting room’s <code>total_active_users</code> property while it is active. If null, the event will inherit it. This can only be set if the event’s <code>new_users_per_minute</code> property is also set.
 
-    - `"visible_managed"`
+maximum2147483647
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+minimum200
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+turnstile\_action: optional "log"or "infinite\_queue"
 
-  - `per_page: optional number`
+If set, the event will override the waiting room’s <code>turnstile_action</code> property while it is active. If null, the event will inherit it.
 
-    Number of results per page of results.
+</summary>
 
-  - `total_count: optional number`
+One of the following:
 
-    Total results available without any search parameters.
+"log"
 
-  - `total_pages: optional number`
+<a href="#">Link to this property</a>
 
-    The number of total pages in the entire result set.
+"infinite\_queue"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/events \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "25756b2dfe6e378a06b033b670413757",
-      "created_on": "2014-01-01T05:20:00.12345Z",
-      "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-      "description": "Production event - DO NOT MODIFY",
-      "disable_session_renewal": true,
-      "event_end_time": "2021-09-28T17:00:00.000Z",
-      "event_start_time": "2021-09-28T15:30:00.000Z",
-      "modified_on": "2014-01-01T05:20:00.12345Z",
-      "name": "production_webinar_event",
-      "new_users_per_minute": 200,
-      "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-      "queueing_method": "random",
-      "session_duration": 1,
-      "shuffle_at_event_start": true,
-      "suspended": true,
-      "total_active_users": 200,
-      "turnstile_action": "log",
-      "turnstile_mode": "off"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+<details>
 
-## Event details
+<summary>
 
-**get** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}`
+turnstile\_mode: optional "off"or "invisible"or "visible\_non\_interactive"or "visible\_managed"
 
-Fetches a single configured event for a waiting room.
+If set, the event will override the waiting room’s <code>turnstile_mode</code> property while it is active. If null, the event will inherit it.
 
-### Path Parameters
+</summary>
 
-- `zone_id: string`
+One of the following:
 
-  Identifier.
+"off"
 
-- `waiting_room_id: string`
+<a href="#">Link to this property</a>
 
-- `event_id: string`
+"invisible"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: Event`
+"visible\_non\_interactive"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+"visible\_managed"
 
-  - `custom_page_html: optional string`
+<a href="#">Link to this property</a>
 
-    If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
+</details>
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    A note that you can use to add more details about the event.
+</details>
 
-  - `disable_session_renewal: optional boolean`
+[Link to this property](#)%20waiting_rooms.events%20%3E%20(model)%20event%20%3E%20(schema)>)
 
-    If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
+<details>
 
-  - `event_end_time: optional string`
+<summary>
 
-    An ISO 8601 timestamp that marks the end of the event.
+EventDeleteResponse object {id }
 
-  - `event_start_time: optional string`
+</summary>
 
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
+id: optional string
 
-  - `modified_on: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+</details>
 
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
+[Link to this property](#)%20waiting_rooms.events%20%3E%20(model)%20event_delete_response%20%3E%20(schema)>)
 
-  - `new_users_per_minute: optional number`
+#### EventsDetails
 
-    If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
+##### [Preview active event details](https://developers.cloudflare.com/api/resources/waiting_rooms/subresources/events/subresources/details/methods/get)
 
-  - `prequeue_start_time: optional string`
+GET/zones/{zone\_id}/waiting\_rooms/{waiting\_room\_id}/events/{event\_id}/details
 
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
+##### ModelsExpand Collapse
 
-  - `queueing_method: optional string`
+<details>
 
-    If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
+<summary>
 
-  - `session_duration: optional number`
+EventQuery object {event\_end\_time, event\_start\_time, name, 12 more }
 
-    If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
+</summary>
 
-  - `shuffle_at_event_start: optional boolean`
+event\_end\_time: string
 
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
+An ISO 8601 timestamp that marks the end of the event.
 
-  - `suspended: optional boolean`
+<a href="#">Link to this property</a>
 
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
+event\_start\_time: string
 
-  - `total_active_users: optional number`
+An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event’s configuration. The start time must be at least one minute before <code>event_end_time</code>.
 
-    If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
+<a href="#">Link to this property</a>
 
-  - `turnstile_action: optional "log" or "infinite_queue"`
+name: string
 
-    If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
+A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
 
-    - `"log"`
+<a href="#">Link to this property</a>
 
-    - `"infinite_queue"`
+custom\_page\_html: optional string
 
-  - `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
+If set, the event will override the waiting room’s <code>custom_page_html</code> property while it is active. If null, the event will inherit it.
 
-    If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
+<a href="#">Link to this property</a>
 
-    - `"off"`
+description: optional string
 
-    - `"invisible"`
+A note that you can use to add more details about the event.
 
-    - `"visible_non_interactive"`
+<a href="#">Link to this property</a>
 
-    - `"visible_managed"`
+disable\_session\_renewal: optional boolean
 
-### Example
+If set, the event will override the waiting room’s <code>disable_session_renewal</code> property while it is active. If null, the event will inherit it.
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/events/$EVENT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+new\_users\_per\_minute: optional number
 
-```json
-{
-  "result": {
-    "id": "25756b2dfe6e378a06b033b670413757",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-    "description": "Production event - DO NOT MODIFY",
-    "disable_session_renewal": true,
-    "event_end_time": "2021-09-28T17:00:00.000Z",
-    "event_start_time": "2021-09-28T15:30:00.000Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "production_webinar_event",
-    "new_users_per_minute": 200,
-    "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-    "queueing_method": "random",
-    "session_duration": 1,
-    "shuffle_at_event_start": true,
-    "suspended": true,
-    "total_active_users": 200,
-    "turnstile_action": "log",
-    "turnstile_mode": "off"
-  }
-}
-```
+If set, the event will override the waiting room’s <code>new_users_per_minute</code> property while it is active. If null, the event will inherit it. This can only be set if the event’s <code>total_active_users</code> property is also set.
 
-## Create event
+maximum2147483647
 
-**post** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/events`
+minimum200
 
-Only available for the Waiting Room Advanced subscription. Creates an event for a waiting room. An event takes place during a specified period of time, temporarily changing the behavior of a waiting room. While the event is active, some of the properties in the event's configuration may either override or inherit from the waiting room's configuration. Note that events cannot overlap with each other, so only one event can be active at a time.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+prequeue\_start\_time: optional string
 
-- `zone_id: string`
+An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before <code>event_start_time</code>.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `waiting_room_id: string`
+queueing\_method: optional string
 
-### Body Parameters
+If set, the event will override the waiting room’s <code>queueing_method</code> property while it is active. If null, the event will inherit it.
 
-- `event_end_time: string`
+<a href="#">Link to this property</a>
 
-  An ISO 8601 timestamp that marks the end of the event.
+session\_duration: optional number
 
-- `event_start_time: string`
+If set, the event will override the waiting room’s <code>session_duration</code> property while it is active. If null, the event will inherit it.
 
-  An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
+maximum30
 
-- `name: string`
+minimum1
 
-  A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
+<a href="#">Link to this property</a>
 
-- `custom_page_html: optional string`
+shuffle\_at\_event\_start: optional boolean
 
-  If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
+If enabled, users in the prequeue will be shuffled randomly at the <code>event_start_time</code>. Requires that <code>prequeue_start_time</code> is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the <code>queueing_method</code> during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
 
-- `description: optional string`
+<a href="#">Link to this property</a>
 
-  A note that you can use to add more details about the event.
+suspended: optional boolean
 
-- `disable_session_renewal: optional boolean`
+Suspends or allows an event. If set to <code>true</code>, the event is ignored and traffic will be handled based on the waiting room configuration.
 
-  If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
+<a href="#">Link to this property</a>
 
-- `new_users_per_minute: optional number`
+total\_active\_users: optional number
 
-  If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
+If set, the event will override the waiting room’s <code>total_active_users</code> property while it is active. If null, the event will inherit it. This can only be set if the event’s <code>new_users_per_minute</code> property is also set.
 
-- `prequeue_start_time: optional string`
+maximum2147483647
 
-  An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
+minimum200
 
-- `queueing_method: optional string`
+<a href="#">Link to this property</a>
 
-  If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
+<details>
 
-- `session_duration: optional number`
+<summary>
 
-  If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
+turnstile\_action: optional "log"or "infinite\_queue"
 
-- `shuffle_at_event_start: optional boolean`
+If set, the event will override the waiting room’s <code>turnstile_action</code> property while it is active. If null, the event will inherit it.
 
-  If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
+</summary>
 
-- `suspended: optional boolean`
+One of the following:
 
-  Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
+"log"
 
-- `total_active_users: optional number`
+<a href="#">Link to this property</a>
 
-  If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
+"infinite\_queue"
 
-- `turnstile_action: optional "log" or "infinite_queue"`
+<a href="#">Link to this property</a>
 
-  If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
+</details>
 
-  - `"log"`
+<a href="#">Link to this property</a>
 
-  - `"infinite_queue"`
+<details>
 
-- `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
+<summary>
 
-  If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
+turnstile\_mode: optional "off"or "invisible"or "visible\_non\_interactive"or "visible\_managed"
 
-  - `"off"`
+If set, the event will override the waiting room’s <code>turnstile_mode</code> property while it is active. If null, the event will inherit it.
 
-  - `"invisible"`
+</summary>
 
-  - `"visible_non_interactive"`
+One of the following:
 
-  - `"visible_managed"`
+"off"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `result: Event`
+"invisible"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_on: optional string`
+"visible\_non\_interactive"
 
-  - `custom_page_html: optional string`
+<a href="#">Link to this property</a>
 
-    If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
+"visible\_managed"
 
-  - `description: optional string`
+<a href="#">Link to this property</a>
 
-    A note that you can use to add more details about the event.
+</details>
 
-  - `disable_session_renewal: optional boolean`
+<a href="#">Link to this property</a>
 
-    If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
+</details>
 
-  - `event_end_time: optional string`
+[Link to this property](#)%20waiting_rooms.events.details%20%3E%20(model)%20event_query%20%3E%20(schema)>)
 
-    An ISO 8601 timestamp that marks the end of the event.
+<details>
 
-  - `event_start_time: optional string`
+<summary>
 
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
+DetailGetResponse object {id, created\_on, custom\_page\_html, 13 more }
 
-  - `modified_on: optional string`
+</summary>
 
-  - `name: optional string`
+id: optional string
 
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
+<a href="#">Link to this property</a>
 
-  - `new_users_per_minute: optional number`
+created\_on: optional string
 
-    If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
+formatdate-time
 
-  - `prequeue_start_time: optional string`
+<a href="#">Link to this property</a>
 
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
+custom\_page\_html: optional string
 
-  - `queueing_method: optional string`
+<a href="#">Link to this property</a>
 
-    If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
+description: optional string
 
-  - `session_duration: optional number`
+A note that you can use to add more details about the event.
 
-    If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
+<a href="#">Link to this property</a>
 
-  - `shuffle_at_event_start: optional boolean`
+disable\_session\_renewal: optional boolean
 
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
+<a href="#">Link to this property</a>
 
-  - `suspended: optional boolean`
+event\_end\_time: optional string
 
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
+An ISO 8601 timestamp that marks the end of the event.
 
-  - `total_active_users: optional number`
+<a href="#">Link to this property</a>
 
-    If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
+event\_start\_time: optional string
 
-  - `turnstile_action: optional "log" or "infinite_queue"`
+An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event’s configuration. The start time must be at least one minute before <code>event_end_time</code>.
 
-    If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
+<a href="#">Link to this property</a>
 
-    - `"log"`
+modified\_on: optional string
 
-    - `"infinite_queue"`
+formatdate-time
 
-  - `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
+<a href="#">Link to this property</a>
 
-    If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
+name: optional string
 
-    - `"off"`
+A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
 
-    - `"invisible"`
+<a href="#">Link to this property</a>
 
-    - `"visible_non_interactive"`
+new\_users\_per\_minute: optional number
 
-    - `"visible_managed"`
+<a href="#">Link to this property</a>
 
-### Example
+prequeue\_start\_time: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/events \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "event_end_time": "2021-09-28T17:00:00.000Z",
-          "event_start_time": "2021-09-28T15:30:00.000Z",
-          "name": "production_webinar_event",
-          "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-          "description": "Production event - DO NOT MODIFY",
-          "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-          "queueing_method": "random"
-        }'
-```
+An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before <code>event_start_time</code>.
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "id": "25756b2dfe6e378a06b033b670413757",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-    "description": "Production event - DO NOT MODIFY",
-    "disable_session_renewal": true,
-    "event_end_time": "2021-09-28T17:00:00.000Z",
-    "event_start_time": "2021-09-28T15:30:00.000Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "production_webinar_event",
-    "new_users_per_minute": 200,
-    "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-    "queueing_method": "random",
-    "session_duration": 1,
-    "shuffle_at_event_start": true,
-    "suspended": true,
-    "total_active_users": 200,
-    "turnstile_action": "log",
-    "turnstile_mode": "off"
-  }
-}
-```
+queueing\_method: optional string
 
-## Update event
+<a href="#">Link to this property</a>
 
-**put** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}`
+session\_duration: optional number
 
-Updates a configured event for a waiting room.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+shuffle\_at\_event\_start: optional boolean
 
-- `zone_id: string`
+If enabled, users in the prequeue will be shuffled randomly at the <code>event_start_time</code>. Requires that <code>prequeue_start_time</code> is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the <code>queueing_method</code> during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `waiting_room_id: string`
+suspended: optional boolean
 
-- `event_id: string`
+Suspends or allows an event. If set to <code>true</code>, the event is ignored and traffic will be handled based on the waiting room configuration.
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `event_end_time: string`
+total\_active\_users: optional number
 
-  An ISO 8601 timestamp that marks the end of the event.
+<a href="#">Link to this property</a>
 
-- `event_start_time: string`
+</details>
 
-  An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
-
-- `name: string`
-
-  A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
-
-- `custom_page_html: optional string`
-
-  If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
-
-- `description: optional string`
-
-  A note that you can use to add more details about the event.
-
-- `disable_session_renewal: optional boolean`
-
-  If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
-
-- `new_users_per_minute: optional number`
-
-  If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
-
-- `prequeue_start_time: optional string`
-
-  An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
-
-- `queueing_method: optional string`
-
-  If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
-
-- `session_duration: optional number`
-
-  If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
-
-- `shuffle_at_event_start: optional boolean`
-
-  If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
-
-- `suspended: optional boolean`
-
-  Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
-
-- `total_active_users: optional number`
-
-  If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
-
-- `turnstile_action: optional "log" or "infinite_queue"`
-
-  If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
-
-  - `"log"`
-
-  - `"infinite_queue"`
-
-- `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
-
-  If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
-
-  - `"off"`
-
-  - `"invisible"`
-
-  - `"visible_non_interactive"`
-
-  - `"visible_managed"`
-
-### Returns
-
-- `result: Event`
-
-  - `id: optional string`
-
-  - `created_on: optional string`
-
-  - `custom_page_html: optional string`
-
-    If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
-
-  - `description: optional string`
-
-    A note that you can use to add more details about the event.
-
-  - `disable_session_renewal: optional boolean`
-
-    If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
-
-  - `event_end_time: optional string`
-
-    An ISO 8601 timestamp that marks the end of the event.
-
-  - `event_start_time: optional string`
-
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `new_users_per_minute: optional number`
-
-    If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
-
-  - `prequeue_start_time: optional string`
-
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
-
-  - `queueing_method: optional string`
-
-    If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
-
-  - `session_duration: optional number`
-
-    If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
-
-  - `shuffle_at_event_start: optional boolean`
-
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
-
-  - `suspended: optional boolean`
-
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
-
-  - `total_active_users: optional number`
-
-    If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
-
-  - `turnstile_action: optional "log" or "infinite_queue"`
-
-    If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
-
-    - `"log"`
-
-    - `"infinite_queue"`
-
-  - `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
-
-    If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
-
-    - `"off"`
-
-    - `"invisible"`
-
-    - `"visible_non_interactive"`
-
-    - `"visible_managed"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/events/$EVENT_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "event_end_time": "2021-09-28T17:00:00.000Z",
-          "event_start_time": "2021-09-28T15:30:00.000Z",
-          "name": "production_webinar_event",
-          "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-          "description": "Production event - DO NOT MODIFY",
-          "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-          "queueing_method": "random"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "25756b2dfe6e378a06b033b670413757",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-    "description": "Production event - DO NOT MODIFY",
-    "disable_session_renewal": true,
-    "event_end_time": "2021-09-28T17:00:00.000Z",
-    "event_start_time": "2021-09-28T15:30:00.000Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "production_webinar_event",
-    "new_users_per_minute": 200,
-    "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-    "queueing_method": "random",
-    "session_duration": 1,
-    "shuffle_at_event_start": true,
-    "suspended": true,
-    "total_active_users": 200,
-    "turnstile_action": "log",
-    "turnstile_mode": "off"
-  }
-}
-```
-
-## Patch event
-
-**patch** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}`
-
-Patches a configured event for a waiting room.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `waiting_room_id: string`
-
-- `event_id: string`
-
-### Body Parameters
-
-- `event_end_time: string`
-
-  An ISO 8601 timestamp that marks the end of the event.
-
-- `event_start_time: string`
-
-  An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
-
-- `name: string`
-
-  A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
-
-- `custom_page_html: optional string`
-
-  If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
-
-- `description: optional string`
-
-  A note that you can use to add more details about the event.
-
-- `disable_session_renewal: optional boolean`
-
-  If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
-
-- `new_users_per_minute: optional number`
-
-  If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
-
-- `prequeue_start_time: optional string`
-
-  An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
-
-- `queueing_method: optional string`
-
-  If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
-
-- `session_duration: optional number`
-
-  If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
-
-- `shuffle_at_event_start: optional boolean`
-
-  If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
-
-- `suspended: optional boolean`
-
-  Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
-
-- `total_active_users: optional number`
-
-  If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
-
-- `turnstile_action: optional "log" or "infinite_queue"`
-
-  If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
-
-  - `"log"`
-
-  - `"infinite_queue"`
-
-- `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
-
-  If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
-
-  - `"off"`
-
-  - `"invisible"`
-
-  - `"visible_non_interactive"`
-
-  - `"visible_managed"`
-
-### Returns
-
-- `result: Event`
-
-  - `id: optional string`
-
-  - `created_on: optional string`
-
-  - `custom_page_html: optional string`
-
-    If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
-
-  - `description: optional string`
-
-    A note that you can use to add more details about the event.
-
-  - `disable_session_renewal: optional boolean`
-
-    If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
-
-  - `event_end_time: optional string`
-
-    An ISO 8601 timestamp that marks the end of the event.
-
-  - `event_start_time: optional string`
-
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `new_users_per_minute: optional number`
-
-    If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
-
-  - `prequeue_start_time: optional string`
-
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
-
-  - `queueing_method: optional string`
-
-    If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
-
-  - `session_duration: optional number`
-
-    If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
-
-  - `shuffle_at_event_start: optional boolean`
-
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
-
-  - `suspended: optional boolean`
-
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
-
-  - `total_active_users: optional number`
-
-    If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
-
-  - `turnstile_action: optional "log" or "infinite_queue"`
-
-    If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
-
-    - `"log"`
-
-    - `"infinite_queue"`
-
-  - `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
-
-    If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
-
-    - `"off"`
-
-    - `"invisible"`
-
-    - `"visible_non_interactive"`
-
-    - `"visible_managed"`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/events/$EVENT_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "event_end_time": "2021-09-28T17:00:00.000Z",
-          "event_start_time": "2021-09-28T15:30:00.000Z",
-          "name": "production_webinar_event",
-          "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-          "description": "Production event - DO NOT MODIFY",
-          "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-          "queueing_method": "random"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "25756b2dfe6e378a06b033b670413757",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-    "description": "Production event - DO NOT MODIFY",
-    "disable_session_renewal": true,
-    "event_end_time": "2021-09-28T17:00:00.000Z",
-    "event_start_time": "2021-09-28T15:30:00.000Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "production_webinar_event",
-    "new_users_per_minute": 200,
-    "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-    "queueing_method": "random",
-    "session_duration": 1,
-    "shuffle_at_event_start": true,
-    "suspended": true,
-    "total_active_users": 200,
-    "turnstile_action": "log",
-    "turnstile_mode": "off"
-  }
-}
-```
-
-## Delete event
-
-**delete** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}`
-
-Deletes an event for a waiting room.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `waiting_room_id: string`
-
-- `event_id: string`
-
-### Returns
-
-- `result: object { id }`
-
-  - `id: optional string`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/events/$EVENT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "25756b2dfe6e378a06b033b670413757"
-  }
-}
-```
-
-## Domain Types
-
-### Event
-
-- `Event object { id, created_on, custom_page_html, 15 more }`
-
-  - `id: optional string`
-
-  - `created_on: optional string`
-
-  - `custom_page_html: optional string`
-
-    If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
-
-  - `description: optional string`
-
-    A note that you can use to add more details about the event.
-
-  - `disable_session_renewal: optional boolean`
-
-    If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
-
-  - `event_end_time: optional string`
-
-    An ISO 8601 timestamp that marks the end of the event.
-
-  - `event_start_time: optional string`
-
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `new_users_per_minute: optional number`
-
-    If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
-
-  - `prequeue_start_time: optional string`
-
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
-
-  - `queueing_method: optional string`
-
-    If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
-
-  - `session_duration: optional number`
-
-    If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
-
-  - `shuffle_at_event_start: optional boolean`
-
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
-
-  - `suspended: optional boolean`
-
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
-
-  - `total_active_users: optional number`
-
-    If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
-
-  - `turnstile_action: optional "log" or "infinite_queue"`
-
-    If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
-
-    - `"log"`
-
-    - `"infinite_queue"`
-
-  - `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
-
-    If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
-
-    - `"off"`
-
-    - `"invisible"`
-
-    - `"visible_non_interactive"`
-
-    - `"visible_managed"`
-
-### Event Delete Response
-
-- `EventDeleteResponse object { id }`
-
-  - `id: optional string`
-
-# Details
-
-## Preview active event details
-
-**get** `/zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}/details`
-
-Previews an event's configuration as if it was active. Inherited fields from the waiting room will be displayed with their current values.
-
-### Path Parameters
-
-- `zone_id: string`
-
-  Identifier.
-
-- `waiting_room_id: string`
-
-- `event_id: string`
-
-### Returns
-
-- `result: object { id, created_on, custom_page_html, 13 more }`
-
-  - `id: optional string`
-
-  - `created_on: optional string`
-
-  - `custom_page_html: optional string`
-
-  - `description: optional string`
-
-    A note that you can use to add more details about the event.
-
-  - `disable_session_renewal: optional boolean`
-
-  - `event_end_time: optional string`
-
-    An ISO 8601 timestamp that marks the end of the event.
-
-  - `event_start_time: optional string`
-
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `new_users_per_minute: optional number`
-
-  - `prequeue_start_time: optional string`
-
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
-
-  - `queueing_method: optional string`
-
-  - `session_duration: optional number`
-
-  - `shuffle_at_event_start: optional boolean`
-
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
-
-  - `suspended: optional boolean`
-
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
-
-  - `total_active_users: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/waiting_rooms/$WAITING_ROOM_ID/events/$EVENT_ID/details \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "result": {
-    "id": "25756b2dfe6e378a06b033b670413757",
-    "created_on": "2014-01-01T05:20:00.12345Z",
-    "custom_page_html": "{{#waitTimeKnown}} {{waitTime}} mins {{/waitTimeKnown}} {{^waitTimeKnown}} Event is prequeueing / Queue all enabled {{/waitTimeKnown}}",
-    "description": "Production event - DO NOT MODIFY",
-    "disable_session_renewal": false,
-    "event_end_time": "2021-09-28T17:00:00.000Z",
-    "event_start_time": "2021-09-28T15:30:00.000Z",
-    "modified_on": "2014-01-01T05:20:00.12345Z",
-    "name": "production_webinar_event",
-    "new_users_per_minute": 0,
-    "prequeue_start_time": "2021-09-28T15:00:00.000Z",
-    "queueing_method": "random",
-    "session_duration": 0,
-    "shuffle_at_event_start": true,
-    "suspended": true,
-    "total_active_users": 0
-  }
-}
-```
-
-## Domain Types
-
-### Event Query
-
-- `EventQuery object { event_end_time, event_start_time, name, 12 more }`
-
-  - `event_end_time: string`
-
-    An ISO 8601 timestamp that marks the end of the event.
-
-  - `event_start_time: string`
-
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
-
-  - `name: string`
-
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `custom_page_html: optional string`
-
-    If set, the event will override the waiting room's `custom_page_html` property while it is active. If null, the event will inherit it.
-
-  - `description: optional string`
-
-    A note that you can use to add more details about the event.
-
-  - `disable_session_renewal: optional boolean`
-
-    If set, the event will override the waiting room's `disable_session_renewal` property while it is active. If null, the event will inherit it.
-
-  - `new_users_per_minute: optional number`
-
-    If set, the event will override the waiting room's `new_users_per_minute` property while it is active. If null, the event will inherit it. This can only be set if the event's `total_active_users` property is also set.
-
-  - `prequeue_start_time: optional string`
-
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
-
-  - `queueing_method: optional string`
-
-    If set, the event will override the waiting room's `queueing_method` property while it is active. If null, the event will inherit it.
-
-  - `session_duration: optional number`
-
-    If set, the event will override the waiting room's `session_duration` property while it is active. If null, the event will inherit it.
-
-  - `shuffle_at_event_start: optional boolean`
-
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
-
-  - `suspended: optional boolean`
-
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
-
-  - `total_active_users: optional number`
-
-    If set, the event will override the waiting room's `total_active_users` property while it is active. If null, the event will inherit it. This can only be set if the event's `new_users_per_minute` property is also set.
-
-  - `turnstile_action: optional "log" or "infinite_queue"`
-
-    If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.
-
-    - `"log"`
-
-    - `"infinite_queue"`
-
-  - `turnstile_mode: optional "off" or "invisible" or "visible_non_interactive" or "visible_managed"`
-
-    If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it.
-
-    - `"off"`
-
-    - `"invisible"`
-
-    - `"visible_non_interactive"`
-
-    - `"visible_managed"`
-
-### Detail Get Response
-
-- `DetailGetResponse object { id, created_on, custom_page_html, 13 more }`
-
-  - `id: optional string`
-
-  - `created_on: optional string`
-
-  - `custom_page_html: optional string`
-
-  - `description: optional string`
-
-    A note that you can use to add more details about the event.
-
-  - `disable_session_renewal: optional boolean`
-
-  - `event_end_time: optional string`
-
-    An ISO 8601 timestamp that marks the end of the event.
-
-  - `event_start_time: optional string`
-
-    An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before `event_end_time`.
-
-  - `modified_on: optional string`
-
-  - `name: optional string`
-
-    A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed.
-
-  - `new_users_per_minute: optional number`
-
-  - `prequeue_start_time: optional string`
-
-    An ISO 8601 timestamp that marks when to begin queueing all users before the event starts. The prequeue must start at least five minutes before `event_start_time`.
-
-  - `queueing_method: optional string`
-
-  - `session_duration: optional number`
-
-  - `shuffle_at_event_start: optional boolean`
-
-    If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.
-
-  - `suspended: optional boolean`
-
-    Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.
-
-  - `total_active_users: optional number`
+[Link to this property](#)%20waiting_rooms.events.details%20%3E%20(model)%20detail_get_response%20%3E%20(schema)>)

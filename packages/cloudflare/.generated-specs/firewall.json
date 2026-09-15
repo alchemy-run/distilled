@@ -1255,13 +1255,13 @@
         "response": {
           "target": "com.cloudflare.firewall#RulesCreateRequestActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -2349,13 +2349,13 @@
         "response": {
           "target": "com.cloudflare.firewall#RulesUpdateRequestActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -4907,6 +4907,23 @@
         }
       }
     },
+    "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRuleGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the unique identifier of the rule group."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the name of the rule group."
+          }
+        }
+      }
+    },
     "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRuleMode": {
       "type": "enum",
       "members": {
@@ -4974,7 +4991,7 @@
           }
         },
         "group": {
-          "target": "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesAnomalyRuleGroup",
+          "target": "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRuleGroup",
           "traits": {
             "smithy.api#documentation": "Defines the rule group to which the current WAF rule belongs.",
             "smithy.api#required": {}
@@ -5026,6 +5043,23 @@
         "target": "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleAllowedModesItem"
       }
     },
+    "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the unique identifier of the rule group."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the name of the rule group."
+          }
+        }
+      }
+    },
     "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleMode": {
       "type": "enum",
       "members": {
@@ -5068,7 +5102,7 @@
           }
         },
         "group": {
-          "target": "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesAnomalyRuleGroup",
+          "target": "com.cloudflare.firewall#WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRuleGroup",
           "traits": {
             "smithy.api#documentation": "Defines the rule group to which the current WAF rule belongs.",
             "smithy.api#required": {}
@@ -5378,6 +5412,23 @@
         }
       }
     },
+    "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesTraditionalDenyRuleGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the unique identifier of the rule group."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the name of the rule group."
+          }
+        }
+      }
+    },
     "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesTraditionalDenyRuleMode": {
       "type": "enum",
       "members": {
@@ -5445,7 +5496,7 @@
           }
         },
         "group": {
-          "target": "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup",
+          "target": "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesTraditionalDenyRuleGroup",
           "traits": {
             "smithy.api#documentation": "Defines the rule group to which the current WAF rule belongs.",
             "smithy.api#required": {}
@@ -5497,6 +5548,23 @@
         "target": "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleAllowedModesItem"
       }
     },
+    "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the unique identifier of the rule group."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the name of the rule group."
+          }
+        }
+      }
+    },
     "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleMode": {
       "type": "enum",
       "members": {
@@ -5539,7 +5607,7 @@
           }
         },
         "group": {
-          "target": "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesAnomalyRuleGroup",
+          "target": "com.cloudflare.firewall#WafPackagesRulesListResultItemWAFManagedRulesTraditionalAllowRuleGroup",
           "traits": {
             "smithy.api#documentation": "Defines the rule group to which the current WAF rule belongs.",
             "smithy.api#required": {}
@@ -5899,7 +5967,7 @@
           "uri": "/zones/{zone_id}/firewall/rules",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes existing firewall rules.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Deletes existing firewall rules.",
         "smithy.api#idempotent": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -5952,7 +6020,7 @@
           "uri": "/zones/{zone_id}/firewall/rules",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the priority of existing firewall rules.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Updates the priority of existing firewall rules.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -6004,7 +6072,7 @@
           "uri": "/zones/{zone_id}/firewall/rules",
           "code": 200
         },
-        "smithy.api#documentation": "Updates one or more existing firewall rules.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Updates one or more existing firewall rules.",
         "smithy.api#idempotent": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -6316,7 +6384,7 @@
           "uri": "/zones/{zone_id}/firewall/rules",
           "code": 200
         },
-        "smithy.api#documentation": "Create one or more firewall rules.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Create one or more firewall rules.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -6486,7 +6554,7 @@
           "uri": "/zones/{zone_id}/firewall/waf/overrides",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a URI-based WAF override for a zone. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/)."
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously created a URI-based WAF override for a zone."
       }
     },
     "com.cloudflare.firewall#CreateWafOverrideRequest": {
@@ -6748,7 +6816,7 @@
           "uri": "/zones/{zone_id}/firewall/rules/{rule_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an existing firewall rule.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Deletes an existing firewall rule.",
         "smithy.api#idempotent": {}
       }
     },
@@ -6930,7 +6998,7 @@
           "uri": "/zones/{zone_id}/firewall/waf/overrides/{overrides_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an existing URI-based WAF override. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously deleted an existing URI-based WAF override.",
         "smithy.api#idempotent": {}
       }
     },
@@ -7201,7 +7269,7 @@
           "uri": "/zones/{zone_id}/firewall/rules/{rule_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the details of a firewall rule.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Fetches the details of a firewall rule.",
         "smithy.api#readonly": {}
       }
     },
@@ -7383,7 +7451,7 @@
           "uri": "/zones/{zone_id}/firewall/waf/overrides/{overrides_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the details of a URI-based WAF override. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously fetched the details of a URI-based WAF override.",
         "smithy.api#readonly": {}
       }
     },
@@ -7719,7 +7787,7 @@
         "notes": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the string to search for in the notes of existing IP Access rules.",
+            "smithy.api#documentation": "Defines the string to search for in the notes of existing IP Access rules. Notes: For example, the string 'attack' would match IP Access rules with notes 'Attack 26/02' and 'Attack 27/02'. The search is case insensitive.",
             "smithy.api#httpQuery": "notes"
           }
         },
@@ -7820,7 +7888,7 @@
         "notes": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the string to search for in the notes of existing IP Access rules.",
+            "smithy.api#documentation": "Defines the string to search for in the notes of existing IP Access rules. Notes: For example, the string 'attack' would match IP Access rules with notes 'Attack 26/02' and 'Attack 27/02'. The search is case insensitive.",
             "smithy.api#httpQuery": "notes"
           }
         },
@@ -8002,7 +8070,7 @@
           "uri": "/zones/{zone_id}/firewall/rules",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches firewall rules in a zone. You can filter the results using several optional parameters.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Fetches firewall rules in a zone. You can filter the results using several optional parameters.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -8196,7 +8264,7 @@
           "uri": "/zones/{zone_id}/firewall/waf/overrides",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the URI-based WAF overrides in a zone. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously fetched the URI-based WAF overrides in a zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -8742,7 +8810,7 @@
           "uri": "/zones/{zone_id}/firewall/rules/{rule_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the priority of an existing firewall rule.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Updates the priority of an existing firewall rule.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -9091,7 +9159,7 @@
           "uri": "/zones/{zone_id}/firewall/rules/{rule_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates an existing firewall rule.",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Updates an existing firewall rule.",
         "smithy.api#idempotent": {}
       }
     },
@@ -9315,7 +9383,7 @@
           "uri": "/zones/{zone_id}/firewall/waf/overrides/{overrides_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates an existing URI-based WAF override. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/).",
+        "smithy.api#documentation": "**This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously updated an existing URI-based WAF override.",
         "smithy.api#idempotent": {}
       }
     },
@@ -10445,7 +10513,7 @@
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the target value to search for in existing rules: an IP address, an IP address range, or a country code, depending on the provided `configuration.target`."
+            "smithy.api#documentation": "Defines the target value to search for in existing rules: an IP address, an IP address range, or a country code, depending on the provided `configuration.target`. Notes: You can search for a single IPv4 address, an IP address range with a subnet of '/16' or '/24', or a two-letter ISO-3166-1 alpha-2 country code."
           }
         }
       }

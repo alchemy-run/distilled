@@ -1,51 +1,126 @@
-## Get Object
+---
+title: Get Object
+---
 
-**get** `/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_key}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[R2](https://developers.cloudflare.com/api/resources/r2)
+
+[Buckets](https://developers.cloudflare.com/api/resources/r2/subresources/buckets)
+
+[Objects](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/objects)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Get Object
+
+GET/accounts/{account\_id}/r2/buckets/{bucket\_name}/objects/{object\_key}
 
 Retrieves an object from an R2 bucket. Returns the object body along with metadata headers.
 
-For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
+For most workloads, we recommend using R2’s [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-  Account ID.
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `bucket_name: string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  Name of the bucket.
+##### P ath ParametersExpand Collapse
 
-- `object_key: string`
+account\_id: string
 
-  The key (name) of the object to retrieve. May contain slashes for path-like keys.
-  Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded
-  (i.e. `%2F`); other reserved characters should be percent-encoded as usual.
+Account ID.
 
-### Header Parameters
+maxLength32
 
-- `"cf-r2-jurisdiction": optional "default" or "eu" or "fedramp"`
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Jurisdiction where objects in this bucket are guaranteed to be stored.
+bucket\_name: string
 
-  - `"default"`
+Name of the bucket.
 
-  - `"eu"`
+maxLength64
 
-  - `"fedramp"`
+minLength3
 
-- `"If-Modified-Since": optional string`
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20bucket_name%20%3E%20(schema)>)
 
-  Returns the object only if it has been modified since the specified time.
-  Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`.
+object\_key: string
 
-- `"If-None-Match": optional string`
+The key (name) of the object to retrieve. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual.
 
-  Returns the object only if its ETag does not match the given value.
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20object_key%20%3E%20(schema)>)
 
-### Example
+##### H eader ParametersExpand Collapse
 
-```http
+<details>
+
+<summary>
+
+"cf-r2-jurisdiction": optional "default"or "eu"or "us"or 2 more
+
+Jurisdiction where objects in this bucket are guaranteed to be stored.
+
+</summary>
+
+One of the following:
+
+"default"
+
+<a href="#">Link to this property</a>
+
+"eu"
+
+<a href="#">Link to this property</a>
+
+"us"
+
+<a href="#">Link to this property</a>
+
+"fedramp"
+
+<a href="#">Link to this property</a>
+
+"fedramp-high"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20jurisdiction%20%3E%20(schema)>)
+
+"If-Modified-Since": optional string
+
+Returns the object only if it has been modified since the specified time. Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`.
+
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20If-Modified-Since%20%3E%20(schema)>)
+
+"If-None-Match": optional string
+
+Returns the object only if its ETag does not match the given value.
+
+[Link to this property](#)%20r2.buckets.objects%20%3E%20(method)%20get%20%3E%20(params)%20default%20%3E%20(param)%20If-None-Match%20%3E%20(schema)>)
+
+### Get Object
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/r2/buckets/$BUCKET_NAME/objects/$OBJECT_KEY \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
+
+##### Returns Examples

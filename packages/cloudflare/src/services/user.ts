@@ -642,7 +642,6 @@ export interface GetBillingProfileResponse {
   state?: string | null;
   taxIdType?: string | null;
   telephone?: string | null;
-  useLegacy?: boolean | null;
   validationCode?: string | null;
   vat?: string | null;
   zipcode?: string | null;
@@ -706,7 +705,6 @@ export const GetBillingProfileResponse = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.NullOr(S.String)),
     taxIdType: S.optional(S.NullOr(S.String).pipe(T.Body("tax_id_type"))),
     telephone: S.optional(S.NullOr(S.String)),
-    useLegacy: S.optional(S.NullOr(S.Boolean).pipe(T.Body("use_legacy"))),
     validationCode: S.optional(
       S.NullOr(S.String).pipe(T.Body("validation_code")),
     ),
@@ -819,6 +817,97 @@ export const GetOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetOrganizationResponse",
 }) as any as S.Schema<GetOrganizationResponse>;
+
+export interface GetSpectrumAnalyticsZonesReportRequest {
+  /** Include CDN traffic in the bandwidth aggregation. */
+  cdnTraffic?: boolean;
+  /** Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
+  since?: string;
+  /** End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
+  until?: string;
+}
+export const GetSpectrumAnalyticsZonesReportRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      cdnTraffic: S.optional(S.Boolean.pipe(T.Query("cdn_traffic"))),
+      since: S.optional(S.String.pipe(T.Query())),
+      until: S.optional(S.String.pipe(T.Query())),
+    })
+      .pipe(
+        T.Http({
+          method: "GET",
+          uri: "/user/spectrum_analytics/zones/report",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetSpectrumAnalyticsZonesReportRequest",
+}) as any as S.Schema<GetSpectrumAnalyticsZonesReportRequest>;
+
+export interface GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth {
+  /** Sum of ingress and egress bytes transferred. */
+  all: number;
+  /** Sum of egress bytes transferred. */
+  egress: number;
+  /** Sum of ingress bytes transferred. */
+  ingress: number;
+}
+export const GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      all: S.Number,
+      egress: S.Number,
+      ingress: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth",
+  }) as any as S.Schema<GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth>;
+
+export interface GetSpectrumAnalyticsZonesReportResultItemTotals {
+  bandwidth: GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth;
+}
+export const GetSpectrumAnalyticsZonesReportResultItemTotals =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      bandwidth: GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth,
+    }),
+  ).annotate({
+    identifier: "GetSpectrumAnalyticsZonesReportResultItemTotals",
+  }) as any as S.Schema<GetSpectrumAnalyticsZonesReportResultItemTotals>;
+
+export interface GetSpectrumAnalyticsZonesReportResultItem {
+  totals: GetSpectrumAnalyticsZonesReportResultItemTotals;
+  /** Identifier. */
+  zoneId: string;
+}
+export const GetSpectrumAnalyticsZonesReportResultItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      totals: GetSpectrumAnalyticsZonesReportResultItemTotals,
+      zoneId: S.String.pipe(T.Body("zone_id")),
+    }),
+  ).annotate({
+    identifier: "GetSpectrumAnalyticsZonesReportResultItem",
+  }) as any as S.Schema<GetSpectrumAnalyticsZonesReportResultItem>;
+
+export type GetSpectrumAnalyticsZonesReportResultList =
+  Array<GetSpectrumAnalyticsZonesReportResultItem>;
+export const GetSpectrumAnalyticsZonesReportResultList = /*@__PURE__*/ S.Array(
+  GetSpectrumAnalyticsZonesReportResultItem,
+) as any as S.Schema<GetSpectrumAnalyticsZonesReportResultList>;
+
+export type GetSpectrumAnalyticsZonesReportResponse =
+  GetSpectrumAnalyticsZonesReportResultList;
+export const GetSpectrumAnalyticsZonesReportResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    GetSpectrumAnalyticsZonesReportResultList.pipe(
+      T.EnvelopePayloadRoot(),
+      T.KeyDictionary(KEY_DICTIONARY),
+    ),
+).annotate({
+  identifier: "GetSpectrumAnalyticsZonesReportResponse",
+}) as any as S.Schema<GetSpectrumAnalyticsZonesReportResponse>;
 
 export interface GetSubscriptionRequest {}
 export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1744,46 +1833,59 @@ export const ListTenantsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTenantsRequest",
 }) as any as S.Schema<ListTenantsRequest>;
 
-export interface TenantsListResultItemMetaFlags {
-  accountCreation: string;
-  accountDeletion: string;
-  accountMigration: string;
-  accountMobility: string;
-  subOrgCreation: string;
-}
-export const TenantsListResultItemMetaFlags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountCreation: S.String.pipe(T.Body("account_creation")),
-    accountDeletion: S.String.pipe(T.Body("account_deletion")),
-    accountMigration: S.String.pipe(T.Body("account_migration")),
-    accountMobility: S.String.pipe(T.Body("account_mobility")),
-    subOrgCreation: S.String.pipe(T.Body("sub_org_creation")),
-  }),
-).annotate({
-  identifier: "TenantsListResultItemMetaFlags",
-}) as any as S.Schema<TenantsListResultItemMetaFlags>;
-
 export type TenantsListResultItemMetaHierarchyTagsList = Array<string>;
 export const TenantsListResultItemMetaHierarchyTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<TenantsListResultItemMetaHierarchyTagsList>;
 
+export interface TenantsListResultItemMetaTenantFlags {
+  accountCreation: string;
+  accountCreationAppliesTenantDefaults: string;
+  accountDeletion: string;
+  accountMigration: string;
+  accountMobility: string;
+  enterpriseCapability: string;
+  memberManagement: string;
+  subOrgCreation: string;
+}
+export const TenantsListResultItemMetaTenantFlags = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      accountCreation: S.String.pipe(T.Body("account_creation")),
+      accountCreationAppliesTenantDefaults: S.String.pipe(
+        T.Body("account_creation_applies_tenant_defaults"),
+      ),
+      accountDeletion: S.String.pipe(T.Body("account_deletion")),
+      accountMigration: S.String.pipe(T.Body("account_migration")),
+      accountMobility: S.String.pipe(T.Body("account_mobility")),
+      enterpriseCapability: S.String.pipe(T.Body("enterprise_capability")),
+      memberManagement: S.String.pipe(T.Body("member_management")),
+      subOrgCreation: S.String.pipe(T.Body("sub_org_creation")),
+    }),
+).annotate({
+  identifier: "TenantsListResultItemMetaTenantFlags",
+}) as any as S.Schema<TenantsListResultItemMetaTenantFlags>;
+
 export interface TenantsListResultItemMeta {
-  /** Enable features for Organizations. */
-  flags?: TenantsListResultItemMetaFlags | null;
-  /** Ordered chain of organization tags from the root organization down to */
+  /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
   hierarchyTags?: TenantsListResultItemMetaHierarchyTagsList | null;
   managedBy?: string | null;
+  /** Enable features for Organizations. */
+  tenantFlags?: TenantsListResultItemMetaTenantFlags | null;
 }
 export const TenantsListResultItemMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    flags: S.optional(S.NullOr(TenantsListResultItemMetaFlags)),
     hierarchyTags: S.optional(
       S.NullOr(TenantsListResultItemMetaHierarchyTagsList).pipe(
         T.Body("hierarchy_tags"),
       ),
     ),
     managedBy: S.optional(S.NullOr(S.String).pipe(T.Body("managed_by"))),
+    tenantFlags: S.optional(
+      S.NullOr(TenantsListResultItemMetaTenantFlags).pipe(
+        T.Body("tenant_flags"),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "TenantsListResultItemMeta",
@@ -1863,9 +1965,9 @@ export const ListTenantsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListTenantsResponse>;
 
 export interface ListTokenPermissionGroupsRequest {
-  /** Filter by the name of the permission group. */
+  /** Filter by the name of the permission group. The value must be URL-encoded. */
   name?: string;
-  /** Filter by the scope of the permission group. */
+  /** Filter by the scope of the permission group. The value must be URL-encoded. */
   scope?: string;
 }
 export const ListTokenPermissionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1968,6 +2070,8 @@ export const TokensListRequestDirection = S.String;
 export interface ListTokensRequest {
   /** Direction to order results. */
   direction?: TokensListRequestDirection | (string & {});
+  /** When true, includes recently-expired tokens in the response. */
+  includeExpired?: boolean;
   /** Page number of paginated results. */
   page?: number;
   /** Maximum number of results per page. */
@@ -1976,6 +2080,7 @@ export interface ListTokensRequest {
 export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     direction: S.optional(TokensListRequestDirection.pipe(T.Query())),
+    includeExpired: S.optional(S.Boolean.pipe(T.Query("include_expired"))),
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
@@ -2972,6 +3077,21 @@ export const getOrganization: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetSpectrumAnalyticsZonesReportError = CloudflareOpError;
+/** Retrieves a list of total bandwidth by zone over a given time period. */
+export const getSpectrumAnalyticsZonesReport: API.OperationMethod<
+  GetSpectrumAnalyticsZonesReportRequest,
+  GetSpectrumAnalyticsZonesReportResponse,
+  GetSpectrumAnalyticsZonesReportError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSpectrumAnalyticsZonesReportRequest,
+  output: GetSpectrumAnalyticsZonesReportResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetSubscriptionError = CloudflareOpError;
 /** Lists all of a user's subscriptions. */
 export const getSubscription: API.PaginatedOperationMethod<
@@ -3161,7 +3281,7 @@ export const listTokenPermissionGroups: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListTokensError = CloudflareOpError;
-/** List all access tokens you created. */
+/** List all access tokens you created. Results include active, disabled, and recently-expired tokens when include_expired is set to true. */
 export const listTokens: API.PaginatedOperationMethod<
   ListTokensRequest,
   ListTokensResponse,

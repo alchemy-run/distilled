@@ -1,1306 +1,659 @@
+---
+title: Infrastructure
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Infrastructure
 
-# Targets
+#### InfrastructureTargets
 
-## List all targets
+##### [List all targets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets/methods/list)
 
-**get** `/accounts/{account_id}/infrastructure/targets`
+GET/accounts/{account\_id}/infrastructure/targets
 
-Lists and sorts an account’s targets. Filters are optional and are ANDed
-together.
+##### [Get target](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/infrastructure/targets/{target\_id}
 
-- `account_id: string`
+##### [Create new target](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets/methods/create)
 
-  Account identifier
+POST/accounts/{account\_id}/infrastructure/targets
 
-### Query Parameters
+##### [Update target](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets/methods/update)
 
-- `created_after: optional string`
+PUT/accounts/{account\_id}/infrastructure/targets/{target\_id}
 
-  Date and time at which the target was created after (inclusive)
+##### [Delete target](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets/methods/delete)
 
-- `created_before: optional string`
+DELETE/accounts/{account\_id}/infrastructure/targets/{target\_id}
 
-  Date and time at which the target was created before (inclusive)
+##### [Create new targets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets/methods/bulk_update)
 
-- `direction: optional "asc" or "desc"`
+PUT/accounts/{account\_id}/infrastructure/targets/batch
 
-  The sorting direction.
+##### [Delete targets (Deprecated)](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets/methods/bulk_delete)
 
-  - `"asc"`
+Deprecated
 
-  - `"desc"`
+DELETE/accounts/{account\_id}/infrastructure/targets/batch
 
-- `hostname: optional string`
+##### [Delete targets](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/infrastructure/subresources/targets/methods/bulk_delete_v2)
 
-  Hostname of a target
+POST/accounts/{account\_id}/infrastructure/targets/batch\_delete
 
-- `hostname_contains: optional string`
+##### ModelsExpand Collapse
 
-  Partial match to the hostname of a target
+<details>
 
-- `ip_like: optional string`
+<summary>
 
-  Filters for targets whose IP addresses look like the specified string.
-  Supports `*` as a wildcard character
+TargetListResponse object {id, created\_at, hostname, 3 more }
 
-- `ip_v4: optional string`
+</summary>
 
-  IPv4 address of the target
+id: string
 
-- `ip_v6: optional string`
+Target identifier
 
-  IPv6 address of the target
+formatuuid
 
-- `ips: optional array of string`
+maxLength36
 
-  Filters for targets that have any of the following IP addresses. Specify
-  `ips` multiple times in query parameter to build list of candidates.
+<a href="#">Link to this property</a>
 
-- `ipv4_end: optional string`
+created\_at: string
 
-  Defines an IPv4 filter range's ending value (inclusive). Requires
-  `ipv4_start` to be specified as well.
+Date and time at which the target was created
 
-- `ipv4_start: optional string`
+formatdate-time
 
-  Defines an IPv4 filter range's starting value (inclusive). Requires
-  `ipv4_end` to be specified as well.
+<a href="#">Link to this property</a>
 
-- `ipv6_end: optional string`
+hostname: string
 
-  Defines an IPv6 filter range's ending value (inclusive). Requires
-  `ipv6_start` to be specified as well.
+A non-unique field that refers to a target
 
-- `ipv6_start: optional string`
+<a href="#">Link to this property</a>
 
-  Defines an IPv6 filter range's starting value (inclusive). Requires
-  `ipv6_end` to be specified as well.
+<details>
 
-- `modified_after: optional string`
+<summary>
 
-  Date and time at which the target was modified after (inclusive)
+ip: object {ipv4, ipv6 }
 
-- `modified_before: optional string`
+The IPv4/IPv6 address that identifies where to reach a target
 
-  Date and time at which the target was modified before (inclusive)
+</summary>
 
-- `order: optional "hostname" or "created_at"`
+<details>
 
-  The field to sort by.
+<summary>
 
-  - `"hostname"`
+ipv4: optional object {ip\_addr, virtual\_network\_id }
 
-  - `"created_at"`
+The target’s IPv4 address
 
-- `page: optional number`
+</summary>
 
-  Current page in the response
+ip\_addr: optional string
 
-- `per_page: optional number`
+IP address of the target
 
-  Max amount of entries returned per page
+<a href="#">Link to this property</a>
 
-- `target_ids: optional array of string`
+virtual\_network\_id: optional string
 
-  Filters for targets that have any of the following UUIDs. Specify
-  `target_ids` multiple times in query parameter to build list of
-  candidates.
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-- `virtual_network_id: optional string`
+formatuuid
 
-  Private virtual network identifier of the target
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ipv6: optional object {ip\_addr, virtual\_network\_id }
 
-  - `source: optional object { pointer }`
+The target’s IPv6 address
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+ip\_addr: optional string
 
-  - `code: number`
+IP address of the target
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+virtual\_network\_id: optional string
 
-  - `source: optional object { pointer }`
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-    - `pointer: optional string`
+formatuuid
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, created_at, hostname, 2 more }`
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Target identifier
+modified\_at: string
 
-  - `created_at: string`
+Date and time at which the target was modified
 
-    Date and time at which the target was created
+formatdate-time
 
-  - `hostname: string`
+<a href="#">Link to this property</a>
 
-    A non-unique field that refers to a target
+tags: optional map\[string]
 
-  - `ip: object { ipv4, ipv6 }`
+Tags assigned to the target. Empty when no tags are assigned.
 
-    The IPv4/IPv6 address that identifies where to reach a target
+<a href="#">Link to this property</a>
 
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
+</details>
 
-      The target's IPv4 address
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(model)%20target_list_response%20%3E%20(schema)>)
 
-      - `ip_addr: optional string`
+<details>
 
-        IP address of the target
+<summary>
 
-      - `virtual_network_id: optional string`
+TargetGetResponse object {id, created\_at, hostname, 3 more }
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+</summary>
 
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
+id: string
 
-      The target's IPv6 address
+Target identifier
 
-      - `ip_addr: optional string`
+formatuuid
 
-        IP address of the target
+maxLength36
 
-      - `virtual_network_id: optional string`
+<a href="#">Link to this property</a>
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+created\_at: string
 
-  - `modified_at: string`
+Date and time at which the target was created
 
-    Date and time at which the target was modified
+formatdate-time
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+hostname: string
 
-    Total number of results for the requested service.
+A non-unique field that refers to a target
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    Number of results per page of results.
+ip: object {ipv4, ipv6 }
 
-  - `total_count: optional number`
+The IPv4/IPv6 address that identifies where to reach a target
 
-    Total results available without any search parameters.
+</summary>
 
-  - `total_pages: optional number`
+<details>
 
-    The number of total pages in the entire result set.
+<summary>
 
-### Example
+ipv4: optional object {ip\_addr, virtual\_network\_id }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+The target’s IPv4 address
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-08-24T14:15:22Z",
-      "hostname": "infra-access-target",
-      "ip": {
-        "ipv4": {
-          "ip_addr": "187.26.29.249",
-          "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-        },
-        "ipv6": {
-          "ip_addr": "64c0:64e8:f0b4:8dbf:7104:72b0:ec8f:f5e0",
-          "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-        }
-      },
-      "modified_at": "2019-08-24T14:15:22Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+ip\_addr: optional string
 
-## Get target
+IP address of the target
 
-**get** `/accounts/{account_id}/infrastructure/targets/{target_id}`
+<a href="#">Link to this property</a>
 
-Get target
+virtual\_network\_id: optional string
 
-### Path Parameters
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-- `account_id: string`
+formatuuid
 
-  Account identifier
+<a href="#">Link to this property</a>
 
-- `target_id: string`
+</details>
 
-  Target identifier
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+ipv6: optional object {ip\_addr, virtual\_network\_id }
 
-  - `message: string`
+The target’s IPv6 address
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+ip\_addr: optional string
 
-    - `pointer: optional string`
+IP address of the target
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+virtual\_network\_id: optional string
 
-  - `message: string`
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, hostname, 2 more }`
+modified\_at: string
 
-  - `id: string`
+Date and time at which the target was modified
 
-    Target identifier
+formatdate-time
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Date and time at which the target was created
+tags: optional map\[string]
 
-  - `hostname: string`
+Tags assigned to the target. Empty when no tags are assigned.
 
-    A non-unique field that refers to a target
+<a href="#">Link to this property</a>
 
-  - `ip: object { ipv4, ipv6 }`
+</details>
 
-    The IPv4/IPv6 address that identifies where to reach a target
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(model)%20target_get_response%20%3E%20(schema)>)
 
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
+<details>
 
-      The target's IPv4 address
+<summary>
 
-      - `ip_addr: optional string`
+TargetCreateResponse object {id, created\_at, hostname, 3 more }
 
-        IP address of the target
+</summary>
 
-      - `virtual_network_id: optional string`
+id: string
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+Target identifier
 
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
+formatuuid
 
-      The target's IPv6 address
+maxLength36
 
-      - `ip_addr: optional string`
+<a href="#">Link to this property</a>
 
-        IP address of the target
+created\_at: string
 
-      - `virtual_network_id: optional string`
+Date and time at which the target was created
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+formatdate-time
 
-  - `modified_at: string`
+<a href="#">Link to this property</a>
 
-    Date and time at which the target was modified
+hostname: string
 
-### Example
+A non-unique field that refers to a target
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets/$TARGET_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-08-24T14:15:22Z",
-    "hostname": "infra-access-target",
-    "ip": {
-      "ipv4": {
-        "ip_addr": "187.26.29.249",
-        "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-      },
-      "ipv6": {
-        "ip_addr": "64c0:64e8:f0b4:8dbf:7104:72b0:ec8f:f5e0",
-        "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-      }
-    },
-    "modified_at": "2019-08-24T14:15:22Z"
-  }
-}
-```
+<summary>
 
-## Create new target
+ip: object {ipv4, ipv6 }
 
-**post** `/accounts/{account_id}/infrastructure/targets`
+The IPv4/IPv6 address that identifies where to reach a target
 
-Create new target
+</summary>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier
+ipv4: optional object {ip\_addr, virtual\_network\_id }
 
-### Body Parameters
+The target’s IPv4 address
 
-- `hostname: string`
+</summary>
 
-  A non-unique field that refers to a target. Case insensitive, maximum
-  length of 255 characters, supports the use of special characters dash
-  and period, does not support spaces, and must start and end with an
-  alphanumeric character.
+ip\_addr: optional string
 
-- `ip: object { ipv4, ipv6 }`
+IP address of the target
 
-  The IPv4/IPv6 address that identifies where to reach a target
+<a href="#">Link to this property</a>
 
-  - `ipv4: optional object { ip_addr, virtual_network_id }`
+virtual\_network\_id: optional string
 
-    The target's IPv4 address
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-    - `ip_addr: optional string`
+formatuuid
 
-      IP address of the target
+<a href="#">Link to this property</a>
 
-    - `virtual_network_id: optional string`
+</details>
 
-      (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+<a href="#">Link to this property</a>
 
-  - `ipv6: optional object { ip_addr, virtual_network_id }`
+<details>
 
-    The target's IPv6 address
+<summary>
 
-    - `ip_addr: optional string`
+ipv6: optional object {ip\_addr, virtual\_network\_id }
 
-      IP address of the target
+The target’s IPv6 address
 
-    - `virtual_network_id: optional string`
+</summary>
 
-      (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+ip\_addr: optional string
 
-### Returns
+IP address of the target
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+virtual\_network\_id: optional string
 
-  - `message: string`
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-  - `documentation_url: optional string`
+formatuuid
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+modified\_at: string
 
-  - `source: optional object { pointer }`
+Date and time at which the target was modified
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+tags: optional map\[string]
 
-  - `true`
+Tags assigned to the target. Empty when no tags are assigned.
 
-- `result: optional object { id, created_at, hostname, 2 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Target identifier
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(model)%20target_create_response%20%3E%20(schema)>)
 
-  - `created_at: string`
+<details>
 
-    Date and time at which the target was created
+<summary>
 
-  - `hostname: string`
+TargetUpdateResponse object {id, created\_at, hostname, 3 more }
 
-    A non-unique field that refers to a target
+</summary>
 
-  - `ip: object { ipv4, ipv6 }`
+id: string
 
-    The IPv4/IPv6 address that identifies where to reach a target
+Target identifier
 
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
+formatuuid
 
-      The target's IPv4 address
+maxLength36
 
-      - `ip_addr: optional string`
+<a href="#">Link to this property</a>
 
-        IP address of the target
+created\_at: string
 
-      - `virtual_network_id: optional string`
+Date and time at which the target was created
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+formatdate-time
 
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
+<a href="#">Link to this property</a>
 
-      The target's IPv6 address
+hostname: string
 
-      - `ip_addr: optional string`
+A non-unique field that refers to a target
 
-        IP address of the target
+<a href="#">Link to this property</a>
 
-      - `virtual_network_id: optional string`
+<details>
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+<summary>
 
-  - `modified_at: string`
+ip: object {ipv4, ipv6 }
 
-    Date and time at which the target was modified
+The IPv4/IPv6 address that identifies where to reach a target
 
-### Example
+</summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "hostname": "infra-access-target",
-          "ip": {}
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-08-24T14:15:22Z",
-    "hostname": "infra-access-target",
-    "ip": {
-      "ipv4": {
-        "ip_addr": "187.26.29.249",
-        "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-      },
-      "ipv6": {
-        "ip_addr": "64c0:64e8:f0b4:8dbf:7104:72b0:ec8f:f5e0",
-        "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-      }
-    },
-    "modified_at": "2019-08-24T14:15:22Z"
-  }
-}
-```
+ipv4: optional object {ip\_addr, virtual\_network\_id }
 
-## Update target
+The target’s IPv4 address
 
-**put** `/accounts/{account_id}/infrastructure/targets/{target_id}`
+</summary>
 
-Update target
+ip\_addr: optional string
 
-### Path Parameters
+IP address of the target
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier
+virtual\_network\_id: optional string
 
-- `target_id: string`
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-  Target identifier
+formatuuid
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `hostname: string`
+</details>
 
-  A non-unique field that refers to a target. Case insensitive, maximum
-  length of 255 characters, supports the use of special characters dash
-  and period, does not support spaces, and must start and end with an
-  alphanumeric character.
+<a href="#">Link to this property</a>
 
-- `ip: object { ipv4, ipv6 }`
+<details>
 
-  The IPv4/IPv6 address that identifies where to reach a target
+<summary>
 
-  - `ipv4: optional object { ip_addr, virtual_network_id }`
+ipv6: optional object {ip\_addr, virtual\_network\_id }
 
-    The target's IPv4 address
+The target’s IPv6 address
 
-    - `ip_addr: optional string`
+</summary>
 
-      IP address of the target
+ip\_addr: optional string
 
-    - `virtual_network_id: optional string`
+IP address of the target
 
-      (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+<a href="#">Link to this property</a>
 
-  - `ipv6: optional object { ip_addr, virtual_network_id }`
+virtual\_network\_id: optional string
 
-    The target's IPv6 address
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-    - `ip_addr: optional string`
+formatuuid
 
-      IP address of the target
+<a href="#">Link to this property</a>
 
-    - `virtual_network_id: optional string`
+</details>
 
-      (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_at: string
 
-  - `message: string`
+Date and time at which the target was modified
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+tags: optional map\[string]
 
-- `messages: array of object { code, message, documentation_url, source }`
+Tags assigned to the target. Empty when no tags are assigned.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(model)%20target_update_response%20%3E%20(schema)>)
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+TargetBulkUpdateResponse object {id, created\_at, hostname, 3 more }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+id: string
 
-- `result: optional object { id, created_at, hostname, 2 more }`
+Target identifier
 
-  - `id: string`
+formatuuid
 
-    Target identifier
+maxLength36
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-    Date and time at which the target was created
+created\_at: string
 
-  - `hostname: string`
+Date and time at which the target was created
 
-    A non-unique field that refers to a target
+formatdate-time
 
-  - `ip: object { ipv4, ipv6 }`
+<a href="#">Link to this property</a>
 
-    The IPv4/IPv6 address that identifies where to reach a target
+hostname: string
 
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
+A non-unique field that refers to a target
 
-      The target's IPv4 address
+<a href="#">Link to this property</a>
 
-      - `ip_addr: optional string`
+<details>
 
-        IP address of the target
+<summary>
 
-      - `virtual_network_id: optional string`
+ip: object {ipv4, ipv6 }
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+The IPv4/IPv6 address that identifies where to reach a target
 
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
+</summary>
 
-      The target's IPv6 address
+<details>
 
-      - `ip_addr: optional string`
+<summary>
 
-        IP address of the target
+ipv4: optional object {ip\_addr, virtual\_network\_id }
 
-      - `virtual_network_id: optional string`
+The target’s IPv4 address
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
+</summary>
 
-  - `modified_at: string`
+ip\_addr: optional string
 
-    Date and time at which the target was modified
+IP address of the target
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets/$TARGET_ID \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "hostname": "infra-access-target",
-          "ip": {}
-        }'
-```
+virtual\_network\_id: optional string
 
-#### Response
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "created_at": "2019-08-24T14:15:22Z",
-    "hostname": "infra-access-target",
-    "ip": {
-      "ipv4": {
-        "ip_addr": "187.26.29.249",
-        "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-      },
-      "ipv6": {
-        "ip_addr": "64c0:64e8:f0b4:8dbf:7104:72b0:ec8f:f5e0",
-        "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-      }
-    },
-    "modified_at": "2019-08-24T14:15:22Z"
-  }
-}
-```
+formatuuid
 
-## Delete target
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/infrastructure/targets/{target_id}`
+</details>
 
-Delete target
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Account identifier
+ipv6: optional object {ip\_addr, virtual\_network\_id }
 
-- `target_id: string`
+The target’s IPv6 address
 
-  Target identifier
+</summary>
 
-### Example
+ip\_addr: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets/$TARGET_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+IP address of the target
 
-## Create new targets
+<a href="#">Link to this property</a>
 
-**put** `/accounts/{account_id}/infrastructure/targets/batch`
+virtual\_network\_id: optional string
 
-Adds one or more targets.
+(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
 
-### Path Parameters
+formatuuid
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Account identifier
+</details>
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `body: array of object { hostname, ip }`
+</details>
 
-  - `hostname: string`
+<a href="#">Link to this property</a>
 
-    A non-unique field that refers to a target. Case insensitive, maximum
-    length of 255 characters, supports the use of special characters dash
-    and period, does not support spaces, and must start and end with an
-    alphanumeric character.
+modified\_at: string
 
-  - `ip: object { ipv4, ipv6 }`
+Date and time at which the target was modified
 
-    The IPv4/IPv6 address that identifies where to reach a target
+formatdate-time
 
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
+<a href="#">Link to this property</a>
 
-      The target's IPv4 address
+tags: optional map\[string]
 
-      - `ip_addr: optional string`
+Tags assigned to the target. Empty when no tags are assigned.
 
-        IP address of the target
+<a href="#">Link to this property</a>
 
-      - `virtual_network_id: optional string`
+</details>
 
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv6 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional array of object { id, created_at, hostname, 2 more }`
-
-  - `id: string`
-
-    Target identifier
-
-  - `created_at: string`
-
-    Date and time at which the target was created
-
-  - `hostname: string`
-
-    A non-unique field that refers to a target
-
-  - `ip: object { ipv4, ipv6 }`
-
-    The IPv4/IPv6 address that identifies where to reach a target
-
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv4 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv6 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-  - `modified_at: string`
-
-    Date and time at which the target was modified
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets/batch \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '[
-          {
-            "hostname": "infra-access-target",
-            "ip": {
-              "ipv4": {
-                "ip_addr": "187.26.29.249",
-                "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-              },
-              "ipv6": {
-                "ip_addr": "64c0:64e8:f0b4:8dbf:7104:72b0:ec8f:f5e0",
-                "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-              }
-            }
-          }
-        ]'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "created_at": "2019-08-24T14:15:22Z",
-      "hostname": "infra-access-target",
-      "ip": {
-        "ipv4": {
-          "ip_addr": "187.26.29.249",
-          "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-        },
-        "ipv6": {
-          "ip_addr": "64c0:64e8:f0b4:8dbf:7104:72b0:ec8f:f5e0",
-          "virtual_network_id": "c77b744e-acc8-428f-9257-6878c046ed55"
-        }
-      },
-      "modified_at": "2019-08-24T14:15:22Z"
-    }
-  ]
-}
-```
-
-## Delete targets (Deprecated)
-
-**delete** `/accounts/{account_id}/infrastructure/targets/batch`
-
-Removes one or more targets.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets/batch \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-## Delete targets
-
-**post** `/accounts/{account_id}/infrastructure/targets/batch_delete`
-
-Removes one or more targets.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Account identifier
-
-### Body Parameters
-
-- `target_ids: array of string`
-
-  List of target IDs to bulk delete
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/infrastructure/targets/batch_delete \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "target_ids": [
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
-          ]
-        }'
-```
-
-## Domain Types
-
-### Target List Response
-
-- `TargetListResponse object { id, created_at, hostname, 2 more }`
-
-  - `id: string`
-
-    Target identifier
-
-  - `created_at: string`
-
-    Date and time at which the target was created
-
-  - `hostname: string`
-
-    A non-unique field that refers to a target
-
-  - `ip: object { ipv4, ipv6 }`
-
-    The IPv4/IPv6 address that identifies where to reach a target
-
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv4 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv6 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-  - `modified_at: string`
-
-    Date and time at which the target was modified
-
-### Target Get Response
-
-- `TargetGetResponse object { id, created_at, hostname, 2 more }`
-
-  - `id: string`
-
-    Target identifier
-
-  - `created_at: string`
-
-    Date and time at which the target was created
-
-  - `hostname: string`
-
-    A non-unique field that refers to a target
-
-  - `ip: object { ipv4, ipv6 }`
-
-    The IPv4/IPv6 address that identifies where to reach a target
-
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv4 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv6 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-  - `modified_at: string`
-
-    Date and time at which the target was modified
-
-### Target Create Response
-
-- `TargetCreateResponse object { id, created_at, hostname, 2 more }`
-
-  - `id: string`
-
-    Target identifier
-
-  - `created_at: string`
-
-    Date and time at which the target was created
-
-  - `hostname: string`
-
-    A non-unique field that refers to a target
-
-  - `ip: object { ipv4, ipv6 }`
-
-    The IPv4/IPv6 address that identifies where to reach a target
-
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv4 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv6 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-  - `modified_at: string`
-
-    Date and time at which the target was modified
-
-### Target Update Response
-
-- `TargetUpdateResponse object { id, created_at, hostname, 2 more }`
-
-  - `id: string`
-
-    Target identifier
-
-  - `created_at: string`
-
-    Date and time at which the target was created
-
-  - `hostname: string`
-
-    A non-unique field that refers to a target
-
-  - `ip: object { ipv4, ipv6 }`
-
-    The IPv4/IPv6 address that identifies where to reach a target
-
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv4 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv6 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-  - `modified_at: string`
-
-    Date and time at which the target was modified
-
-### Target Bulk Update Response
-
-- `TargetBulkUpdateResponse object { id, created_at, hostname, 2 more }`
-
-  - `id: string`
-
-    Target identifier
-
-  - `created_at: string`
-
-    Date and time at which the target was created
-
-  - `hostname: string`
-
-    A non-unique field that refers to a target
-
-  - `ip: object { ipv4, ipv6 }`
-
-    The IPv4/IPv6 address that identifies where to reach a target
-
-    - `ipv4: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv4 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-    - `ipv6: optional object { ip_addr, virtual_network_id }`
-
-      The target's IPv6 address
-
-      - `ip_addr: optional string`
-
-        IP address of the target
-
-      - `virtual_network_id: optional string`
-
-        (optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.
-
-  - `modified_at: string`
-
-    Date and time at which the target was modified
+[Link to this property](#)%20zero_trust.access.infrastructure.targets%20%3E%20(model)%20target_bulk_update_response%20%3E%20(schema)>)

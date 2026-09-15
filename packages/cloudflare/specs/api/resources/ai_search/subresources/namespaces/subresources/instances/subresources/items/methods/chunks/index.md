@@ -1,69 +1,234 @@
-## List Item Chunks.
+---
+title: List Item Chunks.
+---
 
-**get** `/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/chunks`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Search](https://developers.cloudflare.com/api/resources/ai_search)
+
+[Namespaces](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces)
+
+[Instances](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances)
+
+[Items](https://developers.cloudflare.com/api/resources/ai_search/subresources/namespaces/subresources/instances/subresources/items)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List Item Chunks.
+
+GET/accounts/{account\_id}/ai-search/namespaces/{name}/instances/{id}/items/{item\_id}/chunks
 
 Lists chunks for a specific item in an AI Search instance, including their text content.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `name: string`
+<summary>API Token</summary>
 
-- `id: string`
 
-  AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
 
-- `item_id: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-### Query Parameters
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `limit: optional number`
+</details>
 
-- `offset: optional number`
+<details>
 
-### Returns
+<summary>API Email + API Key</summary>
 
-- `result: array of object { id, item, text, 2 more }`
 
-  - `id: string`
 
-  - `item: object { key, metadata, timestamp }`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    - `key: string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    - `metadata: optional map[unknown]`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `timestamp: optional number`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `text: string`
+</details>
 
-  - `end_byte: optional number`
+##### P ath ParametersExpand Collapse
 
-  - `start_byte: optional number`
+account\_id: string
 
-- `result_info: object { count, limit, offset, total }`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `count: number`
+name: string
 
-  - `limit: number`
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
 
-  - `offset: number`
+id: string
 
-  - `total: number`
+AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores.
 
-- `success: boolean`
+maxLength64
 
-### Example
+minLength1
 
-```http
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
+
+item\_id: string
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(params)%20default%20%3E%20(param)%20item_id%20%3E%20(schema)>)
+
+##### Q uery ParametersExpand Collapse
+
+limit: optional number
+
+maximum100
+
+minimum1
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(params)%20default%20%3E%20(param)%20limit%20%3E%20(schema)>)
+
+offset: optional number
+
+minimum0
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(params)%20default%20%3E%20(param)%20offset%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: array of object {id, item, text, 2 more }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+item: object {key, metadata, timestamp }
+
+</summary>
+
+key: string
+
+<a href="#">Link to this property</a>
+
+metadata: optional map\[unknown]
+
+<a href="#">Link to this property</a>
+
+timestamp: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+text: string
+
+<a href="#">Link to this property</a>
+
+end\_byte: optional number
+
+<a href="#">Link to this property</a>
+
+start\_byte: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: object {count, limit, offset, total }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+limit: number
+
+<a href="#">Link to this property</a>
+
+offset: number
+
+<a href="#">Link to this property</a>
+
+total: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+success: boolean
+
+[Link to this property](#)%20ai_search.namespaces.instances.items%20%3E%20(method)%20chunks%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### List Item Chunks.
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-search/namespaces/$NAME/instances/$ID/items/$ITEM_ID/chunks \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": [
+    {
+      "id": "id",
+      "item": {
+        "key": "key",
+        "metadata": {
+          "foo": "bar"
+        },
+        "timestamp": 0
+      },
+      "text": "text",
+      "end_byte": 0,
+      "start_byte": 0
+    }
+  ],
+  "result_info": {
+    "count": 0,
+    "limit": 0,
+    "offset": 0,
+    "total": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": [
     {

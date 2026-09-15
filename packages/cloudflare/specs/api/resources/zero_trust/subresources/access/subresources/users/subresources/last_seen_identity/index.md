@@ -1,294 +1,241 @@
+---
+title: Last Seen Identity
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+[Users](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Last Seen Identity
 
-## Get last seen identity
+##### [Get last seen identity](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/users/subresources/last_seen_identity/methods/get)
 
-**get** `/accounts/{account_id}/access/users/{user_id}/last_seen_identity`
+GET/accounts/{account\_id}/access/users/{user\_id}/last\_seen\_identity
 
-Get last seen identity for a single user.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+Identity object {account\_id, auth\_status, common\_name, 15 more }
 
-- `user_id: string`
+</summary>
 
-  UUID.
+account\_id: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+auth\_status: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+common\_name: optional string
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+device\_id: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+device\_sessions: optional map\[object {last\_authenticated } ]
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+last\_authenticated: optional number
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+<details>
 
-- `result: optional Identity`
+<summary>
 
-  - `account_id: optional string`
+devicePosture: optional map\[object {id, check, data, 6 more } ]
 
-  - `auth_status: optional string`
+</summary>
 
-  - `common_name: optional string`
+id: optional string
 
-  - `device_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_sessions: optional map[object { last_authenticated } ]`
+<details>
 
-    - `last_authenticated: optional number`
+<summary>
 
-  - `devicePosture: optional map[object { id, check, data, 6 more } ]`
+check: optional object {exists, path }
 
-    - `id: optional string`
+</summary>
 
-    - `check: optional object { exists, path }`
+exists: optional boolean
 
-      - `exists: optional boolean`
+<a href="#">Link to this property</a>
 
-      - `path: optional string`
+path: optional string
 
-    - `data: optional unknown`
+<a href="#">Link to this property</a>
 
-    - `description: optional string`
+</details>
 
-    - `error: optional string`
+<a href="#">Link to this property</a>
 
-    - `rule_name: optional string`
+data: optional unknown
 
-    - `success: optional boolean`
+<a href="#">Link to this property</a>
 
-    - `timestamp: optional string`
+description: optional string
 
-    - `type: optional string`
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+error: optional string
 
-  - `geo: optional object { country }`
+<a href="#">Link to this property</a>
 
-    - `country: optional string`
+rule\_name: optional string
 
-  - `iat: optional number`
+<a href="#">Link to this property</a>
 
-  - `idp: optional object { id, type }`
+success: optional boolean
 
-    - `id: optional string`
+<a href="#">Link to this property</a>
 
-    - `type: optional string`
+timestamp: optional string
 
-  - `ip: optional string`
-
-  - `is_gateway: optional boolean`
-
-  - `is_warp: optional boolean`
-
-  - `mtls_auth: optional object { auth_status, cert_issuer_dn, cert_issuer_ski, 2 more }`
-
-    - `auth_status: optional string`
-
-    - `cert_issuer_dn: optional string`
-
-    - `cert_issuer_ski: optional string`
-
-    - `cert_presented: optional boolean`
-
-    - `cert_serial: optional string`
-
-  - `service_token_id: optional string`
-
-  - `service_token_status: optional boolean`
-
-  - `user_uuid: optional string`
-
-  - `version: optional number`
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/users/$USER_ID/last_seen_identity \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "account_id": "1234567890",
-    "auth_status": "NONE",
-    "common_name": "",
-    "device_id": "",
-    "device_sessions": {
-      "foo": {
-        "last_authenticated": 1638832687
-      }
-    },
-    "devicePosture": {
-      "foo": {
-        "id": "id",
-        "check": {
-          "exists": true,
-          "path": "path"
-        },
-        "data": {},
-        "description": "description",
-        "error": "error",
-        "rule_name": "rule_name",
-        "success": true,
-        "timestamp": "timestamp",
-        "type": "type"
-      }
-    },
-    "email": "test@cloudflare.com",
-    "geo": {
-      "country": "US"
-    },
-    "iat": 1694791905,
-    "idp": {
-      "id": "id",
-      "type": "type"
-    },
-    "ip": "127.0.0.0",
-    "is_gateway": false,
-    "is_warp": false,
-    "mtls_auth": {
-      "auth_status": "auth_status",
-      "cert_issuer_dn": "cert_issuer_dn",
-      "cert_issuer_ski": "cert_issuer_ski",
-      "cert_presented": true,
-      "cert_serial": "cert_serial"
-    },
-    "service_token_id": "",
-    "service_token_status": false,
-    "user_uuid": "57cf8cf2-f55a-4588-9ac9-f5e41e9f09b4",
-    "version": 2
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+type: optional string
 
-### Identity
+<a href="#">Link to this property</a>
 
-- `Identity object { account_id, auth_status, common_name, 15 more }`
+</details>
 
-  - `account_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `auth_status: optional string`
+email: optional string
 
-  - `common_name: optional string`
+<a href="#">Link to this property</a>
 
-  - `device_id: optional string`
+<details>
 
-  - `device_sessions: optional map[object { last_authenticated } ]`
+<summary>
 
-    - `last_authenticated: optional number`
+geo: optional object {country }
 
-  - `devicePosture: optional map[object { id, check, data, 6 more } ]`
+</summary>
 
-    - `id: optional string`
+country: optional string
 
-    - `check: optional object { exists, path }`
+<a href="#">Link to this property</a>
 
-      - `exists: optional boolean`
+</details>
 
-      - `path: optional string`
+<a href="#">Link to this property</a>
 
-    - `data: optional unknown`
+iat: optional number
 
-    - `description: optional string`
+<a href="#">Link to this property</a>
 
-    - `error: optional string`
+<details>
 
-    - `rule_name: optional string`
+<summary>
 
-    - `success: optional boolean`
+idp: optional object {id, type }
 
-    - `timestamp: optional string`
+</summary>
 
-    - `type: optional string`
+id: optional string
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-  - `geo: optional object { country }`
+type: optional string
 
-    - `country: optional string`
+<a href="#">Link to this property</a>
 
-  - `iat: optional number`
+</details>
 
-  - `idp: optional object { id, type }`
+<a href="#">Link to this property</a>
 
-    - `id: optional string`
+ip: optional string
 
-    - `type: optional string`
+<a href="#">Link to this property</a>
 
-  - `ip: optional string`
+is\_gateway: optional boolean
 
-  - `is_gateway: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_warp: optional boolean`
+is\_warp: optional boolean
 
-  - `mtls_auth: optional object { auth_status, cert_issuer_dn, cert_issuer_ski, 2 more }`
+<a href="#">Link to this property</a>
 
-    - `auth_status: optional string`
+<details>
 
-    - `cert_issuer_dn: optional string`
+<summary>
 
-    - `cert_issuer_ski: optional string`
+mtls\_auth: optional object {auth\_status, cert\_issuer\_dn, cert\_issuer\_ski, 2 more }
 
-    - `cert_presented: optional boolean`
+</summary>
 
-    - `cert_serial: optional string`
+auth\_status: optional string
 
-  - `service_token_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `service_token_status: optional boolean`
+cert\_issuer\_dn: optional string
 
-  - `user_uuid: optional string`
+<a href="#">Link to this property</a>
 
-  - `version: optional number`
+cert\_issuer\_ski: optional string
+
+<a href="#">Link to this property</a>
+
+cert\_presented: optional boolean
+
+<a href="#">Link to this property</a>
+
+cert\_serial: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+service\_token\_id: optional string
+
+<a href="#">Link to this property</a>
+
+service\_token\_status: optional boolean
+
+<a href="#">Link to this property</a>
+
+user\_uuid: optional string
+
+<a href="#">Link to this property</a>
+
+version: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20zero_trust.access.users.last_seen_identity%20%3E%20(model)%20identity%20%3E%20(schema)>)

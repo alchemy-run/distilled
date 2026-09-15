@@ -1,80 +1,212 @@
-## Send a raw MIME email
+---
+title: Send a raw MIME email
+---
 
-**post** `/accounts/{account_id}/email/sending/send_raw`
+[Skip to content](#_top)
 
-Send a raw MIME email
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[Email Sending](https://developers.cloudflare.com/api/resources/email_sending)
 
-- `account_id: string`
+Copy Markdown
 
-  Identifier of the account.
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `from: string`
+**Copy Markdown****View as Markdown**
 
-  Sender email address.
+# Send a raw MIME email
 
-- `mime_message: string`
+POST/accounts/{account\_id}/email/sending/send\_raw
 
-  The full MIME-encoded email message. Should include standard RFC 5322 headers such as From, To, Subject, and Content-Type. The from and recipients fields in the request body control SMTP envelope routing; the From and To headers in the MIME message control what the recipient's email client displays.
+Send a raw RFC 5322 (MIME) email for the specified account. Provide the full MIME message plus the SMTP envelope (from and recipients).
 
-- `recipients: array of string`
+##### Security
 
-  List of recipient email addresses.
+<details>
 
-### Returns
+<summary>API Token</summary>
 
-- `errors: array of object { code, message }`
 
-  - `code: number`
 
-  - `message: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `messages: array of object { code, message }`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-- `result: object { delivered, message_id, permanent_bounces, queued }`
+<summary>API Email + API Key</summary>
 
-  - `delivered: array of string`
 
-    Email addresses to which the message was delivered immediately.
 
-  - `message_id: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-    Message ID of the sent email.
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `permanent_bounces: array of string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    Email addresses that permanently bounced.
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `queued: array of string`
+</details>
 
-    Email addresses for which delivery was queued for later.
+##### P ath ParametersExpand Collapse
 
-- `success: true`
+account\_id: string
 
-  - `true`
+Identifier of the account.
 
-- `result_info: optional object { count, per_page, total_count, 2 more }`
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  - `count: number`
+##### Body ParametersJSONExpand Collapse
 
-  - `per_page: number`
+from: string
 
-  - `total_count: number`
+Sender email address.
 
-  - `cursor: optional string`
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(params)%200%20%3E%20(param)%20from%20%3E%20(schema)>)
 
-  - `page: optional number`
+mime\_message: string
 
-### Example
+The full MIME-encoded email message. Should include standard RFC 5322 headers such as From, To, Subject, and Content-Type. The from and recipients fields in the request body control SMTP envelope routing; the From and To headers in the MIME message control what the recipient’s email client displays.
 
-```http
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(params)%200%20%3E%20(param)%20mime_message%20%3E%20(schema)>)
+
+recipients: array of string
+
+List of recipient email addresses.
+
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(params)%200%20%3E%20(param)%20recipients%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of object {code, message }
+
+</summary>
+
+code: number
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {delivered, message\_id, permanent\_bounces, 2 more }
+
+</summary>
+
+delivered: array of string
+
+Email addresses to which the message was delivered immediately.
+
+<a href="#">Link to this property</a>
+
+message\_id: string
+
+Message ID of the sent email.
+
+<a href="#">Link to this property</a>
+
+permanent\_bounces: array of string
+
+Email addresses that permanently bounced.
+
+<a href="#">Link to this property</a>
+
+queued: array of string
+
+Email addresses for which delivery was queued for later.
+
+<a href="#">Link to this property</a>
+
+suppressed\_recipients: array of string
+
+Email addresses dropped because they are on the suppression list. Returned when suppressed-recipient dropping is enabled for the sending subdomain; otherwise the request fails instead.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, per\_page, total\_count, 2 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+cursor: optional string
+
+<a href="#">Link to this property</a>
+
+page: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_sending%20%3E%20(method)%20send_raw%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### Send a raw MIME email
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/sending/send_raw \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
@@ -87,9 +219,9 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/sending/sen
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [
     {
@@ -112,6 +244,53 @@ curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email/sending/sen
       "string"
     ],
     "queued": [
+      "string"
+    ],
+    "suppressed_recipients": [
+      "string"
+    ]
+  },
+  "success": true,
+  "result_info": {
+    "count": 0,
+    "per_page": 0,
+    "total_count": 0,
+    "cursor": "cursor",
+    "page": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 0,
+      "message": "message"
+    }
+  ],
+  "result": {
+    "delivered": [
+      "recipient@example.com"
+    ],
+    "message_id": "<aB3xK9mP2qR5sT8uV0wX1yZ4cD6fG7hJ9kL0@example.com>",
+    "permanent_bounces": [
+      "string"
+    ],
+    "queued": [
+      "string"
+    ],
+    "suppressed_recipients": [
       "string"
     ]
   },

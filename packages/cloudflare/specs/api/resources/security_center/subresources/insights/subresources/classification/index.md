@@ -1,143 +1,129 @@
+---
+title: Classification
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Security Center](https://developers.cloudflare.com/api/resources/security_center)
+
+[Insights](https://developers.cloudflare.com/api/resources/security_center/subresources/insights)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Classification
 
-## Updates Security Center Insight Classification
+##### [Updates Security Center Insight Classification](https://developers.cloudflare.com/api/resources/security_center/subresources/insights/subresources/classification/methods/update)
 
-**patch** `/{accounts_or_zones}/{account_or_zone_id}/security-center/insights/{issue_id}/classification`
+PATCH/{accounts\_or\_zones}/{account\_or\_zone\_id}/security-center/insights/{issue\_id}/classification
 
-Updates the user classification for a Security Center insight. Valid values are 'false_positive' or 'accept_risk'. To reset, set classification to null. Cannot change directly between classification values - must reset to null first.
+##### ModelsExpand Collapse
 
-### Path Parameters
+<details>
 
-- `issue_id: string`
+<summary>
 
-- `account_id: optional string`
+ClassificationUpdateResponse object {errors, messages, success }
 
-  The Account ID to use for this endpoint. Mutually exclusive with the Zone ID.
+</summary>
 
-- `zone_id: optional string`
+<details>
 
-  The Zone ID to use for this endpoint. Mutually exclusive with the Account ID.
+<summary>
 
-### Body Parameters
+errors: array of object {code, message, documentation\_url, source }
 
-- `classification: optional "false_positive" or "accept_risk" or "other"`
+</summary>
 
-  User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.
+code: number
 
-  - `"false_positive"`
+minimum1000
 
-  - `"accept_risk"`
+<a href="#">Link to this property</a>
 
-  - `"other"`
+message: string
 
-- `rationale: optional string`
+<a href="#">Link to this property</a>
 
-  Rationale for the classification change. Required when classification is 'accept_risk' or 'other'.
+documentation\_url: optional string
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+source: optional object {pointer }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+pointer: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+messages: array of object {code, message, documentation\_url, source }
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+code: number
 
-### Example
+minimum1000
 
-```http
-curl https://api.cloudflare.com/client/v4/$ACCOUNTS_OR_ZONES/$ACCOUNT_OR_ZONE_ID/security-center/insights/$ISSUE_ID/classification \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "classification": "false_positive"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+message: string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+documentation\_url: optional string
 
-### Classification Update Response
+<a href="#">Link to this property</a>
 
-- `ClassificationUpdateResponse object { errors, messages, success }`
+<details>
 
-  - `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-    - `code: number`
+source: optional object {pointer }
 
-    - `message: string`
+</summary>
 
-    - `documentation_url: optional string`
+pointer: optional string
 
-    - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-      - `pointer: optional string`
+</details>
 
-  - `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-    - `code: number`
+</details>
 
-    - `message: string`
+<a href="#">Link to this property</a>
 
-    - `documentation_url: optional string`
+success: true
 
-    - `source: optional object { pointer }`
+Whether the API call was successful.
 
-      - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-  - `success: true`
+</details>
 
-    Whether the API call was successful.
-
-    - `true`
+[Link to this property](#)%20security_center.insights.classification%20%3E%20(model)%20classification_update_response%20%3E%20(schema)>)

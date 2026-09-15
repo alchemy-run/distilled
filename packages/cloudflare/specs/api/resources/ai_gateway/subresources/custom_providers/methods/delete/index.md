@@ -1,62 +1,205 @@
-## Delete a Account Provider
+---
+title: Delete a Account Provider
+---
 
-**delete** `/accounts/{account_id}/ai-gateway/custom-providers/{id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[AI Gateway](https://developers.cloudflare.com/api/resources/ai_gateway)
+
+[Custom Providers](https://developers.cloudflare.com/api/resources/ai_gateway/subresources/custom_providers)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete a Account Provider
+
+DELETE/accounts/{account\_id}/ai-gateway/custom-providers/{id}
 
 Deletes an AI Gateway dataset.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-- `id: string`
+<summary>API Token</summary>
 
-### Returns
 
-- `result: object { id, base_url, created_at, 12 more }`
 
-  - `id: string`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-  - `base_url: string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `created_at: string`
+</details>
 
-  - `modified_at: string`
+<details>
 
-  - `name: string`
+<summary>API Email + API Key</summary>
 
-  - `slug: string`
 
-  - `beta: optional boolean`
 
-  - `curl_example: optional string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `description: optional string`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `enable: optional boolean`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `headers: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `js_example: optional string`
+</details>
 
-  - `link: optional string`
+##### Accepted Permissions (at least one required)
 
-  - `logo: optional string`
+`AI Gateway Write`
 
-  - `position: optional number`
+##### P ath ParametersExpand Collapse
 
-- `success: boolean`
+account\_id: string
 
-### Example
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-```http
+id: string
+
+formatuuid
+
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20id%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+result: object {id, base\_url, created\_at, 12 more }
+
+</summary>
+
+id: string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+base\_url: string
+
+formaturi
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+slug: string
+
+<a href="#">Link to this property</a>
+
+beta: optional boolean
+
+<a href="#">Link to this property</a>
+
+curl\_example: optional string
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+<a href="#">Link to this property</a>
+
+enable: optional boolean
+
+<a href="#">Link to this property</a>
+
+headers: optional string
+
+maxLength8192
+
+<a href="#">Link to this property</a>
+
+js\_example: optional string
+
+<a href="#">Link to this property</a>
+
+link: optional string
+
+<a href="#">Link to this property</a>
+
+logo: optional string
+
+<a href="#">Link to this property</a>
+
+position: optional number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: boolean
+
+[Link to this property](#)%20ai_gateway.custom_providers%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete a Account Provider
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/ai-gateway/custom-providers/$ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "result": {
+    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    "base_url": "https://example.com",
+    "created_at": "2019-12-27T18:11:19.117Z",
+    "modified_at": "2019-12-27T18:11:19.117Z",
+    "name": "name",
+    "slug": "slug",
+    "beta": true,
+    "curl_example": "curl_example",
+    "description": "description",
+    "enable": true,
+    "headers": "headers",
+    "js_example": "js_example",
+    "link": "link",
+    "logo": "logo",
+    "position": 0
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "result": {
     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

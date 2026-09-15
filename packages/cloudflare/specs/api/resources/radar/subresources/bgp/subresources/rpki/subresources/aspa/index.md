@@ -1,504 +1,391 @@
+---
+title: ASPA
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Radar](https://developers.cloudflare.com/api/resources/radar)
+
+[BGP](https://developers.cloudflare.com/api/resources/radar/subresources/bgp)
+
+[RPKI](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # ASPA
 
-## Get ASPA objects snapshot
+##### [Get ASPA objects snapshot](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki/subresources/aspa/methods/snapshot)
 
-**get** `/radar/bgp/rpki/aspa/snapshot`
+GET/radar/bgp/rpki/aspa/snapshot
 
-Retrieves current or historical ASPA (Autonomous System Provider Authorization) objects. ASPA objects define which ASNs are authorized upstream providers for a customer ASN.
+##### [Get ASPA changes over time](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki/subresources/aspa/methods/changes)
 
-### Query Parameters
+GET/radar/bgp/rpki/aspa/changes
 
-- `customerAsn: optional number`
+##### [Get ASPA count time series](https://developers.cloudflare.com/api/resources/radar/subresources/bgp/subresources/rpki/subresources/aspa/methods/timeseries)
 
-  Filter by customer ASN (the ASN publishing the ASPA object).
+GET/radar/bgp/rpki/aspa/timeseries
 
-- `date: optional string`
+##### ModelsExpand Collapse
 
-  Filters results by the specified datetime (ISO 8601).
+<details>
 
-- `format: optional "JSON" or "CSV"`
+<summary>
 
-  Format in which results will be returned.
+ASPASnapshotResponse object {asnInfo, aspaObjects, meta }
 
-  - `"JSON"`
+</summary>
 
-  - `"CSV"`
+<details>
 
-- `includeAsnInfo: optional boolean`
+<summary>
 
-  Include ASN metadata (name, country) in response.
+asnInfo: object {"13335" }
 
-- `providerAsn: optional number`
+</summary>
 
-  Filter by provider ASN (an authorized upstream provider in ASPA objects).
+<details>
 
-### Returns
+<summary>
 
-- `result: object { asnInfo, aspaObjects, meta }`
+"13335": object {asn, country, name }
 
-  - `asnInfo: object { "13335" }`
+</summary>
 
-    - `"13335": object { asn, country, name }`
+asn: number
 
-      - `asn: number`
+ASN number.
 
-        ASN number.
+<a href="#">Link to this property</a>
 
-      - `country: string`
+country: string
 
-        Alpha-2 country code.
+Alpha-2 country code.
 
-      - `name: string`
+<a href="#">Link to this property</a>
 
-        AS name.
+name: string
 
-  - `aspaObjects: array of object { customerAsn, providers }`
+AS name.
 
-    - `customerAsn: number`
+<a href="#">Link to this property</a>
 
-      The customer ASN publishing the ASPA object.
+</details>
 
-    - `providers: array of number`
+<a href="#">Link to this property</a>
 
-  - `meta: object { dataTime, queryTime, totalCount }`
+</details>
 
-    - `dataTime: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the underlying data.
+<details>
 
-    - `queryTime: string`
+<summary>
 
-      Timestamp when the query was executed.
+aspaObjects: array of object {customerAsn, providers }
 
-    - `totalCount: number`
+</summary>
 
-      Total number of ASPA objects.
+customerAsn: number
 
-- `success: boolean`
+The customer ASN publishing the ASPA object.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/rpki/aspa/snapshot \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+providers: array of number
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "result": {
-    "asnInfo": {
-      "13335": {
-        "asn": 0,
-        "country": "country",
-        "name": "name"
-      }
-    },
-    "aspaObjects": [
-      {
-        "customerAsn": 0,
-        "providers": [
-          0
-        ]
-      }
-    ],
-    "meta": {
-      "dataTime": "2019-12-27T18:11:19.117Z",
-      "queryTime": "2019-12-27T18:11:19.117Z",
-      "totalCount": 0
-    }
-  },
-  "success": true
-}
-```
+</details>
 
-## Get ASPA changes over time
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/rpki/aspa/changes`
+<details>
 
-Retrieves ASPA (Autonomous System Provider Authorization) changes over time. Returns daily aggregated changes including additions, removals, and modifications of ASPA objects.
+<summary>
 
-### Query Parameters
+meta: object {dataTime, queryTime, totalCount }
 
-- `asn: optional number`
+</summary>
 
-  Filter changes involving this ASN (as customer or provider).
+dataTime: string
 
-- `dateEnd: optional string`
+Timestamp of the underlying data.
 
-  End of the date range (inclusive).
+formatdate-time
 
-- `dateStart: optional string`
+<a href="#">Link to this property</a>
 
-  Start of the date range (inclusive).
+queryTime: string
 
-- `format: optional "JSON" or "CSV"`
+Timestamp when the query was executed.
 
-  Format in which results will be returned.
+formatdate-time
 
-  - `"JSON"`
+<a href="#">Link to this property</a>
 
-  - `"CSV"`
+totalCount: number
 
-- `includeAsnInfo: optional boolean`
+Total number of ASPA objects.
 
-  Include ASN metadata (name, country) in response.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { asnInfo, changes, meta }`
+<a href="#">Link to this property</a>
 
-  - `asnInfo: object { "13335" }`
+</details>
 
-    - `"13335": object { asn, country, name }`
+[Link to this property](#)%20radar.bgp.rpki.aspa%20%3E%20(model)%20aspa_snapshot_response%20%3E%20(schema)>)
 
-      - `asn: number`
+<details>
 
-        ASN number.
+<summary>
 
-      - `country: string`
+ASPAChangesResponse object {asnInfo, changes, meta }
 
-        Alpha-2 country code.
+</summary>
 
-      - `name: string`
+<details>
 
-        AS name.
+<summary>
 
-  - `changes: array of object { customersAdded, customersRemoved, date, 4 more }`
+asnInfo: object {"13335" }
 
-    - `customersAdded: number`
+</summary>
 
-      Number of new ASPA objects created.
+<details>
 
-    - `customersRemoved: number`
+<summary>
 
-      Number of ASPA objects deleted.
+"13335": object {asn, country, name }
 
-    - `date: string`
+</summary>
 
-      Date of the changes in ISO 8601 format.
+asn: number
 
-    - `entries: array of object { customerAsn, providers, type }`
+ASN number.
 
-      - `customerAsn: number`
+<a href="#">Link to this property</a>
 
-        The customer ASN affected.
+country: string
 
-      - `providers: array of number`
+Alpha-2 country code.
 
-      - `type: "CustomerAdded" or "CustomerRemoved" or "ProvidersAdded" or "ProvidersRemoved"`
+<a href="#">Link to this property</a>
 
-        - `"CustomerAdded"`
+name: string
 
-        - `"CustomerRemoved"`
+AS name.
 
-        - `"ProvidersAdded"`
+<a href="#">Link to this property</a>
 
-        - `"ProvidersRemoved"`
+</details>
 
-    - `providersAdded: number`
+<a href="#">Link to this property</a>
 
-      Number of providers added to existing objects.
+</details>
 
-    - `providersRemoved: number`
+<a href="#">Link to this property</a>
 
-      Number of providers removed from existing objects.
+<details>
 
-    - `totalCount: number`
+<summary>
 
-      Running total of active ASPA objects after this day.
+changes: array of object {customersAdded, customersRemoved, date, 4 more }
 
-  - `meta: object { dataTime, queryTime }`
+</summary>
 
-    - `dataTime: string`
+customersAdded: number
 
-      Timestamp of the underlying data.
+Number of new ASPA objects created.
 
-    - `queryTime: string`
+<a href="#">Link to this property</a>
 
-      Timestamp when the query was executed.
+customersRemoved: number
 
-- `success: boolean`
+Number of ASPA objects deleted.
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/rpki/aspa/changes \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+date: string
 
-#### Response
+Date of the changes in ISO 8601 format.
 
-```json
-{
-  "result": {
-    "asnInfo": {
-      "13335": {
-        "asn": 0,
-        "country": "country",
-        "name": "name"
-      }
-    },
-    "changes": [
-      {
-        "customersAdded": 0,
-        "customersRemoved": 0,
-        "date": "2019-12-27T18:11:19.117Z",
-        "entries": [
-          {
-            "customerAsn": 0,
-            "providers": [
-              0
-            ],
-            "type": "CustomerAdded"
-          }
-        ],
-        "providersAdded": 0,
-        "providersRemoved": 0,
-        "totalCount": 0
-      }
-    ],
-    "meta": {
-      "dataTime": "2019-12-27T18:11:19.117Z",
-      "queryTime": "2019-12-27T18:11:19.117Z"
-    }
-  },
-  "success": true
-}
-```
+formatdate-time
 
-## Get ASPA count time series
+<a href="#">Link to this property</a>
 
-**get** `/radar/bgp/rpki/aspa/timeseries`
+<details>
 
-Retrieves ASPA (Autonomous System Provider Authorization) object count over time. Supports filtering by RIR or location (country code) to generate multiple named series. If no RIR or location filter is specified, returns total count.
+<summary>
 
-### Query Parameters
+entries: array of object {customerAsn, providers, type }
 
-- `dateEnd: optional string`
+</summary>
 
-  End of the date range (inclusive).
+customerAsn: number
 
-- `dateStart: optional string`
+The customer ASN affected.
 
-  Start of the date range (inclusive).
+<a href="#">Link to this property</a>
 
-- `format: optional "JSON" or "CSV"`
+providers: array of number
 
-  Format in which results will be returned.
+<a href="#">Link to this property</a>
 
-  - `"JSON"`
+<details>
 
-  - `"CSV"`
+<summary>
 
-- `location: optional array of string`
+type: "CustomerAdded"or "CustomerRemoved"or "ProvidersAdded"or "ProvidersRemoved"
 
-  Filters results by location. Specify a comma-separated list of alpha-2 location codes.
+</summary>
 
-- `name: optional array of string`
+One of the following:
 
-  Array of names used to label the series in the response.
+"CustomerAdded"
 
-- `rir: optional array of "RIPE_NCC" or "ARIN" or "APNIC" or 2 more`
+<a href="#">Link to this property</a>
 
-  Filter by Regional Internet Registry (RIR). Multiple RIRs generate multiple series.
+"CustomerRemoved"
 
-  - `"RIPE_NCC"`
+<a href="#">Link to this property</a>
 
-  - `"ARIN"`
+"ProvidersAdded"
 
-  - `"APNIC"`
+<a href="#">Link to this property</a>
 
-  - `"LACNIC"`
+"ProvidersRemoved"
 
-  - `"AFRINIC"`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `result: object { meta, serie_0 }`
+<a href="#">Link to this property</a>
 
-  - `meta: object { dataTime, queryTime }`
+</details>
 
-    - `dataTime: string`
+<a href="#">Link to this property</a>
 
-      Timestamp of the underlying data.
+providersAdded: number
 
-    - `queryTime: string`
+Number of providers added to existing objects.
 
-      Timestamp when the query was executed.
+<a href="#">Link to this property</a>
 
-  - `serie_0: object { timestamps, values }`
+providersRemoved: number
 
-    - `timestamps: array of string`
+Number of providers removed from existing objects.
 
-    - `values: array of string`
+<a href="#">Link to this property</a>
 
-- `success: boolean`
+totalCount: number
 
-### Example
+Running total of active ASPA objects after this day.
 
-```http
-curl https://api.cloudflare.com/client/v4/radar/bgp/rpki/aspa/timeseries \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "result": {
-    "meta": {
-      "dataTime": "2019-12-27T18:11:19.117Z",
-      "queryTime": "2019-12-27T18:11:19.117Z"
-    },
-    "serie_0": {
-      "timestamps": [
-        "2019-12-27T18:11:19.117Z"
-      ],
-      "values": [
-        "10"
-      ]
-    }
-  },
-  "success": true
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### ASPA Snapshot Response
+<summary>
 
-- `ASPASnapshotResponse object { asnInfo, aspaObjects, meta }`
+meta: object {dataTime, queryTime }
 
-  - `asnInfo: object { "13335" }`
+</summary>
 
-    - `"13335": object { asn, country, name }`
+dataTime: string
 
-      - `asn: number`
+Timestamp of the underlying data.
 
-        ASN number.
+formatdate-time
 
-      - `country: string`
+<a href="#">Link to this property</a>
 
-        Alpha-2 country code.
+queryTime: string
 
-      - `name: string`
+Timestamp when the query was executed.
 
-        AS name.
+formatdate-time
 
-  - `aspaObjects: array of object { customerAsn, providers }`
+<a href="#">Link to this property</a>
 
-    - `customerAsn: number`
+</details>
 
-      The customer ASN publishing the ASPA object.
+<a href="#">Link to this property</a>
 
-    - `providers: array of number`
+</details>
 
-  - `meta: object { dataTime, queryTime, totalCount }`
+[Link to this property](#)%20radar.bgp.rpki.aspa%20%3E%20(model)%20aspa_changes_response%20%3E%20(schema)>)
 
-    - `dataTime: string`
+<details>
 
-      Timestamp of the underlying data.
+<summary>
 
-    - `queryTime: string`
+ASPATimeseriesResponse object {meta, serie\_0 }
 
-      Timestamp when the query was executed.
+</summary>
 
-    - `totalCount: number`
+<details>
 
-      Total number of ASPA objects.
+<summary>
 
-### ASPA Changes Response
+meta: object {dataTime, queryTime }
 
-- `ASPAChangesResponse object { asnInfo, changes, meta }`
+</summary>
 
-  - `asnInfo: object { "13335" }`
+dataTime: string
 
-    - `"13335": object { asn, country, name }`
+Timestamp of the underlying data.
 
-      - `asn: number`
+formatdate-time
 
-        ASN number.
+<a href="#">Link to this property</a>
 
-      - `country: string`
+queryTime: string
 
-        Alpha-2 country code.
+Timestamp when the query was executed.
 
-      - `name: string`
+formatdate-time
 
-        AS name.
+<a href="#">Link to this property</a>
 
-  - `changes: array of object { customersAdded, customersRemoved, date, 4 more }`
+</details>
 
-    - `customersAdded: number`
+<a href="#">Link to this property</a>
 
-      Number of new ASPA objects created.
+<details>
 
-    - `customersRemoved: number`
+<summary>
 
-      Number of ASPA objects deleted.
+serie\_0: object {timestamps, values }
 
-    - `date: string`
+</summary>
 
-      Date of the changes in ISO 8601 format.
+timestamps: array of string
 
-    - `entries: array of object { customerAsn, providers, type }`
+<a href="#">Link to this property</a>
 
-      - `customerAsn: number`
+values: array of string
 
-        The customer ASN affected.
+<a href="#">Link to this property</a>
 
-      - `providers: array of number`
+</details>
 
-      - `type: "CustomerAdded" or "CustomerRemoved" or "ProvidersAdded" or "ProvidersRemoved"`
+<a href="#">Link to this property</a>
 
-        - `"CustomerAdded"`
+</details>
 
-        - `"CustomerRemoved"`
-
-        - `"ProvidersAdded"`
-
-        - `"ProvidersRemoved"`
-
-    - `providersAdded: number`
-
-      Number of providers added to existing objects.
-
-    - `providersRemoved: number`
-
-      Number of providers removed from existing objects.
-
-    - `totalCount: number`
-
-      Running total of active ASPA objects after this day.
-
-  - `meta: object { dataTime, queryTime }`
-
-    - `dataTime: string`
-
-      Timestamp of the underlying data.
-
-    - `queryTime: string`
-
-      Timestamp when the query was executed.
-
-### ASPA Timeseries Response
-
-- `ASPATimeseriesResponse object { meta, serie_0 }`
-
-  - `meta: object { dataTime, queryTime }`
-
-    - `dataTime: string`
-
-      Timestamp of the underlying data.
-
-    - `queryTime: string`
-
-      Timestamp when the query was executed.
-
-  - `serie_0: object { timestamps, values }`
-
-    - `timestamps: array of string`
-
-    - `values: array of string`
+[Link to this property](#)%20radar.bgp.rpki.aspa%20%3E%20(model)%20aspa_timeseries_response%20%3E%20(schema)>)

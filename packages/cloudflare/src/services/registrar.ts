@@ -83,7 +83,7 @@ export const CheckRequestDomainsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CheckRequestDomainsList>;
 
 export interface CheckRegistrarRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
   /** List of fully qualified domain names (FQDNs) to check for availability. Each domain must include the extension. */
   domains: CheckRequestDomainsList;
@@ -108,9 +108,9 @@ export const CheckRegistrarRequest = /*@__PURE__*/ S.suspend(() =>
 export interface CheckResponseDomainsItemPricing {
   /** ISO-4217 currency code for the prices (e.g., "USD", "EUR", "GBP"). */
   currency: string;
-  /** The first-year cost to register this domain. For premium domains */
+  /** The first-year cost to register this domain. For premium domains (`tier: premium`), the registry sets this price, which may significantly exceed standard pricing. For multi-year registrations, this cost applies to the first year only; `renewal_cost` applies to subsequent years. */
   registrationCost: string;
-  /** Per-year renewal cost for this domain. Applied to each year beyond */
+  /** Per-year renewal cost for this domain. Applied to each year beyond the first year of a multi-year registration, and to each annual auto-renewal thereafter. May differ from `registration_cost`, especially for premium domains where initial registration often costs more than renewals. */
   renewalCost: string;
 }
 export const CheckResponseDomainsItemPricing = /*@__PURE__*/ S.suspend(() =>
@@ -137,13 +137,13 @@ export const CheckResponseDomainsItemTier = S.String;
 export interface CheckResponseDomainsItem {
   /** The fully qualified domain name (FQDN) in punycode format for internationalized domain names (IDNs). */
   name: string;
-  /** Indicates whether this domain can be registered programmatically through this API based on a real-time registry check. */
+  /** Indicates programmatic registration eligibility according to a real-time registry check. */
   registrable: boolean;
-  /** Annual pricing information for a registrable domain. This object is only */
+  /** Provides annual pricing information for a registrable domain. This object appears only when `registrable` is `true`. The API returns all per-year prices as strings to preserve decimal precision. */
   pricing?: CheckResponseDomainsItemPricing | null;
-  /** Present only when `registrable` is `false`. Explains why the domain cannot be registered via this API. */
+  /** Appears only when `registrable` is `false` and explains the result. */
   reason?: CheckResponseDomainsItemReason | null;
-  /** The pricing tier for this domain. Always present when `registrable` is `true`; defaults to `standard` for most domains. May be absent when `registrable` is `false`. */
+  /** The pricing tier for this domain. A `registrable` value of `true` always includes this field, which defaults to `standard` for most domains. A `registrable` value of `false` may omit it. */
   tier?: CheckResponseDomainsItemTier | null;
 }
 export const CheckResponseDomainsItem = /*@__PURE__*/ S.suspend(() =>
@@ -165,7 +165,7 @@ export const CheckResponseDomainsList = /*@__PURE__*/ S.Array(
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CheckRegistrarResponse {
-  /** Array of domain availability results. Domains on unsupported */
+  /** Array of domain availability results. Results for unsupported extensions contain `registrable: false` and a `reason` field. The response may omit malformed domain names. */
   domains: CheckResponseDomainsList;
 }
 export const CheckRegistrarResponse = /*@__PURE__*/ S.suspend(() =>
@@ -176,7 +176,25 @@ export const CheckRegistrarResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CheckRegistrarResponse",
 }) as any as S.Schema<CheckRegistrarResponse>;
 
-export interface CreateRegistrationRequestContactsRegistrantPostalInfoAddress {
+export type CreateRegistrationRequestAcknowledgementsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateRegistrationRequestAcknowledgementsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<CreateRegistrationRequestAcknowledgementsMap>;
+
+export type CreateRegistrationRequestContactExtensionsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateRegistrationRequestContactExtensionsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<CreateRegistrationRequestContactExtensionsMap>;
+
+export interface CreateRegistrationRequestContactsAdministratorPostalInfoAddress {
   /** City or locality name. */
   city: string;
   /** Two-letter country code per ISO 3166-1 alpha-2 (e.g., `US`, `GB`, `CA`, `DE`). */
@@ -188,7 +206,7 @@ export interface CreateRegistrationRequestContactsRegistrantPostalInfoAddress {
   /** Street address including building/suite number. */
   street: string;
 }
-export const CreateRegistrationRequestContactsRegistrantPostalInfoAddress =
+export const CreateRegistrationRequestContactsAdministratorPostalInfoAddress =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       city: S.String,
@@ -198,80 +216,139 @@ export const CreateRegistrationRequestContactsRegistrantPostalInfoAddress =
       street: S.String,
     }),
   ).annotate({
-    identifier: "CreateRegistrationRequestContactsRegistrantPostalInfoAddress",
-  }) as any as S.Schema<CreateRegistrationRequestContactsRegistrantPostalInfoAddress>;
+    identifier:
+      "CreateRegistrationRequestContactsAdministratorPostalInfoAddress",
+  }) as any as S.Schema<CreateRegistrationRequestContactsAdministratorPostalInfoAddress>;
 
-export interface CreateRegistrationRequestContactsRegistrantPostalInfo {
+export interface CreateRegistrationRequestContactsAdministratorPostalInfo {
   /** Physical mailing address for the registrant contact. */
-  address: CreateRegistrationRequestContactsRegistrantPostalInfoAddress;
-  /** Full legal name of the registrant (individual or authorized representative). */
+  address: CreateRegistrationRequestContactsAdministratorPostalInfoAddress;
+  /** Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example `Ada Lovelace`; do not send separate first-name or last-name fields. */
   name: string;
   /** Organization or company name. Optional for individual registrants. */
   organization?: string;
 }
-export const CreateRegistrationRequestContactsRegistrantPostalInfo =
+export const CreateRegistrationRequestContactsAdministratorPostalInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      address: CreateRegistrationRequestContactsRegistrantPostalInfoAddress,
+      address: CreateRegistrationRequestContactsAdministratorPostalInfoAddress,
       name: S.String,
       organization: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "CreateRegistrationRequestContactsRegistrantPostalInfo",
-  }) as any as S.Schema<CreateRegistrationRequestContactsRegistrantPostalInfo>;
+    identifier: "CreateRegistrationRequestContactsAdministratorPostalInfo",
+  }) as any as S.Schema<CreateRegistrationRequestContactsAdministratorPostalInfo>;
 
-export interface CreateRegistrationRequestContactsRegistrant {
-  /** Email address for the registrant. Used for domain-related */
+export interface CreateRegistrationRequestContactsAdministrator {
+  /** Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices. */
   email: string;
-  /** Phone number in E.164 format: `+{country_code}.{number}` with no */
+  /** Phone number in E.164 format: `+{country_code}.{number}` without spaces or dashes. Examples: `+1.5555555555` (US), `+44.2071234567` (UK), `+81.312345678` (Japan). */
   phone: string;
-  /** Postal/mailing information for the registrant contact. */
-  postalInfo: CreateRegistrationRequestContactsRegistrantPostalInfo;
-  /** Fax number in E.164 format (e.g., `+1.5555555555`). Optional. */
+  /** Postal/mailing information for the contact. The `name` field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts. */
+  postalInfo: CreateRegistrationRequestContactsAdministratorPostalInfo;
+  /** Fax number in E.164 format (e.g., `+1.5555555555`). Optional. Most registrations do not require a fax number. */
   fax?: string;
 }
-export const CreateRegistrationRequestContactsRegistrant =
+export const CreateRegistrationRequestContactsAdministrator =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       email: S.String,
       phone: S.String,
-      postalInfo: CreateRegistrationRequestContactsRegistrantPostalInfo.pipe(
+      postalInfo: CreateRegistrationRequestContactsAdministratorPostalInfo.pipe(
         T.Body("postal_info"),
       ),
       fax: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "CreateRegistrationRequestContactsRegistrant",
-  }) as any as S.Schema<CreateRegistrationRequestContactsRegistrant>;
+    identifier: "CreateRegistrationRequestContactsAdministrator",
+  }) as any as S.Schema<CreateRegistrationRequestContactsAdministrator>;
+
+export type CreateRegistrationRequestContactsBillingPostalInfoAddress =
+  CreateRegistrationRequestContactsAdministratorPostalInfoAddress;
+export const CreateRegistrationRequestContactsBillingPostalInfoAddress =
+  CreateRegistrationRequestContactsAdministratorPostalInfoAddress;
+
+export type CreateRegistrationRequestContactsBillingPostalInfo =
+  CreateRegistrationRequestContactsAdministratorPostalInfo;
+export const CreateRegistrationRequestContactsBillingPostalInfo =
+  CreateRegistrationRequestContactsAdministratorPostalInfo;
+
+export type CreateRegistrationRequestContactsBilling =
+  CreateRegistrationRequestContactsAdministrator;
+export const CreateRegistrationRequestContactsBilling =
+  CreateRegistrationRequestContactsAdministrator;
+
+export type CreateRegistrationRequestContactsRegistrantPostalInfoAddress =
+  CreateRegistrationRequestContactsAdministratorPostalInfoAddress;
+export const CreateRegistrationRequestContactsRegistrantPostalInfoAddress =
+  CreateRegistrationRequestContactsAdministratorPostalInfoAddress;
+
+export type CreateRegistrationRequestContactsRegistrantPostalInfo =
+  CreateRegistrationRequestContactsAdministratorPostalInfo;
+export const CreateRegistrationRequestContactsRegistrantPostalInfo =
+  CreateRegistrationRequestContactsAdministratorPostalInfo;
+
+export type CreateRegistrationRequestContactsRegistrant =
+  CreateRegistrationRequestContactsAdministrator;
+export const CreateRegistrationRequestContactsRegistrant =
+  CreateRegistrationRequestContactsAdministrator;
+
+export type CreateRegistrationRequestContactsTechnicalPostalInfoAddress =
+  CreateRegistrationRequestContactsAdministratorPostalInfoAddress;
+export const CreateRegistrationRequestContactsTechnicalPostalInfoAddress =
+  CreateRegistrationRequestContactsAdministratorPostalInfoAddress;
+
+export type CreateRegistrationRequestContactsTechnicalPostalInfo =
+  CreateRegistrationRequestContactsAdministratorPostalInfo;
+export const CreateRegistrationRequestContactsTechnicalPostalInfo =
+  CreateRegistrationRequestContactsAdministratorPostalInfo;
+
+export type CreateRegistrationRequestContactsTechnical =
+  CreateRegistrationRequestContactsAdministrator;
+export const CreateRegistrationRequestContactsTechnical =
+  CreateRegistrationRequestContactsAdministrator;
 
 export interface CreateRegistrationRequestContacts {
-  /** Registrant contact data for the domain registration. This information */
-  registrant?: CreateRegistrationRequestContactsRegistrant;
+  /** Optional administrator contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`. */
+  administrator?: CreateRegistrationRequestContactsAdministrator;
+  /** Optional billing contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`. */
+  billing?: CreateRegistrationRequestContactsAdministrator;
+  /** Optional registrant contact. If omitted, the account's default address book entry is used instead. */
+  registrant?: CreateRegistrationRequestContactsAdministrator;
+  /** Optional technical contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`. */
+  technical?: CreateRegistrationRequestContactsAdministrator;
 }
 export const CreateRegistrationRequestContacts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    registrant: S.optional(CreateRegistrationRequestContactsRegistrant),
+    administrator: S.optional(CreateRegistrationRequestContactsAdministrator),
+    billing: S.optional(CreateRegistrationRequestContactsAdministrator),
+    registrant: S.optional(CreateRegistrationRequestContactsAdministrator),
+    technical: S.optional(CreateRegistrationRequestContactsAdministrator),
   }),
 ).annotate({
   identifier: "CreateRegistrationRequestContacts",
 }) as any as S.Schema<CreateRegistrationRequestContacts>;
 
-export type CreateRegistrationRequestPrivacyMode = "redaction";
+export type CreateRegistrationRequestPrivacyMode = "off" | "redaction";
 export const CreateRegistrationRequestPrivacyMode = S.String;
 
 export interface CreateRegistrationRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
   prefer?: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
-  /** Enable or disable automatic renewal. Defaults to `false` if omitted. */
+  /** Provides user acknowledgements for a specific extension or premium registration flow. The extension registration schema from the extension discovery endpoint identifies the required keys. */
+  acknowledgements?: CreateRegistrationRequestAcknowledgementsMap;
+  /** Enable or disable automatic renewal. Defaults to `false` if omitted. Setting this field to `true` is an explicit opt-in authorizing Cloudflare to charge the account's default payment method up to 30 days before domain expiry to renew the domain automatically. Renewal pricing may change over time based on registry pricing. */
   autoRenew?: boolean;
-  /** Contact data for the registration request. */
+  /** Provides registry-specific contact extension values for the registrant. `GET /accounts/{account_id}/registrar/extensions/{extension}` identifies the required keys and allowed values for each extension in the `registration_schema.properties.contact_extensions` object. */
+  contactExtensions?: CreateRegistrationRequestContactExtensionsMap;
+  /** Provides contact data for the registration request. */
   contacts?: CreateRegistrationRequestContacts;
-  /** WHOIS privacy mode for the registration. Defaults to `redaction`. */
+  /** Sets the WHOIS privacy mode for the registration. Defaults to `redaction`. */
   privacyMode?: CreateRegistrationRequestPrivacyMode | (string & {});
-  /** Number of years to register (1–10). If omitted, defaults to the */
+  /** Sets the registration term from 1 to 10 years. When omitted, this field defaults to the registry's minimum registration period for the extension. Most extensions require 1 year, while some require longer minimum terms (e.g., `.ai` requires 2 years). */
   years?: number;
 }
 export const CreateRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -279,7 +356,13 @@ export const CreateRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
     domainName: S.String.pipe(T.Body("domain_name")),
+    acknowledgements: S.optional(CreateRegistrationRequestAcknowledgementsMap),
     autoRenew: S.optional(S.Boolean.pipe(T.Body("auto_renew"))),
+    contactExtensions: S.optional(
+      CreateRegistrationRequestContactExtensionsMap.pipe(
+        T.Body("contact_extensions"),
+      ),
+    ),
     contacts: S.optional(CreateRegistrationRequestContacts),
     privacyMode: S.optional(
       CreateRegistrationRequestPrivacyMode.pipe(T.Body("privacy_mode")),
@@ -347,16 +430,16 @@ export const CreateRegistrationResponseError = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateRegistrationResponse {
-  /** Whether the workflow has reached a terminal state. `true` when */
+  /** Indicates whether the workflow reached a terminal state. A `succeeded` or `failed` state returns `true`; `pending`, `in_progress`, `action_required`, and `blocked` return `false`. */
   completed: boolean;
   createdAt: string;
   links: CreateRegistrationResponseLinks;
-  /** Workflow lifecycle state. */
+  /** Describes the workflow lifecycle state. */
   state: CreateRegistrationResponseState;
   updatedAt: string;
-  /** Workflow-specific data for this workflow. */
+  /** Provides workflow-specific data. */
   context?: CreateRegistrationResponseContextMap | null;
-  /** Error details when a workflow reaches the `failed` state. The specific */
+  /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
   error?: CreateRegistrationResponseError | null;
 }
 export const CreateRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -377,12 +460,12 @@ export type EditRegistrationRequestPrefer = "respond-async";
 export const EditRegistrationRequestPrefer = S.String;
 
 export interface EditRegistrationRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
   prefer?: EditRegistrationRequestPrefer | (string & {});
-  /** Enable or disable automatic renewal. */
+  /** Enable or disable automatic renewal. Setting this field to `true` authorizes Cloudflare to charge the account's default payment method up to 30 days before domain expiry to renew the domain automatically. Renewal pricing may change over time based on registry pricing. */
   autoRenew?: boolean;
 }
 export const EditRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -429,16 +512,16 @@ export const EditRegistrationResponseError = CreateRegistrationResponseError;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditRegistrationResponse {
-  /** Whether the workflow has reached a terminal state. `true` when */
+  /** Indicates whether the workflow reached a terminal state. A `succeeded` or `failed` state returns `true`; `pending`, `in_progress`, `action_required`, and `blocked` return `false`. */
   completed: boolean;
   createdAt: string;
   links: CreateRegistrationResponseLinks;
-  /** Workflow lifecycle state. */
+  /** Describes the workflow lifecycle state. */
   state: EditRegistrationResponseState;
   updatedAt: string;
-  /** Workflow-specific data for this workflow. */
+  /** Provides workflow-specific data. */
   context?: EditRegistrationResponseContextMap | null;
-  /** Error details when a workflow reaches the `failed` state. The specific */
+  /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
   error?: CreateRegistrationResponseError | null;
 }
 export const EditRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -456,9 +539,9 @@ export const EditRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EditRegistrationResponse>;
 
 export interface GetDomainRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
 }
 export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
@@ -485,10 +568,63 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDomainResponse",
 }) as any as S.Schema<GetDomainResponse>;
 
-export interface GetRegistrationRequest {
-  /** Identifier */
+export interface GetExtensionRequest {
+  /** Identifier. */
   accountId: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  extension: string;
+}
+export const GetExtensionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    extension: S.String.pipe(T.Label()),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/registrar/extensions/{extension}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetExtensionRequest",
+}) as any as S.Schema<GetExtensionRequest>;
+
+export interface GetExtensionResponseMetadata {
+  /** The full name of the extension. For example, "co.uk", or "uk". */
+  name: string;
+  /** The TLD of the extension. For example, for "co.uk", it is "uk". For "uk", it is "uk". */
+  tld: string;
+}
+export const GetExtensionResponseMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    tld: S.String,
+  }),
+).annotate({
+  identifier: "GetExtensionResponseMetadata",
+}) as any as S.Schema<GetExtensionResponseMetadata>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetExtensionResponse {
+  /** Extension metadata. */
+  metadata: GetExtensionResponseMetadata;
+  /** JSON Schema describing the expected input structure for registration operations on this extension. */
+  registrationSchema: unknown;
+}
+export const GetExtensionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metadata: GetExtensionResponseMetadata,
+    registrationSchema: S.Unknown.pipe(T.Body("registration_schema")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetExtensionResponse",
+}) as any as S.Schema<GetExtensionResponse>;
+
+export interface GetRegistrationRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
 }
 export const GetRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -508,7 +644,7 @@ export const GetRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetRegistrationRequest",
 }) as any as S.Schema<GetRegistrationRequest>;
 
-export type GetRegistrationResponsePrivacyMode = "redaction";
+export type GetRegistrationResponsePrivacyMode = "off" | "redaction";
 export const GetRegistrationResponsePrivacyMode = S.String;
 
 export type GetRegistrationResponseStatus =
@@ -522,13 +658,13 @@ export const GetRegistrationResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRegistrationResponse {
-  /** Whether the domain will be automatically renewed before expiration. */
+  /** Whether automatic renewal occurs before expiration. */
   autoRenew: boolean;
   /** When the domain was registered. Present when the registration resource exists. */
   createdAt: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
-  /** When the domain registration expires. Present when the registration is ready; may be null only while `status` is `registration_pending`. */
+  /** When the domain registration expires. Ready registrations include this value; only `registration_pending` may return null. */
   expiresAt: string;
   /** Whether the domain is locked for transfer. */
   locked: boolean;
@@ -554,9 +690,9 @@ export const GetRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRegistrationResponse>;
 
 export interface GetRegistrationStatusRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
 }
 export const GetRegistrationStatusRequest = /*@__PURE__*/ S.suspend(() =>
@@ -605,16 +741,16 @@ export const RegistrationStatusGetResponseError =
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRegistrationStatusResponse {
-  /** Whether the workflow has reached a terminal state. `true` when */
+  /** Indicates whether the workflow reached a terminal state. A `succeeded` or `failed` state returns `true`; `pending`, `in_progress`, `action_required`, and `blocked` return `false`. */
   completed: boolean;
   createdAt: string;
   links: CreateRegistrationResponseLinks;
-  /** Workflow lifecycle state. */
+  /** Describes the workflow lifecycle state. */
   state: RegistrationStatusGetResponseState;
   updatedAt: string;
-  /** Workflow-specific data for this workflow. */
+  /** Provides workflow-specific data. */
   context?: RegistrationStatusGetResponseContextMap | null;
-  /** Error details when a workflow reaches the `failed` state. The specific */
+  /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
   error?: CreateRegistrationResponseError | null;
 }
 export const GetRegistrationStatusResponse = /*@__PURE__*/ S.suspend(() =>
@@ -632,9 +768,9 @@ export const GetRegistrationStatusResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRegistrationStatusResponse>;
 
 export interface GetUpdateStatusRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
 }
 export const GetUpdateStatusRequest = /*@__PURE__*/ S.suspend(() =>
@@ -679,16 +815,16 @@ export const UpdateStatusGetResponseError = CreateRegistrationResponseError;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUpdateStatusResponse {
-  /** Whether the workflow has reached a terminal state. `true` when */
+  /** Indicates whether the workflow reached a terminal state. A `succeeded` or `failed` state returns `true`; `pending`, `in_progress`, `action_required`, and `blocked` return `false`. */
   completed: boolean;
   createdAt: string;
   links: CreateRegistrationResponseLinks;
-  /** Workflow lifecycle state. */
+  /** Describes the workflow lifecycle state. */
   state: UpdateStatusGetResponseState;
   updatedAt: string;
-  /** Workflow-specific data for this workflow. */
+  /** Provides workflow-specific data. */
   context?: UpdateStatusGetResponseContextMap | null;
-  /** Error details when a workflow reaches the `failed` state. The specific */
+  /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
   error?: CreateRegistrationResponseError | null;
 }
 export const GetUpdateStatusResponse = /*@__PURE__*/ S.suspend(() =>
@@ -706,7 +842,7 @@ export const GetUpdateStatusResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetUpdateStatusResponse>;
 
 export interface ListDomainsRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
 }
 export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -732,13 +868,13 @@ export interface DomainsListResultItemRegistrantContact {
   city: string;
   /** The country in which the user lives. */
   country: string;
-  /** User's first name */
+  /** User's first name. */
   firstName: string;
-  /** User's last name */
+  /** User's last name. */
   lastName: string;
   /** Name of organization. */
   organization: string;
-  /** User's telephone number */
+  /** User's telephone number. */
   phone: string;
   /** State. */
   state: string;
@@ -809,17 +945,17 @@ export type DomainsListResultItemTransferInUnlockDomain =
 export const DomainsListResultItemTransferInUnlockDomain = S.String;
 
 export interface DomainsListResultItemTransferIn {
-  /** Form of authorization has been accepted by the registrant. */
+  /** Status of the registrant authorization step. */
   acceptFoa?: DomainsListResultItemTransferInAcceptFoa | null;
-  /** Shows transfer status with the registry. */
+  /** Status of the registry transfer-approval step. */
   approveTransfer?: DomainsListResultItemTransferInApproveTransfer | null;
   /** Indicates if cancellation is still possible. */
   canCancelTransfer?: boolean | null;
-  /** Privacy guards are disabled at the foreign registrar. */
+  /** Status of the privacy-guard disabling step at the foreign registrar. */
   disablePrivacy?: DomainsListResultItemTransferInDisablePrivacy | null;
-  /** Auth code has been entered and verified. */
+  /** Status of the auth-code entry and verification step. */
   enterAuthCode?: DomainsListResultItemTransferInEnterAuthCode | null;
-  /** Domain is unlocked at the foreign registrar. */
+  /** Status of the domain-unlock step at the foreign registrar. */
   unlockDomain?: DomainsListResultItemTransferInUnlockDomain | null;
 }
 export const DomainsListResultItemTransferIn = /*@__PURE__*/ S.suspend(() =>
@@ -862,7 +998,7 @@ export interface DomainsListResultItem {
   id?: string | null;
   /** Shows if a domain is available for transferring into Cloudflare Registrar. */
   available?: boolean | null;
-  /** Indicates if the domain can be registered as a new domain. */
+  /** Indicates eligibility to register the domain as a new domain. */
   canRegister?: boolean | null;
   /** Shows time of creation. */
   createdAt?: string | null;
@@ -874,9 +1010,9 @@ export interface DomainsListResultItem {
   locked?: boolean | null;
   /** Shows contact information for domain registrant. */
   registrantContact?: DomainsListResultItemRegistrantContact | null;
-  /** A comma-separated list of registry status codes. A full list of status codes can be found at [EPP Status Codes](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en). */
+  /** A comma-separated list of registry status codes. Refer to [EPP Status Codes](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en) for the full list. */
   registryStatuses?: string | null;
-  /** Whether a particular TLD is currently supported by Cloudflare Registrar. Refer to [TLD Policies](https://www.cloudflare.com/tld-policies/) for a list of supported TLDs. */
+  /** Indicates whether Cloudflare Registrar currently supports a particular TLD. Refer to [TLD Policies](https://www.cloudflare.com/tld-policies/) for a list of supported TLDs. */
   supportedTld?: boolean | null;
   /** Statuses for domain transfers into Cloudflare Registrar. */
   transferIn?: DomainsListResultItemTransferIn | null;
@@ -941,6 +1077,80 @@ export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListDomainsResponse",
 }) as any as S.Schema<ListDomainsResponse>;
 
+export type ListExtensionsRequestDirection = "asc" | "desc";
+export const ListExtensionsRequestDirection = S.String;
+
+export type ListExtensionsRequestSortBy = "name" | "created_at" | "updated_at";
+export const ListExtensionsRequestSortBy = S.String;
+
+export interface ListExtensionsRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Opaque token from a previous response's `result_info.cursor`. Pass this value to fetch the next page of results. Omit (or pass an empty string) for the first page. */
+  cursor?: string;
+  /** Sort direction for results. Defaults to ascending order. */
+  direction?: ListExtensionsRequestDirection | (string & {});
+  /** Filter extensions by exact name match. For example, `name=com` returns only the `com` extension. */
+  name?: string;
+  /** Number of items to return per page. */
+  perPage?: number;
+  /** Column to sort results by. Defaults to `name` when omitted. */
+  sortBy?: ListExtensionsRequestSortBy | (string & {});
+}
+export const ListExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    direction: S.optional(ListExtensionsRequestDirection.pipe(T.Query())),
+    name: S.optional(S.String.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+    sortBy: S.optional(ListExtensionsRequestSortBy.pipe(T.Query("sort_by"))),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/registrar/extensions",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListExtensionsRequest",
+}) as any as S.Schema<ListExtensionsRequest>;
+
+export type ListExtensionsResultItemMetadata = GetExtensionResponseMetadata;
+export const ListExtensionsResultItemMetadata = GetExtensionResponseMetadata;
+
+export interface ListExtensionsResultItem {
+  /** Extension metadata. */
+  metadata: GetExtensionResponseMetadata;
+  /** JSON Schema describing the expected input structure for registration operations on this extension. */
+  registrationSchema: unknown;
+}
+export const ListExtensionsResultItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metadata: GetExtensionResponseMetadata,
+    registrationSchema: S.Unknown.pipe(T.Body("registration_schema")),
+  }),
+).annotate({
+  identifier: "ListExtensionsResultItem",
+}) as any as S.Schema<ListExtensionsResultItem>;
+
+export type ListExtensionsResultList = Array<ListExtensionsResultItem>;
+export const ListExtensionsResultList = /*@__PURE__*/ S.Array(
+  ListExtensionsResultItem,
+) as any as S.Schema<ListExtensionsResultList>;
+
+export type ListExtensionsResponse = ListExtensionsResultList;
+export const ListExtensionsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListExtensionsResultList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "ListExtensionsResponse",
+}) as any as S.Schema<ListExtensionsResponse>;
+
 export type ListRegistrationsRequestDirection = "asc" | "desc";
 export const ListRegistrationsRequestDirection = S.String;
 
@@ -951,15 +1161,15 @@ export type ListRegistrationsRequestSortBy =
 export const ListRegistrationsRequestSortBy = S.String;
 
 export interface ListRegistrationsRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
-  /** Opaque token from a previous response's `result_info.cursor`. */
+  /** Opaque token from a previous response's `result_info.cursor`. Pass this value to fetch the next page of results. Omit (or pass an empty string) for the first page. */
   cursor?: string;
   /** Sort direction for results. Defaults to ascending order. */
   direction?: ListRegistrationsRequestDirection | (string & {});
   /** Number of items to return per page. */
   perPage?: number;
-  /** Column to sort results by. Defaults to registration date */
+  /** Column to sort results by. Defaults to registration date (`registry_created_at`) when omitted. */
   sortBy?: ListRegistrationsRequestSortBy | (string & {});
 }
 export const ListRegistrationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -982,7 +1192,7 @@ export const ListRegistrationsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListRegistrationsRequest",
 }) as any as S.Schema<ListRegistrationsRequest>;
 
-export type ListRegistrationsResultItemPrivacyMode = "redaction";
+export type ListRegistrationsResultItemPrivacyMode = "off" | "redaction";
 export const ListRegistrationsResultItemPrivacyMode = S.String;
 
 export type ListRegistrationsResultItemStatus =
@@ -995,13 +1205,13 @@ export type ListRegistrationsResultItemStatus =
 export const ListRegistrationsResultItemStatus = S.String;
 
 export interface ListRegistrationsResultItem {
-  /** Whether the domain will be automatically renewed before expiration. */
+  /** Whether automatic renewal occurs before expiration. */
   autoRenew: boolean;
   /** When the domain was registered. Present when the registration resource exists. */
   createdAt: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
-  /** When the domain registration expires. Present when the registration is ready; may be null only while `status` is `registration_pending`. */
+  /** When the domain registration expires. Ready registrations include this value; only `registration_pending` may return null. */
   expiresAt: string;
   /** Whether the domain is locked for transfer. */
   locked: boolean;
@@ -1042,9 +1252,9 @@ export const ListRegistrationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListRegistrationsResponse>;
 
 export interface PutDomainRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
-  /** Fully qualified domain name (FQDN) including the extension */
+  /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
   /** Auto-renew controls whether subscription is automatically renewed upon domain expiration. */
   autoRenew?: boolean;
@@ -1086,11 +1296,11 @@ export const SearchRequestExtensionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SearchRequestExtensionsList>;
 
 export interface SearchRegistrarRequest {
-  /** Identifier */
+  /** Identifier. */
   accountId: string;
   /** The search term to find domain suggestions. Accepts keywords, phrases, or full domain names. */
   q: string;
-  /** Limits results to specific domain extensions from the supported set. If not specified, */
+  /** Limits results to specific domain extensions from the supported set. If not specified, returns results across all supported extensions. Extensions not in the supported set are silently ignored. */
   extensions?: SearchRequestExtensionsList;
   /** Maximum number of domain suggestions to return. Defaults to 20 if not specified. */
   limit?: number;
@@ -1131,13 +1341,13 @@ export const SearchResponseDomainsItemTier = S.String;
 export interface SearchResponseDomainsItem {
   /** The fully qualified domain name (FQDN) in punycode format for internationalized domain names (IDNs). */
   name: string;
-  /** Indicates whether this domain appears available based on search data. Search results are non-authoritative and may be stale. - `true`: The domain appears available. Use POST /domain-check to confirm before registration. */
+  /** Indicates domain availability according to potentially stale, non-authoritative search data. */
   registrable: boolean;
-  /** Annual pricing information for a registrable domain. This object is only */
+  /** Provides annual pricing information for a registrable domain. This object appears only when `registrable` is `true`. The API returns all per-year prices as strings to preserve decimal precision. */
   pricing?: CheckResponseDomainsItemPricing | null;
-  /** Present only when `registrable` is `false` on search results. Explains why the domain does not appear registrable through this API. These values are advisory; use POST /domain-check for authoritative status. */
+  /** Appears only when `registrable` is `false` and explains the advisory search result. Use POST /domain-check for authoritative status. */
   reason?: SearchResponseDomainsItemReason | null;
-  /** The pricing tier for this domain. Always present when `registrable` is `true`; */
+  /** The pricing tier for this domain. A `registrable` value of `true` always includes this field, which defaults to `standard` for most domains. A `registrable` value of `false` may omit it. */
   tier?: SearchResponseDomainsItemTier | null;
 }
 export const SearchResponseDomainsItem = /*@__PURE__*/ S.suspend(() =>
@@ -1159,7 +1369,7 @@ export const SearchResponseDomainsList = /*@__PURE__*/ S.Array(
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SearchRegistrarResponse {
-  /** Array of domain suggestions sorted by relevance. May be empty if no domains match the search criteria. */
+  /** Lists domain suggestions in relevance order. An empty array indicates that the search criteria matched zero domains. */
   domains: SearchResponseDomainsList;
 }
 export const SearchRegistrarResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1230,6 +1440,21 @@ export const getDomain: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetExtensionError = CloudflareOpError;
+/** Returns metadata and JSON Schema documents describing the expected input structure for registration operations on a specific extension (TLD). Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed. */
+export const getExtension: API.OperationMethod<
+  GetExtensionRequest,
+  GetExtensionResponse,
+  GetExtensionError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExtensionRequest,
+  output: GetExtensionResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetRegistrationError = CloudflareOpError;
 /** Returns the current state of a domain registration. This is the canonical read endpoint for a domain you own. It returns the full registration resource including current settings and expiration. When the registration resource is ready, both `created_at` and `expires_at` are present in the response. */
 export const getRegistration: API.OperationMethod<
@@ -1246,7 +1471,7 @@ export const getRegistration: API.OperationMethod<
 }));
 
 export type GetRegistrationStatusError = CloudflareOpError;
-/** Returns the current status of a domain registration workflow. Use this endpoint to poll for completion when the POST response returned `202 Accepted`. The URL is provided in the `links.self` field of the workflow status response. Poll this endpoint until the workflow reaches a terminal state or a state that requires user attention. **Terminal states:** `succeeded` and `failed` are terminal and always have `completed: true`. **Non-terminal states:** - `action_required` has `completed: false` and will not resolve on its own. The workflow is paused pending user intervention. - `blocked` has `completed: false` and indicates the workflow is waiting on a third party such as the extension registry or losing registrar. Continue polling while informing the user of the delay. Use increasing backoff between polls. When `state: blocked`, use a longer polling interval and do not poll indefinitely. A naive polling loop that only checks `completed` can run indefinitely when `state: action_required`. Break explicitly on `action_required`: ```js let status; do { await new Promise(r => setTimeout(r, 2000)); status = await cloudflare.request({ method: 'GET', path: reg.result.links.self, }); } while ( !status.result.completed && status.result.state !== 'action_required' ); if (status.result.state === 'action_required') { // Surface context.action and context.confirmation_sent_to to the user. // Do not re-submit the registration request. } ``` */
+/** Returns the current status of a domain registration workflow. Use this endpoint to poll for completion when the POST response returned `202 Accepted`. The URL is provided in the `links.self` field of the workflow status response. Poll this endpoint until the workflow reaches a terminal state or a state that requires user attention. **Terminal states:** `succeeded` and `failed` are terminal and always have `completed: true`. **Non-terminal states:** - `action_required` has `completed: false` and will not resolve on its own. The workflow is paused pending user intervention. - `blocked` has `completed: false` and indicates the workflow is waiting on a third party such as the extension registry or losing registrar. Continue polling while informing the user of the delay. Use increasing backoff between polls. When `state: blocked`, use a longer polling interval and do not poll indefinitely. A naive polling loop that only checks `completed` can run indefinitely when `state: action_required`. Break explicitly on `action_required`: */
 export const getRegistrationStatus: API.OperationMethod<
   GetRegistrationStatusRequest,
   GetRegistrationStatusResponse,
@@ -1276,7 +1501,7 @@ export const getUpdateStatus: API.OperationMethod<
 }));
 
 export type ListDomainsError = Forbidden | CloudflareOpError;
-/** List domains handled by Registrar. */
+/** Lists domains handled by Registrar. */
 export const listDomains: API.PaginatedOperationMethod<
   ListDomainsRequest,
   ListDomainsResponse,
@@ -1294,6 +1519,21 @@ export const listDomains: API.PaginatedOperationMethod<
   }),
   cloudflarePaginate,
 ) as any;
+
+export type ListExtensionsError = CloudflareOpError;
+/** Returns metadata and JSON Schema documents describing the expected input structure for registration operations on each supported extension (TLD). This endpoint uses cursor-based pagination. Results are ordered by extension name by default. To fetch the next page, pass the `cursor` value from the `result_info` object in the response as the `cursor` query parameter in your next request. An empty `cursor` string indicates there are no more pages. Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed. */
+export const listExtensions: API.OperationMethod<
+  ListExtensionsRequest,
+  ListExtensionsResponse,
+  ListExtensionsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListExtensionsRequest,
+  output: ListExtensionsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
 
 export type ListRegistrationsError = CloudflareOpError;
 /** Returns a paginated list of domain registrations owned by the account. This endpoint uses cursor-based pagination. Results are ordered by registration date by default. To fetch the next page, pass the `cursor` value from the `result_info` object in the response as the `cursor` query parameter in your next request. An empty `cursor` string indicates there are no more pages. */
@@ -1315,7 +1555,7 @@ export type PutDomainError =
   | RegistrarUpdateNotAllowed
   | Forbidden
   | CloudflareOpError;
-/** Update individual domain. */
+/** Updates an individual domain. */
 export const putDomain: API.OperationMethod<
   PutDomainRequest,
   PutDomainResponse,

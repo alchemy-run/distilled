@@ -1,461 +1,115 @@
+---
+title: IdP Federation Grants
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Zero Trust](https://developers.cloudflare.com/api/resources/zero_trust)
+
+[Access](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # IdP Federation Grants
 
-## List IdP federation grants
+##### [List IdP federation grants](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/idp_federation_grants/methods/list)
 
-**get** `/accounts/{account_id}/access/idp_federation_grants`
+GET/accounts/{account\_id}/access/idp\_federation\_grants
 
-Lists the IdP federation grants owned by the account.
+##### [Create an IdP federation grant](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/idp_federation_grants/methods/create)
 
-### Path Parameters
+POST/accounts/{account\_id}/access/idp\_federation\_grants
 
-- `account_id: string`
+##### [Get an IdP federation grant](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/idp_federation_grants/methods/get)
 
-  Identifier.
+GET/accounts/{account\_id}/access/idp\_federation\_grants/{grant\_id}
 
-### Returns
+##### [Delete an IdP federation grant](https://developers.cloudflare.com/api/resources/zero_trust/subresources/access/subresources/idp_federation_grants/methods/delete)
 
-- `errors: array of object { code, message, documentation_url, source }`
+DELETE/accounts/{account\_id}/access/idp\_federation\_grants/{grant\_id}
 
-  - `code: number`
+##### ModelsExpand Collapse
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+IdPFederationGrant object {id, idp\_id }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+UID of the IdP federation grant.
 
-  - `message: string`
+maxLength32
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+idp\_id: string
 
-    - `pointer: optional string`
+UID of the identity provider being federated.
 
-- `success: true`
+formatuuid
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional array of IdPFederationGrant`
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(model)%20idp_federation_grant%20%3E%20(schema)>)
 
-  - `id: string`
+<details>
 
-    UID of the IdP federation grant.
+<summary>
 
-  - `idp_id: string`
+IdPFederationGrantListResponse = array of <a href="https://developers.cloudflare.com/api/resources/zero_trust#(resource)%20zero_trust.access.idp_federation_grants%20%3E%20(model)%20idp_federation_grant%20%3E%20(schema)">IdPFederationGrant</a> { id, idp\_id }
 
-    UID of the identity provider being federated.
+</summary>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+id: string
 
-  - `count: optional number`
+UID of the IdP federation grant.
 
-    Total number of results for the requested service.
+maxLength32
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+idp\_id: string
 
-  - `per_page: optional number`
+UID of the identity provider being federated.
 
-    Number of results per page of results.
+formatuuid
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-  - `total_pages: optional number`
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(model)%20idp_federation_grant_list_response%20%3E%20(schema)>)
 
-    The number of total pages in the entire result set.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/idp_federation_grants \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+IdPFederationGrantDeleteResponse object {id }
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "023e105f4ecef8ad9ca31a8372d0c353",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "idp_id": "a79de439-0e7f-4ebb-8a02-222222222222"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000,
-    "total_pages": 100
-  }
-}
-```
+id: optional string
 
-## Create an IdP federation grant
+UID of the deleted IdP federation grant.
 
-**post** `/accounts/{account_id}/access/idp_federation_grants`
+maxLength32
 
-Creates an IdP federation grant for the specified identity provider, making it
-available for federation to other accounts in the same Cloudflare organization.
+<a href="#">Link to this property</a>
 
-The account must belong to a Cloudflare organization. One-time pin and
-Cloudflare-managed identity providers cannot be federated. An account
-can federate at most five identity providers at a time.
+</details>
 
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-### Body Parameters
-
-- `idp_id: string`
-
-  UID of the identity provider to federate. Must be an existing identity provider in this account. One-time pin and Cloudflare-managed identity providers cannot be federated.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional IdPFederationGrant`
-
-  - `id: string`
-
-    UID of the IdP federation grant.
-
-  - `idp_id: string`
-
-    UID of the identity provider being federated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/idp_federation_grants \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "idp_id": "a79de439-0e7f-4ebb-8a02-222222222222"
-        }'
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "idp_id": "a79de439-0e7f-4ebb-8a02-222222222222"
-  }
-}
-```
-
-## Get an IdP federation grant
-
-**get** `/accounts/{account_id}/access/idp_federation_grants/{grant_id}`
-
-Retrieves a single IdP federation grant by its UID.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `grant_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional IdPFederationGrant`
-
-  - `id: string`
-
-    UID of the IdP federation grant.
-
-  - `idp_id: string`
-
-    UID of the identity provider being federated.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/idp_federation_grants/$GRANT_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "idp_id": "a79de439-0e7f-4ebb-8a02-222222222222"
-  }
-}
-```
-
-## Delete an IdP federation grant
-
-**delete** `/accounts/{account_id}/access/idp_federation_grants/{grant_id}`
-
-Deletes an IdP federation grant. The identity provider remains in the account,
-but it is no longer available for federation to other accounts.
-
-### Path Parameters
-
-- `account_id: string`
-
-  Identifier.
-
-- `grant_id: string`
-
-  Identifier.
-
-### Returns
-
-- `errors: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `messages: array of object { code, message, documentation_url, source }`
-
-  - `code: number`
-
-  - `message: string`
-
-  - `documentation_url: optional string`
-
-  - `source: optional object { pointer }`
-
-    - `pointer: optional string`
-
-- `success: true`
-
-  Whether the API call was successful.
-
-  - `true`
-
-- `result: optional object { id }`
-
-  - `id: optional string`
-
-    UID of the deleted IdP federation grant.
-
-### Example
-
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/idp_federation_grants/$GRANT_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
-
-#### Response
-
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "023e105f4ecef8ad9ca31a8372d0c353"
-  }
-}
-```
-
-## Domain Types
-
-### IdP Federation Grant
-
-- `IdPFederationGrant object { id, idp_id }`
-
-  - `id: string`
-
-    UID of the IdP federation grant.
-
-  - `idp_id: string`
-
-    UID of the identity provider being federated.
-
-### IdP Federation Grant List Response
-
-- `IdPFederationGrantListResponse = array of IdPFederationGrant`
-
-  - `id: string`
-
-    UID of the IdP federation grant.
-
-  - `idp_id: string`
-
-    UID of the identity provider being federated.
-
-### IdP Federation Grant Delete Response
-
-- `IdPFederationGrantDeleteResponse object { id }`
-
-  - `id: optional string`
-
-    UID of the deleted IdP federation grant.
+[Link to this property](#)%20zero_trust.access.idp_federation_grants%20%3E%20(model)%20idp_federation_grant_delete_response%20%3E%20(schema)>)

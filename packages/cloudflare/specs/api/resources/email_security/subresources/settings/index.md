@@ -1,6846 +1,7423 @@
+---
+title: Settings
+---
+
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Email Security](https://developers.cloudflare.com/api/resources/email_security)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
 # Settings
 
-# Allow Policies
+#### SettingsAllow Policies
 
-## List email allow policies
+##### [List email allow policies](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/allow_policies/methods/list)
 
-**get** `/accounts/{account_id}/email-security/settings/allow_policies`
+GET/accounts/{account\_id}/email-security/settings/allow\_policies
 
-Returns a paginated list of email allow policies. These policies exempt matching emails from security detection, allowing them to bypass disposition actions. Supports filtering by pattern type and policy attributes.
+##### [Get an email allow policy](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/allow_policies/methods/get)
 
-### Path Parameters
+GET/accounts/{account\_id}/email-security/settings/allow\_policies/{policy\_id}
 
-- `account_id: string`
+##### [Create email allow policy](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/allow_policies/methods/create)
 
-  Identifier.
+POST/accounts/{account\_id}/email-security/settings/allow\_policies
 
-### Query Parameters
+##### [Update an email allow policy](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/allow_policies/methods/edit)
 
-- `direction: optional "asc" or "desc"`
+PATCH/accounts/{account\_id}/email-security/settings/allow\_policies/{policy\_id}
 
-  The sorting direction.
+##### [Delete an email allow policy](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/allow_policies/methods/delete)
 
-  - `"asc"`
+DELETE/accounts/{account\_id}/email-security/settings/allow\_policies/{policy\_id}
 
-  - `"desc"`
+##### [Batch allow policies operations](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/allow_policies/methods/batch)
 
-- `is_acceptable_sender: optional boolean`
+POST/accounts/{account\_id}/email-security/settings/allow\_policies/batch
 
-  Filter to show only policies where messages from the sender are exempted from Spam, Spoof, and Bulk dispositions (not Malicious or Suspicious).
+##### ModelsExpand Collapse
 
-- `is_exempt_recipient: optional boolean`
+<details>
 
-  Filter to show only policies where messages to the recipient bypass all detections.
+<summary>
 
-- `is_trusted_sender: optional boolean`
+AllowPolicyListResponse object {id, created\_at, last\_modified, 12 more }
 
-  Filter to show only policies where messages from the sender bypass all detections and link following.
+An email allow policy.
 
-- `order: optional "pattern" or "created_at"`
+</summary>
 
-  Field to sort by.
+id: string
 
-  - `"pattern"`
+Allow policy identifier.
 
-  - `"created_at"`
+formatuuid
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Current page within paginated list of results.
+created\_at: string
 
-- `pattern: optional string`
+formatdate-time
 
-- `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+Deprecatedlast\_modified: string
 
-  - `"EMAIL"`
+Use <code>modified_at</code> instead.
 
-  - `"DOMAIN"`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `"IP"`
+formatdate-time
 
-  - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+comments: optional string
 
-  The number of results per page. Maximum value is 1000.
+maxLength1024
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-  Search term for filtering records. Behavior may change.
+is\_acceptable\_sender: optional boolean
 
-- `verify_sender: optional boolean`
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
 
-  Filter to show only policies that enforce DMARC, SPF, or DKIM authentication.
+<a href="#">Link to this property</a>
 
-### Returns
+is\_exempt\_recipient: optional boolean
 
-- `errors: array of object { code, message, documentation_url, source }`
+Bypasses all detections for messages to this recipient.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+Deprecatedis\_recipient: optional boolean
 
-  - `documentation_url: optional string`
+Use <code>is_exempt_recipient</code> instead.
 
-  - `source: optional object { pointer }`
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+is\_regex: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+Deprecatedis\_sender: optional boolean
 
-  - `documentation_url: optional string`
+Use <code>is_trusted_sender</code> instead.
 
-  - `source: optional object { pointer }`
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+Deprecatedis\_spoof: optional boolean
 
-  Whether the API call was successful.
+Use <code>is_acceptable_sender</code> instead.
 
-  - `true`
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
 
-- `result: optional array of object { id, created_at, last_modified, 12 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+is\_trusted\_sender: optional boolean
 
-    Allow policy identifier
+Bypasses all detections and link following for messages from this sender.
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `last_modified: string`
+modified\_at: optional string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+formatdate-time
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_acceptable_sender: optional boolean`
+pattern: optional string
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `is_exempt_recipient: optional boolean`
+maxLength1024
 
-    Messages to this recipient will bypass all detections
+minLength1
 
-  - `is_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+<details>
 
-  - `is_regex: optional boolean`
+<summary>
 
-  - `is_sender: optional boolean`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+Type of pattern matching.
 
-  - `is_spoof: optional boolean`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+</summary>
 
-  - `is_trusted_sender: optional boolean`
+One of the following:
 
-    Messages from this sender will bypass all detections and link following
+"EMAIL"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+"DOMAIN"
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<a href="#">Link to this property</a>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+"IP"
 
-    - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-    - `"DOMAIN"`
+"UNKNOWN"
 
-    - `"IP"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+</details>
 
-  - `verify_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+verify\_sender: optional boolean
 
-- `result_info: optional object { count, page, per_page, total_count }`
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+</details>
 
-  - `page: optional number`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(model)%20allow_policy_list_response%20%3E%20(schema)>)
 
-    Current page within paginated list of results.
+<details>
 
-  - `per_page: optional number`
+<summary>
 
-    Number of results per page of results.
+AllowPolicyGetResponse object {id, created\_at, last\_modified, 12 more }
 
-  - `total_count: optional number`
+An email allow policy.
 
-    Total results available without any search parameters.
+</summary>
 
-### Example
+id: string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/allow_policies \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+Allow policy identifier.
 
-#### Response
+formatuuid
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "comments": "Trust all messages send from test@example.com",
-      "is_acceptable_sender": false,
-      "is_exempt_recipient": false,
-      "is_recipient": false,
-      "is_regex": false,
-      "is_sender": true,
-      "is_spoof": false,
-      "is_trusted_sender": true,
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "pattern": "test@example.com",
-      "pattern_type": "EMAIL",
-      "verify_sender": true
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get an email allow policy
+created\_at: string
 
-**get** `/accounts/{account_id}/email-security/settings/allow_policies/{policy_id}`
+formatdate-time
 
-Retrieves details for a specific allow policy including its pattern, dispositions that are exempted, and whether it applies to all detections.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+Deprecatedlast\_modified: string
 
-- `account_id: string`
+Use <code>modified_at</code> instead.
 
-  Identifier.
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `policy_id: string`
+formatdate-time
 
-  Allow policy identifier
+<a href="#">Link to this property</a>
 
-### Returns
+comments: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength1024
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+is\_acceptable\_sender: optional boolean
 
-  - `documentation_url: optional string`
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+is\_exempt\_recipient: optional boolean
 
-- `messages: array of object { code, message, documentation_url, source }`
+Bypasses all detections for messages to this recipient.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+Deprecatedis\_recipient: optional boolean
 
-  - `documentation_url: optional string`
+Use <code>is_exempt_recipient</code> instead.
 
-  - `source: optional object { pointer }`
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+is\_regex: optional boolean
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+Deprecatedis\_sender: optional boolean
 
-- `result: optional object { id, created_at, last_modified, 12 more }`
+Use <code>is_trusted_sender</code> instead.
 
-  An email allow policy
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Allow policy identifier
+Deprecatedis\_spoof: optional boolean
 
-  - `created_at: string`
+Use <code>is_acceptable_sender</code> instead.
 
-  - `last_modified: string`
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+is\_trusted\_sender: optional boolean
 
-  - `is_acceptable_sender: optional boolean`
+Bypasses all detections and link following for messages from this sender.
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+<a href="#">Link to this property</a>
 
-  - `is_exempt_recipient: optional boolean`
+modified\_at: optional string
 
-    Messages to this recipient will bypass all detections
+formatdate-time
 
-  - `is_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+pattern: optional string
 
-  - `is_regex: optional boolean`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `is_sender: optional boolean`
+maxLength1024
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+minLength1
 
-  - `is_spoof: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+<details>
 
-  - `is_trusted_sender: optional boolean`
+<summary>
 
-    Messages from this sender will bypass all detections and link following
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `modified_at: optional string`
+Type of pattern matching.
 
-  - `pattern: optional string`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+</summary>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+One of the following:
 
-    - `"EMAIL"`
+"EMAIL"
 
-    - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+"DOMAIN"
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  - `verify_sender: optional boolean`
+"IP"
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+<a href="#">Link to this property</a>
 
-### Example
+"UNKNOWN"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/allow_policies/$POLICY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "comments": "Trust all messages send from test@example.com",
-    "is_acceptable_sender": false,
-    "is_exempt_recipient": false,
-    "is_recipient": false,
-    "is_regex": false,
-    "is_sender": true,
-    "is_spoof": false,
-    "is_trusted_sender": true,
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL",
-    "verify_sender": true
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create email allow policy
+verify\_sender: optional boolean
 
-**post** `/accounts/{account_id}/email-security/settings/allow_policies`
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
 
-Creates a new allow policy that exempts matching emails from security detections. Use with caution as this bypasses email security scanning. Policies can match on sender patterns and apply to specific detections or all detections.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+</details>
 
-- `account_id: string`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(model)%20allow_policy_get_response%20%3E%20(schema)>)
 
-  Identifier.
+<details>
 
-### Body Parameters
+<summary>
 
-- `is_acceptable_sender: boolean`
+AllowPolicyCreateResponse object {id, created\_at, last\_modified, 12 more }
 
-  Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+An email allow policy.
 
-- `is_exempt_recipient: boolean`
+</summary>
 
-  Messages to this recipient will bypass all detections
+id: string
 
-- `is_regex: boolean`
+Allow policy identifier.
 
-- `is_trusted_sender: boolean`
+formatuuid
 
-  Messages from this sender will bypass all detections and link following
+<a href="#">Link to this property</a>
 
-- `pattern: string`
+created\_at: string
 
-- `pattern_type: "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+formatdate-time
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-  - `"EMAIL"`
+Deprecatedlast\_modified: string
 
-  - `"DOMAIN"`
+Use <code>modified_at</code> instead.
 
-  - `"IP"`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `"UNKNOWN"`
+formatdate-time
 
-- `verify_sender: boolean`
+<a href="#">Link to this property</a>
 
-  Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+comments: optional string
 
-- `comments: optional string`
+maxLength1024
 
-- `is_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-  Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+is\_acceptable\_sender: optional boolean
 
-- `is_sender: optional boolean`
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
 
-  Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+<a href="#">Link to this property</a>
 
-- `is_spoof: optional boolean`
+is\_exempt\_recipient: optional boolean
 
-  Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+Bypasses all detections for messages to this recipient.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+Deprecatedis\_recipient: optional boolean
 
-  - `code: number`
+Use <code>is_exempt_recipient</code> instead.
 
-  - `message: string`
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_regex: optional boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+Deprecatedis\_sender: optional boolean
 
-  - `code: number`
+Use <code>is_trusted_sender</code> instead.
 
-  - `message: string`
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+Deprecatedis\_spoof: optional boolean
 
-    - `pointer: optional string`
+Use <code>is_acceptable_sender</code> instead.
 
-- `success: true`
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+is\_trusted\_sender: optional boolean
 
-- `result: optional object { id, created_at, last_modified, 12 more }`
+Bypasses all detections and link following for messages from this sender.
 
-  An email allow policy
+<a href="#">Link to this property</a>
 
-  - `id: string`
+modified\_at: optional string
 
-    Allow policy identifier
+formatdate-time
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `last_modified: string`
+pattern: optional string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `comments: optional string`
+maxLength1024
 
-  - `is_acceptable_sender: optional boolean`
+minLength1
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+<a href="#">Link to this property</a>
 
-  - `is_exempt_recipient: optional boolean`
+<details>
 
-    Messages to this recipient will bypass all detections
+<summary>
 
-  - `is_recipient: optional boolean`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+Type of pattern matching.
 
-  - `is_regex: optional boolean`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `is_sender: optional boolean`
+</summary>
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+One of the following:
 
-  - `is_spoof: optional boolean`
+"EMAIL"
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `is_trusted_sender: optional boolean`
+"DOMAIN"
 
-    Messages from this sender will bypass all detections and link following
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"IP"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+"UNKNOWN"
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+</details>
 
-    - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+verify\_sender: optional boolean
 
-    - `"UNKNOWN"`
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
 
-  - `verify_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+</details>
 
-### Example
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(model)%20allow_policy_create_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/allow_policies \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "is_acceptable_sender": false,
-          "is_exempt_recipient": false,
-          "is_regex": false,
-          "is_trusted_sender": true,
-          "pattern": "test@example.com",
-          "pattern_type": "EMAIL",
-          "verify_sender": true,
-          "comments": "Trust all messages send from test@example.com",
-          "is_sender": true
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "comments": "Trust all messages send from test@example.com",
-    "is_acceptable_sender": false,
-    "is_exempt_recipient": false,
-    "is_recipient": false,
-    "is_regex": false,
-    "is_sender": true,
-    "is_spoof": false,
-    "is_trusted_sender": true,
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL",
-    "verify_sender": true
-  }
-}
-```
+AllowPolicyEditResponse object {id, created\_at, last\_modified, 12 more }
 
-## Update an email allow policy
+An email allow policy.
 
-**patch** `/accounts/{account_id}/email-security/settings/allow_policies/{policy_id}`
+</summary>
 
-Updates an existing allow policy. Only provided fields will be modified. Changes take effect for new emails matching the pattern.
+id: string
 
-### Path Parameters
+Allow policy identifier.
 
-- `account_id: string`
+formatuuid
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `policy_id: string`
+created\_at: string
 
-  Allow policy identifier
+formatdate-time
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `comments: optional string`
+Deprecatedlast\_modified: string
 
-- `is_acceptable_sender: optional boolean`
+Use <code>modified_at</code> instead.
 
-  Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `is_exempt_recipient: optional boolean`
+formatdate-time
 
-  Messages to this recipient will bypass all detections
+<a href="#">Link to this property</a>
 
-- `is_recipient: optional boolean`
+comments: optional string
 
-  Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+maxLength1024
 
-- `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-- `is_sender: optional boolean`
+is\_acceptable\_sender: optional boolean
 
-  Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
 
-- `is_spoof: optional boolean`
+<a href="#">Link to this property</a>
 
-  Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+is\_exempt\_recipient: optional boolean
 
-- `is_trusted_sender: optional boolean`
+Bypasses all detections for messages to this recipient.
 
-  Messages from this sender will bypass all detections and link following
+<a href="#">Link to this property</a>
 
-- `pattern: optional string`
+Deprecatedis\_recipient: optional boolean
 
-- `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+Use <code>is_exempt_recipient</code> instead.
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
 
-  - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-  - `"DOMAIN"`
+is\_regex: optional boolean
 
-  - `"IP"`
+<a href="#">Link to this property</a>
 
-  - `"UNKNOWN"`
+Deprecatedis\_sender: optional boolean
 
-- `verify_sender: optional boolean`
+Use <code>is_trusted_sender</code> instead.
 
-  Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+Deprecatedis\_spoof: optional boolean
 
-  - `code: number`
+Use <code>is_acceptable_sender</code> instead.
 
-  - `message: string`
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_trusted\_sender: optional boolean
 
-    - `pointer: optional string`
+Bypasses all detections and link following for messages from this sender.
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+pattern: optional string
 
-    - `pointer: optional string`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-- `success: true`
+maxLength1024
 
-  Whether the API call was successful.
+minLength1
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, last_modified, 12 more }`
+<details>
 
-  An email allow policy
+<summary>
 
-  - `id: string`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-    Allow policy identifier
+Type of pattern matching.
 
-  - `created_at: string`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `last_modified: string`
+</summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+One of the following:
 
-  - `comments: optional string`
+"EMAIL"
 
-  - `is_acceptable_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+"DOMAIN"
 
-  - `is_exempt_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages to this recipient will bypass all detections
+"IP"
 
-  - `is_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+"UNKNOWN"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_sender: optional boolean`
+</details>
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `is_spoof: optional boolean`
+verify\_sender: optional boolean
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
 
-  - `is_trusted_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages from this sender will bypass all detections and link following
+</details>
 
-  - `modified_at: optional string`
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(model)%20allow_policy_edit_response%20%3E%20(schema)>)
 
-  - `pattern: optional string`
+<details>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<summary>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+AllowPolicyDeleteResponse object {id }
 
-    - `"EMAIL"`
+</summary>
 
-    - `"DOMAIN"`
+id: string
 
-    - `"IP"`
+Allow policy identifier.
 
-    - `"UNKNOWN"`
+formatuuid
 
-  - `verify_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+</details>
 
-### Example
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(model)%20allow_policy_delete_response%20%3E%20(schema)>)
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/allow_policies/$POLICY_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Trust all messages send from test@example.com",
-          "is_sender": true,
-          "is_trusted_sender": true,
-          "pattern": "test@example.com",
-          "pattern_type": "EMAIL",
-          "verify_sender": true
-        }'
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "comments": "Trust all messages send from test@example.com",
-    "is_acceptable_sender": false,
-    "is_exempt_recipient": false,
-    "is_recipient": false,
-    "is_regex": false,
-    "is_sender": true,
-    "is_spoof": false,
-    "is_trusted_sender": true,
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL",
-    "verify_sender": true
-  }
-}
-```
+AllowPolicyBatchResponse object {deletes, patches, posts, puts }
 
-## Delete an email allow policy
+</summary>
 
-**delete** `/accounts/{account_id}/email-security/settings/allow_policies/{policy_id}`
+<details>
 
-Removes an allow policy. After deletion, emails matching this pattern will be subject to normal security scanning and disposition actions.
+<summary>
 
-### Path Parameters
+deletes: optional array of object {id }
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+id: string
 
-- `policy_id: string`
+Allow policy identifier.
 
-  Allow policy identifier
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+patches: optional array of object {id, created\_at, last\_modified, 12 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `messages: array of object { code, message, documentation_url, source }`
+id: string
 
-  - `code: number`
+Allow policy identifier.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+Deprecatedlast\_modified: string
 
-  - `true`
+Use <code>modified_at</code> instead.
 
-- `result: optional object { id }`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `id: string`
+formatdate-time
 
-    Allow policy identifier
+<a href="#">Link to this property</a>
 
-### Example
+comments: optional string
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/allow_policies/$POLICY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+maxLength1024
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+is\_acceptable\_sender: optional boolean
 
-## Domain Types
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
 
-### Allow Policy List Response
+<a href="#">Link to this property</a>
 
-- `AllowPolicyListResponse object { id, created_at, last_modified, 12 more }`
+is\_exempt\_recipient: optional boolean
 
-  An email allow policy
+Bypasses all detections for messages to this recipient.
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Allow policy identifier
+Deprecatedis\_recipient: optional boolean
 
-  - `created_at: string`
+Use <code>is_exempt_recipient</code> instead.
 
-  - `last_modified: string`
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+is\_regex: optional boolean
 
-  - `is_acceptable_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+Deprecatedis\_sender: optional boolean
 
-  - `is_exempt_recipient: optional boolean`
+Use <code>is_trusted_sender</code> instead.
 
-    Messages to this recipient will bypass all detections
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
 
-  - `is_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+Deprecatedis\_spoof: optional boolean
 
-  - `is_regex: optional boolean`
+Use <code>is_acceptable_sender</code> instead.
 
-  - `is_sender: optional boolean`
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `is_spoof: optional boolean`
+is\_trusted\_sender: optional boolean
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+Bypasses all detections and link following for messages from this sender.
 
-  - `is_trusted_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages from this sender will bypass all detections and link following
+modified\_at: optional string
 
-  - `modified_at: optional string`
+formatdate-time
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+pattern: optional string
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-    - `"EMAIL"`
+maxLength1024
 
-    - `"DOMAIN"`
+minLength1
 
-    - `"IP"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+<details>
 
-  - `verify_sender: optional boolean`
+<summary>
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-### Allow Policy Get Response
+Type of pattern matching.
 
-- `AllowPolicyGetResponse object { id, created_at, last_modified, 12 more }`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  An email allow policy
+</summary>
 
-  - `id: string`
+One of the following:
 
-    Allow policy identifier
+"EMAIL"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `last_modified: string`
+"DOMAIN"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+"IP"
 
-  - `is_acceptable_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+"UNKNOWN"
 
-  - `is_exempt_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages to this recipient will bypass all detections
+</details>
 
-  - `is_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+verify\_sender: optional boolean
 
-  - `is_regex: optional boolean`
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
 
-  - `is_sender: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+</details>
 
-  - `is_spoof: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+<details>
 
-  - `is_trusted_sender: optional boolean`
+<summary>
 
-    Messages from this sender will bypass all detections and link following
+posts: optional array of object {id, created\_at, last\_modified, 12 more }
 
-  - `modified_at: optional string`
+</summary>
 
-  - `pattern: optional string`
+id: string
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+Allow policy identifier.
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+formatuuid
 
-    - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-    - `"DOMAIN"`
+created\_at: string
 
-    - `"IP"`
+formatdate-time
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  - `verify_sender: optional boolean`
+Deprecatedlast\_modified: string
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+Use <code>modified_at</code> instead.
 
-### Allow Policy Create Response
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `AllowPolicyCreateResponse object { id, created_at, last_modified, 12 more }`
+formatdate-time
 
-  An email allow policy
+<a href="#">Link to this property</a>
 
-  - `id: string`
+comments: optional string
 
-    Allow policy identifier
+maxLength1024
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `last_modified: string`
+is\_acceptable\_sender: optional boolean
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_acceptable_sender: optional boolean`
+is\_exempt\_recipient: optional boolean
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+Bypasses all detections for messages to this recipient.
 
-  - `is_exempt_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Messages to this recipient will bypass all detections
+Deprecatedis\_recipient: optional boolean
 
-  - `is_recipient: optional boolean`
+Use <code>is_exempt_recipient</code> instead.
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_sender: optional boolean`
+is\_regex: optional boolean
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `is_spoof: optional boolean`
+Deprecatedis\_sender: optional boolean
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+Use <code>is_trusted_sender</code> instead.
 
-  - `is_trusted_sender: optional boolean`
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
 
-    Messages from this sender will bypass all detections and link following
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+Deprecatedis\_spoof: optional boolean
 
-  - `pattern: optional string`
+Use <code>is_acceptable_sender</code> instead.
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+is\_trusted\_sender: optional boolean
 
-    - `"DOMAIN"`
+Bypasses all detections and link following for messages from this sender.
 
-    - `"IP"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+modified\_at: optional string
 
-  - `verify_sender: optional boolean`
+formatdate-time
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+<a href="#">Link to this property</a>
 
-### Allow Policy Edit Response
+pattern: optional string
 
-- `AllowPolicyEditResponse object { id, created_at, last_modified, 12 more }`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  An email allow policy
+maxLength1024
 
-  - `id: string`
+minLength1
 
-    Allow policy identifier
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+<details>
 
-  - `last_modified: string`
+<summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `comments: optional string`
+Type of pattern matching.
 
-  - `is_acceptable_sender: optional boolean`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-    Messages from this sender will be exempted from Spam, Spoof and Bulk dispositions. Note - This will not exempt messages with Malicious or Suspicious dispositions.
+</summary>
 
-  - `is_exempt_recipient: optional boolean`
+One of the following:
 
-    Messages to this recipient will bypass all detections
+"EMAIL"
 
-  - `is_recipient: optional boolean`
+<a href="#">Link to this property</a>
 
-    Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.
+"DOMAIN"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_sender: optional boolean`
+"IP"
 
-    Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `is_spoof: optional boolean`
+"UNKNOWN"
 
-    Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `is_trusted_sender: optional boolean`
+</details>
 
-    Messages from this sender will bypass all detections and link following
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+verify\_sender: optional boolean
 
-  - `pattern: optional string`
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<a href="#">Link to this property</a>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+</details>
 
-    - `"EMAIL"`
+<a href="#">Link to this property</a>
 
-    - `"DOMAIN"`
+<details>
 
-    - `"IP"`
+<summary>
 
-    - `"UNKNOWN"`
+puts: optional array of object {id, created\_at, last\_modified, 12 more }
 
-  - `verify_sender: optional boolean`
+</summary>
 
-    Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
+id: string
 
-### Allow Policy Delete Response
+Allow policy identifier.
 
-- `AllowPolicyDeleteResponse object { id }`
+formatuuid
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Allow policy identifier
+created\_at: string
 
-# Block Senders
+formatdate-time
 
-## List blocked email senders
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/email-security/settings/block_senders`
+Deprecatedlast\_modified: string
 
-Returns a paginated list of blocked email sender patterns. These patterns prevent emails from matching senders from being delivered. Supports filtering by pattern type and searching across patterns.
+Use <code>modified_at</code> instead.
 
-### Path Parameters
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `account_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+comments: optional string
 
-- `direction: optional "asc" or "desc"`
+maxLength1024
 
-  The sorting direction.
+<a href="#">Link to this property</a>
 
-  - `"asc"`
+is\_acceptable\_sender: optional boolean
 
-  - `"desc"`
+Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.
 
-- `order: optional "pattern" or "created_at"`
+<a href="#">Link to this property</a>
 
-  Field to sort by.
+is\_exempt\_recipient: optional boolean
 
-  - `"pattern"`
+Bypasses all detections for messages to this recipient.
 
-  - `"created_at"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+Deprecatedis\_recipient: optional boolean
 
-  Current page within paginated list of results.
+Use <code>is_exempt_recipient</code> instead.
 
-- `pattern: optional string`
+Deprecated as of July 1, 2025. Use <code>is_exempt_recipient</code> instead. End of life: July 1, 2026.
 
-  Filter by pattern value.
+<a href="#">Link to this property</a>
 
-- `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+is\_regex: optional boolean
 
-  Filter by pattern type.
+<a href="#">Link to this property</a>
 
-  - `"EMAIL"`
+Deprecatedis\_sender: optional boolean
 
-  - `"DOMAIN"`
+Use <code>is_trusted_sender</code> instead.
 
-  - `"IP"`
+Deprecated as of July 1, 2025. Use <code>is_trusted_sender</code> instead. End of life: July 1, 2026.
 
-  - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+Deprecatedis\_spoof: optional boolean
 
-  The number of results per page. Maximum value is 1000.
+Use <code>is_acceptable_sender</code> instead.
 
-- `search: optional string`
+Deprecated as of July 1, 2025. Use <code>is_acceptable_sender</code> instead. End of life: July 1, 2026.
 
-  Search term for filtering records. Behavior may change.
+<a href="#">Link to this property</a>
 
-### Returns
+is\_trusted\_sender: optional boolean
 
-- `errors: array of object { code, message, documentation_url, source }`
+Bypasses all detections and link following for messages from this sender.
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+modified\_at: optional string
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+pattern: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `code: number`
+maxLength1024
 
-  - `message: string`
+minLength1
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  Whether the API call was successful.
+Type of pattern matching.
 
-  - `true`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-- `result: optional array of object { id, comments, created_at, 5 more }`
+</summary>
 
-  - `id: optional string`
+One of the following:
 
-    Blocked sender pattern identifier
+"EMAIL"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"DOMAIN"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+"IP"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"UNKNOWN"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+</details>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+verify\_sender: optional boolean
 
-    - `"DOMAIN"`
+Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.
 
-    - `"IP"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+</details>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+</details>
 
-    Total number of results for the requested service.
+[Link to this property](#)%20email_security.settings.allow_policies%20%3E%20(model)%20allow_policy_batch_response%20%3E%20(schema)>)
 
-  - `page: optional number`
+#### SettingsBlock Senders
 
-    Current page within paginated list of results.
+##### [List blocked email senders](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/list)
 
-  - `per_page: optional number`
+GET/accounts/{account\_id}/email-security/settings/block\_senders
 
-    Number of results per page of results.
+##### [Get a blocked email sender](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/get)
 
-  - `total_count: optional number`
+GET/accounts/{account\_id}/email-security/settings/block\_senders/{pattern\_id}
 
-    Total results available without any search parameters.
+##### [Create blocked email sender](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/create)
 
-### Example
+POST/accounts/{account\_id}/email-security/settings/block\_senders
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+##### [Update a blocked email sender](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/edit)
 
-#### Response
+PATCH/accounts/{account\_id}/email-security/settings/block\_senders/{pattern\_id}
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "comments": "Block sender with email test@example.com",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "is_regex": false,
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "pattern": "test@example.com",
-      "pattern_type": "EMAIL"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+##### [Delete a blocked email sender](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/delete)
 
-## Get a blocked email sender
+DELETE/accounts/{account\_id}/email-security/settings/block\_senders/{pattern\_id}
 
-**get** `/accounts/{account_id}/email-security/settings/block_senders/{pattern_id}`
+##### [Batch blocked senders operations](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/block_senders/methods/batch)
 
-Retrieves details for a specific blocked sender pattern including its pattern type, value, and metadata.
+POST/accounts/{account\_id}/email-security/settings/block\_senders/batch
 
-### Path Parameters
+##### ModelsExpand Collapse
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `pattern_id: string`
+BlockSenderListResponse object {id, comments, created\_at, 5 more }
 
-  Blocked sender pattern identifier
+A blocked sender pattern.
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+id: optional string
 
-  - `code: number`
+Blocked sender pattern identifier.
 
-  - `message: string`
+formatuuid
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+comments: optional string
 
-    - `pointer: optional string`
+maxLength1024
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_regex: optional boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+Deprecatedlast\_modified: optional string
 
-  Whether the API call was successful.
+Use <code>modified_at</code> instead.
 
-  - `true`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `result: optional object { id, comments, created_at, 5 more }`
+formatdate-time
 
-  A blocked sender pattern
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+modified\_at: optional string
 
-    Blocked sender pattern identifier
+formatdate-time
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+pattern: optional string
 
-  - `is_regex: optional boolean`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `last_modified: optional string`
+maxLength1024
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+minLength1
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+<details>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<summary>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-    - `"EMAIL"`
+Type of pattern matching.
 
-    - `"DOMAIN"`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-    - `"IP"`
+</summary>
 
-    - `"UNKNOWN"`
+One of the following:
 
-### Example
+"EMAIL"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders/$PATTERN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"DOMAIN"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Block sender with email test@example.com",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create blocked email sender
+"IP"
 
-**post** `/accounts/{account_id}/email-security/settings/block_senders`
+<a href="#">Link to this property</a>
 
-Creates a new blocked sender pattern. Emails matching this pattern will be blocked from delivery. Patterns can be email addresses, domains, or IP addresses, and support regular expressions.
+"UNKNOWN"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+</details>
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+</details>
 
-- `is_regex: boolean`
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_list_response%20%3E%20(schema)>)
 
-- `pattern: string`
+<details>
 
-- `pattern_type: "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<summary>
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+BlockSenderGetResponse object {id, comments, created\_at, 5 more }
 
-  - `"EMAIL"`
+A blocked sender pattern.
 
-  - `"DOMAIN"`
+</summary>
 
-  - `"IP"`
+id: optional string
 
-  - `"UNKNOWN"`
+Blocked sender pattern identifier.
 
-- `comments: optional string`
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+comments: optional string
 
-  - `code: number`
+maxLength1024
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_at: optional string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+is\_regex: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+Deprecatedlast\_modified: optional string
 
-  - `documentation_url: optional string`
+Use <code>modified_at</code> instead.
 
-  - `source: optional object { pointer }`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+modified\_at: optional string
 
-  - `true`
+formatdate-time
 
-- `result: optional object { id, comments, created_at, 5 more }`
+<a href="#">Link to this property</a>
 
-  A blocked sender pattern
+pattern: optional string
 
-  - `id: optional string`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-    Blocked sender pattern identifier
+maxLength1024
 
-  - `comments: optional string`
+minLength1
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_regex: optional boolean`
+<details>
 
-  - `last_modified: optional string`
+<summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `modified_at: optional string`
+Type of pattern matching.
 
-  - `pattern: optional string`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+</summary>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+One of the following:
 
-    - `"EMAIL"`
+"EMAIL"
 
-    - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+"DOMAIN"
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-### Example
+"IP"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "is_regex": false,
-          "pattern": "test@example.com",
-          "pattern_type": "EMAIL",
-          "comments": "Block sender with email test@example.com"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"UNKNOWN"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Block sender with email test@example.com",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update a blocked email sender
+</details>
 
-**patch** `/accounts/{account_id}/email-security/settings/block_senders/{pattern_id}`
+<a href="#">Link to this property</a>
 
-Updates an existing blocked sender pattern. Only provided fields will be modified. The pattern will continue blocking emails until deleted.
+</details>
 
-### Path Parameters
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_get_response%20%3E%20(schema)>)
 
-- `account_id: string`
+<details>
 
-  Identifier.
+<summary>
 
-- `pattern_id: string`
+BlockSenderCreateResponse object {id, comments, created\_at, 5 more }
 
-  Blocked sender pattern identifier
+A blocked sender pattern.
 
-### Body Parameters
+</summary>
 
-- `comments: optional string`
+id: optional string
 
-- `is_regex: optional boolean`
+Blocked sender pattern identifier.
 
-- `pattern: optional string`
+formatuuid
 
-- `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  Type of pattern matching.
-  Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+comments: optional string
 
-  - `"EMAIL"`
+maxLength1024
 
-  - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-  - `"IP"`
+created\_at: optional string
 
-  - `"UNKNOWN"`
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+is\_regex: optional boolean
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+Deprecatedlast\_modified: optional string
 
-  - `documentation_url: optional string`
+Use <code>modified_at</code> instead.
 
-  - `source: optional object { pointer }`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+modified\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+pattern: optional string
 
-    - `pointer: optional string`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-- `success: true`
+maxLength1024
 
-  Whether the API call was successful.
+minLength1
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comments, created_at, 5 more }`
+<details>
 
-  A blocked sender pattern
+<summary>
 
-  - `id: optional string`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-    Blocked sender pattern identifier
+Type of pattern matching.
 
-  - `comments: optional string`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `created_at: optional string`
+</summary>
 
-  - `is_regex: optional boolean`
+One of the following:
 
-  - `last_modified: optional string`
+"EMAIL"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"DOMAIN"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+"IP"
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+"UNKNOWN"
 
-    - `"DOMAIN"`
+<a href="#">Link to this property</a>
 
-    - `"IP"`
+</details>
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders/$PATTERN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Block sender with email test@example.com",
-          "pattern": "test@example.com",
-          "pattern_type": "EMAIL"
-        }'
-```
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_create_response%20%3E%20(schema)>)
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Block sender with email test@example.com",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "test@example.com",
-    "pattern_type": "EMAIL"
-  }
-}
-```
+<summary>
 
-## Delete a blocked email sender
+BlockSenderEditResponse object {id, comments, created\_at, 5 more }
 
-**delete** `/accounts/{account_id}/email-security/settings/block_senders/{pattern_id}`
+A blocked sender pattern.
 
-Removes a blocked sender pattern. After deletion, emails from this sender will no longer be automatically blocked based on this rule.
+</summary>
 
-### Path Parameters
+id: optional string
 
-- `account_id: string`
+Blocked sender pattern identifier.
 
-  Identifier.
+formatuuid
 
-- `pattern_id: string`
+<a href="#">Link to this property</a>
 
-  Blocked sender pattern identifier
+comments: optional string
 
-### Returns
+maxLength1024
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+created\_at: optional string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+is\_regex: optional boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+Deprecatedlast\_modified: optional string
 
-  - `code: number`
+Use <code>modified_at</code> instead.
 
-  - `message: string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `documentation_url: optional string`
+formatdate-time
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+modified\_at: optional string
 
-- `success: true`
+formatdate-time
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+pattern: optional string
 
-- `result: optional object { id }`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `id: string`
+maxLength1024
 
-    Blocked sender pattern identifier
+minLength1
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/block_senders/$PATTERN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<details>
 
-#### Response
+<summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-## Domain Types
+Type of pattern matching.
 
-### Block Sender List Response
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-- `BlockSenderListResponse object { id, comments, created_at, 5 more }`
+</summary>
 
-  A blocked sender pattern
+One of the following:
 
-  - `id: optional string`
+"EMAIL"
 
-    Blocked sender pattern identifier
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+"DOMAIN"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_regex: optional boolean`
+"IP"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"UNKNOWN"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+</details>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<a href="#">Link to this property</a>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+</details>
 
-    - `"EMAIL"`
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_edit_response%20%3E%20(schema)>)
 
-    - `"DOMAIN"`
+<details>
 
-    - `"IP"`
+<summary>
 
-    - `"UNKNOWN"`
+BlockSenderDeleteResponse object {id }
 
-### Block Sender Get Response
+</summary>
 
-- `BlockSenderGetResponse object { id, comments, created_at, 5 more }`
+id: string
 
-  A blocked sender pattern
+Blocked sender pattern identifier.
 
-  - `id: optional string`
+formatuuid
 
-    Blocked sender pattern identifier
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+</details>
 
-  - `created_at: optional string`
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_delete_response%20%3E%20(schema)>)
 
-  - `is_regex: optional boolean`
+<details>
 
-  - `last_modified: optional string`
+<summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+BlockSenderBatchResponse object {deletes, patches, posts, puts }
 
-  - `modified_at: optional string`
+</summary>
 
-  - `pattern: optional string`
+<details>
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+<summary>
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+deletes: optional array of object {id }
 
-    - `"EMAIL"`
+</summary>
 
-    - `"DOMAIN"`
+id: string
 
-    - `"IP"`
+Blocked sender pattern identifier.
 
-    - `"UNKNOWN"`
+formatuuid
 
-### Block Sender Create Response
+<a href="#">Link to this property</a>
 
-- `BlockSenderCreateResponse object { id, comments, created_at, 5 more }`
+</details>
 
-  A blocked sender pattern
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Blocked sender pattern identifier
+<summary>
 
-  - `comments: optional string`
+patches: optional array of object {id, comments, created\_at, 5 more }
 
-  - `created_at: optional string`
+</summary>
 
-  - `is_regex: optional boolean`
+id: optional string
 
-  - `last_modified: optional string`
+Blocked sender pattern identifier.
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+formatuuid
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+comments: optional string
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+maxLength1024
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+created\_at: optional string
 
-    - `"DOMAIN"`
+formatdate-time
 
-    - `"IP"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+is\_regex: optional boolean
 
-### Block Sender Edit Response
+<a href="#">Link to this property</a>
 
-- `BlockSenderEditResponse object { id, comments, created_at, 5 more }`
+Deprecatedlast\_modified: optional string
 
-  A blocked sender pattern
+Use <code>modified_at</code> instead.
 
-  - `id: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-    Blocked sender pattern identifier
+formatdate-time
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+modified\_at: optional string
 
-  - `is_regex: optional boolean`
+formatdate-time
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+pattern: optional string
 
-  - `modified_at: optional string`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  - `pattern: optional string`
+maxLength1024
 
-  - `pattern_type: optional "EMAIL" or "DOMAIN" or "IP" or "UNKNOWN"`
+minLength1
 
-    Type of pattern matching.
-    Note: UNKNOWN is deprecated and cannot be used when creating or updating policies, but may be returned for existing entries.
+<a href="#">Link to this property</a>
 
-    - `"EMAIL"`
+<details>
 
-    - `"DOMAIN"`
+<summary>
 
-    - `"IP"`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-    - `"UNKNOWN"`
+Type of pattern matching.
 
-### Block Sender Delete Response
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-- `BlockSenderDeleteResponse object { id }`
+</summary>
 
-  - `id: string`
+One of the following:
 
-    Blocked sender pattern identifier
+"EMAIL"
 
-# Domains
+<a href="#">Link to this property</a>
 
-## List protected email domains
+"DOMAIN"
 
-**get** `/accounts/{account_id}/email-security/settings/domains`
+<a href="#">Link to this property</a>
 
-Returns a paginated list of email domains protected by Email Security. Includes domain configuration, delivery modes, and authorization status. Supports filtering by delivery mode and integration ID.
+"IP"
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+"UNKNOWN"
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+</details>
 
-- `active_delivery_mode: optional "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+<a href="#">Link to this property</a>
 
-  Currently active delivery mode to filter by.
+</details>
 
-  - `"DIRECT"`
+<a href="#">Link to this property</a>
 
-  - `"BCC"`
+<details>
 
-  - `"JOURNAL"`
+<summary>
 
-  - `"API"`
+posts: optional array of object {id, comments, created\_at, 5 more }
 
-  - `"RETRO_SCAN"`
+</summary>
 
-- `allowed_delivery_mode: optional "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+id: optional string
 
-  Delivery mode to filter by.
+Blocked sender pattern identifier.
 
-  - `"DIRECT"`
+formatuuid
 
-  - `"BCC"`
+<a href="#">Link to this property</a>
 
-  - `"JOURNAL"`
+comments: optional string
 
-  - `"API"`
+maxLength1024
 
-  - `"RETRO_SCAN"`
+<a href="#">Link to this property</a>
 
-- `direction: optional "asc" or "desc"`
+created\_at: optional string
 
-  The sorting direction.
+formatdate-time
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+is\_regex: optional boolean
 
-- `domain: optional array of string`
+<a href="#">Link to this property</a>
 
-  Domain names to filter by.
+Deprecatedlast\_modified: optional string
 
-- `integration_id: optional string`
+Use <code>modified_at</code> instead.
 
-  Integration ID to filter by.
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-- `order: optional "domain" or "created_at"`
+formatdate-time
 
-  Field to sort by.
+<a href="#">Link to this property</a>
 
-  - `"domain"`
+modified\_at: optional string
 
-  - `"created_at"`
+formatdate-time
 
-- `page: optional number`
+<a href="#">Link to this property</a>
 
-  Current page within paginated list of results.
+pattern: optional string
 
-- `per_page: optional number`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-  The number of results per page. Maximum value is 1000.
+maxLength1024
 
-- `search: optional string`
+minLength1
 
-  Search term for filtering records. Behavior may change.
+<a href="#">Link to this property</a>
 
-- `status: optional "pending" or "active" or "failed" or "timeout"`
+<details>
 
-  Filters response to domains with the provided status.
+<summary>
 
-  - `"pending"`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-  - `"active"`
+Type of pattern matching.
 
-  - `"failed"`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-  - `"timeout"`
+</summary>
 
-### Returns
+One of the following:
 
-- `errors: array of object { code, message, documentation_url, source }`
+"EMAIL"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"DOMAIN"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"IP"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"UNKNOWN"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+<details>
 
-  Whether the API call was successful.
+<summary>
 
-  - `true`
+puts: optional array of object {id, comments, created\_at, 5 more }
 
-- `result: optional array of object { id, allowed_delivery_modes, authorization, 19 more }`
+</summary>
 
-  - `id: optional string`
+id: optional string
 
-    Domain identifier
+Blocked sender pattern identifier.
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+formatuuid
 
-    - `"DIRECT"`
+<a href="#">Link to this property</a>
 
-    - `"BCC"`
+comments: optional string
 
-    - `"JOURNAL"`
+maxLength1024
 
-    - `"API"`
+<a href="#">Link to this property</a>
 
-    - `"RETRO_SCAN"`
+created\_at: optional string
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+formatdate-time
 
-    - `authorized: boolean`
+<a href="#">Link to this property</a>
 
-    - `timestamp: string`
+is\_regex: optional boolean
 
-    - `status_message: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+Deprecatedlast\_modified: optional string
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+Use <code>modified_at</code> instead.
 
-    - `"none"`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-    - `"good"`
+formatdate-time
 
-    - `"invalid"`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+modified\_at: optional string
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+formatdate-time
 
-    - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS-BEC"`
+pattern: optional string
 
-    - `"SUSPICIOUS"`
+The pattern value to match. The format depends on <code>pattern_type</code>: a valid email address for EMAIL (e.g. <code>user@example.com</code>), a valid domain name for DOMAIN (e.g. <code>example.com</code>), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>2606:4700:4700::1111</code>, or <code>2606:4700:4700::/48</code>); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
 
-    - `"SPOOF"`
+maxLength1024
 
-    - `"SPAM"`
+minLength1
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+<details>
 
-    - `"EXTERNAL"`
+<summary>
 
-    - `"UNKNOWN"`
+pattern\_type: optional "EMAIL"or "DOMAIN"or "IP"or "UNKNOWN"
 
-    - `"NONE"`
+Type of pattern matching.
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+- EMAIL: matches a full email address (e.g. <code>user@example.com</code>)
+- DOMAIN: matches a domain name (e.g. <code>example.com</code>)
+- IP: matches a plain IPv4 or IPv6 address (e.g. <code>1.2.3.4</code> or <code>2606:4700:4700::1111</code>) or CIDR block (e.g. <code>1.2.3.0/24</code> or <code>2606:4700:4700::/48</code>). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.
+- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.
 
-    - `timestamp: string`
+</summary>
 
-    - `total_emails_processed: number`
+One of the following:
 
-    - `total_emails_processed_previous: number`
+"EMAIL"
 
-  - `folder: optional "AllItems" or "Inbox"`
+<a href="#">Link to this property</a>
 
-    - `"AllItems"`
+"DOMAIN"
 
-    - `"Inbox"`
+<a href="#">Link to this property</a>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+"IP"
 
-    - `"Microsoft"`
+<a href="#">Link to this property</a>
 
-    - `"Google"`
+"UNKNOWN"
 
-  - `integration_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `ip_restrictions: optional array of string`
+</details>
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</details>
 
-  - `lookback_hops: optional number`
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+</details>
 
-  - `o365_tenant_id: optional string`
+[Link to this property](#)%20email_security.settings.block_senders%20%3E%20(model)%20block_sender_batch_response%20%3E%20(schema)>)
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+#### SettingsContent Policies
 
-    - `"GLOBAL"`
+##### [List content policies](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/content_policies/methods/list)
 
-    - `"AU"`
+GET/accounts/{account\_id}/email-security/settings/content\_policies
 
-    - `"DE"`
+##### [Get a content policy](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/content_policies/methods/get)
 
-    - `"IN"`
+GET/accounts/{account\_id}/email-security/settings/content\_policies/{policy\_id}
 
-    - `"US"`
+##### [Create a content policy](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/content_policies/methods/create)
 
-  - `require_tls_inbound: optional boolean`
+POST/accounts/{account\_id}/email-security/settings/content\_policies
 
-  - `require_tls_outbound: optional boolean`
+##### [Update a content policy](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/content_policies/methods/edit)
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+PATCH/accounts/{account\_id}/email-security/settings/content\_policies/{policy\_id}
 
-    - `"none"`
+##### [Delete a content policy](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/content_policies/methods/delete)
 
-    - `"good"`
+DELETE/accounts/{account\_id}/email-security/settings/content\_policies/{policy\_id}
 
-    - `"neutral"`
+##### [Batch content policy operations](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/content_policies/methods/batch)
 
-    - `"open"`
+POST/accounts/{account\_id}/email-security/settings/content\_policies/batch
 
-    - `"invalid"`
+##### ModelsExpand Collapse
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+<details>
 
-    - `"pending"`
+<summary>
 
-    - `"active"`
+ContentPolicyListResponse object {id, created\_at, enabled, 5 more }
 
-    - `"failed"`
+A content policy pattern that matches against the subject or body of an email.
 
-    - `"timeout"`
+</summary>
 
-  - `transport: optional string`
+id: optional string
 
-- `result_info: optional object { count, page, per_page, total_count }`
+Content policy identifier.
 
-  - `count: optional number`
+formatuuid
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+created\_at: optional string
 
-    Current page within paginated list of results.
+formatdate-time
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+enabled: optional boolean
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+modified\_at: optional string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+name: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "allowed_delivery_modes": [
-        "DIRECT"
-      ],
-      "authorization": {
-        "authorized": true,
-        "timestamp": "2019-12-27T18:11:19.117Z",
-        "status_message": "status_message"
-      },
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "dmarc_status": "none",
-      "domain": "example.com",
-      "drop_dispositions": [
-        "MALICIOUS"
-      ],
-      "emails_processed": {
-        "timestamp": "2019-12-27T18:11:19.117Z",
-        "total_emails_processed": 0,
-        "total_emails_processed_previous": 0
-      },
-      "folder": "AllItems",
-      "inbox_provider": "Microsoft",
-      "integration_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      "ip_restrictions": [
-        "192.0.2.0/24",
-        "2001:db8::/32"
-      ],
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "lookback_hops": 0,
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "o365_tenant_id": "o365_tenant_id",
-      "regions": [
-        "GLOBAL"
-      ],
-      "require_tls_inbound": true,
-      "require_tls_outbound": true,
-      "spf_status": "none",
-      "status": "pending",
-      "transport": "transport"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+maxLength256
 
-## Get an email domain
+minLength1
 
-**get** `/accounts/{account_id}/email-security/settings/domains/{domain_id}`
+<a href="#">Link to this property</a>
 
-Retrieves detailed information for a specific protected email domain including its delivery configuration, SPF/DMARC status, and authorization state.
+notes: optional string
 
-### Path Parameters
+maxLength4096
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+pattern: optional string
 
-- `domain_id: string`
+maxLength2048
 
-  Domain identifier
+minLength1
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+targets: optional array of "SUBJECT"or "BODY"
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"SUBJECT"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"BODY"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+[Link to this property](#)%20email_security.settings.content_policies%20%3E%20(model)%20content_policy_list_response%20%3E%20(schema)>)
 
-  Whether the API call was successful.
+<details>
 
-  - `true`
+<summary>
 
-- `result: optional object { id, allowed_delivery_modes, authorization, 19 more }`
+ContentPolicyGetResponse object {id, created\_at, enabled, 5 more }
 
-  - `id: optional string`
+A content policy pattern that matches against the subject or body of an email.
 
-    Domain identifier
+</summary>
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+id: optional string
 
-    - `"DIRECT"`
+Content policy identifier.
 
-    - `"BCC"`
+formatuuid
 
-    - `"JOURNAL"`
+<a href="#">Link to this property</a>
 
-    - `"API"`
+created\_at: optional string
 
-    - `"RETRO_SCAN"`
+formatdate-time
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+<a href="#">Link to this property</a>
 
-    - `authorized: boolean`
+enabled: optional boolean
 
-    - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `status_message: optional string`
+modified\_at: optional string
 
-  - `created_at: optional string`
+formatdate-time
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+name: optional string
 
-    - `"good"`
+maxLength256
 
-    - `"invalid"`
+minLength1
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+notes: optional string
 
-    - `"MALICIOUS"`
+maxLength4096
 
-    - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+pattern: optional string
 
-    - `"SPOOF"`
+maxLength2048
 
-    - `"SPAM"`
+minLength1
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+<details>
 
-    - `"EXTERNAL"`
+<summary>
 
-    - `"UNKNOWN"`
+targets: optional array of "SUBJECT"or "BODY"
 
-    - `"NONE"`
+</summary>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+One of the following:
 
-    - `timestamp: string`
+"SUBJECT"
 
-    - `total_emails_processed: number`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed_previous: number`
+"BODY"
 
-  - `folder: optional "AllItems" or "Inbox"`
+<a href="#">Link to this property</a>
 
-    - `"AllItems"`
+</details>
 
-    - `"Inbox"`
+<a href="#">Link to this property</a>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+</details>
 
-    - `"Microsoft"`
+[Link to this property](#)%20email_security.settings.content_policies%20%3E%20(model)%20content_policy_get_response%20%3E%20(schema)>)
 
-    - `"Google"`
+<details>
 
-  - `integration_id: optional string`
+<summary>
 
-  - `ip_restrictions: optional array of string`
+ContentPolicyCreateResponse object {id, created\_at, enabled, 5 more }
 
-  - `last_modified: optional string`
+A content policy pattern that matches against the subject or body of an email.
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</summary>
 
-  - `lookback_hops: optional number`
+id: optional string
 
-  - `modified_at: optional string`
+Content policy identifier.
 
-  - `o365_tenant_id: optional string`
+formatuuid
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"GLOBAL"`
+created\_at: optional string
 
-    - `"AU"`
+formatdate-time
 
-    - `"DE"`
+<a href="#">Link to this property</a>
 
-    - `"IN"`
+enabled: optional boolean
 
-    - `"US"`
+<a href="#">Link to this property</a>
 
-  - `require_tls_inbound: optional boolean`
+modified\_at: optional string
 
-  - `require_tls_outbound: optional boolean`
+formatdate-time
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+name: optional string
 
-    - `"good"`
+maxLength256
 
-    - `"neutral"`
+minLength1
 
-    - `"open"`
+<a href="#">Link to this property</a>
 
-    - `"invalid"`
+notes: optional string
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+maxLength4096
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+pattern: optional string
 
-    - `"failed"`
+maxLength2048
 
-    - `"timeout"`
+minLength1
 
-  - `transport: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+<details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains/$DOMAIN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<summary>
 
-#### Response
+targets: optional array of "SUBJECT"or "BODY"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "allowed_delivery_modes": [
-      "DIRECT"
-    ],
-    "authorization": {
-      "authorized": true,
-      "timestamp": "2019-12-27T18:11:19.117Z",
-      "status_message": "status_message"
-    },
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "dmarc_status": "none",
-    "domain": "example.com",
-    "drop_dispositions": [
-      "MALICIOUS"
-    ],
-    "emails_processed": {
-      "timestamp": "2019-12-27T18:11:19.117Z",
-      "total_emails_processed": 0,
-      "total_emails_processed_previous": 0
-    },
-    "folder": "AllItems",
-    "inbox_provider": "Microsoft",
-    "integration_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "ip_restrictions": [
-      "192.0.2.0/24",
-      "2001:db8::/32"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "lookback_hops": 0,
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "o365_tenant_id": "o365_tenant_id",
-    "regions": [
-      "GLOBAL"
-    ],
-    "require_tls_inbound": true,
-    "require_tls_outbound": true,
-    "spf_status": "none",
-    "status": "pending",
-    "transport": "transport"
-  }
-}
-```
+</summary>
 
-## Update an email domain
+One of the following:
 
-**patch** `/accounts/{account_id}/email-security/settings/domains/{domain_id}`
+"SUBJECT"
 
-Updates configuration for a protected email domain. Only provided fields will be modified. Changes affect delivery mode, security settings, and regional processing.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"BODY"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-- `domain_id: string`
+<a href="#">Link to this property</a>
 
-  Domain identifier
+</details>
 
-### Body Parameters
+[Link to this property](#)%20email_security.settings.content_policies%20%3E%20(model)%20content_policy_create_response%20%3E%20(schema)>)
 
-- `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+<details>
 
-  - `"DIRECT"`
+<summary>
 
-  - `"BCC"`
+ContentPolicyEditResponse object {id, created\_at, enabled, 5 more }
 
-  - `"JOURNAL"`
+A content policy pattern that matches against the subject or body of an email.
 
-  - `"API"`
+</summary>
 
-  - `"RETRO_SCAN"`
+id: optional string
 
-- `domain: optional string`
+Content policy identifier.
 
-- `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+formatuuid
 
-  - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-  - `"MALICIOUS-BEC"`
+created\_at: optional string
 
-  - `"SUSPICIOUS"`
+formatdate-time
 
-  - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-  - `"SPAM"`
+enabled: optional boolean
 
-  - `"BULK"`
+<a href="#">Link to this property</a>
 
-  - `"ENCRYPTED"`
+modified\_at: optional string
 
-  - `"EXTERNAL"`
+formatdate-time
 
-  - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-  - `"NONE"`
+name: optional string
 
-- `folder: optional "AllItems" or "Inbox"`
+maxLength256
 
-  - `"AllItems"`
+minLength1
 
-  - `"Inbox"`
+<a href="#">Link to this property</a>
 
-- `integration_id: optional string`
+notes: optional string
 
-- `ip_restrictions: optional array of string`
+maxLength4096
 
-- `lookback_hops: optional number`
+<a href="#">Link to this property</a>
 
-- `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+pattern: optional string
 
-  - `"GLOBAL"`
+maxLength2048
 
-  - `"AU"`
+minLength1
 
-  - `"DE"`
+<a href="#">Link to this property</a>
 
-  - `"IN"`
+<details>
 
-  - `"US"`
+<summary>
 
-- `require_tls_inbound: optional boolean`
+targets: optional array of "SUBJECT"or "BODY"
 
-- `require_tls_outbound: optional boolean`
+</summary>
 
-- `transport: optional string`
+One of the following:
 
-### Returns
+"SUBJECT"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"BODY"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+[Link to this property](#)%20email_security.settings.content_policies%20%3E%20(model)%20content_policy_edit_response%20%3E%20(schema)>)
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+ContentPolicyDeleteResponse object {id }
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+id: string
 
-- `success: true`
+Content policy identifier.
 
-  Whether the API call was successful.
+formatuuid
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, allowed_delivery_modes, authorization, 19 more }`
+</details>
 
-  - `id: optional string`
+[Link to this property](#)%20email_security.settings.content_policies%20%3E%20(model)%20content_policy_delete_response%20%3E%20(schema)>)
 
-    Domain identifier
+<details>
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+<summary>
 
-    - `"DIRECT"`
+ContentPolicyBatchResponse object {deletes, patches, posts, puts }
 
-    - `"BCC"`
+</summary>
 
-    - `"JOURNAL"`
+<details>
 
-    - `"API"`
+<summary>
 
-    - `"RETRO_SCAN"`
+deletes: optional array of object {id }
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+</summary>
 
-    - `authorized: boolean`
+id: string
 
-    - `timestamp: string`
+Content policy identifier.
 
-    - `status_message: optional string`
+formatuuid
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+</details>
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-    - `"good"`
+<details>
 
-    - `"invalid"`
+<summary>
 
-  - `domain: optional string`
+patches: optional array of object {id, created\_at, enabled, 5 more }
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+</summary>
 
-    - `"MALICIOUS"`
+id: optional string
 
-    - `"MALICIOUS-BEC"`
+Content policy identifier.
 
-    - `"SUSPICIOUS"`
+formatuuid
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+created\_at: optional string
 
-    - `"BULK"`
+formatdate-time
 
-    - `"ENCRYPTED"`
+<a href="#">Link to this property</a>
 
-    - `"EXTERNAL"`
+enabled: optional boolean
 
-    - `"UNKNOWN"`
+<a href="#">Link to this property</a>
 
-    - `"NONE"`
+modified\_at: optional string
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+formatdate-time
 
-    - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed: number`
+name: optional string
 
-    - `total_emails_processed_previous: number`
+maxLength256
 
-  - `folder: optional "AllItems" or "Inbox"`
+minLength1
 
-    - `"AllItems"`
+<a href="#">Link to this property</a>
 
-    - `"Inbox"`
+notes: optional string
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+maxLength4096
 
-    - `"Microsoft"`
+<a href="#">Link to this property</a>
 
-    - `"Google"`
+pattern: optional string
 
-  - `integration_id: optional string`
+maxLength2048
 
-  - `ip_restrictions: optional array of string`
+minLength1
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<details>
 
-  - `lookback_hops: optional number`
+<summary>
 
-  - `modified_at: optional string`
+targets: optional array of "SUBJECT"or "BODY"
 
-  - `o365_tenant_id: optional string`
+</summary>
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+One of the following:
 
-    - `"GLOBAL"`
+"SUBJECT"
 
-    - `"AU"`
+<a href="#">Link to this property</a>
 
-    - `"DE"`
+"BODY"
 
-    - `"IN"`
+<a href="#">Link to this property</a>
 
-    - `"US"`
+</details>
 
-  - `require_tls_inbound: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `require_tls_outbound: optional boolean`
+</details>
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+<details>
 
-    - `"good"`
+<summary>
 
-    - `"neutral"`
+posts: optional array of object {id, created\_at, enabled, 5 more }
 
-    - `"open"`
+</summary>
 
-    - `"invalid"`
+id: optional string
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+Content policy identifier.
 
-    - `"pending"`
+formatuuid
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+created\_at: optional string
 
-    - `"timeout"`
+formatdate-time
 
-  - `transport: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+enabled: optional boolean
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains/$DOMAIN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "ip_restrictions": [
-            "192.0.2.0/24",
-            "2001:db8::/32"
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+modified\_at: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "allowed_delivery_modes": [
-      "DIRECT"
-    ],
-    "authorization": {
-      "authorized": true,
-      "timestamp": "2019-12-27T18:11:19.117Z",
-      "status_message": "status_message"
-    },
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "dmarc_status": "none",
-    "domain": "example.com",
-    "drop_dispositions": [
-      "MALICIOUS"
-    ],
-    "emails_processed": {
-      "timestamp": "2019-12-27T18:11:19.117Z",
-      "total_emails_processed": 0,
-      "total_emails_processed_previous": 0
-    },
-    "folder": "AllItems",
-    "inbox_provider": "Microsoft",
-    "integration_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    "ip_restrictions": [
-      "192.0.2.0/24",
-      "2001:db8::/32"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "lookback_hops": 0,
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "o365_tenant_id": "o365_tenant_id",
-    "regions": [
-      "GLOBAL"
-    ],
-    "require_tls_inbound": true,
-    "require_tls_outbound": true,
-    "spf_status": "none",
-    "status": "pending",
-    "transport": "transport"
-  }
-}
-```
+formatdate-time
 
-## Unprotect an email domain
+<a href="#">Link to this property</a>
 
-**delete** `/accounts/{account_id}/email-security/settings/domains/{domain_id}`
+name: optional string
 
-Removes email security protection from a domain. After deletion, emails for this domain will no longer be processed by Email Security. This action cannot be undone.
+maxLength256
 
-### Path Parameters
+minLength1
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+notes: optional string
 
-- `domain_id: string`
+maxLength4096
 
-  Domain identifier
+<a href="#">Link to this property</a>
 
-### Returns
+pattern: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+maxLength2048
 
-  - `code: number`
+minLength1
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+targets: optional array of "SUBJECT"or "BODY"
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"SUBJECT"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"BODY"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+<details>
 
-    Domain identifier
+<summary>
 
-### Example
+puts: optional array of object {id, created\_at, enabled, 5 more }
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/domains/$DOMAIN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+id: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+Content policy identifier.
 
-## Domain Types
+formatuuid
 
-### Domain List Response
+<a href="#">Link to this property</a>
 
-- `DomainListResponse object { id, allowed_delivery_modes, authorization, 19 more }`
+created\_at: optional string
 
-  - `id: optional string`
+formatdate-time
 
-    Domain identifier
+<a href="#">Link to this property</a>
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+enabled: optional boolean
 
-    - `"DIRECT"`
+<a href="#">Link to this property</a>
 
-    - `"BCC"`
+modified\_at: optional string
 
-    - `"JOURNAL"`
+formatdate-time
 
-    - `"API"`
+<a href="#">Link to this property</a>
 
-    - `"RETRO_SCAN"`
+name: optional string
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+maxLength256
 
-    - `authorized: boolean`
+minLength1
 
-    - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `status_message: optional string`
+notes: optional string
 
-  - `created_at: optional string`
+maxLength4096
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+pattern: optional string
 
-    - `"good"`
+maxLength2048
 
-    - `"invalid"`
+minLength1
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+<details>
 
-    - `"MALICIOUS"`
+<summary>
 
-    - `"MALICIOUS-BEC"`
+targets: optional array of "SUBJECT"or "BODY"
 
-    - `"SUSPICIOUS"`
+</summary>
 
-    - `"SPOOF"`
+One of the following:
 
-    - `"SPAM"`
+"SUBJECT"
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+"BODY"
 
-    - `"EXTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"UNKNOWN"`
+</details>
 
-    - `"NONE"`
+<a href="#">Link to this property</a>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+</details>
 
-    - `timestamp: string`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed: number`
+</details>
 
-    - `total_emails_processed_previous: number`
+[Link to this property](#)%20email_security.settings.content_policies%20%3E%20(model)%20content_policy_batch_response%20%3E%20(schema)>)
 
-  - `folder: optional "AllItems" or "Inbox"`
+#### SettingsDomains
 
-    - `"AllItems"`
+##### [List protected email domains](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/list)
 
-    - `"Inbox"`
+GET/accounts/{account\_id}/email-security/settings/domains
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+##### [Get an email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/get)
 
-    - `"Microsoft"`
+GET/accounts/{account\_id}/email-security/settings/domains/{domain\_id}
 
-    - `"Google"`
+##### [Replace an email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/update)
 
-  - `integration_id: optional string`
+PUT/accounts/{account\_id}/email-security/settings/domains/{domain\_id}
 
-  - `ip_restrictions: optional array of string`
+##### [Update an email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/edit)
 
-  - `last_modified: optional string`
+PATCH/accounts/{account\_id}/email-security/settings/domains/{domain\_id}
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+##### [Add a new email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/create)
 
-  - `lookback_hops: optional number`
+POST/accounts/{account\_id}/email-security/settings/domains
 
-  - `modified_at: optional string`
+##### [Unprotect an email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/delete)
 
-  - `o365_tenant_id: optional string`
+DELETE/accounts/{account\_id}/email-security/settings/domains/{domain\_id}
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+##### [Batch domain operations](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/batch)
 
-    - `"GLOBAL"`
+POST/accounts/{account\_id}/email-security/settings/domains/batch
 
-    - `"AU"`
+##### [Unprotect multiple email domains](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/domains/methods/bulk_delete)
 
-    - `"DE"`
+Deprecated
 
-    - `"IN"`
+DELETE/accounts/{account\_id}/email-security/settings/domains
 
-    - `"US"`
+##### ModelsExpand Collapse
 
-  - `require_tls_inbound: optional boolean`
+<details>
 
-  - `require_tls_outbound: optional boolean`
+<summary>
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+DomainListResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-    - `"none"`
+</summary>
 
-    - `"good"`
+id: optional string
 
-    - `"neutral"`
+Domain identifier.
 
-    - `"open"`
+formatuuid
 
-    - `"invalid"`
+<a href="#">Link to this property</a>
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+<details>
 
-    - `"pending"`
+<summary>
 
-    - `"active"`
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-    - `"failed"`
+</summary>
 
-    - `"timeout"`
+One of the following:
 
-  - `transport: optional string`
+"DIRECT"
 
-### Domain Get Response
+<a href="#">Link to this property</a>
 
-- `DomainGetResponse object { id, allowed_delivery_modes, authorization, 19 more }`
+"BCC"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Domain identifier
+"JOURNAL"
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"DIRECT"`
+"API"
 
-    - `"BCC"`
+<a href="#">Link to this property</a>
 
-    - `"JOURNAL"`
+"RETRO\_SCAN"
 
-    - `"API"`
+<a href="#">Link to this property</a>
 
-    - `"RETRO_SCAN"`
+</details>
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+<a href="#">Link to this property</a>
 
-    - `authorized: boolean`
+<details>
 
-    - `timestamp: string`
+<summary>
 
-    - `status_message: optional string`
+authorization: optional object {authorized, timestamp, status\_message }
 
-  - `created_at: optional string`
+</summary>
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+authorized: boolean
 
-    - `"none"`
+<a href="#">Link to this property</a>
 
-    - `"good"`
+timestamp: string
 
-    - `"invalid"`
+formatdate-time
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+status\_message: optional string
 
-    - `"MALICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"MALICIOUS-BEC"`
+</details>
 
-    - `"SUSPICIOUS"`
+<a href="#">Link to this property</a>
 
-    - `"SPOOF"`
+created\_at: optional string
 
-    - `"SPAM"`
+formatdate-time
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+<details>
 
-    - `"EXTERNAL"`
+<summary>
 
-    - `"UNKNOWN"`
+dmarc\_status: optional "none"or "good"or "invalid"
 
-    - `"NONE"`
+</summary>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+One of the following:
 
-    - `timestamp: string`
+"none"
 
-    - `total_emails_processed: number`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed_previous: number`
+"good"
 
-  - `folder: optional "AllItems" or "Inbox"`
+<a href="#">Link to this property</a>
 
-    - `"AllItems"`
+"invalid"
 
-    - `"Inbox"`
+<a href="#">Link to this property</a>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+</details>
 
-    - `"Microsoft"`
+<a href="#">Link to this property</a>
 
-    - `"Google"`
+domain: optional string
 
-  - `integration_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `ip_restrictions: optional array of string`
+<details>
 
-  - `last_modified: optional string`
+<summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  - `lookback_hops: optional number`
+</summary>
 
-  - `modified_at: optional string`
+One of the following:
 
-  - `o365_tenant_id: optional string`
+"MALICIOUS"
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"GLOBAL"`
+"MALICIOUS-BEC"
 
-    - `"AU"`
+<a href="#">Link to this property</a>
 
-    - `"DE"`
+"SUSPICIOUS"
 
-    - `"IN"`
+<a href="#">Link to this property</a>
 
-    - `"US"`
+"SPOOF"
 
-  - `require_tls_inbound: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `require_tls_outbound: optional boolean`
+"SPAM"
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+"BULK"
 
-    - `"good"`
+<a href="#">Link to this property</a>
 
-    - `"neutral"`
+"ENCRYPTED"
 
-    - `"open"`
+<a href="#">Link to this property</a>
 
-    - `"invalid"`
+"EXTERNAL"
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+<a href="#">Link to this property</a>
 
-    - `"pending"`
+"UNKNOWN"
 
-    - `"active"`
+<a href="#">Link to this property</a>
 
-    - `"failed"`
+"NONE"
 
-    - `"timeout"`
+<a href="#">Link to this property</a>
 
-  - `transport: optional string`
+</details>
 
-### Domain Edit Response
+<a href="#">Link to this property</a>
 
-- `DomainEditResponse object { id, allowed_delivery_modes, authorization, 19 more }`
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Domain identifier
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-  - `allowed_delivery_modes: optional array of "DIRECT" or "BCC" or "JOURNAL" or 2 more`
+</summary>
 
-    - `"DIRECT"`
+timestamp: string
 
-    - `"BCC"`
+formatdate-time
 
-    - `"JOURNAL"`
+<a href="#">Link to this property</a>
 
-    - `"API"`
+total\_emails\_processed: number
 
-    - `"RETRO_SCAN"`
+minimum0
 
-  - `authorization: optional object { authorized, timestamp, status_message }`
+<a href="#">Link to this property</a>
 
-    - `authorized: boolean`
+total\_emails\_processed\_previous: number
 
-    - `timestamp: string`
+minimum0
 
-    - `status_message: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+</details>
 
-  - `dmarc_status: optional "none" or "good" or "invalid"`
+<a href="#">Link to this property</a>
 
-    - `"none"`
+<details>
 
-    - `"good"`
+<summary>
 
-    - `"invalid"`
+folder: optional "AllItems"or "Inbox"
 
-  - `domain: optional string`
+</summary>
 
-  - `drop_dispositions: optional array of "MALICIOUS" or "MALICIOUS-BEC" or "SUSPICIOUS" or 7 more`
+One of the following:
 
-    - `"MALICIOUS"`
+"AllItems"
 
-    - `"MALICIOUS-BEC"`
+<a href="#">Link to this property</a>
 
-    - `"SUSPICIOUS"`
+"Inbox"
 
-    - `"SPOOF"`
+<a href="#">Link to this property</a>
 
-    - `"SPAM"`
+</details>
 
-    - `"BULK"`
+<a href="#">Link to this property</a>
 
-    - `"ENCRYPTED"`
+<details>
 
-    - `"EXTERNAL"`
+<summary>
 
-    - `"UNKNOWN"`
+inbox\_provider: optional "Microsoft"or "Google"
 
-    - `"NONE"`
+</summary>
 
-  - `emails_processed: optional object { timestamp, total_emails_processed, total_emails_processed_previous }`
+One of the following:
 
-    - `timestamp: string`
+"Microsoft"
 
-    - `total_emails_processed: number`
+<a href="#">Link to this property</a>
 
-    - `total_emails_processed_previous: number`
+"Google"
 
-  - `folder: optional "AllItems" or "Inbox"`
+<a href="#">Link to this property</a>
 
-    - `"AllItems"`
+</details>
 
-    - `"Inbox"`
+<a href="#">Link to this property</a>
 
-  - `inbox_provider: optional "Microsoft" or "Google"`
+integration\_id: optional string
 
-    - `"Microsoft"`
+formatuuid
 
-    - `"Google"`
+<a href="#">Link to this property</a>
 
-  - `integration_id: optional string`
+ip\_restrictions: optional array of string
 
-  - `ip_restrictions: optional array of string`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+Deprecatedlast\_modified: optional string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+Use <code>modified_at</code> instead.
 
-  - `lookback_hops: optional number`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `modified_at: optional string`
+formatdate-time
 
-  - `o365_tenant_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `regions: optional array of "GLOBAL" or "AU" or "DE" or 2 more`
+lookback\_hops: optional number
 
-    - `"GLOBAL"`
+<a href="#">Link to this property</a>
 
-    - `"AU"`
+modified\_at: optional string
 
-    - `"DE"`
+formatdate-time
 
-    - `"IN"`
+<a href="#">Link to this property</a>
 
-    - `"US"`
+o365\_tenant\_id: optional string
 
-  - `require_tls_inbound: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `require_tls_outbound: optional boolean`
+<details>
 
-  - `spf_status: optional "none" or "good" or "neutral" or 2 more`
+<summary>
 
-    - `"none"`
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-    - `"good"`
+</summary>
 
-    - `"neutral"`
+One of the following:
 
-    - `"open"`
+"GLOBAL"
 
-    - `"invalid"`
+<a href="#">Link to this property</a>
 
-  - `status: optional "pending" or "active" or "failed" or "timeout"`
+"AU"
 
-    - `"pending"`
+<a href="#">Link to this property</a>
 
-    - `"active"`
+"DE"
 
-    - `"failed"`
+<a href="#">Link to this property</a>
 
-    - `"timeout"`
+"IN"
 
-  - `transport: optional string`
+<a href="#">Link to this property</a>
 
-### Domain Delete Response
+"US"
 
-- `DomainDeleteResponse object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    Domain identifier
+<a href="#">Link to this property</a>
 
-# Impersonation Registry
+require\_tls\_inbound: optional boolean
 
-## List entries in impersonation registry
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/email-security/settings/impersonation_registry`
+require\_tls\_outbound: optional boolean
 
-Returns a paginated list of protected identities in the impersonation registry. These entries define identities and email addresses to protect from impersonation attacks. Can be manually added or automatically synced from directory integrations.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+<details>
 
-- `account_id: string`
+<summary>
 
-  Identifier.
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-### Query Parameters
+</summary>
 
-- `direction: optional "asc" or "desc"`
+One of the following:
 
-  The sorting direction.
+"none"
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+"good"
 
-- `order: optional "name" or "email" or "created_at"`
+<a href="#">Link to this property</a>
 
-  Field to sort by.
+"neutral"
 
-  - `"name"`
+<a href="#">Link to this property</a>
 
-  - `"email"`
+"open"
 
-  - `"created_at"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+"invalid"
 
-  Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+</details>
 
-  The number of results per page. Maximum value is 1000.
+<a href="#">Link to this property</a>
 
-- `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+<details>
 
-  - `"A1S_INTERNAL"`
+<summary>
 
-  - `"SNOOPY-CASB_OFFICE_365"`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-  - `"SNOOPY-OFFICE_365"`
+</summary>
 
-  - `"SNOOPY-GOOGLE_DIRECTORY"`
+One of the following:
 
-- `search: optional string`
+"PENDING"
 
-  Search term for filtering records. Behavior may change.
+<a href="#">Link to this property</a>
 
-### Returns
+"ACTIVE"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"FAILED"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"TIMEOUT"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+transport: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_list_response%20%3E%20(schema)>)
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+DomainGetResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-  - `true`
+</summary>
 
-- `result: optional array of object { id, comments, created_at, 9 more }`
+id: optional string
 
-  - `id: optional string`
+Domain identifier.
 
-    Impersonation registry entry identifier
+formatuuid
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+<details>
 
-  - `directory_id: optional number`
+<summary>
 
-  - `directory_node_id: optional number`
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-  - `email: optional string`
+</summary>
 
-  - `external_directory_node_id: optional string`
+One of the following:
 
-  - `is_email_regex: optional boolean`
+"DIRECT"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"BCC"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+"JOURNAL"
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-    - `"A1S_INTERNAL"`
+"API"
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-OFFICE_365"`
+"RETRO\_SCAN"
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+</details>
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+<details>
 
-  - `page: optional number`
+<summary>
 
-    Current page within paginated list of results.
+authorization: optional object {authorized, timestamp, status\_message }
 
-  - `per_page: optional number`
+</summary>
 
-    Number of results per page of results.
+authorized: boolean
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+timestamp: string
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+status\_message: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "comments": "comments",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "directory_id": 0,
-      "directory_node_id": 0,
-      "email": "john.doe@example.com",
-      "external_directory_node_id": "external_directory_node_id",
-      "is_email_regex": false,
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "name": "John Doe",
-      "provenance": "A1S_INTERNAL"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Get an impersonation registry entry
+</details>
 
-**get** `/accounts/{account_id}/email-security/settings/impersonation_registry/{impersonation_registry_id}`
+<a href="#">Link to this property</a>
 
-Retrieves details for a specific impersonation registry entry including the protected identity, email pattern, and synchronization source if directory-synced.
+created\_at: optional string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `impersonation_registry_id: string`
+<summary>
 
-  Impersonation registry entry identifier
+dmarc\_status: optional "none"or "good"or "invalid"
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"none"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"good"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"invalid"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+domain: optional string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `success: true`
+<summary>
 
-  Whether the API call was successful.
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  - `true`
+</summary>
 
-- `result: optional object { id, comments, created_at, 9 more }`
+One of the following:
 
-  An impersonation registry entry
+"MALICIOUS"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Impersonation registry entry identifier
+"MALICIOUS-BEC"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"SUSPICIOUS"
 
-  - `directory_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `directory_node_id: optional number`
+"SPOOF"
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-  - `external_directory_node_id: optional string`
+"SPAM"
 
-  - `is_email_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+"BULK"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"ENCRYPTED"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+"EXTERNAL"
 
-    - `"A1S_INTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+"UNKNOWN"
 
-    - `"SNOOPY-OFFICE_365"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+"NONE"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry/$IMPERSONATION_REGISTRY_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</details>
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "comments",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "directory_id": 0,
-    "directory_node_id": 0,
-    "email": "john.doe@example.com",
-    "external_directory_node_id": "external_directory_node_id",
-    "is_email_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "name": "John Doe",
-    "provenance": "A1S_INTERNAL"
-  }
-}
-```
+<details>
 
-## Create impersonation registry entry
+<summary>
 
-**post** `/accounts/{account_id}/email-security/settings/impersonation_registry`
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-Creates a new entry in the impersonation registry to protect against impersonation. Emails attempting to impersonate this identity will be flagged. Supports regex patterns for flexible email matching.
+</summary>
 
-### Path Parameters
+timestamp: string
 
-- `account_id: string`
+formatdate-time
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+total\_emails\_processed: number
 
-- `email: string`
+minimum0
 
-- `is_email_regex: boolean`
+<a href="#">Link to this property</a>
 
-- `name: string`
+total\_emails\_processed\_previous: number
 
-- `comments: optional string`
+minimum0
 
-- `directory_id: optional number`
+<a href="#">Link to this property</a>
 
-- `directory_node_id: optional number`
+</details>
 
-- `external_directory_node_id: optional string`
+<a href="#">Link to this property</a>
 
-- `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+<details>
 
-  - `"A1S_INTERNAL"`
+<summary>
 
-  - `"SNOOPY-CASB_OFFICE_365"`
+folder: optional "AllItems"or "Inbox"
 
-  - `"SNOOPY-OFFICE_365"`
+</summary>
 
-  - `"SNOOPY-GOOGLE_DIRECTORY"`
+One of the following:
 
-### Returns
+"AllItems"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"Inbox"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+inbox\_provider: optional "Microsoft"or "Google"
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"Microsoft"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"Google"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional object { id, comments, created_at, 9 more }`
+<a href="#">Link to this property</a>
 
-  An impersonation registry entry
+integration\_id: optional string
 
-  - `id: optional string`
+formatuuid
 
-    Impersonation registry entry identifier
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+ip\_restrictions: optional array of string
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `directory_id: optional number`
+Deprecatedlast\_modified: optional string
 
-  - `directory_node_id: optional number`
+Use <code>modified_at</code> instead.
 
-  - `email: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `external_directory_node_id: optional string`
+formatdate-time
 
-  - `is_email_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+lookback\_hops: optional number
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+modified\_at: optional string
 
-  - `name: optional string`
+formatdate-time
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-    - `"A1S_INTERNAL"`
+o365\_tenant\_id: optional string
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-OFFICE_365"`
+<details>
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+<summary>
 
-### Example
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email": "john.doe@example.com",
-          "is_email_regex": false,
-          "name": "John Doe"
-        }'
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "comments",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "directory_id": 0,
-    "directory_node_id": 0,
-    "email": "john.doe@example.com",
-    "external_directory_node_id": "external_directory_node_id",
-    "is_email_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "name": "John Doe",
-    "provenance": "A1S_INTERNAL"
-  }
-}
-```
+"GLOBAL"
 
-## Update an impersonation registry entry
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/email-security/settings/impersonation_registry/{impersonation_registry_id}`
+"AU"
 
-Updates an existing impersonation registry entry. Only provided fields will be modified. Directory-synced entries can't be updated.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"DE"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"IN"
 
-- `impersonation_registry_id: string`
+<a href="#">Link to this property</a>
 
-  Impersonation registry entry identifier
+"US"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `comments: optional string`
+</details>
 
-- `directory_id: optional number`
+<a href="#">Link to this property</a>
 
-- `directory_node_id: optional number`
+require\_tls\_inbound: optional boolean
 
-- `email: optional string`
+<a href="#">Link to this property</a>
 
-- `external_directory_node_id: optional string`
+require\_tls\_outbound: optional boolean
 
-- `is_email_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-- `name: optional string`
+<details>
 
-- `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+<summary>
 
-  - `"A1S_INTERNAL"`
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-  - `"SNOOPY-CASB_OFFICE_365"`
+</summary>
 
-  - `"SNOOPY-OFFICE_365"`
+One of the following:
 
-  - `"SNOOPY-GOOGLE_DIRECTORY"`
+"none"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"good"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"neutral"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"open"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"invalid"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+<details>
 
-    - `pointer: optional string`
+<summary>
 
-- `success: true`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-  Whether the API call was successful.
+</summary>
 
-  - `true`
+One of the following:
 
-- `result: optional object { id, comments, created_at, 9 more }`
+"PENDING"
 
-  An impersonation registry entry
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"ACTIVE"
 
-    Impersonation registry entry identifier
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+"FAILED"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `directory_id: optional number`
+"TIMEOUT"
 
-  - `directory_node_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+</details>
 
-  - `external_directory_node_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_email_regex: optional boolean`
+transport: optional string
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</details>
 
-  - `modified_at: optional string`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_get_response%20%3E%20(schema)>)
 
-  - `name: optional string`
+<details>
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+<summary>
 
-    - `"A1S_INTERNAL"`
+DomainUpdateResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+</summary>
 
-    - `"SNOOPY-OFFICE_365"`
+id: optional string
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+Domain identifier.
 
-### Example
+formatuuid
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry/$IMPERSONATION_REGISTRY_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "email": "john.doe@example.com",
-          "name": "John Doe"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "comments",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "directory_id": 0,
-    "directory_node_id": 0,
-    "email": "john.doe@example.com",
-    "external_directory_node_id": "external_directory_node_id",
-    "is_email_regex": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "name": "John Doe",
-    "provenance": "A1S_INTERNAL"
-  }
-}
-```
+<summary>
 
-## Delete an impersonation registry entry
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-**delete** `/accounts/{account_id}/email-security/settings/impersonation_registry/{impersonation_registry_id}`
+</summary>
 
-Removes an entry from the impersonation registry. After deletion, this identity will no longer be protected from impersonation.
+One of the following:
 
-### Path Parameters
+"DIRECT"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"BCC"
 
-- `impersonation_registry_id: string`
+<a href="#">Link to this property</a>
 
-  Impersonation registry entry identifier
+"JOURNAL"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"API"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"RETRO\_SCAN"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+</details>
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+authorization: optional object {authorized, timestamp, status\_message }
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+authorized: boolean
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+timestamp: string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id }`
+status\_message: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Impersonation registry entry identifier
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/impersonation_registry/$IMPERSONATION_REGISTRY_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+created\_at: optional string
 
-#### Response
+formatdate-time
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Impersonation Registry List Response
+<summary>
 
-- `ImpersonationRegistryListResponse object { id, comments, created_at, 9 more }`
+dmarc\_status: optional "none"or "good"or "invalid"
 
-  An impersonation registry entry
+</summary>
 
-  - `id: optional string`
+One of the following:
 
-    Impersonation registry entry identifier
+"none"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"good"
 
-  - `directory_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `directory_node_id: optional number`
+"invalid"
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-  - `external_directory_node_id: optional string`
+</details>
 
-  - `is_email_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+domain: optional string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+<details>
 
-  - `name: optional string`
+<summary>
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-    - `"A1S_INTERNAL"`
+</summary>
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+One of the following:
 
-    - `"SNOOPY-OFFICE_365"`
+"MALICIOUS"
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-### Impersonation Registry Get Response
+"MALICIOUS-BEC"
 
-- `ImpersonationRegistryGetResponse object { id, comments, created_at, 9 more }`
+<a href="#">Link to this property</a>
 
-  An impersonation registry entry
+"SUSPICIOUS"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Impersonation registry entry identifier
+"SPOOF"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"SPAM"
 
-  - `directory_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `directory_node_id: optional number`
+"BULK"
 
-  - `email: optional string`
+<a href="#">Link to this property</a>
 
-  - `external_directory_node_id: optional string`
+"ENCRYPTED"
 
-  - `is_email_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+"EXTERNAL"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"UNKNOWN"
 
-  - `name: optional string`
+<a href="#">Link to this property</a>
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+"NONE"
 
-    - `"A1S_INTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+</details>
 
-    - `"SNOOPY-OFFICE_365"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+<details>
 
-### Impersonation Registry Create Response
+<summary>
 
-- `ImpersonationRegistryCreateResponse object { id, comments, created_at, 9 more }`
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-  An impersonation registry entry
+</summary>
 
-  - `id: optional string`
+timestamp: string
 
-    Impersonation registry entry identifier
+formatdate-time
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+total\_emails\_processed: number
 
-  - `directory_id: optional number`
+minimum0
 
-  - `directory_node_id: optional number`
+<a href="#">Link to this property</a>
 
-  - `email: optional string`
+total\_emails\_processed\_previous: number
 
-  - `external_directory_node_id: optional string`
+minimum0
 
-  - `is_email_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+</details>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+<details>
 
-  - `name: optional string`
+<summary>
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+folder: optional "AllItems"or "Inbox"
 
-    - `"A1S_INTERNAL"`
+</summary>
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+One of the following:
 
-    - `"SNOOPY-OFFICE_365"`
+"AllItems"
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+<a href="#">Link to this property</a>
 
-### Impersonation Registry Edit Response
+"Inbox"
 
-- `ImpersonationRegistryEditResponse object { id, comments, created_at, 9 more }`
+<a href="#">Link to this property</a>
 
-  An impersonation registry entry
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Impersonation registry entry identifier
+<details>
 
-  - `comments: optional string`
+<summary>
 
-  - `created_at: optional string`
+inbox\_provider: optional "Microsoft"or "Google"
 
-  - `directory_id: optional number`
+</summary>
 
-  - `directory_node_id: optional number`
+One of the following:
 
-  - `email: optional string`
+"Microsoft"
 
-  - `external_directory_node_id: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_email_regex: optional boolean`
+"Google"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</details>
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `name: optional string`
+integration\_id: optional string
 
-  - `provenance: optional "A1S_INTERNAL" or "SNOOPY-CASB_OFFICE_365" or "SNOOPY-OFFICE_365" or "SNOOPY-GOOGLE_DIRECTORY"`
+formatuuid
 
-    - `"A1S_INTERNAL"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-CASB_OFFICE_365"`
+ip\_restrictions: optional array of string
 
-    - `"SNOOPY-OFFICE_365"`
+<a href="#">Link to this property</a>
 
-    - `"SNOOPY-GOOGLE_DIRECTORY"`
+Deprecatedlast\_modified: optional string
 
-### Impersonation Registry Delete Response
+Use <code>modified_at</code> instead.
 
-- `ImpersonationRegistryDeleteResponse object { id }`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `id: string`
+formatdate-time
 
-    Impersonation registry entry identifier
+<a href="#">Link to this property</a>
 
-# Sending Domain Restrictions
+lookback\_hops: optional number
 
-## List sending domain restrictions
+<a href="#">Link to this property</a>
 
-**get** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions`
+modified\_at: optional string
 
-Returns a paginated list of sending domain restrictions. These restrictions enforce TLS requirements for emails from specific domains. Mail without TLS from restricted domains will be dropped unless the subdomain is in the exclude list. Supports sorting and searching.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+o365\_tenant\_id: optional string
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+<details>
 
-- `direction: optional "asc" or "desc"`
+<summary>
 
-  The sorting direction.
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-  - `"asc"`
+</summary>
 
-  - `"desc"`
+One of the following:
 
-- `order: optional "domain" or "created_at"`
+"GLOBAL"
 
-  Field to sort by.
+<a href="#">Link to this property</a>
 
-  - `"domain"`
+"AU"
 
-  - `"created_at"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+"DE"
 
-  Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+"IN"
 
-  The number of results per page. Maximum value is 1000.
+<a href="#">Link to this property</a>
 
-- `search: optional string`
+"US"
 
-  Search term for filtering records. Behavior may change.
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+require\_tls\_inbound: optional boolean
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+require\_tls\_outbound: optional boolean
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+<details>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"none"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"good"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"neutral"
 
-- `result: optional array of object { id, comments, created_at, 4 more }`
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"open"
 
-    Sending domain restriction identifier.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+"invalid"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+</details>
 
-    Domain that requires TLS enforcement.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of string`
+<details>
 
-    Excluded subdomains that are exempt from TLS requirements.
+<summary>
 
-  - `last_modified: optional string`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</summary>
 
-  - `modified_at: optional string`
+One of the following:
 
-- `result_info: optional object { count, page, per_page, total_count }`
+"PENDING"
 
-  - `count: optional number`
+<a href="#">Link to this property</a>
 
-    Total number of results for the requested service.
+"ACTIVE"
 
-  - `page: optional number`
+<a href="#">Link to this property</a>
 
-    Current page within paginated list of results.
+"FAILED"
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+"TIMEOUT"
 
-  - `total_count: optional number`
+<a href="#">Link to this property</a>
 
-    Total results available without any search parameters.
+</details>
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+transport: optional string
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "comments": "Enforce TLS for all mail from this domain",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "domain": "example.com",
-      "exclude": [
-        "subdomain.example.com"
-      ],
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+</details>
 
-## Get a sending domain restriction
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_update_response%20%3E%20(schema)>)
 
-**get** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions/{sending_domain_restriction_id}`
+<details>
 
-Retrieves details for a specific sending domain restriction including the domain requiring TLS and any excluded subdomains exempt from the TLS requirement.
+<summary>
 
-### Path Parameters
+DomainEditResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+id: optional string
 
-- `sending_domain_restriction_id: string`
+Domain identifier.
 
-  Sending domain restriction identifier.
+formatuuid
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"DIRECT"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"BCC"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"JOURNAL"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"API"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"RETRO\_SCAN"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comments, created_at, 4 more }`
+</details>
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Sending domain restriction identifier.
+<summary>
 
-  - `comments: optional string`
+authorization: optional object {authorized, timestamp, status\_message }
 
-  - `created_at: optional string`
+</summary>
 
-  - `domain: optional string`
+authorized: boolean
 
-    Domain that requires TLS enforcement.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of string`
+timestamp: string
 
-    Excluded subdomains that are exempt from TLS requirements.
+formatdate-time
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+status\_message: optional string
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions/$SENDING_DOMAIN_RESTRICTION_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+created\_at: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Enforce TLS for all mail from this domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "domain": "example.com",
-    "exclude": [
-      "subdomain.example.com"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+formatdate-time
 
-## Create a sending domain restriction
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions`
+<details>
 
-Creates a new sending domain restriction to enforce TLS requirements for a domain. Emails without TLS from this domain will be dropped unless the subdomain is in the exclude list.
+<summary>
 
-### Path Parameters
+dmarc\_status: optional "none"or "good"or "invalid"
 
-- `account_id: string`
+</summary>
 
-  Identifier.
+One of the following:
 
-### Body Parameters
+"none"
 
-- `domain: string`
+<a href="#">Link to this property</a>
 
-  Domain that requires TLS enforcement.
+"good"
 
-- `exclude: array of string`
+<a href="#">Link to this property</a>
 
-  Excluded subdomains that are exempt from TLS requirements.
+"invalid"
 
-- `comments: optional string`
+<a href="#">Link to this property</a>
 
-### Returns
+</details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+domain: optional string
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+One of the following:
 
-  - `message: string`
+"MALICIOUS"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"MALICIOUS-BEC"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"SUSPICIOUS"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"SPOOF"
 
-- `result: optional object { id, comments, created_at, 4 more }`
+<a href="#">Link to this property</a>
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+"SPAM"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Sending domain restriction identifier.
+"BULK"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"ENCRYPTED"
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-    Domain that requires TLS enforcement.
+"EXTERNAL"
 
-  - `exclude: optional array of string`
+<a href="#">Link to this property</a>
 
-    Excluded subdomains that are exempt from TLS requirements.
+"UNKNOWN"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"NONE"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "domain": "example.com",
-          "exclude": [
-            "subdomain.example.com"
-          ],
-          "comments": "Enforce TLS for all mail from this domain"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Enforce TLS for all mail from this domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "domain": "example.com",
-    "exclude": [
-      "subdomain.example.com"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<summary>
 
-## Update a sending domain restriction
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-**patch** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions/{sending_domain_restriction_id}`
+</summary>
 
-Updates an existing sending domain restriction. Only provided fields will be modified. Changes affect which domains require TLS and which subdomains are excluded.
+timestamp: string
 
-### Path Parameters
+formatdate-time
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+total\_emails\_processed: number
 
-- `sending_domain_restriction_id: string`
+minimum0
 
-  Sending domain restriction identifier.
+<a href="#">Link to this property</a>
 
-### Body Parameters
+total\_emails\_processed\_previous: number
 
-- `comments: optional string`
+minimum0
 
-- `domain: optional string`
+<a href="#">Link to this property</a>
 
-  Domain that requires TLS enforcement.
+</details>
 
-- `exclude: optional array of string`
+<a href="#">Link to this property</a>
 
-  Excluded subdomains that are exempt from TLS requirements.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+folder: optional "AllItems"or "Inbox"
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"AllItems"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"Inbox"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+inbox\_provider: optional "Microsoft"or "Google"
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+One of the following:
 
-  - `true`
+"Microsoft"
 
-- `result: optional object { id, comments, created_at, 4 more }`
+<a href="#">Link to this property</a>
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+"Google"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Sending domain restriction identifier.
+</details>
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+integration\_id: optional string
 
-  - `domain: optional string`
+formatuuid
 
-    Domain that requires TLS enforcement.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of string`
+ip\_restrictions: optional array of string
 
-    Excluded subdomains that are exempt from TLS requirements.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+Deprecatedlast\_modified: optional string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+Use <code>modified_at</code> instead.
 
-  - `modified_at: optional string`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-### Example
+formatdate-time
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions/$SENDING_DOMAIN_RESTRICTION_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Enforce TLS for all mail from this domain",
-          "domain": "example.com",
-          "exclude": [
-            "subdomain.example.com"
-          ]
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+lookback\_hops: optional number
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Enforce TLS for all mail from this domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "domain": "example.com",
-    "exclude": [
-      "subdomain.example.com"
-    ],
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a sending domain restriction
+modified\_at: optional string
 
-**delete** `/accounts/{account_id}/email-security/settings/sending_domain_restrictions/{sending_domain_restriction_id}`
+formatdate-time
 
-Removes a sending domain restriction. After deletion, TLS will no longer be enforced for emails from this domain.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+o365\_tenant\_id: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+<details>
 
-- `sending_domain_restriction_id: string`
+<summary>
 
-  Sending domain restriction identifier.
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-### Returns
+</summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+One of the following:
 
-  - `code: number`
+"GLOBAL"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"AU"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"DE"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"IN"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"US"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+</details>
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+require\_tls\_inbound: optional boolean
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id }`
+require\_tls\_outbound: optional boolean
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    Sending domain restriction identifier.
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/sending_domain_restrictions/$SENDING_DOMAIN_RESTRICTION_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+One of the following:
 
-## Domain Types
+"none"
 
-### Sending Domain Restriction List Response
+<a href="#">Link to this property</a>
 
-- `SendingDomainRestrictionListResponse object { id, comments, created_at, 4 more }`
+"good"
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"neutral"
 
-    Sending domain restriction identifier.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+"open"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+"invalid"
 
-    Domain that requires TLS enforcement.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of string`
+</details>
 
-    Excluded subdomains that are exempt from TLS requirements.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+<details>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<summary>
 
-  - `modified_at: optional string`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-### Sending Domain Restriction Get Response
+</summary>
 
-- `SendingDomainRestrictionGetResponse object { id, comments, created_at, 4 more }`
+One of the following:
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+"PENDING"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Sending domain restriction identifier.
+"ACTIVE"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"FAILED"
 
-  - `domain: optional string`
+<a href="#">Link to this property</a>
 
-    Domain that requires TLS enforcement.
+"TIMEOUT"
 
-  - `exclude: optional array of string`
+<a href="#">Link to this property</a>
 
-    Excluded subdomains that are exempt from TLS requirements.
+</details>
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+transport: optional string
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### Sending Domain Restriction Create Response
+</details>
 
-- `SendingDomainRestrictionCreateResponse object { id, comments, created_at, 4 more }`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_edit_response%20%3E%20(schema)>)
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+<details>
 
-  - `id: optional string`
+<summary>
 
-    Sending domain restriction identifier.
+DomainCreateResponse object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-  - `comments: optional string`
+</summary>
 
-  - `created_at: optional string`
+id: optional string
 
-  - `domain: optional string`
+Domain identifier.
 
-    Domain that requires TLS enforcement.
+formatuuid
 
-  - `exclude: optional array of string`
+<a href="#">Link to this property</a>
 
-    Excluded subdomains that are exempt from TLS requirements.
+<details>
 
-  - `last_modified: optional string`
+<summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-  - `modified_at: optional string`
+</summary>
 
-### Sending Domain Restriction Edit Response
+One of the following:
 
-- `SendingDomainRestrictionEditResponse object { id, comments, created_at, 4 more }`
+"DIRECT"
 
-  A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, mail without TLS from the specified domain will be dropped.
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+"BCC"
 
-    Sending domain restriction identifier.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+"JOURNAL"
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `domain: optional string`
+"API"
 
-    Domain that requires TLS enforcement.
+<a href="#">Link to this property</a>
 
-  - `exclude: optional array of string`
+"RETRO\_SCAN"
 
-    Excluded subdomains that are exempt from TLS requirements.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+</details>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+<details>
 
-### Sending Domain Restriction Delete Response
+<summary>
 
-- `SendingDomainRestrictionDeleteResponse object { id }`
+authorization: optional object {authorized, timestamp, status\_message }
 
-  - `id: string`
+</summary>
 
-    Sending domain restriction identifier.
+authorized: boolean
 
-# Trusted Domains
+<a href="#">Link to this property</a>
 
-## List trusted email domains
+timestamp: string
 
-**get** `/accounts/{account_id}/email-security/settings/trusted_domains`
+formatdate-time
 
-Returns a paginated list of trusted domain patterns. Trusted domains prevent false positives for recently registered domains and lookalike domain detections. Patterns can use regular expressions for flexible matching.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+status\_message: optional string
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+</details>
 
-### Query Parameters
+<a href="#">Link to this property</a>
 
-- `direction: optional "asc" or "desc"`
+created\_at: optional string
 
-  The sorting direction.
+formatdate-time
 
-  - `"asc"`
+<a href="#">Link to this property</a>
 
-  - `"desc"`
+<details>
 
-- `is_recent: optional boolean`
+<summary>
 
-  Filter to show only recently registered domains that are trusted to prevent triggering Suspicious or Malicious dispositions.
+dmarc\_status: optional "none"or "good"or "invalid"
 
-- `is_similarity: optional boolean`
+</summary>
 
-  Filter to show only proximity domains (partner or approved domains with similar spelling to connected domains) that prevent Spoof dispositions.
+One of the following:
 
-- `order: optional "pattern" or "created_at"`
+"none"
 
-  Field to sort by.
+<a href="#">Link to this property</a>
 
-  - `"pattern"`
+"good"
 
-  - `"created_at"`
+<a href="#">Link to this property</a>
 
-- `page: optional number`
+"invalid"
 
-  Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-- `pattern: optional string`
+</details>
 
-- `per_page: optional number`
+<a href="#">Link to this property</a>
 
-  The number of results per page. Maximum value is 1000.
+domain: optional string
 
-- `search: optional string`
+<a href="#">Link to this property</a>
 
-  Search term for filtering records. Behavior may change.
+<details>
 
-### Returns
+<summary>
 
-- `errors: array of object { code, message, documentation_url, source }`
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  - `code: number`
+</summary>
 
-  - `message: string`
+One of the following:
 
-  - `documentation_url: optional string`
+"MALICIOUS"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"MALICIOUS-BEC"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"SUSPICIOUS"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"SPOOF"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"SPAM"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"BULK"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional array of object { id, comments, created_at, 6 more }`
+"ENCRYPTED"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+"EXTERNAL"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"UNKNOWN"
 
-  - `is_recent: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+"NONE"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_similarity: optional boolean`
+</details>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+<details>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<summary>
 
-  - `modified_at: optional string`
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-  - `pattern: optional string`
+</summary>
 
-- `result_info: optional object { count, page, per_page, total_count }`
+timestamp: string
 
-  - `count: optional number`
+formatdate-time
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+total\_emails\_processed: number
 
-    Current page within paginated list of results.
+minimum0
 
-  - `per_page: optional number`
+<a href="#">Link to this property</a>
 
-    Number of results per page of results.
+total\_emails\_processed\_previous: number
 
-  - `total_count: optional number`
+minimum0
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "comments": "Trusted partner domain",
-      "created_at": "2014-01-01T05:20:00.12345Z",
-      "is_recent": true,
-      "is_regex": false,
-      "is_similarity": false,
-      "last_modified": "2014-01-01T05:20:00.12345Z",
-      "modified_at": "2014-01-01T05:20:00.12345Z",
-      "pattern": "example.com"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<summary>
 
-## Get a trusted email domain
+folder: optional "AllItems"or "Inbox"
 
-**get** `/accounts/{account_id}/email-security/settings/trusted_domains/{trusted_domain_id}`
+</summary>
 
-Retrieves details for a specific trusted domain pattern including its pattern value, whether it uses regex matching, and which detection types it affects.
+One of the following:
 
-### Path Parameters
+"AllItems"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"Inbox"
 
-- `trusted_domain_id: string`
+<a href="#">Link to this property</a>
 
-  Trusted domain identifier
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+inbox\_provider: optional "Microsoft"or "Google"
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"Microsoft"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"Google"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+</details>
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+integration\_id: optional string
 
-- `success: true`
+formatuuid
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+ip\_restrictions: optional array of string
 
-- `result: optional object { id, comments, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-  A trusted email domain
+Deprecatedlast\_modified: optional string
 
-  - `id: optional string`
+Use <code>modified_at</code> instead.
 
-    Trusted domain identifier
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `comments: optional string`
+formatdate-time
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_recent: optional boolean`
+lookback\_hops: optional number
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+<a href="#">Link to this property</a>
 
-  - `is_regex: optional boolean`
+modified\_at: optional string
 
-  - `is_similarity: optional boolean`
+formatdate-time
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+o365\_tenant\_id: optional string
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+<details>
 
-  - `pattern: optional string`
+<summary>
 
-### Example
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains/$TRUSTED_DOMAIN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+</summary>
 
-#### Response
+One of the following:
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Trusted partner domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_recent": true,
-    "is_regex": false,
-    "is_similarity": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "example.com"
-  }
-}
-```
+"GLOBAL"
 
-## Create trusted email domain
+<a href="#">Link to this property</a>
 
-**post** `/accounts/{account_id}/email-security/settings/trusted_domains`
+"AU"
 
-Creates a new trusted domain pattern. Use for partner domains or approved senders that should bypass recent domain registration and similarity checks. Configure whether it prevents recent domain or spoof dispositions.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"DE"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"IN"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `is_recent: boolean`
+"US"
 
-  Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+<a href="#">Link to this property</a>
 
-- `is_regex: boolean`
+</details>
 
-- `is_similarity: boolean`
+<a href="#">Link to this property</a>
 
-  Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+require\_tls\_inbound: optional boolean
 
-- `pattern: string`
+<a href="#">Link to this property</a>
 
-- `comments: optional string`
+require\_tls\_outbound: optional boolean
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"none"
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+"good"
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+"neutral"
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+"open"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"invalid"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, comments, created_at, 6 more }`
+</details>
 
-  A trusted email domain
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Trusted domain identifier
+<summary>
 
-  - `comments: optional string`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-  - `created_at: optional string`
+</summary>
 
-  - `is_recent: optional boolean`
+One of the following:
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+"PENDING"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_similarity: optional boolean`
+"ACTIVE"
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+"FAILED"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"TIMEOUT"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "is_recent": true,
-          "is_regex": false,
-          "is_similarity": false,
-          "pattern": "example.com",
-          "comments": "Trusted partner domain"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+transport: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Trusted partner domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_recent": true,
-    "is_regex": false,
-    "is_similarity": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "example.com"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Update a trusted email domain
+</details>
 
-**patch** `/accounts/{account_id}/email-security/settings/trusted_domains/{trusted_domain_id}`
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_create_response%20%3E%20(schema)>)
 
-Updates an existing trusted domain pattern. Only provided fields will be modified. Changes take effect for new emails matching the pattern.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+DomainDeleteResponse object {id }
 
-  Identifier.
+</summary>
 
-- `trusted_domain_id: string`
+id: string
 
-  Trusted domain identifier
+Domain identifier.
 
-### Body Parameters
+formatuuid
 
-- `comments: optional string`
+<a href="#">Link to this property</a>
 
-- `is_recent: optional boolean`
+</details>
 
-  Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_delete_response%20%3E%20(schema)>)
 
-- `is_regex: optional boolean`
+<details>
 
-- `is_similarity: optional boolean`
+<summary>
 
-  Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+DomainBatchResponse object {deletes, patches, posts, puts }
 
-- `pattern: optional string`
+</summary>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+deletes: array of object {id }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+id: string
 
-  - `source: optional object { pointer }`
+Domain identifier.
 
-    - `pointer: optional string`
+formatuuid
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+patches: array of object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-- `success: true`
+</summary>
 
-  Whether the API call was successful.
+id: optional string
 
-  - `true`
+Domain identifier.
 
-- `result: optional object { id, comments, created_at, 6 more }`
+formatuuid
 
-  A trusted email domain
+<a href="#">Link to this property</a>
 
-  - `id: optional string`
+<details>
 
-    Trusted domain identifier
+<summary>
 
-  - `comments: optional string`
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-  - `created_at: optional string`
+</summary>
 
-  - `is_recent: optional boolean`
+One of the following:
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+"DIRECT"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_similarity: optional boolean`
+"BCC"
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+"JOURNAL"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"API"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"RETRO\_SCAN"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains/$TRUSTED_DOMAIN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Trusted partner domain",
-          "is_recent": true,
-          "pattern": "example.com"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+</details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "comments": "Trusted partner domain",
-    "created_at": "2014-01-01T05:20:00.12345Z",
-    "is_recent": true,
-    "is_regex": false,
-    "is_similarity": false,
-    "last_modified": "2014-01-01T05:20:00.12345Z",
-    "modified_at": "2014-01-01T05:20:00.12345Z",
-    "pattern": "example.com"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Delete a trusted email domain
+<details>
 
-**delete** `/accounts/{account_id}/email-security/settings/trusted_domains/{trusted_domain_id}`
+<summary>
 
-Removes a trusted domain pattern. After deletion, emails from this domain will be subject to normal recent domain and similarity checks.
+authorization: optional object {authorized, timestamp, status\_message }
 
-### Path Parameters
+</summary>
 
-- `account_id: string`
+authorized: boolean
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-- `trusted_domain_id: string`
+timestamp: string
 
-  Trusted domain identifier
+formatdate-time
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+status\_message: optional string
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+created\_at: optional string
 
-    - `pointer: optional string`
+formatdate-time
 
-- `messages: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+<details>
 
-  - `message: string`
+<summary>
 
-  - `documentation_url: optional string`
+dmarc\_status: optional "none"or "good"or "invalid"
 
-  - `source: optional object { pointer }`
+</summary>
 
-    - `pointer: optional string`
+One of the following:
 
-- `success: true`
+"none"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+"good"
 
-- `result: optional object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"invalid"
 
-    Trusted domain identifier
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/trusted_domains/$TRUSTED_DOMAIN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+domain: optional string
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Domain Types
+<details>
 
-### Trusted Domain List Response
+<summary>
 
-- `TrustedDomainListResponse object { id, comments, created_at, 6 more }`
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  A trusted email domain
+</summary>
 
-  - `id: optional string`
+One of the following:
 
-    Trusted domain identifier
+"MALICIOUS"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"MALICIOUS-BEC"
 
-  - `is_recent: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+"SUSPICIOUS"
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_similarity: optional boolean`
+"SPOOF"
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+"SPAM"
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+"BULK"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-### Trusted Domain Get Response
+"ENCRYPTED"
 
-- `TrustedDomainGetResponse object { id, comments, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-  A trusted email domain
+"EXTERNAL"
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+"UNKNOWN"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-  - `created_at: optional string`
+"NONE"
 
-  - `is_recent: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+</details>
 
-  - `is_regex: optional boolean`
+<a href="#">Link to this property</a>
 
-  - `is_similarity: optional boolean`
+<details>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+<summary>
 
-  - `last_modified: optional string`
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</summary>
 
-  - `modified_at: optional string`
+timestamp: string
 
-  - `pattern: optional string`
+formatdate-time
 
-### Trusted Domain Create Response
+<a href="#">Link to this property</a>
 
-- `TrustedDomainCreateResponse object { id, comments, created_at, 6 more }`
+total\_emails\_processed: number
 
-  A trusted email domain
+minimum0
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+total\_emails\_processed\_previous: number
 
-  - `comments: optional string`
+minimum0
 
-  - `created_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `is_recent: optional boolean`
+</details>
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+<a href="#">Link to this property</a>
 
-  - `is_regex: optional boolean`
+<details>
 
-  - `is_similarity: optional boolean`
+<summary>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+folder: optional "AllItems"or "Inbox"
 
-  - `last_modified: optional string`
+</summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+One of the following:
 
-  - `modified_at: optional string`
+"AllItems"
 
-  - `pattern: optional string`
+<a href="#">Link to this property</a>
 
-### Trusted Domain Edit Response
+"Inbox"
 
-- `TrustedDomainEditResponse object { id, comments, created_at, 6 more }`
+<a href="#">Link to this property</a>
 
-  A trusted email domain
+</details>
 
-  - `id: optional string`
+<a href="#">Link to this property</a>
 
-    Trusted domain identifier
+<details>
 
-  - `comments: optional string`
+<summary>
 
-  - `created_at: optional string`
+inbox\_provider: optional "Microsoft"or "Google"
 
-  - `is_recent: optional boolean`
+</summary>
 
-    Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+One of the following:
 
-  - `is_regex: optional boolean`
+"Microsoft"
 
-  - `is_similarity: optional boolean`
+<a href="#">Link to this property</a>
 
-    Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+"Google"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+</details>
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-  - `pattern: optional string`
+integration\_id: optional string
 
-### Trusted Domain Delete Response
+formatuuid
 
-- `TrustedDomainDeleteResponse object { id }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+ip\_restrictions: optional array of string
 
-    Trusted domain identifier
+<a href="#">Link to this property</a>
 
-# URL Ignore Patterns
+Deprecatedlast\_modified: optional string
 
-## List URL ignore patterns
+Use <code>modified_at</code> instead.
 
-**get** `/accounts/{account_id}/email-security/settings/url_ignore_patterns`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-Returns a paginated list of URL rewrite ignore patterns for the account. URLs matching these patterns will not be rewritten.
+formatdate-time
 
-### Path Parameters
+<a href="#">Link to this property</a>
 
-- `account_id: string`
+lookback\_hops: optional number
 
-  Identifier.
+<a href="#">Link to this property</a>
 
-### Query Parameters
+modified\_at: optional string
 
-- `page: optional number`
+formatdate-time
 
-  Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-- `per_page: optional number`
+o365\_tenant\_id: optional string
 
-  The number of results per page. Maximum value is 1000.
+<a href="#">Link to this property</a>
 
-### Returns
+<details>
 
-- `errors: array of object { code, message, documentation_url, source }`
+<summary>
 
-  - `code: number`
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+One of the following:
 
-  - `source: optional object { pointer }`
+"GLOBAL"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+"AU"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+"DE"
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+"IN"
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+"US"
 
-  Whether the API call was successful.
+<a href="#">Link to this property</a>
 
-  - `true`
+</details>
 
-- `result: optional array of object { id, created_at, pattern, 3 more }`
+<a href="#">Link to this property</a>
 
-  - `id: string`
+require\_tls\_inbound: optional boolean
 
-    URL ignore pattern identifier
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+require\_tls\_outbound: optional boolean
 
-  - `pattern: string`
+<a href="#">Link to this property</a>
 
-    Regular expression matching URLs that should not be rewritten.
+<details>
 
-  - `comments: optional string`
+<summary>
 
-    Optional note describing the reason for the ignore pattern.
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-  - `last_modified: optional string`
+</summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+One of the following:
 
-  - `modified_at: optional string`
+"none"
 
-- `result_info: optional object { count, page, per_page, total_count }`
+<a href="#">Link to this property</a>
 
-  - `count: optional number`
+"good"
 
-    Total number of results for the requested service.
+<a href="#">Link to this property</a>
 
-  - `page: optional number`
+"neutral"
 
-    Current page within paginated list of results.
+<a href="#">Link to this property</a>
 
-  - `per_page: optional number`
+"open"
 
-    Number of results per page of results.
+<a href="#">Link to this property</a>
 
-  - `total_count: optional number`
+"invalid"
 
-    Total results available without any search parameters.
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": [
-    {
-      "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-      "created_at": "2019-12-27T18:11:19.117Z",
-      "pattern": "https://example\\.com/.*",
-      "comments": "Trusted internal redirect service",
-      "last_modified": "2019-12-27T18:11:19.117Z",
-      "modified_at": "2019-12-27T18:11:19.117Z"
-    }
-  ],
-  "result_info": {
-    "count": 1,
-    "page": 1,
-    "per_page": 20,
-    "total_count": 2000
-  }
-}
-```
+<summary>
 
-## Get a URL ignore pattern
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-**get** `/accounts/{account_id}/email-security/settings/url_ignore_patterns/{pattern_id}`
+</summary>
 
-Returns a single URL rewrite ignore pattern by its identifier.
+One of the following:
 
-### Path Parameters
+"PENDING"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"ACTIVE"
 
-- `pattern_id: string`
+<a href="#">Link to this property</a>
 
-  URL ignore pattern identifier
+"FAILED"
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+"TIMEOUT"
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+</details>
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+transport: optional string
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+</details>
 
-  - `code: number`
+<a href="#">Link to this property</a>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>
 
-  - `source: optional object { pointer }`
+posts: array of object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-    - `pointer: optional string`
+</summary>
 
-- `success: true`
+id: optional string
 
-  Whether the API call was successful.
+Domain identifier.
 
-  - `true`
+formatuuid
 
-- `result: optional object { id, created_at, pattern, 3 more }`
+<a href="#">Link to this property</a>
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+<details>
 
-  - `id: string`
+<summary>
 
-    URL ignore pattern identifier
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
 
-  - `created_at: string`
+</summary>
 
-  - `pattern: string`
+One of the following:
 
-    Regular expression matching URLs that should not be rewritten.
+"DIRECT"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-    Optional note describing the reason for the ignore pattern.
+"BCC"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"JOURNAL"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+"API"
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns/$PATTERN_ID \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+<a href="#">Link to this property</a>
 
-#### Response
+"RETRO\_SCAN"
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "pattern": "https://example\\.com/.*",
-    "comments": "Trusted internal redirect service",
-    "last_modified": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+<a href="#">Link to this property</a>
 
-## Create a URL ignore pattern
+</details>
 
-**post** `/accounts/{account_id}/email-security/settings/url_ignore_patterns`
+<a href="#">Link to this property</a>
 
-Creates a new URL rewrite ignore pattern. URLs matching this pattern will not be rewritten.
+<details>
 
-### Path Parameters
+<summary>
 
-- `account_id: string`
+authorization: optional object {authorized, timestamp, status\_message }
 
-  Identifier.
+</summary>
 
-### Body Parameters
+authorized: boolean
 
-- `pattern: string`
+<a href="#">Link to this property</a>
 
-  Regular expression matching URLs that should not be rewritten.
+timestamp: string
 
-- `comments: optional string`
+formatdate-time
 
-  Optional note describing the reason for the ignore pattern.
+<a href="#">Link to this property</a>
 
-### Returns
+status\_message: optional string
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+created\_at: optional string
 
-  - `source: optional object { pointer }`
+formatdate-time
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `messages: array of object { code, message, documentation_url, source }`
+<details>
 
-  - `code: number`
+<summary>
 
-  - `message: string`
+dmarc\_status: optional "none"or "good"or "invalid"
 
-  - `documentation_url: optional string`
+</summary>
 
-  - `source: optional object { pointer }`
+One of the following:
 
-    - `pointer: optional string`
+"none"
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+"good"
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id, created_at, pattern, 3 more }`
+"invalid"
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+</details>
 
-    URL ignore pattern identifier
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+domain: optional string
 
-  - `pattern: string`
+<a href="#">Link to this property</a>
 
-    Regular expression matching URLs that should not be rewritten.
+<details>
 
-  - `comments: optional string`
+<summary>
 
-    Optional note describing the reason for the ignore pattern.
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
 
-  - `last_modified: optional string`
+</summary>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+One of the following:
 
-  - `modified_at: optional string`
+"MALICIOUS"
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "pattern": "https://example\\\\.com/.*",
-          "comments": "Trusted internal redirect service"
-        }'
-```
+"MALICIOUS-BEC"
 
-#### Response
+<a href="#">Link to this property</a>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "pattern": "https://example\\.com/.*",
-    "comments": "Trusted internal redirect service",
-    "last_modified": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+"SUSPICIOUS"
 
-## Update a URL ignore pattern
+<a href="#">Link to this property</a>
 
-**patch** `/accounts/{account_id}/email-security/settings/url_ignore_patterns/{pattern_id}`
+"SPOOF"
 
-Updates an existing URL rewrite ignore pattern. Only provided fields will be modified.
+<a href="#">Link to this property</a>
 
-### Path Parameters
+"SPAM"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"BULK"
 
-- `pattern_id: string`
+<a href="#">Link to this property</a>
 
-  URL ignore pattern identifier
+"ENCRYPTED"
 
-### Body Parameters
+<a href="#">Link to this property</a>
 
-- `comments: optional string`
+"EXTERNAL"
 
-  Optional note describing the reason for the ignore pattern.
+<a href="#">Link to this property</a>
 
-- `pattern: optional string`
+"UNKNOWN"
 
-  Regular expression matching URLs that should not be rewritten.
+<a href="#">Link to this property</a>
 
-### Returns
+"NONE"
 
-- `errors: array of object { code, message, documentation_url, source }`
+<a href="#">Link to this property</a>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
 
-- `messages: array of object { code, message, documentation_url, source }`
+</summary>
 
-  - `code: number`
+timestamp: string
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+total\_emails\_processed: number
 
-    - `pointer: optional string`
+minimum0
 
-- `success: true`
+<a href="#">Link to this property</a>
 
-  Whether the API call was successful.
+total\_emails\_processed\_previous: number
 
-  - `true`
+minimum0
 
-- `result: optional object { id, created_at, pattern, 3 more }`
+<a href="#">Link to this property</a>
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+</details>
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    URL ignore pattern identifier
+<details>
 
-  - `created_at: string`
+<summary>
 
-  - `pattern: string`
+folder: optional "AllItems"or "Inbox"
 
-    Regular expression matching URLs that should not be rewritten.
+</summary>
 
-  - `comments: optional string`
+One of the following:
 
-    Optional note describing the reason for the ignore pattern.
+"AllItems"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"Inbox"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns/$PATTERN_ID \
-    -X PATCH \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -d '{
-          "comments": "Trusted internal redirect service",
-          "pattern": "https://example\\\\.com/.*"
-        }'
-```
+<a href="#">Link to this property</a>
 
-#### Response
+<details>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415",
-    "created_at": "2019-12-27T18:11:19.117Z",
-    "pattern": "https://example\\.com/.*",
-    "comments": "Trusted internal redirect service",
-    "last_modified": "2019-12-27T18:11:19.117Z",
-    "modified_at": "2019-12-27T18:11:19.117Z"
-  }
-}
-```
+<summary>
 
-## Delete a URL ignore pattern
+inbox\_provider: optional "Microsoft"or "Google"
 
-**delete** `/accounts/{account_id}/email-security/settings/url_ignore_patterns/{pattern_id}`
+</summary>
 
-Removes a URL rewrite ignore pattern. After deletion, URLs matching this pattern will be rewritten again.
+One of the following:
 
-### Path Parameters
+"Microsoft"
 
-- `account_id: string`
+<a href="#">Link to this property</a>
 
-  Identifier.
+"Google"
 
-- `pattern_id: string`
+<a href="#">Link to this property</a>
 
-  URL ignore pattern identifier
+</details>
 
-### Returns
+<a href="#">Link to this property</a>
 
-- `errors: array of object { code, message, documentation_url, source }`
+integration\_id: optional string
 
-  - `code: number`
+formatuuid
 
-  - `message: string`
+<a href="#">Link to this property</a>
 
-  - `documentation_url: optional string`
+ip\_restrictions: optional array of string
 
-  - `source: optional object { pointer }`
+<a href="#">Link to this property</a>
 
-    - `pointer: optional string`
+Deprecatedlast\_modified: optional string
 
-- `messages: array of object { code, message, documentation_url, source }`
+Use <code>modified_at</code> instead.
 
-  - `code: number`
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
 
-  - `message: string`
+formatdate-time
 
-  - `documentation_url: optional string`
+<a href="#">Link to this property</a>
 
-  - `source: optional object { pointer }`
+lookback\_hops: optional number
 
-    - `pointer: optional string`
+<a href="#">Link to this property</a>
 
-- `success: true`
+modified\_at: optional string
 
-  Whether the API call was successful.
+formatdate-time
 
-  - `true`
+<a href="#">Link to this property</a>
 
-- `result: optional object { id }`
+o365\_tenant\_id: optional string
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    URL ignore pattern identifier
+<details>
 
-### Example
+<summary>
 
-```http
-curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/email-security/settings/url_ignore_patterns/$PATTERN_ID \
-    -X DELETE \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-```
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
 
-#### Response
+</summary>
 
-```json
-{
-  "errors": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "messages": [
-    {
-      "code": 1000,
-      "message": "message",
-      "documentation_url": "documentation_url",
-      "source": {
-        "pointer": "pointer"
-      }
-    }
-  ],
-  "success": true,
-  "result": {
-    "id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
-  }
-}
-```
+One of the following:
 
-## Domain Types
+"GLOBAL"
 
-### URL Ignore Pattern List Response
+<a href="#">Link to this property</a>
 
-- `URLIgnorePatternListResponse object { id, created_at, pattern, 3 more }`
+"AU"
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+<a href="#">Link to this property</a>
 
-  - `id: string`
+"DE"
 
-    URL ignore pattern identifier
+<a href="#">Link to this property</a>
 
-  - `created_at: string`
+"IN"
 
-  - `pattern: string`
+<a href="#">Link to this property</a>
 
-    Regular expression matching URLs that should not be rewritten.
+"US"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-    Optional note describing the reason for the ignore pattern.
+</details>
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+require\_tls\_inbound: optional boolean
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### URL Ignore Pattern Get Response
+require\_tls\_outbound: optional boolean
 
-- `URLIgnorePatternGetResponse object { id, created_at, pattern, 3 more }`
+<a href="#">Link to this property</a>
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+<details>
 
-  - `id: string`
+<summary>
 
-    URL ignore pattern identifier
+spf\_status: optional "none"or "good"or "neutral"or 2 more
 
-  - `created_at: string`
+</summary>
 
-  - `pattern: string`
+One of the following:
 
-    Regular expression matching URLs that should not be rewritten.
+"none"
 
-  - `comments: optional string`
+<a href="#">Link to this property</a>
 
-    Optional note describing the reason for the ignore pattern.
+"good"
 
-  - `last_modified: optional string`
+<a href="#">Link to this property</a>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"neutral"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### URL Ignore Pattern Create Response
+"open"
 
-- `URLIgnorePatternCreateResponse object { id, created_at, pattern, 3 more }`
+<a href="#">Link to this property</a>
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+"invalid"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    URL ignore pattern identifier
+</details>
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `pattern: string`
+<details>
 
-    Regular expression matching URLs that should not be rewritten.
+<summary>
 
-  - `comments: optional string`
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
 
-    Optional note describing the reason for the ignore pattern.
+</summary>
 
-  - `last_modified: optional string`
+One of the following:
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+"PENDING"
 
-  - `modified_at: optional string`
+<a href="#">Link to this property</a>
 
-### URL Ignore Pattern Edit Response
+"ACTIVE"
 
-- `URLIgnorePatternEditResponse object { id, created_at, pattern, 3 more }`
+<a href="#">Link to this property</a>
 
-  A URL ignore pattern that exempts matching URLs from being rewritten by Email Security.
+"FAILED"
 
-  - `id: string`
+<a href="#">Link to this property</a>
 
-    URL ignore pattern identifier
+"TIMEOUT"
 
-  - `created_at: string`
+<a href="#">Link to this property</a>
 
-  - `pattern: string`
+</details>
 
-    Regular expression matching URLs that should not be rewritten.
+<a href="#">Link to this property</a>
 
-  - `comments: optional string`
+transport: optional string
 
-    Optional note describing the reason for the ignore pattern.
+<a href="#">Link to this property</a>
 
-  - `last_modified: optional string`
+</details>
 
-    Deprecated, use `modified_at` instead. End of life: November 1, 2026.
+<a href="#">Link to this property</a>
 
-  - `modified_at: optional string`
+<details>
 
-### URL Ignore Pattern Delete Response
+<summary>
 
-- `URLIgnorePatternDeleteResponse object { id }`
+puts: array of object {id, allowed\_delivery\_modes, authorization, 19 more }
 
-  - `id: string`
+</summary>
 
-    URL ignore pattern identifier
+id: optional string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+allowed\_delivery\_modes: optional array of "DIRECT"or "BCC"or "JOURNAL"or 2 more
+
+</summary>
+
+One of the following:
+
+"DIRECT"
+
+<a href="#">Link to this property</a>
+
+"BCC"
+
+<a href="#">Link to this property</a>
+
+"JOURNAL"
+
+<a href="#">Link to this property</a>
+
+"API"
+
+<a href="#">Link to this property</a>
+
+"RETRO\_SCAN"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+authorization: optional object {authorized, timestamp, status\_message }
+
+</summary>
+
+authorized: boolean
+
+<a href="#">Link to this property</a>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+status\_message: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+dmarc\_status: optional "none"or "good"or "invalid"
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+drop\_dispositions: optional array of "MALICIOUS"or "MALICIOUS-BEC"or "SUSPICIOUS"or 7 more
+
+</summary>
+
+One of the following:
+
+"MALICIOUS"
+
+<a href="#">Link to this property</a>
+
+"MALICIOUS-BEC"
+
+<a href="#">Link to this property</a>
+
+"SUSPICIOUS"
+
+<a href="#">Link to this property</a>
+
+"SPOOF"
+
+<a href="#">Link to this property</a>
+
+"SPAM"
+
+<a href="#">Link to this property</a>
+
+"BULK"
+
+<a href="#">Link to this property</a>
+
+"ENCRYPTED"
+
+<a href="#">Link to this property</a>
+
+"EXTERNAL"
+
+<a href="#">Link to this property</a>
+
+"UNKNOWN"
+
+<a href="#">Link to this property</a>
+
+"NONE"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+emails\_processed: optional object {timestamp, total\_emails\_processed, total\_emails\_processed\_previous }
+
+</summary>
+
+timestamp: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+total\_emails\_processed\_previous: number
+
+minimum0
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+folder: optional "AllItems"or "Inbox"
+
+</summary>
+
+One of the following:
+
+"AllItems"
+
+<a href="#">Link to this property</a>
+
+"Inbox"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+inbox\_provider: optional "Microsoft"or "Google"
+
+</summary>
+
+One of the following:
+
+"Microsoft"
+
+<a href="#">Link to this property</a>
+
+"Google"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+integration\_id: optional string
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+ip\_restrictions: optional array of string
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+lookback\_hops: optional number
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+o365\_tenant\_id: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+regions: optional array of "GLOBAL"or "AU"or "DE"or 2 more
+
+</summary>
+
+One of the following:
+
+"GLOBAL"
+
+<a href="#">Link to this property</a>
+
+"AU"
+
+<a href="#">Link to this property</a>
+
+"DE"
+
+<a href="#">Link to this property</a>
+
+"IN"
+
+<a href="#">Link to this property</a>
+
+"US"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+require\_tls\_inbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+require\_tls\_outbound: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+spf\_status: optional "none"or "good"or "neutral"or 2 more
+
+</summary>
+
+One of the following:
+
+"none"
+
+<a href="#">Link to this property</a>
+
+"good"
+
+<a href="#">Link to this property</a>
+
+"neutral"
+
+<a href="#">Link to this property</a>
+
+"open"
+
+<a href="#">Link to this property</a>
+
+"invalid"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: optional "PENDING"or "ACTIVE"or "FAILED"or "TIMEOUT"
+
+</summary>
+
+One of the following:
+
+"PENDING"
+
+<a href="#">Link to this property</a>
+
+"ACTIVE"
+
+<a href="#">Link to this property</a>
+
+"FAILED"
+
+<a href="#">Link to this property</a>
+
+"TIMEOUT"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+transport: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_batch_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+DomainBulkDeleteResponse object {id }
+
+</summary>
+
+id: string
+
+Domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.domains%20%3E%20(model)%20domain_bulk_delete_response%20%3E%20(schema)>)
+
+#### SettingsImpersonation Registry
+
+##### [List entries in impersonation registry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/list)
+
+GET/accounts/{account\_id}/email-security/settings/impersonation\_registry
+
+##### [Get an impersonation registry entry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/get)
+
+GET/accounts/{account\_id}/email-security/settings/impersonation\_registry/{impersonation\_registry\_id}
+
+##### [Create impersonation registry entry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/create)
+
+POST/accounts/{account\_id}/email-security/settings/impersonation\_registry
+
+##### [Update an impersonation registry entry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/edit)
+
+PATCH/accounts/{account\_id}/email-security/settings/impersonation\_registry/{impersonation\_registry\_id}
+
+##### [Delete an impersonation registry entry](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/impersonation_registry/methods/delete)
+
+DELETE/accounts/{account\_id}/email-security/settings/impersonation\_registry/{impersonation\_registry\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+ImpersonationRegistryListResponse object {id, comments, created\_at, 9 more }
+
+An impersonation registry entry.
+
+</summary>
+
+id: optional string
+
+Impersonation registry entry identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+directory\_id: optional number
+
+<a href="#">Link to this property</a>
+
+directory\_node\_id: optional number
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+<a href="#">Link to this property</a>
+
+Deprecatedexternal\_directory\_node\_id: optional string
+
+This field is deprecated.
+
+<a href="#">Link to this property</a>
+
+is\_email\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provenance: optional "A1S\_INTERNAL"or "SNOOPY-CASB\_OFFICE\_365"or "SNOOPY-OFFICE\_365"or "SNOOPY-GOOGLE\_DIRECTORY"
+
+</summary>
+
+One of the following:
+
+"A1S\_INTERNAL"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-CASB\_OFFICE\_365"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-OFFICE\_365"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-GOOGLE\_DIRECTORY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ImpersonationRegistryGetResponse object {id, comments, created\_at, 9 more }
+
+An impersonation registry entry.
+
+</summary>
+
+id: optional string
+
+Impersonation registry entry identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+directory\_id: optional number
+
+<a href="#">Link to this property</a>
+
+directory\_node\_id: optional number
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+<a href="#">Link to this property</a>
+
+Deprecatedexternal\_directory\_node\_id: optional string
+
+This field is deprecated.
+
+<a href="#">Link to this property</a>
+
+is\_email\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provenance: optional "A1S\_INTERNAL"or "SNOOPY-CASB\_OFFICE\_365"or "SNOOPY-OFFICE\_365"or "SNOOPY-GOOGLE\_DIRECTORY"
+
+</summary>
+
+One of the following:
+
+"A1S\_INTERNAL"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-CASB\_OFFICE\_365"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-OFFICE\_365"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-GOOGLE\_DIRECTORY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ImpersonationRegistryCreateResponse object {id, comments, created\_at, 9 more }
+
+An impersonation registry entry.
+
+</summary>
+
+id: optional string
+
+Impersonation registry entry identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+directory\_id: optional number
+
+<a href="#">Link to this property</a>
+
+directory\_node\_id: optional number
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+<a href="#">Link to this property</a>
+
+Deprecatedexternal\_directory\_node\_id: optional string
+
+This field is deprecated.
+
+<a href="#">Link to this property</a>
+
+is\_email\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provenance: optional "A1S\_INTERNAL"or "SNOOPY-CASB\_OFFICE\_365"or "SNOOPY-OFFICE\_365"or "SNOOPY-GOOGLE\_DIRECTORY"
+
+</summary>
+
+One of the following:
+
+"A1S\_INTERNAL"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-CASB\_OFFICE\_365"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-OFFICE\_365"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-GOOGLE\_DIRECTORY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ImpersonationRegistryEditResponse object {id, comments, created\_at, 9 more }
+
+An impersonation registry entry.
+
+</summary>
+
+id: optional string
+
+Impersonation registry entry identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+directory\_id: optional number
+
+<a href="#">Link to this property</a>
+
+directory\_node\_id: optional number
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+<a href="#">Link to this property</a>
+
+Deprecatedexternal\_directory\_node\_id: optional string
+
+This field is deprecated.
+
+<a href="#">Link to this property</a>
+
+is\_email\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+provenance: optional "A1S\_INTERNAL"or "SNOOPY-CASB\_OFFICE\_365"or "SNOOPY-OFFICE\_365"or "SNOOPY-GOOGLE\_DIRECTORY"
+
+</summary>
+
+One of the following:
+
+"A1S\_INTERNAL"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-CASB\_OFFICE\_365"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-OFFICE\_365"
+
+<a href="#">Link to this property</a>
+
+"SNOOPY-GOOGLE\_DIRECTORY"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+ImpersonationRegistryDeleteResponse object {id }
+
+</summary>
+
+id: string
+
+Impersonation registry entry identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.impersonation_registry%20%3E%20(model)%20impersonation_registry_delete_response%20%3E%20(schema)>)
+
+#### SettingsSending Domain Restrictions
+
+##### [List sending domain restrictions](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/list)
+
+GET/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions
+
+##### [Get a sending domain restriction](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/get)
+
+GET/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions/{sending\_domain\_restriction\_id}
+
+##### [Create a sending domain restriction](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/create)
+
+POST/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions
+
+##### [Update a sending domain restriction](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/edit)
+
+PATCH/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions/{sending\_domain\_restriction\_id}
+
+##### [Delete a sending domain restriction](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/sending_domain_restrictions/methods/delete)
+
+DELETE/accounts/{account\_id}/email-security/settings/sending\_domain\_restrictions/{sending\_domain\_restriction\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+SendingDomainRestrictionListResponse object {id, comments, created\_at, 4 more }
+
+A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, the system drops mail without TLS from the specified domain.
+
+</summary>
+
+id: optional string
+
+Sending domain restriction identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+Domain that requires TLS enforcement.
+
+<a href="#">Link to this property</a>
+
+exclude: optional array of string
+
+Subdomains to exempt from TLS requirements.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+SendingDomainRestrictionGetResponse object {id, comments, created\_at, 4 more }
+
+A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, the system drops mail without TLS from the specified domain.
+
+</summary>
+
+id: optional string
+
+Sending domain restriction identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+Domain that requires TLS enforcement.
+
+<a href="#">Link to this property</a>
+
+exclude: optional array of string
+
+Subdomains to exempt from TLS requirements.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+SendingDomainRestrictionCreateResponse object {id, comments, created\_at, 4 more }
+
+A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, the system drops mail without TLS from the specified domain.
+
+</summary>
+
+id: optional string
+
+Sending domain restriction identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+Domain that requires TLS enforcement.
+
+<a href="#">Link to this property</a>
+
+exclude: optional array of string
+
+Subdomains to exempt from TLS requirements.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+SendingDomainRestrictionEditResponse object {id, comments, created\_at, 4 more }
+
+A sending domain restriction that enforces TLS (Transport Layer Security) requirements for emails from specific domains. If TLS is required, the system drops mail without TLS from the specified domain.
+
+</summary>
+
+id: optional string
+
+Sending domain restriction identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+domain: optional string
+
+Domain that requires TLS enforcement.
+
+<a href="#">Link to this property</a>
+
+exclude: optional array of string
+
+Subdomains to exempt from TLS requirements.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+SendingDomainRestrictionDeleteResponse object {id }
+
+</summary>
+
+id: string
+
+Sending domain restriction identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.sending_domain_restrictions%20%3E%20(model)%20sending_domain_restriction_delete_response%20%3E%20(schema)>)
+
+#### SettingsTrusted Domains
+
+##### [List trusted email domains](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/list)
+
+GET/accounts/{account\_id}/email-security/settings/trusted\_domains
+
+##### [Get a trusted email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/get)
+
+GET/accounts/{account\_id}/email-security/settings/trusted\_domains/{trusted\_domain\_id}
+
+##### [Create trusted email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/create)
+
+POST/accounts/{account\_id}/email-security/settings/trusted\_domains
+
+##### [Update a trusted email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/edit)
+
+PATCH/accounts/{account\_id}/email-security/settings/trusted\_domains/{trusted\_domain\_id}
+
+##### [Delete a trusted email domain](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/delete)
+
+DELETE/accounts/{account\_id}/email-security/settings/trusted\_domains/{trusted\_domain\_id}
+
+##### [Batch trusted domains operations](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/trusted_domains/methods/batch)
+
+POST/accounts/{account\_id}/email-security/settings/trusted\_domains/batch
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+TrustedDomainListResponse object {id, comments, created\_at, 6 more }
+
+A trusted email domain.
+
+</summary>
+
+id: optional string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_recent: optional boolean
+
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+is\_similarity: optional boolean
+
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TrustedDomainGetResponse object {id, comments, created\_at, 6 more }
+
+A trusted email domain.
+
+</summary>
+
+id: optional string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_recent: optional boolean
+
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+is\_similarity: optional boolean
+
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TrustedDomainCreateResponse object {id, comments, created\_at, 6 more }
+
+A trusted email domain.
+
+</summary>
+
+id: optional string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_recent: optional boolean
+
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+is\_similarity: optional boolean
+
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TrustedDomainEditResponse object {id, comments, created\_at, 6 more }
+
+A trusted email domain.
+
+</summary>
+
+id: optional string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_recent: optional boolean
+
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+is\_similarity: optional boolean
+
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TrustedDomainDeleteResponse object {id }
+
+</summary>
+
+id: string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_delete_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+TrustedDomainBatchResponse object {deletes, patches, posts, puts }
+
+</summary>
+
+<details>
+
+<summary>
+
+deletes: optional array of object {id }
+
+</summary>
+
+id: string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+patches: optional array of object {id, comments, created\_at, 6 more }
+
+</summary>
+
+id: optional string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_recent: optional boolean
+
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+is\_similarity: optional boolean
+
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+posts: optional array of object {id, comments, created\_at, 6 more }
+
+</summary>
+
+id: optional string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_recent: optional boolean
+
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+is\_similarity: optional boolean
+
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+puts: optional array of object {id, comments, created\_at, 6 more }
+
+</summary>
+
+id: optional string
+
+Trusted domain identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+created\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+is\_recent: optional boolean
+
+Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.
+
+<a href="#">Link to this property</a>
+
+is\_regex: optional boolean
+
+<a href="#">Link to this property</a>
+
+is\_similarity: optional boolean
+
+Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: optional string
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.trusted_domains%20%3E%20(model)%20trusted_domain_batch_response%20%3E%20(schema)>)
+
+#### SettingsURL Ignore Patterns
+
+##### [List URL ignore patterns](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/list)
+
+GET/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns
+
+##### [Get a URL ignore pattern](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/get)
+
+GET/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns/{pattern\_id}
+
+##### [Create a URL ignore pattern](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/create)
+
+POST/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns
+
+##### [Update a URL ignore pattern](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/edit)
+
+PATCH/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns/{pattern\_id}
+
+##### [Delete a URL ignore pattern](https://developers.cloudflare.com/api/resources/email_security/subresources/settings/subresources/url_ignore_patterns/methods/delete)
+
+DELETE/accounts/{account\_id}/email-security/settings/url\_ignore\_patterns/{pattern\_id}
+
+##### ModelsExpand Collapse
+
+<details>
+
+<summary>
+
+URLIgnorePatternListResponse object {id, created\_at, pattern, 3 more }
+
+A URL ignore pattern that exempts matching URLs from Email Security’s URL rewriting.
+
+</summary>
+
+id: string
+
+URL ignore pattern identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: string
+
+Regular expression identifying URLs to exempt from rewriting.
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Optional note describing the reason for the ignore pattern.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_list_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+URLIgnorePatternGetResponse object {id, created\_at, pattern, 3 more }
+
+A URL ignore pattern that exempts matching URLs from Email Security’s URL rewriting.
+
+</summary>
+
+id: string
+
+URL ignore pattern identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: string
+
+Regular expression identifying URLs to exempt from rewriting.
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Optional note describing the reason for the ignore pattern.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_get_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+URLIgnorePatternCreateResponse object {id, created\_at, pattern, 3 more }
+
+A URL ignore pattern that exempts matching URLs from Email Security’s URL rewriting.
+
+</summary>
+
+id: string
+
+URL ignore pattern identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: string
+
+Regular expression identifying URLs to exempt from rewriting.
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Optional note describing the reason for the ignore pattern.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_create_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+URLIgnorePatternEditResponse object {id, created\_at, pattern, 3 more }
+
+A URL ignore pattern that exempts matching URLs from Email Security’s URL rewriting.
+
+</summary>
+
+id: string
+
+URL ignore pattern identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+pattern: string
+
+Regular expression identifying URLs to exempt from rewriting.
+
+maxLength1024
+
+minLength1
+
+<a href="#">Link to this property</a>
+
+comments: optional string
+
+Optional note describing the reason for the ignore pattern.
+
+maxLength1024
+
+<a href="#">Link to this property</a>
+
+Deprecatedlast\_modified: optional string
+
+Use <code>modified_at</code> instead.
+
+Deprecated, use <code>modified_at</code> instead. End of life: November 1, 2026.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+modified\_at: optional string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_edit_response%20%3E%20(schema)>)
+
+<details>
+
+<summary>
+
+URLIgnorePatternDeleteResponse object {id }
+
+</summary>
+
+id: string
+
+URL ignore pattern identifier.
+
+formatuuid
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20email_security.settings.url_ignore_patterns%20%3E%20(model)%20url_ignore_pattern_delete_response%20%3E%20(schema)>)

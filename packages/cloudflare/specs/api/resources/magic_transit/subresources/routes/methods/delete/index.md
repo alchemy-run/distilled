@@ -1,110 +1,347 @@
-## Delete Route
+---
+title: Delete Route
+---
 
-**delete** `/accounts/{account_id}/magic/routes/{route_id}`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Magic Transit](https://developers.cloudflare.com/api/resources/magic_transit)
+
+[Routes](https://developers.cloudflare.com/api/resources/magic_transit/subresources/routes)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Delete Route
+
+DELETE/accounts/{account\_id}/magic/routes/{route\_id}
 
 Disable and remove a specific Magic static route.
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+<details>
 
-  Identifier
+<summary>API Token</summary>
 
-- `route_id: string`
 
-  Identifier
 
-### Returns
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-- `errors: array of ResponseInfo`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-  - `code: number`
+</details>
 
-  - `message: string`
+<details>
 
-  - `documentation_url: optional string`
+<summary>API Email + API Key</summary>
 
-  - `source: optional object { pointer }`
 
-    - `pointer: optional string`
 
-- `messages: array of ResponseInfo`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `code: number`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-  - `message: string`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `documentation_url: optional string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-  - `source: optional object { pointer }`
+</details>
 
-- `result: object { deleted, deleted_route }`
+##### Accepted Permissions (at least one required)
 
-  - `deleted: optional boolean`
+`Magic WAN Write``Magic Transit Write`
 
-  - `deleted_route: optional object { id, nexthop, prefix, 6 more }`
+##### P ath ParametersExpand Collapse
 
-    - `id: string`
+account\_id: string
 
-      Identifier
+Identifier
 
-    - `nexthop: string`
+maxLength32
 
-      The next-hop IP Address for the static route.
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-    - `prefix: string`
+route\_id: string
 
-      IP Prefix in Classless Inter-Domain Routing format.
+Identifier
 
-    - `priority: number`
+maxLength32
 
-      Priority of the static route.
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20delete%20%3E%20(params)%20default%20%3E%20(param)%20route_id%20%3E%20(schema)>)
 
-    - `created_on: optional string`
+##### ReturnsExpand Collapse
 
-      When the route was created.
+<details>
 
-    - `description: optional string`
+<summary>
 
-      An optional human provided description of the static route.
+errors: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
 
-    - `modified_on: optional string`
+</summary>
 
-      When the route was last modified.
+code: number
 
-    - `scope: optional Scope`
+minimum1000
 
-      Used only for ECMP routes.
+<a href="#">Link to this property</a>
 
-      - `colo_names: optional array of string`
+message: string
 
-        List of colo names for the ECMP scope.
+<a href="#">Link to this property</a>
 
-      - `colo_regions: optional array of string`
+documentation\_url: optional string
 
-        List of colo regions for the ECMP scope.
+<a href="#">Link to this property</a>
 
-    - `weight: optional number`
+<details>
 
-      Optional weight of the ECMP scope - if provided.
+<summary>
 
-- `success: true`
+source: optional object {pointer }
 
-  Whether the API call was successful
+</summary>
 
-  - `true`
+pointer: optional string
 
-### Example
+<a href="#">Link to this property</a>
 
-```http
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {deleted, deleted\_route }
+
+</summary>
+
+deleted: optional boolean
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+deleted\_route: optional object {id, nexthop, prefix, 6 more }
+
+</summary>
+
+id: string
+
+Identifier
+
+maxLength32
+
+<a href="#">Link to this property</a>
+
+nexthop: string
+
+The next-hop IP Address for the static route.
+
+<a href="#">Link to this property</a>
+
+prefix: string
+
+IP Prefix in Classless Inter-Domain Routing format.
+
+<a href="#">Link to this property</a>
+
+priority: number
+
+Priority of the static route.
+
+<a href="#">Link to this property</a>
+
+created\_on: optional string
+
+When the route was created.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: optional string
+
+An optional human provided description of the static route.
+
+<a href="#">Link to this property</a>
+
+modified\_on: optional string
+
+When the route was last modified.
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+scope: optional <a href="https://developers.cloudflare.com/api/resources/magic_transit#(resource)%20magic_transit.routes%20%3E%20(model)%20scope%20%3E%20(schema)">Scope</a> { colo\_names, colo\_regions }
+
+Used only for ECMP routes.
+
+</summary>
+
+colo\_names: optional array of string
+
+List of colo names for the ECMP scope.
+
+<a href="#">Link to this property</a>
+
+colo\_regions: optional array of string
+
+List of colo regions for the ECMP scope.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+weight: optional number
+
+Optional weight of the ECMP scope - if provided.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful
+
+[Link to this property](#)%20magic_transit.routes%20%3E%20(method)%20delete%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Delete Route
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/magic/routes/$ROUTE_ID \
     -X DELETE \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "deleted": true,
+    "deleted_route": {
+      "id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "nexthop": "203.0.113.1",
+      "prefix": "192.0.2.0/24",
+      "priority": 0,
+      "created_on": "2017-06-14T00:00:00Z",
+      "description": "New route for new prefix 203.0.113.1",
+      "modified_on": "2017-06-14T05:20:00Z",
+      "scope": {
+        "colo_names": [
+          "den01"
+        ],
+        "colo_regions": [
+          "APAC"
+        ]
+      },
+      "weight": 0
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

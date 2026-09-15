@@ -1,81 +1,261 @@
-## Patch user label
+---
+title: Edit a user-defined operation label
+---
 
-**patch** `/zones/{zone_id}/api_gateway/labels/user/{name}`
+[Skip to content](#_top)
 
-Update certain fields on a label
+[API Reference](https://developers.cloudflare.com/api)
 
-### Path Parameters
+[API Gateway](https://developers.cloudflare.com/api/resources/api_gateway)
 
-- `zone_id: string`
+[Labels](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels)
 
-  Identifier.
+[User](https://developers.cloudflare.com/api/resources/api_gateway/subresources/labels/subresources/user)
 
-- `name: string`
+Copy Markdown
 
-  The name of the label
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
 
-### Body Parameters
+---
 
-- `description: optional string`
+**Copy Markdown****View as Markdown**
 
-  The description of the label
+# Edit a user-defined operation label
 
-- `metadata: optional unknown`
+PATCH/zones/{zone\_id}/api\_gateway/labels/user/{name}
 
-  Metadata for the label
+Updates only the supplied fields on a user-defined label.
 
-### Returns
+##### Security
 
-- `errors: Message`
+<details>
 
-  - `code: number`
+<summary>API Token</summary>
 
-  - `message: string`
 
-  - `documentation_url: optional string`
 
-  - `source: optional object { pointer }`
+The preferred authorization scheme for interacting with the Cloudflare API. <a href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/">Create a token</a>.
 
-    - `pointer: optional string`
+**Example:**<code>Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY</code>
 
-- `messages: Message`
+</details>
 
-- `result: object { created_at, description, last_updated, 3 more }`
+<details>
 
-  - `created_at: string`
+<summary>API Email + API Key</summary>
 
-  - `description: string`
 
-    The description of the label
 
-  - `last_updated: string`
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-  - `metadata: unknown`
+**Example:**<code>X-Auth-Email: user@example.com</code>
 
-    Metadata for the label
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-  - `name: string`
+**Example:**<code>X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194</code>
 
-    The name of the label
+</details>
 
-  - `source: "user" or "managed"`
+##### Accepted Permissions (at least one required)
 
-    * `user` - label is owned by the user
-    * `managed` - label is owned by cloudflare
+`Account API Gateway``Domain API Gateway`
 
-    - `"user"`
+##### P ath ParametersExpand Collapse
 
-    - `"managed"`
+zone\_id: string
 
-- `success: true`
+Identifier.
 
-  Whether the API call was successful.
+maxLength32
 
-  - `true`
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20zone_id%20%3E%20(schema)>)
 
-### Example
+name: string
 
-```http
+The name of the label
+
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(method)%20edit%20%3E%20(params)%20default%20%3E%20(param)%20name%20%3E%20(schema)>)
+
+##### Body ParametersJSONExpand Collapse
+
+description: optional string
+
+The description of the label
+
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20description%20%3E%20(schema)>)
+
+metadata: optional unknown
+
+Metadata for the label
+
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(method)%20edit%20%3E%20(params)%200%20%3E%20(param)%20metadata%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+<details>
+
+<summary>
+
+errors: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: <a href="https://developers.cloudflare.com/api/resources/api_gateway#(resource)%20api_gateway.user_schemas%20%3E%20(model)%20message%20%3E%20(schema)">Message</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: object {created\_at, description, last\_updated, 3 more }
+
+</summary>
+
+created\_at: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+description: string
+
+The description of the label
+
+<a href="#">Link to this property</a>
+
+last\_updated: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+metadata: unknown
+
+Metadata for the label
+
+<a href="#">Link to this property</a>
+
+name: string
+
+The name of the label
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: "user"or "managed"
+
+- <code>user</code> - label is owned by the user
+- <code>managed</code> - label is owned by cloudflare
+
+</summary>
+
+One of the following:
+
+"user"
+
+<a href="#">Link to this property</a>
+
+"managed"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+Whether the API call was successful.
+
+[Link to this property](#)%20api_gateway.labels.user%20%3E%20(method)%20edit%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Edit a user-defined operation label
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user/$NAME \
     -X PATCH \
     -H 'Content-Type: application/json' \
@@ -88,9 +268,49 @@ curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/api_gateway/labels/user
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "created_at": "2014-01-01T05:20:00.12345Z",
+    "description": "All endpoints that deal with logins",
+    "last_updated": "2014-01-01T05:20:00.12345Z",
+    "metadata": {
+      "foo": "bar"
+    },
+    "name": "login",
+    "source": "user"
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "errors": [
     {

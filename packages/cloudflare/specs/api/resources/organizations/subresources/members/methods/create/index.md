@@ -1,78 +1,250 @@
-## Create organization member
+---
+title: Create organization member
+---
 
-**post** `/organizations/{organization_id}/members`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Organizations](https://developers.cloudflare.com/api/resources/organizations)
+
+[Members](https://developers.cloudflare.com/api/resources/organizations/subresources/members)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# Create organization member
+
+POST/organizations/{organization\_id}/members
 
 Create a membership that grants access to a specific Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
 
-### Path Parameters
+##### Security
 
-- `organization_id: string`
+API Email + API Key
 
-### Body Parameters
+The previous authorization scheme for interacting with the Cloudflare API, used in conjunction with a Global API key.
 
-- `member: object { user, status }`
+**Example:**`X-Auth-Email: user@example.com`
 
-  - `user: object { email }`
+The previous authorization scheme for interacting with the Cloudflare API. When possible, use API tokens instead of Global API keys.
 
-    - `email: string`
+**Example:**`X-Auth-Key: 144c9defac04969c7bfad8efaa8ea194`
 
-  - `status: optional "active" or "canceled"`
+##### P ath ParametersExpand Collapse
 
-    - `"active"`
+organization\_id: string
 
-    - `"canceled"`
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20create%20%3E%20(params)%20default%20%3E%20(param)%20organization_id%20%3E%20(schema)>)
 
-### Returns
+##### Body ParametersJSONExpand Collapse
 
-- `errors: array of unknown`
+<details>
 
-- `messages: array of ResponseInfo`
+<summary>
 
-  - `code: number`
+member: object {user, status }
 
-  - `message: string`
+</summary>
 
-  - `documentation_url: optional string`
+<details>
 
-  - `source: optional object { pointer }`
+<summary>
 
-    - `pointer: optional string`
+user: object {email }
 
-- `result: OrganizationMember`
+</summary>
 
-  - `id: string`
+email: string
 
-    Organization Member ID
+<a href="#">Link to this property</a>
 
-  - `create_time: string`
+</details>
 
-  - `meta: map[unknown]`
+<a href="#">Link to this property</a>
 
-  - `status: "active" or "canceled"`
+<details>
 
-    - `"active"`
+<summary>
 
-    - `"canceled"`
+status: optional "active"or "canceled"
 
-  - `update_time: string`
+</summary>
 
-  - `user: object { id, email, name, two_factor_authentication_enabled }`
+One of the following:
 
-    - `id: string`
+"active"
 
-    - `email: string`
+<a href="#">Link to this property</a>
 
-    - `name: string`
+"canceled"
 
-    - `two_factor_authentication_enabled: boolean`
+<a href="#">Link to this property</a>
 
-- `success: true`
+</details>
 
-  - `true`
+<a href="#">Link to this property</a>
 
-### Example
+</details>
 
-```http
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20create%20%3E%20(params)%200%20%3E%20(param)%20member%20%3E%20(schema)>)
+
+##### ReturnsExpand Collapse
+
+errors: array of unknown
+
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
+
+<details>
+
+<summary>
+
+messages: array of <a href="https://developers.cloudflare.com/api/resources/$shared#(resource)%20%24shared%20%3E%20(model)%20response_info%20%3E%20(schema)">ResponseInfo</a> { code, message, documentation\_url, source }
+
+</summary>
+
+code: number
+
+minimum1000
+
+<a href="#">Link to this property</a>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+documentation\_url: optional string
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+source: optional object {pointer }
+
+</summary>
+
+pointer: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: <a href="https://developers.cloudflare.com/api/resources/organizations#(resource)%20organizations.members%20%3E%20(model)%20organization_member%20%3E%20(schema)">OrganizationMember</a> { id, create\_time, meta, 3 more }
+
+</summary>
+
+id: string
+
+Organization Member ID
+
+<a href="#">Link to this property</a>
+
+create\_time: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+meta: map\[unknown]
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "active"or "pending"or "rejected"or "canceled"
+
+</summary>
+
+One of the following:
+
+"active"
+
+<a href="#">Link to this property</a>
+
+"pending"
+
+<a href="#">Link to this property</a>
+
+"rejected"
+
+<a href="#">Link to this property</a>
+
+"canceled"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+update\_time: string
+
+formatdate-time
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+user: object {id, email, name, two\_factor\_authentication\_enabled }
+
+</summary>
+
+id: string
+
+<a href="#">Link to this property</a>
+
+email: string
+
+<a href="#">Link to this property</a>
+
+name: string
+
+<a href="#">Link to this property</a>
+
+two\_factor\_authentication\_enabled: boolean
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+success: true
+
+[Link to this property](#)%20organizations.members%20%3E%20(method)%20create%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
+
+### Create organization member
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
@@ -86,9 +258,9 @@ curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members
         }'
 ```
 
-#### Response
+200 example
 
-```json
+```
 {
   "errors": [],
   "messages": [
@@ -102,7 +274,43 @@ curl https://api.cloudflare.com/client/v4/organizations/$ORGANIZATION_ID/members
     }
   ],
   "result": {
-    "id": "a7b9c3d2e8f4g1h5i6j0k9l2m3n7o4p8",
+    "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
+    "create_time": "2019-12-27T18:11:19.117Z",
+    "meta": {
+      "foo": {}
+    },
+    "status": "active",
+    "update_time": "2019-12-27T18:11:19.117Z",
+    "user": {
+      "id": "id",
+      "email": "email",
+      "name": "name",
+      "two_factor_authentication_enabled": true
+    }
+  },
+  "success": true
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
+{
+  "errors": [],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message",
+      "documentation_url": "documentation_url",
+      "source": {
+        "pointer": "pointer"
+      }
+    }
+  ],
+  "result": {
+    "id": "a7b9c3d2e8f4a1b5c6d0e9f2a3b7c4d8",
     "create_time": "2019-12-27T18:11:19.117Z",
     "meta": {
       "foo": {}

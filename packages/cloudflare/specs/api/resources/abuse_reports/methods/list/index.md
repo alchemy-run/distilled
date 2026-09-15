@@ -1,209 +1,545 @@
-## List abuse reports
+---
+title: List abuse reports
+---
 
-**get** `/accounts/{account_id}/abuse-reports`
+[Skip to content](#_top)
+
+[API Reference](https://developers.cloudflare.com/api)
+
+[Abuse Reports](https://developers.cloudflare.com/api/resources/abuse_reports)
+
+Copy Markdown
+
+Open in **Claude**Open in **ChatGPT**Open in **Cursor**
+
+---
+
+**Copy Markdown****View as Markdown**
+
+# List abuse reports
+
+GET/accounts/{account\_id}/abuse-reports
 
 List the abuse reports for a given account
 
-### Path Parameters
+##### Security
 
-- `account_id: string`
+API Token
 
-### Query Parameters
+The preferred authorization scheme for interacting with the Cloudflare API. [Create a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
-- `created_after: optional string`
+**Example:**`Authorization: Bearer Sn3lZJTBX6kkg7OdcBUAxOO963GEIyGQqnFTOFYY`
 
-  Returns reports created after the specified date
+##### Accepted Permissions (at least one required)
 
-- `created_before: optional string`
+`Trust and Safety Write``Trust and Safety Read`
 
-  Returns reports created before the specified date
+##### P ath ParametersExpand Collapse
 
-- `domain: optional string`
+account\_id: string
 
-  Filter by domain name related to the abuse report
+maxLength32
 
-- `mitigation_status: optional "pending" or "active" or "in_review" or 2 more`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20account_id%20%3E%20(schema)>)
 
-  Filter reports that have any mitigations in the given status.
+##### Q uery ParametersExpand Collapse
 
-  - `"pending"`
+created\_after: optional string
 
-  - `"active"`
+Returns reports created after the specified date
 
-  - `"in_review"`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20created_after%20%3E%20(schema)>)
 
-  - `"cancelled"`
+created\_before: optional string
 
-  - `"removed"`
+Returns reports created before the specified date
 
-- `page: optional number`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20created_before%20%3E%20(schema)>)
 
-  Where in pagination to start listing abuse reports
+domain: optional string
 
-- `per_page: optional number`
+Filter by domain name related to the abuse report
 
-  How many abuse reports per page to list
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20domain%20%3E%20(schema)>)
 
-- `sort: optional string`
+<details>
 
-  A property to sort by, followed by the order (id, cdate, domain, type, status)
+<summary>
 
-- `status: optional "accepted" or "in_review"`
+mitigation\_status: optional "pending"or "active"or "in\_review"or 2 more
 
-  Filter by the status of the report.
+Filter reports that have any mitigations in the given status.
 
-  - `"accepted"`
+</summary>
 
-  - `"in_review"`
+One of the following:
 
-- `type: optional "PHISH" or "GEN" or "THREAT" or 6 more`
+"pending"
 
-  Filter by the type of the report.
+<a href="#">Link to this property</a>
 
-  - `"PHISH"`
+"active"
 
-  - `"GEN"`
+<a href="#">Link to this property</a>
 
-  - `"THREAT"`
+"in\_review"
 
-  - `"DMCA"`
+<a href="#">Link to this property</a>
 
-  - `"EMER"`
+"cancelled"
 
-  - `"TM"`
+<a href="#">Link to this property</a>
 
-  - `"REG_WHO"`
+"removed"
 
-  - `"NCSEI"`
+<a href="#">Link to this property</a>
 
-  - `"NETWORK"`
+</details>
 
-### Returns
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20mitigation_status%20%3E%20(schema)>)
 
-- `success: boolean`
+page: optional number
 
-- `errors: optional array of object { message }`
+Where in pagination to start listing abuse reports
 
-  - `message: string`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20page%20%3E%20(schema)>)
 
-- `messages: optional array of object { message }`
+per\_page: optional number
 
-  - `message: string`
+How many abuse reports per page to list
 
-- `result: optional object { reports }`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20per_page%20%3E%20(schema)>)
 
-  - `reports: array of object { id, cdate, domain, 7 more }`
+sort: optional string
 
-    - `id: string`
+A property to sort by, followed by the order (id, cdate, domain, type, status)
 
-      Public facing ID of abuse report, aka abuse_rand.
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20sort%20%3E%20(schema)>)
 
-    - `cdate: string`
+<details>
 
-      Creation date of report. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html)
+<summary>
 
-    - `domain: string`
+status: optional "accepted"or "in\_review"
 
-      Domain that relates to the report.
+Filter by the status of the report.
 
-    - `mitigation_summary: object { accepted_url_count, active_count, external_host_notified, 2 more }`
+</summary>
 
-      A summary of the mitigations related to this report.
+One of the following:
 
-      - `accepted_url_count: number`
+"accepted"
 
-        How many of the reported URLs were confirmed as abusive.
+<a href="#">Link to this property</a>
 
-      - `active_count: number`
+"in\_review"
 
-        How many mitigations are active.
+<a href="#">Link to this property</a>
 
-      - `external_host_notified: boolean`
+</details>
 
-        Whether the report has been forwarded to an external hosting provider.
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20status%20%3E%20(schema)>)
 
-      - `in_review_count: number`
+<details>
 
-        How many mitigations are under review.
+<summary>
 
-      - `pending_count: number`
+type: optional "PHISH"or "GEN"or "THREAT"or 6 more
 
-        How many mitigations are pending their effective date.
+Filter by the type of the report.
 
-    - `status: "accepted" or "in_review"`
+</summary>
 
-      An enum value that represents the status of an abuse record
+One of the following:
 
-      - `"accepted"`
+"PHISH"
 
-      - `"in_review"`
+<a href="#">Link to this property</a>
 
-    - `type: "PHISH" or "GEN" or "THREAT" or 6 more`
+"GEN"
 
-      The abuse report type
+<a href="#">Link to this property</a>
 
-      - `"PHISH"`
+"THREAT"
 
-      - `"GEN"`
+<a href="#">Link to this property</a>
 
-      - `"THREAT"`
+"DMCA"
 
-      - `"DMCA"`
+<a href="#">Link to this property</a>
 
-      - `"EMER"`
+"EMER"
 
-      - `"TM"`
+<a href="#">Link to this property</a>
 
-      - `"REG_WHO"`
+"TM"
 
-      - `"NCSEI"`
+<a href="#">Link to this property</a>
 
-      - `"NETWORK"`
+"REG\_WHO"
 
-    - `justification: optional string`
+<a href="#">Link to this property</a>
 
-      Justification for the report.
+"NCSEI"
 
-    - `original_work: optional string`
+<a href="#">Link to this property</a>
 
-      Original work / Targeted brand in the alleged abuse.
+"NETWORK"
 
-    - `submitter: optional object { company, email, name, telephone }`
+<a href="#">Link to this property</a>
 
-      Information about the submitter of the report.
+</details>
 
-      - `company: optional string`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(params)%20default%20%3E%20(param)%20type%20%3E%20(schema)>)
 
-      - `email: optional string`
+##### ReturnsExpand Collapse
 
-      - `name: optional string`
+success: boolean
 
-      - `telephone: optional string`
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20success>)
 
-    - `urls: optional array of string`
+<details>
 
-- `result_info: optional object { count, page, per_page, 2 more }`
+<summary>
 
-  - `count: number`
+errors: optional array of object {message }
 
-  - `page: number`
+</summary>
 
-  - `per_page: number`
+message: string
 
-  - `total_count: number`
+<a href="#">Link to this property</a>
 
-  - `total_pages: number`
+</details>
 
-### Example
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20errors>)
 
-```http
+<details>
+
+<summary>
+
+messages: optional array of object {message }
+
+</summary>
+
+message: string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20messages>)
+
+<details>
+
+<summary>
+
+result: optional object {reports }
+
+</summary>
+
+<details>
+
+<summary>
+
+reports: array of object {id, cdate, domain, 7 more }
+
+</summary>
+
+id: string
+
+Public facing ID of abuse report, aka abuse\_rand.
+
+<a href="#">Link to this property</a>
+
+cdate: string
+
+Creation date of report. Time in RFC 3339 format (<a href="https://www.rfc-editor.org/rfc/rfc3339.html">https://www.rfc-editor.org/rfc/rfc3339.html</a>)
+
+<a href="#">Link to this property</a>
+
+domain: string
+
+Domain that relates to the report.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+mitigation\_summary: object {accepted\_url\_count, active\_count, external\_host\_notified, 2 more }
+
+A summary of the mitigations related to this report.
+
+</summary>
+
+accepted\_url\_count: number
+
+How many of the reported URLs were confirmed as abusive.
+
+<a href="#">Link to this property</a>
+
+active\_count: number
+
+How many mitigations are active.
+
+<a href="#">Link to this property</a>
+
+external\_host\_notified: boolean
+
+Whether the report has been forwarded to an external hosting provider.
+
+<a href="#">Link to this property</a>
+
+in\_review\_count: number
+
+How many mitigations are under review.
+
+<a href="#">Link to this property</a>
+
+pending\_count: number
+
+How many mitigations are pending their effective date.
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+status: "accepted"or "in\_review"
+
+An enum value that represents the status of an abuse record
+
+</summary>
+
+One of the following:
+
+"accepted"
+
+<a href="#">Link to this property</a>
+
+"in\_review"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+type: "PHISH"or "GEN"or "THREAT"or 6 more
+
+The abuse report type
+
+</summary>
+
+One of the following:
+
+"PHISH"
+
+<a href="#">Link to this property</a>
+
+"GEN"
+
+<a href="#">Link to this property</a>
+
+"THREAT"
+
+<a href="#">Link to this property</a>
+
+"DMCA"
+
+<a href="#">Link to this property</a>
+
+"EMER"
+
+<a href="#">Link to this property</a>
+
+"TM"
+
+<a href="#">Link to this property</a>
+
+"REG\_WHO"
+
+<a href="#">Link to this property</a>
+
+"NCSEI"
+
+<a href="#">Link to this property</a>
+
+"NETWORK"
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+justification: optional string
+
+Justification for the report.
+
+<a href="#">Link to this property</a>
+
+original\_work: optional string
+
+Original work / Targeted brand in the alleged abuse.
+
+<a href="#">Link to this property</a>
+
+<details>
+
+<summary>
+
+submitter: optional object {company, email, name, telephone }
+
+Information about the submitter of the report.
+
+</summary>
+
+company: optional string
+
+<a href="#">Link to this property</a>
+
+email: optional string
+
+<a href="#">Link to this property</a>
+
+name: optional string
+
+<a href="#">Link to this property</a>
+
+telephone: optional string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+urls: optional array of string
+
+<a href="#">Link to this property</a>
+
+</details>
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result>)
+
+<details>
+
+<summary>
+
+result\_info: optional object {count, page, per\_page, 2 more }
+
+</summary>
+
+count: number
+
+<a href="#">Link to this property</a>
+
+page: number
+
+<a href="#">Link to this property</a>
+
+per\_page: number
+
+<a href="#">Link to this property</a>
+
+total\_count: number
+
+<a href="#">Link to this property</a>
+
+total\_pages: number
+
+<a href="#">Link to this property</a>
+
+</details>
+
+[Link to this property](#)%20abuse_reports%20%3E%20(method)%20list%20%3E%20(network%20schema)%20%3E%20(property)%20result_info>)
+
+### List abuse reports
+
+HTTP
+
+HTTPTypeScriptPythonGoTerraform
+
+```
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/abuse-reports \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 ```
 
-#### Response
+200 example
 
-```json
+```
+{
+  "success": true,
+  "errors": [
+    {
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "message": "message"
+    }
+  ],
+  "result": {
+    "reports": [
+      {
+        "id": "id",
+        "cdate": "2009-11-10T23:00:00Z",
+        "domain": "domain",
+        "mitigation_summary": {
+          "accepted_url_count": 0,
+          "active_count": 0,
+          "external_host_notified": true,
+          "in_review_count": 0,
+          "pending_count": 0
+        },
+        "status": "accepted",
+        "type": "PHISH",
+        "justification": "justification",
+        "original_work": "original_work",
+        "submitter": {
+          "company": "company",
+          "email": "email",
+          "name": "name",
+          "telephone": "telephone"
+        },
+        "urls": [
+          "string"
+        ]
+      }
+    ]
+  },
+  "result_info": {
+    "count": 0,
+    "page": 0,
+    "per_page": 0,
+    "total_count": 0,
+    "total_pages": 0
+  }
+}
+```
+
+##### Returns Examples
+
+200 example
+
+```
 {
   "success": true,
   "errors": [
